@@ -207,7 +207,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the phone column */
+			// Check if we have the phone column
 			if (!array_key_exists('phone', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_users_info ADD COLUMN `phone` VARCHAR( 50 ) NOT NULL";
@@ -215,7 +215,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the company_name column */
+			// Check if we have the company_name column
 			if (!array_key_exists('company_name', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_users_info ADD COLUMN `company_name` VARCHAR( 255 ) NOT NULL";
@@ -223,7 +223,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the requesting_tax_exempt column */
+			// Check if we have the requesting_tax_exempt column
 			if (!array_key_exists('requesting_tax_exempt', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_users_info ADD COLUMN `requesting_tax_exempt` TINYINT NOT NULL";
@@ -231,7 +231,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the ean_number column */
+			// Check if we have the ean_number column
 			if (!array_key_exists('ean_number', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_users_info ADD COLUMN `ean_number` VARCHAR( 250 ) NOT NULL";
@@ -239,7 +239,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the braintree_vault_number column */
+			// Check if we have the braintree_vault_number column
 			if (!array_key_exists('braintree_vault_number', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_users_info ADD COLUMN `braintree_vault_number` VARCHAR( 255 ) NOT NULL";
@@ -247,7 +247,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the accept_terms_conditions column */
+			// Check if we have the accept_terms_conditions column
 			if (!array_key_exists('accept_terms_conditions', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_users_info ADD COLUMN `accept_terms_conditions` TINYINT( 4 ) NOT NULL";
@@ -255,7 +255,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the veis_vat_number column */
+			// Check if we have the veis_vat_number column
 			if (!array_key_exists('veis_vat_number', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_users_info ADD COLUMN `veis_vat_number` VARCHAR( 255 ) NOT NULL";
@@ -263,7 +263,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the veis_status column */
+			// Check if we have the veis_status column
 			if (!array_key_exists('veis_status', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_users_info ADD COLUMN `veis_status` VARCHAR( 255 ) NOT NULL";
@@ -275,23 +275,23 @@ class Com_RedshopInstallerScript
 		// Syncronise users
 		$this->userSynchronization();
 
-		/* Get the current columns */
+		// Get the current columns
 		$q = "SHOW COLUMNS FROM #__redshop_media";
 		$db->setQuery($q);
 		$cols = $db->loadObjectList('Field');
 
 		if (is_array($cols))
 		{
-			/* Check if an upgrade is needed */
+			// Check if an upgrade is needed
 
-			/* Check if we have the media_alternate_text column */
+			// Check if we have the media_alternate_text column
 			if (!array_key_exists('media_alternate_text', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_media ADD `media_alternate_text` VARCHAR( 255 ) NOT NULL";
 				$db->setQuery($q);
 				$db->query();
 			}
-			/* Check if we have the ordering column */
+			// Check if we have the ordering column
 			if (!array_key_exists('ordering', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_media ADD `ordering` int(11) NOT NULL";
@@ -306,7 +306,7 @@ class Com_RedshopInstallerScript
 
 		if (is_array($cols))
 		{
-			/* Check if we have the supplier_email column */
+			// Check if we have the supplier_email column
 			if (!array_key_exists('supplier_email', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_supplier ADD `supplier_email` VARCHAR( 255 ) NOT NULL";
@@ -315,14 +315,14 @@ class Com_RedshopInstallerScript
 			}
 		}
 
-		/* Get the current columns */
+		// Get the current columns
 		$q = "SHOW COLUMNS FROM #__redshop_economic_accountgroup";
 		$db->setQuery($q);
 		$cols = $db->loadObjectList('Field');
 
 		if (is_array($cols))
 		{
-			/* Check if we have the economic_service_nonvat_account column */
+			// Check if we have the economic_service_nonvat_account column
 			if (!array_key_exists('economic_service_nonvat_account', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_economic_accountgroup ADD `economic_service_nonvat_account` VARCHAR( 255 ) NOT NULL";
@@ -330,7 +330,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the economic_discount_product_number column */
+			// Check if we have the economic_discount_product_number column
 			if (!array_key_exists('economic_discount_product_number', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_economic_accountgroup CHANGE `economic_discount_novat_account` `economic_discount_product_number` VARCHAR( 255 ) NOT NULL";
@@ -338,7 +338,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the economic_discount_nonvat_account column */
+			// Check if we have the economic_discount_nonvat_account column
 			if (!array_key_exists('economic_discount_nonvat_account', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_economic_accountgroup  CHANGE `economic_service_nonvat_account` `economic_discount_nonvat_account` VARCHAR( 255 ) NOT NULL";
@@ -346,7 +346,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the economic_discount_vat_account column */
+			// Check if we have the economic_discount_vat_account column
 			if (!array_key_exists('economic_discount_vat_account', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_economic_accountgroup ADD `economic_discount_vat_account` VARCHAR( 255 ) NOT NULL";
@@ -355,14 +355,14 @@ class Com_RedshopInstallerScript
 			}
 		}
 
-		/* Get the current INDEX */
+		// Get the current INDEX
 		$q = "SHOW INDEX FROM #__redshop_product_category_xref";
 		$db->setQuery($q);
 		$cols = $db->loadObjectList('Key_name');
 
 		if (is_array($cols))
 		{
-			/* Check if we have the ref_category column */
+			// Check if we have the ref_category column
 			if (!array_key_exists('ref_category', $cols))
 			{
 				$q = "ALTER IGNORE TABLE `#__redshop_product_category_xref` ADD INDEX `ref_category` ( `product_id` )";
@@ -371,14 +371,14 @@ class Com_RedshopInstallerScript
 			}
 		}
 
-		/* Get the current columns */
+		// Get the current columns
 		$q = "SHOW COLUMNS FROM #__redshop_cart";
 		$db->setQuery($q);
 		$cols = $db->loadObjectList('Field');
 
 		if (is_array($cols))
 		{
-			/* Check if we have the section column */
+			// Check if we have the section column
 			if (!array_key_exists('section', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_cart ADD `section` VARCHAR( 250 ) NOT NULL";
@@ -387,14 +387,14 @@ class Com_RedshopInstallerScript
 			}
 		}
 
-		/* Get the current columns */
+		// Get the current columns
 		$q = "SHOW COLUMNS FROM #__redshop_customer_question";
 		$db->setQuery($q);
 		$cols = $db->loadObjectList('Field');
 
 		if (is_array($cols))
 		{
-			/* Check if we have the telephone column */
+			// Check if we have the telephone column
 			if (!array_key_exists('telephone', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_customer_question ADD `telephone` VARCHAR( 50 ) NOT NULL";
@@ -402,7 +402,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the telephone column */
+			// Check if we have the telephone column
 			if (!array_key_exists('address', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_customer_question ADD `address` VARCHAR( 250 ) NOT NULL";
@@ -418,9 +418,9 @@ class Com_RedshopInstallerScript
 
 		if (is_array($cols))
 		{
-			/* Check if an upgrade is needed */
+			// Check if an upgrade is needed
 
-			/* Check if we have the stock_amount_image_tooltip column */
+			// Check if we have the stock_amount_image_tooltip column
 			if (!array_key_exists('stock_amount_image_tooltip', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_stockroom_amount_image ADD `stock_amount_image_tooltip` TEXT NOT NULL";
@@ -428,7 +428,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the stockroom_id column */
+			// Check if we have the stockroom_id column
 			if (!array_key_exists('stockroom_id', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_stockroom_amount_image ADD `stockroom_id` INT(11) NOT NULL";
@@ -437,16 +437,16 @@ class Com_RedshopInstallerScript
 			}
 		}
 
-		/* Get the current columns */
+		// Get the current columns
 		$q = "SHOW COLUMNS FROM #__redshop_xml_export";
 		$db->setQuery($q);
 		$cols = $db->loadObjectList('Field');
 
 		if (is_array($cols))
 		{
-			/* Check if an upgrade is needed */
+			// Check if an upgrade is needed
 
-			/* Check if we have the parent_name column */
+			// Check if we have the parent_name column
 			if (!array_key_exists('parent_name', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_xml_export ADD `parent_name` VARCHAR( 255 ) NOT NULL";
@@ -454,7 +454,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the element_name column */
+			// Check if we have the element_name column
 			if (!array_key_exists('element_name', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_xml_export ADD `element_name` VARCHAR( 255 ) NOT NULL";
@@ -462,7 +462,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the published column */
+			// Check if we have the published column
 			if (!array_key_exists('published', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_xml_export ADD published TINYINT(4) NOT NULL ";
@@ -470,7 +470,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the use_to_all_users column */
+			// Check if we have the use_to_all_users column
 			if (!array_key_exists('use_to_all_users', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_xml_export ADD use_to_all_users TINYINT(4) NOT NULL ";
@@ -478,7 +478,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the xmlexport_billingtag column */
+			// Check if we have the xmlexport_billingtag column
 			if (!array_key_exists('xmlexport_billingtag', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_xml_export ADD `xmlexport_billingtag` text NOT NULL";
@@ -486,7 +486,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the billing_element_name column */
+			// Check if we have the billing_element_name column
 			if (!array_key_exists('billing_element_name', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_xml_export ADD `billing_element_name` VARCHAR(255) NOT NULL";
@@ -494,7 +494,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the xmlexport_shippingtag column */
+			// Check if we have the xmlexport_shippingtag column
 			if (!array_key_exists('xmlexport_shippingtag', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_xml_export ADD `xmlexport_shippingtag` text NOT NULL";
@@ -502,7 +502,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the shipping_element_name column */
+			// Check if we have the shipping_element_name column
 			if (!array_key_exists('shipping_element_name', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_xml_export ADD `shipping_element_name` VARCHAR(255) NOT NULL";
@@ -510,7 +510,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the xmlexport_orderitemtag column */
+			// Check if we have the xmlexport_orderitemtag column
 			if (!array_key_exists('xmlexport_orderitemtag', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_xml_export ADD `xmlexport_orderitemtag` text NOT NULL";
@@ -518,7 +518,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the orderitem_element_name column */
+			// Check if we have the orderitem_element_name column
 			if (!array_key_exists('orderitem_element_name', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_xml_export ADD `orderitem_element_name` VARCHAR(255) NOT NULL";
@@ -526,7 +526,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the xmlexport_stocktag column */
+			// Check if we have the xmlexport_stocktag column
 			if (!array_key_exists('xmlexport_stocktag', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_xml_export ADD `xmlexport_stocktag` text NOT NULL";
@@ -534,7 +534,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the stock_element_name column */
+			// Check if we have the stock_element_name column
 			if (!array_key_exists('stock_element_name', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_xml_export ADD `stock_element_name` VARCHAR(255) NOT NULL";
@@ -542,7 +542,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the xmlexport_prdextrafieldtag column */
+			// Check if we have the xmlexport_prdextrafieldtag column
 			if (!array_key_exists('xmlexport_prdextrafieldtag', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_xml_export ADD `xmlexport_prdextrafieldtag` text NOT NULL";
@@ -550,7 +550,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the prdextrafield_element_name column */
+			// Check if we have the prdextrafield_element_name column
 			if (!array_key_exists('prdextrafield_element_name', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_xml_export ADD `prdextrafield_element_name` VARCHAR(255) NOT NULL";
@@ -558,7 +558,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the xmlexport_on_category column */
+			// Check if we have the xmlexport_on_category column
 			if (!array_key_exists('xmlexport_on_category', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_xml_export ADD `xmlexport_on_category` TEXT NOT NULL";
@@ -567,14 +567,14 @@ class Com_RedshopInstallerScript
 			}
 		}
 
-		/* Get the current columns */
+		// Get the current columns
 		$q = "SHOW COLUMNS FROM #__redshop_xml_import";
 		$db->setQuery($q);
 		$cols = $db->loadObjectList('Field');
 
 		if (is_array($cols))
 		{
-			/* Check if we have the published column */
+			// Check if we have the published column
 			if (!array_key_exists('published', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_xml_import ADD published TINYINT(4) NOT NULL ";
@@ -582,7 +582,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the xmlexport_billingtag column */
+			// Check if we have the xmlexport_billingtag column
 			if (!array_key_exists('xmlexport_billingtag', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_xml_import ADD xmlexport_billingtag TEXT NOT NULL ";
@@ -590,7 +590,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the xmlexport_shippingtag column */
+			// Check if we have the xmlexport_shippingtag column
 			if (!array_key_exists('xmlexport_shippingtag', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_xml_import ADD xmlexport_shippingtag TEXT NOT NULL ";
@@ -598,7 +598,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the xmlexport_orderitemtag column */
+			// Check if we have the xmlexport_orderitemtag column
 			if (!array_key_exists('xmlexport_orderitemtag', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_xml_import ADD xmlexport_orderitemtag TEXT NOT NULL ";
@@ -606,7 +606,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the xmlimport_stocktag column */
+			// Check if we have the xmlimport_stocktag column
 			if (!array_key_exists('xmlimport_stocktag', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_xml_import ADD xmlimport_stocktag TEXT NOT NULL ";
@@ -614,7 +614,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the xmlexport_billingtag column */
+			// Check if we have the xmlexport_billingtag column
 			if (array_key_exists('xmlexport_billingtag', $cols) && !array_key_exists('xmlimport_billingtag', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_xml_import CHANGE `xmlexport_billingtag` `xmlimport_billingtag` TEXT NOT NULL ";
@@ -622,14 +622,14 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the xmlexport_shippingtag column */
+			// Check if we have the xmlexport_shippingtag column
 			if (array_key_exists('xmlexport_shippingtag', $cols) && !array_key_exists('xmlimport_shippingtag', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_xml_import CHANGE `xmlexport_shippingtag` `xmlimport_shippingtag` TEXT NOT NULL ";
 				$db->setQuery($q);
 				$db->query();
 			}
-			/* Check if we have the xmlexport_orderitemtag column */
+			// Check if we have the xmlexport_orderitemtag column
 			if (array_key_exists('xmlexport_orderitemtag', $cols) && !array_key_exists('xmlimport_orderitemtag', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_xml_import CHANGE `xmlexport_orderitemtag` `xmlimport_orderitemtag` TEXT NOT NULL ";
@@ -637,7 +637,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the xmlimport_prdextrafieldtag column */
+			// Check if we have the xmlimport_prdextrafieldtag column
 			if (!array_key_exists('xmlimport_prdextrafieldtag', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_xml_import ADD xmlimport_prdextrafieldtag TEXT NOT NULL ";
@@ -645,7 +645,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the element_name column */
+			// Check if we have the element_name column
 			if (!array_key_exists('element_name', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_xml_import ADD element_name varchar(255) NOT NULL ";
@@ -653,7 +653,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the billing_element_name column */
+			// Check if we have the billing_element_name column
 			if (!array_key_exists('billing_element_name', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_xml_import ADD billing_element_name varchar(255) NOT NULL ";
@@ -661,7 +661,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the shipping_element_name column */
+			// Check if we have the shipping_element_name column
 			if (!array_key_exists('shipping_element_name', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_xml_import ADD shipping_element_name varchar(255) NOT NULL ";
@@ -669,7 +669,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the orderitem_element_name column */
+			// Check if we have the orderitem_element_name column
 			if (!array_key_exists('orderitem_element_name', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_xml_import ADD orderitem_element_name varchar(255) NOT NULL ";
@@ -677,7 +677,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the stock_element_name column */
+			// Check if we have the stock_element_name column
 			if (!array_key_exists('stock_element_name', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_xml_import ADD stock_element_name varchar(255) NOT NULL ";
@@ -685,7 +685,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the prdextrafield_element_name column */
+			// Check if we have the prdextrafield_element_name column
 			if (!array_key_exists('prdextrafield_element_name', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_xml_import ADD prdextrafield_element_name varchar(255) NOT NULL ";
@@ -694,16 +694,16 @@ class Com_RedshopInstallerScript
 			}
 		}
 
-		/* Get the current columns */
+		// Get the current columns
 		$q = "SHOW COLUMNS FROM #__redshop_product_subscribe_detail";
 		$db->setQuery($q);
 		$cols = $db->loadObjectList('Field');
 
 		if (is_array($cols))
 		{
-			/* Check if an upgrade is needed */
+			// Check if an upgrade is needed
 
-			/* Check if we have the renewal_reminder column */
+			// Check if we have the renewal_reminder column
 			if (!array_key_exists('renewal_reminder', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_product_subscribe_detail ADD `renewal_reminder` TINYINT( 1 ) NOT NULL  DEFAULT '1'";
@@ -711,7 +711,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the order_item_id column */
+			// Check if we have the order_item_id column
 			if (!array_key_exists('order_item_id', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_product_subscribe_detail ADD `order_item_id` INT( 11 ) NOT NULL ";
@@ -720,16 +720,16 @@ class Com_RedshopInstallerScript
 			}
 		}
 
-		/* Get the current columns */
+		// Get the current columns
 		$q = "SHOW COLUMNS FROM #__redshop_product_accessory";
 		$db->setQuery($q);
 		$cols = $db->loadObjectList('Field');
 
 		if (is_array($cols))
 		{
-			/* Check if an upgrade is needed */
+			// Check if an upgrade is needed
 
-			/* Check if we have the oprand column */
+			// Check if we have the oprand column
 			if (!array_key_exists('oprand', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_product_accessory ADD `oprand` char(1) NOT NULL";
@@ -737,7 +737,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the oprand column */
+			// Check if we have the oprand column
 			if (!array_key_exists('ordering', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_product_accessory ADD `ordering` int( 11 ) NOT NULL";
@@ -745,7 +745,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the category_id column */
+			// Check if we have the category_id column
 			if (!array_key_exists('category_id', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_product_accessory ADD `category_id` int( 11 ) NOT NULL";
@@ -753,7 +753,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the setdefault_selected column */
+			// Check if we have the setdefault_selected column
 			if (!array_key_exists('setdefault_selected', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_product_accessory ADD `setdefault_selected` TINYINT( 4 ) NOT NULL";
@@ -762,16 +762,16 @@ class Com_RedshopInstallerScript
 			}
 		}
 
-		/* Get the current columns */
+		// Get the current columns
 		$q = "SHOW COLUMNS FROM #__redshop_product_related";
 		$db->setQuery($q);
 		$cols = $db->loadObjectList('Field');
 
 		if (is_array($cols))
 		{
-			/* Check if an upgrade is needed */
+			// Check if an upgrade is needed
 
-			/* Check if we have the oprand column */
+			// Check if we have the oprand column
 			if (!array_key_exists('ordering', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_product_related ADD `ordering` int( 11 ) NOT NULL";
@@ -780,16 +780,16 @@ class Com_RedshopInstallerScript
 			}
 		}
 
-		/* Get the current columns for category */
+		// Get the current columns for category
 		$q = "SHOW COLUMNS FROM #__redshop_category";
 		$db->setQuery($q);
 		$cols = $db->loadObjectList('Field');
 
 		if (is_array($cols))
 		{
-			/* Check if an upgrade is needed */
+			// Check if an upgrade is needed
 
-			/* Check if we have the category_short_description column */
+			// Check if we have the category_short_description column
 			if (!array_key_exists('category_short_description', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_category ADD `category_short_description` longtext NOT NULL";
@@ -797,7 +797,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the category_more_template column */
+			// Check if we have the category_more_template column
 			if (!array_key_exists('category_more_template', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_category ADD `category_more_template` varchar(255) NOT NULL";
@@ -805,7 +805,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the category_back_full_image column */
+			// Check if we have the category_back_full_image column
 			if (!array_key_exists('category_back_full_image', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_category ADD `category_back_full_image` varchar(250) NOT NULL";
@@ -813,7 +813,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the compare_template_id column */
+			// Check if we have the compare_template_id column
 			if (!array_key_exists('compare_template_id', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_category ADD `compare_template_id` varchar(255) NOT NULL";
@@ -821,7 +821,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the `append_to_global_seo` column */
+			// Check if we have the `append_to_global_seo` column
 			if (!array_key_exists('append_to_global_seo', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_category ADD `append_to_global_seo` ENUM( 'append', 'prepend', 'replace' ) NOT NULL DEFAULT 'append'";
@@ -829,7 +829,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the `canonical_url` column */
+			// Check if we have the `canonical_url` column
 			if (!array_key_exists('canonical_url', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_category ADD `canonical_url` text NOT NULL";
@@ -838,16 +838,16 @@ class Com_RedshopInstallerScript
 			}
 		}
 
-		/* Get the current columns for fields_data */
+		// Get the current columns for fields_data
 		$q = "SHOW COLUMNS FROM #__redshop_fields_value";
 		$db->setQuery($q);
 		$cols = $db->loadObjectList('Field');
 
 		if (is_array($cols))
 		{
-			/* Check if an upgrade is needed */
+			// Check if an upgrade is needed
 
-			/* Check if we have the alt_text column */
+			// Check if we have the alt_text column
 			if (!array_key_exists('alt_text', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_fields_value ADD `alt_text` varchar(255) NOT NULL";
@@ -855,7 +855,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the image_link column */
+			// Check if we have the image_link column
 			if (!array_key_exists('image_link', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_fields_value ADD `image_link` text NOT NULL";
@@ -863,7 +863,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the alt_text column */
+			// Check if we have the alt_text column
 			if (array_key_exists('alt_text', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_fields_value DROP `alt_text` ";
@@ -871,7 +871,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the image_link column */
+			// Check if we have the image_link column
 			if (array_key_exists('image_link', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_fields_value DROP `image_link` ";
@@ -880,16 +880,16 @@ class Com_RedshopInstallerScript
 			}
 		}
 
-		/* Get the current columns for fields_data */
+		// Get the current columns for fields_data
 		$q = "SHOW COLUMNS FROM #__redshop_fields_data";
 		$db->setQuery($q);
 		$cols = $db->loadObjectList('Field');
 
 		if (is_array($cols))
 		{
-			/* Check if an upgrade is needed */
+			// Check if an upgrade is needed
 
-			/* Check if we have the alt_text column */
+			// Check if we have the alt_text column
 			if (!array_key_exists('alt_text', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_fields_data ADD `alt_text` varchar(255) NOT NULL";
@@ -897,7 +897,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the image_link column */
+			// Check if we have the image_link column
 			if (!array_key_exists('image_link', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_fields_data ADD `image_link` varchar(255) NOT NULL";
@@ -905,7 +905,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the user_email column */
+			// Check if we have the user_email column
 			if (!array_key_exists('user_email', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_fields_data ADD `user_email` varchar(255) NOT NULL ";
@@ -914,16 +914,16 @@ class Com_RedshopInstallerScript
 			}
 		}
 
-		/* Get the current columns */
+		// Get the current columns
 		$q = "SHOW COLUMNS FROM #__redshop_tax_rate";
 		$db->setQuery($q);
 		$cols = $db->loadObjectList('Field');
 
 		if (is_array($cols))
 		{
-			/* Check if an upgrade is needed */
+			// Check if an upgrade is needed
 
-			/* Check if we have the tax_group_id column */
+			// Check if we have the tax_group_id column
 			if (!array_key_exists('tax_group_id', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_tax_rate ADD tax_group_id INT NOT NULL";
@@ -931,7 +931,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the is_eu_country column */
+			// Check if we have the is_eu_country column
 			if (!array_key_exists('is_eu_country', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_tax_rate ADD is_eu_country TINYINT( 4 ) NOT NULL";
@@ -940,16 +940,16 @@ class Com_RedshopInstallerScript
 			}
 		}
 
-		/* Get the current columns */
+		// Get the current columns
 		$q = "SHOW COLUMNS FROM #__redshop_product_rating";
 		$db->setQuery($q);
 		$cols = $db->loadObjectList('Field');
 
 		if (is_array($cols))
 		{
-			/* Check if an upgrade is needed */
+			// Check if an upgrade is needed
 
-			/* Check if we have the email column */
+			// Check if we have the email column
 			if (!array_key_exists('email', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_product_rating ADD email VARCHAR(200) NOT NULL";
@@ -957,7 +957,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the username column */
+			// Check if we have the username column
 			if (!array_key_exists('username', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_product_rating ADD username VARCHAR( 255 ) NOT NULL";
@@ -965,7 +965,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the company_name column */
+			// Check if we have the company_name column
 			if (!array_key_exists('company_name', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_product_rating ADD company_name VARCHAR( 255 ) NOT NULL";
@@ -974,14 +974,14 @@ class Com_RedshopInstallerScript
 			}
 		}
 
-		/* Get the current columns for redshop coupons */
+		// Get the current columns for redshop coupons
 		$q = "SHOW COLUMNS FROM #__redshop_coupons";
 		$db->setQuery($q);
 		$cols = $db->loadObjectList('Field');
 
 		if (is_array($cols))
 		{
-			/* Check if we have the coupon_left column */
+			// Check if we have the coupon_left column
 			if (!array_key_exists('coupon_left', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_coupons ADD COLUMN coupon_left INT NOT NULL ";
@@ -989,7 +989,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the free_shipping column */
+			// Check if we have the free_shipping column
 			if (!array_key_exists('free_shipping', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_coupons ADD COLUMN free_shipping TINYINT( 4 ) NOT NULL ";
@@ -997,7 +997,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the subtotal column */
+			// Check if we have the subtotal column
 			if (!array_key_exists('subtotal', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_coupons ADD COLUMN subtotal INT NOT NULL ";
@@ -1005,7 +1005,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the order_id column */
+			// Check if we have the order_id column
 			if (!array_key_exists('order_id', $cols))
 			{
 				$q = "ALTER TABLE `#__redshop_coupons` ADD `order_id` INT NOT NULL ";
@@ -1014,14 +1014,14 @@ class Com_RedshopInstallerScript
 			}
 		}
 
-		/* Get the current columns for redshop manufacturer */
+		// Get the current columns for redshop manufacturer
 		$q = "SHOW COLUMNS FROM #__redshop_manufacturer";
 		$db->setQuery($q);
 		$cols = $db->loadObjectList('Field');
 
 		if (is_array($cols))
 		{
-			/* Check if we have the ordering column */
+			// Check if we have the ordering column
 			if (!array_key_exists('ordering', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_manufacturer ADD COLUMN ordering INT NOT NULL ";
@@ -1029,7 +1029,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the manufacturer_email column */
+			// Check if we have the manufacturer_email column
 			if (!array_key_exists('manufacturer_email', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_manufacturer ADD COLUMN manufacturer_email VARCHAR( 255 ) NOT NULL ";
@@ -1037,7 +1037,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the product_per_page column */
+			// Check if we have the product_per_page column
 			if (!array_key_exists('product_per_page', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_manufacturer ADD COLUMN product_per_page INT( 11 ) NOT NULL ";
@@ -1045,7 +1045,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the manufacturer_url column */
+			// Check if we have the manufacturer_url column
 			if (!array_key_exists('manufacturer_url', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_manufacturer ADD COLUMN manufacturer_url VARCHAR( 255 ) NOT NULL ";
@@ -1053,7 +1053,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the excluding_category_list column */
+			// Check if we have the excluding_category_list column
 			if (!array_key_exists('excluding_category_list', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_manufacturer ADD COLUMN excluding_category_list TEXT NOT NULL ";
@@ -1062,14 +1062,14 @@ class Com_RedshopInstallerScript
 			}
 		}
 
-		/* Get the current columns for redshop product attribute */
+		// Get the current columns for redshop product attribute
 		$q = "SHOW COLUMNS FROM #__redshop_product_attribute";
 		$db->setQuery($q);
 		$cols = $db->loadObjectList('Field');
 
 		if (is_array($cols))
 		{
-			/* Check if we have the attribute_published column */
+			// Check if we have the attribute_published column
 			if (!array_key_exists('attribute_published', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_product_attribute ADD COLUMN `attribute_published` INT NOT NULL DEFAULT '1'";
@@ -1077,7 +1077,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the attribute_required column */
+			// Check if we have the attribute_required column
 			if (!array_key_exists('attribute_required', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_product_attribute ADD COLUMN `attribute_required` TINYINT NOT NULL ";
@@ -1085,7 +1085,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the ordering column */
+			// Check if we have the ordering column
 			if (!array_key_exists('ordering', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_product_attribute ADD COLUMN `ordering` INT NOT NULL ";
@@ -1093,7 +1093,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the attribute_set_id column */
+			// Check if we have the attribute_set_id column
 			if (!array_key_exists('attribute_set_id', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_product_attribute ADD COLUMN `attribute_set_id` INT NOT NULL ";
@@ -1101,7 +1101,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the allow_multiple_selection column */
+			// Check if we have the allow_multiple_selection column
 			if (!array_key_exists('allow_multiple_selection', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_product_attribute ADD COLUMN `allow_multiple_selection` TINYINT(1) NOT NULL ";
@@ -1109,7 +1109,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the attribute_set_id column */
+			// Check if we have the attribute_set_id column
 			if (!array_key_exists('hide_attribute_price', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_product_attribute ADD COLUMN `hide_attribute_price` TINYINT(1) NOT NULL ";
@@ -1117,7 +1117,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the display_type column */
+			// Check if we have the display_type column
 			if (!array_key_exists('display_type', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_product_attribute ADD COLUMN `display_type` VARCHAR(255) NOT NULL ";
@@ -1126,14 +1126,14 @@ class Com_RedshopInstallerScript
 			}
 		}
 
-		/* Get the current columns for redshop product attribute property */
+		// Get the current columns for redshop product attribute property
 		$q = "SHOW COLUMNS FROM #__redshop_product_attribute_property";
 		$db->setQuery($q);
 		$cols = $db->loadObjectList('Field');
 
 		if (is_array($cols))
 		{
-			/* Check if we have the ordering column */
+			// Check if we have the ordering column
 			if (!array_key_exists('ordering', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_product_attribute_property ADD COLUMN `ordering` INT NOT NULL ";
@@ -1141,7 +1141,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Change if we have the ordering column */
+			// Change if we have the ordering column
 			if (!array_key_exists('property_number', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_product_attribute_property ADD COLUMN `property_number` VARCHAR( 255 ) NOT NULL ";
@@ -1149,7 +1149,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the setdefault_selected column */
+			// Check if we have the setdefault_selected column
 			if (!array_key_exists('setdefault_selected', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_product_attribute_property ADD COLUMN `setdefault_selected` TINYINT(4) NOT NULL ";
@@ -1157,7 +1157,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the setrequire_selected column */
+			// Check if we have the setrequire_selected column
 			if (!array_key_exists('setrequire_selected', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_product_attribute_property ADD COLUMN `setrequire_selected` TINYINT(3) NOT NULL ";
@@ -1165,7 +1165,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the setmulti_selected column */
+			// Check if we have the setmulti_selected column
 			if (!array_key_exists('setmulti_selected', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_product_attribute_property ADD COLUMN `setmulti_selected` TINYINT(4) NOT NULL ";
@@ -1173,7 +1173,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the setdisplay_type column */
+			// Check if we have the setdisplay_type column
 			if (!array_key_exists('setdisplay_type', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_product_attribute_property ADD COLUMN `setdisplay_type` VARCHAR(255) NOT NULL ";
@@ -1181,7 +1181,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the property_published column */
+			// Check if we have the property_published column
 			if (!array_key_exists('property_published', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_product_attribute_property ADD `property_published` TINYINT NOT NULL DEFAULT '1' ";
@@ -1190,49 +1190,49 @@ class Com_RedshopInstallerScript
 			}
 		}
 
-		/* Get the current columns for #__redshop_product_attribute_price */
+		// Get the current columns for #__redshop_product_attribute_price
 		$q = "SHOW COLUMNS FROM #__redshop_product_attribute_price";
 		$db->setQuery($q);
 		$cols = $db->loadObjectList('Field');
 
 		if (is_array($cols))
 		{
-			/* Check if we have the discount_price column */
+			// Check if we have the discount_price column
 			if (!array_key_exists('discount_price', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_product_attribute_price ADD `discount_price` DECIMAL(12,4) NOT NULL ";
 				$db->setQuery($q);
 				$db->query();
 			}
-			/* Check if we have the discount_price column */
+			// Check if we have the discount_price column
 			if (array_key_exists('discount_price', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_product_attribute_price CHANGE `discount_price` `discount_price` DOUBLE NOT NULL ";
 				$db->setQuery($q);
 				$db->query();
 			}
-			/* Check if we have the product_price column */
+			// Check if we have the product_price column
 			if (array_key_exists('product_price', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_product_attribute_price CHANGE `product_price` `product_price` DOUBLE NOT NULL ";
 				$db->setQuery($q);
 				$db->query();
 			}
-			/* Check if we have the price_quantity_end column */
+			// Check if we have the price_quantity_end column
 			if (array_key_exists('price_quantity_end', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_product_attribute_price CHANGE `price_quantity_end` `price_quantity_end` BIGINT NOT NULL ";
 				$db->setQuery($q);
 				$db->query();
 			}
-			/* Change if we have the discount_start_date column */
+			// Change if we have the discount_start_date column
 			if (!array_key_exists('discount_start_date', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_product_attribute_price ADD `discount_start_date` INT(11) NOT NULL ";
 				$db->setQuery($q);
 				$db->query();
 			}
-			/* Check if we have the discount_end_date column */
+			// Check if we have the discount_end_date column
 			if (!array_key_exists('discount_end_date', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_product_attribute_price ADD `discount_end_date` INT(11) NOT NULL ";
@@ -1241,14 +1241,14 @@ class Com_RedshopInstallerScript
 			}
 		}
 
-		/* Get the current columns for redshop product subattribute color */
+		// Get the current columns for redshop product subattribute color
 		$q = "SHOW COLUMNS FROM #__redshop_product_subattribute_color";
 		$db->setQuery($q);
 		$cols = $db->loadObjectList('Field');
 
 		if (is_array($cols))
 		{
-			/* Check if we have the attribute_required column */
+			// Check if we have the attribute_required column
 			if (array_key_exists('media_mimetype', $cols))
 			{
 				$q = "ALTER IGNORE TABLE `#__redshop_product_subattribute_color` DROP `media_mimetype`";
@@ -1256,7 +1256,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the ordering column */
+			// Check if we have the ordering column
 			if (!array_key_exists('ordering', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_product_subattribute_color ADD COLUMN `ordering` INT NOT NULL ";
@@ -1264,7 +1264,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the subattribute_color_number column */
+			// Check if we have the subattribute_color_number column
 			if (!array_key_exists('subattribute_color_number', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_product_subattribute_color ADD COLUMN `subattribute_color_number` VARCHAR( 255 ) NOT NULL ";
@@ -1272,7 +1272,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the subattribute_color_price column */
+			// Check if we have the subattribute_color_price column
 			if (array_key_exists('subattribute_color_price', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_product_subattribute_color CHANGE `subattribute_color_price` `subattribute_color_price` DOUBLE NOT NULL ";
@@ -1280,7 +1280,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the setdefault_selected column */
+			// Check if we have the setdefault_selected column
 			if (!array_key_exists('setdefault_selected', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_product_subattribute_color ADD COLUMN `setdefault_selected` TINYINT(4) NOT NULL ";
@@ -1288,7 +1288,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the subattribute_color_title column */
+			// Check if we have the subattribute_color_title column
 			if (!array_key_exists('subattribute_color_title', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_product_subattribute_color ADD COLUMN `subattribute_color_title` VARCHAR( 255 ) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ";
@@ -1296,7 +1296,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the subattribute_color_main_image column */
+			// Check if we have the subattribute_color_main_image column
 			if (!array_key_exists('subattribute_color_main_image', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_product_subattribute_color ADD COLUMN `subattribute_color_main_image` VARCHAR( 255 ) NOT NULL ";
@@ -1304,7 +1304,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the subattribute_published column */
+			// Check if we have the subattribute_published column
 			if (!array_key_exists('subattribute_published', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_product_subattribute_color ADD `subattribute_published` TINYINT NOT NULL DEFAULT '1' ";
@@ -1313,14 +1313,14 @@ class Com_RedshopInstallerScript
 			}
 		}
 
-		/* Get the current columns for redshop product_voucher */
+		// Get the current columns for redshop product_voucher
 		$q = "SHOW COLUMNS FROM #__redshop_product_voucher";
 		$db->setQuery($q);
 		$cols = $db->loadObjectList('Field');
 
 		if (is_array($cols))
 		{
-			/* Check if we have the voucher_left column */
+			// Check if we have the voucher_left column
 			if (!array_key_exists('voucher_left', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_product_voucher ADD COLUMN voucher_left INT NOT NULL ";
@@ -1328,7 +1328,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the voucher_code column */
+			// Check if we have the voucher_code column
 			if (array_key_exists('voucher_code', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_product_voucher CHANGE `voucher_code` `voucher_code` VARCHAR( 255 ) NOT NULL ";
@@ -1337,14 +1337,14 @@ class Com_RedshopInstallerScript
 			}
 		}
 
-		/* Get the current columns for redshop product_voucher */
+		// Get the current columns for redshop product_voucher
 		$q = "SHOW COLUMNS FROM #__redshop_product_voucher_transaction";
 		$db->setQuery($q);
 		$cols = $db->loadObjectList('Field');
 
 		if (is_array($cols))
 		{
-			/* Check if we have the voucher_code column */
+			// Check if we have the voucher_code column
 			if (array_key_exists('voucher_code', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_product_voucher_transaction CHANGE `voucher_code` `voucher_code` VARCHAR( 255 ) NOT NULL ";
@@ -1352,7 +1352,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the product_id column */
+			// Check if we have the product_id column
 			if (!array_key_exists('product_id', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_product_voucher_transaction ADD `product_id` VARCHAR( 50 ) NOT NULL ";
@@ -1361,14 +1361,14 @@ class Com_RedshopInstallerScript
 			}
 		}
 
-		/* Get the current columns for redshop product_price */
+		// Get the current columns for redshop product_price
 		$q = "SHOW COLUMNS FROM #__redshop_product_price";
 		$db->setQuery($q);
 		$cols = $db->loadObjectList('Field');
 
 		if (is_array($cols))
 		{
-			/* Check if we have the price_quantity_start column */
+			// Check if we have the price_quantity_start column
 			if (!array_key_exists('price_quantity_start', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_product_price ADD COLUMN price_quantity_start INT NOT NULL ";
@@ -1376,7 +1376,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the price_quantity_end column */
+			// Check if we have the price_quantity_end column
 			if (!array_key_exists('price_quantity_end', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_product_price ADD COLUMN price_quantity_end INT NOT NULL ";
@@ -1384,7 +1384,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the price_quantity_end column */
+			// Check if we have the price_quantity_end column
 			if (array_key_exists('price_quantity_end', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_product_price CHANGE `price_quantity_end` `price_quantity_end` BIGINT NOT NULL ";
@@ -1392,7 +1392,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the discount_price column */
+			// Check if we have the discount_price column
 			if (!array_key_exists('discount_price', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_product_price ADD discount_price DECIMAL( 12, 4 ) NOT NULL ";
@@ -1400,7 +1400,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the discount_start_date column */
+			// Check if we have the discount_start_date column
 			if (!array_key_exists('discount_start_date', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_product_price ADD discount_start_date INT(11) NOT NULL ";
@@ -1408,7 +1408,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the discount_end_date column */
+			// Check if we have the discount_end_date column
 			if (!array_key_exists('discount_end_date', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_product_price ADD discount_end_date INT(11) NOT NULL ";
@@ -1424,14 +1424,14 @@ class Com_RedshopInstallerScript
 			}
 		}
 
-		/* Get the current columns */
+		// Get the current columns
 		$q = "SHOW COLUMNS FROM #__redshop_state";
 		$db->setQuery($q);
 		$cols = $db->loadObjectList('Field');
 
 		if (is_array($cols))
 		{
-			/* Check if we have the checked_out column */
+			// Check if we have the checked_out column
 			if (!array_key_exists('checked_out', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_state ADD COLUMN `checked_out` INT NOT NULL";
@@ -1439,7 +1439,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the checked_out_time column */
+			// Check if we have the checked_out_time column
 			if (!array_key_exists('checked_out_time', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_state ADD COLUMN `checked_out_time` DATETIME NOT NULL ";
@@ -1447,7 +1447,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the show_state column */
+			// Check if we have the show_state column
 			if (!array_key_exists('show_state', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_state ADD COLUMN `show_state` INT NOT NULL DEFAULT '2'";
@@ -1456,14 +1456,14 @@ class Com_RedshopInstallerScript
 			}
 		}
 
-		/* Get the current columns */
+		// Get the current columns
 		$q = "SHOW COLUMNS FROM #__redshop_product";
 		$db->setQuery($q);
 		$cols = $db->loadObjectList('Field');
 
 		if (is_array($cols))
 		{
-			/* Check if we have the quantity_selectbox_value column */
+			// Check if we have the quantity_selectbox_value column
 			if (!array_key_exists('quantity_selectbox_value', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_product ADD COLUMN quantity_selectbox_value VARCHAR( 255 ) NOT NULL ";
@@ -1471,7 +1471,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the product_download_clock column */
+			// Check if we have the product_download_clock column
 			if (!array_key_exists('product_download_clock', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_product ADD COLUMN product_download_clock INT NOT NULL";
@@ -1479,7 +1479,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the checked_out column */
+			// Check if we have the checked_out column
 			if (!array_key_exists('checked_out', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_product ADD COLUMN `checked_out` INT NOT NULL";
@@ -1487,7 +1487,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the checked_out_time column */
+			// Check if we have the checked_out_time column
 			if (!array_key_exists('checked_out_time', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_product ADD COLUMN `checked_out_time` DATETIME NOT NULL ";
@@ -1495,7 +1495,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the product_download_clock_min column */
+			// Check if we have the product_download_clock_min column
 			if (!array_key_exists('product_download_clock_min', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_product ADD COLUMN product_download_clock_min INT NOT NULL";
@@ -1503,7 +1503,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the product_parent_id column */
+			// Check if we have the product_parent_id column
 			if (!array_key_exists('product_parent_id', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_product ADD COLUMN product_parent_id INT NOT NULL";
@@ -1511,7 +1511,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the   	product_special column */
+			// Check if we have the   	product_special column
 			if (!array_key_exists('product_special', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_product ADD COLUMN  product_special tinyint(4) NOT NULL";
@@ -1519,7 +1519,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the visited column in Product Table */
+			// Check if we have the visited column in Product Table
 			if (!array_key_exists('visited', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_product ADD COLUMN visited int(11) NOT NULL";
@@ -1527,7 +1527,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the product_download column in Product Table */
+			// Check if we have the product_download column in Product Table
 			if (!array_key_exists('product_download', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_product ADD product_download TINYINT NOT NULL";
@@ -1535,7 +1535,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the weight column in Product Table */
+			// Check if we have the weight column in Product Table
 			if (!array_key_exists('weight', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_product ADD `weight` float(10,3) NOT NULL";
@@ -1543,7 +1543,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the   	discount_price column */
+			// Check if we have the   	discount_price column
 			if (!array_key_exists('discount_price', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_product ADD COLUMN  discount_price double NOT NULL";
@@ -1551,7 +1551,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the `expired` column */
+			// Check if we have the `expired` column
 			if (!array_key_exists('expired', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_product ADD COLUMN  `expired` TINYINT NOT NULL";
@@ -1559,7 +1559,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the `product_tax_group_id` column */
+			// Check if we have the `product_tax_group_id` column
 			if (!array_key_exists('product_tax_group_id', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_product ADD COLUMN  `product_tax_group_id` INT NOT NULL";
@@ -1567,7 +1567,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the `discount_stratdate` column */
+			// Check if we have the `discount_stratdate` column
 			if (!array_key_exists('discount_stratdate', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_product ADD COLUMN `discount_stratdate` INT(11) NOT NULL";
@@ -1575,7 +1575,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the `discount_enddate` column */
+			// Check if we have the `discount_enddate` column
 			if (!array_key_exists('discount_enddate', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_product ADD COLUMN `discount_enddate` INT(11) NOT NULL";
@@ -1583,7 +1583,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the `not_for_sale` column */
+			// Check if we have the `not_for_sale` column
 			if (!array_key_exists('not_for_sale', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_product ADD COLUMN `not_for_sale` TINYINT NOT NULL";
@@ -1591,7 +1591,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the `use_discount_calc` column */
+			// Check if we have the `use_discount_calc` column
 			if (!array_key_exists('use_discount_calc', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_product ADD COLUMN `use_discount_calc` TINYINT NOT NULL";
@@ -1599,7 +1599,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the `discount_calc_method` column */
+			// Check if we have the `discount_calc_method` column
 			if (!array_key_exists('discount_calc_method', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_product ADD COLUMN `discount_calc_method` VARCHAR( 255 ) NOT NULL ";
@@ -1607,7 +1607,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the `discount_calc_unit` column */
+			// Check if we have the `discount_calc_unit` column
 			if (array_key_exists('discount_calc_unit', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_product DROP COLUMN `discount_calc_unit` ";
@@ -1615,7 +1615,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the `min_order_product_quantity` column */
+			// Check if we have the `min_order_product_quantity` column
 			if (!array_key_exists('min_order_product_quantity', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_product ADD COLUMN `min_order_product_quantity` INT( 11 ) NOT NULL ";
@@ -1623,7 +1623,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the `max_order_product_quantity` column */
+			// Check if we have the `max_order_product_quantity` column
 			if (!array_key_exists('max_order_product_quantity', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_product ADD COLUMN `max_order_product_quantity` INT( 11 ) NOT NULL ";
@@ -1631,7 +1631,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the `attribute_set_id` column */
+			// Check if we have the `attribute_set_id` column
 			if (!array_key_exists('attribute_set_id', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_product ADD COLUMN `attribute_set_id` INT( 11 ) NOT NULL ";
@@ -1639,7 +1639,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the `product_length` column */
+			// Check if we have the `product_length` column
 			if (!array_key_exists('product_length', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_product ADD COLUMN `product_length` decimal(10,2) NOT NULL ";
@@ -1647,7 +1647,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the `product_height` column */
+			// Check if we have the `product_height` column
 			if (!array_key_exists('product_height', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_product ADD COLUMN `product_height` decimal(10,2) NOT NULL ";
@@ -1655,7 +1655,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the `product_width` column */
+			// Check if we have the `product_width` column
 			if (!array_key_exists('product_width', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_product ADD COLUMN `product_width` decimal(10,2) NOT NULL ";
@@ -1663,21 +1663,21 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the `product_availability_date` column */
+			// Check if we have the `product_availability_date` column
 			if (!array_key_exists('product_availability_date', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_product ADD COLUMN `product_availability_date` VARCHAR( 255 ) NOT NULL ";
 				$db->setQuery($q);
 				$db->query();
 			}
-			/* Check if we have the `product_diameter` column */
+			// Check if we have the `product_diameter` column
 			if (!array_key_exists('product_diameter', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_product ADD COLUMN `product_diameter` DECIMAL( 10, 2 )  NOT NULL ";
 				$db->setQuery($q);
 				$db->query();
 			}
-			/* Check if we have the `use_range` column */
+			// Check if we have the `use_range` column
 			if (!array_key_exists('use_range', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_product ADD COLUMN `use_range` TINYINT NOT NULL ";
@@ -1685,7 +1685,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the `product_download_days` column */
+			// Check if we have the `product_download_days` column
 			if (!array_key_exists('product_download_days', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_product ADD COLUMN `product_download_days` INT( 11 ) NOT NULL ";
@@ -1693,7 +1693,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the `product_download_limit` column */
+			// Check if we have the `product_download_limit` column
 			if (!array_key_exists('product_download_limit', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_product ADD COLUMN `product_download_limit` INT( 11 ) NOT NULL ";
@@ -1701,7 +1701,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the `product_download_infinite` column */
+			// Check if we have the `product_download_infinite` column
 			if (!array_key_exists('product_download_infinite', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_product ADD COLUMN `product_download_infinite` TINYINT NOT NULL ";
@@ -1709,7 +1709,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the `product_back_full_image` column */
+			// Check if we have the `product_back_full_image` column
 			if (!array_key_exists('product_back_full_image', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_product ADD COLUMN `product_back_full_image` VARCHAR( 250 ) NOT NULL";
@@ -1717,7 +1717,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the `product_back_thumb_image` column */
+			// Check if we have the `product_back_thumb_image` column
 			if (!array_key_exists('product_back_thumb_image', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_product ADD COLUMN `product_back_thumb_image` VARCHAR( 250 ) NOT NULL";
@@ -1725,14 +1725,14 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the `product_preview_image` column */
+			// Check if we have the `product_preview_image` column
 			if (!array_key_exists('product_preview_image', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_product ADD COLUMN `product_preview_image` VARCHAR( 250 ) NOT NULL";
 				$db->setQuery($q);
 				$db->query();
 			}
-			/* Check if we have the `product_preview_back_image` column */
+			// Check if we have the `product_preview_back_image` column
 			if (!array_key_exists('product_preview_back_image', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_product ADD COLUMN `product_preview_back_image` VARCHAR( 250 ) NOT NULL";
@@ -1740,7 +1740,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the `accountgroup_id` column */
+			// Check if we have the `accountgroup_id` column
 			if (!array_key_exists('accountgroup_id', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_product ADD COLUMN `accountgroup_id` INT( 11 ) NOT NULL";
@@ -1748,7 +1748,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the `preorder` column */
+			// Check if we have the `preorder` column
 			if (!array_key_exists('preorder', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_product ADD COLUMN `preorder` VARCHAR( 255 ) NOT NULL";
@@ -1756,7 +1756,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the `append_to_global_seo` column */
+			// Check if we have the `append_to_global_seo` column
 			if (!array_key_exists('append_to_global_seo', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_product ADD `append_to_global_seo` ENUM( 'append', 'prepend', 'replace' ) NOT NULL DEFAULT 'append'";
@@ -1764,7 +1764,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the `canonical_url` column */
+			// Check if we have the `canonical_url` column
 			if (!array_key_exists('canonical_url', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_product ADD `canonical_url` text NOT NULL";
@@ -1773,14 +1773,14 @@ class Com_RedshopInstallerScript
 			}
 		}
 
-		/* Get the current columns */
+		// Get the current columns
 		$q = "SHOW COLUMNS FROM #__redshop_product_discount_calc";
 		$db->setQuery($q);
 		$cols = $db->loadObjectList('Field');
 
 		if (is_array($cols))
 		{
-			/* Check if we have the area_start column */
+			// Check if we have the area_start column
 			if (array_key_exists('area_start', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_product_discount_calc CHANGE `area_start` `area_start` float(10,2) NOT NULL";
@@ -1788,7 +1788,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the area_end column */
+			// Check if we have the area_end column
 			if (array_key_exists('area_end', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_product_discount_calc CHANGE `area_end` `area_end` float(10,2) NOT NULL";
@@ -1796,7 +1796,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the discount_calc_unit column */
+			// Check if we have the discount_calc_unit column
 			if (!array_key_exists('discount_calc_unit', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_product_discount_calc ADD COLUMN discount_calc_unit varchar(255) NOT NULL";
@@ -1804,7 +1804,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the area_start_converted column */
+			// Check if we have the area_start_converted column
 			if (!array_key_exists('area_start_converted', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_product_discount_calc ADD COLUMN area_start_converted float(20,8) NOT NULL";
@@ -1818,7 +1818,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the area_end_converted column */
+			// Check if we have the area_end_converted column
 			if (!array_key_exists('area_end_converted', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_product_discount_calc ADD COLUMN area_end_converted float(20,8) NOT NULL";
@@ -1833,14 +1833,14 @@ class Com_RedshopInstallerScript
 			}
 		}
 
-		/* Get the current columns */
+		// Get the current columns
 		$q = "SHOW COLUMNS FROM #__redshop_shipping_rate";
 		$db->setQuery($q);
 		$cols = $db->loadObjectList('Field');
 
 		if (is_array($cols))
 		{
-			/* Check if we have the shipping_rate_weight_start column */
+			// Check if we have the shipping_rate_weight_start column
 			if (!array_key_exists('shipping_rate_weight_start', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_shipping_rate ADD COLUMN shipping_rate_weight_start decimal(10,2) NOT NULL";
@@ -1848,7 +1848,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the deliver_type column */
+			// Check if we have the deliver_type column
 			if (!array_key_exists('deliver_type', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_shipping_rate ADD COLUMN deliver_type INT NOT NULL";
@@ -1856,7 +1856,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the economic_displaynumber column */
+			// Check if we have the economic_displaynumber column
 			if (!array_key_exists('economic_displaynumber', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_shipping_rate ADD COLUMN economic_displaynumber VARCHAR( 255 ) NOT NULL";
@@ -1864,7 +1864,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the shipping_rate_weight_end column */
+			// Check if we have the shipping_rate_weight_end column
 			if (!array_key_exists('shipping_rate_weight_end', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_shipping_rate ADD COLUMN shipping_rate_weight_end decimal(10,2) NOT NULL";
@@ -1872,7 +1872,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the company_only column */
+			// Check if we have the company_only column
 			if (!array_key_exists('company_only', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_shipping_rate ADD COLUMN company_only TINYINT NOT NULL";
@@ -1880,7 +1880,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the apply_vat column */
+			// Check if we have the apply_vat column
 			if (!array_key_exists('apply_vat', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_shipping_rate ADD COLUMN apply_vat TINYINT NOT NULL";
@@ -1888,7 +1888,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the shipping_rate_on_product column */
+			// Check if we have the shipping_rate_on_product column
 			if (!array_key_exists('shipping_rate_on_product', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_shipping_rate ADD COLUMN shipping_rate_on_product LONGTEXT NOT NULL";
@@ -1896,7 +1896,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the shipping_rate_on_category column */
+			// Check if we have the shipping_rate_on_category column
 			if (!array_key_exists('shipping_rate_on_category', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_shipping_rate ADD COLUMN shipping_rate_on_category LONGTEXT NOT NULL";
@@ -1904,7 +1904,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the shipping_rate_on_product column */
+			// Check if we have the shipping_rate_on_product column
 			if (array_key_exists('shipping_rate_on_product', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_shipping_rate CHANGE `shipping_rate_on_product` `shipping_rate_on_product` LONGTEXT NOT NULL";
@@ -1912,7 +1912,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the shipping_rate_on_category column */
+			// Check if we have the shipping_rate_on_category column
 			if (array_key_exists('shipping_rate_on_category', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_shipping_rate CHANGE `shipping_rate_on_category` `shipping_rate_on_category` LONGTEXT NOT NULL";
@@ -1920,7 +1920,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the shipping_rate_on_category column */
+			// Check if we have the shipping_rate_on_category column
 			if (array_key_exists('shipping_rate_country', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_shipping_rate CHANGE `shipping_rate_country` `shipping_rate_country` LONGTEXT NOT NULL";
@@ -1928,7 +1928,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the shipping_location_info column */
+			// Check if we have the shipping_location_info column
 			if (!array_key_exists('shipping_location_info', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_shipping_rate ADD COLUMN `shipping_location_info` LONGTEXT NOT NULL";
@@ -1936,7 +1936,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the shipping_rate_length_start column */
+			// Check if we have the shipping_rate_length_start column
 			if (!array_key_exists('shipping_rate_length_start', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_shipping_rate ADD COLUMN `shipping_rate_length_start` decimal(10,2) NOT NULL";
@@ -1944,7 +1944,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the shipping_rate_length_end column */
+			// Check if we have the shipping_rate_length_end column
 			if (!array_key_exists('shipping_rate_length_end', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_shipping_rate ADD COLUMN `shipping_rate_length_end` decimal(10,2) NOT NULL";
@@ -1952,7 +1952,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the shipping_rate_width_start column */
+			// Check if we have the shipping_rate_width_start column
 			if (!array_key_exists('shipping_rate_width_start', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_shipping_rate ADD COLUMN `shipping_rate_width_start` decimal(10,2) NOT NULL";
@@ -1960,7 +1960,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the shipping_rate_width_end column */
+			// Check if we have the shipping_rate_width_end column
 			if (!array_key_exists('shipping_rate_width_end', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_shipping_rate ADD COLUMN `shipping_rate_width_end` decimal(10,2) NOT NULL";
@@ -1968,7 +1968,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the shipping_rate_height_start column */
+			// Check if we have the shipping_rate_height_start column
 			if (!array_key_exists('shipping_rate_height_start', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_shipping_rate ADD COLUMN `shipping_rate_height_start` decimal(10,2) NOT NULL";
@@ -1976,7 +1976,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the shipping_rate_height_end column */
+			// Check if we have the shipping_rate_height_end column
 			if (!array_key_exists('shipping_rate_height_end', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_shipping_rate ADD COLUMN `shipping_rate_height_end` decimal(10,2) NOT NULL";
@@ -1984,7 +1984,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the shipping_tax_group_id column */
+			// Check if we have the shipping_tax_group_id column
 			if (!array_key_exists('shipping_tax_group_id', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_shipping_rate ADD COLUMN `shipping_tax_group_id` INT( 11 ) NOT NULL";
@@ -1992,7 +1992,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the shipping_rate_zip_start column */
+			// Check if we have the shipping_rate_zip_start column
 			if (array_key_exists('shipping_rate_zip_start', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_shipping_rate CHANGE `shipping_rate_zip_start` `shipping_rate_zip_start` VARCHAR( 20 ) NOT NULL";
@@ -2000,7 +2000,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the shipping_rate_zip_end column */
+			// Check if we have the shipping_rate_zip_end column
 			if (array_key_exists('shipping_rate_zip_end', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_shipping_rate CHANGE `shipping_rate_zip_end` `shipping_rate_zip_end` VARCHAR( 20 ) NOT NULL";
@@ -2008,7 +2008,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the shipping_rate_state column */
+			// Check if we have the shipping_rate_state column
 			if (!array_key_exists('shipping_rate_state', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_shipping_rate ADD `shipping_rate_state` LONGTEXT NOT NULL";
@@ -2016,7 +2016,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the shipping_rate_on_shopper_group column */
+			// Check if we have the shipping_rate_on_shopper_group column
 			if (!array_key_exists('shipping_rate_on_shopper_group', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_shipping_rate ADD `shipping_rate_on_shopper_group` LONGTEXT NOT NULL";
@@ -2024,7 +2024,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the shipping_rate_on_shopper_group column */
+			// Check if we have the shipping_rate_on_shopper_group column
 			if (!array_key_exists('consignor_carrier_code', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_shipping_rate ADD `consignor_carrier_code` VARCHAR( 255 ) NOT NULL";
@@ -2033,14 +2033,14 @@ class Com_RedshopInstallerScript
 			}
 		}
 
-		/* Get the current columns */
+		// Get the current columns
 		$q = "SHOW COLUMNS FROM #__redshop_shopper_group";
 		$db->setQuery($q);
 		$cols = $db->loadObjectList('Field');
 
 		if (is_array($cols))
 		{
-			/* Check if we have the shopper_group_customer_type column */
+			// Check if we have the shopper_group_customer_type column
 			if (!array_key_exists('shopper_group_customer_type', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_shopper_group ADD COLUMN shopper_group_customer_type TINYINT NOT NULL";
@@ -2048,7 +2048,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the shopper_group_portal column */
+			// Check if we have the shopper_group_portal column
 			if (!array_key_exists('shopper_group_portal', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_shopper_group ADD COLUMN shopper_group_portal TINYINT NOT NULL";
@@ -2056,7 +2056,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the shopper_group_categories column */
+			// Check if we have the shopper_group_categories column
 			if (!array_key_exists('shopper_group_categories', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_shopper_group ADD COLUMN shopper_group_categories LONGTEXT NOT NULL";
@@ -2064,7 +2064,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the show_price_without_vat column */
+			// Check if we have the show_price_without_vat column
 			if (!array_key_exists('show_price_without_vat', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_shopper_group ADD COLUMN show_price_without_vat TINYINT NOT NULL";
@@ -2072,7 +2072,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the shopper_group_categories column */
+			// Check if we have the shopper_group_categories column
 			if (array_key_exists('shopper_group_categories', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_shopper_group CHANGE `shopper_group_categories` `shopper_group_categories` LONGTEXT NOT NULL";
@@ -2080,7 +2080,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the shopper_group_url column */
+			// Check if we have the shopper_group_url column
 			if (!array_key_exists('shopper_group_url', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_shopper_group ADD COLUMN shopper_group_url VARCHAR( 255 ) NOT NULL";
@@ -2088,7 +2088,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the shopper_group_logo column */
+			// Check if we have the shopper_group_logo column
 			if (!array_key_exists('shopper_group_logo', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_shopper_group ADD COLUMN shopper_group_logo VARCHAR( 255 ) NOT NULL";
@@ -2096,7 +2096,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the shopper_group_introtext column */
+			// Check if we have the shopper_group_introtext column
 			if (!array_key_exists('shopper_group_introtext', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_shopper_group ADD COLUMN shopper_group_introtext LONGTEXT NOT NULL";
@@ -2104,7 +2104,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the default_shipping column */
+			// Check if we have the default_shipping column
 			if (!array_key_exists('default_shipping', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_shopper_group ADD COLUMN default_shipping TINYINT NOT NULL";
@@ -2112,7 +2112,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the default_shipping_rate column */
+			// Check if we have the default_shipping_rate column
 			if (!array_key_exists('default_shipping_rate', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_shopper_group ADD COLUMN default_shipping_rate FLOAT( 10, 2 ) NOT NULL";
@@ -2120,7 +2120,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the apply_vat  column changed */
+			// Check if we have the apply_vat  column changed
 			if (array_key_exists('apply_vat', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_shopper_group CHANGE `apply_vat` `tax_exempt_on_shipping` TINYINT( 4 ) NOT NULL";
@@ -2135,7 +2135,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the shopper_group_cart_checkout_itemid column */
+			// Check if we have the shopper_group_cart_checkout_itemid column
 			if (!array_key_exists('shopper_group_cart_checkout_itemid', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_shopper_group ADD COLUMN shopper_group_cart_checkout_itemid INT NOT NULL";
@@ -2143,7 +2143,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the shopper_group_cart_itemid column */
+			// Check if we have the shopper_group_cart_itemid column
 			if (!array_key_exists('shopper_group_cart_itemid', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_shopper_group ADD COLUMN shopper_group_cart_itemid INT NOT NULL";
@@ -2166,7 +2166,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the `tax_group_id` column */
+			// Check if we have the `tax_group_id` column
 			if (!array_key_exists('tax_group_id', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_shopper_group ADD `tax_group_id` INT NOT NULL";
@@ -2174,7 +2174,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the `apply_product_price_vat` column */
+			// Check if we have the `apply_product_price_vat` column
 			if (!array_key_exists('apply_product_price_vat', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_shopper_group ADD `apply_product_price_vat` INT NOT NULL";
@@ -2182,7 +2182,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the `shopper_group_quotation_mode` column */
+			// Check if we have the `shopper_group_quotation_mode` column
 			if (!array_key_exists('shopper_group_quotation_mode', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_shopper_group ADD `shopper_group_quotation_mode` TINYINT(4) NOT NULL";
@@ -2190,7 +2190,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the `show_price` column */
+			// Check if we have the `show_price` column
 			if (!array_key_exists('show_price', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_shopper_group ADD `show_price` VARCHAR(255) NOT NULL DEFAULT 'global'";
@@ -2198,7 +2198,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the `use_as_catalog` column */
+			// Check if we have the `use_as_catalog` column
 			if (!array_key_exists('use_as_catalog', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_shopper_group ADD `use_as_catalog` VARCHAR(255) NOT NULL DEFAULT 'global'";
@@ -2206,14 +2206,14 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the `is_logged_in` column */
+			// Check if we have the `is_logged_in` column
 			if (!array_key_exists('is_logged_in', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_shopper_group ADD `is_logged_in` INT(11) NOT NULL DEFAULT '1'";
 				$db->setQuery($q);
 				$db->query();
 			}
-			/* Check if we have the `is_logged_in` column */
+			// Check if we have the `is_logged_in` column
 			if (array_key_exists('is_logged_in', $cols))
 			{
 				$q = "ALTER IGNORE TABLE `#__redshop_shopper_group` DROP `is_logged_in` ";
@@ -2221,7 +2221,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the shopper_group_introtext column */
+			// Check if we have the shopper_group_introtext column
 			if (!array_key_exists('shopper_group_manufactures', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_shopper_group ADD COLUMN shopper_group_manufactures TEXT NOT NULL";
@@ -2230,14 +2230,14 @@ class Com_RedshopInstallerScript
 			}
 		}
 
-		/* Get the current columns */
+		// Get the current columns
 		$q = "SHOW COLUMNS FROM #__redshop_discount";
 		$db->setQuery($q);
 		$cols = $db->loadObjectList('Field');
 
 		if (is_array($cols))
 		{
-			/* Check if we have the start_date column */
+			// Check if we have the start_date column
 			if (!array_key_exists('start_date', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_discount ADD COLUMN start_date double NOT NULL";
@@ -2245,7 +2245,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the end_date column */
+			// Check if we have the end_date column
 			if (!array_key_exists('end_date', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_discount ADD COLUMN end_date double NOT NULL";
@@ -2253,7 +2253,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the discount_amount column */
+			// Check if we have the discount_amount column
 			if (array_key_exists('discount_amount', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_discount CHANGE `discount_amount` `discount_amount` DECIMAL( 10, 4 ) NOT NULL";
@@ -2262,14 +2262,14 @@ class Com_RedshopInstallerScript
 			}
 		}
 
-		/* Get the current columns for newsletter subscription */
+		// Get the current columns for newsletter subscription
 		$q = "SHOW COLUMNS FROM #__redshop_newsletter_subscription";
 		$db->setQuery($q);
 		$cols = $db->loadObjectList('Field');
 
 		if (is_array($cols))
 		{
-			/* Check if we have the checkout column */
+			// Check if we have the checkout column
 			if (!array_key_exists('checkout', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_newsletter_subscription ADD COLUMN checkout TINYINT NOT NULL";
@@ -2278,14 +2278,14 @@ class Com_RedshopInstallerScript
 			}
 		}
 
-		/* Get the current columns for wrapper */
+		// Get the current columns for wrapper
 		$q = "SHOW COLUMNS FROM #__redshop_wrapper";
 		$db->setQuery($q);
 		$cols = $db->loadObjectList('Field');
 
 		if (is_array($cols))
 		{
-			/* Check if we have the category_id column */
+			// Check if we have the category_id column
 			if (!array_key_exists('category_id', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_wrapper ADD category_id VARCHAR( 250 ) NOT NULL ";
@@ -2294,14 +2294,14 @@ class Com_RedshopInstallerScript
 			}
 		}
 
-		/* Get the current columns for Extra Fields */
+		// Get the current columns for Extra Fields
 		$q = "SHOW COLUMNS FROM #__redshop_fields";
 		$db->setQuery($q);
 		$cols = $db->loadObjectList('Field');
 
 		if (is_array($cols))
 		{
-			/* Check if we have the required column */
+			// Check if we have the required column
 			if (!array_key_exists('required', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_fields ADD COLUMN required TINYINT NOT NULL";
@@ -2309,7 +2309,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the ordering column */
+			// Check if we have the ordering column
 			if (!array_key_exists('ordering', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_fields ADD `ordering` INT(11) NOT NULL";
@@ -2317,7 +2317,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the display_in_product column */
+			// Check if we have the display_in_product column
 			if (!array_key_exists('display_in_product', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_fields ADD `display_in_product` TINYINT(4) NOT NULL";
@@ -2325,7 +2325,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the display_in_checkout column */
+			// Check if we have the display_in_checkout column
 			if (!array_key_exists('display_in_checkout', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_fields ADD `display_in_checkout` TINYINT(4) NOT NULL";
@@ -2334,14 +2334,14 @@ class Com_RedshopInstallerScript
 			}
 		}
 
-		/* Get the redshop_orders */
+		// Get the redshop_orders
 		$q = "SHOW COLUMNS FROM #__redshop_orders";
 		$db->setQuery($q);
 		$cols = $db->loadObjectList('Field');
 
 		if (is_array($cols))
 		{
-			/* Check if we have the mail1_status column */
+			// Check if we have the mail1_status column
 			if (!array_key_exists('mail1_status', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_orders ADD COLUMN mail1_status TINYINT( 1 ) NOT NULL";
@@ -2349,7 +2349,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the referral_code column */
+			// Check if we have the referral_code column
 			if (!array_key_exists('referral_code', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_orders ADD COLUMN referral_code varchar( 50 ) NOT NULL";
@@ -2357,7 +2357,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the customer_message column */
+			// Check if we have the customer_message column
 			if (!array_key_exists('customer_message', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_orders ADD COLUMN customer_message varchar( 255 ) NOT NULL";
@@ -2365,7 +2365,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the shop_id column */
+			// Check if we have the shop_id column
 			if (!array_key_exists('shop_id', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_orders ADD COLUMN shop_id VARCHAR( 255 ) NOT NULL";
@@ -2373,7 +2373,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the order_discount_vat column */
+			// Check if we have the order_discount_vat column
 			if (!array_key_exists('order_discount_vat', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_orders ADD COLUMN order_discount_vat DECIMAL( 10, 3 ) NOT NULL";
@@ -2381,7 +2381,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the mail2_status column */
+			// Check if we have the mail2_status column
 			if (!array_key_exists('mail2_status', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_orders ADD COLUMN mail2_status TINYINT( 1 ) NOT NULL";
@@ -2389,7 +2389,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the mail3_status column */
+			// Check if we have the mail3_status column
 			if (!array_key_exists('mail3_status', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_orders ADD COLUMN mail3_status TINYINT( 1 ) NOT NULL";
@@ -2397,7 +2397,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the track_no column */
+			// Check if we have the track_no column
 			if (!array_key_exists('track_no', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_orders ADD `track_no` VARCHAR( 250 ) NOT NULL";
@@ -2405,7 +2405,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the special_discount column */
+			// Check if we have the special_discount column
 			if (!array_key_exists('special_discount', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_orders ADD COLUMN special_discount DECIMAL( 10, 2 ) NOT NULL";
@@ -2413,7 +2413,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the special_discount_amount column */
+			// Check if we have the special_discount_amount column
 			if (!array_key_exists('special_discount_amount', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_orders ADD COLUMN special_discount_amount DECIMAL( 10, 2 ) NOT NULL";
@@ -2421,7 +2421,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the payment_discount column */
+			// Check if we have the payment_discount column
 			if (!array_key_exists('payment_discount', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_orders ADD COLUMN payment_discount DECIMAL( 10, 2 ) NOT NULL";
@@ -2429,7 +2429,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the payment_oprand column */
+			// Check if we have the payment_oprand column
 			if (!array_key_exists('payment_oprand', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_orders ADD COLUMN payment_oprand VARCHAR(50) NOT NULL";
@@ -2437,7 +2437,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the discount_type column */
+			// Check if we have the discount_type column
 			if (!array_key_exists('discount_type', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_orders ADD COLUMN discount_type VARCHAR(255) NOT NULL";
@@ -2445,7 +2445,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the is_booked column */
+			// Check if we have the is_booked column
 			if (!array_key_exists('is_booked', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_orders ADD COLUMN is_booked TINYINT( 1 ) NOT NULL";
@@ -2453,7 +2453,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the order_label_create column */
+			// Check if we have the order_label_create column
 			if (!array_key_exists('order_label_create', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_orders ADD COLUMN order_label_create TINYINT( 1 ) NOT NULL";
@@ -2461,7 +2461,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the vm_order_number column */
+			// Check if we have the vm_order_number column
 			if (!array_key_exists('vm_order_number', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_orders ADD COLUMN vm_order_number VARCHAR( 32 ) NOT NULL";
@@ -2469,7 +2469,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the analytics_status column */
+			// Check if we have the analytics_status column
 			if (!array_key_exists('analytics_status', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_orders ADD COLUMN `analytics_status` INT( 1 ) NOT NULL";
@@ -2477,7 +2477,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the tax_after_discount column */
+			// Check if we have the tax_after_discount column
 			if (!array_key_exists('tax_after_discount', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_orders ADD COLUMN `tax_after_discount` DECIMAL( 10, 3 ) NOT NULL";
@@ -2485,7 +2485,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the barcode column */
+			// Check if we have the barcode column
 			if (!array_key_exists('barcode', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_orders ADD COLUMN `barcode` VARCHAR(13) NOT NULL AFTER `order_number`";
@@ -2493,7 +2493,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the coupon_discount column */
+			// Check if we have the coupon_discount column
 			if (!array_key_exists('coupon_discount', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_orders ADD COLUMN `coupon_discount` DECIMAL( 12, 2 ) NOT NULL";
@@ -2501,7 +2501,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the order_discount column */
+			// Check if we have the order_discount column
 			if (!array_key_exists('order_discount', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_orders ADD COLUMN `order_discount` DECIMAL( 12, 2 ) NOT NULL";
@@ -2509,7 +2509,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the requisition_number column */
+			// Check if we have the requisition_number column
 			if (!array_key_exists('requisition_number', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_orders ADD COLUMN `requisition_number` VARCHAR(255) NOT NULL ";
@@ -2517,7 +2517,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the bookinvoice_number column */
+			// Check if we have the bookinvoice_number column
 			if (!array_key_exists('bookinvoice_number', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_orders ADD COLUMN `bookinvoice_number` INT(11) NOT NULL ";
@@ -2525,7 +2525,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the bookinvoice_date column */
+			// Check if we have the bookinvoice_date column
 			if (!array_key_exists('bookinvoice_date', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_orders ADD COLUMN `bookinvoice_date` INT(11) NOT NULL ";
@@ -2533,7 +2533,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the recuuring_subcription_id column */
+			// Check if we have the recuuring_subcription_id column
 			if (!array_key_exists('recuuring_subcription_id', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_orders ADD COLUMN `recuuring_subcription_id` VARCHAR( 500 ) NOT NULL ";
@@ -2542,14 +2542,14 @@ class Com_RedshopInstallerScript
 			}
 		}
 
-		/* Get the redshop_order accessory */
+		// Get the redshop_order accessory
 		$q = "SHOW COLUMNS FROM #__redshop_order_acc_item";
 		$db->setQuery($q);
 		$cols = $db->loadObjectList('Field');
 
 		if (is_array($cols))
 		{
-			/* Check if we have the order_acc_price column */
+			// Check if we have the order_acc_price column
 			if (!array_key_exists('order_acc_price', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_order_acc_item ADD COLUMN order_acc_price DECIMAL( 15,4 ) NOT NULL";
@@ -2557,7 +2557,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the order_acc_vat column */
+			// Check if we have the order_acc_vat column
 			if (!array_key_exists('order_acc_vat', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_order_acc_item ADD COLUMN order_acc_vat DECIMAL( 15,4 ) NOT NULL";
@@ -2566,14 +2566,14 @@ class Com_RedshopInstallerScript
 			}
 		}
 
-		/* Get the redshop_order attribute Item */
+		// Get the redshop_order attribute Item
 		$q = "SHOW COLUMNS FROM #__redshop_order_attribute_item";
 		$db->setQuery($q);
 		$cols = $db->loadObjectList('Field');
 
 		if (is_array($cols))
 		{
-			/* Check if we have the order_acc_price column */
+			// Check if we have the order_acc_price column
 			if (!array_key_exists('stockroom_id', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_order_attribute_item ADD COLUMN stockroom_id VARCHAR( 255 ) NOT NULL";
@@ -2581,7 +2581,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the order_acc_vat column */
+			// Check if we have the order_acc_vat column
 			if (!array_key_exists('stockroom_quantity', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_order_attribute_item ADD COLUMN stockroom_quantity VARCHAR( 255 ) NOT NULL";
@@ -2590,14 +2590,14 @@ class Com_RedshopInstallerScript
 			}
 		}
 
-		/* Get the redshop_order_item */
+		// Get the redshop_order_item
 		$q = "SHOW COLUMNS FROM #__redshop_order_item";
 		$db->setQuery($q);
 		$cols = $db->loadObjectList('Field');
 
 		if (is_array($cols))
 		{
-			/* Check if we have the stockroom_id column */
+			// Check if we have the stockroom_id column
 			if (!array_key_exists('stockroom_id', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_order_item ADD COLUMN stockroom_id  INT NOT NULL";
@@ -2605,7 +2605,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the wrapper_id column */
+			// Check if we have the wrapper_id column
 			if (!array_key_exists('wrapper_id', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_order_item ADD wrapper_id INT( 11 ) NOT NULL";
@@ -2613,7 +2613,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the wrapper_price column */
+			// Check if we have the wrapper_price column
 			if (!array_key_exists('wrapper_price', $cols))
 			{
 				$q = "ALTER IGNORE TABLE `#__redshop_order_item` ADD `wrapper_price` DECIMAL(10,2) NOT NULL";
@@ -2621,7 +2621,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the is_giftcard column */
+			// Check if we have the is_giftcard column
 			if (!array_key_exists('is_giftcard', $cols))
 			{
 				$q = "ALTER IGNORE TABLE `#__redshop_order_item` ADD `is_giftcard` TINYINT NOT NULL";
@@ -2629,7 +2629,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the giftcard_user_name column */
+			// Check if we have the giftcard_user_name column
 			if (!array_key_exists('giftcard_user_name', $cols))
 			{
 				$q = "ALTER IGNORE TABLE `#__redshop_order_item` ADD `giftcard_user_name` VARCHAR(255) NOT NULL";
@@ -2638,7 +2638,7 @@ class Com_RedshopInstallerScript
 
 			}
 
-			/* Check if we have the giftcard_user_email column */
+			// Check if we have the giftcard_user_email column
 			if (!array_key_exists('giftcard_user_email', $cols))
 			{
 				$q = "ALTER IGNORE TABLE `#__redshop_order_item` ADD `giftcard_user_email` VARCHAR(255) NOT NULL";
@@ -2646,7 +2646,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the product_item_price_excl_vat column */
+			// Check if we have the product_item_price_excl_vat column
 			if (!array_key_exists('product_item_price_excl_vat', $cols))
 			{
 				$q = "ALTER IGNORE TABLE `#__redshop_order_item` ADD `product_item_price_excl_vat` DECIMAL(10,3) NOT NULL";
@@ -2654,7 +2654,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the stockroom_id column */
+			// Check if we have the stockroom_id column
 			if (array_key_exists('stockroom_id', $cols))
 			{
 				$q = "ALTER IGNORE TABLE `#__redshop_order_item` CHANGE `stockroom_id` `stockroom_id` VARCHAR( 255 ) NOT NULL";
@@ -2662,7 +2662,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the customer_note column */
+			// Check if we have the customer_note column
 			if (!array_key_exists('customer_note', $cols))
 			{
 				$q = "ALTER IGNORE TABLE `#__redshop_order_item` ADD `customer_note` TEXT NOT NULL AFTER `order_status`";
@@ -2670,7 +2670,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the product_item_old_price column */
+			// Check if we have the product_item_old_price column
 			if (!array_key_exists('product_item_old_price', $cols))
 			{
 				$q = "ALTER IGNORE TABLE `#__redshop_order_item` ADD `product_item_old_price` DECIMAL( 10, 4 ) NOT NULL ";
@@ -2678,7 +2678,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the is_split column */
+			// Check if we have the is_split column
 			if (!array_key_exists('product_purchase_price', $cols))
 			{
 				$q = "ALTER IGNORE TABLE `#__redshop_order_item` ADD `product_purchase_price` decimal(10,4) NOT NULL";
@@ -2686,7 +2686,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the attribute_image column */
+			// Check if we have the attribute_image column
 			if (!array_key_exists('attribute_image', $cols))
 			{
 				$q = "ALTER TABLE `#__redshop_order_item` ADD `attribute_image` TEXT NOT NULL ";
@@ -2694,7 +2694,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the discount_calc_data  column */
+			// Check if we have the discount_calc_data  column
 			if (!array_key_exists('discount_calc_data', $cols))
 			{
 				$q = "ALTER TABLE `#__redshop_order_item` ADD `discount_calc_data` TEXT NOT NULL";
@@ -2702,7 +2702,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the order_item_name  column */
+			// Check if we have the order_item_name  column
 			if (array_key_exists('order_item_name', $cols))
 			{
 				$q = "ALTER TABLE `#__redshop_order_item` CHANGE `order_item_name` `order_item_name` VARCHAR( 255 ) NOT NULL";
@@ -2710,7 +2710,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the stockroom_quantity  column */
+			// Check if we have the stockroom_quantity  column
 			if (!array_key_exists('stockroom_quantity', $cols))
 			{
 				$q = "ALTER TABLE `#__redshop_order_item` ADD `stockroom_quantity` VARCHAR( 255 ) NOT NULL";
@@ -2719,14 +2719,14 @@ class Com_RedshopInstallerScript
 			}
 		}
 
-		/* Get the redshop_stockroom */
+		// Get the redshop_stockroom
 		$q = "SHOW COLUMNS FROM #__redshop_stockroom";
 		$db->setQuery($q);
 		$cols = $db->loadObjectList('Field');
 
 		if (is_array($cols))
 		{
-			/* Check if we have the delivery_time column */
+			// Check if we have the delivery_time column
 			if (!array_key_exists('delivery_time', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_stockroom ADD COLUMN delivery_time VARCHAR( 255 ) NOT NULL";
@@ -2756,14 +2756,14 @@ class Com_RedshopInstallerScript
 			}
 		}
 
-		/* Get the product_stockroom_xref  */
+		// Get the product_stockroom_xref 
 		$q = "SHOW COLUMNS FROM #__redshop_product_stockroom_xref ";
 		$db->setQuery($q);
 		$cols = $db->loadObjectList('Field');
 
 		if (is_array($cols))
 		{
-			/* Check if we have the delivery_time column */
+			// Check if we have the delivery_time column
 			if (!array_key_exists('preorder_stock', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_product_stockroom_xref ADD COLUMN preorder_stock INT( 11 ) NOT NULL";
@@ -2779,14 +2779,14 @@ class Com_RedshopInstallerScript
 			}
 		}
 
-		/* Get the product_stockroom_xref  */
+		// Get the product_stockroom_xref 
 		$q = "SHOW COLUMNS FROM #__redshop_product_attribute_stockroom_xref ";
 		$db->setQuery($q);
 		$cols = $db->loadObjectList('Field');
 
 		if (is_array($cols))
 		{
-			/* Check if we have the delivery_time column */
+			// Check if we have the delivery_time column
 			if (!array_key_exists('preorder_stock', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_product_attribute_stockroom_xref ADD COLUMN preorder_stock INT( 11 ) NOT NULL";
@@ -2808,7 +2808,7 @@ class Com_RedshopInstallerScript
 
 		if (is_array($cols))
 		{
-			/* Check if we have the phone column */
+			// Check if we have the phone column
 			if (!array_key_exists('phone', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_order_users_info ADD COLUMN `phone` VARCHAR( 50 ) NOT NULL";
@@ -2816,7 +2816,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the address column */
+			// Check if we have the address column
 			if (!array_key_exists('address', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_order_users_info ADD COLUMN `address` VARCHAR( 255 ) NOT NULL";
@@ -2824,7 +2824,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the zipcode column */
+			// Check if we have the zipcode column
 			if (array_key_exists('zipcode', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_order_users_info CHANGE `zipcode` `zipcode` VARCHAR( 255 ) NOT NULL";
@@ -2832,7 +2832,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the city column */
+			// Check if we have the city column
 			if (!array_key_exists('city', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_order_users_info ADD COLUMN `city` VARCHAR( 255 ) NOT NULL";
@@ -2840,7 +2840,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the user_email column */
+			// Check if we have the user_email column
 			if (!array_key_exists('user_email', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_order_users_info ADD COLUMN `user_email` VARCHAR( 255 ) NOT NULL";
@@ -2848,7 +2848,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the company_name column */
+			// Check if we have the company_name column
 			if (!array_key_exists('company_name', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_order_users_info ADD COLUMN `company_name` VARCHAR( 255 ) NOT NULL";
@@ -2856,7 +2856,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the requesting_tax_exempt column */
+			// Check if we have the requesting_tax_exempt column
 			if (!array_key_exists('requesting_tax_exempt', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_order_users_info ADD COLUMN `requesting_tax_exempt` TINYINT NOT NULL";
@@ -2864,7 +2864,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the ean_number column */
+			// Check if we have the ean_number column
 			if (!array_key_exists('ean_number', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_order_users_info ADD COLUMN `ean_number` VARCHAR( 250 ) NOT NULL";
@@ -2872,7 +2872,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the thirdparty_email column */
+			// Check if we have the thirdparty_email column
 			if (!array_key_exists('thirdparty_email', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_order_users_info ADD COLUMN `thirdparty_email` VARCHAR( 255 ) NOT NULL";
@@ -2887,7 +2887,7 @@ class Com_RedshopInstallerScript
 
 		if (is_array($cols))
 		{
-			/* Check if we have the phone column */
+			// Check if we have the phone column
 			if (!array_key_exists('shipping_class', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_shipping_rate CHANGE COLUMN `shipping_id` `shipping_class` VARCHAR(255) NOT NULL";
@@ -2928,7 +2928,7 @@ class Com_RedshopInstallerScript
 
 		if (is_array($cols))
 		{
-			/* Check if we have the wrapper_use_to_all column */
+			// Check if we have the wrapper_use_to_all column
 			if (!array_key_exists('wrapper_use_to_all', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_wrapper ADD COLUMN `wrapper_use_to_all` TINYINT( 4 ) NOT NULL";
@@ -2936,7 +2936,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the published column */
+			// Check if we have the published column
 			if (!array_key_exists('published', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_wrapper ADD COLUMN `published` TINYINT( 4 ) NOT NULL";
@@ -2944,7 +2944,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the createdate column */
+			// Check if we have the createdate column
 			if (!array_key_exists('createdate', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_wrapper ADD COLUMN `createdate` TINYINT( 4 ) NOT NULL";
@@ -2952,7 +2952,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the product_id column */
+			// Check if we have the product_id column
 			if (array_key_exists('product_id', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_wrapper CHANGE `product_id` `product_id` VARCHAR( 255 ) NOT NULL";
@@ -2960,14 +2960,14 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 		}
-		/* Get the current columns for redshop product_category_xref */
+		// Get the current columns for redshop product_category_xref
 		$q = "SHOW COLUMNS FROM #__redshop_product_category_xref";
 		$db->setQuery($q);
 		$cols = $db->loadObjectList('Field');
 
 		if (is_array($cols))
 		{
-			/* Check if we have the voucher_left column */
+			// Check if we have the voucher_left column
 			if (!array_key_exists('ordering', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_product_category_xref ADD COLUMN ordering INT NOT NULL ";
@@ -2976,14 +2976,14 @@ class Com_RedshopInstallerScript
 			}
 		}
 
-		/* Get the current columns for redshop quotation_item */
+		// Get the current columns for redshop quotation_item
 		$q = "SHOW COLUMNS FROM #__redshop_quotation_item";
 		$db->setQuery($q);
 		$cols = $db->loadObjectList('Field');
 
 		if (is_array($cols))
 		{
-			/* Check if we have the is_giftcard column */
+			// Check if we have the is_giftcard column
 			if (!array_key_exists('is_giftcard', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_quotation_item ADD is_giftcard TINYINT( 4 ) NOT NULL ";
@@ -2991,7 +2991,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the mycart_accessory column */
+			// Check if we have the mycart_accessory column
 			if (!array_key_exists('mycart_accessory', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_quotation_item ADD mycart_accessory TEXT NOT NULL ";
@@ -2999,7 +2999,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the actualitem_price column */
+			// Check if we have the actualitem_price column
 			if (!array_key_exists('actualitem_price', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_quotation_item ADD actualitem_price DECIMAL( 15, 4 ) NOT NULL ";
@@ -3007,7 +3007,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the product_wrapperid column */
+			// Check if we have the product_wrapperid column
 			if (!array_key_exists('product_wrapperid', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_quotation_item ADD product_wrapperid INT( 11 ) NOT NULL ";
@@ -3015,7 +3015,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the wrapper_price column */
+			// Check if we have the wrapper_price column
 			if (!array_key_exists('wrapper_price', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_quotation_item ADD wrapper_price DECIMAL( 15, 2 ) NOT NULL ";
@@ -3023,7 +3023,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the product_excl_price column */
+			// Check if we have the product_excl_price column
 			if (!array_key_exists('product_excl_price', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_quotation_item ADD product_excl_price DECIMAL( 15, 4 ) NOT NULL ";
@@ -3031,7 +3031,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the product_final_price column */
+			// Check if we have the product_final_price column
 			if (!array_key_exists('product_final_price', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_quotation_item ADD product_final_price DECIMAL( 15, 4 ) NOT NULL ";
@@ -3040,14 +3040,14 @@ class Com_RedshopInstallerScript
 			}
 		}
 
-		/* Get the current columns for redshop quotation */
+		// Get the current columns for redshop quotation
 		$q = "SHOW COLUMNS FROM #__redshop_quotation";
 		$db->setQuery($q);
 		$cols = $db->loadObjectList('Field');
 
 		if (is_array($cols))
 		{
-			/* Check if we have the order_id column */
+			// Check if we have the order_id column
 			if (!array_key_exists('order_id', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_quotation ADD order_id INT(11) NOT NULL ";
@@ -3055,7 +3055,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the quotation_encrkey column */
+			// Check if we have the quotation_encrkey column
 			if (!array_key_exists('quotation_encrkey', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_quotation ADD quotation_encrkey varchar(255) NOT NULL ";
@@ -3063,7 +3063,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the quotation_discount column */
+			// Check if we have the quotation_discount column
 			if (!array_key_exists('quotation_discount', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_quotation ADD quotation_discount DECIMAL( 15, 4 ) NOT NULL ";
@@ -3071,7 +3071,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the quotation_tax column */
+			// Check if we have the quotation_tax column
 			if (!array_key_exists('quotation_tax', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_quotation ADD quotation_tax DECIMAL( 15, 2 ) NOT NULL ";
@@ -3079,7 +3079,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the user_email column */
+			// Check if we have the user_email column
 			if (!array_key_exists('user_email', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_quotation ADD user_email VARCHAR( 255 ) NOT NULL ";
@@ -3087,7 +3087,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the user_email column */
+			// Check if we have the user_email column
 			if (!array_key_exists('quotation_special_discount', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_quotation ADD quotation_special_discount DECIMAL( 15, 4 ) NOT NULL ";
@@ -3096,7 +3096,7 @@ class Com_RedshopInstallerScript
 			}
 		}
 
-		/* Check installed payment plugins */
+		// Check installed payment plugins
 
 		// 	update order_payment table
 		$q = "SHOW COLUMNS FROM #__redshop_order_payment";
@@ -3105,7 +3105,7 @@ class Com_RedshopInstallerScript
 
 		if (is_array($cols))
 		{
-			/* Check if we have the order_payment_cardname */
+			// Check if we have the order_payment_cardname
 			if (!array_key_exists('order_payment_cardname', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_order_payment ADD `order_payment_cardname` BLOB NOT NULL AFTER `order_payment_code`";
@@ -3113,7 +3113,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the order_payment_ccv */
+			// Check if we have the order_payment_ccv
 			if (!array_key_exists('order_payment_ccv', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_order_payment ADD `order_payment_ccv` BLOB NOT NULL AFTER `order_payment_cardname`";
@@ -3121,7 +3121,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the order_payment_ccv */
+			// Check if we have the order_payment_ccv
 			if (!array_key_exists('payment_method_class', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_order_payment ADD `payment_method_class`  VARCHAR( 256 ) NULL AFTER `order_payment_name`";
@@ -3129,7 +3129,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the order_payment_ccv */
+			// Check if we have the order_payment_ccv
 			if (!array_key_exists('authorize_status', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_order_payment ADD `authorize_status`  VARCHAR( 255 ) NULL AFTER `payment_method_class`";
@@ -3137,7 +3137,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the order_transfee */
+			// Check if we have the order_transfee
 			if (!array_key_exists('order_transfee', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_order_payment ADD `order_transfee`  DOUBLE( 10, 2 ) NULL ";
@@ -3153,7 +3153,7 @@ class Com_RedshopInstallerScript
 
 		if (is_array($cols))
 		{
-			/* Check if we have the discount_amount column */
+			// Check if we have the discount_amount column
 			if (array_key_exists('discount_amount', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_discount_product CHANGE `discount_amount` `discount_amount` DECIMAL( 10, 2 ) NOT NULL ";
@@ -3161,7 +3161,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the category_ids column */
+			// Check if we have the category_ids column
 			if (!array_key_exists('category_ids', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_discount_product ADD `category_ids` TEXT NOT NULL ";
@@ -3178,7 +3178,7 @@ class Com_RedshopInstallerScript
 
 		if (is_array($cols))
 		{
-			/* Check if we have the discount_amount column */
+			// Check if we have the discount_amount column
 			if (array_key_exists('product_id', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_wishlist CHANGE `product_id` `wishlist_name` VARCHAR( 100 ) NOT NULL ";
@@ -3195,7 +3195,7 @@ class Com_RedshopInstallerScript
 
 		if (is_array($cols))
 		{
-			/* Check if we have the discount_amount column */
+			// Check if we have the discount_amount column
 			if (!array_key_exists('mail_bcc', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_mail ADD `mail_bcc` VARCHAR( 255 ) NOT NULL ";
@@ -3211,7 +3211,7 @@ class Com_RedshopInstallerScript
 
 		if (is_array($cols))
 		{
-			/* Check if we have the discount_amount column */
+			// Check if we have the discount_amount column
 			if (!array_key_exists('country_jtext', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_country ADD `country_jtext` VARCHAR( 255 ) NOT NULL ";
@@ -3228,7 +3228,7 @@ class Com_RedshopInstallerScript
 
 		if (is_array($cols))
 		{
-			/* Check if we have the giftcard_value column */
+			// Check if we have the giftcard_value column
 			if (!array_key_exists('giftcard_value', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_giftcard ADD `giftcard_value` decimal(10,3) NOT NULL ";
@@ -3265,7 +3265,7 @@ class Com_RedshopInstallerScript
 
 		if (is_array($cols))
 		{
-			/* Check if we have the discount_product column */
+			// Check if we have the discount_product column
 			if (!array_key_exists('discount_product', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_mass_discount ADD `discount_product` LONGTEXT NOT NULL ";
@@ -3273,7 +3273,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the discount_name column */
+			// Check if we have the discount_name column
 			if (!array_key_exists('discount_name', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_mass_discount ADD `discount_name` LONGTEXT NOT NULL ";
@@ -3289,7 +3289,7 @@ class Com_RedshopInstallerScript
 
 		if (is_array($cols))
 		{
-			/* Check if we have the product_serial_number column */
+			// Check if we have the product_serial_number column
 			if (!array_key_exists('product_serial_number', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_product_download ADD `product_serial_number` varchar(255) NOT NULL ";
@@ -3304,7 +3304,7 @@ class Com_RedshopInstallerScript
 
 		if (is_array($cols))
 		{
-			/* Check if we have the order_status column */
+			// Check if we have the order_status column
 			if (!array_key_exists('order_status', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_template ADD `order_status` varchar(255) NOT NULL ";
@@ -3312,7 +3312,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the payment_methods column */
+			// Check if we have the payment_methods column
 			if (!array_key_exists('payment_methods', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_template ADD `payment_methods` varchar(255) NOT NULL ";
@@ -3320,7 +3320,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the shipping_methods column */
+			// Check if we have the shipping_methods column
 			if (!array_key_exists('shipping_methods', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_template ADD `shipping_methods` varchar(255) NOT NULL ";
@@ -3328,7 +3328,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the checked_out column */
+			// Check if we have the checked_out column
 			if (!array_key_exists('checked_out', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_template ADD COLUMN `checked_out` INT NOT NULL";
@@ -3336,7 +3336,7 @@ class Com_RedshopInstallerScript
 				$db->query();
 			}
 
-			/* Check if we have the checked_out_time column */
+			// Check if we have the checked_out_time column
 			if (!array_key_exists('checked_out_time', $cols))
 			{
 				$q = "ALTER IGNORE TABLE #__redshop_template ADD COLUMN `checked_out_time` DATETIME NOT NULL ";
@@ -3969,17 +3969,17 @@ class Com_RedshopInstallerScript
 			</table>
 		</center>
 		<?php
-		/* Install the sh404SEF router files */
+		// Install the sh404SEF router files
 		JLoader::import('joomla.filesystem.file');
 		JLoader::import('joomla.filesystem.folder');
 		$sh404sefext   = JPATH_SITE . '/components/com_sh404sef/sef_ext';
 		$sh404sefmeta  = JPATH_SITE . '/components/com_sh404sef/meta_ext';
 		$sh404sefadmin = JPATH_SITE . '/administrator/components/com_sh404sef';
 		$redadmin      = JPATH_SITE . '/administrator/components/com_redshop/extras';
-		/* Check if sh404SEF is installed */
+		// Check if sh404SEF is installed
 		if (JFolder::exists(JPATH_SITE . '/components/com_sh404sef'))
 		{
-			/* Copy the plugin */
+			// Copy the plugin
 			if (!JFile::copy($redadmin . '/sh404sef/sef_ext/com_redshop.php', $sh404sefext . '/com_redshop.php'))
 			{
 				echo JText::_('COM_REDSHOP_FAILED_TO_COPY_SH404SEF_EXTENSION_PLUGIN_FILE');
