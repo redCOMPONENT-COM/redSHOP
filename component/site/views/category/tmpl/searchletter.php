@@ -79,7 +79,7 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 
 	for ($j = 0; $j < count($getAllproductArrayListwithfirst); $j++)
 	{
-		$product = & $getAllproductArrayListwithfirst[$j];
+		$product = $getAllproductArrayListwithfirst[$j];
 		$catid   = $producthelper->getCategoryProduct($product->product_id);
 
 		if (!is_object($product))

@@ -20,15 +20,15 @@ class searchViewsearch extends JView
 		$app = JFactory::getApplication();
 
 		$redTemplate = new Redtemplate;
-		$lists = array();
+		$lists       = array();
 
 		$uri = JFactory::getURI();
 
-		$params = $app->getParams('com_redshop');
+		$params   = $app->getParams('com_redshop');
 		$document = JFactory::getDocument();
 
 		$layout = JRequest::getVar('layout', '');
-		$model = $this->getModel('search');
+		$model  = $this->getModel('search');
 
 		if ($layout == 'default')
 		{
@@ -36,7 +36,7 @@ class searchViewsearch extends JView
 			$document->setTitle($pagetitle);
 		}
 
-		$option = JRequest::getVar('option');
+		$option   = JRequest::getVar('option');
 		$document = JFactory::getDocument();
 		JHTML::Script('common.js', 'components/com_redshop/assets/js/', false);
 
@@ -56,12 +56,12 @@ class searchViewsearch extends JView
 
 		if ($layout == 'redfilter')
 		{
-			$session = JSession::getInstance('none', array());
-			$tagid = JRequest::getInt('tagid', 0);
-			$typeid = JRequest::getInt('typeid', 0);
-			$remove = JRequest::getVar('remove', 0);
-			$Itemid = JRequest::getVar('Itemid', 0);
-			$cntproduct = JRequest::getVar('cnt', 0);
+			$session      = JSession::getInstance('none', array());
+			$tagid        = JRequest::getInt('tagid', 0);
+			$typeid       = JRequest::getInt('typeid', 0);
+			$remove       = JRequest::getVar('remove', 0);
+			$Itemid       = JRequest::getVar('Itemid', 0);
+			$cntproduct   = JRequest::getVar('cnt', 0);
 			$getredfilter = $session->get('redfilter');
 
 			if (count($getredfilter) == 0)
@@ -107,8 +107,8 @@ class searchViewsearch extends JView
 			}
 		}
 
-		$order_data = redhelper::getOrderByList();
-		$getorderby = JRequest::getVar('order_by', DEFAULT_PRODUCT_ORDERING_METHOD);
+		$order_data            = redhelper::getOrderByList();
+		$getorderby            = JRequest::getVar('order_by', DEFAULT_PRODUCT_ORDERING_METHOD);
 		$lists['order_select'] = JHTML::_('select.genericlist', $order_data, 'order_by', 'class="inputbox" size="1" onchange="document.orderby_form.submit();" ', 'value', 'text', $getorderby);
 
 		$templatedata = $model->getCategoryTemplet();
@@ -118,8 +118,8 @@ class searchViewsearch extends JView
 			$templatedata[$i]->template_desc = $redTemplate->readtemplateFile($templatedata[$i]->template_section, $templatedata[$i]->template_name);
 		}
 
-		$search = & $this->get('Data');
-		$pagination = & $this->get('Pagination');
+		$search     = $this->get('Data');
+		$pagination = $this->get('Pagination');
 
 		$this->assignRef('params', $params);
 		$this->assignRef('limit', $model->getState('limit'));
@@ -145,40 +145,40 @@ class searchViewsearch extends JView
 			require_once JPATH_COMPONENT . '/helpers/extra_field.php';
 			require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/text_library.php';
 
-			$dispatcher = JDispatcher::getInstance();
-			$redTemplate = new Redtemplate;
+			$dispatcher       = JDispatcher::getInstance();
+			$redTemplate      = new Redtemplate;
 			$Redconfiguration = new Redconfiguration;
-			$producthelper = new producthelper;
-			$extraField = new extraField;
-			$texts = new text_library;
-			$stockroomhelper = new rsstockroomhelper;
+			$producthelper    = new producthelper;
+			$extraField       = new extraField;
+			$texts            = new text_library;
+			$stockroomhelper  = new rsstockroomhelper;
 
-			$option = JRequest::getCmd('option');
-			$Itemid = JRequest::getInt('Itemid');
+			$option      = JRequest::getCmd('option');
+			$Itemid      = JRequest::getInt('Itemid');
 			$search_type = JRequest::getCmd('search_type');
-			$cid = JRequest::getInt('category_id');
+			$cid         = JRequest::getInt('category_id');
 
-			$manisrch = $this->search;
+			$manisrch       = $this->search;
 			$manufacture_id = $manisrch[0]->manufacturer_id;
-			$templateid = JRequest::getInt('templateid');
+			$templateid     = JRequest::getInt('templateid');
 
 			// Cmd removes space between to words
-			$keyword = JRequest::getVar('keyword');
-			$layout = JRequest::getCmd('layout', 'default');
+			$keyword        = JRequest::getVar('keyword');
+			$layout         = JRequest::getCmd('layout', 'default');
 
-			$db = jFactory::getDBO();
+			$db    = jFactory::getDBO();
 			$query = 'SELECT category_name'
 				. ' FROM #__redshop_category  '
 				. 'WHERE category_id=' . JRequest::getInt('cid');
 			$db->setQuery($query);
 			$catname_array = $db->loadObjectList();
-			$cat_name = $catname_array[0]->category_name;
+			$cat_name      = $catname_array[0]->category_name;
 
-			$session = JFactory::getSession();
-			$model = $this->getModel('search');
-			$limit = $this->limit;
+			$session    = JFactory::getSession();
+			$model      = $this->getModel('search');
+			$limit      = $this->limit;
 			$limitstart = JRequest::getVar('limitstart', 0);
-			$total = $model->_total;
+			$total      = $model->_total;
 
 			JHTML::_('behavior.tooltip');
 			JHTMLBehavior::modal();
@@ -214,11 +214,11 @@ class searchViewsearch extends JView
 			if (strstr($template_desc, "{product_display_limit}"))
 			{
 				$endlimit = $model->getProductPerPage();
-				$limit = JRequest::getInt('limit', $endlimit, '', 'int');
+				$limit    = JRequest::getInt('limit', $endlimit, '', 'int');
 			}
 
 			$template_org = $template_desc;
-			$template_d1 = explode("{category_loop_start}", $template_org);
+			$template_d1  = explode("{category_loop_start}", $template_org);
 
 			if (count($template_d1) > 1)
 			{
@@ -233,9 +233,9 @@ class searchViewsearch extends JView
 			$template_org = str_replace($category_tmpl, "", $template_org);
 			$template_org = str_replace("{category_loop_start}", "", $template_org);
 			$template_org = str_replace("{category_loop_end}", "", $template_org);
-			$print = JRequest::getVar('print');
-			$p_url = @ explode('?', $_SERVER['REQUEST_URI']);
-			$print_tag = '';
+			$print        = JRequest::getVar('print');
+			$p_url        = @ explode('?', $_SERVER['REQUEST_URI']);
+			$print_tag    = '';
 
 			if ($print)
 			{
@@ -250,8 +250,8 @@ class searchViewsearch extends JView
 			// Skip html if nosubcategory
 			if (strstr($template_org, "{if subcats}"))
 			{
-				$template_d1 = explode("{if subcats}", $template_org);
-				$template_d2 = explode("{subcats end if}", $template_d1[1]);
+				$template_d1  = explode("{if subcats}", $template_org);
+				$template_d2  = explode("{subcats end if}", $template_d1[1]);
 				$template_org = $template_d1[0] . $template_d2[1];
 			}
 
@@ -281,12 +281,13 @@ class searchViewsearch extends JView
 			// Replace redproductfilder filter tag
 			if (strstr($template_org, "{redproductfinderfilter:"))
 			{
-				if (file_exists(JPATH_SITE . '/components/com_redproductfinder/helpers/redproductfinder_helper.php'))
+				$redProductFinerHelper = JPATH_SITE . "/components/com_redproductfinder/helpers/redproductfinder_helper.php";
+				if (file_exists($redProductFinerHelper))
 				{
-					include_once JPATH_SITE . '/components/com_redproductfinder/helpers/redproductfinder_helper.php';
+					include_once $redProductFinerHelper;
 					$redproductfinder_helper = new redproductfinder_helper;
-					$hdnFields = array('texpricemin' => '0', 'texpricemax' => '0', 'manufacturer_id' => $filter_by, 'category_template' => $templateid);
-					$hide_filter_flag = false;
+					$hdnFields               = array('texpricemin' => '0', 'texpricemax' => '0', 'manufacturer_id' => $filter_by, 'category_template' => $templateid);
+					$hide_filter_flag        = false;
 
 					if ($this->_id)
 					{
@@ -301,13 +302,13 @@ class searchViewsearch extends JView
 			}
 
 			// Replace redproductfilder filter tag end here
-			$template_d1 = explode("{product_loop_start}", $template_org);
-			$template_d2 = explode("{product_loop_end}", $template_d1[1]);
+			$template_d1       = explode("{product_loop_start}", $template_org);
+			$template_d2       = explode("{product_loop_end}", $template_d1[1]);
 			$template_tmp_desc = $template_d2[0];
-			$template_desc = $template_d2[0];
+			$template_desc     = $template_d2[0];
 
 			// Order By
-			$order_by = "";
+			$order_by     = "";
 			$orderby_form = "<form name='orderby_form' action='' method='post' >";
 			$orderby_form .= $this->lists['order_select'];
 			$orderby_form .= "<input type='hidden' name='view' value='search'>
@@ -322,12 +323,12 @@ class searchViewsearch extends JView
 				$order_by = $orderby_form;
 			}
 
-			$extraFieldName = $extraField->getSectionFieldNameArray(1, 1, 1);
+			$extraFieldName     = $extraField->getSectionFieldNameArray(1, 1, 1);
 			$attribute_template = $producthelper->getAttributeTemplate($template_desc);
 
 			$total_product = $model->_total;
-			$endlimit = $this->limit;
-			$start = JRequest::getInt('limitstart', 0, '', 'int');
+			$endlimit      = $this->limit;
+			$start         = JRequest::getInt('limitstart', 0, '', 'int');
 
 			if (strstr($template_org, "{pagination}"))
 			{
@@ -351,40 +352,40 @@ class searchViewsearch extends JView
 			}
 
 			$tagarray = $texts->getTextLibraryTagArray();
-			$data = "";
+			$data     = "";
 
 			for ($i = 0; $i < count($this->search); $i++)
 			{
-				$data_add = "";
+				$data_add   = "";
 				$thum_image = "";
-				$pname = $Redconfiguration->maxchar($this->search[$i]->product_name, CATEGORY_PRODUCT_TITLE_MAX_CHARS, CATEGORY_PRODUCT_TITLE_END_SUFFIX);
+				$pname      = $Redconfiguration->maxchar($this->search[$i]->product_name, CATEGORY_PRODUCT_TITLE_MAX_CHARS, CATEGORY_PRODUCT_TITLE_END_SUFFIX);
 
 				if ($search_type == 'product_number')
 				{
 					$product_number = str_ireplace($keyword, "<b style='color: red;'>" . $keyword . "</b>", $this->search[$i]->product_number);
-					$pro_s_desc = $this->search[$i]->product_s_desc;
-					$pro_desc = $this->search[$i]->product_desc;
+					$pro_s_desc     = $this->search[$i]->product_s_desc;
+					$pro_desc       = $this->search[$i]->product_desc;
 				}
 				else
 				{
 					$product_number = $this->search[$i]->product_number;
-					$pro_s_desc = $this->search[$i]->product_s_desc;
-					$pro_desc = $this->search[$i]->product_desc;
+					$pro_s_desc     = $this->search[$i]->product_s_desc;
+					$pro_desc       = $this->search[$i]->product_desc;
 
 					if (!in_array($keyword, $tagarray))
 					{
-						$pname = str_ireplace($keyword, "<b style='color: red;'>" . $keyword . "</b>", $pname);
+						$pname      = str_ireplace($keyword, "<b style='color: red;'>" . $keyword . "</b>", $pname);
 						$pro_s_desc = str_ireplace($keyword, "<b style='color: red;'>" . $keyword . "</b>", $pro_s_desc);
-						$pro_desc = str_ireplace($keyword, "<b style='color: red;'>" . $keyword . "</b>", $pro_desc);
+						$pro_desc   = str_ireplace($keyword, "<b style='color: red;'>" . $keyword . "</b>", $pro_desc);
 					}
 				}
 
 				$pro_s_desc = $Redconfiguration->maxchar($pro_s_desc, CATEGORY_PRODUCT_DESC_MAX_CHARS, CATEGORY_PRODUCT_DESC_END_SUFFIX);
-				$link = JRoute::_('index.php?option=' . $option . '&view=product&pid=' . $this->search[$i]->product_id . '&Itemid=' . $Itemid);
+				$link       = JRoute::_('index.php?option=' . $option . '&view=product&pid=' . $this->search[$i]->product_id . '&Itemid=' . $Itemid);
 
 				if (strstr($template_desc, '{product_name}'))
 				{
-					$pname = "<a href='" . $link . "'>" . $pname . "</a>";
+					$pname    = "<a href='" . $link . "'>" . $pname . "</a>";
 					$data_add = str_replace("{product_name}", $pname, $template_desc);
 				}
 
@@ -442,14 +443,14 @@ class searchViewsearch extends JView
 				if (strstr($data_add, '{related_product_lightbox:'))
 				{
 					$related_product = $producthelper->getRelatedProduct($this->search[$i]->product_id);
-					$rtlnone = explode("{related_product_lightbox:", $data_add);
-					$rtlntwo = explode("}", $rtlnone[1]);
-					$rtlnthree = explode(":", $rtlntwo[0]);
-					$rtln = $rtlnthree[0];
-					$rtlnfwidth = (isset($rtlnthree[1])) ? $rtlnthree[1] : "900";
-					$rtlnwidthtag = (isset($rtlnthree[1])) ? ":" . $rtlnthree[1] : "";
+					$rtlnone         = explode("{related_product_lightbox:", $data_add);
+					$rtlntwo         = explode("}", $rtlnone[1]);
+					$rtlnthree       = explode(":", $rtlntwo[0]);
+					$rtln            = $rtlnthree[0];
+					$rtlnfwidth      = (isset($rtlnthree[1])) ? $rtlnthree[1] : "900";
+					$rtlnwidthtag    = (isset($rtlnthree[1])) ? ":" . $rtlnthree[1] : "";
 
-					$rtlnfheight = (isset($rtlnthree[2])) ? $rtlnthree[2] : "600";
+					$rtlnfheight   = (isset($rtlnthree[2])) ? $rtlnthree[2] : "600";
 					$rtlnheighttag = (isset($rtlnthree[2])) ? ":" . $rtlnthree[2] : "";
 
 					$rtlntag = "{related_product_lightbox:$rtln$rtlnwidthtag$rtlnheighttag}";
@@ -457,7 +458,7 @@ class searchViewsearch extends JView
 					if (count($related_product) > 0)
 					{
 						$linktortln = JUri::root() . "index.php?option=com_redshop&view=product&pid=" . $this->search[$i]->product_id . "&tmpl=component&template=" . $rtln . "&for=rtln";
-						$rtlna = '<a class="modal" href="' . $linktortln . '" rel="{handler:\'iframe\',size:{x:' . $rtlnfwidth . ',y:' . $rtlnfheight . '}}" >' . JText::_('COM_REDSHOP_RELATED_PRODUCT_LIST_IN_LIGHTBOX') . '</a>';
+						$rtlna      = '<a class="modal" href="' . $linktortln . '" rel="{handler:\'iframe\',size:{x:' . $rtlnfwidth . ',y:' . $rtlnfheight . '}}" >' . JText::_('COM_REDSHOP_RELATED_PRODUCT_LIST_IN_LIGHTBOX') . '</a>';
 					}
 					else
 					{
@@ -505,14 +506,14 @@ class searchViewsearch extends JView
 				}
 
 				$hidden_thumb_image = "<input type='hidden' name='prd_main_imgwidth' id='prd_main_imgwidth' value='" . $cw_thumb . "'><input type='hidden' name='prd_main_imgheight' id='prd_main_imgheight' value='" . $ch_thumb . "'>";
-				$thum_image = $producthelper->getProductImage($this->search[$i]->product_id, $link, $cw_thumb, $ch_thumb);
-				$data_add = str_replace($cimg_tag, $thum_image . $hidden_thumb_image, $data_add);
+				$thum_image         = $producthelper->getProductImage($this->search[$i]->product_id, $link, $cw_thumb, $ch_thumb);
+				$data_add           = str_replace($cimg_tag, $thum_image . $hidden_thumb_image, $data_add);
 
 				// More documents
 				if (strstr($data_add, "{more_documents}"))
 				{
 					$media_documents = $producthelper->getAdditionMediaImage($this->search[$i]->product_id, "product", "document");
-					$more_doc = '';
+					$more_doc        = '';
 
 					for ($m = 0; $m < count($media_documents); $m++)
 					{
@@ -538,10 +539,10 @@ class searchViewsearch extends JView
 				// More documents end
 
 				/************************************************ user fields*******************************************************/
-				$hidden_userfield = "";
-				$returnArr = $producthelper->getProductUserfieldFromTemplate($data_add);
+				$hidden_userfield   = "";
+				$returnArr          = $producthelper->getProductUserfieldFromTemplate($data_add);
 				$template_userfield = $returnArr[0];
-				$userfieldArr = $returnArr[1];
+				$userfieldArr       = $returnArr[1];
 
 				if ($template_userfield != "")
 				{
@@ -577,16 +578,16 @@ class searchViewsearch extends JView
 				elseif (AJAX_CART_BOX)
 				{
 					$ajax_detail_template_desc = "";
-					$ajax_detail_template = $producthelper->getAjaxDetailboxTemplate($this->search[$i]);
+					$ajax_detail_template      = $producthelper->getAjaxDetailboxTemplate($this->search[$i]);
 
 					if (count($ajax_detail_template) > 0)
 					{
 						$ajax_detail_template_desc = $ajax_detail_template->template_desc;
 					}
 
-					$returnArr = $producthelper->getProductUserfieldFromTemplate($ajax_detail_template_desc);
+					$returnArr          = $producthelper->getProductUserfieldFromTemplate($ajax_detail_template_desc);
 					$template_userfield = $returnArr[0];
-					$userfieldArr = $returnArr[1];
+					$userfieldArr       = $returnArr[1];
 
 					if ($template_userfield != "")
 					{
@@ -620,7 +621,7 @@ class searchViewsearch extends JView
 				// ProductFinderDatepicker Extra Field Start
 
 				$fieldArray = $extraField->getSectionFieldList(17, 0, 0);
-				$data_add = $producthelper->getProductFinderDatepickerValue($data_add, $this->search[$i]->product_id, $fieldArray);
+				$data_add   = $producthelper->getProductFinderDatepickerValue($data_add, $this->search[$i]->product_id, $fieldArray);
 
 				// ProductFinderDatepicker Extra Field End
 
@@ -631,9 +632,9 @@ class searchViewsearch extends JView
 
 				if ($manufacturer_id != 0)
 				{
-					$manufacturer_data = $producthelper->getSection("manufacturer", $manufacturer_id);
+					$manufacturer_data      = $producthelper->getSection("manufacturer", $manufacturer_id);
 					$manufacturer_link_href = JRoute::_('index.php?option=com_redshop&view=manufacturers&layout=detail&mid=' . $manufacturer_id . '&Itemid=' . $Itemid);
-					$manufacturer_name = "";
+					$manufacturer_name      = "";
 
 					if (count($manufacturer_data) > 0)
 					{
@@ -672,7 +673,7 @@ class searchViewsearch extends JView
 
 				if (count($childproduct) > 0)
 				{
-					$isChilds = true;
+					$isChilds   = true;
 					$attributes = array();
 				}
 				else
@@ -708,21 +709,21 @@ class searchViewsearch extends JView
 				$data .= $data_add;
 			}
 
-			$app = JFactory::getApplication();
+			$app    = JFactory::getApplication();
 			$router = $app->getRouter();
 
 			$getorderby = JRequest::getVar('order_by', DEFAULT_PRODUCT_ORDERING_METHOD);
 
 			$vars = array(
-				'option' => 'com_redshop',
-				'view' => 'search',
-				'layout' => $layout,
-				'keyword' => $keyword,
+				'option'         => 'com_redshop',
+				'view'           => 'search',
+				'layout'         => $layout,
+				'keyword'        => $keyword,
 				'manufacture_id' => $manufacture_id,
-				'order_by' => $getorderby,
-				'category_id' => $cid,
-				'Itemid' => $Itemid,
-				'limit' => $limit
+				'order_by'       => $getorderby,
+				'category_id'    => $cid,
+				'Itemid'         => $Itemid,
+				'limit'          => $limit
 			);
 			$router->setVars($vars);
 			unset($vars);
@@ -730,11 +731,11 @@ class searchViewsearch extends JView
 			if (strstr($template_org, "{pagination}"))
 			{
 				$pagination = new redPagination($total_product, $start, $endlimit);
-				$slidertag = $pagination->getPagesLinks();
+				$slidertag  = $pagination->getPagesLinks();
 
 				if (strstr($template_org, "{product_display_limit}"))
 				{
-					$slidertag = "<form action='' method='post'><input type='hidden' name='keyword' value='$keyword'>
+					$slidertag    = "<form action='' method='post'><input type='hidden' name='keyword' value='$keyword'>
 			<input type='hidden' name='category_id' value='$cid'>
 			<input type='hidden' name='manufacture_id' value='$manufacture_id'>
 			<input type='hidden' name='templateid' value='$templateid'> " . $pagination->getListFooter() . "</form>";
@@ -749,8 +750,8 @@ class searchViewsearch extends JView
 
 			if (strstr($template_org, "perpagelimit:"))
 			{
-				$perpage = explode('{perpagelimit:', $template_org);
-				$perpage = explode('}', $perpage[1]);
+				$perpage      = explode('{perpagelimit:', $template_org);
+				$perpage      = explode('}', $perpage[1]);
 				$template_org = str_replace("{perpagelimit:" . intval($perpage[0]) . "}", "", $template_org);
 			}
 

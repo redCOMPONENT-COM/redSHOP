@@ -38,8 +38,8 @@ class ordersVieworders extends JView
 		$limit      = $app->getUserStateFromRequest($option . 'limit', 'limit', 10, 'int');
 		$limitstart = JRequest::getVar('limitstart', 0, '', 'int');
 
-		$detail           =& $this->get('data');
-		$this->pagination = & $this->get('Pagination');
+		$detail           = $this->get('data');
+		$this->pagination = $this->get('Pagination');
 
 		$this->assignRef('detail', $detail);
 		$this->assignRef('params', $params);
