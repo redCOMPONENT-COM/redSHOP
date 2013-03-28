@@ -26,7 +26,7 @@ class plgRedshop_paymentrs_payment_paymill extends JPlugin
 	 * NOT references.  This causes problems with cross-referencing necessary for the
 	 * observer design pattern.
 	 */
-	function plgRedshop_paymentrs_payment_paymill(&$subject)
+	public function plgRedshop_paymentrs_payment_paymill(&$subject)
 	{
 		// Load plugin parameters
 		parent::__construct($subject);
@@ -161,7 +161,7 @@ class plgRedshop_paymentrs_payment_paymill extends JPlugin
 	/**
 	 * Plugin method with the same name as the event will be called automatically.
 	 */
-	function getOrderAndCcdata($element, $data)
+	public function getOrderAndCcdata($element, $data)
 	{
 		$mainframe = JFactory::getApplication();
 
