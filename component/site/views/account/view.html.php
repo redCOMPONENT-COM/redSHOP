@@ -66,7 +66,7 @@ class accountViewaccount extends JView
 			$maxcategory = $params->get('maxcategory', 5);
 			$limit       = $app->getUserStateFromRequest($context . 'limit', 'limit', $maxcategory, 5);
 			$limitstart  = JRequest::getVar('limitstart', 0, '', 'int');
-			$total       =& $this->get('total');
+			$total       = $this->get('total');
 			$pagination  = new redPagination($total, $limitstart, $limit);
 			$this->assignRef('pagination', $pagination);
 		}
@@ -93,7 +93,7 @@ class accountViewaccount extends JView
 			$maxcategory = $params->get('maxcategory', 5);
 			$limit       = $app->getUserStateFromRequest($context . 'limit', 'limit', $maxcategory, 5);
 			$limitstart  = JRequest::getVar('limitstart', 0, '', 'int');
-			$total       =& $this->get('total');
+			$total       = $this->get('total');
 			$pagination  = new redPagination($total, $limitstart, $limit);
 			$this->assignRef('pagination', $pagination);
 		}

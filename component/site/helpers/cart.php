@@ -1371,7 +1371,7 @@ class rsCarthelper
 
 		$subtotal_excl_vat = 0;
 		$cart              = '';
-		$url               = & JURI::root();
+		$url               = JURI::root();
 		$returnArr         = array();
 
 		$wrapper_name = "";

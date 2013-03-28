@@ -102,7 +102,7 @@ if (strstr($template_desc, "{category_loop_start}") && strstr($template_desc, "{
 
 	for ($i = 0; $i < count($this->detail); $i++)
 	{
-		$row = & $this->detail[$i];
+		$row = $this->detail[$i];
 
 		$data_add .= $middletemplate_desc;
 
@@ -200,7 +200,7 @@ if (strstr($template_desc, "{category_loop_start}") && strstr($template_desc, "{
 
 			for ($j = 0; $j < count($this->product); $j++)
 			{
-				$product = & $this->product[$j];
+				$product = $this->product[$j];
 
 				if (!is_object($product))
 				{

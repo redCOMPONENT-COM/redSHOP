@@ -118,8 +118,8 @@ class searchViewsearch extends JView
 			$templatedata[$i]->template_desc = $redTemplate->readtemplateFile($templatedata[$i]->template_section, $templatedata[$i]->template_name);
 		}
 
-		$search     = & $this->get('Data');
-		$pagination = & $this->get('Pagination');
+		$search     = $this->get('Data');
+		$pagination = $this->get('Pagination');
 
 		$this->assignRef('params', $params);
 		$this->assignRef('limit', $model->getState('limit'));
