@@ -38,18 +38,17 @@ require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS .
 
 class xmlcron
 {
-
-	function xmlcron()
+	public function xmlcron()
 	{
 		$this->_table_prefix = '#__redshop_';
-		xmlcron::xmlExportFileUpdate();
-		xmlcron::xmlImportFileUpdate();
+		$this->xmlExportFileUpdate();
+		$this->xmlImportFileUpdate();
 	}
 
-	function xmlExportFileUpdate()
+	public function xmlExportFileUpdate()
 	{
 		$currenttime = time();
-		$xmlHelper = new xmlHelper();
+		$xmlHelper = new xmlHelper;
 
 		$db = JFactory::getDBO();
 		$query = "SELECT * FROM " . $this->_table_prefix . "xml_export AS x "
@@ -68,10 +67,12 @@ class xmlcron
 				. "ORDER BY xl.xmlexport_date DESC ";
 			$db->setQuery($query);
 			$lastrs = $db->loadObject();
+
 			if (count($lastrs) > 0)
 			{
 				$difftime = $currenttime - $lastrs->xmlexport_date;
 				$hours = $difftime / (60 * 60);
+
 				if ($exportlist[$i]->auto_sync_interval < $hours)
 				{
 					$xmlHelper->writeXMLExportFile($lastrs->xmlexport_id);
@@ -80,10 +81,10 @@ class xmlcron
 		}
 	}
 
-	function xmlImportFileUpdate()
+	public function xmlImportFileUpdate()
 	{
 		$currenttime = time();
-		$xmlHelper = new xmlHelper();
+		$xmlHelper = new xmlHelper;
 
 		$db = JFactory::getDBO();
 		$query = "SELECT * FROM " . $this->_table_prefix . "xml_import AS x "
@@ -102,10 +103,12 @@ class xmlcron
 				. "ORDER BY xl.xmlimport_date DESC ";
 			$db->setQuery($query);
 			$lastrs = $db->loadObject();
+
 			if (count($lastrs) > 0)
 			{
 				$difftime = $currenttime - $lastrs->xmlimport_date;
 				$hours = $difftime / (60 * 60);
+
 				if ($importlist[$i]->auto_sync_interval < $hours)
 				{
 					$xmlHelper->importXMLFile($lastrs->xmlimport_id);
@@ -115,4 +118,4 @@ class xmlcron
 	}
 }
 
-$xmlcron = new xmlcron();
+$xmlcron = new xmlcron;
