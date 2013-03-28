@@ -6,7 +6,7 @@
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 /**
  * Script file of redSHOP component
@@ -22,9 +22,9 @@ class Com_RedshopInstallerScript
 	 *
 	 * @var  [type]
 	 */
-	var $status = null;
+	public $status = null;
 
-	var $installer = null;
+	public $installer = null;
 
 	/**
 	 * Method to install the component
@@ -33,7 +33,7 @@ class Com_RedshopInstallerScript
 	 *
 	 * @return void
 	 */
-	function install($parent)
+	public function install($parent)
 	{
 		// Install extensions
 		$this->installLibraries($parent);
@@ -56,7 +56,7 @@ class Com_RedshopInstallerScript
 	 *
 	 * @return void
 	 */
-	function uninstall($parent)
+	public function uninstall($parent)
 	{
 		// Install extensions
 		$this->installLibraries($parent);
@@ -71,7 +71,7 @@ class Com_RedshopInstallerScript
 	 *
 	 * @return void
 	 */
-	function update($parent)
+	public function update($parent)
 	{
 		// $parent is the class calling this method
 
@@ -89,7 +89,7 @@ class Com_RedshopInstallerScript
 	 *
 	 * @return void
 	 */
-	function preflight($type, $parent)
+	public function preflight($type, $parent)
 	{
 		if ($type == "update")
 		{
@@ -102,7 +102,7 @@ class Com_RedshopInstallerScript
 	 *
 	 * @return void
 	 */
-	function updateschema()
+	public function updateschema()
 	{
 		$db = JFactory::getDBO();
 		$db->setQuery("SELECT extension_id FROM #__extensions WHERE element ='com_redshop' AND type = 'component'");
@@ -130,7 +130,7 @@ class Com_RedshopInstallerScript
 	 *
 	 * @return void
 	 */
-	function postflight($type, $parent)
+	public function postflight($type, $parent)
 	{
 		// Install Module and Plugin
 		$installer  = $parent->getParent();
@@ -4493,7 +4493,7 @@ class Com_RedshopInstallerScript
 	 *
 	 * @return JInstaller The JInstaller object
 	 */
-	function getInstaller()
+	public function getInstaller()
 	{
 		if (is_null($this->installer))
 		{
