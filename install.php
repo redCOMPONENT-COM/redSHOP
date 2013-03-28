@@ -2646,7 +2646,6 @@ class Com_RedshopInstallerScript
 				$q = "ALTER IGNORE TABLE `#__redshop_order_item` ADD `giftcard_user_name` VARCHAR(255) NOT NULL";
 				$db->setQuery($q);
 				$db->query();
-
 			}
 
 			// Check if we have the giftcard_user_email column
@@ -2767,7 +2766,7 @@ class Com_RedshopInstallerScript
 			}
 		}
 
-		// Get the product_stockroom_xref 
+		// Get the product_stockroom_xref
 		$q = "SHOW COLUMNS FROM #__redshop_product_stockroom_xref ";
 		$db->setQuery($q);
 		$cols = $db->loadObjectList('Field');
@@ -2790,7 +2789,7 @@ class Com_RedshopInstallerScript
 			}
 		}
 
-		// Get the product_stockroom_xref 
+		// Get the product_stockroom_xref
 		$q = "SHOW COLUMNS FROM #__redshop_product_attribute_stockroom_xref ";
 		$db->setQuery($q);
 		$cols = $db->loadObjectList('Field');
@@ -3797,6 +3796,7 @@ class Com_RedshopInstallerScript
 						$template_desc = str_replace('{shipping_with_vat}', '{shipping}', $template_desc);
 					}
 				}
+
 				$fp = fopen($tempate_file, "w");
 				fwrite($fp, $template_desc);
 				fclose($fp);
@@ -3861,6 +3861,7 @@ class Com_RedshopInstallerScript
 				{
 					$mail_body = str_replace("{shipping_with_vat}", "{shipping}", $mail_body);
 				}
+
 				$mail_body = addslashes($mail_body);
 				$uquery    = "UPDATE `#__redshop_mail` SET mail_body ='$mail_body' "
 					. "WHERE mail_section='" . $data->mail_section . "' AND mail_id='" . $data->mail_id . "'";
@@ -3909,7 +3910,6 @@ class Com_RedshopInstallerScript
 			}
 		}
 
-		// End
 		?>
 		<center>
 			<table cellpadding="4" cellspacing="0" border="0" width="100%" class="adminlist">
@@ -3992,6 +3992,7 @@ class Com_RedshopInstallerScript
 		$sh404sefmeta  = JPATH_SITE . '/components/com_sh404sef/meta_ext';
 		$sh404sefadmin = JPATH_SITE . '/administrator/components/com_sh404sef';
 		$redadmin      = JPATH_SITE . '/administrator/components/com_redshop/extras';
+
 		// Check if sh404SEF is installed
 		if (JFolder::exists(JPATH_SITE . '/components/com_sh404sef'))
 		{
@@ -4449,7 +4450,6 @@ class Com_RedshopInstallerScript
 			$db    = JFactory::getDBO();
 			$db->setQuery($query);
 			$db->query();
-
 		}
 		else
 		{
@@ -4471,6 +4471,7 @@ class Com_RedshopInstallerScript
 		{
 			$this->installer = new JInstaller;
 		}
+
 		return $this->installer;
 	}
 
@@ -4500,6 +4501,7 @@ class Com_RedshopInstallerScript
 				{
 					$result = $installer->install($extPath);
 				}
+
 				$this->_storeStatus('libraries', array('name' => $extName, 'result' => $result));
 			}
 		}
@@ -4532,6 +4534,7 @@ class Com_RedshopInstallerScript
 				{
 					$result = $installer->install($extPath);
 				}
+
 				$this->_storeStatus('modules', array('name' => $extName, 'client' => $extClient, 'result' => $result));
 			}
 		}
