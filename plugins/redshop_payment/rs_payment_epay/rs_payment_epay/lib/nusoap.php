@@ -2425,6 +2425,9 @@ class nusoap_xmlschema extends nusoap_base
 	public function typeToForm($name, $type)
 	{
 		// Get typedef
+
+		$buffer = '';
+
 		if ($typeDef = $this->getTypeDef($type))
 		{
 			// If struct
