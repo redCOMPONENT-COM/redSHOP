@@ -8,8 +8,8 @@
  */
 
 defined('_JEXEC') or die;
-require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'mail.php';
-jimport('joomla.application.component.controller');
+require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/mail.php';
+JLoader::import('joomla.application.component.controller');
 
 /**
  * Password Controller.
@@ -22,11 +22,13 @@ class PasswordController extends JController
 {
 	/**
 	 *  Metod to reset Password
+	 *
+	 * @return  void
 	 */
 	public function reset()
 	{
-		$post = JRequest::get('post');
-		$model = & $this->getModel('password');
+		$post   = JRequest::get('post');
+		$model  = $this->getModel('password');
 		$Itemid = JRequest::getVar('Itemid');
 		$layout = "";
 
@@ -38,7 +40,7 @@ class PasswordController extends JController
 			if ($redshopMail->sendResetPasswordMail($post['email']))
 			{
 				$layout = "&layout=token";
-				$msg = JText::_('COM_REDSHOP_RESET_PASSWORD_MAIL_SEND');
+				$msg    = JText::_('COM_REDSHOP_RESET_PASSWORD_MAIL_SEND');
 			}
 			else
 			{
@@ -55,12 +57,14 @@ class PasswordController extends JController
 
 	/**
 	 *  Method to changepassword
+	 *
+	 * @return  void
 	 */
 	public function changepassword()
 	{
-		$post = JRequest::get('post');
-		$model = & $this->getModel('password');
-		$token = $post['token'];
+		$post   = JRequest::get('post');
+		$model  = $this->getModel('password');
+		$token  = $post['token'];
 		$Itemid = JRequest::getVar('Itemid');
 
 		if ($model->changepassword($token))
@@ -76,13 +80,14 @@ class PasswordController extends JController
 
 	/**
 	 *  Method to setpassword
+	 *
+	 * @return  void
 	 */
 	public function setpassword()
 	{
-		$post = JRequest::get('post');
+		$post   = JRequest::get('post');
 		$Itemid = JRequest::getVar('Itemid');
-
-		$model = & $this->getModel('password');
+		$model  = $this->getModel('password');
 
 		if ($model->setpassword($post))
 		{

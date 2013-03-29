@@ -9,23 +9,21 @@
 
 defined('_JEXEC') or die;
 
+JLoader::import('joomla.application.component.view');
 
-jimport('joomla.application.component.view');
-
-require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php';
-require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php';
-require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'shipping.php';
+require_once JPATH_COMPONENT . '/helpers/product.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php';
+require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/shipping.php';
 
 class checkoutViewcheckout extends JView
 {
-
 	public function display($tpl = null)
 	{
-		global $mainframe;
+		$app = JFactory::getApplication();
 		$shippinghelper  = new shipping;
 		$order_functions = new order_functions;
 
-		$params  = & $mainframe->getParams('com_redshop');
+		$params  = $app->getParams('com_redshop');
 		$option  = JRequest::getVar('option');
 		$Itemid  = JRequest::getVar('Itemid');
 		$issplit = JRequest::getVar('issplit');
@@ -45,7 +43,10 @@ class checkoutViewcheckout extends JView
 		$auth              = $session->get('auth');
 
 		if (empty($users_info_id))
+		{
 			$users_info_id = $auth['users_info_id'];
+		}
+
 		$shipping_rate_id = JRequest::getVar('shipping_rate_id');
 		$shippingdetail   = explode("|", $shippinghelper->decryptShipping(str_replace(" ", "+", $shipping_rate_id)));
 
@@ -59,7 +60,7 @@ class checkoutViewcheckout extends JView
 		if ($cart['idx'] < 1)
 		{
 			$msg = JText::_('COM_REDSHOP_EMPTY_CART');
-			$mainframe->Redirect('index.php?option=' . $option . '&Itemid=' . $Itemid, $msg);
+			$app->Redirect('index.php?option=' . $option . '&Itemid=' . $Itemid, $msg);
 		}
 
 		if (SHIPPING_METHOD_ENABLE)
@@ -67,28 +68,34 @@ class checkoutViewcheckout extends JView
 			if ($users_info_id < 1)
 			{
 				$msg  = JText::_('COM_REDSHOP_SELECT_SHIP_ADDRESS');
-				$link = 'index.php?option=' . $option . '&view=checkout&Itemid=' . $Itemid . '&users_info_id=' . $users_info_id . '&shipping_rate_id=' . $shipping_rate_id . '&payment_method_id=' . $payment_method_id;
-				$mainframe->Redirect($link, $msg);
+				$link = 'index.php?option=' . $option . '&view=checkout&Itemid=' . $Itemid . '&users_info_id='
+					. $users_info_id . '&shipping_rate_id=' . $shipping_rate_id . '&payment_method_id='
+					. $payment_method_id;
+				$app->Redirect($link, $msg);
 			}
 
 			if ($shipping_rate_id == '' && $cart['free_shipping'] != 1)
 			{
 				$msg  = JText::_('COM_REDSHOP_SELECT_SHIP_METHOD');
-				$link = 'index.php?option=' . $option . '&view=checkout&Itemid=' . $Itemid . '&users_info_id=' . $users_info_id . '&shipping_rate_id=' . $shipping_rate_id . '&payment_method_id=' . $payment_method_id;
-				$mainframe->Redirect($link, $msg);
+				$link = 'index.php?option=' . $option . '&view=checkout&Itemid=' . $Itemid . '&users_info_id='
+					. $users_info_id . '&shipping_rate_id=' . $shipping_rate_id . '&payment_method_id='
+					. $payment_method_id;
+				$app->Redirect($link, $msg);
 			}
 		}
 
 		if ($payment_method_id == '')
 		{
 			$msg  = JText::_('COM_REDSHOP_SELECT_PAYMENT_METHOD');
-			$link = 'index.php?option=' . $option . '&view=checkout&Itemid=' . $Itemid . '&users_info_id=' . $users_info_id . '&shipping_rate_id=' . $shipping_rate_id . '&payment_method_id=' . $payment_method_id;
-			$mainframe->Redirect($link, $msg);
+			$link = 'index.php?option=' . $option . '&view=checkout&Itemid=' . $Itemid . '&users_info_id='
+				. $users_info_id . '&shipping_rate_id=' . $shipping_rate_id . '&payment_method_id='
+				. $payment_method_id;
+			$app->Redirect($link, $msg);
 		}
 
 		$paymentinfo     = $order_functions->getPaymentMethodInfo($payment_method_id);
 		$paymentinfo     = $paymentinfo[0];
-		$paymentpath     = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $paymentinfo->element . DS . $paymentinfo->element . '.xml';
+		$paymentpath     = JPATH_SITE . '/plugins/redshop_payment/' . $paymentinfo->element . '/' . $paymentinfo->element . '.xml';
 		$paymentparams   = new JRegistry($paymentinfo->params);
 		$is_creditcard   = $paymentparams->get('is_creditcard', '');
 		$is_subscription = $paymentparams->get('is_subscription', 0);

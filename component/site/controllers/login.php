@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.controller');
+JLoader::import('joomla.application.component.controller');
 
 /**
  * login Controller.
@@ -21,23 +21,26 @@ jimport('joomla.application.component.controller');
 class LoginController extends JController
 {
 	/**
-	 *  setlogin function
+	 *  Setlogin function
+	 *
+	 * @return  void
 	 */
 	public function setlogin()
 	{
-		$username = JRequest::getVar('username', '', 'method', 'username');
-		$password = JRequest::getString('password', '', 'post', JREQUEST_ALLOWRAW);
-		$option = JRequest::getVar('option');
-		$Itemid = JRequest::getVar('Itemid');
+		$username     = JRequest::getVar('username', '', 'method', 'username');
+		$password     = JRequest::getString('password', '', 'post', JREQUEST_ALLOWRAW);
+		$option       = JRequest::getVar('option');
+		$Itemid       = JRequest::getVar('Itemid');
 		$returnitemid = JRequest::getVar('returnitemid');
-		$menu =& JSite::getMenu();
-		$mywishlist = JRequest::getVar('mywishlist');
-		$item = $menu->getItem($returnitemid);
+		$mywishlist   = JRequest::getVar('mywishlist');
+		$menu         = JFactory::getApplication()->getMenu();
+		$item         = $menu->getItem($returnitemid);
 
-		include_once JPATH_COMPONENT . DS . 'helpers' . DS . 'helper.php';
+		include_once JPATH_COMPONENT . '/helpers/helper.php';
+
 		$redhelper = new redhelper;
 
-		$model = & $this->getModel('login');
+		$model = $this->getModel('login');
 
 		$shoppergroupid = JRequest::getInt('protalid', '', 'post', 0);
 
@@ -46,7 +49,7 @@ class LoginController extends JController
 		if ($shoppergroupid != 0)
 		{
 			$check = $model->CheckShopperGroup($username, $shoppergroupid);
-			$link = "index.php?option=" . $option . "&view=login&layout=portal&protalid=" . $shoppergroupid;
+			$link  = "index.php?option=" . $option . "&view=login&layout=portal&protalid=" . $shoppergroupid;
 
 			if ($check > 0)
 			{
@@ -55,7 +58,7 @@ class LoginController extends JController
 			}
 			else
 			{
-				$msg = JText::_("COM_REDSHOP_SHOPPERGROUP_NOT_MATCH");
+				$msg    = JText::_("COM_REDSHOP_SHOPPERGROUP_NOT_MATCH");
 				$return = "";
 			}
 		}
@@ -85,8 +88,8 @@ class LoginController extends JController
 			if (!empty($return))
 			{
 				$s_Itemid = $redhelper->getCheckoutItemid();
-				$Itemid = $s_Itemid ? $s_Itemid : $Itemid;
-				$return = JRoute::_('index.php?option=com_redshop&view=checkout&Itemid=' . $Itemid, false);
+				$Itemid   = $s_Itemid ? $s_Itemid : $Itemid;
+				$return   = JRoute::_('index.php?option=com_redshop&view=checkout&Itemid=' . $Itemid, false);
 
 				$this->setRedirect($return);
 			}
@@ -105,15 +108,11 @@ class LoginController extends JController
 	 */
 	public function logout()
 	{
-		$mainframe = JFactory::getApplication();
-		$params = & $mainframe->getParams('com_redshop');
+		$app           = JFactory::getApplication();
+		$params        = $app->getParams('com_redshop');
 		$logout_itemid = JRequest::getVar('logout');
-		/*$menu	=& $mainframe->getMenu();
-		$item	=& $menu->getActive();
-		$redconfig = $item->query;
-		$item = $menu->getItem($redconfig['logout']);*/
-		$menu =& JSite::getMenu();
-		$item = $menu->getItem($logout_itemid);
+		$menu          = JFactory::getApplication()->getMenu();
+		$item          = $menu->getItem($logout_itemid);
 
 		if ($item)
 		{
@@ -124,7 +123,7 @@ class LoginController extends JController
 			$link = JRoute::_('index.php?option=com_redshop');
 		}
 
-		$mainframe->logout();
+		$app->logout();
 		$this->setRedirect($link);
 	}
 }

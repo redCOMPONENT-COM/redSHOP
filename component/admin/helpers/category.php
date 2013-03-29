@@ -7,51 +7,56 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-if (!defined('_VALID_MOS') && !defined('_JEXEC')) die('Direct Access to ' . basename(__FILE__) . ' is not allowed.');
+defined('_JEXEC') or die;
 
 class product_category
 {
+	public $_cats = array();
 
-	var $_cats = array();
-	var $_table_prefix = null;
+	public $_table_prefix = null;
 
-	function __construct()
+	public function __construct()
 	{
 		global $mainframe, $context;
 		$this->_table_prefix = '#__' . TABLE_PREFIX . '_';
 	}
 
-	function list_all($name, $category_id, $selected_categories = Array(), $size = 1, $toplevel = true, $multiple = false, $disabledFields = array(), $width = 250)
+	public function list_all($name, $category_id, $selected_categories = Array(), $size = 1, $toplevel = true, $multiple = false, $disabledFields = array(), $width = 250)
 	{
-
 		$db = jFactory::getDBO();
 		$html = '';
 		$q = "SELECT category_parent_id FROM " . $this->_table_prefix . "category_xref ";
+
 		if ($category_id)
 		{
 			$q .= "WHERE category_child_id='$category_id'";
 		}
+
 		$db->setQuery($q);
 		$cats = $db->loadObjectList();
 
 		if ($cats)
+		{
 			$selected_categories[] = $cats[0]->category_parent_id;
+		}
 
 		$multiple = $multiple ? "multiple=\"multiple\"" : "";
 		$id = str_replace('[]', '', $name);
 		$html .= "<select class=\"inputbox\" style=\"width: " . $width . "px;\" size=\"$size\" $multiple name=\"$name\" id=\"$id\">\n";
+
 		if ($toplevel)
 		{
 			$html .= "<option value=\"0\"> -Top- </option>\n";
 		}
+
 		$html .= $this->list_tree($category_id, '0', '0', $selected_categories, $disabledFields);
 		$html .= "</select>\n";
+
 		return $html;
 	}
 
-	function list_tree($category_id = "", $cid = '0', $level = '0', $selected_categories = Array(), $disabledFields = Array(), $html = '')
+	public function list_tree($category_id = "", $cid = '0', $level = '0', $selected_categories = Array(), $disabledFields = Array(), $html = '')
 	{
-
 		$db = jFactory::getDBO();
 		$level++;
 
@@ -68,13 +73,16 @@ class product_category
 		{
 			$cat = $cats[$x];
 			$child_id = $cat->category_child_id;
+
 			if ($child_id != $cid)
 			{
 				$selected = ($child_id == $category_id) ? "selected=\"selected\"" : "";
+
 				if ($selected == "" && @$selected_categories[$child_id] == "1")
 				{
 					$selected = "selected=\"selected\"";
 				}
+
 				if (is_array($selected_categories))
 				{
 					if (in_array($child_id, $selected_categories))
@@ -82,11 +90,14 @@ class product_category
 						$selected = "selected=\"selected\"";
 					}
 				}
+
 				$disabled = '';
+
 				if (in_array($child_id, $disabledFields))
 				{
 					$disabled = 'disabled="disabled"';
 				}
+
 				if ($disabled != '' && stristr($_SERVER['HTTP_USER_AGENT'], 'msie'))
 				{
 					// IE7 suffers from a bug, which makes disabled option fields selectable
@@ -94,22 +105,25 @@ class product_category
 				else
 				{
 					$html .= "<option $selected $disabled value=\"$child_id\">\n";
+
 					for ($i = 0; $i < $level; $i++)
 					{
 						$html .= "&#151;";
 					}
+
 					$html .= "|$level|";
 					$html .= "&nbsp;" . $cat->category_name . "</option>";
 				}
 			}
+
 			$html .= $this->list_tree($category_id, $child_id, $level, $selected_categories, $disabledFields);
 		}
+
 		return $html;
 	}
 
-	function getCategoryListArray($category_id = "", $cid = '0', $level = '0')
+	public function getCategoryListArray($category_id = "", $cid = '0', $level = '0')
 	{
-
 		global $context;
 		$mainframe = JFactory::getApplication();
 		$GLOBALS['catlist'] = array();
@@ -119,19 +133,18 @@ class product_category
 
 		$category_main_filter = $mainframe->getUserStateFromRequest($context . 'category_main_filter', 'category_main_filter', 0);
 
-		// parent product dropdown selector
-		//$category_drop_id = $mainframe->getUserStateFromRequest( $context.'category_id',  'category_id', '' );
-		// End
-
 		$orderby = 'ORDER BY c.category_name';
+
 		if ($level == 1 && $category_id)
 		{
 			$cid = $category_id;
 		}
+
 		if ($view == 'category')
 		{
 			$orderby = $this->_buildContentOrderBy();
 		}
+
 		if ($category_main_filter)
 		{
 			$and = " AND category_name like '%" . $category_main_filter . "%' ";
@@ -140,6 +153,7 @@ class product_category
 		{
 			$and = " AND cx.category_parent_id='$cid' ";
 		}
+
 		$q = "SELECT c.category_id, cx.category_child_id, cx.category_parent_id "
 			. ",c.category_name,c.category_description,c.published,ordering "
 			. "FROM " . $this->_table_prefix . "category AS c "
@@ -160,16 +174,19 @@ class product_category
 			$html = '';
 			$cat = $cats[$x];
 			$child_id = $cat->category_child_id;
+
 			if ($child_id != $cid)
 			{
 				$catlist[] = $cat;
+
 				for ($i = 0; $i < $level; $i++)
 				{
-
 					$html .= "&nbsp;&nbsp;";
 				}
+
 				$html .= "&nbsp;" . $cat->category_name;
 			}
+
 			$cat->category_name = $html;
 			$this->_cats[] = $cat;
 
@@ -179,9 +196,8 @@ class product_category
 		return $this->_cats;
 	}
 
-	function getCategoryListReverceArray($cid = '0')
+	public function getCategoryListReverceArray($cid = '0')
 	{
-
 		$db = jFactory::getDBO();
 		$q = "SELECT c.category_id,c.category_name "
 			. ",cx.category_child_id,cx.category_parent_id "
@@ -198,20 +214,22 @@ class product_category
 			$GLOBALS['catlist_reverse'][] = $cat;
 			$this->getCategoryListReverceArray($parent_id);
 		}
+
 		return $GLOBALS['catlist_reverse'];
 	}
 
-	function _buildContentOrderBy()
+	public function _buildContentOrderBy()
 	{
 		global $mainframe, $context;
 
 		$filter_order = $mainframe->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'ordering');
 		$filter_order_Dir = $mainframe->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
 		$orderby = ' ORDER BY ' . $filter_order . ' ' . $filter_order_Dir;
+
 		return $orderby;
 	}
 
-	function getParentCategories()
+	public function getParentCategories()
 	{
 		$db = jFactory::getDBO();
 		$query = 'SELECT DISTINCT c.category_name, c.category_id'
@@ -219,6 +237,7 @@ class product_category
 			. ' LEFT JOIN ' . $this->_table_prefix . 'category_xref AS x ON c.category_id = x.category_child_id '
 			. 'WHERE x.category_parent_id=0 ';
 		$db->setQuery($query);
+
 		return $db->loadObjectList();
 	}
 
@@ -231,9 +250,8 @@ class product_category
 	 *
 	 */
 
-	function getCategoryTree($cid = '0')
+	public function getCategoryTree($cid = '0')
 	{
-
 		$db = jFactory::getDBO();
 		$q = "SELECT c.category_id,c.category_name "
 			. ",cx.category_child_id,cx.category_parent_id "
@@ -252,11 +270,11 @@ class product_category
 			$GLOBALS['catlist'][] = $cat;
 			$this->getCategoryTree($parent_id);
 		}
+
 		return $GLOBALS['catlist'];
 	}
 
-
-	function getCategoryProductList($cid) // pass category id
+	public function getCategoryProductList($cid)
 	{
 		$db = jFactory::getDBO();
 		$query = "SELECT p.product_id AS id "
@@ -264,43 +282,34 @@ class product_category
 			. "LEFT JOIN " . $this->_table_prefix . "product_category_xref AS x ON x.product_id = p.product_id "
 			. "LEFT JOIN " . $this->_table_prefix . "category AS c ON x.category_id = c.category_id "
 			. "WHERE 1=1 AND c.category_id = '" . $cid . "' and p.published =1 ";
-		//.$orderby
 
 		$db->setQuery($query);
-		//$this->setId($product_id);
+
 		$result = $db->loadObjectList();
 
 		return $result;
-
 	}
 
-	function CheckAccessoryExists($product_id, $accessory_id)
+	public function CheckAccessoryExists($product_id, $accessory_id)
 	{
-
-		$db = jFactory::getDBO();
+		$db = JFactory::getDBO();
 
 		$query = "SELECT accessory_id,product_id "
 			. "FROM " . $this->_table_prefix . "product_accessory  "
 			. "WHERE 1=1 AND product_id = '" . $product_id . "' and child_product_id ='" . $accessory_id . "'";
-		//.$orderby
 
 		$db->setQuery($query);
 		$result = $db->loadObjectList();
 
 		if (count($result) > 0)
 		{
-
 			$return = $result[0]->accessory_id;
 		}
 		else
 		{
 			$return = 0;
 		}
+
 		return $return;
-
 	}
-
-
 }
-
-?>

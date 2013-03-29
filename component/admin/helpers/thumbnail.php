@@ -6,97 +6,120 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-if (!defined('_VALID_MOS') && !defined('_JEXEC')) die('Direct Access to ' . basename(__FILE__) . ' is not allowed.');
+
+defined('_JEXEC') or die;
 
 class thumbnail
 {
-
-//---------Parameter Description -------------------
-
-// $filetype = original File type
-// $tsrc = where thumbnail will generate
-// $dest = from where image taken
-// $n_width = thumbnail output width
-// $n_height = thumbnail output height
-
-
-	function CreatThumb($filetype, $tsrc, $dest, $n_width, $n_height)
+	public function CreatThumb($filetype, $tsrc, $dest, $n_width, $n_height)
 	{
-
 		if ($filetype == "gif")
 		{
-
 			$im = ImageCreateFromGIF($dest);
-			$width = ImageSx($im); // Original picture width is stored
-			$height = ImageSy($im); // Original picture height is stored
+
+			// Original picture width is stored
+			$width = ImageSx($im);
+
+			// Original picture height is stored
+			$height = ImageSy($im);
 			$newimage = imagecreatetruecolor($n_width, $n_height);
 			imageCopyResized($newimage, $im, 0, 0, 0, 0, $n_width, $n_height, $width, $height);
 
 			ImageGIF($newimage, $tsrc);
 			chmod("$tsrc", 0755);
-
 		}
+
 		if ($filetype == "jpg")
 		{
 			$im = ImageCreateFromJPEG($dest);
-			$width = ImageSx($im); // Original picture width is stored
-			$height = ImageSy($im); // Original picture height is stored
+
+			// Original picture width is stored
+			$width = ImageSx($im);
+
+			// Original picture height is stored
+			$height = ImageSy($im);
 			$newimage = imagecreatetruecolor($n_width, $n_height);
 			imageCopyResized($newimage, $im, 0, 0, 0, 0, $n_width, $n_height, $width, $height);
 			ImageJpeg($newimage, $tsrc);
 			chmod("$tsrc", 0755);
-
 		}
+
 		if ($filetype == "png")
 		{
 			$im = ImageCreateFromPNG($dest);
-			$width = ImageSx($im); // Original picture width is stored
-			$height = ImageSy($im); // Original picture height is stored
+
+			// Original picture width is stored
+			$width = ImageSx($im);
+
+			// Original picture height is stored
+			$height = ImageSy($im);
 			$newimage = imagecreatetruecolor($n_width, $n_height);
 			imageCopyResized($newimage, $im, 0, 0, 0, 0, $n_width, $n_height, $width, $height);
 			imagepng($newimage, $tsrc);
 			chmod("$tsrc", 0755);
-
 		}
-
 	}
-
-
 }
-
-///////////////// New thumbnail generate
 
 class thumbnail_images
 {
+	public $PathImgOld;
+	public $PathImgNew;
+	public $NewWidth;
+	public $NewHeight;
+	public $mime;
 
-// get
-	var $PathImgOld;
-	var $PathImgNew;
-	var $NewWidth;
-	var $NewHeight;
-
-// tmp
-	var $mime;
-
-	function imagejpeg_new($NewImg, $path_img)
+	public function imagejpeg_new($NewImg, $path_img)
 	{
-		if ($this->mime == 'image/jpeg' or $this->mime == 'image/pjpeg') @imagejpeg($NewImg, $path_img);
-		elseif ($this->mime == 'image/gif') imagegif($NewImg, $path_img);
-		elseif ($this->mime == 'image/png') imagepng($NewImg, $path_img);
-		else return (false);
-		return (true);
+		if ($this->mime == 'image/jpeg' || $this->mime == 'image/pjpeg')
+		{
+			@imagejpeg($NewImg, $path_img);
+		}
+
+		elseif ($this->mime == 'image/gif')
+		{
+			imagegif($NewImg, $path_img);
+		}
+
+		elseif ($this->mime == 'image/png')
+		{
+			imagepng($NewImg, $path_img);
+		}
+
+		else
+		{
+			return false;
+		}
+
+		return true;
 	}
 
-	function imagecreatefromjpeg_new($path_img)
+	public function imagecreatefromjpeg_new($path_img)
 	{
-		if ($this->mime == 'image/jpeg' or $this->mime == 'image/pjpeg') $OldImg = imagecreatefromjpeg($path_img);
-		elseif ($this->mime == 'image/gif') $OldImg = imagecreatefromgif($path_img);
-		elseif ($this->mime == 'image/png') $OldImg = imagecreatefrompng($path_img);
-		else return (false);
-		return ($OldImg);
+		if ($this->mime == 'image/jpeg' or $this->mime == 'image/pjpeg')
+		{
+			$OldImg = imagecreatefromjpeg($path_img);
+		}
+
+		elseif ($this->mime == 'image/gif')
+		{
+			$OldImg = imagecreatefromgif($path_img);
+		}
+
+		elseif ($this->mime == 'image/png')
+		{
+			$OldImg = imagecreatefrompng($path_img);
+		}
+
+		else
+		{
+			return false;
+		}
+
+		return $OldImg;
 	}
 
-	function create_thumbnail_images()
+	public function create_thumbnail_images()
 	{
 		$PathImgOld = $this->PathImgOld;
 		$PathImgNew = $this->PathImgNew;
@@ -118,7 +141,7 @@ class thumbnail_images
 		}
 		elseif ($NewHeight == '' and $NewWidth == '')
 		{
-			return (false);
+			return false;
 		}
 
 		$OldHeight_castr = ceil(($OldWidth * $NewHeight) / $NewWidth);
@@ -146,31 +169,40 @@ class thumbnail_images
 		}
 
 		$OldImg = $this->imagecreatefromjpeg_new($PathImgOld);
+
 		if ($OldImg)
 		{
 			$NewImg_castr = imagecreatetruecolor($OldWidth_castr, $OldHeight_castr);
+
 			if ($NewImg_castr)
 			{
-				imagecopyresampled($NewImg_castr, $OldImg, 0, 0, $castr_right, $castr_bottom, $OldWidth_castr, $OldHeight_castr, $OldWidth_castr, $OldHeight_castr);
+				imagecopyresampled(
+					$NewImg_castr, $OldImg, 0, 0, $castr_right, $castr_bottom,
+					$OldWidth_castr, $OldHeight_castr, $OldWidth_castr, $OldHeight_castr
+				);
+
 				$NewImg = imagecreatetruecolor($NewWidth, $NewHeight);
+
 				if ($NewImg)
 				{
 					imagecopyresampled($NewImg, $NewImg_castr, 0, 0, 0, 0, $NewWidth, $NewHeight, $OldWidth_castr, $OldHeight_castr);
 					imagedestroy($NewImg_castr);
 					imagedestroy($OldImg);
-					if (!$this->imagejpeg_new($NewImg, $PathImgNew)) return (false);
+
+					if (!$this->imagejpeg_new($NewImg, $PathImgNew))
+					{
+						return false;
+					}
+
 					imagedestroy($NewImg);
 				}
 			}
 		}
 		else
 		{
-			return (false);
+			return false;
 		}
 
-		return (true);
+		return true;
 	}
-
 }
-
-?>

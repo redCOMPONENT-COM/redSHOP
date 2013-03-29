@@ -1,6 +1,13 @@
 <?php
-// no direct access
-defined('_JEXEC') or die('Restricted access');
+/**
+ * @package     RedSHOP
+ * @subpackage  Plugin
+ *
+ * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
+ */
+
+defined('_JEXEC') or die;
 
 // Import library dependencies
 jimport('joomla.plugin.plugin');
@@ -20,7 +27,7 @@ class plgredshop_productattribute extends JPlugin
 	{
 		parent::__construct($subject);
 
-		// load plugin parameters
+		// Load plugin parameters
 		$this->_plugin = JPluginHelper::getPlugin('redshop_product', 'onPrepareProduct');
 		$this->_params = new JRegistry($this->_plugin->params);
 	}
@@ -36,7 +43,7 @@ class plgredshop_productattribute extends JPlugin
 	 */
 function onPrepareProduct(&$template, &$params, $product)
 {
-	$document =& JFactory::getDocument();
+	$document = JFactory::getDocument();
 	$document->addScriptDeclaration("
 
 		/**
@@ -190,7 +197,7 @@ function onPrepareProduct(&$template, &$params, $product)
 
 	function getattribute_property($attrib_id)
 	{
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 		$query = "SELECT p.property_id,p.property_price,s.subattribute_id,s.subattribute_color_price "
 			. " FROM #__redshop_product_attribute_property AS p"
 			. " LEFT JOIN #__redshop_product_subattribute_color AS s ON s.subattribute_id=p.property_id "

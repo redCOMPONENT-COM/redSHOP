@@ -50,7 +50,8 @@ class CaptchaSecurityImages
 		$background_color = imagecolorallocate($image, 255, 255, 255);
 		$text_color       = imagecolorallocate($image, 20, 40, 100);
 		$noise_color      = imagecolorallocate($image, 100, 120, 180);
-		/* generate random dots in background */
+
+		// Generate random dots in background
 		for ($i = 0; $i < ($width * $height) / 3; $i++)
 		{
 			imagefilledellipse($image, mt_rand(0, $width), mt_rand(0, $height), 1, 1, $noise_color);
@@ -67,7 +68,8 @@ class CaptchaSecurityImages
 		$x = ($width - $textbox[4]) / 2;
 		$y = ($height - $textbox[5]) / 2;
 		imagettftext($image, $font_size, 0, $x, $y, $text_color, $this->font, $code) or die('Error in imagettftext function');
-		/* output captcha image to browser */
+
+		// Output captcha image to browser
 		ob_clean();
 		header('Content-Type: image/jpeg');
 		imagejpeg($image);

@@ -11,8 +11,8 @@ defined('_JEXEC') or die;
 /*
  * Include required files
  */
-include_once JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php';
-include_once JPATH_COMPONENT . DS . 'helpers' . DS . 'cart.php';
+include_once JPATH_COMPONENT . '/helpers/product.php';
+include_once JPATH_COMPONENT . '/helpers/cart.php';
 
 $producthelper = new producthelper;
 $carthelper    = new rsCarthelper;
@@ -127,7 +127,6 @@ $cancelbutton = "<input type='button' name='cancel' value='" . JText::_('COM_RED
 
 $template_desc = str_replace("{apply_button}", "<span id='" . $stockaddtocart . "'></span><span id='" . $pdaddtocart . "'>" . $applybutton . "</span>", $template_desc);
 $template_desc = str_replace("{cancel_button}", $cancelbutton, $template_desc);
-
 
 $template_desc = '<form name="frmchngAttribute" id="frmchngAttribute" method="post">' . $template_desc . '</form>';
 

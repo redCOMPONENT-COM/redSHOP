@@ -1,28 +1,19 @@
 <?php
-
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license   GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- *            Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     RedSHOP
+ * @subpackage  Plugin
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-/** ensure this file is being included by a parent file */
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
+
 jimport('joomla.plugin.plugin');
-//$mainframe =& JFactory::getApplication();
-//$mainframe->registerEvent( 'onPrePayment', 'plgRedshoprs_payment_bbs' );
+
 class plgRedshop_paymentrs_payment_chase extends JPlugin
 {
-	var $_table_prefix = null;
+	public $_table_prefix = null;
 
 	/**
 	 * Constructor
@@ -32,9 +23,9 @@ class plgRedshop_paymentrs_payment_chase extends JPlugin
 	 * NOT references.  This causes problems with cross-referencing necessary for the
 	 * observer design pattern.
 	 */
-	function plgRedshop_paymentrs_payment_chase(&$subject)
+	public function plgRedshop_paymentrs_payment_chase(&$subject)
 	{
-		// load plugin parameters
+		// Load plugin parameters
 		parent::__construct($subject);
 		$this->_table_prefix = '#__redshop_';
 		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_chase');
@@ -45,7 +36,7 @@ class plgRedshop_paymentrs_payment_chase extends JPlugin
 	/**
 	 * Plugin method with the same name as the event will be called automatically.
 	 */
-	function onPrePayment_rs_payment_chase($element, $data)
+	public function onPrePayment_rs_payment_chase($element, $data)
 	{
 		$config = new Redconfiguration;
 		$currencyClass = new convertPrice;
@@ -63,7 +54,7 @@ class plgRedshop_paymentrs_payment_chase extends JPlugin
 			$plugin = $element;
 		}
 
-		// get params from plugin
+		// Get params from plugin
 		$chase_parameters = $this->getparameters('rs_payment_chase');
 		$paymentinfo = $chase_parameters[0];
 		$paymentparams = new JRegistry($paymentinfo->params);
@@ -76,7 +67,7 @@ class plgRedshop_paymentrs_payment_chase extends JPlugin
 		$chase_transaction_type = $paymentparams->get('chase_transaction_type', '');
 		$debug_mode = $paymentparams->get('debug_mode', 0);
 
-		$session =& JFactory::getSession();
+		$session = JFactory::getSession();
 		$ccdata = $session->get('ccdata');
 
 		// Additional Customer Data
@@ -86,23 +77,21 @@ class plgRedshop_paymentrs_payment_chase extends JPlugin
 		// Email Settings
 		$user_email = $data['billinginfo']->user_email;
 
-		// get Credit card Information
+		// Get Credit card Information
 		$order_payment_name = substr($ccdata['order_payment_name'], 0, 50);
 		$creditcard_code = ucfirst(strtolower($ccdata['creditcard_code']));
 		$order_payment_number = substr($ccdata['order_payment_number'], 0, 20);
 		$credit_card_code = substr($ccdata['credit_card_code'], 0, 4);
 		$order_payment_expire_month = substr($ccdata['order_payment_expire_month'], 0, 2);
 		$order_payment_expire_year = substr($ccdata['order_payment_expire_year'], -2);
-		//die();
+
 		$order_number = substr($data['order_number'], 0, 16);
 		$tax_exempt = false;
 
-//echo $creditcard_code;
-
 		$paymentpath = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . 'rs_payment_chase' . DS . 'rs_payment_chase' . DS . 'class.Chase.php';
-		include($paymentpath);
+		include $paymentpath;
 
-		// create object for chase ------------------------------------
+		// Create object for chase
 		$obj_chase = new Chase($currency);
 
 		if ($chase_test_status == 1)
@@ -114,7 +103,7 @@ class plgRedshop_paymentrs_payment_chase extends JPlugin
 			$obj_chase->chase_gateway_url = "https://orbital.paymentech.net/authorize";
 		}
 
-		//Assign merchant info
+		// Assign merchant info
 		$obj_chase->OrbitalConnectionUsername = $chase_conn_username;
 		$obj_chase->OrbitalConnectionPassword = $chase_conn_password;
 		$obj_chase->IndustryType = 'EC';
@@ -145,19 +134,17 @@ class plgRedshop_paymentrs_payment_chase extends JPlugin
 		$obj_chase->Phone = $phone;
 		$obj_chase->Comments = 'Email - ' . $uname . ' | Phone - ' . $phone;
 
-		//Assign Amount
+		// Assign Amount
 		$tot_amount = $order_total = $data['order_total'];
 		$amount = $currencyClass->convert($tot_amount, '', 'USD');
 		$amount = number_format($amount, 2, '.', '') * 100;
-		$obj_chase->Amount = $amount; //die();
+		$obj_chase->Amount = $amount;
 
 		$response = $obj_chase->post_an_order();
 
-		// call function to post an order ------
+		// Call function to post an order
 		if ($response['transaction_sts'] == "success")
 		{
-			//echo "order Success -----";
-
 			if ($debug_mode == 1)
 			{
 				$message = $response['message'];
@@ -173,19 +160,6 @@ class plgRedshop_paymentrs_payment_chase extends JPlugin
 		}
 		else
 		{
-			//echo "order Fail -----";
-			/*
-							$errors_in_processing = $obj_chase->error;
-
-							if(is_array($errors_in_processing))
-							{
-								$total_errors = count($errors_in_processing);
-								for($i=0; $i<$total_errors; $i++)
-								{
-									$str_error.= "<br />".$errors_in_processing[$i];
-								}
-							}
-			*/
 			if ($debug_mode == 1)
 			{
 				$message = $response['message'];
@@ -207,7 +181,7 @@ class plgRedshop_paymentrs_payment_chase extends JPlugin
 
 	}
 
-	function getparameters($payment)
+	public function getparameters($payment)
 	{
 		$db = JFactory::getDBO();
 		$sql = "SELECT * FROM #__extensions WHERE `element`='" . $payment . "'";
@@ -217,13 +191,14 @@ class plgRedshop_paymentrs_payment_chase extends JPlugin
 		return $params;
 	}
 
-	function onCapture_Paymentrs_payment_chase($element, $data)
+	public function onCapture_Paymentrs_payment_chase($element, $data)
 	{
 		$db = JFactory::getDBO();
-		require_once JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php';
+		require_once JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers'
+			. DS . 'order.php';
 		$objOrder = new order_functions;
 
-		// get params from plugin
+		// Get params from plugin
 		$chase_parameters = $this->getparameters('rs_payment_chase');
 		$paymentinfo = $chase_parameters[0];
 		$paymentparams = new JRegistry($paymentinfo->params);
@@ -238,9 +213,9 @@ class plgRedshop_paymentrs_payment_chase extends JPlugin
 		// Add request-specific fields to the request string.
 
 		$paymentpath = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . 'rs_payment_chase' . DS . 'class.Chase.php';
-		include($paymentpath);
+		include $paymentpath;
 
-		// create object for chase ------------------------------------
+		// Create object for chase
 		$obj_chase = new Chase($currency);
 
 		if ($chase_test_status == 1)
@@ -253,9 +228,8 @@ class plgRedshop_paymentrs_payment_chase extends JPlugin
 		}
 
 		$amount = number_format($data['order_amount'], 2, '.', '') * 100;
-		//die();
 
-		//Assign merchant info
+		// Assign merchant info
 		$obj_chase->OrbitalConnectionUsername = $chase_conn_username;
 		$obj_chase->OrbitalConnectionPassword = $chase_conn_password;
 		$obj_chase->IndustryType = 'EC';
@@ -267,20 +241,18 @@ class plgRedshop_paymentrs_payment_chase extends JPlugin
 		$obj_chase->Amount = $amount;
 		$obj_chase->TxRefNum = $data['order_transactionid'];
 
-		// call function to post an order ------
+		// Call function to post an order ------
 
 		$response = $obj_chase->capture_an_order();
 
 		if ($response['ProcStatus'] == 1)
 		{
-			//echo "transaction Success -----";
 			$message = $response->StatusMsg;
 			$values->responsestatus = 'Success';
 
 		}
 		else
 		{
-			//echo "transaction Fail -----";
 			$message = $response->StatusMsg;
 			$values->responsestatus = 'Fail';
 
@@ -291,5 +263,4 @@ class plgRedshop_paymentrs_payment_chase extends JPlugin
 		return $values;
 
 	}
-
 }

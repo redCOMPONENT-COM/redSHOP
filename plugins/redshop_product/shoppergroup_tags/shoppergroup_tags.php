@@ -1,6 +1,13 @@
 <?php
-// no direct access
-defined('_JEXEC') or die('Restricted access');
+/**
+ * @package     RedSHOP
+ * @subpackage  Plugin
+ *
+ * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
+ */
+
+defined('_JEXEC') or die;
 
 // Import library dependencies
 jimport('joomla.plugin.plugin');
@@ -19,7 +26,7 @@ class plgredshop_productshoppergroup_tags extends JPlugin
 	{
 		parent::__construct($subject);
 
-		// load plugin parameters
+		// Load plugin parameters
 		$this->_plugin = JPluginHelper::getPlugin('redshop_product', 'onPrepareProduct');
 		$this->_params = new JRegistry($this->_plugin->params);
 	}
@@ -35,7 +42,7 @@ class plgredshop_productshoppergroup_tags extends JPlugin
 	 */
 	function onPrepareProduct(&$template, &$params, $product)
 	{
-		$app = & JFactory::getApplication();
+		$app = JFactory::getApplication();
 		$user = JFactory::getUser();
 		$user_id = $user->id;
 		$rsUserhelper = new rsUserhelper;

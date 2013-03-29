@@ -9,9 +9,9 @@
 
 defined('_JEXEC') or die;
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php';
 
-jimport('joomla.application.component.controller');
+JLoader::import('joomla.application.component.controller');
 
 /**
  * Account Billing Address Controller.
@@ -41,9 +41,9 @@ class Account_billtoController extends JController
 	 */
 	public function edit()
 	{
-		$user = & JFactory::getUser();
-		$order_functions = new order_functions;
-		$billingaddresses = $order_functions->getBillingAddress($user->id);
+		$user                        = JFactory::getUser();
+		$order_functions             = new order_functions;
+		$billingaddresses            = $order_functions->getBillingAddress($user->id);
 		$GLOBALS['billingaddresses'] = $billingaddresses;
 
 		$task = JRequest::getVar('submit', 'post');
@@ -63,19 +63,19 @@ class Account_billtoController extends JController
 	 */
 	public function save()
 	{
-		$user = & JFactory::getUser();
-		$post = JRequest::get('post');
+		$user   = JFactory::getUser();
+		$post   = JRequest::get('post');
 		$return = JRequest::getVar('return');
 		$option = JRequest::getVar('option');
 		$Itemid = JRequest::getVar('Itemid');
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid    = JRequest::getVar('cid', array(0), 'post', 'array');
 
 		$post['users_info_id'] = $cid[0];
-		$post['id'] = $post['user_id'];
-		$post['address_type'] = "BT";
-		$post['email'] = $post['email1'];
-		$post['password'] = JRequest::getVar('password1', '', 'post', 'string', JREQUEST_ALLOWRAW);
-		$post['password2'] = JRequest::getVar('password2', '', 'post', 'string', JREQUEST_ALLOWRAW);
+		$post['id']            = $post['user_id'];
+		$post['address_type']  = "BT";
+		$post['email']         = $post['email1'];
+		$post['password']      = JRequest::getVar('password1', '', 'post', 'string', JREQUEST_ALLOWRAW);
+		$post['password2']     = JRequest::getVar('password2', '', 'post', 'string', JREQUEST_ALLOWRAW);
 
 		if (isset($user->username))
 		{
@@ -125,14 +125,12 @@ class Account_billtoController extends JController
 	 */
 	function cancel()
 	{
-		$option = JRequest::getVar('option');
-		$Itemid = JRequest::getVar('Itemid');
-
-		$msg = JText::_('COM_REDSHOP_BILLING_INFORMATION_EDITING_CANCELLED');
-
-		$return = JRequest::getVar('return');
+		$option  = JRequest::getVar('option');
+		$Itemid  = JRequest::getVar('Itemid');
+		$msg     = JText::_('COM_REDSHOP_BILLING_INFORMATION_EDITING_CANCELLED');
+		$return  = JRequest::getVar('return');
 		$setexit = JRequest::getInt('setexit', 1);
-		$link = '';
+		$link    = '';
 
 		if ($return != "")
 		{

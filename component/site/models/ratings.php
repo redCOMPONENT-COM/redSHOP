@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
+JLoader::import('joomla.application.component.model');
 
 /**
  * Class ratingsModelratings
@@ -28,12 +28,12 @@ class ratingsModelratings extends JModel
 
 	public function __construct()
 	{
-		global $mainframe;
+		$app = JFactory::getApplication();
 		parent::__construct();
 		$this->_table_prefix = '#__redshop_';
 
-		$limit      = $mainframe->getUserStateFromRequest('limit', 'limit', $mainframe->getCfg('list_limit'), 0);
-		$limitstart = $mainframe->getUserStateFromRequest('limitstart', 'limitstart', 0);
+		$limit      = $app->getUserStateFromRequest('limit', 'limit', $app->getCfg('list_limit'), 0);
+		$limitstart = $app->getUserStateFromRequest('limitstart', 'limitstart', 0);
 		$limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
 		$this->setState('limit', $limit);
 		$this->setState('limitstart', $limitstart);
@@ -74,7 +74,7 @@ class ratingsModelratings extends JModel
 	{
 		if (empty($this->_pagination))
 		{
-			jimport('joomla.html.pagination');
+			JLoader::import('joomla.html.pagination');
 			$this->_pagination = new JPagination($this->getTotal(), $this->getState('limitstart'), $this->getState('limit'));
 		}
 

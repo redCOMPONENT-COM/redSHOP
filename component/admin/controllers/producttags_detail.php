@@ -6,19 +6,20 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined('_JEXEC') or die ('Restricted access');
+
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 
 class producttags_detailController extends JController
 {
-	function __construct($default = array())
+	public function __construct($default = array())
 	{
 		parent::__construct($default);
 		$this->registerTask('add', 'edit');
 	}
 
-	function edit()
+	public function edit()
 	{
 		JRequest::setVar('view', 'producttags_detail');
 		JRequest::setVar('layout', 'default');
@@ -27,7 +28,7 @@ class producttags_detailController extends JController
 		parent::display();
 	}
 
-	function save()
+	public function save()
 	{
 		$post = JRequest::get('post');
 
@@ -38,6 +39,7 @@ class producttags_detailController extends JController
 		$post ['tags_id'] = $cid[0];
 
 		$model = $this->getModel('producttags_detail');
+
 		if ($model->store($post))
 		{
 			$msg = JText::_('COM_REDSHOP_TAGS_DETAIL_SAVED');
@@ -51,9 +53,8 @@ class producttags_detailController extends JController
 		$this->setRedirect('index.php?option=' . $option . '&view=producttags', $msg);
 	}
 
-	function remove()
+	public function remove()
 	{
-
 		$option = JRequest::getVar('option');
 
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
@@ -64,17 +65,18 @@ class producttags_detailController extends JController
 		}
 
 		$model = $this->getModel('producttags_detail');
+
 		if (!$model->delete($cid))
 		{
 			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
 		}
+
 		$msg = JText::_('COM_REDSHOP_TAGS_DETAIL_DELETED_SUCCESSFULLY');
 		$this->setRedirect('index.php?option=' . $option . '&view=producttags', $msg);
 	}
 
-	function publish()
+	public function publish()
 	{
-
 		$option = JRequest::getVar('option');
 
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
@@ -85,17 +87,18 @@ class producttags_detailController extends JController
 		}
 
 		$model = $this->getModel('producttags_detail');
+
 		if (!$model->publish($cid, 1))
 		{
 			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
 		}
+
 		$msg = JText::_('COM_REDSHOP_TAGS_DETAIL_PUBLISHED_SUCCESSFULLY');
 		$this->setRedirect('index.php?option=' . $option . '&view=producttags', $msg);
 	}
 
-	function unpublish()
+	public function unpublish()
 	{
-
 		$option = JRequest::getVar('option');
 
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
@@ -106,20 +109,20 @@ class producttags_detailController extends JController
 		}
 
 		$model = $this->getModel('producttags_detail');
+
 		if (!$model->publish($cid, 0))
 		{
 			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
 		}
+
 		$msg = JText::_('COM_REDSHOP_TAGS_DETAIL_UNPUBLISHED_SUCCESSFULLY');
 		$this->setRedirect('index.php?option=' . $option . '&view=producttags', $msg);
 	}
 
-	function cancel()
+	public function cancel()
 	{
-
 		$option = JRequest::getVar('option');
 		$msg = JText::_('COM_REDSHOP_TAGS_DETAIL_EDITING_CANCELLED');
 		$this->setRedirect('index.php?option=' . $option . '&view=producttags', $msg);
 	}
-
 }

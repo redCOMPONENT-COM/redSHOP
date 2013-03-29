@@ -8,33 +8,41 @@
  */
 
 defined('_JEXEC') or die;
-//jimport('joomla.user.helper');
-//
-require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'mail.php';
-require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'extra_field.php';
-require_once JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'cart.php';
-require_once JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'helper.php';
+
+require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/mail.php';
+require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/extra_field.php';
+require_once JPATH_SITE . '/components/com_redshop/helpers/cart.php';
+require_once JPATH_SITE . '/components/com_redshop/helpers/helper.php';
 
 class rsUserhelper
 {
 	public $_table_prefix = null;
+
 	public $_session = null;
+
 	public $_userId = null;
+
 	public $_shopperGroupData = null;
+
 	public $_db = null;
+
 	public $_shopper_group_id = null;
+
 	public $_shopper_group_data = null;
 
 	public function __construct()
 	{
-		global $mainframe, $context;
 		$this->_table_prefix = '#__' . TABLE_PREFIX . '_';
 		$this->_session      = JFactory::getSession();
 		$this->_db           = JFactory::getDBO();
 	}
 
-	/*
-	 * replace Conditional tag from Redshop tax
+	/**
+	 * Replace Conditional tag from Redshop tax
+	 *
+	 * @param   integer  $user_id  User identifier
+	 *
+	 * @return  integer            User group
 	 */
 	public function getShopperGroup($user_id = 0)
 	{
@@ -64,7 +72,13 @@ class rsUserhelper
 		return $shopperGroupId;
 	}
 
-	// get User groups
+	/**
+	 * Get User groups
+	 *
+	 * @param   integer  $user_id  User identifier
+	 *
+	 * @return  array              Array of user groups
+	 */
 	public function getUserGroupList($user_id = 0)
 	{
 		$query = 'SELECT group_id FROM ' . $this->_table_prefix . 'users_info AS uf '
@@ -228,8 +242,7 @@ class rsUserhelper
 			die;
 		}
 
-		global $mainframe;
-
+		$app = JFactory::getApplication();
 		$db  = JFactory::getDBO();
 		$me  = JFactory::getUser();
 		$acl = JFactory::getACL();
@@ -324,7 +337,7 @@ class rsUserhelper
 
 	public function createJoomlaUser($data, $createuser = 0)
 	{
-		global $mainframe;
+		$app = JFactory::getApplication();
 
 		$createaccount = (isset($data['createaccount']) && $data['createaccount'] == 1) ? 1 : 0;
 
@@ -404,7 +417,7 @@ class rsUserhelper
 			$user = clone(JFactory::getUser());
 
 			// If user registration is not allowed, show 403 not authorized.
-			$usersConfig = & JComponentHelper::getParams('com_users');
+			$usersConfig = JComponentHelper::getParams('com_users');
 
 			$usersConfig->set('allowUserRegistration', 1);
 
@@ -451,7 +464,7 @@ class rsUserhelper
 			$credentials['password'] = $data['password2'];
 
 			//preform the login action
-			$mainframe->login($credentials);
+			$app->login($credentials);
 
 			return $user;
 		}
@@ -464,7 +477,8 @@ class rsUserhelper
 		if (SHOW_CAPTCHA)
 		{
 			$security_code = $_COOKIE['security_code'];
-			# unset copy
+
+			// Unset copy
 			setcookie('security_code', '');
 
 			if (empty($security_code) || $security_code != $data['security_code'])
@@ -480,15 +494,15 @@ class rsUserhelper
 
 	public function storeRedshopUser($data, $user_id = 0, $admin = 0)
 	{
-		$redshopMail = new redshopMail();
-		$extra_field = new extra_field();
-		$helper      = new redhelper();
+		$redshopMail = new redshopMail;
+		$extra_field = new extra_field;
+		$helper      = new redhelper;
 
 		$data['user_email']   = $data['email'] = $data['email1'];
 		$data['name']         = $name = $data['firstname'];
 		$data['address_type'] = 'BT';
 
-		$row = & JTable::getInstance('user_detail', 'Table');
+		$row = JTable::getInstance('user_detail', 'Table');
 
 		if (isset($data['users_info_id']) && $data['users_info_id'] != 0)
 		{
@@ -517,7 +531,7 @@ class rsUserhelper
 			}
 			else
 			{
-				if ($is_admin && $data['shopper_group_id'] != 0)
+				if ($is_admin && isset($data['shopper_group_id']) && $data['shopper_group_id'] != 0)
 				{
 					$data['shopper_group_id'] = $data['shopper_group_id'];
 				}
@@ -584,12 +598,11 @@ class rsUserhelper
 		// Update user info id
 		if (ECONOMIC_INTEGRATION)
 		{
-			$economic         = new economic();
+			$economic         = new economic;
 			$original_info_id = $row->users_info_id;
 
 			if ($isNew)
 			{
-				$economic  = new economic();
 				$maxDebtor = $economic->getMaxDebtorInEconomic();
 
 				if (count($maxDebtor) > 0)
@@ -622,7 +635,7 @@ class rsUserhelper
 
 					if ($row->user_id)
 					{
-						$user =& JUser::getInstance((int) $row->user_id);
+						$user = JUser::getInstance((int) $row->user_id);
 
 						// Delete user
 						$user->delete();
@@ -674,15 +687,18 @@ class rsUserhelper
 			$billisship = 0;
 		}
 
-		$list_field = $extra_field->extra_field_save($data, 6, $row->users_info_id); /// field_section 6 :Userinformations
+		// Info: field_section 6 :Userinformations
+		$list_field = $extra_field->extra_field_save($data, 6, $row->users_info_id);
 
 		if ($row->is_company == 0)
 		{
-			$list_field = $extra_field->extra_field_save($data, 7, $row->users_info_id); /// field_section 7 :Userinformations
+			// Info: field_section 7 :Userinformations
+			$list_field = $extra_field->extra_field_save($data, 7, $row->users_info_id);
 		}
 		else
 		{
-			$list_field = $extra_field->extra_field_save($data, 8, $row->users_info_id); /// field_section 8 :Userinformations
+			// Info: field_section 8 :Userinformations
+			$list_field = $extra_field->extra_field_save($data, 8, $row->users_info_id);
 		}
 
 		if ($billisship != 1)
@@ -708,7 +724,7 @@ class rsUserhelper
 		if ($isNew)
 		{
 			JPluginHelper::importPlugin('highrise');
-			$dispatcher =& JDispatcher::getInstance();
+			$dispatcher = JDispatcher::getInstance();
 			$hResponses = $dispatcher->trigger('oncreateHighriseUser', array($post));
 		}
 
@@ -727,7 +743,7 @@ class rsUserhelper
 	{
 		$extra_field = new extra_field;
 
-		$rowShip = & JTable::getInstance('user_detail', 'Table');
+		$rowShip = JTable::getInstance('user_detail', 'Table');
 
 		if (!$rowShip->bind($data))
 		{
@@ -757,7 +773,6 @@ class rsUserhelper
 		{
 			$rowShip->company_name = $data['company_name'];
 			$rowShip->vat_number   = $data['vat_number'];
-
 		}
 
 		if (!$rowShip->store())
@@ -769,11 +784,13 @@ class rsUserhelper
 
 		if ($data['is_company'] == 0)
 		{
-			$list_field = $extra_field->extra_field_save($data, 14, $rowShip->users_info_id); // field_section 14 :Customer shipping Address
+			// Info: field_section 14 :Customer shipping Address
+			$list_field = $extra_field->extra_field_save($data, 14, $rowShip->users_info_id);
 		}
 		else
 		{
-			$list_field = $extra_field->extra_field_save($data, 15, $rowShip->users_info_id); // field_section 15 :Company shipping Address
+			// Info: field_section 15 :Company shipping Address
+			$list_field = $extra_field->extra_field_save($data, 15, $rowShip->users_info_id);
 		}
 
 		return $rowShip;
@@ -786,6 +803,7 @@ class rsUserhelper
 			. "WHERE ru.user_id IS NULL ";
 		$this->_db->setQuery($query);
 		$jusers = $this->_db->loadObjectList();
+
 		for ($i = 0; $i < count($jusers); $i++)
 		{
 			$name = explode(" ", $jusers[$i]->name);
@@ -850,8 +868,8 @@ class rsUserhelper
 			$data['published'] = 0;
 		}
 
-		JTable::addIncludePath(JPATH_ADMINISTRATOR . DS . "components" . DS . "com_redshop" . DS . "tables");
-		$row =& JTable::getInstance('newslettersubscr_detail', 'Table');
+		JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_redshop/tables');
+		$row = JTable::getInstance('newslettersubscr_detail', 'Table');
 
 		if (!$row->bind($data))
 		{
@@ -865,7 +883,7 @@ class rsUserhelper
 
 		if (NEWSLETTER_CONFIRMATION && $sendmail)
 		{
-			$redshopMail = new redshopMail();
+			$redshopMail = new redshopMail;
 			$redshopMail->sendNewsletterConfirmationMail($row->subscription_id);
 		}
 
@@ -895,7 +913,7 @@ class rsUserhelper
 				. $and;
 			$this->_db->setQuery($query);
 			$this->_db->query();
-			$redshopMail = new redshopMail();
+			$redshopMail = new redshopMail;
 			$redshopMail->sendNewsletterCancellationMail($email);
 		}
 
@@ -904,7 +922,7 @@ class rsUserhelper
 
 	public function getBillingTable($post = array(), $is_company = 0, $lists, $show_shipping = 0, $show_newsletter = 0, $create_account = 1)
 	{
-		$redTemplate = new Redtemplate();
+		$redTemplate = new Redtemplate;
 
 		$billingisshipping = "";
 
@@ -1186,8 +1204,8 @@ class rsUserhelper
 
 	public function getShippingTable($post = array(), $is_company = 0, $lists)
 	{
-		$Redconfiguration  = new Redconfiguration();
-		$redTemplate       = new Redtemplate();
+		$Redconfiguration  = new Redconfiguration;
+		$redTemplate       = new Redtemplate;
 		$shipping_template = $redTemplate->getTemplate("shipping_template");
 
 		if (count($shipping_template) > 0 && $shipping_template[0]->template_desc != "")
@@ -1300,18 +1318,25 @@ class rsUserhelper
 	}
 
 	/**
-	 * function to store redCRM user
+	 * Function to store redCRM user
+	 *
+	 * @param   object  $row  Row to store
+	 *
+	 * @return  object
 	 */
 	public function setoreredCRMDebtor($row)
 	{
 		$this->_db->setQuery("SELECT debitor_id FROM #__redcrm_debitors WHERE users_info_id = '" . $row->users_info_id . "'");
 		$row->debitor_id = $this->_db->loadResult();
 
-		if ($row->debitor_id > 0) return;
+		if ($row->debitor_id > 0)
+		{
+			return;
+		}
 
 		if (DEBITOR_NUMBER_AUTO_GENERATE == 1 && $row->users_info_id <= 0)
 		{
-			JModel::addIncludePath(REDCRM_ADMIN . DS . 'models');
+			JModel::addIncludePath(REDCRM_ADMIN . '/models');
 
 			$crmmodel = JModel::getInstance('debitor', 'redCRMModel');
 
@@ -1332,7 +1357,7 @@ class rsUserhelper
 		}
 
 		// Set redshop user detail table path
-		JTable::addIncludePath(REDCRM_ADMIN . DS . 'tables');
+		JTable::addIncludePath(REDCRM_ADMIN . '/tables');
 		$debtor = JTable::getInstance('debitors', 'Table');
 		$debtor->bind($row);
 		$debtor->store();

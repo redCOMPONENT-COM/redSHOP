@@ -8,41 +8,60 @@
  */
 
 defined('_JEXEC') or die;
-require_once JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'currency.php';
-require_once JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'helper.php';
-require_once JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'extra_field.php';
-require_once JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'user.php';
-require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php';
-require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'quotation.php';
-require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'template.php';
-require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'stockroom.php';
+
+require_once JPATH_SITE . '/components/com_redshop/helpers/currency.php';
+require_once JPATH_SITE . '/components/com_redshop/helpers/helper.php';
+require_once JPATH_SITE . '/components/com_redshop/helpers/extra_field.php';
+require_once JPATH_SITE . '/components/com_redshop/helpers/user.php';
+require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/order.php';
+require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/quotation.php';
+require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/template.php';
+require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/stockroom.php';
 
 class producthelper
 {
 	public $_id = null;
+
 	public $_data = null;
+
 	public $_db = null;
+
 	public $_userdata = null;
+
 	public $_table_prefix = null;
+
 	public $_product_level = 0;
+
 	public $_userhelper = null;
+
 	public $_session = null;
+
 	public $_cartTemplateData = null;
+
 	public $_ajaxdetail_templatedata = null;
+
 	public $_vatCountry = null;
+
 	public $_vatState = null;
+
 	public $_vatGroup = null;
+
 	public $_taxData = array();
+
 	public $_cart_template = null;
+
 	public $_acc_template = null;
+
 	public $_attribute_template = null;
+
 	public $_attributewithcart_template = null;
+
 	public $_shopper_group_id = null;
+
 	public $_discount_product_data = null;
 
 	function __construct()
 	{
-		global $context;
 		$this->_db           = JFactory::getDBO();
 		$this->_table_prefix = '#__' . TABLE_PREFIX . '_';
 		$this->_userhelper   = new rsUserhelper();
@@ -109,7 +128,7 @@ class producthelper
 	{
 		$leftjoin = "";
 		$userArr  = $this->_session->get('rs_user');
-		$helper   = new redhelper();
+		$helper = new redhelper;
 
 		if (empty($userArr))
 		{
@@ -122,7 +141,7 @@ class producthelper
 		{
 			if ($this->_session->get('isredcrmuser'))
 			{
-				$crmDebitorHelper = new crmDebitorHelper();
+				$crmDebitorHelper = new crmDebitorHelper;
 				$debitor_id_tot   = $crmDebitorHelper->getContactPersons(0, 0, 0, $userid);
 				$debitor_id       = $debitor_id_tot[0]->section_id;
 				$details          = $crmDebitorHelper->getDebitor($debitor_id);
@@ -174,8 +193,7 @@ class producthelper
 
 		$where           = ' WHERE 1=1';
 		$categoryProduct = '';
-		//if ($discount_product_id)
-		//{
+
 		if ($product_id)
 			$categoryProduct = $this->getCategoryProduct($product_id);
 
@@ -302,20 +320,8 @@ class producthelper
 		if ($userArr['rs_is_user_login'] == 0 && $user_id != 0)
 		{
 			$userArr = $this->_userhelper->createUserSession($user_id);
-//			unset($userArr['rs_tax_rate']);
 		}
 
-		/*if(array_key_exists("rs_tax_rate",$userArr) ){
-			$tax_rate = $userArr['rs_tax_rate'];
-		}else{
-			$vatrates_data = $this->getVatRates($product_id,$user_id);
-			if($vatrates_data){
-				$tax_rate 						= $vatrates_data->tax_rate;
-			}
-
-			$userArr['rs_tax_rate'] 		= $tax_rate;
-			$userArr = $this->_session->set('rs_user',$userArr);
-		}*/
 		$vatrates_data = $this->getVatRates($product_id, $user_id);
 
 		if ($vatrates_data)
@@ -334,7 +340,6 @@ class producthelper
 		{
 			$protax = $product_price * $tax_rate;
 
-//            $protax = $this->productPriceRound($protax);
 			return $protax;
 		}
 
@@ -346,13 +351,6 @@ class producthelper
 
 				if (count($userinfo) > 0)
 				{
-					/*if(SHOPPER_GROUP_DEFAULT_TAX_EXEMPT>0)
-					{
-						$shop_group = SHOPPER_GROUP_DEFAULT_TAX_EXEMPT;
-					}else{
-						$shop_group = 3;
-					}*/
-
 					if ($userinfo->requesting_tax_exempt == 1 && $userinfo->tax_exempt_approved)
 					{
 						$protax = $protax;
@@ -2367,8 +2365,8 @@ class producthelper
 
 	public function generateBreadcrumb($sectionid = 0)
 	{
-		$mainframe     = JFactory::getApplication();
-		$pathway       =& $mainframe->getPathway();
+		$app     = JFactory::getApplication();
+		$pathway       = $app->getPathway();
 		$view          = JRequest::getVar('view');
 		$layout        = JRequest::getVar('layout');
 		$Itemid        = JRequest::getInt('Itemid');
@@ -5120,7 +5118,7 @@ class producthelper
 		$attribute_table = "";
 		$subproperty     = array();
 		$document        = JFactory::getDocument();
-		//$document->addScript("components".DS."com_redshop".DS."assets".DS."js".DS."thumbscroller.js");
+
 		JHTML::Script('thumbscroller.js', 'components/com_redshop/assets/js/', false);
 		$chkvatArr = $this->_session->get('chkvat');
 		$chktag    = $chkvatArr['chkvat'];
@@ -8225,13 +8223,13 @@ class producthelper
 
 	public function getJcommentEditor($product = array(), $data_add = "")
 	{
-		$mainframe       = JFactory::getApplication();
+		$app       = JFactory::getApplication();
 		$product_reviews = "";
 		$product_id      = $product->product_id;
 
 		if ($product_id && !strstr($data_add, "{jcomments off}") && strstr($data_add, "{jcomments on}"))
 		{
-			$comments = $mainframe->getCfg('absolute_path') . '/components/com_jcomments/jcomments.php';
+			$comments = $app->getCfg('absolute_path') . '/components/com_jcomments/jcomments.php';
 
 			if (file_exists($comments))
 			{
@@ -8488,7 +8486,7 @@ class producthelper
 				$stockamountImage .= '<div class="spnalttext" id="stockImageTooltip' . $product_id . '">'
 					. $stockamountList[0]->stock_amount_image_tooltip . '</div></span>';
 				$stockamountImage .= '<img src="' . JURI::base()
-					. 'components/com_redshop/helpers/thumb.php?filename=stockroom' . DS
+					. 'components/com_redshop/helpers/thumb.php?filename=stockroom/'
 					. $stockamountList[0]->stock_amount_image . '&newxsize=' . DEFAULT_STOCKAMOUNT_THUMB_WIDTH
 					. '&newysize=' . DEFAULT_STOCKAMOUNT_THUMB_HEIGHT . '&swap=' . USE_IMAGE_SIZE_SWAPPING . '" alt="'
 					. $stockamountList[0]->stock_amount_image_tooltip . '" id="stockImage' . $product_id . '" /></a>';
@@ -9329,7 +9327,7 @@ class producthelper
 			if (count($stockamountList) > 0)
 			{
 				$stockamountTooltip = $stockamountList[0]->stock_amount_image_tooltip;
-				$stockamountSrc     = REDSHOP_FRONT_IMAGES_ABSPATH . 'stockroom' . DS
+				$stockamountSrc     = REDSHOP_FRONT_IMAGES_ABSPATH . 'stockroom/'
 					. $stockamountList[0]->stock_amount_image;
 			}
 		}

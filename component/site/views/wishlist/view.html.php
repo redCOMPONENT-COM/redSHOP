@@ -9,17 +9,17 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
+JLoader::import('joomla.application.component.view');
 
 class wishlistViewwishlist extends JView
 {
 	public function display($tpl = null)
 	{
-		global $mainframe;
+		$app = JFactory::getApplication();
 
 		// Request variables
 
-		$params = & $mainframe->getParams('com_redshop');
+		$params = $app->getParams('com_redshop');
 		$task   = JRequest::getVar('task', 'com_redshop');
 
 		$option = JRequest::getVar('option', 'com_redshop');
@@ -31,19 +31,17 @@ class wishlistViewwishlist extends JView
 
 		$pageheadingtag = '';
 
-
-		$params   = & $mainframe->getParams('com_redshop');
+		$params   = $app->getParams('com_redshop');
 		$document = JFactory::getDocument();
 		JHTML::Stylesheet('colorbox.css', 'components/com_redshop/assets/css/');
 
 		JHTML::Script('jquery.js', 'components/com_redshop/assets/js/', false);
 		JHTML::Script('jquery.colorbox-min.js', 'components/com_redshop/assets/js/', false);
 
-		//JHTML::Script('fetchscript.js', 'components/com_redshop/assets/js/',false);
 		JHTML::Script('attribute.js', 'components/com_redshop/assets/js/', false);
 		JHTML::Script('common.js', 'components/com_redshop/assets/js/', false);
 		JHTML::Script('redBOX.js', 'components/com_redshop/assets/js/', false);
-		$model =& $this->getModel("wishlist");
+		$model = $this->getModel("wishlist");
 
 		$wishlist          = $model->getUserWishlist();
 		$wish_products     = $model->getWishlistProduct();

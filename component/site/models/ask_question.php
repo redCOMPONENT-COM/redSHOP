@@ -9,9 +9,10 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
-require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'mail.php';
-require_once JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'product.php';
+JLoader::import('joomla.application.component.model');
+
+require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/mail.php';
+require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
 
 /**
  * Class ask_questionModelask_question
@@ -56,7 +57,7 @@ class ask_questionModelask_question extends JModel
 		$data['published']     = 1;
 		$data['question_date'] = time();
 
-		$row              = & $this->getTable('question_detail');
+		$row              = $this->getTable('question_detail');
 		$data['ordering'] = $this->MaxOrdering();
 
 		if (!$row->bind($data))
@@ -80,6 +81,7 @@ class ask_questionModelask_question extends JModel
 	 * Method to get max ordering
 	 *
 	 * @access public
+	 *
 	 * @return boolean
 	 */
 	public function MaxOrdering()

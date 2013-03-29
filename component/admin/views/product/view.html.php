@@ -16,6 +16,27 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'product.php'
 
 class productViewproduct extends JView
 {
+	/**
+	 * The pagination object.
+	 *
+	 * @var  JPagination
+	 */
+	public $pagination;
+
+	/**
+	 * The request url.
+	 *
+	 * @var  string
+	 */
+	public $request_url;
+
+	/**
+	 * The current user.
+	 *
+	 * @var  JUser
+	 */
+	public $user;
+
 	public $_product = array();
 
 	public function display($tpl = null)
@@ -42,7 +63,7 @@ class productViewproduct extends JView
 			JToolBarHelper::custom('removeCategory', 'delete.png', 'delete_f2.png', JText::_('COM_REDSHOP_REMOVE_CATEGORY'), true);
 			JToolBarHelper::addNewX();
 			JToolBarHelper::editListX();
-			JToolBarHelper::customX('copy', 'copy.png', 'copy_f2.png', 'Copy', true);
+			JToolBarHelper::customX('copy', 'copy.png', 'copy_f2.png', JText::_('COM_REDSHOP_TOOLBAR_COPY'), true);
 			JToolBarHelper::deleteList();
 			JToolBarHelper::publishList();
 			JToolBarHelper::unpublishList();
@@ -87,6 +108,7 @@ class productViewproduct extends JView
 		}
 
 		$temps = array();
+		$temps[0] = new stdClass;
 		$temps[0]->id = "0";
 		$temps[0]->treename = JText::_('COM_REDSHOP_SELECT');
 		$categories1 = @array_merge($temps, $categories1);
@@ -102,15 +124,16 @@ class productViewproduct extends JView
 
 		$lists['order'] = $filter_order;
 		$lists['order_Dir'] = $filter_order_Dir;
-		$products = & $this->get('Data');
+		$products = $this->get('Data');
 
-		$pagination = & $this->get('Pagination');
+		$pagination = $this->get('Pagination');
 
 		/*
 	     * assign template
 	     */
 		$templates = $redTemplate->getTemplate('product');
 		$temps = array();
+		$temps[0] = new stdClass;
 		$temps[0]->template_id = "0";
 		$temps[0]->template_name = JText::_('COM_REDSHOP_ASSIGN_TEMPLATE');
 		$templates = @array_merge($temps, $templates);
@@ -122,11 +145,11 @@ class productViewproduct extends JView
 		$this->assignRef('list_in_products', $list_in_products);
 		$this->assignRef('keyword', $keyword);
 		$this->assignRef('search_field', $search_field);
-		$this->assignRef('user', JFactory::getUser());
+		$this->user = JFactory::getUser();
 		$this->assignRef('lists', $lists);
 		$this->assignRef('products', $products);
-		$this->assignRef('pagination', $pagination);
-		$this->assignRef('request_url', $uri->toString());
+		$this->pagination = $pagination;
+		$this->request_url = $uri->toString();
 
 		parent::display($tpl);
 	}

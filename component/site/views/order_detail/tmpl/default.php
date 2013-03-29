@@ -8,16 +8,16 @@
  */
 
 defined('_JEXEC') or die;
-$uri         =& JURI::getInstance();
+$uri         = JURI::getInstance();
 $url         = JURI::base();
 $redconfig   = new Redconfiguration;
 $extra_field = new extra_field;
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php';
-require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'shipping.php';
-require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php';
-require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'helper.php';
-require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'cart.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/shipping.php';
+require_once JPATH_COMPONENT . '/helpers/product.php';
+require_once JPATH_COMPONENT . '/helpers/helper.php';
+require_once JPATH_COMPONENT . '/helpers/cart.php';
 
 $producthelper   = new producthelper;
 $redhelper       = new redhelper;
@@ -121,7 +121,6 @@ for ($d = 0; $d < count($arr_discount); $d++)
 $search[]  = "{discount_type_lbl}";
 $replace[] = JText::_('COM_REDSHOP_CART_DISCOUNT_CODE_TBL');
 
-
 if ($discount_type)
 {
 	$search[]  = "{discount_type}";
@@ -202,7 +201,6 @@ if (strstr($orderslist_template, "{order_status_payment_only}"))
 	$search []  = "{order_status_payment_only}";
 	$replace [] = $orderPaymentStatus;
 }
-
 
 $search []  = "{reorder_button}";
 $replace [] = $reorder;

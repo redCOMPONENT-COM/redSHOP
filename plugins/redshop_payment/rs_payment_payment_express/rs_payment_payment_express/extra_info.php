@@ -62,7 +62,7 @@ $response = new MifMessage($request_string);
 #Parse output XML
 $url = $response->get_element_text("URI");
 $valid = $response->get_attribute("valid");
-$session =& JFactory::getSession();
+$session = JFactory::getSession();
 $session->set('cart', "");
 
 $mainframe->redirect($url);

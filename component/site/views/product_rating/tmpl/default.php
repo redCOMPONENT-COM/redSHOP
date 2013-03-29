@@ -22,7 +22,6 @@ $Itemid = JRequest::getVar('Itemid');
 		var selection = document.adminForm.user_rating;
 
 		for (i = 0; i < selection.length; i++) {
-
 			if (selection[i].checked == true) {
 				flag = 1;
 			}

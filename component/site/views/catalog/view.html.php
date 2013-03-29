@@ -9,17 +9,15 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
-
+JLoader::import('joomla.application.component.view');
 
 class catalogViewcatalog extends JView
 {
-
 	public function display($tpl = null)
 	{
-		global $mainframe;
+		$app = JFactory::getApplication();
 
-		$params = & $mainframe->getParams('com_redshop');
+		$params = $app->getParams('com_redshop');
 		$layout = JRequest::getVar('layout');
 
 		if ($layout == "sample")

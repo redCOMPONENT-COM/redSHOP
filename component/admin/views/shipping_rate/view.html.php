@@ -26,9 +26,9 @@ class shipping_rateViewshipping_rate extends JView
 
 		$shipping = $shippinghelper->getShippingMethodById($id);
 
-		$shipping_rates = & $this->get('Data');
-		$total = & $this->get('Total');
-		$pagination = & $this->get('Pagination');
+		$shipping_rates = $this->get('Data');
+		$total = $this->get('Total');
+		$pagination = $this->get('Pagination');
 
 		$shippingpath = JPATH_ROOT . DS . 'plugins' . DS . $shipping->folder . DS . $shipping->element . '.xml';
 		$myparams = new JRegistry($shipping->params, $shippingpath);
@@ -42,7 +42,7 @@ class shipping_rateViewshipping_rate extends JView
 
 		if ($is_shipper)
 		{
-			JToolBarHelper::customX('copy', 'copy.png', 'copy_f2.png', 'Copy', true);
+			JToolBarHelper::customX('copy', 'copy.png', 'copy_f2.png', JText::_('COM_REDSHOP_TOOLBAR_COPY'), true);
 		}
 
 		JToolBarHelper::deleteList();

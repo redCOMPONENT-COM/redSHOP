@@ -30,8 +30,8 @@ class pricesViewprices extends JView
 		$limitstart = $mainframe->getUserStateFromRequest($context . 'limitstart', 'limitstart', '0');
 		$limit = $mainframe->getUserStateFromRequest($context . 'limit', 'limit', '10');
 
-		$total = & $this->get('Total');
-		$media = & $this->get('Data');
+		$total = $this->get('Total');
+		$media = $this->get('Data');
 		$product_id = $this->get('ProductId');
 		$pagination = new JPagination($total, $limitstart, $limit);
 		$this->assignRef('user', JFactory::getUser());

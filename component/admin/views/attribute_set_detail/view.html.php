@@ -41,7 +41,7 @@ class attribute_set_detailVIEWattribute_set_detail extends JView
 
 		$uri = JFactory::getURI();
 
-		$detail =& $this->get('data');
+		$detail = $this->get('data');
 
 		$isNew = ($detail->attribute_set_id < 1);
 

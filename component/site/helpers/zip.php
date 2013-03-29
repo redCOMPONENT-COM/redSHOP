@@ -14,37 +14,36 @@ class zipfile
 	 *
 	 * @var  array $datasec
 	 */
-	var $datasec = array();
+	public $datasec = array();
 
 	/**
 	 * Central directory
 	 *
 	 * @var  array $ctrl_dir
 	 */
-	var $ctrl_dir = array();
+	public $ctrl_dir = array();
 
 	/**
 	 * End of central directory record
 	 *
 	 * @var  string $eof_ctrl_dir
 	 */
-	var $eof_ctrl_dir = "\x50\x4b\x05\x06\x00\x00\x00\x00";
+	public $eof_ctrl_dir = "\x50\x4b\x05\x06\x00\x00\x00\x00";
 
 	/**
 	 * Last offset position
 	 *
 	 * @var  integer $old_offset
 	 */
-	var $old_offset = 0;
-
+	public $old_offset = 0;
 
 	/**
 	 * Converts an Unix timestamp to a four byte DOS date and time format (date
 	 * in high two bytes, time in low two bytes allowing magnitude comparison).
 	 *
-	 * @param  integer  the current Unix timestamp
+	 * @param   integer  $unixtime  the current Unix timestamp
 	 *
-	 * @return integer  the current date in a four byte DOS format
+	 * @return  integer             the current date in a four byte DOS format
 	 *
 	 * @access private
 	 */
@@ -69,11 +68,13 @@ class zipfile
 	/**
 	 * Adds "file" to archive
 	 *
-	 * @param  string   file contents
-	 * @param  string   name of the file in the archive (may contains the path)
-	 * @param  integer  the current timestamp
+	 * @param   string   $data  file contents
+	 * @param   string   $name  name of the file in the archive (may contains the path)
+	 * @param   integer  $time  the current timestamp
 	 *
 	 * @access public
+	 *
+	 * @return  void
 	 */
 	public function addFile($data, $name, $time = 0)
 	{
@@ -196,7 +197,6 @@ class zipfile
 		$this->ctrl_dir[] = $cdrec;
 	}
 
-
 	/**
 	 * Dumps out file
 	 *
@@ -213,12 +213,10 @@ class zipfile
 			$data .
 			$ctrldir .
 			$this->eof_ctrl_dir .
-			pack('v', sizeof($this->ctrl_dir)) .
-			pack('v', sizeof($this->ctrl_dir)) .
+			pack('v', count($this->ctrl_dir)) .
+			pack('v', count($this->ctrl_dir)) .
 			pack('V', strlen($ctrldir)) .
 			pack('V', strlen($data)) .
 			"\x00\x00";
 	}
 }
-
-

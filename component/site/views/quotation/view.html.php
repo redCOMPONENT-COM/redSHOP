@@ -9,13 +9,13 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
+JLoader::import('joomla.application.component.view');
 
 class quotationViewquotation extends JView
 {
 	public function display($tpl = null)
 	{
-		global $mainframe;
+		$app = JFactory::getApplication();
 
 		$redconfig = new Redconfiguration;
 		$uri       = JFactory::getURI();
@@ -30,7 +30,7 @@ class quotationViewquotation extends JView
 		{
 			if ($cart['idx'] < 1)
 			{
-				$mainframe->Redirect('index.php?option=' . $option . '&view=cart&Itemid=' . $Itemid);
+				$app->Redirect('index.php?option=' . $option . '&view=cart&Itemid=' . $Itemid);
 			}
 		}
 

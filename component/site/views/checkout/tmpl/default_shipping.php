@@ -8,7 +8,7 @@
  */
 
 defined('_JEXEC') or die;
-require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'shipping.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/shipping.php';
 
 JHTML::_('behavior.tooltip');
 JHTMLBehavior::modal();
@@ -63,7 +63,6 @@ if ($this->users_info_id > 0)
 
 	$box_template_desc = $carthelper->replaceShippingBoxTemplate($box_template_desc, $shipping_box_post_id);
 	echo eval("?>" . $box_template_desc . "<?php ");
-
 
 	$returnarr              = $carthelper->replaceShippingTemplate($template_desc, $this->shipping_rate_id, $shipping_box_post_id, $user->id, $this->users_info_id, $this->ordertotal, $this->order_subtotal);
 	$template_desc          = $returnarr['template_desc'];

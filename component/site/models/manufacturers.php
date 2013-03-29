@@ -9,8 +9,8 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
-jimport('joomla.html.pagination');
+JLoader::import('joomla.application.component.model');
+JLoader::import('joomla.html.pagination');
 
 /**
  * Class manufacturersModelmanufacturers
@@ -33,12 +33,14 @@ class manufacturersModelmanufacturers extends JModel
 
 	public function __construct()
 	{
-		global $mainframe, $context;
+		global $context;
+
+		$app = JFactory::getApplication();
 
 		parent::__construct();
 
 		$this->_table_prefix = '#__redshop_';
-		$params              = & $mainframe->getParams('com_redshop');
+		$params              = $app->getParams('com_redshop');
 
 		if ($params->get('manufacturerid') != "")
 		{
@@ -51,7 +53,7 @@ class manufacturersModelmanufacturers extends JModel
 
 		$this->setId($manid);
 
-		$limit = $mainframe->getUserStateFromRequest($context . 'limit', 'limit', $params->get('maxmanufacturer'), 5);
+		$limit = $app->getUserStateFromRequest($context . 'limit', 'limit', $params->get('maxmanufacturer'), 5);
 
 		$limitstart = JRequest::getVar('limitstart', 0, '', 'int');
 
@@ -84,7 +86,6 @@ class manufacturersModelmanufacturers extends JModel
 		$and     = "";
 
 		// Shopper group - choose from manufactures Start
-
 		$rsUserhelper               = new rsUserhelper;
 		$shopper_group_manufactures = $rsUserhelper->getShopperGroupManufacturers();
 
@@ -94,7 +95,6 @@ class manufacturersModelmanufacturers extends JModel
 		}
 
 		// Shopper group - choose from manufactures End
-
 		if ($this->_id)
 		{
 			$and .= " AND mn.manufacturer_id='" . $this->_id . "' ";
@@ -126,7 +126,7 @@ class manufacturersModelmanufacturers extends JModel
 
 		if ($layout == "products")
 		{
-			$this->_data = $this->_getList($query); //, $this->getState('limitstart'), $this->getState('limit') );
+			$this->_data = $this->_getList($query);
 		}
 		else
 		{
@@ -138,7 +138,6 @@ class manufacturersModelmanufacturers extends JModel
 
 	public function _buildContentOrderBy()
 	{
-		global $mainframe, $context;
 		$layout  = JRequest::getVar('layout');
 		$orderby = JRequest::getVar('order_by', DEFAULT_MANUFACTURER_ORDERING_METHOD);
 
@@ -197,7 +196,6 @@ class manufacturersModelmanufacturers extends JModel
 		$and       = '';
 
 		// Shopper group - choose from manufactures Start
-
 		$rsUserhelper               = new rsUserhelper;
 		$shopper_group_manufactures = $rsUserhelper->getShopperGroupManufacturers();
 
@@ -207,7 +205,6 @@ class manufacturersModelmanufacturers extends JModel
 		}
 
 		// Shopper group - choose from manufactures End
-
 		if ($filter_by != '0')
 		{
 			$and .= " AND c.category_id = " . $filter_by;

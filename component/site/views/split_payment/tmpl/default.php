@@ -9,9 +9,9 @@
 
 defined('_JEXEC') or die;
 
-require_once JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'product.php';
+require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
 $producthelper = new producthelper;
-require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php';
 $order_functions = new order_functions;
 
 $url = JURI::base();
@@ -52,9 +52,7 @@ $document = JFactory::getDocument();
 
 $is_creditcard = 0;
 
-
 ?>
-
 
 <fieldset class="adminform">
 	<legend><?php echo JText::_('COM_REDSHOP_PAYMENT_METHOD'); ?></legend>
@@ -63,18 +61,16 @@ $is_creditcard = 0;
 		<form action="<?php echo JRoute::_('index.php?option=' . $option . '&view=split_payment') ?>" method="post"
 		      name="adminForm" id="adminForm">
 
-
 			<?php
 			$paymentmethod = $order_functions->getPaymentMethodInfo();
 
-			$adminpath = JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop';
+			$adminpath = JPATH_ADMINISTRATOR . '/components/com_redshop';
 
 			for ($p = 0; $p < count($paymentmethod); $p++)
 			{
-				$paymentpath = $adminpath . DS . 'helpers' . DS . 'payments' . DS . $paymentmethod[$p]->plugin . DS . $paymentmethod[$p]->plugin . '.php';
+				$paymentpath = $adminpath . '/helpers/payments/' . $paymentmethod[$p]->plugin . '/' . $paymentmethod[$p]->plugin . '.php';
 				include_once $paymentpath;
 
-				// $payment_class = new $paymentmethod[$p]->payment_class;
 				?>
 				<input type="radio" name="payment_method_id"
 				       value="<?php echo $paymentmethod[$p]->payment_method_id; ?>"  <?php
@@ -103,7 +99,6 @@ $is_creditcard = 0;
 					</tr>
 					<tr>
 						<td colspan="2" align="right" nowrap="nowrap">
-
 
 							<table width="100%" border="0" cellspacing="2" cellpadding="2">
 								<tr>
@@ -298,10 +293,8 @@ $is_creditcard = 0;
 												echo $_SESSION['ccdata']['credit_card_code'] ?>"
 							       autocomplete="off" type="text">
 
-
 						</td>
 					</tr>
-
 
 					<tr valign="top">
 						<td align="right" nowrap="nowrap" width="10%">
@@ -347,4 +340,3 @@ $is_creditcard = 0;
 		</form>
 	</div>
 </fieldset>
- 

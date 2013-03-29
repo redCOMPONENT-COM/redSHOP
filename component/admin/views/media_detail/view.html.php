@@ -13,6 +13,13 @@ jimport('joomla.application.component.view');
 
 class media_detailVIEWmedia_detail extends JView
 {
+	/**
+	 * The request url.
+	 *
+	 * @var  string
+	 */
+	public $request_url;
+
 	public function display($tpl = null)
 	{
 		$option = JRequest::getVar('option', '', 'request', 'string');
@@ -31,7 +38,7 @@ class media_detailVIEWmedia_detail extends JView
 
 		$lists = array();
 
-		$detail =& $this->get('data');
+		$detail = $this->get('data');
 		$model = $this->getModel('media_detail');
 
 		$isNew = ($detail->media_id < 1);
@@ -115,7 +122,7 @@ class media_detailVIEWmedia_detail extends JView
 
 		$this->assignRef('lists', $lists);
 		$this->assignRef('detail', $detail);
-		$this->assignRef('request_url', $uri->toString());
+		$this->request_url = $uri->toString();
 
 		parent::display($tpl);
 	}

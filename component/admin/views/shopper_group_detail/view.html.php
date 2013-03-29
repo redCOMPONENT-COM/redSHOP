@@ -32,7 +32,7 @@ class shopper_group_detailVIEWshopper_group_detail extends JView
 
 		$lists = array();
 
-		$detail =& $this->get('data');
+		$detail = $this->get('data');
 
 		$isNew = ($detail->shopper_group_id < 1);
 

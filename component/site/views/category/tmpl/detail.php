@@ -30,7 +30,7 @@ $print = JRequest::getInt('print');
 $slide = JRequest::getInt('ajaxslide');
 $filter_by = JRequest::getInt('manufacturer_id', $this->params->get('manufacturer_id'), '', 'int');
 $category_template = JRequest::getInt('category_template', 0, '', 'int');
-$dispatcher =& JDispatcher::getInstance();
+$dispatcher = JDispatcher::getInstance();
 
 $minmax = $model->getMaxMinProductPrice();
 $texpricemin = $minmax[0];
@@ -65,20 +65,19 @@ else
 }
 
 $app = JFactory::getApplication();
-$router = & $app->getRouter();
+$router = $app->getRouter();
 
 $uri = new JURI('index.php?option=' . $option . '&view=category&layout=detail&cid=' . $catid . '&Itemid=' . $Itemid . '&limit=' . $endlimit . '&texpricemin=' . $texpricemin . '&texpricemax=' . $texpricemax . '&order_by=' . $this->order_by_select . '&manufacturer_id=' . $this->manufacturer_id . '&category_template=' . $this->category_template_id);
 
-// $router->setVars ( $uri->_vars );
-
 $document = JFactory::getDocument();
 $model = $this->getModel('category');
-/* replace redproductfilder filter tag */
+
+// Replace redproductfilder filter tag
 if (strstr($template_desc, "{redproductfinderfilter:"))
 {
-	if (file_exists(JPATH_SITE . DS . "components" . DS . "com_redproductfinder" . DS . "helpers" . DS . "redproductfinder_helper.php"))
+	if (file_exists(JPATH_SITE . '/components/com_redproductfinder/helpers/redproductfinder_helper.php'))
 	{
-		include_once JPATH_SITE . DS . "components" . DS . "com_redproductfinder" . DS . "helpers" . DS . "redproductfinder_helper.php";
+		include_once JPATH_SITE . "/components/com_redproductfinder/helpers/redproductfinder_helper.php";
 		$redproductfinder_helper = new redproductfinder_helper;
 		$hdnFields               = array('texpricemin' => '0', 'texpricemax' => '0', 'manufacturer_id' => $filter_by, 'category_template' => $category_template);
 		$hide_filter_flag        = false;
@@ -92,7 +91,6 @@ if (strstr($template_desc, "{redproductfinderfilter:"))
 		}
 
 		$template_desc = $redproductfinder_helper->replaceProductfinder_tag($template_desc, $hdnFields, $hide_filter_flag);
-
 	}
 }
 
@@ -288,7 +286,7 @@ if (!$slide)
 
 		for ($i = 0; $i < count($this->detail); $i++)
 		{
-			$row = & $this->detail[$i];
+			$row = $this->detail[$i];
 
 			$data_add = $subcat_template;
 
@@ -444,7 +442,6 @@ if (!$slide)
 	}
 }
 
-
 if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{product_loop_end}"))
 {
 	$template_d1      = explode("{product_loop_start}", $template_desc);
@@ -468,7 +465,7 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 
 	for ($i = $start; $i < ($start + $final_endlimit); $i++)
 	{
-		$product = & $this->product[$i];
+		$product = $this->product[$i];
 
 		if (!is_object($product))
 		{
@@ -481,9 +478,7 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 		$accessorylist = $producthelper->getProductAccessory(0, $product->product_id);
 		$totacc        = count($accessorylist);
 
-
 		$data_add = $template_product;
-
 
 		// ProductFinderDatepicker Extra Field Start
 
@@ -529,7 +524,7 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 					$alttext = $media_documents[$m]->media_name;
 				}
 
-				if (is_file(REDSHOP_FRONT_DOCUMENT_RELPATH . "product" . DS . $media_documents[$m]->media_name))
+				if (is_file(REDSHOP_FRONT_DOCUMENT_RELPATH . 'product/' . $media_documents[$m]->media_name))
 				{
 					$downlink = JUri::root() . 'index.php?tmpl=component&option=' . $option . '&view=product&pid=' . $this->data->product_id . '&task=downloadDocument&fname=' . $media_documents[$m]->media_name . '&Itemid=' . $Itemid;
 					$more_doc .= "<div><a href='" . $downlink . "' title='" . $alttext . "'>";
@@ -781,10 +776,11 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 
 		$hidden_thumb_image = "<input type='hidden' name='prd_main_imgwidth' id='prd_main_imgwidth' value='" . $pw_thumb . "'><input type='hidden' name='prd_main_imgheight' id='prd_main_imgheight' value='" . $ph_thumb . "'>";
 		$thum_image         = $producthelper->getProductImage($product->product_id, $link, $pw_thumb, $ph_thumb, 2, 1);
-		/* product image flying addwishlist time start*/
+
+		// Product image flying addwishlist time start
 		$thum_image = "<span class='productImageWrap' id='productImageWrapID_" . $product->product_id . "'>" . $producthelper->getProductImage($product->product_id, $link, $pw_thumb, $ph_thumb, 2, 1) . "</span>";
 
-		/* product image flying addwishlist time end*/
+		// Product image flying addwishlist time end
 		$data_add = str_replace($pimg_tag, $thum_image . $hidden_thumb_image, $data_add);
 
 		// Front-back image tag...
@@ -824,7 +820,6 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 		}
 
 		// Front-back image tag end
-
 
 		// Product preview image.
 		if (strstr($data_add, '{product_preview_img}'))
@@ -897,7 +892,6 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 		// Replace compare product button
 		$data_add = $producthelper->replaceCompareProductsButton($product->product_id, $catid, $data_add);
 
-
 		if (strstr($data_add, "{stockroom_detail}"))
 		{
 			$data_add = $stockroomhelper->replaceStockroomAmountDetail($data_add, $product->product_id);
@@ -905,7 +899,6 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 
 		// Checking for child products
 		$childproduct = $producthelper->getChildProduct($product->product_id);
-
 
 		if (count($childproduct) > 0)
 		{
@@ -953,7 +946,6 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 
 		$data_add = $producthelper->getProductNotForSaleComment($product, $data_add, $attributes);
 
-	// Echo $data_add;die();
 		$data_add = $producthelper->replaceProductInStock($product->product_id, $data_add, $attributes, $attribute_template);
 
 		$data_add = $producthelper->replaceAttributeData($product->product_id, 0, 0, $attributes, $data_add, $attribute_template, $isChilds);

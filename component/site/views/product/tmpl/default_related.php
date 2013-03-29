@@ -72,7 +72,6 @@ if (count($relptemplate) > 0)
 		$relimage              = $producthelper->getProductImage($related_product [$r]->product_id, $rlink, $rpw_thumb, $rph_thumb);
 		$related_template_data = str_replace($rpimg_tag, $relimage . $hidden_thumb_image, $related_template_data);
 
-
 		if (strstr($related_template_data, "{relproduct_link}"))
 		{
 			$rpname = "<a href='" . $rlink . "' title='" . $related_product [$r]->product_name . "'>" . $config->maxchar($related_product [$r]->product_name, RELATED_PRODUCT_TITLE_MAX_CHARS, RELATED_PRODUCT_TITLE_END_SUFFIX) . "</a>";
@@ -84,7 +83,6 @@ if (count($relptemplate) > 0)
 
 		$rpdesc       = $config->maxchar($related_product [$r]->product_desc, RELATED_PRODUCT_DESC_MAX_CHARS, RELATED_PRODUCT_DESC_END_SUFFIX);
 		$rp_shortdesc = $config->maxchar($related_product [$r]->product_s_desc, RELATED_PRODUCT_SHORT_DESC_MAX_CHARS, RELATED_PRODUCT_SHORT_DESC_END_SUFFIX);
-
 
 		$related_template_data = str_replace("{relproduct_link}", '', $related_template_data);
 
