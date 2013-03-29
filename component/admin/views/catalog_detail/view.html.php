@@ -13,6 +13,13 @@ jimport('joomla.application.component.view');
 
 class catalog_detailVIEWcatalog_detail extends JView
 {
+	/**
+	 * The request url.
+	 *
+	 * @var  string
+	 */
+	public $request_url;
+
 	public function display($tpl = null)
 	{
 		$option = JRequest::getVar('option');
@@ -38,7 +45,7 @@ class catalog_detailVIEWcatalog_detail extends JView
 
 		$lists = array();
 
-		$detail =& $this->get('data');
+		$detail = $this->get('data');
 
 		$layout = JRequest::getVar('layout', 'default');
 
@@ -60,7 +67,6 @@ class catalog_detailVIEWcatalog_detail extends JView
 		}
 		else
 		{
-
 			JToolBarHelper::cancel('cancel', 'Close');
 		}
 
@@ -68,7 +74,7 @@ class catalog_detailVIEWcatalog_detail extends JView
 
 		$this->assignRef('lists', $lists);
 		$this->assignRef('detail', $detail);
-		$this->assignRef('request_url', $uri->toString());
+		$this->request_url = $uri->toString();
 
 		parent::display($tpl);
 	}

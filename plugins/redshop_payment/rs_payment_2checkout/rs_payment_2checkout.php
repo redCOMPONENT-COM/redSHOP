@@ -1,28 +1,22 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license   GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- *            Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     RedSHOP
+ * @subpackage  Plugin
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-/** ensure this file is being included by a parent file */
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
+
 jimport('joomla.plugin.plugin');
-/*$mainframe =& JFactory::getApplication();
+
+/*$mainframe = JFactory::getApplication();
 $mainframe->registerEvent( 'onPrePayment', 'plgRedshoppayment_authorize' );*/
 require_once JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php';
 class plgRedshop_paymentrs_payment_2checkout extends JPlugin
 {
-	var $_table_prefix = null;
+	public $_table_prefix = null;
 
 	/**
 	 * Constructor
@@ -32,20 +26,19 @@ class plgRedshop_paymentrs_payment_2checkout extends JPlugin
 	 * NOT references.  This causes problems with cross-referencing necessary for the
 	 * observer design pattern.
 	 */
-	function plgRedshop_paymentrs_payment_2checkout(&$subject)
+	public function plgRedshop_paymentrs_payment_2checkout(&$subject)
 	{
-		// load plugin parameters
+		// Load plugin parameters
 		parent::__construct($subject);
 		$this->_table_prefix = '#__redshop_';
 		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_2checkout');
 		$this->_params = new JRegistry($this->_plugin->params);
-
 	}
 
 	/**
 	 * Plugin method with the same name as the event will be called automatically.
 	 */
-	function onPrePayment($element, $data)
+	public function onPrePayment($element, $data)
 	{
 		if ($element != 'rs_payment_2checkout')
 		{
@@ -57,12 +50,12 @@ class plgRedshop_paymentrs_payment_2checkout extends JPlugin
 			$plugin = $element;
 		}
 
-		$mainframe =& JFactory::getApplication();
+		$mainframe = JFactory::getApplication();
 		$paymentpath = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $plugin . DS . $plugin . DS . 'extra_info.php';
-		include($paymentpath);
+		include $paymentpath;
 	}
 
-	function onNotifyPaymentrs_payment_2checkout($element, $request)
+	public function onNotifyPaymentrs_payment_2checkout($element, $request)
 	{
 		if ($element != 'rs_payment_2checkout')
 		{
@@ -84,13 +77,13 @@ class plgRedshop_paymentrs_payment_2checkout extends JPlugin
 		$Itemid = $request["Itemid"];
 		JPlugin::loadLanguage('com_redshop');
 
-		// get value from xml file
-		$string_to_hash = $secret_words; //$params->get("TWOCO_SECRETWORD");
+		// Get value from xml file
+		$string_to_hash = $secret_words;
 
-		// this should be YOUR vendor number
-		$string_to_hash .= $request['sid']; //$params->get("TWOCO_LOGIN");
+		// This should be YOUR vendor number
+		$string_to_hash .= $request['sid'];
 
-		// append the order number, in this script it will always be 1
+		// Append the order number, in this script it will always be 1
 		if ($is_test)
 		{
 			$string_to_hash .= 1;
@@ -100,15 +93,13 @@ class plgRedshop_paymentrs_payment_2checkout extends JPlugin
 			$string_to_hash .= $request['order_number'];
 		}
 
-		// append the sale total
+		// Append the sale total
 		$string_to_hash .= $request["total"];
 
-		// get a md5 hash of the string, uppercase it to match the returned key
+		// Get a md5 hash of the string, uppercase it to match the returned key
 		$hash_to_check = strtoupper(md5($string_to_hash));
 
-		//
-		// Now validat on the MD5 stamping. If the MD5 key is valid or if MD5 is disabled
-		//
+		// Now validate on the MD5 stamping. If the MD5 key is valid or if MD5 is disabled
 		if ($order_ekey === $hash_to_check)
 		{
 			$transaction_id = $invoice_id;
@@ -131,12 +122,12 @@ class plgRedshop_paymentrs_payment_2checkout extends JPlugin
 		return $values;
 	}
 
-	function onCapture_Paymentrs_payment_2checkout($element, $data)
+	public function onCapture_Paymentrs_payment_2checkout($element, $data)
 	{
 		return;
 	}
 
-	function orderPaymentNotYetUpdated($dbConn, $order_id, $tid)
+	public function orderPaymentNotYetUpdated($dbConn, $order_id, $tid)
 	{
 		$db = JFactory::getDBO();
 		$res = false;
@@ -151,5 +142,4 @@ class plgRedshop_paymentrs_payment_2checkout extends JPlugin
 
 		return $res;
 	}
-
 }

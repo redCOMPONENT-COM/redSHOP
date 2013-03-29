@@ -1,28 +1,18 @@
 <?php
-
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license   GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- *            Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     RedSHOP
+ * @subpackage  Plugin
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-/** ensure this file is being included by a parent file */
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
+
 jimport('joomla.plugin.plugin');
-//$mainframe =& JFactory::getApplication();
-//$mainframe->registerEvent( 'onPrePayment', 'plgRedshoprs_payment_bbs' );
 class plgRedshop_paymentrs_payment_amazoncheckout extends JPlugin
 {
-	var $_table_prefix = null;
+	public $_table_prefix = null;
 
 	/**
 	 * Constructor
@@ -32,9 +22,9 @@ class plgRedshop_paymentrs_payment_amazoncheckout extends JPlugin
 	 * NOT references.  This causes problems with cross-referencing necessary for the
 	 * observer design pattern.
 	 */
-	function plgRedshop_paymentrs_payment_amazoncheckout(&$subject)
+	public function plgRedshop_paymentrs_payment_amazoncheckout(&$subject)
 	{
-		// load plugin parameters
+		// Load plugin parameters
 		parent::__construct($subject);
 		$this->_table_prefix = '#__redshop_';
 		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_amazoncheckout');
@@ -45,7 +35,7 @@ class plgRedshop_paymentrs_payment_amazoncheckout extends JPlugin
 	/**
 	 * Plugin method with the same name as the event will be called automatically.
 	 */
-	function onPrePayment($element, $data)
+	public function onPrePayment($element, $data)
 	{
 		if ($element != 'rs_payment_amazoncheckout')
 		{
@@ -57,12 +47,12 @@ class plgRedshop_paymentrs_payment_amazoncheckout extends JPlugin
 			$plugin = $element;
 		}
 
-		$mainframe =& JFactory::getApplication();
+		$mainframe = JFactory::getApplication();
 		$paymentpath = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $plugin . DS . $plugin . DS . 'extra_info.php';
-		include($paymentpath);
+		include $paymentpath;
 	}
 
-	function onNotifyPaymentrs_payment_amazoncheckout($element, $request)
+	public function onNotifyPaymentrs_payment_amazoncheckout($element, $request)
 	{
 		if ($element != 'rs_payment_amazoncheckout')
 		{
@@ -121,7 +111,7 @@ class plgRedshop_paymentrs_payment_amazoncheckout extends JPlugin
 		return $values;
 	}
 
-	function getparameters($payment)
+	public function getparameters($payment)
 	{
 		$db = JFactory::getDBO();
 		$sql = "SELECT * FROM #__extensions WHERE `element`='" . $payment . "'";
@@ -131,7 +121,7 @@ class plgRedshop_paymentrs_payment_amazoncheckout extends JPlugin
 		return $params;
 	}
 
-	function orderPaymentNotYetUpdated($dbConn, $order_id, $tid)
+	public function orderPaymentNotYetUpdated($dbConn, $order_id, $tid)
 	{
 		$db = JFactory::getDBO();
 		$res = true;
@@ -147,9 +137,8 @@ class plgRedshop_paymentrs_payment_amazoncheckout extends JPlugin
 		return $res;
 	}
 
-	function onCapture_Paymentrs_payment_amazoncheckout($element, $data)
+	public function onCapture_Paymentrs_payment_amazoncheckout($element, $data)
 	{
 		return;
 	}
-
 }

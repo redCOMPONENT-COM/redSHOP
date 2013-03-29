@@ -7,33 +7,32 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die ('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 
 class shipping_detailController extends JController
 {
-	function __construct($default = array())
+	public function __construct($default = array())
 	{
 		parent::__construct($default);
 		$this->registerTask('add', 'edit');
 	}
 
-	function edit()
+	public function edit()
 	{
 		JRequest::setVar('view', 'shipping_detail');
 		JRequest::setVar('layout', 'default');
 		JRequest::setVar('hidemainmenu', 1);
 		parent::display();
-
 	}
 
-	function apply()
+	public function apply()
 	{
 		$this->save(1);
 	}
 
-	function save($apply = 0)
+	public function save($apply = 0)
 	{
 		$post = JRequest::get('post');
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
@@ -49,6 +48,7 @@ class shipping_detailController extends JController
 		{
 			$msg = JText::_('COM_REDSHOP_ERROR_SAVING_shipping');
 		}
+
 		if ($apply == 1)
 		{
 			$this->setRedirect('index.php?option=' . $option . '&view=shipping_detail&task=edit&cid[]=' . $post['extension_id'], $msg);
@@ -59,7 +59,7 @@ class shipping_detailController extends JController
 		}
 	}
 
-	function publish()
+	public function publish()
 	{
 		$option = JRequest::getVar('option');
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
@@ -70,14 +70,16 @@ class shipping_detailController extends JController
 		}
 
 		$model = $this->getModel('shipping_detail');
+
 		if (!$model->publish($cid, 1))
 		{
 			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
 		}
+
 		$this->setRedirect('index.php?option=' . $option . '&view=shipping');
 	}
 
-	function unpublish()
+	public function unpublish()
 	{
 		$option = JRequest::getVar('option');
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
@@ -87,14 +89,16 @@ class shipping_detailController extends JController
 			JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));
 		}
 		$model = $this->getModel('shipping_detail');
+
 		if (!$model->publish($cid, 0))
 		{
 			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
 		}
+
 		$this->setRedirect('index.php?option=' . $option . '&view=shipping');
 	}
 
-	function cancel()
+	public function cancel()
 	{
 		$option = JRequest::getVar('option');
 		$this->setRedirect('index.php?option=' . $option . '&view=shipping');
@@ -106,12 +110,12 @@ class shipping_detailController extends JController
 	 * @access public
 	 * @return void
 	 */
-	function orderup()
+	public function orderup()
 	{
 		$option = JRequest::getVar('option');
 		$model = $this->getModel('shipping_detail');
 		$model->move(-1);
-		//$model->orderup();
+
 		$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
 		$this->setRedirect('index.php?option=' . $option . '&view=shipping', $msg);
 	}
@@ -122,12 +126,12 @@ class shipping_detailController extends JController
 	 * @access public
 	 * @return void
 	 */
-	function orderdown()
+	public function orderdown()
 	{
 		$option = JRequest::getVar('option');
 		$model = $this->getModel('shipping_detail');
 		$model->move(1);
-		//$model->orderdown();
+
 		$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
 		$this->setRedirect('index.php?option=' . $option . '&view=shipping', $msg);
 	}
@@ -138,7 +142,7 @@ class shipping_detailController extends JController
 	 * @access public
 	 * @return void
 	 */
-	function saveorder()
+	public function saveorder()
 	{
 		$option = JRequest::getVar('option');
 		$cid = JRequest::getVar('cid', array(), 'post', 'array');
@@ -154,5 +158,3 @@ class shipping_detailController extends JController
 		$this->setRedirect('index.php?option=' . $option . '&view=shipping', $msg);
 	}
 }
-
-

@@ -6,31 +6,20 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 
 class sample_requestController extends JController
 {
-	function __construct($default = array())
-	{
-		parent::__construct($default);
-	}
-
-	function cancel()
+	public function cancel()
 	{
 		$this->setRedirect('index.php');
 	}
 
-	function display()
+	public function publish()
 	{
-
-		parent::display();
-	}
-
-	function publish()
-	{
-
 		$option = JRequest::getVar('option');
 
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
@@ -41,17 +30,18 @@ class sample_requestController extends JController
 		}
 
 		$model = $this->getModel('sample_request');
+
 		if (!$model->publish($cid, 1))
 		{
 			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
 		}
+
 		$msg = JText::_('COM_REDSHOP_SAMPLE_REQUEST_BLOCK_SUCCESFULLY');
 		$this->setRedirect('index.php?option=' . $option . '&view=sample_request', $msg);
 	}
 
-	function remove()
+	public function remove()
 	{
-
 		$option = JRequest::getVar('option');
 
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
@@ -67,13 +57,13 @@ class sample_requestController extends JController
 		{
 			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
 		}
+
 		$msg = JText::_('COM_REDSHOP_SAMPLE_REQUEST_DELETED_SUCCESSFULLY');
 		$this->setRedirect('index.php?option=' . $option . '&view=sample_request', $msg);
 	}
 
-	function unpublish()
+	public function unpublish()
 	{
-
 		$option = JRequest::getVar('option');
 
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
@@ -84,10 +74,12 @@ class sample_requestController extends JController
 		}
 
 		$model = $this->getModel('sample_request');
+
 		if (!$model->publish($cid, 0))
 		{
 			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
 		}
+
 		$msg = JText::_('COM_REDSHOP_SAMPLE_REQUEST_BLOCK_UNBLOCK_SUCCESFULLY');
 		$this->setRedirect('index.php?option=' . $option . '&view=sample_request', $msg);
 	}

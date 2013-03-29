@@ -1,28 +1,21 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license   GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- *            Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     RedSHOP
+ * @subpackage  Plugin
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-/** ensure this file is being included by a parent file */
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
+
 jimport('joomla.plugin.plugin');
-//$mainframe =& JFactory::getApplication();
-//$mainframe->registerEvent( 'onPrePayment', 'plgRedshoprs_payment_bbs' );
+
 require_once JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php';
+
 class plgRedshop_paymentrs_payment_payflowpro extends JPlugin
 {
-	var $_table_prefix = null;
+	public $_table_prefix = null;
 
 	/**
 	 * Constructor
@@ -32,9 +25,9 @@ class plgRedshop_paymentrs_payment_payflowpro extends JPlugin
 	 * NOT references.  This causes problems with cross-referencing necessary for the
 	 * observer design pattern.
 	 */
-	function plgRedshop_paymentrs_payment_payflowpro(&$subject)
+	public function plgRedshop_paymentrs_payment_payflowpro(&$subject)
 	{
-		// load plugin parameters
+		// Load plugin parameters
 		parent::__construct($subject);
 		$this->_table_prefix = '#__redshop_';
 		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_payflowpro');
@@ -44,7 +37,7 @@ class plgRedshop_paymentrs_payment_payflowpro extends JPlugin
 	/**
 	 * Plugin method with the same name as the event will be called automatically.
 	 */
-	function onPrePayment_rs_payment_payflowpro($element, $data)
+	public function onPrePayment_rs_payment_payflowpro($element, $data)
 	{
 		if ($element != 'rs_payment_payflowpro')
 		{
@@ -56,10 +49,10 @@ class plgRedshop_paymentrs_payment_payflowpro extends JPlugin
 			$plugin = $element;
 		}
 
-		$mainframe =& JFactory::getApplication();
+		$mainframe = JFactory::getApplication();
 		$user = JFactory::getUser();
 
-		$session =& JFactory::getSession();
+		$session = JFactory::getSession();
 		$ccdata = $session->get('ccdata');
 
 		// Get Payment Params
@@ -69,7 +62,8 @@ class plgRedshop_paymentrs_payment_payflowpro extends JPlugin
 		$merchant_user = $this->_params->get("merchant_user");
 		$paymentType = $this->_params->get("sales_auth_only");
 		$is_test = $this->_params->get("is_test");
-		//Get Customer Data
+
+		// Get Customer Data
 		$firstName = urlencode($data['billinginfo']->firstname);
 		$lastName = urlencode($data['billinginfo']->lastname);
 		$address = urlencode($data['billinginfo']->address);
@@ -97,7 +91,7 @@ class plgRedshop_paymentrs_payment_payflowpro extends JPlugin
 		{
 			$currencyID = $this->_params->get("currency");
 		}
-		else if (CURRENCY_CODE != "")
+		elseif (CURRENCY_CODE != "")
 		{
 			$currencyID = urlencode(CURRENCY_CODE);
 		}
@@ -107,9 +101,11 @@ class plgRedshop_paymentrs_payment_payflowpro extends JPlugin
 		}
 
 		$currencyClass = new convertPrice;
-		// as per the email error no need to remove shipping - tmp fix
-		//$order_total = $data['order_total'] - $data['order_shipping'] - $data['order_tax'];
-		//$order_total = $data['order_total'] - $data['order_tax'];
+
+		// As per the email error no need to remove shipping - tmp fix
+		// $order_total = $data['order_total'] - $data['order_shipping'] - $data['order_tax'];
+		// $order_total = $data['order_total'] - $data['order_tax'];
+
 		$order_total = $data['order_total'];
 		$amount = $currencyClass->convert($order_total, '', $currencyID);
 		$amount = urlencode(number_format($amount, 2));
@@ -132,25 +128,25 @@ class plgRedshop_paymentrs_payment_payflowpro extends JPlugin
 		}
 
 		$params = array('USER'      => $merchant_user,
-		                'VENDOR'    => $merchant_id,
-		                'PARTNER'   => $partner,
-		                'PWD'       => $merchant_password,
-		                'TENDER'    => 'C',
-		                'TRXTYPE'   => $paymentType,
-		                'AMT'       => $amount,
-		                'CURRENCY'  => $currencyID,
-		                'FIRSTNAME' => $firstName,
-		                'LASTNAME'  => $lastName,
-		                'STREET'    => $address,
-		                'CITY'      => $city,
-		                'STATE'     => $state,
-		                'COUNTRY'   => $country,
-		                'ZIP'       => $zip,
-		                'CLIENTIP'  => $_SERVER['REMOTE_ADDR'],
-		                'EMAIL'     => $user_email,
-		                'ACCT'      => $creditCardNumber,
-		                'EXPDATE'   => $strExpiryDate,
-		                'CVV2'      => $strCV2);
+			'VENDOR'    => $merchant_id,
+			'PARTNER'   => $partner,
+			'PWD'       => $merchant_password,
+			'TENDER'    => 'C',
+			'TRXTYPE'   => $paymentType,
+			'AMT'       => $amount,
+			'CURRENCY'  => $currencyID,
+			'FIRSTNAME' => $firstName,
+			'LASTNAME'  => $lastName,
+			'STREET'    => $address,
+			'CITY'      => $city,
+			'STATE'     => $state,
+			'COUNTRY'   => $country,
+			'ZIP'       => $zip,
+			'CLIENTIP'  => $_SERVER['REMOTE_ADDR'],
+			'EMAIL'     => $user_email,
+			'ACCT'      => $creditCardNumber,
+			'EXPDATE'   => $strExpiryDate,
+			'CVV2'      => $strCV2);
 
 		if ($tax_amount > 0)
 		{
@@ -205,7 +201,7 @@ class plgRedshop_paymentrs_payment_payflowpro extends JPlugin
 
 	}
 
-	function sendTransactionToGateway($url, $parameters, $headers = null)
+	public function sendTransactionToGateway($url, $parameters, $headers = null)
 	{
 		$header = array();
 		$server = parse_url($url);
@@ -257,17 +253,17 @@ class plgRedshop_paymentrs_payment_payflowpro extends JPlugin
 	/*
 	 *  Plugin onNotifyPayment method with the same name as the event will be called automatically.
 	 */
-	function onNotifyPaymentrs_payment_payflowpro($element, $request)
+	public function onNotifyPaymentrs_payment_payflowpro($element, $request)
 	{
 		if ($element != 'rs_payment_payflowpro')
 		{
-			break;
+			return false;
 		}
 
 		return;
 	}
 
-	function onCapture_Paymentrs_payment_payflowpro($element, $data)
+	public function onCapture_Paymentrs_payment_payflowpro($element, $data)
 	{
 		// Get Payment Params
 		$partner = $this->_params->get("partner");
@@ -284,7 +280,7 @@ class plgRedshop_paymentrs_payment_payflowpro extends JPlugin
 		{
 			$currencyID = $this->_params->get("currency");
 		}
-		else if (CURRENCY_CODE != "")
+		elseif (CURRENCY_CODE != "")
 		{
 			$currencyID = urlencode(CURRENCY_CODE);
 		}
@@ -345,7 +341,7 @@ class plgRedshop_paymentrs_payment_payflowpro extends JPlugin
 
 	}
 
-	function onStatus_Paymentrs_payment_payflowpro($element, $data)
+	public function onStatus_Paymentrs_payment_payflowpro($element, $data)
 	{
 		// Get Payment Params
 		$partner = $this->_params->get("partner");
@@ -362,7 +358,7 @@ class plgRedshop_paymentrs_payment_payflowpro extends JPlugin
 		{
 			$currencyID = $this->_params->get("currency");
 		}
-		else if (CURRENCY_CODE != "")
+		elseif (CURRENCY_CODE != "")
 		{
 			$currencyID = urlencode(CURRENCY_CODE);
 		}
@@ -421,5 +417,4 @@ class plgRedshop_paymentrs_payment_payflowpro extends JPlugin
 
 		return $values;
 	}
-
 }

@@ -8,12 +8,12 @@
  */
 
 defined('_JEXEC') or die;
-jimport('joomla.application.component.model');
+JLoader::import('joomla.application.component.model');
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'quotation.php';
-require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php';
-require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php';
-include_once JPATH_COMPONENT . DS . 'helpers' . DS . 'cart.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/quotation.php';
+require_once JPATH_COMPONENT . '/helpers/extra_field.php';
+require_once JPATH_COMPONENT . '/helpers/product.php';
+include_once JPATH_COMPONENT . '/helpers/cart.php';
 
 /**
  * Class quotation_detailModelquotation_detail
@@ -49,7 +49,7 @@ class quotation_detailModelquotation_detail extends JModel
 
 	public function addtocart($data = array())
 	{
-		global $mainframe;
+		$app = JFactory::getApplication();
 
 		$Itemid  = JRequest::getVar("Itemid");
 		$session = JFactory::getSession();
@@ -66,9 +66,8 @@ class quotation_detailModelquotation_detail extends JModel
 		$row_data           = $quotationHelper->getQuotationUserfield($data->quotation_item_id);
 		$quotation_acc_data = $quotationHelper->getQuotationItemAccessoryDetail($data->quotation_item_id);
 		$quotation_att_data = $quotationHelper->getQuotationItemAttributeDetail($data->quotation_item_id, 0, "attribute", $data->product_id);
-		/*
-		 * set session for giftcard
-		 */
+
+		// Set session for giftcard
 		if ($data->is_giftcard == 1)
 		{
 			if ($carthelper->rs_recursiveArraySearch($cart, $data->product_id))

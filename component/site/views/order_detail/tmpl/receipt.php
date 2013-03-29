@@ -9,10 +9,10 @@
 
 defined('_JEXEC') or die;
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php';
-require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php';
-include_once JPATH_COMPONENT . DS . 'helpers' . DS . 'helper.php';
-include_once JPATH_COMPONENT . DS . 'helpers' . DS . 'cart.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php';
+require_once JPATH_COMPONENT . '/helpers/product.php';
+include_once JPATH_COMPONENT . '/helpers/helper.php';
+include_once JPATH_COMPONENT . '/helpers/cart.php';
 
 $carthelper = new rsCarthelper;
 $redconfig = new Redconfiguration;
@@ -31,7 +31,6 @@ $order_id = JRequest::getInt('oid');
 // For barcode
 $model = $this->getModel('order_detail');
 
-// $order_functions->getOrderDetails($order_id);
 $order = $this->OrdersDetail;
 $thankyou_text = str_replace('{order_number}', $order->order_number, ORDER_RECEIPT_INTROTEXT);
 ?>
@@ -86,10 +85,6 @@ $orderitem = $order_functions->getOrderItemDetail($order_id);
 
 $print = JRequest::getVar('print');
 
-// $p_url =@ explode ('?',$_SERVER['REQUEST_URI']);
-
-// $print_tag = '';
-
 if ($print)
 {
 	$onclick = "onclick='window.print();'";
@@ -122,7 +117,7 @@ $order_payment = $order_functions->getOrderPaymentDetail($order_id);
 
 $payment_method_class = $order_payment[0]->payment_method_class;
 
-jimport('joomla.plugin.helper');
+JLoader::import('joomla.plugin.helper');
 
 $plugin = JPluginHelper::getPlugin('redshop_payment', $payment_method_class);
 $params = new JParameter($plugin->params);
@@ -139,7 +134,7 @@ $ReceiptTemplate = $redTemplate->parseredSHOPplugin($ReceiptTemplate);
  *
  * trigger content plugin
  */
-$dispatcher = & JDispatcher::getInstance();
+$dispatcher = JDispatcher::getInstance();
 $o          = new stdClass;
 $o->text    = $ReceiptTemplate;
 JPluginHelper::importPlugin('content');
@@ -166,7 +161,7 @@ if ($issplit)
 $billingaddresses = $model->billingaddresses();
 
 // Google analytics code added
-require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'google_analytics.php';
+require_once JPATH_COMPONENT . '/helpers/google_analytics.php';
 $googleanalytics = new googleanalytics;
 
 $analytics_status = $order->analytics_status;

@@ -13,6 +13,20 @@ jimport('joomla.application.component.view');
 
 class giftcardViewgiftcard extends JView
 {
+	/**
+	 * The current user.
+	 *
+	 * @var  JUser
+	 */
+	public $user;
+
+	/**
+	 * The request url.
+	 *
+	 * @var  string
+	 */
+	public $request_url;
+
 	public function display($tpl = null)
 	{
 		global $mainframe, $context;
@@ -23,7 +37,7 @@ class giftcardViewgiftcard extends JView
 		JToolBarHelper::title(JText::_('COM_REDSHOP_GIFTCARD_MANAGEMENT'), 'redshop_giftcard_48');
 		JToolBarHelper::addNewX();
 		JToolBarHelper::editListX();
-		JToolBarHelper::customX('copy', 'copy.png', 'copy_f2.png', 'Copy', true);
+		JToolBarHelper::customX('copy', 'copy.png', 'copy_f2.png', JText::_('COM_REDSHOP_TOOLBAR_COPY'), true);
 		JToolBarHelper::deleteList();
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();
@@ -35,15 +49,15 @@ class giftcardViewgiftcard extends JView
 
 		$lists ['order'] = $filter_order;
 		$lists ['order_Dir'] = $filter_order_Dir;
-		$giftcard = & $this->get('Data');
-		$total = & $this->get('Total');
-		$pagination = & $this->get('Pagination');
+		$giftcard = $this->get('Data');
+		$total = $this->get('Total');
+		$pagination = $this->get('Pagination');
 
-		$this->assignRef('user', JFactory::getUser());
+		$this->user = JFactory::getUser();
 		$this->assignRef('lists', $lists);
 		$this->assignRef('giftcard', $giftcard);
 		$this->assignRef('pagination', $pagination);
-		$this->assignRef('request_url', $uri->toString());
+		$this->request_url = $uri->toString();
 
 		parent::display($tpl);
 	}

@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 $option = JRequest::getCmd('option', 'redshop');
 $model = $this->getModel('checkout');
-$uri = & JURI::getInstance();
+$uri = JURI::getInstance();
 $url = $uri->root();
 
 $redhelper = new redhelper;

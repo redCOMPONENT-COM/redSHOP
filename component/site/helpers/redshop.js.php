@@ -21,18 +21,18 @@ if ($tmpl == 'component' && !$for)
 }
 
 // 	Getting the configuration
-require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'redshop.cfg.php';
-require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'configuration.php';
+require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
+require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/configuration.php';
 
 $Redconfiguration = new Redconfiguration;
 $Redconfiguration->defineDynamicVars();
 
-require_once JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'currency.php';
+require_once JPATH_SITE . '/components/com_redshop/helpers/currency.php';
 $session = JFactory::getSession('product_currency');
 
 $post   = JRequest::get('POST');
 $Itemid = JRequest::getVar('Itemid');
-require_once JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'helper.php';
+require_once JPATH_SITE . '/components/com_redshop/helpers/helper.php';
 $redhelper   = new redhelper ();
 $cart_Itemid = $redhelper->getCartItemid($Itemid);
 
@@ -143,8 +143,13 @@ $doc->addScriptDeclaration($script);
 if ($view == 'product')
 {
 	if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . 'slimbox/' . PRODUCT_DETAIL_LIGHTBOX_CLOSE_BUTTON_IMAGE))
+	{
 		$slimboxCloseButton = "#sbox-btn-close {background: transparent url( \"" . REDSHOP_FRONT_IMAGES_ABSPATH . "slimbox/" . PRODUCT_DETAIL_LIGHTBOX_CLOSE_BUTTON_IMAGE . "\" ) no-repeat center;}";
+	}
 	else
+	{
 		$slimboxCloseButton = "#sbox-btn-close {background: transparent url( \"" . REDSHOP_FRONT_IMAGES_ABSPATH . "slimbox/closelabel.gif\" ) no-repeat center;}";
+	}
+
 	$doc->addStyleDeclaration($slimboxCloseButton);
 }

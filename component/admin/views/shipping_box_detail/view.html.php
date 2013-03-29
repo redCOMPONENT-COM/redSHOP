@@ -13,6 +13,13 @@ jimport('joomla.application.component.view');
 
 class shipping_box_detailVIEWshipping_box_detail extends JView
 {
+	/**
+	 * The request url.
+	 *
+	 * @var  string
+	 */
+	public $request_url;
+
 	public function display($tpl = null)
 	{
 		JToolBarHelper::title(JText::_('COM_REDSHOP_SHIPPING_BOX'), 'redshop_templates48');
@@ -27,16 +34,14 @@ class shipping_box_detailVIEWshipping_box_detail extends JView
 
 		$lists = array();
 
-		$detail =& $this->get('data');
+		$detail = $this->get('data');
 
 		$isNew = ($detail->shipping_box_id < 1);
 
 		$text = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_BOXES') . ': <small><small>[ ' . $text . ' ]</small></small>', 'redshop_shipping_box48');
-
 		JToolBarHelper::apply();
-
 		JToolBarHelper::save();
 
 		if ($isNew)
@@ -65,7 +70,7 @@ class shipping_box_detailVIEWshipping_box_detail extends JView
 
 		$this->assignRef('lists', $lists);
 		$this->assignRef('detail', $detail);
-		$this->assignRef('request_url', $uri->toString());
+		$this->request_url = $uri->toString();
 
 		parent::display($tpl);
 	}

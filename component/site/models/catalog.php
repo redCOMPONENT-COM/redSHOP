@@ -9,8 +9,8 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
-require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'mail.php';
+JLoader::import('joomla.application.component.model');
+require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/mail.php';
 
 /**
  * Class catalogModelcatalog
@@ -31,7 +31,7 @@ class CatalogModelCatalog extends JModel
 
 	public function catalogStore($data)
 	{
-		$row =& $this->getTable('catalog_request');
+		$row = $this->getTable('catalog_request');
 
 		if (!$row->bind($data))
 		{
@@ -52,7 +52,7 @@ class CatalogModelCatalog extends JModel
 
 	public function catalogSampleStore($data)
 	{
-		$row =& $this->getTable('sample_request');
+		$row = $this->getTable('sample_request');
 
 		if (!$row->bind($data))
 		{

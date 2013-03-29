@@ -25,7 +25,7 @@ class mass_discount_detailVIEWmass_discount_detail extends JView
 
 		$lists = array();
 
-		$detail =& $this->get('data');
+		$detail = $this->get('data');
 
 		$product_category = new product_category;
 

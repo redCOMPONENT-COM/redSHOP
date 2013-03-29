@@ -33,7 +33,7 @@ class xmlexport_detailVIEWxmlexport_detail extends JView
 		$colvalue = array();
 		$model = $this->getModel();
 
-		$detail =& $this->get('data');
+		$detail = $this->get('data');
 
 		$parentsection = JRequest::getVar('parentsection', '');
 		$detail->section_type = JRequest::getVar('section_type', $detail->section_type);

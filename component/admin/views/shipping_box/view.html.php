@@ -13,6 +13,20 @@ jimport('joomla.application.component.view');
 
 class shipping_boxViewshipping_box extends JView
 {
+	/**
+	 * The current user.
+	 *
+	 * @var  JUser
+	 */
+	public $user;
+
+	/**
+	 * The request url.
+	 *
+	 * @var  string
+	 */
+	public $request_url;
+
 	public function display($tpl = null)
 	{
 		global $mainframe, $context;
@@ -35,15 +49,15 @@ class shipping_boxViewshipping_box extends JView
 
 		$lists['order'] = $filter_order;
 		$lists['order_Dir'] = $filter_order_Dir;
-		$shipping_box = & $this->get('Data');
-		$total = & $this->get('Total');
-		$pagination = & $this->get('Pagination');
+		$shipping_box = $this->get('Data');
+		$total = $this->get('Total');
+		$pagination = $this->get('Pagination');
 
-		$this->assignRef('user', JFactory::getUser());
+		$this->user = JFactory::getUser();
 		$this->assignRef('lists', $lists);
 		$this->assignRef('shipping_box', $shipping_box);
 		$this->assignRef('pagination', $pagination);
-		$this->assignRef('request_url', $uri->toString());
+		$this->request_url = $uri->toString();
 
 		parent::display($tpl);
 	}

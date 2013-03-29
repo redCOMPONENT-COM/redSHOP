@@ -42,9 +42,9 @@ class newsletterViewnewsletter extends JView
 
 		$lists['order'] = $filter_order;
 		$lists['order_Dir'] = $filter_order_Dir;
-		$newsletters = & $this->get('Data');
-		$total = & $this->get('Total');
-		$pagination = & $this->get('Pagination');
+		$newsletters = $this->get('Data');
+		$total = $this->get('Total');
+		$pagination = $this->get('Pagination');
 
 		$oprand = JRequest::getVar('oprand', '>');
 

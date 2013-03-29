@@ -25,7 +25,7 @@ class stockimage_detailVIEWstockimage_detail extends JView
 
 		$lists = array();
 
-		$detail =& $this->get('data');
+		$detail = $this->get('data');
 		$isNew = ($detail->stock_amount_id < 1);
 		$text = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
 		JToolBarHelper::title(JText::_('COM_REDSHOP_STOCKIMAGE') . ': <small><small>[ ' . $text . ' ]</small></small>', 'redshop_stockroom48');

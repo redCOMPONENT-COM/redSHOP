@@ -1,28 +1,21 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license   GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- *            Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     RedSHOP
+ * @subpackage  Plugin
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-/** ensure this file is being included by a parent file */
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
+
 jimport('joomla.plugin.plugin');
-//$mainframe =& JFactory::getApplication();
-//$mainframe->registerEvent( 'onPrePayment', 'plgRedshoprs_payment_bbs' );
+
 require_once JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php';
+
 class plgredshop_paymentrs_payment_bbs extends JPlugin
 {
-	var $_table_prefix = null;
+	public $_table_prefix = null;
 
 	/**
 	 * Constructor
@@ -32,7 +25,7 @@ class plgredshop_paymentrs_payment_bbs extends JPlugin
 	 * NOT references.  This causes problems with cross-referencing necessary for the
 	 * observer design pattern.
 	 */
-	function plgredshop_paymentrs_payment_bbs(&$subject)
+	public function plgredshop_paymentrs_payment_bbs(&$subject)
 	{
 		// load plugin parameters
 		parent::__construct($subject);
@@ -45,7 +38,7 @@ class plgredshop_paymentrs_payment_bbs extends JPlugin
 	/**
 	 * Plugin method with the same name as the event will be called automatically.
 	 */
-	function onPrePayment($element, $data)
+	public function onPrePayment($element, $data)
 	{
 		if ($element != 'rs_payment_bbs')
 		{
@@ -57,12 +50,12 @@ class plgredshop_paymentrs_payment_bbs extends JPlugin
 			$plugin = $element;
 		}
 
-		$mainframe =& JFactory::getApplication();
+		$mainframe = JFactory::getApplication();
 		$paymentpath = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $plugin . DS . $plugin . DS . 'extra_info.php';
-		include($paymentpath);
+		include $paymentpath;
 	}
 
-	function onNotifyPaymentrs_payment_bbs($element, $request)
+	public function onNotifyPaymentrs_payment_bbs($element, $request)
 	{
 		if ($element != 'rs_payment_bbs')
 		{
@@ -97,6 +90,7 @@ class plgredshop_paymentrs_payment_bbs extends JPlugin
 		$bbsurl .= "merchantId=" . urlencode($access_id) . "&token=" . urlencode($token_id) . "&transactionId=" . $request["transactionId"] . "&operation=" . $auth_type;
 		$data = $bbsurl;
 		$ch = curl_init($data);
+
 		// 	Execute
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 		$data = curl_exec($ch);
@@ -107,7 +101,7 @@ class plgredshop_paymentrs_payment_bbs extends JPlugin
 		$BBS_msg = isset($xml->Result->ResponseText) ? $xml->Result->ResponseText : $BBS_msg;
 
 		require_once JPATH_BASE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php';
-//	 	require_once JPATH_ADMINISTRATOR.DS.'components'.DS.'com_redshop'.DS.'helpers'.DS.'redshop.cfg.php';
+
 		$objOrder = new order_functions;
 
 		if (strtoupper($AUTH_Responsecode) == 'OK')
@@ -137,7 +131,7 @@ class plgredshop_paymentrs_payment_bbs extends JPlugin
 		return $values;
 	}
 
-	function getparameters($payment)
+	public function getparameters($payment)
 	{
 		$db = JFactory::getDBO();
 		$sql = "SELECT * FROM #__extensions WHERE `element`='" . $payment . "'";
@@ -147,7 +141,7 @@ class plgredshop_paymentrs_payment_bbs extends JPlugin
 		return $params;
 	}
 
-	function orderPaymentNotYetUpdated($dbConn, $order_id, $tid)
+	public function orderPaymentNotYetUpdated($dbConn, $order_id, $tid)
 	{
 		$db = JFactory::getDBO();
 		$res = false;
@@ -163,7 +157,7 @@ class plgredshop_paymentrs_payment_bbs extends JPlugin
 		return $res;
 	}
 
-	function onCapture_Paymentrs_payment_bbs($element, $data)
+	public function onCapture_Paymentrs_payment_bbs($element, $data)
 	{
 		if ($element != 'rs_payment_bbs')
 		{
@@ -201,6 +195,7 @@ class plgredshop_paymentrs_payment_bbs extends JPlugin
 
 		// 	Create a curl handle to a non-existing location
 		$ch = curl_init($data);
+
 		// 	Execute
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 		$CAPT_data = curl_exec($ch);
@@ -226,5 +221,4 @@ class plgredshop_paymentrs_payment_bbs extends JPlugin
 
 		return $values;
 	}
-
 }

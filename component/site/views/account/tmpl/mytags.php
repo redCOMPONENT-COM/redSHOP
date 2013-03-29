@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 $url = JURI::base();
 
 // Get product helper
-require_once JPATH_ROOT . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'product.php';
+require_once JPATH_ROOT . '/components/com_redshop/helpers/product.php';
 $extra_data = new producthelper;
 
 $option = JRequest::getVar('option');
@@ -41,7 +41,6 @@ if ($user->id != 0)
 		if (isset($edit))
 		{
 			$link = JRoute::_('index.php?option=com_redshop&view=account&Itemid=' . $Itemid);
-
 
 			?>
 			<div>&nbsp;</div>
@@ -79,7 +78,6 @@ if ($user->id != 0)
 			$link_remove = 'index.php?option=com_redshop&view=account&layout=mytags&remove=1&tagid=' . $tagid . '&Itemid=' . $Itemid;
 			?>
 			<!-- tag detail-->
-
 
 			<table border="0" cellpadding="5" cellspacing="0" width="100%">
 				<tr>

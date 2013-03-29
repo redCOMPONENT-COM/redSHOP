@@ -43,11 +43,9 @@ if (!strstr($template_desc, "{show_all_products_in_category}") && strstr($templa
 	$endlimit = $model->getProductPerPage();
 }
 
-$mainframe = JFactory::getApplication();
-$router    = & $mainframe->getRouter();
+$app = JFactory::getApplication();
+$router    = $app->getRouter();
 $uri       = new JURI('index.php?option=' . $option . '&category&layout=default&Itemid=' . $Itemid . '&limit=' . $endlimit . '&category_template=' . $this->category_template_id);
-
-// $router->setVars ( $uri->_vars );
 
 if ($this->params->get('show_page_heading', 0))
 {
@@ -130,7 +128,7 @@ if (strstr($template_desc, "{category_frontpage_loop_start}") && strstr($templat
 
 	for ($i = 0; $i < count($this->detail); $i++)
 	{
-		$row = & $this->detail[$i];
+		$row = $this->detail[$i];
 
 		$data_add = $middletemplate_desc;
 

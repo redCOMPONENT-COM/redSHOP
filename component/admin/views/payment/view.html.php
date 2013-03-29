@@ -37,9 +37,9 @@ class paymentViewpayment extends JView
 
 		$lists['order'] = $filter_order;
 		$lists['order_Dir'] = $filter_order_Dir;
-		$payments = & $this->get('Data');
-		$total = & $this->get('Total');
-		$pagination = & $this->get('Pagination');
+		$payments = $this->get('Data');
+		$total = $this->get('Total');
+		$pagination = $this->get('Pagination');
 
 		$this->assignRef('lists', $lists);
 		$this->assignRef('payments', $payments);

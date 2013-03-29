@@ -11,15 +11,15 @@ defined('_JEXEC') or die;
 
 $url = JURI::base();
 $user = JFactory::getUser();
-global $mainframe;
+$app = JFactory::getApplication();
 JHTML::_('behavior.tooltip');
 JHTMLBehavior::modal();
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php';
-require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'shipping.php';
-require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php';
-require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'cart.php';
-require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'helper.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/shipping.php';
+require_once JPATH_COMPONENT . '/helpers/product.php';
+require_once JPATH_COMPONENT . '/helpers/cart.php';
+require_once JPATH_COMPONENT . '/helpers/helper.php';
 
 $carthelper = new rsCarthelper;
 $producthelper = new producthelper;
@@ -43,7 +43,7 @@ $billingaddresses = $model->billingaddresses();
 if (!count($billingaddresses))
 {
 	$msg = JText::_('COM_REDSHOP_LOGIN_USER_IS_NOT_REDSHOP_USER');
-	$mainframe->Redirect("index.php?option=" . $option . "&view=account_billto&return=checkout&Itemid=" . $Itemid, $msg);
+	$app->Redirect("index.php?option=" . $option . "&view=account_billto&return=checkout&Itemid=" . $Itemid, $msg);
 }
 
 $paymentmethod = $redhelper->getPlugins('redshop_payment');
@@ -212,7 +212,6 @@ if (strstr($onestep_template_desc, "{shipping_address}"))
 
 			$edit_addlink = JRoute::_('index.php?option=' . $option . '&view=account_shipto&tmpl=component&for=true&task=addshipping&return=checkout&Itemid=' . $Itemid . '&infoid=' . $shipinfo->users_info_id);
 
-			// $delete_addlink = JRoute::_( 'index.php?option='.$option.'&view=account_shipto&task=remove&return=checkout&infoid='.$shipinfo->users_info_id );
 			$delete_addlink = $url . "index.php?option=" . $option . "&view=account_shipto&return=checkout&tmpl=component&task=remove&infoid=" . $shippingaddresses[$i]->users_info_id . "&Itemid=" . $Itemid;
 			$ship_check     = ($users_info_id == $shipinfo->users_info_id) ? 'checked="checked"' : '';
 
@@ -270,7 +269,6 @@ echo eval("?>" . $onestep_template_desc . "<?php ");?>
 
 		if (op.style.setAttribute) //For IE
 			op.style.setAttribute("filter", "alpha(opacity=30);");
-
 
 	}
 </script>

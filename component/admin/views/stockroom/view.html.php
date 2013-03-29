@@ -24,7 +24,7 @@ class stockroomViewstockroom extends JView
 		JToolBarHelper::customX('listing', 'copy.png', 'copy_f2.png', JText::_('COM_REDSHOP_LISTING'), false);
 		JToolBarHelper::addNewX();
 		JToolBarHelper::editListX();
-		JToolBarHelper::customX('copy', 'copy.png', 'copy_f2.png', 'Copy', true);
+		JToolBarHelper::customX('copy', 'copy.png', 'copy_f2.png', JText::_('COM_REDSHOP_TOOLBAR_COPY'), true);
 		JToolBarHelper::deleteList();
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();
@@ -36,9 +36,9 @@ class stockroomViewstockroom extends JView
 
 		$lists ['order'] = $filter_order;
 		$lists ['order_Dir'] = $filter_order_Dir;
-		$stockroom = & $this->get('Data');
-		$total = & $this->get('Total');
-		$pagination = & $this->get('Pagination');
+		$stockroom = $this->get('Data');
+		$total = $this->get('Total');
+		$pagination = $this->get('Pagination');
 
 		$this->assignRef('lists', $lists);
 		$this->assignRef('stockroom', $stockroom);

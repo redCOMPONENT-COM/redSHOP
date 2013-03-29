@@ -24,7 +24,7 @@ class textlibraryViewtextlibrary extends JView
 		JToolBarHelper::title(JText::_('COM_REDSHOP_TEXTLIBRARY_MANAGEMENT'), 'redshop_textlibrary48');
 		JToolBarHelper::addNewX();
 		JToolBarHelper::editListX();
-		JToolBarHelper::customX('copy', 'copy.png', 'copy_f2.png', 'Copy', true);
+		JToolBarHelper::customX('copy', 'copy.png', 'copy_f2.png', JText::_('COM_REDSHOP_TOOLBAR_COPY'), true);
 		JToolBarHelper::deleteList();
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();
@@ -48,9 +48,9 @@ class textlibraryViewtextlibrary extends JView
 
 		$lists['order'] = $filter_order;
 		$lists['order_Dir'] = $filter_order_Dir;
-		$textlibrarys = & $this->get('Data');
-		$total = & $this->get('Total');
-		$pagination = & $this->get('Pagination');
+		$textlibrarys = $this->get('Data');
+		$total = $this->get('Total');
+		$pagination = $this->get('Pagination');
 
 		$this->assignRef('user', JFactory::getUser());
 		$this->assignRef('lists', $lists);

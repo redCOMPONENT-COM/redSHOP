@@ -11,12 +11,12 @@ defined('_JEXEC') or die;
 $url = JURI::base();
 
 // Text library
-require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'text_library.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/text_library.php';
 $texts = new text_library;
 
 // Get product helper
-require_once JPATH_ROOT . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'product.php';
-require_once JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'extra_field.php';
+require_once JPATH_ROOT . '/components/com_redshop/helpers/product.php';
+require_once JPATH_SITE . '/components/com_redshop/helpers/extra_field.php';
 
 $producthelper = new producthelper;
 
@@ -30,7 +30,6 @@ $pagetitle = JText::_('COM_REDSHOP_COMPARE_PRODUCTS');
 
 $config  = new Redconfiguration;
 $compare = $producthelper->getCompare();
-
 
 $redTemplate     = new Redtemplate;
 $stockroomhelper = new rsstockroomhelper;
@@ -221,7 +220,7 @@ elseif (isset($compare['idx']) && $compare['idx'] > 1)
 				$stockamountImage = '<a class="imgtooltip"><span>';
 				$stockamountImage .= '<div class="spnheader">' . JText::_('COM_REDSHOP_STOCK_AMOUNT') . '</div>';
 				$stockamountImage .= '<div class="spnalttext" id="stockImageTooltip' . $compare[$i]["product_id"] . '">' . $stockamountList[0]->stock_amount_image_tooltip . '</div></span>';
-				$stockamountImage .= '<img src="' . REDSHOP_FRONT_IMAGES_ABSPATH . 'stockroom' . DS . $stockamountList[0]->stock_amount_image . '" width="150px" height="90px" alt="' . $stockamountList[0]->stock_amount_image_tooltip . '" id="stockImage' . $compare[$i]["product_id"] . '" /></a>';
+				$stockamountImage .= '<img src="' . REDSHOP_FRONT_IMAGES_ABSPATH . 'stockroom/' . $stockamountList[0]->stock_amount_image . '" width="150px" height="90px" alt="' . $stockamountList[0]->stock_amount_image_tooltip . '" id="stockImage' . $compare[$i]["product_id"] . '" /></a>';
 			}
 
 			$template = str_replace('{product_stock_amount_image}', $exp_div . $stockamountImage . $div_end . $td_end . $td_start . "{product_stock_amount_image}", $template);

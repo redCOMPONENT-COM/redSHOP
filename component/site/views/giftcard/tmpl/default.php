@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 JHTML::_('behavior.tooltip');
 JHTMLBehavior::modal();
 
-require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php';
+require_once JPATH_COMPONENT . '/helpers/extra_field.php';
 
 $producthelper = new producthelper;
 $objhelper = new redhelper;
@@ -30,7 +30,7 @@ $pagetitle = $this->pageheadingtag;
 $detail = $this->detail;
 
 $app = JFactory::getApplication();
-$router = & $app->getRouter();
+$router = $app->getRouter();
 
 if (count($this->template) > 0)
 {
@@ -47,10 +47,6 @@ else
 		$template = "<div>{giftcard_loop_start}<h3>{giftcard_name}</h3><div>{giftcard_price}</div><div>{giftcard_value}</div><div>{giftcard_desc}</div><div>{giftcard_validity}</div>{giftcard_loop_end}</div>";
 	}
 }
-
-// $uri = new JURI( 'index.php?option='.$option.'&category&layout=default&Itemid='.$itemid);
-
-// $router->setVars ( $uri->_vars );
 
 if ($this->params->get('show_page_heading', 1))
 {
@@ -97,7 +93,6 @@ if ($gid != 0)
 	$template = str_replace("{giftcard_value}", $producthelper->getProductFormattedPrice($detail->giftcard_value), $template);
 	$template = str_replace("{giftcard_value_lbl}", JText::_('COM_REDSHOP_GIFTCARD_VALUE_LBL'), $template);
 
-
 	if ($detail->customer_amount != 1)
 	{
 		$template = str_replace("{giftcard_price_lbl}", JText::_('COM_REDSHOP_GIFTCARD_PRICE_LBL'), $template);
@@ -115,7 +110,6 @@ if ($gid != 0)
 	{
 		$template = str_replace("{giftcard_price}", '', $template);
 	}
-
 
 	$reciver_email = '<input type="text" name="reciver_email" id="reciver_email" value="' . @$cart['reciver_email'] . '" onkeyup="var f_value = this.value;addtocart_prd_' . $gid . '.reciver_email.value = f_value;">';
 	$reciver_name  = '<input type="text" name="reciver_name" id="reciver_name" value="' . @$cart['reciver_name'] . '" onkeyup="var f_value = this.value;addtocart_prd_' . $gid . '.reciver_name.value = f_value;">';
@@ -179,7 +173,6 @@ if ($gid != 0)
 	{
 		$template = str_replace("{giftcard_validity}", '', $template);
 	}
-
 
 	$template = $producthelper->getValidityDate($detail->giftcard_validity, $template);
 
@@ -276,9 +269,6 @@ else
 
 				if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "giftcard/" . $detail[$i]->giftcard_image))
 				{
-					/*$thum_image = "<a class=\"modal\" href='".$linkimage."' title='".$detail[$i]->giftcard_name."' rel=\"{handler: 'image', size: {}}\">";
-					$thum_image .= "<img src='".$product_img."' title='".$detail[$i]->giftcard_name."' alt='".$detail[$i]->giftcard_name."'>";
-					$thum_image .= "</a>";*/
 					$thum_image = "<a href='" . $link . "'><img src='" . $product_img . "' title='" . $detail[$i]->giftcard_name . "' alt='" . $detail[$i]->giftcard_name . "'></a>";
 					$data_add   = str_replace("{giftcard_image}", $thum_image, $data_add);
 				}
@@ -305,7 +295,6 @@ else
 				$data_add = str_replace("{giftcard_validity}", '', $data_add);
 			}
 
-
 			$data_add = str_replace("{giftcard_value_lbl}", JText::_('COM_REDSHOP_GIFTCARD_VALUE_LBL'), $data_add);
 			$data_add = str_replace("{giftcard_value}", $producthelper->getProductFormattedPrice($detail[$i]->giftcard_value), $data_add);
 
@@ -316,7 +305,6 @@ else
 		$template = str_replace("{giftcard_loop_start}" . $template_desc . "{giftcard_loop_end}", $data_add, $template);
 	}
 
-	// $template = $redTemplate->parseredSHOPplugin($template);
 	echo eval("?>" . $template . "<?php ");
 }
 ?>

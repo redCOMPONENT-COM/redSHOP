@@ -28,7 +28,7 @@ $k = 0;
 $configobj = new Redconfiguration;
 
 // Get product helper
-require_once JPATH_ROOT . DS . 'components/com_redshop/helpers' . DS . 'product.php';
+require_once JPATH_ROOT . '/components/com_redshop/helpers/product.php';
 $producthelper = new producthelper;?>
 <table border="0" cellpadding="2" cellspacing="2">
 	<?php
@@ -57,7 +57,6 @@ $producthelper = new producthelper;?>
 
 					echo "<a href='" . $link . "'>" . $row->product_name . "</a><br>";
 
-					// $product_price_discount = $producthelper->getProductNetPrice($row->product_id);
 					$productArr = $producthelper->getProductNetPrice($row->product_id);
 					$product_price_discount = $productArr['productPrice'] + $productArr['productVat'];
 

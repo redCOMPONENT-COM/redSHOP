@@ -13,6 +13,13 @@ jimport('joomla.application.component.view');
 
 class newsletter_detailVIEWnewsletter_detail extends JView
 {
+	/**
+	 * The request url.
+	 *
+	 * @var  string
+	 */
+	public $request_url;
+
 	public function display($tpl = null)
 	{
 		$option = JRequest::getVar('option', '', 'request', 'string');
@@ -23,6 +30,7 @@ class newsletter_detailVIEWnewsletter_detail extends JView
 
 		// Merging select option in the select box
 		$temps = array();
+		$temps[0] = new stdClass;
 		$temps[0]->value = 0;
 		$temps[0]->text = JText::_('COM_REDSHOP_SELECT');
 		$templates = @array_merge($temps, $templates);
@@ -35,7 +43,7 @@ class newsletter_detailVIEWnewsletter_detail extends JView
 
 		$uri = JFactory::getURI();
 		$lists = array();
-		$detail =& $this->get('data');
+		$detail = $this->get('data');
 		$isNew = ($detail->newsletter_id < 1);
 		$text = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
 
@@ -58,6 +66,7 @@ class newsletter_detailVIEWnewsletter_detail extends JView
 			JToolBarHelper::apply();
 			JToolBarHelper::save();
 		}
+
 		if ($isNew)
 		{
 			JToolBarHelper::cancel();
@@ -77,7 +86,7 @@ class newsletter_detailVIEWnewsletter_detail extends JView
 
 		$this->assignRef('lists', $lists);
 		$this->assignRef('detail', $detail);
-		$this->assignRef('request_url', $uri->toString());
+		$this->request_url = $uri->toString();
 
 		parent::display($tpl);
 	}

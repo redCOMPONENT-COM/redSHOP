@@ -24,7 +24,7 @@ class state_detailVIEWstate_detail extends JView
 		JToolBarHelper::save();
 		JToolBarHelper::apply();
 		$lists = array();
-		$detail =& $this->get('data');
+		$detail = $this->get('data');
 		$isNew = ($detail->state_id < 1);
 
 		// 	fail if checked out not by 'me'

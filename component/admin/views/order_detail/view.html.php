@@ -53,7 +53,7 @@ class order_detailVIEWorder_detail extends JView
 
 		$model = $this->getModel();
 
-		$detail =& $this->get('data');
+		$detail = $this->get('data');
 
 		$billing = $order_functions->getOrderBillingUserInfo($detail->order_id);
 		$shipping = $order_functions->getOrderShippingUserInfo($detail->order_id);

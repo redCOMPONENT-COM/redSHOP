@@ -13,14 +13,16 @@ $option = JRequest::getCmd('option', 'redshop');
 
 $model = $this->getModel('checkout');
 
-$uri = & JURI::getInstance();
+$uri = JURI::getInstance();
 $url = $uri->root();
 
 $redhelper = new redhelper;
 $Itemid = $redhelper->getCheckoutItemid();
 
 if ($Itemid == 0)
+{
 	$Itemid = JRequest::getVar('Itemid');
+}
 
 $session = JFactory::getSession();
 

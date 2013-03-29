@@ -24,7 +24,7 @@ class attribute_setViewattribute_set extends JView
 
 		JToolBarHelper::addNewX();
 		JToolBarHelper::editListX();
-		JToolBarHelper::customX('copy', 'copy.png', 'copy_f2.png', 'Copy', true);
+		JToolBarHelper::customX('copy', 'copy.png', 'copy_f2.png', JText::_('COM_REDSHOP_TOOLBAR_COPY'), true);
 		JToolBarHelper::deleteList();
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();
@@ -38,8 +38,8 @@ class attribute_setViewattribute_set extends JView
 		$lists['order'] = $filter_order;
 		$lists['order_Dir'] = $filter_order_Dir;
 
-		$products = & $this->get('Data');
-		$pagination = & $this->get('Pagination');
+		$products = $this->get('Data');
+		$pagination = $this->get('Pagination');
 
 		$this->assignRef('lists', $lists);
 		$this->assignRef('products', $products);

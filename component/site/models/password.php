@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
+JLoader::import('joomla.application.component.model');
 
 /**
  * Class passwordModelpassword

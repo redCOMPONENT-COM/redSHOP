@@ -23,7 +23,7 @@ class sample_catalogVIEWsample_catalog extends JView
 
 		$lists = array();
 
-		$detail =& $this->get('data');
+		$detail = $this->get('data');
 
 		$model = $this->getModel('sample_catalog');
 

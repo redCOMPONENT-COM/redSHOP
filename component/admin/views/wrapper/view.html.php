@@ -14,30 +14,43 @@ jimport('joomla.html.pagination');
 
 class wrapperViewwrapper extends JView
 {
+	/**
+	 * The current user.
+	 *
+	 * @var  JUser
+	 */
+	public $user;
+
+	/**
+	 * The request url.
+	 *
+	 * @var  string
+	 */
+	public $request_url;
+
 	public function display($tpl = null)
 	{
-		global $mainframe, $context;
-
 		$product_id = JRequest::getVar('product_id');
 		$document = JFactory::getDocument();
 		$document->setTitle(JText::_('COM_REDSHOP_WRAPPER'));
 
-		$total = & $this->get('Total');
-		$data = & $this->get('Data');
+		$total = $this->get('Total');
+		$data = $this->get('Data');
 		JToolBarHelper::title(JText::_('COM_REDSHOP_WRAPPER'), 'redshop_wrapper48');
 
 		JToolBarHelper::addNewX();
 		JToolBarHelper::deleteList();
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();
-		$pagination = & $this->get('Pagination');
+		$pagination = $this->get('Pagination');
 		$uri = JFactory::getURI();
-		$this->assignRef('user', JFactory::getUser());
+
+		$this->user = JFactory::getUser();
 		$this->assignRef('lists', $lists);
 		$this->assignRef('data', $data);
 		$this->assignRef('product_id', $product_id);
 		$this->assignRef('pagination', $pagination);
-		$this->assignRef('request_url', $uri->toString());
+		$this->request_url = $uri->toString();
 
 		parent::display($tpl);
 	}

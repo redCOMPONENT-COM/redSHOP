@@ -24,9 +24,9 @@ class question_detailVIEWquestion_detail extends JView
 		$lists = array();
 		$model = $this->getModel();
 
-		$detail =& $this->get('data');
-		$answers =& $this->get('answers');
-		$pagination = & $this->get('Pagination');
+		$detail = $this->get('data');
+		$answers = $this->get('answers');
+		$pagination = $this->get('Pagination');
 		$isNew = ($detail->question_id < 1);
 
 		$text = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');

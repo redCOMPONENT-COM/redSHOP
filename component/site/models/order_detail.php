@@ -8,7 +8,7 @@
  */
 
 defined('_JEXEC') or die;
-jimport('joomla.application.component.model');
+JLoader::import('joomla.application.component.model');
 
 /**
  * Class Order_detailModelOrder_detail
@@ -25,6 +25,9 @@ class Order_detailModelOrder_detail extends JModel
 
 	public $_table_prefix = null;
 
+	/**
+	 * Constructor
+	 */
 	public function __construct()
 	{
 		parent::__construct();
@@ -42,6 +45,8 @@ class Order_detailModelOrder_detail extends JModel
 
 	/**
 	 * Update analytics status
+	 *
+	 * @return  boolean
 	 */
 	public function UpdateAnalytics_status($oid)
 	{
@@ -57,15 +62,16 @@ class Order_detailModelOrder_detail extends JModel
 	}
 
 	/**
-	 * getBilling Addresses
+	 * Get Billing Addresses
+	 *
+	 * @return  array
 	 */
 	public function billingaddresses()
 	{
-		global $mainframe;
+		$app = JFactory::getApplication();
 		$order_functions = new order_functions;
 		$user            = JFactory::getUser();
 		$session         = JFactory::getSession();
-
 
 		$auth = $session->get('auth');
 		$list = array();
@@ -83,8 +89,10 @@ class Order_detailModelOrder_detail extends JModel
 		return $list;
 	}
 
-	/*
-	 * get category name from Product Id
+	/**
+	 * Get category name from Product Id
+	 *
+	 * @return  string
 	 */
 	public function getCategoryNameByProductId($pid)
 	{

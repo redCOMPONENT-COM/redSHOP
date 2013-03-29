@@ -1,25 +1,18 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license   GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- *            Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     RedSHOP
+ * @subpackage  Plugin
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-/** ensure this file is being included by a parent file */
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
+
 jimport('joomla.plugin.plugin');
-//$mainframe =& JFactory::getApplication();
-//$mainframe->registerEvent( 'onPrePayment', 'plgRedshoprs_payment_bbs' );
+
 require_once JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php';
+
 class plgRedshop_paymentrs_payment_paypalpro extends JPlugin
 {
 	var $_table_prefix = null;
@@ -32,9 +25,9 @@ class plgRedshop_paymentrs_payment_paypalpro extends JPlugin
 	 * NOT references.  This causes problems with cross-referencing necessary for the
 	 * observer design pattern.
 	 */
-	function plgRedshop_paymentrs_payment_paypalpro(&$subject)
+	public function plgRedshop_paymentrs_payment_paypalpro(&$subject)
 	{
-		// load plugin parameters
+		// Load plugin parameters
 		parent::__construct($subject);
 		$this->_table_prefix = '#__redshop_';
 		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_paypalpro');
@@ -45,7 +38,7 @@ class plgRedshop_paymentrs_payment_paypalpro extends JPlugin
 	/**
 	 * Plugin method with the same name as the event will be called automatically.
 	 */
-	function onPrePayment_rs_payment_paypalpro($element, $data)
+	public function onPrePayment_rs_payment_paypalpro($element, $data)
 	{
 		if ($element != 'rs_payment_paypalpro')
 		{
@@ -57,23 +50,25 @@ class plgRedshop_paymentrs_payment_paypalpro extends JPlugin
 			$plugin = $element;
 		}
 
-		$mainframe =& JFactory::getApplication();
+		$mainframe = JFactory::getApplication();
 		$objOrder = new order_functions;
 		$uri =& JURI::getInstance();
 		$url = $uri->root();
 		$user = JFactory::getUser();
 		$sessionid = session_id();
-		$session =& JFactory::getSession();
+		$session = JFactory::getSession();
 		$ccdata = $session->get('ccdata');
 
 		// Set request-specific fields.
 		$paymentType = urlencode($this->_params->get("sales_auth_only"));
+
 		$debug_mode = $this->_params->get('debug_mode', 0); // or 'Sale'
 		$firstName = urlencode($data['billinginfo']->firstname);
 		$lastName = urlencode($data['billinginfo']->lastname);
 		$creditCardType = urlencode($ccdata['creditcard_code']);
 		$creditCardNumber = urlencode($ccdata['order_payment_number']);
 		$expDateMonth = $ccdata['order_payment_expire_month'];
+
 		// Month must be padded with leading zero
 		$padDateMonth = urlencode(str_pad($expDateMonth, 2, '0', STR_PAD_LEFT));
 
@@ -84,9 +79,13 @@ class plgRedshop_paymentrs_payment_paypalpro extends JPlugin
 		$city = urlencode($data['billinginfo']->city);
 		$state = urlencode($data['billinginfo']->state_code);
 		$zip = urlencode($data['billinginfo']->zipcode);
-		$country = urlencode($data['billinginfo']->country_code); // US or other valid country code
+
+		// US or other valid country code
+		$country = urlencode($data['billinginfo']->country_code);
 		$amount = urlencode(number_format($data['order_total'], 2));
-		$currencyID = urlencode(CURRENCY_CODE); // or other currency ('GBP', 'EUR', 'JPY', 'CAD', 'AUD')
+
+		// Or other currency ('GBP', 'EUR', 'JPY', 'CAD', 'AUD')
+		$currencyID = urlencode(CURRENCY_CODE);
 
 		if ($creditCardType == "MC")
 		{
@@ -116,7 +115,6 @@ class plgRedshop_paymentrs_payment_paypalpro extends JPlugin
 			{
 				$message = JText::_('COM_REDSHOP_ORDER_PLACED');
 			}
-
 		}
 		else
 		{
@@ -136,11 +134,9 @@ class plgRedshop_paymentrs_payment_paypalpro extends JPlugin
 		$values->message = $message;
 
 		return $values;
-//		$objOrder->changeorderstatus($values);
-
 	}
 
-	function PPHttpPost($methodName_, $nvpStr_)
+	public function PPHttpPost($methodName_, $nvpStr_)
 	{
 		$paypalpro_parameters = $this->getparameters('rs_payment_paypalpro');
 		$paymentinfo = $paypalpro_parameters[0];
@@ -219,11 +215,11 @@ class plgRedshop_paymentrs_payment_paypalpro extends JPlugin
 	/*
 	 *  Plugin onNotifyPayment method with the same name as the event will be called automatically.
 	 */
-	function onNotifyPaymentrs_payment_paypalpro($element, $request)
+	public function onNotifyPaymentrs_payment_paypalpro($element, $request)
 	{
 		if ($element != 'rs_payment_paypalpro')
 		{
-			break;
+			return false;
 		}
 
 		$db = jFactory::getDBO();
@@ -248,14 +244,11 @@ class plgRedshop_paymentrs_payment_paypalpro extends JPlugin
 
 		$values = new stdClass;
 
-		//
 		// Now validat on the MD5 stamping. If the MD5 key is valid or if MD5 is disabled
 		//
 		if ((@$order_ekey == md5($order_amount . $order_id . $tid . $epay_paymentkey)) || $epay_md5 == 0)
 		{
-			//
 			// Find the corresponding order in the database
-			//
 
 			$db = JFactory::getDBO();
 			$qv = "SELECT order_id, order_number FROM " . $this->_table_prefix . "orders WHERE order_id='" . $order_id . "'";
@@ -266,15 +259,12 @@ class plgRedshop_paymentrs_payment_paypalpro extends JPlugin
 			{
 				$d['order_id'] = $order_detail->order_id;
 			}
-			//
+
 			// Switch on the order accept code
 			// accept = 1 (standard redirect) accept = 2 (callback)
-			//
 			if (empty($request['errorcode']) && ($accept == "1" || $accept == "2"))
 			{
-				//
 				// Only update the order information once
-				//
 				if ($this->orderPaymentNotYetUpdated($db, $order_id, $tid))
 				{
 					// UPDATE THE ORDER STATUS to 'VALID'
@@ -284,35 +274,36 @@ class plgRedshop_paymentrs_payment_paypalpro extends JPlugin
 					$values->log = JText::_('COM_REDSHOP_ORDER_PLACED');
 					$values->msg = JText::_('COM_REDSHOP_ORDER_PLACED');
 
-					// add history callback info
+					// Add history callback info
 					if ($accept == "2")
 					{
 						$msg = JText::_('COM_REDSHOP_EPAY_PAYMENT_CALLBACK');
 					}
 
-					// payment fee
+					// Payment fee
 					if ($request["transfee"])
 					{
 						$msg = JText::_('COM_REDSHOP_EPAY_PAYMENT_FEE');
 					}
 
-					// payment date
+					// Payment date
 					if ($request["date"])
 					{
 						$msg = JText::_('COM_REDSHOP_EPAY_PAYMENT_DATE');
 					}
 
-					// payment fraud control
+					// Payment fraud control
 					if (@$request["fraud"])
 					{
 						$msg = JText::_('COM_REDSHOP_EPAY_FRAUD');
 					}
 
-					// card id
+					// Card id
 					if ($request["cardid"])
 					{
 						$cardname = "Unknown";
 						$cardimage = "c" . $_REQUEST["cardid"] . ".gif";
+
 						switch ($_REQUEST["cardid"])
 						{
 							case 1:
@@ -390,7 +381,7 @@ class plgRedshop_paymentrs_payment_paypalpro extends JPlugin
 
 					}
 
-					// creation information
+					// Creation information
 					$msg = JText::_('COM_REDSHOP_EPAY_PAYMENT_LOG_TID');
 					$msg = JText::_('COM_REDSHOP_EPAY_PAYMENT_TRANSACTION_SUCCESS');
 				}
@@ -427,7 +418,7 @@ class plgRedshop_paymentrs_payment_paypalpro extends JPlugin
 		return $values;
 	}
 
-	function getparameters($payment)
+	public function getparameters($payment)
 	{
 		$db = JFactory::getDBO();
 		$sql = "SELECT * FROM #__extensions WHERE `element`='" . $payment . "'";
@@ -437,7 +428,7 @@ class plgRedshop_paymentrs_payment_paypalpro extends JPlugin
 		return $params;
 	}
 
-	function orderPaymentNotYetUpdated($dbConn, $order_id, $tid)
+	public function orderPaymentNotYetUpdated($dbConn, $order_id, $tid)
 	{
 		$db = JFactory::getDBO();
 		$res = false;
@@ -453,7 +444,7 @@ class plgRedshop_paymentrs_payment_paypalpro extends JPlugin
 		return $res;
 	}
 
-	function onCapture_Paymentrs_payment_paypalpro($element, $data)
+	public function onCapture_Paymentrs_payment_paypalpro($element, $data)
 	{
 		$db = JFactory::getDBO();
 		require_once JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php';
@@ -466,7 +457,9 @@ class plgRedshop_paymentrs_payment_paypalpro extends JPlugin
 		// Set request-specific fields.
 		$authorizationID = urlencode($paymentparams->get('api_username'));
 		$amount = urlencode($data['order_amount']);
-		$currency = urlencode(CURRENCY_CODE); // or other currency ('GBP', 'EUR', 'JPY', 'CAD', 'AUD')
+
+		// Or other currency ('GBP', 'EUR', 'JPY', 'CAD', 'AUD')
+		$currency = urlencode(CURRENCY_CODE);
 		$completeCodeType = urlencode('Complete'); // or 'NotComplete'
 		$invoiceID = urlencode($data['order_transaction_id']);
 		$note = urlencode(JText::_('COM_REDSHOP_CAPTURED_PAYMENT'));
@@ -491,7 +484,5 @@ class plgRedshop_paymentrs_payment_paypalpro extends JPlugin
 		$values->message = $message;
 
 		return $values;
-
 	}
-
 }

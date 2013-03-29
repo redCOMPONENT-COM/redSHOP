@@ -9,21 +9,25 @@
 
 defined('_JEXEC') or die;
 JHTML::_('behavior.tooltip');
-global $mainframe;
+$app = JFactory::getApplication();
 $option = JRequest::getVar('option');
 $Itemid = JRequest::getVar('Itemid');
 $loginlink = 'index.php?option=' . $option . '&view=login&Itemid=' . $Itemid;
 $mywishlist = JRequest::getVar('wishlist');
 
 if ($mywishlist != '')
+{
 	$newuser_link = 'index.php?wishlist=' . $mywishlist . '&option=' . $option . '&view=registration&Itemid=' . $Itemid;
+}
 else
+{
 	$newuser_link = 'index.php?option=' . $option . '&view=registration&Itemid=' . $Itemid;
+}
+
 $forgotpwd_link = 'index.php?option=' . $option . '&view=password&Itemid=' . $Itemid;
 
-$params = & $mainframe->getParams($option);
+$params = $app->getParams($option);
 $returnitemid = $params->get('login', $Itemid);
-
 
 ?>
 <form action="<?php echo JRoute::_($loginlink); ?>" method="post">

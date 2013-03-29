@@ -1,28 +1,19 @@
 <?php
-
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license   GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- *            Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     RedSHOP
+ * @subpackage  Plugin
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-/** ensure this file is being included by a parent file */
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
+
 jimport('joomla.plugin.plugin');
-//$mainframe =& JFactory::getApplication();
-//$mainframe->registerEvent( 'onPrePayment', 'plgRedshoprs_payment_bbs' );
+
 class plgRedshop_paymentrs_payment_dotpay extends JPlugin
 {
-	var $_table_prefix = null;
+	public $_table_prefix = null;
 
 	/**
 	 * Constructor
@@ -32,9 +23,9 @@ class plgRedshop_paymentrs_payment_dotpay extends JPlugin
 	 * NOT references.  This causes problems with cross-referencing necessary for the
 	 * observer design pattern.
 	 */
-	function plgRedshop_paymentrs_payment_dotpay(&$subject)
+	public function plgRedshop_paymentrs_payment_dotpay(&$subject)
 	{
-		// load plugin parameters
+		// Load plugin parameters
 		parent::__construct($subject);
 		$this->_table_prefix = '#__redshop_';
 		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_dotpay');
@@ -45,7 +36,7 @@ class plgRedshop_paymentrs_payment_dotpay extends JPlugin
 	/**
 	 * Plugin method with the same name as the event will be called automatically.
 	 */
-	function onPrePayment($element, $data)
+	public function onPrePayment($element, $data)
 	{
 		if ($element != 'rs_payment_dotpay')
 		{
@@ -57,12 +48,12 @@ class plgRedshop_paymentrs_payment_dotpay extends JPlugin
 			$plugin = $element;
 		}
 
-		$mainframe =& JFactory::getApplication();
+		$mainframe = JFactory::getApplication();
 		$paymentpath = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $plugin . DS . $plugin . DS . 'extra_info.php';
-		include($paymentpath);
+		include $paymentpath;
 	}
 
-	function onNotifyPaymentrs_payment_dotpay($element, $request)
+	public function onNotifyPaymentrs_payment_dotpay($element, $request)
 	{
 		if ($element != 'rs_payment_dotpay')
 		{
@@ -91,26 +82,45 @@ class plgRedshop_paymentrs_payment_dotpay extends JPlugin
 		$dotpay_key = $paymentparams->get('dotpay_pin', '');
 
 		if (isset($request["service"]))
+		{
 			$service = mysql_real_escape_string($request["service"]);
+		}
 		else
+		{
 			$service = null;
+		}
 
 		if (isset($request["code"]))
+		{
 			$code = mysql_real_escape_string($request["code"]);
+		}
 		else
+		{
 			$code = null;
+		}
 
 		if (isset($request["username"]))
+		{
 			$username = mysql_real_escape_string($request["username"]);
+		}
 		else
+		{
 			$username = null;
+		}
 
 		if (isset($request["password"]))
+		{
 			$password = mysql_real_escape_string($request["password"]);
+		}
 		else
+		{
 			$password = null;
+		}
 
-		$obl_md5 = md5("" . $dotpay_key . ":" . $id . ":" . $control . ":" . $t_id . ":" . $amount . ":" . $email . ":" . $service . ":" . $code . ":" . $username . ":" . $password . ":" . $t_status . "");
+		$obl_md5 = md5(
+			"" . $dotpay_key . ":" . $id . ":" . $control . ":" . $t_id . ":" . $amount . ":" . $email
+				. ":" . $service . ":" . $code . ":" . $username . ":" . $password . ":" . $t_status . ""
+		);
 
 		if ($md5 != $obl_md5)
 		{
@@ -153,7 +163,7 @@ class plgRedshop_paymentrs_payment_dotpay extends JPlugin
 		return $values;
 	}
 
-	function getparameters($payment)
+	public function getparameters($payment)
 	{
 		$db = JFactory::getDBO();
 		$sql = "SELECT * FROM #__extensions WHERE `element`='" . $payment . "'";
@@ -163,11 +173,12 @@ class plgRedshop_paymentrs_payment_dotpay extends JPlugin
 		return $params;
 	}
 
-	function orderPaymentNotYetUpdated($dbConn, $order_id, $tid)
+	public function orderPaymentNotYetUpdated($dbConn, $order_id, $tid)
 	{
 		$db = JFactory::getDBO();
 		$res = false;
-		$query = "SELECT COUNT(*) `qty` FROM `#__redshop_order_payment` WHERE `order_id` = '" . $db->getEscaped($order_id) . "' and order_payment_trans_id = '" . $db->getEscaped($tid) . "'";
+		$query = "SELECT COUNT(*) `qty` FROM `#__redshop_order_payment` WHERE `order_id` = '"
+			. $db->getEscaped($order_id) . "' and order_payment_trans_id = '" . $db->getEscaped($tid) . "'";
 		$db->SetQuery($query);
 		$order_payment = $db->loadResult();
 
@@ -179,9 +190,8 @@ class plgRedshop_paymentrs_payment_dotpay extends JPlugin
 		return $res;
 	}
 
-	function onCapture_Paymentrs_payment_dotpay($element, $data)
+	public function onCapture_Paymentrs_payment_dotpay($element, $data)
 	{
 		return;
 	}
-
 }
