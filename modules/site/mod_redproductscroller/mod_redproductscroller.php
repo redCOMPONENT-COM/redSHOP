@@ -9,9 +9,6 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-global $my, $mosConfig_absolute_path;
-
-
 // Getting the configuration in redshop.js.php
 
 require_once JPATH_ROOT . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'redshop.js.php';
@@ -203,8 +200,6 @@ if (!class_exists('redproductScroller'))
 		 */
 		function displayredScroller(&$rows)
 		{
-			global $mosConfig_absolute_path;
-
 			$database = JFactory::getDBO();
 			//require_once  CLASSPATH."ps_product.php" ;
 			//$ps_product = new ps_product;
@@ -286,7 +281,7 @@ if (!class_exists('redproductScroller'))
 		 */
 		function getredProductSKU($limit = 0, $how = null, $category_id = 0, $featuredProducts = 'no')
 		{
-			global $mainframe;
+			$app = JFactory::getApplication();
 
 			$category_array = new product_category();
 

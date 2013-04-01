@@ -242,6 +242,7 @@ class Redtemplate
 	public function parseredSHOPplugin($string = "")
 	{
 		global $context;
+
 		$o = new stdClass;
 		$o->text = $string;
 		JPluginHelper::importPlugin('content');

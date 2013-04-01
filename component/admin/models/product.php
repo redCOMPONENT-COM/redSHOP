@@ -33,17 +33,17 @@ class productModelproduct extends JModel
 	{
 		parent::__construct();
 
-		global $mainframe;
+		$app = JFactory::getApplication();
 
 		$this->_context = 'product_id';
 		$this->_table_prefix = '#__redshop_';
 
-		$limit = $mainframe->getUserStateFromRequest($this->_context . 'limit', 'limit', $mainframe->getCfg('list_limit'), 0);
-		$limitstart = $mainframe->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
-		$search_field = $mainframe->getUserStateFromRequest($this->_context . 'search_field', 'search_field', '');
-		$keyword = $mainframe->getUserStateFromRequest($this->_context . 'keyword', 'keyword', '');
-		$category_id = $mainframe->getUserStateFromRequest($this->_context . 'category_id', 'category_id', 0);
-		$product_sort = $mainframe->getUserStateFromRequest($this->_context . 'product_sort', 'product_sort', 0);
+		$limit = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
+		$limitstart = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
+		$search_field = $app->getUserStateFromRequest($this->_context . 'search_field', 'search_field', '');
+		$keyword = $app->getUserStateFromRequest($this->_context . 'keyword', 'keyword', '');
+		$category_id = $app->getUserStateFromRequest($this->_context . 'category_id', 'category_id', 0);
+		$product_sort = $app->getUserStateFromRequest($this->_context . 'product_sort', 'product_sort', 0);
 
 		$this->setState('product_sort', $product_sort);
 		$this->setState('search_field', $search_field);
@@ -293,18 +293,18 @@ class productModelproduct extends JModel
 
 	public function _buildContentOrderBy()
 	{
-		global $mainframe;
+		$app = JFactory::getApplication();
 
 		$category_id = $this->getState('category_id');
-		$filter_order_Dir = $mainframe->getUserStateFromRequest($this->_context . 'filter_order_Dir', 'filter_order_Dir', '');
+		$filter_order_Dir = $app->getUserStateFromRequest($this->_context . 'filter_order_Dir', 'filter_order_Dir', '');
 
 		if ($category_id)
 		{
-			$filter_order = $mainframe->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'x.ordering');
+			$filter_order = $app->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'x.ordering');
 		}
 		else
 		{
-			$filter_order = $mainframe->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'p.product_id');
+			$filter_order = $app->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'p.product_id');
 		}
 
 		$orderby = " ORDER BY " . $filter_order . ' ' . $filter_order_Dir;
@@ -751,9 +751,9 @@ class productModelproduct extends JModel
 	 */
 	public function saveorder($cid = array(), $order)
 	{
-		global $mainframe;
+		$app = JFactory::getApplication();
 
-		$category_id_my = $mainframe->getUserStateFromRequest('category_id', 'category_id', 0);
+		$category_id_my = $app->getUserStateFromRequest('category_id', 'category_id', 0);
 
 		$orderarray = array();
 

@@ -17,13 +17,12 @@ class Redaccesslevel
 	 */
 	public function __construct()
 	{
-		global $mainframe, $context;
 		$this->_table_prefix = '#__redshop_';
 	}
 
 	public function checkaccessofuser($group_id)
 	{
-		$mainframe = JFactory::getApplication();
+		$app = JFactory::getApplication();
 
 		$option = JRequest::getVar('option');
 		$db = JFactory::getDBO();
@@ -61,7 +60,7 @@ class Redaccesslevel
 
 	public function getgroup_access($view, $group_id)
 	{
-		$mainframe = JFactory::getApplication();
+		$app = JFactory::getApplication();
 
 		$option = JRequest::getVar('option');
 		$db = JFactory::getDBO();
@@ -115,13 +114,13 @@ class Redaccesslevel
 		if ($accessview != 1)
 		{
 			$msg = JText::_('COM_REDSHOP_DONT_HAVE_PERMISSION');
-			$mainframe->redirect($_SERVER['HTTP_REFERER'], $msg);
+			$app->redirect($_SERVER['HTTP_REFERER'], $msg);
 		}
 	}
 
 	public function getgroup_accesstaskadd($view, $task, $group_id)
 	{
-		$mainframe = JFactory::getApplication();
+		$app = JFactory::getApplication();
 		$db = JFactory::getDBO();
 
 		if ($view == "shipping_rate_detail" || $view == "shipping_rate" || $view == "shipping_detail")
@@ -172,13 +171,13 @@ class Redaccesslevel
 		if ($accessview[0]->add != 1)
 		{
 			$msg = JText::_('COM_REDSHOP_DONT_HAVE_PERMISSION');
-			$mainframe->redirect($_SERVER['HTTP_REFERER'], $msg);
+			$app->redirect($_SERVER['HTTP_REFERER'], $msg);
 		}
 	}
 
 	public function getgroup_accesstaskedit($view, $task, $group_id)
 	{
-		$mainframe = JFactory::getApplication();
+		$app = JFactory::getApplication();
 		$db = JFactory::getDBO();
 
 		if ($view == "shipping_rate_detail" || $view == "shipping_rate" || $view == "shipping_detail")
@@ -225,13 +224,13 @@ class Redaccesslevel
 		if ($accessview[0]->edit != 1)
 		{
 			$msg = JText::_('COM_REDSHOP_DONT_HAVE_PERMISSION');
-			$mainframe->redirect($_SERVER['HTTP_REFERER'], $msg);
+			$app->redirect($_SERVER['HTTP_REFERER'], $msg);
 		}
 	}
 
 	public function getgroup_accesstaskdelete($view, $task, $group_id)
 	{
-		$mainframe = JFactory::getApplication();
+		$app = JFactory::getApplication();
 		$db = JFactory::getDBO();
 
 		if ($view == "shipping_rate_detail" || $view == "shipping_rate" || $view == "shipping_detail")
@@ -275,7 +274,7 @@ class Redaccesslevel
 		if ($accessview[0]->delete != 1)
 		{
 			$msg = JText::_('COM_REDSHOP_DONT_HAVE_PERMISSION');
-			$mainframe->redirect($_SERVER['HTTP_REFERER'], $msg);
+			$app->redirect($_SERVER['HTTP_REFERER'], $msg);
 		}
 	}
 }

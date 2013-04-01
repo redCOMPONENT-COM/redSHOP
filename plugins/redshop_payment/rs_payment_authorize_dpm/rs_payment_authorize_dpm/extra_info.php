@@ -17,7 +17,7 @@ $user = JFactory::getUser();
 $session = JFactory::getSession();
 $redirect_ccdata = $session->get('redirect_ccdata');
 
-$mainframe = JFactory::getApplication();
+$app = JFactory::getApplication();
 $Itemid = JRequest::getVar('Itemid');
 $request = JRequest::get('request');
 $login_id = $this->_params->get("access_id");

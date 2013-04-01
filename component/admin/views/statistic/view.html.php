@@ -16,9 +16,12 @@ class statisticViewstatistic extends JView
 {
 	public function display($tpl = null)
 	{
-		global $mainframe, $context;
+		global $context;
 
-		$uri = JFactory::getURI();
+		$uri      = JFactory::getURI();
+		$app      = JFactory::getApplication();
+		$document = JFactory::getDocument();
+
 		$layout = JRequest::getVar('layout');
 
 		$startdate = JRequest::getVar('startdate');
@@ -49,8 +52,8 @@ class statisticViewstatistic extends JView
 		$amountprice = array();
 		$amountspentintotal = array();
 
-		$limitstart = $mainframe->getUserStateFromRequest($context . 'limitstart', 'limitstart', '0');
-		$limit = $mainframe->getUserStateFromRequest($context . 'limit', 'limit', '10');
+		$limitstart = $app->getUserStateFromRequest($context . 'limitstart', 'limitstart', '0');
+		$limit      = $app->getUserStateFromRequest($context . 'limit', 'limit', '10');
 
 		if ($layout == 'turnover')
 		{
@@ -130,7 +133,6 @@ class statisticViewstatistic extends JView
 			$total = count($redshopviewer);
 		}
 
-		$document = JFactory::getDocument();
 		$document->setTitle(JText::_('COM_REDSHOP_STATISTIC'));
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_STATISTIC') . " :: " . $title, 'redshop_statistic48');

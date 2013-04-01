@@ -47,7 +47,7 @@ class plgRedshop_paymentrs_payment_braintree extends JPlugin
 			$plugin = $element;
 		}
 
-		$mainframe = JFactory::getApplication();
+		$app = JFactory::getApplication();
 		$paymentpath = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $plugin . DS . $plugin . DS . 'creditcardform.php';
 
 		include $paymentpath;
@@ -398,7 +398,7 @@ class plgRedshop_paymentrs_payment_braintree extends JPlugin
 
 		$data['braintree_token'] = $braintree_data;
 		$data['new_user'] = $new_user;
-		$mainframe = JFactory::getApplication();
+		$app = JFactory::getApplication();
 		$paymentpath = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $plugin . DS . $plugin . DS . 'extra_info.php';
 		include $paymentpath;
 	}

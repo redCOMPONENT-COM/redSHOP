@@ -31,19 +31,22 @@ class wrapperViewwrapper extends JView
 	public function display($tpl = null)
 	{
 		$product_id = JRequest::getVar('product_id');
+
+		$uri      = JFactory::getURI();
+		$app      = JFactory::getApplication();
 		$document = JFactory::getDocument();
+
 		$document->setTitle(JText::_('COM_REDSHOP_WRAPPER'));
 
-		$total = $this->get('Total');
-		$data = $this->get('Data');
-		JToolBarHelper::title(JText::_('COM_REDSHOP_WRAPPER'), 'redshop_wrapper48');
+		$total      = $this->get('Total');
+		$data       = $this->get('Data');
+		$pagination = $this->get('Pagination');
 
+		JToolBarHelper::title(JText::_('COM_REDSHOP_WRAPPER'), 'redshop_wrapper48');
 		JToolBarHelper::addNewX();
 		JToolBarHelper::deleteList();
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();
-		$pagination = $this->get('Pagination');
-		$uri = JFactory::getURI();
 
 		$this->user = JFactory::getUser();
 		$this->assignRef('lists', $lists);

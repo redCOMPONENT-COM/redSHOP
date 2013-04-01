@@ -47,7 +47,7 @@ class plgRedshop_paymentrs_payment_payment_express extends JPlugin
 			$plugin = $element;
 		}
 
-		$mainframe = JFactory::getApplication();
+		$app = JFactory::getApplication();
 		$paymentpath = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $plugin . DS . $plugin . DS . 'extra_info.php';
 		include $paymentpath;
 	}
@@ -150,7 +150,7 @@ class plgRedshop_paymentrs_payment_payment_express extends JPlugin
 		}
 		else
 		{
-			$mainframe = JFactory::getApplication();
+			$app = JFactory::getApplication();
 			$paymentpath = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $plugin . DS . $plugin . DS . 'extra_info.php';
 			include $paymentpath;
 		}
