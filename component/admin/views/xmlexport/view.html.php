@@ -17,7 +17,10 @@ class xmlexportViewxmlexport extends JView
 	{
 		global $context;
 
+		$uri      = JFactory::getURI();
+		$app      = JFactory::getApplication();
 		$document = JFactory::getDocument();
+
 		$document->setTitle(JText::_('COM_REDSHOP_xmlexport'));
 		$model = $this->getModel('xmlexport');
 
@@ -28,15 +31,14 @@ class xmlexportViewxmlexport extends JView
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();
 
-		$uri = JFactory::getURI();
-		$filter_order = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'xmlexport_date');
+		$filter_order     = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'xmlexport_date');
 		$filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', 'DESC');
 
-		$lists['order'] = $filter_order;
+		$lists['order']     = $filter_order;
 		$lists['order_Dir'] = $filter_order_Dir;
 
-		$data = $this->get('Data');
-		$total = $this->get('Total');
+		$data       = $this->get('Data');
+		$total      = $this->get('Total');
 		$pagination = $this->get('Pagination');
 
 		$this->assignRef('lists', $lists);

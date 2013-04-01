@@ -15,10 +15,13 @@ class state_detailVIEWstate_detail extends JView
 {
 	public function display($tpl = null)
 	{
-		$document = JFactory::getDocument();
 		JToolBarHelper::title(JText::_('COM_REDSHOP_STATE_DETAIL'), 'redshop_region_48');
-		$uri = JFactory::getURI();
-		$user = JFactory::getUser();
+
+		$uri      = JFactory::getURI();
+		$app      = JFactory::getApplication();
+		$document = JFactory::getDocument();
+		$user     = JFactory::getUser();
+
 		$model = $this->getModel('state_detail');
 
 		JToolBarHelper::save();
@@ -76,7 +79,6 @@ class state_detailVIEWstate_detail extends JView
 		}
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_state') . ': <small><small>[ ' . $text . ' ]</small></small>', 'redshop_region_48');
-
 
 		$this->assignRef('detail', $detail);
 		$this->assignRef('lists', $lists);

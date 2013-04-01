@@ -10,7 +10,6 @@ class TransMenu
 		$this->parent = $parent;
 	}
 
-
 	function beginMenu()
 	{
 		if ($this->parent->_params->get('menu_style', 'vertical') == 'vertical')
@@ -85,6 +84,9 @@ class TransMenu
 	{
 
 		global $urlpath;
+
+		$app = JFactory::getApplication();
+
 		$txt       = '';
 		$objhelper = new redhelper ();
 		$Itemid    = JRequest::getVar('Itemid', '1');
@@ -159,6 +161,9 @@ class TransMenu
 	function getFirstLevelItem($mitem)
 	{
 		global $Itemid, $urlpath;
+
+		$app = JFactory::getApplication();
+
 		$txt = '';
 
 		switch ($mitem->type)

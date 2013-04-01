@@ -17,7 +17,10 @@ class stockroomViewstockroom extends JView
 	{
 		$context = 'stockroom_id';
 
+		$uri      = JFactory::getURI();
+		$app      = JFactory::getApplication();
 		$document = JFactory::getDocument();
+
 		$document->setTitle(JText::_('COM_REDSHOP_STOCKROOM'));
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_STOCKROOM_MANAGEMENT'), 'redshop_stockroom48');
@@ -29,15 +32,14 @@ class stockroomViewstockroom extends JView
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();
 
-		$uri = JFactory::getURI();
-
-		$filter_order = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'stockroom_id');
+		$filter_order     = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'stockroom_id');
 		$filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
 
-		$lists ['order'] = $filter_order;
+		$lists ['order']     = $filter_order;
 		$lists ['order_Dir'] = $filter_order_Dir;
-		$stockroom = $this->get('Data');
-		$total = $this->get('Total');
+
+		$stockroom  = $this->get('Data');
+		$total      = $this->get('Total');
 		$pagination = $this->get('Pagination');
 
 		$this->assignRef('lists', $lists);

@@ -17,7 +17,10 @@ class questionViewquestion extends JView
 	{
 		$context = 'question_id';
 
+		$uri      = JFactory::getURI();
+		$app      = JFactory::getApplication();
 		$document = JFactory::getDocument();
+
 		$document->setTitle(JText::_('COM_REDSHOP_question'));
 		$model = $this->getModel('question');
 
@@ -28,17 +31,15 @@ class questionViewquestion extends JView
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();
 
-		$uri = JFactory::getURI();
-
-		$filter_order = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'question_date');
+		$filter_order     = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'question_date');
 		$filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', 'DESC');
-		$product_id = $app->getUserStateFromRequest($context . 'product_id', 'product_id', 0);
+		$product_id       = $app->getUserStateFromRequest($context . 'product_id', 'product_id', 0);
 
-		$lists['order'] = $filter_order;
+		$lists['order']     = $filter_order;
 		$lists['order_Dir'] = $filter_order_Dir;
 
-		$question = $this->get('Data');
-		$total = $this->get('Total');
+		$question   = $this->get('Data');
+		$total      = $this->get('Total');
 		$pagination = $this->get('Pagination');
 
 		$option = $model->getProduct();
