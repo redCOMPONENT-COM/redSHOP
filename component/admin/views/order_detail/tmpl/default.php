@@ -1002,7 +1002,9 @@ $session->set('cart', $cart); ?>
 					if (count($details) <= 1)
 					{
 						$details = explode("|", $row->ship_method_id);
-					} if ($details[0] != 'plgredshop_shippingdefault_shipping_GLS')
+					}
+					$disp_style = '';
+					if ($details[0] != 'plgredshop_shippingdefault_shipping_GLS')
 					{
 						$disp_style = "style=display:none";
 					} ?>
