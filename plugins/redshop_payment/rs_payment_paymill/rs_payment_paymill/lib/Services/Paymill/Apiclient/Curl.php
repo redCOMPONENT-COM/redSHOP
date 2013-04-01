@@ -82,7 +82,6 @@ class Services_Paymill_Apiclient_Curl implements Services_Paymill_Apiclient_Inte
 			}
 
 			return $response['body'];
-
 		}
 		catch (Exception $e)
 		{

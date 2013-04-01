@@ -145,7 +145,6 @@ class AuthorizeNetCP_Response extends AuthorizeNetResponse
 				$this->card_type = (string) $this->xml->AccountType;
 				$this->test_mode = (string) $this->xml->TestMode;
 				$this->ref_trans_id = (string) $this->xml->RefTransID;
-
 			}
 			else
 			{ // If it's an NVP response
@@ -191,7 +190,6 @@ class AuthorizeNetCP_Response extends AuthorizeNetResponse
 				$this->requested_amount = $this->_response_array[23];
 				$this->approved_amount = $this->_response_array[24];
 				$this->card_balance = $this->_response_array[25];
-
 			}
 
 			$this->approved = ($this->response_code == self::APPROVED);

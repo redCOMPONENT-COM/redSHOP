@@ -28,12 +28,10 @@ if (isset($request['ccinfo']) && $request['ccinfo'] == 1)
 	$post['Itemid'] = $Itemid;
 
 	$this->getOrderAndCcdata("rs_payment_paymill", $post);
-
 }
 else
 {
 	$this->getCredicardForm("rs_payment_paymill", $data);
-
 }
 // end by me
 

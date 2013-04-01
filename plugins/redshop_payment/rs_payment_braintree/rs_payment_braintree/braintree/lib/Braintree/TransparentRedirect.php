@@ -155,7 +155,6 @@ class Braintree_TransparentRedirect
 		$params["kind"] = Braintree_TransparentRedirect::CREATE_CUSTOMER;
 
 		return self::_data($params);
-
 	}
 
 	public static function url()

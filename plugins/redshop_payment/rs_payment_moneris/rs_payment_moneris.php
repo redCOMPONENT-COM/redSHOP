@@ -30,7 +30,6 @@ class plgRedshop_paymentrs_payment_moneris extends JPlugin
 		$this->_table_prefix = '#__redshop_';
 		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_moneris');
 		$this->_params = new JRegistry($this->_plugin->params);
-
 	}
 
 	/**
@@ -126,7 +125,6 @@ class plgRedshop_paymentrs_payment_moneris extends JPlugin
 			$apitoken = $moneris_api_token;
 			$tot_amount = $order_total = $data['order_total'];
 			$amount = $currencyClass->convert($tot_amount, '', 'USD');
-
 		}
 
 		$avs_street_number = substr($data['billinginfo']->address, 0, 60);
@@ -183,7 +181,6 @@ class plgRedshop_paymentrs_payment_moneris extends JPlugin
 			echo "Response: <br />";
 			var_dump($mpgResponse);
 			echo "</pre>";
-
 		}
 
 		$mpgRCode = $mpgResponse->getResponseCode();
@@ -199,7 +196,6 @@ class plgRedshop_paymentrs_payment_moneris extends JPlugin
 				$message = "\nA Message from the processor: " . $mpgMessage . "\n";
 				$values->responsestatus = 'Success';
 				$values->transaction_id = $mpgTxnNumber;
-
 			}
 			else
 			{
@@ -221,7 +217,6 @@ class plgRedshop_paymentrs_payment_moneris extends JPlugin
 		$values->message = $message;
 
 		return $values;
-
 	}
 
 	public function getparameters($payment)

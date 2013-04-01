@@ -114,7 +114,6 @@ class zoomproducthelper extends producthelper
 						$pimg = $redhelper->watermark('product', $thumb, $mpw_thumb, $mph_thumb, WATERMARK_PRODUCT_ADDITIONAL_IMAGE, "1");
 						$linkimage = $redhelper->watermark('product', $thumb, '', '', WATERMARK_PRODUCT_ADDITIONAL_IMAGE, "0");
 						$hoverimg_path = $redhelper->watermark('product', $thumb, ADDITIONAL_HOVER_IMAGE_WIDTH, ADDITIONAL_HOVER_IMAGE_HEIGHT, WATERMARK_PRODUCT_ADDITIONAL_IMAGE, '2');
-
 					}
 					else
 					{
@@ -149,7 +148,6 @@ class zoomproducthelper extends producthelper
 					$prod_img_path_link = $url . "components/com_redshop/assets/images/product/" . $thumb;
 					$more_images .= '<a href="javascript:void(0);" rel="{gallery: \'gal1\' , smallimage: \'' . $img_path . '\' ,largeimage: \'' . $prod_img_path_link . '\' }" >';
 					$more_images .= "<img src='" . $pimg . "' alt='" . $alttext . "' title='" . $alttext . "' style='cursor: pointer;'></a>";
-
 				}
 			}
 		}
@@ -427,7 +425,6 @@ class zoomproducthelper extends producthelper
 
 			if (is_file(JPATH_COMPONENT_SITE . "/assets/images/product/" . $thumb_original))
 				$prodadditionImg .= $prodmainimg;
-
 		}
 		//Product Additional Image End
 		if ($val_prodadd == 0)

@@ -596,18 +596,15 @@ $trans_fee = $this->_params->get("transaction_fee");
 					document.forms['ePay'].transfee.value = fee;
 
 					//document.forms['ePay'].submit.disabled = false;
-
 				} else {
 					var epayresponse = returnvalues[0];
 					//	document.getElementById("div_transfee").innerHTML = 'Error (' + epayresponse + ')';
 					//document.forms['ePay'].submit.disabled = true;
-
 				}
 			}
 		}
 
 		self.xmlHttpReq.send();
-
 	}
 
 	function validate() {
@@ -622,7 +619,6 @@ $trans_fee = $this->_params->get("transaction_fee");
 		}
 
 		return true;
-
 	}
 </script>
 

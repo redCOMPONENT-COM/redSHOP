@@ -191,7 +191,7 @@ class plgContentredshop_product extends JPlugin
 					{
 						$product_price = $producthelper->getProductPrice($product->product_id, $show_price_with_vat);
 
-						$productArr = $producthelper->getProductNetPrice($rows [$k]->product_id, 0, 1);
+						$productArr = $producthelper->getProductNetPrice($rows[$k]->product_id, 0, 1);
 						$product_price_discount = $productArr['productPrice'];
 						$product_price_discountVat = $productArr['productVat'];
 

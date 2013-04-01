@@ -37,7 +37,7 @@ class  plgredshop_shippingdefault_shipping_GLS extends JPlugin
 	 *
 	 * @since    1.5
 	 */
-	function onShowconfig()
+	public function onShowconfig()
 	{
 		return true;
 	}

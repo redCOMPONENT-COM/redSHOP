@@ -123,7 +123,6 @@ if ($responsecode == "00" || $responsecode == "08" || $responsecode == "10" || $
 
 	$values->order_id = $order_id;
 	$values->transaction_id = $auth_code;
-
 }
 else
 {

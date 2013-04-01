@@ -29,12 +29,11 @@ class plgRedshop_paymentrs_payment_authorize_dpm extends JPlugin
 	 */
 	public function plgRedshop_paymentrs_payment_authorize_dpm(&$subject)
 	{
-		// load plugin parameters
+		// Load plugin parameters
 		parent::__construct($subject);
 		$this->_table_prefix = '#__redshop_';
 		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_authorize_dpm');
 		$this->_params = new JRegistry($this->_plugin->params);
-
 	}
 
 	public function onPrePayment($element, $data)
@@ -107,7 +106,6 @@ class plgRedshop_paymentrs_payment_authorize_dpm extends JPlugin
 		}
 
 		echo AuthorizeNetDPM::getRelayResponseSnippet($redirect_url);
-
 	}
 
 	public function onNotifyPaymentrs_payment_authorize_dpm($element, $request)
@@ -150,7 +148,6 @@ class plgRedshop_paymentrs_payment_authorize_dpm extends JPlugin
 			$values->order_payment_status_code = 'Paid';
 			$values->log = JTEXT::_('COM_REDSHOP_ORDER_PLACED');
 			$values->msg = JTEXT::_('COM_REDSHOP_ORDER_PLACED');
-
 		}
 		else
 		{
@@ -164,7 +161,6 @@ class plgRedshop_paymentrs_payment_authorize_dpm extends JPlugin
 		$values->order_id = $order_id;
 
 		return $values;
-
 	}
 
 	public function getparameters($payment)

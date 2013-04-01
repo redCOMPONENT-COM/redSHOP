@@ -122,7 +122,6 @@ class plgRedshop_paymentrs_payment_certitrade extends JPlugin
 				$values->msg = JText::_('COM_REDSHOP_ORDER_PLACED');
 				$values->transaction_id = $transaction_id;
 				$values->order_id = $order_id;
-
 			}
 		}
 		else

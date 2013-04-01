@@ -113,7 +113,6 @@ class Braintree_Configuration extends Braintree
 		self::validate($key, $value);
 		// set the value in the cache
 		self::$_cache[$key] = $value;
-
 	}
 
 	private static function get($key)
