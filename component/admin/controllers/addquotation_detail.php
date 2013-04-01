@@ -32,8 +32,6 @@ class addquotation_detailController extends JController
 		$post ['quotation_id'] = $cid [0];
 		$model = $this->getModel('addquotation_detail');
 
-		global $mainframe;
-
 		$acl = JFactory::getACL();
 
 		if (!$post['users_info_id'])

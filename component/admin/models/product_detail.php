@@ -2913,9 +2913,9 @@ class product_detailModelproduct_detail extends JModel
 	 */
 	public function saveorder($cid = array(), $order)
 	{
-		global $mainframe;
+		$app = JFactory::getApplication();
 		// get global category id
-		$category_id_my = $mainframe->getUserStateFromRequest('category_id', 'category_id', 0);
+		$category_id_my = $app->getUserStateFromRequest('category_id', 'category_id', 0);
 		// init array
 		$orderarray = array();
 
@@ -2947,8 +2947,8 @@ class product_detailModelproduct_detail extends JModel
 
 	public function orderup()
 	{
-		global $mainframe;
-		$category_id_my = $mainframe->getUserStateFromRequest('category_id', 'category_id', 0);
+		$app = JFactory::getApplication();
+		$category_id_my = $app->getUserStateFromRequest('category_id', 'category_id', 0);
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 		$cid = $cid[0];
 
@@ -2988,8 +2988,8 @@ class product_detailModelproduct_detail extends JModel
 
 	public function orderdown()
 	{
-		global $mainframe;
-		$category_id_my = $mainframe->getUserStateFromRequest('category_id', 'category_id', 0);
+		$app = JFactory::getApplication();
+		$category_id_my = $app->getUserStateFromRequest('category_id', 'category_id', 0);
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 		$cid = $cid[0];
 

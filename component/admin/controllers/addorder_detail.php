@@ -229,7 +229,7 @@ class addorder_detailController extends JController
 
 	public function guestuser()
 	{
-		global $mainframe;
+		$app = JFactory::getApplication();
 
 		$post = JRequest::get('post');
 

@@ -284,7 +284,7 @@ if (!class_exists('redcategoryScroller'))
 		 */
 		function getredCategorySKU($limit = 0, $how = null, $category_id = 0, $featuredCategory = 'no')
 		{
-			global $mainframe;
+			$app = JFactory::getApplication();
 
 			$category_array = new product_category();
 

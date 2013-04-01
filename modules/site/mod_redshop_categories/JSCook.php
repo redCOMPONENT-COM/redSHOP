@@ -9,7 +9,7 @@
 
 if (!defined('_JEXEC')) die('Direct Access to ' . basename(__FILE__) . ' is not allowed.');
 
-global $mainframe, $root_label, $jscook_type, $jscookMenu_style, $jscookTree_style;
+global $jscook_type, $jscookMenu_style, $jscookTree_style;
 
 
 if (!class_exists('redCategoryMenu'))

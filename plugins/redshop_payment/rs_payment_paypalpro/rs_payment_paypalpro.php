@@ -49,7 +49,7 @@ class plgRedshop_paymentrs_payment_paypalpro extends JPlugin
 			$plugin = $element;
 		}
 
-		$mainframe = JFactory::getApplication();
+		$app = JFactory::getApplication();
 		$objOrder = new order_functions;
 		$uri =& JURI::getInstance();
 		$url = $uri->root();

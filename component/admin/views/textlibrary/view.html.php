@@ -16,9 +16,12 @@ class textlibraryViewtextlibrary extends JView
 {
 	public function display($tpl = null)
 	{
-		global $mainframe, $context;
 		$context = 'textlibrary_id';
+
+		$uri      = JFactory::getURI();
+		$app      = JFactory::getApplication();
 		$document = JFactory::getDocument();
+
 		$document->setTitle(JText::_('COM_REDSHOP_TEXTLIBRARY'));
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_TEXTLIBRARY_MANAGEMENT'), 'redshop_textlibrary48');
@@ -31,10 +34,10 @@ class textlibraryViewtextlibrary extends JView
 
 		$uri = JFactory::getURI();
 
-		$filter_order = $mainframe->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'textlibrary_id');
-		$filter_order_Dir = $mainframe->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
+		$filter_order     = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'textlibrary_id');
+		$filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
 
-		$section = $mainframe->getUserStateFromRequest($context . 'section', 'section', 0);
+		$section = $app->getUserStateFromRequest($context . 'section', 'section', 0);
 
 		$optionsection = array();
 		$optionsection[] = JHTML::_('select.option', '0', JText::_('COM_REDSHOP_SELECT'));
@@ -46,11 +49,12 @@ class textlibraryViewtextlibrary extends JView
 			'class="inputbox" size="1" onchange="document.adminForm.submit();" ', 'value', 'text', $section
 		);
 
-		$lists['order'] = $filter_order;
+		$lists['order']     = $filter_order;
 		$lists['order_Dir'] = $filter_order_Dir;
+
 		$textlibrarys = $this->get('Data');
-		$total = $this->get('Total');
-		$pagination = $this->get('Pagination');
+		$total        = $this->get('Total');
+		$pagination   = $this->get('Pagination');
 
 		$this->assignRef('user', JFactory::getUser());
 		$this->assignRef('lists', $lists);

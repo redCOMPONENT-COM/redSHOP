@@ -31,7 +31,7 @@ class barcodeModelbarcode extends JModel
 	{
 		parent::__construct();
 
-		$mainframe = JFactory::getApplication();
+		$app = JFactory::getApplication();
 		$this->_table_prefix = '#__redshop_';
 	}
 
