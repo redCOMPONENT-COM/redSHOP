@@ -291,20 +291,23 @@ class extra_field
 						});
 					');
 
-					// Support Legacy string.
-					if (preg_match('/\n/', $data_value->data_txt))
+					if (is_object($data_value) && property_exists($data_value, 'data_txt'))
 					{
+						// Support Legacy string.
+						if (preg_match('/\n/', $data_value->data_txt))
+						{
 
-						$document_explode = explode("\n", $data_value->data_txt);
-						$data_txt = array($document_explode[0] => $document_explode[1]);
-					}
-					else
-					{
-						// Support for multiple file upload using JSON for better string handling
-						$data_txt = json_decode($data_value->data_txt);
+							$document_explode = explode("\n", $data_value->data_txt);
+							$data_txt = array($document_explode[0] => $document_explode[1]);
+						}
+						else
+						{
+							// Support for multiple file upload using JSON for better string handling
+							$data_txt = json_decode($data_value->data_txt);
+						}
 					}
 
-					if (count($data_txt) > 0)
+					if (isset($data_txt) && count($data_txt) > 0)
 					{
 						$extra_field_value = "";
 						$index = 0;
