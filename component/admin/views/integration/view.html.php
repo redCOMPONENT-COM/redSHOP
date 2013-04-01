@@ -15,8 +15,6 @@ class integrationViewintegration extends JView
 {
 	public function display($tpl = null)
 	{
-		global $context;
-
 		JToolBarHelper::title(JText::_('COM_REDSHOP_INTEGRATION'), 'redshop_products48');
 
 		$task = JRequest::getVar('task');

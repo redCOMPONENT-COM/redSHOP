@@ -17,6 +17,8 @@ class catalogViewcatalog extends JView
 	{
 		global $context;
 
+		$app = JFactory::getApplication();
+
 		$context = 'catalog_id';
 		$document = JFactory::getDocument();
 		$document->setTitle(JText::_('COM_REDSHOP_CATALOG'));
@@ -31,7 +33,7 @@ class catalogViewcatalog extends JView
 
 		$uri = JFactory::getURI();
 
-		$filter_order = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'catalog_id');
+		$filter_order     = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'catalog_id');
 		$filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
 
 		$lists['order'] = $filter_order;

@@ -37,9 +37,12 @@ class mediaViewmedia extends JView
 
 	public function display($tpl = null)
 	{
-		global $context;
+		$context = 'media';
 
+		$uri      = JFactory::getURI();
+		$app      = JFactory::getApplication();
 		$document = JFactory::getDocument();
+
 		$document->setTitle(JText::_('COM_REDSHOP_MEDIA'));
 		$document->addStyleSheet(JURI::root() . 'administrator/components/com_redshop/assets/css/medialist-thumbs.css');
 
@@ -50,13 +53,10 @@ class mediaViewmedia extends JView
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();
 
-		$uri = JFactory::getURI();
-		$context = 'media';
-		$filter_order = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'media_id');
+		$filter_order     = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'media_id');
 		$filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
-
-		$media_type = $app->getUserStateFromRequest($context . 'media_type', 'media_type', 0);
-		$media_section = $app->getUserStateFromRequest($context . 'media_section', 'media_section', 0);
+		$media_type       = $app->getUserStateFromRequest($context . 'media_type', 'media_type', 0);
+		$media_section    = $app->getUserStateFromRequest($context . 'media_section', 'media_section', 0);
 
 		$optiontype = array();
 		$optiontype[] = JHTML::_('select.option', '0', JText::_('COM_REDSHOP_SELECT'));

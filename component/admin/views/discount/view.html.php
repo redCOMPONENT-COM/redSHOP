@@ -31,7 +31,9 @@ class discountViewdiscount extends JView
 	{
 		global $context;
 
+		$app      = JFactory::getApplication();
 		$document = JFactory::getDocument();
+
 		$document->setTitle(JText::_('COM_REDSHOP_DISCOUNT'));
 
 		$layout = JRequest::getVar('layout');

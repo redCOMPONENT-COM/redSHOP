@@ -31,7 +31,10 @@ class newslettersubscrViewnewslettersubscr extends JView
 	{
 		$context = 'subscription_id';
 
+		$uri      = JFactory::getURI();
+		$app      = JFactory::getApplication();
 		$document = JFactory::getDocument();
+
 		$document->setTitle(JText::_('COM_REDSHOP_NEWSLETTER_SUBSCR'));
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_NEWSLETTER_SUBSCR_MANAGEMENT'), 'redshop_newsletter48');
@@ -64,16 +67,15 @@ class newslettersubscrViewnewslettersubscr extends JView
 			$lists['newsletters'] = JHTML::_('select.genericlist', $newsletters, 'newsletter_id', 'class="inputbox" size="1" ', 'value', 'text', '');
 		}
 
-		$uri = JFactory::getURI();
-
-		$filter_order = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'subscription_id');
+		$filter_order     = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'subscription_id');
 		$filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
 
-		$lists['order'] = $filter_order;
+		$lists['order']     = $filter_order;
 		$lists['order_Dir'] = $filter_order_Dir;
+
 		$newslettersubscrs = $this->get('Data');
-		$total = $this->get('Total');
-		$pagination = $this->get('Pagination');
+		$total             = $this->get('Total');
+		$pagination        = $this->get('Pagination');
 
 		$this->user = JFactory::getUser();
 		$this->assignRef('lists', $lists);

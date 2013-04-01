@@ -31,7 +31,7 @@ class categoryViewcategory extends JView
 
 	public function display($tpl = null)
 	{
-		global $context;
+		$app = JFactory::getApplication();
 
 		$context = 'category_id';
 
