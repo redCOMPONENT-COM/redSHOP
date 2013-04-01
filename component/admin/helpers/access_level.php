@@ -17,7 +17,6 @@ class Redaccesslevel
 	 */
 	public function __construct()
 	{
-		global $context;
 		$this->_table_prefix = '#__redshop_';
 	}
 

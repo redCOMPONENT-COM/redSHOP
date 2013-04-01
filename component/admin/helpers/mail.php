@@ -32,12 +32,12 @@ class redshopMail
 
 	public function __construct()
 	{
-		global $context;
-		$db = JFactory::getDbo();
+		$this->_db = JFactory::getDbo();
+
 		$this->_table_prefix = '#__' . TABLE_PREFIX . '_';
-		$this->_db = $db;
-		$this->_carthelper = new rsCarthelper;
-		$this->_redhelper = new redhelper;
+
+		$this->_carthelper      = new rsCarthelper;
+		$this->_redhelper       = new redhelper;
 		$this->_order_functions = new order_functions;
 	}
 

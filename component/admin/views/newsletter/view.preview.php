@@ -17,6 +17,7 @@ class newsletterViewnewsletter extends JView
 	public function display($tpl = null)
 	{
 		global $context;
+
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 
 		$selected_product = JRequest::getVar('product', '');

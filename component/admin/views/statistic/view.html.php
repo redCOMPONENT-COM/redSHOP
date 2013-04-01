@@ -18,6 +18,8 @@ class statisticViewstatistic extends JView
 	{
 		global $context;
 
+		$app = JFactory::getApplication();
+
 		$uri = JFactory::getURI();
 		$layout = JRequest::getVar('layout');
 

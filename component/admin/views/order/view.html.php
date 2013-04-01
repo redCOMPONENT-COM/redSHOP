@@ -15,7 +15,6 @@ class orderVieworder extends JView
 {
 	public function display($tpl = null)
 	{
-		global $context;
 		$context = 'order_id';
 
 		require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'order.php');

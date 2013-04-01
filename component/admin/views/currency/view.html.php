@@ -16,13 +16,14 @@ class currencyViewcurrency extends JView
 	public function display($tpl = null)
 	{
 		global $context;
+
+		jimport('joomla.html.pagination');
+
 		$context = 'currency_id';
 		$document = JFactory::getDocument();
 		$document->setTitle(JText::_('COM_REDSHOP_CURRENCY'));
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_CURRENCY_MANAGEMENT'), 'redshop_currencies_48');
-		jimport('joomla.html.pagination');
-		global $context;
 		JToolbarHelper::addNewX();
 		JToolbarHelper::EditListX();
 		JToolbarHelper::deleteList();

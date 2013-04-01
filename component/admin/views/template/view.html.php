@@ -15,8 +15,8 @@ class templateViewtemplate extends JView
 {
 	public function display($tpl = null)
 	{
-		global $context;
 		$context = 'template_id';
+
 		$document = JFactory::getDocument();
 		$document->setTitle(JText::_('COM_REDSHOP_TEMPLATES'));
 

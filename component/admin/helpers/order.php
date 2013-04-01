@@ -32,10 +32,10 @@ class order_functions
 
 	public function __construct()
 	{
-		global $context;
-		$this->_table_prefix = '#__redshop_';
-		$this->_table_prefix_crm = '#__redcrm_';
 		$this->_db = JFactory::getDBO();
+
+		$this->_table_prefix     = '#__redshop_';
+		$this->_table_prefix_crm = '#__redcrm_';
 	}
 
 	public function resetOrderId()

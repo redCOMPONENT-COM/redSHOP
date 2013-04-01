@@ -17,6 +17,8 @@ class addressfields_listingViewaddressfields_listing extends JView
 	{
 		global $context;
 
+		$app = JFactory::getApplication();
+
 		$document = JFactory::getDocument();
 		$document->setTitle(JText::_('COM_REDSHOP_FIELDS'));
 

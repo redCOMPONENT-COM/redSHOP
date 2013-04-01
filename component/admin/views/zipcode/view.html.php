@@ -14,15 +14,14 @@ class zipcodeViewzipcode extends JView
 {
 	public function display($tpl = null)
 	{
-		global $context;
+		jimport('joomla.html.pagination');
+
 		$context = 'zipcode_id';
+
 		$document = JFactory::getDocument();
 		$document->setTitle(JText::_('COM_REDSHOP_ZIPCODE'));
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_ZIPCODE_MANAGEMENT'), 'redshop_region_48');
-
-		jimport('joomla.html.pagination');
-		global $context;
 		JToolbarHelper::addNewX();
 		JToolbarHelper::EditListX();
 		JToolbarHelper::deleteList();

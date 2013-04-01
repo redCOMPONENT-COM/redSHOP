@@ -17,7 +17,6 @@ class product_category
 
 	public function __construct()
 	{
-		global $context;
 		$this->_table_prefix = '#__' . TABLE_PREFIX . '_';
 	}
 
@@ -125,7 +124,9 @@ class product_category
 	public function getCategoryListArray($category_id = "", $cid = '0', $level = '0')
 	{
 		global $context;
+
 		$app = JFactory::getApplication();
+
 		$GLOBALS['catlist'] = array();
 		$db = jFactory::getDBO();
 		$level++;

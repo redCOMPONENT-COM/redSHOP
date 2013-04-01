@@ -6,13 +6,15 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'product.php');
+require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
 $producthelper = new producthelper();
 
-require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php');
-require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'shipping.php');
-require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'stockroom.php');
+require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/shipping.php';
+require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/stockroom.php';
+
 global $context;
+
 $order_function = new order_functions();
 $config = new Redconfiguration();
 $option = JRequest::getVar('option');

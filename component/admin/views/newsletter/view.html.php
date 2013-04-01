@@ -29,8 +29,8 @@ class newsletterViewnewsletter extends JView
 
 	public function display($tpl = null)
 	{
-		global $context;
 		$context = 'newsletter_id';
+
 		$document = JFactory::getDocument();
 		$document->setTitle(JText::_('COM_REDSHOP_NEWSLETTER'));
 

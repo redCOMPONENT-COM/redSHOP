@@ -17,10 +17,10 @@ class shipping
 
 	public function __construct()
 	{
-		global $context;
-		$this->_table_prefix = '#__' . TABLE_PREFIX . '_';
-		$this->producthelper = new producthelper();
 		$this->_db = JFactory::getDBO();
+
+		$this->_table_prefix = '#__' . TABLE_PREFIX . '_';
+		$this->producthelper = new producthelper;
 	}
 
 	public function getDeliveryTimeOfProduct($product_id)

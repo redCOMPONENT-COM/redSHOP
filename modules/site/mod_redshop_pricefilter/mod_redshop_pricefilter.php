@@ -7,8 +7,11 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
-$user                     = JFactory::getUser();
+defined('_JEXEC') or die;
+
+$app  = JFactory::getApplication();
+$user = JFactory::getUser();
+
 $minslider                = trim($params->get('minslider', 0));
 $maxslider                = trim($params->get('maxslider', 5000));
 $category                 = trim($params->get('category', 0));
@@ -21,8 +24,9 @@ $show_readmore            = trim($params->get('show_readmore', 1));
 $show_addtocart           = trim($params->get('show_addtocart', 1));
 $show_discountpricelayout = trim($params->get('show_discountpricelayout', 1));
 $show_desc                = trim($params->get('show_desc', 1));
-$app                = JFactory::getApplication();
+
 global $context;
+
 $context     = 'product_id';
 $texpricemin = $app->getUserStateFromRequest($context . 'texpricemin', 'texpricemin', $minslider);
 $texpricemax = $app->getUserStateFromRequest($context . 'texpricemax', 'texpricemax', $maxslider);
