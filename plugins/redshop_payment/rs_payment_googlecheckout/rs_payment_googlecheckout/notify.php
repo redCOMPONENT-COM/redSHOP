@@ -43,7 +43,7 @@ require_once $absolute_path . DS . 'includes' . DS . 'defines.php';
 require_once $absolute_path . DS . 'includes' . DS . 'framework.php';
 
 // create the mainframe object
-$app = JFactory::getApplication('site');
+$app = JFactory::getApplication();
 
 // Initialize the framework
 $app->initialise();

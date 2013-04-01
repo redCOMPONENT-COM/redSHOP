@@ -196,6 +196,9 @@ class fields_detailController extends JController
 	public function orderup()
 	{
 		global $context;
+
+		$app = JFactory::getApplication();
+
 		$option = JRequest::getVar('option');
 		$filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
 		$up = 1;
@@ -221,6 +224,9 @@ class fields_detailController extends JController
 	public function orderdown()
 	{
 		global $context;
+
+		$app = JFactory::getApplication();
+
 		$option = JRequest::getVar('option');
 		$filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
 		$down = -1;
