@@ -298,8 +298,6 @@ class order_detailController extends JController
 
 	public function updateShippingAdd()
 	{
-		$app = JFactory::getApplication();
-
 		$post = JRequest::get('post');
 		$option = JRequest::getVar('option', '', 'request', 'string');
 		$suboption = JRequest::getVar('suboption', 'com_redshop', 'request', 'string');
@@ -333,8 +331,6 @@ class order_detailController extends JController
 
 	public function updateBillingAdd()
 	{
-		$app = JFactory::getApplication();
-
 		$post = JRequest::get('post');
 		$option = JRequest::getVar('option', '', 'request', 'string');
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
@@ -377,8 +373,6 @@ class order_detailController extends JController
 
 	public function send_downloadmail()
 	{
-		$app = JFactory::getApplication();
-
 		$option = JRequest::getVar('option', '', 'request', 'string');
 		$cid = JRequest::getVar('cid', array(0), 'get', 'array');
 		$tmpl = JRequest::getVar('tmpl', '', 'request', 'string');
@@ -541,7 +535,7 @@ class order_detailController extends JController
 	 */
 	public function notify_payment()
 	{
-		$app = JFactory::getApplication('site');
+		$app = JFactory::getApplication();
 		$db = jFactory::getDBO();
 		$request = JRequest::get('request');
 
@@ -561,7 +555,6 @@ class order_detailController extends JController
 
 	public function send_invoicemail()
 	{
-		$app = JFactory::getApplication();
 		$redshopMail = new redshopMail;
 
 		$option = JRequest::getVar('option', '', 'request', 'string');

@@ -33,7 +33,7 @@ else
 	require_once JPATH_BASE . DS . 'includes' . DS . 'framework.php';
 
 	// Get a $app
-	$app = JFactory::getApplication('site');
+	$app = JFactory::getApplication();
 
 	// Get the appropriate url
 	$url                 = $app->isAdmin() ? $app->getSiteURL() : JURI::base();

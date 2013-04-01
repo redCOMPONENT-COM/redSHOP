@@ -45,6 +45,9 @@ class addressfields_listingController extends JController
 	public function orderup()
 	{
 		global $context;
+
+		$app = JFactory::getApplication();
+
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 		$option = JRequest::getVar('option');
 		$filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
@@ -71,6 +74,9 @@ class addressfields_listingController extends JController
 	public function orderdown()
 	{
 		global $context;
+
+		$app = JFactory::getApplication();
+
 		$option = JRequest::getVar('option');
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 		$filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');

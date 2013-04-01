@@ -77,7 +77,6 @@ class barcodeController extends JController
 			$barcode = $post['barcode'];
 			$barcode = substr($barcode, 0, 12);
 
-			$app = JFactory::getApplication();
 			$row = $model->checkorder($barcode);
 
 			if ($row)

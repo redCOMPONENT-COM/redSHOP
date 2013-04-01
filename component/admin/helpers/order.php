@@ -359,7 +359,7 @@ class order_functions
 	{
 		$helper = new redhelper;
 
-		$app = JFactory::getApplication('site');
+		$app = JFactory::getApplication();
 		$user = JFactory::getUser();
 
 		$order_id = $data->order_id;
