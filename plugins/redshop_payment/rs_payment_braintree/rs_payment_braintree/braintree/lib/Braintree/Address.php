@@ -74,7 +74,6 @@ class Braintree_Address extends Braintree
 		$result = self::create($attribs);
 
 		return self::returnObjectOrThrowException(__CLASS__, $result);
-
 	}
 
 	/**
@@ -175,7 +174,6 @@ class Braintree_Address extends Braintree
 		);
 
 		return self::_verifyGatewayResponse($response);
-
 	}
 
 	/**
@@ -222,7 +220,6 @@ class Braintree_Address extends Braintree
 	{
 		// TODO: remove customerId from update signature
 		return self::createSignature();
-
 	}
 
 	/**
@@ -318,7 +315,6 @@ class Braintree_Address extends Braintree
 		self::_validateCustomerId($customerId);
 
 		return $customerId;
-
 	}
 
 	/* private class methods */
@@ -336,7 +332,6 @@ class Braintree_Address extends Braintree
 		$response = Braintree_Http::post($url, $params);
 
 		return self::_verifyGatewayResponse($response);
-
 	}
 
 	/**
@@ -388,6 +383,5 @@ class Braintree_Address extends Braintree
 		$instance->_initialize($attributes);
 
 		return $instance;
-
 	}
 }

@@ -17,5 +17,4 @@ interface Services_Paymill_Apiclient_Interface
 	 * @return mixed
 	 */
 	public function request($action, $params = array(), $method = 'POST');
-
 }

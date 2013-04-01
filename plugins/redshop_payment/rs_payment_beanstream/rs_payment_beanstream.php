@@ -32,7 +32,6 @@ class plgRedshop_paymentrs_payment_beanstream extends JPlugin
 		$this->_table_prefix = '#__redshop_';
 		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_beanstream');
 		$this->_params = new JRegistry($this->_plugin->params);
-
 	}
 
 	/**
@@ -155,7 +154,6 @@ class plgRedshop_paymentrs_payment_beanstream extends JPlugin
 		$values->message = $message;
 
 		return $values;
-
 	}
 
 	public function explode_assoc($glue1, $glue2, $array)

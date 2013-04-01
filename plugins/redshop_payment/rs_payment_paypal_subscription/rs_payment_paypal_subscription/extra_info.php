@@ -112,7 +112,6 @@ if ($this->_params->get("payment_oprand") == '-')
 {
 	$discount_payment_price = $payment_price;
 	$post_variables['discount_amount_cart'] += round($currencyClass->convert($order_details[0]->payment_discount, '', $currency_main), 2);
-
 }
 else
 {

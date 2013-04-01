@@ -32,7 +32,6 @@ class plgRedshop_paymentrs_payment_paypalpro extends JPlugin
 		$this->_table_prefix = '#__redshop_';
 		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_paypalpro');
 		$this->_params = new JRegistry($this->_plugin->params);
-
 	}
 
 	/**
@@ -90,7 +89,6 @@ class plgRedshop_paymentrs_payment_paypalpro extends JPlugin
 		if ($creditCardType == "MC")
 		{
 			$creditCardType = "MasterCard";
-
 		}
 
 		// Add request-specific fields to the request string.
@@ -378,7 +376,6 @@ class plgRedshop_paymentrs_payment_paypalpro extends JPlugin
 						}
 
 						$msg = JText::_('COM_REDSHOP_EPAY_PAYMENT_CARDTYPE');
-
 					}
 
 					// Creation information
