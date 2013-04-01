@@ -17,6 +17,8 @@ class attribute_setViewattribute_set extends JView
 	{
 		global $context;
 
+		$app = JFactory::getApplication();
+
 		$document = JFactory::getDocument();
 		$document->setTitle(JText::_('COM_REDSHOP_ATTRIBUTE_SET'));
 
@@ -31,7 +33,7 @@ class attribute_setViewattribute_set extends JView
 
 		$uri = JFactory::getURI();
 
-		$filter_order = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'attribute_set_id');
+		$filter_order     = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'attribute_set_id');
 		$filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
 
 		$lists = array();

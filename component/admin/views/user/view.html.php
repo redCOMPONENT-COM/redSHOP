@@ -14,8 +14,8 @@ class userViewuser extends JView
 {
 	public function display($tpl = null)
 	{
-		global $context;
 		$context = 'user_info_id';
+
 		$userhelper = new rsUserhelper;
 		$uri = JFactory::getURI();
 		$sync = JRequest::getVar('sync');

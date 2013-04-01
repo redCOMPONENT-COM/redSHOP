@@ -22,6 +22,7 @@ class countryViewcountry extends JView
 		JToolBarHelper::title(JText::_('COM_REDSHOP_COUNTRY_MANAGEMENT'), 'redshop_country_48');
 
 		global $context;
+
 		$context = 'country_id';
 		JToolbarHelper::addNewX();
 		JToolbarHelper::EditListX();

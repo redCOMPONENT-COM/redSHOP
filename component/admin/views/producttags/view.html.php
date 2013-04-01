@@ -15,8 +15,8 @@ class producttagsViewproducttags extends JView
 {
 	public function display($tpl = null)
 	{
-		global $context;
 		$context = 't.tags_id';
+
 		$document = JFactory::getDocument();
 		$document->setTitle(JText::_('COM_REDSHOP_TAGS'));
 

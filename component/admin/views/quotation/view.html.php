@@ -24,8 +24,8 @@ class quotationViewquotation extends JView
 
 	public function display($tpl = null)
 	{
-		global $context;
 		$context = 'quotation_id';
+
 		$quotationHelper = new quotationHelper;
 
 		$document = JFactory::getDocument();

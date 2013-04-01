@@ -16,6 +16,7 @@ class catalogViewcatalog extends JView
 	public function display($tpl = null)
 	{
 		global $context;
+
 		$context = 'catalog_id';
 		$document = JFactory::getDocument();
 		$document->setTitle(JText::_('COM_REDSHOP_CATALOG'));

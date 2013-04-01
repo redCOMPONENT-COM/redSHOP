@@ -15,14 +15,18 @@ class stateViewstate extends JView
 {
 	public function display($tpl = null)
 	{
+		JLoader::import('joomla.html.pagination');
+
+		require_once JPATH_COMPONENT_SITE . '/helpers/helper.php';
+
+		$context = 'state_id';
+
+		$app = JFactory::getApplication();
+
 		$document = JFactory::getDocument();
 		$document->setTitle(JText::_('COM_REDSHOP_STATE'));
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_STATE_MANAGEMENT'), 'redshop_region_48');
-
-		jimport('joomla.html.pagination');
-		global $context;
-		$context = 'state_id';
 		JToolbarHelper::addNewX();
 		JToolbarHelper::EditListX();
 		JToolbarHelper::deleteList();
@@ -36,7 +40,7 @@ class stateViewstate extends JView
 
 		$db = jFactory::getDBO();
 		JToolBarHelper::title(JText::_('COM_REDSHOP_STATE') . ': <small><small>[ ' . $text . ' ]</small></small>', 'redshop_region_48');
-		require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'helper.php');
+
 
 		$redhelper = new redhelper;
 		$q = "SELECT  country_id as value,country_name as text,country_jtext from #__" . TABLE_PREFIX . "_country ORDER BY country_name ASC";

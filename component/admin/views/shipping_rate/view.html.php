@@ -15,8 +15,8 @@ class shipping_rateViewshipping_rate extends JView
 {
 	public function display($tpl = null)
 	{
-		global $context;
 		$context = 'shipping_rate';
+
 		$uri = JFactory::getURI();
 		$shippinghelper = new shipping;
 

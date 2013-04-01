@@ -22,7 +22,6 @@ class adminproducthelper
 
 	public function __construct()
 	{
-		global $context;
 		$this->_table_prefix = '#__' . TABLE_PREFIX . '_';
 	}
 

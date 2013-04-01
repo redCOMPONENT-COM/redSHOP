@@ -15,8 +15,8 @@ class stockroomViewstockroom extends JView
 {
 	public function display($tpl = null)
 	{
-		global $context;
 		$context = 'stockroom_id';
+
 		$document = JFactory::getDocument();
 		$document->setTitle(JText::_('COM_REDSHOP_STOCKROOM'));
 

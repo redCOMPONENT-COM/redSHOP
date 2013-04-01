@@ -15,8 +15,8 @@ class fieldsViewfields extends JView
 {
 	public function display($tpl = null)
 	{
-		global $context;
 		$context = 'field_id';
+
 		$redtemplate = new Redtemplate;
 		$document = JFactory::getDocument();
 		$document->setTitle(JText::_('COM_REDSHOP_FIELDS'));

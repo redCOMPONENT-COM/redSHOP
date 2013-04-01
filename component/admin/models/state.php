@@ -121,6 +121,7 @@ class stateModelstate extends JModel
 	public function _buildContentOrderBy()
 	{
 		$app = JFactory::getApplication();
+
 		$filter_order = $app->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'state_id');
 		$filter_order_Dir = $app->getUserStateFromRequest($this->_context . 'filter_order_Dir', 'filter_order_Dir', '');
 		$orderby = ' ORDER BY ' . $filter_order . ' ' . $filter_order_Dir;
