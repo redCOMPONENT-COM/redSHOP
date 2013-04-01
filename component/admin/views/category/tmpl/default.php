@@ -139,7 +139,7 @@ $ordering = ($this->lists['order'] == 'c.ordering');
 					<td><?php echo JHTML::_('grid.id', $i, $row->id); ?></td>
 					<td>
 						<?php
-						if ($row->treename != "")
+						if (property_exists($row, 'treename') && $row->treename != "")
 						{
 							?>
 							<a href="<?php echo $link; ?>"
