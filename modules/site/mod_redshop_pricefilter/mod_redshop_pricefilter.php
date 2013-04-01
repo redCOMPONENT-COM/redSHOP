@@ -21,10 +21,10 @@ $show_readmore            = trim($params->get('show_readmore', 1));
 $show_addtocart           = trim($params->get('show_addtocart', 1));
 $show_discountpricelayout = trim($params->get('show_discountpricelayout', 1));
 $show_desc                = trim($params->get('show_desc', 1));
-$mainframe                = JFactory::getApplication();
+$app                = JFactory::getApplication();
 global $context;
 $context     = 'product_id';
-$texpricemin = $mainframe->getUserStateFromRequest($context . 'texpricemin', 'texpricemin', $minslider);
-$texpricemax = $mainframe->getUserStateFromRequest($context . 'texpricemax', 'texpricemax', $maxslider);
+$texpricemin = $app->getUserStateFromRequest($context . 'texpricemin', 'texpricemin', $minslider);
+$texpricemax = $app->getUserStateFromRequest($context . 'texpricemax', 'texpricemax', $maxslider);
 
 require JModuleHelper::getLayoutPath('mod_redshop_pricefilter');

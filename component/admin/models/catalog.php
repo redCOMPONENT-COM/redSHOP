@@ -27,11 +27,11 @@ class catalogModelcatalog extends JModel
 	{
 		parent::__construct();
 
-		global $mainframe;
+		$app = JFactory::getApplication();
 		$this->_context = 'sample_id';
 		$this->_table_prefix = '#__redshop_';
-		$limit = $mainframe->getUserStateFromRequest($this->_context . 'limit', 'limit', $mainframe->getCfg('list_limit'), 0);
-		$limitstart = $mainframe->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
+		$limit = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
+		$limitstart = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
 		$limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
 		$this->setState('limit', $limit);
 		$this->setState('limitstart', $limitstart);
@@ -80,11 +80,11 @@ class catalogModelcatalog extends JModel
 
 	public function _buildContentOrderBy()
 	{
-		global $mainframe;
+		$app = JFactory::getApplication();
 		$layout = JRequest::getVar('layout', 'default');
-		$filter_order = $mainframe->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'catalog_id');
+		$filter_order = $app->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'catalog_id');
 
-		$filter_order_Dir = $mainframe->getUserStateFromRequest($this->_context . 'filter_order_Dir', 'filter_order_Dir', '');
+		$filter_order_Dir = $app->getUserStateFromRequest($this->_context . 'filter_order_Dir', 'filter_order_Dir', '');
 
 		$orderby = ' ORDER BY ' . $filter_order . ' ' . $filter_order_Dir;
 

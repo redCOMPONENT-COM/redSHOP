@@ -32,7 +32,7 @@ class addquotation_detailController extends JController
 		$post ['quotation_id'] = $cid [0];
 		$model = $this->getModel('addquotation_detail');
 
-		global $mainframe;
+		$app = JFactory::getApplication();
 
 		$acl = JFactory::getACL();
 

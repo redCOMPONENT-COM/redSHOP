@@ -15,7 +15,7 @@ class fieldsViewfields extends JView
 {
 	public function display($tpl = null)
 	{
-		global $mainframe, $context;
+		global $context;
 		$context = 'field_id';
 		$redtemplate = new Redtemplate;
 		$document = JFactory::getDocument();
@@ -35,10 +35,10 @@ class fieldsViewfields extends JView
 		$optiontype = $redtemplate->getFieldTypeSections();
 		$optionsection = $redtemplate->getFieldSections();
 
-		$filter_order = $mainframe->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'field_id');
-		$filter_order_Dir = $mainframe->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
-		$filtertypes = $mainframe->getUserStateFromRequest($context . 'filtertypes', 'filtertypes', 0);
-		$filtersection = $mainframe->getUserStateFromRequest($context . 'filtertypes', 'filtersection', 0);
+		$filter_order = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'field_id');
+		$filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
+		$filtertypes = $app->getUserStateFromRequest($context . 'filtertypes', 'filtertypes', 0);
+		$filtersection = $app->getUserStateFromRequest($context . 'filtertypes', 'filtersection', 0);
 
 		$lists['order'] = $filter_order;
 		$lists['order_Dir'] = $filter_order_Dir;

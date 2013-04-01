@@ -32,7 +32,7 @@ class order_functions
 
 	public function __construct()
 	{
-		global $mainframe, $context;
+		global $context;
 		$this->_table_prefix = '#__redshop_';
 		$this->_table_prefix_crm = '#__redcrm_';
 		$this->_db = JFactory::getDBO();
@@ -359,7 +359,7 @@ class order_functions
 	{
 		$helper = new redhelper;
 
-		$mainframe = JFactory::getApplication('site');
+		$app = JFactory::getApplication('site');
 		$user = JFactory::getUser();
 
 		$order_id = $data->order_id;
@@ -638,7 +638,7 @@ class order_functions
 
 	public function update_status()
 	{
-		global $mainframe;
+		$app = JFactory::getApplication();
 		$helper = new redhelper;
 		$producthelper = new producthelper;
 		$stockroomhelper = new rsstockroomhelper;
@@ -911,29 +911,29 @@ class order_functions
 		{
 			if ($option == 'com_redcrm')
 			{
-				$mainframe->Redirect('index.php?option=' . $option . '&view=' . $return . '&cid[]=' . $order_id . '' . $isarchive . '', $msg);
+				$app->Redirect('index.php?option=' . $option . '&view=' . $return . '&cid[]=' . $order_id . '' . $isarchive . '', $msg);
 			}
 			else
 			{
-				$mainframe->Redirect('index.php?option=' . $option . '&view=' . $return . '' . $isarchive . '', $msg);
+				$app->Redirect('index.php?option=' . $option . '&view=' . $return . '' . $isarchive . '', $msg);
 			}
 		}
 		else
 		{
 			if ($tmpl != "")
 			{
-				$mainframe->Redirect('index.php?option=' . $option . '&view=' . $return . '&cid[]=' . $order_id . '&tmpl=' . $tmpl . '' . $isarchive . '', $msg);
+				$app->Redirect('index.php?option=' . $option . '&view=' . $return . '&cid[]=' . $order_id . '&tmpl=' . $tmpl . '' . $isarchive . '', $msg);
 			}
 			else
 			{
-				$mainframe->Redirect('index.php?option=' . $option . '&view=' . $return . '&cid[]=' . $order_id . '' . $isarchive . '', $msg);
+				$app->Redirect('index.php?option=' . $option . '&view=' . $return . '&cid[]=' . $order_id . '' . $isarchive . '', $msg);
 			}
 		}
 	}
 
 	public function update_status_all()
 	{
-		global $mainframe;
+		$app = JFactory::getApplication();
 
 		$helper = new redhelper();
 		$stockroomhelper = new rsstockroomhelper();
@@ -1731,13 +1731,13 @@ class order_functions
 	public function SendDownload($order_id = 0)
 	{
 		$config = new Redconfiguration;
-		global $mainframe;
+		$app = JFactory::getApplication();
 		$redshopMail = new redshopMail;
 
 		//getting the order status changed template from mail center end
-		$MailFrom = $mainframe->getCfg('mailfrom');
-		$FromName = $mainframe->getCfg('fromname');
-		$SiteName = $mainframe->getCfg('sitename');
+		$MailFrom = $app->getCfg('mailfrom');
+		$FromName = $app->getCfg('fromname');
+		$SiteName = $app->getCfg('sitename');
 
 		$maildata = "";
 		$mailsubject = "";
@@ -1861,7 +1861,7 @@ class order_functions
 
 	public function getpaymentinformation($row, $post)
 	{
-		global $mainframe;
+		$app = JFactory::getApplication();
 		require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'configuration.php');
 		$redconfig = new Redconfiguration();
 
@@ -1915,7 +1915,7 @@ class order_functions
 			if ($values['payment_plugin'] == "rs_payment_banktransfer" || $values['payment_plugin'] == "rs_payment_banktransfer2" || $values['payment_plugin'] == "rs_payment_banktransfer3" || $values['payment_plugin'] == "rs_payment_cashtransfer" || $values['payment_plugin'] == "rs_payment_cashsale" || $values['payment_plugin'] == "rs_payment_banktransfer_discount")
 			{
 
-				$mainframe->redirect(JURI::base() . "index.php?option=com_redshop&view=order_detail&layout=creditcardpayment&plugin=" . $values['payment_plugin'] . "&order_id=" . $row->order_id);
+				$app->redirect(JURI::base() . "index.php?option=com_redshop&view=order_detail&layout=creditcardpayment&plugin=" . $values['payment_plugin'] . "&order_id=" . $row->order_id);
 			}
 
 			JPluginHelper::importPlugin('redshop_payment');
@@ -1925,7 +1925,7 @@ class order_functions
 		}
 		else
 		{
-			$mainframe->redirect(JURI::base() . "index.php?option=com_redshop&view=order_detail&layout=creditcardpayment&plugin=" . $values['payment_plugin'] . "&order_id=" . $row->order_id);
+			$app->redirect(JURI::base() . "index.php?option=com_redshop&view=order_detail&layout=creditcardpayment&plugin=" . $values['payment_plugin'] . "&order_id=" . $row->order_id);
 
 		}
 	}
@@ -2014,14 +2014,14 @@ class order_functions
 
 	public function changeOrderStatusMail($order_id, $newstatus, $order_comment = '')
 	{
-		global $mainframe;
+		$app = JFactory::getApplication();
 		$config = new Redconfiguration;
 		$carthelper = new rsCarthelper;
 		$order_functions = new order_functions;
 		$redshopMail = new redshopMail;
 		$shippinghelper = new shipping;
-		$MailFrom = $mainframe->getCfg('mailfrom');
-		$FromName = $mainframe->getCfg('fromname');
+		$MailFrom = $app->getCfg('mailfrom');
+		$FromName = $app->getCfg('fromname');
 		$mailbcc = NULL;
 		$mailtemplate = $redshopMail->getMailtemplate(0, '', 'mail_section LIKE "order_status" AND mail_order_status LIKE "' . $newstatus . '" ');
 

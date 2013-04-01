@@ -49,7 +49,7 @@ class plgRedshop_paymentrs_payment_beanstream extends JPlugin
 			$plugin = $element;
 		}
 
-		$mainframe = JFactory::getApplication();
+		$app = JFactory::getApplication();
 		$db = JFactory::getDBO();
 		$user = JFActory::getUser();
 		$session = JFactory::getSession();

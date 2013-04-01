@@ -37,7 +37,7 @@ class coupon_detailController extends JController
 
 	public function save()
 	{
-		global $mainframe;
+		$app = JFactory::getApplication();
 		$post = JRequest::get('post');
 		$comment = JRequest::getVar('comment', '', 'post', 'string', JREQUEST_ALLOWRAW);
 		$post["comment"] = $comment;
@@ -61,7 +61,7 @@ class coupon_detailController extends JController
 			if ($model->checkduplicate($post['coupon_code']))
 			{
 				$msg = JText::_('COM_REDSHOP_CODE_IS_ALREADY_IN_USE');
-				$mainframe->Redirect('index.php?option=' . $option . '&view=coupon_detail&task=edit&cid=' . $post ['coupon_id'], $msg);
+				$app->Redirect('index.php?option=' . $option . '&view=coupon_detail&task=edit&cid=' . $post ['coupon_id'], $msg);
 			}
 		}
 

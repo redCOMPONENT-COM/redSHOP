@@ -28,10 +28,10 @@ require_once (JPATH_BASE . DS . 'includes' . DS . 'defines.php');
 require_once (JPATH_BASE . DS . 'includes' . DS . 'framework.php');
 
 // create the mainframe object
-$mainframe = JFactory::getApplication('site');
+$app = JFactory::getApplication('site');
 
 // Initialize the framework
-$mainframe->initialise();
+$app->initialise();
 /*** END of Joomla config ***/
 
 require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'xmlhelper.php');

@@ -84,7 +84,7 @@ class TransMenu
 	function genMenuItem(&$row, $level, $pos)
 	{
 
-		global $urlpath, $mainframe;
+		global $urlpath;
 		$txt       = '';
 		$objhelper = new redhelper ();
 		$Itemid    = JRequest::getVar('Itemid', '1');
@@ -105,7 +105,7 @@ class TransMenu
 				break;
 			case 'content_item_link':
 				$temp = split("&task=view&id=", $row->link);
-				$row->link .= '&Itemid=' . $mainframe->getItemid($temp[1]);
+				$row->link .= '&Itemid=' . $app->getItemid($temp[1]);
 				break;
 			case 'url':
 				if (eregi('index.php\?', $row->link))
@@ -158,7 +158,7 @@ class TransMenu
 
 	function getFirstLevelItem($mitem)
 	{
-		global $Itemid, $mainframe, $urlpath;
+		global $Itemid, $urlpath;
 		$txt = '';
 
 		switch ($mitem->type)
@@ -168,7 +168,7 @@ class TransMenu
 				break;
 			case 'content_item_link':
 				$temp = split("&task=view&id=", $mitem->link);
-				$mitem->link .= '&Itemid=' . $mainframe->getItemid($temp[1]);
+				$mitem->link .= '&Itemid=' . $app->getItemid($temp[1]);
 				break;
 			case 'url':
 				if (eregi('index.php\?', $mitem->link))

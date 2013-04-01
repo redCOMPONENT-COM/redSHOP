@@ -32,11 +32,11 @@ else
 	require_once JPATH_BASE . DS . 'includes' . DS . 'defines.php';
 	require_once JPATH_BASE . DS . 'includes' . DS . 'framework.php';
 
-	// Get a $mainframe
-	$mainframe = JFactory::getApplication('site');
+	// Get a $app
+	$app = JFactory::getApplication('site');
 
 	// Get the appropriate url
-	$url                 = $mainframe->isAdmin() ? $mainframe->getSiteURL() : JURI::base();
+	$url                 = $app->isAdmin() ? $app->getSiteURL() : JURI::base();
 	$mosConfig_live_site = substr_replace($url, '', -1, 1);
 	$icon_path           = $mosConfig_live_site . '/icons';
 }

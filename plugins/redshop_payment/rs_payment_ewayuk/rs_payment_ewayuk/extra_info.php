@@ -10,7 +10,7 @@
 $uri =& JURI::getInstance();
 $url = $uri->root();
 $user = JFactory::getUser();
-$mainframe = JFactory::getApplication();
+$app = JFactory::getApplication();
 
 $eWAYcustomer_id = $this->_params->get("customer_id");
 $eWAYusername = $this->_params->get("username");
@@ -85,11 +85,11 @@ $responseurl = $this->fetch_data($response, '<uri>', '</uri>');
 
 if ($responsemode == "True")
 {
-	$mainframe->redirect($responseurl);
+	$app->redirect($responseurl);
 }
 else
 {
-	$mainframe->redirect(JURI::base() . "index.php?option=com_redshop&view=order_detail&oid=" . $data['order_id']);
+	$app->redirect(JURI::base() . "index.php?option=com_redshop&view=order_detail&oid=" . $data['order_id']);
 }
 
 

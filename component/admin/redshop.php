@@ -18,8 +18,8 @@
    	if(JRequest::getVar('task','')=='downloaddesign') error_reporting(0);
 
 	$configpath = JPATH_COMPONENT.DS.'helpers'.DS.'redshop.cfg.php';
-	global $mainframe;
-	$mainframe = JFactory::getApplication();
+	$app = JFactory::getApplication();
+	$app = JFactory::getApplication();
    if(!file_exists($configpath)){
    		error_reporting(0);
    		$controller='redshop';

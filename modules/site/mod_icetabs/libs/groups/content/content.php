@@ -179,7 +179,7 @@ if (!class_exists('LofSliderGroupContent'))
 		 */
 		public static function __getListJLOneFive($params)
 		{
-			global $mainframe;
+			$app = JFactory::getApplication();
 			$maxTitle            = $params->get('max_title', '100');
 			$maxDesciption       = $params->get('max_description', 100);
 			$openTarget          = $params->get('open_target', 'parent');
@@ -219,7 +219,7 @@ if (!class_exists('LofSliderGroupContent'))
 				. "\n WHERE a.state = 1"
 				. "\n AND (a.publish_up = " . $db->Quote($db->getNullDate()) . " OR a.publish_up <= " . $db->Quote($now) . ")"
 				. "\n AND (a.publish_down = " . $db->Quote($db->getNullDate()) . " OR a.publish_down >= " . $db->Quote($now) . ")"
-				. ((!$mainframe->getCfg('shownoauth')) ? "\n AND a.access <= " . (int) $aid : '');
+				. ((!$app->getCfg('shownoauth')) ? "\n AND a.access <= " . (int) $aid : '');
 
 			$query .= $condition . ' ORDER BY ' . $ordering;
 			$query .= $limit ? ' LIMIT ' . $limit : '';

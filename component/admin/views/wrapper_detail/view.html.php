@@ -22,7 +22,7 @@ class wrapper_detailVIEWwrapper_detail extends JView
 
 	public function display($tpl = null)
 	{
-		global $mainframe, $context;
+		global $context;
 
 		$context = "wrapper";
 		$uri = JFactory::getURI();

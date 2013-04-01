@@ -26,7 +26,7 @@ class plgButtonproduct extends JPlugin
 	 */
 	public function onDisplay($name)
 	{
-		$mainframe = JFactory::getApplication();
+		$app = JFactory::getApplication();
 
 		$doc = JFactory::getDocument();
 
@@ -38,10 +38,10 @@ class plgButtonproduct extends JPlugin
 		}";
 		$doc->addScriptDeclaration($js);
 
-		$template = $mainframe->getTemplate();
+		$template = $app->getTemplate();
 		$link = 'index.php?option=com_redshop&amp;view=product_mini&amp;tmpl=component&amp;e_name=' . $name;
 
-		if ($mainframe->isAdmin())
+		if ($app->isAdmin())
 		{
 			$link = '../index.php?option=com_redshop&amp;view=product_mini&amp;tmpl=component&amp;e_name=' . $name;
 		}

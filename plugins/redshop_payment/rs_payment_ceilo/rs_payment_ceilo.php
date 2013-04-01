@@ -39,7 +39,7 @@ class plgRedshop_paymentrs_payment_ceilo extends JPlugin
 	{
 		$config = new Redconfiguration;
 		$currencyClass = new convertPrice;
-		$mainframe = JFactory::getApplication();
+		$app = JFactory::getApplication();
 		$objOrder = new order_functions;
 		$uri =& JURI::getInstance();
 		$url = $uri->root();

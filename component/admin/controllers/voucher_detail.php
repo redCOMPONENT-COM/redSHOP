@@ -36,7 +36,7 @@ class voucher_detailController extends JController
 
 	public function save($apply = 0)
 	{
-		global $mainframe;
+		$app = JFactory::getApplication();
 		$post = JRequest::get('post');
 		$option = JRequest::getVar('option', '', 'request', 'string');
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
@@ -57,7 +57,7 @@ class voucher_detailController extends JController
 			if ($code)
 			{
 				$msg = JText::_('COM_REDSHOP_CODE_IS_ALREADY_IN_USE');
-				$mainframe->Redirect('index.php?option=' . $option . '&view=voucher_detail&task=edit&cid=' . $post ['voucher_id'], $msg);
+				$app->Redirect('index.php?option=' . $option . '&view=voucher_detail&task=edit&cid=' . $post ['voucher_id'], $msg);
 			}
 		}
 

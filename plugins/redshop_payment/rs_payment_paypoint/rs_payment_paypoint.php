@@ -10,8 +10,8 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.plugin.plugin');
-//$mainframe = JFactory::getApplication();
-//$mainframe->registerEvent( 'onPrePayment', 'plgRedshoprs_payment_bbs' );
+//$app = JFactory::getApplication();
+//$app->registerEvent( 'onPrePayment', 'plgRedshoprs_payment_bbs' );
 class plgRedshop_paymentrs_payment_paypoint extends JPlugin
 {
 	var $_table_prefix = null;

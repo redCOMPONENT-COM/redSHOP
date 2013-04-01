@@ -43,16 +43,16 @@ require_once $absolute_path . DS . 'includes' . DS . 'defines.php';
 require_once $absolute_path . DS . 'includes' . DS . 'framework.php';
 
 // create the mainframe object
-$mainframe = JFactory::getApplication('site');
+$app = JFactory::getApplication('site');
 
 // Initialize the framework
-$mainframe->initialise();
+$app->initialise();
 
 // load system plugin group
 JPluginHelper::importPlugin('system');
 
 // trigger the onBeforeStart events
-$mainframe->triggerEvent('onBeforeStart');
+$app->triggerEvent('onBeforeStart');
 $lang = JFactory::getLanguage();
 $mosConfig_lang = $GLOBALS ['mosConfig_lang'] = strtolower($lang->getBackwardLang());
 // Adjust the live site path
