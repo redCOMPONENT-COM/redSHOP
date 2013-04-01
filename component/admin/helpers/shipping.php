@@ -1516,7 +1516,7 @@ class shipping
 			$data = $this->producthelper->getProductById($cart [$i] ['product_id']);
 			$acc_weight = 0;
 
-			if (count($cart[$i]['cart_accessory']) > 0)
+			if (isset($cart[$i]['cart_accessory']) && count($cart[$i]['cart_accessory']) > 0)
 			{
 				for ($a = 0; $a < count($cart[$i]['cart_accessory']); $a++)
 				{
