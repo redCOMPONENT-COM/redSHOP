@@ -16,16 +16,18 @@ class userViewuser extends JView
 	{
 		$context = 'user_info_id';
 
-		$userhelper = new rsUserhelper;
-		$uri = JFactory::getURI();
-		$sync = JRequest::getVar('sync');
-
-		$spgrp_filter = JRequest::getVar('spgrp_filter', '', 'request', 'string');
-		$approved_filter = JRequest::getVar('approved_filter', '', 'request', 'string');
-		$tax_exempt_request_filter = JRequest::getVar('tax_exempt_request_filter', '', 'request', 'string');
-
+		$uri      = JFactory::getURI();
+		$app      = JFactory::getApplication();
 		$document = JFactory::getDocument();
+
 		$document->setTitle(JText::_('COM_REDSHOP_USER'));
+
+		$userhelper = new rsUserhelper;
+
+		$sync                      = JRequest::getVar('sync');
+		$spgrp_filter              = JRequest::getVar('spgrp_filter', '', 'request', 'string');
+		$approved_filter           = JRequest::getVar('approved_filter', '', 'request', 'string');
+		$tax_exempt_request_filter = JRequest::getVar('tax_exempt_request_filter', '', 'request', 'string');
 
 		$model = $this->getModel('user');
 
@@ -43,14 +45,16 @@ class userViewuser extends JView
 			JToolBarHelper::deleteList();
 		}
 
-		$filter_order = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'users_info_id');
+		$filter_order     = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'users_info_id');
 		$filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
-		$lists ['order'] = $filter_order;
+
+		$lists ['order']     = $filter_order;
 		$lists ['order_Dir'] = $filter_order_Dir;
 
-		$user = $this->get('Data');
-		$total = $this->get('Total');
+		$user       = $this->get('Data');
+		$total      = $this->get('Total');
 		$pagination = $this->get('Pagination');
+
 		$shopper_groups = $userhelper->getShopperGroupList();
 
 		$temps = array();

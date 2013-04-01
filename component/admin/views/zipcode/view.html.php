@@ -18,7 +18,10 @@ class zipcodeViewzipcode extends JView
 
 		$context = 'zipcode_id';
 
+		$uri      = JFactory::getURI();
+		$app      = JFactory::getApplication();
 		$document = JFactory::getDocument();
+
 		$document->setTitle(JText::_('COM_REDSHOP_ZIPCODE'));
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_ZIPCODE_MANAGEMENT'), 'redshop_region_48');
@@ -26,16 +29,16 @@ class zipcodeViewzipcode extends JView
 		JToolbarHelper::EditListX();
 		JToolbarHelper::deleteList();
 
-		$uri = JFactory::getURI();
-
-		$filter_order = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'zipcode_id');
+		$filter_order     = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'zipcode_id');
 		$filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
-		$lists['order'] = $filter_order;
+
+		$lists['order']     = $filter_order;
 		$lists['order_Dir'] = $filter_order_Dir;
 
-		$fields = $this->get('Data');
-		$total = $this->get('Total');
+		$fields     = $this->get('Data');
+		$total      = $this->get('Total');
 		$pagination = $this->get('Pagination');
+
 		$this->assignRef('user', JFactory::getUser());
 		$this->assignRef('pagination', $pagination);
 		$this->assignRef('fields', $fields);

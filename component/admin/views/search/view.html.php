@@ -15,8 +15,6 @@ class searchViewsearch extends JView
 {
 	public function display($tpl = null)
 	{
-		$app = JFactory::getApplication();
-
 		$doc = JFactory::getDocument();
 
 		$doc->addStyleSheet('components/com_redshop/assets/css/search.css');
