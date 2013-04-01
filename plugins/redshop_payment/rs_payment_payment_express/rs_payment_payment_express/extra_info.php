@@ -65,7 +65,7 @@ $valid = $response->get_attribute("valid");
 $session = JFactory::getSession();
 $session->set('cart', "");
 
-$mainframe->redirect($url);
+$app->redirect($url);
 
 
 ?>

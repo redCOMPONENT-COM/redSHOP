@@ -14,7 +14,7 @@ class orderreddesignVieworderreddesign extends JView
 {
 	public function display($tpl = null)
 	{
-		global $mainframe, $context;
+		global $context;
 
 		require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'order.php');
 		$order_function = new order_functions;
@@ -29,9 +29,9 @@ class orderreddesignVieworderreddesign extends JView
 
 		$uri = JFactory::getURI();
 
-		$filter_order = $mainframe->getUserStateFromRequest($context . 'filter_order', 'filter_order', ' cdate ');
-		$filter_order_Dir = $mainframe->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
-		$filter_status = $mainframe->getUserStateFromRequest($context . 'filter_status', 'filter_status', '', 'word');
+		$filter_order = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', ' cdate ');
+		$filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
+		$filter_status = $app->getUserStateFromRequest($context . 'filter_status', 'filter_status', '', 'word');
 
 		$lists['order'] = $filter_order;
 		$lists['order_Dir'] = $filter_order_Dir;

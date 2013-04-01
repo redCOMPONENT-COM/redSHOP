@@ -15,7 +15,7 @@ class product_attribute_priceViewproduct_attribute_price extends JView
 {
 	public function display($tpl = null)
 	{
-		global $mainframe, $context;
+		global $context;
 
 		$db = JFactory::getDBO();
 		$section_id = JRequest::getVar('section_id');

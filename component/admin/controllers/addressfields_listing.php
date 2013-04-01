@@ -44,10 +44,10 @@ class addressfields_listingController extends JController
 	 */
 	public function orderup()
 	{
-		global $mainframe, $context;
+		global $context;
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 		$option = JRequest::getVar('option');
-		$filter_order_Dir = $mainframe->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
+		$filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
 		$up = 1;
 
 		if (strtolower($filter_order_Dir) == "asc")
@@ -70,10 +70,10 @@ class addressfields_listingController extends JController
 	 */
 	public function orderdown()
 	{
-		global $mainframe, $context;
+		global $context;
 		$option = JRequest::getVar('option');
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
-		$filter_order_Dir = $mainframe->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
+		$filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
 		$down = -1;
 
 		if (strtolower($filter_order_Dir) == "asc")

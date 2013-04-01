@@ -21,7 +21,7 @@ class xmlHelper
 
 	public function __construct()
 	{
-		global $mainframe, $context;
+		global $context;
 		$this->_table_prefix = '#__redshop_';
 		$this->_db = JFactory::getDBO();
 	}

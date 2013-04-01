@@ -10,8 +10,8 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.plugin.plugin');
-//$mainframe = JFactory::getApplication();
-//$mainframe->registerEvent( 'onPrePayment', 'plgRedshoprs_payment_bbs' );
+//$app = JFactory::getApplication();
+//$app->registerEvent( 'onPrePayment', 'plgRedshoprs_payment_bbs' );
 require_once JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php';
 class plgRedshop_paymentrs_payment_authorize extends JPlugin
 {
@@ -49,7 +49,7 @@ class plgRedshop_paymentrs_payment_authorize extends JPlugin
 			$plugin = $element;
 		}
 
-		$mainframe = JFactory::getApplication();
+		$app = JFactory::getApplication();
 		$db = JFactory::getDBO();
 		$user = JFActory::getUser();
 		$session = JFactory::getSession();
@@ -434,7 +434,7 @@ class plgRedshop_paymentrs_payment_authorize extends JPlugin
 			$plugin = $element;
 		}
 
-		$mainframe = JFactory::getApplication();
+		$app = JFactory::getApplication();
 		$db = JFactory::getDBO();
 
 		// Update authorize_status

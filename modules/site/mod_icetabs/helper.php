@@ -87,17 +87,17 @@ abstract class modIceTabsHelper
 
 	public static function loadMediaFiles($params, $module, $theme = '')
 	{
-		$mainframe = JFactory::getApplication();
+		$app = JFactory::getApplication();
 		// if the verion is equal 1.6.x
 		JHTML::script('modules/' . $module->module . '/assets/script_16.js');
 
 		if ($theme && $theme != -1)
 		{
-			$tPath = JPATH_BASE . DS . 'templates' . DS . $mainframe->getTemplate() . DS . 'html' . DS . $module->module . DS . $theme . DS . 'assets' . DS . 'style.css';
+			$tPath = JPATH_BASE . DS . 'templates' . DS . $app->getTemplate() . DS . 'html' . DS . $module->module . DS . $theme . DS . 'assets' . DS . 'style.css';
 
 			if (file_exists($tPath))
 			{
-				JHTML::stylesheet('templates/' . $mainframe->getTemplate() . '/html/' . $module->module . '/' . $theme . '/assets/style.css');
+				JHTML::stylesheet('templates/' . $app->getTemplate() . '/html/' . $module->module . '/' . $theme . '/assets/style.css');
 			}
 			else
 			{
@@ -132,13 +132,13 @@ abstract class modIceTabsHelper
 	 */
 	public function renderItem(&$row, $params, $layout = '_item')
 	{
-		$mainframe = JFactory::getApplication();
+		$app = JFactory::getApplication();
 		$theme     = $params->get('theme');
 		$target    = $params->get('open_target', '_parent') != 'modalbox'
 			? 'target="' . $params->get('open_target', '_parent') . '"'
 			: 'rel="' . $params->get('modal_rel', 'width:800,height:350') . '" class="mb"';
 
-		$tPath = JPATH_BASE . DS . 'templates' . DS . $mainframe->getTemplate() . DS . 'html' . DS . 'mod_icetabs' . DS . $theme . DS . $layout . '.php';
+		$tPath = JPATH_BASE . DS . 'templates' . DS . $app->getTemplate() . DS . 'html' . DS . 'mod_icetabs' . DS . $theme . DS . $layout . '.php';
 		$bPath = JPATH_BASE . DS . 'modules' . DS . 'mod_icetabs' . DS . 'themes' . DS . $theme . DS . $layout . '.php';
 
 		if (file_exists($tPath))
@@ -157,9 +157,9 @@ abstract class modIceTabsHelper
 
 	public static function getLayoutByTheme($module, $group, $theme = '')
 	{
-		$mainframe = JFactory::getApplication();
+		$app = JFactory::getApplication();
 		// Build the template and base path for the layout
-		$tPath = JPATH_BASE . DS . 'templates' . DS . $mainframe->getTemplate() . DS . 'html' . DS . $module->module . DS . $theme . DS . 'default.php';
+		$tPath = JPATH_BASE . DS . 'templates' . DS . $app->getTemplate() . DS . 'html' . DS . $module->module . DS . $theme . DS . 'default.php';
 		$bPath = JPATH_BASE . DS . 'modules' . DS . $module->module . DS . 'themes' . DS . $theme . DS . 'default.php';
 
 		// If the template has a layout override use it

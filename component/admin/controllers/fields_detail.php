@@ -195,9 +195,9 @@ class fields_detailController extends JController
 	 */
 	public function orderup()
 	{
-		global $mainframe, $context;
+		global $context;
 		$option = JRequest::getVar('option');
-		$filter_order_Dir = $mainframe->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
+		$filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
 		$up = 1;
 
 		if (strtolower($filter_order_Dir) == "asc")
@@ -220,9 +220,9 @@ class fields_detailController extends JController
 	 */
 	public function orderdown()
 	{
-		global $mainframe, $context;
+		global $context;
 		$option = JRequest::getVar('option');
-		$filter_order_Dir = $mainframe->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
+		$filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
 		$down = -1;
 
 		if (strtolower($filter_order_Dir) == "asc")

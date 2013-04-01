@@ -16,7 +16,7 @@ class accountgroupViewaccountgroup extends JView
 {
 	public function display($tpl = null)
 	{
-		global $mainframe, $context;
+		global $context;
 
 		$document = JFactory::getDocument();
 		$document->setTitle(JText::_('COM_REDSHOP_ECONOMIC_ACCOUNT_GROUP'));
@@ -29,8 +29,8 @@ class accountgroupViewaccountgroup extends JView
 		JToolBarHelper::unpublishList();
 		$uri = JFactory::getURI();
 
-		$filter_order = $mainframe->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'accountgroup_id');
-		$filter_order_Dir = $mainframe->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
+		$filter_order = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'accountgroup_id');
+		$filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
 		$lists['order'] = $filter_order;
 		$lists['order_Dir'] = $filter_order_Dir;
 

@@ -43,16 +43,16 @@ require_once $absolute_path . DS . 'includes' . DS . 'defines.php';
 require_once $absolute_path . DS . 'includes' . DS . 'framework.php';
 
 // create the mainframe object
-$mainframe = JFactory::getApplication('site');
+$app = JFactory::getApplication('site');
 
 // Initialize the framework
-$mainframe->initialise();
+$app->initialise();
 
 // load system plugin group
 JPluginHelper::importPlugin('system');
 
 // trigger the onBeforeStart events
-//$mainframe->triggerEvent ( 'onBeforeStart' );
+//$app->triggerEvent ( 'onBeforeStart' );
 //$lang = JFactory::getLanguage ();
 //$mosConfig_lang = $GLOBALS ['mosConfig_lang'] = strtolower ( $lang->getBackwardLang () );
 // Adjust the live site path
@@ -67,7 +67,7 @@ $request = JRequest::get('request');
 require_once JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php';
 $objOrder = new order_functions;
 
-$mainframe = JFactory::getApplication();
+$app = JFactory::getApplication();
 $ewaynz_parameters = getparameters('rs_payment_ewaynz');
 $paymentinfo = $ewaynz_parameters[0];
 $paymentparams = new JRegistry($paymentinfo->params);
@@ -147,7 +147,7 @@ else
 
 $objOrder->changeorderstatus($values);
 $uri = explode('plugins', JURI::base());
-$mainframe->redirect($uri[0] . "index.php?option=com_redshop&view=order_detail&oid=" . $order_id, $values->msg);
+$app->redirect($uri[0] . "index.php?option=com_redshop&view=order_detail&oid=" . $order_id, $values->msg);
 
 function getparameters($payment)
 {

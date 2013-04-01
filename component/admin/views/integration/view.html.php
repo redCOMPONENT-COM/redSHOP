@@ -15,7 +15,7 @@ class integrationViewintegration extends JView
 {
 	public function display($tpl = null)
 	{
-		global $mainframe, $context;
+		global $context;
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_INTEGRATION'), 'redshop_products48');
 

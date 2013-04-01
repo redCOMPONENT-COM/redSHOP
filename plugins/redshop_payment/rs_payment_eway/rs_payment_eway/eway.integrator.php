@@ -199,7 +199,7 @@ class EwayPayment
 	//Payment Function
 	function doPayment($order_id)
 	{
-		$mainframe = JFactory::getApplication();
+		$app = JFactory::getApplication();
 
 		$eway_parameters = $this->getparameters('rs_payment_eway');
 		$paymentinfo = $eway_parameters[0];

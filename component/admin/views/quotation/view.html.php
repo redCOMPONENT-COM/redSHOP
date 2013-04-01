@@ -24,7 +24,7 @@ class quotationViewquotation extends JView
 
 	public function display($tpl = null)
 	{
-		global $mainframe, $context;
+		global $context;
 		$context = 'quotation_id';
 		$quotationHelper = new quotationHelper;
 
@@ -39,9 +39,9 @@ class quotationViewquotation extends JView
 
 		$uri = JFactory::getURI();
 
-		$filter_order = $mainframe->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'quotation_cdate');
-		$filter_order_Dir = $mainframe->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', 'DESC');
-		$filter_status = $mainframe->getUserStateFromRequest($context . 'filter_status', 'filter_status', 0);
+		$filter_order = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'quotation_cdate');
+		$filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', 'DESC');
+		$filter_status = $app->getUserStateFromRequest($context . 'filter_status', 'filter_status', 0);
 
 		$lists['order'] = $filter_order;
 		$lists['order_Dir'] = $filter_order_Dir;

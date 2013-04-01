@@ -16,7 +16,7 @@ class product_priceViewproduct_price extends JView
 {
 	public function display($tpl = null)
 	{
-		global $mainframe, $context;
+		global $context;
 
 		$db = JFactory::getDBO();
 		$product_id = JRequest::getVar('pid');

@@ -130,7 +130,7 @@ $poststring = '';
 		$query_string .= $name ."=" . urlencode($value) ."&";
 		  }
 
-$mainframe->redirect( $dibsurl . $query_string );*/
+$app->redirect( $dibsurl . $query_string );*/
 
 ?>
 <form action="<?php echo $dibsurl ?>" id='dibscheckout' name="dibscheckout" target="myNewWin" method="post">

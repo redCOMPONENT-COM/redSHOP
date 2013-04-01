@@ -15,7 +15,7 @@ class searchViewsearch extends JView
 {
 	public function display($tpl = null)
 	{
-		global $mainframe;
+		$app = JFactory::getApplication();
 
 		$doc = JFactory::getDocument();
 

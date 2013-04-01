@@ -15,14 +15,14 @@ class shipping_rateViewshipping_rate extends JView
 {
 	public function display($tpl = null)
 	{
-		global $mainframe, $context;
+		global $context;
 		$context = 'shipping_rate';
 		$uri = JFactory::getURI();
 		$shippinghelper = new shipping;
 
-		$lists['order'] = $mainframe->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'shipping_rate_id');
-		$lists['order_Dir'] = $mainframe->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
-		$id = $mainframe->getUserStateFromRequest($context . 'extension_id', 'extension_id', '0');
+		$lists['order'] = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'shipping_rate_id');
+		$lists['order_Dir'] = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
+		$id = $app->getUserStateFromRequest($context . 'extension_id', 'extension_id', '0');
 
 		$shipping = $shippinghelper->getShippingMethodById($id);
 

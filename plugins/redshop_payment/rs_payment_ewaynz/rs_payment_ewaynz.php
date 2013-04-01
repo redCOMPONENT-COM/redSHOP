@@ -47,7 +47,7 @@ class plgRedshop_paymentrs_payment_ewaynz extends JPlugin
 			$plugin = $element;
 		}
 
-		$mainframe = JFactory::getApplication();
+		$app = JFactory::getApplication();
 		$paymentpath = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $plugin . DS . $plugin . DS . 'extra_info.php';
 		include $paymentpath;
 	}

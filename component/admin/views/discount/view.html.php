@@ -29,7 +29,7 @@ class discountViewdiscount extends JView
 
 	public function display($tpl = null)
 	{
-		global $mainframe, $context;
+		global $context;
 
 		$document = JFactory::getDocument();
 		$document->setTitle(JText::_('COM_REDSHOP_DISCOUNT'));
@@ -57,15 +57,15 @@ class discountViewdiscount extends JView
 		if (isset($layout) && $layout == 'product')
 		{
 			$this->setLayout('product');
-			$filter_order = $mainframe->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'discount_product_id');
+			$filter_order = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'discount_product_id');
 		}
 
 		else
 		{
-			$filter_order = $mainframe->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'discount_id');
+			$filter_order = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'discount_id');
 		}
 
-		$filter_order_Dir = $mainframe->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
+		$filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
 
 		$lists['order'] = $filter_order;
 		$lists['order_Dir'] = $filter_order_Dir;
@@ -73,7 +73,7 @@ class discountViewdiscount extends JView
 		$total = $this->get('Total');
 		$pagination = $this->get('Pagination');
 
-		$spgrpdis_filter = $mainframe->getUserStateFromRequest($context . 'spgrpdis_filter', 'spgrpdis_filter', 0);
+		$spgrpdis_filter = $app->getUserStateFromRequest($context . 'spgrpdis_filter', 'spgrpdis_filter', 0);
 		$userhelper = new rsUserhelper;
 		$shopper_groups = $userhelper->getShopperGroupList();
 

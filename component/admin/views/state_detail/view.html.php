@@ -31,7 +31,7 @@ class state_detailVIEWstate_detail extends JView
 		if ($model->isCheckedOut($user->get('id')))
 		{
 			$msg = JText::sprintf('DESCBEINGEDITTED', JText::_('COM_REDSHOP_THE_DETAIL'), $detail->title);
-			$mainframe->redirect('index.php?option=' . $option, $msg);
+			$app->redirect('index.php?option=' . $option, $msg);
 		}
 
 		$text = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');

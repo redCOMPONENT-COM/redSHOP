@@ -54,7 +54,7 @@ if (!class_exists('LofSliderGroupK2'))
 
 		function __getList($params)
 		{
-			global $mainframe;
+			$app = JFactory::getApplication();
 			$maxTitle            = $params->get('max_title', '100');
 			$maxDesciption       = $params->get('max_description', 100);
 			$openTarget          = $params->get('open_target', 'parent');

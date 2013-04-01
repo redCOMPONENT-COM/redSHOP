@@ -15,7 +15,7 @@ class product_containerViewproduct_container extends JView
 {
 	public function display($tpl = null)
 	{
-		global $mainframe, $context;
+		global $context;
 
 		$model = $this->getModel('product_container');
 		$document = JFactory::getDocument();
@@ -51,11 +51,11 @@ class product_containerViewproduct_container extends JView
 
 		$uri = JFactory::getURI();
 
-		$filter_order = $mainframe->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'product_id');
-		$filter_order_Dir = $mainframe->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
+		$filter_order = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'product_id');
+		$filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
 
-		$filter_supplier = $mainframe->getUserStateFromRequest($context . 'filter_supplier', 'filter_supplier', 0);
-		$filter_container = $mainframe->getUserStateFromRequest($context . 'filter_container', 'filter_container', 0);
+		$filter_supplier = $app->getUserStateFromRequest($context . 'filter_supplier', 'filter_supplier', 0);
+		$filter_container = $app->getUserStateFromRequest($context . 'filter_container', 'filter_container', 0);
 
 		$lists['order'] = $filter_order;
 		$lists['order_Dir'] = $filter_order_Dir;

@@ -22,7 +22,7 @@ class opsearchViewopsearch extends JView
 
 	public function display($tpl = null)
 	{
-		global $mainframe, $context;
+		global $context;
 
 		$model = $this->getModel('opsearch');
 		$document = JFactory::getDocument();
@@ -38,10 +38,10 @@ class opsearchViewopsearch extends JView
 
 		$uri = JFactory::getURI();
 
-		$lists['order'] = $mainframe->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'order_item_name');
-		$lists['order_Dir'] = $mainframe->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
-		$filter_user = $mainframe->getUserStateFromRequest($context . 'filter_user', 'filter_user', 0);
-		$filter_status = $mainframe->getUserStateFromRequest($context . 'filter_status', 'filter_status', 0);
+		$lists['order'] = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'order_item_name');
+		$lists['order_Dir'] = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
+		$filter_user = $app->getUserStateFromRequest($context . 'filter_user', 'filter_user', 0);
+		$filter_status = $app->getUserStateFromRequest($context . 'filter_status', 'filter_status', 0);
 
 		$products = $this->get('Data');
 		$total = $this->get('Total');
