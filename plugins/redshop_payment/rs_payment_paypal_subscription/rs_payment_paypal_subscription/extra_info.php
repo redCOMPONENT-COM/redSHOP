@@ -28,7 +28,7 @@ $db = JFactory::getDBO();
 $user = JFActory::getUser();
 $task = JRequest::getVar('task');
 $layout = JRequest::getVar('layout');
-$mainframe = JFactory::getApplication();
+$app = JFactory::getApplication();
 
 if ($this->_params->get("currency") != "")
 {

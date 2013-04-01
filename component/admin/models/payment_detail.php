@@ -182,7 +182,7 @@ class payment_detailModelpayment_detail extends JModel
 
 	public function uninstall($eid = array())
 	{
-		global $mainframe;
+		$app = JFactory::getApplication();
 
 		// Initialize variables
 		$failed = array();
@@ -229,7 +229,7 @@ class payment_detailModelpayment_detail extends JModel
 			$result = true;
 		}
 
-		$mainframe->enqueueMessage($msg);
+		$app->enqueueMessage($msg);
 		$this->setState('action', 'remove');
 		$this->setState('name', $installer->get('name'));
 		$this->setState('message', $installer->message);
@@ -240,7 +240,7 @@ class payment_detailModelpayment_detail extends JModel
 
 	public function install()
 	{
-		global $mainframe;
+		$app = JFactory::getApplication();
 
 		$this->setState('action', 'install');
 
@@ -267,7 +267,7 @@ class payment_detailModelpayment_detail extends JModel
 			$result = true;
 		}
 
-		$mainframe->enqueueMessage($msg);
+		$app->enqueueMessage($msg);
 		$this->setState('name', $installer->get('name'));
 		$this->setState('result', $result);
 		$this->setState('message', $installer->message);
@@ -342,7 +342,7 @@ class payment_detailModelpayment_detail extends JModel
 	// Payment ordering
 	public function saveOrder(&$cid)
 	{
-		global $mainframe;
+		$app = JFactory::getApplication();
 		$db = JFactory::getDBO();
 		$row =& $this->getTable();
 

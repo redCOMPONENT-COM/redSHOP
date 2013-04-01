@@ -25,10 +25,10 @@ require_once $absolute_path . DS . 'includes' . DS . 'defines.php';
 require_once $absolute_path . DS . 'includes' . DS . 'framework.php';
 
 // create the mainframe object
-$mainframe = JFactory::getApplication('site');
+$app = JFactory::getApplication();
 
 // Initialize the framework
-$mainframe->initialise();
+$app->initialise();
 
 require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php';
 require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php';

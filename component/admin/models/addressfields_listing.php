@@ -27,12 +27,12 @@ class addressfields_listingModeladdressfields_listing extends JModel
 	{
 		parent::__construct();
 
-		global $mainframe;
+		$app = JFactory::getApplication();
 		$this->_context = 'ordering';
 		$this->_table_prefix = '#__redshop_';
-		$limit = $mainframe->getUserStateFromRequest($this->_context . 'limit', 'limit', $mainframe->getCfg('list_limit'), 0);
-		$limitstart = $mainframe->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
-		$field_section_drop = $mainframe->getUserStateFromRequest($this->_context . 'section_id', 'section_id', 0);
+		$limit = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
+		$limitstart = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
+		$field_section_drop = $app->getUserStateFromRequest($this->_context . 'section_id', 'section_id', 0);
 		$limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
 		$this->setState('section_id', $field_section_drop);
 		$this->setState('limit', $limit);
@@ -128,10 +128,10 @@ class addressfields_listingModeladdressfields_listing extends JModel
 
 	public function _buildContentOrderBy()
 	{
-		global $mainframe;
+		$app = JFactory::getApplication();
 
-		$filter_order = $mainframe->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'ordering');
-		$filter_order_Dir = $mainframe->getUserStateFromRequest($this->_context . 'filter_order_Dir', 'filter_order_Dir', '');
+		$filter_order = $app->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'ordering');
+		$filter_order_Dir = $app->getUserStateFromRequest($this->_context . 'filter_order_Dir', 'filter_order_Dir', '');
 
 		if ($filter_order == 'ordering')
 		{

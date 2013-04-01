@@ -41,7 +41,7 @@ JDEBUG ? $_PROFILER->mark('afterLoad') : null;
  *
  * NOTE :
  */
-$mainframe = JFactory::getApplication('site');
+$app = JFactory::getApplication();
 
 /**
  * INITIALISE THE APPLICATION
@@ -49,7 +49,7 @@ $mainframe = JFactory::getApplication('site');
  * NOTE :
  */
 // set the language
-$mainframe->initialise();
+$app->initialise();
 
 define('JPATH_COMPONENT_SITE', JPATH_SITE . DS . 'components' . DS . 'com_redshop');
 

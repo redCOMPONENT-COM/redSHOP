@@ -15,24 +15,27 @@ class pricesViewprices extends JView
 {
 	public function display($tpl = null)
 	{
-		global $mainframe, $context;
+		global $context;
 
+		$uri      = JFactory::getURI();
+		$app      = JFactory::getApplication();
 		$document = JFactory::getDocument();
+
 		$document->setTitle(JText::_('COM_REDSHOP_PRODUCT_PRICE'));
 		jimport('joomla.html.pagination');
-		JToolBarHelper::title(JText::_('COM_REDSHOP_PRODUCT_PRICE'), 'redshop_vatrates48');
 
+		JToolBarHelper::title(JText::_('COM_REDSHOP_PRODUCT_PRICE'), 'redshop_vatrates48');
 		JToolBarHelper::addNewX();
 		JToolBarHelper::editListX();
 		JToolBarHelper::deleteList();
-		$uri = JFactory::getURI();
 
-		$limitstart = $mainframe->getUserStateFromRequest($context . 'limitstart', 'limitstart', '0');
-		$limit = $mainframe->getUserStateFromRequest($context . 'limit', 'limit', '10');
+		$limitstart = $app->getUserStateFromRequest($context . 'limitstart', 'limitstart', '0');
+		$limit      = $app->getUserStateFromRequest($context . 'limit', 'limit', '10');
 
-		$total = $this->get('Total');
-		$media = $this->get('Data');
+		$total      = $this->get('Total');
+		$media      = $this->get('Data');
 		$product_id = $this->get('ProductId');
+
 		$pagination = new JPagination($total, $limitstart, $limit);
 		$this->assignRef('user', JFactory::getUser());
 		$this->assignRef('lists', $lists);

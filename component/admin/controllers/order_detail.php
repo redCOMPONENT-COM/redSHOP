@@ -298,8 +298,6 @@ class order_detailController extends JController
 
 	public function updateShippingAdd()
 	{
-		global $mainframe;
-
 		$post = JRequest::get('post');
 		$option = JRequest::getVar('option', '', 'request', 'string');
 		$suboption = JRequest::getVar('suboption', 'com_redshop', 'request', 'string');
@@ -333,8 +331,6 @@ class order_detailController extends JController
 
 	public function updateBillingAdd()
 	{
-		global $mainframe;
-
 		$post = JRequest::get('post');
 		$option = JRequest::getVar('option', '', 'request', 'string');
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
@@ -377,8 +373,6 @@ class order_detailController extends JController
 
 	public function send_downloadmail()
 	{
-		global $mainframe;
-
 		$option = JRequest::getVar('option', '', 'request', 'string');
 		$cid = JRequest::getVar('cid', array(0), 'get', 'array');
 		$tmpl = JRequest::getVar('tmpl', '', 'request', 'string');
@@ -422,7 +416,7 @@ class order_detailController extends JController
 
 	public function checkoutnext()
 	{
-		global $mainframe;
+		$app = JFactory::getApplication();
 		$session = JFactory::getSession();
 		require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php';
 		require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'configuration.php';
@@ -533,7 +527,7 @@ class order_detailController extends JController
 		$model->update_ccdata($request['order_id'], $paymentResponse->transaction_id);
 
 		$redirect_url = JRoute::_(JURI::base() . "index.php?option=com_redshop&view=order_detail&task=edit&cid[]=" . $request['order_id']);
-		$mainframe->redirect($redirect_url, $paymentResponse->message);
+		$app->redirect($redirect_url, $paymentResponse->message);
 	}
 
 	/*
@@ -541,7 +535,7 @@ class order_detailController extends JController
 	 */
 	public function notify_payment()
 	{
-		$mainframe = JFactory::getApplication('site');
+		$app = JFactory::getApplication();
 		$db = jFactory::getDBO();
 		$request = JRequest::get('request');
 
@@ -556,12 +550,11 @@ class order_detailController extends JController
 		$msg = $results[0]->msg;
 		$objOrder->changeorderstatus($results[0]);
 		$redirect_url = JRoute::_(JURI::base() . "index.php?option=com_redshop&view=order_detail&task=edit&cid[]=" . $request['orderid']);
-		$mainframe->redirect($redirect_url, $msg);
+		$app->redirect($redirect_url, $msg);
 	}
 
 	public function send_invoicemail()
 	{
-		global $mainframe;
 		$redshopMail = new redshopMail;
 
 		$option = JRequest::getVar('option', '', 'request', 'string');

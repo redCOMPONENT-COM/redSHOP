@@ -31,7 +31,7 @@ class barcodeController extends JController
 
 			$user = JFactory::getUser();
 			$uid = $user->get('id');
-			$mainframe = JFactory::getApplication();
+			$app = JFactory::getApplication();
 			$row = $model->checkorder($barcode);
 
 			if ($row)
@@ -77,7 +77,6 @@ class barcodeController extends JController
 			$barcode = $post['barcode'];
 			$barcode = substr($barcode, 0, 12);
 
-			$mainframe = JFactory::getApplication();
 			$row = $model->checkorder($barcode);
 
 			if ($row)

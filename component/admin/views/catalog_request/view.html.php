@@ -15,7 +15,9 @@ class catalog_requestViewcatalog_request extends JView
 {
 	public function display($tpl = null)
 	{
-		global $mainframe, $context;
+		$context = "rating";
+
+		$app = JFactory::getApplication();
 
 		$document = JFactory::getDocument();
 		$document->setTitle(JText::_('COM_REDSHOP_CATALOG_REQUEST'));
@@ -26,9 +28,9 @@ class catalog_requestViewcatalog_request extends JView
 		JToolBarHelper::unpublishList();
 
 		$uri = JFactory::getURI();
-		$context = "rating";
-		$filter_order = $mainframe->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'catalog_user_id');
-		$filter_order_Dir = $mainframe->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
+
+		$filter_order     = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'catalog_user_id');
+		$filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
 
 		$lists['order'] = $filter_order;
 		$lists['order_Dir'] = $filter_order_Dir;

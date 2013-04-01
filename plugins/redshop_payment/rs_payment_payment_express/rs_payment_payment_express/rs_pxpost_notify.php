@@ -46,10 +46,10 @@ JDEBUG ? $_PROFILER->mark('afterLoad') : null;
  *
  * NOTE :
  */
-$mainframe = JFactory::getApplication('site');
+$app = JFactory::getApplication();
 
 // Initialize the framework
-$mainframe->initialise();
+$app->initialise();
 
 require_once JPATH_BASE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php';
 require_once JPATH_BASE . DS . 'plugins' . DS . 'redshop_payment' . DS . 'rs_payment_payment_express' . DS . 'PxPay_Curl.inc.php';
@@ -160,7 +160,7 @@ $url = JURI::base();
 $explode = explode("plugins", $url);
 
 $redirect_url = $explode[0] . "index.php?option=com_redshop&view=order_detail&Itemid=$Itemid&oid=" . $order_id;
-$mainframe->redirect($redirect_url, $values->msg);
+$app->redirect($redirect_url, $values->msg);
 
 function getparameters($payment)
 {

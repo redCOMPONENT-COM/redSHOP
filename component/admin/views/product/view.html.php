@@ -41,17 +41,21 @@ class productViewproduct extends JView
 
 	public function display($tpl = null)
 	{
-		global $mainframe, $context;
+		global $context;
 
 		$context = 'product_id';
+
 		$GLOBALS['productlist'] = array();
-		$redTemplate = new Redtemplate;
-		$extra_field = new extra_field;
+		$redTemplate        = new Redtemplate;
+		$extra_field        = new extra_field;
 		$adminproducthelper = new adminproducthelper;
 
 		$list_in_products = $extra_field->list_all_field_in_product();
 
+		$uri      = JFactory::getURI();
+		$app      = JFactory::getApplication();
 		$document = JFactory::getDocument();
+
 		$document->setTitle(JText::_('COM_REDSHOP_PRODUCT'));
 		$layout = JRequest::getVar('layout');
 		JToolBarHelper::title(JText::_('COM_REDSHOP_PRODUCT_MANAGEMENT'), 'redshop_products48');
@@ -74,23 +78,21 @@ class productViewproduct extends JView
 			JToolBarHelper::back();
 		}
 
-		$uri = JFactory::getURI();
-
-		$category_id = $mainframe->getUserStateFromRequest($context . 'category_id', 'category_id', '');
+		$category_id = $app->getUserStateFromRequest($context . 'category_id', 'category_id', '');
 
 		if ($category_id)
 		{
-			$filter_order = $mainframe->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'x.ordering');
+			$filter_order = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'x.ordering');
 		}
 		else
 		{
-			$filter_order = $mainframe->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'p.product_id');
+			$filter_order = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'p.product_id');
 		}
 
-		$filter_order_Dir = $mainframe->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
+		$filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
 
-		$search_field = $mainframe->getUserStateFromRequest($context . 'search_field', 'search_field', '');
-		$keyword = $mainframe->getUserStateFromRequest($context . 'keyword', 'keyword', '');
+		$search_field = $app->getUserStateFromRequest($context . 'search_field', 'search_field', '');
+		$keyword      = $app->getUserStateFromRequest($context . 'keyword', 'keyword', '');
 
 		$categories = $this->get('CategoryList');
 		$categories1 = array();

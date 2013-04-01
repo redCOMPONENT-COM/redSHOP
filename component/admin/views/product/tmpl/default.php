@@ -8,7 +8,7 @@
  */
 require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'product.php');
 require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'extra_field.php');
-global $mainframe;
+$app = JFactory::getApplication();
 $extra_field = new extra_field();
 JHTMLBehavior::modal();
 $producthelper = new producthelper();
@@ -17,7 +17,7 @@ $option = JRequest::getVar('option', '', 'request', 'string');
 $model = $this->getModel('product');
 $ordering = ($this->lists['order'] == 'x.ordering');
 
-$category_id = $mainframe->getUserStateFromRequest('category_id', 'category_id', 0);
+$category_id = $app->getUserStateFromRequest('category_id', 'category_id', 0);
 
 ?>
 <script language="javascript" type="text/javascript">

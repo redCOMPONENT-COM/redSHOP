@@ -9,15 +9,14 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
+JLoader::import('joomla.application.component.view');
 
 class customprintViewcustomprint extends JView
 {
 	public function display($tpl = null)
 	{
-		global $mainframe, $context;
-
 		$document = JFactory::getDocument();
+
 		$document->setTitle(JText::_('COM_REDSHOP_CUSTOM_VIEWS'));
 		$layout = JRequest::getVar('layout');
 

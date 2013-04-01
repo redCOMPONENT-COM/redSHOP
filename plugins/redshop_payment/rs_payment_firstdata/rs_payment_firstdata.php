@@ -49,7 +49,7 @@ class plgRedshop_paymentrs_payment_firstdata extends JPlugin
 			$plugin = $element;
 		}
 
-		$mainframe = JFactory::getApplication();
+		$app = JFactory::getApplication();
 		$db = JFactory::getDBO();
 		$user = JFActory::getUser();
 		$session = JFactory::getSession();
@@ -109,7 +109,7 @@ class plgRedshop_paymentrs_payment_firstdata extends JPlugin
 					<v1:VATTax>' . $order_tax . '</v1:VATTax>
 					<v1:Shipping>' . $order_shipping . '</v1:Shipping>
 				</v1:Payment>
-				
+
 				 <v1:TransactionDetails>
 					<v1:UserID>' . $user->id . '</v1:UserID>
                				<v1:OrderId>' . $data['order_number'] . '</v1:OrderId>
@@ -251,7 +251,7 @@ class plgRedshop_paymentrs_payment_firstdata extends JPlugin
 			$plugin = $element;
 		}
 
-		$mainframe = JFactory::getApplication();
+		$app = JFactory::getApplication();
 		$objOrder = new order_functions;
 		$order_id = $data['order_id'];
 		$order_number = $data['order_number'];
