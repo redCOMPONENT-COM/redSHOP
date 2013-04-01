@@ -22,17 +22,19 @@ class deliveryViewdelivery extends JView
 
 	public function display($tpl = null)
 	{
-		global $context;
+		$context = 'delivery';
 
+		$app      = JFactory::getApplication();
 		$document = JFactory::getDocument();
+
 		$document->setTitle(JText::_('COM_REDSHOP_DELIVERY_LIST'));
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_DELIVERY_LIST'), 'redshop_redshopcart48');
 		JToolBarHelper::custom('export_data', 'save.png', 'save_f2.png', JText::_('COM_REDSHOP_EXPORT_DATA_LBL'), false);
 
 		$uri = JFactory::getURI();
-		$context = 'delivery';
-		$filter_order = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'order_id');
+
+		$filter_order     = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'order_id');
 		$filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
 
 		$lists['order'] = $filter_order;

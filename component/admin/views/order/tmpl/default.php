@@ -15,6 +15,8 @@ require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/stockroom.ph
 
 global $context;
 
+$app = JFactory::getApplication();
+
 $order_function = new order_functions();
 $config = new Redconfiguration();
 $option = JRequest::getVar('option');

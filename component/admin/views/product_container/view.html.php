@@ -18,14 +18,14 @@ class product_containerViewproduct_container extends JView
 		global $context;
 
 		$model = $this->getModel('product_container');
+
+		$uri      = JFactory::getURI();
+		$app      = JFactory::getApplication();
 		$document = JFactory::getDocument();
 
-		$container = JRequest::getVar('container', '', 'request', 0);
-
-		$preorder = JRequest::getVar('preorder', '', 'request', 0);
-
-		$newproducts = JRequest::getVar('newproducts', '', 'request', 0);
-
+		$container        = JRequest::getVar('container', '', 'request', 0);
+		$preorder         = JRequest::getVar('preorder', '', 'request', 0);
+		$newproducts      = JRequest::getVar('newproducts', '', 'request', 0);
 		$existingproducts = JRequest::getVar('existingproducts', '', 'request', 0);
 
 		if ($preorder == '1')
@@ -37,9 +37,7 @@ class product_containerViewproduct_container extends JView
 		{
 			$document->setTitle(JText::_('COM_REDSHOP_CONTAINER_ORDER_PRODUCTS'));
 			JToolBarHelper::title(JText::_('COM_REDSHOP_CONTAINER_ORDER_PRODUCTS'), 'redshop_container48');
-
 			JToolBarHelper::custom('export_data', 'save.png', 'save_f2.png', 'Export Data', false);
-
 			JToolBarHelper::custom('print_data', 'save.png', 'save_f2.png', 'Print Data', false);
 		}
 		else
@@ -49,18 +47,17 @@ class product_containerViewproduct_container extends JView
 			JToolBarHelper::custom('addcontainer', 'new.png', 'new_f2.png', 'Add new container', false);
 		}
 
-		$uri = JFactory::getURI();
 
-		$filter_order = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'product_id');
+		$filter_order     = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'product_id');
 		$filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
-
-		$filter_supplier = $app->getUserStateFromRequest($context . 'filter_supplier', 'filter_supplier', 0);
+		$filter_supplier  = $app->getUserStateFromRequest($context . 'filter_supplier', 'filter_supplier', 0);
 		$filter_container = $app->getUserStateFromRequest($context . 'filter_container', 'filter_container', 0);
 
-		$lists['order'] = $filter_order;
+		$lists['order']     = $filter_order;
 		$lists['order_Dir'] = $filter_order_Dir;
-		$products = $this->get('Data');
-		$total = $this->get('Total');
+
+		$products   = $this->get('Data');
+		$total      = $this->get('Total');
 		$pagination = $this->get('Pagination');
 
 		$lists['filter_supplier'] = $model->getsupplierlist('filter_supplier', $filter_supplier,

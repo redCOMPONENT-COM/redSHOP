@@ -17,10 +17,14 @@ class orderVieworder extends JView
 	{
 		$context = 'order_id';
 
-		require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'order.php');
+		require_once JPATH_COMPONENT . '/helpers/order.php';
+
 		$order_function = new order_functions;
 
+		$uri      = JFactory::getURI();
+		$app      = JFactory::getApplication();
 		$document = JFactory::getDocument();
+
 		$document->setTitle(JText::_('COM_REDSHOP_ORDER'));
 		$model = $this->getModel('order');
 		$layout = JRequest::getVar('layout');
@@ -47,17 +51,17 @@ class orderVieworder extends JView
 			JToolBarHelper::custom('business_gls_export', 'save.png', 'save_f2.png', JText::_('COM_REDSHOP_EXPORT_GLS_BUSINESS_LBL'), false);
 			JToolBarHelper::deleteList();
 		}
-		$uri = JFactory::getURI();
 
-		$filter_order = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', ' o.order_id ');
-		$filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', 'DESC');
-		$filter_status = $app->getUserStateFromRequest($context . 'filter_status', 'filter_status', '', 'word');
+		$filter_order          = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', ' o.order_id ');
+		$filter_order_Dir      = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', 'DESC');
+		$filter_status         = $app->getUserStateFromRequest($context . 'filter_status', 'filter_status', '', 'word');
 		$filter_payment_status = $app->getUserStateFromRequest($context . 'filter_payment_status', 'filter_payment_status', '', '');
 
-		$lists['order'] = $filter_order;
+		$lists['order']     = $filter_order;
 		$lists['order_Dir'] = $filter_order_Dir;
-		$orders = $this->get('Data');
-		$total = $this->get('Total');
+
+		$orders     = $this->get('Data');
+		$total      = $this->get('Total');
 		$pagination = $this->get('Pagination');
 
 		$lists['filter_status'] = $order_function->getstatuslist('filter_status', $filter_status,
