@@ -34,7 +34,7 @@ class newsletterViewnewsletter extends JView
 		JToolBarHelper::title(JText::_('COM_REDSHOP_NEWSLETTER_MANAGEMENT'), 'redshop_newsletter48');
 
 		JToolBarHelper::custom('send_newsletter', 'send.png', 'send.png', 'Send Newsletter');
-		JToolBarHelper::cancel('close', 'Close');
+		JToolBarHelper::cancel('close', JText::_('JTOOLBAR_CLOSE'));
 
 		$uri = JFactory::getURI();
 
