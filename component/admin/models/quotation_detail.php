@@ -48,7 +48,6 @@ class quotation_detailModelquotation_detail extends JModel
 	{
 		if ($this->_loadData())
 		{
-
 		}
 		else
 		{
@@ -115,6 +114,7 @@ class quotation_detailModelquotation_detail extends JModel
 			$detail->approved = 1;
 			$userdata = $detail;
 		}
+
 		return $userdata;
 	}
 
@@ -153,6 +153,7 @@ class quotation_detailModelquotation_detail extends JModel
 
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
 
@@ -298,14 +299,17 @@ class quotation_detailModelquotation_detail extends JModel
 		{
 			$quotation->quotation_tax = $quotation->quotation_tax - $itemTax;
 		}
+
 		if ($quotation->quotation_total > 0)
 		{
 			$quotation->quotation_total = $quotation->quotation_total - $quoteitemdata->product_final_price;
 		}
+
 		if ($quotation->quotation_subtotal > 0)
 		{
 			$quotation->quotation_subtotal = $quotation->quotation_subtotal - $quoteitemdata->product_final_price;
 		}
+
 		$discount = $quotation->quotation_total - $quotation->quotation_subtotal;
 
 		if ($quotation->quotation_discount > 0)
@@ -340,6 +344,7 @@ class quotation_detailModelquotation_detail extends JModel
 
 			return false;
 		}
+
 		$query = 'DELETE FROM ' . $this->_table_prefix . 'quotation_attribute_item '
 			. 'WHERE quotation_item_id IN ( ' . $cids . ' )';
 		$this->_db->setQuery($query);
@@ -350,6 +355,7 @@ class quotation_detailModelquotation_detail extends JModel
 
 			return false;
 		}
+
 		$query = 'DELETE FROM ' . $this->_table_prefix . 'quotation_item '
 			. 'WHERE quotation_item_id IN ( ' . $cids . ' )';
 		$this->_db->setQuery($query);
@@ -412,6 +418,7 @@ class quotation_detailModelquotation_detail extends JModel
 
 				$wrapper_price = $wrapper[0]->wrapper_price + $wrapper_vat;
 			}
+
 			$qitemdata = & $this->getTable('quotation_item_detail');
 
 			$qitemdata->quotation_item_id = 0;
@@ -454,6 +461,7 @@ class quotation_detailModelquotation_detail extends JModel
 					{
 						$accessory_vat_price = $producthelper->getProductTax($qitemdata->product_id, $accessory_price, $user_id);
 					}
+
 					$attchildArr = $attArr[$a]['accessory_childs'];
 
 					for ($j = 0; $j < count($attchildArr); $j++)
@@ -490,6 +498,7 @@ class quotation_detailModelquotation_detail extends JModel
 							{
 								$section_vat = $producthelper->getProducttax($qitemdata->product_id, $propArr[$k]['property_price'], $user_id);
 							}
+
 							$property_id = $propArr[$k]['property_id'];
 							$accessory_attribute .= urldecode($propArr[$k]['property_name']) . " (" . $propArr[$k]['property_oprand']
 								. $producthelper->getProductFormattedPrice($propArr[$k]['property_price'] + $section_vat) . ")<br/>";
@@ -525,6 +534,7 @@ class quotation_detailModelquotation_detail extends JModel
 								{
 									$section_vat = $producthelper->getProducttax($qitemdata->product_id, $subpropArr[$l]['subproperty_price'], $user_id);
 								}
+
 								$subproperty_id = $subpropArr[$l]['subproperty_id'];
 								$accessory_attribute .= urldecode($subpropArr[$l]['subproperty_name']) . " (" . $subpropArr[$l]['subproperty_oprand']
 									. $producthelper->getProductFormattedPrice($subpropArr[$l]['subproperty_price'] + $section_vat) . ")<br/>";
@@ -560,6 +570,7 @@ class quotation_detailModelquotation_detail extends JModel
 					{
 						$accdata->load($accessory_id);
 					}
+
 					$accProductinfo = $producthelper->getProductById($accdata->child_product_id);
 					$rowaccitem = & $this->getTable('quotation_accessory_item');
 					$rowaccitem->quotation_item_acc_id = 0;
@@ -624,6 +635,7 @@ class quotation_detailModelquotation_detail extends JModel
 						{
 							$section_vat = $producthelper->getProducttax($qitemdata->product_id, $propArr[$k]['property_price'], $user_id);
 						}
+
 						$property_id = $propArr[$k]['property_id'];
 
 						/** product property STOCKROOM update start */
@@ -661,6 +673,7 @@ class quotation_detailModelquotation_detail extends JModel
 							{
 								$section_vat = $producthelper->getProducttax($qitemdata->product_id, $subpropArr[$l]['subproperty_price'], $user_id);
 							}
+
 							$subproperty_id = $subpropArr[$l]['subproperty_id'];
 
 							/** product subproperty STOCKROOM update start */

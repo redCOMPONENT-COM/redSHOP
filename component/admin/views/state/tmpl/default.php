@@ -84,16 +84,9 @@ $filter = JRequest::getVar('filter');
 				<td><?php echo $this->pagination->getRowOffset($i); ?></td>
 				<td><?php echo @JHTML::_('grid.checkedout', $row, $i); ?></td>
 				<td>
-					<?php
-					if (  JTable::isCheckedOut($this->user->get('id'), $row->checked_out) ) {
-						echo $row->state_name;
-					} else {
-					?>
 					<a href="<?php echo $link; ?>"
 					   title="<?php echo JText::_('COM_REDSHOP_EDIT_state'); ?>"><?php echo $row->state_name ?></a></td>
-				<?php
-				}
-				?>
+
 				<td align="center" width="10%"><?php echo $row->country_name; ?></td>
 				<td align="center" width="10%"><?php echo $row->state_3_code; ?></td>
 				<td align="center" width="10%"><?php echo $row->state_2_code; ?></td>

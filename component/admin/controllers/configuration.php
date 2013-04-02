@@ -38,6 +38,7 @@ class configurationController extends JController
 				$selected_prod[] = $post['prodmng' . $p];
 			}
 		}
+
 		if (count($selected_prod) > 0)
 		{
 			$quicklink_icon = implode(",", $selected_prod);
@@ -122,6 +123,7 @@ class configurationController extends JController
 			$quicklink_icon .= "," . implode(",", $selected_cust);
 
 		}
+
 		for ($p = 0; $p < $post['tot_alt']; $p++)
 		{
 			if ($post['altmng' . $p] != "")
@@ -148,6 +150,7 @@ class configurationController extends JController
 			$quicklink_icon .= "," . implode(",", $selected_user);
 
 		}
+
 		for ($p = 0; $p < $post['tot_shipping']; $p++)
 		{
 			if ($post['shippingmng' . $p] != "")
@@ -161,6 +164,7 @@ class configurationController extends JController
 			$quicklink_icon .= "," . implode(",", $selected_shipping);
 
 		}
+
 		for ($p = 0; $p < $post['tot_acc']; $p++)
 		{
 			if ($post['accmng' . $p] != "")
@@ -215,6 +219,7 @@ class configurationController extends JController
 				}
 			}
 		}
+
 		$post['country_list'] = $country_listCode;
 
 		if (isset($post['product_download_root']))
@@ -260,6 +265,7 @@ class configurationController extends JController
 				}
 			}
 		}
+
 		if ($apply)
 		{
 			$this->setRedirect('index.php?option=' . $option . '&view=configuration', $msg);
@@ -315,7 +321,6 @@ class configurationController extends JController
 	{
 		ob_clean();
 		$imname = JRequest::getString('imname', '');
-		$divname = JRequest::getString('divname', '');
 		$spath = JRequest::getString('spath', '');
 		$data_id = JRequest::getInt('data_id', 0);
 		$extra_field = new extra_field;
@@ -339,13 +344,24 @@ class configurationController extends JController
 		$this->setRedirect('index.php?option=' . $option);
 	}
 
-	public function display()
+	/**
+	 * Typical view method for MVC based architecture
+	 *
+	 * This function is provide as a default implementation, in most cases
+	 * you will need to override it in your own controllers.
+	 *
+	 * @param   boolean  $cachable   If true, the view output will be cached
+	 * @param   array    $urlparams  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
+	 *
+	 * @return  JController  A JController object to support chaining.
+	 */
+	public function display($cachable = false, $urlparams = false)
 	{
 		$model = $this->getModel('configuration');
 		$currency_data = $model->getCurrency();
 		JRequest::setVar('currency_data', $currency_data);
 
-		parent::display();
+		parent::display($cachable, $urlparams);
 	}
 
 	public function clearsef()
@@ -361,7 +377,8 @@ class configurationController extends JController
 	{
 		$model = $this->getModel('configuration');
 		$option = JRequest::getVar('option');
-		$resetTemplate = $model->resetTemplate();
+
+		$model->resetTemplate();
 
 		$msg = JText::_('COM_REDSHOP_TEMPLATE_HAS_BEEN_RESET');
 		$this->setRedirect('index.php?option=' . $option, $msg);

@@ -76,6 +76,7 @@ class accountgroup_detailController extends JController
 		{
 			JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
 		}
+
 		$model = $this->getModel('accountgroup_detail');
 
 		if (!$model->delete($cid))
@@ -118,6 +119,7 @@ class accountgroup_detailController extends JController
 		{
 			JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));
 		}
+
 		$model = $this->getModel('accountgroup_detail');
 
 		if (!$model->publish($cid, 0))

@@ -42,7 +42,6 @@ class giftcard_detailModelgiftcard_detail extends JModel
 	{
 		if ($this->_loadData())
 		{
-
 		}
 		else
 		{
@@ -87,6 +86,7 @@ class giftcard_detailModelgiftcard_detail extends JModel
 
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
 
@@ -207,6 +207,7 @@ class giftcard_detailModelgiftcard_detail extends JModel
 			$this->_db->setQuery($query);
 			$this->_copydata = $this->_db->loadObjectList();
 		}
+
 		foreach ($this->_copydata as $cdata)
 		{
 			$post['giftcard_id'] = 0;

@@ -14,20 +14,31 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-// Log levels
-define("L_OFF", 0); // No log
-define("L_ERR", 1); // Log Errors
-define("L_RQST", 2); // Log Request from GC
-define("L_RESP", 4); // Log Resoponse To Google
+// Log levels:
+
+// No log
+define("L_OFF", 0);
+
+// Log Errors
+define("L_ERR", 1);
+
+// Log Request from GC
+define("L_RQST", 2);
+
+// Log Resoponse To Google
+define("L_RESP", 4);
+
 define("L_ERR_RQST", L_ERR | L_RQST);
+
 define("L_ALL", L_ERR | L_RQST | L_RESP);
 
 class GoogleLog
 {
-	var $errorLogFile;
-	var $messageLogFile;
-	// L_ALL (err+requests+responses), L_ERR, L_RQST, L_RESP, L_OFF
-	var $logLevel = L_ERR_RQST;
+	public $errorLogFile;
+
+	public $messageLogFile;
+
+	public $logLevel = L_ERR_RQST;
 
 	/**
 	 * SetLogFiles
@@ -81,15 +92,13 @@ class GoogleLog
 		}
 
 		$this->logLevel = $logLevel;
-		;
 	}
 
-	function LogError($log)
+	public function LogError($log)
 	{
 		if ($this->logLevel & L_ERR)
 		{
-			fwrite($this->errorLogFile,
-				sprintf("\n%s:- %s\n", date("D M j G:i:s T Y"), $log));
+			fwrite($this->errorLogFile, sprintf("\n%s:- %s\n", date("D M j G:i:s T Y"), $log));
 
 			return true;
 		}
@@ -101,8 +110,7 @@ class GoogleLog
 	{
 		if ($this->logLevel & L_RQST)
 		{
-			fwrite($this->messageLogFile,
-				sprintf("\n%s:- %s\n", date("D M j G:i:s T Y"), $log));
+			fwrite($this->messageLogFile, sprintf("\n%s:- %s\n", date("D M j G:i:s T Y"), $log));
 
 			return true;
 		}
@@ -122,4 +130,3 @@ class GoogleLog
 		return false;
 	}
 }
-?>
