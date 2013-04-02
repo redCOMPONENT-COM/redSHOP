@@ -26,14 +26,13 @@ class plgRedshop_paymentrs_payment_paymill extends JPlugin
 	 * NOT references.  This causes problems with cross-referencing necessary for the
 	 * observer design pattern.
 	 */
-	function plgRedshop_paymentrs_payment_paymill(&$subject)
+	public function plgRedshop_paymentrs_payment_paymill(&$subject)
 	{
 		// Load plugin parameters
 		parent::__construct($subject);
 		$this->_table_prefix = '#__redshop_';
 		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_paymill');
 		$this->_params = new JRegistry($this->_plugin->params);
-
 	}
 
 	function onPrePayment($element, $data)
@@ -48,7 +47,7 @@ class plgRedshop_paymentrs_payment_paymill extends JPlugin
 			$plugin = $element;
 		}
 
-		$mainframe = JFactory::getApplication();
+		$app = JFactory::getApplication();
 		$paymentpath = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $plugin . DS . $plugin . DS . 'creditcardform.php';
 
 		include $paymentpath;
@@ -162,9 +161,9 @@ class plgRedshop_paymentrs_payment_paymill extends JPlugin
 	/**
 	 * Plugin method with the same name as the event will be called automatically.
 	 */
-	function getOrderAndCcdata($element, $data)
+	public function getOrderAndCcdata($element, $data)
 	{
-		$mainframe = JFactory::getApplication();
+		$app = JFactory::getApplication();
 
 		if ($element != 'rs_payment_paymill')
 		{
@@ -197,12 +196,10 @@ class plgRedshop_paymentrs_payment_paymill extends JPlugin
 			$transaction = $transactionsObject->create($params);
 
 			$session->set('paymillresult', $transaction);
-
 		}
 
 		$redirect_url = JRoute::_("index.php?option=com_redshop&view=order_detail&controller=order_detail&task=notify_payment&payment_plugin=rs_payment_paymill&Itemid=" . $Itemid . "&orderid=" . $data['order_id']);
-		$mainframe->Redirect($redirect_url);
-
+		$app->Redirect($redirect_url);
 	}
 
 	function onNotifyPaymentrs_payment_paymill($element, $request)
@@ -241,7 +238,6 @@ class plgRedshop_paymentrs_payment_paymill extends JPlugin
 			$values->order_payment_status_code = 'Unpaid';
 			$values->log = JTEXT::_('COM_REDSHOP_ORDER_NOT_PLACED');
 			$values->msg = $error_message;
-
 		}
 		else
 		{
@@ -249,14 +245,12 @@ class plgRedshop_paymentrs_payment_paymill extends JPlugin
 			$values->order_payment_status_code = 'Paid';
 			$values->log = JTEXT::_('COM_REDSHOP_ORDER_PLACED');
 			$values->msg = JTEXT::_('COM_REDSHOP_ORDER_PLACED');
-
 		}
 
 		$values->transaction_id = $tid;
 		$values->order_id = $order_id;
 
 		return $values;
-
 	}
 
 	function onCapture_Paymentrs_payment_paymill($element, $data)

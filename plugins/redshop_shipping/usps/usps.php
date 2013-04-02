@@ -1100,7 +1100,6 @@ class plgredshop_shippingusps extends JPlugin
 								}
 
 								$count++;
-
 							}
 						}
 					}

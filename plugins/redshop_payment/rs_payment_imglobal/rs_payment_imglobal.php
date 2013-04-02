@@ -32,7 +32,6 @@ class plgRedshop_paymentrs_payment_imglobal extends JPlugin
 		$this->_table_prefix = '#__redshop_';
 		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_imglobal');
 		$this->_params = new JRegistry($this->_plugin->params);
-
 	}
 
 	/**
@@ -50,7 +49,7 @@ class plgRedshop_paymentrs_payment_imglobal extends JPlugin
 			$plugin = $element;
 		}
 
-		$mainframe = JFactory::getApplication();
+		$app = JFactory::getApplication();
 		$session = JFactory::getSession();
 		$ccdata = $session->get('ccdata');
 		$url = "https://secure.imglobalpayments.com/api/transact.php";

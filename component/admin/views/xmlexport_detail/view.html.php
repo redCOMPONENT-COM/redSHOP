@@ -16,7 +16,7 @@ class xmlexport_detailVIEWxmlexport_detail extends JView
 {
 	public function display($tpl = null)
 	{
-		global $mainframe, $context;
+		global $context;
 		$context = 'xmlexport_id';
 
 		$option = JRequest::getVar('option');

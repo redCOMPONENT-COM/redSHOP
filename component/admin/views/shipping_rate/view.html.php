@@ -15,20 +15,23 @@ class shipping_rateViewshipping_rate extends JView
 {
 	public function display($tpl = null)
 	{
-		global $mainframe, $context;
 		$context = 'shipping_rate';
-		$uri = JFactory::getURI();
+
+		$uri      = JFactory::getURI();
+		$app      = JFactory::getApplication();
+		$document = JFactory::getDocument();
+
 		$shippinghelper = new shipping;
 
-		$lists['order'] = $mainframe->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'shipping_rate_id');
-		$lists['order_Dir'] = $mainframe->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
-		$id = $mainframe->getUserStateFromRequest($context . 'extension_id', 'extension_id', '0');
+		$lists['order']     = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'shipping_rate_id');
+		$lists['order_Dir'] = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
+		$id                 = $app->getUserStateFromRequest($context . 'extension_id', 'extension_id', '0');
 
 		$shipping = $shippinghelper->getShippingMethodById($id);
 
 		$shipping_rates = $this->get('Data');
-		$total = $this->get('Total');
-		$pagination = $this->get('Pagination');
+		$total          = $this->get('Total');
+		$pagination     = $this->get('Pagination');
 
 		$shippingpath = JPATH_ROOT . DS . 'plugins' . DS . $shipping->folder . DS . $shipping->element . '.xml';
 		$myparams = new JRegistry($shipping->params, $shippingpath);
@@ -42,7 +45,7 @@ class shipping_rateViewshipping_rate extends JView
 
 		if ($is_shipper)
 		{
-			JToolBarHelper::customX('copy', 'copy.png', 'copy_f2.png', 'Copy', true);
+			JToolBarHelper::customX('copy', 'copy.png', 'copy_f2.png', JText::_('COM_REDSHOP_TOOLBAR_COPY'), true);
 		}
 
 		JToolBarHelper::deleteList();

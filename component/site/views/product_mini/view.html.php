@@ -48,10 +48,10 @@ class product_miniViewproduct_mini extends JView
 
 		$lists['order']     = $filter_order;
 		$lists['order_Dir'] = $filter_order_Dir;
-		$total              = & $this->get('Total');
-		$products           = & $this->get('Data');
+		$total              = $this->get('Total');
+		$products           = $this->get('Data');
 
-		$pagination = & $this->get('Pagination');
+		$pagination = $this->get('Pagination');
 
 		$this->assignRef('keyword', $keyword);
 		$this->assignRef('search_field', $search_field);

@@ -32,7 +32,7 @@ class GoogleLog
 	/**
 	 * SetLogFiles
 	 */
-	function GoogleLog($errorLogFile, $messageLogFile, $logLevel = L_ERR_RQST, $die = true)
+	public function GoogleLog($errorLogFile, $messageLogFile, $logLevel = L_ERR_RQST, $die = true)
 	{
 		$this->logLevel = $logLevel;
 

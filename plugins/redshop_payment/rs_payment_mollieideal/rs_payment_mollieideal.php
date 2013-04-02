@@ -26,12 +26,11 @@ class plgRedshop_paymentrs_payment_mollieideal extends JPlugin
 	 */
 	public function plgRedshop_paymentrs_payment_mollieideal(&$subject)
 	{
-		// load plugin parameters
+		// Load plugin parameters
 		parent::__construct($subject);
 		$this->_table_prefix = '#__redshop_';
 		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_mollieideal');
 		$this->_params = new JRegistry($this->_plugin->params);
-
 	}
 
 	/**
@@ -49,7 +48,7 @@ class plgRedshop_paymentrs_payment_mollieideal extends JPlugin
 			$plugin = $element;
 		}
 
-		$mainframe = JFactory::getApplication();
+		$app = JFactory::getApplication();
 		echo $this->show_mollie_ideal($data['order_id']);
 		/* 		$paymentpath=JPATH_SITE.DS.'plugins'.DS.'redshop_payment'.DS.$plugin.DS.$plugin.DS.'extra_info.php';
 				include $paymentpath;
@@ -63,7 +62,7 @@ class plgRedshop_paymentrs_payment_mollieideal extends JPlugin
 			return;
 		}
 
-		global $mainframe;
+		$app = JFactory::getApplication();
 		$objOrder = new order_functions;
 		$uri =& JURI::getInstance();
 		$request = JRequest::get('request');

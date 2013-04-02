@@ -31,7 +31,7 @@ class categoryViewcategory extends JView
 
 	public function display($tpl = null)
 	{
-		global $mainframe, $context;
+		$app = JFactory::getApplication();
 
 		$context = 'category_id';
 
@@ -43,17 +43,17 @@ class categoryViewcategory extends JView
 		JToolBarHelper::title(JText::_('COM_REDSHOP_CATEGORY_MANAGEMENT'), 'redshop_categories48');
 		JToolBarHelper::addNewX();
 		JToolBarHelper::editListX();
-		JToolBarHelper::customX('copy', 'copy.png', 'copy_f2.png', 'Copy', true);
+		JToolBarHelper::customX('copy', 'copy.png', 'copy_f2.png', JText::_('COM_REDSHOP_TOOLBAR_COPY'), true);
 		JToolBarHelper::deleteList();
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();
 
 		$uri = JFactory::getURI();
 
-		$filter_order = $mainframe->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'c.ordering');
-		$filter_order_Dir = $mainframe->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
-		$limitstart = $mainframe->getUserStateFromRequest($context . 'limitstart', 'limitstart', '0');
-		$limit = $mainframe->getUserStateFromRequest($context . 'limit', 'limit', '10');
+		$filter_order = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'c.ordering');
+		$filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
+		$limitstart = $app->getUserStateFromRequest($context . 'limitstart', 'limitstart', '0');
+		$limit = $app->getUserStateFromRequest($context . 'limit', 'limit', '10');
 
 		$lists['order'] = $filter_order;
 		$lists['order_Dir'] = $filter_order_Dir;
@@ -62,11 +62,11 @@ class categoryViewcategory extends JView
 		$categories = $this->get('Data');
 
 		$pagination = $this->get('Pagination');
-		$category_main_filter = $mainframe->getUserStateFromRequest($context . 'category_main_filter', 'category_main_filter', '');
+		$category_main_filter = $app->getUserStateFromRequest($context . 'category_main_filter', 'category_main_filter', '');
 		$optionsection = array();
 		$optionsection[] = JHTML::_('select.option', '0', JText::_('COM_REDSHOP_SELECT'));
-		$category_id = $mainframe->getUserStateFromRequest($context . 'category_id', 'category_id', '');
-		$category_name = $mainframe->getUserStateFromRequest($context . 'category_name', 'category_name', 0);
+		$category_id = $app->getUserStateFromRequest($context . 'category_id', 'category_id', '');
+		$category_name = $app->getUserStateFromRequest($context . 'category_name', 'category_name', 0);
 		$category = new product_category;
 		$categories_parent = $category->getParentCategories();
 

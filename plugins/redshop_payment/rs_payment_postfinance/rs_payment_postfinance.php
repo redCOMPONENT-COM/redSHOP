@@ -10,8 +10,8 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.plugin.plugin');
-/*$mainframe = JFactory::getApplication();
-$mainframe->registerEvent( 'onPrePayment', 'plgRedshoppayment_authorize' );*/
+/*$app = JFactory::getApplication();
+$app->registerEvent( 'onPrePayment', 'plgRedshoppayment_authorize' );*/
 require_once JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php';
 class plgRedshop_paymentrs_payment_postfinance extends JPlugin
 {
@@ -25,20 +25,19 @@ class plgRedshop_paymentrs_payment_postfinance extends JPlugin
 	 * NOT references.  This causes problems with cross-referencing necessary for the
 	 * observer design pattern.
 	 */
-	function plgRedshop_paymentrs_payment_postfinance(&$subject)
+	public function plgRedshop_paymentrs_payment_postfinance(&$subject)
 	{
-		// load plugin parameters
+		// Load plugin parameters
 		parent::__construct($subject);
 		$this->_table_prefix = '#__redshop_';
 		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_postfinance');
 		$this->_params = new JRegistry($this->_plugin->params);
-
 	}
 
 	/**
 	 * Plugin method with the same name as the event will be called automatically.
 	 */
-	function onPrePayment($element, $data)
+	public function onPrePayment($element, $data)
 	{
 		if ($element != 'rs_payment_postfinance')
 		{
@@ -50,7 +49,7 @@ class plgRedshop_paymentrs_payment_postfinance extends JPlugin
 			$plugin = $element;
 		}
 
-		$mainframe = JFactory::getApplication();
+		$app = JFactory::getApplication();
 		$paymentpath = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $plugin . DS . $plugin . DS . 'extra_info.php';
 		include $paymentpath;
 	}
@@ -97,7 +96,6 @@ class plgRedshop_paymentrs_payment_postfinance extends JPlugin
 				$values->msg = JText::_('COM_REDSHOP_ORDER_PLACED');
 				$values->transaction_id = $transaction_id;
 				$values->order_id = $order_id;
-
 			}
 			else
 			{
@@ -107,7 +105,6 @@ class plgRedshop_paymentrs_payment_postfinance extends JPlugin
 				$values->msg = JText::_('COM_REDSHOP_ORDER_NOT_PLACED');
 				$msg = JText::_('COM_REDSHOP_PHPSHOP_PAYMENT_ERROR');
 				$values->order_id = $order_id;
-
 			}
 		}
 		else
@@ -118,7 +115,6 @@ class plgRedshop_paymentrs_payment_postfinance extends JPlugin
 			$values->msg = JText::_('COM_REDSHOP_ORDER_NOT_PLACED');
 			$msg = JText::_('COM_REDSHOP_PHPSHOP_PAYMENT_ERROR');
 			$values->order_id = $order_id;
-
 		}
 
 		return $values;

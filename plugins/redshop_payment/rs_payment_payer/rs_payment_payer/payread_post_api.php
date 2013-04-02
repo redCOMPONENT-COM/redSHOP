@@ -125,7 +125,7 @@ class payread_post_api
 	 *
 	 * You will never have to call this method
 	 */
-	function payread_post_api()
+	public function payread_post_api()
 	{
 		$PayRead_AgentId = '';
 		$PayRead_Key1 = '';
@@ -217,7 +217,7 @@ class payread_post_api
 	 *    <input type="hidden" name="payer_checksum" value="get_checksum()">
 	 * @return  nothing
 	 */
-	function generate_form()
+	public function generate_form()
 	{
 		echo $this->generate_form_str();
 	}
@@ -242,7 +242,7 @@ class payread_post_api
 	 * It you want, you can use the generate_form() method instead and then you don't need to call this method. Otherwise you will need to put this in the hidden variable "payread_agentid".
 	 * @return int agentid
 	 */
-	function get_agentid()
+	public function get_agentid()
 	{
 		return $this->myAgentId;
 	}
@@ -252,7 +252,7 @@ class payread_post_api
 	 * It you want, you can use the generate_form() method instead and then you don't need to call this method.    Otherwise you will need to put this in the hidden variable "payread_xml_writer".
 	 * @return string api version
 	 */
-	function get_api_version()
+	public function get_api_version()
 	{
 		return $this->do_encode($this->myPostApiVersion);
 	}
@@ -262,7 +262,7 @@ class payread_post_api
 	 * It you want, you can use the generate_form() method instead and then you don't need to call this method.    Otherwise you will need to put this in the hidden variable "payread_data".
 	 * @return string xml data
 	 */
-	function get_xml_data()
+	public function get_xml_data()
 	{
 		$this->generate_purchase_xml();
 		$this->encrypt_data($this->myXmlData);
@@ -275,7 +275,7 @@ class payread_post_api
 	 * It you want, you can use the generate_form() method instead and then you don't need to call this method. Otherwise you will need to put this in the hidden variable "payread_checksum
 	 * @return string Md5 checksum
 	 */
-	function get_checksum()
+	public function get_checksum()
 	{
 		$this->myChecksum = $this->checksum_data();
 
@@ -287,7 +287,7 @@ class payread_post_api
 	 * @return string url to PAYER post-asp
 	 * @access private
 	 */
-	function get_server_url()
+	public function get_server_url()
 	{
 		return $this->myPayerServerUrl;
 	}
@@ -297,7 +297,7 @@ class payread_post_api
 	 * @return string url to PAYER post-asp
 	 * @access private
 	 */
-	function set_server_url($url)
+	public function set_server_url($url)
 	{
 		$this->myPayerServerUrl = $url;
 	}
@@ -309,7 +309,7 @@ class payread_post_api
 	 *
 	 * @return  nothing
 	 */
-	function set_currency($theCurrency)
+	public function set_currency($theCurrency)
 	{
 		if (strlen($theCurrency) < 4)
 		{
@@ -329,7 +329,7 @@ class payread_post_api
 	 *
 	 * @return  nothing
 	 */
-	function set_description($theDescription)
+	public function set_description($theDescription)
 	{
 		$this->myDescription = $theDescription;
 	}
@@ -347,7 +347,7 @@ class payread_post_api
 	 *
 	 * @return  nothing
 	 */
-	function set_reference_id($theReferenceId)
+	public function set_reference_id($theReferenceId)
 	{
 		$this->myReferenceId = $theReferenceId;
 	}
@@ -360,7 +360,7 @@ class payread_post_api
 	 *
 	 * @return  nothing
 	 */
-	function set_message($theMessage)
+	public function set_message($theMessage)
 	{
 		$this->myMessage = $theMessage;
 	}
@@ -370,7 +370,7 @@ class payread_post_api
 	 * @access private
 	 * @return  nothing
 	 */
-	function add_catalog_purchase($theLineNumber, $theId, $theQuantity)
+	public function add_catalog_purchase($theLineNumber, $theId, $theQuantity)
 	{
 		$this->myCatalogPurchases[] = array("LineNo" => $theLineNumber, "Id" => $theId, "Quantity" => $theQuantity);
 	}
@@ -388,7 +388,7 @@ class payread_post_api
 	 *
 	 * @return  nothing
 	 */
-	function add_freeform_purchase($theLineNumber, $theDescription, $thePrice, $theVat, $theQuantity)
+	public function add_freeform_purchase($theLineNumber, $theDescription, $thePrice, $theVat, $theQuantity)
 	{
 		$this->myFreeformPurchases[] = array("LineNo" => $theLineNumber, "Description" => $theDescription, "Price" => $thePrice, "Vat" => $theVat, "Quantity" => $theQuantity);
 	}
@@ -400,7 +400,7 @@ class payread_post_api
 	 * extended version of above
 	 * @return  nothing
 	 */
-	function add_freeform_purchase_ex($theLineNumber, $theDescription, $theItemNumber, $thePrice, $theVat, $theQuantity, $theUnit = null, $theAccount = null, $theDistAgentId = null)
+	public function add_freeform_purchase_ex($theLineNumber, $theDescription, $theItemNumber, $thePrice, $theVat, $theQuantity, $theUnit = null, $theAccount = null, $theDistAgentId = null)
 	{
 		$theArray = array();
 		$theArray["LineNo"] = $theLineNumber;
@@ -479,7 +479,7 @@ class payread_post_api
 	 *
 	 * @return  nothing
 	 */
-	function set_fee($theDescription, $thePrice, $theItemNumber = "", $theVat = 25, $theQuantity = 1)
+	public function set_fee($theDescription, $thePrice, $theItemNumber = "", $theVat = 25, $theQuantity = 1)
 	{
 		$this->add_freeform_purchase_ex(99999, $theDescription, $theItemNumber, $thePrice, $theVat, $theQuantity, $theUnit = null, $theAccount = null, $theDistAgentId = null);
 	}
@@ -494,7 +494,7 @@ class payread_post_api
 	 *
 	 * @return  nothing
 	 */
-	function add_info_line($theLineNumber, $theText)
+	public function add_info_line($theLineNumber, $theText)
 	{
 		$this->myInfoLines[] = array("LineNo" => $theLineNumber, "Text" => $theText);
 	}
@@ -523,7 +523,7 @@ class payread_post_api
 	 *
 	 * @return  nothing
 	 */
-	function add_buyer_info($theFirstName, $theLastName, $theAddressLine1, $theAddressLine2, $thePostalcode, $theCity, $theCountryCode, $thePhoneHome, $thePhoneWork, $thePhoneMobile, $theEmail, $theOrganisation = null, $theOrgNr = null, $theCustomerId = null, $theYourReference = null, $theOptions = null)
+	public function add_buyer_info($theFirstName, $theLastName, $theAddressLine1, $theAddressLine2, $thePostalcode, $theCity, $theCountryCode, $thePhoneHome, $thePhoneWork, $thePhoneMobile, $theEmail, $theOrganisation = null, $theOrgNr = null, $theCustomerId = null, $theYourReference = null, $theOptions = null)
 	{
 		$this->myBuyerInfo["FirstName"] = $theFirstName;
 		$this->myBuyerInfo["LastName"] = $theLastName;
@@ -557,7 +557,7 @@ class payread_post_api
 	 *
 	 * @return  nothing
 	 */
-	function add_payment_method($theMethod)
+	public function add_payment_method($theMethod)
 	{
 		$this->myPaymentMethods[] = $theMethod;
 	}
@@ -571,7 +571,7 @@ class payread_post_api
 	 *
 	 * @return  nothing
 	 */
-	function set_success_redirect_url($theUrl)
+	public function set_success_redirect_url($theUrl)
 	{
 		$this->mySuccessRedirectUrl = $theUrl;
 	}
@@ -586,7 +586,7 @@ class payread_post_api
 	 *
 	 * @return  nothing
 	 */
-	function set_authorize_notification_url($theUrl)
+	public function set_authorize_notification_url($theUrl)
 	{
 		$this->myAuthorizeNotificationUrl = $theUrl;
 	}
@@ -600,7 +600,7 @@ class payread_post_api
 	 *
 	 * @return  nothing
 	 */
-	function set_settle_notification_url($theUrl)
+	public function set_settle_notification_url($theUrl)
 	{
 		$this->mySettleNotificationUrl = $theUrl;
 	}
@@ -614,7 +614,7 @@ class payread_post_api
 	 *
 	 * @return  nothing
 	 */
-	function set_redirect_back_to_shop_url($theUrl)
+	public function set_redirect_back_to_shop_url($theUrl)
 	{
 		$this->myRedirectBackToShopUrl = $theUrl;
 	}
@@ -628,7 +628,7 @@ class payread_post_api
 	 *
 	 * @return  nothing
 	 */
-	function set_debug_mode($theDebugMode)
+	public function set_debug_mode($theDebugMode)
 	{
 		if (in_array(strtolower($theDebugMode), array("silent", "brief", "verbose")))
 		{
@@ -645,7 +645,7 @@ class payread_post_api
 	 *
 	 * @return  nothing
 	 */
-	function set_test_mode($theTestMode)
+	public function set_test_mode($theTestMode)
 	{
 		$lc = strtolower($theTestMode);
 		$this->myTestMode = (($theTestMode === true || $lc == "true") ? "true" : "false");
@@ -660,7 +660,7 @@ class payread_post_api
 	 *
 	 * @return  nothing
 	 */
-	function set_language($theLanguage)
+	public function set_language($theLanguage)
 	{
 		if (strlen($theLanguage) == 2)
 		{
@@ -685,7 +685,7 @@ class payread_post_api
 	 *
 	 * @return boolean true/false
 	 */
-	function validate_callback_url($theUrl)
+	public function validate_callback_url($theUrl)
 	{
 		// strip the &md5sum from url
 		$pos = strpos($theUrl, "&md5sum");
@@ -721,7 +721,7 @@ class payread_post_api
 	 * This method will validate that the callback orginates from PAYERs server. This method should be called from your authorize and settle pages.
 	 * @return boolean true/false
 	 */
-	function is_valid_ip()
+	public function is_valid_ip()
 	{
 		$ip = $_SERVER["REMOTE_ADDR"];
 
@@ -742,7 +742,7 @@ class payread_post_api
 	 * This method will "encrypt" the data using base64
 	 * @access private
 	 */
-	function encrypt_data($theData, $theEncryptionMethod = "base64")
+	public function encrypt_data($theData, $theEncryptionMethod = "base64")
 	{
 		switch (strtolower($theEncryptionMethod))
 		{
@@ -756,7 +756,7 @@ class payread_post_api
 	 * This method will set the checksum
 	 * @access private
 	 */
-	function checksum_data($theAuthMethod = "md5")
+	public function checksum_data($theAuthMethod = "md5")
 	{
 		switch (strtolower($theAuthMethod))
 		{
@@ -774,7 +774,7 @@ class payread_post_api
 	 * This method will generate the xml data that you need to post p the Post-API.
 	 * @access private
 	 */
-	function generate_purchase_xml()
+	public function generate_purchase_xml()
 	{
 		// Header
 		$charset = $this->myCharSet == null ? "iso-8859-1" : $this->myCharSet;

@@ -30,7 +30,6 @@ class plgRedshop_paymentrs_payment_epayv2 extends JPlugin
 		$this->_table_prefix = '#__redshop_';
 		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_epayv2');
 		$this->_params = new JRegistry($this->_plugin->params);
-
 	}
 
 	/**
@@ -48,7 +47,7 @@ class plgRedshop_paymentrs_payment_epayv2 extends JPlugin
 			$plugin = $element;
 		}
 
-		$mainframe = JFactory::getApplication();
+		$app = JFactory::getApplication();
 		$paymentpath = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $plugin . DS . $plugin . DS . 'extra_info.php';
 		include $paymentpath;
 	}
@@ -227,7 +226,6 @@ class plgRedshop_paymentrs_payment_epayv2 extends JPlugin
 						}
 
 						$msg = JText::_('COM_REDSHOP_EPAY_PAYMENT_CARDTYPE');
-
 					}
 
 					// Creation information
@@ -329,7 +327,6 @@ class plgRedshop_paymentrs_payment_epayv2 extends JPlugin
 		$values->message = $message;
 
 		return $values;
-
 	}
 
 	public function onStatus_Paymentrs_payment_epayv2($element, $data)
@@ -363,7 +360,6 @@ class plgRedshop_paymentrs_payment_epayv2 extends JPlugin
 		}
 
 		return $data_refund;
-
 	}
 
 	public function onCancel_Paymentrs_payment_epayv2($element, $data)
@@ -397,7 +393,6 @@ class plgRedshop_paymentrs_payment_epayv2 extends JPlugin
 		$values->message = $message;
 
 		return $values;
-
 	}
 
 	public function onRefund_Paymentrs_payment_epayv2($element, $data)

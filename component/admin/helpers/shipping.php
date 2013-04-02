@@ -17,10 +17,10 @@ class shipping
 
 	public function __construct()
 	{
-		global $mainframe, $context;
-		$this->_table_prefix = '#__' . TABLE_PREFIX . '_';
-		$this->producthelper = new producthelper();
 		$this->_db = JFactory::getDBO();
+
+		$this->_table_prefix = '#__' . TABLE_PREFIX . '_';
+		$this->producthelper = new producthelper;
 	}
 
 	public function getDeliveryTimeOfProduct($product_id)
@@ -1516,7 +1516,7 @@ class shipping
 			$data = $this->producthelper->getProductById($cart [$i] ['product_id']);
 			$acc_weight = 0;
 
-			if (count($cart[$i]['cart_accessory']) > 0)
+			if (isset($cart[$i]['cart_accessory']) && count($cart[$i]['cart_accessory']) > 0)
 			{
 				for ($a = 0; $a < count($cart[$i]['cart_accessory']); $a++)
 				{
@@ -1623,6 +1623,7 @@ class shipping
 	public function getShippingRateError(&$d)
 	{
 		$bool = $this->isCartDimentionMatch($d);
+
 		if ($bool)
 		{
 			$bool = $this->isUserInfoMatch($d);
@@ -1665,6 +1666,7 @@ class shipping
 		$volumeShipping = $this->getProductVolumeShipping();
 
 		$whereShippingVolume = "";
+
 		if (count($volumeShipping) > 0)
 		{
 			$whereShippingVolume .= " AND ( ";
@@ -1972,6 +1974,7 @@ class shipping
 				$text = JText::_('COM_REDSHOP_NO_SHIPPING_RATE_AVAILABLE');
 			}
 		}
+
 		return $text;
 	}
 }

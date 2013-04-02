@@ -22,12 +22,12 @@ class plgredshop_productshoppergroup_tags extends JPlugin
 	 * NOT references.  This causes problems with cross-referencing necessary for the
 	 * observer design pattern.
 	 */
-	function plgredshop_productshoppergroup_tags(&$subject)
+	public function plgredshop_productshoppergroup_tags(&$subject)
 	{
 		parent::__construct($subject);
 
 		// Load plugin parameters
-		$this->_plugin = JPluginHelper::getPlugin('redshop_product', 'onPrepareProduct');
+		$this->_plugin = JPluginHelper::getPlugin('redshop_product', 'shoppergroup_tags');
 		$this->_params = new JRegistry($this->_plugin->params);
 	}
 
@@ -40,7 +40,7 @@ class plgredshop_productshoppergroup_tags extends JPlugin
 	 * @param    object        The product params
 	 * @param    object        The product object
 	 */
-	function onPrepareProduct(&$template, &$params, $product)
+	public function onPrepareProduct(&$template, &$params, $product)
 	{
 		$app = JFactory::getApplication();
 		$user = JFactory::getUser();
@@ -115,7 +115,7 @@ class plgredshop_productshoppergroup_tags extends JPlugin
 	 *
 	 * @return    string
 	 */
-	function onAfterDisplayProductTitle(&$template, &$params, $product)
+	public function onAfterDisplayProductTitle(&$template, &$params, $product)
 	{
 		$string = "";
 
@@ -133,7 +133,7 @@ class plgredshop_productshoppergroup_tags extends JPlugin
 	 *
 	 * @return    string
 	 */
-	function onBeforeDisplayProduct(&$template, &$params, $product)
+	public function onBeforeDisplayProduct(&$template, &$params, $product)
 	{
 		$string = "";
 
@@ -151,7 +151,7 @@ class plgredshop_productshoppergroup_tags extends JPlugin
 	 *
 	 * @return    string
 	 */
-	function onAfterDisplayProduct(&$template, &$params, $product)
+	public function onAfterDisplayProduct(&$template, &$params, $product)
 	{
 		$string = "";
 
@@ -171,7 +171,7 @@ class plgredshop_productshoppergroup_tags extends JPlugin
 	 *
 	 * @return    bool        If false, abort the save
 	 */
-	function onBeforeProductSave(&$product, $isnew)
+	public function onBeforeProductSave(&$product, $isnew)
 	{
 		return true;
 	}
@@ -187,7 +187,7 @@ class plgredshop_productshoppergroup_tags extends JPlugin
 	 *
 	 * @return    void
 	 */
-	function onAfterProductSave(&$product, $isnew)
+	public function onAfterProductSave(&$product, $isnew)
 	{
 		return;
 	}

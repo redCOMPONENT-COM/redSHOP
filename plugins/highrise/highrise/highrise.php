@@ -23,7 +23,7 @@ class plghighrisehighrise extends JPlugin
 	 *
 	 * @param $data
 	 */
-	function oncreateHighriseUser($data)
+	public function oncreateHighriseUser($data)
 	{
 		$plugin =& JPluginHelper::getPlugin('highrise', 'highrise');
 		$pluginParams = new JRegistry($plugin->params);
@@ -50,10 +50,9 @@ class plghighrisehighrise extends JPlugin
 	/**
 	 * Method to get debtor contact handle
 	 *
-	 * @access public
 	 * @return array
 	 */
-	function pushContact($request)
+	public function pushContact($request)
 	{
 		// Check that person doesn't already exist
 		$id = $this->_person_in_highrise($request);
@@ -121,12 +120,12 @@ class plghighrisehighrise extends JPlugin
 
 	/**
 	 * Search for a person in Highrise
-
+	 *
 	 * @param $person
 	 *
 	 * @return SimpleXMLElement[]|string
 	 */
-	function _person_in_highrise($person)
+	public function _person_in_highrise($person)
 	{
 		$curl = curl_init($this->highrise_url . '/people/search.xml?term=' . urlencode($person['sFirstName'] . ' ' . $person['sLastName']));
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);

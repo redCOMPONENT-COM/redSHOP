@@ -21,12 +21,10 @@ if (isset($request['ccinfo']) && $request['ccinfo'] == 1)
 	$post['Itemid'] = $Itemid;
 
 	$this->getOrderAndCcdata("rs_payment_braintree", $post);
-
 }
 else
 {
 	$this->getCredicardForm("rs_payment_braintree", $data);
-
 }
 // end by me
 

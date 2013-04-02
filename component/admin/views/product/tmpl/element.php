@@ -9,14 +9,14 @@
 defined('_JEXEC') or die;
 require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'product.php');
 JHTMLBehavior::modal();
-$mainframe = JFactory::getApplication();
+$app = JFactory::getApplication();
 $productobj = new producthelper();
 $option = JRequest::getVar('option', '', 'request', 'string');
 
 $model = $this->getModel('product');
 $ordering = ($this->lists['order'] == 'ordering');
 
-$category_id = $mainframe->getUserStateFromRequest('category_id', 'category_id', 0);
+$category_id = $app->getUserStateFromRequest('category_id', 'category_id', 0);
 ?>
 <script language="javascript" type="text/javascript">
 

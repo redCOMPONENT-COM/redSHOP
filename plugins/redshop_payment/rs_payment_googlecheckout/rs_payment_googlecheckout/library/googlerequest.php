@@ -59,7 +59,6 @@ class GoogleRequest
 		ini_set('include_path', ini_get('include_path') . PATH_SEPARATOR . '.');
 		require_once 'googlelog.php';
 		$this->log = new GoogleLog('', '', L_OFF);
-
 	}
 
 	function SetLogFiles($errorLogFile, $messageLogFile, $logLevel = L_ERR_RQST)
@@ -264,7 +263,7 @@ class GoogleRequest
 	 * @param $proxy: Array('host' => 'proxy-host', 'port' => 'proxy-port');
 	 *
 	 */
-	function SetProxy($proxy = array())
+	public function SetProxy($proxy = array())
 	{
 		if (is_array($proxy) && count($proxy))
 		{

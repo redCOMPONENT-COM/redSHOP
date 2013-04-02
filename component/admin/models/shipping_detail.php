@@ -104,7 +104,7 @@ class shipping_detailModelshipping_detail extends JModel
 
 	public function saveOrder(&$cid)
 	{
-		global $mainframe;
+		$app = JFactory::getApplication();
 
 		$db = JFactory::getDBO();
 		$row =& $this->getTable();

@@ -25,20 +25,19 @@ class plgRedshop_shippinglabelrs_shippinglabel_consignor extends JPlugin
 	 * NOT references.  This causes problems with cross-referencing necessary for the
 	 * observer design pattern.
 	 */
-	function plgRedshop_shippinglabelrs_shippinglabel_consignor(&$subject)
+	public function plgRedshop_shippinglabelrs_shippinglabel_consignor(&$subject)
 	{
-		// load plugin parameters
+		// Load plugin parameters
 		parent::__construct($subject);
 		$this->_table_prefix = '#__redshop_';
 		$this->_plugin = JPluginHelper::getPlugin('redshop_shippinglabel', 'redshop_shippinglabel_consignor');
 		$this->_params = new JRegistry($this->_plugin->params);
-
 	}
 
 	/*
 	 *  Plugin onNotifyPayment method with the same name as the event will be called automatically.
 	 */
-	function onChangeStatusToShipped($order_id, $order_status, $paymentstatus)
+	public function onChangeStatusToShipped($order_id, $order_status, $paymentstatus)
 	{
 		if ($order_status == "S" && $paymentstatus == "Paid")
 		{
@@ -77,7 +76,6 @@ class plgRedshop_shippinglabelrs_shippinglabel_consignor extends JPlugin
 
 				$Gls_phone = explode("###", $order_details->shop_id);
 				$Gls_phone = $Gls_phone[1];
-
 			}
 			else
 			{
@@ -142,7 +140,6 @@ class plgRedshop_shippinglabelrs_shippinglabel_consignor extends JPlugin
 			$db->setQuery($sql);
 			$weight = $db->loadResult();
 			$totalWeight += ($weight * $orderproducts [$c]->product_quantity);
-
 		}
 
 		$content_products = array_unique($content_products);
@@ -191,7 +188,6 @@ class plgRedshop_shippinglabelrs_shippinglabel_consignor extends JPlugin
 		if ($login)
 		{
 			$upload = ftp_put($ftpstream, $path_for_sharing_folder . $slash . $myFile, $label_file, FTP_ASCII);
-
 		}
 
 		//Close FTP connection

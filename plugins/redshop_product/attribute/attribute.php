@@ -23,12 +23,12 @@ class plgredshop_productattribute extends JPlugin
 	 * NOT references.  This causes problems with cross-referencing necessary for the
 	 * observer design pattern.
 	 */
-	function plgredshop_productattribute(&$subject)
+	public function plgredshop_productattribute(&$subject)
 	{
 		parent::__construct($subject);
 
 		// Load plugin parameters
-		$this->_plugin = JPluginHelper::getPlugin('redshop_product', 'onPrepareProduct');
+		$this->_plugin = JPluginHelper::getPlugin('redshop_product', 'attribute');
 		$this->_params = new JRegistry($this->_plugin->params);
 	}
 
@@ -41,7 +41,7 @@ class plgredshop_productattribute extends JPlugin
 	 * @param    object        The product params
 	 * @param    object        The product object
 	 */
-function onPrepareProduct(&$template, &$params, $product)
+public function onPrepareProduct(&$template, &$params, $product)
 {
 	$document = JFactory::getDocument();
 	$document->addScriptDeclaration("
@@ -51,7 +51,7 @@ function onPrepareProduct(&$template, &$params, $product)
 		 *
 		 * @params: orgarg  All the arguments array from the original function
 		 */
-		function onchangePropertyDropdown(orgarg){
+		public function onchangePropertyDropdown(orgarg){
 			if(orgarg[4]!=0)
 			document.getElementById('atrib_subprop_price'+orgarg[0]).style.display = 'none';
 			else
@@ -158,7 +158,6 @@ function onPrepareProduct(&$template, &$params, $product)
 		$property_subattribute = $this->getattribute_property($attributes[$i]->attribute_id);
 		$proper_val = count($property_subattribute);
 		$total += $proper_val;
-
 	}
 
 	if ($total_attributes > 0 && strstr($template, "{start_if_attribute}") && strstr($template, "{end_if_attribute}"))

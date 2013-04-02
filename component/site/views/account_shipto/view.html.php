@@ -56,7 +56,7 @@ class account_shiptoViewaccount_shipto extends JView
 			JHTML::Script('registration.js', 'components/com_redshop/assets/js/', false);
 			JHTML::Stylesheet('validation.css', 'components/com_redshop/assets/css/');
 
-			$shippingaddresses = & $this->get('Data');
+			$shippingaddresses = $this->get('Data');
 
 			if ($shippingaddresses->users_info_id > 0 && $shippingaddresses->user_id != $billingaddresses->user_id)
 			{

@@ -29,7 +29,6 @@ if ($this->_params->get("is_test") == 1)
 	$merchant_id = "1111";
 	$md5key = $md5key_demo;
 	$gatewayurl = $url_demo;
-
 }
 else
 {

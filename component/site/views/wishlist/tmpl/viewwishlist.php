@@ -47,7 +47,7 @@ $userfieldArr = $returnArr[1];
 
 if (!$user->id)
 {
-	$rows = & $this->wish_session;
+	$rows = $this->wish_session;
 
 	echo "<div class='mod_redshop_wishlist'>";
 
@@ -144,7 +144,7 @@ else
 
 	if (count($wishlists) > 0)
 	{
-		$wish_products = & $this->wish_products;
+		$wish_products = $this->wish_products;
 
 		// Send mail link
 		echo "<table>";

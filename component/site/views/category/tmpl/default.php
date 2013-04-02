@@ -128,7 +128,7 @@ if (strstr($template_desc, "{category_frontpage_loop_start}") && strstr($templat
 
 	for ($i = 0; $i < count($this->detail); $i++)
 	{
-		$row = & $this->detail[$i];
+		$row = $this->detail[$i];
 
 		$data_add = $middletemplate_desc;
 

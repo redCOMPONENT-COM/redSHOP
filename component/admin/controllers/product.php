@@ -289,7 +289,7 @@ class productController extends JController
 
 	public function gbasefeed()
 	{
-		global $mainframe;
+		$app = JFactory::getApplication();
 		$post = JRequest::get('post');
 		$model = $this->getModel('product');
 

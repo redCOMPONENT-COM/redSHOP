@@ -19,8 +19,8 @@ class ratingsViewratings extends JView
 
 		$params = $app->getParams('com_redshop');
 
-		$detail     =& $this->get('data');
-		$pagination =& $this->get('pagination');
+		$detail     = $this->get('data');
+		$pagination = $this->get('pagination');
 
 		$this->assignRef('detail', $detail);
 		$this->assignRef('pagination', $pagination);

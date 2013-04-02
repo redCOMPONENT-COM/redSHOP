@@ -357,8 +357,8 @@ class Order_detailController extends JController
 
 					if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "orderMergeImages/" . $row['attribute_image']))
 					{
-						$new_media = JPATH_ROOT . '/components/com_redshop/assets/images/mergeImages' . DS . $row['attribute_image'];
-						$old_media = JPATH_ROOT . '/components/com_redshop/assets/images/orderMergeImages' . DS . $row['attribute_image'];
+						$new_media = JPATH_ROOT . '/components/com_redshop/assets/images/mergeImages/' . $row['attribute_image'];
+						$old_media = JPATH_ROOT . '/components/com_redshop/assets/images/orderMergeImages/' . $row['attribute_image'];
 						copy($old_media, $new_media);
 					}
 
