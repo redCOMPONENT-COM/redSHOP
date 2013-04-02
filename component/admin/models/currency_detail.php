@@ -39,7 +39,6 @@ class currency_detailModelcurrency_detail extends JModel
 	{
 		if ($this->_loadData())
 		{
-
 		}
 		else
 		{

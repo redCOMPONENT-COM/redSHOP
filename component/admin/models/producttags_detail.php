@@ -40,7 +40,6 @@ class producttags_detailModelproducttags_detail extends JModel
 	{
 		if ($this->_loadData())
 		{
-
 		}
 		else
 		{

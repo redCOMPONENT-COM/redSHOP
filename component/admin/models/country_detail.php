@@ -39,7 +39,6 @@ class country_detailModelcountry_detail extends JModel
 	{
 		if ($this->_loadData())
 		{
-
 		}
 		else
 		{
@@ -59,9 +58,9 @@ class country_detailModelcountry_detail extends JModel
 
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
-
 
 	public function _initData()
 	{

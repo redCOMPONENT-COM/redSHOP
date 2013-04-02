@@ -41,7 +41,6 @@ class sample_catalogModelsample_catalog extends JModel
 	{
 		if ($this->_loadData())
 		{
-
 		}
 		else
 		{
@@ -87,6 +86,7 @@ class sample_catalogModelsample_catalog extends JModel
 
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
 }

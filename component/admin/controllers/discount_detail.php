@@ -162,6 +162,7 @@ class discount_detailController extends JController
 		{
 			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
 		}
+
 		$msg = JText::_('COM_REDSHOP_DISCOUNT_DETAIL_PUBLISHED_SUCCESSFULLY');
 
 		if (isset($layout) && $layout == 'product')
@@ -194,6 +195,7 @@ class discount_detailController extends JController
 		{
 			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
 		}
+
 		$msg = JText::_('COM_REDSHOP_DISCOUNT_DETAIL_UNPUBLISHED_SUCCESSFULLY');
 
 		if (isset($layout) && $layout == 'product')

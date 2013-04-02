@@ -102,7 +102,7 @@ class configurationModelconfiguration extends JModel
 
 				$src = $watermarkImg['tmp_name'];
 
-				$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'product' . DS . $data["watermark_image"]; //specific path of the file
+				$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'product' . DS . $data["watermark_image"];
 
 				if ($data['watermark_image'] != "" && is_file(REDSHOP_FRONT_IMAGES_RELPATH . 'product' . DS . $data['watermark_image']))
 				{
@@ -176,7 +176,6 @@ class configurationModelconfiguration extends JModel
 
 			if ($filetype == 'jpg' || $filetype == 'jpeg' || $filetype == 'gif' || $filetype == 'png')
 			{
-
 				$data["category_default_image"] = $categoryImg['name'];
 
 				$src = $categoryImg['tmp_name'];
@@ -217,6 +216,7 @@ class configurationModelconfiguration extends JModel
 				JFile::upload($src, $dest);
 			}
 		}
+
 		$quoteimg = JRequest::getVar('quoteimg', null, 'files', 'array');
 
 		if ($quoteimg['name'] != "")
@@ -250,7 +250,6 @@ class configurationModelconfiguration extends JModel
 
 			if ($filetype == 'jpg' || $filetype == 'jpeg' || $filetype == 'gif' || $filetype == 'png')
 			{
-
 				$data["addtocart_delete"] = $cartdelete['name'];
 
 				$src = $cartdelete['tmp_name'];
@@ -326,7 +325,6 @@ class configurationModelconfiguration extends JModel
 
 			if ($filetype == 'jpg' || $filetype == 'jpeg' || $filetype == 'gif' || $filetype == 'png')
 			{
-
 				$data["addtocart_background"] = $cartback['name'];
 
 				$src = $cartback['tmp_name'];
@@ -566,6 +564,7 @@ class configurationModelconfiguration extends JModel
 		{
 			$where = " WHERE currency_code IN ('" . $currency . "')";
 		}
+
 		$query = 'SELECT currency_code as value, currency_name as text FROM ' . $this->_table_prefix . 'currency' . $where . ' ORDER BY currency_name ASC';
 		$this->_db->setQuery($query);
 
@@ -582,7 +581,6 @@ class configurationModelconfiguration extends JModel
 
 	public function cleardata()
 	{
-
 		$redirect = "";
 
 		$query = "SELECT id  FROM `#__redirection` WHERE `newurl` LIKE '%com_redshop%'";
@@ -716,6 +714,7 @@ class configurationModelconfiguration extends JModel
 			{
 				$content = str_replace('{redshop:' . $product_id . '}', "", $content);
 			}
+
 			if (strstr($content, '{Newsletter Products:' . $product_id . '}'))
 			{
 				$product_id = $product_id_list[$i]->product_id;
@@ -761,6 +760,7 @@ class configurationModelconfiguration extends JModel
 			$imagescur = array_combine($m[1], $m[2]);
 			$imagescurarray[] = $imagescur['src'];
 		}
+
 		$imagescurarray = array_unique($imagescurarray);
 
 		if ($imagescurarray)
@@ -846,7 +846,6 @@ class configurationModelconfiguration extends JModel
 				fwrite($fp, $filecontent);
 				fclose($fp);
 			}
-
 		}
 
 		$oldhtaccessfile_path = $row_product_download_root . DS . '.htaccess';

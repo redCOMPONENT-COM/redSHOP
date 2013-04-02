@@ -45,7 +45,6 @@ class mail_detailModelmail_detail extends JModel
 	{
 		if ($this->_loadData())
 		{
-
 		}
 
 		else
@@ -176,5 +175,3 @@ class mail_detailModelmail_detail extends JModel
 		return JHTML::_('select.genericlist', $merge, 'mail_order_status', 'class="inputbox" size="1" title="" ', 'value', 'text');
 	}
 }
-
-

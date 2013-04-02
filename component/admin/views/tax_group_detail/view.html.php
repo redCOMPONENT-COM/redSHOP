@@ -13,15 +13,16 @@ jimport('joomla.application.component.view');
 
 class tax_group_detailVIEWtax_group_detail extends JView
 {
+	/**
+	 * The request url.
+	 *
+	 * @var  string
+	 */
+	public $request_url;
+
 	public function display($tpl = null)
 	{
-		$db = jFactory::getDBO();
-
 		JToolBarHelper::title(JText::_('COM_REDSHOP_TAX_GROUP_MANAGEMENT_DETAIL'), 'redshop_vatgroup48');
-
-		$option = JRequest::getVar('option', '', 'request', 'string');
-
-		$document = JFactory::getDocument();
 
 		$uri = JFactory::getURI();
 
@@ -57,7 +58,7 @@ class tax_group_detailVIEWtax_group_detail extends JView
 
 		$this->assignRef('lists', $lists);
 		$this->assignRef('detail', $detail);
-		$this->assignRef('request_url', $uri->toString());
+		$this->request_url = $uri->toString();
 
 		parent::display($tpl);
 	}

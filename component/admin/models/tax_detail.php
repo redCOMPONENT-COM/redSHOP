@@ -50,7 +50,6 @@ class tax_detailModeltax_detail extends JModel
 	{
 		if ($this->_loadData())
 		{
-
 		}
 		else
 		{
@@ -64,7 +63,6 @@ class tax_detailModeltax_detail extends JModel
 	{
 		if (empty($this->_data))
 		{
-
 			$query = ' SELECT tr.*,tg.tax_group_name  '
 				. ' FROM ' . $this->_table_prefix . 'tax_rate as tr'
 				. ' LEFT JOIN ' . $this->_table_prefix . 'tax_group as tg ON tr.tax_group_id = tg.tax_group_id '

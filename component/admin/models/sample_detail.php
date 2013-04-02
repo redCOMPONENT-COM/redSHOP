@@ -88,12 +88,14 @@ class sample_detailModelsample_detail extends JModel
 
 			return false;
 		}
+
 		if (!$row->store())
 		{
 			$this->setError($this->_db->getErrorMsg());
 
 			return false;
 		}
+
 		else
 		{
 			$total_loop = count($data["colour_id"]);
