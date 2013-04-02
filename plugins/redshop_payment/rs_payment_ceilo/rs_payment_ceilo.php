@@ -177,10 +177,10 @@ class plgRedshop_paymentrs_payment_ceilo extends JPlugin
 		$StrPedido = $Pedido->ToString();
 		$_SESSION["pedidos"]->append($StrPedido);
 
-		// Resgata �ltimo pedido feito da SESSION
+		// Resgata último pedido feito da SESSION
 		$ultimoPedido = $_SESSION["pedidos"]->count();
 
-		$ultimoPedido -= 1;
+		$ultimoPedido--;
 
 		$Pedido->FromString($_SESSION["pedidos"]->offsetGet($ultimoPedido));
 
@@ -280,17 +280,16 @@ class plgRedshop_paymentrs_payment_ceilo extends JPlugin
 		$Pedido->status = $objResposta->status;
 
 		// Call function to post an order ------
+		$values = new stdClass;
 
 		if ($Pedido->status == 6)
 		{
-			$message = $message = $objResposta->captura->mensagem;
-			;
+			$message = $objResposta->captura->mensagem;
 			$values->responsestatus = 'Success';
 		}
 		else
 		{
-			$message = $message = $objResposta->captura->mensagem;
-			;
+			$message = $objResposta->captura->mensagem;
 			$values->responsestatus = 'Fail';
 		}
 
