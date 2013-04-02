@@ -16,6 +16,20 @@ require_once JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers
 class plgredshop_productattribute extends JPlugin
 {
 	/**
+	 * The plugin data
+	 *
+	 * @var  object
+	 */
+	private $_plugin = null;
+
+	/**
+	 * Plugin parameters
+	 *
+	 * @var  JRegistry
+	 */
+	private $_params = null;
+
+	/**
 	 * Constructor
 	 *
 	 * For php4 compatability we must not use the __constructor as a constructor for
