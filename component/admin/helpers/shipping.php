@@ -1856,8 +1856,8 @@ class shipping
 		$userhelper = new rsUserhelper();
 		$session = JFactory::getSession();
 		$cart = $session->get('cart', null);
-		$idx = ( int ) ($cart ['idx']);
-		$order_subtotal = $cart['product_subtotal'];
+		$idx = isset($cart ['idx']) ? ( int ) ($cart ['idx']) : null;
+		$order_subtotal = isset($cart['product_subtotal']) ? $cart['product_subtotal'] : null;
 		$order_functions = new order_functions();
 		$user = JFactory::getUser();
 		$user_id = $user->id;
