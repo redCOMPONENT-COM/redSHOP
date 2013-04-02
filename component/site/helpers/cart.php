@@ -2042,7 +2042,8 @@ class rsCarthelper
 		$subtotal_excl_vat = 0;
 		$shipping          = 0;
 		$discount          = 0;
-		$user_info_id = 0;
+		$user_info_id      = 0;
+		$total_discount    = 0;
 		$redArray     = array();
 
 		for ($i = 0; $i < $Idx; $i++)
