@@ -75,7 +75,7 @@ class state_detailVIEWstate_detail extends JView
 			// EDIT - check out the item
 			$model->checkout($user->get('id'));
 
-			JToolBarHelper::cancel('cancel', 'Close');
+			JToolBarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
 		}
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_state') . ': <small><small>[ ' . $text . ' ]</small></small>', 'redshop_region_48');

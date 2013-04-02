@@ -41,7 +41,7 @@ class stockroom_detailVIEWstockroom_detail extends JView
 			$lists['stockroom_id'] = JHTML::_('select.genericlist', $stockroom_name, 'stockroom_id', 'class="inputbox" size="1" ', 'value', 'text');
 
 			JToolBarHelper::title(JText::_('COM_REDSHOP_IMPORT_STOCK_FROM_ECONOMIC'), 'redshop_stockroom48');
-			JToolBarHelper::cancel('cancel', 'Close');
+			JToolBarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
 			$this->setLayout($layout);
 		}
 		else
@@ -68,7 +68,7 @@ class stockroom_detailVIEWstockroom_detail extends JView
 			}
 			else
 			{
-				JToolBarHelper::cancel('cancel', 'Close');
+				JToolBarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
 			}
 
 			// Get data from the model

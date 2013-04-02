@@ -51,7 +51,7 @@ class tax_group_detailVIEWtax_group_detail extends JView
 		}
 		else
 		{
-			JToolBarHelper::cancel('cancel', 'Close');
+			JToolBarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
 		}
 
 		$lists['published'] = JHTML::_('select.booleanlist', 'published', 'class="inputbox" size="1"', $detail->published);

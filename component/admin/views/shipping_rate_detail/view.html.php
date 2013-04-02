@@ -59,7 +59,7 @@ class shipping_rate_detailViewshipping_rate_detail extends JView
 		}
 		else
 		{
-			JToolBarHelper::cancel('cancel', 'Close');
+			JToolBarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
 		}
 
 		$q = "SELECT  country_3_code as value,country_name as text from #__" . TABLE_PREFIX . "_country ORDER BY country_name ASC";

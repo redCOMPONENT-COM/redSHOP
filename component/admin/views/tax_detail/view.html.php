@@ -45,7 +45,7 @@ class tax_detailVIEWtax_detail extends JView
 		}
 		else
 		{
-			JToolBarHelper::cancel('cancel', 'Close');
+			JToolBarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
 		}
 
 		$model = $this->getModel('tax_detail');
