@@ -9,14 +9,14 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.module.helper');
+JLoader::import('joomla.application.module.helper');
 
-global $mainframe;
+$app = JFactory::getApplication();
 JHTML::_('behavior.tooltip');
 $option = JRequest::getVar('option');
 
 $user = JFactory::getUser();
-$params = & $mainframe->getParams($option);
+$params = $app->getParams($option);
 
 $Itemid = JRequest::getInt('Itemid');
 

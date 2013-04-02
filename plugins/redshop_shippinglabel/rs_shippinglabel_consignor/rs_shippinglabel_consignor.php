@@ -1,21 +1,14 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license   GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- *            Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     RedSHOP
+ * @subpackage  Plugin
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-/** ensure this file is being included by a parent file */
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
+
 jimport('joomla.plugin.plugin');
 
 require_once JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php';
@@ -32,20 +25,19 @@ class plgRedshop_shippinglabelrs_shippinglabel_consignor extends JPlugin
 	 * NOT references.  This causes problems with cross-referencing necessary for the
 	 * observer design pattern.
 	 */
-	function plgRedshop_shippinglabelrs_shippinglabel_consignor(&$subject)
+	public function plgRedshop_shippinglabelrs_shippinglabel_consignor(&$subject)
 	{
-		// load plugin parameters
+		// Load plugin parameters
 		parent::__construct($subject);
 		$this->_table_prefix = '#__redshop_';
 		$this->_plugin = JPluginHelper::getPlugin('redshop_shippinglabel', 'redshop_shippinglabel_consignor');
 		$this->_params = new JRegistry($this->_plugin->params);
-
 	}
 
 	/*
 	 *  Plugin onNotifyPayment method with the same name as the event will be called automatically.
 	 */
-	function onChangeStatusToShipped($order_id, $order_status, $paymentstatus)
+	public function onChangeStatusToShipped($order_id, $order_status, $paymentstatus)
 	{
 		if ($order_status == "S" && $paymentstatus == "Paid")
 		{
@@ -84,7 +76,6 @@ class plgRedshop_shippinglabelrs_shippinglabel_consignor extends JPlugin
 
 				$Gls_phone = explode("###", $order_details->shop_id);
 				$Gls_phone = $Gls_phone[1];
-
 			}
 			else
 			{
@@ -149,7 +140,6 @@ class plgRedshop_shippinglabelrs_shippinglabel_consignor extends JPlugin
 			$db->setQuery($sql);
 			$weight = $db->loadResult();
 			$totalWeight += ($weight * $orderproducts [$c]->product_quantity);
-
 		}
 
 		$content_products = array_unique($content_products);
@@ -198,7 +188,6 @@ class plgRedshop_shippinglabelrs_shippinglabel_consignor extends JPlugin
 		if ($login)
 		{
 			$upload = ftp_put($ftpstream, $path_for_sharing_folder . $slash . $myFile, $label_file, FTP_ASCII);
-
 		}
 
 		//Close FTP connection

@@ -33,13 +33,13 @@ class exportModelexport extends JModel
 
 	public function getData()
 	{
-		global $mainframe;
+		$app = JFactory::getApplication();
 
 		$exportname = JRequest::getVar('export');
 
 		if (!$exportname)
 		{
-			$mainframe->Redirect("index.php?option=com_redshop&view=export", JText::_("COM_REDSHOP_PLEASE_SELECT_SECTION"));
+			$app->Redirect("index.php?option=com_redshop&view=export", JText::_("COM_REDSHOP_PLEASE_SELECT_SECTION"));
 		}
 
 		/* Set the export filename */

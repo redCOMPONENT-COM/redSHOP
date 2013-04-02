@@ -13,6 +13,13 @@ jimport('joomla.application.component.view');
 
 class newslettersubscr_detailVIEWnewslettersubscr_detail extends JView
 {
+	/**
+	 * The request url.
+	 *
+	 * @var  string
+	 */
+	public $request_url;
+
 	public function display($tpl = null)
 	{
 		$option = JRequest::getVar('option');
@@ -21,19 +28,19 @@ class newslettersubscr_detailVIEWnewslettersubscr_detail extends JView
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_NEWSLETTER_SUBSCR__MANAGEMENT_DETAIL'), 'redshop_newsletter48');
 
-		$document = & JFactory::getDocument();
+		$document = JFactory::getDocument();
 
 		$document->addScript('components/' . $option . '/assets/js/select_sort.js');
 		$document->addStyleSheet('components/' . $option . '/assets/css/search.css');
 		$document->addScript('components/' . $option . '/assets/js/search.js');
 
-		$uri =& JFactory::getURI();
+		$uri = JFactory::getURI();
 
 		$this->setLayout('default');
 
 		$lists = array();
 
-		$detail =& $this->get('data');
+		$detail = $this->get('data');
 
 		$isNew = ($detail->subscription_id < 1);
 
@@ -62,7 +69,7 @@ class newslettersubscr_detailVIEWnewslettersubscr_detail extends JView
 
 		$this->assignRef('lists', $lists);
 		$this->assignRef('detail', $detail);
-		$this->assignRef('request_url', $uri->toString());
+		$this->request_url = $uri->toString();
 
 		parent::display($tpl);
 	}

@@ -15,14 +15,12 @@ class searchViewsearch extends JView
 {
 	public function display($tpl = null)
 	{
-		global $mainframe;
-
-		$doc = & JFactory::getDocument();
+		$doc = JFactory::getDocument();
 
 		$doc->addStyleSheet('components/com_redshop/assets/css/search.css');
 		$doc->addScript('components/com_redshop/assets/js/search.js');
 
-		$search_detail =& $this->get('data');
+		$search_detail = $this->get('data');
 
 		$this->assignRef('detail', $search_detail);
 

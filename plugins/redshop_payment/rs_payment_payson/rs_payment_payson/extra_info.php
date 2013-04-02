@@ -45,7 +45,6 @@ if ($cost_dotsep < 10)
 {
 	echo "The purchase amount must be greater than 10 sec at betalningmed Payson";
 	exit ();
-
 }
 
 if ($testMode == '1')

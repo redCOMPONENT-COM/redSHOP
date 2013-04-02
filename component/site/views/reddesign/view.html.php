@@ -9,41 +9,39 @@
 
 defined('_JEXEC') or die;
 
-require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'helper.php';
+require_once JPATH_COMPONENT . '/helpers/helper.php';
 
-jimport('joomla.application.component.view');
+JLoader::import('joomla.application.component.view');
 
 class reddesignViewreddesign extends JView
 {
 	public function display($tpl = null)
 	{
-		global $mainframe;
+		$app = JFactory::getApplication();
 		$document = JFactory::getDocument();
 		JHTML::Script('jquery.js', 'components/com_reddesign/assets/js/', false);
 		JHTML::Script('ui.js', 'components/com_reddesign/assets/js/', false);
 		$document->addCustomTag('<script type="text/javascript">jQuery.noConflict();</script>');
 
 		// Css files
-		$cssfile = "components" . DS . "com_reddesign" . DS . "assets" . DS . "css" . DS . "style.css";
+		$cssfile = "components/com_reddesign/assets/css/style.css";
 
 		$html = "<link href=\"$cssfile\" rel=\"stylesheet\" type=\"text/css\" />";
-		$mainframe->addCustomHeadTag($html);
+		$app->addCustomHeadTag($html);
 
 		$option = JRequest::getVar('option', 'com_redshop');
 		$Itemid = JRequest::getVar('Itemid');
-
-		// $product_id = JRequest :: getVar('productid');
 
 		// Redshop product detail
 		$pid = JRequest::getInt('pid');
 		$cid = JRequest::getInt('cid');
 
-		require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'helper.php';
+		require_once JPATH_COMPONENT . '/helpers/helper.php';
 		$redhelper = new redhelper;
 
 		$chkprodesign = $redhelper->CheckIfRedProduct($pid);
 
-		$model =& $this->getModel("reddesign");
+		$model = $this->getModel("reddesign");
 
 		$product_detail = $model->getProductDetail($pid);
 		$product_design = $model->getProductDesign($pid);

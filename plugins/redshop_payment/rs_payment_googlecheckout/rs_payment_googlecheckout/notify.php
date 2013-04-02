@@ -1,17 +1,10 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license   GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- *            Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     RedSHOP
+ * @subpackage  Plugin
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 $my_path = dirname(__FILE__);
@@ -50,17 +43,17 @@ require_once $absolute_path . DS . 'includes' . DS . 'defines.php';
 require_once $absolute_path . DS . 'includes' . DS . 'framework.php';
 
 // create the mainframe object
-$mainframe = & JFactory::getApplication('site');
+$app = JFactory::getApplication();
 
 // Initialize the framework
-$mainframe->initialise();
+$app->initialise();
 
 // load system plugin group
 JPluginHelper::importPlugin('system');
 
 // trigger the onBeforeStart events
-$mainframe->triggerEvent('onBeforeStart');
-$lang = & JFactory::getLanguage();
+$app->triggerEvent('onBeforeStart');
+$lang = JFactory::getLanguage();
 $mosConfig_lang = $GLOBALS ['mosConfig_lang'] = strtolower($lang->getBackwardLang());
 // Adjust the live site path
 
@@ -133,14 +126,13 @@ switch ($_REQUEST ['_type'])
 // google giving redSHOP order id for the first time
 // we need it back from transaction id
 
-$db =& JFactory::getDBO();
+$db = JFactory::getDBO();
 
 if (!isset ($order_id))
 {
 	$query = "SELECT order_id FROM #__redshop_order_payment WHERE order_payment_trans_id = '" . $google_order_id . "'";
 	$db->SetQuery($query);
 	$order_id = $db->loadResult();
-
 }
 
 // make status change array

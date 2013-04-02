@@ -17,9 +17,18 @@ require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'product.php');
 
 class product_detailVIEWproduct_detail extends JView
 {
+	/**
+	 * The request url.
+	 *
+	 * @var  string
+	 */
+	public $request_url;
+
+	public $productSerialDetail;
+
 	public function display($tpl = null)
 	{
-		global $mainframe;
+		$app = JFactory::getApplication();
 
 		$redTemplate = new Redtemplate;
 		$redhelper = new redhelper;
@@ -32,14 +41,24 @@ class product_detailVIEWproduct_detail extends JView
 		$lists = array();
 
 		$model = $this->getModel('product_detail');
-		$detail =& $this->get('data');
-		$user =& JFactory::getUser();
+		$detail = $this->get('data');
+
+		$isNew = ($detail->product_id < 1);
+
+		// Load new product default values
+		if ($isNew)
+		{
+			$detail->append_to_global_seo = '';
+			$detail->canonical_url        = '';
+		}
+
+		$user = JFactory::getUser();
 
 		// Fail if checked out not by 'me'
 		if ($model->isCheckedOut($user->get('id')))
 		{
 			$msg = JText::sprintf('DESCBEINGEDITTED', JText::_('COM_REDSHOP_THE_DETAIL'), $detail->title);
-			$mainframe->redirect('index.php?option=' . $option, $msg);
+			$app->redirect('index.php?option=' . $option, $msg);
 		}
 
 		// Check reddesign is installed
@@ -231,25 +250,28 @@ class product_detailVIEWproduct_detail extends JView
 
 		// Merging select option in the select box
 		$temps = array();
+		$temps[0] = new stdClass;
 		$temps[0]->template_id = "0";
 		$temps[0]->template_name = JText::_('COM_REDSHOP_SELECT');
 		$templates = @array_merge($temps, $templates);
 
 		// Merging select option in the select box
 		$supps = array();
+		$supps[0] = new stdClass;
 		$supps[0]->value = "0";
 		$supps[0]->text = JText::_('COM_REDSHOP_SELECT');
 		$manufacturers = @array_merge($supps, $manufacturers);
 
 		// Merging select option in the select box
 		$supps = array();
+		$supps[0] = new stdClass;
 		$supps[0]->value = "0";
 		$supps[0]->text = JText::_('COM_REDSHOP_SELECT');
 		$supplier = @array_merge($supps, $supplier);
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_PRODUCT_MANAGEMENT_DETAIL'), 'redshop_products48');
 
-		$document = & JFactory::getDocument();
+		$document = JFactory::getDocument();
 
 		$document->addScriptDeclaration("
 
@@ -262,11 +284,15 @@ class product_detailVIEWproduct_detail extends JView
 		$document->addScript('components/' . $option . '/assets/js/json.js');
 		$document->addScript('components/' . $option . '/assets/js/validation.js');
 		$document->addStyleSheet('components/com_redshop/assets/css/search.css');
-		$document->addStyleSheet('components/com_redproductfinder/helpers/redproductfinder.css');
+
+		if (file_exists(JPATH_SITE . '/components/com_redproductfinder/helpers/redproductfinder.css'))
+		{
+			$document->addStyleSheet('components/com_redproductfinder/helpers/redproductfinder.css');
+		}
 		$document->addScript('components/com_redshop/assets/js/search.js');
 		$document->addScript('components/com_redshop/assets/js/related.js');
 
-		$uri =& JFactory::getURI();
+		$uri = JFactory::getURI();
 
 		$layout = JRequest::getVar('layout');
 
@@ -286,8 +312,6 @@ class product_detailVIEWproduct_detail extends JView
 		{
 			$this->setLayout('default');
 		}
-
-		$isNew = ($detail->product_id < 1);
 
 		$text = $isNew ? JText::_('COM_REDSHOP_NEW') : $detail->product_name . " - " . JText::_('COM_REDSHOP_EDIT');
 
@@ -375,6 +399,7 @@ class product_detailVIEWproduct_detail extends JView
 
 		$product_tax = $model->gettax();
 		$temps = array();
+		$temps[0] = new stdClass;
 		$temps[0]->value = "0";
 		$temps[0]->text = JText::_('COM_REDSHOP_SELECT');
 		$product_tax = @array_merge($temps, $product_tax);
@@ -385,7 +410,7 @@ class product_detailVIEWproduct_detail extends JView
 
 		$categories = $product_category->list_all("product_category[]", 0, $productcats, 10, true, true);
 		$lists['categories'] = $categories;
-		$detail->first_selected_category_id = $productcats[0];
+		$detail->first_selected_category_id = isset($productcats[0]) ? $productcats[0] : null;
 
 		$lists['manufacturers'] = JHTML::_('select.genericlist', $manufacturers, 'manufacturer_id',
 			'class="inputbox" size="1" ', 'value', 'text', $detail->manufacturer_id
@@ -441,6 +466,7 @@ class product_detailVIEWproduct_detail extends JView
 
 		$productVatGroup = $model->getVatGroup();
 		$temps = array();
+		$temps[0] = new stdClass;
 		$temps[0]->value = "";
 		$temps[0]->text = JText::_('COM_REDSHOP_SELECT');
 		$productVatGroup = @array_merge($temps, $productVatGroup);
@@ -475,6 +501,7 @@ class product_detailVIEWproduct_detail extends JView
 		$lists['attributes'] = $attributes;
 
 		$temps = array();
+		$temps[0] = new stdClass;
 		$temps[0]->value = "";
 		$temps[0]->text = JText::_('COM_REDSHOP_SELECT');
 
@@ -550,9 +577,9 @@ class product_detailVIEWproduct_detail extends JView
 		$this->assignRef('model', $model);
 		$this->assignRef('lists', $lists);
 		$this->assignRef('detail', $detail);
-		$this->assignRef('productSerialDetail', $productSerialDetail);
+		$this->productSerialDetail = $productSerialDetail;
 		$this->assignRef('next_product', $next_product);
-		$this->assignRef('request_url', $uri->toString());
+		$this->request_url = $uri->toString();
 
 		parent::display($tpl);
 	}

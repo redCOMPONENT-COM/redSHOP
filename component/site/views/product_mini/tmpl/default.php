@@ -9,7 +9,6 @@
 
 $option = JRequest::getVar('option', '', 'request', 'string');
 
-
 $eName = JRequest::getVar('e_name');
 $eName = preg_replace('#[^A-Z0-9\-\_\[\]]#i', '', $eName);
 ?>
@@ -19,11 +18,9 @@ $eName = preg_replace('#[^A-Z0-9\-\_\[\]]#i', '', $eName);
 		submitbutton(pressbutton);
 	}
 	submitbutton = function (pressbutton) {
-
 		var form = document.adminForm;
 
 		if (pressbutton) {
-
 			form.task.value = pressbutton;
 
 		}
@@ -31,9 +28,7 @@ $eName = preg_replace('#[^A-Z0-9\-\_\[\]]#i', '', $eName);
 		form.submit();
 	}
 
-
 	function insertProduct(pid) {
-
 		//	var alt = document.getElementById("alt").value;
 
 		var tag = "{redshop:" + pid + "}";
@@ -43,7 +38,6 @@ $eName = preg_replace('#[^A-Z0-9\-\_\[\]]#i', '', $eName);
 		return false;
 	}
 </script>
-
 
 <form action="index.php?option=com_redshop&amp;view=product_mini&amp;tmpl=component&amp;e_name=<?php echo $eName; ?>"
       method="post" name="adminForm">
@@ -100,7 +94,7 @@ $eName = preg_replace('#[^A-Z0-9\-\_\[\]]#i', '', $eName);
 
 			for ($i = 0, $n = count($this->products); $i < $n; $i++)
 			{
-				$row     = & $this->products[$i];
+				$row     = $this->products[$i];
 				$row->id = $row->product_id;
 				$link    = JRoute::_('index.php?option=' . $option . '&view=product_detail&task=edit&cid[]=' . $row->product_id);
 

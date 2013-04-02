@@ -16,12 +16,19 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php');
 
 class addquotation_detailVIEWaddquotation_detail extends JView
 {
+	/**
+	 * The request url.
+	 *
+	 * @var  string
+	 */
+	public $request_url;
+
 	public function display($tpl = null)
 	{
 		$option = JRequest::getVar('option');
 		$extra_field = new extra_field;
 		$order_functions = new order_functions;
-		$document = & JFactory::getDocument();
+		$document = JFactory::getDocument();
 		$document->setTitle(JText::_('COM_REDSHOP_QUOTATION_MANAGEMENT'));
 
 		$document->addScript('components/' . $option . '/assets/js/json.js');
@@ -31,13 +38,13 @@ class addquotation_detailVIEWaddquotation_detail extends JView
 		$document->addScript('components/' . $option . '/assets/js/select_sort.js');
 		$document->addStyleSheet('components/' . $option . '/assets/css/search.css');
 		$document->addScript('components/' . $option . '/assets/js/search.js');
-		$session =& JFactory::getSession();
-		$uri =& JFactory::getURI();
+		$session = JFactory::getSession();
+		$uri = JFactory::getURI();
 
 		$lists = array();
 		$billing = array();
 		$model = $this->getModel();
-		$detail =& $this->get('data');
+		$detail = $this->get('Data');
 		$Redconfiguration = new Redconfiguration;
 
 		$user_id = JRequest::getVar('user_id', 0);
@@ -55,6 +62,8 @@ class addquotation_detailVIEWaddquotation_detail extends JView
 
 		$session->set('offlineuser_id', $user_id);
 
+		$userop = array();
+		$userop[0] = new stdClass;
 		$userop[0]->user_id = 0;
 		$userop[0]->text = JText::_('COM_REDSHOP_SELECT');
 		$userlists = $model->getUserData(0, "BT");
@@ -86,7 +95,7 @@ class addquotation_detailVIEWaddquotation_detail extends JView
 		$this->assignRef('detail', $detail);
 		$this->assignRef('billing', $billing);
 		$this->assignRef('userlist', $userlists);
-		$this->assignRef('request_url', $uri->toString());
+		$this->request_url = $uri->toString();
 
 		parent::display($tpl);
 	}

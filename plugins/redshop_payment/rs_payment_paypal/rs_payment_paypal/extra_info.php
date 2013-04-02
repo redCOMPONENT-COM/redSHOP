@@ -28,7 +28,7 @@ $db = JFactory::getDBO();
 $user = JFActory::getUser();
 $task = JRequest::getVar('task');
 $layout = JRequest::getVar('layout');
-$mainframe =& JFactory::getApplication();
+$app = JFactory::getApplication();
 
 if ($this->_params->get("currency") != "")
 {
@@ -118,7 +118,6 @@ if ($this->_params->get("payment_oprand") == '-')
 {
 	$discount_payment_price = $payment_price;
 	$post_variables['discount_amount_cart'] += round($currencyClass->convert($order_details[0]->payment_discount, '', $currency_main), 2);
-
 }
 else
 {
@@ -153,7 +152,6 @@ for ($i = 0; $i < count($items); $i++)
 	$shipping2 = $item->product_quantity * $shipping;
 	// $supp_var['shipping_' . ($i+1)] = round($shipping2 ,2);
 	$supp_var['shipping_' . ($i + 1)] = round($currencyClass->convert($shipping2, '', $currency_main), 2);
-
 }
 
 echo "<form action='$paypalurl' method='post' name='paypalfrm' id='paypalfrm'>";

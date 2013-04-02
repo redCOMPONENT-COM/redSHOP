@@ -20,17 +20,17 @@ class order_detailVIEWorder_detail extends JView
 	public function display($tpl = null)
 	{
 		$option = JRequest::getVar('option');
-		$document = & JFactory::getDocument();
+		$document = JFactory::getDocument();
 		$document->setTitle(JText::_('COM_REDSHOP_ORDER'));
 		$order_functions = new order_functions;
 		$redhelper = new redhelper;
 
-		$uri =& JFactory::getURI();
+		$uri = JFactory::getURI();
 
 		// Load language file
 		$payment_lang_list = $redhelper->getPlugins("redshop_payment");
 
-		$language =& JFactory::getLanguage();
+		$language = JFactory::getLanguage();
 		$base_dir = JPATH_ADMINISTRATOR;
 		$language_tag = $language->getTag();
 
@@ -53,7 +53,7 @@ class order_detailVIEWorder_detail extends JView
 
 		$model = $this->getModel();
 
-		$detail =& $this->get('data');
+		$detail = $this->get('data');
 
 		$billing = $order_functions->getOrderBillingUserInfo($detail->order_id);
 		$shipping = $order_functions->getOrderShippingUserInfo($detail->order_id);

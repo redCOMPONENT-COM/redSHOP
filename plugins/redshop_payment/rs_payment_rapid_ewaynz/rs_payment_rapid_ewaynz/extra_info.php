@@ -17,9 +17,9 @@
 $uri =& JURI::getInstance();
 $url = $uri->root();
 $user = JFactory::getUser();
-$mainframe = JFactory::getApplication();
+$app = JFactory::getApplication();
 
-$session =& JFactory::getSession();
+$session = JFactory::getSession();
 $redirect_ccdata = $session->get('redirect_ccdata');
 
 $eWAYcustomer_id = $this->_params->get("customer_id");
@@ -88,7 +88,7 @@ catch (Exception $e)
 </form>
 <script type='text/javascript'>document.ewayfrm.submit();</script>
 
-	
+
 
 
 

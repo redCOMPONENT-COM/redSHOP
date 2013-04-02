@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die ('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 jimport('joomla.filesystem.file');
@@ -17,13 +17,13 @@ require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php');
 
 class product_detailController extends JController
 {
-	function __construct($default = array())
+	public function __construct($default = array())
 	{
 		parent::__construct($default);
 		$this->registerTask('add', 'edit');
 	}
 
-	function edit()
+	public function edit()
 	{
 		JRequest::setVar('view', 'product_detail');
 		JRequest::setVar('layout', 'default');
@@ -32,19 +32,18 @@ class product_detailController extends JController
 		parent::display();
 	}
 
-	function save2new()
+	public function save2new()
 	{
 		$this->save(2);
 	}
 
-	function apply()
+	public function apply()
 	{
 		$this->save(1);
 	}
 
-	function save($apply = 0)
+	public function save($apply = 0)
 	{
-
 		$post = JRequest::get('post');
 
 		$option = JRequest::getVar('option');
@@ -61,9 +60,14 @@ class product_detailController extends JController
 		{
 			$post ['publish_date'] = date("Y-m-d H:i:s");
 		}
+
 		$post ['discount_stratdate'] = strtotime($post ['discount_stratdate']);
+
 		if ($post ['discount_enddate'])
+		{
 			$post ['discount_enddate'] = strtotime($post ['discount_enddate']) + (23 * 59 * 59);
+		}
+
 		$post ['product_availability_date'] = strtotime($post ['product_availability_date']);
 
 		$post["product_s_desc"] = JRequest::getVar('product_s_desc', '', 'post', 'string', JREQUEST_ALLOWRAW);
@@ -73,68 +77,43 @@ class product_detailController extends JController
 		$post["product_parent_id"] = trim($post["parent"]) == "" ? 0 : $post["product_parent_id"];
 
 		$container_id = JRequest::getVar('container_id', '', 'request', 'string');
-		if (USE_CONTAINER == 1)
-			$stockroom_id = JRequest::getVar('stockroom_id', '', 'request', 'string');
-		////////// include extra field class  /////////////////////////////////////
-		require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php');
-		////////// include extra field class  /////////////////////////////////////
 
+		if (USE_CONTAINER == 1)
+		{
+			$stockroom_id = JRequest::getVar('stockroom_id', '', 'request', 'string');
+		}
+
+		require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php');
 
 		$model = $this->getModel('product_detail');
 
 		if ($row = $model->store($post))
 		{
-
-			// save Association
+			// Save Association
 			$model->SaveAssociations($row->product_id, $post);
 
-			// save stockroom product relation
-			//$model->SaveStockroom($row->product_id,$post);
-
-			#Add product to economic
+			// Add product to economic
 			if (ECONOMIC_INTEGRATION == 1)
 			{
-				$economic = new economic();
+				$economic = new economic;
 				$ecoProductNumber = $economic->createProductInEconomic($row);
 			}
 
-			/// Extra Field Data Saved ////////////////////////
+			$field = new extra_field;
 
-			$field = new extra_field();
+			// Field_section 1 :Product
+			$list_field = $field->extra_field_save($post, 1, $row->product_id);
 
-			$list_field = $field->extra_field_save($post, 1, $row->product_id); /// field_section 1 :Product
-			$list_field = $field->extra_field_save($post, 12, $row->product_id); /// field_section 12 :Product Userfield
-			$list_field = $field->extra_field_save($post, 17, $row->product_id); /// field_section 12 :Productfinder datepicker
+			// Field_section 12 :Product Userfield
+			$list_field = $field->extra_field_save($post, 12, $row->product_id);
+
+			// Field_section 12 :Productfinder datepicker
+			$list_field = $field->extra_field_save($post, 17, $row->product_id);
 			$file = JRequest::getVar('image', 'array', 'files', 'array');
 
-			/*$newpost = array();
-			if (isset($post['attribute_id'])){
-				$newpost['attribute_id'] = $post['attribute_id'];
-				$newpost['title'] = $post['title'];
-			}*/
-
-			/*if(isset($post['copy_attribute']))
-			{
-				if($post['copy_attribute']<=0 ){
-
-					if (count($newpost)>0)
-						$this->attribute_save($newpost,$row,$file);
-					else
-						$model->attribute_empty();
-						//$row->attribute_set_id = 0;
-				}
-			}*/
 			$this->attribute_save($post, $row, $file);
 
-
-			//-------------- Related Product Insert -------------------------
-
-			//product_detailController::accessory_save($post,$row);
-
-			//-------------- End Related Product Insert ---------------------
-
-
-			/// Extra Field Data Saved ////////////////////////
+			// Extra Field Data Saved
 			$msg = JText::_('COM_REDSHOP_PRODUCT_DETAIL_SAVED');
 
 			if ($container_id != '' || $stockroom_id != '')
@@ -143,10 +122,14 @@ class product_detailController extends JController
             <script language="javascript" type="text/javascript">
 					<?php
 					if ($container_id)
+					{
 						$link = 'index.php?option=' . $option . '&view=container_detail&task=edit&cid[]=' . $container_id;
+					}
 
 					if ($stockroom_id && USE_CONTAINER == 1)
+					{
 						$link = 'index.php?option=' . $option . '&view=stockroom_detail&task=edit&cid[]=' . $stockroom_id;
+					}
 					?>
                 window.parent.document.location = '<?php echo $link; ?>';
             </script>
@@ -158,7 +141,8 @@ class product_detailController extends JController
 			{
 				$this->setRedirect('index.php?option=' . $option . '&view=product_detail&task=add', $msg);
 			}
-			else if ($apply == 1)
+
+			elseif ($apply == 1)
 			{
 				$this->setRedirect('index.php?option=' . $option . '&view=product_detail&task=edit&cid[]=' . $row->product_id, $msg);
 			}
@@ -166,11 +150,9 @@ class product_detailController extends JController
 			{
 				$this->setRedirect('index.php?option=' . $option . '&view=product', $msg);
 			}
-
 		}
 		else
 		{
-
 			$row->product_id = $post ['product_id'];
 			$msg = JText::_('COM_REDSHOP_PRODUCT_NUMBER_ALREADY_EXISTS');
 			$msg = $model->getError();
@@ -185,9 +167,8 @@ class product_detailController extends JController
 		}
 	}
 
-	function remove()
+	public function remove()
 	{
-
 		$option = JRequest::getVar('option');
 
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
@@ -204,16 +185,18 @@ class product_detailController extends JController
 		if (!$model->delete($cid))
 		{
 			$msg = "";
+
 			if ($model->getError() != "")
+			{
 				JError::raiseWarning(500, $model->getError());
+			}
 		}
 
 		$this->setRedirect('index.php?option=' . $option . '&view=product', $msg);
 	}
 
-	function publish()
+	public function publish()
 	{
-
 		$option = JRequest::getVar('option');
 
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
@@ -224,17 +207,18 @@ class product_detailController extends JController
 		}
 
 		$model = $this->getModel('product_detail');
+
 		if (!$model->publish($cid, 1))
 		{
 			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
 		}
+
 		$msg = JText::_('COM_REDSHOP_PRODUCT_DETAIL_PUBLISHED_SUCCESSFULLY');
 		$this->setRedirect('index.php?option=' . $option . '&view=product', $msg);
 	}
 
-	function unpublish()
+	public function unpublish()
 	{
-
 		$option = JRequest::getVar('option');
 
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
@@ -245,17 +229,18 @@ class product_detailController extends JController
 		}
 
 		$model = $this->getModel('product_detail');
+
 		if (!$model->publish($cid, 0))
 		{
 			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
 		}
+
 		$msg = JText::_('COM_REDSHOP_PRODUCT_DETAIL_UNPUBLISHED_SUCCESSFULLY');
 		$this->setRedirect('index.php?option=' . $option . '&view=product', $msg);
 	}
 
-	function cancel()
+	public function cancel()
 	{
-
 		$option = JRequest::getVar('option');
 		$model = $this->getModel('product_detail');
 		$model->checkin();
@@ -263,9 +248,8 @@ class product_detailController extends JController
 		$this->setRedirect('index.php?option=' . $option . '&view=product', $msg);
 	}
 
-	function copy()
+	public function copy()
 	{
-
 		$option = JRequest::getVar('option');
 
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
@@ -274,20 +258,17 @@ class product_detailController extends JController
 
 		if ($model->copy($cid))
 		{
-
 			$msg = JText::_('COM_REDSHOP_PRODUCT_COPIED');
-
 		}
 		else
 		{
-
 			$msg = JText::_('COM_REDSHOP_ERROR_PRODUCT_COPIED');
 		}
 
 		$this->setRedirect('index.php?option=' . $option . '&view=product', $msg);
 	}
 
-	function attribute_save($post, $row, $file)
+	public function attribute_save($post, $row, $file)
 	{
 		if (ECONOMIC_INTEGRATION == 1 && ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC != 0)
 		{
@@ -296,8 +277,8 @@ class product_detailController extends JController
 
 		$model = $this->getModel('product_detail');
 		$option = JRequest::getVar('option');
-		$thumb = new thumbnail();
-		$obj_img = new thumbnail_images();
+		$thumb = new thumbnail;
+		$obj_img = new thumbnail_images;
 		$n_width = 50;
 		$n_height = 50;
 
@@ -309,36 +290,36 @@ class product_detailController extends JController
 		{
 			return;
 		}
+
 		$attribute = array_merge(array(), $post['attribute']);
 
 		$files = JRequest::get('files');
 
 		for ($a = 0; $a < count($attribute); $a++)
 		{
-
 			$attribute_save['attribute_id'] = $attribute[$a]['id'];
 			$tmpordering = ($attribute[$a]['tmpordering']) ? $attribute[$a]['tmpordering'] : $a;
 			$attribute_save['product_id'] = $row->product_id;
-			$attribute_save['attribute_name'] = urldecode($attribute[$a]['name']); // encode url for allow special char
+			$attribute_save['attribute_name'] = urldecode($attribute[$a]['name']);
 			$attribute_save['ordering'] = $attribute[$a]['ordering'];
 			$attribute_save['attribute_published'] = ($attribute[$a]['published'] == 'on' || $attribute[$a]['published'] == '1') ? '1' : '0';
 			$attribute_save['attribute_required'] = ($attribute[$a]['required'] == 'on' || $attribute[$a]['required'] == '1') ? '1' : '0';
-			$attribute_save['allow_multiple_selection'] = ($attribute[$a]['allow_multiple_selection'] == 'on' || $attribute[$a]['allow_multiple_selection'] == '1') ? '1' : '0';
-			$attribute_save['hide_attribute_price'] = ($attribute[$a]['hide_attribute_price'] == 'on' || $attribute[$a]['hide_attribute_price'] == '1') ? '1' : '0';
+			$attribute_save['allow_multiple_selection'] = ($attribute[$a]['allow_multiple_selection'] == 'on'
+				|| $attribute[$a]['allow_multiple_selection'] == '1') ? '1' : '0';
+			$attribute_save['hide_attribute_price'] = ($attribute[$a]['hide_attribute_price'] == 'on'
+				|| $attribute[$a]['hide_attribute_price'] == '1') ? '1' : '0';
 			$attribute_save['display_type'] = $attribute[$a]['display_type'];
 			$attribute_array = $model->store_attr($attribute_save);
 			$property = array_merge(array(), $attribute[$a]['property']);
 
-
 			$propertyImage = array_keys($attribute[$a]['property']);
 			$tmpproptyimagename = array_merge(array(), $propertyImage);
-//			print_r($tmpproptyimagename);
 
 			for ($p = 0; $p < count($property); $p++)
 			{
 				$property_save['property_id'] = $property[$p]['property_id'];
 				$property_save['attribute_id'] = $attribute_array->attribute_id;
-				$property_save['property_name'] = urldecode($property[$p]['name']); // encode url for allow special char
+				$property_save['property_name'] = urldecode($property[$p]['name']);
 				$property_save['property_price'] = $property[$p]['price'];
 				$property_save['oprand'] = $property[$p]['oprand'];
 				$property_save['property_number'] = $property[$p]['number'];
@@ -352,6 +333,7 @@ class product_detailController extends JController
 				$property_array = $model->store_pro($property_save);
 				$property_id = $property_array->property_id;
 				$property_image = $files['attribute_' . $tmpordering . '_property_' . $tmpproptyimagename[$p] . '_image'];
+
 				if (empty($property[$p]['mainImage']))
 				{
 					if (!empty($property_image['name']))
@@ -362,6 +344,7 @@ class product_detailController extends JController
 						$this->DeleteMergeImages();
 					}
 				}
+
 				if (!empty($property[$p]['mainImage']))
 				{
 					$property_save['property_image'] = $model->copy_image_from_path($property[$p]['mainImage'], 'product_attributes', $property_id);
@@ -369,6 +352,7 @@ class product_detailController extends JController
 					$property_array = $model->store_pro($property_save);
 					$this->DeleteMergeImages();
 				}
+
 				if (empty($property[$p]['property_id']))
 				{
 					$listImages = $model->GetimageInfo($property_id, 'property');
@@ -386,10 +370,12 @@ class product_detailController extends JController
 						$model->copyadditionalImage($mImages);
 					}
 				}
+
 				if (ECONOMIC_INTEGRATION == 1 && ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC != 0)
 				{
 					$ecoProductNumber = $economic->createPropertyInEconomic($row, $property_array);
 				}
+
 				$subproperty = array_merge(array(), $property[$p]['subproperty']);
 				$subproperty_title = $property[$p]['subproperty']['title'];
 				$subpropertyImage = array_keys($property[$p]['subproperty']);
@@ -407,11 +393,14 @@ class product_detailController extends JController
 					$subproperty_save['subattribute_id'] = $property_id;
 					$subproperty_save['ordering'] = $subproperty[$sp]['order'];
 					$subproperty_save['subattribute_color_number'] = $subproperty[$sp]['number'];
-					$subproperty_save['setdefault_selected'] = ($subproperty[$sp]['chk_propdselected'] == 'on' || $subproperty[$sp]['chk_propdselected'] == '1') ? '1' : '0';
-					$subproperty_save['subattribute_published'] = ($subproperty[$sp]['published'] == 'on' || $subproperty[$sp]['published'] == '1') ? '1' : '0';
+					$subproperty_save['setdefault_selected'] = ($subproperty[$sp]['chk_propdselected'] == 'on'
+						|| $subproperty[$sp]['chk_propdselected'] == '1') ? '1' : '0';
+					$subproperty_save['subattribute_published'] = ($subproperty[$sp]['published'] == 'on'
+						|| $subproperty[$sp]['published'] == '1') ? '1' : '0';
 					$subproperty_array = $model->store_sub($subproperty_save);
 					$subproperty_image = $files['attribute_' . $tmpordering . '_property_' . $p . '_subproperty_' . $tmpimagename[$sp] . '_image'];
 					$subproperty_id = $subproperty_array->subattribute_color_id;
+
 					if (empty($subproperty[$sp]['mainImage']))
 					{
 						if (!empty($subproperty_image['name']))
@@ -422,6 +411,7 @@ class product_detailController extends JController
 							$this->DeleteMergeImages();
 						}
 					}
+
 					if (!empty($subproperty[$sp]['mainImage']))
 					{
 						$subproperty_save['subattribute_color_image'] = $model->copy_image_from_path($subproperty[$sp]['mainImage'], 'subcolor', $subproperty_id);
@@ -429,6 +419,7 @@ class product_detailController extends JController
 						$subproperty_array = $model->store_sub($subproperty_save);
 						$this->DeleteMergeImages();
 					}
+
 					if (empty($subproperty[$sp]['subproperty_id']))
 					{
 						$listsubpropImages = $model->GetimageInfo($subproperty_id, 'subproperty');
@@ -456,11 +447,9 @@ class product_detailController extends JController
 		}
 
 		return;
-		//return true;
-
 	}
 
-	function _imageResize($width, $height, $target)
+	public function _imageResize($width, $height, $target)
 	{
 		if ($width > $height)
 		{
@@ -478,6 +467,7 @@ class product_detailController extends JController
 		{
 			$width = 50;
 		}
+
 		if ($height < 5)
 		{
 			$height = 50;
@@ -486,10 +476,9 @@ class product_detailController extends JController
 		return array($width, $height);
 	}
 
-	function media_bank()
+	public function media_bank()
 	{
-
-		$uri =& JURI::getInstance();
+		$uri = JURI::getInstance();
 
 		$url = $uri->root();
 
@@ -511,12 +500,12 @@ class product_detailController extends JController
 		}
 
 		$files = JFolder::listFolderTree($path, '.', 1);
-		$tbl = ''; //"<table cellspacing='0' cellpdding='0' width='100%'  border='0'><tr><td align='right' colspan='4'><button type='button' onclick=\"javascript:window.parent.SqueezeBox.close();\">".JText::_('COM_REDSHOP_CLOSE' )."</button></td></tr></table>";
+		$tbl = '';
 		$tbl .= "<table cellspacing='7' cellpdding='2' width='100%' border='0'>";
 		$tbl .= "<tr>";
+
 		if ($folder_path)
 		{
-
 			$t = preg_split('/', $folder_path);
 			$na = count($t) - 1;
 			$n = count($t) - 2;
@@ -533,9 +522,8 @@ class product_detailController extends JController
 					$path_bk = REDSHOP_FRONT_IMAGES_RELPATH . $t[$n];
 					$dir_path = "components" . DS . "com_redshop" . DS . "assets" . DS . "images" . DS . $t[$n] . DS . $t[$na];
 				}
+
 				$folder_img_bk = "components" . DS . "com_redshop" . DS . "assets" . DS . "images" . DS . "folderup_32.png";
-//				$imgthumbsize = $this->getImageThumbSize($folder_img_bk);
-				//$size = $this->_parseSize(filesize($folder_img_bk));
 
 				$info = @getimagesize($folder_img_bk);
 
@@ -544,8 +532,6 @@ class product_detailController extends JController
 
 				if (($info[0] > 50) || ($info[1] > 50))
 				{
-					//$dimensions = $this->_imageResize($width, $height, $target);
-
 					$dimensions = $this->_imageResize($info[0], $info[1], 50);
 
 					$width_60 = $dimensions[0];
@@ -557,8 +543,12 @@ class product_detailController extends JController
 					$height_60 = $height;
 				}
 
-				$link_bk = "index.php?tmpl=component&option=com_redshop&view=product_detail&task=media_bank&path=" . $path_bk . "&dirpath=" . $dir_path;
-				$tbl .= "<td width='25%'><table width='120' height='70' style='background-color:#C0C0C0;' cellspacing='1' cellpdding='1'><tr><td align='center' style='background-color:#FFFFFF;'><a href='" . $link_bk . "'><img src='" . $folder_img_bk . "' width='" . $width_60 . "' height='" . $height_60 . "'></a></td></tr><tr height='15'><td style='background-color:#F7F7F7;' align='center'><label>Up</label></td></tr></table></td></tr><tr>";
+				$link_bk = "index.php?tmpl=component&option=com_redshop&view=product_detail&task=media_bank&path=" . $path_bk
+					. "&dirpath=" . $dir_path;
+				$tbl .= "<td width='25%'><table width='120' height='70' style='background-color:#C0C0C0;' cellspacing='1'
+				cellpdding='1'><tr><td align='center' style='background-color:#FFFFFF;'><a href='" . $link_bk . "'>
+				<img src='" . $folder_img_bk . "' width='" . $width_60 . "' height='" . $height_60 . "'></a></td></tr><
+				tr height='15'><td style='background-color:#F7F7F7;' align='center'><label>Up</label></td></tr></table></td></tr><tr>";
 			}
 			else
 			{
@@ -577,7 +567,6 @@ class product_detailController extends JController
 
 			if (($info[0] > 50) || ($info[1] > 50))
 			{
-
 				$dimensions = $this->_imageResize($info[0], $info[1], 50);
 
 				$width_60 = $dimensions[0];
@@ -590,14 +579,24 @@ class product_detailController extends JController
 			}
 
 			$j = 1;
+
 			for ($f = 0; $f < count($files); $f++)
 			{
-				$link = "index.php?tmpl=component&option=com_redshop&view=product_detail&task=media_bank&folder=1&path=" . $files[$f]['fullname'] . "&dirpath=" . $files[$f]['relname'];
-				$tbl .= "<td width='25%'><table width='120' height='70' style='background-color:#C0C0C0;' cellspacing='1' cellpdding='1'><tr><td align='center' style='background-color:#FFFFFF;'><a href='" . $link . "'><img src='" . $folder_img . "' width='" . $width_60 . "' height='" . $height_60 . "'></a></tr><tr height='15'><td style='background-color:#F7F7F7;' align='center'><label>" . $files[$f]['name'] . "</label></td></tr></table></td>";
+				$link = "index.php?tmpl=component&option=com_redshop&view=product_detail&task=media_bank&folder=1&path="
+					. $files[$f]['fullname'] . "&dirpath=" . $files[$f]['relname'];
+				$tbl .= "<td width='25%'><table width='120' height='70' style='background-color:#C0C0C0;' cellspacing='1' cellpdding='1'><tr>
+				<td align='center' style='background-color:#FFFFFF;'><a href='" . $link . "'><img src='" . $folder_img . "' width='"
+					. $width_60 . "' height='" . $height_60 . "'></a></tr><tr height='15'><td style='background-color:#F7F7F7;' align='center'>
+					<label>" . $files[$f]['name'] . "</label></td></tr></table></td>";
+
 				if ($j % 4 == 0)
+				{
 					$tbl .= "</tr><tr>";
+				}
+
 				$j++;
 			}
+
 			$i = $j;
 
 			while (false !== ($filename = readdir($handle)))
@@ -605,10 +604,6 @@ class product_detailController extends JController
 				if (preg_match("/.jpg/", $filename) || preg_match("/.gif/", $filename) || preg_match("/.png/", $filename))
 				{
 					$live_path = $url . $dir_path . DS . $filename;
-					//list($width, $height, $type, $attr) = getimagesize($live_path);
-					//$imgthumbsize = $this->getImageThumbSize($live_path);
-
-					//$size = $this->_parseSize(filesize($live_path));
 
 					$info = @getimagesize($live_path);
 
@@ -617,8 +612,6 @@ class product_detailController extends JController
 
 					if (($info[0] > 50) || ($info[1] > 50))
 					{
-						//$dimensions = $this->_imageResize($width, $height, $target);
-
 						$dimensions = $this->_imageResize($info[0], $info[1], 50);
 
 						$width_60 = $dimensions[0];
@@ -629,22 +622,31 @@ class product_detailController extends JController
 						$width_60 = $width;
 						$height_60 = $height;
 					}
-					$tbl .= "<td width='25%'><table width='120' height='70' style='background-color:#C0C0C0;' cellspacing='1' cellpdding='1'><tr><td align='center' style='background-color:#FFFFFF;'><a href=\"javascript:window.parent.jimage_insert('" . $dir_path . DS . $filename . "');window.parent.SqueezeBox.close();\"><img width='" . $width_60 . "' height='" . $height_60 . "' alt='" . $filename . "' src='" . $live_path . "'></a></td></tr><tr height='15'><td style='background-color:#F7F7F7;' align='center'><label>" . substr($filename, 0, 10) . "</label></td></tr></table></td>";
+
+					$tbl .= "<td width='25%'><table width='120' height='70' style='background-color:#C0C0C0;' cellspacing='1' cellpdding='1'>
+					<tr><td align='center' style='background-color:#FFFFFF;'>
+					<a href=\"javascript:window.parent.jimage_insert('" . $dir_path . DS . $filename . "');window.parent.SqueezeBox.close();\">
+					<img width='" . $width_60 . "' height='" . $height_60 . "' alt='" . $filename . "' src='" . $live_path . "'></a></td>
+					</tr><tr height='15'><td style='background-color:#F7F7F7;' align='center'><label>" . substr($filename, 0, 10) . "</label>
+					</td></tr></table></td>";
+
 					if ($i % 4 == 0)
+					{
 						$tbl .= "</tr><tr>";
+					}
 					$i++;
 				}
 			}
+
 			$tbl .= '</tr></table>';
 			echo $tbl;
 			closedir($handle);
 		}
 	}
 
-	function property_more_img()
+	public function property_more_img()
 	{
-
-		$uri =& JURI::getInstance();
+		$uri = JURI::getInstance();
 
 		$url = $uri->root();
 
@@ -660,13 +662,14 @@ class product_detailController extends JController
 
 		$filetype_sub = strtolower(JFile::getExt($sub_img['name'][0]));
 
-		if ($filetype != 'png' && $filetype != 'gif' && $filetype != 'jpeg' && $filetype != 'jpg' && $main_img['name'] != '' && $filetype_sub != 'png' && $filetype_sub != 'gif' && $filetype_sub != 'jpeg' && $filetype_sub != 'jpg' && $sub_img['name'][0] != '')
+		if ($filetype != 'png' && $filetype != 'gif' && $filetype != 'jpeg' && $filetype != 'jpg'
+			&& $main_img['name'] != '' && $filetype_sub != 'png' && $filetype_sub != 'gif'
+			&& $filetype_sub != 'jpeg' && $filetype_sub != 'jpg' && $sub_img['name'][0] != '')
 		{
 			$msg = JText::_("COM_REDSHOP_FILE_EXTENTION_WRONG_PROPERTY");
-			$link = $url . "administrator/index.php?tmpl=component&option=com_redshop&view=product_detail&section_id=" . $post['section_id'] . "&cid=" . $post['cid'] . "&layout=property_images&showbuttons=1";
+			$link = $url . "administrator/index.php?tmpl=component&option=com_redshop&view=product_detail&section_id="
+				. $post['section_id'] . "&cid=" . $post['cid'] . "&layout=property_images&showbuttons=1";
 			$this->setRedirect($link, $msg);
-
-
 		}
 		else
 		{
@@ -679,10 +682,9 @@ class product_detailController extends JController
 		}
 	}
 
-	function deleteimage()
+	public function deleteimage()
 	{
-
-		$uri =& JURI::getInstance();
+		$uri = JURI::getInstance();
 
 		$url = $uri->root();
 
@@ -691,18 +693,19 @@ class product_detailController extends JController
 		$cid = JRequest::getVar('cid');
 
 		$model = $this->getModel('product_detail');
+
 		if ($model->deletesubimage($mediaid))
 		{
 			$msg = JText::_("COM_REDSHOP_PROPERTY_SUB_IMAGE_IS_DELETE");
-			$link = $url . "administrator/index.php?tmpl=component&option=com_redshop&view=product_detail&section_id=" . $section_id . "&cid=" . $cid . "&layout=property_images&showbuttons=1";
+			$link = $url . "administrator/index.php?tmpl=component&option=com_redshop&view=product_detail&section_id="
+				. $section_id . "&cid=" . $cid . "&layout=property_images&showbuttons=1";
 			$this->setRedirect($link, $msg);
 		}
 	}
 
-	function subattribute_color()
+	public function subattribute_color()
 	{
-
-		$uri =& JURI::getInstance();
+		$uri = JURI::getInstance();
 
 		$url = $uri->root();
 
@@ -714,7 +717,8 @@ class product_detailController extends JController
 
 		$subattr_diff = $model->subattr_diff($subattr_id, $post['section_id']);
 
-		$model->delsubattr_diff($subattr_diff); // Delete subAttribute Diffrence
+		// Delete subAttribute Diffrence
+		$model->delsubattr_diff($subattr_diff);
 
 		$sub_img = JRequest::getVar('property_sub_img', 'array', 'files', 'array');
 
@@ -727,10 +731,8 @@ class product_detailController extends JController
 	<?php
 	}
 
-	// remove Property image
-	function removepropertyImage()
+	public function removepropertyImage()
 	{
-
 		$get = JRequest::get('get');
 
 		$pid = $get['pid'];
@@ -738,15 +740,15 @@ class product_detailController extends JController
 		$model = $this->getModel();
 
 		if ($model->removepropertyImage($pid))
+		{
 			echo "sucess";
+		}
 
 		exit;
 	}
 
-	// remove subProperty image
-	function removesubpropertyImage()
+	public function removesubpropertyImage()
 	{
-
 		$get = JRequest::get('get');
 
 		$pid = $get['pid'];
@@ -754,58 +756,57 @@ class product_detailController extends JController
 		$model = $this->getModel();
 
 		if ($model->removesubpropertyImage($pid))
+		{
 			echo "sucess";
+		}
 
 		exit;
 	}
 
-	function saveAttributeStock()
+	public function saveAttributeStock()
 	{
-
 		$post = JRequest::get('post');
 
 		$model = $this->getModel();
+
 		if ($model->SaveAttributeStockroom($post))
 		{
-
 			$msg = JText::_('COM_REDSHOP_STOCKROOM_ATTRIBUTE_XREF_SAVE');
 		}
 		else
 		{
-
 			$msg = JText::_('COM_REDSHOP_ERROR_SAVING_STOCKROOM_ATTRIBUTE_XREF');
 		}
-		$link = "index.php?tmpl=component&option=com_redshop&view=product_detail&section_id=" . $post['section_id'] . "&cid=" . $post['cid'] . "&layout=productstockroom&property=" . $post['section'];
+
+		$link = "index.php?tmpl=component&option=com_redshop&view=product_detail&section_id=" . $post['section_id'] . "&cid="
+			. $post['cid'] . "&layout=productstockroom&property=" . $post['section'];
 		$this->setRedirect($link, $msg);
 	}
 
-	// Product ordering
-	function orderup()
+	public function orderup()
 	{
 		$option = JRequest::getVar('option');
 
 		$model = $this->getModel('product_detail');
-		//$model->move(-1);
+
 		$model->orderup();
 
 		$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
 		$this->setRedirect('index.php?option=' . $option . '&view=product', $msg);
-
 	}
 
-	function orderdown()
+	public function orderdown()
 	{
 		$option = JRequest::getVar('option');
 
 		$model = $this->getModel('product_detail');
-		//$model->move(1);
+
 		$model->orderdown();
 		$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
 		$this->setRedirect('index.php?option=' . $option . '&view=product', $msg);
-
 	}
 
-	function saveorder()
+	public function saveorder()
 	{
 		$option = JRequest::getVar('option');
 
@@ -819,12 +820,10 @@ class product_detailController extends JController
 
 		$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
 		$this->setRedirect('index.php?option=' . $option . '&view=product', $msg);
-
 	}
 
-	function deleteProdcutSerialNumbers()
+	public function deleteProdcutSerialNumbers()
 	{
-
 		$serial_id = JRequest::getInt('serial_id');
 		$product_id = JRequest::getInt('product_id');
 		$option = JRequest::getVar('option');
@@ -834,24 +833,23 @@ class product_detailController extends JController
 
 		$msg = JText::_('COM_REDSHOP_PRODUCT_SERIALNUMBER_DELETED');
 		$this->setRedirect('index.php?option=' . $option . '&view=product_detail&cid=' . $product_id, $msg);
-
 	}
 
-	function delete_subprop()
+	public function delete_subprop()
 	{
 		$get = JRequest::get('get');
 		$model = $this->getModel('product_detail');
 		$model->delete_subprop($get['sp_id'], $get['subattribute_id']);
 	}
 
-	function delete_prop()
+	public function delete_prop()
 	{
 		$get = JRequest::get('get');
 		$model = $this->getModel('product_detail');
 		$model->delete_prop($get['attribute_id'], $get['property_id']);
 	}
 
-	function delete_attibute()
+	public function delete_attibute()
 	{
 		$get = JRequest::get('get');
 		$model = $this->getModel('product_detail');
@@ -859,18 +857,20 @@ class product_detailController extends JController
 		$model->delete_attibute($get['product_id'], $get['attribute_id'], $get['attribute_set_id']);
 	}
 
-	function checkVirtualNumber()
+	public function checkVirtualNumber()
 	{
 		$isExists = true;
 		$str = JRequest::getVar('str');
 		$strArr = explode(",", $str);
 		$product_id = JRequest::getVar('product_id');
 		$result = array_unique($strArr);
+
 		if (count($result) > 0 && count($result) == count($strArr))
 		{
 			$model = $this->getModel('product_detail');
 			$isExists = $model->checkVirtualNumber($product_id, $result);
 		}
+
 		echo (int) $isExists;
 		die();
 	}
@@ -879,17 +879,17 @@ class product_detailController extends JController
 	 * function to get all child product array
 	 * for ajax call
 	 */
-	function getChildProducts()
+	public function getChildProducts()
 	{
 		ob_clean();
 		$model = $this->getModel('product_detail');
 		$prod = $model->getChildProducts();
+
 		echo implode(",", $prod->id) . ":" . implode(",", $prod->name);
 		exit;
 	}
 
-	// remove accessory
-	function removeaccesory()
+	public function removeaccesory()
 	{
 		$accessory_id = JRequest::getInt('accessory_id', '');
 		$category_id = JRequest::getInt('category_id', '');
@@ -899,78 +899,65 @@ class product_detailController extends JController
 		exit;
 	}
 
-	function removenavigator()
+	public function removenavigator()
 	{
 		$navigator_id = JRequest::getInt('navigator_id', '');
 		$model = $this->getModel('product_detail');
 		$result = $model->removenavigator($navigator_id);
+
 		exit;
 	}
 
-	function ResetPreorderStock()
+	public function ResetPreorderStock()
 	{
-
 		$model = $this->getModel('product_detail');
 		$stockroom_type = JRequest::getVar('stockroom_type', 'product');
 		$pid = JRequest::getVar('product_id');
 		$sid = JRequest::getVar('stockroom_id');
 
-		//for($i=0;$i<count($sid);$i++)
-		//{
 		$model->ResetPreOrderStockroomQuantity($stockroom_type, $sid[$i], $pid);
-		//}
+
 		$this->setRedirect('index.php?option=com_redshop&view=product_detail&task=edit&cid[]=' . $pid);
 	}
 
-	function ResetPreorderStockBank()
+	public function ResetPreorderStockBank()
 	{
-
 		$model = $this->getModel('product_detail');
 		$stockroom_type = JRequest::getVar('stockroom_type', 'product');
 		$section_id = JRequest::getVar('section_id');
-		//$pid = JRequest::getVar ( 'product_id');
+
 		$cid = JRequest::getVar('cid');
 		$sid = JRequest::getVar('stockroom_id');
 
-
 		$model->ResetPreOrderStockroomQuantity($stockroom_type, $sid, $section_id);
 
-		$link = "index.php?tmpl=component&option=com_redshop&view=product_detail&section_id=" . $section_id . "&cid=" . $cid . "&layout=productstockroom&property=" . $stockroom_type;
+		$link = "index.php?tmpl=component&option=com_redshop&view=product_detail&section_id=" . $section_id . "&cid="
+			. $cid . "&layout=productstockroom&property=" . $stockroom_type;
 		$this->setRedirect($link);
 	}
 
-	function getDynamicFields()
+	public function getDynamicFields()
 	{
 		JRequest::setVar('view', 'product_detail');
 		JRequest::setVar('layout', 'default');
 		JRequest::setVar('hidemainmenu', 1);
 		parent::display();
-
 	}
 
-	function DeleteMergeImages()
+	public function DeleteMergeImages()
 	{
 		$dirname = REDSHOP_FRONT_IMAGES_RELPATH . "mergeImages";
 
 		if (is_dir($dirname))
 		{
 			$dir_handle = opendir($dirname);
+
 			if ($dir_handle)
 			{
 				while ($file = readdir($dir_handle))
 				{
 					if ($file != '..' && $file != '.' && $file != '')
 					{
-						/*if ($file=='thumb' && is_dir($dirname.DS.$file))
-						{
-							if(!is_writeable(REDSHOP_FRONT_IMAGES_RELPATH."mergeImages/".$file))
-							{
-								chmod(REDSHOP_FRONT_IMAGES_RELPATH."mergeImages/".$file,0777);
-							}
-							@rmdir(REDSHOP_FRONT_IMAGES_RELPATH."mergeImages/".$file);
-
-						}*/
-
 						if ($file != 'index.html')
 						{
 							if (file_exists(REDSHOP_FRONT_IMAGES_RELPATH . "mergeImages/" . $file))
@@ -979,16 +966,17 @@ class product_detailController extends JController
 								{
 									chmod(REDSHOP_FRONT_IMAGES_RELPATH . "mergeImages/" . $file, 0777);
 								}
+
 								unlink(REDSHOP_FRONT_IMAGES_RELPATH . "mergeImages/" . $file);
 							}
 						}
 					}
 				}
 			}
+
 			closedir($dir_handle);
 		}
+
 		return true;
 	}
-
 }
-

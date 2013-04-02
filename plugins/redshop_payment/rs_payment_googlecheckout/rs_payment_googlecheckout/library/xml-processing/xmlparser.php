@@ -74,7 +74,7 @@ class xmlParser
 	/* Constructor for the class
 		* Takes in XML data as input( do not include the <xml> tag
 		*/
-	function xmlParser($input, $xmlParams = array(XML_OPTION_CASE_FOLDING => 0))
+	public function xmlParser($input, $xmlParams = array(XML_OPTION_CASE_FOLDING => 0))
 	{
 		$xmlp = xml_parser_create();
 
@@ -111,7 +111,7 @@ class xmlParser
 	 * Adapted by Ropu - 05/23/2007
 	 *
 	 */
-	function xml2ary($vals)
+	public function xml2ary($vals)
 	{
 		$mnary = array();
 		$ary =& $mnary;
@@ -152,7 +152,6 @@ class xmlParser
 
 				$cv['_p'] =& $ary;
 				$ary =& $cv;
-
 			}
 			else if ($r['type'] == 'complete')
 			{
@@ -183,7 +182,6 @@ class xmlParser
 				}
 
 				$cv['VALUE'] = (isset($r['value']) ? $r['value'] : '');
-
 			}
 			elseif ($r['type'] == 'close')
 			{
@@ -213,13 +211,13 @@ class xmlParser
 	}
 
 	/* Returns the root of the XML data */
-	function GetRoot()
+	public function GetRoot()
 	{
 		return $this->root;
 	}
 
 	/* Returns the array representing the XML data */
-	function GetData()
+	public function GetData()
 	{
 		return $this->params;
 	}

@@ -1,20 +1,13 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license   GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- *            Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     RedSHOP
+ * @subpackage  Plugin
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
-// no direct access
-defined('_JEXEC') or die('Restricted access');
+
+defined('_JEXEC') or die;
 
 jimport('joomla.plugin.plugin');
 
@@ -24,9 +17,7 @@ jimport('joomla.plugin.plugin');
  * @package        Joomla
  * @subpackage     System
  */
-//defined('_VALID_MOS') or die('Direct Access to this location is not allowed.');
 
-if (!defined('_VALID_MOS') && !defined('_JEXEC')) die('Direct Access to ' . basename(__FILE__) . ' is not allowed.');
 define('BRING_RESPONSE_ERROR', 'test');
 
 require_once JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'product.php';
@@ -525,7 +516,7 @@ class plgredshop_shippingbring extends JPlugin
 	 * Show all configuration parameters for this Shipping method
 	 * @returns boolean False when the Shipping method has no configration
 	 */
-	function show_configuration()
+	public function show_configuration()
 	{
 		?>
 

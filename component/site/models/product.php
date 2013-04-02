@@ -9,12 +9,12 @@
 
 defined('_JEXEC') or die ('Restricted access');
 
-jimport('joomla.application.component.model');
+JLoader::import('joomla.application.component.model');
 
-require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php';
-require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php';
-require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'shipping.php';
-require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'extra_field.php';
+require_once JPATH_COMPONENT . '/helpers/product.php';
+require_once JPATH_COMPONENT . '/helpers/extra_field.php';
+require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/shipping.php';
+require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/extra_field.php';
 
 /**
  * Class productModelproduct
@@ -65,7 +65,6 @@ class productModelproduct extends JModel
 		$and = "";
 
 		// Shopper group - choose from manufactures Start
-
 		$rsUserhelper               = new rsUserhelper;
 		$shopper_group_manufactures = $rsUserhelper->getShopperGroupManufacturers();
 
@@ -75,8 +74,6 @@ class productModelproduct extends JModel
 		}
 
 		// Shopper group - choose from manufactures End
-
-
 		if (isset ($this->_catid) && $this->_catid != 0)
 		{
 			$and .= "AND pcx.category_id='" . $this->_catid . "' ";
@@ -198,8 +195,7 @@ class productModelproduct extends JModel
 		$data['published']   = 0;
 		$data['time']        = $data['time'];
 
-
-		$row = & $this->getTable('rating_detail');
+		$row = $this->getTable('rating_detail');
 
 		if (!$row->bind($data))
 		{
@@ -297,7 +293,7 @@ class productModelproduct extends JModel
 
 	public function addProductTags($data)
 	{
-		$tags = & $this->getTable('product_tags');
+		$tags = $this->getTable('product_tags');
 
 		if (!$tags->bind($data))
 		{
@@ -318,7 +314,7 @@ class productModelproduct extends JModel
 
 	public function addtowishlist($data)
 	{
-		$row = & $this->getTable('wishlist');
+		$row = $this->getTable('wishlist');
 
 		if (!$row->bind($data))
 		{
@@ -601,7 +597,7 @@ class productModelproduct extends JModel
 		$data['property_id']    = $property_id;
 		$data['subproperty_id'] = $subproperty_id;
 		$data['user_id']        = $user_id;
-		$row                    =& $this->getTable('notifystock_user');
+		$row                    = $this->getTable('notifystock_user');
 
 		if (!$row->bind($data))
 		{
@@ -620,4 +616,3 @@ class productModelproduct extends JModel
 		return true;
 	}
 }
-

@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 JHTML::_('behavior.tooltip');
 JHTMLBehavior::modal();
 
-require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php';
+require_once JPATH_COMPONENT . '/helpers/product.php';
 $producthelper = new producthelper;
 $redTemplate = new Redtemplate;
 $extraField = new extraField;
@@ -21,8 +21,6 @@ $print = JRequest::getVar('print');
 $option = JRequest::getVar('option');
 $Itemid = JRequest::getVar('Itemid');
 $redhelper = new redhelper;
-
-// $document = JFactory::getDocument();
 
 // Page Title Start
 $pagetitle = JText::_('COM_REDSHOP_MANUFACTURER');
@@ -73,7 +71,6 @@ $print_tag = "<a " . $onclick . " title='" . JText::_('COM_REDSHOP_PRINT_LBL') .
 $print_tag .= "<img src='" . JSYSTEM_IMAGES_PATH . "printButton.png' alt='" . JText::_('COM_REDSHOP_PRINT_LBL') . "' title='" . JText::_('COM_REDSHOP_PRINT_LBL') . "' />";
 $print_tag .= "</a>";
 
-
 $template_start  = $template_desc;
 $template_middle = "";
 $template_end    = "";
@@ -94,7 +91,7 @@ if ($template_middle != "")
 {
 	for ($i = 0; $i < $this->params->get('maxmanufacturer'); $i++)
 	{
-		$row = & $this->detail[$i];
+		$row = $this->detail[$i];
 
 		if ($row != '')
 		{

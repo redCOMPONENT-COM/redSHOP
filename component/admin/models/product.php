@@ -33,17 +33,17 @@ class productModelproduct extends JModel
 	{
 		parent::__construct();
 
-		global $mainframe;
+		$app = JFactory::getApplication();
 
 		$this->_context = 'product_id';
 		$this->_table_prefix = '#__redshop_';
 
-		$limit = $mainframe->getUserStateFromRequest($this->_context . 'limit', 'limit', $mainframe->getCfg('list_limit'), 0);
-		$limitstart = $mainframe->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
-		$search_field = $mainframe->getUserStateFromRequest($this->_context . 'search_field', 'search_field', '');
-		$keyword = $mainframe->getUserStateFromRequest($this->_context . 'keyword', 'keyword', '');
-		$category_id = $mainframe->getUserStateFromRequest($this->_context . 'category_id', 'category_id', 0);
-		$product_sort = $mainframe->getUserStateFromRequest($this->_context . 'product_sort', 'product_sort', 0);
+		$limit = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
+		$limitstart = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
+		$search_field = $app->getUserStateFromRequest($this->_context . 'search_field', 'search_field', '');
+		$keyword = $app->getUserStateFromRequest($this->_context . 'keyword', 'keyword', '');
+		$category_id = $app->getUserStateFromRequest($this->_context . 'category_id', 'category_id', 0);
+		$product_sort = $app->getUserStateFromRequest($this->_context . 'product_sort', 'product_sort', 0);
 
 		$this->setState('product_sort', $product_sort);
 		$this->setState('search_field', $search_field);
@@ -62,6 +62,11 @@ class productModelproduct extends JModel
 
 			// Product parent - child - format generation
 			$products = $this->_data;
+
+			if (!is_array($products))
+			{
+				$products = array();
+			}
 
 			// Establish the hierarchy of the menu
 			$children = array();
@@ -90,6 +95,7 @@ class productModelproduct extends JModel
 			$query = $this->_buildQuery();
 			$this->_total = $this->_getListCount($query);
 		}
+
 		return $this->_total;
 	}
 
@@ -106,8 +112,6 @@ class productModelproduct extends JModel
 
 	public function _buildQuery()
 	{
-		global $mainframe;
-
 		static $items;
 
 		if (isset($items))
@@ -193,6 +197,7 @@ class productModelproduct extends JModel
 				{
 					$where .= " AND ( ";
 				}
+
 				if ($search_field == 'p.name_number')
 				{
 					$where .= " p.product_name LIKE '%$arr_keyword[$k]%' OR p.product_number LIKE '%$arr_keyword[$k]%' ";
@@ -213,19 +218,21 @@ class productModelproduct extends JModel
 						$where .= ' AND ';
 					}
 				}
+
 				if ($k == count($arr_keyword) - 1)
 				{
 					$where .= " )  ";
 				}
 			}
 		}
+
 		if ($category_id)
 		{
 			$where .= " AND c.category_id = '" . $category_id . "'  ";
 		}
+
 		if ($where == '' && $search_field != 'pa.property_number')
 		{
-
 			$query = "SELECT p.product_id,p.product_id AS id,p.product_name,p.product_name AS treename,p.product_name
 			AS title,p.product_price,p.product_parent_id,p.product_parent_id AS parent_id,p.product_parent_id AS parent  "
 				. ",p.published,p.visited,p.manufacturer_id,p.product_number ,p.checked_out,p.checked_out_time,p.discount_price "
@@ -256,6 +263,7 @@ class productModelproduct extends JModel
 			{
 				$query .= "AND (pa.property_number LIKE '%$keyword%'  OR ps.subattribute_color_number LIKE '%$keyword%') ";
 			}
+
 			$query .= $where . $and . " GROUP BY p.product_id ";
 			$query .= $orderby;
 		}
@@ -273,6 +281,7 @@ class productModelproduct extends JModel
 			{
 				$product[] = $product_stock[$i]->product_id;
 			}
+
 			$product_id = implode(',', $product);
 			$query_prd = "SELECT DISTINCT(p.product_id) FROM " . $this->_table_prefix . "product AS p WHERE p.product_id NOT IN(" . $product_id . ")";
 			$this->_db->setQuery($query_prd);
@@ -284,19 +293,20 @@ class productModelproduct extends JModel
 
 	public function _buildContentOrderBy()
 	{
-		global $mainframe;
+		$app = JFactory::getApplication();
 
 		$category_id = $this->getState('category_id');
-		$filter_order_Dir = $mainframe->getUserStateFromRequest($this->_context . 'filter_order_Dir', 'filter_order_Dir', '');
+		$filter_order_Dir = $app->getUserStateFromRequest($this->_context . 'filter_order_Dir', 'filter_order_Dir', '');
 
 		if ($category_id)
 		{
-			$filter_order = $mainframe->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'x.ordering');
+			$filter_order = $app->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'x.ordering');
 		}
 		else
 		{
-			$filter_order = $mainframe->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'p.product_id');
+			$filter_order = $app->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'p.product_id');
 		}
+
 		$orderby = " ORDER BY " . $filter_order . ' ' . $filter_order_Dir;
 
 		return $orderby;
@@ -332,6 +342,7 @@ class productModelproduct extends JModel
 		{
 			$template_desc = $redTemplate->getTemplate("category", $template_id);
 		}
+
 		if (count($template_desc) == 0)
 		{
 			return;
@@ -345,6 +356,7 @@ class productModelproduct extends JModel
 		{
 			$inArr[] = "'" . $sec[$t] . "'";
 		}
+
 		$in = implode(',', $inArr);
 		$q = "SELECT field_name,field_type,field_section from " . $this->_table_prefix . "fields where field_section in (" . $in . ") ";
 		$this->_db->setQuery($q);
@@ -365,9 +377,9 @@ class productModelproduct extends JModel
 				{
 					$str[] = $fields[$i]->field_name;
 				}
-
 			}
 		}
+
 		$list_field = array();
 
 		if (count($str) > 0)
@@ -377,9 +389,7 @@ class productModelproduct extends JModel
 
 			for ($t = 0; $t < count($sec); $t++)
 			{
-
 				$list_field[] = $field->list_all_field($sec[$t], $product_id, $dbname);
-
 			}
 		}
 
@@ -404,7 +414,6 @@ class productModelproduct extends JModel
 
 	public function assignTemplate($data)
 	{
-
 		$cid = $data['cid'];
 
 		$product_template = $data['product_template'];
@@ -423,6 +432,7 @@ class productModelproduct extends JModel
 				return false;
 			}
 		}
+
 		return true;
 	}
 
@@ -456,8 +466,8 @@ class productModelproduct extends JModel
 				$query = "SELECT p.*,m.manufacturer_name FROM " . $this->_table_prefix . "product AS p " . " LEFT JOIN "
 					. $this->_table_prefix . "manufacturer AS m" . " ON p.manufacturer_id = m.manufacturer_id" . " WHERE p.product_id IN ("
 					. $cids . ") and p.published =1";
-
 			}
+
 			$this->_db->setQuery($query);
 
 			$rs = $this->_db->loadObjectlist();
@@ -491,7 +501,7 @@ class productModelproduct extends JModel
 						&& trim($additional_images[$ad]->media_name) != "")
 					{
 						$add_image .= "<g:additional_image_link>" . $product_img_url .
-							htmlspecialchars($additional_images[$ad]->media_name,ENT_NOQUOTES, "UTF-8") .
+							htmlspecialchars($additional_images[$ad]->media_name, ENT_NOQUOTES, "UTF-8") .
 							"</g:additional_image_link>";
 					}
 				}
@@ -508,6 +518,7 @@ class productModelproduct extends JModel
 					{
 						$attributes_set = $producthelper->getProductAttribute(0, $rs[$i]->attribute_set_id, 0, 1);
 					}
+
 					$attributes = $producthelper->getProductAttribute($rs[$i]->product_id);
 					$attributes = array_merge($attributes, $attributes_set);
 					$totalatt = count($attributes);
@@ -575,7 +586,6 @@ class productModelproduct extends JModel
 
 				if (DEFAULT_VAT_COUNTRY != "USA")
 				{
-
 					$product_price = $rs[$i]->product_price + $price_vat;
 					$sale_price = $sale_price + $sale_price_vat;
 				}
@@ -606,6 +616,7 @@ class productModelproduct extends JModel
 					$discount_end_date = date("c", $rs[$i]->discount_enddate);
 					$xml_code .= "\n<g:sale_price_effective_date>" . $discount_start_date . "/" . $discount_end_date . "</g:sale_price_effective_date>";
 				}
+
 				$xml_code .= "\n<g:mpn>" . htmlspecialchars($rs[$i]->product_number, ENT_NOQUOTES, "UTF-8") . "</g:mpn>";
 
 				if (DEFAULT_VAT_COUNTRY == "USA" || DEFAULT_VAT_COUNTRY == "GBR")
@@ -619,11 +630,9 @@ class productModelproduct extends JModel
 					{
 						$xml_code .= "\n<g:delivery_weight>" . $rs[$i]->weight . " " . DEFAULT_WEIGHT_UNIT . "</g:delivery_weight>";
 					}
-
 				}
 				else
 				{
-
 					$xml_code .= "\n<g:shipping>
 						<g:country>" . DEFAULT_SHIPPING_COUNTRY . "</g:country>
 					    <g:price>" . $default_shipping . " " . CURRENCY_CODE . "</g:price>
@@ -634,17 +643,19 @@ class productModelproduct extends JModel
 						$xml_code .= "\n<g:shipping_weight>" . $rs[$i]->weight . " " . DEFAULT_WEIGHT_UNIT . "</g:shipping_weight>";
 					}
 				}
+
 				if (DEFAULT_VAT_COUNTRY == "USA")
 				{
-
 					$xml_code .= "\n<g:tax>
 								   <g:country>US</g:country>
 								   <g:rate>" . $price_vat . "</g:rate>
 							  </g:tax>";
 				}
+
 				$xml_code .= "\n" . $add_image;
 				$xml_code .= "\n</item>";
 			}
+
 			$xml_code .= '</channel>';
 			$xml_code .= '</rss>';
 
@@ -671,6 +682,7 @@ class productModelproduct extends JModel
 		{
 			return $this->_categorytreelist;
 		}
+
 		$this->_categorytreelist = array();
 		$q = "SELECT cx.category_child_id AS id, cx.category_parent_id AS parent_id, c.category_name AS title " . "FROM "
 			. $this->_table_prefix . "category AS c, " . $this->_table_prefix . "category_xref AS cx "
@@ -718,6 +730,7 @@ class productModelproduct extends JModel
 				{
 					$txt = '- ' . $v->title;
 				}
+
 				$pt = $v->parent_id;
 				$list[$id] = $v;
 				$list[$id]->treename = $indent . $txt;
@@ -738,9 +751,9 @@ class productModelproduct extends JModel
 	 */
 	public function saveorder($cid = array(), $order)
 	{
-		global $mainframe;
+		$app = JFactory::getApplication();
 
-		$category_id_my = $mainframe->getUserStateFromRequest('category_id', 'category_id', 0);
+		$category_id_my = $app->getUserStateFromRequest('category_id', 'category_id', 0);
 
 		$orderarray = array();
 
@@ -766,9 +779,11 @@ class productModelproduct extends JModel
 					$this->_db->setQuery($query);
 					$this->_db->query();
 				}
+
 				$i++;
 			}
 		}
+
 		return true;
 	}
 }

@@ -1,34 +1,29 @@
 <?php
 /**
- * @version        $Id: economic.php 2010-11-19 19:34:56Z ian $
- * @package        Joomla
- * @copyright      Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
- * @license        GNU/GPL, see LICENSE.php
- *                 Joomla! is free software. This version may have been modified pursuant
- *                 to the GNU General Public License, and as distributed it includes or
- *                 is derivative of works licensed under the GNU General Public License or
- *                 other free or open source software licenses.
- *                 See COPYRIGHT.php for copyright notices and details.
+ * @package     RedSHOP
+ * @subpackage  Plugin
+ *
+ * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-// no direct access
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 jimport('joomla.event.plugin');
-//JPlugin::loadLanguage( 'plg_highrise');
 
 class plghighrisehighrise extends JPlugin
 {
-	var $api_token = '';
-	var $highrise_url = '';
-	var $errorMsg = '';
+	public $api_token = '';
+
+	public $highrise_url = '';
+
+	public $errorMsg = '';
 
 	/**
 	 * specific redform plugin parameters
 	 *
-	 * @var JParameter object
+	 * @param $data
 	 */
-
-	function oncreateHighriseUser($data)
+	public function oncreateHighriseUser($data)
 	{
 		$plugin =& JPluginHelper::getPlugin('highrise', 'highrise');
 		$pluginParams = new JRegistry($plugin->params);
@@ -55,13 +50,11 @@ class plghighrisehighrise extends JPlugin
 	/**
 	 * Method to get debtor contact handle
 	 *
-	 * @access public
 	 * @return array
 	 */
-	function pushContact($request)
+	public function pushContact($request)
 	{
-		//Check that person doesn't already exist
-
+		// Check that person doesn't already exist
 		$id = $this->_person_in_highrise($request);
 
 		if ($id < 0)
@@ -115,7 +108,6 @@ class plghighrisehighrise extends JPlugin
 				$this->errorMsg = "Highrise can not create user";
 				JError::raiseWarning(21, $this->errorMsg);
 			}
-
 		}
 		else
 		{
@@ -126,12 +118,20 @@ class plghighrisehighrise extends JPlugin
 		return '';
 	}
 
-	//Search for a person in Highrise
-	function _person_in_highrise($person)
+	/**
+	 * Search for a person in Highrise
+	 *
+	 * @param $person
+	 *
+	 * @return SimpleXMLElement[]|string
+	 */
+	public function _person_in_highrise($person)
 	{
 		$curl = curl_init($this->highrise_url . '/people/search.xml?term=' . urlencode($person['sFirstName'] . ' ' . $person['sLastName']));
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($curl, CURLOPT_USERPWD, $this->api_token . ':x'); //Username (api token, fake password as per Highrise api)
+
+		// Username (api token, fake password as per Highrise api)
+		curl_setopt($curl, CURLOPT_USERPWD, $this->api_token . ':x');
 
 		curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
 		curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 0);
@@ -139,7 +139,7 @@ class plghighrisehighrise extends JPlugin
 		$xml = curl_exec($curl);
 		curl_close($curl);
 
-		//Parse XML
+		// Parse XML
 		$people = simplexml_load_string($xml);
 		echo($people);
 		$id = '-1';
@@ -153,8 +153,5 @@ class plghighrisehighrise extends JPlugin
 		}
 
 		return $id;
-
 	}
-
 }
-?>

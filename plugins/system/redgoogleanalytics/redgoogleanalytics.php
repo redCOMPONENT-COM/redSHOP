@@ -1,21 +1,13 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license   GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- *            Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     RedSHOP
+ * @subpackage  Plugin
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-// no direct access
-defined('_JEXEC') or die("Direct Access Is Not Allowed");
+defined('_JEXEC') or die;
 
 /**
  * redSHOP google Analytics System Plugin
@@ -36,7 +28,7 @@ class plgSystemredgoogleanalytics extends JPlugin
 	 * @param    object $subject The object to observe
 	 * @param    array  $config  An array that holds the plugin configuration
 	 */
-	function plgSystemredGoogle(& $subject, $config)
+	public function plgSystemredGoogle(& $subject, $config)
 	{
 		parent::__construct($subject, $config);
 	}
@@ -47,13 +39,13 @@ class plgSystemredgoogleanalytics extends JPlugin
 	 * The component optional parameters are then set in the request object to be processed when the application is being dispatched.
 	 * When this event triggers the router has parsed the route and pushed the request parameters into JRequest for retrieval by the application.
 	 */
-	function onAfterRoute()
+	public function onAfterRoute()
 	{
 		$configFile = JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'redshop.cfg.php';
 
 		$googleFile = JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'google_analytics.php';
 
-		$uri =& JFactory::getURI();
+		$uri = JFactory::getURI();
 		$requesturlBase = $uri->base();
 		$view = JRequest::getVar('view');
 		$format = JRequest::getWord('format', '');
@@ -74,5 +66,4 @@ class plgSystemredgoogleanalytics extends JPlugin
 			}
 		}
 	}
-
 }

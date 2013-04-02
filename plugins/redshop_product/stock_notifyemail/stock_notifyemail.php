@@ -1,6 +1,13 @@
 <?php
-// no direct access
-defined('_JEXEC') or die('Restricted access');
+/**
+ * @package     RedSHOP
+ * @subpackage  Plugin
+ *
+ * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
+ */
+
+defined('_JEXEC') or die;
 
 // Import library dependencies
 jimport('joomla.plugin.plugin');
@@ -15,11 +22,11 @@ class plgredshop_productstock_notifyemail extends JPlugin
 	 * NOT references.  This causes problems with cross-referencing necessary for the
 	 * observer design pattern.
 	 */
-	function plgredshop_productstock_notifyemail(&$subject)
+	public function plgredshop_productstock_notifyemail(&$subject)
 	{
 		parent::__construct($subject);
 
-		// load plugin parameters
+		// Load plugin parameters
 		$this->_table_prefix = '#__redshop_';
 		$this->_plugin = JPluginHelper::getPlugin('redshop_product', 'stock_notifyemail');
 		$this->_params = new JRegistry($this->_plugin->params);
@@ -34,7 +41,7 @@ class plgredshop_productstock_notifyemail extends JPlugin
 	 * @param    object        The product params
 	 * @param    object        The product object
 	 */
-	function afterUpdateStock($stockroom_data)
+	public function afterUpdateStock($stockroom_data)
 	{
 		$redshopMail = new redshopMail;
 
@@ -59,7 +66,6 @@ class plgredshop_productstock_notifyemail extends JPlugin
 					else
 					{
 						return;
-
 					}
 
 					$message = str_replace("{stocknotify_intro_text}", JText::_('COM_REDSHOP_STOCK_NOTIFY_INTRO_TEXT'), $message);
@@ -132,13 +138,11 @@ class plgredshop_productstock_notifyemail extends JPlugin
 			if (count($property_data) > 0)
 			{
 				$productDetail .= "<br/>" . $property_data['property_name'];
-
 			}
 
 			if (count($subproperty_data) > 0)
 			{
 				$productDetail .= "<br/>" . $subproperty_data['subproperty_name'];
-
 			}
 
 			$productData['product_name'] = $product_data->product_name;

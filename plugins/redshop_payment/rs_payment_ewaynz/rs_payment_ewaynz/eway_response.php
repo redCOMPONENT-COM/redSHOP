@@ -1,18 +1,10 @@
 <?php
-
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license   GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- *            Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     RedSHOP
+ * @subpackage  Plugin
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 $my_path = dirname(__FILE__);
@@ -51,17 +43,17 @@ require_once $absolute_path . DS . 'includes' . DS . 'defines.php';
 require_once $absolute_path . DS . 'includes' . DS . 'framework.php';
 
 // create the mainframe object
-$mainframe = & JFactory::getApplication('site');
+$app = JFactory::getApplication();
 
 // Initialize the framework
-$mainframe->initialise();
+$app->initialise();
 
 // load system plugin group
 JPluginHelper::importPlugin('system');
 
 // trigger the onBeforeStart events
-//$mainframe->triggerEvent ( 'onBeforeStart' );
-//$lang = & JFactory::getLanguage ();
+//$app->triggerEvent ( 'onBeforeStart' );
+//$lang = JFactory::getLanguage ();
 //$mosConfig_lang = $GLOBALS ['mosConfig_lang'] = strtolower ( $lang->getBackwardLang () );
 // Adjust the live site path
 
@@ -75,7 +67,7 @@ $request = JRequest::get('request');
 require_once JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php';
 $objOrder = new order_functions;
 
-$mainframe = JFactory::getApplication();
+$app = JFactory::getApplication();
 $ewaynz_parameters = getparameters('rs_payment_ewaynz');
 $paymentinfo = $ewaynz_parameters[0];
 $paymentparams = new JRegistry($paymentinfo->params);
@@ -132,7 +124,6 @@ if ($responsecode == "00" || $responsecode == "08" || $responsecode == "10" || $
 
 	$values->order_id = $order_id;
 	$values->transaction_id = $auth_code;
-
 }
 else
 {
@@ -156,7 +147,7 @@ else
 
 $objOrder->changeorderstatus($values);
 $uri = explode('plugins', JURI::base());
-$mainframe->redirect($uri[0] . "index.php?option=com_redshop&view=order_detail&oid=" . $order_id, $values->msg);
+$app->redirect($uri[0] . "index.php?option=com_redshop&view=order_detail&oid=" . $order_id, $values->msg);
 
 function getparameters($payment)
 {

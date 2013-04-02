@@ -15,25 +15,27 @@ class addressfields_listingViewaddressfields_listing extends JView
 {
 	public function display($tpl = null)
 	{
-		global $mainframe, $context;
+		global $context;
 
-		$document = & JFactory::getDocument();
+		$app = JFactory::getApplication();
+
+		$document = JFactory::getDocument();
 		$document->setTitle(JText::_('COM_REDSHOP_FIELDS'));
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_ADDRESS_FIELD_MANAGEMENT'), 'redshop_fields48');
 
-		$uri =& JFactory::getURI();
+		$uri = JFactory::getURI();
 
-		$filter_order = $mainframe->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'field_id');
-		$filter_order_Dir = $mainframe->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
+		$filter_order = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'field_id');
+		$filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
 
 		$lists['order'] = $filter_order;
 		$lists['order_Dir'] = $filter_order_Dir;
-		$fields = & $this->get('Data');
-		$total = & $this->get('Total');
-		$pagination = & $this->get('Pagination');
+		$fields = $this->get('Data');
+		$total = $this->get('Total');
+		$pagination = $this->get('Pagination');
 
-		$section_id = $mainframe->getUserStateFromRequest($context . 'section_id', 'section_id', 0);
+		$section_id = $app->getUserStateFromRequest($context . 'section_id', 'section_id', 0);
 
 		$sectionlist = array(
 			JHTML::_('select.option', '7', JText::_('COM_REDSHOP_CUSTOMER_ADDRESS')),

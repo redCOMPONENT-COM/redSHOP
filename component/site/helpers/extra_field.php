@@ -41,14 +41,15 @@ class extraField
 	 * 				   12 :- Product_UserField
 	 *
 	 */
-	var $_data = null;
-	var $_table_prefix = null;
-	var $_db = null;
+	public $_data         = null;
+
+	public $_table_prefix = null;
+
+	public $_db           = null;
 
 	public function __construct()
 	{
-		global $mainframe, $context;
-		$this->_db           = JFactory::getDbo();
+		$this->_db = JFactory::getDbo();
 		$this->_table_prefix = '#__redshop_';
 	}
 
@@ -91,7 +92,6 @@ class extraField
 				$class      = '';
 				$span_class = '';
 			}
-
 
 			switch ($type)
 			{
@@ -287,13 +287,14 @@ class extraField
 			. "AND field_show_in_front=1 "
 			. "ORDER BY ordering ";
 		$this->_db->setQuery($q);
+
 		$row_data       = $this->_db->loadObjectlist();
 		$ex_field       = '';
 		$ex_field_title = '';
 
 		for ($i = 0; $i < count($row_data); $i++)
 		{
-			$type     = $row_data[$i]->field_type;
+			$type = $row_data[$i]->field_type;
 			$asterisk = $row_data[$i]->required > 0 ? '* ' : '';
 
 			if ($field_type != 'hidden')
@@ -504,7 +505,7 @@ class extraField
 					case 12:
 						// 12 :- Date Picker
 						$ajax = '';
-						$req  = $row_data[$i]->required;
+						$req = $row_data[$i]->required;
 
 						if (AJAX_CART_BOX && $isatt == 0)
 						{
@@ -560,7 +561,7 @@ class extraField
 			}
 		}
 
-		$ex    = array();
+		$ex = array();
 		$ex[0] = $ex_field_title;
 		$ex[1] = $ex_field;
 
@@ -571,7 +572,7 @@ class extraField
 	{
 		$redTemplate = new Redtemplate;
 		$url         = JURI::base();
-		$q           = "SELECT * from " . $this->_table_prefix . "fields where field_section='" . $field_section . "' ";
+		$q = "SELECT * from " . $this->_table_prefix . "fields where field_section='" . $field_section . "' ";
 
 		if ($field_name != "")
 		{
@@ -669,32 +670,34 @@ class extraField
 						break;
 					case 10 :
 						// Document
-						$document_value = explode("\n", $data_value->data_txt);
-						$document_title = "";
-						$filename       = "";
+
+						// Support Legacy string.
+						if (preg_match('/\n/', $data_value->data_txt))
+						{
+							$document_explode = explode("\n", $data_value->data_txt);
+							$document_value   = array($document_explode[0] => $document_explode[1]);
+						}
+						else
+						{
+							// Support for multiple file upload using JSON for better string handling
+							$document_value = json_decode($data_value->data_txt);
+						}
 
 						if (count($document_value) > 0)
 						{
-							$document_title = $document_value[0];
+							$displayvalue = "";
 
-							if (count($document_value) > 1)
+							foreach ($document_value as $document_title => $filename)
 							{
-								$filename = $document_value[1];
+								$link     = REDSHOP_FRONT_DOCUMENT_ABSPATH . 'extrafields/' . $filename;
+								$link_phy = REDSHOP_FRONT_DOCUMENT_RELPATH . 'extrafields/' . $filename;
+
+								if (is_file($link_phy))
+								{
+									$displayvalue .= "<a href=\"$link\" target='_blank' >$document_title</a>";
+								}
 							}
 
-							if ($document_title == "")
-							{
-								$document_title = $filename;
-							}
-						}
-
-						$link         = REDSHOP_FRONT_DOCUMENT_ABSPATH . "extrafields/" . $filename;
-						$link_phy     = REDSHOP_FRONT_DOCUMENT_RELPATH . "extrafields/" . $filename;
-						$displayvalue = "";
-
-						if (is_file($link_phy))
-						{
-							$displayvalue = "<a href='" . $link . "' target='_blank' >" . $document_title . "</a>";
 						}
 						break;
 					case 11 :

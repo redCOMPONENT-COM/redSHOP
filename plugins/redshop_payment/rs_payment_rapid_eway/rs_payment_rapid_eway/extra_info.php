@@ -15,11 +15,11 @@
  */
 require_once JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'configuration.php';
 require_once JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php';
-global $mainframe;
+$app = JFactory::getApplication();
 $Redconfiguration = new Redconfiguration;
 $order_functions = new order_functions;
 $order_items = $order_functions->getOrderItemDetail($data['order_id']);
-$session =& JFactory::getSession();
+$session = JFactory::getSession();
 $ccdata = $session->get('redirect_ccdata');
 $api_path = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $plugin . DS . $plugin . DS . 'Rapid.php';
 include($api_path);
@@ -111,7 +111,7 @@ if (isset($result->Errors))
 if ($lblError != "")
 {
 	$link = 'index.php?option=com_redshop&view=order_detail&Itemid=' . $Itemid . '&oid=' . $data['order_id'];
-	$mainframe->redirect($link, $lblError);
+	$app->redirect($link, $lblError);
 }
 ?>
 <form method="POST" action="<?php echo $result->FormActionURL ?>" id="ewayfrm" name="ewayfrm">

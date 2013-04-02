@@ -10,11 +10,11 @@
 defined('_JEXEC') or die;
 $url = JURI::base();
 
-include_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php';
-include_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'quotation.php';
-include_once JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php';
-require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'extra_field.php';
-require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php';
+include_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php';
+include_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/quotation.php';
+include_once JPATH_COMPONENT . '/helpers/product.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/extra_field.php';
+require_once JPATH_COMPONENT . '/helpers/extra_field.php';
 
 $producthelper = new producthelper;
 $quotationHelper = new quotationHelper;
@@ -28,8 +28,8 @@ $user = JFactory::getUser();
 $option = JRequest::getVar('option');
 $Itemid = JRequest::getVar('Itemid');
 
-global $mainframe;
-$params = & $mainframe->getParams($option);
+$app = JFactory::getApplication();
+$params = $app->getParams($option);
 $returnitemid = $params->get('logout', $Itemid);
 
 $accountbillto_link = JRoute::_("index.php?option=" . $option . "&view=account_billto&Itemid=" . $Itemid);
@@ -40,7 +40,6 @@ $mytags_link = JRoute::_("index.php?option=" . $option . "&view=account&layout=m
 $wishlist_link = JRoute::_("index.php?option=" . $option . "&view=wishlist&task=viewwishlist&Itemid=" . $Itemid);
 
 $model = $this->getModel('account');
-
 
 $template = $redTemplate->getTemplate("account_template");
 
@@ -72,7 +71,6 @@ if ($this->params->get('show_page_heading', 1))
 <?php
 }
 
-
 $template_desc = str_replace('{welcome_introtext}', WELCOMEPAGE_INTROTEXT, $template_desc);
 
 $logoutimg     = '<img src="' . REDSHOP_FRONT_IMAGES_ABSPATH . 'account/logout.jpg" align="absmiddle" />';
@@ -92,7 +90,6 @@ if ($this->userdata->firstname != "")
 	$customer_fullname     = $this->userdata->firstname . ' ' . $this->userdata->lastname;
 }
 
-// $returnArr = $producthelper->getProductUserfieldFromTemplate($template_desc);
 $template_desc = str_replace('{fullname_lbl}', $customer_fullname_lbl, $template_desc);
 $template_desc = str_replace('{fullname}', $customer_fullname, $template_desc);
 
@@ -268,7 +265,7 @@ else
 	$template_desc = str_replace('{edit_shipping_link}', '', $template_desc);
 }
 
-/* for redCRM user bulk order functionality */
+// For redCRM user bulk order functionality
 if (isset($this->userdata->debitor_id) && $this->userdata->debitor_id != "" && $this->userdata->debitor_id != 0)
 {
 	$bulkorder_link  = "<a href='" . JRoute::_('index.php?option=com_redcrm&view=bulk_order&Itemid=' . $Itemid) . "'>" . JText::_('COM_REDSHOP_BULK_ORDER_LINK') . "</a>";
@@ -283,7 +280,6 @@ else
 	$template_desc = str_replace('{bulkorder_title}', "", $template_desc);
 	$template_desc = str_replace('{bulkorder_link}', "", $template_desc);
 }
-
 
 $is_company = $this->userdata->is_company;
 
@@ -566,7 +562,6 @@ if (COMARE_PRODUCTS)
 $template_desc = str_replace('{compare_image}', $cmp_image, $template_desc);
 $template_desc = str_replace('{compare_title}', $cmp_imagelbl, $template_desc);
 $template_desc = str_replace('{edit_compare_link}', $cmp_link, $template_desc);
-
 
 $template_desc = $redTemplate->parseredSHOPplugin($template_desc);
 echo eval("?>" . $template_desc . "<?php ");

@@ -225,9 +225,9 @@ class manufacturer_detailModelmanufacturer_detail extends JModel
 
 	public function saveOrder(&$cid)
 	{
-		global $mainframe;
+		$app = JFactory::getApplication();
 
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 		$row =& $this->getTable();
 
 		$total = count($cid);
@@ -270,7 +270,7 @@ class manufacturer_detailModelmanufacturer_detail extends JModel
 
 	public function move($direction)
 	{
-		$row =& JTable::getInstance('manufacturer_detail', 'Table');
+		$row = JTable::getInstance('manufacturer_detail', 'Table');
 
 		if (!$row->load($this->_id))
 		{

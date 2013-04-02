@@ -15,13 +15,23 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'quotation.ph
 
 class quotationViewquotation extends JView
 {
+	/**
+	 * The request url.
+	 *
+	 * @var  string
+	 */
+	public $request_url;
+
 	public function display($tpl = null)
 	{
-		global $mainframe, $context;
 		$context = 'quotation_id';
+
 		$quotationHelper = new quotationHelper;
 
-		$document = & JFactory::getDocument();
+		$uri      = JFactory::getURI();
+		$app      = JFactory::getApplication();
+		$document = JFactory::getDocument();
+
 		$document->setTitle(JText::_('COM_REDSHOP_quotation'));
 		$model = $this->getModel('quotation');
 
@@ -30,18 +40,16 @@ class quotationViewquotation extends JView
 		JToolBarHelper::editListX();
 		JToolBarHelper::deleteList();
 
-		$uri =& JFactory::getURI();
+		$filter_order     = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'quotation_cdate');
+		$filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', 'DESC');
+		$filter_status    = $app->getUserStateFromRequest($context . 'filter_status', 'filter_status', 0);
 
-		$filter_order = $mainframe->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'quotation_cdate');
-		$filter_order_Dir = $mainframe->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', 'DESC');
-		$filter_status = $mainframe->getUserStateFromRequest($context . 'filter_status', 'filter_status', 0);
-
-		$lists['order'] = $filter_order;
+		$lists['order']     = $filter_order;
 		$lists['order_Dir'] = $filter_order_Dir;
 
-		$quotation = & $this->get('Data');
-		$total = & $this->get('Total');
-		$pagination = & $this->get('Pagination');
+		$quotation  = $this->get('Data');
+		$total      = $this->get('Total');
+		$pagination = $this->get('Pagination');
 
 		$optionsection = $quotationHelper->getQuotationStatusList();
 		$lists['filter_status'] = JHTML::_('select.genericlist', $optionsection, 'filter_status',
@@ -51,7 +59,7 @@ class quotationViewquotation extends JView
 		$this->assignRef('lists', $lists);
 		$this->assignRef('quotation', $quotation);
 		$this->assignRef('pagination', $pagination);
-		$this->assignRef('request_url', $uri->toString());
+		$this->request_url = $uri->toString();
 
 		parent::display($tpl);
 	}

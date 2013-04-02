@@ -9,7 +9,7 @@
 defined('_JEXEC') or die ('restricted access');
 
 $adminproducthelper = new adminproducthelper();
-$session =& JFactory::getSession();
+$session = JFactory::getSession();
 
 $ordertotal = $session->get('ordertotal');
 $ordersubtotal = $session->get('ordersubtotal');

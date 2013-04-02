@@ -36,7 +36,7 @@ class zip_importModelzip_import extends JModel
 	public function getData()
 	{
 		$thumb = new thumbnail;
-		global $mainframe;
+		$app = JFactory::getApplication();
 		$obj_img = new thumbnail_images;
 
 		$this->getzipfilenames();
@@ -45,7 +45,7 @@ class zip_importModelzip_import extends JModel
 		session_unregister("filename");
 		session_unregister("zipno");
 		$msg = JText::_('COM_REDSHOP_REDSHOP_REMOTLY_UPDATED');
-		$mainframe->redirect(JURI::base() . 'index.php?option=com_redshop', $msg);
+		$app->redirect(JURI::base() . 'index.php?option=com_redshop', $msg);
 	}
 
 	public function getzipfilescount()
@@ -106,7 +106,7 @@ class zip_importModelzip_import extends JModel
 	// Related product sync
 	public function install()
 	{
-		global $mainframe;
+		$app = JFactory::getApplication();
 		$fileType = "url";
 		switch ($fileType)
 		{
@@ -126,11 +126,11 @@ class zip_importModelzip_import extends JModel
 		{
 			$this->setState('message', 'Unable to find install package');
 			$msg = JText::_('COM_REDSHOP_REDSHOP_REMOTELY_UPDATED');
-			$mainframe->redirect(JURI::base() . "index.php?option=com_redshop", $msg);
+			$app->redirect(JURI::base() . "index.php?option=com_redshop", $msg);
 		}
 
 		// Get an installer instance
-		$installer =& JInstaller::getInstance();
+		$installer = JInstaller::getInstance();
 
 		// Install the package
 		if (!$installer->install($package['dir']))
@@ -144,12 +144,12 @@ class zip_importModelzip_import extends JModel
 		else
 		{
 			$msg = JText::_('COM_REDSHOP_REDSHOP_REMOTELY_UPDATED');
-			$mainframe->redirect(JURI::base() . "index.php?option=com_redshop", $msg);
+			$app->redirect(JURI::base() . "index.php?option=com_redshop", $msg);
 
 		}
 
 		// Set some model state values
-		$mainframe->enqueueMessage($msg);
+		$app->enqueueMessage($msg);
 		$this->setState('name', $installer->get('name'));
 		$this->setState('result', $result);
 		$this->setState('message', $installer->message);
@@ -158,7 +158,7 @@ class zip_importModelzip_import extends JModel
 		// Cleanup the install files
 		if (!is_file($package['packagefile']))
 		{
-			$config =& JFactory::getConfig();
+			$config = JFactory::getConfig();
 			$package['packagefile'] = $config->getValue('config.tmp_path') . DS . $package['packagefile'];
 		}
 
@@ -183,7 +183,7 @@ class zip_importModelzip_import extends JModel
 	{
 		// Get a database connector
 
-		$db = & JFactory::getDBO();
+		$db = JFactory::getDBO();
 		$tempno = $_SESSION['zipno'];
 
 		// Get the URL of the package to install
@@ -217,7 +217,7 @@ class zip_importModelzip_import extends JModel
 		<?php
 		}
 
-		$config =& JFactory::getConfig();
+		$config = JFactory::getConfig();
 		$tmp_dest = $config->getValue('config.tmp_path');
 
 		// Unpack the downloaded package file

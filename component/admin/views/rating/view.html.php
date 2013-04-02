@@ -15,9 +15,12 @@ class ratingViewrating extends JView
 {
 	public function display($tpl = null)
 	{
-		global $mainframe, $context;
+		$context = "rating";
 
-		$document = & JFactory::getDocument();
+		$uri      = JFactory::getURI();
+		$app      = JFactory::getApplication();
+		$document = JFactory::getDocument();
+
 		$document->setTitle(JText::_('COM_REDSHOP_RATING'));
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_RATING_MANAGEMENT'), 'redshop_rating48');
@@ -28,16 +31,15 @@ class ratingViewrating extends JView
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();
 
-		$uri =& JFactory::getURI();
-		$context = "rating";
-		$filter_order = $mainframe->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'rating_id');
-		$filter_order_Dir = $mainframe->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
+		$filter_order     = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'rating_id');
+		$filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
 
-		$lists['order'] = $filter_order;
+		$lists['order']     = $filter_order;
 		$lists['order_Dir'] = $filter_order_Dir;
-		$ratings = & $this->get('Data');
-		$total = & $this->get('Total');
-		$pagination = & $this->get('Pagination');
+
+		$ratings    = $this->get('Data');
+		$total      = $this->get('Total');
+		$pagination = $this->get('Pagination');
 
 
 		$this->assignRef('user', JFactory::getUser());

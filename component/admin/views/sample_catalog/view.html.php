@@ -17,13 +17,13 @@ class sample_catalogVIEWsample_catalog extends JView
 	{
 		$option = JRequest::getVar('option');
 
-		$uri =& JFactory::getURI();
+		$uri = JFactory::getURI();
 
 		$this->setLayout('default');
 
 		$lists = array();
 
-		$detail =& $this->get('data');
+		$detail = $this->get('data');
 
 		$model = $this->getModel('sample_catalog');
 

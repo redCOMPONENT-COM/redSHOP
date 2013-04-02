@@ -195,7 +195,7 @@ class product_detailModelproduct_detail extends JModel
 
 	public function store($data)
 	{
-		$dispatcher = & JDispatcher::getInstance();
+		$dispatcher = JDispatcher::getInstance();
 
 		$catorder = array();
 		$oldcategory = array();
@@ -237,7 +237,7 @@ class product_detailModelproduct_detail extends JModel
 				unlink($unlink_path);
 		}
 
-		$thumbfile =& JRequest::getVar('product_thumb_image', '', 'files', 'array');
+		$thumbfile = JRequest::getVar('product_thumb_image', '', 'files', 'array');
 
 		if ($thumbfile['name'] != "")
 		{
@@ -251,7 +251,7 @@ class product_detailModelproduct_detail extends JModel
 		}
 
 		// Get File name, tmp_name
-		$file =& JRequest::getVar('product_full_image', '', 'files', 'array');
+		$file = JRequest::getVar('product_full_image', '', 'files', 'array');
 		if (isset($data['image_delete']) || $file['name'] != "" || $data['product_image'] != null)
 		{
 			$unlink_path = REDSHOP_FRONT_IMAGES_RELPATH . 'product/thumb' . DS . $data['old_image'];
@@ -323,7 +323,7 @@ class product_detailModelproduct_detail extends JModel
 			}
 		}
 
-		$backthumbfile =& JRequest::getVar('product_back_thumb_image', '', 'files', 'array');
+		$backthumbfile = JRequest::getVar('product_back_thumb_image', '', 'files', 'array');
 
 		if ($backthumbfile['name'] != "")
 		{
@@ -346,7 +346,7 @@ class product_detailModelproduct_detail extends JModel
 				unlink($unlink_path);
 			}
 		}
-		$backthumbfile =& JRequest::getVar('product_back_full_image', '', 'files', 'array');
+		$backthumbfile = JRequest::getVar('product_back_full_image', '', 'files', 'array');
 
 		if ($backthumbfile['name'] != "")
 		{
@@ -370,7 +370,7 @@ class product_detailModelproduct_detail extends JModel
 				unlink($unlink_path);
 		}
 
-		$previewfile =& JRequest::getVar('product_preview_image', '', 'files', 'array');
+		$previewfile = JRequest::getVar('product_preview_image', '', 'files', 'array');
 
 		if ($previewfile['name'] != "")
 		{
@@ -394,7 +394,7 @@ class product_detailModelproduct_detail extends JModel
 				unlink($unlink_path);
 			}
 		}
-		$previewbackfile =& JRequest::getVar('product_preview_back_image', '', 'files', 'array');
+		$previewbackfile = JRequest::getVar('product_preview_back_image', '', 'files', 'array');
 
 		if ($previewbackfile['name'] != "")
 		{
@@ -864,7 +864,7 @@ class product_detailModelproduct_detail extends JModel
 		}
 
 		// If product_type = file and csv file uploaded than do this
-		$productCSVfile =& JRequest::getVar('serialcsvFile', '', 'files');
+		$productCSVfile = JRequest::getVar('serialcsvFile', '', 'files');
 
 		$ext = strtolower(JFile::getExt($productCSVfile['name']));
 
@@ -2483,7 +2483,7 @@ class product_detailModelproduct_detail extends JModel
 			return array();
 		}
 
-		$database =& JFactory::getDBO();
+		$database = JFactory::getDBO();
 
 		if (count($cid))
 		{
@@ -2538,7 +2538,7 @@ class product_detailModelproduct_detail extends JModel
 	 */
 	public function StockRoomList()
 	{
-		$database =& JFactory::getDBO();
+		$database = JFactory::getDBO();
 
 		$q = "SELECT * FROM " . $this->_table_prefix . "stockroom"
 			. "\n  WHERE published = 1";
@@ -2553,7 +2553,7 @@ class product_detailModelproduct_detail extends JModel
 	 */
 	public function StockRoomProductQuantity($pid, $sid)
 	{
-		$database =& JFactory::getDBO();
+		$database = JFactory::getDBO();
 
 		$q = "SELECT `quantity` FROM `" . $this->_table_prefix . "product_stockroom_xref` WHERE `product_id` = '" . $pid . "' and `stockroom_id` = '" . $sid . "' ";
 		$database->setQuery($q);
@@ -2567,7 +2567,7 @@ class product_detailModelproduct_detail extends JModel
 	 */
 	public function StockRoomAttProductQuantity($pid, $sid, $section)
 	{
-		$database =& JFactory::getDBO();
+		$database = JFactory::getDBO();
 
 		$q = "SELECT `quantity` FROM `" . $this->_table_prefix . "product_attribute_stockroom_xref` WHERE `section_id` = '"
 			. $pid . "' and `stockroom_id` = '" . $sid . "' AND section = '" . $section . "'";
@@ -2579,7 +2579,7 @@ class product_detailModelproduct_detail extends JModel
 
 	public function StockRoomAttProductPreorderstock($pid, $sid, $section)
 	{
-		$database =& JFactory::getDBO();
+		$database = JFactory::getDBO();
 
 		$q = "SELECT `preorder_stock`, `ordered_preorder`  FROM `" . $this->_table_prefix . "product_attribute_stockroom_xref`
 		WHERE `section_id` = '" . $pid . "' and `stockroom_id` = '" . $sid . "' AND section = '" . $section . "'";
@@ -2592,7 +2592,7 @@ class product_detailModelproduct_detail extends JModel
 	// Getting Preorder Stock Quantity
 	public function StockRoomPreorderProductQuantity($pid, $sid, $section)
 	{
-		$database =& JFactory::getDBO();
+		$database = JFactory::getDBO();
 
 		$q = "SELECT `preorder_stock`, `ordered_preorder`  FROM `" . $this->_table_prefix . "product_stockroom_xref`
 		WHERE `product_id` = '" . $pid . "' and `stockroom_id` = '" . $sid . "' ";
@@ -2605,7 +2605,7 @@ class product_detailModelproduct_detail extends JModel
 	// Store stockroom product xref
 	public function SaveStockroom($pid, $post)
 	{
-		$database =& JFactory::getDBO();
+		$database = JFactory::getDBO();
 		$query = "DELETE FROM " . $this->_table_prefix . "product_stockroom_xref"
 			. "\n  WHERE product_id = '" . $pid . "' ";
 
@@ -2629,7 +2629,7 @@ class product_detailModelproduct_detail extends JModel
 	public function  attribute_empty()
 	{
 		$producthelper = new producthelper;
-		$database =& JFactory::getDBO();
+		$database = JFactory::getDBO();
 
 		if ($this->_id)
 		{
@@ -2850,7 +2850,7 @@ class product_detailModelproduct_detail extends JModel
 				$stockroom_data['regular_stock'] = $quantity;
 				$stockroom_data['preorder_stock'] = $preorder_stock;
 				JPluginHelper::importPlugin('redshop_product');
-				$dispatcher =& JDispatcher::getInstance();
+				$dispatcher = JDispatcher::getInstance();
 				$data = $dispatcher->trigger('afterUpdateStock', array($stockroom_data));
 				//End
 			}
@@ -2913,9 +2913,9 @@ class product_detailModelproduct_detail extends JModel
 	 */
 	public function saveorder($cid = array(), $order)
 	{
-		global $mainframe;
+		$app = JFactory::getApplication();
 		// get global category id
-		$category_id_my = $mainframe->getUserStateFromRequest('category_id', 'category_id', 0);
+		$category_id_my = $app->getUserStateFromRequest('category_id', 'category_id', 0);
 		// init array
 		$orderarray = array();
 
@@ -2947,8 +2947,8 @@ class product_detailModelproduct_detail extends JModel
 
 	public function orderup()
 	{
-		global $mainframe;
-		$category_id_my = $mainframe->getUserStateFromRequest('category_id', 'category_id', 0);
+		$app = JFactory::getApplication();
+		$category_id_my = $app->getUserStateFromRequest('category_id', 'category_id', 0);
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 		$cid = $cid[0];
 
@@ -2988,8 +2988,8 @@ class product_detailModelproduct_detail extends JModel
 
 	public function orderdown()
 	{
-		global $mainframe;
-		$category_id_my = $mainframe->getUserStateFromRequest('category_id', 'category_id', 0);
+		$app = JFactory::getApplication();
+		$category_id_my = $app->getUserStateFromRequest('category_id', 'category_id', 0);
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 		$cid = $cid[0];
 
@@ -3343,7 +3343,7 @@ class product_detailModelproduct_detail extends JModel
 		$stockroom_data['regular_stock'] = $quantiy;
 		$stockroom_data['preorder_stock'] = $preorder_stock;
 		JPluginHelper::importPlugin('redshop_product');
-		$dispatcher =& JDispatcher::getInstance();
+		$dispatcher = JDispatcher::getInstance();
 		$data = $dispatcher->trigger('afterUpdateStock', array($stockroom_data));
 
 		return true;

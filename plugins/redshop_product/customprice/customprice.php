@@ -1,6 +1,13 @@
 <?php
-// no direct access
-defined('_JEXEC') or die('Restricted access');
+/**
+ * @package     RedSHOP
+ * @subpackage  Plugin
+ *
+ * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
+ */
+
+defined('_JEXEC') or die;
 
 class plgredshop_productcustomprice extends JPlugin
 {
@@ -13,7 +20,7 @@ class plgredshop_productcustomprice extends JPlugin
 	 * @param    object        The product params
 	 * @param    object        The product object
 	 */
-	function onPrepareProduct(&$template, &$params, $product)
+	public function onPrepareProduct(&$template, &$params, $product)
 	{
 		$document = JFactory::getDocument();
 		$document->addScriptDeclaration("
@@ -35,7 +42,7 @@ class plgredshop_productcustomprice extends JPlugin
 	 * @param    object         The product params
 	 * @param    int            The product object     *
 	 */
-	function onBeforeSetCartSession(& $cart, $data)
+	public function onBeforeSetCartSession(& $cart, $data)
 	{
 		if (!isset($data['product_custom_price']))
 		{
@@ -64,7 +71,7 @@ class plgredshop_productcustomprice extends JPlugin
 	 * @param    object         The product params
 	 * @param    int            The product object     *
 	 */
-	function onSameCartProduct(& $cart, $data, $i)
+	public function onSameCartProduct(& $cart, $data, $i)
 	{
 		if (!isset($data['product_custom_price']))
 		{
@@ -78,7 +85,6 @@ class plgredshop_productcustomprice extends JPlugin
 
 		// set product custom price
 		$cart['product_custom_price'][$cart[$i]['product_id']] = $data['product_custom_price'];
-
 	}
 
 	/**
@@ -90,7 +96,7 @@ class plgredshop_productcustomprice extends JPlugin
 	 *
 	 * @return  int/boolean  return product price if success else return false
 	 */
-	function setProductCustomPrice($product_id)
+	public function setProductCustomPrice($product_id)
 	{
 		$session = JFactory::getSession();
 		$cart = $session->get('cart');

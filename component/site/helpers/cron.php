@@ -8,7 +8,8 @@
  */
 
 defined('_JEXEC') or die;
-require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'mail.php');
+
+require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/mail.php';
 
 /**
  *  cron class
@@ -31,7 +32,6 @@ class Cron
 		{
 			cron::after_purchased_order_mail();
 		}
-
 
 		// Move Container to Stockroom start
 		$fdate = date('Y-m-d', $today);
@@ -360,7 +360,7 @@ class Cron
 		$db->setQuery($query);
 		$data = $db->loadObjectList();
 
-		JTable::addIncludePath(JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'tables');
+		JTable::addIncludePath(JPATH_SITE . '/administrator/components/com_redshop/tables');
 
 		foreach ($data as $mail_detail)
 		{
@@ -432,7 +432,7 @@ class Cron
 
 					if ($sent == 1)
 					{
-						$couponItems                   =& JTable::getInstance('coupon_detail', 'Table');
+						$couponItems                   = JTable::getInstance('coupon_detail', 'Table');
 						$couponItems->coupon_code      = $token;
 						$couponItems->percent_or_total = DISCOUPON_PERCENT_OR_TOTAL;
 						$couponItems->coupon_value     = DISCOUPON_VALUE;

@@ -30,7 +30,7 @@ JDEBUG ? $_PROFILER->mark('afterLoad') : null;
  *
  * NOTE :
  */
-$mainframe =& JFactory::getApplication('site');
+$app = JFactory::getApplication();
 
 /**
  * INITIALISE THE APPLICATION
@@ -38,7 +38,7 @@ $mainframe =& JFactory::getApplication('site');
  * NOTE :
  */
 // set the language
-$mainframe->initialise();
+$app->initialise();
 $request = JRequest::get('request');
 
 $txid = $request['tx'];

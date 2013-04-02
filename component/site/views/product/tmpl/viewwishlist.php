@@ -12,9 +12,9 @@ defined('_JEXEC') or die;
 JHTML::_('behavior.tooltip');
 JHTML::_('behavior.modal');
 
-require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'category.php';
-require_once JPATH_ROOT . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'product.php';
-require_once JPATH_ROOT . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'helper.php';
+require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/category.php';
+require_once JPATH_ROOT . '/components/com_redshop/helpers/product.php';
+require_once JPATH_ROOT . '/components/com_redshop/helpers/helper.php';
 
 $config        = new Redconfiguration;
 $producthelper = new producthelper;
@@ -28,7 +28,7 @@ $user       = JFactory::getUser();
 
 if (!$user->id)
 {
-	$rows = & $this->wish_products;
+	$rows = $this->wish_products;
 	echo "<div class='mod_redshop_wishlist'>";
 
 	if (count($rows) > 0)
@@ -64,7 +64,7 @@ else // If user logged in than display this code.
 
 	if (count($wishlists) > 0)
 	{
-		$wish_products = & $this->wish_products;
+		$wish_products = $this->wish_products;
 
 		// Send mail link
 		for ($j = 0; $j < count($wishlists); $j++)

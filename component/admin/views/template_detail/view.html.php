@@ -15,32 +15,32 @@ class template_detailVIEWtemplate_detail extends JView
 {
 	public function display($tpl = null)
 	{
-		$mainframe =& JFactory::getApplication();
+		$app = JFactory::getApplication();
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_TEMPLATES_MANAGEMET'), 'redshop_templates48');
 
-		$uri = & JFactory::getURI();
+		$uri = JFactory::getURI();
 
 		jimport('joomla.html.pane');
-		$pane = & JPane::getInstance('sliders');
+		$pane = JPane::getInstance('sliders');
 		$this->assignRef('pane', $pane);
 
 		$model = $this->getModel('template_detail');
-		$user =& JFactory::getUser();
+		$user = JFactory::getUser();
 		$redtemplate = new Redtemplate;
 
 		// 	fail if checked out not by 'me'
 		if ($model->isCheckedOut($user->get('id')))
 		{
 			$msg = JText::sprintf('DESCBEINGEDITTED', JText::_('COM_REDSHOP_THE_DETAIL'), $detail->title);
-			$mainframe->redirect('index.php?option=com_redshop&view=template', $msg);
+			$app->redirect('index.php?option=com_redshop&view=template', $msg);
 		}
 
 		$this->setLayout('default');
 
 		$lists = array();
 
-		$detail =& $this->get('data');
+		$detail = $this->get('data');
 
 		$isNew = ($detail->template_id < 1);
 

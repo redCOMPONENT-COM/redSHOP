@@ -15,10 +15,12 @@ class fieldsViewfields extends JView
 {
 	public function display($tpl = null)
 	{
-		global $mainframe, $context;
 		$context = 'field_id';
-		$redtemplate = new Redtemplate;
-		$document = & JFactory::getDocument();
+
+		$uri      = JFactory::getURI();
+		$app      = JFactory::getApplication();
+		$document = JFactory::getDocument();
+
 		$document->setTitle(JText::_('COM_REDSHOP_FIELDS'));
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_FIELDS_MANAGEMENT'), 'redshop_fields48');
@@ -28,17 +30,18 @@ class fieldsViewfields extends JView
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();
 
-		$uri =& JFactory::getURI();
-		$fields = & $this->get('Data');
-		$total = & $this->get('Total');
-		$pagination = & $this->get('Pagination');
-		$optiontype = $redtemplate->getFieldTypeSections();
+		$fields        = $this->get('Data');
+		$total         = $this->get('Total');
+		$pagination    = $this->get('Pagination');
+
+		$redtemplate = new Redtemplate;
+		$optiontype    = $redtemplate->getFieldTypeSections();
 		$optionsection = $redtemplate->getFieldSections();
 
-		$filter_order = $mainframe->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'field_id');
-		$filter_order_Dir = $mainframe->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
-		$filtertypes = $mainframe->getUserStateFromRequest($context . 'filtertypes', 'filtertypes', 0);
-		$filtersection = $mainframe->getUserStateFromRequest($context . 'filtertypes', 'filtersection', 0);
+		$filter_order     = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'field_id');
+		$filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
+		$filtertypes      = $app->getUserStateFromRequest($context . 'filtertypes', 'filtertypes', 0);
+		$filtersection    = $app->getUserStateFromRequest($context . 'filtertypes', 'filtersection', 0);
 
 		$lists['order'] = $filter_order;
 		$lists['order_Dir'] = $filter_order_Dir;

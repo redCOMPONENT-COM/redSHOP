@@ -1,13 +1,13 @@
 <?php
 /**
- * @package     RedSHOP.Frontend
+ * @package     RedSHOP
  * @subpackage  Plugin
  *
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 // Including redshop product helper file and configuration file
 require_once JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'product.php';
@@ -15,7 +15,7 @@ require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS .
 
 class plgAcymailingRedshop extends JPlugin
 {
-	function plgAcymailingRedshop(&$subject, $config)
+	public function plgAcymailingRedshop(&$subject, $config)
 	{
 		parent::__construct($subject, $config);
 
@@ -26,7 +26,7 @@ class plgAcymailingRedshop extends JPlugin
 		}
 	}
 
-	function acymailing_getPluginType()
+	public function acymailing_getPluginType()
 	{
 		$onePlugin = null;
 		$onePlugin->name = JText::_('COM_REDSHOP_redSHOP');
@@ -36,9 +36,9 @@ class plgAcymailingRedshop extends JPlugin
 		return $onePlugin;
 	}
 
-	function acymailingredSHOP_show()
+	public function acymailingredSHOP_show()
 	{
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 		$query = "SELECT p.product_id,p.product_name,c.category_id,c.category_name FROM "
 			. " #__redshop_product AS p,#__redshop_category AS c,#__redshop_product_category_xref AS pc"
 			. " WHERE pc.category_id=c.category_id AND p.product_id=pc.product_id";
@@ -46,13 +46,16 @@ class plgAcymailingRedshop extends JPlugin
 
 		$rs = $db->loadObjectlist();
 		$text = '<table class="adminlist" cellpadding="1">';
-		$text .= '<tr style="cursor:pointer" ><th>' . JText::_('COM_REDSHOP_PRODUCT_NAME') . '</th><th>' . JText::_('COM_REDSHOP_CATEGORY_NAME') . '</th></tr>';
+		$text .= '<tr style="cursor:pointer" ><th>' . JText::_('COM_REDSHOP_PRODUCT_NAME') . '</th><th>'
+			. JText::_('COM_REDSHOP_CATEGORY_NAME') . '</th></tr>';
 		$k = 0;
 
 		for ($i = 0; $i < count($rs); $i++)
 		{
 			$row = & $rs[$i];
-			$text .= '<tr style="cursor:pointer" class="row' . $k . '" onclick="setTag(\'{product:' . $row->product_id . '}\');insertTag();" ><td>' . $row->product_name . '</td><td>' . $row->category_name . '</td></tr>';
+			$text .= '<tr style="cursor:pointer" class="row' . $k . '" onclick="setTag(\'{product:'
+				. $row->product_id . '}\');insertTag();" ><td>' . $row->product_name . '</td><td>'
+				. $row->category_name . '</td></tr>';
 			$k = 1 - $k;
 		}
 
@@ -60,26 +63,37 @@ class plgAcymailingRedshop extends JPlugin
 		echo $text;
 	}
 
-	function acymailing_replaceusertagspreview(&$email)
+	public function acymailing_replaceusertagspreview(&$email)
 	{
 		return $this->acymailing_replaceusertags($email);
 	}
 
-	function acymailing_replaceusertags(&$email)
+	public function acymailing_replaceusertags(&$email)
 	{
 		$match = '#{product:?([^:]*)}#Ui';
 		$variables = array('subject', 'body', 'altbody');
 		$found = false;
+		$results = array();
 
 		foreach ($variables as $var)
 		{
-			if (empty($email->$var)) continue;
+			if (empty($email->$var))
+			{
+				continue;
+			}
+
 			$found = preg_match_all($match, $email->$var, $results[$var]) || $found;
 
-			if (empty($results[$var][0])) unset($results[$var]);
+			if (empty($results[$var][0]))
+			{
+				unset($results[$var]);
+			}
 		}
 
-		if (!$found) return;
+		if (!$found)
+		{
+			return;
+		}
 
 		$tags = array();
 
@@ -87,7 +101,10 @@ class plgAcymailingRedshop extends JPlugin
 		{
 			foreach ($allresults[0] as $i => $oneTag)
 			{
-				if (isset($tags[$oneTag])) continue;
+				if (isset($tags[$oneTag]))
+				{
+					continue;
+				}
 
 				if (is_numeric($allresults[1][$i]))
 				{
@@ -102,15 +119,14 @@ class plgAcymailingRedshop extends JPlugin
 		}
 	}
 
-	/*
-	 * get redSHOP product information for Tag Replacement
-	 * @params: $product_id
-	 * @return: string
+	/**
+	 * Get redSHOP product information for Tag Replacement.
 	 *
-	 * @return value: product Main Image,Product Name,Product Formatted Price
+	 * @param   int  $product_id  The product ID
 	 *
+	 * @return mixed  Product Main Image,Product Name,Product Formatted Price
 	 */
-	function getProduct($product_id)
+	public function getProduct($product_id)
 	{
 		require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'template.php';
 		$redTemplate = new producthelper;
@@ -119,7 +135,7 @@ class plgAcymailingRedshop extends JPlugin
 		$prtemplate = $redTemplate->getTemplate('product_content_template', $prtemplate_id);
 
 		// Get Product Data
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 		$query = "SELECT * FROM #__redshop_product WHERE product_id=" . $product_id;
 		$db->setQuery($query);
 		$rs = $db->loadObject();
@@ -128,7 +144,6 @@ class plgAcymailingRedshop extends JPlugin
 		$producthelper = new producthelper;
 
 		// Get Product Formatted price as per redshop configuration
-		//$price = $producthelper->getProductNetPrice($product_id);
 		$productArr = $producthelper->getProductNetPrice($product_id);
 		$price = $productArr['productPrice'] + $productArr['productVat'];
 		$price = $producthelper->getProductFormattedPrice($price);
@@ -151,13 +166,13 @@ class plgAcymailingRedshop extends JPlugin
 			$text = str_replace("{read_more}", "", $text);
 			$text = str_replace("{product_desc}", "", $text);
 
-			# replace attribute template to null
+			// Replace attribute template to null
 			$attribute_tag_arr = explode("attribute_template:", $text);
 			$attribute_tag_arr = explode("}", $attribute_tag_arr[1]);
 			$attribute_tag = "{attribute_template:" . $attribute_tag_arr[0] . "}";
 			$text = str_replace($attribute_tag, "", $text);
 
-			# replace add to cart template to null
+			// Replace add to cart template to null
 			$cart_tag_arr = explode("form_addtocart:", $text);
 			$cart_tag_arr = explode("}", $cart_tag_arr[1]);
 			$cart_tag = "{form_addtocart:" . $cart_tag_arr[0] . "}";
@@ -166,4 +181,4 @@ class plgAcymailingRedshop extends JPlugin
 
 		return $text;
 	}
-}//endclass
+}

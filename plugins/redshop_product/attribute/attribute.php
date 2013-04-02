@@ -1,6 +1,13 @@
 <?php
-// no direct access
-defined('_JEXEC') or die('Restricted access');
+/**
+ * @package     RedSHOP
+ * @subpackage  Plugin
+ *
+ * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
+ */
+
+defined('_JEXEC') or die;
 
 // Import library dependencies
 jimport('joomla.plugin.plugin');
@@ -16,12 +23,12 @@ class plgredshop_productattribute extends JPlugin
 	 * NOT references.  This causes problems with cross-referencing necessary for the
 	 * observer design pattern.
 	 */
-	function plgredshop_productattribute(&$subject)
+	public function plgredshop_productattribute(&$subject)
 	{
 		parent::__construct($subject);
 
-		// load plugin parameters
-		$this->_plugin = JPluginHelper::getPlugin('redshop_product', 'onPrepareProduct');
+		// Load plugin parameters
+		$this->_plugin = JPluginHelper::getPlugin('redshop_product', 'attribute');
 		$this->_params = new JRegistry($this->_plugin->params);
 	}
 
@@ -34,9 +41,9 @@ class plgredshop_productattribute extends JPlugin
 	 * @param    object        The product params
 	 * @param    object        The product object
 	 */
-function onPrepareProduct(&$template, &$params, $product)
+public function onPrepareProduct(&$template, &$params, $product)
 {
-	$document =& JFactory::getDocument();
+	$document = JFactory::getDocument();
 	$document->addScriptDeclaration("
 
 		/**
@@ -44,7 +51,7 @@ function onPrepareProduct(&$template, &$params, $product)
 		 *
 		 * @params: orgarg  All the arguments array from the original function
 		 */
-		function onchangePropertyDropdown(orgarg){
+		public function onchangePropertyDropdown(orgarg){
 			if(orgarg[4]!=0)
 			document.getElementById('atrib_subprop_price'+orgarg[0]).style.display = 'none';
 			else
@@ -151,7 +158,6 @@ function onPrepareProduct(&$template, &$params, $product)
 		$property_subattribute = $this->getattribute_property($attributes[$i]->attribute_id);
 		$proper_val = count($property_subattribute);
 		$total += $proper_val;
-
 	}
 
 	if ($total_attributes > 0 && strstr($template, "{start_if_attribute}") && strstr($template, "{end_if_attribute}"))
@@ -190,7 +196,7 @@ function onPrepareProduct(&$template, &$params, $product)
 
 	function getattribute_property($attrib_id)
 	{
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 		$query = "SELECT p.property_id,p.property_price,s.subattribute_id,s.subattribute_color_price "
 			. " FROM #__redshop_product_attribute_property AS p"
 			. " LEFT JOIN #__redshop_product_subattribute_color AS s ON s.subattribute_id=p.property_id "

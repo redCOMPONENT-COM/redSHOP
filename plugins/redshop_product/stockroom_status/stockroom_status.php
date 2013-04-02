@@ -1,6 +1,13 @@
 <?php
-// no direct access
-defined('_JEXEC') or die('Restricted access');
+/**
+ * @package     RedSHOP
+ * @subpackage  Plugin
+ *
+ * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
+ */
+
+defined('_JEXEC') or die;
 
 // Import library dependencies
 jimport('joomla.plugin.plugin');
@@ -15,11 +22,11 @@ class plgredshop_productstockroom_status extends JPlugin
 	 * NOT references.  This causes problems with cross-referencing necessary for the
 	 * observer design pattern.
 	 */
-	function plgredshop_productstockroom_status(&$subject)
+	public function plgredshop_productstockroom_status(&$subject)
 	{
 		parent::__construct($subject);
 
-		// load plugin parameters
+		// Load plugin parameters
 		$this->_table_prefix = '#__redshop_';
 		$this->_plugin = JPluginHelper::getPlugin('redshop_product', 'stockroom_status');
 		$this->_params = new JRegistry($this->_plugin->params);
@@ -34,7 +41,7 @@ class plgredshop_productstockroom_status extends JPlugin
 	 * @param    object        The product params
 	 * @param    object        The product object
 	 */
-	function getStockroomStatus($order_id)
+	public function getStockroomStatus($order_id)
 	{
 		$db = JFactory::getDBO();
 		//$order_id= $order->order_id;
@@ -87,7 +94,6 @@ class plgredshop_productstockroom_status extends JPlugin
 							<td>" . $stock_details[0]->stockroom_name . "</td>
 							<td>" . $stock_status . "</td>
 						</tr>";
-
 				}
 			}
 
@@ -100,7 +106,6 @@ class plgredshop_productstockroom_status extends JPlugin
 		if (ADMINISTRATOR_EMAIL != "" && $stock_flag == 1)
 		{
 			JUtility::sendMail(SHOP_NAME, SHOP_NAME, ADMINISTRATOR_EMAIL, "Stockroom Status Mail", $message, 1);
-
 		}
 
 	}

@@ -1,21 +1,14 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license   GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- *            Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     RedSHOP
+ * @subpackage  Plugin
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-/** ensure this file is being included by a parent file */
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
+
 jimport('joomla.plugin.plugin');
 
 class plgRedshop_veis_registrationrs_veis_registration extends JPlugin
@@ -28,7 +21,7 @@ class plgRedshop_veis_registrationrs_veis_registration extends JPlugin
 	 * NOT references.  This causes problems with cross-referencing necessary for the
 	 * observer design pattern.
 	 */
-	function plgRedshop_veis_registrationrs_veis_registration(&$subject)
+	public function plgRedshop_veis_registrationrs_veis_registration(&$subject)
 	{
 		// Load plugin parameters
 		parent::__construct($subject);
@@ -40,7 +33,7 @@ class plgRedshop_veis_registrationrs_veis_registration extends JPlugin
 	/**
 	 * Plugin method with the same name as the event will be called automatically.
 	 */
-	function checkVeisValidation($element, $data)
+	public function checkVeisValidation($element, $data)
 	{
 		$db = JFactory::getDBO();
 		$query = 'SELECT country_2_code FROM ' . $this->_table_prefix . 'country ' . 'WHERE country_3_code LIKE "' . $element['country_code'] . '"';
@@ -132,7 +125,6 @@ class plgRedshop_veis_registrationrs_veis_registration extends JPlugin
 				echo "<input type='hidden' name='veis_status' value='Invalid' id='veis_status'>";
 				echo "</td>";
 				echo "</tr>";
-
 			}
 		}
 

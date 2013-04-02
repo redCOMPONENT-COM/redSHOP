@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die ('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 
@@ -32,9 +32,7 @@ class addquotation_detailController extends JController
 		$post ['quotation_id'] = $cid [0];
 		$model = $this->getModel('addquotation_detail');
 
-		global $mainframe;
-
-		$acl = & JFactory::getACL();
+		$acl = JFactory::getACL();
 
 		if (!$post['users_info_id'])
 		{
@@ -47,12 +45,12 @@ class addquotation_detailController extends JController
 
 			$post['groups'] = array(0 => 2);
 
-			$date =& JFactory::getDate();
+			$date = JFactory::getDate();
 			$post['registerDate'] = $date->toMySQL();
 			$post['block'] = 0;
 
 			// Get Admin order detail Model Object
-			$usermodel = & JModel::getInstance('user_detail', 'user_detailModel');
+			$usermodel = JModel::getInstance('user_detail', 'user_detailModel');
 
 			// Call Admin order detail Model store function for Billing
 			$user = $usermodel->storeUser($post);

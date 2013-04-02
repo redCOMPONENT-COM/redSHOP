@@ -40,7 +40,7 @@ class wizardViewwizard extends JView
 
 		$this->temparray = $temparray;
 
-		$uri =& JFactory::getURI();
+		$uri = JFactory::getURI();
 
 		$option = JRequest::getVar('option');
 
@@ -51,7 +51,7 @@ class wizardViewwizard extends JView
 		$extra_field = new extra_field;
 		$model = $this->getModel();
 
-		$document = & JFactory::getDocument();
+		$document = JFactory::getDocument();
 
 		$document->setTitle(JText::_('COM_REDSHOP_CONFIG'));
 		$document->addScript('components/' . $option . '/assets/js/validation.js');
@@ -266,7 +266,7 @@ class wizardViewwizard extends JView
 			$no = JText::_('COM_REDSHOP_SHIPPING_ADDRESS_LBL'), '', 'BT', 'ST'
 		);
 
-		$this->taxrates =& $this->get('TaxRates');
+		$this->taxrates = $this->get('TaxRates');
 
 		$this->assignRef('lists', $lists);
 		$this->assignRef('request_url', $uri->toString());

@@ -43,7 +43,7 @@
 <div id="editcell">
 	<?php
 	JPluginHelper::importPlugin('redshop_custom_views');
-	$dispatcher =& JDispatcher::getInstance();
+	$dispatcher = JDispatcher::getInstance();
 	$printoption = JRequest::getVar('printoption');
 	$popup = JRequest::getVar('popup');
 	$tmplPath = JPATH_SITE . DS . 'plugins' . DS . 'redshop_custom_views' . DS . $printoption . DS . 'tmpl';

@@ -1,18 +1,13 @@
 <?php
 /**
- * @version        $Id: pagebreak.php 10709 2008-08-21 09:58:52Z eddieajau $
- * @package        Joomla
- * @copyright      Copyright (C) 2005 - 2008 Open Source Matters. All rights reserved.
- * @license        GNU/GPL, see LICENSE.php
- *                 Joomla! is free software. This version may have been modified pursuant
- *                 to the GNU General Public License, and as distributed it includes or
- *                 is derivative of works licensed under the GNU General Public License or
- *                 other free or open source software licenses.
- *                 See COPYRIGHT.php for copyright notices and details.
+ * @package     RedSHOP
+ * @subpackage  Plugin
+ *
+ * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-// no direct access
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.plugin.plugin');
 
@@ -25,48 +20,28 @@ jimport('joomla.plugin.plugin');
 class plgButtonproduct extends JPlugin
 {
 	/**
-	 * Constructor
-	 *
-	 * For php4 compatability we must not use the __constructor as a constructor for plugins
-	 * because func_get_args ( void ) returns a copy of all passed arguments NOT references.
-	 * This causes problems with cross-referencing necessary for the observer design pattern.
-	 *
-	 * @param object   $subject The object to observe
-	 * @param    array $config  An array that holds the plugin configuration
-	 *
-	 * @since 1.5
-	 */
-	function plgButtonproduct(& $subject, $config)
-	{
-		parent::__construct($subject, $config);
-	}
-
-	/**
 	 * Display the button
 	 *
 	 * @return array A two element array of ( imageName, textToInsert )
 	 */
-	function onDisplay($name)
+	public function onDisplay($name)
 	{
-		$mainframe =& JFactory::getApplication();
+		$app = JFactory::getApplication();
 
-		$doc = & JFactory::getDocument();
+		$doc = JFactory::getDocument();
 
 		$js = "
 		function jSelectProduct(id, title, object) {
 			var tag = '{redshop:'+id+'}';
 			window.parent.jInsertEditorText(tag, object);
 			window.parent.SqueezeBox.close();
-
 		}";
 		$doc->addScriptDeclaration($js);
 
-		//$doc->addStyleSheet( JURI::root( true ).'/plugins/editors-xtd/product/css/product.css' );
-
-		$template = $mainframe->getTemplate();
+		$template = $app->getTemplate();
 		$link = 'index.php?option=com_redshop&amp;view=product_mini&amp;tmpl=component&amp;e_name=' . $name;
 
-		if ($mainframe->isAdmin())
+		if ($app->isAdmin())
 		{
 			$link = '../index.php?option=com_redshop&amp;view=product_mini&amp;tmpl=component&amp;e_name=' . $name;
 		}

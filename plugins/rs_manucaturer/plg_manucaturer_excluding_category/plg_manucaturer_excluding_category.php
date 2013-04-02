@@ -1,8 +1,14 @@
 <?php
-// No direct access
-defined('_JEXEC') or die('Restricted access');
+/**
+ * @package     RedSHOP
+ * @subpackage  Plugin
+ *
+ * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
+ */
 
-// Import library dependencies
+defined('_JEXEC') or die;
+
 jimport('joomla.plugin.plugin');
 
 class plgrs_manufacaturerplg_manucaturer_excluding_category extends JPlugin
@@ -15,14 +21,8 @@ class plgrs_manufacaturerplg_manucaturer_excluding_category extends JPlugin
 	 * NOT references.  This causes problems with cross-referencing necessary for the
 	 * observer design pattern.
 	 */
-	function plgrs_manufacaturerplg_manucaturer_excluding_category(&$subject)
+	public function plgrs_manufacaturerplg_manucaturer_excluding_category(&$subject)
 	{
 		parent::__construct($subject);
-
-		// Load plugin parameters
-//	    $this->_plugin = JPluginHelper::getPlugin( 'rs_manufacaturer', 'onPrepareProduct' );
-//	    $this->_params = new JRegistry( $this->_plugin->params );
 	}
 }
-
-?>

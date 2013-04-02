@@ -17,6 +17,13 @@ require_once(JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers
 
 class addorder_detailVIEWaddorder_detail extends JView
 {
+	/**
+	 * The request url.
+	 *
+	 * @var  string
+	 */
+	public $request_url;
+
 	public function display($tpl = null)
 	{
 		$option = JRequest::getVar('option');
@@ -24,7 +31,7 @@ class addorder_detailVIEWaddorder_detail extends JView
 		$order_functions = new order_functions;
 		$Redconfiguration = new Redconfiguration;
 
-		$document = & JFactory::getDocument();
+		$document = JFactory::getDocument();
 		$document->setTitle(JText::_('COM_REDSHOP_ORDER'));
 
 		$document->addScript('components/' . $option . '/assets/js/select_sort.js');
@@ -36,17 +43,17 @@ class addorder_detailVIEWaddorder_detail extends JView
 		$document->addScript('components/' . $option . '/assets/js/order.js');
 		$document->addScript('components/' . $option . '/assets/js/common.js');
 
-		$uri =& JFactory::getURI();
+		$uri = JFactory::getURI();
 		$lists = array();
 		$billing = array();
 		$shippinginfo = array();
 		$model = $this->getModel();
-		$detail =& $this->get('data');
+		$detail = $this->get('data');
 		$redhelper = new redhelper;
 
 		$payment_lang_list = $redhelper->getPlugins("redshop_payment");
 
-		$language =& JFactory::getLanguage();
+		$language = JFactory::getLanguage();
 		$base_dir = JPATH_ADMINISTRATOR;
 		$language_tag = $language->getTag();
 
@@ -74,6 +81,7 @@ class addorder_detailVIEWaddorder_detail extends JView
 		$shipping_state = 0;
 		$key = 0;
 		$shippingop = array();
+		$shippingop[0] = new stdClass;
 		$shippingop[0]->users_info_id = 0;
 		$shippingop[0]->text = JText::_('COM_REDSHOP_SELECT');
 
@@ -105,6 +113,7 @@ class addorder_detailVIEWaddorder_detail extends JView
 			$shipping_users_info_id = $shippinginfo[0]->users_info_id = 0;
 			$billisship = $shippinginfo[0]->billisship;
 		}
+
 		$shdisable = ($billisship) ? "disabled" : "";
 
 		$detail->user_id = $user_id;
@@ -113,7 +122,7 @@ class addorder_detailVIEWaddorder_detail extends JView
 			'users_info_id', 'text', $shipping_users_info_id
 		);
 
-		$payment_detail =& $this->get('payment');
+		$payment_detail = $this->get('payment');
 		JToolBarHelper::title(JText::_('COM_REDSHOP_ORDER') . ': <small><small>[ ' . JText::_('COM_REDSHOP_NEW') . ' ]</small></small>', 'redshop_order48');
 
 		if ($err == "" && array_key_exists("users_info_id", $billing) && $billing->users_info_id)
@@ -156,7 +165,7 @@ class addorder_detailVIEWaddorder_detail extends JView
 		$this->assignRef('shipping_users_info_id', $shipping_users_info_id);
 		$this->assignRef('payment_detail', $payment_detail);
 		$this->assignRef('shipping_rate_id', $shipping_rate_id);
-		$this->assignRef('request_url', $uri->toString());
+		$this->request_url = $uri->toString();
 
 		parent::display($tpl);
 	}

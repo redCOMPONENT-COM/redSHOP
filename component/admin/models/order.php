@@ -29,14 +29,14 @@ class orderModelorder extends JModel
 	{
 		parent::__construct();
 
-		global $mainframe;
+		$app = JFactory::getApplication();
 		$this->_context = 'order_id';
 		$this->_table_prefix = '#__redshop_';
-		$limit = $mainframe->getUserStateFromRequest($this->_context . 'limit', 'limit', $mainframe->getCfg('list_limit'), 0);
-		$limitstart = $mainframe->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
-		$filter_status = $mainframe->getUserStateFromRequest($this->_context . 'filter_status', 'filter_status', '', 'word');
-		$filter_payment_status = $mainframe->getUserStateFromRequest($this->_context . 'filter_payment_status', 'filter_payment_status', '', '');
-		$filter = $mainframe->getUserStateFromRequest($this->_context . 'filter', 'filter', 0);
+		$limit = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
+		$limitstart = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
+		$filter_status = $app->getUserStateFromRequest($this->_context . 'filter_status', 'filter_status', '', 'word');
+		$filter_payment_status = $app->getUserStateFromRequest($this->_context . 'filter_payment_status', 'filter_payment_status', '', '');
+		$filter = $app->getUserStateFromRequest($this->_context . 'filter', 'filter', 0);
 		$limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
 		$this->setState('limit', $limit);
 		$this->setState('limitstart', $limitstart);
@@ -132,10 +132,10 @@ class orderModelorder extends JModel
 
 	public function _buildContentOrderBy()
 	{
-		global $mainframe;
+		$app = JFactory::getApplication();
 
-		$filter_order = $mainframe->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', ' o.order_id');
-		$filter_order_Dir = $mainframe->getUserStateFromRequest($this->_context . 'filter_order_Dir', 'filter_order_Dir', ' DESC ');
+		$filter_order = $app->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', ' o.order_id');
+		$filter_order_Dir = $app->getUserStateFromRequest($this->_context . 'filter_order_Dir', 'filter_order_Dir', ' DESC ');
 
 		$orderby = ' ORDER BY ' . $filter_order . ' ' . $filter_order_Dir;
 
@@ -196,13 +196,13 @@ class orderModelorder extends JModel
 
 	public function gls_export($cid)
 	{
-		global $mainframe;
+		$app = JFactory::getApplication();
 		$oids = implode(',', $cid);
 		$where = "";
 		$redhelper = new redhelper;
 		$order_helper = new order_functions;
 		$shipping = new shipping;
-		$plugin = & JPluginHelper::getPlugin('rs_labels_GLS');
+		$plugin = JPluginHelper::getPlugin('rs_labels_GLS');
 		$glsparams = new JParameter($plugin[0]->params);
 		$normal_parcel_weight_start = $glsparams->get('normal_parcel_weight_start', '');
 		$normal_parcel_weight_end = $glsparams->get('normal_parcel_weight_end', '');
@@ -252,7 +252,7 @@ class orderModelorder extends JModel
 			$where = " WHERE order_id IN (" . $oids . ")";
 		}
 
-		$db = & JFactory::getDBO();
+		$db = JFactory::getDBO();
 		$q = "SELECT * FROM #__redshop_orders " . $where . " ORDER BY order_id asc";
 		$db->setQuery($q);
 		$gls_arr = $db->loadObjectList();
@@ -326,7 +326,7 @@ class orderModelorder extends JModel
 
 	public function business_gls_export($cid)
 	{
-		global $mainframe;
+		$app = JFactory::getApplication();
 		$oids = implode(',', $cid);
 		$where = "";
 		$redhelper = new redhelper;
@@ -375,7 +375,7 @@ class orderModelorder extends JModel
 		{
 			$where = " WHERE order_id IN (" . $oids . ")";
 		}
-		$db = & JFactory::getDBO();
+		$db = JFactory::getDBO();
 		$q = "SELECT * FROM #__redshop_orders " . $where . " ORDER BY order_id asc";
 		$db->setQuery($q);
 		$gls_arr = $db->loadObjectList();

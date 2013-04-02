@@ -1,18 +1,14 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license   GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- *            Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     RedSHOP
+ * @subpackage  Plugin
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
+defined('_JEXEC') or die;
+
 require_once JPATH_BASE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php';
 $Itemid = $_REQUEST['Itemid'];
 $order_functions = new order_functions;
@@ -115,7 +111,6 @@ if ($order->order_shipping > 0)
 
 	$formdata['oiRow' . ($p + 1) . ''] = "" . $quantity_shipping . ";Shipping;Shipping;" . $shipping_price . ";" . ($p + 1) . ";" . $shipping_vat;
 	$p++;
-
 }
 
 $payment_price = $order->payment_discount;
@@ -130,17 +125,14 @@ if ($payment_price > 0)
 	if ($order->payment_oprand == '-')
 	{
 		$discount_payment_price = -$payment_price;
-
 	}
 	else
 	{
 		$discount_payment_price = $payment_price;
-
 	}
 
 	$payment_vat = 0;
 	$formdata['oiRow' . ($p + 1) . ''] = "" . $quantity_payment . ";Payment Handling;Payment Handling;" . $discount_payment_price . ";" . ($p + 1) . ";" . $payment_vat;
-
 }
 
 $api_path = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $plugin . DS . $plugin . DS . 'dibs_hmac.php';

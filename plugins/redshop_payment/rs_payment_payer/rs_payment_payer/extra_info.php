@@ -76,7 +76,6 @@ for ($i = 0; $i < count($orderItemDetails); $i++)
 		$product_item_price,
 		$vat,
 		$orderItemDetails[$i]->product_quantity);
-
 }
 
 if ($order->order_shipping > 0)
@@ -97,7 +96,6 @@ if ($order->order_shipping > 0)
 		$order_shipping,
 		$order_shipping_tax,
 		1);
-
 }
 
 if ($order->order_discount > 0)

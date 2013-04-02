@@ -25,18 +25,18 @@ class user_detailVIEWuser_detail extends JView
 		$shipping = JRequest::getVar('shipping', '', 'request', 'string');
 		$option = JRequest::getVar('option', '', 'request', 'string');
 
-		$document =& JFactory::getDocument();
+		$document = JFactory::getDocument();
 		$document->addScript('components/' . $option . '/assets/js/json.js');
 		$document->addScript('components/' . $option . '/assets/js/validation.js');
 
-		$myuser =& JFactory::getUser();
-		$acl =& JFactory::getACL();
-		$uri =& JFactory::getURI();
+		$myuser = JFactory::getUser();
+		$acl = JFactory::getACL();
+		$uri = JFactory::getURI();
 
 		$this->setLayout('default');
 
 		$lists = array();
-		$detail =& $this->get('data');
+		$detail = $this->get('data');
 		$isNew = ($detail->users_info_id < 1);
 		$text = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
 
@@ -61,7 +61,7 @@ class user_detailVIEWuser_detail extends JView
 			JToolBarHelper::cancel('cancel', 'Close');
 		}
 		$model = $this->getModel('user_detail');
-		$pagination = & $this->get('Pagination');
+		$pagination = $this->get('Pagination');
 
 		$user_groups = $userhelper->getUserGroupList($detail->users_info_id);
 		$detail->user_groups = $user_groups;

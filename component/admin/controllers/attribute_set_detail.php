@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die ('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 jimport('joomla.filesystem.file');
@@ -42,7 +42,6 @@ class attribute_set_detailController extends JController
 
 		$option = JRequest::getVar('option');
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
-		//$post ['attribute_set_id'] = $cid [0];
 
 		require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php');
 
@@ -290,7 +289,7 @@ class attribute_set_detailController extends JController
 
 	public function media_bank()
 	{
-		$uri =& JURI::getInstance();
+		$uri = JURI::getInstance();
 
 		$url = $uri->root();
 
@@ -456,7 +455,7 @@ class attribute_set_detailController extends JController
 
 	public function property_more_img()
 	{
-		$uri =& JURI::getInstance();
+		$uri = JURI::getInstance();
 
 		$url = $uri->root();
 
@@ -495,7 +494,7 @@ class attribute_set_detailController extends JController
 
 	public function deleteimage()
 	{
-		$uri =& JURI::getInstance();
+		$uri = JURI::getInstance();
 
 		$url = $uri->root();
 
@@ -516,7 +515,7 @@ class attribute_set_detailController extends JController
 
 	public function subattribute_color()
 	{
-		$uri =& JURI::getInstance();
+		$uri = JURI::getInstance();
 
 		$url = $uri->root();
 

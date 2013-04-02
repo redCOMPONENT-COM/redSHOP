@@ -27,7 +27,7 @@ class newsletterController extends JController
 
 	public function send_newsletter()
 	{
-		$session =& JFactory::getSession();
+		$session = JFactory::getSession();
 		$option = JRequest::getVar('option');
 
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
@@ -51,7 +51,7 @@ class newsletterController extends JController
 
 	public function sendRecursiveNewsletter()
 	{
-		$session =& JFactory::getSession();
+		$session = JFactory::getSession();
 		$newsletter_id = JRequest::getVar('newsletter_id');
 		$option = JRequest::getVar('option');
 
@@ -72,12 +72,14 @@ class newsletterController extends JController
 			unset($subscribers[0]);
 			$subscribers = array_merge(array(), $subscribers);
 		}
+
 		if (count($subscribersuid) > 0)
 		{
 			$user_id = $subscribersuid[0];
 			unset($subscribersuid[0]);
 			$subscribersuid = array_merge(array(), $subscribersuid);
 		}
+
 		if (count($subscribersuname) > 0)
 		{
 			$username = $subscribersuname[0];
@@ -102,6 +104,7 @@ class newsletterController extends JController
 			{
 				$responcemsg .= "<span style='color: #ff0000'>" . JText::_('COM_REDSHOP_NEWSLETTER_MAIL_NOT_SENT') . "</span>";
 			}
+
 			$responcemsg .= "</div>";
 			$incNo++;
 		}
@@ -118,10 +121,9 @@ class newsletterController extends JController
 			$session->clear('subscribersuname');
 			$session->clear('incNo');
 		}
+
 		$responcemsg = "<div id='sentresponse'>" . $responcemsg . "</div>";
 		echo $responcemsg;
 		exit;
 	}
 }
-
-

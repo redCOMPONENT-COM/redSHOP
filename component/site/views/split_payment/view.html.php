@@ -9,17 +9,17 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
+JLoader::import('joomla.application.component.view');
 
 class split_paymentViewsplit_payment extends JView
 {
 	public function display($tpl = null)
 	{
-		global $mainframe;
+		$app = JFactory::getApplication();
 
-		$params = & $mainframe->getParams('com_redshop');
+		$params = $app->getParams('com_redshop');
 
-		$pathway  = & $mainframe->getPathway();
+		$pathway  = $app->getPathway();
 		$document = JFactory::getDocument();
 
 		$pathway->addItem(JText::_('COM_REDSHOP_SPLIT_PAYMENT'), '');

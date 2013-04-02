@@ -1,17 +1,10 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license   GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- *            Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     RedSHOP
+ * @subpackage  Plugin
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 include_once (JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'shipping.php');
@@ -72,7 +65,6 @@ elseif ($buttonsize == "large")
 	$width = "180";
 
 	$height = "46";
-
 }
 
 $conurl = $url . "index.php?option=com_redshop&view=order_detail&oid=" . $order->order_id;
@@ -114,7 +106,6 @@ for ($p = 0; $p < count($rs); $p++)
 		$item_price); // Unit price
 
 	$cart->AddItem($item);
-
 }
 
 $discount_price = (0 - $currencyClass->convert($order->order_discount, '', $currency_code));
@@ -145,7 +136,6 @@ if (isset ($shipping_method_name [1]) && $shipping_method_name [1] != "")
 	$ship_1 = new GoogleFlatRateShipping ($shipping_method_name [1], $shipping_price);
 
 	$cart->AddShipping($ship_1);
-
 }
 
 // Specify "Return to xyz" link

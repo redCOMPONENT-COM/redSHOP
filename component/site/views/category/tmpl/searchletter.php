@@ -8,10 +8,10 @@
  */
 
 defined('_JEXEC') or die;
-require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'text_library.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/text_library.php';
 
 JHTML::_('behavior.tooltip');
-jimport('joomla.application.module.helper');
+JLoader::import('joomla.application.module.helper');
 JHTMLBehavior::modal();
 $url       = JURI::base();
 $option    = JRequest::getVar('option');
@@ -32,7 +32,6 @@ $redshopconfig   = new Redconfiguration;
 $redTemplate     = new Redtemplate;
 $stockroomhelper = new rsstockroomhelper;
 
-
 $module         = JModuleHelper::isEnabled('redshop_lettersearch');
 $module_data    = JModuleHelper::getModule('redshop_lettersearch');
 $params         = new JRegistry($module_data->params);
@@ -46,7 +45,6 @@ if (!$module)
 
 	return false;
 }
-
 
 $mod_title = urldecode(JRequest::getVar('modulename'));
 
@@ -76,13 +74,12 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 
 	$attribute_template = $producthelper->getAttributeTemplate($template_product);
 
-	// $extraFieldName = $extraField->getSectionFieldNameArray(1,1,1);
 	$product_data = '';
 	$prddata_add  = "";
 
 	for ($j = 0; $j < count($getAllproductArrayListwithfirst); $j++)
 	{
-		$product = & $getAllproductArrayListwithfirst[$j];
+		$product = $getAllproductArrayListwithfirst[$j];
 		$catid   = $producthelper->getCategoryProduct($product->product_id);
 
 		if (!is_object($product))
@@ -205,7 +202,6 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 		$prddata_add  = str_replace("{product_height}", $producthelper->redunitDecimal($product->product_height) . "&nbsp;" . $product_unit, $prddata_add);
 
 		$prddata_add = str_replace('{searched_tag}', $product->data_txt, $prddata_add);
-
 
 		$prddata_add    = $producthelper->replaceVatinfo($prddata_add);
 		$extraFieldName = $extraField->getSectionFieldNameArray(1, 1, 1);
@@ -373,7 +369,6 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 	$template_desc = str_replace("{product_loop_start}", "", $template_desc);
 	$template_desc = str_replace("{product_loop_end}", "", $template_desc);
 
-	// $template_desc = str_replace ( $template_product, $product_data, $template_desc );
 	$template_desc = str_replace($template_product, $prddata_add, $template_desc);
 
 }

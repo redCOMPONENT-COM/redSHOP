@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
+JLoader::import('joomla.application.component.model');
 
 /**
  * Class newsletterModelnewsletter
@@ -24,6 +24,9 @@ class newsletterModelnewsletter extends JModel
 
 	public $_db = null;
 
+	/**
+	 * Constructor
+	 */
 	public function __construct()
 	{
 		parent::__construct();
@@ -40,8 +43,8 @@ class newsletterModelnewsletter extends JModel
 
 	public function checksubscriptionbymail($email)
 	{
-		Global $mainframe;
-		$user =& JFactory::getUser();
+		$app = JFactory::getApplication();
+		$user = JFactory::getUser();
 		$and  = "";
 
 		if ($user->id)
@@ -53,7 +56,7 @@ class newsletterModelnewsletter extends JModel
 		$query = "SELECT COUNT(*) FROM " . $this->_table_prefix . "newsletter";
 		$this->_db->setQuery($query);
 		$newsletter = $this->_db->loadResult();
-		$url        =& JURI::root();
+		$url        = JURI::root();
 		$link       = $url . 'index.php?option=com_redshop&view=newsletter';
 
 		if ($newsletter != 0)
@@ -76,18 +79,18 @@ class newsletterModelnewsletter extends JModel
 		}
 		else
 		{
-			$mainframe->redirect($link, JText::_('COM_REDSHOP_NEWSLETTER_NOT_AVAILABLE'));
+			$app->redirect($link, JText::_('COM_REDSHOP_NEWSLETTER_NOT_AVAILABLE'));
 		}
 	}
 
 	public function confirmsubscribe($sub_id)
 	{
-		Global $mainframe;
+		$app = JFactory::getApplication();
 		$query = "UPDATE `" . $this->_table_prefix . "newsletter_subscription` SET `published` = '1' WHERE subscription_id = '" . $sub_id . "' ";
 		$this->_db->setQuery($query);
 		$this->_db->query();
-		$url  =& JURI::root();
+		$url  = JURI::root();
 		$link = $url . 'index.php?option=com_redshop&view=newsletter';
-		$mainframe->redirect($link, JText::_('COM_REDSHOP_MESSAGE_CONFIRMED_SUBSCRIBE'));
+		$app->redirect($link, JText::_('COM_REDSHOP_MESSAGE_CONFIRMED_SUBSCRIBE'));
 	}
 }

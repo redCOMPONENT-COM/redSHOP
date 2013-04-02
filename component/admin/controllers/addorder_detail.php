@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die ('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 
@@ -229,7 +229,7 @@ class addorder_detailController extends JController
 
 	public function guestuser()
 	{
-		global $mainframe;
+		$app = JFactory::getApplication();
 
 		$post = JRequest::get('post');
 

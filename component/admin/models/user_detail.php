@@ -33,7 +33,7 @@ class user_detailModeluser_detail extends JModel
 
 	public function __construct()
 	{
-		global $mainframe;
+		$app = JFactory::getApplication();
 		parent::__construct();
 
 		$this->_table_prefix = '#__redshop_';
@@ -42,8 +42,8 @@ class user_detailModeluser_detail extends JModel
 		$array = JRequest::getVar('cid', 0, '', 'array');
 		$this->_uid = JRequest::getVar('user_id', 0);
 
-		$limit = $mainframe->getUserStateFromRequest($this->_context . 'limit', 'limit', $mainframe->getCfg('list_limit'), 0);
-		$limitstart = $mainframe->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
+		$limit = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
+		$limitstart = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
 
 		$this->setState('limit', $limit);
 		$this->setState('limitstart', $limitstart);
@@ -175,14 +175,14 @@ class user_detailModeluser_detail extends JModel
 	public function storeUser_bk($post)
 	{
 
-		global $mainframe;
+		$app = JFactory::getApplication();
 		$redshopMail = new redshopMail;
 
 		// Start data into user table
 		// Initialize some variables
-		$db = & JFactory::getDBO();
-		$me = & JFactory::getUser();
-		$acl = & JFactory::getACL();
+		$db = JFactory::getDBO();
+		$me = JFactory::getUser();
+		$acl = JFactory::getACL();
 
 		// Create a new JUser object
 		$user = new JUser($post['id']);
@@ -193,8 +193,8 @@ class user_detailModeluser_detail extends JModel
 		// Changed for shipping code moved out of condition
 		if (!$user->bind($post))
 		{
-			$mainframe->enqueueMessage(JText::_('COM_REDSHOP_CANNOT_SAVE_THE_USER_INFORMATION'), 'message');
-			$mainframe->enqueueMessage($user->getError(), 'error');
+			$app->enqueueMessage(JText::_('COM_REDSHOP_CANNOT_SAVE_THE_USER_INFORMATION'), 'message');
+			$app->enqueueMessage($user->getError(), 'error');
 
 			return false;
 		}
@@ -206,28 +206,28 @@ class user_detailModeluser_detail extends JModel
 		if ($user->get('id') == $me->get('id') && $user->get('block') == 1)
 		{
 			$msg = JText::_('COM_REDSHOP_YOU_CANNOT_BLOCK_YOURSELF');
-			$mainframe->enqueueMessage($msg, 'message');
+			$app->enqueueMessage($msg, 'message');
 
 			return false;
 		}
 		elseif (($this_group == 'super administrator') && $user->get('block') == 1)
 		{
 			$msg = JText::_('COM_REDSHOP_YOU_CANNOT_BLOCK_A_SUPER_ADMINISTRATOR');
-			$mainframe->enqueueMessage($msg, 'message');
+			$app->enqueueMessage($msg, 'message');
 
 			return false;
 		}
 		elseif (($this_group == 'administrator') && ($me->get('gid') == 24) && $user->get('block') == 1)
 		{
 			$msg = JText::_('COM_REDSHOP_WARNBLOCK');
-			$mainframe->enqueueMessage($msg, 'message');
+			$app->enqueueMessage($msg, 'message');
 
 			return false;
 		}
 		elseif (($this_group == 'super administrator') && ($me->get('gid') != 25))
 		{
 			$msg = JText::_('COM_REDSHOP_YOU_CANNOT_EDIT_A_SUPER_ADMINISTRATOR_ACCOUNT');
-			$mainframe->enqueueMessage($msg, 'message');
+			$app->enqueueMessage($msg, 'message');
 
 			return false;
 		}
@@ -263,8 +263,8 @@ class user_detailModeluser_detail extends JModel
 	 	 */
 		if (!$user->save())
 		{
-			$mainframe->enqueueMessage(JText::_('COM_REDSHOP_CANNOT_SAVE_THE_USER_INFORMATION'), 'message');
-			$mainframe->enqueueMessage($user->getError(), 'error');
+			$app->enqueueMessage(JText::_('COM_REDSHOP_CANNOT_SAVE_THE_USER_INFORMATION'), 'message');
+			$app->enqueueMessage($user->getError(), 'error');
 
 			return false;
 		}
@@ -281,7 +281,7 @@ class user_detailModeluser_detail extends JModel
 		if ($user->get('id') == $me->get('id'))
 		{
 			// Get an ACL object
-			$acl = & JFactory::getACL();
+			$acl = JFactory::getACL();
 
 			// Get the user group from the ACL
 			$grp = $acl->getAroGroup($user->get('id'));
@@ -301,7 +301,7 @@ class user_detailModeluser_detail extends JModel
 			// Set the usertype based on the ACL group name
 			$user->set('usertype', $grp->name);
 
-			$session = & JFactory::getSession();
+			$session = JFactory::getSession();
 			$session->set('user', $user);
 		}
 

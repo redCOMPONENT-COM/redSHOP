@@ -1,6 +1,13 @@
 <?php
-// no direct access
-defined('_JEXEC') or die('Restricted access');
+/**
+ * @package     RedSHOP
+ * @subpackage  Plugin
+ *
+ * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
+ */
+
+defined('_JEXEC') or die;
 
 // Import library dependencies
 jimport('joomla.plugin.plugin');
@@ -15,12 +22,12 @@ class plgredshop_productexample extends JPlugin
 	 * NOT references.  This causes problems with cross-referencing necessary for the
 	 * observer design pattern.
 	 */
-	function plgredshop_productexample(&$subject)
+	public function plgredshop_productexample(&$subject)
 	{
 		parent::__construct($subject);
 
-		// load plugin parameters
-		$this->_plugin = JPluginHelper::getPlugin('redshop_product', 'onPrepareProduct');
+		// Load plugin parameters
+		$this->_plugin = JPluginHelper::getPlugin('redshop_product', 'example');
 		$this->_params = new JRegistry($this->_plugin->params);
 	}
 
@@ -33,9 +40,9 @@ class plgredshop_productexample extends JPlugin
 	 * @param    object        The product params
 	 * @param    object        The product object
 	 */
-	function onPrepareProduct(&$template, &$params, $product)
+	public function onPrepareProduct(&$template, &$params, $product)
 	{
-		$app = & JFactory::getApplication();
+		$app = JFactory::getApplication();
 
 		$template = str_replace("{product_template_plugin_example_demo}", "Product Template Plugin Demo Content...", $template);
 
@@ -54,7 +61,7 @@ class plgredshop_productexample extends JPlugin
 	 *
 	 * @return    string
 	 */
-	function onAfterDisplayProductTitle(&$template, &$params, $product)
+	public function onAfterDisplayProductTitle(&$template, &$params, $product)
 	{
 		$string = "";
 
@@ -72,7 +79,7 @@ class plgredshop_productexample extends JPlugin
 	 *
 	 * @return    string
 	 */
-	function onBeforeDisplayProduct(&$template, &$params, $product)
+	public function onBeforeDisplayProduct(&$template, &$params, $product)
 	{
 		$string = "";
 
@@ -90,7 +97,7 @@ class plgredshop_productexample extends JPlugin
 	 *
 	 * @return    string
 	 */
-	function onAfterDisplayProduct(&$template, &$params, $product)
+	public function onAfterDisplayProduct(&$template, &$params, $product)
 	{
 		$string = "";
 
@@ -110,7 +117,7 @@ class plgredshop_productexample extends JPlugin
 	 *
 	 * @return    bool        If false, abort the save
 	 */
-	function onBeforeProductSave(&$product, $isnew)
+	public function onBeforeProductSave(&$product, $isnew)
 	{
 		return true;
 	}
@@ -126,7 +133,7 @@ class plgredshop_productexample extends JPlugin
 	 *
 	 * @return    void
 	 */
-	function onAfterProductSave(&$product, $isnew)
+	public function onAfterProductSave(&$product, $isnew)
 	{
 		return;
 	}

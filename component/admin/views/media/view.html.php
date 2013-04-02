@@ -13,11 +13,36 @@ jimport('joomla.application.component.view');
 
 class mediaViewmedia extends JView
 {
+	public $images;
+
+	public $documents;
+
+	public $folders;
+
+	public $state;
+
+	/**
+	 * The pagination object.
+	 *
+	 * @var  JPagination
+	 */
+	public $pagination;
+
+	/**
+	 * The request url.
+	 *
+	 * @var  string
+	 */
+	public $request_url;
+
 	public function display($tpl = null)
 	{
-		global $mainframe, $context;
+		$context = 'media';
 
-		$document = & JFactory::getDocument();
+		$uri      = JFactory::getURI();
+		$app      = JFactory::getApplication();
+		$document = JFactory::getDocument();
+
 		$document->setTitle(JText::_('COM_REDSHOP_MEDIA'));
 		$document->addStyleSheet(JURI::root() . 'administrator/components/com_redshop/assets/css/medialist-thumbs.css');
 
@@ -28,13 +53,10 @@ class mediaViewmedia extends JView
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();
 
-		$uri = & JFactory::getURI();
-		$context = 'media';
-		$filter_order = $mainframe->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'media_id');
-		$filter_order_Dir = $mainframe->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
-
-		$media_type = $mainframe->getUserStateFromRequest($context . 'media_type', 'media_type', 0);
-		$media_section = $mainframe->getUserStateFromRequest($context . 'media_section', 'media_section', 0);
+		$filter_order     = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'media_id');
+		$filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
+		$media_type       = $app->getUserStateFromRequest($context . 'media_type', 'media_type', 0);
+		$media_section    = $app->getUserStateFromRequest($context . 'media_section', 'media_section', 0);
 
 		$optiontype = array();
 		$optiontype[] = JHTML::_('select.option', '0', JText::_('COM_REDSHOP_SELECT'));
@@ -64,20 +86,20 @@ class mediaViewmedia extends JView
 			'class="inputbox" size="1" onchange="document.adminForm.submit();" ', 'value', 'text', $media_section
 		);
 
-		$media = & $this->get('Data');
-		$total = & $this->get('Total');
-		$pagination = & $this->get('Pagination');
+		$media = $this->get('Data');
+		$total = $this->get('Total');
+		$pagination = $this->get('Pagination');
 
 		$this->assignRef('lists', $lists);
 		$this->assignRef('media', $media);
-		$this->assignRef('pagination', $pagination);
-		$this->assignRef('request_url', $uri->toString());
+		$this->pagination = $pagination;
+		$this->request_url = $uri->toString();
 
 		$this->assign('baseURL', JURI::root());
-		$this->assignRef('images', $this->get('images'));
-		$this->assignRef('documents', $this->get('documents'));
-		$this->assignRef('folders', $this->get('folders'));
-		$this->assignRef('state', $this->get('state'));
+		$this->images = $this->get('images');
+		$this->documents = $this->get('documents');
+		$this->folders = $this->get('folders');
+		$this->state = $this->get('state');
 
 		parent::display($tpl);
 	}

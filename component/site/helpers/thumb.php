@@ -29,8 +29,8 @@ define('JPATH_BASE', $absolute_path);
 
 define('DS', DIRECTORY_SEPARATOR);
 
-require_once (JPATH_BASE . DS . 'includes' . DS . 'defines.php');
-require_once (JPATH_BASE . DS . 'includes' . DS . 'framework.php');
+require_once JPATH_BASE . '/includes/defines.php';
+require_once JPATH_BASE . '/includes/framework.php';
 
 JDEBUG ? $_PROFILER->mark('afterLoad') : null;
 
@@ -40,28 +40,26 @@ define('IMG_WIDTH', 50);
 define('BASE_PATH', "../assets/images/");
 
 
-include(JPATH_SITE . DS . "administrator" . DS . "components" . DS . "com_redshop" . DS . "helpers" . DS . "redshop.cfg.php");
-include("class.img2thumb.php");
+include JPATH_SITE . '/administrator/components/com_redshop/helpers/redshop.cfg.php';
+include "class.img2thumb.php";
 
 $basefilename        = @basename(urldecode($_REQUEST['filename']));
 $dir                 = dirname($_REQUEST['filename']);
 $filenames[]         = BASE_PATH . $dir . "/" . $basefilename;
 $resized_filenames[] = BASE_PATH . $dir . "/thumb/" . $basefilename;
 
-if (isset($_REQUEST['swap'])) $swap = $_REQUEST['swap'];
-else $swap = 1;
-
-/*if($swap)
-{*/
-$newxsize = (int) @$_REQUEST['newxsize'] == 0 ? IMG_WIDTH : (int) @$_REQUEST['newxsize'];
-$newysize = (int) @$_REQUEST['newysize'] == 0 ? IMG_WIDTH : (int) @$_REQUEST['newysize'];
-/*}
+if (isset($_REQUEST['swap']))
+{
+	$swap = $_REQUEST['swap'];
+}
 else
 {
-	$newxsize = (int)@$_REQUEST['newxsize'];
-	$newysize = (int)@$_REQUEST['newysize'];
+	$swap = 1;
 }
-*/
+
+$newxsize = (int) @$_REQUEST['newxsize'] == 0 ? IMG_WIDTH : (int) @$_REQUEST['newxsize'];
+$newysize = (int) @$_REQUEST['newysize'] == 0 ? IMG_WIDTH : (int) @$_REQUEST['newysize'];
+
 // Don't allow sizes beyond 2000 pixels
 $newxsize = min($newxsize, 2000);
 
@@ -70,13 +68,6 @@ $maxsize = false;
 $bgred   = 255;
 $bggreen = 255;
 $bgblue  = 255;
-
-/*
-if( !isset($fileout) )
-	$fileout="";
-if( !isset($maxsize) )
-	$maxsize=0;
-*/
 
 /* Minimum security */
 $file_exists = false;
@@ -106,16 +97,17 @@ foreach ($filenames as $file)
 $orig_size = getimagesize($filename);
 $maxX      = $newxsize;
 $maxY      = $newysize;
-// changes as per swaping
 
+// Changes as per swaping
 if ($swap == 1)
 {
 
 	if ($newxsize != 0 && $newysize != 0 && ($newxsize != 50 && $newysize != 50))
 	{
-		//check aspect ratio
+		// Check aspect ratio
 		$resizeRatio  = $maxY / $maxX;
 		$currentRatio = $orig_size[1] / $orig_size[0];
+
 		if ($currentRatio > $resizeRatio)
 		{
 			$diff    = $orig_size[0] / $orig_size[1];
@@ -143,11 +135,13 @@ if ($swap == 1)
 			if ($orig_size[0] < $orig_size[1])
 			{
 				$adjustX = $newysize;
+
 				if ($newxsize != 50)
 				{
 					$newxsize = $newysize * ($orig_size[0] / $orig_size[1]);
 					$adjustY  = $newysize;
 				}
+
 				if ($newysize != 50)
 				{
 					$adjustY = ($maxX - $newxsize) / 2;
@@ -155,18 +149,18 @@ if ($swap == 1)
 			}
 			elseif ($orig_size[0] > $orig_size[1])
 			{
-
 				$adjustY = $newxsize;
+
 				if ($newysize != 50)
 				{
 					$newxsize = $newysize * ($orig_size[0] / $orig_size[1]);
 					$adjustX  = $newxsize;
 				}
+
 				if ($newxsize != 50)
 				{
 					$adjustX = ($maxX - $newxsize) / 2;
 				}
-				//$adjustX = ($maxX - $newxsize)/2;
 			}
 			else
 			{
@@ -211,9 +205,6 @@ else
 		}
 		elseif ($orig_size[0] < $orig_size[1])
 		{
-			/*$newxsize = $newysize * ($orig_size[0]/$orig_size[1]);
-			$adjustX = ($maxX - $newxsize)/2;
-			$adjustY = 0;*/
 			if ($newxsize != 0)
 			{
 				$xdiff   = $orig_size[1] - $newxsize;
@@ -230,10 +221,7 @@ else
 			}
 		}
 		else
-		{ //  if($newxsize==50)$newxsize=$newysize;
-			/*$newysize = $newxsize / ($orig_size[0]/$orig_size[1]);
-			$adjustX = 0;
-			$adjustY = ($maxY - $newysize)/2;*/
+		{
 			if ($newxsize != 0)
 			{
 				$xdiff   = $orig_size[1] - $newxsize;
@@ -259,6 +247,7 @@ $filename2 = $resized_filenames[$i];
 
 $fileinfo = pathinfo($filename);
 $file     = str_replace("." . $fileinfo['extension'], "", $fileinfo['basename']);
+
 // In class.img2thumb in the function NewImgShow() the extension .jpg will be added to .gif if imagegif does not exist.
 
 // If the image is a gif, and imagegif() returns false then make the extension ".gif.jpg"

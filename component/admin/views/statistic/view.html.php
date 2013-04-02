@@ -16,9 +16,12 @@ class statisticViewstatistic extends JView
 {
 	public function display($tpl = null)
 	{
-		global $mainframe, $context;
+		global $context;
 
-		$uri =& JFactory::getURI();
+		$uri      = JFactory::getURI();
+		$app      = JFactory::getApplication();
+		$document = JFactory::getDocument();
+
 		$layout = JRequest::getVar('layout');
 
 		$startdate = JRequest::getVar('startdate');
@@ -49,88 +52,87 @@ class statisticViewstatistic extends JView
 		$amountprice = array();
 		$amountspentintotal = array();
 
-		$limitstart = $mainframe->getUserStateFromRequest($context . 'limitstart', 'limitstart', '0');
-		$limit = $mainframe->getUserStateFromRequest($context . 'limit', 'limit', '10');
+		$limitstart = $app->getUserStateFromRequest($context . 'limitstart', 'limitstart', '0');
+		$limit      = $app->getUserStateFromRequest($context . 'limit', 'limit', '10');
 
 		if ($layout == 'turnover')
 		{
 			$this->setLayout('turnover');
 			$title = JText::_('COM_REDSHOP_TOTAL_TURNOVER');
-			$totalturnover = & $this->get('TotalTurnover');
+			$totalturnover = $this->get('TotalTurnover');
 			$total = count($totalturnover);
 		}
 		elseif ($layout == 'pageview')
 		{
 			$this->setLayout('pageview');
 			$title = JText::_('COM_REDSHOP_TOTAL_PAGEVIEWERS');
-			$pageviewer = & $this->get('PageViewer');
+			$pageviewer = $this->get('PageViewer');
 			$total = count($pageviewer);
 		}
 		elseif ($layout == 'amountorder')
 		{
 			$this->setLayout('amountorder');
 			$title = JText::_('COM_REDSHOP_TOP_CUSTOMER_AMOUNT_OF_ORDER');
-			$amountorder = & $this->get('AmountOrder');
+			$amountorder = $this->get('AmountOrder');
 			$total = count($amountorder);
 		}
 		elseif ($layout == 'avrgorder')
 		{
 			$this->setLayout('avrgorder');
 			$title = JText::_('COM_REDSHOP_AVG_ORDER_AMOUNT_CUSTOMER');
-			$avgorderamount = & $this->get('AvgOrderAmount');
+			$avgorderamount = $this->get('AvgOrderAmount');
 			$total = count($avgorderamount);
 		}
 		elseif ($layout == 'amountprice')
 		{
 			$this->setLayout('amountprice');
 			$title = JText::_('COM_REDSHOP_TOP_CUSTOMER_AMOUNT_OF_PRICE_PER_ORDER');
-			$amountprice = & $this->get('AmountPrice');
+			$amountprice = $this->get('AmountPrice');
 			$total = count($amountprice);
 		}
 		elseif ($layout == 'amountspent')
 		{
 			$this->setLayout('amountspent');
 			$title = JText::_('COM_REDSHOP_TOP_CUSTOMER_AMOUNT_SPENT_IN_TOTAL');
-			$amountspentintotal = & $this->get('AmountSpentInTotal');
+			$amountspentintotal = $this->get('AmountSpentInTotal');
 			$total = count($amountspentintotal);
 		}
 		elseif ($layout == 'bestsell')
 		{
 			$this->setLayout('bestsell');
 			$title = JText::_('COM_REDSHOP_BEST_SELLERS');
-			$bestsell = & $this->get('BestSellers');
+			$bestsell = $this->get('BestSellers');
 			$total = count($bestsell);
 		}
 		elseif ($layout == 'popularsell')
 		{
 			$this->setLayout('popularsell');
 			$title = JText::_('COM_REDSHOP_MOST_VISITED_PRODUCTS');
-			$popularsell = & $this->get('MostPopular');
+			$popularsell = $this->get('MostPopular');
 			$total = count($popularsell);
 		}
 		elseif ($layout == 'newprod')
 		{
 			$this->setLayout('newprod');
 			$title = JText::_('COM_REDSHOP_NEWEST_PRODUCTS');
-			$newprod = & $this->get('NewProducts');
+			$newprod = $this->get('NewProducts');
 			$total = count($newprod);
 		}
 		elseif ($layout == 'neworder')
 		{
 			$this->setLayout('neworder');
 			$title = JText::_('COM_REDSHOP_NEWEST_ORDERS');
-			$neworder = & $this->get('NewOrders');
+			$neworder = $this->get('NewOrders');
 			$total = count($neworder);
 		}
 		else
 		{
 			$this->setLayout('default');
 			$title = JText::_('COM_REDSHOP_TOTAL_VISITORS');
-			$redshopviewer = & $this->get('RedshopViewer');
+			$redshopviewer = $this->get('RedshopViewer');
 			$total = count($redshopviewer);
 		}
 
-		$document = & JFactory::getDocument();
 		$document->setTitle(JText::_('COM_REDSHOP_STATISTIC'));
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_STATISTIC') . " :: " . $title, 'redshop_statistic48');

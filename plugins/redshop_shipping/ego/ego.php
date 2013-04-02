@@ -1,11 +1,13 @@
 <?php
 /**
- * Written by Andrew Meaden and Noven Purnell-Webb of MageData
- * Based on RedComponents Aus Post code - thanks guys :)
- * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
+ * @package     RedSHOP
+ * @subpackage  Plugin
+ *
+ * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
-// No direct access
-defined('_JEXEC') or die('Restricted access');
+
+defined('_JEXEC') or die;
 
 jimport('joomla.plugin.plugin');
 
@@ -15,7 +17,6 @@ jimport('joomla.plugin.plugin');
  * @package        Joomla
  * @subpackage     System
  */
-if (!defined('_VALID_MOS') && !defined('_JEXEC')) die('Direct Access to ' . basename(__FILE__) . ' is not allowed.');
 
 require_once JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'product.php';
 require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'configuration.php';
@@ -23,10 +24,10 @@ require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS .
 
 class plgredshop_shippingego extends JPlugin
 {
-	var $payment_code = "ego";
-	var $classname = "ego";
+	public $payment_code = "ego";
+	public $classname = "ego";
 
-	function onShowconfig($ps)
+	public function onShowconfig($ps)
 	{
 		if ($ps->element == $this->classname)
 		{
@@ -48,7 +49,7 @@ class plgredshop_shippingego extends JPlugin
 		}
 	}
 
-	function onWriteconfig($d)
+	public function onWriteconfig($d)
 	{
 		if ($d['element'] == $this->classname)
 		{
@@ -82,9 +83,9 @@ class plgredshop_shippingego extends JPlugin
 		}
 	}
 
-	function onListRates(&$d)
+	public function onListRates(&$d)
 	{
-		include_once (JPATH_ROOT . DS . 'plugins' . DS . 'redshop_shipping' . DS . $this->classname . '.cfg.php');
+		include_once JPATH_ROOT . DS . 'plugins' . DS . 'redshop_shipping' . DS . $this->classname . '.cfg.php';
 		$shippinghelper = new shipping;
 		$producthelper = new producthelper;
 		$redconfig = new Redconfiguration;
@@ -104,7 +105,8 @@ class plgredshop_shippingego extends JPlugin
 
 		if ($unitRatio != 0)
 		{
-			$carttotalWeight = $carttotalWeight * $unitRatio; // Converting weight in pounds
+			// Converting weight in pounds
+			$carttotalWeight = $carttotalWeight * $unitRatio;
 		}
 
 		$shippinginfo = $shippinghelper->getShippingAddress($d['users_info_id']);
@@ -129,9 +131,9 @@ class plgredshop_shippingego extends JPlugin
 
 		if (is_array($whereShippingBoxes) && count($whereShippingBoxes) > 0 && $unitRatioVolume > 0)
 		{
-			$carttotalLength = ( int ) ($whereShippingBoxes['box_length'] * $unitRatioVolume);
-			$carttotalWidth = ( int ) ($whereShippingBoxes['box_width'] * $unitRatioVolume);
-			$carttotalHeight = ( int ) ($whereShippingBoxes['box_height'] * $unitRatioVolume);
+			$carttotalLength = (int) ($whereShippingBoxes['box_length'] * $unitRatioVolume);
+			$carttotalWidth = (int) ($whereShippingBoxes['box_width'] * $unitRatioVolume);
+			$carttotalHeight = (int) ($whereShippingBoxes['box_height'] * $unitRatioVolume);
 		}
 		else
 		{
@@ -172,11 +174,11 @@ class plgredshop_shippingego extends JPlugin
 				{
 					$error = $quote_field[1];
 				}
-				else if ($quote_field[0] == "eta")
+				elseif ($quote_field[0] == "eta")
 				{
 					$days[] = $quote_field[1];
 				}
-				else if ($quote_field[0] == "price")
+				elseif ($quote_field[0] == "price")
 				{
 					$charge[] = $quote_field[1];
 				}

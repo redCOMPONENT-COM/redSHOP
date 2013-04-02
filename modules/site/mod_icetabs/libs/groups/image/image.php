@@ -108,7 +108,7 @@ if (!class_exists('LofSliderGroupImage'))
 		 */
 		public function getContent($categoryId)
 		{
-			$mainframe = JFactory::getApplication();
+			$app = JFactory::getApplication();
 			if ((int) $categoryId <= 0) return;
 			$model = JModel::getInstance('Articles', 'ContentModel', array('ignore_request' => true));
 

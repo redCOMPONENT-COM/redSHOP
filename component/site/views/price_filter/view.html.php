@@ -8,7 +8,7 @@
  */
 
 defined('_JEXEC') or die;
-jimport('joomla.application.component.view');
+JLoader::import('joomla.application.component.view');
 
 class price_filterViewprice_filter extends JView
 {

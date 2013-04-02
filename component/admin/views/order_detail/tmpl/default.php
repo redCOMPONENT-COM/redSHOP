@@ -24,13 +24,13 @@ $extra_field = new extra_field();
 $shippinghelper = new shipping();
 $config = new Redconfiguration();
 
-$uri = & JURI::getInstance();
+$uri = JURI::getInstance();
 $url = $uri->root();
 
 $option = JRequest::getVar('option');
 $tmpl = JRequest::getVar('tmpl');
 $model = $this->getModel('order_detail');
-$session =& JFactory::getSession();
+$session = JFactory::getSession();
 $billing = $this->billing;
 $shipping = $this->shipping;
 $is_company = $billing->is_company;
@@ -760,6 +760,8 @@ $session->set('cart', $cart); ?>
 			<tr align="left">
 				<td align="right" width="70%"><strong><?php echo JText::_('COM_REDSHOP_ORDER_TAX'); ?>:</strong></td>
 				<?php
+				$order_tax     = $this->detail->order_tax;
+				$totaldiscount = $this->detail->order_discount;
 				if (APPLY_VAT_ON_DISCOUNT == '0' && VAT_RATE_AFTER_DISCOUNT && $this->detail->order_discount != "0.00" && $order_tax && !empty($this->detail->order_discount))
 				{
 
@@ -1000,7 +1002,9 @@ $session->set('cart', $cart); ?>
 					if (count($details) <= 1)
 					{
 						$details = explode("|", $row->ship_method_id);
-					} if ($details[0] != 'plgredshop_shippingdefault_shipping_GLS')
+					}
+					$disp_style = '';
+					if ($details[0] != 'plgredshop_shippingdefault_shipping_GLS')
 					{
 						$disp_style = "style=display:none";
 					} ?>

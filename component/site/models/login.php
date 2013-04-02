@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
+JLoader::import('joomla.application.component.model');
 
 /**
  * Class LoginModelLogin
@@ -27,32 +27,37 @@ class LoginModelLogin extends JModel
 
 	public function setlogin($username, $password)
 	{
-		$mainframe = JFactory::getApplication();
+		$app = JFactory::getApplication();
 
 		$credentials             = array();
 		$credentials['username'] = $username;
 		$credentials['password'] = $password;
 
-		//preform the login action
-		$error = $mainframe->login($credentials);
+		// Perform the login action
+		$error = $app->login($credentials);
 
 		if (isset($error->message))
 		{
 			$Itemid         = JRequest::getVar('Itemid');
 			$forgotpwd_link = 'index.php?option=com_redshop&view=password&Itemid=' . $Itemid;
 			$msg            = "<a href='" . JRoute::_($forgotpwd_link) . "'>" . JText::_('COM_REDSHOP_FORGOT_PWD_LINK') . "</a>";
-			$mainframe->enqueuemessage($msg);
+			$app->enqueuemessage($msg);
 		}
 	}
 
 	public function ShopperGroupDetail($sid = 0)
 	{
-		$user =& JFactory::getUser();
+		$user = JFactory::getUser();
 
 		if ($sid == 0)
-			$query = "SELECT sg.* FROM #__" . TABLE_PREFIX . "_shopper_group as sg LEFT JOIN #__" . TABLE_PREFIX . "_users_info as ui on sg.`shopper_group_id`= ui.shopper_group_id WHERE ui.user_id = " . $user->id;
+		{
+			$query = "SELECT sg.* FROM #__" . TABLE_PREFIX . "_shopper_group as sg LEFT JOIN #__"
+			. TABLE_PREFIX . "_users_info as ui on sg.`shopper_group_id`= ui.shopper_group_id WHERE ui.user_id = " . $user->id;
+		}
 		else
+		{
 			$query = "SELECT sg.* FROM #__" . TABLE_PREFIX . "_shopper_group as sg WHERE sg.`shopper_group_id`= " . $sid;
+		}
 		$this->_db->setQuery($query);
 
 		return $this->_db->loadObjectList();

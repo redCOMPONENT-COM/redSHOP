@@ -16,7 +16,8 @@ class newsletterViewnewsletter extends JView
 {
 	public function display($tpl = null)
 	{
-		global $mainframe, $context;
+		global $context;
+
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 
 		$selected_product = JRequest::getVar('product', '');
@@ -24,10 +25,10 @@ class newsletterViewnewsletter extends JView
 		$model = $this->getModel('newsletter');
 		$subscribers = $model->listallsubscribers($n);
 
-		$db = & JFactory::getDBO();
+		$db = JFactory::getDBO();
 		$product_category = new product_category;
 
-		$document = & JFactory::getDocument();
+		$document = JFactory::getDocument();
 		$document->setTitle(JText::_('COM_REDSHOP_NEWSLETTER'));
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_NEWSLETTER_MANAGEMENT'), 'redshop_newsletter48');
@@ -35,16 +36,16 @@ class newsletterViewnewsletter extends JView
 		JToolBarHelper::custom('send_newsletter', 'send.png', 'send.png', 'Send Newsletter');
 		JToolBarHelper::cancel('close', 'Close');
 
-		$uri =& JFactory::getURI();
+		$uri = JFactory::getURI();
 
-		$filter_order = $mainframe->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'newsletter_id');
-		$filter_order_Dir = $mainframe->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
+		$filter_order = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'newsletter_id');
+		$filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
 
 		$lists['order'] = $filter_order;
 		$lists['order_Dir'] = $filter_order_Dir;
-		$newsletters = & $this->get('Data');
-		$total = & $this->get('Total');
-		$pagination = & $this->get('Pagination');
+		$newsletters = $this->get('Data');
+		$total = $this->get('Total');
+		$pagination = $this->get('Pagination');
 
 		$oprand = JRequest::getVar('oprand', '>');
 

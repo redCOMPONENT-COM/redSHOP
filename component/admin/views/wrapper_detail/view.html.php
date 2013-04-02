@@ -13,18 +13,25 @@ jimport('joomla.application.component.view');
 
 class wrapper_detailVIEWwrapper_detail extends JView
 {
+	/**
+	 * The request url.
+	 *
+	 * @var  string
+	 */
+	public $request_url;
+
 	public function display($tpl = null)
 	{
-		global $mainframe, $context;
+		global $context;
 
 		$context = "wrapper";
-		$uri =& JFactory::getURI();
+		$uri = JFactory::getURI();
 		$lists = array();
-		$detail =& $this->get('data');
+		$detail = $this->get('data');
 		$model = $this->getModel('wrapper_detail');
 		$option = JRequest::getVar('option');
-		require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php');
-		$document = & JFactory::getDocument();
+		require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php';
+		$document = JFactory::getDocument();
 		$document->addScript('components/' . $option . '/assets/js/select_sort.js');
 		$document->addStyleSheet('components/' . $option . '/assets/css/search.css');
 		$document->addScript('components/' . $option . '/assets/js/search.js');
@@ -43,6 +50,7 @@ class wrapper_detailVIEWwrapper_detail extends JView
 		{
 			JToolBarHelper::cancel('cancel', 'Close');
 		}
+
 		$lists['published'] = JHTML::_('select.booleanlist', 'published', 'class="inputbox"', $detail->published);
 		$lists['use_to_all'] = JHTML::_('select.booleanlist', 'wrapper_use_to_all', 'class="inputbox"', $detail->wrapper_use_to_all);
 		$product_id = 0;
@@ -54,12 +62,14 @@ class wrapper_detailVIEWwrapper_detail extends JView
 		{
 			$product_id = JRequest::getVar('product_id');
 		}
+
 		$category = $model->getCategoryInfo($category_id);
 
 		if (count($detail) > 0)
 		{
 			$catid = explode(",", $detail->category_id);
 		}
+
 		$lists['category_name'] = $model->getMultiselectBox("categoryid[]", $category, $catid, "category_id", "category_name", true);
 
 		$product = $model->getProductInfo($product_id);
@@ -68,6 +78,7 @@ class wrapper_detailVIEWwrapper_detail extends JView
 		{
 			$pid = explode(",", $detail->product_id);
 		}
+
 		$productData = $model->getProductInfowrapper($detail->product_id);
 
 		if (count($productData) > 0)
@@ -92,7 +103,7 @@ class wrapper_detailVIEWwrapper_detail extends JView
 		$this->assignRef('product', $product);
 		$this->assignRef('product_id', $product_id);
 		$this->assignRef('category', $category);
-		$this->assignRef('request_url', $uri->toString());
+		$this->request_url = $uri->toString();
 
 		parent::display($tpl);
 	}

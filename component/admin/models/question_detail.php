@@ -23,7 +23,6 @@ class question_detailModelquestion_detail extends JModel
 
 	public function __construct()
 	{
-		global $mainframe, $context;
 		parent::__construct();
 
 		$this->_table_prefix = '#__redshop_';
@@ -63,7 +62,7 @@ class question_detailModelquestion_detail extends JModel
 
 	public function _initAnswer()
 	{
-		$user =& JFactory::getUser();
+		$user = JFactory::getUser();
 
 		if (empty($this->_data))
 		{
@@ -149,7 +148,7 @@ class question_detailModelquestion_detail extends JModel
 
 	public function _initData()
 	{
-		$user =& JFactory::getUser();
+		$user = JFactory::getUser();
 
 		if (empty($this->_data))
 		{

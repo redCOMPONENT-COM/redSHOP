@@ -6,6 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
@@ -14,11 +15,13 @@ require_once JPATH_BASE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers
 
 class wizardController extends JController
 {
-	var $_temp_file = null;
-	var $_temp_array = null;
-	var $_temp_file_dist = null;
+	public $_temp_file = null;
 
-	function __construct($default = array())
+	public $_temp_array = null;
+
+	public $_temp_file_dist = null;
+
+	public function __construct($default = array())
 	{
 		parent::__construct($default);
 
@@ -26,15 +29,13 @@ class wizardController extends JController
 		$this->_temp_file_dist = JPATH_BASE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'wizard' . DS . 'redshop.cfg.tmp.dist.php';
 	}
 
-	function isTmpFile()
+	public function isTmpFile()
 	{
-
 		if (file_exists($this->_temp_file))
 		{
-
 			if ($this->isWritable())
 			{
-				require_once ($this->_temp_file);
+				require_once $this->_temp_file;
 				return true;
 			}
 		}
@@ -46,22 +47,19 @@ class wizardController extends JController
 		return false;
 	}
 
-	function isWritable()
+	public function isWritable()
 	{
-
 		if (!is_writable($this->_temp_file))
 		{
-
 			JError::raiseWarning(21, JText::_('COM_REDSHOP_REDSHOP_TMP_FILE_NOT_WRITABLE'));
 			return false;
 		}
+
 		return true;
 	}
 
-	function WriteTmpFile()
+	public function WriteTmpFile()
 	{
-
-
 		$html = "<?php \n";
 
 		$html .= 'global $temparray;' . "\n" . '$temparray = array();' . "\n";
@@ -70,12 +68,14 @@ class wizardController extends JController
 		{
 			$html .= '$temparray["' . $key . '"] = \'' . addslashes($val) . "';\n";
 		}
+
 		$html .= "?>";
 
 		if ($fp = fopen($this->_temp_file, "w"))
 		{
 			fwrite($fp, $html, strlen($html));
 			fclose($fp);
+
 			return true;
 		}
 		else
@@ -88,9 +88,8 @@ class wizardController extends JController
 	 *
 	 * Copy temparory distinct file for enable config variable support
 	 */
-	function copyTempFile()
+	public function copyTempFile()
 	{
-
 		jimport('joomla.filesystem.file');
 
 		JFile::copy($this->_temp_file_dist, $this->_temp_file);
@@ -98,9 +97,7 @@ class wizardController extends JController
 
 	function save()
 	{
-
 		$post = JRequest::get('post');
-
 
 		$substep = $post['substep'];
 		$go = $post['go'];
@@ -111,25 +108,25 @@ class wizardController extends JController
 
 		if ($substep == 2)
 		{
-
 			$country_list = JRequest::getVar('country_list');
 
 			$i = 0;
 			$country_listCode = '';
+
 			if ($country_list)
 			{
 				foreach ($country_list as $key => $value)
 				{
-
 					$country_listCode .= $value;
 					$i++;
+
 					if ($i < count($country_list))
 					{
 						$country_listCode .= ',';
 					}
-
 				}
 			}
+
 			$post['country_list'] = $country_listCode;
 		}
 
@@ -139,42 +136,38 @@ class wizardController extends JController
 
 		if ($this->WriteTmpFile())
 		{
-
 			$msg = JText::_('COM_REDSHOP_STEP_SAVED');
 
 			if ($go == 'pre')
+			{
 				$substep = $substep - 2;
+			}
 
 		}
 		else
 		{
-
 			$substep = $substep - 1;
 			$msg = JText::_('COM_REDSHOP_ERROR_SAVING_STEP_DETAIL');
 		}
 
 		if ($post['vatremove'] == 1)
 		{
-
 			$tax_rate_id = $post['vattax_rate_id'];
 			$vatlink = 'index.php?option=com_redshop&view=tax_detail&task=removefromwizrd&cid[]=' . $tax_rate_id . '&tax_group_id=1';
 
 			$this->setRedirect($vatlink);
-
 		}
+
 		else
 		{
-
 			$link = 'index.php?option=com_redshop&step=' . $substep;
 			$this->setRedirect($link);
 		}
-
 	}
 
-	function finish()
+	public function finish()
 	{
-
-		$Redconfiguration = new Redconfiguration();
+		$Redconfiguration = new Redconfiguration;
 
 		$post = JRequest::get('post');
 
@@ -184,9 +177,12 @@ class wizardController extends JController
 		 *    install sample data
 		 */
 		if (isset($post['installcontent']))
+		{
 			if ($this->demoContentInsert())
+			{
 				$msg .= JText::_('COM_REDSHOP_SAMPLE_DATA_INSTALLED') . "<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-
+			}
+		}
 
 		$substep = $post['substep'];
 
@@ -196,15 +192,12 @@ class wizardController extends JController
 
 		if ($Redconfiguration->storeFromTMPFile())
 		{
-
 			$msg .= JText::_('COM_REDSHOP_FINISH_WIZARD');
 
 			$link = 'index.php?option=com_redshop';
-
 		}
 		else
 		{
-
 			$substep = 4;
 			$msg .= JText::_('COM_REDSHOP_ERROR_SAVING_DETAIL');
 
@@ -214,9 +207,8 @@ class wizardController extends JController
 		$this->setRedirect($link, $msg);
 	}
 
-	function demoContentInsert()
+	public function demoContentInsert()
 	{
-
 		$post = JRequest::get('post');
 
 		$model = $this->getModel('redshop', 'redshopModel');
@@ -225,6 +217,7 @@ class wizardController extends JController
 		{
 			return false;
 		}
+
 		return true;
 	}
 }

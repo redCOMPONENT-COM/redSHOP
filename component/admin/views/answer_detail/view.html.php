@@ -20,14 +20,14 @@ class answer_detailVIEWanswer_detail extends JView
 		$producthelper = new producthelper;
 		$option = JRequest::getVar('option');
 
-		$document = & JFactory::getDocument();
+		$document = JFactory::getDocument();
 		$document->setTitle( JText::_('COM_REDSHOP_ANSWER') );
 
-		$uri	=& JFactory::getURI();
+		$uri	= JFactory::getURI();
 		$lists = array();
 		$model = $this->getModel();
 
-		$detail	=& $this->get('data');
+		$detail	= $this->get('data');
 		$qdetail= $producthelper->getQuestionAnswer($detail->parent_id);
 
 		if(count($qdetail)>0)

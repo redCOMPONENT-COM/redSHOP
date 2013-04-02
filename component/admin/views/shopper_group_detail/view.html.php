@@ -22,17 +22,17 @@ class shopper_group_detailVIEWshopper_group_detail extends JView
 
 		$option = JRequest::getVar('option', '', 'request', 'string');
 
-		$document = & JFactory::getDocument();
+		$document = JFactory::getDocument();
 		$document->addScript('components/' . $option . '/assets/js/json.js');
 		$document->addScript('components/' . $option . '/assets/js/validation.js');
 
-		$uri =& JFactory::getURI();
+		$uri = JFactory::getURI();
 
 		$this->setLayout('default');
 
 		$lists = array();
 
-		$detail =& $this->get('data');
+		$detail = $this->get('data');
 
 		$isNew = ($detail->shopper_group_id < 1);
 

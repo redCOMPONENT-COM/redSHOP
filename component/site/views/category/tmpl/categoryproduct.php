@@ -40,9 +40,8 @@ else
 }
 
 $app    = JFactory::getApplication();
-$router = & $app->getRouter();
+$router = $app->getRouter();
 $uri    = new JURI('index.php?option=' . $option . '&category&layout=categoryproduct&Itemid=' . $Itemid . '&category_template=' . $this->category_template_id);
-
 
 if ($print)
 {
@@ -98,13 +97,12 @@ if (strstr($template_desc, "{category_loop_start}") && strstr($template_desc, "{
 		$w_thumb = THUMB_WIDTH;
 	}
 
-
 	$extraFieldName = $extraField->getSectionFieldNameArray(2, 1, 1);
 	$data_add       = "";
 
 	for ($i = 0; $i < count($this->detail); $i++)
 	{
-		$row = & $this->detail[$i];
+		$row = $this->detail[$i];
 
 		$data_add .= $middletemplate_desc;
 
@@ -202,7 +200,7 @@ if (strstr($template_desc, "{category_loop_start}") && strstr($template_desc, "{
 
 			for ($j = 0; $j < count($this->product); $j++)
 			{
-				$product = & $this->product[$j];
+				$product = $this->product[$j];
 
 				if (!is_object($product))
 				{
@@ -413,10 +411,11 @@ if (strstr($template_desc, "{category_loop_start}") && strstr($template_desc, "{
 
 				$hidden_thumb_image = "<input type='hidden' name='prd_main_imgwidth' id='prd_main_imgwidth' value='" . $pw_thumb . "'><input type='hidden' name='prd_main_imgheight' id='prd_main_imgheight' value='" . $ph_thumb . "'>";
 				$thum_image         = $producthelper->getProductImage($product->product_id, $link, $pw_thumb, $ph_thumb, 2, 1);
-				/* product image flying addwishlist time start*/
+
+				// Product image flying addwishlist time start
 				$thum_image = "<span class='productImageWrap' id='productImageWrapID_" . $product->product_id . "'>" . $producthelper->getProductImage($product->product_id, $link, $pw_thumb, $ph_thumb, 2, 1) . "</span>";
 
-				/* product image flying addwishlist time end*/
+				// Product image flying addwishlist time end
 				$prddata_add = str_replace($pimg_tag, $thum_image . $hidden_thumb_image, $prddata_add);
 
 				$prddata_add = $producthelper->getJcommentEditor($product, $prddata_add);

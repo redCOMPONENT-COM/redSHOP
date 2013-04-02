@@ -25,7 +25,7 @@ class order_detailVIEWorder_detail extends JView
 		$order_functions = new order_functions();
 		$model = $this->getModel();
 
-		$detail =& $this->get('data');
+		$detail = $this->get('data');
 
 		$billing = $order_functions->getBillingAddress($detail->user_id);
 		$shipping = $order_functions->getOrderShippingUserInfo($detail->order_id);
