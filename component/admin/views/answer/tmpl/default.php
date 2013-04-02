@@ -108,8 +108,8 @@ $ordering = ($this->lists['order'] == 'ordering');
 					<td><?php echo $row->user_name; ?></td>
 					<td><?php echo $row->user_email; ?></td>
 					<td class="order">
-						<span><?php echo $this->pagination->orderUpIcon($i, true, 'orderup', 'Move Up', $ordering); ?></span>
-						<span><?php echo $this->pagination->orderDownIcon($i, $n, true, 'orderdown', 'Move Down', $ordering); ?></span>
+						<span><?php echo $this->pagination->orderUpIcon($i, true, 'orderup', JText::_('JLIB_HTML_MOVE_UP'), $ordering); ?></span>
+						<span><?php echo $this->pagination->orderDownIcon($i, $n, true, 'orderdown', JText::_('JLIB_HTML_MOVE_DOWN'), $ordering); ?></span>
 						<input type="text" name="order[]" size="5" value="<?php echo $row->ordering; ?>"
 						       class="text_area" style="text-align: center" <?php if (!$ordering)
 						{ ?> disabled="disabled"<?php }?> /></td>
