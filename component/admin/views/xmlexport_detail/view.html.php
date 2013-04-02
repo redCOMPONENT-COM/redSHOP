@@ -52,7 +52,7 @@ class xmlexport_detailVIEWxmlexport_detail extends JView
 		}
 		else
 		{
-			JToolBarHelper::cancel('cancel', 'Close');
+			JToolBarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
 		}
 		$section_typelist = $xmlhelper->getSectionTypeList();
 		$auto_sync_interval = $xmlhelper->getSynchIntervalList();

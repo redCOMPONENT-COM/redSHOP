@@ -51,7 +51,7 @@ class mass_discount_detailVIEWmass_discount_detail extends JView
 		}
 		else
 		{
-			JToolBarHelper::cancel('cancel', 'Close');
+			JToolBarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
 		}
 
 		$model = $this->getModel('mass_discount_detail');

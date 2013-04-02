@@ -55,7 +55,7 @@ class media_detailVIEWmedia_detail extends JView
 		}
 		else
 		{
-			JToolBarHelper::cancel('cancel', 'Close');
+			JToolBarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
 		}
 
 		$media_section = JRequest::getVar('media_section');

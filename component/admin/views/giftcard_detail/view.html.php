@@ -50,7 +50,7 @@ class giftcard_detailVIEWgiftcard_detail extends JView
 		}
 		else
 		{
-			JToolBarHelper::cancel('cancel', 'Close');
+			JToolBarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
 		}
 
 		$lists['customer_amount'] = JHTML::_('select.booleanlist', 'customer_amount', 'class="inputbox" ', $detail->customer_amount);
