@@ -73,7 +73,7 @@ class newsletter_detailVIEWnewsletter_detail extends JView
 		}
 		else
 		{
-			JToolBarHelper::cancel('cancel', 'Close');
+			JToolBarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
 		}
 
 		$model = $this->getModel('newsletter_detail');
