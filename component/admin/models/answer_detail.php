@@ -43,7 +43,6 @@ class answer_detailModelanswer_detail extends JModel
 	{
 		if ($this->_loadData())
 		{
-
 		}
 		else
 		{
@@ -90,6 +89,7 @@ class answer_detailModelanswer_detail extends JModel
 
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
 
@@ -107,12 +107,14 @@ class answer_detailModelanswer_detail extends JModel
 		{
 			$data['ordering'] = $this->MaxOrdering();
 		}
+
 		if (!$row->bind($data))
 		{
 			$this->setError($this->_db->getErrorMsg());
 
 			return false;
 		}
+
 		if (!$row->store())
 		{
 			$this->setError($this->_db->getErrorMsg());
@@ -237,6 +239,7 @@ class answer_detailModelanswer_detail extends JModel
 						break;
 					}
 				}
+
 				if (!$found)
 				{
 					$conditions[] = array($row->question_id, $condition);

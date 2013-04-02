@@ -40,7 +40,6 @@ class voucher_detailModelvoucher_detail extends JModel
 	{
 		if ($this->_loadData())
 		{
-
 		}
 		else
 		{
@@ -189,7 +188,6 @@ class voucher_detailModelvoucher_detail extends JModel
 
 	public function checkduplicate($discount_code)
 	{
-
 		$query = "SELECT count(*) as code from " . $this->_table_prefix . "coupons"
 			. " LEFT JOIN " . $this->_table_prefix . "product_voucher ON coupon_code=voucher_code"
 			. " where voucher_code='" . $discount_code . "' OR coupon_code='" . $discount_code . "'";

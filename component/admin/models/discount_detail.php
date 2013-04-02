@@ -42,7 +42,6 @@ class discount_detailModeldiscount_detail extends JModel
 	{
 		if ($this->_loadData())
 		{
-
 		}
 		else
 		{
@@ -252,8 +251,8 @@ class discount_detailModeldiscount_detail extends JModel
 			{
 				return false;
 			}
-
 		}
+
 		return true;
 	}
 

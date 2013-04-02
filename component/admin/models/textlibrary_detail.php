@@ -42,7 +42,6 @@ class textlibrary_detailModeltextlibrary_detail extends JModel
 	{
 		if ($this->_loadData())
 		{
-
 		}
 		else
 		{

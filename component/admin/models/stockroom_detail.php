@@ -44,7 +44,6 @@ class stockroom_detailModelstockroom_detail extends JModel
 	{
 		if ($this->_loadData())
 		{
-
 		}
 		else
 		{
@@ -100,6 +99,7 @@ class stockroom_detailModelstockroom_detail extends JModel
 
 			return false;
 		}
+
 		if (!$row->store())
 		{
 			$this->setError($this->_db->getErrorMsg());
@@ -225,6 +225,7 @@ class stockroom_detailModelstockroom_detail extends JModel
 			$this->_db->setQuery($query);
 			$this->_copydata = $this->_db->loadObjectList();
 		}
+
 		foreach ($this->_copydata as $cdata)
 		{
 			$post['stockroom_id'] = 0;
@@ -238,6 +239,7 @@ class stockroom_detailModelstockroom_detail extends JModel
 			$post['published'] = $cdata->published;
 			$this->store($post);
 		}
+
 		return true;
 	}
 

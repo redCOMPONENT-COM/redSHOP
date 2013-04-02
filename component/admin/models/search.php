@@ -120,6 +120,7 @@ class searchModelsearch extends JModel
 
 			return $this->_data;
 		}
+
 		$query = $this->_buildQuery();
 		$this->_data = $this->_getList($query);
 
@@ -162,8 +163,8 @@ class searchModelsearch extends JModel
 				{
 					$pid[] = $rc->value;
 				}
-
 			}
+
 			if ($this->_productdata)
 			{
 				$pid = @implode(",", $pid);
@@ -193,8 +194,8 @@ class searchModelsearch extends JModel
 				{
 					$pid[] = $rc->value;
 				}
-
 			}
+
 			if ($this->_productdata)
 			{
 				$pid = @implode(",", $pid);
@@ -244,6 +245,7 @@ class searchModelsearch extends JModel
 			{
 				$where = '';
 			}
+
 			$where .= " and p.container_id NOT IN ( SELECT container_id FROM " . $this->_table_prefix . "stockroom_container_xref )
 			and p.container_name like '" . $this->_search . "%'";
 
@@ -290,6 +292,7 @@ class searchModelsearch extends JModel
 					$article[$j]->id = $rows[$j]->value;
 				}
 			}
+
 			return $article;
 		}
 		elseif ($this->_user == 1)

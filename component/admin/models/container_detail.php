@@ -40,7 +40,6 @@ class container_detailModelcontainer_detail extends JModel
 	{
 		if ($this->_loadData())
 		{
-
 		}
 		else
 		{
@@ -158,6 +157,7 @@ class container_detailModelcontainer_detail extends JModel
 			$this->_db->setQuery($sql);
 			$this->_db->query();
 		}
+
 		return $row;
 	}
 
@@ -274,7 +274,9 @@ class container_detailModelcontainer_detail extends JModel
 	{
 
 		$query = "SELECT cp.product_id,cp.quantity,p.product_name,p.product_volume,cp.container_id FROM "
-			. $this->_table_prefix . "product as p , " . $this->_table_prefix . "container_product_xref as cp  WHERE cp.container_id=$container_id and cp.product_id=p.product_id ";
+			. $this->_table_prefix . "product as p , " . $this->_table_prefix
+			. "container_product_xref as cp  WHERE cp.container_id=$container_id and cp.product_id=p.product_id ";
+
 		$this->_db->setQuery($query);
 		$this->_productdata = $this->_db->loadObjectList();
 
@@ -303,6 +305,7 @@ class container_detailModelcontainer_detail extends JModel
 		{
 			$query = "SELECT stockroom_id as value, stockroom_name as text FROM " . $this->_table_prefix . "stockroom where stockroom_id =" . $id;
 		}
+
 		$this->_db->setQuery($query);
 
 		return $this->_db->loadObjectList();

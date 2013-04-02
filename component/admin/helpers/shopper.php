@@ -11,7 +11,8 @@ defined('_JEXEC') or die;
 
 class shoppergroup
 {
-	public function list_all($name, $shopper_group_id, $selected_groups = Array(), $size = 1, $toplevel = true, $multiple = false, $disabledFields = array())
+	public function list_all($name, $shopper_group_id, $selected_groups = Array(), $size = 1, $toplevel = true,
+	                         $multiple = false, $disabledFields = array())
 	{
 		$db = JFactory::getDBO();
 		$html = '';
@@ -100,7 +101,6 @@ class shoppergroup
 	public function getshopperGroupListArray($shopper_group_id = "", $cid = '0', $level = '0')
 	{
 		$db = jFactory::getDBO();
-		$html = '';
 		$level++;
 
 		$q = "SELECT * FROM  #__" . TABLE_PREFIX . "_shopper_group ";
@@ -132,12 +132,17 @@ class shoppergroup
 			$this->getshopperGroupListArray($shopper_group_id, $child_id, $level);
 		}
 
-		return $GLOBALS['grouplist'];
+		if (isset($GLOBALS['grouplist']))
+		{
+			return $GLOBALS['grouplist'];
+		}
+
+		return array();
 	}
 
 	public function getCategoryListReverceArray($cid = '0')
 	{
-		$db = jFactory::getDBO();
+		$db = JFactory::getDBO();
 
 		$q = "SELECT c.shopper_group_id,c.category_name,cx.shopper_group_id,cx.parent_id FROM  #__"
 			. TABLE_PREFIX . "_shopper_group as cx, #__" . TABLE_PREFIX . "_shopper_group as c ";

@@ -51,7 +51,6 @@ class order_detailModelorder_detail extends JModel
 	{
 		if ($this->_loadData())
 		{
-
 		}
 		else
 		{
@@ -147,6 +146,7 @@ class order_detailModelorder_detail extends JModel
 					$invoiceHandle = $economic->deleteInvoiceInEconomic($orderdata);
 				}
 			}
+
 			$cids = implode(',', $cid);
 			$db = JFactory::getDBO();
 			$order_item = $order_functions->getOrderItemDetail($cids);
@@ -186,6 +186,7 @@ class order_detailModelorder_detail extends JModel
 
 				return false;
 			}
+
 			$query = 'DELETE FROM ' . $this->_table_prefix . 'order_item WHERE order_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
@@ -204,6 +205,7 @@ class order_detailModelorder_detail extends JModel
 
 				return false;
 			}
+
 			$query = 'DELETE FROM ' . $this->_table_prefix . 'order_users_info WHERE order_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
@@ -233,6 +235,7 @@ class order_detailModelorder_detail extends JModel
 						return false;
 					}
 				}
+
 				$query = 'DELETE FROM ' . $this->_table_prefix . 'quotation_item '
 					. 'WHERE quotation_id=' . $quotation[$q]->quotation_id;
 				$this->_db->setQuery($query);
@@ -244,6 +247,7 @@ class order_detailModelorder_detail extends JModel
 					return false;
 				}
 			}
+
 			$query = 'DELETE FROM ' . $this->_table_prefix . 'quotation WHERE order_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
@@ -254,6 +258,7 @@ class order_detailModelorder_detail extends JModel
 				return false;
 			}
 		}
+
 		return true;
 	}
 
@@ -317,9 +322,11 @@ class order_detailModelorder_detail extends JModel
 					{
 						$wrapper_vat = $producthelper->getProducttax($product_id, $wrapper[0]->wrapper_price, $user_id);
 					}
+
 					$wrapper_price = $wrapper[0]->wrapper_price + $wrapper_vat;
 				}
 			}
+
 			$product = $producthelper->getProductById($product_id);
 
 
@@ -390,6 +397,7 @@ class order_detailModelorder_detail extends JModel
 					{
 						$accessory_vat_price = $producthelper->getProductTax($product_id, $accessory_price, $user_id);
 					}
+
 					$attchildArr = $attArr[$a]['accessory_childs'];
 
 					for ($j = 0; $j < count($attchildArr); $j++)
@@ -426,6 +434,7 @@ class order_detailModelorder_detail extends JModel
 							{
 								$section_vat = $producthelper->getProducttax($product_id, $propArr[$k]['property_price'], $user_id);
 							}
+
 							$property_id = $propArr[$k]['property_id'];
 							$accessory_attribute .= urldecode($propArr[$k]['property_name']) . " (" . $propArr[$k]['property_oprand']
 								. $producthelper->getProductFormattedPrice($propArr[$k]['property_price'] + $section_vat) . ")<br/>";
@@ -461,6 +470,7 @@ class order_detailModelorder_detail extends JModel
 								{
 									$section_vat = $producthelper->getProducttax($rowitem->product_id, $subpropArr[$l]['subproperty_price'], $user_id);
 								}
+
 								$subproperty_id = $subpropArr[$l]['subproperty_id'];
 								$accessory_attribute .= urldecode($subpropArr[$l]['subproperty_name']) . " ("
 									. $subpropArr[$l]['subproperty_oprand']
@@ -563,6 +573,7 @@ class order_detailModelorder_detail extends JModel
 						{
 							$section_vat = $producthelper->getProducttax($product_id, $propArr[$k]['property_price'], $usre_id);
 						}
+
 						$property_id = $propArr[$k]['property_id'];
 						/** product property STOCKROOM update start */
 						$updatestock = $stockroomhelper->updateStockroomQuantity($property_id, $quantity, "property");
@@ -599,6 +610,7 @@ class order_detailModelorder_detail extends JModel
 							{
 								$section_vat = $producthelper->getProducttax($product_id, $subpropArr[$l]['subproperty_price'], $user_id);
 							}
+
 							$subproperty_id = $subpropArr[$l]['subproperty_id'];
 							/** product subproperty STOCKROOM update start */
 							$updatestock = $stockroomhelper->updateStockroomQuantity($subproperty_id, $quantity, "subproperty");
@@ -685,6 +697,7 @@ class order_detailModelorder_detail extends JModel
 		$productid = $data['productid'];
 
 		$order_item_id = $data['order_item_id'];
+
 		// Get Order Item Info
 		$orderitemdata = $this->getTable('order_item_detail');
 		$orderitemdata->load($order_item_id);
@@ -764,6 +777,7 @@ class order_detailModelorder_detail extends JModel
 			$productPrice_new = $productPrice;
 			$productPrice = $productPrice * -1;
 		}
+
 		$customer_note = $data['customer_note'];
 		$product_tax = $producthelper->getProductTax($product_id, $productPrice, $user_id);
 
@@ -801,6 +815,7 @@ class order_detailModelorder_detail extends JModel
 				$totalTax = $totalTax + ($itemtax * $OrderItems[$i]->product_quantity);
 				$subtotal = $subtotal + ($OrderItems[$i]->product_item_price * $OrderItems[$i]->product_quantity);
 			}
+
 			if ($order_item_id == $OrderItems[$i]->order_item_id)
 			{
 				$newquantity = $OrderItems[$i]->product_quantity - $quantity;
@@ -818,6 +833,7 @@ class order_detailModelorder_detail extends JModel
 					$orderitemdata->stockroom_id = $stockroom_id_list;
 					$orderitemdata->stockroom_quantity = $stockroom_quantity_list;
 				}
+
 				$this->updateAttributeItem($order_item_id, $newquantity, $orderitemdata->stockroom_id);
 			}
 		}
@@ -895,6 +911,7 @@ class order_detailModelorder_detail extends JModel
 				}
 			}
 		}
+
 		return true;
 	}
 

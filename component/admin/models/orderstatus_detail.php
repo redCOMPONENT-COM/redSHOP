@@ -40,7 +40,6 @@ class orderstatus_detailModelorderstatus_detail extends JModel
 	{
 		if ($this->_loadData())
 		{
-
 		}
 		else
 		{

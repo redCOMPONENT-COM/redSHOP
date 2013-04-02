@@ -13,5 +13,4 @@ jimport('joomla.application.component.controller');
 
 class opsearchController extends JController
 {
-
 }

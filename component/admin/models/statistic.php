@@ -93,15 +93,19 @@ class statisticModelstatistic extends JModel
 					{
 						$rs[$i]->viewdate = date("d M, Y", strtotime($list->preday) + 1);
 					}
+
 					$result[] = $rs[$i];
 				}
+
 				$today = $list->preday;
 			}
+
 			if (!empty($result))
 			{
 				$this->_mostpopular = $result;
 			}
 		}
+
 		return $this->_mostpopular;
 	}
 
@@ -142,8 +146,10 @@ class statisticModelstatistic extends JModel
 					{
 						$rs[$i]->viewdate = date("d M, Y", strtotime($list->preday) + 1);
 					}
+
 					$result[] = $rs[$i];
 				}
+
 				$today = $list->preday;
 			}
 
@@ -152,6 +158,7 @@ class statisticModelstatistic extends JModel
 				$this->_bestsallers = $result;
 			}
 		}
+
 		return $this->_bestsallers;
 	}
 
@@ -189,8 +196,10 @@ class statisticModelstatistic extends JModel
 					{
 						$rs[$i]->viewdate = date("d M, Y", strtotime($list->preday) + 1);
 					}
+
 					$result[] = $rs[$i];
 				}
+
 				$today = $list->preday;
 			}
 
@@ -239,8 +248,10 @@ class statisticModelstatistic extends JModel
 					{
 						$rs[$i]->viewdate = date("d M, Y", strtotime($list->preday) + 1);
 					}
+
 					$result[] = $rs[$i];
 				}
+
 				$today = $list->preday;
 			}
 
@@ -249,6 +260,7 @@ class statisticModelstatistic extends JModel
 				$this->_neworders = $result;
 			}
 		}
+
 		return $this->_neworders;
 	}
 
@@ -294,10 +306,13 @@ class statisticModelstatistic extends JModel
 					{
 						$rs[0]->viewdate = date("d M, Y", strtotime($list->preday) + 1);
 					}
+
 					$result[] = $rs[0];
 				}
+
 				$today = $list->preday;
 			}
+
 			if (!empty($result))
 			{
 				$this->_turnover = array_reverse($result);
@@ -343,8 +358,10 @@ class statisticModelstatistic extends JModel
 					{
 						$rs[0]->viewdate = date("d M, Y", strtotime($list->preday) + 1);
 					}
+
 					$result[] = $rs[0];
 				}
+
 				$today = $list->preday;
 			}
 
@@ -447,8 +464,10 @@ class statisticModelstatistic extends JModel
 					{
 						$rs[$i]->viewdate = date("d M, Y", strtotime($list->preday) + 1);
 					}
+
 					$result[] = $rs[$i];
 				}
+
 				$today = $list->preday;
 			}
 
@@ -500,15 +519,19 @@ class statisticModelstatistic extends JModel
 					{
 						$rs[$i]->viewdate = date("d M, Y", strtotime($list->preday) + 1);
 					}
+
 					$result[] = $rs[$i];
 				}
+
 				$today = $list->preday;
 			}
+
 			if (!empty($result))
 			{
 				$this->_amountorder = $result;
 			}
 		}
+
 		return $this->_amountorder;
 	}
 
@@ -548,8 +571,10 @@ class statisticModelstatistic extends JModel
 					{
 						$rs[$i]->viewdate = date("d M, Y", strtotime($list->preday) + 1);
 					}
+
 					$result[] = $rs[$i];
 				}
+
 				$today = $list->preday;
 			}
 
@@ -598,8 +623,10 @@ class statisticModelstatistic extends JModel
 					{
 						$rs[0]->viewdate = date("d M, Y", strtotime($list->preday) + 1);
 					}
+
 					$result[] = $rs[0];
 				}
+
 				$today = $list->preday;
 			}
 
@@ -615,6 +642,7 @@ class statisticModelstatistic extends JModel
 	public function getNextInterval($today)
 	{
 		$list = array();
+
 		switch ($this->_filteroption)
 		{
 			case 1:
@@ -672,12 +700,14 @@ class statisticModelstatistic extends JModel
 				$return = $list->date . " 23:59:59";
 				break;
 		}
+
 		return $return;
 	}
 
 	public function getDateFormate()
 	{
 		$return = "";
+
 		switch ($this->_filteroption)
 		{
 			case 1:
@@ -703,6 +733,7 @@ class statisticModelstatistic extends JModel
 	public function getSectionDetail($section, $sectionid)
 	{
 		$return = array();
+
 		switch ($section)
 		{
 			case "product":
@@ -724,6 +755,7 @@ class statisticModelstatistic extends JModel
 				$return = $this->_db->loadObject();
 				break;
 		}
+
 		return $return;
 	}
 }

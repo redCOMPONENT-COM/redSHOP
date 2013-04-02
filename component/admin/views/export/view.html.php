@@ -6,6 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
@@ -16,7 +17,6 @@ class exportViewexport extends JView
 	public function display($tpl = null)
 	{
 		$task = JRequest::getVar('task');
-		$post = JRequest::get('post');
 		$product_category = new product_category;
 		$model = $this->getModel('export');
 
