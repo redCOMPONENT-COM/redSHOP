@@ -803,6 +803,7 @@ $template_desc = $producthelper->replaceAttributeData($this->data->product_id, 0
 $pr_number = $this->data->product_number;
 $preselectedresult = array();
 $moreimage_response = '';
+$attributeproductStockStatus = null;
 
 if (count($attributes) > 0 && count($attribute_template) > 0)
 {
