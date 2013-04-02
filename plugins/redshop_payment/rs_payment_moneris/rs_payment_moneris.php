@@ -128,7 +128,7 @@ class plgRedshop_paymentrs_payment_moneris extends JPlugin
 		}
 
 		$avs_street_number = substr($data['billinginfo']->address, 0, 60);
-		;
+
 		$avs_zipcode = substr($data['billinginfo']->zipcode, 0, 20);
 		$order_number = $data['order_number'] . time();
 
@@ -142,8 +142,9 @@ class plgRedshop_paymentrs_payment_moneris extends JPlugin
 			'crypt_type' => $crypt
 		);
 
-		$cvdTemplate = array('cvd_indicator' => $cvd_indicator,
-		                     'cvd_value'     => $credit_card_code
+		$cvdTemplate = array(
+			'cvd_indicator' => $cvd_indicator,
+			'cvd_value'     => $credit_card_code
 		);
 
 		$avsTemplate = array('avs_street_number' => $avs_street_number,'avs_street_name' => '','avs_zipcode' => $avs_zipcode);
@@ -188,6 +189,8 @@ class plgRedshop_paymentrs_payment_moneris extends JPlugin
 		$mpgTxnNumber = $mpgResponse->getTxnNumber();
 		$mpgAvsCode = $mpgResponse->getAvsResultCode();
 		$mpgCvdCode = $mpgResponse->getCvdResultCode();
+
+		$values = new stdClass;
 
 		if (stristr($mpgRCode, "null") == false && $mpgRCode !== null)
 		{
