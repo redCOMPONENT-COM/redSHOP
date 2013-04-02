@@ -40,7 +40,6 @@ class newslettersubscr_detailModelnewslettersubscr_detail extends JModel
 	{
 		if ($this->_loadData())
 		{
-
 		}
 		else
 		{
@@ -87,7 +86,7 @@ class newslettersubscr_detailModelnewslettersubscr_detail extends JModel
 
 	public function store($data)
 	{
-		$row =& $this->getTable();
+		$row = $this->getTable();
 
 		if (!$row->bind($data))
 		{
@@ -195,6 +194,7 @@ class newslettersubscr_detailModelnewslettersubscr_detail extends JModel
 			$sbscids = implode(",", $subsc);
 			$where = " AND ns.subscription_id IN (" . $sbscids . ")";
 		}
+
 		$query = 'SELECT ns.*,ns.name as subscribername,n.name'
 			. ' FROM ' . $this->_table_prefix . 'newsletter_subscription as ns,' . $this->_table_prefix
 			. 'newsletter as n WHERE ns.newsletter_id=n.newsletter_id '

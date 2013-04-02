@@ -59,6 +59,7 @@ class answer_detailController extends JController
 		{
 			$model->sendMailForAskQuestion($row->question_id);
 		}
+
 		$this->setRedirect('index.php?option=' . $option . '&view=answer&parent_id=' . $parent_id, $msg);
 	}
 
@@ -99,7 +100,6 @@ class answer_detailController extends JController
 
 	public function publish()
 	{
-
 		$option = JRequest::getVar('option');
 		$parent_id = JRequest::getVar('parent_id');
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
@@ -122,7 +122,6 @@ class answer_detailController extends JController
 
 	public function unpublish()
 	{
-
 		$option = JRequest::getVar('option');
 		$parent_id = JRequest::getVar('parent_id');
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');

@@ -42,7 +42,6 @@ class shipping_box_detailModelshipping_box_detail extends JModel
 	{
 		if ($this->_loadData())
 		{
-
 		}
 		else
 		{

@@ -40,7 +40,6 @@ class media_detailModelmedia_detail extends JModel
 	{
 		if ($this->_loadData())
 		{
-
 		}
 		else
 		{
@@ -112,7 +111,6 @@ class media_detailModelmedia_detail extends JModel
 	{
 		if (count($cid))
 		{
-
 			$cids = implode(',', $cid);
 
 			$q = 'SELECT * FROM ' . $this->_table_prefix . 'media  WHERE media_id IN ( ' . $cids . ' )';
@@ -130,16 +128,19 @@ class media_detailModelmedia_detail extends JModel
 				{
 					unlink($nsrc);
 				}
+
 				if (is_file($ntsrc))
 				{
 					unlink($ntsrc);
 				}
+
 				if ($mediadata->media_section == 'manufacturer')
 				{
 					$query = 'DELETE FROM ' . $this->_table_prefix . 'media WHERE section_id IN ( ' . $mediadata->section_id . ' )';
 					$this->_db->setQuery($query);
 					$this->_db->query();
 				}
+
 				$query = 'DELETE FROM ' . $this->_table_prefix . 'media WHERE media_id IN ( ' . $mediadata->media_id . ' )';
 				$this->_db->setQuery($query);
 
@@ -173,6 +174,7 @@ class media_detailModelmedia_detail extends JModel
 				return false;
 			}
 		}
+
 		return true;
 	}
 
@@ -250,6 +252,7 @@ class media_detailModelmedia_detail extends JModel
 				}
 			}
 		}
+
 		return true;
 	}
 

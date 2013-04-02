@@ -42,7 +42,6 @@ class addquotation_detailVIEWaddquotation_detail extends JView
 		$uri = JFactory::getURI();
 
 		$lists = array();
-		$billing = array();
 		$model = $this->getModel();
 		$detail = $this->get('Data');
 		$Redconfiguration = new Redconfiguration;
@@ -56,6 +55,11 @@ class addquotation_detailVIEWaddquotation_detail extends JView
 		else
 		{
 			$billing = $model->setBilling();
+		}
+
+		if (!is_object($detail))
+		{
+			$detail = new stdClass;
 		}
 
 		$detail->user_id = $user_id;
@@ -74,7 +78,8 @@ class addquotation_detailVIEWaddquotation_detail extends JView
 			'text'
 		);
 
-		JToolBarHelper::title(JText::_('COM_REDSHOP_QUOTATION_MANAGEMENT') . ': <small><small>[ '
+		JToolBarHelper::title(
+			JText::_('COM_REDSHOP_QUOTATION_MANAGEMENT') . ': <small><small>[ '
 				. JText::_('COM_REDSHOP_NEW') . ' ]</small></small>', 'redshop_order48'
 		);
 

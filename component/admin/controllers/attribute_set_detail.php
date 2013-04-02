@@ -158,6 +158,7 @@ class attribute_set_detailController extends JController
 		{
 			return;
 		}
+
 		$attribute = array_merge(array(), $post['attribute']);
 
 		$files = JRequest::get('files');
@@ -207,12 +208,14 @@ class attribute_set_detailController extends JController
 						$property_array = $model->store_pro($property_save);
 					}
 				}
+
 				if (!empty($property[$p]['mainImage']))
 				{
 					$property_save['property_image'] = $model->copy_image_from_path($property[$p]['mainImage'], 'product_attributes', $property_array->property_id);
 					$property_save['property_id'] = $property_array->property_id;
 					$property_array = $model->store_pro($property_save);
 				}
+
 				$subproperty = array_merge(array(), $property[$p]['subproperty']);
 				$subproperty_title = $property[$p]['subproperty']['title'];
 				$subpropertyImage = array_keys($property[$p]['subproperty']);
@@ -221,7 +224,6 @@ class attribute_set_detailController extends JController
 
 				for ($sp = 0; $sp < count($subproperty) - 1; $sp++)
 				{
-
 					$subproperty_save['subattribute_color_id'] = $subproperty[$sp]['subproperty_id'];
 					$subproperty_save['subattribute_color_name'] = $subproperty[$sp]['name'];
 					$subproperty_save['subattribute_color_title'] = $subproperty_title;
@@ -258,6 +260,7 @@ class attribute_set_detailController extends JController
 				}
 			}
 		}
+
 		return;
 	}
 
@@ -279,6 +282,7 @@ class attribute_set_detailController extends JController
 		{
 			$width = 50;
 		}
+
 		if ($height < 5)
 		{
 			$height = 50;
@@ -376,7 +380,6 @@ class attribute_set_detailController extends JController
 
 			if (($info[0] > 50) || ($info[1] > 50))
 			{
-
 				$dimensions = $this->_imageResize($info[0], $info[1], 50);
 
 				$width_60 = $dimensions[0];
@@ -406,6 +409,7 @@ class attribute_set_detailController extends JController
 
 				$j++;
 			}
+
 			$i = $j;
 
 			while (false !== ($filename = readdir($handle)))
@@ -431,6 +435,7 @@ class attribute_set_detailController extends JController
 						$width_60 = $width;
 						$height_60 = $height;
 					}
+
 					$tbl .= "<td width='25%'><table width='120' height='70' style='background-color:#C0C0C0;' cellspacing='1' cellpdding='1'>
 					<tr><td align='center' style='background-color:#FFFFFF;'>
 					<a href=\"javascript:window.parent.jimage_insert('" . $dir_path . DS . $filename . "');window.parent.SqueezeBox.close();\">
@@ -607,6 +612,7 @@ class attribute_set_detailController extends JController
 		{
 			$msg = JText::_('COM_REDSHOP_ERROR_COPING_CATEGORY');
 		}
+
 		$this->setRedirect('index.php?option=' . $option . '&view=attribute_set', $msg);
 	}
 }

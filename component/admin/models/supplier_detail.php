@@ -44,7 +44,6 @@ class supplier_detailModelsupplier_detail extends JModel
 	{
 		if ($this->_loadData())
 		{
-
 		}
 		else
 		{
@@ -96,6 +95,7 @@ class supplier_detailModelsupplier_detail extends JModel
 
 			return false;
 		}
+
 		if (!$row->store())
 		{
 			$this->setError($this->_db->getErrorMsg());

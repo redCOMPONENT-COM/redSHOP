@@ -40,7 +40,6 @@ class coupon_detailModelcoupon_detail extends JModel
 	{
 		if ($this->_loadData())
 		{
-
 		}
 		else
 		{

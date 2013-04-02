@@ -38,7 +38,6 @@ class state_detailModelstate_detail extends JModel
 	{
 		if ($this->_loadData())
 		{
-
 		}
 		else
 		{
@@ -58,9 +57,9 @@ class state_detailModelstate_detail extends JModel
 
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
-
 
 	public function _initData()
 	{
@@ -163,6 +162,7 @@ class state_detailModelstate_detail extends JModel
 				$user = JFactory::getUser();
 				$uid = (int) $user->get('id');
 			}
+
 			// Lets get to it and checkout the thing...
 			$state_detail = & $this->getTable('state_detail');
 
@@ -176,6 +176,7 @@ class state_detailModelstate_detail extends JModel
 
 			return true;
 		}
+
 		return false;
 	}
 
@@ -199,6 +200,7 @@ class state_detailModelstate_detail extends JModel
 				return false;
 			}
 		}
+
 		return false;
 	}
 

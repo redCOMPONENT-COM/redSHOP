@@ -18,6 +18,13 @@ require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'helper.php');
 
 class configurationViewconfiguration extends JView
 {
+	/**
+	 * The request url.
+	 *
+	 * @var  string
+	 */
+	public $request_url;
+
 	public function display($tpl = null)
 	{
 		$db = JFactory::getDBO();
@@ -86,6 +93,7 @@ class configurationViewconfiguration extends JView
 		$newsletters = $model->getnewsletters();
 
 		$templatesel = array();
+		$templatesel[0] = new stdClass;
 		$templatesel[0]->template_id = 0;
 		$templatesel[0]->template_name = JText::_('COM_REDSHOP_SELECT');
 
@@ -374,6 +382,7 @@ class configurationViewconfiguration extends JView
 		);
 
 		$menuitem = array();
+		$menuitem[0] = new stdClass;
 		$menuitem[0]->value = 0;
 		$menuitem[0]->text = JText::_('COM_REDSHOP_SELECT');
 		$q = "SELECT m.id,m.title AS name,mt.title FROM #__menu AS m "
@@ -385,9 +394,11 @@ class configurationViewconfiguration extends JView
 
 		for ($i = 0; $i < count($menuitemlist); $i++)
 		{
+			$menuitem[$i + 1] = new stdClass;
 			$menuitem[$i + 1]->value = $menuitemlist[$i]->id;
 			$menuitem[$i + 1]->text = $menuitemlist[$i]->name;
 		}
+
 		$lists['url_after_portal_login'] = JHTML::_('select.genericlist', $menuitem, 'portal_login_itemid',
 			'class="inputbox" size="1" ', 'value', 'text', PORTAL_LOGIN_ITEMID
 		);
@@ -660,12 +671,18 @@ class configurationViewconfiguration extends JView
 		);
 
 		$order_data = array();
+		$order_data[0] = new stdClass;
 		$order_data[0]->value = "c.category_name ASC";
 		$order_data[0]->text = JText::_('COM_REDSHOP_CATEGORY_NAME');
+
+		$order_data[1] = new stdClass;
 		$order_data[1]->value = "c.category_id DESC";
 		$order_data[1]->text = JText::_('COM_REDSHOP_NEWEST');
+
+		$order_data[2] = new stdClass;
 		$order_data[2]->value = "c.ordering ASC";
 		$order_data[2]->text = JText::_('COM_REDSHOP_ORDERING');
+
 		$lists['default_category_ordering_method'] = JHTML::_('select.genericlist', $order_data, 'default_category_ordering_method',
 			'class="inputbox" size="1" ', 'value', 'text', DEFAULT_CATEGORY_ORDERING_METHOD
 		);
@@ -676,14 +693,22 @@ class configurationViewconfiguration extends JView
 		);
 
 		$symbol_position = array();
+		$symbol_position[0] = new stdClass;
 		$symbol_position[0]->value = " ";
 		$symbol_position[0]->text = JText::_('COM_REDSHOP_SELECT');
+
+		$symbol_position[1] = new stdClass;
 		$symbol_position[1]->value = "front";
 		$symbol_position[1]->text = JText::_('COM_REDSHOP_FRONT');
+
+		$symbol_position[2] = new stdClass;
 		$symbol_position[2]->value = "behind";
 		$symbol_position[2]->text = JText::_('COM_REDSHOP_BEHIND');
+
+		$symbol_position[3] = new stdClass;
 		$symbol_position[3]->value = "none";
 		$symbol_position[3]->text = JText::_('COM_REDSHOP_NONE');
+
 		$lists['currency_symbol_position'] = JHTML::_('select.genericlist', $symbol_position, 'currency_symbol_position',
 			'class="inputbox" ', 'value', 'text', CURRENCY_SYMBOL_POSITION
 		);
@@ -699,38 +724,60 @@ class configurationViewconfiguration extends JView
 		$lists['wishlist_login_required'] = JHTML::_('select.booleanlist', 'wishlist_login_required', 'class="inputbox"', WISHLIST_LOGIN_REQUIRED);
 
 		$invoice_mail_send_option = array();
+		$invoice_mail_send_option[0] = new stdClass;
 		$invoice_mail_send_option[0]->value = 0;
 		$invoice_mail_send_option[0]->text = JText::_('COM_REDSHOP_SELECT');
+
+		$invoice_mail_send_option[1] = new stdClass;
 		$invoice_mail_send_option[1]->value = 1;
 		$invoice_mail_send_option[1]->text = JText::_('COM_REDSHOP_ADMINISTRATOR');
+
+		$invoice_mail_send_option[2] = new stdClass;
 		$invoice_mail_send_option[2]->value = 2;
 		$invoice_mail_send_option[2]->text = JText::_('COM_REDSHOP_CUSTOMER');
+
+		$invoice_mail_send_option[3] = new stdClass;
 		$invoice_mail_send_option[3]->value = 3;
 		$invoice_mail_send_option[3]->text = JText::_('COM_REDSHOP_BOTH');
+
 		$lists['invoice_mail_send_option'] = JHTML::_('select.genericlist', $invoice_mail_send_option, 'invoice_mail_send_option',
 			'class="inputbox" ', 'value', 'text', INVOICE_MAIL_SEND_OPTION
 		);
 
 		$order_mail_after = array();
+		$order_mail_after[0] = new stdClass;
 		$order_mail_after[0]->value = 0;
 		$order_mail_after[0]->text = JText::_('COM_REDSHOP_ORDER_MAIL_BEFORE_PAYMENT');
+
+		$order_mail_after[1] = new stdClass;
 		$order_mail_after[1]->value = 1;
 		$order_mail_after[1]->text = JText::_('COM_REDSHOP_ORDER_MAIL_AFTER_PAYMENT');
+
 		$lists['order_mail_after'] = JHTML::_('select.genericlist', $order_mail_after, 'order_mail_after',
 			'class="inputbox" ', 'value', 'text', ORDER_MAIL_AFTER
 		);
 
 		$discount_type = array();
+		$discount_type[0] = new stdClass;
 		$discount_type[0]->value = 0;
 		$discount_type[0]->text = JText::_('COM_REDSHOP_SELECT');
+
+		$discount_type[1] = new stdClass;
 		$discount_type[1]->value = 1;
 		$discount_type[1]->text = JText::_('COM_REDSHOP_DISCOUNT_OR_VOUCHER_OR_COUPON');
+
+		$discount_type[2] = new stdClass;
 		$discount_type[2]->value = 2;
 		$discount_type[2]->text = JText::_('COM_REDSHOP_DISCOUNT_VOUCHER_OR_COUPON');
+
+		$discount_type[3] = new stdClass;
 		$discount_type[3]->value = 3;
 		$discount_type[3]->text = JText::_('COM_REDSHOP_DISCOUNT_VOUCHER_COUPON');
+
+		$discount_type[4] = new stdClass;
 		$discount_type[4]->value = 4;
 		$discount_type[4]->text = JText::_('COM_REDSHOP_DISCOUNT_VOUCHER_COUPON_MULTIPLE');
+
 		$lists['discount_type'] = JHTML::_('select.genericlist', $discount_type, 'discount_type',
 			'class="inputbox" ', 'value', 'text', DISCOUNT_TYPE
 		);
@@ -739,32 +786,52 @@ class configurationViewconfiguration extends JView
 		 * Measurement select boxes
 		 */
 		$option = array();
+		$option[0] = new stdClass;
 		$option[0]->value = 0;
 		$option[0]->text = JText::_('COM_REDSHOP_SELECT');
+
+		$option[1] = new stdClass;
 		$option[1]->value = 'mm';
 		$option[1]->text = JText::_('COM_REDSHOP_MILLIMETER');
+
+		$option[2] = new stdClass;
 		$option[2]->value = 'cm';
 		$option[2]->text = JText::_('COM_REDSHOP_CENTIMETERS');
+
+		$option[3] = new stdClass;
 		$option[3]->value = 'inch';
 		$option[3]->text = JText::_('COM_REDSHOP_INCHES');
+
+		$option[4] = new stdClass;
 		$option[4]->value = 'feet';
 		$option[4]->text = JText::_('COM_REDSHOP_FEET');
+
+		$option[5] = new stdClass;
 		$option[5]->value = 'm';
 		$option[5]->text = JText::_('COM_REDSHOP_METER');
+
 		$lists['default_volume_unit'] = JHTML::_('select.genericlist', $option, 'default_volume_unit',
 			'class="inputbox" ', 'value', 'text', DEFAULT_VOLUME_UNIT
 		);
 		unset($option);
 
 		$option = array();
+		$option[0] = new stdClass;
 		$option[0]->value = 0;
 		$option[0]->text = JText::_('COM_REDSHOP_SELECT');
+
+		$option[1] = new stdClass;
 		$option[1]->value = 'gram';
 		$option[1]->text = JText::_('COM_REDSHOP_GRAM');
+
+		$option[2] = new stdClass;
 		$option[2]->value = 'pounds';
 		$option[2]->text = JText::_('COM_REDSHOP_POUNDS');
+
+		$option[3] = new stdClass;
 		$option[3]->value = 'kg';
 		$option[3]->text = JText::_('COM_REDSHOP_KG');
+
 		$lists['default_weight_unit'] = JHTML::_('select.genericlist', $option, 'default_weight_unit',
 			'class="inputbox" ', 'value', 'text', DEFAULT_WEIGHT_UNIT
 		);
@@ -804,7 +871,7 @@ class configurationViewconfiguration extends JView
 		$this->assignRef('getinstalledshipping', $getinstalledshipping);
 		$this->assignRef('current_version', $current_version);
 		$this->assignRef('lists', $lists);
-		$this->assignRef('request_url', $uri->toString());
+		$this->request_url = $uri->toString();
 		$this->assignRef('detail', $detail);
 
 		parent::display($tpl);

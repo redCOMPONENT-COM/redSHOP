@@ -39,7 +39,6 @@ class rating_detailModelrating_detail extends JModel
 	{
 		if ($this->_loadData())
 		{
-
 		}
 		else
 		{

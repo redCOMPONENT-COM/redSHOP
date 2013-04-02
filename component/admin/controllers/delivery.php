@@ -123,8 +123,8 @@ class deliverycontroller extends JController
 					$txt .= $del;
 					$txt .= "\n";
 				}
-
 			}
+
 			$k = 1 - $k;
 		}
 

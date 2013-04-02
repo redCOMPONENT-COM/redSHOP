@@ -40,7 +40,6 @@ class catalog_detailModelcatalog_detail extends JModel
 	{
 		if ($this->_loadData())
 		{
-
 		}
 		else
 		{

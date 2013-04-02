@@ -87,5 +87,4 @@ class product_attribute_priceController extends JController
 			. "&cid=" . $cid . "&section=" . $section;
 		$this->setRedirect($link);
 	}
-
 }

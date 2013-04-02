@@ -16,6 +16,13 @@ jimport('joomla.application.component.view');
 
 class user_detailVIEWuser_detail extends JView
 {
+	/**
+	 * The request url.
+	 *
+	 * @var  string
+	 */
+	public $request_url;
+
 	public function display($tpl = null)
 	{
 		$Redconfiguration = new Redconfiguration;
@@ -29,8 +36,6 @@ class user_detailVIEWuser_detail extends JView
 		$document->addScript('components/' . $option . '/assets/js/json.js');
 		$document->addScript('components/' . $option . '/assets/js/validation.js');
 
-		$myuser = JFactory::getUser();
-		$acl = JFactory::getACL();
 		$uri = JFactory::getURI();
 
 		$this->setLayout('default');
@@ -42,12 +47,18 @@ class user_detailVIEWuser_detail extends JView
 
 		if ($shipping)
 		{
-			JToolBarHelper::title(JText::_('COM_REDSHOP_USER_SHIPPING_DETAIL') . ': <small><small>[ ' . $text . ' ]</small></small>', 'redshop_user48');
+			JToolBarHelper::title(
+				JText::_('COM_REDSHOP_USER_SHIPPING_DETAIL') . ': <small><small>[ '
+				. $text . ' ]</small></small>', 'redshop_user48');
 		}
 		else
 		{
-			JToolBarHelper::title(JText::_('COM_REDSHOP_USER_MANAGEMENT_DETAIL') . ': <small><small>[ ' . $text . ' ]</small></small>', 'redshop_user48');
+			JToolBarHelper::title(
+				JText::_('COM_REDSHOP_USER_MANAGEMENT_DETAIL') . ': <small><small>[ '
+				. $text . ' ]</small></small>', 'redshop_user48'
+			);
 		}
+
 		JToolBarHelper::apply();
 		JToolBarHelper::save();
 
@@ -60,14 +71,16 @@ class user_detailVIEWuser_detail extends JView
 			JToolBarHelper::customX('order', 'redshop_order32', '', JText::_('COM_REDSHOP_PLACE_ORDER'), false);
 			JToolBarHelper::cancel('cancel', 'Close');
 		}
-		$model = $this->getModel('user_detail');
+
 		$pagination = $this->get('Pagination');
 
 		$user_groups = $userhelper->getUserGroupList($detail->users_info_id);
 		$detail->user_groups = $user_groups;
 
 		$shopper_detail = $userhelper->getShopperGroupList();
+
 		$temps = array();
+		$temps[0] = new stdClass;
 		$temps[0]->value = 0;
 		$temps[0]->text = JText::_('COM_REDSHOP_SELECT');
 		$shopper_detail = array_merge($temps, $shopper_detail);
@@ -75,11 +88,13 @@ class user_detailVIEWuser_detail extends JView
 		$lists['tax_exempt'] = JHTML::_('select.booleanlist', 'tax_exempt', 'class="inputbox"', $detail->tax_exempt);
 		$lists['block'] = JHTML::_('select.booleanlist', 'block', 'class="inputbox"', $detail->block);
 		$lists['tax_exempt_approved'] = JHTML::_('select.booleanlist', 'tax_exempt_approved', 'class="inputbox"', $detail->tax_exempt_approved);
+
 		$lists['requesting_tax_exempt'] = JHTML::_('select.booleanlist', 'requesting_tax_exempt', 'class="inputbox"', $detail->requesting_tax_exempt);
 		$lists['is_company'] = JHTML::_('select.booleanlist', 'is_company',
 			'class="inputbox" onchange="showOfflineCompanyOrCustomer(this.value);" ',
 			$detail->is_company, JText::_('COM_REDSHOP_USER_COMPANY'), JText::_('COM_REDSHOP_USER_CUSTOMER')
 		);
+
 		$lists['sendEmail'] = JHTML::_('select.booleanlist', 'sendEmail', 'class="inputbox"', $detail->sendEmail);
 		$lists['extra_field'] = $extra_field->list_all_field(6, $detail->users_info_id);
 		$lists['customer_field'] = $extra_field->list_all_field(7, $detail->users_info_id);
@@ -92,12 +107,10 @@ class user_detailVIEWuser_detail extends JView
 		$lists['country_code'] = $countryarray['country_dropdown'];
 		$statearray = $Redconfiguration->getStateList((array) $detail);
 		$lists['state_code'] = $statearray['state_dropdown'];
-		$showcountry = (count($countryarray['countrylist']) == 1 && count($statearray['statelist']) == 0) ? 0 : 1;
-		$showstates = ($statearray['is_states'] <= 0) ? 0 : 1;
 
 		$this->assignRef('lists', $lists);
 		$this->assignRef('detail', $detail);
-		$this->assignRef('request_url', $uri->toString());
+		$this->request_url = $uri->toString();
 		$this->assignRef('pagination', $pagination);
 
 		parent::display($tpl);
