@@ -19,8 +19,8 @@ else
 	$allowCompany = 'style="display:none;"';
 }
 
-$countrystyle = ($this->showcountry == 0) ? ' style="display:none;" ' : '';
-$statestyle = ($this->showstates == 0) ? ' style="display:none;" ' : '';
+$countrystyle = (isset($this->showcountry) && $this->showcountry == 0) ? ' style="display:none;" ' : '';
+$statestyle = (isset($this->showstates) && $this->showstates == 0) ? ' style="display:none;" ' : '';
 ?>
 <div class="col50">
 	<table class="admintable">

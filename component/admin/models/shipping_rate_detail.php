@@ -43,7 +43,6 @@ class shipping_rate_detailModelShipping_rate_detail extends JModel
 	{
 		if ($this->_loadData())
 		{
-
 		}
 		else
 		{
@@ -159,6 +158,7 @@ class shipping_rate_detailModelShipping_rate_detail extends JModel
 
 			return false;
 		}
+
 		return $row;
 	}
 
@@ -234,6 +234,7 @@ class shipping_rate_detailModelShipping_rate_detail extends JModel
 			$this->_db->setQuery($query);
 			$copydata = $this->_db->loadObjectList();
 		}
+
 		for ($i = 0; $i < count($copydata); $i++)
 		{
 			$row =& $this->getTable();
@@ -267,6 +268,7 @@ class shipping_rate_detailModelShipping_rate_detail extends JModel
 			$row->bind($post);
 			$result = $row->store();
 		}
+
 		return $result;
 	}
 

@@ -76,6 +76,7 @@ class stockimage_detailModelstockimage_detail extends JModel
 
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
 
@@ -101,12 +102,14 @@ class stockimage_detailModelstockimage_detail extends JModel
 				unlink(REDSHOP_FRONT_IMAGES_RELPATH . 'stockroom' . DS . $data['stock_image']);
 			}
 		}
+
 		if (!$row->bind($data))
 		{
 			$this->setError($this->_db->getErrorMsg());
 
 			return false;
 		}
+
 		if (!$row->store())
 		{
 			$this->setError($this->_db->getErrorMsg());
@@ -163,6 +166,7 @@ class stockimage_detailModelstockimage_detail extends JModel
 		{
 			$option = $option[$select]->text;
 		}
+
 		return $option;
 	}
 
