@@ -81,6 +81,7 @@ class plgRedshop_paymentrs_payment_paypal_subscription extends JPlugin
 		$subscr_id = $request["subscr_id"];
 		$tid = $request['txn_id'];
 		$status = $request['payment_status'];
+		$values = new stdClass;
 
 		if ($txn_type == 'subscr_payment')
 		{
@@ -263,7 +264,6 @@ class plgRedshop_paymentrs_payment_paypal_subscription extends JPlugin
 					$rowpayment->order_payment_expire = '';
 					$rowpayment->order_payment_name = $paymentmethod->name;
 					$rowpayment->payment_method_class = $paymentmethod->element;
-					;
 					$rowpayment->order_payment_trans_id = '';
 					$rowpayment->authorize_status = "";
 
