@@ -329,16 +329,27 @@ class redhelper
 	public function getOrderByList()
 	{
 		$order_data           = array();
+		$order_data[0] = new stdClass;
 		$order_data[0]->value = "p.product_name ASC";
 		$order_data[0]->text  = JText::_('COM_REDSHOP_PRODUCT_NAME');
+
+		$order_data[1] = new stdClass;
 		$order_data[1]->value = "p.product_price ASC";
 		$order_data[1]->text  = JText::_('COM_REDSHOP_PRODUCT_PRICE_ASC');
+
+		$order_data[2] = new stdClass;
 		$order_data[2]->value = "p.product_price DESC";
 		$order_data[2]->text  = JText::_('COM_REDSHOP_PRODUCT_PRICE_DESC');
+
+		$order_data[3] = new stdClass;
 		$order_data[3]->value = "p.product_number ASC";
 		$order_data[3]->text  = JText::_('COM_REDSHOP_PRODUCT_NUMBER');
+
+		$order_data[4] = new stdClass;
 		$order_data[4]->value = "p.product_id DESC";
 		$order_data[4]->text  = JText::_('COM_REDSHOP_NEWEST');
+
+		$order_data[5] = new stdClass;
 		$order_data[5]->value = "pc.ordering ASC";
 		$order_data[5]->text  = JText::_('COM_REDSHOP_ORDERING');
 
@@ -348,10 +359,15 @@ class redhelper
 	public function getManufacturerOrderByList()
 	{
 		$order_data           = array();
+		$order_data[0] = new stdClass;
 		$order_data[0]->value = "mn.manufacturer_name ASC";
 		$order_data[0]->text  = JText::_('COM_REDSHOP_ALPHABETICALLY');
+
+		$order_data[1] = new stdClass;
 		$order_data[1]->value = "mn.manufacturer_id DESC";
 		$order_data[1]->text  = JText::_('COM_REDSHOP_NEWEST');
+
+		$order_data[2] = new stdClass;
 		$order_data[2]->value = "mn.ordering ASC";
 		$order_data[2]->text  = JText::_('COM_REDSHOP_ORDERING');
 
@@ -361,25 +377,43 @@ class redhelper
 	public function getRelatedOrderByList()
 	{
 		$order_data           = array();
+		$order_data[0] = new stdClass;
 		$order_data[0]->value = "p.product_name ASC";
 		$order_data[0]->text  = JText::_('COM_REDSHOP_PRODUCT_NAME_ASC');
+
+		$order_data[1] = new stdClass;
 		$order_data[1]->value = "p.product_name DESC";
 		$order_data[1]->text  = JText::_('COM_REDSHOP_PRODUCT_NAME_DESC');
+
+		$order_data[2] = new stdClass;
 		$order_data[2]->value = "p.product_price ASC";
 		$order_data[2]->text  = JText::_('COM_REDSHOP_PRODUCT_PRICE_ASC');
+
+		$order_data[3] = new stdClass;
 		$order_data[3]->value = "p.product_price DESC";
 		$order_data[3]->text  = JText::_('COM_REDSHOP_PRODUCT_PRICE_DESC');
+
+		$order_data[4] = new stdClass;
 		$order_data[4]->value = "p.product_number ASC";
 		$order_data[4]->text  = JText::_('COM_REDSHOP_PRODUCT_NUMBER_ASC');
+
+		$order_data[5] = new stdClass;
 		$order_data[5]->value = "p.product_number DESC";
 		$order_data[5]->text  = JText::_('COM_REDSHOP_PRODUCT_NUMBER_DESC');
 
+		$order_data[6] = new stdClass;
 		$order_data[6]->value = "r.ordering ASC";
 		$order_data[6]->text  = JText::_('COM_REDSHOP_ORDERING_ASC');
+
+		$order_data[7] = new stdClass;
 		$order_data[7]->value = "r.ordering DESC";
 		$order_data[7]->text  = JText::_('COM_REDSHOP_ORDERING_DESC');
+
+		$order_data[8] = new stdClass;
 		$order_data[8]->value = "e.data_txt ASC";
 		$order_data[8]->text  = JText::_('COM_REDSHOP_DATEPICKER_ASC');
+
+		$order_data[9] = new stdClass;
 		$order_data[9]->value = "e.data_txt DESC";
 		$order_data[9]->text  = JText::_('COM_REDSHOP_DATEPICKER_DESC');
 
@@ -389,20 +423,35 @@ class redhelper
 	public function getAccessoryOrderByList()
 	{
 		$order_data           = array();
+		$order_data[0] = new stdClass;
 		$order_data[0]->value = "child_product_id ASC";
 		$order_data[0]->text  = JText::_('COM_REDSHOP_PRODUCT_ID_ASC');
+
+		$order_data[1] = new stdClass;
 		$order_data[1]->value = "child_product_id DESC";
 		$order_data[1]->text  = JText::_('COM_REDSHOP_PRODUCT_ID_DESC');
+
+		$order_data[2] = new stdClass;
 		$order_data[2]->value = "accessory_id ASC";
 		$order_data[2]->text  = JText::_('COM_REDSHOP_ACCESSORY_ID_ASC');
+
+		$order_data[3] = new stdClass;
 		$order_data[3]->value = "accessory_id DESC";
 		$order_data[3]->text  = JText::_('COM_REDSHOP_ACCESSORY_ID_DESC');
+
+		$order_data[4] = new stdClass;
 		$order_data[4]->value = "newaccessory_price ASC";
 		$order_data[4]->text  = JText::_('COM_REDSHOP_ACCESSORY_PRICE_ASC');
+
+		$order_data[5] = new stdClass;
 		$order_data[5]->value = "newaccessory_price DESC";
 		$order_data[5]->text  = JText::_('COM_REDSHOP_ACCESSORY_PRICE_DESC');
+
+		$order_data[6] = new stdClass;
 		$order_data[6]->value = "ordering ASC";
 		$order_data[6]->text  = JText::_('COM_REDSHOP_ORDERING_ASC');
+
+		$order_data[7] = new stdClass;
 		$order_data[7]->value = "ordering DESC";
 		$order_data[7]->text  = JText::_('COM_REDSHOP_ORDERING_DESC');
 
@@ -447,8 +496,11 @@ class redhelper
 	public function getStateAbbrivationByList()
 	{
 		$state_data           = array();
+		$state_data[0] = new stdClass;
 		$state_data[0]->value = "2";
 		$state_data[0]->text  = JText::_('COM_REDSHOP_TWO_LETTER_ABBRIVATION');
+
+		$state_data[1] = new stdClass;
 		$state_data[1]->value = "3";
 		$state_data[1]->text  = JText::_('COM_REDSHOP_THREE_LETTER_ABBRIVATION');
 

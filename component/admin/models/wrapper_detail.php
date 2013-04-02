@@ -65,6 +65,7 @@ class wrapper_detailModelwrapper_detail extends JModel
 
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
 
@@ -86,6 +87,7 @@ class wrapper_detailModelwrapper_detail extends JModel
 
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
 
@@ -129,6 +131,7 @@ class wrapper_detailModelwrapper_detail extends JModel
 		{
 			$and = 'WHERE category_id = ' . $categoryid;
 		}
+
 		$q = 'SELECT * '
 			. 'FROM ' . $this->_table_prefix . 'category '
 			. $and;
@@ -243,6 +246,7 @@ class wrapper_detailModelwrapper_detail extends JModel
 		{
 			$categoryid = implode(",", $_POST['categoryid']);
 		}
+
 		$row->category_id = $categoryid;
 
 		$productid = $data['product_id'];
@@ -251,6 +255,7 @@ class wrapper_detailModelwrapper_detail extends JModel
 		{
 			$productid = implode(",", $productid);
 		}
+
 		$row->product_id = $productid;
 
 		if (!$row->store())
@@ -259,6 +264,7 @@ class wrapper_detailModelwrapper_detail extends JModel
 
 			return false;
 		}
+
 		return true;
 	}
 
@@ -305,6 +311,7 @@ class wrapper_detailModelwrapper_detail extends JModel
 				return false;
 			}
 		}
+
 		return true;
 	}
 
@@ -326,6 +333,7 @@ class wrapper_detailModelwrapper_detail extends JModel
 				return false;
 			}
 		}
+
 		return true;
 	}
 }

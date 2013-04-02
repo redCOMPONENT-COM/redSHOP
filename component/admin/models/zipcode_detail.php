@@ -39,7 +39,6 @@ class zipcode_detailModelzipcode_detail extends JModel
 	{
 		if ($this->_loadData())
 		{
-
 		}
 		else
 		{

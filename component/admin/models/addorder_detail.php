@@ -172,6 +172,7 @@ class addorder_detailModeladdorder_detail extends JModel
 				return false;
 			}
 		}
+
 		$reduser = $userhelper->storeRedshopUser($data, $joomlauser->id, 1);
 
 		if ($reduser)
@@ -192,30 +193,37 @@ class addorder_detailModeladdorder_detail extends JModel
 				{
 					$data['firstname_ST'] = $data['firstname'];
 				}
+
 				if ($data['lastname_ST'] == "")
 				{
 					$data['lastname_ST'] = $data['lastname'];
 				}
+
 				if ($data['address_ST'] == "")
 				{
 					$data['address_ST'] = $data['address'];
 				}
+
 				if ($data['city_ST'] == "")
 				{
 					$data['city_ST'] = $data['city'];
 				}
+
 				if ($data['state_code_ST'] == "0")
 				{
 					$data['state_code_ST'] = $data['state_code'];
 				}
+
 				if ($data['country_code_ST'] == "0")
 				{
 					$data['country_code_ST'] = $data['country_code'];
 				}
+
 				if ($data['zipcode_ST'] == "")
 				{
 					$data['zipcode_ST'] = $data['zipcode'];
 				}
+
 				if ($data['phone_ST'] == "")
 				{
 					$data['phone_ST'] = $data['phone'];
@@ -232,19 +240,18 @@ class addorder_detailModeladdorder_detail extends JModel
 				return $reduser;
 			}
 		}
+
 		return $reduser;
 	}
 
 	public function store($postdata)
 	{
-		$redconfig = new Redconfiguration;
 		$redshopMail = new redshopMail;
 		$order_functions = new order_functions;
 		$helper = new redhelper;
 		$producthelper = new producthelper;
 		$rsCarthelper = new rsCarthelper;
 		$shippinghelper = new shipping;
-		$objshipping = new shipping;
 		$adminproducthelper = new adminproducthelper;
 		$stockroomhelper = new rsstockroomhelper;
 
@@ -253,7 +260,7 @@ class addorder_detailModeladdorder_detail extends JModel
 
 		$postdata['barcode'] = $barcode_code;
 
-		$row =& $this->getTable('order_detail');
+		$row = $this->getTable('order_detail');
 
 		if (!$row->bind($postdata))
 		{
@@ -275,7 +282,7 @@ class addorder_detailModeladdorder_detail extends JModel
 		{
 			$postdata['order_id'] = $row->order_id;
 			$postdata['debitor_id'] = $postdata['user_info_id'];
-			JTable :: addIncludePath(REDCRM_ADMIN . DS . 'tables');
+			JTable::addIncludePath(REDCRM_ADMIN . DS . 'tables');
 
 			$crmorder = & $this->getTable('crm_order');
 
@@ -296,7 +303,7 @@ class addorder_detailModeladdorder_detail extends JModel
 			// Update rma table entry
 			if (ENABLE_RMA && isset($postdata['rmanotes']))
 			{
-				$rmaInfo =& $this->getTable('rma_orders');
+				$rmaInfo = $this->getTable('rma_orders');
 
 				$rmaInfo->rma_number = $postdata['rma_number'];
 				$rmaInfo->original_order_id = $postdata['main_order_id'];
@@ -307,6 +314,7 @@ class addorder_detailModeladdorder_detail extends JModel
 
 			JTable::addIncludePath(REDSHOP_ADMIN . DS . 'tables');
 		}
+
 		$order_shipping = explode("|", $shippinghelper->decryptShipping(str_replace(" ", "+", $row->ship_method_id)));
 
 		$rowOrderStatus = & $this->getTable('order_status_log');
@@ -339,6 +347,7 @@ class addorder_detailModeladdorder_detail extends JModel
 					}
 				}
 			}
+
 			$shippingaddresses = $shippingaddresses[$key];
 		}
 
@@ -379,9 +388,11 @@ class addorder_detailModeladdorder_detail extends JModel
 					{
 						$wrapper_vat = $producthelper->getProducttax($product_id, $wrapper[0]->wrapper_price, $user_id);
 					}
+
 					$wrapper_price = $wrapper[0]->wrapper_price + $wrapper_vat;
 				}
 			}
+
 			$product = $producthelper->getProductById($product_id);
 
 			$rowitem = & $this->getTable('order_item_detail');
@@ -436,11 +447,13 @@ class addorder_detailModeladdorder_detail extends JModel
 				for ($j = 0; $j < count($medianame); $j++)
 				{
 					$product_serial_number = $producthelper->getProdcutSerialNumber($product_id);
-					$producthelper->insertProductDownload($product_id, $user_id, $rowitem->order_id,
+					$producthelper->insertProductDownload(
+						$product_id, $user_id, $rowitem->order_id,
 						$medianame[$j]->media_name, $product_serial_number->serial_number
 					);
 				}
 			}
+
 			if (!$rowitem->store())
 			{
 				$this->setError($this->_db->getErrorMsg());
@@ -466,6 +479,7 @@ class addorder_detailModeladdorder_detail extends JModel
 					{
 						$accessory_vat_price = $producthelper->getProductTax($product_id, $accessory_price, $user_id);
 					}
+
 					$attchildArr = $attArr[$a]['accessory_childs'];
 
 					for ($j = 0; $j < count($attchildArr); $j++)
@@ -502,8 +516,11 @@ class addorder_detailModeladdorder_detail extends JModel
 							{
 								$section_vat = $producthelper->getProducttax($product_id, $propArr[$k]['property_price'], $user_id);
 							}
+
 							$property_id = $propArr[$k]['property_id'];
-							$accessory_attribute .= urldecode($propArr[$k]['property_name']) . " (" . $propArr[$k]['property_oprand'] . $producthelper->getProductFormattedPrice($propArr[$k]['property_price'] + $section_vat) . ")<br/>";
+							$accessory_attribute .= urldecode($propArr[$k]['property_name']) . " ("
+								. $propArr[$k]['property_oprand']
+								. $producthelper->getProductFormattedPrice($propArr[$k]['property_price'] + $section_vat) . ")<br/>";
 							$subpropArr = $propArr[$k]['property_childs'];
 
 							$rowattitem = & $this->getTable('order_attribute_item');
@@ -536,8 +553,11 @@ class addorder_detailModeladdorder_detail extends JModel
 								{
 									$section_vat = $producthelper->getProducttax($rowitem->product_id, $subpropArr[$l]['subproperty_price'], $user_id);
 								}
+
 								$subproperty_id = $subpropArr[$l]['subproperty_id'];
-								$accessory_attribute .= urldecode($subpropArr[$l]['subproperty_name']) . " (" . $subpropArr[$l]['subproperty_oprand'] . $producthelper->getProductFormattedPrice($subpropArr[$l]['subproperty_price'] + $section_vat) . ")<br/>";
+								$accessory_attribute .= urldecode($subpropArr[$l]['subproperty_name'])
+									. " (" . $subpropArr[$l]['subproperty_oprand']
+									. $producthelper->getProductFormattedPrice($subpropArr[$l]['subproperty_price'] + $section_vat) . ")<br/>";
 
 								$rowattitem = & $this->getTable('order_attribute_item');
 								$rowattitem->order_att_item_id = 0;
@@ -570,6 +590,7 @@ class addorder_detailModeladdorder_detail extends JModel
 					{
 						$accdata->load($accessory_id);
 					}
+
 					$accProductinfo = $producthelper->getProductById($accdata->child_product_id);
 					$rowaccitem = & $this->getTable('order_acc_item');
 					$rowaccitem->order_item_acc_id = 0;
@@ -634,6 +655,7 @@ class addorder_detailModeladdorder_detail extends JModel
 						{
 							$section_vat = $producthelper->getProducttax($rowitem->product_id, $propArr[$k]['property_price'], $user_id);
 						}
+
 						$property_id = $propArr[$k]['property_id'];
 						/** product property STOCKROOM update start */
 						$updatestock = $stockroomhelper->updateStockroomQuantity($property_id, $quantity, "property");
@@ -670,6 +692,7 @@ class addorder_detailModeladdorder_detail extends JModel
 							{
 								$section_vat = $producthelper->getProducttax($product_id, $subpropArr[$l]['subproperty_price'], $user_id);
 							}
+
 							$subproperty_id = $subpropArr[$l]['subproperty_id'];
 							/** product subproperty STOCKROOM update start */
 							$updatestock = $stockroomhelper->updateStockroomQuantity($subproperty_id, $quantity, "subproperty");
@@ -706,7 +729,8 @@ class addorder_detailModeladdorder_detail extends JModel
 			{
 				$producthelper->updateContainerStock($product_id, $quantity, $rowitem->container_id);
 			}
-			// store userfields
+
+			// Store userfields
 			$userfields = $item[$i]->extrafieldname;
 			$userfields_id = $item[$i]->extrafieldId;
 
@@ -715,16 +739,14 @@ class addorder_detailModeladdorder_detail extends JModel
 				$adminproducthelper->admin_insertProdcutUserfield($userfields_id[$ui], $rowitem->order_item_id, 12, $userfields[$ui]);
 			}
 
-			//redCRM RMA Transaction Entry
+			// redCRM RMA Transaction Entry
 			if ($iscrm)
 			{
 				if (ENABLE_RMA && $rowitem->product_final_price < 0)
 				{
-
-					//RMA transation log
+					// RMA transation log
 					if (isset($item[$i]->reason))
 					{
-
 						$rmaTrans =& $this->getTable('rma_transaction');
 						$rmaTrans->rma_transaction_id = 0;
 						$rmaTrans->rma_number = $postdata['rma_number'];
@@ -737,7 +759,7 @@ class addorder_detailModeladdorder_detail extends JModel
 
 						if (ENABLE_ITEM_TRACKING_SYSTEM)
 						{
-							//manage supplier order stock
+							// Manage supplier order stock
 							$crmSupplierOrderHelper = new crmSupplierOrderHelper;
 
 							$senddata['main_order_number'] = $postdata['main_order_number'];
@@ -756,10 +778,7 @@ class addorder_detailModeladdorder_detail extends JModel
 						}
 					}
 				}
-
 			}
-			#End
-
 		}
 
 		$rowpayment = & $this->getTable('order_payment');
@@ -770,6 +789,7 @@ class addorder_detailModeladdorder_detail extends JModel
 
 			return false;
 		}
+
 		$rowpayment->order_id = $row->order_id;
 		$rowpayment->payment_method_id = $postdata['payment_method_class'];
 		$rowpayment->order_payment_amount = $row->order_total;
@@ -783,7 +803,7 @@ class addorder_detailModeladdorder_detail extends JModel
 			return false;
 		}
 
-		//add billing Info
+		// Add billing Info
 		$userrow = & $this->getTable('user_detail');
 		$userrow->load($billingaddresses->users_info_id);
 		$orderuserrow = & $this->getTable('order_user_detail');
@@ -794,6 +814,7 @@ class addorder_detailModeladdorder_detail extends JModel
 
 			return false;
 		}
+
 		$orderuserrow->order_id = $row->order_id;
 		$orderuserrow->address_type = 'BT';
 
@@ -804,13 +825,14 @@ class addorder_detailModeladdorder_detail extends JModel
 			return false;
 		}
 
-		//add shipping Info
+		// Add shipping Info
 		$userrow = & $this->getTable('user_detail');
 
 		if (isset($shippingaddresses->users_info_id))
 		{
 			$userrow->load($shippingaddresses->users_info_id);
 		}
+
 		$orderuserrow = & $this->getTable('order_user_detail');
 
 		if (!$orderuserrow->bind($userrow))
@@ -819,6 +841,7 @@ class addorder_detailModeladdorder_detail extends JModel
 
 			return false;
 		}
+
 		$orderuserrow->order_id = $row->order_id;
 		$orderuserrow->address_type = 'ST';
 
@@ -834,13 +857,12 @@ class addorder_detailModeladdorder_detail extends JModel
 			$helper->clickatellSMS($row->order_id);
 		}
 
-		//maintan supplier order stck when item tracking system is enabled
+		// Maintan supplier order stck when item tracking system is enabled
 		if ($helper->isredCRM())
 		{
 			if (ENABLE_ITEM_TRACKING_SYSTEM)
 			{
-
-				//Supplier order helper object
+				// Supplier order helper object
 				$crmSupplierOrderHelper = new crmSupplierOrderHelper;
 
 				$getStatus = array();
@@ -851,14 +873,19 @@ class addorder_detailModeladdorder_detail extends JModel
 				unset($getStatus);
 			}
 		}
-		//End
 
 		$checkOrderStatus = 1;
 
-		if ($postdata['payment_method_class'] == "rs_payment_banktransfer" || $postdata['payment_method_class'] == "rs_payment_banktransfer_discount" || $postdata['payment_method_class'] == "rs_payment_banktransfer2" || $postdata['payment_method_class'] == "rs_payment_banktransfer3" || $postdata['payment_method_class'] == "rs_payment_banktransfer4" || $postdata['payment_method_class'] == "rs_payment_banktransfer5")
+		if ($postdata['payment_method_class'] == "rs_payment_banktransfer"
+			|| $postdata['payment_method_class'] == "rs_payment_banktransfer_discount"
+			|| $postdata['payment_method_class'] == "rs_payment_banktransfer2"
+			|| $postdata['payment_method_class'] == "rs_payment_banktransfer3"
+			|| $postdata['payment_method_class'] == "rs_payment_banktransfer4"
+			|| $postdata['payment_method_class'] == "rs_payment_banktransfer5")
 		{
 			$checkOrderStatus = 0;
 		}
+
 		// Economic Integration start for invoice generate and book current invoice
 		if (ECONOMIC_INTEGRATION == 1 && ECONOMIC_INVOICE_DRAFT != 2)
 		{
@@ -869,6 +896,7 @@ class addorder_detailModeladdorder_detail extends JModel
 			{
 				$issplit = 1;
 			}
+
 			$economicdata['split_payment'] = $issplit;
 			$economicdata['economic_payment_terms_id'] = $postdata['economic_payment_terms_id'];
 			$economicdata['economic_design_layout'] = $postdata['economic_design_layout'];
@@ -880,6 +908,7 @@ class addorder_detailModeladdorder_detail extends JModel
 			{
 				$payment_name = $paymentArr[1];
 			}
+
 			$economicdata['economic_payment_method'] = $payment_name;
 
 			$invoiceHandle = $economic->createInvoiceInEconomic($row->order_id, $economicdata);
@@ -900,12 +929,12 @@ class addorder_detailModeladdorder_detail extends JModel
 		{
 			$redshopMail->sendOrderMail($row->order_id);
 		}
+
 		return $row;
 	}
 
 	public function sendRegistrationMail($post)
 	{
-
 		$redshopMail = new redshopMail;
 		$redshopMail->sendRegistrationMail($post);
 	}
@@ -930,6 +959,7 @@ class addorder_detailModeladdorder_detail extends JModel
 		{
 			$shipping = $this->setShipping();
 		}
+
 		$allowCustomer = '';
 		$allowCompany = '';
 
@@ -941,8 +971,12 @@ class addorder_detailModeladdorder_detail extends JModel
 		{
 			$allowCompany = 'style="display:none;"';
 		}
-		$lists['shipping_customer_field'] = $extra_field->list_all_field(14, $shipping->users_info_id); /// field_section 7 :Customer Address
-		$lists['shipping_company_field'] = $extra_field->list_all_field(15, $shipping->users_info_id); /// field_section 8 :Company Address
+
+		// Field_section 7 :Customer Address
+		$lists['shipping_customer_field'] = $extra_field->list_all_field(14, $shipping->users_info_id);
+
+		// Field_section 8 :Company Address
+		$lists['shipping_company_field'] = $extra_field->list_all_field(15, $shipping->users_info_id);
 		$countryarray = $Redconfiguration->getCountryList((array) $shipping, "country_code_ST", "ST");
 		$shipping->country_code_ST = $shipping->country_code = $countryarray['country_code_ST'];
 		$lists['country_code_ST'] = $countryarray['country_dropdown'];
@@ -973,5 +1007,3 @@ class addorder_detailModeladdorder_detail extends JModel
 		return $htmlshipping;
 	}
 }
-
-
