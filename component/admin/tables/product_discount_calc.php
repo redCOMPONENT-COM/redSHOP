@@ -53,7 +53,6 @@ class Tableproduct_discount_calc extends JTable
 	{
 		$producthelper = new producthelper;
 
-		$unit = 1;
 		$unit = $producthelper->getUnitConversation("m", $discount_calc_unit[$c]);
 
 		$converted_area_start = $this->area_start * $unit * $unit;

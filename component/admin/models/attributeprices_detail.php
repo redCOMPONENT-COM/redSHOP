@@ -68,6 +68,7 @@ class attributeprices_detailModelattributeprices_detail extends JModel
 				$field = "ap.subattribute_color_name AS property_name ";
 				$q = 'LEFT JOIN ' . $this->_table_prefix . 'product_subattribute_color AS ap ON p.section_id = ap.subattribute_color_id ';
 			}
+
 			$query = 'SELECT p.*, g.shopper_group_name, ' . $field . ' '
 				. 'FROM ' . $this->_table_prefix . 'product_attribute_price as p '
 				. 'LEFT JOIN ' . $this->_table_prefix . 'shopper_group as g ON p.shopper_group_id = g.shopper_group_id '
@@ -78,6 +79,7 @@ class attributeprices_detailModelattributeprices_detail extends JModel
 
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
 
@@ -101,6 +103,7 @@ class attributeprices_detailModelattributeprices_detail extends JModel
 
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
 
@@ -130,6 +133,7 @@ class attributeprices_detailModelattributeprices_detail extends JModel
 				. 'FROM ' . $this->_table_prefix . 'product_subattribute_color AS ap '
 				. 'WHERE subattribute_color_id = ' . $propertyid;
 		}
+
 		$this->_db->setQuery($q);
 		$rs = $this->_db->loadObject();
 

@@ -45,7 +45,6 @@ class tax_group_detailModeltax_group_detail extends JModel
 	{
 		if ($this->_loadData())
 		{
-
 		}
 		else
 		{

@@ -43,7 +43,6 @@ class template_detailModeltemplate_detail extends JModel
 	{
 		if ($this->_loadData())
 		{
-
 		}
 		else
 		{
@@ -115,14 +114,17 @@ class template_detailModeltemplate_detail extends JModel
 		{
 			$data['payment_methods'] = implode(',', $data['payment_methods']);
 		}
+
 		if (isset($data['shipping_methods']) && count($data['shipping_methods']) > 0)
 		{
 			$data['shipping_methods'] = implode(',', $data['shipping_methods']);
 		}
+
 		if (isset($data['order_status']) && count($data['order_status']) > 0)
 		{
 			$data['order_status'] = implode(',', $data['order_status']);
 		}
+
 		$data['template_name'] = strtolower($data['template_name']);
 		$data['template_name'] = str_replace(" ", "_", $data['template_name']);
 
@@ -152,6 +154,7 @@ class template_detailModeltemplate_detail extends JModel
 				unlink($tempate_file);
 			}
 		}
+
 		if (!$row->store())
 		{
 			$this->setError($this->_db->getErrorMsg());
@@ -281,6 +284,7 @@ class template_detailModeltemplate_detail extends JModel
 				$user = JFactory::getUser();
 				$uid = (int) $user->get('id');
 			}
+
 			// Lets get to it and checkout the thing...
 			$template_detail = & $this->getTable('template_detail');
 

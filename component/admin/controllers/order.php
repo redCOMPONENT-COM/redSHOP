@@ -364,6 +364,7 @@ class orderController extends JController
 
 			echo "\"" . REDCURRENCY_SYMBOL . "\"" . $data [$i]->order_total . "\n";
 		}
+
 		exit ();
 	}
 

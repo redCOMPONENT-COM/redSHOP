@@ -43,7 +43,6 @@ class mass_discount_detailModelmass_discount_detail extends JModel
 	{
 		if ($this->_loadData())
 		{
-
 		}
 		else
 		{
@@ -88,6 +87,7 @@ class mass_discount_detailModelmass_discount_detail extends JModel
 
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
 
@@ -137,7 +137,6 @@ class mass_discount_detailModelmass_discount_detail extends JModel
 
 		for ($i = 0; $i < count($arr_diff); $i++)
 		{
-
 			$query = 'UPDATE ' . $this->_table_prefix . 'product SET product_on_sale="0" WHERE product_id="' . $arr_diff[$i] . '" ';
 
 			$this->_db->setQuery($query);
@@ -228,6 +227,7 @@ class mass_discount_detailModelmass_discount_detail extends JModel
 				}
 			}
 		}
+
 		$arr_diff = array_diff($newcategory_id, $category_id);
 
 		if (count($arr_diff) > 0)
@@ -238,6 +238,7 @@ class mass_discount_detailModelmass_discount_detail extends JModel
 		{
 			$newchange_category = true;
 		}
+
 		if ($change_category && $newchange_category)
 		{
 			$arr_diff = $category_id;
@@ -330,6 +331,7 @@ class mass_discount_detailModelmass_discount_detail extends JModel
 		{
 			$manu_arr_diff = $manufacturer_id;
 		}
+
 		for ($i = 0; $i < count($manu_arr_diff); $i++)
 		{
 			if ($manu_arr_diff[$i] > 0)
@@ -361,6 +363,7 @@ class mass_discount_detailModelmass_discount_detail extends JModel
 				}
 			}
 		}
+
 		$row->manufacturer_id = $row->manufacturer_id ? $row->manufacturer_id : '';
 		$row->category_id = $row->category_id ? $row->category_id : '';
 		$row->discount_product = $row->discount_product ? $row->discount_product : '';
@@ -395,6 +398,7 @@ class mass_discount_detailModelmass_discount_detail extends JModel
 				{
 					$this->updateProduct($massDList[$m]->discount_product);
 				}
+
 				$categoryArr = explode(',', $massDList[$m]->category_id);
 
 				for ($c = 0; $c < count($categoryArr); $c++)
@@ -436,6 +440,7 @@ class mass_discount_detailModelmass_discount_detail extends JModel
 		{
 			$pArr[] = $productArr[$i]->product_id;
 		}
+
 		return implode(',', $pArr);
 	}
 

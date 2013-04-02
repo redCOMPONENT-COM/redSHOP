@@ -42,7 +42,6 @@ class xmlimport_detailModelxmlimport_detail extends JModel
 
 		if ($this->_loadData())
 		{
-
 		}
 		else
 		{
@@ -53,54 +52,67 @@ class xmlimport_detailModelxmlimport_detail extends JModel
 		{
 			$this->_data->display_filename = $post['display_filename'];
 		}
+
 		if (isset($post['auto_sync']))
 		{
 			$this->_data->auto_sync = $post['auto_sync'];
 		}
+
 		if (isset($post['sync_on_request']))
 		{
 			$this->_data->sync_on_request = $post['sync_on_request'];
 		}
+
 		if (isset($post['auto_sync_interval']))
 		{
 			$this->_data->auto_sync_interval = $post['auto_sync_interval'];
 		}
+
 		if (isset($post['xmlpublished']))
 		{
 			$this->_data->published = $post['xmlpublished'];
 		}
+
 		if (isset($post['override_existing']))
 		{
 			$this->_data->override_existing = $post['override_existing'];
 		}
+
 		if (isset($post['add_prefix_for_existing']))
 		{
 			$this->_data->add_prefix_for_existing = $post['add_prefix_for_existing'];
 		}
+
 		if (isset($post['element_name']))
 		{
 			$this->_data->element_name = $post['element_name'];
 		}
+
 		if (isset($post['billing_element_name']))
 		{
 			$this->_data->billing_element_name = $post['billing_element_name'];
 		}
+
 		if (isset($post['shipping_element_name']))
 		{
 			$this->_data->shipping_element_name = $post['shipping_element_name'];
 		}
+
 		if (isset($post['orderitem_element_name']))
 		{
 			$this->_data->orderitem_element_name = $post['orderitem_element_name'];
 		}
+
 		if (isset($post['stock_element_name']))
 		{
 			$this->_data->stock_element_name = $post['stock_element_name'];
 		}
+
 		if (isset($post['prdextrafield_element_name']))
 		{
 			$this->_data->prdextrafield_element_name = $post['prdextrafield_element_name'];
 		}
+
 		return $this->_data;
 	}
 
@@ -212,6 +224,7 @@ class xmlimport_detailModelxmlimport_detail extends JModel
 				$resarray[] = $xmlfiletag[$i] . "=" . $xmltag . "=" . $updatetag;
 			}
 		}
+
 		$data['xmlimport_filetag'] = implode(";", $resarray);
 
 		$resarray = array();
@@ -228,6 +241,7 @@ class xmlimport_detailModelxmlimport_detail extends JModel
 				$resarray[] = $xmlfiletag[$i] . "=" . $xmltag . "=" . $updatetag;
 			}
 		}
+
 		$data['xmlimport_billingtag'] = implode(";", $resarray);
 
 		$resarray = array();
@@ -244,6 +258,7 @@ class xmlimport_detailModelxmlimport_detail extends JModel
 				$resarray[] = $xmlfiletag[$i] . "=" . $xmltag . "=" . $updatetag;
 			}
 		}
+
 		$data['xmlimport_shippingtag'] = implode(";", $resarray);
 
 		$resarray = array();
@@ -260,6 +275,7 @@ class xmlimport_detailModelxmlimport_detail extends JModel
 				$resarray[] = $xmlfiletag[$i] . "=" . $xmltag . "=" . $updatetag;
 			}
 		}
+
 		$data['xmlimport_orderitemtag'] = implode(";", $resarray);
 
 		$resarray = array();
@@ -276,6 +292,7 @@ class xmlimport_detailModelxmlimport_detail extends JModel
 				$resarray[] = $xmlfiletag[$i] . "=" . $xmltag . "=" . $updatetag;
 			}
 		}
+
 		$data['xmlimport_stocktag'] = implode(";", $resarray);
 
 		$resarray = array();
@@ -292,6 +309,7 @@ class xmlimport_detailModelxmlimport_detail extends JModel
 				$resarray[] = $xmlfiletag[$i] . "=" . $xmltag . "=" . $updatetag;
 			}
 		}
+
 		$data['xmlimport_prdextrafieldtag'] = implode(";", $resarray);
 
 		if ($data['override_existing'] == 0 && trim($data['add_prefix_for_existing']) == "")
@@ -307,6 +325,7 @@ class xmlimport_detailModelxmlimport_detail extends JModel
 
 			return false;
 		}
+
 		$row->published = $data['xmlpublished'];
 
 		if (!$row->store())
@@ -315,6 +334,7 @@ class xmlimport_detailModelxmlimport_detail extends JModel
 
 			return false;
 		}
+
 		$filename = $xmlhelper->writeXMLImportFile($row->xmlimport_id, $data['tmpxmlimport_url']);
 
 		if ($import == 1)
@@ -394,6 +414,7 @@ class xmlimport_detailModelxmlimport_detail extends JModel
 				return false;
 			}
 		}
+
 		return true;
 	}
 

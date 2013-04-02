@@ -218,6 +218,7 @@ class media_detailController extends JController
 
 					copy($down_src, $down_dest);
 				}
+
 				if ($save = $model->store($post))
 				{
 					$msg = JText::_('COM_REDSHOP_MEDIA_DETAIL_SAVED');
@@ -506,6 +507,7 @@ class media_detailController extends JController
 											. $row->media_section . '/' . time() . '_' . $scan[$i];
 
 										copy($btsrc, $originaldir);
+
 										if (is_file($btsrc))
 										{
 											unlink($btsrc);
@@ -516,6 +518,7 @@ class media_detailController extends JController
 											rmdir($target . '/' . $name[0]);
 											rmdir($target);
 											unlink($dest);
+
 											return true;
 										}
 
@@ -761,6 +764,7 @@ class media_detailController extends JController
 		{
 			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
 		}
+
 		$msg = JText::_('COM_REDSHOP_MEDIA_DETAIL_DELETED_SUCCESSFULLY');
 
 		if (isset($section_id))
@@ -1033,10 +1037,11 @@ class media_detailController extends JController
             echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
         }
         $msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
-    if (isset($section_id))
-    {
-        $this->setRedirect('index.php?tmpl=component&option=' . $option . '&view=media&section_id=' . $section_id . '&showbuttons=1&media_section=' . $media_section, $msg);
-    }
+		if (isset($section_id))
+	    {
+	        $this->setRedirect('index.php?tmpl=component&option=' . $option . '&view=media&section_id=' . $section_id . '&showbuttons=1&media_section=' . $media_section, $msg);
+	    }
+
     else if (isset($post['set']) && $post['media_section'] == 'manufacturer')
     {
         $link = 'index.php?option=' . $option . '&view=manufacturer';    ?>

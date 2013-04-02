@@ -41,7 +41,6 @@ class giftcard_detailController extends JController
 
 		$showbuttons = JRequest::getVar('showbuttons');
 
-
 		$option = JRequest::getVar('option');
 
 		$model = $this->getModel('giftcard_detail');

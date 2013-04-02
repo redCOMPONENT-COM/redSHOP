@@ -44,7 +44,6 @@ class fields_detailModelfields_detail extends JModel
 	{
 		if ($this->_loadData())
 		{
-
 		}
 		else
 		{
@@ -158,6 +157,7 @@ class fields_detailModelfields_detail extends JModel
 			{
 				$fid[] = $f->value_id;
 			}
+
 			$del_fid = array_diff($fid, $value_id);
 
 			if (count($del_fid) > 0)
@@ -165,6 +165,7 @@ class fields_detailModelfields_detail extends JModel
 				$this->field_delete($del_fid, 'value_id');
 			}
 		}
+
 		for ($j = 0; $j < $total; $j++)
 		{
 			$set = "";
@@ -188,6 +189,7 @@ class fields_detailModelfields_detail extends JModel
 				$filename = $extra_name[$j];
 				$set = " field_name='" . $filename . "', ";
 			}
+
 			if ($value_id[$j] == "")
 			{
 				$query = "INSERT INTO " . $this->_table_prefix . "fields_value "
@@ -200,6 +202,7 @@ class fields_detailModelfields_detail extends JModel
 					. "SET " . $set . " field_value='" . $extra_value[$j] . "' "
 					. "WHERE value_id='" . $value_id[$j] . "' ";
 			}
+
 			$this->_db->setQuery($query);
 
 			if (!$this->_db->query())
@@ -328,6 +331,7 @@ class fields_detailModelfields_detail extends JModel
 			$row->load($cond[0]);
 			$row->reorder($cond[1]);
 		}
+
 		return true;
 	}
 
