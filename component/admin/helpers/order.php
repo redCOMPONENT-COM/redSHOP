@@ -10,11 +10,11 @@
 defined('_JEXEC') or die;
 
 JHTML::_('behavior.tooltip');
-require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'mail.php');
-require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'configuration.php');
-require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'economic.php');
-require_once(JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'helper.php');
-require_once(JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'cart.php');
+require_once(JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/mail.php');
+require_once(JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/configuration.php');
+require_once(JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/economic.php');
+require_once(JPATH_SITE . '/components/com_redshop/helpers/helper.php');
+require_once(JPATH_SITE . '/components/com_redshop/helpers/cart.php');
 
 class order_functions
 {
@@ -104,7 +104,7 @@ class order_functions
 		// Getting the order details
 		$orderdetail = $this->getOrderDetails($order_id);
 
-		$paymentpath = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $paymentmethod->element . '.xml';
+		$paymentpath = JPATH_SITE . '/plugins/redshop_payment/' . $paymentmethod->element . '.xml';
 		$paymentparams = new JRegistry($paymentmethod->params);
 		$order_status_capture = $paymentparams->get('capture_status', '');
 		$auth_type = $paymentparams->get('auth_type', '');
@@ -407,7 +407,7 @@ class order_functions
 
 			if ($data->order_payment_status_code == "Paid")
 			{
-				require_once JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'models' . DS . 'checkout.php';
+				require_once JPATH_SITE . '/components/com_redshop/models/checkout.php';
 
 				$checkoutModelcheckout = new checkoutModelcheckout();
 				$checkoutModelcheckout->sendGiftCard($order_id);
@@ -775,7 +775,7 @@ class order_functions
 
 			if ($paymentstatus == "Paid")
 			{
-				JModel::addIncludePath(JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'models');
+				JModel::addIncludePath(JPATH_SITE . '/components/com_redshop/models');
 				$checkoutModelcheckout = JModel::getInstance('checkout', 'checkoutModel');
 				$checkoutModelcheckout->sendGiftCard($order_id);
 
@@ -981,7 +981,7 @@ class order_functions
 			}
 			if ($paymentstatus == "Paid")
 			{
-				JModel::addIncludePath(JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'models');
+				JModel::addIncludePath(JPATH_SITE . '/components/com_redshop/models');
 				$checkoutModelcheckout = JModel::getInstance('checkout', 'checkoutModel');
 				$checkoutModelcheckout->sendGiftCard($oid[0]);
 
@@ -1862,7 +1862,7 @@ class order_functions
 	public function getpaymentinformation($row, $post)
 	{
 		$app = JFactory::getApplication();
-		require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'configuration.php');
+		require_once(JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/configuration.php');
 		$redconfig = new Redconfiguration();
 
 		$plugin_parameters = $this->getparameters($post['payment_method_class']);
@@ -1873,7 +1873,7 @@ class order_functions
 
 		$order = $this->getOrderDetails($row->order_id);
 
-		$adminpath = JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop';
+		$adminpath = JPATH_ADMINISTRATOR . '/components/com_redshop';
 		$invalid_elements = $paymentparams->get('invalid_elements', '');
 
 		// Send the order_id and orderpayment_id to the payment plugin so it knows which DB record to update upon successful payment
@@ -2350,7 +2350,7 @@ class order_functions
 		$product_id = (isset($post['product_id'])) ? $post['product_id'] : 0;
 		$paymentstatus = $post['order_paymentstatus' . $order_id];
 
-		JTable::addIncludePath(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'tables');
+		JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_redshop/tables');
 
 		// Add status log...
 		$order_log = JTable::getInstance('order_status_log', 'Table');

@@ -167,8 +167,8 @@ class SubInstaller extends JObject
 					return null;
 				}
 
-				$tdirs = $e->client ? JFolder::folders(JPATH_ADMINISTRATOR . DS . 'templates')
-					: JFolder::folders(JPATH_SITE . DS . 'templates');
+				$tdirs = $e->client ? JFolder::folders(JPATH_ADMINISTRATOR . '/templates')
+					: JFolder::folders(JPATH_SITE . '/templates');
 
 				// Return a value only if the language dir exists.
 				foreach ($tdirs as $tmpl)
@@ -201,7 +201,7 @@ class SubInstaller extends JObject
 					if ($lang == $e->name)
 					{
 						// The language uninstaller uses the path as ID
-						return $ldir . DS . $lang;
+						return $ldir . '/' . $lang;
 					}
 				}
 
@@ -450,7 +450,7 @@ class SubInstaller extends JObject
 
 			if (!empty($subdir))
 			{
-				$ret->source = $this->_mainSource . DS . $subdir;
+				$ret->source = $this->_mainSource . '/' . $subdir;
 
 				if (!is_dir($ret->source))
 				{
@@ -469,7 +469,7 @@ class SubInstaller extends JObject
 
 			if (!empty($archive))
 			{
-				$ret->source = $this->_mainSource . DS . $archive;
+				$ret->source = $this->_mainSource . '/' . $archive;
 
 				if (!is_file($ret->source))
 				{

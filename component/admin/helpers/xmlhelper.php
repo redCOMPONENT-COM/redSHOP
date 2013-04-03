@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 JHTML::_('behavior.tooltip');
 
-require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'configuration.php');
+require_once(JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/configuration.php');
 
 class xmlHelper
 {
@@ -350,7 +350,7 @@ class xmlHelper
 			return false;
 		}
 
-		$destpath = JPATH_SITE . DS . "components" . DS . "com_redshop" . DS . "assets/xmlfile/export" . DS;
+		$destpath = JPATH_SITE . "/components/com_redshop/assets/xmlfile/export/";
 		$section = $xmlexportdata->section_type;
 		$columns = $this->getSectionColumnList($section, "orderdetail");
 
@@ -733,7 +733,7 @@ class xmlHelper
 
 	public function writeXMLImportFile($xmlimport_id = 0, $tmlxmlimport_url = "")
 	{
-		$destpath = JPATH_SITE . DS . "components" . DS . "com_redshop" . DS . "assets/xmlfile/import" . DS;
+		$destpath = JPATH_SITE . "/components/com_redshop/assets/xmlfile/import/";
 		$xmlimportdata = $this->getXMLImportInfo($xmlimport_id);
 		if (count($xmlimportdata) <= 0)
 		{
@@ -1050,7 +1050,7 @@ class xmlHelper
 			return false; //Import record not exists
 		}
 
-		$destpath = JPATH_SITE . DS . "components" . DS . "com_redshop" . DS . "assets/xmlfile/import" . DS;
+		$destpath = JPATH_SITE . "/components/com_redshop/assets/xmlfile/import/";
 
 		if (($xmlimportdata->filename == "" || !is_file($destpath . $xmlimportdata->filename)) && $xmlimportdata->published == 0)
 		{
@@ -1086,7 +1086,7 @@ class xmlHelper
 					{
 						$src = $datalist[$i]['product_full_image'];
 						$filename = basename($src);
-						$dest = REDSHOP_FRONT_IMAGES_RELPATH . "product" . DS . $filename;
+						$dest = REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $filename;
 
 						$this->importRemoteImage($src, $dest);
 						$datalist[$i]['product_full_image'] = $filename;
@@ -1096,7 +1096,7 @@ class xmlHelper
 					{
 						$src = $datalist[$i]['product_thumb_image'];
 						$filename = basename($src);
-						$dest = REDSHOP_FRONT_IMAGES_RELPATH . "product/thumb" . DS . $filename;
+						$dest = REDSHOP_FRONT_IMAGES_RELPATH . "product/thumb/" . $filename;
 
 						$this->importRemoteImage($src, $dest);
 						$datalist[$i]['product_thumb_image'] = $filename;

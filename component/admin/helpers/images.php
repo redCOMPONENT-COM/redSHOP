@@ -43,7 +43,7 @@ class RedShopHelperImages extends JObject
 					mt_srand();
 					$rand4 = mt_rand(0, mt_getrandmax());
 
-					$dest = $original_path . DS . $data['image_name'] . '-' . $rand1 . $rand2 . $rand3 . $rand4
+					$dest = $original_path . '/' . $data['image_name'] . '-' . $rand1 . $rand2 . $rand3 . $rand4
 						. '.' . JFile::getExt(strtolower($file['name']));
 				}
 
@@ -73,7 +73,7 @@ class RedShopHelperImages extends JObject
 					// THUMB
 					$src = $file_path;
 					$src_path_info = pathinfo($src);
-					$dest = $src_path_info['dirname'] . DS . 'thumb' . DS . $src_path_info['filename'] . '_w'
+					$dest = $src_path_info['dirname'] . '/thumb/' . $src_path_info['filename'] . '_w'
 						. $width . '_h' . $height . '_dope' . '.' . $src_path_info['extension'];
 					$alt_dest = '';
 
@@ -129,12 +129,12 @@ class RedShopHelperImages extends JObject
 			}
 			else
 			{
-				if (!JFile::exists($path . DS . 'index.html'))
+				if (!JFile::exists($path . '/index.html'))
 				{
 					// Avoid 'pass by reference' error in J1.6+
 					$content = '<html><body bgcolor="#ffffff"></body></html>';
 
-					JFile::write($path . DS . 'index.html', $content);
+					JFile::write($path . '/index.html', $content);
 				}
 			}
 		}
