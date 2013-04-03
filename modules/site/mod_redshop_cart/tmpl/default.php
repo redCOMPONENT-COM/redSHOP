@@ -90,19 +90,23 @@ if (!DEFAULT_QUOTATION_MODE || (DEFAULT_QUOTATION_MODE && SHOW_QUOTATION_PRICE))
 							$name           = $product_detail->product_name;
 						}
 
-						$output .= $cart [$i] ['quantity'] . " x " . $name . "<br />";
+                        $output .= '<div class="mod_cart_product">';
+                        $output .= '<div class="mod_cart_product_name">' . $name . ' x ' . $cart [$i] ['quantity'] . '</div>';
 
 						if (!DEFAULT_QUOTATION_MODE || (DEFAULT_QUOTATION_MODE && SHOW_QUOTATION_PRICE))
 						{
+                            $output .= '<div class="mod_cart_product_price">';
 							if ($show_with_vat)
 							{
-								$output .= JText::_('COM_REDSHOP_PRICE') . " " . $producthelper->getProductFormattedPrice($cart [$i] ['product_price'], true) . "<br />";
+								$output .= JText::_('COM_REDSHOP_PRICE') . " " . $producthelper->getProductFormattedPrice($cart [$i] ['product_price'], true);
 							}
 							else
 							{
-								$output .= JText::_('COM_REDSHOP_PRICE') . " " . $producthelper->getProductFormattedPrice($cart [$i] ['product_price_excl_vat'], true) . "<br />";
+								$output .= JText::_('COM_REDSHOP_PRICE') . " " . $producthelper->getProductFormattedPrice($cart [$i] ['product_price_excl_vat'], true);
 							}
+                            $output .= '</div>';
 						}
+                        $output .= '</div>';
 					}
 				}
 
@@ -112,6 +116,7 @@ if (!DEFAULT_QUOTATION_MODE || (DEFAULT_QUOTATION_MODE && SHOW_QUOTATION_PRICE))
 
 		if (!empty($count))
 		{
+            $output .= '<div class="mod_cart_totalprice">';
 			$output .= '<div class="mod_cart_total_txt" id="mod_cart_total_txt_ajax" >' . $cartTotallbl . '</div>';
 			$output .= '<div class="mod_cart_total_value" id="mod_cart_total_value_ajax">' . $cartTotalValue . '</div>';
 			if ($show_shipping_line)
@@ -119,6 +124,7 @@ if (!DEFAULT_QUOTATION_MODE || (DEFAULT_QUOTATION_MODE && SHOW_QUOTATION_PRICE))
 				$output .= '<div class="mod_cart_shipping_txt" id="mod_cart_shipping_txt_ajax" >' . $shippinglbl . '</div>';
 				$output .= '<div class="mod_cart_shipping_value" id="mod_cart_shipping_value_ajax">' . $shippingvalue . '</div>';
 			}
+            $output .= '</div>';
 		}
 		else
 		{
@@ -141,23 +147,12 @@ if (!DEFAULT_QUOTATION_MODE || (DEFAULT_QUOTATION_MODE && SHOW_QUOTATION_PRICE))
 
 	if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . ADDTOCART_BACKGROUND))
 	{
-		?>
-
-		<div class="mod_cart_checkout" id="mod_cart_checkout_ajax">
-			<a href="<?php echo $link; ?>">
-				<?php echo $display_button;?></a>
-		</div>
-	<?php
-	}
-	else
-	{
-		?>
-		<div style="cursor:pointer; <?php echo $styledis; ?>">
-			<a href="<?php echo $link; ?>">
-				<?php echo JText::_('CHECKOUT');?></a>
-		</div>
-
-	<?php
-	}
+        $styledis .= ' cursor:pointer;background:url(' . REDSHOP_FRONT_IMAGES_ABSPATH.ADDTOCART_BACKGROUND . ');background-position:bottom;background-repeat:no-repeat; ';
+    }
 	?>
+
+    <div class="mod_cart_checkout" id="mod_cart_checkout_ajax" style="cursor:pointer; <?php echo $styledis; ?>">
+        <a href="<?php echo $link; ?>">
+            <?php echo $display_button;?></a>
+    </div>
 </div>
