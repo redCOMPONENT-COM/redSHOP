@@ -25,8 +25,8 @@ class xmlexportViewxmlexport extends JViewLegacy
 		$model = $this->getModel('xmlexport');
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_XML_EXPORT_MANAGEMENT'), 'redshop_export48');
-		JToolBarHelper::addNewX();
-		JToolBarHelper::editListX();
+		JToolBarHelper::addNew();
+		JToolBarHelper::editList();
 		JToolBarHelper::deleteList();
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();

@@ -26,8 +26,8 @@ class mass_discountViewmass_discount extends JViewLegacy
 		$layout = JRequest::getVar('layout');
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_DISCOUNT_MANAGEMENT'), 'redshop_massdiscountmanagmenet48');
-		JToolBarHelper::addNewX();
-		JToolBarHelper::editListX();
+		JToolBarHelper::addNew();
+		JToolBarHelper::editList();
 		JToolBarHelper::deleteList();
 
 		$filter_order     = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'mass_discount_id');

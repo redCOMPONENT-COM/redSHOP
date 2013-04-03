@@ -26,7 +26,7 @@ class countryViewcountry extends JViewLegacy
 		global $context;
 
 		$context = 'country_id';
-		JToolbarHelper::addNewX();
+		JToolbarHelper::addNew();
 		JToolbarHelper::EditListX();
 		JToolbarHelper::deleteList();
 		$uri = JFactory::getURI();

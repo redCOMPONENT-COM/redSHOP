@@ -40,8 +40,8 @@ class mailViewmail extends JViewLegacy
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_MAIL_MANAGEMENT'), 'redshop_mailcenter48');
 
-		JToolBarHelper::addNewX();
-		JToolBarHelper::editListX();
+		JToolBarHelper::addNew();
+		JToolBarHelper::editList();
 		JToolBarHelper::deleteList();
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();

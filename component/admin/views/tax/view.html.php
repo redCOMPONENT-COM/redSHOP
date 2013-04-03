@@ -25,8 +25,8 @@ class taxViewtax extends JViewLegacy
 		jimport('joomla.html.pagination');
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_TAX_MANAGEMENT'), 'redshop_vat48');
-		JToolBarHelper::addNewX();
-		JToolBarHelper::editListX();
+		JToolBarHelper::addNew();
+		JToolBarHelper::editList();
 		JToolBarHelper::deleteList();
 
 		$filter_order     = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'tax_rate_id');

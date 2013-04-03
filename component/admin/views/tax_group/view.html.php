@@ -25,8 +25,8 @@ class tax_groupViewtax_group extends JViewLegacy
 		jimport('joomla.html.pagination');
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_TAX_GROUP_MANAGEMENT'), 'redshop_vatgroup48');
-		JToolBarHelper::addNewX();
-		JToolBarHelper::editListX();
+		JToolBarHelper::addNew();
+		JToolBarHelper::editList();
 		JToolBarHelper::deleteList();
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();

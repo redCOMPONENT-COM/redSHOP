@@ -319,7 +319,7 @@ class product_detailVIEWproduct_detail extends JViewLegacy
 
 		if ($detail->product_id > 0)
 		{
-			JToolBarHelper::addNewX('prices', JText::_('COM_REDSHOP_ADD_PRICE_LBL'));
+			JToolBarHelper::addNew('prices', JText::_('COM_REDSHOP_ADD_PRICE_LBL'));
 		}
 
 		JToolBarHelper::apply();

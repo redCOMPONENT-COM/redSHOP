@@ -24,7 +24,7 @@ class producttagsViewproducttags extends JViewLegacy
 		$document->setTitle(JText::_('COM_REDSHOP_TAGS'));
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_TAGS_MANAGEMENT'), 'redshop_textlibrary48');
-		JToolBarHelper::editListX();
+		JToolBarHelper::editList();
 		JToolBarHelper::deleteList();
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();

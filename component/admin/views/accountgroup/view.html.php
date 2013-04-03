@@ -24,7 +24,7 @@ class accountgroupViewaccountgroup extends JViewLegacy
 		$document->setTitle(JText::_('COM_REDSHOP_ECONOMIC_ACCOUNT_GROUP'));
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_ECONOMIC_ACCOUNT_GROUP'), 'redshop_accountgroup48');
-		JToolbarHelper::addNewX();
+		JToolbarHelper::addNew();
 		JToolbarHelper::EditListX();
 		JToolbarHelper::deleteList();
 		JToolBarHelper::publishList();

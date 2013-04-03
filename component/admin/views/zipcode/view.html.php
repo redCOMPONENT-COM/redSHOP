@@ -25,7 +25,7 @@ class zipcodeViewzipcode extends JViewLegacy
 		$document->setTitle(JText::_('COM_REDSHOP_ZIPCODE'));
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_ZIPCODE_MANAGEMENT'), 'redshop_region_48');
-		JToolbarHelper::addNewX();
+		JToolbarHelper::addNew();
 		JToolbarHelper::EditListX();
 		JToolbarHelper::deleteList();
 

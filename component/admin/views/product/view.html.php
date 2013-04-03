@@ -62,12 +62,12 @@ class productViewproduct extends JViewLegacy
 
 		if ($layout != 'importproduct' && $layout != 'importattribute' && $layout != 'listing' && $layout != 'ins_product')
 		{
-			JToolBarHelper::customX('gbasefeed', 'gbase.png', 'gbase.png', JText::_('COM_REDSHOP_GOOGLEBASE'), true);
+			JToolBarHelper::custom('gbasefeed', 'gbase.png', 'gbase.png', JText::_('COM_REDSHOP_GOOGLEBASE'), true);
 			JToolBarHelper::custom('assignCategory', 'save.png', 'save_f2.png', JText::_('COM_REDSHOP_ASSIGN_CATEGORY'), true);
 			JToolBarHelper::custom('removeCategory', 'delete.png', 'delete_f2.png', JText::_('COM_REDSHOP_REMOVE_CATEGORY'), true);
-			JToolBarHelper::addNewX();
-			JToolBarHelper::editListX();
-			JToolBarHelper::customX('copy', 'copy.png', 'copy_f2.png', JText::_('COM_REDSHOP_TOOLBAR_COPY'), true);
+			JToolBarHelper::addNew();
+			JToolBarHelper::editList();
+			JToolBarHelper::custom('copy', 'copy.png', 'copy_f2.png', JText::_('COM_REDSHOP_TOOLBAR_COPY'), true);
 			JToolBarHelper::deleteList();
 			JToolBarHelper::publishList();
 			JToolBarHelper::unpublishList();

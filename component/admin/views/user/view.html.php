@@ -40,8 +40,8 @@ class userViewuser extends JViewLegacy
 		else
 		{
 			$this->setLayout('default');
-			JToolBarHelper::addNewX();
-			JToolBarHelper::editListX();
+			JToolBarHelper::addNew();
+			JToolBarHelper::editList();
 			JToolBarHelper::deleteList();
 		}
 

@@ -45,8 +45,8 @@ class newslettersubscrViewnewslettersubscr extends JViewLegacy
 			JToolBarHelper::custom('import_data', 'upload.png', 'upload_f2.png', 'COM_REDSHOP_IMPORT_DATA', false);
 			JToolBarHelper::custom('export_data', 'save.png', 'save_f2.png', 'COM_REDSHOP_EXPORT_DATA', false);
 			JToolBarHelper::custom('export_acy_data', 'save.png', 'save_f2.png', 'EXPORT_ACY_MAILING_DATA', false);
-			JToolBarHelper::addNewX();
-			JToolBarHelper::editListX();
+			JToolBarHelper::addNew();
+			JToolBarHelper::editList();
 			JToolBarHelper::deleteList();
 			JToolBarHelper::publishList();
 			JToolBarHelper::unpublishList();

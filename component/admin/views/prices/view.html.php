@@ -25,8 +25,8 @@ class pricesViewprices extends JViewLegacy
 		jimport('joomla.html.pagination');
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_PRODUCT_PRICE'), 'redshop_vatrates48');
-		JToolBarHelper::addNewX();
-		JToolBarHelper::editListX();
+		JToolBarHelper::addNew();
+		JToolBarHelper::editList();
 		JToolBarHelper::deleteList();
 
 		$limitstart = $app->getUserStateFromRequest($context . 'limitstart', 'limitstart', '0');

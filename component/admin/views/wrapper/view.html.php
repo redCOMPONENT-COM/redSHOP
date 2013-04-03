@@ -43,7 +43,7 @@ class wrapperViewwrapper extends JViewLegacy
 		$pagination = $this->get('Pagination');
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_WRAPPER'), 'redshop_wrapper48');
-		JToolBarHelper::addNewX();
+		JToolBarHelper::addNew();
 		JToolBarHelper::deleteList();
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();

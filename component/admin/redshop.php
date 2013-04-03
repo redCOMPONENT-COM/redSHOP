@@ -128,7 +128,7 @@
 	");
 
 	$document->addStyleSheet(JURI::root() . 'administrator/components/com_redshop/assets/css/redshop.css');
-
+/*
 	if ($controller != "search" && $controller != "order_detail" && $controller != "wizard" && $task != "getcurrencylist"
 		&& $layout != "thumbs" && $controller != "catalog_detail" && $task != "clearsef" && $task != "removesubpropertyImage"
 		&& $task != "removepropertyImage" && $controller != "product_price" && $task != "template" && $json_var == ''
@@ -163,7 +163,7 @@
 			echo '<div style="float:left;width:80%;">';
 		}
 	}
-
+*/
 	require_once JPATH_COMPONENT . '/controllers/' . $controller . '.php';
 	$classname  = $controller . 'controller';
 	$controller = new $classname( array('default_task' => 'display') );

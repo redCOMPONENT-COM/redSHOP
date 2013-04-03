@@ -28,8 +28,8 @@ class attributepricesViewattributeprices extends JViewLegacy
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_ATTRIBUTE_PRICE'), 'redshop_vatrates48');
 
-		JToolBarHelper::addNewX();
-		JToolBarHelper::editListX();
+		JToolBarHelper::addNew();
+		JToolBarHelper::editList();
 		JToolBarHelper::deleteList();
 		$uri = JFactory::getURI();
 

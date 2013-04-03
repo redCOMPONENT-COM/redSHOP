@@ -43,7 +43,7 @@ class orderVieworder extends JViewLegacy
 		{
 			JToolBarHelper::custom('multiprint_order', 'print_f2.png', 'print_f2.png', JText::_('COM_REDSHOP_MULTI_PRINT_ORDER_LBL'), true);
 			JToolBarHelper::title(JText::_('COM_REDSHOP_ORDER_MANAGEMENT'), 'redshop_order48');
-			JToolBarHelper::addNewX();
+			JToolBarHelper::addNew();
 			JToolBarHelper::custom('allstatus', 'save.png', 'save_f2.png', JText::_('COM_REDSHOP_CHANGE_STATUS_TO_ALL_LBL'), true);
 			JToolBarHelper::custom('export_data', 'save.png', 'save_f2.png', JText::_('COM_REDSHOP_EXPORT_DATA_LBL'), false);
 			JToolBarHelper::custom('export_fullorder_data', 'save.png', 'save_f2.png', JText::_('COM_REDSHOP_EXPORT_FULL_DATA_LBL'), false);

@@ -38,9 +38,9 @@ class supplierViewsupplier extends JViewLegacy
 		$document->setTitle(JText::_('COM_REDSHOP_SUPPLIER'));
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_SUPPLIER_MANAGEMENT'), 'redshop_manufact48');
-		JToolBarHelper::addNewX();
-		JToolBarHelper::editListX();
-		JToolBarHelper::customX('copy', 'copy.png', 'copy_f2.png', JText::_('COM_REDSHOP_TOOLBAR_COPY'), true);
+		JToolBarHelper::addNew();
+		JToolBarHelper::editList();
+		JToolBarHelper::custom('copy', 'copy.png', 'copy_f2.png', JText::_('COM_REDSHOP_TOOLBAR_COPY'), true);
 		JToolBarHelper::deleteList();
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();

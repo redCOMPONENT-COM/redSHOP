@@ -38,8 +38,8 @@ class orderstatusVieworderstatus extends JViewLegacy
 		$document->setTitle(JText::_('COM_REDSHOP_ORDERSTATUS'));
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_ORDERSTATUS_MANAGEMENT'), 'redshop_order48');
-		JToolBarHelper::addNewX();
-		JToolBarHelper::editListX();
+		JToolBarHelper::addNew();
+		JToolBarHelper::editList();
 		JToolBarHelper::deleteList();
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();

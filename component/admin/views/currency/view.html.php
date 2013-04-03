@@ -25,7 +25,7 @@ class currencyViewcurrency extends JViewLegacy
 		$document->setTitle(JText::_('COM_REDSHOP_CURRENCY'));
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_CURRENCY_MANAGEMENT'), 'redshop_currencies_48');
-		JToolbarHelper::addNewX();
+		JToolbarHelper::addNew();
 		JToolbarHelper::EditListX();
 		JToolbarHelper::deleteList();
 		$uri = JFactory::getURI();

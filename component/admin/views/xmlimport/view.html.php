@@ -25,8 +25,8 @@ class xmlimportViewxmlimport extends JViewLegacy
 		$model = $this->getModel('xmlimport');
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_XML_IMPORT_MANAGEMENT'), 'redshop_import48');
-		JToolBarHelper::addNewX();
-		JToolBarHelper::editListX();
+		JToolBarHelper::addNew();
+		JToolBarHelper::editList();
 		JToolBarHelper::deleteList();
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();

@@ -24,8 +24,8 @@ class paymentViewpayment extends JViewLegacy
 		$document->setTitle(JText::_('COM_REDSHOP_PAYMENTS'));
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_PAYMENT_MANAGEMENT'), 'redshop_payment48');
-		JToolBarHelper::addNewX();
-		JToolBarHelper::editListX();
+		JToolBarHelper::addNew();
+		JToolBarHelper::editList();
 		JToolBarHelper::deleteList();
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();

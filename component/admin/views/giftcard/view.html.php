@@ -38,9 +38,9 @@ class giftcardViewgiftcard extends JViewLegacy
 		$document->setTitle(JText::_('COM_REDSHOP_GIFTCARD'));
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_GIFTCARD_MANAGEMENT'), 'redshop_giftcard_48');
-		JToolBarHelper::addNewX();
-		JToolBarHelper::editListX();
-		JToolBarHelper::customX('copy', 'copy.png', 'copy_f2.png', JText::_('COM_REDSHOP_TOOLBAR_COPY'), true);
+		JToolBarHelper::addNew();
+		JToolBarHelper::editList();
+		JToolBarHelper::custom('copy', 'copy.png', 'copy_f2.png', JText::_('COM_REDSHOP_TOOLBAR_COPY'), true);
 		JToolBarHelper::deleteList();
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();
