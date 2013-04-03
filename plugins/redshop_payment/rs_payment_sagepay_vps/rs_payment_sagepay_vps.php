@@ -10,8 +10,8 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.plugin.plugin');
-//$mainframe = JFactory::getApplication();
-//$mainframe->registerEvent( 'onPrePayment', 'plgRedshoprs_payment_bbs' );
+//$app = JFactory::getApplication();
+//$app->registerEvent( 'onPrePayment', 'plgRedshoprs_payment_bbs' );
 class plgRedshop_paymentrs_payment_sagepay_vps extends JPlugin
 {
 	var $_table_prefix = null;
@@ -23,9 +23,9 @@ class plgRedshop_paymentrs_payment_sagepay_vps extends JPlugin
 	 * NOT references.  This causes problems with cross-referencing necessary for the
 	 * observer design pattern.
 	 */
-	function plgRedshop_paymentrs_payment_sagepay_vps(&$subject)
+	public function plgRedshop_paymentrs_payment_sagepay_vps(&$subject)
 	{
-		// load plugin parameters
+		// Load plugin parameters
 		parent::__construct($subject);
 		$this->_table_prefix = '#__redshop_';
 		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_sagepay_vps');
@@ -35,7 +35,7 @@ class plgRedshop_paymentrs_payment_sagepay_vps extends JPlugin
 	/**
 	 * Plugin method with the same name as the event will be called automatically.
 	 */
-function onPrePayment($element, $data)
+public function onPrePayment($element, $data)
 {
 	$config = new Redconfiguration;
 	$currencyClass = new convertPrice;
@@ -231,7 +231,6 @@ else
 			$strDBStatus = "REGISTERED - The transaction was could not be 3D-Secure Authenticated, but has been registered to be Authorised.";
 		$values->responsestatus = 'Success';
 		$values->transaction_id = $output['VPSTxId'];
-
 	}
 	else
 	{
@@ -249,7 +248,6 @@ else
 			$strDBStatus = "UNKNOWN - An unknown status was returned from Sage Pay.  The Status was: " . mysql_real_escape_string($strStatus) . ", with StatusDetail:" . mysql_real_escape_string($strStatusDetail);
 		$values->transaction_id = 0;
 		$values->responsestatus = 'Fail';
-
 	} ?>
 <FORM action="<?php echo $returnURL ?>" method="POST" name="secureform" id="secureform"/>
 <input type="text" name="responsestatus" value="<?php echo $values->responsestatus ?>"/>
@@ -285,13 +283,11 @@ else
 		{
 			$values->order_status_code = $verify_status;
 			$values->order_payment_status_code = 'Paid';
-
 		}
 		else
 		{
 			$values->order_status_code = $invalid_status;
 			$values->order_payment_status_code = 'Unpaid';
-
 		}
 
 		$values->order_id = $order_id;
@@ -300,7 +296,6 @@ else
 		$values->log = $message;
 
 		return $values;
-
 	}
 
 

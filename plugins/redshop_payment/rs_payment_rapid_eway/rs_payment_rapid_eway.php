@@ -22,7 +22,7 @@ class plgRedshop_paymentrs_payment_rapid_eway extends JPlugin
 	 * NOT references.  This causes problems with cross-referencing necessary for the
 	 * observer design pattern.
 	 */
-	function plgRedshop_paymentrs_payment_rapid_eway(&$subject)
+	public function plgRedshop_paymentrs_payment_rapid_eway(&$subject)
 	{
 		// Load plugin parameters
 		parent::__construct($subject);
@@ -34,7 +34,7 @@ class plgRedshop_paymentrs_payment_rapid_eway extends JPlugin
 	/**
 	 * Plugin method with the same name as the event will be called automatically.
 	 */
-	function onPrePayment($element, $data)
+	public function onPrePayment($element, $data)
 	{
 		if ($element != 'rs_payment_rapid_eway')
 		{
@@ -46,7 +46,7 @@ class plgRedshop_paymentrs_payment_rapid_eway extends JPlugin
 			$plugin = $element;
 		}
 
-		$mainframe = JFactory::getApplication();
+		$app = JFactory::getApplication();
 		$paymentpath = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $plugin . DS . $plugin . DS . 'extra_info.php';
 		include $paymentpath;
 	}

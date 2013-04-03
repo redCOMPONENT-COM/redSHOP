@@ -124,6 +124,7 @@ class shopper_group_detailModelshopper_group_detail extends JModel
 				unlink($logopath);
 			}
 		}
+
 		if ($logo['name'] != "")
 		{
 			$logoname = JPath::clean(time() . '_' . $logo['name']);
@@ -169,10 +170,11 @@ class shopper_group_detailModelshopper_group_detail extends JModel
 			{
 				copy($logopath, $copylogopath);
 			}
+
 			$data['shopper_group_logo'] = $destname;
 		}
 
-		$row =& $this->getTable();
+		$row = $this->getTable();
 
 		if (!$row->bind($data))
 		{
@@ -240,6 +242,7 @@ class shopper_group_detailModelshopper_group_detail extends JModel
 				}
 			}
 		}
+
 		return $row;
 	}
 
@@ -315,6 +318,7 @@ class shopper_group_detailModelshopper_group_detail extends JModel
 				return false;
 			}
 		}
+
 		return true;
 	}
 

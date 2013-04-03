@@ -18,7 +18,7 @@ class shipping_rate_detailViewshipping_rate_detail extends JView
 {
 	public function display($tpl = null)
 	{
-		global $mainframe;
+		$app = JFactory::getApplication();
 		$context = 'shipping_rate';
 		$shippinghelper = new shipping;
 		$userhelper = new rsUserhelper;
@@ -26,7 +26,7 @@ class shipping_rate_detailViewshipping_rate_detail extends JView
 		$model = $this->getModel();
 		$db = JFactory::getDBO();
 
-		$id = $mainframe->getUserStateFromRequest($context . 'extension_id', 'extension_id', '0');
+		$id = $app->getUserStateFromRequest($context . 'extension_id', 'extension_id', '0');
 		$shipping = $shippinghelper->getShippingMethodById($id);
 
 		$option = JRequest::getVar('option');
@@ -59,7 +59,7 @@ class shipping_rate_detailViewshipping_rate_detail extends JView
 		}
 		else
 		{
-			JToolBarHelper::cancel('cancel', 'Close');
+			JToolBarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
 		}
 
 		$q = "SELECT  country_3_code as value,country_name as text from #__" . TABLE_PREFIX . "_country ORDER BY country_name ASC";

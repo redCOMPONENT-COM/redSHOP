@@ -13,6 +13,13 @@ jimport('joomla.application.component.view');
 
 class textlibrary_detailVIEWtextlibrary_detail extends JView
 {
+	/**
+	 * The request url.
+	 *
+	 * @var  string
+	 */
+	public $request_url;
+
 	public function display($tpl = null)
 	{
 		$document = JFactory::getDocument();
@@ -39,8 +46,9 @@ class textlibrary_detailVIEWtextlibrary_detail extends JView
 		}
 		else
 		{
-			JToolBarHelper::cancel('cancel', 'Close');
+			JToolBarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
 		}
+
 		// Section can be added from here
 		$optionsection = array();
 		$optionsection[] = JHTML::_('select.option', '0', JText::_('COM_REDSHOP_SELECT'));
@@ -54,7 +62,7 @@ class textlibrary_detailVIEWtextlibrary_detail extends JView
 
 		$this->assignRef('lists', $lists);
 		$this->assignRef('detail', $detail);
-		$this->assignRef('request_url', $uri->toString());
+		$this->request_url = $uri->toString();
 
 		parent::display($tpl);
 	}

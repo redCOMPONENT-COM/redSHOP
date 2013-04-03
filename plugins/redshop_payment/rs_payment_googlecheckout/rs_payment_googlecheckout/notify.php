@@ -43,16 +43,16 @@ require_once $absolute_path . DS . 'includes' . DS . 'defines.php';
 require_once $absolute_path . DS . 'includes' . DS . 'framework.php';
 
 // create the mainframe object
-$mainframe = JFactory::getApplication('site');
+$app = JFactory::getApplication();
 
 // Initialize the framework
-$mainframe->initialise();
+$app->initialise();
 
 // load system plugin group
 JPluginHelper::importPlugin('system');
 
 // trigger the onBeforeStart events
-$mainframe->triggerEvent('onBeforeStart');
+$app->triggerEvent('onBeforeStart');
 $lang = JFactory::getLanguage();
 $mosConfig_lang = $GLOBALS ['mosConfig_lang'] = strtolower($lang->getBackwardLang());
 // Adjust the live site path
@@ -133,7 +133,6 @@ if (!isset ($order_id))
 	$query = "SELECT order_id FROM #__redshop_order_payment WHERE order_payment_trans_id = '" . $google_order_id . "'";
 	$db->SetQuery($query);
 	$order_id = $db->loadResult();
-
 }
 
 // make status change array

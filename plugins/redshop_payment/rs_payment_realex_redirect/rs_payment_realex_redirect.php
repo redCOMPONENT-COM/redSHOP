@@ -10,8 +10,8 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.plugin.plugin');
-//$mainframe = JFactory::getApplication();
-//$mainframe->registerEvent( 'onPrePayment', 'plgRedshoprs_payment_bbs' );
+//$app = JFactory::getApplication();
+//$app->registerEvent( 'onPrePayment', 'plgRedshoprs_payment_bbs' );
 class plgRedshop_paymentrs_payment_realex_redirect extends JPlugin
 {
 	var $_table_prefix = null;
@@ -24,20 +24,19 @@ class plgRedshop_paymentrs_payment_realex_redirect extends JPlugin
 	 * NOT references.  This causes problems with cross-referencing necessary for the
 	 * observer design pattern.
 	 */
-	function plgRedshop_paymentrs_payment_realex_redirect(&$subject)
+	public function plgRedshop_paymentrs_payment_realex_redirect(&$subject)
 	{
-		// load plugin parameters
+		// Load plugin parameters
 		parent::__construct($subject);
 		$this->_table_prefix = '#__redshop_';
 		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_realex_redirect');
 		$this->_params = new JRegistry($this->_plugin->params);
-
 	}
 
 	/**
 	 * Plugin method with the same name as the event will be called automatically.
 	 */
-	function onPrePayment_rs_payment_realex_redirect($element, $data)
+	public function onPrePayment_rs_payment_realex_redirect($element, $data)
 	{
 		if ($element != 'rs_payment_realex_redirect')
 		{
@@ -51,7 +50,7 @@ class plgRedshop_paymentrs_payment_realex_redirect extends JPlugin
 
 		$session =& Jfactory::getSession();
 		$ccdata = $session->get('ccdata');
-		/*$mainframe = JFactory::getApplication();
+		/*$app = JFactory::getApplication();
 		 $paymentpath=JPATH_SITE.DS.'plugins'.DS.'redshop_payment'.DS.$plugin.DS.$plugin.DS.'extra_info.php';
 		include($paymentpath);*/
 		$merchantid = $this->_params->get("realex_merchant_id");
@@ -92,7 +91,6 @@ class plgRedshop_paymentrs_payment_realex_redirect extends JPlugin
 			"expdate"        => $expdate,
 			"autosettleflag" => "1",
 		));
-
 	}
 
 	function onNotifyPaymentrs_payment_realex_redirect($element, $request)

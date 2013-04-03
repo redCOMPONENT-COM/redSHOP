@@ -56,7 +56,7 @@ class newslettersubscr_detailVIEWnewslettersubscr_detail extends JView
 		}
 		else
 		{
-			JToolBarHelper::cancel('cancel', 'Close');
+			JToolBarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
 		}
 
 		$model = $this->getModel('newslettersubscr_detail');

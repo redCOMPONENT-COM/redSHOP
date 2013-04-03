@@ -122,8 +122,8 @@ $redtemplate = new Redtemplate();
 					<td width="30%"><?php echo $redtemplate->getFieldTypeSections($row->field_type);?></td>
 					<td class="order" width="30%"><?php echo $redtemplate->getFieldSections($row->field_section);?></td>
 					<td class="order" width="30%">
-						<span><?php echo $this->pagination->orderUpIcon($i, ($row->field_section == @$this->fields[$i - 1]->field_section), 'orderup', 'Move Up', $ordering); ?></span>
-						<span><?php echo $this->pagination->orderDownIcon($i, $n, ($row->field_section == @$this->fields[$i + 1]->field_section), 'orderdown', 'Move Down', $ordering); ?></span>
+						<span><?php echo $this->pagination->orderUpIcon($i, ($row->field_section == @$this->fields[$i - 1]->field_section), 'orderup', JText::_('JLIB_HTML_MOVE_UP'), $ordering); ?></span>
+						<span><?php echo $this->pagination->orderDownIcon($i, $n, ($row->field_section == @$this->fields[$i + 1]->field_section), 'orderdown', JText::_('JLIB_HTML_MOVE_DOWN'), $ordering); ?></span>
 
 						<?php $disabled = @$ordering ? '' : 'disabled="disabled"'; ?>
 						<input type="text" name="order[]" size="5"

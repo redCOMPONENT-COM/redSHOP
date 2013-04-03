@@ -50,7 +50,6 @@ class attribute_set_detailModelattribute_set_detail extends JModel
 	{
 		if ($this->_loadData())
 		{
-
 		}
 		else
 		{
@@ -154,6 +153,7 @@ class attribute_set_detailModelattribute_set_detail extends JModel
 					$this->setError($this->_db->getErrorMsg());
 				}
 			}
+
 			$query = 'DELETE FROM ' . $this->_table_prefix . 'attribute_set WHERE attribute_set_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
@@ -196,6 +196,7 @@ class attribute_set_detailModelattribute_set_detail extends JModel
 		{
 			$attr = $producthelper->getProductAttribute(0, $this->_id);
 		}
+
 		$attribute_data = '';
 
 		for ($i = 0; $i < count($attr); $i++)
@@ -216,6 +217,7 @@ class attribute_set_detailModelattribute_set_detail extends JModel
 				$subprop = $producthelper->getAttibuteSubProperty(0, $prop[$j]->property_id);
 				$prop[$j]->subvalue = $subprop;
 			}
+
 			$attribute_data[] = array('attribute_id' => $attribute_id, 'attribute_name' => $attribute_name,
 				'attribute_required' => $attribute_required, 'ordering' => $ordering,
 				'property' => $prop, 'allow_multiple_selection' => $allow_multiple_selection,
@@ -507,6 +509,7 @@ class attribute_set_detailModelattribute_set_detail extends JModel
 				}
 			}
 		}
+
 		$num = count($sub_img['name']);
 
 		for ($i = 0; $i < $num; $i++)
@@ -609,7 +612,6 @@ class attribute_set_detailModelattribute_set_detail extends JModel
 
 					if ($post['property_sub_img_tmp'][$i] != "")
 					{
-
 						$sub = REDSHOP_FRONT_IMAGES_RELPATH . 'subcolor' . DS . $post['property_sub_img_tmp'][$i];
 						$sub_thumb = REDSHOP_FRONT_IMAGES_RELPATH . 'subcolor/thumb' . DS . $post['property_sub_img_tmp'][$i];
 
@@ -617,6 +619,7 @@ class attribute_set_detailModelattribute_set_detail extends JModel
 						{
 							unlink($sub);
 						}
+
 						if (file_exists($sub_thumb))
 						{
 							unlink($sub_thumb);
@@ -635,6 +638,7 @@ class attribute_set_detailModelattribute_set_detail extends JModel
 									SET `subattribute_color_name` = '" . $post['subattribute_name'][$i] . "' ,`subattribute_color_image` = '" .
 							$sub_name . "',`subattribute_id` = '" . $post['section_id'] . "' WHERE subattribute_color_id = '" . $post['subattribute_color_id'][$i] . "'";
 					}
+
 					$this->_db->setQuery($query);
 
 					if (!$this->_db->query())
@@ -643,7 +647,6 @@ class attribute_set_detailModelattribute_set_detail extends JModel
 
 						return false;
 					}
-
 				}
 			}
 			else
@@ -690,14 +693,15 @@ class attribute_set_detailModelattribute_set_detail extends JModel
 	{
 		foreach ($subattr_diff as $diff)
 		{
-			$sub_dest = REDSHOP_FRONT_IMAGES_RELPATH . 'subcolor' . DS . $diff->subattribute_color_image; //specific path of the file
+			$sub_dest = REDSHOP_FRONT_IMAGES_RELPATH . 'subcolor' . DS . $diff->subattribute_color_image;
 
 			if (file_exists($sub_dest))
 			{
 				unlink($sub_dest);
 			}
 
-			$query = 'DELETE FROM ' . $this->_table_prefix . 'product_subattribute_color  WHERE subattribute_color_id = "' . $diff->subattribute_color_id . '"';
+			$query = 'DELETE FROM ' . $this->_table_prefix . 'product_subattribute_color  WHERE subattribute_color_id = "'
+				. $diff->subattribute_color_id . '"';
 			$this->_db->setQuery($query);
 
 			if (!$this->_db->query())
@@ -731,14 +735,14 @@ class attribute_set_detailModelattribute_set_detail extends JModel
 
 					for ($j = 0; $j < count($property); $j++)
 					{
-
-						$query = "DELETE FROM `" . $this->_table_prefix . "product_attribute_property` WHERE `property_id` = " . $property[$j]->property_id;
+						$query = "DELETE FROM `" . $this->_table_prefix . "product_attribute_property` WHERE `property_id` = "
+							. $property[$j]->property_id;
 						$database->setQuery($query);
 
 						if ($database->query())
 						{
-
-							$query = "DELETE FROM `" . $this->_table_prefix . "product_subattribute_color` WHERE `subattribute_id` = " . $property[$j]->property_id;
+							$query = "DELETE FROM `" . $this->_table_prefix . "product_subattribute_color` WHERE `subattribute_id` = "
+								. $property[$j]->property_id;
 							$database->setQuery($query);
 							$database->query();
 						}
@@ -796,6 +800,7 @@ class attribute_set_detailModelattribute_set_detail extends JModel
 		{
 			@unlink($imagethumbsrcphy);
 		}
+
 		$imagesrcphy = REDSHOP_FRONT_IMAGES_RELPATH . "subcolor/" . $imagename;
 
 		if (is_file($imagesrcphy))
@@ -836,7 +841,9 @@ class attribute_set_detailModelattribute_set_detail extends JModel
 		{
 			if ($post['quantity'][$i] || (!USE_BLANK_AS_INFINITE))
 			{
-				$q = "INSERT IGNORE INTO " . $this->_table_prefix . "product_attribute_stockroom_xref VALUES (" . $post['section_id'] . ",'" . $post['section'] . "'," . $post['stockroom_id'][$i] . ",'" . $post['quantity'][$i] . "') ";
+				$q = "INSERT IGNORE INTO " . $this->_table_prefix . "product_attribute_stockroom_xref VALUES ("
+					. $post['section_id'] . ",'" . $post['section'] . "'," . $post['stockroom_id'][$i] . ",'"
+					. $post['quantity'][$i] . "') ";
 
 				$database->setQuery($q);
 
@@ -912,7 +919,8 @@ class attribute_set_detailModelattribute_set_detail extends JModel
 
 
 				// Fetch attributes from the attribute set ID
-				$query = 'SELECT * FROM ' . $this->_table_prefix . 'product_attribute  WHERE `attribute_set_id` = ' . $copydata[$i]->attribute_set_id . ' ';
+				$query = 'SELECT * FROM ' . $this->_table_prefix . 'product_attribute  WHERE `attribute_set_id` = '
+					. $copydata[$i]->attribute_set_id . ' ';
 				$this->_db->setQuery($query);
 				$product_attributes = $this->_db->loadObjectList();
 
@@ -951,11 +959,13 @@ class attribute_set_detailModelattribute_set_detail extends JModel
 
 						// Fetch attributes from the attribute set ID
 
-						$query = 'SELECT * FROM ' . $this->_table_prefix . 'product_attribute_property  WHERE `attribute_id` = ' . $product_attribute->attribute_id . ' ';
+						$query = 'SELECT * FROM ' . $this->_table_prefix . 'product_attribute_property  WHERE `attribute_id` = '
+							. $product_attribute->attribute_id . ' ';
 						$this->_db->setQuery($query);
 						$product_attributes_properties = $this->_db->loadObjectList();
 
-						$query = 'SELECT * FROM `' . $this->_table_prefix . 'product_attribute_property` WHERE `attribute_id` = "' . $product_attribute->attribute_id . '" ';
+						$query = 'SELECT * FROM `' . $this->_table_prefix . 'product_attribute_property` WHERE `attribute_id` = "'
+							. $product_attribute->attribute_id . '" ';
 						$this->_db->setQuery($query);
 						$att_property = $this->_db->loadObjectList();
 
@@ -1020,7 +1030,8 @@ class attribute_set_detailModelattribute_set_detail extends JModel
 								}
 
 								// Attribute piggy bank price for property
-								$query = 'SELECT * FROM ' . $this->_table_prefix . 'product_attribute_price   WHERE `section_id` = ' . $product_attributes_property->property_id . ' AND `section`="property" ';
+								$query = 'SELECT * FROM ' . $this->_table_prefix . 'product_attribute_price   WHERE `section_id` = '
+									. $product_attributes_property->property_id . ' AND `section`="property" ';
 								$this->_db->setQuery($query);
 								$product_attribute_prices = $this->_db->loadObjectList();
 
@@ -1034,7 +1045,8 @@ class attribute_set_detailModelattribute_set_detail extends JModel
 								}
 
 								// Attribute stock quantity for property
-								$query = 'SELECT * FROM ' . $this->_table_prefix . 'product_attribute_stockroom_xref   WHERE `section_id` = ' . $product_attributes_property->property_id . ' AND `section`="property" ';
+								$query = 'SELECT * FROM ' . $this->_table_prefix . 'product_attribute_stockroom_xref   WHERE `section_id` = '
+									. $product_attributes_property->property_id . ' AND `section`="property" ';
 								$this->_db->setQuery($query);
 								$product_attribute_stockquantities = $this->_db->loadObjectList();
 
@@ -1048,7 +1060,8 @@ class attribute_set_detailModelattribute_set_detail extends JModel
 								}
 
 								// Fetch attributes from the attribute set ID
-								$query = 'SELECT * FROM ' . $this->_table_prefix . 'product_subattribute_color  WHERE `subattribute_id` = ' . $product_attributes_property->property_id . ' ';
+								$query = 'SELECT * FROM ' . $this->_table_prefix . 'product_subattribute_color  WHERE `subattribute_id` = '
+									. $product_attributes_property->property_id . ' ';
 								$this->_db->setQuery($query);
 								$product_sub_attributes_properties = $this->_db->loadObjectList();
 

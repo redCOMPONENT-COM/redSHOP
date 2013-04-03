@@ -142,7 +142,6 @@ class wizardController extends JController
 			{
 				$substep = $substep - 2;
 			}
-
 		}
 		else
 		{

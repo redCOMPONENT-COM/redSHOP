@@ -29,10 +29,12 @@ class mailViewmail extends JView
 
 	public function display($tpl = null)
 	{
-		global $mainframe, $context;
-
 		$context = 'mail_id';
+
+		$uri      = JFactory::getURI();
+		$app      = JFactory::getApplication();
 		$document = JFactory::getDocument();
+
 		$document->setTitle(JText::_('COM_REDSHOP_MAIL'));
 		jimport('joomla.html.pagination');
 
@@ -44,11 +46,9 @@ class mailViewmail extends JView
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();
 
-		$uri = JFactory::getURI();
-
-		$filter_order = $mainframe->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'm.mail_id');
-		$filter_order_Dir = $mainframe->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
-		$filter_section = $mainframe->getUserStateFromRequest($context . 'filter_section', 'filter_section', 0);
+		$filter_order     = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'm.mail_id');
+		$filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
+		$filter_section   = $app->getUserStateFromRequest($context . 'filter_section', 'filter_section', 0);
 
 		$lists['order'] = $filter_order;
 		$lists['order_Dir'] = $filter_order_Dir;

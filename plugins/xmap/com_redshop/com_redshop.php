@@ -206,7 +206,7 @@ class xmap_com_redshop
 	public function getProductTree(&$xmap, &$parent, &$params, $prod = 0, $category = 0, $manid = 0)
 	{
 		$database = JFactory::getDBO();
-		$mainframe = JFactory::getApplication();
+		$app = JFactory::getApplication();
 
 		if ($manid > 0)
 		{

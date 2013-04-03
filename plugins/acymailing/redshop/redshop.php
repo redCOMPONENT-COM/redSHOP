@@ -73,6 +73,7 @@ class plgAcymailingRedshop extends JPlugin
 		$match = '#{product:?([^:]*)}#Ui';
 		$variables = array('subject', 'body', 'altbody');
 		$found = false;
+		$results = array();
 
 		foreach ($variables as $var)
 		{

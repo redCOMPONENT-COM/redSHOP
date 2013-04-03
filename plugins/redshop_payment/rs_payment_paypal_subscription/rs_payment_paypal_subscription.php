@@ -26,7 +26,7 @@ class plgRedshop_paymentrs_payment_paypal_subscription extends JPlugin
 	 */
 	public function plgRedshop_paymentrs_payment_paypal_subscription(&$subject)
 	{
-		// load plugin parameters
+		// Load plugin parameters
 		parent::__construct($subject);
 		$this->_table_prefix = '#__redshop_';
 		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_paypal_subscription');
@@ -48,7 +48,7 @@ class plgRedshop_paymentrs_payment_paypal_subscription extends JPlugin
 			$plugin = $element;
 		}
 
-		$mainframe = JFactory::getApplication();
+		$app = JFactory::getApplication();
 		$paymentpath = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $plugin . DS . $plugin . DS . 'extra_info.php';
 		include $paymentpath;
 	}
@@ -81,6 +81,7 @@ class plgRedshop_paymentrs_payment_paypal_subscription extends JPlugin
 		$subscr_id = $request["subscr_id"];
 		$tid = $request['txn_id'];
 		$status = $request['payment_status'];
+		$values = new stdClass;
 
 		if ($txn_type == 'subscr_payment')
 		{
@@ -95,7 +96,6 @@ class plgRedshop_paymentrs_payment_paypal_subscription extends JPlugin
 					$values->order_payment_status_code = 'Paid';
 					$values->log = JTEXT::_('ORDER_PLACED');
 					$values->msg = JTEXT::_('ORDER_PLACED');
-
 				}
 				else
 				{
@@ -264,7 +264,6 @@ class plgRedshop_paymentrs_payment_paypal_subscription extends JPlugin
 					$rowpayment->order_payment_expire = '';
 					$rowpayment->order_payment_name = $paymentmethod->name;
 					$rowpayment->payment_method_class = $paymentmethod->element;
-					;
 					$rowpayment->order_payment_trans_id = '';
 					$rowpayment->authorize_status = "";
 
@@ -328,7 +327,6 @@ class plgRedshop_paymentrs_payment_paypal_subscription extends JPlugin
 
 					// Send the Order mail
 					$redshopMail->sendOrderMail($new_oid, 0);
-
 				}
 
 				if ($status == 'Completed')
@@ -338,7 +336,6 @@ class plgRedshop_paymentrs_payment_paypal_subscription extends JPlugin
 					$values->order_payment_status_code = 'Paid';
 					$values->log = JTEXT::_('ORDER_PLACED');
 					$values->msg = JTEXT::_('ORDER_PLACED');
-
 				}
 				else
 				{
@@ -390,7 +387,6 @@ class plgRedshop_paymentrs_payment_paypal_subscription extends JPlugin
 		$query = "UPDATE `#__redshop_orders` set recuuring_subcription_id ='" . $subscr_id . "'  WHERE `order_id` = '" . $order_id . "'";
 		$db->SetQuery($query);
 		$db->query();
-
 	}
 
 	public function orderPaymentNotYetUpdated($dbConn, $order_id, $tid)

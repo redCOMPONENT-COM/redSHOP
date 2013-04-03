@@ -219,6 +219,7 @@ class newsletter_detailModelnewsletter_detail extends JModel
 		{
 			$and .= "AND n.newsletter_id='" . $newsletter_id . "' ";
 		}
+
 		$query = 'SELECT n.*,CONCAT(n.name," (",n.subject,")") AS text FROM ' . $this->_table_prefix . 'newsletter AS n '
 			. 'WHERE 1=1 '
 			. $and;
@@ -248,6 +249,7 @@ class newsletter_detailModelnewsletter_detail extends JModel
 			{
 				$totalresult = 0;
 			}
+
 			if ($newsletter_id != 0)
 			{
 				$totalread = $this->getReadNewsletter($data[$d]->newsletter_id);

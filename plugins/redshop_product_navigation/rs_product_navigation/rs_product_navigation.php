@@ -21,7 +21,7 @@ class plgRedshop_product_navigationrs_product_navigation extends JPlugin
 	 * NOT references.  This causes problems with cross-referencing necessary for the
 	 * observer design pattern.
 	 */
-	function plgRedshop_product_navigationrs_product_navigation(&$subject)
+	public function plgRedshop_product_navigationrs_product_navigation(&$subject)
 	{
 		// Load plugin parameters
 		parent::__construct($subject);

@@ -89,8 +89,9 @@ class zoomproducthelper extends producthelper
 		$ph_thumb = PRODUCT_MAIN_IMAGE_HEIGHT;
 		$pw_thumb = PRODUCT_MAIN_IMAGE;
 
-		$media_image = $this->getAdditionMediaImage($pid, "product");
-		$more_images = '';
+		$media_image    = $this->getAdditionMediaImage($pid, "product");
+		$more_images    = '';
+		$thumb_original = '';
 
 		for ($m = 0; $m < count($media_image); $m++)
 		{
@@ -114,7 +115,6 @@ class zoomproducthelper extends producthelper
 						$pimg = $redhelper->watermark('product', $thumb, $mpw_thumb, $mph_thumb, WATERMARK_PRODUCT_ADDITIONAL_IMAGE, "1");
 						$linkimage = $redhelper->watermark('product', $thumb, '', '', WATERMARK_PRODUCT_ADDITIONAL_IMAGE, "0");
 						$hoverimg_path = $redhelper->watermark('product', $thumb, ADDITIONAL_HOVER_IMAGE_WIDTH, ADDITIONAL_HOVER_IMAGE_HEIGHT, WATERMARK_PRODUCT_ADDITIONAL_IMAGE, '2');
-
 					}
 					else
 					{
@@ -149,7 +149,6 @@ class zoomproducthelper extends producthelper
 					$prod_img_path_link = $url . "components/com_redshop/assets/images/product/" . $thumb;
 					$more_images .= '<a href="javascript:void(0);" rel="{gallery: \'gal1\' , smallimage: \'' . $img_path . '\' ,largeimage: \'' . $prod_img_path_link . '\' }" >';
 					$more_images .= "<img src='" . $pimg . "' alt='" . $alttext . "' title='" . $alttext . "' style='cursor: pointer;'></a>";
-
 				}
 			}
 		}
@@ -317,17 +316,19 @@ class zoomproducthelper extends producthelper
 			$ph_thumb = $main_imgheight;
 		}
 
-		$ImageAttributes = $this->getdisplaymainImage($product_id, $property_id, $subproperty_id, $pw_thumb, $ph_thumb, $redview);
-		$aHrefImageResponse = $ImageAttributes['aHrefImageResponse'];
-		$mainImageResponse = $ImageAttributes['mainImageResponse'];
-		$productmainimg = $ImageAttributes['productmainimg'];
+		$ImageAttributes     = $this->getdisplaymainImage($product_id, $property_id, $subproperty_id, $pw_thumb, $ph_thumb, $redview);
+		$aHrefImageResponse  = $ImageAttributes['aHrefImageResponse'];
+		$mainImageResponse   = $ImageAttributes['mainImageResponse'];
+		$productmainimg      = $ImageAttributes['productmainimg'];
 		$aTitleImageResponse = $ImageAttributes['aTitleImageResponse'];
-		$imagename = $ImageAttributes['imagename'];
-		$attrbimg = $ImageAttributes['attrbimg'];
-		$pr_number = $ImageAttributes['pr_number'];
-		$prodadditionImg = "";
-		$propadditionImg = "";
-		$subpropadditionImg = "";
+		$imagename           = $ImageAttributes['imagename'];
+		$attrbimg            = $ImageAttributes['attrbimg'];
+		$pr_number           = $ImageAttributes['pr_number'];
+		$prodadditionImg     = "";
+		$propadditionImg     = "";
+		$subpropadditionImg  = "";
+		$thumb_original      = '';
+		$img_path_org        = '';
 
 		$media_image = $this->getAdditionMediaImage($product_id, "product");
 		$tmp_prodimg = "";
@@ -413,9 +414,13 @@ class zoomproducthelper extends producthelper
 				}
 
 				if (WATERMARK_PRODUCT_THUMB_IMAGE)
+				{
 					$img_path_org = $redhelper->watermark('product', $thumb_original, $mpw_thumb, $mph_thumb, WATERMARK_PRODUCT_THUMB_IMAGE, '0');
+				}
 				else
+				{
 					$img_path_org = $url . "components/" . $option . "/helpers/thumb.php?filename=product/" . $thumb_original . "&newxsize=" . $mpw_thumb . "&newysize=" . $mph_thumb . "&swap=" . USE_IMAGE_SIZE_SWAPPING;
+				}
 			}
 
 			$prodmainimg = "";
@@ -427,7 +432,6 @@ class zoomproducthelper extends producthelper
 
 			if (is_file(JPATH_COMPONENT_SITE . "/assets/images/product/" . $thumb_original))
 				$prodadditionImg .= $prodmainimg;
-
 		}
 		//Product Additional Image End
 		if ($val_prodadd == 0)
@@ -917,16 +921,17 @@ class zoomproducthelper extends producthelper
 		else    $url .= "/";
 
 		$option = JRequest::getVar('option', 'com_redshop');
-		$product = $this->getProductById($product_id);
-		$redhelper = new redhelper;
-		$aHrefImageResponse = '';
-		$imagename = '';
+		$product             = $this->getProductById($product_id);
+		$redhelper           = new redhelper;
+		$aHrefImageResponse  = '';
+		$imagename           = '';
 		$aTitleImageResponse = '';
-		$mainImageResponse = '';
-		$productmainimg = '';
-		$Arrreturn = array();
-		$product = $this->getProductById($product_id);
-		$type = '';
+		$mainImageResponse   = '';
+		$productmainimg      = '';
+		$attrbimg            = '';
+		$Arrreturn           = array();
+		$product             = $this->getProductById($product_id);
+		$type                = '';
 		$pr_number = $product->product_number;
 
 		if (is_file(JPATH_COMPONENT_SITE . "/assets/images/product/" . $product->product_thumb_image))
@@ -1011,14 +1016,14 @@ class zoomproducthelper extends producthelper
 			$mainImageResponse = $productmainimg;
 		}
 
-		$Arrreturn['aHrefImageResponse'] = $aHrefImageResponse;
-		$Arrreturn['mainImageResponse'] = $mainImageResponse;
-		$Arrreturn['productmainimg'] = $productmainimg;
+		$Arrreturn['aHrefImageResponse']  = $aHrefImageResponse;
+		$Arrreturn['mainImageResponse']   = $mainImageResponse;
+		$Arrreturn['productmainimg']      = $productmainimg;
 		$Arrreturn['aTitleImageResponse'] = $aTitleImageResponse;
-		$Arrreturn['imagename'] = $imagename;
-		$Arrreturn['type'] = $type;
-		$Arrreturn['attrbimg'] = $attrbimg;
-		$Arrreturn['pr_number'] = $pr_number;
+		$Arrreturn['imagename']           = $imagename;
+		$Arrreturn['type']                = $type;
+		$Arrreturn['attrbimg']            = $attrbimg;
+		$Arrreturn['pr_number']           = $pr_number;
 
 		return $Arrreturn;
 	}

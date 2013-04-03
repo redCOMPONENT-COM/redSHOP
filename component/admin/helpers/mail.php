@@ -32,12 +32,12 @@ class redshopMail
 
 	public function __construct()
 	{
-		global $mainframe, $context;
-		$db = JFactory::getDbo();
+		$this->_db = JFactory::getDbo();
+
 		$this->_table_prefix = '#__' . TABLE_PREFIX . '_';
-		$this->_db = $db;
-		$this->_carthelper = new rsCarthelper;
-		$this->_redhelper = new redhelper;
+
+		$this->_carthelper      = new rsCarthelper;
+		$this->_redhelper       = new redhelper;
 		$this->_order_functions = new order_functions;
 	}
 
@@ -1191,7 +1191,7 @@ class redshopMail
 
 	public function sendRegistrationMail(&$data)
 	{
-		global $mainframe;
+		$app = JFactory::getApplication();
 
 		$acl = JFactory::getACL();
 		$db = JFactory::getDBO();
@@ -1199,9 +1199,9 @@ class redshopMail
 
 		$mainpassword = JRequest::getVar('password1', '', 'post', 'string', JREQUEST_ALLOWRAW);
 
-		$MailFrom = $mainframe->getCfg('mailfrom');
-		$FromName = $mainframe->getCfg('fromname');
-		$SiteName = $mainframe->getCfg('sitename');
+		$MailFrom = $app->getCfg('mailfrom');
+		$FromName = $app->getCfg('fromname');
+		$SiteName = $app->getCfg('sitename');
 
 		/*
 	 	 * Time for the email magic so get ready to sprinkle the magic dust...
@@ -1283,10 +1283,10 @@ class redshopMail
 	{
 		if (USE_TAX_EXEMPT)
 		{
-			global $mainframe;
+			$app = JFactory::getApplication();
 
-			$MailFrom = $mainframe->getCfg('mailfrom');
-			$FromName = $mainframe->getCfg('fromname');
+			$MailFrom = $app->getCfg('mailfrom');
+			$FromName = $app->getCfg('fromname');
 			$mailbcc = NULL;
 			$maildata = $section;
 			$mailsubject = $section;
@@ -1347,14 +1347,14 @@ class redshopMail
 
 	function sendSubscriptionRenewalMail($data = array())
 	{
-		global $mainframe;
+		$app = JFactory::getApplication();
 
 		$producthelper = new producthelper;
 		$redconfig = new Redconfiguration;
 
-		$MailFrom = $mainframe->getCfg('mailfrom');
-		$FromName = $mainframe->getCfg('fromname');
-		$SiteName = $mainframe->getCfg('sitename');
+		$MailFrom = $app->getCfg('mailfrom');
+		$FromName = $app->getCfg('fromname');
+		$SiteName = $app->getCfg('sitename');
 
 		$user_email = "";
 		$firstname = "";

@@ -17,9 +17,7 @@ jimport('joomla.plugin.plugin');
  * @package        Joomla
  * @subpackage     System
  */
-//defined('_VALID_MOS') or die('Direct Access to this location is not allowed.');
 
-if (!defined('_VALID_MOS') && !defined('_JEXEC')) die('Direct Access to ' . basename(__FILE__) . ' is not allowed.');
 define('BRING_RESPONSE_ERROR', 'test');
 
 require_once JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'product.php';
@@ -518,7 +516,7 @@ class plgredshop_shippingbring extends JPlugin
 	 * Show all configuration parameters for this Shipping method
 	 * @returns boolean False when the Shipping method has no configration
 	 */
-	function show_configuration()
+	public function show_configuration()
 	{
 		?>
 

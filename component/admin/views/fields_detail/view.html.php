@@ -15,6 +15,13 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'extra_field.
 
 class fields_detailVIEWfields_detail extends JView
 {
+	/**
+	 * The request url.
+	 *
+	 * @var  string
+	 */
+	public $request_url;
+
 	public function display($tpl = null)
 	{
 		$extra_field = new extra_field;
@@ -30,7 +37,6 @@ class fields_detailVIEWfields_detail extends JView
 		$lists = array();
 
 		$detail = $this->get('data');
-		$model = $this->getModel('fields_detail');
 
 		$filed_data = $extra_field->getFieldValue($detail->field_id);
 
@@ -47,7 +53,7 @@ class fields_detailVIEWfields_detail extends JView
 		}
 		else
 		{
-			JToolBarHelper::cancel('cancel', 'Close');
+			JToolBarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
 		}
 
 		$redtemplate = new Redtemplate;
@@ -83,7 +89,7 @@ class fields_detailVIEWfields_detail extends JView
 
 		$this->assignRef('lists', $lists);
 		$this->assignRef('detail', $detail);
-		$this->assignRef('request_url', $uri->toString());
+		$this->request_url = $uri->toString();
 
 		parent::display($tpl);
 	}

@@ -15,9 +15,12 @@ class tax_groupViewtax_group extends JView
 {
 	public function display($tpl = null)
 	{
-		global $mainframe, $context;
+		global $context;
 
+		$uri      = JFactory::getURI();
+		$app      = JFactory::getApplication();
 		$document = JFactory::getDocument();
+
 		$document->setTitle(JText::_('COM_REDSHOP_TAX'));
 		jimport('joomla.html.pagination');
 
@@ -28,17 +31,16 @@ class tax_groupViewtax_group extends JView
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();
 
-		$uri = JFactory::getURI();
+		$filter_order     = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'tax_group_id');
+		$filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
 
-		$filter_order = $mainframe->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'tax_group_id');
-		$filter_order_Dir = $mainframe->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
-
-		$lists['order'] = $filter_order;
+		$lists['order']     = $filter_order;
 		$lists['order_Dir'] = $filter_order_Dir;
 
-		$total = $this->get('Total');
-		$media = $this->get('Data');
+		$total      = $this->get('Total');
+		$media      = $this->get('Data');
 		$pagination = $this->get('Pagination');
+
 		$this->assignRef('user', JFactory::getUser());
 		$this->assignRef('lists', $lists);
 		$this->assignRef('media', $media);

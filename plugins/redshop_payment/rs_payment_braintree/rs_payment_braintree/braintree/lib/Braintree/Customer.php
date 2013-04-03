@@ -478,7 +478,6 @@ class Braintree_Customer extends Braintree
 		}
 
 		$this->_set('creditCards', $ccArray);
-
 	}
 
 	/**

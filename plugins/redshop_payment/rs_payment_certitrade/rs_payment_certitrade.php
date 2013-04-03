@@ -49,7 +49,7 @@ class plgRedshop_paymentrs_payment_certitrade extends JPlugin
 			$plugin = $element;
 		}
 
-		$mainframe = JFactory::getApplication();
+		$app = JFactory::getApplication();
 		$paymentpath = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $plugin . DS . $plugin . DS . 'extra_info.php';
 		include $paymentpath;
 	}
@@ -122,7 +122,6 @@ class plgRedshop_paymentrs_payment_certitrade extends JPlugin
 				$values->msg = JText::_('COM_REDSHOP_ORDER_PLACED');
 				$values->transaction_id = $transaction_id;
 				$values->order_id = $order_id;
-
 			}
 		}
 		else

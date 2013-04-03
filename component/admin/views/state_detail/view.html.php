@@ -15,10 +15,13 @@ class state_detailVIEWstate_detail extends JView
 {
 	public function display($tpl = null)
 	{
-		$document = JFactory::getDocument();
 		JToolBarHelper::title(JText::_('COM_REDSHOP_STATE_DETAIL'), 'redshop_region_48');
-		$uri = JFactory::getURI();
-		$user = JFactory::getUser();
+
+		$uri      = JFactory::getURI();
+		$app      = JFactory::getApplication();
+		$document = JFactory::getDocument();
+		$user     = JFactory::getUser();
+
 		$model = $this->getModel('state_detail');
 
 		JToolBarHelper::save();
@@ -31,7 +34,7 @@ class state_detailVIEWstate_detail extends JView
 		if ($model->isCheckedOut($user->get('id')))
 		{
 			$msg = JText::sprintf('DESCBEINGEDITTED', JText::_('COM_REDSHOP_THE_DETAIL'), $detail->title);
-			$mainframe->redirect('index.php?option=' . $option, $msg);
+			$app->redirect('index.php?option=' . $option, $msg);
 		}
 
 		$text = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
@@ -72,11 +75,10 @@ class state_detailVIEWstate_detail extends JView
 			// EDIT - check out the item
 			$model->checkout($user->get('id'));
 
-			JToolBarHelper::cancel('cancel', 'Close');
+			JToolBarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
 		}
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_state') . ': <small><small>[ ' . $text . ' ]</small></small>', 'redshop_region_48');
-
 
 		$this->assignRef('detail', $detail);
 		$this->assignRef('lists', $lists);

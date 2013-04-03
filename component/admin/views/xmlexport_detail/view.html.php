@@ -16,7 +16,7 @@ class xmlexport_detailVIEWxmlexport_detail extends JView
 {
 	public function display($tpl = null)
 	{
-		global $mainframe, $context;
+		global $context;
 		$context = 'xmlexport_id';
 
 		$option = JRequest::getVar('option');
@@ -52,7 +52,7 @@ class xmlexport_detailVIEWxmlexport_detail extends JView
 		}
 		else
 		{
-			JToolBarHelper::cancel('cancel', 'Close');
+			JToolBarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
 		}
 		$section_typelist = $xmlhelper->getSectionTypeList();
 		$auto_sync_interval = $xmlhelper->getSynchIntervalList();

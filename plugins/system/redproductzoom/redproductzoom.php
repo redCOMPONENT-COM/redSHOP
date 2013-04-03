@@ -107,7 +107,6 @@ public function onBeforeRender()
 				alwaysOn: false
 			});
 			$('.zoomPad img').css('border', 'none');
-
 		});
 
 		function displayAdditionalImage(product_id, accessory_id, relatedprd_id, selectedproperty_id, selectedsubproperty_id) {
@@ -336,7 +335,6 @@ public function onBeforeRender()
 			$preselectedresult = $zoomproducthelper->displayAdditionalImage($pid, 0, 0, $selectedpropertyId, $selectedsubpropertyId, $pw_thumb, $ph_thumb, $redview = 'product');
 
 			return $preselectedresult;
-
 		}
 
 	}

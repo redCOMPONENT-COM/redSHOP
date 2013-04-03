@@ -32,7 +32,6 @@ class plgRedshop_paymentrs_payment_dibspaymentmethod extends JPlugin
 		$this->_table_prefix = '#__redshop_';
 		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_dibspaymentmethod');
 		$this->_params = new JRegistry($this->_plugin->params);
-
 	}
 
 	/**
@@ -50,7 +49,7 @@ class plgRedshop_paymentrs_payment_dibspaymentmethod extends JPlugin
 			$plugin = $element;
 		}
 
-		$mainframe = JFactory::getApplication();
+		$app = JFactory::getApplication();
 		$paymentpath = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $plugin . DS . $plugin . DS . 'extra_info.php';
 		include $paymentpath;
 	}

@@ -15,7 +15,7 @@ class template_detailVIEWtemplate_detail extends JView
 {
 	public function display($tpl = null)
 	{
-		$mainframe = JFactory::getApplication();
+		$app = JFactory::getApplication();
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_TEMPLATES_MANAGEMET'), 'redshop_templates48');
 
@@ -33,7 +33,7 @@ class template_detailVIEWtemplate_detail extends JView
 		if ($model->isCheckedOut($user->get('id')))
 		{
 			$msg = JText::sprintf('DESCBEINGEDITTED', JText::_('COM_REDSHOP_THE_DETAIL'), $detail->title);
-			$mainframe->redirect('index.php?option=com_redshop&view=template', $msg);
+			$app->redirect('index.php?option=com_redshop&view=template', $msg);
 		}
 
 		$this->setLayout('default');
@@ -61,7 +61,7 @@ class template_detailVIEWtemplate_detail extends JView
 			// EDIT - check out the item
 			$model->checkout($user->get('id'));
 
-			JToolBarHelper::cancel('cancel', 'Close');
+			JToolBarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
 		}
 
 		// TEMPLATE MOVE DB TO FILE

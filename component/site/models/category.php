@@ -401,6 +401,7 @@ class CategoryModelCategory extends JModel
 		$app = JFactory::getApplication();
 
 		global $context;
+
 		$endlimit   = $this->getProductPerPage();
 		$limitstart = JRequest::getVar('limitstart', 0, '', 'int');
 		$layout     = JRequest::getVar('layout');

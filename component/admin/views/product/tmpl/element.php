@@ -9,14 +9,14 @@
 defined('_JEXEC') or die;
 require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'product.php');
 JHTMLBehavior::modal();
-$mainframe = JFactory::getApplication();
+$app = JFactory::getApplication();
 $productobj = new producthelper();
 $option = JRequest::getVar('option', '', 'request', 'string');
 
 $model = $this->getModel('product');
 $ordering = ($this->lists['order'] == 'ordering');
 
-$category_id = $mainframe->getUserStateFromRequest('category_id', 'category_id', 0);
+$category_id = $app->getUserStateFromRequest('category_id', 'category_id', 0);
 ?>
 <script language="javascript" type="text/javascript">
 
@@ -50,8 +50,8 @@ for ($i = $this->pagination->limitstart, $j = 0; $i < ($this->pagination->limits
 		break;
 	}
 	// change ordering
-	$row->orderup = $this->pagination->orderUpIcon($j, ($row->product_parent_id == @$this->products[$j - 1]->product_parent_id), 'orderup', 'Move Up', $ordering);
-	$row->orderdown = $this->pagination->orderDownIcon($j, $n, ($row->product_parent_id == @$this->products[$j + 1]->product_parent_id), 'orderdown', 'Move Down', $ordering);
+	$row->orderup = $this->pagination->orderUpIcon($j, ($row->product_parent_id == @$this->products[$j - 1]->product_parent_id), 'orderup', JText::_('JLIB_HTML_MOVE_UP'), $ordering);
+	$row->orderdown = $this->pagination->orderDownIcon($j, $n, ($row->product_parent_id == @$this->products[$j + 1]->product_parent_id), 'orderdown', JText::_('JLIB_HTML_MOVE_DOWN'), $ordering);
 	// end
 	$tmpCats[$kk] = $row;
 	$kk++;

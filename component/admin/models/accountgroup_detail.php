@@ -6,15 +6,17 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
-
 class accountgroup_detailModelaccountgroup_detail extends JModel
 {
 	public $_id = null;
+
 	public $_data = null;
+
 	public $_table_prefix = null;
 
 	public function __construct()
@@ -37,7 +39,6 @@ class accountgroup_detailModelaccountgroup_detail extends JModel
 	{
 		if ($this->_loadData())
 		{
-
 		}
 		else
 		{
