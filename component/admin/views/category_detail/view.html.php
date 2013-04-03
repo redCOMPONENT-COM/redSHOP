@@ -15,7 +15,7 @@ require_once JPATH_COMPONENT . '/helpers/extra_field.php';
 require_once JPATH_COMPONENT . '/helpers/category.php';
 require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
 
-class category_detailVIEWcategory_detail extends JViewLegacy
+class category_detailViewcategory_detail extends JViewLegacy
 {
 	/**
 	 * The request url.

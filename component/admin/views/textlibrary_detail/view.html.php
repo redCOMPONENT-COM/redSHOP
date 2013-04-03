@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
-class textlibrary_detailVIEWtextlibrary_detail extends JViewLegacy
+class textlibrary_detailViewtextlibrary_detail extends JViewLegacy
 {
 	/**
 	 * The request url.

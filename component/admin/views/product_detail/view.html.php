@@ -15,7 +15,7 @@ require_once(JPATH_COMPONENT . DS . 'helpers/category.php');
 require_once(JPATH_COMPONENT . DS . 'helpers/shopper.php'); // reddesign edited
 require_once(JPATH_COMPONENT_SITE . DS . 'helpers/product.php');
 
-class product_detailVIEWproduct_detail extends JViewLegacy
+class product_detailViewproduct_detail extends JViewLegacy
 {
 	/**
 	 * The request url.

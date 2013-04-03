@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
-class currency_detailVIEWcurrency_detail extends JViewLegacy
+class currency_detailViewcurrency_detail extends JViewLegacy
 {
 	/**
 	 * The request url.

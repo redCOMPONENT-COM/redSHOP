@@ -13,7 +13,7 @@ jimport('joomla.application.component.view');
 require_once(JPATH_COMPONENT . DS . 'helpers/shopper.php');
 require_once(JPATH_COMPONENT . DS . 'helpers/category.php');
 
-class shopper_group_detailVIEWshopper_group_detail extends JViewLegacy
+class shopper_group_detailViewshopper_group_detail extends JViewLegacy
 {
 	/**
 	 * The request url.

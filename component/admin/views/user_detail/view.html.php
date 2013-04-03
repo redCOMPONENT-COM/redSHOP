@@ -14,7 +14,7 @@ require_once(JPATH_COMPONENT_SITE . DS . 'helpers/helper.php');
 
 jimport('joomla.application.component.view');
 
-class user_detailVIEWuser_detail extends JViewLegacy
+class user_detailViewuser_detail extends JViewLegacy
 {
 	/**
 	 * The request url.

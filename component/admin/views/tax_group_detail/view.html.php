@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
-class tax_group_detailVIEWtax_group_detail extends JViewLegacy
+class tax_group_detailViewtax_group_detail extends JViewLegacy
 {
 	/**
 	 * The request url.

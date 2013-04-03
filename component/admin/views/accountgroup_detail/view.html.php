@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
-class accountgroup_detailVIEWaccountgroup_detail extends JViewLegacy
+class accountgroup_detailViewaccountgroup_detail extends JViewLegacy
 {
 	public function display($tpl = null)
 	{

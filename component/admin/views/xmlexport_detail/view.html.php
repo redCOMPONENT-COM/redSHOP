@@ -12,7 +12,7 @@ jimport('joomla.application.component.view');
 
 require_once(JPATH_ADMINISTRATOR . DS . 'components/com_redshop/helpers/xmlhelper.php');
 
-class xmlexport_detailVIEWxmlexport_detail extends JViewLegacy
+class xmlexport_detailViewxmlexport_detail extends JViewLegacy
 {
 	public function display($tpl = null)
 	{

@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
-class wrapper_detailVIEWwrapper_detail extends JViewLegacy
+class wrapper_detailViewwrapper_detail extends JViewLegacy
 {
 	/**
 	 * The request url.

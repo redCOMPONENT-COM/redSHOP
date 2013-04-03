@@ -13,7 +13,7 @@ jimport('joomla.application.component.view');
 
 require_once(JPATH_COMPONENT . DS . 'helpers/category.php');
 
-class mass_discount_detailVIEWmass_discount_detail extends JViewLegacy
+class mass_discount_detailViewmass_discount_detail extends JViewLegacy
 {
 	public function display($tpl = null)
 	{

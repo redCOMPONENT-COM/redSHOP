@@ -13,7 +13,7 @@ jimport('joomla.application.component.view');
 
 require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers/quotation.php');
 
-class quotation_detailVIEWquotation_detail extends JViewLegacy
+class quotation_detailViewquotation_detail extends JViewLegacy
 {
 	public function display($tpl = null)
 	{

@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.view');
 require_once(JPATH_COMPONENT . DS . 'helpers/category.php');
 
-class manufacturer_detailVIEWmanufacturer_detail extends JViewLegacy
+class manufacturer_detailViewmanufacturer_detail extends JViewLegacy
 {
 	/**
 	 * The request url.

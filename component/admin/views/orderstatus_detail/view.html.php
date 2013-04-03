@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
-class orderstatus_detailVIEWorderstatus_detail extends JViewLegacy
+class orderstatus_detailVieworderstatus_detail extends JViewLegacy
 {
 	/**
 	 * The request url.

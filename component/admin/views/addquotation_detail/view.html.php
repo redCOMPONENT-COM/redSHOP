@@ -14,7 +14,7 @@ jimport('joomla.application.component.view');
 require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers/extra_field.php');
 require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers/order.php');
 
-class addquotation_detailVIEWaddquotation_detail extends JViewLegacy
+class addquotation_detailViewaddquotation_detail extends JViewLegacy
 {
 	/**
 	 * The request url.

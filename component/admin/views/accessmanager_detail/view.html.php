@@ -13,7 +13,7 @@ jimport('joomla.application.component.view');
 
 require_once(JPATH_COMPONENT_SITE . DS . 'helpers/product.php');
 
-class accessmanager_detailVIEWaccessmanager_detail extends JViewLegacy
+class accessmanager_detailViewaccessmanager_detail extends JViewLegacy
 {
 	public function display($tpl = null)
 	{

@@ -14,7 +14,7 @@ require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers/extra_field.php');
 //
 require_once(JPATH_COMPONENT_SITE . DS . 'helpers/tcpdf/tcpdf.php');
 require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers/order.php');
-class order_detailVIEWorder_detail extends JViewLegacy
+class order_detailVieworder_detail extends JViewLegacy
 {
 	function display($tpl = null)
 	{

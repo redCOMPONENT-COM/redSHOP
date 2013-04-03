@@ -13,7 +13,7 @@ jimport('joomla.application.component.view');
 
 require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers/extra_field.php');
 
-class fields_detailVIEWfields_detail extends JViewLegacy
+class fields_detailViewfields_detail extends JViewLegacy
 {
 	/**
 	 * The request url.

@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
-class producttags_detailVIEWproducttags_detail extends JViewLegacy
+class producttags_detailViewproducttags_detail extends JViewLegacy
 {
 	public function display($tpl = null)
 	{
