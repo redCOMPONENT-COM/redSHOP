@@ -83,6 +83,7 @@ class extra_field
 		{
 			$q .= "AND field_name in ($field_name) ";
 		}
+
 		$q .= " ORDER BY ordering";
 		$this->_db->setQuery($q);
 		$row_data = $this->_db->loadObjectlist();
@@ -114,20 +115,25 @@ class extra_field
 
 			switch ($type)
 			{
-				case 1: // 1 :- Text Field
+				// 1 :- Text Field
+				case 1:
 					$text_value = ($data_value && $data_value->data_txt) ? $data_value->data_txt : '';
 					$size = ($row_data[$i]->field_size > 0) ? $row_data[$i]->field_size : 20;
 					$extra_field_value = '<input class="' . $row_data[$i]->field_class . '" type="text" maxlength="' . $row_data[$i]->field_maxlength . '" ' . $required . $reqlbl . $errormsg . ' name="' . $row_data[$i]->field_name . '"  id="' . $row_data[$i]->field_name . '" value="' . htmlspecialchars($text_value) . '" size="' . $size . '" />';
 					$ex_field .= '<td valign="top" width="100" align="right" class="key">' . $extra_field_label . '</td>';
 					$ex_field .= '<td>' . $extra_field_value;
 					break;
-				case 2: // 2 :- Text Area
+
+				// 2 :- Text Area
+				case 2:
 					$textarea_value = ($data_value && $data_value->data_txt) ? $data_value->data_txt : '';
 					$extra_field_value = '<textarea class="' . $row_data[$i]->field_class . '"  name="' . $row_data[$i]->field_name . '" ' . $required . $reqlbl . $errormsg . ' id="' . $row_data[$i]->field_name . '" cols="' . $row_data[$i]->field_cols . '" rows="' . $row_data[$i]->field_rows . '" >' . htmlspecialchars($textarea_value) . '</textarea>';
 					$ex_field .= '<td valign="top" width="100" align="right" class="key">' . $extra_field_label . '</td>';
 					$ex_field .= '<td>' . $extra_field_value;
 					break;
-				case 3: // 3 :- Check Box
+
+				// 3 :- Check Box
+				case 3:
 					$field_chk = $this->getFieldValue($row_data[$i]->field_id);
 					$chk_data = @explode(",", $data_value->data_txt);
 
@@ -142,49 +148,63 @@ class extra_field
 
 					$ex_field .= '<td>' . $extra_field_value;
 					break;
-				case 4: // 4 :- Radio Button
+
+				// 4 :- Radio Button
+				case 4:
 					$field_chk = $this->getFieldValue($row_data[$i]->field_id);
 					$chk_data = @explode(",", $data_value->data_txt);
 
 					$ex_field .= '<td valign="top" width="100" align="right" class="key">' . $extra_field_label . '</td>';
 					$extra_field_value = '';
+
 					for ($c = 0; $c < count($field_chk); $c++)
 					{
 						$checked = (@in_array(urlencode($field_chk[$c]->field_value), $chk_data)) ? ' checked="checked" ' : '';
 						$extra_field_value .= '<input class="' . $row_data[$i]->field_class . '" type="radio" ' . $checked . ' ' . $required . $reqlbl . $errormsg . ' name="' . $row_data[$i]->field_name . '"  id="' . $row_data[$i]->field_name . "_" . $field_chk[$c]->value_id . '" value="' . urlencode($field_chk[$c]->field_value) . '" />' . $field_chk[$c]->field_value . '<br />';
 					}
+
 					$ex_field .= '<td>' . $extra_field_value;
 					break;
-				case 5: // 5 :-Select Box (Single select)
+
+				// 5 :-Select Box (Single select)
+				case 5:
 					$field_chk = $this->getFieldValue($row_data[$i]->field_id);
 					$chk_data = @explode(",", $data_value->data_txt);
 
 					$ex_field .= '<td valign="top" width="100" align="right" class="key">' . $extra_field_label . '</td>';
 					$extra_field_value = '<select name="' . $row_data[$i]->field_name . '">';
 					$extra_field_value .= '<option value="">' . JText::_('COM_REDSHOP_SELECT') . '</option>';
+
 					for ($c = 0; $c < count($field_chk); $c++)
 					{
 						$selected = ($field_chk[$c]->field_value == $data_value->data_txt) ? ' selected="selected" ' : '';
 						$extra_field_value .= '<option value="' . $field_chk[$c]->field_value . '" ' . $selected . ' ' . $required . $reqlbl . $errormsg . '>' . $field_chk[$c]->field_value . '</option>';
 					}
+
 					$extra_field_value .= '</select>';
 					$ex_field .= '<td>' . $extra_field_value;
 					break;
-				case 6: // 6 :- Select Box (Multiple select)
+
+				// 6 :- Select Box (Multiple select)
+				case 6:
 					$field_chk = $this->getFieldValue($row_data[$i]->field_id);
 					$chk_data = @explode(",", $data_value->data_txt);
 
 					$ex_field .= '<td valign="top" width="100" align="right" class="key">' . $extra_field_label . '</td>';
 					$extra_field_value = '<select multiple size=10 name="' . $row_data[$i]->field_name . '[]">';
+
 					for ($c = 0; $c < count($field_chk); $c++)
 					{
 						$selected = (@in_array(urlencode($field_chk[$c]->field_value), $chk_data)) ? ' selected="selected" ' : '';
 						$extra_field_value .= '<option value="' . urlencode($field_chk[$c]->field_value) . '" ' . $selected . ' ' . $required . $reqlbl . $errormsg . '>' . $field_chk[$c]->field_value . '</option>';
 					}
+
 					$extra_field_value .= '</select>';
 					$ex_field .= '<td>' . $extra_field_value;
 					break;
-				case 7: // 7 :-Select Country box
+
+				// 7 :-Select Country box
+				case 7:
 					$q = "SELECT * FROM " . $this->_table_prefix . "country";
 					$this->_db->setQuery($q);
 					$field_chk = $this->_db->loadObjectlist();
@@ -192,16 +212,20 @@ class extra_field
 
 					$ex_field .= '<td valign="top" width="100" align="right" class="key">' . $extra_field_label . '</td>';
 					$extra_field_value = '<select name="' . $row_data[$i]->field_name . '">';
+
 					for ($c = 0; $c < count($field_chk); $c++)
 					{
 						$selected = (@in_array($field_chk[$c]->country_id, $chk_data)) ? ' selected="selected" ' : '';
 						$extra_field_value .= '<option value="' . $field_chk[$c]->country_id . '" ' . $selected . ' '
 							. $required . $reqlbl . $errormsg . '>' . $field_chk[$c]->country_name . '</option>';
 					}
+
 					$extra_field_value .= '</select>';
 					$ex_field .= '<td>' . $extra_field_value;
 					break;
-				case 8: // 8 :- Wysiwyg
+
+				// 8 :- Wysiwyg
+				case 8:
 					$editor =& JFactory::getEditor();
 					$document =& JFactory::getDocument();
 					$ex_field .= '<td valign="top" width="100" align="right" class="key">' . $extra_field_label . '</td>';
@@ -209,7 +233,9 @@ class extra_field
 					$extra_field_value = $editor->display($row_data[$i]->field_name, stripslashes($textarea_value), '200', '50', '100', '20');
 					$ex_field .= '<td>' . $extra_field_value;
 					break;
-				case 9: // 9 :- Media
+
+				// 9 :- Media
+				case 9:
 					$ex_field .= '<td valign="top" width="100" align="right" class="key">' . $extra_field_label . '</td>';
 					$extra_field_value = '<input class="' . $row_data[$i]->field_class . '"  name="' . $row_data[$i]->field_name
 						. '" ' . $required . $reqlbl . $errormsg . ' id="' . $row_data[$i]->field_name . '" type="file" />';
@@ -228,6 +254,7 @@ class extra_field
 							$media_image = $dest_prefix . $data_value->data_txt;
 							$media_type = strtolower(JFile::getExt($data_value->data_txt));
 							$textarea_value = $data_value->data_txt;
+
 							if ($media_type == 'jpg' || $media_type == 'jpeg' || $media_type == 'png' || $media_type == 'gif')
 							{
 								$extra_field_value .= '<div id ="mediadiv' . $i . '"><img width="100"  src="'
@@ -253,10 +280,12 @@ class extra_field
 							$extra_field_value .= JText::_('COM_REDSHOP_FILE_NOT_EXIST');
 						}
 					}
+
 					$ex_field .= '<td>' . $extra_field_value;
 					break;
+
+				// 10 :- Documents
 				case 10:
-					// 10 :- Documents
 
 					$document = JFactory::getDocument();
 					$document->addScript('//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js');
@@ -342,6 +371,7 @@ class extra_field
 							{
 								$extra_field_value .= JText::_('COM_REDSHOP_FILE_NOT_EXIST');
 							}
+
 							$extra_field_value .= '</div>';
 
 							$index++;
@@ -356,10 +386,12 @@ class extra_field
 					$field_chk = $this->getFieldValue($row_data[$i]->field_id);
 					$data_value = $this->getSectionFieldDataList($row_data[$i]->field_id, $field_section, $section_id);
 					$value = '';
+
 					if ($data_value)
 					{
 						$value = $data_value->data_txt;
 					}
+
 					$chk_data = @explode(",", $data_value->data_txt);
 					$ex_field .= '<td valign="top" width="100" align="right" class="key">' . $extra_field_label . '</td>';
 					$extra_field_value = '<table><tr>';
@@ -382,7 +414,9 @@ class extra_field
 					$extra_field_value .= '</tr></table>';
 					$ex_field .= '<td>' . $extra_field_value;
 					break;
-				case 12: // 12 :- Date Picker
+
+				// 12 :- Date Picker
+				case 12:
 
 					if ($row_data[$i]->field_section != 17)
 					{
@@ -406,7 +440,9 @@ class extra_field
 					$extra_field_value = JHTML::_('calendar', $date, $row_data[$i]->field_name, $row_data[$i]->field_name, $format = '%d-%m-%Y', array('class' => 'inputbox', 'size' => $size, 'maxlength' => '15'));
 					$ex_field .= '<td>' . $extra_field_value;
 					break;
-				case 13: // 13 :- Image selection with Link And hover
+
+				// 13 :- Image selection with Link And hover
+				case 13:
 					$field_chk = $this->getFieldValue($row_data[$i]->field_id);
 					$data_value = $this->getSectionFieldDataList($row_data[$i]->field_id, $field_section, $section_id);
 					$value = ($data_value) ? $data_value->data_txt : '';
@@ -470,8 +506,11 @@ class extra_field
 					$extra_field_value .= '</table>';
 					$ex_field .= '<td>' . $extra_field_value;
 					break;
-				case 15: // 15 :- Product Date Range
+
+				// 15 :- Product Date Range
+				case 15:
 					$date = date("d-m-Y", time());
+
 					if ($data_value)
 					{
 						if ($data_value->data_txt)
@@ -519,6 +558,7 @@ class extra_field
 					$extra_field_value .= "<table cellpadding='0' cellspacing='5' border='0' id='extra_table' width='95%'>";
 					$extra_field_value .= "<tr><th width='20%'>'" . JText::_('COM_REDSHOP_OPTION_VALUE') . "'</th>
 						<th>&nbsp;</th></tr>";
+
 					if (count($mainsplit_date_extra) > 0)
 					{
 						for ($k = 0; $k < count($mainsplit_date_extra); $k++)
@@ -537,10 +577,12 @@ class extra_field
 						</td>
 						</tr>";
 					}
+
 					$extra_field_value .= "</table></fieldset></div><input type='hidden' value='" . $k . "' name='total_extra' id='total_extra'>";
 					$ex_field .= '<td>' . $extra_field_value;
 					break;
 			}
+
 			if (trim($template_desc) != '')
 			{
 				if (strstr($template_desc, "{" . $row_data[$i]->field_name . "}"))
@@ -637,6 +679,7 @@ class extra_field
 				if (is_array($files) && $total > 0)
 				{
 					$documents = array();
+
 					for ($ij = 0; $ij < $total; $ij++)
 					{
 						$file = $files[$ij];
@@ -649,7 +692,6 @@ class extra_field
 
 						if ($file != "")
 						{
-
 							$name = time() . $file;
 
 							$src = $_FILES[$row_data[$i]->field_name]['tmp_name'][$ij];
@@ -670,6 +712,7 @@ class extra_field
 				if ($data[$row_data[$i]->field_name] != "" && $data[$row_data[$i]->field_name . "_expiry"] != "")
 				{
 					$data_txt = strtotime($data[$row_data[$i]->field_name]) . ":" . strtotime($data[$row_data[$i]->field_name . "_expiry"]) . " ";
+
 					if (count($data[$row_data[$i]->field_name . "_extra_name"]) > 0)
 					{
 						for ($r = 0; $r < count($data[$row_data[$i]->field_name . "_extra_name"]); $r++)
@@ -812,23 +855,28 @@ class extra_field
 			{
 				$ex_field .= '<tr><td valign="top" align="left">' . JText::_($extra_field_label) . ' : </td><td>';
 			}
+
 			$data_value = $this->getSectionFieldDataList($row_data[$i]->field_id, $field_section, $section_id, $user_email);
 
 			switch ($type)
 			{
-				case 1: // 1 :- Text Field
+				// 1 :- Text Field
+				case 1:
 					$extra_field_value = ($data_value && $data_value->data_txt) ? $data_value->data_txt : '';
 					$ex_field .= $extra_field_value;
 					break;
-				case 2: // 2 :- Text Area
+				// 2 :- Text Area
+				case 2:
 					$extra_field_value = ($data_value && $data_value->data_txt) ? $data_value->data_txt : '';
 					$ex_field .= $extra_field_value;
 					break;
-				case 3: // 3 :- Check Box
+				// 3 :- Check Box
+				case 3:
 					$field_chk = $this->getFieldValue($row_data[$i]->field_id);
 					$chk_data = @explode(",", $data_value->data_txt);
 
 					$extra_field_value = '';
+
 					for ($c = 0; $c < count($field_chk); $c++)
 					{
 						if (@in_array($field_chk[$c]->field_value, $chk_data))
@@ -836,6 +884,7 @@ class extra_field
 							$extra_field_value .= $field_chk[$c]->field_value;
 						}
 					}
+
 					$ex_field .= $extra_field_value;
 					break;
 				case 4: // 4 :- Radio Button
@@ -843,6 +892,7 @@ class extra_field
 					$chk_data = @explode(",", $data_value->data_txt);
 
 					$extra_field_value = '';
+
 					for ($c = 0; $c < count($field_chk); $c++)
 					{
 						if (@in_array($field_chk[$c]->field_value, $chk_data))
@@ -850,13 +900,16 @@ class extra_field
 							$extra_field_value .= $field_chk[$c]->field_value;
 						}
 					}
+
 					$ex_field .= $extra_field_value;
 					break;
-				case 5: // 5 :-Select Box (Single select)
+				// 5 :-Select Box (Single select)
+				case 5:
 					$field_chk = $this->getFieldValue($row_data[$i]->field_id);
 					$chk_data = @explode(",", $data_value->data_txt);
 
 					$extra_field_value = '';
+
 					for ($c = 0; $c < count($field_chk); $c++)
 					{
 						if (@in_array($field_chk[$c]->field_value, $chk_data))
@@ -864,6 +917,7 @@ class extra_field
 							$extra_field_value .= $field_chk[$c]->field_value;
 						}
 					}
+
 					$ex_field .= $extra_field_value;
 					break;
 				case 6: // 6 :- Select Box (Multiple select)
@@ -871,6 +925,7 @@ class extra_field
 					$chk_data = @explode(",", $data_value->data_txt);
 
 					$extra_field_value = '';
+
 					for ($c = 0; $c < count($field_chk); $c++)
 					{
 						if (@in_array($field_chk[$c]->field_value, $chk_data))
@@ -885,10 +940,12 @@ class extra_field
 							}
 						}
 					}
+
 					$ex_field .= $extra_field_value;
 					break;
 				case 7: // 7 :- Select Box (Country box)
 					$extra_field_value = "";
+
 					if ($data_value && $data_value->data_txt)
 					{
 						$q = "SELECT country_name FROM " . $this->_table_prefix . "country "
@@ -897,6 +954,7 @@ class extra_field
 						$field_chk = $this->_db->loadObject();
 						$extra_field_value = $field_chk->country_name;
 					}
+
 					$ex_field .= $extra_field_value;
 					break;
 				case 12: // 12 :- Date Picker
@@ -952,13 +1010,16 @@ class extra_field
 		{
 			$type = $row_data[$i]->field_type;
 			$asterisk = $row_data[$i]->required > 0 ? '* ' : '';
+
 			if ($field_type != 'hidden')
 			{
 				$ex_field_title .= '<div class="userfield_label">' . $asterisk . $row_data[$i]->field_title . '</div>';
 			}
+
 			$data_value = $this->getSectionFieldDataList($row_data[$i]->field_id, $field_section, $section_id);
 
 			$text_value = '';
+
 			if ($field_type == 'hidden')
 			{
 				$ex_field .= '<input type="hidden" name="extrafieldId' . $unique_id . '[]"  value="' . $row_data[$i]->field_id . '" />';
@@ -981,6 +1042,7 @@ class extra_field
 					case 3: // 3 :- Check Box
 						$field_chk = $this->getFieldValue($row_data[$i]->field_id);
 						$chk_data = @explode(",", $cart[$idx][$row_data[$i]->field_name]);
+
 						for ($c = 0; $c < count($field_chk); $c++)
 						{
 							$checked = (@in_array($field_chk[$c]->field_value, $chk_data)) ? ' checked="checked" ' : '';
@@ -990,6 +1052,7 @@ class extra_field
 					case 4: // 4 :- Radio Button
 						$field_chk = $this->getFieldValue($row_data[$i]->field_id);
 						$chk_data = @explode(",", $cart[$idx][$row_data[$i]->field_name]);
+
 						for ($c = 0; $c < count($field_chk); $c++)
 						{
 							$checked = (@in_array($field_chk[$c]->field_value, $chk_data)) ? ' checked="checked" ' : '';
@@ -1001,6 +1064,7 @@ class extra_field
 						$chk_data = @explode(",", $cart[$idx][$row_data[$i]->field_name]);
 						$ex_field .= '<div class="userfield_input"><select name="extrafieldname' . $unique_id . '[]" ' . $req . ' id="' . $row_data[$i]->field_name . '" userfieldlbl="' . $row_data[$i]->field_title . '">';
 						$ex_field .= '<option value="">' . JText::_('COM_REDSHOP_SELECT') . '</option>';
+
 						for ($c = 0; $c < count($field_chk); $c++)
 						{
 							if ($field_chk[$c]->field_value != "" && $field_chk[$c]->field_value != "-" && $field_chk[$c]->field_value != "0" && $field_chk[$c]->field_value != "select")
@@ -1009,17 +1073,20 @@ class extra_field
 								$ex_field .= '<option value="' . $field_chk[$c]->field_value . '" ' . $selected . '   >' . $field_chk[$c]->field_value . '</option>';
 							}
 						}
+
 						$ex_field .= '</select></div>';
 						break;
 					case 6: // 6 :- Select Box (Multiple select)
 						$field_chk = $this->getFieldValue($row_data[$i]->field_id);
 						$chk_data = @explode(",", $cart[$idx][$row_data[$i]->field_name]);
 						$ex_field .= '<div class="userfield_input"><select multiple="multiple" size=10 name="extrafieldname' . $unique_id . '[]" ' . $req . ' id="' . $row_data[$i]->field_name . '" userfieldlbl="' . $row_data[$i]->field_title . '">';
+
 						for ($c = 0; $c < count($field_chk); $c++)
 						{
 							$selected = (@in_array($field_chk[$c]->field_value, $chk_data)) ? ' selected="selected" ' : '';
 							$ex_field .= '<option value="' . $field_chk[$c]->field_value . '" ' . $selected . ' >' . $field_chk[$c]->field_value . '</option>';
 						}
+
 						$ex_field .= '</select></div>';
 						break;
 					case 10 : /// File Upload
@@ -1036,10 +1103,12 @@ class extra_field
 						$field_chk = $this->getFieldValue($row_data[$i]->field_id);
 						$chk_data = @explode(",", $cart[$idx][$row_data[$i]->field_name]);
 						$ex_field .= '<table><tr>';
+
 						for ($c = 0; $c < count($field_chk); $c++)
 						{
 							$ex_field .= '<td><div class="userfield_input"><img id="' . $row_data[$i]->field_name . "_" . $field_chk[$c]->value_id . '" class="pointer imgClass_' . $unique_id . '" src="' . REDSHOP_FRONT_IMAGES_ABSPATH . 'extrafield/' . $field_chk[$c]->field_name . '" title="' . $field_chk[$c]->field_value . '" alt="' . $field_chk[$c]->field_value . '" onclick="javascript:setProductUserFieldImage(\'' . $row_data[$i]->field_name . '\',\'' . $unique_id . '\',\'' . $field_chk[$c]->field_value . '\',this);"/></div></td>';
 						}
+
 						$ex_field .= '</tr></table>';
 						$ajax = '';
 
@@ -1054,6 +1123,7 @@ class extra_field
 
 				}
 			}
+
 			if (trim($row_data[$i]->field_desc) != '' && $field_type != 'hidden')
 			{
 				$ex_field .= '<div class="userfield_tooltip">&nbsp; ' . JHTML::tooltip($row_data[$i]->field_desc, $row_data[$i]->field_name, 'tooltip.png', '', '', false) . '</div>';
@@ -1064,6 +1134,7 @@ class extra_field
 			}
 			//$ex_field .= '</td></tr>';
 		}
+
 		$ex = array();
 		$ex[0] = $ex_field_title;
 		$ex[1] = $ex_field;
