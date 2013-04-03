@@ -37,7 +37,7 @@ class orderVieworder extends JView
 		{
 			JToolBarHelper::title(JText::_('COM_REDSHOP_DOWNLOAD_LABEL'), 'redshop_order48');
 			$this->setLayout('labellisting');
-			JToolBarHelper::cancel('cancel', 'Close');
+			JToolBarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
 		}
 		else
 		{

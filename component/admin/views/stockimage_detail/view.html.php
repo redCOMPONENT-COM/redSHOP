@@ -39,7 +39,7 @@ class stockimage_detailVIEWstockimage_detail extends JView
 		}
 		else
 		{
-			JToolBarHelper::cancel('cancel', 'Close');
+			JToolBarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
 		}
 		$model = $this->getModel('stockimage_detail');
 

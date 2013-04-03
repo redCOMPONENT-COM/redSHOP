@@ -53,7 +53,7 @@ class fields_detailVIEWfields_detail extends JView
 		}
 		else
 		{
-			JToolBarHelper::cancel('cancel', 'Close');
+			JToolBarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
 		}
 
 		$redtemplate = new Redtemplate;

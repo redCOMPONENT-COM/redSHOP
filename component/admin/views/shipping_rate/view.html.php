@@ -49,7 +49,7 @@ class shipping_rateViewshipping_rate extends JView
 		}
 
 		JToolBarHelper::deleteList();
-		JToolBarHelper::cancel('cancel', 'Close');
+		JToolBarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
 
 		$this->assignRef('lists', $lists);
 		$this->assignRef('shipping_rates', $shipping_rates);

@@ -48,7 +48,7 @@ class rating_detailVIEWrating_detail extends JView
 		}
 		else
 		{
-			JToolBarHelper::cancel('cancel', 'Close');
+			JToolBarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
 		}
 
 		$model = $this->getModel('rating_detail');

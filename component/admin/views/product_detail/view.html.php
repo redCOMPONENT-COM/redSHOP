@@ -334,7 +334,7 @@ class product_detailVIEWproduct_detail extends JView
 		{
 			$model->checkout($user->get('id'));
 
-			JToolBarHelper::cancel('cancel', 'Close');
+			JToolBarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
 		}
 
 		$model = $this->getModel('product_detail');

@@ -59,7 +59,7 @@ class shopper_group_detailVIEWshopper_group_detail extends JView
 		}
 		else
 		{
-			JToolBarHelper::cancel('cancel', 'Close');
+			JToolBarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
 		}
 
 		$groups = $shoppergroup->list_all("parent_id", $detail->shopper_group_id);

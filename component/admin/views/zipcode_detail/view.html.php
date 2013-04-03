@@ -39,7 +39,7 @@ class zipcode_detailVIEWzipcode_detail extends JView
 		}
 		else
 		{
-			JToolBarHelper::cancel('cancel', 'Close');
+			JToolBarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
 		}
 
 		$countryarray = $Redconfiguration->getCountryList((array) $detail);
