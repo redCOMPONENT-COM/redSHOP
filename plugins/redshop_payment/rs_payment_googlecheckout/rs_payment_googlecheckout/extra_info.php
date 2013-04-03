@@ -65,7 +65,6 @@ elseif ($buttonsize == "large")
 	$width = "180";
 
 	$height = "46";
-
 }
 
 $conurl = $url . "index.php?option=com_redshop&view=order_detail&oid=" . $order->order_id;
@@ -107,7 +106,6 @@ for ($p = 0; $p < count($rs); $p++)
 		$item_price); // Unit price
 
 	$cart->AddItem($item);
-
 }
 
 $discount_price = (0 - $currencyClass->convert($order->order_discount, '', $currency_code));
@@ -138,7 +136,6 @@ if (isset ($shipping_method_name [1]) && $shipping_method_name [1] != "")
 	$ship_1 = new GoogleFlatRateShipping ($shipping_method_name [1], $shipping_price);
 
 	$cart->AddShipping($ship_1);
-
 }
 
 // Specify "Return to xyz" link

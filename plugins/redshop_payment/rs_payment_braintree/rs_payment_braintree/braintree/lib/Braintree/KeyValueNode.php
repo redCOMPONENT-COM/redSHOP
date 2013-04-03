@@ -6,7 +6,6 @@ class Braintree_KeyValueNode
 	{
 		$this->name = $name;
 		$this->searchTerm = true;
-
 	}
 
 	function is($value)

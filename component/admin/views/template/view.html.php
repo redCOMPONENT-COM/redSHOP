@@ -15,9 +15,12 @@ class templateViewtemplate extends JView
 {
 	public function display($tpl = null)
 	{
-		global $mainframe, $context;
 		$context = 'template_id';
+
+		$uri      = JFactory::getURI();
+		$app      = JFactory::getApplication();
 		$document = JFactory::getDocument();
+
 		$document->setTitle(JText::_('COM_REDSHOP_TEMPLATES'));
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_TEMPLATES_MANAGEMENT'), 'redshop_templates48');
@@ -29,18 +32,17 @@ class templateViewtemplate extends JView
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();
 
-		$uri = JFactory::getURI();
 		$context = 'template';
-		$filter_order = $mainframe->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'template_id');
-		$filter_order_Dir = $mainframe->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
 
-		$template_section = $mainframe->getUserStateFromRequest($context . 'template_section', 'template_section', 0);
+		$filter_order     = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'template_id');
+		$filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
+		$template_section = $app->getUserStateFromRequest($context . 'template_section', 'template_section', 0);
 
-		$lists['order'] = $filter_order;
+		$lists['order']     = $filter_order;
 		$lists['order_Dir'] = $filter_order_Dir;
-		$templates = $this->get('Data');
 
-		$total = $this->get('Total');
+		$templates  = $this->get('Data');
+		$total      = $this->get('Total');
 		$pagination = $this->get('Pagination');
 
 		$redtemplate = new Redtemplate;

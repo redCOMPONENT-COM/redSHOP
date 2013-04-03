@@ -40,9 +40,11 @@ class xmlexport_detailModelxmlexport_detail extends JModel
 	{
 		if ($this->_loadData())
 		{
-
 		}
-		else  $this->_initData();
+		else
+		{
+			$this->_initData();
+		}
 
 		return $this->_data;
 	}
@@ -90,6 +92,7 @@ class xmlexport_detailModelxmlexport_detail extends JModel
 
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
 
@@ -113,6 +116,7 @@ class xmlexport_detailModelxmlexport_detail extends JModel
 
 			return false;
 		}
+
 		if (!$row->xmlexport_on_category)
 		{
 			$row->xmlexport_on_category = '';
@@ -126,6 +130,7 @@ class xmlexport_detailModelxmlexport_detail extends JModel
 
 			return false;
 		}
+
 		$xmlexport_ip_id = $data['xmlexport_ip_id'];
 		$access_ipaddress = $data['access_ipaddress'];
 
@@ -146,6 +151,7 @@ class xmlexport_detailModelxmlexport_detail extends JModel
 						. "VALUES "
 						. "('" . $row->xmlexport_id . "', '" . $access_ipaddress[$i] . "') ";
 				}
+
 				$this->_db->setQuery($query);
 				$this->_db->query();
 			}
@@ -155,6 +161,7 @@ class xmlexport_detailModelxmlexport_detail extends JModel
 		{
 			$filename = $xmlhelper->writeXMLExportFile($row->xmlexport_id);
 		}
+
 		return $row;
 	}
 
@@ -216,6 +223,7 @@ class xmlexport_detailModelxmlexport_detail extends JModel
 				return false;
 			}
 		}
+
 		return true;
 	}
 
@@ -231,6 +239,7 @@ class xmlexport_detailModelxmlexport_detail extends JModel
 
 			return false;
 		}
+
 		return true;
 	}
 
@@ -252,6 +261,7 @@ class xmlexport_detailModelxmlexport_detail extends JModel
 				return false;
 			}
 		}
+
 		return true;
 	}
 
@@ -273,6 +283,7 @@ class xmlexport_detailModelxmlexport_detail extends JModel
 				return false;
 			}
 		}
+
 		return true;
 	}
 
@@ -300,6 +311,7 @@ class xmlexport_detailModelxmlexport_detail extends JModel
 				return false;
 			}
 		}
+
 		return true;
 	}
 

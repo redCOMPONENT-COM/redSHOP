@@ -27,12 +27,11 @@ class plgRedshop_paymentrs_payment_partner_de extends JPlugin
 	 */
 	public function plgRedshop_paymentrs_payment_partner_de(&$subject)
 	{
-		// load plugin parameters
+		// Load plugin parameters
 		parent::__construct($subject);
 		$this->_table_prefix = '#__redshop_';
 		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_partner_de');
 		$this->_params = new JRegistry($this->_plugin->params);
-
 	}
 
 	/**
@@ -159,7 +158,6 @@ class plgRedshop_paymentrs_payment_partner_de extends JPlugin
 			// There is a connection-problem
 			$values->responsestatus = 'Fail';
 			$message = JText::_('COM_REDSHOP_ORDER_NOT_PLACED');
-
 		}
 
 		$values->transaction_id = $TransactionID;

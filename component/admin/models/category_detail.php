@@ -45,7 +45,6 @@ class category_detailModelcategory_detail extends JModel
 	{
 		if ($this->_loadData())
 		{
-
 		}
 		else
 		{
@@ -131,7 +130,6 @@ class category_detailModelcategory_detail extends JModel
 
 		if (isset($data['image_delete']))
 		{
-
 			unlink(REDSHOP_FRONT_IMAGES_RELPATH . 'category/thumb' . DS . $data['old_image']);
 			unlink(REDSHOP_FRONT_IMAGES_RELPATH . 'category' . DS . $data['old_image']);
 
@@ -140,6 +138,7 @@ class category_detailModelcategory_detail extends JModel
 			$this->_db->setQuery($query);
 			$this->_db->query();
 		}
+
 		if (count($_FILES) > 0 && $_FILES['category_full_image']['name'] != "")
 		{
 			$newwidth = THUMB_WIDTH;
@@ -204,6 +203,7 @@ class category_detailModelcategory_detail extends JModel
 			$filetype = JFile::getExt($backfile['name']);
 
 			$src = $backfile['tmp_name'];
+
 			// Specific path of the file
 			$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'category' . DS . $filename;
 
@@ -230,6 +230,7 @@ class category_detailModelcategory_detail extends JModel
 			{
 				$parentcat = $data['category_parent_id'];
 			}
+
 			$query = 'INSERT INTO ' . $this->_table_prefix . 'category_xref(category_parent_id,category_child_id) VALUES ("'
 				. $parentcat . '","' . $newcatid . '");';
 			$this->_db->setQuery($query);
@@ -259,7 +260,6 @@ class category_detailModelcategory_detail extends JModel
 				@unlink(REDSHOP_FRONT_IMAGES_RELPATH . 'category/thumb' . DS . $_POST['old_image']);
 				@unlink(REDSHOP_FRONT_IMAGES_RELPATH . 'category' . DS . $_POST['old_image']);
 			}
-
 		}
 
 		// Extra Field Data Saved
@@ -452,7 +452,6 @@ class category_detailModelcategory_detail extends JModel
 
 	public function updateorder($oprand, $cat_id = 0)
 	{
-
 		$q = "UPDATE " . $this->_table_prefix . "category ";
 		$q .= "SET ordering=ordering" . $oprand . "1 ";
 
@@ -467,7 +466,6 @@ class category_detailModelcategory_detail extends JModel
 
 	public function orderup()
 	{
-
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 		$cid = $cid[0];
 		$q = "SELECT ordering,category_parent_id FROM " . $this->_table_prefix . "category," . $this->_table_prefix . "category_xref ";
@@ -613,6 +611,7 @@ class category_detailModelcategory_detail extends JModel
 				{
 					JFile::upload($src, $dest);
 				}
+
 				$row = $this->store($post);
 			}
 		}

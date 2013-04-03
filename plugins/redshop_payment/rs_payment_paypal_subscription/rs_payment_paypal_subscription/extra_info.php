@@ -28,7 +28,7 @@ $db = JFactory::getDBO();
 $user = JFActory::getUser();
 $task = JRequest::getVar('task');
 $layout = JRequest::getVar('layout');
-$mainframe = JFactory::getApplication();
+$app = JFactory::getApplication();
 
 if ($this->_params->get("currency") != "")
 {
@@ -112,7 +112,6 @@ if ($this->_params->get("payment_oprand") == '-')
 {
 	$discount_payment_price = $payment_price;
 	$post_variables['discount_amount_cart'] += round($currencyClass->convert($order_details[0]->payment_discount, '', $currency_main), 2);
-
 }
 else
 {

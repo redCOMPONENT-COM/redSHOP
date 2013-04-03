@@ -28,7 +28,6 @@ class plgredshop_custom_viewsrs_custom_views_company extends JPlugin
 		// Load plugin parameters
 		parent::__construct($subject);
 		$this->_table_prefix = '#__redshop_';
-
 	}
 
 	public function getMenuLink()

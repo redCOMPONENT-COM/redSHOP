@@ -8735,6 +8735,7 @@ class producthelper
 		$product             = $this->getProductById($product_id);
 		$type                = '';
 		$pr_number           = $product->product_number;
+		$attrbimg            = '';
 		//$refererpath=explode("view=",$_SERVER['HTTP_REFERER']);
 		//$getview=explode("&",$refererpath[1]);
 
@@ -8978,10 +8979,11 @@ class producthelper
 		$pr_number = $ImageAttributes['pr_number'];
 		//$view				= $ImageAttributes['view'];
 
-		$prodadditionImg    = "";
-		$propadditionImg    = "";
-		$subpropadditionImg = "";
-
+		$prodadditionImg               = "";
+		$propadditionImg               = "";
+		$subpropadditionImg            = "";
+		$product_availability_date_lbl = '';
+		$product_availability_date     = '';
 		$media_image = $this->getAdditionMediaImage($product_id, "product");
 		$tmp_prodimg = "";
 
@@ -9295,6 +9297,7 @@ class producthelper
 		$productinstock     = 0;
 		$stockamountSrc     = "";
 		$stockImgFlag       = false;
+		$notify_stock       = '';
 
 		if (USE_STOCKROOM == 1 && $accessory_id == 0)
 		{

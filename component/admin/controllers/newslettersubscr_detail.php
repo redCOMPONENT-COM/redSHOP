@@ -31,6 +31,7 @@ class newslettersubscr_detailController extends JController
 
 		// Merging select option in the select box
 		$temps = array();
+		$temps[0] = new stdClass;
 		$temps[0]->value = 0;
 		$temps[0]->text = JText::_('COM_REDSHOP_SELECT');
 		$userlist = array_merge($temps, $userlist);

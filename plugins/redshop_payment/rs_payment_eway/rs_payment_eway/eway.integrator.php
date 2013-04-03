@@ -10,7 +10,7 @@ class EwayPayment
 	/***********************************************************************
 	 *** SET values to send to eWAY                                      ***
 	 ***********************************************************************/
-	function setCustomerID($customerID)
+	public function setCustomerID($customerID)
 	{
 		$this->myCustomerID = $customerID;
 	}
@@ -103,7 +103,7 @@ class EwayPayment
 	/***********************************************************************
 	 *** GET values returned by eWAY                                     ***
 	 ***********************************************************************/
-	function getTrxnStatus()
+	public function getTrxnStatus()
 	{
 		return $this->myResultTrxnStatus;
 	}
@@ -199,7 +199,7 @@ class EwayPayment
 	//Payment Function
 	function doPayment($order_id)
 	{
-		$mainframe = JFactory::getApplication();
+		$app = JFactory::getApplication();
 
 		$eway_parameters = $this->getparameters('rs_payment_eway');
 		$paymentinfo = $eway_parameters[0];
@@ -245,7 +245,6 @@ class EwayPayment
 			if ($debug_mode == 1)
 			{
 				$message = $xml->ewayTrxnError;
-
 			}
 			else
 			{
@@ -264,7 +263,6 @@ class EwayPayment
 			if ($debug_mode == 1)
 			{
 				$message = isset($xml->ewayTrxnError) ? $xml->ewayTrxnError : $xml->Result->ewayTrxnError;
-
 			}
 			else
 			{
@@ -327,7 +325,6 @@ class EwayPayment
 	function setCurlPreferences($field, $value)
 	{
 		$this->myCurlPreferences[$field] = $value;
-
 	}
 
 	//obtain visitor IP even if is under a proxy

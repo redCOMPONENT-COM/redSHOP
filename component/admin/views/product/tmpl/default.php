@@ -8,7 +8,7 @@
  */
 require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'product.php');
 require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'extra_field.php');
-global $mainframe;
+$app = JFactory::getApplication();
 $extra_field = new extra_field();
 JHTMLBehavior::modal();
 $producthelper = new producthelper();
@@ -17,7 +17,7 @@ $option = JRequest::getVar('option', '', 'request', 'string');
 $model = $this->getModel('product');
 $ordering = ($this->lists['order'] == 'x.ordering');
 
-$category_id = $mainframe->getUserStateFromRequest('category_id', 'category_id', 0);
+$category_id = $app->getUserStateFromRequest('category_id', 'category_id', 0);
 
 ?>
 <script language="javascript" type="text/javascript">
@@ -349,13 +349,13 @@ for ($i = 0, $n = count($this->products); $i < $n; $i++)
 
 			?>
 			<td class="order">
-				<span><?php //echo $row->orderup;
-					echo    $this->pagination->orderUpIcon($i, ($row->category_id == @$this->products[$i - 1]->category_id), 'orderup', 'Move Up', $ordering); ?></span>
-				<span><?php ///echo $row->orderdown;
-					echo $this->pagination->orderDownIcon($i, $n, ($row->category_id == @$this->products[$i + 1]->category_id), 'orderdown', 'Move Down', $ordering); ?></span>
+				<span><?php
+					echo    $this->pagination->orderUpIcon($i, ($row->category_id == @$this->products[$i - 1]->category_id), 'orderup', JText::_('JLIB_HTML_MOVE_UP'), $ordering); ?></span>
+				<span><?php
+					echo $this->pagination->orderDownIcon($i, $n, ($row->category_id == @$this->products[$i + 1]->category_id), 'orderdown', JText::_('JLIB_HTML_MOVE_DOWN'), $ordering); ?></span>
 				<input type="text" name="order[]" size="5" <?php echo $disabled; ?>
 				       value="<?php echo $row->ordering; ?>" class="text_area" style="text-align: center"/>
-				<?php //echo $row->ordering;?></td>
+				</td>
 		<?php } ?>
 	</tr>
 	<?php

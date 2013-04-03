@@ -42,7 +42,7 @@ class Tablesubattribute_property extends JTable
 		parent::__construct($this->_table_prefix . 'product_subattribute_color', 'subattribute_color_id', $db);
 	}
 
-	function bind($array, $ignore = '')
+	public function bind($array, $ignore = '')
 	{
 		if (array_key_exists('params', $array) && is_array($array['params']))
 		{

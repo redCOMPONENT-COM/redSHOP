@@ -93,13 +93,11 @@ class mpgHttpsPost
 		}
 
 		$this->mpgResponse = new mpgResponse($response);
-
 	}
 
 	function getMpgResponse()
 	{
 		return $this->mpgResponse;
-
 	}
 
 	function toXML()
@@ -115,7 +113,6 @@ class mpgHttpsPost
 			"</request>";
 
 		return ($xmlString);
-
 	}
 
 }//end class mpgHttpsPost
@@ -155,7 +152,6 @@ class mpgResponse
 		xml_set_character_data_handler($this->p, "characterHandler");
 		xml_parse($this->p, $xmlString);
 		xml_parser_free($this->p);
-
 	}
 
 	//end of constructor
@@ -163,7 +159,6 @@ class mpgResponse
 	function getMpgResponseData()
 	{
 		return ($this->responseData);
-
 	}
 
 	function getAvsResultCode()
@@ -184,103 +179,86 @@ class mpgResponse
 	function getCardType()
 	{
 		return ($this->responseData['CardType']);
-
 	}
 
 	function getTransAmount()
 	{
 		return ($this->responseData['TransAmount']);
-
 	}
 
 	function getTxnNumber()
 	{
 		return ($this->responseData['TransID']);
-
 	}
 
 	function getReceiptId()
 	{
 		return ($this->responseData['ReceiptId']);
-
 	}
 
 	function getTransType()
 	{
 		return ($this->responseData['TransType']);
-
 	}
 
 	function getReferenceNum()
 	{
 		return ($this->responseData['ReferenceNum']);
-
 	}
 
 	function getResponseCode()
 	{
 		return ($this->responseData['ResponseCode']);
-
 	}
 
 	function getISO()
 	{
 		return ($this->responseData['ISO']);
-
 	}
 
 	function getBankTotals()
 	{
 		return ($this->responseData['BankTotals']);
-
 	}
 
 	function getMessage()
 	{
 		return ($this->responseData['Message']);
-
 	}
 
 	function getAuthCode()
 	{
 		return ($this->responseData['AuthCode']);
-
 	}
 
 	function getComplete()
 	{
 		return ($this->responseData['Complete']);
-
 	}
 
 	function getTransDate()
 	{
 		return ($this->responseData['TransDate']);
-
 	}
 
 	function getTransTime()
 	{
 		return ($this->responseData['TransTime']);
-
 	}
 
 	function getTicket()
 	{
 		return ($this->responseData['Ticket']);
-
 	}
 
 	function getTimedOut()
 	{
 		return ($this->responseData['TimedOut']);
-
 	}
 
 	function getTerminalStatus($ecr_no)
 	{
 		return ($this->ecrHash[$ecr_no]);
-
 	}
 
 	function getPurchaseAmount($ecr_no, $card_type)
@@ -316,7 +294,6 @@ class mpgResponse
 	function getTerminalIDs()
 	{
 		return ($this->ecrs);
-
 	}
 
 	function getCreditCardsAll()
@@ -386,7 +363,6 @@ class mpgResponse
 					else if ($this->currentTxnType == "Refund")
 					{
 						$this->refundHash[$this->term_id][$this->CardType]['Count'] = $data;
-
 					}
 
 					else if ($this->currentTxnType == "Correction")
@@ -482,7 +458,6 @@ class mpgRequest
 		}
 
 		$this->txnArray = $txn;
-
 	}
 
 	function toXML()
@@ -544,7 +519,6 @@ class mpgRequest
 		//$xmlString .=$txnXMLString;
 
 		return $xmlString;
-
 	}
 	//end toXML
 
@@ -726,7 +700,6 @@ class mpgTransaction
 	function mpgTransaction($txn)
 	{
 		$this->txn = $txn;
-
 	}
 
 	function getCustInfo()
@@ -758,7 +731,6 @@ class mpgTransaction
 	function setAvsInfo($avs)
 	{
 		$this->avs = $avs;
-
 	}
 
 //function getRecur()

@@ -15,13 +15,13 @@ class integrationController extends JController
 {
 	public function gbasedownload()
 	{
-		global $mainframe;
+		$app = JFactory::getApplication();
 		$model = $this->getModel("integration");
 
 		if (!$model->gbasedownload())
 		{
 			$msg = JText::_("COM_REDSHOP_XML_DOESNOT_EXISTS");
-			$mainframe->redirect("index.php?option=com_redshop&view=integration&task=googlebase", $msg);
+			$app->redirect("index.php?option=com_redshop&view=integration&task=googlebase", $msg);
 		}
 	}
 }

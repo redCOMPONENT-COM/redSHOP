@@ -26,14 +26,14 @@ class categoryModelcategory extends JModel
 	public function __construct()
 	{
 		parent::__construct();
-		global $mainframe;
+		$app = JFactory::getApplication();
 
 		$this->_context = 'category_id';
 		$this->_table_prefix = '#__' . TABLE_PREFIX . '_';
-		$limit = $mainframe->getUserStateFromRequest($this->_context . 'limit', 'limit', $mainframe->getCfg('list_limit'), 0);
-		$limitstart = $mainframe->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
-		$category_main_filter = $mainframe->getUserStateFromRequest($this->_context . 'category_main_filter', 'category_main_filter', 0);
-		$category_id = $mainframe->getUserStateFromRequest($this->_context . 'category_id', 'category_id', 0);
+		$limit = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
+		$limitstart = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
+		$category_main_filter = $app->getUserStateFromRequest($this->_context . 'category_main_filter', 'category_main_filter', 0);
+		$category_id = $app->getUserStateFromRequest($this->_context . 'category_id', 'category_id', 0);
 
 		$this->setState('category_main_filter', $category_main_filter);
 		$this->setState('limit', $limit);
@@ -61,7 +61,7 @@ class categoryModelcategory extends JModel
 
 	public function _buildQuery()
 	{
-		global $mainframe;
+		$app = JFactory::getApplication();
 		$view = JRequest::getVar('view');
 		$db = jFactory::getDBO();
 
@@ -126,10 +126,10 @@ class categoryModelcategory extends JModel
 
 	public function _buildContentOrderBy()
 	{
-		global $mainframe;
+		$app = JFactory::getApplication();
 
-		$filter_order = $mainframe->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'c.ordering');
-		$filter_order_Dir = $mainframe->getUserStateFromRequest($this->_context . 'filter_order_Dir', 'filter_order_Dir', '');
+		$filter_order = $app->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'c.ordering');
+		$filter_order_Dir = $app->getUserStateFromRequest($this->_context . 'filter_order_Dir', 'filter_order_Dir', '');
 
 		$orderby = ' ORDER BY ' . $filter_order . ' ' . $filter_order_Dir;
 

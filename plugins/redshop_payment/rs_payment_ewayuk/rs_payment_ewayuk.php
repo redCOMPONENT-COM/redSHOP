@@ -10,8 +10,8 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.plugin.plugin');
-//$mainframe = JFactory::getApplication();
-//$mainframe->registerEvent( 'onPrePayment', 'plgRedshoprs_payment_bbs' );
+//$app = JFactory::getApplication();
+//$app->registerEvent( 'onPrePayment', 'plgRedshoprs_payment_bbs' );
 class plgRedshop_paymentrs_payment_ewayuk extends JPlugin
 {
 	public $_table_prefix = null;
@@ -26,12 +26,11 @@ class plgRedshop_paymentrs_payment_ewayuk extends JPlugin
 	 */
 	public function plgRedshop_paymentrs_payment_ewayuk(&$subject)
 	{
-		// load plugin parameters
+		// Load plugin parameters
 		parent::__construct($subject);
 		$this->_table_prefix = '#__redshop_';
 		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_ewayuk');
 		$this->_params = new JRegistry($this->_plugin->params);
-
 	}
 
 	/**
@@ -49,7 +48,7 @@ class plgRedshop_paymentrs_payment_ewayuk extends JPlugin
 			$plugin = $element;
 		}
 
-		$mainframe = JFactory::getApplication();
+		$app = JFactory::getApplication();
 		$paymentpath = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $plugin . DS . $plugin . DS . 'extra_info.php';
 		include $paymentpath;
 	}

@@ -27,12 +27,11 @@ class plgRedshop_paymentrs_payment_firstdata extends JPlugin
 	 */
 	public function plgRedshop_paymentrs_payment_firstdata(&$subject)
 	{
-		// load plugin parameters
+		// Load plugin parameters
 		parent::__construct($subject);
 		$this->_table_prefix = '#__redshop_';
 		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_firstdata');
 		$this->_params = new JRegistry($this->_plugin->params);
-
 	}
 
 	/**
@@ -50,7 +49,7 @@ class plgRedshop_paymentrs_payment_firstdata extends JPlugin
 			$plugin = $element;
 		}
 
-		$mainframe = JFactory::getApplication();
+		$app = JFactory::getApplication();
 		$db = JFactory::getDBO();
 		$user = JFActory::getUser();
 		$session = JFactory::getSession();
@@ -110,7 +109,7 @@ class plgRedshop_paymentrs_payment_firstdata extends JPlugin
 					<v1:VATTax>' . $order_tax . '</v1:VATTax>
 					<v1:Shipping>' . $order_shipping . '</v1:Shipping>
 				</v1:Payment>
-				
+
 				 <v1:TransactionDetails>
 					<v1:UserID>' . $user->id . '</v1:UserID>
                				<v1:OrderId>' . $data['order_number'] . '</v1:OrderId>
@@ -252,7 +251,7 @@ class plgRedshop_paymentrs_payment_firstdata extends JPlugin
 			$plugin = $element;
 		}
 
-		$mainframe = JFactory::getApplication();
+		$app = JFactory::getApplication();
 		$objOrder = new order_functions;
 		$order_id = $data['order_id'];
 		$order_number = $data['order_number'];
@@ -350,7 +349,6 @@ class plgRedshop_paymentrs_payment_firstdata extends JPlugin
 		{
 			$values->responsestatus = 'Success';
 			$message = JText::_('ORDER_CAPTURED');
-
 		}
 
 		$values->message = $message;

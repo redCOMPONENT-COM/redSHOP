@@ -611,7 +611,6 @@ class plgredshop_shippinguspsv4 extends JPlugin
 					$xmlPost .= "<Girth>" . ceil($girth) . "</Girth>";
 					$xmlPost .= "<CommercialFlag>N</CommercialFlag>";
 					$xmlPost .= '</Package></IntlRateV2Request>';
-
 				}
 
 				$html = "";
@@ -872,7 +871,7 @@ class plgredshop_shippinguspsv4 extends JPlugin
 	 * Show all configuration parameters for this Shipping method
 	 * @returns boolean False when the Shipping method has no configration
 	 */
-	function show_configuration()
+	public function show_configuration()
 	{
 		?>
 

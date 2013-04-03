@@ -28,7 +28,7 @@ class product_detailVIEWproduct_detail extends JView
 
 	public function display($tpl = null)
 	{
-		global $mainframe;
+		$app = JFactory::getApplication();
 
 		$redTemplate = new Redtemplate;
 		$redhelper = new redhelper;
@@ -58,7 +58,7 @@ class product_detailVIEWproduct_detail extends JView
 		if ($model->isCheckedOut($user->get('id')))
 		{
 			$msg = JText::sprintf('DESCBEINGEDITTED', JText::_('COM_REDSHOP_THE_DETAIL'), $detail->title);
-			$mainframe->redirect('index.php?option=' . $option, $msg);
+			$app->redirect('index.php?option=' . $option, $msg);
 		}
 
 		// Check reddesign is installed
@@ -334,7 +334,7 @@ class product_detailVIEWproduct_detail extends JView
 		{
 			$model->checkout($user->get('id'));
 
-			JToolBarHelper::cancel('cancel', 'Close');
+			JToolBarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
 		}
 
 		$model = $this->getModel('product_detail');

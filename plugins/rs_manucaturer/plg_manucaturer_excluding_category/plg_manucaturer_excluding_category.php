@@ -21,7 +21,7 @@ class plgrs_manufacaturerplg_manucaturer_excluding_category extends JPlugin
 	 * NOT references.  This causes problems with cross-referencing necessary for the
 	 * observer design pattern.
 	 */
-	function plgrs_manufacaturerplg_manucaturer_excluding_category(&$subject)
+	public function plgrs_manufacaturerplg_manucaturer_excluding_category(&$subject)
 	{
 		parent::__construct($subject);
 	}

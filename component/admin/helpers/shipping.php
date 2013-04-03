@@ -17,10 +17,10 @@ class shipping
 
 	public function __construct()
 	{
-		global $mainframe, $context;
-		$this->_table_prefix = '#__' . TABLE_PREFIX . '_';
-		$this->producthelper = new producthelper();
 		$this->_db = JFactory::getDBO();
+
+		$this->_table_prefix = '#__' . TABLE_PREFIX . '_';
+		$this->producthelper = new producthelper;
 	}
 
 	public function getDeliveryTimeOfProduct($product_id)
@@ -1516,7 +1516,7 @@ class shipping
 			$data = $this->producthelper->getProductById($cart [$i] ['product_id']);
 			$acc_weight = 0;
 
-			if (count($cart[$i]['cart_accessory']) > 0)
+			if (isset($cart[$i]['cart_accessory']) && count($cart[$i]['cart_accessory']) > 0)
 			{
 				for ($a = 0; $a < count($cart[$i]['cart_accessory']); $a++)
 				{
@@ -1855,9 +1855,9 @@ class shipping
 	{
 		$userhelper = new rsUserhelper();
 		$session = JFactory::getSession();
-		$cart = $session->get('cart', $cart);
-		$idx = ( int ) ($cart ['idx']);
-		$order_subtotal = $cart['product_subtotal'];
+		$cart = $session->get('cart', null);
+		$idx = isset($cart ['idx']) ? ( int ) ($cart ['idx']) : null;
+		$order_subtotal = isset($cart['product_subtotal']) ? $cart['product_subtotal'] : null;
 		$order_functions = new order_functions();
 		$user = JFactory::getUser();
 		$user_id = $user->id;

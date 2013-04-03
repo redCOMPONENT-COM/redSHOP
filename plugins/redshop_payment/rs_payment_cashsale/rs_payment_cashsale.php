@@ -29,7 +29,6 @@ class plgRedshop_paymentrs_payment_cashsale extends JPlugin
 		JPluginHelper::getPlugin('redshop_payment', 'onPrePayment');
 		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_cashsale');
 		$this->_params = new JRegistry($this->_plugin->params);
-
 	}
 
 	/**

@@ -18,24 +18,24 @@ class stockroom_listingViewstockroom_listing extends JView
 {
 	public function display($tpl = null)
 	{
-		global $mainframe, $context2;
-
 		$context2 = 'p.product_id';
-		$document = JFactory::getDocument();
-		$document->setTitle(JText::_('COM_REDSHOP_STOCKROOM_LISTING'));
-		JToolBarHelper::title(JText::_('COM_REDSHOP_STOCKROOM_LISTING_MANAGEMENT'), 'redshop_stockroom48');
 
+		$uri      = JFactory::getURI();
+		$app      = JFactory::getApplication();
+		$document = JFactory::getDocument();
+
+		$document->setTitle(JText::_('COM_REDSHOP_STOCKROOM_LISTING'));
+
+		JToolBarHelper::title(JText::_('COM_REDSHOP_STOCKROOM_LISTING_MANAGEMENT'), 'redshop_stockroom48');
 		JToolBarHelper::custom('export_data', 'save.png', 'save_f2.png', 'Export Data', false);
 		JToolBarHelper::custom('print_data', 'save.png', 'save_f2.png', 'Print Data', false);
 
-		$stockroom_type = $mainframe->getUserStateFromRequest($context2 . 'stockroom_type', 'stockroom_type', 'product');
-
-		$uri = JFactory::getURI();
-		$filter_order = $mainframe->getUserStateFromRequest($context2 . 'filter_order', 'filter_order', 'p.product_id');
-		$filter_order_Dir = $mainframe->getUserStateFromRequest($context2 . 'filter_order_Dir', 'filter_order_Dir', '');
-		$search_field = $mainframe->getUserStateFromRequest($context2 . 'search_field', 'search_field', '');
-		$keyword = $mainframe->getUserStateFromRequest($context2 . 'keyword', 'keyword', '');
-		$category_id = $mainframe->getUserStateFromRequest($context2 . 'category_id', 'category_id', '');
+		$stockroom_type   = $app->getUserStateFromRequest($context2 . 'stockroom_type', 'stockroom_type', 'product');
+		$filter_order     = $app->getUserStateFromRequest($context2 . 'filter_order', 'filter_order', 'p.product_id');
+		$filter_order_Dir = $app->getUserStateFromRequest($context2 . 'filter_order_Dir', 'filter_order_Dir', '');
+		$search_field     = $app->getUserStateFromRequest($context2 . 'search_field', 'search_field', '');
+		$keyword          = $app->getUserStateFromRequest($context2 . 'keyword', 'keyword', '');
+		$category_id      = $app->getUserStateFromRequest($context2 . 'category_id', 'category_id', '');
 
 		// Stockroom type and attribute type
 		$optiontype = array();
@@ -60,14 +60,13 @@ class stockroom_listingViewstockroom_listing extends JView
 			'category_id', 'category_name', $category_id
 		);
 
-		$lists ['order'] = $filter_order;
+		$lists ['order']     = $filter_order;
 		$lists ['order_Dir'] = $filter_order_Dir;
+
 		$resultlisting = $this->get('Data');
-		$stockroom = $this->get('Stockroom');
-
-		$total = $this->get('Total');
-
-		$pagination = $this->get('Pagination');
+		$stockroom     = $this->get('Stockroom');
+		$total         = $this->get('Total');
+		$pagination    = $this->get('Pagination');
 
 		$this->assignRef('lists', $lists);
 		$this->assignRef('keyword', $keyword);

@@ -184,7 +184,6 @@ class AuthorizeNetTD extends AuthorizeNetRequest
 	protected function _setPostString()
 	{
 		$this->_post_string = $this->_xml->asXML();
-
 	}
 
 	/**

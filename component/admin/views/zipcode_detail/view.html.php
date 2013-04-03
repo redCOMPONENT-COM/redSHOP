@@ -13,6 +13,13 @@ jimport('joomla.application.component.view');
 
 class zipcode_detailVIEWzipcode_detail extends JView
 {
+	/**
+	 * The request url.
+	 *
+	 * @var  string
+	 */
+	public $request_url;
+
 	public function display($tpl = null)
 	{
 		$Redconfiguration = new Redconfiguration;
@@ -32,7 +39,7 @@ class zipcode_detailVIEWzipcode_detail extends JView
 		}
 		else
 		{
-			JToolBarHelper::cancel('cancel', 'Close');
+			JToolBarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
 		}
 
 		$countryarray = $Redconfiguration->getCountryList((array) $detail);
@@ -43,7 +50,7 @@ class zipcode_detailVIEWzipcode_detail extends JView
 
 		$this->assignRef('detail', $detail);
 		$this->assignRef('lists', $lists);
-		$this->assignRef('request_url', $uri->toString());
+		$this->request_url = $uri->toString();
 
 		parent::display($tpl);
 	}

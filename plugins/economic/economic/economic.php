@@ -122,6 +122,7 @@ class plgEconomicEconomic extends JPlugin
 		{
 			return $this->errorMsg;
 		}
+
 		try
 		{
 			$Handle = $this->client->Debtor_FindByNumber(array('number' => $d ['user_info_id']))->Debtor_FindByNumberResult;
@@ -386,6 +387,7 @@ class plgEconomicEconomic extends JPlugin
 		{
 			return $this->errorMsg;
 		}
+
 		try
 		{
 			$this->cashbook = 1;
@@ -755,6 +757,8 @@ class plgEconomicEconomic extends JPlugin
 			return $this->errorMsg;
 		}
 
+		$dbt = array();
+
 		try
 		{
 			$debtors = $this->client->Debtor_GetAll()->Debtor_GetAllResult;
@@ -767,7 +771,7 @@ class plgEconomicEconomic extends JPlugin
 
 			for ($i = 0; $i < count($debtors); $i++)
 			{
-				$dbt [] = $debtors [$i]->Number;
+				$dbt[] = $debtors [$i]->Number;
 			}
 
 			return max($dbt);
@@ -1125,13 +1129,14 @@ class plgEconomicEconomic extends JPlugin
 
 			if (count($contacts) > 0)
 			{
+				$contactHandle = new stdclass;
+
 				if (is_array($contacts))
 				{
 					for ($i = 0; $i < count($contacts); $i++)
 					{
 						if ($contacts[$i]->Id)
 						{
-							$contactHandle = new stdclass;
 							$contactHandle->Id = $contacts[$i]->Id;
 							break;
 						}
@@ -1139,7 +1144,6 @@ class plgEconomicEconomic extends JPlugin
 				}
 				else
 				{
-					$contactHandle = new stdclass;
 					$contactHandle->Id = $contacts->Id;
 				}
 
@@ -1569,24 +1573,25 @@ class plgEconomicEconomic extends JPlugin
 			{
 				$ProductHandle = new stdclass;
 				$ProductHandle->Number = $darray[$i]['product_number'];
-				$info[] = array('CurrentInvoiceLineData' => array
-				(
-					'Handle'            => $Handle,
-					'InvoiceHandle'     => $invoiceHandle,
-					'Number'            => $order_item_id,
-					'Id'                => $d['invoiceHandle'],
-					'Description'       => $darray[$i]['product_name'],
-					'DeliveryDate'      => $darray[$i]['delivery_date'],
-					'UnitHandle'        => $UnitHandle,
-					'ProductHandle'     => $ProductHandle,
-					'UnitNetPrice'      => $darray[$i]['product_price'],
-					'Quantity'          => $darray[$i]['product_quantity'],
-					'DiscountAsPercent' => 0,
-					'UnitCostPrice'     => $darray[$i]['product_price'],
-					'TotalMargin'       => $darray[$i]['product_price'],
-					'TotalNetAmount'    => $darray[$i]['product_price'],
-					'MarginAsPercent'   => 1
-				)
+				$info[] = array(
+					'CurrentInvoiceLineData' => array
+					(
+						'Handle'            => $Handle,
+						'InvoiceHandle'     => $invoiceHandle,
+						'Number'            => $order_item_id,
+						'Id'                => $d['invoiceHandle'],
+						'Description'       => $darray[$i]['product_name'],
+						'DeliveryDate'      => $darray[$i]['delivery_date'],
+						'UnitHandle'        => $UnitHandle,
+						'ProductHandle'     => $ProductHandle,
+						'UnitNetPrice'      => $darray[$i]['product_price'],
+						'Quantity'          => $darray[$i]['product_quantity'],
+						'DiscountAsPercent' => 0,
+						'UnitCostPrice'     => $darray[$i]['product_price'],
+						'TotalMargin'       => $darray[$i]['product_price'],
+						'TotalNetAmount'    => $darray[$i]['product_price'],
+						'MarginAsPercent'   => 1
+					)
 				);
 			}
 
@@ -1708,7 +1713,9 @@ class plgEconomicEconomic extends JPlugin
 
 		try
 		{
-			$invoiceNumber = $this->client->CurrentInvoice_SetDate(array('currentInvoiceHandle' => $invoiceHandle, 'value' => $d['invoiceDate']))->CurrentInvoice_SetDateResponse;
+			$invoiceNumber = $this->client
+				->CurrentInvoice_SetDate(array('currentInvoiceHandle' => $invoiceHandle, 'value' => $d['invoiceDate']))
+				->CurrentInvoice_SetDateResponse;
 
 			return $invoiceNumber;
 		}
@@ -1781,7 +1788,7 @@ class plgEconomicEconomic extends JPlugin
 		{
 			$info = array(
 				'currentInvoiceHandle' => $invoiceHandle,
-				'number'               => $d['order_number'] //$d['order_id']
+				'number'               => $d['order_number']
 			);
 
 			$bookHandle = $this->client->CurrentInvoice_BookWithNumber($info)->CurrentInvoice_BookWithNumberResult;

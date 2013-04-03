@@ -51,8 +51,6 @@ class catalog_detailVIEWcatalog_detail extends JView
 
 		$this->setLayout($layout);
 
-		$model = $this->getModel('catalog_detail');
-
 		$isNew = ($detail->catalog_id < 1);
 
 		$text = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
@@ -67,7 +65,7 @@ class catalog_detailVIEWcatalog_detail extends JView
 		}
 		else
 		{
-			JToolBarHelper::cancel('cancel', 'Close');
+			JToolBarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
 		}
 
 		$lists['published'] = JHTML::_('select.booleanlist', 'published', 'class="inputbox"', $detail->published);

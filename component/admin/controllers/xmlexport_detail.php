@@ -329,6 +329,7 @@ function setChildElement()
 		{
 			JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'));
 		}
+
 		$model = $this->getModel('xmlexport_detail');
 
 		if (!$model->publish($cid, 1))

@@ -76,11 +76,9 @@ class Realex
 			die(sprintf("XML error: %s at line %d",
 				xml_error_string(xml_get_error_code($xml_parser)),
 				xml_get_current_line_number($xml_parser)));
-
 		}
 
 		xml_parser_free($xml_parser);
-
 	}
 
 	function startElement($parser, $name, $attrs)
@@ -110,7 +108,6 @@ class Realex
 		// uncomment this line to see the names of all the variables you can
 		// see in the response.
 		// print $currentElement;
-
 	}
 
 	// cDataHandler() - called when the parser encounters any text that's

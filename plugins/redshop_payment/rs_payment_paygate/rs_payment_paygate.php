@@ -47,7 +47,7 @@ class plgRedshop_paymentrs_payment_paygate extends JPlugin
 			$plugin = $element;
 		}
 
-		$mainframe = JFactory::getApplication();
+		$app = JFactory::getApplication();
 		$paymentpath = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $plugin . DS . $plugin . DS . 'extra_info.php';
 		include $paymentpath;
 	}
@@ -90,7 +90,6 @@ class plgRedshop_paymentrs_payment_paygate extends JPlugin
 			$values->order_payment_status_code = 'Paid';
 			$values->log = JText::_('COM_REDSHOP_ORDER_PLACED');
 			$values->msg = JText::_('COM_REDSHOP_ORDER_PLACED');
-
 		}
 		else
 		{

@@ -20,7 +20,6 @@ class AuthorizeNetCustomer
 	public $paymentProfiles = array();
 	public $shipToList = array();
 	public $customerProfileId;
-
 }
 
 /**
@@ -151,7 +150,6 @@ class AuthorizeNetLineItem
 	public $quantity;
 	public $unitPrice;
 	public $taxable;
-
 }
 
 /**

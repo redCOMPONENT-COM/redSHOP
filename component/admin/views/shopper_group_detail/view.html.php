@@ -6,13 +6,22 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+
 defined('_JEXEC') or die;
-require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'shopper.php');
+
 jimport('joomla.application.component.view');
+require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'shopper.php');
 require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'category.php');
 
 class shopper_group_detailVIEWshopper_group_detail extends JView
 {
+	/**
+	 * The request url.
+	 *
+	 * @var  string
+	 */
+	public $request_url;
+
 	public function display($tpl = null)
 	{
 		JToolBarHelper::title(JText::_('COM_REDSHOP_SHOPPER_GROUP_MANAGEMENT_DETAIL'), 'redshop_manufact48');
@@ -50,7 +59,7 @@ class shopper_group_detailVIEWshopper_group_detail extends JView
 		}
 		else
 		{
-			JToolBarHelper::cancel('cancel', 'Close');
+			JToolBarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
 		}
 
 		$groups = $shoppergroup->list_all("parent_id", $detail->shopper_group_id);
@@ -88,7 +97,13 @@ class shopper_group_detailVIEWshopper_group_detail extends JView
 		$categories = $shoppergroup_category->list_all("shopper_group_categories[]", 0, $shopper_group_categories, 20, true, true, array(), 250);
 		$lists['categories'] = $categories;
 
-		$shopper_group_manufactures = $detail->shopper_group_manufactures;
+		$shopper_group_manufactures = '';
+
+		if (isset($detail->shopper_group_manufactures))
+		{
+			$shopper_group_manufactures = $detail->shopper_group_manufactures;
+		}
+
 		$shopper_group_manufactures = explode(",", $shopper_group_manufactures);
 		$manufacturers = $model->getmanufacturers();
 		$lists['manufacturers'] = JHTML::_('select.genericlist', $manufacturers, 'shopper_group_manufactures[]',
@@ -106,7 +121,7 @@ class shopper_group_detailVIEWshopper_group_detail extends JView
 
 		$this->assignRef('lists', $lists);
 		$this->assignRef('detail', $detail);
-		$this->assignRef('request_url', $uri->toString());
+		$this->request_url = $uri->toString();
 
 		parent::display($tpl);
 	}

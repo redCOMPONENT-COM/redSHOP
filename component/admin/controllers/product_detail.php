@@ -272,7 +272,7 @@ class product_detailController extends JController
 	{
 		if (ECONOMIC_INTEGRATION == 1 && ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC != 0)
 		{
-			$economic = new economic();
+			$economic = new economic;
 		}
 
 		$model = $this->getModel('product_detail');
@@ -634,6 +634,7 @@ class product_detailController extends JController
 					{
 						$tbl .= "</tr><tr>";
 					}
+
 					$i++;
 				}
 			}

@@ -170,7 +170,6 @@ class PxPay_Curl
 		$result = $this->submitXml($xml);
 
 		return $result;
-
 	}
 
 	#******************************************************************************
@@ -230,7 +229,6 @@ class PxPayRequest extends PxPayMessage
 	function PxPayRequest()
 	{
 		$this->PxPayMessage();
-
 	}
 
 	function setEnableAddBillCard($EnableBillAddCard)
@@ -492,7 +490,6 @@ class PxPayResponse extends PxPayMessage
 		$this->CurrencySettlement = $msg->get_element_text("CurrencySettlement");
 		$this->TxnMac = $msg->get_element_text("TxnMac");
 		$this->ResponseText = $msg->get_element_text("ResponseText");
-
 	}
 
 	function getSuccess()

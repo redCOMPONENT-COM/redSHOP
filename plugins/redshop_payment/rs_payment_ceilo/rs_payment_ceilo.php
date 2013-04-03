@@ -25,12 +25,11 @@ class plgRedshop_paymentrs_payment_ceilo extends JPlugin
 	 */
 	public function plgRedshop_paymentrs_payment_ceilo(&$subject)
 	{
-		// load plugin parameters
+		// Load plugin parameters
 		parent::__construct($subject);
 		$this->_table_prefix = '#__redshop_';
 		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_ceilo');
 		$this->_params = new JRegistry($this->_plugin->params);
-
 	}
 
 	/**
@@ -40,7 +39,7 @@ class plgRedshop_paymentrs_payment_ceilo extends JPlugin
 	{
 		$config = new Redconfiguration;
 		$currencyClass = new convertPrice;
-		$mainframe = JFactory::getApplication();
+		$app = JFactory::getApplication();
 		$objOrder = new order_functions;
 		$uri =& JURI::getInstance();
 		$url = $uri->root();
@@ -158,7 +157,6 @@ class plgRedshop_paymentrs_payment_ceilo extends JPlugin
 		if ($tentarAutenticar == "sim")
 		{
 			$objResposta = $Pedido->RequisicaoTransacao(true);
-
 		}
 		else
 		{
@@ -179,10 +177,10 @@ class plgRedshop_paymentrs_payment_ceilo extends JPlugin
 		$StrPedido = $Pedido->ToString();
 		$_SESSION["pedidos"]->append($StrPedido);
 
-		// Resgata �ltimo pedido feito da SESSION
+		// Resgata último pedido feito da SESSION
 		$ultimoPedido = $_SESSION["pedidos"]->count();
 
-		$ultimoPedido -= 1;
+		$ultimoPedido--;
 
 		$Pedido->FromString($_SESSION["pedidos"]->offsetGet($ultimoPedido));
 
@@ -211,18 +209,15 @@ class plgRedshop_paymentrs_payment_ceilo extends JPlugin
 			}
 
 			$values['responsestatus'] = 'Success';
-
 		}
 		else
 		{
 			if ($debug_mode == "0")
 			{
 				$message = 'Fail';
-
 			}
 
 			$values['responsestatus'] = 'Fail';
-
 		}
 
 		$values['message'] = $message;
@@ -233,7 +228,6 @@ class plgRedshop_paymentrs_payment_ceilo extends JPlugin
 		unset($_SESSION["pedidos"]);
 
 		return $values;
-
 	}
 
 	public function getparameters($payment)
@@ -286,24 +280,21 @@ class plgRedshop_paymentrs_payment_ceilo extends JPlugin
 		$Pedido->status = $objResposta->status;
 
 		// Call function to post an order ------
+		$values = new stdClass;
 
 		if ($Pedido->status == 6)
 		{
-			$message = $message = $objResposta->captura->mensagem;
-			;
+			$message = $objResposta->captura->mensagem;
 			$values->responsestatus = 'Success';
 		}
 		else
 		{
-			$message = $message = $objResposta->captura->mensagem;
-			;
+			$message = $objResposta->captura->mensagem;
 			$values->responsestatus = 'Fail';
-
 		}
 
 		$values->message = $message;
 
 		return $values;
-
 	}
 }
