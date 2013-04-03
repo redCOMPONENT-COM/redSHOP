@@ -22,9 +22,9 @@
         <fields name="params">
             <fieldset name="basic">
                 <field name="cart_output" type="list" default="0"
-                       label="COM_REDSHOP_CART_OUTPUT" description="CART_OUTPUT">
-                    <option value="simple">COM_REDSHOP_SIMPLE</option>
-                    <option value="extended">COM_REDSHOP_EXTENDED</option>
+                       label="MOD_REDSHOP_CART_FIELD_OUTPUT" description="CART_OUTPUT">
+                    <option value="simple">MOD_REDSHOP_CART_FIELD_OUTPUT_SIMPLE</option>
+                    <option value="extended">MOD_REDSHOP_CART_FIELD_OUTPUT_EXTENDED</option>
                 </field>
                 <field name="moduleclass_sfx" type="text" default=""
                        label="COM_REDSHOP_PARAMMODULECLASSSUFFIX"
