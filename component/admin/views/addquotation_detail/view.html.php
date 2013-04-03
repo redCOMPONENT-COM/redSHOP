@@ -11,10 +11,10 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
-require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'extra_field.php');
-require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php');
+require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers/extra_field.php');
+require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers/order.php');
 
-class addquotation_detailVIEWaddquotation_detail extends JView
+class addquotation_detailVIEWaddquotation_detail extends JViewLegacy
 {
 	/**
 	 * The request url.

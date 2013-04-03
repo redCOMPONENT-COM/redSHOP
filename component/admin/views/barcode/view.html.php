@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
-class barcodeViewbarcode extends JView
+class barcodeViewbarcode extends JViewLegacy
 {
 	public function display($tpl = null)
 	{

@@ -11,9 +11,9 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
-require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'xmlhelper.php');
+require_once(JPATH_ADMINISTRATOR . DS . 'components/com_redshop/helpers/xmlhelper.php');
 
-class xmlimport_detailModelxmlimport_detail extends JModel
+class xmlimport_detailModelxmlimport_detail extends JModelLegacy
 {
 	public $_id = null;
 

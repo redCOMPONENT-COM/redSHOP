@@ -11,14 +11,14 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
-require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php');
-require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'thumbnail.php');
-require_once (JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'category.php');
+require_once(JPATH_COMPONENT . DS . 'helpers/extra_field.php');
+require_once(JPATH_COMPONENT . DS . 'helpers/thumbnail.php');
+require_once (JPATH_ADMINISTRATOR . DS . 'components/com_redshop/helpers/category.php');
 jimport('joomla.client.helper');
 JClientHelper::setCredentialsFromRequest('ftp');
 jimport('joomla.filesystem.file');
 
-class category_detailModelcategory_detail extends JModel
+class category_detailModelcategory_detail extends JModelLegacy
 {
 	public $_id = null;
 

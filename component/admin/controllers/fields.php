@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 
-class fieldsController extends JController
+class fieldsController extends JControllerLegacy
 {
 	public function cancel()
 	{

@@ -14,7 +14,7 @@ jimport('joomla.installer.installer');
 jimport('joomla.installer.helper');
 jimport('joomla.filesystem.file');
 
-class shipping_rate_detailModelShipping_rate_detail extends JModel
+class shipping_rate_detailModelShipping_rate_detail extends JModelLegacy
 {
 	public $_id = null;
 

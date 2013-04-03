@@ -93,7 +93,7 @@ class JInstallerShipping extends JObject
 
 		if (!empty ($pname) && !empty($shipping_class))
 		{
-			$this->parent->setPath('extension_root', JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'shippings');
+			$this->parent->setPath('extension_root', JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers/shippings');
 		}
 		else
 		{
@@ -225,9 +225,9 @@ class JInstallerShipping extends JObject
 		}
 
 		// Set the plugin root path
-		$this->parent->setPath('extension_root', JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'shippings');
+		$this->parent->setPath('extension_root', JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers/shippings');
 
-		$manifestFile = JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'shippings' . DS . $row->plugin . '.xml';
+		$manifestFile = JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers/shippings' . DS . $row->plugin . '.xml';
 
 		if (file_exists($manifestFile))
 		{

@@ -11,9 +11,9 @@ defined('_JEXEC') or die;
 
 jimport('joomla.html.pagination');
 jimport('joomla.application.component.view');
-require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'category.php');
+require_once(JPATH_COMPONENT . DS . 'helpers/category.php');
 
-class categoryViewcategory extends JView
+class categoryViewcategory extends JViewLegacy
 {
 	/**
 	 * The current user.

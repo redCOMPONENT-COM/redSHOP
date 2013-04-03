@@ -11,9 +11,9 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
-require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'shopper.php');
+require_once(JPATH_COMPONENT . DS . 'helpers/shopper.php');
 
-class shopper_groupViewshopper_group extends JView
+class shopper_groupViewshopper_group extends JViewLegacy
 {
 	public function display($tpl = null)
 	{

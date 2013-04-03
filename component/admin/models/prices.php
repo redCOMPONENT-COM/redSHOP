@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
-class pricesModelprices extends JModel
+class pricesModelprices extends JModelLegacy
 {
 	public $_prodid = 0;
 

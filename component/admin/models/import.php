@@ -12,11 +12,11 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.model');
 jimport('joomla.filesystem.file');
 
-require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'thumbnail.php');
-require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php');
-require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'product.php');
+require_once(JPATH_COMPONENT . DS . 'helpers/thumbnail.php');
+require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers/order.php');
+require_once(JPATH_COMPONENT_SITE . DS . 'helpers/product.php');
 
-class importModelimport extends JModel
+class importModelimport extends JModelLegacy
 {
 	public $_data = null;
 
@@ -2832,7 +2832,7 @@ class importModelimport extends JModel
 
 	public function storePropertyStockPosition($data, $section = 'property')
 	{
-		JTable::addIncludePath(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redcrm' . DS . 'tables');
+		JTable::addIncludePath(JPATH_ADMINISTRATOR . DS . 'components/com_redcrm/tables');
 		$data['section_id'] = ($section == 'property') ? $data['property_id'] : $data['subattribute_color_id'];
 		$data['section'] = $section;
 

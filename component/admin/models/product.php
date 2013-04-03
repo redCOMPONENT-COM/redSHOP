@@ -10,12 +10,12 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
-require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php');
-require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'stockroom.php');
-require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'shipping.php');
-require_once(JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'product.php');
+require_once(JPATH_COMPONENT . DS . 'helpers/extra_field.php');
+require_once(JPATH_ADMINISTRATOR . DS . 'components/com_redshop/helpers/stockroom.php');
+require_once(JPATH_ADMINISTRATOR . DS . 'components/com_redshop/helpers/shipping.php');
+require_once(JPATH_SITE . DS . 'components/com_redshop/helpers/product.php');
 
-class productModelproduct extends JModel
+class productModelproduct extends JModelLegacy
 {
 	public $_data = null;
 

@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
-class orderstatusVieworderstatus extends JView
+class orderstatusVieworderstatus extends JViewLegacy
 {
 	/**
 	 * The current user.

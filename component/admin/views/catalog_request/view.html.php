@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
-class catalog_requestViewcatalog_request extends JView
+class catalog_requestViewcatalog_request extends JViewLegacy
 {
 	public function display($tpl = null)
 	{

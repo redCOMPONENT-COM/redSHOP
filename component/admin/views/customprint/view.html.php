@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 JLoader::import('joomla.application.component.view');
 
-class customprintViewcustomprint extends JView
+class customprintViewcustomprint extends JViewLegacy
 {
 	public function display($tpl = null)
 	{

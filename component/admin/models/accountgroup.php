@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
-class accountgroupModelaccountgroup extends JModel
+class accountgroupModelaccountgroup extends JModelLegacy
 {
 	public $_context = null;
 

@@ -17,7 +17,7 @@ if (!isset($billing->order_info_id))
 	$billing->order_info_id = 0;
 
 $Itemid = JRequest::getVar('Itemid');
-require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php');
+require_once(JPATH_COMPONENT . DS . 'helpers/extra_field.php');
 ?>
 <script type="text/javascript">
 

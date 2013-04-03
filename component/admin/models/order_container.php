@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
-class order_containerModelorder_container extends JModel
+class order_containerModelorder_container extends JModelLegacy
 {
 	public $_data = null;
 
@@ -119,7 +119,7 @@ class order_containerModelorder_container extends JModel
 
 	public function update_status()
 	{
-		require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'order.php');
+		require_once(JPATH_COMPONENT . DS . 'helpers/order.php');
 		$order_function = new order_functions;
 
 		$order_function->update_status();

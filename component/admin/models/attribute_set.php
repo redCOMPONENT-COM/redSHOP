@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
-class attribute_setModelattribute_set extends JModel
+class attribute_setModelattribute_set extends JModelLegacy
 {
 	public $_data = null;
 

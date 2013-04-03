@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
-class integrationModelintegration extends JModel
+class integrationModelintegration extends JModelLegacy
 {
 	/*
 	 *  download googlebase xml file

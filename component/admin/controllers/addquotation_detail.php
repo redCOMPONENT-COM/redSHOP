@@ -11,10 +11,10 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 
-require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'product.php');
-require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php');
+require_once(JPATH_COMPONENT_SITE . DS . 'helpers/product.php');
+require_once(JPATH_COMPONENT . DS . 'helpers/product.php');
 
-class addquotation_detailController extends JController
+class addquotation_detailController extends JControllerLegacy
 {
 	public function __construct($default = array())
 	{
@@ -50,7 +50,7 @@ class addquotation_detailController extends JController
 			$post['block'] = 0;
 
 			// Get Admin order detail Model Object
-			$usermodel = JModel::getInstance('user_detail', 'user_detailModel');
+			$usermodel = JModelLegacy::getInstance('user_detail', 'user_detailModel');
 
 			// Call Admin order detail Model store function for Billing
 			$user = $usermodel->storeUser($post);

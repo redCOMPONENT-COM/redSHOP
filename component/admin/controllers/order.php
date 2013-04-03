@@ -10,13 +10,13 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
-require_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'order.php');
-require_once (JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'mail.php');
-require_once (JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'helper.php');
-require_once (JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'tcpdf' . DS . 'tcpdf.php');
-require_once (JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'tcpdf' . DS . 'PDFMerger.php');
+require_once (JPATH_COMPONENT . DS . 'helpers/order.php');
+require_once (JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers/mail.php');
+require_once (JPATH_SITE . DS . 'components/com_redshop/helpers/helper.php');
+require_once (JPATH_SITE . DS . 'components/com_redshop/helpers/tcpdf/tcpdf.php');
+require_once (JPATH_SITE . DS . 'components/com_redshop/helpers/tcpdf/PDFMerger.php');
 
-class orderController extends JController
+class orderController extends JControllerLegacy
 {
 	public function multiprint_order()
 	{
@@ -103,25 +103,25 @@ class orderController extends JController
 
 				for ($m = 0; $m < count($merge_invoice_arr); $m++)
 				{
-					if (file_exists(JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'assets' . DS . 'document'
+					if (file_exists(JPATH_SITE . DS . 'components/com_redshop/assets/document'
 						. DS . 'invoice' . DS . "shipped_" . $merge_invoice_arr[$m] . ".pdf"))
 					{
-						$pdf->addPDF(JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'assets' . DS . 'document'
+						$pdf->addPDF(JPATH_SITE . DS . 'components/com_redshop/assets/document'
 							. DS . 'invoice' . DS . "shipped_" . $merge_invoice_arr[$m] . ".pdf", 'all'
 						);
 					}
 				}
 
-				$pdf->merge('file', JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'assets' . DS . 'document'
-					. DS . 'invoice' . DS . 'shipped_' . $rand_invoice_name . '.pdf'
+				$pdf->merge('file', JPATH_SITE . DS . 'components/com_redshop/assets/document'
+					. DS . 'invoice/shipped_' . $rand_invoice_name . '.pdf'
 				);
 
 				for ($m = 0; $m < count($merge_invoice_arr); $m++)
 				{
-					if (file_exists(JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'assets' . DS . 'document'
+					if (file_exists(JPATH_SITE . DS . 'components/com_redshop/assets/document'
 						. DS . 'invoice' . DS . "shipped_" . $merge_invoice_arr[$m] . ".pdf"))
 					{
-						unlink(JPATH_ROOT . DS . 'components' . DS . 'com_redshop' . DS . 'assets' . DS . 'document' . DS . 'invoice'
+						unlink(JPATH_ROOT . DS . 'components/com_redshop/assets/document/invoice'
 							. DS . "shipped_" . $merge_invoice_arr[$m] . ".pdf"
 						);
 					}
@@ -157,7 +157,7 @@ class orderController extends JController
 				$session->set('merge_invoice_arr', $merge_invoice_arr);
 
 				$pdfObj->Output(
-					JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'assets' . DS . 'document'
+					JPATH_SITE . DS . 'components/com_redshop/assets/document'
 					. DS . 'invoice' . DS . $invoice_pdfName . ".pdf", "F");
 			}
 
@@ -257,11 +257,11 @@ class orderController extends JController
 
 	public function export_fullorder_data()
 	{
-		$extrafile = JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'extras' . DS . 'order_export.php';
+		$extrafile = JPATH_SITE . DS . 'administrator/components/com_redshop/extras/order_export.php';
 
 		if (file_exists($extrafile))
 		{
-			require_once (JPATH_COMPONENT_ADMINISTRATOR . DS . 'extras' . DS . 'order_export.php');
+			require_once (JPATH_COMPONENT_ADMINISTRATOR . DS . 'extras/order_export.php');
 			$orderExport = new orderExport;
 			$orderExport->createOrderExport();
 			exit;
@@ -373,11 +373,11 @@ class orderController extends JController
 		/**
 		 * new order export for paid customer support
 		 */
-		$extrafile = JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'extras' . DS . 'order_export.php';
+		$extrafile = JPATH_SITE . DS . 'administrator/components/com_redshop/extras/order_export.php';
 
 		if (file_exists($extrafile))
 		{
-			require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'extras' . DS . 'order_export.php';
+			require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'extras/order_export.php';
 
 			$orderExport = new orderExport;
 			$orderExport->createOrderExport();

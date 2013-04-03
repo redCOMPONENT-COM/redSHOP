@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
-class manufacturer_detailModelmanufacturer_detail extends JModel
+class manufacturer_detailModelmanufacturer_detail extends JModelLegacy
 {
 	public $_id = null;
 

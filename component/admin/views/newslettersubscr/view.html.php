@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
-class newslettersubscrViewnewslettersubscr extends JView
+class newslettersubscrViewnewslettersubscr extends JViewLegacy
 {
 	/**
 	 * The current user.

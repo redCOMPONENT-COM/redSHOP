@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 
-class mass_discountController extends JController
+class mass_discountController extends JControllerLegacy
 {
 	public function cancel()
 	{

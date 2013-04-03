@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
-class accessmanagerModelaccessmanager extends JModel
+class accessmanagerModelaccessmanager extends JModelLegacy
 {
 	public $_context = null;
 

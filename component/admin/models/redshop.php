@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
-class redshopModelredshop extends JModel
+class redshopModelredshop extends JModelLegacy
 {
 	public $_table_prefix = null;
 

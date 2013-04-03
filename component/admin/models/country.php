@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
-class countryModelcountry extends JModel
+class countryModelcountry extends JModelLegacy
 {
 	public $_data = null;
 

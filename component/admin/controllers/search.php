@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 
-class searchController extends JController
+class searchController extends JControllerLegacy
 {
 	public function cancel()
 	{

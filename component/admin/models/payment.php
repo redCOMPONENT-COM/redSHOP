@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
-class paymentModelpayment extends JModel
+class paymentModelpayment extends JModelLegacy
 {
 	public $_data = null;
 

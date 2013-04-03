@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
-class payment_detailViewpayment_detail extends JView
+class payment_detailViewpayment_detail extends JViewLegacy
 {
 	public function display($tpl = null)
 	{
@@ -56,13 +56,13 @@ class payment_detailViewpayment_detail extends JView
 
 			JToolBarHelper::cancel();
 
-			$adminpath = JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop';
+			$adminpath = JPATH_ADMINISTRATOR . DS . 'components/com_redshop';
 
-			$paymentxml = $adminpath . DS . 'helpers' . DS . 'payments' . DS . $detail->plugin . '.xml';
+			$paymentxml = $adminpath . DS . 'helpers/payments' . DS . $detail->plugin . '.xml';
 
-			$paymentfile = $adminpath . DS . 'helpers' . DS . 'payments' . DS . $detail->plugin . DS . $detail->plugin . '.php';
+			$paymentfile = $adminpath . DS . 'helpers/payments' . DS . $detail->plugin . DS . $detail->plugin . '.php';
 
-			$paymentcfg = $adminpath . DS . 'helpers' . DS . 'payments' . DS . $detail->plugin . DS . $detail->plugin . '.cfg.php';
+			$paymentcfg = $adminpath . DS . 'helpers/payments' . DS . $detail->plugin . DS . $detail->plugin . '.cfg.php';
 
 			include_once ($paymentfile);
 

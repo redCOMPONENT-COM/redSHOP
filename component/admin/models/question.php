@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
-class questionModelquestion extends JModel
+class questionModelquestion extends JModelLegacy
 {
 	public $_data = null;
 

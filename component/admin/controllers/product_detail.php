@@ -12,10 +12,10 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.controller');
 jimport('joomla.filesystem.file');
 
-require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'thumbnail.php');
-require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php');
+require_once(JPATH_COMPONENT . DS . 'helpers/thumbnail.php');
+require_once(JPATH_COMPONENT . DS . 'helpers/product.php');
 
-class product_detailController extends JController
+class product_detailController extends JControllerLegacy
 {
 	public function __construct($default = array())
 	{
@@ -83,7 +83,7 @@ class product_detailController extends JController
 			$stockroom_id = JRequest::getVar('stockroom_id', '', 'request', 'string');
 		}
 
-		require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php');
+		require_once(JPATH_COMPONENT . DS . 'helpers/extra_field.php');
 
 		$model = $this->getModel('product_detail');
 

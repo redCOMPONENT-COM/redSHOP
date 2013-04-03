@@ -10,17 +10,17 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
-require_once(JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'product.php');
-require_once(JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'helper.php');
-require_once(JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'user.php');
-require_once(JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'cart.php');
-require_once(JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'extra_field.php');
-require_once(JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'mail.php');
-require_once(JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php');
-require_once(JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'product.php');
-require_once(JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'shipping.php');
+require_once(JPATH_SITE . DS . 'components/com_redshop/helpers/product.php');
+require_once(JPATH_SITE . DS . 'components/com_redshop/helpers/helper.php');
+require_once(JPATH_SITE . DS . 'components/com_redshop/helpers/user.php');
+require_once(JPATH_SITE . DS . 'components/com_redshop/helpers/cart.php');
+require_once(JPATH_SITE . DS . 'administrator/components/com_redshop/helpers/extra_field.php');
+require_once(JPATH_SITE . DS . 'administrator/components/com_redshop/helpers/mail.php');
+require_once(JPATH_SITE . DS . 'administrator/components/com_redshop/helpers/order.php');
+require_once(JPATH_SITE . DS . 'administrator/components/com_redshop/helpers/product.php');
+require_once(JPATH_SITE . DS . 'administrator/components/com_redshop/helpers/shipping.php');
 
-class addorder_detailModeladdorder_detail extends JModel
+class addorder_detailModeladdorder_detail extends JModelLegacy
 {
 	public $_id = null;
 

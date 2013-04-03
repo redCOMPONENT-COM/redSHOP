@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
-class statisticModelstatistic extends JModel
+class statisticModelstatistic extends JModelLegacy
 {
 	public $_table_prefix = null;
 

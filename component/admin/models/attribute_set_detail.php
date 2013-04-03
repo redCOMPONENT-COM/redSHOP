@@ -10,14 +10,14 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
-require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'thumbnail.php');
+require_once(JPATH_COMPONENT . DS . 'helpers/thumbnail.php');
 jimport('joomla.client.helper');
 JClientHelper::setCredentialsFromRequest('ftp');
 jimport('joomla.filesystem.file');
 
-require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'product.php');
+require_once(JPATH_COMPONENT_SITE . DS . 'helpers/product.php');
 
-class attribute_set_detailModelattribute_set_detail extends JModel
+class attribute_set_detailModelattribute_set_detail extends JModelLegacy
 {
 	public $_id = null;
 

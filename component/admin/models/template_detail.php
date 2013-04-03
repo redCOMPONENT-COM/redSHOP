@@ -12,7 +12,7 @@ jimport('joomla.application.component.model');
 //Import filesystem libraries. Perhaps not necessary, but does not hurt
 jimport('joomla.filesystem.file');
 
-class template_detailModeltemplate_detail extends JModel
+class template_detailModeltemplate_detail extends JModelLegacy
 {
 	public $_id = null;
 

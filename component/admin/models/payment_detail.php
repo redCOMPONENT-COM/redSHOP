@@ -15,7 +15,7 @@ jimport('joomla.installer.installer');
 jimport('joomla.installer.helper');
 jimport('joomla.filesystem.file');
 
-class payment_detailModelpayment_detail extends JModel
+class payment_detailModelpayment_detail extends JModelLegacy
 {
 	public $_id = null;
 
@@ -116,11 +116,11 @@ class payment_detailModelpayment_detail extends JModel
 			return false;
 		}
 
-		$adminpath = JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop';
+		$adminpath = JPATH_ADMINISTRATOR . DS . 'components/com_redshop';
 
-		$paymentfile = $adminpath . DS . 'helpers' . DS . 'payments' . DS . $row->plugin . DS . $row->plugin . '.php';
+		$paymentfile = $adminpath . DS . 'helpers/payments' . DS . $row->plugin . DS . $row->plugin . '.php';
 
-		$paymentcfg = $adminpath . DS . 'helpers' . DS . 'payments' . DS . $row->plugin . DS . $row->plugin . '.cfg.php';
+		$paymentcfg = $adminpath . DS . 'helpers/payments' . DS . $row->plugin . DS . $row->plugin . '.cfg.php';
 
 		include_once ($paymentfile);
 

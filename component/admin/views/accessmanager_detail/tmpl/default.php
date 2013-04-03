@@ -6,7 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'product.php');
+require_once(JPATH_COMPONENT_SITE . DS . 'helpers/product.php');
 $producthelper = new producthelper();
 
 $config = new Redconfiguration();
@@ -63,7 +63,7 @@ $view = JRequest::getVar('view');
 			<tr class="<?php echo "row$k"; ?>">
 				<td>
 					<?php /*if( $groupValue >= 23 ):
-							
+
               		   endif;*/
 					echo strip_tags($groupName);
 					?>

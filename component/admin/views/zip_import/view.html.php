@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
-class zip_importViewzip_import extends JView
+class zip_importViewzip_import extends JViewLegacy
 {
 	public function display($tpl = null)
 	{

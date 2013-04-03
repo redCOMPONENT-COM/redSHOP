@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-require_once(JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'category.php');
+require_once(JPATH_SITE . DS . 'administrator/components/com_redshop/helpers/category.php');
 
 
 /**

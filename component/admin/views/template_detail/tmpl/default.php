@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
-require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'extra_field.php');
+require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers/extra_field.php');
 $extra_field = new extra_field();
 JHTML::_('behavior.tooltip');
 $editor = JFactory::getEditor();

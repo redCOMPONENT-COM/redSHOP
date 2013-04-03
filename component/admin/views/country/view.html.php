@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 jimport('joomla.html.pagination');
 jimport('joomla.application.component.view');
 
-class countryViewcountry extends JView
+class countryViewcountry extends JViewLegacy
 {
 	public function display($tpl = null)
 	{

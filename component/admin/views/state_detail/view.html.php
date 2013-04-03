@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
-class state_detailVIEWstate_detail extends JView
+class state_detailVIEWstate_detail extends JViewLegacy
 {
 	public function display($tpl = null)
 	{
@@ -40,7 +40,7 @@ class state_detailVIEWstate_detail extends JView
 		$text = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
 		$db = jFactory::getDBO();
 		JToolBarHelper::title(JText::_('COM_REDSHOP_STATE') . ': <small><small>[ ' . $text . ' ]</small></small>', 'redshop_region_48');
-		require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'helper.php');
+		require_once(JPATH_COMPONENT_SITE . DS . 'helpers/helper.php');
 		$redhelper = new redhelper;
 		$q = "SELECT  country_id as value,country_name as text,country_jtext from #__" . TABLE_PREFIX . "_country ORDER BY country_name ASC";
 		$db->setQuery($q);

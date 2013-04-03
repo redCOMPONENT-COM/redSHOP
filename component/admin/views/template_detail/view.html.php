@@ -9,9 +9,9 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
-require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php');
+require_once(JPATH_ADMINISTRATOR . DS . 'components/com_redshop/helpers/order.php');
 
-class template_detailVIEWtemplate_detail extends JView
+class template_detailVIEWtemplate_detail extends JViewLegacy
 {
 	public function display($tpl = null)
 	{

@@ -9,12 +9,12 @@
 
 defined('_JEXEC') or die;
 
-require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php');
-require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'helper.php');
+require_once(JPATH_COMPONENT . DS . 'helpers/extra_field.php');
+require_once(JPATH_COMPONENT_SITE . DS . 'helpers/helper.php');
 
 jimport('joomla.application.component.view');
 
-class user_detailVIEWuser_detail extends JView
+class user_detailVIEWuser_detail extends JViewLegacy
 {
 	/**
 	 * The request url.

@@ -11,13 +11,13 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 
-require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'product.php');
-require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'cart.php');
-require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'product.php');
-require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php');
-require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'shipping.php');
+require_once(JPATH_COMPONENT_SITE . DS . 'helpers/product.php');
+require_once(JPATH_COMPONENT_SITE . DS . 'helpers/cart.php');
+require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers/product.php');
+require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers/order.php');
+require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers/shipping.php');
 
-class addorder_detailController extends JController
+class addorder_detailController extends JControllerLegacy
 {
 	public function __construct($default = array())
 	{

@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
-class currency_detailModelcurrency_detail extends JModel
+class currency_detailModelcurrency_detail extends JModelLegacy
 {
 	public $_id = null;
 

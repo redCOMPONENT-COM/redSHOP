@@ -12,10 +12,10 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.model');
 jimport('joomla.filesystem.file');
 
-require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'product.php');
-require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'text_library.php');
+require_once(JPATH_COMPONENT_SITE . DS . 'helpers/product.php');
+require_once(JPATH_COMPONENT . DS . 'helpers/text_library.php');
 
-class configurationModelconfiguration extends JModel
+class configurationModelconfiguration extends JModelLegacy
 {
 	public $_id = null;
 
@@ -819,9 +819,9 @@ class configurationModelconfiguration extends JModel
 
 		$filecontent = "";
 
-		$assets_dir = JPATH_ROOT . 'components' . DS . 'com_redshop' . DS . 'assets';
+		$assets_dir = JPATH_ROOT . 'components/com_redshop/assets';
 
-		$assets_download_dir = JPATH_ROOT . 'components' . DS . 'com_redshop' . DS . 'assets' . DS . 'download';
+		$assets_download_dir = JPATH_ROOT . 'components/com_redshop/assets/download';
 
 		if (strstr($product_download_root, JPATH_ROOT) && $product_download_root != JPATH_ROOT)
 		{
@@ -865,7 +865,7 @@ class configurationModelconfiguration extends JModel
 	/* Get current version of redshop */
 	public function getcurrentversion()
 	{
-		$xmlfile = JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'com_redshop.xml';
+		$xmlfile = JPATH_SITE . DS . 'administrator/components/com_redshop/com_redshop.xml';
 		$version = JText::_('COM_REDSHOP_FILE_NOT_FOUND');
 
 		if (file_exists($xmlfile))

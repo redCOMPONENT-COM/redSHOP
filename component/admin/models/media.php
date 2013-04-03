@@ -12,9 +12,9 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.model');
 jimport('joomla.filesystem.file');
 
-require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'media.php');
+require_once(JPATH_COMPONENT . DS . 'helpers/media.php');
 
-class mediaModelmedia extends JModel
+class mediaModelmedia extends JModelLegacy
 {
 	public $_data = null;
 

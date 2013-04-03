@@ -11,7 +11,7 @@ defined('_JEXEC') or die ('restricted access');
 
 jimport('joomla.application.component.view');
 
-class redshopViewredshop extends JView
+class redshopViewredshop extends JViewLegacy
 {
 	public function display($tpl = null)
 	{
@@ -51,7 +51,7 @@ class redshopViewredshop extends JView
 		{
 			$filteroption = 4;
 		}
-		$statsticmodel = JModel::getInstance('statistic', 'statisticModel');
+		$statsticmodel = JModelLegacy::getInstance('statistic', 'statisticModel');
 		$this->turnover = $statsticmodel->getTotalTurnover();
 
 		$document = JFactory::getDocument();
@@ -68,7 +68,7 @@ class redshopViewredshop extends JView
 			'class="inputbox" size="1" onchange="document.chartform.submit();"', 'value', 'text', $filteroption
 		);
 
-		$configmodel = JModel::getInstance('configuration', 'configurationModel');
+		$configmodel = JModelLegacy::getInstance('configuration', 'configurationModel');
 
 		$this->redshopversion = $configmodel->getcurrentversion();
 

@@ -87,9 +87,9 @@ $ordering = ($this->lists['order'] == 'ordering');
 
 				$published = JHtml::_('jgrid.published', $row->published, $i, '', 1);
 
-				$adminpath = JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop';
+				$adminpath = JPATH_ADMINISTRATOR . DS . 'components/com_redshop';
 
-				$paymentxml = $adminpath . DS . 'helpers' . DS . 'payments' . DS . $row->plugin . '.xml';
+				$paymentxml = $adminpath . DS . 'helpers/payments' . DS . $row->plugin . '.xml';
 				$xml = JFactory::getXMLParser('Simple');
 				$xml->loadFile($paymentxml);
 

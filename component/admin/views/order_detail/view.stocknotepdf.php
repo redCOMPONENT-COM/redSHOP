@@ -11,11 +11,11 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
-require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'extra_field.php');
+require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers/extra_field.php');
 //
-require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'tcpdf' . DS . 'tcpdf.php');
-require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php');
-class order_detailVIEWorder_detail extends JView
+require_once(JPATH_COMPONENT_SITE . DS . 'helpers/tcpdf/tcpdf.php');
+require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers/order.php');
+class order_detailVIEWorder_detail extends JViewLegacy
 {
 	function display($tpl = null)
 	{

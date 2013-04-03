@@ -9,11 +9,11 @@
 
 defined('_JEXEC') or die;
 
-require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'mail.php');
+require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers/mail.php');
 
 jimport('joomla.application.component.controller');
 
-class question_detailController extends JController
+class question_detailController extends JControllerLegacy
 {
 	public function __construct($default = array())
 	{

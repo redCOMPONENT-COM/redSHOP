@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.controller');
 jimport('joomla.filesystem.file');
 
-class shopper_group_detailController extends JController
+class shopper_group_detailController extends JControllerLegacy
 {
 	public function __construct($default = array())
 	{

@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 
-class mailController extends JController
+class mailController extends JControllerLegacy
 {
 	public function cancel()
 	{

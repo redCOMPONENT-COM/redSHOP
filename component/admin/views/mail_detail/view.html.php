@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.view');
 jimport('joomla.html.pane');
 
-class mail_detailVIEWmail_detail extends JView
+class mail_detailVIEWmail_detail extends JViewLegacy
 {
 	/**
 	 * The request url.

@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
-class stockimageModelstockimage extends JModel
+class stockimageModelstockimage extends JModelLegacy
 {
 	public $_data = null;
 

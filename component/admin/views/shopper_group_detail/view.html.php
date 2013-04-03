@@ -10,10 +10,10 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
-require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'shopper.php');
-require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'category.php');
+require_once(JPATH_COMPONENT . DS . 'helpers/shopper.php');
+require_once(JPATH_COMPONENT . DS . 'helpers/category.php');
 
-class shopper_group_detailVIEWshopper_group_detail extends JView
+class shopper_group_detailVIEWshopper_group_detail extends JViewLegacy
 {
 	/**
 	 * The request url.

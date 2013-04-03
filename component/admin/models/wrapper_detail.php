@@ -11,9 +11,9 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 jimport('joomla.filesystem.file');
-require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'product.php');
+require_once(JPATH_COMPONENT_SITE . DS . 'helpers/product.php');
 
-class wrapper_detailModelwrapper_detail extends JModel
+class wrapper_detailModelwrapper_detail extends JModelLegacy
 {
 	public $_id = null;
 

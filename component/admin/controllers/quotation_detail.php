@@ -11,11 +11,11 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 
-require_once(JPATH_ROOT . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'product.php');
-require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'quotation.php');
-require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'product.php');
+require_once(JPATH_ROOT . DS . 'components/com_redshop/helpers/product.php');
+require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers/quotation.php');
+require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers/product.php');
 
-class quotation_detailController extends JController
+class quotation_detailController extends JControllerLegacy
 {
 	public function __construct($default = array())
 	{

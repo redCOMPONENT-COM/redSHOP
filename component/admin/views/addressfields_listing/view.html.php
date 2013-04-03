@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
-class addressfields_listingViewaddressfields_listing extends JView
+class addressfields_listingViewaddressfields_listing extends JViewLegacy
 {
 	public function display($tpl = null)
 	{

@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 
-class order_containerController extends JController
+class order_containerController extends JControllerLegacy
 {
 	public function cancel()
 	{
@@ -26,7 +26,7 @@ class order_containerController extends JController
 
 	public function export_data()
 	{
-		require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'order.php';
+		require_once JPATH_COMPONENT . DS . 'helpers/order.php';
 
 		$order_function = new order_functions;
 

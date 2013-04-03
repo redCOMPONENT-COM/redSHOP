@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 
-class prices_detailController extends JController
+class prices_detailController extends JControllerLegacy
 {
 	public function __construct($default = array())
 	{

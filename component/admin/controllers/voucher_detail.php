@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 
-class voucher_detailController extends JController
+class voucher_detailController extends JControllerLegacy
 {
 	public function __construct($default = array())
 	{

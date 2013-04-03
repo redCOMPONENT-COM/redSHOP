@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
-class supplier_detailVIEWsupplier_detail extends JView
+class supplier_detailVIEWsupplier_detail extends JViewLegacy
 {
 	/**
 	 * The request url.
@@ -22,7 +22,7 @@ class supplier_detailVIEWsupplier_detail extends JView
 
 	public function display($tpl = null)
 	{
-		require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php');
+		require_once(JPATH_COMPONENT . DS . 'helpers/extra_field.php');
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_SUPPLIER_MANAGEMENT_DETAIL'), 'redshop_manufact48');
 

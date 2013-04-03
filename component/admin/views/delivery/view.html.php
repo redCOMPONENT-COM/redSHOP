@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
-class deliveryViewdelivery extends JView
+class deliveryViewdelivery extends JViewLegacy
 {
 	/**
 	 * The request url.

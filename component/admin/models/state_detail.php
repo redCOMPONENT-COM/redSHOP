@@ -10,7 +10,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
-class state_detailModelstate_detail extends JModel
+class state_detailModelstate_detail extends JModelLegacy
 {
 	public $_id = null;
 
@@ -132,7 +132,7 @@ class state_detailModelstate_detail extends JModel
 
 	public function getcountry()
 	{
-		require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'helper.php');
+		require_once(JPATH_COMPONENT_SITE . DS . 'helpers/helper.php');
 		$redhelper = new redhelper;
 		$q = "SELECT  country_3_code as value,country_name as text,country_jtext from #__" . TABLE_PREFIX . "_country ORDER BY 					    	country_name ASC";
 		$this->_db->setQuery($q);

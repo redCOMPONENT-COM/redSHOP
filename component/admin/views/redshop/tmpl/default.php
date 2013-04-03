@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die ('restricted access');
-require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'helper.php');
+require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers/helper.php');
 
 $redhelper = new reddesignhelper();
 $expand_all = EXPAND_ALL;

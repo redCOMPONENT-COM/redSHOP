@@ -10,11 +10,11 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
-require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'category.php');
-require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'extra_field.php');
-require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'product.php');
+require_once(JPATH_COMPONENT . DS . 'helpers/category.php');
+require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers/extra_field.php');
+require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers/product.php');
 
-class productViewproduct extends JView
+class productViewproduct extends JViewLegacy
 {
 	/**
 	 * The pagination object.

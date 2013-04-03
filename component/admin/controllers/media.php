@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.controller');
 jimport('joomla.filesystem.file');
 
-class mediaController extends JController
+class mediaController extends JControllerLegacy
 {
 	public function cancel()
 	{

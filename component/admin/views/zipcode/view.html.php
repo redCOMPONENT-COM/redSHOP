@@ -10,7 +10,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
-class zipcodeViewzipcode extends JView
+class zipcodeViewzipcode extends JViewLegacy
 {
 	public function display($tpl = null)
 	{

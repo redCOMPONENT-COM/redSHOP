@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
-class couponViewcoupon extends JView
+class couponViewcoupon extends JViewLegacy
 {
 	/**
 	 * The current user.

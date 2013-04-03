@@ -13,7 +13,7 @@ jimport('joomla.application.component.controller');
 jimport('joomla.filesystem.file');
 jimport('joomla.filesystem.archive');
 
-class media_detailController extends JController
+class media_detailController extends JControllerLegacy
 {
 	public function __construct($default = array())
 	{

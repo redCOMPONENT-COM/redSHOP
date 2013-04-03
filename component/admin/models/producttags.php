@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
-class producttagsModelproducttags extends JModel
+class producttagsModelproducttags extends JModelLegacy
 {
 	public $_data = null;
 

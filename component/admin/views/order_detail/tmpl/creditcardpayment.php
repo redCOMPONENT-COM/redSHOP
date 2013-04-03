@@ -14,12 +14,12 @@ $request = JRequest::get();
 JHTML::_('behavior.tooltip');
 JHTMLBehavior::modal();
 
-require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php');
+require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers/order.php');
 
-include_once (JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'product.php');
-include_once (JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'cart.php');
-include_once (JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'user.php');
-include_once (JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'helper.php');
+include_once (JPATH_COMPONENT_SITE . DS . 'helpers/product.php');
+include_once (JPATH_COMPONENT_SITE . DS . 'helpers/cart.php');
+include_once (JPATH_COMPONENT_SITE . DS . 'helpers/user.php');
+include_once (JPATH_COMPONENT_SITE . DS . 'helpers/helper.php');
 
 $carthelper = new rsCarthelper();
 $producthelper = new producthelper();

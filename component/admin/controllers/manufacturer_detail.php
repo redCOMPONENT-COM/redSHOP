@@ -11,9 +11,9 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 
-require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php');
+require_once(JPATH_COMPONENT . DS . 'helpers/extra_field.php');
 
-class manufacturer_detailController extends JController
+class manufacturer_detailController extends JControllerLegacy
 {
 	public function __construct($default = array())
 	{

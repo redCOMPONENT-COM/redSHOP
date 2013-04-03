@@ -10,9 +10,9 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
-require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php');
+require_once(JPATH_COMPONENT . DS . 'helpers/extra_field.php');
 
-class product_categoryModelproduct_category extends JModel
+class product_categoryModelproduct_category extends JModelLegacy
 {
 	public function __construct()
 	{

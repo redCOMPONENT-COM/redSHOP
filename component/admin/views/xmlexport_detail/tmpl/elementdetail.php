@@ -8,7 +8,7 @@
  */
 defined('_JEXEC') or die;
 JHTML::_('behavior.tooltip');
-require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'xmlhelper.php');
+require_once(JPATH_ADMINISTRATOR . DS . 'components/com_redshop/helpers/xmlhelper.php');
 
 $option = JRequest::getVar('option');
 $section_type = JRequest::getVar('section_type');

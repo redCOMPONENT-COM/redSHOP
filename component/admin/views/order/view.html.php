@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
-class orderVieworder extends JView
+class orderVieworder extends JViewLegacy
 {
 	public function display($tpl = null)
 	{

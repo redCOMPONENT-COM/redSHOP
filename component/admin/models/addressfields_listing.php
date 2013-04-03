@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
-class addressfields_listingModeladdressfields_listing extends JModel
+class addressfields_listingModeladdressfields_listing extends JModelLegacy
 {
 	public $_context = null;
 

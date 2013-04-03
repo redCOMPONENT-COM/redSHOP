@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
-class voucherModelvoucher extends JModel
+class voucherModelvoucher extends JModelLegacy
 {
 	public $_data = null;
 

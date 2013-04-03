@@ -12,9 +12,9 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.controller');
 jimport('joomla.filesystem.file');
 
-require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'thumbnail.php');
+require_once(JPATH_COMPONENT . DS . 'helpers/thumbnail.php');
 
-class attribute_set_detailController extends JController
+class attribute_set_detailController extends JControllerLegacy
 {
 	public function __construct($default = array())
 	{
@@ -43,7 +43,7 @@ class attribute_set_detailController extends JController
 		$option = JRequest::getVar('option');
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 
-		require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php');
+		require_once(JPATH_COMPONENT . DS . 'helpers/extra_field.php');
 
 		$model = $this->getModel('attribute_set_detail');
 

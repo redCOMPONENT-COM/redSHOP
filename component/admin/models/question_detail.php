@@ -11,9 +11,9 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
-require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'mail.php');
+require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers/mail.php');
 
-class question_detailModelquestion_detail extends JModel
+class question_detailModelquestion_detail extends JModelLegacy
 {
 	public $_id = null;
 

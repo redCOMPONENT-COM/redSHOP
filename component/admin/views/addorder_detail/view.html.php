@@ -11,11 +11,11 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
-require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'extra_field.php');
-require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php');
-require_once(JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'helper.php');
+require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers/extra_field.php');
+require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers/order.php');
+require_once(JPATH_SITE . DS . 'components/com_redshop/helpers/helper.php');
 
-class addorder_detailVIEWaddorder_detail extends JView
+class addorder_detailVIEWaddorder_detail extends JViewLegacy
 {
 	/**
 	 * The request url.

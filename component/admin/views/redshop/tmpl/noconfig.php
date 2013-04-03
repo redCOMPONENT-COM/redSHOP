@@ -11,7 +11,7 @@ defined('_JEXEC') or die ('restricted access');
 $configroot = JPATH_COMPONENT . DS . 'helpers';
 $configpath = $configroot . DS . 'redshop.cfg.php';
 
-$distconfigpath = $configroot . DS . 'wizard' . DS . 'redshop.cfg.dist.php';
+$distconfigpath = $configroot . DS . 'wizard/redshop.cfg.dist.php';
 
 JError::raiseWarning(21, JText::_('COM_REDSHOP_CONFIGURATION_FILE_IS_NOT_EXIST'));
 

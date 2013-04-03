@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 
-class shopper_groupController extends JController
+class shopper_groupController extends JControllerLegacy
 {
 	public function cancel()
 	{

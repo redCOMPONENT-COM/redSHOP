@@ -11,12 +11,12 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
-require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'thumbnail.php');
+require_once(JPATH_COMPONENT . DS . 'helpers/thumbnail.php');
 jimport('joomla.client.helper');
 JClientHelper::setCredentialsFromRequest('ftp');
 jimport('joomla.filesystem.file');
 
-class tax_group_detailModeltax_group_detail extends JModel
+class tax_group_detailModeltax_group_detail extends JModelLegacy
 {
 	public $_id = null;
 

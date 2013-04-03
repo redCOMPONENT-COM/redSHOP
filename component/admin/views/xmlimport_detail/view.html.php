@@ -10,9 +10,9 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
-require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'xmlhelper.php');
+require_once(JPATH_ADMINISTRATOR . DS . 'components/com_redshop/helpers/xmlhelper.php');
 
-class xmlimport_detailVIEWxmlimport_detail extends JView
+class xmlimport_detailVIEWxmlimport_detail extends JViewLegacy
 {
 	public function display($tpl = null)
 	{

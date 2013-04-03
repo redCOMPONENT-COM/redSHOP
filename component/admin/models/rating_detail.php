@@ -10,7 +10,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
-class rating_detailModelrating_detail extends JModel
+class rating_detailModelrating_detail extends JModelLegacy
 {
 	public $_id = null;
 

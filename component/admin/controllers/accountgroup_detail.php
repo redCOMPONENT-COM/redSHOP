@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 
-class accountgroup_detailController extends JController
+class accountgroup_detailController extends JControllerLegacy
 {
 	public function __construct($default = array())
 	{

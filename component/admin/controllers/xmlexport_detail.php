@@ -11,9 +11,9 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 
-require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'xmlhelper.php');
+require_once(JPATH_ADMINISTRATOR . DS . 'components/com_redshop/helpers/xmlhelper.php');
 
-class xmlexport_detailController extends JController
+class xmlexport_detailController extends JControllerLegacy
 {
 	public function __construct($default = array())
 	{

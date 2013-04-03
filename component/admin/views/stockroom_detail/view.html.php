@@ -11,9 +11,9 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
-require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'extra_field.php');
+require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers/extra_field.php');
 
-class stockroom_detailVIEWstockroom_detail extends JView
+class stockroom_detailVIEWstockroom_detail extends JViewLegacy
 {
 	public function display($tpl = null)
 	{
