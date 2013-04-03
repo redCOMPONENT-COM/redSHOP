@@ -30,9 +30,17 @@ class plgRedshop_paymentrs_payment_paypal_subscription extends JPlugin
             return '';
         }
 
-        include JPATH_SITE . '/plugins/redshop_payment/' . $element . DS . $element . '/extra_info.php';
+        include JPATH_SITE . '/plugins/redshop_payment/' . $element . '/' . $element . '/extra_info.php';
     }
 
+    /**
+     *  On Notify Paypal Payment Subscription
+     *
+     * @param string $element Element Name
+     * @param array  $request request variables from paypal
+     *
+     * @return bool|stdClass
+     */
     public function onNotifyPaymentrs_payment_paypal_subscription($element, $request)
     {
         if ($element != 'rs_payment_paypal_subscription')
@@ -230,7 +238,7 @@ class plgRedshop_paymentrs_payment_paypal_subscription extends JPlugin
                     $paymentmethod = $order_functions->getPaymentMethodInfo('rs_payment_paypal_subscription');
                     $paymentmethod = $paymentmethod[0];
 
-                    $xmlpath = JPATH_SITE . '/plugins/redshop_payment/' . $paymentmethod->element . DS . $paymentmethod->element . '.xml';
+                    $xmlpath = JPATH_SITE . '/plugins/redshop_payment/' . $paymentmethod->element . '/' . $paymentmethod->element . '.xml';
                     $params  = new JRegistry($paymentmethod->params, $xmlpath);
 
                     $rowpayment = JTable::getInstance('order_payment', 'Table');
@@ -330,6 +338,13 @@ class plgRedshop_paymentrs_payment_paypal_subscription extends JPlugin
         }
     }
 
+    /**
+     * Get Parameter of Plugin
+     *
+     * @param string $payment payment gateway name
+     *
+     * @return mixed
+     */
     public function getparameters($payment)
     {
         $db  = JFactory::getDBO();
@@ -340,6 +355,15 @@ class plgRedshop_paymentrs_payment_paypal_subscription extends JPlugin
         return $params;
     }
 
+    /**
+     * Checking for first time recurring payment
+     *
+     * @param object  $db        databse object array
+     * @param integer $order_id  redSHOP Order ID
+     * @param integer $subscr_id redSHOP Subscription ID
+     *
+     * @return bool
+     */
     public function checkFirstRecurringPayment($db, $order_id, $subscr_id)
     {
         $db    = JFactory::getDBO();
@@ -357,6 +381,13 @@ class plgRedshop_paymentrs_payment_paypal_subscription extends JPlugin
         return $res;
     }
 
+    /**
+     * First recurring payment Updation
+     *
+     * @param object  $db        databse object array
+     * @param integer $order_id  redSHOP Order ID
+     * @param integer $subscr_id redSHOP Subscription ID
+     */
     public function updateFirstRecurringPayment($db, $order_id, $subscr_id)
     {
         $db    = JFactory::getDBO();
@@ -365,6 +396,13 @@ class plgRedshop_paymentrs_payment_paypal_subscription extends JPlugin
         $db->query();
     }
 
+    /**
+     * @param         $dbConn
+     * @param integer $order_id  redSHOP Order ID
+     * @param integer $tid       PayPal Transaction Id
+     *
+     * @return bool
+     */
     public function orderPaymentNotYetUpdated($dbConn, $order_id, $tid)
     {
         $db    = JFactory::getDBO();
