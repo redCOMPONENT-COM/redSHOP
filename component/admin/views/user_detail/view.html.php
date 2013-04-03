@@ -69,7 +69,7 @@ class user_detailVIEWuser_detail extends JView
 		else
 		{
 			JToolBarHelper::customX('order', 'redshop_order32', '', JText::_('COM_REDSHOP_PLACE_ORDER'), false);
-			JToolBarHelper::cancel('cancel', 'Close');
+			JToolBarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
 		}
 
 		$pagination = $this->get('Pagination');

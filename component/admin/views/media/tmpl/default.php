@@ -230,8 +230,8 @@ else
 					{
 						?>
 						<!--ordering-->
-						<td align="center"><?php  echo $this->pagination->orderUpIcon($i, true, 'orderup', 'Move Up', $row->ordering);
-							echo $this->pagination->orderDownIcon($i, $n, true, 'orderdown', 'Move Down', $row->ordering);?>
+						<td align="center"><?php  echo $this->pagination->orderUpIcon($i, true, 'orderup', JText::_('JLIB_HTML_MOVE_UP'), $row->ordering);
+							echo $this->pagination->orderDownIcon($i, $n, true, 'orderdown', JText::_('JLIB_HTML_MOVE_DOWN'), $row->ordering);?>
 							<input type="text" name="order[]" size="5" value="<?php echo $row->ordering; ?>"
 							       class="text_area" style="text-align: center"/></td>
 					<?php }    ?>

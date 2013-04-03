@@ -61,7 +61,7 @@ class template_detailVIEWtemplate_detail extends JView
 			// EDIT - check out the item
 			$model->checkout($user->get('id'));
 
-			JToolBarHelper::cancel('cancel', 'Close');
+			JToolBarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
 		}
 
 		// TEMPLATE MOVE DB TO FILE

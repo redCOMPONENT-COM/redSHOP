@@ -47,7 +47,7 @@ class answer_detailVIEWanswer_detail extends JView
 		{
 			JToolBarHelper::cancel();
 		} else {
-			JToolBarHelper::cancel( 'cancel', 'Close' );
+			JToolBarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
 		}
 
 		$option= $model->getProduct();
