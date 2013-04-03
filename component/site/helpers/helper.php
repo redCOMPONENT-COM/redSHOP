@@ -26,8 +26,8 @@ class redhelper
 	}
 
 	/**
- 	 * add item to cart from db ...
- 	 */
+	 * add item to cart from db ...
+	 */
 	public function dbtocart()
 	{
 		require_once JPATH_SITE . '/components/com_redshop/helpers/cart.php';
@@ -329,27 +329,27 @@ class redhelper
 	public function getOrderByList()
 	{
 		$order_data           = array();
-		$order_data[0] = new stdClass;
+		$order_data[0]        = new stdClass;
 		$order_data[0]->value = "p.product_name ASC";
 		$order_data[0]->text  = JText::_('COM_REDSHOP_PRODUCT_NAME');
 
-		$order_data[1] = new stdClass;
+		$order_data[1]        = new stdClass;
 		$order_data[1]->value = "p.product_price ASC";
 		$order_data[1]->text  = JText::_('COM_REDSHOP_PRODUCT_PRICE_ASC');
 
-		$order_data[2] = new stdClass;
+		$order_data[2]        = new stdClass;
 		$order_data[2]->value = "p.product_price DESC";
 		$order_data[2]->text  = JText::_('COM_REDSHOP_PRODUCT_PRICE_DESC');
 
-		$order_data[3] = new stdClass;
+		$order_data[3]        = new stdClass;
 		$order_data[3]->value = "p.product_number ASC";
 		$order_data[3]->text  = JText::_('COM_REDSHOP_PRODUCT_NUMBER');
 
-		$order_data[4] = new stdClass;
+		$order_data[4]        = new stdClass;
 		$order_data[4]->value = "p.product_id DESC";
 		$order_data[4]->text  = JText::_('COM_REDSHOP_NEWEST');
 
-		$order_data[5] = new stdClass;
+		$order_data[5]        = new stdClass;
 		$order_data[5]->value = "pc.ordering ASC";
 		$order_data[5]->text  = JText::_('COM_REDSHOP_ORDERING');
 
@@ -359,15 +359,15 @@ class redhelper
 	public function getManufacturerOrderByList()
 	{
 		$order_data           = array();
-		$order_data[0] = new stdClass;
+		$order_data[0]        = new stdClass;
 		$order_data[0]->value = "mn.manufacturer_name ASC";
 		$order_data[0]->text  = JText::_('COM_REDSHOP_ALPHABETICALLY');
 
-		$order_data[1] = new stdClass;
+		$order_data[1]        = new stdClass;
 		$order_data[1]->value = "mn.manufacturer_id DESC";
 		$order_data[1]->text  = JText::_('COM_REDSHOP_NEWEST');
 
-		$order_data[2] = new stdClass;
+		$order_data[2]        = new stdClass;
 		$order_data[2]->value = "mn.ordering ASC";
 		$order_data[2]->text  = JText::_('COM_REDSHOP_ORDERING');
 
@@ -377,43 +377,43 @@ class redhelper
 	public function getRelatedOrderByList()
 	{
 		$order_data           = array();
-		$order_data[0] = new stdClass;
+		$order_data[0]        = new stdClass;
 		$order_data[0]->value = "p.product_name ASC";
 		$order_data[0]->text  = JText::_('COM_REDSHOP_PRODUCT_NAME_ASC');
 
-		$order_data[1] = new stdClass;
+		$order_data[1]        = new stdClass;
 		$order_data[1]->value = "p.product_name DESC";
 		$order_data[1]->text  = JText::_('COM_REDSHOP_PRODUCT_NAME_DESC');
 
-		$order_data[2] = new stdClass;
+		$order_data[2]        = new stdClass;
 		$order_data[2]->value = "p.product_price ASC";
 		$order_data[2]->text  = JText::_('COM_REDSHOP_PRODUCT_PRICE_ASC');
 
-		$order_data[3] = new stdClass;
+		$order_data[3]        = new stdClass;
 		$order_data[3]->value = "p.product_price DESC";
 		$order_data[3]->text  = JText::_('COM_REDSHOP_PRODUCT_PRICE_DESC');
 
-		$order_data[4] = new stdClass;
+		$order_data[4]        = new stdClass;
 		$order_data[4]->value = "p.product_number ASC";
 		$order_data[4]->text  = JText::_('COM_REDSHOP_PRODUCT_NUMBER_ASC');
 
-		$order_data[5] = new stdClass;
+		$order_data[5]        = new stdClass;
 		$order_data[5]->value = "p.product_number DESC";
 		$order_data[5]->text  = JText::_('COM_REDSHOP_PRODUCT_NUMBER_DESC');
 
-		$order_data[6] = new stdClass;
+		$order_data[6]        = new stdClass;
 		$order_data[6]->value = "r.ordering ASC";
 		$order_data[6]->text  = JText::_('COM_REDSHOP_ORDERING_ASC');
 
-		$order_data[7] = new stdClass;
+		$order_data[7]        = new stdClass;
 		$order_data[7]->value = "r.ordering DESC";
 		$order_data[7]->text  = JText::_('COM_REDSHOP_ORDERING_DESC');
 
-		$order_data[8] = new stdClass;
+		$order_data[8]        = new stdClass;
 		$order_data[8]->value = "e.data_txt ASC";
 		$order_data[8]->text  = JText::_('COM_REDSHOP_DATEPICKER_ASC');
 
-		$order_data[9] = new stdClass;
+		$order_data[9]        = new stdClass;
 		$order_data[9]->value = "e.data_txt DESC";
 		$order_data[9]->text  = JText::_('COM_REDSHOP_DATEPICKER_DESC');
 
@@ -423,35 +423,35 @@ class redhelper
 	public function getAccessoryOrderByList()
 	{
 		$order_data           = array();
-		$order_data[0] = new stdClass;
+		$order_data[0]        = new stdClass;
 		$order_data[0]->value = "child_product_id ASC";
 		$order_data[0]->text  = JText::_('COM_REDSHOP_PRODUCT_ID_ASC');
 
-		$order_data[1] = new stdClass;
+		$order_data[1]        = new stdClass;
 		$order_data[1]->value = "child_product_id DESC";
 		$order_data[1]->text  = JText::_('COM_REDSHOP_PRODUCT_ID_DESC');
 
-		$order_data[2] = new stdClass;
+		$order_data[2]        = new stdClass;
 		$order_data[2]->value = "accessory_id ASC";
 		$order_data[2]->text  = JText::_('COM_REDSHOP_ACCESSORY_ID_ASC');
 
-		$order_data[3] = new stdClass;
+		$order_data[3]        = new stdClass;
 		$order_data[3]->value = "accessory_id DESC";
 		$order_data[3]->text  = JText::_('COM_REDSHOP_ACCESSORY_ID_DESC');
 
-		$order_data[4] = new stdClass;
+		$order_data[4]        = new stdClass;
 		$order_data[4]->value = "newaccessory_price ASC";
 		$order_data[4]->text  = JText::_('COM_REDSHOP_ACCESSORY_PRICE_ASC');
 
-		$order_data[5] = new stdClass;
+		$order_data[5]        = new stdClass;
 		$order_data[5]->value = "newaccessory_price DESC";
 		$order_data[5]->text  = JText::_('COM_REDSHOP_ACCESSORY_PRICE_DESC');
 
-		$order_data[6] = new stdClass;
+		$order_data[6]        = new stdClass;
 		$order_data[6]->value = "ordering ASC";
 		$order_data[6]->text  = JText::_('COM_REDSHOP_ORDERING_ASC');
 
-		$order_data[7] = new stdClass;
+		$order_data[7]        = new stdClass;
 		$order_data[7]->value = "ordering DESC";
 		$order_data[7]->text  = JText::_('COM_REDSHOP_ORDERING_DESC');
 
@@ -461,16 +461,16 @@ class redhelper
 	//  function to get preorder option list
 	public function getPreOrderByList()
 	{
-		$preorder_data = array();
-		$preorder_data[0] = new stdClass;
+		$preorder_data           = array();
+		$preorder_data[0]        = new stdClass;
 		$preorder_data[0]->value = "global";
 		$preorder_data[0]->text  = JText::_('COM_REDSHOP_GLOBAL');
 
-		$preorder_data[1] = new stdClass;
+		$preorder_data[1]        = new stdClass;
 		$preorder_data[1]->value = "yes";
 		$preorder_data[1]->text  = JText::_('COM_REDSHOP_YES');
 
-		$preorder_data[2] = new stdClass;
+		$preorder_data[2]        = new stdClass;
 		$preorder_data[2]->value = "no";
 		$preorder_data[2]->text  = JText::_('COM_REDSHOP_NO');
 
@@ -480,12 +480,12 @@ class redhelper
 	//  function to get child product option list
 	public function getChildProductOption()
 	{
-		$childproduct_data = array();
-		$childproduct_data[0] = new stdClass;
+		$childproduct_data           = array();
+		$childproduct_data[0]        = new stdClass;
 		$childproduct_data[0]->value = "product_name";
 		$childproduct_data[0]->text  = JText::_('COM_REDSHOP_CHILD_PRODUCT_NAME');
 
-		$childproduct_data[1] = new stdClass;
+		$childproduct_data[1]        = new stdClass;
 		$childproduct_data[1]->value = "product_number";
 		$childproduct_data[1]->text  = JText::_('COM_REDSHOP_CHILD_PRODUCT_NUMBER');
 
@@ -496,11 +496,11 @@ class redhelper
 	public function getStateAbbrivationByList()
 	{
 		$state_data           = array();
-		$state_data[0] = new stdClass;
+		$state_data[0]        = new stdClass;
 		$state_data[0]->value = "2";
 		$state_data[0]->text  = JText::_('COM_REDSHOP_TWO_LETTER_ABBRIVATION');
 
-		$state_data[1] = new stdClass;
+		$state_data[1]        = new stdClass;
 		$state_data[1]->value = "3";
 		$state_data[1]->text  = JText::_('COM_REDSHOP_THREE_LETTER_ABBRIVATION');
 
@@ -665,19 +665,20 @@ class redhelper
 		if ($Imagename
 			&& file_exists(REDSHOP_FRONT_IMAGES_RELPATH . $mtype . "/" . $Imagename)
 			&& (WATERMARK_IMAGE
-			&& file_exists(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . WATERMARK_IMAGE)))
+				&& file_exists(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . WATERMARK_IMAGE))
+		)
 		{
 			if ($thumb_width != '' && $thumb_height != '')
 			{
-				$file_path    = JPATH_SITE . '/components/com_redshop/assets/images/product/' . WATERMARK_IMAGE;
-				$filename     = RedShopHelperImages::generateImages($file_path, '', 'thumb', 'product', $thumb_width, $thumb_height, USE_IMAGE_SIZE_SWAPPING);
+				$file_path          = JPATH_SITE . '/components/com_redshop/assets/images/product/' . WATERMARK_IMAGE;
+				$filename           = RedShopHelperImages::generateImages($file_path, '', 'thumb', 'product', $thumb_width, $thumb_height, USE_IMAGE_SIZE_SWAPPING);
 				$filename_path_info = pathinfo($filename);
 				$watermark          = REDSHOP_FRONT_IMAGES_ABSPATH . 'product/thumb/' . $filename_path_info['basename'];
 
 				$file_path          = JPATH_SITE . '/components/com_redshop/assets/images/' . $mtype . '/' . $Imagename;
 				$filename           = RedShopHelperImages::generateImages($file_path, '', 'thumb', $mtype, $thumb_width, $thumb_height, USE_IMAGE_SIZE_SWAPPING);
 				$filename_path_info = pathinfo($filename);
-				$filename           = REDSHOP_FRONT_IMAGES_ABSPATH . 'product' . '/' . $mtype . '/' . $filename_path_info['basename'];
+				$filename           = REDSHOP_FRONT_IMAGES_ABSPATH . $mtype . '/thumb/' . $filename_path_info['basename'];
 
 				if ($add_img == 2)
 				{
@@ -890,20 +891,20 @@ class redhelper
 	public function sendmessage($text, $to)
 	{
 		// Clickatell_username
-		$user     = CLICKATELL_USERNAME;
+		$user = CLICKATELL_USERNAME;
 
 		// Clickatell_password
 		$password = CLICKATELL_PASSWORD;
 
 		// Clickatell_api_id
-		$api_id   = CLICKATELL_API_ID;
-		$baseurl  = "http://api.clickatell.com";
+		$api_id  = CLICKATELL_API_ID;
+		$baseurl = "http://api.clickatell.com";
 
 		// Auth call
-		$url  = "$baseurl/http/auth?user=$user&password=$password&api_id=$api_id";
+		$url = "$baseurl/http/auth?user=$user&password=$password&api_id=$api_id";
 
 		// Do auth call
-		$ret  = file($url);
+		$ret = file($url);
 
 		// Split our response. return string is on first line of the data returned
 		$sess = explode(":", $ret[0]);
