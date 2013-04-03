@@ -2,11 +2,11 @@
 /**
  * PayPal Subscription Plugin
  *
- * @package    RedSHOP
- * @subpackage Plugin
+ * @package     RedSHOP
+ * @subpackage  Plugin
  *
- * @copyright  Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE *
+ * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
 
@@ -15,14 +15,17 @@ require_once JPATH_SITE . '/administrator/components/com_redshop/helpers/order.p
 
 /**
  * Class to Manage PayPal Payment Subscription
+ *
+ * @package  RedSHOP
+ * @since    2.5
  */
 class PlgRedshop_Paymentrs_Payment_Paypal_Subscription extends JPlugin
 {
 	/**
 	 * Plugin method with the same name as the event will be called automatically.
 	 *
-	 * @param string $element A Element Name
-	 * @param array  $data    Data Array
+	 * @param   string  $element  an Element Name
+	 * @param   array   $data     Data
 	 *
 	 * @return null
 	 */
@@ -39,8 +42,8 @@ class PlgRedshop_Paymentrs_Payment_Paypal_Subscription extends JPlugin
 	/**
 	 *  On Notify Paypal Payment Subscription
 	 *
-	 * @param string $element Element Name
-	 * @param array  $request request variables from paypal
+	 * @param   string  $element  Element Name
+	 * @param   array   $request  request variables from paypal
 	 *
 	 * @return bool|stdClass
 	 */
@@ -344,9 +347,9 @@ class PlgRedshop_Paymentrs_Payment_Paypal_Subscription extends JPlugin
 	/**
 	 * Checking for first time recurring payment
 	 *
-	 * @param object  $db        databse object array
-	 * @param integer $order_id  redSHOP Order ID
-	 * @param integer $subscr_id redSHOP Subscription ID
+	 * @param   object   $db         databse object array
+	 * @param   integer  $order_id   redSHOP Order ID
+	 * @param   integer  $subscr_id  redSHOP Subscription ID
 	 *
 	 * @return bool
 	 */
@@ -370,9 +373,11 @@ class PlgRedshop_Paymentrs_Payment_Paypal_Subscription extends JPlugin
 	/**
 	 * First recurring payment Updation
 	 *
-	 * @param object  $db        databse object array
-	 * @param integer $order_id  redSHOP Order ID
-	 * @param integer $subscr_id redSHOP Subscription ID
+	 * @param   object   $db         databse object array
+	 * @param   integer  $order_id   redSHOP Order ID
+	 * @param   integer  $subscr_id  redSHOP Subscription ID
+	 *
+	 * @return null
 	 */
 	public function updateFirstRecurringPayment($db, $order_id, $subscr_id)
 	{
