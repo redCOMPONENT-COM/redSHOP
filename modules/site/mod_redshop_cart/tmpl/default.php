@@ -147,7 +147,7 @@ if (!DEFAULT_QUOTATION_MODE || (DEFAULT_QUOTATION_MODE && SHOW_QUOTATION_PRICE))
 
 	if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . ADDTOCART_BACKGROUND))
 	{
-        $styledis .= ' cursor:pointer;background:url(' . REDSHOP_FRONT_IMAGES_ABSPATH.ADDTOCART_BACKGROUND . ');background-position:bottom;background-repeat:no-repeat; ';
+        $styledis .= 'background:url(' . REDSHOP_FRONT_IMAGES_ABSPATH.ADDTOCART_BACKGROUND . ');background-position:bottom;background-repeat:no-repeat; ';
     }
 	?>
 
