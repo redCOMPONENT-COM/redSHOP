@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="module" version="2.5" client="site" method="upgrade">
-    <name>redSHOP - Cart module hihi</name>
+    <name>redSHOP - Cart module</name>
     <version>1.1.11</version>
     <creationDate>10-04-2012</creationDate>
     <author>redweb.dk</author>
