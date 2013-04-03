@@ -46,14 +46,14 @@
                 <field name="show_noofproducts" type="radio" default="yes"
                        label="COM_REDSHOP_SHOWNOOFPROD_LABEL"
                        description="COM_REDSHOP_SHOWNOOFPROD_DESC">
-                    <option value="yes">COM_REDSHOP_YES</option>
-                    <option value="no">COM_REDSHOP_NO</option>
+                    <option value="yes">JYES</option>
+                    <option value="no">JNO</option>
                 </field>
                 <field name="use_shoppergroup" type="radio" default="yes"
                        label="COM_REDSHOP_USE_SHOPPERGROUP_LABEL"
                        description="COM_REDSHOP_USE_SHOPPERGROUP_DESC">
-                    <option value="yes">COM_REDSHOP_YES</option>
-                    <option value="no">COM_REDSHOP_NO</option>
+                    <option value="yes">JYES</option>
+                    <option value="no">JNO</option>
                 </field>
                 <field name="redshop_category" type="redshopcategory" default=""
                        label="COM_REDSHOP_CATEGORIES_SELECTION"

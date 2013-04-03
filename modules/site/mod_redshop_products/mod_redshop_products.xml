@@ -39,20 +39,20 @@
 
                 <field name="vertical_product" type="radio" default="0" label="COM_REDSHOP_VERTICAL_PRODUCT"
                        description="COM_REDSHOP_VERTICAL_PRODUCT_DESC">
-                    <option value="1">COM_REDSHOP_YES</option>
-                    <option value="0">COM_REDSHOP_NO</option>
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
                 </field>
 
                 <field name="featured_product" type="radio" default="0" label="COM_REDSHOP_FEATURED_PRODUCT"
                        description="COM_REDSHOP_FEATURED_PRODUCT_DESC">
-                    <option value="1">COM_REDSHOP_YES</option>
-                    <option value="0">COM_REDSHOP_NO</option>
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
                 </field>
 
                 <field name="image" type="radio" default="0" label="COM_REDSHOP_SHOW_IMAGE"
                        description="COM_REDSHOP_SHOW_IMAGE_DESC">
-                    <option value="1">COM_REDSHOP_YES</option>
-                    <option value="0">COM_REDSHOP_NO</option>
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
                 </field>
 
                 <field name="thumbwidth" type="text" size="10" label="COM_REDSHOP_THUMB_IMAGE_WIDTH"
@@ -62,39 +62,39 @@
 
                 <field name="show_price" type="radio" default="0" label="COM_REDSHOP_SHOW_PRICE"
                        description="COM_REDSHOP_SHOW_PRICE_DESC">
-                    <option value="1">COM_REDSHOP_YES</option>
-                    <option value="0">COM_REDSHOP_NO</option>
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
                 </field>
                 <field name="show_vat" type="radio" default="1" label="COM_REDSHOP_SHOW_VAT"
                        description="COM_REDSHOP_SHOW_VAT_DESC">
-                    <option value="1">COM_REDSHOP_YES</option>
-                    <option value="0">COM_REDSHOP_NO</option>
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
                 </field>
                 <field name="show_short_description" type="radio" default="1" label="COM_REDSHOP_SHOW_SHORT_DESCRIPTION"
                        description="COM_REDSHOP_SHOW_SHORT_DESCRIPTION_DESC">
-                    <option value="1">COM_REDSHOP_YES</option>
-                    <option value="0">COM_REDSHOP_NO</option>
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
                 </field>
                 <field name="show_readmore" type="radio" default="1" label="COM_REDSHOP_SHOW_READ_MORE"
                        description="COM_REDSHOP_SHOW_READ_MORE_DESC">
-                    <option value="1">COM_REDSHOP_YES</option>
-                    <option value="0">COM_REDSHOP_NO</option>
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
                 </field>
                 <field name="show_addtocart" type="radio" default="1" label="COM_REDSHOP_SHOW_ADD_TO_CART"
                        description="COM_REDSHOP_SHOW_ADD_TO_CART_DESC">
-                    <option value="1">COM_REDSHOP_YES</option>
-                    <option value="0">COM_REDSHOP_NO</option>
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
                 </field>
                 <field name="show_discountpricelayout" type="radio" default="1"
                        label="COM_REDSHOP_SHOW_DISCOUNT_PRICE_LAYOUT"
                        description="COM_REDSHOP_SHOW_DISCOUNT_PRICE_LAYOUT">
-                    <option value="1">COM_REDSHOP_YES</option>
-                    <option value="0">COM_REDSHOP_NO</option>
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
                 </field>
                 <field name="show_childproducts" type="radio" default="1" label="COM_REDSHOP_SHOW_CHILD_PRODUCTS"
                        description="COM_REDSHOP_SHOW_CHILD_PRODUCTS">
-                    <option value="1">COM_REDSHOP_YES</option>
-                    <option value="0">COM_REDSHOP_NO</option>
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
                 </field>
                 <field name="show_stockroom_status" type="radio" default="1" label="COM_REDSHOP_SHOW_STOCKROOM_STATUS"
                        description="COM_REDSHOP_SHOW_STOCKROOM_STATUS">
