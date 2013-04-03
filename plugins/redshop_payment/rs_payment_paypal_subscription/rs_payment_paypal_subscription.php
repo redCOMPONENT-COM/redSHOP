@@ -13,7 +13,10 @@ defined('_JEXEC') or die;
 jimport('joomla.plugin.plugin');
 require_once JPATH_SITE . '/administrator/components/com_redshop/helpers/order.php';
 
-class plgRedshop_paymentrs_payment_paypal_subscription extends JPlugin
+/**
+ * Class to Manage PayPal Payment Subscription
+ */
+class PlgRedshop_Paymentrs_Payment_Paypal_Subscription extends JPlugin
 {
     /**
      * Plugin method with the same name as the event will be called automatically.
@@ -55,7 +58,7 @@ class plgRedshop_paymentrs_payment_paypal_subscription extends JPlugin
         $db              = JFactory::getDBO();
         $request         = JRequest::get('request');
 
-        $paypal_parameters = $this->getparameters('rs_payment_paypal_subscription');
+        $paypal_parameters = $this->_params->get('rs_payment_paypal_subscription');
         $paymentinfo       = $paypal_parameters[0];
         $paymentparams     = new JRegistry($paymentinfo->params);
 
@@ -339,23 +342,6 @@ class plgRedshop_paymentrs_payment_paypal_subscription extends JPlugin
     }
 
     /**
-     * Get Parameter of Plugin
-     *
-     * @param string $payment payment gateway name
-     *
-     * @return mixed
-     */
-    public function getparameters($payment)
-    {
-        $db  = JFactory::getDBO();
-        $sql = "SELECT * FROM #__plugins WHERE `element`='" . $payment . "'";
-        $db->setQuery($sql);
-        $params = $db->loadObjectList();
-
-        return $params;
-    }
-
-    /**
      * Checking for first time recurring payment
      *
      * @param object  $db        databse object array
@@ -394,28 +380,5 @@ class plgRedshop_paymentrs_payment_paypal_subscription extends JPlugin
         $query = "UPDATE `#__redshop_orders` set recuuring_subcription_id ='" . $subscr_id . "'  WHERE `order_id` = '" . $order_id . "'";
         $db->SetQuery($query);
         $db->query();
-    }
-
-    /**
-     * @param         $dbConn
-     * @param integer $order_id  redSHOP Order ID
-     * @param integer $tid       PayPal Transaction Id
-     *
-     * @return bool
-     */
-    public function orderPaymentNotYetUpdated($dbConn, $order_id, $tid)
-    {
-        $db    = JFactory::getDBO();
-        $res   = false;
-        $query = "SELECT COUNT(*) `qty` FROM `#__redshop_order_payment` WHERE `order_id` = '" . $order_id . "' and order_payment_trans_id = '" . $tid . "'";
-        $db->SetQuery($query);
-        $order_payment = $db->loadResult();
-
-        if ($order_payment == 0)
-        {
-            $res = true;
-        }
-
-        return $res;
     }
 }
