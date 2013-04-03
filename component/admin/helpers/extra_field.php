@@ -57,6 +57,7 @@ class extra_field
 		$this->_table_prefix = '#__redshop_';
 		$this->_db = JFactory::getDbo();
 	}
+
 	public function list_all_field_in_product($section = 1)
 	{
 		$query = "SELECT * FROM " . $this->_table_prefix . "fields "
@@ -70,6 +71,7 @@ class extra_field
 
 		return $row_data;
 	}
+
 	public function list_all_field($field_section = "", $section_id = 0, $field_name = "", $table = "", $template_desc = "")
 	{
 		$option = JRequest::getVar('option');
@@ -109,6 +111,7 @@ class extra_field
 				$reqlbl = ' reqlbl="' . $extra_field_label . '" ';
 				$errormsg = ' errormsg="' . JText::_('COM_REDSHOP_THIS_FIELD_IS_REQUIRED') . '" ';
 			}
+
 			switch ($type)
 			{
 				// 1 :- Text Field
@@ -608,6 +611,7 @@ class extra_field
 		}
 		return $ex_field;
 	}
+
 	public function extra_field_save($data, $field_section, $section_id = "", $user_email = "")
 	{
 		$option = JRequest::getVar('option');
@@ -645,6 +649,7 @@ class extra_field
 					JFile::upload($src, $destination);
 				}
 			}
+
 			// Save Document Extra Field
 			if ($row_data[$i]->field_type == 10)
 			{
@@ -684,6 +689,7 @@ class extra_field
 							$documents[trim($texts[$ij])] = $name;
 						}
 					}
+
 					// Convert array into JSON string for better handler.
 					$data_txt = json_encode($documents);
 				}
@@ -790,6 +796,7 @@ class extra_field
 			}
 		}
 	}
+
 	public function chk_extrafieldValidation($field_section = "", $section_id = 0)
 	{
 		$row_data = $this->getSectionFieldList($field_section);
@@ -960,6 +967,7 @@ class extra_field
 		}
 		return $ex_field;
 	}
+
 	public function list_all_user_fields($field_section = "", $section_id = 12, $field_type = '', $unique_id)
 	{
 		$url = JURI::base();
@@ -1101,6 +1109,7 @@ class extra_field
 			{
 				//$ex_field .= '</td><td valign="top">';
 			}
+
 			//$ex_field .= '</td></tr>';
 		}
 
@@ -1110,6 +1119,7 @@ class extra_field
 
 		return $ex;
 	}
+
 	public function booleanlist($name, $attribs = null, $selected = null, $yes = 'yes', $no = 'no', $id = false)
 	{
 		$arr = array(
@@ -1119,6 +1129,7 @@ class extra_field
 
 		return JHTML::_('select.radiolist', $arr, $name, $attribs, 'value', 'text', $selected, $id);
 	}
+
 	public function rs_booleanlist($name, $attribs = null, $selected = null, $yes = 'yes', $no = 'no', $id = false, $yes_value, $no_value)
 	{
 		$arr = array(
@@ -1128,6 +1139,7 @@ class extra_field
 
 		return JHTML::_('select.radiolist', $arr, $name, $attribs, 'value', 'text', $selected, $id);
 	}
+
 	public function getFieldValue($id)
 	{
 		$q = "SELECT * FROM " . $this->_table_prefix . "fields_value "
@@ -1138,6 +1150,7 @@ class extra_field
 
 		return $list;
 	}
+
 	public function getSectionFieldList($section = 12, $front = 1)
 	{
 		$query = "SELECT * FROM " . $this->_table_prefix . "fields "
@@ -1149,6 +1162,7 @@ class extra_field
 
 		return $list;
 	}
+
 	public function getSectionFieldDataList($fieldid, $section = 0, $orderitemid = 0, $user_email = "")
 	{
 		$query = "SELECT * FROM " . $this->_table_prefix . "fields_data "
@@ -1161,6 +1175,7 @@ class extra_field
 
 		return $list;
 	}
+
 	public function copy_product_extra_field($oldproduct_id, $newPid)
 	{
 		$query = "SELECT * FROM " . $this->_table_prefix . "fields_data "
@@ -1180,6 +1195,7 @@ class extra_field
 			$this->_db->query();
 		}
 	}
+
 	public function deleteExtraFieldData($data_id)
 	{
 		$query = "DELETE FROM " . $this->_table_prefix . "fields_data "
