@@ -58,7 +58,7 @@ class PlgRedshop_Paymentrs_Payment_Paypal_Subscription extends JPlugin
         $db              = JFactory::getDBO();
         $request         = JRequest::get('request');
 
-        $paypal_parameters = $this->_params->get('rs_payment_paypal_subscription');
+        $paypal_parameters = $this->params->get('rs_payment_paypal_subscription');
         $paymentinfo       = $paypal_parameters[0];
         $paymentparams     = new JRegistry($paymentinfo->params);
 
