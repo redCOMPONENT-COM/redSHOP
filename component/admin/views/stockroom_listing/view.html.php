@@ -16,6 +16,13 @@ require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'category.php');
 
 class stockroom_listingViewstockroom_listing extends JView
 {
+	/**
+	 * The request url.
+	 *
+	 * @var  string
+	 */
+	public $request_url;
+
 	public function display($tpl = null)
 	{
 		$context2 = 'p.product_id';
@@ -52,6 +59,7 @@ class stockroom_listingViewstockroom_listing extends JView
 		$categories = $product_category->getCategoryListArray();
 
 		$temps = array();
+		$temps[0] = new stdClass;
 		$temps[0]->category_id = "0";
 		$temps[0]->category_name = JText::_('COM_REDSHOP_SELECT');
 		$categories = @array_merge($temps, $categories);
@@ -65,7 +73,6 @@ class stockroom_listingViewstockroom_listing extends JView
 
 		$resultlisting = $this->get('Data');
 		$stockroom     = $this->get('Stockroom');
-		$total         = $this->get('Total');
 		$pagination    = $this->get('Pagination');
 
 		$this->assignRef('lists', $lists);
@@ -76,7 +83,7 @@ class stockroom_listingViewstockroom_listing extends JView
 		$this->assignRef('stockroom_type', $stockroom_type);
 
 		$this->assignRef('pagination', $pagination);
-		$this->assignRef('request_url', $uri->toString());
+		$this->request_url = $uri->toString();
 
 		parent::display($tpl);
 	}

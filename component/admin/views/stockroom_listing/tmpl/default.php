@@ -158,7 +158,7 @@ if ($showbuttons == 1)
 						{
 							$section_id = $row->product_id;
 						}
-						$secrow = & $model->getQuantity($stockroom_type, $this->stockroom[$j]->stockroom_id, $section_id);
+						$secrow = $model->getQuantity($stockroom_type, $this->stockroom[$j]->stockroom_id, $section_id);
 
 
 						if (count($secrow) > 0)
