@@ -48,7 +48,9 @@ class plgredshop_shippingself_pickup extends JPlugin
 			for ($i = 0; $i < count($shipping_location); $i++)
 			{
 				$rs = $shipping_location[$i];
-				$shipping_rate_id = $shippinghelper->encryptShipping(__CLASS__ . "|" . $shipping->name . "|" . $rs->shipping_rate_name . "|" . number_format(0, 2, '.', '') . "|" . $rs->shipping_rate_id . "|single|0");
+				$shipping_rate_id = $shippinghelper->encryptShipping(
+					__CLASS__ . "|" . $shipping->name . "|" . $rs->shipping_rate_name . "|"
+						. number_format(0, 2, '.', '') . "|" . $rs->shipping_rate_id . "|single|0");
 				$shippingrate[$rate]->text = $rs->shipping_rate_name;
 				$shippingrate[$rate]->value = $shipping_rate_id;
 				$shippingrate[$rate]->rate = 0;
@@ -58,7 +60,11 @@ class plgredshop_shippingself_pickup extends JPlugin
 		}
 		else
 		{
-			$shipping_rate_id = $shippinghelper->encryptShipping(__CLASS__ . "|" . $shipping->name . "|" . $shipping->name . "|" . number_format(0, 2, '.', '') . "|" . $shipping->name . "|single|0");
+			$shipping_rate_id = $shippinghelper->encryptShipping(
+				__CLASS__ . "|" . $shipping->name . "|" . $shipping->name . "|"
+				. number_format(0, 2, '.', '') . "|" . $shipping->name . "|single|0");
+
+			$shippingrate[$rate] = new stdClass;
 			$shippingrate[$rate]->text = $shipping->name;
 			$shippingrate[$rate]->value = $shipping_rate_id;
 			$shippingrate[$rate]->rate = 0;
@@ -69,5 +75,3 @@ class plgredshop_shippingself_pickup extends JPlugin
 		return $shippingrate;
 	}
 }
-
-?>
