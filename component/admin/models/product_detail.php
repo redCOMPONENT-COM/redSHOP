@@ -3421,7 +3421,7 @@ class product_detailModelproduct_detail extends JModel
 				$uid = (int) $user->get('id');
 			}
 			// Lets get to it and checkout the thing...
-			$product_detail = & $this->getTable('product_detail');
+			$product_detail = $this->getTable('product_detail');
 
 			if (!$product_detail->checkout($uid, $this->_id))
 			{
