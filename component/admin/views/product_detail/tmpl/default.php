@@ -8,7 +8,7 @@
  */
 defined('_JEXEC') or die;
 require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'product.php');
-$producthelper = new producthelper();
+$producthelper = new producthelper;
 JHTML::_('behavior.tooltip');
 $editor = JFactory::getEditor();
 JHTMLBehavior::modal();
@@ -21,21 +21,7 @@ $container_id = JRequest::getVar('container_id', '', 'request', 'string');
 $stockroom_id = JRequest::getVar('stockroom_id', '', 'request', 'string');
 $now = JFactory::getDate();
 $model = $this->getModel('product_detail');
-/*$doc = JFactory :: getDocument();
-$doc->addScript(JURI::root().'administrator/components/com_redshop/assets/js/jquery.js');
-if(strstr($_SERVER['HTTP_USER_AGENT'],'MSIE'))
-{
-	$headerstuff=$doc->getHeadData();
-	reset($headerstuff['scripts']);
-	foreach($headerstuff['scripts'] as $key=>$value)
-	{
-		if (strpos($key, 'media/system/js/mootools-uncompressed.js') !== false || strpos($key, 'media/system/js/mootools.js') !== false )
-		{
-			unset($headerstuff['scripts'][$key]);
-			$doc->addScript(JURI::root().'administrator/components/com_redshop/assets/js/mootools.js');
-		}
-	}
-}*/
+
 ?>
 <script language="javascript" type="text/javascript">
 	function add_dependency(type_id, tag_id, product_id) {
@@ -844,7 +830,7 @@ echo  $myTabs->startPanel(JText::_('COM_REDSHOP_META_DATA_TAB'), 'tab5' );
 		<tr>
 			<td align="right" class="key"><?php echo JText::_( 'COM_REDSHOP_CANONICAL_URL_PRODUCT' ); ?>:</td>
 			<td><input class="text_area" type="text" name="canonical_url" id="canonical_url" size="75"
-			           value="<?php echo $this->detail->canonical_url; ?>"/>
+			           value="<?php echo isset($this->detail->canonical_url) ? $this->detail->canonical_url : ""; ?>"/>
 			</td>
 			<td><?php echo JHTML::tooltip( JText::_( 'COM_REDSHOP_TOOLTIP_CANONICAL_URL_PRODUCT' ), JText::_( 'COM_REDSHOP_CANONICAL_URL_PRODUCT' ), 'tooltip.png', '', '', false); ?> </td>
 		</tr>
@@ -1084,9 +1070,7 @@ if($container_id) {
 					document.getElementById("propimg" + fid).src = "";
 				}
 			}
-
 		}
-
 	}
 	// Parent Product Search
 
