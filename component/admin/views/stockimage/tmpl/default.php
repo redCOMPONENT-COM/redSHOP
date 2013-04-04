@@ -6,7 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-s
+
 defined('_JEXEC') or die ('Restricted access');
 
 $option = JRequest::getVar('option', '', 'request', 'string');
@@ -45,10 +45,10 @@ $model = $this->getModel('stockimage');
 				<th><?php echo JText::_('COM_REDSHOP_NUM'); ?></th>
 				<th><input type="checkbox" name="toggle" value=""
 				           onclick="checkAll(<?php echo count($this->data); ?>);"/></th>
-				<th><?php echo JHTML::_('grid.sort', 'STOCK_AMOUNT_IMAGE_TOOLTIP_LBL', 'stock_amount_image_tooltip', $this->lists ['order_Dir'], $this->lists ['order']);?></th>
-				<th><?php echo JHTML::_('grid.sort', 'STOCK_AMOUNT_QUANTITY_LBL', 'stock_quantity', $this->lists ['order_Dir'], $this->lists ['order']);?></th>
-				<th><?php echo JHTML::_('grid.sort', 'STOCK_AMOUNT_OPTION_LBL', 'stock_option', $this->lists ['order_Dir'], $this->lists ['order']);?></th>
-				<th><?php echo JHTML::_('grid.sort', 'STOCKROOM_NAME', 'stockroom_id', $this->lists ['order_Dir'], $this->lists ['order']);?></th>
+				<th><?php echo JHTML::_('grid.sort', 'COM_REDSHOP_STOCK_AMOUNT_IMAGE_TOOLTIP_LBL', 'stock_amount_image_tooltip', $this->lists ['order_Dir'], $this->lists ['order']);?></th>
+				<th><?php echo JHTML::_('grid.sort', 'COM_REDSHOP_STOCK_AMOUNT_QUANTITY_LBL', 'stock_quantity', $this->lists ['order_Dir'], $this->lists ['order']);?></th>
+				<th><?php echo JHTML::_('grid.sort', 'COM_REDSHOP_STOCK_AMOUNT_OPTION_LBL', 'stock_option', $this->lists ['order_Dir'], $this->lists ['order']);?></th>
+				<th><?php echo JHTML::_('grid.sort', 'COM_REDSHOP_STOCKROOM_NAME', 'stockroom_id', $this->lists ['order_Dir'], $this->lists ['order']);?></th>
 				<th><?php echo JHTML::_('grid.sort', 'ID', 'stock_amount_id', $this->lists ['order_Dir'], $this->lists ['order']);?></th>
 			</tr>
 			</thead>
