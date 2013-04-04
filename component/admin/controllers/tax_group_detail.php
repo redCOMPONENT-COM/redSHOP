@@ -25,8 +25,6 @@ class tax_group_detailController extends JController
 		JRequest::setVar('layout', 'default');
 		JRequest::setVar('hidemainmenu', 1);
 
-		$model = $this->getModel('tax_group_detail');
-
 		parent::display();
 	}
 
@@ -111,7 +109,6 @@ class tax_group_detailController extends JController
 	public function unpublish()
 	{
 		$option = JRequest::getVar('option');
-		$layout = JRequest::getVar('layout');
 
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 

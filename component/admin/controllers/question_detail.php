@@ -122,7 +122,7 @@ class question_detailController extends JController
 		for ($i = 0; $i < count($cid); $i++)
 		{
 			$redshopMail = new redshopMail;
-			$rs = $redshopMail->sendAskQuestionMail($cid[$i]);
+			$redshopMail->sendAskQuestionMail($cid[$i]);
 		}
 
 		$msg = JText::_('COM_REDSHOP_ANSWER_MAIL_SENT');

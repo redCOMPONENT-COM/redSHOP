@@ -37,7 +37,6 @@ class mediaController extends JController
 		{
 			$download_path = $product_download_root . $post['hdn_download_file_path'];
 			$post['name'] = $post['hdn_download_file'];
-			$filenewtype = strtolower(JFile::getExt($post['hdn_download_file']));
 
 			if ($post['hdn_download_file_path'] != $download_path)
 			{

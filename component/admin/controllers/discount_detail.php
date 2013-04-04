@@ -34,6 +34,7 @@ class discount_detailController extends JController
 		{
 			JRequest::setVar('layout', 'default');
 		}
+
 		JRequest::setVar('hidemainmenu', 1);
 
 		parent::display();

@@ -219,5 +219,3 @@ class category_detailController extends JController
 		$this->setRedirect('index.php?option=' . $option . '&view=category', $msg);
 	}
 }
-
-
