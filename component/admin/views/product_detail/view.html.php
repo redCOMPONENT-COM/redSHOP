@@ -345,6 +345,7 @@ class product_detailVIEWproduct_detail extends JView
 		{
 			$accessory_product = $producthelper->getProductAccessory(0, $detail->product_id);
 		}
+
 		$lists['accessory_product'] = $accessory_product;
 
 		$navigator_product = array();
@@ -353,6 +354,7 @@ class product_detailVIEWproduct_detail extends JView
 		{
 			$navigator_product = $producthelper->getProductNavigator(0, $detail->product_id);
 		}
+
 		$lists['navigator_product'] = $navigator_product;
 
 		$lists['QUANTITY_SELECTBOX_VALUE'] = $detail->quantity_selectbox_value;
@@ -371,7 +373,8 @@ class product_detailVIEWproduct_detail extends JView
 		$lists['related_product'] = JHTML::_('select.genericlist',
 			$related_product_data,
 			'related_product[]',
-			'class="inputbox" onmousewheel="mousewheel_related(this);" ondblclick="selectnone_related(this);" multiple="multiple"  size="15" style="width:200px;" '
+			'class="inputbox" onmousewheel="mousewheel_related(this);" ondblclick="selectnone_related(this);"
+			multiple="multiple"  size="15" style="width:200px;" '
 			, 'value', 'text', 0
 		);
 
@@ -383,7 +386,6 @@ class product_detailVIEWproduct_detail extends JView
 			'class="inputbox" ondblclick="selectnone_related(this);" multiple="multiple"  size="15" style="width:200px;" ',
 			'value', 'text', 0
 		);
-
 
 		// For preselected
 		if ($detail->product_template == "")
