@@ -130,6 +130,7 @@ class productController extends JController
 			for ($i = 0; $i < count($list); $i++)
 			{
 				$incNo++;
+				$prdrow = new stdClass;
 				$prdrow->product_id = $list[$i]->product_id;
 				$prdrow->accountgroup_id = $list[$i]->accountgroup_id;
 				$ecoProductNumber = $economic->createPropertyInEconomic($prdrow, $list[$i]);
@@ -170,6 +171,7 @@ class productController extends JController
 			for ($i = 0; $i < count($list); $i++)
 			{
 				$incNo++;
+				$prdrow = new stdClass;
 				$prdrow->product_id = $list[$i]->product_id;
 				$prdrow->accountgroup_id = $list[$i]->accountgroup_id;
 				$ecoProductNumber = $economic->createSubpropertyInEconomic($prdrow, $list[$i]);
@@ -289,7 +291,6 @@ class productController extends JController
 
 	public function gbasefeed()
 	{
-		$app = JFactory::getApplication();
 		$post = JRequest::get('post');
 		$model = $this->getModel('product');
 

@@ -18,5 +18,3 @@ class exportController extends JController
 		$this->setRedirect('index.php');
 	}
 }
-
-

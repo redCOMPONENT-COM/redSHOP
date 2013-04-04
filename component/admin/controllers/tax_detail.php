@@ -89,7 +89,6 @@ class tax_detailController extends JController
 	public function removefromwizrd()
 	{
 		$option = JRequest::getVar('option');
-		$tax_group_id = JRequest::getVar('tax_group_id');
 		$cid = JRequest::getVar('cid', array(0), 'request', 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
@@ -106,7 +105,7 @@ class tax_detailController extends JController
 
 		$msg = JText::_('COM_REDSHOP_TAX_DETAIL_DELETED_SUCCESSFULLY');
 
-		$this->setRedirect('index.php?option=' . $option . '&step=4');
+		$this->setRedirect('index.php?option=' . $option . '&step=4', $msg);
 	}
 
 	public function cancel()

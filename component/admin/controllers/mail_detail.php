@@ -25,8 +25,6 @@ class mail_detailController extends JController
 		JRequest::setVar('layout', 'default');
 		JRequest::setVar('hidemainmenu', 1);
 
-		$model = $this->getModel('mail_detail');
-
 		parent::display();
 	}
 
@@ -151,10 +149,6 @@ class mail_detailController extends JController
 
 	public function mail_section()
 	{
-		$json = JRequest::getVar('json', '');
-
-		$decoded = json_decode($json);
-
 		$model = $this->getModel('mail_detail');
 
 		$order_status = $model->mail_section();

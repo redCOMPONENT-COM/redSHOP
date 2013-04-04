@@ -129,7 +129,6 @@ class user_detailController extends JController
 	public function unpublish()
 	{
 		$option = JRequest::getVar('option', '', 'request', 'string');
-		$shipping = JRequest::getVar('shipping', '', 'request', 'string');
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
