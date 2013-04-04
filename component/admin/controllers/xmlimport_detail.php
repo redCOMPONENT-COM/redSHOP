@@ -168,7 +168,7 @@ class xmlimport_detailController extends JController
 		}
 
 		$msg = JText::_('COM_REDSHOP_XMLIMPORT_PUBLISHED_SUCCESSFULLY');
-		$this->setRedirect('index' . $page . '.php?option=' . $option . '&view=xmlimport', $msg);
+		$this->setRedirect('index.php?option=' . $option . '&view=xmlimport', $msg);
 	}
 
 	/**
@@ -195,6 +195,6 @@ class xmlimport_detailController extends JController
 		}
 
 		$msg = JText::_('COM_REDSHOP_XMLIMPORT_UNPUBLISHED_SUCCESSFULLY');
-		$this->setRedirect('index' . $page . '.php?option=' . $option . '&view=xmlimport', $msg);
+		$this->setRedirect('index.php?option=' . $option . '&view=xmlimport', $msg);
 	}
 }

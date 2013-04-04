@@ -123,7 +123,6 @@ class catalog_detailController extends JController
 	public function cancel()
 	{
 		$option = JRequest::getVar('option');
-		$layout = JRequest::getVar('layout');
 		$msg = JText::_('COM_REDSHOP_CATALOG_DETAIL_EDITING_CANCELLED');
 
 		$this->setRedirect('index.php?option=' . $option . '&view=catalog', $msg);

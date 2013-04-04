@@ -110,7 +110,8 @@ class product_detailModelproduct_detail extends JModel
 			$detail->product_back_full_image = (isset($data['product_back_full_image'])) ? $this->cleanFileName($data['product_back_full_image']) : null;
 			$detail->product_back_thumb_image = (isset($data['product_back_thumb_image'])) ? $this->cleanFileName($data['product_back_thumb_image']) : null;
 			$detail->product_preview_image = (isset($data['product_preview_image'])) ? $this->cleanFileName($data['product_preview_image']) : null;
-			$detail->product_preview_back_image = (isset($data['product_preview_back_image'])) ? $this->cleanFileName($data['product_preview_back_image']) : null;
+			$detail->product_preview_back_image = (isset($data['product_preview_back_image'])) ?
+				$this->cleanFileName($data['product_preview_back_image']) : null;
 			$detail->visited = (isset($data['visited'])) ? $data['visited'] : 0;
 			$detail->metakey = (isset($data['metakey'])) ? $data['metakey'] : null;
 			$detail->metadesc = (isset($data['metadesc'])) ? $data['metadesc'] : null;

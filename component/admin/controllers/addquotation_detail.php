@@ -32,8 +32,6 @@ class addquotation_detailController extends JController
 		$post ['quotation_id'] = $cid [0];
 		$model = $this->getModel('addquotation_detail');
 
-		$acl = JFactory::getACL();
-
 		if (!$post['users_info_id'])
 		{
 			$name = $post['firstname'] . ' ' . $post['lastname'];
@@ -58,12 +56,14 @@ class addquotation_detailController extends JController
 			if (!$user)
 			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 
 			$post['user_id'] = $user->user_id;
 			$user_id = $user->user_id;
 
+			$user_data = new stdClass;
 			$post['users_info_id'] = $user_data->users_info_id;
 
 			if (count($user) <= 0)
@@ -95,6 +95,7 @@ class addquotation_detailController extends JController
 		{
 			$msg = JText::_('COM_REDSHOP_ERROR_SAVING_QUOTATION_DETAIL');
 		}
+
 		$this->setRedirect('index.php?option=' . $option . '&view=quotation', $msg);
 	}
 
@@ -135,5 +136,3 @@ class addquotation_detailController extends JController
 		exit;
 	}
 }
-
-

@@ -25,8 +25,6 @@ class state_detailController extends JController
 		JRequest::setVar('layout', 'default');
 		JRequest::setVar('hidemainmenu', 1);
 
-		$model = $this->getModel('state_detail');
-
 		parent::display();
 	}
 

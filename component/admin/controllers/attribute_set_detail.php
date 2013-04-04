@@ -41,7 +41,6 @@ class attribute_set_detailController extends JController
 		$post = JRequest::get('post');
 
 		$option = JRequest::getVar('option');
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 
 		require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php');
 
@@ -50,8 +49,6 @@ class attribute_set_detailController extends JController
 		if ($row = $model->store($post))
 		{
 			$file = JRequest::getVar('image', 'array', 'files', 'array');
-
-			$newpost = array();
 
 			$this->attribute_save($post, $row, $file);
 
@@ -144,11 +141,6 @@ class attribute_set_detailController extends JController
 	public function attribute_save($post, $row, $file)
 	{
 		$model = $this->getModel('attribute_set_detail');
-		$option = JRequest::getVar('option');
-		$thumb = new thumbnail;
-		$obj_img = new thumbnail_images;
-		$n_width = 50;
-		$n_height = 50;
 
 		$attribute_save = array();
 		$property_save = array();
@@ -297,9 +289,6 @@ class attribute_set_detailController extends JController
 
 		$url = $uri->root();
 
-		$tbl = "";
-
-		$folder = JRequest::getVar('folder', '');
 		$folder_path = JRequest::getVar('path', '');
 		$dirpath = JRequest::getVar('dirpath', '');
 
@@ -520,10 +509,6 @@ class attribute_set_detailController extends JController
 
 	public function subattribute_color()
 	{
-		$uri = JURI::getInstance();
-
-		$url = $uri->root();
-
 		$post = JRequest::get('post');
 
 		$model = $this->getModel('product_detail');

@@ -46,7 +46,7 @@ class shippingcontroller extends JController
 					$shipping_number = $shipping[$i]->economic_displayname;
 				}
 
-				$ecoShippingrateNumber = $economic->createShippingRateInEconomic(
+				$economic->createShippingRateInEconomic(
 					$shipping_number, $shipping_name, $shipping_rate,
 					$shipping[$i]->apply_vat
 				);

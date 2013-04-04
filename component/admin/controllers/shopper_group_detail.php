@@ -26,8 +26,6 @@ class shopper_group_detailController extends JController
 		JRequest::setVar('layout', 'default');
 		JRequest::setVar('hidemainmenu', 1);
 
-		$model = $this->getModel('shopper_group_detail');
-
 		parent::display();
 	}
 
