@@ -69,9 +69,9 @@ class newsletter_detailController extends JController
 	public function remove()
 	{
 		$option = JRequest::getVar('option');
-
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
-		$msg1 = "";
+
+		$val = 0;
 
 		if (!is_array($cid) || count($cid) < 1)
 		{

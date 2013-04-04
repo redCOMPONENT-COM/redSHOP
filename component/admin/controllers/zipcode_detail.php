@@ -24,7 +24,6 @@ class zipcode_detailController extends JController
 		JRequest::setVar('view', 'zipcode_detail');
 		JRequest::setVar('layout', 'default');
 		JRequest::setVar('hidemainmenu', 1);
-		$model = $this->getModel('zipcode_detail');
 
 		parent::display();
 	}

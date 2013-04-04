@@ -183,10 +183,6 @@ class wizardController extends JController
 			}
 		}
 
-		$substep = $post['substep'];
-
-		global $temparray;
-
 		$this->isTmpFile();
 
 		if ($Redconfiguration->storeFromTMPFile())
@@ -208,8 +204,6 @@ class wizardController extends JController
 
 	public function demoContentInsert()
 	{
-		$post = JRequest::get('post');
-
 		$model = $this->getModel('redshop', 'redshopModel');
 
 		if (!$model->demoContentInsert())

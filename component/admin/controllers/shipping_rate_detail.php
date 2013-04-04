@@ -81,8 +81,6 @@ class shipping_rate_detailController extends JController
 			JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
 		}
 
-		$model = $this->getModel('shipping_rate_detail');
-
 		if (!$model->delete($cid))
 		{
 			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
@@ -161,7 +159,7 @@ class shipping_rate_detailController extends JController
 	{
 		$get = JRequest::get('get');
 		$model = $this->getModel('shipping_rate_detail');
-		$shipping_rate_state = $model->GetStateDropdown($get);
+		$model->GetStateDropdown($get);
 		exit;
 	}
 }

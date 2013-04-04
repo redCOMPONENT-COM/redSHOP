@@ -96,7 +96,7 @@ class quotation_detailController extends JController
 
 		$quotation_status = $post['quotation_status'] > 0 ? $post['quotation_status'] : 2;
 
-		$bool = $quotationHelper->updateQuotationStatus($row->quotation_id, $quotation_status);
+		$quotationHelper->updateQuotationStatus($row->quotation_id, $quotation_status);
 
 		if ($send == 1)
 		{

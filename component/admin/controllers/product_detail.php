@@ -45,14 +45,13 @@ class product_detailController extends JController
 	public function save($apply = 0)
 	{
 		$post = JRequest::get('post');
-
 		$option = JRequest::getVar('option');
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 		$post ['product_id'] = $cid [0];
+		$stockroom_id = '';
 
 		if (is_array($post['product_category']) && !in_array($post['cat_in_sefurl'], $post['product_category']))
 		{
-
 			$post['cat_in_sefurl'] = $post['product_category'][0];
 		}
 
@@ -69,11 +68,8 @@ class product_detailController extends JController
 		}
 
 		$post ['product_availability_date'] = strtotime($post ['product_availability_date']);
-
 		$post["product_s_desc"] = JRequest::getVar('product_s_desc', '', 'post', 'string', JREQUEST_ALLOWRAW);
-
 		$post["product_desc"] = JRequest::getVar('product_desc', '', 'post', 'string', JREQUEST_ALLOWRAW);
-
 		$post["product_parent_id"] = trim($post["parent"]) == "" ? 0 : $post["product_parent_id"];
 
 		$container_id = JRequest::getVar('container_id', '', 'request', 'string');
@@ -96,19 +92,19 @@ class product_detailController extends JController
 			if (ECONOMIC_INTEGRATION == 1)
 			{
 				$economic = new economic;
-				$ecoProductNumber = $economic->createProductInEconomic($row);
+				$economic->createProductInEconomic($row);
 			}
 
 			$field = new extra_field;
 
 			// Field_section 1 :Product
-			$list_field = $field->extra_field_save($post, 1, $row->product_id);
+			$field->extra_field_save($post, 1, $row->product_id);
 
 			// Field_section 12 :Product Userfield
-			$list_field = $field->extra_field_save($post, 12, $row->product_id);
+			$field->extra_field_save($post, 12, $row->product_id);
 
 			// Field_section 12 :Productfinder datepicker
-			$list_field = $field->extra_field_save($post, 17, $row->product_id);
+			$field->extra_field_save($post, 17, $row->product_id);
 			$file = JRequest::getVar('image', 'array', 'files', 'array');
 
 			$this->attribute_save($post, $row, $file);
@@ -154,7 +150,6 @@ class product_detailController extends JController
 		else
 		{
 			$row->product_id = $post ['product_id'];
-			$msg = JText::_('COM_REDSHOP_PRODUCT_NUMBER_ALREADY_EXISTS');
 			$msg = $model->getError();
 
 			JError::raiseWarning(404, $msg);
@@ -276,11 +271,6 @@ class product_detailController extends JController
 		}
 
 		$model = $this->getModel('product_detail');
-		$option = JRequest::getVar('option');
-		$thumb = new thumbnail;
-		$obj_img = new thumbnail_images;
-		$n_width = 50;
-		$n_height = 50;
 
 		$attribute_save = array();
 		$property_save = array();
@@ -373,7 +363,7 @@ class product_detailController extends JController
 
 				if (ECONOMIC_INTEGRATION == 1 && ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC != 0)
 				{
-					$ecoProductNumber = $economic->createPropertyInEconomic($row, $property_array);
+					$economic->createPropertyInEconomic($row, $property_array);
 				}
 
 				$subproperty = array_merge(array(), $property[$p]['subproperty']);
@@ -440,7 +430,7 @@ class product_detailController extends JController
 
 					if (ECONOMIC_INTEGRATION == 1 && ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC != 0)
 					{
-						$ecoProductNumber = $economic->createSubpropertyInEconomic($row, $subproperty_array);
+						$economic->createSubpropertyInEconomic($row, $subproperty_array);
 					}
 				}
 			}
@@ -479,12 +469,8 @@ class product_detailController extends JController
 	public function media_bank()
 	{
 		$uri = JURI::getInstance();
-
 		$url = $uri->root();
 
-		$tbl = "";
-
-		$folder = JRequest::getVar('folder', '');
 		$folder_path = JRequest::getVar('path', '');
 		$dirpath = JRequest::getVar('dirpath', '');
 
@@ -706,10 +692,6 @@ class product_detailController extends JController
 
 	public function subattribute_color()
 	{
-		$uri = JURI::getInstance();
-
-		$url = $uri->root();
-
 		$post = JRequest::get('post');
 
 		$model = $this->getModel('product_detail');
@@ -896,7 +878,7 @@ class product_detailController extends JController
 		$category_id = JRequest::getInt('category_id', '');
 		$child_product_id = JRequest::getInt('child_product_id', '');
 		$model = $this->getModel('product_detail');
-		$result = $model->removeaccesory($accessory_id, $category_id, $child_product_id);
+		$model->removeaccesory($accessory_id, $category_id, $child_product_id);
 		exit;
 	}
 
@@ -904,7 +886,7 @@ class product_detailController extends JController
 	{
 		$navigator_id = JRequest::getInt('navigator_id', '');
 		$model = $this->getModel('product_detail');
-		$result = $model->removenavigator($navigator_id);
+		$model->removenavigator($navigator_id);
 
 		exit;
 	}
