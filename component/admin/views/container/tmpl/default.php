@@ -64,17 +64,17 @@ if ($showbuttons == 1)
 				</th>
 				<th>
 					<?php
-					echo JHTML::_('grid.sort', 'STOCKROOM_NAME', 'stockroom_name', $this->lists ['order_Dir'], $this->lists ['order']);
+					echo JHTML::_('grid.sort', 'COM_REDSHOP_STOCKROOM_NAME', 'stockroom_name', $this->lists ['order_Dir'], $this->lists ['order']);
 					?>
 				</th>
 				<th width="1%">
-					<?php echo JHTML::_('grid.sort', 'MINIMUM_DELIVERY_TIME', 'min_del_time', $this->lists['order_Dir'], $this->lists['order']); ?>
+					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_MINIMUM_DELIVERY_TIME', 'min_del_time', $this->lists['order_Dir'], $this->lists['order']); ?>
 				</th>
 				<th width="1%">
-					<?php echo JHTML::_('grid.sort', 'MAXIMUM_DELIVERY_TIME', 'max_del_time', $this->lists['order_Dir'], $this->lists['order']); ?>
+					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_MAXIMUM_DELIVERY_TIME', 'max_del_time', $this->lists['order_Dir'], $this->lists['order']); ?>
 				</th>
 				<th width="1%">
-					<?php echo JHTML::_('grid.sort', 'DELIVERY_VOLUME', 'container_volume', $this->lists['order_Dir'], $this->lists['order']); ?>
+					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_DELIVERY_VOLUME', 'container_volume', $this->lists['order_Dir'], $this->lists['order']); ?>
 				</th>
 				<th width="5%" nowrap="nowrap">
 					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_PUBLISHED', 'published', $this->lists['order_Dir'], $this->lists['order']); ?>
