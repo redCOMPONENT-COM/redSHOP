@@ -140,9 +140,11 @@ class adminproducthelper
 					$attributelist .= '<input type="hidden" id="' . $propertyid . '_proprice' . $property [$i]->value . '" value="'
 						. $property [$i]->property_price . '" />';
 				}
+
 				$tmp_array = array();
-				$tmp_array [0]->value = 0;
-				$tmp_array [0]->text = JText::_('COM_REDSHOP_SELECT') . " " . urldecode($attributes[$a]->text);
+				$tmp_array[0] = new stdClass;
+				$tmp_array[0]->value = 0;
+				$tmp_array[0]->text = JText::_('COM_REDSHOP_SELECT') . " " . urldecode($attributes[$a]->text);
 
 				$new_property = array_merge($tmp_array, $property);
 				$at_id = $product->product_id;
@@ -211,8 +213,9 @@ class adminproducthelper
 		if (count($wrapper) > 0)
 		{
 			$warray = array();
-			$warray [0]->wrapper_id = 0;
-			$warray [0]->wrapper_name = JText::_('COM_REDSHOP_SELECT');
+			$warray[0] = new stdClass;
+			$warray[0]->wrapper_id = 0;
+			$warray[0]->wrapper_name = JText::_('COM_REDSHOP_SELECT');
 			$commonid = $product_id . $uniqueid;
 
 			for ($i = 0; $i < count($wrapper); $i++)
@@ -339,6 +342,7 @@ class adminproducthelper
 					for ($i = 0; $i < count($rate); $i++)
 					{
 						$displayrate = ($rate[$i]->rate > 0) ? " (" . $producthelper->getProductFormattedPrice($rate[$i]->rate) . " )" : "";
+						$ratearr[$r] = new stdClass;
 						$ratearr[$r]->text = $rs->name . " - " . $rate[$i]->text . $displayrate;
 						$ratearr[$r]->value = $rate[$i]->value;
 						$r++;
