@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="module" version="1.6.0" client="site" method="upgrade">
-	<name>RedSHOP Featured Product</name>
+	<name>MOD_REDFEATUREDPRODUCT</name>
 	<version>1.1.11</version>
 	<creationDate>10-04-2012</creationDate>
 	<author>redweb.dk</author>
@@ -16,9 +16,12 @@
 	</files>
 	<languages>
 		<language tag="en-GB">language/en-GB/en-GB.mod_redfeaturedproduct.ini</language>
+		<language tag="en-GB">language/en-GB/en-GB.mod_redfeaturedproduct.sys.ini</language>
 		<language tag="da-DK">language/da-DK/da-DK.mod_redfeaturedproduct.ini</language>
+		<language tag="da-DK">language/da-DK/da-DK.mod_redfeaturedproduct.sys.ini</language>
 		<language tag="it-IT">language/it-IT/it-IT.mod_redfeaturedproduct.ini</language>
-  	</languages>	
+        <language tag="it-IT">language/it-IT/it-IT.mod_redfeaturedproduct.sys.ini</language>
+  	</languages>
 	<config><fields name="params"><fieldset name="basic">
 		<field name="pretext" type="text" default="" label="COM_REDSHOP_PRETEXT_LBL"
 			description="COM_REDSHOP_PRETEXT" />
