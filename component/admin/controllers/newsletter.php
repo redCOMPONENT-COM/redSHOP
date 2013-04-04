@@ -20,8 +20,6 @@ class newsletterController extends JController
 
 	public function send_newsletter_preview()
 	{
-		$view = & $this->getView('newsletter', 'preview');
-
 		parent::display();
 	}
 
@@ -53,7 +51,6 @@ class newsletterController extends JController
 	{
 		$session = JFactory::getSession();
 		$newsletter_id = JRequest::getVar('newsletter_id');
-		$option = JRequest::getVar('option');
 
 		$model = $this->getModel('newsletter');
 

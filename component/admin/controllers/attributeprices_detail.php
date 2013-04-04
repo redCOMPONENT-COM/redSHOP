@@ -24,7 +24,6 @@ class attributeprices_detailController extends JController
 		JRequest::setVar('view', 'attributeprices_detail');
 		JRequest::setVar('layout', 'default');
 		JRequest::setVar('hidemainmenu', 1);
-		$model = $this->getModel('attributeprices_detail');
 
 		parent::display();
 	}
@@ -35,8 +34,6 @@ class attributeprices_detailController extends JController
 		$option = JRequest::getVar('option');
 		$section_id = JRequest::getVar('section_id');
 		$section = JRequest::getVar('section');
-		$price_quantity_start = JRequest::getVar('price_quantity_start');
-		$price_quantity_end = JRequest::getVar('price_quantity_end');
 
 		$post['product_currency'] = CURRENCY_CODE;
 		$post['cdate'] = time();
@@ -96,5 +93,3 @@ class attributeprices_detailController extends JController
 		$this->setRedirect('index.php?option=' . $option . '&view=attributeprices&section_id=' . $section_id, $msg);
 	}
 }
-
-

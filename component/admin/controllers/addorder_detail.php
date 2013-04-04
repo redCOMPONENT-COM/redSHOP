@@ -82,6 +82,7 @@ class addorder_detailController extends JController
 						$stocknote .= sprintf($msg, $productData->max_order_product_quantity);
 						$finalquantity = $productData->max_order_product_quantity;
 					}
+
 					$orderItem[$i]->quantity = $finalquantity;
 				}
 				else
@@ -90,6 +91,7 @@ class addorder_detailController extends JController
 					unset($orderItem[$i]);
 				}
 			}
+
 			$orderItem = array_merge(array(), $orderItem);
 
 			if (count($orderItem) <= 0)
@@ -104,7 +106,7 @@ class addorder_detailController extends JController
 		}
 
 		$order_total = $post['order_total'];
-		$odiscount = 0;
+
 		$order_shipping = explode("|", $shippinghelper->decryptShipping(str_replace(" ", "+", $post['shipping_rate_id'])));
 
 		if (count($order_shipping) > 4)
@@ -113,6 +115,7 @@ class addorder_detailController extends JController
 			$order_total = $order_total + $order_shipping[3];
 			$post['order_shipping_tax'] = $order_shipping[6];
 		}
+
 		$tmporder_total = $order_total;
 
 		if (array_key_exists("issplit", $post) && $post['issplit'])
@@ -153,6 +156,8 @@ class addorder_detailController extends JController
 		}
 
 		$special_discount = $post['special_discount'];
+
+		$subtotal_excl_vat = 0;
 
 		for ($i = 0; $i < count($orderItem); $i++)
 		{
@@ -229,17 +234,15 @@ class addorder_detailController extends JController
 
 	public function guestuser()
 	{
-		$app = JFactory::getApplication();
-
 		$post = JRequest::get('post');
 
 		if (!isset($post['billisship']))
 		{
 			JRequest::setVar('billisship', 0);
 		}
+
 		$option = JRequest::getVar('option', '', 'request', 'string');
 		$model = $this->getModel('addorder_detail');
-		$ret = '&err=1';
 
 		if ($row = $model->storeShipping($post))
 		{
@@ -286,6 +289,7 @@ class addorder_detailController extends JController
 			$order_shipping_tax = $shipping[6];
 			$order_shipping_class = $shipping[0];
 		}
+
 		echo "<div id='resultShippingClass'>" . $order_shipping_class . "</div>";
 		echo "<div id='resultShipping'>" . $order_shipping . "</div>";
 		echo "<div id='resultShippingVat'>" . $order_shipping_tax . "</div>";

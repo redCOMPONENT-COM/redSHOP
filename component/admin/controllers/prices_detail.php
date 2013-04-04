@@ -24,7 +24,6 @@ class prices_detailController extends JController
 		JRequest::setVar('view', 'prices_detail');
 		JRequest::setVar('layout', 'default');
 		JRequest::setVar('hidemainmenu', 1);
-		$model = $this->getModel('prices_detail');
 
 		parent::display();
 	}

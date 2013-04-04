@@ -37,7 +37,6 @@ class xmlexport_detailController extends JController
 	public function save($export = 0)
 	{
 		$session = JFactory::getSession();
-		$xmlhelper = new xmlHelper;
 		$post = JRequest::get('post');
 		$option = JRequest::getVar('option', '', 'request', 'string');
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
@@ -338,7 +337,7 @@ function setChildElement()
 		}
 
 		$msg = JText::_('COM_REDSHOP_XMLEXPORT_PUBLISHED_SUCCESSFULLY');
-		$this->setRedirect('index' . $page . '.php?option=' . $option . '&view=xmlexport', $msg);
+		$this->setRedirect('index.php?option=' . $option . '&view=xmlexport', $msg);
 	}
 
 	/**
@@ -365,6 +364,6 @@ function setChildElement()
 		}
 
 		$msg = JText::_('COM_REDSHOP_XMLEXPORT_UNPUBLISHED_SUCCESSFULLY');
-		$this->setRedirect('index' . $page . '.php?option=' . $option . '&view=xmlexport', $msg);
+		$this->setRedirect('index.php?option=' . $option . '&view=xmlexport', $msg);
 	}
 }
