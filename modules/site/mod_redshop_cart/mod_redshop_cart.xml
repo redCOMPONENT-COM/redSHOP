@@ -15,8 +15,7 @@
         <folder module="mod_redshop_cart">css</folder>
     </files>
     <languages>
-        <language tag="en-GB">language/en-GB/en-GB.mod_redshop_cart.ini
-        </language>
+        <language tag="en-GB">language/en-GB/en-GB.mod_redshop_cart.ini</language>
     </languages>
     <config>
         <fields name="params">
