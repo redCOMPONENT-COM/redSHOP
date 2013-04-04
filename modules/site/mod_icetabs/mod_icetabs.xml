@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <extension type="module" version="1.6.0" client="site" method="upgrade">
-    <name>IceTabs Module</name>
+    <name>MOD_ICETABS</name>
     <creationDate>November 2010</creationDate>
     <author>IceTheme</author>
     <copyright>GNU / GPL</copyright>
@@ -24,7 +24,8 @@
     </files>
 
     <languages>
-        <language tag="en-GB">languages/en-GB.mod_icetabs.ini</language>
+        <language tag="en-GB">language/en-GB/en-GB.mod_icetabs.ini</language>
+        <language tag="en-GB">language/en-GB/en-GB.mod_icetabs.sys.ini</language>
     </languages>
     <config>
         <fields name="params" addfieldpath="/modules/mod_icetabs/libs/elements">
