@@ -13,6 +13,13 @@ jimport('joomla.application.component.view');
 
 class stockroomViewstockroom extends JView
 {
+	/**
+	 * The request url.
+	 *
+	 * @var  string
+	 */
+	public $request_url;
+
 	public function display($tpl = null)
 	{
 		$context = 'stockroom_id';
@@ -39,13 +46,12 @@ class stockroomViewstockroom extends JView
 		$lists ['order_Dir'] = $filter_order_Dir;
 
 		$stockroom  = $this->get('Data');
-		$total      = $this->get('Total');
 		$pagination = $this->get('Pagination');
 
 		$this->assignRef('lists', $lists);
 		$this->assignRef('stockroom', $stockroom);
 		$this->assignRef('pagination', $pagination);
-		$this->assignRef('request_url', $uri->toString());
+		$this->request_url = $uri->toString();
 
 		parent::display($tpl);
 	}

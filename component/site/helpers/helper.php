@@ -49,15 +49,16 @@ class redhelper
 	{
 		$query = "SELECT DISTINCT(shipping_class)  FROM " . $this->_table_prefix . "shipping_rate ";
 		$this->_db->setQuery($query);
-		$data = $this->_db->loadResultArray();
+		$data = $this->_db->loadColumn();
 
 		if (count($data) > 0)
 		{
 			$query_plg = "SELECT element FROM #__extensions WHERE folder='redshop_shipping'";
 			$this->_db->setQuery($query_plg);
-			$plg_ship_elm = $this->_db->loadResultArray();
+			$plg_ship_elm = $this->_db->loadColumn();
 
-			$diff_ship = sort(array_diff($data, $plg_ship_elm));
+			$diff_ship = array_diff($data, $plg_ship_elm);
+			sort($diff_ship);
 
 			for ($i = 0; $i < count($diff_ship); $i++)
 			{

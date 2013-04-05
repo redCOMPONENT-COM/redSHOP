@@ -105,8 +105,6 @@ class order_detailController extends JController
 
 		$order_item_id = JRequest::getVar('order_item_id', 0, 'post', '');
 
-		$producthelper = new producthelper;
-
 		$model = $this->getModel('order_detail');
 
 		$orderItem = $adminproducthelper->redesignProductItem($post);
@@ -178,10 +176,6 @@ class order_detailController extends JController
 		$option = JRequest::getVar('option', '', 'request', 'string');
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 
-		$producthelper = new producthelper;
-
-		$productid = $post['productid'];
-
 		$model = $this->getModel('order_detail');
 
 		$order_functions = new order_functions;
@@ -226,14 +220,7 @@ class order_detailController extends JController
 			$msg = JText::_('COM_REDSHOP_ERROR_UPDATING_PRICE');
 		}
 
-		if ($tmpl)
-		{
-			$this->setRedirect('index.php?option=' . $option . '&view=order_detail&cid[]=' . $cid[0] . '&tmpl=' . $tmpl, $msg);
-		}
-		else
-		{
-			$this->setRedirect('index.php?option=' . $option . '&view=order_detail&cid[]=' . $cid[0], $msg);
-		}
+		$this->setRedirect('index.php?option=' . $option . '&view=order_detail&cid[]=' . $cid[0], $msg);
 	}
 
 	public function update_discount()
@@ -299,7 +286,6 @@ class order_detailController extends JController
 	public function updateShippingAdd()
 	{
 		$post = JRequest::get('post');
-		$option = JRequest::getVar('option', '', 'request', 'string');
 		$suboption = JRequest::getVar('suboption', 'com_redshop', 'request', 'string');
 		$view = ($suboption == 'com_redshop') ? 'order_detail' : 'order';
 
@@ -361,13 +347,11 @@ class order_detailController extends JController
 
 	public function createpdf()
 	{
-		$view = & $this->getView('order_detail', 'tcpdf');
 		parent::display();
 	}
 
 	public function createpdfstocknote()
 	{
-		$view = & $this->getView('order_detail', 'stocknotepdf');
 		parent::display();
 	}
 
@@ -399,7 +383,6 @@ class order_detailController extends JController
 
 	public function displayProductItemInfo()
 	{
-		$producthelper = new producthelper;
 		$adminproducthelper = new adminproducthelper;
 		$get = JRequest::get('get');
 
@@ -435,17 +418,10 @@ class order_detailController extends JController
 		$order = $order_functions->getOrderDetails($request['order_id']);
 
 		// Send the order_id and orderpayment_id to the payment plugin so it knows which DB record to update upon successful payment
-		$objorder = new order_functions;
-		$user = JFactory::getUser();
 
 		$userbillinginfo = $order_functions->getOrderBillingUserInfo($request['order_id']);
-		$users_info_id = JRequest::getInt('users_info_id');
-
-		$task = JRequest::getVar('task');
 
 		$shippingaddresses = $order_functions->getOrderShippingUserInfo($request['order_id']);
-
-		$shippingaddress = array();
 
 		if (isset($shippingaddresses))
 		{
@@ -491,8 +467,6 @@ class order_detailController extends JController
 		$ccdata['credit_card_code'] = $request['credit_card_code'];
 		$session->set('ccdata', $ccdata);
 
-		$ccdata = $session->get('ccdata');
-
 		$values['order_shipping'] = $order->order_shipping;
 		$values['order_number'] = $request['order_id'];
 		$values['order_tax'] = $order->order_tax;
@@ -512,7 +486,6 @@ class order_detailController extends JController
 
 		if ($paymentResponse->responsestatus == "Success" || $values['payment_plugin'] == "")
 		{
-			$paymentResponse->transaction_id = $paymentResponse->transaction_id;
 			$paymentResponse->log = $paymentResponse->message;
 			$paymentResponse->msg = $paymentResponse->message;
 			$paymentResponse->order_status_code = 'C';
@@ -536,7 +509,6 @@ class order_detailController extends JController
 	public function notify_payment()
 	{
 		$app = JFactory::getApplication();
-		$db = jFactory::getDBO();
 		$request = JRequest::get('request');
 
 		require_once JPATH_BASE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php';

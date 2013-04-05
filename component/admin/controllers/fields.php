@@ -36,4 +36,3 @@ class fieldsController extends JController
 		$this->setRedirect('index.php?option=' . $option . '&view=fields', $msg);
 	}
 }
-

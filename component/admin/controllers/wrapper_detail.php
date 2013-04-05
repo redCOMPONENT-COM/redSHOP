@@ -24,7 +24,6 @@ class wrapper_detailController extends JController
 		JRequest::setVar('view', 'wrapper_detail');
 		JRequest::setVar('layout', 'default');
 		JRequest::setVar('hidemainmenu', 1);
-		$model = $this->getModel('wrapper_detail');
 
 		parent::display();
 	}
@@ -43,7 +42,6 @@ class wrapper_detailController extends JController
 		$post['product_id'] = (isset($post['container_product'])) ? $post['container_product'] : 0;
 		$option = JRequest::getVar('option');
 		$product_id = JRequest::getInt('product_id', 0);
-		$category_id = JRequest::getVar('category_id');
 
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 		$post ['wrapper_id'] = $cid [0];

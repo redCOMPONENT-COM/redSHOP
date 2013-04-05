@@ -51,7 +51,6 @@ class mass_discount_detailController extends JController
 		$post ['mass_discount_id'] = $cid[0];
 
 		$row = $model->store($post);
-		$did = $row->mass_discount_id;
 
 		if ($row)
 		{
@@ -76,8 +75,6 @@ class mass_discount_detailController extends JController
 	public function remove()
 	{
 		$option = JRequest::getVar('option');
-
-		$layout = JRequest::getVar('layout');
 
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 

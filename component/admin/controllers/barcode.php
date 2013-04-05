@@ -31,7 +31,6 @@ class barcodeController extends JController
 
 			$user = JFactory::getUser();
 			$uid = $user->get('id');
-			$app = JFactory::getApplication();
 			$row = $model->checkorder($barcode);
 
 			if ($row)
@@ -49,7 +48,7 @@ class barcodeController extends JController
 					$msg = JText::_('COM_REDSHOP_ERROR_PLEASE_TRY_AGAIN');
 				}
 
-				$this->setRedirect('index.php?option=com_redshop&view=barcode&order_id=' . $row->order_id);
+				$this->setRedirect('index.php?option=com_redshop&view=barcode&order_id=' . $row->order_id, $msg);
 			}
 			else
 			{
@@ -81,7 +80,7 @@ class barcodeController extends JController
 
 			if ($row)
 			{
-				$update_status = $model->updateorderstatus($barcode, $row->order_id);
+				$model->updateorderstatus($barcode, $row->order_id);
 				$this->setRedirect('index.php?option=com_redshop&view=barcode&layout=barcode_order', JText::_('ORDER_STATUS_CHANGED_TO_SHIPPED'));
 			}
 			else

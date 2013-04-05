@@ -17,6 +17,13 @@ require_once(JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers
 
 class order_detailVIEWorder_detail extends JView
 {
+	/**
+	 * The request url.
+	 *
+	 * @var  string
+	 */
+	public $request_url;
+
 	public function display($tpl = null)
 	{
 		$option = JRequest::getVar('option');
@@ -123,8 +130,6 @@ class order_detailVIEWorder_detail extends JView
 		// Section can be added from here
 		$option = array();
 		$option[] = JHTML::_('select.option', '0', JText::_('COM_REDSHOP_SELECT'));
-		$products = $model->getProducts($detail->order_id);
-		$products = array_merge($option, $products);
 
 		$this->assignRef('lists', $lists);
 		$this->assignRef('detail', $detail);
@@ -132,7 +137,7 @@ class order_detailVIEWorder_detail extends JView
 		$this->assignRef('shipping', $shipping);
 		$this->assignRef('payment_detail', $payment_detail);
 		$this->assignRef('shipping_rate_id', $detail->ship_method_id);
-		$this->assignRef('request_url', $uri->toString());
+		$this->request_url = $uri->toString();
 
 		parent::display($tpl);
 	}

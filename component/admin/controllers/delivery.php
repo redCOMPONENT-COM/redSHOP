@@ -68,7 +68,7 @@ class deliverycontroller extends JController
 
 			$total = count($products);
 
-			for ($j = 0; $j < count($products); $j++)
+			for ($j = 0; $j < $total; $j++)
 			{
 				$product = $products[$j];
 

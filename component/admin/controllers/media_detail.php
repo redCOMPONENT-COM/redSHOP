@@ -118,7 +118,7 @@ class media_detailController extends JController
 			{
 				if ($cid [0] != 0)
 				{
-					$delete = $model->delete($cid);
+					$model->delete($cid);
 					$post['bulk'] = 'no';
 					$post ['media_id'] = 0;
 				}
@@ -142,7 +142,7 @@ class media_detailController extends JController
 					$dest = JPATH_COMPONENT_SITE . DS . 'assets' . DS . $post['media_type'] . DS . $post['media_section'] . DS . $filename;
 				}
 
-				$save = $model->store($post);
+				$model->store($post);
 
 				// Image Upload
 				$src = JPATH_ROOT . DS . $post['media_bank_image'];
@@ -173,7 +173,7 @@ class media_detailController extends JController
 		{
 			if ($cid [0] != 0)
 			{
-				$delete = $model->delete($cid);
+				$model->delete($cid);
 				$post['bulk'] = 'no';
 			}
 
@@ -267,7 +267,7 @@ class media_detailController extends JController
 					$dest = JPATH_COMPONENT_SITE . DS . 'assets' . DS . $post['media_type'] . DS . $post['media_section'] . DS . $filename;
 				}
 
-				$save = $model->store($post);
+				$model->store($post);
 
 				// Image Upload
 				$src = JPATH_ROOT . DS . $post['media_bank_image'];
@@ -309,8 +309,6 @@ class media_detailController extends JController
 				if ($bulkfiletype == "zip" || $bulkfiletype == "gz" || $bulkfiletype == "tar" || $bulkfiletype == "tgz" || $bulkfiletype == "gzip")
 				{
 					// Fix the width of the thumb nail images
-					$n_width = THUMB_WIDTH;
-					$n_height = THUMB_HEIGHT;
 					$src = $bulkfile['tmp_name'];
 					$dest = JPATH_ROOT . DS . 'components/' . $option . '/assets/' . $post['media_type'] . '/' . $post['media_section'] . '/'
 						. $bulkfile['name'];
@@ -323,7 +321,7 @@ class media_detailController extends JController
 					}
 
 					$target = 'components/' . $option . '/assets/media/extracted/' . $bulkfile['name'];
-					$result = JArchive::extract($dest, $target);
+					JArchive::extract($dest, $target);
 					$name = explode('.', $bulkfile['name']);
 					$scan = scandir($target);
 
@@ -678,8 +676,6 @@ class media_detailController extends JController
 					else
 					{
 						$src = $file['tmp_name'][$i];
-						$n_width = THUMB_WIDTH;
-						$n_height = THUMB_HEIGHT;
 
 						$file['name'][$i] = str_replace(" ", "_", $file['name'][$i]);
 
@@ -834,7 +830,6 @@ class media_detailController extends JController
 		$option = JRequest::getVar('option');
 		$section_id = JRequest::getVar('section_id');
 		$media_section = JRequest::getVar('media_section');
-		$primary = JRequest::getVar('primary');
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 
 		if (!is_array($cid) || count($cid) < 1)

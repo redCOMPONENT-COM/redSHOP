@@ -825,7 +825,11 @@ class rsCarthelper
 			$replace[]    = $this->_producthelper->getProductFormattedPrice($row->order_shipping_tax);
 
 			if ($details[0] != 'plgredshop_shippingdefault_shipping_GLS')
+			{
 				$shopLocation = '';
+			}
+
+			$mobilearr = array();
 
 			if ($shopLocation)
 			{
@@ -842,7 +846,7 @@ class rsCarthelper
 					$shopLocation .= $arrLocationTime[$t] . '<br>';
 				}
 			}
-			$replace[] = $shopLocation . ' ' . $mobilearr[1]; //str_replace('###',' ',str_replace("|"," ",$shopLocation));
+			$replace[] = $shopLocation . ' ' . isset($mobilearr[1]) ? $mobilearr[1] : "";
 			$data      = str_replace($search, $replace, $data);
 		}
 		else

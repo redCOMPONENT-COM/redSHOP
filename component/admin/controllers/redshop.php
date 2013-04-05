@@ -15,8 +15,6 @@ class redshopController extends JController
 {
 	public function demoContentInsert()
 	{
-		$post = JRequest::get('post');
-
 		$model = $this->getModel();
 
 		$model->demoContentInsert();

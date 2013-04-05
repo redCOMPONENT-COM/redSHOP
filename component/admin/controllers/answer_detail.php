@@ -196,5 +196,3 @@ class answer_detailController extends JController
 		$this->setRedirect('index.php?option=' . $option . '&view=answer&parent_id=' . $parent_id, $msg);
 	}
 }
-
-

@@ -21,8 +21,7 @@ class orderController extends JController
 	public function multiprint_order()
 	{
 		$mypost = JRequest::getVar('cid');
-		$mycid = implode(",", $mypost);
-		$option = JRequest::getVar('option');
+
 		$order_function = new order_functions;
 
 		$invoicePdf = $order_function->createMultiprintInvoicePdf($mypost);
@@ -275,8 +274,6 @@ class orderController extends JController
 		$product_count = array();
 		$db = JFactory::getDBO();
 
-		$order_id = array();
-
 		$cid = JRequest::getVar('cid', array(0), 'method', 'array');
 		$order_id = implode(',', $cid);
 		$where = "";
@@ -391,8 +388,6 @@ class orderController extends JController
 		$product_count = array();
 		$db = JFactory::getDBO();
 
-		$order_id = array();
-
 		$cid = JRequest::getVar('cid', array(0), 'method', 'array');
 		$data = $model->export_data($cid);
 		$order_id = implode(',', $cid);
@@ -498,7 +493,6 @@ class orderController extends JController
 		$order_function = new order_functions;
 		$post = JRequest::get('post');
 		$specifiedSendDate = $post ['specifiedSendDate'];
-		$db = JFactory::getDBO();
 		$order_id = JRequest::getCmd('order_id');
 
 		$generate_label = $order_function->generateParcel($order_id, $specifiedSendDate);
@@ -517,7 +511,6 @@ class orderController extends JController
 	public function download_token()
 	{
 		$post = JRequest::get('post');
-		$option = JRequest::getVar('option', '', 'request', 'string');
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 
 		$model = $this->getModel();
