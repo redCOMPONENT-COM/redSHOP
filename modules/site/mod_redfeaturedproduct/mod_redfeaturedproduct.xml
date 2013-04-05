@@ -35,26 +35,26 @@
 		<field name="show_product_name" type="radio" default="yes"
 			label="COM_REDSHOP_SHOW_PRODUCT_NAME_LBL"
 			description="COM_REDSHOP_SHOW_PRODUCT_NAME_DESC">
-			<option value="yes">COM_REDSHOP_YES</option>
-			<option value="no">COM_REDSHOP_NO</option>
+			<option value="yes">JYES</option>
+			<option value="no">JNO</option>
 		</field>
 		<field name="show_addtocart" type="radio" default="yes"
 			label="COM_REDSHOP_SHOW_ADD_TO_CART_LBL"
 			description="COM_REDSHOP_SHOW_ADD_TO_CART_DESC">
-			<option value="yes">COM_REDSHOP_YES</option>
-			<option value="no">COM_REDSHOP_NO</option>
+			<option value="yes">JYES</option>
+			<option value="no">JNO</option>
 		</field>
 		<field name="show_price" type="radio" default="yes"
 			label="COM_REDSHOP_SHOW_PRICE_LBL"
 			description="COM_REDSHOP_SHOW_PRICE_DESC">
-			<option value="yes">COM_REDSHOP_YES</option>
-			<option value="no">COM_REDSHOP_NO</option>
+			<option value="yes">JYES</option>
+			<option value="no">JNO</option>
 		</field>
 		<field name="show_vatprice" type="radio" default="yes"
 			label="COM_REDSHOP_SHOW_VATPRICE_LBL"
 			description="COM_REDSHOP_SHOW_VATPRICE_DESC">
-			<option value="0">COM_REDSHOP_YES</option>
-			<option value="1">COM_REDSHOP_NO</option>
+			<option value="0">JYES</option>
+			<option value="1">JNO</option>
 		</field>
 		<field name="thumbwidth" type="text" size="10" label="COM_REDSHOP_THUMB_IMAGE_WIDTH" description="COM_REDSHOP_THUMB_IMAGE_WIDTH" default="100" />
 		<field name="thumbheight" type="text" size="10" label="COM_REDSHOP_THUMB_IMAGE_HEIGHT" description="COM_REDSHOP_THUMB_IMAGE_HEIGHT" default="100" />
@@ -64,8 +64,8 @@
 		<field name="product_title_max_chars" type="text" size="10" label="COM_REDSHOP_PRODUCT_TITLE_MAX_CHARS" description="COM_REDSHOP_PRODUCT_TITLE_MAX_CHARS" default="10" />
 		<field name="product_title_end_suffix" type="text" size="10" label="COM_REDSHOP_PRODUCT_TITLE_END_SUFFIX" description="COM_REDSHOP_PRODUCT_TITLE_END_SUFFIX" default="...." />	
 		<field name="show_discountpricelayout" type="radio" default="1" label="COM_REDSHOP_SHOW_DISCOUNT_PRICE_LAYOUT" description="COM_REDSHOP_SHOW_DISCOUNT_PRICE_LAYOUT">
-			<option value="1">COM_REDSHOP_YES</option>
-			<option value="0">COM_REDSHOP_NO</option>
+			<option value="1">JYES</option>
+			<option value="0">JNO</option>
 			</field>
 		<field name="moduleclass_sfx" type="text" default=""
 			label="COM_REDSHOP_MODULE_CLASS_SFX"

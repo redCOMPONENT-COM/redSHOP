@@ -99,6 +99,7 @@ class productViewproduct extends JView
 
 		foreach ($categories as $key => $value)
 		{
+			$categories1[$key] = new stdClass;
 			$categories1[$key]->id = $categories[$key]->id;
 			$categories1[$key]->parent_id = $categories[$key]->parent_id;
 			$categories1[$key]->title = $categories[$key]->title;

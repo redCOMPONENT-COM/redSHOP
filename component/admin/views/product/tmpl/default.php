@@ -19,6 +19,9 @@ $ordering = ($this->lists['order'] == 'x.ordering');
 
 $category_id = $app->getUserStateFromRequest('category_id', 'category_id', 0);
 
+$user = JFactory::getUser();
+$userId = (int) $user->id;
+
 ?>
 <script language="javascript" type="text/javascript">
 
@@ -106,15 +109,20 @@ $category_id = $app->getUserStateFromRequest('category_id', 'category_id', 0);
 				                                                                                value="<?php echo JText::_("COM_REDSHOP_SEARCH") ?>">
 				<select name="search_field" onchange="javascript:document.adminForm2.submit();">
 					<option
-						value="p.product_name" <?php if ($this->search_field == 'p.product_name') echo "selected='selected'";?>><?php echo JText::_("COM_REDSHOP_PRODUCT_NAME")?></option>
+						value="p.product_name" <?php if ($this->search_field == 'p.product_name') echo "selected='selected'";?>>
+						<?php echo JText::_("COM_REDSHOP_PRODUCT_NAME")?></option>
 					<option
-						value="c.category_name" <?php if ($this->search_field == 'c.category_name') echo "selected='selected'";?>><?php echo JText::_("COM_REDSHOP_CATEGORY")?></option>
+						value="c.category_name" <?php if ($this->search_field == 'c.category_name') echo "selected='selected'";?>>
+						<?php echo JText::_("COM_REDSHOP_CATEGORY")?></option>
 					<option
-						value="p.product_number" <?php if ($this->search_field == 'p.product_number') echo "selected='selected'";?>><?php echo JText::_("COM_REDSHOP_PRODUCT_NUMBER")?></option>
+						value="p.product_number" <?php if ($this->search_field == 'p.product_number') echo "selected='selected'";?>
+						><?php echo JText::_("COM_REDSHOP_PRODUCT_NUMBER")?></option>
 					<option
-						value="p.name_number" <?php if ($this->search_field == 'p.name_number') echo "selected='selected'";?>><?php echo JText::_("COM_REDSHOP_PRODUCT") . ' ' . JText::_("COM_REDSHOP_NAME_AND_NUMBER"); ?></option>
+						value="p.name_number" <?php if ($this->search_field == 'p.name_number') echo "selected='selected'";?>
+						><?php echo JText::_("COM_REDSHOP_PRODUCT") . ' ' . JText::_("COM_REDSHOP_NAME_AND_NUMBER"); ?></option>
 					<option
-						value="pa.property_number" <?php if ($this->search_field == 'pa.property_number') echo "selected='selected'";?>><?php echo JText::_("COM_REDSHOP_ATTRIBUTE_SKU")?></option>
+						value="pa.property_number" <?php if ($this->search_field == 'pa.property_number') echo "selected='selected'";?>>
+						<?php echo JText::_("COM_REDSHOP_ATTRIBUTE_SKU")?></option>
 				</select>
 				<?php echo $this->lists['category'];
 				echo $this->lists['product_sort'];
@@ -155,7 +163,7 @@ $category_id = $app->getUserStateFromRequest('category_id', 'category_id', 0);
 		<th nowrap="nowrap"><?php echo  JText::_($this->list_in_products[$i]->field_title); ?></th>
 	<?php }    ?>
 	<th>
-		<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_MEDIA', 'media', $this->lists['order_Dir'], $this->lists['order']); //echo JText::_('COM_REDSHOP_MEDIA'); ?>
+		<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_MEDIA', 'media', $this->lists['order_Dir'], $this->lists['order']); ?>
 	</th>
 	<th>
 		<?php echo JText::_('COM_REDSHOP_WRAPPER'); ?>
@@ -186,7 +194,9 @@ $category_id = $app->getUserStateFromRequest('category_id', 'category_id', 0);
 			<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_ORDERING', 'x.ordering', $this->lists['order_Dir'], $this->lists['order']); ?>
 			<?php
 			if ($ordering)
+			{
 				echo JHTML::_('grid.order', $this->products);
+			}
 			?>
 		</th>
 	<?php } ?>
@@ -216,9 +226,10 @@ for ($i = 0, $n = count($this->products); $i < $n; $i++)
 		<td><?php echo @JHTML::_('grid.checkedout', $row, $i); ?></td>
 		<td>
 			<?php
-			if (JTable::isCheckedOut($this->user->get('id'), $row->checked_out))
-			{
 
+			$checkedOut = ((int) $row->checked_out !== 0 && (int) $row->checked_out === $userId);
+			if ($checkedOut)
+			{
 				if (isset($row->children))
 				{
 					?>
@@ -245,11 +256,9 @@ for ($i = 0, $n = count($this->products); $i < $n; $i++)
 					<?php
 					}
 				}
-
 			}
 			else
 			{
-
 				?>
 				<?php
 				if (isset($row->children))
@@ -261,7 +270,6 @@ for ($i = 0, $n = count($this->products); $i < $n; $i++)
 				}
 				else
 				{
-
 					if ($row->product_parent_id == 0)
 					{
 						?>

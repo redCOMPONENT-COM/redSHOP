@@ -78,6 +78,11 @@ class Com_RedshopInstallerScript
 		require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/template.php';
 		$this->com_install();
 
+		// Install extensions
+		$this->installLibraries($parent);
+		$this->installModules($parent);
+		$this->installPlugins($parent);
+
 		$this->handleCSSFile();
 	}
 

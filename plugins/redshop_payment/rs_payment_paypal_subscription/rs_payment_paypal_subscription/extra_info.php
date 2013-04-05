@@ -13,8 +13,8 @@
  * along with redSHOP; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'helper.php';
-require_once JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'redshop.cfg.php';
+require_once JPATH_COMPONENT . '/helpers/helper.php';
+require_once JPATH_SITE . '/administrator/components/com_redshop/helpers/redshop.cfg.php';
 $objOrder = new order_functions;
 
 $objconfiguration = new Redconfiguration;
@@ -115,7 +115,7 @@ if ($this->_params->get("payment_oprand") == '-')
 }
 else
 {
-	$discount_payment_price = $payment_price;
+	$discount_payment_price          = $payment_price;
 	$post_variables['handling_cart'] = round($currencyClass->convert($order_details[0]->payment_discount, '', $currency_main), 2);
 }
 
