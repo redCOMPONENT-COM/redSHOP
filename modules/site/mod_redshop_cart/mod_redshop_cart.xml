@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="module" version="2.5" client="site" method="upgrade">
-    <name>redSHOP - Cart module</name>
+    <name>MOD_REDSHOP_CART</name>
     <version>1.1.11</version>
     <creationDate>10-04-2012</creationDate>
     <author>redweb.dk</author>
@@ -16,6 +16,7 @@
     </files>
     <languages>
         <language tag="en-GB">language/en-GB/en-GB.mod_redshop_cart.ini</language>
+        <language tag="en-GB">language/en-GB/en-GB.mod_redshop_cart.sys.ini</language>
     </languages>
     <config>
         <fields name="params">
