@@ -1736,7 +1736,7 @@ CREATE TABLE IF NOT EXISTS  `#__redshop_product_discount_calc_extra` (
 -- Table structure for table `#__redshop_product_download`
 --
 
-CREATE TABLE IF NOT EXISTS #__redshop_product_download (
+CREATE TABLE IF NOT EXISTS `#__redshop_product_download` (
   `product_id` int(11) NOT NULL default '0',
   `user_id` int(11) NOT NULL default '0',
   `order_id` int(11) NOT NULL default '0',
