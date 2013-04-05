@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE install SYSTEM "http://dev.joomla.org/xml/1.5/module-install.dtd">
 <extension type="module" version="1.6.0" client="site" method="upgrade">
-    <name>RedSHOP Category Scroller</name>
+    <name>COM_REDSHOP_REDSHOP_CATEGORY_SCROLLER</name>
     <version>1.1.8</version>
     <creationDate>10-04-2012</creationDate>
     <author>redweb.dk</author>
