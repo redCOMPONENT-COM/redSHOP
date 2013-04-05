@@ -70,6 +70,13 @@
             </fileset>
         </copy>
 
+        <!-- Modules - Admin -->
+        <copy todir="${www.dir}/administrator/modules" overwrite="true">
+            <fileset dir="${src}/modules/admin">
+                <include name="**" />
+            </fileset>
+        </copy>
+
         <!-- Plugins -->
         <copy todir="${www.dir}/plugins" overwrite="true">
             <fileset dir="${src}/plugins">
