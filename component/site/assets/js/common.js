@@ -2,7 +2,7 @@ function validateInputNumber(objid)
 {
 	if(document.getElementById(objid) && (trim(document.getElementById(objid).value)=="" || isNaN(document.getElementById(objid).value) || document.getElementById(objid).value<=0))
 	{
-		alert(ENTER_NUMBER);
+		alert(COM_REDSHOP_ENTER_NUMBER);
 		document.getElementById(objid).value = 1;
 		return false;
 	}
@@ -12,12 +12,12 @@ function validateInputNumber(objid)
 function trim(str, chars) {
 	return ltrim(rtrim(str, chars), chars);
 }
- 
+
 function ltrim(str, chars) {
 	chars = chars || "\\s";
 	return str.replace(new RegExp("^[" + chars + "]+", "g"), "");
 }
- 
+
 function rtrim(str, chars) {
 	chars = chars || "\\s";
 	return str.replace(new RegExp("[" + chars + "]+$", "g"), "");
@@ -27,12 +27,12 @@ function userfieldValidation(extrafieldname)
 {
 	/***************************************
 	 * validation
-	 * for 
-	 * required 
-	 * custom userfield 
+	 * for
+	 * required
+	 * custom userfield
 	 ***************************************/
 	if(document.getElementsByName(extrafieldname+'[]'))
-	{	
+	{
 		var extrafields = document.getElementsByName(extrafieldname+'[]');
 		var extrafields_val = extrafields.value;
 		var extrafields_lbl = '';
@@ -42,7 +42,7 @@ function userfieldValidation(extrafieldname)
 		var rdo_previousfieldName = "";
 		var rdo_fieldNamefrmId = "";
 		var rdo_flag = false;
-				
+
 		for(var ex=0;ex<extrafields.length;ex++)
 		{
 			extrafields_req = extrafields[ex].getAttribute('required');
@@ -50,7 +50,7 @@ function userfieldValidation(extrafieldname)
 			if(extrafields_req==1 && extrafields_lbl!=null)
 			{
 				if(extrafields[ex].type=='checkbox')
-				{	
+				{
 					fieldNamefrmId = reverseString(extrafields[ex].id);
 					fieldNamefrmId = reverseString(fieldNamefrmId.substr(fieldNamefrmId.indexOf("_")+1));
 					if(previousfieldName != "" && previousfieldName!=fieldNamefrmId && chk_flag==false)
@@ -58,56 +58,56 @@ function userfieldValidation(extrafieldname)
 						alert(extrafields[ex-1].getAttribute('userfieldlbl')+' '+COM_REDSHOP_IS_REQUIRED);
 						return false;
 					}
-					
+
 					if(previousfieldName != fieldNamefrmId)
 					{	extrafieldVal = "";
 						previousfieldName = fieldNamefrmId;
 					}
 					if(extrafields[ex].checked)
-					{	
+					{
 						chk_flag = true;
-						continue; 
+						continue;
 					}
 					if((ex == (extrafields.length-1) && chk_flag==false) || (extrafields[ex+1].type!='checkbox') && chk_flag==false )
 					{
 						alert(extrafields[ex].getAttribute('userfieldlbl')+' '+COM_REDSHOP_IS_REQUIRED);
 						return false;
-					}	
+					}
 				}
 				else if(extrafields[ex].type=='radio')
 				{
 					rdo_fieldNamefrmId = reverseString(extrafields[ex].id);
 					rdo_fieldNamefrmId = reverseString(rdo_fieldNamefrmId.substr(rdo_fieldNamefrmId.indexOf("_")+1));
-					
+
 					if(rdo_previousfieldName != "" && rdo_previousfieldName!=rdo_fieldNamefrmId && rdo_flag==false)
 					{
 						alert(extrafields[ex-1].getAttribute('userfieldlbl')+' '+COM_REDSHOP_IS_REQUIRED);
 						return false;
 					}
 					if(rdo_previousfieldName != rdo_fieldNamefrmId)
-					{	
+					{
 						extrafieldVal= "";
 						rdo_previousfieldName = rdo_fieldNamefrmId;
 						rdo_flag = false;
 						if(extrafields[ex].checked)
-						{	
+						{
 							rdo_flag = true;
-							continue; 
+							continue;
 						}
 					}
 					else
 					{
 						if(extrafields[ex].checked || rdo_flag== true)
-						{	
+						{
 							rdo_flag = true;
-							continue; 
+							continue;
 						}
 						if((ex == (extrafields.length-1) && rdo_flag==false) || (extrafields[ex+1].type!='radio') && rdo_flag==false )
 						{
 							alert(extrafields[ex].getAttribute('userfieldlbl')+' '+COM_REDSHOP_IS_REQUIRED);
 							return false;
 						}
-					}	
+					}
 				}
 				else
 				{
@@ -169,15 +169,15 @@ function getShippingrate()
 	var args = "country_code="+country_code+"&state_code="+state_code+"&zip_code="+zip_code;
 	var url= site_url+'index.php?tmpl=component&option=com_redshop&view=cart&task=getShippingrate&'+args;
 	var total;
-	
+
 	xmlhttp.onreadystatechange=function(){
 		if (xmlhttp.readyState==4)
 		{
-			response = xmlhttp.responseText.split('`');			
+			response = xmlhttp.responseText.split('`');
 			if(document.getElementById('spnShippingrate'))
 			{
 				document.getElementById('spnShippingrate').innerHTML = response[0];
-			
+
 				if(document.getElementById('spnTotal'))
 				{
 					document.getElementById('spnTotal').innerHTML = response[1];
@@ -191,37 +191,37 @@ function getShippingrate()
 
 function add_to_compare(pid,cid,cmd)
 {
-	
-	
+
+
 	xmlhttp=GetXmlHttpObject();
 	var chked = document.getElementById('chk'+cid+pid);
-	
+
 	if(chked == null)
 	{
 	  var cmd = cmd;
-		   
-	} else 
-	{	
+
+	} else
+	{
 	 if(cmd=="remove")
 		chked.checked = false;
      if(chked.checked)
 		var cmd = 'add';
 	else
 		var cmd = 'remove';
-	
+
    }
-	
-    
-	
+
+
+
 	var args = 'pid='+pid+'&cmd='+cmd+'&cid='+cid+'&sid='+Math.random();
 	var url= site_url+'index.php?tmpl=component&option=com_redshop&view=product&task=addtocompare&'+args;
 
 	xmlhttp.onreadystatechange=function(){
 		if (xmlhttp.readyState==4)
 		{
-			response = xmlhttp.responseText.split('`');	
+			response = xmlhttp.responseText.split('`');
 			if(response[0]==0)
-			{		
+			{
 				alert(response[1]);
 				chked.checked = false;
 			}
@@ -259,15 +259,15 @@ function expand_collapse(atag,pid)
 		if(atag.innerHTML == "+")
 			sign = "-";
 		atag.innerHTML = sign;
-			
+
 		if(document.getElementsByName("exp_"+pid))
 		{
 			var expdivs = document.getElementsByName("exp_"+pid);
 			var style = 'none';
 			if(expdivs[0].style.display == 'none')
 				var style = 'block';
-			
-			
+
+
 			for(var i=0;i<expdivs.length;i++)
 				expdivs[i].style.display = style;
 		}
@@ -316,15 +316,15 @@ function setSliderMinMaxForTemplate()
 function finder_checkbox(frm)
 {
 		var chkboxs = frm.elements;
-		
+
 		for(var i=0;i<chkboxs.length;i++)
 		{
 			if(chkboxs[i].checked)
 				return ;
 		}
-		
+
 		if(i==chkboxs.length)
-		{	
+		{
 			chkboxs[0].checked = true;
 			chkboxs[0].value = '0';
 		}
@@ -839,7 +839,7 @@ function showCompanyOrCustomer(obj)
 				if(xmlhttp.responseText!="")
 				{
 					if(document.getElementById('tmpRegistrationDiv'))
-					{					
+					{
 						document.getElementById('tmpRegistrationDiv').innerHTML=xmlhttp.responseText;
 					}
 					if(obj.value==1)
@@ -887,9 +887,9 @@ function updateGLSLocation(zipcode)
 			if(document.getElementById('rs_locationdropdown'))
 			{
 				document.getElementById('rs_locationdropdown').innerHTML = xmlhttp1.responseText;
-				
+
 			}
-		} 
+		}
 	};
 	xmlhttp1.open("GET",url1,true);
 	xmlhttp1.send(null);
@@ -910,7 +910,7 @@ function displaytextarea(obj)
 	}
 }
 function onestepCheckoutProcess(objectname,classname)
-{	
+{
 	var newparam = "";
 	var payment_method_id = "";
 
@@ -929,7 +929,7 @@ function onestepCheckoutProcess(objectname,classname)
 			}
 		}
 	}
-	
+
 	if(document.getElementById('responceonestep'))
 	{
 		if(objectname=="payment_method_id")
@@ -947,11 +947,11 @@ function onestepCheckoutProcess(objectname,classname)
 					document.getElementById('divcardinfo_'+propName[p].value).innerHTML = "";
 				}
 			}
-			
+
 			xmlhttp1=GetXmlHttpObject();
 			var url1= site_url+'index.php?tmpl=component&option=com_redshop&view=checkout&task=displaycreditcard';
 			url1 = url1 + newparam;
-			
+
 			xmlhttp1.onreadystatechange=function()
 			{
 				if (xmlhttp1.readyState==4)
@@ -969,12 +969,12 @@ function onestepCheckoutProcess(objectname,classname)
 					{
 						document.getElementById('divcardinfo_'+payment_method_id).innerHTML = "<br>Please wait while loading credit card information form<br><img src='"+site_url+"/components/com_redshop/assets/images/preloader.jpeg' border='0'>";
 					}
-				}	
+				}
 			};
 			xmlhttp1.open("GET",url1,true);
 			xmlhttp1.send(null);
 		}
-		
+
 		var params="";
 		var users_info_id=0;
 		var shipping_box_id = 0;
@@ -986,7 +986,7 @@ function onestepCheckoutProcess(objectname,classname)
 		var txt_referral_code ="";
 		var rs_customer_message_ta ="";
 		var Itemid = 0;
-		
+
 		var propName = document.getElementsByName('users_info_id');
 		for(var p=0;p<propName.length;p++)
 		{
@@ -995,7 +995,7 @@ function onestepCheckoutProcess(objectname,classname)
 				users_info_id = propName[p].value;
 			}
 		}
-		
+
 		var propName = document.getElementsByName('shipping_box_id');
 		for(var p=0;p<propName.length;p++)
 		{
@@ -1004,7 +1004,7 @@ function onestepCheckoutProcess(objectname,classname)
 				shipping_box_id = propName[p].value;
 			}
 		}
-		
+
 		var propName = document.getElementsByName('shipping_rate_id');
 		for(var p=0;p<propName.length;p++)
 		{
@@ -1013,17 +1013,17 @@ function onestepCheckoutProcess(objectname,classname)
 				shipping_rate_id = propName[p].value;
 			}
 		}
-		
+
 		if(document.getElementById('divShippingRateTemplateId'))
 		{
 			rate_template_id = parseInt(document.getElementById('divShippingRateTemplateId').innerHTML);
 		}
-		
+
 		if(document.getElementById('divRedshopCartTemplateId'))
 		{
 			cart_template_id = parseInt(document.getElementById('divRedshopCartTemplateId').innerHTML);
 		}
-		
+
 		if(document.getElementById('customer_note'))
 		{
 			customer_note = document.getElementById('customer_note').value;
@@ -1044,7 +1044,7 @@ function onestepCheckoutProcess(objectname,classname)
 		{
 			Itemid = document.getElementById('onestepItemid').value;
 		}
-		
+
 		params = params + "option=com_redshop&view=checkout&task=oneStepCheckoutProcess";
 		params = params + "&users_info_id=" + users_info_id;
 		params = params + "&shipping_box_id=" + shipping_box_id;
@@ -1058,12 +1058,12 @@ function onestepCheckoutProcess(objectname,classname)
 		params = params + "&txt_referral_code=" + txt_referral_code;
 		params = params + "&objectname=" + objectname;
 		params = params + "&Itemid=" + Itemid;
-		params = params + "&sid=" + Math.random();		
-				
+		params = params + "&sid=" + Math.random();
+
 		var url= site_url+'index.php?tmpl=component&';
 		url = url + params;
 //		alert(url);
-		
+
 		if(document.getElementById('divShippingRate') && (objectname=="users_info_id" || objectname=="shipping_box_id"))
 		{
 			document.getElementById('divShippingRate').innerHTML = "Loading...<img src='"+site_url+"/components/com_redshop/assets/images/loading.gif' />";
@@ -1089,7 +1089,7 @@ function onestepCheckoutProcess(objectname,classname)
 				{
 					document.getElementById('divShippingRate').innerHTML = document.getElementById('onestepshiprate').innerHTML;
 				}
-				
+
 				if(document.getElementById('divRedshopCart') && document.getElementById('onestepdisplaycart') && document.getElementById('onestepdisplaycart').innerHTML!="")
 				{
 					document.getElementById('divRedshopCart').innerHTML = document.getElementById('onestepdisplaycart').innerHTML;
@@ -1101,13 +1101,13 @@ function onestepCheckoutProcess(objectname,classname)
 			xmlhttp.open("POST", url, true);
 		else
 			xmlhttp.open("POST", url, false);
-		
+
 		xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 		xmlhttp.setRequestHeader("Content-length", params.length);
 		xmlhttp.setRequestHeader("Connection", "close");
 		xmlhttp.send(params);
 	}
-	
+
 	if(document.getElementById('extrafield_payment'))
 	{
 		if(objectname=="payment_method_id")
@@ -1121,11 +1121,11 @@ function onestepCheckoutProcess(objectname,classname)
 					newparam = newparam + "&payment_method_id=" + payment_method_id;
 				}
 			}
-			
+
 			xmlhttp1=GetXmlHttpObject();
 			var url1= site_url+'index.php?tmpl=component&option=com_redshop&view=checkout&task=displaypaymentextrafield';
 			url1 = url1 + newparam;
-			
+
 			xmlhttp1.onreadystatechange=function()
 			{
 				if (xmlhttp1.readyState==4)
@@ -1134,24 +1134,24 @@ function onestepCheckoutProcess(objectname,classname)
 					{
 						document.getElementById('extrafield_payment').innerHTML = xmlhttp1.responseText;
 					}
-				} 
+				}
 			};
 			xmlhttp1.open("GET",url1,true);
 			xmlhttp1.send(null);
 		}
 	}
-	
-	
+
+
 	if(document.getElementById('extrafield_shipping'))
 	{
 		if(objectname=="shipping_rate_id")
 		{
 			newparam = newparam + "&shipping_rate_id=" + classname;
-			
+
 			xmlhttp1=GetXmlHttpObject();
 			var url1= site_url+'index.php?tmpl=component&option=com_redshop&view=checkout&task=displayshippingextrafield';
 			url1 = url1 + newparam;
-			
+
 			xmlhttp1.onreadystatechange=function()
 			{
 				if (xmlhttp1.readyState==4)
@@ -1160,7 +1160,7 @@ function onestepCheckoutProcess(objectname,classname)
 					{
 						document.getElementById('extrafield_shipping').innerHTML = xmlhttp1.responseText;
 					}
-				} 
+				}
 			};
 			xmlhttp1.open("GET",url1,true);
 			xmlhttp1.send(null);
