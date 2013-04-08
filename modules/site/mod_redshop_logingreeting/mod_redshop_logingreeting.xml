@@ -12,8 +12,9 @@
         <filename module="mod_redshop_logingreeting">mod_redshop_logingreeting.php</filename>
         <folder module="mod_redshop_logingreeting">css</folder>
     </files>
+    <language tag="en-GB">language/en-GB/en-GB.mod_redshop_logingreeting.ini</language>
+    <language tag="en-GB">language/en-GB/en-GB.mod_redshop_logingreeting.sys.ini</language>
     <languages>
-        <language tag="en-GB">language/en-GB/en-GB.mod_redshop_logingreeting.sys.ini</language>
     </languages>
     <config>
         <fields name="params">
