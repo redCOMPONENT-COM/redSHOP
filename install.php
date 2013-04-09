@@ -58,10 +58,10 @@ class Com_RedshopInstallerScript
 	 */
 	public function uninstall($parent)
 	{
-		// Install extensions
-		$this->installLibraries($parent);
-		$this->installModules($parent);
-		$this->installPlugins($parent);
+		// Uninstall extensions
+		$this->uninstallLibraries($parent);
+		$this->uninstallModules($parent);
+		$this->uninstallPlugins($parent);
 	}
 
 	/**
@@ -4584,11 +4584,140 @@ class Com_RedshopInstallerScript
 					$query->update($db->quoteName("#__extensions"));
 					$query->set("enabled=1");
 					$query->where("type='plugin'");
-					$query->where("element=" . $db->Quote($extName));
-					$query->where("folder=" . $db->Quote($extGroup));
+					$query->where("element=" . $db->quote($extName));
+					$query->where("folder=" . $db->quote($extGroup));
 					$db->setQuery($query);
 					$db->query();
 				}
+			}
+		}
+	}
+
+	/**
+	 * Uninstall the package libraries
+	 *
+	 * @param   object  $parent  class calling this method
+	 *
+	 * @return  void
+	 */
+	private function uninstallLibraries($parent)
+	{
+		// Required objects
+		$installer = $this->getInstaller();
+		$manifest  = $parent->get('manifest');
+		$src       = $parent->getParent()->getPath('source');
+
+		if ($nodes = $manifest->libraries->library)
+		{
+			foreach ($nodes as $node)
+			{
+				$extName = $node->attributes()->name;
+				$extPath = $src . '/libraries/' . $extName;
+				$result  = 0;
+
+				$db = JFactory::getDBO();
+				$query = $db->getQuery(true)
+					->select('extension_id')
+					->from($db->quoteName("#__extensions"))
+					->where("type='library'")
+					->where("element=" . $db->quote($extName));
+
+				$db->setQuery($query);
+
+				if ($extId = $db->loadResult())
+				{
+					$result = $installer->uninstall('library', $extId);
+				}
+
+				// Store the result to show install summary later
+				$this->_storeStatus('libraries', array('name' => $extName, 'result' => $result));
+			}
+		}
+	}
+
+	/**
+	 * Uninstall the package modules
+	 *
+	 * @param   object  $parent  class calling this method
+	 *
+	 * @return  void
+	 */
+	private function uninstallModules($parent)
+	{
+		// Required objects
+		$installer = $this->getInstaller();
+		$manifest  = $parent->get('manifest');
+		$src       = $parent->getParent()->getPath('source');
+
+		if ($nodes = $manifest->modules->module)
+		{
+			foreach ($nodes as $node)
+			{
+				$extName   = $node->attributes()->name;
+				$extClient = $node->attributes()->client;
+				$extPath   = $src . '/modules/' . $extClient . '/' . $extName;
+				$result    = 0;
+
+				$db = JFactory::getDBO();
+				$query = $db->getQuery(true)
+					->select('extension_id')
+					->from($db->quoteName("#__extensions"))
+					->where("type='module'")
+					->where("element=" . $db->quote($extName));
+
+				$db->setQuery($query);
+
+				if ($extId = $db->loadResult())
+				{
+					$result = $installer->uninstall('module', $extId);
+				}
+
+				// Store the result to show install summary later
+				$this->_storeStatus('modules', array('name' => $extName, 'client' => $extClient, 'result' => $result));
+			}
+		}
+	}
+
+	/**
+	 * Uninstall the package plugins
+	 *
+	 * @param   object  $parent  class calling this method
+	 *
+	 * @return  void
+	 */
+	private function uninstallPlugins($parent)
+	{
+		// Required objects
+		$installer = $this->getInstaller();
+		$manifest  = $parent->get('manifest');
+		$src       = $parent->getParent()->getPath('source');
+
+		if ($nodes = $manifest->plugins->plugin)
+		{
+			foreach ($nodes as $node)
+			{
+				$extName  = $node->attributes()->name;
+				$extGroup = $node->attributes()->group;
+				$extPath  = $src . '/plugins/' . $extGroup . '/' . $extName;
+				$result   = 0;
+
+				$db = JFactory::getDBO();
+				$query = $db->getQuery(true)
+					->select('extension_id')
+					->from($db->quoteName("#__extensions"))
+					->where("type='plugin'")
+					->where("element=" . $db->quote($extName))
+					->where("folder=" . $db->quote($extGroup));
+
+				$db->setQuery($query);
+
+				if ($extId = $db->loadResult())
+				{
+					$result = $installer->uninstall('plugin', $extId);
+				}
+
+				// Store the result to show install summary later
+				$this->_storeStatus('plugins', array('name' => $extName, 'group' => $extGroup, 'result' => $result));
 			}
 		}
 	}

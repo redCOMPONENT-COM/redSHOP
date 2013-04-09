@@ -7,7 +7,7 @@
     <authorUrl>www.redweb.dk</authorUrl>
     <copyright>(c) Redweb.dk</copyright>
     <license>GNU/GPL</license>
-    <version>1.1.20</version>
+    <version>1.2</version>
     <description>redSHOP Joomla Webshop Component</description>
     <scriptfile>install.php</scriptfile>
     <install>
@@ -41,6 +41,14 @@
     <languages folder="component/site/language">
         <language tag="en-GB">en-GB/en-GB.com_redshop.ini</language>
     </languages>
+
+    <!-- Medias -->
+    <media destination="com_redshop" folder="media/com_redshop">
+        <folder>css</folder>
+        <folder>images</folder>
+        <folder>js</folder>
+        <filename>index.html</filename>
+    </media>
 
     <administration>
         <menu img="components/com_redshop/assets/images/redshopcart16.png">redSHOP</menu>

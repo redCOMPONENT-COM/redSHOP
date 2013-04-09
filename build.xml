@@ -63,9 +63,23 @@
             </fileset>
         </copy>
 
+        <!-- Media -->
+        <copy todir="${www.dir}/media" overwrite="true">
+            <fileset dir="${src}/media">
+                <include name="**" />
+            </fileset>
+        </copy>
+
         <!-- Modules - Site -->
         <copy todir="${www.dir}/modules" overwrite="true">
             <fileset dir="${src}/modules/site">
+                <include name="**" />
+            </fileset>
+        </copy>
+
+        <!-- Modules - Admin -->
+        <copy todir="${www.dir}/administrator/modules" overwrite="true">
+            <fileset dir="${src}/modules/admin">
                 <include name="**" />
             </fileset>
         </copy>

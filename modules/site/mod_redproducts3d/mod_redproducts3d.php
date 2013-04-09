@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 $category = trim($params->get('category', 0));
 
@@ -25,19 +25,22 @@ $enableMouseOverToolTip = trim($params->get('enableMouseOverToolTip', 'yes'));
 $enableMouseOverEffects = trim($params->get('enableMouseOverEffects', 'yes'));
 
 $db = JFactory::getDBO();
+
 // Getting the configuration
 require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'redshop.cfg.php';
 require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'configuration.php';
-$Redconfiguration = new Redconfiguration();
+$Redconfiguration = new Redconfiguration;
 $Redconfiguration->defineDynamicVars();
 
 $leftjoin = "";
 $and      = "";
+
 if ($category != 0)
 {
 	$leftjoin .= "LEFT JOIN #__redshop_product_category_xref cx ON cx.product_id = p.product_id ";
 	$and .= "AND cx.category_id IN (" . $category . ") ";
 }
+
 $sql = "SELECT * FROM #__redshop_product p "
 	. $leftjoin
 	. "WHERE p.published=1 "
