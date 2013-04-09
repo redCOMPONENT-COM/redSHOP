@@ -42,6 +42,14 @@
         <language tag="en-GB">en-GB/en-GB.com_redshop.ini</language>
     </languages>
 
+    <!-- Medias -->
+    <media destination="com_redshop" folder="media/com_redshop">
+        <folder>css</folder>
+        <folder>images</folder>
+        <folder>js</folder>
+        <filename>index.html</filename>
+    </media>
+
     <administration>
         <menu img="components/com_redshop/assets/images/redshopcart16.png">redSHOP</menu>
         <files folder="component/admin">
