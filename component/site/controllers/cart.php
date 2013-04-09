@@ -31,7 +31,7 @@ class CartController extends JController
 	public function __construct($default = array())
 	{
 		parent::__construct($default);
-		$this->_carthelper = new producthelper;
+		$this->_carthelper = new rsCarthelper;
 	}
 
 	/**
@@ -285,7 +285,6 @@ class CartController extends JController
 		$session->set('cart', $cart);
 
 		return $cart;
-
 	}
 
 	/**
