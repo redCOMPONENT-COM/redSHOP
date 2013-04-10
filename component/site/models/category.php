@@ -456,7 +456,7 @@ class CategoryModelCategory extends JModel
 
 	public function getCategoryProductPagination()
 	{
-		$app = JFactoy::getApplication();
+		$app = JFactory::getApplication();
 		$menu     = $app->getMenu();
 		$item     = $menu->getActive();
 		$endlimit = (isset($item)) ? intval($item->params->get('maxcategory')) : 0;
