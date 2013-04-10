@@ -1703,3 +1703,73 @@ $dispatcher->trigger('onAfterDisplayProduct', array(& $template_desc, & $this->p
 
 echo eval("?>" . $template_desc . "<?php ");
 
+?>
+
+<script type="text/javascript">
+
+function setsendImagepath(elm) {
+	var path = document.getElementById('<?php echo "main_image".JRequest::getVar ( 'pid' );?>').src;
+	var filenamepath = path.replace(/\\/g, '/').replace(/.*\//, '');
+	var imageName = filenamepath.split('&');
+	elm.href = elm + '&imageName=' + imageName[0];
+}
+
+function setZoomImagepath(elm) {
+	var elmpath = elm.href;
+	var elmfilenamepath = elmpath.replace(/\\/g, '/').replace(/.*\//, '');
+	var path = document.getElementById('<?php echo "main_image".JRequest::getVar ( 'pid' );?>').src;
+	var filenamepath = path.replace(/\\/g, '/').replace(/.*\//, '');
+	var imageName = filenamepath.split('&');
+
+	if (/MSIE[\/\s](\d+\.\d+)/.test(navigator.userAgent)) {
+		elmfilenamepath = decodeURI(elmfilenamepath);
+		if (elmfilenamepath != imageName[0]) {
+			var imageurl = '<?php echo $url.'components/com_redshop/assets/images/mergeImages/'; ?>' + imageName[0];
+			elm.href = imageurl;
+		}
+	}
+	else {
+		if (elmfilenamepath != imageName[0]) {
+			var imageurl = '<?php echo $url.'components/com_redshop/assets/images/mergeImages/'; ?>' + imageName[0];
+			elm.href = imageurl;
+		}
+	}
+}
+
+function validateReview() {
+	var email = document.getElementById('email').value;
+	var form = document.writereview;
+	var flag = 0;
+	var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+	var selection = document.writereview.user_rating;
+
+	for (i = 0; i < selection.length; i++) {
+		if (selection[i].checked == true) {
+			flag = 1;
+		}
+	}
+	if (flag == 0) {
+		alert('<?php echo JText::_('COM_REDSHOP_PLEASE_RATE_THE_PRODUCT' ); ?>');
+		return false;
+	}
+	else if (email == '') {
+		alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_EMAIL_ADDRESS')?>");
+		return false;
+	}
+	else if (reg.test(email) == false) {
+		alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_VALID_EMAIL_ADDRESS')?>");
+		return false;
+	}
+	else if (form.comment.value == "") {
+		alert('<?php echo JText::_('COM_REDSHOP_PLEASE_COMMENT_ON_PRODUCT' ); ?>');
+		return false;
+	}
+	else if (form.review_captcha.value == "") {
+		alert('<?php echo JText::_('COM_REDSHOP_PLEASE_FILL_CAPTCHA' ); ?>');
+		return false;
+	}
+	else {
+		return true;
+	}
+}
+</script>
