@@ -865,7 +865,7 @@ class configurationModelconfiguration extends JModel
 	/* Get current version of redshop */
 	public function getcurrentversion()
 	{
-		$xmlfile = JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'com_redshop.xml';
+		$xmlfile = JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'redshop.xml';
 		$version = JText::_('COM_REDSHOP_FILE_NOT_FOUND');
 
 		if (file_exists($xmlfile))
