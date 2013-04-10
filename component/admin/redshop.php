@@ -37,6 +37,7 @@
 	{
 		require_once $configpath;
 	}
+
 	require_once JPATH_COMPONENT . '/helpers/configuration.php';
 	require_once JPATH_COMPONENT . '/helpers/template.php';
 	require_once JPATH_COMPONENT . '/helpers/stockroom.php';
