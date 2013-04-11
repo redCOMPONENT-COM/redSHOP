@@ -12,8 +12,8 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.model');
 jimport('joomla.filesystem.file');
 
-require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'product.php');
-require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'text_library.php');
+require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
+require_once JPATH_COMPONENT . '/helpers/text_library.php';
 
 class configurationModelconfiguration extends JModel
 {
@@ -865,7 +865,7 @@ class configurationModelconfiguration extends JModel
 	/* Get current version of redshop */
 	public function getcurrentversion()
 	{
-		$xmlfile = JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'com_redshop.xml';
+		$xmlfile = JPATH_SITE . '/administrator/components/com_redshop/com_redshop.xml';
 		$version = JText::_('COM_REDSHOP_FILE_NOT_FOUND');
 
 		if (file_exists($xmlfile))
