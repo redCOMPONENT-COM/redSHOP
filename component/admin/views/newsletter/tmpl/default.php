@@ -65,7 +65,7 @@ echo 'index.php?option=' . $option;
 				<th><?php echo JText::_('COM_REDSHOP_NEWSLETTER_SUB');?></th>
 				<th width="10%"><?php echo JText::_('COM_REDSHOP_NO_SUBSCRIBERS');?></th>
 				<th width="5%"
-				    nowrap="nowrap"><?php echo JHTML::_('grid.sort', 'PUBLISHED', 'published', $this->lists ['order_Dir'], $this->lists ['order']);?></th>
+				    nowrap="nowrap"><?php echo JHTML::_('grid.sort', 'JPUBLISHED', 'published', $this->lists ['order_Dir'], $this->lists ['order']);?></th>
 				<th width="5%"
 				    nowrap="nowrap"><?php echo JHTML::_('grid.sort', 'ID', 'newsletter_id', $this->lists ['order_Dir'], $this->lists ['order']);?></th>
 			</tr>
