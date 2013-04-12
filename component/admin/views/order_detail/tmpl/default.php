@@ -1161,7 +1161,7 @@ if ($CheckRedDesign)
 							</tr>
 						<?php
 						}
-						$original_image = JPATH_SITE . "/components/com_reddesign/assets/images/designtype/" .$RedDesignpro[$design_i]->image_path;
+						$original_image = JPATH_SITE . '/components/com_reddesign/assets/images/designtype/' .$RedDesignpro[$design_i]->image_path;
 						?>
 						<tr valign="top">
 							<td>
