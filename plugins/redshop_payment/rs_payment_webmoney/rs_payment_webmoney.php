@@ -49,7 +49,7 @@ class plgRedshop_paymentrs_payment_webmoney extends JPlugin
 		}
 
 		$app = JFactory::getApplication();
-		$paymentpath = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $plugin . DS . $plugin . DS . 'extra_info.php';
+		$paymentpath = JPATH_SITE . '/plugins/redshop_payment/' . $plugin . DS . $plugin . '/extra_info.php';
 		include $paymentpath;
 	}
 

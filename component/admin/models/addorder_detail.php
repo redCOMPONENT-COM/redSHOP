@@ -10,15 +10,15 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
-require_once(JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'product.php');
-require_once(JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'helper.php');
-require_once(JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'user.php');
-require_once(JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'cart.php');
-require_once(JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'extra_field.php');
-require_once(JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'mail.php');
-require_once(JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php');
-require_once(JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'product.php');
-require_once(JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'shipping.php');
+require_once(JPATH_SITE . '/components/com_redshop/helpers/product.php');
+require_once(JPATH_SITE . '/components/com_redshop/helpers/helper.php');
+require_once(JPATH_SITE . '/components/com_redshop/helpers/user.php');
+require_once(JPATH_SITE . '/components/com_redshop/helpers/cart.php');
+require_once(JPATH_SITE . '/administrator/components/com_redshop/helpers/extra_field.php');
+require_once(JPATH_SITE . '/administrator/components/com_redshop/helpers/mail.php');
+require_once(JPATH_SITE . '/administrator/components/com_redshop/helpers/order.php');
+require_once(JPATH_SITE . '/administrator/components/com_redshop/helpers/product.php');
+require_once(JPATH_SITE . '/administrator/components/com_redshop/helpers/shipping.php');
 
 class addorder_detailModeladdorder_detail extends JModel
 {
@@ -282,7 +282,7 @@ class addorder_detailModeladdorder_detail extends JModel
 		{
 			$postdata['order_id'] = $row->order_id;
 			$postdata['debitor_id'] = $postdata['user_info_id'];
-			JTable::addIncludePath(REDCRM_ADMIN . DS . 'tables');
+			JTable::addIncludePath(REDCRM_ADMIN . '/tables');
 
 			$crmorder = & $this->getTable('crm_order');
 
@@ -312,7 +312,7 @@ class addorder_detailModeladdorder_detail extends JModel
 				$rmaInfo->store();
 			}
 
-			JTable::addIncludePath(REDSHOP_ADMIN . DS . 'tables');
+			JTable::addIncludePath(REDSHOP_ADMIN . '/tables');
 		}
 
 		$order_shipping = explode("|", $shippinghelper->decryptShipping(str_replace(" ", "+", $row->ship_method_id)));

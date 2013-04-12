@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-include_once (JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'shipping.php');
+include_once (JPATH_COMPONENT_ADMINISTRATOR . '/helpers/shipping.php');
 $shippinghelper = new shipping;
 
 $currencyClass = new convertPrice;
@@ -28,13 +28,13 @@ $url = JURI::root();
 
 // Include all the required files
 
-require_once 'library' . DS . 'googlecart.php';
+require_once 'library/googlecart.php';
 
-require_once 'library' . DS . 'googleitem.php';
+require_once 'library/googleitem.php';
 
-require_once 'library' . DS . 'googleshipping.php';
+require_once 'library/googleshipping.php';
 
-require_once 'library' . DS . 'googletax.php';
+require_once 'library/googletax.php';
 
 $servertype = $this->_params->get("is_test", "sandbox");
 

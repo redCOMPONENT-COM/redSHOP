@@ -87,7 +87,7 @@ class plgRedshop_paymentrs_payment_chase extends JPlugin
 		$order_number = substr($data['order_number'], 0, 16);
 		$tax_exempt = false;
 
-		$paymentpath = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . 'rs_payment_chase' . DS . 'rs_payment_chase' . DS . 'class.Chase.php';
+		$paymentpath = JPATH_SITE . '/plugins/redshop_payment/rs_payment_chase/rs_payment_chase/class.Chase.php';
 		include $paymentpath;
 
 		// Create object for chase
@@ -190,8 +190,8 @@ class plgRedshop_paymentrs_payment_chase extends JPlugin
 	public function onCapture_Paymentrs_payment_chase($element, $data)
 	{
 		$db = JFactory::getDBO();
-		require_once JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers'
-			. DS . 'order.php';
+		require_once JPATH_SITE . '/administrator/components/com_redshop/helpers'
+			. '/order.php';
 		$objOrder = new order_functions;
 
 		// Get params from plugin
@@ -208,7 +208,7 @@ class plgRedshop_paymentrs_payment_chase extends JPlugin
 
 		// Add request-specific fields to the request string.
 
-		$paymentpath = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . 'rs_payment_chase' . DS . 'class.Chase.php';
+		$paymentpath = JPATH_SITE . '/plugins/redshop_payment/rs_payment_chase/class.Chase.php';
 		include $paymentpath;
 
 		// Create object for chase

@@ -31,8 +31,8 @@ define('JPATH_BASE', $absolute_path);
 
 define('DS', DIRECTORY_SEPARATOR);
 
-require_once JPATH_BASE . DS . 'includes' . DS . 'defines.php';
-require_once JPATH_BASE . DS . 'includes' . DS . 'framework.php';
+require_once JPATH_BASE . '/includes/defines.php';
+require_once JPATH_BASE . '/includes/framework.php';
 
 JDEBUG ? $_PROFILER->mark('afterLoad') : null;
 
@@ -51,16 +51,16 @@ $app = JFactory::getApplication();
 // set the language
 $app->initialise();
 
-define('JPATH_COMPONENT_SITE', JPATH_SITE . DS . 'components' . DS . 'com_redshop');
+define('JPATH_COMPONENT_SITE', JPATH_SITE . '/components/com_redshop');
 
-require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'redshop.cfg.php';
-require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'configuration.php';
-require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'product.php';
+require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
+require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/configuration.php';
+require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/product.php';
 $Redconfiguration = new Redconfiguration;
 $Redconfiguration->defineDynamicVars();
 
-require_once JPATH_SITE . DS . 'plugins' . DS . 'system' . DS . 'redproductzoom' . DS . 'redproductzoom.php';
-require_once JPATH_SITE . DS . 'plugins' . DS . 'system' . DS . 'redproductzoom' . DS . 'ajax' . DS . 'helper.php';
+require_once JPATH_SITE . '/plugins/system/redproductzoom/redproductzoom.php';
+require_once JPATH_SITE . '/plugins/system/redproductzoom/ajax/helper.php';
 $zoomproducthelper = new zoomproducthelper;
 
 #error_reporting(E_ALL | E_STRICT);

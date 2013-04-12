@@ -11,10 +11,10 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
-require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'template.php');
-require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'extra_field.php');
-require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'helper.php');
-require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'helper.php');
+require_once(JPATH_COMPONENT_ADMINISTRATOR . '/helpers/template.php');
+require_once(JPATH_COMPONENT_ADMINISTRATOR . '/helpers/extra_field.php');
+require_once(JPATH_COMPONENT_ADMINISTRATOR . '/helpers/helper.php');
+require_once(JPATH_COMPONENT_SITE . '/helpers/helper.php');
 
 class configurationViewconfiguration extends JView
 {
@@ -65,7 +65,7 @@ class configurationViewconfiguration extends JView
 			$language->load($extension, $base_dir, $language_tag, true);
 		}
 
-		$configpath = JPATH_COMPONENT . DS . 'helpers' . DS . 'redshop.cfg.php';
+		$configpath = JPATH_COMPONENT . '/helpers/redshop.cfg.php';
 
 		if (!is_writable($configpath))
 		{

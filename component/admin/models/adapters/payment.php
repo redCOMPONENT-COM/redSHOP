@@ -149,7 +149,7 @@ class JInstallerPayment extends JObject
 
 		if (!empty ($pname) && !empty($payment_class))
 		{
-			$this->parent->setPath('extension_root', JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'payments');
+			$this->parent->setPath('extension_root', JPATH_COMPONENT_ADMINISTRATOR . '/helpers/payments');
 		}
 		else
 		{
@@ -286,9 +286,9 @@ class JInstallerPayment extends JObject
 		}
 
 		// Set the plugin root path
-		$this->parent->setPath('extension_root', JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'payments');
+		$this->parent->setPath('extension_root', JPATH_COMPONENT_ADMINISTRATOR . '/helpers/payments');
 
-		$manifestFile = JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'payments' . DS . $row->plugin . '.xml';
+		$manifestFile = JPATH_COMPONENT_ADMINISTRATOR . '/helpers/payments/' . $row->plugin . '.xml';
 
 		if (file_exists($manifestFile))
 		{

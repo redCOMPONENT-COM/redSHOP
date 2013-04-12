@@ -116,7 +116,7 @@ class JFormFieldLofgroupfolder extends JFormField
 	function renderForm($theme, $params = '', $fileName = 'params')
 	{
 		// look up configuration file which build-in this plugin or the tempate used.
-		$path = (dirname(dirname(__FILE__))) . DS . 'social' . DS . $theme . DS . 'params.xml';
+		$path = (dirname(dirname(__FILE__))) . '/social/' . $theme . '/params.xml';
 		if (file_exists($path))
 		{
 			$options = array("control" => "jform");

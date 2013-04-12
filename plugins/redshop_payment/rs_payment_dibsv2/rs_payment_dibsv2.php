@@ -47,7 +47,7 @@ class plgRedshop_paymentrs_payment_dibsv2 extends JPlugin
 		}
 
 		$app = JFactory::getApplication();
-		$paymentpath = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $plugin . DS . $plugin . DS . 'extra_info.php';
+		$paymentpath = JPATH_SITE . '/plugins/redshop_payment/' . $plugin . DS . $plugin . '/extra_info.php';
 		include $paymentpath;
 	}
 
@@ -58,7 +58,7 @@ class plgRedshop_paymentrs_payment_dibsv2 extends JPlugin
 			return;
 		}
 
-		$api_path = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $element . DS . $element . DS . 'dibs_hmac.php';
+		$api_path = JPATH_SITE . '/plugins/redshop_payment/' . $element . DS . $element . '/dibs_hmac.php';
 		include $api_path;
 		$dibs_hmac = new dibs_hmac;
 
@@ -140,7 +140,7 @@ class plgRedshop_paymentrs_payment_dibsv2 extends JPlugin
 		$orderid = $data['order_id'];
 		$hmac_key = $this->_params->get("hmac_key");
 
-		$api_path = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $element . DS . $element . DS . 'dibs_hmac.php';
+		$api_path = JPATH_SITE . '/plugins/redshop_payment/' . $element . DS . $element . '/dibs_hmac.php';
 		include $api_path;
 		$dibs_hmac = new dibs_hmac;
 

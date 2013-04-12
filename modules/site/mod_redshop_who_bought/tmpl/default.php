@@ -13,12 +13,12 @@ $Itemid = JRequest::getVar('Itemid');
 $user = JFactory::getUser();
 
 $document = JFactory :: getDocument();
-include_once("modules" . DS . "mod_redshop_who_bought" . DS . "assets" . DS . "css" . DS . "skin.css.php");
+include_once("modules/mod_redshop_who_bought/assets/css/skin.css.php");
 JHTML::Script('jquery-1.4.2.min.js', 'components/com_redshop/assets/js/', false);
 JHTML::Script('query.jcarousel.min.js', 'modules/mod_redshop_who_bought/assets/js/', false);
 
-require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'redshop.cfg.php';
-require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'configuration.php';
+require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
+require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/configuration.php';
 $Redconfiguration = new Redconfiguration();
 $Redconfiguration->defineDynamicVars();
 
@@ -29,7 +29,7 @@ $extraField = new extraField();
 $module_id = "mod_" . $module->id;
 
 // 	include redshop js file.
-require_once JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'redshop.js.php';
+require_once JPATH_SITE . '/components/com_redshop/helpers/redshop.js.php';
 
 
 JHTML::Script('common.js', 'components/com_redshop/assets/js/', false);

@@ -21,9 +21,9 @@ jimport('joomla.plugin.plugin');
 
 if (!defined('_VALID_MOS') && !defined('_JEXEC')) die('Direct Access to ' . basename(__FILE__) . ' is not allowed.');
 
-require_once JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'product.php';
-require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'configuration.php';
-require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'shipping.php';
+require_once JPATH_SITE . '/components/com_redshop/helpers/product.php';
+require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/configuration.php';
+require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/shipping.php';
 
 class plgredshop_shippinguspsv4 extends JPlugin
 {
@@ -314,7 +314,7 @@ class plgredshop_shippinguspsv4 extends JPlugin
 	{
 		if ($d['element'] == $this->classname)
 		{
-			$maincfgfile = JPATH_ROOT . DS . 'plugins' . DS . $d['plugin'] . DS . $this->classname . DS . $this->classname . '.cfg.php';
+			$maincfgfile = JPATH_ROOT . '/plugins/' . $d['plugin'] . DS . $this->classname . DS . $this->classname . '.cfg.php';
 			$my_config_array = array(
 				"USPS_USERNAME"                 => $d['USPS_USERNAME'],
 				"USPS_PASSWORD"                 => $d['USPS_PASSWORD'],
@@ -447,7 +447,7 @@ class plgredshop_shippinguspsv4 extends JPlugin
 		$shippingrate = array();
 		$rate = 0;
 
-		$shippingcfg = JPATH_ROOT . DS . 'plugins' . DS . $shipping->folder . DS . $shipping->element . DS . $shipping->element . '.cfg.php';
+		$shippingcfg = JPATH_ROOT . '/plugins/' . $shipping->folder . DS . $shipping->element . DS . $shipping->element . '.cfg.php';
 		include_once ($shippingcfg);
 
 		// conversation of weight ( ration )

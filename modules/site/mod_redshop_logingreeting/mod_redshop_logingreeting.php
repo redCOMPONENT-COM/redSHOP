@@ -8,7 +8,7 @@
  */
 
 defined('_JEXEC') or die('Restricted access');
-require_once JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php';
+require_once JPATH_SITE . '/administrator/components/com_redshop/helpers/order.php';
 $order_function = new order_functions();
 $user = JFactory::getUser();
 $mainparam = $params->def('logging_greeting', 1);

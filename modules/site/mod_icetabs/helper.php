@@ -14,16 +14,16 @@
 
 // no direct access
 defined('_JEXEC') or die;
-require_once JPATH_SITE . DS . 'components' . DS . 'com_content' . DS . 'helpers' . DS . 'route.php';
+require_once JPATH_SITE . '/components/com_content/helpers/route.php';
 
 if (!defined('PhpThumbFactoryLoaded'))
 {
-	require_once dirname(__FILE__) . DS . 'libs' . DS . 'phpthumb' . DS . 'ThumbLib.inc.php';
+	require_once dirname(__FILE__) . '/libs/phpthumb/ThumbLib.inc.php';
 	define('PhpThumbFactoryLoaded', 1);
 }
 if (!class_exists('LofSliderGroupBase'))
 {
-	require_once dirname(__FILE__) . DS . 'libs' . DS . 'group_base.php';
+	require_once dirname(__FILE__) . '/libs/group_base.php';
 }
 
 abstract class modIceTabsHelper
@@ -53,7 +53,7 @@ abstract class modIceTabsHelper
 	public static function getGroupObject($params)
 	{
 		$group = $params->get('group', 'content');
-		$file  = dirname(__FILE__) . DS . 'libs' . DS . 'groups' . DS . strtolower($group) . DS . strtolower($group) . '.php';
+		$file  = dirname(__FILE__) . '/libs/groups/' . strtolower($group) . DS . strtolower($group) . '.php';
 
 		if (file_exists($file))
 		{
@@ -62,7 +62,7 @@ abstract class modIceTabsHelper
 			if (class_exists($className))
 			{
 				$object = new $className($group);
-				$object->setCurrentPath(dirname(__FILE__) . DS . 'libs' . DS . 'groups' . DS . strtolower($group) . DS);
+				$object->setCurrentPath(dirname(__FILE__) . '/libs/groups/' . strtolower($group) . DS);
 			}
 		}
 		if ($object)
@@ -93,7 +93,7 @@ abstract class modIceTabsHelper
 
 		if ($theme && $theme != -1)
 		{
-			$tPath = JPATH_BASE . DS . 'templates' . DS . $app->getTemplate() . DS . 'html' . DS . $module->module . DS . $theme . DS . 'assets' . DS . 'style.css';
+			$tPath = JPATH_BASE . '/templates/' . $app->getTemplate() . '/html/' . $module->module . DS . $theme . '/assets/style.css';
 
 			if (file_exists($tPath))
 			{
@@ -138,8 +138,8 @@ abstract class modIceTabsHelper
 			? 'target="' . $params->get('open_target', '_parent') . '"'
 			: 'rel="' . $params->get('modal_rel', 'width:800,height:350') . '" class="mb"';
 
-		$tPath = JPATH_BASE . DS . 'templates' . DS . $app->getTemplate() . DS . 'html' . DS . 'mod_icetabs' . DS . $theme . DS . $layout . '.php';
-		$bPath = JPATH_BASE . DS . 'modules' . DS . 'mod_icetabs' . DS . 'themes' . DS . $theme . DS . $layout . '.php';
+		$tPath = JPATH_BASE . '/templates/' . $app->getTemplate() . '/html/mod_icetabs/' . $theme . DS . $layout . '.php';
+		$bPath = JPATH_BASE . '/modules/mod_icetabs/themes/' . $theme . DS . $layout . '.php';
 
 		if (file_exists($tPath))
 		{
@@ -159,8 +159,8 @@ abstract class modIceTabsHelper
 	{
 		$app = JFactory::getApplication();
 		// Build the template and base path for the layout
-		$tPath = JPATH_BASE . DS . 'templates' . DS . $app->getTemplate() . DS . 'html' . DS . $module->module . DS . $theme . DS . 'default.php';
-		$bPath = JPATH_BASE . DS . 'modules' . DS . $module->module . DS . 'themes' . DS . $theme . DS . 'default.php';
+		$tPath = JPATH_BASE . '/templates/' . $app->getTemplate() . '/html/' . $module->module . DS . $theme . '/default.php';
+		$bPath = JPATH_BASE . '/modules/' . $module->module . '/themes/' . $theme . '/default.php';
 
 		// If the template has a layout override use it
 		if (file_exists($tPath))

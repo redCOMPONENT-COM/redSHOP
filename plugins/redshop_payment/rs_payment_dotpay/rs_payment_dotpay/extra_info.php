@@ -12,9 +12,9 @@ $url = $uri->root();
 $user = JFactory::getUser();
 $db = JFactory::getDBO();
 
-require_once JPATH_BASE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php';
-require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'helper.php';
-require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'redshop.cfg.php';
+require_once JPATH_BASE . '/administrator/components/com_redshop/helpers/order.php';
+require_once JPATH_COMPONENT . '/helpers/helper.php';
+require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
 ?>
 <?php
 

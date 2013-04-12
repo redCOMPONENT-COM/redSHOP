@@ -14,20 +14,20 @@ global $my, $mosConfig_absolute_path;
 
 // Getting the configuration in redshop.js.php
 
-require_once JPATH_ROOT . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'redshop.js.php';
+require_once JPATH_ROOT . '/components/com_redshop/helpers/redshop.js.php';
 
 global $Redconfiguration;
 $Redconfiguration = new Redconfiguration;
 $Redconfiguration->defineDynamicVars();
 
 // Getting the configuration
-require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'category.php';
+require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/category.php';
 
 // get product helper
-require_once JPATH_ROOT . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'product.php';
+require_once JPATH_ROOT . '/components/com_redshop/helpers/product.php';
 
 // get product helper
-require_once JPATH_ROOT . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'helper.php';
+require_once JPATH_ROOT . '/components/com_redshop/helpers/helper.php';
 
 $document = JFactory::getDocument();
 JHTML::Script('fetchscript.js', 'components/com_redshop/assets/js/', false);

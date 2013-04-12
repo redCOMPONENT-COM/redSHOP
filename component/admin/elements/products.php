@@ -33,7 +33,7 @@ class JFormFieldProducts extends JFormField
 		$name = $this->name;
 		$fieldName = $this->name; //$this->control_name.'['.$name.']';
 
-		JTable::addIncludePath(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'tables');
+		JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_redshop/tables');
 
 		$product = JTable::getInstance('product_detail', 'Table');
 		$value = $this->value;

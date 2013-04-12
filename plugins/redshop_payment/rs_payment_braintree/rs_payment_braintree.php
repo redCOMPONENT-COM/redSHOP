@@ -11,8 +11,8 @@ defined('_JEXEC') or die;
 
 jimport('joomla.plugin.plugin');
 
-require_once JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php';
-require_once JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'configuration.php';
+require_once JPATH_SITE . '/administrator/components/com_redshop/helpers/order.php';
+require_once JPATH_SITE . '/administrator/components/com_redshop/helpers/configuration.php';
 
 class plgRedshop_paymentrs_payment_braintree extends JPlugin
 {
@@ -48,7 +48,7 @@ class plgRedshop_paymentrs_payment_braintree extends JPlugin
 		}
 
 		$app = JFactory::getApplication();
-		$paymentpath = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $plugin . DS . $plugin . DS . 'creditcardform.php';
+		$paymentpath = JPATH_SITE . '/plugins/redshop_payment/' . $plugin . DS . $plugin . '/creditcardform.php';
 
 		include $paymentpath;
 	}
@@ -371,7 +371,7 @@ class plgRedshop_paymentrs_payment_braintree extends JPlugin
 
 		$order_total = number_format($data['order']->order_total, $cal_no);
 
-		$apipath = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $plugin . DS . $plugin . DS . '_environment.php';
+		$apipath = JPATH_SITE . '/plugins/redshop_payment/' . $plugin . DS . $plugin . '/_environment.php';
 		include $apipath;
 
 		if ($this->_params->get("store_in_vault"))
@@ -399,7 +399,7 @@ class plgRedshop_paymentrs_payment_braintree extends JPlugin
 		$data['braintree_token'] = $braintree_data;
 		$data['new_user'] = $new_user;
 		$app = JFactory::getApplication();
-		$paymentpath = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $plugin . DS . $plugin . DS . 'extra_info.php';
+		$paymentpath = JPATH_SITE . '/plugins/redshop_payment/' . $plugin . DS . $plugin . '/extra_info.php';
 		include $paymentpath;
 	}
 
@@ -422,7 +422,7 @@ class plgRedshop_paymentrs_payment_braintree extends JPlugin
 		$user_id = $user->id;
 
 		// Include Api
-		$apipath = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $plugin . DS . $plugin . DS . '_environment.php';
+		$apipath = JPATH_SITE . '/plugins/redshop_payment/' . $plugin . DS . $plugin . '/_environment.php';
 		include $apipath;
 
 		// Confirm Retun String
@@ -489,7 +489,7 @@ class plgRedshop_paymentrs_payment_braintree extends JPlugin
 		$paymentparams = new JRegistry($paymentinfo->params);
 
 		// Get the class
-		$paymentpath = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $element . DS . $element . DS . '_environment.php';
+		$paymentpath = JPATH_SITE . '/plugins/redshop_payment/' . $element . DS . $element . '/_environment.php';
 		include $paymentpath;
 
 		$order_id = $data['order_id'];

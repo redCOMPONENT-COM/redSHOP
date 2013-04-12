@@ -36,8 +36,8 @@ define('JPATH_BASE', $absolute_path);
 
 define('DS', DIRECTORY_SEPARATOR);
 
-require_once JPATH_BASE . DS . 'includes' . DS . 'defines.php';
-require_once JPATH_BASE . DS . 'includes' . DS . 'framework.php';
+require_once JPATH_BASE . '/includes/defines.php';
+require_once JPATH_BASE . '/includes/framework.php';
 
 JDEBUG ? $_PROFILER->mark('afterLoad') : null;
 
@@ -51,9 +51,9 @@ $app = JFactory::getApplication();
 // Initialize the framework
 $app->initialise();
 
-require_once JPATH_BASE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php';
-require_once JPATH_BASE . DS . 'plugins' . DS . 'redshop_payment' . DS . 'rs_payment_payment_express' . DS . 'PxPay_Curl.inc.php';
-require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'redshop.cfg.php';
+require_once JPATH_BASE . '/administrator/components/com_redshop/helpers/order.php';
+require_once JPATH_BASE . '/plugins/redshop_payment/rs_payment_payment_express/PxPay_Curl.inc.php';
+require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
 
 $objOrder = new order_functions;
 

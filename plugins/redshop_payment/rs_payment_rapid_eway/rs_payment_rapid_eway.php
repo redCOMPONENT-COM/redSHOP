@@ -47,7 +47,7 @@ class plgRedshop_paymentrs_payment_rapid_eway extends JPlugin
 		}
 
 		$app = JFactory::getApplication();
-		$paymentpath = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $plugin . DS . $plugin . DS . 'extra_info.php';
+		$paymentpath = JPATH_SITE . '/plugins/redshop_payment/' . $plugin . DS . $plugin . '/extra_info.php';
 		include $paymentpath;
 	}
 
@@ -69,7 +69,7 @@ class plgRedshop_paymentrs_payment_rapid_eway extends JPlugin
 		$test_mode = $this->_params->get("test_mode");
 
 		$AccessCode = $request["AccessCode"];
-		$api_path = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $element . DS . $element . DS . 'Rapid.php';
+		$api_path = JPATH_SITE . '/plugins/redshop_payment/' . $element . DS . $element . '/Rapid.php';
 		include($api_path);
 		$service = new RapidAPI;
 		//Call RapidAPI to get the result

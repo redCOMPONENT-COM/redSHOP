@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 
-require_once JPATH_BASE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'configuration.php';
+require_once JPATH_BASE . '/components/com_redshop/helpers/configuration.php';
 
 class wizardController extends JController
 {
@@ -25,8 +25,8 @@ class wizardController extends JController
 	{
 		parent::__construct($default);
 
-		$this->_temp_file = JPATH_BASE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'wizard' . DS . 'redshop.cfg.tmp.php';
-		$this->_temp_file_dist = JPATH_BASE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'wizard' . DS . 'redshop.cfg.tmp.dist.php';
+		$this->_temp_file = JPATH_BASE . '/components/com_redshop/helpers/wizard/redshop.cfg.tmp.php';
+		$this->_temp_file_dist = JPATH_BASE . '/components/com_redshop/helpers/wizard/redshop.cfg.tmp.dist.php';
 	}
 
 	public function isTmpFile()

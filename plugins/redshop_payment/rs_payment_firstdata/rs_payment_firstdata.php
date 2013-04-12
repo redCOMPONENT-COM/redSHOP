@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.plugin.plugin');
 
-require_once JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php';
+require_once JPATH_SITE . '/administrator/components/com_redshop/helpers/order.php';
 
 class plgRedshop_paymentrs_payment_firstdata extends JPlugin
 {
@@ -169,8 +169,8 @@ class plgRedshop_paymentrs_payment_firstdata extends JPlugin
 		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
 
 		// Setting the path where cURL can find the certificate to verify the Info directly from the API Manual Below:
-		curl_setopt($ch, CURLOPT_SSLCERT, JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $plugin . DS . $plugin . DS . 'certificates/WS' . $store_id . '._.1.pem');
-		curl_setopt($ch, CURLOPT_SSLKEY, JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $plugin . DS . $plugin . DS . 'certificates/WS' . $store_id . '._.1.key');
+		curl_setopt($ch, CURLOPT_SSLCERT, JPATH_SITE . '/plugins/redshop_payment/' . $plugin . DS . $plugin . '/certificates/WS' . $store_id . '._.1.pem');
+		curl_setopt($ch, CURLOPT_SSLKEY, JPATH_SITE . '/plugins/redshop_payment/' . $plugin . DS . $plugin . '/certificates/WS' . $store_id . '._.1.key');
 		curl_setopt($ch, CURLOPT_SSLKEYPASSWD, '' . $key_password . '');
 
 		// Telling cURL to return the HTTP response body as operation result value when calling curl_exec:
@@ -330,8 +330,8 @@ class plgRedshop_paymentrs_payment_firstdata extends JPlugin
 		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
 
 		// Setting the path where cURL can find the certificate to verify the Info directly from the API Manual Below:
-		curl_setopt($ch, CURLOPT_SSLCERT, JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $plugin . DS . $plugin . DS . 'certificates/WS' . $store_id . '._.1.pem');
-		curl_setopt($ch, CURLOPT_SSLKEY, JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $plugin . DS . $plugin . DS . 'certificates/WS' . $store_id . '._.1.key');
+		curl_setopt($ch, CURLOPT_SSLCERT, JPATH_SITE . '/plugins/redshop_payment/' . $plugin . DS . $plugin . '/certificates/WS' . $store_id . '._.1.pem');
+		curl_setopt($ch, CURLOPT_SSLKEY, JPATH_SITE . '/plugins/redshop_payment/' . $plugin . DS . $plugin . '/certificates/WS' . $store_id . '._.1.key');
 		curl_setopt($ch, CURLOPT_SSLKEYPASSWD, '' . $key_password . '');
 
 		// Telling cURL to return the HTTP response body as operation result value when calling curl_exec:
