@@ -927,8 +927,7 @@ class redshopMail
 		}
 
 		$invoice_pdfName = "multiprintorder";
-		$pdfObj->Output(JPATH_SITE . '/components/com_redshop/assets/document'
-			. '/invoice/' . $invoice_pdfName . ".pdf", "F");
+		$pdfObj->Output(JPATH_SITE . '/components/com_redshop/assets/document/invoice/' . $invoice_pdfName . ".pdf", "F");
 
 		return $invoice_pdfName;
 	}
