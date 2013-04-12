@@ -155,7 +155,7 @@ class xmlimport_detailModelxmlimport_detail extends JModel
 			$xmlimport_url = $dest;
 		}
 
-		elseif ($this->_data->filename != "" && is_file(JPATH_COMPONENT_SITE . "/assets/xmlfile/import/" .$this->_data->filename))
+		elseif ($this->_data->filename != "" && is_file(JPATH_COMPONENT_SITE . '/assets/xmlfile/import/' .$this->_data->filename))
 		{
 			$xmlimport_url = JPATH_COMPONENT_SITE . '/assets/xmlfile/import/' .$this->_data->filename;
 		}
