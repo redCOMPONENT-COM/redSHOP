@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="module" version="1.6.0" client="site" method="upgrade">
-    <name>Redshop Letter Search Module</name>
+    <name>MOD_REDSHOP_LETTERSEARCH</name>
     <version>1.1.1</version>
     <creationDate>10-04-2012</creationDate>
     <author>redweb.dk</author>
@@ -17,7 +17,9 @@
     </files>
     <languages>
         <language tag="en-GB">language/en-GB/en-GB.mod_redshop_lettersearch.ini</language>
+        <language tag="en-GB">language/en-GB/en-GB.mod_redshop_lettersearch.sys.ini</language>
         <language tag="da-DK">language/da-DK/da-DK.mod_redshop_lettersearch.ini</language>
+        <language tag="da-DK">language/da-DK/da-DK.mod_redshop_lettersearch.sys.ini</language>
     </languages>
     <config>
         <fields name="params">

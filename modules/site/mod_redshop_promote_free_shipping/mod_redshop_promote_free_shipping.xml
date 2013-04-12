@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="module" version="1.6.0" client="site" method="upgrade">
-    <name>RedSHOP Promoting Free Shipping module</name>
+    <name>MOD_REDSHOP_PROMOTE_FREE_SHIPPING</name>
     <version>1.1.2</version>
     <creationDate>09-09-2011</creationDate>
     <author>redweb.dk</author>
@@ -14,6 +14,7 @@
     </files>
     <languages>
         <language tag="en-GB">language/en-GB/en-GB.mod_redshop_promote_free_shipping.ini</language>
+        <language tag="en-GB">language/en-GB/en-GB.mod_redshop_promote_free_shipping.sys.ini</language>
     </languages>
     <config>
         <fields name="params">

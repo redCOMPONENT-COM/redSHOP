@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="module" version="1.6.0" client="site" method="upgrade">
-    <name>redSHOP WishList Module</name>
+    <name>MOD_REDSHOP_WISHLIST</name>
     <version>1.1.3</version>
     <author>redweb.dk</author>
     <authorEmail>email@redcomponent.com</authorEmail>
@@ -14,7 +14,11 @@
     </files>
     <languages>
         <language tag="en-GB">language/en-GB/en-GB.mod_redshop_wishlist.ini</language>
+        <language tag="en-GB">language/en-GB/en-GB.mod_redshop_wishlist.sys.ini</language>
         <language tag="da-DK">language/da-DK/da-DK.mod_redshop_wishlist.ini</language>
+        <language tag="da-DK">language/da-DK/da-DK.mod_redshop_wishlist.sys.ini</language>
+        <language tag="fr-FR">language/fr-FR/fr-FR.mod_redshop_wishlist.ini</language>
+        <language tag="fr-FR">language/fr-FR/fr-FR.mod_redshop_wishlist.sys.ini</language>
     </languages>
     <config>
         <fields name="params">
