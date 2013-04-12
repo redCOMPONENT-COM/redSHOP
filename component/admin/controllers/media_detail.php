@@ -77,11 +77,11 @@ class Media_DetailController extends JController
 
 				if ($post['media_type'] != $post['oldtype'])
 				{
-					$old_path = JPATH_COMPONENT_SITE . DS . 'assets' . DS . $post['oldtype'] . DS . $post['media_section'] . DS . $post['media_name'];
-					$old_thumb_path = JPATH_COMPONENT_SITE . DS . 'assets' . DS . $post['oldtype']
-						. DS . $post['media_section'] . DS . 'thumb' . DS . $post['media_name'];
+					$old_path = JPATH_COMPONENT_SITE . '/assets/' . $post['oldtype'] . DS . $post['media_section'] . DS . $post['media_name'];
+					$old_thumb_path = JPATH_COMPONENT_SITE . '/assets/' . $post['oldtype']
+						. DS . $post['media_section'] . '/thumb/' . $post['media_name'];
 
-					$new_path = JPATH_COMPONENT_SITE . DS . 'assets' . DS . $post['media_type']
+					$new_path = JPATH_COMPONENT_SITE . '/assets/' . $post['media_type']
 						. DS . $post['media_section'] . DS . time() . '_' . $post['media_name'];
 
 					copy($old_path, $new_path);
@@ -160,7 +160,7 @@ class Media_DetailController extends JController
 				else
 				{
 					$post['media_name'] = $filename;
-					$dest = JPATH_COMPONENT_SITE . DS . 'assets' . DS . $post['media_type'] . DS . $post['media_section'] . DS . $filename;
+					$dest = JPATH_COMPONENT_SITE . '/assets/' . $post['media_type'] . DS . $post['media_section'] . DS . $filename;
 				}
 
 				$model->store($post);
@@ -232,9 +232,9 @@ class Media_DetailController extends JController
 					{
 						$post['media_name'] = $filename;
 
-						$down_src = JPATH_COMPONENT_SITE . DS . 'assets' . DS . $post['media_type'] . DS . $post['hdn_download_file_path'];
+						$down_src = JPATH_COMPONENT_SITE . '/assets/' . $post['media_type'] . DS . $post['hdn_download_file_path'];
 
-						$down_dest = JPATH_COMPONENT_SITE . DS . 'assets' . DS . $post['media_type'] . DS . $post['media_section'] . DS . $post['media_name'];
+						$down_dest = JPATH_COMPONENT_SITE . '/assets/' . $post['media_type'] . DS . $post['media_section'] . DS . $post['media_name'];
 					}
 
 					copy($down_src, $down_dest);
@@ -285,7 +285,7 @@ class Media_DetailController extends JController
 				else
 				{
 					$post['media_name'] = $filename;
-					$dest = JPATH_COMPONENT_SITE . DS . 'assets' . DS . $post['media_type'] . DS . $post['media_section'] . DS . $filename;
+					$dest = JPATH_COMPONENT_SITE . '/assets/' . $post['media_type'] . DS . $post['media_section'] . DS . $filename;
 				}
 
 				$model->store($post);
@@ -331,7 +331,7 @@ class Media_DetailController extends JController
 				{
 					// Fix the width of the thumb nail images
 					$src = $bulkfile['tmp_name'];
-					$dest = JPATH_ROOT . DS . 'components/' . $option . '/assets/' . $post['media_type'] . '/' . $post['media_section'] . '/'
+					$dest = JPATH_ROOT . '/components/' . $option . '/assets/' . $post['media_type'] . '/' . $post['media_section'] . '/'
 						. $bulkfile['name'];
 					$file_upload = JFile::upload($src, $dest);
 
@@ -413,7 +413,7 @@ class Media_DetailController extends JController
 									{
 										if ($row = $model->store($post))
 										{
-											$originaldir = JPATH_ROOT . DS . 'components/' . $option . '/assets/' . $row->media_type . '/'
+											$originaldir = JPATH_ROOT . '/components/' . $option . '/assets/' . $row->media_type . '/'
 												. $row->media_section . '/' . time() . '_' . $newscan[$j];
 
 											copy($btsrc, $originaldir);
@@ -522,7 +522,7 @@ class Media_DetailController extends JController
 									if ($row = $model->store($post))
 									{
 										// Set First Image as product Main Imaged
-										$originaldir = JPATH_ROOT . DS . 'components/' . $option . '/assets/' . $row->media_type . '/'
+										$originaldir = JPATH_ROOT . '/components/' . $option . '/assets/' . $row->media_type . '/'
 											. $row->media_section . '/' . time() . '_' . $scan[$i];
 
 										copy($btsrc, $originaldir);
@@ -710,7 +710,7 @@ class Media_DetailController extends JController
 						else
 						{
 							$post['media_name'] = time() . "_" . $file['name'][$i];
-							$dest = JPATH_ROOT . DS . 'components/' . $option . '/assets/' . $post['media_type'] . '/'
+							$dest = JPATH_ROOT . '/components/' . $option . '/assets/' . $post['media_type'] . '/'
 								. $post['media_section'] . '/' . time() . '_' . $file['name'][$i];
 						}
 

@@ -25,7 +25,7 @@ $url = $uri->root();
 			<strong><?php echo JText::_('REDSHOP_LATEST_VERSION'); ?></strong>
 		</td>
 		<td>
-			<blink><?php echo file_get_contents(REMOTE_UPDATE_DOMAIN_URL . 'version_checker' . DS . 'version_checker.txt', true);?></blink>
+			<blink><?php echo file_get_contents(REMOTE_UPDATE_DOMAIN_URL . 'version_checker/version_checker.txt', true);?></blink>
 		</td>
 	</tr>
 	<tr valign="top">

@@ -116,11 +116,11 @@ class payment_detailModelpayment_detail extends JModel
 			return false;
 		}
 
-		$adminpath = JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop';
+		$adminpath = JPATH_ADMINISTRATOR . '/components/com_redshop';
 
-		$paymentfile = $adminpath . DS . 'helpers' . DS . 'payments' . DS . $row->plugin . DS . $row->plugin . '.php';
+		$paymentfile = $adminpath . '/helpers/payments/' . $row->plugin . DS . $row->plugin . '.php';
 
-		$paymentcfg = $adminpath . DS . 'helpers' . DS . 'payments' . DS . $row->plugin . DS . $row->plugin . '.cfg.php';
+		$paymentcfg = $adminpath . '/helpers/payments/' . $row->plugin . DS . $row->plugin . '.cfg.php';
 
 		include_once ($paymentfile);
 
@@ -582,7 +582,7 @@ class JInstaller extends JObject
 		if (!is_object($adapter))
 		{
 			// Try to load the adapter object
-			require_once(dirname(__FILE__) . DS . 'adapters' . DS . strtolower($name) . '.php');
+			require_once(dirname(__FILE__) . '/adapters/' . strtolower($name) . '.php');
 			$class = 'JInstaller' . ucfirst($name);
 
 			if (!class_exists($class))
@@ -1229,11 +1229,11 @@ class JInstaller extends JObject
 				{
 					$folder = '';
 				}
-				$source = $client->path . DS . 'media' . DS . $folder;
+				$source = $client->path . '/media/' . $folder;
 				break;
 
 			case 'languages':
-				$source = $client->path . DS . 'language';
+				$source = $client->path . '/language';
 				break;
 
 			default:

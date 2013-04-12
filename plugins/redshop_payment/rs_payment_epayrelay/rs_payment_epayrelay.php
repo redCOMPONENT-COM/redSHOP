@@ -48,7 +48,7 @@ class plgRedshop_paymentrs_payment_epayrelay extends JPlugin
 		}
 
 		$app = JFactory::getApplication();
-		$paymentpath = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $plugin . DS . $plugin . DS . 'extra_info.php';
+		$paymentpath = JPATH_SITE . '/plugins/redshop_payment/' . $plugin . DS . $plugin . '/extra_info.php';
 		include $paymentpath;
 	}
 
@@ -78,7 +78,7 @@ class plgRedshop_paymentrs_payment_epayrelay extends JPlugin
 		$paymentparams = new JRegistry($paymentinfo->params);
 
 		// Get the class
-		$paymentpath = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $element . DS . $element . DS . 'epaysoap.php';
+		$paymentpath = JPATH_SITE . '/plugins/redshop_payment/' . $element . DS . $element . '/epaysoap.php';
 		include $paymentpath;
 
 		// Access the webservice
@@ -164,7 +164,7 @@ class plgRedshop_paymentrs_payment_epayrelay extends JPlugin
 		$paymentparams = new JRegistry($paymentinfo->params);
 
 		// Get the class
-		$paymentpath = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $element . DS . $element . DS . 'epaysoap.php';
+		$paymentpath = JPATH_SITE . '/plugins/redshop_payment/' . $element . DS . $element . '/epaysoap.php';
 		include $paymentpath;
 
 		// Access the webservice

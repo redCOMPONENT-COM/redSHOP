@@ -30,7 +30,7 @@ define('CATEGORY_MODULE_PATH', $mod_dir);
 
 $js_src = $urlpath . '/modules/mod_redshop_categories';
 
-require_once CATEGORY_MODULE_PATH . DS . 'helper.php';
+require_once CATEGORY_MODULE_PATH . '/helper.php';
 $redproduct_menu = new modProMenuHelper();
 
 /* Get module parameters */

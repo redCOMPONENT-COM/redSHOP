@@ -38,13 +38,13 @@ class JFormFieldRedshopcategory extends JFormField
 		$option = JRequest::getVar('option');
 		if ($option != 'com_redshop')
 		{
-			require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'redshop.cfg.php';
-			require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'configuration.php';
+			require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
+			require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/configuration.php';
 			$Redconfiguration = new Redconfiguration();
 			$Redconfiguration->defineDynamicVars();
 		}
 
-		require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'category.php';
+		require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/category.php';
 		$product_category = new product_category();
 		ob_start();
 		$output = $product_category->list_all('' . $this->name . '[]', '', ($this->value), 10, true, true);

@@ -11,8 +11,8 @@ defined('_JEXEC') or die;
 
 jimport('joomla.plugin.plugin');
 
-require_once JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php';
-require_once JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'configuration.php';
+require_once JPATH_SITE . '/administrator/components/com_redshop/helpers/order.php';
+require_once JPATH_SITE . '/administrator/components/com_redshop/helpers/configuration.php';
 
 class plgRedshop_paymentrs_payment_paymill extends JPlugin
 {
@@ -48,7 +48,7 @@ class plgRedshop_paymentrs_payment_paymill extends JPlugin
 		}
 
 		$app = JFactory::getApplication();
-		$paymentpath = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $plugin . DS . $plugin . DS . 'creditcardform.php';
+		$paymentpath = JPATH_SITE . '/plugins/redshop_payment/' . $plugin . DS . $plugin . '/creditcardform.php';
 
 		include $paymentpath;
 	}
@@ -179,7 +179,7 @@ class plgRedshop_paymentrs_payment_paymill extends JPlugin
 
 		$session = JFactory::getSession();
 		$Itemid = JRequest::getVar('Itemid');
-		$paymentpath = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $element . DS . $element . DS . 'lib/Services/Paymill/Transactions.php';
+		$paymentpath = JPATH_SITE . '/plugins/redshop_payment/' . $element . DS . $element . '/lib/Services/Paymill/Transactions.php';
 		include $paymentpath;
 
 		if ($token = $data['paymillToken'])

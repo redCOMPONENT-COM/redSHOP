@@ -14,7 +14,7 @@ $mod_dir = dirname(__FILE__);
 
 define('LETTERSEARCH_MODULE_PATH', $mod_dir);
 
-require_once LETTERSEARCH_MODULE_PATH . DS . 'helper.php';
+require_once LETTERSEARCH_MODULE_PATH . '/helper.php';
 $lettersearchHelper = new modlettersearchHelper;
 
 $selected_field = trim($params->get('list_of_fields', ''));

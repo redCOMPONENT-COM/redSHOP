@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
-require_once 'components' . DS . 'com_redshop' . DS . 'models' . DS . 'configuration.php';
+require_once 'components/com_redshop/models/configuration.php';
 
 class wizardModelwizard extends configurationModelconfiguration
 {

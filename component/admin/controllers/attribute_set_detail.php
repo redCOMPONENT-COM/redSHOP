@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.controller');
 jimport('joomla.filesystem.file');
 
-require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'thumbnail.php');
+require_once(JPATH_COMPONENT . '/helpers/thumbnail.php');
 
 class attribute_set_detailController extends JController
 {
@@ -42,7 +42,7 @@ class attribute_set_detailController extends JController
 
 		$option = JRequest::getVar('option');
 
-		require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php');
+		require_once(JPATH_COMPONENT . '/helpers/extra_field.php');
 
 		$model = $this->getModel('attribute_set_detail');
 
@@ -295,7 +295,7 @@ class attribute_set_detailController extends JController
 		if (!$folder_path)
 		{
 			$path = REDSHOP_FRONT_IMAGES_RELPATH;
-			$dir_path = "components" . DS . "com_redshop" . DS . "assets" . DS . "images";
+			$dir_path = "components/com_redshop/assets/images";
 		}
 		else
 		{
@@ -319,15 +319,15 @@ class attribute_set_detailController extends JController
 				if ($t[$n] == 'images')
 				{
 					$path_bk = REDSHOP_FRONT_IMAGES_RELPATH;
-					$dir_path = "components" . DS . "com_redshop" . DS . "assets" . DS . "images" . DS . $t[$na];
+					$dir_path = "components/com_redshop/assets/images/" .$t[$na];
 				}
 				else
 				{
 					$path_bk = REDSHOP_FRONT_IMAGES_RELPATH . DS . $t[$n];
-					$dir_path = "components" . DS . "com_redshop" . DS . "assets" . DS . "images" . DS . $t[$n] . DS . $t[$na];
+					$dir_path = "components/com_redshop/assets/images/" .$t[$n] . DS . $t[$na];
 				}
 
-				$folder_img_bk = "components" . DS . "com_redshop" . DS . "assets" . DS . "images" . DS . "folderup_32.png";
+				$folder_img_bk = "components/com_redshop/assets/images/folderup_32.png";
 				$info = @getimagesize($folder_img_bk);
 
 				$width = @$info[0];
@@ -354,13 +354,13 @@ class attribute_set_detailController extends JController
 			}
 			else
 			{
-				$dir_path = "components" . DS . "com_redshop" . DS . "assets" . DS . "images";
+				$dir_path = "components/com_redshop/assets/images";
 			}
 		}
 
 		if ($handle = opendir($path))
 		{
-			$folder_img = "components" . DS . "com_redshop" . DS . "assets" . DS . "images" . DS . "folder.png";
+			$folder_img = "components/com_redshop/assets/images/folder.png";
 
 			$info = @getimagesize($folder_img);
 

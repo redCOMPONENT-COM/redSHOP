@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 // Import library dependencies
 jimport('joomla.plugin.plugin');
-require_once JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'user.php';
+require_once JPATH_SITE . '/components/com_redshop/helpers/user.php';
 class plgredshop_productshoppergroup_tags extends JPlugin
 {
 	/**

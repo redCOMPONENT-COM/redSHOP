@@ -23,7 +23,7 @@ $option = 'com_redshop';
 $document = JFactory::getDocument();
 JHTML::Stylesheet('products.css', 'modules/mod_redshop_products/css/');
 // 	include redshop js file.
-require_once JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'redshop.js.php';
+require_once JPATH_SITE . '/components/com_redshop/helpers/redshop.js.php';
 
 JHTML::Script('attribute.js', 'components/com_redshop/assets/js/', false);
 JHTML::Script('common.js', 'components/com_redshop/assets/js/', false);
@@ -33,7 +33,7 @@ JHTML::Stylesheet('fetchscript.css', 'components/com_redshop/assets/css/');
 $module_id = "mod_" . $module->id;
 
 // get product helper
-require_once JPATH_ROOT . DS . 'components/com_redshop/helpers' . DS . 'product.php';
+require_once JPATH_ROOT . '/components/com_redshop/helpers/product.php';
 $producthelper = new producthelper();
 $redhelper     = new redhelper();
 $extraField    = new extraField();

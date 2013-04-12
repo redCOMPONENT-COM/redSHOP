@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-require_once JPATH_BASE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php';
+require_once JPATH_BASE . '/administrator/components/com_redshop/helpers/order.php';
 $Itemid = $_REQUEST['Itemid'];
 $order_functions = new order_functions;
 $currencyClass = new convertPrice;
@@ -135,7 +135,7 @@ if ($payment_price > 0)
 	$formdata['oiRow' . ($p + 1) . ''] = "" . $quantity_payment . ";Payment Handling;Payment Handling;" . $discount_payment_price . ";" . ($p + 1) . ";" . $payment_vat;
 }
 
-$api_path = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $plugin . DS . $plugin . DS . 'dibs_hmac.php';
+$api_path = JPATH_SITE . '/plugins/redshop_payment/' . $plugin . DS . $plugin . '/dibs_hmac.php';
 include($api_path);
 $dibs_hmac = new dibs_hmac;
 $mac_key = $dibs_hmac->calculateMac($formdata, $hmac_key);

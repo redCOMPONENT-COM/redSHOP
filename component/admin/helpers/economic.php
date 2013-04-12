@@ -9,11 +9,11 @@
 
 jimport('joomla.filesystem.file');
 
-require_once(JPATH_ROOT . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'product.php');
-require_once(JPATH_ROOT . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'helper.php');
-require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php');
-require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'shipping.php');
-require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'stockroom.php');
+require_once(JPATH_ROOT . '/components/com_redshop/helpers/product.php');
+require_once(JPATH_ROOT . '/components/com_redshop/helpers/helper.php');
+require_once(JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/order.php');
+require_once(JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/shipping.php');
+require_once(JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/stockroom.php');
 
 class economic
 {
@@ -1166,7 +1166,7 @@ class economic
 								}
 								elseif ($bookinvoicepdf != "")
 								{
-									$file = JPATH_ROOT . DS . 'components' . DS . 'com_redshop' . DS . 'assets' . DS . 'orders' . DS . 'rsInvoice_' . $order_id . '.pdf';
+									$file = JPATH_ROOT . '/components/com_redshop/assets/orders/rsInvoice_' . $order_id . '.pdf';
 									JFile::write($file, $bookinvoicepdf);
 
 									if (is_file($file))

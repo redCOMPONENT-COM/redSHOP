@@ -12,8 +12,8 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.model');
 jimport('joomla.filesystem.file');
 
-require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'product.php');
-require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'text_library.php');
+require_once(JPATH_COMPONENT_SITE . '/helpers/product.php');
+require_once(JPATH_COMPONENT . '/helpers/text_library.php');
 
 class configurationModelconfiguration extends JModel
 {
@@ -37,7 +37,7 @@ class configurationModelconfiguration extends JModel
 
 		$this->Redconfiguration = new Redconfiguration;
 
-		$this->_configpath = JPATH_SITE . DS . "administrator" . DS . "components" . DS . "com_redshop" . DS . "helpers" . DS . "redshop.cfg.php";
+		$this->_configpath = JPATH_SITE . "/administrator/components/com_redshop/helpers/redshop.cfg.php";
 	}
 
 	public function cleanFileName($name, $id = null)
@@ -78,11 +78,11 @@ class configurationModelconfiguration extends JModel
 
 				$src = $productImg['tmp_name'];
 
-				$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'product' . DS . $data["product_default_image"];
+				$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $data["product_default_image"];
 
-				if ($data['product_default_image'] != "" && is_file(REDSHOP_FRONT_IMAGES_RELPATH . 'product' . DS . $data['product_default_image']))
+				if ($data['product_default_image'] != "" && is_file(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $data['product_default_image']))
 				{
-					unlink(REDSHOP_FRONT_IMAGES_RELPATH . 'product' . DS . $data['product_default_image']);
+					unlink(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $data['product_default_image']);
 				}
 
 				JFile::upload($src, $dest);
@@ -102,11 +102,11 @@ class configurationModelconfiguration extends JModel
 
 				$src = $watermarkImg['tmp_name'];
 
-				$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'product' . DS . $data["watermark_image"];
+				$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $data["watermark_image"];
 
-				if ($data['watermark_image'] != "" && is_file(REDSHOP_FRONT_IMAGES_RELPATH . 'product' . DS . $data['watermark_image']))
+				if ($data['watermark_image'] != "" && is_file(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $data['watermark_image']))
 				{
-					unlink(REDSHOP_FRONT_IMAGES_RELPATH . 'product' . DS . $data['watermark_image']);
+					unlink(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $data['watermark_image']);
 				}
 
 				JFile::upload($src, $dest);
@@ -126,12 +126,12 @@ class configurationModelconfiguration extends JModel
 				$data["default_portal_logo"] = $logoname;
 				$src = $default_portalLogo['tmp_name'];
 
-				$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'shopperlogo' . DS . $logoname;
+				$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'shopperlogo/' . $logoname;
 
 				if ($data['default_portal_logo_tmp'] != ""
-					&& is_file(REDSHOP_FRONT_IMAGES_RELPATH . 'shopperlogo' . DS . $data['default_portal_logo_tmp']))
+					&& is_file(REDSHOP_FRONT_IMAGES_RELPATH . 'shopperlogo/' . $data['default_portal_logo_tmp']))
 				{
-					@unlink(REDSHOP_FRONT_IMAGES_RELPATH . 'shopperlogo' . DS . $data['default_portal_logo_tmp']);
+					@unlink(REDSHOP_FRONT_IMAGES_RELPATH . 'shopperlogo/' . $data['default_portal_logo_tmp']);
 				}
 
 				JFile::upload($src, $dest);
@@ -155,12 +155,12 @@ class configurationModelconfiguration extends JModel
 
 				$src = $productoutofstockImg['tmp_name'];
 
-				$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'product' . DS . $productoutofstockImg['name'];
+				$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $productoutofstockImg['name'];
 
 				if ($data['product_outofstock_image'] != ""
-					&& is_file(REDSHOP_FRONT_IMAGES_RELPATH . 'product' . DS . $data['product_outofstock_image']))
+					&& is_file(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $data['product_outofstock_image']))
 				{
-					unlink(REDSHOP_FRONT_IMAGES_RELPATH . 'product' . DS . $data['product_outofstock_image']);
+					unlink(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $data['product_outofstock_image']);
 				}
 
 				JFile::upload($src, $dest);
@@ -180,12 +180,12 @@ class configurationModelconfiguration extends JModel
 
 				$src = $categoryImg['tmp_name'];
 
-				$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'category' . DS . $categoryImg['name'];
+				$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $categoryImg['name'];
 
 				if ($data['category_default_image'] != ""
-					&& is_file(REDSHOP_FRONT_IMAGES_RELPATH . 'category' . DS . $data['category_default_image']))
+					&& is_file(REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $data['category_default_image']))
 				{
-					unlink(REDSHOP_FRONT_IMAGES_RELPATH . 'category' . DS . $data['categoryt_default_image']);
+					unlink(REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $data['categoryt_default_image']);
 				}
 
 				JFile::upload($src, $dest);
@@ -428,12 +428,12 @@ class configurationModelconfiguration extends JModel
 
 				$src = $imgpre['tmp_name'];
 
-				$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'slimbox/' . DS . $imgpre['name'];
+				$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'slimbox//' . $imgpre['name'];
 
 				if ($data['product_detail_lighbox_close_button_image'] != ""
-					&& is_file(REDSHOP_FRONT_IMAGES_RELPATH . 'slimbox/' . DS . $data['product_detail_lighbox_close_button_image']))
+					&& is_file(REDSHOP_FRONT_IMAGES_RELPATH . 'slimbox//' . $data['product_detail_lighbox_close_button_image']))
 				{
-					unlink(REDSHOP_FRONT_IMAGES_RELPATH . 'slimbox' . DS . $data['product_detail_lighbox_close_button_image']);
+					unlink(REDSHOP_FRONT_IMAGES_RELPATH . 'slimbox/' . $data['product_detail_lighbox_close_button_image']);
 				}
 
 				JFile::upload($src, $dest);
@@ -819,13 +819,13 @@ class configurationModelconfiguration extends JModel
 
 		$filecontent = "";
 
-		$assets_dir = JPATH_ROOT . 'components' . DS . 'com_redshop' . DS . 'assets';
+		$assets_dir = JPATH_ROOT . 'components/com_redshop/assets';
 
-		$assets_download_dir = JPATH_ROOT . 'components' . DS . 'com_redshop' . DS . 'assets' . DS . 'download';
+		$assets_download_dir = JPATH_ROOT . 'components/com_redshop/assets/download';
 
 		if (strstr($product_download_root, JPATH_ROOT) && $product_download_root != JPATH_ROOT)
 		{
-			$htaccessfile_path = $product_download_root . DS . '.htaccess';
+			$htaccessfile_path = $product_download_root . '/.htaccess';
 
 			$allow_typs = "php";
 
@@ -848,7 +848,7 @@ class configurationModelconfiguration extends JModel
 			}
 		}
 
-		$oldhtaccessfile_path = $row_product_download_root . DS . '.htaccess';
+		$oldhtaccessfile_path = $row_product_download_root . '/.htaccess';
 
 		if (strstr($row_product_download_root, JPATH_ROOT) && $row_product_download_root != JPATH_ROOT)
 		{
@@ -865,7 +865,7 @@ class configurationModelconfiguration extends JModel
 	/* Get current version of redshop */
 	public function getcurrentversion()
 	{
-		$xmlfile = JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'redshop.xml';
+		$xmlfile = JPATH_SITE . '/administrator/components/com_redshop/redshop.xml';
 		$version = JText::_('COM_REDSHOP_FILE_NOT_FOUND');
 
 		if (file_exists($xmlfile))

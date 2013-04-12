@@ -11,9 +11,9 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 
-require_once(JPATH_ROOT . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'product.php');
-require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'quotation.php');
-require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'product.php');
+require_once(JPATH_ROOT . '/components/com_redshop/helpers/product.php');
+require_once(JPATH_COMPONENT_ADMINISTRATOR . '/helpers/quotation.php');
+require_once(JPATH_COMPONENT_ADMINISTRATOR . '/helpers/product.php');
 
 class quotation_detailController extends JController
 {

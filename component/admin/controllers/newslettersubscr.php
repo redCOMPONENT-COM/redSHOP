@@ -37,7 +37,7 @@ class newslettersubscrController extends JController
 		{
 			$src = $file['tmp_name'];
 
-			$dest = JPATH_ADMINISTRATOR . DS . 'components/' . $option . '/assets' . DS . $file['name'];
+			$dest = JPATH_ADMINISTRATOR . '/components/' . $option . '/assets/' . $file['name'];
 
 			JFile::upload($src, $dest);
 

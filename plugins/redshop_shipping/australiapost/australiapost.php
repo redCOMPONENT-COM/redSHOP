@@ -19,9 +19,9 @@ jimport('joomla.plugin.plugin');
  */
 if (!defined('_VALID_MOS') && !defined('_JEXEC')) die('Direct Access to ' . basename(__FILE__) . ' is not allowed.');
 
-require_once JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'product.php';
-require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'configuration.php';
-require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'shipping.php';
+require_once JPATH_SITE . '/components/com_redshop/helpers/product.php';
+require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/configuration.php';
+require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/shipping.php';
 
 class plgredshop_shippingaustraliapost extends JPlugin
 {
@@ -88,7 +88,7 @@ class plgredshop_shippingaustraliapost extends JPlugin
 	{
 		if ($d['element'] == $this->classname)
 		{
-			$maincfgfile = JPATH_ROOT . DS . 'plugins' . DS . $d['plugin'] . DS . $this->classname . '.cfg.php';
+			$maincfgfile = JPATH_ROOT . '/plugins/' . $d['plugin'] . DS . $this->classname . '.cfg.php';
 
 			$my_config_array = array(
 				"AUSTRALIAPOST_AUSEVICETYPE"  => $d['AUSTRALIAPOST_AUSEVICETYPE'],
@@ -123,7 +123,7 @@ class plgredshop_shippingaustraliapost extends JPlugin
 
 	function onListRates(&$d)
 	{
-		include_once (JPATH_ROOT . DS . 'plugins' . DS . 'redshop_shipping' . DS . $this->classname . '.cfg.php');
+		include_once (JPATH_ROOT . '/plugins/redshop_shipping/' . $this->classname . '.cfg.php');
 		$shippinghelper = new shipping;
 		$producthelper = new producthelper;
 		$redconfig = new Redconfiguration;

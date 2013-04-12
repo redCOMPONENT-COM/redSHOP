@@ -18,11 +18,11 @@ class Redtemplate
 
 	public function __construct()
 	{
-		$this->redshop_template_path = JPATH_SITE . DS . "components" . DS . "com_redshop" . DS . "templates";
+		$this->redshop_template_path = JPATH_SITE . "/components/com_redshop/templates";
 
 		if (!is_dir($this->redshop_template_path))
 		{
-			chmod(JPATH_SITE . DS . "components" . DS . "com_redshop", 0755);
+			chmod(JPATH_SITE . "/components/com_redshop", 0755);
 
 			JFolder::create($this->redshop_template_path, 0755);
 		}
@@ -101,12 +101,12 @@ class Redtemplate
 
 		if (!$is_admin && $section != 'categoryproduct')
 		{
-			$tempate_file = JPATH_SITE . DS . 'templates' . DS . $app->getTemplate() . DS . "html" . DS . "com_redshop"
+			$tempate_file = JPATH_SITE . '/templates/' . $app->getTemplate() . "/html/com_redshop"
 				. DS . $template_view . DS . $section . DS . $filename . ".php";
 		}
 		else
 		{
-			$tempate_file = JPATH_SITE . DS . 'templates' . DS . $app->getTemplate() . DS . "html" . DS . "com_redshop"
+			$tempate_file = JPATH_SITE . '/templates/' . $app->getTemplate() . "/html/com_redshop"
 				. DS . $section . DS . $filename . ".php";
 		}
 
@@ -114,14 +114,14 @@ class Redtemplate
 		{
 			if ($section == 'categoryproduct' && $layout == 'categoryproduct')
 			{
-				$templateDir = JPATH_SITE . DS . "components" . DS . "com_redshop" . DS . "templates" . DS . $section . DS . $filename . ".php";
+				$templateDir = JPATH_SITE . "/components/com_redshop/templates/" .$section . DS . $filename . ".php";
 			}
 
 			if ($template_view && $section != 'categoryproduct')
 			{
-				$templateDir = JPATH_SITE . DS . "components" . DS . "com_redshop" . DS . "views" . DS . $template_view . DS
-					. "tmpl" . DS . $section;
-				@chmod(JPATH_SITE . DS . "components" . DS . "com_redshop" . DS . "views" . DS . $template_view . DS . "tmpl", 0755);
+				$templateDir = JPATH_SITE . "/components/com_redshop/views/" .$template_view . DS
+					. "tmpl/" .$section;
+				@chmod(JPATH_SITE . "/components/com_redshop/views/" .$template_view . "/tmpl", 0755);
 			}
 
 			else
@@ -258,8 +258,7 @@ class Redtemplate
 
 	public function getInstallSectionTemplate($template_name, $setflag = false)
 	{
-		$tempate_file = JPATH_SITE . DS . "components" . DS . "com_redshop" . DS . "templates" . DS
-			. "rsdefaulttemplates" . DS . $template_name . ".php";
+		$tempate_file = JPATH_SITE . "/components/com_redshop/templates/rsdefaulttemplates/" .$template_name . ".php";
 
 		if (file_exists($tempate_file))
 		{

@@ -6,7 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'shipping.php');
+require_once(JPATH_COMPONENT_ADMINISTRATOR . '/helpers/shipping.php');
 $shippinghelper = new shipping();
 $option = JRequest::getVar('option');
 $download = JRequest::getVar('download');
@@ -16,7 +16,7 @@ if ($download)
 	$baseURL = JURI::root();
 
 	$name = 'label_' . $oid . '.pdf';
-	$tmp_name = JPATH_COMPONENT_ADMINISTRATOR . DS . '/assets/lables/' . $name;
+	$tmp_name = JPATH_COMPONENT_ADMINISTRATOR . '//assets/lables/' . $name;
 
 	$tmp_type = strtolower(JFile::getExt($name));
 
@@ -86,7 +86,7 @@ if ($download)
 						$details = explode("|", $shippinghelper->decryptShipping(str_replace(" ", "+", $row->ship_method_id)));
 						if (strstr($details[0], 'default_shipping'))
 						{
-							if (file_exists(JPATH_SITE . '/administrator/components/com_redshop/assets' . DS . 'lables' . DS . 'label_' . $row->order_id . '.pdf'))
+							if (file_exists(JPATH_SITE . '/administrator/components/com_redshop/assets/lables/label_' . $row->order_id . '.pdf'))
 							{
 								?>
 								<a href="<?php echo $dlink; ?>"><?php echo JText::_('COM_REDSHOP_DOWNLOAD');?></a>

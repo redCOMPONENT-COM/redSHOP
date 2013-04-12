@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
-require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'extra_field.php');
+require_once(JPATH_COMPONENT_ADMINISTRATOR . '/helpers/extra_field.php');
 
 class fields_detailModelfields_detail extends JModel
 {
@@ -177,7 +177,7 @@ class fields_detailModelfields_detail extends JModel
 					$filename = time() . "_" . $extra_name['name'][$j];
 
 					$src = $extra_name['tmp_name'][$j];
-					$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'extrafield' . DS . $filename;
+					$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'extrafield/' . $filename;
 
 					JFile::upload($src, $dest);
 

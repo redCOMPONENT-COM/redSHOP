@@ -22,7 +22,7 @@ $document = JFactory::getDocument();
 $document->addStyleSheet('modules/mod_redshop_products/css/products.css');
 
 // Include redshop js file.
-require_once JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'redshop.js.php';
+require_once JPATH_SITE . '/components/com_redshop/helpers/redshop.js.php';
 
 // Lightbox Javascript
 JHTML::Script('attribute.js', 'components/com_redshop/assets/js/', false);

@@ -49,7 +49,7 @@ class plgRedshop_paymentrs_payment_googlecheckout extends JPlugin
 		}
 
 		$app = JFactory::getApplication();
-		$paymentpath = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . 'rs_payment_googlecheckout' . DS . 'rs_payment_googlecheckout' . DS . 'extra_info.php';
+		$paymentpath = JPATH_SITE . '/plugins/redshop_payment/rs_payment_googlecheckout/rs_payment_googlecheckout/extra_info.php';
 		include_once $paymentpath;
 	}
 }
