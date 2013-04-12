@@ -12,7 +12,7 @@ $fid = JRequest::getVar('fid', '');
 $fsec = JRequest::getVar('fsec', '');
 $folder = JRequest::getVar('folder', '');
 if ($folder == '')
-	$thumb_path = JURI::root() . "components/com_redshop/assets/images" . "/" . $this->_tmp_img->path_relative;
+	$thumb_path = JURI::root() . "components/com_redshop/assets/images/" . $this->_tmp_img->path_relative;
 else
 	$thumb_path = JURI::root() . "components/com_redshop/helpers/thumb.php?filename=" . $this->_tmp_img->path_relative . "&newxsize=" . $this->_tmp_img->width_60 . "&newysize=" . $this->_tmp_img->height_60;
 ?>
@@ -32,7 +32,7 @@ else
 		</div>
 	</div>
 	<div class="imginfoBorder">
-		<a href="<?php echo JURI::root() . "components/com_redshop/assets/images" . "/" . $this->_tmp_img->path_relative; ?>"
+		<a href="<?php echo JURI::root() . "components/com_redshop/assets/images/" . $this->_tmp_img->path_relative; ?>"
 		   class="preview"
 		   onclick="window.parent.jimage_insert('<?php echo 'components/com_redshop/assets/images/' . $this->_tmp_img->path_relative; ?>','<?php echo $fid; ?>','<?php echo $fsec; ?>');window.parent.SqueezeBox.close();"><?php echo $this->escape(substr($this->_tmp_img->name, 0, 10) . (strlen($this->_tmp_img->name) > 10 ? '...' : '')); ?></a>
 	</div>
