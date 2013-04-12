@@ -2079,7 +2079,7 @@ class importModelimport extends JModel
 					{
 						$filename = basename($more_img->file_name);
 						$src = JPATH_ROOT . $more_img->file_name;
-						$dest = REDSHOP_FRONT_IMAGES_RELPATH . "product/" .$filename;
+						$dest = REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $filename;
 
 						if (is_file($src) && file_exists($src))
 						{
