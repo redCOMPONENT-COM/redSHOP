@@ -11,6 +11,12 @@ defined('_JEXEC') or die;
 
 JHTML::_('behavior.tooltip');
 
+/**
+ * Class to Manage ExtraField
+ *
+ * @package  RedSHOP
+ * @since    2.5
+ */
 class extraField
 {
 	/*
@@ -47,12 +53,24 @@ class extraField
 
 	public $_db           = null;
 
+	/**
+	 * Extra Field Constructor
+	 */
 	public function __construct()
 	{
 		$this->_db = JFactory::getDbo();
 		$this->_table_prefix = '#__redshop_';
 	}
 
+	/**
+	 * List all Extra Field
+	 *
+	 * @param   string   $field_section  Extra Field Section
+	 * @param   integer  $section_id     Field Section Id
+	 * @param   string   $uclass         [description]
+	 *
+	 * @return  string                   Return HTML to Display Extra field
+	 */
 	public function list_all_field($field_section = "", $section_id = 0, $uclass = '')
 	{
 		$row_data = $this->getSectionFieldList($field_section, 1);
@@ -72,24 +90,26 @@ class extraField
 				$data_value->data_txt = '';
 			}
 
-			$astrict = $row_data[$i]->required ? "<span class='required'>*</span>" : "";
+			$astrict = "";
 
 			if ($row_data[$i]->required == 1)
 			{
+				$astrict = "<span class='required'>*</span>";
+
 				if ($uclass == '')
 				{
-					$class = 'class="required"';
+					$class = 'class="' . $row_data[$i]->field_class . ' required"';
 				}
 				else
 				{
-					$class = 'class="' . $uclass . '"';
+					$class = 'class="' . $row_data[$i]->field_class . " " . $uclass . '"';
 				}
 
 				$span_class = "<span class='required'>*</span>";
 			}
 			else
 			{
-				$class      = '';
+				$class      = 'class="' . $row_data[$i]->field_class . '"';
 				$span_class = '';
 			}
 
@@ -136,6 +156,7 @@ class extraField
 
 						$ex_field .= '<input class="' . $row_data[$i]->field_class . ' ' . $class . '"   type="checkbox"  ' . $checked . ' name="' . $row_data[$i]->field_name . '[]" id="' . $row_data[$i]->field_name . "_" . $field_chk[$c]->value_id . '" value="' . $field_chk[$c]->field_value . '" />' . $field_chk[$c]->field_name . '<br />';
 					}
+
 					$ex_field .= '<label for="' . $row_data[$i]->field_name . '[]" class="error">' . JText::_('COM_REDSHOP_PLEASE_SELECT_YOUR') . '&nbsp;' . $row_data[$i]->field_title . '</label>';
 					break;
 				case 4:
@@ -262,7 +283,21 @@ class extraField
 		return $ex_field;
 	}
 
-	public function list_all_user_fields($field_section = "", $section_id = 12, $field_type = '', $idx = 'NULL', $isatt = 0, $product_id, $mywish = "", $addwish = 0)
+	/**
+	 * List all user field
+	 *
+	 * @param   string   $field_section  user field section
+	 * @param   integer  $section_id     user field section id
+	 * @param   string   $field_type     user field type
+	 * @param   string   $idx            cart session idx variable
+	 * @param   integer  $isatt          check if user field is for attribute
+	 * @param   integer  $product_id     product id
+	 * @param   string   $mywish         Wishlist Text
+	 * @param   integer  $addwish        Flag to check add to Wishlist
+	 *
+	 * @return  array                   user field data array
+	 */
+	public function list_all_user_fields($field_section = "", $section_id = 12, $field_type = '', $idx = 'NULL', $isatt = 0, $product_id = 0, $mywish = "", $addwish = 0)
 	{
 		$session = JFactory::getSession();
 		$cart    = $session->get('cart');
@@ -301,6 +336,7 @@ class extraField
 			{
 				$ex_field_title .= '<div class="userfield_label">' . $asterisk . $row_data[$i]->field_title . '</div>';
 			}
+
 			$data_value = $this->getSectionFieldDataList($row_data[$i]->field_id, $field_section, $section_id);
 
 			$text_value = '';
@@ -568,6 +604,17 @@ class extraField
 		return $ex;
 	}
 
+	/**
+	 * Display Extra field
+	 *
+	 * @param   string   $field_section  extra field section
+	 * @param   integer  $section_id     extra field section id
+	 * @param   string   $field_name     extra field name
+	 * @param   string   $template_data  extra field section template data
+	 * @param   integer  $categorypage   check if extra field is for category page
+	 *
+	 * @return  string                   extra field HTML data
+	 */
 	public function extra_field_display($field_section = "", $section_id = 0, $field_name = "", $template_data = "", $categorypage = 0)
 	{
 		$redTemplate = new Redtemplate;
@@ -697,7 +744,6 @@ class extraField
 									$displayvalue .= "<a href=\"$link\" target='_blank' >$document_title</a>";
 								}
 							}
-
 						}
 						break;
 					case 11 :
@@ -777,6 +823,13 @@ class extraField
 		return $template_data;
 	}
 
+	/**
+	 * get Extra field value
+	 *
+	 * @param   integer  $id  extra field id
+	 *
+	 * @return  object       extra field value information
+	 */
 	public function getFieldValue($id)
 	{
 		$q = "SELECT * FROM " . $this->_table_prefix . "fields_value "
@@ -788,6 +841,16 @@ class extraField
 		return $list;
 	}
 
+	/**
+	 * get Extra field section list
+	 *
+	 * @param   integer  $section    section id
+	 * @param   integer  $front      flag for front-end
+	 * @param   integer  $published  flag for published
+	 * @param   integer  $required   flag for required
+	 *
+	 * @return  object               extra field list
+	 */
 	public function getSectionFieldList($section = 12, $front = 1, $published = 1, $required = 0)
 	{
 		$and = "";
@@ -817,6 +880,16 @@ class extraField
 		return $list;
 	}
 
+	/**
+	 * get extra field name in array
+	 *
+	 * @param   integer  $section    section id
+	 * @param   integer  $front      flag to check front-end
+	 * @param   integer  $published  flag to get published records
+	 * @param   integer  $required   flag to get required records
+	 *
+	 * @return  array               extra-field field name array
+	 */
 	public function getSectionFieldNameArray($section = 12, $front = 1, $published = 1, $required = 0)
 	{
 		$and = "";
@@ -840,6 +913,16 @@ class extraField
 		return $list;
 	}
 
+	/**
+	 * get Exta field Ids in array
+	 *
+	 * @param   integer  $section    section id
+	 * @param   integer  $front      flag to check front-end call
+	 * @param   integer  $published  flag to get published records
+	 * @param   integer  $required   flag to get required records
+	 *
+	 * @return  object               get field ids into object array
+	 */
 	public function getSectionFieldIdArray($section = 12, $front = 1, $published = 1, $required = 0)
 	{
 		$and = "";
@@ -864,6 +947,15 @@ class extraField
 		return $list;
 	}
 
+	/**
+	 * get extra field section name list
+	 *
+	 * @param   integer  $fieldid      Extra field id
+	 * @param   integer  $section      section id
+	 * @param   integer  $orderitemid  get from order item table using order item id
+	 *
+	 * @return  object                 get extra field information into object array
+	 */
 	public function getSectionFieldDataList($fieldid, $section = 0, $orderitemid = 0)
 	{
 		$query = "SELECT fd.*,f.field_title FROM " . $this->_table_prefix . "fields_data AS fd, " . $this->_table_prefix . "fields AS f "
