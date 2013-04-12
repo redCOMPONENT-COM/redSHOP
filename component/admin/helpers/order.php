@@ -287,9 +287,9 @@ class order_functions
 				<val n="printer">1</val>
 				</meta>
 				<receiver rcvid="' . $shippingInfo->users_info_id . '">
-				<val n="name">' . $full_name . '</val>
-				<val n="address1">' . $finaladdress1 . '</val>
-				<val n="address2">' . $finaladdress2 . '</val>
+				<val n="name"><![CDATA['.$full_name.']]></val>
+				<val n="address1"><![CDATA['.$finaladdress1.']]></val>
+				<val n="address2"><![CDATA['.$finaladdress2.']]></val>
 				<val n="zipcode">' . $shippingInfo->zipcode . '</val>
 				<val n="city">' . $city . '</val>
 				<val n="country">' . $shippingInfo->country_code . '</val>
