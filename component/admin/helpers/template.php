@@ -114,19 +114,18 @@ class Redtemplate
 		{
 			if ($section == 'categoryproduct' && $layout == 'categoryproduct')
 			{
-				$templateDir = JPATH_SITE . "/components/com_redshop/templates/" .$section . DS . $filename . ".php";
+				$templateDir = JPATH_SITE . "/components/com_redshop/templates/" . $section . "/" . $filename . ".php";
 			}
 
 			if ($template_view && $section != 'categoryproduct')
 			{
-				$templateDir = JPATH_SITE . "/components/com_redshop/views/" .$template_view . DS
-					. "tmpl/" .$section;
+				$templateDir = JPATH_SITE . "/components/com_redshop/views/" .$template_view . "/tmpl/" .$section;
 				@chmod(JPATH_SITE . "/components/com_redshop/views/" .$template_view . "/tmpl", 0755);
 			}
 
 			else
 			{
-				$templateDir = $this->redshop_template_path . DS . $section;
+				$templateDir = $this->redshop_template_path . '/' . $section;
 
 				@chmod($this->redshop_template_path, 0755);
 			}
@@ -136,7 +135,7 @@ class Redtemplate
 				JFolder::create($templateDir, 0755);
 			}
 
-			$tempate_file = $templateDir . DS . $filename . ".php";
+			$tempate_file = $templateDir . '/' . $filename . ".php";
 		}
 
 		return $tempate_file;
