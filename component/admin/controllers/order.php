@@ -106,7 +106,7 @@ class orderController extends JController
 						. '/invoice' . "/shipped_" . $merge_invoice_arr[$m] . ".pdf"))
 					{
 						$pdf->addPDF(JPATH_SITE . '/components/com_redshop/assets/document'
-							. '/invoice' . "/shipped_" . $merge_invoice_arr[$m] . ".pdf", 'all'
+							. '/invoice/shipped_' . $merge_invoice_arr[$m] . '.pdf', 'all'
 						);
 					}
 				}
@@ -118,10 +118,9 @@ class orderController extends JController
 				for ($m = 0; $m < count($merge_invoice_arr); $m++)
 				{
 					if (file_exists(JPATH_SITE . '/components/com_redshop/assets/document'
-						. '/invoice' . "/shipped_" . $merge_invoice_arr[$m] . ".pdf"))
+						. '/invoice/shipped_' . $merge_invoice_arr[$m] . '.pdf'))
 					{
-						unlink(JPATH_ROOT . '/components/com_redshop/assets/document/invoice'
-							. "/shipped_" . $merge_invoice_arr[$m] . ".pdf"
+						unlink(JPATH_ROOT . '/components/com_redshop/assets/document/invoice/shipped_' . $merge_invoice_arr[$m] . '.pdf'
 						);
 					}
 				}
