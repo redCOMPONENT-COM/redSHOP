@@ -428,10 +428,10 @@ class configurationModelconfiguration extends JModel
 
 				$src = $imgpre['tmp_name'];
 
-				$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'slimbox//' . $imgpre['name'];
+				$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'slimbox/' . $imgpre['name'];
 
 				if ($data['product_detail_lighbox_close_button_image'] != ""
-					&& is_file(REDSHOP_FRONT_IMAGES_RELPATH . 'slimbox//' . $data['product_detail_lighbox_close_button_image']))
+					&& is_file(REDSHOP_FRONT_IMAGES_RELPATH . 'slimbox/' . $data['product_detail_lighbox_close_button_image']))
 				{
 					unlink(REDSHOP_FRONT_IMAGES_RELPATH . 'slimbox/' . $data['product_detail_lighbox_close_button_image']);
 				}
