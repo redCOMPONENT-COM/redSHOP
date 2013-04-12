@@ -506,7 +506,7 @@ class product_detailController extends JController
 				else
 				{
 					$path_bk = REDSHOP_FRONT_IMAGES_RELPATH . $t[$n];
-					$dir_path = "components/com_redshop/assets/images/" .$t[$n] . DS . $t[$na];
+					$dir_path = "components/com_redshop/assets/images/" .$t[$n] . "/" . $t[$na];
 				}
 
 				$folder_img_bk = "components/com_redshop/assets/images/folderup_32.png";
