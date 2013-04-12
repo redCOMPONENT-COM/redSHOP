@@ -16,7 +16,7 @@ if ($download)
 	$baseURL = JURI::root();
 
 	$name = 'label_' . $oid . '.pdf';
-	$tmp_name = JPATH_COMPONENT_ADMINISTRATOR . '//assets/lables/' . $name;
+	$tmp_name = JPATH_COMPONENT_ADMINISTRATOR . '/assets/lables/' . $name;
 
 	$tmp_type = strtolower(JFile::getExt($name));
 
