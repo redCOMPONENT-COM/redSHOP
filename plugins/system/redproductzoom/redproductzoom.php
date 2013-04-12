@@ -27,13 +27,13 @@ public function onBeforeRender()
 		return;
 	}
 
-	require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'redshop.cfg.php';
-	require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'configuration.php';
+	require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
+	require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/configuration.php';
 	$Redconfiguration = new Redconfiguration;
 	$Redconfiguration->defineDynamicVars();
 
-	require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'product.php';
-	require_once JPATH_SITE . DS . 'plugins' . DS . 'system' . DS . 'redproductzoom' . DS . 'ajax' . DS . 'helper.php';
+	require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/product.php';
+	require_once JPATH_SITE . '/plugins/system/redproductzoom/ajax/helper.php';
 
 	if (JRequest::getCmd("option", "") != 'com_redshop')
 	{
@@ -54,8 +54,8 @@ public function onBeforeRender()
 
 	$document = JFactory::getDocument();
 
-	$document->addScript('plugins' . DS . 'system' . DS . 'redproductzoom' . DS . 'js' . DS . 'jquery.jqzoom-core.js');
-	$document->addStyleSheet('plugins' . DS . 'system' . DS . 'redproductzoom' . DS . 'css' . DS . 'jquery.jqzoom.css');
+	$document->addScript('plugins/system/redproductzoom/js/jquery.jqzoom-core.js');
+	$document->addStyleSheet('plugins/system/redproductzoom/css/jquery.jqzoom.css');
 
 	$zoomproducthelper = new zoomproducthelper;
 

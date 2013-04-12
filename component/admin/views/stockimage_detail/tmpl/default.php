@@ -74,7 +74,7 @@ $url = $uri->root();
 					<td><input type="file" name="stock_amount_image"/>
 
 						<div><img
-								src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . 'stockroom' . DS . $this->detail->stock_amount_image; ?>"
+								src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . 'stockroom/' . $this->detail->stock_amount_image; ?>"
 								width="150px" height="90px"/></div>
 						<input type="hidden" name="stock_image"
 						       value="<?php echo $this->detail->stock_amount_image; ?>"/></td>

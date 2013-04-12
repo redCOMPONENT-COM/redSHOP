@@ -103,7 +103,7 @@ class plgRedshop_paymentrs_payment_ceilo extends JPlugin
 		$order_number = substr($data['order_number'], 0, 16);
 		$tax_exempt = false;
 
-		$paymentpath = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . 'rs_payment_ceilo' . DS . 'includes' . DS . 'include.php';
+		$paymentpath = JPATH_SITE . '/plugins/redshop_payment/rs_payment_ceilo/includes/include.php';
 		include $paymentpath;
 
 		$Pedido = new Pedido;
@@ -243,7 +243,7 @@ class plgRedshop_paymentrs_payment_ceilo extends JPlugin
 	public function onCapture_Paymentrs_payment_ceilo($element, $data)
 	{
 		$db = JFactory::getDBO();
-		require_once JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php';
+		require_once JPATH_SITE . '/administrator/components/com_redshop/helpers/order.php';
 		$objOrder = new order_functions;
 
 		// Get params from plugin
@@ -258,7 +258,7 @@ class plgRedshop_paymentrs_payment_ceilo extends JPlugin
 		$ceilo_loja_chave = $paymentparams->get('ceilo_loja_chave', '');
 
 		// Add request-specific fields to the request string.
-		$paymentpath = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . 'rs_payment_ceilo' . DS . 'includes' . DS . 'include.php';
+		$paymentpath = JPATH_SITE . '/plugins/redshop_payment/rs_payment_ceilo/includes/include.php';
 		include $paymentpath;
 
 		$objResposta = null;

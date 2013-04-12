@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.plugin.plugin');
 
-require_once JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php';
+require_once JPATH_SITE . '/administrator/components/com_redshop/helpers/order.php';
 
 class plgRedshop_paymentrs_payment_partner_de extends JPlugin
 {
@@ -103,7 +103,7 @@ class plgRedshop_paymentrs_payment_partner_de extends JPlugin
 		$order_total = $data['order_total'];
 
 		// Include Integrator file
-		include JPATH_SITE . DS . "plugins" . DS . "redshop_payment" . DS . "rs_payment_partner_de" . DS . "ppDE.integrator.php";
+		include JPATH_SITE . "/plugins/redshop_payment/rs_payment_partner_de/ppDE.integrator.php";
 
 		// New ctpepost
 		// for the correct parameters for authentication refer to the DemoMerchantInfo Link in your Implementation Packages Documentation.

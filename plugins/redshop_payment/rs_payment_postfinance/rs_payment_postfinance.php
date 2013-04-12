@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 jimport('joomla.plugin.plugin');
 /*$app = JFactory::getApplication();
 $app->registerEvent( 'onPrePayment', 'plgRedshoppayment_authorize' );*/
-require_once JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php';
+require_once JPATH_SITE . '/administrator/components/com_redshop/helpers/order.php';
 class plgRedshop_paymentrs_payment_postfinance extends JPlugin
 {
 	var $_table_prefix = null;
@@ -50,7 +50,7 @@ class plgRedshop_paymentrs_payment_postfinance extends JPlugin
 		}
 
 		$app = JFactory::getApplication();
-		$paymentpath = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $plugin . DS . $plugin . DS . 'extra_info.php';
+		$paymentpath = JPATH_SITE . '/plugins/redshop_payment/' . $plugin . DS . $plugin . '/extra_info.php';
 		include $paymentpath;
 	}
 

@@ -25,7 +25,7 @@ class shipping_detailViewshipping_detail extends JView
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_SHIPPING') . ': <small><small>[ ' . $text . ' ]</small></small>', 'redshop_shipping48');
 
-		$adminpath = JPATH_ROOT . DS . 'plugins';
+		$adminpath = JPATH_ROOT . '/plugins';
 		$shippingpath = $adminpath . DS . $detail->folder . DS . $detail->element . DS . $detail->element . '.xml';
 		$shippingcfg = $adminpath . DS . $detail->folder . DS . $detail->element . DS . $detail->element . '.cfg.php';
 

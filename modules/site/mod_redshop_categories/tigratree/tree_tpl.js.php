@@ -29,8 +29,8 @@ else
 	define('DS', DIRECTORY_SEPARATOR);
 
 	// Initialize the framework
-	require_once JPATH_BASE . DS . 'includes' . DS . 'defines.php';
-	require_once JPATH_BASE . DS . 'includes' . DS . 'framework.php';
+	require_once JPATH_BASE . '/includes/defines.php';
+	require_once JPATH_BASE . '/includes/framework.php';
 
 	// Get a $app
 	$app = JFactory::getApplication();

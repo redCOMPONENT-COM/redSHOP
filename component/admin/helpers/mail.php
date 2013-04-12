@@ -9,16 +9,16 @@
 
 defined('_JEXEC') or die;
 
-require_once (JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'helper.php');
-require_once (JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'cart.php');
-require_once (JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'product.php');
-require_once (JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'extra_field.php');
+require_once (JPATH_SITE . '/components/com_redshop/helpers/helper.php');
+require_once (JPATH_SITE . '/components/com_redshop/helpers/cart.php');
+require_once (JPATH_SITE . '/components/com_redshop/helpers/product.php');
+require_once (JPATH_SITE . '/components/com_redshop/helpers/extra_field.php');
 
 
-require_once (JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'extra_field.php');
-require_once (JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'configuration.php');
-require_once (JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php');
-require_once (JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'quotation.php');
+require_once (JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/extra_field.php');
+require_once (JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/configuration.php');
+require_once (JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/order.php');
+require_once (JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/quotation.php');
 
 class redshopMail
 {
@@ -399,7 +399,7 @@ class redshopMail
 			|| $paymentmethod->element == "rs_payment_banktransfer2" || $paymentmethod->element == "rs_payment_banktransfer3"
 			|| $paymentmethod->element == "rs_payment_banktransfer4" || $paymentmethod->element == "rs_payment_banktransfer5")
 		{
-			$paymentpath = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $paymentmethod->element . '.xml';
+			$paymentpath = JPATH_SITE . '/plugins/redshop_payment/' . $paymentmethod->element . '.xml';
 			$paymentparams = new JRegistry($paymentmethod->params);
 			$txtextra_info = $paymentparams->get('txtextra_info', '');
 
@@ -454,8 +454,8 @@ class redshopMail
 
 	public function createMultiprintInvoicePdf($oid)
 	{
-		require_once (JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'tcpdf' . DS . 'config' . DS . 'lang' . DS . 'eng.php');
-		require_once (JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'tcpdf' . DS . 'tcpdf.php');
+		require_once (JPATH_SITE . '/components/com_redshop/helpers/tcpdf/config/lang/eng.php');
+		require_once (JPATH_SITE . '/components/com_redshop/helpers/tcpdf/tcpdf.php');
 		$order_functions = new order_functions;
 		$shippinghelper = new shipping;
 		$carthelper = new rsCarthelper;
@@ -927,8 +927,7 @@ class redshopMail
 		}
 
 		$invoice_pdfName = "multiprintorder";
-		$pdfObj->Output(JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'assets' . DS . 'document'
-			. DS . 'invoice' . DS . $invoice_pdfName . ".pdf", "F");
+		$pdfObj->Output(JPATH_SITE . '/components/com_redshop/assets/document/invoice/' . $invoice_pdfName . ".pdf", "F");
 
 		return $invoice_pdfName;
 	}
@@ -936,10 +935,10 @@ class redshopMail
 
 	function createShippedInvoicePdf($oid)
 	{
-		require_once JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'tcpdf'
-			. DS . 'config' . DS . 'lang' . DS . 'eng.php';
-		require_once JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'tcpdf'
-			. DS . 'tcpdf.php';
+		require_once JPATH_SITE . '/components/com_redshop/helpers/tcpdf'
+			. '/config/lang/eng.php';
+		require_once JPATH_SITE . '/components/com_redshop/helpers/tcpdf'
+			. '/tcpdf.php';
 
 		$redconfig = new Redconfiguration;
 		$producthelper = new producthelper;
@@ -1036,17 +1035,17 @@ class redshopMail
 
 		$rand = rand();
 		$invoice_pdfName = "shipped_" . $rand;
-		$pdfObj->Output(JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'assets' . DS . 'document'
-			. DS . 'invoice' . DS . $invoice_pdfName . ".pdf", "F");
+		$pdfObj->Output(JPATH_SITE . '/components/com_redshop/assets/document'
+			. '/invoice/' . $invoice_pdfName . ".pdf", "F");
 
 		return $invoice_pdfName;
 	}
 
 	public function sendInvoiceMail($order_id)
 	{
-		require_once JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'tcpdf' . DS . 'config'
-			. DS . 'lang' . DS . 'eng.php';
-		require_once JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'tcpdf' . DS . 'tcpdf.php';
+		require_once JPATH_SITE . '/components/com_redshop/helpers/tcpdf/config'
+			. '/lang/eng.php';
+		require_once JPATH_SITE . '/components/com_redshop/helpers/tcpdf/tcpdf.php';
 		$redconfig = new Redconfiguration;
 		$producthelper = new producthelper;
 		$extra_field = new extra_field;
@@ -1161,8 +1160,8 @@ class redshopMail
 
 		$invoice_pdfName = $row->order_id;
 
-		$pdfObj->Output(JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'assets' . DS . 'document' . DS . 'invoice' . DS . $invoice_pdfName . ".pdf", "F");
-		$invoice_attachment = JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'assets' . DS . 'document' . DS . 'invoice' . DS . $invoice_pdfName . ".pdf";
+		$pdfObj->Output(JPATH_SITE . '/components/com_redshop/assets/document/invoice/' . $invoice_pdfName . ".pdf", "F");
+		$invoice_attachment = JPATH_SITE . '/components/com_redshop/assets/document/invoice/' . $invoice_pdfName . ".pdf";
 
 		if ((INVOICE_MAIL_SEND_OPTION == 2 || INVOICE_MAIL_SEND_OPTION == 3) && $email != "")
 		{

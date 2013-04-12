@@ -17,7 +17,7 @@ defined('_JEXEC') or die;
 
 if (!class_exists('LofContentModelArticles'))
 {
-	require_once JPATH_SITE . DS . 'components' . DS . 'com_content' . DS . 'models' . DS . 'articles.php';
+	require_once JPATH_SITE . '/components/com_content/models/articles.php';
 
 	/**
 	 * Lof ContentModelArticles Model Class

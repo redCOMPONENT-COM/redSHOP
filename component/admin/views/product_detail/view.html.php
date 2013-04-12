@@ -10,10 +10,10 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
-require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php');
-require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'category.php');
-require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'shopper.php'); // reddesign edited
-require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'product.php');
+require_once(JPATH_COMPONENT . '/helpers/extra_field.php');
+require_once(JPATH_COMPONENT . '/helpers/category.php');
+require_once(JPATH_COMPONENT . '/helpers/shopper.php'); // reddesign edited
+require_once(JPATH_COMPONENT_SITE . '/helpers/product.php');
 
 class product_detailVIEWproduct_detail extends JView
 {

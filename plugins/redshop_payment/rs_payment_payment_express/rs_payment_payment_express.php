@@ -11,8 +11,8 @@ defined('_JEXEC') or die;
 
 jimport('joomla.plugin.plugin');
 
-require_once JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php';
-require_once JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . 'rs_payment_payment_express' . DS . 'rs_payment_payment_express' . DS . 'PxPay_Curl.inc.php';
+require_once JPATH_SITE . '/administrator/components/com_redshop/helpers/order.php';
+require_once JPATH_SITE . '/plugins/redshop_payment/rs_payment_payment_express/rs_payment_payment_express/PxPay_Curl.inc.php';
 
 class plgRedshop_paymentrs_payment_payment_express extends JPlugin
 {
@@ -48,7 +48,7 @@ class plgRedshop_paymentrs_payment_payment_express extends JPlugin
 		}
 
 		$app = JFactory::getApplication();
-		$paymentpath = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $plugin . DS . $plugin . DS . 'extra_info.php';
+		$paymentpath = JPATH_SITE . '/plugins/redshop_payment/' . $plugin . DS . $plugin . '/extra_info.php';
 		include $paymentpath;
 	}
 
@@ -151,7 +151,7 @@ class plgRedshop_paymentrs_payment_payment_express extends JPlugin
 		else
 		{
 			$app = JFactory::getApplication();
-			$paymentpath = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $plugin . DS . $plugin . DS . 'extra_info.php';
+			$paymentpath = JPATH_SITE . '/plugins/redshop_payment/' . $plugin . DS . $plugin . '/extra_info.php';
 			include $paymentpath;
 		}
 

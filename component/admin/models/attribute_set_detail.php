@@ -10,12 +10,12 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
-require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'thumbnail.php');
+require_once(JPATH_COMPONENT . '/helpers/thumbnail.php');
 jimport('joomla.client.helper');
 JClientHelper::setCredentialsFromRequest('ftp');
 jimport('joomla.filesystem.file');
 
-require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'product.php');
+require_once(JPATH_COMPONENT_SITE . '/helpers/product.php');
 
 class attribute_set_detailModelattribute_set_detail extends JModel
 {
@@ -493,7 +493,7 @@ class attribute_set_detailModelattribute_set_detail extends JModel
 				$main_src = $main_img['tmp_name'];
 
 				// Specific path of the file
-				$main_dest = REDSHOP_FRONT_IMAGES_RELPATH . 'property' . DS . $main_name;
+				$main_dest = REDSHOP_FRONT_IMAGES_RELPATH . 'property/' . $main_name;
 
 				JFile::upload($main_src, $main_dest);
 
@@ -531,7 +531,7 @@ class attribute_set_detailModelattribute_set_detail extends JModel
 					$sub_type = $sub_img['type'][$i];
 
 					// Specific path of the file
-					$sub__dest = REDSHOP_FRONT_IMAGES_RELPATH . 'property' . DS . $sub_name;
+					$sub__dest = REDSHOP_FRONT_IMAGES_RELPATH . 'property/' . $sub_name;
 
 					JFile::upload($sub_src, $sub__dest);
 
@@ -606,14 +606,14 @@ class attribute_set_detailModelattribute_set_detail extends JModel
 					$sub_src = $sub_img['tmp_name'][$i];
 
 					// Specific path of the file
-					$sub__dest = REDSHOP_FRONT_IMAGES_RELPATH . 'subcolor' . DS . $sub_name;
+					$sub__dest = REDSHOP_FRONT_IMAGES_RELPATH . 'subcolor/' . $sub_name;
 
 					JFile::upload($sub_src, $sub__dest);
 
 					if ($post['property_sub_img_tmp'][$i] != "")
 					{
-						$sub = REDSHOP_FRONT_IMAGES_RELPATH . 'subcolor' . DS . $post['property_sub_img_tmp'][$i];
-						$sub_thumb = REDSHOP_FRONT_IMAGES_RELPATH . 'subcolor/thumb' . DS . $post['property_sub_img_tmp'][$i];
+						$sub = REDSHOP_FRONT_IMAGES_RELPATH . 'subcolor/' . $post['property_sub_img_tmp'][$i];
+						$sub_thumb = REDSHOP_FRONT_IMAGES_RELPATH . 'subcolor/thumb/' . $post['property_sub_img_tmp'][$i];
 
 						if (file_exists($sub))
 						{
@@ -693,7 +693,7 @@ class attribute_set_detailModelattribute_set_detail extends JModel
 	{
 		foreach ($subattr_diff as $diff)
 		{
-			$sub_dest = REDSHOP_FRONT_IMAGES_RELPATH . 'subcolor' . DS . $diff->subattribute_color_image;
+			$sub_dest = REDSHOP_FRONT_IMAGES_RELPATH . 'subcolor/' . $diff->subattribute_color_image;
 
 			if (file_exists($sub_dest))
 			{

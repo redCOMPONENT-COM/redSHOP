@@ -56,13 +56,13 @@ class payment_detailViewpayment_detail extends JView
 
 			JToolBarHelper::cancel();
 
-			$adminpath = JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop';
+			$adminpath = JPATH_ADMINISTRATOR . '/components/com_redshop';
 
-			$paymentxml = $adminpath . DS . 'helpers' . DS . 'payments' . DS . $detail->plugin . '.xml';
+			$paymentxml = $adminpath . '/helpers/payments/' . $detail->plugin . '.xml';
 
-			$paymentfile = $adminpath . DS . 'helpers' . DS . 'payments' . DS . $detail->plugin . DS . $detail->plugin . '.php';
+			$paymentfile = $adminpath . '/helpers/payments/' . $detail->plugin . DS . $detail->plugin . '.php';
 
-			$paymentcfg = $adminpath . DS . 'helpers' . DS . 'payments' . DS . $detail->plugin . DS . $detail->plugin . '.cfg.php';
+			$paymentcfg = $adminpath . '/helpers/payments/' . $detail->plugin . DS . $detail->plugin . '.cfg.php';
 
 			include_once ($paymentfile);
 

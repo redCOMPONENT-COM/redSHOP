@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.plugin.plugin');
-require_once JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php';
+require_once JPATH_SITE . '/administrator/components/com_redshop/helpers/order.php';
 
 class plgRedshop_paymentrs_payment_mollieideal extends JPlugin
 {
@@ -81,8 +81,8 @@ class plgRedshop_paymentrs_payment_mollieideal extends JPlugin
 		$cancel_status = $paymentparams->get('cancel_status', '');
 
 		// Check Payment True/False
-		$paymentpath = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . 'rs_payment_mollieideal' . DS
-			. 'rs_payment_mollieideal' . DS . 'class.mollie.ideal.php';
+		$paymentpath = JPATH_SITE . '/plugins/redshop_payment/rs_payment_mollieideal' . DS
+			. 'rs_payment_mollieideal/class.mollie.ideal.php';
 		include $paymentpath;
 
 		$mideal = new ideal;
@@ -137,8 +137,8 @@ class plgRedshop_paymentrs_payment_mollieideal extends JPlugin
 			return $this->_show_error('"' . JText::_('COM_REDSHOP_MOLLIEIDEAL_ORDER_ERROR') . '"');
 		}
 
-		require_once JPATH_BASE . DS . 'plugins' . DS . 'redshop_payment' . DS . 'rs_payment_mollieideal' . DS
-			. 'rs_payment_mollieideal' . DS . 'class.mollie.ideal.php';
+		require_once JPATH_BASE . '/plugins/redshop_payment/rs_payment_mollieideal' . DS
+			. 'rs_payment_mollieideal/class.mollie.ideal.php';
 
 		$db = jFactory::getDBO();
 

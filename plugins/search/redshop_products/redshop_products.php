@@ -12,10 +12,10 @@ defined('_JEXEC') or die;
 jimport('joomla.plugin.plugin');
 
 //JPlugin::loadLanguage( 'plg_search_redshop_products' );
-require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'redshop.cfg.php';
-require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'configuration.php';
-require_once JPATH_ROOT . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'helper.php';
-require_once JPATH_ROOT . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'user.php';
+require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
+require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/configuration.php';
+require_once JPATH_ROOT . '/components/com_redshop/helpers/helper.php';
+require_once JPATH_ROOT . '/components/com_redshop/helpers/user.php';
 $Redconfiguration = new Redconfiguration;
 $Redconfiguration->defineDynamicVars();
 

@@ -13,8 +13,8 @@
  * along with redSHOP; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-require_once JPATH_BASE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php';
-require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'helper.php';
+require_once JPATH_BASE . '/administrator/components/com_redshop/helpers/order.php';
+require_once JPATH_COMPONENT . '/helpers/helper.php';
 
 $amazon_signature = $this->_params->get("amazon_signature");
 $amazon_recipientEmail = $this->_params->get("amazon_recipientEmail");

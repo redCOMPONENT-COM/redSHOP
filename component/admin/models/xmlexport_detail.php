@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
-require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'xmlhelper.php');
+require_once(JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/xmlhelper.php');
 
 class xmlexport_detailModelxmlexport_detail extends JModel
 {
@@ -182,7 +182,7 @@ class xmlexport_detailModelxmlexport_detail extends JModel
 			for ($i = 0; $i < count($cid); $i++)
 			{
 				$result = $xmlhelper->getXMLExportInfo($cid[$i]);
-				$rootpath = JPATH_COMPONENT_SITE . DS . "assets/xmlfile/export" . DS . $result->filename;
+				$rootpath = JPATH_COMPONENT_SITE . "/assets/xmlfile/export/" .$result->filename;
 
 				if (is_file($rootpath))
 				{

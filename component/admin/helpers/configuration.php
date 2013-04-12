@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-require_once(JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'user.php');
+require_once(JPATH_SITE . '/components/com_redshop/helpers/user.php');
 
 class Redconfiguration
 {
@@ -40,16 +40,11 @@ class Redconfiguration
 		$this->_table_prefix = '#__redshop_';
 
 		$this->_db = JFactory::getDBO();
-		$this->_configpath = JPATH_SITE . DS . "administrator" . DS . "components" . DS . "com_redshop"
-			. DS . "helpers" . DS . "redshop.cfg.php";
-		$this->_config_dist_path = JPATH_SITE . DS . "administrator" . DS . "components" . DS . "com_redshop" . DS
-			. "helpers" . DS . "wizard" . DS . "redshop.cfg.dist.php";
-		$this->_config_bkp_path = JPATH_SITE . DS . "administrator" . DS . "components" . DS . "com_redshop" . DS
-			. "helpers" . DS . "wizard" . DS . "redshop.cfg.bkp.php";
-		$this->_config_tmp_path = JPATH_SITE . DS . "administrator" . DS . "components" . DS . "com_redshop" . DS
-			. "helpers" . DS . "wizard" . DS . "redshop.cfg.tmp.php";
-		$this->_config_def_path = JPATH_SITE . DS . "administrator" . DS . "components" . DS . "com_redshop" . DS
-			. "helpers" . DS . "wizard" . DS . "redshop.cfg.def.php";
+		$this->_configpath = JPATH_SITE . "/administrator/components/com_redshop/helpers/redshop.cfg.php";
+		$this->_config_dist_path = JPATH_SITE . "/administrator/components/com_redshop/helpers/wizard/redshop.cfg.dist.php";
+		$this->_config_bkp_path = JPATH_SITE . "/administrator/components/com_redshop/helpers/wizard/redshop.cfg.bkp.php";
+		$this->_config_tmp_path = JPATH_SITE . "/administrator/components/com_redshop/helpers/wizard/redshop.cfg.tmp.php";
+		$this->_config_def_path = JPATH_SITE . "/administrator/components/com_redshop/helpers/wizard/redshop.cfg.def.php";
 
 		if (!defined('JSYSTEM_IMAGES_PATH'))
 		{
@@ -68,7 +63,7 @@ class Redconfiguration
 
 		if (!defined('REDSHOP_FRONT_IMAGES_RELPATH'))
 		{
-			define('REDSHOP_FRONT_IMAGES_RELPATH', JPATH_ROOT . DS . 'components/com_redshop/assets/images/');
+			define('REDSHOP_FRONT_IMAGES_RELPATH', JPATH_ROOT . '/components/com_redshop/assets/images/');
 		}
 
 		if (!defined('REDSHOP_FRONT_DOCUMENT_ABSPATH'))
@@ -78,7 +73,7 @@ class Redconfiguration
 
 		if (!defined('REDSHOP_FRONT_DOCUMENT_RELPATH'))
 		{
-			define('REDSHOP_FRONT_DOCUMENT_RELPATH', JPATH_ROOT . DS . 'components/com_redshop/assets/document/');
+			define('REDSHOP_FRONT_DOCUMENT_RELPATH', JPATH_ROOT . '/components/com_redshop/assets/document/');
 		}
 	}
 
@@ -1204,7 +1199,7 @@ class Redconfiguration
 	{
 		if (empty($this->_country_list))
 		{
-			require_once (JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'helper.php');
+			require_once (JPATH_SITE . '/components/com_redshop/helpers/helper.php');
 			$redhelper = new redhelper;
 
 			$countries = array();

@@ -12,11 +12,11 @@ $uri = JURI::getInstance();
 $url = $uri->root();
 
 // get product helper
-require_once JPATH_ROOT . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'product.php';
+require_once JPATH_ROOT . '/components/com_redshop/helpers/product.php';
 $producthelper = new producthelper();
 
-require_once JPATH_ROOT . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'helper.php';
-require_once JPATH_ROOT . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'redshop.js.php';
+require_once JPATH_ROOT . '/components/com_redshop/helpers/helper.php';
+require_once JPATH_ROOT . '/components/com_redshop/helpers/redshop.js.php';
 $redhelper = new redhelper();
 
 $option = JRequest::getVar('option');

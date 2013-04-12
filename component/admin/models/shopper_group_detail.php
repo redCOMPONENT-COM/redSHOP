@@ -10,7 +10,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
-require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'thumbnail.php');
+require_once(JPATH_COMPONENT . '/helpers/thumbnail.php');
 jimport('joomla.client.helper');
 JClientHelper::setCredentialsFromRequest('ftp');
 jimport('joomla.filesystem.file');
@@ -117,7 +117,7 @@ class shopper_group_detailModelshopper_group_detail extends JModel
 
 		if ($logo['name'] != "" || $data['shopper_group_logo_tmp'] != null)
 		{
-			$logopath = REDSHOP_FRONT_IMAGES_RELPATH . 'shopperlogo' . DS . $data['shopper_group_logo'];
+			$logopath = REDSHOP_FRONT_IMAGES_RELPATH . 'shopperlogo/' . $data['shopper_group_logo'];
 
 			if (is_file($logopath))
 			{
@@ -133,7 +133,7 @@ class shopper_group_detailModelshopper_group_detail extends JModel
 			$logotype = JFile::getExt($logo['name']);
 
 			$src = $logo['tmp_name'];
-			$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'shopperlogo' . DS . $logoname;
+			$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'shopperlogo/' . $logoname;
 
 			if ($logotype == 'jpg' || $logotype == 'jpeg' || $logotype == 'gif' || $logotype == 'png')
 			{
@@ -151,7 +151,7 @@ class shopper_group_detailModelshopper_group_detail extends JModel
 
 				// Image copy
 				$src = JPATH_ROOT . DS . $data['shopper_group_logo_tmp'];
-				$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'shopperlogo' . DS . $logoname;
+				$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'shopperlogo/' . $logoname;
 
 				copy($src, $dest);
 			}
@@ -163,8 +163,8 @@ class shopper_group_detailModelshopper_group_detail extends JModel
 		{
 			$isNew = true;
 			$destname = time() . $data['shopper_group_logo'];
-			$logopath = REDSHOP_FRONT_IMAGES_RELPATH . 'shopperlogo' . DS . $data['shopper_group_logo'];
-			$copylogopath = REDSHOP_FRONT_IMAGES_RELPATH . 'shopperlogo' . DS . $destname;
+			$logopath = REDSHOP_FRONT_IMAGES_RELPATH . 'shopperlogo/' . $data['shopper_group_logo'];
+			$copylogopath = REDSHOP_FRONT_IMAGES_RELPATH . 'shopperlogo/' . $destname;
 
 			if (is_file($logopath))
 			{
@@ -259,7 +259,7 @@ class shopper_group_detailModelshopper_group_detail extends JModel
 
 			for ($i = 0; $i < count($list); $i++)
 			{
-				$logopath = REDSHOP_FRONT_IMAGES_RELPATH . 'shopperlogo' . DS . $list[$i]->shopper_group_logo;
+				$logopath = REDSHOP_FRONT_IMAGES_RELPATH . 'shopperlogo/' . $list[$i]->shopper_group_logo;
 
 				if (is_file($logopath))
 				{

@@ -47,7 +47,7 @@ if (!class_exists('LofSliderGroupVirtuemart'))
 		 */
 		public function isVirtueMartExisted()
 		{
-			return is_dir(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_virtuemart');
+			return is_dir(JPATH_ADMINISTRATOR . '/components/com_virtuemart');
 		}
 
 		/**
