@@ -129,7 +129,6 @@ class redhelper
 				$catDetailmenu = true;
 
 				return $Itemid;
-
 			}
 		}
 
@@ -678,7 +677,7 @@ class redhelper
 				$file_path          = JPATH_SITE . '/components/com_redshop/assets/images/' . $mtype . '/' . $Imagename;
 				$filename           = RedShopHelperImages::generateImages($file_path, '', 'thumb', $mtype, $thumb_width, $thumb_height, USE_IMAGE_SIZE_SWAPPING);
 				$filename_path_info = pathinfo($filename);
-				$filename           = REDSHOP_FRONT_IMAGES_ABSPATH . 'product' . '/' . $mtype . '/' . $filename_path_info['basename'];
+				$filename           = REDSHOP_FRONT_IMAGES_ABSPATH . $mtype . '/thumb/' . $filename_path_info['basename'];
 
 				if ($add_img == 2)
 				{
@@ -931,7 +930,6 @@ class redhelper
 		else
 		{
 			JError::raiseWarning(21, "Authentication failure: " . $ret[0]);
-
 		}
 	}
 
