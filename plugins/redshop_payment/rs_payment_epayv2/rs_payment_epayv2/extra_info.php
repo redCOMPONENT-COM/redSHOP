@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'product.php';
+require_once JPATH_SITE . '/components/com_redshop/helpers/product.php';
 $producthelper = new producthelper;
 
 $uri =& JURI::getInstance();

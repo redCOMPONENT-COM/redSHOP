@@ -22,7 +22,7 @@ class JFormFieldK2category extends JFormField
 	{
 		$categories = array();
 
-		if (is_file(JPATH_SITE . DS . "components" . DS . "com_k2" . DS . "k2.php"))
+		if (is_file(JPATH_SITE . "/components/com_k2/k2.php"))
 		{
 			$db    = JFactory::getDBO();
 			$query = 'SELECT m.* FROM #__k2_categories m WHERE published=1 AND trash = 0 ORDER BY parent, ordering';

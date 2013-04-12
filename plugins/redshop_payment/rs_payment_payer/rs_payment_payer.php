@@ -48,7 +48,7 @@ class plgRedshop_paymentrs_payment_payer extends JPlugin
 		}
 
 		$app = JFactory::getApplication();
-		$paymentpath = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $plugin . DS . $plugin . DS . 'extra_info.php';
+		$paymentpath = JPATH_SITE . '/plugins/redshop_payment/' . $plugin . DS . $plugin . '/extra_info.php';
 		include $paymentpath;
 	}
 
@@ -70,7 +70,7 @@ class plgRedshop_paymentrs_payment_payer extends JPlugin
 		$values = new stdClass;
 
 		// Loads Payers API.
-		include JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $element . DS . $element . DS . 'payread_post_api.php';
+		include JPATH_SITE . '/plugins/redshop_payment/' . $element . DS . $element . '/payread_post_api.php';
 
 		// Creates an object from Payers API.
 		$postAPI = new payread_post_api;

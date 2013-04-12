@@ -18,7 +18,7 @@ class integrationModelintegration extends JModel
 	 */
 	public function gbasedownload()
 	{
-		$file_path = JPATH_COMPONENT_SITE . DS . "assets" . DS . "document" . DS . "gbase" . DS . "product.xml";
+		$file_path = JPATH_COMPONENT_SITE . "/assets/document/gbase/product.xml";
 
 		if (!file_exists($file_path))
 		{

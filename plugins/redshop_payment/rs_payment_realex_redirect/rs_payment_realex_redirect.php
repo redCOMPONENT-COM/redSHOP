@@ -57,7 +57,7 @@ class plgRedshop_paymentrs_payment_realex_redirect extends JPlugin
 		$secret = $this->_params->get("realex_shared_secret");
 		$account = $this->_params->get("realex_account_name");
 		$ip_address = $_SERVER['REMOTE_ADDR'];
-		require_once JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . 'rs_payment_realex_redirect' . DS . 'rs_payment_realex_redirect' . DS . 'class.realmpi.php';
+		require_once JPATH_SITE . '/plugins/redshop_payment/rs_payment_realex_redirect/rs_payment_realex_redirect/class.realmpi.php';
 		$timestamp = strftime("%Y%m%d%H%M%S");
 		mt_srand((double) microtime() * 1000000);
 		$orderid = $data['order_number'];

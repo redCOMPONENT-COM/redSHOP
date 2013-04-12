@@ -24,8 +24,8 @@ define('JPATH_BASE', $absolute_path);
 define('DS', DIRECTORY_SEPARATOR);
 
 // Load the framework
-require_once (JPATH_BASE . DS . 'includes' . DS . 'defines.php');
-require_once (JPATH_BASE . DS . 'includes' . DS . 'framework.php');
+require_once (JPATH_BASE . '/includes/defines.php');
+require_once (JPATH_BASE . '/includes/framework.php');
 
 // create the mainframe object
 $app = JFactory::getApplication();
@@ -34,7 +34,7 @@ $app = JFactory::getApplication();
 $app->initialise();
 /*** END of Joomla config ***/
 
-require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'xmlhelper.php');
+require_once(JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/xmlhelper.php');
 
 class xmlcron
 {

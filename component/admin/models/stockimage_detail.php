@@ -94,12 +94,12 @@ class stockimage_detailModelstockimage_detail extends JModel
 			$row->stock_amount_image = $filename;
 
 			$src = $file['tmp_name'];
-			$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'stockroom' . DS . $filename;
+			$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'stockroom/' . $filename;
 			JFile::upload($src, $dest);
 
-			if (isset($data['stock_image']) != "" && is_file(REDSHOP_FRONT_IMAGES_RELPATH . 'stockroom' . DS . $data['stock_image']))
+			if (isset($data['stock_image']) != "" && is_file(REDSHOP_FRONT_IMAGES_RELPATH . 'stockroom/' . $data['stock_image']))
 			{
-				unlink(REDSHOP_FRONT_IMAGES_RELPATH . 'stockroom' . DS . $data['stock_image']);
+				unlink(REDSHOP_FRONT_IMAGES_RELPATH . 'stockroom/' . $data['stock_image']);
 			}
 		}
 
@@ -133,9 +133,9 @@ class stockimage_detailModelstockimage_detail extends JModel
 				$this->_db->setQuery($query);
 				$stock_amount_image = $this->_db->loadResult();
 
-				if ($stock_amount_image != "" && is_file(REDSHOP_FRONT_IMAGES_RELPATH . 'stockroom' . DS . $stock_amount_image))
+				if ($stock_amount_image != "" && is_file(REDSHOP_FRONT_IMAGES_RELPATH . 'stockroom/' . $stock_amount_image))
 				{
-					unlink(REDSHOP_FRONT_IMAGES_RELPATH . 'stockroom' . DS . $stock_amount_image);
+					unlink(REDSHOP_FRONT_IMAGES_RELPATH . 'stockroom/' . $stock_amount_image);
 				}
 			}
 

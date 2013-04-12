@@ -18,9 +18,9 @@ jimport('joomla.plugin.plugin');
  * @subpackage     System
  */
 
-require_once JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'product.php';
-require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'configuration.php';
-require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'shipping.php';
+require_once JPATH_SITE . '/components/com_redshop/helpers/product.php';
+require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/configuration.php';
+require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/shipping.php';
 
 class plgredshop_shippingfedex extends JPlugin
 {
@@ -222,7 +222,7 @@ class plgredshop_shippingfedex extends JPlugin
 	{
 		if ($d['element'] == $this->classname)
 		{
-			$maincfgfile = JPATH_ROOT . DS . 'plugins' . DS . $d['plugin'] . DS . $this->classname . '.cfg.php';
+			$maincfgfile = JPATH_ROOT . '/plugins/' . $d['plugin'] . DS . $this->classname . '.cfg.php';
 
 			$my_config_array = array(
 				"FEDEX_ACCOUNT_NUMBER"      => $d['FEDEX_ACCOUNT_NUMBER'],
@@ -271,7 +271,7 @@ class plgredshop_shippingfedex extends JPlugin
 		$shippinghelper = new shipping;
 		$producthelper = new producthelper;
 		$redconfig = new Redconfiguration;
-		include_once JPATH_ROOT . DS . 'plugins' . DS . 'redshop_shipping' . DS . $this->classname . '.cfg.php';
+		include_once JPATH_ROOT . '/plugins/redshop_shipping/' . $this->classname . '.cfg.php';
 		$shipping = $shippinghelper->getShippingMethodByClass($this->classname);
 		$itemparams = new JParameter($shipping->params);
 
@@ -387,11 +387,11 @@ class plgredshop_shippingfedex extends JPlugin
 		// The XML that will be posted to UPS
 		if (FEDEX_DEVELOPMENT == 1)
 		{
-			$path_to_wsdl = JURI::root() . 'plugins' . DS . 'redshop_shipping' . DS . $this->classname . DS . 'RateService_v9_test.wsdl';
+			$path_to_wsdl = JURI::root() . 'plugins/redshop_shipping/' . $this->classname . '/RateService_v9_test.wsdl';
 		}
 		else
 		{
-			$path_to_wsdl = JURI::root() . 'plugins' . DS . 'redshop_shipping' . DS . $this->classname . DS . 'RateService_v9.wsdl';
+			$path_to_wsdl = JURI::root() . 'plugins/redshop_shipping/' . $this->classname . '/RateService_v9.wsdl';
 		}
 
 		$shippingarray = array("StreetLines"         => array($shippinginfo->address),

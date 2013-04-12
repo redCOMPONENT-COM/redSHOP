@@ -91,7 +91,7 @@ if (!class_exists('LofSliderGroupBase'))
 		function makeDir($path)
 		{
 			$folders = explode('/', ($path));
-			$tmppath = JPATH_SITE . DS . 'images' . DS . 'icethumbs' . DS;
+			$tmppath = JPATH_SITE . '/images/icethumbs' . DS;
 
 			if (!file_exists($tmppath))
 			{
@@ -134,7 +134,7 @@ if (!class_exists('LofSliderGroupBase'))
 				if (file_exists($imagSource))
 				{
 					$path      = $width . "x" . $height . '/' . $image_quanlity . '/' . $path;
-					$thumbPath = JPATH_SITE . DS . 'images' . DS . 'icethumbs' . DS . str_replace('/', DS, $path);
+					$thumbPath = JPATH_SITE . '/images/icethumbs/' . str_replace('/', DS, $path);
 
 					if (!file_exists($thumbPath))
 					{

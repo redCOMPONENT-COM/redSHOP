@@ -10,11 +10,11 @@ defined('_JEXEC') or die;
 JHTML::_('behavior.tooltip');
 JHTML::_('behavior.modal');
 
-require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'product.php');
-require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'helper.php');
-require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'cart.php');
-require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php');
-require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'shipping.php');
+require_once(JPATH_COMPONENT_SITE . '/helpers/product.php');
+require_once(JPATH_COMPONENT_SITE . '/helpers/helper.php');
+require_once(JPATH_COMPONENT_SITE . '/helpers/cart.php');
+require_once(JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php');
+require_once(JPATH_COMPONENT_ADMINISTRATOR . '/helpers/shipping.php');
 
 $producthelper = new producthelper();
 $carthelper = new rsCarthelper();
@@ -1089,7 +1089,7 @@ $session->set('cart', $cart); ?>
 // order status log end here
 // reddesign
 $live_site = JURI::base();
-require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'helper.php');
+require_once(JPATH_COMPONENT_ADMINISTRATOR . '/helpers/helper.php');
 $reddesignhelper = new reddesignhelper();
 $CheckRedDesign = $reddesignhelper->CheckIfRedDesign();
 if ($CheckRedDesign)
@@ -1161,7 +1161,7 @@ if ($CheckRedDesign)
 							</tr>
 						<?php
 						}
-						$original_image = JPATH_SITE . DS . "components" . DS . "com_reddesign" . DS . "assets" . DS . "images" . DS . "designtype" . DS . $RedDesignpro[$design_i]->image_path;
+						$original_image = JPATH_SITE . '/components/com_reddesign/assets/images/designtype/' .$RedDesignpro[$design_i]->image_path;
 						?>
 						<tr valign="top">
 							<td>

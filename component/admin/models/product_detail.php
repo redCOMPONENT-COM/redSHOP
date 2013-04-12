@@ -9,14 +9,14 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
-require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'thumbnail.php');
+require_once(JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/thumbnail.php');
 jimport('joomla.client.helper');
 JClientHelper::setCredentialsFromRequest('ftp');
 jimport('joomla.filesystem.file');
 
-require_once(JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'product.php');
-require_once (JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'category.php');
-require_once (JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'extra_field.php');
+require_once(JPATH_SITE . '/components/com_redshop/helpers/product.php');
+require_once (JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/category.php');
+require_once (JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/extra_field.php');
 
 class product_detailModelproduct_detail extends JModel
 {
@@ -232,7 +232,7 @@ class product_detailModelproduct_detail extends JModel
 		if (isset($data['thumb_image_delete']))
 		{
 			$row->product_thumb_image = "";
-			$unlink_path = REDSHOP_FRONT_IMAGES_RELPATH . 'product' . DS . $data['old_thumb_image'];
+			$unlink_path = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $data['old_thumb_image'];
 
 			if (is_file($unlink_path))
 				unlink($unlink_path);
@@ -247,7 +247,7 @@ class product_detailModelproduct_detail extends JModel
 
 			// Image Upload
 			$src = $thumbfile['tmp_name'];
-			$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'product' . DS . $filename;
+			$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $filename;
 			JFile::upload($src, $dest);
 		}
 
@@ -255,12 +255,12 @@ class product_detailModelproduct_detail extends JModel
 		$file = JRequest::getVar('product_full_image', '', 'files', 'array');
 		if (isset($data['image_delete']) || $file['name'] != "" || $data['product_image'] != null)
 		{
-			$unlink_path = REDSHOP_FRONT_IMAGES_RELPATH . 'product/thumb' . DS . $data['old_image'];
+			$unlink_path = REDSHOP_FRONT_IMAGES_RELPATH . 'product/thumb/' . $data['old_image'];
 
 			if (is_file($unlink_path))
 				unlink($unlink_path);
 
-			$unlink_path = REDSHOP_FRONT_IMAGES_RELPATH . 'product' . DS . $data['old_image'];
+			$unlink_path = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $data['old_image'];
 
 			if (is_file($unlink_path))
 				unlink($unlink_path);
@@ -283,7 +283,7 @@ class product_detailModelproduct_detail extends JModel
 
 			// Image Upload
 			$src = $file['tmp_name'];
-			$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'product' . DS . $filename;
+			$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $filename;
 
 			JFile::upload($src, $dest);
 		}
@@ -307,7 +307,7 @@ class product_detailModelproduct_detail extends JModel
 				$row->product_full_image = $filename;
 
 				$src = JPATH_ROOT . DS . $data['product_image'];
-				$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'product' . DS . $filename;
+				$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $filename;
 
 				copy($src, $dest);
 			}
@@ -316,7 +316,7 @@ class product_detailModelproduct_detail extends JModel
 		if (isset($data['back_thumb_image_delete']))
 		{
 			$row->product_back_thumb_image = "";
-			$unlink_path = REDSHOP_FRONT_IMAGES_RELPATH . 'product' . DS . $data['product_back_thumb_image'];
+			$unlink_path = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $data['product_back_thumb_image'];
 
 			if (is_file($unlink_path))
 			{
@@ -333,14 +333,14 @@ class product_detailModelproduct_detail extends JModel
 
 			// Image Upload
 			$src = $backthumbfile['tmp_name'];
-			$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'product' . DS . $filename;
+			$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $filename;
 			JFile::upload($src, $dest);
 		}
 
 		if (isset($data['back_image_delete']))
 		{
 			$row->product_back_full_image = "";
-			$unlink_path = REDSHOP_FRONT_IMAGES_RELPATH . 'product' . DS . $data['product_back_full_image'];
+			$unlink_path = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $data['product_back_full_image'];
 
 			if (is_file($unlink_path))
 			{
@@ -356,7 +356,7 @@ class product_detailModelproduct_detail extends JModel
 
 			// Image Upload
 			$src = $backthumbfile['tmp_name'];
-			$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'product' . DS . $filename;
+			$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $filename;
 			JFile::upload($src, $dest);
 		}
 
@@ -365,7 +365,7 @@ class product_detailModelproduct_detail extends JModel
 		if (isset($data['preview_image_delete']))
 		{
 			$row->product_preview_image = "";
-			$unlink_path = REDSHOP_FRONT_IMAGES_RELPATH . 'product' . DS . $data['product_preview_image'];
+			$unlink_path = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $data['product_preview_image'];
 
 			if (is_file($unlink_path))
 				unlink($unlink_path);
@@ -380,7 +380,7 @@ class product_detailModelproduct_detail extends JModel
 
 			// Image Upload
 			$src = $previewfile['tmp_name'];
-			$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'product' . DS . $filename;
+			$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $filename;
 			JFile::upload($src, $dest);
 		}
 
@@ -388,7 +388,7 @@ class product_detailModelproduct_detail extends JModel
 		if (isset($data['preview_back_image_delete']))
 		{
 			$row->product_preview_image = "";
-			$unlink_path = REDSHOP_FRONT_IMAGES_RELPATH . 'product' . DS . $data['product_preview_back_image'];
+			$unlink_path = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $data['product_preview_back_image'];
 
 			if (is_file($unlink_path))
 			{
@@ -404,7 +404,7 @@ class product_detailModelproduct_detail extends JModel
 
 			// Image Upload
 			$src = $previewbackfile['tmp_name'];
-			$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'product' . DS . $filename;
+			$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $filename;
 			JFile::upload($src, $dest);
 		}
 
@@ -1372,28 +1372,28 @@ class product_detailModelproduct_detail extends JModel
 			if ($row = $this->store($post))
 			{
 				// Image Copy Start
-				$old = REDSHOP_FRONT_IMAGES_RELPATH . 'product' . DS . $pdata->product_full_image;
-				$new = REDSHOP_FRONT_IMAGES_RELPATH . 'product' . DS . JPath::clean(time() . $new_product_full_image);
+				$old = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $pdata->product_full_image;
+				$new = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . JPath::clean(time() . $new_product_full_image);
 				copy($old, $new);
 
-				$old_thumb = REDSHOP_FRONT_IMAGES_RELPATH . 'product' . DS . $pdata->product_thumb_image;
-				$new_thumb = REDSHOP_FRONT_IMAGES_RELPATH . 'product' . DS . JPath::clean(time() . $new_product_thumb_image);
+				$old_thumb = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $pdata->product_thumb_image;
+				$new_thumb = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . JPath::clean(time() . $new_product_thumb_image);
 				copy($old_thumb, $new_thumb);
 
-				$old_preview = REDSHOP_FRONT_IMAGES_RELPATH . 'product' . DS . $pdata->product_preview_image;
-				$new_preview = REDSHOP_FRONT_IMAGES_RELPATH . 'product' . DS . JPath::clean(time() . $new_product_preview_image);
+				$old_preview = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $pdata->product_preview_image;
+				$new_preview = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . JPath::clean(time() . $new_product_preview_image);
 				copy($old_preview, $new_preview);
 
-				$old_back_preview = REDSHOP_FRONT_IMAGES_RELPATH . 'product' . DS . $pdata->product_preview_back_image;
-				$new_back_preview = REDSHOP_FRONT_IMAGES_RELPATH . 'product' . DS . JPath::clean(time() . $new_product_preview_back_image);
+				$old_back_preview = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $pdata->product_preview_back_image;
+				$new_back_preview = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . JPath::clean(time() . $new_product_preview_back_image);
 				copy($old_back_preview, $new_back_preview);
 
-				$old_prod_back_full = REDSHOP_FRONT_IMAGES_RELPATH . 'product' . DS . $pdata->product_back_full_image;
-				$new_prod_back_full = REDSHOP_FRONT_IMAGES_RELPATH . 'product' . DS . JPath::clean(time() . $new_product_back_full_image);
+				$old_prod_back_full = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $pdata->product_back_full_image;
+				$new_prod_back_full = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . JPath::clean(time() . $new_product_back_full_image);
 				copy($old_prod_back_full, $new_prod_back_full);
 
-				$old_prod_back_thumb = REDSHOP_FRONT_IMAGES_RELPATH . 'product' . DS . $pdata->product_back_thumb_image;
-				$new_back_back_thumb = REDSHOP_FRONT_IMAGES_RELPATH . 'product' . DS . JPath::clean(time() . $new_product_back_thumb_image);
+				$old_prod_back_thumb = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $pdata->product_back_thumb_image;
+				$new_back_back_thumb = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . JPath::clean(time() . $new_product_back_thumb_image);
 				copy($old_prod_back_thumb, $new_back_back_thumb);
 
 				$field = new extra_field;
@@ -1434,8 +1434,8 @@ class product_detailModelproduct_detail extends JModel
 				{
 					$old_img = $mediadata[$j]->media_name;
 					$new_img = strstr($old_img, '_') ? strstr($old_img, '_') : $old_img;
-					$old_media = REDSHOP_FRONT_IMAGES_RELPATH . 'product' . DS . $mediadata[$j]->media_name;
-					$new_media = REDSHOP_FRONT_IMAGES_RELPATH . 'product' . DS . JPath::clean(time() . $new_img);
+					$old_media = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $mediadata[$j]->media_name;
+					$new_media = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . JPath::clean(time() . $new_img);
 					copy($old_media, $new_media);
 
 					$rowmedia =& $this->getTable('media_detail');
@@ -2015,7 +2015,7 @@ class product_detailModelproduct_detail extends JModel
 
 				if ($post['fsec'] == 'subproperty')
 				{
-					$main_dest = REDSHOP_FRONT_IMAGES_RELPATH . 'subcolor' . DS . $main_name; //specific path of the file
+					$main_dest = REDSHOP_FRONT_IMAGES_RELPATH . 'subcolor/' . $main_name; //specific path of the file
 
 					JFile::upload($main_src, $main_dest);
 
@@ -2033,7 +2033,7 @@ class product_detailModelproduct_detail extends JModel
 				}
 				else
 				{
-					$main_dest = REDSHOP_FRONT_IMAGES_RELPATH . 'property' . DS . $main_name;
+					$main_dest = REDSHOP_FRONT_IMAGES_RELPATH . 'property/' . $main_name;
 
 					JFile::upload($main_src, $main_dest);
 
@@ -2071,7 +2071,7 @@ class product_detailModelproduct_detail extends JModel
 
 					$sub_type = $sub_img['type'][$i];
 
-					$sub__dest = REDSHOP_FRONT_IMAGES_RELPATH . 'property' . DS . $sub_name; //specific path of the file
+					$sub__dest = REDSHOP_FRONT_IMAGES_RELPATH . 'property/' . $sub_name; //specific path of the file
 
 					JFile::upload($sub_src, $sub__dest);
 
@@ -2153,15 +2153,15 @@ class product_detailModelproduct_detail extends JModel
 
 					$sub_src = $sub_img['tmp_name'][$i];
 
-					$sub__dest = REDSHOP_FRONT_IMAGES_RELPATH . 'subcolor' . DS . $sub_name; //specific path of the file
+					$sub__dest = REDSHOP_FRONT_IMAGES_RELPATH . 'subcolor/' . $sub_name; //specific path of the file
 
 					JFile::upload($sub_src, $sub__dest);
 
 					if ($post['property_sub_img_tmp'][$i] != "")
 					{
 
-						$sub = REDSHOP_FRONT_IMAGES_RELPATH . 'subcolor' . DS . $post['property_sub_img_tmp'][$i];
-						$sub_thumb = REDSHOP_FRONT_IMAGES_RELPATH . 'subcolor/thumb' . DS . $post['property_sub_img_tmp'][$i];
+						$sub = REDSHOP_FRONT_IMAGES_RELPATH . 'subcolor/' . $post['property_sub_img_tmp'][$i];
+						$sub_thumb = REDSHOP_FRONT_IMAGES_RELPATH . 'subcolor/thumb/' . $post['property_sub_img_tmp'][$i];
 
 						if (file_exists($sub))
 						{
@@ -2217,7 +2217,7 @@ class product_detailModelproduct_detail extends JModel
 	{
 		foreach ($subattr_diff as $diff)
 		{
-			$sub_dest = REDSHOP_FRONT_IMAGES_RELPATH . 'subcolor' . DS . $diff->subattribute_color_image;
+			$sub_dest = REDSHOP_FRONT_IMAGES_RELPATH . 'subcolor/' . $diff->subattribute_color_image;
 
 			if (file_exists($sub_dest))
 			{
@@ -3188,8 +3188,8 @@ class product_detailModelproduct_detail extends JModel
 					$image_split = $att_property[$prop]->property_image;
 					$filename = JPath::clean(time() . '_' . $image_split); //Make the filename unique
 					$att_property[$prop]->property_image = $filename;
-					$src = REDSHOP_FRONT_IMAGES_RELPATH . 'product_attributes' . DS . $image_split;
-					$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'product_attributes' . DS . $filename;
+					$src = REDSHOP_FRONT_IMAGES_RELPATH . 'product_attributes/' . $image_split;
+					$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'product_attributes/' . $filename;
 					copy($src, $dest);
 				}
 				if ($att_property[$prop]->property_main_image)
@@ -3200,8 +3200,8 @@ class product_detailModelproduct_detail extends JModel
 					$image_split = $image_split[1];
 					$filename = JPath::clean(time() . '_' . $image_split); //Make the filename unique
 					$att_property[$prop]->property_main_image = $filename;
-					$src = REDSHOP_FRONT_IMAGES_RELPATH . 'property' . DS . $prop_main_img;
-					$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'property' . DS . $filename;
+					$src = REDSHOP_FRONT_IMAGES_RELPATH . 'property/' . $prop_main_img;
+					$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'property/' . $filename;
 					copy($src, $dest);
 				}
 				$proppost = array();
@@ -3254,8 +3254,8 @@ class product_detailModelproduct_detail extends JModel
 						$image_split = $subatt_property[$subprop]->subattribute_color_image;
 						$filename = JPath::clean(time() . '_' . $image_split); //Make the filename unique
 						$subatt_property[$subprop]->subattribute_color_image = $filename;
-						$src = REDSHOP_FRONT_IMAGES_RELPATH . 'subcolor' . DS . $image_split;
-						$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'subcolor' . DS . $filename;
+						$src = REDSHOP_FRONT_IMAGES_RELPATH . 'subcolor/' . $image_split;
+						$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'subcolor/' . $filename;
 						copy($src, $dest);
 					}
 					if ($subatt_property[$subprop]->subattribute_color_main_image)
@@ -3267,8 +3267,8 @@ class product_detailModelproduct_detail extends JModel
 						$filename = JPath::clean(time() . '_' . $image_split); //Make the filename unique
 
 						$subatt_property[$subprop]->subattribute_color_main_image = $filename;
-						$src = REDSHOP_FRONT_IMAGES_RELPATH . 'subproperty' . DS . $sub_main_img;
-						$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'subproperty' . DS . $filename;
+						$src = REDSHOP_FRONT_IMAGES_RELPATH . 'subproperty/' . $sub_main_img;
+						$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'subproperty/' . $filename;
 						copy($src, $dest);
 					}
 

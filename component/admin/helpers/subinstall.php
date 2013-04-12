@@ -167,8 +167,8 @@ class SubInstaller extends JObject
 					return null;
 				}
 
-				$tdirs = $e->client ? JFolder::folders(JPATH_ADMINISTRATOR . DS . 'templates')
-					: JFolder::folders(JPATH_SITE . DS . 'templates');
+				$tdirs = $e->client ? JFolder::folders(JPATH_ADMINISTRATOR . '/templates')
+					: JFolder::folders(JPATH_SITE . '/templates');
 
 				// Return a value only if the language dir exists.
 				foreach ($tdirs as $tmpl)

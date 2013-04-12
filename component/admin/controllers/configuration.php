@@ -11,15 +11,15 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 
-require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'currency.php');
-require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'extra_field.php');
+require_once(JPATH_COMPONENT_SITE . '/helpers/currency.php');
+require_once(JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/extra_field.php');
 
 class configurationController extends JController
 {
 	public function __construct($default = array())
 	{
 		parent::__construct($default);
-		$this->_configpath1 = JPATH_SITE . DS . "administrator" . DS . "components" . DS . "com_redshop" . DS . "helpers" . DS . "newtxt.php";
+		$this->_configpath1 = JPATH_SITE . "/administrator/components/com_redshop/helpers/newtxt.php";
 	}
 
 	public function apply()

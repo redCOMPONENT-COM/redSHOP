@@ -659,7 +659,7 @@ class zoomproducthelper extends producthelper
 			if (count($stockamountList) > 0)
 			{
 				$stockamountTooltip = $stockamountList[0]->stock_amount_image_tooltip;
-				$stockamountSrc = $url . 'components/com_redshop/assets/images/stockroom' . DS . $stockamountList[0]->stock_amount_image;
+				$stockamountSrc = $url . 'components/com_redshop/assets/images/stockroom/' . $stockamountList[0]->stock_amount_image;
 			}
 		}
 

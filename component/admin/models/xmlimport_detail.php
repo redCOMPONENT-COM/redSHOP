@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
-require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'xmlhelper.php');
+require_once(JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/xmlhelper.php');
 
 class xmlimport_detailModelxmlimport_detail extends JModel
 {
@@ -146,7 +146,7 @@ class xmlimport_detailModelxmlimport_detail extends JModel
 		elseif (array_key_exists("name", $file) && $file['name'] != "" && $file['type'] == "text/xml")
 		{
 			$src = $file['tmp_name'];
-			$destpath = JPATH_COMPONENT_SITE . DS . "assets/xmlfile/import";
+			$destpath = JPATH_COMPONENT_SITE . "/assets/xmlfile/import";
 
 			$filename = JPath::clean($file['name']);
 			$dest = $destpath . DS . $filename;
@@ -155,9 +155,9 @@ class xmlimport_detailModelxmlimport_detail extends JModel
 			$xmlimport_url = $dest;
 		}
 
-		elseif ($this->_data->filename != "" && is_file(JPATH_COMPONENT_SITE . DS . "assets/xmlfile/import" . DS . $this->_data->filename))
+		elseif ($this->_data->filename != "" && is_file(JPATH_COMPONENT_SITE . '/assets/xmlfile/import/' .$this->_data->filename))
 		{
-			$xmlimport_url = JPATH_COMPONENT_SITE . DS . "assets/xmlfile/import" . DS . $this->_data->filename;
+			$xmlimport_url = JPATH_COMPONENT_SITE . '/assets/xmlfile/import/' .$this->_data->filename;
 		}
 
 		return $xmlimport_url;
@@ -362,7 +362,7 @@ class xmlimport_detailModelxmlimport_detail extends JModel
 			for ($i = 0; $i < count($cid); $i++)
 			{
 				$result = $xmlhelper->getXMLImportInfo($cid[$i]);
-				$rootpath = JPATH_COMPONENT_SITE . DS . "assets/xmlfile/import" . DS . $result->filename;
+				$rootpath = JPATH_COMPONENT_SITE . "/assets/xmlfile/import/" .$result->filename;
 
 				if (is_file($rootpath))
 				{

@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 jimport('joomla.plugin.plugin');
 //$app = JFactory::getApplication();
 //$app->registerEvent( 'onPrePayment', 'plgRedshoprs_payment_bbs' );
-require_once JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php';
+require_once JPATH_SITE . '/administrator/components/com_redshop/helpers/order.php';
 class plgRedshop_paymentrs_payment_authorize extends JPlugin
 {
 	public $_table_prefix = null;
