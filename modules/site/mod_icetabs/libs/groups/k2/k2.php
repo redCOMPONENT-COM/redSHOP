@@ -41,7 +41,7 @@ if (!class_exists('LofSliderGroupK2'))
 		 */
 		function isK2Existed()
 		{
-			return is_file(JPATH_SITE . DS . "components" . DS . "com_k2" . DS . "k2.php");
+			return is_file(JPATH_SITE . "/components/com_k2/k2.php");
 		}
 
 		/**
@@ -184,7 +184,7 @@ if (!class_exists('LofSliderGroupK2'))
 		{
 			//Image
 			$item->imageK2Image = '';
-			if (JFile::exists(JPATH_SITE . DS . 'media' . DS . 'k2' . DS . 'items' . DS . 'cache' . DS . md5("Image" . $item->id) . '_' . $size . '.jpg'))
+			if (JFile::exists(JPATH_SITE . '/media/k2/items/cache/' . md5("Image" . $item->id) . '_' . $size . '.jpg'))
 				$item->imageK2Image = JURI::root() . 'media/k2/items/cache/' . md5("Image" . $item->id) . '_' . $size . '.jpg';
 
 			return $item;
@@ -208,7 +208,7 @@ if (!class_exists('LofSliderGroupK2'))
 				if (file_exists($imagSource))
 				{
 					$path      = $width . "x" . $height . '/' . $path;
-					$thumbPath = JPATH_SITE . DS . 'images' . DS . 'icethumbs' . DS . str_replace('/', DS, $path);
+					$thumbPath = JPATH_SITE . '/images/icethumbs/' . str_replace('/', DS, $path);
 					if (!file_exists($thumbPath))
 					{
 						$thumb = PhpThumbFactory::create($imagSource);

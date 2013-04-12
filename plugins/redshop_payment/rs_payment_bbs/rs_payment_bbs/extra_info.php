@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'helper.php';
+require_once JPATH_COMPONENT . '/helpers/helper.php';
 $redhelper = new redhelper;
 $db = JFactory::getDBO();
 $user = JFActory::getUser();

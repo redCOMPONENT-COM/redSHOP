@@ -10,10 +10,10 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
-require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php');
-require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'stockroom.php');
-require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'shipping.php');
-require_once(JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'product.php');
+require_once(JPATH_COMPONENT . '/helpers/extra_field.php');
+require_once(JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/stockroom.php');
+require_once(JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/shipping.php');
+require_once(JPATH_SITE . '/components/com_redshop/helpers/product.php');
 
 class productModelproduct extends JModel
 {
@@ -446,10 +446,10 @@ class productModelproduct extends JModel
 
 		$url = JURI::root();
 		$currency = new convertPrice;
-		$product_img_url = $url . "components" . DS . "com_redshop" . DS . "assets" . DS . "images" . DS . "product" . DS;
-		$file_path = JPATH_COMPONENT_SITE . DS . "assets" . DS . "document" . DS . "gbase";
+		$product_img_url = $url . "components/com_redshop/assets/images/product" . DS;
+		$file_path = JPATH_COMPONENT_SITE . "/assets/document/gbase";
 
-		$file_name = $file_path . DS . "product.xml";
+		$file_name = $file_path . "/product.xml";
 
 		if (count($cid))
 		{

@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.model');
 jimport('joomla.filesystem.file');
 
-require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'media.php');
+require_once(JPATH_COMPONENT . '/helpers/media.php');
 
 class mediaModelmedia extends JModel
 {
@@ -294,28 +294,28 @@ class mediaModelmedia extends JModel
 
 						// Non-image document
 						default:
-							$iconfile_32 = JPATH_ADMINISTRATOR . DS . "components" . DS . "com_redshop" . DS
-								. "assets" . DS . "images" . DS . "mime-icon-32" . DS . $ext . ".png";
+							$iconfile_32 = JPATH_ADMINISTRATOR . "/components/com_redshop" . DS
+								. "assets/images/mime-icon-32/" .$ext . ".png";
 
 							if (file_exists($iconfile_32))
 							{
-								$tmp->icon_32 = "components" . DS . "com_redshop" . DS . "assets" . DS . "images" . DS . "mime-icon-32/" . $ext . ".png";
+								$tmp->icon_32 = "components/com_redshop/assets/images/mime-icon-32/" . $ext . ".png";
 							}
 							else
 							{
-								$tmp->icon_32 = "components" . DS . "com_redshop" . DS . "assets" . DS . "images" . DS . "con_info.png";
+								$tmp->icon_32 = "components/com_redshop/assets/images/con_info.png";
 							}
 
-							$iconfile_16 = JPATH_ADMINISTRATOR . DS . "components" . DS . "com_redshop" . DS
-								. "assets" . DS . "images" . DS . "mime-icon-16" . DS . $ext . ".png";
+							$iconfile_16 = JPATH_ADMINISTRATOR . "/components/com_redshop" . DS
+								. "assets/images/mime-icon-16/" .$ext . ".png";
 
 							if (file_exists($iconfile_16))
 							{
-								$tmp->icon_16 = "components" . DS . "com_redshop" . DS . "assets" . DS . "images" . DS . "mime-icon-16/" . $ext . ".png";
+								$tmp->icon_16 = "components/com_redshop/assets/images/mime-icon-16/" . $ext . ".png";
 							}
 							else
 							{
-								$tmp->icon_16 = "components" . DS . "com_redshop" . DS . "assets" . DS . "images" . DS . "con_info.png";
+								$tmp->icon_16 = "components/com_redshop/assets/images/con_info.png";
 							}
 
 							$docs[] = $tmp;
@@ -382,7 +382,7 @@ class mediaModelmedia extends JModel
 			. "WHERE `id`='" . $fileId . "' ";
 		$this->_db->setQuery($query);
 		$filename = $this->_db->loadResult();
-		$path = JPATH_ROOT . DS . 'components/com_redshop/assets/download/product/' . $filename;
+		$path = JPATH_ROOT . '/components/com_redshop/assets/download/product/' . $filename;
 
 		if (is_file($path))
 		{

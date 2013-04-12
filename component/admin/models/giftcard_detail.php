@@ -110,7 +110,7 @@ class giftcard_detailModelgiftcard_detail extends JModel
 			$giftcardimg = JPath::clean(time() . '_' . $giftcardfile['name']);
 
 			$src = $giftcardfile['tmp_name'];
-			$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'giftcard' . DS . $giftcardimg;
+			$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'giftcard/' . $giftcardimg;
 
 			$row->giftcard_image = $giftcardimg;
 			JFile::upload($src, $dest);
@@ -124,7 +124,7 @@ class giftcard_detailModelgiftcard_detail extends JModel
 			$giftcardbgfile['name'] = str_replace(" ", "_", $giftcardbgfile['name']);
 			$giftcardbgimg = JPath::clean(time() . '_' . $giftcardbgfile['name']);
 			$src = $giftcardbgfile['tmp_name'];
-			$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'giftcard' . DS . $giftcardbgimg;
+			$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'giftcard/' . $giftcardbgimg;
 
 			$row->giftcard_bgimage = $giftcardbgimg;
 			JFile::upload($src, $dest);

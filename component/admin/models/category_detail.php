@@ -11,9 +11,9 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
-require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php');
-require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'thumbnail.php');
-require_once (JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'category.php');
+require_once(JPATH_COMPONENT . '/helpers/extra_field.php');
+require_once(JPATH_COMPONENT . '/helpers/thumbnail.php');
+require_once (JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/category.php');
 jimport('joomla.client.helper');
 JClientHelper::setCredentialsFromRequest('ftp');
 jimport('joomla.filesystem.file');
@@ -130,8 +130,8 @@ class category_detailModelcategory_detail extends JModel
 
 		if (isset($data['image_delete']))
 		{
-			unlink(REDSHOP_FRONT_IMAGES_RELPATH . 'category/thumb' . DS . $data['old_image']);
-			unlink(REDSHOP_FRONT_IMAGES_RELPATH . 'category' . DS . $data['old_image']);
+			unlink(REDSHOP_FRONT_IMAGES_RELPATH . 'category/thumb/' . $data['old_image']);
+			unlink(REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $data['old_image']);
 
 			$query = "UPDATE " . $this->_table_prefix . "category set category_thumb_image = '',category_full_image = ''  where category_id ="
 				. $row->category_id;
@@ -153,7 +153,7 @@ class category_detailModelcategory_detail extends JModel
 			$src = $file['tmp_name'];
 
 			// Specific path of the file
-			$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'category' . DS . $filename;
+			$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $filename;
 
 			JFile::upload($src, $dest);
 		}
@@ -174,7 +174,7 @@ class category_detailModelcategory_detail extends JModel
 				$newheight = THUMB_HEIGHT;
 
 				$src = JPATH_ROOT . DS . $data['category_image'];
-				$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'category' . DS . $filename;
+				$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $filename;
 
 				copy($src, $dest);
 			}
@@ -185,8 +185,8 @@ class category_detailModelcategory_detail extends JModel
 
 		if (isset($data['image_back_delete']))
 		{
-			unlink(REDSHOP_FRONT_IMAGES_RELPATH . 'category/thumb' . DS . $data['old_back_image']);
-			unlink(REDSHOP_FRONT_IMAGES_RELPATH . 'category' . DS . $data['old_back_image']);
+			unlink(REDSHOP_FRONT_IMAGES_RELPATH . 'category/thumb/' . $data['old_back_image']);
+			unlink(REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $data['old_back_image']);
 
 			$query = "UPDATE " . $this->_table_prefix . "category set category_back_full_image = ''  where category_id =" . $row->category_id;
 			$this->_db->setQuery($query);
@@ -205,7 +205,7 @@ class category_detailModelcategory_detail extends JModel
 			$src = $backfile['tmp_name'];
 
 			// Specific path of the file
-			$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'category' . DS . $filename;
+			$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $filename;
 
 			JFile::upload($src, $dest);
 		}
@@ -257,8 +257,8 @@ class category_detailModelcategory_detail extends JModel
 			// Sheking for the image at the updation time
 			if ($_FILES['category_full_image']['name'] != "")
 			{
-				@unlink(REDSHOP_FRONT_IMAGES_RELPATH . 'category/thumb' . DS . $_POST['old_image']);
-				@unlink(REDSHOP_FRONT_IMAGES_RELPATH . 'category' . DS . $_POST['old_image']);
+				@unlink(REDSHOP_FRONT_IMAGES_RELPATH . 'category/thumb/' . $_POST['old_image']);
+				@unlink(REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $_POST['old_image']);
 			}
 		}
 
@@ -340,8 +340,8 @@ class category_detailModelcategory_detail extends JModel
 			$cat_thumb_image = $catimages->category_thumb_image;
 			$cat_full_image = $catimages->category_full_image;
 
-			$thumb_path = REDSHOP_FRONT_IMAGES_RELPATH . 'category/thumb' . DS . $cat_thumb_image;
-			$full_image_path = REDSHOP_FRONT_IMAGES_RELPATH . 'category' . DS . $cat_full_image;
+			$thumb_path = REDSHOP_FRONT_IMAGES_RELPATH . 'category/thumb/' . $cat_thumb_image;
+			$full_image_path = REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $cat_full_image;
 
 			if (file_exists($thumb_path))
 			{
@@ -604,8 +604,8 @@ class category_detailModelcategory_detail extends JModel
 
 				$post['category_parent_id'] = $category_parent_id;
 
-				$src = REDSHOP_FRONT_IMAGES_RELPATH . 'category' . DS . $copydata[$i]->category_full_image;
-				$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'category' . DS . $post['category_full_image'];
+				$src = REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $copydata[$i]->category_full_image;
+				$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $post['category_full_image'];
 
 				if (is_file($src))
 				{

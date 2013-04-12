@@ -20,10 +20,10 @@ jimport('joomla.plugin.plugin');
 
 define('BRING_RESPONSE_ERROR', 'test');
 
-require_once JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'product.php';
-require_once JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'currency.php';
-require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'shipping.php';
-require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'configuration.php';
+require_once JPATH_SITE . '/components/com_redshop/helpers/product.php';
+require_once JPATH_SITE . '/components/com_redshop/helpers/currency.php';
+require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/shipping.php';
+require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/configuration.php';
 
 class plgredshop_shippingbring extends JPlugin
 {
@@ -182,7 +182,7 @@ class plgredshop_shippingbring extends JPlugin
 	{
 		if ($d['element'] == $this->classname)
 		{
-			$maincfgfile = JPATH_ROOT . DS . 'plugins' . DS . $d['plugin'] . DS . $this->classname . '.cfg.php';
+			$maincfgfile = JPATH_ROOT . '/plugins/' . $d['plugin'] . DS . $this->classname . '.cfg.php';
 
 			$my_config_array = array(
 				"BRING_USERCODE"              => $d['BRING_USERCODE'],
@@ -229,7 +229,7 @@ class plgredshop_shippingbring extends JPlugin
 		$redconfig = new Redconfiguration;
 
 		$shipping = $shippinghelper->getShippingMethodByClass($this->classname);
-		$shippingcfg = JPATH_ROOT . DS . 'plugins' . DS . $shipping->folder . DS . $shipping->element . '.cfg.php';
+		$shippingcfg = JPATH_ROOT . '/plugins/' . $shipping->folder . DS . $shipping->element . '.cfg.php';
 		include_once ($shippingcfg);
 
 		$shippingrate = array();
@@ -394,7 +394,7 @@ class plgredshop_shippingbring extends JPlugin
 						if (isset($productchilds[$j]->ProductName[0]))
 						{
 							$productDisplayName = $productchilds[$j]->ProductName[0]->data();
-							//$productdescriptiontext = $productchilds[$j]->ProductName[0]->descriptiontext   
+							//$productdescriptiontext = $productchilds[$j]->ProductName[0]->descriptiontext
 						}
 
 						if ($productDisplayName)

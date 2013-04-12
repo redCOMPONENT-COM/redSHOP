@@ -86,7 +86,7 @@ $ordering = ($this->lists['order'] == 'ordering');
 				$published = JHtml::_('jgrid.published', $row->enabled, $i, '', 1);
 
 
-				$adminpath = JPATH_ROOT . DS . 'plugins';
+				$adminpath = JPATH_ROOT . '/plugins';
 
 				$paymentxml = $adminpath . DS . $row->folder . DS . $row->element . '.xml';
 

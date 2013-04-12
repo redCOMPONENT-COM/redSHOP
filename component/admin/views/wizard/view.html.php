@@ -10,13 +10,13 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
-require_once 'components' . DS . 'com_redshop' . DS . 'views' . DS . 'configuration' . DS . 'view.html.php';
+require_once 'components/com_redshop/views/configuration/view.html.php';
 
 class wizardViewwizard extends JView
 {
 	public function display($tpl = null)
 	{
-		$config = JPATH_BASE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'wizard' . DS . 'redshop.cfg.php';
+		$config = JPATH_BASE . '/components/com_redshop/helpers/wizard/redshop.cfg.php';
 
 		if (file_exists($config))
 		{
@@ -26,7 +26,7 @@ class wizardViewwizard extends JView
 			}
 		}
 
-		$temparray_config = JPATH_BASE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'wizard' . DS . 'redshop.cfg.tmp.php';
+		$temparray_config = JPATH_BASE . '/components/com_redshop/helpers/wizard/redshop.cfg.tmp.php';
 
 		global $temparray;
 

@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.plugin.plugin');
 
-require_once JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php';
+require_once JPATH_SITE . '/administrator/components/com_redshop/helpers/order.php';
 
 class plgRedshop_paymentrs_payment_paypalpro extends JPlugin
 {
@@ -444,7 +444,7 @@ class plgRedshop_paymentrs_payment_paypalpro extends JPlugin
 	public function onCapture_Paymentrs_payment_paypalpro($element, $data)
 	{
 		$db = JFactory::getDBO();
-		require_once JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php';
+		require_once JPATH_SITE . '/administrator/components/com_redshop/helpers/order.php';
 		$objOrder = new order_functions;
 
 		$paypalpro_parameters = $this->getparameters('rs_payment_paypalpro');

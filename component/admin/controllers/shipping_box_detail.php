@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'template.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/template.php';
 
 class shipping_box_detailController extends JController
 {

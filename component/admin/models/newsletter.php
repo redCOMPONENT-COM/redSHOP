@@ -9,8 +9,8 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
-require_once(JPATH_ROOT . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'product.php');
-require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'text_library.php');
+require_once(JPATH_ROOT . '/components/com_redshop/helpers/product.php');
+require_once(JPATH_COMPONENT . '/helpers/text_library.php');
 
 class newsletterModelnewsletter extends JModel
 {

@@ -14,8 +14,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'helper.php';
-require_once JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'redshop.cfg.php';
+require_once JPATH_COMPONENT . '/helpers/helper.php';
+require_once JPATH_SITE . '/administrator/components/com_redshop/helpers/redshop.cfg.php';
 $objOrder = new order_functions;
 
 $objconfiguration = new Redconfiguration;

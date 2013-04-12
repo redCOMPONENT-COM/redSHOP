@@ -12,9 +12,9 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.model');
 jimport('joomla.filesystem.file');
 
-require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'thumbnail.php');
-require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php');
-require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'product.php');
+require_once(JPATH_COMPONENT . '/helpers/thumbnail.php');
+require_once(JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php');
+require_once(JPATH_COMPONENT_SITE . '/helpers/product.php');
 
 class importModelimport extends JModel
 {
@@ -64,7 +64,7 @@ class importModelimport extends JModel
 
 		// Upload csv file
 		$src = $files['tmp_name'];
-		$dest = JPATH_ROOT . DS . 'components/com_redshop/assets/importcsv/' . $post['import'] . '/' . $files['name'];
+		$dest = JPATH_ROOT . '/components/com_redshop/assets/importcsv/' . $post['import'] . '/' . $files['name'];
 		$file_upload = JFile::upload($src, $dest);
 
 		$session->clear('ImportPost');
@@ -121,7 +121,7 @@ class importModelimport extends JModel
 		$line = 1;
 		$headers = array();
 		$correctlines = 0;
-		$handle = fopen(JPATH_ROOT . DS . 'components/com_redshop/assets/importcsv/' . $post['import'] . '/' . $file_name, "r");
+		$handle = fopen(JPATH_ROOT . '/components/com_redshop/assets/importcsv/' . $post['import'] . '/' . $file_name, "r");
 
 		$separator = ",";
 
@@ -2061,8 +2061,8 @@ class importModelimport extends JModel
 					// Copy product images to redshop
 					if ($product_full_image != "")
 					{
-						$src = JPATH_ROOT . DS . "components" . DS . "com_virtuemart" . DS . "shop_image" . DS . "product" . DS . $product_full_image;
-						$dest = REDSHOP_FRONT_IMAGES_RELPATH . "product" . DS . $product_full_image;
+						$src = JPATH_ROOT . "/components/com_virtuemart/shop_image/product/" .$product_full_image;
+						$dest = REDSHOP_FRONT_IMAGES_RELPATH . "product/" .$product_full_image;
 
 						if (is_file($src))
 						{
@@ -2079,7 +2079,7 @@ class importModelimport extends JModel
 					{
 						$filename = basename($more_img->file_name);
 						$src = JPATH_ROOT . $more_img->file_name;
-						$dest = REDSHOP_FRONT_IMAGES_RELPATH . "product" . DS . $filename;
+						$dest = REDSHOP_FRONT_IMAGES_RELPATH . "product/" .$filename;
 
 						if (is_file($src) && file_exists($src))
 						{
@@ -2143,9 +2143,9 @@ class importModelimport extends JModel
 						}
 
 						// Copy product images to redshop
-						$src = JPATH_ROOT . DS . "components" . DS . "com_virtuemart" . DS . "shop_image" . DS . "product" . DS . $product_full_image;
-						$redimagesrc = REDSHOP_FRONT_IMAGES_RELPATH . "product" . DS . $red_product_full_image;
-						$dest = REDSHOP_FRONT_IMAGES_RELPATH . "product" . DS . $product_full_image;
+						$src = JPATH_ROOT . "/components/com_virtuemart/shop_image/product/" .$product_full_image;
+						$redimagesrc = REDSHOP_FRONT_IMAGES_RELPATH . "product/" .$red_product_full_image;
+						$dest = REDSHOP_FRONT_IMAGES_RELPATH . "product/" .$product_full_image;
 
 						if (is_file($redimagesrc))
 						{
@@ -2285,8 +2285,8 @@ class importModelimport extends JModel
 			// Copy images to redshop
 			if ($cat_data->category_full_image != "")
 			{
-				$src = JPATH_ROOT . DS . "components" . DS . "com_virtuemart" . DS . "shop_image" . DS . "category" . DS . $cat_data->category_full_image;
-				$dest = REDSHOP_FRONT_IMAGES_RELPATH . "category" . DS . $cat_data->category_full_image;
+				$src = JPATH_ROOT . "/components/com_virtuemart/shop_image/category/" .$cat_data->category_full_image;
+				$dest = REDSHOP_FRONT_IMAGES_RELPATH . "category/" .$cat_data->category_full_image;
 
 				if (is_file($src))
 				{
@@ -2297,8 +2297,8 @@ class importModelimport extends JModel
 			{
 				if ($cat_data->category_thumb_image != "")
 				{
-					$src = JPATH_ROOT . DS . "components" . DS . "com_virtuemart" . DS . "shop_image" . DS . "category" . DS . $cat_data->category_thumb_image;
-					$dest = REDSHOP_FRONT_IMAGES_RELPATH . "category" . DS . $cat_data->category_thumb_image;
+					$src = JPATH_ROOT . "/components/com_virtuemart/shop_image/category/" .$cat_data->category_thumb_image;
+					$dest = REDSHOP_FRONT_IMAGES_RELPATH . "category/" .$cat_data->category_thumb_image;
 
 					if (is_file($src))
 					{
@@ -2832,7 +2832,7 @@ class importModelimport extends JModel
 
 	public function storePropertyStockPosition($data, $section = 'property')
 	{
-		JTable::addIncludePath(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redcrm' . DS . 'tables');
+		JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_redcrm/tables');
 		$data['section_id'] = ($section == 'property') ? $data['property_id'] : $data['subattribute_color_id'];
 		$data['section'] = $section;
 
