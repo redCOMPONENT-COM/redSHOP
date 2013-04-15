@@ -257,14 +257,17 @@ _b.AutoSuggest.prototype.setSuggestions = function (req, input)
 		
 		for (var i=0;i<jsondata.results.length;i++)
 		{
-			var val = jsondata.results[i].value+'('+jsondata.results[i].value_number+')';
-			
-			if(jsondata.results[i].volume)			
-				this.aSug.push(  { 'id':jsondata.results[i].id, 'value':val, 'volume':jsondata.results[i].volume, 'value_number' :jsondata.results[i].value_number }  );			
-			else if(jsondata.results[i].price)			
-				this.aSug.push(  { 'id':jsondata.results[i].id, 'value':val, 'price':jsondata.results[i].price, 'value_number' :jsondata.results[i].value_number }  );
-			else
-				this.aSug.push(  { 'id':jsondata.results[i].id, 'value':val, 'value_number' :jsondata.results[i].value_number }  );
+            var val = jsondata.results[i].value;
+            if (jsondata.results[i].value_number)
+                var val = jsondata.results[i].value + '(' + jsondata.results[i].value_number + ')';
+            if (jsondata.results[i].volume)
+                this.aSug.push({ 'id': jsondata.results[i].id, 'value': val, 'volume': jsondata.results[i].volume, 'value_number': jsondata.results[i].value_number });
+            else if (jsondata.results[i].price)
+                this.aSug.push({ 'id': jsondata.results[i].id, 'value': val, 'price': jsondata.results[i].price, 'value_number': jsondata.results[i].value_number });
+            else if (jsondata.results[i].value_number)
+                this.aSug.push({ 'id': jsondata.results[i].id, 'value': val, 'value_number': jsondata.results[i].value_number });
+            else
+                this.aSug.push({ 'id': jsondata.results[i].id, 'value': val });
 		}
 	}
 	else
