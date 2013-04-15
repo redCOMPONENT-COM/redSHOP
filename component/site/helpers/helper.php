@@ -28,7 +28,7 @@ class redhelper
 	/**
 	 * add item to cart from db ...
 	 *
-	 * @return  [type]  [description]
+	 * @return  void
 	 */
 	public function dbtocart()
 	{
@@ -47,7 +47,7 @@ class redhelper
 	/**
 	 * Delete shipping rate when shipping method is not available
 	 *
-	 * @return  [type]  [description]
+	 * @return  void
 	 */
 	public function removeShippingRate()
 	{
