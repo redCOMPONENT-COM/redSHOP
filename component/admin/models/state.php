@@ -58,8 +58,13 @@ class stateModelstate extends JModel
 	{
 		if (empty($this->_total))
 		{
-			$query = $this->_buildQuery();
-			$this->_data = $this->_getListCount($query);
+			/*
+			 * @ToDo: _buildQuery method was expected to return a query and not the items. But is returning items.
+			 * so to quick fix this method getTotal() I have commented the following lines and added the third one
+			 */
+			// $query = $this->_buildQuery();
+			// $this->_data = $this->_getListCount($query);
+			$this->_total = count($this->_buildQuery());
 		}
 
 		return $this->_total;
