@@ -96,16 +96,16 @@ if ($this->params->get('show_page_heading', 1))
 					<?php echo JText::_('COM_REDSHOP_USER_FULLNAME'); ?>:
 				</label>
 			</td>
-			<td colspan="8">
-				<input type="text" class="inputbox" name="username" id="username"
-				       value="
-				       <?php
-						if ($this->userinfo->firstname != "")
-						{
-							echo $this->userinfo->firstname . " " . $this->userinfo->lastname;
-						}
-						?>" readonly="readonly">
-			</td>
+			<?php
+
+			if ($this->userinfo->firstname != "")
+			{
+				$fullname = $this->userinfo->firstname . " " . $this->userinfo->lastname;
+			}
+			?>
+		   <td colspan="8">
+		   		<input type="text" class="inputbox" name="username" id="username" value="<?php echo $fullname ?>" readonly="readonly">
+		   </td>
 		</tr>
 		<tr>
 			<td valign="top" align="left">
