@@ -26,8 +26,10 @@ class redhelper
 	}
 
 	/**
- 	 * add item to cart from db ...
- 	 */
+	 * add item to cart from db ...
+	 *
+	 * @return  [type]  [description]
+	 */
 	public function dbtocart()
 	{
 		require_once JPATH_SITE . '/components/com_redshop/helpers/cart.php';
@@ -44,6 +46,8 @@ class redhelper
 
 	/**
 	 * Delete shipping rate when shipping method is not available
+	 *
+	 * @return  [type]  [description]
 	 */
 	public function removeShippingRate()
 	{
@@ -192,11 +196,11 @@ class redhelper
 	{
 		if ($category_id)
 		{
-			$and = " AND (`link` LIKE '%option=com_redshop&view=category&layout=detail&cid=" . $category_id . "%') ";
+			$and = ' AND (`link` LIKE "%option=com_redshop&view=category&layout=detail") AND (`params` LIKE \'%"cid":"' . $category_id . '"%\') ';
 		}
 		else
 		{
-			$and = " AND (`link` NOT LIKE '%option=com_redshop&view=category&layout=detail&cid=" . $category_id . "%') ";
+			$and = ' AND (`link` NOT LIKE "%option=com_redshop&view=category&layout=detail") AND (`params` LIKE \'%"cid":"' . $category_id . '"%\') ';
 		}
 
 		$query = "SELECT id FROM #__menu "
@@ -251,6 +255,7 @@ class redhelper
 	/**
 	 * shopper Group portal info
 	 *
+	 * @return  object  Shopper Group Ids Object
 	 */
 	public function getShopperGroupPortal()
 	{
