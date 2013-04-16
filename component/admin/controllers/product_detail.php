@@ -12,8 +12,8 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.controller');
 jimport('joomla.filesystem.file');
 
-require_once(JPATH_COMPONENT . '/helpers/thumbnail.php');
-require_once(JPATH_COMPONENT . '/helpers/product.php');
+require_once JPATH_COMPONENT . '/helpers/thumbnail.php';
+require_once JPATH_COMPONENT . '/helpers/product.php';
 
 class product_detailController extends JController
 {
@@ -79,7 +79,7 @@ class product_detailController extends JController
 			$stockroom_id = JRequest::getVar('stockroom_id', '', 'request', 'string');
 		}
 
-		require_once(JPATH_COMPONENT . '/helpers/extra_field.php');
+		require_once JPATH_COMPONENT . '/helpers/extra_field.php';
 
 		$model = $this->getModel('product_detail');
 

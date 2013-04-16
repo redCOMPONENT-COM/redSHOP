@@ -10,11 +10,11 @@
 defined('_JEXEC') or die;
 
 JHTML::_('behavior.tooltip');
-require_once(JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/mail.php');
-require_once(JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/configuration.php');
-require_once(JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/economic.php');
-require_once(JPATH_SITE . '/components/com_redshop/helpers/helper.php');
-require_once(JPATH_SITE . '/components/com_redshop/helpers/cart.php');
+require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/mail.php';
+require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/configuration.php';
+require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/economic.php';
+require_once JPATH_SITE . '/components/com_redshop/helpers/helper.php';
+require_once JPATH_SITE . '/components/com_redshop/helpers/cart.php';
 
 class order_functions
 {
@@ -1862,7 +1862,7 @@ class order_functions
 	public function getpaymentinformation($row, $post)
 	{
 		$app = JFactory::getApplication();
-		require_once(JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/configuration.php');
+		require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/configuration.php';
 		$redconfig = new Redconfiguration();
 
 		$plugin_parameters = $this->getparameters($post['payment_method_class']);
