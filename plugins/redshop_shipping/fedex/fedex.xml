@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="2.50" type="plugin" group="redshop_shipping" method="upgrade">
     <name>FedEx</name>
-    <version>1.1.6</version>
-    <creationDate>27th July 2012</creationDate>
+    <version>1.2</version>
+    <creationDate>April 2013</creationDate>
     <author>redCOMPONENT.com</author>
     <copyright>redCOMPONENT.com</copyright>
     <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>

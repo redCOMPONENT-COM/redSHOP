@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="component" version="2.5" method="upgrade">
     <name>redSHOP</name>
-    <creationDate>07th Aug 2012</creationDate>
-    <author>redWEB.dk</author>
+    <creationDate>April 2013</creationDate>
+    <author>redCOMPONENT.com</author>
     <authorEmail>email@redcomponent.com</authorEmail>
     <authorUrl>www.redweb.dk</authorUrl>
     <copyright>(c) Redweb.dk</copyright>
