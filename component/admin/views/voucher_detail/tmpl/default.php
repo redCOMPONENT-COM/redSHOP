@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 JHTML::_('behavior.tooltip');
 jimport('joomla.html.pane');
 JHTMLBehavior::modal();
-require_once(JPATH_COMPONENT_SITE . '/helpers/product.php');
+require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
 $producthelper = new producthelper();
 
 $now = JFactory::getDate();
