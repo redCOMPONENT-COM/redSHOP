@@ -32,6 +32,12 @@
             value="/Applications/XAMPP/htdocs/installers/redCOMPONENT/package-${extension}-v${version}"
             override="true" />
 
+    <!-- Version of the redSHOP for witch the module is intended to  -->
+    <property
+            name="joomla_version"
+            value="25"
+            override="true" />
+
     <!-- ============================================  -->
     <!-- Create packages folder                        -->
     <!-- ============================================  -->
@@ -120,7 +126,7 @@
     <target name="dist" depends="build">
         <echo msg="Creating ZIP archive..." />
 
-        <zip destfile="${targetdir}/${extension}-v${version}.zip">
+        <zip destfile="${targetdir}/../${extension}-v${version}_${joomla_version}j.zip">
             <fileset dir="${targetdir}">
                 <include name="**" />
                 <exclude name=".*" />
