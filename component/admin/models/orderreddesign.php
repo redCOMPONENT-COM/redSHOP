@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
-require_once(JPATH_COMPONENT . '/helpers/order.php');
+require_once JPATH_COMPONENT . '/helpers/order.php';
 
 class orderreddesignModelorderreddesign extends JModel
 {

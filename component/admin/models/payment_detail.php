@@ -582,7 +582,7 @@ class JInstaller extends JObject
 		if (!is_object($adapter))
 		{
 			// Try to load the adapter object
-			require_once(dirname(__FILE__) . '/adapters/' . strtolower($name) . '.php');
+			require_once dirname(__FILE__) . '/adapters/' . strtolower($name) . '.php';
 			$class = 'JInstaller' . ucfirst($name);
 
 			if (!class_exists($class))
