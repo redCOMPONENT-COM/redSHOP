@@ -7,44 +7,30 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
-jimport('joomla.application.component.controller');
+JLoader::import('joomla.application.component.controller');
+
 /**
- * split payment Controller
+ * split payment Controller.
  *
- * @static
- * @package        redSHOP
- * @since          1.0
+ * @package     RedSHOP.Frontend
+ * @subpackage  Controller
+ * @since       1.0
  */
-class split_paymentController extends JController
+class Split_paymentController extends JController
 {
-	function __construct($default = array())
-	{
-		parent::__construct($default);
-
-		$user =& JFactory::getUser();
-		$model = $this->getModel('split_payment');
-	}
-
 	/**
 	 * payremaining function
 	 *
 	 * @access public
 	 * @return void
 	 */
-	function payremaining()
+	public function payremaining()
 	{
-		global $mainframe;
-		$post = JRequest::get('post');
-		$option = JRequest::getVar('option');
-		$Itemid = JRequest::getVar('Itemid');
-		$task = JRequest::getVar('task');
-		$model = $this->getModel('split_payment');
-
+		$model       = $this->getModel('split_payment');
 		$orderresult = $model->orderplace();
 
-		$view = & $this->getView('split_payment', 'result');
 		parent::display();
 	}
 }

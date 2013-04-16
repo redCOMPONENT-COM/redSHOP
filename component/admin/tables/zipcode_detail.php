@@ -1,73 +1,66 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     RedSHOP.Backend
+ * @subpackage  Table
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined( '_JEXEC' ) or die( 'Restricted access' );
 
-jimport('joomla.application.component.model');
-
+defined('_JEXEC') or die;
 
 class Tablezipcode_detail extends JTable
 {
-	var $zipcode_id = null;
-	var $state_code = null;
-	var $city_name = null;
-	var $zipcode = null;
-	var $country_code=null;
+	public $zipcode_id = null;
 
+	public $state_code = null;
 
-	function Tablezipcode_detail(& $db)
+	public $city_name = null;
+
+	public $zipcode = null;
+
+	public $country_code = null;
+
+	public function __construct(& $db)
 	{
-	  $this->_table_prefix = '#__redshop_';
+		$this->_table_prefix = '#__redshop_';
 
-		parent::__construct($this->_table_prefix.'zipcode', 'zipcode_id', $db);
+		parent::__construct($this->_table_prefix . 'zipcode', 'zipcode_id', $db);
 	}
 
-	function bind($array, $ignore = '')
+	public function bind($array, $ignore = '')
 	{
-		if (key_exists( 'params', $array ) && is_array( $array['params'] )) {
-			$registry = new JRegistry();
+		if (array_key_exists('params', $array) && is_array($array['params']))
+		{
+			$registry = new JRegistry;
 			$registry->loadArray($array['params']);
 			$array['params'] = $registry->toString();
 		}
+
 		return parent::bind($array, $ignore);
 	}
 
-	function check()
+	public function check()
 	{
-
 		$db = JFactory::getDBO();
 
-		$q =  "SELECT *  FROM ".$this->_table_prefix."zipcode"." WHERE zipcode = '".$this->zipcode."' AND zipcode_id !=  ".$this->zipcode_id." AND country_code ='".$this->country_code."'";
+		$q = "SELECT *  FROM " . $this->_table_prefix . "zipcode" . " WHERE zipcode = '" . $this->zipcode
+			. "' AND zipcode_id !=  " . $this->zipcode_id
+			. " AND country_code ='" . $this->country_code . "'";
 
 		$db->setQuery($q);
 
 		$xid = intval($db->loadResult());
+
 		if ($xid)
 		{
+			$this->_error = JText::_('COM_REDSHOP_ZIPCODE_ALREADY_EXISTS') . ": " . $this->zipcode;
+			JError::raiseWarning('', $this->_error);
 
-			 $this->_error = JText::_('COM_REDSHOP_ZIPCODE_ALREADY_EXISTS' ).": ".$this->zipcode;
-			 JError::raiseWarning('', $this->_error );
-			 return false;
-	  	}
-  		return true;
+			return false;
+		}
 
+		return true;
 	}
-
-
-
-
 }
-?>
 

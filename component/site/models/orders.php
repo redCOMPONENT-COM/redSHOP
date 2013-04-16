@@ -1,78 +1,86 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     RedSHOP.Frontend
+ * @subpackage  Model
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
-// no direct access
-defined( '_JEXEC' ) or die( 'Restricted access' );
 
-jimport( 'joomla.application.component.model' );
+defined('_JEXEC') or die;
 
+JLoader::import('joomla.application.component.model');
+
+/**
+ * Class ordersModelorders
+ *
+ * @package     RedSHOP.Frontend
+ * @subpackage  Model
+ * @since       1.0
+ */
 class ordersModelorders extends JModel
 {
-	var $_id = null;
-	var $_data = null;
-	var $_table_prefix = null;
-	var $_template = null;
-	var $_limitstart = null;
-	var $_limit = null;
+	public $_id = null;
 
-	function __construct()
+	public $_data = null;
+
+	public $_table_prefix = null;
+
+	public $_template = null;
+
+	public $_limitstart = null;
+
+	public $_limit = null;
+
+	public function __construct()
 	{
+		global $context;
+
 		parent::__construct();
-		global $mainframe,$option;
+
+		$app = JFactory::getApplication();
 
 		$this->_table_prefix = '#__redshop_';
-		$this->_limitstart = JRequest::getVar( 'limitstart', 0 );
-		$this->_limit = $mainframe->getUserStateFromRequest($option.'limit','limit',10,'int');
+		$this->_limitstart   = JRequest::getVar('limitstart', 0);
+		$this->_limit        = $app->getUserStateFromRequest($context . 'limit', 'limit', 10, 'int');
 	}
 
-	function _buildQuery()
+	public function _buildQuery()
 	{
-		$user =& JFactory::getUser();
-		$query = "SELECT * FROM  ".$this->_table_prefix."orders "
-				."WHERE user_id='".$user->id."' "
-				;
+		$user  = JFactory::getUser();
+		$query = "SELECT * FROM  " . $this->_table_prefix . "orders "
+			. "WHERE user_id='" . $user->id . "' ";
+
 		return $query;
 	}
 
-	function getData()
+	public function getData()
 	{
-//		if (empty( $this->_data ))
-//		{
-			$query = $this->_buildQuery();
-			$this->_data = $this->_getList( $query , $this->_limitstart, $this->_limit);
-//		}
+		$query       = $this->_buildQuery();
+		$this->_data = $this->_getList($query, $this->_limitstart, $this->_limit);
+
 		return $this->_data;
 	}
 
-	function getPagination()
+	public function getPagination()
 	{
 		if (empty($this->_pagination))
 		{
-			jimport('joomla.html.pagination');
-			$this->_pagination = new redPagination( $this->getTotal(), $this->_limitstart, $this->_limit );
+			JLoader::import('joomla.html.pagination');
+			$this->_pagination = new redPagination($this->getTotal(), $this->_limitstart, $this->_limit);
 		}
+
 		return $this->_pagination;
 	}
 
-	function getTotal()
+	public function getTotal()
 	{
 		if (empty($this->_total))
 		{
-			$query = $this->_buildQuery();
-			$this->_total = $this->_getListCount ( $query );
+			$query        = $this->_buildQuery();
+			$this->_total = $this->_getListCount($query);
 		}
+
 		return $this->_total;
 	}
-}	?>
+}

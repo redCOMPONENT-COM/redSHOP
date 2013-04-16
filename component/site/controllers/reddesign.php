@@ -7,20 +7,17 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
-jimport('joomla.application.component.controller');
+JLoader::import('joomla.application.component.controller');
+
 /**
- * redDESIGN Controller
+ * redDESIGN Controller.
  *
- * @static
- * @package        redSHOP
- * @since          1.0
+ * @package     RedSHOP.Frontend
+ * @subpackage  Controller
+ * @since       1.0
  */
-class reddesignController extends JController
+class ReddesignController extends JController
 {
-	function __construct($default = array())
-	{
-		parent::__construct($default);
-	}
 }

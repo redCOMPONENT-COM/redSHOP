@@ -6,17 +6,20 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined('_JEXEC') or die('Restricted access');
+
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
 class voucher_detailModelvoucher_detail extends JModel
 {
-	var $_id = null;
-	var $_data = null;
-	var $_table_prefix = null;
+	public $_id = null;
 
-	function __construct()
+	public $_data = null;
+
+	public $_table_prefix = null;
+
+	public function __construct()
 	{
 		parent::__construct();
 
@@ -25,44 +28,46 @@ class voucher_detailModelvoucher_detail extends JModel
 		$array = JRequest::getVar('cid', 0, '', 'array');
 
 		$this->setId((int) $array[0]);
-
 	}
 
-	function setId($id)
+	public function setId($id)
 	{
 		$this->_id = $id;
 		$this->_data = null;
 	}
 
-	function &getData()
+	public function &getData()
 	{
 		if ($this->_loadData())
 		{
-
 		}
-		else  $this->_initData();
+		else
+		{
+			$this->_initData();
+		}
 
 		return $this->_data;
 	}
 
-	function _loadData()
+	public function _loadData()
 	{
 		if (empty($this->_data))
 		{
 			$query = 'SELECT * FROM ' . $this->_table_prefix . 'product_voucher WHERE voucher_id = ' . $this->_id;
 			$this->_db->setQuery($query);
 			$this->_data = $this->_db->loadObject();
+
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
 
-
-	function _initData()
+	public function _initData()
 	{
 		if (empty($this->_data))
 		{
-			$detail = new stdClass();
+			$detail = new stdClass;
 			$detail->voucher_id = 0;
 			$detail->voucher_code = 0;
 			$detail->amount = 0;
@@ -76,26 +81,28 @@ class voucher_detailModelvoucher_detail extends JModel
 
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
 
-	function store($data)
+	public function store($data)
 	{
 		$row =& $this->getTable();
 
 		if (!$row->bind($data))
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
 
 		if (!$row->store())
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
 
-		////////////// voucher product add //////////////////////
 		$voucher_id = $row->voucher_id;
 
 		$sql = "delete from " . $this->_table_prefix . "product_voucher_xref where voucher_id='" . $voucher_id . "' ";
@@ -113,13 +120,11 @@ class voucher_detailModelvoucher_detail extends JModel
 				$this->_db->query();
 			}
 		}
-		///////////////////////////////////////////////////////////
-
 
 		return $row;
 	}
 
-	function delete($cid = array())
+	public function delete($cid = array())
 	{
 		if (count($cid))
 		{
@@ -127,9 +132,11 @@ class voucher_detailModelvoucher_detail extends JModel
 
 			$query = 'DELETE FROM ' . $this->_table_prefix . 'product_voucher WHERE voucher_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
+
 			if (!$this->_db->query())
 			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 		}
@@ -137,7 +144,7 @@ class voucher_detailModelvoucher_detail extends JModel
 		return true;
 	}
 
-	function publish($cid = array(), $publish = 1)
+	public function publish($cid = array(), $publish = 1)
 	{
 		if (count($cid))
 		{
@@ -147,9 +154,11 @@ class voucher_detailModelvoucher_detail extends JModel
 				. ' SET published = ' . intval($publish)
 				. ' WHERE voucher_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
+
 			if (!$this->_db->query())
 			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 		}
@@ -157,32 +166,34 @@ class voucher_detailModelvoucher_detail extends JModel
 		return true;
 	}
 
-	function product_data()
+	public function product_data()
 	{
-		$query = "SELECT pv.product_id,p.product_name FROM " . $this->_table_prefix . "product_voucher_xref as pv," . $this->_table_prefix . "product as p where voucher_id=" . $voucher_id . " and pv.product_id = p.product_id";
+		$query = "SELECT pv.product_id,p.product_name FROM " . $this->_table_prefix . "product_voucher_xref as pv,"
+			. $this->_table_prefix . "product as p where voucher_id=" . $voucher_id . " and pv.product_id = p.product_id";
 		$this->_db->setQuery($query);
 		$this->_productdata = $this->_db->loadObjectList();
+
 		return $this->_productdata;
 	}
 
-	function voucher_products_sel($voucher_id)
+	public function voucher_products_sel($voucher_id)
 	{
-		$query = "SELECT cp.product_id as value,p.product_name as text FROM " . $this->_table_prefix . "product as p , " . $this->_table_prefix . "product_voucher_xref as cp  WHERE cp.voucher_id=" . $voucher_id . " and cp.product_id=p.product_id ";
+		$query = "SELECT cp.product_id as value,p.product_name as text FROM " . $this->_table_prefix . "product as p , "
+			. $this->_table_prefix . "product_voucher_xref as cp  WHERE cp.voucher_id=" . $voucher_id . " and cp.product_id=p.product_id ";
 		$this->_db->setQuery($query);
 		$this->_productdata = $this->_db->loadObjectList();
+
 		return $this->_productdata;
 	}
 
-	function checkduplicate($discount_code)
+	public function checkduplicate($discount_code)
 	{
-
 		$query = "SELECT count(*) as code from " . $this->_table_prefix . "coupons"
 			. " LEFT JOIN " . $this->_table_prefix . "product_voucher ON coupon_code=voucher_code"
 			. " where voucher_code='" . $discount_code . "' OR coupon_code='" . $discount_code . "'";
 
 		$this->_db->setQuery($query);
+
 		return $this->_db->loadResult();
 	}
 }
-
-?>

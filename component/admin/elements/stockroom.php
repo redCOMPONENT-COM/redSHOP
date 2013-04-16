@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 /**
  * Renders a Productfinder Form
@@ -28,7 +28,7 @@ class JElementstockroom extends JElement
 
 	function fetchElement($name, $value, &$node, $control_name)
 	{
-		$db = & JFactory::getDBO();
+		$db = JFactory::getDBO();
 
 		// This might get a conflict with the dynamic translation - TODO: search for better solution
 		$query = 'SELECT stockroom_id,stockroom_name ' .

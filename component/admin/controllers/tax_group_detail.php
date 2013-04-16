@@ -7,56 +7,48 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die ('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 
 class tax_group_detailController extends JController
 {
-	function __construct($default = array())
+	public function __construct($default = array())
 	{
 		parent::__construct($default);
 		$this->registerTask('add', 'edit');
 	}
 
-	function edit()
+	public function edit()
 	{
 		JRequest::setVar('view', 'tax_group_detail');
 		JRequest::setVar('layout', 'default');
 		JRequest::setVar('hidemainmenu', 1);
 
-		$model = $this->getModel('tax_group_detail');
-
 		parent::display();
 	}
 
-	function save()
+	public function save()
 	{
-
 		$post = JRequest::get('post');
-
 		$option = JRequest::getVar('option');
 
 		$model = $this->getModel('tax_group_detail');
 
 		if ($model->store($post))
 		{
-
 			$msg = JText::_('COM_REDSHOP_TAX_GROUP_DETAIL_SAVED');
-
 		}
 		else
 		{
-
 			$msg = JText::_('COM_REDSHOP_ERROR_SAVING_TAX_GROUP_DETAIL');
 		}
 
 		$this->setRedirect('index.php?option=' . $option . '&view=tax_group', $msg);
 	}
 
-	function remove()
+	public function remove()
 	{
-
 		$option = JRequest::getVar('option');
 
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
@@ -65,31 +57,34 @@ class tax_group_detailController extends JController
 		{
 			JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
 		}
+
 		if (!is_array($cid) && $cid == 1)
 		{
 			$msg = JText::_('COM_REDSHOP_DEFAULT_VAT_GROUP_CAN_NOT_BE_DELETED');
 		}
-		else if (in_array(1, $cid))
+
+		elseif (in_array(1, $cid))
 		{
 			$msg = JText::_('COM_REDSHOP_DEFAULT_VAT_GROUP_CAN_NOT_BE_DELETED');
 		}
+
 		else
 		{
-
 			$model = $this->getModel('tax_group_detail');
+
 			if (!$model->delete($cid))
 			{
 				echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
 			}
+
 			$msg = JText::_('COM_REDSHOP_TAX_GROUP_DETAIL_DELETED_SUCCESSFULLY');
 		}
 
 		$this->setRedirect('index.php?option=' . $option . '&view=tax_group', $msg);
 	}
 
-	function publish()
+	public function publish()
 	{
-
 		$option = JRequest::getVar('option');
 
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
@@ -100,22 +95,20 @@ class tax_group_detailController extends JController
 		}
 
 		$model = $this->getModel('tax_group_detail');
+
 		if (!$model->publish($cid, 1))
 		{
 			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
 		}
+
 		$msg = JText::_('COM_REDSHOP_TAX_GROUP_DETAIL_PUBLISHED_SUCCESFULLY');
 
 		$this->setRedirect('index.php?option=' . $option . '&view=tax_group', $msg);
-
-
 	}
 
-	function unpublish()
+	public function unpublish()
 	{
-
 		$option = JRequest::getVar('option');
-		$layout = JRequest::getVar('layout');
 
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 
@@ -125,23 +118,21 @@ class tax_group_detailController extends JController
 		}
 
 		$model = $this->getModel('tax_group_detail');
+
 		if (!$model->publish($cid, 0))
 		{
 			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
 		}
+
 		$msg = JText::_('COM_REDSHOP_TAX_GROUP_DETAIL_UNPUBLISHED_SUCCESFULLY');
 
-
 		$this->setRedirect('index.php?option=' . $option . '&view=tax_group', $msg);
-
 	}
 
-	function cancel()
+	public function cancel()
 	{
-
 		$option = JRequest::getVar('option');
 		$msg = JText::_('COM_REDSHOP_TAX_GROUP_DETAIL_EDITING_CANCELLED');
 		$this->setRedirect('index.php?option=' . $option . '&view=tax_group', $msg);
 	}
-
 }

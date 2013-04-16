@@ -1,90 +1,96 @@
 <?php
-/** 
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved. 
- * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com 
+/**
+ * @package     RedSHOP.Frontend
+ * @subpackage  Model
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
-// no direct access
-defined( '_JEXEC' ) or die( 'Restricted access' );
 
-jimport( 'joomla.application.component.model' );
+defined('_JEXEC') or die;
 
+JLoader::import('joomla.application.component.model');
+
+/**
+ * Class ratingsModelratings
+ *
+ * @package     RedSHOP.Frontend
+ * @subpackage  Model
+ * @since       1.0
+ */
 class ratingsModelratings extends JModel
 {
-	var $_id = null;
-	var $_data = null;
-	var $_table_prefix = null;
-	
-	function __construct()
+	public $_id = null;
+
+	public $_data = null;
+
+	public $_table_prefix = null;
+
+	public function __construct()
 	{
-		global $mainframe;
+		$app = JFactory::getApplication();
 		parent::__construct();
 		$this->_table_prefix = '#__redshop_';
-		
-		$limit	= $mainframe->getUserStateFromRequest( 'limit', 'limit', $mainframe->getCfg('list_limit'), 0);
-		$limitstart = $mainframe->getUserStateFromRequest( 'limitstart', 'limitstart', 0 );
+
+		$limit      = $app->getUserStateFromRequest('limit', 'limit', $app->getCfg('list_limit'), 0);
+		$limitstart = $app->getUserStateFromRequest('limitstart', 'limitstart', 0);
 		$limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
 		$this->setState('limit', $limit);
 		$this->setState('limitstart', $limitstart);
 	}
-			
-	function _buildQuery()
-	{	 
-		$query = "SELECT distinct(p.product_id),p.product_name FROM  ".$this->_table_prefix."product p"
-				.", ".$this->_table_prefix."product_rating AS r "
-				."WHERE p.published=1 AND r.published=1 AND p.product_id=r.product_id "
-				; 
+
+	public function _buildQuery()
+	{
+		$query = "SELECT distinct(p.product_id),p.product_name FROM  " . $this->_table_prefix . "product p"
+			. ", " . $this->_table_prefix . "product_rating AS r "
+			. "WHERE p.published=1 AND r.published=1 AND p.product_id=r.product_id ";
+
 		return $query;
 	}
-	 
-	function getData()
+
+	public function getData()
 	{
-		if (empty( $this->_data ))
+		if (empty($this->_data))
 		{
-			$query = $this->_buildQuery();
-			$this->_data = $this->_getList( $query, $this->getState('limitstart'), $this->getState('limit') );
+			$query       = $this->_buildQuery();
+			$this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
 		}
+
 		return $this->_data;
 	}
-	 
-	function getTotal()
+
+	public function getTotal()
 	{
 		if (empty($this->_total))
 		{
-			$query = $this->_buildQuery();
+			$query        = $this->_buildQuery();
 			$this->_total = $this->_getListCount($query);
 		}
+
 		return $this->_total;
 	}
-	
-	function getPagination()
+
+	public function getPagination()
 	{
 		if (empty($this->_pagination))
 		{
-			jimport('joomla.html.pagination');
-			$this->_pagination = new JPagination( $this->getTotal(), $this->getState('limitstart'), $this->getState('limit') );
+			JLoader::import('joomla.html.pagination');
+			$this->_pagination = new JPagination($this->getTotal(), $this->getState('limitstart'), $this->getState('limit'));
 		}
+
 		return $this->_pagination;
 	}
-	
-	function getProductreviews($pid)
+
+	public function getProductreviews($pid)
 	{
-		$query = "SELECT pr.*,uf.firstname,uf.lastname FROM  ".$this->_table_prefix."product_rating as pr"
-				.", ".$this->_table_prefix."users_info as uf "
-				."WHERE published=1 AND product_id='".$pid."' "
-				."AND uf.address_type LIKE 'BT' AND pr.userid=uf.user_id "
-				."ORDER BY favoured DESC"; 
+		$query = "SELECT pr.*,uf.firstname,uf.lastname FROM  " . $this->_table_prefix . "product_rating as pr"
+			. ", " . $this->_table_prefix . "users_info as uf "
+			. "WHERE published=1 AND product_id='" . $pid . "' "
+			. "AND uf.address_type LIKE 'BT' AND pr.userid=uf.user_id "
+			. "ORDER BY favoured DESC";
 		$this->_db->setQuery($query);
 		$this->_data = $this->_db->loadObjectlist();
-		return $this->_data;			
+
+		return $this->_data;
 	}
-}?>
+}

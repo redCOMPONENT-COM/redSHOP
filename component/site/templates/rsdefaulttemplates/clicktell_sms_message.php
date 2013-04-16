@@ -1,1 +1,1 @@
-<p>{order_id}{order_status}<br />{customer_name}<br />{payment_status}</p>
+<p>{order_id}{order_status}<br/>{customer_name}<br/>{payment_status}</p>

@@ -1,40 +1,32 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     RedSHOP.Backend
+ * @subpackage  View
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined( '_JEXEC' ) or die( 'Restricted access' );
 
-jimport( 'joomla.application.component.view' );
+defined('_JEXEC') or die;
+
+jimport('joomla.application.component.view');
 
 class accessmanagerViewaccessmanager extends JView
 {
-	function __construct( $config = array())
+	public function display($tpl = null)
 	{
-		 parent::__construct( $config );
-	}
+		$app = JFactory::getApplication();
 
-	function display($tpl = null)
-	{
-		global $mainframe, $context;
+		JToolBarHelper::title(JText::_('COM_REDSHOP_ACCESS_MANAGER'), 'redshop_catalogmanagement48');
 
-   		JToolBarHelper::title(   JText::_('COM_REDSHOP_ACCESS_MANAGER' ), 'redshop_catalogmanagement48' );
-   		if(ENABLE_BACKENDACCESS){
-    		parent::display($tpl);
-   		}else{
-   			$msg = JText::_('COM_REDSHOP_PLEASE_ENABLE_ACCESS_MANAGER_FIRST');
-			$mainframe->redirect('index.php?option=com_redshop&view=configuration',$msg);
-   		}
+		if (ENABLE_BACKENDACCESS)
+		{
+			parent::display($tpl);
+		}
+		else
+		{
+			$msg = JText::_('COM_REDSHOP_PLEASE_ENABLE_ACCESS_MANAGER_FIRST');
+			$app->redirect('index.php?option=com_redshop&view=configuration', $msg);
+		}
 	}
 }
-?>

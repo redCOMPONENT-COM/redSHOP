@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="2.5.0" client="site" type="plugin" group="redshop_payment"
+           method="upgrade">
+    <name>PLG_RS_PAYMENT_LOCALCREDITCARD</name>
+    <version>1.1.6</version>
+    <creationDate>27th July 2012</creationDate>
+    <author>redCOMPONENT.com</author>
+    <authorEmail>email@redcomponent.com</authorEmail>
+    <authorUrl>http://www.redcomponent.com</authorUrl>
+    <copyright>redCOMPONENT.com</copyright>
+    <license>GNU General Public License v2</license>
+    <description>This plugin enables standard Local Credit Card payments
+    </description>
+
+    <files>
+        <filename plugin="rs_payment_localcreditcard">rs_payment_localcreditcard.php</filename>
+
+    </files>
+    <languages>
+        <language tag="en-GB">language/en-GB/en-GB.plg_redshop_payment_rs_payment_localcreditcard.ini</language>
+        <language tag="en-GB">language/en-GB/en-GB.plg_redshop_payment_rs_payment_localcreditcard.sys.ini</language>
+        <language tag="da-DK">language/da-DK/da-DK.plg_redshop_payment_rs_payment_localcreditcard.ini</language>
+        <language tag="da-DK">language/da-DK/da-DK.plg_redshop_payment_rs_payment_localcreditcard.sys.ini</language>
+    </languages>
+    <config addfieldpath="/administrator/components/com_redshop/elements">
+        <fields name="params">
+            <fieldset name="basic">
+
+                <field name="payment_oprand" type="text" size="10" default="-"
+                       label="Payment operand" description="Payment Operand"/>
+                <field name="payment_price" type="text" size="30" default=""
+                       label="Payment price" description="Payment price"/>
+                <field name="payment_discount_is_percent" type="radio" default="1"
+                       label="Discount Type: " description="Discount Type">
+                    <option value="1">Percentage</option>
+                    <option value="0">Total</option>
+                </field>
+                <field name="is_creditcard" type="hidden" default="1" value="1"/>
+                <field name="economic_payment_terms_id" type="text" default=""
+                       label="Enter E-conomic Payment Conditions ID"/>
+                <field name="economic_design_layout" type="text" default=""
+                       label="Enter E-conomic Design and Layout ID"/>
+                <field name="accepted_credict_card" type="creditcards" default="0"
+                       label="Select Credit Cards" description="Displays the selected category product"/>
+                <field name="txtextra_info" type="extrainfo" default="Please enter your Extra Info"
+                       label="Enter Extra Info"
+                       description="Enter description for your extra info. You also can use HTML tags."/>
+            </fieldset>
+        </fields>
+    </config>
+</extension>

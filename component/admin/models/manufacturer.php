@@ -7,56 +7,61 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
 class manufacturerModelmanufacturer extends JModel
 {
-	var $_data = null;
-	var $_total = null;
-	var $_pagination = null;
-	var $_table_prefix = null;
-	var $_context = null;
+	public $_data = null;
 
-	function __construct()
+	public $_total = null;
+
+	public $_pagination = null;
+
+	public $_table_prefix = null;
+
+	public $_context = null;
+
+	public function __construct()
 	{
 		parent::__construct();
 
-		global $mainframe;
+		$app = JFactory::getApplication();
 		$this->_context = 'manufacturer_id';
 		$this->_table_prefix = '#__redshop_';
-		$limit = $mainframe->getUserStateFromRequest($this->_context . 'limit', 'limit', $mainframe->getCfg('list_limit'), 0);
-		$limitstart = $mainframe->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
-		$filter = $mainframe->getUserStateFromRequest($this->_context . 'filter', 'filter', 0);
+		$limit = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
+		$limitstart = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
+		$filter = $app->getUserStateFromRequest($this->_context . 'filter', 'filter', 0);
 		$limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
 		$this->setState('filter', $filter);
 		$this->setState('limit', $limit);
 		$this->setState('limitstart', $limitstart);
-
 	}
 
-	function getData()
+	public function getData()
 	{
 		if (empty($this->_data))
 		{
 			$query = $this->_buildQuery();
 			$this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
 		}
+
 		return $this->_data;
 	}
 
-	function getTotal()
+	public function getTotal()
 	{
 		if (empty($this->_total))
 		{
 			$query = $this->_buildQuery();
 			$this->_total = $this->_getListCount($query);
 		}
+
 		return $this->_total;
 	}
 
-	function getPagination()
+	public function getPagination()
 	{
 		if (empty($this->_pagination))
 		{
@@ -67,11 +72,12 @@ class manufacturerModelmanufacturer extends JModel
 		return $this->_pagination;
 	}
 
-	function _buildQuery()
+	public function _buildQuery()
 	{
 		$filter = $this->getState('filter');
 		$orderby = $this->_buildContentOrderBy();
 		$where = '';
+
 		if ($filter)
 		{
 			$where = " WHERE m.manufacturer_name like '%" . $filter . "%' ";
@@ -80,22 +86,23 @@ class manufacturerModelmanufacturer extends JModel
 		$query = 'SELECT  distinct(m.manufacturer_id),m.* FROM ' . $this->_table_prefix . 'manufacturer m '
 			. $where
 			. $orderby;
+
 		return $query;
 	}
 
-	function _buildContentOrderBy()
+	public function _buildContentOrderBy()
 	{
-		global $mainframe;
+		$app = JFactory::getApplication();
 
-		$filter_order = $mainframe->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'm.ordering');
-		$filter_order_Dir = $mainframe->getUserStateFromRequest($this->_context . 'filter_order_Dir', 'filter_order_Dir', '');
+		$filter_order = $app->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'm.ordering');
+		$filter_order_Dir = $app->getUserStateFromRequest($this->_context . 'filter_order_Dir', 'filter_order_Dir', '');
 
 		$orderby = ' ORDER BY ' . $filter_order . ' ' . $filter_order_Dir;
 
 		return $orderby;
 	}
 
-	function getMediaId($mid)
+	public function getMediaId($mid)
 	{
 		$database = JFactory::getDBO();
 
@@ -103,27 +110,30 @@ class manufacturerModelmanufacturer extends JModel
 			. ' FROM ' . $this->_table_prefix . 'media  WHERE media_section="manufacturer" AND section_id = ' . $mid;
 
 		$database->setQuery($query);
+
 		return $database->loadResult();
 	}
 
-	function saveOrder(&$cid)
+	public function saveOrder(&$cid)
 	{
-		global $mainframe;
-		//$scope 		= JRequest::getCmd( 'scope' );
-		$db =& JFactory::getDBO();
+		$app = JFactory::getApplication();
+
+		$db = JFactory::getDBO();
 		$row =& $this->getTable('manufacturer_detail');
 
 		$total = count($cid);
 		$order = JRequest::getVar('order', array(0), 'post', 'array');
 		JArrayHelper::toInteger($order, array(0));
 
-		// update ordering values
+		// Update ordering values
 		for ($i = 0; $i < $total; $i++)
 		{
 			$row->load((int) $cid[$i]);
+
 			if ($row->ordering != $order[$i])
 			{
 				$row->ordering = $order[$i];
+
 				if (!$row->store())
 				{
 					JError::raiseError(500, $db->getErrorMsg());
@@ -132,11 +142,8 @@ class manufacturerModelmanufacturer extends JModel
 		}
 
 		$row->reorder();
+
 		return true;
-		//$msg 	= JText::_('COM_REDSHOP_NEW_ORDERING_SAVED' );
-		//$mainframe->redirect( 'index.php?option=com_sections&scope=content', $msg );
 	}
-
-
-}	
+}
 

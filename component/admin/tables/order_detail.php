@@ -1,81 +1,110 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     RedSHOP.Backend
+ * @subpackage  Table
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined( '_JEXEC' ) or die( 'Restricted access' );
 
-jimport('joomla.application.component.model');
+defined('_JEXEC') or die;
 
 class Tableorder_detail extends JTable
 {
-	var $order_id = null;
-	var $user_id = null;
-	var $order_number = null;
-	var $barcode = null;
-	var $is_booked = 0;
-	var $user_info_id = null;
-	var $order_total = null;
-	var $order_subtotal = null;
-	var $order_tax = null;
-	var $order_tax_details = null;
-	var $order_shipping = null;
-	var $order_shipping_tax = null;
-	var $coupon_discount = null;
-	var $order_discount = null;
-	var $order_discount_vat	= null;
-	var $payment_discount = null;
-	var $special_discount = null;
-	var $special_discount_amount = null;
-	var $order_status = null;
-	var $order_payment_status = null;
-	var $cdate = null;
-	var $mdate = null;
-	var $ship_method_id = null;
-	var $customer_note = null;
-	var $ip_address = null;
-	var $encr_key = null;
-	var $split_payment = null;
-	var $invoice_no = null;
-	var $discount_type = null;
-	var $payment_oprand = null;
-	var $order_label_create = 0;
-	var $analytics_status	=	0;
-	var $requisition_number = null;
-	var $bookinvoice_number = 0; 
-	var $bookinvoice_date = 0;
-	var $track_no = null;
-	var $shop_id = null;
-	var $customer_message = null;
-	var $referral_code = null; 
+	public $order_id = null;
 
-	
-	function Tableorder_detail(& $db)
+	public $user_id = null;
+
+	public $order_number = null;
+
+	public $barcode = null;
+
+	public $is_booked = 0;
+
+	public $user_info_id = null;
+
+	public $order_total = null;
+
+	public $order_subtotal = null;
+
+	public $order_tax = null;
+
+	public $order_tax_details = null;
+
+	public $order_shipping = null;
+
+	public $order_shipping_tax = null;
+
+	public $coupon_discount = null;
+
+	public $order_discount = null;
+
+	public $order_discount_vat = null;
+
+	public $payment_discount = null;
+
+	public $special_discount = null;
+
+	public $special_discount_amount = null;
+
+	public $order_status = null;
+
+	public $order_payment_status = null;
+
+	public $cdate = null;
+
+	public $mdate = null;
+
+	public $ship_method_id = null;
+
+	public $customer_note = null;
+
+	public $ip_address = null;
+
+	public $encr_key = null;
+
+	public $split_payment = null;
+
+	public $invoice_no = null;
+
+	public $discount_type = null;
+
+	public $payment_oprand = null;
+
+	public $order_label_create = 0;
+
+	public $analytics_status = 0;
+
+	public $requisition_number = null;
+
+	public $bookinvoice_number = 0;
+
+	public $bookinvoice_date = 0;
+
+	public $track_no = null;
+
+	public $shop_id = null;
+
+	public $customer_message = null;
+
+	public $referral_code = null;
+
+	public function __construct(& $db)
 	{
-	 	$this->_table_prefix = '#__redshop_';
+		$this->_table_prefix = '#__redshop_';
 
-		parent::__construct($this->_table_prefix.'orders', 'order_id', $db);
+		parent::__construct($this->_table_prefix . 'orders', 'order_id', $db);
 	}
 
-	function bind($array, $ignore = '')
+	public function bind($array, $ignore = '')
 	{
-		if (key_exists( 'params', $array ) && is_array( $array['params'] )) {
-			$registry = new JRegistry();
+		if (array_key_exists('params', $array) && is_array($array['params']))
+		{
+			$registry = new JRegistry;
 			$registry->loadArray($array['params']);
 			$array['params'] = $registry->toString();
 		}
+
 		return parent::bind($array, $ignore);
 	}
-
 }
-?>

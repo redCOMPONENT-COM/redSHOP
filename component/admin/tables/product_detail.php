@@ -1,94 +1,148 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     RedSHOP.Backend
+ * @subpackage  Table
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined('_JEXEC') or die('Restricted access');
+
+defined('_JEXEC') or die;
 
 class Tableproduct_detail extends JTable
 {
-	var $product_id = 0;
-	var $product_parent_id = 0;
-	var $product_number = null;
-	var $product_price = null;
-	var $discount_price = null;
-	var $product_type = null;
-	var $product_volume = null;
-	var $manufacturer_id = null;
-	var $supplier_id = null;
-	var $product_on_sale = null;
-	var $product_special = 0;
-	var $product_download = 0;
-	var $product_name = null;
-	var $product_s_desc = null;
-	var $product_desc = null;
-	var $visited = 0;
-	var $product_template = 0;
-	var $publish_date = null;
-	var $product_thumb_image = null;
-	var $product_full_image = null;
-	var $metakey = null;
-	var $metadesc = null;
-	var $metalanguage_setting = null;
-	var $metarobot_info = null;
-	var $append_to_global_seo = 'append';
-	var $pagetitle = null;
-	var $pageheading = null;
-	var $sef_url = null;
-	var $cat_in_sefurl = null;
-	var $product_tax_id = null;
-	var $product_tax_group_id = null;
-	var $published = null;
-	var $weight = 0;
-	var $expired = 0;
-	var $discount_stratdate = null;
-	var $discount_enddate = null;
-	var $not_for_sale = 0;
-	var $use_discount_calc = 0;
-	var $discount_calc_method = null;
-	var $min_order_product_quantity = 0;
-	var $max_order_product_quantity = 0;
-	var $attribute_set_id = 0;
-	var $product_length = 0;
-	var $product_height = 0;
-	var $product_width = 0;
-	var $product_diameter = 0;
-	var $product_availability_date = 0;
-	var $use_range = 0;
-	var $product_download_days = 0;
-	var $product_download_limit = 0;
-	var $product_download_clock = 0;
-	var $product_download_clock_min = 0;
-	var $product_download_infinite = 0;
-	var $product_back_full_image = null;
-	var $product_back_thumb_image = null;
-	var $product_preview_image = null;
-	var $product_preview_back_image = null;
-	var $accountgroup_id = 0;
-	var $preorder = null;
-	var $quantity_selectbox_value = null;
-	var $canonical_url = null;
+	public $product_id = 0;
+
+	public $product_parent_id = 0;
+
+	public $product_number = null;
+
+	public $product_price = null;
+
+	public $discount_price = null;
+
+	public $product_type = null;
+
+	public $product_volume = null;
+
+	public $manufacturer_id = null;
+
+	public $supplier_id = null;
+
+	public $product_on_sale = null;
+
+	public $product_special = 0;
+
+	public $product_download = 0;
+
+	public $product_name = null;
+
+	public $product_s_desc = null;
+
+	public $product_desc = null;
+
+	public $visited = 0;
+
+	public $product_template = 0;
+
+	public $publish_date = null;
+
+	public $product_thumb_image = null;
+
+	public $product_full_image = null;
+
+	public $metakey = null;
+
+	public $metadesc = null;
+
+	public $metalanguage_setting = null;
+
+	public $metarobot_info = null;
+
+	public $append_to_global_seo = 'append';
+
+	public $pagetitle = null;
+
+	public $pageheading = null;
+
+	public $sef_url = null;
+
+	public $cat_in_sefurl = null;
+
+	public $product_tax_id = null;
+
+	public $product_tax_group_id = null;
+
+	public $published = null;
+
+	public $weight = 0;
+
+	public $expired = 0;
+
+	public $discount_stratdate = null;
+
+	public $discount_enddate = null;
+
+	public $not_for_sale = 0;
+
+	public $use_discount_calc = 0;
+
+	public $discount_calc_method = null;
+
+	public $min_order_product_quantity = 0;
+
+	public $max_order_product_quantity = 0;
+
+	public $attribute_set_id = 0;
+
+	public $product_length = 0;
+
+	public $product_height = 0;
+
+	public $product_width = 0;
+
+	public $product_diameter = 0;
+
+	public $product_availability_date = 0;
+
+	public $use_range = 0;
+
+	public $product_download_days = 0;
+
+	public $product_download_limit = 0;
+
+	public $product_download_clock = 0;
+
+	public $product_download_clock_min = 0;
+
+	public $product_download_infinite = 0;
+
+	public $product_back_full_image = null;
+
+	public $product_back_thumb_image = null;
+
+	public $product_preview_image = null;
+
+	public $product_preview_back_image = null;
+
+	public $accountgroup_id = 0;
+
+	public $preorder = null;
+
+	public $quantity_selectbox_value = null;
+
+	public $canonical_url = null;
 	/**
 	 * @var boolean
 	 */
-	var $checked_out = 0;
+	public $checked_out = 0;
 
 	/**
 	 * @var time
 	 */
-	var $checked_out_time = 0;
+	public $checked_out_time = 0;
 
-	function __construct(&$db)
+	public function __construct(&$db)
 	{
 		$this->_table_prefix = '#__redshop_';
 
@@ -98,9 +152,8 @@ class Tableproduct_detail extends JTable
 	/**
 	 * Check for the product ID
 	 */
-	function check()
+	public function check()
 	{
-
 		$db = JFactory::getDBO();
 		$q = "SELECT product_id
 			FROM " . $this->_table_prefix . "product
@@ -111,12 +164,11 @@ class Tableproduct_detail extends JTable
 
 		if ($xid && $xid != intval($this->product_id))
 		{
-
 			$this->setError(JText::_('COM_REDSHOP_PRODUCT_NUMBER_ALREADY_EXISTS'));
-			//$this->_error = JText::sprintf('WARNNAMETRYAGAIN', JText::_('COM_REDSHOP_PRODUCT_NUMBER_ALREADY_EXISTS'));
+
 			return false;
 		}
+
 		return true;
 	}
 }
-?>

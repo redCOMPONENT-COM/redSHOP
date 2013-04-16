@@ -6,26 +6,24 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined('_JEXEC') or die('Restricted access');
+
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
 class integrationModelintegration extends JModel
 {
-	function __construct()
-	{
-		parent::__construct();
-
-	}
-
 	/*
 	 *  download googlebase xml file
 	 */
-	function gbasedownload()
+	public function gbasedownload()
 	{
-		$file_path = JPATH_COMPONENT_SITE . DS . "assets" . DS . "document" . DS . "gbase" . DS . "product.xml";
+		$file_path = JPATH_COMPONENT_SITE . "/assets/document/gbase/product.xml";
+
 		if (!file_exists($file_path))
+		{
 			return false;
+		}
 
 		$xml_code = implode("", file($file_path));
 

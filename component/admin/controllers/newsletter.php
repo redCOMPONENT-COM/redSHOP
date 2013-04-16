@@ -7,38 +7,25 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 
 class newsletterController extends JController
 {
-	function __construct($default = array())
-	{
-		parent::__construct($default);
-	}
-
-	function cancel()
+	public function cancel()
 	{
 		$this->setRedirect('index.php');
 	}
 
-	function display()
+	public function send_newsletter_preview()
 	{
-
 		parent::display();
 	}
 
-	function send_newsletter_preview()
+	public function send_newsletter()
 	{
-		$view = & $this->getView('newsletter', 'preview');
-
-		parent::display();
-	}
-
-	function send_newsletter()
-	{
-		$session =& JFactory::getSession();
+		$session = JFactory::getSession();
 		$option = JRequest::getVar('option');
 
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
@@ -47,7 +34,7 @@ class newsletterController extends JController
 
 		$newsletter_id = JRequest::getVar('newsletter_id');
 
-		$tmpcid = array_chunk($cid, NEWSLETTER_MAIL_CHUNK); //NEWSLETTER_MAIL_CHUNK
+		$tmpcid = array_chunk($cid, NEWSLETTER_MAIL_CHUNK);
 		$tmpuserid = array_chunk($userid, NEWSLETTER_MAIL_CHUNK);
 		$tmpusername = array_chunk($username, NEWSLETTER_MAIL_CHUNK);
 
@@ -60,11 +47,10 @@ class newsletterController extends JController
 		return;
 	}
 
-	function sendRecursiveNewsletter()
+	public function sendRecursiveNewsletter()
 	{
-		$session =& JFactory::getSession();
+		$session = JFactory::getSession();
 		$newsletter_id = JRequest::getVar('newsletter_id');
-		$option = JRequest::getVar('option');
 
 		$model = $this->getModel('newsletter');
 
@@ -76,18 +62,21 @@ class newsletterController extends JController
 		$cid = array();
 		$user_id = array();
 		$username = array();
+
 		if (count($subscribers) > 0)
 		{
 			$cid = $subscribers[0];
 			unset($subscribers[0]);
 			$subscribers = array_merge(array(), $subscribers);
 		}
+
 		if (count($subscribersuid) > 0)
 		{
 			$user_id = $subscribersuid[0];
 			unset($subscribersuid[0]);
 			$subscribersuid = array_merge(array(), $subscribersuid);
 		}
+
 		if (count($subscribersuname) > 0)
 		{
 			$username = $subscribersuname[0];
@@ -98,10 +87,12 @@ class newsletterController extends JController
 		$retuser = $model->newsletterEntry($cid, $user_id, $username);
 
 		$responcemsg = "";
+
 		for ($i = 0; $i < count($cid); $i++)
 		{
 			$subscriber = $model->getNewsletterSubscriber($newsletter_id, $cid[$i]);
 			$responcemsg .= "<div>" . $incNo . ": " . $subscriber->name . "( " . $subscriber->email . " ) -> ";
+
 			if ($retuser[$i])
 			{
 				$responcemsg .= "<span style='color: #00ff00'>" . JText::_('COM_REDSHOP_NEWSLETTER_SENT_SUCCESSFULLY') . "</span>";
@@ -110,9 +101,11 @@ class newsletterController extends JController
 			{
 				$responcemsg .= "<span style='color: #ff0000'>" . JText::_('COM_REDSHOP_NEWSLETTER_MAIL_NOT_SENT') . "</span>";
 			}
+
 			$responcemsg .= "</div>";
 			$incNo++;
 		}
+
 		$session->set('subscribers', $subscribers);
 		$session->set('subscribersuid', $subscribersuid);
 		$session->set('subscribersuname', $subscribersuname);
@@ -125,10 +118,9 @@ class newsletterController extends JController
 			$session->clear('subscribersuname');
 			$session->clear('incNo');
 		}
+
 		$responcemsg = "<div id='sentresponse'>" . $responcemsg . "</div>";
 		echo $responcemsg;
 		exit;
 	}
 }
-
-?>

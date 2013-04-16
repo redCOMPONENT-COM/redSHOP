@@ -1,73 +1,66 @@
 <?php
-/** 
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved. 
- * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com 
+/**
+ * @package     RedSHOP.Backend
+ * @subpackage  View
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined( '_JEXEC' ) or die( 'Restricted access' );
 
-jimport( 'joomla.application.component.view' );
+defined('_JEXEC') or die;
+
+jimport('joomla.application.component.view');
 
 class questionViewquestion extends JView
 {
-	function __construct( $config = array())
+	public function display($tpl = null)
 	{
-		 parent::__construct( $config );
-	}
-    
-	function display($tpl = null)
-	{	
-		global $mainframe, $context;
 		$context = 'question_id';
-		$document = & JFactory::getDocument();
-		$document->setTitle( JText::_('COM_REDSHOP_question') );
-		$model = $this->getModel('question');
-   		
-   		JToolBarHelper::title(   JText::_('COM_REDSHOP_QUESTION_MANAGEMENT' ), 'redshop_question48' );   		
-   		JToolBarHelper::addNewX();
-   		JToolBarHelper::editListX();
-   		JToolBarHelper::deleteList();
-   		JToolBarHelper::publishList();
-		JToolBarHelper::unpublishList();
-   		
-	   	
-		$uri	=& JFactory::getURI();
-		
-		$filter_order     = $mainframe->getUserStateFromRequest( $context.'filter_order',		'filter_order', 	  'question_date' );
-		$filter_order_Dir = $mainframe->getUserStateFromRequest( $context.'filter_order_Dir',	'filter_order_Dir', 'DESC' );
-		$product_id = $mainframe->getUserStateFromRequest( $context.'product_id',		'product_id',	0 );
 
-		$lists['order'] 		= $filter_order;  
+		$uri      = JFactory::getURI();
+		$app      = JFactory::getApplication();
+		$document = JFactory::getDocument();
+
+		$document->setTitle(JText::_('COM_REDSHOP_question'));
+		$model = $this->getModel('question');
+
+		JToolBarHelper::title(JText::_('COM_REDSHOP_QUESTION_MANAGEMENT'), 'redshop_question48');
+		JToolBarHelper::addNewX();
+		JToolBarHelper::editListX();
+		JToolBarHelper::deleteList();
+		JToolBarHelper::publishList();
+		JToolBarHelper::unpublishList();
+
+		$filter_order     = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'question_date');
+		$filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', 'DESC');
+		$product_id       = $app->getUserStateFromRequest($context . 'product_id', 'product_id', 0);
+
+		$lists['order']     = $filter_order;
 		$lists['order_Dir'] = $filter_order_Dir;
-				
-		$question	= & $this->get( 'Data');
-		$total		= & $this->get( 'Total');
-		$pagination = & $this->get( 'Pagination' );
-		
-		$option= $model->getProduct();
+
+		$question   = $this->get('Data');
+		$total      = $this->get('Total');
+		$pagination = $this->get('Pagination');
+
+		$option = $model->getProduct();
 		$optionsection = array();
 		$optionsection[0]->product_id = 0;
 		$optionsection[0]->product_name = JText::_('COM_REDSHOP_SELECT');
-		if(count($option)>0)
-		{
-			$optionsection = @array_merge($optionsection,$option);
-		}
-		$lists['product_id'] 	= JHTML::_('select.genericlist',$optionsection,  'product_id', 'class="inputbox" size="1" onchange="document.adminForm.submit();"', 'product_id', 'product_name',  $product_id );
 
-	    $this->assignRef('lists',		$lists);    
-	  	$this->assignRef('question',	$question); 		
-	    $this->assignRef('pagination',	$pagination);
-	    $this->assignRef('request_url',	$uri->toString());    	
-    	parent::display($tpl);
+		if (count($option) > 0)
+		{
+			$optionsection = @array_merge($optionsection, $option);
+		}
+
+		$lists['product_id'] = JHTML::_('select.genericlist', $optionsection, 'product_id',
+			'class="inputbox" size="1" onchange="document.adminForm.submit();"', 'product_id', 'product_name', $product_id
+		);
+
+		$this->assignRef('lists', $lists);
+		$this->assignRef('question', $question);
+		$this->assignRef('pagination', $pagination);
+		$this->assignRef('request_url', $uri->toString());
+
+		parent::display($tpl);
 	}
 }
-?>

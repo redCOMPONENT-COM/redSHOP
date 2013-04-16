@@ -13,7 +13,7 @@
  * along with redSHOP; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 class redSHOPWizard{
 
@@ -327,14 +327,14 @@ class redSHOPWizardTemplate
 	}
 
 	.button1-right {
-		background: url('.JURI::root().'administrator/templates/khepri/images/j_button1_right.png) 100% 0 no-repeat;
+		background: url('.JURI::root().'administrator/components/com_redshop/assets/images/wizard/j_button1_right.png) 100% 0 no-repeat;
 		float: left;
 		margin-left: 5px;
 	}
 
 	.button1-right .prev {
 		float: left;
-		background: url('.JURI::root().'administrator/templates/khepri/images/j_button1_prev.png) no-repeat;
+		background: url('.JURI::root().'administrator/components/com_redshop/assets/images/wizard/j_button1_prev.png) no-repeat;
 	}
 
 	.button-previous{
@@ -348,19 +348,19 @@ class redSHOPWizardTemplate
 	}
 
 	.button1-left {
-		background: transparent url('.JURI::root().'administrator/templates/khepri/images/j_button1_left.png) no-repeat scroll 0 0;
+		background: transparent url('.JURI::root().'administrator/components/com_redshop/assets/images/wizard/j_button1_left.png) no-repeat scroll 0 0;
 		float: left;
 		margin-left: 5px;
 		cursor: pointer;
 	}
 	.button1-left .next {
-		background: transparent url('.JURI::root().'administrator/templates/khepri/images/j_button1_next.png) no-repeat scroll 100% 0;
+		background: transparent url('.JURI::root().'administrator/components/com_redshop/assets/images/wizard/j_button1_next.png) no-repeat scroll 100% 0;
 		float: left;
 		cursor: pointer;
 	}
 
 	.button1-left .exit {
-		background: transparent url('.JURI::root().'administrator/templates/khepri/images/j_button1_admin.png) no-repeat scroll 100% 0;
+		background: transparent url('.JURI::root().'administrator/components/com_redshop/assets/images/wizard/j_button1_admin.png) no-repeat scroll 100% 0;
 		float: left;
 		cursor: pointer;
 	}
@@ -388,7 +388,7 @@ class redSHOPWizardTemplate
 		font-weight: bold;
 		padding-bottom: 12px;
 		padding-top: 10px;
-		background: url('.JURI::root().'administrator/templates/khepri/images/j_divider.png) 0 100% repeat-x;
+		background: url('.JURI::root().'administrator/components/com_redshop/assets/images/wizard/j_divider.png) 0 100% repeat-x;
 	}
 
 	div.on {
@@ -415,27 +415,27 @@ class redSHOPWizardTemplate
 	}
 
 	div#cElement-box div.t {
-		background: url('.JURI::root().'administrator/templates/khepri/images/j_border.png) 0 0 repeat-x;
+		background: url('.JURI::root().'administrator/components/com_redshop/assets/images/wizard/j_border.png) 0 0 repeat-x;
 	}
 
 	div#cElement-box div.t div.t {
-		background: url('.JURI::root().'administrator/templates/khepri/images/j_crn_tr_light.png) 100% 0 no-repeat;
+		background: url('.JURI::root().'administrator/components/com_redshop/assets/images/wizard/j_crn_tr_light.png) 100% 0 no-repeat;
 	}
 
 	div#cElement-box div.t div.t div.t {
-		background: url('.JURI::root().'administrator/templates/khepri/images/j_crn_tl_light.png) 0 0 no-repeat;
+		background: url('.JURI::root().'administrator/components/com_redshop/assets/images/wizard/j_crn_tl_light.png) 0 0 no-repeat;
 	}
 
 	div#cElement-box div.b {
-		background: url('.JURI::root().'administrator/templates/khepri/images/j_border.png) 0 100% repeat-x;
+		background: url('.JURI::root().'administrator/components/com_redshop/assets/images/wizard/j_border.png) 0 100% repeat-x;
 	}
 
 	div#cElement-box div.b div.b {
-		background: url('.JURI::root().'administrator/templates/khepri/images/j_crn_br_light.png) 100% 0 no-repeat;
+		background: url('.JURI::root().'administrator/components/com_redshop/assets/images/wizard/j_crn_br_light.png) 100% 0 no-repeat;
 	}
 
 	div#cElement-box div.b div.b div.b {
-		background: url('.JURI::root().'administrator/templates/khepri/images/j_crn_bl_light.png) 0 0 no-repeat;
+		background: url('.JURI::root().'administrator/components/com_redshop/assets/images/wizard/j_crn_bl_light.png) 0 0 no-repeat;
 	}
 	#stepbar {
 		float: left;
@@ -454,7 +454,7 @@ class redSHOPWizardTemplate
 		font-size: 20px;
 		color: #0B55C4;
 		font-weight: bold;
-		background: url('.JURI::root().'administrator/templates/khepri/images/j_divider.png) 0 100% repeat-x;
+		background: url('.JURI::root().'administrator/components/com_redshop/assets/images/wizard/j_divider.png) 0 100% repeat-x;
 	}
 
 	div#stepbar {
@@ -462,27 +462,27 @@ class redSHOPWizardTemplate
 	}
 
 	div#stepbar div.t {
-	  background: url('.JURI::root().'administrator/templates/khepri/images/j_border.png) 0 0 repeat-x;
+	  background: url('.JURI::root().'administrator/components/com_redshop/assets/images/wizard/j_border.png) 0 0 repeat-x;
 	}
 
 	div#stepbar div.t div.t {
-	   background: url('.JURI::root().'administrator/templates/khepri/images/j_crn_tr_dark.png) 100% 0 no-repeat;
+	   background: url('.JURI::root().'administrator/components/com_redshop/assets/images/wizard/j_crn_tr_dark.png) 100% 0 no-repeat;
 	}
 
 	div#stepbar div.t div.t div.t {
-	   background: url('.JURI::root().'administrator/templates/khepri/images/j_crn_tl_dark.png) 0 0 no-repeat;
+	   background: url('.JURI::root().'administrator/components/com_redshop/assets/images/wizard/j_crn_tl_dark.png) 0 0 no-repeat;
 	}
 
 	div#stepbar div.b {
-	  background: url('.JURI::root().'administrator/templates/khepri/images/j_border.png) 0 100% repeat-x;
+	  background: url('.JURI::root().'administrator/components/com_redshop/assets/images/wizard/j_border.png) 0 100% repeat-x;
 	}
 
 	div#stepbar div.b div.b {
-	   background: url('.JURI::root().'administrator/templates/khepri/images/j_crn_br_dark.png) 100% 0 no-repeat;
+	   background: url('.JURI::root().'administrator/components/com_redshop/assets/images/wizard/j_crn_br_dark.png) 100% 0 no-repeat;
 	}
 
 	div#stepbar div.b div.b div.b {
-	   background: url('.JURI::root().'administrator/templates/khepri/images/j_crn_bl_dark.png) 0 0 no-repeat;
+	   background: url('.JURI::root().'administrator/components/com_redshop/assets/images/wizard/j_crn_bl_dark.png) 0 0 no-repeat;
 	}
 
 	div#stepbar div.t, div#stepbar div.b {
@@ -527,27 +527,27 @@ class redSHOPWizardTemplate
 	}
 
 	div#cToolbar-box div.t {
-	  background: url('.JURI::root().'administrator/templates/khepri/images/j_border.png) 0 0 repeat-x;
+	  background: url('.JURI::root().'administrator/components/com_redshop/assets/images/wizard/j_border.png) 0 0 repeat-x;
 	}
 
 	div#cToolbar-box div.t div.t {
-	   background: url('.JURI::root().'administrator/templates/khepri/images/j_crn_tr_med.png) 100% 0 no-repeat;
+	   background: url('.JURI::root().'administrator/components/com_redshop/assets/images/wizard/j_crn_tr_med.png) 100% 0 no-repeat;
 	}
 
 	div#cToolbar-box div.t div.t div.t {
-	   background: url('.JURI::root().'administrator/templates/khepri/images/j_crn_tl_med.png) 0 0 no-repeat;
+	   background: url('.JURI::root().'administrator/components/com_redshop/assets/images/wizard/j_crn_tl_med.png) 0 0 no-repeat;
 	}
 
 	div#cToolbar-box div.b {
-	  background: url('.JURI::root().'administrator/templates/khepri/images/j_border.png) 0 100% repeat-x;
+	  background: url('.JURI::root().'administrator/components/com_redshop/assets/images/wizard/j_border.png) 0 100% repeat-x;
 	}
 
 	div#cToolbar-box div.b div.b {
-	   background: url('.JURI::root().'administrator/templates/khepri/images/j_crn_br_med.png) 100% 0 no-repeat;
+	   background: url('.JURI::root().'administrator/components/com_redshop/assets/images/wizard/j_crn_br_med.png) 100% 0 no-repeat;
 	}
 
 	div#cToolbar-box div.b div.b div.b {
-	   background: url('.JURI::root().'administrator/templates/khepri/images/j_crn_bl_med.png) 0 0 no-repeat;
+	   background: url('.JURI::root().'administrator/components/com_redshop/assets/images/wizard/j_crn_bl_med.png) 0 0 no-repeat;
 	}
 	</style>
 	<script>

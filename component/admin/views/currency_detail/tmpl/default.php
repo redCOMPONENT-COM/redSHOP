@@ -1,62 +1,67 @@
 <?php
-defined('_JEXEC') or die('Restricted access');
-$uri =& JURI::getInstance();
-$url= $uri->root();
+/**
+ * @package     RedSHOP.Backend
+ * @subpackage  Template
+ *
+ * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
+ */
+defined('_JEXEC') or die;
+$uri = JURI::getInstance();
+$url = $uri->root();
 ?>
 
 
 <script language="javascript" type="text/javascript">
-	Joomla.submitbutton = function(pressbutton) {
-	submitbutton(pressbutton);
+	Joomla.submitbutton = function (pressbutton) {
+		submitbutton(pressbutton);
 	}
 
-submitbutton = function(pressbutton) 
-	{
+	submitbutton = function (pressbutton) {
 		var form = document.adminForm;
-		
+
 		if (pressbutton == 'cancel') {
-			submitform( pressbutton );
+			submitform(pressbutton);
 			return;
 		}
-		if (form.currency_name.value == "")
-		{
-			alert( "<?php echo JText::_('COM_REDSHOP_CURREMCY_MUST_HAVE_A_NAME', true ); ?>" );
+		if (form.currency_name.value == "") {
+			alert("<?php echo JText::_('COM_REDSHOP_CURREMCY_MUST_HAVE_A_NAME', true ); ?>");
 		}
-		else if(form.currency_code.value == "")
-		{
-			alert( "<?php echo JText::_('COM_REDSHOP_CURRENCY_CODE_MUST_HAVE_A_VALUE', true ); ?>" );
+		else if (form.currency_code.value == "") {
+			alert("<?php echo JText::_('COM_REDSHOP_CURRENCY_CODE_MUST_HAVE_A_VALUE', true ); ?>");
 		}
-		
-		else 
-		{
-			submitform( pressbutton );
+
+		else {
+			submitform(pressbutton);
 		}
 	}
 </script>
 
-<form action="<?php echo JRoute::_($this->request_url) ?>" method="post" name="adminForm" id="adminForm" >
-<fieldset class="adminform">
-<legend><?php echo "details" ?></legend>
-<table class="admintable">
-<tr>
-<td class="key"><?php echo JText::_('COM_REDSHOP_CURRENCY_NAME'); ?></td>
-<td><input class="text_area" type="text" name="currency_name" id="currency_name" size="30" maxlength="100" value="<?php echo $this->detail->currency_name;?>"/></td>
-</tr>
-<tr>
-<td class="key"><?php echo JText::_('COM_REDSHOP_CURRENCY_CODE_LBL' ); ?>:
-			</td>
-			<td>
-				<input class="text_area"  type="text" name="currency_code" id="currency_code" size="80" maxlength="255" value="<?php echo $this->detail->currency_code;?>" />
-</td>
-</tr>
+<form action="<?php echo JRoute::_($this->request_url) ?>" method="post" name="adminForm" id="adminForm">
+	<fieldset class="adminform">
+		<legend><?php echo "details" ?></legend>
+		<table class="admintable">
+			<tr>
+				<td class="key"><?php echo JText::_('COM_REDSHOP_CURRENCY_NAME'); ?></td>
+				<td><input class="text_area" type="text" name="currency_name" id="currency_name" size="30"
+				           maxlength="100" value="<?php echo $this->detail->currency_name; ?>"/></td>
+			</tr>
+			<tr>
+				<td class="key"><?php echo JText::_('COM_REDSHOP_CURRENCY_CODE_LBL'); ?>:
+				</td>
+				<td>
+					<input class="text_area" type="text" name="currency_code" id="currency_code" size="80"
+					       maxlength="255" value="<?php echo $this->detail->currency_code; ?>"/>
+				</td>
+			</tr>
 
-</table>
-</fieldset>
+		</table>
+	</fieldset>
 
 
-    <input type="hidden" name="cid[]" value="<?php echo $this->detail->currency_id; ?>" />
-<input type="hidden" name="task" value="" />
-<input type="hidden" name="view" value="currency_detail" />
+	<input type="hidden" name="cid[]" value="<?php echo $this->detail->currency_id; ?>"/>
+	<input type="hidden" name="task" value=""/>
+	<input type="hidden" name="view" value="currency_detail"/>
 </form>
 
 

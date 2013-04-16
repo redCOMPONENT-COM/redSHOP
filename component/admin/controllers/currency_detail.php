@@ -7,22 +7,19 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die ('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 
 class currency_detailController extends JController
 {
-
-	function __construct($default = array())
+	public function __construct($default = array())
 	{
 		parent::__construct($default);
 		$this->registerTask('add', 'edit');
-
-
 	}
 
-	function edit()
+	public function edit()
 	{
 		JRequest::setVar('view', 'currency_detail');
 		JRequest::setVar('layout', 'default');
@@ -33,13 +30,12 @@ class currency_detailController extends JController
 		parent::display();
 	}
 
-
-	function apply()
+	public function apply()
 	{
 		$this->save(1);
 	}
 
-	function save($apply = 0)
+	public function save($apply = 0)
 	{
 		$post = JRequest::get('post');
 
@@ -50,19 +46,15 @@ class currency_detailController extends JController
 		$post ['currency_id'] = $cid [0];
 		$model = $this->getModel('currency_detail');
 		$row = $model->store($post);
+
 		if ($row)
 		{
-
 			$msg = JText::_('COM_REDSHOP_CURRENCY_DETAIL_SAVED');
-
 		}
 		else
 		{
-
 			$msg = JText::_('COM_REDSHOP_ERROR_SAVING_CURRENCY_DETAIL');
-
 		}
-
 
 		if ($apply == 1)
 		{
@@ -72,20 +64,17 @@ class currency_detailController extends JController
 		{
 			$this->setRedirect('index.php?option=' . $option . '&view=currency', $msg);
 		}
-
 	}
 
-	function cancel()
+	public function cancel()
 	{
-
 		$option = JRequest::getVar('option');
 		$msg = JText::_('COM_REDSHOP_CURRENCY_DETAIL_EDITING_CANCELLED');
 		$this->setRedirect('index.php?option=' . $option . '&view=currency', $msg);
 	}
 
-	function remove()
+	public function remove()
 	{
-
 		$option = JRequest::getVar('option');
 
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
@@ -96,13 +85,13 @@ class currency_detailController extends JController
 		}
 
 		$model = $this->getModel('currency_detail');
+
 		if (!$model->delete($cid))
 		{
 			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
 		}
+
 		$msg = JText::_('COM_REDSHOP_CURRENCY_DETAIL_DELETED_SUCCESSFULLY');
 		$this->setRedirect('index.php?option=' . $option . '&view=currency', $msg);
 	}
-
-
 }

@@ -7,30 +7,26 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
-jimport('joomla.application.component.controller');
+JLoader::import('joomla.application.component.controller');
+
 /**
- * send friend Controller
+ * send friend Controller.
  *
- * @static
- * @package        redSHOP
- * @since          1.0
+ * @package     RedSHOP.Frontend
+ * @subpackage  Controller
+ * @since       1.0
  */
-class send_friendController extends JController
+class Send_friendController extends JController
 {
-	function __construct($default = array())
-	{
-		parent::__construct($default);
-	}
-
 	/**
 	 * sendmail function
 	 *
 	 * @access public
 	 * @return void
 	 */
-	function sendmail()
+	public function sendmail()
 	{
 		$post = JRequest::get('post');
 		$your_name = $post['your_name'];

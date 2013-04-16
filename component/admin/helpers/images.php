@@ -7,11 +7,10 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 class RedShopHelperImages extends JObject
 {
-
 	/**
 	 * Protected! Use the getInstance
 	 */
@@ -32,6 +31,7 @@ class RedShopHelperImages extends JObject
 			case 'image/jpg':
 			case 'image/jpeg':
 			case 'image/gif':
+
 				if (JFile::exists($dest) && !empty($dest))
 				{
 					mt_srand();
@@ -43,12 +43,12 @@ class RedShopHelperImages extends JObject
 					mt_srand();
 					$rand4 = mt_rand(0, mt_getrandmax());
 
-					$dest = $original_path . DS . $data['image_name'] . '-' . $rand1 . $rand2 . $rand3 . $rand4 . '.' . JFile::getExt(strtolower($file['name']));
-
+					$dest = $original_path . DS . $data['image_name'] . '-' . $rand1 . $rand2 . $rand3 . $rand4
+						. '.' . JFile::getExt(strtolower($file['name']));
 				}
 
-				// this method should be expanded to be useable for other purposes not just making thumbs
-				// but for now it just makes thumbs and proceed to the else part
+				// This method should be expanded to be useable for other purposes not just making thumbs
+				// But for now it just makes thumbs and proceed to the else part
 				if ($command != 'thumb')
 				{
 					switch ($command)
@@ -73,18 +73,21 @@ class RedShopHelperImages extends JObject
 					// THUMB
 					$src = $file_path;
 					$src_path_info = pathinfo($src);
-					$dest = $src_path_info['dirname'] . DS . 'thumb' . DS . $src_path_info['filename'] . '_w' . $width . '_h' . $height . '_dope' . '.' . $src_path_info['extension'];
+					$dest = $src_path_info['dirname'] . '/thumb/' . $src_path_info['filename'] . '_w'
+						. $width . '_h' . $height . '_dope' . '.' . $src_path_info['extension'];
 					$alt_dest = '';
 
 					if (!JFile::exists($dest))
 					{
 						$ret = RedShopHelperImages::writeImage($src, $dest, $alt_dest, $width, $height, $proportional);
 					}
+
 					else
 					{
 						$ret = $dest;
 					}
 				}
+
 				break;
 		}
 
@@ -94,7 +97,7 @@ class RedShopHelperImages extends JObject
 	public static function writeImage($src, $dest, $alt_dest, $width, $height, $proportional)
 	{
 		ob_start();
-		RedShopHelperImages::resizeImage($src, $width, $height, $proportional, 'browser', false);
+		self::resizeImage($src, $width, $height, $proportional, 'browser', false);
 		$contents = ob_get_contents();
 		ob_end_clean();
 
@@ -104,6 +107,7 @@ class RedShopHelperImages extends JObject
 			{
 				return false;
 			}
+
 			$dest = $alt_dest;
 		}
 
@@ -125,12 +129,12 @@ class RedShopHelperImages extends JObject
 			}
 			else
 			{
-				if (!JFile::exists($path . DS . 'index.html'))
+				if (!JFile::exists($path . '/index.html'))
 				{
-					// avoid 'pass by reference' error in J1.6+
+					// Avoid 'pass by reference' error in J1.6+
 					$content = '<html><body bgcolor="#ffffff"></body></html>';
 
-					JFile::write($path . DS . 'index.html', $content);
+					JFile::write($path . '/index.html', $content);
 				}
 			}
 		}
@@ -140,7 +144,10 @@ class RedShopHelperImages extends JObject
 
 	public static function resizeImage($file, $width = 0, $height = 0, $proportional = false, $output = 'file', $delete_original = true, $use_linux_commands = false)
 	{
-		if ($height <= 0 && $width <= 0) return false;
+		if ($height <= 0 && $width <= 0)
+		{
+			return false;
+		}
 
 		// Setting defaults and meta
 		$info = getimagesize($file);
@@ -152,9 +159,20 @@ class RedShopHelperImages extends JObject
 		// Calculating proportionality
 		if ($proportional)
 		{
-			if ($width == 0) $factor = $height / $height_old;
-			elseif ($height == 0) $factor = $width / $width_old;
-			else $factor = min($width / $width_old, $height / $height_old);
+			if ($width == 0)
+			{
+				$factor = $height / $height_old;
+			}
+
+			elseif ($height == 0)
+			{
+				$factor = $width / $width_old;
+			}
+
+			else
+			{
+				$factor = min($width / $width_old, $height / $height_old);
+			}
 
 			$final_width = round($width_old * $factor);
 			$final_height = round($height_old * $factor);
@@ -184,6 +202,7 @@ class RedShopHelperImages extends JObject
 
 		// This is the resizing/resampling/transparency-preserving magic
 		$image_resized = imagecreatetruecolor($final_width, $final_height);
+
 		if (($info[2] == IMAGETYPE_GIF) || ($info[2] == IMAGETYPE_PNG))
 		{
 			$transparency = imagecolortransparent($image);
@@ -195,6 +214,7 @@ class RedShopHelperImages extends JObject
 				imagefill($image_resized, 0, 0, $transparency);
 				imagecolortransparent($image_resized, $transparency);
 			}
+
 			elseif ($info[2] == IMAGETYPE_PNG)
 			{
 				imagealphablending($image_resized, false);
@@ -203,22 +223,28 @@ class RedShopHelperImages extends JObject
 				imagesavealpha($image_resized, true);
 			}
 		}
+
 		imagecopyresampled($image_resized, $image, 0, 0, 0, 0, $final_width, $final_height, $width_old, $height_old);
 
 		// Taking care of original, if needed
 		if ($delete_original)
 		{
-			if ($use_linux_commands) exec('rm ' . $file);
-			else @unlink($file);
+			if ($use_linux_commands)
+			{
+				exec('rm ' . $file);
+			}
+
+			else
+			{
+				@unlink($file);
+			}
 		}
 
 		// Preparing a method of providing result
 		switch (strtolower($output))
 		{
 			case 'browser':
-				//$mime = image_type_to_mime_type($info[2]);
-				//header("Content-type: $mime");
-				$output = NULL;
+				$output = null;
 				break;
 			case 'file':
 				$output = $destPath;
@@ -245,11 +271,13 @@ class RedShopHelperImages extends JObject
 			default:
 				@ImageDestroy($image_resized);
 				@ImageDestroy($image);
+
 				return false;
 		}
 
 		@ImageDestroy($image_resized);
 		@ImageDestroy($image);
+
 		return true;
 	}
 }

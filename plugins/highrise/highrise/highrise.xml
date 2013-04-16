@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="1.7.0" client="site" type="plugin" group="highrise" method="upgrade">
+    <name>Highrise</name>
+    <version>1.1</version>
+    <creationDate>09-09-2011</creationDate>
+    <author>redweb.dk</author>
+    <copyright>redCOMPONENT.com</copyright>
+    <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+    <description></description>
+    <files>
+        <filename plugin="highrise">highrise.php</filename>
+    </files>
+    <languages>
+        <language tag="en-GB">language/en-GB/en-GB.plg_highrise_highrise.ini</language>
+        <language tag="da-DK">language/da-DK/da-DK.plg_highrise_highrise.ini</language>
+    </languages>
+    <config>
+        <fields name="params">
+            <fieldset name="basic">
+                <field name="highrise_url" type="text" default="" label="COM_REDSHOP_HIGHRISE_URL_LBL"
+                       description="COM_REDSHOP_DESC_HIGHRISE_URL_LBL"/>
+                <field name="api_token" type="text" default="" label="COM_REDSHOP_HIGHRISE_API_TOKEN_LBL"
+                       description="COM_REDSHOP_DESC_HIGHRISE_API_TOKEN_LBL"/>
+            </fieldset>
+        </fields>
+    </config>
+</extension>

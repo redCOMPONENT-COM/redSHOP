@@ -7,36 +7,32 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
-jimport('joomla.application.component.controller');
+JLoader::import('joomla.application.component.controller');
+
 /**
- * wishlist Controller
+ * wishlist Controller.
  *
- * @static
- * @package        redSHOP
- * @since          1.0
+ * @package     RedSHOP.Frontend
+ * @subpackage  Controller
+ * @since       1.0
  */
-class wishlistController extends JController
+class WishlistController extends JController
 {
-	function __construct($default = array())
-	{
-		parent::__construct($default);
-	}
-
 	/**
 	 * createsave wishlist function
 	 *
 	 * @access public
 	 * @return void
 	 */
-	function createsave()
+	public function createsave()
 	{
-		$user = & JFactory::getUser();
-		$model = & $this->getModel("wishlist");
-		$post ['wishlist_name'] = JRequest::getVar('txtWishlistname');
-		$post ['user_id'] = $user->id;
-		$post ['cdate'] = time();
+		$user  = JFactory::getUser();
+		$model = $this->getModel("wishlist");
+		$post['wishlist_name'] = JRequest::getVar('txtWishlistname');
+		$post['user_id']       = $user->id;
+		$post['cdate']         = time();
 
 		if ($model->store($post))
 		{
@@ -70,14 +66,19 @@ class wishlistController extends JController
 	 */
 function savewishlist()
 {
-	global $mainframe;
-	$cid = JRequest::getInt('cid');
-	$model = & $this->getModel("wishlist");
+	$app    = JFactory::getApplication();
+	$cid    = JRequest::getInt('cid');
+	$model  = $this->getModel("wishlist");
 	$option = JRequest::getVar('option');
+
 	if ($model->savewishlist())
+	{
 		echo "<div>" . JText::_('COM_REDSHOP_PRODUCT_SAVED_IN_WISHLIST_SUCCESSFULLY') . "</div>";
+	}
 	else
+	{
 		echo "<div>" . JText::_('COM_REDSHOP_PRODUCT_NOT_SAVED_IN_WISHLIST') . "</div>";
+	}
 
 	?>
 	<script language="javascript">
@@ -85,50 +86,56 @@ function savewishlist()
 	</script>
 <?php
 }
+
 	/**
 	 * delete wishlist function
 	 *
 	 * @access public
 	 * @return void
 	 */
-	function delwishlist()
+	public function delwishlist()
 	{
-		global $mainframe;
-
-		$user = & JFactory::getUser();
-		$post = JRequest::get('post');
-		$model = & $this->getModel("wishlist");
-
+		$app    = JFactory::getApplication();
+		$user   = JFactory::getUser();
+		$post   = JRequest::get('post');
+		$model  = $this->getModel("wishlist");
 		$Itemid = JRequest::getVar('Itemid');
-
 		$option = JRequest::getVar('option');
-
-		$post = JRequest::get('request');
+		$post   = JRequest::get('request');
 
 		if ($model->check_user_wishlist_authority($user->id, $post["wishlist_id"]))
 		{
 			if ($model->delwishlist($user->id, $post["wishlist_id"]))
+			{
 				$msg = JText::_('COM_REDSHOP_WISHLIST_DELETED_SUCCESSFULLY');
+			}
 			else
+			{
 				$msg = JText::_('COM_REDSHOP_ERROR_IN_DELETING_WISHLIST');
+			}
 		}
 		else
-			$msg = JText::_('COM_REDSHOP_YOU_ARE_NOT_AUTHORIZE_TO_DELETE');
+		{
+			$msg  = JText::_('COM_REDSHOP_YOU_ARE_NOT_AUTHORIZE_TO_DELETE');
+			$link = JRoute::_("index.php?option=" . $option . "&view=wishlist&task=viewwishlist&Itemid=" . $Itemid, false);
+		}
 
-		$link = JRoute::_("index.php?option=" . $option . "&view=wishlist&task=viewwishlist&Itemid=" . $Itemid, false);
-		;
-
-		$mainframe->redirect($link, $msg);
+		$app->redirect($link, $msg);
 	}
 
-	function mysessdelwishlist()
+	/**
+	 * My sess del wish list
+	 *
+	 * @return void
+	 */
+	public function mysessdelwishlist()
 	{
-		$post = array();
-		$post['wishlist_id'] = JRequest::getVar('wishlist_id');
-		$mydel = JRequest::getVar('mydel');
-		$model = & $this->getModel("wishlist");
+		$post   = array();
+		$mydel  = JRequest::getVar('mydel');
+		$model  = $this->getModel("wishlist");
 		$option = JRequest::getVar('option');
 		$Itemid = JRequest::getVar('Itemid');
+		$post['wishlist_id'] = JRequest::getVar('wishlist_id');
 
 		if ($mydel != '')
 		{
@@ -139,7 +146,6 @@ function savewishlist()
 
 			$link = JRoute::_("index.php?mydel=1&option=" . $option . "&view=wishlist&task=viewwishlist&Itemid=" . $Itemid, false);
 			$this->setRedirect($link, $msg);
-
 		}
 	}
 }

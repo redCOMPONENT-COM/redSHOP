@@ -1,20 +1,13 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     RedSHOP.Frontend
+ * @subpackage  Helper
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
-// no direct access
-defined( '_JEXEC' ) or die( 'Restricted access' );
+
+defined('_JEXEC') or die;
 
 /**
  * We are in redSHOP Using the Traditional Snippet
@@ -23,12 +16,13 @@ defined( '_JEXEC' ) or die( 'Restricted access' );
  */
 class googleanalytics
 {
-	var $_data = null;
-	var $_table_prefix = null;
+	public $_data = null;
 
-	function __construct()
+	public $_table_prefix = null;
+
+	public function __construct()
 	{
-	  	$this->_table_prefix = '#__'.TABLE_PREFIX;
+		$this->_table_prefix = '#__' . TABLE_PREFIX;
 	}
 
 	/**
@@ -36,14 +30,15 @@ class googleanalytics
 	 * The generic tracking code snippet consists of two parts: a script tag that references the ga.js tracking code,
 	 * and another script that executes the tracking code.
 	 */
-	function pageTrackerView(){
-
-		# The first line of the tracking script should always initialize the page tracker object.
-         $pagecode = "
+	public function pageTrackerView()
+	{
+		// The first line of the tracking script should always initialize the page tracker object.
+		$pagecode = "
 			var _gaq = _gaq || [];
-		 	 _gaq.push(['_setAccount', '".GOOGLE_ANA_TRACKER_KEY."']);
+		 	 _gaq.push(['_setAccount', '" . GOOGLE_ANA_TRACKER_KEY . "']);
 		  	_gaq.push(['_trackPageview']);
 		";
+
 		return $pagecode;
 	}
 
@@ -53,20 +48,21 @@ class googleanalytics
 	 * Therefore, if the transaction is a duplicate of an existing transaction for that session, the old transaction values are over-written with the new transaction values.
 	 * Arguments for this method are matched by position, so be sure to supply all parameters, even if some of them have an empty value.
 	 */
-	function addTrans($data)
+	public function addTrans($data)
 	{
 		$packegecode = "
 			_gaq.push(['_addTrans',
-			    '".$data['order_id']."',        // order ID - required
-			    '".$data['shopname']."',  		// affiliation or store name
-			    '".$data['order_total']."',     // total - required
-			    '".$data['order_tax']."',		// tax
-			    '".$data['order_shipping']."',  // shipping
-		    	'".$data['city']."',       						// city
-			    '".$data['state']."',     		// state or province
-			    '".$data['country']."'    		// country
+			    '" . $data['order_id'] . "',        // order ID - required
+			    '" . $data['shopname'] . "',  		// affiliation or store name
+			    '" . $data['order_total'] . "',     // total - required
+			    '" . $data['order_tax'] . "',		// tax
+			    '" . $data['order_shipping'] . "',  // shipping
+		    	'" . $data['city'] . "',       						// city
+			    '" . $data['state'] . "',     		// state or province
+			    '" . $data['country'] . "'    		// country
 			  ]);
 	    ";
+
 		return $packegecode;
 
 	}
@@ -77,22 +73,22 @@ class googleanalytics
 	 * This means that the sku parameter is required.
 	 * This method then associates the item to the parent transaction object via the orderId argument.
 	 */
-	function addItem($itemdata)
+	public function addItem($itemdata)
 	{
-		$itemdata['product_name'] = str_replace("\n"," ",$itemdata['product_name']);
-		$itemdata['product_name'] = str_replace("\r"," ",$itemdata['product_name']);
+		$itemdata['product_name'] = str_replace("\n", " ", $itemdata['product_name']);
+		$itemdata['product_name'] = str_replace("\r", " ", $itemdata['product_name']);
 
 		$packegecode = "
 			// add item might be called for every item in the shopping cart
 		   // where your ecommerce engine loops through each item in the cart and
 		   // prints out _addItem for each
 		  _gaq.push(['_addItem',
-		    '".$itemdata['order_id']."',           		  // order ID - required
-		    '".$itemdata['product_number']."',           // SKU/code - required
-		    '".$itemdata['product_name']."',        	// product name
-		    '".$itemdata['product_category']."',   		// category or variation
-		    '".$itemdata['product_price']."',          // unit price - required
-		    '".$itemdata['product_quantity']."'        // quantity - required
+		    '" . $itemdata['order_id'] . "',           		  // order ID - required
+		    '" . $itemdata['product_number'] . "',           // SKU/code - required
+		    '" . $itemdata['product_name'] . "',        	// product name
+		    '" . $itemdata['product_category'] . "',   		// category or variation
+		    '" . $itemdata['product_price'] . "',          // unit price - required
+		    '" . $itemdata['product_quantity'] . "'        // quantity - required
 		  ]);
 	    ";
 
@@ -103,13 +99,14 @@ class googleanalytics
 	 * Sends both the transaction and item data to the Google Analytics server.
 	 * This method should be called after _trackPageview(), and used in conjunction with the _addItem() and addTrans() methods.
 	 * It should be called after items and transaction elements have been set up.
- 	 */
-	function trackTrans(){
-
-		# submits transaction to the Analytics servers
+	 */
+	public function trackTrans()
+	{
+		// Submits transaction to the Analytics servers
 		$packegecode = "
 			_gaq.push(['_trackTrans']); 	//submits transaction to the Analytics servers
 		";
+
 		return $packegecode;
 	}
 
@@ -119,33 +116,34 @@ class googleanalytics
 	 * As per ecoomerce tracking API
 	 * @source: http://code.google.com/apis/analytics/docs/tracking/gaTrackingEcommerce.html
 	 */
-	function placeTrans($analyticsData=array()){
-
+	public function placeTrans($analyticsData = array())
+	{
 		$pageCode = '';
 		$pageCode .= $this->pageTrackerView();
 
-		if(isset($analyticsData['addtrans'])){
-
+		if (isset($analyticsData['addtrans']))
+		{
 			$addtrans = $analyticsData['addtrans'];
 
-			# add Transaction/Order to google Analytic
+			// Add Transaction/Order to google Analytic
 			$pageCode .= $this->addTrans($addtrans);
 
-			if(isset($analyticsData['addItem'])){
-
+			if (isset($analyticsData['addItem']))
+			{
 				$addItem = $analyticsData['addItem'];
 
 				$tItem = count($addItem);
 
-				for($i=0;$i<$tItem;$i++){
-
+				for ($i = 0; $i < $tItem; $i++)
+				{
 					$item = $addItem[$i];
-					# add Order Items to google Analytic
+
+					// Add Order Items to google Analytic
 					$pageCode .= $this->addItem($item);
 				}
 			}
 
-			# track added order to google analytics
+			// Track added order to google analytics
 			$pageCode .= $this->trackTrans();
 		}
 
@@ -158,8 +156,7 @@ class googleanalytics
 		  	})();
 
 		";
-		$doc =& JFactory::getDocument();
-		$doc->addScriptDeclaration( $pageCode );
+		$doc = JFactory::getDocument();
+		$doc->addScriptDeclaration($pageCode);
 	}
 }
-?>

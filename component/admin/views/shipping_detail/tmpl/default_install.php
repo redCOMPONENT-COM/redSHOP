@@ -1,38 +1,32 @@
 <?php
-/** 
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved. 
- * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com 
+/**
+ * @package     RedSHOP.Backend
+ * @subpackage  Template
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 JHTML::_('behavior.tooltip');
 ?>
- 
-<form action="<?php echo JRoute::_($this->request_url) ?>" method="post" name="adminForm" id="adminForm" enctype="multipart/form-data">
-<div class="col50">
-	<fieldset class="adminform">
-		<legend><?php echo JText::_('COM_REDSHOP_INSTALL_NEW_PACKAGE' ); ?></legend>
 
-		<table class="admintable" width="100%">
-		 
-		 <tr>
-			 <td><input type="file" name="install_package" size="75"> <input type="submit" value="Install"></td>
-			 		 </tr>		
-	  </table>
-	</fieldset>
-</div> 
-<div class="clr"></div>
-<input type="hidden" name="task" value="install" />
-<input type="hidden" name="view" value="shipping_detail" />
+<form action="<?php echo JRoute::_($this->request_url) ?>" method="post" name="adminForm" id="adminForm"
+      enctype="multipart/form-data">
+	<div class="col50">
+		<fieldset class="adminform">
+			<legend><?php echo JText::_('COM_REDSHOP_INSTALL_NEW_PACKAGE'); ?></legend>
+
+			<table class="admintable" width="100%">
+
+				<tr>
+					<td><input type="file" name="install_package" size="75"> <input type="submit" value="Install"></td>
+				</tr>
+			</table>
+		</fieldset>
+	</div>
+	<div class="clr"></div>
+	<input type="hidden" name="task" value="install"/>
+	<input type="hidden" name="view" value="shipping_detail"/>
 </form>

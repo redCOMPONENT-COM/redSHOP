@@ -7,20 +7,17 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
-jimport('joomla.application.component.controller');
+JLoader::import('joomla.application.component.controller');
+
 /**
- * Giftcard Controller
+ * Giftcard Controller.
  *
- * @static
- * @package        redSHOP
- * @since          1.0
+ * @package     RedSHOP.Frontend
+ * @subpackage  Controller
+ * @since       1.0
  */
-class giftcardController extends JController
+class GiftcardController extends JController
 {
-	function __construct($default = array())
-	{
-		parent::__construct($default);
-	}
 }

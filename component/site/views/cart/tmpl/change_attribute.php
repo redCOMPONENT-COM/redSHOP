@@ -1,73 +1,66 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     RedSHOP.Frontend
+ * @subpackage  Template
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined ( '_JEXEC' ) or die ( 'restricted access' );
+
+defined('_JEXEC') or die;
 /*
  * Include required files
  */
-include_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php');
-include_once (JPATH_COMPONENT . DS . 'helpers' . DS . 'cart.php');
+include_once JPATH_COMPONENT . '/helpers/product.php';
+include_once JPATH_COMPONENT . '/helpers/cart.php';
 
-$producthelper = new producthelper ();
-$carthelper = new rsCarthelper ();
-$redTemplate = new Redtemplate ();
+$producthelper = new producthelper;
+$carthelper    = new rsCarthelper;
+$redTemplate   = new Redtemplate;
 
-$cart 		= $this->cart;
-$idx 		= $cart ['idx'];
-$Itemid = JRequest::getVar ( 'Itemid' );
-$cart_index	= JRequest::getInt('cart_index');
+$cart       = $this->cart;
+$idx        = $cart ['idx'];
+$Itemid     = JRequest::getVar('Itemid');
+$cart_index = JRequest::getInt('cart_index');
 $product_id = JRequest::getInt('pid');
-$option 	= JRequest::getVar('option');
-$model 		= $this->getModel('cart');
+$option     = JRequest::getVar('option');
+$model      = $this->getModel('cart');
 
-$session 	= & JFactory::getSession ();
-$user = JFactory::getUser ();
-$document = & JFactory::getDocument();
-JHTML::Script('attribute.js', 'components/com_redshop/assets/js/',false);
-JHTML::Script('common.js', 'components/com_redshop/assets/js/',false);
+$session  = JFactory::getSession();
+$user     = JFactory::getUser();
+$document = JFactory::getDocument();
+JHTML::Script('attribute.js', 'components/com_redshop/assets/js/', false);
+JHTML::Script('common.js', 'components/com_redshop/assets/js/', false);
 ?>
-<script type="text/javascript">
-function cancelForm(frm)
-{
-	frm.task.value='cancel';
-	frm.submit();
-}
-function submitChangeAttribute()
-{
-	calculateTotalPrice(<?php echo $product_id;?>,0);
-	var requiedAttribute = document.getElementById('requiedAttribute').value;
-	var requiedProperty = document.getElementById('requiedProperty').value;
-	if(requiedAttribute!=0 && requiedAttribute!="")
-	{
-		alert(requiedAttribute);
-		return false;
-	}
-	else if(requiedProperty!=0 && requiedProperty!="")
-	{
-		alert(requiedProperty);
-		return false;
-	}
-	else
-	{
-		document.frmchngAttribute.submit();
-	}
-}
-</script>
+	<script type="text/javascript">
+		function cancelForm(frm) {
+			frm.task.value = 'cancel';
+			frm.submit();
+		}
+		function submitChangeAttribute() {
+			calculateTotalPrice(<?php echo $product_id;?>, 0);
+			var requiedAttribute = document.getElementById('requiedAttribute').value;
+			var requiedProperty = document.getElementById('requiedProperty').value;
+
+			if (requiedAttribute != 0 && requiedAttribute != "") {
+				alert(requiedAttribute);
+				return false;
+			}
+			else if (requiedProperty != 0 && requiedProperty != "")
+			{
+				alert(requiedProperty);
+				return false;
+			}
+			else
+			{
+				document.frmchngAttribute.submit();
+			}
+		}
+	</script>
 <?php
-$cart_attribute = $redTemplate->getTemplate( "change_cart_attribute" );
-if(count($cart_attribute)>0 && $cart_attribute[0]->template_desc)
+$cart_attribute = $redTemplate->getTemplate("change_cart_attribute");
+
+if (count($cart_attribute) > 0 && $cart_attribute[0]->template_desc)
 {
 	$template_desc = $cart_attribute[0]->template_desc;
 }
@@ -77,61 +70,70 @@ else
 }
 
 $product = $producthelper->getProductById($product_id);
-// checking for child products
+
+// Checking for child products
 $childproduct = $producthelper->getChildProduct($product_id);
+
 if (count($childproduct) > 0)
 {
 	$isChilds = true;
-} else {
+}
+else
+{
 	$isChilds = false;
 }
-/////////////////////////////////// Product attribute  Start /////////////////////////////////
-if($isChilds)
+
+// Product attribute  Start
+if ($isChilds)
 {
 	$attributes = array();
-	$selectAtt = array(array(),array());
+	$selectAtt  = array(array(), array());
 }
 else
 {
 	$attributes_set = array();
-	if($product->attribute_set_id > 0)
+
+	if ($product->attribute_set_id > 0)
 	{
-		$attributes_set = $producthelper->getProductAttribute(0,$product->attribute_set_id,0,1);
+		$attributes_set = $producthelper->getProductAttribute(0, $product->attribute_set_id, 0, 1);
 	}
-	$bool = (INDIVIDUAL_ADD_TO_CART_ENABLE) ? false : true;
-	$attribute_template = $producthelper->getAttributeTemplate($template_desc,$bool);
+
+	$bool                              = (INDIVIDUAL_ADD_TO_CART_ENABLE) ? false : true;
+	$attribute_template                = $producthelper->getAttributeTemplate($template_desc, $bool);
 	$attribute_template->template_desc = str_replace("{property_image_scroller}", "", $attribute_template->template_desc);
 	$attribute_template->template_desc = str_replace("{subproperty_image_scroller}", "", $attribute_template->template_desc);
-	$attributes = $producthelper->getProductAttribute($product_id);
-	$attributes = array_merge($attributes,$attributes_set);
+	$attributes                        = $producthelper->getProductAttribute($product_id);
+	$attributes                        = array_merge($attributes, $attributes_set);
 
 	$selectAtt = $carthelper->getSelectedCartAttributeArray($cart[$cart_index]['cart_attribute']);
 }
-$totalatt = count($attributes);
-$template_desc = $producthelper->replaceAttributeData($product_id,0,0,$attributes,$template_desc,$attribute_template,$isChilds,$selectAtt,0);
-/////////////////////////////////// Product attribute  End /////////////////////////////////
 
-$stockaddtocart = "stockaddtocartprd_".$product_id;
-$pdaddtocart = "pdaddtocartprd_".$product_id;
+$totalatt      = count($attributes);
+$template_desc = $producthelper->replaceAttributeData($product_id, 0, 0, $attributes, $template_desc, $attribute_template, $isChilds, $selectAtt, 0);
 
-$applybutton = "<input type='button' name='apply' value='".JText::_('COM_REDSHOP_APPLY')."' onclick='javascript:submitChangeAttribute();' />";
+// Product attribute  End
+
+$stockaddtocart = "stockaddtocartprd_" . $product_id;
+$pdaddtocart    = "pdaddtocartprd_" . $product_id;
+
+$applybutton = "<input type='button' name='apply' value='" . JText::_('COM_REDSHOP_APPLY') . "' onclick='javascript:submitChangeAttribute();' />";
 $applybutton .= "<input type='hidden' name='task' value='changeAttribute' />";
-$applybutton .= "<input type='hidden' name='cart_index' value='".$cart_index."' />";
-$applybutton .= "<input type='hidden' name='product_id' value='".$product_id."' />";
+$applybutton .= "<input type='hidden' name='cart_index' value='" . $cart_index . "' />";
+$applybutton .= "<input type='hidden' name='product_id' value='" . $product_id . "' />";
 $applybutton .= "<input type='hidden' name='view' value='cart' />";
 $applybutton .= "<input type='hidden' name='requiedAttribute' id='requiedAttribute' value='' reattribute=''>";
 $applybutton .= "<input type='hidden' name='requiedProperty' id='requiedProperty' value='' reproperty=''>";
-$cancelbutton = "<input type='button' name='cancel' value='".JText::_('COM_REDSHOP_CANCEL')."' onclick='javascript:cancelForm(this.form);' />";
+$cancelbutton = "<input type='button' name='cancel' value='" . JText::_('COM_REDSHOP_CANCEL') . "' onclick='javascript:cancelForm(this.form);' />";
 
-$template_desc = str_replace("{apply_button}", "<span id='".$stockaddtocart."'></span><span id='".$pdaddtocart."'>".$applybutton."</span>", $template_desc);
+$template_desc = str_replace("{apply_button}", "<span id='" . $stockaddtocart . "'></span><span id='" . $pdaddtocart . "'>" . $applybutton . "</span>", $template_desc);
 $template_desc = str_replace("{cancel_button}", $cancelbutton, $template_desc);
 
+$template_desc = '<form name="frmchngAttribute" id="frmchngAttribute" method="post">' . $template_desc . '</form>';
 
-$template_desc = '<form name="frmchngAttribute" id="frmchngAttribute" method="post">'.$template_desc.'</form>';
-if($totalatt>0)
+if ($totalatt > 0)
 {
 	$template_desc = $redTemplate->parseredSHOPplugin($template_desc);
-	echo eval ( "?>".$template_desc."<?php " );
+	echo eval ("?>" . $template_desc . "<?php ");
 }
 else
 {

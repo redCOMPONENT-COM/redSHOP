@@ -1,73 +1,55 @@
 <?php
-/** 
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved. 
- * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com 
+/**
+ * @package     RedSHOP.Backend
+ * @subpackage  View
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die;
 
-
-jimport( 'joomla.application.component.view' );
+jimport('joomla.application.component.view');
 
 class taxViewtax extends JView
 {
-	function __construct( $config = array())
+	public function display($tpl = null)
 	{
-		 parent::__construct( $config );
-	}
-    
-	function display($tpl = null)
-	{	
-		global $mainframe, $context;
+		global $context;
 
-		
-		$document = & JFactory::getDocument();
-		$document->setTitle( JText::_('COM_REDSHOP_TAX') );
-   		jimport('joomla.html.pagination');
-   		
-   		JToolBarHelper::title(   JText::_('COM_REDSHOP_TAX_MANAGEMENT' ), 'redshop_vat48' );
-     
-   		 
- 		JToolBarHelper::addNewX();
- 		JToolBarHelper::editListX();		
-		JToolBarHelper::deleteList();		
- 		
-		  
-		$uri	=& JFactory::getURI();
-		
-		$filter_order     = $mainframe->getUserStateFromRequest( $context.'filter_order',      'filter_order', 	  'tax_rate_id' );
-		$filter_order_Dir = $mainframe->getUserStateFromRequest( $context.'filter_order_Dir',  'filter_order_Dir', '' );		
-		$limitstart     = $mainframe->getUserStateFromRequest( $context.'limitstart',      'limitstart', 	  '0' );
-		$limit = $mainframe->getUserStateFromRequest( $context.'limit',  'limit', '10' );
+		$uri      = JFactory::getURI();
+		$app      = JFactory::getApplication();
+		$document = JFactory::getDocument();
 
-		$tax_group_id =& $this->get('ProductId');
-		$lists['order'] = $filter_order;  
-		$lists['order_Dir'] = $filter_order_Dir;
+		$document->setTitle(JText::_('COM_REDSHOP_TAX'));
+		jimport('joomla.html.pagination');
+
+		JToolBarHelper::title(JText::_('COM_REDSHOP_TAX_MANAGEMENT'), 'redshop_vat48');
+		JToolBarHelper::addNewX();
+		JToolBarHelper::editListX();
+		JToolBarHelper::deleteList();
+
+		$filter_order     = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'tax_rate_id');
+		$filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
+		$limitstart       = $app->getUserStateFromRequest($context . 'limitstart', 'limitstart', '0');
+		$limit            = $app->getUserStateFromRequest($context . 'limit', 'limit', '10');
+
+		$total        = $this->get('Total');
+		$media        = $this->get('Data');
+		$tax_group_id = $this->get('ProductId');
+
+		$lists['order']        = $filter_order;
+		$lists['order_Dir']    = $filter_order_Dir;
 		$lists['tax_group_id'] = $tax_group_id;
-		
-	    $total = & $this->get( 'Total');
-	    $media			= & $this->get( 'Data');
-		
-		
-		$pagination = new JPagination( $total, $limitstart, $limit);
-		
-	   
-    	$this->assignRef('user',		JFactory::getUser());	
-    	$this->assignRef('lists',		$lists);
-    	$this->assignRef('media',		$media); 		    
-  		$this->assignRef('pagination',	$pagination);
-   	 	$this->assignRef('request_url',	$uri->toString());    	
-   	 	parent::display($tpl);
-  }
+
+		$pagination = new JPagination($total, $limitstart, $limit);
+
+		$this->assignRef('user', JFactory::getUser());
+		$this->assignRef('lists', $lists);
+		$this->assignRef('media', $media);
+		$this->assignRef('pagination', $pagination);
+		$this->assignRef('request_url', $uri->toString());
+
+		parent::display($tpl);
+	}
 }
-?>

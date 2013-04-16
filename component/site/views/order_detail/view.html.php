@@ -1,89 +1,91 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     RedSHOP.Frontend
+ * @subpackage  View
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined('_JEXEC') or die ('restricted access');
 
-jimport('joomla.application.component.view');
+defined('_JEXEC') or die;
 
+JLoader::import('joomla.application.component.view');
 
-require_once( JPATH_ADMINISTRATOR.DS.'components'.DS.'com_redshop'.DS.'helpers'.DS.'order.php' );
+require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/order.php';
 
 class order_detailVieworder_detail extends JView
 {
-   	function display ($tpl=null)
-   	{
-   		global $mainframe;
+	function display ($tpl = null)
+	{
+		$app = JFactory::getApplication();
 
-   		$order_functions = new order_functions();
+		$order_functions = new order_functions;
 
-   		$print = JRequest::getVar('print');
-   		if($print)
-   		{ ?>
-  			<script type="text/javascript" language="javascript">
-				window.print();
-  			</script>
-  <?php }
+		$print = JRequest::getVar('print');
 
-   		$params = &$mainframe->getParams('com_redshop');
+	if ($print)
+	{
+		?>
+		<script type="text/javascript" language="javascript">
+			window.print();
+		</script>
+	<?php
+	}
 
-   		$prodhelperobj = new producthelper();
-   		$prodhelperobj->generateBreadcrumb();
+		$params = $app->getParams('com_redshop');
 
-   		$user =& JFactory::getUser();
-   		$session =& JFactory::getSession();
-   		$order_id = $session->get('order_id');
+		$prodhelperobj = new producthelper;
+		$prodhelperobj->generateBreadcrumb();
 
-   		$oid = JRequest::getInt('oid', $order_id);
-   		$encr = JRequest::getVar('encr');
+		$user     = JFactory::getUser();
+		$session  = JFactory::getSession();
+		$order_id = $session->get('order_id');
+
+		$oid    = JRequest::getInt('oid', $order_id);
+		$encr   = JRequest::getVar('encr');
 		$layout = JRequest::getVar('layout');
 
-   		$model = $this->getModel('order_detail');
+		$model = $this->getModel('order_detail');
 
-   		$OrdersDetail = $order_functions->getOrderDetails($oid);
-   		if($user->id)
-   		{
-	   		if($OrdersDetail->user_id != $user->id)
-	   		{
-   				$mainframe->Redirect('index.php?option=com_redshop&view=login&Itemid='.JRequest::getVar('Itemid'));
-				return;
-   			}
-   		}
-   		else
-   		{
-   			if(isset($encr))
-	   		{
-	   			$authorization = $model->checkauthorization($oid,$encr);
-	   			if(!$authorization)
-	   			{
-	   				JError::raiseWarning(404,JText::_('COM_REDSHOP_ORDER_ENCKEY_FAILURE'));
-	   				echo JText::_('COM_REDSHOP_ORDER_ENCKEY_FAILURE');
-	   				return false;
-	   			}
-	   		}
-	   		// preform security checks
-	   		elseif(!$user->id)
+		$OrdersDetail = $order_functions->getOrderDetails($oid);
+
+		if ($user->id)
+		{
+			if ($OrdersDetail->user_id != $user->id)
 			{
-				$mainframe->Redirect('index.php?option=com_redshop&view=login&Itemid='.JRequest::getVar('Itemid'));
+				$app->Redirect('index.php?option=com_redshop&view=login&Itemid=' . JRequest::getVar('Itemid'));
+
 				return;
 			}
-   		}
+		}
+		else
+		{
+			if (isset($encr))
+			{
+				$authorization = $model->checkauthorization($oid, $encr);
 
-   		$this->assignRef('OrdersDetail',$OrdersDetail);
-		$this->assignRef('user',$user);
-		$this->assignRef('params',$params);
+				if (!$authorization)
+				{
+					JError::raiseWarning(404, JText::_('COM_REDSHOP_ORDER_ENCKEY_FAILURE'));
+					echo JText::_('COM_REDSHOP_ORDER_ENCKEY_FAILURE');
 
-   		parent::display($tpl);
-  	}
+					return false;
+				}
+			}
+
+			// Preform security checks
+			elseif (!$user->id)
+			{
+				$app->Redirect('index.php?option=com_redshop&view=login&Itemid=' . JRequest::getVar('Itemid'));
+
+				return;
+			}
+		}
+
+		$this->assignRef('OrdersDetail', $OrdersDetail);
+		$this->assignRef('user', $user);
+		$this->assignRef('params', $params);
+
+		parent::display($tpl);
+	}
 }

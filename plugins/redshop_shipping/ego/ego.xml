@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="2.5.0" client="site" type="plugin" group="redshop_shipping" method="upgrade">
+    <name>E-GO Shipping Plugin</name>
+    <version>1.1</version>
+    <creationDate>10-04-2012</creationDate>
+    <author>MageData</author>
+    <copyright>magedata.com.au</copyright>
+    <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+    <shipping_class>ego</shipping_class>
+    <shipping_method_code>ego</shipping_method_code>
+    <files>
+        <filename plugin="ego">ego.php</filename>
+        <filename plugin="ego">ego.cfg.php</filename>
+    </files>
+</extension>

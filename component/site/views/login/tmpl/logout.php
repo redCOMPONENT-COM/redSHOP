@@ -1,48 +1,43 @@
 <?php
-/** 
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved. 
- * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com 
+/**
+ * @package     RedSHOP.Frontend
+ * @subpackage  Template
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined ('_JEXEC') or die ('restricted access');
+
+defined('_JEXEC') or die;
 JHTML::_('behavior.tooltip');
-global $mainframe;
+$app = JFactory::getApplication();
 $option = JRequest::getVar('option');
 $Itemid = JRequest::getVar('Itemid');
 $user = JFactory::getUser();
-$params = &$mainframe->getParams($option);
-$menu =& JSite::getMenu();
+$params = $app->getParams($option);
+$menu = JFactory::getApplication()->getMenu();
 
-$returnitemid = $params->get('logout',$Itemid);
+$returnitemid = $params->get('logout', $Itemid);
 ?>
-<form action="<?php echo JRoute::_('index.php?option='.$option.'&view=login'); ?>" method="post">
+<form action="<?php echo JRoute::_('index.php?option=' . $option . '&view=login'); ?>" method="post">
 	<table cellpadding="0" cellspacing="0" border="0" width="100%">
 		<tr>
 			<td colspan="2" height="40">
-				<p><?php 
-						if($user->id >0)
-							echo JText::_('COM_REDSHOP_LOGOUT_DESCRIPTION');
-						else
-							 echo JText::_('COM_REDSHOP_LOGOUT_SUCCESS');
+				<p><?php
+					if ($user->id > 0)
+						echo JText::_('COM_REDSHOP_LOGOUT_DESCRIPTION');
+					else
+						echo JText::_('COM_REDSHOP_LOGOUT_SUCCESS');
 					?></p>
 			</td>
 		</tr>
-		<?php if($user->id >0){?>
+		<?php if ($user->id > 0) : ?>
 			<tr>
-				<td><input type="submit" name="submit" class="button" value="<?php echo JText::_('COM_REDSHOP_LOGOUT'); ?>"></td>
+				<td><input type="submit" name="submit" class="button"
+				           value="<?php echo JText::_('COM_REDSHOP_LOGOUT'); ?>"></td>
 			</tr>
-		<?php }?>
+		<?php endif; ?>
 	</table>
-	
-	<input type="hidden" name="logout" id="logout" value="<?php echo $returnitemid;?>">
-	<input type="hidden" name="task" id="task" value="logout"> 
+
+	<input type="hidden" name="logout" id="logout" value="<?php echo $returnitemid; ?>">
+	<input type="hidden" name="task" id="task" value="logout">
 </form>

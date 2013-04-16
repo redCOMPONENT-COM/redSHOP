@@ -1,97 +1,108 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     RedSHOP.Frontend
+ * @subpackage  Model
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
-// no direct access
 
-defined( '_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die;
 
-jimport( 'joomla.application.component.model' );
-require_once( JPATH_COMPONENT_ADMINISTRATOR.DS.'helpers'.DS.'mail.php' );
+JLoader::import('joomla.application.component.model');
+require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/mail.php';
 
-class catalogModelcatalog extends JModel
+/**
+ * Class catalogModelcatalog
+ *
+ * @package     RedSHOP.Frontend
+ * @subpackage  Model
+ * @since       1.0
+ */
+class CatalogModelCatalog extends JModel
 {
-	var $_table_prefix = null;
+	public $_table_prefix = null;
 
-	function __construct()
+	public function __construct()
 	{
 		parent::__construct();
 		$this->_table_prefix = '#__redshop_';
 	}
-	
-	function catalogStore($data)
+
+	public function catalogStore($data)
 	{
-		$row =& $this->getTable('catalog_request');
-		if (!$row->bind($data)) 
+		$row = $this->getTable('catalog_request');
+
+		if (!$row->bind($data))
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
-		if (!$row->store()) 
+
+		if (!$row->store())
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
+
 		return true;
 	}
-	
-	function catalogSampleStore($data)
+
+	public function catalogSampleStore($data)
 	{
-		$row =& $this->getTable('sample_request');
-		if (!$row->bind($data)) 
+		$row = $this->getTable('sample_request');
+
+		if (!$row->bind($data))
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
-		if (!$row->store()) 
+
+		if (!$row->store())
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
+
 		return true;
 	}
-			
-	function getCatalogList()
+
+	public function getCatalogList()
 	{
-		$query = "SELECT c.*,c.catalog_id AS value,c.catalog_name AS text FROM ".$this->_table_prefix."catalog AS c "
-				."WHERE c.published = 1 "
-				;
+		$query   = "SELECT c.*,c.catalog_id AS value,c.catalog_name AS text FROM " . $this->_table_prefix . "catalog AS c "
+			. "WHERE c.published = 1 ";
 		$catalog = $this->_getList($query);
+
 		return $catalog;
 	}
-	
-	function getCatalogSampleList()
+
+	public function getCatalogSampleList()
 	{
-		$query = "SELECT c.* FROM ".$this->_table_prefix."catalog_sample AS c "
-				."WHERE c.published = 1 "
-				;
+		$query   = "SELECT c.* FROM " . $this->_table_prefix . "catalog_sample AS c "
+			. "WHERE c.published = 1 ";
 		$catalog = $this->_getList($query);
+
 		return $catalog;
 	}
-	
-	function getCatalogSampleColorList($sample_id=0)
+
+	public function getCatalogSampleColorList($sample_id = 0)
 	{
 		$and = "";
-		if($sample_id!=0)
+
+		if ($sample_id != 0)
 		{
-			$and = "AND c.sample_id='".$sample_id."' ";
+			$and = "AND c.sample_id='" . $sample_id . "' ";
 		}
-		$query = "SELECT c.* FROM ".$this->_table_prefix."catalog_colour AS c "
-				."WHERE 1=1 "
-				.$and
-				;
+
+		$query   = "SELECT c.* FROM " . $this->_table_prefix . "catalog_colour AS c "
+			. "WHERE 1=1 "
+			. $and;
 		$catalog = $this->_getList($query);
+
 		return $catalog;
 	}
-}?>
+}

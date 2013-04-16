@@ -13,29 +13,27 @@ jimport('joomla.application.component.controller');
 
 class giftcard_detailController extends JController
 {
-	function __construct($default = array())
+	public function __construct($default = array())
 	{
 		parent::__construct($default);
 		$this->registerTask('add', 'edit');
 	}
 
-	function edit()
+	public function edit()
 	{
 		JRequest::setVar('view', 'giftcard_detail');
 		JRequest::setVar('layout', 'default');
 		JRequest::setVar('hidemainmenu', 1);
 		parent::display();
-
 	}
 
-	function apply()
+	public function apply()
 	{
 		$this->save(1);
 	}
 
-	function save($apply = 0)
+	public function save($apply = 0)
 	{
-
 		$post = JRequest::get('post', JREQUEST_ALLOWRAW);
 
 		$giftcard_desc = JRequest::getVar('giftcard_desc', '', 'post', 'string', JREQUEST_ALLOWRAW);
@@ -43,22 +41,20 @@ class giftcard_detailController extends JController
 
 		$showbuttons = JRequest::getVar('showbuttons');
 
-
 		$option = JRequest::getVar('option');
 
 		$model = $this->getModel('giftcard_detail');
 		$row = $model->store($post);
+
 		if ($row)
 		{
-
 			$msg = JText::_('COM_REDSHOP_GIFTCARD_SAVED');
-
 		}
 		else
 		{
-
 			$msg = JText::_('COM_REDSHOP_ERROR_SAVING_GIFTCARD');
 		}
+
 		if (!$showbuttons)
 		{
 			if ($apply == 1)
@@ -80,9 +76,8 @@ class giftcard_detailController extends JController
 		}
 	}
 
-	function remove()
+	public function remove()
 	{
-
 		$option = JRequest::getVar('option');
 
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
@@ -93,6 +88,7 @@ class giftcard_detailController extends JController
 		}
 
 		$model = $this->getModel('giftcard_detail');
+
 		if (!$model->delete($cid))
 		{
 			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
@@ -101,9 +97,8 @@ class giftcard_detailController extends JController
 		$this->setRedirect('index.php?option=' . $option . '&view=giftcard');
 	}
 
-	function publish()
+	public function publish()
 	{
-
 		$option = JRequest::getVar('option');
 
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
@@ -114,6 +109,7 @@ class giftcard_detailController extends JController
 		}
 
 		$model = $this->getModel('giftcard_detail');
+
 		if (!$model->publish($cid, 1))
 		{
 			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
@@ -122,9 +118,8 @@ class giftcard_detailController extends JController
 		$this->setRedirect('index.php?option=' . $option . '&view=giftcard');
 	}
 
-	function unpublish()
+	public function unpublish()
 	{
-
 		$option = JRequest::getVar('option');
 
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
@@ -135,6 +130,7 @@ class giftcard_detailController extends JController
 		}
 
 		$model = $this->getModel('giftcard_detail');
+
 		if (!$model->publish($cid, 0))
 		{
 			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
@@ -143,17 +139,15 @@ class giftcard_detailController extends JController
 		$this->setRedirect('index.php?option=' . $option . '&view=giftcard');
 	}
 
-	function cancel()
+	public function cancel()
 	{
-
 		$option = JRequest::getVar('option');
 
 		$this->setRedirect('index.php?option=' . $option . '&view=giftcard');
 	}
 
-	function copy()
+	public function copy()
 	{
-
 		$option = JRequest::getVar('option');
 
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
@@ -162,17 +156,13 @@ class giftcard_detailController extends JController
 
 		if ($model->copy($cid))
 		{
-
 			$msg = JText::_('COM_REDSHOP_GIFTCARD_COPIED');
-
 		}
 		else
 		{
-
 			$msg = JText::_('COM_REDSHOP_ERROR_COPYING_GIFTCARD');
 		}
 
 		$this->setRedirect('index.php?option=' . $option . '&view=giftcard', $msg);
 	}
-
 }

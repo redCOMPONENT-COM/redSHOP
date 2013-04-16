@@ -7,21 +7,25 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
 jimport('joomla.installer.installer');
 jimport('joomla.installer.helper');
 jimport('joomla.filesystem.file');
+
 class payment_detailModelpayment_detail extends JModel
 {
-	var $_id = null;
-	var $_data = null;
-	var $_table_prefix = null;
-	var $_copydata = null;
+	public $_id = null;
 
-	function __construct()
+	public $_data = null;
+
+	public $_table_prefix = null;
+
+	public $_copydata = null;
+
+	public function __construct()
 	{
 		parent::__construct();
 
@@ -30,44 +34,47 @@ class payment_detailModelpayment_detail extends JModel
 		$array = JRequest::getVar('cid', 0, '', 'array');
 
 		$this->setId((int) $array[0]);
-
 	}
 
-	function setId($id)
+	public function setId($id)
 	{
 		$this->_id = $id;
 		$this->_data = null;
 	}
 
-	function &getData()
+	public function &getData()
 	{
 		if ($this->_loadData())
 		{
 
 		}
-		else  $this->_initData();
+		else
+		{
+			$this->_initData();
+		}
 
 		return $this->_data;
 	}
 
-	function _loadData()
+	public function _loadData()
 	{
 		if (empty($this->_data))
 		{
 			$query = 'SELECT * FROM ' . $this->_table_prefix . 'payment_method WHERE payment_method_id = ' . $this->_id;
 			$this->_db->setQuery($query);
 			$this->_data = $this->_db->loadObject();
+
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
 
-
-	function _initData()
+	public function _initData()
 	{
 		if (empty($this->_data))
 		{
-			$detail = new stdClass();
+			$detail = new stdClass;
 			$detail->payment_method_id = 0;
 			$detail->payment_method_name = null;
 			$detail->payment_class = null;
@@ -81,37 +88,39 @@ class payment_detailModelpayment_detail extends JModel
 			$detail->shopper_group = null;
 			$detail->payment_oprand = '+';
 			$this->_data = $detail;
+
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
 
-	function store($data)
+	public function store($data)
 	{
 		$row =& $this->getTable();
-
-		//$data['ordering'] = $this->MaxOrdering();
-
 
 		if (!$row->bind($data))
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
+
 		$row->shopper_group = @implode(",", $data['shopper_group']);
 		$row->shopper_group = $row->shopper_group ? $row->shopper_group : '';
 
 		if (!$row->store())
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
 
-		$adminpath = JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop';
+		$adminpath = JPATH_ADMINISTRATOR . '/components/com_redshop';
 
-		$paymentfile = $adminpath . DS . 'helpers' . DS . 'payments' . DS . $row->plugin . DS . $row->plugin . '.php';
+		$paymentfile = $adminpath . '/helpers/payments/' . $row->plugin . DS . $row->plugin . '.php';
 
-		$paymentcfg = $adminpath . DS . 'helpers' . DS . 'payments' . DS . $row->plugin . DS . $row->plugin . '.cfg.php';
+		$paymentcfg = $adminpath . '/helpers/payments/' . $row->plugin . DS . $row->plugin . '.cfg.php';
 
 		include_once ($paymentfile);
 
@@ -119,23 +128,18 @@ class payment_detailModelpayment_detail extends JModel
 
 		if (file_exists($paymentcfg))
 		{
-
 			if (method_exists($ps, 'write_configuration'))
 			{
-
 				$data['cfgfile'] = $paymentcfg;
 
 				$ps->write_configuration($data);
-
 			}
-
-
 		}
 
 		return true;
 	}
 
-	function delete($cid = array())
+	public function delete($cid = array())
 	{
 		if (count($cid))
 		{
@@ -143,9 +147,11 @@ class payment_detailModelpayment_detail extends JModel
 
 			$query = 'DELETE FROM ' . $this->_table_prefix . 'payment_method WHERE payment_method_id  IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
+
 			if (!$this->_db->query())
 			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 		}
@@ -153,7 +159,7 @@ class payment_detailModelpayment_detail extends JModel
 		return true;
 	}
 
-	function publish($cid = array(), $publish = 1)
+	public function publish($cid = array(), $publish = 1)
 	{
 		if (count($cid))
 		{
@@ -162,9 +168,11 @@ class payment_detailModelpayment_detail extends JModel
 				. ' SET published = ' . intval($publish)
 				. ' WHERE  payment_method_id 	 IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
+
 			if (!$this->_db->query())
 			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 		}
@@ -172,9 +180,9 @@ class payment_detailModelpayment_detail extends JModel
 		return true;
 	}
 
-	function uninstall($eid = array())
+	public function uninstall($eid = array())
 	{
-		global $mainframe;
+		$app = JFactory::getApplication();
 
 		// Initialize variables
 		$failed = array();
@@ -189,11 +197,11 @@ class payment_detailModelpayment_detail extends JModel
 		}
 
 		// Get a database connector
-		$db =& JFactory::getDBO();
+		$db = JFactory::getDBO();
 
 		// Get an installer object for the extension type
 		jimport('joomla.installer.installer');
-		$installer = & JInstaller::getInstance();
+		$installer = JInstaller::getInstance();
 
 		// Uninstall the chosen extensions
 		foreach ($eid as $id => $clientId)
@@ -221,7 +229,7 @@ class payment_detailModelpayment_detail extends JModel
 			$result = true;
 		}
 
-		$mainframe->enqueueMessage($msg);
+		$app->enqueueMessage($msg);
 		$this->setState('action', 'remove');
 		$this->setState('name', $installer->get('name'));
 		$this->setState('message', $installer->message);
@@ -230,9 +238,9 @@ class payment_detailModelpayment_detail extends JModel
 		return $result;
 	}
 
-	function install()
+	public function install()
 	{
-		global $mainframe;
+		$app = JFactory::getApplication();
 
 		$this->setState('action', 'install');
 
@@ -240,31 +248,26 @@ class payment_detailModelpayment_detail extends JModel
 
 		if ($package['type'] != 'payment')
 		{
-
 			JError::raiseWarning('SOME_ERROR_CODE', JText::_('COM_REDSHOP_INVALID_PACKAGE'));
-			return false;
 
+			return false;
 		}
 
-
-		$installer =& JInstaller::getInstance();
+		$installer = JInstaller::getInstance();
 
 
 		if (!$installer->install($package['dir']))
 		{
-
 			$msg = JText::sprintf('INSTALLEXT', JText::_($package['type']), JText::_('COM_REDSHOP_Error'));
 			$result = false;
 		}
 		else
 		{
-
 			$msg = JText::sprintf('INSTALLEXT', JText::_($package['type']), JText::_('COM_REDSHOP_Success'));
 			$result = true;
 		}
 
-
-		$mainframe->enqueueMessage($msg);
+		$app->enqueueMessage($msg);
 		$this->setState('name', $installer->get('name'));
 		$this->setState('result', $result);
 		$this->setState('message', $installer->message);
@@ -273,7 +276,7 @@ class payment_detailModelpayment_detail extends JModel
 		// Cleanup the install files
 		if (!is_file($package['packagefile']))
 		{
-			$config =& JFactory::getConfig();
+			$config = JFactory::getConfig();
 			$package['packagefile'] = $config->getValue('config.tmp_path') . DS . $package['packagefile'];
 		}
 
@@ -282,10 +285,7 @@ class payment_detailModelpayment_detail extends JModel
 		return $result;
 	}
 
-	/**
-	 * @param string The class name for the installer
-	 */
-	function _getPackageFromUpload()
+	public function _getPackageFromUpload()
 	{
 		// Get the uploaded file information
 		$userfile = JRequest::getVar('install_package', null, 'files', 'array');
@@ -295,6 +295,7 @@ class payment_detailModelpayment_detail extends JModel
 		if (!(bool) ini_get('file_uploads'))
 		{
 			JError::raiseWarning('SOME_ERROR_CODE', JText::_('COM_REDSHOP_WARNINSTALLFILE'));
+
 			return false;
 		}
 
@@ -302,6 +303,7 @@ class payment_detailModelpayment_detail extends JModel
 		if (!extension_loaded('zlib'))
 		{
 			JError::raiseWarning('SOME_ERROR_CODE', JText::_('COM_REDSHOP_WARNINSTALLZLIB'));
+
 			return false;
 		}
 
@@ -309,6 +311,7 @@ class payment_detailModelpayment_detail extends JModel
 		if (!is_array($userfile))
 		{
 			JError::raiseWarning('SOME_ERROR_CODE', JText::_('COM_REDSHOP_NO_FILE_SELECTED'));
+
 			return false;
 		}
 
@@ -316,11 +319,12 @@ class payment_detailModelpayment_detail extends JModel
 		if ($userfile['error'] || $userfile['size'] < 1)
 		{
 			JError::raiseWarning('SOME_ERROR_CODE', JText::_('COM_REDSHOP_WARNINSTALLUPLOADERROR'));
+
 			return false;
 		}
 
 		// Build the appropriate paths
-		$config =& JFactory::getConfig();
+		$config = JFactory::getConfig();
 		$tmp_dest = $config->getValue('config.tmp_path') . DS . $userfile['name'];
 		$tmp_src = $userfile['tmp_name'];
 
@@ -335,25 +339,26 @@ class payment_detailModelpayment_detail extends JModel
 	}
 
 
-	// payment ordering
-	function saveOrder(&$cid)
+	// Payment ordering
+	public function saveOrder(&$cid)
 	{
-		global $mainframe;
-		//$scope 		= JRequest::getCmd( 'scope' );
-		$db =& JFactory::getDBO();
+		$app = JFactory::getApplication();
+		$db = JFactory::getDBO();
 		$row =& $this->getTable();
 
 		$total = count($cid);
 		$order = JRequest::getVar('order', array(0), 'post', 'array');
 		JArrayHelper::toInteger($order, array(0));
 
-		// update ordering values
+		// Update ordering values
 		for ($i = 0; $i < $total; $i++)
 		{
 			$row->load((int) $cid[$i]);
+
 			if ($row->ordering != $order[$i])
 			{
 				$row->ordering = $order[$i];
+
 				if (!$row->store())
 				{
 					JError::raiseError(500, $db->getErrorMsg());
@@ -362,8 +367,8 @@ class payment_detailModelpayment_detail extends JModel
 		}
 
 		$row->reorder();
-		return true;
 
+		return true;
 	}
 
 	/**
@@ -372,10 +377,11 @@ class payment_detailModelpayment_detail extends JModel
 	 * @access public
 	 * @return boolean
 	 */
-	function MaxOrdering()
+	public function MaxOrdering()
 	{
 		$query = "SELECT (max(ordering)+1) FROM " . $this->_table_prefix . "payment_method";
 		$this->_db->setQuery($query);
+
 		return $this->_db->loadResult();
 	}
 
@@ -386,19 +392,21 @@ class payment_detailModelpayment_detail extends JModel
 	 * @return  boolean True on success
 	 * @since 0.9
 	 */
-	function move($direction)
+	public function move($direction)
 	{
-		$row =& JTable::getInstance('payment_detail', 'Table');
+		$row = JTable::getInstance('payment_detail', 'Table');
 
 		if (!$row->load($this->_id))
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
 
 		if (!$row->move($direction))
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
 
@@ -410,79 +418,80 @@ class JInstaller extends JObject
 {
 	/**
 	 * Array of paths needed by the installer
-	 * @var array
+	 * @public array
 	 */
-	var $_paths = array();
+	public $_paths = array();
 
 	/**
 	 * The installation manifest XML object
 	 * @var object
 	 */
-	var $_manifest = null;
+	public $_manifest = null;
 
 	/**
 	 * True if existing files can be overwritten
 	 * @var boolean
 	 */
-	var $_overwrite = false;
+	public $_overwrite = false;
 
 	/**
 	 * A database connector object
 	 * @var object
 	 */
-	var $_db = null;
+	public $_db = null;
 
 	/**
 	 * Associative array of package installer handlers
 	 * @var array
 	 */
-	var $_adapters = array();
+	public $_adapters = array();
 
 	/**
 	 * Stack of installation steps
 	 *    - Used for installation rollback
 	 * @var array
 	 */
-	var $_stepStack = array();
+	public $_stepStack = array();
 
 	/**
 	 * The output from the install/uninstall scripts
 	 * @var string
 	 */
-	var $message = null;
+	public $message = null;
 
 	/**
 	 * Constructor
 	 *
 	 * @access protected
 	 */
-	function __construct()
+	public function __construct()
 	{
-		$this->_db =& JFactory::getDBO();
+		$this->_db = JFactory::getDBO();
 	}
 
 
-	function &getInstance()
+	public function &getInstance()
 	{
 		static $instance;
 
 		if (!isset ($instance))
 		{
-			$instance = new JInstaller();
+			$instance = new JInstaller;
 		}
 		return $instance;
 	}
 
 
-	function getOverwrite()
+	public function getOverwrite()
 	{
 		return $this->_overwrite;
 	}
 
 
-	function setOverwrite($state = false)
+	public function setOverwrite($state = false)
 	{
 		$tmp = $this->_overwrite;
+
 		if ($state)
 		{
 			$this->_overwrite = true;
@@ -495,13 +504,13 @@ class JInstaller extends JObject
 	}
 
 
-	function &getDBO()
+	public function &getDBO()
 	{
 		return $this->_db;
 	}
 
 
-	function &getManifest()
+	public function &getManifest()
 	{
 		if (!is_object($this->_manifest))
 		{
@@ -521,7 +530,7 @@ class JInstaller extends JObject
 	 * @return    string    Path
 	 * @since    1.5
 	 */
-	function getPath($name, $default = null)
+	public function getPath($name, $default = null)
 	{
 		return (!empty($this->_paths[$name])) ? $this->_paths[$name] : $default;
 	}
@@ -537,7 +546,7 @@ class JInstaller extends JObject
 	 * @return    void
 	 * @since    1.5
 	 */
-	function setPath($name, $value)
+	public function setPath($name, $value)
 	{
 		$this->_paths[$name] = $value;
 	}
@@ -552,7 +561,7 @@ class JInstaller extends JObject
 	 * @return    void
 	 * @since    1.5
 	 */
-	function pushStep($step)
+	public function pushStep($step)
 	{
 		$this->_stepStack[] = $step;
 	}
@@ -568,13 +577,14 @@ class JInstaller extends JObject
 	 * @return    boolean True if successful
 	 * @since    1.5
 	 */
-	function setAdapter($name, $adapter = null)
+	public function setAdapter($name, $adapter = null)
 	{
 		if (!is_object($adapter))
 		{
 			// Try to load the adapter object
-			require_once(dirname(__FILE__) . DS . 'adapters' . DS . strtolower($name) . '.php');
+			require_once(dirname(__FILE__) . '/adapters/' . strtolower($name) . '.php');
 			$class = 'JInstaller' . ucfirst($name);
+
 			if (!class_exists($class))
 			{
 				return false;
@@ -583,6 +593,7 @@ class JInstaller extends JObject
 			$adapter->parent =& $this;
 		}
 		$this->_adapters[$name] =& $adapter;
+
 		return true;
 	}
 
@@ -597,7 +608,7 @@ class JInstaller extends JObject
 	 * @return    boolean    True if successful
 	 * @since    1.5
 	 */
-	function abort($msg = null, $type = null)
+	public function abort($msg = null, $type = null)
 	{
 		// Initialize variables
 		$retval = true;
@@ -664,7 +675,7 @@ class JInstaller extends JObject
 	 * @return    boolean    True if successful
 	 * @since    1.5
 	 */
-	function install($path = null)
+	public function install($path = null)
 	{
 		if ($path && JFolder::exists($path))
 		{
@@ -673,12 +684,14 @@ class JInstaller extends JObject
 		else
 		{
 			$this->abort(JText::_('COM_REDSHOP_INSTALL_PATH_DOES_NOT_EXIST'));
+
 			return false;
 		}
 
 		if (!$this->setupInstall())
 		{
 			$this->abort(JText::_('COM_REDSHOP_UNABLE_TO_DETECT_MANIFEST_FILE'));
+
 			return false;
 		}
 
@@ -686,7 +699,7 @@ class JInstaller extends JObject
 		$root =& $this->_manifest->document;
 		$version = $root->attributes('version');
 		$rootName = $root->name();
-		$config = & JFactory::getConfig();
+		$config = JFactory::getConfig();
 
 		$type = $root->attributes('type');
 
@@ -713,7 +726,7 @@ class JInstaller extends JObject
 	 * @return    boolean    True if successful
 	 * @since    1.5
 	 */
-	function update($path = null)
+	public function update($path = null)
 	{
 		if ($path && JFolder::exists($path))
 		{
@@ -735,7 +748,7 @@ class JInstaller extends JObject
 		$root =& $this->_manifest->document;
 		$version = $root->attributes('version');
 		$rootName = $root->name();
-		$config = & JFactory::getConfig();
+		$config = JFactory::getConfig();
 
 		$type = $root->attributes('type');
 
@@ -764,7 +777,7 @@ class JInstaller extends JObject
 	 * @return    boolean    True if successful
 	 * @since    1.5
 	 */
-	function uninstall($type, $identifier, $cid = 0)
+	public function uninstall($type, $identifier, $cid = 0)
 	{
 		if (!isset($this->_adapters[$type]) || !is_object($this->_adapters[$type]))
 		{
@@ -788,7 +801,7 @@ class JInstaller extends JObject
 	 * @return boolean True on success
 	 * @since 1.0
 	 */
-	function setupInstall()
+	public function setupInstall()
 	{
 		// We need to find the installation manifest file
 		if (!$this->_findManifest())
@@ -824,7 +837,7 @@ class JInstaller extends JObject
 	 * @return    mixed    Number of queries processed or False on error
 	 * @since    1.5
 	 */
-	function parseQueries($element)
+	public function parseQueries($element)
 	{
 		// Get the database connector object
 		$db = & $this->_db;
@@ -837,6 +850,7 @@ class JInstaller extends JObject
 
 		// Get the array of query nodes to process
 		$queries = $element->children();
+
 		if (count($queries) == 0)
 		{
 			// No queries to process
@@ -847,9 +861,11 @@ class JInstaller extends JObject
 		foreach ($queries as $query)
 		{
 			$db->setQuery($query->data());
+
 			if (!$db->query())
 			{
 				JError::raiseWarning(1, 'JInstaller::install: ' . JText::_('COM_REDSHOP_SQL_ERROR') . " " . $db->stderr(true));
+
 				return false;
 			}
 		}
@@ -867,12 +883,13 @@ class JInstaller extends JObject
 	 * @return    mixed    Number of queries processed or False on error
 	 * @since    1.5
 	 */
-	function parseSQLFiles($element)
+	public function parseSQLFiles($element)
 	{
 		// Initialize variables
 		$queries = array();
 		$db = & $this->_db;
 		$dbDriver = strtolower($db->get('name'));
+
 		if ($dbDriver == 'mysqli')
 		{
 			$dbDriver = 'mysql';
@@ -887,6 +904,7 @@ class JInstaller extends JObject
 
 		// Get the array of file nodes to process
 		$files = $element->children();
+
 		if (count($files) == 0)
 		{
 			// No files to process
@@ -895,10 +913,12 @@ class JInstaller extends JObject
 
 		// Get the name of the sql file to process
 		$sqlfile = '';
+
 		foreach ($files as $file)
 		{
 			$fCharset = (strtolower($file->attributes('charset')) == 'utf8') ? 'utf8' : '';
 			$fDriver = strtolower($file->attributes('driver'));
+
 			if ($fDriver == 'mysqli')
 			{
 				$fDriver = 'mysql';
@@ -934,12 +954,15 @@ class JInstaller extends JObject
 				foreach ($queries as $query)
 				{
 					$query = trim($query);
+
 					if ($query != '' && $query{0} != '#')
 					{
 						$db->setQuery($query);
+
 						if (!$db->query())
 						{
 							JError::raiseWarning(1, 'JInstaller::install: ' . JText::_('COM_REDSHOP_SQL_ERROR') . " " . $db->stderr(true));
+
 							return false;
 						}
 					}
@@ -962,7 +985,7 @@ class JInstaller extends JObject
 	 * @return    boolean    True on success
 	 * @since    1.5
 	 */
-	function parseFiles($element, $cid = 0, $pFolder)
+	public function parseFiles($element, $cid = 0, $pFolder)
 	{
 		// Initialize variables
 		$copyfiles = array();
@@ -979,6 +1002,7 @@ class JInstaller extends JObject
 
 		// Get the array of file nodes to process
 		$files = $element->children();
+
 		if (count($files) == 0)
 		{
 			// No files to process
@@ -1025,6 +1049,7 @@ class JInstaller extends JObject
 				if (!JFolder::create($newdir))
 				{
 					JError::raiseWarning(1, 'JInstaller::install: ' . JText::_('COM_REDSHOP_FAILED_TO_CREATE_DIRECTORY') . ' "' . $newdir . '"');
+
 					return false;
 				}
 			}
@@ -1037,13 +1062,14 @@ class JInstaller extends JObject
 	}
 
 
-	function getParams()
+	public function getParams()
 	{
 		// Get the manifest document root element
 		$root = & $this->_manifest->document;
 
 		// Get the element of the tag names
 		$element =& $root->getElementByPath('params');
+
 		if (!is_a($element, 'JSimpleXMLElement') || !count($element->children()))
 		{
 			// Either the tag does not exist or has no children therefore we return zero files processed.
@@ -1052,6 +1078,7 @@ class JInstaller extends JObject
 
 		// Get the array of parameter nodes to process
 		$params = $element->children();
+
 		if (count($params) == 0)
 		{
 			// No params to process
@@ -1060,6 +1087,7 @@ class JInstaller extends JObject
 
 		// Process each parameter in the $params array.
 		$ini = null;
+
 		foreach ($params as $param)
 		{
 			if (!$name = $param->attributes('name'))
@@ -1078,7 +1106,7 @@ class JInstaller extends JObject
 	}
 
 
-	function copyFiles($files, $overwrite = null)
+	public function copyFiles($files, $overwrite = null)
 	{
 
 		if (is_null($overwrite) || !is_bool($overwrite))
@@ -1102,6 +1130,7 @@ class JInstaller extends JObject
 				{
 
 					JError::raiseWarning(1, 'JInstaller::install: ' . JText::sprintf('File does not exist', $filesource));
+
 					return false;
 				}
 				elseif (file_exists($filedest) && !$overwrite)
@@ -1114,6 +1143,7 @@ class JInstaller extends JObject
 					}
 
 					JError::raiseWarning(1, 'JInstaller::install: ' . JText::sprintf('WARNSAME', $filedest));
+
 					return false;
 				}
 				else
@@ -1126,6 +1156,7 @@ class JInstaller extends JObject
 						if (!(JFolder::copy($filesource, $filedest, null, $overwrite)))
 						{
 							JError::raiseWarning(1, 'JInstaller::install: ' . JText::sprintf('Failed to copy folder to', $filesource, $filedest));
+
 							return false;
 						}
 
@@ -1140,6 +1171,7 @@ class JInstaller extends JObject
 						if (!(JFile::copy($filesource, $filedest)))
 						{
 							JError::raiseWarning(1, 'JInstaller::install: ' . JText::sprintf('Failed to copy file to', $filesource, $filedest));
+
 							return false;
 						}
 
@@ -1161,7 +1193,7 @@ class JInstaller extends JObject
 	}
 
 
-	function removeFiles($element, $cid = 0)
+	public function removeFiles($element, $cid = 0)
 	{
 		// Initialize variables
 		$removefiles = array();
@@ -1169,7 +1201,7 @@ class JInstaller extends JObject
 
 		// Get the client info
 		jimport('joomla.application.helper');
-		$client =& JApplicationHelper::getClientInfo($cid);
+		$client = JApplicationHelper::getClientInfo($cid);
 
 		if (!is_a($element, 'JSimpleXMLElement') || !count($element->children()))
 		{
@@ -1178,6 +1210,7 @@ class JInstaller extends JObject
 
 		// Get the array of file nodes to process
 		$files = $element->children();
+
 		if (count($files) == 0)
 		{
 			// No files to process
@@ -1196,11 +1229,11 @@ class JInstaller extends JObject
 				{
 					$folder = '';
 				}
-				$source = $client->path . DS . 'media' . DS . $folder;
+				$source = $client->path . '/media/' . $folder;
 				break;
 
 			case 'languages':
-				$source = $client->path . DS . 'language';
+				$source = $client->path . '/language';
 				break;
 
 			default:
@@ -1254,11 +1287,11 @@ class JInstaller extends JObject
 		return $retval;
 	}
 
-	function copyManifest($cid = 1)
+	public function copyManifest($cid = 1)
 	{
 		// Get the client info
 		jimport('joomla.application.helper');
-		$client =& JApplicationHelper::getClientInfo($cid);
+		$client = JApplicationHelper::getClientInfo($cid);
 
 		$path['src'] = $this->getPath('manifest');
 
@@ -1275,7 +1308,7 @@ class JInstaller extends JObject
 		return $this->copyFiles(array($path), true);
 	}
 
-	function _findManifest()
+	public function _findManifest()
 	{
 		// Get an array of all the xml files from teh installation directory
 		$xmlfiles = JFolder::files($this->getPath('source'), '.xml$', 1, true);
@@ -1286,11 +1319,13 @@ class JInstaller extends JObject
 			{
 				// Is it a valid joomla installation manifest file?
 				$manifest = $this->_isManifest($file);
+
 				if (!is_null($manifest))
 				{
 
 					// If the root method attribute is set to upgrade, allow file overwrite
 					$root =& $manifest->document;
+
 					if ($root->attributes('method') == 'upgrade')
 					{
 						$this->_overwrite = true;
@@ -1302,42 +1337,48 @@ class JInstaller extends JObject
 
 					// Set the installation source path to that of the manifest file
 					$this->setPath('source', dirname($file));
+
 					return true;
 				}
 			}
 
 			// None of the xml files found were valid install files
 			JError::raiseWarning(1, 'JInstaller::install: ' . JText::_('COM_REDSHOP_ERRORNOTFINDJOOMLAXMLSETUPFILE'));
+
 			return false;
 		}
 		else
 		{
 			// No xml files were found in the install folder
 			JError::raiseWarning(1, 'JInstaller::install: ' . JText::_('COM_REDSHOP_ERRORXMLSETUP'));
+
 			return false;
 		}
 	}
 
-	function &_isManifest($file)
+	public function &_isManifest($file)
 	{
 		// Initialize variables
 		$null = null;
-		$xml =& JFactory::getXMLParser('Simple');
+		$xml = JFactory::getXMLParser('Simple');
 
 		// If we cannot load the xml file return null
 		if (!$xml->loadFile($file))
 		{
 			// Free up xml parser memory and return null
 			unset ($xml);
+
 			return $null;
 		}
 
 
 		$root =& $xml->document;
+
 		if (!is_object($root) || ($root->name() != 'install' && $root->name() != 'mosinstall'))
 		{
 			// Free up xml parser memory and return null
 			unset ($xml);
+
 			return $null;
 		}
 
@@ -1346,4 +1387,4 @@ class JInstaller extends JObject
 	}
 }
 
-?>
+

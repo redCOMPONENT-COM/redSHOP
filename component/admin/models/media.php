@@ -7,36 +7,38 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
-
 jimport('joomla.filesystem.file');
 
-require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'media.php');
+require_once(JPATH_COMPONENT . '/helpers/media.php');
 
 class mediaModelmedia extends JModel
 {
+	public $_data = null;
 
-	var $_data = null;
-	var $_total = null;
-	var $_pagination = null;
-	var $_table_prefix = null;
-	var $_context = null;
+	public $_total = null;
 
-	function __construct()
+	public $_pagination = null;
+
+	public $_table_prefix = null;
+
+	public $_context = null;
+
+	public function __construct()
 	{
 		parent::__construct();
 
-		global $mainframe;
+		$app = JFactory::getApplication();
 
 		$this->_table_prefix = '#__redshop_';
 		$this->_context = 'media_id';
-		$limit = $mainframe->getUserStateFromRequest($this->_context . 'limit', 'limit', $mainframe->getCfg('list_limit'), 0);
-		$limitstart = $mainframe->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
+		$limit = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
+		$limitstart = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
 
-		$media_section = $mainframe->getUserStateFromRequest($this->_context . 'media_section', 'media_section', 0);
-		$media_type = $mainframe->getUserStateFromRequest($this->_context . 'media_type', 'media_type', 0);
+		$media_section = $app->getUserStateFromRequest($this->_context . 'media_section', 'media_section', 0);
+		$media_type = $app->getUserStateFromRequest($this->_context . 'media_type', 'media_type', 0);
 		$limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
 		$this->setState('limit', $limit);
 		$this->setState('limitstart', $limitstart);
@@ -44,37 +46,40 @@ class mediaModelmedia extends JModel
 		$this->setState('media_type', $media_type);
 	}
 
-	function getData()
+	public function getData()
 	{
 		if (empty($this->_data))
 		{
 			$query = $this->_buildQuery();
 			$this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
 		}
+
 		return $this->_data;
 	}
 
-	function getTotal()
+	public function getTotal()
 	{
 		if (empty($this->_total))
 		{
 			$query = $this->_buildQuery();
 			$this->_total = $this->_getListCount($query);
 		}
+
 		return $this->_total;
 	}
 
-	function getPagination()
+	public function getPagination()
 	{
 		if (empty($this->_pagination))
 		{
 			jimport('joomla.html.pagination');
 			$this->_pagination = new JPagination($this->getTotal(), $this->getState('limitstart'), $this->getState('limit'));
 		}
+
 		return $this->_pagination;
 	}
 
-	function _buildQuery()
+	public function _buildQuery()
 	{
 		$where = "";
 		$media_section = $this->getState('media_section');
@@ -99,23 +104,33 @@ class mediaModelmedia extends JModel
 			. 'WHERE 1=1 '
 			. $where
 			. $orderby;
+
 		return $query;
 	}
 
-	function _buildContentOrderBy()
+	public function _buildContentOrderBy()
 	{
-		global $mainframe;
+		$app = JFactory::getApplication();
 
-		$filter_order = $mainframe->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'ordering');
-		$filter_order_Dir = $mainframe->getUserStateFromRequest($this->_context . 'filter_order_Dir', 'filter_order_Dir', '');
+		$filter_order = $app->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'ordering');
+		$filter_order_Dir = $app->getUserStateFromRequest($this->_context . 'filter_order_Dir', 'filter_order_Dir', '');
 		$orderby = ' ORDER BY ' . $filter_order . ' ' . $filter_order_Dir;
+
 		return $orderby;
 	}
 
-	// Media bank changes start
-	function getState($property = null)
+	/**
+	 * Method to get model state variables
+	 *
+	 * @param   string  $property  Optional parameter name
+	 * @param   mixed   $default   Optional default value
+	 *
+	 * @return  object  The property where specified, the state object where omitted
+	 */
+	public function getState($property = null, $default = null)
 	{
 		static $set;
+
 		if (!$set)
 		{
 			$folder = JRequest::getVar('folder', '', '', 'path');
@@ -126,24 +141,28 @@ class mediaModelmedia extends JModel
 			$this->setState('parent', $parent);
 			$set = true;
 		}
+
 		return parent::getState($property);
 	}
 
-	function getImages()
+	public function getImages()
 	{
 		$list = $this->getList();
+
 		return $list['images'];
 	}
 
-	function getFolders()
+	public function getFolders()
 	{
 		$list = $this->getList();
+
 		return $list['folders'];
 	}
 
-	function getDocuments()
+	public function getDocuments()
 	{
 		$list = $this->getList();
+
 		return $list['docs'];
 	}
 
@@ -154,9 +173,11 @@ class mediaModelmedia extends JModel
 	 *
 	 * @since 1.5
 	 */
-	function getList()
+	public function getList()
 	{
 		static $list;
+
+		$mediaHelper = new redMediahelper;
 
 		// Only process the list once per request
 		if (is_array($list))
@@ -173,7 +194,8 @@ class mediaModelmedia extends JModel
 			$current = '';
 		}
 
-		$fdownload = JRequest :: getInt('fdownload'); // for retriving files from download folder.
+		$fdownload = JRequest::getInt('fdownload');
+
 		if ($fdownload != 1)
 		{
 			// Initialize variables
@@ -185,6 +207,7 @@ class mediaModelmedia extends JModel
 			{
 				$basePath = REDSHOP_FRONT_IMAGES_RELPATH;
 			}
+
 			$mediaBase = str_replace(DS, '/', REDSHOP_FRONT_IMAGES_RELPATH);
 		}
 		else
@@ -197,8 +220,10 @@ class mediaModelmedia extends JModel
 			{
 				$basePath = PRODUCT_DOWNLOAD_ROOT;
 			}
+
 			$mediaBase = str_replace(DS, '/', PRODUCT_DOWNLOAD_ROOT . '/');
 		}
+
 		$images = array();
 		$folders = array();
 		$docs = array();
@@ -214,13 +239,14 @@ class mediaModelmedia extends JModel
 			{
 				if (file_exists($basePath . DS . $file) && substr($file, 0, 1) != '.' && strtolower($file) !== 'index.html')
 				{
-					$tmp = new JObject();
+					$tmp = new JObject;
 					$tmp->name = $file;
 					$tmp->path = str_replace(DS, '/', JPath::clean($basePath . DS . $file));
 					$tmp->path_relative = str_replace($mediaBase, '', $tmp->path);
 					$tmp->size = filesize($tmp->path);
 
 					$ext = strtolower(JFile::getExt($file));
+
 					switch ($ext)
 					{
 						// Image
@@ -237,11 +263,11 @@ class mediaModelmedia extends JModel
 							$tmp->type = @$info[2];
 							$tmp->mime = @$info['mime'];
 
-							$filesize = redMediahelper::parseSize($tmp->size);
+							$filesize = $mediaHelper->parseSize($tmp->size);
 
 							if (($info[0] > 60) || ($info[1] > 60))
 							{
-								$dimensions = redMediahelper::imageResize($info[0], $info[1], 60);
+								$dimensions = $mediaHelper->imageResize($info[0], $info[1], 60);
 								$tmp->width_60 = $dimensions[0];
 								$tmp->height_60 = $dimensions[1];
 							}
@@ -253,7 +279,7 @@ class mediaModelmedia extends JModel
 
 							if (($info[0] > 16) || ($info[1] > 16))
 							{
-								$dimensions = redMediahelper::imageResize($info[0], $info[1], 16);
+								$dimensions = $mediaHelper->imageResize($info[0], $info[1], 16);
 								$tmp->width_16 = $dimensions[0];
 								$tmp->height_16 = $dimensions[1];
 							}
@@ -262,28 +288,35 @@ class mediaModelmedia extends JModel
 								$tmp->width_16 = $tmp->width;
 								$tmp->height_16 = $tmp->height;
 							}
+
 							$images[] = $tmp;
 							break;
+
 						// Non-image document
 						default:
-							$iconfile_32 = JPATH_ADMINISTRATOR . DS . "components" . DS . "com_redshop" . DS . "assets" . DS . "images" . DS . "mime-icon-32" . DS . $ext . ".png";
+							$iconfile_32 = JPATH_ADMINISTRATOR . "/components/com_redshop" . DS
+								. "assets/images/mime-icon-32/" .$ext . ".png";
+
 							if (file_exists($iconfile_32))
 							{
-								$tmp->icon_32 = "components" . DS . "com_redshop" . DS . "assets" . DS . "images" . DS . "mime-icon-32/" . $ext . ".png";
+								$tmp->icon_32 = "components/com_redshop/assets/images/mime-icon-32/" . $ext . ".png";
 							}
 							else
 							{
-								$tmp->icon_32 = "components" . DS . "com_redshop" . DS . "assets" . DS . "images" . DS . "con_info.png";
+								$tmp->icon_32 = "components/com_redshop/assets/images/con_info.png";
 							}
-							$iconfile_16 = JPATH_ADMINISTRATOR . DS . "components" . DS . "com_redshop" . DS . "assets" . DS . "images" . DS . "mime-icon-16" . DS . $ext . ".png";
+
+							$iconfile_16 = JPATH_ADMINISTRATOR . "/components/com_redshop/assets/images/mime-icon-16/" .$ext . ".png";
+
 							if (file_exists($iconfile_16))
 							{
-								$tmp->icon_16 = "components" . DS . "com_redshop" . DS . "assets" . DS . "images" . DS . "mime-icon-16/" . $ext . ".png";
+								$tmp->icon_16 = "components/com_redshop/assets/images/mime-icon-16/" . $ext . ".png";
 							}
 							else
 							{
-								$tmp->icon_16 = "components" . DS . "com_redshop" . DS . "assets" . DS . "images" . DS . "con_info.png";
+								$tmp->icon_16 = "components/com_redshop/assets/images/con_info.png";
 							}
+
 							$docs[] = $tmp;
 							break;
 					}
@@ -296,11 +329,11 @@ class mediaModelmedia extends JModel
 		{
 			foreach ($folderList as $folder)
 			{
-				$tmp = new JObject();
+				$tmp = new JObject;
 				$tmp->name = basename($folder);
 				$tmp->path = str_replace(DS, '/', JPath::clean($basePath . DS . $folder));
 				$tmp->path_relative = str_replace($mediaBase, '', $tmp->path);
-				$count = redMediahelper::countFiles($tmp->path);
+				$count = $mediaHelper->countFiles($tmp->path);
 				$tmp->files = $count[0];
 				$tmp->folders = $count[1];
 
@@ -313,87 +346,105 @@ class mediaModelmedia extends JModel
 		return $list;
 	}
 
-	function store($data)
+	public function store($data)
 	{
 		$row =& $this->getTable('media_download');
+
 		if (!$row->bind($data))
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
+
 		if (!$row->store())
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
+
 		return $row;
 	}
 
-	function getAdditionalFiles($media_id)
+	public function getAdditionalFiles($media_id)
 	{
 		$query = "SELECT * FROM `" . $this->_table_prefix . "media_download` "
 			. "WHERE `media_id`='" . $media_id . "' ";
+
 		return $this->_getList($query);
 	}
 
-	function deleteAddtionalFiles($fileId)
+	public function deleteAddtionalFiles($fileId)
 	{
 		$query = "SELECT name FROM `" . $this->_table_prefix . "media_download` "
 			. "WHERE `id`='" . $fileId . "' ";
 		$this->_db->setQuery($query);
 		$filename = $this->_db->loadResult();
-		$path = JPATH_ROOT . DS . 'components/com_redshop/assets/download/product/' . $filename;
+		$path = JPATH_ROOT . '/components/com_redshop/assets/download/product/' . $filename;
+
 		if (is_file($path))
 		{
 			unlink($path);
 		}
+
 		$query = "DELETE FROM `" . $this->_table_prefix . "media_download` WHERE `id`='" . $fileId . "' ";
 		$this->_db->setQuery($query);
+
 		if (!$this->_db->Query())
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
+
 		return true;
 	}
 
-	function saveorder($cid = array(), $order)
+	public function saveorder($cid = array(), $order)
 	{
-
 		$row =& $this->getTable('media_detail');
 		$order = JRequest::getVar('order', array(0), 'post', 'array');
 		$conditions = array();
-		//$groupings = array();
 
-		// update ordering values
+		// Update ordering values
 		for ($i = 0; $i < count($cid); $i++)
 		{
 			$row->load((int) $cid[$i]);
-			// track categories
-			//$groupings[] = $row->mid;
 
+			// Track categories
 			if ($row->ordering != $order[$i])
 			{
 				$row->ordering = $order[$i];
+
 				if (!$row->store())
 				{
 					$this->setError($this->_db->getErrorMsg());
+
 					return false;
 				}
-				// remember to updateOrder this group
+
+				// Remember to updateOrder this group
 				$condition = 'section_id = ' . (int) $row->section_id . ' AND media_section = "' . $row->media_section . '"';
 				$found = false;
+
 				foreach ($conditions as $cond)
+				{
 					if ($cond[1] == $condition)
 					{
 						$found = true;
 						break;
 					}
+				}
+
 				if (!$found)
+				{
 					$conditions[] = array($row->media_id, $condition);
+				}
 			}
 		}
-		// execute updateOrder for each group
+
+		// Execute updateOrder for each group
 		foreach ($conditions as $cond)
 		{
 			$row->load($cond[0]);
@@ -401,5 +452,3 @@ class mediaModelmedia extends JModel
 		}
 	}
 }
-
-?>

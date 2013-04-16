@@ -6,11 +6,11 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined('_JEXEC') or die('Restricted access');
+
+defined('_JEXEC') or die;
 
 class redMediahelper
 {
-
 	/**
 	 * Checks if the file is an image
 	 *
@@ -18,7 +18,7 @@ class redMediahelper
 	 *
 	 * @return boolean
 	 */
-	function isImage($fileName)
+	public function isImage($fileName)
 	{
 		static $imageTypes = 'xcf|odg|gif|jpg|png|bmp';
 		return preg_match("/$imageTypes/i", $fileName);
@@ -31,13 +31,13 @@ class redMediahelper
 	 *
 	 * @return boolean
 	 */
-	function getTypeIcon($fileName)
+	public function getTypeIcon($fileName)
 	{
 		// Get file extension
 		return strtolower(substr($fileName, strrpos($fileName, '.') + 1));
 	}
 
-	function parseSize($size)
+	public function parseSize($size)
 	{
 		if ($size < 1024)
 		{
@@ -49,6 +49,7 @@ class redMediahelper
 			{
 				return sprintf('%01.2f', $size / 1024.0) . ' Kb';
 			}
+
 			else
 			{
 				return sprintf('%01.2f', $size / (1024.0 * 1024)) . ' Mb';
@@ -56,28 +57,31 @@ class redMediahelper
 		}
 	}
 
-	function imageResize($width, $height, $target)
+	public function imageResize($width, $height, $target)
 	{
-		//takes the larger size of the width and height and applies the
-		//formula accordingly...this is so this script will work
-		//dynamically with any size image
+		/**
+		 * takes the larger size of the width and height and applies the
+		 * formula accordingly...this is so this script will work
+		 * dynamically with any size image
+		 */
 		if ($width > $height)
 		{
 			$percentage = ($target / $width);
 		}
+
 		else
 		{
 			$percentage = ($target / $height);
 		}
 
-		//gets the new value and applies the percentage, then rounds the value
+		// Gets the new value and applies the percentage, then rounds the value
 		$width = round($width * $percentage);
 		$height = round($height * $percentage);
 
 		return array($width, $height);
 	}
 
-	function countFiles($dir)
+	public function countFiles($dir)
 	{
 		$total_file = 0;
 		$total_dir = 0;
@@ -88,10 +92,12 @@ class redMediahelper
 
 			while (false !== ($entry = $d->read()))
 			{
-				if (substr($entry, 0, 1) != '.' && is_file($dir . DIRECTORY_SEPARATOR . $entry) && strpos($entry, '.html') === false && strpos($entry, '.php') === false)
+				if (substr($entry, 0, 1) != '.' && is_file($dir . DIRECTORY_SEPARATOR . $entry)
+					&& strpos($entry, '.html') === false && strpos($entry, '.php') === false)
 				{
 					$total_file++;
 				}
+
 				if (substr($entry, 0, 1) != '.' && is_dir($dir . DIRECTORY_SEPARATOR . $entry))
 				{
 					$total_dir++;
@@ -103,5 +109,4 @@ class redMediahelper
 
 		return array($total_file, $total_dir);
 	}
-
 }

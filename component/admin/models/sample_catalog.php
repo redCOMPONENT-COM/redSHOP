@@ -6,17 +6,20 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined('_JEXEC') or die('Restricted access');
+
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
 class sample_catalogModelsample_catalog extends JModel
 {
-	var $_id = null;
-	var $_data = null;
-	var $_table_prefix = null;
+	public $_id = null;
 
-	function __construct()
+	public $_data = null;
+
+	public $_table_prefix = null;
+
+	public function __construct()
 	{
 		parent::__construct();
 
@@ -28,33 +31,36 @@ class sample_catalogModelsample_catalog extends JModel
 
 	}
 
-	function setId($id)
+	public function setId($id)
 	{
 		$this->_id = $id;
 		$this->_data = null;
 	}
 
-	function &getData()
+	public function &getData()
 	{
 		if ($this->_loadData())
 		{
-
 		}
-		else  $this->_initData();
+		else
+		{
+			$this->_initData();
+		}
 
 		return $this->_data;
 	}
 
-	function getsample($sample)
+	public function getsample($sample)
 	{
-		$query = 'SELECT * FROM ' . $this->_table_prefix . 'catalog_colour as c left join ' . $this->_table_prefix . 'catalog_sample as s on s.sample_id=c.sample_id WHERE colour_id in (' . $sample . ')';
+		$query = 'SELECT * FROM ' . $this->_table_prefix . 'catalog_colour as c left join ' . $this->_table_prefix .
+			'catalog_sample as s on s.sample_id=c.sample_id WHERE colour_id in (' . $sample . ')';
 		$this->_db->setQuery($query);
 		$sample_data = $this->_db->loadObjectlist();
 
 		return $sample_data;
 	}
 
-	function _loadData()
+	public function _loadData()
 	{
 		if (empty($this->_data))
 		{
@@ -64,24 +70,23 @@ class sample_catalogModelsample_catalog extends JModel
 
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
 
-
-	function _initData()
+	public function _initData()
 	{
 		if (empty($this->_data))
 		{
-			$detail = new stdClass();
+			$detail = new stdClass;
 			$detail->sample_id = null;
 			$detail->sample_name = null;
 			$detail->published = 1;
 			$this->_data = $detail;
+
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
-
 }
-
-?>

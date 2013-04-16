@@ -7,31 +7,26 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
+JLoader::import('joomla.application.component.controller');
 
-jimport('joomla.application.component.controller');
 /**
- * Product Mini Controller
+ * Product Mini Controller.
  *
- * @static
- * @package        redSHOP
- * @since          1.0
+ * @package     RedSHOP.Frontend
+ * @subpackage  Controller
+ * @since       1.0
  */
-class product_miniController extends JController
+class Product_miniController extends JController
 {
-	function __construct($default = array())
-	{
-		parent::__construct($default);
-	}
-
 	/**
 	 * cancel function
 	 *
 	 * @access public
 	 * @return void
 	 */
-	function cancel()
+	public function cancel()
 	{
 		$this->setRedirect('index.php');
 	}
@@ -42,7 +37,7 @@ class product_miniController extends JController
 	 * @access public
 	 * @return void
 	 */
-	function display()
+	public function display()
 	{
 		parent::display();
 	}

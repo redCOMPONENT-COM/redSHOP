@@ -7,14 +7,17 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
-jimport('joomla.application.component.controller');
+JLoader::import('joomla.application.component.controller');
 
-class ordersController extends JController
+/**
+ * Orders controller.
+ *
+ * @package     RedSHOP.Frontend
+ * @subpackage  Controller
+ * @since       1.0
+ */
+class OrdersController extends JController
 {
-	function __construct($default = array())
-	{
-		parent::__construct($default);
-	}
 }

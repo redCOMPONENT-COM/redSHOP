@@ -7,33 +7,19 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
-
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 
 class product_containerController extends JController
 {
-	function __construct($default = array())
-	{
-		parent::__construct($default);
-	}
-
-	function cancel()
+	public function cancel()
 	{
 		$this->setRedirect('index.php');
 	}
 
-	function display()
+	public function template()
 	{
-
-		parent::display();
-
-	}
-
-	function template()
-	{
-
 		$json = JRequest::getVar('json', '');
 
 		$decoded = json_decode($json);
@@ -50,10 +36,9 @@ class product_containerController extends JController
 		$encoded = json_encode($json);
 
 		die($encoded);
-
 	}
 
-	function export_data()
+	public function export_data()
 	{
 		$model = $this->getModel('product_container');
 
@@ -67,6 +52,7 @@ class product_containerController extends JController
 
 		$data = $model->getcontainerproducts();
 		$totvol = 0;
+
 		for ($i = 0; $i < count($data); $i++)
 		{
 			echo $data[$i]->ocontainer_id . ",";
@@ -82,9 +68,8 @@ class product_containerController extends JController
 		exit;
 	}
 
-	function print_data()
+	public function print_data()
 	{
 		echo '<script type="text/javascript" language="javascript">	window.print(); </script>';
 	}
-
 }

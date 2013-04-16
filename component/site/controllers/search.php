@@ -7,30 +7,26 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
-jimport('joomla.application.component.controller');
+JLoader::import('joomla.application.component.controller');
+
 /**
- * search Controller
+ * search Controller.
  *
- * @static
- * @package        redSHOP
- * @since          1.0
+ * @package     RedSHOP.Frontend
+ * @subpackage  Controller
+ * @since       1.0
  */
-class searchController extends JController
+class SearchController extends JController
 {
-	function __construct($default = array())
-	{
-		parent::__construct($default);
-	}
-
 	/**
 	 * cancel function
 	 *
 	 * @access public
 	 * @return void
 	 */
-	function cancel()
+	public function cancel()
 	{
 		$this->setRedirect('index.php');
 	}
@@ -41,7 +37,7 @@ class searchController extends JController
 	 * @access public
 	 * @return void
 	 */
-	function display()
+	public function display()
 	{
 		parent::display();
 	}
@@ -52,9 +48,8 @@ class searchController extends JController
 	 * @access public
 	 * @return manufacturer select box
 	 */
-	function loadProducts()
+	public function loadProducts()
 	{
-
 		$get = JRequest::get('get');
 		$taskid = $get['taskid'];
 
@@ -65,20 +60,21 @@ class searchController extends JController
 		// Manufacture Select Id
 		$manufac_data = (JRequest::getInt('manufacture_id', 0));
 
-		jimport('joomla.application.module.helper');
-		$module = JModuleHelper::getModule('redshop_search');
-		$params = new JRegistry($module->params);
+		JLoader::import('joomla.application.module.helper');
+		$module           = JModuleHelper::getModule('redshop_search');
+		$params           = new JRegistry($module->params);
 		$enableAjaxsearch = $params->get('enableAjaxsearch');
-		$javaFun = "";
+		$javaFun          = "";
 
 		if ($enableAjaxsearch)
+		{
 			$javaFun = "makeUrl();";
+		}
 
 		if (count($brands) > 0)
 		{
-
-			$manufac = array();
-			$manufac[] = JHTML::_('select.option', '0', JText::_('COM_REDSHOP_SELECT_MANUFACTURE'));
+			$manufac     = array();
+			$manufac[]   = JHTML::_('select.option', '0', JText::_('COM_REDSHOP_SELECT_MANUFACTURE'));
 			$manufacdata = @array_merge($manufac, $brands);
 
 			echo JText::_('COM_REDSHOP_SELECT_MANUFACTURE') . '<br/>' . JHTML::_('select.genericlist', $manufacdata, 'manufacture_id', 'class="inputbox" size="1" onChange="' . $javaFun . '" ', 'value', 'text', $manufac_data);
@@ -93,9 +89,9 @@ class searchController extends JController
 	 * @access public
 	 * @return search product results
 	 */
-	function ajaxsearch()
+	public function ajaxsearch()
 	{
-		$model = $this->getModel();
+		$model  = $this->getModel();
 		$detail = $model->getajaxData();
 
 		$encoded = json_encode($detail);

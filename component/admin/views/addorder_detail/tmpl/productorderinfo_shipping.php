@@ -1,22 +1,15 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     RedSHOP.Backend
+ * @subpackage  Template
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined ('_JEXEC') or die ('restricted access');
+defined('_JEXEC') or die ('restricted access');
 
 $adminproducthelper = new adminproducthelper();
-$session =& JFactory::getSession();
+$session = JFactory::getSession();
 
 $ordertotal = $session->get('ordertotal');
 $ordersubtotal = $session->get('ordersubtotal');
@@ -30,7 +23,7 @@ $d['shipping_box_id'] = $shipping_box_post_id;
 $d['ordertotal'] = $ordertotal;
 $d['order_subtotal'] = $ordersubtotal;
 
-$responce = $adminproducthelper->replaceShippingMethod($d,$shipp_users_info_id,0,$shipping_box_post_id);
+$responce = $adminproducthelper->replaceShippingMethod($d, $shipp_users_info_id, 0, $shipping_box_post_id);
 
 echo $responce;
 

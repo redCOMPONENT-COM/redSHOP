@@ -7,28 +7,27 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die ('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 
 class accessmanager_detailController extends JController
 {
-	function __construct($default = array())
+	public function __construct($default = array())
 	{
 		parent::__construct($default);
 		$this->registerTask('add', 'edit');
 	}
 
-	function edit()
+	public function edit()
 	{
 		JRequest::setVar('view', 'answer_detail');
 		JRequest::setVar('layout', 'default');
 		JRequest::setVar('hidemainmenu', 1);
 		parent::display();
-
 	}
 
-	function save($apply)
+	public function save($apply)
 	{
 		$post = JRequest::get('post');
 
@@ -36,6 +35,7 @@ class accessmanager_detailController extends JController
 		$model = $this->getModel('accessmanager_detail');
 		$section = JRequest::getVar('section', '', 'request', 'string');
 		$row = $model->store($post);
+
 		if ($row)
 		{
 			$msg = JText::_('COM_REDSHOP_ACCESS_LEVEL_SAVED');
@@ -44,6 +44,7 @@ class accessmanager_detailController extends JController
 		{
 			$msg = JText::_('COM_REDSHOP_ERROR_ACCESS_LEVEL_SAVED');
 		}
+
 		if ($apply)
 		{
 			$this->setRedirect('index.php?option=' . $option . '&view=accessmanager_detail&section=' . $section, $msg);
@@ -54,17 +55,15 @@ class accessmanager_detailController extends JController
 		}
 	}
 
-	function apply()
+	public function apply()
 	{
 		$this->save(1);
 	}
 
-
-	function cancel()
+	public function cancel()
 	{
 		$option = JRequest::getVar('option');
 		$msg = JText::_('COM_REDSHOP_ACCESS_LEVEL_CANCEL');
 		$this->setRedirect('index.php?option=' . $option . '&view=accessmanager', $msg);
 	}
-
 }

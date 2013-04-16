@@ -1,158 +1,170 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     RedSHOP.Frontend
+ * @subpackage  Template
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined ('_JEXEC') or die ('restricted access');
+defined('_JEXEC') or die;
 
-$product_id = JRequest::getInt('pid',0);
+$product_id = JRequest::getInt('pid', 0);
 
-$Itemid = JRequest::getVar ( 'Itemid' );
+$Itemid = JRequest::getVar('Itemid');
 
-$producthelper = new producthelper ( );
-$config = new Redconfiguration ( );
-$redTemplate = new Redtemplate();
+$producthelper = new producthelper;
+$config        = new Redconfiguration;
+$redTemplate   = new Redtemplate;
 
-$related_product = $producthelper->getRelatedProduct($product_id);
-$template = JRequest::getWord('template','');
-$relptemplate = $redTemplate->getTemplate ( "related_product",0, $template );
+$related_product  = $producthelper->getRelatedProduct($product_id);
+$template         = JRequest::getWord('template', '');
+$relptemplate     = $redTemplate->getTemplate("related_product", 0, $template);
 $related_template = $relptemplate[0]->template_desc;
 
-if(count($relptemplate)>0)
+if (count($relptemplate) > 0)
 {
-		$related_template_data = '';
-		$product_start = explode ( "{related_product_start}",$related_template );
-		$product_end = explode ( "{related_product_end}", $product_start [1] );
+	$related_template_data = '';
+	$product_start         = explode("{related_product_start}", $related_template);
+	$product_end           = explode("{related_product_end}", $product_start [1]);
 
-		$tempdata_div_start = $product_start [0];
-		$tempdata_div_middle = $product_end [0];
-		$tempdata_div_end = $product_end [1];
+	$tempdata_div_start  = $product_start [0];
+	$tempdata_div_middle = $product_end [0];
+	$tempdata_div_end    = $product_end [1];
 
-		$extra_field = new extraField ( );
-		$fieldArray = $extra_field->getSectionFieldList(17,0,0);
+	$extra_field = new extraField;
+	$fieldArray  = $extra_field->getSectionFieldList(17, 0, 0);
 
-		$attribute_template = $producthelper->getAttributeTemplate($tempdata_div_middle);
-		/************************************************************ **********************************************/
-		for($r=0; $r<count($related_product); $r++)
+	$attribute_template = $producthelper->getAttributeTemplate($tempdata_div_middle);
+	/************************************************************ **********************************************/
+	for ($r = 0; $r < count($related_product); $r++)
+	{
+		$related_template_data .= $tempdata_div_middle;
+
+		$rlink = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $related_product[$r]->product_id . '&Itemid=' . $Itemid);
+
+		if (strstr($related_template_data, "{relproduct_image_3}"))
 		{
-			$related_template_data .= $tempdata_div_middle;
-
-			$rlink = JRoute::_('index.php?option=com_redshop&view=product&pid='.$related_product[$r]->product_id.'&Itemid='.$Itemid);
-
-			if (strstr ( $related_template_data, "{relproduct_image_3}" )) {
-				$rpimg_tag = '{relproduct_image_3}';
-				$rph_thumb = RELATED_PRODUCT_THUMB_HEIGHT_3;
-				$rpw_thumb = RELATED_PRODUCT_THUMB_WIDTH_3;
-			} elseif (strstr ( $related_template_data, "{relproduct_image_2}" )) {
-				$rpimg_tag = '{relproduct_image_2}';
-				$rph_thumb = RELATED_PRODUCT_THUMB_HEIGHT_2;
-				$rpw_thumb = RELATED_PRODUCT_THUMB_WIDTH_2;
-			} elseif (strstr ( $related_template_data, "{relproduct_image_1}" )) {
-				$rpimg_tag = '{relproduct_image_1}';
-				$rph_thumb = RELATED_PRODUCT_THUMB_HEIGHT;
-				$rpw_thumb = RELATED_PRODUCT_THUMB_WIDTH;
-			} else {
-				$rpimg_tag = '{relproduct_image}';
-				$rph_thumb = RELATED_PRODUCT_THUMB_HEIGHT;
-				$rpw_thumb = RELATED_PRODUCT_THUMB_WIDTH;
-			}
-			$hidden_thumb_image = "<input type='hidden' name='rel_main_imgwidth' id='rel_main_imgwidth' value='".$rpw_thumb."'><input type='hidden' name='rel_main_imgheight' id='rel_main_imgheight' value='".$rph_thumb."'>";
-			$relimage = $producthelper->getProductImage ( $related_product [$r]->product_id, $rlink, $rpw_thumb, $rph_thumb );
-			$related_template_data = str_replace ( $rpimg_tag, $relimage.$hidden_thumb_image, $related_template_data );
-
-
-
-			if(strstr($related_template_data,"{relproduct_link}")){
-				$rpname = "<a href='".$rlink."' title='".$related_product [$r]->product_name."'>".$config->maxchar ( $related_product [$r]->product_name, RELATED_PRODUCT_TITLE_MAX_CHARS, RELATED_PRODUCT_TITLE_END_SUFFIX )."</a>";
-
-			}else{
-				$rpname = $config->maxchar ( $related_product [$r]->product_name, RELATED_PRODUCT_TITLE_MAX_CHARS, RELATED_PRODUCT_TITLE_END_SUFFIX );
-
-			}
-			$rpdesc = $config->maxchar ( $related_product [$r]->product_desc, RELATED_PRODUCT_DESC_MAX_CHARS, RELATED_PRODUCT_DESC_END_SUFFIX );
-			$rp_shortdesc = $config->maxchar ( $related_product [$r]->product_s_desc, RELATED_PRODUCT_SHORT_DESC_MAX_CHARS, RELATED_PRODUCT_SHORT_DESC_END_SUFFIX );
-
-
-
-			$related_template_data = str_replace ( "{relproduct_link}", '', $related_template_data );
-			if(strstr($related_template_data,"{relproduct_link}")){
-				$related_template_data = str_replace ( "{relproduct_name}", "", $related_template_data );
-			} else {
-				$related_template_data = str_replace ( "{relproduct_name}", $rpname, $related_template_data );
-
-			}
-			$related_template_data = str_replace ( "{relproduct_number_lbl}", JText::_('COM_REDSHOP_PRODUCT_NUMBER_LBL' ), $related_template_data );
-			$related_template_data = str_replace ( "{relproduct_number}", $related_product [$r]->product_number, $related_template_data );
-			$related_template_data = str_replace ( "{relproduct_s_desc}", $rp_shortdesc, $related_template_data );
-			$related_template_data = str_replace ( "{relproduct_desc}", $rpdesc, $related_template_data );
-
-			$manufacturer = $producthelper->getSection ( "manufacturer", $related_product [$r]->manufacturer_id );
-			if(count($manufacturer)>0)
-			{
-				$man_url = JRoute::_('index.php?option='.$option.'&view=manufacturers&layout=products&mid='.$related_product[$r]->manufacturer_id.'&Itemid='.$Itemid);
-				$manufacturerLink = "<a href='".$man_url."'>".JText::_("COM_REDSHOP_VIEW_ALL_MANUFACTURER_PRODUCTS")."</a>";
-				$related_template_data = str_replace("{manufacturer_name}", $manufacturer->manufacturer_name, $related_template_data);
-				$related_template_data = str_replace("{manufacturer_link}", $manufacturerLink, $related_template_data );
-			}else{
-				$related_template_data = str_replace("{manufacturer_name}", '', $related_template_data );
-				$related_template_data = str_replace("{manufacturer_link}", '', $related_template_data );
-			}
-
-			/************************************ Show Price *************************/
-			if(!$related_product [$r]->not_for_sale){
-				$related_template_data=$producthelper->GetProductShowPrice($related_product[$r]->product_id,$related_template_data,'',0,1);
-			}else{
-				$related_template_data =str_replace("{price_excluding_vat}",'',$related_template_data);
-				$related_template_data =str_replace("{relproduct_price_table}", '',$related_template_data);
-				$related_template_data =str_replace("{relproduct_price_novat}",'',$related_template_data);
-				$related_template_data =str_replace("{relproduct_old_price}",'',$related_template_data);
-				$related_template_data =str_replace("{relproduct_old_price_lbl}",'',$related_template_data);
-				$related_template_data =str_replace("{relproduct_price_saving_lbl}",'',$related_template_data);
-				$related_template_data =str_replace("{relproduct_price_saving}",'',$related_template_data);
-				$related_template_data =str_replace("{relproduct_price}",'',$related_template_data);
-			}
-			/************************************ end Show Price *************************/
-
-			$relmorelinkhref = JRoute::_('index.php?option='.$option.'&view=product&pid='.$related_product [$r]->product_id.'&cid='.$related_product[$r]->cat_in_sefurl.'&Itemid='.$Itemid);
-			$relmorelink = 'javascript:window.parent.SqueezeBox.close();window.parent.location.href="'.$relmorelinkhref.'"';
-			$rmore = "<a href='".$relmorelink."' title='".$related_product [$r]->product_name."'>".JText::_('COM_REDSHOP_READ_MORE')."</a>";
-			$related_template_data = str_replace ( "{read_more}", $rmore, $related_template_data );
-			$related_template_data = str_replace ( "{read_more_link}", $relmorelink, $related_template_data );
-			/*
-			 *  related product Required Attribute start
-			 * 	this will parse only Required Attributes
-			 */
-			$relid = $related_product [$r]->product_id;
-			$attributes_set = array();
-			if($related_product [$r]->attribute_set_id > 0)
-			{
-				$attributes_set = $producthelper->getProductAttribute(0,$related_product [$r]->attribute_set_id);
-			}
-			$attributes = $producthelper->getProductAttribute($relid);
-			$attributes = array_merge($attributes,$attributes_set);
-
-			$related_template_data=$producthelper->replaceAttributeData($related_product[$r]->mainproduct_id,0,$related_product[$r]->product_id,$attributes,$related_template_data,$attribute_template);
-			$related_template_data=$producthelper->replaceCartTemplate($related_product[$r]->mainproduct_id,$this->data->category_id,0,$related_product[$r]->product_id,$related_template_data,false,0,count($attributes),0,0);
-		    $related_template_data = $producthelper->replaceCompareProductsButton($related_product[$r]->product_id,$this->data->category_id,$related_template_data,1);
-            $related_template_data = $producthelper->replaceProductInStock($related_product[$r]->product_id,$related_template_data);
-
-            $related_template_data = $producthelper->replaceAttributePriceList($related_product[$r]->product_id,$related_template_data);
-
-            $related_template_data = $producthelper->getProductFinderDatepickerValue($related_template_data,$related_product[$r]->product_id,$fieldArray);
+			$rpimg_tag = '{relproduct_image_3}';
+			$rph_thumb = RELATED_PRODUCT_THUMB_HEIGHT_3;
+			$rpw_thumb = RELATED_PRODUCT_THUMB_WIDTH_3;
+		}
+		elseif (strstr($related_template_data, "{relproduct_image_2}"))
+		{
+			$rpimg_tag = '{relproduct_image_2}';
+			$rph_thumb = RELATED_PRODUCT_THUMB_HEIGHT_2;
+			$rpw_thumb = RELATED_PRODUCT_THUMB_WIDTH_2;
+		}
+		elseif (strstr($related_template_data, "{relproduct_image_1}"))
+		{
+			$rpimg_tag = '{relproduct_image_1}';
+			$rph_thumb = RELATED_PRODUCT_THUMB_HEIGHT;
+			$rpw_thumb = RELATED_PRODUCT_THUMB_WIDTH;
+		}
+		else
+		{
+			$rpimg_tag = '{relproduct_image}';
+			$rph_thumb = RELATED_PRODUCT_THUMB_HEIGHT;
+			$rpw_thumb = RELATED_PRODUCT_THUMB_WIDTH;
 		}
 
-		$reltemplate = $tempdata_div_start.$related_template_data.$tempdata_div_end;
+		$hidden_thumb_image    = "<input type='hidden' name='rel_main_imgwidth' id='rel_main_imgwidth' value='" . $rpw_thumb . "'><input type='hidden' name='rel_main_imgheight' id='rel_main_imgheight' value='" . $rph_thumb . "'>";
+		$relimage              = $producthelper->getProductImage($related_product [$r]->product_id, $rlink, $rpw_thumb, $rph_thumb);
+		$related_template_data = str_replace($rpimg_tag, $relimage . $hidden_thumb_image, $related_template_data);
+
+		if (strstr($related_template_data, "{relproduct_link}"))
+		{
+			$rpname = "<a href='" . $rlink . "' title='" . $related_product [$r]->product_name . "'>" . $config->maxchar($related_product [$r]->product_name, RELATED_PRODUCT_TITLE_MAX_CHARS, RELATED_PRODUCT_TITLE_END_SUFFIX) . "</a>";
+		}
+		else
+		{
+			$rpname = $config->maxchar($related_product [$r]->product_name, RELATED_PRODUCT_TITLE_MAX_CHARS, RELATED_PRODUCT_TITLE_END_SUFFIX);
+		}
+
+		$rpdesc       = $config->maxchar($related_product [$r]->product_desc, RELATED_PRODUCT_DESC_MAX_CHARS, RELATED_PRODUCT_DESC_END_SUFFIX);
+		$rp_shortdesc = $config->maxchar($related_product [$r]->product_s_desc, RELATED_PRODUCT_SHORT_DESC_MAX_CHARS, RELATED_PRODUCT_SHORT_DESC_END_SUFFIX);
+
+		$related_template_data = str_replace("{relproduct_link}", '', $related_template_data);
+
+		if (strstr($related_template_data, "{relproduct_link}"))
+		{
+			$related_template_data = str_replace("{relproduct_name}", "", $related_template_data);
+		}
+		else
+		{
+			$related_template_data = str_replace("{relproduct_name}", $rpname, $related_template_data);
+		}
+
+		$related_template_data = str_replace("{relproduct_number_lbl}", JText::_('COM_REDSHOP_PRODUCT_NUMBER_LBL'), $related_template_data);
+		$related_template_data = str_replace("{relproduct_number}", $related_product [$r]->product_number, $related_template_data);
+		$related_template_data = str_replace("{relproduct_s_desc}", $rp_shortdesc, $related_template_data);
+		$related_template_data = str_replace("{relproduct_desc}", $rpdesc, $related_template_data);
+
+		$manufacturer = $producthelper->getSection("manufacturer", $related_product [$r]->manufacturer_id);
+
+		if (count($manufacturer) > 0)
+		{
+			$man_url               = JRoute::_('index.php?option=' . $option . '&view=manufacturers&layout=products&mid=' . $related_product[$r]->manufacturer_id . '&Itemid=' . $Itemid);
+			$manufacturerLink      = "<a href='" . $man_url . "'>" . JText::_("COM_REDSHOP_VIEW_ALL_MANUFACTURER_PRODUCTS") . "</a>";
+			$related_template_data = str_replace("{manufacturer_name}", $manufacturer->manufacturer_name, $related_template_data);
+			$related_template_data = str_replace("{manufacturer_link}", $manufacturerLink, $related_template_data);
+		}
+		else
+		{
+			$related_template_data = str_replace("{manufacturer_name}", '', $related_template_data);
+			$related_template_data = str_replace("{manufacturer_link}", '', $related_template_data);
+		}
+
+		// Show Price
+		if (!$related_product [$r]->not_for_sale)
+		{
+			$related_template_data = $producthelper->GetProductShowPrice($related_product[$r]->product_id, $related_template_data, '', 0, 1);
+		}
+		else
+		{
+			$related_template_data = str_replace("{price_excluding_vat}", '', $related_template_data);
+			$related_template_data = str_replace("{relproduct_price_table}", '', $related_template_data);
+			$related_template_data = str_replace("{relproduct_price_novat}", '', $related_template_data);
+			$related_template_data = str_replace("{relproduct_old_price}", '', $related_template_data);
+			$related_template_data = str_replace("{relproduct_old_price_lbl}", '', $related_template_data);
+			$related_template_data = str_replace("{relproduct_price_saving_lbl}", '', $related_template_data);
+			$related_template_data = str_replace("{relproduct_price_saving}", '', $related_template_data);
+			$related_template_data = str_replace("{relproduct_price}", '', $related_template_data);
+		}
+
+		// End Show Price
+
+		$relmorelinkhref       = JRoute::_('index.php?option=' . $option . '&view=product&pid=' . $related_product [$r]->product_id . '&cid=' . $related_product[$r]->cat_in_sefurl . '&Itemid=' . $Itemid);
+		$relmorelink           = 'javascript:window.parent.SqueezeBox.close();window.parent.location.href="' . $relmorelinkhref . '"';
+		$rmore                 = "<a href='" . $relmorelink . "' title='" . $related_product [$r]->product_name . "'>" . JText::_('COM_REDSHOP_READ_MORE') . "</a>";
+		$related_template_data = str_replace("{read_more}", $rmore, $related_template_data);
+		$related_template_data = str_replace("{read_more_link}", $relmorelink, $related_template_data);
+		/*
+		 *  related product Required Attribute start
+		 * 	this will parse only Required Attributes
+		 */
+		$relid          = $related_product [$r]->product_id;
+		$attributes_set = array();
+
+		if ($related_product [$r]->attribute_set_id > 0)
+		{
+			$attributes_set = $producthelper->getProductAttribute(0, $related_product [$r]->attribute_set_id);
+		}
+
+		$attributes = $producthelper->getProductAttribute($relid);
+		$attributes = array_merge($attributes, $attributes_set);
+
+		$related_template_data = $producthelper->replaceAttributeData($related_product[$r]->mainproduct_id, 0, $related_product[$r]->product_id, $attributes, $related_template_data, $attribute_template);
+		$related_template_data = $producthelper->replaceCartTemplate($related_product[$r]->mainproduct_id, $this->data->category_id, 0, $related_product[$r]->product_id, $related_template_data, false, 0, count($attributes), 0, 0);
+		$related_template_data = $producthelper->replaceCompareProductsButton($related_product[$r]->product_id, $this->data->category_id, $related_template_data, 1);
+		$related_template_data = $producthelper->replaceProductInStock($related_product[$r]->product_id, $related_template_data);
+
+		$related_template_data = $producthelper->replaceAttributePriceList($related_product[$r]->product_id, $related_template_data);
+
+		$related_template_data = $producthelper->getProductFinderDatepickerValue($related_template_data, $related_product[$r]->product_id, $fieldArray);
+	}
+
+	$reltemplate = $tempdata_div_start . $related_template_data . $tempdata_div_end;
 }
-echo eval("?>".$reltemplate."<?php ");
-?>
+
+echo eval("?>" . $reltemplate . "<?php ");

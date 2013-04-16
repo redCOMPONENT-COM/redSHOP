@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 
 /**
@@ -31,7 +31,7 @@ class JFormFieldcurrency extends JFormField
 	protected function getInput()
 	{
 
-		require_once(JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'currency.php');
+		require_once(JPATH_SITE . '/components/com_redshop/helpers/currency.php');
 
 		// This might get a conflict with the dynamic translation - TODO: search for better solution
 		$convertPrice = new convertPrice();
@@ -89,7 +89,7 @@ class JFormFieldcurrency extends JFormField
 	*/
 	function getCurrency($currency = "")
 	{
-		$db = & JFactory::getDBO();
+		$db = JFactory::getDBO();
 
 		$where = "";
 		if ($currency)

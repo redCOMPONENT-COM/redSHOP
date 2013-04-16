@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 /**
  * Renders a Productfinder Form
@@ -30,7 +30,7 @@ class JFormFieldextrainfo extends JFormField
 
 	protected function getInput()
 	{
-		$db = & JFactory::getDBO();
+		$db = JFactory::getDBO();
 
 		$html = '';
 		$html .= "<textarea  name='" . $this->name . "'[]'  id='" . $this->name . "'[]' rows='8' cols='20'>" . $this->value . "</textarea>";

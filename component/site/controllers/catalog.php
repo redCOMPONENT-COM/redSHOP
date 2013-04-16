@@ -7,38 +7,37 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
-jimport('joomla.application.component.controller');
+JLoader::import('joomla.application.component.controller');
+
 /**
- * catalog Controller
+ * Catalog Controller.
  *
- * @static
- * @package        redSHOP
- * @since          1.0
+ * @package     RedSHOP.Frontend
+ * @subpackage  Controller
+ * @since       1.0
  */
-class catalogController extends JController
+class CatalogController extends JController
 {
-	function __construct($default = array())
-	{
-		parent::__construct($default);
-	}
-
-	/*
+	/**
 	 * Method to send catalog
+	 *
+	 * @return void
 	 */
-	function catalog_send()
+	public function catalog_send()
 	{
-		$post = JRequest::get('post');
+		$post   = JRequest::get('post');
 		$Itemid = JRequest::getVar('Itemid');
 		$option = JRequest::getVar('option', '', 'request', 'string');
-		$model = $this->getModel('catalog');
+		$model  = $this->getModel('catalog');
 		$post["registerDate"] = time();
-		$post["email"] = $post["email_address"];
-		$post["name"] = $post["name_2"];
+		$post["email"]        = $post["email_address"];
+		$post["name"]         = $post["name_2"];
+
 		if ($row = $model->catalogStore($post))
 		{
-			$redshopMail = new redshopMail();
+			$redshopMail = new redshopMail;
 			$redshopMail->sendCatalogRequest($row);
 			$msg = JText::_('COM_REDSHOP_CATALOG_SEND_SUCCSEEFULLY');
 		}
@@ -46,30 +45,35 @@ class catalogController extends JController
 		{
 			$msg = JText::_('COM_REDSHOP_ERROR_CATALOG_SEND_SUCCSEEFULLY');
 		}
+
 		$this->setRedirect('index.php?option=' . $option . '&view=catalog&Itemid=' . $Itemid, $msg);
 	}
 
-	/*
+	/**
 	 * Method to send catalog sample
+	 *
+	 * @return void
 	 */
-	function catalogsample_send()
+	public function catalogsample_send()
 	{
-		$post = JRequest::get('post');
+		$post   = JRequest::get('post');
 		$Itemid = JRequest::getVar('Itemid');
 		$option = JRequest::getVar('option', '', 'request', 'string');
-		$model = $this->getModel('catalog');
+		$model  = $this->getModel('catalog');
 
 		if (isset($post["sample_code"]))
 		{
 			$colour_id = implode(",", $post["sample_code"]);
 			$post ['colour_id'] = $colour_id;
 		}
+
 		$post["registerdate"] = time();
-		$post["email"] = $post["email_address"];
-		$post["name"] = $post["name_2"];
+		$post["email"]        = $post["email_address"];
+		$post["name"]         = $post["name_2"];
+
 		if ($row = $model->catalogSampleStore($post))
 		{
-			$extra_field = new extra_field();
+			$extra_field = new extra_field;
 			$extra_field->extra_field_save($post, 9, $row->request_id);
 			$msg = JText::_('COM_REDSHOP_SAMPLE_SEND_SUCCSEEFULLY');
 		}
@@ -77,8 +81,7 @@ class catalogController extends JController
 		{
 			$msg = JText::_('COM_REDSHOP_ERROR_SAMPLE_SEND_SUCCSEEFULLY');
 		}
+
 		$this->setRedirect('index.php?option=' . $option . '&view=catalog&layout=sample&Itemid=' . $Itemid, $msg);
 	}
 }
-
-?>

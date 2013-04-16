@@ -7,34 +7,30 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die ('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 
-require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'product.php');
-require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'product.php');
+require_once(JPATH_COMPONENT_SITE . '/helpers/product.php');
+require_once(JPATH_COMPONENT . '/helpers/product.php');
 
 class addquotation_detailController extends JController
 {
-	function __construct($default = array())
+	public function __construct($default = array())
 	{
 		parent::__construct($default);
 		JRequest::setVar('hidemainmenu', 1);
 	}
 
-	function save($send = 0)
+	public function save($send = 0)
 	{
 		$post = JRequest::get('post');
-		$adminproducthelper = new adminproducthelper();
+		$adminproducthelper = new adminproducthelper;
 
 		$option = JRequest::getVar('option', '', 'request', 'string');
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 		$post ['quotation_id'] = $cid [0];
 		$model = $this->getModel('addquotation_detail');
-
-		global $mainframe;
-
-		$acl = & JFactory::getACL();
 
 		if (!$post['users_info_id'])
 		{
@@ -43,34 +39,33 @@ class addquotation_detailController extends JController
 			$post['email'] = $post['user_email'];
 			$post['username'] = JRequest::getVar('username', '', 'post', 'username');
 			$post['name'] = $name;
-			JRequest:
-			etVar('password1', $post['password']);
-			//$post['password2']	= JRequest::getVar('password2', '', 'post', 'string', JREQUEST_ALLOWRAW);
+			JRequest::getVar('password1', $post['password']);
+
 			$post['groups'] = array(0 => 2);
 
-			$date =& JFactory::getDate();
+			$date = JFactory::getDate();
 			$post['registerDate'] = $date->toMySQL();
 			$post['block'] = 0;
 
-			# get Admin order detail Model Object
-			$usermodel = & JModel::getInstance('user_detail', 'user_detailModel');
+			// Get Admin order detail Model Object
+			$usermodel = JModel::getInstance('user_detail', 'user_detailModel');
 
-			# call Admin order detail Model store function for Billing
+			// Call Admin order detail Model store function for Billing
 			$user = $usermodel->storeUser($post);
 
 			if (!$user)
 			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
-			/*echo "<pre>";
-			print_r($user);
-			exit;*/
+
 			$post['user_id'] = $user->user_id;
 			$user_id = $user->user_id;
 
-			//$user_data = $model->storeShipping($post);
+			$user_data = new stdClass;
 			$post['users_info_id'] = $user_data->users_info_id;
+
 			if (count($user) <= 0)
 			{
 				$this->setRedirect('index.php?option=' . $option . '&view=quotaion_detail&user_id=' . $user_id);
@@ -83,9 +78,11 @@ class addquotation_detailController extends JController
 		$post['user_info_id'] = $post['users_info_id'];
 
 		$row = $model->store($post);
+
 		if ($row)
 		{
 			$msg = JText::_('COM_REDSHOP_QUOTATION_DETAIL_SAVED');
+
 			if ($send == 1)
 			{
 				if ($model->sendQuotationMail($row->quotation_id))
@@ -98,23 +95,23 @@ class addquotation_detailController extends JController
 		{
 			$msg = JText::_('COM_REDSHOP_ERROR_SAVING_QUOTATION_DETAIL');
 		}
+
 		$this->setRedirect('index.php?option=' . $option . '&view=quotation', $msg);
 	}
 
-	function send()
+	public function send()
 	{
 		$this->save(1);
 	}
 
-	function cancel()
+	public function cancel()
 	{
 		$option = JRequest::getVar('option', '', 'request', 'string');
 		$msg = JText::_('COM_REDSHOP_QUOTATION_DETAIL_EDITING_CANCELLED');
 		$this->setRedirect('index.php?option=' . $option . '&view=quotation', $msg);
 	}
 
-
-	function displayOfflineSubProperty()
+	public function displayOfflineSubProperty()
 	{
 		$get = JRequest::get('get');
 		$model = $this->getModel('addquotation_detail');
@@ -128,14 +125,14 @@ class addquotation_detailController extends JController
 		$propid = explode(",", $get['property_id']);
 
 		$response = "";
+
 		for ($i = 0; $i < count($propid); $i++)
 		{
 			$property_id = $propid[$i];
 			$response .= $model->replaceSubPropertyData($product_id, $accessory_id, $attribute_id, $property_id, $user_id, $unique_id);
 		}
+
 		echo $response;
 		exit;
 	}
 }
-
-?>

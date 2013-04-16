@@ -7,56 +7,34 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
-
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 
 class barcodeController extends JController
 {
-	function __construct()
-	{
-
-		parent::__construct();
-
-	}
-
-	function display()
-	{
-
-		parent::display();
-
-	}
-
-	function getsearch()
+	public function getsearch()
 	{
 		$post = JRequest::get('post');
 
 		if (strlen($post['barcode']) != 13)
 		{
-
 			$msg = 'Invalid Barcode';
 			JError::raiseWarning(0, $msg);
 			parent::display();
 		}
 		else
 		{
-
-
 			$model = $this->getModel('barcode');
 			$barcode = $post['barcode'];
 			$barcode = substr($barcode, 0, 12);
 
-			$user =& JFactory::getUser();
+			$user = JFactory::getUser();
 			$uid = $user->get('id');
-			$mainframe = JFactory::getApplication();
 			$row = $model->checkorder($barcode);
-
 
 			if ($row)
 			{
-
-
 				$post['search_date'] = date("y-m-d H:i:s");
 				$post['user_id'] = $uid;
 				$post['order_id'] = $row->order_id;
@@ -69,9 +47,8 @@ class barcodeController extends JController
 				{
 					$msg = JText::_('COM_REDSHOP_ERROR_PLEASE_TRY_AGAIN');
 				}
-				//return $log;
-				$this->setRedirect('index.php?option=com_redshop&view=barcode&order_id=' . $row->order_id);
 
+				$this->setRedirect('index.php?option=com_redshop&view=barcode&order_id=' . $row->order_id, $msg);
 			}
 			else
 			{
@@ -80,36 +57,31 @@ class barcodeController extends JController
 				parent::display();
 			}
 		}
-
 	}
 
-	function changestatus()
+	public function changestatus()
 	{
-
 		$post = JRequest::get('post');
 
 		if (strlen($post['barcode']) != 13)
 		{
-
 			$msg = 'Invalid Barcode';
 			JError::raiseWarning(0, $msg);
 			$this->setRedirect('index.php?option=com_redshop&view=barcode&layout=barcode_order');
 		}
+
 		else
 		{
-
 			$model = $this->getModel('barcode');
 			$barcode = $post['barcode'];
 			$barcode = substr($barcode, 0, 12);
 
-			$mainframe = JFactory::getApplication();
 			$row = $model->checkorder($barcode);
+
 			if ($row)
 			{
-
-				$update_status = $model->updateorderstatus($barcode, $row->order_id);
+				$model->updateorderstatus($barcode, $row->order_id);
 				$this->setRedirect('index.php?option=com_redshop&view=barcode&layout=barcode_order', JText::_('ORDER_STATUS_CHANGED_TO_SHIPPED'));
-
 			}
 			else
 			{
@@ -119,6 +91,4 @@ class barcodeController extends JController
 			}
 		}
 	}
-
-
 }

@@ -1,69 +1,82 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     RedSHOP.Backend
+ * @subpackage  Table
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined( '_JEXEC' ) or die( 'Restricted access' );
-
-jimport('joomla.application.component.model');
+defined('_JEXEC') or die;
 
 class Tableorder_user_detail extends JTable
 {
-	var $order_info_id = null;
-	var $users_info_id = null;
-	var $order_id = null;
-	var $user_id = null;
-	var $firstname = null;
-	var $address_type = null;
-	var $lastname = null;
-	var $vat_number = null;
-	var $tax_exempt = 0;
-	var $requesting_tax_exempt 	= 0;
-	var $shopper_group_id = null;
-	var $published = null;
-	var $is_company = null;
-	var $country_code = null;
-	var $state_code = null;
-	var $zipcode = 0;
-	var $phone = 0;
-	var $city = 0;
-	var $address = 0;
-	var $tax_exempt_approved = 0;
-	var $approved = 0;
-	var $user_email = null;
-	var $company_name = null;
-	var $thirdparty_email = null;
-	var $ean_number = null;
-//	var $requisition_number = null;
+	public $order_info_id = null;
 
-	function Tableorder_user_detail(& $db)
+	public $users_info_id = null;
+
+	public $order_id = null;
+
+	public $user_id = null;
+
+	public $firstname = null;
+
+	public $address_type = null;
+
+	public $lastname = null;
+
+	public $vat_number = null;
+
+	public $tax_exempt = 0;
+
+	public $requesting_tax_exempt = 0;
+
+	public $shopper_group_id = null;
+
+	public $published = null;
+
+	public $is_company = null;
+
+	public $country_code = null;
+
+	public $state_code = null;
+
+	public $zipcode = 0;
+
+	public $phone = 0;
+
+	public $city = 0;
+
+	public $address = 0;
+
+	public $tax_exempt_approved = 0;
+
+	public $approved = 0;
+
+	public $user_email = null;
+
+	public $company_name = null;
+
+	public $thirdparty_email = null;
+
+	public $ean_number = null;
+
+	public function __construct(&$db)
 	{
-	  $this->_table_prefix = '#__redshop_';
+		$this->_table_prefix = '#__redshop_';
 
-		parent::__construct($this->_table_prefix.'order_users_info', 'order_info_id', $db);
+		parent::__construct($this->_table_prefix . 'order_users_info', 'order_info_id', $db);
 	}
 
-	function bind($array, $ignore = '')
+	public function bind($array, $ignore = '')
 	{
-		if (key_exists( 'params', $array ) && is_array( $array['params'] )) {
-			$registry = new JRegistry();
+		if (array_key_exists('params', $array) && is_array($array['params']))
+		{
+			$registry = new JRegistry;
 			$registry->loadArray($array['params']);
 			$array['params'] = $registry->toString();
 		}
 
 		return parent::bind($array, $ignore);
 	}
-
 }
-?>

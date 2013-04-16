@@ -7,40 +7,40 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
-require_once JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'mail.php';
-jimport('joomla.application.component.controller');
-/**
- * Order Detail Controller
- *
- * @static
- * @package        redSHOP
- * @since          1.0
- */
-class passwordController extends JController
-{
-	function __construct($default = array())
-	{
-		parent::__construct($default);
-	}
+defined('_JEXEC') or die;
+require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/mail.php';
+JLoader::import('joomla.application.component.controller');
 
-	/*
+/**
+ * Password Controller.
+ *
+ * @package     RedSHOP.Frontend
+ * @subpackage  Controller
+ * @since       1.0
+ */
+class PasswordController extends JController
+{
+	/**
 	 *  Metod to reset Password
+	 *
+	 * @return  void
 	 */
-	function reset()
+	public function reset()
 	{
-		$post = JRequest::get('post');
-		$model = & $this->getModel('password');
+		$post   = JRequest::get('post');
+		$model  = $this->getModel('password');
 		$Itemid = JRequest::getVar('Itemid');
 		$layout = "";
-		//Request a reset
+
+		// Request a reset
 		if ($model->resetpassword($post))
 		{
-			$redshopMail = new redshopMail();
+			$redshopMail = new redshopMail;
+
 			if ($redshopMail->sendResetPasswordMail($post['email']))
 			{
 				$layout = "&layout=token";
-				$msg = JText::_('COM_REDSHOP_RESET_PASSWORD_MAIL_SEND');
+				$msg    = JText::_('COM_REDSHOP_RESET_PASSWORD_MAIL_SEND');
 			}
 			else
 			{
@@ -51,18 +51,22 @@ class passwordController extends JController
 		{
 			$msg = JText::_('COM_REDSHOP_RESET_PASSWORD_MAIL_NOT_SEND');
 		}
+
 		$this->setRedirect('index.php?option=com_redshop&view=password' . $layout . '&Itemid=' . $Itemid, $msg);
 	}
 
-	/*
+	/**
 	 *  Method to changepassword
+	 *
+	 * @return  void
 	 */
-	function changepassword()
+	public function changepassword()
 	{
-		$post = JRequest::get('post');
-		$model = & $this->getModel('password');
-		$token = $post['token'];
+		$post   = JRequest::get('post');
+		$model  = $this->getModel('password');
+		$token  = $post['token'];
 		$Itemid = JRequest::getVar('Itemid');
+
 		if ($model->changepassword($token))
 		{
 			parent::display();
@@ -74,15 +78,16 @@ class passwordController extends JController
 		}
 	}
 
-	/*
+	/**
 	 *  Method to setpassword
+	 *
+	 * @return  void
 	 */
-	function setpassword()
+	public function setpassword()
 	{
-		$post = JRequest::get('post');
+		$post   = JRequest::get('post');
 		$Itemid = JRequest::getVar('Itemid');
-
-		$model = & $this->getModel('password');
+		$model  = $this->getModel('password');
 
 		if ($model->setpassword($post))
 		{

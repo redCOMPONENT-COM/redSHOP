@@ -6,7 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 //Import filesystem libraries. Perhaps not necessary, but does not hurt
@@ -14,12 +14,15 @@ jimport('joomla.filesystem.file');
 
 class template_detailModeltemplate_detail extends JModel
 {
-	var $_id = null;
-	var $_data = null;
-	var $_table_prefix = null;
-	var $_copydata = null;
+	public $_id = null;
 
-	function __construct()
+	public $_data = null;
+
+	public $_table_prefix = null;
+
+	public $_copydata = null;
+
+	public function __construct()
 	{
 		parent::__construct();
 
@@ -28,36 +31,38 @@ class template_detailModeltemplate_detail extends JModel
 		$array = JRequest::getVar('cid', 0, '', 'array');
 
 		$this->setId((int) $array[0]);
-
 	}
 
-	function setId($id)
+	public function setId($id)
 	{
 		$this->_id = $id;
 		$this->_data = null;
 	}
 
-	function &getData()
+	public function &getData()
 	{
 		if ($this->_loadData())
 		{
-
 		}
-		else  $this->_initData();
+		else
+		{
+			$this->_initData();
+		}
 
 		return $this->_data;
 	}
 
-	function _loadData()
+	public function _loadData()
 	{
-		$red_template = new Redtemplate();
+		$red_template = new Redtemplate;
+
 		if (empty($this->_data))
 		{
 			$query = 'SELECT * FROM ' . $this->_table_prefix . 'template WHERE template_id = ' . $this->_id;
 			$this->_db->setQuery($query);
 			$this->_data = $this->_db->loadObject();
 
-			// read template from file and replace it with database template description
+			// Read template from file and replace it with database template description
 			if (isset($this->_data->template_section))
 			{
 				$this->_data->template_name = strtolower($this->_data->template_name);
@@ -65,6 +70,7 @@ class template_detailModeltemplate_detail extends JModel
 				$template_desc = $this->_data->template_desc;
 
 				$this->_data->template_desc = $red_template->readtemplateFile($this->_data->template_section, $this->_data->template_name, true);
+
 				if ($this->_data->template_desc == "")
 				{
 					$this->_data->template_desc = $template_desc;
@@ -73,14 +79,15 @@ class template_detailModeltemplate_detail extends JModel
 
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
 
-	function _initData()
+	public function _initData()
 	{
 		if (empty($this->_data))
 		{
-			$detail = new stdClass();
+			$detail = new stdClass;
 			$detail->template_id = 0;
 			$detail->template_name = null;
 			$detail->template_desc = null;
@@ -90,42 +97,45 @@ class template_detailModeltemplate_detail extends JModel
 			$detail->shipping_methods = null;
 			$detail->order_status = null;
 			$this->_data = $detail;
+
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
 
-	function store($data)
+	public function store($data)
 	{
-		$red_template = new Redtemplate();
+		$red_template = new Redtemplate;
 
 		$row =& $this->getTable();
+
 		if (isset($data['payment_methods']) && count($data['payment_methods']) > 0)
 		{
 			$data['payment_methods'] = implode(',', $data['payment_methods']);
 		}
+
 		if (isset($data['shipping_methods']) && count($data['shipping_methods']) > 0)
 		{
 			$data['shipping_methods'] = implode(',', $data['shipping_methods']);
 		}
+
 		if (isset($data['order_status']) && count($data['order_status']) > 0)
 		{
 			$data['order_status'] = implode(',', $data['order_status']);
 		}
+
 		$data['template_name'] = strtolower($data['template_name']);
 		$data['template_name'] = str_replace(" ", "_", $data['template_name']);
 
 		$tempate_file = $red_template->getTemplatefilepath($data['template_section'], $data['template_name'], true);
 
 		JFile::write($tempate_file, $data["template_desc"]);
-		/*$fp = fopen($tempate_file,"w");
-		fwrite($fp,$data["template_desc"]);
-		fclose($fp);*/
-
 
 		if (!$row->bind($data))
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
 
@@ -137,23 +147,28 @@ class template_detailModeltemplate_detail extends JModel
 		{
 			$this->_id = $row->template_id;
 			$this->_loadData();
+
 			if ($row->template_name != $this->_data->template_name)
 			{
 				$tempate_file = $red_template->getTemplatefilepath($this->_data->template_section, $this->_data->template_name, true);
 				unlink($tempate_file);
 			}
 		}
+
 		if (!$row->store())
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
+
 		return $row;
 	}
 
-	function delete($cid = array())
+	public function delete($cid = array())
 	{
-		$red_template = new Redtemplate();
+		$red_template = new Redtemplate;
+
 		if (count($cid))
 		{
 			for ($i = 0; $i < count($cid); $i++)
@@ -171,9 +186,11 @@ class template_detailModeltemplate_detail extends JModel
 
 			$query = 'DELETE FROM ' . $this->_table_prefix . 'template WHERE template_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
+
 			if (!$this->_db->query())
 			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 		}
@@ -181,7 +198,7 @@ class template_detailModeltemplate_detail extends JModel
 		return true;
 	}
 
-	function publish($cid = array(), $publish = 1)
+	public function publish($cid = array(), $publish = 1)
 	{
 		if (count($cid))
 		{
@@ -190,9 +207,11 @@ class template_detailModeltemplate_detail extends JModel
 				. ' SET published = ' . intval($publish)
 				. ' WHERE template_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
+
 			if (!$this->_db->query())
 			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 		}
@@ -200,9 +219,8 @@ class template_detailModeltemplate_detail extends JModel
 		return true;
 	}
 
-	function copy($cid = array())
+	public function copy($cid = array())
 	{
-
 		if (count($cid))
 		{
 			$cids = implode(',', $cid);
@@ -211,9 +229,9 @@ class template_detailModeltemplate_detail extends JModel
 			$this->_db->setQuery($query);
 			$this->_copydata = $this->_db->loadObjectList();
 		}
+
 		foreach ($this->_copydata as $cdata)
 		{
-
 			$post['template_id'] = 0;
 			$post['template_name'] = 'Copy Of ' . $cdata->template_name;
 			$post['template_section'] = $cdata->template_section;
@@ -223,24 +241,26 @@ class template_detailModeltemplate_detail extends JModel
 			$post['published'] = $cdata->published;
 			$post['shipping_methods'] = $cdata->shipping_methods;
 
-			template_detailModeltemplate_detail::store($post);
+			$this->store($post);
 		}
-		return true;
 
+		return true;
 	}
 
-	function availabletexts($section)
+	public function availabletexts($section)
 	{
 		$query = 'SELECT * FROM ' . $this->_table_prefix . 'textlibrary WHERE published=1 AND section like "' . $section . '"';
 		$this->_db->setQuery($query);
 		$this->textdata = $this->_db->loadObjectList();
+
 		return $this->textdata;
 	}
 
-	function availableaddtocart($section)
+	public function availableaddtocart($section)
 	{
 		$query = 'SELECT template_name FROM ' . $this->_table_prefix . 'template WHERE published=1 AND template_section = "' . $section . '"';
 		$this->_db->setQuery($query);
+
 		return $this->_db->loadObjectList();
 	}
 
@@ -254,7 +274,7 @@ class template_detailModeltemplate_detail extends JModel
 	 * @return    boolean    True on success
 	 * @since    1.5
 	 */
-	function checkout($uid = null)
+	public function checkout($uid = null)
 	{
 		if ($this->_id)
 		{
@@ -264,6 +284,7 @@ class template_detailModeltemplate_detail extends JModel
 				$user = JFactory::getUser();
 				$uid = (int) $user->get('id');
 			}
+
 			// Lets get to it and checkout the thing...
 			$template_detail = & $this->getTable('template_detail');
 
@@ -271,11 +292,13 @@ class template_detailModeltemplate_detail extends JModel
 			if (!$template_detail->checkout($uid, $this->_id))
 			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 
 			return true;
 		}
+
 		return false;
 	}
 
@@ -286,17 +309,20 @@ class template_detailModeltemplate_detail extends JModel
 	 * @return    boolean    True on success
 	 * @since    1.5
 	 */
-	function checkin()
+	public function checkin()
 	{
 		if ($this->_id)
 		{
 			$template_detail = & $this->getTable('template_detail');
+
 			if (!$template_detail->checkin($this->_id))
 			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 		}
+
 		return false;
 	}
 
@@ -310,7 +336,7 @@ class template_detailModeltemplate_detail extends JModel
 	 * @return    boolean    True if checked out
 	 * @since    1.5
 	 */
-	function isCheckedOut($uid = 0)
+	public function isCheckedOut($uid = 0)
 	{
 		if ($this->_loadData())
 		{
@@ -325,5 +351,3 @@ class template_detailModeltemplate_detail extends JModel
 		}
 	}
 }
-
-?>

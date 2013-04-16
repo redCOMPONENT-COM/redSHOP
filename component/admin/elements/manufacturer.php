@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 /**
  * Renders a Productfinder Form
@@ -29,7 +29,7 @@ class JFormFieldmanufacturer extends JFormField
 
 	protected function getInput()
 	{
-		$db = & JFactory::getDBO();
+		$db = JFactory::getDBO();
 		$name = $this->name;
 		$control_name = $this->name;
 		// This might get a conflict with the dynamic translation - TODO: search for better solution

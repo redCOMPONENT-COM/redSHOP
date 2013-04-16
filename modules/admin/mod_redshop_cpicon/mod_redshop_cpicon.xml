@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension type="module" version="2.5.0" client="administrator" method="upgrade" position="icon">
+    <name>MOD_REDSHOP_CPICON</name>
+    <version>1.1.2</version>
+    <creationDate>11-03-2011</creationDate>
+    <author>redweb.dk</author>
+    <copyright>redCOMPONENT.com</copyright>
+    <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+    <authorEmail>email@redcomponent.com</authorEmail>
+    <description>Quick access icon to reach redShop panel</description>
+    <files>
+        <filename module="mod_redshop_cpicon">mod_redshop_cpicon.php</filename>
+        <filename>index.html</filename>
+        <filename>styles.css</filename>
+    </files>
+    <languages>
+        <language tag="en-GB">language/en-GB/en-GB.mod_redshop_cpicon.sys.ini</language>
+    </languages>
+    <config>
+        <fields name="params">
+            <fieldset name="basic">
+                <field name="cache" type="list" default="1" label="COM_MODULES_FIELD_CACHING_LABEL"
+                       description="COM_MODULES_FIELD_CACHING_DESC">
+                    <option value="1">JGLOBAL_USE_GLOBAL</option>
+                    <option value="0">COM_MODULES_FIELD_VALUE_NOCACHING</option>
+                </field>
+            </fieldset>
+        </fields>
+    </config>
+</extension>

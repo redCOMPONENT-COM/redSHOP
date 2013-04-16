@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<extension version="1.7.0" client="site" type="plugin" group="editors-xtd" method="upgrade">
+    <name>redSHOP Product editor insert button</name>
+    <version>1.1.1</version>
+    <creationDate>09-009-2011</creationDate>
+    <author>redweb.dk</author>
+    <copyright>redCOMPONENT.com</copyright>
+    <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+    <description>Add Redshop product to cart from content</description>
+    <files>
+        <filename plugin="product">product.php</filename>
+    </files>
+
+</extension>

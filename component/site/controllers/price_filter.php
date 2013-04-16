@@ -7,30 +7,25 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
-jimport('joomla.application.component.controller');
+JLoader::import('joomla.application.component.controller');
 /**
- * Price filter Controller
+ * Price filter Controller.
  *
- * @static
- * @package        redSHOP
- * @since          1.0
+ * @package     RedSHOP.Frontend
+ * @subpackage  Controller
+ * @since       1.0
  */
-class price_filterController extends JController
+class Price_filterController extends JController
 {
-	function __construct($default = array())
-	{
-		parent::__construct($default);
-	}
-
 	/**
 	 * logic for display
 	 *
 	 * @access public
 	 * @return void
 	 */
-	function display()
+	public function display()
 	{
 		parent::display();
 	}

@@ -7,39 +7,38 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+defined('_JEXEC') or die;
+
 jimport('joomla.application.component.controller');
 
 class attributeprices_detailController extends JController
 {
-
-	function __construct($default = array())
+	public function __construct($default = array())
 	{
 		parent::__construct($default);
 		$this->registerTask('add', 'edit');
 	}
 
-	function edit()
+	public function edit()
 	{
 		JRequest::setVar('view', 'attributeprices_detail');
 		JRequest::setVar('layout', 'default');
 		JRequest::setVar('hidemainmenu', 1);
-		$model = $this->getModel('attributeprices_detail');
 
 		parent::display();
 	}
 
-	function save()
+	public function save()
 	{
 		$post = JRequest::get('post');
 		$option = JRequest::getVar('option');
 		$section_id = JRequest::getVar('section_id');
 		$section = JRequest::getVar('section');
-		$price_quantity_start = JRequest::getVar('price_quantity_start');
-		$price_quantity_end = JRequest::getVar('price_quantity_end');
 
 		$post['product_currency'] = CURRENCY_CODE;
 		$post['cdate'] = time();
 		$post['discount_start_date'] = strtotime($post ['discount_start_date']);
+
 		if ($post['discount_end_date'])
 		{
 			$post ['discount_end_date'] = strtotime($post['discount_end_date']) + (23 * 59 * 59);
@@ -49,6 +48,7 @@ class attributeprices_detailController extends JController
 		$post ['price_id'] = $cid [0];
 
 		$model = $this->getModel('attributeprices_detail');
+
 		if ($model->store($post))
 		{
 			$msg = JText::_('COM_REDSHOP_PRICE_DETAIL_SAVED');
@@ -57,12 +57,12 @@ class attributeprices_detailController extends JController
 		{
 			$msg = JText::_('COM_REDSHOP_ERROR_SAVING_PRICE_DETAIL');
 		}
+
 		$this->setRedirect('index.php?tmpl=component&option=' . $option . '&view=attributeprices&section=' . $section . '&section_id=' . $section_id, $msg);
 	}
 
-	function remove()
+	public function remove()
 	{
-
 		$option = JRequest::getVar('option');
 		$section_id = JRequest::getVar('section_id');
 		$section = JRequest::getVar('section');
@@ -74,17 +74,18 @@ class attributeprices_detailController extends JController
 		}
 
 		$model = $this->getModel('attributeprices_detail');
+
 		if (!$model->delete($cid))
 		{
 			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
 		}
+
 		$msg = JText::_('COM_REDSHOP_ATTRIBUTE_PRICE_DETAIL_DELETED_SUCCESSFULLY');
 		$this->setRedirect('index.php?tmpl=component&option=' . $option . '&view=attributeprices&section=' . $section . '&section_id=' . $section_id, $msg);
 	}
 
-	function cancel()
+	public function cancel()
 	{
-
 		$option = JRequest::getVar('option');
 		$section_id = JRequest::getVar('section_id');
 
@@ -92,5 +93,3 @@ class attributeprices_detailController extends JController
 		$this->setRedirect('index.php?option=' . $option . '&view=attributeprices&section_id=' . $section_id, $msg);
 	}
 }
-
-?>

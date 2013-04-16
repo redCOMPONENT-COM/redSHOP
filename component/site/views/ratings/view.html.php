@@ -1,37 +1,30 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     RedSHOP.Frontend
+ * @subpackage  View
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined('_JEXEC') or die ('restricted access');
 
-jimport('joomla.application.component.view');
+defined('_JEXEC') or die;
+
+JLoader::import('joomla.application.component.view');
 
 class ratingsViewratings extends JView
 {
+	public function display($tpl = null)
+	{
+		$app = JFactory::getApplication();
 
-   	function display ($tpl=null)
-   	{
-   		global $mainframe;
+		$params = $app->getParams('com_redshop');
 
-   		$params = &$mainframe->getParams('com_redshop');
+		$detail     = $this->get('data');
+		$pagination = $this->get('pagination');
 
-		$detail	=& $this->get('data');
-		$pagination	=& $this->get('pagination');
-
-		$this->assignRef('detail',		$detail);
-		$this->assignRef('pagination',	$pagination);
-		$this->assignRef('params',$params);
-   		parent::display($tpl);
-  	}
-}?>
+		$this->assignRef('detail', $detail);
+		$this->assignRef('pagination', $pagination);
+		$this->assignRef('params', $params);
+		parent::display($tpl);
+	}
+}

@@ -1,54 +1,50 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     RedSHOP.Backend
+ * @subpackage  Table
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined( '_JEXEC' ) or die( 'Restricted access' );
-
-jimport('joomla.application.component.model');
+defined('_JEXEC') or die;
 
 class Tableshipping_detail extends JTable
 {
-	var $shipping_id = null;
-	var $shipping_name = null;
- 	var $shipping_class = null;
- 	var $shipping_method_code = null;
-	var $published = null;
-	var $shipping_details = null;
-	var $params = null;
-	var $plugin = null;
-	var $ordering = null;
+	public $shipping_id = null;
 
+	public $shipping_name = null;
 
-	function Tableshipping_detail(& $db)
+	public $shipping_class = null;
+
+	public $shipping_method_code = null;
+
+	public $published = null;
+
+	public $shipping_details = null;
+
+	public $params = null;
+
+	public $plugin = null;
+
+	public $ordering = null;
+
+	public function __construct(&$db)
 	{
-	  $this->_table_prefix = '#__extensions';
+		$this->_table_prefix = '#__extensions';
 
 		parent::__construct($this->_table_prefix, 'extension_id', $db);
 	}
 
-	function bind($array, $ignore = '')
+	public function bind($array, $ignore = '')
 	{
-		if (key_exists( 'params', $array ) && is_array( $array['params'] )) {
-			$registry = new JRegistry();
+		if (array_key_exists('params', $array) && is_array($array['params']))
+		{
+			$registry = new JRegistry;
 			$registry->loadArray($array['params']);
 			$array['params'] = $registry->toString();
 		}
 
 		return parent::bind($array, $ignore);
 	}
-
 }
-
-?>

@@ -6,27 +6,34 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined('_JEXEC') or die('Restricted access');
+
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
-require_once(JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'mail.php');
-require_once(JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'extra_field.php');
-require_once(JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'user.php');
+require_once(JPATH_SITE . '/administrator/components/com_redshop/helpers/mail.php');
+require_once(JPATH_SITE . '/components/com_redshop/helpers/extra_field.php');
+require_once(JPATH_SITE . '/components/com_redshop/helpers/user.php');
 
 class user_detailModeluser_detail extends JModel
 {
-	var $_id = null;
-	var $_uid = null;
-	var $_data = null;
-	var $_table_prefix = null;
-	var $_pagination = null;
-	var $_copydata = null;
-	var $_context = null;
+	public $_id = null;
 
-	function __construct()
+	public $_uid = null;
+
+	public $_data = null;
+
+	public $_table_prefix = null;
+
+	public $_pagination = null;
+
+	public $_copydata = null;
+
+	public $_context = null;
+
+	public function __construct()
 	{
-		global $mainframe;
+		$app = JFactory::getApplication();
 		parent::__construct();
 
 		$this->_table_prefix = '#__redshop_';
@@ -35,30 +42,34 @@ class user_detailModeluser_detail extends JModel
 		$array = JRequest::getVar('cid', 0, '', 'array');
 		$this->_uid = JRequest::getVar('user_id', 0);
 
-		$limit = $mainframe->getUserStateFromRequest($this->_context . 'limit', 'limit', $mainframe->getCfg('list_limit'), 0);
-		$limitstart = $mainframe->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
+		$limit = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
+		$limitstart = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
 
 		$this->setState('limit', $limit);
 		$this->setState('limitstart', $limitstart);
 		$this->setId((int) $array[0]);
 	}
 
-	function setId($id)
+	public function setId($id)
 	{
 		$this->_id = $id;
 		$this->_data = null;
 	}
 
-	function &getData()
+	public function &getData()
 	{
 		if ($this->_loadData())
 		{
 		}
-		else  $this->_initData();
+		else
+		{
+			$this->_initData();
+		}
+
 		return $this->_data;
 	}
 
-	function _loadData()
+	public function _loadData()
 	{
 		if (empty($this->_data))
 		{
@@ -68,10 +79,12 @@ class user_detailModeluser_detail extends JModel
 				. 'WHERE users_info_id="' . $this->_id . '" ';
 			$this->_db->setQuery($query);
 			$this->_data = $this->_db->loadObject();
+
 			if (isset($this->_data->user_id))
 			{
 				$this->_uid = $this->_data->user_id;
 			}
+
 			if (count($this->_data) > 0 && !$this->_data->email)
 			{
 				$this->_data->email = $this->_data->user_email;
@@ -81,11 +94,11 @@ class user_detailModeluser_detail extends JModel
 		return true;
 	}
 
-	function _initData()
+	public function _initData()
 	{
 		if (empty($this->_data))
 		{
-			$detail = new stdClass();
+			$detail = new stdClass;
 
 			$detail->users_info_id = 0;
 			$detail->user_id = 0;
@@ -121,10 +134,10 @@ class user_detailModeluser_detail extends JModel
 			$detail->tax_exempt_approved = 0;
 			$detail->approved = 1;
 			$detail->ean_number = null;
-//			$detail->requisition_number			= null;
 
 			$info_id = JRequest::getVar('info_id', 0);
 			$shipping = JRequest::getVar('shipping', 0);
+
 			if ($shipping)
 			{
 				$query = 'SELECT * FROM ' . $this->_table_prefix . 'users_info AS uf '
@@ -143,10 +156,10 @@ class user_detailModeluser_detail extends JModel
 				$detail->requesting_tax_exempt = $bill_data->requesting_tax_exempt;
 				$detail->tax_exempt_approved = $bill_data->tax_exempt_approved;
 				$detail->ean_number = $bill_data->ean_number;
-//				$detail->requisition_number			= $bill_data->requisition_number;
 			}
 
 			$this->_data = $detail;
+
 			return (boolean) $this->_data;
 		}
 		return true;
@@ -159,32 +172,30 @@ class user_detailModeluser_detail extends JModel
 	 * @ it canbe use in redSHOP with diffrent purpose
 	 * @ author: gunjan
 	 */
-	function storeUser_bk($post)
+	public function storeUser_bk($post)
 	{
 
-		global $mainframe;
-		$redshopMail = new redshopMail();
+		$app = JFactory::getApplication();
+		$redshopMail = new redshopMail;
+
 		// Start data into user table
 		// Initialize some variables
-		$db = & JFactory::getDBO();
-		$me = & JFactory::getUser();
-		$acl = & JFactory::getACL();
+		$db = JFactory::getDBO();
+		$me = JFactory::getUser();
+		$acl = JFactory::getACL();
 
 		// Create a new JUser object
 		$user = new JUser($post['id']);
 		$original_gid = $user->get('gid');
 
-		//$post['username']	= JRequest::getVar('username', '', 'post', 'username');
 		$post['name'] = (isset($post['name'])) ? $post['name'] : $post['username'];
-		//$post['password']	= JRequest::getVar('password', '', 'post', 'string', JREQUEST_ALLOWRAW);
-		//$post['password2']	= JRequest::getVar('password2', '', 'post', 'string', JREQUEST_ALLOWRAW);
 
-
-		// changed for shipping code moved out of condition
+		// Changed for shipping code moved out of condition
 		if (!$user->bind($post))
 		{
-			$mainframe->enqueueMessage(JText::_('COM_REDSHOP_CANNOT_SAVE_THE_USER_INFORMATION'), 'message');
-			$mainframe->enqueueMessage($user->getError(), 'error');
+			$app->enqueueMessage(JText::_('COM_REDSHOP_CANNOT_SAVE_THE_USER_INFORMATION'), 'message');
+			$app->enqueueMessage($user->getError(), 'error');
+
 			return false;
 		}
 
@@ -195,36 +206,41 @@ class user_detailModeluser_detail extends JModel
 		if ($user->get('id') == $me->get('id') && $user->get('block') == 1)
 		{
 			$msg = JText::_('COM_REDSHOP_YOU_CANNOT_BLOCK_YOURSELF');
-			$mainframe->enqueueMessage($msg, 'message');
+			$app->enqueueMessage($msg, 'message');
+
 			return false;
 		}
-		else if (($this_group == 'super administrator') && $user->get('block') == 1)
+		elseif (($this_group == 'super administrator') && $user->get('block') == 1)
 		{
 			$msg = JText::_('COM_REDSHOP_YOU_CANNOT_BLOCK_A_SUPER_ADMINISTRATOR');
-			$mainframe->enqueueMessage($msg, 'message');
+			$app->enqueueMessage($msg, 'message');
+
 			return false;
 		}
-		else if (($this_group == 'administrator') && ($me->get('gid') == 24) && $user->get('block') == 1)
+		elseif (($this_group == 'administrator') && ($me->get('gid') == 24) && $user->get('block') == 1)
 		{
 			$msg = JText::_('COM_REDSHOP_WARNBLOCK');
-			$mainframe->enqueueMessage($msg, 'message');
+			$app->enqueueMessage($msg, 'message');
+
 			return false;
 		}
-		else if (($this_group == 'super administrator') && ($me->get('gid') != 25))
+		elseif (($this_group == 'super administrator') && ($me->get('gid') != 25))
 		{
 			$msg = JText::_('COM_REDSHOP_YOU_CANNOT_EDIT_A_SUPER_ADMINISTRATOR_ACCOUNT');
-			$mainframe->enqueueMessage($msg, 'message');
+			$app->enqueueMessage($msg, 'message');
+
 			return false;
 		}
 
 		// Are we dealing with a new user which we need to create?
 		$isNew = ($user->get('id') < 1);
+
 		if (!$isNew)
 		{
-			// if group has been changed and where original group was a Super Admin
+			// If group has been changed and where original group was a Super Admin
 			if ($user->get('gid') != $original_gid && $original_gid == 25)
 			{
-				// count number of active super admins
+				// Count number of active super admins
 				$query = 'SELECT COUNT( id )'
 					. ' FROM #__users'
 					. ' WHERE gid = 25'
@@ -234,21 +250,25 @@ class user_detailModeluser_detail extends JModel
 
 				if ($count <= 1)
 				{
-					// disallow change if only one Super Admin exists
+					// Disallow change if only one Super Admin exists
 					$this->setRedirect('index.php?option=' . $option . '&view=user', JText::_('COM_REDSHOP_WARN_ONLY_SUPER'));
+
 					return false;
 				}
 			}
 		}
+
 		/*
 	 	 * Lets save the JUser object
 	 	 */
 		if (!$user->save())
 		{
-			$mainframe->enqueueMessage(JText::_('COM_REDSHOP_CANNOT_SAVE_THE_USER_INFORMATION'), 'message');
-			$mainframe->enqueueMessage($user->getError(), 'error');
+			$app->enqueueMessage(JText::_('COM_REDSHOP_CANNOT_SAVE_THE_USER_INFORMATION'), 'message');
+			$app->enqueueMessage($user->getError(), 'error');
+
 			return false;
 		}
+
 		/*
 	 	 * Time for the email magic so get ready to sprinkle the magic dust...
 	 	 */
@@ -261,7 +281,7 @@ class user_detailModeluser_detail extends JModel
 		if ($user->get('id') == $me->get('id'))
 		{
 			// Get an ACL object
-			$acl = & JFactory::getACL();
+			$acl = JFactory::getACL();
 
 			// Get the user group from the ACL
 			$grp = $acl->getAroGroup($user->get('id'));
@@ -271,8 +291,8 @@ class user_detailModeluser_detail extends JModel
 			$user->set('aid', 1);
 
 			// Fudge Authors, Editors, Publishers and Super Administrators into the special access group
-			if ($acl->is_group_child_of($grp->name, 'Registered') ||
-				$acl->is_group_child_of($grp->name, 'Public Backend')
+			if ($acl->is_group_child_of($grp->name, 'Registered')
+				|| $acl->is_group_child_of($grp->name, 'Public Backend')
 			)
 			{
 				$user->set('aid', 2);
@@ -281,19 +301,18 @@ class user_detailModeluser_detail extends JModel
 			// Set the usertype based on the ACL group name
 			$user->set('usertype', $grp->name);
 
-			$session = & JFactory::getSession();
+			$session = JFactory::getSession();
 			$session->set('user', $user);
 		}
 
 		// End data into user table
-
 		return $user;
 	}
 
-	function storeUser($post)
+	public function storeUser($post)
 	{
 
-		$userhelper = new rsUserhelper();
+		$userhelper = new rsUserhelper;
 
 		$shipping = isset($post["shipping"]) ? true : false;
 		$post['createaccount'] = (isset($post['username']) && $post['username'] != "") ? 1 : 0;
@@ -301,24 +320,29 @@ class user_detailModeluser_detail extends JModel
 
 
 		$post['billisship'] = 1;
+
 		if ($post['createaccount'])
+		{
 			$joomlauser = $userhelper->createJoomlaUser($post);
+		}
 		else
+		{
 			$joomlauser = $userhelper->updateJoomlaUser($post);
-		//print_r($joomlauser);exit;
+		}
+
 		if (!$joomlauser)
 		{
 			return false;
 		}
+
 		$reduser = $userhelper->storeRedshopUser($post, $joomlauser->id, 1);
 
 		return $reduser;
-
 	}
 
-	function store($post)
+	public function store($post)
 	{
-		$userhelper = new rsUserhelper();
+		$userhelper = new rsUserhelper;
 
 		$shipping = isset($post["shipping"]) ? true : false;
 		$post['createaccount'] = (isset($post['username']) && $post['username'] != "") ? 1 : 0;
@@ -341,32 +365,37 @@ class user_detailModeluser_detail extends JModel
 		{
 			$post['billisship'] = 1;
 			$joomlauser = $userhelper->updateJoomlaUser($post);
+
 			if (!$joomlauser)
 			{
 				return false;
 			}
 			$reduser = $userhelper->storeRedshopUser($post, $joomlauser->id, 1);
 		}
+
 		return $reduser;
 	}
 
-	function delete($cid = array())
+	public function delete($cid = array())
 	{
 		if (count($cid))
 		{
 			$cids = implode(',', $cid);
 			$query = 'DELETE FROM ' . $this->_table_prefix . 'users_info WHERE users_info_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
+
 			if (!$this->_db->query())
 			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 		}
+
 		return true;
 	}
 
-	function publish($cid = array(), $publish = 1)
+	public function publish($cid = array(), $publish = 1)
 	{
 		if (count($cid))
 		{
@@ -376,57 +405,65 @@ class user_detailModeluser_detail extends JModel
 				. 'SET approved=' . intval($publish) . ' '
 				. 'WHERE user_id IN ( ' . $cids . ' ) ';
 			$this->_db->setQuery($query);
+
 			if (!$this->_db->query())
 			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 		}
+
 		return true;
 	}
 
-	function validate_user($user, $uid)
+	public function validate_user($user, $uid)
 	{
 		$query = "SELECT username FROM #__users WHERE username='" . $user . "' AND id !=" . $uid;
 		$this->_db->setQuery($query);
 		$users = $this->_db->loadObjectList();
+
 		return count($users);
 	}
 
-	function validate_email($email, $uid)
+	public function validate_email($email, $uid)
 	{
 		$query = "SELECT email FROM #__users WHERE email = '" . $email . "' AND id !=" . $uid;
 		$this->_db->setQuery($query);
 		$emails = $this->_db->loadObjectList();
+
 		return count($emails);
 	}
 
-	function userOrders()
+	public function userOrders()
 	{
 		$query = $this->_buildUserorderQuery();
 		$list = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
+
 		return $list;
 	}
 
-	function _buildUserorderQuery()
+	public function _buildUserorderQuery()
 	{
 		$query = "SELECT * FROM `" . $this->_table_prefix . "orders` "
 			. "WHERE `user_id`='" . $this->_uid . "' "
 			. "ORDER BY order_id DESC ";
+
 		return $query;
 	}
 
-	function getTotal()
+	public function getTotal()
 	{
 		if ($this->_id)
 		{
 			$query = $this->_buildUserorderQuery();
 			$this->_total = $this->_getListCount($query);
+
 			return $this->_total;
 		}
 	}
 
-	function getPagination()
+	public function getPagination()
 	{
 		if (empty($this->_pagination))
 		{
@@ -436,5 +473,3 @@ class user_detailModeluser_detail extends JModel
 		return $this->_pagination;
 	}
 }
-
-?>

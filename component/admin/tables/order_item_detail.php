@@ -1,70 +1,90 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- * Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     RedSHOP.Backend
+ * @subpackage  Table
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined( '_JEXEC' ) or die( 'Restricted access' );
 
-jimport('joomla.application.component.model');
+defined('_JEXEC') or die;
 
 class Tableorder_item_detail extends JTable
 {
-	var $order_item_id = null;
-	var $order_id = null;
-	var $user_info_id = null;
-	var $supplier_id = null;
-	var $product_id = null;
-	var $order_item_sku = null;
-	var $order_item_name = null;
-	var $product_quantity = null;
-	var $product_item_price = null;
-	var $product_item_old_price	= null;
-	var $product_item_price_excl_vat = null;
-	var $product_final_price = null;
-	var $order_item_currency = null;
-	var $order_status = null;
-	var $customer_note = null;
-	var $cdate = null;
-	var $mdate = null;
-	var $product_attribute = null;
-	var $discount_calc_data = null;
-	var $product_accessory = null;
-	var $delivery_time = null;
-	var $container_id = null;
-	var $stockroom_id = null;
-	var $stockroom_quantity = null;
-	var $wrapper_id = null;
-	var $wrapper_price = null;
-	var $is_giftcard  = 0;
-	var $product_purchase_price	=	0;
-        var $attribute_image=null;
+	public $order_item_id = null;
 
-	function Tableorder_item_detail(& $db)
+	public $order_id = null;
+
+	public $user_info_id = null;
+
+	public $supplier_id = null;
+
+	public $product_id = null;
+
+	public $order_item_sku = null;
+
+	public $order_item_name = null;
+
+	public $product_quantity = null;
+
+	public $product_item_price = null;
+
+	public $product_item_old_price = null;
+
+	public $product_item_price_excl_vat = null;
+
+	public $product_final_price = null;
+
+	public $order_item_currency = null;
+
+	public $order_status = null;
+
+	public $customer_note = null;
+
+	public $cdate = null;
+
+	public $mdate = null;
+
+	public $product_attribute = null;
+
+	public $discount_calc_data = null;
+
+	public $product_accessory = null;
+
+	public $delivery_time = null;
+
+	public $container_id = null;
+
+	public $stockroom_id = null;
+
+	public $stockroom_quantity = null;
+
+	public $wrapper_id = null;
+
+	public $wrapper_price = null;
+
+	public $is_giftcard = 0;
+
+	public $product_purchase_price = 0;
+
+	public $attribute_image = null;
+
+	public function __construct(&$db)
 	{
-	 	$this->_table_prefix = '#__redshop_';
+		$this->_table_prefix = '#__redshop_';
 
-		parent::__construct($this->_table_prefix.'order_item', 'order_item_id', $db);
+		parent::__construct($this->_table_prefix . 'order_item', 'order_item_id', $db);
 	}
 
-	function bind($array, $ignore = '')
+	public function bind($array, $ignore = '')
 	{
-		if (key_exists( 'params', $array ) && is_array( $array['params'] )) {
-			$registry = new JRegistry();
+		if (array_key_exists('params', $array) && is_array($array['params']))
+		{
+			$registry = new JRegistry;
 			$registry->loadArray($array['params']);
 			$array['params'] = $registry->toString();
 		}
+
 		return parent::bind($array, $ignore);
 	}
-
 }
-?>

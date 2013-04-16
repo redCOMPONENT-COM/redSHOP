@@ -7,9 +7,9 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
-require_once(JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'category.php');
+require_once(JPATH_SITE . '/administrator/components/com_redshop/helpers/category.php');
 
 
 /**
@@ -31,7 +31,7 @@ class JFormFieldcategory extends JFormField
 
 	protected function getInput()
 	{
-		$db = & JFactory::getDBO();
+		$db = JFactory::getDBO();
 		$this->_cats = array();
 		$name = $this->name;
 		$control_name = $this->name;

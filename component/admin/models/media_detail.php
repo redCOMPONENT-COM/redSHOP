@@ -6,20 +6,23 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
-
 class media_detailModelmedia_detail extends JModel
 {
-	var $_id = null;
-	var $_data = null;
-	var $_table_prefix = null;
-	var $_mediadata = null;
-	var $_mediatypedata = null;
+	public $_id = null;
 
-	function __construct()
+	public $_data = null;
+
+	public $_table_prefix = null;
+
+	public $_mediadata = null;
+
+	public $_mediatypedata = null;
+
+	public function __construct()
 	{
 		parent::__construct();
 		$this->_table_prefix = '#__redshop_';
@@ -27,24 +30,26 @@ class media_detailModelmedia_detail extends JModel
 		$this->setId((int) $array[0]);
 	}
 
-	function setId($id)
+	public function setId($id)
 	{
 		$this->_id = $id;
 		$this->_data = null;
 	}
 
-	function &getData()
+	public function &getData()
 	{
 		if ($this->_loadData())
 		{
-
 		}
-		else  $this->_initData();
+		else
+		{
+			$this->_initData();
+		}
 
 		return $this->_data;
 	}
 
-	function _loadData()
+	public function _loadData()
 	{
 		if (empty($this->_data))
 		{
@@ -53,16 +58,18 @@ class media_detailModelmedia_detail extends JModel
 				. 'order by section_id';
 			$this->_db->setQuery($query);
 			$this->_data = $this->_db->loadObject();
+
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
 
-	function _initData()
+	public function _initData()
 	{
 		if (empty($this->_data))
 		{
-			$detail = new stdClass();
+			$detail = new stdClass;
 			$detail->media_id = 0;
 			$detail->media_title = null;
 			$detail->media_type = null;
@@ -72,32 +79,38 @@ class media_detailModelmedia_detail extends JModel
 			$detail->section_id = null;
 			$detail->published = 1;
 			$this->_data = $detail;
+
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
 
-	function store($data)
+	public function store($data)
 	{
 		$row =& $this->getTable();
+
 		if (!$row->bind($data))
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
+
 		if (!$row->store())
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
+
 		return $row;
 	}
 
-	function delete($cid = array())
+	public function delete($cid = array())
 	{
 		if (count($cid))
 		{
-
 			$cids = implode(',', $cid);
 
 			$q = 'SELECT * FROM ' . $this->_table_prefix . 'media  WHERE media_id IN ( ' . $cids . ' )';
@@ -106,36 +119,44 @@ class media_detailModelmedia_detail extends JModel
 
 			foreach ($this->_data as $mediadata)
 			{
-				$ntsrc = JPATH_ROOT . DS . 'components/com_redshop/assets/' . $mediadata->media_type . '/' . $mediadata->media_section . '/thumb' . DS . $mediadata->media_name;
-				$nsrc = JPATH_ROOT . DS . 'components/com_redshop/assets/' . $mediadata->media_type . '/' . $mediadata->media_section . '/' . $mediadata->media_name;
+				$ntsrc = JPATH_ROOT . '/components/com_redshop/assets/' . $mediadata->media_type . '/'
+					. $mediadata->media_section . '/thumb/' . $mediadata->media_name;
+				$nsrc = JPATH_ROOT . '/components/com_redshop/assets/' . $mediadata->media_type . '/'
+					. $mediadata->media_section . '/' . $mediadata->media_name;
 
 				if (is_file($nsrc))
 				{
 					unlink($nsrc);
 				}
+
 				if (is_file($ntsrc))
 				{
 					unlink($ntsrc);
 				}
+
 				if ($mediadata->media_section == 'manufacturer')
 				{
 					$query = 'DELETE FROM ' . $this->_table_prefix . 'media WHERE section_id IN ( ' . $mediadata->section_id . ' )';
 					$this->_db->setQuery($query);
 					$this->_db->query();
 				}
+
 				$query = 'DELETE FROM ' . $this->_table_prefix . 'media WHERE media_id IN ( ' . $mediadata->media_id . ' )';
 				$this->_db->setQuery($query);
+
 				if (!$this->_db->query())
 				{
 					$this->setError($this->_db->getErrorMsg());
+
 					return false;
 				}
 			}
 		}
+
 		return true;
 	}
 
-	function publish($cid = array(), $publish = 1)
+	public function publish($cid = array(), $publish = 1)
 	{
 		if (count($cid))
 		{
@@ -145,16 +166,19 @@ class media_detailModelmedia_detail extends JModel
 				. ' SET published = ' . intval($publish)
 				. ' WHERE media_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
+
 			if (!$this->_db->query())
 			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 		}
+
 		return true;
 	}
 
-	function getSection($id, $type)
+	public function getSection($id, $type)
 	{
 		if ($type == 'product')
 		{
@@ -164,11 +188,13 @@ class media_detailModelmedia_detail extends JModel
 		{
 			$query = 'SELECT category_name as name,category_id as id FROM ' . $this->_table_prefix . 'category  WHERE category_id = "' . $id . '" ';
 		}
+
 		$this->_db->setQuery($query);
+
 		return $this->_db->loadObject();
 	}
 
-	function defaultmedia($media_id = 0, $section_id = 0, $media_section = "")
+	public function defaultmedia($media_id = 0, $section_id = 0, $media_section = "")
 	{
 		if ($media_id && $media_section)
 		{
@@ -179,6 +205,7 @@ class media_detailModelmedia_detail extends JModel
 				. "AND `media_type` = 'images' ";
 			$this->_db->setQuery($query);
 			$rs = $this->_db->loadObject();
+
 			if (count($rs) > 0)
 			{
 				switch ($media_section)
@@ -188,9 +215,11 @@ class media_detailModelmedia_detail extends JModel
 							. "SET `product_thumb_image` = '', `product_full_image` = '" . $rs->media_name . "' "
 							. "WHERE `product_id`='" . $section_id . "' ";
 						$this->_db->setQuery($query);
+
 						if (!$this->_db->query())
 						{
 							$this->setError($this->_db->getErrorMsg());
+
 							return false;
 						}
 						break;
@@ -199,9 +228,11 @@ class media_detailModelmedia_detail extends JModel
 							. "SET `property_main_image` = '" . $rs->media_name . "' "
 							. "WHERE `property_id`='" . $section_id . "' ";
 						$this->_db->setQuery($query);
+
 						if (!$this->_db->query())
 						{
 							$this->setError($this->_db->getErrorMsg());
+
 							return false;
 						}
 						break;
@@ -210,54 +241,65 @@ class media_detailModelmedia_detail extends JModel
 							. "SET `subattribute_color_main_image` = '" . $rs->media_name . "' "
 							. "WHERE `subattribute_color_id`='" . $section_id . "' ";
 						$this->_db->setQuery($query);
+
 						if (!$this->_db->query())
 						{
 							$this->setError($this->_db->getErrorMsg());
+
 							return false;
 						}
 						break;
 				}
 			}
 		}
+
 		return true;
 	}
 
-	function saveorder($cid = array(), $order)
+	public function saveorder($cid = array(), $order)
 	{
 		$row =& $this->getTable();
 		$order = JRequest::getVar('order', array(0), 'post', 'array');
 		$conditions = array();
-		//$groupings = array();
 
-		// update ordering values
+		// Update ordering values
 		for ($i = 0; $i < count($cid); $i++)
 		{
 			$row->load((int) $cid[$i]);
-			// track categories
-			//$groupings[] = $row->mid;
 
+			// Track categories
 			if ($row->ordering != $order[$i])
 			{
 				$row->ordering = $order[$i];
+
 				if (!$row->store())
 				{
 					$this->setError($this->_db->getErrorMsg());
+
 					return false;
 				}
-				// remember to updateOrder this group
+
+				// Remember to updateOrder this group
 				$condition = 'section_id = ' . (int) $row->section_id . ' AND media_section = "' . $row->media_section . '"';
 				$found = false;
+
 				foreach ($conditions as $cond)
+				{
 					if ($cond[1] == $condition)
 					{
 						$found = true;
 						break;
 					}
+				}
+
 				if (!$found)
+				{
 					$conditions[] = array($row->media_id, $condition);
+				}
 			}
 		}
-		// execute updateOrder for each group
+
+		// Execute updateOrder for each group
 		foreach ($conditions as $cond)
 		{
 			$row->load($cond[0]);
@@ -265,25 +307,23 @@ class media_detailModelmedia_detail extends JModel
 		}
 	}
 
-	function orderup()
+	public function orderup()
 	{
 		$row =& $this->getTable();
 		$row->load($this->_id);
-		//$row->reorder('section_id = '.(int) $row->section_id.' AND media_section = "product"');
 		$row->move(-1, 'section_id = ' . (int) $row->section_id . ' AND media_section = "' . $row->media_section . '"');
 		$row->store();
+
 		return true;
 	}
 
-	function orderdown()
+	public function orderdown()
 	{
 		$row =& $this->getTable();
 		$row->load($this->_id);
-		//$row->reorder('section_id = '.(int) $row->section_id.' AND media_section = "product"');
 		$row->move(1, 'section_id = ' . (int) $row->section_id . ' AND media_section = "' . $row->media_section . '"');
 		$row->store();
+
 		return true;
 	}
 }
-
-?>

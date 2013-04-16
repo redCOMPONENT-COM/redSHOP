@@ -7,42 +7,26 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
-
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 
 class product_priceController extends JController
 {
-	function __construct($default = array())
-	{
-		parent::__construct($default);
-	}
-
-	function cancel()
+	public function cancel()
 	{
 		$this->setRedirect('index.php');
 	}
 
-	function display()
+	public function listing()
 	{
-
-		parent::display();
-
-	}
-
-	function listing()
-	{
-
-
 		JRequest::setVar('layout', 'listing');
 		JRequest::setVar('hidemainmenu', 1);
 		parent::display();
 	}
 
-	function saveprice()
+	public function saveprice()
 	{
-
 		$db = JFactory::getDBO();
 		$product_id = JRequest::getVar('pid');
 		$shopper_group_id = JRequest::getVar('shopper_group_id', array(), 'post', 'array');
@@ -53,57 +37,54 @@ class product_priceController extends JController
 
 		for ($i = 0; $i < count($price); $i++)
 		{
-
-			$sql = "SELECT count(*) FROM  #__redshop_product_price  WHERE product_id='" . $product_id . "' AND price_id = '" . $price_id[$i] . "' AND shopper_group_id = '" . $shopper_group_id[$i] . "' ";
+			$sql = "SELECT count(*) FROM  #__redshop_product_price  WHERE product_id='" . $product_id . "' AND price_id = '"
+				. $price_id[$i] . "' AND shopper_group_id = '" . $shopper_group_id[$i] . "' ";
 			$db->setQuery($sql);
+
 			if ($db->loadResult())
 			{
-
-				$query = 'SELECT price_id FROM #__redshop_product_price WHERE shopper_group_id = "' . $shopper_group_id[$i] . '" AND product_id = ' . $product_id . ' AND price_quantity_end >= ' . $price_quantity_start[$i] . ' AND price_quantity_start <=' . $price_quantity_start[$i];
+				$query = 'SELECT price_id FROM #__redshop_product_price WHERE shopper_group_id = "' . $shopper_group_id[$i]
+					. '" AND product_id = ' . $product_id . ' AND price_quantity_end >= ' . $price_quantity_start[$i]
+					. ' AND price_quantity_start <=' . $price_quantity_start[$i];
 				$db->setQuery($query);
 				$xid = intval($db->loadResult());
+
 				if ($xid && $xid != intval($price_id[$i]))
 				{
 					echo $xid;
 
 					$this->_error = JText::sprintf('WARNNAMETRYAGAIN', JText::_('COM_REDSHOP_PRICE_ALREADY_EXISTS'));
-					//return false;
 				}
+
 				if ($price[$i] != '')
 				{
-
 					$sql = "UPDATE #__redshop_product_price  SET product_price='" . $price[$i] . "' ,"
 						. " price_quantity_start = '" . $price_quantity_start[$i] . "', price_quantity_end = '" . $price_quantity_end[$i] . "' "
-						. " WHERE product_id='" . $product_id . "' AND price_id = '" . $price_id[$i] . "' AND shopper_group_id = '" . $shopper_group_id[$i] . "' ";
-
+						. " WHERE product_id='" . $product_id . "' AND price_id = '" . $price_id[$i] . "' AND shopper_group_id = '"
+						. $shopper_group_id[$i] . "' ";
 				}
 				else
 				{
-
-					$sql = "DELETE FROM  #__redshop_product_price   WHERE product_id='" . $product_id . "' AND price_id = '" . $price_id[$i] . "' AND shopper_group_id = '" . $shopper_group_id[$i] . "' ";
-
+					$sql = "DELETE FROM  #__redshop_product_price   WHERE product_id='" . $product_id . "' AND price_id = '"
+						. $price_id[$i] . "' AND shopper_group_id = '" . $shopper_group_id[$i] . "' ";
 				}
-
-
 			}
 			elseif ($price[$i] != '')
 			{
-
-				$sql = "INSERT INTO  #__redshop_product_price  SET product_price='" . $price[$i] . "', price_quantity_start = '" . $price_quantity_start[$i] . "' , price_quantity_end = '" . $price_quantity_end[$i] . "' , product_id='" . $product_id . "' , shopper_group_id = '" . $shopper_group_id[$i] . "' ";
+				$sql = "INSERT INTO  #__redshop_product_price  SET product_price='" . $price[$i] . "', price_quantity_start = '"
+					. $price_quantity_start[$i] . "' , price_quantity_end = '" . $price_quantity_end[$i] . "' , product_id='"
+					. $product_id . "' , shopper_group_id = '" . $shopper_group_id[$i] . "' ";
 			}
-
 
 			$db->setQuery($sql);
 			$db->Query();
 		}
 
 		$this->setRedirect('index.php?tmpl=component&option=com_redshop&view=product_price&pid=' . $product_id);
-
 	}
 
-	function template()
+	public function template()
 	{
-
 		$template_id = JRequest::getVar('template_id', '');
 		$product_id = JRequest::getVar('product_id', '');
 		$section = JRequest::getVar('section', '');
@@ -113,5 +94,4 @@ class product_priceController extends JController
 		echo $data_product;
 		exit;
 	}
-
 }

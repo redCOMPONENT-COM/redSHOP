@@ -6,38 +6,34 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined('_JEXEC') or die ('Restricted access');
+
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 
 class state_detailController extends JController
 {
-	function __construct($default = array())
+	public function __construct($default = array())
 	{
 		parent::__construct($default);
 		$this->registerTask('add', 'edit');
-
-
 	}
 
-	function edit()
+	public function edit()
 	{
 		JRequest::setVar('view', 'state_detail');
 		JRequest::setVar('layout', 'default');
 		JRequest::setVar('hidemainmenu', 1);
 
-		$model = $this->getModel('state_detail');
-
 		parent::display();
 	}
 
-
-	function apply()
+	public function apply()
 	{
 		$this->save(1);
 	}
 
-	function save($apply = 0)
+	public function save($apply = 0)
 	{
 		$post = JRequest::get('post');
 
@@ -48,19 +44,15 @@ class state_detailController extends JController
 		$post ['state_id'] = $cid [0];
 		$model = $this->getModel('state_detail');
 		$row = $model->store($post);
+
 		if ($row)
 		{
-
 			$msg = JText::_('COM_REDSHOP_STATE_DETAIL_SAVED');
-
 		}
 		else
 		{
-
 			$msg = JText::_('COM_REDSHOP_ERROR_SAVING_IN_STATE_DETAIL');
-
 		}
-
 
 		if ($apply == 1)
 		{
@@ -73,9 +65,8 @@ class state_detailController extends JController
 
 	}
 
-	function cancel()
+	public function cancel()
 	{
-
 		$option = JRequest::getVar('option');
 
 		$model = $this->getModel('state_detail');
@@ -84,9 +75,8 @@ class state_detailController extends JController
 		$this->setRedirect('index.php?option=' . $option . '&view=state', $msg);
 	}
 
-	function remove()
+	public function remove()
 	{
-
 		$option = JRequest::getVar('option');
 
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
@@ -97,15 +87,13 @@ class state_detailController extends JController
 		}
 
 		$model = $this->getModel('state_detail');
+
 		if (!$model->delete($cid))
 		{
 			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
 		}
+
 		$msg = JText::_('COM_REDSHOP_state_DETAIL_DELETED_SUCCESSFULLY');
 		$this->setRedirect('index.php?option=' . $option . '&view=state', $msg);
 	}
-
-
 }
-
-?>

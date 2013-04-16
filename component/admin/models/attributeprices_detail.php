@@ -6,18 +6,24 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-jimport('joomla.application.component.model');
 
+defined('_JEXEC') or die;
+
+jimport('joomla.application.component.model');
 
 class attributeprices_detailModelattributeprices_detail extends JModel
 {
-	var $_id = null;
-	var $_sectionid = null;
-	var $_section = null;
-	var $_data = null;
-	var $_table_prefix = null;
+	public $_id = null;
 
-	function __construct()
+	public $_sectionid = null;
+
+	public $_section = null;
+
+	public $_data = null;
+
+	public $_table_prefix = null;
+
+	public function __construct()
 	{
 		parent::__construct();
 		$this->_table_prefix = '#__' . TABLE_PREFIX . '_';
@@ -29,23 +35,26 @@ class attributeprices_detailModelattributeprices_detail extends JModel
 		$this->setId((int) $array[0]);
 	}
 
-	function setId($id)
+	public function setId($id)
 	{
 		$this->_id = $id;
 		$this->_data = null;
 	}
 
-	function &getData()
+	public function &getData()
 	{
 		if ($this->_loadData())
 		{
 		}
-		else  $this->_initData();
+		else
+		{
+			$this->_initData();
+		}
 
 		return $this->_data;
 	}
 
-	function _loadData()
+	public function _loadData()
 	{
 		if (empty($this->_data))
 		{
@@ -59,6 +68,7 @@ class attributeprices_detailModelattributeprices_detail extends JModel
 				$field = "ap.subattribute_color_name AS property_name ";
 				$q = 'LEFT JOIN ' . $this->_table_prefix . 'product_subattribute_color AS ap ON p.section_id = ap.subattribute_color_id ';
 			}
+
 			$query = 'SELECT p.*, g.shopper_group_name, ' . $field . ' '
 				. 'FROM ' . $this->_table_prefix . 'product_attribute_price as p '
 				. 'LEFT JOIN ' . $this->_table_prefix . 'shopper_group as g ON p.shopper_group_id = g.shopper_group_id '
@@ -66,16 +76,18 @@ class attributeprices_detailModelattributeprices_detail extends JModel
 				. 'WHERE p.price_id = ' . $this->_id;
 			$this->_db->setQuery($query);
 			$this->_data = $this->_db->loadObject();
+
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
 
-	function _initData()
+	public function _initData()
 	{
 		if (empty($this->_data))
 		{
-			$detail = new stdClass();
+			$detail = new stdClass;
 			$detail->price_id = 0;
 			$detail->section_id = $this->_sectionid;
 			$detail->product_price = 0.00;
@@ -88,23 +100,27 @@ class attributeprices_detailModelattributeprices_detail extends JModel
 			$detail->discount_end_date = 0;
 
 			$this->_data = $detail;
+
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
 
-	function getShopperGroup()
+	public function getShopperGroup()
 	{
 		$q = 'SELECT shopper_group_id AS value,shopper_group_name AS text '
 			. 'FROM ' . $this->_table_prefix . 'shopper_group';
 		$this->_db->setQuery($q);
 		$shoppergroup = $this->_db->loadObjectList();
+
 		return $shoppergroup;
 	}
 
-	function getPropertyName()
+	public function getPropertyName()
 	{
 		$propertyid = $this->_sectionid;
+
 		if ($this->_section == "property")
 		{
 			$q = 'SELECT * '
@@ -117,33 +133,42 @@ class attributeprices_detailModelattributeprices_detail extends JModel
 				. 'FROM ' . $this->_table_prefix . 'product_subattribute_color AS ap '
 				. 'WHERE subattribute_color_id = ' . $propertyid;
 		}
+
 		$this->_db->setQuery($q);
 		$rs = $this->_db->loadObject();
+
 		return $rs;
 	}
 
-	function store($data)
+	public function store($data)
 	{
 		$row =& $this->getTable();
+
 		if (!$row->bind($data))
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
+
 		if (!$row->check())
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
+
 		if (!$row->store())
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
+
 		return true;
 	}
 
-	function delete($cid = array())
+	public function delete($cid = array())
 	{
 		if (count($cid))
 		{
@@ -151,14 +176,15 @@ class attributeprices_detailModelattributeprices_detail extends JModel
 			$query = 'DELETE FROM ' . $this->_table_prefix . 'product_attribute_price '
 				. 'WHERE price_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
+
 			if (!$this->_db->query())
 			{
 				$this->setError($this->_db->getErrorMsg());
+
 				return false;
 			}
 		}
+
 		return true;
 	}
 }
-
-?>
