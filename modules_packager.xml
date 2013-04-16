@@ -23,6 +23,18 @@
             value="/Applications/XAMPP/htdocs/installers/redCOMPONENT-modules/"
             override="true" />
 
+    <!-- Version of the redSHOP for witch the module is intended to  -->
+    <property
+            name="version"
+            value="1.2"
+            override="true" />
+
+    <!-- Version of the redSHOP for witch the module is intended to  -->
+    <property
+            name="joomla_version"
+            value="25"
+            override="true" />
+
     <!-- MAIN -->
     <target name="main" description="Loops through folders creating module packages">
 
@@ -72,7 +84,7 @@
         <mkdir dir="${targetdir}/admin/${dirname}" />
 
         <zip
-                destfile="${targetdir}/admin/${dirname}/${dirname}.zip"
+                destfile="${targetdir}/admin/${dirname}/${dirname}_${version}_${joomla_version}j.zip"
                 basedir="${extpath}/admin/${dirname}">
             <fileset dir="${extpath}/admin/${dirname}">
                 <include name="**" />
