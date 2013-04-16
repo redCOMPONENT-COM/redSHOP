@@ -46,7 +46,7 @@ defined('_JEXEC') or die ('Restricted access');
 			<?php
 			$product_download_root = PRODUCT_DOWNLOAD_ROOT;
 			if (!is_dir($product_download_root))
-				$product_download_root = JPATH_ROOT . DS . 'components' . DS . 'com_redshop' . DS . 'assets' . DS . 'download' . DS . 'product';
+				$product_download_root = JPATH_ROOT . '/components/com_redshop/assets/download/product';
 
 			?>
 			<input type="text" name="product_download_root" id="product_download_root" size="55"

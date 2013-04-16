@@ -93,7 +93,7 @@ class plgRedshop_paymentrs_payment_eway extends JPlugin
 		$order_number = substr($data['order_number'], 0, 16);
 		$tax_exempt = false;
 
-		$paymentpath = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . 'rs_payment_eway' . DS . 'rs_payment_eway' . DS . 'eway.integrator.php';
+		$paymentpath = JPATH_SITE . '/plugins/redshop_payment/rs_payment_eway/rs_payment_eway/eway.integrator.php';
 		include $paymentpath;
 		$eway = new EwayPayment($this->_params->get("eway_customer_id"), $this->_params->get("eway_method_type"), $this->_params->get("eway_live_gateway"));
 

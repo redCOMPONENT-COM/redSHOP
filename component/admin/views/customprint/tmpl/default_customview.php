@@ -46,7 +46,7 @@
 	$dispatcher = JDispatcher::getInstance();
 	$printoption = JRequest::getVar('printoption');
 	$popup = JRequest::getVar('popup');
-	$tmplPath = JPATH_SITE . DS . 'plugins' . DS . 'redshop_custom_views' . DS . $printoption . DS . 'tmpl';
+	$tmplPath = JPATH_SITE . '/plugins/redshop_custom_views/' . $printoption . '/tmpl';
 	$this->addTemplatePath($tmplPath);
 	echo $this->loadTemplate($printoption);
 

@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
-require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'product.php');
+require_once(JPATH_COMPONENT_SITE . '/helpers/product.php');
 
 class accessmanager_detailVIEWaccessmanager_detail extends JView
 {

@@ -26,7 +26,7 @@ class order_containerController extends JController
 
 	public function export_data()
 	{
-		require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'order.php';
+		require_once JPATH_COMPONENT . '/helpers/order.php';
 
 		$order_function = new order_functions;
 

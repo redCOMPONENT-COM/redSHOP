@@ -26,8 +26,10 @@ class redhelper
 	}
 
 	/**
- 	 * add item to cart from db ...
- 	 */
+	 * add item to cart from db ...
+	 *
+	 * @return  void
+	 */
 	public function dbtocart()
 	{
 		require_once JPATH_SITE . '/components/com_redshop/helpers/cart.php';
@@ -44,6 +46,8 @@ class redhelper
 
 	/**
 	 * Delete shipping rate when shipping method is not available
+	 *
+	 * @return  void
 	 */
 	public function removeShippingRate()
 	{
@@ -129,7 +133,6 @@ class redhelper
 				$catDetailmenu = true;
 
 				return $Itemid;
-
 			}
 		}
 
@@ -193,11 +196,11 @@ class redhelper
 	{
 		if ($category_id)
 		{
-			$and = " AND (`link` LIKE '%option=com_redshop&view=category&layout=detail&cid=" . $category_id . "%') ";
+			$and = ' AND (`link` LIKE "%option=com_redshop&view=category&layout=detail") AND (`params` LIKE \'%"cid":"' . $category_id . '"%\') ';
 		}
 		else
 		{
-			$and = " AND (`link` NOT LIKE '%option=com_redshop&view=category&layout=detail&cid=" . $category_id . "%') ";
+			$and = ' AND (`link` NOT LIKE "%option=com_redshop&view=category&layout=detail") AND (`params` LIKE \'%"cid":"' . $category_id . '"%\') ';
 		}
 
 		$query = "SELECT id FROM #__menu "
@@ -252,6 +255,7 @@ class redhelper
 	/**
 	 * shopper Group portal info
 	 *
+	 * @return  object  Shopper Group Ids Object
 	 */
 	public function getShopperGroupPortal()
 	{
@@ -678,7 +682,7 @@ class redhelper
 				$file_path          = JPATH_SITE . '/components/com_redshop/assets/images/' . $mtype . '/' . $Imagename;
 				$filename           = RedShopHelperImages::generateImages($file_path, '', 'thumb', $mtype, $thumb_width, $thumb_height, USE_IMAGE_SIZE_SWAPPING);
 				$filename_path_info = pathinfo($filename);
-				$filename           = REDSHOP_FRONT_IMAGES_ABSPATH . 'product' . '/' . $mtype . '/' . $filename_path_info['basename'];
+				$filename           = REDSHOP_FRONT_IMAGES_ABSPATH . $mtype . '/thumb/' . $filename_path_info['basename'];
 
 				if ($add_img == 2)
 				{
@@ -931,7 +935,6 @@ class redhelper
 		else
 		{
 			JError::raiseWarning(21, "Authentication failure: " . $ret[0]);
-
 		}
 	}
 

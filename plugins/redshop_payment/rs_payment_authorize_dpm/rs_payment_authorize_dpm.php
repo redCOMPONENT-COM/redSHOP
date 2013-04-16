@@ -11,9 +11,9 @@ defined('_JEXEC') or die;
 
 jimport('joomla.plugin.plugin');
 
-require_once JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . 'rs_payment_authorize_dpm' . DS . 'rs_payment_authorize_dpm' . DS . 'authorize_lib' . DS . 'AuthorizeNet.php';
-require_once JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . 'rs_payment_authorize_dpm' . DS . 'rs_payment_authorize_dpm' . DS . 'authorize_lib' . DS . 'AuthorizeNet.php';
-require_once JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . 'rs_payment_authorize_dpm' . DS . 'rs_payment_authorize_dpm' . DS . 'authorize_lib' . DS . 'AuthorizeNet.php';
+require_once JPATH_SITE . '/plugins/redshop_payment/rs_payment_authorize_dpm/rs_payment_authorize_dpm/authorize_lib/AuthorizeNet.php';
+require_once JPATH_SITE . '/plugins/redshop_payment/rs_payment_authorize_dpm/rs_payment_authorize_dpm/authorize_lib/AuthorizeNet.php';
+require_once JPATH_SITE . '/plugins/redshop_payment/rs_payment_authorize_dpm/rs_payment_authorize_dpm/authorize_lib/AuthorizeNet.php';
 
 class plgRedshop_paymentrs_payment_authorize_dpm extends JPlugin
 {
@@ -56,7 +56,7 @@ class plgRedshop_paymentrs_payment_authorize_dpm extends JPlugin
 		}
 
 		$app = JFactory::getApplication();
-		$paymentpath = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $plugin . DS . $plugin . DS . 'extra_info.php';
+		$paymentpath = JPATH_SITE . '/plugins/redshop_payment/' . $plugin . DS . $plugin . '/extra_info.php';
 		include $paymentpath;
 	}
 

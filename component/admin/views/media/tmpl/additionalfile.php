@@ -133,11 +133,11 @@ $media_id = JRequest::getInt('media_id');
 		$filename = $additionalfiles[$i]->name;
 		$fileId = $additionalfiles[$i]->id;
 
-		$link = JURI::root() . DS . "components/com_redshop/assets/download/product/" . $filename;
+		$link = JURI::root() . "/components/com_redshop/assets/download/product/" . $filename;
 
 		$link_delete = "index.php?tmpl=component&option=com_redshop&view=media&task=deleteAddtionalFiles&fileId=" . $fileId . "&media_id=" . $media_id;
 
-		$path = JPATH_ROOT . DS . 'components/com_redshop/assets/download/product/' . $filename;
+		$path = JPATH_ROOT . '/components/com_redshop/assets/download/product/' . $filename;
 
 		$fileExt = strtolower(JFile::getExt($filename));
 

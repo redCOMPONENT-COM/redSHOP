@@ -119,9 +119,9 @@ class media_detailModelmedia_detail extends JModel
 
 			foreach ($this->_data as $mediadata)
 			{
-				$ntsrc = JPATH_ROOT . DS . 'components/com_redshop/assets/' . $mediadata->media_type . '/'
-					. $mediadata->media_section . '/thumb' . DS . $mediadata->media_name;
-				$nsrc = JPATH_ROOT . DS . 'components/com_redshop/assets/' . $mediadata->media_type . '/'
+				$ntsrc = JPATH_ROOT . '/components/com_redshop/assets/' . $mediadata->media_type . '/'
+					. $mediadata->media_section . '/thumb/' . $mediadata->media_name;
+				$nsrc = JPATH_ROOT . '/components/com_redshop/assets/' . $mediadata->media_type . '/'
 					. $mediadata->media_section . '/' . $mediadata->media_name;
 
 				if (is_file($nsrc))

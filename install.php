@@ -3905,13 +3905,15 @@ class Com_RedshopInstallerScript
 		foreach ($index_to as $key => $val)
 		{
 			$db->setQuery('SHOW INDEXES FROM ' . $key . ' where Column_name="' . $val . '"');
-			$redshop_users_info             = $db->query();
-			$redshop_users_info_index_count = $db->getNumRows($redshop_users_info);
-
-			if ($redshop_users_info_index_count == 0)
+			if ($redshop_users_info             = $db->query())
 			{
-				$db->setQuery('ALTER TABLE ' . $key . ' ADD INDEX(' . $val . ')');
-				$db->query();
+				$redshop_users_info_index_count = $db->getNumRows($redshop_users_info);
+
+				if ($redshop_users_info_index_count == 0)
+				{
+					$db->setQuery('ALTER TABLE ' . $key . ' ADD INDEX(' . $val . ')');
+					$db->query();
+				}
 			}
 		}
 

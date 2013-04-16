@@ -13,7 +13,7 @@
  * along with redSHOP; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-require_once JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'product.php';
+require_once JPATH_SITE . '/components/com_redshop/helpers/product.php';
 $producthelper = new producthelper;
 $order_functions = new order_functions;
 $currencyClass = new convertPrice;
@@ -38,7 +38,7 @@ else
 	$currency_main = "USD";
 }
 
-include(JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $plugin . DS . $plugin . DS . 'payread_post_api.php'); //Loads Payers API.
+include(JPATH_SITE . '/plugins/redshop_payment/' . $plugin . DS . $plugin . '/payread_post_api.php'); //Loads Payers API.
 $thePayreadApi = new payread_post_api; //Creates an object from Payers API.
 $thePayreadApi->add_valid_ip($_SERVER["REMOTE_ADDR"]);
 $thePayreadApi->setAgent($this->_params->get("agent_id"));

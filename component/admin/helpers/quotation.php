@@ -11,9 +11,9 @@ defined('_JEXEC') or die;
 
 JHTML::_('behavior.tooltip');
 
-require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'extra_field.php');
-require_once(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'configuration.php');
-require_once(JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'helper.php');
+require_once(JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/extra_field.php');
+require_once(JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/configuration.php');
+require_once(JPATH_SITE . '/components/com_redshop/helpers/helper.php');
 
 class quotationHelper
 {

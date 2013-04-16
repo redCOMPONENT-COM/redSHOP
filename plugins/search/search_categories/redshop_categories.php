@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.plugin.plugin');
 
-require_once JPATH_ROOT . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'helper.php';
+require_once JPATH_ROOT . '/components/com_redshop/helpers/helper.php';
 
 class plgSearchredshop_categories extends JPlugin
 {

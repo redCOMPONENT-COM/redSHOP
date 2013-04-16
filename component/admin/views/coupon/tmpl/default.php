@@ -6,10 +6,10 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'product.php');
+require_once(JPATH_COMPONENT_SITE . '/helpers/product.php');
 $producthelper = new producthelper();
 
-require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php');
+require_once(JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php');
 $order_functions = new order_functions();
 
 $option = JRequest::getVar('option');

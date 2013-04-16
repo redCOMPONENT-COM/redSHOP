@@ -11,8 +11,8 @@ defined('_JEXEC') or die;
 
 jimport('joomla.plugin.plugin');
 
-require_once JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'order.php';
-require_once JPATH_SITE . DS . 'administrator' . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'configuration.php';
+require_once JPATH_SITE . '/administrator/components/com_redshop/helpers/order.php';
+require_once JPATH_SITE . '/administrator/components/com_redshop/helpers/configuration.php';
 
 class plgRedshop_paymentrs_payment_paymill extends JPlugin
 {
@@ -48,7 +48,7 @@ class plgRedshop_paymentrs_payment_paymill extends JPlugin
 		}
 
 		$app = JFactory::getApplication();
-		$paymentpath = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $plugin . DS . $plugin . DS . 'creditcardform.php';
+		$paymentpath = JPATH_SITE . '/plugins/redshop_payment/' . $plugin . DS . $plugin . '/creditcardform.php';
 
 		include $paymentpath;
 	}
@@ -179,7 +179,7 @@ class plgRedshop_paymentrs_payment_paymill extends JPlugin
 
 		$session = JFactory::getSession();
 		$Itemid = JRequest::getVar('Itemid');
-		$paymentpath = JPATH_SITE . DS . 'plugins' . DS . 'redshop_payment' . DS . $element . DS . $element . DS . 'lib/Services/Paymill/Transactions.php';
+		$paymentpath = JPATH_SITE . '/plugins/redshop_payment/' . $element . DS . $element . '/lib/Services/Paymill/Transactions.php';
 		include $paymentpath;
 
 		if ($token = $data['paymillToken'])
@@ -190,7 +190,7 @@ class plgRedshop_paymentrs_payment_paymill extends JPlugin
 				'amount'      => $order_amount, // E.g. "15" for 0.15 EUR!
 				'currency'    => CURRENCY_CODE, // ISO 4217
 				'token'       => $token,
-				'description' => 'Test Transaction'
+				'description' => 'Order: ' . $data['order_id']
 			);
 
 			$transaction = $transactionsObject->create($params);
@@ -227,16 +227,12 @@ class plgRedshop_paymentrs_payment_paymill extends JPlugin
 		$invalid_status = $this->_params->get('invalid_status');
 		$cancel_status = $this->_params->get('cancel_status');
 
-		if (isset($paymillresult['error']) && $paymillresult['error'])
+		if ($paymillresult['error']!="")
 		{
-			foreach ($paymillresult['error'] as $key => $value)
-			{
-				$error_message = $key . ":" . $value;
-			}
-
+			$error_message = $paymillresult['error'];
 			$values->order_status_code = $invalid_status;
 			$values->order_payment_status_code = 'Unpaid';
-			$values->log = JTEXT::_('COM_REDSHOP_ORDER_NOT_PLACED');
+			$values->log = $error_message;
 			$values->msg = $error_message;
 		}
 		else

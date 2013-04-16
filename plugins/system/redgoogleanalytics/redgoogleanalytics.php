@@ -41,9 +41,9 @@ class plgSystemredgoogleanalytics extends JPlugin
 	 */
 	public function onAfterRoute()
 	{
-		$configFile = JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'redshop.cfg.php';
+		$configFile = JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
 
-		$googleFile = JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'google_analytics.php';
+		$googleFile = JPATH_SITE . '/components/com_redshop/helpers/google_analytics.php';
 
 		$uri = JFactory::getURI();
 		$requesturlBase = $uri->base();

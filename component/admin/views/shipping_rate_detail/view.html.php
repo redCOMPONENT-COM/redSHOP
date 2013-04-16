@@ -10,9 +10,9 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
-require_once(JPATH_COMPONENT_ADMINISTRATOR . DS . 'helpers' . DS . 'order.php');
-require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php');
-require_once(JPATH_COMPONENT . DS . 'helpers' . DS . 'category.php');
+require_once(JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php');
+require_once(JPATH_COMPONENT . '/helpers/extra_field.php');
+require_once(JPATH_COMPONENT . '/helpers/category.php');
 
 class shipping_rate_detailViewshipping_rate_detail extends JView
 {
@@ -37,7 +37,7 @@ class shipping_rate_detailViewshipping_rate_detail extends JView
 		$document->addScript('components/' . $option . '/assets/js/search.js');
 		$document->addScript('components/' . $option . '/assets/js/common.js');
 
-		$shippingpath = JPATH_ROOT . DS . 'plugins' . DS . $shipping->folder . DS . $shipping->element . '.xml';
+		$shippingpath = JPATH_ROOT . '/plugins/' . $shipping->folder . DS . $shipping->element . '.xml';
 		$myparams = new JRegistry($shipping->params, $shippingpath);
 		$is_shipper = $myparams->get('is_shipper');
 		$shipper_location = $myparams->get('shipper_location');

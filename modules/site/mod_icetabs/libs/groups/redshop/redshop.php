@@ -38,7 +38,7 @@ if (!class_exists('LofSliderGroupRedshop'))
 		 */
 		public function isredshopExisted()
 		{
-			return is_dir(JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop');
+			return is_dir(JPATH_ADMINISTRATOR . '/components/com_redshop');
 		}
 
 		/**
@@ -51,7 +51,7 @@ if (!class_exists('LofSliderGroupRedshop'))
 		{
 
 			global $mm_action_url;
-			require_once JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'product.php';
+			require_once JPATH_SITE . '/components/com_redshop/helpers/product.php';
 
 			$db                  = JFactory::getDBO();
 			$producthelper       = new producthelper();

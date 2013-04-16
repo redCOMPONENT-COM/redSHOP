@@ -19,8 +19,8 @@ if (isset($cart['idx']))
 	$count = $cart['idx'];
 }
 
-require_once JPATH_ROOT . DS . 'administrator/components/com_redshop' . DS . 'helpers' . DS . 'redshop.cfg.php';
-require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers' . DS . 'configuration.php';
+require_once JPATH_ROOT . '/administrator/components/com_redshop/helpers/redshop.cfg.php';
+require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/configuration.php';
 $Redconfiguration = new Redconfiguration();
 $Redconfiguration->defineDynamicVars();
 
@@ -38,8 +38,8 @@ $enableAjaxsearch = trim($params->get('enableAjaxsearch', '0'));
 $javaFun = "";
 if ($enableAjaxsearch)
 {
-	$document->addScript(JURI::base() . "administrator" . DS . "components" . DS . "com_redshop" . DS . "assets" . DS . "js" . DS . "search.js");
-	$document->addStyleSheet(JURI::base() . "administrator" . DS . "components" . DS . "com_redshop" . DS . "assets" . DS . "css" . DS . "search.css");
+	$document->addScript(JURI::base() . "administrator/components/com_redshop/assets/js/search.js");
+	$document->addStyleSheet(JURI::base() . "administrator/components/com_redshop/assets/css/search.css");
 	$javaFun = "makeUrl();";
 }
 $db = JFactory::getDBO();

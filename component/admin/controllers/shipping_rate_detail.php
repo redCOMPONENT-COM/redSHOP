@@ -37,7 +37,7 @@ class shipping_rate_detailController extends JController
 		$post = JRequest::get('post');
 
 		// Include extra field class
-		require_once JPATH_COMPONENT . DS . 'helpers' . DS . 'extra_field.php';
+		require_once JPATH_COMPONENT . '/helpers/extra_field.php';
 
 		$option = JRequest::getVar('option');
 		$post['shipping_rate_on_product'] = $post['container_product'];

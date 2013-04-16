@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 jimport('joomla.filesystem.file');
-require_once(JPATH_COMPONENT_SITE . DS . 'helpers' . DS . 'product.php');
+require_once(JPATH_COMPONENT_SITE . '/helpers/product.php');
 
 class wrapper_detailModelwrapper_detail extends JModel
 {
@@ -206,7 +206,7 @@ class wrapper_detailModelwrapper_detail extends JModel
 			$wrapperimg = JPath::clean(time() . '_' . $wrapperfile['name']);
 
 			$src = $wrapperfile['tmp_name'];
-			$dest = REDSHOP_FRONT_IMAGES_RELPATH . '/wrapper' . DS . $wrapperimg;
+			$dest = REDSHOP_FRONT_IMAGES_RELPATH . '/wrapper/' . $wrapperimg;
 
 			if ($data['wrapper_name'] == "")
 			{
@@ -224,14 +224,14 @@ class wrapper_detailModelwrapper_detail extends JModel
 
 			if (count($wrapper) > 0 && $wrapperimg != "")
 			{
-				$unlink_path = REDSHOP_FRONT_IMAGES_RELPATH . 'wrapper/thumb' . DS . $wrapper[0]->wrapper_image;
+				$unlink_path = REDSHOP_FRONT_IMAGES_RELPATH . 'wrapper/thumb/' . $wrapper[0]->wrapper_image;
 
 				if (is_file($unlink_path))
 				{
 					unlink($unlink_path);
 				}
 
-				$unlink_path = REDSHOP_FRONT_IMAGES_RELPATH . 'wrapper' . DS . $wrapper[0]->wrapper_image;
+				$unlink_path = REDSHOP_FRONT_IMAGES_RELPATH . 'wrapper/' . $wrapper[0]->wrapper_image;
 
 				if (is_file($unlink_path))
 				{
