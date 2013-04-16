@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ==================================================================  -->
+<!-- redSHOP packager                                                    -->
+<!-- This PHING build file generates the redSHOP extension package       -->
+<!-- To use in your environment do the following steps:                  -->
+<!--    - change the version at line 20                                  -->
+<!--    - change the folder where this same file is at line 26           -->
+<!--    - change the folder where the package will be created at line 32 -->
+<!--    - execute this PHING build file                                  -->
+<!-- ==================================================================  -->
+<project name="com_redshop" default="dist">
+
+    <property
+            name="extension"
+            value="redSHOP"
+            override="true" />
+
+    <property
+            name="version"
+            value="1.2"
+            override="true" />
+
+    <!-- Folder where the redSHOP repository is located  -->
+    <property
+            name="extpath"
+            value="/Applications/XAMPP/xamppfiles/htdocs/redCOMPONENT/redSHOP-1.2/"
+            override="true" />
+
+    <!-- Target dir where packages will be created  -->
+    <property
+            name="targetdir"
+            value="/Applications/XAMPP/htdocs/installers/redCOMPONENT/package-${extension}-v${version}"
+            override="true" />
+
+    <!-- ============================================  -->
+    <!-- Create packages folder                        -->
+    <!-- ============================================  -->
+    <target name="prepare">
+        <!-- Check if the target folder exists. If not, create it -->
+        <if>
+            <available file="${targetdir}" type="dir" />
+            <then>
+                <echo msg="Removing old ${targetdir}" />
+                <delete dir="${targetdir}" />
+            </then>
+        </if>
+        <echo msg="Making directory to store the packages at ${targetdir}" />
+        <mkdir dir="${targetdir}" />
+
+    </target>
+
+    <!-- ============================================  -->
+    <!-- Target: build                                 -->
+    <!-- ============================================  -->
+    <!-- Copy the source files to the target folder -->
+
+    <target name="build" depends="prepare">
+
+        <echo msg="Copying INSTALLER files to build directory..." />
+        <copy todir="${targetdir}">
+            <fileset dir="${extpath}/">
+                <include name="LICENSE.txt" />
+                <include name="redshop.xml" />
+                <include name="install.php" />
+            </fileset>
+        </copy>
+
+        <echo msg="Copying COMPONENT folder to build directory..." />
+        <copy todir="${targetdir}/component">
+            <fileset dir="${extpath}/component">
+                <include name="**" />
+                <exclude name=".*" />
+            </fileset>
+        </copy>
+
+        <echo msg="Copying MEDIA folder to build directory..." />
+        <copy todir="${targetdir}/media">
+            <fileset dir="${extpath}/media">
+                <include name="**" />
+                <exclude name=".*" />
+            </fileset>
+        </copy>
+
+        <echo msg="Copying main MODULES folder to build directory..." />
+        <echo msg="Copying redSHOP Cart module" />
+        <copy todir="${targetdir}/modules/site/mod_redshop_cart">
+            <fileset dir="${extpath}/modules/site/mod_redshop_cart">
+                <include name="**" />
+                <exclude name=".*" />
+            </fileset>
+        </copy>
+
+        <echo msg="Copying main PLUGINS folder to build directory..." />
+        <echo msg="Copying rs_payment_banktransfer plugin" />
+        <copy todir="${targetdir}/plugins/redshop_payment/rs_payment_banktransfer">
+            <fileset dir="${extpath}/plugins/redshop_payment/rs_payment_banktransfer">
+                <include name="**" />
+                <exclude name=".*" />
+            </fileset>
+        </copy>
+        <echo msg="Copying rs_payment_paypal plugin" />
+        <copy todir="${targetdir}/plugins/redshop_payment/rs_payment_paypal">
+            <fileset dir="${extpath}/plugins/redshop_payment/rs_payment_paypal">
+                <include name="**" />
+                <exclude name=".*" />
+            </fileset>
+        </copy>
+        <echo msg="Copying default_shipping plugin" />
+        <copy todir="${targetdir}/plugins/redshop_shipping/default_shipping">
+            <fileset dir="${extpath}/plugins/redshop_shipping/default_shipping">
+                <include name="**" />
+                <exclude name=".*" />
+            </fileset>
+        </copy>
+    </target>
+
+    <!-- ============================================  -->
+    <!-- (DEFAULT)  Target: dist                       -->
+    <!-- ============================================  -->
+    <target name="dist" depends="build">
+        <echo msg="Creating ZIP archive..." />
+
+        <zip destfile="${targetdir}/${extension}-v${version}.zip">
+            <fileset dir="${targetdir}">
+                <include name="**" />
+                <exclude name=".*" />
+            </fileset>
+        </zip>
+
+        <echo msg="Files copied and compressed in build directory OK!" />
+    </target>
+</project>
