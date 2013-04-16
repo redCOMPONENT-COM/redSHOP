@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ==================================================================  -->
+<!-- redSHOP packager                                                    -->
+<!-- This PHING build file generates the redSHOP modules packages        -->
+<!-- To use in your environment do the following steps:                  -->
+<!--    - change the version at line 20                                  -->
+<!--    - change the folder where this same file is at line 26           -->
+<!--    - change the folder where the package will be created at line 32 -->
+<!--    - execute this PHING build file                                  -->
+<!-- ==================================================================  -->
+
+<project name="modules packager" basedir="." default="main">
+
+    <!-- Folder where the redSHOP repository modules are located  -->
+    <property
+            name="extpath"
+            value="/Applications/XAMPP/xamppfiles/htdocs/redCOMPONENT/redSHOP-1.2/modules/"
+            override="true" />
+
+    <!-- Target dir where module packages will be created  -->
+    <property
+            name="targetdir"
+            value="/Applications/XAMPP/htdocs/installers/redCOMPONENT-modules/"
+            override="true" />
+
+    <!-- MAIN -->
+    <target name="main" description="Loops through folders creating module packages">
+
+        <!-- Cleanup build area -->
+        <delete dir="${targetdir}" />
+        <mkdir dir="${targetdir}" />
+
+        <!-- Generate site modules packages -->
+        <foreach param="dirname" absparam="absname" target="site_modules">
+            <fileset dir="${extpath}/site/">
+                <type type="dir" />
+                <depth max="0" min="0" />
+            </fileset>
+        </foreach>
+
+        <!-- Generate site modules packages -->
+        <foreach param="dirname" absparam="absname" target="admin_modules">
+            <fileset dir="${extpath}/admin/">
+                <type type="dir" />
+                <depth max="0" min="0" />
+            </fileset>
+        </foreach>
+
+    </target>
+
+    <target name="subtask">
+        <echo msg="${dirname} ${absname}" />
+    </target>
+
+
+    <target name="site_modules" description="Packages the extension for delivery">
+
+        <mkdir dir="${targetdir}/site/${dirname}" />
+
+        <zip
+                destfile="${targetdir}/site/${dirname}/${dirname}.zip"
+                basedir="${extpath}/site/${dirname}">
+            <fileset dir="${extpath}/site/${dirname}">
+                <include name="**" />
+                <exclude name=".*" />
+            </fileset>
+        </zip>
+    </target>
+
+    <target name="admin_modules" description="Packages the extension for delivery">
+
+        <mkdir dir="${targetdir}/admin/${dirname}" />
+
+        <zip
+                destfile="${targetdir}/admin/${dirname}/${dirname}.zip"
+                basedir="${extpath}/admin/${dirname}">
+            <fileset dir="${extpath}/admin/${dirname}">
+                <include name="**" />
+                <exclude name=".*" />
+            </fileset>
+        </zip>
+    </target>
+
+</project>
