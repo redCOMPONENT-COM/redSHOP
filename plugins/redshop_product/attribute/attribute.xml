@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <install version="1.5" type="plugin" group="redshop_product" method="upgrade">
     <name>redSHOP Product Attribute</name>
-    <author>Redweb.dk</author>
-    <creationDate>10-04-12</creationDate>
+    <author>redCOMPONENT.com</author>
+    <version>1.2</version>
+    <creationDate>April 2013</creationDate>
     <copyright>redCOMPONENT.com</copyright>
     <license>GNU/GPL</license>
     <authorEmail>email@redcomponent.com</authorEmail>
