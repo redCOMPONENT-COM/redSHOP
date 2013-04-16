@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="2.5" type="plugin" group="system">
     <name>plg_system_redproductzoom</name>
-    <author>redweb.dk</author>
-    <creationDate>10-04-2012</creationDate>
+    <author>redCOMPONENT.com</author>
+    <version>1.2</version>
+    <creationDate>April 2013</creationDate>
     <copyright>redCOMPONENT.com</copyright>
     <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
     <authorEmail>email@redcomponent.com</authorEmail>
     <authorUrl>redCOMPONENT.com</authorUrl>
-    <version>1.1.1</version>
     <description>RedProductZoom</description>
     <files>
         <filename plugin="redproductzoom">redproductzoom.php</filename>

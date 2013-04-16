@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="1.7.0" client="site" type="plugin" group="redshop_custom_views" method='upgrade'>
+<extension version="2.5" client="site" type="plugin" group="redshop_custom_views" method='upgrade'>
     <name>Custom Views By Person</name>
-    <version>1.1.5</version>
-    <creationDate>22-12-2011</creationDate>
-    <author>redweb.dk</author>
+    <version>1.2</version>
+    <creationDate>April 2013</creationDate>
+    <author>redCOMPONENT.com</author>
     <copyright>redCOMPONENT.com</copyright>
     <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
     <description>This plugin prints custom views for specific person</description>
