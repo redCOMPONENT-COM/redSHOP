@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="2.5.0" client="site" type="plugin" group="redshop_shipping" method="upgrade">
     <name>PLG_RS_SHIPPING_SELF_PICKUP</name>
-    <version>1.1.4</version>
-    <creationDate>11-10-2011</creationDate>
-    <author>redweb.dk</author>
+    <version>1.2</version>
+    <creationDate>April 2013</creationDate>
+    <author>redCOMPONENT.com</author>
     <copyright>redCOMPONENT.com</copyright>
     <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
     <description>This plugin enables standard Shipping</description>
