@@ -1364,6 +1364,11 @@ class CheckoutModelCheckout extends JModel
 			$this->_redshopMail->sendOrderMail($row->order_id, $sendreddesignmail);
 		}
 
+		if($row->order_status=="C")
+		{
+			$this->_order_functions->SendDownload($row->order_id);
+		}
+
 		// RedCRM includes
 		if ($helper->isredCRM())
 		{
