@@ -298,11 +298,6 @@ class redshopMail
 				$this->setError(JText::_('COM_REDSHOP_ERROR_SENDING_CONFIRMATION_MAIL'));
 			}
 
-			// download product send mail
-			if ($row->order_status == "C")
-			{
-				$this->_order_functions->SendDownload($order_id);
-			}
 		}
 
 		if (MANUFACTURER_MAIL_ENABLE)
