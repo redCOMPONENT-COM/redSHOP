@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ==================================================================================  -->
+<!-- redSHOP packager                                                                    -->
+<!-- This PHING build file generates the redSHOP modules packages                        -->
+<!-- To use in your environment do the following steps:                                  -->
+<!--    - change the version at line 17                                                  -->
+<!--    - change the folder where the present file is located plus "/plugins" at line 23 -->
+<!--    - change the folder where the package will be created at line 29                 -->
+<!--    - execute this PHING build file                                                  -->
+<!-- ==================================================================================  -->
+
+<project name="modules packager" basedir="." default="main">
+
+    <!-- Version of the redSHOP for witch the module is intended to  -->
+    <property
+            name="version"
+            value="1.2"
+            override="true" />
+
+    <!-- Folder where the redSHOP repository PLUGINS are located  -->
+    <property
+            name="extpath"
+            value="/Applications/XAMPP/xamppfiles/htdocs/redCOMPONENT/redSHOP-1.2/plugins"
+            override="true" />
+
+    <!-- Target dir where module packages will be created  -->
+    <property
+            name="targetdir"
+            value="/Applications/XAMPP/htdocs/installers/redCOMPONENT-plugins"
+            override="true" />
+
+    <!-- Version of the Joomla for witch the module is intended to  -->
+    <property
+            name="joomla_version"
+            value="25"
+            override="true" />
+
+    <!-- MAIN -->
+    <target name="main" description="Loops through folders of plugin groups">
+
+        <!-- Cleanup build area -->
+        <delete dir="${targetdir}" />
+        <mkdir dir="${targetdir}" />
+
+        <!-- Loop through plugins groups -->
+        <foreach param="group_name" target="plugin_loop">
+            <fileset dir="${extpath}">
+                <type type="dir" />
+                <depth max="0" min="0" />
+            </fileset>
+        </foreach>
+    </target>
+
+    <target name="plugin_loop" description="Loops through plugins folders inside groups">
+        <!-- Loop through plugins -->
+        <foreach param="plugin_name" target="plugin_packager">
+            <fileset dir="${extpath}/${group_name}">
+                <type type="dir" />
+                <depth max="0" min="0" />
+            </fileset>
+        </foreach>
+    </target>
+
+    <target name="plugin_packager" description="Packages the extension for delivery">
+
+        <mkdir dir="${targetdir}/${group_name}/${plugin_name}" />
+
+        <zip
+                destfile="${targetdir}/${group_name}/${plugin_name}/${plugin_name}_${version}_${joomla_version}j.zip"
+                basedir="${extpath}/${group_name}/${plugin_name}">
+            <fileset dir="${extpath}/${group_name}/${plugin_name}">
+                <include name="**" />
+                <exclude name=".*" />
+            </fileset>
+        </zip>
+    </target>
+
+</project>
