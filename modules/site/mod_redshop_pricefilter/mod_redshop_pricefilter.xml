@@ -7,7 +7,7 @@
     <authorEmail>email@redcomponent.com</authorEmail>
     <copyright>redCOMPONENT.com</copyright>
     <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
-    <description>REDSHOP_PRICE_FILTER_DESC</description>
+    <description>COM_REDSHOP_REDSHOP_PRICE_FILTER_DESC</description>
     <files>
         <filename module="mod_redshop_pricefilter">mod_redshop_pricefilter.php</filename>
         <folder>tmpl</folder>
