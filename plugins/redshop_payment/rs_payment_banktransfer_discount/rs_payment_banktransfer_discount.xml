@@ -14,9 +14,7 @@
     </description>
 
     <files>
-        <filename plugin="rs_payment_banktransfer_discount">rs_payment_banktransfer_discount.php
-        </filename>
-        <folder>rs_payment_banktransfer_discount</folder>
+        <filename plugin="rs_payment_banktransfer_discount">rs_payment_banktransfer_discount.php</filename>
     </files>
     <languages>
         <language tag="en-GB">language/en-GB/en-GB.plg_redshop_payment_rs_payment_banktransfer_discount.ini</language>

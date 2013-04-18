@@ -8,7 +8,7 @@
     <license>GNU/GPL</license>
     <authorEmail>email@redcomponent.com</authorEmail>
     <authorUrl>www.redweb.dk</authorUrl>
-    <description>It wil fire mail when stockroom amount reaches at minimum level</description>
+    <description>This plugin will send an e-mail when stockroom amount reaches minimum level</description>
     <files>
         <filename plugin="stockroom_status">stockroom_status.php</filename>
 
