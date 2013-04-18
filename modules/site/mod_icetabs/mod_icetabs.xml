@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <extension type="module" version="1.6.0" client="site" method="upgrade">
     <name>MOD_ICETABS</name>
-    <creationDate>November 2010</creationDate>
+    <version>1.2</version>
+    <creationDate>April 2013</creationDate>
     <author>IceTheme</author>
     <copyright>GNU / GPL</copyright>
     <authorEmail>info@icetheme.com</authorEmail>
     <authorUrl>http://www.icetheme.com</authorUrl>
-    <version>1.1.2</version>
     <description>
         <![CDATA[
 		<h2>IceTabs Module</h2>IceTabs module can display any content/banner/images/K2/VirtueMart information with a smooth and nice interface based on a tabular interface.<br><br><ul><li><a href="http://icetheme.com/Joomla-Extensions/icetabs.html">IceTabs Page</a></li><li><a target="_blank" href="http://icetheme.com/Forums/IceTabs/">Get Support</a></li></ul></li></ul> <script type="text/javascript" src="../modules/mod_icetabs/assets/form.js"></script> <style>.lof-group{ padding:2px;color:#666;background:#CCC;cursor:hand; font-weight:bold; cursor:pointer}</style>
