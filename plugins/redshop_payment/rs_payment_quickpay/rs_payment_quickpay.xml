@@ -8,10 +8,13 @@
     <authorUrl>http://www.redcomponent.com</authorUrl>
     <copyright>redCOMPONENT.com</copyright>
     <license>GNU General Public License v2</license>
-    <description>Note: It is compulsory to set invoice number to more than
-        999 from Redhsop Global Configuration => Cart / Checkout => First
-        Invoice Number => 1000 or above and Redhsop Global Configuration => Cart / Checkout => Invoice Number Template
-        => xxxx to use this plugin.
+    <description><![CDATA[
+    Quickpay redSHOP integration<br/><br/>
+    Note: It is compulsory to set invoice number to more than 999 from redSHOP Global Configuration => Cart <br/>
+    Checkout => First Invoice Number => 1000 or above <br/>
+    and Redhsop Global Configuration => Cart / Checkout => Invoice Number Template => xxxx
+    <br/>to use this plugin.
+        ]]>
     </description>
 
     <files>
