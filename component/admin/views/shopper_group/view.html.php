@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
-require_once(JPATH_COMPONENT . '/helpers/shopper.php');
+require_once JPATH_COMPONENT . '/helpers/shopper.php';
 
 class shopper_groupViewshopper_group extends JView
 {

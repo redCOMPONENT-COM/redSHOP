@@ -9,16 +9,16 @@
 
 defined('_JEXEC') or die;
 
-require_once (JPATH_SITE . '/components/com_redshop/helpers/helper.php');
-require_once (JPATH_SITE . '/components/com_redshop/helpers/cart.php');
-require_once (JPATH_SITE . '/components/com_redshop/helpers/product.php');
-require_once (JPATH_SITE . '/components/com_redshop/helpers/extra_field.php');
+require_once JPATH_SITE . '/components/com_redshop/helpers/helper.php';
+require_once JPATH_SITE . '/components/com_redshop/helpers/cart.php';
+require_once JPATH_SITE . '/components/com_redshop/helpers/product.php';
+require_once JPATH_SITE . '/components/com_redshop/helpers/extra_field.php';
 
 
-require_once (JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/extra_field.php');
-require_once (JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/configuration.php');
-require_once (JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/order.php');
-require_once (JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/quotation.php');
+require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/extra_field.php';
+require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/configuration.php';
+require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/order.php';
+require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/quotation.php';
 
 class redshopMail
 {
@@ -449,8 +449,8 @@ class redshopMail
 
 	public function createMultiprintInvoicePdf($oid)
 	{
-		require_once (JPATH_SITE . '/components/com_redshop/helpers/tcpdf/config/lang/eng.php');
-		require_once (JPATH_SITE . '/components/com_redshop/helpers/tcpdf/tcpdf.php');
+		require_once JPATH_SITE . '/components/com_redshop/helpers/tcpdf/config/lang/eng.php';
+		require_once JPATH_SITE . '/components/com_redshop/helpers/tcpdf/tcpdf.php';
 		$order_functions = new order_functions;
 		$shippinghelper = new shipping;
 		$carthelper = new rsCarthelper;

@@ -9,7 +9,7 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
-require_once(JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/order.php');
+require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/order.php';
 
 class template_detailVIEWtemplate_detail extends JView
 {

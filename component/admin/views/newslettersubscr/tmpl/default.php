@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once(JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php');
+require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php';
 $order_function = new order_functions();
 
 $option = JRequest::getVar('option');

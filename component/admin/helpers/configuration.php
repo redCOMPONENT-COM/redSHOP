@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-require_once(JPATH_SITE . '/components/com_redshop/helpers/user.php');
+require_once JPATH_SITE . '/components/com_redshop/helpers/user.php';
 
 class Redconfiguration
 {
@@ -1199,7 +1199,7 @@ class Redconfiguration
 	{
 		if (empty($this->_country_list))
 		{
-			require_once (JPATH_SITE . '/components/com_redshop/helpers/helper.php');
+			require_once JPATH_SITE . '/components/com_redshop/helpers/helper.php';
 			$redhelper = new redhelper;
 
 			$countries = array();
