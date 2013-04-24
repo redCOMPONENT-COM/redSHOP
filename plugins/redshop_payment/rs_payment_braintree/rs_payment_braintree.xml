@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="2.5.0" type="plugin" group="redshop_payment" method="upgrade">
     <name>PLG_RS_PAYMENT_BRAINTREE</name>
-    <version>1.1</version>
-    <creationDate>10-04-2012</creationDate>
+    <version>1.2</version>
+    <creationDate>April 2013</creationDate>
     <author>redCOMPONENT.com</author>
     <authorEmail>email@redcomponent.com</authorEmail>
     <authorUrl>http://www.redcomponent.com</authorUrl>
     <copyright>redCOMPONENT.com</copyright>
     <license>GNU General Public License v2</license>
-    <description>This plugin enables standard Authorize payments</description>
+    <description>PLG_RS_PAYMENT_BRAINTREE_DESC</description>
 
     <files>
         <filename plugin="rs_payment_braintree">rs_payment_braintree.php</filename>

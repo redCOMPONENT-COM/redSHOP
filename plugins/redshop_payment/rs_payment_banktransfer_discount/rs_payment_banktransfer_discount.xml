@@ -2,8 +2,8 @@
 <extension version="2.5.0" client="site" type="plugin" group="redshop_payment"
            method="upgrade">
     <name>PLG_RS_PAYMENT_BANKTRANSFER_DISCOUNT</name>
-    <version>1.1.6</version>
-    <creationDate>06-02-2012</creationDate>
+    <version>1.2</version>
+    <creationDate>April 2013</creationDate>
     <author>redCOMPONENT.com</author>
     <authorEmail>email@redcomponent.com</authorEmail>
     <authorUrl>http://www.redcomponent.com</authorUrl>
@@ -14,9 +14,7 @@
     </description>
 
     <files>
-        <filename plugin="rs_payment_banktransfer_discount">rs_payment_banktransfer_discount.php
-        </filename>
-        <folder>rs_payment_banktransfer_discount</folder>
+        <filename plugin="rs_payment_banktransfer_discount">rs_payment_banktransfer_discount.php</filename>
     </files>
     <languages>
         <language tag="en-GB">language/en-GB/en-GB.plg_redshop_payment_rs_payment_banktransfer_discount.ini</language>

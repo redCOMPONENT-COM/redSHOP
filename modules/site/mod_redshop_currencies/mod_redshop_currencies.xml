@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="module" version="1.6.0" client="site" method="upgrade">
     <name>Redshop Multi Currencies</name>
-    <version>1.1</version>
-    <creationDate>09-09-2011</creationDate>
-    <author>redweb.dk</author>
+    <version>1.2</version>
+    <creationDate>April 2013</creationDate>
+    <author>redCOMPONENT.com</author>
     <authorEmail>email@redcomponent.com</authorEmail>
     <copyright>redCOMPONENT.com</copyright>
     <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>

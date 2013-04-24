@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="2.5.0" client="site" type="plugin" group="telesearch" method="upgrade">
-    <name>TeleSearch</name>
-    <version>1.1</version>
-    <creationDate>22-12-2011</creationDate>
-    <author>redweb.dk</author>
+    <name>PLG_TELESEARCH</name>
+    <version>1.2</version>
+    <creationDate>April 2013</creationDate>
+    <author>redCOMPONENT.com</author>
     <copyright>redCOMPONENT.com</copyright>
     <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
     <description>COM_REDSHOP_PROVIDES_TELESEARCH_INTEGRATION</description>
@@ -12,7 +12,9 @@
     </files>
     <languages>
         <language tag="en-GB">language/en-GB/en-GB.plg_telesearch_rs_telesearch.ini</language>
+        <language tag="en-GB">language/en-GB/en-GB.plg_telesearch_rs_telesearch.sys.ini</language>
         <language tag="da-DK">language/da-DK/da-DK.plg_telesearch_rs_telesearch.ini</language>
+        <language tag="da-DK">language/da-DK/da-DK.plg_telesearch_rs_telesearch.sys.ini</language>
     </languages>
     <config>
         <fields name="params">

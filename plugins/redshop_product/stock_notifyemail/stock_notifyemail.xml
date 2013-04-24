@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="2.5.0" type="plugin" group="redshop_product" method="upgrade">
     <name>redSHOP Stock Notify Email</name>
-    <author>Redweb.dk</author>
-    <creationDate>26 december 2012</creationDate>
+    <author>redCOMPONENT.com</author>
+    <version>1.2</version>
+    <creationDate>April 2013</creationDate>
     <copyright>redCOMPONENT.com</copyright>
     <license>GNU/GPL</license>
     <authorEmail>email@redcomponent.com</authorEmail>
     <authorUrl>www.redweb.dk</authorUrl>
-    <version>1.0.0</version>
-    <description>If user will select notiy email from frontend while product is out of stock then it wil fire mail to
-        that user when stock of that product will be added.
+    <description>If user will select 'notify me by email' from frontend while product is out of stock, then system will send an e-mail to
+         user when stock of that product will be added.
     </description>
     <files>
         <filename plugin="stock_notifyemail">stock_notifyemail.php</filename>

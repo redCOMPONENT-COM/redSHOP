@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="2.5.0" client="site" type="plugin" group="redshop_payment" method="upgrade">
     <name>PLG_RS_PAYMENT_AUTHORIZE</name>
-    <version>1.1.6</version>
-    <creationDate>27th July 2012</creationDate>
+    <version>1.2</version>
+    <creationDate>April 2013</creationDate>
     <author>redCOMPONENT.com</author>
     <authorEmail>email@redcomponent.com</authorEmail>
     <authorUrl>http://www.redcomponent.com</authorUrl>
