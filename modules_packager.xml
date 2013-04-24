@@ -11,16 +11,19 @@
 
 <project name="modules packager" basedir="." default="main">
 
+    <!-- Do initialization stuff -->
+    <property file="build.properties" override="true"/>
+
     <!-- Folder where the redSHOP repository modules are located  -->
     <property
             name="extpath"
-            value="/Applications/XAMPP/xamppfiles/htdocs/redCOMPONENT/redSHOP-1.2/modules/"
+            value="${repo.dir}/modules/"
             override="true" />
 
     <!-- Target dir where module packages will be created  -->
     <property
             name="targetdir"
-            value="/Applications/XAMPP/htdocs/installers/redCOMPONENT-modules/"
+            value="${package.dir}/redCOMPONENT-modules/"
             override="true" />
 
     <!-- Version of the redSHOP for witch the module is intended to  -->
