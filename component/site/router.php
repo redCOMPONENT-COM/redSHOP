@@ -31,8 +31,8 @@ function RedshopBuildRoute(&$query)
 	$menu     = JFactory::getApplication()->getMenu();
 	$item     = $menu->getActive();
 	$Itemid   = $item->id;
-	require_once(JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php');
-	require_once(JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/category.php');
+	require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
+	require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/category.php';
 	$product_category = new product_category;
 	$infoid           = '';
 	$task             = '';
@@ -640,7 +640,7 @@ function RedshopBuildRoute(&$query)
 function RedshopParseRoute($segments)
 {
 	$vars = array();
-	require_once(JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php');
+	require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
 
 	$db           = JFactory::getDBO();
 	$firstSegment = $segments[0];

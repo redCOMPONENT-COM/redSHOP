@@ -14,7 +14,7 @@ $request = JRequest::get();
 JHTML::_('behavior.tooltip');
 JHTMLBehavior::modal();
 
-require_once(JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php');
+require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php';
 
 include_once (JPATH_COMPONENT_SITE . '/helpers/product.php');
 include_once (JPATH_COMPONENT_SITE . '/helpers/cart.php');

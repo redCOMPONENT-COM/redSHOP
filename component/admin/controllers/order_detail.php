@@ -11,9 +11,9 @@ defined('_JEXEC') or die ('Restricted access');
 
 jimport('joomla.application.component.controller');
 
-require_once(JPATH_ROOT . '/components/com_redshop/helpers/product.php');
-require_once(JPATH_COMPONENT_ADMINISTRATOR . '/helpers/mail.php');
-require_once(JPATH_COMPONENT . '/helpers/product.php');
+require_once JPATH_ROOT . '/components/com_redshop/helpers/product.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/mail.php';
+require_once JPATH_COMPONENT . '/helpers/product.php';
 
 class order_detailController extends JController
 {
