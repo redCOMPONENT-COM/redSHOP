@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- ==================================================================  -->
 <!-- redSHOP packager                                                    -->
-<!-- This PHING build file generates the redSHOP Plugins package       -->
+<!-- This PHING build file generates the redSHOP Plugins package         -->
 <!-- To use in your environment do the following steps:                  -->
 <!--    Change the following variables in build.properties file          -->
 <!--            (copy variables from build.properties.dist )             -->
