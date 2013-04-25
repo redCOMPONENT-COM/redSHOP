@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- ==================================================================================  -->
-<!-- redSHOP packager                                                                    -->
-<!-- This PHING build file generates the redSHOP modules packages                        -->
-<!-- To use in your environment do the following steps:                                  -->
-<!--    - change the version at line 17                                                  -->
-<!--    - change the folder where the present file is located plus "/plugins" at line 23 -->
-<!--    - change the folder where the package will be created at line 29                 -->
-<!--    - execute this PHING build file                                                  -->
-<!-- ==================================================================================  -->
+<!-- ==================================================================  -->
+<!-- redSHOP packager                                                    -->
+<!-- This PHING build file generates the redSHOP Plugins package       -->
+<!-- To use in your environment do the following steps:                  -->
+<!--    Change the following variables in build.properties file          -->
+<!--            (copy variables from build.properties.dist )             -->
+<!--    - change the version in variable comp.version                    -->
+<!--    - change the source folder path in variable repo.dir             -->
+<!--    - change the package folder path in variable package.dir         -->
+<!--    - execute this PHING build file                                  -->
+<!-- ==================================================================  -->
 
 <project name="modules packager" basedir="." default="main">
 
@@ -17,7 +19,7 @@
     <!-- Version of the redSHOP for witch the module is intended to  -->
     <property
             name="version"
-            value="1.2"
+            value="${comp.version}"
             override="true" />
 
     <!-- Folder where the redSHOP repository PLUGINS are located  -->
