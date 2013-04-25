@@ -3,12 +3,16 @@
 <!-- redSHOP packager                                                    -->
 <!-- This PHING build file generates the redSHOP extension package       -->
 <!-- To use in your environment do the following steps:                  -->
-<!--    - change the version at line 20                                  -->
-<!--    - change the folder where this same file is at line 26           -->
-<!--    - change the folder where the package will be created at line 32 -->
+<!--    Change the following variables in build.properties file          -->
+<!--            (copy variables from build.properties.dist )             -->
+<!--    - change the version in variable comp.version                    -->
+<!--    - change the source folder path in variable repo.dir             -->
+<!--    - change the package folder path in variable package.dir         -->
 <!--    - execute this PHING build file                                  -->
 <!-- ==================================================================  -->
 <project name="com_redshop" default="dist">
+    <!-- Do initialization stuff -->
+    <property file="build.properties" override="true" />
 
     <property
             name="extension"
@@ -17,19 +21,19 @@
 
     <property
             name="version"
-            value="1.2"
+            value="${comp.version}"
             override="true" />
 
     <!-- Folder where the redSHOP repository is located  -->
     <property
             name="extpath"
-            value="/Applications/XAMPP/xamppfiles/htdocs/redCOMPONENT/redSHOP-1.2/"
+            value="${repo.dir}"
             override="true" />
 
     <!-- Target dir where packages will be created  -->
     <property
             name="targetdir"
-            value="/Applications/XAMPP/htdocs/installers/redCOMPONENT/package-${extension}-v${version}"
+            value="${package.dir}/package-${extension}-v${version}"
             override="true" />
 
     <!-- Version of the redSHOP for witch the module is intended to  -->
