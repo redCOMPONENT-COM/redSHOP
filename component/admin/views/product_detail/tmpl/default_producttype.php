@@ -8,10 +8,10 @@
  */
 defined('_JEXEC') or die;
 
-require_once(JPATH_COMPONENT_SITE . '/helpers/product.php');
+require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
 $producthelper = new producthelper();
 
-require_once(JPATH_COMPONENT_SITE . '/helpers/helper.php');
+require_once JPATH_COMPONENT_SITE . '/helpers/helper.php';
 $redhelper = new redhelper();
 
 $div_product = $this->detail->product_type == 'product' ? 'block' : 'none';

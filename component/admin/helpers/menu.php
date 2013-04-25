@@ -485,7 +485,7 @@ class leftmenu
             </td>
         </tr>
 		<?php    // reddesign
-		require_once(JPATH_COMPONENT_ADMINISTRATOR . '/helpers/helper.php');
+		require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/helper.php';
 		$reddesignhelper = new reddesignhelper();
 		$CheckRedDesign = $reddesignhelper->CheckIfRedDesign();
 		if ($CheckRedDesign)
