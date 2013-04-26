@@ -859,6 +859,7 @@ class rsCarthelper
 
 	public function replaceCartItem($data, $cart = array(), $replace_button, $quotation_mode = 0)
 	{
+
 		$dispatcher = JDispatcher::getInstance();
 		$prdItemid  = JRequest::getInt('Itemid');
 		$option     = JRequest::getVar('option', 'com_redshop');
@@ -976,9 +977,10 @@ class rsCarthelper
 				$product_id = $cart[$i]['product_id'];
 				$product    = $this->_producthelper->getProductById($product_id);
 				$quantity   = $cart[$i]['quantity'];
-
 				$retAttArr      = $this->_producthelper->makeAttributeCart($cart [$i] ['cart_attribute'], $product_id, 0, 0, $quantity, $data);
 				$cart_attribute = $retAttArr[0];
+
+
 
 				$retAccArr      = $this->_producthelper->makeAccessoryCart($cart [$i] ['cart_accessory'], $product_id, $data);
 				$cart_accessory = $retAccArr[0];
@@ -1140,10 +1142,65 @@ class rsCarthelper
 				}
 				//echo $product->product_number;die();
 
+
+
+
+
 				//Begin: Implement Vietnam Team's code
 				$cart_mdata = str_replace("{product_s_desc}", $product->product_s_desc, $cart_mdata);
-				//End
+				if(strstr($cart_mdata, "{product_attribute_loop_start}") && strstr($cart_mdata, "{product_attribute_loop_end}"))
+				{
+					$templateattibute_sdata  = explode('{product_attribute_loop_start}', $cart_mdata);
+					$templateattibute_start  = $templateattibute_sdata[0];
+					$templateattibute_edata  = explode('{product_attribute_loop_end}', $templateattibute_sdata[1]);
+					$templateattibute_end    = $templateattibute_edata[1];
+					$templateattibute_middle = $templateattibute_edata[0];
+					$pro_detail = "";
+					$sum_total  = count($cart [$i] ['cart_attribute']);
+					$temp_tpi   = $cart [$i] ['cart_attribute'] ;
+					if( $sum_total > 0 )
+					{
+						for($tpi=0;$tpi<$sum_total;$tpi++)
+						{
+							$product_attribute_name = "";
+							$product_attribute_value = "";
+							$product_attribute_value_price = "";
+							$product_attribute_name        = $temp_tpi[$tpi]['attribute_name'];
+							if(count($temp_tpi[$tpi]['attribute_childs']) > 0)
+							{
+								    $product_attribute_value = ": ".$temp_tpi[$tpi]['attribute_childs'][0]['property_name'];
+									if(count($temp_tpi[$tpi]['attribute_childs'][0]['property_childs']) > 0 )
+									{
+										$product_attribute_value .= ": ".$temp_tpi[$tpi]['attribute_childs'][0]['property_childs'][0]['subattribute_color_title'].": ".$temp_tpi[$tpi]['attribute_childs'][0]['property_childs'][0]['subproperty_name'];
+									}
+									$product_attribute_value_price = $temp_tpi[$tpi]['attribute_childs'][0]['property_price'];
+									if(count($temp_tpi[$tpi]['attribute_childs'][0]['property_childs']) > 0 )
+									{
+										$product_attribute_value_price = $product_attribute_value_price + $temp_tpi[$tpi]['attribute_childs'][0]['property_childs'][0]['subproperty_price'];
+									}
+									$product_attribute_value_price  =  $this->_producthelper->getProductFormattedPrice($product_attribute_value_price);
 
+							}
+							$data_add_pro 	 = $templateattibute_middle;
+							$data_add_pro 	 = str_replace ( "{product_attribute_name}", $product_attribute_name, $data_add_pro );
+							$data_add_pro 	 = str_replace ( "{product_attribute_value}", $product_attribute_value, $data_add_pro );
+							$data_add_pro 	 = str_replace ( "{product_attribute_value_price}", $product_attribute_value_price, $data_add_pro );
+							$pro_detail 	.= $data_add_pro;
+						}
+					}
+					$cart_mdata  		= str_replace ( $templateattibute_middle, $pro_detail, $cart_mdata );
+				}
+
+
+				if(count($cart [$i] ['cart_attribute']) > 0)
+				{
+					$cart_mdata = str_replace("{attribute_label}", JText::_("COM_REDSHOP_ATTRIBUTE"), $cart_mdata);
+				}
+				else
+				{
+					$cart_mdata = str_replace("{attribute_label}", "", $cart_mdata);
+				}
+				//End:
 				$cart_mdata           = str_replace("{product_number}", $product->product_number, $cart_mdata);
 				$cart_mdata           = str_replace("{product_vat}", $cart[$i]['product_vat'] * $cart[$i]['quantity'], $cart_mdata);
 				$user_fields          = $this->_producthelper->GetProdcutUserfield($i);
@@ -2214,11 +2271,14 @@ class rsCarthelper
 		return $mod_cart_total;
 	}
 
+
+
+
+
+
 	public function replaceTemplate($cart, $cart_data, $checkout = 1)
 	{
-
 		$cart_data = $this->replaceLabel($cart_data);
-
 		if (strstr($cart_data, "{product_loop_start}") && strstr($cart_data, "{product_loop_end}"))
 		{
 			$template_sdata  = explode('{product_loop_start}', $cart_data);
@@ -2226,7 +2286,6 @@ class rsCarthelper
 			$template_edata  = explode('{product_loop_end}', $template_sdata[1]);
 			$template_end    = $template_edata[1];
 			$template_middle = $template_edata[0];
-
 			$template_middle = $this->replaceCartItem($template_middle, $cart, 1, DEFAULT_QUOTATION_MODE);
 			$cart_data       = $template_start . $template_middle . $template_end;
 		}
@@ -4316,7 +4375,6 @@ class rsCarthelper
 				if (count($voucher) > 0)
 					$this->_r_voucher = 1;
 			}
-
 			if ((count($voucher)) <= 0)
 			{
 				$query = "SELECT (select GROUP_CONCAT(DISTINCT CAST(product_id AS CHAR)  SEPARATOR ', ') as product_id from " . $this->_table_prefix . "product_voucher_xref as pv "
