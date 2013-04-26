@@ -35,7 +35,26 @@
 	}
 	else
 	{
-		require_once $configpath;
+		/*
+		* Execute configuration file to check errors
+		* In worst case if file has syntax error then
+		* admin can roll back to default configuration file
+		* without having any prior knowledge.
+		* redSHOP will offer a button to roll back configuration file.
+		*/
+		$res = exec("php -l $configpath");
+
+		if (preg_match("/No/", $res))
+		{
+			require_once $configpath;
+		}
+		else
+		{
+			error_reporting(0);
+			$controller = 'redshop';
+			JRequest::setVar('view', 'redshop');
+			JRequest::setVar('layout', 'noconfig');
+		}
 	}
 
 	require_once JPATH_COMPONENT . '/helpers/configuration.php';
