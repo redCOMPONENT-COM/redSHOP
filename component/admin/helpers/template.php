@@ -12,10 +12,19 @@ defined('_JEXEC') or die;
 jimport('joomla.filesystem.folder');
 jimport('joomla.filesystem.file');
 
+/**
+ * redSHOP template manager
+ *
+ * @package  RedSHOP
+ * @since    2.5
+ */
 class Redtemplate
 {
 	public $redshop_template_path;
 
+	/**
+	 * load initial files
+	 */
 	public function __construct()
 	{
 		$this->redshop_template_path = JPATH_SITE . "/components/com_redshop/templates";
@@ -31,9 +40,11 @@ class Redtemplate
 	/**
 	 * Method to get Template
 	 *
-	 * @access    public
-	 * @return    array
-	 * @since    1.5
+	 * @param   string   $section  Set section Template
+	 * @param   integer  $tid      Template Id
+	 * @param   string   $name     Template Name
+	 *
+	 * @return  object             Template Array
 	 */
 	public function getTemplate($section = '', $tid = 0, $name = "")
 	{
@@ -48,7 +59,7 @@ class Redtemplate
 		$and .= ($name != "") ? " AND template_name = '" . $name . "'" : "";
 
 		$query = "SELECT * "
-			. "FROM #__" . TABLE_PREFIX . "_template "
+			. "FROM #__redshop_template "
 			. "WHERE template_section "
 			. "LIKE '" . $section . "' AND published=1 "
 			. $and
@@ -67,9 +78,11 @@ class Redtemplate
 	/**
 	 * Method to read Template from file
 	 *
-	 * @access    public
-	 * @return    array
-	 * @since    1.5
+	 * @param   string   $section   Template Section
+	 * @param   string   $filename  Template File Name
+	 * @param   boolean  $is_admin  Check for administrator call
+	 *
+	 * @return  string              Template Content
 	 */
 	public function readtemplateFile($section, $filename, $is_admin = false)
 	{
@@ -88,9 +101,11 @@ class Redtemplate
 	/**
 	 * Method to get Template file path
 	 *
-	 * @access    public
-	 * @return    array
-	 * @since    1.5
+	 * @param   string   $section   Template Section
+	 * @param   string   $filename  Template File Name
+	 * @param   boolean  $is_admin  Check for administrator call
+	 *
+	 * @return  string              Template File Path
 	 */
 	public function getTemplatefilepath($section, $filename, $is_admin = false)
 	{
@@ -101,26 +116,24 @@ class Redtemplate
 
 		if (!$is_admin && $section != 'categoryproduct')
 		{
-			$tempate_file = JPATH_SITE . '/templates/' . $app->getTemplate() . "/html/com_redshop"
-				. DS . $template_view . DS . $section . DS . $filename . ".php";
+			$tempate_file = JPATH_SITE . '/templates/' . $app->getTemplate() . "/html/com_redshop/$template_view/$section/$filename.php";
 		}
 		else
 		{
-			$tempate_file = JPATH_SITE . '/templates/' . $app->getTemplate() . "/html/com_redshop"
-				. DS . $section . DS . $filename . ".php";
+			$tempate_file = JPATH_SITE . '/templates/' . $app->getTemplate() . "/html/com_redshop/$section/$filename.php";
 		}
 
 		if (!file_exists($tempate_file))
 		{
 			if ($section == 'categoryproduct' && $layout == 'categoryproduct')
 			{
-				$templateDir = JPATH_SITE . "/components/com_redshop/templates/" . $section . "/" . $filename . ".php";
+				$templateDir = JPATH_SITE . "/components/com_redshop/templates/$section/$filename.php";
 			}
 
 			if ($template_view && $section != 'categoryproduct')
 			{
-				$templateDir = JPATH_SITE . "/components/com_redshop/views/" .$template_view . "/tmpl/" .$section;
-				@chmod(JPATH_SITE . "/components/com_redshop/views/" .$template_view . "/tmpl", 0755);
+				$templateDir = JPATH_SITE . "/components/com_redshop/views/$template_view/tmpl/$section";
+				@chmod(JPATH_SITE . "/components/com_redshop/views/$template_view/tmpl", 0755);
 			}
 
 			else
@@ -135,20 +148,19 @@ class Redtemplate
 				JFolder::create($templateDir, 0755);
 			}
 
-			$tempate_file = $templateDir . '/' . $filename . ".php";
+			$tempate_file = "$templateDir/$filename.php";
 		}
 
 		return $tempate_file;
 	}
 
 	/**
-	 * Method to get View as per template section
+	 * Template View selector
 	 *
-	 * @access    public
-	 * @return    array
-	 * @since    1.5
+	 * @param   string  $section  Template Section
+	 *
+	 * @return  string            Template Joomla view name
 	 */
-
 	public function getTemplateView($section)
 	{
 		$section = strtolower($section);
@@ -232,11 +244,11 @@ class Redtemplate
 	}
 
 	/**
-	 * Method to parse redSHOP plugin for product description.
+	 * Method to parse joomla content plugin onContentPrepare event
 	 *
-	 * @access    public
-	 * @return    array
-	 * @since    1.5
+	 * @param   string  $string  Joomla content
+	 *
+	 * @return  string           Modified content
 	 */
 	public function parseredSHOPplugin($string = "")
 	{
@@ -255,9 +267,17 @@ class Redtemplate
 		return $o->text;
 	}
 
+	/**
+	 * Collect Template Sections for installation
+	 *
+	 * @param   string   $template_name  Template Name
+	 * @param   boolean  $setflag        Set true if you want html special character in template content
+	 *
+	 * @return  string                   redSHOP Template Contents
+	 */
 	public function getInstallSectionTemplate($template_name, $setflag = false)
 	{
-		$tempate_file = JPATH_SITE . "/components/com_redshop/templates/rsdefaulttemplates/" .$template_name . ".php";
+		$tempate_file = JPATH_SITE . "/components/com_redshop/templates/rsdefaulttemplates/$template_name.php";
 
 		if (file_exists($tempate_file))
 		{
@@ -276,6 +296,13 @@ class Redtemplate
 		}
 	}
 
+	/**
+	 * Collect list of redSHOP Template
+	 *
+	 * @param   string  $sectionvalue  Template Section selected value
+	 *
+	 * @return  array                 Template Section List options
+	 */
 	public function getTemplateSections($sectionvalue = "")
 	{
 		$optionsection = array();
@@ -363,6 +390,13 @@ class Redtemplate
 		}
 	}
 
+	/**
+	 * Collect Mail Template Section Select Option Value
+	 *
+	 * @param   string  $sectionvalue  Selected Section Name
+	 *
+	 * @return  array                 Mail Template Select list options
+	 */
 	public function getMailSections($sectionvalue = "")
 	{
 		$optiontype = array();
@@ -428,9 +462,16 @@ class Redtemplate
 		}
 	}
 
+	/**
+	 * Collect redSHOP costume field section select list option
+	 *
+	 * @param   string  $sectionvalue  Selected option Value
+	 *
+	 * @return  array                 Costume field Select list options
+	 */
 	public function getFieldSections($sectionvalue = "")
 	{
-		$optionsection = array();
+		$optionsection   = array();
 		$optionsection[] = JHTML::_('select.option', '0', JText::_('COM_REDSHOP_SELECT'));
 		$optionsection[] = JHTML::_('select.option', '1', JText::_('COM_REDSHOP_PRODUCT'));
 		$optionsection[] = JHTML::_('select.option', '2', JText::_('COM_REDSHOP_CATEGORY'));
@@ -469,6 +510,13 @@ class Redtemplate
 		}
 	}
 
+	/**
+	 * Collect Costume field type select list options
+	 *
+	 * @param   string  $sectionvalue  Selected field type section
+	 *
+	 * @return  array                 Costume field type option list
+	 */
 	public function getFieldTypeSections($sectionvalue = "")
 	{
 		$optiontype = array();
@@ -512,9 +560,7 @@ class Redtemplate
 	/**
 	 * Method to parse mod_redshop_lettersearch module parameter.
 	 *
-	 * @access    public
-	 * @return    array
-	 * @since    1.5
+	 * @return void
 	 */
 	public function GetlettersearchParameters()
 	{
