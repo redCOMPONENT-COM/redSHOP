@@ -10,8 +10,8 @@ defined('_JEXEC') or die;
 
 // ------------------  standard plugin initialize function - don't change ---------------------------
 global $sh_LANG;
-$sefConfig      = & shRouter::shGetConfig();
-$db             = jFactory::getDBO();
+$sefConfig      = shRouter::shGetConfig();
+$db             = JFactory::getDBO();
 $shLangName     = '';
 $shLangIso      = '';
 $title          = array();
@@ -30,7 +30,7 @@ $shLangIso = shLoadPluginLanguage('com_redshop', $shLangIso, '_COM_SEF_SH_REDSHO
 // Getting the configuration
 if (!defined('TABLE_PREFIX'))
 {
-	require_once JPATH_ADMINISTRATOR . DS . 'components' . DS . $option . DS . 'helpers' . DS . 'redshop.cfg.php';
+	require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
 }
 
 include_once "administrator/components/com_redshop/helpers/category.php";
@@ -111,9 +111,8 @@ if (count($menu) == 0)
 
 $myparams = new JRegistry($menu->params);
 
-/**
- * set redSHOP prefix
- */
+
+// Set redSHOP prefix
 if (trim(shGetComponentPrefix($option)) != "")
 {
 	$title[] = shGetComponentPrefix($option);
