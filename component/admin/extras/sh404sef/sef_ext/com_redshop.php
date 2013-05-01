@@ -17,7 +17,7 @@ $shLangIso      = '';
 $title          = array();
 $shItemidString = '';
 
-$dosef = shInitializePlugin($lang, $shLangName, $shLangIso, $option);
+$dosef = shInitializePlugin($lang, $shLangName, $shLangIso, 'com_redshop');
 
 if ($dosef == false)
 {
@@ -113,9 +113,11 @@ $myparams = new JRegistry($menu->params);
 
 
 // Set redSHOP prefix
-if (trim(shGetComponentPrefix($option)) != "")
+$component_prefix = shGetComponentPrefix('com_redshop');
+
+if (trim($component_prefix) != "")
 {
-	$title[] = shGetComponentPrefix($option);
+	$title[] = $component_prefix;
 }
 
 switch ($view)
