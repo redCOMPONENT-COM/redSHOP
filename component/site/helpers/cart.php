@@ -1429,21 +1429,16 @@ class rsCarthelper
 		$dispatcher = JDispatcher::getInstance();
 		$mainview   = JRequest::getVar('view');
 		$fieldArray = $this->_extraFieldFront->getSectionFieldList(17, 0, 0);
-
 		$subtotal_excl_vat = 0;
 		$cart              = '';
 		$url               = JURI::root();
 		$returnArr         = array();
-
 		$wrapper_name = "";
-
 		$OrdersDetail = $this->_order_functions->getOrderDetails($rowitem [0]->order_id);
-
 		for ($i = 0; $i < count($rowitem); $i++)
 		{
 			$product_id = $rowitem [$i]->product_id;
 			$quantity   = $rowitem [$i]->product_quantity;
-
 			if ($rowitem [$i]->is_giftcard)
 			{
 				$giftcardData      = $this->_producthelper->getGiftcardData($product_id);
@@ -1622,6 +1617,79 @@ class rsCarthelper
 			$cart_mdata = str_replace("{product_price_excl_vat}", $this->_producthelper->getProductFormattedPrice($rowitem [$i]->product_item_price_excl_vat), $cart_mdata);
 
 			$cart_mdata = str_replace("{product_total_price_excl_vat}", $this->_producthelper->getProductFormattedPrice($rowitem [$i]->product_item_price_excl_vat * $quantity), $cart_mdata);
+
+			//Bengin : Implement VietNam TeamCode
+			$a_p_arr = array();
+			$attribute_data = $this->_order_functions->getOrderItemAttributeDetail($rowitem[$i]->order_item_id,0,'attribute',0);
+			$n = 1;
+			foreach($attribute_data AS $w){
+				$a_p_arr['attribute_data'] .= $w->section_id;
+				if($n<count($attribute_data)){$a_p_arr['attribute_data'] .= '##';}
+				$n++;
+			}
+			$property_data = $this->_order_functions->getOrderItemAttributeDetail($rowitem[$i]->order_item_id,0,'property',0);
+			$n = 1;
+			foreach($property_data AS $ii){
+				$a_p_arr['property_data'] .= $ii->section_id;
+				if($n<count($property_data)){$a_p_arr['property_data'] .= '##';}
+				$n++;
+			}
+			$Attribute_Array = $this->generateAttributeArray($a_p_arr);
+			if(strstr($cart_mdata, "{product_attribute_loop_start}") && strstr($cart_mdata, "{product_attribute_loop_end}"))
+			{
+				$templateattibute_sdata  = explode('{product_attribute_loop_start}', $cart_mdata);
+				$templateattibute_start  = $templateattibute_sdata[0];
+				$templateattibute_edata  = explode('{product_attribute_loop_end}', $templateattibute_sdata[1]);
+				$templateattibute_end    = $templateattibute_edata[1];
+				$templateattibute_middle = $templateattibute_edata[0];
+				$pro_detail = "";
+				$sum_total  = count($Attribute_Array);
+				$temp_tpi   = $Attribute_Array ;
+				//print_r($Attribute_Array[$i]);exit;
+				if( $sum_total > 0 )
+				{
+					for($tpi=0;$tpi<$sum_total;$tpi++)
+					{
+						$product_attribute_name = "";
+						$product_attribute_value = "";
+						$product_attribute_value_price = "";
+						$product_attribute_name        = $temp_tpi[$tpi]['attribute_name'];
+						if(count($temp_tpi[$tpi]['attribute_childs']) > 0)
+						{
+							$product_attribute_value = ": ".$temp_tpi[$tpi]['attribute_childs'][0]['property_name'];
+							if(count($temp_tpi[$tpi]['attribute_childs'][0]['property_childs']) > 0 )
+							{
+								$product_attribute_value .= ": ".$temp_tpi[$tpi]['attribute_childs'][0]['property_childs'][0]['subattribute_color_title'].": ".$temp_tpi[$tpi]['attribute_childs'][0]['property_childs'][0]['subproperty_name'];
+							}
+							$product_attribute_value_price = $temp_tpi[$tpi]['attribute_childs'][0]['property_price'];
+							if(count($temp_tpi[$tpi]['attribute_childs'][0]['property_childs']) > 0 )
+							{
+								$product_attribute_value_price = $product_attribute_value_price + $temp_tpi[$tpi]['attribute_childs'][0]['property_childs'][0]['subproperty_price'];
+							}
+							$product_attribute_value_price  =  $this->_producthelper->getProductFormattedPrice($product_attribute_value_price);
+
+						}
+						$data_add_pro   = $templateattibute_middle;
+						$data_add_pro   = str_replace ( "{product_attribute_name}", $product_attribute_name, $data_add_pro );
+						$data_add_pro   = str_replace ( "{product_attribute_value}", $product_attribute_value, $data_add_pro );
+						$data_add_pro   = str_replace ( "{product_attribute_value_price}", $product_attribute_value_price, $data_add_pro );
+						$pro_detail  .= $data_add_pro;
+
+					}
+
+				}
+				$cart_mdata    = str_replace ( $templateattibute_middle, $pro_detail, $cart_mdata );
+			}
+			if(count($Attribute_Array) > 0)
+			{
+				$cart_mdata = str_replace("{attribute_label}", JText::_("COM_REDSHOP_ATTRIBUTE"), $cart_mdata);
+			}
+			else
+			{
+				$cart_mdata = str_replace("{attribute_label}", "", $cart_mdata);
+			}
+
+			//End: Implement VietNam TeamCode
 
 			$subtotal_excl_vat += $rowitem [$i]->product_item_price_excl_vat * $quantity;
 
