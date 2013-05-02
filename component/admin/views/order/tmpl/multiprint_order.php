@@ -10,9 +10,9 @@ defined('_JEXEC') or die;
 JHTML::_('behavior.tooltip');
 JHTML::_('behavior.modal');
 
-require_once(JPATH_COMPONENT_SITE . '/helpers/product.php');
+require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
 $producthelper = new producthelper();
-require_once(JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php');
+require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php';
 
 $order_functions = new order_functions();
 $shippinghelper = new shipping();

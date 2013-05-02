@@ -1,32 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- ==================================================================  -->
 <!-- redSHOP packager                                                    -->
-<!-- This PHING build file generates the redSHOP modules packages        -->
+<!-- This PHING build file generates the redSHOP Modules package         -->
 <!-- To use in your environment do the following steps:                  -->
-<!--    - change the version at line 20                                  -->
-<!--    - change the folder where this same file is at line 26           -->
-<!--    - change the folder where the package will be created at line 32 -->
+<!--    Change the following variables in build.properties file          -->
+<!--            (copy variables from build.properties.dist )             -->
+<!--    - change the version in variable comp.version                    -->
+<!--    - change the source folder path in variable repo.dir             -->
+<!--    - change the package folder path in variable package.dir         -->
 <!--    - execute this PHING build file                                  -->
 <!-- ==================================================================  -->
 
 <project name="modules packager" basedir="." default="main">
 
+    <!-- Do initialization stuff -->
+    <property file="build.properties" override="true"/>
+
     <!-- Folder where the redSHOP repository modules are located  -->
     <property
             name="extpath"
-            value="/Applications/XAMPP/xamppfiles/htdocs/redCOMPONENT/redSHOP-1.2/modules/"
+            value="${repo.dir}/modules/"
             override="true" />
 
     <!-- Target dir where module packages will be created  -->
     <property
             name="targetdir"
-            value="/Applications/XAMPP/htdocs/installers/redCOMPONENT-modules/"
+            value="${package.dir}/redCOMPONENT-modules/"
             override="true" />
 
     <!-- Version of the redSHOP for witch the module is intended to  -->
     <property
             name="version"
-            value="1.2"
+            value="${comp.version}"
             override="true" />
 
     <!-- Version of the redSHOP for witch the module is intended to  -->
