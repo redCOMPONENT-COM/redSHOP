@@ -3650,7 +3650,7 @@ class producthelper
 					}
 				}
 
-				if (!empty($relatedArr))
+				if (empty($relatedArr))
 				{
 					return array();
 				}
