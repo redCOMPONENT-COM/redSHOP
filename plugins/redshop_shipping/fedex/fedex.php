@@ -25,6 +25,7 @@ require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/shipping.php
 class plgredshop_shippingfedex extends JPlugin
 {
 	public $payment_code = "fedex";
+
 	public $classname = "fedex";
 
 	public function onShowconfig($ps)
@@ -34,65 +35,77 @@ class plgredshop_shippingfedex extends JPlugin
 			?>
 			<table class="admintable">
 				<tr class="row0">
-					<td><strong><?php echo JText::_('FEDEX_DEVELOPMENT_LBL') ?></strong></td>
+					<td><strong><?php echo JText::_('COM_REDSHOP_FEDEX_DEVELOPMENT_LBL') ?></strong></td>
 					<td><select class="inputbox" name="FEDEX_DEVELOPMENT">
-							<option <?php if (FEDEX_DEVELOPMENT == "1") echo "selected=\"selected\"" ?>
-								value="1"><?php echo JText::_('YES') ?></option>
-							<option <?php if (FEDEX_DEVELOPMENT == "0") echo "selected=\"selected\"" ?>
-								value="0"><?php echo JText::_('NO') ?></option>
+						<option
+						<?php
+						if (FEDEX_DEVELOPMENT == "1")
+						{
+							echo "selected=\"selected\"";
+						}
+						?>
+							value="1"><?php echo JText::_('JYES') ?></option>
+						<option
+						<?php
+							if (FEDEX_DEVELOPMENT == "0")
+							{
+								echo "selected=\"selected\"";
+							}
+						?>
+								value="0"><?php echo JText::_('JNO') ?></option>
 						</select></td>
-					<td><?php echo JHTML::tooltip(JText::_('FEDEX_DEVELOPMENT_LBL'), JText::_('FEDEX_DEVELOPMENT_LBL'), 'tooltip.png', '', '', false);?></td>
+					<td><?php echo JHTML::tooltip(JText::_('COM_REDSHOP_FEDEX_DEVELOPMENT_LBL'), JText::_('COM_REDSHOP_FEDEX_DEVELOPMENT_LBL'), 'tooltip.png', '', '', false);?></td>
 				</tr>
 				<tr class="row0">
-					<td><strong><?php echo JText::_('FEDEX_ACCOUNT_NUMBER_LBL') ?></strong></td>
+					<td><strong><?php echo JText::_('COM_REDSHOP_FEDEX_ACCOUNT_NUMBER_LBL') ?></strong></td>
 					<td><input type="text" name="FEDEX_ACCOUNT_NUMBER" class="inputbox"
 					           value="<?php echo FEDEX_ACCOUNT_NUMBER ?>"/></td>
-					<td><?php echo JHTML::tooltip(JText::_('FEDEX_ACCOUNT_NUMBER_LBL'), JText::_('FEDEX_ACCOUNT_NUMBER_LBL'), 'tooltip.png', '', '', false);?></td>
+					<td><?php echo JHTML::tooltip(JText::_('COM_REDSHOP_FEDEX_ACCOUNT_NUMBER_LBL'), JText::_('COM_REDSHOP_FEDEX_ACCOUNT_NUMBER_LBL'), 'tooltip.png', '', '', false);?></td>
 				</tr>
 				<tr class="row1">
-					<td><strong><?php echo JText::_('FEDEX_METER_NUMBER_LBL') ?></strong></td>
+					<td><strong><?php echo JText::_('COM_REDSHOP_FEDEX_METER_NUMBER_LBL') ?></strong></td>
 					<td><input type="text" name="FEDEX_METER_NUMBER" class="inputbox"
 					           value="<?php echo FEDEX_METER_NUMBER ?>"/></td>
-					<td><?php echo JHTML::tooltip(JText::_('FEDEX_METER_NUMBER_LBL'), JText::_('FEDEX_METER_NUMBER_LBL'), 'tooltip.png', '', '', false);?></td>
+					<td><?php echo JHTML::tooltip(JText::_('COM_REDSHOP_FEDEX_METER_NUMBER_LBL'), JText::_('COM_REDSHOP_FEDEX_METER_NUMBER_LBL'), 'tooltip.png', '', '', false);?></td>
 				</tr>
 				<tr class="row1">
-					<td><strong><?php echo JText::_('FEDEX_KEY_LBL') ?></strong></td>
+					<td><strong><?php echo JText::_('COM_REDSHOP_FEDEX_KEY_LBL') ?></strong></td>
 					<td><input type="text" name="FEDEX_KEY" class="inputbox" value="<?php echo FEDEX_KEY ?>"/></td>
-					<td><?php echo JHTML::tooltip(JText::_('FEDEX_KEY_LBL'), JText::_('FEDEX_KEY_LBL'), 'tooltip.png', '', '', false);?></td>
+					<td><?php echo JHTML::tooltip(JText::_('COM_REDSHOP_FEDEX_KEY_LBL'), JText::_('COM_REDSHOP_FEDEX_KEY_LBL'), 'tooltip.png', '', '', false);?></td>
 				</tr>
 				<tr class="row1">
-					<td><strong><?php echo JText::_('FEDEX_PASSWORD_LBL') ?></strong></td>
+					<td><strong><?php echo JText::_('COM_REDSHOP_FEDEX_PASSWORD_LBL') ?></strong></td>
 					<td><input type="text" name="FEDEX_PASSWORD" class="inputbox" value="<?php echo FEDEX_PASSWORD ?>"/>
 					</td>
-					<td><?php echo JHTML::tooltip(JText::_('FEDEX_PASSWORD_LBL'), JText::_('FEDEX_PASSWORD_LBL'), 'tooltip.png', '', '', false);?></td>
+					<td><?php echo JHTML::tooltip(JText::_('COM_REDSHOP_FEDEX_PASSWORD_LBL'), JText::_('COM_REDSHOP_FEDEX_PASSWORD_LBL'), 'tooltip.png', '', '', false);?></td>
 				</tr>
 
 				<tr class="row0">
 					<td colspan="3"></td>
 				</tr>
 				<tr class="row1">
-					<td><strong><?php echo JText::_('FEDEX_SHIPPER_ADDRESS_LBL') ?></strong></td>
+					<td><strong><?php echo JText::_('COM_REDSHOP_FEDEX_SHIPPER_ADDRESS_LBL') ?></strong></td>
 					<td><input type="text" name="FEDEX_SHIPPER_ADDRESS" class="inputbox"
 					           value="<?php echo FEDEX_SHIPPER_ADDRESS ?>"/></td>
-					<td><?php echo JHTML::tooltip(JText::_('FEDEX_SHIPPER_ADDRESS_LBL'), JText::_('FEDEX_SHIPPER_ADDRESS_LBL'), 'tooltip.png', '', '', false);?></td>
+					<td><?php echo JHTML::tooltip(JText::_('COM_REDSHOP_FEDEX_SHIPPER_ADDRESS_LBL'), JText::_('COM_REDSHOP_FEDEX_SHIPPER_ADDRESS_LBL'), 'tooltip.png', '', '', false);?></td>
 				</tr>
 				<tr class="row0">
-					<td><strong><?php echo JText::_('FEDEX_SHIPPER_CITY_LBL') ?></strong></td>
+					<td><strong><?php echo JText::_('COM_REDSHOP_FEDEX_SHIPPER_CITY_LBL') ?></strong></td>
 					<td><input type="text" name="FEDEX_SHIPPER_CITY" class="inputbox"
 					           value="<?php echo FEDEX_SHIPPER_CITY ?>"/></td>
-					<td><?php echo JHTML::tooltip(JText::_('FEDEX_SHIPPER_CITY_LBL'), JText::_('FEDEX_SHIPPER_CITY_LBL'), 'tooltip.png', '', '', false);?></td>
+					<td><?php echo JHTML::tooltip(JText::_('COM_REDSHOP_FEDEX_SHIPPER_CITY_LBL'), JText::_('COM_REDSHOP_FEDEX_SHIPPER_CITY_LBL'), 'tooltip.png', '', '', false);?></td>
 				</tr>
 				<tr class="row1">
-					<td><strong><?php echo JText::_('FEDEX_SHIPPER_STATE_LBL') ?></strong></td>
+					<td><strong><?php echo JText::_('COM_REDSHOP_FEDEX_SHIPPER_STATE_LBL') ?></strong></td>
 					<td><input type="text" name="FEDEX_SHIPPER_STATE" class="inputbox"
 					           value="<?php echo FEDEX_SHIPPER_STATE ?>"/></td>
-					<td><?php echo JHTML::tooltip(JText::_('FEDEX_SHIPPER_STATE_LBL'), JText::_('FEDEX_SHIPPER_STATE_LBL'), 'tooltip.png', '', '', false);?></td>
+					<td><?php echo JHTML::tooltip(JText::_('COM_REDSHOP_FEDEX_SHIPPER_STATE_LBL'), JText::_('COM_REDSHOP_FEDEX_SHIPPER_STATE_LBL'), 'tooltip.png', '', '', false);?></td>
 				</tr>
 				<tr class="row0">
-					<td><strong><?php echo JText::_('FEDEX_SHIPPER_POSTAL_CODE_LBL') ?></strong></td>
+					<td><strong><?php echo JText::_('COM_REDSHOP_FEDEX_SHIPPER_POSTAL_CODE_LBL') ?></strong></td>
 					<td><input type="text" name="FEDEX_SHIPPER_POSTAL_CODE" class="inputbox"
 					           value="<?php echo FEDEX_SHIPPER_POSTAL_CODE ?>"/></td>
-					<td><?php echo JHTML::tooltip(JText::_('FEDEX_SHIPPER_POSTAL_CODE_LBL'), JText::_('FEDEX_SHIPPER_POSTAL_CODE_LBL'), 'tooltip.png', '', '', false);?></td>
+					<td><?php echo JHTML::tooltip(JText::_('COM_REDSHOP_FEDEX_SHIPPER_POSTAL_CODE_LBL'), JText::_('COM_REDSHOP_FEDEX_SHIPPER_POSTAL_CODE_LBL'), 'tooltip.png', '', '', false);?></td>
 				</tr>
 
 				<tr class="row1">
@@ -103,113 +116,113 @@ class plgredshop_shippingfedex extends JPlugin
 				</tr>
 
 				<tr class="row1">
-					<td><strong><?php echo JText::_('FEDEX_DISCOUNT_LBL') ?></strong></td>
+					<td><strong><?php echo JText::_('COM_REDSHOP_FEDEX_DISCOUNT_LBL') ?></strong></td>
 					<td><select class="inputbox" name="FEDEX_DISCOUNT">
 							<option <?php if (FEDEX_DISCOUNT == "1") echo "selected=\"selected\"" ?>
-								value="1"><?php echo JText::_('YES') ?></option>
+								value="1"><?php echo JText::_('JYES') ?></option>
 							<option <?php if (FEDEX_DISCOUNT == "0") echo "selected=\"selected\"" ?>
-								value="0"><?php echo JText::_('NO') ?></option>
+								value="0"><?php echo JText::_('JNO') ?></option>
 						</select></td>
-					<td><?php echo JHTML::tooltip(JText::_('FEDEX_DISCOUNT_LBL'), JText::_('FEDEX_DISCOUNT_LBL'), 'tooltip.png', '', '', false);?></td>
+					<td><?php echo JHTML::tooltip(JText::_('COM_REDSHOP_FEDEX_DISCOUNT_LBL'), JText::_('COM_REDSHOP_FEDEX_DISCOUNT_LBL'), 'tooltip.png', '', '', false);?></td>
 				</tr>
 				<tr class="row0">
-					<td><strong><?php echo JText::_('FEDEX_CARRIERCODE_LBL') ?></strong></td>
+					<td><strong><?php echo JText::_('COM_REDSHOP_FEDEX_CARRIERCODE_LBL') ?></strong></td>
 					<td><select class="inputbox" name="FEDEX_CARRIERCODE">
 							<option <?php if (FEDEX_CARRIERCODE == "FDXE") echo "selected=\"selected\"" ?>
-								value="FDXE"><?php echo JText::_('FDXE_LBL') ?></option>
+								value="FDXE"><?php echo JText::_('COM_REDSHOP_FDXE_LBL') ?></option>
 							<option <?php if (FEDEX_CARRIERCODE == "FDXG") echo "selected=\"selected\"" ?>
-								value="FDXG"><?php echo JText::_('FDXG_LBL') ?></option>
+								value="FDXG"><?php echo JText::_('COM_REDSHOP_FDXG_LBL') ?></option>
 						</select>
 					</td>
-					<td><?php echo JHTML::tooltip(JText::_('FEDEX_CARRIERCODE_LBL'), JText::_('FEDEX_CARRIERCODE_LBL'), 'tooltip.png', '', '', false);?></td>
+					<td><?php echo JHTML::tooltip(JText::_('COM_REDSHOP_FEDEX_CARRIERCODE_LBL'), JText::_('COM_REDSHOP_FEDEX_CARRIERCODE_LBL'), 'tooltip.png', '', '', false);?></td>
 				</tr>
 				<tr class="row0">
-					<td><strong><?php echo JText::_('FEDEX_SERVICETYPE_LBL') ?></strong></td>
+					<td><strong><?php echo JText::_('COM_REDSHOP_FEDEX_SERVICETYPE_LBL') ?></strong></td>
 					<td><select class="inputbox" name="FEDEX_SERVICETYPE[]" multiple="multiple">
 							<option <?php if (in_array("PRIORITY_OVERNIGHT", unserialize(FEDEX_SERVICETYPE))) echo "selected=\"selected\"" ?>
-								value="PRIORITY_OVERNIGHT"><?php echo JText::_('PRIORITYOVERNIGHT_LBL') ?></option>
+								value="PRIORITY_OVERNIGHT"><?php echo JText::_('COM_REDSHOP_PRIORITYOVERNIGHT_LBL') ?></option>
 							<option <?php if (in_array("STANDARD_OVERNIGHT", unserialize(FEDEX_SERVICETYPE))) echo "selected=\"selected\"" ?>
-								value="STANDARD_OVERNIGHT"><?php echo JText::_('STANDARDOVERNIGHT_LBL') ?></option>
+								value="STANDARD_OVERNIGHT"><?php echo JText::_('COM_REDSHOP_STANDARDOVERNIGHT_LBL') ?></option>
 							<option <?php if (in_array("FIRST_OVERNIGHT", unserialize(FEDEX_SERVICETYPE))) echo "selected=\"selected\"" ?>
-								value="FIRST_OVERNIGHT"><?php echo JText::_('FIRSTOVERNIGHT_LBL') ?></option>
+								value="FIRST_OVERNIGHT"><?php echo JText::_('COM_REDSHOP_FIRSTOVERNIGHT_LBL') ?></option>
 							<option <?php if (in_array("FEDEX_2_DAY", unserialize(FEDEX_SERVICETYPE))) echo "selected=\"selected\"" ?>
-								value="FEDEX_2_DAY"><?php echo JText::_('FEDEX2DAY_LBL') ?></option>
+								value="FEDEX_2_DAY"><?php echo JText::_('COM_REDSHOP_FEDEX2DAY_LBL') ?></option>
 							<option  <?php if (in_array("FEDEX_EXPRESS_SAVER", unserialize(FEDEX_SERVICETYPE))) echo "selected=\"selected\"" ?>
-								value="FEDEX_EXPRESS_SAVER"><?php echo JText::_('FEDEXEXPRESSSAVER_LBL') ?></option>
+								value="FEDEX_EXPRESS_SAVER"><?php echo JText::_('COM_REDSHOP_FEDEXEXPRESSSAVER_LBL') ?></option>
 							<option  <?php if (in_array("INTERNATIONAL_PRIORITY", unserialize(FEDEX_SERVICETYPE))) echo "selected=\"selected\"" ?>
-								value="INTERNATIONAL_PRIORITY"><?php echo JText::_('INTERNATIONALPRIORITY_LBL') ?></option>
+								value="INTERNATIONAL_PRIORITY"><?php echo JText::_('COM_REDSHOP_INTERNATIONALPRIORITY_LBL') ?></option>
 							<option  <?php if (in_array("INTERNATIONAL_ECONOMY", unserialize(FEDEX_SERVICETYPE))) echo "selected=\"selected\"" ?>
-								value="INTERNATIONAL_ECONOMY"><?php echo JText::_('INTERNATIONALECONOMY_LBL') ?></option>
+								value="INTERNATIONAL_ECONOMY"><?php echo JText::_('COM_REDSHOP_INTERNATIONALECONOMY_LBL') ?></option>
 							<option  <?php if (in_array("INTERNATIONAL_FIRST", unserialize(FEDEX_SERVICETYPE))) echo "selected=\"selected\"" ?>
-								value="INTERNATIONAL_FIRST"><?php echo JText::_('INTERNATIONALFIRST_LBL') ?></option>
+								value="INTERNATIONAL_FIRST"><?php echo JText::_('COM_REDSHOP_INTERNATIONALFIRST_LBL') ?></option>
 							<option  <?php if (in_array("FEDEX_1_DAY_FREIGHT", unserialize(FEDEX_SERVICETYPE))) echo "selected=\"selected\"" ?>
-								value="FEDEX_1_DAY_FREIGHT"><?php echo JText::_('FEDEX1DAYFREIGHT_LBL') ?></option>
+								value="FEDEX_1_DAY_FREIGHT"><?php echo JText::_('COM_REDSHOP_FEDEX1DAYFREIGHT_LBL') ?></option>
 							<option <?php if (in_array("FEDEX_2_DAY_FREIGHT", unserialize(FEDEX_SERVICETYPE))) echo "selected=\"selected\"" ?>
-								value="FEDEX_2_DAY_FREIGHT"><?php echo JText::_('FEDEX2DAYFREIGHT_LBL') ?></option>
+								value="FEDEX_2_DAY_FREIGHT"><?php echo JText::_('COM_REDSHOP_FEDEX2DAYFREIGHT_LBL') ?></option>
 							<option  <?php if (in_array("FEDEX_3_DAY_FREIGHT", unserialize(FEDEX_SERVICETYPE))) echo "selected=\"selected\"" ?>
-								value="FEDEX_3_DAY_FREIGHT"><?php echo JText::_('FEDEX3DAYFREIGHT_LBL') ?></option>
+								value="FEDEX_3_DAY_FREIGHT"><?php echo JText::_('COM_REDSHOP_FEDEX3DAYFREIGHT_LBL') ?></option>
 							<option  <?php if (in_array("FEDEX_GROUND", unserialize(FEDEX_SERVICETYPE))) echo "selected=\"selected\"" ?>
-								value="FEDEX_GROUND"><?php echo JText::_('FEDEXGROUND_LBL') ?></option>
+								value="FEDEX_GROUND"><?php echo JText::_('COM_REDSHOP_FEDEXGROUND_LBL') ?></option>
 							<option  <?php if (in_array("GROUND_HOME_DELIVERY", unserialize(FEDEX_SERVICETYPE))) echo "selected=\"selected\"" ?>
-								value="GROUND_HOME_DELIVERY"><?php echo JText::_('GROUNDHOMEDELIVERY_LBL') ?></option>
+								value="GROUND_HOME_DELIVERY"><?php echo JText::_('COM_REDSHOP_GROUNDHOMEDELIVERY_LBL') ?></option>
 							<option <?php if (in_array("INTERNATIONAL_PRIORITY_FREIGHT", unserialize(FEDEX_SERVICETYPE))) echo "selected=\"selected\"" ?>
-								value="INTERNATIONAL_PRIORITY_FREIGHT"><?php echo JText::_('INTERNATIONALPRIORITY_FREIGHT_LBL') ?></option>
+								value="INTERNATIONAL_PRIORITY_FREIGHT"><?php echo JText::_('COM_REDSHOP_INTERNATIONALPRIORITY_FREIGHT_LBL') ?></option>
 							<option <?php if (in_array("INTERNATIONAL_ECONOMY_FREIGHT", unserialize(FEDEX_SERVICETYPE))) echo "selected=\"selected\"" ?>
-								value="INTERNATIONAL_ECONOMY_FREIGHT"><?php echo JText::_('INTERNATIONALECONOMY_FREIGHT_LBL') ?></option>
+								value="INTERNATIONAL_ECONOMY_FREIGHT"><?php echo JText::_('COM_REDSHOP_INTERNATIONALECONOMY_FREIGHT_LBL') ?></option>
 							<option <?php if (in_array("EUROPE_FIRST_INTERNATIONAL_PRIORITY", unserialize(FEDEX_SERVICETYPE))) echo "selected=\"selected\"" ?>
-								value="EUROPE_FIRST_INTERNATIONAL_PRIORITY"><?php echo JText::_('EUROPEFIRSTINTERNATIONALPRIORITY_LBL') ?></option>
+								value="EUROPE_FIRST_INTERNATIONAL_PRIORITY"><?php echo JText::_('COM_REDSHOP_EUROPEFIRSTINTERNATIONALPRIORITY_LBL') ?></option>
 						</select>
 					</td>
-					<td><?php echo JHTML::tooltip(JText::_('FEDEX_SERVICETYPE_LBL'), JText::_('FEDEX_SERVICETYPE_LBL'), 'tooltip.png', '', '', false);?></td>
+					<td><?php echo JHTML::tooltip(JText::_('COM_REDSHOP_FEDEX_SERVICETYPE_LBL'), JText::_('COM_REDSHOP_FEDEX_SERVICETYPE_LBL'), 'tooltip.png', '', '', false);?></td>
 				</tr>
 				<tr class="row0">
-					<td><strong><?php echo JText::_('FEDEX_DROPOFFTYPE_LBL') ?></strong></td>
+					<td><strong><?php echo JText::_('COM_REDSHOP_FEDEX_DROPOFFTYPE_LBL') ?></strong></td>
 					<td><select class="inputbox" name="FEDEX_DROPOFFTYPE">
 							<option <?php if (FEDEX_DROPOFFTYPE == "REGULAR_PICKUP") echo "selected=\"selected\"" ?>
-								value="REGULAR_PICKUP"><?php echo JText::_('REGULARPICKUP_LBL') ?></option>
+								value="REGULAR_PICKUP"><?php echo JText::_('COM_REDSHOP_REGULARPICKUP_LBL') ?></option>
 							<option <?php if (FEDEX_DROPOFFTYPE == "REQUEST_COURIER") echo "selected=\"selected\"" ?>
-								value="REQUEST_COURIER"><?php echo JText::_('REQUESTCOURIER_LBL') ?></option>
+								value="REQUEST_COURIER"><?php echo JText::_('COM_REDSHOP_REQUESTCOURIER_LBL') ?></option>
 							<option <?php if (FEDEX_DROPOFFTYPE == "DROP_BOX") echo "selected=\"selected\"" ?>
-								value="DROP_BOX"><?php echo JText::_('DROPBOX_LBL') ?></option>
+								value="DROP_BOX"><?php echo JText::_('COM_REDSHOP_DROPBOX_LBL') ?></option>
 							<option <?php if (FEDEX_DROPOFFTYPE == "BUSINESSS_ERVICE_CENTER") echo "selected=\"selected\"" ?>
-								value="BUSINESS_SERVICE_CENTER"><?php echo JText::_('BUSINESSSERVICE_CENTER_LBL') ?></option>
+								value="BUSINESS_SERVICE_CENTER"><?php echo JText::_('COM_REDSHOP_BUSINESSSERVICE_CENTER_LBL') ?></option>
 							<option <?php if (FEDEX_DROPOFFTYPE == "STATION") echo "selected=\"selected\"" ?>
-								value="STATION"><?php echo JText::_('STATION_LBL') ?></option>
+								value="STATION"><?php echo JText::_('COM_REDSHOP_STATION_LBL') ?></option>
 						</select>
 					</td>
-					<td><?php echo JHTML::tooltip(JText::_('FEDEX_DROPOFFTYPE_LBL'), JText::_('FEDEX_DROPOFFTYPE_LBL'), 'tooltip.png', '', '', false);?></td>
+					<td><?php echo JHTML::tooltip(JText::_('COM_REDSHOP_FEDEX_DROPOFFTYPE_LBL'), JText::_('COM_REDSHOP_FEDEX_DROPOFFTYPE_LBL'), 'tooltip.png', '', '', false);?></td>
 				</tr>
 				<tr class="row0">
-					<td><strong><?php echo JText::_('FEDEX_PACKAGINGTYPE_LBL') ?></strong></td>
+					<td><strong><?php echo JText::_('COM_REDSHOP_FEDEX_PACKAGINGTYPE_LBL') ?></strong></td>
 					<td><select class="inputbox" name="FEDEX_PACKAGINGTYPE">
 							<option <?php if (FEDEX_PACKAGINGTYPE == "FEDEX_ENVELOPE") echo "selected=\"selected\"" ?>
-								value="FEDEX_ENVELOPE"><?php echo JText::_('FEDEXENVELOPE_LBL') ?></option>
+								value="FEDEX_ENVELOPE"><?php echo JText::_('COM_REDSHOP_FEDEXENVELOPE_LBL') ?></option>
 							<option  <?php if (FEDEX_PACKAGINGTYPE == "FEDEX_PAK") echo "selected=\"selected\"" ?>
-								value="FEDEX_PAK"><?php echo JText::_('FEDEXPAK_LBL') ?></option>
+								value="FEDEX_PAK"><?php echo JText::_('COM_REDSHOP_FEDEXPAK_LBL') ?></option>
 							<option <?php if (FEDEX_PACKAGINGTYPE == "FEDEX_BOX") echo "selected=\"selected\"" ?>
-								value="FEDEX_BOX"><?php echo JText::_('FEDEXBOX_LBL') ?></option>
+								value="FEDEX_BOX"><?php echo JText::_('COM_REDSHOP_FEDEXBOX_LBL') ?></option>
 							<option  <?php if (FEDEX_PACKAGINGTYPE == "FEDEX_TUBE") echo "selected=\"selected\"" ?>
-								value="FEDEX_TUBE"><?php echo JText::_('FEDEXTUBE_LBL') ?></option>
+								value="FEDEX_TUBE"><?php echo JText::_('COM_REDSHOP_FEDEXTUBE_LBL') ?></option>
 							<option  <?php if (FEDEX_PACKAGINGTYPE == "FEDEX_10KG_BOX") echo "selected=\"selected\"" ?>
-								value="FEDEX_10KG_BOX"><?php echo JText::_('FEDEX10KGBOX_LBL') ?></option>
+								value="FEDEX_10KG_BOX"><?php echo JText::_('COM_REDSHOP_FEDEX10KGBOX_LBL') ?></option>
 							<option <?php if (FEDEX_PACKAGINGTYPE == "FEDEX_25KG_BOX") echo "selected=\"selected\"" ?>
-								value="FEDEX_25KG_BOX"><?php echo JText::_('FEDEX25KGBOX_LBL') ?></option>
+								value="FEDEX_25KG_BOX"><?php echo JText::_('COM_REDSHOP_FEDEX25KGBOX_LBL') ?></option>
 							<option  <?php if (FEDEX_PACKAGINGTYPE == "YOUR_PACKAGING") echo "selected=\"selected\"" ?>
-								value="YOUR_PACKAGING"><?php echo JText::_('YOURPACKAGING_LBL') ?></option>
+								value="YOUR_PACKAGING"><?php echo JText::_('COM_REDSHOP_YOURPACKAGING_LBL') ?></option>
 						</select>
 					</td>
-					<td><?php echo JHTML::tooltip(JText::_('FEDEX_PACKAGINGTYPE_LBL'), JText::_('FEDEX_PACKAGINGTYPE_LBL'), 'tooltip.png', '', '', false);?></td>
+					<td><?php echo JHTML::tooltip(JText::_('COM_REDSHOP_FEDEX_PACKAGINGTYPE_LBL'), JText::_('COM_REDSHOP_FEDEX_PACKAGINGTYPE_LBL'), 'tooltip.png', '', '', false);?></td>
 				</tr>
 				<tr class="row0">
-					<td><strong><?php echo JText::_('FEDEX_WEIGHTUNITS_LBL') ?></strong></td>
+					<td><strong><?php echo JText::_('COM_REDSHOP_FEDEX_WEIGHTUNITS_LBL') ?></strong></td>
 					<td><select class="inputbox" name="FEDEX_WEIGHTUNITS">
 							<option <?php if (FEDEX_WEIGHTUNITS == "lbs") echo "selected=\"selected\"" ?>
-								value="lbs"><?php echo JText::_('LBS') ?></option>
+								value="lbs"><?php echo JText::_('COM_REDSHOP_LBS') ?></option>
 							<option <?php if (FEDEX_WEIGHTUNITS == "kg") echo "selected=\"selected\"" ?>
-								value="kg"><?php echo JText::_('KGS') ?></option>
+								value="kg"><?php echo JText::_('COM_REDSHOP_KGS') ?></option>
 						</select>
 					</td>
-					<td><?php echo JHTML::tooltip(JText::_('FEDEX_WEIGHTUNITS_LBL'), JText::_('FEDEX_WEIGHTUNITS_LBL'), 'tooltip.png', '', '', false);?></td>
+					<td><?php echo JHTML::tooltip(JText::_('COM_REDSHOP_FEDEX_WEIGHTUNITS_LBL'), JText::_('COM_REDSHOP_FEDEX_WEIGHTUNITS_LBL'), 'tooltip.png', '', '', false);?></td>
 				</tr>
 			</table>
 
@@ -306,7 +319,8 @@ class plgredshop_shippingfedex extends JPlugin
 		// Check for not zero
 		if ($unitRatio != 0)
 		{
-			$carttotalWeight = $carttotalWeight * $unitRatio; // converting weight in kg
+			// Converting weight in kg
+			$carttotalWeight = $carttotalWeight * $unitRatio;
 		}
 
 		$shippinginfo = $shippinghelper->getShippingAddress($d['users_info_id']);
@@ -394,16 +408,20 @@ class plgredshop_shippingfedex extends JPlugin
 			$path_to_wsdl = JURI::root() . 'plugins/redshop_shipping/' . $this->classname . '/RateService_v9.wsdl';
 		}
 
-		$shippingarray = array("StreetLines"         => array($shippinginfo->address),
-		                       "City"                => $shippinginfo->city,
-		                       "StateOrProvinceCode" => $shippinginfo->state_2_code,
-		                       "PostalCode"          => $shippinginfo->zipcode,
-		                       "CountryCode"         => $shippinginfo->country_2_code);
-		$billingarray = array("StreetLines"         => array(FEDEX_SHIPPER_ADDRESS),
-		                      "City"                => FEDEX_SHIPPER_CITY,
-		                      "StateOrProvinceCode" => FEDEX_SHIPPER_STATE,
-		                      "PostalCode"          => FEDEX_SHIPPER_POSTAL_CODE,
-		                      "CountryCode"         => $billing->country_2_code);
+		$shippingarray = array(
+							"StreetLines"         => array($shippinginfo->address),
+							"City"                => $shippinginfo->city,
+							"StateOrProvinceCode" => $shippinginfo->state_2_code,
+							"PostalCode"          => $shippinginfo->zipcode,
+							"CountryCode"         => $shippinginfo->country_2_code
+						);
+		$billingarray = array(
+							"StreetLines"         => array(FEDEX_SHIPPER_ADDRESS),
+							"City"                => FEDEX_SHIPPER_CITY,
+							"StateOrProvinceCode" => FEDEX_SHIPPER_STATE,
+							"PostalCode"          => FEDEX_SHIPPER_POSTAL_CODE,
+							"CountryCode"         => $billing->country_2_code
+						);
 
 		if (in_array("GROUND_HOME_DELIVERY", $fedex_servicetype))
 		{
@@ -424,7 +442,7 @@ class plgredshop_shippingfedex extends JPlugin
 		$request['Version'] = array('ServiceId' => 'crs', 'Major' => '9', 'Intermediate' => '0', 'Minor' => '0');
 		$request['ReturnTransitAndCommit'] = true;
 
-		// valid values REGULAR_PICKUP, REQUEST_COURIER, ...
+		// Valid values REGULAR_PICKUP, REQUEST_COURIER, ...
 		$request['RequestedShipment']['DropoffType'] = $fedex_dropofftype;
 		$request['RequestedShipment']['ShipTimestamp'] = date('c');
 
@@ -432,16 +450,33 @@ class plgredshop_shippingfedex extends JPlugin
 
 		$request['RequestedShipment']['Shipper'] = array('Address' => $billingarray);
 		$request['RequestedShipment']['Recipient'] = array('Address' => $shippingarray);
-		$request['RequestedShipment']['ShippingChargesPayment'] = array('PaymentType' => 'SENDER',
-		                                                                'Payor'       => array('AccountNumber' => FEDEX_ACCOUNT_NUMBER, // Replace 'XXX' with payor's account number
-		                                                                                       'CountryCode'   => 'US'));
+		$request['RequestedShipment']['ShippingChargesPayment'] = array(
+																		'PaymentType'   => 'SENDER',
+																		'Payor'         => array(
+																							'AccountNumber' => FEDEX_ACCOUNT_NUMBER, // Replace 'XXX' with payor's account number
+																							'CountryCode'   => 'US'
+																							)
+																	);
 		$request['RequestedShipment']['RateRequestTypes'] = 'ACCOUNT';
 		$request['RequestedShipment']['RateRequestTypes'] = 'LIST';
 		$request['RequestedShipment']['PackageCount'] = '1';
 
 		$request['RequestedShipment']['RequestedPackageLineItems'] = array(
-			'0' => array('SequenceNumber' => 1, 'GroupPackageCount' => $carttotalQnt, 'Weight' => array('Value' => round($carttotalWeight, 2), 'Units' => strtoupper($fedex_weightunits)),
-			             'Dimensions'     => array('Length' => $shipping_length, 'Width' => $shipping_width, 'Height' => $shipping_height, 'Units' => 'IN')));
+																		'0' => array(
+																					'SequenceNumber'    => 1,
+																					'GroupPackageCount' => $carttotalQnt,
+																					'Weight'			=> array(
+																											'Value'  => round($carttotalWeight, 2),
+																											'Units'  => strtoupper($fedex_weightunits)
+																											),
+																					'Dimensions' 		=> array(
+																											'Length'     => $shipping_length,
+																											'Width'      => $shipping_width,
+																											'Height'     => $shipping_height,
+																											'Units'      => 'IN'
+																											)
+																					)
+																		);
 
 		try
 		{
@@ -507,8 +542,14 @@ class plgredshop_shippingfedex extends JPlugin
 
 	public function setEndpoint($var)
 	{
-		if ($var == 'changeEndpoint') Return false;
+		if ($var == 'changeEndpoint')
+		{
+			return false;
+		}
 
-		if ($var == 'endpoint') Return '';
+		if ($var == 'endpoint')
+		{
+			return '';
+		}
 	}
 }
