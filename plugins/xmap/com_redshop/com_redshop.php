@@ -10,6 +10,8 @@
 defined('_JEXEC') or die;
 
 require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
+require_once JPATH_SITE . '/components/com_redshop/helpers/helper.php';
+require_once JPATH_SITE . '/components/com_redshop/helpers/product.php';
 
 class xmap_com_redshop
 {
@@ -123,7 +125,9 @@ class xmap_com_redshop
 
 	public function getCategoryTree(&$xmap, &$parent, &$params, $catid = 0)
 	{
-		$database = JFactory::getDBO();
+		$database      = JFactory::getDBO();
+		$objhelper     = new redhelper;
+		$producthelper = new producthelper;
 
 		static $urlBase;
 
@@ -145,8 +149,15 @@ class xmap_com_redshop
 
 		foreach ($rows as $row)
 		{
-			$node = new stdclass;
+			// Get Category Menu Itemid
+			$cItemid = $objhelper->getCategoryItemid($row->category_id);
 
+			if ($cItemid != "")
+			{
+				$params['Itemid'] = $cItemid;
+			}
+
+			$node = new stdclass;
 			$node->id = $params['Itemid'];
 			$node->uid = $parent->uid . 'c' . $row->category_id;
 			$node->browserNav = $parent->browserNav;
@@ -155,7 +166,7 @@ class xmap_com_redshop
 			$node->priority = $params['cat_priority'];
 			$node->changefreq = $params['cat_changefreq'];
 			$node->expandible = false;
-			$node->link = "index.php?option=com_redshop&view=category&cid=" . $row->category_id . "&layout=detail&Itemid=" . $params['Itemid'];
+			$node->link = "index.php?option=com_redshop&view=category&cid=$row->category_id&layout=detail&Itemid=" . $params['Itemid'];
 
 			if ($xmap->printNode($node) !== false)
 			{
@@ -182,6 +193,18 @@ class xmap_com_redshop
 
 			foreach ($rows as $row)
 			{
+				// Get Product Menu Itemid
+				$ItemData  = $producthelper->getMenuInformation(0, 0, '', 'product&pid=' . $row->product_id);
+
+				if (count($ItemData) > 0)
+				{
+					$params['Itemid'] = $ItemData->id;
+				}
+				else
+				{
+					$params['Itemid'] = $objhelper->getItemid($row->product_id, $row->category_id);
+				}
+
 				$node = new stdclass;
 				$node->id = $params['Itemid'];
 				$node->uid = $parent->uid . 'c' . $row->category_id . 'p' . $row->product_id;
@@ -191,7 +214,7 @@ class xmap_com_redshop
 				$node->name = $row->product_name;
 				$node->modified = strtotime($row->update_date);
 				$node->expandible = false;
-				$node->link = "index.php?option=com_redshop&view=product&pid=" . $row->product_id . "&cid=" . $row->category_id;
+				$node->link = "index.php?option=com_redshop&view=product&pid=$row->product_id&cid=$row->category_id&Itemid=" . $params['Itemid'];
 
 				if ($xmap->printNode($node) !== false)
 				{
@@ -205,8 +228,10 @@ class xmap_com_redshop
 
 	public function getProductTree(&$xmap, &$parent, &$params, $prod = 0, $category = 0, $manid = 0)
 	{
-		$database = JFactory::getDBO();
-		$app = JFactory::getApplication();
+		$database      = JFactory::getDBO();
+		$app           = JFactory::getApplication();
+		$objhelper     = new redhelper;
+		$producthelper = new producthelper;
 
 		if ($manid > 0)
 		{
@@ -224,6 +249,18 @@ class xmap_com_redshop
 
 		foreach ($childproducts as $row)
 		{
+			// Get Product Menu Itemid
+			$ItemData  = $producthelper->getMenuInformation(0, 0, '', 'product&pid=' . $row->product_id);
+
+			if (count($ItemData) > 0)
+			{
+				$params['Itemid'] = $ItemData->id;
+			}
+			else
+			{
+				$params['Itemid'] = $objhelper->getItemid($row->product_id, $row->category_id);
+			}
+
 			$node = new stdclass;
 			$node->id = $params['Itemid'];
 			$node->uid = ($manid > 0) ? $parent->uid . 'm' . $manid . 'p' . $row->product_id : $parent->uid . 'c' . $category . 'p' . $row->product_id;
@@ -233,7 +270,7 @@ class xmap_com_redshop
 			$node->name = $row->product_name;
 			$node->modified = strtotime($row->update_date);
 			$node->expandible = false;
-			$node->link = "index.php?option=com_redshop&view=product&pid=" . $row->product_id . "&cid=" . $category;
+			$node->link = "index.php?option=com_redshop&view=product&pid=$row->product_id&cid=$category&Itemid=" . $params['Itemid'];
 
 			if ($xmap->printNode($node) !== false)
 			{
@@ -275,7 +312,7 @@ class xmap_com_redshop
 				$node->priority = $params['cat_priority'];
 				$node->changefreq = $params['cat_changefreq'];
 				$node->expandible = true;
-				$node->link = "index.php?option=com_redshop&view=manufacturers&layout=products&mid=" . $manid . "&Itemid=" . $params['Itemid'];
+				$node->link = "index.php?option=com_redshop&view=manufacturers&layout=products&mid=$manid&Itemid=" . $params['Itemid'];
 
 				if ($xmap->printNode($node) !== false)
 				{
