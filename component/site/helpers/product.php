@@ -3650,17 +3650,17 @@ class producthelper
 					}
 				}
 
+				if (empty($relatedArr))
+				{
+					return array();
+				}
+
 				$relatedArr = array_unique($relatedArr);
 
 				$query = "SELECT " . $product_id . " AS mainproduct_id,p.* "
 					. "FROM " . $this->_table_prefix . "product AS p "
 					. "WHERE p.published = 1 ";
-
-				if (!empty($relatedArr))
-				{
-					$query .= ' AND p.product_id IN (' . implode(", ", $relatedArr) . ') ';
-				}
-
+				$query .= ' AND p.product_id IN (' . implode(", ", $relatedArr) . ') ';
 				$query .= $orderby;
 
 				$this->_db->setQuery($query);
