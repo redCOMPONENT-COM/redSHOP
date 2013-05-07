@@ -254,9 +254,8 @@ else
 
 					if ($showbuttons == 1 && ($media_section == 'product' || $media_section == 'property' || $media_section == 'subproperty'))
 					{
-						$checked = (trim($sectiona_primary_image) == trim($row->media_name)) ? "checked" : "";
 						echo '<td align="center">';
-							echo '<input type="radio" name="primary" id="' . trim($row->media_name) . '" value="' . trim($row->media_name) . '"' . $checked . ' />';
+						echo JHtml::_('jgrid.isdefault', trim($sectiona_primary_image) == trim($row->media_name), 0, '', false);
 						echo '</td>';
 					}
 
