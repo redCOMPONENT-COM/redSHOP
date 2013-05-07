@@ -859,21 +859,18 @@ class rsCarthelper
 
 	public function replaceCartItem($data, $cart = array(), $replace_button, $quotation_mode = 0)
 	{
-
 		$dispatcher = JDispatcher::getInstance();
 		$prdItemid  = JRequest::getInt('Itemid');
 		$option     = JRequest::getVar('option', 'com_redshop');
 		$Itemid     = $this->_redhelper->getCheckoutItemid();
 		$url        = JURI::base(true);
 		$mainview   = JRequest::getVar('view');
-
 		if ($Itemid == 0)
 		{
 			$Itemid = JRequest::getInt('Itemid');
 		}
 		$cart_tr = '';
 		$i       = 0;
-
 		$idx        = $cart['idx'];
 		$fieldArray = $this->_extraFieldFront->getSectionFieldList(17, 0, 0);
 
@@ -979,9 +976,6 @@ class rsCarthelper
 				$quantity   = $cart[$i]['quantity'];
 				$retAttArr      = $this->_producthelper->makeAttributeCart($cart [$i] ['cart_attribute'], $product_id, 0, 0, $quantity, $data);
 				$cart_attribute = $retAttArr[0];
-
-
-
 				$retAccArr      = $this->_producthelper->makeAccessoryCart($cart [$i] ['cart_accessory'], $product_id, $data);
 				$cart_accessory = $retAccArr[0];
 
@@ -1142,10 +1136,6 @@ class rsCarthelper
 				}
 				//echo $product->product_number;die();
 
-
-
-
-
 				//Begin: Implement Vietnam Team's code
 				$cart_mdata = str_replace("{product_s_desc}", $product->product_s_desc, $cart_mdata);
 				if(strstr($cart_mdata, "{product_attribute_loop_start}") && strstr($cart_mdata, "{product_attribute_loop_end}"))
@@ -1190,8 +1180,6 @@ class rsCarthelper
 					}
 					$cart_mdata  		= str_replace ( $templateattibute_middle, $pro_detail, $cart_mdata );
 				}
-
-
 				if(count($cart [$i] ['cart_attribute']) > 0)
 				{
 					$cart_mdata = str_replace("{attribute_label}", JText::_("COM_REDSHOP_ATTRIBUTE"), $cart_mdata);
@@ -1413,14 +1401,11 @@ class rsCarthelper
 				$cart_mdata = str_replace("{product_price}", $product_price, $cart_mdata);
 				$cart_mdata = str_replace("{product_total_price}", $product_total_price, $cart_mdata);
 			}
-
 			// Plugin support:  Process the product plugin for cart item
 			JPluginHelper::importPlugin('redshop_product');
 			$results = $dispatcher->trigger('onCartItemDisplay', array(& $cart_mdata, $cart, $i));
-
 			$cart_tr .= $cart_mdata;
 		}
-
 		return $cart_tr;
 	}
 
@@ -1494,10 +1479,8 @@ class rsCarthelper
 					}
 				}
 			}
-
 			$product_name        = "<div class='product_name'>" . $product_name . "</div>";
 			$product_total_price = "<div class='product_price'>";
-
 			if (!$this->_producthelper->getApplyVatOrNot($data))
 			{
 				$product_total_price .= $this->_producthelper->getProductFormattedPrice($rowitem [$i]->product_item_price_excl_vat * $quantity);
@@ -1507,9 +1490,7 @@ class rsCarthelper
 				$product_total_price .= $this->_producthelper->getProductFormattedPrice($rowitem [$i]->product_item_price * $quantity);
 			}
 			$product_total_price .= "</div>";
-
 			$product_price = "<div class='product_price'>";
-
 			if (!$this->_producthelper->getApplyVatOrNot($data))
 			{
 				$product_price .= $this->_producthelper->getProductFormattedPrice($rowitem [$i]->product_item_price_excl_vat);
@@ -1619,6 +1600,7 @@ class rsCarthelper
 			$cart_mdata = str_replace("{product_total_price_excl_vat}", $this->_producthelper->getProductFormattedPrice($rowitem [$i]->product_item_price_excl_vat * $quantity), $cart_mdata);
 
 			//Bengin : Implement VietNam TeamCode
+
 			$a_p_arr = array();
 			$attribute_data = $this->_order_functions->getOrderItemAttributeDetail($rowitem[$i]->order_item_id,0,'attribute',0);
 			$n = 1;
@@ -1690,7 +1672,6 @@ class rsCarthelper
 			}
 
 			//End: Implement VietNam TeamCode
-
 			$subtotal_excl_vat += $rowitem [$i]->product_item_price_excl_vat * $quantity;
 
 			if ($product->product_type == 'subscription')
@@ -1853,16 +1834,13 @@ class rsCarthelper
 				$cart_mdata = str_replace("{download_date_list_lbl}", "", $cart_mdata);
 				$cart_mdata = str_replace("{download_date_list}", "", $cart_mdata);
 			}
-
 			// Process the product plugin for cart item
 			JPluginHelper::importPlugin('redshop_product');
 			$results = $dispatcher->trigger('onOrderItemDisplay', array(& $cart_mdata, &$rowitem, $i));
-
 			$cart .= $cart_mdata;
 		}
 		$returnArr[0] = $cart;
 		$returnArr[1] = $subtotal_excl_vat;
-
 		return $returnArr;
 	}
 
