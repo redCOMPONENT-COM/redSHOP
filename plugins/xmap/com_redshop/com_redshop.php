@@ -22,22 +22,22 @@ require_once JPATH_SITE . '/components/com_redshop/helpers/product.php';
 class Xmap_Com_Redshop
 {
 	/**
-     * This function is called before a menu item is printed. We use it to set the
-     * proper uniqueid for the items
-     *
-     * @param   object  &$node    Menu item to be "prepared"
-     * @param   array   &$params  The extension params
-     *
-     * @return  void
-     */
-	public function prepareMenuItem(&$node, &$params)
+	 * This function is called before a menu item is printed. We use it to set the
+	 * proper uniqueid for the items
+	 *
+	 * @param   object  &$node    Menu item to be "prepared"
+	 * @param   array   &$params  The extension params
+	 *
+	 * @return  void
+	 */
+	static function prepareMenuItem(&$node, &$params)
 	{
 		$link_query = parse_url($node->link);
 
 		parse_str(html_entity_decode($link_query['query']), $link_vars);
 
-		$catid      = self::getParam($link_vars, 'cid', 0);
-		$prodid     = self::getParam($link_vars, 'pid', 0);
+		$catid  = self::getParam($link_vars, 'cid', 0);
+		$prodid = self::getParam($link_vars, 'pid', 0);
 
 		$menu       = JSite::getMenu();
 		$menuparams = $menu->getParams($node->id);
@@ -74,24 +74,21 @@ class Xmap_Com_Redshop
 	 *
 	 * @return  boolean
 	 */
-	public function getTree($xmap, $parent, &$params)
+	static function getTree($xmap, $parent, &$params)
 	{
 		$link_query = parse_url($parent->link);
 		parse_str(html_entity_decode($link_query['query']), $link_vars);
 
-		$view   = self::getParam($link_vars, 'view', '');
-		$layout = self::getParam($link_vars, 'layout', '');
+		$view = self::getParam($link_vars, 'view', '');
 
 		$link_query = parse_url($parent->link);
 		parse_str(html_entity_decode($link_query['query']), $link_vars);
-		$catid  = intval(self::getParam($link_vars, 'cid', 0));
-		$prodid = intval(self::getParam($link_vars, 'pid', 0));
+		$catid = intval(self::getParam($link_vars, 'cid', 0));
 
 		$menu                       = JSite::getMenu();
 		$menuparams                 = $menu->getParams($parent->id);
 		$manid                      = $menuparams->get('manufacturerid');
 		$params['Itemid']           = intval(self::getParam($link_vars, 'Itemid', $parent->id));
-		$page                       = self::getParam($link_vars, 'page', '');
 		$include_products           = self::getParam($params, 'include_products', 1);
 		$include_products           = ($include_products == 1 || ($include_products == 2 && $xmap->view == 'xml') || ($include_products == 3 && $xmap->view == 'html'));
 		$params['include_products'] = $include_products;
@@ -141,16 +138,16 @@ class Xmap_Com_Redshop
 	}
 
 	/**
-     * Get all redSHOP category tree
-     *
-     * @param   object   $xmap     Xmap Data Object
-     * @param   object   $parent   Parent data object array
-     * @param   array    &$params  Xmap Parameter Array
-     * @param   integer  $catid    redSHOP Category Id
-     *
-     * @return  void
-     */
-	public function getCategoryTree($xmap, $parent, &$params, $catid = 0)
+	 * Get all redSHOP category tree
+	 *
+	 * @param   object   $xmap     Xmap Data Object
+	 * @param   object   $parent   Parent data object array
+	 * @param   array    &$params  Xmap Parameter Array
+	 * @param   integer  $catid    redSHOP Category Id
+	 *
+	 * @return  void
+	 */
+	static protected function getCategoryTree($xmap, $parent, &$params, $catid = 0)
 	{
 		$database      = JFactory::getDBO();
 		$objhelper     = new redhelper;
@@ -185,7 +182,7 @@ class Xmap_Com_Redshop
 			}
 
 			$node             = new stdclass;
-			$node->id         = $params['Itemid'];
+			$node->id         = $parent->id;
 			$node->uid        = $parent->uid . 'c' . $row->category_id;
 			$node->browserNav = $parent->browserNav;
 			$node->name       = stripslashes($row->category_name);
@@ -233,7 +230,7 @@ class Xmap_Com_Redshop
 				}
 
 				$node             = new stdclass;
-				$node->id         = $params['Itemid'];
+				$node->id         = $parent->id;
 				$node->uid        = $parent->uid . 'c' . $row->category_id . 'p' . $row->product_id;
 				$node->browserNav = $parent->browserNav;
 				$node->priority   = $params['prod_priority'];
@@ -265,7 +262,7 @@ class Xmap_Com_Redshop
 	 *
 	 * @return  void
 	 */
-	public function getProductTree($xmap, $parent, &$params, $prod = 0, $category = 0, $manid = 0)
+	static protected function getProductTree($xmap, $parent, &$params, $prod = 0, $category = 0, $manid = 0)
 	{
 		$database      = JFactory::getDBO();
 		$objhelper     = new redhelper;
@@ -300,7 +297,7 @@ class Xmap_Com_Redshop
 			}
 
 			$node             = new stdclass;
-			$node->id         = $params['Itemid'];
+			$node->id         = $parent->id;
 			$node->uid        = ($manid > 0) ? $parent->uid . 'm' . $manid . 'p' . $row->product_id : $parent->uid . 'c' . $category . 'p' . $row->product_id;
 			$node->browserNav = $parent->browserNav;
 			$node->priority   = $params['prod_priority'];
@@ -329,7 +326,7 @@ class Xmap_Com_Redshop
 	 *
 	 * @return  void
 	 */
-	public function getManufacturerTree($xmap, $parent, $params, $manid = 0)
+	static protected function getManufacturerTree($xmap, $parent, $params, $manid = 0)
 	{
 		$db = JFactory::getDBO();
 
@@ -372,7 +369,7 @@ class Xmap_Com_Redshop
 		}
 	}
 
-	public function getParam($arr, $name, $def)
+	static protected function getParam($arr, $name, $def)
 	{
 		return JArrayHelper::getValue($arr, $name, $def, '');
 	}
