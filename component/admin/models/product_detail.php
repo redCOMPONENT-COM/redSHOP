@@ -1213,6 +1213,59 @@ class product_detailModelproduct_detail extends JModel
 		return true;
 	}
 
+	function AddProductBonusFromCategories($temp_subscription_applicable_categories)
+	{
+		if(count($temp_subscription_applicable_categories) > 0)
+		{
+			$cids = implode(",", $temp_subscription_applicable_categories);
+			$query = 'SELECT product_id FROM '.$this->_table_prefix.'product_category_xref WHERE category_id IN ( '.$cids.' )';
+			$this->_db->setQuery( $query );
+			$result= $this->_db->loadObjectList();
+			if(count($result) > 0 )
+			{
+				for($i=0;$i<count($result);$i++)
+				{
+					$arr[] =  $result[$i]->product_id;
+				}
+				return $arr;
+			}
+		}
+	}
+
+
+
+	/**
+	 * Function to store redSOP Product Subscriotion Process
+	 *
+	 * @param array $saveData
+	 * @return boolean
+	 */
+	function saveSubscription($saveData)
+	{
+		$subsc = $this->getTable('subscription');
+		if (!$subsc->bind($saveData))
+		{
+			$this->setError($this->_db->getErrorMsg());
+			return false;
+		}
+		if (!$subsc->store())
+		{
+			$this->setError($this->_db->getErrorMsg());
+			return false;
+		}
+		return true;
+	}
+
+	/**
+	 * Function to get Product Subscription Detail
+	 *
+	 */
+	function &getSubsctiption(){
+		$query = $this->_db->setQuery("SELECT * FROM ".$this->_table_prefix."subscription WHERE product_id = '".$this->_id."'");
+		return $this->_db->loadObject();
+	}
+
+
 	public function copy($cid = array())
 	{
 		if (count($cid))
@@ -3896,5 +3949,58 @@ class product_detailModelproduct_detail extends JModel
 			}
 		}
 
+	}
+
+	function removeProduct($product_in_subscripton,$cid)
+	{
+		$query = "SELECT subscription_applicable_products FROM ".$this->_table_prefix."subscription "
+			."WHERE  product_id ='".$cid."'";
+		$this->_db->setQuery($query);
+		$rs = $this->_db->loadResult();
+		$rs = explode("|", $rs);
+		if(count($rs) > 0)
+		{
+			for($i=0;$i<count($rs);$i++)
+			{
+				if($rs[$i] == $product_in_subscripton )
+				{
+					unset($rs[$i]);
+				}
+			}
+			sort($rs);
+			if(count($rs) > 0)
+			{
+				$rs = implode("|", $rs);
+				$q = " UPDATE ".$this->_table_prefix."subscription"
+					." SET subscription_applicable_products='".$rs."' "
+					." WHERE product_id='".$cid."'";
+				$this->_db->setQuery($q);
+				if(!$this->_db->query())
+				{
+					$this->setError($this->_db->getErrorMsg());
+					return false;
+				}
+				else
+				{
+					return true;
+				}
+			}
+			else
+			{
+				$q = " UPDATE ".$this->_table_prefix."subscription"
+					." SET subscription_applicable_products='' "
+					." WHERE product_id='".$cid."'";
+				$this->_db->setQuery($q);
+				if(!$this->_db->query())
+				{
+					$this->setError($this->_db->getErrorMsg());
+					return false;
+				}
+				else
+				{
+					return true;
+				}
+			}
+		}
 	}
 }

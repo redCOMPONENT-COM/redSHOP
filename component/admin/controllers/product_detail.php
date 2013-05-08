@@ -112,6 +112,13 @@ class product_detailController extends JController
 			// Extra Field Data Saved
 			$msg = JText::_('COM_REDSHOP_PRODUCT_DETAIL_SAVED');
 
+			# save Product Subscription
+			if ($post['product_type'] == "newsubscription")
+			{
+				$this->saveSubscription($post, $row);
+			}
+			# End
+
 			if ($container_id != '' || $stockroom_id != '')
 			{
 				?>
@@ -262,6 +269,76 @@ class product_detailController extends JController
 
 		$this->setRedirect('index.php?option=' . $option . '&view=product', $msg);
 	}
+
+
+	function saveSubscription($post, $row)
+	{
+		$model = $this->getModel('product_detail');
+		$subscription = $post['subscription'];
+		$savData = array();
+		$savData['subscription_id'] = ($subscription['subscription_id'] > 0) ? $subscription['subscription_id'] : 0;
+		$savData['product_id'] = $row->product_id;
+		$savData['subscription_period'] = $subscription['subscription_period'];
+		$savData['subscription_period_unit'] = $subscription['subscription_period_unit'];
+		$savData['subscription_period_lifetime'] = $subscription['subscription_period_lifetime'];
+		$subscription_applicable_products = explode(",", $subscription['subscription_applicable_products']);
+		if (count($subscription_applicable_products) > 0)
+		{
+			for ($i = 0; $i < count($subscription_applicable_products); $i++)
+			{
+				if ($subscription_applicable_products[$i] == "")
+				{
+					unset($subscription_applicable_products[$i]);
+					sort($subscription_applicable_products);
+				}
+			}
+		}
+		$savData['subscription_applicable_products'] = implode("|", $subscription_applicable_products);
+		$subscription_applicable_categories = explode(",", $subscription['subscription_applicable_category']);
+		if (count($subscription_applicable_categories) > 0)
+		{
+			for ($j = 0; $j < count($subscription_applicable_categories); $j++)
+			{
+				if ($subscription_applicable_categories[$j] == "")
+				{
+					unset($subscription_applicable_categories[$j]);
+					sort($subscription_applicable_categories);
+				}
+			}
+
+		}
+		$savData['subscription_applicable_categories'] = implode("|", $subscription_applicable_categories);
+		$savData['subscription_applicable_categories'] = explode("|", $savData['subscription_applicable_categories']);
+		$temp_subscription_applicable_categories = array_unique($savData['subscription_applicable_categories']);
+		sort($temp_subscription_applicable_categories);
+		if (count($temp_subscription_applicable_categories) > 0)
+		{
+			$product_id_category = $model->AddProductBonusFromCategories($temp_subscription_applicable_categories);
+			if (count($product_id_category) > 0)
+			{
+				$temp_product_arr = explode("|", $savData['subscription_applicable_products']);
+				$result_product_in_subscription = array_merge($product_id_category, $temp_product_arr);
+				$result_product_in_subscription_unique = array_unique($result_product_in_subscription);
+				sort($result_product_in_subscription_unique);
+				$savData['subscription_applicable_products'] = implode("|", $result_product_in_subscription_unique);
+			}
+		}
+		$savData['joomla_acl_groups'] = implode("|", $subscription['acl_group']);
+		$savData['fallback_joomla_acl_groups'] = implode("|", $subscription['fallback_acl_group']);
+		$savData['shoppergroup'] = $subscription['subs_plan_shopper_group_id'];
+		$savData['fallback_shoppergroup'] = $subscription['fallback_subs_plan_shopper_group_id'];
+		$savData['subscription_applicable_categories'] = "";
+		if ($susc = $model->saveSubscription($savData))
+		{
+			$msg = JText::_('COM_REDSHOP_SUBSCRIPTION');
+		}
+		else
+		{
+			$msg = JText::_('COM_REDSHOP_ERROR_SUBSCRIPTION');
+		}
+		return $msg;
+	}
+
 
 	public function attribute_save($post, $row, $file)
 	{
@@ -961,5 +1038,23 @@ class product_detailController extends JController
 		}
 
 		return true;
+	}
+
+	function removeProduct()
+	{
+		$product_in_subscripton = JRequest::getVar('pids');
+		$cid = JRequest::getVar('cid');
+		$option = JRequest::getVar('option');
+		$model = $this->getModel('product_detail');
+		if ($model->removeProduct($product_in_subscripton, $cid))
+		{
+			$msg = JText::_('COM_REDSHOP_PRODUCT_IN_SUBSCRIPTION_DELETED_SUCCESSFULLY');
+			$this->setRedirect('index.php?option=' . $option . '&view=product_detail&task=edit&cid=' . $cid, $msg);
+		}
+		else
+		{
+			$msg = JText::_('COM_REDSHOP_PRODUCT_IN_SUBSCRIPTION_ERROR_DELETED_SUCCESSFULLY');
+			$this->setRedirect('index.php?option=' . $option . '&view=product_detail&task=edit&&cid=' . $cid, $msg);
+		}
 	}
 }
