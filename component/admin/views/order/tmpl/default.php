@@ -277,27 +277,40 @@ for ($i = 0, $n = count($this->orders); $i < $n; $i++)
 			<?php echo $config->convertDateFormat($row->cdate); ?>
 		</td>
 		<td>
-			<?php echo $producthelper->getProductFormattedPrice($row->order_total);//,false,$row->order_item_currency);//CURRENCY_SYMBOL.number_format($row->order_total,2,PRICE_SEPERATOR,THOUSAND_SEPERATOR); ?>
+			<?php echo $producthelper->getProductFormattedPrice($row->order_total); ?>
 		</td>
-		<td><?php if ($row->invoice_no != '' && $row->is_booked == 0)
+		<td>
+		<?php
+
+			if ($row->invoice_no != '')
 			{
-				if ($row->is_company == 1 && $row->ean_number != "")
+				if ($row->is_booked == 0 && $row->bookinvoice_date <= 0)
 				{
-					echo JText::_('COM_REDSHOP_MANUALY_BOOK_INVOICE_FROM_ECONOMIC');
-				}
-				else
-				{
-					$confirm = 'if(confirm(\'' . JText::_('COM_REDSHOP_CONFIRM_BOOK_INVOICE') . '\')) { document.invoice.order_id.value=\'' . $row->order_id . '\';document.invoice.bookInvoiceDate.value=document.getElementById(\'bookDate' . $i . '\').value;document.invoice.submit(); }';
-					if ($row->order_payment_status == 'Paid' || $row->order_status == 'PR' || $row->order_status == 'C')
+					if ($row->is_company == 1 && $row->ean_number != "")
 					{
-						$confirm = 'document.invoice.order_id.value=\'' . $row->order_id . '\';document.invoice.bookInvoiceDate.value=document.getElementById(\'bookDate' . $i . '\').value;document.invoice.submit();';
+						echo JText::_('COM_REDSHOP_MANUALY_BOOK_INVOICE_FROM_ECONOMIC');
 					}
-					echo JHTML::_('calendar', date('Y-m-d'), 'bookDate' . $i, 'bookDate' . $i, $format = '%Y-%m-%d', array('class' => 'inputbox', 'size' => '15', 'maxlength' => '19'));    ?>
-					<input type="button" class="button" value="<?php echo JText::_("COM_REDSHOP_BOOK_INVOICE"); ?>"
-					       onclick="javascript:<?php echo $confirm; ?>"><br/>
-				<?php
+					else
+					{
+						$confirm = 'if(confirm(\'' . JText::_('COM_REDSHOP_CONFIRM_BOOK_INVOICE') . '\')) { document.invoice.order_id.value=\'' . $row->order_id . '\';document.invoice.bookInvoiceDate.value=document.getElementById(\'bookDate' . $i . '\').value;document.invoice.submit(); }';
+
+						if ($row->order_payment_status == 'Paid' || $row->order_status == 'PR' || $row->order_status == 'C')
+						{
+							$confirm = 'document.invoice.order_id.value=\'' . $row->order_id . '\';document.invoice.bookInvoiceDate.value=document.getElementById(\'bookDate' . $i . '\').value;document.invoice.submit();';
+						}
+
+						echo JHTML::_('calendar', date('Y-m-d'), 'bookDate' . $i, 'bookDate' . $i, $format = '%Y-%m-%d', array('class' => 'inputbox', 'size' => '15', 'maxlength' => '19'));    ?>
+						<input type="button" class="button" value="<?php echo JText::_("COM_REDSHOP_BOOK_INVOICE"); ?>"
+						       onclick="javascript:<?php echo $confirm; ?>"><br/>
+					<?php
+					}
+				}
+				elseif ($row->bookinvoice_date > 0)
+				{
+					echo JText::_('COM_REDSHOP_INVOICE_BOOKED_ON') . "<br />" . $config->convertDateFormat($row->bookinvoice_date);
 				}
 			}
+
 			echo "</td>";
 			$details = explode("|", $shippinghelper->decryptShipping(str_replace(" ", "+", $row->ship_method_id)));
 			if (strstr($details[0], 'default_shipping') && POSTDK_INTEGRATION)
