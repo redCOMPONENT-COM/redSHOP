@@ -37,10 +37,12 @@ class orderModelorder extends JModel
 		$filter_status = $app->getUserStateFromRequest($this->_context . 'filter_status', 'filter_status', '', 'word');
 		$filter_payment_status = $app->getUserStateFromRequest($this->_context . 'filter_payment_status', 'filter_payment_status', '', '');
 		$filter = $app->getUserStateFromRequest($this->_context . 'filter', 'filter', 0);
+		$filter_by = $app->getUserStateFromRequest($this->_context . 'filter_by', 'filter_by', '', '');
 		$limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
 		$this->setState('limit', $limit);
 		$this->setState('limitstart', $limitstart);
 		$this->setState('filter', $filter);
+		$this->setState('filter_by', $filter_by);
 		$this->setState('filter_status', $filter_status);
 		$this->setState('filter_payment_status', $filter_payment_status);
 	}
@@ -84,6 +86,7 @@ class orderModelorder extends JModel
 		$order_id = array();
 
 		$filter = $this->getState('filter');
+		$filter_by = $this->getState('filter_by');
 		$filter_status = $this->getState('filter_status');
 		$filter_payment_status = $this->getState('filter_payment_status');
 		$cid = JRequest::getVar('cid', array(0), 'method', 'array');
@@ -96,6 +99,7 @@ class orderModelorder extends JModel
 		{
 			$where[] = "o.order_status ='" . $filter_status . "'";
 		}
+
 		if ($filter_payment_status)
 		{
 			$where[] = "o.order_payment_status = '" . $filter_payment_status . "'";
@@ -103,9 +107,28 @@ class orderModelorder extends JModel
 
 		if ($filter)
 		{
-			$where[] = "(  uf.firstname like '%" . $filter . "%' OR uf.lastname like '%" . $filter . "%' OR o.order_id like '%"
-				. $filter . "%' OR o.order_number like '%" . $filter . "%' OR o.referral_code like '%" . $filter . "%'  OR uf.user_email like '%"
-				. $filter . "%')";
+			if ($filter_by == 'orderid')
+			{
+				$where[] = "(o.order_id like '%" . $filter . "%')";
+			}
+			else if ($filter_by == 'ordernumber')
+			{
+				$where[] = "(o.order_number like '%" . $filter . "%')";
+			}
+			else if ($filter_by == 'fullname')
+			{
+				$where[] = "(  uf.firstname like '%" . $filter . "%' OR uf.lastname like '%" . $filter . "%')";
+			}
+			else if ($filter_by == 'useremail')
+			{
+				$where[] = "(uf.user_email like '%" . $filter . "%')";
+			}
+			else // $filter_by == 'all'
+			{
+				$where[] = "(  uf.firstname like '%" . $filter . "%' OR uf.lastname like '%" . $filter . "%' OR o.order_id like '%"
+					. $filter . "%' OR o.order_number like '%" . $filter . "%' OR o.referral_code like '%" . $filter . "%'  OR uf.user_email like '%"
+					. $filter . "%')";
+			}
 		}
 
 		if ($cid[0] != 0)
@@ -120,7 +143,7 @@ class orderModelorder extends JModel
 		{
 			$where = " order_label_create=1 ";
 		}
-		$query = 'SELECT o.*,uf.lastname, uf.firstname, uf.is_company, uf.company_name,uf.ean_number FROM ' . $this->_table_prefix . 'orders AS o '
+		$query = 'SELECT o.*,uf.lastname, uf.firstname, uf.user_email, uf.is_company, uf.company_name,uf.ean_number FROM ' . $this->_table_prefix . 'orders AS o '
 			. 'LEFT JOIN ' . $this->_table_prefix . 'order_users_info AS uf ON o.user_id=uf.user_id '
 			. 'WHERE uf.address_type LIKE "BT" '
 			. 'AND ' . $where . ' '

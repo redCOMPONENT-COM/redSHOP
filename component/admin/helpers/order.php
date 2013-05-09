@@ -574,6 +574,19 @@ class order_functions
 		return $mylist['statuslist'];
 	}
 
+	public function getFilterbyList($name = 'filterbylist', $selected = 'all', $attributes = ' class="inputbox" size="1" ')
+	{
+		$filterbylist = array('orderid' => 'Order ID', 'ordernumber' => 'Order Number', 'fullname' => 'Full Name', 'useremail' => 'User Email');
+
+		$types[] = JHTML::_('select.option', '', 'All');
+		$types = array_merge($types, $filterbylist);
+
+		$tot_status = @explode(",", $selected);
+		$mylist['filterbylist'] = JHTML::_('select.genericlist', $types, $name, $attributes, 'value', 'text', $tot_status);
+
+		return $mylist['filterbylist'];
+	}
+
 	public function getCustomOrderStatus($field)
 	{
 		if ($field == "shipping")
