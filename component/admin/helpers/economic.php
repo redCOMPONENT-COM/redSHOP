@@ -1189,7 +1189,7 @@ class economic
 			. 'SET invoice_no="' . $invoice_no . '" '
 			. 'WHERE order_id="' . $order_id . '" ';
 		$this->_db->setQuery($query);
-		$this->_db->Query($query);
+		$this->_db->Query();
 	}
 
 	public function updateBookInvoice($order_id = 0)
@@ -1198,7 +1198,7 @@ class economic
 			. 'SET is_booked="1" '
 			. 'WHERE order_id="' . $order_id . '" ';
 		$this->_db->setQuery($query);
-		$this->_db->Query($query);
+		$this->_db->Query();
 	}
 
 	public function updateBookInvoiceNumber($order_id = 0, $bookinvoice_number = 0)
@@ -1207,7 +1207,7 @@ class economic
 			. 'SET bookinvoice_number="' . $bookinvoice_number . '" '
 			. 'WHERE order_id="' . $order_id . '" ';
 		$this->_db->setQuery($query);
-		$this->_db->Query($query);
+		$this->_db->Query();
 	}
 
 	public function getProductByNumber($product_number = '')
