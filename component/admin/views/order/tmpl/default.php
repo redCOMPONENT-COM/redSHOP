@@ -31,16 +31,21 @@ JPluginHelper::importPlugin('redshop_product');
 
 ?>
 <script language="javascript" type="text/javascript">
-	Joomla.submitbutton = function (pressbutton) {
+	Joomla.submitbutton = function (pressbutton)
+	{
 		submitbutton(pressbutton);
 	}
-	submitbutton = function (pressbutton) {
+
+	submitbutton = function (pressbutton)
+	{
 		var form = document.adminForm;
-		if (pressbutton) {
+		if (pressbutton)
+		{
 			form.task.value = pressbutton;
 		}
 
-		if (pressbutton == 'add') {
+		if (pressbutton == 'add')
+		{
 			<?php      $link = 'index.php?option=' . $option . '&view=addorder_detail';
 			   $link = $redhelper->sslLink($link);
 		?>
@@ -68,25 +73,35 @@ JPluginHelper::importPlugin('redshop_product');
 
 		form.submit();
 	}
+
+	resetfilter = function()
+	{
+		document.getElementById('filter').value='';
+		document.getElementById('filter_by').value='';
+		document.adminForm.submit();
+	}
 </script>
 
-<form action="<?php echo JRoute::_('index.php?option=' . $option . '&view=order'); ?>" method="post" name="adminForm"
-      id="adminForm">
+<form action="<?php echo JRoute::_('index.php?option=' . $option . '&view=order'); ?>" method="post" name="adminForm" id="adminForm">
 <div id="editcell">
 <table class="adminlist" width="100%">
 	<tr>
 		<td><?php echo JText::_('COM_REDSHOP_NEW_STATUS'); ?>
-			: <?php echo $order_function->getstatuslist('order_status_all', '', "class=\"inputbox\" size=\"1\" "); ?> </td>
-		<td valign="top" align="right" class="key">
+			: <?php echo $order_function->getstatuslist('order_status_all', '', "class=\"inputbox\" size=\"1\" "); ?>
+		</td>
 
+		<td>
 			<?php echo JText::_('COM_REDSHOP_FILTER'); ?>:
-			<input type="text" name="filter" id="filter" value="<?php echo $filter; ?>"
-			       onchange="document.adminForm.submit();">
+			<input type="text" name="filter" id="filter" value="<?php echo $filter; ?>"/>
+			<?php echo $lists['filter_by'];?>
+			<button name="search" id="search" onclick="document.adminForm.submit();" style="font-size:0.909em">
+				<?php echo JText::_('COM_REDSHOP_SEARCH');?>
+			</button>
+			<input type="button" onclick="resetfilter();" value="<?php echo JText::_('COM_REDSHOP_RESET');?>"/>
+		</td>
+
+		<td valign="bottom" align="right" class="key">
 			<?php echo $lists['filter_payment_status'] . " " . $lists['filter_status']; ?>
-
-			<button
-				onclick="document.getElementById('filter').value='';document.getElementById('filter_status').value='0';document.getElementById('filter_payment_status').value='';this.form.submit();"><?php echo JText::_('COM_REDSHOP_RESET'); ?></button>
-
 		</td>
 	</tr>
 </table>
@@ -111,10 +126,13 @@ JPluginHelper::importPlugin('redshop_product');
 			<?php echo  JHTML::_('grid.sort', 'COM_REDSHOP_BOOKINVOICE_NUMBER', 'bookinvoice_number', $this->lists['order_Dir'], $this->lists['order']); ?>
 		</th>
 	<?php } ?>
-	<th width="15%">
+	<th width="10%">
 		<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_FULLNAME', 'uf.firstname', $this->lists['order_Dir'], $this->lists['order']); ?>
 	</th>
-	<th width="31%">
+	<th width="10%">
+		<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_USER_EMAIL', 'uf.user_email', $this->lists['order_Dir'], $this->lists['order']); ?>
+	</th>
+	<th width="28%">
 		<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_ORDER_STATUS', 'order_status', $this->lists['order_Dir'], $this->lists['order']); ?>
 	</th>
 	<?php if (USE_STOCKROOM == 1)
@@ -186,6 +204,9 @@ for ($i = 0, $n = count($this->orders); $i < $n; $i++)
 			echo ($row->is_company && $row->company_name != "") ? "<br />" . $row->company_name : ""; ?>
 		</td>
 		<td>
+			<?php echo $row->user_email; ?>
+		</td>
+		<td>
 			<table cellpadding="0" cellspacing="0" border="0">
 				<tr>
 					<td>
@@ -230,19 +251,19 @@ for ($i = 0, $n = count($this->orders); $i < $n; $i++)
 				<?php $order_items = $order_function->getOrderItemDetail($row->order_id);
 
 				$stockroom_id = "";
+
 				for ($st = 0; $st < count($order_items); $st++)
 				{
 					if ($order_items[$st]->stockroom_id != "")
 					{
 						$stockroom_id .= $order_items[$st]->stockroom_id . ",";
 					}
-
 				}
 
 				if ($stockroom_id != "")
 				{
-
 					$stockroom_list = $stockroomhelper->getStockroom(substr_replace($stockroom_id, "", -1));
+
 					for ($s = 0; $s < count($stockroom_list); $s++)
 					{
 						echo $stockroom_list[$s]->stockroom_name;
@@ -330,7 +351,6 @@ for ($i = 0, $n = count($this->orders); $i < $n; $i++)
 </table>
 </div>
 
-
 <input type="hidden" name="return" value="order"/>
 <input type="hidden" name="view" value="order"/>
 <input type="hidden" name="task" value=""/>
@@ -347,6 +367,7 @@ for ($i = 0, $n = count($this->orders); $i < $n; $i++)
 	<input name="task" value="bookInvoice" type="hidden">
 	<input name="bookInvoiceDate" value="" type="hidden">
 </form>
+
 <form name='parcelFrm' method="post">
 	<input name="specifiedSendDate" value="" type="hidden">
 	<input name="view" value="order" type="hidden">

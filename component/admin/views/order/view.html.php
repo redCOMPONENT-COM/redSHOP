@@ -54,6 +54,7 @@ class orderVieworder extends JView
 
 		$filter_order          = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', ' o.order_id ');
 		$filter_order_Dir      = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', 'DESC');
+		$filter_by             = $app->getUserStateFromRequest($context . 'filter_by', 'filter_by', '', '');
 		$filter_status         = $app->getUserStateFromRequest($context . 'filter_status', 'filter_status', '', 'word');
 		$filter_payment_status = $app->getUserStateFromRequest($context . 'filter_payment_status', 'filter_payment_status', '', '');
 
@@ -63,6 +64,8 @@ class orderVieworder extends JView
 		$orders     = $this->get('Data');
 		$total      = $this->get('Total');
 		$pagination = $this->get('Pagination');
+
+		$lists['filter_by'] = $order_function->getFilterbyList('filter_by', $filter_by, 'class="inputbox" size="1"');
 
 		$lists['filter_status'] = $order_function->getstatuslist('filter_status', $filter_status,
 			'class="inputbox" size="1" onchange="document.adminForm.submit();"'
