@@ -1,23 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metadata>
-    <layout title="COM_REDSHOP_Standard_Login_Layout">
+    <layout title="COM_REDSHOP_STANDARD_LOGIN_LAYOUT">
         <message>
-            <![CDATA[Standard Login Layout For Redshop User]]>
+            <![CDATA[COM_REDSHOP_STANDARD_LOGIN_LAYOUT_DESC]]>
         </message>
     </layout>
-    <state>
-        <name>Standard Login</name>
-        <description>COM_REDSHOP_Standard_Login_Layout_For_Redshop_User</description>
-        <config>
-            <fields name="params">
-                <fieldset name="basic">
-                    <field name="login" type="menuitem" default="" disable="separator"
+
+    <fields name="params">
+        <fieldset name="basic">
+            <field name="login" type="menuitem" default="" disable="separator"
                            label="COM_REDSHOP_LOGIN_REDIRECTION_PAGE" description="COM_REDSHOP_PARAMLOGINREDIRECTURL"/>
-                    <field name="logout" type="menuitem" default="" disable="separator"
+            <field name="logout" type="menuitem" default="" disable="separator"
                            label="COM_REDSHOP_LOGOUT_REDIRECTION_PAGE"
                            description="COM_REDSHOP_PARAMLOGOUTREDIRECTURL"/>
-                </fieldset>
-            </fields>
-        </config>
-    </state>
+        </fieldset>
+    </fields>
 </metadata>

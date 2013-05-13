@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metadata>
-    <layout title="Standard Product Compare Layout">
+    <layout title="COM_REDSHOP_STANDARD_PRODUCT_COMPARE_LAYOUT">
         <message>
-            <![CDATA[Standard Product Compare Layout For Redshop Product Compare]]>
+            <![CDATA[COM_REDSHOP_STANDARD_PRODUCT_COMPARE_LAYOUT_DESC]]>
         </message>
     </layout>
-    <state>
-        <name>Product Compare</name>
-        <description>Standard Product Compare layout for redSHOP Product Compare</description>
-    </state>
 </metadata>
  
