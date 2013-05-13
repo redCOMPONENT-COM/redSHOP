@@ -1,12 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metadata>
-    <layout title="COM_REDSHOP_Standard_Token_Layout">
+    <layout title="COM_REDSHOP_STANDARD_TOKEN_LAYOUT">
         <message>
-            <![CDATA[Standard Token Layout For Redshop]]>
+            <![CDATA[COM_REDSHOP_STANDARD_TOKEN_LAYOUT_DESC]]>
         </message>
     </layout>
-    <state>
-        <name>Standard Token</name>
-        <description>COM_REDSHOP_Standard_Token_Layout_For_Redshop</description>
-    </state>
 </metadata>
