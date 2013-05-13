@@ -2163,6 +2163,12 @@ class rsCarthelper
 		if (key_exists('shipping', $cart) && $view != 'cart')
 		{
 			$shipping    = $cart['shipping'];
+
+			if (!isset($cart['shipping_vat']))
+			{
+				$cart['shipping_vat'] = 0;
+			}
+
 			$shippingVat = $cart['shipping_vat'];
 		}
 
@@ -3079,6 +3085,11 @@ class rsCarthelper
 
 				// Attribute price
 				$price = 0;
+
+				if (!isset($cartArr['quotation']))
+				{
+					$cartArr['quotation'] = 0;
+				}
 
 				if (DEFAULT_QUOTATION_MODE || $cartArr['quotation'] == 1)
 				{

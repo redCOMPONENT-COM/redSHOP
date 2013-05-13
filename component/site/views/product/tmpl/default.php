@@ -16,7 +16,6 @@ $url             = JURI::base();
 $u               = JURI::getInstance();
 $Scheme          = $u->getScheme();
 
-$option          = JRequest::getVar('option');
 $Itemid          = JRequest::getVar('Itemid');
 $print           = JRequest::getVar('print');
 $model           = $this->getModel('product');
@@ -102,7 +101,7 @@ if (strstr($template_desc, '{returntocategory_link}') || strstr($template_desc, 
 
 	if ($this->data->category_id)
 	{
-		$returncatlink    = JRoute::_('index.php?option=' . $option . '&view=category&layout=detail&cid=' . $this->data->category_id . '&Itemid=' . $Itemid);
+		$returncatlink    = JRoute::_('index.php?option=com_redshop&view=category&layout=detail&cid=' . $this->data->category_id . '&Itemid=' . $Itemid);
 		$returntocategory = '<a href="' . $returncatlink . '">' . DAFULT_RETURN_TO_CATEGORY_PREFIX . " " . $this->data->category_name . '</a>';
 	}
 
@@ -121,7 +120,7 @@ if (strstr($template_desc, '{navigation_link_right}') || strstr($template_desc, 
 
 	if (count($nextproducts) > 0)
 	{
-		$nextlink = JRoute::_('index.php?option=' . $option . '&view=product&pid=' . $nextproducts->product_id . '&cid=' . $this->data->category_id . '&Itemid=' . $Itemid);
+		$nextlink = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $nextproducts->product_id . '&cid=' . $this->data->category_id . '&Itemid=' . $Itemid);
 
 		if (DEFAULT_LINK_FIND == 0)
 		{
@@ -142,7 +141,7 @@ if (strstr($template_desc, '{navigation_link_right}') || strstr($template_desc, 
 
 	if (count($previousproducts) > 0)
 	{
-		$prevlink = JRoute::_('index.php?option=' . $option . '&view=product&pid=' . $previousproducts->product_id . '&cid=' . $this->data->category_id . '&Itemid=' . $Itemid);
+		$prevlink = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $previousproducts->product_id . '&cid=' . $this->data->category_id . '&Itemid=' . $Itemid);
 
 		if (DEFAULT_LINK_FIND == 0)
 		{
@@ -382,8 +381,8 @@ $template_desc = $producthelper->getProductOnSaleComment($this->data, $template_
  */
 $template_desc = $producthelper->getSpecialProductComment($this->data, $template_desc);
 
-$manufacturerLink = "<a href='" . JRoute::_('index.php?option=' . $option . '&view=manufacturers&layout=detail&mid=' . $this->data->manufacturer_id . '&Itemid=' . $Itemid) . "'>" . JText::_("COM_REDSHOP_VIEW_MANUFACTURER") . "</a>";
-$manufacturerPLink = "<a href='" . JRoute::_('index.php?option=' . $option . '&view=manufacturers&layout=products&mid=' . $this->data->manufacturer_id . '&Itemid=' . $Itemid) . "'>" . JText::_("COM_REDSHOP_VIEW_ALL_MANUFACTURER_PRODUCTS") . " " . $this->data->manufacturer_name . "</a>";
+$manufacturerLink = "<a href='" . JRoute::_('index.php?option=com_redshop&view=manufacturers&layout=detail&mid=' . $this->data->manufacturer_id . '&Itemid=' . $Itemid) . "'>" . JText::_("COM_REDSHOP_VIEW_MANUFACTURER") . "</a>";
+$manufacturerPLink = "<a href='" . JRoute::_('index.php?option=com_redshop&view=manufacturers&layout=products&mid=' . $this->data->manufacturer_id . '&Itemid=' . $Itemid) . "'>" . JText::_("COM_REDSHOP_VIEW_ALL_MANUFACTURER_PRODUCTS") . " " . $this->data->manufacturer_name . "</a>";
 $template_desc = str_replace("{manufacturer_link}", $manufacturerLink, $template_desc);
 $template_desc = str_replace("{manufacturer_product_link}", $manufacturerPLink, $template_desc);
 $template_desc = str_replace("{manufacturer_name}", $this->data->manufacturer_name, $template_desc);
@@ -560,7 +559,7 @@ if (strstr($template_desc, "{wrapper_template:"))
 				{
 					$wrapperimage_div .= "
 					<a onclick='setWrapper($wid,$wp,$wp_withoutvat,\"" . $this->data->product_id . "\");'>
-					<img src='" . $url . "/components/$option/helpers/thumb.php?filename=wrapper/" . $wrapper [$i]->wrapper_image . "&newxsize=" . DEFAULT_WRAPPER_THUMB_WIDTH . "&newysize=" . DEFAULT_WRAPPER_THUMB_HEIGHT . "&swap=" . USE_IMAGE_SIZE_SWAPPING . "' " . $title . $alt . " /></a>";
+					<img src='" . $url . "/components/com_redshop/helpers/thumb.php?filename=wrapper/" . $wrapper [$i]->wrapper_image . "&newxsize=" . DEFAULT_WRAPPER_THUMB_WIDTH . "&newysize=" . DEFAULT_WRAPPER_THUMB_HEIGHT . "&swap=" . USE_IMAGE_SIZE_SWAPPING . "' " . $title . $alt . " /></a>";
 				}
 
 				if (strstr($wrappertemplate_data, "{wrapper_price}"))
@@ -652,7 +651,7 @@ if (strstr($template_desc, "{navigator_products}"))
 			$frmChild .= "<div class='product_child_product_list'>" . $lists ['product_child_id'] . "</div>";
 			$frmChild .= "<input type='hidden' name='view' value='product'>";
 			$frmChild .= "<input type='hidden' name='task' value='gotonavproduct'>";
-			$frmChild .= "<input type='hidden' name='option' value='" . $option . "'>";
+			$frmChild .= "<input type='hidden' name='option' value='com_redshop'>";
 			$frmChild .= "<input type='hidden' name='Itemid' value='" . $Itemid . "'>";
 			$frmChild .= "</form>";
 		}
@@ -723,7 +722,7 @@ if (strstr($template_desc, "{child_products}"))
 			$frmChild .= "<div class='product_child_product'>" . JText::_('COM_REDSHOP_CHILD_PRODUCTS') . "</div><div class='product_child_product_list'>" . $lists ['product_child_id'] . "</div>";
 			$frmChild .= "<input type='hidden' name='view' value='product'>";
 			$frmChild .= "<input type='hidden' name='task' value='gotochild'>";
-			$frmChild .= "<input type='hidden' name='option' value='" . $option . "'>";
+			$frmChild .= "<input type='hidden' name='option' value='com_redshop'>";
 			$frmChild .= "<input type='hidden' name='Itemid' value='" . $Itemid . "'>";
 			$frmChild .= "</form>";
 		}
@@ -944,9 +943,9 @@ if (strstr($template_desc, $mpimg_tag))
 						if (WATERMARK_PRODUCT_THUMB_IMAGE)
 							$img_path_org = $redhelper->watermark('product', $thumb_original, $pw_thumb, $ph_thumb, WATERMARK_PRODUCT_THUMB_IMAGE, '0');
 						else
-							$img_path_org = $url . "components/" . $option . "/helpers/thumb.php?filename=product/" . $thumb_original . "&newxsize=" . $pw_thumb . "&newysize=" . $ph_thumb . "&swap=" . USE_IMAGE_SIZE_SWAPPING;
-						$hovermore_org         = $url . "components/" . $option . "/helpers/thumb.php?filename=product/" . $thumb_original . "&newxsize=" . $pw_thumb . "&newysize=" . $ph_thumb . "&swap=" . USE_IMAGE_SIZE_SWAPPING;
-						$oimg_path             = $url . "components/" . $option . "/helpers/thumb.php?filename=product/" . $thumb . "&newxsize=" . $mpw_thumb . "&newysize=" . $mph_thumb . "&swap=" . USE_IMAGE_SIZE_SWAPPING;
+							$img_path_org = $url . "components/com_redshop/helpers/thumb.php?filename=product/" . $thumb_original . "&newxsize=" . $pw_thumb . "&newysize=" . $ph_thumb . "&swap=" . USE_IMAGE_SIZE_SWAPPING;
+						$hovermore_org         = $url . "components/com_redshop/helpers/thumb.php?filename=product/" . $thumb_original . "&newxsize=" . $pw_thumb . "&newysize=" . $ph_thumb . "&swap=" . USE_IMAGE_SIZE_SWAPPING;
+						$oimg_path             = $url . "components/com_redshop/helpers/thumb.php?filename=product/" . $thumb . "&newxsize=" . $mpw_thumb . "&newysize=" . $mph_thumb . "&swap=" . USE_IMAGE_SIZE_SWAPPING;
 						$more_images_div_start = "<div class='additional_image' onmouseover='display_image(\"" . $img_path . "\"," . $this->data->product_id . ",\"" . $hovermore_images . "\");' onmouseout='display_image_out(\"" . $img_path_org . "\"," . $this->data->product_id . ",\"" . $img_path_org . "\");'>";
 						$more_images_div_end   = "</div>";
 						$more_images .= $more_images_div_start;
@@ -988,7 +987,7 @@ if (strstr($template_desc, "{more_documents}"))
 
 		if (is_file(REDSHOP_FRONT_DOCUMENT_RELPATH . "product/" . $media_documents[$m]->media_name))
 		{
-			$downlink = JUri::root() . 'index.php?tmpl=component&option=' . $option . '&view=product&pid=' . $this->data->product_id . '&task=downloadDocument&fname=' . $media_documents[$m]->media_name . '&Itemid=' . $Itemid;
+			$downlink = JUri::root() . 'index.php?tmpl=component&option=com_redshop&view=product&pid=' . $this->data->product_id . '&task=downloadDocument&fname=' . $media_documents[$m]->media_name . '&Itemid=' . $Itemid;
 			$more_doc .= "<div><a href='" . $downlink . "' title='" . $alttext . "'>";
 			$more_doc .= $alttext;
 			$more_doc .= "</a></div>";
@@ -1001,7 +1000,7 @@ if (strstr($template_desc, "{more_documents}"))
 // More documents end
 
 $hidden_thumb_image = "<input type='hidden' name='prd_main_imgwidth' id='prd_main_imgwidth' value='" . $pw_thumb . "'><input type='hidden' name='prd_main_imgheight' id='prd_main_imgheight' value='" . $ph_thumb . "'>";
-$link = JRoute::_('index.php?option=' . $option . '&view=product&pid=' . $this->data->product_id);
+$link = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $this->data->product_id);
 
 if (count($preselectedresult) > 0)
 {
@@ -1226,7 +1225,7 @@ if ($user->id)
 	// Write Review link with the products
 	if (strstr($template_desc, "{form_rating_without_lightbox}"))
 	{
-		$reviewlink    = JURI::root() . 'index.php?option=' . $option . '&view=product_rating&rate=1&product_id=' . $this->data->product_id . '&category_id=' . $this->data->category_id . '&Itemid=' . $Itemid;
+		$reviewlink    = JURI::root() . 'index.php?option=com_redshop&view=product_rating&rate=1&product_id=' . $this->data->product_id . '&category_id=' . $this->data->category_id . '&Itemid=' . $Itemid;
 		$reviewform    = '<a href="' . $reviewlink . '">' . JText::_('WRITE_REVIEW') . '</a>';
 		$template_desc = str_replace("{form_rating_without_lightbox}", $reviewform, $template_desc);
 	}
@@ -1235,7 +1234,7 @@ if ($user->id)
 	{
 		$reviewlink    = "";
 		$reviewform    = "";
-		$reviewlink    = JURI::root() . 'index.php?option=' . $option . '&view=product_rating&tmpl=component&product_id=' . $this->data->product_id . '&category_id=' . $this->data->category_id . '&Itemid=' . $Itemid;
+		$reviewlink    = JURI::root() . 'index.php?option=com_redshop&view=product_rating&tmpl=component&product_id=' . $this->data->product_id . '&category_id=' . $this->data->category_id . '&Itemid=' . $Itemid;
 		$reviewform    = '<a class="redbox" rel="{handler:\'iframe\',size:{x:620,y:420}}" href="' . $reviewlink . '">' . JText::_('COM_REDSHOP_WRITE_REVIEW') . '</a>';
 		$template_desc = str_replace("{form_rating}", $reviewform, $template_desc);
 	}
@@ -1511,14 +1510,14 @@ if (strstr($template_desc, "{product_rating}"))
 }
 
 // Send to friend
-$rlink = JURI::root() . 'index.php?option=' . $option . '&view=send_friend&pid=' . $this->data->product_id . '&tmpl=component&Itemid=' . $Itemid;
+$rlink = JURI::root() . 'index.php?option=com_redshop&view=send_friend&pid=' . $this->data->product_id . '&tmpl=component&Itemid=' . $Itemid;
 $send_friend_link = '<a class="redcolorproductimg" href="' . $rlink . '" >' . JText::_('COM_REDSHOP_SEND_FRIEND') . '</a>';
 $template_desc = str_replace("{send_to_friend}", $send_friend_link, $template_desc);
 
 // Ask question about this product
 if (strstr($template_desc, "{ask_question_about_product}"))
 {
-	$asklink           = JURI::root() . 'index.php?option=' . $option . '&view=ask_question&pid=' . $this->data->product_id . '&tmpl=component&Itemid=' . $Itemid;
+	$asklink           = JURI::root() . 'index.php?option=com_redshop&view=ask_question&pid=' . $this->data->product_id . '&tmpl=component&Itemid=' . $Itemid;
 	$ask_question_link = '<a class="redbox" rel="{handler:\'iframe\',size:{x:500,y:280}}" href="' . $asklink . '" >' . JText::_('COM_REDSHOP_ASK_QUESTION_ABOUT_PRODUCT') . '</a>';
 	$template_desc     = str_replace("{ask_question_about_product}", $ask_question_link, $template_desc);
 }
