@@ -1,12 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metadata>
-    <layout title="COM_REDSHOP_Mywishlist">
+    <layout title="COM_REDSHOP_CREATE_WISH_LIST_LAYOUT">
         <message>
-            <![CDATA[Mywishlist Layout For Redshop Mywishlists]]>
+            <![CDATA[COM_REDSHOP_CREATE_WISH_LIST_LAYOUT_DESC]]>
         </message>
     </layout>
-    <state>
-        <name>Mywishlist</name>
-        <description>COM_REDSHOP_Mywishlist_Layout_to_view_Wishlist</description>
-    </state>
 </metadata>

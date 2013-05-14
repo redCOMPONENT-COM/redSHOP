@@ -2,20 +2,15 @@
 <metadata>
     <layout title="COM_REDSHOP_STANDARD_REGISTRATION_LAYOUT">
         <message>
-            <![CDATA[Standard Registration Layout For Redshop User to Register]]>
+            <![CDATA[COM_REDSHOP_STANDARD_REGISTRATION_LAYOUT_DESC]]>
         </message>
     </layout>
-    <state>
-        <name>Standard Registration</name>
-        <description>COM_REDSHOP_STANDARD_REGISTRATION_LAYOUT_FOR_REDSHOP_USER_TO_REGISTER</description>
-        <config>
-            <fields name="params">
-                <fieldset name="basic">
-                    <field name="registrationredirect" type="menuitem" default="" disable="separator"
+
+    <fields name="params">
+        <fieldset name="basic">
+            <field name="registrationredirect" type="menuitem" default="" disable="separator"
                            label="COM_REDSHOP_REGISTRATION_REDIRECTION_PAGE"
                            description="COM_REDSHOP_REGISTRATION_REDIRECTION_PAGE_DESC"/>
-                </fieldset>
-            </fields>
-        </config>
-    </state>
+        </fieldset>
+    </fields>
 </metadata>
