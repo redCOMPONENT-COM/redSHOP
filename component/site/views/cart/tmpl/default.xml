@@ -1,12 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metadata>
-    <layout title="COM_REDSHOP_Cart_Layout">
+    <layout title="COM_REDSHOP_CART_LAYOUT">
         <message>
-            <![CDATA[Cart Layout For Redshop Cart Information]]>
+            <![CDATA[COM_REDSHOP_CART_LAYOUT_DESC]]>
         </message>
     </layout>
-    <state>
-        <name>Cart Information</name>
-        <description>COM_REDSHOP_Cart_Layout_For_Redshop_Cart_Information</description>
-    </state>
 </metadata>

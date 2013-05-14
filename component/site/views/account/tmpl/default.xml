@@ -2,9 +2,10 @@
 <metadata>
     <layout title="COM_REDSHOP_ACCOUNT_LAYOUT">
         <message>
-            <![CDATA[Account Layout For Redshop Account Information]]>
+            <![CDATA[COM_REDSHOP_ACCOUNT_LAYOUT_DESC]]>
         </message>
     </layout>
+
     <fields name="request">
         <fieldset name="request">
             <field name="logout" type="menuitem"
@@ -14,5 +15,4 @@
                     />
         </fieldset>
     </fields>
-
 </metadata>

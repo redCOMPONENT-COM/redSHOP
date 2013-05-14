@@ -1,24 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metadata>
-    <layout title="COM_REDSHOP_Standard_Product_On_Sale_Layout">
+    <layout title="COM_REDSHOP_STANDARD_PRODUCT_ON_SALE_LAYOUT">
         <message>
-            <![CDATA[Standard Product On Sale Layout For Redshop Search]]>
+            <![CDATA[COM_REDSHOP_STANDARD_PRODUCT_ON_SALE_LAYOUT_DESC]]>
         </message>
     </layout>
-    <state>
-        <name>Standard Product On Sale</name>
-        <description>COM_REDSHOP_Standard_Product_On_Sale_Layout_For_Redshop_Search</description>
-        <fields name="params" addfieldpath="/administrator/components/com_redshop/elements">
-            <fieldset name="basic">
-                <field name="template_id" type="template" default="0" label="COM_REDSHOP_Select_Template"
-                       description="COM_REDSHOP_Search_result_dispaly_in_selected_category_template"/>
-                <field name="categorytemplate" type="category" default="0"
-                       label="COM_REDSHOP_Enter_Category_Id_For_Templet"
-                       description="COM_REDSHOP_Category_id_for_newest_product_search_Template"/>
-                <field name="productlimit" type="text" size="4" default="" label="COM_REDSHOP_How_Many_products_To_Show"
-                       description="COM_REDSHOP_Enter_No_of_Amount_How_Many_products_To_Show"/>
-            </fieldset>
-        </fields>
-    </state>
+
+    <fields name="params" addfieldpath="/administrator/components/com_redshop/elements">
+        <fieldset name="basic">
+            <field name="template_id" type="template" default="0" label="COM_REDSHOP_SELECT_TEMPLATE"
+                       description="COM_REDSHOP_SEARCH_RESULT_DISPALY_IN_SELECTED_CATEGORY_TEMPLATE"/>
+            <field name="categorytemplate" type="category" default="0"
+                       label="COM_REDSHOP_ENTER_CATEGORY_ID_FOR_TEMPLET"
+                       description="COM_REDSHOP_CATEGORY_ID_FOR_NEWEST_PRODUCT_SEARCH_TEMPLATE"/>
+            <field name="productlimit" type="text" size="4" default="" label="COM_REDSHOP_HOW_MANY_PRODUCTS_TO_SHOW"
+                       description="COM_REDSHOP_ENTER_NO_OF_AMOUNT_HOW_MANY_PRODUCTS_TO_SHOW"/>
+        </fieldset>
+    </fields>
 </metadata>
 
