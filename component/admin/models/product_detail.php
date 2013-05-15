@@ -1213,7 +1213,7 @@ class product_detailModelproduct_detail extends JModel
 		return true;
 	}
 
-	function AddProductBonusFromCategories($temp_subscription_applicable_categories)
+	public function AddProductBonusFromCategories($temp_subscription_applicable_categories)
 	{
 		if(count($temp_subscription_applicable_categories) > 0)
 		{
@@ -1233,14 +1233,7 @@ class product_detailModelproduct_detail extends JModel
 	}
 
 
-
-	/**
-	 * Function to store redSOP Product Subscriotion Process
-	 *
-	 * @param array $saveData
-	 * @return boolean
-	 */
-	function saveSubscription($saveData)
+	public function saveSubscription($saveData)
 	{
 		$subsc = $this->getTable('subscription');
 		if (!$subsc->bind($saveData))
@@ -1256,11 +1249,8 @@ class product_detailModelproduct_detail extends JModel
 		return true;
 	}
 
-	/**
-	 * Function to get Product Subscription Detail
-	 *
-	 */
-	function &getSubsctiption(){
+
+	public function &getSubsctiption(){
 		$query = $this->_db->setQuery("SELECT * FROM ".$this->_table_prefix."subscription WHERE product_id = '".$this->_id."'");
 		return $this->_db->loadObject();
 	}
@@ -3951,10 +3941,12 @@ class product_detailModelproduct_detail extends JModel
 
 	}
 
-	function removeProduct($product_in_subscripton,$cid)
+	public function removeProduct($product_in_subscripton,$cid)
 	{
-		$query = "SELECT subscription_applicable_products FROM ".$this->_table_prefix."subscription "
-			."WHERE  product_id ='".$cid."'";
+		$query= $this->_db->getQuery(true);
+		$query->select('subscription_applicable_products');
+		$query->from($this->_table_prefix.'subscription');
+		$query->where('product_id = '.$cid);
 		$this->_db->setQuery($query);
 		$rs = $this->_db->loadResult();
 		$rs = explode("|", $rs);
@@ -3971,9 +3963,12 @@ class product_detailModelproduct_detail extends JModel
 			if(count($rs) > 0)
 			{
 				$rs = implode("|", $rs);
-				$q = " UPDATE ".$this->_table_prefix."subscription"
-					." SET subscription_applicable_products='".$rs."' "
-					." WHERE product_id='".$cid."'";
+				$q = $this->_db->getQuery(true);
+				// Fields to update.
+				$fields = array("subscription_applicable_products='".$rs."' ");
+				// Conditions for which records should be updated.
+				$conditions = array("product_id = '".$cid."'");
+				$q->update($this->_db->quoteName($this->_table_prefix.'subscription'))->set($fields)->where($conditions);
 				$this->_db->setQuery($q);
 				if(!$this->_db->query())
 				{
@@ -3987,9 +3982,12 @@ class product_detailModelproduct_detail extends JModel
 			}
 			else
 			{
-				$q = " UPDATE ".$this->_table_prefix."subscription"
-					." SET subscription_applicable_products='' "
-					." WHERE product_id='".$cid."'";
+				$q = $this->_db->getQuery(true);
+				// Fields to update.
+				$fields = array("subscription_applicable_products = ''");
+				// Conditions for which records should be updated.
+				$conditions = array("product_id = '".$cid."'");
+				$q->update($this->_db->quoteName($this->_table_prefix.'subscription'))->set($fields)->where($conditions);
 				$this->_db->setQuery($q);
 				if(!$this->_db->query())
 				{
@@ -4003,4 +4001,5 @@ class product_detailModelproduct_detail extends JModel
 			}
 		}
 	}
+
 }
