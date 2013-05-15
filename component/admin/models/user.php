@@ -36,6 +36,8 @@ class userModeluser extends JModel
 		$limitstart = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
 
 		$filter = $app->getUserStateFromRequest($this->_context . 'filter', 'filter', 0);
+		$filter_by = $app->getUserStateFromRequest($this->_context . 'filter_by', 'filter_by', 0);
+
 		$spgrp_filter = $app->getUserStateFromRequest($this->_context . 'spgrp_filter', 'spgrp_filter', 0);
 
 		$approved_filter = $app->getUserStateFromRequest($this->_context . 'approved_filter', 'approved_filter', 0);
@@ -49,6 +51,7 @@ class userModeluser extends JModel
 		$this->setState('limit', $limit);
 		$this->setState('limitstart', $limitstart);
 		$this->setState('filter', $filter);
+		$this->setState('filter_by', $filter_by);
 		$this->setState('spgrp_filter', $spgrp_filter);
 		$this->setState('approved_filter', $approved_filter);
 		$this->setState('tax_exempt_request_filter', $tax_exempt_request_filter);
@@ -95,6 +98,7 @@ class userModeluser extends JModel
 	public function _buildQuery()
 	{
 		$filter = $this->getState('filter');
+		$filter_by = $this->getState('filter_by');
 		$spgrp_filter = $this->getState('spgrp_filter');
 		$approved_filter = $this->getState('approved_filter');
 		$tax_exempt_request_filter = $this->getState('tax_exempt_request_filter');
@@ -103,23 +107,39 @@ class userModeluser extends JModel
 
 		if ($filter)
 		{
-			$where .= "AND (u.username LIKE '%" . $filter . "%' ";
-			$where .= "OR uf.firstname LIKE '%" . $filter . "%'  ";
-			$where .= " OR uf.lastname LIKE '%" . $filter . "%' ";
-			$where .= " OR sp.shopper_group_name LIKE '%" . $filter . "%' )";
+			$filter = str_replace(' ', '', $filter);
 
+			if($filter_by == 'fullname')
+			{
+				$where .= " AND (REPLACE(CONCAT(uf.firstname, uf.lastname), ' ', '') like '%" . $filter . "%')";
+			}
+			else if($filter_by == 'username')
+			{
+				$where .= " AND (u.username LIKE '%" . $filter . "%')";
+			}
+			else // $filter_by == all
+			{
+				$where .= " AND (u.username LIKE '%" . $filter . "%' ";
+				//$where .= " OR uf.firstname LIKE '%" . $filter . "%'  ";
+				//$where .= " OR uf.lastname LIKE '%" . $filter . "%' ";
+				$where .= " OR (REPLACE(CONCAT(uf.firstname, uf.lastname), ' ', '') like '%" . $filter . "%'))";
+				//$where .= " OR sp.shopper_group_name LIKE '%" . $filter . "%' )";
+			}
 		}
+
 		if ($spgrp_filter)
 		{
-			$where .= "AND sp.shopper_group_id = '" . $spgrp_filter . "' ";
+			$where .= " AND sp.shopper_group_id = '" . $spgrp_filter . "' ";
 		}
+
 		if ($approved_filter != 'select')
 		{
-			$where .= "AND uf.approved='" . $approved_filter . "' ";
+			$where .= " AND uf.approved='" . $approved_filter . "' ";
 		}
+
 		if ($tax_exempt_request_filter != 'select')
 		{
-			$where .= "AND uf.tax_exempt='" . $tax_exempt_request_filter . "' "
+			$where .= " AND uf.tax_exempt='" . $tax_exempt_request_filter . "' "
 				. "AND tax_exempt_approved=0 ";
 		}
 
@@ -127,7 +147,7 @@ class userModeluser extends JModel
 
 		if ($this->_id != 0)
 		{
-			$query = 'SELECT * FROM  #__users AS u '
+			$query = ' SELECT * FROM  #__users AS u '
 				. 'LEFT JOIN ' . $this->_table_prefix . 'users_info AS uf ON u.id=uf.user_id '
 				. 'LEFT JOIN ' . $this->_table_prefix . 'shopper_group AS sp ON uf.shopper_group_id=sp.shopper_group_id '
 				. 'WHERE uf.address_type="ST" '
@@ -137,7 +157,7 @@ class userModeluser extends JModel
 		}
 		else
 		{
-			$query = 'SELECT uf.user_id, uf.*,u.username,u.name,sp.shopper_group_name '
+			$query = ' SELECT uf.user_id, uf.*,u.username,u.name,sp.shopper_group_name '
 				. 'FROM ' . $this->_table_prefix . 'users_info AS uf '
 				. 'LEFT JOIN #__users AS u ON u.id = uf.user_id '
 				. 'LEFT JOIN ' . $this->_table_prefix . 'shopper_group AS sp ON sp.shopper_group_id = uf.shopper_group_id '
@@ -145,6 +165,7 @@ class userModeluser extends JModel
 				. $where
 				. $orderby;
 		}
+
 		return $query;
 	}
 
