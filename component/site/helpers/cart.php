@@ -2183,7 +2183,14 @@ class rsCarthelper
 		$redArray[] = $subtotal;
 		$redArray[] = $subtotal_excl_vat;
 		$redArray[] = $shipping;
+
+		if (isset($cart['discount']) === false)
+		{
+			$cart['discount'] = 0;
+		}
+
 		$redArray[] = $cart['discount'];
+
 		$redArray[] = $vat;
 		$redArray[] = $shippingVat;
 

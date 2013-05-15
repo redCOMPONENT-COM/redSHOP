@@ -20,7 +20,7 @@ $sql = "SELECT op.*,o.order_total,o.user_id,o.order_tax,o.order_shipping, o.orde
 $db->setQuery($sql);
 $order_details = $db->loadObjectList();
 
-$cart_type = $this->_params->get("cardtypes");
+$cart_type = $this->_params->get("cardtypes", array());
 
 if (count($cart_type) > 0 && count($cart_type) < 2)
 {
@@ -28,99 +28,101 @@ if (count($cart_type) > 0 && count($cart_type) < 2)
 	$cart_type[0] = $this->_params->get("cardtypes");
 }
 
-if (in_array('DANKORT', @$cart_type) || in_array('ALL', @$cart_type))
+$oricart_type = array();
+
+if (in_array('DANKORT', $cart_type) || in_array('ALL', $cart_type))
 {
-	@$oricart_type[] = 'dankort';
+	$oricart_type[] = 'dankort';
 }
 
-if (in_array('VD', @$cart_type) || in_array('ALL', @$cart_type))
+if (in_array('VD', $cart_type) || in_array('ALL', $cart_type))
 {
-	@$oricart_type[] = 'visa-dk';
+	$oricart_type[] = 'visa-dk';
 }
 
-if (in_array('VE', @$cart_type) || in_array('ALL', @$cart_type))
+if (in_array('VE', $cart_type) || in_array('ALL', $cart_type))
 {
-	@$oricart_type[] = 'visa-electron';
+	$oricart_type[] = 'visa-electron';
 }
 
-if (in_array('MCDK', @$cart_type) || in_array('ALL', @$cart_type))
+if (in_array('MCDK', $cart_type) || in_array('ALL', $cart_type))
 {
-	@$oricart_type[] = 'mastercard-dk';
+	$oricart_type[] = 'mastercard-dk';
 }
 
-if (in_array('MC', @$cart_type) || in_array('ALL', @$cart_type))
+if (in_array('MC', $cart_type) || in_array('ALL', $cart_type))
 {
-	@$oricart_type[] = 'mastercard';
+	$oricart_type[] = 'mastercard';
 }
 
-if (in_array('VEDK', @$cart_type) || in_array('ALL', @$cart_type))
+if (in_array('VEDK', $cart_type) || in_array('ALL', $cart_type))
 {
-	@$oricart_type[] = 'visa-electron-dk';
+	$oricart_type[] = 'visa-electron-dk';
 }
 
-if (in_array('JCB', @$cart_type) || in_array('ALL', @$cart_type))
+if (in_array('JCB', $cart_type) || in_array('ALL', $cart_type))
 {
-	@$oricart_type[] = 'jcb';
+	$oricart_type[] = 'jcb';
 }
 
-if (in_array('DDK', @$cart_type) || in_array('ALL', @$cart_type))
+if (in_array('DDK', $cart_type) || in_array('ALL', $cart_type))
 {
-	@$oricart_type[] = 'diners-dk';
+	$oricart_type[] = 'diners-dk';
 }
 
-if (in_array('MDK', @$cart_type) || in_array('ALL', @$cart_type))
+if (in_array('MDK', $cart_type) || in_array('ALL', $cart_type))
 {
-	@$oricart_type[] = '3d-maestro-dk';
+	$oricart_type[] = '3d-maestro-dk';
 }
 
-if (in_array('AEDK', @$cart_type) || in_array('ALL', @$cart_type))
+if (in_array('AEDK', $cart_type) || in_array('ALL', $cart_type))
 {
-	@$oricart_type[] = 'american-express-dk';
+	$oricart_type[] = 'american-express-dk';
 }
 
-if (in_array('DINERS', @$cart_type) || in_array('ALL', @$cart_type))
+if (in_array('DINERS', $cart_type) || in_array('ALL', $cart_type))
 {
-	@$oricart_type[] = 'diners';
+	$oricart_type[] = 'diners';
 }
 
-if (in_array('AE', @$cart_type) || in_array('ALL', @$cart_type))
+if (in_array('AE', $cart_type) || in_array('ALL', $cart_type))
 {
-	@$oricart_type[] = 'american-express';
+	$oricart_type[] = 'american-express';
 }
 
-if (in_array('MAESTRO', @$cart_type) || in_array('ALL', @$cart_type))
+if (in_array('MAESTRO', $cart_type) || in_array('ALL', $cart_type))
 {
-	@$oricart_type[] = '3d-maestro';
+	$oricart_type[] = '3d-maestro';
 }
 
-if (in_array('FORBRUGSFORENINGEN', @$cart_type) || in_array('ALL', @$cart_type))
+if (in_array('FORBRUGSFORENINGEN', $cart_type) || in_array('ALL', $cart_type))
 {
-	@$oricart_type[] = 'fbg1886';
+	$oricart_type[] = 'fbg1886';
 }
 
-if (in_array('VISA', @$cart_type) || in_array('ALL', @$cart_type))
+if (in_array('VISA', $cart_type) || in_array('ALL', $cart_type))
 {
-	@$oricart_type[] = 'visa';
+	$oricart_type[] = 'visa';
 }
 
-if (in_array('NORDEA', @$cart_type) || in_array('ALL', @$cart_type))
+if (in_array('NORDEA', $cart_type) || in_array('ALL', $cart_type))
 {
-	@$oricart_type[] = 'nordea-dk';
+	$oricart_type[] = 'nordea-dk';
 }
 
-if (in_array('DB', @$cart_type) || in_array('ALL', @$cart_type))
+if (in_array('DB', $cart_type) || in_array('ALL', $cart_type))
 {
-	@$oricart_type[] = 'danske-dk';
+	$oricart_type[] = 'danske-dk';
 }
 
-if (in_array('edankort', @$cart_type) || in_array('ALL', @$cart_type))
+if (in_array('edankort', $cart_type) || in_array('ALL', $cart_type))
 {
-	@$oricart_type[] = 'edankort';
+	$oricart_type[] = 'edankort';
 }
 
-if (in_array('MASTERCARDDEBETCARD', @$cart_type) || in_array('ALL', @$cart_type))
+if (in_array('MASTERCARDDEBETCARD', $cart_type) || in_array('ALL', $cart_type))
 {
-	@$oricart_type[] = 'mastercard-debet-dk';
+	$oricart_type[] = 'mastercard-debet-dk';
 }
 
 if (count($oricart_type) > 0)
@@ -128,6 +130,7 @@ if (count($oricart_type) > 0)
 	$cart_type = implode(',', $oricart_type);
 }
 
+$Itemid			   = JFactory::getApplication()->input->getInt('Itemid');
 $protocol          = '6';
 $msgtype           = 'authorize';
 $merchant_id       = $this->_params->get("quickpay_customer_id");
@@ -139,7 +142,7 @@ $qp_order_id       = $order_details[0]->order_number;
 $order_amount      = round($order_details[0]->order_total, 2);
 $order_amount      = $order_details[0]->order_total * 100;
 $currency_code     = 'DKK';
-$ok_page           = JURI::base() . "index.php?option=com_redshop&view=order_detail&Itemid=$Itemid&oid=" . $data['order_id'];
+$ok_page           = JURI::base() . "index.php?option=com_redshop&view=order_detail&layout=receipt&Itemid=$Itemid&oid=" . $data['order_id'];
 $error_page        = JURI::base() . "index.php?tmpl=component&option=com_redshop&view=order_detail&controller=order_detail&Itemid=" . $Itemid . "&task=notify_payment&payment_plugin=rs_payment_quickpay&orderid=" . $data['order_id'];
 $result_page       = JURI::base() . "index.php?tmpl=component&option=com_redshop&view=order_detail&controller=order_detail&Itemid=" . $Itemid . "&task=notify_payment&payment_plugin=rs_payment_quickpay&orderid=" . $data['order_id'];
 
