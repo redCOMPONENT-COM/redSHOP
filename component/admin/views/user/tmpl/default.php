@@ -40,23 +40,32 @@ $model = $this->getModel('user');    ?>
 		}
 		form.submit();
 	}
+
+	resetfilter = function()
+	{
+		document.getElementById('filter').value = '';
+		document.getElementById('filter_by').value = '';
+		document.getElementById('tax_exempt_request_filter').value = 'select';
+		document.getElementById('spgrp_filter').value = '0';
+		document.getElementById('approved_filter').value = 'select';
+		this.form.submit();
+	}
 </script>
 
 <form action="<?php echo 'index.php?option=' . $option; ?>" method="post" name="adminForm" id="adminForm">
 	<div id="editcell">
 		<table width="100%">
 			<tr>
-				<td valign="top" align="left" class="key"><?php echo JText::_('COM_REDSHOP_USER_FILTER'); ?>:
-					<input type="text" name="filter" id="filter" value="<?php echo $filter; ?>"
-					       onchange="document.adminForm.submit();">
-					<button onclick="this.form.submit();"><?php echo JText::_('COM_REDSHOP_GO'); ?></button>
-					<button
-						onclick="document.getElementById('filter').value='';document.getElementById('tax_exempt_request_filter').value='select';document.getElementById('spgrp_filter').value='0';document.getElementById('approved_filter').value='select';this.form.submit();"><?php echo JText::_('COM_REDSHOP_RESET'); ?></button>
+				<td valign="top" align="left" class="key"><?php echo JText::_('COM_REDSHOP_USER_FILTER');?>:
+					<input type="text" name="filter" id="filter" value="<?php echo $filter; ?>">
+					<?php echo $this->lists['filter_by'];?>
+					<button onclick="this.form.submit();"><?php echo JText::_('COM_REDSHOP_GO');?></button>
+					<button onclick="resetfilter();"><?php echo JText::_('COM_REDSHOP_RESET');?></button>
 				</td>
-				<td valign="top" align="left" class="key"><?php echo JText::_('COM_REDSHOP_SHOPPERGRP_FILTER'); ?>
-					:<?php echo $this->lists ['shopper_group']; ?></td>
-				<td valign="top" align="left" class="key"><?php echo JText::_('COM_REDSHOP_TAX_EXEMPT_REQUESTED'); ?>
-					:<?php echo $this->lists ['tax_exempt_request']; ?></td>
+				<td valign="top" align="left" class="key"><?php echo JText::_('COM_REDSHOP_SHOPPERGRP_FILTER');?>
+					:<?php echo $this->lists ['shopper_group'];?></td>
+				<td valign="top" align="left" class="key"><?php echo JText::_('COM_REDSHOP_TAX_EXEMPT_REQUESTED');?>
+					:<?php echo $this->lists ['tax_exempt_request'];?></td>
 			</tr>
 		</table>
 
@@ -64,12 +73,10 @@ $model = $this->getModel('user');    ?>
 			<thead>
 			<tr>
 				<th width="5%"><?php echo JText::_('COM_REDSHOP_NUM');?></th>
-				<th width="5%"><input type="checkbox" name="toggle" value=""
-				                      onclick="checkAll(<?php echo count($this->user); ?>);"/></th>
+				<th width="5%"><input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count($this->user); ?>);"/></th>
 				<th class="title"><?php echo JHTML::_('grid.sort', 'COM_REDSHOP_FIRST_NAME', 'firstname', $this->lists ['order_Dir'], $this->lists ['order']);?></th>
 				<th class="title"><?php echo JHTML::_('grid.sort', 'COM_REDSHOP_LAST_NAME', 'lastname', $this->lists ['order_Dir'], $this->lists ['order']);?></th>
-				<!--<th class="title"><?php echo JHTML::_ ( 'grid.sort', 'COM_REDSHOP_CONTACT_PERSON', 'firstname', $this->lists ['order_Dir'], $this->lists ['order'] );?></th>
-	-->
+				<!--<th class="title"><?php echo JHTML::_ ( 'grid.sort', 'COM_REDSHOP_CONTACT_PERSON', 'firstname', $this->lists ['order_Dir'], $this->lists ['order'] );?></th>-->
 				<th class="title"><?php echo JHTML::_('grid.sort', 'COM_REDSHOP_REGISTER_AS', 'is_company', $this->lists ['order_Dir'], $this->lists ['order']); ?></th>
 				<th class="title"><?php echo JHTML::_('grid.sort', 'COM_REDSHOP_USERNAME', 'username', $this->lists ['order_Dir'], $this->lists ['order']);?></th>
 				<th class="title"><?php echo JHTML::_('grid.sort', 'COM_REDSHOP_SHOPPER_GROUP_NAME', 'shopper_group_id', $this->lists ['order_Dir'], $this->lists ['order']);?></th>

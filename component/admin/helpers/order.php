@@ -10,11 +10,11 @@
 defined('_JEXEC') or die;
 
 JHTML::_('behavior.tooltip');
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/mail.php';
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/configuration.php';
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/economic.php';
-require_once JPATH_SITE . '/components/com_redshop/helpers/helper.php';
-require_once JPATH_SITE . '/components/com_redshop/helpers/cart.php';
+require_once(JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/mail.php');
+require_once(JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/configuration.php');
+require_once(JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/economic.php');
+require_once(JPATH_SITE . '/components/com_redshop/helpers/helper.php');
+require_once(JPATH_SITE . '/components/com_redshop/helpers/cart.php');
 
 class order_functions
 {
@@ -572,6 +572,23 @@ class order_functions
 		$mylist['statuslist'] = JHTML::_('select.genericlist', $types, $name, $attributes, 'value', 'text', $tot_status);
 
 		return $mylist['statuslist'];
+	}
+
+	public function getFilterbyList($name = 'filterbylist', $selected = 'all', $attributes = ' class="inputbox" size="1" ')
+	{
+		$filterbylist = array('orderid' => JText::_('COM_REDSHOP_ORDERID'),
+								'ordernumber' => JText::_('COM_REDSHOP_ORDERNUMBER'),
+								'fullname' => JText::_('COM_REDSHOP_FULLNAME'),
+								'useremail' => JText::_('COM_REDSHOP_USEREMAIL')
+							);
+
+		$types[] = JHTML::_('select.option', '', 'All');
+		$types = array_merge($types, $filterbylist);
+
+		$tot_status = @explode(",", $selected);
+		$mylist['filterbylist'] = JHTML::_('select.genericlist', $types, $name, $attributes, 'value', 'text', $tot_status);
+
+		return $mylist['filterbylist'];
 	}
 
 	public function getCustomOrderStatus($field)
@@ -1862,7 +1879,7 @@ class order_functions
 	public function getpaymentinformation($row, $post)
 	{
 		$app = JFactory::getApplication();
-		require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/configuration.php';
+		require_once(JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/configuration.php');
 		$redconfig = new Redconfiguration();
 
 		$plugin_parameters = $this->getparameters($post['payment_method_class']);
