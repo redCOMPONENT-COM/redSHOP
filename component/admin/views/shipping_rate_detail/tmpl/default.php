@@ -13,14 +13,12 @@ JHTML::_('behavior.tooltip');
 jimport('joomla.html.pane');
 
 $editor = JFactory::getEditor();
-$producthelper = new producthelper();    ?>
+$productHelper = new producthelper;
+?>
 
 <script language="javascript" type="text/javascript">
-	Joomla.submitbutton = function (pressbutton) {
-		submitbutton(pressbutton);
-	}
-
-	submitbutton = function (pressbutton) {
+	Joomla.submitbutton = function (pressbutton)
+	{
 		var form = document.adminForm;
 		if (pressbutton == 'cancel') {
 			submitform(pressbutton);
@@ -28,7 +26,7 @@ $producthelper = new producthelper();    ?>
 		}
 
 		if (form.shipping_rate_name.value == "") {
-			alert("<?php echo JText::_('COM_REDSHOP_SHIPPING_RATE_NAME_MUST_HAVE_A_NAME', true ); ?>");
+			alert("<?php echo JText::_('COM_REDSHOP_SHIPPING_RATE_NAME_MUST_HAVE_A_NAME', true); ?>");
 		} else {
 			if (document.getElementById('container_product')) {
 				selectAll(document.getElementById('container_product'));
@@ -37,12 +35,10 @@ $producthelper = new producthelper();    ?>
 		}
 	}
 </script>
-<form action="<?php echo JRoute::_($this->request_url); ?>" method="post" name="adminForm" id="adminForm"
-      enctype="multipart/form-data">
+<form action="<?php echo JRoute::_($this->request_url); ?>" method="post" name="adminForm" id="adminForm" enctype="multipart/form-data">
 <input type="hidden" name="extension_id" value="<?php echo $this->shipping->extension_id; ?>"/>
 <input type="hidden" name="shipping_class" value="<?php echo $this->shipping->element; ?>"/>
-<input type="hidden" name="shipping_rate_id" id="shipping_rate_id"
-       value="<?php echo $this->detail->shipping_rate_id; ?>"/>
+<input type="hidden" name="shipping_rate_id" id="shipping_rate_id" value="<?php echo $this->detail->shipping_rate_id; ?>"/>
 <input type="hidden" name="task" value=""/>
 <input type="hidden" name="view" value="shipping_rate_detail"/>
 <?php
@@ -54,16 +50,19 @@ if ($this->shipper_location)
 			<legend><?php echo JText::_('COM_REDSHOP_DETAILS'); ?></legend>
 			<table class="admintable" width="100%">
 				<tr>
-					<td width="100" align="right" class="key"><?php echo JText::_('COM_REDSHOP_SHIPPING_LOCATION'); ?>
-						:
+					<td width="100" align="right" class="key">
+						<?php echo JText::_('COM_REDSHOP_SHIPPING_LOCATION'); ?>:
 					</td>
-					<td><input class="text_area" type="text" name="shipping_rate_name" id="shipping_rate_name" size="32"
-					           maxlength="250" value="<?php echo $this->detail->shipping_rate_name; ?>"/></td>
+					<td>
+						<input class="text_area" type="text" name="shipping_rate_name" id="shipping_rate_name" size="32" maxlength="250" value="<?php echo $this->detail->shipping_rate_name; ?>"/>
+					</td>
 				</tr>
-				<td width="100" align="right" valign="top"
-				    class="key"><?php echo JText::_('COM_REDSHOP_SHIPPING_LOCATION_INFORMATION'); ?>:
+				<td class="key">
+					<?php echo JText::_('COM_REDSHOP_SHIPPING_LOCATION_INFORMATION'); ?>:
 				</td>
-				<td><?php echo $editor->display("shipping_location_info", $this->detail->shipping_location_info, '$widthPx', '$heightPx', '100', '20', '1');    ?></td>
+				<td>
+					<?php echo $editor->display("shipping_location_info", $this->detail->shipping_location_info, '$widthPx', '$heightPx', '100', '20', '1'); ?>
+				</td>
 				</tr>
 			</table>
 		</fieldset>
@@ -105,7 +104,7 @@ else
 		<td>
 			<input class="text_area" type="text" name="shipping_rate_weight_start" id="shipping_rate_weight_start"
 			       size="32" maxlength="250"
-			       value="<?php echo $producthelper->redpriceDecimal($this->detail->shipping_rate_weight_start); ?>"/>
+			       value="<?php echo $productHelper->redpriceDecimal($this->detail->shipping_rate_weight_start); ?>"/>
 		</td>
 	</tr>
 	<tr>
@@ -117,7 +116,7 @@ else
 		<td>
 			<input class="text_area" type="text" name="shipping_rate_weight_end" id="shipping_rate_weight_end" size="32"
 			       maxlength="250"
-			       value="<?php echo $producthelper->redpriceDecimal($this->detail->shipping_rate_weight_end); ?>"/>
+			       value="<?php echo $productHelper->redpriceDecimal($this->detail->shipping_rate_weight_end); ?>"/>
 		</td>
 	</tr>
 	<tr>
@@ -129,7 +128,7 @@ else
 		<td>
 			<input class="text_area" type="text" name="shipping_rate_volume_start" id="shipping_rate_volume_start"
 			       size="32" maxlength="250"
-			       value="<?php echo $producthelper->redpriceDecimal($this->detail->shipping_rate_volume_start); ?>"/>
+			       value="<?php echo $productHelper->redpriceDecimal($this->detail->shipping_rate_volume_start); ?>"/>
 		</td>
 	</tr>
 	<tr>
@@ -141,7 +140,7 @@ else
 		<td>
 			<input class="text_area" type="text" name="shipping_rate_volume_end" id="shipping_rate_volume_end" size="32"
 			       maxlength="250"
-			       value="<?php echo $producthelper->redpriceDecimal($this->detail->shipping_rate_volume_end); ?>"/>
+			       value="<?php echo $productHelper->redpriceDecimal($this->detail->shipping_rate_volume_end); ?>"/>
 		</td>
 	</tr>
 	<tr>
@@ -153,7 +152,7 @@ else
 		<td>
 			<input class="text_area" type="text" name="shipping_rate_length_start" id="shipping_rate_length_start"
 			       size="32" maxlength="250"
-			       value="<?php echo $producthelper->redpriceDecimal($this->detail->shipping_rate_length_start); ?>"/>
+			       value="<?php echo $productHelper->redpriceDecimal($this->detail->shipping_rate_length_start); ?>"/>
 		</td>
 	</tr>
 	<tr>
@@ -165,7 +164,7 @@ else
 		<td>
 			<input class="text_area" type="text" name="shipping_rate_length_end" id="shipping_rate_length_end" size="32"
 			       maxlength="250"
-			       value="<?php echo $producthelper->redpriceDecimal($this->detail->shipping_rate_length_end); ?>"/>
+			       value="<?php echo $productHelper->redpriceDecimal($this->detail->shipping_rate_length_end); ?>"/>
 		</td>
 	</tr>
 	<tr>
@@ -177,7 +176,7 @@ else
 		<td>
 			<input class="text_area" type="text" name="shipping_rate_width_start" id="shipping_rate_width_start"
 			       size="32" maxlength="250"
-			       value="<?php echo $producthelper->redpriceDecimal($this->detail->shipping_rate_width_start); ?>"/>
+			       value="<?php echo $productHelper->redpriceDecimal($this->detail->shipping_rate_width_start); ?>"/>
 		</td>
 	</tr>
 	<tr>
@@ -189,7 +188,7 @@ else
 		<td>
 			<input class="text_area" type="text" name="shipping_rate_width_end" id="shipping_rate_width_end" size="32"
 			       maxlength="250"
-			       value="<?php echo $producthelper->redpriceDecimal($this->detail->shipping_rate_width_end); ?>"/>
+			       value="<?php echo $productHelper->redpriceDecimal($this->detail->shipping_rate_width_end); ?>"/>
 		</td>
 	</tr>
 	<tr>
@@ -201,7 +200,7 @@ else
 		<td>
 			<input class="text_area" type="text" name="shipping_rate_height_start" id="shipping_rate_height_start"
 			       size="32" maxlength="250"
-			       value="<?php echo $producthelper->redpriceDecimal($this->detail->shipping_rate_height_start); ?>"/>
+			       value="<?php echo $productHelper->redpriceDecimal($this->detail->shipping_rate_height_start); ?>"/>
 		</td>
 	</tr>
 	<tr>
@@ -213,7 +212,7 @@ else
 		<td>
 			<input class="text_area" type="text" name="shipping_rate_height_end" id="shipping_rate_height_end" size="32"
 			       maxlength="250"
-			       value="<?php echo $producthelper->redpriceDecimal($this->detail->shipping_rate_height_end); ?>"/>
+			       value="<?php echo $productHelper->redpriceDecimal($this->detail->shipping_rate_height_end); ?>"/>
 		</td>
 	</tr>
 	<tr>
@@ -225,7 +224,7 @@ else
 		<td>
 			<input class="text_area" type="text" name="shipping_rate_ordertotal_start"
 			       id="shipping_rate_ordertotal_start" size="32" maxlength="250"
-			       value="<?php echo $producthelper->redpriceDecimal($this->detail->shipping_rate_ordertotal_start); ?>"/>
+			       value="<?php echo $productHelper->redpriceDecimal($this->detail->shipping_rate_ordertotal_start); ?>"/>
 		</td>
 	</tr>
 
@@ -238,7 +237,7 @@ else
 		<td>
 			<input class="text_area" type="text" name="shipping_rate_ordertotal_end" id="shipping_rate_ordertotal_end"
 			       size="32" maxlength="250"
-			       value="<?php echo $producthelper->redpriceDecimal($this->detail->shipping_rate_ordertotal_end); ?>"/>
+			       value="<?php echo $productHelper->redpriceDecimal($this->detail->shipping_rate_ordertotal_end); ?>"/>
 		</td>
 	</tr>
 	<tr>
@@ -270,7 +269,7 @@ else
 			</label>
 		</td>
 		<td>
-			<?php echo $this->lists['shipping_rate_country'];?>
+			<?php echo $this->lists['shipping_rate_country']; ?>
 		</td>
 	</tr>
 	<tr>
@@ -281,7 +280,7 @@ else
 		</td>
 		<td>
 			<div id='changestate'>
-				<?php echo $this->lists['shipping_rate_state'];?>
+				<?php echo $this->lists['shipping_rate_state']; ?>
 			</div>
 		</td>
 	</tr>
@@ -315,7 +314,7 @@ else
 				</label>
 			</td>
 			<td>
-				<?php echo $this->lists['shipping_rate_on_category'];?>
+				<?php echo $this->lists['shipping_rate_on_category']; ?>
 			</td>
 		</tr>
 		<tr>
@@ -325,7 +324,7 @@ else
 				</label>
 			</td>
 			<td>
-				<?php echo $this->lists['shipping_rate_on_shopper_group'];?>
+				<?php echo $this->lists['shipping_rate_on_shopper_group']; ?>
 			</td>
 		</tr>
 		<tr>
@@ -337,7 +336,7 @@ else
 			<td>
 				<input class="text_area" type="text" name="shipping_rate_value" id="shipping_rate_value" size="32"
 				       maxlength="250"
-				       value="<?php echo $producthelper->redpriceDecimal($this->detail->shipping_rate_value); ?>"/>
+				       value="<?php echo $productHelper->redpriceDecimal($this->detail->shipping_rate_value); ?>"/>
 			</td>
 		</tr>
 		<!--
@@ -381,7 +380,7 @@ else
 				</label>
 			</td>
 			<td>
-				<?php echo $this->lists['company_only'];?>
+				<?php echo $this->lists['company_only']; ?>
 			</td>
 		</tr>
 		<tr>
@@ -391,7 +390,7 @@ else
 				</label>
 			</td>
 			<td>
-				<?php echo $this->lists['shipping_tax_group_id'];?>
+				<?php echo $this->lists['shipping_tax_group_id']; ?>
 			</td>
 		</tr>
 		<tr>
@@ -417,6 +416,11 @@ else
 				       maxlength="250" value="<?php echo $this->detail->consignor_carrier_code; ?>"/>
 			</td>
 		</tr>
+	<?php
+
+		if ($this->detail->shipping_class === 'default_shipping')
+		{
+	?>
 		<tr>
 			<td width="100" align="right" class="key">
 				<label for="name">
@@ -429,6 +433,9 @@ else
 				</div>
 			</td>
 		</tr>
+	<?php
+		}
+	?>
 		<tr>
 			<td width="100" align="right" class="key">
 				<label for="name">
@@ -450,7 +457,7 @@ else
 
 	if ($this->lists['extra_field'] != "")
 	{
-		echo  $myTabs->startPanel(JText::_('COM_REDSHOP_EXTRA_FIELD'), 'tab2');
+		echo $myTabs->startPanel(JText::_('COM_REDSHOP_EXTRA_FIELD'), 'tab2');
 		?>
 		<div class="col50">
 		<?php

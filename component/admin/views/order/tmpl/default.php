@@ -353,7 +353,7 @@ for ($i = 0, $n = count($this->orders); $i < $n; $i++)
 			echo "</td>";
 			$details = explode("|", $shippinghelper->decryptShipping(str_replace(" ", "+", $row->ship_method_id)));
 
-			if (strstr($details[0], 'default_shipping') && POSTDK_INTEGRATION)
+			if ($details[0] === 'plgredshop_shippingdefault_shipping' && POSTDK_INTEGRATION)
 			{
 				echo "<td>";
 
@@ -364,13 +364,17 @@ for ($i = 0, $n = count($this->orders); $i < $n; $i++)
 				else
 				{
 					echo JHTML::_('calendar', date('Y-m-d'), 'specifiedDate' . $i, 'specifiedDate' . $i, $format = '%Y-%m-%d', array('class' => 'inputbox', 'size' => '15', 'maxlength' => '19'));    ?>
-					<input type="button" class="button" value="<?php echo JTEXT::_('COM_REDSHOP_CREATE_LABEL'); ?>"
-					       onclick="javascript:document.parcelFrm.order_id.value='<?php echo $row->order_id; ?>';document.parcelFrm.specifiedSendDate.value=document.getElementById('specifiedDate<?php echo $i; ?>').value;document.parcelFrm.submit();">
+					<input type="button" class="button" value="<?php echo JTEXT::_('COM_REDSHOP_CREATE_LABEL'); ?>" onclick="javascript:document.parcelFrm.order_id.value='<?php echo $row->order_id; ?>';document.parcelFrm.specifiedSendDate.value=document.getElementById('specifiedDate<?php echo $i; ?>').value;document.parcelFrm.submit();">
 				<?php
 				}
 
 				echo "</td>";
-			} ?>
+			}
+			else
+			{
+				echo '<td>' . JText::_('COM_REDSHOP_NO_PACSOFT_LABEL') . '</td>';
+			}
+		?>
 	</tr>
 	<?php
 	$k = 1 - $k;
