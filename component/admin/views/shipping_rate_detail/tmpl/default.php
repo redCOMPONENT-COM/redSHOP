@@ -71,12 +71,14 @@ if ($this->shipper_location)
 }
 else
 {
-//Get JPaneTabs instance
+	// Get JPaneTabs instance
 	$myTabs = JPane::getInstance('tabs', array('startOffset' => 0));
 	$output = '';
-//Create Pane
+
+	// Create Pane
 	$output .= $myTabs->startPane('pane');
-//Create 1st Tab
+
+	// Create 1st Tab
 	echo $output .= $myTabs->startPanel(JText::_('COM_REDSHOP_DETAILS'), 'tab1');    ?>
 	<div class="col50">
 	<fieldset class="adminform">
@@ -339,18 +341,6 @@ else
 				       value="<?php echo $productHelper->redpriceDecimal($this->detail->shipping_rate_value); ?>"/>
 			</td>
 		</tr>
-		<!--
-			<tr>
-			<td width="100" align="right" class="key">
-				<label for="name">
-					<?php //echo JText::_('COM_REDSHOP_SHIPPING_RATE_PACKAGE_FEE' ); ?>:
-				</label>
-			</td>
-			<td>
-				<input class="text_area" type="text" name="shipping_rate_package_fee" id="shipping_rate_package_fee" size="32" maxlength="250" value="<?php echo $this->detail->shipping_rate_package_fee;?>"  />
-			</td>
-		</tr>
- 		-->
 		<tr>
 			<td width="100" align="right" class="key">
 				<label for="name">
@@ -362,17 +352,6 @@ else
 				       maxlength="250" value="<?php echo $this->detail->shipping_rate_priority; ?>"/>
 			</td>
 		</tr>
-		<!--<tr>
-			<td width="100" align="right" class="key">
-				<label for="name">
-					<?php echo JText::_('COM_REDSHOP_COMPANY_ONLY' ); ?>:
-				</label>
-			</td>
-			<td>
-				<input type='checkbox' value='1' name='company_only' <?php if($this->detail->company_only) echo "checked='checked'"; ?> />
-			</td>
-		</tr>
-		-->
 		<tr>
 			<td width="100" align="right" class="key">
 				<label for="name">
@@ -400,11 +379,19 @@ else
 				</label>
 			</td>
 			<td>
-				<input type='checkbox' value='1'
-				       name='apply_vat' <?php if ($this->detail->apply_vat) echo "checked='checked'"; ?> />
+				<?php
+
+					$checked = '';
+
+					if ($this->detail->apply_vat)
+					{
+						$checked = "checked='checked'";
+					}
+
+					echo "<input type='checkbox' value='1' name='apply_vat' $checked />";
+				?>
 			</td>
 		</tr>
-
 		<tr>
 			<td width="100" align="right" class="key">
 				<label for="name">
@@ -443,8 +430,7 @@ else
 				</label>
 			</td>
 			<td>
-				<input class="text_area" type="text" name="economic_displaynumber" id="economic_displaynumber" size="32"
-				       maxlength="250" value="<?php echo $this->detail->economic_displayname; ?>"/>
+				<input class="text_area" type="text" name="economic_displaynumber" id="economic_displaynumber" size="32" maxlength="250" value="<?php echo $this->detail->economic_displaynumber; ?>"/>
 			</td>
 		</tr>
 	</table>
@@ -452,8 +438,10 @@ else
 	</fieldset>
 	</div>
 	<?php
+
 	echo $myTabs->endPanel();
-//Create 2nd Tab
+
+// Create 2nd Tab
 
 	if ($this->lists['extra_field'] != "")
 	{
@@ -470,7 +458,7 @@ else
 		echo '<input type="hidden" name="noextra_field" value="1">';
 	}
 
-//End Pane
+// End Pane
 	echo $myTabs->endPane();
 }    ?>
 <div class="clr"></div>
