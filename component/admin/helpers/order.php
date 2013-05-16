@@ -170,11 +170,21 @@ class order_functions
 
 	public function generateParcel($order_id, $specifiedSendDate)
 	{
-		$order_details = $this->getOrderDetails($order_id);
-		$producthelper = new producthelper;
-		$orderproducts = $this->getOrderItemDetail($order_id);
-		$billingInfo = $this->getOrderBillingUserInfo($order_id);
-		$shippingInfo = $this->getOrderShippingUserInfo($order_id);
+		$order_details             = $this->getOrderDetails($order_id);
+		$producthelper             = new producthelper;
+		$orderproducts             = $this->getOrderItemDetail($order_id);
+		$billingInfo               = $this->getOrderBillingUserInfo($order_id);
+		$shippingInfo              = $this->getOrderShippingUserInfo($order_id);
+		$shippinghelper            = new shipping;
+		$shippingRateDecryptDetail = explode("|", $shippinghelper->decryptShipping(str_replace(" ", "+", $order_details->ship_method_id)));
+
+		// Get Shipping Delivery Type
+		$shippingDeliveryType = 1;
+
+		if (isset($shippingRateDecryptDetail[8]) === true)
+		{
+			$shippingDeliveryType = (int) $shippingRateDecryptDetail[8];
+		}
 
 		$sql = "SELECT country_2_code FROM " . $this->_table_prefix . "country WHERE country_3_code = '" . SHOP_COUNTRY . "'";
 		$this->_db->setQuery($sql);
@@ -188,7 +198,7 @@ class order_functions
 		$this->_db->setQuery($sql);
 		$shippingInfo->country_code = $this->_db->loadResult();
 
-		// for product conetent
+		// For product conetent
 		$totalWeight = 0;
 		$content_products = array();
 
@@ -224,6 +234,7 @@ class order_functions
 			$totalWeight += (($weight * $orderproducts [$c]->product_quantity) + $acc_weight);
 
 		}
+
 		$unitRatio = $producthelper->getUnitConversation('kg', DEFAULT_WEIGHT_UNIT);
 
 		if ($unitRatio != 0)
@@ -269,16 +280,20 @@ class order_functions
 			$finaladdress2 = "";
 		}
 
+		// When shipping delivery set to post office don't need to send DLV or POD addon.
+		if ($shippingDeliveryType == 0)
+		{
+			$addon = "";
+		}
+
 		if (WEBPACK_ENABLE_EMAIL_TRACK)
 		{
-			$addon .= '<addon adnid="NOTEMAIL">
-					</addon>';
+			$addon .= '<addon adnid="NOTEMAIL"></addon>';
 		}
 
 		if (WEBPACK_ENABLE_SMS)
 		{
-			$addon .= '<addon adnid="NOTSMS">
-				</addon>';
+			$addon .= '<addon adnid="NOTSMS"></addon>';
 		}
 
 		$xmlnew = '<?xml version="1.0" encoding="ISO-8859-1"?>
@@ -335,6 +350,7 @@ class order_functions
 			$query = 'UPDATE ' . $this->_table_prefix . 'orders SET `order_label_create` = 1 WHERE order_id=' . $order_id;
 			$this->_db->setQuery($query);
 			$this->_db->query();
+
 			return "success";
 		}
 		else
@@ -2237,11 +2253,11 @@ class order_functions
 	{
 		if (POSTDK_INTEGRATION && ($order_status == "S" && $paymentstatus == "Paid"))
 		{
-			$shippinghelper = new shipping();
+			$shippinghelper = new shipping;
 			$order_details = $this->getOrderDetails($order_id);
 			$details = explode("|", $shippinghelper->decryptShipping(str_replace(" ", "+", $order_details->ship_method_id)));
 
-			if (strstr($details[0], 'default_shipping') && !$order_details->order_label_create)
+			if ($details[0] === 'plgredshop_shippingdefault_shipping' && !$order_details->order_label_create)
 			{
 				$generate_label = $this->generateParcel($order_id, $specifiedSendDate);
 
