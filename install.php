@@ -4194,11 +4194,6 @@ class Com_RedshopInstallerScript
 			$cfgarr["NOOF_THUMB_FOR_SCROLLER"] = '3';
 		}
 
-		if (!defined("POSTDANMARK_MODE"))
-		{
-			$cfgarr["POSTDANMARK_MODE"] = '0';
-		}
-
 		if (!defined("POSTDANMARK_ADDRESS"))
 		{
 			$cfgarr["POSTDANMARK_ADDRESS"] = 'address';

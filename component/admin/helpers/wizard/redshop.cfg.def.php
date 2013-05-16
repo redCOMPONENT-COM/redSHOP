@@ -280,7 +280,6 @@ $defaultarray["clickatell_password"] = CLICKATELL_PASSWORD;
 $defaultarray["clickatell_api_id"] = CLICKATELL_API_ID;
 $defaultarray["clickatell_order_status"] = CLICKATELL_ORDER_STATUS;
 $defaultarray["postdk_integration"] = POSTDK_INTEGRATION;
-$defaultarray["postdk_testmode"] = POSTDANMARK_MODE;
 $defaultarray["postdk_customer_no"] = POSTDK_CUSTOMER_NO;
 $defaultarray["postdk_customer_password"] = POSTDK_CUSTOMER_PASSWORD;
 $defaultarray["postdk_address"] = POSTDANMARK_ADDRESS;
