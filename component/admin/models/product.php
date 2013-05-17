@@ -57,7 +57,7 @@ class productModelproduct extends JModel
 	{
 		if (empty($this->_data))
 		{
-			$query = $this->_buildQuery();
+			$query       = $this->_buildQuery();
 			$this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
 
 			// Product parent - child - format generation
@@ -74,7 +74,7 @@ class productModelproduct extends JModel
 			// First pass - collect children
 			foreach ($products as $v)
 			{
-				$pt = $v->parent;
+				$pt   = $v->parent_id = $v->parent;
 				$list = @$children[$pt] ? $children[$pt] : array();
 				array_push($list, $v);
 				$children[$pt] = $list;
@@ -82,7 +82,7 @@ class productModelproduct extends JModel
 
 			// Second pass - get an indent list of the items
 			$this->_data = JHTML::_('menu.treerecurse', 0, '', array(), $children, max(0, 9));
-			sort($this->_data);
+			$this->_data = array_merge(array(), $this->_data);
 		}
 
 		return $this->_data;
@@ -252,9 +252,9 @@ class productModelproduct extends JModel
 
 			if ($search_field == 'pa.property_number' && $keyword != '')
 			{
-				$query .= "LEFT JOIN " . $this->_table_prefix . "product_attribute AS a ON a.product_id = p.product_id " .
-					"LEFT JOIN " . $this->_table_prefix . "product_attribute_property AS pa ON pa.attribute_id = a.attribute_id " .
-					"LEFT JOIN " . $this->_table_prefix . "product_subattribute_color AS ps ON ps.subattribute_id = pa.property_id ";
+				$query .= "LEFT JOIN " . $this->_table_prefix . "product_attribute AS a ON a.product_id = p.product_id "
+						. "LEFT JOIN " . $this->_table_prefix . "product_attribute_property AS pa ON pa.attribute_id = a.attribute_id "
+						. "LEFT JOIN " . $this->_table_prefix . "product_subattribute_color AS ps ON ps.subattribute_id = pa.property_id ";
 			}
 
 			$query .= "WHERE 1=1 ";
@@ -500,9 +500,7 @@ class productModelproduct extends JModel
 					if (trim($additional_images[$ad]->product_full_image) != trim($additional_images[$ad]->media_name)
 						&& trim($additional_images[$ad]->media_name) != "")
 					{
-						$add_image .= "<g:additional_image_link>" . $product_img_url .
-							htmlspecialchars($additional_images[$ad]->media_name, ENT_NOQUOTES, "UTF-8") .
-							"</g:additional_image_link>";
+						$add_image .= "<g:additional_image_link>" . $product_img_url . htmlspecialchars($additional_images[$ad]->media_name, ENT_NOQUOTES, "UTF-8") . "</g:additional_image_link>";
 					}
 				}
 
@@ -749,7 +747,7 @@ class productModelproduct extends JModel
 	 * $order = product current ordring
 	 * @return: boolean
 	 */
-	public function saveorder($cid = array(), $order)
+	public function saveorder($cid = array(), $order = 0)
 	{
 		$app = JFactory::getApplication();
 
