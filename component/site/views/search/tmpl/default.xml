@@ -2,7 +2,11 @@
 <metadata>
     <layout title="COM_REDSHOP_STANDARD_SEARCH_LAYOUT">
         <message>
-            <![CDATA[COM_REDSHOP_STANDARD_SEARCH_LAYOUT_DESC]]>
+            <![CDATA[Standard Serach Layout For Redshop Product Search]]>
         </message>
     </layout>
+    <state>
+        <name>COM_REDSHOP_STANDARD_SEARCH</name>
+        <description>COM_REDSHOP_STANDARD_SEARCH_LAYOUT_FOR_REDSHOP_PRODUCT_SEARCH</description>
+    </state>
 </metadata>

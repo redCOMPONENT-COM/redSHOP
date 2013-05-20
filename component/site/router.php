@@ -12,13 +12,11 @@ defined('_JEXEC') or die;
 JLoader::import('joomla.html.parameter');
 
 /**
- *    Build URL routes for redSHOP
- *
- * @param   array  &$query  request variables
+ * @param    array
  *
  * @return    array
  */
-function redshopBuildRoute(&$query)
+function RedshopBuildRoute(&$query)
 {
 	$view            = '';
 	$layout          = '';
@@ -60,16 +58,19 @@ function redshopBuildRoute(&$query)
 	if (isset($query['limit']))
 	{
 		$limit = $query['limit'];
+		//unset($query['limit']);
 	}
 
 	if (isset($query['limitstart']))
 	{
 		$limitstart = $query['limitstart'];
+		//unset($query['limitstart']);
 	}
 
 	if (isset($query['start']))
 	{
 		$start = $query['start'];
+		//unset($query['start']);
 	}
 
 	if (isset($query['order_by']))
@@ -119,7 +120,6 @@ function redshopBuildRoute(&$query)
 		$gid = $query['gid'];
 		unset($query['gid']);
 	}
-
 	if (isset($query['layout']))
 	{
 		$layout = $query['layout'];
@@ -131,56 +131,50 @@ function redshopBuildRoute(&$query)
 		$mid = $query['mid'];
 		unset($query['mid']);
 	}
-
 	if (isset($query['task']))
 	{
 		$task = $query['task'];
 		unset($query['task']);
 	}
-
 	if (isset($query['infoid']))
 	{
 		$infoid = $query['infoid'];
 		unset($query['infoid']);
 	}
-
 	if (isset($query['oid']))
 	{
 		$oid = $query['oid'];
 		unset($query['oid']);
 	}
-
 	if (isset($query['order_id']))
 	{
 		$order_id = $query['order_id'];
 		unset($query['order_id']);
 	}
-
 	if (isset($query['quoid']))
 	{
 		$quoid = $query['quoid'];
 		unset($query['quoid']);
 	}
-
 	if (isset($query['Itemid']))
 	{
 		$Itemid = $query['Itemid'];
+		//unset($query['Itemid']);
 	}
 
-	// Tag id
+	// tag id
 	if (isset($query['tagid']))
 	{
 		$tagid = $query['tagid'];
 		unset($query['tagid']);
 	}
-
 	if (isset($query['edit']))
 	{
 		$edit = $query['edit'];
 		unset($query['edit']);
 	}
 
-	// Remove flag
+	// remove flag
 	if (isset($query['remove']))
 	{
 		$remove = $query['remove'];
@@ -193,58 +187,45 @@ function redshopBuildRoute(&$query)
 		unset($query['wishlist_id']);
 	}
 
+
 	$sql = "SELECT * FROM #__menu WHERE id = '$Itemid' "
 		. "AND link like '%option=com_redshop%' AND link like '%view=$view%' ";
 	$db->setQuery($sql);
 	$menu = $db->loadObject();
-
 	if (count($menu) == 0)
 	{
-		$menu         = new stdClass;
 		$menu->params = '';
 		$menu->title  = '';
 	}
-
 	$myparams = new JRegistry($menu->params);
 
-	// Special char for replace
+	// special char for replace
 	$special_char = array(".", " ");
 
 	switch ($view)
 	{
+
 		case 'wishlist':
 			$segments[] = 'wishlist';
 
 			if ($task == 'viewwishlist')
-			{
 				$segments[] = $task;
-			}
-
 			if ($task == 'delwishlist')
 			{
 				$segments[] = $task;
-
 				if (isset($wishlist_id))
-				{
 					$segments[] = $wishlist_id;
-				}
 			}
-
 			if ($task == 'mysessdelwishlist')
 			{
 				$segments[] = $task;
-
 				if (isset($wishlist_id))
-				{
 					$segments[] = $wishlist_id;
-				}
 			}
 			else
 			{
 				if ($task != '')
-				{
 					$segments[] = $task;
-				}
 			}
 			break;
 		case 'cart';
@@ -253,14 +234,13 @@ function redshopBuildRoute(&$query)
 
 		case 'search';
 			$segments[] = 'search';
-
 			if ($layout != '')
 			{
 				$segments[] = $layout;
 			}
-
 			if ($category_id != '')
 			{
+
 				$segments[] = $category_id;
 			}
 			break;
@@ -295,7 +275,6 @@ function redshopBuildRoute(&$query)
 				$db->setQuery($sql);
 				$giftcardname = $db->loadResult();
 			}
-
 			$segments[] = $giftcardname;
 
 			break;
@@ -312,8 +291,8 @@ function redshopBuildRoute(&$query)
 					if ($infoid > 0)
 					{
 						$segments[] = $infoid;
-					}
 
+					}
 					break;
 
 				default:
@@ -330,7 +309,6 @@ function redshopBuildRoute(&$query)
 		case 'order_detail':
 
 			$segments[] = 'order_detail';
-
 			if ($oid != '')
 			{
 				$segments[] = $oid;
@@ -339,12 +317,10 @@ function redshopBuildRoute(&$query)
 			{
 				$segments[] = $order_id;
 			}
-
 			if ($layout != '')
 			{
 				$segments[] = $layout;
 			}
-
 			if ($task == 'reorder')
 			{
 				$segments[] = $task;
@@ -352,14 +328,12 @@ function redshopBuildRoute(&$query)
 			break;
 
 		case 'category':
+			//$segments[] = 'category';
 
 			if (!ENABLE_SEF_NUMBER_NAME)
 			{
 				if ($cid > 0)
-				{
 					$segments[] = $cid;
-				}
-
 				$segments[] = $Itemid;
 				$segments[] = $manufacturer_id;
 			}
@@ -369,7 +343,6 @@ function redshopBuildRoute(&$query)
 				$sql = "SELECT sef_url,category_name FROM #__redshop_category WHERE category_id = '$cid'";
 				$db->setQuery($sql);
 				$url = $db->loadObject();
-
 				if ($url->sef_url == "")
 				{
 					$GLOBALS['catlist_reverse'] = array();
@@ -378,7 +351,6 @@ function redshopBuildRoute(&$query)
 					if (count($cats) > 0)
 					{
 						$cats = array_reverse($cats);
-
 						for ($x = 0; $x < count($cats); $x++)
 						{
 							$cat        = $cats[$x];
@@ -387,28 +359,24 @@ function redshopBuildRoute(&$query)
 					}
 
 					if (ENABLE_SEF_NUMBER_NAME)
-					{
 						$segments[] = $cid . '-' . JFilterOutput::stringURLSafe($url->category_name);
-					}
 					else
-					{
 						$segments[] = JFilterOutput::stringURLSafe($url->category_name);
-					}
+
 				}
 				else
 				{
+
 					if (ENABLE_SEF_NUMBER_NAME)
-					{
 						$segments[] = $cid . '-' . JFilterOutput::stringURLSafe($url->sef_url);
-					}
 					else
-					{
 						$segments[] = JFilterOutput::stringURLSafe($url->sef_url);
-					}
 				}
+
 			}
 			else
 			{
+
 				if ($menu->title != '')
 				{
 					$segments[] = JFilterOutput::stringURLSafe($menu->title);
@@ -424,54 +392,63 @@ function redshopBuildRoute(&$query)
 
 		case 'product':
 
+			//$segments[] = 'product';
+
 			if (ENABLE_SEF_NUMBER_NAME)
 			{
 				if ($layout != "")
-				{
 					$segments[] = $layout;
-				}
+				//elseif ($pid)
+				//$segments[] = $pid;
+
+				//$segments[] = $Itemid;
+
 			}
 			else
 			{
+
 				if ($layout != "")
-				{
 					$segments[] = $layout;
-				}
 				elseif ($pid)
-				{
 					$segments[] = $pid;
-				}
 
 				$segments[] = $Itemid;
 			}
 
 			$segments[] = $task;
-
 			if ($pid)
 			{
 				$sql = "SELECT sef_url,product_name,cat_in_sefurl,product_number FROM #__redshop_product WHERE product_id = '$pid'";
 				$db->setQuery($sql);
 				$product = $db->loadObject();
 
-				$url           = $product->sef_url;
-				$cat_in_sefurl = $product->cat_in_sefurl;
+				$url = $product->sef_url;
+
+				if (CATEGORY_IN_SEF_URL)
+				{
+					$cat_in_sefurl = $cid;
+				}
+				else
+				{
+					$cat_in_sefurl = $product->cat_in_sefurl;
+				}
 
 				if ($url == "")
 				{
 					$GLOBALS['catlist_reverse'] = array();
 					$where                      = '';
-
 					if ($cat_in_sefurl > 0)
 					{
 						$where = " AND c.category_id = '$cat_in_sefurl'";
 					}
 
-					// Get cid from request for consistency
+					# get cid from request for consistency
 					$category_id = $cat_in_sefurl;
 
-					// If cid is not set than find cid
+					# if cid is not set than find cid
 					if (!$category_id)
 					{
+
 						$sql = "SELECT c.category_id FROM #__redshop_category c,#__redshop_product_category_xref pc WHERE pc.product_id = '$pid' AND pc.category_id = c.category_id $where";
 						$db->setQuery($sql);
 						$category_id = $db->loadResult();
@@ -482,7 +459,6 @@ function redshopBuildRoute(&$query)
 					if (count($cats) > 0)
 					{
 						$cats = array_reverse($cats);
-
 						for ($x = 0; $x < count($cats); $x++)
 						{
 							$cat        = $cats[$x];
@@ -494,55 +470,43 @@ function redshopBuildRoute(&$query)
 					$db->setQuery($sql);
 					$catname = $db->loadResult();
 
-					// Attach category id with name for consistency
+					# attach category id with name for consistency
 					if (ENABLE_SEF_NUMBER_NAME)
-					{
 						$segments[] = $category_id . '-' . JFilterOutput::stringURLSafe($catname);
-					}
 					else
-					{
 						$segments[] = JFilterOutput::stringURLSafe($catname);
-					}
 
-					// Add product number if config is enabled
+					# add product number if config is enabled
 					if (ENABLE_SEF_PRODUCT_NUMBER)
-					{
 						$segments[] = JFilterOutput::stringURLSafe($product->product_number);
-					}
 
-					// Config option to generate sef using name : add product id to get parse in parseroute function
+					# config option to generate sef using name : add product id to get parse in parseroute function
 					if (ENABLE_SEF_NUMBER_NAME)
-					{
 						$segments[] = 'P' . $pid . '-' . JFilterOutput::stringURLSafe($product->product_name);
-					}
 					else
-					{
 						$segments[] = 'P-' . JFilterOutput::stringURLSafe($product->product_name);
-					}
 				}
 				else
 				{
-					// Config option to generate sef using name : add product id to get parse in parseroute function
+					# config option to generate sef using name : add product id to get parse in parseroute function
 					if (ENABLE_SEF_NUMBER_NAME)
-					{
 						$segments[] = 'P' . $pid . '-' . JFilterOutput::stringURLSafe($url);
-					}
 					else
-					{
 						$segments[] = 'P-' . JFilterOutput::stringURLSafe($url);
-					}
 				}
+
 			}
 
 			break;
 
 		case 'manufacturers':
-
+			//  index.php?option=com_redshop&view=manufacturers&layout=products&mid=1&Itemid=11
 			if (!$mid)
 			{
-				$mid = $myparams->get('manufacturer');
-			}
 
+				$mid = $myparams->get('manufacturer');
+
+			}
 			$segments[] = 'manufacturers';
 
 			if ($mid)
@@ -551,7 +515,6 @@ function redshopBuildRoute(&$query)
 				$sql        = "SELECT sef_url,manufacturer_name FROM #__redshop_manufacturer WHERE manufacturer_id = '$mid'";
 				$db->setQuery($sql);
 				$url = $db->loadObject();
-
 				if ($url)
 				{
 					if ($url->sef_url == "")
@@ -562,19 +525,27 @@ function redshopBuildRoute(&$query)
 					{
 						$segments[] = str_replace($special_char, "-", $url->sef_url);
 					}
+
 				}
+
 			}
 
 			if (!$mid)
 			{
+
 				if ($menu->title != '')
 				{
+
 					$segments[] = str_replace($special_char, "-", $menu->title);
+
 				}
 				else
 				{
+
 					$segments[] = 'manufactures';
+
 				}
+
 			}
 
 			if ($layout != 'detail' && $layout != '')
@@ -590,6 +561,7 @@ function redshopBuildRoute(&$query)
 
 			if ($layout == 'mytags')
 			{
+
 				$segments[] = $layout;
 
 				if ($tagid)
@@ -604,6 +576,7 @@ function redshopBuildRoute(&$query)
 
 					if ($tagid && isset($edit))
 					{
+
 						$segments[] = 'edit';
 					}
 
@@ -612,9 +585,11 @@ function redshopBuildRoute(&$query)
 						$segments[] = 'remove';
 					}
 				}
+
 			}
 			elseif ($layout == 'mywishlist')
 			{
+
 				$segments[] = $layout;
 
 				if (isset($wishlist_id))
@@ -627,13 +602,17 @@ function redshopBuildRoute(&$query)
 					$segments[] = $pid;
 					$segments[] = 'delete';
 				}
+
+
 			}
 			elseif ($layout == 'compare')
 			{
+
 				$segments[] = $layout;
 
 				if (isset($remove) && isset($pid))
 				{
+
 					$segments[] = $pid;
 					$segments[] = 'delete';
 				}
@@ -650,25 +629,24 @@ function redshopBuildRoute(&$query)
 	}
 
 	return $segments;
+
 }
 
 /**
- * Parse redSHOP sef url
- *
- * @param   array  $segments  Sef Url segments
+ * @param    array
  *
  * @return    array
  */
-function redshopParseRoute($segments)
+function RedshopParseRoute($segments)
 {
 	$vars = array();
 	require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
 
 	$db           = JFactory::getDBO();
 	$firstSegment = $segments[0];
-
 	switch ($firstSegment)
 	{
+
 		case 'giftcard':
 			$vars['view'] = "giftcard";
 
@@ -685,16 +663,10 @@ function redshopParseRoute($segments)
 
 		case 'search':
 			$vars['view'] = "search";
-
 			if (isset($segments[1]))
-			{
 				$vars['layout'] = $segments[1];
-			}
-
 			if (isset($segments[2]))
-			{
 				$vars['category_id'] = $segments[2];
-			}
 			break;
 
 		case 'password':
@@ -719,12 +691,10 @@ function redshopParseRoute($segments)
 
 		case 'account_shipto':
 			$vars['view'] = 'account_shipto';
-
 			if (isset($segments[1]))
 			{
 				$vars['task'] = $segments[1];
 			}
-
 			if (isset($segments[2]))
 			{
 				$vars['infoid'] = $segments[2];
@@ -746,6 +716,7 @@ function redshopParseRoute($segments)
 			}
 			break;
 
+
 		case 'orders':
 
 			$vars['view'] = 'orders';
@@ -755,7 +726,6 @@ function redshopParseRoute($segments)
 
 			$vars['view'] = 'order_detail';
 			$vars['oid']  = $segments[1];
-
 			if (isset($segments[2]) && $segments[2] == 'reorder')
 			{
 				$vars['task']     = $segments[2];
@@ -767,19 +737,14 @@ function redshopParseRoute($segments)
 			}
 			break;
 
+
 		case 'wishlist':
 
 			$vars['view'] = 'wishlist';
-
 			if (isset($segments[1]))
-			{
 				$vars['task'] = $segments[1];
-			}
-
 			if (isset($segments[2]))
-			{
 				$vars['wishlist_id'] = $segments[2];
-			}
 			break;
 
 		case 'account':
@@ -789,25 +754,25 @@ function redshopParseRoute($segments)
 
 			if ($segments[1] == 'mytags')
 			{
+
 				if (isset($segments[2]))
 				{
+
 					$vars['tagid'] = $segments[2];
 
 					if (isset($segments[4]))
 					{
+
 						if ($segments[4] == 'edit')
-						{
 							$vars['edit'] = 1;
-						}
 						else
-						{
 							$vars['remove'] = 1;
-						}
 					}
 				}
 			}
 			elseif ($segments[1] == 'mywishlist')
 			{
+
 				if (isset($segments[2]))
 				{
 					$vars['wishlist_id'] = $segments[2];
@@ -822,9 +787,11 @@ function redshopParseRoute($segments)
 				{
 					$vars['remove'] = 1;
 				}
+
 			}
 			elseif ($segments[1] == 'compare')
 			{
+
 				if (isset($segments[2]))
 				{
 					$vars['pid'] = $segments[2];
@@ -852,6 +819,7 @@ function redshopParseRoute($segments)
 
 			if (isset($segments[$last]))
 			{
+
 				if ($main[0][0] != 'P' && $segments[0] != 'compare')
 				{
 					if (ENABLE_SEF_NUMBER_NAME)
@@ -860,11 +828,10 @@ function redshopParseRoute($segments)
 
 						if (isset($segments[$last]))
 						{
-							// Fetch category id
+							# fetch category id
 							$cats        = explode(":", $segments[$last]);
 							$category_id = $cats[0];
 							$vars['cid'] = $category_id;
-
 							if (isset($cats[2]))
 							{
 								$man_id                  = $cats[2];
@@ -875,9 +842,11 @@ function redshopParseRoute($segments)
 							$item           = $menu->getActive();
 							$vars['Itemid'] = $item->id;
 						}
+
 					}
 					else
 					{
+
 						$vars['view'] = "category";
 
 						$menu           = JFactory::getApplication()->getMenu();
@@ -897,8 +866,10 @@ function redshopParseRoute($segments)
 				}
 				else
 				{
+
 					if (ENABLE_SEF_NUMBER_NAME)
 					{
+
 						$vars['view'] = "product";
 
 						if (isset($segments[0]))
@@ -914,6 +885,7 @@ function redshopParseRoute($segments)
 							$vars['task']   = $segments[1];
 						}
 
+
 						if (isset($segments[$last]))
 						{
 							$products    = explode(":", $segments[$last]);
@@ -924,9 +896,11 @@ function redshopParseRoute($segments)
 						$menu           = JFactory::getApplication()->getMenu();
 						$item           = $menu->getActive();
 						$vars['Itemid'] = $item->id;
+
 					}
 					else
 					{
+
 						$vars['view'] = "product";
 
 						if (isset($segments[0]) && $segments[0] == 'compare')
@@ -943,7 +917,6 @@ function redshopParseRoute($segments)
 						{
 							$vars['Itemid'] = $segments[1];
 						}
-
 						if (isset($segments[$second_last]))
 						{
 							$sql = "SELECT category_id FROM #__redshop_category WHERE category_name = '$segments[$second_last]'";

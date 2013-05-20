@@ -27,22 +27,15 @@ class shipping_rateViewshipping_rate extends JView
 		$lists['order_Dir'] = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
 		$id                 = $app->getUserStateFromRequest($context . 'extension_id', 'extension_id', '0');
 
-		if ((int) $id == 0)
-		{
-			JError::raiseError(500, "Direct Access not allowed, go to <a href='index.php?option=com_redshop&view=shipping'>" . JText::_('COM_REDSHOP_SHIPPING') . "</a>");
-
-			return false;
-		}
-
 		$shipping = $shippinghelper->getShippingMethodById($id);
 
 		$shipping_rates = $this->get('Data');
 		$total          = $this->get('Total');
 		$pagination     = $this->get('Pagination');
 
-		$shippingpath     = JPATH_ROOT . '/plugins/' . $shipping->folder . DS . $shipping->element . '.xml';
-		$myparams         = new JRegistry($shipping->params, $shippingpath);
-		$is_shipper       = $myparams->get('is_shipper');
+		$shippingpath = JPATH_ROOT . '/plugins/' . $shipping->folder . DS . $shipping->element . '.xml';
+		$myparams = new JRegistry($shipping->params, $shippingpath);
+		$is_shipper = $myparams->get('is_shipper');
 		$shipper_location = $myparams->get('shipper_location');
 
 		$jtitle = ($shipper_location) ? JText::_('COM_REDSHOP_SHIPPING_LOCATION') : JText::_('COM_REDSHOP_SHIPPING_RATE');

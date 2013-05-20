@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metadata>
-    <layout title="COM_REDSHOP_STANDARD_CHECKOUT_LAYOUT">
+    <layout title="COM_REDSHOP_Standard_Checkout_Layout">
         <message>
-            <![CDATA[COM_REDSHOP_STANDARD_CHECKOUT_LAYOUT_DESC]]>
+            <![CDATA[Standard Checkout Layout For Redshop Checkout]]>
         </message>
     </layout>
+    <state>
+        <name>Standard Checkout</name>
+        <description>COM_REDSHOP_Standard_Checkout_Layout_For_Redshop_Checkout</description>
+    </state>
 </metadata>

@@ -333,11 +333,6 @@ class adminproducthelper
 
 			for ($s = 0; $s < count($shippingmethod); $s++)
 			{
-				if (isset($shippingrate[$s]) === false)
-				{
-					continue;
-				}
-
 				$rate = $shippingrate[$s];
 
 				if (count($rate) > 0)

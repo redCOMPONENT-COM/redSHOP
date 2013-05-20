@@ -330,6 +330,7 @@ define ('ACCESSORY_AS_PRODUCT_IN_CART_ENABLE', '0');
 define ('POSTDK_CUSTOMER_NO', '');
 define ('POSTDK_CUSTOMER_PASSWORD', '');
 define ('POSTDK_INTEGRATION', '0');
+define ('POSTDANMARK_MODE', '0');
 define ('POSTDANMARK_ADDRESS', 'address');
 define ('POSTDANMARK_POSTALCODE', '123456');
 define ('QUICKLINK_ICON', '');

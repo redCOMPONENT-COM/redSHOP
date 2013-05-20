@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metadata>
-    <layout title="COM_REDSHOP_STANDARD_QUOTATION_LAYOUT">
+    <layout title="COM_REDSHOP_Standard_Quotation_Layout">
         <message>
-            <![CDATA[COM_REDSHOP_STANDARD_QUOTATION_LAYOUT_DESC]]>
+            <![CDATA[Standard Quotation Layout For Redshop]]>
         </message>
     </layout>
+    <state>
+        <name>Standard Quotation</name>
+        <description>COM_REDSHOP_Standard_Quotation_Layout_For_Redshop</description>
+    </state>
 </metadata>
