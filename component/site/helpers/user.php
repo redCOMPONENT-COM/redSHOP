@@ -158,6 +158,44 @@ class rsUserhelper
 		return $list;
 	}
 
+	// Support feature new subscription
+	function getShopperGroupListSubscriptionPlan($shopper_group_id=0)
+	{
+		$and = '';
+		if($shopper_group_id!=0)
+		{
+			$and .= 'AND shopper_group_id="'.$shopper_group_id.'" ';
+		}
+
+		$query = 'SELECT sh.*, shopper_group_id AS value, shopper_group_name AS text FROM '.$this->_table_prefix.'shopper_group AS sh '
+			.'WHERE published=1 AND shopper_group_id NOT IN (1,2,3)  '
+			.$and;
+		$this->_db->setQuery( $query );
+
+		$list = $this->_shopper_group_data = $this->_db->loadObjectList();
+		$this->_shopper_group_id = $shopper_group_id;
+		return $list;
+	}
+
+	function getShopperGroupListFallback($shopper_group_id=0)
+	{
+		$and = '';
+		if($shopper_group_id!=0)
+		{
+			$and .= 'AND shopper_group_id="'.$shopper_group_id.'" ';
+		}
+
+		$query = 'SELECT sh.*, shopper_group_id AS value, shopper_group_name AS text FROM '.$this->_table_prefix.'shopper_group AS sh '
+			.'WHERE published=1 AND shopper_group_id IN (1,2,3)  '
+			.$and;
+		$this->_db->setQuery( $query );
+
+		$list = $this->_shopper_group_data = $this->_db->loadObjectList();
+		$this->_shopper_group_id = $shopper_group_id;
+		return $list;
+	}
+
+
 	public function createUserSession($user_id)
 	{
 		$userArr = $this->_session->get('rs_user');
