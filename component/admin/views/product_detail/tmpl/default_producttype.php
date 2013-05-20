@@ -7,20 +7,58 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
-
 require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
 $producthelper = new producthelper();
-
 require_once JPATH_COMPONENT_SITE . '/helpers/helper.php';
 $redhelper = new redhelper();
-
-$div_product = $this->detail->product_type == 'product' ? 'block' : 'none';
-$div_design = $this->detail->product_type == 'design' ? 'block' : 'none';
-$div_file = (($this->detail->product_type == 'file') || ($this->detail->product_download == 1)) ? 'block' : 'none';
-$div_subscription = $this->detail->product_type == 'subscription' ? 'block' : 'none';
-$newdiv_subscription = $this->detail->product_type =='newsubscription' ? 'block' : 'none';
-$td_style = ($this->detail->product_download_infinite == 0) ? 'style="display:table-row;"' : 'style="display:none;"';
-
+if($this->detail->product_type == 'product')
+{
+	$div_product = 'block';
+}
+else
+{
+	$div_product = 'none';
+}
+if($this->detail->product_type == 'design')
+{
+	$div_design = 'block';
+}
+else
+{
+	$div_design = 'none';
+}
+if(($this->detail->product_type == 'file') || ($this->detail->product_download == 1))
+{
+	$div_file =  'block';
+}
+else
+{
+	$div_file =  'none';
+}
+if( $this->detail->product_type == 'subscription')
+{
+	$div_subscription = 'block';
+}
+else
+{
+	$div_subscription = 'none';
+}
+if( $this->detail->product_type == 'newsubscription')
+{
+	$newdiv_subscription = 'block';
+}
+else
+{
+	$newdiv_subscription = 'none';
+}
+if($this->detail->product_download_infinite == 0)
+{
+	$td_style = 'style="display:table-row;"' ;
+}
+else
+{
+	$td_style = 'style="display:none;"';
+}
 ?>
 <div id="div_product" style="display:<?php echo $div_product; ?>;">
 </div>
@@ -41,14 +79,9 @@ $td_style = ($this->detail->product_download_infinite == 0) ? 'style="display:ta
 					<table>
 						<tr>
 							<td><?php
-								//var_dump($this->lists['product_designtype'][0]->shoppergroups);
-								//var_dump($this->lists['shoppergrouplist']);
-
 								$selectedarray = explode(",", $this->lists['product_designtype'][0]->shoppergroups);
-
 								for ($i = 0; $i < count($this->lists['shoppergrouplist']); $i++)
 								{
-
 									if (in_array($this->lists['shoppergrouplist'][$i]->shopper_group_id, $selectedarray))
 									{
 										$checked = 'checked="checked"';
@@ -57,10 +90,7 @@ $td_style = ($this->detail->product_download_infinite == 0) ? 'style="display:ta
 									{
 										$checked = '';
 									}
-									//echo  "\n\t<input type=\"radio\" name=\"$name\" id=\"$id_text$k\" value=\"".$k."\"$extra $attribs />";
 									echo '<input type="checkbox" ' . $checked . '  name="shoppergroup[]" id="shoppergroup' . $this->lists['shoppergrouplist'][$i]->shopper_group_id . '" value="' . $this->lists['shoppergrouplist'][$i]->shopper_group_id . '" /> ' . $this->lists['shoppergrouplist'][$i]->shopper_group_name . "<br/>";
-									//$optiondtype[] = JHTML::_('select.option', $designtype[$i]->designtype_id,$designtype[$i]->designtype_name);
-
 								}
 								?>
 							</td>
@@ -71,7 +101,6 @@ $td_style = ($this->detail->product_download_infinite == 0) ? 'style="display:ta
 					</table>
 				</td>
 			</tr>
-			<?php // Edited 210110 ?>
 			<tr>
 				<td><?php echo JText::_('COM_REDSHOP_REDDESIGN_ENABLE_NAME'); ?> </td>
 				<td><?php echo $this->lists['reddesign_enable']; ?><?php echo JHTML::tooltip(JText::_('COM_REDSHOP_REDDESIGN_ENABLE_TIP'), JText::_('COM_REDSHOP_REDDESIGN_ENABLE_NAME'), 'tooltip.png', '', '', false); ?>  </td>

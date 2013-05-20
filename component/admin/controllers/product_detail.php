@@ -112,12 +112,12 @@ class product_detailController extends JController
 			// Extra Field Data Saved
 			$msg = JText::_('COM_REDSHOP_PRODUCT_DETAIL_SAVED');
 
-			# save Product Subscription
+			// save Product Subscription
 			if ($post['product_type'] == "newsubscription")
 			{
 				$this->saveSubscription($post, $row);
 			}
-			# End
+
 
 			if ($container_id != '' || $stockroom_id != '')
 			{
@@ -271,12 +271,18 @@ class product_detailController extends JController
 	}
 
 
-	function saveSubscription($post, $row)
+	public function saveSubscription($post, $row)
 	{
 		$model = $this->getModel('product_detail');
 		$subscription = $post['subscription'];
-		$savData = array();
-		$savData['subscription_id'] = ($subscription['subscription_id'] > 0) ? $subscription['subscription_id'] : 0;
+		if($subscription['subscription_id'] > 0)
+		{
+			$savData['subscription_id'] = $subscription['subscription_id'];
+		}
+		else
+		{
+			$savData['subscription_id'] = 0 ;
+		}
 		$savData['product_id'] = $row->product_id;
 		$savData['subscription_period'] = $subscription['subscription_period'];
 		$savData['subscription_period_unit'] = $subscription['subscription_period_unit'];
@@ -512,7 +518,6 @@ class product_detailController extends JController
 				}
 			}
 		}
-
 		return;
 	}
 
@@ -1033,14 +1038,12 @@ class product_detailController extends JController
 					}
 				}
 			}
-
 			closedir($dir_handle);
 		}
-
 		return true;
 	}
 
-	function removeProduct()
+	public function removeProduct()
 	{
 		$product_in_subscripton = JRequest::getVar('pids');
 		$cid = JRequest::getVar('cid');

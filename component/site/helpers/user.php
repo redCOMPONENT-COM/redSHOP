@@ -5,6 +5,7 @@
  *
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
+
  */
 
 defined('_JEXEC') or die;
@@ -159,37 +160,35 @@ class rsUserhelper
 	}
 
 	// Support feature new subscription
-	function getShopperGroupListSubscriptionPlan($shopper_group_id=0)
+	public function getShopperGroupListSubscriptionPlan($shopper_group_id=0)
 	{
 		$and = '';
 		if($shopper_group_id!=0)
 		{
 			$and .= 'AND shopper_group_id="'.$shopper_group_id.'" ';
 		}
-
-		$query = 'SELECT sh.*, shopper_group_id AS value, shopper_group_name AS text FROM '.$this->_table_prefix.'shopper_group AS sh '
-			.'WHERE published=1 AND shopper_group_id NOT IN (1,2,3)  '
-			.$and;
+		$query= $this->_db->getQuery(true);
+		$query->select('sh.*,shopper_group_id AS value,shopper_group_name AS text');
+		$query->from($this->_table_prefix.'shopper_group AS sh');
+		$query->where('published=1 AND shopper_group_id NOT IN (1,2,3)'.$and);
 		$this->_db->setQuery( $query );
-
 		$list = $this->_shopper_group_data = $this->_db->loadObjectList();
 		$this->_shopper_group_id = $shopper_group_id;
 		return $list;
 	}
 
-	function getShopperGroupListFallback($shopper_group_id=0)
+	public function getShopperGroupListFallback($shopper_group_id=0)
 	{
 		$and = '';
 		if($shopper_group_id!=0)
 		{
 			$and .= 'AND shopper_group_id="'.$shopper_group_id.'" ';
 		}
-
-		$query = 'SELECT sh.*, shopper_group_id AS value, shopper_group_name AS text FROM '.$this->_table_prefix.'shopper_group AS sh '
-			.'WHERE published=1 AND shopper_group_id IN (1,2,3)  '
-			.$and;
+		$query= $this->_db->getQuery(true);
+		$query->select('sh.*,shopper_group_id AS value,shopper_group_name AS text');
+		$query->from($this->_table_prefix.'shopper_group AS sh');
+		$query->where('published=1 AND shopper_group_id IN (1,2,3)'.$and);
 		$this->_db->setQuery( $query );
-
 		$list = $this->_shopper_group_data = $this->_db->loadObjectList();
 		$this->_shopper_group_id = $shopper_group_id;
 		return $list;

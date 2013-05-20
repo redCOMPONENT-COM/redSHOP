@@ -7,33 +7,19 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
-
 require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
-
 $producthelper = new producthelper;
-
 JHTML::_('behavior.tooltip');
-
 $editor = JFactory::getEditor();
-
 JHTMLBehavior::modal();
-
 $uri = JURI::getInstance();
-
 $url = $uri->root();
-
 $option = JRequest::getVar('option');
-
 jimport('joomla.html.pane');
-
 $container_id = JRequest::getVar('container_id', '', 'request', 'string');
-
 $stockroom_id = JRequest::getVar('stockroom_id', '', 'request', 'string');
-
 $now = JFactory::getDate();
-
 $model = $this->getModel('product_detail');
-
 ?>
 <script language="javascript" type="text/javascript">
 	function add_dependency(type_id, tag_id, product_id) {
@@ -51,20 +37,16 @@ $model = $this->getModel('product_detail');
 		dependent_tags = arry_sel.join(",");
 		if (document.getElementById('product_id'))
 			product_id = document.getElementById('product_id').value;
-		args = "dependent_tags=" + dependent_tags + "&product_id=" + product_id + "&type_id=" + type_id + "&tag_id=" + tag_id;
-		var url = "index.php?tmpl=component&option=com_redproductfinder&controller=associations&task=savedependent&" + args;
-
-		request.onreadystatechange = function () {
-			if (request.readyState == 4) {
-				alert(request.responseText);
-			}
+			args = "dependent_tags=" + dependent_tags + "&product_id=" + product_id + "&type_id=" + type_id + "&tag_id=" + tag_id;
+			var url = "index.php?tmpl=component&option=com_redproductfinder&controller=associations&task=savedependent&" + args;
+			request.onreadystatechange = function () {
+				if (request.readyState == 4) {
+					alert(request.responseText);
+				}
 		}
 		request.open("GET", url, true);
 		request.send(null);
 	}
-	/*var dom = {};
-	 dom.query = jQuery.noConflict();
-	 jQuery.noConflict(true);*/
 
 	Joomla.submitbutton = function (pressbutton) {
 		submitbutton(pressbutton);
@@ -72,42 +54,47 @@ $model = $this->getModel('product_detail');
 
 	submitbutton = function (pressbutton) {
 		var form = document.adminForm;
-
 		if (pressbutton == 'cancel') {
 			submitform(pressbutton);
+
 			return;
 		}
-
 		if (pressbutton == 'prices') {
 			document.adminForm.view.value = 'prices';
 			submitform(pressbutton);
+
 			return;
 		}
 		if (pressbutton == 'wrapper') {
 			document.adminForm.view.value = 'wrapper';
 			submitform(pressbutton);
+
 			return;
 		}
 		if (form.product_name.value == "")
 		{
 			alert("<?php echo JText::_('COM_REDSHOP_PRODUCT_ITEM_MUST_HAVE_A_NAME', true); ?>");
+
 			return;
 		}
-		else if (form.product_number.value == "")
+		elseif (form.product_number.value == "")
 		{
 			alert("<?php echo JText::_('COM_REDSHOP_PRODUCT_ITEM_MUST_HAVE_A_NUMBER', true); ?>");
+
 			return;
-		} else if (form.product_category.value == "")
+		}elseif (form.product_category.value == "")
 		{
 			alert("<?php echo JText::_('COM_REDSHOP_CATEGORY_MUST_SELECTED', true); ?>");
+
 			return;
 		}
-		else if (form.product_template.value == "0")
+		elseif (form.product_template.value == "0")
 		{
 			alert("<?php echo JText::_('COM_REDSHOP_TEMPLATE_MUST_SELECTED', true); ?>");
+
 			return;
 		}
-		else if (form.copy_attribute.length)
+		elseif (form.copy_attribute.length)
 		{
 			for (var i = 0; i < form.copy_attribute.length; i++)
 			{
@@ -116,6 +103,7 @@ $model = $this->getModel('product_detail');
 					if (form.copy_attribute[i].value == "1" && form.attribute_set_id.value == '')
 					{
 						alert("<?php echo JText::_('COM_REDSHOP_ATTRIBUTE_SET_MUST_BE_SELECTED', true); ?>");
+
 						return;
 					}
 				}
@@ -129,7 +117,6 @@ $model = $this->getModel('product_detail');
 		if (oprand != '+' && oprand != '-' && oprand != '=' && oprand != '*' && oprand != "/")
 		{
 			alert("<?php echo JText::_('COM_REDSHOP_WRONG_OPRAND', true); ?>");
-
 			s.value = "+";
 		}
 	}
@@ -140,7 +127,6 @@ $model = $this->getModel('product_detail');
 		var downloadlimit = document.getElementById('download_limit');
 		var downloaddays = document.getElementById('download_days');
 		var downloadclock = document.getElementById('download_clock');
-
 		if (val.value == 1)
 		{
 			downloadlimit.style.display = 'none';
@@ -153,16 +139,13 @@ $model = $this->getModel('product_detail');
 			downloaddays.style.display = 'table-row';
 			downloadclock.style.display = 'table-row';
 		}
-
 	}
 </script>
 <?php
 $showbuttons = JRequest::getCmd('showbuttons');
-
 if ($showbuttons == 1)
 {
 	?>
-
 	<fieldset>
 		<div style="float: right">
 			<button type="button" onclick="submitbutton('save');"> <?php echo JText::_('COM_REDSHOP_SAVE'); ?> </button>
@@ -177,10 +160,8 @@ if ($showbuttons == 1)
 // Get JPaneTabs instance
 $myTabs = JPane::getInstance('tabs', array('startOffset' => 0));
 $output = '';
-
 // Create Pane
 $output .= $myTabs->startPane('pane');
-
 // Create 1st Tab
 echo $output .= $myTabs->startPanel(JText::_('COM_REDSHOP_PRODUCT_INFORMATION'), 'tab1');?>
 <div class="col50">
@@ -256,9 +237,7 @@ echo $output .= $myTabs->startPanel(JText::_('COM_REDSHOP_PRODUCT_INFORMATION'),
 							    class="key"><?php echo JText::_('COM_REDSHOP_PARENT_PRODUCT'); ?>:
 							</td>
 							<td><?php $list = $producthelper->getProductByID($this->detail->product_parent_id);
-
 								$productname = "";
-
 								if (count($list) > 0)
 								{
 									$productname = $list->product_name;
@@ -355,7 +334,6 @@ echo $output .= $myTabs->startPanel(JText::_('COM_REDSHOP_PRODUCT_INFORMATION'),
 							</td>
 						</tr>
 						<?php if ($this->detail->product_id > 0){
-
 						$ItemData = $producthelper->getMenuInformation(0,0,'','product&pid='.$this->detail->product_id);
 						$catidmain= $this->detail->first_selected_category_id;
 						if (count($ItemData) > 0)
@@ -1097,10 +1075,8 @@ echo  $myTabs->startPanel(JText::_('COM_REDSHOP_META_DATA_TAB'), 'tab5' );
 </fieldset>
 <?php
 echo $myTabs->endPanel();
-
 //Create 7th Tab
 echo  $myTabs->startPanel(JText::_('COM_REDSHOP_CHANGE_PRODUCT_TYPE'), 'tab7' );
-
 ?>
 <div class="col50">
 	<table class="adminform">
@@ -1112,9 +1088,7 @@ echo  $myTabs->startPanel(JText::_('COM_REDSHOP_CHANGE_PRODUCT_TYPE'), 'tab7' );
 	<?php echo $this->loadTemplate('producttype')?>
 </div>
 <?php
-
 echo $myTabs->endPanel();
-
 if ( USE_STOCKROOM == 1)
 {
 //Create 8th Tab
@@ -1135,9 +1109,7 @@ echo  $myTabs->startPanel(JText::_('COM_REDSHOP_DISCOUNT_CALCULATOR'), 'tab9' );
 </div>
 <?php
 echo  $myTabs->endPanel();
-
 echo $myTabs->startPanel(JText::_('COM_REDSHOP_ECONOMIC_SETTINGS'), 'tab10' );?>
-
 <fieldset class="adminform">
 	<legend><?php echo JText::_( 'COM_REDSHOP_ECONOMIC_SETTINGS' ); ?></legend>
 	<table class="admintable" border="0" width="100%">
@@ -1173,9 +1145,6 @@ echo $myTabs->startPanel(JText::_('COM_REDSHOP_ECONOMIC_SETTINGS'), 'tab10' );?>
 	</table>
 </fieldset>
 <?php echo $myTabs->endPanel();
-
-
-
 //End Pane
 echo $myTabs->endPane();
 ?>
@@ -1234,9 +1203,9 @@ if($container_id) {
 		else
 			document.getElementById("product_download1").checked = false;
 	}
+
 	function showBox(div) {
 		var opendiv = document.getElementById(div);
-
 		if (opendiv.style.display == 'block') opendiv.style.display = 'none';
 		else opendiv.style.display = 'block';
 		return false;
@@ -1244,11 +1213,8 @@ if($container_id) {
 
 
 	function jimage_insert(main_path, fid, fsec) {
-
 		var path_url = "<?php echo $url;?>";
-
 		if (!fid && !fsec) {
-
 			if (main_path) {
 				document.getElementById("image_display").style.display = "block";
 				document.getElementById("product_image").value = main_path;
@@ -1259,7 +1225,6 @@ if($container_id) {
 				document.getElementById("image_display").src = "";
 			}
 		} else {
-
 			if (fsec == 'property') {
 				if (main_path) {
 					var propimg = 'propertyImage' + fid;
@@ -1268,8 +1233,6 @@ if($container_id) {
 					document.getElementById(propimg).heidth = "60";
 					document.getElementById("propmainImage" + fid).value = main_path;
 					document.getElementById(propimg).src = path_url + main_path;
-
-
 				}
 				else {
 					document.getElementById("propmainImage" + fid).value = "";
@@ -1284,8 +1247,6 @@ if($container_id) {
 					document.getElementById(propimg).heidth = "60";
 					document.getElementById("subpropmainImage" + fid).value = main_path;
 					document.getElementById(propimg).src = path_url + main_path;
-
-
 				}
 				else {
 					document.getElementById("subpropmainImage" + fid).value = "";
@@ -1295,7 +1256,6 @@ if($container_id) {
 		}
 	}
 	// Parent Product Search
-
 	var options = {
 		script: "index.php?tmpl=component&option=com_redshop&view=search&json=true&product_id=<?php echo $this->detail->product_id;?>&parent=1&",
 		varname: "input",
@@ -1305,14 +1265,10 @@ if($container_id) {
 			document.getElementById('product_parent_id').value = obj.id;
 		}
 	};
-
 	var as_json = new bsn.AutoSuggest('parent', options);
-
 	// End Of Parent Product Search
 
-
 	// ------------------ Accessory Product ------------------------
-
 	var options = {
 		script: "index.php?tmpl=component&option=com_redshop&view=search&json=true&product_id=<?php echo $this->detail->product_id;?>&",
 		varname: "input",
@@ -1323,12 +1279,10 @@ if($container_id) {
 			create_table_accessory(obj.value, obj.id, obj.price);
 		}
 	};
-
 	var as_json = new bsn.AutoSuggest('input', options);
 
 	//------------- End Of Accessory Product --------------------------
 	//-------------- Related Product ----------------------------------
-
 	var related = {
 		script: "index.php?tmpl=component&option=com_redshop&view=search&json=true&product_id=<?php echo $this->detail->product_id;?>&related=1&",
 		varname: "input",
@@ -1348,10 +1302,6 @@ if($container_id) {
 			}
 		}
 	};
-
 	var as_json = new bsn.AutoSuggest('relat', related);
-
 	//-------------- End Related Product ---------------------------
-
-
 </script>
