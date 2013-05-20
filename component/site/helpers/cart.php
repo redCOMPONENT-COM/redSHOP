@@ -872,7 +872,15 @@ class rsCarthelper
 				}
 			}
 
-			$replace[] = $shopLocation . ' ' . isset($mobilearr[1]) ? $mobilearr[1] : "";
+			if (isset($mobilearr[1]) === true)
+			{
+				$replace[] = $shopLocation . ' ' . $mobilearr[1];
+			}
+			else
+			{
+				$replace[] = $shopLocation;
+			}
+
 			$data      = str_replace($search, $replace, $data);
 		}
 		else
