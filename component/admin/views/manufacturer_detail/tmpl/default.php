@@ -199,7 +199,8 @@ if ($this->detail->manufacturer_id != 0)
 		<tr>
 			<td>&nbsp;</td>
 			<td>
-				<div id="image_dis">
+				<div id="image_dis"
+				     style="width: <?php echo MANUFACTURER_THUMB_WIDTH + 10; ?>px;height: <?php echo MANUFACTURER_THUMB_HEIGHT + 10; ?>px;">
 					<img src="<?php echo $image_path; ?>" id="image_display" border="0"/>
 					<input type="hidden" name="product_image" id="product_image"/>
 				</div>

@@ -28,7 +28,6 @@ class product_detailController extends JController
 		JRequest::setVar('view', 'product_detail');
 		JRequest::setVar('layout', 'default');
 		JRequest::setVar('hidemainmenu', 1);
-
 		parent::display();
 	}
 

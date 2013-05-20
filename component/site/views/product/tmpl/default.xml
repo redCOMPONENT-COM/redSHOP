@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metadata>
-    <layout title="COM_REDSHOP_STANDARD_PRODUCT_LAYOUT">
+    <layout title="COM_REDSHOP_Standard_Product_Layout">
         <message>
-            <![CDATA[COM_REDSHOP_STANDARD_PRODUCT_LAYOUT_DESC]]>
+            <![CDATA[Standard Product Layout For Redshop ]]>
         </message>
     </layout>
     <fields name="request">
@@ -10,9 +10,9 @@
                   addfieldpath="/administrator/components/com_redshop/elements">
 
             <field name="pid" type="products"
-                   label="COM_REDSHOP_SELECT_PRODUCTS"
+                   label="Select Products"
                    required="true"
-                   description="COM_REDSHOP_A_PRODUCT"
+                   description="A Product"
                     />
         </fieldset>
     </fields>

@@ -22,6 +22,17 @@ defined('_JEXEC') or die ('Restricted access');
 	</tr>
 	<tr>
 		<td class="key">
+			<label for="name">
+				<span class="editlinktip hasTip"
+				      title="<?php echo JText::_('COM_REDSHOP_TOOLTIP_POST_DK_TEST_MODE_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_POST_DK_TEST_MODE'); ?>">
+					<?php echo JText::_('COM_REDSHOP_POST_DK_TESTMODE_LBL');?>
+				</span>
+			</label>
+		</td>
+		<td><?php echo $this->lists['postdk_testmode'];?></td>
+	</tr>
+	<tr>
+		<td class="key">
 			<span class="editlinktip hasTip"
 			      title="<?php echo JText::_('COM_REDSHOP_POST_DK_CUSTOMER_ID_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_POST_DK_CUSTOMER_ID_LBL'); ?>">
 				<?php echo JText::_('COM_REDSHOP_POST_DK_CUSTOMER_ID_LBL');?>

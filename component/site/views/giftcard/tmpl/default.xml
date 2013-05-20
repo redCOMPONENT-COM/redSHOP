@@ -2,7 +2,12 @@
 <metadata>
     <layout title="COM_REDSHOP_STANDARD_GIFTCARD_LIST">
         <message>
-            <![CDATA[COM_REDSHOP_STANDARD_GIFTCARD_LIST_DESC]]>
+            <![CDATA[Standard Giftcard Layout For Redshop Giftcard]]>
         </message>
     </layout>
+    <state>
+        <name>Standard Giftcard List</name>
+        <description>COM_REDSHOP_Standard_Giftcard_Layout_For_Redshop_Giftcard</description>
+
+    </state>
 </metadata>

@@ -2,28 +2,31 @@
 <metadata>
     <layout title="COM_REDSHOP_STANDARD_CATEGORY_LAYOUT_TO_SHOW_ALL_CATEGORY_PRODUCT">
         <message>
-            <![CDATA[COM_REDSHOP_STANDARD_CATEGORY_LAYOUT_TO_SHOW_ALL_CATEGORY_PRODUCT_DESC]]>
+            <![CDATA[Standard Category Layout to Show all Category Product For Redshop Category]]>
         </message>
     </layout>
-
-    <fields name="params" addfieldpath="/administrator/components/com_redshop/elements">
-        <fieldset name="basic">
-            <field name="maxcategory" type="text" size="4" default="5"
+    <state>
+        <name>Show all Category Product</name>
+        <description>COM_REDSHOP_Standard_Category_Layout_to_Show_all_Category_Product_For_Redshop_Category
+        </description>
+        <fields name="params" addfieldpath="/administrator/components/com_redshop/elements">
+            <fieldset name="basic">
+                <field name="maxcategory" type="text" size="4" default="5"
                        label="COM_REDSHOP_HOW_MANY_CATEGROY_TO_DISPLAY_PER_PAGE_LBL"
                        description="COM_REDSHOP_HOW_MANY_CATEGROY_TO_DISPLAY_PER_PAGE"/>
-            <field name="maxproduct" type="text" size="4" default="5"
+                <field name="maxproduct" type="text" size="4" default="5"
                        label="COM_REDSHOP_HOW_MANY_PRODUCTS_TO_DISPLAY_PER_CATEGROY_LBL"
                        description="COM_REDSHOP_HOW_MANY_PRODUCTS_TO_DISPLAY_PER_CATEGROY"/>
-            <field name="order_by" type="productsearchtype" label="COM_REDSHOP_PRODUCT_SORTING"
-                       description="COM_REDSHOP_SELECT_PRODUCT_SORTING"/>
-        </fieldset>
-    </fields>
-
-    <fields name="request">
-        <fieldset name="request"
+                <field name="order_by" type="productsearchtype" label="Product Sorting"
+                       description="Select Product Sorting"/>
+            </fieldset>
+        </fields>
+        <fields name="request">
+            <fieldset name="request"
                       addfieldpath="/administrator/components/com_redshop/elements">
-            <field name="cid" type="category" label="COM_REDSHOP_SELECT_CATEGORY" required="true"
-                       description="COM_REDSHOP_DISPLAYS_THE_SELECTED_CATEGORY_PRODUCT"/>
-        </fieldset>
-    </fields>
+                <field name="cid" type="category" label="Select Category" required="true"
+                       description="Displays the selected category product"/>
+            </fieldset>
+        </fields>
+    </state>
 </metadata>

@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metadata>
-    <layout title="COM_REDSHOP_STANDARD_PRODUCT_RATING_LAYOUT">
+    <layout title="COM_REDSHOP_Standard_Product_Rating_Layout">
         <message>
-            <![CDATA[COM_REDSHOP_STANDARD_PRODUCT_RATING_LAYOUT_DESC]]>
+            <![CDATA[Standard Product Rating Layout For Redshop to Rate Product]]>
         </message>
     </layout>
+    <state>
+        <name>Standard Product Rating</name>
+        <description>COM_REDSHOP_Standard_Product_Rating_Layout_For_Redshop_to_Rate_Product</description>
+    </state>
 </metadata>
