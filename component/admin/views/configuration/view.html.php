@@ -833,17 +833,12 @@ class configurationViewconfiguration extends JView
 		);
 		unset($option);
 
-		$lists['postdk_integration'] = JHTML::_('select.booleanlist', 'postdk_integration', 'class="inputbox" size="1"', POSTDK_INTEGRATION);
-		$lists['postdk_testmode']    = JHTML::_('select.booleanlist', 'postdk_testmode', 'class="inputbox" size="1"', POSTDANMARK_MODE);
-		$superadminid                = explode(",", ADMINISTRATOR_EMAIL);
-
+		$lists['postdk_integration']         = JHTML::_('select.booleanlist', 'postdk_integration', 'class="inputbox" size="1"', POSTDK_INTEGRATION);
 		$lists['display_new_orders']         = JHTML::_('select.booleanlist', 'display_new_orders', 'class="inputbox" size="1"', DISPLAY_NEW_ORDERS);
 		$lists['display_new_customers']      = JHTML::_('select.booleanlist', 'display_new_customers', 'class="inputbox" size="1"', DISPLAY_NEW_CUSTOMERS);
 		$lists['display_statistic']          = JHTML::_('select.booleanlist', 'display_statistic', 'class="inputbox" size="1"', DISPLAY_STATISTIC);
 		$lists['expand_all']                 = JHTML::_('select.booleanlist', 'expand_all', 'class="inputbox" size="1"', EXPAND_ALL);
-		$lists['send_catalog_reminder_mail'] = JHTML::_('select.booleanlist', 'send_catalog_reminder_mail',
-			'class="inputbox" size="1"', SEND_CATALOG_REMINDER_MAIL
-		);
+		$lists['send_catalog_reminder_mail'] = JHTML::_('select.booleanlist', 'send_catalog_reminder_mail', 'class="inputbox" size="1"', SEND_CATALOG_REMINDER_MAIL);
 
 		$current_version      = $model->getcurrentversion();
 		$getinstalledmodule   = $model->getinstalledmodule();

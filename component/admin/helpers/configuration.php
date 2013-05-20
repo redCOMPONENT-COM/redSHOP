@@ -761,7 +761,6 @@ class Redconfiguration
 						"POSTDK_CUSTOMER_NO"                           => $d ["postdk_customer_no"],
 						"POSTDK_CUSTOMER_PASSWORD"                     => $d ["postdk_customer_password"],
 						"POSTDK_INTEGRATION"                           => $d ["postdk_integration"],
-						"POSTDANMARK_MODE"                             => $d ["postdk_testmode"],
 						"POSTDANMARK_ADDRESS"                          => $d ["postdk_address"],
 						"POSTDANMARK_POSTALCODE"                       => $d ["postdk_postalcode"],
 
