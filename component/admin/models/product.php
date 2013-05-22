@@ -74,8 +74,9 @@ class productModelproduct extends JModel
 			// First pass - collect children
 			foreach ($products as $v)
 			{
-				$pt   = $v->parent_id = $v->parent;
-				$list = @$children[$pt] ? $children[$pt] : array();
+				$pt           = $v->parent;
+				$v->parent_id = $v->parent;
+				$list         = @$children[$pt] ? $children[$pt] : array();
 				array_push($list, $v);
 				$children[$pt] = $list;
 			}
