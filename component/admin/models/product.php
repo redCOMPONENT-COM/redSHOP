@@ -82,7 +82,7 @@ class productModelproduct extends JModel
 
 			// Second pass - get an indent list of the items
 			$this->_data = JHTML::_('menu.treerecurse', 0, '', array(), $children, max(0, 9));
-			$this->_data = array_merge(array(), $this->_data);
+			$this->_data = array_values($this->_data);
 		}
 
 		return $this->_data;
