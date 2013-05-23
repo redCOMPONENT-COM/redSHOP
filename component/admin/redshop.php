@@ -132,8 +132,6 @@
 		&& $controller != "product_attribute_price" && $task != "ins_product" && $controller != "shipping_rate_detail"
 		&& $controller != "accountgroup_detail" && $layout != "labellisting" && $task != "checkVirtualNumber")
 	{
-		echo '<div style="width:100%;">';
-
 		if ($controller != "redshop" && $controller != "configuration" && $controller != "product_detail"
 			&& $controller != "country_detail" && $controller != "state_detail" && $controller != "category_detail"
 			&& $controller != "fields_detail" && $controller != "container_detail" && $controller != "stockroom_detail"
@@ -156,6 +154,8 @@
 			require_once JPATH_COMPONENT . '/helpers/menu.php';
 			$menu = new leftmenu;
 			echo '</div>';
+
+			// Set div for listing body
 			echo '<div style="float:left;width:80%;">';
 		}
 	}
@@ -165,3 +165,6 @@
 	$controller = new $classname( array('default_task' => 'display') );
 	$controller->execute(JRequest::getVar('task'));
 	$controller->redirect();
+
+	// End div here
+	echo '</div>';
