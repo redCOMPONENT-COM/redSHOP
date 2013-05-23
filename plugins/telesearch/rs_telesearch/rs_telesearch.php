@@ -16,7 +16,7 @@ class plgtelesearchrs_telesearch extends JPlugin
 	/**
 	 * specific redform plugin parameters
 	 *
-	 * @var JParameter object
+	 * @var JRegistry object
 	 */
 	public function plgtelesearchrs_telesearch(&$subject, $config = array())
 	{

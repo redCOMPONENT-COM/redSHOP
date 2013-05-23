@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<extension version="2.5.0" type="plugin" group="redshop_payment"
-           method="upgrade">
+<extension version="2.5.0" type="plugin" group="redshop_payment" method="upgrade">
     <name>PLG_RS_PAYMENT_BBS</name>
     <version>1.2</version>
     <creationDate>April 2013</creationDate>
@@ -84,7 +83,7 @@
                        label="Enter E-conomic Design and Layout ID"/>
                 <field name="shopper_group_id" type="plugins" default="0"
                        label="Select Shopper Group" description="Displays the shopper groups"
-                       addfieldpath="/administrator/components/com_redshop/fields"/>
+                       addfieldpath="/administrator/components/com_redshop/elements"/>
                 <field name="order_status_capture" type="sql"
                        query="SELECT order_status_code AS value, order_status_name AS title FROM #__redshop_order_status "
                        default="S" key_field="value" value_field="title"

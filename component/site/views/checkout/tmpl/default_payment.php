@@ -30,7 +30,7 @@ else
 $billingaddresses = $model->billingaddresses();
 $is_company       = $billingaddresses->is_company;
 
-if ($billingaddresses->ean_number != "")
+if ((int) $billingaddresses->ean_number == 0)
 {
 	$ean_number = 1;
 }

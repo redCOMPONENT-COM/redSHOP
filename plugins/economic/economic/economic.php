@@ -16,7 +16,7 @@ class plgEconomicEconomic extends JPlugin
 	/**
 	 * specific redform plugin parameters
 	 *
-	 * @var JParameter object
+	 * @var JRegistry object
 	 */
 	public $_conn = false;
 

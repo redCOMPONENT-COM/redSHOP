@@ -47,7 +47,7 @@ if (!class_exists('LofSliderGroupK2'))
 		/**
 		 * get the list of k2 items
 		 *
-		 * @param JParameter $params;
+		 * @param JRegistry $params;
 		 *
 		 * @return Array
 		 */
@@ -145,7 +145,7 @@ if (!class_exists('LofSliderGroupK2'))
 		/**
 		 * build condition query base parameter
 		 *
-		 * @param JParameter $params;
+		 * @param JRegistry $params;
 		 *
 		 * @return string.
 		 */

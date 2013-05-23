@@ -120,7 +120,7 @@ $payment_method_class = $order_payment[0]->payment_method_class;
 JLoader::import('joomla.plugin.helper');
 
 $plugin = JPluginHelper::getPlugin('redshop_payment', $payment_method_class);
-$params = new JParameter($plugin->params);
+$params = new JRegistry($plugin->params);
 
 $txtextra_info = $params->get('txtextra_info');
 

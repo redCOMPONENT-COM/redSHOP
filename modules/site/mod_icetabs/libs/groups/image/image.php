@@ -102,7 +102,7 @@ if (!class_exists('LofSliderGroupImage'))
 		/**
 		 * get the list of articles, using for joomla 1.6.x
 		 *
-		 * @param JParameter $params;
+		 * @param JRegistry $params;
 		 *
 		 * @return array;
 		 */

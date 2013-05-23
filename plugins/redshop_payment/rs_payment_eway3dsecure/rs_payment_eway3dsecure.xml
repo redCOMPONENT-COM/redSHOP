@@ -91,7 +91,7 @@
                        label="Enter E-conomic Design and Layout ID"/>
                 <field name="shopper_group_id" type="plugins" default="0"
                        label="Select Shopper Group" description="Displays the shopper groups"
-                       addfieldpath="/administrator/components/com_redshop/fields"/>
+                       addfieldpath="/administrator/components/com_redshop/elements"/>
             </fieldset>
         </fields>
     </config>
