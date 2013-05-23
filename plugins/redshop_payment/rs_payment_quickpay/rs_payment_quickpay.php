@@ -10,8 +10,7 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.plugin.plugin');
-//$app = JFactory::getApplication();
-//$app->registerEvent( 'onPrePayment', 'plgRedshoprs_payment_bbs' );
+
 class plgRedshop_paymentrs_payment_quickpay extends JPlugin
 {
 	var $_table_prefix = null;
@@ -29,8 +28,8 @@ class plgRedshop_paymentrs_payment_quickpay extends JPlugin
 		// Load plugin parameters
 		parent::__construct($subject);
 		$this->_table_prefix = '#__redshop_';
-		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_quickpay');
-		$this->_params = new JRegistry($this->_plugin->params);
+		$this->_plugin       = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_quickpay');
+		$this->_params       = new JRegistry($this->_plugin->params);
 	}
 
 	/**
@@ -48,7 +47,7 @@ class plgRedshop_paymentrs_payment_quickpay extends JPlugin
 			$plugin = $element;
 		}
 
-		$app = JFactory::getApplication();
+		$app         = JFactory::getApplication();
 		$paymentpath = JPATH_SITE . '/plugins/redshop_payment/' . $plugin . DS . $plugin . '/extra_info.php';
 		include $paymentpath;
 	}
@@ -60,32 +59,36 @@ class plgRedshop_paymentrs_payment_quickpay extends JPlugin
 			return;
 		}
 
-		$db = JFactory::getDBO();
+		$db      = JFactory::getDBO();
 		$request = JRequest::get('request');
 
-		$order_id = $request["orderid"];
-		$order_amount = $request["amount"];
+		$order_id       = $request["orderid"];
+		$order_amount   = $request["amount"];
 		$order_currency = $request["currency"];
 		$order_currency = $request["time"];
-		$order_ekey = $request["state"];
-		$qpstat = $request["qpstat"];
-		$chstat = $request["chstat"];
-		$transaction = $request["transaction"];
-		$tid = $request["transaction"];
-		$cardtype = $request["cardtype"];
-		$cardnumber = $request["cardnumber"];
-		$md5check = $request["md5check"];
+		$order_ekey     = $request["state"];
+		$qpstat         = $request["qpstat"];
+		$chstat         = $request["chstat"];
+		$transaction    = $request["transaction"];
+		$tid            = $request["transaction"];
+		$cardtype       = $request["cardtype"];
+		$cardnumber     = $request["cardnumber"];
+		$md5check       = $request["md5check"];
 
 		$md5word = $request["md5word"];
 		$ok_page = $request["callback"];
 
 		$quickpay_parameters = $this->getparameters('rs_payment_quickpay');
-		$paymentinfo = $quickpay_parameters[0];
-		$paymentparams = new JRegistry($paymentinfo->params);
+		$paymentinfo         = $quickpay_parameters[0];
+		$paymentparams       = new JRegistry($paymentinfo->params);
 
-		$verify_status = $paymentparams->get('verify_status', '');
+		$verify_status  = $paymentparams->get('verify_status', '');
 		$invalid_status = $paymentparams->get('invalid_status', '');
 
+		/*
+		 * Switch on the order accept code
+		 * accept = 000 (callback)
+		 */
 		if ($qpstat == "000")
 		{
 			// Find the corresponding order in the database
@@ -100,36 +103,31 @@ class plgRedshop_paymentrs_payment_quickpay extends JPlugin
 				{
 					$d['order_id'] = $order_detail->order_id;
 				}
-				// Switch on the order accept code
-				// accept = 000 (callback)
-				//
-				// Only update the order information once
-				//
 
 				// UPDATE THE ORDER STATUS to 'VALID'
-				$values->order_status_code = $verify_status;
+				$values->order_status_code         = $verify_status;
 				$values->order_payment_status_code = 'Paid';
-				$values->log = JText::_('COM_REDSHOP_ORDER_PLACED');
-				$values->msg = JText::_('COM_REDSHOP_ORDER_PLACED');
+				$values->log                       = JText::_('COM_REDSHOP_ORDER_PLACED');
+				$values->msg                       = JText::_('COM_REDSHOP_ORDER_PLACED');
 			}
 		}
 		else
 		{
-			$values->order_status_code = $invalid_status;
+			$values->order_status_code         = $invalid_status;
 			$values->order_payment_status_code = 'Unpaid';
-			$values->log = JText::_('COM_REDSHOP_ORDER_NOT_PLACED.');
-			$values->msg = JText::_('COM_REDSHOP_ORDER_NOT_PLACED');
+			$values->log                       = JText::_('COM_REDSHOP_ORDER_NOT_PLACED.');
+			$values->msg                       = JText::_('COM_REDSHOP_ORDER_NOT_PLACED');
 		}
 
 		$values->transaction_id = $transaction;
-		$values->order_id = $order_id;
+		$values->order_id       = $order_id;
 
 		return $values;
 	}
 
 	function getparameters($payment)
 	{
-		$db = JFactory::getDBO();
+		$db  = JFactory::getDBO();
 		$sql = "SELECT * FROM #__extensions WHERE `element`='" . $payment . "'";
 		$db->setQuery($sql);
 		$params = $db->loadObjectList();
@@ -139,8 +137,8 @@ class plgRedshop_paymentrs_payment_quickpay extends JPlugin
 
 	function orderPaymentNotYetUpdated($dbConn, $order_id, $tid)
 	{
-		$db = JFactory::getDBO();
-		$res = false;
+		$db    = JFactory::getDBO();
+		$res   = false;
 		$query = "SELECT COUNT(*), `qty` FROM `#__redshop_order_payment` WHERE `order_id` = '" . $db->getEscaped($order_id) . "' and order_payment_trans_id = '" . $db->getEscaped($tid) . "'";
 		$db->SetQuery($query);
 		$order_payment = $db->loadResult();
@@ -159,19 +157,20 @@ class plgRedshop_paymentrs_payment_quickpay extends JPlugin
 		{
 			return;
 		}
+
 		require_once JPATH_SITE . '/administrator/components/com_redshop/helpers/order.php';
 
 		$objOrder = new order_functions;
-		$db = JFactory::getDBO();
+		$db       = JFactory::getDBO();
 
-		$protocol = '3';
-		$msgtype = 'capture';
-		$finalize = 1;
-		$merchant_id = $this->_params->get("quickpay_customer_id");
+		$protocol     = '3';
+		$msgtype      = 'capture';
+		$finalize     = 1;
+		$merchant_id  = $this->_params->get("quickpay_customer_id");
 		$order_amount = ($data['order_amount'] * 100);
-		$transaction = $data['order_transactionid'];
-		$md5word = $this->_params->get("quickpay_paymentkey");
-		$md5check = md5($protocol . $msgtype . $merchant_id . $order_amount . $finalize . $transaction . $md5word);
+		$transaction  = $data['order_transactionid'];
+		$md5word      = $this->_params->get("quickpay_paymentkey");
+		$md5check     = md5($protocol . $msgtype . $merchant_id . $order_amount . $finalize . $transaction . $md5word);
 
 		$message = array('protocol' => $protocol, 'msgtype' => $msgtype, 'merchant' => $merchant_id, 'amount' => $order_amount, 'finalize' => $finalize, 'transaction' => $transaction, 'md5check' => $md5check);
 
@@ -194,18 +193,18 @@ class plgRedshop_paymentrs_payment_quickpay extends JPlugin
 			throw new Exception('Could not read data from gateway');
 		}
 
-		$response = new SimpleXMLElement($response);
-		$qpstat = $response->qpstat;
+		$response  = new SimpleXMLElement($response);
+		$qpstat    = $response->qpstat;
 		$qpstatmsg = addslashes($response->qpstatmsg);
 
 		if ($qpstat == '000')
 		{
 			$values->responsestatus = 'Success';
-			$message = JText::_('COM_REDSHOP_ORDER_CAPTURED');
+			$message                = JText::_('COM_REDSHOP_ORDER_CAPTURED');
 		}
 		else
 		{
-			$message = $qpstatmsg ? $qpstatmsg : JText::_('COM_REDSHOP_ORDER_NOT_CAPTURED');
+			$message                = $qpstatmsg ? $qpstatmsg : JText::_('COM_REDSHOP_ORDER_NOT_CAPTURED');
 			$values->responsestatus = 'Fail';
 		}
 
@@ -220,18 +219,19 @@ class plgRedshop_paymentrs_payment_quickpay extends JPlugin
 		{
 			return;
 		}
+
 		require_once JPATH_SITE . '/administrator/components/com_redshop/helpers/order.php';
 
 		$objOrder = new order_functions;
-		$db = JFactory::getDBO();
+		$db       = JFactory::getDBO();
 
-		$protocol = '3';
-		$msgtype = 'refund';
-		$merchant_id = $this->_params->get("quickpay_customer_id");
+		$protocol     = '3';
+		$msgtype      = 'refund';
+		$merchant_id  = $this->_params->get("quickpay_customer_id");
 		$order_amount = ($data['order_amount'] * 100);
-		$transaction = $data['order_transactionid'];
-		$md5word = $this->_params->get("quickpay_paymentkey");
-		$md5check = md5($protocol . $msgtype . $merchant_id . $order_amount . $transaction . $md5word);
+		$transaction  = $data['order_transactionid'];
+		$md5word      = $this->_params->get("quickpay_paymentkey");
+		$md5check     = md5($protocol . $msgtype . $merchant_id . $order_amount . $transaction . $md5word);
 
 		$message = array('protocol' => $protocol, 'msgtype' => $msgtype, 'merchant' => $merchant_id, 'amount' => $order_amount, 'transaction' => $transaction, 'md5check' => $md5check);
 
@@ -254,18 +254,18 @@ class plgRedshop_paymentrs_payment_quickpay extends JPlugin
 			throw new Exception('Could not read data from gateway');
 		}
 
-		$response = new SimpleXMLElement($response);
-		$qpstat = $response->qpstat;
+		$response  = new SimpleXMLElement($response);
+		$qpstat    = $response->qpstat;
 		$qpstatmsg = addslashes($response->qpstatmsg);
 
 		if ($qpstat == '000')
 		{
 			$values->responsestatus = 'Success';
-			$message = JText::_('QUICKPAY_ORDER_REFUND');
+			$message                = JText::_('QUICKPAY_ORDER_REFUND');
 		}
 		else
 		{
-			$message = $qpstatmsg ? $qpstatmsg : JText::_('QUICKPAY_ORDER_NOT_REFUND');
+			$message                = $qpstatmsg ? $qpstatmsg : JText::_('QUICKPAY_ORDER_NOT_REFUND');
 			$values->responsestatus = 'Fail';
 		}
 
@@ -280,18 +280,19 @@ class plgRedshop_paymentrs_payment_quickpay extends JPlugin
 		{
 			return;
 		}
+
 		require_once JPATH_SITE . '/administrator/components/com_redshop/helpers/order.php';
 
 		$objOrder = new order_functions;
-		$db = JFactory::getDBO();
+		$db       = JFactory::getDBO();
 
-		$protocol = '3';
-		$msgtype = 'status';
-		$merchant_id = $this->_params->get("quickpay_customer_id");
+		$protocol     = '3';
+		$msgtype      = 'status';
+		$merchant_id  = $this->_params->get("quickpay_customer_id");
 		$order_amount = ($data['order_amount'] * 100);
-		$transaction = $data['order_transactionid'];
-		$md5word = $this->_params->get("quickpay_paymentkey");
-		$md5check = md5($protocol . $msgtype . $merchant_id . $order_amount . $transaction . $md5word);
+		$transaction  = $data['order_transactionid'];
+		$md5word      = $this->_params->get("quickpay_paymentkey");
+		$md5check     = md5($protocol . $msgtype . $merchant_id . $order_amount . $transaction . $md5word);
 
 		$message = array('protocol' => $protocol, 'msgtype' => $msgtype, 'merchant' => $merchant_id, 'amount' => $order_amount, 'transaction' => $transaction, 'md5check' => $md5check);
 
@@ -314,15 +315,15 @@ class plgRedshop_paymentrs_payment_quickpay extends JPlugin
 			throw new Exception('Could not read data from gateway');
 		}
 
-		$response = new SimpleXMLElement($response);
-		$status_count = count($response->history) - 1;
+		$response        = new SimpleXMLElement($response);
+		$status_count    = count($response->history) - 1;
 		$quickpay_status = $response->history[$status_count]->msgtype;
 
 		if ($quickpay_status == "authorize")
 		{
 			$data_refund = $this->onCancel_Paymentrs_payment_quickpay($element, $data);
 		}
-		else if ($quickpay_status == "capture")
+		elseif ($quickpay_status == "capture")
 		{
 			$data_refund = $this->onRefund_Paymentrs_payment_quickpay($element, $data);
 		}
@@ -336,18 +337,19 @@ class plgRedshop_paymentrs_payment_quickpay extends JPlugin
 		{
 			return;
 		}
+
 		require_once JPATH_SITE . '/administrator/components/com_redshop/helpers/order.php';
 
 		$objOrder = new order_functions;
-		$db = JFactory::getDBO();
+		$db       = JFactory::getDBO();
 
-		$protocol = '3';
-		$msgtype = 'cancel';
-		$merchant_id = $this->_params->get("quickpay_customer_id");
+		$protocol     = '3';
+		$msgtype      = 'cancel';
+		$merchant_id  = $this->_params->get("quickpay_customer_id");
 		$order_amount = ($data['order_amount'] * 100);
-		$transaction = $data['order_transactionid'];
-		$md5word = $this->_params->get("quickpay_paymentkey");
-		$md5check = md5($protocol . $msgtype . $merchant_id . $order_amount . $transaction . $md5word);
+		$transaction  = $data['order_transactionid'];
+		$md5word      = $this->_params->get("quickpay_paymentkey");
+		$md5check     = md5($protocol . $msgtype . $merchant_id . $order_amount . $transaction . $md5word);
 
 		$message = array('protocol' => $protocol, 'msgtype' => $msgtype, 'merchant' => $merchant_id, 'amount' => $order_amount, 'transaction' => $transaction, 'md5check' => $md5check);
 
@@ -370,18 +372,18 @@ class plgRedshop_paymentrs_payment_quickpay extends JPlugin
 			throw new Exception('Could not read data from gateway');
 		}
 
-		$response = new SimpleXMLElement($response);
-		$qpstat = $response->qpstat;
+		$response  = new SimpleXMLElement($response);
+		$qpstat    = $response->qpstat;
 		$qpstatmsg = addslashes($response->qpstatmsg);
 
 		if ($qpstat == '000')
 		{
 			$values->responsestatus = 'Success';
-			$message = JText::_('ORDER_CANCEL');
+			$message                = JText::_('ORDER_CANCEL');
 		}
 		else
 		{
-			$message = $qpstatmsg ? $qpstatmsg : JText::_('ORDER_NOT_CANCEL');
+			$message                = $qpstatmsg ? $qpstatmsg : JText::_('ORDER_NOT_CANCEL');
 			$values->responsestatus = 'Fail';
 		}
 
@@ -389,5 +391,4 @@ class plgRedshop_paymentrs_payment_quickpay extends JPlugin
 
 		return $values;
 	}
-
 }
