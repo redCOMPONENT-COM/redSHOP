@@ -47,18 +47,6 @@ class rsCarthelper
 		$this->_redhelper       = new redhelper;
 		$this->_producthelper   = new producthelper;
 		$this->_shippinghelper  = new shipping;
-
-		// Load language file
-		$payment_lang_list = $this->_redhelper->getPlugins("redshop_payment");
-		$language          = JFactory::getLanguage();
-		$base_dir          = JPATH_ADMINISTRATOR;
-		$language_tag      = $language->getTag();
-
-		for ($l = 0; $l < count($payment_lang_list); $l++)
-		{
-			$extension = 'plg_redshop_payment_' . $payment_lang_list[$l]->element;
-			$language->load($extension, $base_dir, $language_tag, true);
-		}
 	}
 
 	/**
@@ -3345,6 +3333,11 @@ class rsCarthelper
 
 				for ($s = 0; $s < count($shippingmethod); $s++)
 				{
+					if (isset($shippingrate[$s]) === false)
+					{
+						continue;
+					}
+
 					$rate = $shippingrate[$s];
 
 					if (count($rate) > 0)
@@ -3395,8 +3388,20 @@ class rsCarthelper
 									. ' onclick="javascript:onestepCheckoutProcess(this.name,\'' . $classname . '\');">'
 									. html_entity_decode($rate[$i]->text);
 
-								$shipping_rate_short_desc = html_entity_decode($rate[$i]->shortdesc);
-								$shipping_rate_desc       = html_entity_decode($rate[$i]->longdesc);
+								$shipping_rate_short_desc = '';
+
+								if (isset($rate[$i]->shortdesc) === true)
+								{
+									$shipping_rate_short_desc = html_entity_decode($rate[$i]->shortdesc);
+								}
+
+								$shipping_rate_desc = '';
+
+								if (isset($rate[$i]->longdesc) === true)
+								{
+									$shipping_rate_desc = html_entity_decode($rate[$i]->longdesc);
+								}
+
 								$rateExist++;
 								$data = str_replace("{shipping_rate_name}", $shipping_rate_name, $data);
 								$data = str_replace("{shipping_rate_short_desc}", $shipping_rate_short_desc, $data);
@@ -3638,7 +3643,7 @@ class rsCarthelper
 		$montharr[] = JHTML::_('select.option', '11', JText::_('COM_REDSHOP_NOV'));
 		$montharr[] = JHTML::_('select.option', '12', JText::_('COM_REDSHOP_DEC'));
 
-		$paymentmethod = $this->_redhelper->getPlugins('redshop_payment');
+		$paymentmethod = JPluginHelper::getPlugin('redshop_payment');
 
 		$template_desc = str_replace("{payment_heading}", JText::_('COM_REDSHOP_PAYMENT_METHOD'), $template_desc);
 
@@ -3668,11 +3673,11 @@ class rsCarthelper
 			{
 				$cardinfo        = "";
 				$display_payment = "";
-				$paymentFilePath       = JPATH_SITE . '/plugins/redshop_payment/' . $paymentmethod[$p]->element . '/' . $paymentmethod[$p]->element . '.php';
+				$paymentFilePath       = JPATH_SITE . '/plugins/redshop_payment/' . $paymentmethod[$p]->name . '/' . $paymentmethod[$p]->name . '.php';
 
 				if (file_exists($paymentFilePath))
 				{
-					$paymentpath = JPATH_SITE . '/plugins/redshop_payment/' . $paymentmethod[$p]->element . '/' . $paymentmethod[$p]->element . '.php';
+					$paymentpath = JPATH_SITE . '/plugins/redshop_payment/' . $paymentmethod[$p]->name . '/' . $paymentmethod[$p]->name . '.php';
 
 					include_once $paymentpath;
 
@@ -3703,15 +3708,29 @@ class rsCarthelper
 						{
 							if (count($paymentmethod) == 1 || (count($paymentmethod) > 0 && $payment_method_id == 0))
 							{
-								$payment_method_id = $paymentmethod[$p]->element;
+								$payment_method_id = $paymentmethod[$p]->name;
 							}
 						}
 
-						$checked              = ($payment_method_id == $paymentmethod[$p]->element) ? "checked" : "";
-						$payment_chcked_class = ($payment_method_id == $paymentmethod[$p]->element) ? "paymentgtwchecked" : "";
-						$payment_radio_output = '<div id="' . $paymentmethod[$p]->element . '" class="' . $payment_chcked_class . '"><input  type="radio" name="payment_method_id" id="' . $paymentmethod[$p]->element . '" value="' . $paymentmethod[$p]->element . '" ' . $checked . ' onclick="javascript:onestepCheckoutProcess(this.name,\'\');" /><label>' . JText::_($paymentmethod[$p]->name) . '</label></div>';
+						$checked = '';
 
-						if ($paymentmethod[$p]->element == 'rs_payment_eantransfer' || $paymentmethod[$p]->element == 'rs_payment_cashtransfer' || $paymentmethod[$p]->element == 'rs_payment_banktransfer' || $paymentmethod[$p]->element == "rs_payment_banktransfer2" || $paymentmethod[$p]->element == "rs_payment_banktransfer3" || $paymentmethod[$p]->element == "rs_payment_banktransfer4" || $paymentmethod[$p]->element == "rs_payment_banktransfer5")
+						if ($payment_method_id === $paymentmethod[$p]->name)
+						{
+							$checked = "checked";
+						}
+
+						$payment_chcked_class = '';
+
+						if ($payment_method_id == $paymentmethod[$p]->name)
+						{
+							$payment_chcked_class = "paymentgtwchecked";
+						}
+
+						$payment_radio_output = '<div id="' . $paymentmethod[$p]->name . '" class="' . $payment_chcked_class . '"><input  type="radio" name="payment_method_id" id="' . $paymentmethod[$p]->name . '" value="' . $paymentmethod[$p]->name . '" ' . $checked . ' onclick="javascript:onestepCheckoutProcess(this.name,\'\');" /><label>' . JText::_('PLG_' . strtoupper($paymentmethod[$p]->name)) . '</label></div>';
+
+						$is_subscription = false;
+
+						if ($paymentmethod[$p]->name == 'rs_payment_eantransfer' || $paymentmethod[$p]->name == 'rs_payment_cashtransfer' || $paymentmethod[$p]->name == 'rs_payment_banktransfer' || $paymentmethod[$p]->name == "rs_payment_banktransfer2" || $paymentmethod[$p]->name == "rs_payment_banktransfer3" || $paymentmethod[$p]->name == "rs_payment_banktransfer4" || $paymentmethod[$p]->name == "rs_payment_banktransfer5")
 						{
 							if ($is_company == 0 && $private_person == 1)
 							{
@@ -3719,7 +3738,7 @@ class rsCarthelper
 							}
 							else
 							{
-								if ($is_company == 1 && $business == 1 && ($paymentmethod[$p]->element != 'rs_payment_eantransfer' || ($paymentmethod[$p]->element == 'rs_payment_eantransfer' && $ean_number == 1)))
+								if ($is_company == 1 && $business == 1 && ($paymentmethod[$p]->name != 'rs_payment_eantransfer' || ($paymentmethod[$p]->name == 'rs_payment_eantransfer' && $ean_number == 1)))
 								{
 									$display_payment = $payment_radio_output;
 								}
@@ -3728,7 +3747,7 @@ class rsCarthelper
 						elseif ($is_subscription)
 						{
 							$display_payment = '<input  type="radio" name="payment_method_id" value="'
-								. $paymentmethod[$p]->element . '" '
+								. $paymentmethod[$p]->name . '" '
 								. $checked . ' onclick="javascript:onestepCheckoutProcess(this.name);" />'
 								. JText::_($paymentmethod[$p]->name) . '<br>';
 							$display_payment .= '<table><tr><td>'
@@ -3743,11 +3762,11 @@ class rsCarthelper
 
 						if ($is_creditcard)
 						{
-							$cardinfo = '<div id="divcardinfo_' . $paymentmethod[$p]->element . '">';
+							$cardinfo = '<div id="divcardinfo_' . $paymentmethod[$p]->name . '">';
 
 							if ($checked != "" && ONESTEP_CHECKOUT_ENABLE)
 							{
-								$cardinfo .= $this->replaceCreditCardInformation($paymentmethod[$p]->element);
+								$cardinfo .= $this->replaceCreditCardInformation($paymentmethod[$p]->name);
 							}
 
 							$cardinfo .= '</div>';
@@ -4609,7 +4628,7 @@ class rsCarthelper
 		{
 			JLoader::import('joomla.html.parameter');
 			$cart_param        = JModuleHelper::getModule('redshop_cart');
-			$cart_param_main   = new JParameter($cart_param->params);
+			$cart_param_main   = new JRegistry($cart_param->params);
 			$use_cookies_value = $cart_param_main->get('use_cookies_value', '');
 
 			if ($use_cookies_value == 1)
