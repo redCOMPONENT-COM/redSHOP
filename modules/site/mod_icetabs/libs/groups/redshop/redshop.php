@@ -144,7 +144,7 @@ if (!class_exists('LofSliderGroupRedshop'))
 		/**
 		 * build condition query base parameter
 		 *
-		 * @param JParameter $params;
+		 * @param JRegistry $params;
 		 *
 		 * @return string.
 		 */

@@ -258,7 +258,7 @@ class plgredshop_shippingfedex extends JPlugin
 		$redconfig = new Redconfiguration;
 		include_once JPATH_ROOT . "/plugins/redshop_shipping/$this->classname/$this->classname.cfg.php";
 		$shipping = $shippinghelper->getShippingMethodByClass($this->classname);
-		$itemparams = new JParameter($shipping->params);
+		$itemparams = new JRegistry($shipping->params);
 
 		$fedex_accountnumber = FEDEX_ACCOUNT_NUMBER;
 		$fedex_meternumber = FEDEX_METER_NUMBER;

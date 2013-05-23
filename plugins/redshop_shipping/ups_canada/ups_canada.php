@@ -371,7 +371,7 @@ class plgredshop_shippingups_canada extends JPlugin
 		$currency = new convertPrice;
 		$shipping = $shippinghelper->getShippingMethodByClass($this->classname);
 
-		$itemparams = new JParameter($shipping->params);
+		$itemparams = new JRegistry($shipping->params);
 		$shippingcfg = JPATH_ROOT . '/plugins/' . $shipping->folder . DS . $shipping->element . DS . $shipping->element . '.cfg.php';
 		include_once ($shippingcfg);
 
