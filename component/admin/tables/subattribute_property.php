@@ -35,6 +35,8 @@ class Tablesubattribute_property extends JTable
 
 	public $subattribute_published = 1;
 
+	public $extra_field = null;
+
 	public function __construct(&$db)
 	{
 		$this->_table_prefix = '#__redshop_';
