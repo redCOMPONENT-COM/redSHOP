@@ -70,7 +70,7 @@ if (!class_exists('LofSliderGroupBase'))
 
 			if (file_exists($path))
 			{
-				$params  = new JParameter($params, $path);
+				$params  = new JRegistry($params, $path);
 				$content = $params->render('params');
 
 				return $content;

@@ -46,7 +46,7 @@ if (!class_exists('LofSliderGroupContent'))
 		/**
 		 * get the list of articles, using for joomla 1.6.x
 		 *
-		 * @param JParameter $params;
+		 * @param JRegistry $params;
 		 *
 		 * @return array;
 		 */
@@ -173,7 +173,7 @@ if (!class_exists('LofSliderGroupContent'))
 		/**
 		 * get the list of articles, using for joomla 1.5.x
 		 *
-		 * @param JParameter $params;
+		 * @param JRegistry $params;
 		 *
 		 * @return Array
 		 */
@@ -260,7 +260,7 @@ if (!class_exists('LofSliderGroupContent'))
 		/**
 		 * build condition query base parameter
 		 *
-		 * @param JParameter $params;
+		 * @param JRegistry $params;
 		 *
 		 * @return string.
 		 */

@@ -79,7 +79,7 @@ abstract class modIceTabsHelper
 	/**
 	 * load css - javascript file.
 	 *
-	 * @param JParameter $params;
+	 * @param JRegistry $params;
 	 * @param JModule    $module
 	 *
 	 * @return void.
@@ -176,7 +176,7 @@ abstract class modIceTabsHelper
 	/**
 	 * get the list of articles, using for joomla 1.6.x
 	 *
-	 * @param JParameter $params;
+	 * @param JRegistry $params;
 	 *
 	 * @return array;
 	 */
