@@ -70,8 +70,12 @@ class CheckoutModelCheckout extends JModel
 		if (!empty($cart))
 		{
 			if (!$cart)
-			{ //  || array_key_exists("quotation_id",$cart)
+			{
 				$cart        = array();
+				$cart['idx'] = 0;
+			}
+			elseif (isset($cart['idx']) === false)
+			{
 				$cart['idx'] = 0;
 			}
 		}
