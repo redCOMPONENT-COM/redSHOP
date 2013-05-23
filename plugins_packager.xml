@@ -31,13 +31,13 @@
     <!-- Target dir where module packages will be created  -->
     <property
             name="targetdir"
-            value="${package.dir}/redCOMPONENT-plugins"
+            value="${package.dir}/redCOMPONENT${version}-plugins"
             override="true" />
 
     <!-- Version of the Joomla for witch the module is intended to  -->
     <property
             name="joomla_version"
-            value="25"
+            value="${joomla.version}"
             override="true" />
 
     <!-- MAIN -->
