@@ -81,6 +81,7 @@ class order_functions
 			. $order_status_code . '"';
 		$this->_db->setQuery($query);
 		$res = $this->_db->loadResult();
+
 		return $res;
 	}
 
@@ -140,9 +141,9 @@ class order_functions
 
 		// Refund Money while cancel the order
 		$refund_type = $paymentparams->get('refund', '0');
+
 		if ($newstatus == "X" && $refund_type == 1)
 		{
-
 			$values["order_number"] = $orderdetail->order_number;
 			$values["order_id"] = $order_id;
 			$values["order_transactionid"] = $result[0]->order_payment_trans_id;
@@ -201,6 +202,7 @@ class order_functions
 		// For product conetent
 		$totalWeight = 0;
 		$content_products = array();
+		$qty = 0;
 
 		for ($c = 0; $c < count($orderproducts); $c++)
 		{
@@ -302,8 +304,8 @@ class order_functions
 				<val n="printer">1</val>
 				</meta>
 				<receiver rcvid="' . $shippingInfo->users_info_id . '">
-				<val n="name"><![CDATA['.$full_name.']]></val>
-				<val n="address1"><![CDATA['.$finaladdress1.']]></val>
+				<val n="name"><![CDATA[' . $full_name . ']]></val>
+				<val n="address1"><![CDATA[' . $finaladdress1 . ']]></val>
 				<val n="address2"><![CDATA['.$finaladdress2.']]></val>
 				<val n="zipcode">' . $shippingInfo->zipcode . '</val>
 				<val n="city">' . $city . '</val>
@@ -451,6 +453,7 @@ class order_functions
 				);
 
 			}
+
 			// For Webpack Postdk Label Generation
 			$this->createWebPacklabel($order_id, $specifiedSendDate, $data->order_status_code, $data->order_payment_status_code);
 			$this->createBookInvoice($order_id, $data->order_status_code);
@@ -460,8 +463,8 @@ class order_functions
 			 */
 			if ($helper->isredCRM() && ENABLE_ITEM_TRACKING_SYSTEM)
 			{
-				# Supplier order helper object
-				$crmSupplierOrderHelper = new crmSupplierOrderHelper();
+				// Supplier order helper object
+				$crmSupplierOrderHelper = new crmSupplierOrderHelper;
 
 				$getStatus = array();
 				$getStatus['orderstatus'] = $data->order_status_code;
@@ -590,6 +593,23 @@ class order_functions
 		return $mylist['statuslist'];
 	}
 
+	public function getFilterbyList($name = 'filterbylist', $selected = 'all', $attributes = ' class="inputbox" size="1" ')
+	{
+		$filterbylist = array('orderid' => JText::_('COM_REDSHOP_ORDERID'),
+								'ordernumber' => JText::_('COM_REDSHOP_ORDERNUMBER'),
+								'fullname' => JText::_('COM_REDSHOP_FULLNAME'),
+								'useremail' => JText::_('COM_REDSHOP_USEREMAIL')
+							);
+
+		$types[] = JHTML::_('select.option', '', 'All');
+		$types = array_merge($types, $filterbylist);
+
+		$tot_status = @explode(",", $selected);
+		$mylist['filterbylist'] = JHTML::_('select.genericlist', $types, $name, $attributes, 'value', 'text', $tot_status);
+
+		return $mylist['filterbylist'];
+	}
+
 	public function getCustomOrderStatus($field)
 	{
 		if ($field == "shipping")
@@ -702,8 +722,7 @@ class order_functions
 					$customstatus = "";
 				}
 			}
-			else
-				if ($newstatus == 'S')
+			elseif ($newstatus == 'S')
 				{
 					if (JRequest::getVar('customstatusshipping'))
 					{
@@ -714,8 +733,7 @@ class order_functions
 						$customstatus = "";
 					}
 				}
-				else
-					if ($newstatus == 'X')
+				elseif ($newstatus == 'X')
 					{
 						if (JRequest::getVar('customstatuscanceled'))
 						{
@@ -736,7 +754,7 @@ class order_functions
 
 			if (ENABLE_ITEM_TRACKING_SYSTEM)
 			{
-				# Supplier order helper object
+				// Supplier order helper object
 				$getStatus = array();
 				$getStatus['orderstatus'] = $newstatus;
 				$getStatus['paymentstatus'] = $paymentstatus;
@@ -951,9 +969,9 @@ class order_functions
 	{
 		$app = JFactory::getApplication();
 
-		$helper = new redhelper();
-		$stockroomhelper = new rsstockroomhelper();
-		$producthelper = new producthelper();
+		$helper = new redhelper;
+		$stockroomhelper = new rsstockroomhelper;
+		$producthelper = new producthelper;
 		$newstatus = JRequest::getVar('order_status_all');
 		$option = JRequest::getVar('option');
 		$return = JRequest::getVar('return');
@@ -1878,7 +1896,7 @@ class order_functions
 	public function getpaymentinformation($row, $post)
 	{
 		$app = JFactory::getApplication();
-		require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/configuration.php';
+		require_once(JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/configuration.php');
 		$redconfig = new Redconfiguration();
 
 		$plugin_parameters = $this->getparameters($post['payment_method_class']);
