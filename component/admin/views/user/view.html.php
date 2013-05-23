@@ -25,6 +25,7 @@ class userViewuser extends JView
 		$userhelper = new rsUserhelper;
 
 		$sync                      = JRequest::getVar('sync');
+		$filter_by                 = JRequest::getVar('filter_by', '', 'request', 'string');
 		$spgrp_filter              = JRequest::getVar('spgrp_filter', '', 'request', 'string');
 		$approved_filter           = JRequest::getVar('approved_filter', '', 'request', 'string');
 		$tax_exempt_request_filter = JRequest::getVar('tax_exempt_request_filter', '', 'request', 'string');
@@ -64,6 +65,14 @@ class userViewuser extends JView
 
 		$lists['shopper_group'] = JHTML::_('select.genericlist', $shopper_groups, 'spgrp_filter',
 			'class="inputbox" size="1" onchange="document.adminForm.submit()"', 'value', 'text', $spgrp_filter
+		);
+
+		$arr_filter_by = array();
+		$arr_filter_by[] = JHTML::_('select.option', '', 'All');
+		$arr_filter_by[] = JHTML::_('select.option', 'fullname', JText::_('COM_REDSHOP_FULLNAME'));
+		$arr_filter_by[] = JHTML::_('select.option', 'username', JText::_('COM_REDSHOP_USERNAME'));
+		$lists['filter_by'] = JHTML::_('select.genericlist', $arr_filter_by, 'filter_by',
+			'class="inputbox" size="1"', 'value', 'text', $filter_by
 		);
 
 		$optiontax_req = array();
