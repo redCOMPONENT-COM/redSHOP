@@ -151,7 +151,7 @@ if (!class_exists('LofSliderGroupVirtuemart'))
 		/**
 		 * build condition query base parameter
 		 *
-		 * @param JParameter $params;
+		 * @param JRegistry $params;
 		 *
 		 * @return string.
 		 */
