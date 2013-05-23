@@ -203,7 +203,7 @@ class orderModelorder extends JModel
 		$order_helper = new order_functions;
 		$shipping = new shipping;
 		$plugin = JPluginHelper::getPlugin('rs_labels_GLS');
-		$glsparams = new JParameter($plugin[0]->params);
+		$glsparams = new JRegistry($plugin[0]->params);
 		$normal_parcel_weight_start = $glsparams->get('normal_parcel_weight_start', '');
 		$normal_parcel_weight_end = $glsparams->get('normal_parcel_weight_end', '');
 		$small_parcel_weight_start = $glsparams->get('small_parcel_weight_start', '');
