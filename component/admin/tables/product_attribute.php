@@ -31,6 +31,8 @@ class Tableproduct_attribute extends JTable
 
 	public $display_type = null;
 
+	public $extra_field = null;
+
 	public function __construct(&$db)
 	{
 		$this->_table_prefix = '#__redshop_';
