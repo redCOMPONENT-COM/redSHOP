@@ -1195,12 +1195,6 @@ class Com_RedshopInstallerScript
 				$db->setQuery($q);
 				$db->query();
 			}
-			if (!array_key_exists('extra_field', $cols))
-			{
-				$q = "ALTER IGNORE TABLE #__redshop_product_attribute_property ADD `extra_field` VARCHAR( 250 ) NOT NULL ";
-				$db->setQuery($q);
-				$db->query();
-			}
 		}
 
 		// Get the current columns for #__redshop_product_attribute_price
@@ -1329,12 +1323,7 @@ class Com_RedshopInstallerScript
 				$db->setQuery($q);
 				$db->query();
 			}
-			if (!array_key_exists('extra_field', $cols))
-			{
-				$q = "ALTER IGNORE TABLE #__redshop_product_subattribute_color ADD `extra_field` VARCHAR( 250 ) NOT NULL ";
-				$db->setQuery($q);
-				$db->query();
-			}
+			
 		}
 
 		// Get the current columns for redshop product_voucher
