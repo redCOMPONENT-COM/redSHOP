@@ -254,7 +254,7 @@ class plgRedshop_paymentrs_payment_mollieideal extends JPlugin
 		$mideal->setAmount($odata->order_total);
 		$mideal->setDescription('Order ' . sprintf('%08d', $order_id) . ' - ' . substr($this->_params->get("mollieideal_company_name"), 0, 12));
 		$mideal->setReturnUrl(JURI::base() . "index.php?option=com_redshop&view=order_detail&Itemid=$Itemid&oid=" . $order_id);
-		$mideal->setReportUrl(JURI::base() . "index2.php?tmpl=component&option=com_redshop&view=order_detail&controller=order_detail&task=notify_payment&payment_plugin=rs_payment_mollieideal&orderid=" . $order_id);
+		$mideal->setReportUrl(JURI::base() . "index.php?tmpl=component&option=com_redshop&view=order_detail&controller=order_detail&task=notify_payment&payment_plugin=rs_payment_mollieideal&orderid=" . $order_id);
 
 		$mideal->setTestMode($this->_params->get("mollieideal_is_test"));
 		$created = $mideal->createPayment();
