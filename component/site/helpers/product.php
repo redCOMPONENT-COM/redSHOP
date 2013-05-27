@@ -7340,8 +7340,8 @@ class producthelper
 
 	public function makeAttributeOrder($order_item_id = 0, $is_accessory = 0, $parent_section_id = 0, $stock = 0, $export = 0, $data = '')
 	{
-		$stockroomhelper   = new rsstockroomhelper();
-		$order_functions   = new order_functions();
+		$stockroomhelper   = new rsstockroomhelper;
+		$order_functions   = new order_functions;
 		$displayattribute  = "";
 		$chktag            = $this->getApplyattributeVatOrNot($data);
 		$product_attribute = "";
@@ -7358,12 +7358,7 @@ class producthelper
 			$stockroom_id      = $orderItemdata[0]->stockroom_id;
 		}
 
-		$orderItemAttdata = $order_functions->getOrderItemAttributeDetail(
-			$order_item_id,
-			$is_accessory,
-			"attribute",
-			$parent_section_id
-		);
+		$orderItemAttdata = $order_functions->getOrderItemAttributeDetail($order_item_id, $is_accessory, "attribute", $parent_section_id);
 
 		if (count($orderItemAttdata) > 0)
 		{
@@ -7379,15 +7374,10 @@ class producthelper
 
 				if (!strstr($data, '{remove_product_attribute_title}'))
 				{
-					$displayattribute .= "<div class='checkout_attribute_title'>"
-						. urldecode($orderItemAttdata[$i]->section_name) . "</div>";
+					$displayattribute .= "<div class='checkout_attribute_title'>" . urldecode($orderItemAttdata[$i]->section_name) . "</div>";
 				}
 
-				$orderPropdata = $order_functions->getOrderItemAttributeDetail(
-					$order_item_id,
-					$is_accessory,
-					"property",
-					$orderItemAttdata[$i]->section_id);
+				$orderPropdata = $order_functions->getOrderItemAttributeDetail($order_item_id, $is_accessory, "property", $orderItemAttdata[$i]->section_id);
 
 				for ($p = 0; $p < count($orderPropdata); $p++)
 				{
@@ -7395,12 +7385,7 @@ class producthelper
 
 					if ($stock == 1)
 					{
-						$stockroomhelper->manageStockAmount(
-							$orderPropdata[$p]->section_id,
-							$quantity,
-							$orderPropdata[$p]->stockroom_id,
-							"property"
-						);
+						$stockroomhelper->manageStockAmount($orderPropdata[$p]->section_id, $quantity, $orderPropdata[$p]->stockroom_id, "property");
 					}
 
 					$property      = $this->getAttibuteProperty($orderPropdata[$p]->section_id);
@@ -7441,14 +7426,8 @@ class producthelper
 						}
 					}
 
-					$displayattribute .= "<div class='checkout_attribute_wrapper'><div class='checkout_attribute_price'>"
-						. urldecode($orderPropdata[$p]->section_name) . $disPrice . "</div>" . $virtualNumber . "</div>";
-					$orderSubpropdata = $order_functions->getOrderItemAttributeDetail(
-						$order_item_id,
-						$is_accessory,
-						"subproperty",
-						$orderPropdata[$p]->section_id
-					);
+					$displayattribute .= "<div class='checkout_attribute_wrapper'><div class='checkout_attribute_price'>" . urldecode($orderPropdata[$p]->section_name) . $disPrice . "</div>" . $virtualNumber . "</div>";
+					$orderSubpropdata = $order_functions->getOrderItemAttributeDetail($order_item_id, $is_accessory, "subproperty", $orderPropdata[$p]->section_id);
 
 					for ($sp = 0; $sp < count($orderSubpropdata); $sp++)
 					{
@@ -7456,12 +7435,7 @@ class producthelper
 
 						if ($stock == 1)
 						{
-							$stockroomhelper->manageStockAmount(
-								$orderSubpropdata[$sp]->section_id,
-								$quantity,
-								$orderSubpropdata[$sp]->stockroom_id,
-								"subproperty"
-							);
+							$stockroomhelper->manageStockAmount($orderSubpropdata[$sp]->section_id, $quantity, $orderSubpropdata[$sp]->stockroom_id, "subproperty");
 						}
 
 						$subproperty   = $this->getAttibuteSubProperty($orderSubpropdata[$sp]->section_id);
@@ -7469,8 +7443,7 @@ class producthelper
 
 						if (count($subproperty) > 0 && $subproperty[0]->subattribute_color_number)
 						{
-							$virtualNumber = "<div class='checkout_subattribute_number'>["
-								. $subproperty[0]->subattribute_color_number . "]</div>";
+							$virtualNumber = "<div class='checkout_subattribute_number'>[" . $subproperty[0]->subattribute_color_number . "]</div>";
 						}
 
 						if (!empty($chktag))
@@ -7480,8 +7453,7 @@ class producthelper
 
 						if ($export == 1)
 						{
-							$disPrice = " (" . $orderSubpropdata[$sp]->section_oprand
-								. REDCURRENCY_SYMBOL . $subproperty_price . ")";
+							$disPrice = " (" . $orderSubpropdata[$sp]->section_oprand . REDCURRENCY_SYMBOL . $subproperty_price . ")";
 						}
 						else
 						{
@@ -7489,8 +7461,7 @@ class producthelper
 
 							if (!$hide_attribute_price)
 							{
-								$disPrice = " (" . $orderSubpropdata[$sp]->section_oprand
-									. $this->getProductFormattedPrice($subproperty_price) . ")";
+								$disPrice = " (" . $orderSubpropdata[$sp]->section_oprand . $this->getProductFormattedPrice($subproperty_price) . ")";
 							}
 
 							if (!strstr($data, '{product_attribute_price}'))
@@ -7506,8 +7477,7 @@ class producthelper
 
 						if (!strstr($data, '{remove_product_subattribute_title}'))
 						{
-							$displayattribute .= "<div class='checkout_subattribute_title'>"
-								. urldecode($subproperty[0]->subattribute_color_title) . " : </div>";
+							$displayattribute .= "<div class='checkout_subattribute_title'>" . urldecode($subproperty[0]->subattribute_color_title) . " : </div>";
 						}
 
 						$displayattribute .= "<div class='checkout_subattribute_wrapper'><div class='checkout_subattribute_price'>" . urldecode($orderSubpropdata[$sp]->section_name) . $disPrice . "</div>" . $virtualNumber . "</div>";
@@ -10062,4 +10032,3 @@ class producthelper
 	}
 
 }
-
