@@ -66,7 +66,6 @@ class producthelper
 		$this->_table_prefix = '#__' . TABLE_PREFIX . '_';
 		$this->_userhelper   = new rsUserhelper();
 		$this->_session      = JFactory::getSession();
-//	  	$this->_carthelper 		= new rsCarthelper();
 	}
 
 	public function setId($id)
@@ -7326,7 +7325,8 @@ class producthelper
 					. " ("
 					. $this->getProductFormattedPrice($orderItemdata[$i]->order_acc_price + $orderItemdata[$i]->order_acc_vat)
 					. ")" . $accessory_quantity . "</div>";
-				$displayaccessory .= $this->makeAttributeOrder($order_item_id, 1, $orderItemdata[$i]->product_id);
+				$makeAttributeOrder = $this->makeAttributeOrder($order_item_id, 1, $orderItemdata[$i]->product_id);
+				$displayaccessory   .= $makeAttributeOrder->product_attribute;
 			}
 		}
 		else
@@ -7340,8 +7340,8 @@ class producthelper
 
 	public function makeAttributeOrder($order_item_id = 0, $is_accessory = 0, $parent_section_id = 0, $stock = 0, $export = 0, $data = '')
 	{
-		$stockroomhelper   = new rsstockroomhelper();
-		$order_functions   = new order_functions();
+		$stockroomhelper   = new rsstockroomhelper;
+		$order_functions   = new order_functions;
 		$displayattribute  = "";
 		$chktag            = $this->getApplyattributeVatOrNot($data);
 		$product_attribute = "";
@@ -7358,12 +7358,11 @@ class producthelper
 			$stockroom_id      = $orderItemdata[0]->stockroom_id;
 		}
 
-		$orderItemAttdata = $order_functions->getOrderItemAttributeDetail(
-			$order_item_id,
-			$is_accessory,
-			"attribute",
-			$parent_section_id
-		);
+		$orderItemAttdata = $order_functions->getOrderItemAttributeDetail($order_item_id, $is_accessory, "attribute", $parent_section_id);
+
+		// Get Attribute middle template
+		$attribute_middle_template = $this->getAttributeTemplateLoop($data);
+		$attribute_final_template = '';
 
 		if (count($orderItemAttdata) > 0)
 		{
@@ -7379,15 +7378,14 @@ class producthelper
 
 				if (!strstr($data, '{remove_product_attribute_title}'))
 				{
-					$displayattribute .= "<div class='checkout_attribute_title'>"
-						. urldecode($orderItemAttdata[$i]->section_name) . "</div>";
+					$displayattribute .= "<div class='checkout_attribute_title'>" . urldecode($orderItemAttdata[$i]->section_name) . "</div>";
 				}
 
-				$orderPropdata = $order_functions->getOrderItemAttributeDetail(
-					$order_item_id,
-					$is_accessory,
-					"property",
-					$orderItemAttdata[$i]->section_id);
+				// Assign Attribute middle template in tmp variable
+				$tmp_attribute_middle_template = $attribute_middle_template;
+				$tmp_attribute_middle_template = str_replace("{product_attribute_name}", urldecode($orderItemAttdata[$i]->section_name), $tmp_attribute_middle_template);
+
+				$orderPropdata = $order_functions->getOrderItemAttributeDetail($order_item_id, $is_accessory, "property", $orderItemAttdata[$i]->section_id);
 
 				for ($p = 0; $p < count($orderPropdata); $p++)
 				{
@@ -7395,12 +7393,7 @@ class producthelper
 
 					if ($stock == 1)
 					{
-						$stockroomhelper->manageStockAmount(
-							$orderPropdata[$p]->section_id,
-							$quantity,
-							$orderPropdata[$p]->stockroom_id,
-							"property"
-						);
+						$stockroomhelper->manageStockAmount($orderPropdata[$p]->section_id, $quantity, $orderPropdata[$p]->stockroom_id, "property");
 					}
 
 					$property      = $this->getAttibuteProperty($orderPropdata[$p]->section_id);
@@ -7426,8 +7419,7 @@ class producthelper
 
 						if (!$hide_attribute_price)
 						{
-							$disPrice = " (" . $orderPropdata[$p]->section_oprand
-								. $this->getProductFormattedPrice($property_price) . ")";
+							$disPrice = " (" . $orderPropdata[$p]->section_oprand . $this->getProductFormattedPrice($property_price) . ")";
 						}
 
 						if (!strstr($data, '{product_attribute_price}'))
@@ -7441,14 +7433,16 @@ class producthelper
 						}
 					}
 
-					$displayattribute .= "<div class='checkout_attribute_wrapper'><div class='checkout_attribute_price'>"
-						. urldecode($orderPropdata[$p]->section_name) . $disPrice . "</div>" . $virtualNumber . "</div>";
-					$orderSubpropdata = $order_functions->getOrderItemAttributeDetail(
-						$order_item_id,
-						$is_accessory,
-						"subproperty",
-						$orderPropdata[$p]->section_id
-					);
+					$displayattribute .= "<div class='checkout_attribute_wrapper'><div class='checkout_attribute_price'>" . urldecode($orderPropdata[$p]->section_name) . $disPrice . "</div>" . $virtualNumber . "</div>";
+
+					// Replace attribute property price and value
+					$tmp_attribute_middle_template = str_replace("{product_attribute_value}", urldecode($orderPropdata[$p]->section_name), $tmp_attribute_middle_template);
+					$tmp_attribute_middle_template = str_replace("{product_attribute_value_price}", $disPrice, $tmp_attribute_middle_template);
+
+					// Assign tmp variable to looping variable to get copy of all texts
+					$attribute_final_template .= $tmp_attribute_middle_template;
+
+					$orderSubpropdata = $order_functions->getOrderItemAttributeDetail($order_item_id, $is_accessory, "subproperty", $orderPropdata[$p]->section_id);
 
 					for ($sp = 0; $sp < count($orderSubpropdata); $sp++)
 					{
@@ -7456,12 +7450,7 @@ class producthelper
 
 						if ($stock == 1)
 						{
-							$stockroomhelper->manageStockAmount(
-								$orderSubpropdata[$sp]->section_id,
-								$quantity,
-								$orderSubpropdata[$sp]->stockroom_id,
-								"subproperty"
-							);
+							$stockroomhelper->manageStockAmount($orderSubpropdata[$sp]->section_id, $quantity, $orderSubpropdata[$sp]->stockroom_id, "subproperty");
 						}
 
 						$subproperty   = $this->getAttibuteSubProperty($orderSubpropdata[$sp]->section_id);
@@ -7469,8 +7458,7 @@ class producthelper
 
 						if (count($subproperty) > 0 && $subproperty[0]->subattribute_color_number)
 						{
-							$virtualNumber = "<div class='checkout_subattribute_number'>["
-								. $subproperty[0]->subattribute_color_number . "]</div>";
+							$virtualNumber = "<div class='checkout_subattribute_number'>[" . $subproperty[0]->subattribute_color_number . "]</div>";
 						}
 
 						if (!empty($chktag))
@@ -7480,8 +7468,7 @@ class producthelper
 
 						if ($export == 1)
 						{
-							$disPrice = " (" . $orderSubpropdata[$sp]->section_oprand
-								. REDCURRENCY_SYMBOL . $subproperty_price . ")";
+							$disPrice = " (" . $orderSubpropdata[$sp]->section_oprand . REDCURRENCY_SYMBOL . $subproperty_price . ")";
 						}
 						else
 						{
@@ -7489,8 +7476,7 @@ class producthelper
 
 							if (!$hide_attribute_price)
 							{
-								$disPrice = " (" . $orderSubpropdata[$sp]->section_oprand
-									. $this->getProductFormattedPrice($subproperty_price) . ")";
+								$disPrice = " (" . $orderSubpropdata[$sp]->section_oprand . $this->getProductFormattedPrice($subproperty_price) . ")";
 							}
 
 							if (!strstr($data, '{product_attribute_price}'))
@@ -7506,8 +7492,7 @@ class producthelper
 
 						if (!strstr($data, '{remove_product_subattribute_title}'))
 						{
-							$displayattribute .= "<div class='checkout_subattribute_title'>"
-								. urldecode($subproperty[0]->subattribute_color_title) . " : </div>";
+							$displayattribute .= "<div class='checkout_subattribute_title'>" . urldecode($subproperty[0]->subattribute_color_title) . " : </div>";
 						}
 
 						$displayattribute .= "<div class='checkout_subattribute_wrapper'><div class='checkout_subattribute_price'>" . urldecode($orderSubpropdata[$sp]->section_name) . $disPrice . "</div>" . $virtualNumber . "</div>";
@@ -7523,15 +7508,58 @@ class producthelper
 		if ($products->use_discount_calc == 1)
 		{
 			$displayattribute = $displayattribute . $orderItemdata[0]->discount_calc_data;
-
 		}
 
-		return $displayattribute;
+		$data = new stdClass;
+		$data->product_attribute = $displayattribute;
+		$data->attribute_middle_template = $attribute_final_template;
+		$data->attribute_middle_template_core = $attribute_middle_template;
+
+		return $data;
+	}
+
+	/**
+	 * Method to get string between inputs
+	 *
+	 * @param   string  $start   Starting string where you need to start search
+	 * @param   string  $end     Ending string where you need to end search
+	 * @param   string  $string  Target string from where need to search
+	 *
+	 * @return  array           Matched string array
+	 */
+	function findStringBetween($start, $end, $string)
+	{
+		preg_match_all('/' . preg_quote($start, '/') . '([^\.)]+)' . preg_quote($end, '/') . '/i', $string, $m);
+
+		return $m[1];
+	}
+
+	/**
+	 * Method to get attribute template loop
+	 *
+	 * @param   string  $template  Attribute Template data
+	 *
+	 * @return  string             Template middle data
+	 */
+	public function getAttributeTemplateLoop($template)
+	{
+		$start   = "{product_attribute_loop_start}";
+		$end     = "{product_attribute_loop_end}";
+		$matches = $this->findStringBetween($start, $end, $template);
+
+		$template_middle = '';
+
+		if (count($matches) > 0)
+		{
+			$template_middle = $matches[0];
+		}
+
+		return $template_middle;
 	}
 
 	public function makeAccessoryQuotation($quotation_item_id = 0, $quotation_status = 2)
 	{
-		$quotationHelper  = new quotationHelper();
+		$quotationHelper  = new quotationHelper;
 		$displayaccessory = "";
 		$Itemdata         = $quotationHelper->getQuotationItemAccessoryDetail($quotation_item_id);
 
@@ -10060,6 +10088,4 @@ class producthelper
 
 		return $resultstr;
 	}
-
 }
-

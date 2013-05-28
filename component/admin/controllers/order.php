@@ -346,7 +346,7 @@ class orderController extends JController
 				echo "\"" . REDCURRENCY_SYMBOL . "\"" . $no_items [$it]->product_final_price;
 
 				$product_attribute = $producthelper->makeAttributeOrder($no_items [$it]->order_item_id, 0, $no_items [$it]->product_id, 0, 1);
-				$product_attribute = strip_tags(str_replace(",", " ", $product_attribute));
+				$product_attribute = strip_tags(str_replace(",", " ", $product_attribute->product_attribute));
 
 				echo trim(utf8_decode($product_attribute)) . " ,";
 			}
@@ -463,7 +463,7 @@ class orderController extends JController
 				echo REDCURRENCY_SYMBOL . $no_items [$it]->product_final_price . ",";
 
 				$product_attribute = $producthelper->makeAttributeOrder($no_items [$it]->order_item_id, 0, $no_items [$it]->product_id, 0, 1);
-				$product_attribute = strip_tags($product_attribute);
+				$product_attribute = strip_tags($product_attribute->product_attribute);
 
 				echo trim($product_attribute) . ",";
 			}
