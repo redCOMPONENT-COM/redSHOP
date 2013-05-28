@@ -1233,7 +1233,6 @@ class rsCarthelper
 					$cart_mdata = str_replace("{attribute_label}", "", $cart_mdata);
 				}
 
-
 				$cart_mdata           = str_replace("{product_number}", $product->product_number, $cart_mdata);
 				$cart_mdata           = str_replace("{product_vat}", $cart[$i]['product_vat'] * $cart[$i]['quantity'], $cart_mdata);
 				$user_fields          = $this->_producthelper->GetProdcutUserfield($i);
