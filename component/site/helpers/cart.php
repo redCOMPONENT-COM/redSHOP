@@ -1603,61 +1603,14 @@ class rsCarthelper
 
 			$cart_mdata = str_replace("{product_wrapper}", $product_note, $cart_mdata);
 
-			$cart_mdata = str_replace("{product_attribute}", $this->_producthelper->makeAttributeOrder($rowitem[$i]->order_item_id, 0, $product_id, 0, 0, $data), $cart_mdata);
+			// Make attribute order template output
+			$attribute_data = $this->_producthelper->makeAttributeOrder($rowitem[$i]->order_item_id, 0, $product_id, 0, 0, $data);
 
-			// ---------------            ----------------------------
-			// Replace Attribute data
-			if (strstr($cart_mdata, "{product_attribute_loop_start}") && strstr($cart_mdata, "{product_attribute_loop_end}"))
-			{
-				$templateattibute_sdata  = explode('{product_attribute_loop_start}', $cart_mdata);
-				$templateattibute_start  = $templateattibute_sdata[0];
-				$templateattibute_edata  = explode('{product_attribute_loop_end}', $templateattibute_sdata[1]);
-				$templateattibute_end    = $templateattibute_edata[1];
-				$templateattibute_middle = $templateattibute_edata[0];
-				$pro_detail              = '';
-				$sum_total               = count($cart[$i]['cart_attribute']);
-				$temp_tpi                = $cart[$i]['cart_attribute'];
+			// Assign template output into {product_attribute} tag
+			$cart_mdata = str_replace("{product_attribute}", $attribute_data->product_attribute, $cart_mdata);
 
-				if ($sum_total > 0)
-				{
-					for ($tpi = 0; $tpi < $sum_total; $tpi++)
-					{
-						$product_attribute_name        = "";
-						$product_attribute_value       = "";
-						$product_attribute_value_price = "";
-						$product_attribute_name        = $temp_tpi[$tpi]['attribute_name'];
-
-						if (count($temp_tpi[$tpi]['attribute_childs']) > 0)
-						{
-							$product_attribute_value = ": " . $temp_tpi[$tpi]['attribute_childs'][0]['property_name'];
-
-							if (count($temp_tpi[$tpi]['attribute_childs'][0]['property_childs']) > 0)
-							{
-								$product_attribute_value .= ": " . $temp_tpi[$tpi]['attribute_childs'][0]['property_childs'][0]['subattribute_color_title'] . ": " . $temp_tpi[$tpi]['attribute_childs'][0]['property_childs'][0]['subproperty_name'];
-							}
-
-							$product_attribute_value_price = $temp_tpi[$tpi]['attribute_childs'][0]['property_price'];
-
-							if (count($temp_tpi[$tpi]['attribute_childs'][0]['property_childs']) > 0)
-							{
-								$product_attribute_value_price = $product_attribute_value_price + $temp_tpi[$tpi]['attribute_childs'][0]['property_childs'][0]['subproperty_price'];
-							}
-
-							$product_attribute_value_price = $this->_producthelper->getProductFormattedPrice($product_attribute_value_price);
-						}
-
-						$data_add_pro = $templateattibute_middle;
-						$data_add_pro = str_replace("{product_attribute_name}", $product_attribute_name, $data_add_pro);
-						$data_add_pro = str_replace("{product_attribute_value}", $product_attribute_value, $data_add_pro);
-						$data_add_pro = str_replace("{product_attribute_value_price}", $product_attribute_value_price, $data_add_pro);
-						$pro_detail .= $data_add_pro;
-					}
-				}
-
-				$cart_mdata = str_replace($templateattibute_middle, $pro_detail, $cart_mdata);
-			}
-
-			// ------------------------                     ----------------------------
+			// Assign template output into {attribute_middle_template} tag
+			$cart_mdata = str_replace($attribute_data->attribute_middle_template_core, $attribute_data->attribute_middle_template, $cart_mdata);
 
 			if (strstr($cart_mdata, '{remove_product_attribute_title}'))
 			{
@@ -2617,6 +2570,12 @@ class rsCarthelper
 
 		$total_excl_vat = $subtotal_excl_vat + ($row->order_shipping - $row->order_shipping_tax) - ($row->order_discount - $row->order_discount_vat);
 		$sub_total_vat  = $row->order_tax + $row->order_shipping_tax;
+
+		if (isset($row->voucher_discount) === false)
+		{
+			$row->voucher_discount = 0;
+		}
+
 		$Total_discount = $row->coupon_discount + $row->order_discount + $row->special_discount + $row->tax_after_discount + $row->voucher_discount;
 
 		// For Payment and Shipping Extra Fields
