@@ -14,7 +14,12 @@ jimport('joomla.application.component.model');
 require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/extra_field.php';
 require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
 
-class exportModelexport extends JModel
+/**
+ * Class Model Export
+ *
+ * @since  2.5
+ */
+class ExportModelexport extends JModel
 {
 	public $_data = null;
 
@@ -24,6 +29,9 @@ class exportModelexport extends JModel
 
 	public $_table_prefix = null;
 
+	/**
+	 * Model Export constructor
+	 */
 	public function __construct()
 	{
 		parent::__construct();
@@ -31,6 +39,11 @@ class exportModelexport extends JModel
 		$this->_table_prefix = '#__redshop_';
 	}
 
+	/**
+	 * Get export data
+	 *
+	 * @return  void
+	 */
 	public function getData()
 	{
 		$app = JFactory::getApplication();
@@ -58,10 +71,11 @@ class exportModelexport extends JModel
 		{
 			$UserBrowser = '';
 		}
+
 		$mime_type = ($UserBrowser == 'IE' || $UserBrowser == 'Opera') ? 'application/octetstream' : 'application/octet-stream';
 
 		/* Clean the buffer */
-		while (@ob_end_clean()) ;
+		ob_clean();
 
 		header('Content-Type: ' . $mime_type);
 		header('Content-Encoding: UTF-8');
@@ -111,7 +125,6 @@ class exportModelexport extends JModel
 			case 'manufacturer':
 				$this->loadManufacturer();
 				break;
-
 		}
 
 		/* Finalize */
@@ -120,6 +133,8 @@ class exportModelexport extends JModel
 
 	/**
 	 * Load the products for export
+	 *
+	 * @return  void
 	 */
 	private function loadProducts()
 	{
@@ -142,7 +157,6 @@ class exportModelexport extends JModel
 			$manufacturer_id_value .= "'" . $manufacturer_id[$i] . "'" . ",";
 		}
 
-
 		if (count($manufacturer_id) > 0 || count($product_category) > 0)
 		{
 			$q = "SELECT p.*,pc.product_id FROM `" . $this->_table_prefix . "product` p left outer join `"
@@ -153,18 +167,22 @@ class exportModelexport extends JModel
 		{
 			$q = "SELECT * FROM `" . $this->_table_prefix . "product` ORDER BY product_id asc ";
 		}
+
 		if (count($manufacturer_id) > 0)
 		{
 			$q .= " p.manufacturer_id IN (" . substr_replace($manufacturer_id_value, "", -1) . ")";
 		}
+
 		if (count($manufacturer_id) > 0 && count($product_category) > 0)
 		{
 			$q .= " AND ";
 		}
+
 		if (count($product_category) > 0)
 		{
 			$q .= " pc.category_id IN (" . substr_replace($product_category_value, "", -1) . ")";
 		}
+
 		if (count($manufacturer_id) > 0 || count($product_category) > 0)
 		{
 			$q .= " group by p.product_id ORDER BY p.product_id asc";
@@ -176,6 +194,7 @@ class exportModelexport extends JModel
 		{
 			return null;
 		}
+
 		$ret = null;
 		$i = 0;
 
@@ -201,9 +220,14 @@ class exportModelexport extends JModel
 					{
 						echo '"' . str_replace('"', "'", $id) . '"';
 
-						if ($i < ($fields - 1)) echo ',';
+						if ($i < ($fields - 1))
+						{
+							echo ',';
+						}
+
 						$i++;
 					}
+
 					echo ',"sitepath","category_id","category_name","accessory_products","product_stock","images","images_order","images_alternattext","video","video_order","video_alternattext","document","document_order","document_alternattext","download","download_order","download_alternattext"';
 
 					// Product Extra field as header
@@ -212,6 +236,7 @@ class exportModelexport extends JModel
 
 					echo "\r\n";
 				}
+
 				$i = 0;
 
 				foreach ($row as $id => $value)
@@ -223,6 +248,7 @@ class exportModelexport extends JModel
 							$value = "";
 						}
 					}
+
 					if ($id == 'product_thumb_image' && $value != "")
 					{
 						if (!is_file(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $value))
@@ -230,6 +256,7 @@ class exportModelexport extends JModel
 							$value = "";
 						}
 					}
+
 					if ($id == 'product_back_full_image' && $value != "")
 					{
 						if (!is_file(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $value))
@@ -237,6 +264,7 @@ class exportModelexport extends JModel
 							$value = "";
 						}
 					}
+
 					if ($id == 'product_back_thumb_image' && $value != "")
 					{
 						if (!is_file(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $value))
@@ -244,6 +272,7 @@ class exportModelexport extends JModel
 							$value = "";
 						}
 					}
+
 					if ($id == 'product_preview_image' && $value != "")
 					{
 						if (!is_file(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $value))
@@ -251,6 +280,7 @@ class exportModelexport extends JModel
 							$value = "";
 						}
 					}
+
 					if ($id == 'product_preview_back_image' && $value != "")
 					{
 						if (!is_file(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $value))
@@ -269,6 +299,7 @@ class exportModelexport extends JModel
 					{
 						echo ',';
 					}
+
 					$i++;
 				}
 
@@ -292,10 +323,10 @@ class exportModelexport extends JModel
 
 					for ($cat = 0; $cat < count($category); $cat++)
 					{
-
 						$cats[] = $category[$cat]->category_id;
 						$cat_name[] = $category[$cat]->category_name;
 					}
+
 					$categoryids = implode("###", $cats);
 					$categorynames = implode("###", $cat_name);
 					echo $categoryids . "," . $categorynames . ",";
@@ -316,6 +347,7 @@ class exportModelexport extends JModel
 					{
 						$accs[] = $accessory[$acc]->accsdata;
 					}
+
 					$accessories = implode("###", $accs);
 					echo $accessories . ",";
 				}
@@ -356,6 +388,7 @@ class exportModelexport extends JModel
 						{
 							$image[] = $images[$i]->media_name;
 						}
+
 						$image = implode("#", $image);
 						echo $image;
 					}
@@ -383,6 +416,7 @@ class exportModelexport extends JModel
 						{
 							$image[] = $images[$i]->ordering;
 						}
+
 						$image = implode("#", $image);
 						echo $image;
 					}
@@ -410,6 +444,7 @@ class exportModelexport extends JModel
 						{
 							$image[] = $images[$i]->media_alternate_text;
 						}
+
 						$image = implode("#", $image);
 						echo $image;
 					}
@@ -437,6 +472,7 @@ class exportModelexport extends JModel
 						{
 							$video[] = $videos[$i]->media_name;
 						}
+
 						$video = implode("#", $video);
 						echo $video;
 					}
@@ -464,6 +500,7 @@ class exportModelexport extends JModel
 						{
 							$video[] = $videos[$i]->ordering;
 						}
+
 						$video = implode("#", $video);
 						echo $video;
 					}
@@ -491,6 +528,7 @@ class exportModelexport extends JModel
 						{
 							$video[] = $videos[$i]->media_alternate_text;
 						}
+
 						$video = implode("#", $video);
 						echo $video;
 					}
@@ -518,6 +556,7 @@ class exportModelexport extends JModel
 						{
 							$document[] = $documents[$i]->media_name;
 						}
+
 						$document = implode("#", $document);
 						echo $document;
 					}
@@ -545,6 +584,7 @@ class exportModelexport extends JModel
 						{
 							$document[] = $documents[$i]->ordering;
 						}
+
 						$document = implode("#", $document);
 						echo $document;
 					}
@@ -572,6 +612,7 @@ class exportModelexport extends JModel
 						{
 							$document[] = $documents[$i]->media_alternate_text;
 						}
+
 						$document = implode("#", $document);
 						echo $document;
 					}
@@ -599,6 +640,7 @@ class exportModelexport extends JModel
 						{
 							$download[] = $downloads[$i]->media_name;
 						}
+
 						$download = implode("#", $download);
 						echo $download;
 					}
@@ -626,6 +668,7 @@ class exportModelexport extends JModel
 						{
 							$download[] = $downloads[$i]->ordering;
 						}
+
 						$download = implode("#", $download);
 						echo $download;
 					}
@@ -653,6 +696,7 @@ class exportModelexport extends JModel
 						{
 							$download[] = $downloads[$i]->media_alternate_text;
 						}
+
 						$download = implode("#", $download);
 						echo $download;
 					}
@@ -669,7 +713,6 @@ class exportModelexport extends JModel
 					{
 						foreach ($extrafheader as $fieldid => $fieldname)
 						{
-
 							$fieldoutdata = (isset($efieldsdata[$row['product_id']][$fieldid])) ? $efieldsdata[$row['product_id']][$fieldid] : '';
 							$fieldoutdata = str_replace("\n", "", $fieldoutdata);
 							$fieldoutdata = str_replace("\r", "", $fieldoutdata);
@@ -688,6 +731,7 @@ class exportModelexport extends JModel
 
 				echo "\r\n";
 			}
+
 			if (is_resource($cur))
 			{
 				mysql_free_result($cur);
@@ -697,6 +741,8 @@ class exportModelexport extends JModel
 
 	/**
 	 * Load the categories for export
+	 *
+	 * @return  void
 	 */
 	private function loadCategories()
 	{
@@ -710,6 +756,7 @@ class exportModelexport extends JModel
 		{
 			return null;
 		}
+
 		$ret = null;
 		$i = 0;
 
@@ -753,6 +800,7 @@ class exportModelexport extends JModel
 							$value = "";
 						}
 					}
+
 					$value = str_replace("\n", "", $value);
 
 					$value = str_replace("\r", "", $value);
@@ -763,6 +811,7 @@ class exportModelexport extends JModel
 					{
 						echo ',';
 					}
+
 					$i++;
 				}
 
@@ -778,6 +827,8 @@ class exportModelexport extends JModel
 
 	/**
 	 * Load the attributes for export
+	 *
+	 * @return  void
 	 */
 	private function loadAttributes()
 	{
@@ -879,6 +930,7 @@ class exportModelexport extends JModel
 							{
 								$property_main_image = REDSHOP_FRONT_IMAGES_ABSPATH . 'property/' . $att_property[$prop]->property_main_image;
 							}
+
 							echo $cur[$i]->product_number . "," . $attribute[$att]->attribute_name . ",,,,,,"
 								. $att_property[$prop]->property_name . "," . $main_attribute_stock;
 
@@ -886,8 +938,9 @@ class exportModelexport extends JModel
 							{
 								echo "," . $main_attribute_stock_placement;
 							}
-							echo "," . $att_property[$prop]->ordering . "," . $att_property[$prop]->property_number . "," .
-								$att_property[$prop]->setdefault_selected . "," . $att_property[$prop]->setdisplay_type . ","
+
+							echo "," . $att_property[$prop]->ordering . "," . $att_property[$prop]->property_number . ","
+								. $att_property[$prop]->setdefault_selected . "," . $att_property[$prop]->setdisplay_type . ","
 								. $att_property[$prop]->oprand . "," . $att_property[$prop]->property_price . "," . $property_image
 								. "," . $property_main_image;
 
@@ -895,6 +948,7 @@ class exportModelexport extends JModel
 							{
 								echo ",";
 							}
+
 							echo ",,,,,,,,,0\n";
 
 							$subatt_property = $producthelper->getAttibuteSubProperty(0, $att_property[$prop]->property_id);
@@ -933,6 +987,7 @@ class exportModelexport extends JModel
 								{
 									echo ",";
 								}
+
 								echo ",,,,,,,,,," . $subatt_property[$subprop]->subattribute_color_name . "," . $main_attribute_stock_sub;
 
 								if ($isrecrm)
@@ -953,6 +1008,11 @@ class exportModelexport extends JModel
 		}
 	}
 
+	/**
+	 * Load the manufacturer for export
+	 *
+	 * @return  void
+	 */
 	private function loadManufacturer()
 	{
 		$db = JFactory::getDBO();
@@ -964,6 +1024,7 @@ class exportModelexport extends JModel
 		{
 			return null;
 		}
+
 		$i = 0;
 
 		if (count($manufacturers) > 0)
@@ -1020,6 +1081,8 @@ class exportModelexport extends JModel
 
 	/**
 	 * Load the Related Products for export
+	 *
+	 * @return  void
 	 */
 	private function loadRelatedProducts()
 	{
@@ -1035,6 +1098,7 @@ class exportModelexport extends JModel
 		{
 			return null;
 		}
+
 		$ret = null;
 		$i = 0;
 
@@ -1056,11 +1120,13 @@ class exportModelexport extends JModel
 						{
 							echo ',';
 						}
+
 						$i++;
 					}
 
 					echo "\r\n";
 				}
+
 				$i = 0;
 
 				foreach ($row as $id => $value)
@@ -1077,22 +1143,28 @@ class exportModelexport extends JModel
 
 				echo "\r\n";
 			}
-			if (is_resource($cur)) mysql_free_result($cur);
+
+			if (is_resource($cur))
+			{
+				mysql_free_result($cur);
+			}
 		}
 	}
 
 	/**
 	 * Load the fields for export
+	 *
+	 * @return  void
 	 */
 	private function loadFields()
 	{
-		$extra_field = new extra_field;
+		$extra_field   = new extra_field;
 		$producthelper = new producthelper;
-		$db = JFactory::getDBO();
-		$query = "SELECT * FROM `" . $this->_table_prefix . "fields` ORDER BY field_id asc ";
+		$db            = JFactory::getDBO();
+		$query         = "SELECT * FROM `" . $this->_table_prefix . "fields` ORDER BY field_id asc ";
 		$this->_db->setQuery($query);
-		$cur = $this->_db->loadObjectList();
-		$ret = null;
+		$cur           = $this->_db->loadObjectList();
+		$ret           = null;
 
 		for ($i = 0; $i <= count($cur); $i++)
 		{
@@ -1122,6 +1194,7 @@ class exportModelexport extends JModel
 				echo $cur[$i]->field_id . ",,,,,,,,,,,,,," . $data[$att]->data_id . ",\"" . $data[$att]->data_txt . "\","
 					. $data[$att]->itemid . "," . $data[$att]->section . ",,,," . $product_details->product_number . ",\n";
 			}
+
 			for ($attrvalue = 0; $attrvalue < count($datavalue); $attrvalue++)
 			{
 				echo $cur[$i]->field_id . ",,,,,,,,,,,,,,,,,," . $datavalue[$attrvalue]->value_id . "," . $datavalue[$attrvalue]->field_value . "," . $datavalue[$attrvalue]->field_name . ",\n";
@@ -1131,6 +1204,8 @@ class exportModelexport extends JModel
 
 	/**
 	 * Load the users for export
+	 *
+	 * @return  void
 	 */
 	private function loadUsers()
 	{
@@ -1177,8 +1252,10 @@ class exportModelexport extends JModel
 
 						$i++;
 					}
+
 					echo "\r\n";
 				}
+
 				$i = 0;
 
 				foreach ($row as $id => $value)
@@ -1192,6 +1269,7 @@ class exportModelexport extends JModel
 
 					$i++;
 				}
+
 				echo "\r\n";
 			}
 
@@ -1204,6 +1282,8 @@ class exportModelexport extends JModel
 
 	/**
 	 * Load the Shipping Address for export
+	 *
+	 * @return  void
 	 */
 	private function loadshippingaddress()
 	{
@@ -1219,6 +1299,7 @@ class exportModelexport extends JModel
 		{
 			return null;
 		}
+
 		$ret = null;
 		$i = 0;
 
@@ -1240,25 +1321,30 @@ class exportModelexport extends JModel
 						{
 							echo ',';
 						}
+
 						$i++;
 					}
+
 					echo "\r\n";
 				}
+
 				$i = 0;
 
 				foreach ($row as $id => $value)
 				{
-
 					echo '"' . str_replace('"', '""', $value) . '"';
 
 					if ($i < ($fields - 1))
 					{
 						echo ',';
 					}
+
 					$i++;
 				}
+
 				echo "\r\n";
 			}
+
 			if (is_resource($cur))
 			{
 				mysql_free_result($cur);
@@ -1266,6 +1352,11 @@ class exportModelexport extends JModel
 		}
 	}
 
+	/**
+	 * Load the shopper group for export
+	 *
+	 * @return  void
+	 */
 	public function loadShoppergroupPrice()
 	{
 		$db = JFactory::getDBO();
@@ -1302,10 +1393,13 @@ class exportModelexport extends JModel
 						{
 							echo ',';
 						}
+
 						$i++;
 					}
+
 					echo "\r\n";
 				}
+
 				$i = 0;
 
 				foreach ($row as $id => $value)
@@ -1316,11 +1410,14 @@ class exportModelexport extends JModel
 					{
 						echo ',';
 					}
+
 					$i++;
 				}
+
 				echo "\r\n";
 			}
 		}
+
 		$query = "SELECT IFNULL( p.property_number, sp.subattribute_color_number ) AS product_number, ap.section,
 		s.shopper_group_id, s.shopper_group_name, ap.product_price, price_quantity_start, price_quantity_end,
 		ap.discount_price, ap.discount_start_date, ap.discount_end_date "
@@ -1338,6 +1435,7 @@ class exportModelexport extends JModel
 		{
 			return null;
 		}
+
 		if (count($cur1) > 0)
 		{
 			for ($f = 0; $f < count($cur1); $f++)
@@ -1356,10 +1454,13 @@ class exportModelexport extends JModel
 						{
 							echo ',';
 						}
+
 						$i++;
 					}
+
 					echo "\r\n";
 				}
+
 				$i = 0;
 
 				foreach ($row as $id => $value)
@@ -1370,13 +1471,20 @@ class exportModelexport extends JModel
 					{
 						echo ',';
 					}
+
 					$i++;
 				}
+
 				echo "\r\n";
 			}
 		}
 	}
 
+	/**
+	 * Get Manufacturers to export
+	 *
+	 * @return  array  List of all manufacturers
+	 */
 	public function getmanufacturers()
 	{
 		$query = 'SELECT manufacturer_id as value,manufacturer_name as text FROM ' . $this->_table_prefix
@@ -1387,10 +1495,9 @@ class exportModelexport extends JModel
 	}
 
 	/**
-	 *    get Product extra field data
+	 * get Product extra field data
 	 *
-	 * @return array $fieldExport
-	 *
+	 * @return  array  Extra Field information
 	 */
 	public function getProductExtrafield()
 	{
