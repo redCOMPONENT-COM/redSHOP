@@ -11,9 +11,20 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 require_once JPATH_COMPONENT . '/helpers/category.php';
-
-class exportViewexport extends JView
+/**
+ * Export view class
+ *
+ * @since  2.5
+ */
+class ExportViewexport extends JView
 {
+	/**
+	 * Method to display export view
+	 *
+	 * @param   string  $tpl  Template name
+	 *
+	 * @return  void
+	 */
 	public function display($tpl = null)
 	{
 		$task = JRequest::getVar('task');
@@ -30,20 +41,13 @@ class exportViewexport extends JView
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_EXPORT_MANAGEMENT'), 'redshop_export48');
 
-		JToolBarHelper :: custom('exportfile',
-			'redshop_export_export32.png',
-			JText::_('COM_REDSHOP_EXPORT'),
-			JText::_('COM_REDSHOP_EXPORT'), false, false
-		);
+		JToolBarHelper::custom('exportfile', 'redshop_export_export32.png', JText::_('COM_REDSHOP_EXPORT'), JText::_('COM_REDSHOP_EXPORT'), false, false);
 
-		$categories = $product_category->list_all("product_category[]", 0, $productcats, 10, true, true);
+		$categories = $product_category->list_all("product_category[]", 0, array(), 10, true, true);
 		$lists['categories'] = $categories;
 
 		$manufacturers = $model->getmanufacturers();
-		$lists['manufacturers'] = JHTML::_('select.genericlist', $manufacturers, 'manufacturer_id[]',
-			'class="inputbox"  multiple="multiple"  size="10" style="width: 250px;"> ',
-			'value', 'text', $detail->manufacturer_id
-		);
+		$lists['manufacturers'] = JHTML::_('select.genericlist', $manufacturers, 'manufacturer_id[]', 'class="inputbox"  multiple="multiple"  size="10" style="width: 250px;"> ', 'value', 'text', 0);
 
 		$this->assignRef('lists', $lists);
 
