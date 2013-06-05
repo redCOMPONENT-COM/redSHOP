@@ -492,6 +492,8 @@ class producthelper
 		{
 			$auth                   = $this->_session->get('auth');
 			$users_info_id          = $auth['users_info_id'];
+
+			$userdata = new stdClass;
 			$userdata->country_code = DEFAULT_VAT_COUNTRY;
 			$userdata->state_code   = DEFAULT_VAT_STATE;
 
