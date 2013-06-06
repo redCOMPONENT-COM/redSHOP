@@ -446,7 +446,7 @@ class productModelproduct extends JModel
 		$cid = $data['cid'];
 
 		$url = JURI::root();
-		$currency = new convertPrice;
+		$currency = new CurrencyHelper;
 		$product_img_url = $url . "components/com_redshop/assets/images/product" . DS;
 		$file_path = JPATH_COMPONENT_SITE . "/assets/document/gbase";
 

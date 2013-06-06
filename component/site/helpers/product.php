@@ -739,8 +739,8 @@ class producthelper
 		 */
 		if ($convert && $session->get('product_currency'))
 		{
-			$convertPrice  = new convertPrice;
-			$product_price = $convertPrice->convert($product_price);
+			$CurrencyHelper  = new CurrencyHelper;
+			$product_price = $CurrencyHelper->convert($product_price);
 
 			$currency_symbol = $session->get('product_currency');
 		}
@@ -4933,7 +4933,7 @@ class producthelper
 
 					}
 
-					$tmp_array            = array();
+					$tmp_array            = array(new stdClass);
 					$tmp_array [0]->value = 0;
 					$tmp_array [0]->text  = JText::_('COM_REDSHOP_SELECT') . " " . urldecode($attributes[$a]->text);
 
