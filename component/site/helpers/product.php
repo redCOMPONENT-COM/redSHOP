@@ -7699,8 +7699,19 @@ class producthelper
 		else
 			$catquery = "SELECT sg.shopper_group_categories FROM `#__redshop_shopper_group` as sg WHERE  sg.`shopper_group_id` = '" . $shopperGroupId . "' AND sg.shopper_group_portal=1";
 
+		$this->_db->setQuery($catquery);
+		$category_ids_obj = $this->_db->loadObjectList();
+		if(empty($category_ids_obj))
+		{
+			$category_ids = "''";
+		}
+		else
+		{
+			$category_ids = $category_ids_obj[0]->shopper_group_categories;
+		}
+
 		$query = "SELECT product_id
-						FROM `#__redshop_product_category_xref` WHERE category_id IN (" . $catquery . ")";
+						FROM `#__redshop_product_category_xref` WHERE category_id IN (" . $category_ids . ")";
 
 		$this->_db->setQuery($query);
 		$shopperprodata = $this->_db->loadObjectList();
