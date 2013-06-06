@@ -38,7 +38,7 @@ class plgRedshop_paymentrs_payment_moneris extends JPlugin
 	public function onPrePayment_rs_payment_moneris($element, $data)
 	{
 		$config = new Redconfiguration;
-		$currencyClass = new convertPrice;
+		$currencyClass = new CurrencyHelper;
 
 		// Get user billing information
 		$user = JFActory::getUser();

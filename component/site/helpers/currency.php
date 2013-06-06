@@ -15,8 +15,10 @@ require_once JPATH_SITE . '/administrator/components/com_redshop/helpers/configu
 
 /**
  * price converter
+ *
+ * @since  2.5
  */
-class convertPrice
+class CurrencyHelper
 {
 	public $archive = true;
 
@@ -153,6 +155,15 @@ class convertPrice
 		return true;
 	}
 
+	/**
+	 * Convert currency
+	 *
+	 * @param   float   $amountA  Amount to convert
+	 * @param   string  $currA    Base Currency code
+	 * @param   string  $currB    Currency code in which need amount to be converted
+	 *
+	 * @return  float             Converted amount
+	 */
 	public function convert($amountA, $currA = '', $currB = '')
 	{
 		$config = new Redconfiguration;
