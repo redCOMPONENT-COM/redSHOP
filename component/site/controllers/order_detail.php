@@ -464,7 +464,7 @@ class Order_detailController extends JController
 				}
 				else
 				{
-					$link = 'index.php?option=com_redshop&view=checkout&format=final&oid=' . $order_id . '&Itemid=' . $Itemid;
+					$link = 'index.php?option=com_redshop&view=order_detail&layout=checkout_final&oid=' . $order_id . '&Itemid=' . $Itemid;
 					$this->setRedirect($link);
 				}
 			}

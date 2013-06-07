@@ -733,6 +733,6 @@ class CurrencyHelper
 				break;
 		}
 
-		return "XXX";
+		return "000";
 	}
 }
