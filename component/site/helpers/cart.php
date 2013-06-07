@@ -3697,11 +3697,22 @@ class rsCarthelper
 		$user_id      = $user->id;
 
 		$cc_list                 = array();
+		$cc_list['VISA']         = new stdClass;
 		$cc_list['VISA']->img    = 'visa.jpg';
+
+		$cc_list['MC']           = new stdClass;
 		$cc_list['MC']->img      = 'master.jpg';
+
+		$cc_list['amex']         = new stdClass;
 		$cc_list['amex']->img    = 'blue.jpg';
+
+		$cc_list['maestro']      = new stdClass;
 		$cc_list['maestro']->img = 'mastero.jpg';
+
+		$cc_list['jcb']          = new stdClass;
 		$cc_list['jcb']->img     = 'jcb.jpg';
+
+		$cc_list['diners']       = new stdClass;
 		$cc_list['diners']->img  = 'dinnersclub.jpg';
 
 		$montharr   = array();

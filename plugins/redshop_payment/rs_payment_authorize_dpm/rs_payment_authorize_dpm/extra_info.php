@@ -24,7 +24,7 @@ $login_id = $this->_params->get("access_id");
 $trans_id = $this->_params->get("transaction_id");
 $is_test = $this->_params->get("is_test");
 
-$relay_response_url = JURI::root() . 'index.php?option=com_redshop&tmpl=component&view=checkout&format=final&stap=2&oid=' . $data["order_id"] . '&Itemid=' . $Itemid;
+$relay_response_url = JURI::root() . 'index.php?option=com_redshop&view=order_detail&layout=checkout_final&stap=2&oid=' . $data["order_id"] . '&Itemid=' . $Itemid;
 
 $api_login_id = $login_id;
 $transaction_key = $trans_id;
