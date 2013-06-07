@@ -233,12 +233,12 @@ class productModelproduct extends JModel
 
 		if ($where == '' && $search_field != 'pa.property_number')
 		{
+
 			$query = "SELECT p.product_id,p.product_id AS id,p.product_name,p.product_name AS treename,p.product_name
 			AS title,p.product_price,p.product_parent_id,p.product_parent_id AS parent_id,p.product_parent_id AS parent  "
 				. ",p.published,p.visited,p.manufacturer_id,p.product_number ,p.checked_out,p.checked_out_time,p.discount_price "
-				. ",p.product_template,(SELECT COUNT(*) FROM " . $this->_table_prefix
-				. "media AS m where m.section_id = p.product_id) AS media FROM " . $this->_table_prefix
-				. "product AS p "
+				. ",p.product_template "
+				. " FROM " . $this->_table_prefix . "product AS p "
 				. "WHERE 1=1 " . $and . $orderby;
 		}
 		else
@@ -246,8 +246,8 @@ class productModelproduct extends JModel
 			$query = "SELECT p.product_id AS id,p.product_id,p.product_name,p.product_name AS treename,p.product_name AS
 			name,p.product_name AS title,p.product_parent_id,p.product_parent_id AS parent,p.product_price " . ",
 			p.published,p.visited,p.manufacturer_id,p.product_number,p.product_template,p.checked_out,p.checked_out_time,p.discount_price " . ",
-			x.ordering , x.category_id,(SELECT COUNT(*) FROM " . $this->_table_prefix . "media AS m where m.section_id = p.product_id)
-			AS media " . "FROM " . $this->_table_prefix . "product AS p " . "LEFT JOIN " . $this->_table_prefix . "product_category_xref
+			x.ordering , x.category_id "
+			. " FROM " . $this->_table_prefix . "product AS p " . "LEFT JOIN " . $this->_table_prefix . "product_category_xref
 			AS x ON x.product_id = p.product_id " . "LEFT JOIN " . $this->_table_prefix . "category AS c ON x.category_id = c.category_id ";
 
 			if ($search_field == 'pa.property_number' && $keyword != '')
