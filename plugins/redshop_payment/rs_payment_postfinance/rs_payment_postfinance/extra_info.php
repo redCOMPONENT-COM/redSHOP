@@ -57,7 +57,7 @@ else
 	$postfinanceurl = "https://e-payment.postfinance.ch/ncol/prod/orderstandard.asp";
 }
 
-$currencyClass = new convertPrice;
+$currencyClass = new CurrencyHelper;
 
 $order->order_subtotal = round($currencyClass->convert($order_details[0]->order_total, '', 'USD'), 2) * 100;
 

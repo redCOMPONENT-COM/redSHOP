@@ -16,7 +16,7 @@
 require_once JPATH_SITE . '/components/com_redshop/helpers/product.php';
 $producthelper = new producthelper;
 $order_functions = new order_functions;
-$currencyClass = new convertPrice;
+$currencyClass = new CurrencyHelper;
 $user = JFactory::getUser();
 
 // Order Details

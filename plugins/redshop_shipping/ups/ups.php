@@ -403,7 +403,7 @@ class plgredshop_shippingups extends JPlugin
 		$shippinghelper = new shipping;
 		$producthelper = new producthelper;
 		$redconfig = new Redconfiguration;
-		$currency = new convertPrice;
+		$currency = new CurrencyHelper;
 		$shipping = $shippinghelper->getShippingMethodByClass($this->classname);
 
 		$itemparams = new JRegistry($shipping->params);

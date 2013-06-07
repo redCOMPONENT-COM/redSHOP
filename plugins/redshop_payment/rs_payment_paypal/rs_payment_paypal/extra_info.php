@@ -56,7 +56,7 @@ else
 	$paypalurl = "https://www.paypal.com/cgi-bin/webscr";
 }
 
-$currencyClass = new convertPrice;
+$currencyClass = new CurrencyHelper;
 
 $order->order_subtotal = $currencyClass->convert($order_details[0]->order_total, '', $currency_main);
 

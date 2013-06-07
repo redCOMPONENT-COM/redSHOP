@@ -151,7 +151,7 @@ class plgRedshop_paymentrs_payment_dibspaymentmethod extends JPlugin
 		$key1 = $this->_params->get("dibs_md5key1");
 		$merchantid = $this->_params->get("seller_id");
 
-		$currencyClass = new convertPrice;
+		$currencyClass = new CurrencyHelper;
 		$formdata['amount'] = $currencyClass->convert($data['order_amount'], '', $this->_params->get("dibs_currency"));
 		$formdata['amount'] = number_format($formdata['amount'], 2, '.', '') * 100;
 
