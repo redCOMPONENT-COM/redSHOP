@@ -216,7 +216,7 @@ class plgredshop_shippingshipwire extends JPlugin
 				$currency_main = "USD";
 			}
 
-			$currencyClass = new convertPrice;
+			$currencyClass = new CurrencyHelper;
 
 			for ($i = 0; $i < count($content['COST']); $i++)
 			{

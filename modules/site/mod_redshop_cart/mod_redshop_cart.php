@@ -85,6 +85,11 @@ if ($idx)
 
 	if ($show_with_vat == 0)
 	{
+		if (isset($cart['shipping_vat']) === false)
+		{
+			$cart['shipping_vat'] = 0;
+		}
+
 		$shippingVat = $cart['shipping_vat'];
 		$shipping    = $shipping - $shippingVat;
 	}
@@ -92,4 +97,3 @@ if ($idx)
 
 $session->set('cart', $cart);
 require JModuleHelper::getLayoutPath('mod_redshop_cart');
-

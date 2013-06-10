@@ -389,6 +389,11 @@ class Cron
 			$db->setQuery($sql);
 			$couponeArr = $db->loadObject();
 
+			if (count($couponeArr) <= 0)
+			{
+				continue;
+			}
+
 			$total       = $couponeArr->total;
 			$coupon_code = $couponeArr->coupon_code;
 			$cend_date   = $couponeArr->end_date;

@@ -38,7 +38,7 @@ class plgRedshop_paymentrs_payment_ceilo extends JPlugin
 	public function onPrePayment_rs_payment_ceilo($element, $data)
 	{
 		$config = new Redconfiguration;
-		$currencyClass = new convertPrice;
+		$currencyClass = new CurrencyHelper;
 		$app = JFactory::getApplication();
 		$objOrder = new order_functions;
 		$uri =& JURI::getInstance();
