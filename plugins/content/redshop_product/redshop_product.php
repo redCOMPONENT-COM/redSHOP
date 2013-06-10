@@ -43,8 +43,8 @@ class plgContentredshop_product extends JPlugin
 			if ($session->get('product_currency'))
 			{
 				$currency_symbol = $session->get('product_currency');
-				$convertPrice = new convertPrice;
-				$currency_convert = $convertPrice->convert(1);
+				$CurrencyHelper = new CurrencyHelper;
+				$currency_convert = $CurrencyHelper->convert(1);
 			}
 
 					$document = JFactory::getDocument();

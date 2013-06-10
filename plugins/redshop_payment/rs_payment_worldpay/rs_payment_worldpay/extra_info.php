@@ -60,7 +60,7 @@ else
 	$worldpayurl = "https://secure.worldpay.com/wcc/purchase";
 }
 
-$currencyClass = new convertPrice;
+$currencyClass = new CurrencyHelper;
 $order->order_subtotal = number_format($order_details[0]->order_total, 2, '.', '');
 $amount = $order->order_subtotal;
 

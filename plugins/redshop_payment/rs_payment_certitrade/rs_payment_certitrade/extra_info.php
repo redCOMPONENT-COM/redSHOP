@@ -45,7 +45,7 @@ $rev = "E";
 $orderid = $data['order_id'];
 $Itemid = $_REQUEST['Itemid'];
 // convert price to SEK(752)
-$currency = new convertPrice;
+$currency = new CurrencyHelper;
 $amount = $currency->convert($data['carttotal'], '', 'SEK');
 
 //$amount        = $order->order_total;

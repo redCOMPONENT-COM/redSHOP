@@ -73,7 +73,7 @@ if ($this->_params->get("is_test") == "1")
 
 $version = "2";
 $dibsurl = "https://payment.architrade.com/paymentweb/start.action";
-$currencyClass = new convertPrice;
+$currencyClass = new CurrencyHelper;
 $formdata['amount'] = $currencyClass->convert($data['carttotal'], '', $this->_params->get("dibs_currency"));
 // for total amount
 $cal_no = 2;

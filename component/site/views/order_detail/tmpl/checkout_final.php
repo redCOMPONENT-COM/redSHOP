@@ -25,40 +25,14 @@ $orderitem = $order_functions->getOrderItemDetail($order_id);
 
 if ($order->order_total > 0 && !USE_AS_CATALOG)
 {
-$paymentmethod = $order_functions->getOrderPaymentDetail($order_id);
-$paymentmethod = $order_functions->getPaymentMethodInfo($paymentmethod[0]->payment_method_class);
-$paymentmethod = $paymentmethod[0];
+	$paymentmethod = $order_functions->getOrderPaymentDetail($order_id);
+	$paymentmethod = $order_functions->getPaymentMethodInfo($paymentmethod[0]->payment_method_class);
+	$paymentmethod = $paymentmethod[0];
 
-$paymentpath = JPATH_SITE . '/plugins/redshop_payment/' . $paymentmethod->element . '/' . $paymentmethod->element . '.xml';
-$paymentparams = new JRegistry($paymentmethod->params);
+	$paymentpath = JPATH_SITE . '/plugins/redshop_payment/' . $paymentmethod->element . '/' . $paymentmethod->element . '.xml';
+	$paymentparams = new JRegistry($paymentmethod->params);
 
-$preloader = $paymentparams->get('preloader', 1);
-
-if ($preloader)
-{
-	?>
-	<script type="text/javascript"
-	        src="<?php echo JUri::root(); ?>components/com_redshop/assets/js/mootools-core.js"></script>
-	<script type="text/javascript"
-	        src="<?php echo JUri::root(); ?>components/com_redshop/assets/js/muxloader.js"></script>
-	<script type="text/javascript">
-		window.addEvent('domready', function () {
-			document.getElement('.mux-loader-bar').grab($(new MUX.Loader.Bar()));
-			document.getElement('.mux-loader').start();
-		});
-	</script>
-	<div style="margin: 0 auto;width: 900px;">
-		<div style="margin:200px 0px 0px 250px;">
-			<div><?php echo JText::_('PROCESSING_PAYMENT');?></div>
-			<div>&nbsp;</div>
-			<div class="loader mux-loader-bar"></div>
-		</div>
-	</div>
-<?php
-}
-?>
-<div align="center" style="margin: 200px auto;width: 900px;">
-	<?php
+	echo '<div>';
 
 	$is_creditcard = $paymentparams->get('is_creditcard', '');
 	$is_redirected = $paymentparams->get('is_redirected', 0);
@@ -132,7 +106,6 @@ if ($preloader)
 				document.getElementById('epayrelayfrm').submit();
 			</script>
 		<?php
-
 		}
 		else
 		{
@@ -149,11 +122,37 @@ if ($preloader)
 			}
 		}
 	}
-	}
-	else
-	{
-		$app = JFactory::getApplication();
-		$app->redirect('index.php?option=com_redshop&view=order_detail&layout=receipt&oid=' . $order_id . '&Itemid=' . $Itemid);
-	}
-	?>
+}
+else
+{
+	$app = JFactory::getApplication();
+	$app->redirect('index.php?option=com_redshop&view=order_detail&layout=receipt&oid=' . $order_id . '&Itemid=' . $Itemid);
+}
+?>
 </div>
+<?php
+
+$preloader = $paymentparams->get('preloader', 1);
+
+if ($preloader)
+{
+	?>
+	<script type="text/javascript"
+	        src="<?php echo JUri::root(); ?>components/com_redshop/assets/js/mootools-core.js"></script>
+	<script type="text/javascript"
+	        src="<?php echo JUri::root(); ?>components/com_redshop/assets/js/muxloader.js"></script>
+	<script type="text/javascript">
+		window.addEvent('domready', function () {
+			document.getElement('.mux-loader-bar').grab($(new MUX.Loader.Bar()));
+			document.getElement('.mux-loader').start();
+		});
+	</script>
+	<div style="margin: 0 auto;width: 900px;">
+		<div style="margin:200px 0px 0px 250px;">
+			<div><?php echo JText::_('PROCESSING_PAYMENT');?></div>
+			<div>&nbsp;</div>
+			<div class="loader mux-loader-bar"></div>
+		</div>
+	</div>
+<?php
+}

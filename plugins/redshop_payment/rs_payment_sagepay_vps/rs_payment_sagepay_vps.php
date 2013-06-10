@@ -38,7 +38,7 @@ class plgRedshop_paymentrs_payment_sagepay_vps extends JPlugin
 public function onPrePayment($element, $data)
 {
 	$config = new Redconfiguration;
-	$currencyClass = new convertPrice;
+	$currencyClass = new CurrencyHelper;
 
 	// Get user billing information
 	$user = JFActory::getUser();

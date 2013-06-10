@@ -47,9 +47,67 @@ class plgRedshop_paymentrs_payment_epayv2 extends JPlugin
 			$plugin = $element;
 		}
 
-		$app = JFactory::getApplication();
-		$paymentpath = JPATH_SITE . '/plugins/redshop_payment/' . $plugin . DS . $plugin . '/extra_info.php';
-		include $paymentpath;
+		require_once JPATH_SITE . '/components/com_redshop/helpers/product.php';
+		require_once JPATH_SITE . '/components/com_redshop/helpers/currency.php';
+
+		$producthelper  = new producthelper;
+		$CurrencyHelper = new CurrencyHelper;
+		$uri            = JURI::getInstance();
+		$url            = $uri->root();
+		$user           = JFactory::getUser();
+
+		$formdata = array(
+			'merchantnumber'  => $this->_params->get("merchant_id"),
+			'amount'          => number_format($data['carttotal'], 2, '.', '') * 100,
+			'currency'        => $CurrencyHelper->get_iso_code(CURRENCY_CODE),
+			'orderid'         => $data['order_id'],
+			'group'           => $this->_params->get("payment_group"),
+			'instantcapture'  => $this->_params->get("auth_type"),
+			'instantcallback' => 1,
+			'language'        => $this->_params->get("language"),
+			'windowstate'     => $this->_params->get("epay_window_state"),
+			'windowid'        => $this->_params->get("windowid"),
+			'ownreceipt'      => $this->_params->get("ownreceipt"),
+			'use3D'           => $this->_params->get("epay_3dsecure"),
+			'addfee'          => $this->_params->get("transaction_fee"),
+			'subscription'    => $this->_params->get("epay_subscription")
+		);
+
+		if ((int) $this->_params->get('activate_callback', 0) == 1)
+		{
+			$formdata['cancelurl']   = JURI::base() . 'index.php?tmpl=component&option=com_redshop&view=order_detail&controller=order_detail&task=notify_payment&payment_plugin=rs_payment_epayv2&accept=0';
+			$formdata['callbackurl'] = JURI::base() . 'index.php?tmpl=component&option=com_redshop&view=order_detail&controller=order_detail&task=notify_payment&payment_plugin=rs_payment_epayv2&accept=1';
+			$formdata['accepturl']   = JURI::base() . 'index.php?option=com_redshop&view=order_detail&oid=' . $data['order_id'];
+		}
+		else
+		{
+			$formdata['cancelurl'] = JURI::base() . 'index.php?tmpl=component&option=com_redshop&view=order_detail&controller=order_detail&task=notify_payment&payment_plugin=rs_payment_epayv2&accept=0';
+			$formdata['accepturl'] = JURI::base() . 'index.php?tmpl=component&option=com_redshop&view=order_detail&controller=order_detail&task=notify_payment&payment_plugin=rs_payment_epayv2&accept=1';
+		}
+
+		// Create hash value to post
+		$formdata['hash'] = md5(implode($formdata, "") . $this->_params->get("epay_paymentkey"));
+
+		// New Code
+		$json_pass_string = json_encode($formdata);
+
+		$html = '';
+		$html .= '
+		<style>
+		#epay_frame{
+			margin-left: -200px;
+			padding-left: 25px;
+			position: absolute;
+			top: 400px;
+		}
+		</style>';
+		$html .= '<script charset="UTF-8" src="https://ssl.ditonlinebetalingssystem.dk/integration/ewindow/paymentwindow.js" type="text/javascript"></script>';
+		$html .= '<script type="text/javascript">';
+			$html .= 'paymentwindow = new PaymentWindow(' . $json_pass_string . ');';
+			$html .= 'paymentwindow.open();';
+		$html .= '</script>';
+		$html .= '<input onclick="javascript: paymentwindow.open()" type="button" value="Go to payment">';
+		echo $html;
 	}
 
 	/*

@@ -225,7 +225,7 @@ class plgredshop_shippingbring extends JPlugin
 	{
 		$shippinghelper = new shipping;
 		$producthelper = new producthelper;
-		$currency = new convertPrice;
+		$currency = new CurrencyHelper;
 		$redconfig = new Redconfiguration;
 
 		$shipping = $shippinghelper->getShippingMethodByClass($this->classname);

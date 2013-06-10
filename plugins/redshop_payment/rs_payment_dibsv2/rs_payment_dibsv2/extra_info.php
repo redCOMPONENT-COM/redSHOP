@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 require_once JPATH_BASE . '/administrator/components/com_redshop/helpers/order.php';
 $Itemid = $_REQUEST['Itemid'];
 $order_functions = new order_functions;
-$currencyClass = new convertPrice;
+$currencyClass = new CurrencyHelper;
 $order_items = $order_functions->getOrderItemDetail($data['order_id']);
 $order = $order_functions->getOrderDetails($data['order_id']);
 $hmac_key = $this->_params->get("hmac_key");

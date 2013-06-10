@@ -33,7 +33,7 @@ $db->setQuery($sql);
 $order_details = $db->loadObjectList();
 $paygateurl = "https://www.paygate.co.za/paywebv2/process.trans";
 
-$currencyClass = new convertPrice;
+$currencyClass = new CurrencyHelper;
 
 $order->order_subtotal = $currencyClass->convert($order_details[0]->order_total, '', 'ZAR');
 

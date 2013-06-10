@@ -17,7 +17,7 @@ jimport('joomla.plugin.plugin');
  * @package        Joomla
  * @subpackage     System
  */
-include_once (JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/shipping.php');
+include_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/shipping.php';
 
 class  plgredshop_shippingdefault_shipping extends JPlugin
 {
@@ -59,16 +59,18 @@ class  plgredshop_shippingdefault_shipping extends JPlugin
 
 		for ($i = 0; $i < count($ratelist); $i++)
 		{
-			$rs = $ratelist[$i];
-			$shippingRate = $rs->shipping_rate_value;
+			$rs                      = $ratelist[$i];
+			$shippingRate            = $rs->shipping_rate_value;
 			$rs->shipping_rate_value = $shippinghelper->applyVatOnShippingRate($rs, $d['user_id']);
-			$shippingVatRate = $rs->shipping_rate_value - $shippingRate;
-			$economic_displaynumber = $rs->economic_displaynumber;
-			$shipping_rate_id = $shippinghelper->encryptShipping(__CLASS__ . "|" . $shipping->name . "|" . $rs->shipping_rate_name . "|" . number_format($rs->shipping_rate_value, 2, '.', '') . "|" . $rs->shipping_rate_id . "|single|" . $shippingVatRate . '|' . $economic_displaynumber . '|' . $rs->deliver_type);
-			$shippingrate[$rate]->text = $rs->shipping_rate_name;
+			$shippingVatRate         = $rs->shipping_rate_value - $shippingRate;
+			$economic_displaynumber  = $rs->economic_displaynumber;
+			$shipping_rate_id        = $shippinghelper->encryptShipping(__CLASS__ . "|" . $shipping->name . "|" . $rs->shipping_rate_name . "|" . number_format($rs->shipping_rate_value, 2, '.', '') . "|" . $rs->shipping_rate_id . "|single|" . $shippingVatRate . '|' . $economic_displaynumber . '|' . $rs->deliver_type);
+
+			$shippingrate[$rate]        = new stdClass;
+			$shippingrate[$rate]->text  = $rs->shipping_rate_name;
 			$shippingrate[$rate]->value = $shipping_rate_id;
-			$shippingrate[$rate]->rate = $rs->shipping_rate_value;
-			$shippingrate[$rate]->vat = $shippingVatRate;
+			$shippingrate[$rate]->rate  = $rs->shipping_rate_value;
+			$shippingrate[$rate]->vat   = $shippingVatRate;
 			$rate++;
 		}
 

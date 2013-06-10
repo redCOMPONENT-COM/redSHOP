@@ -36,7 +36,7 @@ else
 	$bbsurl = "https://epayment.bbs.no/Netaxept/Register.aspx?";
 }
 
-$currency = new convertPrice;
+$currency = new CurrencyHelper;
 $data['carttotal'] *= 100;
 $amount = $currency->convert($data['carttotal'], '', 'NOK');
 //$amount = $currency->convert(number_format($order->order_total,PRICE_DECIMAL,PRICE_SEPERATOR,THOUSAND_SEPERATOR),'','NOK');

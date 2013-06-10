@@ -217,7 +217,7 @@ class plgRedshop_paymentrs_payment_mollieideal extends JPlugin
 
 		// Genereer formulier om bank te selecteren:
 		$form = '<b>Step 1 - ' . JText::_('COM_REDSHOP_MOLLIEIDEAL_STEP_HEADER') . ' <img src="http://www.mollie.nl/images/icons/ideal-25x22.gif" alt="" /></b><br /><br />' .
-			'<form method="post" action="' . JURI::root() . 'index.php?option=com_redshop&view=checkout&format=final&stap=2&oid=' . (int) $order_id . '&Itemid=' . $Itemid . '"><input type="hidden" name="stap" value="2" />' .
+			'<form method="post" action="' . JURI::root() . 'index.php?option=com_redshop&view=order_detail&layout=checkout_final&stap=2&oid=' . (int) $order_id . '&Itemid=' . $Itemid . '"><input type="hidden" name="stap" value="2" />' .
 			'<label>' . JText::_('COM_REDSHOP_MOLLIEIDEAL_SELECT_BANK') . '</label> <select name="bankid">';
 
 		foreach ($mbanks as $mbankid => $mbankname)
