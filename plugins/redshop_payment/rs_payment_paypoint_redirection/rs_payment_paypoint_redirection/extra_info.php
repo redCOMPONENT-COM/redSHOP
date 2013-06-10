@@ -33,7 +33,7 @@ $order_details = $db->loadObjectList();
 
 $paypointurl = "https://www.secpay.com/java-bin/ValCard";
 
-$currencyClass = new convertPrice;
+$currencyClass = new CurrencyHelper;
 
 $order->order_subtotal = $currencyClass->convert($order_details[0]->order_total, '', 'USD');
 

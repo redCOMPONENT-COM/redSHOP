@@ -82,7 +82,7 @@ class plgRedshop_paymentrs_payment_paymill extends JPlugin
 						</div><br /><br />
 					      </div>
 
-					      <form id="payment-form" method="POST" action="index.php?option=com_redshop&view=checkout&format=final&stap=2&oid=' . (int) $data['order_id'] . '&Itemid=' . $Itemid . '">
+					      <form id="payment-form" method="POST" action="index.php?option=com_redshop&view=order_detail&layout=checkout_final&stap=2&oid=' . (int) $data['order_id'] . '&Itemid=' . $Itemid . '">
 
 						<div class="clearfix"></div>
 

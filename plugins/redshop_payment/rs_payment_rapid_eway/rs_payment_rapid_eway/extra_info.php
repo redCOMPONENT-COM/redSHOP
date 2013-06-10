@@ -48,7 +48,7 @@ $eWAYusername = $this->_params->get("username");
 $eWAYpassword = $this->_params->get("password");
 $test_mode = $this->_params->get("test_mode");
 
-$currencyClass = new convertPrice;
+$currencyClass = new CurrencyHelper;
 $order_subtotal = $currencyClass->convert($data['order']->order_total, '', $currency_main);
 
 //Create RapidAPI Service
