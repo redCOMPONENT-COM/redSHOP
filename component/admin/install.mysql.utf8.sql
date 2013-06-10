@@ -1812,7 +1812,7 @@ CREATE TABLE IF NOT EXISTS `#__redshop_product_subattribute_color` (
   `setdefault_selected` tinyint(4) NOT NULL,
   `subattribute_published` int(11) NOT NULL DEFAULT '1',
   PRIMARY KEY  (`subattribute_color_id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=latin1 COMMENT='Product Subattribute Color' ;
+) DEFAULT CHARSET=utf8 COMMENT='Product Subattribute Color' ;
 
 
 

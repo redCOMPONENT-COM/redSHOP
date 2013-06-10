@@ -1,0 +1,1 @@
+ALTER TABLE `#__redshop_product_subattribute_color` MODIFY `subattribute_color_name` VARCHAR(255) CHARACTER SET utf8 COLLATE utf8_general_ci
