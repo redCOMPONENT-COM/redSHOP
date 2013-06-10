@@ -10,7 +10,7 @@
 include_once (JPATH_COMPONENT_ADMINISTRATOR . '/helpers/shipping.php');
 $shippinghelper = new shipping;
 
-$currencyClass = new convertPrice;
+$currencyClass = new CurrencyHelper;
 
 $currency_code = "USD"; // currency accepted by google
 

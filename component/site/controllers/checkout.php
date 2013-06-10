@@ -511,7 +511,7 @@ class CheckoutController extends JController
 				}
 				else
 				{
-					$link = JURI::root() . 'index.php?option=com_redshop&tmpl=component&view=checkout&format=final&oid=' . $order_id . '&Itemid=' . $Itemid;
+					$link = JURI::root() . 'index.php?option=com_redshop&view=order_detail&layout=checkout_final&oid=' . $order_id . '&Itemid=' . $Itemid;
 					$this->setRedirect($link);
 				}
 			}

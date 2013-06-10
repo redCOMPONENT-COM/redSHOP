@@ -76,7 +76,7 @@ class plgRedshop_paymentrs_payment_braintree extends JPlugin
 
 		if ($new_user)
 		{
-			$cart_data = '<form action="index.php?option=com_redshop&view=checkout&format=final&stap=2&oid=' . (int) $data['order_id'] . '&Itemid=' . $Itemid . '" method="post" name="adminForm" id="adminForm" enctype="multipart/form-data" onsubmit="return CheckCardNumber(this);">';
+			$cart_data = '<form action="index.php?option=com_redshop&view=order_detail&layout=checkout_final&stap=2&oid=' . (int) $data['order_id'] . '&Itemid=' . $Itemid . '" method="post" name="adminForm" id="adminForm" enctype="multipart/form-data" onsubmit="return CheckCardNumber(this);">';
 			$session = JFactory::getSession();
 			$ccdata = $session->get('ccdata');
 
@@ -189,7 +189,7 @@ class plgRedshop_paymentrs_payment_braintree extends JPlugin
 		}
 		else
 		{
-			$cart_data = '<form action="index.php?option=com_redshop&view=checkout&format=final&stap=2&oid='
+			$cart_data = '<form action="index.php?option=com_redshop&view=order_detail&layout=checkout_final&stap=2&oid='
 				. $data['order_id'] . '&Itemid=' . $Itemid
 				. '" method="post" name="adminForm" id="adminForm" enctype="multipart/form-data" >';
 			$cart_data .= '<table height="100">

@@ -8,12 +8,11 @@
     <authorUrl>http://www.redcomponent.com</authorUrl>
     <copyright>redCOMPONENT.com</copyright>
     <license>GNU General Public License v2</license>
-    <description>This plugin enables standard Epay payments</description>
+    <description>PLG_RS_PAYMENT_EPAYV2_DESCRIPTION</description>
 
     <files>
         <filename plugin="rs_payment_epayv2">rs_payment_epayv2.php</filename>
         <folder>rs_payment_epayv2</folder>
-
     </files>
     <languages>
         <language tag="en-GB">language/en-GB/en-GB.plg_redshop_payment_rs_payment_epayv2.ini</language>
@@ -57,8 +56,6 @@
                        query="SELECT order_status_code AS st_value, order_status_name AS st_title FROM #__redshop_order_status"
                        key_field="st_value" value_field="st_title" default="S" label="Capture Payment Status"
                        description="Select an capture status for capturing payment."></field>
-                <field name="cardtypes" type="epaycardtypes" default="0" label="CardTypes"
-                       description="Select Cardtypes to show the customer"/>
                 <field name="language" type="list" default="1" label="Language: "
                        description="Select language for Payment Window">
                     <option value="1">Danish</option>
@@ -96,9 +93,7 @@
                 <field name="epay_window_state" type="list" default="1" label="Window State" description="">
                     <option value="1">Overlay</option>
                     <option value="4">Integrated payment form</option>
-                    <option value="2">Iframe (embedded in the side)</option>
                     <option value="3">Full screen</option>
-                    <option value="10">Mobile window</option>
                 </field>
 
                 <field name="ownreceipt" type="list" default="1" label="Epay ownreceipt" description="">
@@ -143,6 +138,7 @@
                     <option value="0">No</option>
                 </field>
                 <field name="is_creditcard" type="hidden" default="0" value="0"/>
+                <field name="preloader" type="hidden" default="0" value="0"/>
                 <field name="economic_payment_terms_id" type="text" default=""
                        label="Enter E-conomic Payment Conditions ID"/>
                 <field name="economic_design_layout" type="text" default=""
