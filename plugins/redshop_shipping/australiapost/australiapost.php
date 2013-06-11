@@ -88,7 +88,7 @@ class plgredshop_shippingaustraliapost extends JPlugin
 	{
 		if ($d['element'] == $this->classname)
 		{
-			$maincfgfile = JPATH_ROOT . '/plugins/' . $d['plugin'] . DS . $this->classname . '.cfg.php';
+			$maincfgfile = JPATH_ROOT . '/plugins/' . $d['plugin'] . '/' . $this->classname . '/' . $this->classname . '.cfg.php';
 
 			$my_config_array = array(
 				"AUSTRALIAPOST_AUSEVICETYPE"  => $d['AUSTRALIAPOST_AUSEVICETYPE'],
@@ -123,7 +123,7 @@ class plgredshop_shippingaustraliapost extends JPlugin
 
 	function onListRates(&$d)
 	{
-		include_once (JPATH_ROOT . '/plugins/redshop_shipping/' . $this->classname . '.cfg.php');
+		include_once (JPATH_ROOT . '/plugins/redshop_shipping/' . $this->classname . '/' . $this->classname . '.cfg.php');
 		$shippinghelper = new shipping;
 		$producthelper = new producthelper;
 		$redconfig = new Redconfiguration;
@@ -147,7 +147,7 @@ class plgredshop_shippingaustraliapost extends JPlugin
 		}
 
 		// Conversation of weight ( ration )
-		$volRatio = $producthelper->getUnitConversation('mm', DEFAULT_VOLUME_UNIT);
+		$volRatio = $producthelper->getUnitConversation('cm', DEFAULT_VOLUME_UNIT);
 		$unitRatio = $producthelper->getUnitConversation('gram', DEFAULT_WEIGHT_UNIT);
 
 		$totaldimention = $shippinghelper->getCartItemDimention();
@@ -197,19 +197,19 @@ class plgredshop_shippingaustraliapost extends JPlugin
 				$billing->country_2_code = $redconfig->getCountryCode2($billing->country_code);
 			}
 
-			$itemparams = new JRegistry($shipping->params);
-			$australiapost_servicetype = 'Air';
-			$australiapost_auservicetype = 'Standard';
 
-			if ($itemparams->get("australiapost_servicetype"))
-			{
-				$australiapost_servicetype = $itemparams->get("australiapost_servicetype");
-			}
+			$australiapost_servicetype = AUSTRALIAPOST_SEVICETYPE;
+			$australiapost_auservicetype = AUSTRALIAPOST_AUSEVICETYPE;
 
-			if ($itemparams->get("australiapost_auservicetype"))
-			{
-				$australiapost_auservicetype = $itemparams->get("australiapost_auservicetype");
-			}
+
+
+
+
+
+
+
+
+
 
 			$query = "";
 
@@ -314,7 +314,7 @@ class plgredshop_shippingaustraliapost extends JPlugin
 			for ($i = 0; $i < count($charge); $i++)
 			{
 				$rs = $charge[$i];
-				$shipping_rate_id = $shippinghelper->encryptShipping(__CLASS__ . "|" . $shipping->name . "|" . $shipping->name . "|" . number_format($charge[$i], 2, '.', '') . "|" . $shipping->name . "|single|0");
+				$shipping_rate_id = $shippinghelper->encryptShipping(__CLASS__ . "|" . $shipping->name . "|" . $shipping->name . "|" . number_format($charge[$i], 2, '.', '') . "|" . $days[$i] . "|single|0");
 
 				$shippingrate[$rate]->text = $days[$i] . JText::_('COM_REDSHOP_DAYS');
 				$shippingrate[$rate]->value = $shipping_rate_id;
