@@ -197,19 +197,8 @@ class plgredshop_shippingaustraliapost extends JPlugin
 				$billing->country_2_code = $redconfig->getCountryCode2($billing->country_code);
 			}
 
-
 			$australiapost_servicetype = AUSTRALIAPOST_SEVICETYPE;
 			$australiapost_auservicetype = AUSTRALIAPOST_AUSEVICETYPE;
-
-
-
-
-
-
-
-
-
-
 
 			$query = "";
 
