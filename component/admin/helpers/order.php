@@ -152,7 +152,8 @@ class order_functions
 
 			JPluginHelper::importPlugin('redshop_payment');
 			$dispatcher = JDispatcher::getInstance();
-			// get status and refund if capture/cancel if authorize (for quickpay only)
+
+			// Get status and refund if capture/cancel if authorize (for quickpay only)
 			$data = $dispatcher->trigger('onStatus_Payment' . $result[0]->element, array($result[0]->element, $values));
 			$results = $data[0];
 
@@ -234,7 +235,6 @@ class order_functions
 
 			// Total weight
 			$totalWeight += (($weight * $orderproducts [$c]->product_quantity) + $acc_weight);
-
 		}
 
 		$unitRatio = $producthelper->getUnitConversation('kg', DEFAULT_WEIGHT_UNIT);
@@ -306,7 +306,7 @@ class order_functions
 				<receiver rcvid="' . $shippingInfo->users_info_id . '">
 				<val n="name"><![CDATA[' . $full_name . ']]></val>
 				<val n="address1"><![CDATA[' . $finaladdress1 . ']]></val>
-				<val n="address2"><![CDATA['.$finaladdress2.']]></val>
+				<val n="address2"><![CDATA[' . $finaladdress2 . ']]></val>
 				<val n="zipcode">' . $shippingInfo->zipcode . '</val>
 				<val n="city">' . $city . '</val>
 				<val n="country">' . $shippingInfo->country_code . '</val>
@@ -332,7 +332,7 @@ class order_functions
 				</shipment>
 				</pacsoftonline>';
 
-		$postURL = "http://www.pacsoftonline.com/ufoweb/order?session=po_DK&user=" . POSTDK_CUSTOMER_NO . "&pin=" . POSTDK_CUSTOMER_PASSWORD . "&type=xml";
+		$postURL = "https://www.pacsoftonline.com/ufoweb/order?session=po_DK&user=" . POSTDK_CUSTOMER_NO . "&pin=" . POSTDK_CUSTOMER_PASSWORD . "&type=xml";
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_URL, $postURL);
 		curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: text/xml'));
@@ -383,6 +383,7 @@ class order_functions
 		$order_id = $data->order_id;
 
 		$pos = strpos(JURI::base(), 'plugins');
+
 		if ($pos !== false)
 		{
 			$explode = explode("plugins", JURI::base());
@@ -404,7 +405,7 @@ class order_functions
 				$this->SendDownload($order_id);
 			}
 
-			//Order status valid and change the status
+			// Order status valid and change the status
 			$query = "UPDATE " . $this->_table_prefix . "orders set order_status = '" . $data->order_status_code
 				. "',order_payment_status = '" . $data->order_payment_status_code . "' where order_id = " . $order_id;
 			$this->_db->SetQuery($query);
@@ -427,11 +428,12 @@ class order_functions
 			{
 				require_once JPATH_SITE . '/components/com_redshop/models/checkout.php';
 
-				$checkoutModelcheckout = new checkoutModelcheckout();
+				$checkoutModelcheckout = new checkoutModelcheckout;
 				$checkoutModelcheckout->sendGiftCard($order_id);
 
 				// Send the Order mail
-				$redshopMail = new redshopMail();
+				$redshopMail = new redshopMail;
+
 				if (ORDER_MAIL_AFTER)
 				{
 					$redshopMail->sendOrderMail($order_id);
@@ -440,7 +442,6 @@ class order_functions
 				{
 					$redshopMail->sendInvoiceMail($order_id);
 				}
-
 			}
 
 			if ($data->order_payment_status_code == "Paid" && $data->order_status_code == "S")
@@ -451,7 +452,6 @@ class order_functions
 				$results = $dispatcher->trigger('onChangeStatusToShipped',
 					array($order_id, $data->order_status_code, $data->order_payment_status_code)
 				);
-
 			}
 
 			// For Webpack Postdk Label Generation
@@ -505,7 +505,7 @@ class order_functions
 			// Economic Integration start for invoice generate and book current invoice
 			if (ECONOMIC_INTEGRATION == 1)
 			{
-				$economic = new economic();
+				$economic = new economic;
 				$oid = explode(",", $order_id);
 
 				for ($i = 0; $i < count($oid); $i++)
@@ -723,31 +723,31 @@ class order_functions
 				}
 			}
 			elseif ($newstatus == 'S')
+			{
+				if (JRequest::getVar('customstatusshipping'))
 				{
-					if (JRequest::getVar('customstatusshipping'))
-					{
-						$customstatus = JRequest::getVar('customstatusshipping');
-					}
-					else
-					{
-						$customstatus = "";
-					}
+					$customstatus = JRequest::getVar('customstatusshipping');
 				}
-				elseif ($newstatus == 'X')
-					{
-						if (JRequest::getVar('customstatuscanceled'))
-						{
-							$customstatus = JRequest::getVar('customstatuscanceled');
-						}
-						else
-						{
-							$customstatus = "";
-						}
-					}
-					else
-					{
-						$customstatus = "";
-					}
+				else
+				{
+					$customstatus = "";
+				}
+			}
+			elseif ($newstatus == 'X')
+			{
+				if (JRequest::getVar('customstatuscanceled'))
+				{
+					$customstatus = JRequest::getVar('customstatuscanceled');
+				}
+				else
+				{
+					$customstatus = "";
+				}
+			}
+			else
+			{
+				$customstatus = "";
+			}
 
 			$crmSupplierOrderHelper = new crmSupplierOrderHelper;
 			$crmSupplierOrderHelper->redSHOPCustomOrderUpdate($order_id, $customstatus);
@@ -836,15 +836,17 @@ class order_functions
 		switch ($newstatus)
 		{
 			case "X";
+
 				// If order is cancelled then, putting stock in the container from where it was dedcuted
 				$orderproducts = $this->getOrderItemDetail($order_id);
+
 				for ($i = 0; $i < count($orderproducts); $i++)
 				{
 					$conid = $orderproducts[$i]->container_id;
 					$prodid = $orderproducts[$i]->product_id;
 					$prodqty = $orderproducts[$i]->stockroom_quantity;
 
-					//when the order is set to "cancelled",product will return to stock
+					// When the order is set to "cancelled",product will return to stock
 					$stockroomhelper->manageStockAmount($prodid, $prodqty, $orderproducts[$i]->stockroom_id);
 					$producthelper->makeAttributeOrder($orderproducts[$i]->order_item_id, 0, $prodid, 1);
 
@@ -867,6 +869,7 @@ class order_functions
 
 						$this->manageContainerStock($product_id, $prodqty, $conid);
 					}
+
 					// Changing the status of the order item to Returned
 					$this->updateOrderItemStatus($order_id, $product_id, "RT", $customer_note, $order_item_id);
 
@@ -876,6 +879,7 @@ class order_functions
 				else
 				{
 					$orderproducts = $this->getOrderItemDetail($order_id);
+
 					for ($i = 0; $i < count($orderproducts); $i++)
 					{
 						$conid = $orderproducts[$i]->container_id;
@@ -902,6 +906,7 @@ class order_functions
 				else
 				{
 					$orderproducts = $this->getOrderItemDetail($order_id);
+
 					for ($i = 0; $i < count($orderproducts); $i++)
 					{
 						$conid = $orderproducts[$i]->container_id;
@@ -937,6 +942,7 @@ class order_functions
 		{
 			$this->changeOrderStatusMail($order_id, $newstatus, $customer_note);
 		}
+
 		$this->createBookInvoice($order_id, $newstatus);
 
 		$msg = JText::_('COM_REDSHOP_ORDER_STATUS_SUCCESSFULLY_SAVED_FOR_ORDER_ID') . " " . $order_id;
@@ -998,6 +1004,7 @@ class order_functions
 			{
 				return JError::raiseWarning(500, $order_log->getError());
 			}
+
 			if (!$order_log->store())
 			{
 				JError::raiseError(500, $order_log->getError());
@@ -1005,14 +1012,13 @@ class order_functions
 
 			// Changing the status of the order
 			$this->updateOrderStatus($oid[0], $newstatus);
-			//Changing the status of the order end
-
-			// Changing the status of the order
 			$paymentstatus = JRequest::getVar('order_paymentstatus' . $oid[0]);
+
 			if (isset($paymentstatus))
 			{
 				$this->updateOrderPaymentStatus($oid[0], $paymentstatus);
 			}
+
 			if ($paymentstatus == "Paid")
 			{
 				JModel::addIncludePath(JPATH_SITE . '/components/com_redshop/models');
@@ -1020,12 +1026,13 @@ class order_functions
 				$checkoutModelcheckout->sendGiftCard($oid[0]);
 
 				// Send the Order mail
-				$redshopMail = new redshopMail();
+				$redshopMail = new redshopMail;
+
 				if (ORDER_MAIL_AFTER)
 				{
 					$redshopMail->sendOrderMail($oid[0]);
 				}
-				else if (INVOICE_MAIL_ENABLE)
+				elseif (INVOICE_MAIL_ENABLE)
 				{
 					$redshopMail->sendInvoiceMail($oid[0]);
 				}
@@ -1047,19 +1054,20 @@ class order_functions
 			// For Webpack Postdk Label Generation
 			$this->createWebPacklabel($oid[0], $specifiedSendDate, $newstatus, $paymentstatus);
 
-			//Changing the status of the order end
+			// Changing the status of the order end
 			$helper->clickatellSMS($data['order_id']);
+
 			// If changing the status of the order then there item status need to change
 			if ($isproduct != 1)
 			{
 				$this->updateOrderItemStatus($oid[0], 0, $newstatus);
 			}
-			// If changing the status of the order then there item status need to change end
 
 			// If order is cancelled then, putting stock in the container from where it was dedcuted
 			if ($newstatus == 'X')
 			{
 				$orderproducts = $this->getOrderItemDetail($oid[0]);
+
 				for ($j = 0; $j < count($orderproducts); $j++)
 				{
 					$conid = $orderproducts[$j]->container_id;
@@ -1077,8 +1085,6 @@ class order_functions
 					}
 				}
 			}
-
-			// If order is cancelled then, putting stock in the container from where it was dedcuted end
 
 			// If any of the item from the order is returuned back then,
 			// change the status of whole order and also put back to stock.
@@ -1101,11 +1107,9 @@ class order_functions
 
 					// Changing the status of the order item to Returned
 					$this->updateOrderItemStatus($oid[0], $prodid, "RT");
-					// Changing the status of the order item to Returned end
 
 					// Changing the status of the order to Partially Returned
 					$this->updateOrderStatus($oid[0], "PRT");
-					// Changing the status of the order to Partially Returned end
 				}
 				else
 				{
@@ -1135,11 +1139,9 @@ class order_functions
 
 					// Changing the status of the order item to Reclamation
 					$this->updateOrderItemStatus($oid[0], $pid, "RC");
-					// Changing the status of the order item to Reclamation end
 
 					// Changing the status of the order to Partially Reclamation
 					$this->updateOrderStatus($oid[0], "PRC");
-					// Changing the status of the order to Partially Reclamation end
 				}
 				else
 				{
@@ -1169,17 +1171,15 @@ class order_functions
 
 					// Changing the status of the order item to Reclamation
 					$this->updateOrderItemStatus($oid[0], $pid, "S");
-					// Changing the status of the order item to Reclamation end
 
 					// Changing the status of the order to Partially Reclamation
 					$this->updateOrderStatus($oid[0], "PS");
-					// Changing the status of the order to Partially Reclamation end
 				}
 			}
 
-			//Mail to customer of order status change
+			// Mail to customer of order status change
 			$this->changeOrderStatusMail($oid[0], $newstatus, $c_note);
-			//Mail to customer of order status change end
+
 			$this->createBookInvoice($oid[0], $newstatus);
 		}
 
@@ -1192,18 +1192,21 @@ class order_functions
 			$link = 'index.php?option=' . $option . '&view=' . $return . '&cid[]=' . $oid[0];
 		}
 		?>
-    <script type="text/javascript">    <?php
+    <script type="text/javascript">
+    <?php
 		if ($invociepdfname != "")
 		{
 			if (file_exists(REDSHOP_FRONT_DOCUMENT_RELPATH . "invoice/" . $invociepdfname . ".pdf"))
 			{
-				?>
-            window.open("<?php echo REDSHOP_FRONT_DOCUMENT_ABSPATH?>invoice/<?php echo $invociepdfname?>.pdf");
-				<?php
+	?>
+            	window.open("<?php echo REDSHOP_FRONT_DOCUMENT_ABSPATH?>invoice/<?php echo $invociepdfname?>.pdf");
+	<?php
 			}
-		}  ?>
-    window.parent.location = '<?php echo $link?>';
-    </script><?php
+		}
+	?>
+   		window.parent.location = '<?php echo $link?>';
+    </script>
+	<?php
 	}
 
 	public function getOrderDetails($order_id)
@@ -1258,6 +1261,7 @@ class order_functions
 		{
 			$and .= " AND order_item_id='" . $order_item_id . "' ";
 		}
+
 		$query = "SELECT * FROM  " . $this->_table_prefix . "order_item " . "WHERE 1=1 " . $and;
 		$this->_db->setQuery($query);
 		$list = $this->_db->loadObjectlist();
@@ -1333,20 +1337,21 @@ class order_functions
 
 		$this->_db->setQuery($query);
 		$list = $this->_db->loadObjectList();
+
 		return $list;
 	}
 
 	public function getBillingAddress($user_id = 0)
 	{
-		$helper = new redhelper();
+		$helper = new redhelper;
 		$option = JRequest::getVar('option');
 
 		$user = JFactory::getUser();
 
-		# get Joomla Session
+		// Get Joomla Session
 		$session = JFactory::getSession();
 
-		# get redCRM Contact person session array
+		// Get redCRM Contact person session array
 		$isredcrmuser = $session->get('isredcrmuser', false);
 		$list = array();
 
@@ -1399,7 +1404,6 @@ class order_functions
 			}
 
 			return $list;
-
 		}
 
 		$query = 'SELECT *,CONCAT(firstname," ",lastname) AS text FROM ' . $this->_table_prefix
@@ -1412,7 +1416,7 @@ class order_functions
 
 	public function getOrderBillingUserInfo($order_id)
 	{
-		$helper = new redhelper();
+		$helper = new redhelper;
 
 		$query = 'SELECT * FROM ' . $this->_table_prefix . 'order_users_info ' . 'WHERE address_type LIKE "BT" '
 			. 'AND order_id="' . $order_id . '" ';
@@ -1420,7 +1424,7 @@ class order_functions
 		if ($helper->isredCRM())
 		{
 			$query = 'SELECT oui.*,cd.customer_number,IFNULL(cp.person_name ,CONCAT(oui.firstname," ",oui.lastname)) AS text FROM '
-				. $this->_table_prefix . 'order_users_info as oui ' //,cd.ean_number
+				. $this->_table_prefix . 'order_users_info as oui '
 				. 'LEFT JOIN ' . $this->_table_prefix_crm . 'order as co ON co.order_id = oui.order_id ' . 'LEFT JOIN '
 				. $this->_table_prefix_crm . 'contact_persons as cp ON cp.person_id  = co.person_id ' . 'LEFT JOIN '
 				. $this->_table_prefix_crm . 'debitors as cd ON cd.users_info_id = co.debitor_id ' . 'WHERE oui.address_type LIKE "BT" '
@@ -1435,7 +1439,7 @@ class order_functions
 
 	public function getShippingAddress($user_id = 0)
 	{
-		$helper = new redhelper();
+		$helper = new redhelper;
 
 		$user = JFactory::getUser();
 
@@ -1456,8 +1460,8 @@ class order_functions
 
 		if ($helper->isredCRM())
 		{
-			$crmHelper = new crmHelper();
-			$crmDebitorHelper = new crmDebitorHelper();
+			$crmHelper = new crmHelper;
+			$crmDebitorHelper = new crmDebitorHelper;
 
 			/*
 			 * function will check loign redshop user
@@ -1529,7 +1533,7 @@ class order_functions
 		if ($helper->isredCRM())
 		{
 			$order = $this->getOrderDetails($order_id);
-			$crmDebitorHelper = new crmDebitorHelper();
+			$crmDebitorHelper = new crmDebitorHelper;
 
 			/*
 			 * get shippinginfo for redCRM
@@ -1649,43 +1653,44 @@ class order_functions
 			$query = "SELECT order_number FROM " . $this->_table_prefix . "orders " . "WHERE order_id='" . $maxId . "'";
 			$this->_db->setQuery($query);
 			$maxOrderNumber = $this->_db->loadResult();
-			$economic = new economic();
+			$economic = new economic;
 			$maxInvoice = $economic->getMaxOrderNumberInEconomic();
 			$maxId = max(intval($maxOrderNumber), $maxInvoice);
 		}
-		else
-			if (INVOICE_NUMBER_TEMPLATE)
-			{
-				$maxId = ($maxId + FIRST_INVOICE_NUMBER + 1);
+		elseif (INVOICE_NUMBER_TEMPLATE)
+		{
+			$maxId = ($maxId + FIRST_INVOICE_NUMBER + 1);
 
-				$format = sprintf("%06d", $maxId);
-				$order_number = str_replace("XXXXXX", $format, INVOICE_NUMBER_TEMPLATE);
-				$order_number = str_replace("xxxxxx", $format, INVOICE_NUMBER_TEMPLATE);
-				$order_number = str_replace("######", $format, INVOICE_NUMBER_TEMPLATE);
+			$format = sprintf("%06d", $maxId);
+			$order_number = str_replace("XXXXXX", $format, INVOICE_NUMBER_TEMPLATE);
+			$order_number = str_replace("xxxxxx", $format, INVOICE_NUMBER_TEMPLATE);
+			$order_number = str_replace("######", $format, INVOICE_NUMBER_TEMPLATE);
 
-				$format = sprintf("%05d", $maxId);
-				$order_number = str_replace("XXXXX", $format, $order_number);
-				$order_number = str_replace("xxxxx", $format, $order_number);
-				$order_number = str_replace("#####", $format, $order_number);
+			$format = sprintf("%05d", $maxId);
+			$order_number = str_replace("XXXXX", $format, $order_number);
+			$order_number = str_replace("xxxxx", $format, $order_number);
+			$order_number = str_replace("#####", $format, $order_number);
 
-				$format = sprintf("%04d", $maxId);
-				$order_number = str_replace("XXXX", $format, $order_number);
-				$order_number = str_replace("xxxx", $format, $order_number);
-				$order_number = str_replace("####", $format, $order_number);
+			$format = sprintf("%04d", $maxId);
+			$order_number = str_replace("XXXX", $format, $order_number);
+			$order_number = str_replace("xxxx", $format, $order_number);
+			$order_number = str_replace("####", $format, $order_number);
 
-				$format = sprintf("%03d", $maxId);
-				$order_number = str_replace("XXX", $format, $order_number);
-				$order_number = str_replace("xxx", $format, $order_number);
-				$order_number = str_replace("###", $format, $order_number);
+			$format = sprintf("%03d", $maxId);
+			$order_number = str_replace("XXX", $format, $order_number);
+			$order_number = str_replace("xxx", $format, $order_number);
+			$order_number = str_replace("###", $format, $order_number);
 
-				$format = sprintf("%02d", $maxId);
-				$order_number = str_replace("XX", $format, $order_number);
-				$order_number = str_replace("xx", $format, $order_number);
-				$order_number = str_replace("##", $format, $order_number);
+			$format = sprintf("%02d", $maxId);
+			$order_number = str_replace("XX", $format, $order_number);
+			$order_number = str_replace("xx", $format, $order_number);
+			$order_number = str_replace("##", $format, $order_number);
 
-				return $order_number;
-			}
+			return $order_number;
+		}
+
 		$order_number = $maxId + 1;
+
 		return ($order_number);
 	}
 
@@ -1708,7 +1713,7 @@ class order_functions
 
 	public function getCountryName($cnt3 = "")
 	{
-		$redhelper = new redhelper();
+		$redhelper = new redhelper;
 		$and = '';
 		$cntname = '';
 
@@ -1768,14 +1773,14 @@ class order_functions
 		$app = JFactory::getApplication();
 		$redshopMail = new redshopMail;
 
-		//getting the order status changed template from mail center end
+		// Getting the order status changed template from mail center end
 		$MailFrom = $app->getCfg('mailfrom');
 		$FromName = $app->getCfg('fromname');
 		$SiteName = $app->getCfg('sitename');
 
 		$maildata = "";
 		$mailsubject = "";
-		$mailbcc = NULL;
+		$mailbcc = null;
 		$mailinfo = $redshopMail->getMailtemplate(0, "downloadable_product_mail");
 
 		if (count($mailinfo) > 0)
@@ -1810,6 +1815,7 @@ class order_functions
 		$mailbody = "";
 
 		$i = 0;
+
 		if (count($rows) > 0)
 		{
 			$maildata = str_replace("{fullname}", $userfullname, $maildata);
@@ -1852,13 +1858,14 @@ class order_functions
 
 				$pmiddle .= $datamessage;
 			}
+
 			$maildata = $productstart . $pmiddle . $productend;
 			$mailbody = $maildata;
 			$mailsubject = str_replace("{order_number}", $orderdetail->order_number, $mailsubject);
 
 			if ($mailbody && $useremail != "")
 			{
-				JUtility::sendMail($MailFrom, $FromName, $useremail, $mailsubject, $mailbody, 1, NULL, $mailbcc);
+				JUtility::sendMail($MailFrom, $FromName, $useremail, $mailsubject, $mailbody, 1, null, $mailbcc);
 			}
 		}
 
@@ -1870,6 +1877,7 @@ class order_functions
 		$query = "SELECT pd.*,product_name FROM " . $this->_table_prefix . "product_download AS pd " . ","
 			. $this->_table_prefix . "product AS p " . "WHERE pd.product_id=p.product_id " . "AND order_id='" . $order_id . "' ";
 		$this->_db->setQuery($query);
+
 		return $this->_db->loadObjectList();
 	}
 
@@ -1882,6 +1890,7 @@ class order_functions
 			. "product_download AS pd ON pd.download_id = pdl.download_id" . " WHERE pd.order_id = '"
 			. $order_id . "' " . $whereDownload_id;
 		$this->_db->setQuery($query);
+
 		return $this->_db->loadObjectList();
 	}
 
@@ -1890,14 +1899,15 @@ class order_functions
 		$sql = "SELECT * FROM #__extensions WHERE `element`='" . $payment . "'";
 		$this->_db->setQuery($sql);
 		$params = $this->_db->loadObjectList();
+
 		return $params;
 	}
 
 	public function getpaymentinformation($row, $post)
 	{
 		$app = JFactory::getApplication();
-		require_once(JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/configuration.php');
-		$redconfig = new Redconfiguration();
+		require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/configuration.php';
+		$redconfig = new Redconfiguration;
 
 		$plugin_parameters = $this->getparameters($post['payment_method_class']);
 		$paymentinfo = $plugin_parameters[0];
@@ -1911,7 +1921,7 @@ class order_functions
 		$invalid_elements = $paymentparams->get('invalid_elements', '');
 
 		// Send the order_id and orderpayment_id to the payment plugin so it knows which DB record to update upon successful payment
-		$objorder = new order_functions();
+		$objorder = new order_functions;
 		$user = JFactory::getUser();
 
 		$userbillinginfo = $this->getOrderBillingUserInfo($row->order_id);
@@ -1926,7 +1936,6 @@ class order_functions
 
 		if (isset($shippingaddresses))
 		{
-
 			$shippingaddress = $shippingaddresses;
 
 			$shippingaddress->country_2_code = $redconfig->getCountryCode2($shippingaddress->country_code);
@@ -1948,7 +1957,6 @@ class order_functions
 		{
 			if ($values['payment_plugin'] == "rs_payment_banktransfer" || $values['payment_plugin'] == "rs_payment_banktransfer2" || $values['payment_plugin'] == "rs_payment_banktransfer3" || $values['payment_plugin'] == "rs_payment_cashtransfer" || $values['payment_plugin'] == "rs_payment_cashsale" || $values['payment_plugin'] == "rs_payment_banktransfer_discount")
 			{
-
 				$app->redirect(JURI::base() . "index.php?option=com_redshop&view=order_detail&layout=creditcardpayment&plugin=" . $values['payment_plugin'] . "&order_id=" . $row->order_id);
 			}
 
@@ -2038,6 +2046,7 @@ class order_functions
 		$query = "SELECT * FROM " . $this->_table_prefix . "orders " . "WHERE order_status='" . $data->order_status_code . "' " . "AND order_payment_status='" . $data->order_payment_status_code . "' " . "AND order_id='" . $data->order_id . "' ";
 		$this->_db->setQuery($query);
 		$order_payment = $this->_db->loadObjectList();
+
 		if (count($order_payment) == 0)
 		{
 			$res = 0;
@@ -2056,7 +2065,7 @@ class order_functions
 		$shippinghelper = new shipping;
 		$MailFrom = $app->getCfg('mailfrom');
 		$FromName = $app->getCfg('fromname');
-		$mailbcc = NULL;
+		$mailbcc = null;
 		$mailtemplate = $redshopMail->getMailtemplate(0, '', 'mail_section LIKE "order_status" AND mail_order_status LIKE "' . $newstatus . '" ');
 
 		if (count($mailtemplate) > 0)
@@ -2069,13 +2078,11 @@ class order_functions
 				$mailbcc = explode(",", $mailtemplate[0]->mail_bcc);
 			}
 
-			//getting the order details
+			// Getting the order details
 			$orderdetail = $this->getOrderDetails($order_id);
 			$barcode_code = $orderdetail->barcode;
-			//getting the order details end
 
-			// changes to parse all tags same as order mail start
-
+			// Changes to parse all tags same as order mail start
 			$row = $order_functions->getOrderDetails($order_id);
 			$maildata = str_replace("{order_mail_intro_text_title}", JText::_('COM_REDSHOP_ORDER_MAIL_INTRO_TEXT_TITLE'), $maildata);
 			$maildata = str_replace("{order_mail_intro_text}", JText::_('COM_REDSHOP_ORDER_MAIL_INTRO_TEXT'), $maildata);
@@ -2096,6 +2103,7 @@ class order_functions
 					{
 						$discount_type .= JText::_('COM_REDSHOP_COUPON_CODE') . ' : ' . $arr_discount_type [1] . '<br>';
 					}
+
 					if ($arr_discount_type [0] == 'v')
 					{
 						$discount_type .= JText::_('COM_REDSHOP_VOUCHER_CODE') . ' : ' . $arr_discount_type [1] . '<br>';
@@ -2127,6 +2135,7 @@ class order_functions
 					$barcode_code = $this->barcode_randon_number(12, 1);
 					$this->updatebarcode($order_id, $barcode_code);
 				}
+
 				$img_url = REDSHOP_FRONT_IMAGES_ABSPATH . "barcode/" . $barcode_code . ".png";
 				$bar_replace = '<img alt="" src="' . $img_url . '">';
 				$search[] = "{barcode}";
@@ -2183,6 +2192,7 @@ class order_functions
 			{
 				$details = explode("|", $orderdetail->ship_method_id);
 			}
+
 			$shopLocation = $orderdetail->shop_id;
 
 			if ($details[0] != 'plgredshop_shippingdefault_shipping_GLS')
@@ -2205,7 +2215,7 @@ class order_functions
 
 			if ($userdetail->user_email != '' && $mailbody)
 			{
-				JUtility::sendMail($MailFrom, $FromName, $userdetail->user_email, $mailsubject, $mailbody, 1, NULL, $mailbcc);
+				JUtility::sendMail($MailFrom, $FromName, $userdetail->user_email, $mailsubject, $mailbody, 1, null, $mailbcc);
 			}
 		}
 	}
@@ -2251,7 +2261,7 @@ class order_functions
 
 			if (is_file($bookinvoicepdf))
 			{
-				$redshopMail = new redshopMail();
+				$redshopMail = new redshopMail;
 				$ret = $redshopMail->sendEconomicBookInvoiceMail($order_id, $bookinvoicepdf);
 			}
 		}
@@ -2260,7 +2270,7 @@ class order_functions
 	public function createMultiprintInvoicePdf($order_id)
 	{
 		$invoice = "";
-		$redshopMail = new redshopMail();
+		$redshopMail = new redshopMail;
 
 		$invoice = $redshopMail->createMultiprintInvoicePdf($order_id);
 
@@ -2364,7 +2374,6 @@ class order_functions
 			{
 				$bar_codeIMG = '<img src="' . $img_url . '" alt="Barcode"  border="0" />';
 				$message = str_replace("{barcode}", $bar_codeIMG, $message);
-
 			}
 		}
 
@@ -2375,9 +2384,9 @@ class order_functions
 
 	public function orderStatusUpdate($order_id, $post = array())
 	{
-		$helper = new redhelper();
-		$stockroomhelper = new rsstockroomhelper();
-		$producthelper = new producthelper();
+		$helper = new redhelper;
+		$stockroomhelper = new rsstockroomhelper;
+		$producthelper = new producthelper;
 		$newstatus = $post['order_status_all'];
 		$customer_note = $post['customer_note' . $order_id];
 		$isproduct = (isset($post['isproduct'])) ? $post['isproduct'] : 0;
@@ -2426,7 +2435,6 @@ class order_functions
 		{
 			$this->updateOrderItemStatus($order_id, 0, $newstatus);
 		}
-		// If changing the status of the order then there item status need to change end
 
 		// If order is cancelled then, putting stock in the container from where it was dedcuted
 		if ($newstatus == 'X')
@@ -2439,114 +2447,99 @@ class order_functions
 				$prodid = $orderproducts[$j]->product_id;
 				$prodqty = $orderproducts[$j]->stockroom_quantity;
 
-				//when the order is set to "cancelled",product will return to stock
+				// When the order is set to "cancelled",product will return to stock
 				$stockroomhelper->manageStockAmount($prodid, $prodqty, $orderproducts[$j]->stockroom_id);
 				$producthelper->makeAttributeOrder($orderproducts[$j]->order_item_id, 0, $prodid, 1);
 
-				// If order is cancelled then, putting stock in the container from where it was dedcuted end
 				if (USE_CONTAINER)
 				{
 					$this->manageContainerStock($prodid, $prodqty, $conid);
 				}
 			}
 		}
-		// If order is cancelled then, putting stock in the container from where it was dedcuted end
-
-		// If any of the item from the order is returuned back then,
-		// change the status of whole order and also put back to stock.
-		else
-			if ($newstatus == 'RT')
+		elseif ($newstatus == 'RT')
+		{
+			// If any of the item from the order is returuned back then,
+			// change the status of whole order and also put back to stock.
+			if ($isproduct)
 			{
-				if ($isproduct)
-				{
-					$orderproductdetail = $this->getOrderItemDetail($order_id, $product_id);
+				$orderproductdetail = $this->getOrderItemDetail($order_id, $product_id);
 
-					$conid = $orderproductdetail[0]->container_id;
-					$prodid = $orderproductdetail[0]->product_id;
-					$prodqty = $orderproductdetail[0]->product_quantity;
+				$conid = $orderproductdetail[0]->container_id;
+				$prodid = $orderproductdetail[0]->product_id;
+				$prodqty = $orderproductdetail[0]->product_quantity;
+
+				if (USE_CONTAINER)
+				{
+					$this->manageContainerStock($prodid, $prodqty, $conid);
+				}
+
+				// Changing the status of the order item to Returned
+				$this->updateOrderItemStatus($order_id, $prodid, "RT");
+
+				// Changing the status of the order to Partially Returned
+				$this->updateOrderStatus($order_id, "PRT");
+			}
+			else
+			{
+				$orderproducts = $this->getOrderItemDetail($order_id);
+
+				for ($k = 0; $k < count($orderproducts); $k++)
+				{
+					$conid = $orderproducts[$k]->container_id;
+					$prodid = $orderproducts[$k]->product_id;
+					$prodqty = $orderproducts[$k]->product_quantity;
 
 					if (USE_CONTAINER)
 					{
 						$this->manageContainerStock($prodid, $prodqty, $conid);
 					}
-					// Changing the status of the order item to Returned
-					$this->updateOrderItemStatus($order_id, $prodid, "RT");
-					// Changing the status of the order item to Returned end
-
-					// Changing the status of the order to Partially Returned
-					$this->updateOrderStatus($order_id, "PRT");
-					// Changing the status of the order to Partially Returned end
 				}
-				else
+			}
+		}
+		elseif ($newstatus == 'RC')
+		{
+			// If any of the item from the order is reclamation back then,
+			// change the status of whole order and also put back to stock.
+			if ($isproduct)
+			{
+				// Changing the status of the order item to Reclamation
+				$this->updateOrderItemStatus($order_id, $product_id, "RC");
+
+				// Changing the status of the order to Partially Reclamation
+				$this->updateOrderStatus($order_id, "PRC");
+			}
+			else
+			{
+				$orderproducts = $this->getOrderItemDetail($order_id);
+
+				for ($l = 0; $l < count($orderproducts); $l++)
 				{
-					$orderproducts = $this->getOrderItemDetail($order_id);
+					$conid = $orderproducts[$l]->container_id;
+					$prodid = $orderproducts[$l]->product_id;
+					$prodqty = $orderproducts[$l]->product_quantity;
 
-					for ($k = 0; $k < count($orderproducts); $k++)
+					if (USE_CONTAINER)
 					{
-						$conid = $orderproducts[$k]->container_id;
-						$prodid = $orderproducts[$k]->product_id;
-						$prodqty = $orderproducts[$k]->product_quantity;
-
-						if (USE_CONTAINER)
-						{
-							$this->manageContainerStock($prodid, $prodqty, $conid);
-						}
+						$this->manageContainerStock($prodid, $prodqty, $conid);
 					}
 				}
 			}
-			// End
+		}
+		elseif ($newstatus == 'S')
+		{
+			if ($isproduct)
+			{
+				// Changing the status of the order item to Reclamation
+				$this->updateOrderItemStatus($order_id, $product_id, "S");
 
-			// If any of the item from the order is reclamation back then,
-			// change the status of whole order and also put back to stock.
-			else
-				if ($newstatus == 'RC')
-				{
-					if ($isproduct)
-					{
-						// Changing the status of the order item to Reclamation
-						$this->updateOrderItemStatus($order_id, $product_id, "RC");
-						// Changing the status of the order item to Reclamation end
+				// Changing the status of the order to Partially Reclamation
+				$this->updateOrderStatus($order_id, "PS");
+			}
+		}
 
-						// Changing the status of the order to Partially Reclamation
-						$this->updateOrderStatus($order_id, "PRC");
-						// Changing the status of the order to Partially Reclamation end
-					}
-					else
-					{
-						$orderproducts = $this->getOrderItemDetail($order_id);
-						for ($l = 0; $l < count($orderproducts); $l++)
-						{
-							$conid = $orderproducts[$l]->container_id;
-							$prodid = $orderproducts[$l]->product_id;
-							$prodqty = $orderproducts[$l]->product_quantity;
-
-							if (USE_CONTAINER)
-							{
-								$this->manageContainerStock($prodid, $prodqty, $conid);
-							}
-						}
-					}
-				}
-
-				// If any of the item from the order is reclamation back then,
-				// change the status of whole order and also put back to stock.
-				else
-					if ($newstatus == 'S')
-					{
-						if ($isproduct)
-						{
-							// Changing the status of the order item to Reclamation
-							$this->updateOrderItemStatus($order_id, $product_id, "S");
-							// Changing the status of the order item to Reclamation end
-
-							// Changing the status of the order to Partially Reclamation
-							$this->updateOrderStatus($order_id, "PS");
-							// Changing the status of the order to Partially Reclamation end
-						}
-					}
 		// Mail to customer of order status change
 		$this->changeOrderStatusMail($order_id, $newstatus, $customer_note);
-		// Mail to customer of order status change end
 		$this->createBookInvoice($order_id, $newstatus);
 
 		// GENERATE PDF CODE WRITE
