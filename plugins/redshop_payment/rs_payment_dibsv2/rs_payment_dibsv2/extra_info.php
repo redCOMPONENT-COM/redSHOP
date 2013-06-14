@@ -24,7 +24,7 @@ if ($language == "Auto")
 }
 // for total amount
 $amount = $currencyClass->convert($data['carttotal'], '', $this->_params->get("dibs_currency"));
-$amount = floor($amount * 100) / 100;
+$amount = floor($amount * 1000) / 1000;
 $amount = number_format($amount, 2, '.', '') * 100;
 $paytype = $this->_params->get("dibs_paytype");
 $dibs_paytype = implode(",", $paytype);
@@ -73,9 +73,9 @@ for ($p = 0; $p < count($order_items); $p++)
 	$product_item_price_excl_vat = $currencyClass->convert($order_items[$p]->product_item_price_excl_vat, '', $this->_params->get("dibs_currency"));
 	$pvat = $product_item_price - $product_item_price_excl_vat;
 	$total_amount = $product_item_price * $order_items[$p]->quantity;
-	$product_item_price_excl_vat = floor($product_item_price_excl_vat * 100) / 100;
+	$product_item_price_excl_vat = floor($product_item_price_excl_vat * 1000) / 1000;
 	$product_item_price_excl_vat = number_format($product_item_price_excl_vat, 2, '.', '') * 100;
-	$pvat = floor($pvat * 100) / 100;
+	$pvat = floor($pvat * 1000) / 1000;
 	$pvat = number_format($pvat, 2, '.', '') * 100;
 	$formdata['oiRow' . ($p + 1) . ''] = "" . $order_items[$p]->product_quantity . ";" . $order_items[$p]->order_item_name . ";" . $order_items[$p]->order_item_name . ";" . $product_item_price_excl_vat . ";" . $order_items[$p]->product_id . ";" . $pvat;
 }
@@ -84,7 +84,7 @@ if ($order->order_discount > 0)
 {
 	$quantity_discount = 1;
 	$discount_amount = $currencyClass->convert($order->order_discount, '', $this->_params->get("dibs_currency"));
-	$discount_amount = floor($discount_amount * 100) / 100;
+	$discount_amount = floor($discount_amount * 1000) / 1000;
 	$discount_amount = number_format($discount_amount, 2, '.', '') * 100;
 	$discount_amount = -$discount_amount;
 	$discount_pvat = 0;
@@ -104,9 +104,9 @@ if ($order->order_shipping > 0)
 
 	$shipping_price = $currencyClass->convert($order->order_shipping, '', $this->_params->get("dibs_currency"));
 	$shipping_vat = $currencyClass->convert($order_shipping_tax, '', $this->_params->get("dibs_currency"));
-	$shipping_price = floor($shipping_price * 100) / 100;
+	$shipping_price = floor($shipping_price * 1000) / 1000;
 	$shipping_price = number_format($shipping_price, 2, '.', '') * 100;
-	$shipping_vat = floor($shipping_vat * 100) / 100;
+	$shipping_vat = floor($shipping_vat * 1000) / 1000;
 	$shipping_vat = number_format($shipping_vat, 2, '.', '') * 100;
 
 	$formdata['oiRow' . ($p + 1) . ''] = "" . $quantity_shipping . ";Shipping;Shipping;" . $shipping_price . ";" . ($p + 1) . ";" . $shipping_vat;
@@ -119,7 +119,7 @@ if ($payment_price > 0)
 {
 	$quantity_payment = 1;
 	$payment_price = $currencyClass->convert($payment_price, '', $this->_params->get("dibs_currency"));
-	$payment_price = floor($payment_price * 100) / 100;
+	$payment_price = floor($payment_price * 1000) / 1000;
 	$payment_price = number_format($payment_price, 2, '.', '') * 100;
 
 	if ($order->payment_oprand == '-')
