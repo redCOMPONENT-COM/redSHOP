@@ -4008,7 +4008,15 @@ class rsCarthelper
 		{
 			$coupon = $this->getcouponData($coupon_code, $cart['product_subtotal']);
 
-			if (count($coupon) > 0)
+			// Check limit of amount of coupon left
+			$coupon_limit = false;
+
+			if (count($coupon) > 0 && isset($cart['coupon']) && count($cart['coupon']) >= $coupon->coupon_left)
+			{
+				$coupon_limit = true;
+			}
+
+			if (count($coupon) > 0 && !$coupon_limit)
 			{
 				$dis_type    = $coupon->percent_or_total;
 				$coupon_id   = $coupon->coupon_id;
@@ -4204,7 +4212,15 @@ class rsCarthelper
 		{
 			$voucher = $this->getVoucherData($voucher_code);
 
-			if (count($voucher) > 0)
+			// Check limit of amount of voucher left
+			$voucher_limit = false;
+
+			if (count($voucher) > 0 && isset($cart['voucher']) && count($cart['voucher']) >= $voucher->voucher_left)
+			{
+				$voucher_limit = true;
+			}
+
+			if (count($voucher) > 0 && !$voucher_limit)
 			{
 				$return     = true;
 				$type       = $voucher->voucher_type;
