@@ -697,9 +697,9 @@ class producthelper
 	{
 		$return = "";
 
-		if(SHOW_PRICE)
+		if (SHOW_PRICE)
 		{
-			if(PRICE_REPLACE)
+			if (PRICE_REPLACE)
 			{
 				$return = PRICE_REPLACE_URL ? "<a href='http://" . PRICE_REPLACE_URL . "' target='_blank'>"
 					. PRICE_REPLACE . "</a>" : PRICE_REPLACE;
@@ -712,7 +712,7 @@ class producthelper
 				}
 				else
 				{
-					if (trim($product_price) != "") //$product_price==0)
+					if (trim($product_price) != "") // $product_price==0
 					{
 						if ((DEFAULT_QUOTATION_MODE == '0') || (DEFAULT_QUOTATION_MODE == '1' && SHOW_QUOTATION_PRICE == '1'))
 						{
