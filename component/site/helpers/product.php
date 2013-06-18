@@ -188,53 +188,78 @@ class producthelper
 
 	public function getProductSpecialPrice($product_price, $discount_product_id, $product_id = 0)
 	{
-		$result = array();
-
-		$where           = ' WHERE 1=1';
+		$result          = array();
 		$categoryProduct = '';
 
 		if ($product_id)
+		{
 			$categoryProduct = $this->getCategoryProduct($product_id);
+		}
 
-		$q = "SELECT * FROM " . $this->_table_prefix . "discount_product ";
+		// Get shopper group Id
+		$userArr = $this->_session->get('rs_user');
 
-		$where .= " AND (discount_product_id IN ('" . $discount_product_id . "') OR FIND_IN_SET('" . $categoryProduct
-			. "',category_ids) )";
+		if (empty($userArr))
+		{
+			$user    = JFactory::getUser();
+			$userArr = $this->_userhelper->createUserSession($user->id);
+		}
 
-		$where .= " AND published =1 AND `start_date` <= " . time() . " AND `end_date` >= " . time();
+		// Shopper Group Id from user session
+		$shopperGroupId = $userArr['rs_user_shopperGroup'];
 
-		$orderby = " ORDER BY `amount` DESC LIMIT 0,1";
+		$query = $this->_db->getQuery(true);
 
-		$sel = $q . $where . $orderby;
+		// Prepare query.
+		$query->select('*');
+		$query->from('#__redshop_discount_product');
+		$query->where('published = 1');
+		$query->where('(discount_product_id IN ("' . $discount_product_id . '") OR FIND_IN_SET("' . $categoryProduct . '",category_ids) )');
+		$query->where('`start_date` <= ' . time());
+		$query->where('`end_date` >= ' . time());
+		$query->where('`discount_product_id` IN (SELECT `discount_product_id` FROM `#__redshop_discount_product_shoppers` WHERE `shopper_group_id` = "' . $shopperGroupId . '")');
+		$query->order('`amount` DESC');
 
-		$this->_db->setQuery($sel);
+		// Inject the query and load the result.
+		$this->_db->setQuery($query);
 		$result = $this->_db->loadObject();
 
-		if (count($result) > 0)
+		// Check for a database error.
+		if ($this->_db->getErrorNum())
 		{
-			switch ($result->condition)
-			{
-				case 1:
-					$where .= ' AND `amount` >= "' . $product_price . '"';
-					break;
-				case 2:
-					$where .= ' AND `amount` = "' . $product_price . '"';
-					break;
-				case 3:
-					$where .= ' AND `amount` <= "' . $product_price . '"';
-					break;
-			}
+			JError::raiseWarning(500, $db->getErrorMsg());
 
-			$qry = $q . $where . $orderby;
-
-			$this->_db->setQuery($qry);
-			$result = $this->_db->loadObject();
-
-			return $result;
+			return array();
 		}
-		else
+
+		// Result is empty then return blank
+		if (count($result) <= 0)
 		{
-			return;
+			return array();
+		}
+
+		switch ($result->condition)
+		{
+			case 1:
+				$query->where('`amount` >= "' . $product_price . '"');
+				break;
+			case 2:
+				$query->where('`amount` = "' . $product_price . '"');
+				break;
+			case 3:
+				$query->where('`amount` <= "' . $product_price . '"');
+				break;
+		}
+
+		$this->_db->setQuery($query);
+		$result = $this->_db->loadObject();
+
+		// Check for a database error.
+		if ($this->_db->getErrorNum())
+		{
+			JError::raiseWarning(500, $db->getErrorMsg());
+
+			return array();
 		}
 
 		return $result;
