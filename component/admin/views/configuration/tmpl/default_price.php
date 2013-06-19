@@ -138,7 +138,7 @@ defined('_JEXEC') or die ('Restricted access');
 	</tr>
 	<!--<tr>
 		<td width="100" align="right" class="key">
-		<span class="editlinktip hasTip" title="<?php echo JText::_( 'SHOW_PRICE_SHOPPER_GROUP_LBL' ); ?>::<?php echo JText::_( 'TOOLTIP_SHOW_PRICE_SHOPPER_GROUP_LBL' ); ?>">
+		<span class="editlinktip hasTip" title="<?php echo JText::_( 'SHOW_PRICE_SHOPPER_GROUP_LBL' ); ?>::<?php echo JText::_( 'COM_REDSHOP_TOOLTIP_SHOW_PRICE_SHOPPER_GROUP_LBL' ); ?>">
 		<label for="showprice"><?php echo JText::_ ( 'SHOW_PRICE_SHOPPER_GROUP_LBL' );?></label>
 		</td>
 		<td>
