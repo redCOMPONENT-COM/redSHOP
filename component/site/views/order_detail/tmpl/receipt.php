@@ -34,31 +34,23 @@ $model = $this->getModel('order_detail');
 $order = $this->OrdersDetail;
 $thankyou_text = str_replace('{order_number}', $order->order_number, ORDER_RECEIPT_INTROTEXT);
 ?>
-<?php
-if ($this->params->get('show_page_title', 1))
-{
-?>
-	<div class="componentheading<?php echo $this->params->get('pageclass_sfx') ?>">
-		<?php echo $this->escape(JText::_('COM_REDSHOP_ORDER_RECEIPT')); ?>
-	</div>
-<?php
-}
-?>
-	<hr/>
-	<table width="100%" border="0" cellspacing="2" cellpadding="2">
-		<tr>
-			<td width="33%" class="checkout-bar-1"><?php echo JText::_('COM_REDSHOP_ORDER_INFORMATION'); ?></td>
-			<td width="33%" class="checkout-bar-2"><?php echo JText::_('COM_REDSHOP_PAYMENT'); ?></td>
-			<td width="33%" class="checkout-bar-3-active"><?php echo JText::_('COM_REDSHOP_RECEIPT'); ?></td>
-		</tr>
-	</table>
-	<hr/>
-	<div>
-		<?php
-		echo $thankyou_text;
-		?>
-	</div>
-	<br/>
+    <h1><?php echo JText::_('COM_REDSHOP_CART_LBL') ?></h1>
+    <div class="checkout-bar">
+        <div class="checkout-bar-step">
+            <span class="step">1</span><span class="step-text"><?php echo JText::_('COM_REDSHOP_ORDER_INFORMATION');?></span>
+        </div>
+        <div class="checkout-bar-step">
+            <span class="step">2</span><span class="step-text"><?php echo JText::_('COM_REDSHOP_PAYMENT');?></span>
+        </div>
+        <div class="checkout-bar-step active">
+            <span class="step">3</span><span class="step-text"><?php echo JText::_('COM_REDSHOP_RECEIPT');?></span>
+        </div>
+    </div>
+    <div>
+        <?php
+        echo $thankyou_text;
+        ?>
+    </div>
 
 <?php
 
