@@ -2266,7 +2266,7 @@ function displayAjaxCartdetail(frmCartName, product_id, relatedprd_id, giftcard_
                 var imagehandle = {isenable: false, mainImage: false};
                 preloadSlimbox(imagehandle);
 
-                var el = document.RedgetElementsByClassName('calendar');
+                var el = RedgetElementsByClassName('calendar');
 
                 for (i = 0; i < el.length; i++) {
                     // do stuff here with myEls[i]
