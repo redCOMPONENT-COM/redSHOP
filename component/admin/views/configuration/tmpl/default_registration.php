@@ -16,7 +16,7 @@ defined('_JEXEC') or die ('Restricted access');
 	<tr>
 		<td width="100" align="right" class="key">
 			<span class="editlinktip hasTip"
-			      title="<?php echo JText::_('COM_REDSHOP_REGISTER_METHOD_LBL'); ?>::<?php echo JText::_('TOOLTIP_REGISTER_METHOD_LBL'); ?>">
+			      title="<?php echo JText::_('COM_REDSHOP_REGISTER_METHOD_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_REGISTER_METHOD_LBL'); ?>">
 			<label for="name"><?php echo JText::_('COM_REDSHOP_REGISTER_METHOD_LBL');?></label>
 		</td>
 		<td>
@@ -166,7 +166,7 @@ defined('_JEXEC') or die ('Restricted access');
 	<tr>
 		<td align="right" class="key">
 		<span class="editlinktip hasTip"
-		      title="<?php echo JText::_('COM_REDSHOP_REGISTRATION_PAGE_COMP_INTRO_LBL'); ?>::<?php echo JText::_('TOOLTIP_REGISTRATION_PAGE_COMP_INTRO_LBL'); ?>">
+		      title="<?php echo JText::_('COM_REDSHOP_REGISTRATION_PAGE_COMP_INTRO_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_REGISTRATION_PAGE_COMP_INTRO_LBL'); ?>">
 		<?php echo JText::_('COM_REDSHOP_REGISTRATION_PAGE_COMP_INTRO_LBL');?>:
 		</td>
 		<td>
