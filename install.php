@@ -1323,6 +1323,7 @@ class Com_RedshopInstallerScript
 				$db->setQuery($q);
 				$db->query();
 			}
+			
 		}
 
 		// Get the current columns for redshop product_voucher

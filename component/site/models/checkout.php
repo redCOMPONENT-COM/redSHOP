@@ -738,7 +738,7 @@ class CheckoutModelCheckout extends JModel
 
 			$vals = explode('product_attributes/', $cart[$i]['hidden_attribute_cartimage']);
 
-			if ($cart[$i]['attributeImage'])
+			if ($cart[$i]['attributeImage'] && file_exists(JPATH_ROOT . '/components/com_redshop/assets/images/mergeImages/' . $cart[$i]['attributeImage']))
 			{
 				$rowitem->attribute_image = $order_id . $cart[$i]['attributeImage'];
 				$old_media                = JPATH_ROOT . '/components/com_redshop/assets/images/mergeImages/' . $cart[$i]['attributeImage'];
