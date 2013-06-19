@@ -1655,6 +1655,7 @@ CREATE TABLE IF NOT EXISTS `#__redshop_product_attribute_property` (
   `setrequire_selected` tinyint(3) NOT NULL,
   `setmulti_selected` tinyint(4) NOT NULL,
   `setdisplay_type` varchar(255) NOT NULL,
+  `extra_field` VARCHAR( 250 ) NOT NULL,
   `property_published` int(11) NOT NULL DEFAULT '1',
   PRIMARY KEY  (`property_id`)
 )  DEFAULT CHARSET=utf8  COMMENT='redSHOP Products Attribute Property';
@@ -1810,6 +1811,7 @@ CREATE TABLE IF NOT EXISTS `#__redshop_product_subattribute_color` (
   `subattribute_id` int(11) NOT NULL,
   `ordering` INT NOT NULL,
   `setdefault_selected` tinyint(4) NOT NULL,
+  `extra_field` varchar(250) NOT NULL,
   `subattribute_published` int(11) NOT NULL DEFAULT '1',
   PRIMARY KEY  (`subattribute_color_id`)
 ) DEFAULT CHARSET=utf8 COMMENT='Product Subattribute Color' ;

@@ -188,6 +188,7 @@ class ProductController extends JController
 		{
 			$mainImageResponse = $pluginResults[0]['mainImageResponse'];
 			$result            = $producthelper->displayAdditionalImage($product_id, $accessory_id, $relatedprd_id, $property_id, $subproperty_id);
+			$result['attrbimg'] = $pluginResults[0]['attrbimg'];
 		}
 		else
 		{
