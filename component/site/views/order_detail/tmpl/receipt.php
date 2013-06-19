@@ -97,6 +97,23 @@ $ReceiptTemplate = str_replace("{price_lbl}", JText::_('COM_REDSHOP_PRICE_LBL'),
 $ReceiptTemplate = str_replace("{quantity_lbl}", JText::_('COM_REDSHOP_QUANTITY_LBL'), $ReceiptTemplate);
 $ReceiptTemplate = str_replace("{total_price_lbl}", JText::_('COM_REDSHOP_TOTAL_PRICE_LBL'), $ReceiptTemplate);
 $ReceiptTemplate = str_replace("{barcode}", '', $ReceiptTemplate);
+
+//My acount
+$link_myaccount = '<a class="greenbutton" href="'.JRoute::_('index.php?option=com_redshop&view=account&Itemid=' . $Itemid).'">'.JText::_('COM_REDSHOP_MY_ACCOUNT').'</a>';
+$ReceiptTemplate = str_replace("{my_account}", $link_myaccount, $ReceiptTemplate );
+
+//Download invoice
+if(file_exists('components/com_redshop/assets/orders/rsInvoice_' . $order_id . '.pdf'))
+{
+    $link_download = JRoute::_('index.php?option=com_redshop&view=order_detail&layout=download&task=downloadinvoice&Itemid=&oid=' . $order_id);
+    $download_invoice = "<a class='greenbutton' target='_blank' href='". $link_download . "' title='" . JText::_('COM_REDSHOP_DOWNLOAD_INVOICE') . "'>" . JText::_('COM_REDSHOP_DOWNLOAD_INVOICE') . "</a>";
+}
+else
+{
+    $link_download = "";
+}
+$ReceiptTemplate = str_replace("{download_invoice}", $link_download, $ReceiptTemplate );
+
 $ReceiptTemplate = $carthelper->replaceOrderTemplate($order, $ReceiptTemplate);
 
 // Added new tag
