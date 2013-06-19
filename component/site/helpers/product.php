@@ -5411,14 +5411,19 @@ class producthelper
 					}
 				}
 
-//				$subproperty_scrollerdiv .= "</tr></table></marquee>";
 				$tmp_array           = array();
+				$tmp_array[0]        = new stdClass;
 				$tmp_array[0]->value = 0;
 				$tmp_array[0]->text  = JText::_('COM_REDSHOP_SELECT') . " " . $displayPropertyName;
 
 				$new_subproperty = array_merge($tmp_array, $subproperty);
-				$chklist         = "";
-				$display_type    = $subproperty[0]->setdisplay_type;
+				$chklist         = '';
+				$display_type	 = '';
+
+				if (isset($subproperty[0]->setdisplay_type) === true)
+				{
+					$display_type    = $subproperty[0]->setdisplay_type;
+				}
 
 				if ($subproperty[0]->setmulti_selected)
 				{
