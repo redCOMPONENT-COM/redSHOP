@@ -126,6 +126,17 @@ $url = $uri->root();
 		<td><?php echo $this->lists ['is_product_reserve'];?></td>
 	</tr>
 	<tr>
+		<td align="right" class="key">
+			<span class="editlinktip hasTip" title="<?php echo JText::_('COM_REDSHOP_TOOLTIP_CART_RESERVATION_MESSAGE_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_CART_RESERVATION_MESSAGE'); ?>">
+			<?php echo JText::_('COM_REDSHOP_CART_RESERVATION_MESSAGE_LBL');?>:</span>
+		</td>
+		<td>
+			<textarea class="text_area" type="text" name="cart_reservation_message"
+			          id="cart_reservation_message" rows="4"
+			          cols="40"/><?php echo stripslashes(CART_RESERVATION_MESSAGE); ?></textarea>
+		</td>
+	</tr>
+	<tr>
 		<td width="100" align="right" class="key">
 		<span class="editlinktip hasTip"
 		      title="<?php echo JText::_('COM_REDSHOP_USE_PRODUCT_OUTOFSTOCK_IMAGE_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_USE_PRODUCT_OUTOFSTOCK_IMAGE'); ?>">
