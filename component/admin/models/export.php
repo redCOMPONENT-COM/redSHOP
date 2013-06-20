@@ -1173,7 +1173,7 @@ class ExportModelexport extends JModel
 		$cur           = $this->_db->loadObjectList();
 		$ret           = null;
 
-		for ($i = 0; $i <= count($cur); $i++)
+		for ($i = 0; $i < count($cur); $i++)
 		{
 			if ($i == 0)
 			{
@@ -1181,8 +1181,7 @@ class ExportModelexport extends JModel
 				echo "\r\n";
 			}
 
-			$query = 'SELECT data_id,`data_txt`,`itemid`,`section` FROM `#__redshop_fields_data` WHERE `fieldid` = '
-				. $cur[$i]->field_id . ' and section!=""';
+			$query = 'SELECT data_id,`data_txt`,`itemid`,`section` FROM `#__redshop_fields_data` WHERE `fieldid` = ' . $cur[$i]->field_id . ' and section!=""';
 			$this->_db->setQuery($query);
 			$data = $this->_db->loadObjectList();
 			$attr = array();
