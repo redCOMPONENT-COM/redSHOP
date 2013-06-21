@@ -74,7 +74,7 @@ if ($modsearchitemid != "")
 
 			</div>
 
-		<?PHP
+		<?php
 
 		}
 
@@ -108,7 +108,7 @@ if ($modsearchitemid != "")
 	<?php if ($showSearchTypeField == 'yes')
 	{ ?>
 		<input type="hidden" name="search_type1" id="search_type1" value="<?php echo $search_type; ?>"/>
-	<? }
+	<?php }
 	else
 	{ ?>
 		<input type="hidden" name="search_type" id="search_type" value="<?php echo $search_type; ?>"/>
