@@ -216,15 +216,16 @@ else
 		<table cellpadding="0" cellspacing="0" border="0" width="100%">
 			<tr>
 				<td>
+					<?php
+					$checked = '';
+
+					if ($is_company == 0)
+					{
+						$checked = 'checked="checked"';
+					}
+					?>
                     <span <?php echo $allowCustomer; ?>>
-                        <input type="radio" name="togglerchecker" id="toggler1" class="toggler"
-                        <?php
-                        if ($is_company == 0)
-                        {
-	                        ?> checked="checked"
-                        <?php
-                        }
-                        ?> onclick="showCompanyOrCustomer(this);" value="0"/>
+                        <input type="radio" name="togglerchecker" id="toggler1" class="toggler" <?php echo $checked; ?> onclick="showCompanyOrCustomer(this);" value="0" />
 						<label for="toggler1"><?php echo JText::_('COM_REDSHOP_USER_REGISTRATION'); ?></label>
 
                     </span>
@@ -232,15 +233,16 @@ else
 			</tr>
 			<tr>
 				<td>
+					<?php
+					$checked = '';
+
+					if ($is_company == 0)
+					{
+						$checked = 'checked="checked"';
+					}
+					?>
                     <span <?php echo $allowCompany; ?>>
-                        <input type="radio" name="togglerchecker" id="toggler2" class="toggler"<?php
-                        if ($is_company == 1)
-                        {
-	                        ?>
-	                        checked="checked"
-                        <?php
-                        }
-                        ?> onclick="showCompanyOrCustomer(this);" value="1"/>
+                        <input type="radio" name="togglerchecker" id="toggler2" class="toggler" <?php echo $checked; ?> onclick="showCompanyOrCustomer(this);" value="1"/>
 						<label for="toggler2"><?php echo JText::_('COM_REDSHOP_COMPANY_REGISTRATION'); ?></label>
 
                     </span>
