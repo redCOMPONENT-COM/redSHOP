@@ -15,7 +15,6 @@ include_once JPATH_COMPONENT . '/helpers/extra_field.php';
 JHTML::_('behavior.tooltip');
 JHTMLBehavior::modal();
 
-
 $url = JURI::base();
 $user = JFactory::getUser();
 $session = JFactory::getSession();
@@ -76,8 +75,6 @@ $login_template_desc = '
 		<span class="step">3</span><span class="step-text"><?php echo JText::_('COM_REDSHOP_RECEIPT'); ?></span>
 	</div>
 </div>
-
-
 <?php
 $returnurl = JRoute::_($url . 'index.php?option=com_redshop&view=checkout', false);
 $returnurl = base64_encode($returnurl);
@@ -98,39 +95,33 @@ else
 		$show_login            = 0;
 		$open_to_mystretchermy = 1;
 	}
-
 	if (NEW_CUSTOMER_SELECTION)
 	{
 		$open_to_mystretchermy = 1;
 	}
-
 	$loginuserstyle = '';
 	$newuserstyle   = 'style="display:none;"';
-
 	if ($open_to_mystretchermy == 1 || (isset($post['createaccount']) && $post['createaccount'] == 1))
 	{
 		$loginuserstyle = 'style="display:none;"';
 		$newuserstyle   = '';
 	}
-
 	if ($show_login)
 	{
 		$checked = '';
-
 		if ($open_to_mystretchermy == 0)
 		{
 			$checked = 'checked="checked"';
 		}
 		?>
 		<h4>
-			<input class="mytogglermy" type="radio" name="mytogglermychecker" id="mytogglermycheckerlogin" <?php echo $checked; ?>
-		           onclick="rss( '#login_div' ).slideDown();rss( '#register_div' ).slideUp()" />
+			<input class="mytogglermy" type="radio" name="mytogglermychecker"
+			       id="mytogglermycheckerlogin" <?php echo $checked; ?>
+			       onclick="rss( '#login_div' ).slideDown();rss( '#register_div' ).slideUp()"/>
 			<label for="mytogglermycheckerlogin"><?php echo JText::_('COM_REDSHOP_RETURNING_CUSTOMERS'); ?></label>
 		</h4>
-
 		<?php
 		$checked = '';
-
 		if ($open_to_mystretchermy == 1 || (isset($post['createaccount']) && $post['createaccount'] == 1))
 		{
 			$checked = 'checked="checked"';
@@ -138,13 +129,11 @@ else
 		?>
 		<h4>
 			<input class="mytogglermy" type="radio" name="mytogglermychecker" id="mytogglermycheckerregister"
-		           onclick="rss( '#register_div' ).slideDown();rss( '#login_div' ).slideUp()" <?php echo $checked; ?>/>
+			       onclick="rss( '#register_div' ).slideDown();rss( '#login_div' ).slideUp()" <?php echo $checked; ?>/>
 			<label for="mytogglermycheckerregister"><?php echo JText::_('COM_REDSHOP_NEW_CUSTOMERS'); ?></label>
 		</h4>
-
 	<?php
 	}
-
 	if ($show_login)
 	{
 		?>
@@ -155,13 +144,11 @@ else
 			$txtusername         = '<input class="inputbox" type="text" id="username" name="username" value="' . JText::_('COM_REDSHOP_USERNAME') . '" onfocus="if(this.value==\'' . JText::_('COM_REDSHOP_USERNAME') . '\') this.value=\'\';" onblur="if(this.value==\'\') this.value=\'' . JText::_('COM_REDSHOP_USERNAME') . '\';" />';
 			$login_template_desc = str_replace("{rs_username}", $txtusername, $login_template_desc);
 		}
-
 		if (strstr($login_template_desc, "{rs_password}"))
 		{
 			$txtpassword         = '<input class="inputbox" type="password" id="password" name="password" value="' . JText::_('COM_REDSHOP_PASSWORD') . '" onfocus="if(this.value==\'' . JText::_('COM_REDSHOP_PASSWORD') . '\') this.value=\'\';" onblur="if(this.value==\'\') this.value=\'' . JText::_('COM_REDSHOP_USERNAME') . '\';" />';
 			$login_template_desc = str_replace("{rs_password}", $txtpassword, $login_template_desc);
 		}
-
 		if (strstr($login_template_desc, "{rs_login_button}"))
 		{
 			$loginbutton = '<input type="submit" class="greenbutton" name="submitbtn" value="' . JText::_('COM_REDSHOP_LOGIN') . '">';
@@ -173,13 +160,11 @@ else
 			$loginbutton .= '<input type="hidden" name="view" id="view" value="login">';
 			$login_template_desc = str_replace("{rs_login_button}", $loginbutton, $login_template_desc);
 		}
-
 		if (strstr($login_template_desc, "{rs_login_back}"))
 		{
 			$login_back          = '<input type="button" class="blackbutton" name="back" value="' . JText::_('COM_REDSHOP_BACK') . '" onclick="javascript:window.history.go(-1);">';
 			$login_template_desc = str_replace("{rs_login_back}", $login_back, $login_template_desc);
 		}
-
 		$forgotpwd_link      = JRoute::_('index.php?option=' . $option . '&view=password&Itemid=' . $Itemid);
 		$forgotpwd           = '<a href="' . $forgotpwd_link . '">' . JText::_('COM_REDSHOP_FORGOT_PWD_LINK') . '</a>';
 		$login_template_desc = str_replace("{forget_password_link}", $forgotpwd, $login_template_desc);
@@ -188,19 +173,15 @@ else
 
 	<?php
 	}
-
 	// Toggler settings
 	$open_to_stretcher = 0;
-
 	if ((isset($post['is_company']) && $post['is_company'] == 1) || DEFAULT_CUSTOMER_REGISTER_TYPE == 2)
 	{
 		$open_to_stretcher = 1;
 	}
-
 	// Allow registration type settings
 	$allowCustomer = "";
 	$allowCompany  = "";
-
 	if (ALLOW_CUSTOMER_REGISTER_TYPE == 1)
 	{
 		$allowCompany      = "style='display:none;'";
@@ -211,7 +192,6 @@ else
 		$allowCustomer     = "style='display:none;'";
 		$open_to_stretcher = 1;
 	}
-
 	$is_company = ($open_to_stretcher == 1 || (isset($post['is_company']) && $post['is_company'] == 1)) ? 1 : 0;            ?>
 
 	<div class="mystretchermy" id="register_div" <?php echo $newuserstyle; ?>>
@@ -227,10 +207,10 @@ else
 						$checked = 'checked="checked"';
 					}
 					?>
-                    <span <?php echo $allowCustomer; ?>>
-                        <input type="radio" name="togglerchecker" id="toggler1" class="toggler" <?php echo $checked; ?> onclick="showCompanyOrCustomer(this);" value="0" />
+					<span <?php echo $allowCustomer; ?>>
+                        <input type="radio" name="togglerchecker" id="toggler1" class="toggler" <?php echo $checked; ?>
+                               onclick="showCompanyOrCustomer(this);" value="0"/>
 						<label for="toggler1"><?php echo JText::_('COM_REDSHOP_USER_REGISTRATION'); ?></label>
-
                     </span>
 				</td>
 			</tr>
@@ -244,14 +224,13 @@ else
 						$checked = 'checked="checked"';
 					}
 					?>
-                    <span <?php echo $allowCompany; ?>>
-                        <input type="radio" name="togglerchecker" id="toggler2" class="toggler" <?php echo $checked; ?> onclick="showCompanyOrCustomer(this);" value="1"/>
+					<span <?php echo $allowCompany; ?>>
+                        <input type="radio" name="togglerchecker" id="toggler2" class="toggler" <?php echo $checked; ?>
+                               onclick="showCompanyOrCustomer(this);" value="1"/>
 						<label for="toggler2"><?php echo JText::_('COM_REDSHOP_COMPANY_REGISTRATION'); ?></label>
-
                     </span>
 				</td>
 			</tr>
-
 			<tr>
 				<td>
                     <span
@@ -264,7 +243,6 @@ else
                     </span>
 				</td>
 			</tr>
-
 			<?php
 			if (count($telesearch) > 0 && $telesearch[0]->enabled)
 			{
@@ -282,9 +260,7 @@ else
 			}
 			?>
 		</table>
-
 		<div class="stretcher" style="height:auto;min-height:600px;"/>
-
 		<form action="<?php echo JRoute::_('index.php'); ?>" method="post" name="adminForm" id="adminForm"
 		      enctype="multipart/form-data">
 			<?php
@@ -337,7 +313,6 @@ else
 					}
 					?>
 				</div>
-
 				<div id="divCaptcha">
 					<?php
 					if (SHOW_CAPTCHA)
@@ -357,7 +332,6 @@ else
 					}
 					?>
 				</div>
-
 				<div>
 					<table cellspacing="3" cellpadding="0" border="0" width="100%">
 						<?php
@@ -394,9 +368,7 @@ else
 						?>
 					</table>
 				</div>
-
 			</div>
-
 			<div class="clr"></div>
 			<input type="hidden" name="l" value="0">
 			<input type="hidden" name="address_type" value="BT"/>
@@ -409,21 +381,18 @@ else
 			<input type="hidden" name="option" value="<?php echo $option ?>"/>
 			<input type="hidden" name="task" value="checkoutprocess"/>
 			<input type="hidden" name="view" value="checkout"/>
-
 		</form>
 	</div>
 	</div>
-
 <?php
 }    ?>
 <script type="text/javascript">
 
-	function submit_disable(val) {
+	funtion submit_disable(val) {
 		document.adminForm.submit();
 		document.getElementById(val).disabled = true;
 		var op = document.getElementById(val);
 		op.setAttribute("style", "opacity:0.3;");
-
 		if (op.style.setAttribute) //For IE
 			op.style.setAttribute("filter", "alpha(opacity=30);");
 
