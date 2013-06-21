@@ -3290,7 +3290,7 @@ class rsCarthelper
 				if ($i == 0 || ($shipping_box_priority == $shipping_box_priority_pre))
 				{
 					$shipping_box_list .= "<input " . $checked . " type='radio' id='shipping_box_id" . $shipping_box_id . "' name='shipping_box_id'  onclick='javascript:onestepCheckoutProcess(this.name,\'\');' value='" . $shipping_box_id . "'>";
-					$shipping_box_list .= $shippingBoxes[$i]->shipping_box_name . "<br/>";
+					$shipping_box_list .= "<label for='shipping_box_id" . $shipping_box_id . "'>" . $shippingBoxes[$i]->shipping_box_name . "</label><br/>";
 				}
 			}
 		}
@@ -3458,11 +3458,11 @@ class rsCarthelper
 									}
 								}
 
-								$shipping_rate_name = '<input type="radio" name="shipping_rate_id" value="'
+								$shipping_rate_name = '<input type="radio" id="shipping_rate_id_'.$shippingmethod[$s]->extension_id.'_'.$i.'" name="shipping_rate_id" value="'
 									. $rate[$i]->value . '" '
 									. $checked
 									. ' onclick="javascript:onestepCheckoutProcess(this.name,\'' . $classname . '\');">'
-									. html_entity_decode($rate[$i]->text);
+									. '<label for="shipping_rate_id_'.$shippingmethod[$s]->extension_id.'_'.$i.'">' . html_entity_decode($rate[$i]->text) . '</label>';
 
 								$shipping_rate_short_desc = '';
 
@@ -3813,7 +3813,7 @@ class rsCarthelper
 							$payment_chcked_class = "paymentgtwchecked";
 						}
 
-						$payment_radio_output = '<div id="' . $paymentmethod[$p]->name . '" class="' . $payment_chcked_class . '"><input  type="radio" name="payment_method_id" id="' . $paymentmethod[$p]->name . '" value="' . $paymentmethod[$p]->name . '" ' . $checked . ' onclick="javascript:onestepCheckoutProcess(this.name,\'\');" /><label>' . JText::_('PLG_' . strtoupper($paymentmethod[$p]->name)) . '</label></div>';
+						$payment_radio_output = '<div id="' . $paymentmethod[$p]->name . '" class="' . $payment_chcked_class . '"><input  type="radio" name="payment_method_id" id="' . $paymentmethod[$p]->name . $p . '" value="' . $paymentmethod[$p]->name . '" ' . $checked . ' onclick="javascript:onestepCheckoutProcess(this.name,\'\');" /><label for="' . $paymentmethod[$p]->name . $p . '">' . JText::_('PLG_' . strtoupper($paymentmethod[$p]->name)) . '</label></div>';
 
 						$is_subscription = false;
 
@@ -3833,10 +3833,10 @@ class rsCarthelper
 						}
 						elseif ($is_subscription)
 						{
-							$display_payment = '<input  type="radio" name="payment_method_id" value="'
+							$display_payment = '<input id="' . $paymentmethod[$p]->name . $p . '" type="radio" name="payment_method_id" value="'
 								. $paymentmethod[$p]->name . '" '
 								. $checked . ' onclick="javascript:onestepCheckoutProcess(this.name);" />'
-								. JText::_($paymentmethod[$p]->name) . '<br>';
+								. '<label for="' . $paymentmethod[$p]->name . $p . '">' . JText::_($paymentmethod[$p]->name) . '</label><br>';
 							$display_payment .= '<table><tr><td>'
 								. JText::_('COM_REDSHOP_SUBSCRIPTION_PLAN')
 								. '</td><td>' . $this->getSubscriptionPlans()
