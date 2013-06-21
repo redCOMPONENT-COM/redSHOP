@@ -115,29 +115,32 @@ else
 
 	if ($show_login)
 	{
-		?>
-		<h4><input class="mytogglermy" type="radio" name="mytogglermychecker" id="mytogglermycheckerlogin"
-		           onclick="rss( '#login_div' ).slideDown();rss( '#register_div' ).slideUp()"
-			<?php
-			if ($open_to_mystretchermy == 0)
-			{
-				?> checked="checked"
-			<?php
-			}
-			?>
-			/>
-			<label for="mytogglermycheckerlogin"><?php echo JText::_('COM_REDSHOP_RETURNING_CUSTOMERS'); ?></label></h4>
+		$checked = '';
 
-		<h4><input class="mytogglermy" type="radio" name="mytogglermychecker" id="mytogglermycheckerregister"
-		           onclick="rss( '#register_div' ).slideDown();rss( '#login_div' ).slideUp()" <?php
-			if ($open_to_mystretchermy == 1 || (isset($post['createaccount']) && $post['createaccount'] == 1))
-			{
-				?> checked="checked"
-			<?php
-			}
-			?>
-			/>
-			<label for="mytogglermycheckerregister"><?php echo JText::_('COM_REDSHOP_NEW_CUSTOMERS'); ?></label></h4>
+		if ($open_to_mystretchermy == 0)
+		{
+			$checked = 'checked="checked"';
+		}
+		?>
+		<h4>
+			<input class="mytogglermy" type="radio" name="mytogglermychecker" id="mytogglermycheckerlogin" <?php echo $checked; ?>
+		           onclick="rss( '#login_div' ).slideDown();rss( '#register_div' ).slideUp()" />
+			<label for="mytogglermycheckerlogin"><?php echo JText::_('COM_REDSHOP_RETURNING_CUSTOMERS'); ?></label>
+		</h4>
+
+		<?php
+		$checked = '';
+
+		if ($open_to_mystretchermy == 1 || (isset($post['createaccount']) && $post['createaccount'] == 1))
+		{
+			$checked = 'checked="checked"';
+		}
+		?>
+		<h4>
+			<input class="mytogglermy" type="radio" name="mytogglermychecker" id="mytogglermycheckerregister"
+		           onclick="rss( '#register_div' ).slideDown();rss( '#login_div' ).slideUp()" <?php echo $checked; ?>/>
+			<label for="mytogglermycheckerregister"><?php echo JText::_('COM_REDSHOP_NEW_CUSTOMERS'); ?></label>
+		</h4>
 
 	<?php
 	}
