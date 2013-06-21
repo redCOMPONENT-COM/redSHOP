@@ -222,7 +222,7 @@ class product_category
 	public function _buildContentOrderBy()
 	{
 		global $context;
-
+		$app = JFactory::getApplication();
 		$filter_order = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'ordering');
 		$filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
 		$orderby = ' ORDER BY ' . $filter_order . ' ' . $filter_order_Dir;
