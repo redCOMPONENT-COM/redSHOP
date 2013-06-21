@@ -991,3 +991,139 @@ div.attribute_multiselect_single
 	min-height:20px;
 	clear:left;
 }
+
+/*  --- redSHOP Cart and Checkout view --- */
+.cartproducts {
+    width: 100%;
+}
+.cartproducts table {
+    width: 100%;
+}
+.cartproducts tr, .cartproducts td {
+    border: 0 none;
+}
+.cartproducts th, .cartproducts td {
+    padding: 8px 5px;
+    text-align: left;
+}
+.cartproducts td {
+    vertical-align: middle;
+}
+.cartproducts > thead > tr {
+    background-color: #E8E8E8;
+}
+.cartproducts > tbody > tr {
+    border-bottom: 1px solid #9C9C9C;
+}
+.cartproducts .cart_product_thumb_image {
+    text-align: center;
+    width: 20%;
+}
+.cartproducts .cart_product_thumb_image {
+    text-align: center;
+    width: 20%;
+}
+.cartproducts .cart_product_price {
+    width: 55%;
+}
+.cartproducts .cart_product_thumb_image .product_image {
+    border: 0 none;
+    text-align: center;
+}
+.cartproducts .cart_product_price .tdproduct_price {
+    width: 30%;
+}
+.cartproducts .cart_product_price .tdupdatecart {
+    width: 30%;
+}
+.cartproducts .cart_product_price .tdproduct_total {
+    width: 30%;
+}
+.cartproducts .cart_product_price .tdproduct_total {
+    width: 30%;
+}
+.carttoolbar {
+    float: right;
+    margin: 20px 0;
+}
+.carttoolbar form {
+    float: left;
+    margin-left: 10px;
+}
+.carttotal {
+    margin: 20px 0;
+    width: 100%;
+}
+.carttotal tr, .carttotal td {
+    border: 0 none;
+}
+.carttotal .carttotal_left {
+    vertical-align: top;
+    width: 50%;
+}
+.carttotal .carttotal_right {
+    width: 50%;
+}
+.carttotal .carttotal_left .cart_discount_form .inputbox {
+    width: 50%;
+}
+.update_cart .inputbox {
+    margin-bottom: 0;
+    margin-right: 10px;
+}
+.carttotal table {
+    width: 100%;
+}
+.carttotal .carttotal_right .cart_calculations {
+    text-align: left;
+}
+.carttotal .carttotal_right .cart_calculations tr:first-child {
+    border: 0 none;
+}
+.carttotal .carttotal_right .cart_calculations tr {
+    border-top: 1px solid #D2D0D0;
+}
+.carttotal .carttotal_right .cart_calculations tr td:first-child + td {
+    text-align: right;
+}
+.carttotal .carttotal_right .cart_calculations tr td {
+    padding: 5px 0;
+}
+.carttotal .carttotal_right .shop_more {
+    float: right;
+    margin-top: 20px;
+}
+.carttotal .carttotal_right .cart_calculations tr td .checkout_button, .carttotal .carttotal_right .cart_calculations tr td .shop_more, .carttotal .carttotal_right .cart_calculations tr td #checkoutfinal {
+    margin-top: 20px;
+}
+.carttotal .carttotal_right .checkout_button, .carttotal .carttotal_right #checkoutfinal {
+    float: right;
+    margin-left: 10px;
+}
+.checkout-bar {
+    margin-bottom: 20px;
+    overflow: hidden;
+}
+.checkout-bar-step.active {
+    font-weight: bold;
+}
+.checkout-bar-step {
+    float: left;
+    width: 33%;
+}
+.checkout-bar-step .step {
+    background-color: #CCCCCC;
+    display: inline-block;
+    margin-right: 5px;
+    padding: 5px 10px;
+}
+.checkout-bar-step.active .step {
+    background-color: #008000;
+    color: #FFFFFF;
+}
+.table_billing td {
+    vertical-align: top;
+}
+.fixcheckout {
+    margin-top: 30px;
+}

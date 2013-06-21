@@ -34,31 +34,22 @@ $model = $this->getModel('order_detail');
 $order = $this->OrdersDetail;
 $thankyou_text = str_replace('{order_number}', $order->order_number, ORDER_RECEIPT_INTROTEXT);
 ?>
-<?php
-if ($this->params->get('show_page_title', 1))
-{
-?>
-	<div class="componentheading<?php echo $this->params->get('pageclass_sfx') ?>">
-		<?php echo $this->escape(JText::_('COM_REDSHOP_ORDER_RECEIPT')); ?>
-	</div>
-<?php
-}
-?>
-	<hr/>
-	<table width="100%" border="0" cellspacing="2" cellpadding="2">
-		<tr>
-			<td width="33%" class="checkout-bar-1"><?php echo JText::_('COM_REDSHOP_ORDER_INFORMATION'); ?></td>
-			<td width="33%" class="checkout-bar-2"><?php echo JText::_('COM_REDSHOP_PAYMENT'); ?></td>
-			<td width="33%" class="checkout-bar-3-active"><?php echo JText::_('COM_REDSHOP_RECEIPT'); ?></td>
-		</tr>
-	</table>
-	<hr/>
-	<div>
-		<?php
-		echo $thankyou_text;
-		?>
-	</div>
-	<br/>
+    <h1><?php echo JText::_('COM_REDSHOP_CART_LBL') ?></h1>
+    <div class="checkout-bar">
+        <div class="checkout-bar-step">
+            <span class="step">1</span><span
+            class="step-text"><?php echo JText::_('COM_REDSHOP_ORDER_INFORMATION'); ?></span>
+        </div>
+        <div class="checkout-bar-step">
+            <span class="step">2</span><span class="step-text"><?php echo JText::_('COM_REDSHOP_PAYMENT'); ?></span>
+        </div>
+        <div class="checkout-bar-step active">
+            <span class="step">3</span><span class="step-text"><?php echo JText::_('COM_REDSHOP_RECEIPT'); ?></span>
+        </div>
+    </div>
+    <div>
+        <?php echo $thankyou_text; ?>
+    </div>
 
 <?php
 
@@ -105,6 +96,24 @@ $ReceiptTemplate = str_replace("{price_lbl}", JText::_('COM_REDSHOP_PRICE_LBL'),
 $ReceiptTemplate = str_replace("{quantity_lbl}", JText::_('COM_REDSHOP_QUANTITY_LBL'), $ReceiptTemplate);
 $ReceiptTemplate = str_replace("{total_price_lbl}", JText::_('COM_REDSHOP_TOTAL_PRICE_LBL'), $ReceiptTemplate);
 $ReceiptTemplate = str_replace("{barcode}", '', $ReceiptTemplate);
+
+// My acount
+$link_myaccount = '<a class="greenbutton" href="' . JRoute::_('index.php?option=com_redshop&view=account&Itemid=' . $Itemid) . '">' . JText::_('COM_REDSHOP_MY_ACCOUNT') . '</a>';
+$ReceiptTemplate = str_replace("{my_account}", $link_myaccount, $ReceiptTemplate);
+
+// Download invoice
+if (file_exists('components/com_redshop/assets/orders/rsInvoice_' . $order_id . '.pdf'))
+{
+	$link_download = JRoute::_('index.php?option=com_redshop&view=order_detail&layout=download&task=downloadinvoice&Itemid=&oid=' . $order_id);
+	$download_invoice = "<a class='greenbutton' target='_blank' href='" . $link_download . "' title='" . JText::_('COM_REDSHOP_DOWNLOAD_INVOICE') . "'>" . JText::_('COM_REDSHOP_DOWNLOAD_INVOICE') . "</a>";
+}
+else
+{
+	$link_download = "";
+}
+
+$ReceiptTemplate = str_replace("{download_invoice}", $link_download, $ReceiptTemplate);
+
 $ReceiptTemplate = $carthelper->replaceOrderTemplate($order, $ReceiptTemplate);
 
 // Added new tag
@@ -177,10 +186,14 @@ if ($analytics_status == 0 && GOOGLE_ANA_TRACKER_KEY != "")
 	$orderTrans['city']           = $billingaddresses->city;
 
 	if (isset($billingaddresses->country_code))
+	{
 		$orderTrans['state'] = $order_functions->getStateName($billingaddresses->state_code, $billingaddresses->country_code);
+	}
 
 	if (isset($billingaddresses->country_code))
+	{
 		$orderTrans['country'] = $order_functions->getCountryName($billingaddresses->country_code);
+	}
 
 	// Collect data for google analytics
 	// Initiallize variable

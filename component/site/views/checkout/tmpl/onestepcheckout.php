@@ -83,7 +83,23 @@ else
 {
 	$onestep_template_desc = JText::_("COM_REDSHOP_TEMPLATE_NOT_EXISTS");
 }
+?>
 
+<h1><?php echo JText::_('COM_REDSHOP_CART_LBL') ?></h1>
+
+<div class="checkout-bar">
+    <div class="checkout-bar-step">
+        <span class="step">1</span><span class="step-text"><?php echo JText::_('COM_REDSHOP_ORDER_INFORMATION');?></span>
+    </div>
+    <div class="checkout-bar-step active">
+        <span class="step">2</span><span class="step-text"><?php echo JText::_('COM_REDSHOP_PAYMENT');?></span>
+    </div>
+    <div class="checkout-bar-step">
+        <span class="step">3</span><span class="step-text"><?php echo JText::_('COM_REDSHOP_RECEIPT');?></span>
+    </div>
+</div>
+
+<?php
 $payment_template = "";
 $payment_template_desc = "";
 $templatelist = $redTemplate->getTemplate("redshop_payment");
