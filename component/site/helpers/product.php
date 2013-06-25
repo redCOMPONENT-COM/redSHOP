@@ -722,24 +722,38 @@ class producthelper
 	{
 		$return = "";
 
-		if ($product_price)
+		if (SHOW_PRICE)
 		{
-			$return = $this->getProductFormattedPrice($product_price);
-		}
-		else
-		{
-			if (!SHOW_PRICE || (DEFAULT_QUOTATION_MODE == '1' && SHOW_QUOTATION_PRICE != '1')) // && DEFAULT_QUOTATION_MODE==1)
+			if (PRICE_REPLACE)
 			{
 				$return = PRICE_REPLACE_URL ? "<a href='http://" . PRICE_REPLACE_URL . "' target='_blank'>"
 					. PRICE_REPLACE . "</a>" : PRICE_REPLACE;
 			}
-
-			if (SHOW_PRICE && trim($product_price) != "")
+			else
 			{
-				if ((DEFAULT_QUOTATION_MODE == '0') || (DEFAULT_QUOTATION_MODE == '1' && SHOW_QUOTATION_PRICE == '1'))
+				if ($product_price)
 				{
-					$return = ZERO_PRICE_REPLACE_URL ? "<a href='http://" . ZERO_PRICE_REPLACE_URL . "' target='_blank'>" . ZERO_PRICE_REPLACE . "</a>" : ZERO_PRICE_REPLACE;
+					$return = $this->getProductFormattedPrice($product_price);
 				}
+				else
+				{
+					if (trim($product_price) != "") // $product_price==0
+					{
+						if ((DEFAULT_QUOTATION_MODE == '0') || (DEFAULT_QUOTATION_MODE == '1' && SHOW_QUOTATION_PRICE == '1'))
+						{
+							$return = ZERO_PRICE_REPLACE_URL ? "<a href='http://" . ZERO_PRICE_REPLACE_URL
+								. "' target='_blank'>" . ZERO_PRICE_REPLACE . "</a>" : ZERO_PRICE_REPLACE;
+						}
+					}
+				}
+			}
+		}
+		else
+		{
+			if ((DEFAULT_QUOTATION_MODE == '1' && SHOW_QUOTATION_PRICE != '1')) // && DEFAULT_QUOTATION_MODE==1)
+			{
+				$return = PRICE_REPLACE_URL ? "<a href='http://" . PRICE_REPLACE_URL . "' target='_blank'>"
+					. PRICE_REPLACE . "</a>" : PRICE_REPLACE;
 			}
 		}
 
