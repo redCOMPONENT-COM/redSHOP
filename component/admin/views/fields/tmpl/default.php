@@ -7,18 +7,14 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-$option = JRequest::getVar('option', '', 'request', 'string');
 $filter = JRequest::getVar('filter');
 $pagination = $this->pagination;
 $ordering = ($this->lists['order'] == 'ordering');
-$redtemplate = new Redtemplate();
+$redtemplate = new Redtemplate;
 ?>
 <script language="javascript" type="text/javascript">
-
-	Joomla.submitbutton = function (pressbutton) {
-		submitbutton(pressbutton);
-	}
-	submitbutton = function (pressbutton) {
+	Joomla.submitbutton = function (pressbutton)
+	{
 		var form = document.adminForm;
 		if (pressbutton) {
 			form.task.value = pressbutton;
@@ -35,10 +31,9 @@ $redtemplate = new Redtemplate();
 		}
 
 		form.submit();
-	}
-
+	};
 </script>
-<form action="<?php echo 'index.php?option=' . $option; ?>" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo 'index.php?option=com_redshop'; ?>" method="post" name="adminForm" id="adminForm">
 	<div id="editcell">
 		<table width="100%">
 			<tr>
@@ -99,7 +94,7 @@ $redtemplate = new Redtemplate();
 			{
 				$row = & $this->fields[$i];
 				$row->id = $row->field_id;
-				$link = JRoute::_('index.php?option=' . $option . '&view=fields_detail&task=edit&cid[]=' . $row->field_id);
+				$link = JRoute::_('index.php?option=com_redshop&view=fields_detail&task=edit&cid[]=' . $row->field_id);
 
 				$published = JHtml::_('jgrid.published', $row->published, $i, '', 1);
 
