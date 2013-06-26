@@ -9,5 +9,6 @@
     <description>This plugin prints custom views for specific company</description>
     <files>
         <filename plugin="rs_custom_views_company">rs_custom_views_company.php</filename>
+        <folder plugin="rs_custom_views_company">tmpl</folder>
     </files>
 </extension>
