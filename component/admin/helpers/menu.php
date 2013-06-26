@@ -1514,26 +1514,26 @@ class leftmenu
 			$title = JText::_('COM_REDSHOP_CUSTOM_VIEWS');
 			echo $pane->startPanel($title, 'COM_REDSHOP_CUSTOM_VIEWS');    ?>
 			<table class="adminlist">
-				<?php
+			<?php
 
-				JPluginHelper::importPlugin('redshop_custom_views');
-				$dispatcher = JDispatcher::getInstance();
-				$data       = $dispatcher->trigger('getMenuLink');
+			JPluginHelper::importPlugin('redshop_custom_views');
+			$dispatcher = JDispatcher::getInstance();
+			$data       = $dispatcher->trigger('getMenuLink');
 
-				for ($d = 0; $d < count($data); $d++)
-				{
-					?>
-	                <tr>
-	                    <td>
-	              		<?php
-
-							$link = JRoute::_('index.php?option=com_redshop&view=customprint&layout=customview&printoption=' . $data[$d]['name'] . '');
-							echo '<a href="' . $link . '" title="' . $data[$d]['title'] . '">' . $data[$d]['title'] . '</a>';
-						?>
-	                    </td>
-	                </tr><?php
-				}
+			for ($d = 0; $d < count($data); $d++)
+			{
 				?>
+                <tr>
+                    <td>
+              		<?php
+
+						$link = JRoute::_('index.php?option=com_redshop&view=customprint&layout=customview&printoption=' . $data[$d]['name'] . '');
+						echo '<a href="' . $link . '" title="' . $data[$d]['title'] . '">' . $data[$d]['title'] . '</a>';
+					?>
+                    </td>
+                </tr><?php
+			}
+			?>
 			</table>
 			<?php
 			echo $pane->endPanel();
