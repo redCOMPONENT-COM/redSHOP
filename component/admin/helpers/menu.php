@@ -1518,7 +1518,7 @@ class leftmenu
 
 				JPluginHelper::importPlugin('redshop_custom_views');
 				$dispatcher = JDispatcher::getInstance();
-				$data = $dispatcher->trigger('getMenuLink');
+				$data       = $dispatcher->trigger('getMenuLink');
 
 				for ($d = 0; $d < count($data); $d++)
 				{
