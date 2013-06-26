@@ -13,14 +13,54 @@ $producthelper = new producthelper();
 
 require_once JPATH_COMPONENT_SITE . '/helpers/helper.php';
 $redhelper = new redhelper();
-
-$div_product = $this->detail->product_type == 'product' ? 'block' : 'none';
-$div_design = $this->detail->product_type == 'design' ? 'block' : 'none';
-$div_file = (($this->detail->product_type == 'file') || ($this->detail->product_download == 1)) ? 'block' : 'none';
-$div_subscription = $this->detail->product_type == 'subscription' ? 'block' : 'none';
-
-$td_style = ($this->detail->product_download_infinite == 0) ? 'style="display:table-row;"' : 'style="display:none;"';
-
+if($this->detail->product_type == 'product')
+{
+	$div_product = 'block';
+}
+else
+{
+	$div_product = 'none';
+}
+if($this->detail->product_type == 'design')
+{
+	$div_design = 'block';
+}
+else
+{
+	$div_design = 'none';
+}
+if(($this->detail->product_type == 'file') || ($this->detail->product_download == 1))
+{
+	$div_file =  'block';
+}
+else
+{
+	$div_file =  'none';
+}
+if( $this->detail->product_type == 'subscription')
+{
+	$div_subscription = 'block';
+}
+else
+{
+	$div_subscription = 'none';
+}
+if( $this->detail->product_type == 'newsubscription')
+{
+	$newdiv_subscription = 'block';
+}
+else
+{
+	$newdiv_subscription = 'none';
+}
+if($this->detail->product_download_infinite == 0)
+{
+	$td_style = 'style="display:table-row;"' ;
+}
+else
+{
+	$td_style = 'style="display:none;"';
+}
 ?>
 <div id="div_product" style="display:<?php echo $div_product; ?>;">
 </div>
@@ -216,6 +256,9 @@ $total_serial = count($productSerialDetail);
 			</td>
 		</tr>
 	</table>
+</div>
+<div id="div_newsubscription" style="display:<?php echo $newdiv_subscription; ?>;">
+	<?php echo $this->loadTemplate('subscription');?>
 </div>
 <?php
 $remove_format = JHtml::$formatOptions;
