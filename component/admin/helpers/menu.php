@@ -1509,20 +1509,26 @@ class leftmenu
         </table>    <?php
 			$title = JText::_('COM_REDSHOP_CUSTOM_VIEWS');
 			echo $pane->startPanel($title, 'COM_REDSHOP_CUSTOM_VIEWS');    ?>
-        <table class="adminlist"><?php
+        <table class="adminlist">
+        <?php
+
+			$data = JPluginHelper::getPlugin('redshop_custom_views');
 
 			for ($d = 0; $d < count($data); $d++)
 			{
-
-				?>
+		?>
                 <tr>
-                    <td><?php
-						$link = JRoute::_('index.php?option=' . $option . '&view=customprint&layout=customview&printoption=' . $data[$d]['name'] . '');
-						echo '<a href="' . $link . '" title="' . JText::_($data[$d]['title']) . '">' . JText::_($data[$d]['title']) . '</a>'; ?>
+                    <td>
+              		<?php
+
+						$link = JRoute::_('index.php?option=com_redshop&view=customprint&layout=customview&printoption=' . $data[$d]->name . '');
+						echo '<a href="' . $link . '" title="' . $data[$d]->name . '">' . $data[$d]->name . '</a>';
+					?>
                     </td>
-                </tr><?php
+                </tr>
+        <?php
 			}
-			?>
+		?>
         </table>
 		<?php
 			echo $pane->endPanel();
