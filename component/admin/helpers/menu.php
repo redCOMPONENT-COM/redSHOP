@@ -1516,21 +1516,22 @@ class leftmenu
 			<table class="adminlist">
 				<?php
 
-				$data = JPluginHelper::getPlugin('redshop_custom_views');
+				JPluginHelper::importPlugin('redshop_custom_views');
+				$dispatcher = JDispatcher::getInstance();
+				$data = $dispatcher->trigger('getMenuLink');
 
 				for ($d = 0; $d < count($data); $d++)
 				{
 					?>
-					<tr>
-						<td>
-							<?php
+	                <tr>
+	                    <td>
+	              		<?php
 
-							$link = JRoute::_('index.php?option=com_redshop&view=customprint&layout=customview&printoption=' . $data[$d]->name . '');
-							echo '<a href="' . $link . '" title="' . $data[$d]->name . '">' . $data[$d]->name . '</a>';
-							?>
-						</td>
-					</tr>
-				<?php
+							$link = JRoute::_('index.php?option=com_redshop&view=customprint&layout=customview&printoption=' . $data[$d]['name'] . '');
+							echo '<a href="' . $link . '" title="' . $data[$d]['title'] . '">' . $data[$d]['title'] . '</a>';
+						?>
+	                    </td>
+	                </tr><?php
 				}
 				?>
 			</table>
