@@ -13,23 +13,6 @@ jimport('joomla.plugin.plugin');
 
 class plgredshop_custom_viewsrs_custom_views_company extends JPlugin
 {
-	public $_table_prefix = null;
-
-	/**
-	 * Constructor
-	 *
-	 * For php4 compatability we must not use the __constructor as a constructor for
-	 * plugins because func_get_args ( void ) returns a copy of all passed arguments
-	 * NOT references.  This causes problems with cross-referencing necessary for the
-	 * observer design pattern.
-	 */
-	public function plgredshop_custom_viewsrs_custom_views_company(&$subject)
-	{
-		// Load plugin parameters
-		parent::__construct($subject);
-		$this->_table_prefix = '#__redshop_';
-	}
-
 	public function getMenuLink()
 	{
 		$values = array();
