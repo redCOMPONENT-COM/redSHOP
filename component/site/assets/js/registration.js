@@ -24,7 +24,7 @@ if(typeof(window['jQuery']) != "undefined")
 			//if(document.getElementById("country_code").value=='IRL'){
 			//	return true;
 			//}else{
-			return this.optional(element) ||  /^\d{4} ?[a-z]{2}$/i.test(zipcode)  || zipcode.match(/(^\d{6}?$)|(^\d{5}?$)|(^\d{7}?$)|(^\d{4}?$)|(^\d{3}?$)|(^\d{8}?$)|(^\d{9}?$)|[A-Z]{1,2}\d[\dA-Z]?\s?\d[A-Z]{2}$/i) || zipcode.match(/^[A-Z][0-9][A-Z].[0-9][A-Z][0-9]$/) || zipcode.match(/^[A-Z][0-9][A-Z][0-9][A-Z][0-9]$/i) || zipcode.match(/^[0-9]{5}$/) || zipcode.match(/^[0-9]{2,2}\s[0-9]{3,3}$/) || zipcode.match(/^[0-9]{3,3}\s[0-9]{2,2}$/) || zipcode.match(/^[0-9]{4,4}-[0-9]{3,3}$/) || zipcode.match(/^[0-9]{3,3}-[0-9]{2,2}$/) || zipcode.match(/^[0-9]{2,2}-[0-9]{3,3}$/);
+			return this.optional(element) ||  /^\d{4} ?[a-z]{2}$/i.test(zipcode)  || zipcode.match(/(^\d{6}?$)|(^\d{5}?$)|(^\d{7}?$)|(^\d{4}?$)|(^\d{3}?$)|(^\d{8}?$)|(^\d{9}?$)|[A-Z]{1,2}\d[\dA-Z]?\s?\d[A-Z]{2}$/i) || zipcode.match(/^[A-Z][0-9][A-Z].[0-9][A-Z][0-9]$/) || zipcode.match(/^[A-Z][0-9][A-Z][0-9][A-Z][0-9]$/i) || zipcode.match(/^[0-9]{5}$/) || zipcode.match(/^[0-9]{2,2}\s[0-9]{3,3}$/) || zipcode.match(/^[0-9]{3,3}\s[0-9]{2,2}$/) || zipcode.match(/^[0-9]{4,4}-[0-9]{3,3}$/) || zipcode.match(/^[0-9]{3,3}-[0-9]{2,2}$/) || zipcode.match(/^[0-9]{2,2}-[0-9]{3,3}$/) || zipcode.match(/^[A-Za-z0-9 ]*[A-Za-z0-9][A-Za-z0-9 ]*$/);
 			//return this.optional(element) || zipcode.match(/(^\d{6}?$)|(^\d{5}?$)|(^\d{7}?$)|(^\d{4}?$)|(^\d{3}?$)|(^\d{8}?$)|(^\d{9}?$)|([A-PR-UWYZ]([0-9]{1,2}|([A-HK-Y][0-9]|[A-HK-Y][0-9]([0-9]|[ABEHMNPRV-Y]))|[0-9][A-HJKS-UW])\ [0-9][ABD-HJLNP-UW-Z]{2}|(GIR\ 0AA)|(SAN\ TA1)|(BFPO\ (C\/O\ )?[0-9]{1,4})|((ASCN|BBND|[BFS]IQQ|PCRN|STHL|TDCU|TKCA)\ 1ZZ))$/);
 			//return this.optional(element) || zipcode.match(/^[A-Z]{1,2}\d[\dA-Z]?\s?\d[A-Z]{2}$/i ); 
 			//}
@@ -35,9 +35,7 @@ if(typeof(window['jQuery']) != "undefined")
 		    return this.optional(element) || phone.length > 9 || phone.length > 8 || phone.length>14&&
 		    phone.match(/^(1-?)?(\([2-9]\d{2}\)|[2-9]\d{2})-?[2-9]\d{2}-?\d{4}$/) || phone.match(/^(\(?(0|\+44)[1-9]{1}\d{1,4}?\)?\s?\d{3,4}\s?\d{3,4})$/) || phone.match(/^((0|\+44)7(5|6|7|8|9){1}\d{2}\s?\d{6})$/) || phone.match(/^[0-9]{10}$|^\(0[1-9]{1}\)[0-9]{8}$|^[0-9]{8}$|^[0-9]{4}[ ][0-9]{3}[ ][0-9]{3}$|^\(0[1-9]{1}\)[ ][0-9]{4}[ ][0-9]{4}$|^[0-9]{4}[ ][0-9]{4}$/);
 		}, COM_REDSHOP_YOUR_MUST_PROVIDE_A_VALID_PHONE);
-		
-		
-		
+
 		 rs.validator.addMethod('emailCheck', function(email) {
 		 var postURL = "user/json_email_check";
 		 $.ajax({

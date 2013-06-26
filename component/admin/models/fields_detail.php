@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/extra_field.php';
+require_once(JPATH_COMPONENT_ADMINISTRATOR . '/helpers/extra_field.php');
 
 class fields_detailModelfields_detail extends JModel
 {

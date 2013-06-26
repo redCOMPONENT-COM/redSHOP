@@ -9,7 +9,7 @@
 defined('_JEXEC') or die ('Restricted access');
 
 JHTML::_('behavior.tooltip');
-require_once JPATH_SITE . '/components/com_redshop/helpers/product.php';
+require_once(JPATH_SITE . '/components/com_redshop/helpers/product.php');
 $producthelper = new producthelper();
 
 JHTMLBehavior::modal();

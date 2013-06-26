@@ -10,11 +10,11 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
-require_once JPATH_COMPONENT . '/helpers/order.php';
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/mail.php';
-require_once JPATH_SITE . '/components/com_redshop/helpers/helper.php';
-require_once JPATH_SITE . '/components/com_redshop/helpers/tcpdf/tcpdf.php';
-require_once JPATH_SITE . '/components/com_redshop/helpers/tcpdf/PDFMerger.php';
+require_once (JPATH_COMPONENT . '/helpers/order.php');
+require_once (JPATH_COMPONENT_ADMINISTRATOR . '/helpers/mail.php');
+require_once (JPATH_SITE . '/components/com_redshop/helpers/helper.php');
+require_once (JPATH_SITE . '/components/com_redshop/helpers/tcpdf/tcpdf.php');
+require_once (JPATH_SITE . '/components/com_redshop/helpers/tcpdf/PDFMerger.php');
 
 class orderController extends JController
 {
@@ -259,7 +259,7 @@ class orderController extends JController
 
 		if (file_exists($extrafile))
 		{
-			require_once JPATH_COMPONENT_ADMINISTRATOR . '/extras/order_export.php';
+			require_once (JPATH_COMPONENT_ADMINISTRATOR . '/extras/order_export.php');
 			$orderExport = new orderExport;
 			$orderExport->createOrderExport();
 			exit;

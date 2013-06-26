@@ -10,7 +10,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/xmlhelper.php';
+require_once(JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/xmlhelper.php');
 
 class xmlimport_detailVIEWxmlimport_detail extends JView
 {

@@ -10,11 +10,11 @@ defined('_JEXEC') or die;
 JHTML::_('behavior.tooltip');
 JHTML::_('behavior.modal');
 
-require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
-require_once JPATH_COMPONENT_SITE . '/helpers/helper.php';
-require_once JPATH_COMPONENT_SITE . '/helpers/cart.php';
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php';
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/shipping.php';
+require_once(JPATH_COMPONENT_SITE . '/helpers/product.php');
+require_once(JPATH_COMPONENT_SITE . '/helpers/helper.php');
+require_once(JPATH_COMPONENT_SITE . '/helpers/cart.php');
+require_once(JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php');
+require_once(JPATH_COMPONENT_ADMINISTRATOR . '/helpers/shipping.php');
 
 $producthelper = new producthelper();
 $carthelper = new rsCarthelper();
@@ -1089,7 +1089,7 @@ $session->set('cart', $cart); ?>
 // order status log end here
 // reddesign
 $live_site = JURI::base();
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/helper.php';
+require_once(JPATH_COMPONENT_ADMINISTRATOR . '/helpers/helper.php');
 $reddesignhelper = new reddesignhelper();
 $CheckRedDesign = $reddesignhelper->CheckIfRedDesign();
 if ($CheckRedDesign)

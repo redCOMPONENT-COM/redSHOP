@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 JHTML::_('behavior.tooltip');
 
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/configuration.php';
+require_once(JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/configuration.php');
 
 class xmlHelper
 {

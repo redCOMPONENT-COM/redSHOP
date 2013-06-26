@@ -2594,6 +2594,7 @@ CREATE TABLE IF NOT EXISTS `#__redshop_users_info` (
   `braintree_vault_number` VARCHAR( 255 ) NOT NULL,
   `veis_vat_number` VARCHAR( 255 ) NOT NULL,
   `veis_status` VARCHAR( 255 ) NOT NULL,
+  `user_subscription` text NOT NULL,
   PRIMARY KEY  (`users_info_id`)
 ) DEFAULT CHARSET=utf8 COMMENT='redSHOP Users Information' ;
 

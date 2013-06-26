@@ -10,9 +10,9 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php';
-require_once JPATH_COMPONENT . '/helpers/extra_field.php';
-require_once JPATH_COMPONENT . '/helpers/category.php';
+require_once(JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php');
+require_once(JPATH_COMPONENT . '/helpers/extra_field.php');
+require_once(JPATH_COMPONENT . '/helpers/category.php');
 
 class shipping_rate_detailViewshipping_rate_detail extends JView
 {

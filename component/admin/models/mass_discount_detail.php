@@ -8,7 +8,7 @@
  */
 
 defined('_JEXEC') or die;
-require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
+require_once(JPATH_COMPONENT_SITE . '/helpers/product.php');
 
 jimport('joomla.application.component.model');
 

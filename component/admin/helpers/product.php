@@ -9,8 +9,8 @@
 
 defined('_JEXEC') or die;
 
-require_once JPATH_SITE . '/components/com_redshop/helpers/extra_field.php';
-require_once JPATH_SITE . '/components/com_redshop/helpers/product.php';
+require_once(JPATH_SITE . '/components/com_redshop/helpers/extra_field.php');
+require_once(JPATH_SITE . '/components/com_redshop/helpers/product.php');
 
 class adminproducthelper
 {

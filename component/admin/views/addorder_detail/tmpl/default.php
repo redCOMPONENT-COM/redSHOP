@@ -11,10 +11,10 @@ JHTML::_('behavior.tooltip');
 JHTML::_('behavior.modal');
 JHTML::_('behavior.calendar');
 
-require_once JPATH_COMPONENT . '/helpers/extra_field.php';
-require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
+require_once(JPATH_COMPONENT . '/helpers/extra_field.php');
+require_once(JPATH_COMPONENT_SITE . '/helpers/product.php');
 $producthelper = new producthelper();
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php';
+require_once(JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php');
 $order_functions = new order_functions();
 $redconfig = new Redconfiguration();
 

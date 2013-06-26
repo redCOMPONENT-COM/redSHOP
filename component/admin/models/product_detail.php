@@ -9,14 +9,14 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/thumbnail.php';
+require_once(JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/thumbnail.php');
 jimport('joomla.client.helper');
 JClientHelper::setCredentialsFromRequest('ftp');
 jimport('joomla.filesystem.file');
 
-require_once JPATH_SITE . '/components/com_redshop/helpers/product.php';
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/category.php';
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/extra_field.php';
+require_once(JPATH_SITE . '/components/com_redshop/helpers/product.php');
+require_once (JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/category.php');
+require_once (JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/extra_field.php');
 
 class product_detailModelproduct_detail extends JModel
 {
@@ -1212,6 +1212,51 @@ class product_detailModelproduct_detail extends JModel
 
 		return true;
 	}
+
+	public function AddProductBonusFromCategories($temp_subscription_applicable_categories)
+	{
+		if(count($temp_subscription_applicable_categories) > 0)
+		{
+			$cids = implode(",", $temp_subscription_applicable_categories);
+			$query = 'SELECT product_id FROM '.$this->_table_prefix.'product_category_xref WHERE category_id IN ( '.$cids.' )';
+			$this->_db->setQuery( $query );
+			$result= $this->_db->loadObjectList();
+			if(count($result) > 0 )
+			{
+				for($i=0;$i<count($result);$i++)
+				{
+					$arr[] =  $result[$i]->product_id;
+				}
+				return $arr;
+			}
+		}
+	}
+
+
+
+
+	public function saveSubscription($saveData)
+	{
+		$subsc = $this->getTable('subscription');
+		if (!$subsc->bind($saveData))
+		{
+			$this->setError($this->_db->getErrorMsg());
+			return false;
+		}
+		if (!$subsc->store())
+		{
+			$this->setError($this->_db->getErrorMsg());
+			return false;
+		}
+		return true;
+	}
+
+
+	public function &getSubsctiption(){
+		$query = $this->_db->setQuery("SELECT * FROM ".$this->_table_prefix."subscription WHERE product_id = '".$this->_id."'");
+		return $this->_db->loadObject();
+	}
+
 
 	public function copy($cid = array())
 	{
@@ -3897,4 +3942,67 @@ class product_detailModelproduct_detail extends JModel
 		}
 
 	}
+
+
+	public function removeProduct($product_in_subscripton,$cid)
+	{
+		$query= $this->_db->getQuery(true);
+		$query->select('subscription_applicable_products');
+		$query->from($this->_table_prefix.'subscription');
+		$query->where('product_id = '.$cid);
+		$this->_db->setQuery($query);
+		$rs = $this->_db->loadResult();
+		$rs = explode("|", $rs);
+		if(count($rs) > 0)
+		{
+			for($i=0;$i<count($rs);$i++)
+			{
+				if($rs[$i] == $product_in_subscripton )
+				{
+					unset($rs[$i]);
+				}
+			}
+			sort($rs);
+			if(count($rs) > 0)
+			{
+				$rs = implode("|", $rs);
+				$q = $this->_db->getQuery(true);
+				// Fields to update.
+				$fields = array("subscription_applicable_products='".$rs."' ");
+				// Conditions for which records should be updated.
+				$conditions = array("product_id = '".$cid."'");
+				$q->update($this->_db->quoteName($this->_table_prefix.'subscription'))->set($fields)->where($conditions);
+				$this->_db->setQuery($q);
+				if(!$this->_db->query())
+				{
+					$this->setError($this->_db->getErrorMsg());
+					return false;
+				}
+				else
+				{
+					return true;
+				}
+			}
+			else
+			{
+				$q = $this->_db->getQuery(true);
+				// Fields to update.
+				$fields = array("subscription_applicable_products = ''");
+				// Conditions for which records should be updated.
+				$conditions = array("product_id = '".$cid."'");
+				$q->update($this->_db->quoteName($this->_table_prefix.'subscription'))->set($fields)->where($conditions);
+				$this->_db->setQuery($q);
+				if(!$this->_db->query())
+				{
+					$this->setError($this->_db->getErrorMsg());
+					return false;
+				}
+				else
+				{
+					return true;
+				}
+			}
+		}
+	}
+
 }

@@ -22,7 +22,7 @@ class wizardViewwizard extends JView
 		{
 			if (is_readable($config))
 			{
-				require_once $config;
+				require_once ($config);
 			}
 		}
 
@@ -34,7 +34,7 @@ class wizardViewwizard extends JView
 		{
 			if (is_readable($temparray_config))
 			{
-				require_once $temparray_config;
+				require_once ($temparray_config);
 			}
 		}
 

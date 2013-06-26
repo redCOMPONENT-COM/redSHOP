@@ -20,7 +20,7 @@ $shLangIso = shLoadPluginLanguage( 'com_redshop', $shLangIso, '_COM_SEF_SH_REDSH
 
 // Getting the configuration
 if(!defined('TABLE_PREFIX')){
-	require_once JPATH_ADMINISTRATOR.DS.'components'.DS.$option.DS.'helpers'.DS.'redshop.cfg.php';
+	require_once(JPATH_ADMINISTRATOR.DS.'components'.DS.$option.DS.'helpers'.DS.'redshop.cfg.php');
 }
 include_once "administrator/components/com_redshop/helpers/category.php";
 $product_category = new product_category;

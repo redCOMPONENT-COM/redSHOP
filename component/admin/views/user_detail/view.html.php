@@ -9,8 +9,8 @@
 
 defined('_JEXEC') or die;
 
-require_once JPATH_COMPONENT . '/helpers/extra_field.php';
-require_once JPATH_COMPONENT_SITE . '/helpers/helper.php';
+require_once(JPATH_COMPONENT . '/helpers/extra_field.php');
+require_once(JPATH_COMPONENT_SITE . '/helpers/helper.php');
 
 jimport('joomla.application.component.view');
 

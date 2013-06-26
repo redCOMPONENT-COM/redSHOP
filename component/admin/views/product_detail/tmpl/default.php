@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
-require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
+require_once(JPATH_COMPONENT_SITE . '/helpers/product.php');
 $producthelper = new producthelper;
 JHTML::_('behavior.tooltip');
 $editor = JFactory::getEditor();
@@ -16,12 +16,10 @@ $uri = JURI::getInstance();
 $url = $uri->root();
 $option = JRequest::getVar('option');
 jimport('joomla.html.pane');
-
 $container_id = JRequest::getVar('container_id', '', 'request', 'string');
 $stockroom_id = JRequest::getVar('stockroom_id', '', 'request', 'string');
 $now = JFactory::getDate();
 $model = $this->getModel('product_detail');
-
 ?>
 <script language="javascript" type="text/javascript">
 	function add_dependency(type_id, tag_id, product_id) {
@@ -1005,6 +1003,7 @@ if($container_id) {
 		document.getElementById("div_design").style.display = "none";
 		document.getElementById("div_file").style.display = "none";
 		document.getElementById("div_subscription").style.display = "none";
+		document.getElementById("div_newsubscription").style.display = "none";
 		var opendiv = document.getElementById("div_" + product_type);
 		opendiv.style.display = 'block';
 		if (product_type == 'file')
@@ -1046,8 +1045,6 @@ if($container_id) {
 					document.getElementById(propimg).heidth = "60";
 					document.getElementById("propmainImage" + fid).value = main_path;
 					document.getElementById(propimg).src = path_url + main_path;
-
-
 				}
 				else {
 					document.getElementById("propmainImage" + fid).value = "";
@@ -1130,6 +1127,5 @@ if($container_id) {
 	var as_json = new bsn.AutoSuggest('relat', related);
 
 	//-------------- End Related Product ---------------------------
-
 
 </script>

@@ -31,7 +31,7 @@ class JFormFieldcurrency extends JFormField
 	protected function getInput()
 	{
 
-		require_once JPATH_SITE . '/components/com_redshop/helpers/currency.php';
+		require_once(JPATH_SITE . '/components/com_redshop/helpers/currency.php');
 
 		// This might get a conflict with the dynamic translation - TODO: search for better solution
 		$convertPrice = new convertPrice();

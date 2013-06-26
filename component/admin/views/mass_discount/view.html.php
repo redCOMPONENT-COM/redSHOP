@@ -25,7 +25,7 @@ class mass_discountViewmass_discount extends JView
 
 		$layout = JRequest::getVar('layout');
 
-		JToolBarHelper::title(JText::_('COM_REDSHOP_DISCOUNT_MANAGEMENT'), 'redshop_discountmanagmenet48');
+		JToolBarHelper::title(JText::_('COM_REDSHOP_DISCOUNT_MANAGEMENT'), 'redshop_massdiscountmanagmenet48');
 		JToolBarHelper::addNewX();
 		JToolBarHelper::editListX();
 		JToolBarHelper::deleteList();
