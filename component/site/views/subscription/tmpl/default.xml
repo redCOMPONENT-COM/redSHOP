@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metadata>
-	<layout title="COM_REDSHOP_SUBSCRIPTION_LAYOUT">
-		<message>
-			<![CDATA[Subscription Layout For redSHOP Product Subscription Information]]>
-		</message>
-	</layout>
-	<state>
-		<name>Standard Category</name>
-		<description>COM_REDSHOP_Standard_Category_Detail_Layout_For_Redshop_Category</description>
-		<fields name="request">
-			<fieldset name="request"
-				addfieldpath="/administrator/components/com_redshop/elements">
-				<field name="cid" type="category" label="Select Category" required="true" description="Displays the selected category product"/>		
-			</fieldset>
-		</fields>						
-	</state>
+    <layout title="COM_REDSHOP_SUBSCRIPTION_LAYOUT">
+        <message>
+            <![CDATA[Subscription Layout For redSHOP Product Subscription Information]]>
+        </message>
+    </layout>
+    <state>
+        <name>Standard Category</name>
+        <description>COM_REDSHOP_Standard_Category_Detail_Layout_For_Redshop_Category</description>
+        <fields name="request">
+            <fieldset name="request"
+                      addfieldpath="/administrator/components/com_redshop/elements">
+                <field name="cid" type="category" label="Select Category" required="true"
+                       description="Displays the selected category product"/>
+            </fieldset>
+        </fields>
+    </state>
 </metadata>

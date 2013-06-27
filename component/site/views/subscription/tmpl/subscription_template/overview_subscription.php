@@ -14,13 +14,18 @@
 		<tbody>
 		<tr class="tbl_price_header">
 			<td colspan="4">
-				<div style="text-align: center;" align="left"><strong> <span style="font-size: 32px; line-height: 70px;">{subscription_frontpage_introtext}</span> </strong></div>
+				<div style="text-align: center;" align="left"><strong> <span
+							style="font-size: 32px; line-height: 70px;">{subscription_frontpage_introtext}</span>
+					</strong></div>
 			</td>
 		</tr>
 		<tr class="tbl_price_box_top">
-			<td rowspan="2" style="vertical-align: middle; border-left: 2px solid #E8E8E8; background: transparent !important;" width="auto">
+			<td rowspan="2"
+				style="vertical-align: middle; border-left: 2px solid #E8E8E8; background: transparent !important;"
+				width="auto">
 				<div style="position: relative;">
-					<p style="text-align: center; padding-right: 45px;"><span style="font-size: 14px;">{subscription_frontpage_description}<br /></span></p>
+					<p style="text-align: center; padding-right: 45px;"><span style="font-size: 14px;">{subscription_frontpage_description}<br/></span>
+					</p>
 			</td>
 			<td style="width: 80px;" valign="bottom">
 				<div align="center"><span style="font-size: 14px;"><strong>{subscription_name:15}</strong></span></div>
@@ -56,6 +61,7 @@
 					<div style="width: 30%;">
 						<span>{subscription_add_to_cart:15}</span>
 						<span>{subscription_add_to_cart:16}</span>
+
 						<div style="clear: both;"></div>
 					</div>
 				</div>
