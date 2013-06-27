@@ -6,18 +6,24 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
+
 $db = JFactory::getDBO();
 $getSubsctiption = $this->get('Subsctiption');
 $newdiv_subscription = $this->detail->product_type == 'newsubscription' ? 'block' : 'none';
 $subs_period_unit_opt[] = JHTML::_('select.option', 'year', JText::_('COM_REDSHOP_SUBSCRIPTION_YEAR'));
 $subs_period_unit_opt[] = JHTML::_('select.option', 'month', JText::_('COM_REDSHOP_SUBSCRIPTION_MONTH'));
 $subs_period_unit_opt[] = JHTML::_('select.option', 'day', JText::_('COM_REDSHOP_SUBSCRIPTION_YEAR_DAY'));
+
 if ($detail->product_download == 1)
+{
 	$detail->product_type = 'file';
+}
+
 $subs_period_unit = JHTML::_('select.genericlist', $subs_period_unit_opt, 'subscription[subscription_period_unit]', 'class="inputbox" size="1" ', 'value', 'text', @$getSubsctiption->subscription_period_unit);
 $subs_period_lifetime = JHTML::_('select.booleanlist', 'subscription[subscription_period_lifetime]', 'class="inputbox"', (int) @$getSubsctiption->subscription_period_lifetime);
-$userhelper = new rsUserhelper();
+
+$userhelper = new rsUserhelper;
 $shopper_detail = $userhelper->getShopperGroupListSubscriptionPlan();
 $shopper_detail_fallback = $userhelper->getShopperGroupListFallback();
 $temps = array();
@@ -26,6 +32,7 @@ $temps[0]->text = JText::_('COM_REDSHOP_SELECT');
 $shopper_detail = array_merge($temps, $shopper_detail);
 $shopper_group = JHTML::_('select.genericlist', $shopper_detail, 'subscription[subs_plan_shopper_group_id]', '', 'value', 'text', (int) @$getSubsctiption->shoppergroup);
 $fallback_shopper_group = JHTML::_('select.genericlist', $shopper_detail_fallback, 'subscription[fallback_subs_plan_shopper_group_id]', '', 'value', 'text', (int) @$getSubsctiption->fallback_shoppergroup);
+
 // Include the component HTML helpers.
 JHtml::addIncludePath(JPATH_COMPONENT . '/helpers/html');
 $acl_group = JHtml::_('access.usergroups', 'subscription[acl_group]', @explode("|", $getSubsctiption->joomla_acl_groups), true);
@@ -60,18 +67,19 @@ $user_acl_group = JHtml::_('access.usergroups', 'subscription[fallback_acl_group
 
 			<div id="applicable_products_output" style="clear: both;">
 				<?php
-				//$aproducts = $db->setQuery("SELECT CONCAT((SELECT px.product_name FROM #__redshop_product as px WHERE px.product_id = p.product_parent_id ),' - ',p.product_name) AS product_name,p.product_id FROM #__redshop_product as p WHERE p.product_id IN (".$appProductsImplode.")");
 				$aproducts = $db->setQuery("SELECT product_name,p.product_id FROM #__redshop_product as p WHERE p.product_id IN (" . $appProductsImplode . ")");
 				$aproducts = $db->loadObjectList();
+
 				for ($gj = 0, $ngj = count($aproducts); $gj < $ngj; $gj++)
 				{
 					$link_remove = JRoute::_('index.php?option=com_redshop&view=product_detail&task=removeProduct&cid=' . $this->detail->product_id . '&pids=' . $aproducts[$gj]->product_id);
+
 					if ($aproducts[$gj]->product_name <> "")
 					{
 						echo "<div><a href='$link_remove'>Remove</a>&nbsp;&nbsp;&nbsp;" . $aproducts[$gj]->product_name . "</div>";
 					}
 				}
-?>
+				?>
 			</div>
 		</td>
 	</tr>
@@ -135,7 +143,7 @@ $user_acl_group = JHtml::_('access.usergroups', 'subscription[fallback_acl_group
 </table>
 
 <script>
-	//Product Search
+	// Product Search
 	var subscription_applicable_products_value = document.getElementById('subscription_applicable_products').value;
 	var applicableProduct = subscription_applicable_products_value.split(",").sort();
 	var applicable_product_options = {
