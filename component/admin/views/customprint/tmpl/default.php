@@ -10,11 +10,6 @@
 ?>
 <script language="javascript" type="text/javascript">
 	Joomla.submitbutton = function (pressbutton) {
-		submitbutton(pressbutton);
-	}
-
-
-	function submitbutton(pressbutton) {
 		var form = document.adminForm;
 
 		if (pressbutton == 'printall') {
@@ -52,15 +47,18 @@
 		{
 			$results = $dispatcher->trigger('onSelectedDate');
 		}
+
 		if (JRequest::getVar('printoption') == "rs_custom_views_person")
 		{
 			$results = $dispatcher->trigger('onSelectedPerson');
 		}
+
 		if (JRequest::getVar('printoption') == "rs_custom_views_company")
 		{
 			$results = $dispatcher->trigger('onSelectedCompany');
 		}
 	}
+
 	if (JRequest::getVar('task') != "")
 	{
 		if (JRequest::getVar('popup') == 0)
@@ -69,29 +67,35 @@
 			<script language="javascript">window.print();</script>
 		<?php
 		}
+
 		if (JRequest::getVar('printoption') == "rs_custom_views_date")
 		{
 			if (JRequest::getVar('popup') != 0)
 			{
 				$results_date = $dispatcher->trigger('onSelectedDate');
 			}
+
 			$results = $dispatcher->trigger('onSelectedDateValue');
 
 		}
+
 		if (JRequest::getVar('printoption') == "rs_custom_views_person")
 		{
 			if (JRequest::getVar('popup') != 0)
 			{
 				$results_date = $dispatcher->trigger('onSelectedPerson');
 			}
+
 			$results = $dispatcher->trigger('onSelectedPersonValue');
 		}
+
 		if (JRequest::getVar('printoption') == "rs_custom_views_company")
 		{
 			if (JRequest::getVar('popup') != 0)
 			{
 				$results_date = $dispatcher->trigger('onSelectedCompany');
 			}
+
 			$results = $dispatcher->trigger('onSelectedCompanyValue');
 		}
 	}

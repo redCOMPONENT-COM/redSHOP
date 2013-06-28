@@ -9,5 +9,6 @@
     <description>This plugin prints custom views for specific person</description>
     <files>
         <filename plugin="rs_custom_views_person">rs_custom_views_person.php</filename>
+        <folder plugin="rs_custom_views_person">tmpl</folder>
     </files>
 </extension>

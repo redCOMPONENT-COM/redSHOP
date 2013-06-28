@@ -10,11 +10,6 @@
 ?>
 <script language="javascript" type="text/javascript">
 	Joomla.submitbutton = function (pressbutton) {
-		submitbutton(pressbutton);
-	}
-
-
-	function submitbutton(pressbutton) {
 		var form = document.adminForm;
 
 		if (pressbutton == 'printall') {
@@ -43,12 +38,13 @@
 <div id="editcell">
 	<?php
 	JPluginHelper::importPlugin('redshop_custom_views');
-	$dispatcher = JDispatcher::getInstance();
+	$dispatcher  = JDispatcher::getInstance();
 	$printoption = JRequest::getVar('printoption');
-	$popup = JRequest::getVar('popup');
-	$tmplPath = JPATH_SITE . '/plugins/redshop_custom_views/' . $printoption . '/tmpl';
-	$this->addTemplatePath($tmplPath);
-	echo $this->loadTemplate($printoption);
+	$popup       = JRequest::getVar('popup');
 
+	$tmplPath    = JPATH_SITE . '/plugins/redshop_custom_views/' . $printoption . '/tmpl';
+	$this->addTemplatePath($tmplPath);
+
+	echo $this->loadTemplate($printoption);
 	?>
 </div>
