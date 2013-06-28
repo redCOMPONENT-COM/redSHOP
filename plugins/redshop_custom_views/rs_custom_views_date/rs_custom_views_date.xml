@@ -9,5 +9,6 @@
     <description>This plugin prints custom views for specific date</description>
     <files>
         <filename plugin="rs_custom_views_date">rs_custom_views_date.php</filename>
+        <folder plugin="rs_custom_views_date">tmpl</folder>
     </files>
 </extension>

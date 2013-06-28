@@ -10,11 +10,11 @@
 defined('_JEXEC') or die;
 jimport('joomla.plugin.plugin');
 
-$heading = JText::_('COM_REDSHOP_PRODUCT_ORDERED_DATE');
-$gobtn = JText::_('COM_REDSHOP_CUSTOMVIEW_GO');
+$heading  = JText::_('COM_REDSHOP_PRODUCT_ORDERED_DATE');
+$gobtn    = JText::_('COM_REDSHOP_CUSTOMVIEW_GO');
 $cur_date = date('d-m-Y');
 $maindate = JRequest::getVar('maindate', $cur_date);
-$popup = JRequest::getVar('popup');
+$popup    = JRequest::getVar('popup');
 
 if ($popup)
 {
@@ -50,20 +50,22 @@ if ($popup)
 		<table align='center' cellspacing='3' cellpadding='3' width='60%'>
 			<tr>
 				<td valign="top" colspan='3' align='right'>
-					<?php if ($popup == 2)
+					<?php
+					if ($popup == 2)
 					{
 						?>
 						<script language="javascript">window.print();</script>
 						<b>Date:</b> <?php echo JRequest::getVar('maindate'); ?>     &nbsp;
-						<input type="hidden" value="<?php echo $print ?>" name="printall"
-						       onclick="javascript:window.print();"/>
-					<?php }
+						<input type="hidden" value="<?php echo $print ?>" name="printall" onclick="javascript:window.print();"/>
+				<?php
+					}
 					else
-					{ ?>
-
-						<input type="submit" value="<?php echo $print ?>" name="printall"
-						       onclick="return printbutton('printall');"/>
-					<?php } ?>
+					{
+				?>
+						<input type="submit" value="<?php echo $print ?>" name="printall" onclick="return printbutton('printall');"/>
+				<?php
+					}
+				?>
 				</td>
 			</tr>
 			<?php
@@ -78,7 +80,7 @@ if ($popup)
 						?>
 						<tr>
 							<td valign="top" align='left' style="padding-left: 80px;">
-								<?php echo $params[$r]->product_name;?><br><?php echo $params[$r]->product_attribute;?>
+								<?php echo $params[$r]->product_name . "<br />" . $params[$r]->product_attribute;?>
 							</td>
 							<td valign="top" align='left' width='50%'>
 								<?php echo $params[$r]->product_quantity;?>
@@ -173,7 +175,6 @@ else
 		<input type="hidden" name="task" value="<?php echo JRequest::getVar('printoption'); ?>"/>
 		<input type="hidden" name="printoption" value="<?php echo JRequest::getVar('printoption'); ?>"/>
 		<input type="hidden" name="view" value="customprint"/>
-
 	</form>
-
-<? } ?>
+<?php
+}

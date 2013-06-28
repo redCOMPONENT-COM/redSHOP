@@ -10,15 +10,16 @@
 defined('_JEXEC') or die;
 jimport('joomla.plugin.plugin');
 
-$heading = JText::_('COM_REDSHOP_PRODUCT_ORDERED_PERSON');
-$gobtn = JText::_('COM_REDSHOP_CUSTOMVIEW_GO');
-$option = JRequest::getVar('option');
+$heading  = JText::_('COM_REDSHOP_PRODUCT_ORDERED_PERSON');
+$gobtn    = JText::_('COM_REDSHOP_CUSTOMVIEW_GO');
+
 $document = JFactory::getDocument();
-$document->addStyleSheet(JURI::base() . 'components/' . $option . '/assets/css/search.css');
-$document->addScript(JURI::base() . 'components/' . $option . '/assets/js/search.js');
+$document->addStyleSheet(JURI::base() . 'components/com_redshop/assets/css/search.css');
+$document->addScript(JURI::base() . 'components/com_redshop/assets/js/search.js');
+
 $cur_date = date('d-m-Y');
 $maindate = JRequest::getVar('maindate', $cur_date);
-$popup = JRequest::getVar('popup');
+$popup    = JRequest::getVar('popup');
 
 if ($popup)
 {
@@ -147,23 +148,24 @@ if ($popup)
 		<table align='center' cellspacing='3' cellpadding='3' width='80%'>
 			<tr>
 				<td valign="top" colspan='3' align='right'>
-					<?php if ($popup == 2)
+					<?php
+					if ($popup == 2)
 					{
 						?>
 						<script language="javascript">window.print();</script>
 						<b>Date:</b> <?php echo JRequest::getVar('maindate'); ?>     &nbsp;
-						<input type="hidden" value="<?php echo $print ?>" name="printall"
-						       onclick="javascript:window.print();"/>
-					<?php }
+						<input type="hidden" value="<?php echo $print ?>" name="printall" onclick="javascript:window.print();"/>
+					<?php
+					}
 					else
-					{ ?>
-
-						<input type="submit" value="<?php echo $print ?>" name="printall"
-						       onclick="return printbutton('printall');"/>
-					<?php } ?>
+					{
+					?>
+						<input type="submit" value="<?php echo $print ?>" name="printall" onclick="return printbutton('printall');"/>
+					<?php
+					}
+					?>
 				</td>
 			</tr>
-
 		</table>
 		<table align='center' class='customviewperson'>
 
@@ -193,17 +195,19 @@ if ($popup)
 					?>
 					<tr>
 						<td valign="top" align='left'>
-							<?php echo $params[$r]->firstname;?>&nbsp;<?php echo $params[$r]->lastname;?>
+							<?php echo $params[$r]->firstname . "&nbsp;" . $params[$r]->lastname;?>
 						</td>
 						<td valign="top" align='left'>
-							<?php if ($params[$i]->company_name == "")
+							<?php
+							if ($params[$i]->company_name == "")
 							{
 								echo "-";
 							}
 							else
 							{
 								echo $params[$i]->company_name;
-							}?>
+							}
+							?>
 						</td>
 						<td valign="top" align='left' width='60%'>
 							<?php echo $params[$r]->nq;?>
@@ -312,5 +316,5 @@ else
 
 		var as_json = new bsn.AutoSuggest('searchusernames', useroptions);
 	</script>
-
-<? } ?>
+<?php
+}
