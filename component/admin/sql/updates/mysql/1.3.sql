@@ -26,3 +26,10 @@ CREATE TABLE IF NOT EXISTS `#__redshop_subscription` (
   PRIMARY KEY (`subscription_id`),
   UNIQUE KEY `product_id` (`product_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
+
+--
+-- Add Extra Field Information
+--
+INSERT IGNORE INTO `#__redshop_fields` (`field_id`, `field_title`, `field_name`, `field_type`, `field_desc`, `field_class`, `field_section`, `field_maxlength`, `field_cols`, `field_rows`, `field_size`, `field_show_in_front`, `required`, `published`, `ordering`, `display_in_product`, `display_in_checkout`) VALUES
+(null, 'rs_product_type', 'rs_product_type', '1', '', '', '1', 12, 12, 12, 123, 1, 0, 1, 1, 0, 0),
+(null, 'rs_icon', 'rs_icon', '9', '', '', '1', 0, 0, 0, 0, 1, 0, 1, 2, 0, 0);
