@@ -78,22 +78,22 @@ $cart = $session->get('cart');
 							{
 								?>
 								<input onclick="document.adminForm.task.value = '';document.adminForm.submit();"
-								       type="radio" name="users_info_id"
+								       type="radio" name="users_info_id" id="users_info_id_default"
 								       value="<?php echo $billingaddresses->users_info_id; ?>"
-									<?php echo "checked";?> />
+								<?php echo "checked";?> />
 							<?php
 							}
 							else
 							{
 								?>
 								<input onclick="document.adminForm.task.value = '';document.adminForm.submit();"
-								       type="radio" name="users_info_id"
+								       type="radio" name="users_info_id" id="users_info_id_default"
 								       value="<?php echo $billingaddresses->users_info_id; ?>"
-									<?php echo $checked;?> />
+								<?php echo $checked;?> />
 							<?php
 							}
 							?>
-							- <?php echo JText::_('COM_REDSHOP_DEFAULT_SHIPPING_ADDRESS');?></td>
+							- <?php echo '<label for="users_info_id_default">' . JText::_('COM_REDSHOP_DEFAULT_SHIPPING_ADDRESS') . '</label>';?></td>
 					</tr>
 				<?php
 				}
@@ -117,18 +117,18 @@ $cart = $session->get('cart');
 							{
 								?>
 								<input onclick="document.adminForm.task.value = '';document.adminForm.submit();"
-								       type="radio" name="users_info_id"
+								       type="radio" name="users_info_id" id="users_info_id_<?php echo $i;?>"
 								       value="<?php echo $shippingaddresses[$i]->users_info_id; ?>"
-									<?php echo $checked;?> />
+								<?php echo $checked;?> />
 							<?php
 							}
 							else
 							{
 								?>
 								<input onclick="document.adminForm.task.value = '';document.adminForm.submit();"
-								       type="radio" name="users_info_id"
+								       type="radio" name="users_info_id" id="users_info_id_<?php echo $i;?>"
 								       value="<?php echo $shippingaddresses[$i]->users_info_id; ?>"
-									<?php echo $checked;?>/>
+								<?php echo $checked;?>/>
 
 							<?php
 							}
@@ -138,7 +138,7 @@ $cart = $session->get('cart');
 								echo $shippingaddresses [$i]->address . " ";
 							}
 
-							echo $shippingaddresses [$i]->text;
+							echo '<label for="users_info_id_' . $i . '">' . $shippingaddresses[$i]->text . '</label>';
 
 							if (!$session->get('isredcrmuser'))
 							{
@@ -174,7 +174,9 @@ $cart = $session->get('cart');
 		<br/>
 		<div><?php
 			if ($cart['free_shipping'] != 1)
+			{
 				echo $this->loadTemplate('shipping');
+			}
 			?></div>
 	<?php
 	} ?>
