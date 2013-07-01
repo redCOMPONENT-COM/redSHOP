@@ -2504,6 +2504,25 @@ CREATE TABLE IF NOT EXISTS `#__redshop_stockroom_container_xref` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `#__redshop_subscription`
+--
+CREATE TABLE IF NOT EXISTS `#__redshop_subscription` (
+  `subscription_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Subscription Auto Increment Id',
+  `product_id` int(11) NOT NULL COMMENT 'Product Id of Product Table',
+  `subscription_period` int(11) NOT NULL COMMENT 'Define Subscription period',
+  `subscription_period_unit` varchar(255) NOT NULL COMMENT 'Define Subscription type which can be "year", "month", "day"',
+  `subscription_period_lifetime` tinyint(1) NOT NULL COMMENT 'One time Subscription',
+  `subscription_applicable_products` text NOT NULL COMMENT 'Applicable Product in Current Subscription',
+  `subscription_applicable_categories` text NOT NULL COMMENT 'Applicable Category in Current Subscription',
+  `joomla_acl_groups` varchar(255) NOT NULL COMMENT 'Joomla ACL Group for of user when they will subscribe',
+  `fallback_joomla_acl_groups` varchar(255) NOT NULL COMMENT 'Joomla ACL Group for of user when they will Unsubscribe',
+  `shoppergroup` int(11) NOT NULL COMMENT 'redSHOP Shopper Group for of user when they will subscribe',
+  `fallback_shoppergroup` int(11) NOT NULL COMMENT 'redSHOP Shopper Group for of user when they will Unsubscribe',
+  PRIMARY KEY (`subscription_id`),
+  UNIQUE KEY `product_id` (`product_id`)
+) ENGINE=MyISAM  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
+
+--
 -- Table structure for table `#__redshop_supplier`
 --
 
@@ -2596,6 +2615,7 @@ CREATE TABLE IF NOT EXISTS `#__redshop_users_info` (
   `braintree_vault_number` VARCHAR( 255 ) NOT NULL,
   `veis_vat_number` VARCHAR( 255 ) NOT NULL,
   `veis_status` VARCHAR( 255 ) NOT NULL,
+  `user_subscription` text NOT NULL,
   PRIMARY KEY  (`users_info_id`)
 ) DEFAULT CHARSET=utf8 COMMENT='redSHOP Users Information' ;
 
