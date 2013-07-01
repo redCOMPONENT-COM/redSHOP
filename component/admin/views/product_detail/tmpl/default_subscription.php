@@ -15,9 +15,14 @@ $subs_period_unit_opt[] = JHTML::_('select.option', 'year', JText::_('COM_REDSHO
 $subs_period_unit_opt[] = JHTML::_('select.option', 'month', JText::_('COM_REDSHOP_SUBSCRIPTION_MONTH'));
 $subs_period_unit_opt[] = JHTML::_('select.option', 'day', JText::_('COM_REDSHOP_SUBSCRIPTION_YEAR_DAY'));
 
-if ($detail->product_download == 1)
+$detail->product_type = 'product';
+
+if (isset($detail->product_download) == true)
 {
-	$detail->product_type = 'file';
+	if ($detail->product_download == 1)
+	{
+		$detail->product_type = 'file';
+	}
 }
 
 $subs_period_unit = JHTML::_('select.genericlist', $subs_period_unit_opt, 'subscription[subscription_period_unit]', 'class="inputbox" size="1" ', 'value', 'text', @$getSubsctiption->subscription_period_unit);
@@ -206,4 +211,4 @@ $user_acl_group = JHtml::_('access.usergroups', 'subscription[fallback_acl_group
 </script>
 
 
- 
+

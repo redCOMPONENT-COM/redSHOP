@@ -1251,12 +1251,36 @@ class product_detailModelproduct_detail extends JModel
 		return true;
 	}
 
+	/**
+	 * Get Subscription Detail
+	 *
+	 * @return  object  Subscription Detail Object
+	 */
+	public function getSubsctiption()
+	{
+		// Initialiase variables.
+		$db    = $this->_db;
+		$query = $db->getQuery(true);
 
-	public function &getSubsctiption(){
-		$query = $this->_db->setQuery("SELECT * FROM ".$this->_table_prefix."subscription WHERE product_id = '".$this->_id."'");
-		return $this->_db->loadObject();
+		// Create the base select statement.
+		$query->select('*')
+			->from($db->quoteName('#__redshop_subscription'))
+			->where($db->quoteName('product_id') . ' = "' . $this->_id . '"');
+
+		// Set the query and load the result.
+		$db->setQuery($query);
+		$result = $db->loadObject();
+
+		// Check for a database error.
+		if ($db->getErrorNum())
+		{
+			JError::raiseWarning(500, $db->getErrorMsg());
+
+			return false;
+		}
+
+		return $result;
 	}
-
 
 	public function copy($cid = array())
 	{
