@@ -44,7 +44,7 @@ class Com_RedshopInstallerScript
 
 		require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/template.php';
 
-		$this->com_install();
+		$this->installComponent();
 
 		$this->handleCSSFile();
 	}
@@ -76,7 +76,7 @@ class Com_RedshopInstallerScript
 		// $parent is the class calling this method
 
 		require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/template.php';
-		$this->com_install();
+		$this->installComponent();
 
 		// Install extensions
 		$this->installLibraries($parent);
@@ -166,12 +166,872 @@ class Com_RedshopInstallerScript
 	 *
 	 * @return  void
 	 */
-	private function com_install()
+	private function installComponent()
 	{
 		$db = JFactory::getDBO();
 
 		// The redshop.cfg.php creation or update
 		$this->redshopHandleCFGFile();
+
+		$this->alterRedShopTables();
+
+		// For Blank component id in menu table-admin menu error solution
+		$q_ext = "select * from `#__extensions` where name = 'redshop' and element = 'com_redshop' and type='component'";
+		$db->setQuery($q_ext);
+		$list_ext = $db->loadObjectList();
+		$data     = & $list_ext[0];
+
+		if (count($data) > 0)
+		{
+			$extension_id = $data->extension_id;
+
+			if ($extension_id == "")
+			{
+				$extension_id = "1";
+			}
+
+			$uquery_ext = "UPDATE `#__menu` SET component_id ='.$extension_id.' "
+				. " WHERE  menutype = 'main' and path = 'redshop' and type='component'";
+			$db->setQuery($uquery_ext);
+			$db->query();
+		}
+
+		?>
+		<center>
+			<table cellpadding="4" cellspacing="0" border="0" width="100%" class="adminlist">
+				<tr>
+					<td valign="top">
+						<img src="<?php echo 'components/com_redshop/assets/images/261-x-88.png'; ?>" alt="redSHOP Logo"
+						     align="left">
+					</td>
+					<td valign="top" width="100%">
+						<strong>redSHOP</strong><br/>
+						<font class="small">by <a href="http://www.redcomponent.com"
+						                          target="_blank">redcomponent.com </a><br/></font>
+						<font class="small">
+							Released under the terms and conditions of the <a
+								href="http://www.gnu.org/licenses/gpl-2.0.html" target="_blank">GNU General Public
+								License</a>.
+						</font>
+
+						<p>Remember to check for updates on:
+							<a href="http://redcomponent.com/" target="_new"><img
+									src="http://images.redcomponent.com/redcomponent.jpg" alt=""></a>
+						</p>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2">
+						<form action="index.php" method="post" name="installDemoContent">
+							<input type="button" name="save" id="installDemoContentsave" value="Configuration Wizard"
+							       onclick="submitWizard('save');"/>
+							<input type="button" name="content" value="install Demo Content"
+							       onclick="submitWizard('content');"/>
+							<input type="button" name="cancel" value="Cancel" onclick="submitWizard('cancel');"/>
+							<input type="hidden" name="option" value="com_redshop">
+							<input type="hidden" name="task" value="">
+							<input type="hidden" name="wizard" value="1">
+						</form>
+						<script type="text/javascript">
+
+							var ind = new Number(1);
+
+							//window.onload = gotoconfigwizard();
+
+							function gotoconfigwizard() {
+								if (ind == 5) {
+									submitWizard('save');
+								} else {
+									setTimeout("gotoconfigwizard()", 1000);
+								}
+
+								document.getElementById('installDemoContentsave').value = "Configuration Wizard " + ind++;
+
+							}
+
+							function submitWizard(task) {
+								if (task == 'save') {
+									document.installDemoContent.wizard.value = 1;
+								}
+
+								if (task == 'content') {
+									document.installDemoContent.wizard.value = 0;
+									document.installDemoContent.task.value = 'demoContentInsert';
+								}
+
+								if (task == 'cancel') {
+									document.installDemoContent.wizard.value = 0;
+								}
+
+								document.installDemoContent.submit();
+							}
+						</script>
+					</td>
+				</tr>
+			</table>
+		</center>
+		<?php
+		// Install the sh404SEF router files
+		JLoader::import('joomla.filesystem.file');
+		JLoader::import('joomla.filesystem.folder');
+		$sh404sefext   = JPATH_SITE . '/components/com_sh404sef/sef_ext';
+		$sh404sefmeta  = JPATH_SITE . '/components/com_sh404sef/meta_ext';
+		$sh404sefadmin = JPATH_SITE . '/administrator/components/com_sh404sef';
+		$redadmin      = JPATH_SITE . '/administrator/components/com_redshop/extras';
+
+		// Check if sh404SEF is installed
+		if (JFolder::exists(JPATH_SITE . '/components/com_sh404sef'))
+		{
+			// Copy the plugin
+			if (!JFile::copy($redadmin . '/sh404sef/sef_ext/com_redshop.php', $sh404sefext . '/com_redshop.php'))
+			{
+				echo JText::_('COM_REDSHOP_FAILED_TO_COPY_SH404SEF_EXTENSION_PLUGIN_FILE');
+			}
+
+			if (!JFile::copy($redadmin . '/sh404sef/meta_ext/com_redshop.php', $sh404sefmeta . '/com_redshop.php'))
+			{
+				echo JText::_('COM_REDSHOP_FAILED_TO_COPY_SH404SEF_META_PLUGIN_FILE');
+			}
+
+			if (!JFile::copy($redadmin . '/sh404sef/language/com_redshop.php', $sh404sefadmin . '/language/plugins/com_redshop.php'))
+			{
+				echo JText::_('COM_REDSHOP_FAILED_TO_COPY_SH404SEF_PLUGIN_LANGUAGE_FILE');
+			}
+		}
+	}
+
+	/**
+	 * User synchronization
+	 *
+	 * @return  void
+	 */
+	private function userSynchronization()
+	{
+		require_once JPATH_SITE . "/administrator/components/com_redshop/helpers/redshop.cfg.php";
+		require_once JPATH_SITE . '/components/com_redshop/helpers/user.php';
+
+		JTable::addIncludePath(JPATH_SITE . '/administrator/components/com_redshop/tables');
+
+		$userhelper = new rsUserhelper;
+		$cnt        = $userhelper->userSynchronization();
+	}
+
+	/**
+	 * Update/create configuration file
+	 *
+	 * @return  void
+	 */
+	private function redshopHandleCFGFile()
+	{
+		require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/configuration.php';
+
+		// Include redshop.cfg.php file for cfg variables
+		$cfgfile = JPATH_SITE . "/administrator/components/com_redshop/helpers/redshop.cfg.php";
+
+		if (file_exists($cfgfile))
+		{
+			require_once $cfgfile;
+		}
+
+		$Redconfiguration = new Redconfiguration;
+
+		// Declaration
+		$cfgarr = array();
+
+		/*
+		 * Check before update $cfgarr
+		 * for variable is defined or not?
+		 *
+		 * Example:
+		 * if (!defined("TESTING"))
+		 * {
+		 * 		$cfgarr["TESTING"] = 3.14;
+		 * }
+		 */
+		if (!defined("UPDATE_MAIL_ENABLE"))
+		{
+			$cfgarr["UPDATE_MAIL_ENABLE"] = 1;
+		}
+
+		if (!defined("DISCOUNT_TYPE"))
+		{
+			$cfgarr["DISCOUNT_TYPE"] = 3;
+		}
+
+		if (!defined("ENABLE_BACKENDACCESS"))
+		{
+			$cfgarr["ENABLE_BACKENDACCESS"] = 0;
+		}
+
+		if (!defined("WANT_TO_SHOW_ATTRIBUTE_IMAGE_INCART"))
+		{
+			$cfgarr["WANT_TO_SHOW_ATTRIBUTE_IMAGE_INCART"] = 0;
+		}
+
+		if (!defined("ADDTOCART_BEHAVIOUR"))
+		{
+			$cfgarr["ADDTOCART_BEHAVIOUR"] = 1;
+		}
+
+		if (!defined("SHOPPER_GROUP_DEFAULT_UNREGISTERED") && defined("SHOPPER_GROUP_DEFAULT_PRIVATE"))
+		{
+			$cfgarr["SHOPPER_GROUP_DEFAULT_UNREGISTERED"] = SHOPPER_GROUP_DEFAULT_PRIVATE;
+		}
+
+		if (!defined("INDIVIDUAL_ADD_TO_CART_ENABLE"))
+		{
+			$cfgarr["INDIVIDUAL_ADD_TO_CART_ENABLE"] = 0;
+		}
+
+		if (!defined("PRODUCT_ADDIMG_IS_LIGHTBOX"))
+		{
+			$cfgarr["PRODUCT_ADDIMG_IS_LIGHTBOX"] = 1;
+		}
+
+		if (!defined("POSTDK_CUSTOMER_NO"))
+		{
+			$cfgarr["POSTDK_CUSTOMER_NO"] = 1;
+		}
+
+		if (!defined("POSTDK_INTEGRATION"))
+		{
+			$cfgarr["POSTDK_INTEGRATION"] = 0;
+		}
+
+		if (!defined("POSTDK_CUSTOMER_PASSWORD"))
+		{
+			$cfgarr["POSTDK_CUSTOMER_PASSWORD"] = '';
+		}
+
+		if (!defined("ENABLE_SEF_NUMBER_NAME"))
+		{
+			$cfgarr["ENABLE_SEF_NUMBER_NAME"] = '';
+		}
+
+		if (!defined("UNIT_DECIMAL"))
+		{
+			$cfgarr["UNIT_DECIMAL"] = '';
+		}
+
+		if (!defined("ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC"))
+		{
+			$cfgarr["ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC"] = 0;
+		}
+
+		if (!defined("CATEGORY_DESC_MAX_CHARS"))
+		{
+			$cfgarr["CATEGORY_DESC_MAX_CHARS"] = '';
+		}
+
+		if (!defined("CATEGORY_DESC_END_SUFFIX"))
+		{
+			$cfgarr["CATEGORY_DESC_END_SUFFIX"] = '';
+		}
+
+		if (!defined("DEFAULT_QUOTATION_MODE_PRE"))
+		{
+			$cfgarr["DEFAULT_QUOTATION_MODE_PRE"] = '0';
+		}
+
+		if (!defined("SHOW_PRICE_PRE"))
+		{
+			$cfgarr["SHOW_PRICE_PRE"] = '1';
+		}
+
+		if (!defined("QUICKLINK_ICON"))
+		{
+			$cfgarr["QUICKLINK_ICON"] = '';
+		}
+
+		if (!defined("DISPLAY_STOCKROOM_ATTRIBUTES"))
+		{
+			$cfgarr["DISPLAY_STOCKROOM_ATTRIBUTES"] = '';
+		}
+
+		if (!defined("DISPLAY_NEW_ORDERS"))
+		{
+			$cfgarr["DISPLAY_NEW_ORDERS"] = '0';
+		}
+
+		if (!defined("DISPLAY_NEW_CUSTOMERS"))
+		{
+			$cfgarr["DISPLAY_NEW_CUSTOMERS"] = '0';
+		}
+
+		if (!defined("DISPLAY_STATISTIC"))
+		{
+			$cfgarr["DISPLAY_STATISTIC"] = '0';
+		}
+
+		if (!defined("EXPAND_ALL"))
+		{
+			$cfgarr["EXPAND_ALL"] = '0';
+		}
+
+		if (!defined("NOOF_THUMB_FOR_SCROLLER"))
+		{
+			$cfgarr["NOOF_THUMB_FOR_SCROLLER"] = '3';
+		}
+
+		if (!defined("POSTDANMARK_ADDRESS"))
+		{
+			$cfgarr["POSTDANMARK_ADDRESS"] = 'address';
+		}
+
+		if (!defined("POSTDANMARK_POSTALCODE"))
+		{
+			$cfgarr["POSTDANMARK_POSTALCODE"] = '13256';
+		}
+
+		if (!defined("SEND_CATALOG_REMINDER_MAIL"))
+		{
+			$cfgarr["SEND_CATALOG_REMINDER_MAIL"] = '0';
+		}
+
+		if (!defined("AJAX_CART_DISPLAY_TIME"))
+		{
+			$cfgarr["AJAX_CART_DISPLAY_TIME"] = '3000';
+		}
+
+		if (!defined("PAYMENT_CALCULATION_ON"))
+		{
+			$cfgarr["PAYMENT_CALCULATION_ON"] = 'subtotal';
+		}
+
+		if (!defined("IMAGE_QUALITY_OUTPUT"))
+		{
+			$cfgarr["IMAGE_QUALITY_OUTPUT"] = '100';
+		}
+
+		if (!defined("DEFAULT_NEWSLETTER"))
+		{
+			$cfgarr["DEFAULT_NEWSLETTER"] = '1';
+		}
+
+		if (!defined("DETAIL_ERROR_MESSAGE_ON"))
+		{
+			$cfgarr["DETAIL_ERROR_MESSAGE_ON"] = '1';
+		}
+
+		if (!defined("MANUFACTURER_TITLE_MAX_CHARS"))
+		{
+			$cfgarr["MANUFACTURER_TITLE_MAX_CHARS"] = '';
+		}
+
+		if (!defined("MANUFACTURER_TITLE_END_SUFFIX"))
+		{
+			$cfgarr["MANUFACTURER_TITLE_END_SUFFIX"] = '';
+		}
+
+		if (!defined("WRITE_REVIEW_IS_LIGHTBOX"))
+		{
+			$cfgarr["WRITE_REVIEW_IS_LIGHTBOX"] = '0';
+		}
+
+		if (!defined("SPECIAL_DISCOUNT_MAIL_SEND"))
+		{
+			$cfgarr["SPECIAL_DISCOUNT_MAIL_SEND"] = '1';
+		}
+
+		if (!defined("WATERMARK_PRODUCT_ADDITIONAL_IMAGE"))
+		{
+			$cfgarr["WATERMARK_PRODUCT_ADDITIONAL_IMAGE"] = '0';
+		}
+
+		if (!defined("ACCESSORY_AS_PRODUCT_IN_CART_ENABLE"))
+		{
+			$cfgarr["ACCESSORY_AS_PRODUCT_IN_CART_ENABLE"] = '0';
+		}
+
+		if (!defined("ATTRIBUTE_SCROLLER_THUMB_WIDTH"))
+		{
+			$cfgarr["ATTRIBUTE_SCROLLER_THUMB_WIDTH"] = '50';
+		}
+
+		if (!defined("ATTRIBUTE_SCROLLER_THUMB_HEIGHT"))
+		{
+			$cfgarr["ATTRIBUTE_SCROLLER_THUMB_HEIGHT"] = '50';
+		}
+
+		if (!defined("NOOF_SUBATTRIB_THUMB_FOR_SCROLLER"))
+		{
+			$cfgarr["NOOF_SUBATTRIB_THUMB_FOR_SCROLLER"] = '3';
+		}
+
+		if (!defined("COMPARE_PRODUCT_THUMB_WIDTH"))
+		{
+			$cfgarr["COMPARE_PRODUCT_THUMB_WIDTH"] = '70';
+		}
+
+		if (!defined("COMPARE_PRODUCT_THUMB_HEIGHT"))
+		{
+			$cfgarr["COMPARE_PRODUCT_THUMB_HEIGHT"] = '70';
+		}
+
+		if (!defined("CATEGORY_TITLE_MAX_CHARS"))
+		{
+			$cfgarr["CATEGORY_TITLE_MAX_CHARS"] = '';
+		}
+
+		if (!defined("CATEGORY_TITLE_END_SUFFIX"))
+		{
+			$cfgarr["CATEGORY_TITLE_END_SUFFIX"] = '';
+		}
+
+		if (!defined("PRODUCT_DETAIL_LIGHTBOX_CLOSE_BUTTON_IMAGE"))
+		{
+			$cfgarr["PRODUCT_DETAIL_LIGHTBOX_CLOSE_BUTTON_IMAGE"] = '';
+		}
+
+		if (!defined("USE_ENCODING"))
+		{
+			$cfgarr["USE_ENCODING"] = '0';
+		}
+
+		if (!defined("CREATE_ACCOUNT_CHECKBOX"))
+		{
+			$cfgarr["CREATE_ACCOUNT_CHECKBOX"] = '0';
+		}
+
+		if (!defined("SHOW_QUOTATION_PRICE"))
+		{
+			$cfgarr["SHOW_QUOTATION_PRICE"] = '0';
+		}
+
+		if (!defined("CHILDPRODUCT_DROPDOWN"))
+		{
+			$cfgarr["CHILDPRODUCT_DROPDOWN"] = 'product_name';
+		}
+
+		if (!defined("ENABLE_ADDRESS_DETAIL_IN_SHIPPING"))
+		{
+			$cfgarr["ENABLE_ADDRESS_DETAIL_IN_SHIPPING"] = '0';
+		}
+
+		if (!defined("PURCHASE_PARENT_WITH_CHILD"))
+		{
+			$cfgarr["PURCHASE_PARENT_WITH_CHILD"] = '0';
+		}
+
+		if (!defined("CALCULATION_PRICE_DECIMAL"))
+		{
+			$cfgarr["CALCULATION_PRICE_DECIMAL"] = '4';
+		}
+
+		if (!defined("REQUESTQUOTE_IMAGE"))
+		{
+			$cfgarr["REQUESTQUOTE_IMAGE"] = 'requestquote.gif';
+		}
+
+		if (!defined("REQUESTQUOTE_BACKGROUND"))
+		{
+			$cfgarr["REQUESTQUOTE_BACKGROUND"] = 'requestquotebg.jpg';
+		}
+
+		if (!defined("SHOW_PRODUCT_DETAIL"))
+		{
+			$cfgarr["SHOW_PRODUCT_DETAIL"] = 1;
+		}
+
+		if (!defined("WEBPACK_ENABLE_EMAIL_TRACK"))
+		{
+			$cfgarr["WEBPACK_ENABLE_EMAIL_TRACK"] = 1;
+		}
+
+		if (!defined("WEBPACK_ENABLE_SMS"))
+		{
+			$cfgarr["WEBPACK_ENABLE_SMS"] = 1;
+		}
+
+		if (!defined("REQUIRED_VAT_NUMBER"))
+		{
+			$cfgarr["REQUIRED_VAT_NUMBER"] = 1;
+		}
+
+		if (!defined("ACCESSORY_PRODUCT_IN_LIGHTBOX"))
+		{
+			$cfgarr["ACCESSORY_PRODUCT_IN_LIGHTBOX"] = 0;
+		}
+
+		if (!defined("PRODUCT_PREVIEW_IMAGE_WIDTH"))
+		{
+			$cfgarr["PRODUCT_PREVIEW_IMAGE_WIDTH"] = 100;
+		}
+
+		if (!defined("PRODUCT_PREVIEW_IMAGE_HEIGHT"))
+		{
+			$cfgarr["PRODUCT_PREVIEW_IMAGE_HEIGHT"] = 100;
+		}
+
+		if (!defined("CATEGORY_PRODUCT_PREVIEW_IMAGE_WIDTH"))
+		{
+			$cfgarr["CATEGORY_PRODUCT_PREVIEW_IMAGE_WIDTH"] = 100;
+		}
+
+		if (!defined("CATEGORY_PRODUCT_PREVIEW_IMAGE_HEIGHT"))
+		{
+			$cfgarr["CATEGORY_PRODUCT_PREVIEW_IMAGE_HEIGHT"] = 100;
+		}
+
+		if (!defined("DISPLAY_OUT_OF_STOCK_ATTRIBUTE_DATA"))
+		{
+			$cfgarr["DISPLAY_OUT_OF_STOCK_ATTRIBUTE_DATA"] = 1;
+		}
+
+		if (!defined("SEND_MAIL_TO_CUSTOMER"))
+		{
+			$cfgarr["SEND_MAIL_TO_CUSTOMER"] = 1;
+		}
+
+		if (!defined("AJAX_DETAIL_BOX_WIDTH"))
+		{
+			$cfgarr["AJAX_DETAIL_BOX_WIDTH"] = 500;
+		}
+
+		if (!defined("AJAX_DETAIL_BOX_HEIGHT"))
+		{
+			$cfgarr["AJAX_DETAIL_BOX_HEIGHT"] = 600;
+		}
+
+		if (!defined("AJAX_BOX_WIDTH"))
+		{
+			$cfgarr["AJAX_BOX_WIDTH"] = 500;
+		}
+
+		if (!defined("AJAX_BOX_HEIGHT"))
+		{
+			$cfgarr["AJAX_BOX_HEIGHT"] = 150;
+		}
+
+		$Redconfiguration->manageCFGFile($cfgarr);
+
+		// End
+	}
+
+	/**
+	 * Module installer
+	 *
+	 * @param   string  $module  Module name
+	 * @param   string  $source  Source install folder
+	 *
+	 * @return  boolean
+	 */
+	private function redshopInstallModule($module, $source)
+	{
+		$path = $source . '/plugins/' . $module;
+
+		$installer = new JInstaller;
+		$result    = $installer->install($path);
+
+		if ($result)
+		{
+			// Get a db instance
+			$db    = JFactory::getDBO();
+			$query = "UPDATE #__extensions SET position='icon', ordering=9, enabled=1 WHERE element=" . $db->Quote($module);
+			$db    = JFactory::getDBO();
+			$db->setQuery($query);
+			$db->query();
+		}
+		else
+		{
+			$app = JFactory::getApplication();
+			$app->enqueueMessage('Error installing redSHOP module: ' . $module);
+		}
+
+		return $result;
+	}
+
+	/**
+	 * Get the common JInstaller instance used to install all the extensions
+	 *
+	 * @return JInstaller The JInstaller object
+	 */
+	public function getInstaller()
+	{
+		if (is_null($this->installer))
+		{
+			$this->installer = new JInstaller;
+		}
+
+		return $this->installer;
+	}
+
+	/**
+	 * Install the package libraries
+	 *
+	 * @param   object  $parent  class calling this method
+	 *
+	 * @return  void
+	 */
+	private function installLibraries($parent)
+	{
+		// Required objects
+		$installer = $this->getInstaller();
+		$manifest  = $parent->get('manifest');
+		$src       = $parent->getParent()->getPath('source');
+
+		if ($nodes = $manifest->libraries->library)
+		{
+			foreach ($nodes as $node)
+			{
+				$extName = $node->attributes()->name;
+				$extPath = $src . '/libraries/' . $extName;
+				$result  = 0;
+
+				if (is_dir($extPath))
+				{
+					$result = $installer->install($extPath);
+				}
+
+				$this->_storeStatus('libraries', array('name' => $extName, 'result' => $result));
+			}
+		}
+	}
+
+	/**
+	 * Install the package modules
+	 *
+	 * @param   object  $parent  class calling this method
+	 *
+	 * @return  void
+	 */
+	private function installModules($parent)
+	{
+		// Required objects
+		$installer = $this->getInstaller();
+		$manifest  = $parent->get('manifest');
+		$src       = $parent->getParent()->getPath('source');
+
+		if ($nodes = $manifest->modules->module)
+		{
+			foreach ($nodes as $node)
+			{
+				$extName   = $node->attributes()->name;
+				$extClient = $node->attributes()->client;
+				$extPath   = $src . '/modules/' . $extClient . '/' . $extName;
+				$result    = 0;
+
+				if (is_dir($extPath))
+				{
+					$result = $installer->install($extPath);
+				}
+
+				$this->_storeStatus('modules', array('name' => $extName, 'client' => $extClient, 'result' => $result));
+			}
+		}
+	}
+
+	/**
+	 * Install the package libraries
+	 *
+	 * @param   object  $parent  class calling this method
+	 *
+	 * @return  void
+	 */
+	private function installPlugins($parent)
+	{
+		// Required objects
+		$installer = $this->getInstaller();
+		$manifest  = $parent->get('manifest');
+		$src       = $parent->getParent()->getPath('source');
+
+		if ($nodes = $manifest->plugins->plugin)
+		{
+			foreach ($nodes as $node)
+			{
+				$extName  = $node->attributes()->name;
+				$extGroup = $node->attributes()->group;
+				$extPath  = $src . '/plugins/' . $extGroup . '/' . $extName;
+				$result   = 0;
+
+				if (is_dir($extPath))
+				{
+					$result = $installer->install($extPath);
+				}
+
+				// Store the result to show install summary later
+				$this->_storeStatus('plugins', array('name' => $extName, 'group' => $extGroup, 'result' => $result));
+
+				// Enable the installed plugin
+				if ($result)
+				{
+					$db = JFactory::getDBO();
+					$query = $db->getQuery(true);
+					$query->update($db->quoteName("#__extensions"));
+					$query->set("enabled=1");
+					$query->where("type='plugin'");
+					$query->where("element=" . $db->quote($extName));
+					$query->where("folder=" . $db->quote($extGroup));
+					$db->setQuery($query);
+					$db->query();
+				}
+			}
+		}
+	}
+
+	/**
+	 * Uninstall the package libraries
+	 *
+	 * @param   object  $parent  class calling this method
+	 *
+	 * @return  void
+	 */
+	private function uninstallLibraries($parent)
+	{
+		// Required objects
+		$installer = $this->getInstaller();
+		$manifest  = $parent->get('manifest');
+		$src       = $parent->getParent()->getPath('source');
+
+		if ($nodes = $manifest->libraries->library)
+		{
+			foreach ($nodes as $node)
+			{
+				$extName = $node->attributes()->name;
+				$extPath = $src . '/libraries/' . $extName;
+				$result  = 0;
+
+				$db = JFactory::getDBO();
+				$query = $db->getQuery(true)
+					->select('extension_id')
+					->from($db->quoteName("#__extensions"))
+					->where("type='library'")
+					->where("element=" . $db->quote($extName));
+
+				$db->setQuery($query);
+
+				if ($extId = $db->loadResult())
+				{
+					$result = $installer->uninstall('library', $extId);
+				}
+
+				// Store the result to show install summary later
+				$this->_storeStatus('libraries', array('name' => $extName, 'result' => $result));
+			}
+		}
+	}
+
+	/**
+	 * Uninstall the package modules
+	 *
+	 * @param   object  $parent  class calling this method
+	 *
+	 * @return  void
+	 */
+	private function uninstallModules($parent)
+	{
+		// Required objects
+		$installer = $this->getInstaller();
+		$manifest  = $parent->get('manifest');
+		$src       = $parent->getParent()->getPath('source');
+
+		if ($nodes = $manifest->modules->module)
+		{
+			foreach ($nodes as $node)
+			{
+				$extName   = $node->attributes()->name;
+				$extClient = $node->attributes()->client;
+				$extPath   = $src . '/modules/' . $extClient . '/' . $extName;
+				$result    = 0;
+
+				$db = JFactory::getDBO();
+				$query = $db->getQuery(true)
+					->select('extension_id')
+					->from($db->quoteName("#__extensions"))
+					->where("type='module'")
+					->where("element=" . $db->quote($extName));
+
+				$db->setQuery($query);
+
+				if ($extId = $db->loadResult())
+				{
+					$result = $installer->uninstall('module', $extId);
+				}
+
+				// Store the result to show install summary later
+				$this->_storeStatus('modules', array('name' => $extName, 'client' => $extClient, 'result' => $result));
+			}
+		}
+	}
+
+	/**
+	 * Uninstall the package plugins
+	 *
+	 * @param   object  $parent  class calling this method
+	 *
+	 * @return  void
+	 */
+	private function uninstallPlugins($parent)
+	{
+		// Required objects
+		$installer = $this->getInstaller();
+		$manifest  = $parent->get('manifest');
+		$src       = $parent->getParent()->getPath('source');
+
+		if ($nodes = $manifest->plugins->plugin)
+		{
+			foreach ($nodes as $node)
+			{
+				$extName  = $node->attributes()->name;
+				$extGroup = $node->attributes()->group;
+				$extPath  = $src . '/plugins/' . $extGroup . '/' . $extName;
+				$result   = 0;
+
+				$db = JFactory::getDBO();
+				$query = $db->getQuery(true)
+					->select('extension_id')
+					->from($db->quoteName("#__extensions"))
+					->where("type='plugin'")
+					->where("element=" . $db->quote($extName))
+					->where("folder=" . $db->quote($extGroup));
+
+				$db->setQuery($query);
+
+				if ($extId = $db->loadResult())
+				{
+					$result = $installer->uninstall('plugin', $extId);
+				}
+
+				// Store the result to show install summary later
+				$this->_storeStatus('plugins', array('name' => $extName, 'group' => $extGroup, 'result' => $result));
+			}
+		}
+	}
+
+	/**
+	 * Store the result of trying to install an extension
+	 *
+	 * @param   string  $type    Type of extension (libraries, modules, plugins)
+	 * @param   array   $status  The status info
+	 *
+	 * @return void
+	 */
+	private function _storeStatus($type, $status)
+	{
+		// Initialise status object if needed
+		if (is_null($this->status))
+		{
+			$this->status = new stdClass;
+		}
+
+		// Initialise current status type if needed
+		if (!isset($this->status->{$type}))
+		{
+			$this->status->{$type} = array();
+		}
+
+		// Insert the status
+		array_push($this->status->{$type}, $status);
+	}
+
+	/**
+	 * Alter redSHOP Tables
+	 *
+	 * @return  void
+	 */
+	private function alterRedShopTables()
+	{
+		$db = JFactory::getDBO();
 
 		// Get the redshop_users_info
 		$q = "SHOW COLUMNS FROM #__redshop_users_info";
@@ -1323,7 +2183,6 @@ class Com_RedshopInstallerScript
 				$db->setQuery($q);
 				$db->query();
 			}
-			
 		}
 
 		// Get the current columns for redshop product_voucher
@@ -3383,117 +4242,117 @@ class Com_RedshopInstallerScript
 			(19, 'Catlog Sample Second Reminder', 'Catlog Sample Second Reminder', 'colour_sample_second_reminder', '0', '<!-- 		@page { margin: 0.79in } 		P { margin-bottom: 0.08in } 	-->\r\n<p style=\"margin-left: 0.5in; margin-bottom: 0in;\"><span style=\"font-family: Verdana,sans-serif;\"><span style=\"font-size: x-small;\"><span>Dear {name}. I sent you some sample colour material the other day, and I would just like to know if you had a chance to look at it...? In any case, I am ready by the phone / e-mail if you need any assistance whatsoever. Kind regards, xyz</span></span></span></p>', 1, ''),
 			(20, 'Catlog Sample Third Reminder', 'Catlog Sample Third Reminder', 'colour_sample_third_reminder', '0', '<!-- 		@page { margin: 0.79in } 		P { margin-bottom: 0.08in } 	-->\r\n<p style=\"margin-left: 0.5in; margin-bottom: 0in;\"><span style=\"font-family: Verdana,sans-serif;\"><span style=\"font-size: x-small;\"><span>Dear {name}. I just wish to inform you that we are currently running a campaign for all the clients who received sample colour material from us earlier. This means that in the next 4 days, you get 5% off everything you buy, and since our products are already competitively priced, it is a really good offer. You can use the code: XXX when you order to get the discount, but remember you have 4 days from now to decide!</span></span></span></p>', 1, ''),
 			(21, 'Order Mail', 'Order Mail for {order_id}', 'order', '0', '<table style=\"border: 1px solid #ccc; background: #fff; width: 700px;\" cellpadding=\"0\" cellspacing=\"0\">
-<tbody>
-<tr>
-<td style=\"line-height: 25px;\">
-<table style=\"width: 100%; background: #f7f7f7;\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\">
-<tbody>
-<tr>
-<td colspan=\"3\" style=\"height: 10px;\"></td>
-</tr>
-<tr>
-<td style=\"width: 20px;\"></td>
-<td style=\"line-height: 25px;\">
-<table style=\"width: 100%;\">
-<tbody>
-<tr>
-<td width=\"400px\"><a href=\"http://redcomponent.com\" target=\"_blank\"> <img src=\"images/redcomponent_logo.png\" style=\"width: 340px; height: auto; padding-top: 20px;\" /> </a></td>
-<td style=\"font-size: 12px; color: #878787; float: right; text-align: right; font-family: verdana; vertical-align: top;\">{order_date}</td>
-</tr>
-</tbody>
-</table>
-</td>
-<td style=\"width: 20px;\"></td>
-</tr>
-</tbody>
-</table>
-<table style=\"width: 100%;\" cellpadding=\"0\" cellspacing=\"0\">
-<tbody>
-<tr>
-<td style=\"height: 20px; background-color: #444544;\"></td>
-</tr>
-</tbody>
-</table>
-<table style=\"width: 100%;\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\">
-<tbody>
-<tr>
-<td colspan=\"3\" style=\"height: 20px;\"></td>
-</tr>
-<tr>
-<td style=\"width: 20px;\"></td>
-<td style=\"line-height: 25px;\">
-<p style=\"font-size: 24px; font-family: verdana; color: #666666; text-align: justify;\"><strong>Thank you for your order!</strong></p>
-<p style=\"font-size: 14px; font-family: verdana; color: #666666; text-align: justify;\">Thank you for ordering from redCOMPONENT!<br />To download your purchased products please follow the link in the bottom of this mail.</p>
-<p style=\"font-size: 14px; font-family: verdana; color: #666666; text-align: justify; margin-bottom: 0 !important;\">&nbsp;</p>
-<p style=\"font-size: 14px; font-family: verdana; color: #666666; text-align: justify; margin-bottom: 5px !important;\"><strong>Products ordered:</strong></p>
-<table style=\"width: 100%; line-height: 25px;\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\">
-<tbody><!--{product_loop_start}-->
-<tr style=\"border-bottom: 1px solid #F1F1F1;\">
-<td colspan=\"3\">
-<table style=\"width: 100%;\" cellpadding=\"0\" cellspacing=\"0\">
-<tbody>
-<tr>
-<td style=\"width: 32px;\"><span style=\"font-size: 14px; font-family: verdana; color: #666666; text-align: justify;\"> {product_quantity} x </span></td>
-<td><span style=\"font-size: 14px; font-family: verdana; color: #666666; text-align: justify;\">{product_name}{without_vat}</span> <span style=\"font-size: 14px; font-family: verdana; color: #666666; text-align: justify;\">{product_accessory}</span></td>
-</tr>
-</tbody>
-</table>
-</td>
-<td align=\"right\"><span style=\"font-size: 14px; font-family: verdana; color: #666666; text-align: right;\">{product_total_price}</span></td>
-</tr>
-<!--{product_loop_end}--> <!--{if discount}-->
-<tr>
-<td colspan=\"3\"><span style=\"font-size: 14px; font-family: verdana; color: #666666; text-align: justify;\">Discount</span></td>
-<td align=\"right\"><span style=\"font-size: 14px; font-family: verdana; color: #666666; text-align: justify;\">{discount_excl_vat}</span></td>
-</tr>
-<!--{discount end if}-->
-<tr>
-<td colspan=\"3\" style=\"padding-top: 10px;\"><span style=\"font-size: 14px; font-family: verdana; color: #666666; text-align: justify;\">VAT</span></td>
-<td align=\"right\"><span style=\"font-size: 14px; font-family: verdana; color: #666666; text-align: justify;\">{sub_total_vat}</span></td>
-</tr>
-<tr>
-<td colspan=\"3\"><span style=\"font-size: 14px; font-family: verdana; color: #666666; text-align: justify;\"><strong>Total</strong></span></td>
-<td align=\"right\"><span style=\"font-size: 14px; font-family: verdana; color: #666666; text-align: justify;\"><strong>{order_total}</strong></span></td>
-</tr>
-</tbody>
-</table>
-<p style=\"text-align: justify;\">&nbsp;</p>
-<p style=\"font-size: 14px; font-family: verdana; color: #666666; text-align: justify; margin-bottom: 5px !important;\"><strong>Billing information: </strong></p>
-<div style=\"font-size: 14px; font-family: verdana; color: #666666; text-align: justify;\">{billing_address}</div>
-<p>&nbsp;</p>
-<p style=\"font-size: 14px; font-family: verdana; color: #666666; text-align: justify; margin-bottom: 5px !important;\"><strong>Additional information:</strong></p>
-<p style=\"font-size: 14px; font-family: verdana; color: #666666; text-align: justify; margin-bottom: 5px !important;\">{customer_note}</p>
-<p>&nbsp;</p>
-<p style=\"font-size: 14px; font-family: verdana; color: #666666; text-align: justify; margin-bottom: 5px !important;\"><strong>Order details:</strong></p>
-<p style=\"font-size: 14px; font-family: verdana; color: #666666; text-align: justify;\">To see the details of your order and download your products please {order_detail_link}.</p>
-<p>&nbsp;</p>
-<p style=\"font-size: 14px; font-family: verdana; color: #666666; text-align: justify; margin-bottom: 5px !important;\"><strong>Please Note!</strong></p>
-<p style=\"font-size: 14px; font-family: verdana; color: #666666; text-align: justify;\">Single sales items are available for immediate download, and until 7 days after purchase. Please ensure that you download your product within this timeframe.</p>
-<p style=\"font-size: 14px; font-family: verdana; color: #666666; text-align: justify;\">When ordering one or more service products:</p>
-<p style=\"font-size: 14px; font-family: verdana; color: #666666; text-align: justify;\">As this is a manual process, please allow 2-4 business days for a redCOMPONENT employee to get back to You.</p>
-<p style=\"font-size: 14px; font-family: verdana; color: #666666; text-align: justify;\">Customizations Services is offered to Templates Customers only.</p>
-<p style=\"font-size: 14px; font-family: verdana; color: #666666; text-align: justify;\">If you require any further assistance with customization of non-redCOMPONENT templates, or if You would prefer a quote on a uniquely designed website, template, component or plug-in - Please fill out our contact form to initiate dialogue.</p>
-<p style=\"font-size: 14px; font-family: verdana; color: #666666; text-align: justify;\">&nbsp;</p>
-<p style=\"font-size: 14px; font-family: verdana; color: #666666; text-align: justify;\">Regards,<br />redCOMPONENT</p>
-</td>
-<td style=\"width: 20px; padding-bottom: 30px;\"></td>
-</tr>
-<tr style=\"height: 10px;\">
-<td colspan=\"3\"></td>
-</tr>
-</tbody>
-</table>
-<table style=\"width: 100%;\" cellpadding=\"0\" cellspacing=\"0\">
-<tbody>
-<tr>
-<td style=\"height: 45px; background-color: #444544; display: block !important;\"></td>
-</tr>
-</tbody>
-</table>
-</td>
-</tr>
-</tbody>
-</table>', 1, ''),
+			<tbody>
+			<tr>
+			<td style=\"line-height: 25px;\">
+			<table style=\"width: 100%; background: #f7f7f7;\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\">
+			<tbody>
+			<tr>
+			<td colspan=\"3\" style=\"height: 10px;\"></td>
+			</tr>
+			<tr>
+			<td style=\"width: 20px;\"></td>
+			<td style=\"line-height: 25px;\">
+			<table style=\"width: 100%;\">
+			<tbody>
+			<tr>
+			<td width=\"400px\"><a href=\"http://redcomponent.com\" target=\"_blank\"> <img src=\"images/redcomponent_logo.png\" style=\"width: 340px; height: auto; padding-top: 20px;\" /> </a></td>
+			<td style=\"font-size: 12px; color: #878787; float: right; text-align: right; font-family: verdana; vertical-align: top;\">{order_date}</td>
+			</tr>
+			</tbody>
+			</table>
+			</td>
+			<td style=\"width: 20px;\"></td>
+			</tr>
+			</tbody>
+			</table>
+			<table style=\"width: 100%;\" cellpadding=\"0\" cellspacing=\"0\">
+			<tbody>
+			<tr>
+			<td style=\"height: 20px; background-color: #444544;\"></td>
+			</tr>
+			</tbody>
+			</table>
+			<table style=\"width: 100%;\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\">
+			<tbody>
+			<tr>
+			<td colspan=\"3\" style=\"height: 20px;\"></td>
+			</tr>
+			<tr>
+			<td style=\"width: 20px;\"></td>
+			<td style=\"line-height: 25px;\">
+			<p style=\"font-size: 24px; font-family: verdana; color: #666666; text-align: justify;\"><strong>Thank you for your order!</strong></p>
+			<p style=\"font-size: 14px; font-family: verdana; color: #666666; text-align: justify;\">Thank you for ordering from redCOMPONENT!<br />To download your purchased products please follow the link in the bottom of this mail.</p>
+			<p style=\"font-size: 14px; font-family: verdana; color: #666666; text-align: justify; margin-bottom: 0 !important;\">&nbsp;</p>
+			<p style=\"font-size: 14px; font-family: verdana; color: #666666; text-align: justify; margin-bottom: 5px !important;\"><strong>Products ordered:</strong></p>
+			<table style=\"width: 100%; line-height: 25px;\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\">
+			<tbody><!--{product_loop_start}-->
+			<tr style=\"border-bottom: 1px solid #F1F1F1;\">
+			<td colspan=\"3\">
+			<table style=\"width: 100%;\" cellpadding=\"0\" cellspacing=\"0\">
+			<tbody>
+			<tr>
+			<td style=\"width: 32px;\"><span style=\"font-size: 14px; font-family: verdana; color: #666666; text-align: justify;\"> {product_quantity} x </span></td>
+			<td><span style=\"font-size: 14px; font-family: verdana; color: #666666; text-align: justify;\">{product_name}{without_vat}</span> <span style=\"font-size: 14px; font-family: verdana; color: #666666; text-align: justify;\">{product_accessory}</span></td>
+			</tr>
+			</tbody>
+			</table>
+			</td>
+			<td align=\"right\"><span style=\"font-size: 14px; font-family: verdana; color: #666666; text-align: right;\">{product_total_price}</span></td>
+			</tr>
+			<!--{product_loop_end}--> <!--{if discount}-->
+			<tr>
+			<td colspan=\"3\"><span style=\"font-size: 14px; font-family: verdana; color: #666666; text-align: justify;\">Discount</span></td>
+			<td align=\"right\"><span style=\"font-size: 14px; font-family: verdana; color: #666666; text-align: justify;\">{discount_excl_vat}</span></td>
+			</tr>
+			<!--{discount end if}-->
+			<tr>
+			<td colspan=\"3\" style=\"padding-top: 10px;\"><span style=\"font-size: 14px; font-family: verdana; color: #666666; text-align: justify;\">VAT</span></td>
+			<td align=\"right\"><span style=\"font-size: 14px; font-family: verdana; color: #666666; text-align: justify;\">{sub_total_vat}</span></td>
+			</tr>
+			<tr>
+			<td colspan=\"3\"><span style=\"font-size: 14px; font-family: verdana; color: #666666; text-align: justify;\"><strong>Total</strong></span></td>
+			<td align=\"right\"><span style=\"font-size: 14px; font-family: verdana; color: #666666; text-align: justify;\"><strong>{order_total}</strong></span></td>
+			</tr>
+			</tbody>
+			</table>
+			<p style=\"text-align: justify;\">&nbsp;</p>
+			<p style=\"font-size: 14px; font-family: verdana; color: #666666; text-align: justify; margin-bottom: 5px !important;\"><strong>Billing information: </strong></p>
+			<div style=\"font-size: 14px; font-family: verdana; color: #666666; text-align: justify;\">{billing_address}</div>
+			<p>&nbsp;</p>
+			<p style=\"font-size: 14px; font-family: verdana; color: #666666; text-align: justify; margin-bottom: 5px !important;\"><strong>Additional information:</strong></p>
+			<p style=\"font-size: 14px; font-family: verdana; color: #666666; text-align: justify; margin-bottom: 5px !important;\">{customer_note}</p>
+			<p>&nbsp;</p>
+			<p style=\"font-size: 14px; font-family: verdana; color: #666666; text-align: justify; margin-bottom: 5px !important;\"><strong>Order details:</strong></p>
+			<p style=\"font-size: 14px; font-family: verdana; color: #666666; text-align: justify;\">To see the details of your order and download your products please {order_detail_link}.</p>
+			<p>&nbsp;</p>
+			<p style=\"font-size: 14px; font-family: verdana; color: #666666; text-align: justify; margin-bottom: 5px !important;\"><strong>Please Note!</strong></p>
+			<p style=\"font-size: 14px; font-family: verdana; color: #666666; text-align: justify;\">Single sales items are available for immediate download, and until 7 days after purchase. Please ensure that you download your product within this timeframe.</p>
+			<p style=\"font-size: 14px; font-family: verdana; color: #666666; text-align: justify;\">When ordering one or more service products:</p>
+			<p style=\"font-size: 14px; font-family: verdana; color: #666666; text-align: justify;\">As this is a manual process, please allow 2-4 business days for a redCOMPONENT employee to get back to You.</p>
+			<p style=\"font-size: 14px; font-family: verdana; color: #666666; text-align: justify;\">Customizations Services is offered to Templates Customers only.</p>
+			<p style=\"font-size: 14px; font-family: verdana; color: #666666; text-align: justify;\">If you require any further assistance with customization of non-redCOMPONENT templates, or if You would prefer a quote on a uniquely designed website, template, component or plug-in - Please fill out our contact form to initiate dialogue.</p>
+			<p style=\"font-size: 14px; font-family: verdana; color: #666666; text-align: justify;\">&nbsp;</p>
+			<p style=\"font-size: 14px; font-family: verdana; color: #666666; text-align: justify;\">Regards,<br />redCOMPONENT</p>
+			</td>
+			<td style=\"width: 20px; padding-bottom: 30px;\"></td>
+			</tr>
+			<tr style=\"height: 10px;\">
+			<td colspan=\"3\"></td>
+			</tr>
+			</tbody>
+			</table>
+			<table style=\"width: 100%;\" cellpadding=\"0\" cellspacing=\"0\">
+			<tbody>
+			<tr>
+			<td style=\"height: 45px; background-color: #444544; display: block !important;\"></td>
+			</tr>
+			</tbody>
+			</table>
+			</td>
+			</tr>
+			</tbody>
+			</table>', 1, ''),
 			(22, 'Order Status Change Shipped', 'Order Status Change Shipped', 'order_status', 'S', '<table style=\"border: 1px solid #ccc;background: #fff; width:600px;\" cellpadding=\"0\" cellspacing=\"0\">\r\n<tr>\r\n<td>\r\n\r\n<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" style=\"width: 100%;background: #f7f7f7;\">\r\n	<tbody>\r\n	<tr>\r\n		<td colspan=\"3\" style=\"height: 20px;\"></td>\r\n	</tr>\r\n	<tr>\r\n		<td style=\"width: 20px;\"></td>\r\n		<td>\r\n<table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\">\r\n	<tr>\r\n		<td width=\"400px\">\r\n			<a href=\"http://redcomponent.com\" target=\"_blank\"> <img src=\"http://redcomponent.com/images/redcomponent_logo.png\" style=\"width: 340px; height: auto; padding-top: 20px;\" /> </a>\r\n		</td>\r\n		<td style=\"font-size: 12px; color: #878787; float: right;text-align: right;font-family: verdana;vertical-align:top;\">\r\n			{order_date}\r\n		</td>\r\n	</tr>\r\n</table>\r\n		</td>\r\n		<td style=\"width: 20px;\"></td>\r\n	</tr>\r\n	</tbody>\r\n</table>\r\n\r\n<table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\">\r\n	<tr>\r\n		<td style=\"height: 20px; background-color: #444544;\"></td>\r\n	</tr>\r\n</table>\r\n\r\n<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" style=\"width: 100%\">\r\n<tbody>\r\n	<tr>\r\n		<td colspan=\"3\" style=\"height: 20px;\"></td>\r\n	</tr>\r\n	<tr>\r\n		<td style=\"width: 20px;\"></td>\r\n		<td>\r\n			<p style=\"font-size: 24px; font-family: verdana; color: #616161; text-align: justify;\">Order status</p>\r\n			<p style=\"font-size: 14px; font-family: verdana; color: #616161; text-align: justify;\">Your order status has changed.</p>\r\n			<p> </p>\r\n			<p> </p>\r\n			<p> </p>\r\n			<p style=\"font-size: 14px; font-family: verdana; color: #616161; text-align: justify;\">Regards,<br />redCOMPONENT</p>\r\n		</td>\r\n		<td style=\"width: 20px;\"></td>\r\n	</tr>\r\n<tr style=\"height: 160px\">\r\n    <td colspan=\"3\"></td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n\r\n<table width=\"100%\" style=\"margin-top: 30px;\" cellpadding=\"0\" cellspacing=\"0\">\r\n	<tr>\r\n		<td style=\"height: 45px; background-color: #444544; display: block !important;\"></td>\r\n	</tr>\r\n</table>\r\n</td>\r\n</tr>\r\n</table>', 1, ''),
 			(23, 'Order Status Change Refunded', 'Order Status Change Refunded', 'order_status', 'R', '<table style=\"border: 1px solid #ccc;background: #fff; width:600px;\" cellpadding=\"0\" cellspacing=\"0\">\r\n<tr>\r\n<td>\r\n\r\n<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" style=\"width: 100%;background: #f7f7f7;\">\r\n	<tbody>\r\n	<tr>\r\n		<td colspan=\"3\" style=\"height: 20px;\"></td>\r\n	</tr>\r\n	<tr>\r\n		<td style=\"width: 20px;\"></td>\r\n		<td>\r\n<table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\">\r\n	<tr>\r\n		<td width=\"400px\">\r\n			<a href=\"http://redcomponent.com\" target=\"_blank\"> <img src=\"http://redcomponent.com/images/redcomponent_logo.png\" style=\"width: 340px; height: auto; padding-top: 20px;\" /> </a>\r\n		</td>\r\n		<td style=\"font-size: 12px; color: #878787; float: right;text-align: right;font-family: verdana;vertical-align:top;\">\r\n			{order_date}\r\n		</td>\r\n	</tr>\r\n</table>\r\n		</td>\r\n		<td style=\"width: 20px;\"></td>\r\n	</tr>\r\n	</tbody>\r\n</table>\r\n\r\n<table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\">\r\n	<tr>\r\n		<td style=\"height: 20px; background-color: #444544;\"></td>\r\n	</tr>\r\n</table>\r\n\r\n<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" style=\"width: 100%\">\r\n<tbody>\r\n	<tr>\r\n		<td colspan=\"3\" style=\"height: 20px;\"></td>\r\n	</tr>\r\n	<tr>\r\n		<td style=\"width: 20px;\"></td>\r\n		<td>\r\n			<p style=\"font-size: 24px; font-family: verdana; color: #616161; text-align: justify;\">Order status</p>\r\n			<p style=\"font-size: 14px; font-family: verdana; color: #616161; text-align: justify;\">Your order status has changed.</p>\r\n			<p> </p>\r\n			<p> </p>\r\n			<p> </p>\r\n			<p style=\"font-size: 14px; font-family: verdana; color: #616161; text-align: justify;\">Regards,<br />redCOMPONENT</p>\r\n		</td>\r\n		<td style=\"width: 20px;\"></td>\r\n	</tr>\r\n<tr style=\"height: 160px\">\r\n    <td colspan=\"3\"></td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n\r\n<table width=\"100%\" style=\"margin-top: 30px;\" cellpadding=\"0\" cellspacing=\"0\">\r\n	<tr>\r\n		<td style=\"height: 45px; background-color: #444544; display: block !important;\"></td>\r\n	</tr>\r\n</table>\r\n</td>\r\n</tr>\r\n</table>', 1, ''),
 			(24, 'Order Status Change Pending', 'Order Status Change Pending', 'order_status', 'P', '<table style=\"border: 1px solid #ccc;background: #fff; width:600px;\" cellpadding=\"0\" cellspacing=\"0\">\r\n<tr>\r\n<td>\r\n\r\n<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" style=\"width: 100%;background: #f7f7f7;\">\r\n	<tbody>\r\n	<tr>\r\n		<td colspan=\"3\" style=\"height: 20px;\"></td>\r\n	</tr>\r\n	<tr>\r\n		<td style=\"width: 20px;\"></td>\r\n		<td>\r\n<table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\">\r\n	<tr>\r\n		<td width=\"400px\">\r\n			<a href=\"http://redcomponent.com\" target=\"_blank\"> <img src=\"http://redcomponent.com/images/redcomponent_logo.png\" style=\"width: 340px; height: auto; padding-top: 20px;\" /> </a>\r\n		</td>\r\n		<td style=\"font-size: 12px; color: #878787; float: right;text-align: right;font-family: verdana;vertical-align:top;\">\r\n			{order_date}\r\n		</td>\r\n	</tr>\r\n</table>\r\n		</td>\r\n		<td style=\"width: 20px;\"></td>\r\n	</tr>\r\n	</tbody>\r\n</table>\r\n\r\n<table width=\"100%\" cellpadding=\"0\" cellspacing=\"0\">\r\n	<tr>\r\n		<td style=\"height: 20px; background-color: #444544;\"></td>\r\n	</tr>\r\n</table>\r\n\r\n<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\" style=\"width: 100%\">\r\n<tbody>\r\n	<tr>\r\n		<td colspan=\"3\" style=\"height: 20px;\"></td>\r\n	</tr>\r\n	<tr>\r\n		<td style=\"width: 20px;\"></td>\r\n		<td>\r\n			<p style=\"font-size: 24px; font-family: verdana; color: #616161; text-align: justify;\">Order status</p>\r\n			<p style=\"font-size: 14px; font-family: verdana; color: #616161; text-align: justify;\">Your order status has changed.</p>\r\n			<p> </p>\r\n			<p> </p>\r\n			<p> </p>\r\n			<p style=\"font-size: 14px; font-family: verdana; color: #616161; text-align: justify;\">Regards,<br />redCOMPONENT</p>\r\n		</td>\r\n		<td style=\"width: 20px;\"></td>\r\n	</tr>\r\n<tr style=\"height: 160px\">\r\n    <td colspan=\"3\"></td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n\r\n<table width=\"100%\" style=\"margin-top: 30px;\" cellpadding=\"0\" cellspacing=\"0\">\r\n	<tr>\r\n		<td style=\"height: 45px; background-color: #444544; display: block !important;\"></td>\r\n	</tr>\r\n</table>\r\n</td>\r\n</tr>\r\n</table>', 1, ''),
@@ -3511,139 +4370,139 @@ class Com_RedshopInstallerScript
 			(94, 'Giftcard Mail', 'Giftcard Mail', 'giftcard_mail', '0', '<table><tr><td ><span>{giftcard_price_lbl}</span></td><td>{giftcard_price}</td></tr><tr><td ><span>{giftcard_reciver_name_lbl}</span></td><td>{giftcard_reciver_name}</td></tr><tr><td>{giftcard_reciver_email_lbl}</td><td>{giftcard_reciver_email}</td></tr><tr><td></td><td>{giftcard_desc}</td></tr><tr><td></td><td>{giftcard_price}</td></tr><tr><td>{giftcard_validity_from}{giftcard_validity_to}</td></tr><tr><td>{giftcard_image}</td></tr><tr><td>{giftcard_validity}</td></tr></table>', 1, ''),
 			(84, 'NewsLetter cancellation ', 'NewsLetter cancellation ', 'newsletter_cancellation', '0', 'NewsLetter cancellationNewsLetter cancellation NewsLetter cancellation NewsLetter cancellationNewsLetter cancellation NewsLetter cancellation', 1, ''),
 			(85, 'Invoice Mail', 'Invoice Mail', 'invoice_mail', '0', '<table style=\"border: 1px solid #ccc;background: #fff; width:600px;\">
-<tr>
-<td>
-	<div style=\"padding: 10px 20px;\">
-		<table width=\"100%\">
-	<tr>
-		<td width=\"400px\">
-			<a href=\"http://redcomponent.com\" target=\"_blank\"> <img src=\"http://redcomponent.com/images/redcomponent_logo.png\" style=\"width: 340px; height: auto; padding-top: 20px;\" /> </a>
-		</td>
-		<td style=\"font-size: 12px; color: #878787; float: right;\">
-			{order_date}
-		</td>
-	</tr>
-</table>
-	</div>
-	<table width=\"100%\">
-	<tr>
-		<td style=\"height: 20px; background-color: #444544;\"></td>
-	</tr>
-</table>
-	<div style=\"padding: 10px 20px;\">
-		<p style=\"font-size: 24px; font-face: verdana; color: #616161; text-align: justify;\">Thank you for your order!</p>
-		<p style=\"font-size: 14px; font-face: verdana; color: #616161; text-align: justify;\">Thank you for ordering from redCOMPONENT!<br />To download your purchased products please follow the link in the bottom of this mail.</p>
-		<p style=\"font-size: 14px; font-face: verdana; color: #616161; text-align: justify;\"> </p>
-		<p style=\"font-size: 14px; font-face: verdana; color: #616161; text-align: justify;\"><strong>Products ordered:</strong></p>
-		<table style=\"width: 100%;\" border=\"0\">
-		<tbody>
-		<!--{product_loop_start}-->
-		<tr style=\"border-bottom: 1px solid #F1F1F1;\">
-		<td><span style=\"font-size: 14px; font-face: verdana; color: #616161; text-align: justify;\"><strong>{product_name}{without_vat}</strong></span></td>
-		<td><span style=\"font-size: 14px; font-face: verdana; color: #616161; text-align: justify;\">{product_price}</span></td>
-		<td><span style=\"font-size: 14px; font-face: verdana; color: #616161; text-align: justify;\">{product_quantity}</span></td>
-		<td align=\"right\"><span style=\"font-size: 14px; font-face: verdana; color: #616161; text-align: right;\">{product_total_price}</span></td>
-		</tr>
-		<!--{product_loop_end}-->
-		<tr>
-		<td colspan=\"3\"><span style=\"font-size: 14px; font-face: verdana; color: #616161; text-align: justify;\"><strong>VAT</strong></span></td>
-		<td align=\"right\"><span style=\"font-size: 14px; font-face: verdana; color: #616161; text-align: justify;\">{sub_total_vat}</span></td>
-		</tr>
-		<tr>
-		<td colspan=\"3\"><span style=\"font-size: 14px; font-face: verdana; color: #616161; text-align: justify;\"><strong>Total</strong></span></td>
-		<td align=\"right\"><span style=\"font-size: 14px; font-face: verdana; color: #616161; text-align: justify;\">{order_total}</span></td>
-		</tr>
-		</tbody>
-		</table>
-		<p style=\"text-align: justify;\"> </p>
-		<p style=\"font-size: 14px; font-face: verdana; color: #616161; text-align: justify;\"><strong>Billing information: </strong></p>
-		<div style=\"font-size: 14px; font-face: verdana; color: #616161; text-align: justify;\">{billing_address}</div>
-		<p> </p>
-		<p style=\"font-size: 14px; font-face: verdana; color: #616161; text-align: justify;\"><strong>Additional information:</strong></p>
-		<p style=\"font-size: 14px; font-face: verdana; color: #616161; text-align: justify;\">{customer_note}</p>
-		<p> </p>
-		<p style=\"font-size: 14px; font-face: verdana; color: #616161; text-align: justify;\"><strong>Order details:</strong></p>
-		<p style=\"font-size: 14px; font-face: verdana; color: #616161; text-align: justify;\">To see the details of your order and to download the products please click {order_detail_link}</p>
-		<p style=\"font-size: 14px; font-face: verdana; color: #616161; text-align: justify;\"> </p>
-		<p style=\"font-size: 14px; font-face: verdana; color: #616161; text-align: justify;\">Regards,<br />redCOMPONENT</p>
-	</div>
-<table width=\"100%\" style=\"margin-top: 30px;\">
-	<tr>
-		<td style=\"height: 45px; background-color: #444544; display: block !important;\"></td>
-	</tr>
-</table>
-</td>
-</tr>
-</table>', 1, ''),
+				<tr>
+				<td>
+					<div style=\"padding: 10px 20px;\">
+						<table width=\"100%\">
+					<tr>
+						<td width=\"400px\">
+							<a href=\"http://redcomponent.com\" target=\"_blank\"> <img src=\"http://redcomponent.com/images/redcomponent_logo.png\" style=\"width: 340px; height: auto; padding-top: 20px;\" /> </a>
+						</td>
+						<td style=\"font-size: 12px; color: #878787; float: right;\">
+							{order_date}
+						</td>
+					</tr>
+				</table>
+					</div>
+					<table width=\"100%\">
+					<tr>
+						<td style=\"height: 20px; background-color: #444544;\"></td>
+					</tr>
+				</table>
+					<div style=\"padding: 10px 20px;\">
+						<p style=\"font-size: 24px; font-face: verdana; color: #616161; text-align: justify;\">Thank you for your order!</p>
+						<p style=\"font-size: 14px; font-face: verdana; color: #616161; text-align: justify;\">Thank you for ordering from redCOMPONENT!<br />To download your purchased products please follow the link in the bottom of this mail.</p>
+						<p style=\"font-size: 14px; font-face: verdana; color: #616161; text-align: justify;\"> </p>
+						<p style=\"font-size: 14px; font-face: verdana; color: #616161; text-align: justify;\"><strong>Products ordered:</strong></p>
+						<table style=\"width: 100%;\" border=\"0\">
+						<tbody>
+						<!--{product_loop_start}-->
+						<tr style=\"border-bottom: 1px solid #F1F1F1;\">
+						<td><span style=\"font-size: 14px; font-face: verdana; color: #616161; text-align: justify;\"><strong>{product_name}{without_vat}</strong></span></td>
+						<td><span style=\"font-size: 14px; font-face: verdana; color: #616161; text-align: justify;\">{product_price}</span></td>
+						<td><span style=\"font-size: 14px; font-face: verdana; color: #616161; text-align: justify;\">{product_quantity}</span></td>
+						<td align=\"right\"><span style=\"font-size: 14px; font-face: verdana; color: #616161; text-align: right;\">{product_total_price}</span></td>
+						</tr>
+						<!--{product_loop_end}-->
+						<tr>
+						<td colspan=\"3\"><span style=\"font-size: 14px; font-face: verdana; color: #616161; text-align: justify;\"><strong>VAT</strong></span></td>
+						<td align=\"right\"><span style=\"font-size: 14px; font-face: verdana; color: #616161; text-align: justify;\">{sub_total_vat}</span></td>
+						</tr>
+						<tr>
+						<td colspan=\"3\"><span style=\"font-size: 14px; font-face: verdana; color: #616161; text-align: justify;\"><strong>Total</strong></span></td>
+						<td align=\"right\"><span style=\"font-size: 14px; font-face: verdana; color: #616161; text-align: justify;\">{order_total}</span></td>
+						</tr>
+						</tbody>
+						</table>
+						<p style=\"text-align: justify;\"> </p>
+						<p style=\"font-size: 14px; font-face: verdana; color: #616161; text-align: justify;\"><strong>Billing information: </strong></p>
+						<div style=\"font-size: 14px; font-face: verdana; color: #616161; text-align: justify;\">{billing_address}</div>
+						<p> </p>
+						<p style=\"font-size: 14px; font-face: verdana; color: #616161; text-align: justify;\"><strong>Additional information:</strong></p>
+						<p style=\"font-size: 14px; font-face: verdana; color: #616161; text-align: justify;\">{customer_note}</p>
+						<p> </p>
+						<p style=\"font-size: 14px; font-face: verdana; color: #616161; text-align: justify;\"><strong>Order details:</strong></p>
+						<p style=\"font-size: 14px; font-face: verdana; color: #616161; text-align: justify;\">To see the details of your order and to download the products please click {order_detail_link}</p>
+						<p style=\"font-size: 14px; font-face: verdana; color: #616161; text-align: justify;\"> </p>
+						<p style=\"font-size: 14px; font-face: verdana; color: #616161; text-align: justify;\">Regards,<br />redCOMPONENT</p>
+					</div>
+				<table width=\"100%\" style=\"margin-top: 30px;\">
+					<tr>
+						<td style=\"height: 45px; background-color: #444544; display: block !important;\"></td>
+					</tr>
+				</table>
+				</td>
+				</tr>
+				</table>', 1, ''),
 			(86, 'Product Subscription Mail', 'Mail for product Subscription ', 'subscription_renewal_mail', '0', '<h1>Product Subscription Renew</h1>\r\n<h3>Dear,</h3>\r\n<p><span>{firstname} {lastname}</span></p>\r\n<p>Your Subscription for <strong>{product_name}</strong> is going to expired on <span>{subsciption_enddate}</span></p>\r\n<h2>Your Subscription Detail is as below</h2>\r\n<table border=\"0\">\r\n<tbody>\r\n<tr>\r\n<td>Subscribe Product :</td>\r\n<td>{product_name}</td>\r\n</tr>\r\n<tr>\r\n<td>Subscription Period :</td>\r\n<td>{subscription_period}</td>\r\n</tr>\r\n<tr>\r\n<td>Subscription Price : </td>\r\n<td>{subscription_price}</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n<p>Click here <em>{product_link}</em> and renew it</p>', 1, ''),
 			(105, 'Quotation Mail', 'Quotation Mail for {quotation_id} - {quotation_status} - {quotation_total}', 'quotation_mail', '0', '<table border=\"0\" cellspacing=\"0\" cellpadding=\"5\" width=\"100%\">\r\n<tbody>\r\n<tr>\r\n<td>\r\n<table border=\"0\" cellspacing=\"0\" cellpadding=\"2\" width=\"100%\">\r\n<tbody>\r\n<tr style=\"background-color: #cccccc\">\r\n<th align=\"left\">{quotation_information_lbl}</th>\r\n</tr>\r\n<tr>\r\n<td>{quotation_id_lbl} : {quotation_id}</td>\r\n</tr>\r\n<tr>\r\n<td>{quotation_number_lbl} : {quotation_number}</td>\r\n</tr>\r\n<tr>\r\n<td>{quotation_date_lbl} : {quotation_date}</td>\r\n</tr>\r\n<tr>\r\n<td>{quotation_status_lbl} : {quotation_status}</td>\r\n</tr>\r\n<tr>\r\n<td>{quotation_note_lbl} : {quotation_note}</td>\r\n</tr>\r\n<tr>\r\n<td>{quotation_detail_link}</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<table border=\"0\" cellspacing=\"0\" cellpadding=\"2\" width=\"100%\">\r\n<tbody>\r\n<tr style=\"background-color: #cccccc\">\r\n<th align=\"left\">{billing_address_information_lbl}</th>\r\n</tr>\r\n<tr>\r\n<td>{billing_address}</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<table border=\"0\" cellspacing=\"0\" cellpadding=\"2\" width=\"100%\">\r\n<tbody>\r\n<tr style=\"background-color: #cccccc\">\r\n<th align=\"left\">{quotation_detail_lbl}</th>\r\n</tr>\r\n<tr>\r\n<td>\r\n<table border=\"0\" cellspacing=\"2\" cellpadding=\"2\" width=\"100%\">\r\n<tbody>\r\n<tr>\r\n<td>{product_name_lbl}</td>\r\n<td>{note_lbl}</td>\r\n<td>{price_lbl}</td>\r\n<td>{quantity_lbl}</td>\r\n<td align=\"right\">{total_price_lbl}</td>\r\n</tr>\r\n<!--{product_loop_start}-->\r\n<tr>\r\n<td>{product_name}{product_s_desc}({product_number})<br />{product_userfields}<br />{product_attribute}<br />{product_accessory}</td>\r\n<td>{product_wrapper}<br />{product_thumb_image}</td>\r\n<td>{product_price}</td>\r\n<td>{product_quantity}</td>\r\n<td align=\"right\">{product_total_price}</td>\r\n</tr>\r\n<!--{product_loop_end}-->\r\n</tbody>\r\n</table>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td></td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<table border=\"0\" cellspacing=\"2\" cellpadding=\"2\" width=\"100%\">\r\n<tbody>\r\n<tr align=\"left\">\r\n<td align=\"left\"><strong>{quotation_subtotal_lbl} : </strong></td>\r\n<td align=\"right\">{quotation_subtotal}</td>\r\n</tr>\r\n<tr align=\"left\">\r\n<td colspan=\"2\" align=\"left\">\r\n<hr />\r\n</td>\r\n</tr>\r\n<tr align=\"left\">\r\n<td align=\"left\"><strong>{total_lbl} :</strong></td>\r\n<td align=\"right\">{quotation_total}</td>\r\n</tr>\r\n<tr align=\"left\">\r\n<td colspan=\"2\" align=\"left\">\r\n<hr />\r\n<br /> \r\n<hr />\r\n</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n</td>\r\n</tr>\r\n</tbody>\r\n</table>', 1, ''),
 			(150, 'Catalogue Order Mail', 'Catalogue Order Mail:', 'catalogue_order', '0', '<table style=\"width: 100%;\" border=\"0\" cellpadding=\"5\" cellspacing=\"0\"><tbody><tr><td><br /></td><td><table style=\"width: 100%;\" align=\"right\" border=\"0\" cellpadding=\"2\" cellspacing=\"0\"><tbody><tr><td align=\"right\">ABC Company -- abc.com</td></tr><tr><td align=\"right\">abccompany.com</td></tr><tr><td align=\"right\">Street Address</td></tr><tr><td align=\"right\">Address line 2</td></tr><tr><td align=\"right\">County</td></tr><tr><td align=\"right\">Country</td></tr><tr><td></td></tr><tr><td align=\"right\">Telephone Number : 11325-3251</td></tr><tr><td></td></tr><tr><td align=\"right\">E-mail : abccompany@abc.om</td></tr></tbody></table></td></tr><tr><td style=\"font-weight: bold\" colspan=\"2\">Some Title</td></tr><tr><td colspan=\"2\">Some Intro text...Lorem Ipsum is simply dummy    text of the printing and typesetting industry. Lorem Ipsum has been    the industry\'s standard dummy text ever since the 1500s, when an    unknown printer took a galley of type and scrambled it to make a type    specimen book. It has survived not only five centuries...</td></tr><tr><td colspan=\"2\"><table style=\"width: 100%;\" border=\"0\" cellpadding=\"2\" cellspacing=\"0\"><tbody><tr style=\"background-color: #cccccc\"><th align=\"left\">{order_information_lbl}</th></tr><tr></tr><tr><td>{order_id_lbl} : {order_id}</td></tr><tr><td>{order_number_lbl} : {order_number}</td></tr><tr><td>{order_date_lbl} : {order_date}</td></tr><tr><td>{order_status_lbl} : {order_status}</td></tr></tbody></table></td></tr><tr><td colspan=\"2\"><table style=\"width: 100%;\" border=\"0\" cellpadding=\"2\" cellspacing=\"0\"><tbody><tr style=\"background-color: #cccccc\"><th align=\"left\">{billing_address_information_lbl}</th></tr><tr></tr><tr><td>{billing_address}</td></tr></tbody></table></td></tr><tr><td colspan=\"2\"><table style=\"width: 100%;\" border=\"0\" cellpadding=\"2\" cellspacing=\"0\"><tbody><tr style=\"background-color: #cccccc\"><th align=\"left\">{shipping_address_information_lbl}</th></tr><tr></tr><tr><td>{shipping_address}</td></tr></tbody></table></td></tr><tr><td colspan=\"2\"><table style=\"width: 100%;\" border=\"0\" cellpadding=\"2\" cellspacing=\"0\"><tbody><tr style=\"background-color: #cccccc\"><th align=\"left\">{order_detail_lbl}</th></tr><tr></tr><tr><td><table style=\"width: 100%;\" border=\"0\" cellpadding=\"2\" cellspacing=\"2\"><tbody><tr><td>{product_name_lbl}</td><td>{note_lbl}</td><td>{quantity_lbl}</td></tr><!--{product_loop_start}--><tr><td>{pro_name}<br /> {product_userfields}</td><td>{pro_note}</td><td>{pro_quantity}</td></tr><!--{product_loop_end}--></tbody></table></td></tr></tbody></table></td></tr><tr><td colspan=\"2\"><table style=\"width: 100%;\" border=\"0\" cellpadding=\"2\" cellspacing=\"0\"><tbody><tr style=\"background-color: #cccccc\"><th align=\"left\">Payment Status</th></tr><tr></tr><tr><td>{order_payment_status}{shipping_method_lbl}{shipping_method}</td></tr></tbody></table></td></tr><tr><td colspan=\"2\"><table style=\"width: 100%;\" border=\"0\" cellpadding=\"2\" cellspacing=\"0\"><tbody><tr style=\"background-color: #cccccc\"><th align=\"left\">Order url</th></tr><tr></tr><tr><td>{order_detail_link}</td></tr></tbody></table></td></tr></tbody></table>', 1, ''),
 			(160, 'Quotation User Register Mail', 'Quotation User Register Mail:', 'quotation_user_register', '0', '<table><tr><td>Username</td><td> : </td><td>{username}</td></tr><tr><td>Password</td><td> : </td><td>{password}</td></tr><tr><td>Click here</td><td> : </td><td>{link}</td></tr></table>', 1, ''),
 			(175, 'RequestTaxExemptMail', 'RequestTaxExemptMail:', 'request_tax_exempt_mail', '0', '<table style=\"width: 100%;\" border=\"0\" cellpadding=\"5\" cellspacing=\"0\"><tbody><tr><td>Vat Number</td><td>{vat_number}</td></tr><tr><td>User Name</td><td>{username}</td></tr><tr><td>Company Name</td><td>{company_name}</td></tr><tr><td>Country</td><td>{country}</td></tr><tr><td>State</td><td>{state}</td></tr><tr><td>Phone</td><td>{phone}</td></tr><tr><td>Zipcode</td><td>{zipcode}</td></tr><tr><td>Address</td><td>{address}</td></tr><tr><td>City</td><td>{city}</td></tr></tbody></table>', 1, ''),
 			(185, 'Downloadable Email', 'Link to download your newly purchased product(s)', 'downloadable_product_mail', '0', '<table style=\"border: 1px solid #ccc; background: #fff; width: 600px;\" cellpadding=\"0\" cellspacing=\"0\">
-<tbody>
-<tr>
-<td style=\"line-height: 25px;\">
-<table style=\"width: 100%; background: #f7f7f7;\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\">
-<tbody>
-<tr>
-<td colspan=\"3\" style=\"height: 10px;\"></td>
-</tr>
-<tr>
-<td style=\"width: 20px;\"></td>
-<td>
-<table style=\"width: 100%;\" cellpadding=\"0\" cellspacing=\"0\">
-<tbody>
-<tr>
-<td width=\"400px\"><a href=\"http://redcomponent.com\" target=\"_blank\"> <img src=\"http://redcomponent.com/images/redcomponent_logo.png\" style=\"width: 340px; height: auto; padding-top: 20px;\" /> </a></td>
-<td style=\"font-size: 12px; color: #878787; float: right; font-family: verdana; vertical-align: top;\">{order_date}</td>
-</tr>
-</tbody>
-</table>
-</td>
-<td style=\"width: 20px;\"></td>
-</tr>
-</tbody>
-</table>
-<table style=\"width: 100%;\" cellpadding=\"0\" cellspacing=\"0\">
-<tbody>
-<tr>
-<td style=\"height: 20px; background-color: #444544;\"></td>
-</tr>
-</tbody>
-</table>
-<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\">
-<tbody>
-<tr>
-<td colspan=\"3\" style=\"height: 20px;\"></td>
-</tr>
-<tr>
-<td style=\"width: 20px;\"></td>
-<td style=\"line-height: 25px;\">
-<p style=\"font-size: 14px; font-family: verdana; color: #616161; text-align: justify;\"><strong>Dear {fullname}</strong></p>
-<p style=\"font-size: 14px; font-family: verdana; color: #616161; text-align: justify;\">Thanks for your recent purchase at our store. Here are the link(s) where you can download file/product that you have purchased.</p>
-<p style=\"font-size: 14px; font-family: verdana; color: #616161; text-align: justify;\">Order Date : {order_date}<br />Order # : {order_number}<br />Download Links :</p>
-<p style=\"font-size: 14px; font-family: verdana; color: #616161; text-align: justify;\">{product_serial_loop_start} {product_name} - {token} <br /> {product_serial_loop_end}</p>
-<p style=\"font-size: 14px; font-family: verdana; color: #616161; text-align: justify;\">Once again, thank you for shopping!</p>
-</td>
-<td style=\"width: 20px;\"></td>
-</tr>
-<tr style=\"height: 160px;\">
-<td colspan=\"3\"></td>
-</tr>
-</tbody>
-</table>
-<table style=\"margin-top: 30px; width: 100%;\" cellpadding=\"0\" cellspacing=\"0\">
-<tbody>
-<tr>
-<td style=\"height: 45px; background-color: #444544;\"></td>
-</tr>
-</tbody>
-</table>
-</td>
-</tr>
-</tbody>
-</table>', 1, ''),
+				<tbody>
+				<tr>
+				<td style=\"line-height: 25px;\">
+				<table style=\"width: 100%; background: #f7f7f7;\" border=\"0\" cellpadding=\"0\" cellspacing=\"0\">
+				<tbody>
+				<tr>
+				<td colspan=\"3\" style=\"height: 10px;\"></td>
+				</tr>
+				<tr>
+				<td style=\"width: 20px;\"></td>
+				<td>
+				<table style=\"width: 100%;\" cellpadding=\"0\" cellspacing=\"0\">
+				<tbody>
+				<tr>
+				<td width=\"400px\"><a href=\"http://redcomponent.com\" target=\"_blank\"> <img src=\"http://redcomponent.com/images/redcomponent_logo.png\" style=\"width: 340px; height: auto; padding-top: 20px;\" /> </a></td>
+				<td style=\"font-size: 12px; color: #878787; float: right; font-family: verdana; vertical-align: top;\">{order_date}</td>
+				</tr>
+				</tbody>
+				</table>
+				</td>
+				<td style=\"width: 20px;\"></td>
+				</tr>
+				</tbody>
+				</table>
+				<table style=\"width: 100%;\" cellpadding=\"0\" cellspacing=\"0\">
+				<tbody>
+				<tr>
+				<td style=\"height: 20px; background-color: #444544;\"></td>
+				</tr>
+				</tbody>
+				</table>
+				<table border=\"0\" cellpadding=\"0\" cellspacing=\"0\">
+				<tbody>
+				<tr>
+				<td colspan=\"3\" style=\"height: 20px;\"></td>
+				</tr>
+				<tr>
+				<td style=\"width: 20px;\"></td>
+				<td style=\"line-height: 25px;\">
+				<p style=\"font-size: 14px; font-family: verdana; color: #616161; text-align: justify;\"><strong>Dear {fullname}</strong></p>
+				<p style=\"font-size: 14px; font-family: verdana; color: #616161; text-align: justify;\">Thanks for your recent purchase at our store. Here are the link(s) where you can download file/product that you have purchased.</p>
+				<p style=\"font-size: 14px; font-family: verdana; color: #616161; text-align: justify;\">Order Date : {order_date}<br />Order # : {order_number}<br />Download Links :</p>
+				<p style=\"font-size: 14px; font-family: verdana; color: #616161; text-align: justify;\">{product_serial_loop_start} {product_name} - {token} <br /> {product_serial_loop_end}</p>
+				<p style=\"font-size: 14px; font-family: verdana; color: #616161; text-align: justify;\">Once again, thank you for shopping!</p>
+				</td>
+				<td style=\"width: 20px;\"></td>
+				</tr>
+				<tr style=\"height: 160px;\">
+				<td colspan=\"3\"></td>
+				</tr>
+				</tbody>
+				</table>
+				<table style=\"margin-top: 30px; width: 100%;\" cellpadding=\"0\" cellspacing=\"0\">
+				<tbody>
+				<tr>
+				<td style=\"height: 45px; background-color: #444544;\"></td>
+				</tr>
+				</tbody>
+				</table>
+				</td>
+				</tr>
+				</tbody>
+				</table>', 1, ''),
 			(186, 'Review', 'Review About Product', 'review_mail', '0', '<p>To Admin,</p><p>Username: {username}</p><p>Product : {product_name}</p><p>Please check this link : {product_link}</p><p>Title : {title}</p><p>Comment : {comment}</p>', 1, ''),
 			(187, 'Notify Stock', 'Stock Update Notification for {product_name}', 'notify_stock_mail', '0', '<table border=\"0\" cellspacing=\"0\" cellpadding=\"5\" width=\"100%\"><tbody><tr><td><table border=\"0\" cellspacing=\"0\" cellpadding=\"2\" width=\"100%\"><tbody><tr style=\"background-color: #cccccc\"><th align=\"left\">{stocknotify_intro_text}</th></tr><tr><td>{product_detail}</td></tr></tbody></table></td></tr></tbody></table>', 1, '')";
 		$db->setQuery($q);
@@ -3806,7 +4665,6 @@ class Com_RedshopInstallerScript
 				$fp = fopen($tempate_file, "w");
 				fwrite($fp, $template_desc);
 				fclose($fp);
-
 			}
 
 			if ($data->template_id)
@@ -3873,32 +4731,7 @@ class Com_RedshopInstallerScript
 					. "WHERE mail_section='" . $data->mail_section . "' AND mail_id='" . $data->mail_id . "'";
 				$db->setQuery($uquery);
 				$db->query();
-
 			}
-		}
-
-		// TEMPLATE MOVE DB TO  FILE END
-
-		// For Blank component id in menu table-admin menu error solution
-
-		$q_ext = "select * from `#__extensions` where name = 'redshop' and element = 'com_redshop' and type='component'";
-		$db->setQuery($q_ext);
-		$list_ext = $db->loadObjectList();
-		$data     = & $list_ext[0];
-
-		if (count($data) > 0)
-		{
-			$extension_id = $data->extension_id;
-
-			if ($extension_id == "")
-			{
-				$extension_id = "1";
-			}
-
-			$uquery_ext = "UPDATE `#__menu` SET component_id ='.$extension_id.' "
-				. " WHERE  menutype = 'main' and path = 'redshop' and type='component'";
-			$db->setQuery($uquery_ext);
-			$db->query();
 		}
 
 		$index_to = array("#__redshop_product" => "product_number", "#__redshop_orders" => "vm_order_number", "#__redshop_users_info" => "user_id");
@@ -3906,6 +4739,7 @@ class Com_RedshopInstallerScript
 		foreach ($index_to as $key => $val)
 		{
 			$db->setQuery('SHOW INDEXES FROM ' . $key . ' where Column_name="' . $val . '"');
+
 			if ($redshop_users_info             = $db->query())
 			{
 				$redshop_users_info_index_count = $db->getNumRows($redshop_users_info);
@@ -3917,832 +4751,5 @@ class Com_RedshopInstallerScript
 				}
 			}
 		}
-
-		?>
-		<center>
-			<table cellpadding="4" cellspacing="0" border="0" width="100%" class="adminlist">
-				<tr>
-					<td valign="top">
-						<img src="<?php echo 'components/com_redshop/assets/images/261-x-88.png'; ?>" alt="redSHOP Logo"
-						     align="left">
-					</td>
-					<td valign="top" width="100%">
-						<strong>redSHOP</strong><br/>
-						<font class="small">by <a href="http://www.redcomponent.com"
-						                          target="_blank">redcomponent.com </a><br/></font>
-						<font class="small">
-							Released under the terms and conditions of the <a
-								href="http://www.gnu.org/licenses/gpl-2.0.html" target="_blank">GNU General Public
-								License</a>.
-						</font>
-
-						<p>Remember to check for updates on:
-							<a href="http://redcomponent.com/" target="_new"><img
-									src="http://images.redcomponent.com/redcomponent.jpg" alt=""></a>
-						</p>
-					</td>
-				</tr>
-				<tr>
-					<td colspan="2">
-						<form action="index.php" method="post" name="installDemoContent">
-							<input type="button" name="save" id="installDemoContentsave" value="Configuration Wizard"
-							       onclick="submitWizard('save');"/>
-							<input type="button" name="content" value="install Demo Content"
-							       onclick="submitWizard('content');"/>
-							<input type="button" name="cancel" value="Cancel" onclick="submitWizard('cancel');"/>
-							<input type="hidden" name="option" value="com_redshop">
-							<input type="hidden" name="task" value="">
-							<input type="hidden" name="wizard" value="1">
-						</form>
-						<script type="text/javascript">
-
-							var ind = new Number(1);
-
-							//window.onload = gotoconfigwizard();
-
-							function gotoconfigwizard() {
-								if (ind == 5) {
-									submitWizard('save');
-								} else {
-									setTimeout("gotoconfigwizard()", 1000);
-								}
-
-								document.getElementById('installDemoContentsave').value = "Configuration Wizard " + ind++;
-
-							}
-
-							function submitWizard(task) {
-								if (task == 'save') {
-									document.installDemoContent.wizard.value = 1;
-								}
-
-								if (task == 'content') {
-									document.installDemoContent.wizard.value = 0;
-									document.installDemoContent.task.value = 'demoContentInsert';
-								}
-
-								if (task == 'cancel') {
-									document.installDemoContent.wizard.value = 0;
-								}
-
-								document.installDemoContent.submit();
-							}
-						</script>
-					</td>
-				</tr>
-			</table>
-		</center>
-		<?php
-		// Install the sh404SEF router files
-		JLoader::import('joomla.filesystem.file');
-		JLoader::import('joomla.filesystem.folder');
-		$sh404sefext   = JPATH_SITE . '/components/com_sh404sef/sef_ext';
-		$sh404sefmeta  = JPATH_SITE . '/components/com_sh404sef/meta_ext';
-		$sh404sefadmin = JPATH_SITE . '/administrator/components/com_sh404sef';
-		$redadmin      = JPATH_SITE . '/administrator/components/com_redshop/extras';
-
-		// Check if sh404SEF is installed
-		if (JFolder::exists(JPATH_SITE . '/components/com_sh404sef'))
-		{
-			// Copy the plugin
-			if (!JFile::copy($redadmin . '/sh404sef/sef_ext/com_redshop.php', $sh404sefext . '/com_redshop.php'))
-			{
-				echo JText::_('COM_REDSHOP_FAILED_TO_COPY_SH404SEF_EXTENSION_PLUGIN_FILE');
-			}
-
-			if (!JFile::copy($redadmin . '/sh404sef/meta_ext/com_redshop.php', $sh404sefmeta . '/com_redshop.php'))
-			{
-				echo JText::_('COM_REDSHOP_FAILED_TO_COPY_SH404SEF_META_PLUGIN_FILE');
-			}
-
-			if (!JFile::copy($redadmin . '/sh404sef/language/com_redshop.php', $sh404sefadmin . '/language/plugins/com_redshop.php'))
-			{
-				echo JText::_('COM_REDSHOP_FAILED_TO_COPY_SH404SEF_PLUGIN_LANGUAGE_FILE');
-			}
-		}
-	}
-
-	/**
-	 * User synchronization
-	 *
-	 * @return  void
-	 */
-	private function userSynchronization()
-	{
-		require_once JPATH_SITE . "/administrator/components/com_redshop/helpers/redshop.cfg.php";
-		require_once JPATH_SITE . '/components/com_redshop/helpers/user.php';
-
-		JTable::addIncludePath(JPATH_SITE . '/administrator/components/com_redshop/tables');
-
-		$userhelper = new rsUserhelper;
-		$cnt        = $userhelper->userSynchronization();
-	}
-
-	/**
-	 * Update/create configuration file
-	 *
-	 * @return  void
-	 */
-	private function redshopHandleCFGFile()
-	{
-		require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/configuration.php';
-
-		// Include redshop.cfg.php file for cfg variables
-		$cfgfile = JPATH_SITE . "/administrator/components/com_redshop/helpers/redshop.cfg.php";
-
-		if (file_exists($cfgfile))
-		{
-			require_once $cfgfile;
-		}
-
-		$Redconfiguration = new Redconfiguration;
-
-		// Declaration
-		$cfgarr = array();
-
-		/*
-		 * Check before update $cfgarr
-		 * for variable is defined or not?
-		 *
-		 * Example:
-		 * if (!defined("TESTING"))
-		 * {
-		 * 		$cfgarr["TESTING"] = 3.14;
-		 * }
-		 */
-		if (!defined("UPDATE_MAIL_ENABLE"))
-		{
-			$cfgarr["UPDATE_MAIL_ENABLE"] = 1;
-		}
-
-		if (!defined("DISCOUNT_TYPE"))
-		{
-			$cfgarr["DISCOUNT_TYPE"] = 3;
-		}
-
-		if (!defined("ENABLE_BACKENDACCESS"))
-		{
-			$cfgarr["ENABLE_BACKENDACCESS"] = 0;
-		}
-
-		if (!defined("WANT_TO_SHOW_ATTRIBUTE_IMAGE_INCART"))
-		{
-			$cfgarr["WANT_TO_SHOW_ATTRIBUTE_IMAGE_INCART"] = 0;
-		}
-
-		if (!defined("ADDTOCART_BEHAVIOUR"))
-		{
-			$cfgarr["ADDTOCART_BEHAVIOUR"] = 1;
-		}
-
-		if (!defined("SHOPPER_GROUP_DEFAULT_UNREGISTERED") && defined("SHOPPER_GROUP_DEFAULT_PRIVATE"))
-		{
-			$cfgarr["SHOPPER_GROUP_DEFAULT_UNREGISTERED"] = SHOPPER_GROUP_DEFAULT_PRIVATE;
-		}
-
-		if (!defined("INDIVIDUAL_ADD_TO_CART_ENABLE"))
-		{
-			$cfgarr["INDIVIDUAL_ADD_TO_CART_ENABLE"] = 0;
-		}
-
-		if (!defined("PRODUCT_ADDIMG_IS_LIGHTBOX"))
-		{
-			$cfgarr["PRODUCT_ADDIMG_IS_LIGHTBOX"] = 1;
-		}
-
-		if (!defined("POSTDK_CUSTOMER_NO"))
-		{
-			$cfgarr["POSTDK_CUSTOMER_NO"] = 1;
-		}
-
-		if (!defined("POSTDK_INTEGRATION"))
-		{
-			$cfgarr["POSTDK_INTEGRATION"] = 0;
-		}
-
-		if (!defined("POSTDK_CUSTOMER_PASSWORD"))
-		{
-			$cfgarr["POSTDK_CUSTOMER_PASSWORD"] = '';
-		}
-
-		if (!defined("ENABLE_SEF_NUMBER_NAME"))
-		{
-			$cfgarr["ENABLE_SEF_NUMBER_NAME"] = '';
-		}
-
-		if (!defined("UNIT_DECIMAL"))
-		{
-			$cfgarr["UNIT_DECIMAL"] = '';
-		}
-
-		if (!defined("ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC"))
-		{
-			$cfgarr["ATTRIBUTE_AS_PRODUCT_IN_ECONOMIC"] = 0;
-		}
-
-		if (!defined("CATEGORY_DESC_MAX_CHARS"))
-		{
-			$cfgarr["CATEGORY_DESC_MAX_CHARS"] = '';
-		}
-
-		if (!defined("CATEGORY_DESC_END_SUFFIX"))
-		{
-			$cfgarr["CATEGORY_DESC_END_SUFFIX"] = '';
-		}
-
-		if (!defined("DEFAULT_QUOTATION_MODE_PRE"))
-		{
-			$cfgarr["DEFAULT_QUOTATION_MODE_PRE"] = '0';
-		}
-
-		if (!defined("SHOW_PRICE_PRE"))
-		{
-			$cfgarr["SHOW_PRICE_PRE"] = '1';
-		}
-
-		if (!defined("QUICKLINK_ICON"))
-		{
-			$cfgarr["QUICKLINK_ICON"] = '';
-		}
-
-		if (!defined("DISPLAY_STOCKROOM_ATTRIBUTES"))
-		{
-			$cfgarr["DISPLAY_STOCKROOM_ATTRIBUTES"] = '';
-		}
-
-		if (!defined("DISPLAY_NEW_ORDERS"))
-		{
-			$cfgarr["DISPLAY_NEW_ORDERS"] = '0';
-		}
-
-		if (!defined("DISPLAY_NEW_CUSTOMERS"))
-		{
-			$cfgarr["DISPLAY_NEW_CUSTOMERS"] = '0';
-		}
-
-		if (!defined("DISPLAY_STATISTIC"))
-		{
-			$cfgarr["DISPLAY_STATISTIC"] = '0';
-		}
-
-		if (!defined("EXPAND_ALL"))
-		{
-			$cfgarr["EXPAND_ALL"] = '0';
-		}
-
-		if (!defined("NOOF_THUMB_FOR_SCROLLER"))
-		{
-			$cfgarr["NOOF_THUMB_FOR_SCROLLER"] = '3';
-		}
-
-		if (!defined("POSTDANMARK_ADDRESS"))
-		{
-			$cfgarr["POSTDANMARK_ADDRESS"] = 'address';
-		}
-
-		if (!defined("POSTDANMARK_POSTALCODE"))
-		{
-			$cfgarr["POSTDANMARK_POSTALCODE"] = '13256';
-		}
-
-		if (!defined("SEND_CATALOG_REMINDER_MAIL"))
-		{
-			$cfgarr["SEND_CATALOG_REMINDER_MAIL"] = '0';
-		}
-
-		if (!defined("AJAX_CART_DISPLAY_TIME"))
-		{
-			$cfgarr["AJAX_CART_DISPLAY_TIME"] = '3000';
-		}
-
-		if (!defined("PAYMENT_CALCULATION_ON"))
-		{
-			$cfgarr["PAYMENT_CALCULATION_ON"] = 'subtotal';
-		}
-
-		if (!defined("IMAGE_QUALITY_OUTPUT"))
-		{
-			$cfgarr["IMAGE_QUALITY_OUTPUT"] = '100';
-		}
-
-		if (!defined("DEFAULT_NEWSLETTER"))
-		{
-			$cfgarr["DEFAULT_NEWSLETTER"] = '1';
-		}
-
-		if (!defined("DETAIL_ERROR_MESSAGE_ON"))
-		{
-			$cfgarr["DETAIL_ERROR_MESSAGE_ON"] = '1';
-		}
-
-		if (!defined("MANUFACTURER_TITLE_MAX_CHARS"))
-		{
-			$cfgarr["MANUFACTURER_TITLE_MAX_CHARS"] = '';
-		}
-
-		if (!defined("MANUFACTURER_TITLE_END_SUFFIX"))
-		{
-			$cfgarr["MANUFACTURER_TITLE_END_SUFFIX"] = '';
-		}
-
-		if (!defined("WRITE_REVIEW_IS_LIGHTBOX"))
-		{
-			$cfgarr["WRITE_REVIEW_IS_LIGHTBOX"] = '0';
-		}
-
-		if (!defined("SPECIAL_DISCOUNT_MAIL_SEND"))
-		{
-			$cfgarr["SPECIAL_DISCOUNT_MAIL_SEND"] = '1';
-		}
-
-		if (!defined("WATERMARK_PRODUCT_ADDITIONAL_IMAGE"))
-		{
-			$cfgarr["WATERMARK_PRODUCT_ADDITIONAL_IMAGE"] = '0';
-		}
-
-		if (!defined("ACCESSORY_AS_PRODUCT_IN_CART_ENABLE"))
-		{
-			$cfgarr["ACCESSORY_AS_PRODUCT_IN_CART_ENABLE"] = '0';
-		}
-
-		if (!defined("ATTRIBUTE_SCROLLER_THUMB_WIDTH"))
-		{
-			$cfgarr["ATTRIBUTE_SCROLLER_THUMB_WIDTH"] = '50';
-		}
-
-		if (!defined("ATTRIBUTE_SCROLLER_THUMB_HEIGHT"))
-		{
-			$cfgarr["ATTRIBUTE_SCROLLER_THUMB_HEIGHT"] = '50';
-		}
-
-		if (!defined("NOOF_SUBATTRIB_THUMB_FOR_SCROLLER"))
-		{
-			$cfgarr["NOOF_SUBATTRIB_THUMB_FOR_SCROLLER"] = '3';
-		}
-
-		if (!defined("COMPARE_PRODUCT_THUMB_WIDTH"))
-		{
-			$cfgarr["COMPARE_PRODUCT_THUMB_WIDTH"] = '70';
-		}
-
-		if (!defined("COMPARE_PRODUCT_THUMB_HEIGHT"))
-		{
-			$cfgarr["COMPARE_PRODUCT_THUMB_HEIGHT"] = '70';
-		}
-
-		if (!defined("CATEGORY_TITLE_MAX_CHARS"))
-		{
-			$cfgarr["CATEGORY_TITLE_MAX_CHARS"] = '';
-		}
-
-		if (!defined("CATEGORY_TITLE_END_SUFFIX"))
-		{
-			$cfgarr["CATEGORY_TITLE_END_SUFFIX"] = '';
-		}
-
-		if (!defined("PRODUCT_DETAIL_LIGHTBOX_CLOSE_BUTTON_IMAGE"))
-		{
-			$cfgarr["PRODUCT_DETAIL_LIGHTBOX_CLOSE_BUTTON_IMAGE"] = '';
-		}
-
-		if (!defined("USE_ENCODING"))
-		{
-			$cfgarr["USE_ENCODING"] = '0';
-		}
-
-		if (!defined("CREATE_ACCOUNT_CHECKBOX"))
-		{
-			$cfgarr["CREATE_ACCOUNT_CHECKBOX"] = '0';
-		}
-
-		if (!defined("SHOW_QUOTATION_PRICE"))
-		{
-			$cfgarr["SHOW_QUOTATION_PRICE"] = '0';
-		}
-
-		if (!defined("CHILDPRODUCT_DROPDOWN"))
-		{
-			$cfgarr["CHILDPRODUCT_DROPDOWN"] = 'product_name';
-		}
-
-		if (!defined("ENABLE_ADDRESS_DETAIL_IN_SHIPPING"))
-		{
-			$cfgarr["ENABLE_ADDRESS_DETAIL_IN_SHIPPING"] = '0';
-		}
-
-		if (!defined("PURCHASE_PARENT_WITH_CHILD"))
-		{
-			$cfgarr["PURCHASE_PARENT_WITH_CHILD"] = '0';
-		}
-
-		if (!defined("CALCULATION_PRICE_DECIMAL"))
-		{
-			$cfgarr["CALCULATION_PRICE_DECIMAL"] = '4';
-		}
-
-		if (!defined("REQUESTQUOTE_IMAGE"))
-		{
-			$cfgarr["REQUESTQUOTE_IMAGE"] = 'requestquote.gif';
-		}
-
-		if (!defined("REQUESTQUOTE_BACKGROUND"))
-		{
-			$cfgarr["REQUESTQUOTE_BACKGROUND"] = 'requestquotebg.jpg';
-		}
-
-		if (!defined("SHOW_PRODUCT_DETAIL"))
-		{
-			$cfgarr["SHOW_PRODUCT_DETAIL"] = 1;
-		}
-
-		if (!defined("WEBPACK_ENABLE_EMAIL_TRACK"))
-		{
-			$cfgarr["WEBPACK_ENABLE_EMAIL_TRACK"] = 1;
-		}
-
-		if (!defined("WEBPACK_ENABLE_SMS"))
-		{
-			$cfgarr["WEBPACK_ENABLE_SMS"] = 1;
-		}
-
-		if (!defined("REQUIRED_VAT_NUMBER"))
-		{
-			$cfgarr["REQUIRED_VAT_NUMBER"] = 1;
-		}
-
-		if (!defined("ACCESSORY_PRODUCT_IN_LIGHTBOX"))
-		{
-			$cfgarr["ACCESSORY_PRODUCT_IN_LIGHTBOX"] = 0;
-		}
-
-		if (!defined("PRODUCT_PREVIEW_IMAGE_WIDTH"))
-		{
-			$cfgarr["PRODUCT_PREVIEW_IMAGE_WIDTH"] = 100;
-		}
-
-		if (!defined("PRODUCT_PREVIEW_IMAGE_HEIGHT"))
-		{
-			$cfgarr["PRODUCT_PREVIEW_IMAGE_HEIGHT"] = 100;
-		}
-
-		if (!defined("CATEGORY_PRODUCT_PREVIEW_IMAGE_WIDTH"))
-		{
-			$cfgarr["CATEGORY_PRODUCT_PREVIEW_IMAGE_WIDTH"] = 100;
-		}
-
-		if (!defined("CATEGORY_PRODUCT_PREVIEW_IMAGE_HEIGHT"))
-		{
-			$cfgarr["CATEGORY_PRODUCT_PREVIEW_IMAGE_HEIGHT"] = 100;
-		}
-
-		if (!defined("DISPLAY_OUT_OF_STOCK_ATTRIBUTE_DATA"))
-		{
-			$cfgarr["DISPLAY_OUT_OF_STOCK_ATTRIBUTE_DATA"] = 1;
-		}
-
-		if (!defined("SEND_MAIL_TO_CUSTOMER"))
-		{
-			$cfgarr["SEND_MAIL_TO_CUSTOMER"] = 1;
-		}
-
-		if (!defined("AJAX_DETAIL_BOX_WIDTH"))
-		{
-			$cfgarr["AJAX_DETAIL_BOX_WIDTH"] = 500;
-		}
-
-		if (!defined("AJAX_DETAIL_BOX_HEIGHT"))
-		{
-			$cfgarr["AJAX_DETAIL_BOX_HEIGHT"] = 600;
-		}
-
-		if (!defined("AJAX_BOX_WIDTH"))
-		{
-			$cfgarr["AJAX_BOX_WIDTH"] = 500;
-		}
-
-		if (!defined("AJAX_BOX_HEIGHT"))
-		{
-			$cfgarr["AJAX_BOX_HEIGHT"] = 150;
-		}
-
-		$Redconfiguration->manageCFGFile($cfgarr);
-
-		// End
-	}
-
-	/**
-	 * Module installer
-	 *
-	 * @param   string  $module  Module name
-	 * @param   string  $source  Source install folder
-	 *
-	 * @return  boolean
-	 */
-	private function redshopInstallModule($module, $source)
-	{
-		$path = $source . '/plugins/' . $module;
-
-		$installer = new JInstaller;
-		$result    = $installer->install($path);
-
-		if ($result)
-		{
-			// Get a db instance
-			$db    = JFactory::getDBO();
-			$query = "UPDATE #__extensions SET position='icon', ordering=9, enabled=1 WHERE element=" . $db->Quote($module);
-			$db    = JFactory::getDBO();
-			$db->setQuery($query);
-			$db->query();
-		}
-		else
-		{
-			$app = JFactory::getApplication();
-			$app->enqueueMessage('Error installing redSHOP module: ' . $module);
-		}
-
-		return $result;
-	}
-
-	/**
-	 * Get the common JInstaller instance used to install all the extensions
-	 *
-	 * @return JInstaller The JInstaller object
-	 */
-	public function getInstaller()
-	{
-		if (is_null($this->installer))
-		{
-			$this->installer = new JInstaller;
-		}
-
-		return $this->installer;
-	}
-
-	/**
-	 * Install the package libraries
-	 *
-	 * @param   object  $parent  class calling this method
-	 *
-	 * @return  void
-	 */
-	private function installLibraries($parent)
-	{
-		// Required objects
-		$installer = $this->getInstaller();
-		$manifest  = $parent->get('manifest');
-		$src       = $parent->getParent()->getPath('source');
-
-		if ($nodes = $manifest->libraries->library)
-		{
-			foreach ($nodes as $node)
-			{
-				$extName = $node->attributes()->name;
-				$extPath = $src . '/libraries/' . $extName;
-				$result  = 0;
-
-				if (is_dir($extPath))
-				{
-					$result = $installer->install($extPath);
-				}
-
-				$this->_storeStatus('libraries', array('name' => $extName, 'result' => $result));
-			}
-		}
-	}
-
-	/**
-	 * Install the package modules
-	 *
-	 * @param   object  $parent  class calling this method
-	 *
-	 * @return  void
-	 */
-	private function installModules($parent)
-	{
-		// Required objects
-		$installer = $this->getInstaller();
-		$manifest  = $parent->get('manifest');
-		$src       = $parent->getParent()->getPath('source');
-
-		if ($nodes = $manifest->modules->module)
-		{
-			foreach ($nodes as $node)
-			{
-				$extName   = $node->attributes()->name;
-				$extClient = $node->attributes()->client;
-				$extPath   = $src . '/modules/' . $extClient . '/' . $extName;
-				$result    = 0;
-
-				if (is_dir($extPath))
-				{
-					$result = $installer->install($extPath);
-				}
-
-				$this->_storeStatus('modules', array('name' => $extName, 'client' => $extClient, 'result' => $result));
-			}
-		}
-	}
-
-	/**
-	 * Install the package libraries
-	 *
-	 * @param   object  $parent  class calling this method
-	 *
-	 * @return  void
-	 */
-	private function installPlugins($parent)
-	{
-		// Required objects
-		$installer = $this->getInstaller();
-		$manifest  = $parent->get('manifest');
-		$src       = $parent->getParent()->getPath('source');
-
-		if ($nodes = $manifest->plugins->plugin)
-		{
-			foreach ($nodes as $node)
-			{
-				$extName  = $node->attributes()->name;
-				$extGroup = $node->attributes()->group;
-				$extPath  = $src . '/plugins/' . $extGroup . '/' . $extName;
-				$result   = 0;
-
-				if (is_dir($extPath))
-				{
-					$result = $installer->install($extPath);
-				}
-
-				// Store the result to show install summary later
-				$this->_storeStatus('plugins', array('name' => $extName, 'group' => $extGroup, 'result' => $result));
-
-				// Enable the installed plugin
-				if ($result)
-				{
-					$db = JFactory::getDBO();
-					$query = $db->getQuery(true);
-					$query->update($db->quoteName("#__extensions"));
-					$query->set("enabled=1");
-					$query->where("type='plugin'");
-					$query->where("element=" . $db->quote($extName));
-					$query->where("folder=" . $db->quote($extGroup));
-					$db->setQuery($query);
-					$db->query();
-				}
-			}
-		}
-	}
-
-	/**
-	 * Uninstall the package libraries
-	 *
-	 * @param   object  $parent  class calling this method
-	 *
-	 * @return  void
-	 */
-	private function uninstallLibraries($parent)
-	{
-		// Required objects
-		$installer = $this->getInstaller();
-		$manifest  = $parent->get('manifest');
-		$src       = $parent->getParent()->getPath('source');
-
-		if ($nodes = $manifest->libraries->library)
-		{
-			foreach ($nodes as $node)
-			{
-				$extName = $node->attributes()->name;
-				$extPath = $src . '/libraries/' . $extName;
-				$result  = 0;
-
-				$db = JFactory::getDBO();
-				$query = $db->getQuery(true)
-					->select('extension_id')
-					->from($db->quoteName("#__extensions"))
-					->where("type='library'")
-					->where("element=" . $db->quote($extName));
-
-				$db->setQuery($query);
-
-				if ($extId = $db->loadResult())
-				{
-					$result = $installer->uninstall('library', $extId);
-				}
-
-				// Store the result to show install summary later
-				$this->_storeStatus('libraries', array('name' => $extName, 'result' => $result));
-			}
-		}
-	}
-
-	/**
-	 * Uninstall the package modules
-	 *
-	 * @param   object  $parent  class calling this method
-	 *
-	 * @return  void
-	 */
-	private function uninstallModules($parent)
-	{
-		// Required objects
-		$installer = $this->getInstaller();
-		$manifest  = $parent->get('manifest');
-		$src       = $parent->getParent()->getPath('source');
-
-		if ($nodes = $manifest->modules->module)
-		{
-			foreach ($nodes as $node)
-			{
-				$extName   = $node->attributes()->name;
-				$extClient = $node->attributes()->client;
-				$extPath   = $src . '/modules/' . $extClient . '/' . $extName;
-				$result    = 0;
-
-				$db = JFactory::getDBO();
-				$query = $db->getQuery(true)
-					->select('extension_id')
-					->from($db->quoteName("#__extensions"))
-					->where("type='module'")
-					->where("element=" . $db->quote($extName));
-
-				$db->setQuery($query);
-
-				if ($extId = $db->loadResult())
-				{
-					$result = $installer->uninstall('module', $extId);
-				}
-
-				// Store the result to show install summary later
-				$this->_storeStatus('modules', array('name' => $extName, 'client' => $extClient, 'result' => $result));
-			}
-		}
-	}
-
-	/**
-	 * Uninstall the package plugins
-	 *
-	 * @param   object  $parent  class calling this method
-	 *
-	 * @return  void
-	 */
-	private function uninstallPlugins($parent)
-	{
-		// Required objects
-		$installer = $this->getInstaller();
-		$manifest  = $parent->get('manifest');
-		$src       = $parent->getParent()->getPath('source');
-
-		if ($nodes = $manifest->plugins->plugin)
-		{
-			foreach ($nodes as $node)
-			{
-				$extName  = $node->attributes()->name;
-				$extGroup = $node->attributes()->group;
-				$extPath  = $src . '/plugins/' . $extGroup . '/' . $extName;
-				$result   = 0;
-
-				$db = JFactory::getDBO();
-				$query = $db->getQuery(true)
-					->select('extension_id')
-					->from($db->quoteName("#__extensions"))
-					->where("type='plugin'")
-					->where("element=" . $db->quote($extName))
-					->where("folder=" . $db->quote($extGroup));
-
-				$db->setQuery($query);
-
-				if ($extId = $db->loadResult())
-				{
-					$result = $installer->uninstall('plugin', $extId);
-				}
-
-				// Store the result to show install summary later
-				$this->_storeStatus('plugins', array('name' => $extName, 'group' => $extGroup, 'result' => $result));
-			}
-		}
-	}
-
-	/**
-	 * Store the result of trying to install an extension
-	 *
-	 * @param   string  $type    Type of extension (libraries, modules, plugins)
-	 * @param   array   $status  The status info
-	 *
-	 * @return void
-	 */
-	private function _storeStatus($type, $status)
-	{
-		// Initialise status object if needed
-		if (is_null($this->status))
-		{
-			$this->status = new stdClass;
-		}
-
-		// Initialise current status type if needed
-		if (!isset($this->status->{$type}))
-		{
-			$this->status->{$type} = array();
-		}
-
-		// Insert the status
-		array_push($this->status->{$type}, $status);
 	}
 }
