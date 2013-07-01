@@ -1232,22 +1232,31 @@ class product_detailModelproduct_detail extends JModel
 		}
 	}
 
-
-
-
+	/**
+	 * Save Product Subscription Information
+	 *
+	 * @param   array  $saveData  Subscription infromation to store.
+	 *
+	 * @return  boolean             true if success on save
+	 */
 	public function saveSubscription($saveData)
 	{
 		$subsc = $this->getTable('subscription');
+
 		if (!$subsc->bind($saveData))
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
+
 		if (!$subsc->store())
 		{
 			$this->setError($this->_db->getErrorMsg());
+
 			return false;
 		}
+
 		return true;
 	}
 
