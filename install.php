@@ -1323,7 +1323,6 @@ class Com_RedshopInstallerScript
 				$db->setQuery($q);
 				$db->query();
 			}
-			
 		}
 
 		// Get the current columns for redshop product_voucher
@@ -3906,6 +3905,7 @@ class Com_RedshopInstallerScript
 		foreach ($index_to as $key => $val)
 		{
 			$db->setQuery('SHOW INDEXES FROM ' . $key . ' where Column_name="' . $val . '"');
+
 			if ($redshop_users_info             = $db->query())
 			{
 				$redshop_users_info_index_count = $db->getNumRows($redshop_users_info);
@@ -4423,6 +4423,11 @@ class Com_RedshopInstallerScript
 		if (!defined("AJAX_BOX_HEIGHT"))
 		{
 			$cfgarr["AJAX_BOX_HEIGHT"] = 150;
+		}
+
+		if (!defined("ORDER_MAIL_AFTER"))
+		{
+			$cfgarr["ORDER_MAIL_AFTER"] = 0;
 		}
 
 		$Redconfiguration->manageCFGFile($cfgarr);
