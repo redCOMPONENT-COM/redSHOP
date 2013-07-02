@@ -45,7 +45,6 @@ class product_detailController extends JController
 	public function save($apply = 0)
 	{
 		$post = JRequest::get('post');
-		$option = JRequest::getVar('option');
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 		$post ['product_id'] = $cid [0];
 		$stockroom_id = '';
@@ -112,6 +111,12 @@ class product_detailController extends JController
 			// Extra Field Data Saved
 			$msg = JText::_('COM_REDSHOP_PRODUCT_DETAIL_SAVED');
 
+			// Save Subscription
+			if ($post['product_type'] == "newsubscription")
+			{
+				$this->saveSubscription($post, $row);
+			}
+
 			if ($container_id != '' || $stockroom_id != '')
 			{
 				?>
@@ -119,12 +124,12 @@ class product_detailController extends JController
 					<?php
 					if ($container_id)
 					{
-						$link = 'index.php?option=' . $option . '&view=container_detail&task=edit&cid[]=' . $container_id;
+						$link = 'index.php?option=com_redshop&view=container_detail&task=edit&cid[]=' . $container_id;
 					}
 
 					if ($stockroom_id && USE_CONTAINER == 1)
 					{
-						$link = 'index.php?option=' . $option . '&view=stockroom_detail&task=edit&cid[]=' . $stockroom_id;
+						$link = 'index.php?option=com_redshop&view=stockroom_detail&task=edit&cid[]=' . $stockroom_id;
 					}
 					?>
                 window.parent.document.location = '<?php echo $link; ?>';
@@ -135,16 +140,16 @@ class product_detailController extends JController
 
 			if ($apply == 2)
 			{
-				$this->setRedirect('index.php?option=' . $option . '&view=product_detail&task=add', $msg);
+				$this->setRedirect('index.php?option=com_redshop&view=product_detail&task=add', $msg);
 			}
 
 			elseif ($apply == 1)
 			{
-				$this->setRedirect('index.php?option=' . $option . '&view=product_detail&task=edit&cid[]=' . $row->product_id, $msg);
+				$this->setRedirect('index.php?option=com_redshop&view=product_detail&task=edit&cid[]=' . $row->product_id, $msg);
 			}
 			else
 			{
-				$this->setRedirect('index.php?option=' . $option . '&view=product', $msg);
+				$this->setRedirect('index.php?option=com_redshop&view=product', $msg);
 			}
 		}
 		else
@@ -164,8 +169,6 @@ class product_detailController extends JController
 
 	public function remove()
 	{
-		$option = JRequest::getVar('option');
-
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
@@ -187,13 +190,11 @@ class product_detailController extends JController
 			}
 		}
 
-		$this->setRedirect('index.php?option=' . $option . '&view=product', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=product', $msg);
 	}
 
 	public function publish()
 	{
-		$option = JRequest::getVar('option');
-
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
@@ -209,13 +210,11 @@ class product_detailController extends JController
 		}
 
 		$msg = JText::_('COM_REDSHOP_PRODUCT_DETAIL_PUBLISHED_SUCCESSFULLY');
-		$this->setRedirect('index.php?option=' . $option . '&view=product', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=product', $msg);
 	}
 
 	public function unpublish()
 	{
-		$option = JRequest::getVar('option');
-
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
@@ -231,22 +230,19 @@ class product_detailController extends JController
 		}
 
 		$msg = JText::_('COM_REDSHOP_PRODUCT_DETAIL_UNPUBLISHED_SUCCESSFULLY');
-		$this->setRedirect('index.php?option=' . $option . '&view=product', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=product', $msg);
 	}
 
 	public function cancel()
 	{
-		$option = JRequest::getVar('option');
 		$model = $this->getModel('product_detail');
 		$model->checkin();
 		$msg = JText::_('COM_REDSHOP_PRODUCT_DETAIL_EDITING_CANCELLED');
-		$this->setRedirect('index.php?option=' . $option . '&view=product', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=product', $msg);
 	}
 
 	public function copy()
 	{
-		$option = JRequest::getVar('option');
-
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 
 		$model = $this->getModel('product_detail');
@@ -260,7 +256,93 @@ class product_detailController extends JController
 			$msg = JText::_('COM_REDSHOP_ERROR_PRODUCT_COPIED');
 		}
 
-		$this->setRedirect('index.php?option=' . $option . '&view=product', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=product', $msg);
+	}
+
+	/**
+	 * Save Product Subscription Information
+	 *
+	 * @param   array  $post  Form Post data
+	 * @param   mixed  $row   Product Saved information
+	 *
+	 * @return  string         Subscription Message
+	 */
+	function saveSubscription($post, $row)
+	{
+		$model        = $this->getModel('product_detail');
+		$subscription = $post['subscription'];
+
+		$savData['subscription_id']              = ($subscription['subscription_id'] > 0) ? $subscription['subscription_id'] : 0;
+		$savData['product_id']                   = $row->product_id;
+		$savData['subscription_period']          = $subscription['subscription_period'];
+		$savData['subscription_period_unit']     = $subscription['subscription_period_unit'];
+		$savData['subscription_period_lifetime'] = $subscription['subscription_period_lifetime'];
+		$subscription_applicable_products        = explode(",", $subscription['subscription_applicable_products']);
+
+		// Product List of Subscription
+		if (count($subscription_applicable_products) > 0)
+		{
+			for ($i = 0; $i < count($subscription_applicable_products); $i++)
+			{
+				if ($subscription_applicable_products[$i] == "")
+				{
+					unset($subscription_applicable_products[$i]);
+					sort($subscription_applicable_products);
+				}
+			}
+		}
+
+		$savData['subscription_applicable_products'] = implode("|", $subscription_applicable_products);
+		$subscription_applicable_categories          = explode(",", $subscription['subscription_applicable_category']);
+
+		// Category List of Subscription
+		if (count($subscription_applicable_categories) > 0)
+		{
+			for ($j = 0; $j < count($subscription_applicable_categories); $j++)
+			{
+				if ($subscription_applicable_categories[$j] == "")
+				{
+					unset($subscription_applicable_categories[$j]);
+					sort($subscription_applicable_categories);
+				}
+			}
+		}
+
+		$savData['subscription_applicable_categories'] = implode("|", $subscription_applicable_categories);
+		$savData['subscription_applicable_categories'] = explode("|", $savData['subscription_applicable_categories']);
+		$temp_subscription_applicable_categories       = array_unique($savData['subscription_applicable_categories']);
+		sort($temp_subscription_applicable_categories);
+
+		if (count($temp_subscription_applicable_categories) > 0)
+		{
+			$product_id_category = $model->AddProductBonusFromCategories($temp_subscription_applicable_categories);
+
+			if (count($product_id_category) > 0)
+			{
+				$temp_product_arr                      = explode("|", $savData['subscription_applicable_products']);
+				$result_product_in_subscription        = array_merge($product_id_category, $temp_product_arr);
+				$result_product_in_subscription_unique = array_unique($result_product_in_subscription);
+				sort($result_product_in_subscription_unique);
+				$savData['subscription_applicable_products'] = implode("|", $result_product_in_subscription_unique);
+			}
+		}
+
+		$savData['joomla_acl_groups']                  = implode("|", $subscription['acl_group']);
+		$savData['fallback_joomla_acl_groups']         = implode("|", $subscription['fallback_acl_group']);
+		$savData['shoppergroup']                       = $subscription['subs_plan_shopper_group_id'];
+		$savData['fallback_shoppergroup']              = $subscription['fallback_subs_plan_shopper_group_id'];
+		$savData['subscription_applicable_categories'] = "";
+
+		if ($susc = $model->saveSubscription($savData))
+		{
+			$msg = JText::_('COM_REDSHOP_SUBSCRIPTION');
+		}
+		else
+		{
+			$msg = JText::_('COM_REDSHOP_ERROR_SUBSCRIPTION');
+		}
+
+		return $msg;
 	}
 
 	public function attribute_save($post, $row, $file)
@@ -503,12 +585,12 @@ class product_detailController extends JController
 				if ($t[$n] == 'images')
 				{
 					$path_bk = REDSHOP_FRONT_IMAGES_RELPATH;
-					$dir_path = "components/com_redshop/assets/images/" .$t[$na];
+					$dir_path = "components/com_redshop/assets/images/" . $t[$na];
 				}
 				else
 				{
 					$path_bk = REDSHOP_FRONT_IMAGES_RELPATH . $t[$n];
-					$dir_path = "components/com_redshop/assets/images/" .$t[$n] . "/" . $t[$na];
+					$dir_path = "components/com_redshop/assets/images/" . $t[$n] . "/" . $t[$na];
 				}
 
 				$folder_img_bk = "components/com_redshop/assets/images/folderup_32.png";
@@ -770,31 +852,25 @@ class product_detailController extends JController
 
 	public function orderup()
 	{
-		$option = JRequest::getVar('option');
-
 		$model = $this->getModel('product_detail');
 
 		$model->orderup();
 
 		$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
-		$this->setRedirect('index.php?option=' . $option . '&view=product', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=product', $msg);
 	}
 
 	public function orderdown()
 	{
-		$option = JRequest::getVar('option');
-
 		$model = $this->getModel('product_detail');
 
 		$model->orderdown();
 		$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
-		$this->setRedirect('index.php?option=' . $option . '&view=product', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=product', $msg);
 	}
 
 	public function saveorder()
 	{
-		$option = JRequest::getVar('option');
-
 		$cid = JRequest::getVar('cid', array(), 'post', 'array');
 		$order = JRequest::getVar('order', array(), 'post', 'array');
 		JArrayHelper::toInteger($cid);
@@ -804,20 +880,19 @@ class product_detailController extends JController
 		$model->saveorder($cid, $order);
 
 		$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
-		$this->setRedirect('index.php?option=' . $option . '&view=product', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=product', $msg);
 	}
 
 	public function deleteProdcutSerialNumbers()
 	{
 		$serial_id = JRequest::getInt('serial_id');
 		$product_id = JRequest::getInt('product_id');
-		$option = JRequest::getVar('option');
 
 		$model = $this->getModel('product_detail');
 		$model->deleteProdcutSerialNumbers($serial_id);
 
 		$msg = JText::_('COM_REDSHOP_PRODUCT_SERIALNUMBER_DELETED');
-		$this->setRedirect('index.php?option=' . $option . '&view=product_detail&cid=' . $product_id, $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=product_detail&cid=' . $product_id, $msg);
 	}
 
 	public function delete_subprop()
@@ -861,8 +936,9 @@ class product_detailController extends JController
 	}
 
 	/**
-	 * function to get all child product array
-	 * for ajax call
+	 * function to get all child product array for ajax call
+	 *
+	 * @return  void
 	 */
 	public function getChildProducts()
 	{
