@@ -95,12 +95,19 @@ class wizardViewwizard extends JView
 
 		// Invoice mail send type
 		$invoice_mail_send_option = array();
+		$invoice_mail_send_option[0] = new stdClass;
 		$invoice_mail_send_option[0]->value = 0;
 		$invoice_mail_send_option[0]->text = JText::_('COM_REDSHOP_SELECT');
+
+		$invoice_mail_send_option[1] = new stdClass;
 		$invoice_mail_send_option[1]->value = 1;
 		$invoice_mail_send_option[1]->text = JText::_('COM_REDSHOP_ADMINISTRATOR');
+
+		$invoice_mail_send_option[2] = new stdClass;
 		$invoice_mail_send_option[2]->value = 2;
 		$invoice_mail_send_option[2]->text = JText::_('COM_REDSHOP_CUSTOMER');
+
+		$invoice_mail_send_option[3] = new stdClass;
 		$invoice_mail_send_option[3]->value = 3;
 		$invoice_mail_send_option[3]->text = JText::_('COM_REDSHOP_BOTH');
 
@@ -127,14 +134,24 @@ class wizardViewwizard extends JView
 
 		// Discount
 		$discount_type = array();
+
+		$discount_type[0] = new stdClass;
 		$discount_type[0]->value = 0;
 		$discount_type[0]->text = JText::_('COM_REDSHOP_SELECT');
+
+		$discount_type[1] = new stdClass;
 		$discount_type[1]->value = 1;
 		$discount_type[1]->text = JText::_('COM_REDSHOP_DISCOUNT_OR_VOUCHER_OR_COUPON');
+
+		$discount_type[2] = new stdClass;
 		$discount_type[2]->value = 2;
 		$discount_type[2]->text = JText::_('COM_REDSHOP_DISCOUNT_VOUCHER_OR_COUPON');
+
+		$discount_type[3] = new stdClass;
 		$discount_type[3]->value = 3;
 		$discount_type[3]->text = JText::_('COM_REDSHOP_DISCOUNT_VOUCHER_COUPON');
+
+		$discount_type[4] = new stdClass;
 		$discount_type[4]->value = 4;
 		$discount_type[4]->text = JText::_('COM_REDSHOP_DISCOUNT_VOUCHER_COUPON_MULTIPLE');
 
@@ -205,15 +222,14 @@ class wizardViewwizard extends JView
 
 				$prev_country = $country_3_code;
 
-				// array in the format [key,value,text]
 				$script .= "states[" . $i++ . "] = new Array( '" . $country_3_code . "','" . $state->state_2_code . "','" . addslashes(JText::_($state->state_name)) . "' );\n";
 			}
 			else
 			{
 				$script .= "states[" . $i++ . "] = new Array( '" . $country_3_code . "','','" . JText::_("COM_REDSHOP_NONE") . "' );\n";
 			}
-
 		}
+
 		$script .= "
 		function changeStateList() {
 		  var selected_country = null;
@@ -268,8 +284,8 @@ class wizardViewwizard extends JView
 
 		$this->taxrates = $this->get('TaxRates');
 
-		$this->assignRef('lists', $lists);
-		$this->assignRef('request_url', $uri->toString());
+		$this->lists       = $lists;
+		$this->request_url = $uri->toString();
 
 		parent::display($tpl);
 	}
