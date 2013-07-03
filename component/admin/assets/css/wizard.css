@@ -56,3 +56,13 @@ fieldset.adminform label.radiobtn, table.admintable label.radiobtn
 {
 	float: none;
 }
+
+.submenu-box, div.m
+{
+	background: none !important;
+}
+
+.submenu-box, div.m
+{
+	border-radius: 0 !important;
+}
