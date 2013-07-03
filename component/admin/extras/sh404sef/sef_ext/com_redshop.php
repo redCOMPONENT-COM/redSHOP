@@ -294,6 +294,12 @@ switch ($view)
 				$title[] = $cid;
 				$title[] = $layout;
 			}
+			elseif ($layout == 'downloadproduct')
+			{
+				$title[] = $layout;
+
+				shRemoveFromGETVarsList('tid');
+			}
 			else
 			{
 				$title[] = $layout;
