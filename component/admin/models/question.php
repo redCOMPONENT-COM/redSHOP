@@ -95,14 +95,17 @@ class questionModelquestion extends JModel
 		{
 			$where .= " AND q.question LIKE '%" . $filter . "%' ";
 		}
+
 		if ($product_id != 0)
 		{
 			$where .= " AND q.product_id ='" . $product_id . "' ";
 		}
+
 		$orderby = $this->_buildContentOrderBy();
 
-		$query = "SELECT q.* FROM " . $this->_table_prefix . "customer_question AS q "
-			. "WHERE q.parent_id=0 "
+		$query = "SELECT q.*, p.* FROM #__redshop_customer_question AS q "
+			. "LEFT JOIN #__redshop_product AS p ON p.product_id = q.product_id "
+			. "WHERE q.parent_id = 0 "
 			. $where
 			. $orderby;
 
