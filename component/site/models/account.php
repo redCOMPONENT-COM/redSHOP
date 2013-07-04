@@ -574,8 +574,9 @@ class AccountModelaccount extends JModel
 	public function getdownloadproductlist($user_id)
 	{
 		$query = "SELECT pd.*,product_name FROM " . $this->_table_prefix . "product_download AS pd "
-			. "LEFT JOIN " . $this->_table_prefix . "product AS p ON p.product_id=pd.product_id "
-			. "LEFT JOIN " . $this->_table_prefix . "orders AS o ON o.order_id=pd.order_id AND pd.user_id='" . $user_id . "' and o.order_payment_status = 'Paid'";
+			. "INNER JOIN " . $this->_table_prefix . "product AS p ON p.product_id=pd.product_id "
+			. "INNER JOIN " . $this->_table_prefix . "orders AS o ON o.order_id=pd.order_id "
+			. "WHERE pd.user_id='" . $user_id . "' AND o.order_payment_status = 'Paid'";
 		$this->_db->setQuery($query);
 
 		return $this->_db->loadObjectlist();
