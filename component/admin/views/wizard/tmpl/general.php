@@ -9,6 +9,12 @@
 
 $params = JRequest::getVar('params');
 ?>
+<style type="text/css">
+fieldset.adminform label.radiobtn, table.admintable label.radiobtn
+{
+	float: none;
+}
+</style>
 <div class="wizard_header">
 	<div>&nbsp;</div>
 	<div class="wizard_intro_text1"><?php echo JText::_('COM_REDSHOP_GENERAL_WIZARD_INTRO_TEXT1');?></div>
