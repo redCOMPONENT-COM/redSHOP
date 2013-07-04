@@ -7,22 +7,19 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
-$producthelper = new producthelper();
 
-$config = new Redconfiguration();
+$producthelper = new producthelper;
+$config        = new Redconfiguration;
 
-$option = JRequest::getVar('option');
-$filter = JRequest::getVar('filter');
-$lists = $this->lists;
-$ordering = ($this->lists['order'] == 'ordering');
+$option        = JRequest::getVar('option');
+$filter        = JRequest::getVar('filter');
+$lists         = $this->lists;
+$ordering      = ($this->lists['order'] == 'ordering');
 
-//$model = $this->getModel('question');
 ?>
 <script language="javascript" type="text/javascript">
-	Joomla.submitbutton = function (pressbutton) {
-		submitbutton(pressbutton);
-	}
-	submitbutton = function (pressbutton) {
+	Joomla.submitbutton = function (pressbutton)
+	{
 		var form = document.adminForm;
 		if (pressbutton) {
 			form.task.value = pressbutton;
@@ -65,7 +62,7 @@ $ordering = ($this->lists['order'] == 'ordering');
 					<input type="checkbox" name="toggle" value=""
 					       onclick="checkAll(<?php echo count($this->question); ?>);"/></th>
 				<th class="title" width="15%">
-					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_PRODUCT_NAME', 'product_name', $this->lists['order_Dir'], $this->lists['order']); ?></th>
+					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_PRODUCT_NAME', 'p.product_name', $this->lists['order_Dir'], $this->lists['order']); ?></th>
 				<th class="title" width="50%">
 					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_QUESTION', 'question', $this->lists['order_Dir'], $this->lists['order']); ?></th>
 				<th class="title" width="5%">
@@ -76,10 +73,13 @@ $ordering = ($this->lists['order'] == 'ordering');
 					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_USER_EMAIL', 'user_email', $this->lists['order_Dir'], $this->lists['order']); ?></th>
 				<th class="order" width="10%">
 					<?php  echo JHTML::_('grid.sort', 'COM_REDSHOP_ORDERING', 'ordering', $this->lists['order_Dir'], $this->lists['order']); ?>
-					<?php  if ($ordering)
+					<?php
+					if ($ordering)
 					{
 						echo JHTML::_('grid.order', $this->question);
-					}?></th>
+					}
+					?>
+				</th>
 				<th class="title" width="5%">
 					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_PUBLISHED', 'published', $this->lists['order_Dir'], $this->lists['order']); ?></th>
 				<th width="5%">
@@ -88,27 +88,27 @@ $ordering = ($this->lists['order'] == 'ordering');
 			</thead>
 			<?php
 			$k = 0;
+
 			for ($i = 0, $n = count($this->question); $i < $n; $i++)
 			{
-				$row = & $this->question[$i];
-				$row->id = $row->question_id;
-				$link = JRoute::_('index.php?option=' . $option . '&view=question_detail&task=edit&cid[]=' . $row->id);
-				$anslink = JRoute::_('index.php?option=' . $option . '&view=question_detail&task=edit&cid[]=' . $row->id . '#answerlists');
-				//$anslink= JRoute::_( 'index.php?option='.$option.'&view=answer&parent_id[]='.$row->id );
+				$row       = & $this->question[$i];
+				$row->id   = $row->question_id;
+				$link      = JRoute::_('index.php?option=' . $option . '&view=question_detail&task=edit&cid[]=' . $row->id);
+				$anslink   = JRoute::_('index.php?option=' . $option . '&view=question_detail&task=edit&cid[]=' . $row->id . '#answerlists');
 
+				$answer    = $producthelper->getQuestionAnswer($row->id, 0, 1);
+				$answer    = count($answer);
 
-				$product = $producthelper->getProductById($row->product_id);
-				$answer = $producthelper->getQuestionAnswer($row->id, 0, 1);
-				$answer = count($answer);
-
-				$published = JHtml::_('jgrid.published', $row->published, $i, '', 1);    ?>
+				$published = JHtml::_('jgrid.published', $row->published, $i, '', 1);
+			?>
 				<tr class="<?php echo "row$k"; ?>">
 					<td align="center"><?php echo $this->pagination->getRowOffset($i); ?></td>
 					<td align="center"><?php echo JHTML::_('grid.id', $i, $row->id); ?></td>
-					<td align="center"><a href="<?php echo $link; ?>"
-					                      title="<?php echo JText::_('COM_REDSHOP_VIEW_QUESTION'); ?>"><?php echo $product->product_name; ?></a>
+					<td align="center">
+						<a href="<?php echo $link; ?>" title="<?php echo JText::_('COM_REDSHOP_VIEW_QUESTION'); ?>"><?php echo $row->product_name; ?></a>
 					</td>
-					<td><?php if (strlen($row->question) > 50)
+					<td><?php
+						if (strlen($row->question) > 50)
 						{
 							echo substr($row->question, 0, 50) . "...";
 						}

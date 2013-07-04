@@ -36,7 +36,7 @@ class question_detailModelquestion_detail extends JModel
 		$this->_data = null;
 	}
 
-	public function &getanswers()
+	public function getanswers()
 	{
 		if ($this->_loadAnswer())
 		{
@@ -64,19 +64,19 @@ class question_detailModelquestion_detail extends JModel
 	{
 		$user = JFactory::getUser();
 
-		if (empty($this->_data))
+		if (empty($this->_answers))
 		{
-			$detail = new stdClass;
+			$detail              = new stdClass;
 			$detail->question_id = 0;
-			$detail->product_id = null;
-			$detail->parent_id = null;
-			$detail->user_id = $user->id;
-			$detail->user_name = $user->name;
-			$detail->user_email = $user->email;
-			$detail->address = null;
-			$detail->telephone = null;
-			$detail->published = 1;
-			$this->_data = $detail;
+			$detail->product_id  = null;
+			$detail->parent_id   = null;
+			$detail->user_id     = $user->id;
+			$detail->user_name   = $user->name;
+			$detail->user_email  = $user->email;
+			$detail->address     = null;
+			$detail->telephone   = null;
+			$detail->published   = 1;
+			$this->_answers         = $detail;
 
 			return (boolean) $this->_answers;
 		}
@@ -84,7 +84,7 @@ class question_detailModelquestion_detail extends JModel
 		return true;
 	}
 
-	public function &getData()
+	public function getData()
 	{
 		if ($this->_loadData())
 		{
@@ -152,19 +152,22 @@ class question_detailModelquestion_detail extends JModel
 
 		if (empty($this->_data))
 		{
-			$detail = new stdClass;
+			$detail              = new stdClass;
 			$detail->question_id = 0;
-			$detail->product_id = null;
-			$detail->parent_id = null;
-			$detail->user_id = $user->id;
-			$detail->user_name = $user->name;
-			$detail->user_email = $user->email;
-			$detail->question = null;
-			$detail->published = 1;
-			$this->_data = $detail;
+			$detail->product_id  = null;
+			$detail->parent_id   = null;
+			$detail->user_id     = $user->id;
+			$detail->user_name   = $user->name;
+			$detail->user_email  = $user->email;
+			$detail->question    = null;
+			$detail->telephone   = null;
+			$detail->address     = null;
+			$detail->published   = 1;
+			$this->_data         = $detail;
 
 			return (boolean) $this->_data;
 		}
+
 		return true;
 	}
 
