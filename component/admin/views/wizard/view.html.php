@@ -40,26 +40,21 @@ class wizardViewwizard extends JView
 
 		$this->temparray = $temparray;
 
-		$uri = JFactory::getURI();
-
-		$option = JRequest::getVar('option');
-
-		$db = jFactory::getDBO();
-
-		$redhelper = new redhelper;
-		$config = new Redconfiguration;
+		$uri         = JFactory::getURI();
+		$db          = JFactory::getDBO();
+		$redhelper   = new redhelper;
+		$config      = new Redconfiguration;
 		$extra_field = new extra_field;
-		$model = $this->getModel();
-
-		$document = JFactory::getDocument();
+		$model       = $this->getModel();
+		$document    = JFactory::getDocument();
 
 		$document->setTitle(JText::_('COM_REDSHOP_CONFIG'));
-		$document->addScript('components/' . $option . '/assets/js/validation.js');
-		$document->addScript('components/' . $option . '/assets/js/select_sort.js');
-		$document->addStyleSheet('components/' . $option . '/assets/css/search.css');
-		$document->addStyleSheet('components/' . $option . '/assets/css/wizard.css');
-		$document->addStyleSheet('components/' . $option . '/assets/css/redshop.css');
-		$document->addScript('components/' . $option . '/assets/js/search.js');
+		$document->addScript('components/com_redshop/assets/js/validation.js');
+		$document->addScript('components/com_redshop/assets/js/select_sort.js');
+		$document->addStyleSheet('components/com_redshop/assets/css/search.css');
+		$document->addStyleSheet('components/com_redshop/assets/css/redshop.css');
+		$document->addStyleSheet('components/com_redshop/assets/css/wizard.css');
+		$document->addScript('components/com_redshop/assets/js/search.js');
 
 		// Shop country
 		$q = "SELECT  country_3_code as value,country_name as text,country_jtext from #__" . TABLE_PREFIX . "_country ORDER BY country_name ASC";
