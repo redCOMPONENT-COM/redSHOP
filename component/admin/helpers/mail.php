@@ -465,7 +465,11 @@ class redshopMail
 		$pdfObj->SetAuthor('redSHOP');
 		$pdfObj->SetCreator('redSHOP');
 		$pdfObj->SetMargins(8, 8, 8);
-		$font = 'times';
+
+		// Add font to support Unicode Characters
+		$pdfObj->addTTFfont(JPATH_SITE . '/components/com_redshop/helpers/tcpdf/fonts/arialuni.ttf', 'TrueTypeUnicode', '', 32);
+		$font = 'arialuni';
+
 		$pdfObj->setImageScale(PDF_IMAGE_SCALE_RATIO);
 		$pdfObj->setHeaderFont(array($font, '', 8));
 		$pdfObj->SetFont($font, "", 6);
