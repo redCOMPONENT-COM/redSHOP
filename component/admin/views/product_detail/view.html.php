@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.view');
 require_once JPATH_COMPONENT . '/helpers/extra_field.php';
 require_once JPATH_COMPONENT . '/helpers/category.php';
-require_once JPATH_COMPONENT . '/helpers/shopper.php'; // reddesign edited
+require_once JPATH_COMPONENT . '/helpers/shopper.php';
 require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
 
 class product_detailVIEWproduct_detail extends JView
@@ -60,10 +60,6 @@ class product_detailVIEWproduct_detail extends JView
 			$msg = JText::sprintf('DESCBEINGEDITTED', JText::_('COM_REDSHOP_THE_DETAIL'), $detail->title);
 			$app->redirect('index.php?option=' . $option, $msg);
 		}
-
-		// Check reddesign is installed
-		$CheckRedDesign = $model->CheckRedDesign();
-		$this->assignRef('CheckRedDesign', $CheckRedDesign);
 
 		// Check redproductfinder is installed
 		$CheckRedProductFinder = $model->CheckRedProductFinder();
@@ -512,45 +508,9 @@ class product_detailVIEWproduct_detail extends JView
 			'class="inputbox" size="1" ', 'value', 'text', @$detail->attribute_set_id
 		);
 
-		// Reddesign
-		if ($CheckRedDesign)
-		{
-			$product_designtype = $model->getProductDesignType($detail->product_id);
-
-			if (!empty($product_designtype))
-			{
-				$lists["product_designtype"] = $product_designtype;
-
-				$designtype = $model->getDesignType();
-
-				$optiondtype = array();
-				$optiondtype[] = JHTML::_('select.option', '0', JText::_('COM_REDSHOP_SELECT'));
-
-				for ($i = 0; $i < count($designtype); $i++)
-				{
-					$optiondtype[] = JHTML::_('select.option', $designtype[$i]->designtype_id, $designtype[$i]->designtype_name);
-				}
-
-				$lists["designlist"] = JHTML::_('select.genericlist', $optiondtype, 'designtype',
-					'class="inputbox" size="1" ', 'value', 'text', $product_designtype[0]->designtype_id
-				);
-
-				// Edited 210110
-				$lists['reddesign_enable'] = JHTML::_('select.booleanlist', 'reddesign_enable', 'class="inputbox"', $product_designtype[0]->reddesign_enable);
-
-				$shoppergroup = new shoppergroup;
-				$lists["shoppergrouplist"] = $shoppergroup->getshopperGroupListArray();
-			}
-		}
-
 		// Product type selection
 		$product_type_opt = array();
 		$product_type_opt[] = JHTML::_('select.option', 'product', JText::_('COM_REDSHOP_PRODUCT'));
-
-		if ($CheckRedDesign)
-		{
-			$product_type_opt[] = JHTML::_('select.option', 'design', JText::_('COM_REDSHOP_DESIGN'));
-		}
 
 		$product_type_opt[] = JHTML::_('select.option', 'file', JText::_('COM_REDSHOP_FILE'));
 		$product_type_opt[] = JHTML::_('select.option', 'subscription', JText::_('COM_REDSHOP_SUBSCRIPTION'));

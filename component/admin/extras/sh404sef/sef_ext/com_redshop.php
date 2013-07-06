@@ -220,12 +220,6 @@ switch ($view)
 		break;
 
 	case 'product':
-	case 'reddesign':
-		if ($view == 'reddesign')
-		{
-			$title[] = 'reddesign';
-		}
-
 		if ($pid)
 		{
 			$sql = "SELECT sef_url,product_name,cat_in_sefurl,product_number FROM #__redshop_product WHERE product_id = '$pid'";

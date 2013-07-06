@@ -145,12 +145,9 @@ class state_detailModelstate_detail extends JModel
 	/**
 	 * Method to checkout/lock the state_detail
 	 *
-	 * @access    public
+	 *  @param   int  $uid  User ID of the user checking the helloworl detail out.
 	 *
-	 * @param    int $uid    User ID of the user checking the helloworl detail out
-	 *
-	 * @return    boolean    True on success
-	 * @since    1.5
+	 *  @return   boolean True on success.
 	 */
 	public function checkout($uid = null)
 	{
@@ -164,8 +161,7 @@ class state_detailModelstate_detail extends JModel
 			}
 
 			// Lets get to it and checkout the thing...
-			$state_detail = & $this->getTable('state_detail');
-
+			$state_detail = $this->getTable('state_detail');
 
 			if (!$state_detail->checkout($uid, $this->_id))
 			{
