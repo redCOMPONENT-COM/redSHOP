@@ -18,9 +18,10 @@ class textlibraryViewtextlibrary extends JView
 	{
 		$context = 'textlibrary_id';
 
-		$uri      = JFactory::getURI();
+		$uri      = JFactory::getURI()->toString();
 		$app      = JFactory::getApplication();
 		$document = JFactory::getDocument();
+		$user     = JFactory::getUser();
 
 		$document->setTitle(JText::_('COM_REDSHOP_TEXTLIBRARY'));
 
@@ -31,8 +32,6 @@ class textlibraryViewtextlibrary extends JView
 		JToolBarHelper::deleteList();
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();
-
-		$uri = JFactory::getURI();
 
 		$filter_order     = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'textlibrary_id');
 		$filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
@@ -56,11 +55,11 @@ class textlibraryViewtextlibrary extends JView
 		$total        = $this->get('Total');
 		$pagination   = $this->get('Pagination');
 
-		$this->assignRef('user', JFactory::getUser());
+		$this->assignRef('user', $user);
 		$this->assignRef('lists', $lists);
 		$this->assignRef('textlibrarys', $textlibrarys);
 		$this->assignRef('pagination', $pagination);
-		$this->assignRef('request_url', $uri->toString());
+		$this->assignRef('request_url', $uri);
 
 		parent::display($tpl);
 	}

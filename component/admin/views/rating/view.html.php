@@ -17,9 +17,10 @@ class ratingViewrating extends JView
 	{
 		$context = "rating";
 
-		$uri      = JFactory::getURI();
+		$uri      = JFactory::getURI()->toString();
 		$app      = JFactory::getApplication();
 		$document = JFactory::getDocument();
+		$user     = JFactory::getUser();
 
 		$document->setTitle(JText::_('COM_REDSHOP_RATING'));
 
@@ -41,12 +42,11 @@ class ratingViewrating extends JView
 		$total      = $this->get('Total');
 		$pagination = $this->get('Pagination');
 
-
-		$this->assignRef('user', JFactory::getUser());
+		$this->assignRef('user', $user);
 		$this->assignRef('lists', $lists);
 		$this->assignRef('ratings', $ratings);
 		$this->assignRef('pagination', $pagination);
-		$this->assignRef('request_url', $uri->toString());
+		$this->assignRef('request_url', $uri);
 		parent::display($tpl);
 	}
 }

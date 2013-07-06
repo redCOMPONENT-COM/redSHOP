@@ -19,6 +19,8 @@ class currencyViewcurrency extends JView
 
 		$document = JFactory::getDocument();
 		$app      = JFactory::getApplication();
+		$uri      = JFactory::getURI()->toString();
+		$user     = JFactory::getUser();
 
 		jimport('joomla.html.pagination');
 
@@ -28,7 +30,6 @@ class currencyViewcurrency extends JView
 		JToolbarHelper::addNewX();
 		JToolbarHelper::EditListX();
 		JToolbarHelper::deleteList();
-		$uri = JFactory::getURI();
 
 		$filter_order     = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'currency_id');
 		$filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
@@ -40,11 +41,11 @@ class currencyViewcurrency extends JView
 		$total = $this->get('Total');
 		$pagination = $this->get('Pagination');
 
-		$this->assignRef('user', JFactory::getUser());
+		$this->assignRef('user', $user);
 		$this->assignRef('pagination', $pagination);
 		$this->assignRef('fields', $fields);
 		$this->assignRef('lists', $lists);
-		$this->assignRef('request_url', $uri->toString());
+		$this->assignRef('request_url', $uri);
 
 		parent::display($tpl);
 	}

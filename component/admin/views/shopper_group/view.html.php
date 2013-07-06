@@ -21,9 +21,10 @@ class shopper_groupViewshopper_group extends JView
 
 		$shoppergroup = new shoppergroup;
 
-		$uri      = JFactory::getURI();
+		$uri      = JFactory::getURI()->toString();
 		$app      = JFactory::getApplication();
 		$document = JFactory::getDocument();
+		$user     = JFactory::getUser();
 
 		$document->setTitle(JText::_('COM_REDSHOP_SHOPPER_GROUP'));
 		jimport('joomla.html.pagination');
@@ -42,16 +43,14 @@ class shopper_groupViewshopper_group extends JView
 		$lists['order_Dir'] = $filter_order_Dir;
 
 		$groups = $shoppergroup->getshopperGroupListArray();
-		$total = count($groups);
 
-		$media      = $this->get('Data');
 		$pagination = $this->get('Pagination');
 
-		$this->assignRef('user', JFactory::getUser());
+		$this->assignRef('user', $user);
 		$this->assignRef('lists', $lists);
 		$this->assignRef('media', $groups);
 		$this->assignRef('pagination', $pagination);
-		$this->assignRef('request_url', $uri->toString());
+		$this->assignRef('request_url', $uri);
 
 		parent::display($tpl);
 	}
