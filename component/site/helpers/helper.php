@@ -200,7 +200,7 @@ class redhelper
 		}
 		else
 		{
-			$and = ' AND (`link` NOT LIKE "%option=com_redshop&view=category&layout=detail") AND (`params` LIKE \'%"cid":"' . $category_id . '"%\') ';
+			$and = ' AND (`link` LIKE "%option=com_redshop&view=category") ';
 		}
 
 		$query = "SELECT id FROM #__menu "
