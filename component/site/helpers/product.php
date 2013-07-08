@@ -2751,6 +2751,102 @@ class producthelper
 		return $res;
 	}
 
+	/*
+	 * This modified getMenuInformation function for taked info about one menu item
+	 *
+	 * @param	int		$Itemid			id item search  menu
+	 * @param	int		$sectionid		id section search in url
+	 * @param	string	$sectioname		name section search  in url
+	 * @param	string	$sectioname		view in search url
+	 * @param	bool	$isRedshop		search url for redshop or not
+	 *
+	 * @return	object					return object search item url
+	 */
+
+	function getMenuInformationMod($Itemid = 0, $sectionid = 0, $sectioname = "", $menuview = "", $isRedshop = true)
+	{
+		$menu = JFactory::getApplication()->getMenu();
+		if ($Itemid != 0){
+			return ($menu->getItems('id', $Itemid, true));
+		}
+		$allForItemid = $menu->getMenu();
+		foreach ($allForItemid as $oneForItemid)
+		{
+			if ($isRedshop && $oneForItemid->query['option'] == 'com_redshop')
+			{
+				if ($sectionid != 0 && $sectioname != '' && isset($oneForItemid->query[$sectioname]) && $oneForItemid->query[$sectioname] == $sectionid)
+				{
+					if ($menuview != "" && $oneForItemid->query['view'] == $menuview)
+					{
+						return $oneForItemid;
+					}
+					elseif ($menuview == "")
+					{
+						return $oneForItemid;
+					}
+				}
+				elseif ($sectionid == 0 && $sectioname != '' && $oneForItemid->query[$sectioname] != $sectionid)
+				{
+					if ($menuview != "" && $oneForItemid->query['view'] == $menuview)
+					{
+						return $oneForItemid;
+					}
+					elseif ($menuview == "")
+					{
+						return $oneForItemid;
+					}
+				}
+				elseif ($sectionid == 0 && $sectioname == '')
+				{
+					if ($menuview != "" && $oneForItemid->query['view'] == $menuview)
+					{
+						return $oneForItemid;
+					}
+					elseif ($menuview == "")
+					{
+						return $oneForItemid;
+					}
+				}
+			}
+			elseif (!$isRedshop)
+			{
+				if ($sectionid != 0 && $sectioname != '' && $oneForItemid->query[$sectioname] == $sectionid)
+				{
+					if ($menuview != "" && $oneForItemid->query['view'] == $menuview)
+					{
+						return $oneForItemid;
+					}
+					elseif ($menuview == "")
+					{
+						return $oneForItemid;
+					}
+				}
+				elseif ($sectionid == 0 && $sectioname != '' && $oneForItemid->query[$sectioname] != $sectionid)
+				{
+					if ($menuview != "" && $oneForItemid->query['view'] == $menuview)
+					{
+						return $oneForItemid;
+					}
+					elseif ($menuview == "")
+					{
+						return $oneForItemid;
+					}
+				}
+				elseif ($sectionid == 0 && $sectioname == '')
+				{
+					if ($menuview != "" && $oneForItemid->query['view'] == $menuview)
+					{
+						return $oneForItemid;
+					}
+					elseif ($menuview == "")
+					{
+						return $oneForItemid;
+					}
+				}
+			}
+		}
+	}
+
 	public function getParentCategory($id = 0)
 	{
 		$query = "SELECT category_parent_id FROM " . $this->_table_prefix . "category_xref WHERE category_child_id='" . $id . "' ";
