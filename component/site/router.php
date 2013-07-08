@@ -30,11 +30,20 @@ function redshopBuildRoute(&$query)
 
 	$segments = array();
 	$db       = JFactory::getDBO();
-	$menu     = JFactory::getApplication()->getMenu();
+	$app      = JFactory::getApplication();
+	$menu     = $app->getMenu();
 	$item     = $menu->getActive();
-	$Itemid   = $item->id;
+
+	$Itemid = 101;
+
+	if (isset($item->id) === true)
+	{
+		$Itemid = $item->id;
+	}
+
 	require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
 	require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/category.php';
+
 	$product_category = new product_category;
 	$infoid           = '';
 	$task             = '';

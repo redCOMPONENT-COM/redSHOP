@@ -1345,6 +1345,8 @@ class rsCarthelper
 
 					$update_cart_none = '<label>' . $quantity . '</label>';
 
+					$update_img = '';
+
 					if ($mainview == 'checkout')
 					{
 						$update_cart = $quantity;
@@ -3873,12 +3875,14 @@ class rsCarthelper
 			$template_desc = str_replace($template_middle, $payment_display, $template_desc);
 		}
 
+		$extrafield_total   = '';
+
 		if (strstr($template_desc, "{payment_extrafields}"))
 		{
 			$extraField         = new extraField;
 			$paymentparams_new  = new JRegistry($paymentmethod[0]->params);
 			$extrafield_payment = $paymentparams_new->get('extrafield_payment');
-			$extrafield_total   = "";
+			$extrafield_total   = '';
 
 			if (count($extrafield_payment) > 0)
 			{
