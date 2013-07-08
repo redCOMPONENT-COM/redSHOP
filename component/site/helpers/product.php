@@ -3138,9 +3138,12 @@ class producthelper
 		{
 			$main_result = $extraField->getSectionFieldDataList($row_data[$j]->field_id, $section_id, $product_id);
 
-			if ($main_result->data_txt != "" && $row_data[$j]->display_in_checkout == 1)
+			if (isset($main_result->data_txt) && isset($row_data[$j]->display_in_checkout))
 			{
-				$resultArr[] = $main_result->field_title . " : " . $main_result->data_txt;
+				if ($main_result->data_txt != "" && 1 == $row_data[$j]->display_in_checkout)
+				{
+					$resultArr[] = $main_result->field_title . " : " . $main_result->data_txt;
+				}
 			}
 		}
 
@@ -3170,9 +3173,12 @@ class producthelper
 		{
 			$main_result = $extraField->getSectionFieldDataList($row_data[$j]->field_id, $section_id, $product_id);
 
-			if ($main_result->data_txt != "" && $row_data[$j]->display_in_checkout == 1)
+			if (isset($main_result->data_txt) && isset($row_data[$j]->display_in_checkout))
 			{
-				$resultArr[] = $main_result->field_title . " : " . $main_result->data_txt;
+				if ($main_result->data_txt != "" && 1 == $row_data[$j]->display_in_checkout)
+				{
+					$resultArr[] = $main_result->field_title . " : " . $main_result->data_txt;
+				}
 			}
 		}
 
