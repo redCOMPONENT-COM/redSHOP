@@ -15,12 +15,10 @@ class question_detailVIEWquestion_detail extends JView
 {
 	public function display($tpl = null)
 	{
-		$option = JRequest::getVar('option');
-
 		$document = JFactory::getDocument();
 		$document->setTitle(JText::_('COM_REDSHOP_QUESTION'));
 
-		$uri = JFactory::getURI();
+		$uri = JFactory::getURI()->toString();
 		$lists = array();
 		$model = $this->getModel();
 
@@ -46,6 +44,7 @@ class question_detailVIEWquestion_detail extends JView
 
 		$option = $model->getProduct();
 		$optionsection = array();
+		$optionsection[0] = new stdClass;
 		$optionsection[0]->product_id = 0;
 		$optionsection[0]->product_name = JText::_('COM_REDSHOP_SELECT');
 
@@ -53,6 +52,7 @@ class question_detailVIEWquestion_detail extends JView
 		{
 			$optionsection = @array_merge($optionsection, $option);
 		}
+
 		$lists['published'] = JHTML::_('select.booleanlist', 'published', 'class="inputbox"', $detail->published);
 		$lists['product_id'] = JHTML::_('select.genericlist', $optionsection, 'product_id',
 			'class="inputbox" size="1" ', 'product_id', 'product_name', $detail->product_id
@@ -62,7 +62,7 @@ class question_detailVIEWquestion_detail extends JView
 		$this->assignRef('detail', $detail);
 		$this->assignRef('answers', $answers);
 		$this->assignRef('pagination', $pagination);
-		$this->assignRef('request_url', $uri->toString());
+		$this->assignRef('request_url', $uri);
 
 		parent::display($tpl);
 	}

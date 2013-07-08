@@ -10,7 +10,6 @@ defined('_JEXEC') or die;
 
 JHTML::_('behavior.tooltip');
 $editor = JFactory::getEditor();
-$model = $this->getModel('template_detail');
 $showbuttons = JRequest::getVar('showbuttons');
 
 $producthelper = new producthelper();

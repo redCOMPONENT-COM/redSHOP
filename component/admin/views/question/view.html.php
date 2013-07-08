@@ -17,7 +17,7 @@ class questionViewquestion extends JView
 	{
 		$context = 'question_id';
 
-		$uri      = JFactory::getURI();
+		$uri      = JFactory::getURI()->toString();
 		$app      = JFactory::getApplication();
 		$document = JFactory::getDocument();
 
@@ -44,6 +44,7 @@ class questionViewquestion extends JView
 
 		$option = $model->getProduct();
 		$optionsection = array();
+		$optionsection[0] = new stdClass;
 		$optionsection[0]->product_id = 0;
 		$optionsection[0]->product_name = JText::_('COM_REDSHOP_SELECT');
 
@@ -59,7 +60,7 @@ class questionViewquestion extends JView
 		$this->assignRef('lists', $lists);
 		$this->assignRef('question', $question);
 		$this->assignRef('pagination', $pagination);
-		$this->assignRef('request_url', $uri->toString());
+		$this->assignRef('request_url', $uri);
 
 		parent::display($tpl);
 	}

@@ -16,20 +16,20 @@ class countryViewcountry extends JView
 {
 	public function display($tpl = null)
 	{
+		global $context;
+
+		$context  = 'country_id';
 		$app      = JFactory::getApplication();
 		$document = JFactory::getDocument();
+		$uri      = JFactory::getURI()->toString();
+		$user     = JFactory::getUser();
 
 		$document->setTitle(JText::_('COM_REDSHOP_COUNTRY'));
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_COUNTRY_MANAGEMENT'), 'redshop_country_48');
-
-		global $context;
-
-		$context = 'country_id';
 		JToolbarHelper::addNewX();
 		JToolbarHelper::EditListX();
 		JToolbarHelper::deleteList();
-		$uri = JFactory::getURI();
 
 		$filter_order     = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'country_id');
 		$filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
@@ -38,14 +38,13 @@ class countryViewcountry extends JView
 		$lists['order_Dir'] = $filter_order_Dir;
 
 		$fields = $this->get('Data');
-		$total = $this->get('Total');
 		$pagination = $this->get('Pagination');
 
-		$this->assignRef('user', JFactory::getUser());
+		$this->assignRef('user', $user);
 		$this->assignRef('pagination', $pagination);
 		$this->assignRef('fields', $fields);
 		$this->assignRef('lists', $lists);
-		$this->assignRef('request_url', $uri->toString());
+		$this->assignRef('request_url', $uri);
 		parent::display($tpl);
 	}
 }

@@ -65,21 +65,6 @@ class productViewproduct extends JView
 		JHTML::Stylesheet('style.css', 'components/com_redshop/assets/css/');
 		JHTML::Stylesheet('scrollable-navig.css', 'components/com_redshop/assets/css/');
 
-		// Reddesign start
-		$CheckRedDesign = $redhelper->CheckIfRedDesign();
-
-		if ($CheckRedDesign)
-		{
-			$chkprodesign = $redhelper->CheckIfRedProduct($pid);
-
-			if ($chkprodesign)
-			{
-				$app->Redirect('index.php?option=' . $option . '&view=reddesign&pid=' . $pid . '&cid=' . $cid . '&Itemid=' . $Itemid);
-			}
-		}
-
-		// Reddesign end
-
 		if ($layout == "downloadproduct")
 		{
 			$this->setLayout('downloadproduct');
