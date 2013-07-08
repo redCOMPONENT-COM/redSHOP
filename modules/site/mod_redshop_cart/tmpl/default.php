@@ -8,21 +8,32 @@
  */
 
 defined('_JEXEC') or die ('Restricted access');
-$producthelper = new producthelper;
-$redhelper = new redhelper;
-$uri = JURI::getInstance();
-$url = $uri->root(true);
-$Itemid = JRequest::getVar('Itemid');
-$Itemid = $redhelper->getCartItemid($Itemid);
-$cItemid = $redhelper->getCategoryItemid();
 
-if ($Itemid == "" || $Itemid == 0)
+$producthelper = new producthelper;
+$redhelper     = new redhelper;
+$uri           = JURI::getInstance();
+$url           = $uri->root(true);
+$app           = JFactory::getApplication();
+$itemId        = (int) $redhelper->getCartItemid($app->input->getInt('Itemid', 101));
+
+$getNewItemId = true;
+
+if ($itemId != 0)
 {
-	$tmpItemid = $cItemid;
+	$menu = $app->getMenu();
+	$item = $menu->getItem($itemId);
+
+	$getNewItemId = false;
+
+	if (isset($item->id) === false)
+	{
+		$getNewItemId = true;
+	}
 }
-else
+
+if ($getNewItemId)
 {
-	$tmpItemid = $Itemid;
+	$itemId = (int) $redhelper->getCategoryItemid();
 }
 
 $display_button = JText::_('COM_REDSHOP_CHECKOUT');
