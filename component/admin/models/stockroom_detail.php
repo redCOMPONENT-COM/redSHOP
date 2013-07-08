@@ -71,17 +71,18 @@ class stockroom_detailModelstockroom_detail extends JModel
 	{
 		if (empty($this->_data))
 		{
-			$detail = new stdClass;
-			$detail->stockroom_id = 0;
-			$detail->stockroom_name = null;
-			$detail->stockroom_desc = null;
-			$detail->creation_date = null;
-			$detail->min_del_time = 0;
-			$detail->max_del_time = 0;
-			$detail->show_in_front = 0;
-			$detail->delivery_time = 'Days';
-			$detail->published = 1;
-			$this->_data = $detail;
+			$detail                   = new stdClass;
+			$detail->stockroom_id     = 0;
+			$detail->stockroom_name   = null;
+			$detail->stockroom_desc   = null;
+			$detail->creation_date    = null;
+			$detail->min_del_time     = 0;
+			$detail->max_del_time     = 0;
+			$detail->min_stock_amount = 0;
+			$detail->show_in_front    = 0;
+			$detail->delivery_time    = 'Days';
+			$detail->published        = 1;
+			$this->_data              = $detail;
 
 			return (boolean) $this->_data;
 		}
