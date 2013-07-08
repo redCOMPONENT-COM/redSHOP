@@ -43,7 +43,7 @@ if ($button_text != "")
 	$display_button = $button_text;
 }
 
-$link = JRoute::_("index.php?option=com_redshop&view=cart&Itemid=" . $tmpItemid);
+$link = JRoute::_("index.php?option=com_redshop&view=cart&Itemid=" . $itemId);
 
 $cartTotalProduct = $count;
 $cartTotallbl = "";
