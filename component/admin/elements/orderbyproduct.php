@@ -11,11 +11,10 @@ defined('_JEXEC') or die;
 require_once JPATH_SITE . '/administrator/components/com_redshop/helpers/redshop.cfg.php';
 
 /**
- * Renders a searchtype Form
+ * Renders a Product Orderby Fields
  *
- * @package     Joomla
- * @subpackage  Banners
- * @since       1.5
+ * @package  RedSHOP
+ * @since    1.2
  */
 class JFormFieldorderbyproduct extends JFormField
 {
