@@ -3140,7 +3140,7 @@ class producthelper
 
 			if (isset($main_result->data_txt) && isset($row_data[$j]->display_in_checkout))
 			{
-				if ($main_result->data_txt != "" && $row_data[$j]->display_in_checkout == 1)
+				if ($main_result->data_txt != "" && 1 == $row_data[$j]->display_in_checkout)
 				{
 					$resultArr[] = $main_result->field_title . " : " . $main_result->data_txt;
 				}
@@ -3175,7 +3175,7 @@ class producthelper
 
 			if (isset($main_result->data_txt) && isset($row_data[$j]->display_in_checkout))
 			{
-				if ($main_result->data_txt != "" && $row_data[$j]->display_in_checkout == 1)
+				if ($main_result->data_txt != "" && 1 == $row_data[$j]->display_in_checkout)
 				{
 					$resultArr[] = $main_result->field_title . " : " . $main_result->data_txt;
 				}
