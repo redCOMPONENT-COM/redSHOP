@@ -116,8 +116,9 @@ class stockroom_detailVIEWstockroom_detail extends JView
 			$this->assignRef('booleanlist', $booleanlist);
 			$this->assignRef('detail', $detail);
 		}
-		$this->assignRef('lists', $lists);
-		$this->assignRef('request_url', $uri->toString());
+
+		$this->lists       = $lists;
+		$this->request_url = $uri->toString();
 
 		parent::display($tpl);
 	}
@@ -136,8 +137,8 @@ class stockroom_detailVIEWstockroom_detail extends JView
 		$uri = JFactory::getURI();
 
 		// Assign data to template
-		$this->assignRef('lists', $container);
-		$this->assignRef('request_url', $uri->toString());
+		$this->lists       = $container;
+		$this->request_url = $uri->toString();
 
 		parent::display($tpl);
 	}
