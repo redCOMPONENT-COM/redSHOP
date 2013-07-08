@@ -58,7 +58,7 @@ if ($category != "")
 $sql = "SELECT p.*,xc.category_id FROM #__redshop_order_item as oi
 				LEFT JOIN #__redshop_product p ON p.product_id=oi.product_id
 				LEFT JOIN #__redshop_product_category_xref xc ON xc.product_id=oi.product_id "
-	. "WHERE p.published=1 " . $and . " group by oi.product_id";
+	. "WHERE p.published=1 " . $and . " group by oi.product_id limit ".$number_of_items."";
 
 $db->setQuery($sql);
 $productlists = $db->loadObjectList();
