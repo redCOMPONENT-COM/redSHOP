@@ -68,9 +68,7 @@ if (!defined('CLASS_DG'))
 			{
 				foreach ($arr_igr as $akey => $curr_cigr)
 				{
-					if ($this->Add($curr_cigr, $this->first))
-					{
-					}
+					$this->Add($curr_cigr, $this->first);
 				}
 			}
 			else
@@ -85,9 +83,9 @@ if (!defined('CLASS_DG'))
 			{
 				if ($newgi->params->order < $currgi->params->order)
 				{
-					$newgi->next = $currgi;
-					$newgi->prev = $currgi->prev;
-					$newgi->par = $currgi->par;
+					$newgi->next  = $currgi;
+					$newgi->prev  = $currgi->prev;
+					$newgi->par   = $currgi->par;
 					$currgi->prev = $newgi;
 
 					if ($newgi->prev)
@@ -110,9 +108,9 @@ if (!defined('CLASS_DG'))
 					else
 					{
 						$currgi->next = $newgi;
-						$newgi->prev = $currgi;
-						$newgi->par = $currgi->par;
-						$newgi->next = null;
+						$newgi->prev  = $currgi;
+						$newgi->par   = $currgi->par;
+						$newgi->next  = null;
 
 						return $newgi;
 					}
@@ -123,9 +121,9 @@ if (!defined('CLASS_DG'))
 				if ($newgi->params->ref == $currgi->params->id && !$currgi->firstc)
 				{
 					$currgi->firstc = $newgi;
-					$newgi->next = null;
-					$newgi->prev = null;
-					$newgi->par = $currgi;
+					$newgi->next    = null;
+					$newgi->prev    = null;
+					$newgi->par     = $currgi;
 
 					return $newgi;
 				}
@@ -151,7 +149,7 @@ if (!defined('CLASS_DG'))
 
 			if ($cnext)
 			{
-				$this->c_info[$this->cii]['id'] = $cnext->params->id;
+				$this->c_info[$this->cii]['id']   = $cnext->params->id;
 				$this->c_info[$this->cii]['name'] = $cnext->params->name;
 				$this->cii++;
 
@@ -234,9 +232,9 @@ if (!defined('CLASS_DG'))
 
 		if ($id[0] != 0)
 		{
-			$query = "SELECT pc.category_id, pc.category_name, pc.published, pc.ordering,pc.ordering, px.category_parent_id
-					FROM #__redshop_category pc, #__redshop_category_xref px
-					WHERE pc.published = '1' AND px.category_child_id = pc.category_id";
+			$query = "SELECT pc.category_id, pc.category_name, pc.published, pc.ordering,pc.ordering, px.category_parent_id  "
+					. " FROM #__redshop_category pc, #__redshop_category_xref px "
+					. " WHERE pc.published = '1' AND px.category_child_id = pc.category_id";
 			$query .= " and (";
 
 			for ($i = 0; $i < count($id) - 1; $i++)
@@ -259,8 +257,8 @@ if (!defined('CLASS_DG'))
 
 			foreach ($id as $curr_id)
 			{
-				$cats_info[$cii] = array();
-				$cats_info[$cii]['id'] = $curr_id;
+				$cats_info[$cii]         = array();
+				$cats_info[$cii]['id']   = $curr_id;
 				$cats_info[$cii]['name'] = $c_id_name[$curr_id];
 				$cii++;
 			}
@@ -273,20 +271,20 @@ if (!defined('CLASS_DG'))
 					ORDER BY pc.category_id";
 			$database->setQuery($query);
 			$databaserecord = $database->loadObjectList();
-			$ci = 0;
-			$cgr_info = array();
+			$ci             = 0;
+			$cgr_info       = array();
 
 			for ($ci = 0;$ci < count($databaserecord);$ci++)
 			{
-				$cgr_info[$ci] = new DGitemPG;
-				$cgr_info[$ci]->next = null;
-				$cgr_info[$ci]->prev = null;
-				$cgr_info[$ci]->par = null;
-				$cgr_info[$ci]->firstc = null;
-				$cgr_info[$ci]->params->id = $databaserecord[$ci]->category_id;
-				$cgr_info[$ci]->params->ref = $databaserecord[$ci]->category_parent_id;
+				$cgr_info[$ci]                = new DGitemPG;
+				$cgr_info[$ci]->next          = null;
+				$cgr_info[$ci]->prev          = null;
+				$cgr_info[$ci]->par           = null;
+				$cgr_info[$ci]->firstc        = null;
+				$cgr_info[$ci]->params->id    = $databaserecord[$ci]->category_id;
+				$cgr_info[$ci]->params->ref   = $databaserecord[$ci]->category_parent_id;
 				$cgr_info[$ci]->params->order = $databaserecord[$ci]->ordering;
-				$cgr_info[$ci]->params->name = $databaserecord[$ci]->category_name;
+				$cgr_info[$ci]->params->name  = $databaserecord[$ci]->category_name;
 			}
 
 			$cat_graph = new DgraphPG;
@@ -295,15 +293,15 @@ if (!defined('CLASS_DG'))
 			$cats_info = $cat_graph->GetCatInfo($cat_graph->first);
 		}
 
-		$module_path = dirname(__FILE__) . DS;
+		$module_path       = dirname(__FILE__) . DS;
 		$xml_data_filename = $module_path . 'data.xml';
-		$xml_data_data = '<?xml version="1.0" encoding="utf-8"?>
+		$xml_data_data     = '<?xml version="1.0" encoding="utf-8"?>
 	<data>
 	<channel>';
 		$xml_data_data_btns = '';
-		$c_name = array();
-		$module_path = dirname(__FILE__) . DS;
-		$get_catxml = write_prodgallery_xml_data($cats_info, $params);
+		$c_name             = array();
+		$module_path        = dirname(__FILE__) . DS;
+		$get_catxml         = write_prodgallery_xml_data($cats_info, $params);
 
 		if ($get_catxml['flag'])
 		{
@@ -386,14 +384,16 @@ if (!defined('CLASS_DG'))
 
 		global $mosConfig_absolute_path, $sess;
 		$database = JFactory::getDBO();
+
 		$ret_array = array(
-			'flag' => false,
-			'xml_data' => ''
-		);
-		$imageWidth = intval($params->get('imageWidth'));
+						'flag' => false,
+						'xml_data' => ''
+					);
+
+		$imageWidth  = intval($params->get('imageWidth'));
 		$imageHeight = intval($params->get('imageHeight'));
 		$numbproduct = intval($params->get('numbproduct'));
-		$loadtype = trim($params->get('loadtype', 'random'));
+		$loadtype    = trim($params->get('loadtype', 'random'));
 		$images_path = trim($params->get('images_path', 'components/com_redshop/helpers/thumb.php?filename=product/'));
 
 		// Enhancement for sef enabled url
@@ -407,31 +407,55 @@ if (!defined('CLASS_DG'))
 		switch ($loadtype)
 		{
 			case 'newest':
-				$query = 'SELECT distinct(x.product_id),x.category_id,p.* FROM #__redshop_product_category_xref AS x ' . 'LEFT JOIN #__redshop_product AS p ON x.product_id = p.product_id ' . 'WHERE p.published=1 ' . 'AND x.category_id IN (' . $cat_id . ') ' . 'ORDER BY p.publish_date DESC ' . 'LIMIT ' . $numbproduct;
+				$query = 'SELECT distinct(x.product_id),x.category_id,p.* FROM #__redshop_product_category_xref AS x '
+						. 'LEFT JOIN #__redshop_product AS p ON x.product_id = p.product_id '
+						. 'WHERE p.published=1 '
+						. 'AND x.category_id IN (' . $cat_id . ') '
+						. 'ORDER BY p.publish_date DESC '
+						. 'LIMIT ' . $numbproduct;
 			break;
 			case 'random':
-				$query = 'SELECT distinct(x.product_id),x.category_id,p.* FROM #__redshop_product_category_xref AS x ' . 'LEFT JOIN #__redshop_product AS p ON x.product_id = p.product_id ' . 'WHERE p.published=1 ' . 'AND x.category_id IN (' . $cat_id . ') ' . 'ORDER BY rand() ' . 'LIMIT ' . $numbproduct;
+				$query = 'SELECT distinct(x.product_id),x.category_id,p.* FROM #__redshop_product_category_xref AS x '
+						. 'LEFT JOIN #__redshop_product AS p ON x.product_id = p.product_id '
+						. 'WHERE p.published=1 ' . 'AND x.category_id IN (' . $cat_id . ') '
+						. 'ORDER BY rand() '
+						. 'LIMIT ' . $numbproduct;
 			break;
 			case 'mostsold':
-				$query = "SELECT distinct(cx.product_id),cx.category_id,p.*,count(product_quantity) AS qty " . "FROM #__redshop_product AS p " . ",#__redshop_product_category_xref AS cx " . ",#__redshop_order_item AS oi " . "WHERE cx.product_id = p.product_id " . "AND p.published=1 " . "AND cx.category_id IN (" . $cat_id . ") " . "AND oi.product_id = p.product_id " . "GROUP BY(oi.product_id) " . "ORDER BY qty DESC LIMIT 0,$numbproduct";
+				$query = "SELECT distinct(cx.product_id),cx.category_id,p.*,count(product_quantity) AS qty "
+						. "FROM #__redshop_product AS p "
+						. ",#__redshop_product_category_xref AS cx "
+						. ",#__redshop_order_item AS oi "
+						. "WHERE cx.product_id = p.product_id "
+						. "AND p.published=1 "
+						. "AND cx.category_id IN (" . $cat_id . ") "
+						. "AND oi.product_id = p.product_id "
+						. "GROUP BY(oi.product_id) "
+						. "ORDER BY qty DESC LIMIT 0,$numbproduct";
 			break;
 			case 'special':
-				$query = 'SELECT x.category_id,p.* FROM #__redshop_product_category_xref AS x ' . 'LEFT JOIN #__redshop_product AS p ON x.product_id = p.product_id ' . 'WHERE p.published=1 ' . 'AND p.product_special = 1 ' . 'AND x.category_id IN (' . $cat_id . ') ' . "GROUP BY(p.product_id) " . 'ORDER BY rand() DESC ' . 'LIMIT ' . $numbproduct;
+				$query = 'SELECT x.category_id,p.* FROM #__redshop_product_category_xref AS x '
+						. 'LEFT JOIN #__redshop_product AS p ON x.product_id = p.product_id '
+						. 'WHERE p.published=1 ' . 'AND p.product_special = 1 '
+						. 'AND x.category_id IN (' . $cat_id . ') '
+						. "GROUP BY(p.product_id) "
+						. 'ORDER BY rand() DESC '
+						. 'LIMIT ' . $numbproduct;
 			break;
 		}
 
 		$xml_data = '';
 		$database->setQuery($query);
-		$rows = $database->loadObjectList();
+		$rows          = $database->loadObjectList();
 		$producthelper = new producthelper;
-		$redhelper = new redhelper;
+		$redhelper     = new redhelper;
 
 		for ($k = 0;$k < count($rows);$k++)
 		{
 			$ret_array['flag'] = true;
-			$price_txt = '';
-			$Itemid = JRequest::getVar('Itemid');
-			$ItemData = $producthelper->getMenuInformation(0, 0, '', 'product&pid=' . $rows[$k]->product_id);
+			$price_txt         = '';
+			$Itemid            = JRequest::getVar('Itemid');
+			$ItemData          = $producthelper->getMenuInformation(0, 0, '', 'product&pid=' . $rows[$k]->product_id);
 
 			if (count($ItemData) > 0)
 			{
@@ -445,17 +469,17 @@ if (!defined('CLASS_DG'))
 			if ($params->get('show_price') == "yes")
 			{
 				// Without vat price
-				$productArr = $producthelper->getProductNetPrice($rows[$k]->product_id, 0, 1);
-				$product_price = $productArr['productPrice'];
-				$productVat = $productArr['productVat'];
+				$productArr        = $producthelper->getProductNetPrice($rows[$k]->product_id, 0, 1);
+				$product_price     = $productArr['productPrice'];
+				$productVat        = $productArr['productVat'];
 
 				// With vat price
 				$product_price_vat = $product_price + $productVat;
-				$price_txt .= $params->get('price_text', ': ');
-				$price_txt .= ' ';
+				$price_txt         .= $params->get('price_text', ': ');
+				$price_txt         .= ' ';
 
-				$abs_price = abs($rows[$k]->product_price);
-				$pricetax = $params->get('pricetax', 'yes');
+				$abs_price         = abs($rows[$k]->product_price);
+				$pricetax          = $params->get('pricetax', 'yes');
 
 				if ($pricetax == 'yes')
 				{
@@ -496,13 +520,13 @@ if (!defined('CLASS_DG'))
 	define('CLASS_DG', 1);
 }
 
-$bannerWidth = intval($params->get('bannerWidth', 912));
-$bannerHeight = intval($params->get('bannerHeight', 700));
-$imageWidth = intval($params->get('imageWidth'));
-$imageHeight = intval($params->get('imageHeight'));
+$bannerWidth     = intval($params->get('bannerWidth', 912));
+$bannerHeight    = intval($params->get('bannerHeight', 700));
+$imageWidth      = intval($params->get('imageWidth'));
+$imageHeight     = intval($params->get('imageHeight'));
 $backgroundColor = trim($params->get('backgroundColor', '#FFFFFF'));
-$wmode = trim($params->get('wmode', 'window'));
-$id = intval($params->get('category_id', 0));
+$wmode           = trim($params->get('wmode', 'window'));
+$id              = intval($params->get('category_id', 0));
 
 // Include redshop config file.
 require_once JPATH_SITE . '/administrator/components/com_redshop/helpers/redshop.cfg.php';
@@ -513,7 +537,9 @@ $Redconfiguration->defineDynamicVars();
 
 require_once JPATH_ROOT . '/components/com_redshop/helpers/product.php';
 require_once JPATH_ROOT . '/components/com_redshop/helpers/helper.php';
+
 create_smart_xml_files($params);
+
 ?>
 <div class="slideshow-stage">
 <script language="javascript">AC_FL_RunContent = 0;</script>
