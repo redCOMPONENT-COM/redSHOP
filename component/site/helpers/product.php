@@ -9,14 +9,14 @@
 
 defined('_JEXEC') or die;
 
-require_once JPATH_SITE . '/components/com_redshop/helpers/currency.php';
-require_once JPATH_SITE . '/components/com_redshop/helpers/helper.php';
-require_once JPATH_SITE . '/components/com_redshop/helpers/extra_field.php';
-require_once JPATH_SITE . '/components/com_redshop/helpers/user.php';
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/order.php';
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/quotation.php';
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/template.php';
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/stockroom.php';
+JLoader::import('currency', JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers');
+JLoader::import('helper', JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers');
+JLoader::import('extra_field', JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers');
+JLoader::import('user', JPATH_SITE . DS . 'components' . DS . 'com_redshop' . DS . 'helpers');
+JLoader::import('order', JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers');
+JLoader::import('quotation', JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers');
+JLoader::import('template', JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers');
+JLoader::import('stockroom', JPATH_ADMINISTRATOR . DS . 'components' . DS . 'com_redshop' . DS . 'helpers');
 
 class producthelper
 {
