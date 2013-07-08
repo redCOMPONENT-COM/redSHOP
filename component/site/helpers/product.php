@@ -92,13 +92,34 @@ class producthelper
 		return $result;
 	}
 
-	public function getProductById($product_id, $field_name = "", $test = '')
+	/*
+	 * Getting fields one product
+	 *
+	 * @param	int|object	$product		id product or fields one product
+	 * @param	string		$field_name		not used (left for compatibility from old version)
+	 * @param	string		$test			not used (left for compatibility from old version)
+	 *
+	 * @return object 						fields one product
+	 */
+
+	public function getProductById($product, $field_name = '', $test = '')
 	{
+		if(!is_object($product)){
+			$product_id = (int) $product;
+		}
+		else
+		{
+			$this->_id  = (int) $product->product_id;
+			$this->_data = $product;
+			return $product;
+		}
+
 		$query = $this->_db->getQuery(true);
 
 		$query->select(' * ');
-		$query->from($this->_table_prefix . 'product');
-		$query->where('product_id = "' . $product_id . '"');
+		$query->from($this->_table_prefix . 'product AS p');
+		$query->leftJoin( $this->_table_prefix . 'product_category_xref AS cx ON cx.product_id = p.product_id');
+		$query->where('p.product_id = "' . $product_id . '"');
 
 		if ($this->_id != $product_id)
 		{
