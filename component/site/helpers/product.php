@@ -368,21 +368,27 @@ class producthelper
 		return $discount_product_id;
 	}
 
-	public function getProductTax($product_id = 0, $product_price = 0, $user_id = 0, $tax_exempt = 0)
+	public function getProductTax($product = 0, $product_price = 0, $user_id = 0, $tax_exempt = 0)
 	{
+		$proinfo = array();
+
+		if (is_object($product))
+		{
+			$product_id = $product->product_id;
+			$proinfo = & $product;
+		}
+		else
+		{
+			$product_id = $product;
+			$proinfo = $this->getProductById($product_id);
+		}
+
 		$userArr = $this->_session->get('rs_user');
 
 		if ($user_id == 0)
 		{
 			$user = JFactory::getUser();
 			$user_id = $user->id;
-		}
-
-		$proinfo = array();
-
-		if ($product_id != 0)
-		{
-			$proinfo = $this->getProductById($product_id);
 		}
 
 		$protax = 0;
@@ -399,7 +405,7 @@ class producthelper
 			$userArr = $this->_userhelper->createUserSession($user_id);
 		}
 
-		$vatrates_data = $this->getVatRates($product_id, $user_id);
+		$vatrates_data = $this->getVatRates($product, $user_id);
 
 		if ($vatrates_data)
 		{
@@ -588,72 +594,125 @@ class producthelper
 		return $userdata;
 	}
 
-	public function getVatRates($product_id = 0, $user_id = 0, $vat_rate_id = 0)
+	public function getVatRates($product = 0, $user_id = 0, $vat_rate_id = 0)
 	{
-		$user = JFactory::getUser();
 
 		if ($user_id == 0)
 		{
+			$user = JFactory::getUser();
 			$user_id = $user->id;
 		}
 
-		$proinfo = $this->getProductById($product_id);
 		$tax_group_id = 0;
-		$rs_user_info_id = 0;
-		$and = 'AND tg.published= "1" ';
-		$q2 = 'LEFT JOIN ' . $this->_table_prefix . 'tax_group as tg on tg.tax_group_id=tr.tax_group_id ';
+
 		$userdata = $this->getVatUserinfo($user_id);
 
 		$userArr = $this->_session->get('rs_user');
-		$chkflg = true;
 
-		if (!empty($userArr))
+		$proinfo = array();
+		if (is_object($product) && isset($product->advanced_query) && $product->advanced_query == 1)
 		{
-			if (array_key_exists('vatCountry', $userArr) && !empty($userArr['taxData']))
-			{
-				if (empty($proinfo->product_tax_group_id))
-				{
-					$proinfo->product_tax_group_id = DEFAULT_VAT_GROUP;
-				}
+			$proinfo = & $product;
 
-				if ($userArr['vatCountry'] == $userdata->country_code
-					&& $userArr['vatState'] == $userdata->state_code
-					&& @$userArr['vatGroup'] == $proinfo->product_tax_group_id
-				)
+			if (!empty($userArr))
+			{
+				if (array_key_exists('vatCountry', $userArr) && !empty($userArr['taxData']))
 				{
-					return $userArr['taxData'];
+					if (empty($proinfo->product_tax_group_id))
+					{
+						$proinfo->product_tax_group_id = DEFAULT_VAT_GROUP;
+					}
+
+					if ($userArr['vatCountry'] == $userdata->country_code
+						&& $userArr['vatState'] == $userdata->state_code
+						&& @$userArr['vatGroup'] == $proinfo->product_tax_group_id
+					)
+					{
+						return $userArr['taxData'];
+					}
 				}
 			}
-		}
 
-		if (VAT_BASED_ON == 2)
-		{
-			$and .= ' AND tr.is_eu_country=1 ';
-		}
+			if (isset($proinfo->tax_rate_id) && $proinfo->tax_rate_id != '')
+			{
+				$this->_taxData = stdClass;
+				$this->_taxData->tax_rate_id = $proinfo->tax_rate_id;
+				$this->_taxData->tax_state = $proinfo->tax_state;
+				$this->_taxData->tax_country = $proinfo->tax_country;
+				$this->_taxData->mdate = $proinfo->tax_mdate;
+				$this->_taxData->tax_rate = $proinfo->tax_rate;
+				$this->_taxData->tax_group_id = $proinfo->tax_group_id;
+				$this->_taxData->is_eu_country = $proinfo->is_eu_country;
+			}
+			else
+			{
+				$this->_taxData = null;
+			}
 
-		if ($product_id == 0)
-		{
-			$and .= 'AND tr.tax_group_id = "' . DEFAULT_VAT_GROUP . '" ';
-		}
-		elseif ($proinfo->product_tax_group_id > 0)
-		{
-			$q2 .= 'LEFT JOIN ' . $this->_table_prefix . 'product as p on tr.tax_group_id=p.product_tax_group_id ';
-			$and .= 'AND p.product_id = "' . $product_id . '" ';
+			$userArr['taxData'] = $this->_taxData;
 		}
 		else
 		{
-			$and .= 'AND tr.tax_group_id=' . DEFAULT_VAT_GROUP . ' ';
+			if (is_object($product))
+			{
+				$product_id = $product->product_id;
+			}
+			else
+			{
+				$product_id = $product;
+			}
+
+			if (!empty($userArr))
+			{
+				if (array_key_exists('vatCountry', $userArr) && !empty($userArr['taxData']))
+				{
+					if (empty($proinfo->product_tax_group_id))
+					{
+						$proinfo->product_tax_group_id = DEFAULT_VAT_GROUP;
+					}
+
+					if ($userArr['vatCountry'] == $userdata->country_code
+						&& $userArr['vatState'] == $userdata->state_code
+						&& @$userArr['vatGroup'] == $proinfo->product_tax_group_id
+					)
+					{
+						return $userArr['taxData'];
+					}
+				}
+			}
+
+			$and = 'AND tg.published= "1" ';
+			$q2 = 'LEFT JOIN ' . $this->_table_prefix . 'tax_group as tg on tg.tax_group_id=tr.tax_group_id ';
+
+			if (VAT_BASED_ON == 2)
+			{
+				$and .= ' AND tr.is_eu_country=1 ';
+			}
+
+			if ($product_id == 0)
+			{
+				$and .= 'AND tr.tax_group_id = "' . DEFAULT_VAT_GROUP . '" ';
+			}
+			elseif (isset($proinfo->product_tax_group_id) && $proinfo->product_tax_group_id > 0)
+			{
+				$q2 .= 'LEFT JOIN ' . $this->_table_prefix . 'product as p on tr.tax_group_id=p.product_tax_group_id ';
+				$and .= 'AND p.product_id = "' . $product_id . '" ';
+			}
+			else
+			{
+				$and .= 'AND tr.tax_group_id=' . DEFAULT_VAT_GROUP . ' ';
+			}
+
+			$query = 'SELECT tr.* FROM ' . $this->_table_prefix . 'tax_rate as tr '
+				. $q2
+				. 'WHERE tr.tax_country="' . $userdata->country_code . '" '
+				. 'AND (tr.tax_state = "' . $userdata->state_code . '" OR tr.tax_state = "") '
+				. $and
+				. ' ORDER BY `tax_rate` DESC LIMIT 0,1';
+			$this->_db->setQuery($query);
+
+			$userArr['taxData'] = $this->_taxData = $this->_db->loadObject();
 		}
-
-		$query = 'SELECT tr.* FROM ' . $this->_table_prefix . 'tax_rate as tr '
-			. $q2
-			. 'WHERE tr.tax_country="' . $userdata->country_code . '" '
-			. 'AND (tr.tax_state = "' . $userdata->state_code . '" OR tr.tax_state = "") '
-			. $and
-			. ' ORDER BY `tax_rate` DESC LIMIT 0,1';
-		$this->_db->setQuery($query);
-
-		$userArr['taxData'] = $this->_taxData = $this->_db->loadObject();
 		$userArr['vatCountry'] = $userdata->country_code;
 		$userArr['vatState'] = $userdata->state_code;
 
@@ -1375,8 +1434,17 @@ class producthelper
 		return $qunselect;
 	}
 
-	public function GetProductShowPrice($product_id, $data_add, $seoTemplate = "", $user_id = 0, $isrel = 0, $attributes = array())
+	public function GetProductShowPrice($product, $data_add, $seoTemplate = "", $user_id = 0, $isrel = 0, $attributes = array())
 	{
+		if (!is_object($product))
+		{
+			$product_id = $product;
+		}
+		else
+		{
+			$product_id = $product->product_id;
+		}
+
 		$product_price = '';
 		$price_excluding_vat = '';
 		$display_product_discount_price = '';
@@ -1400,7 +1468,7 @@ class producthelper
 
 		$qunselect = $this->GetDefaultQuantity($product_id, $data_add);
 
-		$ProductPriceArr = $this->getProductNetPrice($product_id, $user_id, $qunselect, $data_add, $attributes);
+		$ProductPriceArr = $this->getProductNetPrice($product, $user_id, $qunselect, $data_add, $attributes);
 
 		$relPrefix = '';
 
@@ -1421,7 +1489,7 @@ class producthelper
 			$product_price_novat = $this->getPriceReplacement($ProductPriceArr['product_price_novat'] * $qunselect);
 			$product_price_incl_vat = $this->getPriceReplacement($ProductPriceArr['product_price_incl_vat'] * $qunselect);
 
-			$isStockExists = $stockroomhelper->isStockExists($product_id);
+			$isStockExists = $stockroomhelper->isStockExists($product);
 
 			if ($isStockExists && strstr($data_add, "{" . $relPrefix . "product_price_table}"))
 			{
@@ -1551,7 +1619,7 @@ class producthelper
 		$product_old_price_excl_vat = '';
 		$newproductprice = $row->product_price;
 
-		if (!empty($result))
+		if (!empty($result) && $result->price_id > 0)
 		{
 			$temp_Product_price = $result->product_price;
 			$newproductprice = $temp_Product_price;
@@ -1624,8 +1692,8 @@ class producthelper
 			. $formatted_price . '</span><input type="hidden" name="product_price_excluding_price" id="product_price_excluding_price'
 			. $product_id . '" value="' . $product_price . '" />';
 
-		$default_tax_amount = $this->getProductTax($product_id, $product_price, $user_id, 1);
-		$tax_amount = $this->getProductTax($product_id, $product_price, $user_id);
+		$default_tax_amount = $this->getProductTax($product, $product_price, $user_id, 1);
+		$tax_amount = $this->getProductTax($product, $product_price, $user_id);
 		$product_price_exluding_vat = $product_price;
 		$product_price_incl_vat = $default_tax_amount + $product_price_exluding_vat;
 
@@ -1642,7 +1710,7 @@ class producthelper
 		if (SHOW_PRICE) // && !DEFAULT_QUOTATION_MODE)
 		{
 			$price_excluding_vat = $price_text;
-			$product_discount_price_tmp = $this->checkDiscountDate($product_id);
+			$product_discount_price_tmp = $this->checkDiscountDate($product);
 			$product_old_price_excl_vat = $product_price_exluding_vat;
 
 			if ($row->product_on_sale && $product_discount_price_tmp > 0)
@@ -2267,23 +2335,43 @@ class producthelper
 		return $list;
 	}
 
-	public function checkDiscountDate($productid = 0)
+	public function checkDiscountDate($product = 0)
 	{
 		$discountprice = 0;
 		$today = time();
-		$query = "SELECT * FROM " . $this->_table_prefix . "product "
-			. "WHERE product_id = $productid "
-			. "AND ( (discount_enddate='' AND discount_stratdate='') "
-			. "OR ( discount_enddate>='" . $today . "' AND discount_stratdate<='" . $today . "') )";
 
-		$this->_db->setQuery($query);
-		$list = $this->_db->loadObjectList();
-
-		if (count($list) > 0)
+		if (is_object($product) && isset($product->advanced_query) && $product->advanced_query == 1)
 		{
-			$discountprice = $list[0]->discount_price;
+			if (($product->discount_enddate == '' && $product->discount_stratdate == '')
+				|| ($product->discount_enddate >= $today && $product->discount_stratdate <= $today)
+			)
+			{
+				$discountprice = $product->discount_price;
+			}
 		}
+		else
+		{
+			if (is_object($product))
+			{
+				$productid = (int) $product->product_id;
+			}
+			else
+			{
+				$productid = (int) $product;
+			}
+			$query = "SELECT * FROM " . $this->_table_prefix . "product "
+				. "WHERE product_id = $productid "
+				. "AND ( (discount_enddate='' AND discount_stratdate='') "
+				. "OR ( discount_enddate>='" . $today . "' AND discount_stratdate<='" . $today . "') )";
 
+			$this->_db->setQuery($query);
+			$list = $this->_db->loadObjectList();
+
+			if (count($list) > 0)
+			{
+				$discountprice = $list[0]->discount_price;
+			}
+		}
 		return $discountprice;
 	}
 
@@ -4020,7 +4108,7 @@ class producthelper
 				$GLOBAL ['without_vat'] = true;
 			}
 
-			$data_add = $this->GetProductShowPrice($product->product_id, $data_add, $seoTemplate, 0, $is_relatedproduct, $attributes);
+			$data_add = $this->GetProductShowPrice($product, $data_add, $seoTemplate, 0, $is_relatedproduct, $attributes);
 
 		}
 		else
