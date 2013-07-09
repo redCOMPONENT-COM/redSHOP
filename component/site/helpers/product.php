@@ -1155,7 +1155,7 @@ class producthelper
 			}
 		}
 
-		$altText = $this->getAltText('product', $product_id, $product_image);
+		$altText = $this->getAltText('product', $product, $product_image);
 
 		if ($altText)
 		{
@@ -2174,8 +2174,23 @@ class producthelper
 		return $list;
 	}
 
-	public function getAltText($media_section, $section_id, $media_name = '', $media_id = 0, $mediaType = "images")
+	public function getAltText($media_section, $section, $media_name = '', $media_id = 0, $mediaType = "images")
 	{
+		if (!is_object($section))
+		{
+			$section_id = $section;
+		}
+		elseif (isset($section->advanced_query) && $section->advanced_query == '1')
+		{
+
+			return $section->alttext;
+		}
+		else
+		{
+
+			return '';
+		}
+
 		$and = '';
 
 		if ($media_name != '')
@@ -2219,7 +2234,8 @@ class producthelper
 		}
 
 		if (isset($this->_UserInformation['userid' . $userid]['address_type' . $address_type]['rs_user_info_id' . $rs_user_info_id])
-			&& $this->_UserInformation['userid' . $userid]['address_type' . $address_type]['rs_user_info_id' . $rs_user_info_id] != null)
+			&& $this->_UserInformation['userid' . $userid]['address_type' . $address_type]['rs_user_info_id' . $rs_user_info_id] != null
+		)
 		{
 			$list = $this->_UserInformation['userid' . $userid]['address_type' . $address_type]['rs_user_info_id' . $rs_user_info_id];
 		}
@@ -6584,15 +6600,15 @@ class producthelper
 				$cartform .= $product_userhiddenfileds;
 			}
 			//Start Hidden attribute image in cart
-			$attributes = $this->getProductAttribute($product_id);
-			$attrib = $this->getProductAttribute($product_id);
+			$attributes = $this->getProductAttribute($product);
+			$countAttributes = count($attributes);
 
-			if (count($attributes) > 0)
+			if ($countAttributes > 0)
 			{
 				$selectedpropertyId = 0;
 				$selectedsubpropertyId = 0;
 
-				for ($a = 0; $a < count($attributes); $a++)
+				for ($a = 0; $a < $countAttributes; $a++)
 				{
 					$selectedId = array();
 					$property = $this->getAttibuteProperty(0, $attributes[$a]->attribute_id);
