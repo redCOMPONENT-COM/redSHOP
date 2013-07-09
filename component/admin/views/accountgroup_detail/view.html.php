@@ -41,9 +41,9 @@ class accountgroup_detailVIEWaccountgroup_detail extends JView
 
 		$lists['published'] = JHTML::_('select.booleanlist', 'published', 'class="inputbox"', $detail->published);
 
-		$this->assignRef('detail', $detail);
-		$this->assignRef('lists', $lists);
-		$this->assignRef('request_url', $uri->toString());
+		$this->detail = $detail;
+		$this->lists = $lists;
+		$this->request_url = $uri->toString();
 
 		parent::display($tpl);
 	}
