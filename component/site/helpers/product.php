@@ -1716,7 +1716,7 @@ class producthelper
 			if ($row->product_on_sale && $product_discount_price_tmp > 0)
 			{
 				$dicount_price_exluding_vat = $product_discount_price_tmp;
-				$tax_amount = $this->getProductTax($product_id, $product_discount_price_tmp, $user_id);
+				$tax_amount = $this->getProductTax($product, $product_discount_price_tmp, $user_id);
 
 				if (intval($applytax) && $product_discount_price_tmp)
 				{
@@ -1742,7 +1742,7 @@ class producthelper
 					$product_price_novat = $product_price_exluding_vat;
 					$seoProductSavingPrice = '';
 					$seoProductPrice = $product_price;
-					$tax_amount = $this->getProductTax($product_id, $product_price, $user_id);
+					$tax_amount = $this->getProductTax($product, $product_price, $user_id);
 
 				}
 				else
@@ -1751,7 +1751,7 @@ class producthelper
 
 					if (intval($applytax) && $product_price_saving)
 					{
-						$dis_save_tax_amount = $this->getProductTax($product_id, $product_price_saving, $user_id);
+						$dis_save_tax_amount = $this->getProductTax($product, $product_price_saving, $user_id);
 						$product_price_saving = $product_price_saving + $dis_save_tax_amount;
 					}
 
