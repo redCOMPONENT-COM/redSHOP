@@ -131,10 +131,6 @@ class CategoryModelCategory extends JModel
 		return $orderby;
 	}
 
-	/*
-	 * function to load category fields and template name
-	 */
-
 	public function _loadCategory()
 	{
 		$this->_maincat = array();
