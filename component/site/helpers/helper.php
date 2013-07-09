@@ -118,21 +118,17 @@ class redhelper
 		$producthelper = new producthelper;
 		$catDetailmenu = false;
 
+		$menu = JFactory::getApplication()->getMenu();
+		$allForItemid = $menu->getMenu();
+
 		if ($cat_id)
 		{
-			$sql = "SELECT id FROM #__menu "
-				. "WHERE published=1 "
-				. "AND `link` LIKE '%com_redshop%' "
-				. "AND `link` LIKE '%view=category%' "
-				. "AND ( link LIKE '%cid=" . $cat_id . "' OR link LIKE '%cid=" . $cat_id . "&%' ) "
-				. "ORDER BY 'ordering'";
-			$this->_db->setQuery($sql);
-
-			if ($Itemid = $this->_db->loadResult())
+			foreach ($allForItemid as $key => $oneForItemid)
 			{
-				$catDetailmenu = true;
-
-				return $Itemid;
+				if ($oneForItemid->query['option'] == 'com_redshop' && $oneForItemid->query['view'] == 'category' && $oneForItemid->query['cid'] == $cat_id)
+				{
+					return $oneForItemid->id;
+				}
 			}
 		}
 
@@ -177,7 +173,7 @@ class redhelper
 				}
 			}
 
-			$Itemidlist = $producthelper->getMenuInformation();
+			$Itemidlist = $producthelper->getMenuInformationMod();
 
 			if (count($Itemidlist) == 1)
 			{
@@ -194,23 +190,31 @@ class redhelper
 
 	public function getCategoryItemid($category_id = 0)
 	{
-		if ($category_id)
+		$menu = JFactory::getApplication()->getMenu();
+		$allForItemid = $menu->getItems("component", "com_redshop");
+
+		foreach ($allForItemid as $key => $oneForItemid)
 		{
-			$and = ' AND (`link` LIKE "%option=com_redshop&view=category&layout=detail") AND (`params` LIKE \'%"cid":"' . $category_id . '"%\') ';
+			if ($category_id == 0 && $oneForItemid->query['view'] != 'category')
+			{
+				return $oneForItemid->id;
+			}
+			elseif ($oneForItemid->query['view'] == 'category' && isset($oneForItemid->query['cid']) && $oneForItemid->query['cid'] == $category_id)
+			{
+				return $oneForItemid->id;
+			}
+		}
+
+		$allForItemid = $menu->getActive();
+
+		if (isset($allForItemid->id))
+		{
+			return $allForItemid->id;
 		}
 		else
 		{
-			$and = ' AND (`link` LIKE "%option=com_redshop&view=category") ';
+			return '';
 		}
-
-		$query = "SELECT id FROM #__menu "
-			. "WHERE 1=1  and published='1' "
-			. $and
-			. "ORDER BY 'ordering'";
-		$this->_db->setQuery($query);
-		$Itemid = $this->_db->loadResult();
-
-		return $Itemid;
 	}
 
 	public function convertLanguageString($arr)
