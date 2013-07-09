@@ -52,11 +52,11 @@ class templateViewtemplate extends JView
 			'class="inputbox" size="1" onchange="document.adminForm.submit();"', 'value', 'text', $template_section
 		);
 
-		$this->assignRef('user', JFactory::getUser());
-		$this->assignRef('lists', $lists);
-		$this->assignRef('templates', $templates);
-		$this->assignRef('pagination', $pagination);
-		$this->assignRef('request_url', $uri->toString());
+		$this->user = JFactory::getUser();
+		$this->lists = $lists;
+		$this->templates = $templates;
+		$this->pagination = $pagination;
+		$this->request_url = $uri->toString();
 
 		parent::display($tpl);
 	}

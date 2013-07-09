@@ -158,13 +158,13 @@ class addorder_detailVIEWaddorder_detail extends JView
 		$lists['shipping_customer_field'] = $extra_field->list_all_field(14, $shippinginfo[0]->users_info_id);
 		$lists['shipping_company_field'] = $extra_field->list_all_field(15, $shippinginfo[0]->users_info_id);
 
-		$this->assignRef('lists', $lists);
-		$this->assignRef('detail', $detail);
-		$this->assignRef('billing', $billing);
-		$this->assignRef('shipping', $shippinginfo[$key]);
-		$this->assignRef('shipping_users_info_id', $shipping_users_info_id);
-		$this->assignRef('payment_detail', $payment_detail);
-		$this->assignRef('shipping_rate_id', $shipping_rate_id);
+		$this->lists = $lists;
+		$this->detail = $detail;
+		$this->billing = $billing;
+		$this->shipping = $shippinginfo[$key];
+		$this->shipping_users_info_id = $shipping_users_info_id;
+		$this->payment_detail = $payment_detail;
+		$this->shipping_rate_id = $shipping_rate_id;
 		$this->request_url = $uri->toString();
 
 		parent::display($tpl);

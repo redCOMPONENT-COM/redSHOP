@@ -138,26 +138,26 @@ class statisticViewstatistic extends JView
 		JToolBarHelper::title(JText::_('COM_REDSHOP_STATISTIC') . " :: " . $title, 'redshop_statistic48');
 
 		$pagination = new JPagination($total, $limitstart, $limit);
-		$this->assignRef('pagination', $pagination);
+		$this->pagination = $pagination;
 
-		$this->assignRef('startdate', $startdate);
-		$this->assignRef('enddate', $enddate);
+		$this->startdate = $startdate;
+		$this->enddate = $enddate;
 
-		$this->assignRef('popularsell', $popularsell);
-		$this->assignRef('bestsell', $bestsell);
-		$this->assignRef('avgorderamount', $avgorderamount);
-		$this->assignRef('newprod', $newprod);
-		$this->assignRef('neworder', $neworder);
-		$this->assignRef('totalturnover', $totalturnover);
-		$this->assignRef('amountorder', $amountorder);
-		$this->assignRef('amountprice', $amountprice);
-		$this->assignRef('amountspentintotal', $amountspentintotal);
-		$this->assignRef('redshopviewer', $redshopviewer);
-		$this->assignRef('pageviewer', $pageviewer);
-		$this->assignRef('lists', $lists);
-		$this->assignRef('filteroption', $filteroption);
-		$this->assignRef('layout', $layout);
-		$this->assignRef('request_url', $uri->toString());
+		$this->popularsell = $popularsell;
+		$this->bestsell = $bestsell;
+		$this->avgorderamount = $avgorderamount;
+		$this->newprod = $newprod;
+		$this->neworder = $neworder;
+		$this->totalturnover = $totalturnover;
+		$this->amountorder = $amountorder;
+		$this->amountprice = $amountprice;
+		$this->amountspentintotal = $amountspentintotal;
+		$this->redshopviewer = $redshopviewer;
+		$this->pageviewer = $pageviewer;
+		$this->lists = $lists;
+		$this->filteroption = $filteroption;
+		$this->layout = $layout;
+		$this->request_url = $uri->toString();
 
 		parent::display($tpl);
 	}

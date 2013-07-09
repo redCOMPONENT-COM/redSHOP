@@ -119,8 +119,8 @@ class shopper_group_detailVIEWshopper_group_detail extends JView
 			'class="inputbox" size="1"', 'value', 'text', $detail->tax_group_id
 		);
 
-		$this->assignRef('lists', $lists);
-		$this->assignRef('detail', $detail);
+		$this->lists = $lists;
+		$this->detail = $detail;
 		$this->request_url = $uri->toString();
 
 		parent::display($tpl);

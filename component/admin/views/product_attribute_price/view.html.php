@@ -39,15 +39,15 @@ class product_attribute_priceViewproduct_attribute_price extends JView
 		$prices = $db->loadObjectList();
 		$uri = JFactory::getURI();
 
-		$this->assignRef('product', $product);
+		$this->product = $product;
 
-		$this->assignRef('prices', $prices);
+		$this->prices = $prices;
 
-		$this->assignRef('section_id', $section_id);
-		$this->assignRef('section', $section);
-		$this->assignRef('cid', $cid);
+		$this->section_id = $section_id;
+		$this->section = $section;
+		$this->cid = $cid;
 
-		$this->assignRef('request_url', $uri->toString());
+		$this->request_url = $uri->toString();
 
 		parent::display($tpl);
 	}

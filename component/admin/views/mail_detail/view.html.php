@@ -82,9 +82,9 @@ class mail_detailVIEWmail_detail extends JView
 
 		$pane = JPane::getInstance('sliders');
 
-		$this->assignRef('pane', $pane);
-		$this->assignRef('lists', $lists);
-		$this->assignRef('detail', $detail);
+		$this->pane = $pane;
+		$this->lists = $lists;
+		$this->detail = $detail;
 		$this->request_url = $uri->toString();
 
 		parent::display($tpl);
