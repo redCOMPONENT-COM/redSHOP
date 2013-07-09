@@ -847,13 +847,19 @@ class producthelper
 		return $result;
 	}
 
-	public function getProductImage($product_id = 0, $link = '', $width, $height, $Product_detail_is_light = 2, $enableHover = 0, $suffixid = 0)
+	public function getProductImage($product = 0, $link = '', $width, $height, $Product_detail_is_light = 2, $enableHover = 0, $suffixid = 0)
 	{
 		$thum_image = '';
 		$stockroomhelper = new rsstockroomhelper;
-		$result = $this->getProductById($product_id);
 
-		$isStockExists = $stockroomhelper->isStockExists($product_id);
+		if(!is_object($product)){
+			$product_id = $product;
+			$result = $this->getProductById( $product_id );
+		}else{
+			$result = $product;
+		}
+
+		$isStockExists = $stockroomhelper->isStockExists($product);
 
 		$middlepath = REDSHOP_FRONT_IMAGES_RELPATH . "product/";
 
