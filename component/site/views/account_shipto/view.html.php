@@ -75,11 +75,11 @@ class account_shiptoViewaccount_shipto extends JView
 			$shippingaddresses = $order_functions->getShippingAddress($user->id);
 		}
 
-		$this->assignRef('lists', $lists);
-		$this->assignRef('shippingaddresses', $shippingaddresses);
-		$this->assignRef('billingaddresses', $billingaddresses);
-		$this->assignRef('request_url', $uri->toString());
-		$this->assignRef('params', $params);
+		$this->lists = $lists;
+		$this->shippingaddresses = $shippingaddresses;
+		$this->billingaddresses = $billingaddresses;
+		$this->request_url = $uri->toString();
+		$this->params = $params;
 
 		parent::display($tpl);
 	}

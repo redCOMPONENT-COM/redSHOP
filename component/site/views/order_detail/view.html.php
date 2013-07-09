@@ -82,9 +82,9 @@ class order_detailVieworder_detail extends JView
 			}
 		}
 
-		$this->assignRef('OrdersDetail', $OrdersDetail);
-		$this->assignRef('user', $user);
-		$this->assignRef('params', $params);
+		$this->OrdersDetail = $OrdersDetail;
+		$this->user = $user;
+		$this->params = $params;
 
 		parent::display($tpl);
 	}

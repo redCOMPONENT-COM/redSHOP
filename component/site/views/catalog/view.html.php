@@ -25,7 +25,7 @@ class catalogViewcatalog extends JView
 			$this->setLayout('sample');
 		}
 
-		$this->assignRef('params', $params);
+		$this->params = $params;
 		parent::display($tpl);
 	}
 }

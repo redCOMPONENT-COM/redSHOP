@@ -42,10 +42,10 @@ class send_friendViewsend_friend extends JView
 
 		// Next/Prev navigation end
 
-		$this->assignRef('data', $data);
-		$this->assignRef('template', $template);
+		$this->data = $data;
+		$this->template = $template;
 
-		$this->assignRef('params', $params);
+		$this->params = $params;
 		parent::display($tpl);
 	}
 }
