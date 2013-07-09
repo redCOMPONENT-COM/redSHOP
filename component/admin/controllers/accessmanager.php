@@ -16,5 +16,6 @@ class accessmanagerController extends JController
 	public function cancel()
 	{
 		$this->setRedirect('index.php');
+		
 	}
 }
