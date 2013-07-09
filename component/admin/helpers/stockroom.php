@@ -356,7 +356,8 @@ class rsstockroomhelper
 
 
 			if ($pre_order_stock[0]->ordered_preorder == $pre_order_stock[0]->preorder_stock
-				|| $pre_order_stock[0]->ordered_preorder > $pre_order_stock[0]->preorder_stock)
+				|| $pre_order_stock[0]->ordered_preorder > $pre_order_stock[0]->preorder_stock
+			)
 			{
 				$quantity = 0;
 			}
@@ -556,7 +557,8 @@ class rsstockroomhelper
 				}
 
 				if ($product_data->preorder == "yes" || ($product_data->preorder == "global" && ALLOW_PRE_ORDER)
-					|| ($product_data->preorder == "" && ALLOW_PRE_ORDER))
+					|| ($product_data->preorder == "" && ALLOW_PRE_ORDER)
+				)
 				{
 					for ($i = 0; $i < count($preorder_list); $i++)
 					{
