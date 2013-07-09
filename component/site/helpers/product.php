@@ -3482,8 +3482,22 @@ class producthelper
 		return;
 	}
 
-	public function getProductAttribute($product_id = 0, $attribute_set_id = 0, $attribute_id = 0, $published = 0, $attribute_required = 0, $notAttributeId = 0)
+	public function getProductAttribute($product = 0, $attribute_set_id = 0, $attribute_id = 0, $published = 0, $attribute_required = 0, $notAttributeId = 0)
 	{
+		if(is_object($product) && isset($product->advanced_query) && $product->advanced_query == 1)
+		{
+			if(isset($product->count_attribute_id) && $product->count_attribute_id == 0)
+				return null;
+			$product_id = &$product->product_id;
+		}
+		else
+		{
+			if(is_object($product))
+				$product_id = &$product->product_id;
+			else
+				$product_id = &$product;
+		}
+
 		$and = "";
 		$astpublished = "";
 
