@@ -28,9 +28,9 @@ class newsletterViewnewsletter extends JView
 		$layout   = JRequest::getVar('layout');
 		$user     = JFactory::getUser();
 
-		$this->assignRef('user', $user);
-		$this->assignRef('userdata', $userdata);
-		$this->assignRef('params', $params);
+		$this->user = $user;
+		$this->userdata = $userdata;
+		$this->params = $params;
 
 		if ($layout == 'thankyou')
 		{

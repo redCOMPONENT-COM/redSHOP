@@ -63,16 +63,16 @@ class reddesignViewreddesign extends JView
 		$lists["selimage"] = JHTML::_('select.genericlist', $optionimage, 'selimage', 'class="inputbox" size="1" ', 'value', 'text');
 
 		// Redshop product detail
-		$this->assignRef('pid', $pid);
-		$this->assignRef('cid', $cid);
+		$this->pid = $pid;
+		$this->cid = $cid;
 
-		$this->assignRef('product_detail', $product_detail);
+		$this->product_detail = $product_detail;
 
-		$this->assignRef('designtype_detail', $designtypedetail);
-		$this->assignRef('templatedetail', $templatedetail);
-		$this->assignRef('image_id', $images[0]->image_id);
-		$this->assignRef('design', $design);
-		$this->assignRef('lists', $lists);
+		$this->designtype_detail = $designtypedetail;
+		$this->templatedetail = $templatedetail;
+		$this->image_id = $images[0]->image_id;
+		$this->design = $design;
+		$this->lists = $lists;
 		parent::display($tpl);
 	}
 }

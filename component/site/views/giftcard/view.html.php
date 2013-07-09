@@ -34,11 +34,11 @@ class giftcardViewgiftcard extends JView
 		$giftcard_template = $model->getGiftcardTemplate();
 		$detail            = $this->get('data');
 
-		$this->assignRef('detail', $detail);
-		$this->assignRef('lists', $lists);
-		$this->assignRef('template', $giftcard_template);
-		$this->assignRef('pageheadingtag', $pageheadingtag);
-		$this->assignRef('params', $params);
+		$this->detail = $detail;
+		$this->lists = $lists;
+		$this->template = $giftcard_template;
+		$this->pageheadingtag = $pageheadingtag;
+		$this->params = $params;
 		parent::display($tpl);
 	}
 }
