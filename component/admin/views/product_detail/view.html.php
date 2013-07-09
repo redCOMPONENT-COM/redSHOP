@@ -63,15 +63,15 @@ class product_detailVIEWproduct_detail extends JView
 
 		// Check reddesign is installed
 		$CheckRedDesign = $model->CheckRedDesign();
-		$this->assignRef('CheckRedDesign', $CheckRedDesign);
+		$this->CheckRedDesign = $CheckRedDesign;
 
 		// Check redproductfinder is installed
 		$CheckRedProductFinder = $model->CheckRedProductFinder();
-		$this->assignRef('CheckRedProductFinder', $CheckRedProductFinder);
+		$this->CheckRedProductFinder = $CheckRedProductFinder;
 
 		// Get association id
 		$getAssociation = $model->getAssociation();
-		$this->assignRef('getassociation', $getAssociation);
+		$this->getassociation = $getAssociation;
 
 		$sql = "SHOW TABLE STATUS LIKE '" . $dbPrefix . "redshop_product'";
 		$db->setQuery($sql);
@@ -576,11 +576,11 @@ class product_detailVIEWproduct_detail extends JView
 		// For downloadable products
 		$productSerialDetail = $model->getProdcutSerialNumbers();
 
-		$this->assignRef('model', $model);
-		$this->assignRef('lists', $lists);
-		$this->assignRef('detail', $detail);
+		$this->model = $model;
+		$this->lists = $lists;
+		$this->detail = $detail;
 		$this->productSerialDetail = $productSerialDetail;
-		$this->assignRef('next_product', $next_product);
+		$this->next_product = $next_product;
 		$this->request_url = $uri->toString();
 
 		parent::display($tpl);

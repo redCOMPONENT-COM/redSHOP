@@ -54,9 +54,9 @@ class orderstatusVieworderstatus extends JView
 		$pagination  = $this->get('Pagination');
 
 		$this->user = JFactory::getUser();
-		$this->assignRef('lists', $lists);
-		$this->assignRef('orderstatus', $orderstatus);
-		$this->assignRef('pagination', $pagination);
+		$this->lists = $lists;
+		$this->orderstatus = $orderstatus;
+		$this->pagination = $pagination;
 		$this->request_url = $uri->toString();
 
 		parent::display($tpl);

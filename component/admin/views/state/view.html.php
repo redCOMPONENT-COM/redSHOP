@@ -67,12 +67,12 @@ class stateViewstate extends JView
 		$fields = $this->get('Data');
 		$total = $this->get('Total');
 		$pagination = $this->get('Pagination');
-		$this->assignRef('country_main_filter', $country_main_filter);
-		$this->assignRef('user', JFactory::getUser());
-		$this->assignRef('pagination', $pagination);
-		$this->assignRef('fields', $fields);
-		$this->assignRef('lists', $lists);
-		$this->assignRef('request_url', $uri->toString());
+		$this->country_main_filter = $country_main_filter;
+		$this->user = JFactory::getUser();
+		$this->pagination = $pagination;
+		$this->fields = $fields;
+		$this->lists = $lists;
+		$this->request_url = $uri->toString();
 
 		parent::display($tpl);
 	}

@@ -48,8 +48,8 @@ class zipcode_detailVIEWzipcode_detail extends JView
 		$statearray = $Redconfiguration->getStateList((array) $detail);
 		$lists['state_code'] = $statearray['state_dropdown'];
 
-		$this->assignRef('detail', $detail);
-		$this->assignRef('lists', $lists);
+		$this->detail = $detail;
+		$this->lists = $lists;
 		$this->request_url = $uri->toString();
 
 		parent::display($tpl);

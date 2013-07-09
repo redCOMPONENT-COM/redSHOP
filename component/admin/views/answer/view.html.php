@@ -63,11 +63,11 @@ class answerViewanswer extends JView
 			$product_id
 		);
 
-		$this->assignRef('lists', $lists);
-		$this->assignRef('parent_id', $parent_id);
-		$this->assignRef('question', $question);
-		$this->assignRef('pagination', $pagination);
-		$this->assignRef('request_url', $uri->toString());
+		$this->lists = $lists;
+		$this->parent_id = $parent_id;
+		$this->question = $question;
+		$this->pagination = $pagination;
+		$this->request_url = $uri->toString();
 
 		parent::display($tpl);
 	}

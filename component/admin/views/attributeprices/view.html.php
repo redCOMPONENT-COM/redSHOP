@@ -40,13 +40,13 @@ class attributepricesViewattributeprices extends JView
 		$data = $this->get('Data');
 		$pagination = new JPagination($total, $limitstart, $limit);
 
-		$this->assignRef('user', JFactory::getUser());
-		$this->assignRef('lists', $lists);
-		$this->assignRef('data', $data);
-		$this->assignRef('section_id', $section_id);
-		$this->assignRef('section', $section);
-		$this->assignRef('pagination', $pagination);
-		$this->assignRef('request_url', $uri->toString());
+		$this->user = JFactory::getUser();
+		$this->lists = $lists;
+		$this->data = $data;
+		$this->section_id = $section_id;
+		$this->section = $section;
+		$this->pagination = $pagination;
+		$this->request_url = $uri->toString();
 
 		parent::display($tpl);
 	}

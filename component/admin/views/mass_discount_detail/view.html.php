@@ -108,9 +108,9 @@ class mass_discount_detailVIEWmass_discount_detail extends JView
 			'class="inputbox" multiple="multiple" ', 'value', 'text', $detail->discount_product
 		);
 
-		$this->assignRef('lists', $lists);
-		$this->assignRef('detail', $detail);
-		$this->assignRef('request_url', $uri->toString());
+		$this->lists = $lists;
+		$this->detail = $detail;
+		$this->request_url = $uri->toString();
 
 		parent::display($tpl);
 	}

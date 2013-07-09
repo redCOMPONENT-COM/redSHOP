@@ -42,9 +42,9 @@ class accessmanager_detailVIEWaccessmanager_detail extends JView
 		JToolBarHelper::apply();
 		JToolBarHelper::cancel();
 
-		$this->assignRef('groups', $groups);
+		$this->groups = $groups;
 
-		$this->assignRef('accessmanager', $accessmanager);
+		$this->accessmanager = $accessmanager;
 
 		parent::display($tpl);
 	}

@@ -65,10 +65,10 @@ class attribute_set_detailVIEWattribute_set_detail extends JView
 		$lists['published'] = JHTML::_('select.booleanlist', 'published', 'class="inputbox"', $detail->published);
 		$lists['attributes'] = $attributes;
 
-		$this->assignRef('model', $model);
-		$this->assignRef('lists', $lists);
-		$this->assignRef('detail', $detail);
-		$this->assignRef('request_url', $uri->toString());
+		$this->model = $model;
+		$this->lists = $lists;
+		$this->detail = $detail;
+		$this->request_url = $uri->toString();
 
 		parent::display($tpl);
 	}
