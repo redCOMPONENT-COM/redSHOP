@@ -35,11 +35,11 @@ class split_paymentViewsplit_payment extends JView
 			return;
 		}
 
-		$this->assignRef('user', $user);
-		$this->assignRef('userdata', $userdata);
-		$this->assignRef('params', $params);
+		$this->user = $user;
+		$this->userdata = $userdata;
+		$this->params = $params;
 		$payment_method_id = JRequest::getVar('payment_method_id');
-		$this->assignRef('payment_method_id', $payment_method_id);
+		$this->payment_method_id = $payment_method_id;
 
 		parent::display($tpl);
 	}
