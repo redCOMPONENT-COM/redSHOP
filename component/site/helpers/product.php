@@ -145,64 +145,96 @@ class producthelper
 		return in_array($country, $eu_countries);
 	}
 
-	public function getProductPrices($product_id, $userid, $quantity = 1)
+	public function getProductPrices($product, $userid, $quantity = 1)
 	{
-		$leftjoin = "";
-		$userArr = $this->_session->get('rs_user');
-		$helper = new redhelper;
-
-		if (empty($userArr))
+		if (is_object($product) && isset($product->advanced_query) && $product->advanced_query == 1)
 		{
-			$userArr = $this->_userhelper->createUserSession($userid);
-		}
-
-		$shopperGroupId = $userArr['rs_user_shopperGroup'];
-
-		if ($helper->isredCRM())
-		{
-			if ($this->_session->get('isredcrmuser'))
+			$result = new stdClass();
+			if ($product->price_id > 0 && ($product->product_adv_price != 0 || $product->discount_adv_price != 0))
 			{
-				$crmDebitorHelper = new crmDebitorHelper;
-				$debitor_id_tot = $crmDebitorHelper->getContactPersons(0, 0, 0, $userid);
-				$debitor_id = $debitor_id_tot[0]->section_id;
-				$details = $crmDebitorHelper->getDebitor($debitor_id);
-				$userid = $details[0]->user_id;
+				$result->price_id = $product->price_id;
+				$result->product_price = $product->product_adv_price;
+				$result->product_currency = $product->product_adv_currency;
+				$result->discount_price = $product->discount_adv_price;
+				$result->discount_start_date = $product->discount_adv_start_date;
+				$result->discount_end_date = $product->discount_adv_end_date;
+
+				if ($result->discount_price != 0
+					&& $result->discount_start_date != 0
+					&& $result->discount_end_date != 0
+					&& $result->discount_start_date <= time()
+					&& $result->discount_end_date >= time()
+					&& $result->discount_price < $result->product_price
+				)
+				{
+					$result->product_price = $result->discount_price;
+				}
 			}
-		}
-
-		$query = $this->_db->getQuery(true);
-		$query->select(' p.price_id,p.product_price,p.product_currency,p.discount_price, p.discount_start_date, p.discount_end_date ');
-
-		if ($userid)
-		{
-			$query->join('LEFT', $this->_table_prefix . 'users_info AS u ON u.shopper_group_id = p.shopper_group_id');
-			$and = " u.user_id='" . $userid . "' AND u.address_type='BT' ";
 		}
 		else
 		{
-			$and = " p.shopper_group_id = '" . $shopperGroupId . "' ";
-		}
+			if (is_object($product))
+				$product_id = (int) $product->product_id;
+			else
+				$product_id = (int) $product;
 
-		$query->from($this->_table_prefix . 'product_price AS p');
-		$query->where('p.product_id = "' . $product_id . '"');
-		$query->where($and);
-		$query->where(' (( p.price_quantity_start <= "' . $quantity . '" AND p.price_quantity_end >= "'
-		. $quantity . '" ) OR (p.price_quantity_start = "0" AND p.price_quantity_end = "0"))');
-		$query->order('price_quantity_start ASC LIMIT 0,1 ');
+			$leftjoin = "";
+			$userArr = $this->_session->get('rs_user');
+			$helper = new redhelper;
 
-		$this->_db->setQuery($query);
-		$result = $this->_db->loadObject();
-
-		if (count($result) > 0)
-		{
-			if ($result->discount_price != 0
-				&& $result->discount_start_date != 0 && $result->discount_end_date != 0
-				&& $result->discount_start_date <= time()
-				&& $result->discount_end_date >= time()
-				&& $result->discount_price < $result->product_price
-			)
+			if (empty($userArr))
 			{
-				$result->product_price = $result->discount_price;
+				$userArr = $this->_userhelper->createUserSession($userid);
+			}
+
+			$shopperGroupId = $userArr['rs_user_shopperGroup'];
+
+			if ($helper->isredCRM())
+			{
+				if ($this->_session->get('isredcrmuser'))
+				{
+					$crmDebitorHelper = new crmDebitorHelper;
+					$debitor_id_tot = $crmDebitorHelper->getContactPersons(0, 0, 0, $userid);
+					$debitor_id = $debitor_id_tot[0]->section_id;
+					$details = $crmDebitorHelper->getDebitor($debitor_id);
+					$userid = $details[0]->user_id;
+				}
+			}
+
+			$query = $this->_db->getQuery(true);
+			$query->select(' p.price_id,p.product_price,p.product_currency,p.discount_price, p.discount_start_date, p.discount_end_date ');
+
+			if ($userid)
+			{
+				$query->join('LEFT', $this->_table_prefix . 'users_info AS u ON u.shopper_group_id = p.shopper_group_id');
+				$and = " u.user_id='" . $userid . "' AND u.address_type='BT' ";
+			}
+			else
+			{
+				$and = " p.shopper_group_id = '" . $shopperGroupId . "' ";
+			}
+
+			$query->from($this->_table_prefix . 'product_price AS p');
+			$query->where('p.product_id = "' . $product_id . '"');
+			$query->where($and);
+			$query->where(' (( p.price_quantity_start <= "' . $quantity . '" AND p.price_quantity_end >= "'
+			. $quantity . '" ) OR (p.price_quantity_start = "0" AND p.price_quantity_end = "0"))');
+			$query->order('price_quantity_start ASC LIMIT 0,1 ');
+
+			$this->_db->setQuery($query);
+			$result = $this->_db->loadObject();
+
+			if (count($result) > 0)
+			{
+				if ($result->discount_price != 0
+					&& $result->discount_start_date != 0 && $result->discount_end_date != 0
+					&& $result->discount_start_date <= time()
+					&& $result->discount_end_date >= time()
+					&& $result->discount_price < $result->product_price
+				)
+				{
+					$result->product_price = $result->discount_price;
+				}
 			}
 		}
 
@@ -852,10 +884,13 @@ class producthelper
 		$thum_image = '';
 		$stockroomhelper = new rsstockroomhelper;
 
-		if(!is_object($product)){
+		if (!is_object($product))
+		{
 			$product_id = $product;
-			$result = $this->getProductById( $product_id );
-		}else{
+			$result = $this->getProductById($product_id);
+		}
+		else
+		{
 			$result = $product;
 		}
 
@@ -1481,7 +1516,7 @@ class producthelper
 		return $data_add;
 	}
 
-	public function getProductNetPrice($product_id, $user_id = 0, $quantity = 1, $data_add = '', $attributes = array())
+	public function getProductNetPrice($product, $user_id = 0, $quantity = 1, $data_add = '', $attributes = array())
 	{
 		$user = JFactory::getUser();
 
@@ -1493,11 +1528,20 @@ class producthelper
 		$ProductPriceArr = array();
 		$stockroomhelper = new rsstockroomhelper;
 
-		$row = $this->getProductById($product_id);
+		if (is_object($product))
+		{
+			$product_id = $product->product_id;
+			$row = & $product;
+		}
+		else
+		{
+			$product_id = $product;
+			$row = $this->getProductById($product_id);
+			$product = & $row;
+		}
 
-		$product_id = $row->product_id;
 		$price_text = JText::_('COM_REDSHOP_REGULAR_PRICE') . "";
-		$result = $this->getProductPrices($product_id, $user_id, $quantity);
+		$result = $this->getProductPrices($product, $user_id, $quantity);
 		$product_price = '';
 		$product_vat_lbl = '';
 		$product_price_lbl = '';
@@ -5981,8 +6025,9 @@ class producthelper
 		return $property_data;
 	}
 
-	public function replaceCartTemplate($product_id = 0, $category_id = 0, $accessory_id = 0, $relproduct_id = 0, $data_add = "", $isChilds = false, $userfieldArr = array(), $totalatt = 0, $totalAccessory = 0, $count_no_user_field = 0, $module_id = 0, $giftcard_id = 0)
+	public function replaceCartTemplate($product = 0, $category_id = 0, $accessory_id = 0, $relproduct_id = 0, $data_add = "", $isChilds = false, $userfieldArr = array(), $totalatt = 0, $totalAccessory = 0, $count_no_user_field = 0, $module_id = 0, $giftcard_id = 0)
 	{
+		$product_test = $product;
 		$user_id = 0;
 		$url = JURI::root();
 		$redconfig = new Redconfiguration();
@@ -5999,12 +6044,22 @@ class producthelper
 			$user_id = $user->id;
 		}
 
+		if (is_object($product))
+		{
+			$product_id = $product->product_id;
+		}
+		else
+		{
+			$product_id = $product;
+		}
+
 		$add_cart_flag = false;
 		$field_section = 12;
 
 		if ($relproduct_id != 0)
 		{
 			$product_id = $relproduct_id;
+			$product = $this->getProductById($product_id);
 		}
 		elseif ($giftcard_id != 0)
 		{
@@ -6016,7 +6071,7 @@ class producthelper
 			$product = $this->getGiftcardData($giftcard_id);
 			$field_section = 13;
 		}
-		else
+		elseif ($relproduct_id == 0 && $giftcard_id == 0 && !(is_object($product)))
 		{
 			$product = $this->getProductById($product_id);
 		}
@@ -6126,7 +6181,15 @@ class producthelper
 
 			// Get stock for Product
 
-			$isStockExists = $stockroomhelper->isStockExists($product_id);
+			if (is_object($product_test) && $product_id == $product_test->product_id)
+			{
+				$isStockExists = $stockroomhelper->isStockExists($product_test);
+			}
+			else
+			{
+				$isStockExists = $stockroomhelper->isStockExists($product_id);
+			}
+
 			$isPreorderStockExists = '';
 
 			if ($totalatt > 0 && !$isStockExists)
@@ -6171,7 +6234,7 @@ class producthelper
 
 			$qunselect = $this->GetDefaultQuantity($product_id, $data_add);
 			//$qunselect=1;
-			$productArr = $this->getProductNetPrice($product_id, $user_id, $qunselect, $data_add);
+			$productArr = $this->getProductNetPrice($product, $user_id, $qunselect, $data_add);
 			$product_price = $productArr['product_price'] * $qunselect;
 			$product_price_novat = $productArr['product_price_novat'] * $qunselect;
 			$product_old_price = $productArr['product_old_price'] * $qunselect;
