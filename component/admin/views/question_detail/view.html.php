@@ -58,11 +58,11 @@ class question_detailVIEWquestion_detail extends JView
 			'class="inputbox" size="1" ', 'product_id', 'product_name', $detail->product_id
 		);
 
-		$this->assignRef('lists', $lists);
-		$this->assignRef('detail', $detail);
-		$this->assignRef('answers', $answers);
-		$this->assignRef('pagination', $pagination);
-		$this->assignRef('request_url', $uri->toString());
+		$this->lists = $lists;
+		$this->detail = $detail;
+		$this->answers = $answers;
+		$this->pagination = $pagination;
+		$this->request_url = $uri->toString();
 
 		parent::display($tpl);
 	}

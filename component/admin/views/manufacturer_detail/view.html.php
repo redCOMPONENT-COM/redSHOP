@@ -80,8 +80,8 @@ class manufacturer_detailVIEWmanufacturer_detail extends JView
 		$lists['extra_field'] = $list_field;
 
 
-		$this->assignRef('lists', $lists);
-		$this->assignRef('detail', $detail);
+		$this->lists = $lists;
+		$this->detail = $detail;
 		$this->request_url = $uri->toString();
 
 		parent::display($tpl);

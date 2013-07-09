@@ -129,9 +129,9 @@ class tax_detailVIEWtax_detail extends JView
 			//]]></script>";
 		$lists['tax_state'] = $script;
 
-		$this->assignRef('lists', $lists);
-		$this->assignRef('detail', $detail);
-		$this->assignRef('request_url', $uri->toString());
+		$this->lists = $lists;
+		$this->detail = $detail;
+		$this->request_url = $uri->toString();
 
 		parent::display($tpl);
 	}

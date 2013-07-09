@@ -27,7 +27,7 @@ class importViewimport extends JView
 
 			$check_vm = $model->check_vm();
 
-			$this->assignRef('check_vm', $check_vm);
+			$this->check_vm = $check_vm;
 
 			$document->setTitle(JText::_('COM_REDSHOP_IMPORT_FROM_VM'));
 
@@ -55,7 +55,7 @@ class importViewimport extends JView
 				JText::_('COM_REDSHOP_IMPORT'), JText::_('COM_REDSHOP_IMPORT'), false, false
 			);
 
-			$this->assignRef('result', $result);
+			$this->result = $result;
 		}
 
 		parent::display($tpl);

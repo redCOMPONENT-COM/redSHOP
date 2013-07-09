@@ -42,11 +42,11 @@ class ratingViewrating extends JView
 		$pagination = $this->get('Pagination');
 
 
-		$this->assignRef('user', JFactory::getUser());
-		$this->assignRef('lists', $lists);
-		$this->assignRef('ratings', $ratings);
-		$this->assignRef('pagination', $pagination);
-		$this->assignRef('request_url', $uri->toString());
+		$this->user = JFactory::getUser();
+		$this->lists = $lists;
+		$this->ratings = $ratings;
+		$this->pagination = $pagination;
+		$this->request_url = $uri->toString();
 		parent::display($tpl);
 	}
 }

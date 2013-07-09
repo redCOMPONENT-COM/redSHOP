@@ -55,9 +55,9 @@ class fieldsViewfields extends JView
 			'value', 'text', $filtersection
 		);
 
-		$this->assignRef('lists', $lists);
-		$this->assignRef('fields', $fields);
-		$this->assignRef('pagination', $pagination);
+		$this->lists = $lists;
+		$this->fields = $fields;
+		$this->pagination = $pagination;
 
 		parent::display($tpl);
 	}

@@ -145,12 +145,12 @@ class productViewproduct extends JView
 			'class="inputbox" size="1"  onchange="return AssignTemplate()" ', 'template_id', 'template_name', 0
 		);
 
-		$this->assignRef('list_in_products', $list_in_products);
-		$this->assignRef('keyword', $keyword);
-		$this->assignRef('search_field', $search_field);
+		$this->list_in_products = $list_in_products;
+		$this->keyword = $keyword;
+		$this->search_field = $search_field;
 		$this->user = JFactory::getUser();
-		$this->assignRef('lists', $lists);
-		$this->assignRef('products', $products);
+		$this->lists = $lists;
+		$this->products = $products;
 		$this->pagination = $pagination;
 		$this->request_url = $uri->toString();
 

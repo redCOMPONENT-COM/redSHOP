@@ -22,7 +22,7 @@ class searchViewsearch extends JView
 
 		$search_detail = $this->get('data');
 
-		$this->assignRef('detail', $search_detail);
+		$this->detail = $search_detail;
 
 		parent::display($tpl);
 	}

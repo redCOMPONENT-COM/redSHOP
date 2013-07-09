@@ -36,7 +36,7 @@ class userViewuser extends JView
 		{
 			$this->setLayout('user_sync');
 			$sync_user = $userhelper->userSynchronization();
-			$this->assignRef('sync_user', $sync_user);
+			$this->sync_user = $sync_user;
 		}
 		else
 		{
@@ -83,10 +83,10 @@ class userViewuser extends JView
 			'class="inputbox" size="1" onchange="document.adminForm.submit()"', 'value', 'text', $tax_exempt_request_filter
 		);
 
-		$this->assignRef('lists', $lists);
-		$this->assignRef('user', $user);
-		$this->assignRef('pagination', $pagination);
-		$this->assignRef('request_url', $uri->toString());
+		$this->lists = $lists;
+		$this->user = $user;
+		$this->pagination = $pagination;
+		$this->request_url = $uri->toString();
 
 		parent::display($tpl);
 	}

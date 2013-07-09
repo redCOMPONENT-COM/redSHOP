@@ -154,13 +154,13 @@ class xmlexport_detailVIEWxmlexport_detail extends JView
 			$this->setlayout("default");
 		}
 
-		$this->assignRef('lists', $lists);
-		$this->assignRef('detail', $detail);
-		$this->assignRef('columns', $columns);
-		$this->assignRef('colvalue', $colvalue);
-		$this->assignRef('childname', $dbchildname);
-		$this->assignRef('iparray', $iparray);
-		$this->assignRef('request_url', $uri->toString());
+		$this->lists = $lists;
+		$this->detail = $detail;
+		$this->columns = $columns;
+		$this->colvalue = $colvalue;
+		$this->childname = $dbchildname;
+		$this->iparray = $iparray;
+		$this->request_url = $uri->toString();
 
 		parent::display($tpl);
 	}

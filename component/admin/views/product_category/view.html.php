@@ -53,8 +53,8 @@ class product_categoryViewproduct_category extends JView
 			'class="inputbox" multiple="multiple"', 'category_id', 'category_name'
 		);
 
-		$this->assignRef('products', $products);
-		$this->assignRef('lists', $lists);
+		$this->products = $products;
+		$this->lists = $lists;
 
 		parent::display($tpl);
 	}

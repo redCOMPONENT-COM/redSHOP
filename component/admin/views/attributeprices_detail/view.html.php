@@ -28,10 +28,10 @@ class attributeprices_detailVIEWattributeprices_detail extends JView
 			'class="inputbox" size="1"', 'value', 'text', $detail->shopper_group_id
 		);
 
-		$this->assignRef('lists', $lists);
-		$this->assignRef('detail', $detail);
-		$this->assignRef('property', $property);
-		$this->assignRef('request_url', $uri->toString());
+		$this->lists = $lists;
+		$this->detail = $detail;
+		$this->property = $property;
+		$this->request_url = $uri->toString();
 
 		parent::display($tpl);
 	}
