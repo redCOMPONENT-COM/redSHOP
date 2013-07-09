@@ -66,9 +66,9 @@ class cartViewcart extends JView
 			$this->setLayout('change_attribute');
 		}
 
-		$this->assignRef('Discount', $Discount);
-		$this->assignRef('cart', $cart);
-		$this->assignRef('data', $data);
+		$this->Discount = $Discount;
+		$this->cart = $cart;
+		$this->data = $data;
 		parent::display($tpl);
 	}
 }

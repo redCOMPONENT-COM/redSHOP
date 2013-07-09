@@ -455,10 +455,10 @@ class productViewproduct extends JView
 
 		// Breadcrumb end
 
-		$this->assignRef('data', $data);
-		$this->assignRef('template', $productTemplate);
-		$this->assignRef('pageheadingtag', $pageheadingtag);
-		$this->assignRef('params', $params);
+		$this->data = $data;
+		$this->template = $productTemplate;
+		$this->pageheadingtag = $pageheadingtag;
+		$this->params = $params;
 
 		$for = JRequest::getWord("for", false);
 
