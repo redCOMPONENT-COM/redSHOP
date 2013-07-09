@@ -49,12 +49,15 @@ class CategoryModelCategory extends JModel
 		parent::__construct();
 
 		$this->_table_prefix = '#__redshop_';
+		$this->_db = JFactory::getDBO();
 		$this->producthelper = new producthelper;
+		$this->_userhelper = new rsUserhelper();
+		$this->_session = JFactory::getSession();
 
 		$params = $app->getParams('com_redshop');
-		$layout = JRequest::getVar('layout');
-		$print = JRequest::getVar('print');
-		$Id = JRequest::getInt('cid', 0);
+		$layout = $app->input->get('layout');
+		$print = $app->input->get('print');
+		$Id = $app->input->get('cid', 0, 'int');
 
 		if (!$print)
 		{
@@ -164,6 +167,10 @@ class CategoryModelCategory extends JModel
 			$perpage = explode('}', $perpage[1]);
 			$limit = intval($perpage[0]);
 		}
+		elseif (isset($this->_template[0]->template_desc) && strstr($this->_template[0]->template_desc, "{show_all_products_in_category}"))
+		{
+			$limit = 9999;
+		}
 		else
 		{
 			if ($this->_id)
@@ -216,50 +223,192 @@ class CategoryModelCategory extends JModel
 	public function getCategoryProduct($minmax = 0, $isSlider = false)
 	{
 		$app = JFactory::getApplication();
+		$user = JFactory::getUser();
+		$user_id = $user->id;
 		$menu = $app->getMenu();
 		$item = $menu->getActive();
 		$manufacturer_id = (isset($item)) ? intval($item->params->get('manufacturer_id')) : 0;
 
-		$setproductfinderobj = new redhelper;
+		$userArr = $this->_session->get('rs_user');
+
+		$helper = new redhelper;
+
+		if (empty($userArr))
+		{
+			$userArr = $this->_userhelper->createUserSession($user_id);
+		}
+
+		$shopperGroupId = $this->_userhelper->getShopperGroup($user_id);
+
+		//using or not redCRM
+		if ($helper->isredCRM())
+		{
+			if ($this->_session->get('isredcrmuser'))
+			{
+				$crmDebitorHelper = new crmDebitorHelper();
+				$debitor_id_tot = $crmDebitorHelper->getContactPersons(0, 0, 0, $user_id);
+				$debitor_id = $debitor_id_tot[0]->section_id;
+				$details = $crmDebitorHelper->getDebitor($debitor_id);
+				$user_id = $details[0]->user_id;
+			}
+		}
+
+		//initial query to select product in category
+		$query = $this->_db->getQuery(true);
+
+		//initial query to calc count all product in category
+		$queryCount = $this->_db->getQuery(true);
+
 		$order_by = $this->_buildProductOrderBy();
-		$manufacturer_id = JRequest::getInt('manufacturer_id', $manufacturer_id, '', 'int');
+		$manufacturer_id = $app->input->get('manufacturer_id', $manufacturer_id, 'int');
+
+		$endlimit = $this->getProductPerPage();
+		$limitstart = $app->input->get('limitstart', 0, 'int');
 
 		$sort = "";
-		$and = "";
+
+		//tacked necessary quantity value
+		if (DEFAULT_QUANTITY_SELECTBOX_VALUE != "")
+		{
+			$quaboxarr = explode(",", DEFAULT_QUANTITY_SELECTBOX_VALUE);
+			$quaboxarr = array_merge(array(), array_unique($quaboxarr));
+			sort($quaboxarr);
+			for ($q = 0; $q < count($quaboxarr); $q++)
+			{
+				if (intVal($quaboxarr[$q]) && intVal($quaboxarr[$q]) != 0)
+				{
+					$qunselect = intVal($quaboxarr[$q]);
+					break;
+				}
+			}
+		}
+		else
+		{
+			$qunselect = 1;
+		}
 
 		// Shopper group - choose from manufactures Start
-		$rsUserhelper = new rsUserhelper;
-		$shopper_group_manufactures = $rsUserhelper->getShopperGroupManufacturers();
+		$shopper_group_manufactures = $this->_userhelper->getShopperGroupManufacturers();
 
 		if ($shopper_group_manufactures != "")
 		{
-			$and .= " AND p.manufacturer_id IN (" . $shopper_group_manufactures . ") ";
+			$query->where('p.manufacturer_id IN (' . $shopper_group_manufactures . ')');
+			$queryCount->where('p.manufacturer_id IN (' . $shopper_group_manufactures . ')');
 		}
 
 		// Shopper group - choose from manufactures End
 
 		if ($manufacturer_id && $manufacturer_id > 0)
 		{
-			$and .= " AND p.manufacturer_id='" . $manufacturer_id . "' ";
+			$query->where('p.manufacturer_id = "' . $manufacturer_id . '"');
+			$queryCount->where('p.manufacturer_id = "' . $manufacturer_id . '"');
 		}
 
 		if ($minmax && !(strstr($order_by, "p.product_price ASC") || strstr($order_by, "p.product_price DESC")))
 		{
-			$order_by = " ORDER BY p.product_price ASC";
+			$order_by = 'p.product_price ASC';
+		}
+		$query->order($order_by);
+
+		if ($finder_condition = $this->getredproductfindertags() != '')
+		{
+			$query->where($finder_condition);
+			$queryCount->where($finder_condition);
 		}
 
-		$finder_condition = $this->getredproductfindertags();
+		$userdata = $this->producthelper->getVatUserinfo($user_id);
 
-		$query = "SELECT * FROM " . $this->_table_prefix . "product AS p "
-			. "LEFT JOIN " . $this->_table_prefix . "product_category_xref AS pc ON pc.product_id=p.product_id "
-			. "LEFT JOIN " . $this->_table_prefix . "category AS c ON c.category_id=pc.category_id "
-			. "LEFT JOIN " . $this->_table_prefix . "manufacturer AS m ON m.manufacturer_id=p.manufacturer_id "
-			. "WHERE p.published = 1 AND p.expired = 0 "
-			. "AND pc.category_id='" . $this->_id . "' "
-			. "AND p.product_parent_id = 0 "
-			. $and . $finder_condition . $order_by;
+		//build condition join from tables TAX info about product
+		$andTr = ' AND (';
+		if (VAT_BASED_ON == 2)
+		{
+			$andTr .= 'tr.is_eu_country = 1 AND ';
+		}
+		$andTr .= 'tr.tax_country = "' . $userdata->country_code . '" AND (tr.tax_state = "' . $userdata->state_code . '" OR tr.tax_state = "") ';
+		$andTr .= 'AND (tr.tax_group_id = p.product_tax_group_id OR tr.tax_group_id = "' . DEFAULT_VAT_GROUP . '" ))';
 
-		$this->_product = $this->_getList($query);
+		//select stockroom fields about product
+		if (USE_STOCKROOM == 1)
+		{
+			$query->select('(SELECT SUM(srxp.quantity) FROM ' . $this->_table_prefix . 'product_stockroom_xref AS srxp WHERE p.product_id = srxp.product_id AND srxp.quantity >= 0 ) AS quantity_adv');
+		}
+
+		//select fields product, category, manufacturer
+		$query->select('p.*, c.*, m.*');
+
+		//label from system about using advanced info about product
+		$query->select('1 as advanced_query');
+
+		//select all child product
+		$query->select('(SELECT GROUP_CONCAT(child.product_id SEPARATOR ";") FROM ' . $this->_table_prefix . 'product as child WHERE p.product_id = child.product_parent_id ) AS childs');
+
+		//select accessory
+		$query->select('(SELECT COUNT(a.product_id) FROM ' . $this->_table_prefix . 'product_accessory AS a WHERE a.product_id = p.product_id ) AS totacc');
+
+		//select alt text from main image if exist
+		$query->select('media.media_alternate_text AS alttext');
+
+		//select advanced info price if exist
+		$query->select('p_price.price_id, p_price.product_price AS product_adv_price, p_price.product_currency AS product_adv_currency,  p_price.discount_price AS discount_adv_price, p_price.discount_start_date AS discount_adv_start_date, p_price.discount_end_date AS discount_adv_end_date');
+
+		//select template code about product
+		$query->select('tpl.template_desc');
+
+		//select TAX info
+		$query->select('tr.*, tr.mdate AS tax_mdate');
+
+		//select product attributes
+		$query->select('(SELECT COUNT(att.attribute_id) FROM ' . $this->_table_prefix . 'product_attribute AS att WHERE att.product_id = p.product_id AND att.attribute_published = 1 AND att.attribute_name != "" ) AS count_attribute_id');
+
+		$query->from($this->_table_prefix . 'product AS p');
+
+		$query->leftJoin($this->_table_prefix . 'product_category_xref AS pc ON pc.product_id = p.product_id');
+		$query->leftJoin($this->_table_prefix . 'category AS c ON c.category_id = pc.category_id');
+		$query->leftJoin($this->_table_prefix . 'manufacturer AS m ON m.manufacturer_id = p.manufacturer_id');
+		$query->leftJoin($this->_table_prefix . 'media AS media ON p.product_id = media.section_id AND media.media_section = "product" AND media.media_type = "images"');
+		$query->leftJoin($this->_table_prefix . 'template AS tpl ON tpl.template_id = p.product_template');
+		$query->leftJoin($this->_table_prefix . 'tax_rate as tr ON tr.tax_group_id = p.product_tax_group_id' . $andTr);
+		$query->leftJoin($this->_table_prefix . 'tax_group as tg ON tg.tax_group_id = tr.tax_group_id AND tg.published = 1');
+		$query->leftJoin($this->_table_prefix . 'product_price AS p_price ON p.product_id = p_price.product_id
+			AND ((p_price.price_quantity_start <= "' . $qunselect . '"
+			AND p_price.price_quantity_end >= "' . $qunselect . '")
+			OR(p_price.price_quantity_start = "0"
+			AND p_price.price_quantity_end = "0"))
+			AND p_price.shopper_group_id = "' . $shopperGroupId . '"');
+
+		$query->where('p.published = 1');
+		$query->where('p.expired = 0');
+		$query->where('pc.category_id = ' . (int) $this->_id);
+		$query->where('p.product_parent_id = 0');
+		$query->where('(media.section_id IS NULL OR media.section_id > 0)');
+
+		$query->group('p.product_id');
+
+		//don`t touch, this is a second order from select optimal advanced info price
+		$query->order('p_price.price_quantity_start ASC');
+
+		$queryCount->select('COUNT(DISTINCT(p.product_id))');
+
+		$queryCount->from($this->_table_prefix . 'product AS p');
+
+		$queryCount->leftJoin($this->_table_prefix . 'product_category_xref AS pc ON pc.product_id = p.product_id');
+		$queryCount->leftJoin($this->_table_prefix . 'manufacturer AS m ON m.manufacturer_id = p.manufacturer_id');
+
+		$queryCount->where('p.published = 1');
+		$queryCount->where('p.expired = 0');
+		$queryCount->where('pc.category_id = ' . (int) $this->_id);
+		$queryCount->where('p.product_parent_id = 0');
+
+		//using price slider or not
+		if ($minmax != 0 || $isSlider)
+		{
+			$this->_db->setQuery($query);
+		}
+		else
+		{
+			$this->_db->setQuery($query, $limitstart, $endlimit);
+		}
+		$this->_product = $this->_db->loadObjectList();
 
 		$priceSort = false;
 
@@ -344,7 +493,8 @@ class CategoryModelCategory extends JModel
 		}
 		else
 		{
-			$this->_total = count($this->_product);
+			$this->_db->setQuery($queryCount);
+			$this->_total = $this->_db->loadResult($queryCount);
 		}
 
 		return $this->_product;
@@ -391,7 +541,6 @@ class CategoryModelCategory extends JModel
 	public function _buildProductOrderBy()
 	{
 		$app = JFactory::getApplication();
-		$params = $app->getParams("com_redshop");
 		$menu = $app->getMenu();
 		$item = $menu->getActive();
 		$order_by = urldecode(JRequest::getVar('order_by', ''));
@@ -401,9 +550,7 @@ class CategoryModelCategory extends JModel
 			$order_by = (isset($item)) ? $item->params->get('order_by', 'p.product_name ASC') : DEFAULT_PRODUCT_ORDERING_METHOD;
 		}
 
-		$orderby = " ORDER BY " . $order_by;
-
-		return $orderby;
+		return $order_by;
 	}
 
 	public function getData()
@@ -487,9 +634,6 @@ class CategoryModelCategory extends JModel
 
 	public function getCategoryTemplate()
 	{
-		$app = JFactory::getApplication();
-
-		$params = $app->getParams('com_redshop');
 		$category_template = $this->getState('category_template');
 
 		$redTemplate = new Redtemplate;
@@ -521,8 +665,6 @@ class CategoryModelCategory extends JModel
 	public function loadCategoryTemplate()
 	{
 		$app = JFactory::getApplication();
-
-		$params = $app->getParams('com_redshop');
 		$category_template = (int) $this->getState('category_template');
 		$redTemplate = new Redtemplate;
 
@@ -547,9 +689,18 @@ class CategoryModelCategory extends JModel
 			$selected_template = DEFAULT_CATEGORYLIST_TEMPLATE;
 		}
 
-		$category_template_id = JRequest::getInt('category_template', $selected_template, '', 'int');
-		$this->_template = $redTemplate->getTemplate($template_section, $category_template_id);
-
+		//loading template category
+		if (isset($this->_maincat->template_name) && $this->_maincat->template_name != '' && $app->input->get('category_template', $this->_maincat->category_template,'int') == $selected_template)
+		{
+			$this->_template = array();
+			$this->_template[0] = new stdClass();
+			$this->_template[0]->template_desc = $redTemplate->readtemplateFile('category', $this->_maincat->template_name);
+		}
+		else
+		{
+			$category_template_id = JRequest::getInt('category_template', $selected_template, '', 'int');
+			$this->_template = $redTemplate->getTemplate($template_section, $category_template_id);
+		}
 		return $this->_template;
 	}
 
@@ -725,20 +876,16 @@ class CategoryModelCategory extends JModel
 							$finder_products = implode("','", $rs);
 						}
 
-						$finder_condition = " AND p.product_id IN('" . $finder_products . "')";
+						$finder_condition = 'p.product_id IN("' . $finder_products . '")';
 						$this->_is_filter_enable = true;
 					}
-
 					if (count($tag) == 1 && $tag[0] == 0)
 					{
 						$finder_condition = "";
 					}
 				}
-
-				$finder_condition;
 			}
 		}
-
 		return $finder_condition;
 	}
 }
