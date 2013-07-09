@@ -17,23 +17,23 @@ class CategoryViewcategory extends JView
 	public function display($tpl = null)
 	{
 		global $context;
-		$app           = JFactory::getApplication();
-		$objhelper     = new redhelper;
+		$app = JFactory::getApplication();
+		$objhelper = new redhelper;
 		$prodhelperobj = new producthelper;
 
 		// Request variables
 		$option = JRequest::getVar('option', 'com_redshop');
 		$Itemid = JRequest::getVar('Itemid');
-		$catid  = JRequest::getInt('cid', 0, '', 'int');
+		$catid = JRequest::getInt('cid', 0, '', 'int');
 		$layout = JRequest::getVar('layout');
 
-		$print  = JRequest::getVar('print');
+		$print = JRequest::getVar('print');
 		$params = $app->getParams($option);
-		$model  = $this->getModel('category');
+		$model = $this->getModel('category');
 
-		$category_template     = (int) $params->get('category_template');
-		$menu_meta_keywords    = $params->get('menu-meta_keywords');
-		$menu_robots           = $params->get('robots');
+		$category_template = (int) $params->get('category_template');
+		$menu_meta_keywords = $params->get('menu-meta_keywords');
+		$menu_robots = $params->get('robots');
 		$menu_meta_description = $params->get('menu-meta_description');
 
 		if (!$catid && $layout == 'detail')
@@ -62,21 +62,21 @@ class CategoryViewcategory extends JView
 
 		// End Code for fixes IE9 issue
 
-		$lists   = array();
-		$minmax  = array(0, 0);
+		$lists = array();
+		$minmax = array(0, 0);
 		$product = array();
 
 		$maincat = $model->_loadCategory();
 
-		$allCategoryTemplate  = $model->getCategoryTemplate();
-		$order_data           = $objhelper->getOrderByList();
-		$manufacturers        = $model->getManufacturer();
+		$allCategoryTemplate = $model->getCategoryTemplate();
+		$order_data = $objhelper->getOrderByList();
+		$manufacturers = $model->getManufacturer();
 		$loadCategorytemplate = $model->loadCategoryTemplate();
-		$detail               = $model->getdata();
+		$detail = $model->getdata();
 
 		if (count($maincat) > 0 && $maincat->canonical_url != "")
 		{
-			$main_url  = JURI::root() . $maincat->canonical_url;
+			$main_url = JURI::root() . $maincat->canonical_url;
 			$canonical = '<link rel="canonical" href="' . $main_url . '" />';
 			$document->addCustomTag($canonical);
 		}
@@ -94,10 +94,10 @@ class CategoryViewcategory extends JView
 			if (count($loadCategorytemplate) > 0 && strstr($loadCategorytemplate[0]->template_desc, "{product_price_slider}"))
 			{
 				$limit_product = $model->getCategoryProduct(1);
-				$minmax[0]     = $limit_product[0]->minprice;
-				$minmax[1]     = $limit_product[0]->maxprice;
+				$minmax[0] = $limit_product[0]->minprice;
+				$minmax[1] = $limit_product[0]->maxprice;
 
-				$isSlider    = true;
+				$isSlider = true;
 				$texpricemin = JRequest::getInt('texpricemin', $minmax[0], '', 'int');
 				$texpricemax = JRequest::getInt('texpricemax', $minmax[1], '', 'int');
 				$model->setMaxMinProductPrice(array($texpricemin, $texpricemax));
@@ -111,17 +111,22 @@ class CategoryViewcategory extends JView
 
 			// For page title
 			$pagetitletag = SEO_PAGE_TITLE_CATEGORY;
-			$parentcat    = "";
-			$parentid     = $prodhelperobj->getParentCategory($maincat->category_id);
 
-			while ($parentid != 0)
+			if (strstr($pagetitletag, '{parentcategoryloop}'))
 			{
-				$parentdetail = $prodhelperobj->getSection("category", $parentid);
-				$parentcat    = $parentdetail->category_name . "  " . $parentcat;
-				$parentid     = $prodhelperobj->getParentCategory($parentdetail->category_id);
+				$parentcat = '';
+				$parentid = $prodhelperobj->getParentCategory($maincat->category_id);
+
+				while ($parentid != 0)
+				{
+					$parentdetail = $prodhelperobj->getSection("category", $parentid);
+					$parentcat = $parentdetail->category_name . "  " . $parentcat;
+					$parentid = $prodhelperobj->getParentCategory($parentdetail->category_id);
+				}
+
+				$pagetitletag = str_replace("{parentcategoryloop}", $parentcat, $pagetitletag);
 			}
 
-			$pagetitletag = str_replace("{parentcategoryloop}", $parentcat, $pagetitletag);
 			$pagetitletag = str_replace("{categoryname}", $maincat->category_name, $pagetitletag);
 			$pagetitletag = str_replace("{shopname}", SHOP_NAME, $pagetitletag);
 			$pagetitletag = str_replace("{categoryshortdesc}", strip_tags($maincat->category_short_description), $pagetitletag);
@@ -339,17 +344,17 @@ class CategoryViewcategory extends JView
 		}
 
 		$category_template_id = $app->getUserStateFromRequest($context . 'category_template', 'category_template', $selected_template);
-		$order_by_select      = JRequest::getVar('order_by', '');
-		$manufacturer_id      = JRequest::getInt('manufacturer_id', 0, '', 'int');
+		$order_by_select = JRequest::getVar('order_by', '');
+		$manufacturer_id = JRequest::getInt('manufacturer_id', 0, '', 'int');
 
 		$lists['category_template'] = "";
-		$lists['manufacturer']      = "";
+		$lists['manufacturer'] = "";
 
 		if (count($manufacturers) > 0)
 		{
 			$temps = array(
 				(object) array(
-					'manufacturer_id'   => 0,
+					'manufacturer_id' => 0,
 					'manufacturer_name' => JText::_('COM_REDSHOP_SELECT_MANUFACTURE')
 				)
 			);
