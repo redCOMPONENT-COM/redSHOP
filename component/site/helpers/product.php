@@ -60,6 +60,8 @@ class producthelper
 
 	public $_discount_product_data = null;
 
+	public $_UserInformation = null;
+
 	function __construct()
 	{
 		$this->_db = JFactory::getDBO();
@@ -2204,9 +2206,7 @@ class producthelper
 
 	public function getUserInformation($userid = 0, $address_type = 'BT', $rs_user_info_id = 0)
 	{
-		$list = array();
 		$user = JFactory::getUser();
-		$and = '';
 
 		if (!$userid)
 		{
@@ -2218,20 +2218,48 @@ class producthelper
 			$address_type = 'BT';
 		}
 
-		if ($rs_user_info_id && $address_type == 'ST')
+		if (isset($this->_UserInformation['userid' . $userid]['address_type' . $address_type]['rs_user_info_id' . $rs_user_info_id])
+			&& $this->_UserInformation['userid' . $userid]['address_type' . $address_type]['rs_user_info_id' . $rs_user_info_id] != null)
 		{
-			$and = "AND u.users_info_id = '" . $rs_user_info_id . "'";
+			$list = $this->_UserInformation['userid' . $userid]['address_type' . $address_type]['rs_user_info_id' . $rs_user_info_id];
 		}
-
-		if ($userid)
+		else
 		{
-			$query = "SELECT sh.*,u.* FROM " . $this->_table_prefix . "users_info AS u "
-				. "LEFT JOIN " . $this->_table_prefix . "shopper_group AS sh ON sh.shopper_group_id=u.shopper_group_id "
-				. "WHERE u.user_id='" . $userid . "' "
-				. $and
-				. "order by u.users_info_id ASC LIMIT 0,1";
-			$this->_db->setQuery($query);
-			$list = $this->_db->loadObject();
+			$list = array();
+			$and = '';
+
+			if ($rs_user_info_id && $address_type == 'ST')
+			{
+				$and = "AND u.users_info_id = '" . $rs_user_info_id . "'";
+			}
+
+			if ($userid)
+			{
+				$query = "SELECT sh.*,u.* FROM " . $this->_table_prefix . "users_info AS u "
+					. "LEFT JOIN " . $this->_table_prefix . "shopper_group AS sh ON sh.shopper_group_id=u.shopper_group_id "
+					. "WHERE u.user_id='" . $userid . "' "
+					. $and
+					. "order by u.users_info_id ASC LIMIT 0,1";
+				$this->_db->setQuery($query);
+				$list = $this->_db->loadObject();
+			}
+
+			if (!is_array($this->_UserInformation['userid' . $userid]))
+			{
+				$this->_UserInformation = array('userid' . $userid => null);
+			}
+
+			if (!is_array($this->_UserInformation['userid' . $userid]['address_type' . $address_type]))
+			{
+				$this->_UserInformation['userid' . $userid] = array('address_type' . $address_type => null);
+			}
+
+			if (!is_null($this->_UserInformation['userid' . $userid]['address_type' . $address_type]['rs_user_info_id' . $rs_user_info_id]))
+			{
+				$this->_UserInformation['userid' . $userid]['address_type' . $address_type] = array('rs_user_info_id' . $rs_user_info_id => null);
+			}
+
+			$this->_UserInformation['userid' . $userid]['address_type' . $address_type]['rs_user_info_id' . $rs_user_info_id] = $list;
 		}
 
 		return $list;

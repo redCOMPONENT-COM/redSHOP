@@ -140,20 +140,27 @@ class rsUserhelper
 
 	public function getShopperGroupList($shopper_group_id = 0)
 	{
-		$and = '';
-
-		if ($shopper_group_id != 0)
+		if ($this->_shopper_group_id != $shopper_group_id || $shopper_group_id == 0)
 		{
-			$and .= 'AND shopper_group_id="' . $shopper_group_id . '" ';
+			$and = '';
+
+			if ($shopper_group_id != 0)
+			{
+				$and .= 'AND shopper_group_id="' . $shopper_group_id . '" ';
+			}
+
+			$query = 'SELECT sh.*, shopper_group_id AS value, shopper_group_name AS text FROM ' . $this->_table_prefix . 'shopper_group AS sh '
+				. 'WHERE published=1 '
+				. $and;
+			$this->_db->setQuery($query);
+
+			$list = $this->_shopper_group_data = $this->_db->loadObjectList();
+			$this->_shopper_group_id = $shopper_group_id;
 		}
-
-		$query = 'SELECT sh.*, shopper_group_id AS value, shopper_group_name AS text FROM ' . $this->_table_prefix . 'shopper_group AS sh '
-			. 'WHERE published=1 '
-			. $and;
-		$this->_db->setQuery($query);
-
-		$list = $this->_shopper_group_data = $this->_db->loadObjectList();
-		$this->_shopper_group_id = $shopper_group_id;
+		else
+		{
+			$list = $this->_shopper_group_data;
+		}
 
 		return $list;
 	}
