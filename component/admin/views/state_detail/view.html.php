@@ -80,9 +80,9 @@ class state_detailVIEWstate_detail extends JView
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_state') . ': <small><small>[ ' . $text . ' ]</small></small>', 'redshop_region_48');
 
-		$this->assignRef('detail', $detail);
-		$this->assignRef('lists', $lists);
-		$this->assignRef('request_url', $uri->toString());
+		$this->detail = $detail;
+		$this->lists = $lists;
+		$this->request_url = $uri->toString();
 
 		parent::display($tpl);
 	}

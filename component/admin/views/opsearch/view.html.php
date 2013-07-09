@@ -53,9 +53,9 @@ class opsearchViewopsearch extends JView
 			'class="inputbox" size="1" onchange="document.adminForm.submit();"'
 		);
 
-		$this->assignRef('lists', $lists);
-		$this->assignRef('products', $products);
-		$this->assignRef('pagination', $pagination);
+		$this->lists = $lists;
+		$this->products = $products;
+		$this->pagination = $pagination;
 		$this->request_url = $uri->toString();
 
 		parent::display($tpl);

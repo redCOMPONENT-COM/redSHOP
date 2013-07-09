@@ -23,7 +23,7 @@ class template_detailVIEWtemplate_detail extends JView
 
 		jimport('joomla.html.pane');
 		$pane = JPane::getInstance('sliders');
-		$this->assignRef('pane', $pane);
+		$this->pane = $pane;
 
 		$model = $this->getModel('template_detail');
 		$user = JFactory::getUser();
@@ -105,9 +105,9 @@ class template_detailVIEWtemplate_detail extends JView
 		);
 		$lists['order_status'] = $order_functions->getstatuslist('order_status', $detail->order_status, 'class="inputbox" multiple="multiple"');
 
-		$this->assignRef('lists', $lists);
-		$this->assignRef('detail', $detail);
-		$this->assignRef('request_url', $uri->toString());
+		$this->lists = $lists;
+		$this->detail = $detail;
+		$this->request_url = $uri->toString();
 
 		parent::display($tpl);
 	}

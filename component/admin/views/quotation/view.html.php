@@ -56,9 +56,9 @@ class quotationViewquotation extends JView
 			'class="inputbox" size="1" onchange="document.adminForm.submit();"', 'value', 'text', $filter_status
 		);
 
-		$this->assignRef('lists', $lists);
-		$this->assignRef('quotation', $quotation);
-		$this->assignRef('pagination', $pagination);
+		$this->lists = $lists;
+		$this->quotation = $quotation;
+		$this->pagination = $pagination;
 		$this->request_url = $uri->toString();
 
 		parent::display($tpl);

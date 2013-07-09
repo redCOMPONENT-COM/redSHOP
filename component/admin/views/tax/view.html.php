@@ -44,11 +44,11 @@ class taxViewtax extends JView
 
 		$pagination = new JPagination($total, $limitstart, $limit);
 
-		$this->assignRef('user', JFactory::getUser());
-		$this->assignRef('lists', $lists);
-		$this->assignRef('media', $media);
-		$this->assignRef('pagination', $pagination);
-		$this->assignRef('request_url', $uri->toString());
+		$this->user = JFactory::getUser();
+		$this->lists = $lists;
+		$this->media = $media;
+		$this->pagination = $pagination;
+		$this->request_url = $uri->toString();
 
 		parent::display($tpl);
 	}

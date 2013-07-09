@@ -98,11 +98,11 @@ class wrapper_detailVIEWwrapper_detail extends JView
 			'value', 'text', 0
 		);
 
-		$this->assignRef('lists', $lists);
-		$this->assignRef('detail', $detail);
-		$this->assignRef('product', $product);
-		$this->assignRef('product_id', $product_id);
-		$this->assignRef('category', $category);
+		$this->lists = $lists;
+		$this->detail = $detail;
+		$this->product = $product;
+		$this->product_id = $product_id;
+		$this->category = $category;
 		$this->request_url = $uri->toString();
 
 		parent::display($tpl);

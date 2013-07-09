@@ -40,7 +40,7 @@ class deliveryViewdelivery extends JView
 		$lists['order'] = $filter_order;
 		$lists['order_Dir'] = $filter_order_Dir;
 
-		$this->assignRef('lists', $lists);
+		$this->lists = $lists;
 		$this->request_url = $uri->toString();
 
 		parent::display($tpl);

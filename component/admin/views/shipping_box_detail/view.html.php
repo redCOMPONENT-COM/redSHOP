@@ -28,7 +28,7 @@ class shipping_box_detailVIEWshipping_box_detail extends JView
 
 		jimport('joomla.html.pane');
 		$pane = JPane::getInstance('sliders');
-		$this->assignRef('pane', $pane);
+		$this->pane = $pane;
 
 		$this->setLayout('default');
 
@@ -68,8 +68,8 @@ class shipping_box_detailVIEWshipping_box_detail extends JView
 
 		$lists['published'] = JHTML::_('select.booleanlist', 'published', 'class="inputbox"', $detail->published);
 
-		$this->assignRef('lists', $lists);
-		$this->assignRef('detail', $detail);
+		$this->lists = $lists;
+		$this->detail = $detail;
 		$this->request_url = $uri->toString();
 
 		parent::display($tpl);
