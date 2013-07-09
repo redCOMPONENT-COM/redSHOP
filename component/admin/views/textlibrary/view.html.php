@@ -56,11 +56,11 @@ class textlibraryViewtextlibrary extends JView
 		$total        = $this->get('Total');
 		$pagination   = $this->get('Pagination');
 
-		$this->assignRef('user', JFactory::getUser());
-		$this->assignRef('lists', $lists);
-		$this->assignRef('textlibrarys', $textlibrarys);
-		$this->assignRef('pagination', $pagination);
-		$this->assignRef('request_url', $uri->toString());
+		$this->user = JFactory::getUser();
+		$this->lists = $lists;
+		$this->textlibrarys = $textlibrarys;
+		$this->pagination = $pagination;
+		$this->request_url = $uri->toString();
 
 		parent::display($tpl);
 	}

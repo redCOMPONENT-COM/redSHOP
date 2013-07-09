@@ -41,10 +41,10 @@ class sampleViewsample extends JView
 		$total      = $this->get('Total');
 		$pagination = $this->get('Pagination');
 
-		$this->assignRef('lists', $lists);
-		$this->assignRef('catalog', $catalog);
-		$this->assignRef('pagination', $pagination);
-		$this->assignRef('request_url', $uri->toString());
+		$this->lists = $lists;
+		$this->catalog = $catalog;
+		$this->pagination = $pagination;
+		$this->request_url = $uri->toString();
 
 		parent::display($tpl);
 	}

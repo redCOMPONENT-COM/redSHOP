@@ -68,13 +68,13 @@ class product_containerViewproduct_container extends JView
 			'class="inputbox" size="1" onchange="document.adminForm.submit();"'
 		);
 
-		$this->assignRef('user', JFactory::getUser());
-		$this->assignRef('lists', $lists);
-		$this->assignRef('products', $products);
-		$this->assignRef('filter_container', $filter_container);
-		$this->assignRef('filter_manufacturer', $filter_manufacturer);
-		$this->assignRef('pagination', $pagination);
-		$this->assignRef('request_url', $uri->toString());
+		$this->user = JFactory::getUser();
+		$this->lists = $lists;
+		$this->products = $products;
+		$this->filter_container = $filter_container;
+		$this->filter_manufacturer = $filter_manufacturer;
+		$this->pagination = $pagination;
+		$this->request_url = $uri->toString();
 
 		parent::display($tpl);
 	}

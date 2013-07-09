@@ -122,11 +122,11 @@ class container_detailVIEWcontainer_detail extends JView
 			'class="inputbox" size="1"', 'value', 'text', $detail->stockroom_id
 		);
 
-		$this->assignRef('conid', $conid);
-		$this->assignRef('chk_new', $chk_new);
-		$this->assignRef('lists', $lists);
-		$this->assignRef('detail', $detail);
-		$this->assignRef('request_url', $uri->toString());
+		$this->conid = $conid;
+		$this->chk_new = $chk_new;
+		$this->lists = $lists;
+		$this->detail = $detail;
+		$this->request_url = $uri->toString();
 
 		parent::display($tpl);
 	}

@@ -27,7 +27,7 @@ class zip_importViewzip_import extends JView
 			$model = $this->getModel('zip_import');
 			/* Load the data to export */
 			$result = $this->get('Data');
-			$this->assignRef('result', $result);
+			$this->result = $result;
 		}
 		parent::display($tpl);
 	}
