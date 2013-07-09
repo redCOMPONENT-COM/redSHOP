@@ -607,7 +607,7 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 		$data_add = $data_add . $hidden_userfield;
 		/************** end user fields ***************************/
 
-		$ItemData = $producthelper->getMenuInformationMod(0,$product->product_id,'pid','product');
+		$ItemData = $producthelper->getMenuInformationMod(0, $product->product_id, 'pid', 'product');
 		$catidmain = Jrequest::getVar("cid");
 
 		if (count($ItemData) > 0)
@@ -888,9 +888,7 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 		}
 
 		// Checking for child products
-		$childproduct = $producthelper->getChildProduct($product->product_id);
-
-		if (count($childproduct) > 0)
+		if (!IS_NULL($product->childs))
 		{
 			if (PURCHASE_PARENT_WITH_CHILD == 1)
 			{
@@ -923,151 +921,154 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 			if ($product->attribute_set_id > 0)
 			{
 				$attributes_set = $producthelper->getProductAttribute(0, $product->attribute_set_id, 0, 1);
+				$attributes = $producthelper->getProductAttribute($product->product_id);
+				$attributes = array_merge($attributes, $attributes_set);
 			}
-
-			$attributes = $producthelper->getProductAttribute($product->product_id);
-			$attributes = array_merge($attributes, $attributes_set);
+			else
+			{
+				$attributes = array();
+			}
 		}
 
-		// Product attribute  Start
-		$totalatt = count($attributes);
+			// Product attribute  Start
+			$totalatt = count($attributes);
 
-		// Check product for not for sale
+			// Check product for not for sale
 
-		$data_add = $producthelper->getProductNotForSaleComment($product, $data_add, $attributes);
+			$data_add = $producthelper->getProductNotForSaleComment($product, $data_add, $attributes);
 
-		$data_add = $producthelper->replaceProductInStock($product->product_id, $data_add, $attributes, $attribute_template);
+			$data_add = $producthelper->replaceProductInStock($product->product_id, $data_add, $attributes, $attribute_template);
 
-		$data_add = $producthelper->replaceAttributeData($product->product_id, 0, 0, $attributes, $data_add, $attribute_template, $isChilds);
+			$data_add = $producthelper->replaceAttributeData($product->product_id, 0, 0, $attributes, $data_add, $attribute_template, $isChilds);
 
-		// Get cart tempalte
-		$data_add = $producthelper->replaceCartTemplate($product->product_id, $catid, 0, 0, $data_add, $isChilds, $userfieldArr, $totalatt, $totacc, $count_no_user_field);
+			// Get cart tempalte
+			$data_add = $producthelper->replaceCartTemplate($product->product_id, $catid, 0, 0, $data_add, $isChilds, $userfieldArr, $totalatt, $totacc, $count_no_user_field);
 
-		$product_data .= $data_add;
+			$product_data .= $data_add;
+	}
+
+		if (!$slide)
+		{
+			$product_tmpl = "<div id='redcatproducts'>" . $product_data . "</div>";
+		}
+		else
+		{
+			$product_tmpl = $product_data;
+		}
+
+		$product_tmpl .= "<input type='hidden' name='slider_texpricemin' id='slider_texpricemin' value='" . $texpricemin . "' />";
+		$product_tmpl .= "<input type='hidden' name='slider_texpricemax' id='slider_texpricemax' value='" . $texpricemax . "' />";
+
+		$slidertag = "";
+
+		if (strstr($template_desc, "{show_all_products_in_category}"))
+		{
+			$template_desc = str_replace("{show_all_products_in_category}", "", $template_desc);
+			$template_desc = str_replace("{pagination}", "", $template_desc);
+		}
+
+		$product_display_limit = '';
+
+		if (strstr($template_desc, "{pagination}"))
+		{
+			$pagination = new redPagination($model->_total, $start, $endlimit);
+			$slidertag = $pagination->getPagesLinks();
+
+			if (strstr($template_desc, "{product_display_limit}"))
+			{
+				$slidertag = "<form action='' method='post'> " . $pagination->getListFooter() . "</form>";
+				$template_desc = str_replace("{product_display_limit}", $slidertag, $template_desc);
+				$template_desc = str_replace("{pagination}", '', $template_desc);
+			}
+
+			$template_desc = str_replace("{pagination}", $slidertag, $template_desc);
+		}
+
+		$template_desc = str_replace("{product_display_limit}", "", $template_desc);
+
+		if (strstr($template_desc, "perpagelimit:"))
+		{
+			$perpage = explode('{perpagelimit:', $template_desc);
+			$perpage = explode('}', $perpage[1]);
+			$template_desc = str_replace("{perpagelimit:" . intval($perpage[0]) . "}", "", $template_desc);
+		}
+
+		$product_tmpl = "<div id='productlist'>" . $product_tmpl . "</div>" . "<div id='redcatpagination' style='display:none'>" . $slidertag . "</div>";
+
+		$template_desc = str_replace("{product_loop_start}", "", $template_desc);
+		$template_desc = str_replace("{product_loop_end}", "", $template_desc);
+		$template_desc = str_replace($template_product, $product_tmpl, $template_desc);
 	}
 
 	if (!$slide)
 	{
-		$product_tmpl = "<div id='redcatproducts'>" . $product_data . "</div>";
-	}
-	else
-	{
-		$product_tmpl = $product_data;
-	}
-
-	$product_tmpl .= "<input type='hidden' name='slider_texpricemin' id='slider_texpricemin' value='" . $texpricemin . "' />";
-	$product_tmpl .= "<input type='hidden' name='slider_texpricemax' id='slider_texpricemax' value='" . $texpricemax . "' />";
-
-	$slidertag = "";
-
-	if (strstr($template_desc, "{show_all_products_in_category}"))
-	{
-		$template_desc = str_replace("{show_all_products_in_category}", "", $template_desc);
-		$template_desc = str_replace("{pagination}", "", $template_desc);
-	}
-
-	$product_display_limit = '';
-
-	if (strstr($template_desc, "{pagination}"))
-	{
-		$pagination = new redPagination($model->_total, $start, $endlimit);
-		$slidertag = $pagination->getPagesLinks();
-
-		if (strstr($template_desc, "{product_display_limit}"))
+		if (strstr($template_desc, "{filter_by}"))
 		{
-			$slidertag = "<form action='' method='post'> " . $pagination->getListFooter() . "</form>";
-			$template_desc = str_replace("{product_display_limit}", $slidertag, $template_desc);
-			$template_desc = str_replace("{pagination}", '', $template_desc);
+			$filterby_form = "<form name='filterby_form' action='' method='post' >";
+			$filterby_form .= $this->lists['manufacturer'];
+			$filterby_form .= "<input type='hidden' name='texpricemin' id='manuf_texpricemin' value='" . $texpricemin . "' />";
+			$filterby_form .= "<input type='hidden' name='texpricemax' id='manuf_texpricemax' value='" . $texpricemax . "' />";
+			$filterby_form .= "<input type='hidden' name='order_by' id='order_by' value='" . $this->order_by_select . "' />";
+			$filterby_form .= "<input type='hidden' name='category_template' id='category_template' value='" . $this->category_template_id . "' />";
+			$filterby_form .= "</form>";
+
+			if ($this->lists['manufacturer'] != "")
+				$template_desc = str_replace("{filter_by_lbl}", JText::_('COM_REDSHOP_SELECT_FILTER_BY'), $template_desc);
+			else
+				$template_desc = str_replace("{filter_by_lbl}", "", $template_desc);
+			$template_desc = str_replace("{filter_by}", $filterby_form, $template_desc);
 		}
 
-		$template_desc = str_replace("{pagination}", $slidertag, $template_desc);
-	}
-
-	$template_desc = str_replace("{product_display_limit}", "", $template_desc);
-
-	if (strstr($template_desc, "perpagelimit:"))
-	{
-		$perpage = explode('{perpagelimit:', $template_desc);
-		$perpage = explode('}', $perpage[1]);
-		$template_desc = str_replace("{perpagelimit:" . intval($perpage[0]) . "}", "", $template_desc);
-	}
-
-	$product_tmpl = "<div id='productlist'>" . $product_tmpl . "</div>" . "<div id='redcatpagination' style='display:none'>" . $slidertag . "</div>";
-
-	$template_desc = str_replace("{product_loop_start}", "", $template_desc);
-	$template_desc = str_replace("{product_loop_end}", "", $template_desc);
-	$template_desc = str_replace($template_product, $product_tmpl, $template_desc);
-}
-
-if (!$slide)
-{
-	if (strstr($template_desc, "{filter_by}"))
-	{
-		$filterby_form = "<form name='filterby_form' action='' method='post' >";
-		$filterby_form .= $this->lists['manufacturer'];
-		$filterby_form .= "<input type='hidden' name='texpricemin' id='manuf_texpricemin' value='" . $texpricemin . "' />";
-		$filterby_form .= "<input type='hidden' name='texpricemax' id='manuf_texpricemax' value='" . $texpricemax . "' />";
-		$filterby_form .= "<input type='hidden' name='order_by' id='order_by' value='" . $this->order_by_select . "' />";
-		$filterby_form .= "<input type='hidden' name='category_template' id='category_template' value='" . $this->category_template_id . "' />";
-		$filterby_form .= "</form>";
-
-		if ($this->lists['manufacturer'] != "")
-			$template_desc = str_replace("{filter_by_lbl}", JText::_('COM_REDSHOP_SELECT_FILTER_BY'), $template_desc);
-		else
-			$template_desc = str_replace("{filter_by_lbl}", "", $template_desc);
-		$template_desc = str_replace("{filter_by}", $filterby_form, $template_desc);
-	}
-
-	if (strstr($template_desc, "{template_selector_category}"))
-	{
-		if ($this->lists['category_template'] != "")
+		if (strstr($template_desc, "{template_selector_category}"))
 		{
-			$template_selecter_form = "<form name='template_selecter_form' action='' method='post' >";
-			$template_selecter_form .= $this->lists['category_template'];
-			$template_selecter_form .= "<input type='hidden' name='texpricemin' id='temp_texpricemin' value='" . $texpricemin . "' />";
-			$template_selecter_form .= "<input type='hidden' name='texpricemax' id='temp_texpricemax' value='" . $texpricemax . "' />";
-			$template_selecter_form .= "<input type='hidden' name='order_by' id='order_by' value='" . $this->order_by_select . "' />";
-			$template_selecter_form .= "<input type='hidden' name='manufacturer_id' id='manufacturer_id' value='" . $this->manufacturer_id . "' />";
-			$template_selecter_form .= "</form>";
+			if ($this->lists['category_template'] != "")
+			{
+				$template_selecter_form = "<form name='template_selecter_form' action='' method='post' >";
+				$template_selecter_form .= $this->lists['category_template'];
+				$template_selecter_form .= "<input type='hidden' name='texpricemin' id='temp_texpricemin' value='" . $texpricemin . "' />";
+				$template_selecter_form .= "<input type='hidden' name='texpricemax' id='temp_texpricemax' value='" . $texpricemax . "' />";
+				$template_selecter_form .= "<input type='hidden' name='order_by' id='order_by' value='" . $this->order_by_select . "' />";
+				$template_selecter_form .= "<input type='hidden' name='manufacturer_id' id='manufacturer_id' value='" . $this->manufacturer_id . "' />";
+				$template_selecter_form .= "</form>";
 
-			$template_desc = str_replace("{template_selector_category_lbl}", JText::_('COM_REDSHOP_TEMPLATE_SELECTOR_CATEGORY_LBL'), $template_desc);
-			$template_desc = str_replace("{template_selector_category}", $template_selecter_form, $template_desc);
+				$template_desc = str_replace("{template_selector_category_lbl}", JText::_('COM_REDSHOP_TEMPLATE_SELECTOR_CATEGORY_LBL'), $template_desc);
+				$template_desc = str_replace("{template_selector_category}", $template_selecter_form, $template_desc);
+			}
+
+			$template_desc = str_replace("{template_selector_category_lbl}", "", $template_desc);
+			$template_desc = str_replace("{template_selector_category}", "", $template_desc);
 		}
 
-		$template_desc = str_replace("{template_selector_category_lbl}", "", $template_desc);
-		$template_desc = str_replace("{template_selector_category}", "", $template_desc);
+		if (strstr($template_desc, "{order_by}"))
+		{
+			$orderby_form = "<form name='orderby_form' action='' method='post'>";
+			$orderby_form .= $this->lists['order_by'];
+			$orderby_form .= "<input type='hidden' name='texpricemin' id='texpricemin' value='" . $texpricemin . "' />";
+			$orderby_form .= "<input type='hidden' name='texpricemax' id='texpricemax' value='" . $texpricemax . "' />";
+			$orderby_form .= "<input type='hidden' name='manufacturer_id' id='manufacturer_id' value='" . $this->manufacturer_id . "' />";
+			$orderby_form .= "<input type='hidden' name='category_template' id='category_template' value='" . $this->category_template_id . "' />";
+			$orderby_form .= "</form>";
+
+			$template_desc = str_replace("{order_by_lbl}", JText::_('COM_REDSHOP_SELECT_ORDER_BY'), $template_desc);
+			$template_desc = str_replace("{order_by}", $orderby_form, $template_desc);
+		}
 	}
 
-	if (strstr($template_desc, "{order_by}"))
+	$template_desc = str_replace("{with_vat}", "", $template_desc);
+	$template_desc = str_replace("{without_vat}", "", $template_desc);
+	$template_desc = str_replace("{attribute_price_with_vat}", "", $template_desc);
+	$template_desc = str_replace("{attribute_price_without_vat}", "", $template_desc);
+	$template_desc = str_replace("{redproductfinderfilter_formstart}", "", $template_desc);
+	$template_desc = str_replace("{product_price_slider1}", "", $template_desc);
+	$template_desc = str_replace("{redproductfinderfilter_formend}", "", $template_desc);
+	$template_desc = str_replace("{redproductfinderfilter:rp_myfilter}", "", $template_desc);
+
+	$template_desc = $redTemplate->parseredSHOPplugin($template_desc);
+
+	$template_desc = $texts->replace_texts($template_desc);
+	echo eval("?>" . $template_desc . "<?php ");
+
+	if ($slide)
 	{
-		$orderby_form = "<form name='orderby_form' action='' method='post'>";
-		$orderby_form .= $this->lists['order_by'];
-		$orderby_form .= "<input type='hidden' name='texpricemin' id='texpricemin' value='" . $texpricemin . "' />";
-		$orderby_form .= "<input type='hidden' name='texpricemax' id='texpricemax' value='" . $texpricemax . "' />";
-		$orderby_form .= "<input type='hidden' name='manufacturer_id' id='manufacturer_id' value='" . $this->manufacturer_id . "' />";
-		$orderby_form .= "<input type='hidden' name='category_template' id='category_template' value='" . $this->category_template_id . "' />";
-		$orderby_form .= "</form>";
-
-		$template_desc = str_replace("{order_by_lbl}", JText::_('COM_REDSHOP_SELECT_ORDER_BY'), $template_desc);
-		$template_desc = str_replace("{order_by}", $orderby_form, $template_desc);
+		exit;
 	}
-}
-
-$template_desc = str_replace("{with_vat}", "", $template_desc);
-$template_desc = str_replace("{without_vat}", "", $template_desc);
-$template_desc = str_replace("{attribute_price_with_vat}", "", $template_desc);
-$template_desc = str_replace("{attribute_price_without_vat}", "", $template_desc);
-$template_desc = str_replace("{redproductfinderfilter_formstart}", "", $template_desc);
-$template_desc = str_replace("{product_price_slider1}", "", $template_desc);
-$template_desc = str_replace("{redproductfinderfilter_formend}", "", $template_desc);
-$template_desc = str_replace("{redproductfinderfilter:rp_myfilter}", "", $template_desc);
-
-$template_desc = $redTemplate->parseredSHOPplugin($template_desc);
-
-$template_desc = $texts->replace_texts($template_desc);
-echo eval("?>" . $template_desc . "<?php ");
-
-if ($slide)
-{
-	exit;
-}
