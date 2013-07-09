@@ -942,7 +942,7 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 			$data_add = $producthelper->replaceAttributeData($product->product_id, 0, 0, $attributes, $data_add, $attribute_template, $isChilds);
 
 			// Get cart tempalte
-			$data_add = $producthelper->replaceCartTemplate($product->product_id, $catid, 0, 0, $data_add, $isChilds, $userfieldArr, $totalatt, $totacc, $count_no_user_field);
+			$data_add = $producthelper->replaceCartTemplate($product, $catid, 0, 0, $data_add, $isChilds, $userfieldArr, $totalatt, $totacc, $count_no_user_field);
 
 			$product_data .= $data_add;
 	}
