@@ -62,6 +62,10 @@ class producthelper
 
 	public $_UserInformation = null;
 
+	public $_ProductSpecialId_FromUdserId = null;
+
+	public $_ProductSpecialId_discount_product_id = null;
+
 	function __construct()
 	{
 		$this->_db = JFactory::getDBO();
@@ -243,14 +247,27 @@ class producthelper
 		return $result;
 	}
 
-	public function getProductSpecialPrice($product_price, $discount_product_id, $product_id = 0)
+	public function getProductSpecialPrice($product_price, $discount_product_id, $product = 0)
 	{
 		$result = array();
 		$categoryProduct = '';
 
-		if ($product_id)
+		if ($product)
 		{
-			$categoryProduct = $this->getCategoryProduct($product_id);
+			if(is_object($product) && isset($product->advanced_query) && $product->advanced_query == 1)
+			{;
+				$categoryProduct = $product->category_id;
+			}
+			elseif(is_object($product))
+			{
+				$product_id = $product->product_id;
+				$categoryProduct = $this->getCategoryProduct($product_id);
+			}
+			else
+			{
+				$product_id = $product;
+				$categoryProduct = $this->getCategoryProduct($product_id);
+			}
 		}
 
 		// Get shopper group Id
@@ -324,47 +341,56 @@ class producthelper
 
 	public function getProductSpecialId($userid)
 	{
-		if ($userid)
+		if ($this->_ProductSpecialId_FromUdserId != $userid)
 		{
-			$sql = "SELECT ps.discount_product_id FROM " . $this->_table_prefix . "users_info AS ui "
-				. " LEFT JOIN " . $this->_table_prefix . "discount_product_shoppers AS ps ON ui.shopper_group_id = ps.shopper_group_id "
-				. " WHERE user_id = '" . $userid . "' AND address_type='BT'";
-			$this->_db->setQuery($sql);
-			$res = $this->_db->loadObjectList();
-		}
-		else
-		{
-			$userArr = $this->_session->get('rs_user');
-
-			if (empty($userArr))
+			if ($userid)
 			{
-				$userArr = $this->_userhelper->createUserSession($userid);
-			}
-
-			$shopperGroupId = $userArr['rs_user_shopperGroup'];
-
-			if ($this->_shopper_group_id != $shopperGroupId)
-			{
-				$query = "SELECT * FROM " . $this->_table_prefix . "discount_product_shoppers AS ps "
-					. "WHERE ps.shopper_group_id ='" . $shopperGroupId . "'";
-				$this->_db->setQuery($query);
-				$this->_shopper_group_id = $shopperGroupId;
-				$res = $this->_discount_product_data = $this->_db->loadObjectList();
+				$sql = "SELECT ps.discount_product_id FROM " . $this->_table_prefix . "users_info AS ui "
+					. " LEFT JOIN " . $this->_table_prefix . "discount_product_shoppers AS ps ON ui.shopper_group_id = ps.shopper_group_id "
+					. " WHERE user_id = '" . $userid . "' AND address_type='BT'";
+				$this->_db->setQuery($sql);
+				$res = $this->_db->loadObjectList();
 			}
 			else
 			{
-				$res = $this->_discount_product_data;
+				$userArr = $this->_session->get('rs_user');
+
+				if (empty($userArr))
+				{
+					$userArr = $this->_userhelper->createUserSession($userid);
+				}
+
+				$shopperGroupId = $userArr['rs_user_shopperGroup'];
+
+				if ($this->_shopper_group_id != $shopperGroupId)
+				{
+					$query = "SELECT * FROM " . $this->_table_prefix . "discount_product_shoppers AS ps "
+						. "WHERE ps.shopper_group_id ='" . $shopperGroupId . "'";
+					$this->_db->setQuery($query);
+					$this->_shopper_group_id = $shopperGroupId;
+					$res = $this->_discount_product_data = $this->_db->loadObjectList();
+				}
+				else
+				{
+					$res = $this->_discount_product_data;
+				}
 			}
-		}
 
-		$discount_product_id = '0';
+			$discount_product_id = '0';
 
-		for ($i = 0; $i < count($res); $i++)
-		{
-			if ($res[$i]->discount_product_id != "" && $res[$i]->discount_product_id != 0)
+			for ($i = 0; $i < count($res); $i++)
 			{
-				$discount_product_id .= "," . $res[$i]->discount_product_id;
+				if ($res[$i]->discount_product_id != "" && $res[$i]->discount_product_id != 0)
+				{
+					$discount_product_id .= "," . $res[$i]->discount_product_id;
+				}
 			}
+			$this->_ProductSpecialId_FromUdserId = $userid;
+			$this->_ProductSpecialId_discount_product_id = $discount_product_id;
+		}
+		else
+		{
+			$discount_product_id = $this->_ProductSpecialId_discount_product_id;
 		}
 
 		return $discount_product_id;
@@ -1639,7 +1665,7 @@ class producthelper
 
 		$applytax = $this->getApplyVatOrNot($data_add, $user_id);
 		$discount_product_id = $this->getProductSpecialId($user_id);
-		$res = $this->getProductSpecialPrice($newproductprice, $discount_product_id, $product_id);
+		$res = $this->getProductSpecialPrice($newproductprice, $discount_product_id, $product);
 
 		if (!empty($res))
 		{
