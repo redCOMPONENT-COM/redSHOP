@@ -414,17 +414,17 @@ class CategoryViewcategory extends JView
 			}
 		}
 
-		$this->assignRef('detail', $detail);
-		$this->assignRef('lists', $lists);
-		$this->assignRef('product', $product);
-		$this->assignRef('pageheadingtag', $pageheadingtag);
-		$this->assignRef('params', $params);
-		$this->assignRef('catid', $catid);
-		$this->assignRef('maincat', $maincat);
-		$this->assignRef('category_template_id', $category_template_id);
-		$this->assignRef('order_by_select', $order_by_select);
-		$this->assignRef('manufacturer_id', $manufacturer_id);
-		$this->assignRef('loadCategorytemplate', $loadCategorytemplate);
+		$this->detail = $detail;
+		$this->lists = $lists;
+		$this->product = $product;
+		$this->pageheadingtag = $pageheadingtag;
+		$this->params = $params;
+		$this->catid = $catid;
+		$this->maincat = $maincat;
+		$this->category_template_id = $category_template_id;
+		$this->order_by_select = $order_by_select;
+		$this->manufacturer_id = $manufacturer_id;
+		$this->loadCategorytemplate = $loadCategorytemplate;
 
 		parent::display($tpl);
 	}

@@ -121,13 +121,13 @@ class searchViewsearch extends JView
 		$search     = $this->get('Data');
 		$pagination = $this->get('Pagination');
 
-		$this->assignRef('params', $params);
-		$this->assignRef('limit', $model->getState('limit'));
-		$this->assignRef('lists', $lists);
-		$this->assignRef('templatedata', $templatedata);
-		$this->assignRef('search', $search);
-		$this->assignRef('pagination', $pagination);
-		$this->assignRef('request_url', $uri->toString());
+		$this->params = $params;
+		$this->limit = $model->getState('limit');
+		$this->lists = $lists;
+		$this->templatedata = $templatedata;
+		$this->search = $search;
+		$this->pagination = $pagination;
+		$this->request_url = $uri->toString();
 		parent::display($tpl);
 	}
 

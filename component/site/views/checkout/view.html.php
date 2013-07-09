@@ -113,12 +113,12 @@ class checkoutViewcheckout extends JView
 				$total_discount = $cart['cart_discount'] + $cart['voucher_discount'] + $cart['coupon_discount'];
 				$subtotal       = (SHIPPING_AFTER == 'total') ? $cart['product_subtotal'] - $total_discount : $cart['product_subtotal'];
 
-				$this->assignRef('users_info_id', $users_info_id);
-				$this->assignRef('shipping_rate_id', $shipping_rate_id);
-				$this->assignRef('element', $element);
-				$this->assignRef('ccinfo', $ccinfo);
-				$this->assignRef('order_subtotal', $subtotal);
-				$this->assignRef('ordertotal', $cart['total']);
+				$this->users_info_id = $users_info_id;
+				$this->shipping_rate_id = $shipping_rate_id;
+				$this->element = $element;
+				$this->ccinfo = $ccinfo;
+				$this->order_subtotal = $subtotal;
+				$this->ordertotal = $cart['total'];
 			}
 			else
 			{
@@ -137,7 +137,7 @@ class checkoutViewcheckout extends JView
 			$this->setLayout('onestepcheckout');
 		}
 
-		$this->assignRef('lists', $lists);
+		$this->lists = $lists;
 		parent::display($tpl);
 	}
 }

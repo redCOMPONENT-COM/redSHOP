@@ -40,8 +40,8 @@ class quotationViewquotation extends JView
 
 		$detail = $model->getData();
 
-		$this->assignRef('detail', $detail);
-		$this->assignRef('request_url', $uri->toString());
+		$this->detail = $detail;
+		$this->request_url = $uri->toString();
 
 		parent::display($tpl);
 	}
