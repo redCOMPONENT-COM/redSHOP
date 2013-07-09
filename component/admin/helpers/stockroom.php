@@ -205,51 +205,74 @@ class rsstockroomhelper
 		return $quantity;
 	}
 
-	public function getStockAmountwithReserve($section_id = 0, $section = "product", $stockroom_id = 0)
+	public function getStockAmountwithReserve($section_test = 0, $section = "product", $stockroom_id = 0)
 	{
 		$quantity = 1;
 
+		if (is_object($section_test))
+		{
+			$advanced_query = $section_test->advanced_query;
+			$section_id = $section_test->product_id;
+		}
+		else
+		{
+			$advanced_query = 0;
+			$section_id = $section_test;
+		}
+
 		if (USE_STOCKROOM == 1)
 		{
-			$and = "";
-			$table = "product";
-			$db = JFactory::getDBO();
-
-			if ($section != "product")
+			if ($advanced_query == 1 && $section == "product" && $stockroom_id == 0)
 			{
-				$table = "product_attribute";
+				$quantity = $section_test->quantity_adv;
+
+				if ($quantity < 0)
+				{
+					$quantity = 0;
+				}
 			}
-
-			if ($section_id != 0)
+			else
 			{
+				$and = "";
+				$table = "product";
+				$db = JFactory::getDBO();
+
 				if ($section != "product")
 				{
-					$and = "AND x.section='" . $section . "' AND x.section_id IN (" . $section_id . ") ";
+					$table = "product_attribute";
 				}
-				else
+
+				if ($section_id != 0)
 				{
-					$and = "AND x.product_id IN (" . $section_id . ") ";
+					if ($section != "product")
+					{
+						$and = "AND x.section='" . $section . "' AND x.section_id IN (" . $section_id . ") ";
+					}
+					else
+					{
+						$and = "AND x.product_id IN (" . $section_id . ") ";
+					}
 				}
-			}
 
-			if ($stockroom_id != 0)
-			{
-				$and .= "AND x.stockroom_id='" . $stockroom_id . "' ";
-			}
+				if ($stockroom_id != 0)
+				{
+					$and .= "AND x.stockroom_id='" . $stockroom_id . "' ";
+				}
 
-			$query = "SELECT SUM(x.quantity)  FROM " . $this->_table_prefix . $table . "_stockroom_xref AS x "
-				. ", " . $this->_table_prefix . "stockroom AS s "
-				. "WHERE s.stockroom_id=x.stockroom_id "
-				. "AND x.quantity>=0 "
-				. $and
-				. "ORDER BY s.min_del_time ";
+				$query = "SELECT SUM(x.quantity)  FROM " . $this->_table_prefix . $table . "_stockroom_xref AS x "
+					. ", " . $this->_table_prefix . "stockroom AS s "
+					. "WHERE s.stockroom_id=x.stockroom_id "
+					. "AND x.quantity>=0 "
+					. $and
+					. "ORDER BY s.min_del_time ";
 
-			$db->setQuery($query);
-			$quantity = $db->loadResult();
+				$db->setQuery($query);
+				$quantity = $db->loadResult();
 
-			if ($quantity < 0)
-			{
-				$quantity = 0;
+				if ($quantity < 0)
+				{
+					$quantity = 0;
+				}
 			}
 		}
 		else
