@@ -765,10 +765,10 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 		}
 
 		$hidden_thumb_image = "<input type='hidden' name='prd_main_imgwidth' id='prd_main_imgwidth' value='" . $pw_thumb . "'><input type='hidden' name='prd_main_imgheight' id='prd_main_imgheight' value='" . $ph_thumb . "'>";
-		$thum_image = $producthelper->getProductImage($product->product_id, $link, $pw_thumb, $ph_thumb, 2, 1);
+		$thum_image = $producthelper->getProductImage($product, $link, $pw_thumb, $ph_thumb, 2, 1);
 
 		// Product image flying addwishlist time start
-		$thum_image = "<span class='productImageWrap' id='productImageWrapID_" . $product->product_id . "'>" . $producthelper->getProductImage($product->product_id, $link, $pw_thumb, $ph_thumb, 2, 1) . "</span>";
+		$thum_image = "<span class='productImageWrap' id='productImageWrapID_" . $product->product_id . "'>" . $producthelper->getProductImage($product, $link, $pw_thumb, $ph_thumb, 2, 1) . "</span>";
 
 		// Product image flying addwishlist time end
 		$data_add = str_replace($pimg_tag, $thum_image . $hidden_thumb_image, $data_add);
