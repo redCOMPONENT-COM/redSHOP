@@ -8822,7 +8822,7 @@ class producthelper
 		return $ret;
 	}
 
-	public function replaceProductInStock($product_id = 0, $data_add, $attributes = array(), $attribute_template = array())
+	public function replaceProductInStock($product = 0, $data_add, $attributes = array(), $attribute_template = array())
 	{
 		if (count($attribute_template) <= 0)
 		{
@@ -8831,7 +8831,17 @@ class producthelper
 
 		$stock_status_flag = false;
 		$totalatt = count($attributes);
-		$Id = $product_id;
+		$Id = $product;
+
+		if(is_object($product))
+		{
+			$product_id = $product->product_id;
+		}
+		else
+		{
+			$product_id = $product;
+		}
+
 		$sec = "product";
 		$selectedpropertyId = 0;
 		$selectedsubpropertyId = 0;
@@ -8904,7 +8914,7 @@ class producthelper
 
 		if ($productinstock == 0)
 		{
-			$product_detail = $this->getProductById($product_id);
+			$product_detail = $this->getProductById($product);
 			$product_preorder = $product_detail->preorder;
 
 			if (($product_preorder == "global" && ALLOW_PRE_ORDER)
