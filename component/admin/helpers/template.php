@@ -121,6 +121,35 @@ class Redtemplate
 	}
 
 	/**
+	 * Method to get defaultTemplate to frontend
+	 *
+	 * @param   boolean  $is_admin  Check for administrator call
+	 *
+	 * @return  string              Template Name
+	 */
+	function getDefaultTeplate($is_admin = false)
+	{
+		if ($is_admin)
+		{
+			$db = JFactory::getDBO();
+			$query = $db->getQuery(true);
+			$query->select('template');
+			$query->from('#__template_styles');
+			$query->where('client_id = 0');
+			$query->where('home = 1');
+			$db->setQuery($query);
+			$defaultemplate = $db->loadResult();
+		}
+		else
+		{
+			$app = JFactory::getApplication();
+			$defaultemplate = $app->getTemplate();
+		}
+
+		return $defaultemplate;
+	}
+
+	/**
 	 * Method to get Template file path
 	 *
 	 * @param   string   $section   Template Section
@@ -134,15 +163,16 @@ class Redtemplate
 		$app = JFactory::getApplication();
 		$tempate_file = "";
 		$template_view = $this->getTemplateView($section);
-		$layout = JRequest::getVar('layout');
+		$layout = $app->input->getString('layout', '');
+		$defaultemplate = $this->getDefaultTeplate($is_admin);
 
-		if (!$is_admin && $section != 'categoryproduct')
+		if ($section != 'categoryproduct')
 		{
-			$tempate_file = JPATH_SITE . '/templates/' . $app->getTemplate() . "/html/com_redshop/$template_view/$section/$filename.php";
+			$tempate_file = JPATH_SITE . '/templates/' . $defaultemplate . '/html/com_redshop/' . $template_view . '/' . $section . '/' . $filename . '.php';
 		}
 		else
 		{
-			$tempate_file = JPATH_SITE . '/templates/' . $app->getTemplate() . "/html/com_redshop/$section/$filename.php";
+			$tempate_file = JPATH_SITE . '/templates/' . $defaultemplate . "/html/com_redshop/" . $section . '/' . $filename . ".php";
 		}
 
 		if (!file_exists($tempate_file))
