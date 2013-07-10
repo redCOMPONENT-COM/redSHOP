@@ -607,7 +607,7 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 		$data_add = $data_add . $hidden_userfield;
 		/************** end user fields ***************************/
 
-		$ItemData = $producthelper->getMenuInformationMod(0,$product->product_id,'pid','product');
+		$ItemData = $producthelper->getMenuInformationMod(0, $product->product_id, 'pid', 'product');
 		$catidmain = Jrequest::getVar("cid");
 
 		if (count($ItemData) > 0)
@@ -765,10 +765,10 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 		}
 
 		$hidden_thumb_image = "<input type='hidden' name='prd_main_imgwidth' id='prd_main_imgwidth' value='" . $pw_thumb . "'><input type='hidden' name='prd_main_imgheight' id='prd_main_imgheight' value='" . $ph_thumb . "'>";
-		$thum_image = $producthelper->getProductImage($product->product_id, $link, $pw_thumb, $ph_thumb, 2, 1);
+		$thum_image = $producthelper->getProductImage($product, $link, $pw_thumb, $ph_thumb, 2, 1);
 
 		// Product image flying addwishlist time start
-		$thum_image = "<span class='productImageWrap' id='productImageWrapID_" . $product->product_id . "'>" . $producthelper->getProductImage($product->product_id, $link, $pw_thumb, $ph_thumb, 2, 1) . "</span>";
+		$thum_image = "<span class='productImageWrap' id='productImageWrapID_" . $product->product_id . "'>" . $producthelper->getProductImage($product, $link, $pw_thumb, $ph_thumb, 2, 1) . "</span>";
 
 		// Product image flying addwishlist time end
 		$data_add = str_replace($pimg_tag, $thum_image . $hidden_thumb_image, $data_add);
@@ -888,9 +888,7 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 		}
 
 		// Checking for child products
-		$childproduct = $producthelper->getChildProduct($product->product_id);
-
-		if (count($childproduct) > 0)
+		if (!IS_NULL($product->childs))
 		{
 			if (PURCHASE_PARENT_WITH_CHILD == 1)
 			{
@@ -923,10 +921,13 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 			if ($product->attribute_set_id > 0)
 			{
 				$attributes_set = $producthelper->getProductAttribute(0, $product->attribute_set_id, 0, 1);
+				$attributes = $producthelper->getProductAttribute($product->product_id);
+				$attributes = array_merge($attributes, $attributes_set);
 			}
-
-			$attributes = $producthelper->getProductAttribute($product->product_id);
-			$attributes = array_merge($attributes, $attributes_set);
+			else
+			{
+				$attributes = array();
+			}
 		}
 
 		// Product attribute  Start
@@ -936,12 +937,12 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 
 		$data_add = $producthelper->getProductNotForSaleComment($product, $data_add, $attributes);
 
-		$data_add = $producthelper->replaceProductInStock($product->product_id, $data_add, $attributes, $attribute_template);
+		$data_add = $producthelper->replaceProductInStock($product->product, $data_add, $attributes, $attribute_template);
 
 		$data_add = $producthelper->replaceAttributeData($product->product_id, 0, 0, $attributes, $data_add, $attribute_template, $isChilds);
 
 		// Get cart tempalte
-		$data_add = $producthelper->replaceCartTemplate($product->product_id, $catid, 0, 0, $data_add, $isChilds, $userfieldArr, $totalatt, $totacc, $count_no_user_field);
+		$data_add = $producthelper->replaceCartTemplate($product, $catid, 0, 0, $data_add, $isChilds, $userfieldArr, $totalatt, $totacc, $count_no_user_field);
 
 		$product_data .= $data_add;
 	}
