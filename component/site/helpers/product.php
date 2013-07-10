@@ -4243,7 +4243,7 @@ class producthelper
 		}
 
 		$redTemplate = new Redtemplate ();
-		$producttemplate = $redTemplate->getTemplate("product", $product->product_template);
+		$producttemplate = $redTemplate->getTemplate("product", $product);
 
 		if (!$this->_ajaxdetail_templatedata)
 		{
