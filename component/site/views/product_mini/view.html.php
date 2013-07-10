@@ -53,13 +53,13 @@ class product_miniViewproduct_mini extends JView
 
 		$pagination = $this->get('Pagination');
 
-		$this->assignRef('keyword', $keyword);
-		$this->assignRef('search_field', $search_field);
-		$this->assignRef('user', JFactory::getUser());
-		$this->assignRef('lists', $lists);
-		$this->assignRef('products', $products);
-		$this->assignRef('pagination', $pagination);
-		$this->assignRef('request_url', $uri->toString());
+		$this->keyword = $keyword;
+		$this->search_field = $search_field;
+		$this->user = JFactory::getUser();
+		$this->lists = $lists;
+		$this->products = $products;
+		$this->pagination = $pagination;
+		$this->request_url = $uri->toString();
 		parent::display($tpl);
 	}
 }

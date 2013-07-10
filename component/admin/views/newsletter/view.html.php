@@ -67,9 +67,9 @@ class newsletterViewnewsletter extends JView
 		$pagination  = $this->get('Pagination');
 
 		$this->user = JFactory::getUser();
-		$this->assignRef('lists', $lists);
-		$this->assignRef('newsletters', $newsletters);
-		$this->assignRef('pagination', $pagination);
+		$this->lists = $lists;
+		$this->newsletters = $newsletters;
+		$this->pagination = $pagination;
 		$this->request_url = $uri->toString();
 
 		parent::display($tpl);

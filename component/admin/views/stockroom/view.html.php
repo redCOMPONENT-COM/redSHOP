@@ -48,9 +48,9 @@ class stockroomViewstockroom extends JView
 		$stockroom  = $this->get('Data');
 		$pagination = $this->get('Pagination');
 
-		$this->assignRef('lists', $lists);
-		$this->assignRef('stockroom', $stockroom);
-		$this->assignRef('pagination', $pagination);
+		$this->lists = $lists;
+		$this->stockroom = $stockroom;
+		$this->pagination = $pagination;
 		$this->request_url = $uri->toString();
 
 		parent::display($tpl);

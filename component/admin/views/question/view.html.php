@@ -56,10 +56,10 @@ class questionViewquestion extends JView
 			'class="inputbox" size="1" onchange="document.adminForm.submit();"', 'product_id', 'product_name', $product_id
 		);
 
-		$this->assignRef('lists', $lists);
-		$this->assignRef('question', $question);
-		$this->assignRef('pagination', $pagination);
-		$this->assignRef('request_url', $uri->toString());
+		$this->lists = $lists;
+		$this->question = $question;
+		$this->pagination = $pagination;
+		$this->request_url = $uri->toString();
 
 		parent::display($tpl);
 	}

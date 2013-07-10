@@ -64,10 +64,10 @@ class quotation_detailVIEWquotation_detail extends JView
 			'class="inputbox" size="1" ', 'value', 'text', $detail->quotation_status
 		);
 
-		$this->assignRef('lists', $lists);
-		$this->assignRef('quotation', $detail);
-		$this->assignRef('quotationuser', $userarr);
-		$this->assignRef('request_url', $uri->toString());
+		$this->lists = $lists;
+		$this->quotation = $detail;
+		$this->quotationuser = $userarr;
+		$this->request_url = $uri->toString();
 
 		parent::display($tpl);
 	}

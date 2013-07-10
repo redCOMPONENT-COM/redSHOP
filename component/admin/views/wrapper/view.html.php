@@ -49,10 +49,10 @@ class wrapperViewwrapper extends JView
 		JToolBarHelper::unpublishList();
 
 		$this->user = JFactory::getUser();
-		$this->assignRef('lists', $lists);
-		$this->assignRef('data', $data);
-		$this->assignRef('product_id', $product_id);
-		$this->assignRef('pagination', $pagination);
+		$this->lists = $lists;
+		$this->data = $data;
+		$this->product_id = $product_id;
+		$this->pagination = $pagination;
 		$this->request_url = $uri->toString();
 
 		parent::display($tpl);

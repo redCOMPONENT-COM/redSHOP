@@ -70,7 +70,7 @@ class order_detailVIEWorder_detail extends JView
 		if ($task == 'ccdetail')
 		{
 			$ccdetail = $model->getccdetail($detail->order_id);
-			$this->assignRef('ccdetail', $ccdetail);
+			$this->ccdetail = $ccdetail;
 			$this->setLayout('ccdetail');
 
 			parent::display($tpl);
@@ -95,8 +95,8 @@ class order_detailVIEWorder_detail extends JView
 			$showcountry = (count($countryarray['countrylist']) == 1 && count($statearray['statelist']) == 0) ? 0 : 1;
 			$showstate = ($statearray['is_states'] <= 0) ? 0 : 1;
 
-			$this->assignRef('showcountry', $showcountry);
-			$this->assignRef('showstate', $showstate);
+			$this->showcountry = $showcountry;
+			$this->showstate = $showstate;
 		}
 
 		elseif ($layout == "print_order" || $layout == 'productorderinfo' || $layout == 'creditcardpayment')
@@ -131,12 +131,12 @@ class order_detailVIEWorder_detail extends JView
 		$option = array();
 		$option[] = JHTML::_('select.option', '0', JText::_('COM_REDSHOP_SELECT'));
 
-		$this->assignRef('lists', $lists);
-		$this->assignRef('detail', $detail);
-		$this->assignRef('billing', $billing);
-		$this->assignRef('shipping', $shipping);
-		$this->assignRef('payment_detail', $payment_detail);
-		$this->assignRef('shipping_rate_id', $detail->ship_method_id);
+		$this->lists = $lists;
+		$this->detail = $detail;
+		$this->billing = $billing;
+		$this->shipping = $shipping;
+		$this->payment_detail = $payment_detail;
+		$this->shipping_rate_id = $detail->ship_method_id;
 		$this->request_url = $uri->toString();
 
 		parent::display($tpl);

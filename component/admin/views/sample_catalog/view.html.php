@@ -29,9 +29,9 @@ class sample_catalogVIEWsample_catalog extends JView
 
 		$sample = $model->getsample($detail->colour_id);
 
-		$this->assignRef('detail', $detail);
-		$this->assignRef('sample', $sample);
-		$this->assignRef('request_url', $uri->toString());
+		$this->detail = $detail;
+		$this->sample = $sample;
+		$this->request_url = $uri->toString();
 
 		parent::display($tpl);
 	}

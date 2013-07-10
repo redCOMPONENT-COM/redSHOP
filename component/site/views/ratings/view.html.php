@@ -22,9 +22,9 @@ class ratingsViewratings extends JView
 		$detail     = $this->get('data');
 		$pagination = $this->get('pagination');
 
-		$this->assignRef('detail', $detail);
-		$this->assignRef('pagination', $pagination);
-		$this->assignRef('params', $params);
+		$this->detail = $detail;
+		$this->pagination = $pagination;
+		$this->params = $params;
 		parent::display($tpl);
 	}
 }

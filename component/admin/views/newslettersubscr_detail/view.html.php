@@ -67,8 +67,8 @@ class newslettersubscr_detailVIEWnewslettersubscr_detail extends JView
 		);
 		$lists['published'] = JHTML::_('select.booleanlist', 'published', 'class="inputbox"', $detail->published);
 
-		$this->assignRef('lists', $lists);
-		$this->assignRef('detail', $detail);
+		$this->lists = $lists;
+		$this->detail = $detail;
 		$this->request_url = $uri->toString();
 
 		parent::display($tpl);

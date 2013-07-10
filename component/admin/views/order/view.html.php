@@ -74,11 +74,11 @@ class orderVieworder extends JView
 			'class="inputbox" size="1" onchange="document.adminForm.submit();" '
 		);
 
-		$this->assignRef('user', JFactory::getUser());
-		$this->assignRef('lists', $lists);
-		$this->assignRef('orders', $orders);
-		$this->assignRef('pagination', $pagination);
-		$this->assignRef('request_url', $uri->toString());
+		$this->user = JFactory::getUser();
+		$this->lists = $lists;
+		$this->orders = $orders;
+		$this->pagination = $pagination;
+		$this->request_url = $uri->toString();
 
 		parent::display($tpl);
 	}

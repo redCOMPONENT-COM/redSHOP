@@ -91,8 +91,8 @@ class voucher_detailVIEWvoucher_detail extends JView
 			'class="inputbox" ondblclick="selectnone(this);" multiple="multiple"  size="15" style="width:200px;" ', 'value', 'text', 0
 		);
 
-		$this->assignRef('lists', $lists);
-		$this->assignRef('detail', $detail);
+		$this->lists = $lists;
+		$this->detail = $detail;
 		$this->request_url = $uri->toString();
 
 		parent::display($tpl);

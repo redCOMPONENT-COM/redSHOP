@@ -108,10 +108,10 @@ class user_detailVIEWuser_detail extends JView
 		$statearray = $Redconfiguration->getStateList((array) $detail);
 		$lists['state_code'] = $statearray['state_dropdown'];
 
-		$this->assignRef('lists', $lists);
-		$this->assignRef('detail', $detail);
+		$this->lists = $lists;
+		$this->detail = $detail;
 		$this->request_url = $uri->toString();
-		$this->assignRef('pagination', $pagination);
+		$this->pagination = $pagination;
 
 		parent::display($tpl);
 	}

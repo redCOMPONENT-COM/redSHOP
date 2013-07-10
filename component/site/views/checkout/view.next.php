@@ -111,11 +111,11 @@ class checkoutViewcheckout extends JView
 			$subscription_id = $session->set('subscription_id', $subscription_id);
 		}
 
-		$this->assignRef('cart', $cart);
-		$this->assignRef('users_info_id', $users_info_id);
-		$this->assignRef('shipping_rate_id', $shipping_rate_id);
-		$this->assignRef('payment_method_id', $payment_method_id);
-		$this->assignRef('is_creditcard', $is_creditcard);
+		$this->cart = $cart;
+		$this->users_info_id = $users_info_id;
+		$this->shipping_rate_id = $shipping_rate_id;
+		$this->payment_method_id = $payment_method_id;
+		$this->is_creditcard = $is_creditcard;
 
 		if ($task != '')
 		{

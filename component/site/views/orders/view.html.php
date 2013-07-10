@@ -41,8 +41,8 @@ class ordersVieworders extends JView
 		$detail           = $this->get('data');
 		$this->pagination = $this->get('Pagination');
 
-		$this->assignRef('detail', $detail);
-		$this->assignRef('params', $params);
+		$this->detail = $detail;
+		$this->params = $params;
 		parent::display($tpl);
 	}
 }

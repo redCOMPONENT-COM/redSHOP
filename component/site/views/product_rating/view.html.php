@@ -66,13 +66,13 @@ class product_ratingViewproduct_rating extends JView
 
 		$productinfo = $producthelper->getProductById($product_id);
 
-		$this->assignRef('user', $user);
-		$this->assignRef('userinfo', $userinfo);
-		$this->assignRef('product_id', $product_id);
-		$this->assignRef('rate', $rate);
-		$this->assignRef('category_id', $category_id);
-		$this->assignRef('productinfo', $productinfo);
-		$this->assignRef('params', $params);
+		$this->user = $user;
+		$this->userinfo = $userinfo;
+		$this->product_id = $product_id;
+		$this->rate = $rate;
+		$this->category_id = $category_id;
+		$this->productinfo = $productinfo;
+		$this->params = $params;
 
 		parent::display($tpl);
 	}
