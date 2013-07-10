@@ -352,7 +352,7 @@ class CategoryModelCategory extends JModel
 		$query->select('p_price.price_id, p_price.product_price AS product_adv_price, p_price.product_currency AS product_adv_currency,  p_price.discount_price AS discount_adv_price, p_price.discount_start_date AS discount_adv_start_date, p_price.discount_end_date AS discount_adv_end_date');
 
 		// Select template code about product
-		$query->select('tpl.template_desc');
+		$query->select('tpl.template_id, tpl.template_desc, tpl.template_section, tpl.template_name');
 
 		// Select TAX info
 		$query->select('tr.*, tr.mdate AS tax_mdate');
@@ -366,7 +366,7 @@ class CategoryModelCategory extends JModel
 		$query->leftJoin($this->_table_prefix . 'category AS c ON c.category_id = pc.category_id');
 		$query->leftJoin($this->_table_prefix . 'manufacturer AS m ON m.manufacturer_id = p.manufacturer_id');
 		$query->leftJoin($this->_table_prefix . 'media AS media ON p.product_id = media.section_id AND media.media_section = "product" AND media.media_type = "images"');
-		$query->leftJoin($this->_table_prefix . 'template AS tpl ON tpl.template_id = p.product_template');
+		$query->leftJoin($this->_table_prefix . 'template AS tpl ON tpl.template_id = p.product_template AND tpl.published = 1');
 		$query->leftJoin($this->_table_prefix . 'tax_rate as tr ON tr.tax_group_id = p.product_tax_group_id' . $andTr);
 		$query->leftJoin($this->_table_prefix . 'tax_group as tg ON tg.tax_group_id = tr.tax_group_id AND tg.published = 1');
 		$query->leftJoin($this->_table_prefix . 'product_price AS p_price ON p.product_id = p_price.product_id AND ((p_price.price_quantity_start <= "' . $qunselect . '" AND p_price.price_quantity_end >= "' . $qunselect . '") OR (p_price.price_quantity_start = "0" AND p_price.price_quantity_end = "0")) AND p_price.shopper_group_id = "' . $shopperGroupId . '"');
