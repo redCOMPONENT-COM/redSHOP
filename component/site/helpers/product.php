@@ -341,7 +341,7 @@ class producthelper
 
 	public function getProductSpecialId($userid)
 	{
-		if ($this->_ProductSpecialId_FromUdserId != $userid)
+		if ($this->_ProductSpecialId_FromUdserId != $userid || $this->_ProductSpecialId_FromUdserId === null)
 		{
 			if ($userid)
 			{
