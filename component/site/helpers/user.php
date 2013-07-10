@@ -9,10 +9,10 @@
 
 defined('_JEXEC') or die;
 
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/mail.php';
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/extra_field.php';
-require_once JPATH_SITE . '/components/com_redshop/helpers/cart.php';
-require_once JPATH_SITE . '/components/com_redshop/helpers/helper.php';
+JLoader::import('mail', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
+JLoader::import('extra_field', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
+JLoader::import('cart', JPATH_SITE . '/components/com_redshop/helpers');
+JLoader::import('helper', JPATH_SITE . '/components/com_redshop/helpers');
 
 class rsUserhelper
 {
@@ -33,14 +33,14 @@ class rsUserhelper
 	public function __construct()
 	{
 		$this->_table_prefix = '#__' . TABLE_PREFIX . '_';
-		$this->_session      = JFactory::getSession();
-		$this->_db           = JFactory::getDBO();
+		$this->_session = JFactory::getSession();
+		$this->_db = JFactory::getDBO();
 	}
 
 	/**
 	 * Replace Conditional tag from Redshop tax
 	 *
-	 * @param   integer  $user_id  User identifier
+	 * @param   integer $user_id  User identifier
 	 *
 	 * @return  integer            User group
 	 */
@@ -75,7 +75,7 @@ class rsUserhelper
 	/**
 	 * Get User groups
 	 *
-	 * @param   integer  $user_id  User identifier
+	 * @param   integer $user_id  User identifier
 	 *
 	 * @return  array              Array of user groups
 	 */
@@ -140,20 +140,27 @@ class rsUserhelper
 
 	public function getShopperGroupList($shopper_group_id = 0)
 	{
-		$and = '';
-
-		if ($shopper_group_id != 0)
+		if ($this->_shopper_group_id != $shopper_group_id || $shopper_group_id == 0)
 		{
-			$and .= 'AND shopper_group_id="' . $shopper_group_id . '" ';
+			$and = '';
+
+			if ($shopper_group_id != 0)
+			{
+				$and .= 'AND shopper_group_id="' . $shopper_group_id . '" ';
+			}
+
+			$query = 'SELECT sh.*, shopper_group_id AS value, shopper_group_name AS text FROM ' . $this->_table_prefix . 'shopper_group AS sh '
+				. 'WHERE published=1 '
+				. $and;
+			$this->_db->setQuery($query);
+
+			$list = $this->_shopper_group_data = $this->_db->loadObjectList();
+			$this->_shopper_group_id = $shopper_group_id;
 		}
-
-		$query = 'SELECT sh.*, shopper_group_id AS value, shopper_group_name AS text FROM ' . $this->_table_prefix . 'shopper_group AS sh '
-			. 'WHERE published=1 '
-			. $and;
-		$this->_db->setQuery($query);
-
-		$list                    = $this->_shopper_group_data = $this->_db->loadObjectList();
-		$this->_shopper_group_id = $shopper_group_id;
+		else
+		{
+			$list = $this->_shopper_group_data;
+		}
 
 		return $list;
 	}
@@ -164,7 +171,7 @@ class rsUserhelper
 
 		if (empty($userArr))
 		{
-			$userArr              = array();
+			$userArr = array();
 			$userArr['rs_userid'] = $user_id;
 		}
 
@@ -187,7 +194,7 @@ class rsUserhelper
 		else
 		{
 			unset($userArr);
-			$userArr                     = array();
+			$userArr = array();
 			$userArr['rs_is_user_login'] = 0;
 		}
 
@@ -243,8 +250,8 @@ class rsUserhelper
 		}
 
 		$app = JFactory::getApplication();
-		$db  = JFactory::getDBO();
-		$me  = JFactory::getUser();
+		$db = JFactory::getDBO();
+		$me = JFactory::getUser();
 		$acl = JFactory::getACL();
 
 		$data['name'] = $name = $data['firstname'];
@@ -309,7 +316,7 @@ class rsUserhelper
 		{
 			// Check that at least one of our new groups is Super Admin
 			$stillSuperAdmin = false;
-			$myNewGroups     = $user->groups;
+			$myNewGroups = $user->groups;
 
 			foreach ($myNewGroups as $group)
 			{
@@ -341,18 +348,18 @@ class rsUserhelper
 
 		$createaccount = (isset($data['createaccount']) && $data['createaccount'] == 1) ? 1 : 0;
 
-		$data['password']  = JRequest::getVar('password1', '', 'post', 'string', JREQUEST_ALLOWRAW);
+		$data['password'] = JRequest::getVar('password1', '', 'post', 'string', JREQUEST_ALLOWRAW);
 		$data['password2'] = JRequest::getVar('password2', '', 'post', 'string', JREQUEST_ALLOWRAW);
-		$data['email']     = $data['email1'];
-		$data['name']      = $name = $data['firstname'];
+		$data['email'] = $data['email1'];
+		$data['name'] = $name = $data['firstname'];
 
 		// Do a password safety check
 		if (REGISTER_METHOD == 3)
 		{
 			// Silent registration
-			$better_token      = substr(uniqid(md5(rand()), true), 0, 10);
-			$data['username']  = $data['email'];
-			$data['password']  = $better_token;
+			$better_token = substr(uniqid(md5(rand()), true), 0, 10);
+			$data['username'] = $data['email'];
+			$data['password'] = $better_token;
 			$data['password2'] = $better_token;
 			JRequest::setVar('password1', $better_token);
 		}
@@ -459,7 +466,7 @@ class rsUserhelper
 				return false;
 			}
 
-			$credentials             = array();
+			$credentials = array();
 			$credentials['username'] = $data['username'];
 			$credentials['password'] = $data['password2'];
 
@@ -496,10 +503,10 @@ class rsUserhelper
 	{
 		$redshopMail = new redshopMail;
 		$extra_field = new extra_field;
-		$helper      = new redhelper;
+		$helper = new redhelper;
 
-		$data['user_email']   = $data['email'] = $data['email1'];
-		$data['name']         = $name = $data['firstname'];
+		$data['user_email'] = $data['email'] = $data['email1'];
+		$data['name'] = $name = $data['firstname'];
 		$data['address_type'] = 'BT';
 
 		$row = JTable::getInstance('user_detail', 'Table');
@@ -509,14 +516,14 @@ class rsUserhelper
 			$isNew = false;
 			$row->load($data['users_info_id']);
 			$data["old_tax_exempt_approved"] = $row->tax_exempt_approved;
-			$user_id                         = $row->user_id;
+			$user_id = $row->user_id;
 		}
 		else
 		{
-			$isNew            = true;
+			$isNew = true;
 			$data['password'] = JRequest::getVar('password1', '', 'post', 'string', JREQUEST_ALLOWRAW);
-			$app              = JFactory::getApplication();
-			$is_admin         = $app->isAdmin();
+			$app = JFactory::getApplication();
+			$is_admin = $app->isAdmin();
 
 			if ($data['is_company'] == 1)
 			{
@@ -543,10 +550,10 @@ class rsUserhelper
 		}
 		if ($user_id > 0)
 		{
-			$joomlauser       = new JUser($user_id);
+			$joomlauser = new JUser($user_id);
 			$data['username'] = $joomlauser->username;
-			$data['name']     = $joomlauser->name;
-			$data['email']    = $joomlauser->email;
+			$data['name'] = $joomlauser->name;
+			$data['email'] = $joomlauser->email;
 		}
 		if (SHOW_TERMS_AND_CONDITIONS == 1 && isset($data['termscondition']) && $data['termscondition'] == 1)
 		{
@@ -598,7 +605,7 @@ class rsUserhelper
 		// Update user info id
 		if (ECONOMIC_INTEGRATION)
 		{
-			$economic         = new economic;
+			$economic = new economic;
 			$original_info_id = $row->users_info_id;
 
 			if ($isNew)
@@ -612,7 +619,7 @@ class rsUserhelper
 					if ($row->users_info_id <= $maxDebtor)
 					{
 						$nextId = $maxDebtor + 1;
-						$sql    = "UPDATE " . $this->_table_prefix . "users_info "
+						$sql = "UPDATE " . $this->_table_prefix . "users_info "
 							. "SET users_info_id = '" . $nextId . "' "
 							. "WHERE users_info_id='" . $row->users_info_id . "' ";
 						$this->_db->setQuery($sql);
@@ -670,9 +677,9 @@ class rsUserhelper
 			$u->set('usertype', 'Registered');
 			$date = JFactory::getDate();
 			$u->set('registerDate', $date->toMySQL());
-			$data['user_id']  = $row->user_id;
+			$data['user_id'] = $row->user_id;
 			$data['username'] = $row->user_email;
-			$data['email']    = $row->user_email;
+			$data['email'] = $row->user_email;
 		}
 
 		if (isset($data['newsletter_signup']) && $data['newsletter_signup'] == 1)
@@ -752,27 +759,27 @@ class rsUserhelper
 			return false;
 		}
 
-		$rowShip->user_id               = $data['user_id'];
-		$rowShip->address_type          = 'ST';
-		$rowShip->country_code          = $data['country_code_ST'];
-		$rowShip->state_code            = (isset($data['state_code_ST'])) ? $data['state_code_ST'] : "";
-		$rowShip->firstname             = $data['firstname_ST'];
-		$rowShip->lastname              = $data['lastname_ST'];
-		$rowShip->address               = $data['address_ST'];
-		$rowShip->city                  = $data['city_ST'];
-		$rowShip->zipcode               = $data['zipcode_ST'];
-		$rowShip->phone                 = $data['phone_ST'];
-		$rowShip->user_email            = $data['user_email'];
-		$rowShip->tax_exempt            = $data['tax_exempt'];
+		$rowShip->user_id = $data['user_id'];
+		$rowShip->address_type = 'ST';
+		$rowShip->country_code = $data['country_code_ST'];
+		$rowShip->state_code = (isset($data['state_code_ST'])) ? $data['state_code_ST'] : "";
+		$rowShip->firstname = $data['firstname_ST'];
+		$rowShip->lastname = $data['lastname_ST'];
+		$rowShip->address = $data['address_ST'];
+		$rowShip->city = $data['city_ST'];
+		$rowShip->zipcode = $data['zipcode_ST'];
+		$rowShip->phone = $data['phone_ST'];
+		$rowShip->user_email = $data['user_email'];
+		$rowShip->tax_exempt = $data['tax_exempt'];
 		$rowShip->requesting_tax_exempt = $data['requesting_tax_exempt'];
-		$rowShip->shopper_group_id      = $data['shopper_group_id'];
-		$rowShip->tax_exempt_approved   = $data['tax_exempt_approved'];
-		$rowShip->is_company            = $data['is_company'];
+		$rowShip->shopper_group_id = $data['shopper_group_id'];
+		$rowShip->tax_exempt_approved = $data['tax_exempt_approved'];
+		$rowShip->is_company = $data['is_company'];
 
 		if ($data['is_company'] == 1)
 		{
 			$rowShip->company_name = $data['company_name'];
-			$rowShip->vat_number   = $data['vat_number'];
+			$rowShip->vat_number = $data['vat_number'];
 		}
 
 		if (!$rowShip->store())
@@ -808,15 +815,15 @@ class rsUserhelper
 		{
 			$name = explode(" ", $jusers[$i]->name);
 
-			$post               = array();
-			$post['user_id']    = $jusers[$i]->id;
-			$post['email']      = $post['email1'] = $jusers[$i]->email;
-			$post['firstname']  = $name[0];
-			$post['lastname']   = (isset($name[1]) && $name[1]) ? $name[1] : '';
+			$post = array();
+			$post['user_id'] = $jusers[$i]->id;
+			$post['email'] = $post['email1'] = $jusers[$i]->email;
+			$post['firstname'] = $name[0];
+			$post['lastname'] = (isset($name[1]) && $name[1]) ? $name[1] : '';
 			$post['is_company'] = (DEFAULT_CUSTOMER_REGISTER_TYPE == 2) ? 1 : 0;
-			$post['password1']  = '';
+			$post['password1'] = '';
 			$post['billisship'] = 1;
-			$reduser            = $this->storeRedshopUser($post, $jusers[$i]->id, 1);
+			$reduser = $this->storeRedshopUser($post, $jusers[$i]->id, 1);
 		}
 
 		return count($jusers);
@@ -825,7 +832,7 @@ class rsUserhelper
 	public function newsletterSubscribe($user_id = 0, $data = array(), $sendmail = 0)
 	{
 		$newsletter = 1;
-		$user       = JFactory::getUser();
+		$user = JFactory::getUser();
 
 		if ($user_id == 0)
 		{
@@ -837,16 +844,16 @@ class rsUserhelper
 		}
 		if (count($data) <= 0)
 		{
-			$data['user_id']  = $user->id;
+			$data['user_id'] = $user->id;
 			$data['username'] = $user->username;
-			$data['email']    = $user->email;
-			$data['name']     = $user->name . " (" . $user->username . ")";
+			$data['email'] = $user->email;
+			$data['name'] = $user->name . " (" . $user->username . ")";
 		}
 		else
 		{
 			$data['user_id'] = $user_id;
-			$data['name']    = $data['name'];
-			$data['email']   = $data['email1'];
+			$data['name'] = $data['name'];
+			$data['email'] = $data['email1'];
 
 			if (isset($data['username']))
 			{
@@ -859,9 +866,9 @@ class rsUserhelper
 			}
 		}
 
-		$data['date']          = time();
+		$data['date'] = time();
 		$data['newsletter_id'] = $newsletter;
-		$data['published']     = 1;
+		$data['published'] = 1;
 
 		if (NEWSLETTER_CONFIRMATION && $sendmail)
 		{
@@ -893,7 +900,7 @@ class rsUserhelper
 	public function newsletterUnsubscribe($email = "")
 	{
 		$user = JFactory::getUser();
-		$and  = "";
+		$and = "";
 
 		if (DEFAULT_NEWSLETTER != "")
 		{
@@ -954,7 +961,7 @@ class rsUserhelper
 		if (count($private_template) <= 0)
 		{
 			$private_template[0]->template_name = 'private_billing_template';
-			$private_template[0]->template_id   = 0;
+			$private_template[0]->template_id = 0;
 		}
 
 		for ($i = 0; $i < count($private_template); $i++)
@@ -971,7 +978,7 @@ class rsUserhelper
 				}
 
 				$private_template_desc = ($is_company == 1) ? '' : $this->replacePrivateCustomer($private_template_desc, $post, $lists);
-				$template_desc         = str_replace("{private_billing_template:" . $private_template[$i]->template_name . "}", "<div id='tblprivate_customer'>" . $private_template_desc . "</div><div id='divPrivateTemplateId' style='display:none;'>" . $private_template[$i]->template_id . "</div>", $template_desc);
+				$template_desc = str_replace("{private_billing_template:" . $private_template[$i]->template_name . "}", "<div id='tblprivate_customer'>" . $private_template_desc . "</div><div id='divPrivateTemplateId' style='display:none;'>" . $private_template[$i]->template_id . "</div>", $template_desc);
 				break;
 			}
 		}
@@ -981,7 +988,7 @@ class rsUserhelper
 		if (count($company_template) <= 0)
 		{
 			$company_template[0]->template_name = 'company_billing_template';
-			$company_template[0]->template_id   = 0;
+			$company_template[0]->template_id = 0;
 		}
 
 		for ($i = 0; $i < count($company_template); $i++)
@@ -998,7 +1005,7 @@ class rsUserhelper
 				}
 
 				$company_template_desc = ($is_company == 1) ? $this->replaceCompanyCustomer($company_template_desc, $post, $lists) : '';
-				$template_desc         = str_replace("{company_billing_template:" . $company_template[$i]->template_name . "}", "<div id='tblcompany_customer'>" . $company_template_desc . "</div><div id='divCompanyTemplateId' style='display:none;'>" . $company_template[$i]->template_id . "</div>", $template_desc);
+				$template_desc = str_replace("{company_billing_template:" . $company_template[$i]->template_name . "}", "<div id='tblcompany_customer'>" . $company_template_desc . "</div><div id='divCompanyTemplateId' style='display:none;'>" . $company_template[$i]->template_id . "</div>", $template_desc);
 				break;
 			}
 		}
@@ -1020,11 +1027,11 @@ class rsUserhelper
 		{
 			$template_pd_sdata = explode('{account_creation_start}', $template_desc);
 			$template_pd_edata = explode('{account_creation_end}', $template_pd_sdata [1]);
-			$template_middle   = "";
+			$template_middle = "";
 
 			if (REGISTER_METHOD != 1 && REGISTER_METHOD != 3)
 			{
-				$checkbox_style  = '';
+				$checkbox_style = '';
 				$template_middle = $template_pd_edata[0];
 
 				if (REGISTER_METHOD == 2)
@@ -1076,14 +1083,14 @@ class rsUserhelper
 	{
 		$Redconfiguration = new Redconfiguration;
 
-		$ajax                  = (isset($lists['isAjax']) && $lists['isAjax'] == 1) ? 1 : 0;
-		$countryarray          = $Redconfiguration->getCountryList(@$post, "country_code", "BT");
-		$post['country_code']  = $countryarray['country_code'];
+		$ajax = (isset($lists['isAjax']) && $lists['isAjax'] == 1) ? 1 : 0;
+		$countryarray = $Redconfiguration->getCountryList(@$post, "country_code", "BT");
+		$post['country_code'] = $countryarray['country_code'];
 		$lists['country_code'] = $countryarray['country_dropdown'];
-		$statearray            = $Redconfiguration->getStateList(@$post, 'state_code', 'country_code', 'BT', $ajax);
-		$lists['state_code']   = $statearray['state_dropdown'];
-		$countrystyle          = (count($countryarray['countrylist']) == 1 && count($statearray['statelist']) == 0) ? 'display:none;' : '';
-		$statestyle            = ($statearray['is_states'] <= 0) ? 'display:none;' : '';
+		$statearray = $Redconfiguration->getStateList(@$post, 'state_code', 'country_code', 'BT', $ajax);
+		$lists['state_code'] = $statearray['state_dropdown'];
+		$countrystyle = (count($countryarray['countrylist']) == 1 && count($statearray['statelist']) == 0) ? 'display:none;' : '';
+		$statestyle = ($statearray['is_states'] <= 0) ? 'display:none;' : '';
 
 		$read_only = "";
 
@@ -1094,7 +1101,7 @@ class rsUserhelper
 		{
 			$template_pd_sdata = explode('{retype_email_start}', $template_desc);
 			$template_pd_edata = explode('{retype_email_end}', $template_pd_sdata [1]);
-			$template_middle   = "";
+			$template_middle = "";
 
 			if (SHOW_EMAIL_VERIFICATION)
 			{
@@ -1141,7 +1148,7 @@ class rsUserhelper
 		if (strstr($template_desc, "{private_extrafield}"))
 		{
 			$extra_field_user = (ALLOW_CUSTOMER_REGISTER_TYPE != 2 && $lists['extra_field_user'] != "") ? $lists['extra_field_user'] : "";
-			$template_desc    = str_replace("{private_extrafield}", $extra_field_user, $template_desc);
+			$template_desc = str_replace("{private_extrafield}", $extra_field_user, $template_desc);
 		}
 
 		return $template_desc;
@@ -1160,12 +1167,12 @@ class rsUserhelper
 		{
 			$template_pd_sdata = explode('{vat_number_start}', $template_desc);
 			$template_pd_edata = explode('{vat_number_end}', $template_pd_sdata [1]);
-			$template_middle   = "";
+			$template_middle = "";
 
 			if (USE_TAX_EXEMPT == 1)
 			{
 				$template_middle = $template_pd_edata[0];
-				$classreq        = (REQUIRED_VAT_NUMBER == 1) ? "required" : "";
+				$classreq = (REQUIRED_VAT_NUMBER == 1) ? "required" : "";
 				$template_middle = str_replace("{vat_number_lbl}", JText::_('COM_REDSHOP_BUSINESS_NUMBER'), $template_middle);
 
 				if (JPluginHelper::isEnabled('redshop_veis_registration', 'rs_veis_registration'))
@@ -1183,7 +1190,7 @@ class rsUserhelper
 
 		if (USE_TAX_EXEMPT == 1 && SHOW_TAX_EXEMPT_INFRONT)
 		{
-			$tax_exempt    = JHTML::_('select.booleanlist', 'tax_exempt', 'class="inputbox" ', @$post["tax_exempt"], JText::_('COM_REDSHOP_COMPANY_IS_VAT_EXEMPTED'), JText::_('COM_REDSHOP_COMPANY_IS_NOT_VAT_EXEMPTED'));
+			$tax_exempt = JHTML::_('select.booleanlist', 'tax_exempt', 'class="inputbox" ', @$post["tax_exempt"], JText::_('COM_REDSHOP_COMPANY_IS_VAT_EXEMPTED'), JText::_('COM_REDSHOP_COMPANY_IS_NOT_VAT_EXEMPTED'));
 			$template_desc = str_replace("{tax_exempt_lbl}", '<div id="lblTaxExempt" ' . $allowCompany . '>' . JText::_('COM_REDSHOP_TAX_EXEMPT') . '</div>', $template_desc);
 			$template_desc = str_replace("{tax_exempt}", '<div id="trTaxExempt" ' . $allowCompany . '>' . $tax_exempt . '</div>', $template_desc);
 		}
@@ -1196,7 +1203,7 @@ class rsUserhelper
 		if (strstr($template_desc, "{company_extrafield}"))
 		{
 			$extra_field_company = (ALLOW_CUSTOMER_REGISTER_TYPE != 1 && $lists['extra_field_company'] != "") ? $lists['extra_field_company'] : "";
-			$template_desc       = str_replace("{company_extrafield}", $extra_field_company, $template_desc);
+			$template_desc = str_replace("{company_extrafield}", $extra_field_company, $template_desc);
 		}
 
 		return $template_desc;
@@ -1204,8 +1211,8 @@ class rsUserhelper
 
 	public function getShippingTable($post = array(), $is_company = 0, $lists)
 	{
-		$Redconfiguration  = new Redconfiguration;
-		$redTemplate       = new Redtemplate;
+		$Redconfiguration = new Redconfiguration;
+		$redTemplate = new Redtemplate;
 		$shipping_template = $redTemplate->getTemplate("shipping_template");
 
 		if (count($shipping_template) > 0 && $shipping_template[0]->template_desc != "")
@@ -1223,7 +1230,7 @@ class rsUserhelper
 		}
 
 		$allowCustomer = '';
-		$allowCompany  = '';
+		$allowCompany = '';
 
 		if ($is_company == 1)
 		{
@@ -1234,14 +1241,14 @@ class rsUserhelper
 			$allowCompany = 'style="display:none;"';
 		}
 
-		$read_only                = "";
-		$countryarray             = $Redconfiguration->getCountryList(@$post, "country_code_ST", "ST", "inputbox billingRequired valid");
-		$post['country_code_ST']  = $countryarray['country_code_ST'];
+		$read_only = "";
+		$countryarray = $Redconfiguration->getCountryList(@$post, "country_code_ST", "ST", "inputbox billingRequired valid");
+		$post['country_code_ST'] = $countryarray['country_code_ST'];
 		$lists['country_code_ST'] = $countryarray['country_dropdown'];
-		$statearray               = $Redconfiguration->getStateList(@$post, "state_code_ST", "country_code_ST", "ST", 0, "");
-		$lists['state_code_ST']   = $statearray['state_dropdown'];
-		$countrystyle             = (count($countryarray['countrylist']) == 1 && count($statearray['statelist']) == 0) ? 'display:none;' : '';
-		$statestyle               = ($statearray['is_states'] <= 0) ? 'display:none;' : '';
+		$statearray = $Redconfiguration->getStateList(@$post, "state_code_ST", "country_code_ST", "ST", 0, "");
+		$lists['state_code_ST'] = $statearray['state_dropdown'];
+		$countrystyle = (count($countryarray['countrylist']) == 1 && count($statearray['statelist']) == 0) ? 'display:none;' : '';
+		$statestyle = ($statearray['is_states'] <= 0) ? 'display:none;' : '';
 
 		$template_desc = str_replace("{firstname_st_lbl}", JText::_('COM_REDSHOP_FIRSTNAME'), $template_desc);
 		$template_desc = str_replace("{firstname_st}", '<input class="inputbox billingRequired valid" type="text" name="firstname_ST" id="firstname_ST" size="32" maxlength="250" value="' . @$post ["firstname_ST"] . '" />', $template_desc);
@@ -1269,16 +1276,16 @@ class rsUserhelper
 		{
 			$template_pd_sdata = explode('{extra_field_st_start}', $template_desc);
 			$template_pd_edata = explode('{extra_field_st_end}', $template_pd_sdata [1]);
-			$template_middle   = $template_pd_edata[0];
+			$template_middle = $template_pd_edata[0];
 
 			$extra_field_company = (ALLOW_CUSTOMER_REGISTER_TYPE != 1 && $lists['shipping_company_field'] != "") ? $lists['shipping_company_field'] : "";
-			$extra_field_user    = (ALLOW_CUSTOMER_REGISTER_TYPE != 2 && $lists['shipping_customer_field'] != "") ? $lists['shipping_customer_field'] : "";
+			$extra_field_user = (ALLOW_CUSTOMER_REGISTER_TYPE != 2 && $lists['shipping_customer_field'] != "") ? $lists['shipping_customer_field'] : "";
 
 			$template_middle_company = str_replace("{extra_field_st}", $extra_field_company, $template_middle);
-			$template_middle_user    = str_replace("{extra_field_st}", $extra_field_user, $template_middle);
+			$template_middle_user = str_replace("{extra_field_st}", $extra_field_user, $template_middle);
 
 			$template_middle_company = '<div id="exCompanyFieldST" ' . $allowCompany . '>' . $template_middle_company . '</div>';
-			$template_middle_user    = '<div id="exCustomerFieldST" ' . $allowCustomer . '>' . $template_middle_user . '</div>';
+			$template_middle_user = '<div id="exCustomerFieldST" ' . $allowCustomer . '>' . $template_middle_user . '</div>';
 
 			$template_desc = $template_pd_sdata[0] . $template_middle_company . $template_middle_user . $template_pd_edata[1];
 		}
@@ -1320,7 +1327,7 @@ class rsUserhelper
 	/**
 	 * Function to store redCRM user
 	 *
-	 * @param   object  $row  Row to store
+	 * @param   object $row  Row to store
 	 *
 	 * @return  object
 	 */
@@ -1367,10 +1374,10 @@ class rsUserhelper
 
 	public function getShopperGroupManufacturers()
 	{
-		$user                       = JFactory::getUser();
-		$user_id                    = $user->id;
-		$shopperGroupId             = $this->getShopperGroup($user_id);
-		$shopperGroupdata           = $this->getShopperGroupList($shopperGroupId);
+		$user = JFactory::getUser();
+		$user_id = $user->id;
+		$shopperGroupId = $this->getShopperGroup($user_id);
+		$shopperGroupdata = $this->getShopperGroupList($shopperGroupId);
 		$shopper_group_manufactures = $shopperGroupdata[0]->shopper_group_manufactures;
 
 		return $shopper_group_manufactures;
