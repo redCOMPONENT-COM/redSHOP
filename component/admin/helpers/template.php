@@ -48,28 +48,50 @@ class Redtemplate
 	 */
 	public function getTemplate($section = '', $tid = 0, $name = "")
 	{
-		$db = JFactory::getDBO();
-		$and = "";
-
-		if ($tid != 0)
+		if (is_object($tid) && $tid->advanced_query == 1 && $tid->template_section != '' && $tid->template_name != '')
 		{
-			$and = "AND template_id IN (" . $tid . ") ";
+			$re = array(
+				(object) array(
+					'template_desc' => $this->readtemplateFile($tid->template_section, $tid->template_name),
+					'template_section' => $tid->template_section,
+					'template_name' => $tid->template_name,
+					'template_id' => $tid->product_template
+				)
+			);
 		}
-
-		$and .= ($name != "") ? " AND template_name = '" . $name . "'" : "";
-
-		$query = "SELECT * "
-			. "FROM #__redshop_template "
-			. "WHERE template_section "
-			. "LIKE '" . $section . "' AND published=1 "
-			. $and
-			. "ORDER BY template_id ASC ";
-		$db->setQuery($query);
-		$re = $db->loadObjectList();
-
-		for ($i = 0; $i < count($re); $i++)
+		else
 		{
-			$re[$i]->template_desc = $this->readtemplateFile($re[$i]->template_section, $re[$i]->template_name);
+			if (is_object($tid))
+			{
+				$tid = $tid->product_id;
+			}
+
+			$db = JFactory::getDBO();
+			$query = $db->getQuery(true);
+
+			if ($tid != 0)
+			{
+				$query->where('template_id IN (' . $tid . ')');
+			}
+
+			if ($name != "")
+			{
+				$query->where('template_name = "' . $name . '"');
+			}
+
+			$query->select('*');
+			$query->from('#__redshop_template');
+			$query->where('template_section LIKE "' . $section . '"');
+			$query->where('published = 1');
+			$query->order('template_id ASC');
+
+			$db->setQuery($query);
+			$re = $db->loadObjectList();
+
+			for ($i = 0; $i < count($re); $i++)
+			{
+				$re[$i]->template_desc = $this->readtemplateFile($re[$i]->template_section, $re[$i]->template_name);
+			}
 		}
 
 		return $re;
@@ -99,6 +121,35 @@ class Redtemplate
 	}
 
 	/**
+	 * Method to get defaultTemplate to frontend
+	 *
+	 * @param   boolean  $is_admin  Check for administrator call
+	 *
+	 * @return  string              Template Name
+	 */
+	function getDefaultTeplate($is_admin = false)
+	{
+		if ($is_admin)
+		{
+			$db = JFactory::getDBO();
+			$query = $db->getQuery(true);
+			$query->select('template');
+			$query->from('#__template_styles');
+			$query->where('client_id = 0');
+			$query->where('home = 1');
+			$db->setQuery($query);
+			$defaultemplate = $db->loadResult();
+		}
+		else
+		{
+			$app = JFactory::getApplication();
+			$defaultemplate = $app->getTemplate();
+		}
+
+		return $defaultemplate;
+	}
+
+	/**
 	 * Method to get Template file path
 	 *
 	 * @param   string   $section   Template Section
@@ -112,15 +163,16 @@ class Redtemplate
 		$app = JFactory::getApplication();
 		$tempate_file = "";
 		$template_view = $this->getTemplateView($section);
-		$layout = JRequest::getVar('layout');
+		$layout = $app->input->getString('layout', '');
+		$defaultemplate = $this->getDefaultTeplate($is_admin);
 
-		if (!$is_admin && $section != 'categoryproduct')
+		if ($section != 'categoryproduct')
 		{
-			$tempate_file = JPATH_SITE . '/templates/' . $app->getTemplate() . "/html/com_redshop/$template_view/$section/$filename.php";
+			$tempate_file = JPATH_SITE . '/templates/' . $defaultemplate . '/html/com_redshop/' . $template_view . '/' . $section . '/' . $filename . '.php';
 		}
 		else
 		{
-			$tempate_file = JPATH_SITE . '/templates/' . $app->getTemplate() . "/html/com_redshop/$section/$filename.php";
+			$tempate_file = JPATH_SITE . '/templates/' . $defaultemplate . "/html/com_redshop/" . $section . '/' . $filename . ".php";
 		}
 
 		if (!file_exists($tempate_file))
@@ -471,7 +523,7 @@ class Redtemplate
 	 */
 	public function getFieldSections($sectionvalue = "")
 	{
-		$optionsection   = array();
+		$optionsection = array();
 		$optionsection[] = JHTML::_('select.option', '0', JText::_('COM_REDSHOP_SELECT'));
 		$optionsection[] = JHTML::_('select.option', '1', JText::_('COM_REDSHOP_PRODUCT'));
 		$optionsection[] = JHTML::_('select.option', '2', JText::_('COM_REDSHOP_CATEGORY'));
