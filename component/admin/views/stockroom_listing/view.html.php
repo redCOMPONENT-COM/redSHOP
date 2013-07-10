@@ -75,14 +75,14 @@ class stockroom_listingViewstockroom_listing extends JView
 		$stockroom     = $this->get('Stockroom');
 		$pagination    = $this->get('Pagination');
 
-		$this->assignRef('lists', $lists);
-		$this->assignRef('keyword', $keyword);
-		$this->assignRef('search_field', $search_field);
-		$this->assignRef('resultlisting', $resultlisting);
-		$this->assignRef('stockroom', $stockroom);
-		$this->assignRef('stockroom_type', $stockroom_type);
+		$this->lists = $lists;
+		$this->keyword = $keyword;
+		$this->search_field = $search_field;
+		$this->resultlisting = $resultlisting;
+		$this->stockroom = $stockroom;
+		$this->stockroom_type = $stockroom_type;
 
-		$this->assignRef('pagination', $pagination);
+		$this->pagination = $pagination;
 		$this->request_url = $uri->toString();
 
 		parent::display($tpl);

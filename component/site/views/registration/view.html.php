@@ -46,8 +46,8 @@ class registrationViewregistration extends JView
 		// Field_section 8 : Company Address
 		$lists['extra_field_company'] = $field->list_all_field(8);
 
-		$this->assignRef('lists', $lists);
-		$this->assignRef('params', $params);
+		$this->lists = $lists;
+		$this->params = $params;
 		parent::display($tpl);
 	}
 }

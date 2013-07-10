@@ -56,9 +56,9 @@ class shipping_boxViewshipping_box extends JView
 		$pagination   = $this->get('Pagination');
 
 		$this->user = JFactory::getUser();
-		$this->assignRef('lists', $lists);
-		$this->assignRef('shipping_box', $shipping_box);
-		$this->assignRef('pagination', $pagination);
+		$this->lists = $lists;
+		$this->shipping_box = $shipping_box;
+		$this->pagination = $pagination;
 		$this->request_url = $uri->toString();
 
 		parent::display($tpl);

@@ -36,13 +36,13 @@ class product_priceViewproduct_price extends JView
 		$db->setQuery($sql);
 		$prices = $db->loadObjectList();
 
-		$this->assignRef('product', $product);
+		$this->product = $product;
 
-		$this->assignRef('prices', $prices);
+		$this->prices = $prices;
 
-		$this->assignRef('pid', $product_id);
+		$this->pid = $product_id;
 
-		$this->assignRef('request_url', $uri->toString());
+		$this->request_url = $uri->toString();
 
 		parent::display($tpl);
 	}

@@ -120,8 +120,8 @@ class media_detailVIEWmedia_detail extends JView
 			'value', 'text', 'no'
 		);
 
-		$this->assignRef('lists', $lists);
-		$this->assignRef('detail', $detail);
+		$this->lists = $lists;
+		$this->detail = $detail;
 		$this->request_url = $uri->toString();
 
 		parent::display($tpl);

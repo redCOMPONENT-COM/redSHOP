@@ -149,12 +149,12 @@ class shipping_rate_detailViewshipping_rate_detail extends JView
 			'class="inputbox" size="1" ', 'value', 'text', $detail->shipping_tax_group_id
 		);
 
-		$this->assignRef('is_shipper', $is_shipper);
-		$this->assignRef('shipper_location', $shipper_location);
-		$this->assignRef('lists', $lists);
-		$this->assignRef('detail', $detail);
-		$this->assignRef('shipping', $shipping);
-		$this->assignRef('request_url', $uri->toString());
+		$this->is_shipper = $is_shipper;
+		$this->shipper_location = $shipper_location;
+		$this->lists = $lists;
+		$this->detail = $detail;
+		$this->shipping = $shipping;
+		$this->request_url = $uri->toString();
 
 		parent::display($tpl);
 	}

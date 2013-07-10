@@ -68,7 +68,7 @@ class accountViewaccount extends JView
 			$limitstart  = JRequest::getVar('limitstart', 0, '', 'int');
 			$total       = $this->get('total');
 			$pagination  = new redPagination($total, $limitstart, $limit);
-			$this->assignRef('pagination', $pagination);
+			$this->pagination = $pagination;
 		}
 
 		if ($layout == 'mywishlist')
@@ -95,7 +95,7 @@ class accountViewaccount extends JView
 			$limitstart  = JRequest::getVar('limitstart', 0, '', 'int');
 			$total       = $this->get('total');
 			$pagination  = new redPagination($total, $limitstart, $limit);
-			$this->assignRef('pagination', $pagination);
+			$this->pagination = $pagination;
 		}
 
 		if ($layout == 'compare')
@@ -111,9 +111,9 @@ class accountViewaccount extends JView
 			$this->setLayout('compare');
 		}
 
-		$this->assignRef('user', $user);
-		$this->assignRef('userdata', $userdata);
-		$this->assignRef('params', $params);
+		$this->user = $user;
+		$this->userdata = $userdata;
+		$this->params = $params;
 
 		// RedCRM Template
 

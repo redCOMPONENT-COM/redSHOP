@@ -116,11 +116,11 @@ class LoginController extends JController
 
 		if ($item)
 		{
-			$link = JRoute::_($item->link . '&Itemid=' . $logout_itemid);
+			$link = JRoute::_($item->link . '&Itemid=' . $logout_itemid, false);
 		}
 		else
 		{
-			$link = JRoute::_('index.php?option=com_redshop');
+			$link = JRoute::_('index.php?option=com_redshop', false);
 		}
 
 		$app->logout();

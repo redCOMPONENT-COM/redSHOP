@@ -90,8 +90,8 @@ class mediaViewmedia extends JView
 		$total = $this->get('Total');
 		$pagination = $this->get('Pagination');
 
-		$this->assignRef('lists', $lists);
-		$this->assignRef('media', $media);
+		$this->lists = $lists;
+		$this->media = $media;
 		$this->pagination = $pagination;
 		$this->request_url = $uri->toString();
 

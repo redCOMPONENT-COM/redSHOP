@@ -219,24 +219,24 @@ class xmlimport_detailVIEWxmlimport_detail extends JView
 			}
 		}
 
-		$this->assignRef('resultarray', $resultarray);
-		$this->assignRef('lists', $lists);
-		$this->assignRef('detail', $detail);
-		$this->assignRef('columns', $columns);
-		$this->assignRef('xmlfiletag', $xmlfiletag);
-		$this->assignRef('xmlbillingtag', $xmlbillingtag);
-		$this->assignRef('xmlshippingtag', $xmlshippingtag);
-		$this->assignRef('xmlitemtag', $xmlitemtag);
-		$this->assignRef('xmlstocktag', $xmlstocktag);
-		$this->assignRef('xmlprdextrafieldtag', $xmlprdextrafieldtag);
-		$this->assignRef('updatefiletag', $updatefiletag);
-		$this->assignRef('updatebillingtag', $updatebillingtag);
-		$this->assignRef('updateshippingtag', $updateshippingtag);
-		$this->assignRef('updateitemtag', $updateitemtag);
-		$this->assignRef('updatestocktag', $updatestocktag);
-		$this->assignRef('updateprdexttag', $updateprdexttag);
-		$this->assignRef('tmpxmlimport_url', $xmlimport_url);
-		$this->assignRef('request_url', $uri->toString());
+		$this->resultarray = $resultarray;
+		$this->lists = $lists;
+		$this->detail = $detail;
+		$this->columns = $columns;
+		$this->xmlfiletag = $xmlfiletag;
+		$this->xmlbillingtag = $xmlbillingtag;
+		$this->xmlshippingtag = $xmlshippingtag;
+		$this->xmlitemtag = $xmlitemtag;
+		$this->xmlstocktag = $xmlstocktag;
+		$this->xmlprdextrafieldtag = $xmlprdextrafieldtag;
+		$this->updatefiletag = $updatefiletag;
+		$this->updatebillingtag = $updatebillingtag;
+		$this->updateshippingtag = $updateshippingtag;
+		$this->updateitemtag = $updateitemtag;
+		$this->updatestocktag = $updatestocktag;
+		$this->updateprdexttag = $updateprdexttag;
+		$this->tmpxmlimport_url = $xmlimport_url;
+		$this->request_url = $uri->toString();
 
 		parent::display($tpl);
 	}

@@ -84,7 +84,7 @@ class configurationViewconfiguration extends JView
 
 		jimport('joomla.html.pane');
 		$pane = JPane::getInstance('sliders');
-		$this->assignRef('pane', $pane);
+		$this->pane = $pane;
 
 		$uri = JFactory::getURI();
 		$this->setLayout('default');
@@ -851,19 +851,19 @@ class configurationViewconfiguration extends JView
 		$gd_check    = extension_loaded('gd');
 		$mb_check    = extension_loaded('mbstring');
 
-		$this->assignRef('server', $server);
-		$this->assignRef('php_version', $php_version);
-		$this->assignRef('db_version', $db_version);
-		$this->assignRef('gd_check', $gd_check);
-		$this->assignRef('mb_check', $mb_check);
-		$this->assignRef('terms_article', $terms_article);
-		$this->assignRef('getinstalledmodule', $getinstalledmodule);
-		$this->assignRef('getinstalledplugins', $getinstalledplugins);
-		$this->assignRef('getinstalledshipping', $getinstalledshipping);
-		$this->assignRef('current_version', $current_version);
-		$this->assignRef('lists', $lists);
+		$this->server = $server;
+		$this->php_version = $php_version;
+		$this->db_version = $db_version;
+		$this->gd_check = $gd_check;
+		$this->mb_check = $mb_check;
+		$this->terms_article = $terms_article;
+		$this->getinstalledmodule = $getinstalledmodule;
+		$this->getinstalledplugins = $getinstalledplugins;
+		$this->getinstalledshipping = $getinstalledshipping;
+		$this->current_version = $current_version;
+		$this->lists = $lists;
 		$this->request_url = $uri->toString();
-		$this->assignRef('detail', $detail);
+		$this->detail = $detail;
 
 		parent::display($tpl);
 	}

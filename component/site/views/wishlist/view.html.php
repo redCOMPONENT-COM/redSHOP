@@ -50,24 +50,24 @@ class wishlistViewwishlist extends JView
 		if ($task == 'viewwishlist')
 		{
 			$this->setlayout('viewwishlist');
-			$this->assignRef('wishlists', $wishlist);
-			$this->assignRef('wish_products', $wish_products);
-			$this->assignRef('wish_session', $session_wishlists);
-			$this->assignRef('params', $params);
+			$this->wishlists = $wishlist;
+			$this->wish_products = $wish_products;
+			$this->wish_session = $session_wishlists;
+			$this->params = $params;
 			parent::display($tpl);
 		}
 		elseif ($task == 'viewloginwishlist')
 		{
 			$this->setlayout('viewloginwishlist');
-			$this->assignRef('wishlists', $wishlist);
-			$this->assignRef('params', $params);
+			$this->wishlists = $wishlist;
+			$this->params = $params;
 			parent::display($tpl);
 		}
 		else
 		{
-			$this->assignRef('wish_session', $session_wishlists);
-			$this->assignRef('wishlist', $wishlist);
-			$this->assignRef('params', $params);
+			$this->wish_session = $session_wishlists;
+			$this->wishlist = $wishlist;
+			$this->params = $params;
 			parent::display($tpl);
 		}
 	}

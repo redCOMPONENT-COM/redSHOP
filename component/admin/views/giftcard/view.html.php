@@ -56,9 +56,9 @@ class giftcardViewgiftcard extends JView
 		$pagination = $this->get('Pagination');
 
 		$this->user = JFactory::getUser();
-		$this->assignRef('lists', $lists);
-		$this->assignRef('giftcard', $giftcard);
-		$this->assignRef('pagination', $pagination);
+		$this->lists = $lists;
+		$this->giftcard = $giftcard;
+		$this->pagination = $pagination;
 		$this->request_url = $uri->toString();
 
 		parent::display($tpl);
