@@ -254,11 +254,36 @@ class producthelper
 
 		if ($product)
 		{
-			if(is_object($product) && isset($product->advanced_query) && $product->advanced_query == 1)
-			{;
-				$categoryProduct = $product->category_id;
+			if (is_object($product) && isset($product->advanced_query) && $product->advanced_query == 1)
+			{
+				if ($product->dp_discount_product_id === null)
+				{
+					$result = array();
+				}
+				else
+				{
+					if (($product->dp_condition == 1 && $product->dp_amount >= $product_price)
+						|| ($product->dp_condition == 2 && $product->dp_amount == $product_price)
+						|| ($product->dp_condition == 3 && $product->dp_amount <= $product_price)
+					)
+					{
+						$result = array(
+							'discount_product_id' => $product->dp_discount_product_id,
+							'condition' => $product->dp_condition,
+							'amount' => $product->dp_amount,
+							'discount_amount' => $product->dp_discount_amount,
+							'discount_type' => $product->dp_discount_type
+						);
+					}
+					else
+					{
+						$result = array();
+					}
+				}
+
+				return $result;
 			}
-			elseif(is_object($product))
+			elseif (is_object($product))
 			{
 				$product_id = $product->product_id;
 				$categoryProduct = $this->getCategoryProduct($product_id);
@@ -301,7 +326,7 @@ class producthelper
 		// Check for a database error.
 		if ($this->_db->getErrorNum())
 		{
-			JError::raiseWarning(500, $db->getErrorMsg());
+			JError::raiseWarning(500, $this->_db->getErrorMsg());
 
 			return array();
 		}
@@ -331,7 +356,7 @@ class producthelper
 		// Check for a database error.
 		if ($this->_db->getErrorNum())
 		{
-			JError::raiseWarning(500, $db->getErrorMsg());
+			JError::raiseWarning(500, $this->_db->getErrorMsg());
 
 			return array();
 		}
