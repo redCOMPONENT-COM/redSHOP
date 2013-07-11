@@ -337,31 +337,15 @@ class producthelper
 			return array();
 		}
 
-		switch ($result->condition)
+		if (($result->condition == 1 && $result->amount >= $product_price)
+			|| ($result->condition == 2 && $result->amount == $product_price)
+			|| ($result->condition == 3 && $result->amount <= $product_price)
+		)
 		{
-			case 1:
-				$query->where('`amount` >= "' . $product_price . '"');
-				break;
-			case 2:
-				$query->where('`amount` = "' . $product_price . '"');
-				break;
-			case 3:
-				$query->where('`amount` <= "' . $product_price . '"');
-				break;
+			return $result;
 		}
 
-		$this->_db->setQuery($query);
-		$result = $this->_db->loadObject();
-
-		// Check for a database error.
-		if ($this->_db->getErrorNum())
-		{
-			JError::raiseWarning(500, $this->_db->getErrorMsg());
-
-			return array();
-		}
-
-		return $result;
+		return array();
 	}
 
 	public function getProductSpecialId($userid)
