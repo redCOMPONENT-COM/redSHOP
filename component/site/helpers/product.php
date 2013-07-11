@@ -852,36 +852,37 @@ class producthelper
 	 */
 	public function getExtraSectionTag($filedname = array(), $product_id, $section, $template_data, $categorypage = 0)
 	{
-		$extraField = new extraField;
-
-		$str = array();
-
-		for ($i = 0; $i < count($filedname); $i++)
+		$countFiledname = count($filedname);
+		if ($countFiledname > 0)
 		{
-			if ($categorypage == 1)
+			$str = array();
+			for ($i = 0; $i < $countFiledname; $i++)
 			{
-				if (strstr($template_data, "{producttag:" . $filedname[$i] . "}"))
+				if ($categorypage == 1)
 				{
-					$str[] = $filedname[$i];
+					if (strstr($template_data, "{producttag:" . $filedname[$i] . "}"))
+					{
+						$str[] = $filedname[$i];
+					}
+				}
+				else
+				{
+					if (strstr($template_data, "{" . $filedname[$i] . "}"))
+					{
+						$str[] = $filedname[$i];
+					}
 				}
 			}
-			else
+
+			$dbname = '';
+
+			if (count($str) > 0)
 			{
-				if (strstr($template_data, "{" . $filedname[$i] . "}"))
-				{
-					$str[] = $filedname[$i];
-				}
+				$dbname = "'" . implode("','", $str) . "'";
+				$extraField = new extraField();
+				$template_data = $extraField->extra_field_display($section, $product_id, $dbname, $template_data, $categorypage);
 			}
 		}
-
-		$dbname = "";
-
-		if (count($str) > 0)
-		{
-			$dbname = "'" . implode("','", $str) . "'";
-		}
-
-		$template_data = $extraField->extra_field_display($section, $product_id, $dbname, $template_data, $categorypage);
 
 		return $template_data;
 	}
@@ -1713,14 +1714,14 @@ class producthelper
 				$newproductprice = 0;
 			}
 
-			$reg_price_tax = $this->getProductTax($row->product_id, $newproductprice, $user_id);
+			$reg_price_tax = $this->getProductTax($row, $newproductprice, $user_id);
 
 			if ($applytax)
 				$reg_price = $row->product_price + $reg_price_tax;
 			else
 				$reg_price = $row->product_price;
 
-			$reg_price_tax = $this->getProductTax($product_id, $row->product_price, $user_id);
+			$reg_price_tax = $this->getProductTax($row, $row->product_price, $user_id);
 			$reg_price = $row->product_price;
 			$formatted_price = $this->getProductFormattedPrice($reg_price);
 
