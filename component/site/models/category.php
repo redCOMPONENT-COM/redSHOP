@@ -10,6 +10,7 @@
 defined('_JEXEC') or die ('Restricted access');
 
 JLoader::import('joomla.application.component.model');
+JLoader::import('category_static', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
 
 /**
  * Class categoryModelcategory
@@ -410,6 +411,12 @@ class CategoryModelCategory extends JModel
 		}
 
 		$this->_product = $this->_db->loadObjectList();
+
+		if ($app->getCfg('sef') == '1' && count($this->_product) > 0)
+		{
+			JLoader::import('category_static', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
+			StaticCategory::setProductSef($this->_product);
+		}
 
 		$priceSort = false;
 
