@@ -418,6 +418,8 @@ class CategoryModelCategory extends JModel
 			StaticCategory::setProductSef($this->_product);
 		}
 
+		$this->_product = array_values($this->_product);
+
 		$priceSort = false;
 
 		if (strstr($order_by, "p.product_price ASC"))
