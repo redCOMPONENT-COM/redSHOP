@@ -10,6 +10,7 @@
 defined('_JEXEC') or die ('Restricted access');
 
 JLoader::import('joomla.application.component.model');
+JLoader::import('category_static', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
 
 /**
  * Class categoryModelcategory
@@ -371,6 +372,11 @@ class CategoryModelCategory extends JModel
 		$query->leftJoin($this->_table_prefix . 'tax_group as tg ON tg.tax_group_id = tr.tax_group_id AND tg.published = 1');
 		$query->leftJoin($this->_table_prefix . 'product_price AS p_price ON p.product_id = p_price.product_id AND ((p_price.price_quantity_start <= "' . $qunselect . '" AND p_price.price_quantity_end >= "' . $qunselect . '") OR (p_price.price_quantity_start = "0" AND p_price.price_quantity_end = "0")) AND p_price.shopper_group_id = "' . $shopperGroupId . '"');
 
+		// Select product special price
+		$discount_product_id = $this->producthelper->getProductSpecialId($user_id);
+		$query->select('dp.discount_product_id AS dp_discount_product_id, dp.amount AS dp_amount, dp.condition AS dp_condition, dp.discount_amount AS dp_discount_amount, dp.discount_type AS dp_discount_type');
+		$query->leftJoin($this->_table_prefix . 'discount_product AS dp ON dp.published = 1 AND (dp.discount_product_id IN ("' . $discount_product_id . '") OR FIND_IN_SET("' . (int) $this->_id . '", dp.category_ids) ) AND dp.`start_date` <= ' . time() . ' AND dp.`end_date` >= ' . time() . ' AND dp.`discount_product_id` IN (SELECT `discount_product_id` FROM `' . $this->_table_prefix . 'discount_product_shoppers` WHERE `shopper_group_id` = "' . $shopperGroupId . '")');
+
 		$query->where('p.published = 1');
 		$query->where('p.expired = 0');
 		$query->where('pc.category_id = ' . (int) $this->_id);
@@ -404,7 +410,15 @@ class CategoryModelCategory extends JModel
 			$this->_db->setQuery($query, $limitstart, $endlimit);
 		}
 
-		$this->_product = $this->_db->loadObjectList();
+		$this->_product = $this->_db->loadObjectList('product_id');
+
+		if ($app->getCfg('sef') == '1' && count($this->_product) > 0)
+		{
+			JLoader::import('category_static', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
+			StaticCategory::setProductSef($this->_product);
+		}
+
+		$this->_product = array_values($this->_product);
 
 		$priceSort = false;
 

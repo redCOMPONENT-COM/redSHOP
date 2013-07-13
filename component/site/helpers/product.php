@@ -254,11 +254,36 @@ class producthelper
 
 		if ($product)
 		{
-			if(is_object($product) && isset($product->advanced_query) && $product->advanced_query == 1)
-			{;
-				$categoryProduct = $product->category_id;
+			if (is_object($product) && isset($product->advanced_query) && $product->advanced_query == 1)
+			{
+				if ($product->dp_discount_product_id === null)
+				{
+					$result = array();
+				}
+				else
+				{
+					if (($product->dp_condition == 1 && $product->dp_amount >= $product_price)
+						|| ($product->dp_condition == 2 && $product->dp_amount == $product_price)
+						|| ($product->dp_condition == 3 && $product->dp_amount <= $product_price)
+					)
+					{
+						$result = array(
+							'discount_product_id' => $product->dp_discount_product_id,
+							'condition' => $product->dp_condition,
+							'amount' => $product->dp_amount,
+							'discount_amount' => $product->dp_discount_amount,
+							'discount_type' => $product->dp_discount_type
+						);
+					}
+					else
+					{
+						$result = array();
+					}
+				}
+
+				return $result;
 			}
-			elseif(is_object($product))
+			elseif (is_object($product))
 			{
 				$product_id = $product->product_id;
 				$categoryProduct = $this->getCategoryProduct($product_id);
@@ -301,7 +326,7 @@ class producthelper
 		// Check for a database error.
 		if ($this->_db->getErrorNum())
 		{
-			JError::raiseWarning(500, $db->getErrorMsg());
+			JError::raiseWarning(500, $this->_db->getErrorMsg());
 
 			return array();
 		}
@@ -312,31 +337,15 @@ class producthelper
 			return array();
 		}
 
-		switch ($result->condition)
+		if (($result->condition == 1 && $result->amount >= $product_price)
+			|| ($result->condition == 2 && $result->amount == $product_price)
+			|| ($result->condition == 3 && $result->amount <= $product_price)
+		)
 		{
-			case 1:
-				$query->where('`amount` >= "' . $product_price . '"');
-				break;
-			case 2:
-				$query->where('`amount` = "' . $product_price . '"');
-				break;
-			case 3:
-				$query->where('`amount` <= "' . $product_price . '"');
-				break;
+			return $result;
 		}
 
-		$this->_db->setQuery($query);
-		$result = $this->_db->loadObject();
-
-		// Check for a database error.
-		if ($this->_db->getErrorNum())
-		{
-			JError::raiseWarning(500, $db->getErrorMsg());
-
-			return array();
-		}
-
-		return $result;
+		return array();
 	}
 
 	public function getProductSpecialId($userid)
@@ -827,36 +836,37 @@ class producthelper
 	 */
 	public function getExtraSectionTag($filedname = array(), $product_id, $section, $template_data, $categorypage = 0)
 	{
-		$extraField = new extraField;
-
-		$str = array();
-
-		for ($i = 0; $i < count($filedname); $i++)
+		$countFiledname = count($filedname);
+		if ($countFiledname > 0)
 		{
-			if ($categorypage == 1)
+			$str = array();
+			for ($i = 0; $i < $countFiledname; $i++)
 			{
-				if (strstr($template_data, "{producttag:" . $filedname[$i] . "}"))
+				if ($categorypage == 1)
 				{
-					$str[] = $filedname[$i];
+					if (strstr($template_data, "{producttag:" . $filedname[$i] . "}"))
+					{
+						$str[] = $filedname[$i];
+					}
+				}
+				else
+				{
+					if (strstr($template_data, "{" . $filedname[$i] . "}"))
+					{
+						$str[] = $filedname[$i];
+					}
 				}
 			}
-			else
+
+			$dbname = '';
+
+			if (count($str) > 0)
 			{
-				if (strstr($template_data, "{" . $filedname[$i] . "}"))
-				{
-					$str[] = $filedname[$i];
-				}
+				$dbname = "'" . implode("','", $str) . "'";
+				$extraField = new extraField();
+				$template_data = $extraField->extra_field_display($section, $product_id, $dbname, $template_data, $categorypage);
 			}
 		}
-
-		$dbname = "";
-
-		if (count($str) > 0)
-		{
-			$dbname = "'" . implode("','", $str) . "'";
-		}
-
-		$template_data = $extraField->extra_field_display($section, $product_id, $dbname, $template_data, $categorypage);
 
 		return $template_data;
 	}
@@ -1688,14 +1698,14 @@ class producthelper
 				$newproductprice = 0;
 			}
 
-			$reg_price_tax = $this->getProductTax($row->product_id, $newproductprice, $user_id);
+			$reg_price_tax = $this->getProductTax($row, $newproductprice, $user_id);
 
 			if ($applytax)
 				$reg_price = $row->product_price + $reg_price_tax;
 			else
 				$reg_price = $row->product_price;
 
-			$reg_price_tax = $this->getProductTax($product_id, $row->product_price, $user_id);
+			$reg_price_tax = $this->getProductTax($row, $row->product_price, $user_id);
 			$reg_price = $row->product_price;
 			$formatted_price = $this->getProductFormattedPrice($reg_price);
 
