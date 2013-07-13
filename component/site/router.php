@@ -452,16 +452,9 @@ function redshopBuildRoute(&$query)
 			{
 				$productInCat = & StaticCategory::$productInCat;
 
-				if ($app->input->getString('view', '') == 'category' && $app->input->getString('layout', '') == 'detail' && count($productInCat) > 0)
+				if (isset($productInCat[$pid]))
 				{
-					foreach ($productInCat as $oneProduct)
-					{
-						if ($oneProduct->product_id == $pid)
-						{
-							$product = $oneProduct;
-							break;
-						}
-					}
+					$product = $productInCat[$pid];
 				}
 				else
 				{

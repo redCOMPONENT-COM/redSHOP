@@ -410,7 +410,7 @@ class CategoryModelCategory extends JModel
 			$this->_db->setQuery($query, $limitstart, $endlimit);
 		}
 
-		$this->_product = $this->_db->loadObjectList();
+		$this->_product = $this->_db->loadObjectList('product_id');
 
 		if ($app->getCfg('sef') == '1' && count($this->_product) > 0)
 		{
