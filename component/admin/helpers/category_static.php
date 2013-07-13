@@ -29,7 +29,7 @@ class StaticCategory
 			$query->leftJoin($table_prefix . 'category_xref as cx ON cx.category_child_id = c.category_id');
 			$query->where('c.published = 1');
 			$db->setQuery($query);
-			self::$allCat = $db->loadObjectList();
+			self::$allCat = $db->loadObjectList('category_id');
 		}
 
 		return self::$allCat;
@@ -39,6 +39,7 @@ class StaticCategory
 	{
 		$AllCat = self::getAllCat();
 		$cats = array();
+		$cats2 = array();
 
 		if ($level == 0)
 		{
@@ -47,15 +48,9 @@ class StaticCategory
 
 		$level ++;
 
-		if (count($AllCat))
+		if (isset($AllCat[$cid]))
 		{
-			foreach ($AllCat as $oneKey)
-			{
-				if ($oneKey->category_child_id == $cid)
-				{
-					$cats[] = $oneKey;
-				}
-			}
+			$cats2[] = $AllCat[$cid];
 		}
 
 		for ($x = 0; $x < count($cats); $x++)
@@ -71,6 +66,6 @@ class StaticCategory
 
 	public static function setProductSef($products)
 	{
-		self::$productInCat = $products;
+		self::$productInCat = $products + self::$productInCat;
 	}
 }
