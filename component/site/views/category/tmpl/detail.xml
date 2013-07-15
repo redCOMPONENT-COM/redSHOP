@@ -1,21 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <metadata>
-    <layout title="COM_REDSHOP_STANDARD_CATEGORY_DETAIL_LAYOUT">
-        <message>
-            <![CDATA[COM_REDSHOP_STANDARD_CATEGORY_DETAIL_LAYOUT_DESC]]>
-        </message>
-    </layout>
-
-    <fields name="params" addfieldpath="/administrator/components/com_redshop/elements">
-        <fieldset name="basic">
-            <field name="cid" type="category" label="Select Category" required="true"
-                       description="Displays the selected category product"/>
-            <field name="order_by" type='orderbyproduct' label="Product Sorting"
-                       description="Select Product Sorting"/>
-            <field name="maxproduct" type="text" size="4" default="0" label="COM_RESHOP_HOW_MANY_PRODUCTS"
-                       description="COM_RESHOP_HOW_MANY_PRODUCTS_DESCRIPTION"/>
-            <field name="manufacturer_id" type="manufacturer" default="0" label="COM_REDSHOP_Select_Manufacturer"
-                       description="COM_REDSHOP_Displays_the_selected_manufacturer_detail_page"/>
-        </fieldset>
-    </fields>
+	<layout title="COM_REDSHOP_STANDARD_CATEGORY_DETAIL_LAYOUT">
+		<message>
+			<![CDATA[COM_REDSHOP_STANDARD_CATEGORY_DETAIL_LAYOUT_DESC]]>
+		</message>
+	</layout>
+	<fields name="request" addfieldpath="/administrator/components/com_redshop/elements">
+		<fieldset name="request">
+			<field name="cid" type="category" label="Select Category" default="" required="true"
+				   description="Displays the selected category product"/>
+			<field name="manufacturer_id" type="manufacturer" default="0" label="COM_REDSHOP_Select_Manufacturer"
+				   description="COM_REDSHOP_Displays_the_selected_manufacturer_detail_page" />
+		</fieldset>
+	</fields>
+	<fields name="params" addfieldpath="/administrator/components/com_redshop/elements">
+		<fieldset name="basic">
+			<field name="order_by" type='orderbyproduct' label="Product Sorting"
+				   description="Select Product Sorting" />
+			<field name="maxproduct" type="text" size="4" default="0" label="COM_RESHOP_HOW_MANY_PRODUCTS"
+				   description="COM_RESHOP_HOW_MANY_PRODUCTS_DESCRIPTION" />
+		</fieldset>
+	</fields>
 </metadata>
