@@ -136,6 +136,7 @@ class extraField
 
 						$ex_field .= '<input class="' . $row_data[$i]->field_class . ' ' . $class . '"   type="checkbox"  ' . $checked . ' name="' . $row_data[$i]->field_name . '[]" id="' . $row_data[$i]->field_name . "_" . $field_chk[$c]->value_id . '" value="' . $field_chk[$c]->field_value . '" />' . $field_chk[$c]->field_name . '<br />';
 					}
+
 					$ex_field .= '<label for="' . $row_data[$i]->field_name . '[]" class="error">' . JText::_('COM_REDSHOP_PLEASE_SELECT_YOUR') . '&nbsp;' . $row_data[$i]->field_title . '</label>';
 					break;
 				case 4:
@@ -301,6 +302,7 @@ class extraField
 			{
 				$ex_field_title .= '<div class="userfield_label">' . $asterisk . $row_data[$i]->field_title . '</div>';
 			}
+
 			$data_value = $this->getSectionFieldDataList($row_data[$i]->field_id, $field_section, $section_id);
 
 			$text_value = '';
@@ -572,205 +574,230 @@ class extraField
 	{
 		$redTemplate = new Redtemplate;
 		$url         = JURI::base();
-		$q = "SELECT * from " . $this->_table_prefix . "fields where field_section='" . $field_section . "' ";
+		$query = $this->_db->getQuery(true);
+
+		$query->select('f.*, fd.*, IF(f.field_type = 7, (SELECT c.country_name FROM ' . $this->_table_prefix . 'country AS c WHERE c.country_id = fd.data_txt), NULL) AS country_name');
+		$query->from($this->_table_prefix . 'fields AS f');
+		$query->leftJoin($this->_table_prefix . 'fields_data AS fd ON fd.fieldid = f.field_id');
+		$query->where('f.field_section = "' . $field_section . '"');
+		$query->where('fd.itemid = "' . $section_id . '"');
+		$query->where('fd.section = "' . $field_section . '"');
 
 		if ($field_name != "")
 		{
-			$q .= "and field_name in ($field_name)";
+			$query->where('field_name in (' . $field_name . ')');
 		}
 
-		$this->_db->setQuery($q);
+		$this->_db->setQuery($query);
 		$row_data = $this->_db->loadObjectlist();
 
-		for ($i = 0; $i < count($row_data); $i++)
+		$count_row_data = count($row_data);
+
+		if ($count_row_data != 0)
 		{
-			$type                = $row_data[$i]->field_type;
-			$published           = $row_data[$i]->published;
-			$field_show_in_front = $row_data[$i]->field_show_in_front;
-
-			$data_value = $this->getSectionFieldDataList($row_data[$i]->field_id, $field_section, $section_id);
-
-			if ($categorypage == 1)
+			for ($i = 0; $i < $count_row_data; $i++)
 			{
-				$search_lbl = "{producttag:" . $row_data[$i]->field_name . "_lbl}";
-				$search     = "{producttag:" . $row_data[$i]->field_name . "}";
-			}
-			else
-			{
-				$search_lbl = "{" . $row_data[$i]->field_name . "_lbl}";
-				$search     = "{" . $row_data[$i]->field_name . "}";
-			}
+				$type                = $row_data[$i]->field_type;
+				$published           = $row_data[$i]->published;
+				$field_show_in_front = $row_data[$i]->field_show_in_front;
+				$data_value = $row_data[$i];
 
-			if (count($data_value) != 0 && $published && $field_show_in_front)
-			{
-				switch ($type)
+				if ($categorypage == 1)
 				{
-					case 1:
-						// 1 :- Text Field //
-					case 8:
-						// 8 :- Wysiwyg
-					case 12:
-						// Calender
-					case 5:
-						// 5 :-Select Box (Single select)
-
-						$displayvalue = stripslashes($data_value->data_txt);
-						break;
-					case 2:
-						// 2 :- Text Area
-						$displayvalue = htmlspecialchars($data_value->data_txt);
-						break;
-
-					case 3:
-						// 3 :- Check Box
-					case 4:
-						// 4 :- Radio Button
-					case 6:
-						// 6 :- Select Box (Multiple select)
-						$field_chk = $this->getFieldValue($row_data[$i]->field_id);
-						$chk_data  = @explode(",", $data_value->data_txt);
-						$tmparr    = array();
-
-						for ($c = 0; $c < count($field_chk); $c++)
-						{
-							if (@in_array(urlencode($field_chk[$c]->field_value), $chk_data))
-							{
-								$tmparr[] = urldecode($field_chk[$c]->field_value);
-							}
-						}
-
-						$displayvalue = urldecode(implode('<br>', $tmparr));
-						break;
-
-					case 7:
-						// 7 :-Select Country box
-						$displayvalue = "";
-
-						if ($data_value->data_txt != "")
-						{
-							$q = "SELECT country_name FROM " . $this->_table_prefix . "country "
-								. "WHERE country_id=" . $data_value->data_txt;
-							$this->_db->setQuery($q);
-							$field_chk    = $this->_db->loadObject();
-							$displayvalue = $field_chk->country_name;
-						}
-						break;
-					case 9 :
-						// Media
-						$ftype = explode(".", $data_value->data_txt);
-
-						$link         = REDSHOP_FRONT_IMAGES_ABSPATH . "media/" . $data_value->data_txt;
-						$link_phy     = REDSHOP_FRONT_IMAGES_RELPATH . "media/" . $data_value->data_txt;
-						$displayvalue = "";
-
-						if (is_file($link_phy))
-						{
-							$displayvalue = "{" . $ftype[count($ftype) - 1] . "remote}" . $link . "{/" . $ftype[count($ftype) - 1] . "remote}";
-						}
-						break;
-					case 10 :
-						// Document
-
-						// Support Legacy string.
-						if (preg_match('/\n/', $data_value->data_txt))
-						{
-							$document_explode = explode("\n", $data_value->data_txt);
-							$document_value   = array($document_explode[0] => $document_explode[1]);
-						}
-						else
-						{
-							// Support for multiple file upload using JSON for better string handling
-							$document_value = json_decode($data_value->data_txt);
-						}
-
-						if (count($document_value) > 0)
-						{
-							$displayvalue = "";
-
-							foreach ($document_value as $document_title => $filename)
-							{
-								$link     = REDSHOP_FRONT_DOCUMENT_ABSPATH . 'extrafields/' . $filename;
-								$link_phy = REDSHOP_FRONT_DOCUMENT_RELPATH . 'extrafields/' . $filename;
-
-								if (is_file($link_phy))
-								{
-									$displayvalue .= "<a href=\"$link\" target='_blank' >$document_title</a>";
-								}
-							}
-
-						}
-						break;
-					case 11 :
-						// Image
-					case 13 :
-						$document_value = $this->getFieldValue($row_data[$i]->field_id);
-
-						$tmp_image_hover = array();
-						$tmp_image_link  = array();
-						$chk_data        = @explode(",", $data_value->data_txt);
-
-						if ($data_value->alt_text)
-						{
-							$tmp_image_hover = explode(',,,,,', $data_value->alt_text);
-						}
-
-						if ($data_value->image_link)
-						{
-							$tmp_image_link = @explode(',,,,,', $data_value->image_link);
-						}
-
-						$chk_data    = @explode(",", $data_value->data_txt);
-						$image_link  = array();
-						$image_hover = array();
-
-						for ($ch = 0; $ch < count($chk_data); $ch++)
-						{
-							$image_link[$chk_data[$ch]]  = isset($tmp_image_link[$ch]) ? $tmp_image_link[$ch] : '';
-							$image_hover[$chk_data[$ch]] = isset($tmp_image_hover[$ch]) ? $tmp_image_hover[$ch] : '';
-						}
-
-						$displayvalue = '';
-
-						for ($c = 0; $c < count($document_value); $c++)
-						{
-							if (@in_array($document_value[$c]->value_id, $chk_data))
-							{
-								$filename = $document_value[$c]->field_name;
-
-								$link = REDSHOP_FRONT_IMAGES_ABSPATH . "extrafield/" . $filename;
-
-								$str_image_link = $image_link[$document_value[$c]->value_id];
-
-								if ($str_image_link)
-								{
-									$displayvalue .= "<a href='" . $str_image_link
-										. "' class='imgtooltip' ><img src='" . $link . "' /><span><div class='spnheader'>"
-										. $row_data[$i]->field_title . "</div><div class='spnalttext'>"
-										. $image_hover[$document_value[$c]->value_id] . "</div></span></a>";
-								}
-								else
-								{
-									$displayvalue .= "<a class='imgtooltip'><img src='" . $link . "' /><span><div class='spnheader'>"
-										. $row_data[$i]->field_title . "</div><div class='spnalttext'>"
-										. $image_hover[$document_value[$c]->value_id] . "</div></span></a>";
-								}
-							}
-						}
-
-						break;
-					default :
-						break;
+					$search_lbl = "{producttag:" . $row_data[$i]->field_name . "_lbl}";
+					$search     = "{producttag:" . $row_data[$i]->field_name . "}";
+				}
+				else
+				{
+					$search_lbl = "{" . $row_data[$i]->field_name . "_lbl}";
+					$search     = "{" . $row_data[$i]->field_name . "}";
 				}
 
-				$displaytitle  = $data_value->data_txt != "" ? $data_value->field_title : "";
-				$displayvalue  = $redTemplate->parseredSHOPplugin($displayvalue);
-				$template_data = str_replace($search_lbl, JText::_($displaytitle), $template_data);
-				$template_data = str_replace($search, $displayvalue, $template_data);
+				if ($published && $field_show_in_front)
+				{
+					switch ($type)
+					{
+						case 1:
+							// 1 :- Text Field //
+						case 8:
+							// 8 :- Wysiwyg
+						case 12:
+							// Calender
+						case 5:
+							// 5 :-Select Box (Single select)
+							$displayvalue = stripslashes($data_value->data_txt);
+							break;
+						case 2:
+							// 2 :- Text Area
+							$displayvalue = htmlspecialchars($data_value->data_txt);
+							break;
+						case 3:
+							// 3 :- Check Box
+						case 4:
+							// 4 :- Radio Button
+						case 6:
+							// 6 :- Select Box (Multiple select)
+							$field_chk = $this->getFieldValue($row_data[$i]->field_id);
+							$chk_data  = @explode(",", $data_value->data_txt);
+							$tmparr    = array();
+							$countfield_chk = count($field_chk);
+
+							for ($c = 0; $c < $countfield_chk; $c++)
+							{
+								if (@in_array(urlencode($field_chk[$c]->field_value), $chk_data))
+								{
+									$tmparr[] = urldecode($field_chk[$c]->field_value);
+								}
+							}
+
+							$displayvalue = urldecode(implode('<br>', $tmparr));
+							break;
+						case 7:
+							// 7 :-Select Country box
+							$displayvalue = $data_value->country_name;
+							break;
+						case 9 :
+							// Media
+							$ftype = explode(".", $data_value->data_txt);
+
+							$link         = REDSHOP_FRONT_IMAGES_ABSPATH . "media/" . $data_value->data_txt;
+							$link_phy     = REDSHOP_FRONT_IMAGES_RELPATH . "media/" . $data_value->data_txt;
+							$displayvalue = "";
+
+							if (is_file($link_phy))
+							{
+								$displayvalue = "{" . $ftype[count($ftype) - 1] . "remote}" . $link . "{/" . $ftype[count($ftype) - 1] . "remote}";
+							}
+							break;
+						case 10 :
+							// Document
+
+							// Support Legacy string.
+							if (preg_match('/\n/', $data_value->data_txt))
+							{
+								$document_explode = explode("\n", $data_value->data_txt);
+								$document_value   = array($document_explode[0] => $document_explode[1]);
+							}
+							else
+							{
+								// Support for multiple file upload using JSON for better string handling
+								$document_value = json_decode($data_value->data_txt);
+							}
+
+							if (count($document_value) > 0)
+							{
+								$displayvalue = "";
+
+								foreach ($document_value as $document_title => $filename)
+								{
+									$link     = REDSHOP_FRONT_DOCUMENT_ABSPATH . 'extrafields/' . $filename;
+									$link_phy = REDSHOP_FRONT_DOCUMENT_RELPATH . 'extrafields/' . $filename;
+
+									if (is_file($link_phy))
+									{
+										$displayvalue .= "<a href=\"$link\" target='_blank' >$document_title</a>";
+									}
+								}
+							}
+							break;
+						case 11 :
+							// Image
+						case 13 :
+							$document_value = $this->getFieldValue($row_data[$i]->field_id);
+
+							$tmp_image_hover = array();
+							$tmp_image_link  = array();
+							$chk_data        = @explode(",", $data_value->data_txt);
+
+							if ($data_value->alt_text)
+							{
+								$tmp_image_hover = explode(',,,,,', $data_value->alt_text);
+							}
+
+							if ($data_value->image_link)
+							{
+								$tmp_image_link = @explode(',,,,,', $data_value->image_link);
+							}
+
+							$chk_data    = @explode(",", $data_value->data_txt);
+							$image_link  = array();
+							$image_hover = array();
+
+							for ($ch = 0; $ch < count($chk_data); $ch++)
+							{
+								$image_link[$chk_data[$ch]]  = isset($tmp_image_link[$ch]) ? $tmp_image_link[$ch] : '';
+								$image_hover[$chk_data[$ch]] = isset($tmp_image_hover[$ch]) ? $tmp_image_hover[$ch] : '';
+							}
+
+							$displayvalue = '';
+
+							for ($c = 0; $c < count($document_value); $c++)
+							{
+								if (@in_array($document_value[$c]->value_id, $chk_data))
+								{
+									$filename = $document_value[$c]->field_name;
+
+									$link = REDSHOP_FRONT_IMAGES_ABSPATH . "extrafield/" . $filename;
+
+									$str_image_link = $image_link[$document_value[$c]->value_id];
+
+									if ($str_image_link)
+									{
+										$displayvalue .= "<a href='" . $str_image_link
+											. "' class='imgtooltip' ><img src='" . $link . "' /><span><div class='spnheader'>"
+											. $row_data[$i]->field_title . "</div><div class='spnalttext'>"
+											. $image_hover[$document_value[$c]->value_id] . "</div></span></a>";
+									}
+									else
+									{
+										$displayvalue .= "<a class='imgtooltip'><img src='" . $link . "' /><span><div class='spnheader'>"
+											. $row_data[$i]->field_title . "</div><div class='spnalttext'>"
+											. $image_hover[$document_value[$c]->value_id] . "</div></span></a>";
+									}
+								}
+							}
+
+							break;
+						default :
+							break;
+					}
+
+					$displaytitle  = $data_value->data_txt != "" ? $data_value->field_title : "";
+					$displayvalue  = $redTemplate->parseredSHOPplugin($displayvalue);
+					$template_data = str_replace($search_lbl, JText::_($displaytitle), $template_data);
+					$template_data = str_replace($search, $displayvalue, $template_data);
+				}
+				else
+				{
+					$template_data = str_replace($search_lbl, "", $template_data);
+					$template_data = str_replace($search, "", $template_data);
+				}
 			}
-			else
+		}
+		else
+		{
+			if ($field_name != '')
 			{
-				$template_data = str_replace($search_lbl, "", $template_data);
-				$template_data = str_replace($search, "", $template_data);
+				$field_name = explode(',', $field_name);
+
+				foreach ($field_name as $one_field_name)
+				{
+					$new_field_name = substr(substr($one_field_name, 0, strlen($one_field_name) - 1), 1);
+
+					if ($categorypage == 1)
+					{
+						$search_lbl = "{producttag:" . $new_field_name . "_lbl}";
+						$search = "{producttag:" . $new_field_name . "}";
+					}
+					else
+					{
+						$search_lbl = "{" . $new_field_name . "_lbl}";
+						$search = "{" . $new_field_name . "}";
+					}
+
+					$template_data = str_replace($search_lbl, "", $template_data);
+					$template_data = str_replace($search, "", $template_data);
+				}
 			}
 		}
 
@@ -866,11 +893,16 @@ class extraField
 
 	public function getSectionFieldDataList($fieldid, $section = 0, $orderitemid = 0)
 	{
-		$query = "SELECT fd.*,f.field_title FROM " . $this->_table_prefix . "fields_data AS fd, " . $this->_table_prefix . "fields AS f "
-			. "WHERE fd.itemid='" . $orderitemid . "' "
-			. "AND fd.fieldid=f.field_id "
-			. "AND fd.fieldid='" . $fieldid . "' "
-			. "AND fd.section='" . $section . "' ";
+		$query = $this->_db->getQuery(true);
+
+		$query->select('fd.*, f.field_title');
+		$query->from($this->_table_prefix . 'fields AS f');
+		$query->leftJoin($this->_table_prefix . 'fields_data AS fd ON fd.fieldid = f.field_id');
+		$query->where('fd.itemid = "' . $orderitemid . '"');
+		$query->where('fd.fieldid = "' . $fieldid . '"');
+		$query->where('fd.section = "' . $section . '"');
+
+
 		$this->_db->setQuery($query);
 		$list = $this->_db->loadObject();
 

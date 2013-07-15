@@ -40,13 +40,14 @@ class Redtemplate
 	/**
 	 * Method to get Template
 	 *
-	 * @param   string   $section  Set section Template
-	 * @param   integer  $tid      Template Id
-	 * @param   string   $name     Template Name
+	 * @param   string   $section   Set section Template
+	 * @param   integer  $tid       Template Id
+	 * @param   string   $name      Template Name
+	 * @param   boolean  $is_admin  Check for administrator call
 	 *
 	 * @return  object             Template Array
 	 */
-	public function getTemplate($section = '', $tid = 0, $name = "")
+	public function getTemplate($section = '', $tid = 0, $name = "", $is_admin = false)
 	{
 		if (is_object($tid) && $tid->advanced_query == 1 && $tid->template_section != '' && $tid->template_name != '')
 		{
@@ -90,7 +91,7 @@ class Redtemplate
 
 			for ($i = 0; $i < count($re); $i++)
 			{
-				$re[$i]->template_desc = $this->readtemplateFile($re[$i]->template_section, $re[$i]->template_name);
+				$re[$i]->template_desc = $this->readtemplateFile($re[$i]->template_section, $re[$i]->template_name, $is_admin);
 			}
 		}
 
