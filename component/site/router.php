@@ -32,19 +32,21 @@ function redshopBuildRoute(&$query)
 	$db       = JFactory::getDBO();
 	$app      = JFactory::getApplication();
 	$menu     = $app->getMenu();
-	$item     = $menu->getActive();
 
-	$Itemid = 101;
-
-	if (isset($item->id) === true)
+	if (empty($query['Itemid']))
 	{
-		$Itemid = $item->id;
+		$menuItem = $menu->getActive();
+	}
+	else
+	{
+		$menuItem = $menu->getItem($query['Itemid']);
 	}
 
-	require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
-	require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/category.php';
+	$Itemid = $menuItem->id;
 
-	$product_category = new product_category;
+	require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
+	JLoader::import('category_static', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
+
 	$infoid           = '';
 	$task             = '';
 
@@ -171,11 +173,6 @@ function redshopBuildRoute(&$query)
 		unset($query['quoid']);
 	}
 
-	if (isset($query['Itemid']))
-	{
-		$Itemid = $query['Itemid'];
-	}
-
 	// Tag id
 	if (isset($query['tagid']))
 	{
@@ -202,19 +199,7 @@ function redshopBuildRoute(&$query)
 		unset($query['wishlist_id']);
 	}
 
-	$sql = "SELECT * FROM #__menu WHERE id = '$Itemid' "
-		. "AND link like '%option=com_redshop%' AND link like '%view=$view%' ";
-	$db->setQuery($sql);
-	$menu = $db->loadObject();
-
-	if (count($menu) == 0)
-	{
-		$menu         = new stdClass;
-		$menu->params = '';
-		$menu->title  = '';
-	}
-
-	$myparams = new JRegistry($menu->params);
+	$myparams = new JRegistry($menuItem->params);
 
 	// Special char for replace
 	$special_char = array(".", " ");
@@ -375,14 +360,21 @@ function redshopBuildRoute(&$query)
 
 			if ($cid)
 			{
-				$sql = "SELECT sef_url,category_name FROM #__redshop_category WHERE category_id = '$cid'";
-				$db->setQuery($sql);
-				$url = $db->loadObject();
+				$AllCat = StaticCategory::getAllCat();
+				$url = new stdClass;
 
-				if ($url->sef_url == "")
+				foreach ($AllCat as $oneKey)
 				{
-					$GLOBALS['catlist_reverse'] = array();
-					$cats                       = $product_category->getCategoryListReverceArray($cid);
+					if ($oneKey->category_id == $cid)
+					{
+						$url = $oneKey;
+						break;
+					}
+				}
+
+				if (!empty($url) && $url->sef_url == "")
+				{
+					$cats                       = StaticCategory::getCategoryListReverceArray($cid);
 
 					if (count($cats) > 0)
 					{
@@ -458,16 +450,24 @@ function redshopBuildRoute(&$query)
 
 			if ($pid)
 			{
-				$sql = "SELECT sef_url,product_name,cat_in_sefurl,product_number FROM #__redshop_product WHERE product_id = '$pid'";
-				$db->setQuery($sql);
-				$product = $db->loadObject();
+				$productInCat = & StaticCategory::$productInCat;
+
+				if (isset($productInCat[$pid]))
+				{
+					$product = $productInCat[$pid];
+				}
+				else
+				{
+					$sql = "SELECT sef_url,product_name,cat_in_sefurl,product_number FROM #__redshop_product WHERE product_id = '$pid'";
+					$db->setQuery($sql);
+					$product = $db->loadObject();
+				}
 
 				$url           = $product->sef_url;
 				$cat_in_sefurl = $product->cat_in_sefurl;
 
 				if ($url == "")
 				{
-					$GLOBALS['catlist_reverse'] = array();
 					$where                      = '';
 
 					if ($cat_in_sefurl > 0)
@@ -486,7 +486,7 @@ function redshopBuildRoute(&$query)
 						$category_id = $db->loadResult();
 					}
 
-					$cats = $product_category->getCategoryListReverceArray($category_id);
+					$cats = StaticCategory::getCategoryListReverceArray($category_id);
 
 					if (count($cats) > 0)
 					{
@@ -499,9 +499,16 @@ function redshopBuildRoute(&$query)
 						}
 					}
 
-					$sql = "SELECT category_name FROM #__redshop_category WHERE category_id = '$category_id'";
-					$db->setQuery($sql);
-					$catname = $db->loadResult();
+					if (isset($product->category_name) && $product->category_name != '')
+					{
+						$catname = $product->category_name;
+					}
+					else
+					{
+						$sql = "SELECT category_name FROM #__redshop_category WHERE category_id = '$category_id'";
+						$db->setQuery($sql);
+						$catname = $db->loadResult();
+					}
 
 					// Attach category id with name for consistency
 					if (ENABLE_SEF_NUMBER_NAME)

@@ -454,10 +454,8 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 	$extraFieldName = $extraField->getSectionFieldNameArray(1, 1, 1);
 	$product_data = '';
 
-	for ($i = 0; $i < $count_product; $i++)
+	foreach ($this->product AS $i => $product)
 	{
-		$product = $this->product[$i];
-
 		if (!is_object($product))
 		{
 			break;
@@ -937,7 +935,7 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 
 		$data_add = $producthelper->getProductNotForSaleComment($product, $data_add, $attributes);
 
-		$data_add = $producthelper->replaceProductInStock($product->product, $data_add, $attributes, $attribute_template);
+		$data_add = $producthelper->replaceProductInStock($product, $data_add, $attributes, $attribute_template);
 
 		$data_add = $producthelper->replaceAttributeData($product->product_id, 0, 0, $attributes, $data_add, $attribute_template, $isChilds);
 
