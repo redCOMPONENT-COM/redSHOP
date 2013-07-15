@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-require_once JPATH_SITE . '/administrator/components/com_redshop/helpers/category.php';
+JLoader::import('category', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
 
 
 /**
@@ -37,7 +37,7 @@ class JFormFieldcategory extends JFormField
 		$control_name = $this->name;
 		// This might get a conflict with the dynamic translation - TODO: search for better solution
 		$categories = $this->getCategoryListArray(0, 0, 0);
-		array_unshift($categories, JHTML::_('select.option', '0', '- ' . JText::_('COM_REDSHOP_SELECT_CATEGORY') . ' -', 'category_id', 'category_name'));
+		array_unshift($categories, JHTML::_('select.option', '', '- ' . JText::_('COM_REDSHOP_SELECT_CATEGORY') . ' -', 'category_id', 'category_name'));
 
 		return JHTML::_('select.genericlist', $categories, $name, 'class="inputbox"', 'category_id', 'category_name', $this->value, $name);
 	}
@@ -45,20 +45,16 @@ class JFormFieldcategory extends JFormField
 
 	function getCategoryListArray($category_id = "", $cid = '0', $level = '0')
 	{
-
 		$db = jFactory::getDBO();
+		$query = $db->getQuery(true);
 		$level++;
 
-		$and = " AND cx.category_parent_id='$cid' ";
+		$query->select('c.category_id, cx.category_child_id, cx.category_parent_id, c.category_name, c.category_description, c.published, ordering');
+		$query->from('#__redshop_category AS c');
+		$query->leftJoin('#__redshop_category_xref AS cx ON c.category_id=cx.category_child_id');
+		$query->where('cx.category_parent_id=' . $cid);
 
-		$q = "SELECT c.category_id, cx.category_child_id, cx.category_parent_id "
-			. ",c.category_name,c.category_description,c.published,ordering "
-			. "FROM #__redshop_category AS c "
-			. " ,#__redshop_category_xref AS cx "
-			. "WHERE c.category_id=cx.category_child_id "
-			. $and;
-
-		$db->setQuery($q);
+		$db->setQuery($query);
 		$cats = $db->loadObjectList();
 
 		for ($x = 0; $x < count($cats); $x++)
@@ -66,18 +62,21 @@ class JFormFieldcategory extends JFormField
 			$html = '';
 			$cat = $cats[$x];
 			$child_id = $cat->category_child_id;
+
 			if ($child_id != $cid)
 			{
 				$catlist[] = $cat;
+
 				for ($i = 0; $i < $level; $i++)
 				{
-
 					$html .= "-";
 					if ($level != 1)
 						$html .= "-";
 				}
+
 				$html .= $cat->category_name;
 			}
+
 			$cat->category_name = $html;
 			$this->_cats[] = $cat;
 
