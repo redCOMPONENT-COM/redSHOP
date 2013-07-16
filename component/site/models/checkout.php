@@ -2263,6 +2263,12 @@ class CheckoutModelCheckout extends JModel
 		$shipping               = $cart ['shipping'];
 		$shippingVat            = $cart['shipping_tax'];
 		$tax                    = $cart['tax'];
+
+		if (isset($cart['discount']) === false)
+		{
+			$cart['discount'] = 0;
+		}
+
 		$discount_amount        = $cart['discount'];
 		$cart['payment_oprand'] = $payment_oprand;
 		$cart['payment_amount'] = $payment_amount;
