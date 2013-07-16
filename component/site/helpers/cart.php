@@ -2195,9 +2195,12 @@ class rsCarthelper
 
 			for ($i = 0; $i < $Idx; $i++)
 			{
-				if (!is_null($cart [$i] ['giftcard_id']) && $cart [$i] ['giftcard_id'] != 0)
+				if (isset($cart[$i]['giftcard_id']) === true)
 				{
-					$noOFGIFTCARD++;
+					if (!is_null($cart[$i]['giftcard_id']) && $cart[$i]['giftcard_id'] != 0)
+					{
+						$noOFGIFTCARD++;
+					}
 				}
 			}
 
@@ -5002,9 +5005,21 @@ class rsCarthelper
 			$rowItem->cart_idx                = $i;
 			$rowItem->cart_id                 = $cart_id;
 			$rowItem->product_id              = $cart[$i]['product_id'];
+
+			if (isset($cart[$i]['giftcard_id']) === false)
+			{
+				$cart[$i]['giftcard_id'] = 0;
+			}
+
 			$rowItem->giftcard_id             = $cart[$i]['giftcard_id'];
 			$rowItem->product_quantity        = $cart[$i]['quantity'];
 			$rowItem->product_wrapper_id      = $cart[$i]['wrapper_id'];
+
+			if (isset($cart[$i]['subscription_id']) === false)
+			{
+				$cart[$i]['subscription_id'] = 0;
+			}
+
 			$rowItem->product_subscription_id = $cart[$i]['subscription_id'];
 
 			if (!$rowItem->store())

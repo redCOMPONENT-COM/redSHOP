@@ -71,13 +71,15 @@ class checkoutViewcheckout extends JView
 			$app->Redirect($link, $msg);
 		}
 
+		$lists = array();
+
 		if ($task != '')
 		{
 			$tpl = $task;
 		}
 		else
 		{
-			if ($user->id || @$auth['users_info_id'] > 0)
+			if ($user->id || $auth['users_info_id'] > 0)
 			{
 				$cart = $session->get('cart');
 
@@ -132,7 +134,7 @@ class checkoutViewcheckout extends JView
 			}
 		}
 
-		if (($user->id || @$auth['users_info_id'] > 0) && ONESTEP_CHECKOUT_ENABLE)
+		if (($user->id || $auth['users_info_id'] > 0) && ONESTEP_CHECKOUT_ENABLE)
 		{
 			$this->setLayout('onestepcheckout');
 		}
