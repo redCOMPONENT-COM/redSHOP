@@ -343,7 +343,6 @@ class quotation_detailModelquotation_detail extends JModel
 		$QuotationTax         = 0;
 		$quotationItems       = $quotationHelper->getQuotationProduct($QuotationData->quotation_id);
 
-
 		for ($q = 0; $q < count($quotationItems); $q++)
 		{
 			$QuotationSubTotal += ($quotationItems[$q]->product_excl_price * $quotationItems[$q]->product_quantity);
