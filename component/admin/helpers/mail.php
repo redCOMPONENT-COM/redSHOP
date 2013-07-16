@@ -1746,7 +1746,8 @@ class redshopMail
 
 		if ($email != "")
 		{
-			$bcc = NULL;
+			$bcc = null;
+
 			if (trim(ADMINISTRATOR_EMAIL) != '')
 			{
 				$bcc = explode(",", trim(ADMINISTRATOR_EMAIL));
@@ -1754,7 +1755,12 @@ class redshopMail
 
 			$bcc = array_merge($bcc, $mailbcc);
 
-			if (!JUtility::sendMail($from, $fromname, $email, $subject, $body, 1, NULL, $bcc))
+			if (count($bcc) <= 0)
+			{
+				$bcc = null;
+			}
+
+			if (!JUtility::sendMail($from, $fromname, $email, $subject, $body, 1, null, $bcc))
 			{
 				$this->setError('ERROR_SENDING_QUOTATION_MAIL');
 			}
