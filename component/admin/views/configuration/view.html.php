@@ -104,12 +104,12 @@ class configurationViewconfiguration extends JView
 		$manufacturer_template = $redTemplate->getTemplate("manufacturer_products");
 		$ajax_detail_template  = $redTemplate->getTemplate("ajax_cart_detail_box");
 
-		$product_template      = @array_merge($templatesel, $product_template);
-		$compare_template      = @array_merge($templatesel, $compare_template);
-		$category_template     = @array_merge($templatesel, $category_template);
-		$categorylist_template = @array_merge($templatesel, $categorylist_template);
-		$manufacturer_template = @array_merge($templatesel, $manufacturer_template);
-		$ajax_detail_template  = @array_merge($templatesel, $ajax_detail_template);
+		$product_template      = array_merge($templatesel, $product_template);
+		$compare_template      = array_merge($templatesel, $compare_template);
+		$category_template     = array_merge($templatesel, $category_template);
+		$categorylist_template = array_merge($templatesel, $categorylist_template);
+		$manufacturer_template = array_merge($templatesel, $manufacturer_template);
+		$ajax_detail_template  = array_merge($templatesel, $ajax_detail_template);
 
 		$shopper_groups = $userhelper->getShopperGroupList();
 
@@ -165,8 +165,6 @@ class configurationViewconfiguration extends JView
 		$stockroom = $db->loadObjectList();
 
 		$country_list = explode(',', COUNTRY_LIST);
-		$tmp          = new stdClass;
-		$tmp          = @array_merge($tmp, $country_list);
 
 		$tmp                                     = array();
 		$tmp[]                                   = JHTML::_('select.option', 0, JText::_('COM_REDSHOP_SELECT'));
@@ -372,7 +370,7 @@ class configurationViewconfiguration extends JView
 		$orderstatus                                  = $model->getOrderstatus();
 		$tmp                                          = array();
 		$tmp[]                                        = JHTML::_('select.option', 0, JText::_('COM_REDSHOP_SELECT'));
-		$orderstatus                                  = @array_merge($tmp, $orderstatus);
+		$orderstatus                                  = array_merge($tmp, $orderstatus);
 		$lists['clickatell_order_status']             = JHTML::_('select.genericlist', $orderstatus, 'clickatell_order_status',
 			'class="inputbox" size="1" ', 'value', 'text', CLICKATELL_ORDER_STATUS
 		);
@@ -405,11 +403,11 @@ class configurationViewconfiguration extends JView
 		$default_vat_group = $model->getVatGroup();
 		$tmp               = array();
 		$tmp[]             = JHTML::_('select.option', 0, JText::_('COM_REDSHOP_SELECT'));
-		$default_vat_group = @array_merge($tmp, $default_vat_group);
+		$default_vat_group = array_merge($tmp, $default_vat_group);
 
 		$tmp                 = array();
 		$tmp[]               = JHTML::_('select.option', '', JText::_('COM_REDSHOP_SELECT'));
-		$default_vat_country = @array_merge($tmp, $countries);
+		$default_vat_country = array_merge($tmp, $countries);
 
 		$default_customer_register_type          = array();
 		$default_customer_register_type[]        = JHTML::_('select.option', '0', JText::_('COM_REDSHOP_SELECT'));
@@ -532,7 +530,7 @@ class configurationViewconfiguration extends JView
 
 		$tmp   = array();
 		$tmp[] = JHTML::_('select.option', 0, JText::_('COM_REDSHOP_SELECT'));
-		$tmp   = @array_merge($tmp, $shopper_Group_private);
+		$tmp   = array_merge($tmp, $shopper_Group_private);
 
 		$lists['shopper_group_default_private'] = JHTML::_('select.genericlist', $tmp, 'shopper_group_default_private',
 			'class="inputbox" ', 'value', 'text', SHOPPER_GROUP_DEFAULT_PRIVATE
@@ -541,7 +539,7 @@ class configurationViewconfiguration extends JView
 		$shopper_Group_company                  = $model->getShopperGroupCompany();
 		$tmp                                    = array();
 		$tmp[]                                  = JHTML::_('select.option', 0, JText::_('COM_REDSHOP_SELECT'));
-		$tmp                                    = @array_merge($tmp, $shopper_Group_company);
+		$tmp                                    = array_merge($tmp, $shopper_Group_company);
 		$lists['shopper_group_default_company'] = JHTML::_('select.genericlist', $tmp, 'shopper_group_default_company',
 			'class="inputbox" ', 'value', 'text', SHOPPER_GROUP_DEFAULT_COMPANY
 		);
@@ -851,19 +849,17 @@ class configurationViewconfiguration extends JView
 		$gd_check    = extension_loaded('gd');
 		$mb_check    = extension_loaded('mbstring');
 
-		$this->server = $server;
-		$this->php_version = $php_version;
-		$this->db_version = $db_version;
-		$this->gd_check = $gd_check;
-		$this->mb_check = $mb_check;
-		$this->terms_article = $terms_article;
-		$this->getinstalledmodule = $getinstalledmodule;
-		$this->getinstalledplugins = $getinstalledplugins;
+		$this->server               = $server;
+		$this->php_version          = $php_version;
+		$this->db_version           = $db_version;
+		$this->gd_check             = $gd_check;
+		$this->mb_check             = $mb_check;
+		$this->getinstalledmodule   = $getinstalledmodule;
+		$this->getinstalledplugins  = $getinstalledplugins;
 		$this->getinstalledshipping = $getinstalledshipping;
-		$this->current_version = $current_version;
-		$this->lists = $lists;
-		$this->request_url = $uri->toString();
-		$this->detail = $detail;
+		$this->current_version      = $current_version;
+		$this->lists                = $lists;
+		$this->request_url          = $uri->toString();
 
 		parent::display($tpl);
 	}
@@ -874,12 +870,10 @@ class configurationViewconfiguration extends JView
 		{
 			return $_SERVER['SERVER_SOFTWARE'];
 		}
-
-		elseif (($sf = getenv('SERVER_SOFTWARE')))
+		elseif ($sf = getenv('SERVER_SOFTWARE'))
 		{
 			return $sf;
 		}
-
 		else
 		{
 			return JText::_('COM_REDSHOP_N_A');
