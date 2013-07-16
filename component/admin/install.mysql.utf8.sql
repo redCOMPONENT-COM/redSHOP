@@ -1652,7 +1652,6 @@ CREATE TABLE IF NOT EXISTS `#__redshop_product_attribute` (
 	`display_type` varchar(255) NOT NULL,
 	PRIMARY KEY  (`attribute_id`),
 	KEY `product_id` (`product_id`),
-	KEY `attribute_published` (`attribute_published`),
 	KEY `attribute_name` (`attribute_name`),
 	KEY `ordering` (`ordering`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='redSHOP Products Attribute';
