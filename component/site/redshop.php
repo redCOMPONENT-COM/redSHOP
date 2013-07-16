@@ -179,7 +179,7 @@ if (!file_exists(JPATH_COMPONENT . '/controllers/' . $controller . '.php'))
 	JRequest::setVar('view', 'category');
 }
 
-JLoader::import($controller, JPATH_COMPONENT . '/controllers');
+require_once JPATH_COMPONENT . '/controllers/' . $controller . '.php';
 
 // Set the controller page
 
