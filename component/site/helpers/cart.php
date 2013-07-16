@@ -2219,6 +2219,16 @@ class rsCarthelper
 			}
 			else
 			{
+				if (isset($cart['voucher_discount']) === false)
+				{
+					$cart['voucher_discount'] = 0;
+				}
+
+				if (isset($cart['coupon_discount']) === false)
+				{
+					$cart['coupon_discount'] = 0;
+				}
+
 				$total_discount      = $cart['cart_discount'] + $cart['voucher_discount'] + $cart['coupon_discount'];
 				$d['order_subtotal'] = (SHIPPING_AFTER == 'total') ? $subtotal - $total_discount : $subtotal;
 				$d['users_info_id']  = $user_info_id;
