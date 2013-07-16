@@ -406,7 +406,7 @@ $search []  = "{quotation_discount}";
 $replace [] = $quotation_discount;
 
 $search[]  = "{quotation_discount_lbl}";
-$replace[] = JText::_('QUOTATION_DISCOUNT');
+$replace[] = JText::_('COM_REDSHOP_QUOTATION_DISCOUNT_LBL');
 
 $search []  = "{quotation_subtotal}";
 $replace [] = $quotation_subtotal;
