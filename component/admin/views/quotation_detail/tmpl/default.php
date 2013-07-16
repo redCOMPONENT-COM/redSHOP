@@ -11,35 +11,32 @@ JHTML::_('behavior.tooltip');
 JHTML::_('behavior.modal');
 
 require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
-$producthelper = new producthelper();
+$producthelper   = new producthelper;
 
 require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/quotation.php';
-$quotationHelper = new quotationHelper();
+$quotationHelper = new quotationHelper;
 
 require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php';
-$order_functions = new order_functions();
+$order_functions = new order_functions;
 
-$redconfig = new Redconfiguration();
+$redconfig       = new Redconfiguration;
 
-$option = JRequest::getVar('option');
-$model = $this->getModel('quotation_detail');
+$option          = JRequest::getVar('option');
+$model           = $this->getModel('quotation_detail');
 
-$extra_field = new extra_field();
-$quotation = $this->quotation;
+$extra_field     = new extra_field;
+$quotation       = $this->quotation;
 
-$uri = JURI::getInstance();
-$url = $uri->root();
+$uri             = JURI::getInstance();
+$url             = $uri->root();
 
 $quotation_item = $quotationHelper->getQuotationProduct($quotation->quotation_id);    ?>
 <script type="text/javascript">
 	var rowCount = 1;
 	var qrowCount = <?php echo count($quotation_item);?>;
 
-	Joomla.submitbutton = function (pressbutton) {
-		submitbutton(pressbutton);
-	}
-
-	submitbutton = function (pressbutton) {
+	Joomla.submitbutton = function (pressbutton)
+	{
 		var form = document.adminForm;
 		if (pressbutton == 'cancel') {
 			submitform(pressbutton);
@@ -73,7 +70,6 @@ $quotation_item = $quotationHelper->getQuotationProduct($quotation->quotation_id
 <?php if (!$quotation->quotation_id)
 {
 	$edit_addlink = JRoute::_('index.php?tmpl=component&option=' . $option . '&view=quotation_detail&layout=account');
-//		$edit_addlink = $url."index.php?option=".$option."&view=quotation_detail";
 	?>
 	<tr>
 		<td align="right">
@@ -82,7 +78,9 @@ $quotation_item = $quotationHelper->getQuotationProduct($quotation->quotation_id
 			   rel="{handler: 'iframe', size: {x: 670, y: 500}}"><?php echo JText::_('COM_REDSHOP_ADD_USER'); ?></a>
 		</td>
 	</tr>
-<?php }    ?>
+<?php
+}
+?>
 <tr>
 	<td>
 		<table border="0" cellspacing="0" cellpadding="0" class="adminlist">
@@ -127,7 +125,8 @@ $quotation_item = $quotationHelper->getQuotationProduct($quotation->quotation_id
 			<tr style="background-color: #cccccc">
 				<th colspan="2"><?php echo JText::_('COM_REDSHOP_ACCOUNT_INFORMATION'); ?></th>
 			</tr>
-			<?php    if ($quotation->user_id != 0)
+			<?php
+			if ($quotation->user_id != 0)
 			{
 				?>
 				<tr>
@@ -166,23 +165,25 @@ $quotation_item = $quotationHelper->getQuotationProduct($quotation->quotation_id
 					<td><?php echo JText::_('COM_REDSHOP_EMAIL'); ?>:</td>
 					<td><?php echo $this->quotationuser->user_email; ?></td>
 				</tr>
-				<?php    if ($this->quotationuser->is_company)
-			{
-				?>
-				<tr>
-					<td><?php echo JText::_('COM_REDSHOP_VAT_NUMBER'); ?>:</td>
-					<td><?php echo $this->quotationuser->vat_number; ?></td>
-				</tr>
-				<tr>
-					<td><?php echo JText::_('COM_REDSHOP_TAX_EXEMPT'); ?>:</td>
-					<td><?php echo $this->quotationuser->tax_exempt; ?></td>
-				</tr>
-				<?php        $fields = $extra_field->list_all_field_display(8, $quotation->user_info_id);
-			}
-			else
-			{
-				$fields = $extra_field->list_all_field_display(7, $quotation->user_info_id);
-			}
+				<?php
+				if ($this->quotationuser->is_company)
+				{
+					?>
+					<tr>
+						<td><?php echo JText::_('COM_REDSHOP_VAT_NUMBER'); ?>:</td>
+						<td><?php echo $this->quotationuser->vat_number; ?></td>
+					</tr>
+					<tr>
+						<td><?php echo JText::_('COM_REDSHOP_TAX_EXEMPT'); ?>:</td>
+						<td><?php echo $this->quotationuser->tax_exempt; ?></td>
+					</tr>
+					<?php        $fields = $extra_field->list_all_field_display(8, $quotation->user_info_id);
+				}
+				else
+				{
+					$fields = $extra_field->list_all_field_display(7, $quotation->user_info_id);
+				}
+
 				echo $fields;
 			}
 			else
@@ -197,6 +198,7 @@ $quotation_item = $quotationHelper->getQuotationProduct($quotation->quotation_id
 				</tr>
 			<?php
 			}
+
 			echo $fields = $extra_field->list_all_field_display(16, $quotation->user_info_id, 0, $quotation->user_email); ?>
 
 			</tbody>
@@ -214,10 +216,11 @@ $quotation_item = $quotationHelper->getQuotationProduct($quotation->quotation_id
 {
 	?>
 	<tr>
-		<td align="right"><a
-				href="javascript:#('tblproductRow');"><?php //echo JText::_('COM_REDSHOP_NEW' ); ?></a></td>
+		<td align="right"><a href="javascript:#('tblproductRow');">&nbsp;</a></td>
 	</tr>
-<?php }    ?>
+<?php
+}
+?>
 <tr>
 	<td>
 		<table class="adminlist" id="tblproductRow" width="100%">
@@ -230,7 +233,9 @@ $quotation_item = $quotationHelper->getQuotationProduct($quotation->quotation_id
 				<th width="5%"><?php echo JText::_('COM_REDSHOP_PRODUCT_QUANTITY'); ?></th>
 				<th width="10%" align="right"><?php echo JText::_('COM_REDSHOP_TOTAL_PRICE'); ?></th>
 			</tr>
-			<?php    $unq = 1;
+			<?php
+			$unq = 1;
+
 			for ($i = 0; $i < count($quotation_item); $i++)
 			{
 				$quo = & $quotation_item[$i];
@@ -250,26 +255,32 @@ $quotation_item = $quotationHelper->getQuotationProduct($quotation->quotation_id
 					$product_number = "<br/>" . JText::_('COM_REDSHOP_PRODUCT_NUMBER') . ": ( " . $product->product_number . " ) ";
 					$section = 12;
 					$vat = 0;
+
 					if ($quo->product_excl_price > 0)
 					{
 						$vat = $producthelper->getProductTax($quo->product_id, $quo->product_excl_price, $quotation->user_id);
 					}
+
 					$quo->product_price = $quo->product_excl_price + $vat;
 				}
+
 				$product_userfield = $quotationHelper->displayQuotationUserfield($quo->quotation_item_id, $section);
 
 				$product_attribute = "<br/>" . $producthelper->makeAttributeQuotation($quo->quotation_item_id, 0, $quo->product_id);
 				$product_accessory = "<br/>" . $producthelper->makeAccessoryQuotation($quo->quotation_item_id);
 
 				$wrapper_name = "";
+
 				if ($quo->product_wrapperid)
 				{
 					$wrapper = $producthelper->getWrapper($quo->product_id, $quo->product_wrapperid);
+
 					if (count($wrapper) > 0)
 					{
 						$wrapper_name = $wrapper[0]->wrapper_name . " (" . $producthelper->getProductFormattedPrice($quo->wrapper_price) . ")";
 					}
 				}
+
 				$product_title = $quo->product_name . $product_number . $product_attribute . $product_accessory . $product_userfield;
 
 				$product_total = $quo->product_price * $quo->product_quantity;
@@ -404,7 +415,9 @@ $quotation_item = $quotationHelper->getQuotationProduct($quotation->quotation_id
 					</td>
 				</tr>
 
-			<?php } ?>
+			<?php
+			}
+		?>
 
 			<tr align="left">
 				<td align="right" width="85%">
@@ -465,7 +478,6 @@ $quotation_item = $quotationHelper->getQuotationProduct($quotation->quotation_id
 				<th width="30%"><?php echo JText::_('COM_REDSHOP_PRODUCT_NAME'); ?></td>
 				<th width="20%"><?php echo JText::_('COM_REDSHOP_ORDER_PRODUCT_NOTE'); ?></td>
 				<th width="10%"><?php echo JText::_('COM_REDSHOP_PRODUCT_PRICE_WITHOUT_VAT'); ?></td>
-					<!-- <th width="10%" align="right"><?php echo JText::_('COM_REDSHOP_TAX' ); ?></td> -->
 				<th width="10%" align="right"><?php echo JText::_('COM_REDSHOP_PRODUCT_PRICE'); ?></td>
 				<th width="5%"><?php echo JText::_('COM_REDSHOP_PRODUCT_QTY'); ?></td>
 				<th width="10%" align="right"><?php echo JText::_('COM_REDSHOP_TOTAL_PRICE'); ?></td>
