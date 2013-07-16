@@ -852,21 +852,21 @@ class ExportModelexport extends JModel
 			{
 				if ($i == 0)
 				{
-					echo "product_number,attribute_name,attribute_ordering,allow_multiple_selection,hide_attribute_price,attribute_required,display_type,property_name,property_stock";
+					echo '"product_number","attribute_name","attribute_ordering","allow_multiple_selection","hide_attribute_price","attribute_required","display_type","property_name","property_stock"';
 
 					if ($isrecrm)
 					{
-						echo ",property_stock_placement";
+						echo ',"property_stock_placement"';
 					}
 
-					echo ",property_ordering,property_virtual_number,setdefault_selected,setdisplay_type,oprand,property_price,property_image,property_main_image,subattribute_color_name,subattribute_stock";
+					echo ',"property_ordering","property_virtual_number","setdefault_selected","setdisplay_type","oprand","property_price","property_image","property_main_image","subattribute_color_name","subattribute_stock"';
 
 					if ($isrecrm)
 					{
-						echo ",subattribute_stock_placement";
+						echo ',"subattribute_stock_placement"';
 					}
 
-					echo ",subattribute_color_ordering,subattribute_setdefault_selected,subattribute_color_title,subattribute_virtual_number,subattribute_color_oprand,required_sub_attribute,subattribute_color_price,subattribute_color_image,delete";
+					echo ',"subattribute_color_ordering","subattribute_setdefault_selected","subattribute_color_title","subattribute_virtual_number","subattribute_color_oprand","required_sub_attribute","subattribute_color_price","subattribute_color_image","delete"';
 
 					echo "\r\n";
 				}
@@ -879,17 +879,15 @@ class ExportModelexport extends JModel
 				{
 					if ($attribute[$att]->attribute_name != "")
 					{
-						echo $cur[$i]->product_number . "," . $attribute[$att]->attribute_name . ","
-							. $attribute[$att]->ordering . "," . $attribute[$att]->allow_multiple_selection . ","
-							. $attribute[$att]->hide_attribute_price . "," . $attribute[$att]->attribute_required . ","
-							. $attribute[$att]->display_type;
+						echo '"' . $cur[$i]->product_number . '","' . $attribute[$att]->attribute_name . '","' . $attribute[$att]->ordering . '","' . $attribute[$att]->allow_multiple_selection . '","' . $attribute[$att]->hide_attribute_price . '","' . $attribute[$att]->attribute_required . '","' . $attribute[$att]->display_type . '"';
 
 						if ($isrecrm)
 						{
-							echo ",,";
+							echo ',,';
 						}
 
-						echo ",,,,,,,,,,,,,,,,0\n";
+						echo ',,,,,,,,,,,,,,,,"0"';
+						echo "\r\n";
 						$att_property = $producthelper->getAttibuteProperty(0, $attribute[$att]->attribute_id);
 
 						for ($prop = 0; $prop < count($att_property); $prop++)
@@ -917,7 +915,7 @@ class ExportModelexport extends JModel
 								$property_main_image = REDSHOP_FRONT_IMAGES_ABSPATH . 'property/' . $att_property[$prop]->property_main_image;
 							}
 
-							echo $cur[$i]->product_number . "," . $attribute[$att]->attribute_name . ",,,,,," . $att_property[$prop]->property_name . "," . $main_attribute_stock;
+							echo '"' . $cur[$i]->product_number . '","' . $attribute[$att]->attribute_name . '",,,,,,"' . $att_property[$prop]->property_name . '","' . $main_attribute_stock . '"';
 
 							if ($isrecrm)
 							{
@@ -936,20 +934,21 @@ class ExportModelexport extends JModel
 								$this->_db->setQuery($query);
 								$main_attribute_stock_placement = $this->_db->loadResult();
 
-								echo "," . $main_attribute_stock_placement;
+								echo ',"' . $main_attribute_stock_placement . '"';
 							}
 
-							echo "," . $att_property[$prop]->ordering . "," . $att_property[$prop]->property_number . ","
-								. $att_property[$prop]->setdefault_selected . "," . $att_property[$prop]->setdisplay_type . ","
-								. $att_property[$prop]->oprand . "," . $att_property[$prop]->property_price . "," . $property_image
-								. "," . $property_main_image;
+							echo ',"' . $att_property[$prop]->ordering . '","' . $att_property[$prop]->property_number . '","'
+								. $att_property[$prop]->setdefault_selected . '","' . $att_property[$prop]->setdisplay_type . '","'
+								. $att_property[$prop]->oprand . '","' . $att_property[$prop]->property_price . '","' . $property_image
+								. '","' . $property_main_image . '"';
 
 							if ($isrecrm)
 							{
-								echo ",";
+								echo ',';
 							}
 
-							echo ",,,,,,,,,0\n";
+							echo ',,,,,,,,,"0"';
+							echo "\n";
 
 							$subatt_property = $producthelper->getAttibuteSubProperty(0, $att_property[$prop]->property_id);
 
@@ -974,14 +973,14 @@ class ExportModelexport extends JModel
 										. $subatt_property[$subprop]->subattribute_color_image;
 								}
 
-								echo $cur[$i]->product_number . "," . $attribute[$att]->attribute_name . ",,,,,," . $att_property[$prop]->property_name;
+								echo '"' . $cur[$i]->product_number . '","' . $attribute[$att]->attribute_name . '",,,,,,"' . $att_property[$prop]->property_name . '"';
 
 								if ($isrecrm)
 								{
-									echo ",";
+									echo ',';
 								}
 
-								echo ",,,,,,,,,," . $subatt_property[$subprop]->subattribute_color_name . "," . $main_attribute_stock_sub;
+								echo ',,,,,,,,,,"' . $subatt_property[$subprop]->subattribute_color_name . '","' . $main_attribute_stock_sub . '"';
 
 								if ($isrecrm)
 								{
@@ -1000,14 +999,15 @@ class ExportModelexport extends JModel
 									$this->_db->setQuery($query);
 									$main_attribute_stock_sub_placement = $this->_db->loadResult();
 
-									echo "," . $main_attribute_stock_sub_placement;
+									echo ',"' . $main_attribute_stock_sub_placement . '"';
 								}
 
-								echo "," . $subatt_property[$subprop]->ordering . "," . $subatt_property[$subprop]->setdefault_selected
-									. "," . $subatt_property[$subprop]->subattribute_color_title . ","
-									. $subatt_property[$subprop]->subattribute_color_number . "," . $subatt_property[$subprop]->oprand
-									. "," . $att_property[$prop]->setrequire_selected . "," . $subatt_property[$subprop]->subattribute_color_price
-									. "," . $subattribute_color_image . ",0\n";
+								echo ',"' . $subatt_property[$subprop]->ordering . '","' . $subatt_property[$subprop]->setdefault_selected
+									. '","' . $subatt_property[$subprop]->subattribute_color_title . '","'
+									. $subatt_property[$subprop]->subattribute_color_number . '","' . $subatt_property[$subprop]->oprand
+									. '","' . $att_property[$prop]->setrequire_selected . '","' . $subatt_property[$subprop]->subattribute_color_price
+									. '","' . $subattribute_color_image . '","0"';
+								echo "\n";
 							}
 						}
 					}
