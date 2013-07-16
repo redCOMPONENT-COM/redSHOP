@@ -8,7 +8,7 @@
  */
 
 defined('_JEXEC') or die;
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/text_library.php';
+JLoader::import('text_library', JPATH_COMPONENT_ADMINISTRATOR . '/helpers');
 
 JLoader::import('joomla.application.component.view');
 
@@ -397,7 +397,7 @@ class CategoryViewcategory extends JView
 					$document->addScript('//ajax.googleapis.com/ajax/libs/jqueryui/1.8.15/jquery-ui.min.js');
 
 					// End Code for fixes IE9 issue
-					require_once JPATH_COMPONENT_SITE . '/assets/js/catprice_filter.php';
+					JLoader::import('catprice_filter', JPATH_COMPONENT_SITE . '/assets/js');
 				}
 				else
 				{

@@ -32,7 +32,7 @@ class redhelper
 	 */
 	public function dbtocart()
 	{
-		require_once JPATH_SITE . '/components/com_redshop/helpers/cart.php';
+		JLoader::import('cart', JPATH_SITE . '/components/com_redshop/helpers');
 		$session = JFactory::getSession();
 		$cart = $session->get('cart');
 		$user = JFactory::getUser();

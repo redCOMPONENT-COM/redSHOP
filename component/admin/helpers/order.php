@@ -10,11 +10,11 @@
 defined('_JEXEC') or die;
 
 JHTML::_('behavior.tooltip');
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/mail.php';
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/configuration.php';
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/economic.php';
-require_once JPATH_SITE . '/components/com_redshop/helpers/helper.php';
-require_once JPATH_SITE . '/components/com_redshop/helpers/cart.php';
+JLoader::import('mail', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
+JLoader::import('configuration', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
+JLoader::import('economic', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
+JLoader::import('helper', JPATH_SITE . '/components/com_redshop/helpers');
+JLoader::import('cart', JPATH_SITE . '/components/com_redshop/helpers');
 
 class order_functions
 {
@@ -426,7 +426,7 @@ class order_functions
 
 			if ($data->order_payment_status_code == "Paid")
 			{
-				require_once JPATH_SITE . '/components/com_redshop/models/checkout.php';
+				JLoader::import('checkout', JPATH_SITE . '/components/com_redshop/models');
 
 				$checkoutModelcheckout = new checkoutModelcheckout;
 				$checkoutModelcheckout->sendGiftCard($order_id);
@@ -596,10 +596,10 @@ class order_functions
 	public function getFilterbyList($name = 'filterbylist', $selected = 'all', $attributes = ' class="inputbox" size="1" ')
 	{
 		$filterbylist = array('orderid' => JText::_('COM_REDSHOP_ORDERID'),
-								'ordernumber' => JText::_('COM_REDSHOP_ORDERNUMBER'),
-								'fullname' => JText::_('COM_REDSHOP_FULLNAME'),
-								'useremail' => JText::_('COM_REDSHOP_USEREMAIL')
-							);
+			'ordernumber' => JText::_('COM_REDSHOP_ORDERNUMBER'),
+			'fullname' => JText::_('COM_REDSHOP_FULLNAME'),
+			'useremail' => JText::_('COM_REDSHOP_USEREMAIL')
+		);
 
 		$types[] = JHTML::_('select.option', '', 'All');
 		$types = array_merge($types, $filterbylist);
@@ -1192,20 +1192,20 @@ class order_functions
 			$link = 'index.php?option=' . $option . '&view=' . $return . '&cid[]=' . $oid[0];
 		}
 		?>
-    <script type="text/javascript">
-    <?php
-		if ($invociepdfname != "")
-		{
-			if (file_exists(REDSHOP_FRONT_DOCUMENT_RELPATH . "invoice/" . $invociepdfname . ".pdf"))
-			{
-	?>
-            	window.open("<?php echo REDSHOP_FRONT_DOCUMENT_ABSPATH?>invoice/<?php echo $invociepdfname?>.pdf");
-	<?php
-			}
-		}
-	?>
-   		window.parent.location = '<?php echo $link?>';
-    </script>
+		<script type="text/javascript">
+			<?php
+				if ($invociepdfname != "")
+				{
+					if (file_exists(REDSHOP_FRONT_DOCUMENT_RELPATH . "invoice/" . $invociepdfname . ".pdf"))
+					{
+			?>
+			window.open("<?php echo REDSHOP_FRONT_DOCUMENT_ABSPATH?>invoice/<?php echo $invociepdfname?>.pdf");
+			<?php
+					}
+				}
+			?>
+			window.parent.location = '<?php echo $link?>';
+		</script>
 	<?php
 	}
 
@@ -1906,7 +1906,7 @@ class order_functions
 	public function getpaymentinformation($row, $post)
 	{
 		$app = JFactory::getApplication();
-		require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/configuration.php';
+		JLoader::import('configuration', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
 		$redconfig = new Redconfiguration;
 
 		$plugin_parameters = $this->getparameters($post['payment_method_class']);

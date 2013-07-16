@@ -9,16 +9,16 @@
 
 defined('_JEXEC') or die;
 
-require_once JPATH_SITE . '/components/com_redshop/helpers/helper.php';
-require_once JPATH_SITE . '/components/com_redshop/helpers/cart.php';
-require_once JPATH_SITE . '/components/com_redshop/helpers/product.php';
-require_once JPATH_SITE . '/components/com_redshop/helpers/extra_field.php';
+JLoader::import('helper', JPATH_SITE . '/components/com_redshop/helpers');
+JLoader::import('cart', JPATH_SITE . '/components/com_redshop/helpers');
+JLoader::import('product', JPATH_SITE . '/components/com_redshop/helpers');
+JLoader::import('extra_field', JPATH_SITE . '/components/com_redshop/helpers');
 
 
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/extra_field.php';
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/configuration.php';
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/order.php';
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/quotation.php';
+JLoader::import('extra_field', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
+JLoader::import('configuration', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
+JLoader::import('order', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
+JLoader::import('quotation', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
 
 class redshopMail
 {
@@ -1035,7 +1035,7 @@ class redshopMail
 		$rand = rand();
 		$invoice_pdfName = "shipped_" . $rand;
 		$pdfObj->Output(JPATH_SITE . '/components/com_redshop/assets/document'
-			. '/invoice/' . $invoice_pdfName . ".pdf", "F");
+		. '/invoice/' . $invoice_pdfName . ".pdf", "F");
 
 		return $invoice_pdfName;
 	}
@@ -1607,11 +1607,11 @@ class redshopMail
 			$cart_mdata = str_replace("{product_number_lbl}", JText::_('COM_REDSHOP_PRODUCT_NUMBER'), $cart_mdata);
 			$cart_mdata = str_replace("{product_number}", $product->product_number, $cart_mdata);
 			$cart_mdata = str_replace("{product_attribute}", $producthelper->makeAttributeQuotation($rowitem[$i]->quotation_item_id, 0,
-				$rowitem[$i]->product_id, $row->quotation_status), $cart_mdata
+					$rowitem[$i]->product_id, $row->quotation_status), $cart_mdata
 			);
 
 			$cart_mdata = str_replace("{product_accessory}", $producthelper->makeAccessoryQuotation($rowitem[$i]->quotation_item_id,
-				$row->quotation_status), $cart_mdata
+					$row->quotation_status), $cart_mdata
 			);
 
 			// ProductFinderDatepicker Extra Field Start

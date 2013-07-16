@@ -359,7 +359,7 @@ class CategoryModelCategory extends JModel
 		$query->select('tr.*, tr.mdate AS tax_mdate');
 
 		// Select product attributes
-		$query->select('(SELECT COUNT(att.attribute_id) FROM ' . $this->_table_prefix . 'product_attribute AS att WHERE att.product_id = p.product_id AND att.attribute_published = 1 AND att.attribute_name != "" ) AS count_attribute_id');
+		$query->select('(SELECT COUNT(att.attribute_id) FROM ' . $this->_table_prefix . 'product_attribute AS att WHERE att.product_id = p.product_id AND att.attribute_name != "" ) AS count_attribute_id');
 
 		$query->from($this->_table_prefix . 'product AS p');
 

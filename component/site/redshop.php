@@ -17,22 +17,22 @@ $view   = JRequest::getVar('view');
 
 // Getting the configuration
 require_once JPATH_ADMINISTRATOR . '/components/' . $option . '/helpers/redshop.cfg.php';
-require_once JPATH_ADMINISTRATOR . '/components/' . $option . '/helpers/configuration.php';
-require_once JPATH_ADMINISTRATOR . '/components/' . $option . '/helpers/template.php';
-require_once JPATH_ADMINISTRATOR . '/components/' . $option . '/helpers/stockroom.php';
-require_once JPATH_ADMINISTRATOR . '/components/' . $option . '/helpers/economic.php';
+JLoader::import('configuration', JPATH_ADMINISTRATOR . '/components/' . $option . '/helpers');
+JLoader::import('template', JPATH_ADMINISTRATOR . '/components/' . $option . '/helpers');
+JLoader::import('stockroom', JPATH_ADMINISTRATOR . '/components/' . $option . '/helpers');
+JLoader::import('economic', JPATH_ADMINISTRATOR . '/components/' . $option . '/helpers');
 
 $Redconfiguration = new Redconfiguration;
 $Redconfiguration->defineDynamicVars();
 
 JLoader::import('joomla.html.pagination');
 
-require_once JPATH_COMPONENT . '/helpers/cron.php';
-require_once JPATH_COMPONENT . '/helpers/statistic.php';
-require_once JPATH_COMPONENT . '/helpers/pagination.php';
-require_once JPATH_COMPONENT . '/helpers/helper.php';
-require_once JPATH_COMPONENT . '/helpers/product.php';
-require_once JPATH_COMPONENT . '/helpers/currency.php';
+JLoader::import('cron', JPATH_COMPONENT . '/helpers');
+JLoader::import('statistic', JPATH_COMPONENT . '/helpers');
+JLoader::import('pagination', JPATH_COMPONENT . '/helpers');
+JLoader::import('helper', JPATH_COMPONENT . '/helpers');
+JLoader::import('product', JPATH_COMPONENT . '/helpers');
+JLoader::import('currency', JPATH_COMPONENT . '/helpers');
 
 // Helper object
 $helper = new redhelper;
@@ -94,7 +94,7 @@ if ($task != 'loadProducts' && $task != "downloadProduct" && $task != "discountC
 
 		if (!$isredGoogleAnalytics && GOOGLE_ANA_TRACKER_KEY != "")
 		{
-			require_once JPATH_COMPONENT . '/helpers/google_analytics.php';
+			JLoader::import('google_analytics', JPATH_COMPONENT . '/helpers');
 
 			$google_ana = new googleanalytics;
 

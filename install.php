@@ -3924,12 +3924,12 @@ class Com_RedshopInstallerScript
 				<tr>
 					<td valign="top">
 						<img src="<?php echo 'components/com_redshop/assets/images/261-x-88.png'; ?>" alt="redSHOP Logo"
-						     align="left">
+							 align="left">
 					</td>
 					<td valign="top" width="100%">
 						<strong>redSHOP</strong><br/>
 						<font class="small">by <a href="http://www.redcomponent.com"
-						                          target="_blank">redcomponent.com </a><br/></font>
+												  target="_blank">redcomponent.com </a><br/></font>
 						<font class="small">
 							Released under the terms and conditions of the <a
 								href="http://www.gnu.org/licenses/gpl-2.0.html" target="_blank">GNU General Public
@@ -3946,9 +3946,9 @@ class Com_RedshopInstallerScript
 					<td colspan="2">
 						<form action="index.php" method="post" name="installDemoContent">
 							<input type="button" name="save" id="installDemoContentsave" value="Configuration Wizard"
-							       onclick="submitWizard('save');"/>
+								   onclick="submitWizard('save');"/>
 							<input type="button" name="content" value="install Demo Content"
-							       onclick="submitWizard('content');"/>
+								   onclick="submitWizard('content');"/>
 							<input type="button" name="cancel" value="Cancel" onclick="submitWizard('cancel');"/>
 							<input type="hidden" name="option" value="com_redshop">
 							<input type="hidden" name="task" value="">
