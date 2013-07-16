@@ -94,6 +94,11 @@ class CheckoutModelCheckout extends JModel
 			}
 		}
 
+		if (isset($cart['free_shipping']) === false)
+		{
+			$cart['free_shipping'] = 0;
+		}
+
 		if ($noOFGIFTCARD == $idx)
 		{
 			$cart['free_shipping'] = 1;
