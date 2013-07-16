@@ -120,7 +120,10 @@ class addquotation_detailModeladdquotation_detail extends JModel
 		$extra_field->extra_field_save($data, 16, $data['user_info_id'], $data['user_email']);
 
 		$row = $this->getTable('quotation_detail');
-
+		if ($data['quotation_discount'] > 0)
+		{
+			$data['order_total'] = $data['order_total'] - $data['quotation_discount'] - (($data['order_total'] * $data['quotation_special_discount']) / 100);
+		}
 		$data['quotation_number'] = $quotationHelper->generateQuotationNumber();
 		$data['quotation_encrkey'] = $quotationHelper->randomQuotationEncrkey();
 		$data['quotation_cdate'] = time();

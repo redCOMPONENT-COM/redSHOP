@@ -286,42 +286,6 @@ class quotation_detailModelquotation_detail extends JModel
 	public function deleteitem($cids = 0, $quotation_id = 0)
 	{
 		$quotationHelper = new quotationHelper;
-		$quotation =& $this->getTable();
-		$quotation->load($quotation_id);
-
-		// Get Order Item Info
-		$quoteitemdata = $this->getTable('quotation_item_detail');
-		$quoteitemdata->load($cids);
-
-		$itemTax = ($quoteitemdata->product_price - $quoteitemdata->product_excl_price) * $quoteitemdata->product_quantity;
-
-		if ($quotation->quotation_tax > 0)
-		{
-			$quotation->quotation_tax = $quotation->quotation_tax - $itemTax;
-		}
-
-		if ($quotation->quotation_total > 0)
-		{
-			$quotation->quotation_total = $quotation->quotation_total - $quoteitemdata->product_final_price;
-		}
-
-		if ($quotation->quotation_subtotal > 0)
-		{
-			$quotation->quotation_subtotal = $quotation->quotation_subtotal - $quoteitemdata->product_final_price;
-		}
-
-		$discount = $quotation->quotation_total - $quotation->quotation_subtotal;
-
-		if ($quotation->quotation_discount > 0)
-		{
-			$quotation->quotation_discount = $quotation->quotation_discount - $discount;
-		}
-		$quotation->quotation_mdate = time();
-
-		if (!$quotation->store())
-		{
-			return false;
-		}
 
 		$query = 'DELETE FROM ' . $this->_table_prefix . 'quotation_fields_data '
 			. 'WHERE quotation_item_id IN ( ' . $cids . ' ) ';
@@ -367,6 +331,51 @@ class quotation_detailModelquotation_detail extends JModel
 			return false;
 		}
 
+		// Update Quotation Record
+		$QuotationData = $this->getTable('quotation_detail');
+		$QuotationData->load($quotation_id);
+
+		$QuotationTotal       = 0;
+		$QuotationSubTotal    = 0;
+		$QuotationSpDiscount  = 0;
+		$QuotationDiscount    = 0;
+		$QuotationTotDiscount = 0;
+		$QuotationTax         = 0;
+		$quotationItems       = $quotationHelper->getQuotationProduct($QuotationData->quotation_id);
+
+
+		for ($q = 0; $q < count($quotationItems); $q++)
+		{
+			$QuotationSubTotal += ($quotationItems[$q]->product_excl_price * $quotationItems[$q]->product_quantity);
+			$QuotationTax += ($quotationItems[$q]->product_final_price - $quotationItems[$q]->product_excl_price) * $quotationItems[$q]->product_quantity;
+		}
+
+		// Count final Total
+		$QuotationTotal = $QuotationTotal - $QuotationTotDiscount + $QuotationTax;
+
+		// Deduct normal Discount
+		$QuotationDiscount = $QuotationData->quotation_discount;
+
+		// Special Discount
+		$QuotationSpDiscount = ($QuotationData->quotation_special_discount * ($QuotationSubTotal + $QuotationTax)) / 100;
+
+		// Total Discount
+		$QuotationTotDiscount = $QuotationDiscount + $QuotationSpDiscount;
+
+		// Count final Total
+		$QuotationTotal = ($QuotationSubTotal + $QuotationTax) - $QuotationTotDiscount;
+
+		$QuotationData->quotation_tax      = $QuotationTax;
+		$QuotationData->quotation_total    = $QuotationTotal;
+		$QuotationData->quotation_subtotal = $QuotationSubTotal;
+		$QuotationData->quotation_mdate    = time();
+
+		if (!$QuotationData->store())
+		{
+			return false;
+		}
+
+		// Update Quotation Record
 		return true;
 	}
 
@@ -715,30 +724,51 @@ class quotation_detailModelquotation_detail extends JModel
 			}
 		}
 
-		// Store order item data
-		if ($qitemdata->quotation_item_id > 0)
+		// Update Quotation Record
+		$QuotationData = $this->getTable('quotation_detail');
+		$QuotationData->load($this->_id);
+
+		$QuotationTotal       = 0;
+		$QuotationSubTotal    = 0;
+		$QuotationSpDiscount  = 0;
+		$QuotationDiscount    = 0;
+		$QuotationTotDiscount = 0;
+		$QuotationTax         = 0;
+		$quotationItems       = $quotationHelper->getQuotationProduct($QuotationData->quotation_id);
+
+		for ($q = 0; $q < count($quotationItems); $q++)
 		{
-			$totalItemVat = $qitemdata->product_price - $qitemdata->product_excl_price;
-			$quotationdata->quotation_tax = $quotationdata->quotation_tax + ($totalItemVat * $qitemdata->product_quantity);
-
-			$quotationdata->quotation_total = $quotationdata->quotation_total + $qitemdata->product_final_price;
-			$quotationdata->quotation_subtotal = $quotationdata->quotation_subtotal + $qitemdata->product_final_price;
-
-			$discount = $quotationdata->quotation_total - $quotationdata->quotation_subtotal;
-			$quotationdata->quotation_discount = $quotationdata->order_discount + $discount;
-			$quotationdata->quotation_mdate = time();
-
-			// Update order detail
-			if (!$quotationdata->store())
-			{
-				return false;
-			}
+			$QuotationSubTotal += ($quotationItems[$q]->product_excl_price * $quotationItems[$q]->product_quantity);
+			$QuotationTax += ($quotationItems[$q]->product_final_price - $quotationItems[$q]->product_excl_price) * $quotationItems[$q]->product_quantity;
 		}
-		else
+
+		// Deduct normal Discount
+		$QuotationDiscount = $QuotationData->quotation_discount;
+
+		// Special Discount
+		$QuotationSpDiscount = ($QuotationData->quotation_special_discount * ($QuotationSubTotal + $QuotationTax)) / 100;
+
+		// Total Discount
+		$QuotationTotDiscount = $QuotationDiscount + $QuotationSpDiscount;
+
+		// Count final Total
+		$QuotationTotal = ($QuotationSubTotal + $QuotationTax) - $QuotationTotDiscount;
+
+		$QuotationData->quotation_tax      = $QuotationTax;
+		$QuotationData->quotation_total    = $QuotationTotal;
+		$QuotationData->quotation_subtotal = $QuotationSubTotal;
+		$QuotationData->quotation_mdate    = time();
+
+		if (!$QuotationData->store())
 		{
 			return false;
 		}
+		else
+		{
+			return true;
+		}
 
+		// End
 		return true;
 	}
 }
