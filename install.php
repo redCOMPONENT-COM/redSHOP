@@ -361,6 +361,22 @@ class Com_RedshopInstallerScript
 			}
 		}
 
+		// Get the current INDEX
+		$q = "SHOW INDEX FROM #__redshop_product_category_xref";
+		$db->setQuery($q);
+		$cols = $db->loadObjectList('Key_name');
+
+		if (is_array($cols))
+		{
+			// Check if we have the ref_category column
+			if (!array_key_exists('ref_category', $cols))
+			{
+				$q = "ALTER IGNORE TABLE `#__redshop_product_category_xref` ADD INDEX `ref_category` ( `product_id` )";
+				$db->setQuery($q);
+				$db->query();
+			}
+		}
+
 		// Get the current columns
 		$q = "SHOW COLUMNS FROM #__redshop_cart";
 		$db->setQuery($q);
@@ -3884,114 +3900,23 @@ class Com_RedshopInstallerScript
 			$db->query();
 		}
 
-		$this->setIndexes(
-			'#__redshop_orders',
-			array(
-				'vm_order_number' => 'vm_order_number'
-			)
-		);
+		$index_to = array("#__redshop_product" => "product_number", "#__redshop_orders" => "vm_order_number", "#__redshop_users_info" => "user_id");
 
-		$this->setIndexes(
-			'#__redshop_tax_group',
-			array(
-				'published' => 'published'
-			)
-		);
+		foreach ($index_to as $key => $val)
+		{
+			$db->setQuery('SHOW INDEXES FROM ' . $key . ' where Column_name="' . $val . '"');
 
-		$this->setIndexes(
-			'#__redshop_category',
-			array(
-				'published' => 'published',
-				'ordering' => 'ordering'
-			)
-		);
+			if ($redshop_users_info             = $db->query())
+			{
+				$redshop_users_info_index_count = $db->getNumRows($redshop_users_info);
 
-		$this->setIndexes(
-			'#__redshop_media',
-			array(
-				'section_id' => 'section_id',
-				'media_section' => 'media_section',
-				'media_type' => 'media_type',
-				'media_name' => 'media_name'
-			)
-		);
-
-		$this->setIndexes(
-			'#__redshop_product',
-			array(
-				'product_number' => 'product_number',
-				'product_parent_id' => 'product_parent_id',
-				'manufacturer_id' => 'manufacturer_id',
-				'product_price' => 'product_price',
-				'discount_price' => 'discount_price',
-				'discount_stratdate' => 'discount_stratdate',
-				'discount_enddate' => 'discount_enddate',
-				'visited' => 'visited',
-				'published' => 'published',
-				'expired' => 'expired'
-			)
-		);
-
-		$this->setIndexes(
-			'#__redshop_product_attribute',
-			array(
-				'product_id' => 'product_id',
-				'attribute_published' => 'attribute_published',
-				'attribute_name' => 'attribute_name',
-				'ordering' => 'ordering'
-			)
-		);
-
-		$this->setIndexes(
-			'#__redshop_product_attribute_property',
-			array(
-				'attribute_id' => 'attribute_id',
-				'ordering' => 'ordering'
-			)
-		);
-
-		$this->setIndexes(
-			'#__redshop_product_category_xref',
-			array(
-				'ref_category' => 'product_id',
-				'category_id' => 'category_id',
-				'ordering' => 'ordering'
-			)
-		);
-
-		$this->setIndexes(
-			'#__redshop_product_price',
-			array(
-				'product_id' => 'product_id',
-				'shopper_group_id' => 'shopper_group_id',
-				'price_quantity_start' => 'price_quantity_start',
-				'price_quantity_end' => 'price_quantity_end'
-			)
-		);
-
-		$this->setIndexes(
-			'#__redshop_product_stockroom_xref',
-			array(
-				'product_id' => 'product_id'
-			)
-		);
-
-		$this->setIndexes(
-			'#__redshop_tax_rate',
-			array(
-				'tax_group_id' => 'tax_group_id',
-				'tax_country' => 'tax_country',
-				'tax_state' => 'tax_state'
-			)
-		);
-
-		$this->setIndexes(
-			'#__redshop_users_info',
-			array(
-				'user_id' => 'user_id',
-				'address_type' => 'address_type'
-			)
-		);
+				if ($redshop_users_info_index_count == 0)
+				{
+					$db->setQuery('ALTER TABLE ' . $key . ' ADD INDEX(' . $val . ')');
+					$db->query();
+				}
+			}
+		}
 
 		?>
 		<center>
@@ -4093,34 +4018,6 @@ class Com_RedshopInstallerScript
 			if (!JFile::copy($redadmin . '/sh404sef/language/com_redshop.php', $sh404sefadmin . '/language/plugins/com_redshop.php'))
 			{
 				echo JText::_('COM_REDSHOP_FAILED_TO_COPY_SH404SEF_PLUGIN_LANGUAGE_FILE');
-			}
-		}
-	}
-
-	/**
-	 * Set indexes in table
-	 *
-	 * @param   string  $table    table in which set indexes
-	 * @param   array   $indexes  array with names indexes
-	 *
-	 * @return  void
-	 */
-	private function setIndexes($table, $indexes)
-	{
-		$db = JFactory::getDBO();
-		$db->setQuery('SHOW INDEXES FROM ' . $table);
-		$cols = $db->loadObjectList('Key_name');
-
-		if (is_array($cols))
-		{
-			foreach ($indexes as $key => $value)
-			{
-				if (!array_key_exists($key, $cols))
-				{
-					$query = 'ALTER IGNORE TABLE ' . $table . ' ADD INDEX `' . $key . '` (`' . $value . '`)';
-					$db->setQuery($query);
-					$db->query();
-				}
 			}
 		}
 	}

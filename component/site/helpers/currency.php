@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 JLoader::import('joomla.utilities.simplexml');
 
-require_once JPATH_SITE . '/administrator/components/com_redshop/helpers/configuration.php';
+JLoader::import('configuration', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
 
 /**
  * price converter
