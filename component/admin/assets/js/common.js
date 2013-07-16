@@ -854,8 +854,8 @@ function changeOfflinePriceBox(unique_id) {
 
 function changeOfflineQuantityBox(unique_id) {
     var prdexclprice = 0;
-    if (document.getElementById("main_priceproduct1") && document.getElementById("product_vatpriceproduct1")) {
-        prdexclprice = parseFloat(document.getElementById("main_priceproduct1").value) - parseFloat(document.getElementById("product_vatpriceproduct1").value);
+    if (document.getElementById("main_price" + unique_id) && document.getElementById("product_vatprice" + unique_id)) {
+        prdexclprice = parseFloat(document.getElementById("main_price" + unique_id).value) - parseFloat(document.getElementById("product_vatprice" + unique_id).value);
     }
     document.getElementById("prdexclprice" + unique_id).value = prdexclprice;
     if (document.getElementById("change_product_tmp_price" + unique_id)) {
@@ -963,36 +963,68 @@ function calculateQuotationTotal() {
     var q_discount = 0;
     var q_p_discount = 0, q_p_discount_total = 0;
     for (i = 1; i <= qrowCount; i++) {
-        if (document.getElementById("totalpricep" + i)) {
+        if (document.getElementById("totalpricep" + i))
+        {
             subtotal = parseFloat(subtotal) + parseFloat(document.getElementById("totalpricep" + i).value);
+            total = parseFloat(total) + parseFloat(document.getElementById("totalpricep"+i).value);
         }
-        if (document.getElementById("taxpricep" + i)) {
+        if (document.getElementById("taxpricep" + i))
+        {
             tax = parseFloat(tax) + parseFloat(document.getElementById("taxpricep" + i).value);
         }
     }
 
-    total = subtotal;
-    if (document.getElementById("quotation_discount") && (trim(document.getElementById("quotation_discount").value) != "" && !isNaN(document.getElementById("quotation_discount").value))) {
+    total = total;
+    subtot_with_discount =  subtotal;
+
+    if (document.getElementById("quotation_discount") && (trim(document.getElementById("quotation_discount").value) != "" && !isNaN(document.getElementById("quotation_discount").value)))
+    {
         q_discount = parseFloat(document.getElementById("quotation_discount").value);
-        total = total - parseFloat(q_discount);
+
+        if(VAT_RATE_AFTER_DISCOUNT)
+        {
+            vatondiscount = (parseFloat(q_discount) * VAT_RATE_AFTER_DISCOUNT)/(1+parseFloat(VAT_RATE_AFTER_DISCOUNT));
+        }
+        else
+        {
+            vatondiscount = 0;
+        }
+
+        displaytax = parseFloat(tax) - parseFloat(vatondiscount);
+        displaydiscount  = parseFloat(q_discount) - parseFloat(vatondiscount);
+        displaytotal = total - parseFloat(q_discount);
+        subtot_with_discount =  subtot_with_discount - parseFloat(displaydiscount);
     }
 
-    if (document.getElementById("quotation_special_discount") && (trim(document.getElementById("quotation_special_discount").value) != "" && !isNaN(document.getElementById("quotation_special_discount").value))) {
+    if (document.getElementById("quotation_special_discount") && (trim(document.getElementById("quotation_special_discount").value) != "" && !isNaN(document.getElementById("quotation_special_discount").value)))
+    {
         q_p_discount = parseFloat(document.getElementById("quotation_special_discount").value);
-        q_p_discount_total = (total * q_p_discount) / 100;
-        total = total - q_p_discount_total;
+        q_p_discount_total = (total*q_p_discount)/100;
+        if(VAT_RATE_AFTER_DISCOUNT)
+        {
+            vatonspdiscount = (parseFloat(q_p_discount_total) * VAT_RATE_AFTER_DISCOUNT)/(1+parseFloat(VAT_RATE_AFTER_DISCOUNT));
+        }
+        else
+        {
+            vatonspdiscount = 0;
+        }
+        displaytax = parseFloat(displaytax) - parseFloat(vatonspdiscount);
+        displayspdiscount  = parseFloat(q_p_discount_total) - parseFloat(vatonspdiscount);
+        total = displaytotal - q_p_discount_total;
+        subtot_with_discount =  subtot_with_discount - parseFloat(q_p_discount_total) + parseFloat(vatonspdiscount);
     }
 
-    document.getElementById("divMainSubTotal").innerHTML = number_format(subtotal, PRICE_DECIMAL, PRICE_SEPERATOR, THOUSAND_SEPERATOR);
+    document.getElementById("divMainSubTotalwithDiscount").innerHTML = number_format(subtot_with_discount,PRICE_DECIMAL,PRICE_SEPERATOR,THOUSAND_SEPERATOR);
+    document.getElementById("divMainSubTotal").innerHTML = number_format(subtotal,PRICE_DECIMAL,PRICE_SEPERATOR,THOUSAND_SEPERATOR);
     document.getElementById("quotation_subtotal").value = subtotal;
 
-    document.getElementById("divMainFinalTotal").innerHTML = number_format(total, PRICE_DECIMAL, PRICE_SEPERATOR, THOUSAND_SEPERATOR);
+    document.getElementById("divMainFinalTotal").innerHTML = number_format(total,PRICE_DECIMAL,PRICE_SEPERATOR,THOUSAND_SEPERATOR);
     document.getElementById("quotation_total").value = total;
 
-    document.getElementById("divMainTax").innerHTML = number_format(tax, PRICE_DECIMAL, PRICE_SEPERATOR, THOUSAND_SEPERATOR);
+    document.getElementById("divMainTax").innerHTML = number_format(displaytax,PRICE_DECIMAL,PRICE_SEPERATOR,THOUSAND_SEPERATOR);
     document.getElementById("quotation_tax").value = tax;
-    document.getElementById("divMainSpecialDiscount").innerHTML = number_format(q_p_discount_total, PRICE_DECIMAL, PRICE_SEPERATOR, THOUSAND_SEPERATOR);
-    document.getElementById("divMainDiscount").innerHTML = number_format(q_discount, PRICE_DECIMAL, PRICE_SEPERATOR, THOUSAND_SEPERATOR);
+    document.getElementById("divMainSpecialDiscount").innerHTML = number_format(displayspdiscount,PRICE_DECIMAL,PRICE_SEPERATOR,THOUSAND_SEPERATOR);
+    document.getElementById("divMainDiscount").innerHTML = number_format(displaydiscount,PRICE_DECIMAL,PRICE_SEPERATOR,THOUSAND_SEPERATOR);
 }
 
 function deleteOfflineProductRow(index) {

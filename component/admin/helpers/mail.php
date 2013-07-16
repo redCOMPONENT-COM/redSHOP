@@ -1546,8 +1546,9 @@ class redshopMail
 			$product_name = "<div class='product_name'>" . $rowitem[$i]->product_name . "</div>";
 			$product_total_price = "<div class='product_price'>" . $producthelper->getProductFormattedPrice(($rowitem[$i]->product_price * $rowitem[$i]->product_quantity)) . "</div>";
 			$product_price = "<div class='product_price'>" . $producthelper->getProductFormattedPrice($rowitem[$i]->product_price) . "</div>";
+			$product_price_excl_vat = "<div class='product_price'>".$producthelper->getProductFormattedPrice( $rowitem[$i]->product_excl_price )."</div>";
 			$product_quantity = '<div class="update_cart">' . $rowitem[$i]->product_quantity . '</div>';
-
+			$product_total_price_excl_vat = "<div class='product_price'>".$producthelper->getProductFormattedPrice( ($rowitem[$i]->product_excl_price * $rowitem[$i]->product_quantity)  )."</div>";
 			$cart_mdata = $template_middle;
 			$wrapper_name = "";
 
@@ -1618,16 +1619,19 @@ class redshopMail
 			$cart_mdata = $producthelper->getProductFinderDatepickerValue($cart_mdata, $product_id, $fieldArray);
 
 			// ProductFinderDatepicker Extra Field End
-			if ($row->quotation_status == 1 && !SHOW_QUOTATION_PRICE)
+			if($row->quotation_status==1 && !SHOW_QUOTATION_PRICE)
 			{
-				$cart_mdata = str_replace("{product_price}", " ", $cart_mdata);
-				$cart_mdata = str_replace("{product_total_price}", " ", $cart_mdata);
-			}
+				$cart_mdata = str_replace ( "{product_price_excl_vat}","", $cart_mdata );
+				$cart_mdata = str_replace ( "{product_price}", " ", $cart_mdata );
+				$cart_mdata = str_replace ( "{product_total_price}", " ", $cart_mdata );
+				$cart_mdata = str_replace ( "{product_subtotal_excl_vat}", " ", $cart_mdata );
 
-			else
-			{
-				$cart_mdata = str_replace("{product_price}", $product_price, $cart_mdata);
-				$cart_mdata = str_replace("{product_total_price}", $product_total_price, $cart_mdata);
+			} else {
+
+				$cart_mdata = str_replace ( "{product_price_excl_vat}", $product_price_excl_vat, $cart_mdata );
+				$cart_mdata = str_replace ( "{product_price}", $product_price, $cart_mdata );
+				$cart_mdata = str_replace ( "{product_total_price}", $product_total_price, $cart_mdata );
+				$cart_mdata = str_replace ( "{product_subtotal_excl_vat}", $product_total_price_excl_vat, $cart_mdata );
 			}
 
 			$cart_mdata = str_replace("{product_quantity}", $product_quantity, $cart_mdata);
@@ -1702,23 +1706,45 @@ class redshopMail
 			$quotation_total = " ";
 			$quotation_discount = " ";
 			$quotation_vat = " ";
+			$quotation_subtotal_excl_vat ="";
 
 		}
 		else
 		{
-			$quotation_subtotal = $producthelper->getProductFormattedPrice($row->quotation_subtotal);
-			$quotation_total = $producthelper->getProductFormattedPrice($row->quotation_total);
-			$quotation_discount = $producthelper->getProductFormattedPrice($row->quotation_discount);
-			$quotation_vat = $producthelper->getProductFormattedPrice($row->quotation_tax);
+			$tax = $row->quotation_tax;
+			if (VAT_RATE_AFTER_DISCOUNT)
+			{
+				$Discountvat             = (VAT_RATE_AFTER_DISCOUNT * $row->quotation_discount) / (1 + VAT_RATE_AFTER_DISCOUNT);
+				$row->quotation_discount = $row->quotation_discount - $Discountvat;
+				$tax                     = $tax - $Discountvat;
+			}
+			if (VAT_RATE_AFTER_DISCOUNT)
+			{
+				$sp_discount             = ($row->quotation_special_discount * ($row->quotation_subtotal + $row->quotation_tax)) / 100;
+				$Discountspvat           = ($sp_discount * VAT_RATE_AFTER_DISCOUNT) / (1 + VAT_RATE_AFTER_DISCOUNT);
+				$DiscountspWithotVat     = $sp_discount - $Discountspvat;
+				$row->quotation_discount = $row->quotation_discount + $DiscountspWithotVat;
+				$tax                     = $tax - $Discountspvat;
+			}
+			$quotation_subtotal_excl_vat       = $producthelper->getProductFormattedPrice($row->quotation_subtotal);
+			$quotation_subtotal_minus_discount = $producthelper->getProductFormattedPrice($row->quotation_subtotal - $row->quotation_discount);
+			$quotation_subtotal                = $producthelper->getProductFormattedPrice($row->quotation_subtotal);
+			$quotation_total                   = $producthelper->getProductFormattedPrice($row->quotation_total);
+			$quotation_discount                = $producthelper->getProductFormattedPrice($row->quotation_discount);
+			$quotation_vat                     = $producthelper->getProductFormattedPrice($row->quotation_tax);
 		}
 
-		$search [] = "{quotation_subtotal}";
+		$search []  = "{quotation_subtotal}";
 		$replace [] = $quotation_subtotal;
-		$search [] = "{quotation_total}";
+		$search []  = "{quotation_total}";
 		$replace [] = $quotation_total;
-		$search [] = "{quotation_discount}";
+		$search []  = "{quotation_subtotal_minus_discount}";
+		$replace [] = $quotation_subtotal_minus_discount;
+		$search []  = "{quotation_subtotal_excl_vat}";
+		$replace [] = $quotation_subtotal_excl_vat;
+		$search []  = "{quotation_discount}";
 		$replace [] = $quotation_discount;
-		$search [] = "{quotation_vat}";
+		$search []  = "{quotation_vat}";
 		$replace [] = $quotation_vat;
 
 		$quotationdetailurl = JURI::root() . 'index.php?option=com_redshop&view=quotation_detail&quoid=' . $quotation_id . '&encr='

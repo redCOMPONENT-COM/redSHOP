@@ -332,6 +332,18 @@ $quotation_item = $quotationHelper->getQuotationProduct($quotation->quotation_id
 	<td>
 		<table border="0" cellspacing="0" cellpadding="0" class="adminlist">
 			<tbody>
+			<tr align="left">
+				<td align="right" width="85%"><strong><?php echo JText::_('COM_REDSHOP_QUOTATION_SUBTOTAL'); ?></strong>
+				</td>
+
+				<td align="right">
+					<div
+						id="divMainSubTotal"><?php echo $producthelper->getProductFormattedPrice($quotation->quotation_subtotal);?></div>
+					<input name="quotation_subtotal" id="quotation_subtotal" type="hidden"
+					       value="<?php echo $quotation->quotation_subtotal; ?>"/>
+
+				</td>
+			</tr>
 			<?php
 			if ($quotation->quotation_total)
 			{
@@ -343,24 +355,45 @@ $quotation_item = $quotationHelper->getQuotationProduct($quotation->quotation_id
 
 						<div id="divMainDiscount" style="float: right;">
 
-							<?php echo $producthelper->getProductFormattedPrice($quotation->quotation_discount);?></div>
-						<div style="float: right;">
-							<input type="text" name="quotation_discount" size='10'
-							       value="<?php echo $producthelper->redpriceDecimal($quotation->quotation_discount); ?>"
-							       id="quotation_discount" onchange="calculateQuotationTotal();"/>
-							&nbsp;&nbsp;&nbsp;&nbsp;</div>
+							<?php
+							$tax = $quotation->quotation_tax;
+							$DiscountWithotVat = $quotation->quotation_discount;
+							$DiscountspWithotVat = ($quotation->quotation_special_discount * ($quotation->quotation_subtotal + $quotation->quotation_tax)) / 100;
+
+							if (VAT_RATE_AFTER_DISCOUNT)
+							{
+								$Discountvat       = (VAT_RATE_AFTER_DISCOUNT * $quotation->quotation_discount) / (1 + VAT_RATE_AFTER_DISCOUNT);
+								$DiscountWithotVat = $quotation->quotation_discount - $Discountvat;
+								$tax               = $tax - $Discountvat;
+							}
+
+							if (VAT_RATE_AFTER_DISCOUNT)
+							{
+								$sp_discount         = ($quotation->quotation_special_discount * ($quotation->quotation_subtotal + $quotation->quotation_tax)) / 100;
+								$Discountspvat       = ($sp_discount * VAT_RATE_AFTER_DISCOUNT) / (1 + VAT_RATE_AFTER_DISCOUNT);
+								$DiscountspWithotVat = $sp_discount - $Discountspvat;
+								$tax                 = $tax - $Discountspvat;
+							}
+							?>
+							<?php echo JText::_('COM_REDSHOP_DISCOUNT_EXCL_VAT');?>
+							<br/><?php echo $producthelper->getProductFormattedPrice($DiscountWithotVat);?></div>
+						<div style="float: left;">
+							<?php echo JText::_('COM_REDSHOP_DISCOUNT_INCL_VAT');?>
+							<br/><input type="text" name="quotation_discount" size='10'
+							            value="<?php echo $producthelper->redpriceDecimal($quotation->quotation_discount); ?>"
+							            id="quotation_discount" onchange="calculateQuotationTotal();"/>
+						</div>
 					</td>
 				</tr>
 				<tr align="left">
 					<td align="right" width="85%">
-						<strong><?php echo JText::_('COM_REDSHOP_QUOTATION_SPECIAL_DISCOUNT'); ?></strong>
-					</td>
+						<strong><?php echo JText::_('COM_REDSHOP_QUOTATION_SPECIAL_DISCOUNT'); ?></strong></td>
 					<td align="right">
 
 						<div id="divMainSpecialDiscount" style="float: right;">
 							<?php
 							$special_discount_amount = ($quotation->quotation_subtotal * $quotation->quotation_special_discount) / 100;
-							echo $producthelper->getProductFormattedPrice($special_discount_amount);
+							echo $producthelper->getProductFormattedPrice($DiscountspWithotVat);
 							?>
 						</div>
 						<div style="float: right;">
@@ -372,21 +405,23 @@ $quotation_item = $quotationHelper->getQuotationProduct($quotation->quotation_id
 				</tr>
 
 			<?php } ?>
+
 			<tr align="left">
 				<td align="right" width="85%">
-					<strong><?php echo JText::_('COM_REDSHOP_QUOTATION_SUBTOTAL'); ?></strong></td>
+					<strong><?php echo JText::_('COM_REDSHOP_QUOTATION_SUBTOTAL_WITH_DISCOUNT'); ?></strong></td>
+
 				<td align="right">
 					<div
-						id="divMainSubTotal"><?php echo $producthelper->getProductFormattedPrice($quotation->quotation_subtotal);?></div>
-					<input name="quotation_subtotal" id="quotation_subtotal" type="hidden"
-					       value="<?php echo $quotation->quotation_subtotal; ?>"/></td>
+						id="divMainSubTotalwithDiscount"><?php echo $producthelper->getProductFormattedPrice($quotation->quotation_subtotal - $DiscountWithotVat - $DiscountspWithotVat);?></div>
+					<input name="quotation_subtotal_with_discount" id="quotation_subtotal_with_discount" type="hidden"
+					       value="<?php echo ($quotation->quotation_subtotal - $DiscountWithotVat - $DiscountspWithotVat); ?>"/>
+
+				</td>
 			</tr>
 			<tr align="left">
-				<td align="right" width="85%">
-					<strong><?php echo JText::_('COM_REDSHOP_QUOTATION_TAX'); ?></strong></td>
+				<td align="right" width="85%"><strong><?php echo JText::_('COM_REDSHOP_QUOTATION_TAX'); ?></strong></td>
 				<td align="right">
-					<div
-						id="divMainTax"><?php echo $producthelper->getProductFormattedPrice($quotation->quotation_tax);?></div>
+					<div id="divMainTax"><?php echo $producthelper->getProductFormattedPrice($tax);?></div>
 					<input name="quotation_tax" id="quotation_tax" type="hidden"
 					       value="<?php echo $quotation->quotation_tax; ?>"/></td>
 			</tr>
@@ -396,13 +431,17 @@ $quotation_item = $quotationHelper->getQuotationProduct($quotation->quotation_id
 				</td>
 			</tr>
 			<tr align="left">
-				<td align="right"><strong><?php echo JText::_('COM_REDSHOP_QUOTATION_TOTAL'); ?></strong>
-				</td>
+				<td align="right"><strong><?php echo JText::_('COM_REDSHOP_QUOTATION_TOTAL'); ?></strong></td>
 				<td align="right">
 					<div
 						id="divMainFinalTotal"><?php echo $producthelper->getProductFormattedPrice($quotation->quotation_total);?></div>
 					<input name="quotation_total" id="quotation_total" type="hidden"
-					       value="<?php echo $quotation->quotation_total; ?>"/></td>
+					       value="<?php echo $quotation->quotation_total; ?>"/>
+
+					<input type="hidden" name="Discountvat" id="Discountvat" value="<?php echo $Discountvat ?>">
+					<input type="hidden" name="DiscountWithoutVat" id="DiscountWithoutVat"
+					       value="<?php echo $DiscountWithotVat ?>">
+				</td>
 			</tr>
 			<tr>
 				<td colspan="2">
