@@ -21,7 +21,7 @@ class ordertrackerViewordertracker extends JView
 
 		// Request variables
 		$option = JRequest::getVar('option');
-		$this->assignRef('params', $params);
+		$this->params = $params;
 		parent::display($tpl);
 	}
 }

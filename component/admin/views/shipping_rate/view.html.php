@@ -58,13 +58,13 @@ class shipping_rateViewshipping_rate extends JView
 		JToolBarHelper::deleteList();
 		JToolBarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
 
-		$this->assignRef('lists', $lists);
-		$this->assignRef('shipping_rates', $shipping_rates);
-		$this->assignRef('shipping', $shipping);
-		$this->assignRef('pagination', $pagination);
-		$this->assignRef('is_shipper', $is_shipper);
-		$this->assignRef('shipper_location', $shipper_location);
-		$this->assignRef('request_url', $uri->toString());
+		$this->lists = $lists;
+		$this->shipping_rates = $shipping_rates;
+		$this->shipping = $shipping;
+		$this->pagination = $pagination;
+		$this->is_shipper = $is_shipper;
+		$this->shipper_location = $shipper_location;
+		$this->request_url = $uri->toString();
 
 		parent::display($tpl);
 	}

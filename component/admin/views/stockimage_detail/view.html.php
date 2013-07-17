@@ -58,9 +58,9 @@ class stockimage_detailVIEWstockimage_detail extends JView
 			'class="inputbox" size="1" ', 'value', 'text', $detail->stockroom_id
 		);
 
-		$this->assignRef('lists', $lists);
-		$this->assignRef('detail', $detail);
-		$this->assignRef('request_url', $uri->toString());
+		$this->lists = $lists;
+		$this->detail = $detail;
+		$this->request_url = $uri->toString();
 
 		parent::display($tpl);
 	}

@@ -481,7 +481,6 @@ class Redtemplate
 		$optiontype[] = JHTML::_('select.option', 'mywishlist_mail', JText::_('COM_REDSHOP_WISHLIST_MAIL'));
 		$optiontype[] = JHTML::_('select.option', 'ask_question_mail', JText::_('COM_REDSHOP_ASK_QUESTION_MAIL'));
 		$optiontype[] = JHTML::_('select.option', 'downloadable_product_mail', JText::_('COM_REDSHOP_DOWNLOADABLE_PRODUCT_MAIL'));
-		$optiontype[] = JHTML::_('select.option', 'redDesign_mail', JText::_('COM_REDSHOP_REDDESIGN_MAIL'));
 		$optiontype[] = JHTML::_('select.option', 'giftcard_mail', JText::_('COM_REDSHOP_GIFTCARD_MAIL'));
 		$optiontype[] = JHTML::_('select.option', 'invoice_mail', JText::_('COM_REDSHOP_INVOICE_MAIL'));
 		$optiontype[] = JHTML::_('select.option', 'quotation_mail', JText::_('COM_REDSHOP_QUOTATION_MAIL'));

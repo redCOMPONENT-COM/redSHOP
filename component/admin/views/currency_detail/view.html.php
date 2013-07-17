@@ -44,8 +44,8 @@ class currency_detailVIEWcurrency_detail extends JView
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_currency') . ': <small><small>[ ' . $text . ' ]</small></small>', 'redshop_currencies_48');
 
-		$this->assignRef('detail', $detail);
-		$this->assignRef('lists', $lists);
+		$this->detail = $detail;
+		$this->lists = $lists;
 		$this->request_url = $uri->toString();
 
 		parent::display($tpl);

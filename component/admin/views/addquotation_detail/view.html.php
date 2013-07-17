@@ -96,10 +96,10 @@ class addquotation_detailVIEWaddquotation_detail extends JView
 		$lists['state_code'] = $statearray['state_dropdown'];
 		$lists['quotation_extrafield'] = $extra_field->list_all_field(16, $billing->users_info_id);
 
-		$this->assignRef('lists', $lists);
-		$this->assignRef('detail', $detail);
-		$this->assignRef('billing', $billing);
-		$this->assignRef('userlist', $userlists);
+		$this->lists = $lists;
+		$this->detail = $detail;
+		$this->billing = $billing;
+		$this->userlist = $userlists;
 		$this->request_url = $uri->toString();
 
 		parent::display($tpl);

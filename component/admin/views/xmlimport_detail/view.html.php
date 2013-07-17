@@ -1,3 +1,5 @@
+		$this->assignRef('tmpxmlimport_url', $xmlimport_url);
+		$this->assignRef('request_url', $uri);
 <?php
 /**
  * @package     RedSHOP.Backend
@@ -22,8 +24,7 @@ class xmlimport_detailVIEWxmlimport_detail extends JView
 		$document->setTitle(JText::_('COM_REDSHOP_xmlimport'));
 		$document->addScript('components/' . $option . '/assets/js/xmlfunc.js');
 
-		$uri = JFactory::getURI();
-		$xmlimport_url = "";
+		$uri = JFactory::getURI()->toString();
 		$lists = array();
 		$resultarray = array();
 		$xmlfiletag = array();
@@ -65,6 +66,7 @@ class xmlimport_detailVIEWxmlimport_detail extends JView
 		{
 			JToolBarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
 		}
+
 		$section_type = $xmlhelper->getSectionTypeList();
 		$auto_sync_interval = $xmlhelper->getSynchIntervalList();
 		$lists['auto_sync'] = JHTML::_('select.booleanlist', 'auto_sync', 'class="inputbox" size="1"', $detail->auto_sync);
@@ -100,6 +102,7 @@ class xmlimport_detailVIEWxmlimport_detail extends JView
 				$cols[$i]->value = $columns[$i]->Field;
 				$cols[$i]->text = $columns[$i]->Field;
 			}
+
 			$op = array();
 			$op[0]->value = '';
 			$op[0]->text = JText::_('COM_REDSHOP_SELECT');
@@ -111,6 +114,7 @@ class xmlimport_detailVIEWxmlimport_detail extends JView
 				$updatefiletag[$i] = $colvalue[1];
 				$lists[$xmlfiletag[$i]] = JHTML::_('select.genericlist', $columns, $xmlfiletag[$i], 'class="inputbox" size="1" ', 'value', 'text', $colvalue[0]);
 			}
+
 			if (count($xmlbillingtag) > 0)
 			{
 				$cols = array();
@@ -121,6 +125,7 @@ class xmlimport_detailVIEWxmlimport_detail extends JView
 					$cols[$i]->value = $columns[$i]->Field;
 					$cols[$i]->text = $columns[$i]->Field;
 				}
+
 				$columns = array_merge($op, $cols);
 
 				for ($i = 0; $i < count($xmlbillingtag); $i++)
@@ -143,6 +148,7 @@ class xmlimport_detailVIEWxmlimport_detail extends JView
 					$cols[$i]->value = $columns[$i]->Field;
 					$cols[$i]->text = $columns[$i]->Field;
 				}
+
 				$columns = array_merge($op, $cols);
 
 				for ($i = 0; $i < count($xmlshippingtag); $i++)
@@ -154,6 +160,7 @@ class xmlimport_detailVIEWxmlimport_detail extends JView
 					);
 				}
 			}
+
 			if (count($xmlitemtag) > 0)
 			{
 				$cols = array();
@@ -164,6 +171,7 @@ class xmlimport_detailVIEWxmlimport_detail extends JView
 					$cols[$i]->value = $columns[$i]->Field;
 					$cols[$i]->text = $columns[$i]->Field;
 				}
+
 				$columns = array_merge($op, $cols);
 
 				for ($i = 0; $i < count($xmlitemtag); $i++)
@@ -175,6 +183,7 @@ class xmlimport_detailVIEWxmlimport_detail extends JView
 					);
 				}
 			}
+
 			if (count($xmlstocktag) > 0)
 			{
 				$cols = array();
@@ -185,6 +194,7 @@ class xmlimport_detailVIEWxmlimport_detail extends JView
 					$cols[$i]->value = $columns[$i]->Field;
 					$cols[$i]->text = $columns[$i]->Field;
 				}
+
 				$columns = array_merge($op, $cols);
 
 				for ($i = 0; $i < count($xmlstocktag); $i++)
@@ -196,6 +206,7 @@ class xmlimport_detailVIEWxmlimport_detail extends JView
 					);
 				}
 			}
+
 			if (count($xmlprdextrafieldtag) > 0)
 			{
 				$cols = array();
@@ -206,6 +217,7 @@ class xmlimport_detailVIEWxmlimport_detail extends JView
 					$cols[$i]->value = $columns[$i]->Field;
 					$cols[$i]->text = $columns[$i]->Field;
 				}
+
 				$columns = array_merge($op, $cols);
 
 				for ($i = 0; $i < count($xmlprdextrafieldtag); $i++)
@@ -219,24 +231,24 @@ class xmlimport_detailVIEWxmlimport_detail extends JView
 			}
 		}
 
-		$this->assignRef('resultarray', $resultarray);
-		$this->assignRef('lists', $lists);
-		$this->assignRef('detail', $detail);
-		$this->assignRef('columns', $columns);
-		$this->assignRef('xmlfiletag', $xmlfiletag);
-		$this->assignRef('xmlbillingtag', $xmlbillingtag);
-		$this->assignRef('xmlshippingtag', $xmlshippingtag);
-		$this->assignRef('xmlitemtag', $xmlitemtag);
-		$this->assignRef('xmlstocktag', $xmlstocktag);
-		$this->assignRef('xmlprdextrafieldtag', $xmlprdextrafieldtag);
-		$this->assignRef('updatefiletag', $updatefiletag);
-		$this->assignRef('updatebillingtag', $updatebillingtag);
-		$this->assignRef('updateshippingtag', $updateshippingtag);
-		$this->assignRef('updateitemtag', $updateitemtag);
-		$this->assignRef('updatestocktag', $updatestocktag);
-		$this->assignRef('updateprdexttag', $updateprdexttag);
-		$this->assignRef('tmpxmlimport_url', $xmlimport_url);
-		$this->assignRef('request_url', $uri->toString());
+		$this->resultarray = $resultarray;
+		$this->lists = $lists;
+		$this->detail = $detail;
+		$this->columns = $columns;
+		$this->xmlfiletag = $xmlfiletag;
+		$this->xmlbillingtag = $xmlbillingtag;
+		$this->xmlshippingtag = $xmlshippingtag;
+		$this->xmlitemtag = $xmlitemtag;
+		$this->xmlstocktag = $xmlstocktag;
+		$this->xmlprdextrafieldtag = $xmlprdextrafieldtag;
+		$this->updatefiletag = $updatefiletag;
+		$this->updatebillingtag = $updatebillingtag;
+		$this->updateshippingtag = $updateshippingtag;
+		$this->updateitemtag = $updateitemtag;
+		$this->updatestocktag = $updatestocktag;
+		$this->updateprdexttag = $updateprdexttag;
+		$this->tmpxmlimport_url = $xmlimport_url;
+		$this->request_url = $uri->toString();
 
 		parent::display($tpl);
 	}

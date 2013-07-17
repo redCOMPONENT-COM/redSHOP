@@ -59,8 +59,8 @@ class loginViewlogin extends JView
 			}
 		}
 
-		$this->assignRef('ShopperGroupDetail', $ShopperGroupDetail);
-		$this->assignRef('check', $check);
+		$this->ShopperGroupDetail = $ShopperGroupDetail;
+		$this->check = $check;
 		parent::display($tpl);
 	}
 }

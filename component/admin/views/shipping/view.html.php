@@ -42,9 +42,9 @@ class shippingViewshipping extends JView
 		$total      = $this->get('Total');
 		$pagination = $this->get('Pagination');
 
-		$this->assignRef('lists', $lists);
-		$this->assignRef('shippings', $shippings);
-		$this->assignRef('pagination', $pagination);
+		$this->lists = $lists;
+		$this->shippings = $shippings;
+		$this->pagination = $pagination;
 		$this->request_url = $uri->toString();
 
 		parent::display($tpl);

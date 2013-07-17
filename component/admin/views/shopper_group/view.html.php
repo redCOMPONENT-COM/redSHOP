@@ -1,3 +1,5 @@
+		$this->assignRef('pagination', $pagination);
+		$this->assignRef('request_url', $uri);
 <?php
 /**
  * @package     RedSHOP.Backend
@@ -21,7 +23,7 @@ class shopper_groupViewshopper_group extends JView
 
 		$shoppergroup = new shoppergroup;
 
-		$uri      = JFactory::getURI();
+		$uri      = JFactory::getURI()->toString();
 		$app      = JFactory::getApplication();
 		$document = JFactory::getDocument();
 
@@ -42,16 +44,14 @@ class shopper_groupViewshopper_group extends JView
 		$lists['order_Dir'] = $filter_order_Dir;
 
 		$groups = $shoppergroup->getshopperGroupListArray();
-		$total = count($groups);
 
-		$media      = $this->get('Data');
 		$pagination = $this->get('Pagination');
 
-		$this->assignRef('user', JFactory::getUser());
-		$this->assignRef('lists', $lists);
-		$this->assignRef('media', $groups);
-		$this->assignRef('pagination', $pagination);
-		$this->assignRef('request_url', $uri->toString());
+		$this->user = JFactory::getUser();
+		$this->lists = $lists;
+		$this->media = $groups;
+		$this->pagination = $pagination;
+		$this->request_url = $uri->toString();
 
 		parent::display($tpl);
 	}

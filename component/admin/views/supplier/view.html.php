@@ -56,9 +56,9 @@ class supplierViewsupplier extends JView
 		$pagination = $this->get('Pagination');
 
 		$this->user = JFactory::getUser();
-		$this->assignRef('lists', $lists);
-		$this->assignRef('supplier', $supplier);
-		$this->assignRef('pagination', $pagination);
+		$this->lists = $lists;
+		$this->supplier = $supplier;
+		$this->pagination = $pagination;
 		$this->request_url = $uri->toString();
 
 		parent::display($tpl);

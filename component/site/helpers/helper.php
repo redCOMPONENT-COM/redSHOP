@@ -552,32 +552,16 @@ class redhelper
 	}
 
 	/**
-	 * Check That reddesign is installed or not
-	 */
-	public function CheckIfRedDesign()
-	{
-		$query = "SELECT extension_id FROM `#__extensions` WHERE `element` LIKE '%com_reddesign%'";
-		$this->_db->setQuery($query);
-
-		return $this->_db->loadResult();
-	}
-
-	/*
-	 *  Get redDESIGN information from redDESIGN order table
-	 */
-	public function getRedDesignOrderInfo($order_item_id)
-	{
-		if ($this->CheckIfRedDesign())
-		{
-			$query = "SELECT * FROM  #__reddesign_order WHERE order_item_id =" . $order_item_id;
-			$this->_db->setQuery($query);
-
-			return $this->_db->loadObject();
-		}
-	}
-
-	/**
-	 * Check That reddesigh is assigned to product or not & only redirect if user belongs to that shopper.
+	 * Water mark image.
+	 *
+	 *  @param   string  $mtype             Comment.
+	 *  @param   string  $Imagename         Comment.
+	 *  @param   string  $thumb_width       Comment.
+	 *  @param   string  $thumb_height      Comment.
+	 *  @param   string  $enable_watermart  Comment.
+	 *  @param   int     $add_img           Comment.
+	 *
+	 * @return string
 	 */
 	public function CheckIfRedProduct($product_id)
 	{
@@ -643,6 +627,7 @@ class redhelper
 	 * $mtype = media type product,category.manufacture etc
 	 * $filename = image name
 	*/
+
 	public function watermark($mtype, $Imagename = '', $thumb_width = '', $thumb_height = '', $enable_watermart = WATERMARK_PRODUCT_IMAGE, $add_img = 0)
 	{
 		require_once JPATH_ROOT . '/administrator/components/com_redshop/helpers/images.php';
