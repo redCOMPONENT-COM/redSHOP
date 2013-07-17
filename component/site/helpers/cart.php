@@ -1284,46 +1284,6 @@ class rsCarthelper
 					$cart_mdata = str_replace("{product_subscription}", "", $cart_mdata);
 				}
 
-				// If reddesign
-				if (isset($cart[$i]["reddesign"]))
-				{
-					$areas      = explode("&", $cart[$i]["designhdnargs"]);
-					$designText = $designPreview = $bgPreview = "";
-
-					for ($i_areas = 0; $i_areas < count($areas); $i_areas++)
-					{
-						$text = explode("|", $areas[$i_areas]);
-
-						if ($designText != "")
-						{
-							$designText .= "<br />";
-						}
-
-						if (count($text) > 1)
-						{
-							$designText .= "<b>" . $text[4] . "</b><br /><span>" . urldecode($text[3]) . "</span>";
-						}
-					}
-
-					$redDesignfile     = $cart[$i]["reddesignfile"];
-					$designPreviewlink = "components/com_reddesign/assets/order/design/" . $redDesignfile . ".jpeg";
-					$designPreview .= "<a class='modal' href='" . $designPreviewlink . "'>" . JText::_('COM_REDSHOP_PREVIEW') . "</a>";
-
-					$redbg_image = $this->_redhelper->getImagePath($cart[$i]['reddesign_image_id']);
-					$bgPreview .= "<span>" . JText::_('COM_REDSHOP_BACKGROUND_IMAGE') . "</span><br>" . $redbg_image;
-
-					$cart_mdata = str_replace("{reddesign_text}", $designText, $cart_mdata);
-					$cart_mdata = str_replace("{reddesign_imagepreview}", $designPreview, $cart_mdata);
-					$cart_mdata = str_replace("{reddesign_background_image}", $bgPreview, $cart_mdata);
-				}
-				else
-				{
-					$cart_mdata = str_replace("{reddesign_background_image}", "", $cart_mdata);
-					$cart_mdata = str_replace("{reddesign_text}", "", $cart_mdata);
-					$cart_mdata = str_replace("{reddesign_imagepreview}", "", $cart_mdata);
-				}
-
-				// End reddesign
 				if ($replace_button)
 				{
 					$update_attribute = '';
@@ -1701,30 +1661,6 @@ class rsCarthelper
 			else
 			{
 				$cart_mdata = str_replace("{copy_orderitem}", "", $cart_mdata);
-			}
-
-			if ($Design_Attr = $this->_redhelper->getRedDesignOrderInfo($rowitem[$i]->order_item_id))
-			{
-				$design_args   = explode("&", $Design_Attr->designhdnargs);
-				$area_property = "";
-
-				foreach ($design_args as $area)
-				{
-					if ($area == "")
-					{
-						continue;
-					}
-
-					$allarea = explode("|", $area);
-					$area_property .= "<br /><b>" . $allarea[4] . "</b> : ";
-					$area_property .= urldecode($allarea[3]);
-				}
-
-				$cart_mdata = str_replace("{design_area_property}", $area_property, $cart_mdata);
-			}
-			else
-			{
-				$cart_mdata = str_replace("{design_area_property}", "", $cart_mdata);
 			}
 
 			// Get Downloadable Products
@@ -2939,87 +2875,6 @@ class rsCarthelper
 		$message = $this->replaceTax($message, $row->order_tax + $row->order_shipping_tax, $row->tax_after_discount, 1);
 
 		return $message;
-	}
-
-	public function replaceredDesignmail($order_id, $message, &$reddesign_attachment)
-	{
-		$message           = str_replace("{order_id}", $order_id, $message);
-		$billingaddresses  = $this->_order_functions->getOrderBillingUserInfo($order_id);
-		$shippingaddresses = $this->_order_functions->getOrderShippingUserInfo($order_id);
-		$message           = $this->replaceBillingAddress($message, $billingaddresses);
-		$message           = $this->replaceShippingAddress($message, $shippingaddresses);
-		$rowitem           = $this->_order_functions->getOrderItemDetail($order_id);
-
-		if (strstr($message, "{design_loop_start}") && strstr($message, "{design_loop_end}"))
-		{
-			$template_sdata  = explode('{design_loop_start}', $message);
-			$template_start  = $template_sdata[0];
-			$template_edata  = explode('{design_loop_end}', $template_sdata[1]);
-			$template_end    = $template_edata[1];
-			$template_middle = $template_edata[0];
-			$template_middle = $this->replaceredDesignOrderItem($template_middle, $rowitem, $reddesign_attachment);
-			$message         = $template_start . $template_middle . $template_end;
-		}
-
-		return $message;
-	}
-
-	public function replaceredDesignOrderItem($data, $rowitem, &$reddesign_attachment)
-	{
-		$cart = '';
-
-		for ($i = 0; $i < count($rowitem); $i++)
-		{
-			$reddesignitem = $this->getReddesignOrderItem($rowitem [$i]->order_item_id);
-			$product       = $this->_producthelper->getProductById($rowitem[$i]->product_id);
-			$imgPath       = JURI::base() . "/components/com_reddesign/assets/order/design/" . $reddesignitem->reddesignfile . ".jpeg";
-			$imgreplate    = "<img src='" . $imgPath . "'>";
-			$bgimg         = "<span>" . $this->_redhelper->getImagePath($reddesignitem->image_id) . "</span>";
-
-			$datamessage   = str_replace("{product_name_lbl}", JText::_('COM_REDSHOP_PRODUCT_NAME'), $data);
-			$datamessage   = str_replace("{product_quantity_lbl}", JText::_('COM_REDSHOP_PRODUCT_QUANTITY'), $datamessage);
-			$datamessage   = str_replace("{product_number_lbl}", JText::_('COM_REDSHOP_PRODUCT_NUMBER'), $datamessage);
-			$datamessage   = str_replace("{product_price_lbl}", JText::_('COM_REDSHOP_PRODUCT_PRICE'), $datamessage);
-			$datamessage   = str_replace("{design_lbl}", JText::_('COM_REDSHOP_DESIGN'), $datamessage);
-			$datamessage   = str_replace("{product_quantity}", $rowitem [$i]->product_quantity, $datamessage);
-			$datamessage   = str_replace("{product_price}", $rowitem [$i]->product_item_price, $datamessage);
-			$datamessage   = str_replace("{product_name}", $product->product_name, $datamessage);
-			$datamessage   = str_replace("{product_number}", $product->product_number, $datamessage);
-			$datamessage   = str_replace("{background_image_label}", JText::_('COM_REDSHOP_ORIGINAL_IMAGE'), $datamessage);
-			$datamessage   = str_replace("{reddesign_background_image}", $bgimg, $datamessage);
-			$datamessage   = str_replace("{redimg}", $imgreplate, $datamessage);
-			$Design_Attr   = explode("&", $reddesignitem->designhdnargs);
-			$area_property = "";
-
-			foreach ($Design_Attr as $area)
-			{
-				if ($area == "")
-				{
-					continue;
-				}
-
-				$allarea = explode("|", $area);
-				$area_property .= "<br /><b>" . $allarea [4] . "</b> : ";
-				$area_property .= urldecode($allarea [3]);
-			}
-
-			$reddesign_attachment [$i] = JPATH_SITE . '/components/com_reddesign/assets/order/pdf/' . $reddesignitem->reddesignfile . ".pdf";
-			$cart .= str_replace("{design_area_property}", $area_property, $datamessage);
-		}
-
-		return $cart;
-	}
-
-	public function getReddesignOrderItem($order_item_id)
-	{
-		$query = 'SELECT * '
-			. 'FROM #__reddesign_order '
-			. 'WHERE order_item_id="' . $order_item_id . '" ';
-
-		$this->_db->setQuery($query);
-		$list = $this->_db->loadObject();
-
-		return $list;
 	}
 
 	public function makeCart_output($cart)
@@ -6036,17 +5891,6 @@ class rsCarthelper
 
 		if (!$sameProduct)
 		{
-			// Reddesign
-			if (isset($data['reddesignfile']) && $data['reddesignfile'] != "" && $data['reddesign'] == "1")
-			{
-				$cart[$idx]['reddesign_image_id'] = $data['image_id'];
-				$cart[$idx]['reddesignfile']      = $data['reddesignfile'];
-				$cart[$idx]['designhdnargs']      = $data['hdnargs'];
-				$cart[$idx]['reddesign']          = $data['reddesign'];
-			}
-
-			// Reddesign end
-
 			// SET VALVUES INTO SESSION CART
 			$cart[$idx]['giftcard_id']                = '';
 			$cart[$idx]['product_id']                 = $data['product_id'];
