@@ -7,9 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die ('restricted access');
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/helper.php';
+require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/images.php';
 
-$redhelper = new reddesignhelper();
 $expand_all = EXPAND_ALL;
 $uri = JURI::getInstance();
 $url = $uri->root();
@@ -128,7 +127,7 @@ $usertype = array_keys($user->groups);
 $user->usertype = $usertype[0];
 $user->gid = $user->groups[$user->usertype];
 $quicklink_icon = explode(",", QUICKLINK_ICON);
-$new_arr = $redhelper->geticonarray();
+$new_arr = RedShopHelperImages::geticonarray();
 $option = JRequest::getCmd('option');
 
 

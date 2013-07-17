@@ -8,9 +8,8 @@
  */
 defined('_JEXEC') or die ('Restricted access');
 $quicklink_icon = explode(",", QUICKLINK_ICON);
-$redhelper = new reddesignhelper;
-$new_arr = $redhelper->geticonarray();
-
+require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/images.php';
+$new_arr = RedShopHelperImages::geticonarray();
 
 ?>
 <style type="text/css">

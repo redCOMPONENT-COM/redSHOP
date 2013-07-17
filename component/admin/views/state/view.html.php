@@ -1,3 +1,7 @@
+		$this->assignRef('country_main_filter', $country_main_filter);
+		$this->assignRef('user', $user);
+		$this->assignRef('lists', $lists);
+		$this->assignRef('request_url', $uri);
 <?php
 /**
  * @package     RedSHOP.Backend
@@ -21,9 +25,10 @@ class stateViewstate extends JView
 
 		$context = 'state_id';
 
-		$uri      = JFactory::getURI();
+		$uri      = JFactory::getURI()->toString();
 		$app      = JFactory::getApplication();
 		$document = JFactory::getDocument();
+		$user     = JFactory::getUser();
 
 		$document->setTitle(JText::_('COM_REDSHOP_STATE'));
 
@@ -39,8 +44,7 @@ class stateViewstate extends JView
 		$lists['order_Dir'] = $filter_order_Dir;
 
 		$db = jFactory::getDBO();
-		JToolBarHelper::title(JText::_('COM_REDSHOP_STATE') . ': <small><small>[ ' . $text . ' ]</small></small>', 'redshop_region_48');
-
+		JToolBarHelper::title(JText::_('COM_REDSHOP_STATES'), 'redshop_region_48');
 
 		$redhelper = new redhelper;
 		$q = "SELECT  country_id as value,country_name as text,country_jtext from #__" . TABLE_PREFIX . "_country ORDER BY country_name ASC";
@@ -48,6 +52,7 @@ class stateViewstate extends JView
 		$countries = $db->loadObjectList();
 		$countries = $redhelper->convertLanguageString($countries);
 
+		$temps[0] = new stdClass;
 		$temps[0]->value = "0";
 		$temps[0]->text = JText::_('COM_REDSHOP_SELECT');
 		$countries = @array_merge($temps, $countries);
@@ -65,8 +70,8 @@ class stateViewstate extends JView
 		$country_main_filter = $app->getUserStateFromRequest($context . 'country_main_filter', 'country_main_filter', '');
 
 		$fields = $this->get('Data');
-		$total = $this->get('Total');
 		$pagination = $this->get('Pagination');
+
 		$this->country_main_filter = $country_main_filter;
 		$this->user = JFactory::getUser();
 		$this->pagination = $pagination;
