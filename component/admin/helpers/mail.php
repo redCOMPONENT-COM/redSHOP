@@ -75,19 +75,26 @@ class redshopMail
 		return $list;
 	}
 
-	public function sendOrderMail($order_id, $reddesign = 0)
+	/**
+	 * sendOrderMail function.
+	 *
+	 * @param   int  $order_id  Order ID.
+	 *
+	 * @return bool
+	 */
+	public function sendOrderMail($order_id)
 	{
-		$redconfig     = new Redconfiguration;
+		$redconfig = new Redconfiguration;
 		$producthelper = new producthelper;
-		$extra_field   = new extra_field;
-		$session       = JFactory::getSession();
+		$session = JFactory::getSession();
 
-		$config        = JFactory::getConfig();
+		$config = JFactory::getConfig();
 
 		// Set the e-mail parameters
-		$from          = $config->getValue('mailfrom');
-		$fromname      = $config->getValue('fromname');
-		$user          = JFactory::getUser();
+		$from = $config->getValue('mailfrom');
+		$fromname = $config->getValue('fromname');
+		$user = JFactory::getUser();
+
 
 		if (USE_AS_CATALOG)
 		{
@@ -125,11 +132,10 @@ class redshopMail
 		$message = $this->_carthelper->replaceOrderTemplate($row, $message);
 		$rowitem = $this->_order_functions->getOrderItemDetail($order_id);
 
-		$manufacturer_email   = array();
-		$supplier_email       = array();
-		$reddesign_msg        = array();
+		$manufacturer_email = array();
+		$supplier_email = array();
 		$reddesign_attachment = array();
-		$cartArr              = array();
+		$cartArr = array();
 
 		$cart_mdata           = '';
 
@@ -231,35 +237,7 @@ class redshopMail
 		$replace_sub[] = $redconfig->convertDateFormat($row->cdate);
 		$subject       = str_replace($search_sub, $replace_sub, $subject);
 
-		if ($reddesign)
-		{
-			$mailbcc  = null;
-			$mailinfo = $this->getMailtemplate(0, "redDesign_mail");
-			$message  = $mailinfo[0]->mail_body;
-			$subject  = html_entity_decode($mailinfo[0]->mail_subject, ENT_QUOTES);
-
-			if (trim($mailinfo[0]->mail_bcc) != "")
-			{
-				$mailbcc = explode(",", $mailinfo[0]->mail_bcc);
-			}
-
-			$message = $this->_carthelper->replaceredDesignmail($order_id, $message, $reddesign_attachment);
-			$subject = str_replace("{order_id}", $order_id, $subject);
-
-			// Get all super administrator
-			$rowsadminlist = $this->_redhelper->getselectedAdminlist();
-
-			for ($ri = 0; $ri < count($rowsadminlist); $ri++)
-			{
-				if ($rowsadminlist[$ri]->email != "")
-				{
-					JUtility::sendMail($from, $fromname, $rowsadminlist[$ri]->email, $subject, $message, 1, null, $mailbcc, $reddesign_attachment);
-				}
-			}
-		}
-
 		// Send the e-mail
-
 		if ($email != "")
 		{
 			$mailbcc = array();
@@ -2041,18 +2019,6 @@ class redshopMail
 		}
 
 		return true;
-	}
-
-	public function getReddesignOrderItem($order_item_id)
-	{
-		$query = 'SELECT * ' .
-			'FROM #__reddesign_order ' .
-			'WHERE order_item_id="' . $order_item_id . '" ';
-
-		$this->_db->setQuery($query);
-		$list = $this->_db->loadObject();
-
-		return $list;
 	}
 
 	public function sendRequestTaxExemptMail($data, $username = "")

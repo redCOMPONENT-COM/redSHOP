@@ -1,3 +1,5 @@
+		$this->assignRef('detail', $detail);
+		$this->assignRef('request_url', $uri);
 <?php
 /**
  * @package     RedSHOP.Backend
@@ -15,7 +17,7 @@ class shipping_detailViewshipping_detail extends JView
 {
 	public function display($tpl = null)
 	{
-		$uri = JFactory::getURI();
+		$uri = JFactory::getURI()->toString();
 		$this->setLayout('default');
 		$lists = array();
 		$detail = $this->get('data');
@@ -31,7 +33,7 @@ class shipping_detailViewshipping_detail extends JView
 
 		if (file_exists($shippingcfg))
 		{
-			include_once ($shippingcfg);
+			include_once $shippingcfg;
 		}
 
 		$myparams = new JRegistry($detail->params, $shippingpath);

@@ -548,103 +548,22 @@ class redhelper
 	}
 
 	/**
-	 * Check That reddesign is installed or not
+	 * Water mark image.
+	 *
+	 *  @param   string  $mtype             Comment.
+	 *  @param   string  $Imagename         Comment.
+	 *  @param   string  $thumb_width       Comment.
+	 *  @param   string  $thumb_height      Comment.
+	 *  @param   string  $enable_watermart  Comment.
+	 *  @param   int     $add_img           Comment.
+	 *
+	 * @return string
 	 */
-	public function CheckIfRedDesign()
-	{
-		$query = "SELECT extension_id FROM `#__extensions` WHERE `element` LIKE '%com_reddesign%'";
-		$this->_db->setQuery($query);
-
-		return $this->_db->loadResult();
-	}
-
-	/*
-	 *  Get redDESIGN information from redDESIGN order table
-	 */
-	public function getRedDesignOrderInfo($order_item_id)
-	{
-		if ($this->CheckIfRedDesign())
-		{
-			$query = "SELECT * FROM  #__reddesign_order WHERE order_item_id =" . $order_item_id;
-			$this->_db->setQuery($query);
-
-			return $this->_db->loadObject();
-		}
-	}
-
-	/**
-	 * Check That reddesigh is assigned to product or not & only redirect if user belongs to that shopper.
-	 */
-	public function CheckIfRedProduct($product_id)
-	{
-		$userhelper = new rsUserhelper;
-
-		$query = "SELECT * FROM `#__reddesign_redshop` WHERE `product_id` = '" . $product_id . "' AND reddesign_enable = '1' ";
-		$this->_db->setQuery($query);
-		$redproinfo = $this->_db->loadObjectList();
-
-		if (count($redproinfo) > 0)
-		{
-			$progrouplist = explode(",", $redproinfo[0]->shoppergroups);
-			$usershopper  = $userhelper->getShopperGroup();
-
-			if (in_array($usershopper, $progrouplist))
-			{
-				return $redproinfo;
-			}
-		}
-
-		return false;
-	}
-
-	public function getDesignType($id)
-	{
-		$query = "SELECT * FROM #__reddesign_designtype "
-			. "WHERE designtype_id = " . $id;
-		$this->_db->setQuery($query);
-
-		return $this->_db->loadObject();
-	}
-
-	public function getDesignTypeTemplate($tempid)
-	{
-		$query = "SELECT template_desc FROM #__reddesign_template "
-			. "WHERE template_id = " . $tempid;
-		$this->_db->setQuery($query);
-
-		return $this->_db->loadResult();
-	}
-
-	public function getImagePath($image_id)
-	{
-		$query = "SELECT image_name FROM #__reddesign_image "
-			. "WHERE image_id = " . $image_id;
-		$this->_db->setQuery($query);
-
-		return $this->_db->loadResult();
-	}
-
-	public function getselectedAdminlist()
-	{
-		$Query = "SELECT u.id,u.name,u.email FROM #__users AS u,#__reddesign_config AS c WHERE find_in_set(u.id, c.send_user_mail )";
-		$this->_db->setQuery($Query);
-
-		return $this->_db->loadObjectlist();
-	}
-
-	// Reddesign end
-
-	/*
-	 * Water mark image
-	 * $mtype = media type product,category.manufacture etc
-	 * $filename = image name
-	*/
 	public function watermark($mtype, $Imagename = '', $thumb_width = '', $thumb_height = '', $enable_watermart = WATERMARK_PRODUCT_IMAGE, $add_img = 0)
 	{
 		require_once JPATH_ROOT . '/administrator/components/com_redshop/helpers/images.php';
 
 		$url    = JURI::root();
-		$option = 'com_redshop';
 
 		/*
 		 * IF watermark is not enable
