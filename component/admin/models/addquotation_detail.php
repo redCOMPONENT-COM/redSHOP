@@ -121,6 +121,11 @@ class addquotation_detailModeladdquotation_detail extends JModel
 
 		$row = $this->getTable('quotation_detail');
 
+		if ($data['quotation_discount'] > 0)
+		{
+			$data['order_total'] = $data['order_total'] - $data['quotation_discount'] - (($data['order_total'] * $data['quotation_special_discount']) / 100);
+		}
+
 		$data['quotation_number'] = $quotationHelper->generateQuotationNumber();
 		$data['quotation_encrkey'] = $quotationHelper->randomQuotationEncrkey();
 		$data['quotation_cdate'] = time();
@@ -608,7 +613,6 @@ class addquotation_detailModeladdquotation_detail extends JModel
 			$lists ['subproperty_id'] = $chklist;
 
 			$attributelist .= "<tr><td>" . urldecode($subproperty[0]->property_name) . " : " . $lists ['subproperty_id'];
-
 		}
 
 		return $attributelist;
