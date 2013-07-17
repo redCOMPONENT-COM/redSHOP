@@ -1,3 +1,5 @@
+		$this->assignRef('lists', $lists);
+		$this->assignRef('request_url', $uri);
 <?php
 /**
  * @package     RedSHOP.Backend
@@ -17,9 +19,8 @@ class state_detailVIEWstate_detail extends JView
 	{
 		JToolBarHelper::title(JText::_('COM_REDSHOP_STATE_DETAIL'), 'redshop_region_48');
 
-		$uri      = JFactory::getURI();
+		$uri      = JFactory::getURI()->toString();
 		$app      = JFactory::getApplication();
-		$document = JFactory::getDocument();
 		$user     = JFactory::getUser();
 
 		$model = $this->getModel('state_detail');
@@ -47,14 +48,10 @@ class state_detailVIEWstate_detail extends JView
 		$countries = $db->loadObjectList();
 		$countries = $redhelper->convertLanguageString($countries);
 
+		$temps[0] = new stdClass;
 		$temps[0]->value = "0";
 		$temps[0]->text = JText::_('COM_REDSHOP_SELECT');
 		$countries = @array_merge($temps, $countries);
-		$country_list = explode(',', COUNTRY_LIST);
-
-		$tmp = new stdClass;
-		$tmp = @array_merge($tmp, $country_list);
-
 
 		$lists['country_id'] = JHTML::_('select.genericlist', $countries, 'country_id', 'class="inputbox" size="1" ',
 			'value', 'text', $detail->country_id

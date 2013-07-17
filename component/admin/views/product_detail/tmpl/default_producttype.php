@@ -24,65 +24,7 @@ $td_style = ($this->detail->product_download_infinite == 0) ? 'style="display:ta
 ?>
 <div id="div_product" style="display:<?php echo $div_product; ?>;">
 </div>
-<div id="div_design" style="display:<?php echo $div_design; ?>;">
-	<?php
-	// reddesign
-	if ($this->CheckRedDesign > 0)
-	{
-		?>
-		<table>
-			<tr>
-				<td><?php echo JText::_('COM_REDSHOP_REDDESIGN_NAME'); ?> </td>
-				<td><?php echo $this->lists['designlist']; ?><?php echo JHTML::tooltip(JText::_('COM_REDSHOP_REDDESIGN_TIP'), JText::_('COM_REDSHOP_REDDESIGN_NAME'), 'tooltip.png', '', '', false); ?> </td>
-			</tr>
-			<tr>
-				<td><?php echo JText::_('COM_REDSHOP_SHOPPERGROUP_NAME'); ?> </td>
-				<td>
-					<table>
-						<tr>
-							<td><?php
-								//var_dump($this->lists['product_designtype'][0]->shoppergroups);
-								//var_dump($this->lists['shoppergrouplist']);
-
-								$selectedarray = explode(",", $this->lists['product_designtype'][0]->shoppergroups);
-
-								for ($i = 0; $i < count($this->lists['shoppergrouplist']); $i++)
-								{
-
-									if (in_array($this->lists['shoppergrouplist'][$i]->shopper_group_id, $selectedarray))
-									{
-										$checked = 'checked="checked"';
-									}
-									else
-									{
-										$checked = '';
-									}
-									//echo  "\n\t<input type=\"radio\" name=\"$name\" id=\"$id_text$k\" value=\"".$k."\"$extra $attribs />";
-									echo '<input type="checkbox" ' . $checked . '  name="shoppergroup[]" id="shoppergroup' . $this->lists['shoppergrouplist'][$i]->shopper_group_id . '" value="' . $this->lists['shoppergrouplist'][$i]->shopper_group_id . '" /> ' . $this->lists['shoppergrouplist'][$i]->shopper_group_name . "<br/>";
-									//$optiondtype[] = JHTML::_('select.option', $designtype[$i]->designtype_id,$designtype[$i]->designtype_name);
-
-								}
-								?>
-							</td>
-							<td>
-								<?php echo JHTML::tooltip(JText::_('COM_REDSHOP_SHOPPERGROUP_TIP'), JText::_('COM_REDSHOP_SHOPPERGROUP_NAME'), 'tooltip.png', '', '', false); ?>
-							</td>
-						</tr>
-					</table>
-				</td>
-			</tr>
-			<?php // Edited 210110 ?>
-			<tr>
-				<td><?php echo JText::_('COM_REDSHOP_REDDESIGN_ENABLE_NAME'); ?> </td>
-				<td><?php echo $this->lists['reddesign_enable']; ?><?php echo JHTML::tooltip(JText::_('COM_REDSHOP_REDDESIGN_ENABLE_TIP'), JText::_('COM_REDSHOP_REDDESIGN_ENABLE_NAME'), 'tooltip.png', '', '', false); ?>  </td>
-			</tr>
-		</table>
-	<?php
-	}
-	// reddesign End
-	?>
-</div>
-<?php // subscription
+<?php // Subscription
 $subscription = $producthelper->getSubscription($this->detail->product_id);
 $renewal_detail = $this->model->getSubscriptionrenewal();
 $productSerialDetail = $this->productSerialDetail;

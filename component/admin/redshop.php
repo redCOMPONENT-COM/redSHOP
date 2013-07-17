@@ -16,12 +16,6 @@
  */
 	defined('_JEXEC') or die ('Restricted access');
 
-	// Reddesign
-	if (JRequest::getVar('task', '') == 'downloaddesign')
-	{
-		error_reporting(0);
-	}
-
 	$app = JFactory::getApplication();
 
 	$configpath = JPATH_COMPONENT . '/helpers/redshop.cfg.php';
