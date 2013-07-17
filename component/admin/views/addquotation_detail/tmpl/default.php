@@ -10,13 +10,9 @@ defined('_JEXEC') or die;
 JHTML::_('behavior.tooltip');
 JHTML::_('behavior.modal');
 
-$option = JRequest::getVar('option');
+$option  = JRequest::getVar('option');
 $billing = $this->billing;
 
-//$session =& JFactory::getSession();
-//$session->set('ordervolume',0);
-//$session->set('ordertotal',0);
-//$guestuser = JRequest::getvar('uid','');
 if ($this->detail->user_id < 0)
 {
 	$style = "none";
@@ -172,8 +168,10 @@ else
 		//	submitform( 'save' );
 	}
 </script>
-<?php if (!JRequest::getvar('ajaxtask'))
-{ ?>
+<?php
+if (!JRequest::getvar('ajaxtask'))
+{
+	?>
 <form action="<?php echo JRoute::_($this->request_url) ?>" method="post" name="adminForm" id="adminForm">
 	<table border="0" cellspacing="0" cellpadding="0" class="adminlist">
 		<tbody>
@@ -183,9 +181,7 @@ else
 					<tbody>
 					<tr>
 						<td width="100" align="right"><?php echo JText::_('COM_REDSHOP_SELECT_USER'); ?>:</td>
-						<td><?php echo $this->lists['userlist']; ?>
-							<!-- <a href="<?php echo JRoute::_('index.php?option='.$option.'&view=addquotation_detail&user_id=0&uid=add');?>"><?php echo JText::_('COM_REDSHOP_ADD_USER');?></a> -->
-						</td>
+						<td><?php echo $this->lists['userlist']; ?></td>
 					</tr>
 					</tbody>
 				</table>
@@ -193,7 +189,8 @@ else
 		</tr>
 		<tr>
 			<td id="userinforesult">
-				<?php }
+				<?php
+}
 				?>
 				<table width="100%" class="adminlist">
 					<tbody>
@@ -248,8 +245,10 @@ else
 					<input type="hidden" name="users_info_id" value="<?php echo $billing->users_info_id; ?>"/>
 					</tbody>
 				</table>
-				<?php    if ($this->detail->user_id <= 0)
-				{ ?>
+				<?php
+				if ($this->detail->user_id <= 0)
+				{
+					?>
 					<table id="tblcreat" style="display:<?php echo $style; ?>;">
 						<tr>
 							<td width="100" align="right" class="key"><?php echo JText::_('COM_REDSHOP_USERNAME'); ?>:
@@ -273,11 +272,15 @@ else
 					</table>
 				<?php
 				}
+
 				if (JRequest::getvar('ajaxtask') == "getuser")
 				{
 					die();
 				}
-				if(!JRequest::getvar('ajaxtask')) {    ?>
+
+				if (!JRequest::getvar('ajaxtask'))
+				{
+				?>
 			</td>
 		</tr>
 		<tr>
@@ -380,6 +383,36 @@ else
 							<table width="100%" border="0" cellspacing="0" cellpadding="0" class="adminlist">
 								<tbody>
 								<tr align="left">
+									<td align="right" width="85%">
+										<strong><?php echo JText::_('COM_REDSHOP_QUOTATION_DISCOUNT'); ?></strong></td>
+									<td align="right">
+
+										<div id="divMainDiscount" style="float: right;">
+
+
+											<div style="float: right;">
+												<input type="text" name="quotation_discount" size='10' value=""
+												       id="quotation_discount" onchange="calculateOfflineTotal();"/>
+												&nbsp;&nbsp;&nbsp;&nbsp;</div>
+									</td>
+								</tr>
+								<tr align="left">
+									<td align="right" width="85%">
+										<strong><?php echo JText::_('COM_REDSHOP_QUOTATION_SPECIAL_DISCOUNT'); ?></strong>
+									</td>
+									<td align="right">
+
+										<div id="divMainSpecialDiscount" style="float: right;">
+
+										</div>
+										<div style="float: right;">
+											<input type="text" name="quotation_special_discount" size='10' value=""
+											       id="quotation_special_discount"
+											       onchange="calculateQuotationTotal();"/>
+											%&nbsp;&nbsp;&nbsp;</div>
+									</td>
+								</tr>
+								<tr align="left">
 									<td align="right" width="70%">
 										<strong><?php echo JText::_('COM_REDSHOP_QUOTATION_SUBTOTAL'); ?>:</strong></td>
 									<td align="right" width="30%">
@@ -426,7 +459,9 @@ else
 	<input type="hidden" name="view" value="addquotation_detail"/>
 </form>
 	<div id="divCalc"></div>
-<?php } ?>
+<?php
+}
+?>
 <script type="text/javascript">
 	var productoptions = {
 		script: "index.php?option=com_redshop&view=search&isproduct=1&tmpl=component&json=true&",
