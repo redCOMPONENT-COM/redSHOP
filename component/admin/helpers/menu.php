@@ -97,9 +97,7 @@ class leftmenu
 			case "orderstatus_detail":
 			case "opsearch":
 			case "barcode":
-			case "orderreddesign":
 
-				// Reddesign
 				$selected = 4;
 				break;
 
@@ -487,25 +485,6 @@ class leftmenu
 						. JText::_('COM_REDSHOP_BARCODE_ORDER') . '</a>'; ?>
 				</td>
 			</tr>
-		<?php
-			// RedDesign
-			require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/helper.php';
-			$reddesignhelper = new reddesignhelper;
-			$CheckRedDesign  = $reddesignhelper->CheckIfRedDesign();
-
-			if ($CheckRedDesign)
-			{
-		?>
-				<tr>
-					<td><?php
-						$link = 'index.php?option=com_redshop&view=orderreddesign';
-						echo '<a href="' . $link . '" title="' . JText::_('COM_REDSHOP_REDDESIGN_ORDER_LISTING') . '">' . JText::_('COM_REDSHOP_REDDESIGN_ORDER_LISTING') . '</a>'; ?>
-					</td>
-				</tr>
-		<?php
-			}
-		?>
-
 		</table>
 		<?php
 		echo $pane->endPanel();
