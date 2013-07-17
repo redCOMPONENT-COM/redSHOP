@@ -9,11 +9,11 @@
 
 jimport('joomla.filesystem.file');
 
-require_once JPATH_ROOT . '/components/com_redshop/helpers/product.php';
-require_once JPATH_ROOT . '/components/com_redshop/helpers/helper.php';
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/order.php';
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/shipping.php';
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/stockroom.php';
+JLoader::import('product', JPATH_SITE . '/components/com_redshop/helpers');
+JLoader::import('helper', JPATH_SITE . '/components/com_redshop/helpers');
+JLoader::import('order', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
+JLoader::import('shipping', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
+JLoader::import('stockroom', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
 
 class economic
 {

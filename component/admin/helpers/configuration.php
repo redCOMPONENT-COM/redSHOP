@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-require_once JPATH_SITE . '/components/com_redshop/helpers/user.php';
+JLoader::import('user', JPATH_SITE . '/components/com_redshop/helpers');
 
 class Redconfiguration
 {

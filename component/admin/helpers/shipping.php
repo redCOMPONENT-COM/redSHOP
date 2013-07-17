@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-include_once (JPATH_SITE . '/components/com_redshop/helpers/product.php');
+JLoader::import('product', JPATH_SITE . '/components/com_redshop/helpers');
 
 class shipping
 {
@@ -315,7 +315,7 @@ class shipping
 				$pwhere    .= ")";
 				$newpwhere = str_replace("AND (", "OR (", $pwhere);
 				$sql       = "SELECT * FROM " . $this->_table_prefix . "shipping_rate as sr "
-							. "LEFT JOIN #__extensions AS s ON sr.shipping_class = s.element
+					. "LEFT JOIN #__extensions AS s ON sr.shipping_class = s.element
 		 	     				 WHERE s.folder='redshop_shipping' and s.enabled =1  and  $wherecountry
 								 $iswhere
 								 AND ((shipping_rate_volume_start <= '$volume' AND  shipping_rate_volume_end >= '$volume') OR (shipping_rate_volume_end = 0) )
@@ -1432,17 +1432,17 @@ class shipping
 					$length_q[$i] = $data->product_length * $cart [$i] ['quantity'];
 					$width_q[$i]  = $data->product_width;
 					$height_q[$i] = $data->product_height;
-				break;
+					break;
 				case 1:
 					$length_q[$i] = $data->product_length;
 					$width_q[$i]  = $data->product_width * $cart [$i] ['quantity'];
 					$height_q[$i] = $data->product_height;
-				break;
+					break;
 				case 2:
 					$length_q[$i] = $data->product_length;
 					$width_q[$i]  = $data->product_width;
 					$height_q[$i] = $data->product_height * $cart [$i] ['quantity'];
-				break;
+					break;
 			}
 		}
 
