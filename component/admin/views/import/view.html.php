@@ -30,7 +30,6 @@ class importViewimport extends JView
 			$this->check_vm = $check_vm;
 
 			$document->setTitle(JText::_('COM_REDSHOP_IMPORT_FROM_VM'));
-
 		}
 		else
 		{
@@ -40,22 +39,22 @@ class importViewimport extends JView
 			{
 				$this->setLayout($layout);
 			}
-			$task = JRequest::getVar('task');
+
+			$task   = JRequest::getVar('task');
+			$result = '';
 
 			if ($task == 'importfile')
 			{
-				/* Load the data to export */
+				// Load the data to export
 				$result = $this->get('Data');
 			}
+
+			$this->result = $result;
 
 			$document->setTitle(JText::_('COM_REDSHOP_IMPORT'));
 
 			JToolBarHelper::title(JText::_('COM_REDSHOP_IMPORT_MANAGEMENT'), 'redshop_import48');
-			JToolBarHelper::custom('importfile', 'redshop_import_import32.png',
-				JText::_('COM_REDSHOP_IMPORT'), JText::_('COM_REDSHOP_IMPORT'), false, false
-			);
-
-			$this->result = $result;
+			JToolBarHelper::custom('importfile', 'redshop_import_import32.png', JText::_('COM_REDSHOP_IMPORT'), JText::_('COM_REDSHOP_IMPORT'), false, false);
 		}
 
 		parent::display($tpl);
