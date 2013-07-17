@@ -1377,20 +1377,31 @@ class importModelimport extends JModel
 							$field_name_value = $rawdata['field_name'];
 
 							// Get field id
-							$query = "SELECT `field_id` FROM `" . $this->_table_prefix . "fields` WHERE `field_id` = '" . $field_id . "'";
+							$query = $this->_db->getQuery(true)
+										->select('field_id')
+										->from($this->_db->quoteName('#__redshop_fields'))
+										->where($this->_db->quoteName('field_id') . ' = ' . $this->_db->quote($field_id));
 							$this->_db->setQuery($query);
 							$field_id_dv = $this->_db->loadResult();
 
 							$field_title = $rawdata['field_title'];
 							$field_name = $rawdata['field_name_field'];
 
-							$query = "SELECT `data_id` FROM `" . $this->_table_prefix . "fields_data` WHERE `fieldid` = "
-								. $field_id . " AND `data_id` = " . $data_id;
+							// Get Data Id
+							$query = $this->_db->getQuery(true)
+										->select('data_id')
+										->from($this->_db->quoteName('#__redshop_fields_data'))
+										->where($this->_db->quoteName('fieldid') . ' = ' . $this->_db->quote($field_id))
+										->where($this->_db->quoteName('data_id') . ' = ' . $this->_db->quote($data_id));
 							$this->_db->setQuery($query);
 							$ch_data_id = $this->_db->loadResult();
 
-							$query = "SELECT `value_id` FROM `" . $this->_table_prefix . "fields_value` WHERE `field_id` = "
-								. $field_id . " AND `value_id` = " . $value_id;
+							// Get Value Id
+							$query = $this->_db->getQuery(true)
+										->select('value_id')
+										->from($this->_db->quoteName('#__redshop_fields_value'))
+										->where($this->_db->quoteName('field_id') . ' = ' . $this->_db->quote($field_id))
+										->where($this->_db->quoteName('value_id') . ' = ' . $this->_db->quote($value_id));
 							$this->_db->setQuery($query);
 							$ch_value_id = $this->_db->loadResult();
 
