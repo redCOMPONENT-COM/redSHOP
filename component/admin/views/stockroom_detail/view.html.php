@@ -113,8 +113,8 @@ class stockroom_detailVIEWstockroom_detail extends JView
 				$yes = JText::_('COM_REDSHOP_DAYS'), $no = JText::_('COM_REDSHOP_WEEKS')
 			);
 
-			$this->assignRef('booleanlist', $booleanlist);
-			$this->assignRef('detail', $detail);
+			$this->booleanlist = $booleanlist;
+			$this->detail = $detail;
 		}
 
 		$this->lists       = $lists;

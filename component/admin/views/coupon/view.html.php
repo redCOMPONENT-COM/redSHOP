@@ -56,9 +56,9 @@ class couponViewcoupon extends JView
 		$pagination = $this->get('Pagination');
 
 		$this->user = JFactory::getUser();
-		$this->assignRef('lists', $lists);
-		$this->assignRef('coupons', $coupons);
-		$this->assignRef('pagination', $pagination);
+		$this->lists = $lists;
+		$this->coupons = $coupons;
+		$this->pagination = $pagination;
 		$this->request_url = $uri->toString();
 
 		parent::display($tpl);

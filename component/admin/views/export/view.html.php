@@ -49,7 +49,7 @@ class ExportViewexport extends JView
 		$manufacturers = $model->getmanufacturers();
 		$lists['manufacturers'] = JHTML::_('select.genericlist', $manufacturers, 'manufacturer_id[]', 'class="inputbox"  multiple="multiple"  size="10" style="width: 250px;"> ', 'value', 'text', 0);
 
-		$this->assignRef('lists', $lists);
+		$this->lists = $lists;
 
 		parent::display($tpl);
 	}

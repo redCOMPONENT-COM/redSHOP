@@ -28,7 +28,7 @@ class giftcard_detailVIEWgiftcard_detail extends JView
 
 		jimport('joomla.html.pane');
 		$pane = JPane::getInstance('sliders');
-		$this->assignRef('pane', $pane);
+		$this->pane = $pane;
 
 		$this->setLayout('default');
 
@@ -69,8 +69,8 @@ class giftcard_detailVIEWgiftcard_detail extends JView
 			);
 		}
 
-		$this->assignRef('lists', $lists);
-		$this->assignRef('detail', $detail);
+		$this->lists = $lists;
+		$this->detail = $detail;
 		$this->request_url = $uri->toString();
 
 		parent::display($tpl);

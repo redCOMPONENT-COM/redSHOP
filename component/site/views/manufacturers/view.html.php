@@ -244,11 +244,11 @@ class manufacturersViewmanufacturers extends JView
 
 		$pagination = $this->get('Pagination');
 
-		$this->assignRef('detail', $detail);
-		$this->assignRef('lists', $lists);
-		$this->assignRef('pagination', $pagination);
-		$this->assignRef('pageheadingtag', $pageheadingtag);
-		$this->assignRef('params', $params);
+		$this->detail = $detail;
+		$this->lists = $lists;
+		$this->pagination = $pagination;
+		$this->pageheadingtag = $pageheadingtag;
+		$this->params = $params;
 		parent::display($tpl);
 	}
 }

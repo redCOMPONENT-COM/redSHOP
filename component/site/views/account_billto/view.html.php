@@ -68,10 +68,10 @@ class Account_billtoViewaccount_billto extends JView
 		$lists['extra_field_user']      = $extra_field->list_all_field(7, @$billingaddresses->users_info_id);
 		$lists['extra_field_company']   = $extra_field->list_all_field(8, @$billingaddresses->users_info_id);
 
-		$this->assignRef('lists', $lists);
-		$this->assignRef('billingaddresses', $billingaddresses);
-		$this->assignRef('request_url', $uri->toString());
-		$this->assignRef('params', $params);
+		$this->lists = $lists;
+		$this->billingaddresses = $billingaddresses;
+		$this->request_url = $uri->toString();
+		$this->params = $params;
 		parent::display($tpl);
 	}
 }

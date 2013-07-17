@@ -65,21 +65,6 @@ class productViewproduct extends JView
 		JHTML::Stylesheet('style.css', 'components/com_redshop/assets/css/');
 		JHTML::Stylesheet('scrollable-navig.css', 'components/com_redshop/assets/css/');
 
-		// Reddesign start
-		$CheckRedDesign = $redhelper->CheckIfRedDesign();
-
-		if ($CheckRedDesign)
-		{
-			$chkprodesign = $redhelper->CheckIfRedProduct($pid);
-
-			if ($chkprodesign)
-			{
-				$app->Redirect('index.php?option=' . $option . '&view=reddesign&pid=' . $pid . '&cid=' . $cid . '&Itemid=' . $Itemid);
-			}
-		}
-
-		// Reddesign end
-
 		if ($layout == "downloadproduct")
 		{
 			$this->setLayout('downloadproduct');
@@ -455,10 +440,10 @@ class productViewproduct extends JView
 
 		// Breadcrumb end
 
-		$this->assignRef('data', $data);
-		$this->assignRef('template', $productTemplate);
-		$this->assignRef('pageheadingtag', $pageheadingtag);
-		$this->assignRef('params', $params);
+		$this->data = $data;
+		$this->template = $productTemplate;
+		$this->pageheadingtag = $pageheadingtag;
+		$this->params = $params;
 
 		$for = JRequest::getWord("for", false);
 

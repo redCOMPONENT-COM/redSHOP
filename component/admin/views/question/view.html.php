@@ -1,3 +1,5 @@
+		$this->assignRef('pagination', $pagination);
+		$this->assignRef('request_url', $uri);
 <?php
 /**
  * @package     RedSHOP.Backend
@@ -17,7 +19,7 @@ class questionViewquestion extends JView
 	{
 		$context = 'question_id';
 
-		$uri      = JFactory::getURI();
+		$uri      = JFactory::getURI()->toString();
 		$app      = JFactory::getApplication();
 		$document = JFactory::getDocument();
 
@@ -44,6 +46,7 @@ class questionViewquestion extends JView
 
 		$option = $model->getProduct();
 		$optionsection = array();
+		$optionsection[0] = new stdClass;
 		$optionsection[0]->product_id = 0;
 		$optionsection[0]->product_name = JText::_('COM_REDSHOP_SELECT');
 
@@ -56,10 +59,10 @@ class questionViewquestion extends JView
 			'class="inputbox" size="1" onchange="document.adminForm.submit();"', 'product_id', 'product_name', $product_id
 		);
 
-		$this->assignRef('lists', $lists);
-		$this->assignRef('question', $question);
-		$this->assignRef('pagination', $pagination);
-		$this->assignRef('request_url', $uri->toString());
+		$this->lists = $lists;
+		$this->question = $question;
+		$this->pagination = $pagination;
+		$this->request_url = $uri->toString();
 
 		parent::display($tpl);
 	}

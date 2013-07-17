@@ -91,11 +91,11 @@ class newsletterViewnewsletter extends JView
 			'class="inputbox" multiple="multiple" size="8" ', 'value', 'text', $shoppergroup
 		);
 
-		$this->assignRef('subscribers', $subscribers);
-		$this->assignRef('lists', $lists);
-		$this->assignRef('newsletters', $newsletters);
-		$this->assignRef('pagination', $pagination);
-		$this->assignRef('request_url', $uri->toString());
+		$this->subscribers = $subscribers;
+		$this->lists = $lists;
+		$this->newsletters = $newsletters;
+		$this->pagination = $pagination;
+		$this->request_url = $uri->toString();
 
 		$this->setLayout('preview');
 

@@ -68,7 +68,7 @@ class payment_detailViewpayment_detail extends JView
 
 			$ps = new $detail->payment_class;
 
-			$this->assignRef('ps', $ps);
+			$this->ps = $ps;
 
 			if (file_exists($paymentcfg))
 			{
@@ -113,11 +113,11 @@ class payment_detailViewpayment_detail extends JView
 			'class="inputbox" onChange="hide_show_cclist(this.value);"', $detail->is_creditcard
 		);
 
-		$this->assignRef('params', $ret);
-		$this->assignRef('lists', $lists);
-		$this->assignRef('cc_list', $cc_list);
-		$this->assignRef('detail', $detail);
-		$this->assignRef('request_url', $uri->toString());
+		$this->params = $ret;
+		$this->lists = $lists;
+		$this->cc_list = $cc_list;
+		$this->detail = $detail;
+		$this->request_url = $uri->toString();
 
 		parent::display($tpl);
 	}

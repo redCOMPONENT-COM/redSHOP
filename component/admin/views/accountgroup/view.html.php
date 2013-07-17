@@ -40,10 +40,10 @@ class accountgroupViewaccountgroup extends JView
 		$total = $this->get('Total');
 		$pagination = $this->get('Pagination');
 
-		$this->assignRef('pagination', $pagination);
-		$this->assignRef('detail', $detail);
-		$this->assignRef('lists', $lists);
-		$this->assignRef('request_url', $uri->toString());
+		$this->pagination = $pagination;
+		$this->detail = $detail;
+		$this->lists = $lists;
+		$this->request_url = $uri->toString();
 
 		parent::display($tpl);
 	}
