@@ -10,8 +10,7 @@
 defined('_JEXEC') or die;
 
 JLoader::import('joomla.application.component.view');
-
-require_once JPATH_COMPONENT . '/helpers/helper.php';
+JLoader::import('helper', JPATH_SITE . '/components/com_redshop/helpers');
 
 class searchViewsearch extends JView
 {
@@ -121,13 +120,13 @@ class searchViewsearch extends JView
 		$search     = $this->get('Data');
 		$pagination = $this->get('Pagination');
 
-		$this->params = $params;
-		$this->limit = $model->getState('limit');
-		$this->lists = $lists;
-		$this->templatedata = $templatedata;
-		$this->search = $search;
-		$this->pagination = $pagination;
-		$this->request_url = $uri->toString();
+		$this->assignRef('params', $params);
+		$this->assignRef('limit', $model->getState('limit'));
+		$this->assignRef('lists', $lists);
+		$this->assignRef('templatedata', $templatedata);
+		$this->assignRef('search', $search);
+		$this->assignRef('pagination', $pagination);
+		$this->assignRef('request_url', $uri->toString());
 		parent::display($tpl);
 	}
 
@@ -139,11 +138,13 @@ class searchViewsearch extends JView
 		if (count($this->search) > 0)
 		{
 			$app = JFactory::getApplication();
+			$menu	= $app->getMenu();
+			$item	= $menu->getActive();
 
-			require_once JPATH_COMPONENT . '/helpers/product.php';
-			require_once JPATH_COMPONENT . '/helpers/pagination.php';
-			require_once JPATH_COMPONENT . '/helpers/extra_field.php';
-			require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/text_library.php';
+			JLoader::import('product', JPATH_COMPONENT . '/helpers');
+			JLoader::import('pagination', JPATH_COMPONENT . '/helpers');
+			JLoader::import('extra_field', JPATH_COMPONENT . '/helpers');
+			JLoader::import('text_library', JPATH_COMPONENT_ADMINISTRATOR . '/helpers');
 
 			$dispatcher       = JDispatcher::getInstance();
 			$redTemplate      = new Redtemplate;
@@ -152,6 +153,7 @@ class searchViewsearch extends JView
 			$extraField       = new extraField;
 			$texts            = new text_library;
 			$stockroomhelper  = new rsstockroomhelper;
+			$redhelper        = new redhelper;
 
 			$option      = JRequest::getCmd('option');
 			$Itemid      = JRequest::getInt('Itemid');
@@ -184,21 +186,22 @@ class searchViewsearch extends JView
 			JHTMLBehavior::modal();
 			$url = JURI::base();
 
-			if ($this->params->get('page_title') != "")
+			if ($item->params->get('page_title') != "")
 			{
-				$pagetitle = $this->params->get('page_title');
+				$pagetitle = $item->params->get('page_title');
 			}
 			else
 			{
 				$pagetitle = JText::_('COM_REDSHOP_SEARCH');
 			}
 
-			if ($this->params->get('show_page_heading', 1))
+			if ($item->params->get('show_page_heading', 1))
 			{
-				echo '<h1 class="componentheading' . $this->escape($this->params->get('pageclass_sfx')) . '">';
+				echo '<h1 class="componentheading' . $this->escape($item->params->get('pageclass_sfx')) . '">';
 				echo $pagetitle;
 				echo '</h1>';
 			}
+
 			echo '<div style="clear:both"></div>';
 			$category_tmpl = "";
 
@@ -282,6 +285,7 @@ class searchViewsearch extends JView
 			if (strstr($template_org, "{redproductfinderfilter:"))
 			{
 				$redProductFinerHelper = JPATH_SITE . "/components/com_redproductfinder/helpers/redproductfinder_helper.php";
+
 				if (file_exists($redProductFinerHelper))
 				{
 					include_once $redProductFinerHelper;
@@ -381,7 +385,8 @@ class searchViewsearch extends JView
 				}
 
 				$pro_s_desc = $Redconfiguration->maxchar($pro_s_desc, CATEGORY_PRODUCT_DESC_MAX_CHARS, CATEGORY_PRODUCT_DESC_END_SUFFIX);
-				$link       = JRoute::_('index.php?option=' . $option . '&view=product&pid=' . $this->search[$i]->product_id . '&Itemid=' . $Itemid);
+				$catItemId = $redhelper->getCategoryItemid($this->search[$i]->category_id);
+				$link       = JRoute::_('index.php?option=' . $option . '&view=product&pid=' . $this->search[$i]->product_id . '&cid=' . $this->search[$i]->category_id . '&Itemid=' . $catItemId);
 
 				if (strstr($template_desc, '{product_name}'))
 				{
