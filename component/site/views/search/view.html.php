@@ -358,6 +358,8 @@ class searchViewsearch extends JView
 			$tagarray = $texts->getTextLibraryTagArray();
 			$data     = "";
 
+			$fieldArray = $extraField->getSectionFieldList(17, 0, 0);
+
 			for ($i = 0; $i < count($this->search); $i++)
 			{
 				$data_add   = "";
@@ -625,7 +627,6 @@ class searchViewsearch extends JView
 
 				// ProductFinderDatepicker Extra Field Start
 
-				$fieldArray = $extraField->getSectionFieldList(17, 0, 0);
 				$data_add   = $producthelper->getProductFinderDatepickerValue($data_add, $this->search[$i]->product_id, $fieldArray);
 
 				// ProductFinderDatepicker Extra Field End
