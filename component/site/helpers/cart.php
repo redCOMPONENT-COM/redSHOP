@@ -2308,6 +2308,12 @@ class rsCarthelper
 		$sub_total_vat             = $cart ['sub_total_vat'];
 		$shipping                  = $cart ['shipping'];
 		$shippingVat               = $cart ['shipping_tax'];
+
+		if (isset($cart ['discount_type']) === false)
+		{
+			$cart ['discount_type'] = 0;
+		}
+
 		$check_type                = $cart ['discount_type'];
 		$chktotal                  = 0;
 		$tmp_discount              = $discount_total;
@@ -4860,9 +4866,21 @@ class rsCarthelper
 			$rowItem->cart_idx                = $i;
 			$rowItem->cart_id                 = $cart_id;
 			$rowItem->product_id              = $cart[$i]['product_id'];
+
+			if (isset($cart[$i]['giftcard_id']) === false)
+			{
+				$cart[$i]['giftcard_id'] = 0;
+			}
+
 			$rowItem->giftcard_id             = $cart[$i]['giftcard_id'];
 			$rowItem->product_quantity        = $cart[$i]['quantity'];
 			$rowItem->product_wrapper_id      = $cart[$i]['wrapper_id'];
+
+			if (isset($cart[$i]['subscription_id']) === false)
+			{
+				$cart[$i]['subscription_id'] = 0;
+			}
+
 			$rowItem->product_subscription_id = $cart[$i]['subscription_id'];
 
 			if (!$rowItem->store())
