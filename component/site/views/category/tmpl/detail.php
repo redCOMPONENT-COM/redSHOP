@@ -710,7 +710,7 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 		if (strstr($data_add, '{product_rating_summary}'))
 		{
 			// Product Review/Rating Fetching reviews
-			$final_avgreview_data = $producthelper->getProductRating($product->product_id);
+			$final_avgreview_data = $producthelper->getProductRating($product);
 			$data_add = str_replace("{product_rating_summary}", $final_avgreview_data, $data_add);
 		}
 

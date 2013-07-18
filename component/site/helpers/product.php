@@ -8497,24 +8497,38 @@ class producthelper
 		return $rs;
 	}
 
-	public function getProductRating($product_id)
+	public function getProductRating($product)
 	{
-		$url = JURI::base();
 		$avgratings = 0;
-		$query = "SELECT pr.* FROM " . $this->_table_prefix . "product_rating AS pr "
-			. "WHERE pr.product_id='" . $product_id . "' AND pr.published=1";
-		$this->_db->setQuery($query);
-		$allreviews = $this->_db->loadObjectList();
-		$totalreviews = count($allreviews);
-
-		$query = "SELECT SUM(user_rating) AS rating FROM " . $this->_table_prefix . "product_rating AS pr "
-			. "WHERE pr.product_id='" . $product_id . "' AND pr.published=1";
-		$this->_db->setQuery($query);
-		$totalratings = $this->_db->loadResult();
-
-		if ($totalreviews > 0)
+		if(is_object($product) && isset($product->advanced_query) && $product->advanced_query == '1')
 		{
-			$avgratings = $totalratings / $totalreviews;
+			if($product->count_rating > 0)
+			{
+				$avgratings = $product->sum_rating / $product->count_rating;
+			}
+		}
+		else
+		{
+			if(is_object($product))
+			{
+				$product_id = $product->product_id;
+			}
+			else
+			{
+				$product_id = $product;
+			}
+
+			$query = $this->_db->getQuery(true);
+			$query->select('COUNT(pr.rating_id) AS count_rating, SUM(user_rating) AS rating');
+			$query->from($this->_table_prefix . 'product_rating AS pr');
+			$query->where('pr.product_id = ' . (int)$product_id . ' AND pr.published = 1');
+			$this->_db->setQuery($query);
+			$result = $this->_db->loadObject();
+
+			if ($result && $result->count_rating > 0)
+			{
+				$avgratings = $result->rating / $result->count_rating;
+			}
 		}
 
 		$avgratings = round($avgratings);
