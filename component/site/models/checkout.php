@@ -640,9 +640,6 @@ class CheckoutModelCheckout extends JModel
 		$product_quantity    = "";
 		$product_total_price = "";
 
-		// Reddesign varialble
-		$reddesign = false;
-
 		for ($i = 0; $i < $idx; $i++)
 		{
 			// GiftCARD start
@@ -1191,18 +1188,6 @@ class CheckoutModelCheckout extends JModel
 					return false;
 				}
 			}
-
-			// Reddesign
-			if (@$cart[$i]['reddesign'] == "1")
-			{
-				$reddesign = true;
-				$query     = "INSERT INTO `#__reddesign_order` "
-					. "(order_id, product_id, reddesignfile, designhdnargs, image_id, order_item_id) "
-					. "VALUES "
-					. "('" . $order_id . "', '" . $cart[$i]['product_id'] . "', '" . $cart[$i]['reddesignfile'] . "', '" . addslashes($cart[$i]['designhdnargs']) . "'," . $cart[$i]['reddesign_image_id'] . "," . $rowitem->order_item_id . ")";
-				$db->setQuery($query);
-				$db->query();
-			}
 		}
 
 		$rowpayment = $this->getTable('order_payment');
@@ -1361,22 +1346,16 @@ class CheckoutModelCheckout extends JModel
 				}
 			}
 		}
+
 		// End Economic
-
-		$sendreddesignmail = 0;
-
-		if ($reddesign)
-		{
-			$sendreddesignmail = 1;
-		}
 
 		// Send the Order mail
 		if (!ORDER_MAIL_AFTER || (ORDER_MAIL_AFTER && $row->order_payment_status == "Paid"))
 		{
-			$this->_redshopMail->sendOrderMail($row->order_id, $sendreddesignmail);
+			$this->_redshopMail->sendOrderMail($row->order_id);
 		}
 
-		if($row->order_status=="C")
+		if($row->order_status == "C")
 		{
 			$this->_order_functions->SendDownload($row->order_id);
 		}

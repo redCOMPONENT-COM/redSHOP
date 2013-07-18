@@ -16,12 +16,6 @@
  */
 	defined('_JEXEC') or die ('Restricted access');
 
-	// Reddesign
-	if (JRequest::getVar('task', '') == 'downloaddesign')
-	{
-		error_reporting(0);
-	}
-
 	$app = JFactory::getApplication();
 
 	$configpath = JPATH_COMPONENT . '/helpers/redshop.cfg.php';
@@ -121,6 +115,7 @@
 		var PRICE_DECIMAL = '" . PRICE_DECIMAL . "';
 		var IS_REQUIRED = '" . JText::_('COM_REDSHOP_IS_REQUIRED') . "';
 		var THOUSAND_SEPERATOR = '" . THOUSAND_SEPERATOR . "';
+		var VAT_RATE_AFTER_DISCOUNT = '" . VAT_RATE_AFTER_DISCOUNT . "';
 	");
 
 	$document->addStyleSheet(JURI::root() . 'administrator/components/com_redshop/assets/css/redshop.css');

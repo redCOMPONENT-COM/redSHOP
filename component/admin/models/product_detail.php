@@ -906,33 +906,6 @@ class product_detailModelproduct_detail extends JModel
 			}
 		}
 
-		if ($this->CheckRedDesign())
-		{
-			$design_query = 'SELECT pa.product_id FROM #__reddesign_redshop as pa  WHERE pa.product_id = "' . $product_id . '" ';
-			$this->_db->setQuery($design_query);
-			$design_result = $this->_db->loadResult();
-
-			$shoppergroups = join(",", $_REQUEST['shoppergroup']);
-
-			if ($design_result > 0)
-			{
-				$query = "UPDATE #__reddesign_redshop SET designtype_id = '" . $_REQUEST['designtype'] . "',shoppergroups = '" . $shoppergroups . "',reddesign_enable = '" . $_REQUEST['reddesign_enable'] . "' WHERE product_id ='" . $product_id . "'  ";
-			}
-			else
-			{
-				$query = "insert into #__reddesign_redshop (product_id,designtype_id,shoppergroups,reddesign_enable) value ('" . $product_id . "','" . $_REQUEST['designtype'] . "','" . $shoppergroups . "','" . $_REQUEST['reddesign_enable'] . "')";
-			}
-
-			$this->_db->setQuery($query);
-
-			if (!$this->_db->query())
-			{
-				$this->setError($this->_db->getErrorMsg());
-
-				return false;
-			}
-		}
-
 		return $row;
 	}
 
@@ -2860,42 +2833,6 @@ class product_detailModelproduct_detail extends JModel
 		return true;
 	}
 
-	/**
-	 * Check That reddesign is installed or not
-	 */
-	public function CheckRedDesign()
-	{
-		$query = "SELECT extension_id FROM `#__extensions` WHERE `element` LIKE '%com_reddesign%'";
-		$this->_db->setQuery($query);
-
-		return $this->_db->loadResult();
-	}
-
-	/**
-	 * Get list of product related reddesign
-	 */
-	public function getProductDesignType($product_id)
-	{
-		$query = "SELECT * FROM `#__reddesign_redshop` WHERE `product_id` = '" . $product_id . "'";
-		$this->_db->setQuery($query);
-
-		return $this->_db->loadObjectList();
-	}
-
-	/**
-	 * Get list of all reddesigns
-	 */
-	public function getDesignType()
-	{
-		$query = "SELECT * FROM `#__reddesign_designtype` WHERE `published` = 1 ";
-		$this->_db->setQuery($query);
-
-		return $this->_db->loadObjectList();
-	}
-
-	/**
-	 *   reddesign End
-	 */
 	public function getVatGroup()
 	{
 		$query = "SELECT tg.tax_group_name as text, tg.tax_group_id as value FROM `" . $this->_table_prefix . "tax_group` as tg WHERE `published` = 1 ORDER BY tax_group_id ASC";
@@ -2903,7 +2840,6 @@ class product_detailModelproduct_detail extends JModel
 
 		return $this->_db->loadObjectList();
 	}
-
 
 	/*
 	 * save product ordering

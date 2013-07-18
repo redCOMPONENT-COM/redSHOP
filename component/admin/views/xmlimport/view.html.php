@@ -1,3 +1,5 @@
+		$this->assignRef('pagination', $pagination);
+		$this->assignRef('request_url', $uri);
 <?php
 /**
  * @package     RedSHOP.Backend
@@ -17,7 +19,7 @@ class xmlimportViewxmlimport extends JView
 	{
 		global $context;
 
-		$uri      = JFactory::getURI();
+		$uri      = JFactory::getURI()->toString();
 		$app      = JFactory::getApplication();
 		$document = JFactory::getDocument();
 
