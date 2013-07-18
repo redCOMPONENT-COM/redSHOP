@@ -377,6 +377,10 @@ class CategoryModelCategory extends JModel
 		$query->select('dp.discount_product_id AS dp_discount_product_id, dp.amount AS dp_amount, dp.condition AS dp_condition, dp.discount_amount AS dp_discount_amount, dp.discount_type AS dp_discount_type');
 		$query->leftJoin($this->_table_prefix . 'discount_product AS dp ON dp.published = 1 AND (dp.discount_product_id IN ("' . $discount_product_id . '") OR FIND_IN_SET("' . (int) $this->_id . '", dp.category_ids) ) AND dp.`start_date` <= ' . time() . ' AND dp.`end_date` >= ' . time() . ' AND dp.`discount_product_id` IN (SELECT `discount_product_id` FROM `' . $this->_table_prefix . 'discount_product_shoppers` WHERE `shopper_group_id` = "' . $shopperGroupId . '")');
 
+		// Select ratings
+		$query->select('(SELECT COUNT(pr1.rating_id) FROM ' . $this->_table_prefix . 'product_rating AS pr1 WHERE pr1.product_id = p.product_id AND pr1.published = 1) AS count_rating');
+		$query->select('(SELECT SUM(pr2.user_rating) FROM ' . $this->_table_prefix . 'product_rating AS pr2 WHERE pr2.product_id = p.product_id AND pr2.published = 1) AS sum_rating');
+
 		$query->where('p.published = 1');
 		$query->where('p.expired = 0');
 		$query->where('pc.category_id = ' . (int) $this->_id);

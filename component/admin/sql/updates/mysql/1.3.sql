@@ -44,3 +44,5 @@ ALTER IGNORE TABLE #__redshop_tax_rate ADD INDEX `tax_country` (`tax_country`);
 ALTER IGNORE TABLE #__redshop_tax_rate ADD INDEX `tax_state` (`tax_state`);
 
 ALTER IGNORE TABLE #__redshop_users_info ADD INDEX `address_type` (`address_type`);
+
+ALTER IGNORE TABLE #__redshop_product_rating ADD INDEX `published` (`published`);
