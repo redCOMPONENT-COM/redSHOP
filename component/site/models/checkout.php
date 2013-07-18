@@ -85,10 +85,18 @@ class CheckoutModelCheckout extends JModel
 
 		for ($i = 0; $i < $idx; $i++)
 		{
-			if (!is_null($cart [$i] ['giftcard_id']) && $cart [$i] ['giftcard_id'] != 0)
+			if (isset($cart[$i]['giftcard_id']) === true)
 			{
-				$noOFGIFTCARD++;
+				if (!is_null($cart[$i]['giftcard_id']) && $cart[$i]['giftcard_id'] != 0)
+				{
+					$noOFGIFTCARD++;
+				}
 			}
+		}
+
+		if (isset($cart['free_shipping']) === false)
+		{
+			$cart['free_shipping'] = 0;
 		}
 
 		if ($noOFGIFTCARD == $idx)
@@ -2239,6 +2247,12 @@ class CheckoutModelCheckout extends JModel
 		$shipping               = $cart ['shipping'];
 		$shippingVat            = $cart['shipping_tax'];
 		$tax                    = $cart['tax'];
+
+		if (isset($cart['discount']) === false)
+		{
+			$cart['discount'] = 0;
+		}
+
 		$discount_amount        = $cart['discount'];
 		$cart['payment_oprand'] = $payment_oprand;
 		$cart['payment_amount'] = $payment_amount;

@@ -2131,9 +2131,12 @@ class rsCarthelper
 
 			for ($i = 0; $i < $Idx; $i++)
 			{
-				if (!is_null($cart [$i] ['giftcard_id']) && $cart [$i] ['giftcard_id'] != 0)
+				if (isset($cart [$i] ['giftcard_id']) === true)
 				{
-					$noOFGIFTCARD++;
+					if (!is_null($cart [$i] ['giftcard_id']) && $cart [$i] ['giftcard_id'] != 0)
+					{
+						$noOFGIFTCARD++;
+					}
 				}
 			}
 
