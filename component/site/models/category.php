@@ -335,7 +335,7 @@ class CategoryModelCategory extends JModel
 		}
 
 		// Select fields product, category, manufacturer
-		$query->select('p.*, c.*, m.*');
+		$query->select(array('p.*', 'c.*', 'm.*'));
 
 		// Label from system about using advanced info about product
 		$query->select('1 as advanced_query');
@@ -350,13 +350,34 @@ class CategoryModelCategory extends JModel
 		$query->select('media.media_alternate_text AS alttext');
 
 		// Select advanced info price if exist
-		$query->select('p_price.price_id, p_price.product_price AS product_adv_price, p_price.product_currency AS product_adv_currency,  p_price.discount_price AS discount_adv_price, p_price.discount_start_date AS discount_adv_start_date, p_price.discount_end_date AS discount_adv_end_date');
+		$query->select(
+			array(
+				'p_price.price_id',
+				'p_price.product_price AS product_adv_price',
+				'p_price.product_currency AS product_adv_currency',
+				'p_price.discount_price AS discount_adv_price',
+				'p_price.discount_start_date AS discount_adv_start_date',
+				'p_price.discount_end_date AS discount_adv_end_date'
+			)
+		);
 
 		// Select template code about product
-		$query->select('tpl.template_id, tpl.template_desc, tpl.template_section, tpl.template_name');
+		$query->select(
+			array(
+				'tpl.template_id',
+				'tpl.template_desc',
+				'tpl.template_section',
+				'tpl.template_name'
+			)
+		);
 
 		// Select TAX info
-		$query->select('tr.*, tr.mdate AS tax_mdate');
+		$query->select(
+			array(
+				'tr.*',
+				'tr.mdate AS tax_mdate'
+			)
+		);
 
 		// Select product attributes
 		$query->select('(SELECT COUNT(att.attribute_id) FROM ' . $this->_table_prefix . 'product_attribute AS att WHERE att.product_id = p.product_id AND att.attribute_name != "" ) AS count_attribute_id');
@@ -381,11 +402,15 @@ class CategoryModelCategory extends JModel
 		$query->select('(SELECT COUNT(pr1.rating_id) FROM ' . $this->_table_prefix . 'product_rating AS pr1 WHERE pr1.product_id = p.product_id AND pr1.published = 1) AS count_rating');
 		$query->select('(SELECT SUM(pr2.user_rating) FROM ' . $this->_table_prefix . 'product_rating AS pr2 WHERE pr2.product_id = p.product_id AND pr2.published = 1) AS sum_rating');
 
-		$query->where('p.published = 1');
-		$query->where('p.expired = 0');
-		$query->where('pc.category_id = ' . (int) $this->_id);
-		$query->where('p.product_parent_id = 0');
-		$query->where('(media.section_id IS NULL OR media.section_id > 0)');
+		$query->where(
+			array(
+				'p.published = 1',
+				'p.expired = 0',
+				'pc.category_id = ' . (int) $this->_id,
+				'p.product_parent_id = 0',
+				'(media.section_id IS NULL OR media.section_id > 0)'
+			)
+		);
 
 		$query->group('p.product_id');
 
@@ -399,10 +424,14 @@ class CategoryModelCategory extends JModel
 		$queryCount->leftJoin($this->_table_prefix . 'product_category_xref AS pc ON pc.product_id = p.product_id');
 		$queryCount->leftJoin($this->_table_prefix . 'manufacturer AS m ON m.manufacturer_id = p.manufacturer_id');
 
-		$queryCount->where('p.published = 1');
-		$queryCount->where('p.expired = 0');
-		$queryCount->where('pc.category_id = ' . (int) $this->_id);
-		$queryCount->where('p.product_parent_id = 0');
+		$queryCount->where(
+			array(
+				'p.published = 1',
+				'p.expired = 0',
+				'pc.category_id = ' . (int) $this->_id,
+				'p.product_parent_id = 0'
+			)
+		);
 
 		// Using price slider or not
 		if ($minmax != 0 || $isSlider)
