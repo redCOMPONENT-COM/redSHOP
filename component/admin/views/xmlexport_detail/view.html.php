@@ -1,3 +1,5 @@
+		$this->assignRef('iparray', $iparray);
+		$this->assignRef('request_url', $uri);
 <?php
 /**
  * @package     RedSHOP.Backend
@@ -21,14 +23,14 @@ class xmlexport_detailVIEWxmlexport_detail extends JView
 
 		$option = JRequest::getVar('option');
 		$layout = JRequest::getVar('layout');
-		$xmlhelper = new xmlHelper();
+		$xmlhelper = new xmlHelper;
 		$session = JFactory::getSession();
 		$childelement = $session->get('childelement');
 		$document = JFactory::getDocument();
 		$document->setTitle(JText::_('COM_REDSHOP_xmlexport'));
 		$document->addScript('components/' . $option . '/assets/js/xmlfunc.js');
 
-		$uri = JFactory::getURI();
+		$uri = JFactory::getURI()->toString();
 		$lists = array();
 		$colvalue = array();
 		$model = $this->getModel();
@@ -54,6 +56,7 @@ class xmlexport_detailVIEWxmlexport_detail extends JView
 		{
 			JToolBarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
 		}
+
 		$section_typelist = $xmlhelper->getSectionTypeList();
 		$auto_sync_interval = $xmlhelper->getSynchIntervalList();
 		$columns = $xmlhelper->getSectionColumnList($detail->section_type, $parentsection);
@@ -71,6 +74,7 @@ class xmlexport_detailVIEWxmlexport_detail extends JView
 					$detail->element_name = $childelement[$parentsection][0];
 					$detail->xmlexport_filetag = $childelement[$parentsection][1];
 				}
+
 				$dbfield = $detail->xmlexport_filetag;
 				$dbchildname = $detail->element_name;
 				break;
@@ -80,6 +84,7 @@ class xmlexport_detailVIEWxmlexport_detail extends JView
 					$detail->stock_element_name = $childelement[$parentsection][0];
 					$detail->xmlexport_stocktag = $childelement[$parentsection][1];
 				}
+
 				$dbfield = $detail->xmlexport_stocktag;
 				$dbchildname = $detail->stock_element_name;
 				break;
@@ -89,6 +94,7 @@ class xmlexport_detailVIEWxmlexport_detail extends JView
 					$detail->billing_element_name = $childelement[$parentsection][0];
 					$detail->xmlexport_billingtag = $childelement[$parentsection][1];
 				}
+
 				$dbfield = $detail->xmlexport_billingtag;
 				$dbchildname = $detail->billing_element_name;
 				break;
@@ -98,6 +104,7 @@ class xmlexport_detailVIEWxmlexport_detail extends JView
 					$detail->shipping_element_name = $childelement[$parentsection][0];
 					$detail->xmlexport_shippingtag = $childelement[$parentsection][1];
 				}
+
 				$dbfield = $detail->xmlexport_shippingtag;
 				$dbchildname = $detail->shipping_element_name;
 				break;
@@ -107,6 +114,7 @@ class xmlexport_detailVIEWxmlexport_detail extends JView
 					$detail->orderitem_element_name = $childelement[$parentsection][0];
 					$detail->xmlexport_orderitemtag = $childelement[$parentsection][1];
 				}
+
 				$dbfield = $detail->xmlexport_orderitemtag;
 				$dbchildname = $detail->orderitem_element_name;
 				break;
@@ -116,6 +124,7 @@ class xmlexport_detailVIEWxmlexport_detail extends JView
 					$detail->prdextrafield_element_name = $childelement[$parentsection][0];
 					$detail->xmlexport_prdextrafieldtag = $childelement[$parentsection][1];
 				}
+
 				$dbfield = $detail->xmlexport_prdextrafieldtag;
 				$dbchildname = $detail->prdextrafield_element_name;
 				break;
