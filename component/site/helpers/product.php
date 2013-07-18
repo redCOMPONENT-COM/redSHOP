@@ -542,7 +542,7 @@ class producthelper
 			$user_id = $user->id;
 		}
 
-		$proinfo         = $this->getProductById($product_id);
+		$proinfo         = (object) $this->getProductById($product_id);
 		$tax_group_id    = 0;
 		$rs_user_info_id = 0;
 		$and             = 'AND tg.published= "1" ';
