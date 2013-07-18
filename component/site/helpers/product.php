@@ -66,6 +66,8 @@ class producthelper
 
 	public $_ProductSpecialId_discount_product_id = null;
 
+	protected $_ProductDateRange = '';
+
 	function __construct()
 	{
 		$this->_db = JFactory::getDBO();
@@ -9043,9 +9045,19 @@ class producthelper
 			return $isEnable;
 		}
 
-		$query = "select field_name,field_id from " . $this->_table_prefix . "fields where field_type=15";
-		$this->_db->setQuery($query);
-		$fieldData = $this->_db->loadObject();
+		if($this->_ProductDateRange === '')
+		{
+			$query = $this->_db->getQuery(true);
+			$query->select(array('field_name', 'field_id'));
+			$query->from($this->_table_prefix . 'fields');
+			$query->where('field_type = 15');
+			$this->_db->setQuery($query);
+			$fieldData = $this->_ProductDateRange = $this->_db->loadObject();
+		}
+		else
+		{
+			$fieldData = $this->_ProductDateRange;
+		}
 
 		if (count($fieldData) == 0)
 		{
