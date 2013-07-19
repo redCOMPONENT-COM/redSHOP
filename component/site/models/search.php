@@ -78,7 +78,6 @@ class searchModelsearch extends JModel
 		if (empty($this->_data))
 		{
 			$query = $this->_buildQuery($post);
-			$this->_db->setQuery($query);
 
 			$template = $this->getCategoryTemplet();
 
@@ -91,7 +90,7 @@ class searchModelsearch extends JModel
 			{
 				if (strstr($template[0]->template_desc, "{show_all_products_in_category}"))
 				{
-					$this->_data = $this->_getList($query);
+					$this->_db->setQuery($query);
 				}
 				elseif (strstr($template[0]->template_desc, "{pagination}"))
 				{
@@ -110,21 +109,28 @@ class searchModelsearch extends JModel
 						$this->setState('limit', $limit);
 					}
 
-					$this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
+					$this->_db->setQuery($query, $this->getState('limitstart'), $this->getState('productlimit'));
 				}
 				elseif ($this->getState('productlimit') > 0)
 				{
-					$this->_data = $this->_getList($query, $this->getState('limitstart'), $this->getState('productlimit'));
+					$this->_db->setQuery($query, $this->getState('limitstart'), $this->getState('productlimit'));
 				}
 				else
 				{
-					$this->_data = $this->_getList($query);
+					$this->_db->setQuery($query);
 				}
 			}
 			else
 			{
 				$this->_data = $this->_getList($query);
 			}
+
+			$this->_data = $this->_db->loadObjectList('product_id');
+
+			JLoader::import('category_static', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
+			StaticCategory::setProductSef($this->_data);
+
+			$this->_data = array_values($this->_data);
 		}
 
 		return $this->_data;
@@ -405,7 +411,7 @@ class searchModelsearch extends JModel
 			}
 
 			// Select fields product, category, manufacturer
-			$query->select('p.*, c.*, m.*');
+			$query->select(array('p.*', 'c.*', 'm.*'));
 
 			// Label from system about using advanced info about product
 			$query->select('1 as advanced_query');
@@ -420,16 +426,37 @@ class searchModelsearch extends JModel
 			$query->select('media.media_alternate_text AS alttext');
 
 			// Select advanced info price if exist
-			$query->select('p_price.price_id, p_price.product_price AS product_adv_price, p_price.product_currency AS product_adv_currency,  p_price.discount_price AS discount_adv_price, p_price.discount_start_date AS discount_adv_start_date, p_price.discount_end_date AS discount_adv_end_date');
+			$query->select(
+				array(
+					'p_price.price_id',
+					'p_price.product_price AS product_adv_price',
+					'p_price.product_currency AS product_adv_currency',
+					'p_price.discount_price AS discount_adv_price',
+					'p_price.discount_start_date AS discount_adv_start_date',
+					'p_price.discount_end_date AS discount_adv_end_date'
+				)
+			);
 
 			// Select template code about product
-			$query->select('tpl.template_id, tpl.template_desc, tpl.template_section, tpl.template_name');
+			$query->select(
+				array(
+					'tpl.template_id',
+					'tpl.template_desc',
+					'tpl.template_section',
+					'tpl.template_name'
+				)
+			);
 
 			// Select TAX info
-			$query->select('tr.*, tr.mdate AS tax_mdate');
+			$query->select(
+				array(
+					'tr.*',
+					'tr.mdate AS tax_mdate'
+				)
+			);
 
 			// Select product attributes
-			$query->select('(SELECT COUNT(att.attribute_id) FROM ' . $this->_table_prefix . 'product_attribute AS att WHERE att.product_id = p.product_id AND att.attribute_name != "" ) AS count_attribute_id');
+			$query->select('(SELECT GROUP_CONCAT(att.attribute_id SEPARATOR ",") FROM ' . $this->_table_prefix . 'product_attribute AS att WHERE att.product_id = p.product_id AND att.attribute_name != "" ) AS list_attribute_id');
 
 			$query->leftJoin($this->_table_prefix . 'product_category_xref AS pc ON pc.product_id = p.product_id');
 			$query->leftJoin($this->_table_prefix . 'category AS c ON c.category_id = pc.category_id');
@@ -461,9 +488,13 @@ class searchModelsearch extends JModel
 
 		$query->from($this->_table_prefix . 'product AS p');
 
-		$query->where('p.published = 1');
-		$query->where('p.expired = 0');
-		$query->where('p.product_parent_id = 0');
+		$query->where(
+			array(
+				'p.published = 1',
+				'p.expired = 0',
+				'p.product_parent_id = 0'
+			)
+		);
 
 		if ($layout == 'productonsale')
 		{
