@@ -1,5 +1,3 @@
-		$this->assignRef('pagination', $pagination);
-		$this->assignRef('request_url', $uri);
 <?php
 /**
  * @package     RedSHOP.Backend
@@ -89,7 +87,7 @@ class userViewuser extends JView
 		$this->lists = $lists;
 		$this->user = $user;
 		$this->pagination = $pagination;
-		$this->request_url = $uri->toString();
+		$this->request_url = $uri;
 
 		parent::display($tpl);
 	}
