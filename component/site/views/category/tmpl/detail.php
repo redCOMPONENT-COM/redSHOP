@@ -453,6 +453,7 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 
 	$extraFieldName = $extraField->getSectionFieldNameArray(1, 1, 1);
 	$product_data = '';
+	$producthelper->setProductAttributeArray();
 
 	foreach ($this->product AS $i => $product)
 	{
