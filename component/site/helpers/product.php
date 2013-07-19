@@ -17,6 +17,7 @@ JLoader::import('order', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers'
 JLoader::import('quotation', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
 JLoader::import('template', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
 JLoader::import('stockroom', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
+JLoader::import('category_static', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
 
 class producthelper
 {
@@ -65,6 +66,12 @@ class producthelper
 	public $_ProductSpecialId_FromUdserId = null;
 
 	public $_ProductSpecialId_discount_product_id = null;
+
+	protected $_ProductDateRange = '';
+
+	protected $_ProductAttributeArray = array();
+
+	protected $_ProductAttributePropertyArray = array();
 
 	function __construct()
 	{
@@ -3562,16 +3569,57 @@ class producthelper
 		return;
 	}
 
+	public function setProductAttributeArray()
+	{
+		$products = StaticCategory::$productInCat;
+		if(count($products) > 0)
+		{
+			$products_keys = implode(',', array_keys($products));
+			$query = $this->_db->getQuery(true);
+			$query
+				->select(
+					array(
+						'a.attribute_id AS value',
+						'a.attribute_name AS text',
+						'a.*',
+						'ast.attribute_set_name'
+					)
+				)
+				->from($this->_table_prefix . 'product_attribute AS a')
+				->leftJoin($this->_table_prefix . 'attribute_set AS ast ON ast.attribute_set_id = a.attribute_set_id')
+				->where(
+					array(
+						'a.attribute_name != ""',
+						'a.product_id IN (' . $products_keys . ')',
+						'a.attribute_published = 1'
+					)
+				)
+				->order('a.ordering ASC');
+			$this->_db->setQuery($query);
+			$this->_ProductAttributeArray = $this->_db->loadObjectlist('attribute_id');
+		}
+	}
+
 	public function getProductAttribute($product = 0, $attribute_set_id = 0, $attribute_id = 0, $published = 0, $attribute_required = 0, $notAttributeId = 0)
 	{
 		if (is_object($product) && isset($product->advanced_query) && $product->advanced_query == 1)
 		{
-			if (isset($product->count_attribute_id) && $product->count_attribute_id == 0)
+			if ($product->list_attribute_id === null)
 			{
-
 				return null;
 			}
-			$product_id = & $product->product_id;
+			else
+			{
+				$list_attribute_id = explode(',', $product->list_attribute_id);
+				$result = array();
+
+				foreach ($list_attribute_id as $one_attribute_id)
+				{
+					$result[] = $this->_ProductAttributeArray[$one_attribute_id];
+				}
+
+				return $result;
+			}
 		}
 		else
 		{
@@ -8497,24 +8545,38 @@ class producthelper
 		return $rs;
 	}
 
-	public function getProductRating($product_id)
+	public function getProductRating($product)
 	{
-		$url = JURI::base();
 		$avgratings = 0;
-		$query = "SELECT pr.* FROM " . $this->_table_prefix . "product_rating AS pr "
-			. "WHERE pr.product_id='" . $product_id . "' AND pr.published=1";
-		$this->_db->setQuery($query);
-		$allreviews = $this->_db->loadObjectList();
-		$totalreviews = count($allreviews);
-
-		$query = "SELECT SUM(user_rating) AS rating FROM " . $this->_table_prefix . "product_rating AS pr "
-			. "WHERE pr.product_id='" . $product_id . "' AND pr.published=1";
-		$this->_db->setQuery($query);
-		$totalratings = $this->_db->loadResult();
-
-		if ($totalreviews > 0)
+		if(is_object($product) && isset($product->advanced_query) && $product->advanced_query == '1')
 		{
-			$avgratings = $totalratings / $totalreviews;
+			if($product->count_rating > 0)
+			{
+				$avgratings = $product->sum_rating / $product->count_rating;
+			}
+		}
+		else
+		{
+			if(is_object($product))
+			{
+				$product_id = $product->product_id;
+			}
+			else
+			{
+				$product_id = $product;
+			}
+
+			$query = $this->_db->getQuery(true);
+			$query->select('COUNT(pr.rating_id) AS count_rating, SUM(user_rating) AS rating');
+			$query->from($this->_table_prefix . 'product_rating AS pr');
+			$query->where('pr.product_id = ' . (int)$product_id . ' AND pr.published = 1');
+			$this->_db->setQuery($query);
+			$result = $this->_db->loadObject();
+
+			if ($result && $result->count_rating > 0)
+			{
+				$avgratings = $result->rating / $result->count_rating;
+			}
 		}
 
 		$avgratings = round($avgratings);
@@ -9029,9 +9091,19 @@ class producthelper
 			return $isEnable;
 		}
 
-		$query = "select field_name,field_id from " . $this->_table_prefix . "fields where field_type=15";
-		$this->_db->setQuery($query);
-		$fieldData = $this->_db->loadObject();
+		if($this->_ProductDateRange === '')
+		{
+			$query = $this->_db->getQuery(true);
+			$query->select(array('field_name', 'field_id'));
+			$query->from($this->_table_prefix . 'fields');
+			$query->where('field_type = 15');
+			$this->_db->setQuery($query);
+			$fieldData = $this->_ProductDateRange = $this->_db->loadObject();
+		}
+		else
+		{
+			$fieldData = $this->_ProductDateRange;
+		}
 
 		if (count($fieldData) == 0)
 		{
