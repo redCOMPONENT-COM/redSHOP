@@ -359,6 +359,7 @@ class searchViewsearch extends JView
 			$data     = "";
 
 			$fieldArray = $extraField->getSectionFieldList(17, 0, 0);
+			$producthelper->setProductAttributeArray();
 
 			for ($i = 0; $i < count($this->search); $i++)
 			{
@@ -429,7 +430,7 @@ class searchViewsearch extends JView
 
 				// Product Review/Rating
 				// Fetching reviews
-				$final_avgreview_data = $producthelper->getProductRating($this->search[$i]->product_id);
+				$final_avgreview_data = $producthelper->getProductRating($this->search[$i]);
 
 				// Attribute ajax chage
 				$data_add = str_replace("{product_rating_summary}", $final_avgreview_data, $data_add);
@@ -513,7 +514,7 @@ class searchViewsearch extends JView
 				}
 
 				$hidden_thumb_image = "<input type='hidden' name='prd_main_imgwidth' id='prd_main_imgwidth' value='" . $cw_thumb . "'><input type='hidden' name='prd_main_imgheight' id='prd_main_imgheight' value='" . $ch_thumb . "'>";
-				$thum_image         = $producthelper->getProductImage($this->search[$i]->product_id, $link, $cw_thumb, $ch_thumb);
+				$thum_image         = $producthelper->getProductImage($this->search[$i], $link, $cw_thumb, $ch_thumb);
 				$data_add           = str_replace($cimg_tag, $thum_image . $hidden_thumb_image, $data_add);
 
 				// More documents
@@ -634,36 +635,27 @@ class searchViewsearch extends JView
 				/*
 				 * manufacturer data
 				 */
-				$manufacturer_id = $this->search[$i]->manufacturer_id;
-
-				if ($manufacturer_id != 0)
+				if (strstr($data_add, '{manufacturer_link}'))
 				{
-					$manufacturer_data      = $producthelper->getSection("manufacturer", $manufacturer_id);
-					$manufacturer_link_href = JRoute::_('index.php?option=com_redshop&view=manufacturers&layout=detail&mid=' . $manufacturer_id . '&Itemid=' . $Itemid);
-					$manufacturer_name      = "";
-
-					if (count($manufacturer_data) > 0)
-					{
-						$manufacturer_name = $manufacturer_data->manufacturer_name;
-					}
-
-					$manufacturer_link = '<a href="' . $manufacturer_link_href . '" title="' . $manufacturer_name . '">' . $manufacturer_name . '</a>';
+					$manufacturer_link_href = JRoute::_('index.php?option=com_redshop&view=manufacturers&layout=detail&mid=' . $this->search[$i]->manufacturer_id . '&Itemid=' . $Itemid);
+					$manufacturer_link = '<a href="' . $manufacturer_link_href . '" title="' . $this->search[$i]->manufacturer_name . '">' . $this->search[$i]->manufacturer_name . '</a>';
+					$data_add = str_replace("{manufacturer_link}", $manufacturer_link, $data_add);
 
 					if (strstr($data_add, "{manufacturer_link}"))
 					{
 						$data_add = str_replace("{manufacturer_name}", "", $data_add);
 					}
-					else
-					{
-						$data_add = str_replace("{manufacturer_name}", $manufacturer_name, $data_add);
-					}
-
-					$data_add = str_replace("{manufacturer_link}", $manufacturer_link, $data_add);
 				}
-				else
+
+				if (strstr($data_add, '{manufacturer_product_link}'))
 				{
-					$data_add = str_replace("{manufacturer_link}", "", $data_add);
-					$data_add = str_replace("{manufacturer_name}", "", $data_add);
+					$manufacturerPLink = "<a href='" . JRoute::_('index.php?option=com_redshop&view=manufacturers&layout=products&mid=' . $this->search[$i]->manufacturer_id . '&Itemid=' . $Itemid) . "'>" . JText::_("COM_REDSHOP_VIEW_ALL_MANUFACTURER_PRODUCTS") . " " . $this->search[$i]->manufacturer_name . "</a>";
+					$data_add = str_replace("{manufacturer_product_link}", $manufacturerPLink, $data_add);
+				}
+
+				if (strstr($data_add, '{manufacturer_name}'))
+				{
+					$data_add = str_replace("{manufacturer_name}", $this->search[$i]->manufacturer_name, $data_add);
 				}
 
 				// End
@@ -675,9 +667,7 @@ class searchViewsearch extends JView
 				$data_add = $producthelper->replaceCompareProductsButton($this->search[$i]->product_id, 0, $data_add);
 
 				// Checking for child products
-				$childproduct = $producthelper->getChildProduct($this->search[$i]->product_id);
-
-				if (count($childproduct) > 0)
+				if (!IS_NULL($this->search[$i]->childs))
 				{
 					$isChilds   = true;
 					$attributes = array();
@@ -710,7 +700,7 @@ class searchViewsearch extends JView
 				$data_add = $producthelper->replaceAttributeData($this->search[$i]->product_id, 0, 0, $attributes, $data_add, $attribute_template, $isChilds);
 
 				// Cart Template
-				$data_add = $producthelper->replaceCartTemplate($this->search[$i]->product_id, 0, 0, 0, $data_add, $isChilds, $userfieldArr, $totalatt, 0, $count_no_user_field, "");
+				$data_add = $producthelper->replaceCartTemplate($this->search[$i], $this->search[$i]->category_id, 0, 0, $data_add, $isChilds, $userfieldArr, $totalatt, 0, $count_no_user_field, "");
 
 				$data .= $data_add;
 			}
