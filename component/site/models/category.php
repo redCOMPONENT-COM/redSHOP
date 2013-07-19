@@ -380,7 +380,7 @@ class CategoryModelCategory extends JModel
 		);
 
 		// Select product attributes
-		$query->select('(SELECT COUNT(att.attribute_id) FROM ' . $this->_table_prefix . 'product_attribute AS att WHERE att.product_id = p.product_id AND att.attribute_name != "" ) AS count_attribute_id');
+		$query->select('(SELECT GROUP_CONCAT(att.attribute_id SEPARATOR ",") FROM ' . $this->_table_prefix . 'product_attribute AS att WHERE att.product_id = p.product_id AND att.attribute_name != "" ) AS list_attribute_id');
 
 		$query->from($this->_table_prefix . 'product AS p');
 
@@ -408,6 +408,12 @@ class CategoryModelCategory extends JModel
 				'p.expired = 0',
 				'pc.category_id = ' . (int) $this->_id,
 				'p.product_parent_id = 0',
+				'(media.section_id IS NULL OR media.section_id > 0)'
+			)
+		);
+
+		$query->where(
+			array(
 				'(media.section_id IS NULL OR media.section_id > 0)'
 			)
 		);
@@ -445,11 +451,8 @@ class CategoryModelCategory extends JModel
 
 		$this->_product = $this->_db->loadObjectList('product_id');
 
-		if ($app->getCfg('sef') == '1' && count($this->_product) > 0)
-		{
-			JLoader::import('category_static', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
-			StaticCategory::setProductSef($this->_product);
-		}
+		JLoader::import('category_static', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
+		StaticCategory::setProductSef($this->_product);
 
 		$this->_product = array_values($this->_product);
 
@@ -461,7 +464,7 @@ class CategoryModelCategory extends JModel
 
 			for ($i = 0; $i < count($this->_product); $i++)
 			{
-				$ProductPriceArr = $this->producthelper->getProductNetPrice($this->_product[$i]->product_id);
+				$ProductPriceArr = $this->producthelper->getProductNetPrice($this->_product[$i]);
 				$this->_product[$i]->productPrice = $ProductPriceArr['product_price'];
 			}
 
@@ -474,7 +477,7 @@ class CategoryModelCategory extends JModel
 
 			for ($i = 0; $i < count($this->_product); $i++)
 			{
-				$ProductPriceArr = $this->producthelper->getProductNetPrice($this->_product[$i]->product_id);
+				$ProductPriceArr = $this->producthelper->getProductNetPrice($this->_product[$i]);
 				$this->_product[$i]->productPrice = $ProductPriceArr['product_price'];
 			}
 
@@ -500,9 +503,9 @@ class CategoryModelCategory extends JModel
 			}
 			else
 			{
-				$ProductPriceArr = $this->producthelper->getProductNetPrice($this->_product[0]->product_id);
+				$ProductPriceArr = $this->producthelper->getProductNetPrice($this->_product[0]);
 				$min = $ProductPriceArr['product_price'];
-				$ProductPriceArr = $this->producthelper->getProductNetPrice($this->_product[count($this->_product) - 1]->product_id);
+				$ProductPriceArr = $this->producthelper->getProductNetPrice($this->_product[count($this->_product) - 1]);
 				$max = $ProductPriceArr['product_price'];
 
 				if ($min >= $max)
@@ -522,7 +525,7 @@ class CategoryModelCategory extends JModel
 
 			for ($i = 0; $i < count($this->_product); $i++)
 			{
-				$ProductPriceArr = $this->producthelper->getProductNetPrice($this->_product[$i]->product_id);
+				$ProductPriceArr = $this->producthelper->getProductNetPrice($this->_product[$i]);
 				$this->_product[$i]->sliderprice = $ProductPriceArr['product_price'];
 
 				if ($this->_product[$i]->sliderprice >= $this->minmaxArr[0] && $this->_product[$i]->sliderprice <= $this->minmaxArr[1])

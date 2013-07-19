@@ -17,6 +17,7 @@ JLoader::import('order', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers'
 JLoader::import('quotation', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
 JLoader::import('template', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
 JLoader::import('stockroom', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
+JLoader::import('category_static', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
 
 class producthelper
 {
@@ -67,6 +68,10 @@ class producthelper
 	public $_ProductSpecialId_discount_product_id = null;
 
 	protected $_ProductDateRange = '';
+
+	protected $_ProductAttributeArray = array();
+
+	protected $_ProductAttributePropertyArray = array();
 
 	function __construct()
 	{
@@ -3564,16 +3569,57 @@ class producthelper
 		return;
 	}
 
+	public function setProductAttributeArray()
+	{
+		$products = StaticCategory::$productInCat;
+		if(count($products) > 0)
+		{
+			$products_keys = implode(',', array_keys($products));
+			$query = $this->_db->getQuery(true);
+			$query
+				->select(
+					array(
+						'a.attribute_id AS value',
+						'a.attribute_name AS text',
+						'a.*',
+						'ast.attribute_set_name'
+					)
+				)
+				->from($this->_table_prefix . 'product_attribute AS a')
+				->leftJoin($this->_table_prefix . 'attribute_set AS ast ON ast.attribute_set_id = a.attribute_set_id')
+				->where(
+					array(
+						'a.attribute_name != ""',
+						'a.product_id IN (' . $products_keys . ')',
+						'a.attribute_published = 1'
+					)
+				)
+				->order('a.ordering ASC');
+			$this->_db->setQuery($query);
+			$this->_ProductAttributeArray = $this->_db->loadObjectlist('attribute_id');
+		}
+	}
+
 	public function getProductAttribute($product = 0, $attribute_set_id = 0, $attribute_id = 0, $published = 0, $attribute_required = 0, $notAttributeId = 0)
 	{
 		if (is_object($product) && isset($product->advanced_query) && $product->advanced_query == 1)
 		{
-			if (isset($product->count_attribute_id) && $product->count_attribute_id == 0)
+			if ($product->list_attribute_id === null)
 			{
-
 				return null;
 			}
-			$product_id = & $product->product_id;
+			else
+			{
+				$list_attribute_id = explode(',', $product->list_attribute_id);
+				$result = array();
+
+				foreach ($list_attribute_id as $one_attribute_id)
+				{
+					$result[] = $this->_ProductAttributeArray[$one_attribute_id];
+				}
+
+				return $result;
+			}
 		}
 		else
 		{
