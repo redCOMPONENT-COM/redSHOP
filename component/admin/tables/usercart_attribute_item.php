@@ -27,7 +27,7 @@ class Tableusercart_attribute_item extends JTable
 	{
 		$this->_table_prefix = '#__redshop_';
 
-		parent::__construct($this->_table_prefix . 'usercart_attribute_item', 'cart_id', $db);
+		parent::__construct($this->_table_prefix . 'usercart_attribute_item', 'cart_att_item_id', $db);
 	}
 
 	public function bind($array, $ignore = '')
