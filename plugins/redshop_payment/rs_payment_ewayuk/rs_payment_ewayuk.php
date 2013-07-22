@@ -60,7 +60,7 @@ class plgRedshop_paymentrs_payment_ewayuk extends JPlugin
 			return;
 		}
 
-		$db = jFactory::getDBO();
+		$db = JFactory::getDBO();
 		$TransactionAccepted = $request["TransactionAccepted"];
 		$Reference = $request["Reference"];
 		$RETC = $request["RETC"];

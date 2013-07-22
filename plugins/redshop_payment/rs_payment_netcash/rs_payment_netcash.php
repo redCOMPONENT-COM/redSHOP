@@ -59,7 +59,7 @@ class plgRedshop_paymentrs_payment_netcash extends JPlugin
 			return;
 		}
 
-		$db = jFactory::getDBO();
+		$db = JFactory::getDBO();
 		$TransactionAccepted = $request["TransactionAccepted"];
 		$Reference = $request["Reference"];
 		$RETC = $request["RETC"];

@@ -59,7 +59,7 @@ class plgRedshop_paymentrs_payment_dotpay extends JPlugin
 			return;
 		}
 
-		$db = jFactory::getDBO();
+		$db = JFactory::getDBO();
 		$request = JRequest::get('request');
 		$id = mysql_real_escape_string($request["id"]);
 		$order_id = $request['order_id'];

@@ -59,7 +59,7 @@ class plgRedshop_paymentrs_payment_moneybooker extends JPlugin
 			return;
 		}
 
-		$db = jFactory::getDBO();
+		$db = JFactory::getDBO();
 		$request = JRequest::get('request');
 		JPlugin::loadLanguage('com_redshop');
 		$moneybooker_parameters = $this->getparameters('rs_payment_moneybooker');
