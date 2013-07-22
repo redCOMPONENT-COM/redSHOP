@@ -1801,6 +1801,7 @@ CREATE TABLE IF NOT EXISTS `#__redshop_product_rating` (
 	`favoured` tinyint(4) NOT NULL,
 	`published` tinyint(4) NOT NULL,
 	PRIMARY KEY  (`rating_id`),
+	KEY `published` ( `published` ),
 	UNIQUE KEY `product_id` (`product_id`,`userid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8  ;
 
