@@ -60,7 +60,7 @@ class plgRedshop_paymentrs_payment_rapid_ewayuk extends JPlugin
 			return;
 		}
 
-		$db = jFactory::getDBO();
+		$db = JFactory::getDBO();
 		$AccessCode = $request["AccessCode"];
 
 		JPlugin::loadLanguage('com_redshop');

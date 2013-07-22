@@ -15,7 +15,7 @@ class tax_detailVIEWtax_detail extends JView
 {
 	public function display($tpl = null)
 	{
-		$db = jFactory::getDBO();
+		$db = JFactory::getDBO();
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_TAX_MANAGEMENT_DETAIL'), 'redshop_vat48');
 
@@ -64,7 +64,6 @@ class tax_detailVIEWtax_detail extends JView
 		$selected_country_code = $detail->tax_country;
 		$selected_state_code = $detail->tax_state;
 
-
 		if (empty($selected_state_code))
 		{
 			$selected_state_code = "originalPos";
@@ -99,22 +98,22 @@ class tax_detailVIEWtax_detail extends JView
 
 			if ($state->state_name)
 			{
-
 				if ($prev_country != $country_3_code)
 				{
 					$script .= "states[" . $i++ . "] = new Array( '" . $country_3_code . "','',' -= " . JText::_("COM_REDSHOP_SELECT") . " =-' );\n";
 				}
+
 				$prev_country = $country_3_code;
 
-				// array in the format [key,value,text]
+				// Array in the format [key,value,text]
 				$script .= "states[" . $i++ . "] = new Array( '" . $country_3_code . "','" . $state->state_2_code . "','" . addslashes($state->state_name) . "' );\n";
 			}
 			else
 			{
 				$script .= "states[" . $i++ . "] = new Array( '" . $country_3_code . "','','" . JText::_("COM_REDSHOP_NONE") . "' );\n";
 			}
-
 		}
+
 		$script .= "
 			function changeStateList() {
 			  var selected_country = null;

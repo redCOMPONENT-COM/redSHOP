@@ -1,5 +1,3 @@
-		$this->assignRef('pagination', $pagination);
-		$this->assignRef('request_url', $uri);
 <?php
 /**
  * @package     RedSHOP.Backend
@@ -20,10 +18,9 @@ class textlibraryViewtextlibrary extends JView
 	{
 		$context = 'textlibrary_id';
 
-		$uri      = JFactory::getURI()->toString();
+		$uri      = JFactory::getURI();
 		$app      = JFactory::getApplication();
 		$document = JFactory::getDocument();
-		$user     = JFactory::getUser();
 
 		$document->setTitle(JText::_('COM_REDSHOP_TEXTLIBRARY'));
 
@@ -53,16 +50,15 @@ class textlibraryViewtextlibrary extends JView
 		$lists['order']     = $filter_order;
 		$lists['order_Dir'] = $filter_order_Dir;
 
-		$textlibrarys = $this->get('Data');
-		$total        = $this->get('Total');
-		$pagination   = $this->get('Pagination');
+		$textlibrarys       = $this->get('Data');
+		$total              = $this->get('Total');
+		$pagination         = $this->get('Pagination');
 
-		$this->assignRef('user', $user);
-		$this->user = JFactory::getUser();
-		$this->lists = $lists;
+		$this->user         = JFactory::getUser();
+		$this->lists        = $lists;
 		$this->textlibrarys = $textlibrarys;
-		$this->pagination = $pagination;
-		$this->request_url = $uri->toString();
+		$this->pagination   = $pagination;
+		$this->request_url  = $uri->toString();
 
 		parent::display($tpl);
 	}

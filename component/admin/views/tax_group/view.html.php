@@ -1,5 +1,3 @@
-		$this->assignRef('pagination', $pagination);
-		$this->assignRef('request_url', $uri);
 <?php
 /**
  * @package     RedSHOP.Backend
@@ -19,10 +17,9 @@ class tax_groupViewtax_group extends JView
 	{
 		global $context;
 
-		$uri      = JFactory::getURI()->toString();
+		$uri      = JFactory::getURI();
 		$app      = JFactory::getApplication();
 		$document = JFactory::getDocument();
-		$user     = JFactory::getUser();
 
 		$document->setTitle(JText::_('COM_REDSHOP_TAX'));
 		jimport('joomla.html.pagination');
@@ -34,22 +31,21 @@ class tax_groupViewtax_group extends JView
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();
 
-		$filter_order     = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'tax_group_id');
-		$filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
+		$filter_order       = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'tax_group_id');
+		$filter_order_Dir   = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
 
 		$lists['order']     = $filter_order;
 		$lists['order_Dir'] = $filter_order_Dir;
 
-		$total      = $this->get('Total');
-		$media      = $this->get('Data');
-		$pagination = $this->get('Pagination');
+		$total              = $this->get('Total');
+		$media              = $this->get('Data');
+		$pagination         = $this->get('Pagination');
 
-		$this->assignRef('user', $user);
-		$this->user = JFactory::getUser();
-		$this->lists = $lists;
-		$this->media = $media;
-		$this->pagination = $pagination;
-		$this->request_url = $uri->toString();
+		$this->user         = JFactory::getUser();
+		$this->lists        = $lists;
+		$this->media        = $media;
+		$this->pagination   = $pagination;
+		$this->request_url  = $uri->toString();
 
 		parent::display($tpl);
 	}

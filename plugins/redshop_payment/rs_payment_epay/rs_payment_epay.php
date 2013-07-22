@@ -61,7 +61,7 @@ class plgRedshop_paymentrs_payment_epay extends JPlugin
 		{
 		}
 
-		$db = jFactory::getDBO();
+		$db = JFactory::getDBO();
 		$request = JRequest::get('request');
 		$accept = $request["accept"];
 		$tid = $request["tid"];
