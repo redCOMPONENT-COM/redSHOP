@@ -15,7 +15,7 @@ class prices_detailVIEWprices_detail extends JView
 {
 	public function display($tpl = null)
 	{
-		$db = jFactory::getDBO();
+		$db = JFactory::getDBO();
 		JToolBarHelper::title(JText::_('COM_REDSHOP_PRICE_MANAGEMENT_DETAIL'), 'redshop_vatrates48');
 		$option = JRequest::getVar('option', '', 'request', 'string');
 		$document = JFactory::getDocument();
