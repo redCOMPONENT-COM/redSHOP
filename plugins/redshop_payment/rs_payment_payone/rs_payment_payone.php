@@ -62,7 +62,7 @@ class plgRedshop_paymentrs_payment_payone extends JPlugin
 			return false;
 		}
 
-		$db = jFactory::getDBO();
+		$db = JFactory::getDBO();
 		$request = JRequest::get('request');
 		$accept = $request["accept"];
 		$tid = $request["tid"];

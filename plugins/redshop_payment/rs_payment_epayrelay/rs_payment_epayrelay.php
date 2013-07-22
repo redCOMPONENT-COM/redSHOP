@@ -62,7 +62,7 @@ class plgRedshop_paymentrs_payment_epayrelay extends JPlugin
 			return false;
 		}
 
-		$db = jFactory::getDBO();
+		$db = JFactory::getDBO();
 		$tid = $request["tid"];
 
 		$order_id = $request["orderid"];
