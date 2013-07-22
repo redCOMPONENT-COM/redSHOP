@@ -179,6 +179,8 @@ else
 // Get billing info for check is_company
 $is_company = $billingaddresses->is_company;
 
+$ean_number = 0;
+
 if ($billingaddresses->ean_number != "")
 {
 	$ean_number = 1;
