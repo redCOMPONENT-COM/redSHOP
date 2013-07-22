@@ -1,7 +1,3 @@
-		$this->assignRef('country_main_filter', $country_main_filter);
-		$this->assignRef('user', $user);
-		$this->assignRef('lists', $lists);
-		$this->assignRef('request_url', $uri);
 <?php
 /**
  * @package     RedSHOP.Backend
@@ -25,7 +21,7 @@ class stateViewstate extends JView
 
 		$context = 'state_id';
 
-		$uri      = JFactory::getURI()->toString();
+		$uri      = JFactory::getURI();
 		$app      = JFactory::getApplication();
 		$document = JFactory::getDocument();
 		$user     = JFactory::getUser();
@@ -43,23 +39,23 @@ class stateViewstate extends JView
 		$lists['order']     = $filter_order;
 		$lists['order_Dir'] = $filter_order_Dir;
 
-		$db = jFactory::getDBO();
+		$db = JFactory::getDBO();
 		JToolBarHelper::title(JText::_('COM_REDSHOP_STATES'), 'redshop_region_48');
 
-		$redhelper = new redhelper;
-		$q = "SELECT  country_id as value,country_name as text,country_jtext from #__" . TABLE_PREFIX . "_country ORDER BY country_name ASC";
+		$redhelper       = new redhelper;
+		$q               = "SELECT  country_id as value,country_name as text,country_jtext from #__" . TABLE_PREFIX . "_country ORDER BY country_name ASC";
 		$db->setQuery($q);
-		$countries = $db->loadObjectList();
-		$countries = $redhelper->convertLanguageString($countries);
+		$countries       = $db->loadObjectList();
+		$countries       = $redhelper->convertLanguageString($countries);
 
-		$temps[0] = new stdClass;
+		$temps[0]        = new stdClass;
 		$temps[0]->value = "0";
-		$temps[0]->text = JText::_('COM_REDSHOP_SELECT');
-		$countries = @array_merge($temps, $countries);
-		$country_list = explode(',', COUNTRY_LIST);
+		$temps[0]->text  = JText::_('COM_REDSHOP_SELECT');
+		$countries       = array_merge($temps, $countries);
+		$country_list    = explode(',', COUNTRY_LIST);
 
-		$tmp = new stdClass;
-		$tmp = @array_merge($tmp, $country_list);
+		$tmp             = new stdClass;
+		$tmp             = array_merge($tmp, $country_list);
 
 		$country_id_filter = $app->getUserStateFromRequest($context . 'country_id_filter', 'country_id_filter', '');
 
@@ -69,15 +65,15 @@ class stateViewstate extends JView
 
 		$country_main_filter = $app->getUserStateFromRequest($context . 'country_main_filter', 'country_main_filter', '');
 
-		$fields = $this->get('Data');
-		$pagination = $this->get('Pagination');
+		$fields                    = $this->get('Data');
+		$pagination                = $this->get('Pagination');
 
 		$this->country_main_filter = $country_main_filter;
-		$this->user = JFactory::getUser();
-		$this->pagination = $pagination;
-		$this->fields = $fields;
-		$this->lists = $lists;
-		$this->request_url = $uri->toString();
+		$this->user                = JFactory::getUser();
+		$this->pagination          = $pagination;
+		$this->fields              = $fields;
+		$this->lists               = $lists;
+		$this->request_url         = $uri->toString();
 
 		parent::display($tpl);
 	}

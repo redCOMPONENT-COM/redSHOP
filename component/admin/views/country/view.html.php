@@ -1,5 +1,3 @@
-		$this->assignRef('lists', $lists);
-		$this->assignRef('request_url', $uri);
 <?php
 /**
  * @package     RedSHOP.Backend
@@ -23,8 +21,7 @@ class countryViewcountry extends JView
 		$context  = 'country_id';
 		$app      = JFactory::getApplication();
 		$document = JFactory::getDocument();
-		$uri      = JFactory::getURI()->toString();
-		$user     = JFactory::getUser();
+		$uri      = JFactory::getURI();
 
 		$document->setTitle(JText::_('COM_REDSHOP_COUNTRY'));
 
@@ -36,18 +33,18 @@ class countryViewcountry extends JView
 		$filter_order     = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'country_id');
 		$filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
 
-		$lists['order'] = $filter_order;
+		$lists['order']     = $filter_order;
 		$lists['order_Dir'] = $filter_order_Dir;
 
-		$fields = $this->get('Data');
-		$pagination = $this->get('Pagination');
+		$fields             = $this->get('Data');
+		$pagination         = $this->get('Pagination');
 
-		$this->assignRef('user', $user);
-		$this->user = JFactory::getUser();
-		$this->pagination = $pagination;
-		$this->fields = $fields;
-		$this->lists = $lists;
-		$this->request_url = $uri->toString();
+		$this->user         = JFactory::getUser();
+		$this->pagination   = $pagination;
+		$this->fields       = $fields;
+		$this->lists        = $lists;
+		$this->request_url  = $uri->toString();
+
 		parent::display($tpl);
 	}
 }
