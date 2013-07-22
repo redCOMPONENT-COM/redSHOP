@@ -1,5 +1,3 @@
-		$this->assignRef('lists', $lists);
-		$this->assignRef('request_url', $uri);
 <?php
 /**
  * @package     RedSHOP.Backend
@@ -21,8 +19,7 @@ class currencyViewcurrency extends JView
 
 		$document = JFactory::getDocument();
 		$app      = JFactory::getApplication();
-		$uri      = JFactory::getURI()->toString();
-		$user     = JFactory::getUser();
+		$uri      = JFactory::getURI();
 
 		jimport('joomla.html.pagination');
 
@@ -33,22 +30,21 @@ class currencyViewcurrency extends JView
 		JToolbarHelper::EditListX();
 		JToolbarHelper::deleteList();
 
-		$filter_order     = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'currency_id');
-		$filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
+		$filter_order       = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'currency_id');
+		$filter_order_Dir   = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
 
-		$lists['order'] = $filter_order;
+		$lists['order']     = $filter_order;
 		$lists['order_Dir'] = $filter_order_Dir;
 
-		$fields = $this->get('Data');
-		$total = $this->get('Total');
-		$pagination = $this->get('Pagination');
+		$fields             = $this->get('Data');
+		$total              = $this->get('Total');
+		$pagination         = $this->get('Pagination');
 
-		$this->assignRef('user', $user);
-		$this->user = JFactory::getUser();
-		$this->pagination = $pagination;
-		$this->fields = $fields;
-		$this->lists = $lists;
-		$this->request_url = $uri->toString();
+		$this->user         = JFactory::getUser();
+		$this->pagination   = $pagination;
+		$this->fields       = $fields;
+		$this->lists        = $lists;
+		$this->request_url  = $uri->toString();
 
 		parent::display($tpl);
 	}
