@@ -685,7 +685,7 @@ class searchViewsearch extends JView
 
 					}
 
-					$attributes = $producthelper->getProductAttribute($this->search[$i]->product_id);
+					$attributes = $producthelper->getProductAttribute($this->search[$i]);
 					$attributes = array_merge($attributes, $attributes_set);
 				}
 

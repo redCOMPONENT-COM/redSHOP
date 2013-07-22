@@ -71,7 +71,7 @@ class producthelper
 
 	protected $_ProductAttributeArray = array();
 
-	protected $_ProductAttributePropertyArray = array();
+	protected $_ProductPropertyArray = array();
 
 	function __construct()
 	{
@@ -3582,7 +3582,8 @@ class producthelper
 						'a.attribute_id AS value',
 						'a.attribute_name AS text',
 						'a.*',
-						'ast.attribute_set_name'
+						'ast.attribute_set_name',
+						'(SELECT GROUP_CONCAT(ap.property_id SEPARATOR ",") FROM ' . $this->_table_prefix . 'product_attribute_property AS ap WHERE a.attribute_id = ap.attribute_id AND ap.property_published = 1) AS list_id_property'
 					)
 				)
 				->from($this->_table_prefix . 'product_attribute AS a')
@@ -3597,6 +3598,37 @@ class producthelper
 				->order('a.ordering ASC');
 			$this->_db->setQuery($query);
 			$this->_ProductAttributeArray = $this->_db->loadObjectlist('attribute_id');
+			$this->setProductPropertyArray();
+		}
+	}
+
+	public function setProductPropertyArray()
+	{
+		if(count($this->_ProductAttributeArray) > 0)
+		{
+			$attribute_id_keys = implode(',', array_keys($this->_ProductAttributeArray));
+			$query = $this->_db->getQuery(true);
+			$query
+				->select(
+					array(
+						'ap.property_id AS value',
+						'ap.property_name AS text',
+						'ap.*',
+						'a.attribute_name',
+						'a.product_id'
+					)
+				)
+				->from($this->_table_prefix . 'product_attribute_property AS ap')
+				->leftJoin($this->_table_prefix . 'product_attribute AS a ON a.attribute_id = ap.attribute_id')
+				->where(
+					array(
+						'ap.property_published = 1',
+						'ap.attribute_id IN (' . $attribute_id_keys . ')'
+					)
+				)
+				->order('ap.ordering ASC');
+			$this->_db->setQuery($query);
+			$this->_ProductPropertyArray = $this->_db->loadObjectlist('property_id');
 		}
 	}
 
@@ -6605,7 +6637,23 @@ class producthelper
 				$attributes_set = $this->getProductAttribute(0, $product->attribute_set_id, 0, 1, 1);
 			}
 
-			$requiredattribute = $this->getProductAttribute($product_id, 0, 0, 1, 1);
+			if (isset($product->advanced_query) && $product->advanced_query == 1)
+			{
+				$requiredattribute = array();
+				$list_attribute_id = explode(',', $product->list_attribute_id);
+				foreach($list_attribute_id as $one_product_att)
+				{
+					if($this->_ProductAttributeArray[$one_product_att]->attribute_required == '1')
+					{
+						$requiredattribute[] = $this->_ProductAttributeArray[$one_product_att];
+					}
+				}
+			}
+			else
+			{
+				$requiredattribute = $this->getProductAttribute($product_id, 0, 0, 1, 1);
+			}
+
 			$requiredattribute = array_merge($requiredattribute, $attributes_set);
 
 			for ($i = 0; $i < count($requiredattribute); $i++)
@@ -6614,7 +6662,23 @@ class producthelper
 					. urldecode($requiredattribute[$i]->attribute_name) . "\n";
 			}
 
-			$requiredproperty = $this->getAttibuteProperty(0, 0, $product_id, 0, 1);
+			if (isset($product->advanced_query) && $product->advanced_query == 1)
+			{
+				$requiredproperty = array();
+				foreach($requiredattribute as $onerequiredattribute)
+				{
+					$list_id_property = explode(',', $onerequiredattribute->list_id_property);
+					foreach($list_id_property as $one_id_property)
+					{
+						if ($this->_ProductPropertyArray[$one_id_property]->setrequire_selected == '1')
+							$requiredproperty[] = $this->_ProductPropertyArray[$one_id_property];
+					}
+				}
+			}
+			else
+			{
+				$requiredproperty = $this->getAttibuteProperty(0, 0, $product_id, 0, 1);
+			}
 
 			for ($y = 0; $y < count($requiredproperty); $y++)
 			{
@@ -6692,38 +6756,76 @@ class producthelper
 				$selectedpropertyId = 0;
 				$selectedsubpropertyId = 0;
 
-				for ($a = 0; $a < $countAttributes; $a++)
+				foreach ($attributes as $a => $oneAttr)
 				{
 					$selectedId = array();
-					$property = $this->getAttibuteProperty(0, $attributes[$a]->attribute_id);
-
-					if ($attributes[$a]->text != "" && count($property) > 0)
+					if (isset($product->advanced_query) && $product->advanced_query == 1)
 					{
-						for ($i = 0; $i < count($property); $i++)
+						if($attributes[$a]->text && $list_id_property = $this->_ProductAttributeArray[$attributes[$a]->attribute_id]->list_id_property)
 						{
-							if ($property[$i]->setdefault_selected)
+							$list_id_property = explode(',', $this->_ProductAttributeArray[$attributes[$a]->attribute_id]->list_id_property);
+							foreach ($list_id_property as $i)
 							{
-								$selectedId[] = $property[$i]->property_id;
-							}
-						}
-
-						if (count($selectedId) > 0)
-						{
-							$selectedpropertyId = $selectedId[count($selectedId) - 1];
-							$subproperty = $this->getAttibuteSubProperty(0, $selectedpropertyId);
-							$selectedId = array();
-
-							for ($sp = 0; $sp < count($subproperty); $sp++)
-							{
-								if ($subproperty[$sp]->setdefault_selected)
+								if ($this->_ProductPropertyArray[$i]->setdefault_selected)
 								{
-									$selectedId[] = $subproperty[$sp]->subattribute_color_id;
+									$selectedId[] = $i;
 								}
 							}
 
 							if (count($selectedId) > 0)
 							{
-								$selectedsubpropertyId = $selectedId[count($selectedId) - 1];
+								$selectedpropertyId = $selectedId[count($selectedId) - 1];
+								$subproperty = $this->getAttibuteSubProperty(0, $selectedpropertyId);
+								$selectedId = array();
+
+								for ($sp = 0; $sp < count($subproperty); $sp++)
+								{
+									if ($subproperty[$sp]->setdefault_selected)
+									{
+										$selectedId[] = $subproperty[$sp]->subattribute_color_id;
+									}
+								}
+
+								if (count($selectedId) > 0)
+								{
+									$selectedsubpropertyId = $selectedId[count($selectedId) - 1];
+								}
+							}
+
+						}
+					}
+					else
+					{
+						$property = $this->getAttibuteProperty(0, $attributes[$a]->attribute_id);
+
+						if ($attributes[$a]->text != "" && count($property) > 0)
+						{
+							for ($i = 0; $i < count($property); $i++)
+							{
+								if ($property[$i]->setdefault_selected)
+								{
+									$selectedId[] = $property[$i]->property_id;
+								}
+							}
+
+							if (count($selectedId) > 0)
+							{
+								$selectedpropertyId = $selectedId[count($selectedId) - 1];
+								$subproperty = $this->getAttibuteSubProperty(0, $selectedpropertyId);
+								$selectedId = array();
+
+								for ($sp = 0; $sp < count($subproperty); $sp++)
+								{
+									if ($subproperty[$sp]->setdefault_selected)
+									{
+										$selectedId[] = $subproperty[$sp]->subattribute_color_id;
+									}
+								}
+
+								if (count($selectedId) > 0)
+								{
+									$selectedsubpropertyId = $selectedId[count($selectedId) - 1];
+								}
 							}
 						}
 					}
