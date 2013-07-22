@@ -10,8 +10,7 @@
 defined('_JEXEC') or die;
 
 JLoader::import('joomla.application.component.view');
-
-require_once JPATH_COMPONENT . '/helpers/helper.php';
+JLoader::import('helper', JPATH_SITE . '/components/com_redshop/helpers');
 
 class searchViewsearch extends JView
 {
@@ -121,13 +120,13 @@ class searchViewsearch extends JView
 		$search     = $this->get('Data');
 		$pagination = $this->get('Pagination');
 
-		$this->params = $params;
-		$this->limit = $model->getState('limit');
-		$this->lists = $lists;
-		$this->templatedata = $templatedata;
-		$this->search = $search;
-		$this->pagination = $pagination;
-		$this->request_url = $uri->toString();
+		$this->assignRef('params', $params);
+		$this->assignRef('limit', $model->getState('limit'));
+		$this->assignRef('lists', $lists);
+		$this->assignRef('templatedata', $templatedata);
+		$this->assignRef('search', $search);
+		$this->assignRef('pagination', $pagination);
+		$this->assignRef('request_url', $uri->toString());
 		parent::display($tpl);
 	}
 
@@ -139,11 +138,13 @@ class searchViewsearch extends JView
 		if (count($this->search) > 0)
 		{
 			$app = JFactory::getApplication();
+			$menu	= $app->getMenu();
+			$item	= $menu->getActive();
 
-			require_once JPATH_COMPONENT . '/helpers/product.php';
-			require_once JPATH_COMPONENT . '/helpers/pagination.php';
-			require_once JPATH_COMPONENT . '/helpers/extra_field.php';
-			require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/text_library.php';
+			JLoader::import('product', JPATH_COMPONENT . '/helpers');
+			JLoader::import('pagination', JPATH_COMPONENT . '/helpers');
+			JLoader::import('extra_field', JPATH_COMPONENT . '/helpers');
+			JLoader::import('text_library', JPATH_COMPONENT_ADMINISTRATOR . '/helpers');
 
 			$dispatcher       = JDispatcher::getInstance();
 			$redTemplate      = new Redtemplate;
@@ -152,6 +153,7 @@ class searchViewsearch extends JView
 			$extraField       = new extraField;
 			$texts            = new text_library;
 			$stockroomhelper  = new rsstockroomhelper;
+			$redhelper        = new redhelper;
 
 			$option      = JRequest::getCmd('option');
 			$Itemid      = JRequest::getInt('Itemid');
@@ -184,21 +186,22 @@ class searchViewsearch extends JView
 			JHTMLBehavior::modal();
 			$url = JURI::base();
 
-			if ($this->params->get('page_title') != "")
+			if ($item->params->get('page_title') != "")
 			{
-				$pagetitle = $this->params->get('page_title');
+				$pagetitle = $item->params->get('page_title');
 			}
 			else
 			{
 				$pagetitle = JText::_('COM_REDSHOP_SEARCH');
 			}
 
-			if ($this->params->get('show_page_heading', 1))
+			if ($item->params->get('show_page_heading', 1))
 			{
-				echo '<h1 class="componentheading' . $this->escape($this->params->get('pageclass_sfx')) . '">';
+				echo '<h1 class="componentheading' . $this->escape($item->params->get('pageclass_sfx')) . '">';
 				echo $pagetitle;
 				echo '</h1>';
 			}
+
 			echo '<div style="clear:both"></div>';
 			$category_tmpl = "";
 
@@ -282,6 +285,7 @@ class searchViewsearch extends JView
 			if (strstr($template_org, "{redproductfinderfilter:"))
 			{
 				$redProductFinerHelper = JPATH_SITE . "/components/com_redproductfinder/helpers/redproductfinder_helper.php";
+
 				if (file_exists($redProductFinerHelper))
 				{
 					include_once $redProductFinerHelper;
@@ -354,6 +358,9 @@ class searchViewsearch extends JView
 			$tagarray = $texts->getTextLibraryTagArray();
 			$data     = "";
 
+			$fieldArray = $extraField->getSectionFieldList(17, 0, 0);
+			$producthelper->setProductAttributeArray();
+
 			for ($i = 0; $i < count($this->search); $i++)
 			{
 				$data_add   = "";
@@ -381,7 +388,8 @@ class searchViewsearch extends JView
 				}
 
 				$pro_s_desc = $Redconfiguration->maxchar($pro_s_desc, CATEGORY_PRODUCT_DESC_MAX_CHARS, CATEGORY_PRODUCT_DESC_END_SUFFIX);
-				$link       = JRoute::_('index.php?option=' . $option . '&view=product&pid=' . $this->search[$i]->product_id . '&Itemid=' . $Itemid);
+				$catItemId = $redhelper->getCategoryItemid($this->search[$i]->category_id);
+				$link       = JRoute::_('index.php?option=' . $option . '&view=product&pid=' . $this->search[$i]->product_id . '&cid=' . $this->search[$i]->category_id . '&Itemid=' . $catItemId);
 
 				if (strstr($template_desc, '{product_name}'))
 				{
@@ -422,7 +430,7 @@ class searchViewsearch extends JView
 
 				// Product Review/Rating
 				// Fetching reviews
-				$final_avgreview_data = $producthelper->getProductRating($this->search[$i]->product_id);
+				$final_avgreview_data = $producthelper->getProductRating($this->search[$i]);
 
 				// Attribute ajax chage
 				$data_add = str_replace("{product_rating_summary}", $final_avgreview_data, $data_add);
@@ -506,7 +514,7 @@ class searchViewsearch extends JView
 				}
 
 				$hidden_thumb_image = "<input type='hidden' name='prd_main_imgwidth' id='prd_main_imgwidth' value='" . $cw_thumb . "'><input type='hidden' name='prd_main_imgheight' id='prd_main_imgheight' value='" . $ch_thumb . "'>";
-				$thum_image         = $producthelper->getProductImage($this->search[$i]->product_id, $link, $cw_thumb, $ch_thumb);
+				$thum_image         = $producthelper->getProductImage($this->search[$i], $link, $cw_thumb, $ch_thumb);
 				$data_add           = str_replace($cimg_tag, $thum_image . $hidden_thumb_image, $data_add);
 
 				// More documents
@@ -620,7 +628,6 @@ class searchViewsearch extends JView
 
 				// ProductFinderDatepicker Extra Field Start
 
-				$fieldArray = $extraField->getSectionFieldList(17, 0, 0);
 				$data_add   = $producthelper->getProductFinderDatepickerValue($data_add, $this->search[$i]->product_id, $fieldArray);
 
 				// ProductFinderDatepicker Extra Field End
@@ -628,36 +635,27 @@ class searchViewsearch extends JView
 				/*
 				 * manufacturer data
 				 */
-				$manufacturer_id = $this->search[$i]->manufacturer_id;
-
-				if ($manufacturer_id != 0)
+				if (strstr($data_add, '{manufacturer_link}'))
 				{
-					$manufacturer_data      = $producthelper->getSection("manufacturer", $manufacturer_id);
-					$manufacturer_link_href = JRoute::_('index.php?option=com_redshop&view=manufacturers&layout=detail&mid=' . $manufacturer_id . '&Itemid=' . $Itemid);
-					$manufacturer_name      = "";
-
-					if (count($manufacturer_data) > 0)
-					{
-						$manufacturer_name = $manufacturer_data->manufacturer_name;
-					}
-
-					$manufacturer_link = '<a href="' . $manufacturer_link_href . '" title="' . $manufacturer_name . '">' . $manufacturer_name . '</a>';
+					$manufacturer_link_href = JRoute::_('index.php?option=com_redshop&view=manufacturers&layout=detail&mid=' . $this->search[$i]->manufacturer_id . '&Itemid=' . $Itemid);
+					$manufacturer_link = '<a href="' . $manufacturer_link_href . '" title="' . $this->search[$i]->manufacturer_name . '">' . $this->search[$i]->manufacturer_name . '</a>';
+					$data_add = str_replace("{manufacturer_link}", $manufacturer_link, $data_add);
 
 					if (strstr($data_add, "{manufacturer_link}"))
 					{
 						$data_add = str_replace("{manufacturer_name}", "", $data_add);
 					}
-					else
-					{
-						$data_add = str_replace("{manufacturer_name}", $manufacturer_name, $data_add);
-					}
-
-					$data_add = str_replace("{manufacturer_link}", $manufacturer_link, $data_add);
 				}
-				else
+
+				if (strstr($data_add, '{manufacturer_product_link}'))
 				{
-					$data_add = str_replace("{manufacturer_link}", "", $data_add);
-					$data_add = str_replace("{manufacturer_name}", "", $data_add);
+					$manufacturerPLink = "<a href='" . JRoute::_('index.php?option=com_redshop&view=manufacturers&layout=products&mid=' . $this->search[$i]->manufacturer_id . '&Itemid=' . $Itemid) . "'>" . JText::_("COM_REDSHOP_VIEW_ALL_MANUFACTURER_PRODUCTS") . " " . $this->search[$i]->manufacturer_name . "</a>";
+					$data_add = str_replace("{manufacturer_product_link}", $manufacturerPLink, $data_add);
+				}
+
+				if (strstr($data_add, '{manufacturer_name}'))
+				{
+					$data_add = str_replace("{manufacturer_name}", $this->search[$i]->manufacturer_name, $data_add);
 				}
 
 				// End
@@ -669,9 +667,7 @@ class searchViewsearch extends JView
 				$data_add = $producthelper->replaceCompareProductsButton($this->search[$i]->product_id, 0, $data_add);
 
 				// Checking for child products
-				$childproduct = $producthelper->getChildProduct($this->search[$i]->product_id);
-
-				if (count($childproduct) > 0)
+				if (!IS_NULL($this->search[$i]->childs))
 				{
 					$isChilds   = true;
 					$attributes = array();
@@ -704,7 +700,7 @@ class searchViewsearch extends JView
 				$data_add = $producthelper->replaceAttributeData($this->search[$i]->product_id, 0, 0, $attributes, $data_add, $attribute_template, $isChilds);
 
 				// Cart Template
-				$data_add = $producthelper->replaceCartTemplate($this->search[$i]->product_id, 0, 0, 0, $data_add, $isChilds, $userfieldArr, $totalatt, 0, $count_no_user_field, "");
+				$data_add = $producthelper->replaceCartTemplate($this->search[$i], $this->search[$i]->category_id, 0, 0, $data_add, $isChilds, $userfieldArr, $totalatt, 0, $count_no_user_field, "");
 
 				$data .= $data_add;
 			}

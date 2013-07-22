@@ -61,10 +61,6 @@ class product_detailVIEWproduct_detail extends JView
 			$app->redirect('index.php?option=' . $option, $msg);
 		}
 
-		// Check reddesign is installed
-		$CheckRedDesign = $model->CheckRedDesign();
-		$this->CheckRedDesign = $CheckRedDesign;
-
 		// Check redproductfinder is installed
 		$CheckRedProductFinder = $model->CheckRedProductFinder();
 		$this->CheckRedProductFinder = $CheckRedProductFinder;
