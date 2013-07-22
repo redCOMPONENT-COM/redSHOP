@@ -29,21 +29,22 @@ class accountgroupViewaccountgroup extends JView
 		JToolbarHelper::deleteList();
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();
-		$uri = JFactory::getURI();
 
-		$filter_order = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'accountgroup_id');
-		$filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
-		$lists['order'] = $filter_order;
+		$uri                = JFactory::getURI();
+
+		$filter_order       = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'accountgroup_id');
+		$filter_order_Dir   = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
+		$lists['order']     = $filter_order;
 		$lists['order_Dir'] = $filter_order_Dir;
 
-		$detail = $this->get('Data');
-		$total = $this->get('Total');
-		$pagination = $this->get('Pagination');
+		$detail             = $this->get('Data');
+		$total              = $this->get('Total');
+		$pagination         = $this->get('Pagination');
 
-		$this->pagination = $pagination;
-		$this->detail = $detail;
-		$this->lists = $lists;
-		$this->request_url = $uri->toString();
+		$this->pagination   = $pagination;
+		$this->detail       = $detail;
+		$this->lists        = $lists;
+		$this->request_url  = $uri->toString();
 
 		parent::display($tpl);
 	}

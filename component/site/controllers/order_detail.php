@@ -61,7 +61,7 @@ class Order_detailController extends JController
 	public function process_payment()
 	{
 		$app     = JFactory::getApplication();
-		$db      = jFactory::getDBO();
+		$db      = JFactory::getDBO();
 		$session = JFactory::getSession();
 		$model   = $this->getModel('order_detail');
 
@@ -173,7 +173,7 @@ class Order_detailController extends JController
 		require_once JPATH_BASE . '/administrator/components/com_redshop/helpers/order.php';
 
 		$app     = JFactory::getApplication();
-		$db      = jFactory::getDBO();
+		$db      = JFactory::getDBO();
 		$request = JRequest::get('request');
 		$Itemid  = JRequest::getVar('Itemid');
 		$objOrder = new order_functions;

@@ -1,5 +1,3 @@
-		$this->assignRef('lists', $lists);
-		$this->assignRef('request_url', $uri);
 <?php
 /**
  * @package     RedSHOP.Backend
@@ -19,7 +17,7 @@ class state_detailVIEWstate_detail extends JView
 	{
 		JToolBarHelper::title(JText::_('COM_REDSHOP_STATE_DETAIL'), 'redshop_region_48');
 
-		$uri      = JFactory::getURI()->toString();
+		$uri      = JFactory::getURI();
 		$app      = JFactory::getApplication();
 		$user     = JFactory::getUser();
 
@@ -27,9 +25,9 @@ class state_detailVIEWstate_detail extends JView
 
 		JToolBarHelper::save();
 		JToolBarHelper::apply();
-		$lists = array();
+		$lists  = array();
 		$detail = $this->get('data');
-		$isNew = ($detail->state_id < 1);
+		$isNew  = ($detail->state_id < 1);
 
 		// 	fail if checked out not by 'me'
 		if ($model->isCheckedOut($user->get('id')))
@@ -38,20 +36,23 @@ class state_detailVIEWstate_detail extends JView
 			$app->redirect('index.php?option=' . $option, $msg);
 		}
 
-		$text = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
-		$db = jFactory::getDBO();
+		$text      = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
+		$db        = JFactory::getDBO();
+
 		JToolBarHelper::title(JText::_('COM_REDSHOP_STATE') . ': <small><small>[ ' . $text . ' ]</small></small>', 'redshop_region_48');
+
 		require_once JPATH_COMPONENT_SITE . '/helpers/helper.php';
+
 		$redhelper = new redhelper;
-		$q = "SELECT  country_id as value,country_name as text,country_jtext from #__" . TABLE_PREFIX . "_country ORDER BY country_name ASC";
+		$q         = "SELECT  country_id as value,country_name as text,country_jtext from #__" . TABLE_PREFIX . "_country ORDER BY country_name ASC";
 		$db->setQuery($q);
 		$countries = $db->loadObjectList();
 		$countries = $redhelper->convertLanguageString($countries);
 
-		$temps[0] = new stdClass;
+		$temps[0]        = new stdClass;
 		$temps[0]->value = "0";
-		$temps[0]->text = JText::_('COM_REDSHOP_SELECT');
-		$countries = @array_merge($temps, $countries);
+		$temps[0]->text  = JText::_('COM_REDSHOP_SELECT');
+		$countries       = array_merge($temps, $countries);
 
 		$lists['country_id'] = JHTML::_('select.genericlist', $countries, 'country_id', 'class="inputbox" size="1" ',
 			'value', 'text', $detail->country_id
@@ -77,8 +78,8 @@ class state_detailVIEWstate_detail extends JView
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_state') . ': <small><small>[ ' . $text . ' ]</small></small>', 'redshop_region_48');
 
-		$this->detail = $detail;
-		$this->lists = $lists;
+		$this->detail      = $detail;
+		$this->lists       = $lists;
 		$this->request_url = $uri->toString();
 
 		parent::display($tpl);
