@@ -73,12 +73,15 @@ class producthelper
 
 	protected $_ProductPropertyArray = array();
 
+	protected $_extraField = null;
+
 	function __construct()
 	{
 		$this->_db = JFactory::getDBO();
 		$this->_table_prefix = '#__' . TABLE_PREFIX . '_';
 		$this->_userhelper = new rsUserhelper;
 		$this->_session = JFactory::getSession();
+		$this->_extraField = new extraField;
 	}
 
 	public function setId($id)
@@ -870,8 +873,7 @@ class producthelper
 			if (count($str) > 0)
 			{
 				$dbname = "'" . implode("','", $str) . "'";
-				$extraField = new extraField();
-				$template_data = $extraField->extra_field_display($section, $product_id, $dbname, $template_data, $categorypage);
+				$template_data = $this->_extraField->extra_field_display($section, $product_id, $dbname, $template_data, $categorypage);
 			}
 		}
 
@@ -3415,11 +3417,10 @@ class producthelper
 
 	public function GetProdcutUserfield($id = 'NULL', $section_id = 12)
 	{
-		$extraField = new extraField;
 		$redTemplate = new Redtemplate;
 		$cart = $this->_session->get('cart');
 
-		$row_data = $extraField->getSectionFieldList($section_id, 1, 0);
+		$row_data = $this->_extraField->getSectionFieldList($section_id, 1, 0);
 
 		$product_id = $cart[$id]['product_id'];
 
@@ -3478,16 +3479,15 @@ class producthelper
 
 	public function GetProdcutfield($id = 'NULL', $section_id = 1)
 	{
-		$extraField = new extraField;
 		$cart = $this->_session->get('cart');
 		$product_id = $cart[$id]['product_id'];
-		$row_data = $extraField->getSectionFieldList($section_id, 1, 0);
+		$row_data = $this->_extraField->getSectionFieldList($section_id, 1, 0);
 
 		$resultArr = array();
 
 		for ($j = 0; $j < count($row_data); $j++)
 		{
-			$main_result = $extraField->getSectionFieldDataList($row_data[$j]->field_id, $section_id, $product_id);
+			$main_result = $this->_extraField->getSectionFieldDataList($row_data[$j]->field_id, $section_id, $product_id);
 
 			if (isset($main_result->data_txt) && isset($row_data[$j]->display_in_checkout))
 			{
@@ -3510,19 +3510,18 @@ class producthelper
 
 	public function GetProdcutfield_order($orderitemid = 'NULL', $section_id = 1)
 	{
-		$extraField = new extraField;
 		$order_functions = new order_functions;
 		$orderItem = $order_functions->getOrderItemDetail(0, 0, $orderitemid);
 
 		$product_id = $orderItem[0]->product_id;
 
-		$row_data = $extraField->getSectionFieldList($section_id, 1, 0);
+		$row_data = $this->_extraField->getSectionFieldList($section_id, 1, 0);
 
 		$resultArr = array();
 
 		for ($j = 0; $j < count($row_data); $j++)
 		{
-			$main_result = $extraField->getSectionFieldDataList($row_data[$j]->field_id, $section_id, $product_id);
+			$main_result = $this->_extraField->getSectionFieldDataList($row_data[$j]->field_id, $section_id, $product_id);
 
 			if (isset($main_result->data_txt) && isset($row_data[$j]->display_in_checkout))
 			{
@@ -3545,8 +3544,7 @@ class producthelper
 
 	public function insertProdcutUserfield($id = 'NULL', $cart = array(), $order_item_id = 0, $section_id = 12)
 	{
-		$extraField = new extraField;
-		$row_data = $extraField->getSectionFieldList($section_id, 1);
+		$row_data = $this->_extraField->getSectionFieldList($section_id, 1);
 
 		for ($i = 0; $i < count($row_data); $i++)
 		{
@@ -6299,9 +6297,8 @@ class producthelper
 		$product_test = $product;
 		$user_id = 0;
 		$url = JURI::root();
-		$redconfig = new Redconfiguration();
-		$extraField = new extraField();
-		$stockroomhelper = new rsstockroomhelper();
+		$redconfig = new Redconfiguration;
+		$stockroomhelper = new rsstockroomhelper;
 
 		$product_quantity = JRequest::getVar('product_quantity');
 		$option = 'com_redshop';
@@ -6733,7 +6730,7 @@ class producthelper
 
 				for ($ui = 0; $ui < count($userfieldArr); $ui++)
 				{
-					$result_arr = $extraField->list_all_user_fields(
+					$result_arr = $this->_extraField->list_all_user_fields(
 						$userfieldArr[$ui],
 						$field_section,
 						"hidden",
@@ -10153,13 +10150,11 @@ class producthelper
 
 	public function getProductFinderDatepickerValue($templatedata = "", $productid = 0, $fieldArray = array(), $giftcard = 0)
 	{
-		$extraField = new extraField();
-
 		if (count($fieldArray) > 0)
 		{
 			for ($i = 0; $i < count($fieldArray); $i++)
 			{
-				$fieldValueArray = $extraField->getSectionFieldDataList($fieldArray[$i]->field_id, 17, $productid);
+				$fieldValueArray = $this->_extraField->getSectionFieldDataList($fieldArray[$i]->field_id, 17, $productid);
 
 				if ($fieldValueArray->data_txt != ""
 					&& $fieldArray[$i]->field_show_in_front == 1
@@ -10185,10 +10180,9 @@ class producthelper
 
 	public function getRelatedtemplateView($template_desc, $product_id)
 	{
-		$extra_field = new extraField();
-		$config = new Redconfiguration();
-		$redTemplate = new Redtemplate();
-		$redhelper = new redhelper();
+		$config = new Redconfiguration;
+		$redTemplate = new Redtemplate;
+		$redhelper = new redhelper;
 		$related_product = $this->getRelatedProduct($product_id);
 		$related_template = $this->getRelatedProductTemplate($template_desc);
 		$option = 'com_redshop';
@@ -10662,8 +10656,7 @@ class producthelper
 
 	public function insertPaymentShippingField($cart = array(), $order_id = 0, $section_id = 18)
 	{
-		$extraField = new extraField();
-		$row_data = $extraField->getSectionFieldList($section_id, 1);
+		$row_data = $this->_extraField->getSectionFieldList($section_id, 1);
 
 		for ($i = 0; $i < count($row_data); $i++)
 		{
@@ -10685,13 +10678,12 @@ class producthelper
 
 	public function getPaymentandShippingExtrafields($order, $section_id)
 	{
-		$extraField = new extraField();
-		$row_data = $extraField->getSectionFieldList($section_id, 1);
+		$row_data = $this->_extraField->getSectionFieldList($section_id, 1);
 		$resultArr = array();
 
 		for ($j = 0; $j < count($row_data); $j++)
 		{
-			$main_result = $extraField->getSectionFieldDataList($row_data[$j]->field_id, $section_id, $order->order_id);
+			$main_result = $this->_extraField->getSectionFieldDataList($row_data[$j]->field_id, $section_id, $order->order_id);
 
 			if ($main_result->data_txt != "" && $row_data[$j]->field_show_in_front == 1)
 			{
