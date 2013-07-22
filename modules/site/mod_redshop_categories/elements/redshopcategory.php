@@ -39,7 +39,7 @@ class JFormFieldRedshopcategory extends JFormField
 	function getCategoryListArray($category_id = "", $cid = '0', $level = '0')
 	{
 
-		$db = jFactory::getDBO();
+		$db = JFactory::getDBO();
 		$level++;
 
 		$and = " AND cx.category_parent_id='$cid' ";

@@ -61,7 +61,7 @@ class plgRedshop_paymentrs_payment_ogone extends JPlugin
 			return;
 		}
 
-		$db = jFactory::getDBO();
+		$db = JFactory::getDBO();
 		$request = JRequest::get('request');
 
 		$ACCEPTANCE = $request['ACCEPTANCE'];

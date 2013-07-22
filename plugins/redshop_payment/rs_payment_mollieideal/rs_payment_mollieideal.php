@@ -140,7 +140,7 @@ class plgRedshop_paymentrs_payment_mollieideal extends JPlugin
 		require_once JPATH_BASE . '/plugins/redshop_payment/rs_payment_mollieideal' . DS
 			. 'rs_payment_mollieideal/class.mollie.ideal.php';
 
-		$db = jFactory::getDBO();
+		$db = JFactory::getDBO();
 
 		// Paid already?
 		$query = 'SELECT * FROM ' . $this->_table_prefix . 'orders WHERE order_id = "' . (int) $order_id . '" AND order_payment_status = "Paid" LIMIT 1; ';
@@ -241,7 +241,7 @@ class plgRedshop_paymentrs_payment_mollieideal extends JPlugin
 			return $this->_show_error('"' . JText::_('COM_REDSHOP_SELECTBANK_ERROR') . '"');
 		}
 
-		$db = jFactory::getDBO();
+		$db = JFactory::getDBO();
 
 		$query = 'SELECT order_total FROM #__redshop_orders WHERE order_id = "' . (int) $order_id . '"';
 		$db->setQuery($query);

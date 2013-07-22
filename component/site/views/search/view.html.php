@@ -166,7 +166,7 @@ class searchViewsearch extends JView
 			$keyword        = JRequest::getVar('keyword');
 			$layout         = JRequest::getCmd('layout', 'default');
 
-			$db    = jFactory::getDBO();
+			$db    = JFactory::getDBO();
 			$query = 'SELECT category_name'
 				. ' FROM #__redshop_category  '
 				. 'WHERE category_id=' . JRequest::getInt('cid');

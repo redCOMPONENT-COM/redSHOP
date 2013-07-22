@@ -61,7 +61,7 @@ class plgredshop_paymentrs_payment_bbs extends JPlugin
 			return;
 		}
 
-		$db = jFactory::getDBO();
+		$db = JFactory::getDBO();
 		$request = JRequest::get('request');
 		$order_id = $request['orderid'];
 		JPlugin::loadLanguage('com_redshop');

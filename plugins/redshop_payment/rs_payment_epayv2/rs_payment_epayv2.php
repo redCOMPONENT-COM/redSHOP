@@ -120,7 +120,7 @@ class plgRedshop_paymentrs_payment_epayv2 extends JPlugin
 			return false;
 		}
 
-		$db = jFactory::getDBO();
+		$db = JFactory::getDBO();
 		$request = JRequest::get('request');
 
 		$accept = $request["accept"];
