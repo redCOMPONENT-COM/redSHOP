@@ -52,3 +52,13 @@ ALTER IGNORE TABLE #__redshop_tax_rate ADD INDEX `tax_state` (`tax_state`);
 ALTER IGNORE TABLE #__redshop_users_info ADD INDEX `address_type` (`address_type`);
 
 ALTER IGNORE TABLE #__redshop_product_rating ADD INDEX `published` (`published`);
+
+ALTER IGNORE TABLE #__redshop_discount_product_shoppers ADD INDEX `shopper_group_id` (`shopper_group_id`);
+
+ALTER IGNORE TABLE #__redshop_product_accessory ADD INDEX `product_id` (`product_id`);
+
+ALTER TABLE `#__redshop_discount_product` MODIFY `category_ids` VARCHAR(255);
+ALTER IGNORE TABLE #__redshop_discount_product ADD INDEX `published` (`published`);
+ALTER IGNORE TABLE #__redshop_discount_product ADD INDEX `start_date` (`start_date`);
+ALTER IGNORE TABLE #__redshop_discount_product ADD INDEX `end_date` (`end_date`);
+ALTER IGNORE TABLE #__redshop_discount_product ADD INDEX `category_ids` (`category_ids`);
