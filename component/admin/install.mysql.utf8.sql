@@ -1197,7 +1197,8 @@ CREATE TABLE IF NOT EXISTS `#__redshop_manufacturer` (
 	`sef_url` text NOT NULL,
 	`published` int(11) NOT NULL,
 	`ordering` INT NOT NULL ,
-	PRIMARY KEY  (`manufacturer_id`)
+	PRIMARY KEY  (`manufacturer_id`),
+	KEY `published` (`published`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='redSHOP Manufacturer' ;
 
 -- --------------------------------------------------------
