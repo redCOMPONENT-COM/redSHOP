@@ -17,6 +17,8 @@ class StaticCategory
 
 	public static $productInCat = array();
 
+	protected static $_cats = array();
+
 	public static function getAllCat()
 	{
 		if (!self::$allCat)
@@ -67,5 +69,33 @@ class StaticCategory
 	public static function setProductSef($products)
 	{
 		self::$productInCat = $products + self::$productInCat;
+	}
+
+	public static function getCategoryListArray($cid = 0)
+	{
+		if (count(self::$_cats) == 0)
+		{
+			self::generateCategoryListArray($cid);
+		}
+
+		return self::$_cats;
+	}
+
+	public static function generateCategoryListArray($cid = 0, $level = 0)
+	{
+		$AllCat = self::getAllCat();
+		$level++;
+
+		foreach ($AllCat as $oneCat)
+		{
+			if ($oneCat->category_parent_id == $cid)
+			{
+				$child_id = $oneCat->category_child_id;
+				self::$_cats[] = $oneCat;
+				self::generateCategoryListArray($child_id, $level);
+			}
+		}
+
+		return self::$_cats;
 	}
 }

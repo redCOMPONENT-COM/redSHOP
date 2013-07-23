@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 JLoader::import('joomla.application.component.model');
-JLoader::import('category', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
+JLoader::import('category_static', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
 JLoader::import('product', JPATH_SITE . '/components/com_redshop/helpers');
 
 /**
@@ -297,13 +297,12 @@ class searchModelsearch extends JModel
 
 		$layout = $app->input->get('layout', 'default');
 
-		$category_helper = new product_category;
 		$producthelper   = new producthelper;
 
 		$manufacture_id = $app->input->get('manufacture_id', 0, 'int');
 		$category_id    = $app->input->get('category_id', 0, 'int');
 
-		$cat       = $category_helper->getCategoryListArray(0, $category_id);
+		$cat       = StaticCategory::getCategoryListArray($category_id);
 		$cat_group = array();
 
 		for ($j = 0; $j < count($cat); $j++)
