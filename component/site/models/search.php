@@ -72,6 +72,7 @@ class searchModelsearch extends JModel
 	{
 		$post = JRequest::get('POST');
 		$app = JFactory::getApplication();
+		$max_product_view = 100;
 
 		$redTemplate = new Redtemplate;
 
@@ -90,7 +91,7 @@ class searchModelsearch extends JModel
 			{
 				if (strstr($template[0]->template_desc, "{show_all_products_in_category}"))
 				{
-					$this->_db->setQuery($query);
+					$this->_db->setQuery($query, 0, $max_product_view);
 				}
 				elseif (strstr($template[0]->template_desc, "{pagination}"))
 				{
@@ -109,7 +110,7 @@ class searchModelsearch extends JModel
 						$this->setState('limit', $limit);
 					}
 
-					$this->_db->setQuery($query, $this->getState('limitstart'), $this->getState('productlimit'));
+					$this->_db->setQuery($query, $this->getState('limitstart'), $this->getState('limit'));
 				}
 				elseif ($this->getState('productlimit') > 0)
 				{
@@ -117,12 +118,12 @@ class searchModelsearch extends JModel
 				}
 				else
 				{
-					$this->_db->setQuery($query);
+					$this->_db->setQuery($query, 0, $max_product_view);
 				}
 			}
 			else
 			{
-				$this->_data = $this->_getList($query);
+				$this->_db->setQuery($query, 0, $max_product_view);
 			}
 
 			$this->_data = $this->_db->loadObjectList('product_id');
@@ -416,7 +417,7 @@ class searchModelsearch extends JModel
 			$query->select('1 as advanced_query');
 
 			// Select all child product
-			$query->select('(SELECT GROUP_CONCAT(child.product_id SEPARATOR ";") FROM ' . $this->_table_prefix . 'product as child WHERE p.product_id = child.product_parent_id AND child.published = 1 AND child.expired = 0) AS childs');
+			$query->select('(SELECT GROUP_CONCAT(child.product_id SEPARATOR ";") FROM ' . $this->_table_prefix . 'product as child WHERE p.product_id = child.product_parent_id AND child.published = 1 AND child.expired = 0 ) AS childs');
 
 			// Select accessory
 			$query->select('(SELECT COUNT(a.product_id) FROM ' . $this->_table_prefix . 'product_accessory AS a WHERE a.product_id = p.product_id ) AS totacc');
