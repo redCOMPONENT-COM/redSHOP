@@ -62,3 +62,5 @@ ALTER IGNORE TABLE #__redshop_discount_product ADD INDEX `published` (`published
 ALTER IGNORE TABLE #__redshop_discount_product ADD INDEX `start_date` (`start_date`);
 ALTER IGNORE TABLE #__redshop_discount_product ADD INDEX `end_date` (`end_date`);
 ALTER IGNORE TABLE #__redshop_discount_product ADD INDEX `category_ids` (`category_ids`);
+
+ALTER IGNORE TABLE #__redshop_manufacturer ADD INDEX `published` (`published`);

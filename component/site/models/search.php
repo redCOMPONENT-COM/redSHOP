@@ -1074,28 +1074,21 @@ class searchModelsearch extends JModel
 	public function loadCatProductsManufacturer($cid)
 	{
 		$db    = JFactory::getDBO();
-		$query = "SELECT  p.product_id, p.manufacturer_id FROM " . $this->_table_prefix . "product_category_xref AS cx "
-			. ", " . $this->_table_prefix . "product AS p "
-			. "WHERE cx.category_id='" . $cid . "' "
-			. "AND p.product_id=cx.product_id ";
+		$query = $db->getQuery(true);
+		$query
+			->select('m.manufacturer_name AS text, m.manufacturer_id AS value')
+			->from($this->_table_prefix . 'manufacturer AS m')
+			->leftJoin($this->_table_prefix . 'product AS p ON p.manufacturer_id = m.manufacturer_id')
+			->leftJoin($this->_table_prefix . 'product_category_xref AS cx ON p.product_id = cx.product_id')
+			->where('cx.category_id = ' . (int) $cid)
+			->where('m.published = 1')
+			->where('p.published = 1')
+			->group('m.manufacturer_id')
+			->order('m.manufacturer_name ASC');
 		$db->setQuery($query);
-		$manufacturer = $db->loadObjectList();
+		$manufacturers = $db->loadObjectList();
 
-		$mids = array();
-
-		for ($i = 0; $i < count($manufacturer); $i++)
-		{
-			if ($manufacturer[$i]->manufacturer_id > 0)
-				$mids[] = $manufacturer[$i]->manufacturer_id;
-		}
-
-		$mid = implode(",", $mids);
-
-		$query = "SELECT manufacturer_id AS value,manufacturer_name AS text FROM " . $this->_table_prefix . "manufacturer "
-			. "WHERE manufacturer_id IN ('" . $mid . "')";
-		$db->setQuery($query);
-
-		return $db->loadObjectList();
+		return $manufacturers;
 	}
 
 	public function getajaxData()
