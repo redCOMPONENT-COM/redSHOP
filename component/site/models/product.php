@@ -10,11 +10,10 @@
 defined('_JEXEC') or die ('Restricted access');
 
 JLoader::import('joomla.application.component.model');
-
-require_once JPATH_COMPONENT . '/helpers/product.php';
-require_once JPATH_COMPONENT . '/helpers/extra_field.php';
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/shipping.php';
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/extra_field.php';
+JLoader::import('product', JPATH_COMPONENT . '/helpers');
+JLoader::import('extra_field', JPATH_COMPONENT . '/helpers');
+JLoader::import('shipping', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
+JLoader::import('extra_field', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
 
 /**
  * Class productModelproduct
@@ -45,8 +44,8 @@ class productModelproduct extends JModel
 		parent::__construct();
 
 		$this->_table_prefix = '#__redshop_';
-		$option              = JRequest::getVar('option', 'com_redshop');
-		$pid                 = JRequest::getInt('pid', 0);
+		$option = JRequest::getVar('option', 'com_redshop');
+		$pid = JRequest::getInt('pid', 0);
 
 		$GLOBALS['childproductlist'] = array();
 
@@ -56,38 +55,106 @@ class productModelproduct extends JModel
 
 	public function setId($id)
 	{
-		$this->_id   = $id;
+		$this->_id = $id;
 		$this->_data = null;
 	}
 
 	public function _buildQuery()
 	{
-		$and = "";
+		$query = $this->_db->getQuery(true);
+		$session = JFactory::getSession();
+
+		$helper = new redhelper;
+
+		$user = JFactory::getUser();
+		$user_id = $user->id;
+
+		$rsUserhelper = new rsUserhelper;
+
+		$shopperGroupId = $rsUserhelper->getShopperGroup($user_id);
+
+		if ($helper->isredCRM())
+		{
+			if ($session->get('isredcrmuser'))
+			{
+				$crmDebitorHelper = new crmDebitorHelper;
+				$debitor_id_tot = $crmDebitorHelper->getContactPersons(0, 0, 0, $user_id);
+				$debitor_id = $debitor_id_tot[0]->section_id;
+				$details = $crmDebitorHelper->getDebitor($debitor_id);
+				$user_id = $details[0]->user_id;
+			}
+		}
 
 		// Shopper group - choose from manufactures Start
-		$rsUserhelper               = new rsUserhelper;
 		$shopper_group_manufactures = $rsUserhelper->getShopperGroupManufacturers();
 
 		if ($shopper_group_manufactures != "")
 		{
-			$and .= " AND p.manufacturer_id IN (" . $shopper_group_manufactures . ") ";
+			$query->where('p.manufacturer_id IN (' . $shopper_group_manufactures . ')');
 		}
 
 		// Shopper group - choose from manufactures End
 		if (isset ($this->_catid) && $this->_catid != 0)
 		{
-			$and .= "AND pcx.category_id='" . $this->_catid . "' ";
+			$query->where('pcx.category_id = ' . (int) $this->_catid);
 		}
 
-		$query = "SELECT p.*, c.category_id, c.category_name ,c.category_back_full_image,c.category_full_image , m.manufacturer_name,pcx.ordering "
-			. "FROM " . $this->_table_prefix . "product AS p "
-			. "LEFT JOIN " . $this->_table_prefix . "product_category_xref AS pcx ON pcx.product_id = p.product_id "
-			. "LEFT JOIN " . $this->_table_prefix . "manufacturer AS m ON m.manufacturer_id = p.manufacturer_id "
-			. "LEFT JOIN " . $this->_table_prefix . "category AS c ON c.category_id = pcx.category_id "
-			. "WHERE 1=1 "
-			. "AND p.product_id ='" . $this->_id . "' "
-			. $and
-			. "LIMIT 0,1 ";
+		if (DEFAULT_QUANTITY_SELECTBOX_VALUE != '')
+		{
+			$quaboxarr = explode(',', DEFAULT_QUANTITY_SELECTBOX_VALUE);
+			$quaboxarr = array_merge(array(), array_unique($quaboxarr));
+			sort($quaboxarr);
+
+			for ($q = 0; $q < count($quaboxarr); $q++)
+			{
+				if (intVal($quaboxarr[$q]) && intVal($quaboxarr[$q]) != 0)
+				{
+					$qunselect = intVal($quaboxarr[$q]);
+					break;
+				}
+			}
+		}
+		else
+			$qunselect = 1;
+
+		$query->select('price_id, p_price.product_price AS product_adv_price, p_price.product_currency AS product_adv_currency,  p_price.discount_price AS discount_adv_price, p_price.discount_start_date AS discount_adv_start_date, p_price.discount_end_date AS discount_adv_end_date');
+
+		$query->order('p_price.price_quantity_start ASC');
+
+		$producthelper = new producthelper;
+		$userdata = $producthelper->getVatUserinfo($user_id);
+		$andTr = ' AND (';
+
+		if (VAT_BASED_ON == 2)
+		{
+			$andTr .= ' tr.is_eu_country = 1 AND ';
+		}
+
+		$andTr .= ' tr.tax_country = "' . $userdata->country_code . '" AND (tr.tax_state = "' . $userdata->state_code . '" OR tr.tax_state = "") ';
+		$andTr .= ' AND (tr.tax_group_id = p.product_tax_group_id OR tr.tax_group_id = "' . DEFAULT_VAT_GROUP . '" ))';
+
+		// Select stockroom fields about product
+		if (USE_STOCKROOM == 1)
+		{
+			$query->select('(SELECT SUM(srxp.quantity) FROM ' . $this->_table_prefix . 'product_stockroom_xref AS srxp WHERE p.product_id = srxp.product_id AND srxp.quantity >= 0 ) AS quantity_adv');
+		}
+
+		// Select fields product, category, manufacturer
+		$query->select(array('p.*', 'c.*', 'm.*'));
+
+		// Label from system about using advanced info about product
+		/*$query->select('1 as advanced_query');*/
+
+		$query->select('pcx.ordering, tr.*, tr.mdate AS tax_mdate');
+		$query->from($this->_table_prefix . 'product AS p');
+		$query->leftJoin($this->_table_prefix . 'product_category_xref AS pcx ON pcx.product_id = p.product_id');
+		$query->leftJoin($this->_table_prefix . 'manufacturer AS m ON m.manufacturer_id = p.manufacturer_id');
+		$query->leftJoin($this->_table_prefix . 'category AS c ON c.category_id = pcx.category_id');
+		$query->leftJoin($this->_table_prefix . 'tax_rate as tr ON tr.tax_group_id = p.product_tax_group_id ' . $andTr);
+		$query->leftJoin($this->_table_prefix . 'tax_group as tg ON tg.tax_group_id=tr.tax_group_id AND tg.published = 1');
+		$query->leftJoin($this->_table_prefix . 'product_price AS p_price ON p.product_id = p_price.product_id AND ((p_price.price_quantity_start <= ' . (int) $qunselect . ' AND p_price.price_quantity_end >= ' . (int) $qunselect . ') OR(p_price.price_quantity_start = 0 AND p_price.price_quantity_end = 0)) AND p_price.shopper_group_id = ' . (int) $shopperGroupId);
+
+		$query->where('p.product_id =' . (int) $this->_id);
 
 		return $query;
 	}
@@ -99,12 +166,12 @@ class productModelproduct extends JModel
 		if (empty ($this->_data))
 		{
 			$query = $this->_buildQuery();
-			$this->_db->setQuery($query);
+			$this->_db->setQuery($query, 0, 1);
 			$this->_data = $this->_db->loadObject();
 		}
 
 		$this->_data->product_s_desc = $redTemplate->parseredSHOPplugin($this->_data->product_s_desc);
-		$this->_data->product_desc   = $redTemplate->parseredSHOPplugin($this->_data->product_desc);
+		$this->_data->product_desc = $redTemplate->parseredSHOPplugin($this->_data->product_desc);
 
 		return $this->_data;
 	}
@@ -125,9 +192,9 @@ class productModelproduct extends JModel
 	/**
 	 * get next or previous product using ordering.
 	 *
-	 * @param   int  $product_id   current product id
-	 * @param   int  $category_id  current product category id
-	 * @param   int  $dirn         to indicate next or previous product
+	 * @param   int $product_id   current product id
+	 * @param   int $category_id  current product category id
+	 * @param   int $dirn         to indicate next or previous product
 	 *
 	 * @return mixed
 	 */
@@ -169,7 +236,7 @@ class productModelproduct extends JModel
 
 	public function checkReview($email)
 	{
-		$db    = JFactory::getDBO();
+		$db = JFactory::getDBO();
 		$query = "SELECT email from " . $this->_table_prefix . "product_rating WHERE email='" . $email . "' AND email != '' AND product_id = '" . $product_id . "' limit 0,1 ";
 		$db->setQuery($query);
 		$chkemail = $db->loadResult();
@@ -184,16 +251,16 @@ class productModelproduct extends JModel
 
 	public function sendMailForReview($data)
 	{
-		$user           = JFactory::getUser();
+		$user = JFactory::getUser();
 		$data['userid'] = $user->id;
 
 		$data['user_rating'] = $data['user_rating'];
-		$data['username']    = $data['username'];
-		$data['title']       = $data['title'];
-		$data['comment']     = $data['comment'];
-		$data['product_id']  = $data['product_id'];
-		$data['published']   = 0;
-		$data['time']        = $data['time'];
+		$data['username'] = $data['username'];
+		$data['title'] = $data['title'];
+		$data['comment'] = $data['comment'];
+		$data['product_id'] = $data['product_id'];
+		$data['published'] = 0;
+		$data['time'] = $data['time'];
 
 		$row = $this->getTable('rating_detail');
 
@@ -212,19 +279,19 @@ class productModelproduct extends JModel
 		}
 
 		$producthelper = new producthelper;
-		$redshopMail   = new redshopMail;
-		$user          = JFactory::getUser();
+		$redshopMail = new redshopMail;
+		$user = JFactory::getUser();
 
-		$url        = JURI::base();
-		$option     = JRequest::getVar('option');
-		$Itemid     = JRequest::getVar('Itemid');
-		$mailbcc    = null;
-		$fromname   = $data['username'];
-		$from       = $user->email;
-		$subject    = "";
-		$message    = $data['title'];
-		$comment    = $data['comment'];
-		$username   = $data['username'];
+		$url = JURI::base();
+		$option = JRequest::getVar('option');
+		$Itemid = JRequest::getVar('Itemid');
+		$mailbcc = null;
+		$fromname = $data['username'];
+		$from = $user->email;
+		$subject = "";
+		$message = $data['title'];
+		$comment = $data['comment'];
+		$username = $data['username'];
 		$product_id = $data['product_id'];
 
 		$mailbody = $redshopMail->getMailtemplate(0, "review_mail");
@@ -234,7 +301,7 @@ class productModelproduct extends JModel
 		if (count($mailbody) > 0)
 		{
 			$data_add = $mailbody[0]->mail_body;
-			$subject  = $mailbody[0]->mail_subject;
+			$subject = $mailbody[0]->mail_subject;
 
 			if (trim($mailbody[0]->mail_bcc) != "")
 			{
@@ -244,13 +311,13 @@ class productModelproduct extends JModel
 
 		$product = $producthelper->getProductById($product_id);
 
-		$link        = JRoute::_($url . "index.php?option=" . $option . "&view=product&pid=" . $product_id . '&Itemid=' . $Itemid);
+		$link = JRoute::_($url . "index.php?option=" . $option . "&view=product&pid=" . $product_id . '&Itemid=' . $Itemid);
 		$product_url = "<a href=" . $link . ">" . $product->product_name . "</a>";
-		$data_add    = str_replace("{product_link}", $product_url, $data_add);
-		$data_add    = str_replace("{product_name}", $product->product_name, $data_add);
-		$data_add    = str_replace("{title}", $message, $data_add);
-		$data_add    = str_replace("{comment}", $comment, $data_add);
-		$data_add    = str_replace("{username}", $username, $data_add);
+		$data_add = str_replace("{product_link}", $product_url, $data_add);
+		$data_add = str_replace("{product_name}", $product->product_name, $data_add);
+		$data_add = str_replace("{title}", $message, $data_add);
+		$data_add = str_replace("{comment}", $comment, $data_add);
+		$data_add = str_replace("{username}", $username, $data_add);
 
 		if (ADMINISTRATOR_EMAIL != "")
 		{
@@ -337,8 +404,8 @@ class productModelproduct extends JModel
 	{
 		ob_clean();
 		$extraField = new extraField;
-		$section    = 12;
-		$row_data   = $extraField->getSectionFieldList($section);
+		$section = 12;
+		$row_data = $extraField->getSectionFieldList($section);
 
 		for ($check_i = 1; $check_i <= $_SESSION ["no_of_prod"]; $check_i++)
 			if ($_SESSION ['wish_' . $check_i]->product_id == $data ['product_id'])
@@ -351,12 +418,12 @@ class productModelproduct extends JModel
 		$no_prod_i = 'wish_' . $_SESSION ["no_of_prod"];
 
 		$_SESSION [$no_prod_i]->product_id = $data ['product_id'];
-		$_SESSION [$no_prod_i]->comment    = isset ($data ['comment']) ? $data ['comment'] : "";
-		$_SESSION [$no_prod_i]->cdate      = $data ['cdate'];
+		$_SESSION [$no_prod_i]->comment = isset ($data ['comment']) ? $data ['comment'] : "";
+		$_SESSION [$no_prod_i]->cdate = $data ['cdate'];
 
 		for ($k = 0; $k < count($row_data); $k++)
 		{
-			$myfield                        = "productuserfield_" . $k;
+			$myfield = "productuserfield_" . $k;
 			$_SESSION[$no_prod_i]->$myfield = $data['productuserfield_' . $k];
 		}
 
@@ -365,7 +432,7 @@ class productModelproduct extends JModel
 
 	public function addProductTagsXref($post, $tags)
 	{
-		$user  = JFactory::getUser();
+		$user = JFactory::getUser();
 		$query = "INSERT INTO " . $this->_table_prefix . "product_tags_xref "
 			. "VALUES('" . $tags->tags_id . "','" . $post['product_id'] . "','" . $user->id . "')";
 		$this->_db->setQuery($query);
@@ -376,7 +443,7 @@ class productModelproduct extends JModel
 
 	public function checkProductTags($tagname, $productid)
 	{
-		$user  = JFactory::getUser();
+		$user = JFactory::getUser();
 		$query = "SELECT pt.*,ptx.product_id,ptx.users_id FROM " . $this->_table_prefix . "product_tags AS pt "
 			. "LEFT JOIN " . $this->_table_prefix . "product_tags_xref AS ptx ON pt.tags_id=ptx.tags_id "
 			. "WHERE pt.tags_name LIKE '" . $tagname . "' "
@@ -390,7 +457,7 @@ class productModelproduct extends JModel
 
 	public function checkWishlist($product_id)
 	{
-		$user  = JFactory::getUser();
+		$user = JFactory::getUser();
 		$query = "SELECT * FROM " . $this->_table_prefix . "wishlist "
 			. "WHERE product_id='" . $product_id . "' "
 			. "AND user_id='" . $user->id . "' ";
@@ -402,10 +469,10 @@ class productModelproduct extends JModel
 
 	public function checkComparelist($product_id)
 	{
-		$session         = JFactory::getSession();
+		$session = JFactory::getSession();
 		$compare_product = $session->get('compare_product');
-		$cid             = JRequest::getInt('cid');
-		$catid           = $compare_product[0]['category_id'];
+		$cid = JRequest::getInt('cid');
+		$catid = $compare_product[0]['category_id'];
 
 		if (PRODUCT_COMPARISON_TYPE == 'category' && $catid != $cid)
 		{
@@ -443,12 +510,12 @@ class productModelproduct extends JModel
 
 	public function addtocompare($data)
 	{
-		$session         = JFactory::getSession();
+		$session = JFactory::getSession();
 		$compare_product = $session->get('compare_product');
 
 		if (!$compare_product)
 		{
-			$compare_product        = array();
+			$compare_product = array();
 			$compare_product['idx'] = 0;
 
 			$session->set('compare_product', $compare_product);
@@ -463,7 +530,7 @@ class productModelproduct extends JModel
 			$idx = 0;
 		}
 
-		$compare_product[$idx]["product_id"]  = $data["pid"];
+		$compare_product[$idx]["product_id"] = $data["pid"];
 		$compare_product[$idx]["category_id"] = $data["cid"];
 
 		$compare_product['idx'] = $idx + 1;
@@ -474,7 +541,7 @@ class productModelproduct extends JModel
 
 	public function removeCompare($product_id)
 	{
-		$session         = JFactory::getSession();
+		$session = JFactory::getSession();
 		$compare_product = $session->get('compare_product');
 
 		if (!$compare_product)
@@ -483,8 +550,8 @@ class productModelproduct extends JModel
 		}
 
 		$tmp_array = array();
-		$idx       = (int) ($compare_product['idx']);
-		$tmp_i     = 0;
+		$idx = (int) ($compare_product['idx']);
+		$tmp_i = 0;
 
 		for ($i = 0; $i < $idx; $i++)
 		{
@@ -505,7 +572,7 @@ class productModelproduct extends JModel
 			$idx = 0;
 		}
 
-		$compare_product        = $tmp_array;
+		$compare_product = $tmp_array;
 		$compare_product['idx'] = $idx;
 		$session->set('compare_product', $compare_product);
 
@@ -549,7 +616,7 @@ class productModelproduct extends JModel
 		$query = "SELECT * FROM " . $this->_table_prefix . $tablename
 			. "WHERE 1=1 "
 			. $where;
-		$list  = $this->_getList($query);
+		$list = $this->_getList($query);
 
 		return $list;
 	}
@@ -573,7 +640,7 @@ class productModelproduct extends JModel
 	public function getAllChildProductArrayList($childid = 0, $parentid = 0)
 	{
 		$producthelper = new producthelper;
-		$info          = $producthelper->getChildProduct($parentid);
+		$info = $producthelper->getChildProduct($parentid);
 
 		for ($i = 0; $i < count($info); $i++)
 		{
@@ -590,14 +657,14 @@ class productModelproduct extends JModel
 	public function addNotifystock($product_id, $property_id, $subproperty_id)
 	{
 		ob_clean();
-		$user                   = JFactory::getUser();
-		$user_id                = $user->id;
-		$data                   = array();
-		$data['product_id']     = $product_id;
-		$data['property_id']    = $property_id;
+		$user = JFactory::getUser();
+		$user_id = $user->id;
+		$data = array();
+		$data['product_id'] = $product_id;
+		$data['property_id'] = $property_id;
 		$data['subproperty_id'] = $subproperty_id;
-		$data['user_id']        = $user_id;
-		$row                    = $this->getTable('notifystock_user');
+		$data['user_id'] = $user_id;
+		$row = $this->getTable('notifystock_user');
 
 		if (!$row->bind($data))
 		{
