@@ -920,13 +920,10 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 			if ($product->attribute_set_id > 0)
 			{
 				$attributes_set = $producthelper->getProductAttribute(0, $product->attribute_set_id, 0, 1);
-				$attributes = $producthelper->getProductAttribute($product->product_id);
-				$attributes = array_merge($attributes, $attributes_set);
 			}
-			else
-			{
-				$attributes = array();
-			}
+
+			$attributes = $producthelper->getProductAttribute($product);
+			$attributes = array_merge($attributes, $attributes_set);
 		}
 
 		// Product attribute  Start

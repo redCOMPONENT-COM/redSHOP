@@ -35,6 +35,8 @@ $redhelper       = new redhelper;
 
 $template = $this->template;
 
+$producthelper->setProductAttributeArray();
+
 if (count($template) > 0 && $template->template_desc != "")
 {
 	$template_desc = $template->template_desc;
@@ -732,9 +734,7 @@ if (strstr($template_desc, "{child_products}"))
 }
 
 // Checking for child products
-$childproduct = $producthelper->getChildProduct($this->data->product_id);
-
-if (count($childproduct) > 0)
+if (!is_null($this->data->childs))
 {
 	if (PURCHASE_PARENT_WITH_CHILD == 1)
 	{
@@ -746,7 +746,7 @@ if (count($childproduct) > 0)
 			$attributes_set = $producthelper->getProductAttribute(0, $this->data->attribute_set_id, 0, 1);
 		}
 
-		$attributes = $producthelper->getProductAttribute($this->data->product_id);
+		$attributes = $producthelper->getProductAttribute($this->data);
 		$attributes = array_merge($attributes, $attributes_set);
 	}
 	else
@@ -765,7 +765,7 @@ else
 		$attributes_set = $producthelper->getProductAttribute(0, $this->data->attribute_set_id, 0, 1);
 	}
 
-	$attributes = $producthelper->getProductAttribute($this->data->product_id);
+	$attributes = $producthelper->getProductAttribute($this->data);
 	$attributes = array_merge($attributes, $attributes_set);
 }
 
@@ -776,7 +776,7 @@ $template_desc = $producthelper->getProductNotForSaleComment($this->data, $templ
 
 // Product attribute  Start
 $totalatt = count($attributes);
-$template_desc = $producthelper->replaceAttributeData($this->data->product_id, 0, 0, $attributes, $template_desc, $attribute_template, $isChilds);
+$template_desc = $producthelper->replaceAttributeData($this->data, 0, 0, $attributes, $template_desc, $attribute_template, $isChilds);
 
 // Product attribute  End
 
@@ -826,7 +826,7 @@ if (count($attributes) > 0 && count($attribute_template) > 0)
 		}
 	}
 
-	$preselectedresult = $producthelper->displayAdditionalImage($this->data->product_id, 0, 0, $selectedpropertyId, $selectedsubpropertyId, $pw_thumb, $ph_thumb, $redview = 'product');
+	$preselectedresult = $producthelper->displayAdditionalImage($this->data, 0, 0, $selectedpropertyId, $selectedsubpropertyId, $pw_thumb, $ph_thumb, $redview = 'product');
 
 	if (strstr($template_desc, "{product_availability_date}") || strstr($template_desc, "{stock_notify_flag}") || strstr($template_desc, "{stock_status"))
 	{
@@ -1199,7 +1199,7 @@ else
 // Front-back preview image tag end
 
 // Cart
-$template_desc = $producthelper->replaceCartTemplate($this->data->product_id, $this->data->category_id, 0, 0, $template_desc, $isChilds, $userfieldArr, $totalatt, $totalAccessory, $count_no_user_field);
+$template_desc = $producthelper->replaceCartTemplate($this->data, $this->data->category_id, 0, 0, $template_desc, $isChilds, $userfieldArr, $totalatt, $totalAccessory, $count_no_user_field);
 
 $template_desc = str_replace("{ajaxwishlist_icon}", '', $template_desc);
 
@@ -1398,7 +1398,7 @@ $template_desc = str_replace("{form_rating}", $reviewform, $template_desc);
 // Product Review/Rating
 if (strstr($template_desc, "{product_rating_summary}"))
 {
-	$final_avgreview_data = $producthelper->getProductRating($this->data->product_id);
+	$final_avgreview_data = $producthelper->getProductRating($this->data);
 
 	if ($final_avgreview_data != "")
 	{
@@ -1681,69 +1681,69 @@ echo eval("?>" . $template_desc . "<?php ");
 
 <script type="text/javascript">
 
-function setsendImagepath(elm) {
-	var path = document.getElementById('<?php echo "main_image" . JRequest::getVar('pid');?>').src;
-	var filenamepath = path.replace(/\\/g, '/').replace(/.*\//, '');
-	var imageName = filenamepath.split('&');
-	elm.href = elm + '&imageName=' + imageName[0];
-}
+	function setsendImagepath(elm) {
+		var path = document.getElementById('<?php echo "main_image" . JRequest::getVar('pid');?>').src;
+		var filenamepath = path.replace(/\\/g, '/').replace(/.*\//, '');
+		var imageName = filenamepath.split('&');
+		elm.href = elm + '&imageName=' + imageName[0];
+	}
 
-function setZoomImagepath(elm) {
-	var elmpath = elm.href;
-	var elmfilenamepath = elmpath.replace(/\\/g, '/').replace(/.*\//, '');
-	var path = document.getElementById('<?php echo "main_image" . JRequest::getVar('pid');?>').src;
-	var filenamepath = path.replace(/\\/g, '/').replace(/.*\//, '');
-	var imageName = filenamepath.split('&');
+	function setZoomImagepath(elm) {
+		var elmpath = elm.href;
+		var elmfilenamepath = elmpath.replace(/\\/g, '/').replace(/.*\//, '');
+		var path = document.getElementById('<?php echo "main_image" . JRequest::getVar('pid');?>').src;
+		var filenamepath = path.replace(/\\/g, '/').replace(/.*\//, '');
+		var imageName = filenamepath.split('&');
 
-	if (/MSIE[\/\s](\d+\.\d+)/.test(navigator.userAgent)) {
-		elmfilenamepath = decodeURI(elmfilenamepath);
-		if (elmfilenamepath != imageName[0]) {
-			var imageurl = '<?php echo $url . 'components/com_redshop/assets/images/mergeImages/'; ?>' + imageName[0];
-			elm.href = imageurl;
+		if (/MSIE[\/\s](\d+\.\d+)/.test(navigator.userAgent)) {
+			elmfilenamepath = decodeURI(elmfilenamepath);
+			if (elmfilenamepath != imageName[0]) {
+				var imageurl = '<?php echo $url . 'components/com_redshop/assets/images/mergeImages/'; ?>' + imageName[0];
+				elm.href = imageurl;
+			}
+		}
+		else {
+			if (elmfilenamepath != imageName[0]) {
+				var imageurl = '<?php echo $url . 'components/com_redshop/assets/images/mergeImages/'; ?>' + imageName[0];
+				elm.href = imageurl;
+			}
 		}
 	}
-	else {
-		if (elmfilenamepath != imageName[0]) {
-			var imageurl = '<?php echo $url . 'components/com_redshop/assets/images/mergeImages/'; ?>' + imageName[0];
-			elm.href = imageurl;
+
+	function validateReview() {
+		var email = document.getElementById('email').value;
+		var form = document.writereview;
+		var flag = 0;
+		var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+		var selection = document.writereview.user_rating;
+
+		for (i = 0; i < selection.length; i++) {
+			if (selection[i].checked == true) {
+				flag = 1;
+			}
+		}
+		if (flag == 0) {
+			alert('<?php echo JText::_('COM_REDSHOP_PLEASE_RATE_THE_PRODUCT'); ?>');
+			return false;
+		}
+		else if (email == '') {
+			alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_EMAIL_ADDRESS')?>");
+			return false;
+		}
+		else if (reg.test(email) == false) {
+			alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_VALID_EMAIL_ADDRESS')?>");
+			return false;
+		}
+		else if (form.comment.value == "") {
+			alert('<?php echo JText::_('COM_REDSHOP_PLEASE_COMMENT_ON_PRODUCT'); ?>');
+			return false;
+		}
+		else if (form.review_captcha.value == "") {
+			alert('<?php echo JText::_('COM_REDSHOP_PLEASE_FILL_CAPTCHA'); ?>');
+			return false;
+		}
+		else {
+			return true;
 		}
 	}
-}
-
-function validateReview() {
-	var email = document.getElementById('email').value;
-	var form = document.writereview;
-	var flag = 0;
-	var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
-	var selection = document.writereview.user_rating;
-
-	for (i = 0; i < selection.length; i++) {
-		if (selection[i].checked == true) {
-			flag = 1;
-		}
-	}
-	if (flag == 0) {
-		alert('<?php echo JText::_('COM_REDSHOP_PLEASE_RATE_THE_PRODUCT'); ?>');
-		return false;
-	}
-	else if (email == '') {
-		alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_EMAIL_ADDRESS')?>");
-		return false;
-	}
-	else if (reg.test(email) == false) {
-		alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_VALID_EMAIL_ADDRESS')?>");
-		return false;
-	}
-	else if (form.comment.value == "") {
-		alert('<?php echo JText::_('COM_REDSHOP_PLEASE_COMMENT_ON_PRODUCT'); ?>');
-		return false;
-	}
-	else if (form.review_captcha.value == "") {
-		alert('<?php echo JText::_('COM_REDSHOP_PLEASE_FILL_CAPTCHA'); ?>');
-		return false;
-	}
-	else {
-		return true;
-	}
-}
 </script>
