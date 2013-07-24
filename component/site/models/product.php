@@ -14,6 +14,7 @@ JLoader::import('product', JPATH_COMPONENT . '/helpers');
 JLoader::import('extra_field', JPATH_COMPONENT . '/helpers');
 JLoader::import('shipping', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
 JLoader::import('extra_field', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
+JLoader::import('category_static', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
 
 /**
  * Class productModelproduct
@@ -117,8 +118,6 @@ class productModelproduct extends JModel
 		else
 			$qunselect = 1;
 
-		$query->select('price_id, p_price.product_price AS product_adv_price, p_price.product_currency AS product_adv_currency,  p_price.discount_price AS discount_adv_price, p_price.discount_start_date AS discount_adv_start_date, p_price.discount_end_date AS discount_adv_end_date');
-
 		$query->order('p_price.price_quantity_start ASC');
 
 		$producthelper = new producthelper;
@@ -143,18 +142,74 @@ class productModelproduct extends JModel
 		$query->select(array('p.*', 'c.*', 'm.*'));
 
 		// Label from system about using advanced info about product
-		/*$query->select('1 as advanced_query');*/
+		$query->select('1 as advanced_query');
 
-		$query->select('pcx.ordering, tr.*, tr.mdate AS tax_mdate');
+		// Select all child product
+		$query->select('(SELECT GROUP_CONCAT(child.product_id SEPARATOR ";") FROM ' . $this->_table_prefix . 'product as child WHERE p.product_id = child.product_parent_id AND child.published = 1 AND child.expired = 0) AS childs');
+
+		// Select accessory
+		$query->select('(SELECT COUNT(a.product_id) FROM ' . $this->_table_prefix . 'product_accessory AS a WHERE a.product_id = p.product_id ) AS totacc');
+
+		// Select alt text from main image if exist
+		$query->select('media.media_alternate_text AS alttext');
+
+		// Select advanced info price if exist
+		$query->select(
+			array(
+				'p_price.price_id',
+				'p_price.product_price AS product_adv_price',
+				'p_price.product_currency AS product_adv_currency',
+				'p_price.discount_price AS discount_adv_price',
+				'p_price.discount_start_date AS discount_adv_start_date',
+				'p_price.discount_end_date AS discount_adv_end_date'
+			)
+		);
+
+		// Select template code about product
+		$query->select(
+			array(
+				'tpl.template_id',
+				'tpl.template_desc',
+				'tpl.template_section',
+				'tpl.template_name'
+			)
+		);
+
+		// Select TAX info
+		$query->select(
+			array(
+				'tr.*',
+				'tr.mdate AS tax_mdate'
+			)
+		);
+
+		// Select product attributes
+		$query->select('(SELECT GROUP_CONCAT(att.attribute_id SEPARATOR ",") FROM ' . $this->_table_prefix . 'product_attribute AS att WHERE att.product_id = p.product_id AND att.attribute_name != "" ) AS list_attribute_id');
+
+		$query->select('pcx.ordering');
+
 		$query->from($this->_table_prefix . 'product AS p');
+
 		$query->leftJoin($this->_table_prefix . 'product_category_xref AS pcx ON pcx.product_id = p.product_id');
 		$query->leftJoin($this->_table_prefix . 'manufacturer AS m ON m.manufacturer_id = p.manufacturer_id');
+		$query->leftJoin($this->_table_prefix . 'media AS media ON p.product_id = media.section_id AND media.media_section = "product" AND media.media_type = "images"');
+		$query->leftJoin($this->_table_prefix . 'template AS tpl ON tpl.template_id = p.product_template AND tpl.published = 1');
 		$query->leftJoin($this->_table_prefix . 'category AS c ON c.category_id = pcx.category_id');
 		$query->leftJoin($this->_table_prefix . 'tax_rate as tr ON tr.tax_group_id = p.product_tax_group_id ' . $andTr);
 		$query->leftJoin($this->_table_prefix . 'tax_group as tg ON tg.tax_group_id=tr.tax_group_id AND tg.published = 1');
 		$query->leftJoin($this->_table_prefix . 'product_price AS p_price ON p.product_id = p_price.product_id AND ((p_price.price_quantity_start <= ' . (int) $qunselect . ' AND p_price.price_quantity_end >= ' . (int) $qunselect . ') OR(p_price.price_quantity_start = 0 AND p_price.price_quantity_end = 0)) AND p_price.shopper_group_id = ' . (int) $shopperGroupId);
 
+		// Select product special price
+		$discount_product_id = $producthelper->getProductSpecialId($user_id);
+		$query->select('dp.discount_product_id AS dp_discount_product_id, dp.amount AS dp_amount, dp.condition AS dp_condition, dp.discount_amount AS dp_discount_amount, dp.discount_type AS dp_discount_type');
+		$query->leftJoin($this->_table_prefix . 'discount_product AS dp ON dp.published = 1 AND (dp.discount_product_id IN ("' . $discount_product_id . '") OR FIND_IN_SET("' . (int) $this->_id . '", dp.category_ids) ) AND dp.`start_date` <= ' . time() . ' AND dp.`end_date` >= ' . time() . ' AND dp.`discount_product_id` IN (SELECT `discount_product_id` FROM `' . $this->_table_prefix . 'discount_product_shoppers` WHERE `shopper_group_id` = "' . $shopperGroupId . '")');
+
+		// Select ratings
+		$query->select('(SELECT COUNT(pr1.rating_id) FROM ' . $this->_table_prefix . 'product_rating AS pr1 WHERE pr1.product_id = p.product_id AND pr1.published = 1) AS count_rating');
+		$query->select('(SELECT SUM(pr2.user_rating) FROM ' . $this->_table_prefix . 'product_rating AS pr2 WHERE pr2.product_id = p.product_id AND pr2.published = 1) AS sum_rating');
+
 		$query->where('p.product_id =' . (int) $this->_id);
+		$query->where('(media.section_id IS NULL OR media.section_id > 0)');
 
 		return $query;
 	}
@@ -166,8 +221,9 @@ class productModelproduct extends JModel
 		if (empty ($this->_data))
 		{
 			$query = $this->_buildQuery();
-			$this->_db->setQuery($query, 0, 1);
+			$this->_db->setQuery($query);
 			$this->_data = $this->_db->loadObject();
+			StaticCategory::setProductSef(array($this->_data->product_id => $this->_data));
 		}
 
 		$this->_data->product_s_desc = $redTemplate->parseredSHOPplugin($this->_data->product_s_desc);
