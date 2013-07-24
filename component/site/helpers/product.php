@@ -8253,9 +8253,11 @@ class producthelper
 
 					if ($quotation_status != 1 || ($quotation_status == 1 && SHOW_QUOTATION_PRICE == 1))
 					{
-						$displayattribute .= "(" . $propdata[$p]->section_oprand
-							. $this->getProductFormattedPrice($propdata[$p]->section_price + $propdata[$p]->section_vat)
-							. ")";
+						$propertyOprand       = $propdata[$p]->section_oprand;
+						$propertyPrice        = $this->getProductFormattedPrice($propdata[$p]->section_price);
+						$propertyPriceWithVat = $this->getProductFormattedPrice($propdata[$p]->section_price + $propdata[$p]->section_vat);
+
+						$displayattribute .= "( $propertyOprand $propertyPrice excl. vat / $propertyPriceWithVat)";
 					}
 
 					$displayattribute .= "</div>";
@@ -8273,9 +8275,11 @@ class producthelper
 
 						if ($quotation_status != 1 || ($quotation_status == 1 && SHOW_QUOTATION_PRICE == 1))
 						{
-							$displayattribute .= "(" . $subpropdata[$sp]->section_oprand
-								. $this->getProductFormattedPrice($subpropdata[$sp]->section_price + $subpropdata[$sp]->section_vat)
-								. ")";
+							$subpropertyOprand       = $subpropdata[$sp]->section_oprand;
+							$subpropertyPrice        = $this->getProductFormattedPrice($subpropdata[$sp]->section_price);
+							$subpropertyPriceWithVat = $this->getProductFormattedPrice($subpropdata[$sp]->section_price + $subpropdata[$sp]->section_vat);
+
+							$displayattribute .= "( $subpropertyOprand $subpropertyPrice excl. vat $subpropertyPriceWithVat)";
 						}
 
 						$displayattribute .= "</div>";
