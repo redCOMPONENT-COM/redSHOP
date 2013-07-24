@@ -238,7 +238,7 @@ class productModelproduct extends JModel
 
 		if (empty ($this->_template))
 		{
-			$this->_template = $redTemplate->getTemplate("product", $this->_data->product_template);
+			$this->_template = $redTemplate->getTemplate("product", $this->_data);
 			$this->_template = $this->_template[0];
 		}
 

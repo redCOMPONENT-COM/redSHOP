@@ -734,9 +734,7 @@ if (strstr($template_desc, "{child_products}"))
 }
 
 // Checking for child products
-$childproduct = $producthelper->getChildProduct($this->data->product_id);
-
-if (count($childproduct) > 0)
+if (!is_null($this->data->childs))
 {
 	if (PURCHASE_PARENT_WITH_CHILD == 1)
 	{
@@ -828,7 +826,7 @@ if (count($attributes) > 0 && count($attribute_template) > 0)
 		}
 	}
 
-	$preselectedresult = $producthelper->displayAdditionalImage($this->data->product_id, 0, 0, $selectedpropertyId, $selectedsubpropertyId, $pw_thumb, $ph_thumb, $redview = 'product');
+	$preselectedresult = $producthelper->displayAdditionalImage($this->data, 0, 0, $selectedpropertyId, $selectedsubpropertyId, $pw_thumb, $ph_thumb, $redview = 'product');
 
 	if (strstr($template_desc, "{product_availability_date}") || strstr($template_desc, "{stock_notify_flag}") || strstr($template_desc, "{stock_status"))
 	{

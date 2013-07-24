@@ -2679,7 +2679,7 @@ class producthelper
 				}
 				break;
 			case "product":
-				$res = $this->getMenuInformation($Itemid);
+				$res = $this->getMenuInformationMod($Itemid);
 
 				if (count($res) > 0 && (strstr($res->params, "manufacturer") && !strstr($res->params, '"manufacturer_id":"0"')))
 				{
@@ -2946,20 +2946,10 @@ class producthelper
 
 	public function getMenuDetail($link = "")
 	{
-		$and = "";
-
-		if ($link != "")
-		{
-			$and .= " AND link = '" . $link . "' ";
-		}
-
-		$query = "SELECT * FROM #__menu "
-			. "WHERE published=1 "
-			. $and;
-		$this->_db->setQuery($query);
-		$res = $this->_db->loadObject();
-
-		return $res;
+		$menu = JFactory::getApplication()->getMenu();
+		if($link !="")
+			return ($menu->getItems('link', $link, true));
+		return $menu->getActive();
 	}
 
 	public function getMenuInformation($Itemid = 0, $sectionid = 0, $sectioname = "", $menuview = "", $isRedshop = true)
@@ -5164,7 +5154,7 @@ class producthelper
 		$attribute_template_data = $attribute_template->template_desc;
 
 
-		$producttemplate = $redTemplate->getTemplate("product", $product->product_template);
+		$producttemplate = $redTemplate->getTemplate("product", $product);
 
 		if (strstr($producttemplate[0]->template_desc, "{more_images_3}"))
 		{
@@ -9543,24 +9533,33 @@ class producthelper
 		return $Arrreturn;
 	}
 
-	public function displayAdditionalImage($product_id = 0, $accessory_id = 0, $relatedprd_id = 0, $property_id = 0, $subproperty_id = 0, $main_imgwidth = 0, $main_imgheight = 0, $redview = "", $redlayout = "")
+	public function displayAdditionalImage($product = 0, $accessory_id = 0, $relatedprd_id = 0, $property_id = 0, $subproperty_id = 0, $main_imgwidth = 0, $main_imgheight = 0, $redview = "", $redlayout = "")
 	{
-		$redshopconfig = new Redconfiguration ();
-		$redTemplate = new Redtemplate ();
-		$stockroomhelper = new rsstockroomhelper();
+		$redshopconfig = new Redconfiguration;
+		$redTemplate = new Redtemplate;
+		$stockroomhelper = new rsstockroomhelper;
 		$url = JURI::base();
 		$option = JRequest::getVar('option');
-		$redhelper = new redhelper();
+		$redhelper = new redhelper;
+
+		if(is_object($product))
+		{
+			$product_id = $product->product_id;
+		}
+		else
+		{
+			$product_id = $product;
+		}
 
 		if ($accessory_id != 0)
 		{
 			$accessory = $this->getProductAccessory($accessory_id);
-			$product_id = $accessory[0]->child_product_id;
+			$product = $accessory[0]->child_product_id;
 		}
 
-		$product = $this->getProductById($product_id);
+		$product = $this->getProductById($product);
 
-		$producttemplate = $redTemplate->getTemplate("product", $product->product_template);
+		$producttemplate = $redTemplate->getTemplate("product", $product);
 
 		// Get template for stockroom status
 		if ($accessory_id != 0)
