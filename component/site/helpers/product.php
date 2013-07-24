@@ -5024,14 +5024,21 @@ class producthelper
 		return $data_add;
 	}
 
-	public function get_hidden_attribute_cartimage($product_id, $property_id, $subproperty_id)
+	public function get_hidden_attribute_cartimage($product, $property_id, $subproperty_id)
 	{
 		$url = JURI::base();
 		$attrbimg = "";
 
 		if ($property_id > 0)
 		{
-			$property = $this->getAttibuteProperty($property_id);
+			if(is_object($product) && isset($product->advanced_query) && $product->advanced_query == 1)
+			{
+				$property = array($this->_ProductPropertyArray[$property_id]);
+			}
+			else
+			{
+				$property = $this->getAttibuteProperty($property_id);
+			}
 
 			//Display attribute image in cart
 			if (count($property) > 0 && is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product_attributes/" . $property[0]->property_image))
@@ -6872,7 +6879,7 @@ class producthelper
 				}
 
 				$preselected_attrib_img = $this->get_hidden_attribute_cartimage(
-					$product_id,
+					$product,
 					$selectedpropertyId,
 					$selectedsubpropertyId
 				);
