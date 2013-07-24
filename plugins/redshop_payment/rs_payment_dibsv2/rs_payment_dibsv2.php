@@ -63,7 +63,7 @@ class plgRedshop_paymentrs_payment_dibsv2 extends JPlugin
 		$dibs_hmac = new dibs_hmac;
 
 		JPlugin::loadLanguage('com_redshop');
-		$db = jFactory::getDBO();
+		$db = JFactory::getDBO();
 
 		$verify_status = $this->_params->get('verify_status', '');
 		$invalid_status = $this->_params->get('invalid_status', '');

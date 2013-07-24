@@ -63,7 +63,7 @@ class categoryModelcategory extends JModel
 	{
 		$app = JFactory::getApplication();
 		$view = JRequest::getVar('view');
-		$db = jFactory::getDBO();
+		$db = JFactory::getDBO();
 
 		$category_id = $this->getState('category_id');
 		$category_main_filter = $this->getState('category_main_filter');

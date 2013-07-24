@@ -22,7 +22,7 @@ global $sh_LANG, $sefConfig;
 
 $sefConfig = & shRouter::shGetConfig();
 
-$db = jFactory::getDBO();
+$db = JFactory::getDBO();
 $shLangName = '';
 $shLangIso = '';
 $title = array();

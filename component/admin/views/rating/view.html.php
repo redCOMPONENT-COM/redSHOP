@@ -1,5 +1,3 @@
-		$this->assignRef('pagination', $pagination);
-		$this->assignRef('request_url', $uri);
 <?php
 /**
  * @package     RedSHOP.Backend
@@ -19,7 +17,7 @@ class ratingViewrating extends JView
 	{
 		$context = "rating";
 
-		$uri      = JFactory::getURI()->toString();
+		$uri      = JFactory::getURI();
 		$app      = JFactory::getApplication();
 		$document = JFactory::getDocument();
 		$user     = JFactory::getUser();
@@ -34,21 +32,22 @@ class ratingViewrating extends JView
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();
 
-		$filter_order     = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'rating_id');
-		$filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
+		$filter_order       = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'rating_id');
+		$filter_order_Dir   = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
 
 		$lists['order']     = $filter_order;
 		$lists['order_Dir'] = $filter_order_Dir;
 
-		$ratings    = $this->get('Data');
-		$total      = $this->get('Total');
-		$pagination = $this->get('Pagination');
+		$ratings            = $this->get('Data');
+		$total              = $this->get('Total');
+		$pagination         = $this->get('Pagination');
 
-		$this->user = $user;
-		$this->lists = $lists;
-		$this->ratings = $ratings;
-		$this->pagination = $pagination;
-		$this->request_url = $uri->toString();
+		$this->user         = $user;
+		$this->lists        = $lists;
+		$this->ratings      = $ratings;
+		$this->pagination   = $pagination;
+		$this->request_url  = $uri->toString();
+
 		parent::display($tpl);
 	}
 }

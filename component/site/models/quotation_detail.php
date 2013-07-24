@@ -144,7 +144,6 @@ class quotation_detailModelquotation_detail extends JModel
 					$accPropertyCart[$ip]['property_id']     = $acc_prop_data[$ip]->section_id;
 					$accPropertyCart[$ip]['property_name']   = $acc_prop_data[$ip]->section_name;
 					$accPropertyCart[$ip]['property_oprand'] = $acc_prop_data[$ip]->section_oprand;
-					$accPropertyCart[$ip]['property_price']  = $acc_prop_data[$ip]->section_price;
 
 					$acc_subpro_data = $quotationHelper->getQuotationItemAttributeDetail($data->quotation_item_id, 1, "subproperty", $acc_prop_data[$ip]->section_id);
 
@@ -153,7 +152,6 @@ class quotation_detailModelquotation_detail extends JModel
 						$accSubpropertyCart[$isp]['subproperty_id']     = $acc_subpro_data[$isp]->section_id;
 						$accSubpropertyCart[$isp]['subproperty_name']   = $acc_subpro_data[$isp]->section_name;
 						$accSubpropertyCart[$isp]['subproperty_oprand'] = $acc_subpro_data[$isp]->section_oprand;
-						$accSubpropertyCart[$isp]['subproperty_price']  = $acc_subpro_data[$isp]->section_price;
 					}
 
 					$accPropertyCart[$ip]['property_childs'] = $accSubpropertyCart;
@@ -181,7 +179,6 @@ class quotation_detailModelquotation_detail extends JModel
 				$accPropertyCart[$ip]['property_id']     = $acc_prop_data[$ip]->section_id;
 				$accPropertyCart[$ip]['property_name']   = $acc_prop_data[$ip]->section_name;
 				$accPropertyCart[$ip]['property_oprand'] = $acc_prop_data[$ip]->section_oprand;
-				$accPropertyCart[$ip]['property_price']  = $acc_prop_data[$ip]->section_price;
 
 				$acc_subpro_data = $quotationHelper->getQuotationItemAttributeDetail($data->quotation_item_id, 0, "subproperty", $acc_prop_data[$ip]->section_id);
 
@@ -190,7 +187,6 @@ class quotation_detailModelquotation_detail extends JModel
 					$accSubpropertyCart[$isp]['subproperty_id']     = $acc_subpro_data[$isp]->section_id;
 					$accSubpropertyCart[$isp]['subproperty_name']   = $acc_subpro_data[$isp]->section_name;
 					$accSubpropertyCart[$isp]['subproperty_oprand'] = $acc_subpro_data[$isp]->section_oprand;
-					$accSubpropertyCart[$isp]['subproperty_price']  = $acc_subpro_data[$isp]->section_price;
 				}
 
 				$accPropertyCart[$ip]['property_childs'] = $accSubpropertyCart;

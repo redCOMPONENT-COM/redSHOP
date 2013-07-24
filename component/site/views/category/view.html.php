@@ -81,6 +81,8 @@ class CategoryViewcategory extends JView
 			$document->addCustomTag($canonical);
 		}
 
+		$pageheadingtag = '';
+
 		if ($catid)
 		{
 			// Restrict category if category not published
