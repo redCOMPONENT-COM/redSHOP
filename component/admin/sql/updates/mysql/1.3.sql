@@ -42,6 +42,8 @@ ALTER IGNORE TABLE #__redshop_product_price ADD INDEX `idx_price_quantity_start`
 ALTER IGNORE TABLE #__redshop_product_price ADD INDEX `idx_price_quantity_end` (`price_quantity_end`);
 
 ALTER IGNORE TABLE #__redshop_product_stockroom_xref ADD INDEX `idx_product_id` (`product_id`);
+ALTER IGNORE TABLE #__redshop_product_stockroom_xref ADD INDEX `idx_stockroom_id` (`stockroom_id`);
+ALTER IGNORE TABLE #__redshop_product_stockroom_xref ADD INDEX `idx_quantity` (`quantity`);
 
 ALTER IGNORE TABLE #__redshop_tax_rate ADD INDEX `idx_tax_group_id` (`tax_group_id`);
 ALTER IGNORE TABLE #__redshop_tax_rate ADD INDEX `idx_tax_country` (`tax_country`);
@@ -75,3 +77,8 @@ ALTER IGNORE TABLE #__redshop_template ADD INDEX `idx_published` (`published`);
 
 ALTER IGNORE TABLE #__redshop_fields ADD INDEX `idx_field_section` (`field_section`);
 ALTER IGNORE TABLE #__redshop_fields ADD INDEX `idx_published` (`published`);
+
+ALTER IGNORE TABLE #__product_subattribute_color ADD INDEX `idx_subattribute_published` ( `subattribute_published` , `subattribute_id`);
+
+ALTER IGNORE TABLE #__product_attribute_stockroom_xref ADD INDEX `idx_section` ( `section_id` , `section` , `quantity`);
+ALTER IGNORE TABLE #__product_attribute_stockroom_xref ADD INDEX `idx_stockroom_id` ( `stockroom_id`);
