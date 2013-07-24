@@ -1001,17 +1001,23 @@ if($container_id) {
 		form.submit();
 	}
 
-	function changeProductDiv(product_type) {
-		document.getElementById("div_design").style.display = "none";
+	function changeProductDiv(product_type)
+	{
 		document.getElementById("div_file").style.display = "none";
 		document.getElementById("div_subscription").style.display = "none";
 		var opendiv = document.getElementById("div_" + product_type);
 		opendiv.style.display = 'block';
+
 		if (product_type == 'file')
+		{
 			document.getElementById("product_download1").checked = true;
+		}
 		else
+		{
 			document.getElementById("product_download1").checked = false;
+		}
 	}
+
 	function showBox(div) {
 		var opendiv = document.getElementById(div);
 
