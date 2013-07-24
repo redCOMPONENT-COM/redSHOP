@@ -226,14 +226,7 @@ class CategoryModelCategory extends JModel
 		$item = $menu->getActive();
 		$manufacturer_id = (isset($item)) ? intval($item->params->get('manufacturer_id')) : 0;
 
-		$userArr = $this->_session->get('rs_user');
-
 		$helper = new redhelper;
-
-		if (empty($userArr))
-		{
-			$userArr = $this->_userhelper->createUserSession($user_id);
-		}
 
 		$shopperGroupId = $this->_userhelper->getShopperGroup($user_id);
 
@@ -341,7 +334,7 @@ class CategoryModelCategory extends JModel
 		$query->select('1 as advanced_query');
 
 		// Select all child product
-		$query->select('(SELECT GROUP_CONCAT(child.product_id SEPARATOR ";") FROM ' . $this->_table_prefix . 'product as child WHERE p.product_id = child.product_parent_id ) AS childs');
+		$query->select('(SELECT GROUP_CONCAT(child.product_id SEPARATOR ";") FROM ' . $this->_table_prefix . 'product as child WHERE p.product_id = child.product_parent_id AND child.published = 1 AND child.expired = 0) AS childs');
 
 		// Select accessory
 		$query->select('(SELECT COUNT(a.product_id) FROM ' . $this->_table_prefix . 'product_accessory AS a WHERE a.product_id = p.product_id ) AS totacc');
@@ -408,12 +401,6 @@ class CategoryModelCategory extends JModel
 				'p.expired = 0',
 				'pc.category_id = ' . (int) $this->_id,
 				'p.product_parent_id = 0',
-				'(media.section_id IS NULL OR media.section_id > 0)'
-			)
-		);
-
-		$query->where(
-			array(
 				'(media.section_id IS NULL OR media.section_id > 0)'
 			)
 		);

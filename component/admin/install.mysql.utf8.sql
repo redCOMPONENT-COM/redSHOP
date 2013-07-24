@@ -1076,7 +1076,10 @@ CREATE TABLE IF NOT EXISTS `#__redshop_discount_product` (
 	`start_date` double NOT NULL,
 	`end_date` double NOT NULL,
 	`published` tinyint(4) NOT NULL,
-	PRIMARY KEY  (`discount_product_id`)
+	PRIMARY KEY  (`discount_product_id`),
+	KEY `published` (`published`),
+	KEY `start_date` (`start_date`),
+	KEY `end_date` (`end_date`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ;
 
 -- --------------------------------------------------------
@@ -1087,7 +1090,8 @@ CREATE TABLE IF NOT EXISTS `#__redshop_discount_product` (
 
 CREATE TABLE IF NOT EXISTS `#__redshop_discount_product_shoppers` (
 	`discount_product_id` int(11) NOT NULL,
-	`shopper_group_id` int(11) NOT NULL
+	`shopper_group_id` int(11) NOT NULL,
+	KEY `shopper_group_id` (`shopper_group_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -1193,7 +1197,8 @@ CREATE TABLE IF NOT EXISTS `#__redshop_manufacturer` (
 	`sef_url` text NOT NULL,
 	`published` int(11) NOT NULL,
 	`ordering` INT NOT NULL ,
-	PRIMARY KEY  (`manufacturer_id`)
+	PRIMARY KEY  (`manufacturer_id`),
+	KEY `published` (`published`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='redSHOP Manufacturer' ;
 
 -- --------------------------------------------------------
@@ -1631,7 +1636,8 @@ CREATE TABLE IF NOT EXISTS `#__redshop_product_accessory` (
 	`accessory_price` double NOT NULL,
 	`oprand` char(1) NOT NULL,
 	`setdefault_selected` TINYINT( 4 ) NOT NULL,
-	PRIMARY KEY  (`accessory_id`)
+	PRIMARY KEY  (`accessory_id`),
+	KEY `product_id` (`product_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8  COMMENT='redSHOP Products Accessory';
 
 -- --------------------------------------------------------

@@ -554,12 +554,12 @@ class redhelper
 	/**
 	 * Water mark image.
 	 *
-	 *  @param   string  $mtype             Comment.
-	 *  @param   string  $Imagename         Comment.
-	 *  @param   string  $thumb_width       Comment.
-	 *  @param   string  $thumb_height      Comment.
-	 *  @param   string  $enable_watermart  Comment.
-	 *  @param   int     $add_img           Comment.
+	 * @param   string $mtype             Comment.
+	 * @param   string $Imagename         Comment.
+	 * @param   string $thumb_width       Comment.
+	 * @param   string $thumb_height      Comment.
+	 * @param   string $enable_watermart  Comment.
+	 * @param   int    $add_img           Comment.
 	 *
 	 * @return string
 	 */
@@ -1020,22 +1020,16 @@ class redhelper
 
 	public function isredProductfinder()
 	{
-		$user = JFactory::getUser();
-
-		// Get redshop from joomla component table
-		$query = "SELECT enabled FROM `#__extensions` WHERE `element` LIKE '%com_redproductfinder%'";
-		$this->_db->setQuery($query);
-		$redproductfinder = $this->_db->loadobject();
 		$redproductfinder_path = JPATH_ADMINISTRATOR . '/components/com_redproductfinder';
 
-		if (!is_dir($redproductfinder_path) || $redproductfinder->enabled == 0)
+		if (is_dir($redproductfinder_path))
 		{
-			return false;
+			$componentRedproductfinder = JComponentHelper::getComponent('com_redproductfinder', true);
+
+			return $componentRedproductfinder->enabled;
 		}
-		else
-		{
-			return true;
-		}
+
+		return false;
 	}
 
 	/**

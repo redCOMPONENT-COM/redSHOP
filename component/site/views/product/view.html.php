@@ -10,11 +10,11 @@
 defined('_JEXEC') or die;
 
 JLoader::import('joomla.application.component.view');
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/configuration.php';
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/category.php';
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/text_library.php';
-require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
-require_once JPATH_COMPONENT_SITE . '/helpers/helper.php';
+JLoader::import('configuration', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
+JLoader::import('category', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
+JLoader::import('text_library', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
+JLoader::import('product', JPATH_COMPONENT_SITE . '/helpers');
+JLoader::import('helper', JPATH_COMPONENT_SITE . '/helpers');
 
 class productViewproduct extends JView
 {
@@ -96,7 +96,7 @@ class productViewproduct extends JView
 			}
 
 			$data = $this->get('data');
-			$prodhelperobj_array_main = $prodhelperobj->getProductNetPrice($data->product_id);
+			$prodhelperobj_array_main = $prodhelperobj->getProductNetPrice($data);
 
 			if ($data->published == 0)
 			{

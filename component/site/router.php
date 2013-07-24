@@ -517,7 +517,7 @@ function redshopBuildRoute(&$query)
 					}
 					else
 					{
-						$segments[] = JFilterOutput::stringURLSafe($catname);
+						$segments[] = $category_id;
 					}
 
 					// Add product number if config is enabled
@@ -919,9 +919,7 @@ function redshopParseRoute($segments)
 
 						if (isset($segments[0]))
 						{
-							$categories  = explode(":", $segments[0]);
-							$cat_id      = $categories[0];
-							$vars['cid'] = $cat_id;
+							$vars['cid'] = (int) $segments[0];
 						}
 
 						if (isset($segments[0]) && $segments[0] == 'compare')
@@ -962,10 +960,7 @@ function redshopParseRoute($segments)
 
 						if (isset($segments[$second_last]))
 						{
-							$sql = "SELECT category_id FROM #__redshop_category WHERE category_name = '$segments[$second_last]'";
-							$db->setQuery($sql);
-							$cat_id      = $db->loadResult();
-							$vars['cid'] = $cat_id;
+							$vars['cid'] = (int) $segments[$second_last];
 						}
 					}
 				}
