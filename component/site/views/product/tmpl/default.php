@@ -1398,7 +1398,7 @@ $template_desc = str_replace("{form_rating}", $reviewform, $template_desc);
 // Product Review/Rating
 if (strstr($template_desc, "{product_rating_summary}"))
 {
-	$final_avgreview_data = $producthelper->getProductRating($this->data->product_id);
+	$final_avgreview_data = $producthelper->getProductRating($this->data);
 
 	if ($final_avgreview_data != "")
 	{
