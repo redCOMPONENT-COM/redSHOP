@@ -7723,6 +7723,11 @@ class producthelper
 			{
 				$att_vat = 0;
 
+				if (isset($propArr[$k]['property_price']) === false)
+				{
+					$propArr[$k]['property_price'] = 0;
+				}
+
 				if ($propArr[$k]['property_price'] > 0)
 				{
 					$att_vat = $this->getProducttax($product_id, $propArr[$k]['property_price'], $user_id);
