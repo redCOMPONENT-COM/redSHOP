@@ -3387,6 +3387,7 @@ class rsCarthelper
 			$paymentparams_new  = new JRegistry($shippingmethod[0]->params);
 			$extrafield_payment = $paymentparams_new->get('extrafield_shipping');
 			$extrafield_total   = "";
+			$extrafield_hidden  = "";
 
 			if (count($extrafield_payment) > 0)
 			{
@@ -3416,7 +3417,7 @@ class rsCarthelper
 
 			$template_desc = "<div></div>";
 		}
-		elseif ($rateExist == 1)
+		elseif ($rateExist == 1 && $extrafield_total == "")
 		{
 			$template_desc = "<div style='display:none;'>" . $template_desc . "</div>";
 		}
@@ -3747,6 +3748,7 @@ class rsCarthelper
 			$paymentparams_new  = new JRegistry($paymentmethod[0]->params);
 			$extrafield_payment = $paymentparams_new->get('extrafield_payment');
 			$extrafield_total   = '';
+			$extrafield_hidden  = '';
 
 			if (count($extrafield_payment) > 0)
 			{
