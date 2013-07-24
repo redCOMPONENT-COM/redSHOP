@@ -35,23 +35,9 @@ class searchViewsearch extends JView
 			$document->setTitle($pagetitle);
 		}
 
-		$option   = JRequest::getVar('option');
-		$document = JFactory::getDocument();
+		JHTML::Script('redBOX.js', 'components/com_redshop/assets/js/', false);
+		JHTML::Script('attribute.js', 'components/com_redshop/assets/js/', false);
 		JHTML::Script('common.js', 'components/com_redshop/assets/js/', false);
-
-		if (AJAX_CART_BOX == 0)
-		{
-			JHTML::Script('fetchscript.js', 'components/com_redshop/assets/js/', false);
-			JHTML::Script('attribute.js', 'components/com_redshop/assets/js/', false);
-		}
-
-		// Ajax cart javascript
-		if (AJAX_CART_BOX == 1)
-		{
-			JHTML::Script('fetchscript.js', 'components/com_redshop/assets/js/', false);
-			JHTML::Script('attribute.js', 'components/com_redshop/assets/js/', false);
-			JHTML::Stylesheet('fetchscript.css', 'components/com_redshop/assets/css/');
-		}
 
 		if ($layout == 'redfilter')
 		{
@@ -366,6 +352,10 @@ class searchViewsearch extends JView
 				$data_add   = "";
 				$thum_image = "";
 				$pname      = $Redconfiguration->maxchar($this->search[$i]->product_name, CATEGORY_PRODUCT_TITLE_MAX_CHARS, CATEGORY_PRODUCT_TITLE_END_SUFFIX);
+				$count_no_user_field = 0;
+
+				// Counting accessory
+				$totacc = $this->search[$i]->totacc;
 
 				if ($search_type == 'product_number')
 				{
@@ -669,8 +659,26 @@ class searchViewsearch extends JView
 				// Checking for child products
 				if (!IS_NULL($this->search[$i]->childs))
 				{
-					$isChilds   = true;
-					$attributes = array();
+					if (PURCHASE_PARENT_WITH_CHILD == 1)
+					{
+						$isChilds = false;
+
+						// Get attributes
+						$attributes_set = array();
+
+						if ($this->search[$i]->attribute_set_id > 0)
+						{
+							$attributes_set = $producthelper->getProductAttribute(0, $this->search[$i]->attribute_set_id, 0, 1);
+						}
+
+						$attributes = $producthelper->getProductAttribute($this->search[$i]->product_id);
+						$attributes = array_merge($attributes, $attributes_set);
+					}
+					else
+					{
+						$isChilds = true;
+						$attributes = array();
+					}
 				}
 				else
 				{
@@ -685,7 +693,7 @@ class searchViewsearch extends JView
 
 					}
 
-					$attributes = $producthelper->getProductAttribute($this->search[$i]->product_id);
+					$attributes = $producthelper->getProductAttribute($this->search[$i]);
 					$attributes = array_merge($attributes, $attributes_set);
 				}
 
@@ -700,7 +708,7 @@ class searchViewsearch extends JView
 				$data_add = $producthelper->replaceAttributeData($this->search[$i]->product_id, 0, 0, $attributes, $data_add, $attribute_template, $isChilds);
 
 				// Cart Template
-				$data_add = $producthelper->replaceCartTemplate($this->search[$i], $this->search[$i]->category_id, 0, 0, $data_add, $isChilds, $userfieldArr, $totalatt, 0, $count_no_user_field, "");
+				$data_add = $producthelper->replaceCartTemplate($this->search[$i], $this->search[$i]->category_id, 0, 0, $data_add, $isChilds, $userfieldArr, $totalatt, $totacc, $count_no_user_field);
 
 				$data .= $data_add;
 			}

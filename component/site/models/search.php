@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 JLoader::import('joomla.application.component.model');
-JLoader::import('category', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
+JLoader::import('category_static', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
 JLoader::import('product', JPATH_SITE . '/components/com_redshop/helpers');
 
 /**
@@ -72,6 +72,7 @@ class searchModelsearch extends JModel
 	{
 		$post = JRequest::get('POST');
 		$app = JFactory::getApplication();
+		$max_product_view = 100;
 
 		$redTemplate = new Redtemplate;
 
@@ -90,7 +91,7 @@ class searchModelsearch extends JModel
 			{
 				if (strstr($template[0]->template_desc, "{show_all_products_in_category}"))
 				{
-					$this->_db->setQuery($query);
+					$this->_db->setQuery($query, 0, $max_product_view);
 				}
 				elseif (strstr($template[0]->template_desc, "{pagination}"))
 				{
@@ -109,7 +110,7 @@ class searchModelsearch extends JModel
 						$this->setState('limit', $limit);
 					}
 
-					$this->_db->setQuery($query, $this->getState('limitstart'), $this->getState('productlimit'));
+					$this->_db->setQuery($query, $this->getState('limitstart'), $this->getState('limit'));
 				}
 				elseif ($this->getState('productlimit') > 0)
 				{
@@ -117,12 +118,12 @@ class searchModelsearch extends JModel
 				}
 				else
 				{
-					$this->_db->setQuery($query);
+					$this->_db->setQuery($query, 0, $max_product_view);
 				}
 			}
 			else
 			{
-				$this->_data = $this->_getList($query);
+				$this->_db->setQuery($query, 0, $max_product_view);
 			}
 
 			$this->_data = $this->_db->loadObjectList('product_id');
@@ -297,13 +298,12 @@ class searchModelsearch extends JModel
 
 		$layout = $app->input->get('layout', 'default');
 
-		$category_helper = new product_category;
 		$producthelper   = new producthelper;
 
 		$manufacture_id = $app->input->get('manufacture_id', 0, 'int');
 		$category_id    = $app->input->get('category_id', 0, 'int');
 
-		$cat       = $category_helper->getCategoryListArray(0, $category_id);
+		$cat       = StaticCategory::getCategoryListArray($category_id);
 		$cat_group = array();
 
 		for ($j = 0; $j < count($cat); $j++)
@@ -417,7 +417,7 @@ class searchModelsearch extends JModel
 			$query->select('1 as advanced_query');
 
 			// Select all child product
-			$query->select('(SELECT GROUP_CONCAT(child.product_id SEPARATOR ";") FROM ' . $this->_table_prefix . 'product as child WHERE p.product_id = child.product_parent_id ) AS childs');
+			$query->select('(SELECT GROUP_CONCAT(child.product_id SEPARATOR ";") FROM ' . $this->_table_prefix . 'product as child WHERE p.product_id = child.product_parent_id AND child.published = 1 AND child.expired = 0 ) AS childs');
 
 			// Select accessory
 			$query->select('(SELECT COUNT(a.product_id) FROM ' . $this->_table_prefix . 'product_accessory AS a WHERE a.product_id = p.product_id ) AS totacc');
@@ -1074,28 +1074,21 @@ class searchModelsearch extends JModel
 	public function loadCatProductsManufacturer($cid)
 	{
 		$db    = JFactory::getDBO();
-		$query = "SELECT  p.product_id, p.manufacturer_id FROM " . $this->_table_prefix . "product_category_xref AS cx "
-			. ", " . $this->_table_prefix . "product AS p "
-			. "WHERE cx.category_id='" . $cid . "' "
-			. "AND p.product_id=cx.product_id ";
+		$query = $db->getQuery(true);
+		$query
+			->select('m.manufacturer_name AS text, m.manufacturer_id AS value')
+			->from($this->_table_prefix . 'manufacturer AS m')
+			->leftJoin($this->_table_prefix . 'product AS p ON p.manufacturer_id = m.manufacturer_id')
+			->leftJoin($this->_table_prefix . 'product_category_xref AS cx ON p.product_id = cx.product_id')
+			->where('cx.category_id = ' . (int) $cid)
+			->where('m.published = 1')
+			->where('p.published = 1')
+			->group('m.manufacturer_id')
+			->order('m.manufacturer_name ASC');
 		$db->setQuery($query);
-		$manufacturer = $db->loadObjectList();
+		$manufacturers = $db->loadObjectList();
 
-		$mids = array();
-
-		for ($i = 0; $i < count($manufacturer); $i++)
-		{
-			if ($manufacturer[$i]->manufacturer_id > 0)
-				$mids[] = $manufacturer[$i]->manufacturer_id;
-		}
-
-		$mid = implode(",", $mids);
-
-		$query = "SELECT manufacturer_id AS value,manufacturer_name AS text FROM " . $this->_table_prefix . "manufacturer "
-			. "WHERE manufacturer_id IN ('" . $mid . "')";
-		$db->setQuery($query);
-
-		return $db->loadObjectList();
+		return $manufacturers;
 	}
 
 	public function getajaxData()
