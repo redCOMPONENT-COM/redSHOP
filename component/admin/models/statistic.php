@@ -412,8 +412,10 @@ class statisticModelstatistic extends JModel
 					{
 						$rs[$i]->viewdate = date("d M, Y", strtotime($list->preday) + 1);
 					}
+
 					$result[] = $rs[$i];
 				}
+
 				$today = $list->preday;
 			}
 
@@ -615,6 +617,7 @@ class statisticModelstatistic extends JModel
 				$this->_db->setQuery($q);
 
 				$rs = $this->_db->loadObjectList();
+				$rs[0] = new stdClass;
 				$rs[0]->viewer = count($rs);
 
 				if ($rs[0]->viewer > 0)
@@ -667,12 +670,14 @@ class statisticModelstatistic extends JModel
 				$list = $this->_db->loadObject();
 				break;
 		}
+
 		return $list;
 	}
 
 	public function getStartDate()
 	{
 		$return = "";
+
 		switch ($this->_filteroption)
 		{
 			case 1:
