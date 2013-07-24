@@ -61,7 +61,7 @@ class plgRedshop_paymentrs_payment_certitrade extends JPlugin
 			return;
 		}
 
-		$db = jFactory::getDBO();
+		$db = JFactory::getDBO();
 		$request = JRequest::get('request');
 		$order_id = $request['merchant_order_id'];
 		$Itemid = $request['Itemid'];

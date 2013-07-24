@@ -100,7 +100,7 @@ class plgRedshop_paymentrs_payment_realex_redirect extends JPlugin
 			return;
 		}
 
-		$db = jFactory::getDBO();
+		$db = JFactory::getDBO();
 		$request = JRequest::get('request');
 		JPlugin::loadLanguage('com_redshop');
 		$amazon_parameters = $this->getparameters('rs_payment_realex_redirect');

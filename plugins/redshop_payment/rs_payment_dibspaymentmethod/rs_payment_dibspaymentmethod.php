@@ -73,7 +73,7 @@ class plgRedshop_paymentrs_payment_dibspaymentmethod extends JPlugin
 		$verify_status = $this->_params->get('verify_status', '');
 		$invalid_status = $this->_params->get('invalid_status', '');
 
-		$db = jFactory::getDBO();
+		$db = JFactory::getDBO();
 		$request = JRequest::get('request');
 		JPlugin::loadLanguage('com_redshop');
 		$order_id = $request['orderid'];

@@ -48,7 +48,7 @@ class shoppergroup
 
 	public function list_tree($shopper_group_id = "", $cid = '0', $level = '0', $selected_groups = Array(), $disabledFields = Array(), $html = '')
 	{
-		$db = jFactory::getDBO();
+		$db = JFactory::getDBO();
 		$level++;
 
 		$q = "SELECT shopper_group_id, shopper_group_id,shopper_group_name,parent_id FROM  #__" . TABLE_PREFIX . "_shopper_group ";
@@ -100,7 +100,7 @@ class shoppergroup
 
 	public function getshopperGroupListArray($shopper_group_id = "", $cid = '0', $level = '0')
 	{
-		$db = jFactory::getDBO();
+		$db = JFactory::getDBO();
 		$level++;
 
 		$q = "SELECT * FROM  #__" . TABLE_PREFIX . "_shopper_group ";

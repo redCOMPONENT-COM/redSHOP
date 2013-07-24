@@ -123,11 +123,17 @@ class adminproducthelper
 
 					if ($property [$i]->property_price > 0)
 					{
+						$propertyOprand = $property[$i]->oprand;
+
+						$propertyPrice = $producthelper->getProductFormattedPrice($property[$i]->property_price);
+
 						// Get product vat to include.
 						$attributes_property_vat = $producthelper->getProducttax($product_id, $property [$i]->property_price, $user_id);
-						$property [$i]->property_price += $attributes_property_vat;
-						$property[$i]->text = urldecode($property[$i]->property_name) . " (" . $property [$i]->oprand
-							. $producthelper->getProductFormattedPrice($property [$i]->property_price) . ")";
+						$property[$i]->property_price += $attributes_property_vat;
+
+						$propertyPriceWithVat = $producthelper->getProductFormattedPrice($property[$i]->property_price);
+
+						$property[$i]->text = urldecode($property[$i]->property_name) . " ($propertyOprand $propertyPrice excl. vat / $propertyPriceWithVat)";
 					}
 					else
 					{

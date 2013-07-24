@@ -1,5 +1,3 @@
-		$this->assignRef('iparray', $iparray);
-		$this->assignRef('request_url', $uri);
 <?php
 /**
  * @package     RedSHOP.Backend
@@ -19,30 +17,30 @@ class xmlexport_detailVIEWxmlexport_detail extends JView
 	public function display($tpl = null)
 	{
 		global $context;
-		$context = 'xmlexport_id';
+		$context      = 'xmlexport_id';
 
-		$option = JRequest::getVar('option');
-		$layout = JRequest::getVar('layout');
-		$xmlhelper = new xmlHelper;
-		$session = JFactory::getSession();
+		$option       = JRequest::getVar('option');
+		$layout       = JRequest::getVar('layout');
+		$xmlhelper    = new xmlHelper;
+		$session      = JFactory::getSession();
 		$childelement = $session->get('childelement');
-		$document = JFactory::getDocument();
+		$document     = JFactory::getDocument();
 		$document->setTitle(JText::_('COM_REDSHOP_xmlexport'));
 		$document->addScript('components/' . $option . '/assets/js/xmlfunc.js');
 
-		$uri = JFactory::getURI()->toString();
-		$lists = array();
-		$colvalue = array();
-		$model = $this->getModel();
+		$uri                  = JFactory::getURI();
+		$lists                = array();
+		$colvalue             = array();
+		$model                = $this->getModel();
 
-		$detail = $this->get('data');
+		$detail               = $this->get('data');
 
-		$parentsection = JRequest::getVar('parentsection', '');
+		$parentsection        = JRequest::getVar('parentsection', '');
 		$detail->section_type = JRequest::getVar('section_type', $detail->section_type);
 
-		$isNew = ($detail->xmlexport_id < 1);
+		$isNew                = ($detail->xmlexport_id < 1);
 
-		$text = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
+		$text                 = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_XML_EXPORT_MANAGEMENT') . ': <small><small>[ ' . $text . ' ]</small></small>', 'redshop_export48');
 		JToolBarHelper::custom('xmlexport', 'redshop_export32.png', JText::_('COM_REDSHOP_XML_EXPORT'), JText::_('COM_REDSHOP_XML_EXPORT'), false, false);
@@ -57,13 +55,13 @@ class xmlexport_detailVIEWxmlexport_detail extends JView
 			JToolBarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
 		}
 
-		$section_typelist = $xmlhelper->getSectionTypeList();
+		$section_typelist   = $xmlhelper->getSectionTypeList();
 		$auto_sync_interval = $xmlhelper->getSynchIntervalList();
-		$columns = $xmlhelper->getSectionColumnList($detail->section_type, $parentsection);
-		$iparray = $xmlhelper->getXMLExportIpAddress($detail->xmlexport_id);
+		$columns            = $xmlhelper->getSectionColumnList($detail->section_type, $parentsection);
+		$iparray            = $xmlhelper->getXMLExportIpAddress($detail->xmlexport_id);
 
-		$dbfield = "";
-		$dbchildname = "";
+		$dbfield            = "";
+		$dbchildname        = "";
 
 		switch ($parentsection)
 		{
@@ -136,20 +134,20 @@ class xmlexport_detailVIEWxmlexport_detail extends JView
 			$colvalue[] = $tmpVal[0];
 		}
 
-		$lists['auto_sync'] = JHTML::_('select.booleanlist', 'auto_sync', 'class="inputbox" size="1"', $detail->auto_sync);
-		$lists['sync_on_request'] = JHTML::_('select.booleanlist', 'sync_on_request', 'class="inputbox" size="1"', $detail->sync_on_request);
-		$lists['section_type'] = JHTML::_('select.genericlist', $section_typelist, 'section_type',
+		$lists['auto_sync']             = JHTML::_('select.booleanlist', 'auto_sync', 'class="inputbox" size="1"', $detail->auto_sync);
+		$lists['sync_on_request']       = JHTML::_('select.booleanlist', 'sync_on_request', 'class="inputbox" size="1"', $detail->sync_on_request);
+		$lists['section_type']          = JHTML::_('select.genericlist', $section_typelist, 'section_type',
 			'class="inputbox" size="1" onchange="setExportSectionType();" ', 'value', 'text', $detail->section_type
 		);
-		$lists['auto_sync_interval'] = JHTML::_('select.genericlist', $auto_sync_interval, 'auto_sync_interval',
+		$lists['auto_sync_interval']    = JHTML::_('select.genericlist', $auto_sync_interval, 'auto_sync_interval',
 			'class="inputbox" size="1" ', 'value', 'text', $detail->auto_sync_interval
 		);
-		$lists['published'] = JHTML::_('select.booleanlist', 'xmlpublished', 'class="inputbox"', $detail->published);
-		$lists['use_to_all_users'] = JHTML::_('select.booleanlist', 'use_to_all_users', 'class="inputbox"', $detail->use_to_all_users);
-		$categoryData = $model->getCategoryList();
-		$detail->xmlexport_on_category = explode(',', $detail->xmlexport_on_category);
-		$tmp = new stdClass;
-		$tmp = @array_merge($tmp, $detail->xmlexport_on_category);
+		$lists['published']             = JHTML::_('select.booleanlist', 'xmlpublished', 'class="inputbox"', $detail->published);
+		$lists['use_to_all_users']      = JHTML::_('select.booleanlist', 'use_to_all_users', 'class="inputbox"', $detail->use_to_all_users);
+		$categoryData                   = $model->getCategoryList();
+		$detail->xmlexport_on_category  = explode(',', $detail->xmlexport_on_category);
+		$tmp                            = new stdClass;
+		$tmp                            = array_merge($tmp, $detail->xmlexport_on_category);
 		$lists['xmlexport_on_category'] = JHTML::_('select.genericlist', $categoryData, 'xmlexport_on_category[]',
 			'class="inputbox" multiple="multiple" ', 'value', 'text', $detail->xmlexport_on_category
 		);
@@ -163,12 +161,12 @@ class xmlexport_detailVIEWxmlexport_detail extends JView
 			$this->setlayout("default");
 		}
 
-		$this->lists = $lists;
-		$this->detail = $detail;
-		$this->columns = $columns;
-		$this->colvalue = $colvalue;
-		$this->childname = $dbchildname;
-		$this->iparray = $iparray;
+		$this->lists       = $lists;
+		$this->detail      = $detail;
+		$this->columns     = $columns;
+		$this->colvalue    = $colvalue;
+		$this->childname   = $dbchildname;
+		$this->iparray     = $iparray;
 		$this->request_url = $uri->toString();
 
 		parent::display($tpl);

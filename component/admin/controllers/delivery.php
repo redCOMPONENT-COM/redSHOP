@@ -20,7 +20,7 @@ class deliverycontroller extends JController
 
 	public function export_data()
 	{
-		$db = jFactory::getDBO();
+		$db = JFactory::getDBO();
 		$query = "SELECT  * FROM   #__" . TABLE_PREFIX . "_users_info as uf , #__" . TABLE_PREFIX . "_orders as o LEFT JOIN #__"
 			. TABLE_PREFIX . "_order_status os ON o.order_status=os.order_status_code WHERE o.user_id = uf.user_id AND uf.address_type = 'BT'  AND o.order_status  IN ('RD','RD1','RD2')   ";
 

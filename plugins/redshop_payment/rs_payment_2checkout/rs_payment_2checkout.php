@@ -62,7 +62,7 @@ class plgRedshop_paymentrs_payment_2checkout extends JPlugin
 			return;
 		}
 
-		$db = jFactory::getDBO();
+		$db = JFactory::getDBO();
 		$request = JRequest::get('request');
 		$order_id = $request['merchant_order_id'];
 		$invoice_id = $request['invoice_id'];
