@@ -777,7 +777,7 @@ class producthelper
 	// Get Vat for Googlebase xml
 	public function getGoogleVatRates($product_id = 0, $product_price = 0, $tax_exempt = 0)
 	{
-		$proinfo = $this->getProductById($product_id);
+		$proinfo = (object) $this->getProductById($product_id);
 		$tax_group_id = 0;
 		$rs_user_info_id = 0;
 
