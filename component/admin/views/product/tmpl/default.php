@@ -37,8 +37,8 @@ $userId = (int) $user->id;
 			form.task.value = pressbutton;
 		}
 
-		if ((pressbutton == 'add') || (pressbutton == 'edit') || (pressbutton == 'publish') || (pressbutton == 'unpublish')
-			|| (pressbutton == 'remove') || (pressbutton == 'copy') || (pressbutton == 'saveorder') || (pressbutton == 'orderup') || (pressbutton == 'orderdown')) {
+		if ((pressbutton == 'add') || (pressbutton == 'publish') || (pressbutton == 'unpublish')
+			|| (pressbutton == 'remove') || (pressbutton == 'copy')) {
 			form.view.value = "product_detail";
 		}
 		if ((pressbutton == 'assignCategory') || (pressbutton == 'removeCategory')) {

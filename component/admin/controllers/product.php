@@ -18,6 +18,13 @@ class productController extends JController
 		$this->setRedirect('index.php');
 	}
 
+	public function edit()
+	{
+		$app = JFactory::getApplication();
+		$cid = JRequest::getVar('cid');
+		$app->redirect('index.php?option=com_redshop&view=product_detail&task=edit&cid[]=' . $cid[0]);
+	}
+
 	/*
 	 * select A Product Element
 	 */
