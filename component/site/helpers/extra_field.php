@@ -47,6 +47,8 @@ class extraField
 
 	public $_db           = null;
 
+	protected $array_userfields = array();
+
 	public function __construct()
 	{
 		$this->_db = JFactory::getDbo();
@@ -281,15 +283,22 @@ class extraField
 		$document = JFactory::getDocument();
 		JHTML::Script('attribute.js', 'components/com_redshop/assets/js/', false);
 
-		$q = "SELECT * FROM " . $this->_table_prefix . "fields "
-			. "WHERE field_section='" . $section_id . "' "
-			. "AND field_name='" . $field_section . "' "
-			. "AND published=1 "
-			. "AND field_show_in_front=1 "
-			. "ORDER BY ordering ";
-		$this->_db->setQuery($q);
+		if (!isset($this->array_userfields[$section_id . '-' . $field_section]))
+		{
+			$q = "SELECT * FROM " . $this->_table_prefix . "fields "
+				. "WHERE field_section='" . $section_id . "' "
+				. "AND field_name='" . $field_section . "' "
+				. "AND published=1 "
+				. "AND field_show_in_front=1 "
+				. "ORDER BY ordering ";
+			$this->_db->setQuery($q);
+			$row_data = $this->array_userfields[$section_id . '-' . $field_section] = $this->_db->loadObjectlist();
+		}
+		else
+		{
+			$row_data = $this->array_userfields[$section_id . '-' . $field_section];
+		}
 
-		$row_data       = $this->_db->loadObjectlist();
 		$ex_field       = '';
 		$ex_field_title = '';
 
