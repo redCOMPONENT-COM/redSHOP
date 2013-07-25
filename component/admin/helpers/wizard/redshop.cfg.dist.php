@@ -238,6 +238,7 @@ define ('WITH_VAT_TEXT_INFO', '');
 define ('DEFAULT_STOCKROOM', '1');
 define ('DEFAULT_CART_CHECKOUT_ITEMID', '1');
 define ('USE_IMAGE_SIZE_SWAPPING', '1');
+define ('WATERMARK_POSITION', 'right_bottom');
 define ('DEFAULT_WRAPPER_THUMB_WIDTH', '50');
 define ('DEFAULT_WRAPPER_THUMB_HEIGHT', '50');
 define ('DEFAULT_QUANTITY', '3');
