@@ -1659,6 +1659,7 @@ CREATE TABLE IF NOT EXISTS `#__redshop_product_attribute` (
 	`ordering` INT NOT NULL,
 	`attribute_set_id` INT NOT NULL,
 	`display_type` varchar(255) NOT NULL,
+	`attribute_published` INT NOT NULL DEFAULT '1',
 	PRIMARY KEY  (`attribute_id`),
 	KEY `idx_product_id` (`product_id`),
 	KEY `idx_attribute_name` (`attribute_name`),
@@ -1689,8 +1690,8 @@ CREATE TABLE IF NOT EXISTS `#__redshop_product_attribute_property` (
 	`property_published` int(11) NOT NULL DEFAULT '1',
 	PRIMARY KEY  (`property_id`),
 	KEY `idx_attribute_id` (`attribute_id`),
-	KEY `idx_setrequire_selected` (`idx_setrequire_selected`),
-	KEY `idx_property_published` (`idx_property_published`)
+	KEY `idx_setrequire_selected` (`setrequire_selected`),
+	KEY `idx_property_published` (`property_published`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8  COMMENT='redSHOP Products Attribute Property';
 
 -- --------------------------------------------------------
