@@ -5,7 +5,6 @@ ALTER IGNORE TABLE #__redshop_product_subattribute_color ADD `extra_field` VARCH
 ALTER IGNORE TABLE #__redshop_tax_group ADD INDEX `idx_published` (`published`);
 
 ALTER IGNORE TABLE #__redshop_category ADD INDEX `idx_published` (`published`);
-ALTER IGNORE TABLE #__redshop_category ADD INDEX `idx_ordering` (`ordering`);
 
 ALTER IGNORE TABLE #__redshop_media ADD INDEX `idx_section_id` (`section_id`);
 ALTER IGNORE TABLE #__redshop_media ADD INDEX `idx_media_section` (`media_section`);
@@ -24,17 +23,14 @@ ALTER IGNORE TABLE #__redshop_attribute_set ADD INDEX `idx_published` (`publishe
 
 ALTER IGNORE TABLE #__redshop_product_attribute ADD INDEX `idx_product_id` (`product_id`);
 ALTER IGNORE TABLE #__redshop_product_attribute ADD INDEX `idx_attribute_name` (`attribute_name`);
-ALTER IGNORE TABLE #__redshop_product_attribute ADD INDEX `idx_ordering` (`ordering`);
 ALTER IGNORE TABLE #__redshop_product_attribute ADD INDEX `idx_attribute_set_id` (`attribute_set_id`);
 ALTER IGNORE TABLE #__redshop_product_attribute ADD INDEX `idx_attribute_published` (`attribute_published`);
 
 ALTER IGNORE TABLE #__redshop_product_attribute_property ADD INDEX `idx_attribute_id` (`attribute_id`);
-ALTER IGNORE TABLE #__redshop_product_attribute_property ADD INDEX `idx_ordering` (`ordering`);
 ALTER IGNORE TABLE #__redshop_product_attribute_property ADD INDEX `idx_setrequire_selected` (`setrequire_selected`);
 ALTER IGNORE TABLE #__redshop_product_attribute_property ADD INDEX `idx_property_published` (`property_published`);
 
-ALTER IGNORE TABLE #__redshop_product_category_xref ADD INDEX `idx_category_id` (`category_id`);
-ALTER IGNORE TABLE #__redshop_product_category_xref ADD INDEX `idx_ordering` (`ordering`);
+ALTER IGNORE TABLE #__redshop_product_category_xref ADD INDEX `idx_category_id` (`category_id`
 
 ALTER IGNORE TABLE #__redshop_product_price ADD INDEX `idx_product_id` (`product_id`);
 ALTER IGNORE TABLE #__redshop_product_price ADD INDEX `idx_shopper_group_id` (`shopper_group_id`);
@@ -57,11 +53,9 @@ ALTER IGNORE TABLE #__redshop_discount_product_shoppers ADD INDEX `idx_shopper_g
 
 ALTER IGNORE TABLE #__redshop_product_accessory ADD INDEX `idx_product_id` (`product_id`);
 
-ALTER TABLE `#__redshop_discount_product` MODIFY `category_ids` VARCHAR(255);
 ALTER IGNORE TABLE #__redshop_discount_product ADD INDEX `idx_published` (`published`);
 ALTER IGNORE TABLE #__redshop_discount_product ADD INDEX `idx_start_date` (`start_date`);
 ALTER IGNORE TABLE #__redshop_discount_product ADD INDEX `idx_end_date` (`end_date`);
-ALTER IGNORE TABLE #__redshop_discount_product ADD INDEX `idx_category_ids` (`category_ids`);
 
 ALTER IGNORE TABLE #__redshop_manufacturer ADD INDEX `idx_published` (`published`);
 
@@ -78,7 +72,7 @@ ALTER IGNORE TABLE #__redshop_template ADD INDEX `idx_published` (`published`);
 ALTER IGNORE TABLE #__redshop_fields ADD INDEX `idx_field_section` (`field_section`);
 ALTER IGNORE TABLE #__redshop_fields ADD INDEX `idx_published` (`published`);
 
-ALTER IGNORE TABLE #__product_subattribute_color ADD INDEX `idx_subattribute_published` ( `subattribute_published` , `subattribute_id`);
+ALTER IGNORE TABLE #__redshop_product_subattribute_color ADD INDEX `idx_subattribute_published` ( `subattribute_published` , `subattribute_id`);
 
-ALTER IGNORE TABLE #__product_attribute_stockroom_xref ADD INDEX `idx_section` ( `section_id` , `section` , `quantity`);
-ALTER IGNORE TABLE #__product_attribute_stockroom_xref ADD INDEX `idx_stockroom_id` ( `stockroom_id`);
+ALTER IGNORE TABLE #__redshop_product_attribute_stockroom_xref ADD INDEX `idx_section` ( `section_id` , `section` , `quantity`);
+ALTER IGNORE TABLE #__redshop_product_attribute_stockroom_xref ADD INDEX `idx_stockroom_id` ( `stockroom_id`);
