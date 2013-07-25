@@ -22,6 +22,14 @@ defined('_JEXEC') or die ('Restricted access');
 		<td><?php echo $this->lists ['use_image_size_swapping'];?></td>
 	</tr>
 	<tr>
+		<td width="100" align="right" class="key">
+		<span class="editlinktip hasTip"
+			  title="<?php echo JText::_('COM_REDSHOP_TOOLTIP_WATERMARK_POSITION_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_WATERMARK_POSITION'); ?>">
+		<label for="name"><?php echo JText::_('COM_REDSHOP_TOOLTIP_WATERMARK_POSITION_LBL');?></label></span>
+		</td>
+		<td><?php echo $this->lists ['watermark_position'];?></td>
+	</tr>
+	<tr>
 		<td colspan="2">
 			<hr/>
 		</td>
