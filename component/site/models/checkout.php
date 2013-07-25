@@ -11,19 +11,17 @@ defined('_JEXEC') or die ('Restricted access');
 
 JLoader::import('joomla.application.component.model');
 
-require_once JPATH_COMPONENT_SITE . '/helpers/tcpdf/config/lang/eng.php';
-require_once JPATH_COMPONENT_SITE . '/helpers/tcpdf/tcpdf.php';
-require_once JPATH_COMPONENT_SITE . '/helpers/extra_field.php';
-require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
-require_once JPATH_COMPONENT_SITE . '/helpers/helper.php';
-require_once JPATH_COMPONENT_SITE . '/helpers/cart.php';
-require_once JPATH_COMPONENT_SITE . '/helpers/user.php';
+JLoader::import('extra_field', JPATH_COMPONENT_SITE . '/helpers');
+JLoader::import('product', JPATH_COMPONENT_SITE . '/helpers');
+JLoader::import('helper', JPATH_COMPONENT_SITE . '/helpers');
+JLoader::import('cart', JPATH_COMPONENT_SITE . '/helpers');
+JLoader::import('user', JPATH_COMPONENT_SITE . '/helpers');
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/quotation.php';
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/mail.php';
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php';
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/extra_field.php';
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/shipping.php';
+JLoader::import('quotation', JPATH_COMPONENT_ADMINISTRATOR . '/helpers');
+JLoader::import('mail', JPATH_COMPONENT_ADMINISTRATOR . '/helpers');
+JLoader::import('order', JPATH_COMPONENT_ADMINISTRATOR . '/helpers');
+JLoader::import('extra_field', JPATH_COMPONENT_ADMINISTRATOR . '/helpers');
+JLoader::import('shipping', JPATH_COMPONENT_ADMINISTRATOR . '/helpers');
 
 /**
  * Class checkoutModelcheckout
@@ -1384,6 +1382,7 @@ class CheckoutModelCheckout extends JModel
 	{
 		$url               = JURI::root();
 		$giftcardmail_body = '';
+		JLoader::import('mypdf', JPATH_COMPONENT_SITE . '/helpers/tcpdf');
 
 		$giftcardmail = $this->_redshopMail->getMailtemplate(0, "giftcard_mail");
 
@@ -2504,25 +2503,4 @@ class CheckoutModelCheckout extends JModel
 	}
 
 	// End code to track duplicate order number checking by parth
-}
-
-class MYPDF extends TCPDF
-{
-	// Page header
-	public $img_file;
-
-	public function Header()
-	{
-		// Full background image
-		$auto_page_break = $this->AutoPageBreak;
-		$this->SetAutoPageBreak(false, 0);
-		$img_file = $this->img_file;
-
-		if (file_exists($img_file))
-		{
-			$this->Image($img_file, $x = 0, $y = 0, $w = 210, $h = 297, $type = '', $link = '', $align = '', $resize = false, $dpi = 300, $palign = '', $ismask = false, $imgmask = false, $border = 0);
-		}
-
-		$this->SetAutoPageBreak($auto_page_break);
-	}
 }
