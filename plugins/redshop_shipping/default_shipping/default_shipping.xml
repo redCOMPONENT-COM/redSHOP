@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="2.5.0" client="site" type="plugin" group="redshop_shipping" method="upgrade">
-    <name>REDSHOP_SHIPPING</name>
+    <name>PLG_DEFAULT_SHIPPING</name>
     <version>1.2</version>
     <creationDate>April 2013</creationDate>
     <author>redCOMPONENT.com</author>
     <copyright>redCOMPONENT.com</copyright>
     <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
-    <description>This plugin enables standard Shipping</description>
+    <description>PLG_DEFAULT_SHIPPING_DESC</description>
 
     <files>
         <filename plugin="default_shipping">default_shipping.php</filename>
@@ -22,8 +22,8 @@
         <fields name="params">
             <fieldset name="basic">
                 <field name="is_shipper" type="hidden" default="1" value="1"/>
-                <field name="extrafield_shipping" type="extrafieldshipping" label="PLG_REDSHOP_SHIPPING_LABEL"
-                       description="PLG_REDSHOP_SHIPPING_DESCRIPTION"/>
+                <field name="extrafield_shipping" type="extrafieldshipping" label="PLG_DEFAULT_SHIPPING_LABEL"
+                       description="PLG_DEFAULT_SHIPPING_DESCRIPTION"/>
             </fieldset>
         </fields>
     </config>
