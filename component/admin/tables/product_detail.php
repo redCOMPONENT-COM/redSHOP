@@ -131,6 +131,8 @@ class Tableproduct_detail extends JTable
 
 	public $quantity_selectbox_value = null;
 
+	public $minimum_per_product_total = 0;
+
 	public $canonical_url = null;
 	/**
 	 * @var boolean

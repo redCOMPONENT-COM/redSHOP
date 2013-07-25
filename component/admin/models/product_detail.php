@@ -153,6 +153,7 @@ class product_detailModelproduct_detail extends JModel
 			$detail->accountgroup_id = (isset($data['accountgroup_id'])) ? $data['accountgroup_id'] : 0;
 			$detail->quantity_selectbox_value = (isset($data['quantity_selectbox_value'])) ? $data['quantity_selectbox_value'] : null;
 			$detail->preorder = (isset($data['preorder'])) ? $data['preorder'] : 'global';
+			$detail->minimum_per_product_total = (isset($data['minimum_per_product_total'])) ? $data['minimum_per_product_total'] : 0;
 			$this->_data = $detail;
 
 			return (boolean) $this->_data;
