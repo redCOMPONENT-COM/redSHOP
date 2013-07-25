@@ -13,7 +13,6 @@ jimport('joomla.application.component.view');
 
 require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/template.php';
 require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/extra_field.php';
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/helper.php';
 require_once JPATH_COMPONENT_SITE . '/helpers/helper.php';
 
 class configurationViewconfiguration extends JView
