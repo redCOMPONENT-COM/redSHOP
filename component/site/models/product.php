@@ -132,12 +132,6 @@ class productModelproduct extends JModel
 		$andTr .= ' tr.tax_country = "' . $userdata->country_code . '" AND (tr.tax_state = "' . $userdata->state_code . '" OR tr.tax_state = "") ';
 		$andTr .= ' AND (tr.tax_group_id = p.product_tax_group_id OR tr.tax_group_id = "' . DEFAULT_VAT_GROUP . '" ))';
 
-		// Select stockroom fields about product
-		if (USE_STOCKROOM == 1)
-		{
-			$query->select('(SELECT SUM(srxp.quantity) FROM ' . $this->_table_prefix . 'product_stockroom_xref AS srxp WHERE p.product_id = srxp.product_id AND srxp.quantity >= 0 ) AS quantity_adv');
-		}
-
 		// Select fields product, category, manufacturer
 		$query->select(array('p.*', 'c.*', 'm.*'));
 
