@@ -291,6 +291,22 @@ class configurationViewconfiguration extends JView
 		);
 		$lists['portalshop']                    = JHTML::_('select.booleanlist', 'portal_shop', 'class="inputbox" size="1"', PORTAL_SHOP);
 		$lists['use_image_size_swapping']       = JHTML::_('select.booleanlist', 'use_image_size_swapping', 'class="inputbox" size="1"', USE_IMAGE_SIZE_SWAPPING);
+
+		$watermark_positions = array();
+		$watermark_positions[] = JHTML::_('select.option', 'left_top', JText::_('COM_REDSHOP_WATERMARK_POS_TOPLEFT'));
+		$watermark_positions[] = JHTML::_('select.option', 'center_top', JText::_('JGLOBAL_TOP'));
+		$watermark_positions[] = JHTML::_('select.option', 'right_top', JText::_('COM_REDSHOP_WATERMARK_POS_TOPRIGHT'));
+		$watermark_positions[] = JHTML::_('select.option', 'right_middle', JText::_('JGLOBAL_RIGHT'));
+		$watermark_positions[] = JHTML::_('select.option', 'right_bottom', JText::_('COM_REDSHOP_WATERMARK_POS_BOTTOMRIGHT'));
+		$watermark_positions[] = JHTML::_('select.option', 'center_bottom', JText::_('COM_REDSHOP_WATERMARK_POS_BOTTOM'));
+		$watermark_positions[] = JHTML::_('select.option', 'left_bottom', JText::_('COM_REDSHOP_WATERMARK_POS_BOTTOMLEFT'));
+		$watermark_positions[] = JHTML::_('select.option', 'left_middle', JText::_('JGLOBAL_LEFT'));
+		$watermark_positions[] = JHTML::_('select.option', 'center_middle', JText::_('JGLOBAL_CENTER'));
+
+		$lists['watermark_position'] = JHTML::_('select.genericlist', $watermark_positions, 'watermark_position',
+			'class="inputbox" size="1" ', 'value', 'text', WATERMARK_POSITION
+		);
+
 		$lists['apply_vat_on_discount']         = JHTML::_('select.booleanlist', 'apply_vat_on_discount', 'class="inputbox" size="1"', APPLY_VAT_ON_DISCOUNT);
 		$lists['auto_scroll_wrapper']           = JHTML::_('select.booleanlist', 'auto_scroll_wrapper', 'class="inputbox" size="1"', AUTO_SCROLL_WRAPPER);
 		$lists['allow_multiple_discount']       = JHTML::_('select.booleanlist', 'allow_multiple_discount', 'class="inputbox" size="1"', ALLOW_MULTIPLE_DISCOUNT);
