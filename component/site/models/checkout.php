@@ -11,19 +11,19 @@ defined('_JEXEC') or die ('Restricted access');
 
 JLoader::import('joomla.application.component.model');
 
-require_once JPATH_COMPONENT_SITE . '/helpers/tcpdf/config/lang/eng.php';
-require_once JPATH_COMPONENT_SITE . '/helpers/tcpdf/tcpdf.php';
-require_once JPATH_COMPONENT_SITE . '/helpers/extra_field.php';
-require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
-require_once JPATH_COMPONENT_SITE . '/helpers/helper.php';
-require_once JPATH_COMPONENT_SITE . '/helpers/cart.php';
-require_once JPATH_COMPONENT_SITE . '/helpers/user.php';
+JLoader::import('eng', JPATH_COMPONENT_SITE . '/helpers/tcpdf/config/lang');
+JLoader::import('tcpdf', JPATH_COMPONENT_SITE . '/helpers/tcpdf');
+JLoader::import('extra_field', JPATH_COMPONENT_SITE . '/helpers');
+JLoader::import('product', JPATH_COMPONENT_SITE . '/helpers');
+JLoader::import('helper', JPATH_COMPONENT_SITE . '/helpers');
+JLoader::import('cart', JPATH_COMPONENT_SITE . '/helpers');
+JLoader::import('user', JPATH_COMPONENT_SITE . '/helpers');
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/quotation.php';
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/mail.php';
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php';
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/extra_field.php';
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/shipping.php';
+JLoader::import('quotation', JPATH_COMPONENT_ADMINISTRATOR . '/helpers');
+JLoader::import('mail', JPATH_COMPONENT_ADMINISTRATOR . '/helpers');
+JLoader::import('order', JPATH_COMPONENT_ADMINISTRATOR . '/helpers');
+JLoader::import('extra_field', JPATH_COMPONENT_ADMINISTRATOR . '/helpers');
+JLoader::import('shipping', JPATH_COMPONENT_ADMINISTRATOR . '/helpers');
 
 /**
  * Class checkoutModelcheckout

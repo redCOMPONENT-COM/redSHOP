@@ -304,7 +304,7 @@ CREATE TABLE IF NOT EXISTS `#__redshop_tax_group` (
 	`tax_group_name` VARCHAR( 255 ) NOT NULL ,
 	`published` TINYINT NOT NULL,
 	PRIMARY KEY  (`tax_group_id`),
-	KEY `published` ( `published` )
+	KEY `idx_published` ( `published` )
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='redSHOP Tax Group';
 -- --------------------------------------------------------
 
@@ -339,7 +339,8 @@ CREATE TABLE IF NOT EXISTS `#__redshop_pageviewer` (
 	`section_id` INT( 11 ) NOT NULL,
 	`hit` INT( 11 ) NOT NULL,
 	`created_date` INT( 11 ) NOT NULL,
-	PRIMARY KEY  (`id`)
+	PRIMARY KEY  (`id`),
+	KEY `idx_session_id` (`session_id`)
 ) ENGINE=MYISAM DEFAULT CHARSET=utf8 COMMENT='redSHOP Page Viewer';
 
 -- --------------------------------------------------------
@@ -407,7 +408,8 @@ CREATE TABLE IF NOT EXISTS `#__redshop_siteviewer` (
 	`user_id` INT( 11 ) NOT NULL,
 	`session_id` varchar(250) NOT NULL,
 	`created_date` INT( 11 ) NOT NULL,
-	PRIMARY KEY  (`id`)
+	PRIMARY KEY  (`id`),
+	KEY `idx_session_id` (`session_id`)
 ) ENGINE=MYISAM DEFAULT CHARSET=utf8 COMMENT='redSHOP Site Viewer';
 
 -- --------------------------------------------------------
@@ -497,8 +499,7 @@ CREATE TABLE IF NOT EXISTS `#__redshop_category` (
 	`ordering` int(11) NOT NULL,
 	`canonical_url` text NOT NULL,
 	PRIMARY KEY  (`category_id`),
-	KEY `published` (`published`),
-	KEY `ordering` (`ordering`)
+	KEY `idx_published` (`published`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='redSHOP Category'  ;
 
 
@@ -1077,9 +1078,9 @@ CREATE TABLE IF NOT EXISTS `#__redshop_discount_product` (
 	`end_date` double NOT NULL,
 	`published` tinyint(4) NOT NULL,
 	PRIMARY KEY  (`discount_product_id`),
-	KEY `published` (`published`),
-	KEY `start_date` (`start_date`),
-	KEY `end_date` (`end_date`)
+	KEY `idx_published` (`published`),
+	KEY `idx_start_date` (`start_date`),
+	KEY `idx_end_date` (`end_date`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ;
 
 -- --------------------------------------------------------
@@ -1091,7 +1092,7 @@ CREATE TABLE IF NOT EXISTS `#__redshop_discount_product` (
 CREATE TABLE IF NOT EXISTS `#__redshop_discount_product_shoppers` (
 	`discount_product_id` int(11) NOT NULL,
 	`shopper_group_id` int(11) NOT NULL,
-	KEY `shopper_group_id` (`shopper_group_id`)
+	KEY `idx_shopper_group_id` (`shopper_group_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -1122,7 +1123,9 @@ CREATE TABLE IF NOT EXISTS `#__redshop_fields` (
 	`field_show_in_front` tinyint(4) NOT NULL,
 	`required` tinyint(4) NOT NULL,
 	`published` tinyint(4) NOT NULL,
-	PRIMARY KEY  (`field_id`)
+	PRIMARY KEY  (`field_id`),
+	KEY `idx_field_section` (`field_section`),
+	KEY `idx_published` (`published`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8   COMMENT='redSHOP Fields' ;
 
 -- --------------------------------------------------------
@@ -1198,7 +1201,7 @@ CREATE TABLE IF NOT EXISTS `#__redshop_manufacturer` (
 	`published` int(11) NOT NULL,
 	`ordering` INT NOT NULL ,
 	PRIMARY KEY  (`manufacturer_id`),
-	KEY `published` (`published`)
+	KEY `idx_published` (`published`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='redSHOP Manufacturer' ;
 
 -- --------------------------------------------------------
@@ -1218,10 +1221,10 @@ CREATE TABLE IF NOT EXISTS `#__redshop_media` (
 	`published` tinyint(4) NOT NULL,
 	`ordering` int(11) NOT NULL,
 	PRIMARY KEY  (`media_id`),
-	KEY `section_id` (`section_id`),
-	KEY `media_section` (`media_section`),
-	KEY `media_type` (`media_type`),
-	KEY `media_name` (`media_name`)
+	KEY `idx_section_id` (`section_id`),
+	KEY `idx_media_section` (`media_section`),
+	KEY `idx_media_type` (`media_type`),
+	KEY `idx_media_name` (`media_name`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COMMENT='redSHOP Media'  ;
 
 --
@@ -1347,7 +1350,9 @@ CREATE TABLE IF NOT EXISTS `#__redshop_orders` (
 	KEY `idx_orders_user_id` (`user_id`),
 	KEY `idx_orders_order_number` (`order_number`),
 	KEY `idx_orders_user_info_id` (`user_info_id`),
-	KEY `idx_orders_ship_method_id` (`ship_method_id`)
+	KEY `idx_orders_ship_method_id` (`ship_method_id`),
+	KEY `idx_order_payment_status` (`order_payment_status`),
+	KEY `idx_order_status` (`order_status`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='redSHOP Order Detail' ;
 
 CREATE TABLE IF NOT EXISTS `#__redshop_stockroom_amount_image` (
@@ -1612,15 +1617,13 @@ CREATE TABLE IF NOT EXISTS `#__redshop_product` (
 	`canonical_url` text NOT NULL,
 	PRIMARY KEY  (`product_id`),
 	KEY `product_number` ( `product_number` ),
-	KEY `product_parent_id` ( `product_parent_id` ),
-	KEY `manufacturer_id` ( `manufacturer_id` ),
-	KEY `product_price` ( `product_price` ),
-	KEY `discount_price` ( `discount_price` ),
-	KEY `discount_stratdate` ( `discount_stratdate` ),
-	KEY `discount_enddate` ( `discount_enddate` ),
-	KEY `visited` ( `visited` ),
-	KEY `published` ( `published` ),
-	KEY `expired` ( `expired` )
+	KEY `idx_manufacturer_id` ( `manufacturer_id` ),
+	KEY `idx_product_price` ( `product_price` ),
+	KEY `idx_discount_price` ( `discount_price` ),
+	KEY `idx_discount_stratdate` ( `discount_stratdate` ),
+	KEY `idx_discount_enddate` ( `discount_enddate` ),
+	KEY `idx_visited` ( `visited` ),
+	KEY `idx_published` (`published`, `expired`, `product_parent_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='redSHOP Products';
 
 -- --------------------------------------------------------
@@ -1637,7 +1640,7 @@ CREATE TABLE IF NOT EXISTS `#__redshop_product_accessory` (
 	`oprand` char(1) NOT NULL,
 	`setdefault_selected` TINYINT( 4 ) NOT NULL,
 	PRIMARY KEY  (`accessory_id`),
-	KEY `product_id` (`product_id`)
+	KEY `idx_product_id` (`product_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8  COMMENT='redSHOP Products Accessory';
 
 -- --------------------------------------------------------
@@ -1657,9 +1660,10 @@ CREATE TABLE IF NOT EXISTS `#__redshop_product_attribute` (
 	`attribute_set_id` INT NOT NULL,
 	`display_type` varchar(255) NOT NULL,
 	PRIMARY KEY  (`attribute_id`),
-	KEY `product_id` (`product_id`),
-	KEY `attribute_name` (`attribute_name`),
-	KEY `ordering` (`ordering`)
+	KEY `idx_product_id` (`product_id`),
+	KEY `idx_attribute_name` (`attribute_name`),
+	KEY `idx_attribute_set_id` (`attribute_set_id`),
+	KEY `idx_attribute_published` (`attribute_published`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='redSHOP Products Attribute';
 
 -- --------------------------------------------------------
@@ -1684,8 +1688,9 @@ CREATE TABLE IF NOT EXISTS `#__redshop_product_attribute_property` (
 	`extra_field` VARCHAR( 250 ) NOT NULL,
 	`property_published` int(11) NOT NULL DEFAULT '1',
 	PRIMARY KEY  (`property_id`),
-	KEY `attribute_id` (`attribute_id`),
-	KEY `ordering` (`ordering`)
+	KEY `idx_attribute_id` (`attribute_id`),
+	KEY `idx_setrequire_selected` (`idx_setrequire_selected`),
+	KEY `idx_property_published` (`idx_property_published`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8  COMMENT='redSHOP Products Attribute Property';
 
 -- --------------------------------------------------------
@@ -1699,8 +1704,7 @@ CREATE TABLE IF NOT EXISTS `#__redshop_product_category_xref` (
 	`product_id` int(11) NOT NULL,
 	`ordering` int(11) NOT NULL,
 	KEY `ref_category` (`product_id`),
-	KEY `category_id` (`category_id`),
-	KEY `ordering` (`ordering`)
+	KEY `idx_category_id` (`category_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='redSHOP Product Category Relation';
 
 
@@ -1721,10 +1725,10 @@ CREATE TABLE IF NOT EXISTS `#__redshop_product_price` (
 	`discount_start_date` INT( 11 ) NOT NULL ,
 	`discount_end_date` INT( 11 ) NOT NULL,
 	PRIMARY KEY  (`price_id`),
-	KEY `product_id` ( `product_id` ),
-	KEY `shopper_group_id` ( `shopper_group_id` ),
-	KEY `price_quantity_start` ( `price_quantity_start` ),
-	KEY `price_quantity_end` ( `price_quantity_end` )
+	KEY `idx_product_id` ( `product_id` ),
+	KEY `idx_shopper_group_id` ( `shopper_group_id` ),
+	KEY `idx_price_quantity_start` ( `price_quantity_start` ),
+	KEY `idx_price_quantity_end` ( `price_quantity_end` )
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='redSHOP Product Price' ;
 
 
@@ -1807,7 +1811,7 @@ CREATE TABLE IF NOT EXISTS `#__redshop_product_rating` (
 	`favoured` tinyint(4) NOT NULL,
 	`published` tinyint(4) NOT NULL,
 	PRIMARY KEY  (`rating_id`),
-	KEY `published` ( `published` ),
+	KEY `idx_published` ( `published` ),
 	UNIQUE KEY `product_id` (`product_id`,`userid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8  ;
 
@@ -1832,7 +1836,9 @@ CREATE TABLE IF NOT EXISTS `#__redshop_product_stockroom_xref` (
 	`product_id` int(11) NOT NULL,
 	`stockroom_id` int(11) NOT NULL,
 	`quantity` int(11) NOT NULL,
-	KEY `product_id` (`product_id`)
+	KEY `idx_product_id` (`product_id`),
+	KEY `idx_stockroom_id` (`stockroom_id`),
+	KEY `idx_quantity` (`quantity`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='redSHOP Products Stockroom Relation';
 
 --
@@ -1850,7 +1856,8 @@ CREATE TABLE IF NOT EXISTS `#__redshop_product_subattribute_color` (
 	`setdefault_selected` tinyint(4) NOT NULL,
 	`extra_field` varchar(250) NOT NULL,
 	`subattribute_published` int(11) NOT NULL DEFAULT '1',
-	PRIMARY KEY  (`subattribute_color_id`)
+	PRIMARY KEY  (`subattribute_color_id`),
+	KEY `idx_subattribute_published` ( `subattribute_published` , `subattribute_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Product Subattribute Color' ;
 
 
@@ -2568,9 +2575,9 @@ CREATE TABLE IF NOT EXISTS `#__redshop_tax_rate` (
 	`tax_group_id` int(11) NOT NULL,
 	`is_eu_country` TINYINT( 4 ) NOT NULL,
 	PRIMARY KEY  (`tax_rate_id`),
-	KEY `tax_group_id` (`tax_group_id`),
-	KEY `tax_country` (`tax_country`),
-	KEY `tax_state` (`tax_state`)
+	KEY `idx_tax_group_id` (`tax_group_id`),
+	KEY `idx_tax_country` (`tax_country`),
+	KEY `idx_tax_state` (`tax_state`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='redSHOP Tax Rates';
 
 -- --------------------------------------------------------
@@ -2588,7 +2595,9 @@ CREATE TABLE IF NOT EXISTS `#__redshop_template` (
 	`order_status` varchar(250) NOT NULL,
 	`payment_methods` varchar(250) NOT NULL,
 	`published` tinyint(4) NOT NULL,
-	PRIMARY KEY  (`template_id`)
+	PRIMARY KEY  (`template_id`),
+	KEY `idx_template_section` (`template_section`),
+	KEY `idx_published` (`published`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='redSHOP Templates Detail';
 
 -- --------------------------------------------------------
@@ -2638,7 +2647,7 @@ CREATE TABLE IF NOT EXISTS `#__redshop_users_info` (
 	`veis_status` VARCHAR( 255 ) NOT NULL,
 	PRIMARY KEY  (`users_info_id`),
 	KEY `user_id` ( `user_id` ),
-	KEY `address_type` ( `address_type` )
+	KEY `idx_address_type` ( `address_type` )
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='redSHOP Users Information' ;
 
 -- --------------------------------------------------------
@@ -2677,7 +2686,9 @@ CREATE TABLE IF NOT EXISTS `#__redshop_product_attribute_stockroom_xref`  (
 	`section_id` int( 11 ) NOT NULL ,
 	`section` varchar( 255 ) NOT NULL ,
 	`stockroom_id` int( 11 ) NOT NULL ,
-	`quantity` int( 11 ) NOT NULL
+	`quantity` int( 11 ) NOT NULL,
+	KEY `idx_section` ( `section_id` , `section` , `quantity`),
+	KEY `idx_stockroom_id` ( `stockroom_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='redSHOP Product Attribute Stockroom relation' ;
 
 -- --------------------------------------------------------
@@ -2755,7 +2766,8 @@ CREATE TABLE IF NOT EXISTS `#__redshop_attribute_set` (
 	`attribute_set_id` INT NOT NULL auto_increment,
 	`attribute_set_name` VARCHAR( 255 ) NOT NULL ,
 	`published` TINYINT NOT NULL,
-	PRIMARY KEY  (`attribute_set_id`)
+	PRIMARY KEY  (`attribute_set_id`),
+	KEY `idx_published` (`published`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='redSHOP Attribute set detail' ;
 
 CREATE TABLE IF NOT EXISTS `#__redshop_product_serial_number` (
