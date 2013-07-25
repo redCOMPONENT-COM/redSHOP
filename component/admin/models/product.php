@@ -248,14 +248,14 @@ class productModelproduct extends JModel
 			name,p.product_name AS title,p.product_parent_id,p.product_parent_id AS parent,p.product_price " . ",
 			p.published,p.visited,p.manufacturer_id,p.product_number,p.product_template,p.checked_out,p.checked_out_time,p.discount_price " . ",
 			x.ordering , x.category_id "
-			. " FROM " . $this->_table_prefix . "product AS p " . "LEFT JOIN " . $this->_table_prefix . "product_category_xref
+				. " FROM " . $this->_table_prefix . "product AS p " . "LEFT JOIN " . $this->_table_prefix . "product_category_xref
 			AS x ON x.product_id = p.product_id " . "LEFT JOIN " . $this->_table_prefix . "category AS c ON x.category_id = c.category_id ";
 
 			if ($search_field == 'pa.property_number' && $keyword != '')
 			{
 				$query .= "LEFT JOIN " . $this->_table_prefix . "product_attribute AS a ON a.product_id = p.product_id "
-						. "LEFT JOIN " . $this->_table_prefix . "product_attribute_property AS pa ON pa.attribute_id = a.attribute_id "
-						. "LEFT JOIN " . $this->_table_prefix . "product_subattribute_color AS ps ON ps.subattribute_id = pa.property_id ";
+					. "LEFT JOIN " . $this->_table_prefix . "product_attribute_property AS pa ON pa.attribute_id = a.attribute_id "
+					. "LEFT JOIN " . $this->_table_prefix . "product_subattribute_color AS ps ON ps.subattribute_id = pa.property_id ";
 			}
 
 			$query .= "WHERE 1=1 ";
@@ -570,8 +570,8 @@ class productModelproduct extends JModel
 				$product_on_sale = 0;
 
 				if ($rs[$i]->product_on_sale == 1 && (($rs[$i]->discount_stratdate == 0
-					&& $rs[$i]->discount_enddate == 0)
-					|| ($rs[$i]->discount_stratdate <= time() && $rs[$i]->discount_enddate >= time())))
+							&& $rs[$i]->discount_enddate == 0)
+						|| ($rs[$i]->discount_stratdate <= time() && $rs[$i]->discount_enddate >= time())))
 				{
 					$product_on_sale = 1;
 				}
@@ -741,48 +741,77 @@ class productModelproduct extends JModel
 		return $list;
 	}
 
-	/*
-	 * save product ordering
-	 * @params: $cid - array , $order-array
-	 * $cid= product ids
-	 * $order = product current ordring
-	 * @return: boolean
-	 */
-	public function saveorder($cid = array(), $order = 0)
+	public function saveorder()
 	{
 		$app = JFactory::getApplication();
-
+		$db = JFactory::getDBO();
+		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$total = count($cid);
+		$order = JRequest::getVar('order', array(0), 'post', 'array');
+		JArrayHelper::toInteger($order, array(0));
+		$row = JTable::getInstance('product_category_xref', 'Table');
 		$category_id_my = $app->getUserStateFromRequest('category_id', 'category_id', 0);
+		$groupings = array();
 
-		$orderarray = array();
-
-		for ($i = 0; $i < count($cid); $i++)
+		for ($i = 0; $i < $total; $i++)
 		{
-			// Set product id as key AND order as value
-			$orderarray[$cid[$i]] = $order[$i];
-		}
+			$row->load((int) $cid[$i]);
+			$groupings[] = $row->category_id;
 
-		// Sorting array using value ( order )
-		asort($orderarray);
-		$i = 1;
-
-		if (count($orderarray) > 0)
-		{
-			foreach ($orderarray as $productid => $order)
+			if ($row->ordering != $order[$i])
 			{
-				if ($order >= 0)
-				{
-					// Update ordering
-					$query = 'UPDATE ' . $this->_table_prefix . 'product_category_xref' . ' SET ordering = ' . (int) $i
-						. ' WHERE product_id=' . $productid . ' AND category_id = ' . $category_id_my;
-					$this->_db->setQuery($query);
-					$this->_db->query();
-				}
+				$row->ordering = $order[$i];
 
-				$i++;
+				if (!$row->store())
+				{
+					JError::raiseError(500, $db->getErrorMsg());
+				}
 			}
 		}
 
+		$groupings = array_unique($groupings);
+
+		foreach ($groupings as $group)
+		{
+			$row->reorder('category_id = ' . (int) $category_id_my);
+		}
+
 		return true;
+	}
+
+	public function orderup()
+	{
+		$app = JFactory::getApplication();
+		$category_id_my = $app->getUserStateFromRequest('category_id', 'category_id', 0);
+		$cid = JRequest::getVar('cid');
+		$row = JTable::getInstance('product_category_xref', 'Table');
+		$row->load($cid[0]);
+		$row->move(-1, 'category_id = ' . (int) $category_id_my);
+		$row->reorder('category_id = ' . (int) $category_id_my);
+	}
+
+	public function orderdown()
+	{
+		$app = JFactory::getApplication();
+		$category_id_my = $app->getUserStateFromRequest('category_id', 'category_id', 0);
+		$cid = JRequest::getVar('cid');
+		$row = JTable::getInstance('product_category_xref', 'Table');
+		$row->load($cid[0]);
+		$row->move(1, 'category_id = ' . (int) $category_id_my);
+		$row->reorder('category_id = ' . (int) $category_id_my);
+	}
+
+	public function checkin()
+	{
+		$cid = JRequest::getVar('cid');
+		$row = JTable::getInstance('product_detail', 'Table');
+		$row->load($cid[0]);
+		$row->checkin(0);
+
+		if (!$row->store())
+		{
+			$db = JFactory::getDBO();
+			JError::raiseError(500, $db->getErrorMsg());
+		}
 	}
 }

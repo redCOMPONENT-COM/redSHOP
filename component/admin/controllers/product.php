@@ -308,17 +308,32 @@ class productController extends JController
 
 	public function saveorder()
 	{
-		$option = JRequest::getVar('option');
-
-		$cid = JRequest::getVar('cid', array(), 'post', 'array');
-		$order = JRequest::getVar('order', array(), 'post', 'array');
-		JArrayHelper::toInteger($cid);
-		JArrayHelper::toInteger($order);
-
 		$model = $this->getModel('product');
-		$model->saveorder($cid, $order);
-
+		$model->saveorder();
 		$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
-		$this->setRedirect('index.php?option=' . $option . '&view=product', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=product', $msg);
+	}
+
+	public function orderup()
+	{
+		$model = $this->getModel('product');
+		$model->orderup();
+		$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
+		$this->setRedirect('index.php?option=com_redshop&view=product', $msg);
+	}
+
+	public function orderdown()
+	{
+		$model = $this->getModel('product');
+		$model->orderdown();
+		$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
+		$this->setRedirect('index.php?option=com_redshop&view=product', $msg);
+	}
+
+	public function checkin()
+	{
+		$model = $this->getModel('product');
+		$model->checkin();
+		$this->setRedirect('index.php?option=com_redshop&view=product');
 	}
 }
