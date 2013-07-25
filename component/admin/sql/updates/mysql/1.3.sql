@@ -30,7 +30,7 @@ ALTER IGNORE TABLE #__redshop_product_attribute_property ADD INDEX `idx_attribut
 ALTER IGNORE TABLE #__redshop_product_attribute_property ADD INDEX `idx_setrequire_selected` (`setrequire_selected`);
 ALTER IGNORE TABLE #__redshop_product_attribute_property ADD INDEX `idx_property_published` (`property_published`);
 
-ALTER IGNORE TABLE #__redshop_product_category_xref ADD INDEX `idx_category_id` (`category_id`
+ALTER IGNORE TABLE #__redshop_product_category_xref ADD INDEX `idx_category_id` (`category_id`);
 
 ALTER IGNORE TABLE #__redshop_product_price ADD INDEX `idx_product_id` (`product_id`);
 ALTER IGNORE TABLE #__redshop_product_price ADD INDEX `idx_shopper_group_id` (`shopper_group_id`);
