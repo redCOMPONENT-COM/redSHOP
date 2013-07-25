@@ -312,6 +312,11 @@ echo $output .= $myTabs->startPanel(JText::_('COM_REDSHOP_PRODUCT_INFORMATION'),
 							<td><?php echo JHTML::tooltip(JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_TAX' ), JText::_('COM_REDSHOP_PRODUCT_TAX_GROUP' ), 'tooltip.png', '', '', false); ?></td>
 						</tr>
 						<tr>
+							<td width="100" align="right" class="key"><?php echo JText::_('COM_REDSHOP_MINIMUM_PER_PRODUCT_TOTAL_LBL' ); ?></td>
+							<td><input class="text_area" type="text" name="minimum_per_product_total" id="minimum_per_product_total" size="10" maxlength="10" value="<?php echo $this->detail->minimum_per_product_total;?>" /></td>
+							<td><?php echo JHTML::tooltip(JText::_('COM_REDSHOP_TOOLTIP_MINIMUM_PER_PRODUCT_TOTAL' ), JText::_('COM_REDSHOP_MINIMUM_PER_PRODUCT_TOTAL_LBL' ), 'tooltip.png', '', '', false); ?></td>
+						</tr>
+						<tr>
 							<td colspan="2">
 								<hr/>
 							</td>
