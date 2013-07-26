@@ -44,7 +44,7 @@ if (!defined ('PDF_TYPE_BOOLEAN'))
 if (!defined ('PDF_TYPE_REAL'))
     define ('PDF_TYPE_REAL', 12);
     
-require_once('pdf_context.php');
+require_once 'pdf_context.php';
 
 if (!class_exists('pdf_parser')) {
     
