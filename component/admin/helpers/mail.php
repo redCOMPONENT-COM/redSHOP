@@ -450,6 +450,9 @@ class redshopMail
 		$pdfObj->setImageScale(PDF_IMAGE_SCALE_RATIO);
 		$pdfObj->setHeaderFont(array($font, '', 8));
 
+		// Set font
+		$pdfObj->SetFont($font, "", 6);
+
 		$order_id = "";
 
 		for ($o = 0; $o < count($oid); $o++)
