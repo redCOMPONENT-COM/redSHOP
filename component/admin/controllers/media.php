@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 jimport('joomla.filesystem.file');
+JLoader::import('image_generator', JPATH_ROOT . '/components/com_redshop/helpers');
 
 class mediaController extends JController
 {
@@ -25,6 +26,7 @@ class mediaController extends JController
 		$file = JRequest::getVar('downloadfile', 'array', 'files', 'array');
 		$totalFile = count($file['name']);
 		$model = $this->getModel();
+		$imageGenerator = new ImageGenerator;
 
 		$product_download_root = PRODUCT_DOWNLOAD_ROOT;
 
@@ -63,13 +65,13 @@ class mediaController extends JController
 
 			if (!$errors)
 			{
-				$filename = time() . "_" . $file['name'][$i];
+				$filename = time() . "_" . $imageGenerator->replaceSpecial($file['name'][$i]);
 				$fileExt = strtolower(JFile::getExt($filename));
 
 				if ($fileExt)
 				{
 					$src = $file['tmp_name'][$i];
-					$dest = $product_download_root . str_replace(" ", "_", $filename);
+					$dest = $product_download_root . $filename;
 					$file_upload = JFile::upload($src, $dest);
 
 					if ($file_upload != 1)

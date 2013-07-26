@@ -470,7 +470,6 @@ echo $myTabs->endPane(); ?>
 			if(!document.getElementById("image_display"))
 			{
 				var img = new Image();
-				//img.src = path_url + main_path;
 				img.id = "image_display";
 				document.getElementById("image_dis").appendChild( img );
 			}

@@ -10,10 +10,10 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
-
-require_once JPATH_COMPONENT . '/helpers/extra_field.php';
-require_once JPATH_COMPONENT . '/helpers/thumbnail.php';
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/category.php';
+JLoader::import('extra_field', JPATH_COMPONENT . '/helpers');
+JLoader::import('thumbnail', JPATH_COMPONENT . '/helpers');
+JLoader::import('category', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
+JLoader::import('image_generator', JPATH_ROOT . '/components/com_redshop/helpers');
 jimport('joomla.client.helper');
 JClientHelper::setCredentialsFromRequest('ftp');
 jimport('joomla.filesystem.file');
@@ -81,7 +81,7 @@ class category_detailModelcategory_detail extends JModel
 			$detail->category_more_template = null;
 			$detail->category_description = null;
 			$detail->category_template = 0;
-			$detail->products_per_page = 5;
+			$detail->products_per_page = 15;
 			$detail->category_full_image = null;
 			$detail->category_thumb_image = null;
 			$detail->category_back_full_image = null;
@@ -105,6 +105,7 @@ class category_detailModelcategory_detail extends JModel
 	public function store($data)
 	{
 		$row =& $this->getTable();
+		$imageGenerator = new ImageGenerator;
 
 		if (!$row->bind($data))
 		{
@@ -124,8 +125,7 @@ class category_detailModelcategory_detail extends JModel
 		if (count($file) > 0)
 		{
 			// Make the filename unique
-			$filename = JPath::clean(time() . '_' . $file['name']);
-			$filename = str_replace(" ", "_", $filename);
+			$filename = JPath::clean(time() . '_' . $imageGenerator->replaceSpecial($file['name']));
 		}
 
 		if (isset($data['image_delete']))
@@ -161,11 +161,10 @@ class category_detailModelcategory_detail extends JModel
 		{
 			if (isset($data['category_image']) && $data['category_image'] != null)
 			{
-
 				$image_split = explode('/', $data['category_image']);
 
 				// Make the filename unique
-				$filename = JPath::clean(time() . '_' . $image_split[count($image_split) - 1]);
+				$filename = JPath::clean(time() . '_' . $imageGenerator->replaceSpecial($image_split[count($image_split) - 1]));
 				$row->category_full_image = $filename;
 				$row->category_thumb_image = $filename;
 
