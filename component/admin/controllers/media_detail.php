@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.controller');
 jimport('joomla.filesystem.file');
 jimport('joomla.filesystem.archive');
+JLoader::import('image_generator', JPATH_ROOT . '/components/com_redshop/helpers');
 
 /**
  * Class to Manage PayPal Payment Subscription
@@ -56,6 +57,7 @@ class Media_DetailController extends JController
 		$option = JRequest::getVar('option');
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 		$model = $this->getModel('media_detail');
+		$imageGenerator = new ImageGenerator;
 
 		$product_download_root = PRODUCT_DOWNLOAD_ROOT;
 
@@ -82,7 +84,7 @@ class Media_DetailController extends JController
 						. DS . $post['media_section'] . '/thumb/' . $post['media_name'];
 
 					$new_path = JPATH_COMPONENT_SITE . '/assets/' . $post['media_type']
-						. DS . $post['media_section'] . DS . time() . '_' . $post['media_name'];
+						. '/' . $post['media_section'] . '/' . time() . '_' . $imageGenerator->replaceSpecial($post['media_name']);
 
 					copy($old_path, $new_path);
 
@@ -149,24 +151,24 @@ class Media_DetailController extends JController
 				$image_split = explode('/', $post['media_bank_image']);
 
 				// Make the filename unique
-				$filename = JPath::clean(time() . '_' . $image_split[count($image_split) - 1]);
+				$filename = JPath::clean(time() . '_' . $imageGenerator->replaceSpecial($image_split[count($image_split) - 1]));
 
 				// Download product changes
 				if ($post['media_type'] == 'download')
 				{
-					$post['media_name'] = $product_download_root . str_replace(" ", "_", $filename);
+					$post['media_name'] = $product_download_root . $filename;
 					$dest = $post['media_name'];
 				}
 				else
 				{
 					$post['media_name'] = $filename;
-					$dest = JPATH_COMPONENT_SITE . '/assets/' . $post['media_type'] . DS . $post['media_section'] . DS . $filename;
+					$dest = JPATH_COMPONENT_SITE . '/assets/' . $post['media_type'] . '/' . $post['media_section'] . '/' . $filename;
 				}
 
 				$model->store($post);
 
 				// Image Upload
-				$src = JPATH_ROOT . DS . $post['media_bank_image'];
+				$src = JPATH_ROOT . '/' . $post['media_bank_image'];
 				copy($src, $dest);
 
 				// 	Media Bank End
@@ -218,11 +220,11 @@ class Media_DetailController extends JController
 				if ($post['hdn_download_file_path'] != $download_path)
 				{
 					// Make the filename unique
-					$filename = time() . '_' . $post['hdn_download_file'];
+					$filename = time() . '_' . $imageGenerator->replaceSpecial($post['hdn_download_file']);
 
 					if ($post['media_type'] == 'download')
 					{
-						$post['media_name'] = $product_download_root . str_replace(" ", "_", $filename);
+						$post['media_name'] = $product_download_root . $filename;
 
 						$down_src = $download_path;
 
@@ -274,24 +276,24 @@ class Media_DetailController extends JController
 				$image_split = explode('/', $post['media_bank_image']);
 
 				// Make the filename unique
-				$filename = JPath::clean(time() . '_' . $image_split[count($image_split) - 1]);
+				$filename = JPath::clean(time() . '_' . $imageGenerator->replaceSpecial($image_split[count($image_split) - 1]));
 
 				// Download product changes
 				if ($post['media_type'] == 'download')
 				{
-					$post['media_name'] = $product_download_root . str_replace(" ", "_", $filename);
+					$post['media_name'] = $product_download_root . $filename;
 					$dest = $post['media_name'];
 				}
 				else
 				{
 					$post['media_name'] = $filename;
-					$dest = JPATH_COMPONENT_SITE . '/assets/' . $post['media_type'] . DS . $post['media_section'] . DS . $filename;
+					$dest = JPATH_COMPONENT_SITE . '/assets/' . $post['media_type'] . '/' . $post['media_section'] . '/' . $filename;
 				}
 
 				$model->store($post);
 
 				// Image Upload
-				$src = JPATH_ROOT . DS . $post['media_bank_image'];
+				$src = JPATH_ROOT . '/' . $post['media_bank_image'];
 				copy($src, $dest);
 
 				if (isset($post['set']) && $post['media_section'] != 'manufacturer' && $post['oldmedia'] == "")
@@ -331,6 +333,7 @@ class Media_DetailController extends JController
 				{
 					// Fix the width of the thumb nail images
 					$src = $bulkfile['tmp_name'];
+					$bulkfile['name'] = $imageGenerator->replaceSpecial($bulkfile['name']);
 					$dest = JPATH_ROOT . '/components/' . $option . '/assets/' . $post['media_type'] . '/' . $post['media_section'] . '/'
 						. $bulkfile['name'];
 					$file_upload = JFile::upload($src, $dest);
@@ -356,12 +359,12 @@ class Media_DetailController extends JController
 							{
 								$filenewtype = strtolower(JFile::getExt($newscan[$j]));
 								$btsrc = $target . '/' . $scan[$i] . '/' . $newscan[$j];
-								$post['media_name'] = time() . "_" . $newscan[$j];
+								$post['media_name'] = time() . "_" . $imageGenerator->replaceSpecial($newscan[$j]);
 								$post['media_mimetype'] = $filenewtype;
 
 								if ($post['media_type'] == 'download')
 								{
-									$post['media_name'] = $product_download_root . time() . "_" . str_replace(" ", "_", $newscan[$j]);
+									$post['media_name'] = $product_download_root . $post['media_name'];
 
 									if ($row = $model->store($post))
 									{
@@ -414,7 +417,7 @@ class Media_DetailController extends JController
 										if ($row = $model->store($post))
 										{
 											$originaldir = JPATH_ROOT . '/components/' . $option . '/assets/' . $row->media_type . '/'
-												. $row->media_section . '/' . time() . '_' . $newscan[$j];
+												. $row->media_section . '/' . time() . '_' . $imageGenerator->replaceSpecial($newscan[$j]);
 
 											copy($btsrc, $originaldir);
 											unlink($btsrc);
@@ -464,12 +467,12 @@ class Media_DetailController extends JController
 						{
 							$filenewtype = strtolower(JFile::getExt($scan[$i]));
 							$btsrc = $target . '/' . $scan[$i];
-							$post['media_name'] = time() . "_" . $scan[$i];
+							$post['media_name'] = time() . "_" . $imageGenerator->replaceSpecial($scan[$i]);
 							$post['media_mimetype'] = $filenewtype;
 
 							if ($post['media_type'] == 'download')
 							{
-								$post['media_name'] = $product_download_root . time() . "_" . str_replace(" ", "_", $scan[$i]);
+								$post['media_name'] = $product_download_root . $post['media_name'];
 
 								if ($row = $model->store($post))
 								{
@@ -523,7 +526,7 @@ class Media_DetailController extends JController
 									{
 										// Set First Image as product Main Imaged
 										$originaldir = JPATH_ROOT . '/components/' . $option . '/assets/' . $row->media_type . '/'
-											. $row->media_section . '/' . time() . '_' . $scan[$i];
+											. $row->media_section . '/' . time() . '_' . $imageGenerator->replaceSpecial($scan[$i]);
 
 										copy($btsrc, $originaldir);
 
@@ -699,12 +702,12 @@ class Media_DetailController extends JController
 					{
 						$src = $file['tmp_name'][$i];
 
-						$file['name'][$i] = str_replace(" ", "_", $file['name'][$i]);
+						$file['name'][$i] = $imageGenerator->replaceSpecial($file['name'][$i]);
 
 						// Download product changes
 						if ($post['media_type'] == 'download')
 						{
-							$post['media_name'] = $product_download_root . time() . "_" . str_replace(" ", "_", $file['name'][$i]);
+							$post['media_name'] = $product_download_root . time() . "_" . $file['name'][$i];
 							$dest = $post['media_name'];
 						}
 						else
@@ -1112,9 +1115,9 @@ class Media_DetailController extends JController
 		elseif (isset($post['set']) && $post['media_section'] == 'manufacturer')
 		{
 			$link = 'index.php?option=' . $option . '&view=manufacturer';    ?>
-	        <script language="javascript" type="text/javascript">
-	            window.parent.document.location = '<?php echo $link; ?>';
-	        </script><?php
+			<script language="javascript" type="text/javascript">
+				window.parent.document.location = '<?php echo $link; ?>';
+			</script><?php
 		}
 		else
 		{
