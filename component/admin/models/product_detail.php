@@ -9,14 +9,15 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/thumbnail.php';
+JLoader::import('thumbnail', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
 jimport('joomla.client.helper');
 JClientHelper::setCredentialsFromRequest('ftp');
 jimport('joomla.filesystem.file');
 
-require_once JPATH_SITE . '/components/com_redshop/helpers/product.php';
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/category.php';
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/extra_field.php';
+JLoader::import('product', JPATH_SITE . '/components/com_redshop/helpers');
+JLoader::import('category', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
+JLoader::import('extra_field', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
+JLoader::import('image_generator', JPATH_SITE . '/components/com_redshop/helpers');
 
 class product_detailModelproduct_detail extends JModel
 {
@@ -163,21 +164,21 @@ class product_detailModelproduct_detail extends JModel
 
 	public function cleanFileName($name, $id = null)
 	{
+		$imageGenerator = new imageGenerator;
 		$filetype = JFile::getExt($name);
 		$segment = explode("/", $name);
 
 		if (count($segment) > 1)
 		{
-			$values = preg_replace("/[&'#]/", "", end($segment));
+			$values = $imageGenerator->replaceSpecial($name);
 			$segment[count($segment) - 1] = $values;
 
 			return implode("/", $segment);
 		}
 		else
 		{
-			$values = preg_replace("/[&'#]/", "", end($segment));
+			$values = $imageGenerator->replaceSpecial($name);
 			$valuess = str_replace('_', 'and', $values);
-			$valuess = str_replace(' ', '', $valuess);
 		}
 
 		if (strlen($valuess) == 0)
@@ -202,6 +203,7 @@ class product_detailModelproduct_detail extends JModel
 		$oldcategory = array();
 
 		$producthelper = new producthelper;
+		$imageGenerator = new imageGenerator;
 
 		$row =& $this->getTable('product_detail');
 
@@ -229,7 +231,9 @@ class product_detailModelproduct_detail extends JModel
 			return false;
 		}
 
-		if (isset($data['thumb_image_delete']))
+		$isNew = ($row->product_id > 0)? false:true;
+
+		if (isset($data['thumb_image_delete']) && !$isNew)
 		{
 			$row->product_thumb_image = "";
 			$unlink_path = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $data['old_thumb_image'];
@@ -253,7 +257,8 @@ class product_detailModelproduct_detail extends JModel
 
 		// Get File name, tmp_name
 		$file = JRequest::getVar('product_full_image', '', 'files', 'array');
-		if (isset($data['image_delete']) || $file['name'] != "" || $data['product_image'] != null)
+
+		if (isset($data['image_delete']) || $file['name'] != "" || $data['product_image'] != null && !$isNew)
 		{
 			$unlink_path = REDSHOP_FRONT_IMAGES_RELPATH . 'product/thumb/' . $data['old_image'];
 
@@ -264,6 +269,8 @@ class product_detailModelproduct_detail extends JModel
 
 			if (is_file($unlink_path))
 				unlink($unlink_path);
+
+			$imageGenerator->deleteImage($data['old_image'], 'product', $row->product_id, 0);
 
 			$query = 'DELETE FROM ' . $this->_table_prefix . 'media WHERE media_name = "' . $data['old_image'] . '" AND media_section = "product" AND section_id = "' . $row->product_id . '" ';
 			$this->_db->setQuery($query);
@@ -303,6 +310,7 @@ class product_detailModelproduct_detail extends JModel
 				{
 					$new_image_name = $image_split[count($image_split) - 1];
 				}
+
 				$filename = $new_image_name;
 				$row->product_full_image = $filename;
 
@@ -313,7 +321,7 @@ class product_detailModelproduct_detail extends JModel
 			}
 		}
 
-		if (isset($data['back_thumb_image_delete']))
+		if (isset($data['back_thumb_image_delete']) && !$isNew)
 		{
 			$row->product_back_thumb_image = "";
 			$unlink_path = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $data['product_back_thumb_image'];
@@ -337,7 +345,7 @@ class product_detailModelproduct_detail extends JModel
 			JFile::upload($src, $dest);
 		}
 
-		if (isset($data['back_image_delete']))
+		if (isset($data['back_image_delete']) && !$isNew)
 		{
 			$row->product_back_full_image = "";
 			$unlink_path = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $data['product_back_full_image'];
@@ -347,6 +355,7 @@ class product_detailModelproduct_detail extends JModel
 				unlink($unlink_path);
 			}
 		}
+
 		$backthumbfile = JRequest::getVar('product_back_full_image', '', 'files', 'array');
 
 		if ($backthumbfile['name'] != "")
@@ -360,9 +369,9 @@ class product_detailModelproduct_detail extends JModel
 			JFile::upload($src, $dest);
 		}
 
-		// upload product preview image
+		// Upload product preview image
 
-		if (isset($data['preview_image_delete']))
+		if (isset($data['preview_image_delete']) && !$isNew)
 		{
 			$row->product_preview_image = "";
 			$unlink_path = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $data['product_preview_image'];
@@ -385,7 +394,7 @@ class product_detailModelproduct_detail extends JModel
 		}
 
 		// Upload product preview back image
-		if (isset($data['preview_back_image_delete']))
+		if (isset($data['preview_back_image_delete']) && !$isNew)
 		{
 			$row->product_preview_image = "";
 			$unlink_path = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $data['product_preview_back_image'];
@@ -395,6 +404,7 @@ class product_detailModelproduct_detail extends JModel
 				unlink($unlink_path);
 			}
 		}
+
 		$previewbackfile = JRequest::getVar('product_preview_back_image', '', 'files', 'array');
 
 		if ($previewbackfile['name'] != "")
@@ -408,7 +418,6 @@ class product_detailModelproduct_detail extends JModel
 			JFile::upload($src, $dest);
 		}
 
-		$isNew = ($row->product_id > 0) ? false : true;
 		JPluginHelper::importPlugin('redshop_product');
 
 		/**
