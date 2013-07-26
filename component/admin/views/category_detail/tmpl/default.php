@@ -15,8 +15,8 @@ $uri = JURI::getInstance();
 $url = $uri->root();
 JHTML::_('behavior.calendar');
 jimport('joomla.html.pane');
-$objhelper = new redhelper();
-$producthelper = new producthelper();?>
+$objhelper = new redhelper;
+$producthelper = new producthelper;?>
 <script language="javascript" type="text/javascript">
 	Joomla.submitbutton = function (pressbutton) {
 		submitbutton(pressbutton);
@@ -41,7 +41,7 @@ $producthelper = new producthelper();?>
 </script>
 
 <form action="<?php echo JRoute::_($this->request_url) ?>" method="post" name="adminForm" id="adminForm"
-      enctype="multipart/form-data">
+	  enctype="multipart/form-data">
 <?php
 //Get JPaneTabs instance
 $myTabs = JPane::getInstance('tabs', array('startOffset' => 0));
@@ -59,8 +59,8 @@ echo $output .= $myTabs->startPanel(JText::_('COM_REDSHOP_CATEGORY_INFORMATION')
 				<td width="100" align="right" class="key"><label
 						for="name"><?php echo JText::_('COM_REDSHOP_CATEGORY_NAME'); ?>:</label></td>
 				<td><input class="text_area" type="text" name="category_name" id="category_name" size="32"
-				           maxlength="250"
-				           value="<?php echo $this->detail->category_name; ?>"/><?php echo JHTML::tooltip(JText::_('COM_REDSHOP_TOOLTIP_CATEGORY_NAME'), JText::_('COM_REDSHOP_CATEGORY_NAME'), 'tooltip.png', '', '', false); ?>
+						   maxlength="250"
+						   value="<?php echo $this->detail->category_name; ?>"/><?php echo JHTML::tooltip(JText::_('COM_REDSHOP_TOOLTIP_CATEGORY_NAME'), JText::_('COM_REDSHOP_CATEGORY_NAME'), 'tooltip.png', '', '', false); ?>
 				</td>
 			</tr>
 			<tr>
@@ -75,8 +75,8 @@ echo $output .= $myTabs->startPanel(JText::_('COM_REDSHOP_CATEGORY_INFORMATION')
 				<td width="100" align="right" class="key"><label
 						for="name"><?php echo JText::_('COM_REDSHOP_SHOW_PRODUCT_PER_PAGE'); ?>:</label></td>
 				<td><input class="text_area" type="text" name="products_per_page" id="products_per_page" size="32"
-				           maxlength="250"
-				           value="<?php echo $this->detail->products_per_page; ?>"/><?php echo JHTML::tooltip(JText::_('COM_REDSHOP_TOOLTIP_SHOW_PRODUCT_PER_PAGE'), JText::_('COM_REDSHOP_CATEGORY_NAME'), 'tooltip.png', '', '', false); ?>
+						   maxlength="250"
+						   value="<?php echo $this->detail->products_per_page; ?>"/><?php echo JHTML::tooltip(JText::_('COM_REDSHOP_TOOLTIP_SHOW_PRODUCT_PER_PAGE'), JText::_('COM_REDSHOP_CATEGORY_NAME'), 'tooltip.png', '', '', false); ?>
 				</td>
 			</tr>
 			<tr>
@@ -92,7 +92,7 @@ echo $output .= $myTabs->startPanel(JText::_('COM_REDSHOP_CATEGORY_INFORMATION')
 			</tr>
 			<tr>
 				<td valign="top" align="right"
-				    class="key"><?php echo JText::_('COM_REDSHOP_PRODUCT_COMPARE_TEMPLATE_FOR_CATEGORY'); ?>:
+					class="key"><?php echo JText::_('COM_REDSHOP_PRODUCT_COMPARE_TEMPLATE_FOR_CATEGORY'); ?>:
 				</td>
 				<td><?php echo $this->lists['compare_template_id']; ?><?php echo JHTML::tooltip(JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_COMPARE_TEMPLATE_FOR_CATEGORY_LABEL'), JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_COMPARE_TEMPLATE_FOR_CATEGORY'), 'tooltip.png', '', '', false); ?></td>
 			</tr>
@@ -119,10 +119,10 @@ echo $output .= $myTabs->startPanel(JText::_('COM_REDSHOP_CATEGORY_INFORMATION')
 					</td>
 					<td>
 						<a href="<?php echo JURI::root() . 'index.php?option=com_redshop&view=category&layout=detail&Itemid=' . $cItemid . '&cid=' . $this->detail->category_id; ?>"
-						   target="_black"><?php echo JURI::root() . 'index.php?option=com_redshop&view=category&layout=detail&Itemid=' . $cItemid . '&cid=' . $this->detail->category_id;?></a>
+						   target="_black"><?php echo JURI::root() . 'index.php?option=com_redshop&view=category&layout=detail&Itemid=' . $cItemid . '&cid=' . $this->detail->category_id; ?></a>
 					</td>
 				</tr>
-			<?php }?>
+			<?php } ?>
 
 		</table>
 	</fieldset>
@@ -131,7 +131,7 @@ echo $output .= $myTabs->startPanel(JText::_('COM_REDSHOP_CATEGORY_INFORMATION')
 			<legend><?php echo JText::_('COM_REDSHOP_SHORT_DESCRIPTION'); ?></legend>
 			<table class="admintable">
 				<tr>
-					<td><?php echo $editor->display("category_short_description", $this->detail->category_short_description, '$widthPx', '$heightPx', '100', '20');    ?></td>
+					<td><?php echo $editor->display("category_short_description", $this->detail->category_short_description, '$widthPx', '$heightPx', '100', '20'); ?></td>
 				</tr>
 			</table>
 		</fieldset>
@@ -141,7 +141,7 @@ echo $output .= $myTabs->startPanel(JText::_('COM_REDSHOP_CATEGORY_INFORMATION')
 			<legend><?php echo JText::_('COM_REDSHOP_DESCRIPTION'); ?></legend>
 			<table class="admintable">
 				<tr>
-					<td><?php echo $editor->display("category_description", $this->detail->category_description, '$widthPx', '$heightPx', '100', '20');    ?></td>
+					<td><?php echo $editor->display("category_description", $this->detail->category_description, '$widthPx', '$heightPx', '100', '20'); ?></td>
 				</tr>
 			</table>
 		</fieldset>
@@ -150,7 +150,7 @@ echo $output .= $myTabs->startPanel(JText::_('COM_REDSHOP_CATEGORY_INFORMATION')
 <?php
 echo $myTabs->endPanel();
 //Create 2nd Tab
-echo  $myTabs->startPanel(JText::_('COM_REDSHOP_CATEGORY_IMAGES'), 'tab2');
+echo $myTabs->startPanel(JText::_('COM_REDSHOP_CATEGORY_IMAGES'), 'tab2');
 ?>
 <div class="col50"></div>
 <table class="adminform">
@@ -168,12 +168,16 @@ echo  $myTabs->startPanel(JText::_('COM_REDSHOP_CATEGORY_IMAGES'), 'tab2');
 			$image_path = REDSHOP_FRONT_IMAGES_ABSPATH . 'category/' . $this->detail->category_full_image;    ?>
 			<div class="button2-left">
 				<div class="image"><a class="modal" title="Image" href="<?php echo $ilink; ?>"
-				                      rel="{handler: 'iframe', size: {x: 490, y: 400}}">Image</a></div>
+									  rel="{handler: 'iframe', size: {x: 490, y: 400}}">Image</a></div>
 			</div>
 			<div id="image_dis">
-				<img src="<?php echo $image_path; ?>"
-				     id="image_display" <?php if ($this->detail->category_full_image == "") echo "style='display:none;'" ?>
-				     border="0" width="200"/>
+				<?php
+				if ($this->detail->category_full_image != ''):
+					?>
+					<img src="<?php echo $image_path; ?>" id="image_display" />
+				<?php
+				endif;
+				?>
 				<input type="hidden" name="category_image" id="category_image"/>
 			</div>
 		</td>
@@ -196,10 +200,16 @@ echo  $myTabs->startPanel(JText::_('COM_REDSHOP_CATEGORY_IMAGES'), 'tab2');
 			<tr>
 				<td></td>
 				<td>
-					<a class="modal"
-					   href="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH; ?>category/<?php echo $this->detail->category_full_image ?>"
-					   title="" rel="{handler: 'image', size: {}}"><img
-							src="<?php echo $url ?>/components/com_redshop/helpers/thumb.php?filename=category/<?php echo $this->detail->category_full_image ?>&newxsize=<?php echo THUMB_WIDTH; ?>&newysize=<?php echo THUMB_HEIGHT; ?>"></a>
+					<?php
+					if ($this->detail->category_full_image != ''):
+						?>
+						<a class="modal"
+						   href="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH; ?>category/<?php echo $this->detail->category_full_image ?>"
+						   title="" rel="{handler: 'image', size: {}}"><img
+								src="<?php echo $url ?>/components/com_redshop/helpers/thumb.php?filename=category/<?php echo $this->detail->category_full_image ?>&newxsize=<?php echo THUMB_WIDTH; ?>&newysize=<?php echo THUMB_HEIGHT; ?>"></a>
+					<?php
+					endif;
+					?>
 				</td>
 			</tr>
 		<?php
@@ -207,7 +217,7 @@ echo  $myTabs->startPanel(JText::_('COM_REDSHOP_CATEGORY_IMAGES'), 'tab2');
 	} ?>
 	<tr>
 		<td valign="top" align="right" class="key"
-		    width="100"><?php echo JText::_('COM_REDSHOP_CATEGORY_BACK_IMAGE'); ?>:
+			width="100"><?php echo JText::_('COM_REDSHOP_CATEGORY_BACK_IMAGE'); ?>:
 		</td>
 		<td>
 			<input type="file" name="category_back_full_image" id="category_back_full_image" size="30">
@@ -217,11 +227,14 @@ echo  $myTabs->startPanel(JText::_('COM_REDSHOP_CATEGORY_IMAGES'), 'tab2');
 	<tr>
 		<td>&nbsp;</td>
 		<td><?php
-			$image_back_path = REDSHOP_FRONT_IMAGES_ABSPATH . 'category/' . $this->detail->category_back_full_image;    ?>
-			<div id="image_dis">
-				<img src="<?php echo $image_back_path; ?>" id="image_display" style="display:block;" border="0"
-				     width="200"/>
-			</div>
+			$image_back_path = REDSHOP_FRONT_IMAGES_ABSPATH . 'category/' . $this->detail->category_back_full_image;
+
+			if ($this->detail->category_back_full_image != ''):
+				?>
+				<img src="<?php echo $image_back_path; ?>" />
+			<?php
+			endif;
+			?>
 		</td>
 	</tr>
 
@@ -251,7 +264,7 @@ echo  $myTabs->startPanel(JText::_('COM_REDSHOP_CATEGORY_IMAGES'), 'tab2');
 <?php
 echo $myTabs->endPanel();
 //Create 3rd Tab
-echo  $myTabs->startPanel(JText::_('COM_REDSHOP_META_DATA_TAB'), 'tab3');
+echo $myTabs->startPanel(JText::_('COM_REDSHOP_META_DATA_TAB'), 'tab3');
 ?>
 <table>
 	<tr>
@@ -267,7 +280,7 @@ echo  $myTabs->startPanel(JText::_('COM_REDSHOP_META_DATA_TAB'), 'tab3');
 		</td>
 		<td>
 			<input class="text_area" type="text" name="pagetitle" id="pagetitle" size="75"
-			       value="<?php echo $this->detail->pagetitle; ?>"/>
+				   value="<?php echo $this->detail->pagetitle; ?>"/>
 			<?php echo JHTML::tooltip(JText::_('COM_REDSHOP_TOOLTIP_PAGE_TITLE'), JText::_('COM_REDSHOP_PAGE_TITLE'), 'tooltip.png', '', '', false); ?>
 		</td>
 	</tr>
@@ -277,7 +290,7 @@ echo  $myTabs->startPanel(JText::_('COM_REDSHOP_META_DATA_TAB'), 'tab3');
 		</td>
 		<td>
 			<input class="text_area" type="text" name="pageheading" id="pageheading" size="75"
-			       value="<?php echo $this->detail->pageheading; ?>"/>
+				   value="<?php echo $this->detail->pageheading; ?>"/>
 			<?php echo JHTML::tooltip(JText::_('COM_REDSHOP_TOOLTIP_PAGE_HEADING'), JText::_('COM_REDSHOP_PAGE_HEADING'), 'tooltip.png', '', '', false); ?>
 		</td>
 	</tr>
@@ -287,7 +300,7 @@ echo  $myTabs->startPanel(JText::_('COM_REDSHOP_META_DATA_TAB'), 'tab3');
 		</td>
 		<td>
 			<input class="text_area" type="text" name="sef_url" id="sef_url" size="75"
-			       value="<?php echo $this->detail->sef_url; ?>"/>
+				   value="<?php echo $this->detail->sef_url; ?>"/>
 			<?php echo JHTML::tooltip(JText::_('COM_REDSHOP_TOOLTIP_SEF_URL'), JText::_('COM_REDSHOP_SEF_URL'), 'tooltip.png', '', '', false); ?>
 		</td>
 	</tr>
@@ -297,7 +310,7 @@ echo  $myTabs->startPanel(JText::_('COM_REDSHOP_META_DATA_TAB'), 'tab3');
 		</td>
 		<td>
 			<input class="text_area" type="text" name="canonical_url" id="canonical_url" size="75"
-			       value="<?php echo $this->detail->canonical_url; ?>"/>
+				   value="<?php echo $this->detail->canonical_url; ?>"/>
 			<?php echo JHTML::tooltip(JText::_('COM_REDSHOP_TOOLTIP_CANONICAL_URL_PRODUCT'), JText::_('COM_REDSHOP_CANONICAL_URL_PRODUCT'), 'tooltip.png', '', '', false); ?>
 		</td>
 	</tr>
@@ -307,7 +320,7 @@ echo  $myTabs->startPanel(JText::_('COM_REDSHOP_META_DATA_TAB'), 'tab3');
 		</td>
 		<td>
 			<textarea class="text_area" type="text" name="metakey" id="metakey" rows="4"
-			          cols="40"/><?php echo $this->detail->metakey; ?></textarea>
+					  cols="40"/><?php echo $this->detail->metakey; ?></textarea>
 			<?php echo JHTML::tooltip(JText::_('COM_REDSHOP_TOOLTIP_META_KEYWORDS'), JText::_('COM_REDSHOP_META_KEYWORDS'), 'tooltip.png', '', '', false); ?>
 
 		</td>
@@ -318,7 +331,7 @@ echo  $myTabs->startPanel(JText::_('COM_REDSHOP_META_DATA_TAB'), 'tab3');
 		</td>
 		<td>
 			<textarea class="text_area" type="text" name="metadesc" id="metadesc" rows="4"
-			          cols="40"/><?php echo $this->detail->metadesc; ?></textarea>
+					  cols="40"/><?php echo $this->detail->metadesc; ?></textarea>
 			<?php echo JHTML::tooltip(JText::_('COM_REDSHOP_TOOLTIP_META_DESCRIPTION'), JText::_('COM_REDSHOP_META_DESCRIPTION'), 'tooltip.png', '', '', false); ?>
 		</td>
 	</tr>
@@ -328,7 +341,7 @@ echo  $myTabs->startPanel(JText::_('COM_REDSHOP_META_DATA_TAB'), 'tab3');
 		</td>
 		<td>
 			<textarea class="text_area" type="text" name="metalanguage_setting" id="metalanguage_setting" rows="4"
-			          cols="40"/><?php echo $this->detail->metalanguage_setting; ?></textarea>
+					  cols="40"/><?php echo $this->detail->metalanguage_setting; ?></textarea>
 			<?php echo JHTML::tooltip(JText::_('COM_REDSHOP_TOOLTIP_META_LANG_SETTING'), JText::_('COM_REDSHOP_META_LANG_SETTING'), 'tooltip.png', '', '', false); ?>
 		</td>
 	</tr>
@@ -338,7 +351,7 @@ echo  $myTabs->startPanel(JText::_('COM_REDSHOP_META_DATA_TAB'), 'tab3');
 		</td>
 		<td>
 			<textarea class="text_area" type="text" name="metarobot_info" id="metarobot_info" rows="4"
-			          cols="40"/><?php echo $this->detail->metarobot_info; ?></textarea>
+					  cols="40"/><?php echo $this->detail->metarobot_info; ?></textarea>
 			<?php echo JHTML::tooltip(JText::_('COM_REDSHOP_TOOLTIP_META_ROBOT_INFO'), JText::_('COM_REDSHOP_META_ROBOT_INFO'), 'tooltip.png', '', '', false); ?>
 		</td>
 	</tr>
@@ -359,7 +372,7 @@ if($this->lists['extra_field']!="")
 }*/
 
 
-echo  $myTabs->startPanel(JText::_('COM_REDSHOP_FIELDS'), 'tab4');
+echo $myTabs->startPanel(JText::_('COM_REDSHOP_FIELDS'), 'tab4');
 
 ?>
 <table class="admintable">
@@ -372,7 +385,7 @@ echo  $myTabs->startPanel(JText::_('COM_REDSHOP_FIELDS'), 'tab4');
 <?php
 echo $myTabs->endPanel();
 //Create 6th Tab
-echo  $myTabs->startPanel(JText::_('COM_REDSHOP_ACCESSORY_PRODUCT'), 'tab5');
+echo $myTabs->startPanel(JText::_('COM_REDSHOP_ACCESSORY_PRODUCT'), 'tab5');
 ?>
 <div class="col50">
 	<table class="admintable">
@@ -408,28 +421,28 @@ echo  $myTabs->startPanel(JText::_('COM_REDSHOP_ACCESSORY_PRODUCT'), 'tab5');
 						}
 						$checked = ($accessory_product[$f]->setdefault_selected) ? "checked" : "";    ?>
 						<tr>
-							<td><?php echo $accessory_product[$f]->product_name;?>
+							<td><?php echo $accessory_product[$f]->product_name; ?>
 								<input type="hidden" value="<?php echo $accessory_product[$f]->child_product_id; ?>"
-								       name="product_accessory[<?php echo $f; ?>][child_product_id]">
+									   name="product_accessory[<?php echo $f; ?>][child_product_id]">
 								<input type="hidden" value="<?php echo $accessory_product[$f]->accessory_id; ?>"
-								       name="product_accessory[<?php echo $f; ?>][accessory_id]"></td>
-							<td><?php echo $accessory_main_price[1];?></td>
+									   name="product_accessory[<?php echo $f; ?>][accessory_id]"></td>
+							<td><?php echo $accessory_main_price[1]; ?></td>
 							<td><input size="1" maxlength="1" class="text_area" type="text"
-							           value="<?php echo $accessory_product[$f]->oprand; ?>"
-							           onchange="javascript:oprand_check(this);"
-							           name="product_accessory[<?php echo $f; ?>][oprand]"></td>
+									   value="<?php echo $accessory_product[$f]->oprand; ?>"
+									   onchange="javascript:oprand_check(this);"
+									   name="product_accessory[<?php echo $f; ?>][oprand]"></td>
 							<td><input size="5" class="text_area" type="text"
-							           value="<?php echo $accessory_product[$f]->accessory_price; ?>"
-							           name="product_accessory[<?php echo $f; ?>][accessory_price]"></td>
+									   value="<?php echo $accessory_product[$f]->accessory_price; ?>"
+									   name="product_accessory[<?php echo $f; ?>][accessory_price]"></td>
 							<td><input type="text" name="product_accessory[<?php echo $f; ?>][ordering]" size="5"
-							           value="<?php echo $accessory_product[$f]->ordering; ?>" class="text_area"
-							           style="text-align: center"/></td>
+									   value="<?php echo $accessory_product[$f]->ordering; ?>" class="text_area"
+									   style="text-align: center"/></td>
 							<!-- <td><input value="1" class="button" type="checkbox" name="product_accessory[<?php echo $f;?>][setdefault_selected]" <?php echo $checked;?>></td>-->
 							<td><input value="X"
-							           onclick="deleteRow_accessory(this,<?php echo $accessory_product[$f]->accessory_id; ?>,<?php echo $accessory_product[$f]->category_id; ?>,<?php echo $accessory_product[$f]->child_product_id ?>);"
-							           class="button" type="button"></td>
+									   onclick="deleteRow_accessory(this,<?php echo $accessory_product[$f]->accessory_id; ?>,<?php echo $accessory_product[$f]->category_id; ?>,<?php echo $accessory_product[$f]->child_product_id ?>);"
+									   class="button" type="button"></td>
 						</tr>
-					<?php }    ?>
+					<?php } ?>
 					</tbody>
 				</table>
 				<input type="hidden" name="total_accessory" id="total_accessory" value="<?php echo $f; ?>"/></td>
@@ -454,7 +467,14 @@ echo $myTabs->endPane(); ?>
 	function jimage_insert(main_path) {
 		var path_url = "<?php echo $url;?>";
 		if (main_path) {
-			document.getElementById("image_display").style.display = "block";
+			if(!document.getElementById("image_display"))
+			{
+				var img = new Image();
+				//img.src = path_url + main_path;
+				img.id = "image_display";
+				document.getElementById("image_dis").appendChild( img );
+			}
+
 			document.getElementById("category_image").value = main_path;
 			document.getElementById("image_display").src = path_url + main_path;
 		}
@@ -467,17 +487,14 @@ echo $myTabs->endPane(); ?>
 
 </script>
 
-<?php
-if ($this->detail->category_template != '0')
-{
-	?>
-	<script language="javascript" type="text/javascript">
 
-		select_dynamic_field(<?php echo $this->detail->category_template;?>, <?php echo $this->detail->category_id;?>, '2');
-	</script>
-<?php
-}
-?>
+<script language="javascript" type="text/javascript">
+	select_dynamic_field(<?php
+	echo ($this->detail->category_template) ? $this->detail->category_template : CATEGORY_TEMPLATE;
+	?>, <?php
+	echo ($this->detail->category_id) ? $this->detail->category_id : '0';
+	?>, '2');
+</script>
 
 
 <script language="javascript" type="text/javascript">
