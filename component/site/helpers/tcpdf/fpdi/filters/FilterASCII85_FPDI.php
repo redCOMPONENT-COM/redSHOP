@@ -17,7 +17,7 @@
 //  limitations under the License.
 //
 
-require_once('FilterASCII85.php');
+require_once 'FilterASCII85.php';
 
 class FilterASCII85_FPDI extends FilterASCII85 {
 
