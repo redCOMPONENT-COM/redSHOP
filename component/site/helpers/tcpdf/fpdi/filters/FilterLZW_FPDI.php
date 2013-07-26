@@ -17,7 +17,7 @@
 //  limitations under the License.
 //
 
-require_once 'FilterLZW.php';
+require_once('FilterLZW.php');
 
 class FilterLZW_FPDI extends FilterLZW {
 
@@ -26,7 +26,7 @@ class FilterLZW_FPDI extends FilterLZW {
     function FilterLZW_FPDI(&$fpdi) {
         $this->fpdi =& $fpdi;
     }
-
+    
     function error($msg) {
         $this->fpdi->error($msg);
     }

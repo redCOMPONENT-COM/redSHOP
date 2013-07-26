@@ -445,13 +445,10 @@ class redshopMail
 		$pdfObj->SetCreator('redSHOP');
 		$pdfObj->SetMargins(8, 8, 8);
 
-		// Add font to support Unicode Characters
-		$pdfObj->addTTFfont(JPATH_SITE . '/components/com_redshop/helpers/tcpdf/fonts/arialuni.ttf', 'TrueTypeUnicode', '', 32);
-		$font = 'arialuni';
-
+		// Changed font to support Unicode Characters - Specially Polish Characters
+		$font = 'freeserif';
 		$pdfObj->setImageScale(PDF_IMAGE_SCALE_RATIO);
 		$pdfObj->setHeaderFont(array($font, '', 8));
-		$pdfObj->SetFont($font, "", 6);
 
 		$order_id = "";
 
