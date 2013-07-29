@@ -46,19 +46,19 @@ class zoomproducthelper extends producthelper
 
 		if ($imagename != "")
 		{
-			$product_img = $redhelper->watermark('product', $imagename, $width, $height, WATERMARK_PRODUCT_THUMB_IMAGE, '0');
+			$product_img = $redhelper->watermark('product', $imagename, $width, $height, WATERMARK_PRODUCT_THUMB_IMAGE, $product_id);
 
 			if ($cat_product_hover)
-				$product_hover_img = $redhelper->watermark('product', $imagename, PRODUCT_HOVER_IMAGE_WIDTH, PRODUCT_HOVER_IMAGE_HEIGHT, WATERMARK_PRODUCT_THUMB_IMAGE, '2');
+				$product_hover_img = $redhelper->watermark('product', $imagename, PRODUCT_HOVER_IMAGE_WIDTH, PRODUCT_HOVER_IMAGE_HEIGHT, WATERMARK_PRODUCT_THUMB_IMAGE, $product_id);
 
 			if ($linkimagename != "")
 			{
-				$linkimage = $redhelper->watermark('product', $linkimagename, '', '', WATERMARK_PRODUCT_IMAGE, '0');
+				$linkimage = $redhelper->watermark('product', $linkimagename, '', '', WATERMARK_PRODUCT_IMAGE, $product_id);
 			}
 			else
 			{
-				$linkimage = $redhelper->watermark('product', $imagename, '', '', WATERMARK_PRODUCT_IMAGE, '0');
-				//$linkimage = $redhelper->watermark('product',$imagename,$width,$height,WATERMARK_PRODUCT_IMAGE);
+				$linkimage = $redhelper->watermark('product', $imagename, '', '', WATERMARK_PRODUCT_IMAGE, $product_id);
+				//$linkimage = $redhelper->watermark('product',$imagename,$width,$height,WATERMARK_PRODUCT_IMAGE, $product_id);
 			}
 		}
 
@@ -110,24 +110,13 @@ class zoomproducthelper extends producthelper
 				{
 					$thumb = $media_image [$m]->media_name;
 
-					if (WATERMARK_PRODUCT_ADDITIONAL_IMAGE)
-					{
-						$pimg = $redhelper->watermark('product', $thumb, $mpw_thumb, $mph_thumb, WATERMARK_PRODUCT_ADDITIONAL_IMAGE, "1");
-						$linkimage = $redhelper->watermark('product', $thumb, '', '', WATERMARK_PRODUCT_ADDITIONAL_IMAGE, "0");
-						$hoverimg_path = $redhelper->watermark('product', $thumb, ADDITIONAL_HOVER_IMAGE_WIDTH, ADDITIONAL_HOVER_IMAGE_HEIGHT, WATERMARK_PRODUCT_ADDITIONAL_IMAGE, '2');
-					}
-					else
-					{
-						$pimg = $url . "components/com_redshop/helpers/thumb.php?filename=product/" . $thumb . "&newxsize=" . $mpw_thumb . "&newysize=" . $mph_thumb . "&swap=" . USE_IMAGE_SIZE_SWAPPING;
-						$linkimage = $url . "components/com_redshop/assets/images/product/" . $thumb;
-						$hoverimg_path = $url . "components/com_redshop/helpers/thumb.php?filename=product/" . $thumb . "&newxsize=" . ADDITIONAL_HOVER_IMAGE_WIDTH . "&newysize=" . ADDITIONAL_HOVER_IMAGE_HEIGHT . "&swap=" . USE_IMAGE_SIZE_SWAPPING;
-					}
+					$pimg = $redhelper->watermark('product', $thumb, $mpw_thumb, $mph_thumb, WATERMARK_PRODUCT_ADDITIONAL_IMAGE, $pid);
+					$linkimage = $redhelper->watermark('product', $thumb, '', '', WATERMARK_PRODUCT_ADDITIONAL_IMAGE, $pid);
+					$hoverimg_path = $redhelper->watermark('product', $thumb, ADDITIONAL_HOVER_IMAGE_WIDTH, ADDITIONAL_HOVER_IMAGE_HEIGHT, WATERMARK_PRODUCT_ADDITIONAL_IMAGE, $pid);
 
-					if (WATERMARK_PRODUCT_ADDITIONAL_IMAGE)
-						$img_path = $redhelper->watermark('product', $thumb, $pw_thumb, $ph_thumb, WATERMARK_PRODUCT_ADDITIONAL_IMAGE, '0');
-					else
-						$img_path = $url . "components/com_redshop/helpers/thumb.php?filename=product/" . $thumb . "&newxsize=" . $pw_thumb . "&newysize=" . $ph_thumb . "&swap=" . USE_IMAGE_SIZE_SWAPPING;
-					$hovermore_images = $redhelper->watermark('product', $thumb, '', '', WATERMARK_PRODUCT_ADDITIONAL_IMAGE, '0');
+					$img_path = $redhelper->watermark('product', $thumb, $pw_thumb, $ph_thumb, WATERMARK_PRODUCT_ADDITIONAL_IMAGE, $pid);
+
+					$hovermore_images = $redhelper->watermark('product', $thumb, '', '', WATERMARK_PRODUCT_ADDITIONAL_IMAGE, $pid);
 
 					$filename_org = JPATH_COMPONENT_SITE . "/assets/images/product/" . $media_image[$m]->product_full_image;
 
@@ -140,10 +129,7 @@ class zoomproducthelper extends producthelper
 						$thumb_original = PRODUCT_DEFAULT_IMAGE;
 					}
 
-					if (WATERMARK_PRODUCT_THUMB_IMAGE)
-						$img_path_org = $redhelper->watermark('product', $thumb_original, $pw_thumb, $ph_thumb, WATERMARK_PRODUCT_THUMB_IMAGE, '0');
-					else
-						$img_path_org = $url . "components/com_redshop/helpers/thumb.php?filename=product/" . $thumb_original . "&newxsize=" . $mpw_thumb . "&newysize=" . $mph_thumb . "&swap=" . USE_IMAGE_SIZE_SWAPPING;
+					$img_path_org = $redhelper->watermark('product', $thumb_original, $pw_thumb, $ph_thumb, WATERMARK_PRODUCT_THUMB_IMAGE, $pid);
 
 					$hovermore_org = $url . "components/com_redshop/helpers/thumb.php?filename=product/" . $thumb_original . "&newxsize=" . $pw_thumb . "&newysize=" . $ph_thumb . "&swap=" . USE_IMAGE_SIZE_SWAPPING;
 					$prod_img_path_link = $url . "components/com_redshop/assets/images/product/" . $thumb;
@@ -168,11 +154,7 @@ class zoomproducthelper extends producthelper
 				{
 							$thumb_original=PRODUCT_DEFAULT_IMAGE;
 				}*/
-				if (WATERMARK_PRODUCT_THUMB_IMAGE)
-					$img_path_org = $redhelper->watermark('product', $thumb_original, $mpw_thumb, $mph_thumb, WATERMARK_PRODUCT_THUMB_IMAGE, '0');
-				else
-					$img_path_org = $url . "components/com_redshop/helpers/thumb.php?filename=product/" . $thumb_original . "&newxsize=" . $mpw_thumb . "&newysize=" . $mph_thumb . "&swap=" . USE_IMAGE_SIZE_SWAPPING;
-			}
+				$img_path_org = $redhelper->watermark('product', $thumb_original, $mpw_thumb, $mph_thumb, WATERMARK_PRODUCT_THUMB_IMAGE, $pid);
 
 			$prodmainimg = "";
 			$prod_img_path = $url . "components/com_redshop/helpers/thumb.php?filename=product/" . $thumb_original . "&newxsize=" . $pw_thumb . "&newysize=" . $ph_thumb . "&swap=" . USE_IMAGE_SIZE_SWAPPING;
@@ -349,21 +331,10 @@ class zoomproducthelper extends producthelper
 			{
 				if ($media_image [$m]->media_name && is_file(JPATH_COMPONENT_SITE . "/assets/images/product/" . $media_image[$m]->media_name))
 				{
-					if (WATERMARK_PRODUCT_ADDITIONAL_IMAGE)
-					{
-						$pimg = $redhelper->watermark('product', $thumb, $mpw_thumb, $mph_thumb, WATERMARK_PRODUCT_ADDITIONAL_IMAGE, "1");
-						$linkimage = $redhelper->watermark('product', $thumb, '', '', WATERMARK_PRODUCT_ADDITIONAL_IMAGE, "0");
-					}
-					else
-					{
-						$pimg = $url . "components/com_redshop/helpers/thumb.php?filename=product/" . $thumb . "&newxsize=" . $mpw_thumb . "&newysize=" . $mph_thumb . "&swap=" . USE_IMAGE_SIZE_SWAPPING;
-						$linkimage = $url . "components/com_redshop/assets/images/product/" . $thumb;
-					}
+					$pimg = $redhelper->watermark('product', $thumb, $mpw_thumb, $mph_thumb, WATERMARK_PRODUCT_ADDITIONAL_IMAGE, $product_id);
+					$linkimage = $redhelper->watermark('product', $thumb, '', '', WATERMARK_PRODUCT_ADDITIONAL_IMAGE, $product_id);
 
-					if (WATERMARK_PRODUCT_ADDITIONAL_IMAGE)
-						$img_path = $redhelper->watermark('product', $thumb, $pw_thumb, $ph_thumb, WATERMARK_PRODUCT_ADDITIONAL_IMAGE, '0');
-					else
-						$img_path = $url . "components/com_redshop/helpers/thumb.php?filename=product/" . $thumb . "&newxsize=" . $pw_thumb . "&newysize=" . $ph_thumb . "&swap=" . USE_IMAGE_SIZE_SWAPPING;
+					$img_path = $redhelper->watermark('product', $thumb, $pw_thumb, $ph_thumb, WATERMARK_PRODUCT_ADDITIONAL_IMAGE, $product_id);
 					$filename_thumb = JPATH_COMPONENT_SITE . "/assets/images/product/" . $product->product_thumb_image;
 					$filename_org = JPATH_COMPONENT_SITE . "/assets/images/product/" . $media_image [$m]->product_full_image;
 
@@ -380,10 +351,8 @@ class zoomproducthelper extends producthelper
 						$thumb_original = PRODUCT_DEFAULT_IMAGE;
 					}
 
-					if (WATERMARK_PRODUCT_THUMB_IMAGE)
-						$img_path_org = $redhelper->watermark('product', $thumb_original, $mpw_thumb, $mph_thumb, WATERMARK_PRODUCT_THUMB_IMAGE, '0');
-					else
-						$img_path_org = $url . "components/" . $option . "/helpers/thumb.php?filename=product/" . $thumb_original . "&newxsize=" . $mpw_thumb . "&newysize=" . $mph_thumb . "&swap=" . USE_IMAGE_SIZE_SWAPPING;
+					$img_path_org = $redhelper->watermark('product', $thumb_original, $mpw_thumb, $mph_thumb, WATERMARK_PRODUCT_THUMB_IMAGE, $product_id);
+
 					$zoom_original = $url . "components/com_redshop/assets/images/product/" . $media_image[$m]->media_name;
 					$prodadditionImg .= '<a href="javascript:void(0);" rel="{gallery: \'gal1\' , smallimage: \'' . $img_path . '\' ,largeimage: \'' . $zoom_original . '\' }" >';
 					$prodadditionImg .= "<img src='" . $pimg . "' alt='" . $alttext . "' title='" . $alttext . "' style='cursor: pointer;'></a>";
@@ -413,14 +382,7 @@ class zoomproducthelper extends producthelper
 					$thumb_original = PRODUCT_DEFAULT_IMAGE;
 				}
 
-				if (WATERMARK_PRODUCT_THUMB_IMAGE)
-				{
-					$img_path_org = $redhelper->watermark('product', $thumb_original, $mpw_thumb, $mph_thumb, WATERMARK_PRODUCT_THUMB_IMAGE, '0');
-				}
-				else
-				{
-					$img_path_org = $url . "components/" . $option . "/helpers/thumb.php?filename=product/" . $thumb_original . "&newxsize=" . $mpw_thumb . "&newysize=" . $mph_thumb . "&swap=" . USE_IMAGE_SIZE_SWAPPING;
-				}
+				$img_path_org = $redhelper->watermark('product', $thumb_original, $mpw_thumb, $mph_thumb, WATERMARK_PRODUCT_THUMB_IMAGE, $product_id);
 			}
 
 			$prodmainimg = "";
@@ -921,7 +883,6 @@ class zoomproducthelper extends producthelper
 		else    $url .= "/";
 
 		$option = JRequest::getVar('option', 'com_redshop');
-		$product             = $this->getProductById($product_id);
 		$redhelper           = new redhelper;
 		$aHrefImageResponse  = '';
 		$imagename           = '';
@@ -933,6 +894,7 @@ class zoomproducthelper extends producthelper
 		$product             = $this->getProductById($product_id);
 		$type                = '';
 		$pr_number = $product->product_number;
+		$image_id = $product_id;
 
 		if (is_file(JPATH_COMPONENT_SITE . "/assets/images/product/" . $product->product_thumb_image))
 		{
@@ -967,6 +929,7 @@ class zoomproducthelper extends producthelper
 			if (count($property) > 0 && is_file(JPATH_COMPONENT_SITE . "/assets/images/property/" . $property[0]->property_main_image))
 			{
 				$type = 'property';
+				$image_id = $property_id;
 				$imagename = $property[0]->property_main_image;
 				$aTitleImageResponse = $property[0]->text;
 			}
@@ -985,6 +948,7 @@ class zoomproducthelper extends producthelper
 			if (count($subproperty) > 0 && is_file(JPATH_COMPONENT_SITE . "/assets/images/subcolor/" . $subproperty[0]->subattribute_color_image))
 			{
 				$type = 'subcolor';
+				$image_id = $subproperty_id;
 				$imagename = $subproperty[0]->subattribute_color_image;
 				$aTitleImageResponse = $subproperty[0]->text;
 				$attrbimg = $url . "components/com_redshop/assets/images/subcolor/" . $subproperty[0]->subattribute_color_image;
@@ -995,23 +959,9 @@ class zoomproducthelper extends producthelper
 
 		if (!empty($imagename) && !empty($type))
 		{
-			if ((WATERMARK_PRODUCT_THUMB_IMAGE) && $type == 'product')
-			{
-				$productmainimg = $redhelper->watermark('product', $imagename, $pw_thumb, $ph_thumb, WATERMARK_PRODUCT_THUMB_IMAGE, '0');
-			}
-			else
-			{
-				$productmainimg = $url . "components/com_redshop/helpers/thumb.php?filename=$type/" . $imagename . "&newxsize=" . $pw_thumb . "&newysize=" . $ph_thumb . "&swap=" . USE_IMAGE_SIZE_SWAPPING;
-			}
+			$productmainimg = $redhelper->watermark($type, $imagename, $pw_thumb, $ph_thumb, WATERMARK_PRODUCT_THUMB_IMAGE, $image_id);
 
-			if ((WATERMARK_PRODUCT_IMAGE) && $type == 'product')
-			{
-				$aHrefImageResponse = $redhelper->watermark('product', $imagename, '', '', WATERMARK_PRODUCT_IMAGE, '0');
-			}
-			else
-			{
-				$aHrefImageResponse = $url . "components/com_redshop/assets/images/$type/" . $imagename;
-			}
+			$aHrefImageResponse = $redhelper->watermark($type, $imagename, '', '', WATERMARK_PRODUCT_IMAGE, $image_id);
 			//zoom
 			$mainImageResponse = $productmainimg;
 		}

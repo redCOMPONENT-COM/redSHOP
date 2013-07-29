@@ -23,8 +23,20 @@ class ImageGenerator
 
 	public function originalToResized($mType, $idIncrement, $fileName, $width, $height, $watermark = 0)
 	{
-		$width = ($width <= 0) ? 100 : $width;
-		$height = ($height <= 0) ? 100 : $height;
+		if ($width <= 0 && $height <= 0)
+		{
+			$width = 800;
+			$height = 800;
+		}
+		elseif ($width <= 0 && $height > 0)
+		{
+			$width = 100;
+		}
+		elseif($width > 0 && $height <= 0)
+		{
+			$height = 100;
+		}
+
 		$quality = IMAGE_QUALITY_OUTPUT;
 		$crop = USE_IMAGE_SIZE_SWAPPING;
 		$wmPosition = WATERMARK_POSITION;
