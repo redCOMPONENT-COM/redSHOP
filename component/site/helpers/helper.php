@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 JLoader::import('product', JPATH_SITE . '/components/com_redshop/helpers');
 JLoader::import('user', JPATH_SITE . '/components/com_redshop/helpers');
+JLoader::import('image_generator', JPATH_SITE . '/components/com_redshop/helpers');
 
 class redhelper
 {
@@ -19,10 +20,13 @@ class redhelper
 
 	public $_isredCRM = null;
 
+	public $_imageGenerator = null;
+
 	public function __construct()
 	{
 		$this->_table_prefix = '#__redshop_';
 		$this->_db = JFactory::getDBO();
+		$this->_imageGenerator = new ImageGenerator;
 	}
 
 	/**
@@ -628,184 +632,29 @@ class redhelper
 	 * $filename = image name
 	*/
 
-	public function watermark($mtype, $Imagename = '', $thumb_width = '', $thumb_height = '', $enable_watermart = WATERMARK_PRODUCT_IMAGE, $add_img = 0)
+	public function watermark($mtype, $Imagename = '', $thumb_width = '', $thumb_height = '', $enable_watermart = WATERMARK_PRODUCT_IMAGE, $add_img = 0, $idIncrement = 0)
 	{
-		require_once JPATH_ROOT . '/administrator/components/com_redshop/helpers/images.php';
-
 		$url = JURI::root();
-		$option = 'com_redshop';
 
-		/*
-		 * IF watermark is not enable
-		 * return thumb image
-		 */
-		if ($enable_watermart <= 0)
+		if ($Imagename && file_exists(REDSHOP_FRONT_IMAGES_RELPATH . $mtype . "/" . $Imagename))
 		{
 			if (($thumb_width != '' || $thumb_width != 0) && ($thumb_height != '' || $thumb_width != 0))
 			{
-				$file_path = JPATH_SITE . '/components/com_redshop/assets/images/' . $mtype . '/' . $Imagename;
-				$filename = RedShopHelperImages::generateImages($file_path, '', 'thumb', $mtype, $thumb_width, $thumb_height, USE_IMAGE_SIZE_SWAPPING);
-				$filename_path_info = pathinfo($filename);
-				$filename = REDSHOP_FRONT_IMAGES_ABSPATH . $mtype . '/thumb/' . $filename_path_info['basename'];
-			}
-			else
-			{
-				$filename = REDSHOP_FRONT_IMAGES_ABSPATH . $mtype . "/" . $Imagename;
-			}
-
-			return $filename;
-		}
-
-		if ($Imagename
-			&& file_exists(REDSHOP_FRONT_IMAGES_RELPATH . $mtype . "/" . $Imagename)
-			&& (WATERMARK_IMAGE
-				&& file_exists(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . WATERMARK_IMAGE))
-		)
-		{
-			if ($thumb_width != '' && $thumb_height != '')
-			{
-				$file_path = JPATH_SITE . '/components/com_redshop/assets/images/product/' . WATERMARK_IMAGE;
-				$filename = RedShopHelperImages::generateImages($file_path, '', 'thumb', 'product', $thumb_width, $thumb_height, USE_IMAGE_SIZE_SWAPPING);
-				$filename_path_info = pathinfo($filename);
-				$watermark = REDSHOP_FRONT_IMAGES_ABSPATH . 'product/thumb/' . $filename_path_info['basename'];
-
-				$file_path = JPATH_SITE . '/components/com_redshop/assets/images/' . $mtype . '/' . $Imagename;
-				$filename = RedShopHelperImages::generateImages($file_path, '', 'thumb', $mtype, $thumb_width, $thumb_height, USE_IMAGE_SIZE_SWAPPING);
-				$filename_path_info = pathinfo($filename);
-				$filename = REDSHOP_FRONT_IMAGES_ABSPATH . $mtype . '/thumb/' . $filename_path_info['basename'];
-
-				if ($add_img == 2)
+				if ($enable_watermart <= 0)
 				{
-					$gnImagename = 'hover' . $Imagename;
-				}
-				elseif ($add_img == 1)
-				{
-					$gnImagename = 'add' . $Imagename;
+					$img_val_arr = $this->_imageGenerator->originalToResized($mtype, $idIncrement, $Imagename, $thumb_width, $thumb_height);
 				}
 				else
 				{
-					$gnImagename = $Imagename;
+					$img_val_arr = $this->_imageGenerator->originalToResized($mtype, $idIncrement, $Imagename, $thumb_width, $thumb_height, 1);
 				}
+
+				return $url . 'components/com_redshop/assets/images/thumb/' . $mtype . '/' . $img_val_arr['folderName'] . '/' . $img_val_arr['fullFileName'];
 			}
 			else
 			{
-				$watermark = REDSHOP_FRONT_IMAGES_RELPATH . "product/" . WATERMARK_IMAGE;
-				$filename = REDSHOP_FRONT_IMAGES_RELPATH . $mtype . "/" . $Imagename;
-				$gnImagename = 'main' . $Imagename;
-
-				if (file_exists(REDSHOP_FRONT_IMAGES_RELPATH . "watermarked/" . $gnImagename))
-				{
-					return $DestinationFile = REDSHOP_FRONT_IMAGES_ABSPATH . "watermarked/" . $gnImagename;
-				}
+				return REDSHOP_FRONT_IMAGES_ABSPATH . $mtype . "/" . $Imagename;
 			}
-
-			$DestinationFile = REDSHOP_FRONT_IMAGES_RELPATH . "watermarked/" . $gnImagename;
-			$filetype = JFile::getExt(WATERMARK_IMAGE);
-
-			switch ($filetype)
-			{
-				case "gif":
-					$dest = @imagecreatefromjpeg($filename);
-					$src = @imagecreatefromgif($watermark);
-
-					list($width, $height, $type, $attr) = @getimagesize($filename);
-
-					list($markwidth, $markheight, $type1, $attr1) = @getimagesize($watermark);
-
-					@imagecopymerge($dest, $src, ($width - $markwidth) >> 1, ($height - $markheight) >> 1, 0, 0, $markwidth, $markheight, 50);
-
-					// Save the image to a file
-					@imagejpeg($dest, $DestinationFile);
-
-					$DestinationFile = REDSHOP_FRONT_IMAGES_ABSPATH . "watermarked/" . $gnImagename;
-
-					return $DestinationFile;
-
-				case "png":
-					$im = imagecreatefrompng($watermark);
-					$exten = JFile::getExt($filename);
-
-					$extARRAY = @ explode('&', $exten);
-					$ext = $extARRAY[0];
-
-					if (strtolower($ext) == "gif")
-					{
-						if (!$im2 = imagecreatefromgif($filename))
-						{
-							echo "Error opening $filename!";
-						}
-					}
-					elseif (strtolower($ext) == "jpg")
-					{
-						if (!$im2 = imagecreatefromjpeg($filename))
-						{
-							echo "Error opening $filename!";
-							exit;
-						}
-					}
-					elseif (strtolower($ext) == "png")
-					{
-						if (!$im2 = imagecreatefrompng($filename))
-						{
-							echo "Error opening $filename!";
-							exit;
-						}
-					}
-					else
-					{
-						die;
-					}
-
-					imagecopy($im2, $im, (imagesx($im2) / 2) - (imagesx($im) / 2), (imagesy($im2) / 2) - (imagesy($im) / 2), 0, 0, imagesx($im), imagesy($im));
-					$waterless = imagesx($im2) - imagesx($im);
-					$rest = ceil($waterless / imagesx($im) / 2);
-
-					for ($n = 1; $n <= $rest; $n++)
-					{
-						imagecopy(
-							$im2,
-							$im,
-							((imagesx($im2) / 2) - (imagesx($im) / 2)) - (imagesx($im) * $n),
-							(imagesy($im2) / 2) - (imagesy($im) / 2),
-							0,
-							0,
-							imagesx($im),
-							imagesy($im)
-						);
-
-						imagecopy(
-							$im2,
-							$im,
-							((imagesx($im2) / 2) - (imagesx($im) / 2)) + (imagesx($im) * $n),
-							(imagesy($im2) / 2) - (imagesy($im) / 2),
-							0,
-							0,
-							imagesx($im), imagesy($im)
-						);
-					}
-
-					imagejpeg($im2, $DestinationFile);
-					$DestinationFile = REDSHOP_FRONT_IMAGES_ABSPATH . "watermarked/" . $gnImagename;
-
-					return $DestinationFile;
-			}
-		}
-		else
-		{
-			if (($thumb_width != '' || $thumb_width != 0) && ($thumb_height != '' || $thumb_width != 0))
-			{
-				$filename = $url
-					. "components/com_redshop/helpers/thumb.php?filename="
-					. $mtype . "/" . $Imagename . "&newxsize="
-					. $thumb_width . "&newysize=" . $thumb_height
-					. "&swap=" . USE_IMAGE_SIZE_SWAPPING;
-			}
-			else
-			{
-				$filename = REDSHOP_FRONT_IMAGES_ABSPATH . $mtype . "/" . $Imagename;
-			}
-
-			return $filename;
 		}
 	}
 

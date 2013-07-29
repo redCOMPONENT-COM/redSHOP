@@ -9,9 +9,6 @@
 
 defined('_JEXEC') or die;
 
-define('REDSHOP_FRONT_IMAGES_RESIZE_RELPATH', REDSHOP_FRONT_IMAGES_RELPATH . '/thumb');
-define('REDSHOP_WATERMARK_PATH', REDSHOP_FRONT_IMAGES_RELPATH . '/product');
-
 class ImageGenerator
 {
 	public function replaceSpecial($name)
@@ -24,14 +21,21 @@ class ImageGenerator
 		return $value;
 	}
 
-	public function originalToResized($mType, $idIncrement, $fileName, $width, $height, $quality, $crop, $watermark = 0, $wmFilename = '', $wmPosition = '', $wmTrans = 100, $filesize = 0)
+	public function originalToResized($mType, $idIncrement, $fileName, $width, $height, $watermark = 0)
 	{
+		$width = ($width <= 0) ? 100 : $width;
+		$height = ($height <= 0) ? 100 : $height;
+		$quality = IMAGE_QUALITY_OUTPUT;
+		$crop = USE_IMAGE_SIZE_SWAPPING;
+		$wmPosition = WATERMARK_POSITION;
+		$wmTrans = 100;
+		$wmFilename = WATERMARK_IMAGE;
 		$folderName = $this->getFolderName($idIncrement);
-		$this->makeFolder(REDSHOP_FRONT_IMAGES_RESIZE_RELPATH . '/' . $mType . '/' . $folderName);
+		$this->makeFolder(REDSHOP_FRONT_IMAGES_RELPATH . '/thumb/' . $mType . '/' . $folderName);
 		$fullFileName = $this->makeFileName($fileName, $width, $height, $quality, $crop, $watermark, $wmPosition, $wmTrans, $wmFilename);
 
 		$sourceFile = REDSHOP_FRONT_IMAGES_RELPATH . '/' . $mType . '/' . $fileName;
-		$destFile = REDSHOP_FRONT_IMAGES_RESIZE_RELPATH . '/' . $mType . '/' . $folderName . '/' . $fullFileName;
+		$destFile = REDSHOP_FRONT_IMAGES_RELPATH . '/thumb/' . $mType . '/' . $folderName . '/' . $fullFileName;
 
 		if (!JFile::exists($sourceFile))
 		{
@@ -52,12 +56,6 @@ class ImageGenerator
 		$fileArray['folderName'] = $folderName;
 		$fileArray['width'] = $imgSize[0];
 		$fileArray['height'] = $imgSize[1];
-
-		if ($filesize == 1)
-		{
-			$size = filesize($destFile);
-			$fileArray['filesize'] = $size;
-		}
 
 		return $fileArray;
 	}
@@ -91,6 +89,12 @@ class ImageGenerator
 				JError::raise(2, 500, $folderPath . ' ' . JText::_('COM_REDSHOP_FOLDER_CREATE_ERROR'));
 
 				return false;
+			}
+
+			if (!JFile::exists($folderPath . '/index.html'))
+			{
+				$content = '<html><body bgcolor="#ffffff"></body></html>';
+				JFile::write($folderPath . '/index.html', $content);
 			}
 		}
 	}
@@ -206,7 +210,7 @@ class ImageGenerator
 
 				if (strlen($wmFilename) > 0)
 				{
-					$overlay = WideImage::load(REDSHOP_WATERMARK_PATH . '/' . $wmFilename);
+					$overlay = WideImage::load(REDSHOP_FRONT_IMAGES_RELPATH . '/product/' . $wmFilename);
 					$image = $image->merge($overlay, $positionArray[0], $positionArray[1], $wmTrans);
 				}
 			}
@@ -240,7 +244,7 @@ class ImageGenerator
 		$OrigPattern = JFile::stripExt($fileName);
 		$OrigPatternLength = strlen($OrigPattern);
 
-		$resizedFolder = REDSHOP_FRONT_IMAGES_RESIZE_RELPATH . '/' . $mType . '/' . $folderName;
+		$resizedFolder = REDSHOP_FRONT_IMAGES_RELPATH . '/thumb/' . $mType . '/' . $folderName;
 
 		if (JFolder::exists($resizedFolder))
 		{
