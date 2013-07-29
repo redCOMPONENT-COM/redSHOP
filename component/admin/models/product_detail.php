@@ -167,17 +167,16 @@ class product_detailModelproduct_detail extends JModel
 		$imageGenerator = new imageGenerator;
 		$filetype = JFile::getExt($name);
 		$segment = explode("/", $name);
+		$values = $imageGenerator->replaceSpecial($name);
 
 		if (count($segment) > 1)
 		{
-			$values = $imageGenerator->replaceSpecial($name);
 			$segment[count($segment) - 1] = $values;
 
 			return implode("/", $segment);
 		}
 		else
 		{
-			$values = $imageGenerator->replaceSpecial($name);
 			$valuess = str_replace('_', 'and', $values);
 		}
 
