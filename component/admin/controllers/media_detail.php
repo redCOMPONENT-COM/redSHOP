@@ -775,7 +775,7 @@ class Media_DetailController extends JController
 	{
 		$post = JRequest::get('post');
 		$option = JRequest::getVar('option');
-		$section_id = JRequest::getVar('section_id');
+		$section_id = JRequest::getInt('section_id');
 		$media_section = JRequest::getVar('media_section');
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 
@@ -793,7 +793,7 @@ class Media_DetailController extends JController
 
 		$msg = JText::_('COM_REDSHOP_MEDIA_DETAIL_DELETED_SUCCESSFULLY');
 
-		if (isset($section_id))
+		if ($section_id > 0)
 		{
 			$this->setRedirect('index.php?tmpl=component&option=' . $option . '&view=media&section_id='
 				. $section_id . '&showbuttons=1&media_section=' . $media_section, $msg
