@@ -632,29 +632,22 @@ class redhelper
 	 * $filename = image name
 	*/
 
-	public function watermark($mtype, $Imagename = '', $thumb_width = '', $thumb_height = '', $enable_watermart = WATERMARK_PRODUCT_IMAGE, $add_img = 0, $idIncrement = 0)
+	public function watermark($mtype, $Imagename = '', $thumb_width = '', $thumb_height = '', $enable_watermart = WATERMARK_PRODUCT_IMAGE, $idIncrement = 0)
 	{
 		$url = JURI::root();
 
 		if ($Imagename && file_exists(REDSHOP_FRONT_IMAGES_RELPATH . $mtype . "/" . $Imagename))
 		{
-			if (($thumb_width != '' || $thumb_width != 0) && ($thumb_height != '' || $thumb_width != 0))
+			if ($enable_watermart <= 0)
 			{
-				if ($enable_watermart <= 0)
-				{
-					$img_val_arr = $this->_imageGenerator->originalToResized($mtype, $idIncrement, $Imagename, $thumb_width, $thumb_height);
-				}
-				else
-				{
-					$img_val_arr = $this->_imageGenerator->originalToResized($mtype, $idIncrement, $Imagename, $thumb_width, $thumb_height, 1);
-				}
-
-				return $url . 'components/com_redshop/assets/images/thumb/' . $mtype . '/' . $img_val_arr['folderName'] . '/' . $img_val_arr['fullFileName'];
+				$img_val_arr = $this->_imageGenerator->originalToResized($mtype, $idIncrement, $Imagename, $thumb_width, $thumb_height);
 			}
 			else
 			{
-				return REDSHOP_FRONT_IMAGES_ABSPATH . $mtype . "/" . $Imagename;
+				$img_val_arr = $this->_imageGenerator->originalToResized($mtype, $idIncrement, $Imagename, $thumb_width, $thumb_height, 1);
 			}
+
+			return $url . 'components/com_redshop/assets/images/thumb/' . $mtype . '/' . $img_val_arr['folderName'] . '/' . $img_val_arr['fullFileName'];
 		}
 	}
 

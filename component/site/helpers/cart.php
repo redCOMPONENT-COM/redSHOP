@@ -1070,21 +1070,8 @@ class rsCarthelper
 				if ($product_image_path)
 				{
 					$redhelper = new redhelper;
-
-					if (WATERMARK_CART_THUMB_IMAGE && file_exists(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . WATERMARK_IMAGE))
-					{
-						$product_cart_img = $redhelper->watermark($type, $prd_image, CART_THUMB_WIDTH, CART_THUMB_HEIGHT, WATERMARK_CART_THUMB_IMAGE, '0');
-
-						$product_image = "<div  class='product_image'><img src='" . $product_cart_img . "'></div>";
-					}
-					else
-					{
-						$product_image = "<div  class='product_image'><img src='" . $product_image_path
-							. "&newxsize=" . CART_THUMB_WIDTH
-							. "&newysize=" . CART_THUMB_HEIGHT
-							. "&swap=" . USE_IMAGE_SIZE_SWAPPING
-							. "'></div>";
-					}
+					$product_cart_img = $redhelper->watermark($type, $prd_image, CART_THUMB_WIDTH, CART_THUMB_HEIGHT, WATERMARK_CART_THUMB_IMAGE, $product_id);
+					$product_image = "<div  class='product_image'><img src='" . $product_cart_img . "'></div>";
 				}
 				else
 				{

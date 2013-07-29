@@ -127,14 +127,8 @@ if ($template_middle != "")
 							$altText = $media_image[$m]->media_name;
 						}
 
-						if (WATERMARK_MANUFACTURER_IMAGE || WATERMARK_MANUFACTURER_THUMB_IMAGE)
-						{
-							$manufacturer_img = $redhelper->watermark('manufacturer', $media_image[$m]->media_name, $mw_thumb, $mh_thumb, WATERMARK_MANUFACTURER_IMAGE);
-						}
-						else
-						{
-							$manufacturer_img = $url . "/components/" . $option . "/helpers/thumb.php?filename=manufacturer/" . $media_image[$m]->media_name . "&newxsize=" . $mw_thumb . "&newysize=" . $mh_thumb . "&swap=" . USE_IMAGE_SIZE_SWAPPING;
-						}
+						$watermark_manuf = (WATERMARK_MANUFACTURER_IMAGE || WATERMARK_MANUFACTURER_THUMB_IMAGE) ? 1 : 0;
+						$manufacturer_img = $redhelper->watermark('manufacturer', $media_image[$m]->media_name, $mw_thumb, $mh_thumb, $watermark_manuf, $row->manufacturer_id);
 
 						if (PRODUCT_IS_LIGHTBOX == 1)
 						{
