@@ -632,7 +632,7 @@ class redhelper
 	 * $filename = image name
 	*/
 
-	public function watermark($mtype, $Imagename = '', $thumb_width = '', $thumb_height = '', $enable_watermart = WATERMARK_PRODUCT_IMAGE, $idIncrement = 0)
+	public function watermark($mtype, $Imagename = '', $thumb_width = '', $thumb_height = '', $enable_watermart = WATERMARK_PRODUCT_IMAGE, $idIncrement = 1)
 	{
 		$url = JURI::root();
 

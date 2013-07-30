@@ -131,8 +131,8 @@ if (strstr($template_desc, "{category_loop_start}") && strstr($template_desc, "{
 		}
 		elseif (CATEGORY_DEFAULT_IMAGE && file_exists($middlepath . CATEGORY_DEFAULT_IMAGE))
 		{
-			$product_img = $objhelper->watermark('category', CATEGORY_DEFAULT_IMAGE, $w_thumb, $h_thumb, WATERMARK_CATEGORY_THUMB_IMAGE, 1);
-			$linkimage   = $objhelper->watermark('category', CATEGORY_DEFAULT_IMAGE, '', '', WATERMARK_CATEGORY_IMAGE, 1);
+			$product_img = $objhelper->watermark('category', CATEGORY_DEFAULT_IMAGE, $w_thumb, $h_thumb, 0, 1);
+			$linkimage   = $objhelper->watermark('category', CATEGORY_DEFAULT_IMAGE, '', '', 0, 1);
 		}
 
 		if (CAT_IS_LIGHTBOX)

@@ -206,7 +206,7 @@ echo $myTabs->startPanel(JText::_('COM_REDSHOP_CATEGORY_IMAGES'), 'tab2');
 						<a class="modal"
 						   href="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH; ?>category/<?php echo $this->detail->category_full_image ?>"
 						   title="" rel="{handler: 'image', size: {}}"><img
-								src="<?php echo $url ?>/components/com_redshop/helpers/thumb.php?filename=category/<?php echo $this->detail->category_full_image ?>&newxsize=<?php echo THUMB_WIDTH; ?>&newysize=<?php echo THUMB_HEIGHT; ?>"></a>
+								src="<?php echo $objhelper->watermark('category', $this->detail->category_full_image, THUMB_WIDTH, THUMB_HEIGHT, WATERMARK_CATEGORY_THUMB_IMAGE, $this->detail->category_id); ?>"></a>
 					<?php
 					endif;
 					?>

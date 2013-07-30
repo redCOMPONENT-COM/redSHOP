@@ -9,8 +9,10 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
-require_once JPATH_ROOT . '/components/com_redshop/helpers/product.php';
-require_once JPATH_COMPONENT . '/helpers/text_library.php';
+
+JLoader::import('product', JPATH_ROOT . '/components/com_redshop/helpers');
+JLoader::import('text_library', JPATH_COMPONENT . '/helpers');
+JLoader::import('helper', JPATH_SITE . '/components/com_redshop/helpers');
 
 class newsletterModelnewsletter extends JModel
 {
@@ -24,6 +26,8 @@ class newsletterModelnewsletter extends JModel
 
 	public $_context = null;
 
+	public $_redhelper = null;
+
 	public function __construct()
 	{
 		parent::__construct();
@@ -31,6 +35,7 @@ class newsletterModelnewsletter extends JModel
 		$app = JFactory::getApplication();
 		$this->_context = 'newsletter_id';
 		$this->_table_prefix = '#__redshop_';
+		$this->_redhelper       = new redhelper;
 		$limit = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
 		$limitstart = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
 		$filter = $app->getUserStateFromRequest($this->_context . 'filter', 'filter', 0);
@@ -445,9 +450,9 @@ class newsletterModelnewsletter extends JModel
 			{
 				$content = str_replace('{redshop:' . $product_id . '}', "", $content);
 			}
+
 			if (strstr($content, '{Newsletter Products:' . $product_id . '}'))
 			{
-
 				$product_id = $product_id_list[$i]->product_id;
 				$newsproductbody = $this->getnewsletterproducts_content();
 				$np_temp_desc = $newsproductbody[0]->template_desc;
@@ -458,8 +463,7 @@ class newsletterModelnewsletter extends JModel
 				{
 					$thum_image = "<a id='a_main_image' href='" . REDSHOP_FRONT_IMAGES_ABSPATH . "product/"
 						. $product_id_list[$i]->product_full_image . "' title='' rel=\"lightbox[product7]\">";
-					$thum_image .= "<img id='main_image' src='" . $url . "/components/com_redshop/helpers/thumb.php?filename=product/"
-						. $product_id_list[$i]->product_full_image . "&newxsize=" . PRODUCT_MAIN_IMAGE . "&newysize=" . PRODUCT_MAIN_IMAGE . "'>";
+					$thum_image .= "<img id='main_image' src='" . $this->_redhelper->watermark('product', $product_id_list[$i]->product_full_image, PRODUCT_MAIN_IMAGE, PRODUCT_MAIN_IMAGE_HEIGHT, WATERMARK_PRODUCT_IMAGE, $product_id) . "'>";
 					$thum_image .= "</a>";
 				}
 
