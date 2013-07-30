@@ -15,6 +15,7 @@ jimport('joomla.filesystem.file');
 JLoader::import('product', JPATH_COMPONENT_SITE . '/helpers');
 JLoader::import('text_library', JPATH_COMPONENT_SITE . '/helpers');
 JLoader::import('image_generator', JPATH_SITE . '/components/com_redshop/helpers');
+JLoader::import('helper', JPATH_SITE . '/components/com_redshop/helpers');
 
 class configurationModelconfiguration extends JModel
 {
@@ -32,6 +33,8 @@ class configurationModelconfiguration extends JModel
 
 	public $imageGenerator = null;
 
+	public $_redhelper = null;
+
 	public function __construct()
 	{
 		parent::__construct();
@@ -42,6 +45,7 @@ class configurationModelconfiguration extends JModel
 
 		$this->_configpath = JPATH_SITE . "/administrator/components/com_redshop/helpers/redshop.cfg.php";
 		$this->imageGenerator = new imageGenerator;
+		$this->_redhelper       = new redhelper;
 	}
 
 	public function cleanFileName($name, $id = null)
@@ -730,8 +734,7 @@ class configurationModelconfiguration extends JModel
 				{
 					$thum_image = "<a id='a_main_image' href='" . REDSHOP_FRONT_IMAGES_ABSPATH . "product/"
 						. $product_id_list[$i]->product_full_image . "' title='' rel=\"lightbox[product7]\">";
-					$thum_image .= "<img id='main_image' src='" . $url . "/components/com_redshop/helpers/thumb.php?filename=product/"
-						. $product_id_list[$i]->product_full_image . "&newxsize=" . PRODUCT_MAIN_IMAGE . "&newysize=" . PRODUCT_MAIN_IMAGE . "'>";
+					$thum_image .= "<img id='main_image' src='" . $this->_redhelper->watermark('product', $product_id_list[$i]->product_full_image, PRODUCT_MAIN_IMAGE, PRODUCT_MAIN_IMAGE_HEIGHT, WATERMARK_PRODUCT_IMAGE, $product_id) . "'>";
 					$thum_image .= "</a>";
 				}
 

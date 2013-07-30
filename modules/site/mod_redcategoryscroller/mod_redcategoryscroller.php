@@ -383,8 +383,8 @@ if (!class_exists('redcategoryScroller'))
 				}
 				else if (CATEGORY_DEFAULT_IMAGE && file_exists(REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . CATEGORY_DEFAULT_IMAGE))
 				{
-					$product_img = $redhelper->watermark('category', CATEGORY_DEFAULT_IMAGE, $w_thumb, $h_thumb, WATERMARK_CATEGORY_THUMB_IMAGE, 1);
-					$linkimage   = $redhelper->watermark('category', CATEGORY_DEFAULT_IMAGE, '', '', WATERMARK_CATEGORY_IMAGE, 1);
+					$product_img = $redhelper->watermark('category', CATEGORY_DEFAULT_IMAGE, $w_thumb, $h_thumb, 0, 1);
+					$linkimage   = $redhelper->watermark('category', CATEGORY_DEFAULT_IMAGE, '', '', 0, 1);
 				}
 				if (CAT_IS_LIGHTBOX)
 				{

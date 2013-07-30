@@ -14,6 +14,8 @@ JHTMLBehavior::modal();
 
 $now = JFactory::getDate();
 $model = $this->getModel('attribute_set_detail');
+JLoader::import('helper', JPATH_SITE . '/components/com_redshop/helpers');
+$redhelper       = new redhelper;
 ?>
 <script language="javascript" type="text/javascript">
 	Joomla.submitbutton = function (pressbutton) {
@@ -524,7 +526,7 @@ if ($this->lists['attributes'] != '')
 																									<img
 																										id="propertyImage<?php echo $k . $g; ?>"
 																										alt='' title=''
-																										src='<?php echo $url ?>components/com_redshop/helpers/thumb.php?filename=product_attributes/<?php echo $property->property_image ?>&newxsize=50&newysize=0&swap=1'>
+																										src='<?php echo $redhelper->watermark('product_attributes', $property->property_image, 50, 50, 0, $property->property_id); ?>'>
 																								</a>
 																							</span>
 											</td>
@@ -837,7 +839,7 @@ if ($this->lists['attributes'] != '')
 																														   href="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . 'subcolor/' . $subvalue->subattribute_color_image; ?>">
 																															<img
 																																id="subpropertyImage<?php echo $k . $z; ?>"
-																																src='<?php echo $url ?>components/com_redshop/helpers/thumb.php?filename=subcolor/<?php echo $subvalue->subattribute_color_image; ?>&newxsize=50&newysize=0&swap=1'
+																																src='<?php echo $redhelper->watermark('subcolor', $subvalue->subattribute_color_image, 50, 50, 0, $subvalue->subattribute_color_id); ?>'
 																																alt=''
 																																title=''>
 
