@@ -47,8 +47,8 @@ class mediaViewmedia extends JView
 		$document->addStyleSheet(JURI::root() . 'administrator/components/com_redshop/assets/css/medialist-thumbs.css');
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_MEDIA_MANAGEMENT'), 'redshop_media48');
-		JToolBarHelper::addNewX();
-		JToolBarHelper::editListX();
+		JToolBarHelper::addNew();
+		JToolBarHelper::editList();
 		JToolBarHelper::deleteList();
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();
@@ -82,8 +82,8 @@ class mediaViewmedia extends JView
 			'class="inputbox" size="1" onchange="document.adminForm.submit();" ', 'value', 'text', $media_type
 		);
 
-		$lists['section'] = JHTML::_('select.genericlist', $optionsection, 'media_section',
-			'class="inputbox" size="1" onchange="document.adminForm.submit();" ', 'value', 'text', $media_section
+		$lists['section'] = JHTML::_('select.genericlist', $optionsection, 'media_section_value',
+			'class="inputbox" size="1" onchange="var media_section_value = this.form.getElementById(\'media_section_value\');this.form.getElementById(\'media_section\').value = media_section_value.options[media_section_value.selectedIndex].value;document.adminForm.submit();" ', 'value', 'text', $media_section
 		);
 
 		$media = $this->get('Data');
