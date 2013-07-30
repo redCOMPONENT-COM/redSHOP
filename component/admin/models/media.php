@@ -33,7 +33,7 @@ class mediaModelmedia extends JModel
 		$app = JFactory::getApplication();
 
 		$this->_table_prefix = '#__redshop_';
-		$this->_context = 'media_id';
+		$this->_context = 'media';
 		$limit = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
 		$limitstart = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
 
