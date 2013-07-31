@@ -958,11 +958,7 @@ class rsCarthelper
 				$cart_mdata     = str_replace("{if product_on_sale}", '', $cart_mdata);
 				$cart_mdata     = str_replace("{product_on_sale end if}", '', $cart_mdata);
 				$giftcard_image = "<div  class='giftcard_image'><img src='"
-					. $url . "/components/com_redshop/helpers/thumb.php?filename=giftcard/"
-					. $giftcardData->giftcard_image
-					. "&newxsize=" . CART_THUMB_WIDTH
-					. "&newysize=" . CART_THUMB_HEIGHT
-					. "&swap=" . USE_IMAGE_SIZE_SWAPPING
+					. $this->_redhelper->watermark('giftcard', $giftcardData->giftcard_image, CART_THUMB_WIDTH, CART_THUMB_HEIGHT, 0, $giftcard_id)
 					. "'></div>";
 				$cart_mdata     = str_replace("{product_thumb_image}", $giftcard_image, $cart_mdata);
 				$user_fields    = $this->_producthelper->GetProdcutUserfield($i, 13);
@@ -1003,6 +999,7 @@ class rsCarthelper
 				$quantity       = $cart[$i]['quantity'];
 				$retAttArr      = $this->_producthelper->makeAttributeCart($cart [$i] ['cart_attribute'], $product_id, 0, 0, $quantity, $data);
 				$cart_attribute = $retAttArr[0];
+				$prd_image      = null;
 
 				$retAccArr      = $this->_producthelper->makeAccessoryCart($cart [$i] ['cart_accessory'], $product_id, $data);
 				$cart_accessory = $retAccArr[0];
@@ -1034,7 +1031,6 @@ class rsCarthelper
 
 				if ($product_image && is_file(REDSHOP_FRONT_IMAGES_RELPATH . $product_image))
 				{
-					$product_image_path = JURI::base() . "/components/com_redshop/helpers/thumb.php?filename=" . $product_image;
 					$val                = explode("/", $product_image);
 					$prd_image          = $val[1];
 					$type               = $val[0];
@@ -1042,13 +1038,11 @@ class rsCarthelper
 				}
 				elseif ($product->product_full_image && is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $product->product_full_image))
 				{
-					$product_image_path = $url . "/components/com_redshop/helpers/thumb.php?filename=product/" . $product->product_full_image;
 					$prd_image          = $product->product_full_image;
 					$type               = 'product';
 				}
 				elseif (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . PRODUCT_DEFAULT_IMAGE))
 				{
-					$product_image_path = $url . "/components/com_redshop/helpers/thumb.php?filename=product/" . PRODUCT_DEFAULT_IMAGE;
 					$prd_image          = PRODUCT_DEFAULT_IMAGE;
 					$type               = 'product';
 				}
@@ -1062,12 +1056,11 @@ class rsCarthelper
 
 				if ($isAttributeImage)
 				{
-					$product_image_path = $url . "/components/com_redshop/helpers/thumb.php?filename=mergeImages/" . $cart[$i]['attributeImage'];
 					$prd_image          = $cart[$i]['attributeImage'];
 					$type               = 'mergeImages';
 				}
 
-				if ($product_image_path)
+				if ($prd_image)
 				{
 					$redhelper = new redhelper;
 					$product_cart_img = $redhelper->watermark($type, $prd_image, CART_THUMB_WIDTH, CART_THUMB_HEIGHT, WATERMARK_CART_THUMB_IMAGE, $product_id);
@@ -1447,14 +1440,14 @@ class rsCarthelper
 
 			if (is_file($dirname))
 			{
-				$attribute_image_path = $url . "components/com_redshop/helpers/thumb.php?filename=orderMergeImages/" . $rowitem [$i]->attribute_image . "&newxsize=" . CART_THUMB_WIDTH . "&newysize=" . CART_THUMB_HEIGHT . "&swap=" . USE_IMAGE_SIZE_SWAPPING;
+				$attribute_image_path = $this->_redhelper->watermark('orderMergeImages', $rowitem [$i]->attribute_image, CART_THUMB_WIDTH, CART_THUMB_HEIGHT, WATERMARK_CART_THUMB_IMAGE, $product_id);
 				$attrib_img           = "<img src='" . $attribute_image_path . "'>";
 			}
 			else
 			{
 				if (is_file(JPATH_COMPONENT_SITE . "/assets/images/product_attributes/" . $rowitem [$i]->attribute_image))
 				{
-					$attribute_image_path = $url . "components/com_redshop/helpers/thumb.php?filename=product_attributes/" . $rowitem [$i]->attribute_image . "&newxsize=" . CART_THUMB_WIDTH . "&newysize=" . CART_THUMB_HEIGHT . "&swap=" . USE_IMAGE_SIZE_SWAPPING;
+					$attribute_image_path = $this->_redhelper->watermark('product_attributes', $rowitem [$i]->attribute_image, CART_THUMB_WIDTH, CART_THUMB_HEIGHT, WATERMARK_CART_THUMB_IMAGE, $product_id);
 					$attrib_img           = "<img src='" . $attribute_image_path . "'>";
 				}
 				else
@@ -1463,14 +1456,14 @@ class rsCarthelper
 					{
 						if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $product->product_full_image))
 						{
-							$attribute_image_path = $url . "components/com_redshop/helpers/thumb.php?filename=product/" . $product->product_full_image;
+							$attribute_image_path = $this->_redhelper->watermark('product', $product->product_full_image, CART_THUMB_WIDTH, CART_THUMB_HEIGHT, WATERMARK_CART_THUMB_IMAGE, $product_id);
 							$attrib_img           = "<img src='" . $attribute_image_path . "'>";
 						}
 						else
 						{
 							if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . PRODUCT_DEFAULT_IMAGE))
 							{
-								$attribute_image_path = $url . "components/com_redshop/helpers/thumb.php?filename=product/" . PRODUCT_DEFAULT_IMAGE;
+								$attribute_image_path = $this->_redhelper->watermark('product',PRODUCT_DEFAULT_IMAGE, CART_THUMB_WIDTH, CART_THUMB_HEIGHT, 0);
 								$attrib_img           = "<img src='" . $attribute_image_path . "'>";
 							}
 						}
@@ -1479,7 +1472,7 @@ class rsCarthelper
 					{
 						if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . PRODUCT_DEFAULT_IMAGE))
 						{
-							$attribute_image_path = $url . "components/com_redshop/helpers/thumb.php?filename=product/" . PRODUCT_DEFAULT_IMAGE;
+							$attribute_image_path = $this->_redhelper->watermark('product',PRODUCT_DEFAULT_IMAGE, CART_THUMB_WIDTH, CART_THUMB_HEIGHT, 0);
 							$attrib_img           = "<img src='" . $attribute_image_path . "'>";
 						}
 					}

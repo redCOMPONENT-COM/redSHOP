@@ -8,31 +8,27 @@
  */
 
 defined('_JEXEC') or die;
-$url = JURI::base();
 
-// Text library
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/text_library.php';
+JLoader::import('text_library', JPATH_SITE . '/components/com_redshop/helpers');
+JLoader::import('product', JPATH_SITE . '/components/com_redshop/helpers');
+JLoader::import('extra_field', JPATH_SITE . '/components/com_redshop/helpers');
+JLoader::import('helper', JPATH_SITE . '/components/com_redshop/helpers');
+
 $texts = new text_library;
-
-// Get product helper
-require_once JPATH_ROOT . '/components/com_redshop/helpers/product.php';
-require_once JPATH_SITE . '/components/com_redshop/helpers/extra_field.php';
-
 $producthelper = new producthelper;
+$redTemplate     = new Redtemplate;
+$stockroomhelper = new rsstockroomhelper;
+$redhelper = new redhelper;
+$config  = new Redconfiguration;
 
+$url = JURI::base();
 $option = JRequest::getVar('option');
 $Itemid = JRequest::getVar('Itemid');
 $print  = JRequest::getVar('print');
 $model  = $this->getModel('product');
 $user   = JFactory::getUser();
-
 $pagetitle = JText::_('COM_REDSHOP_COMPARE_PRODUCTS');
-
-$config  = new Redconfiguration;
 $compare = $producthelper->getCompare();
-
-$redTemplate     = new Redtemplate;
-$stockroomhelper = new rsstockroomhelper;
 
 if (PRODUCT_COMPARISON_TYPE == 'category')
 {
@@ -126,7 +122,7 @@ elseif (isset($compare['idx']) && $compare['idx'] > 1)
 		$link_remove = JRoute::_('index.php?option=com_redshop&view=product&task=removecompare&layout=compare&pid=' . $product->product_id . '&Itemid=' . $Itemid);
 
 		$remove = "<a href='" . $link_remove . "'>" . JText::_('COM_REDSHOP_REMOVE_PRODUCT_FROM_COMPARE_LIST') . "</a>";
-		$img    = "<div style='width:" . COMPARE_PRODUCT_THUMB_WIDTH . "px;height:" . COMPARE_PRODUCT_THUMB_HEIGHT . "px;float: left;' ><a href='" . $link . "' title='" . $product->product_name . "'><img src='" . $url . "/components/com_redshop/helpers/thumb.php?filename=product/" . $product->product_full_image . "&newxsize=" . COMPARE_PRODUCT_THUMB_WIDTH . "&newysize=" . COMPARE_PRODUCT_THUMB_HEIGHT . "&swap=" . USE_IMAGE_SIZE_SWAPPING . "'></a></div>";
+		$img    = "<div style='width:" . COMPARE_PRODUCT_THUMB_WIDTH . "px;height:" . COMPARE_PRODUCT_THUMB_HEIGHT . "px;float: left;' ><a href='" . $link . "' title='" . $product->product_name . "'><img src='" . $redhelper->watermark('product', $product->product_full_image, COMPARE_PRODUCT_THUMB_WIDTH, COMPARE_PRODUCT_THUMB_HEIGHT, 0, $product->product_id) . "'></a></div>";
 
 		$expand = "<a href='javascript:void(0)' onClick='expand_collapse(this," . $product->product_id . ")' style='font-size:18px;text-decoration:none;' >-</a>";
 

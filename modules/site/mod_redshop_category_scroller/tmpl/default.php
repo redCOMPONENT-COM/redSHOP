@@ -114,33 +114,40 @@ for ($i = 0; $i < count($rows); $i++)
 			echo "<div class='mod_redproducts_price'>" . $product_price . "</div>";
 		}
 	}
+
 	if ($show_readmore)
 	{
 		echo "<div class='mod_redshop_category_scroller_readmore'><a href='" . $link . "'>" . JText::_('COM_REDSHOP_TXT_READ_MORE') . "</a></div>";
 	}
+
 	echo "</div>";
+
 	if ($show_image)
 	{
 		$prod_img = "";
 
 		if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "/product/" . $row->product_full_image))
-			$prod_img = $url . "components/com_redshop/helpers/thumb.php?filename=product/" . $row->product_full_image . "&newxsize=" . $thumbwidth . "&newysize=" . $thumbheight;
-		else if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "/product/" . $row->product_thumb_image))
-			$prod_img = $url . "components/com_redshop/helpers/thumb.php?filename=product/" . $row->product_thumb_image . "&newxsize=" . $thumbwidth . "&newysize=" . $thumbheight;
+			$prod_img = $redhelper->watermark('product', $row->product_full_image, $thumbwidth, $thumbheight, 0, $row->product_id);
+		elseif (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "/product/" . $row->product_thumb_image))
+			$prod_img = $redhelper->watermark('product', $row->product_thumb_image, $thumbwidth, $thumbheight, 0, $row->product_id);
 		else
-			$prod_img = REDSHOP_FRONT_IMAGES_ABSPATH . "noimage.jpg";
+			$prod_img = $redhelper->watermark('product', 'noimage.jpg', $thumbwidth, $thumbheight, 0);
+
 		$thum_image = "<a href='" . $link . "'><img style='width:" . $thumbwidth . "px;height:" . $thumbheight . "px;' src='" . $prod_img . "'></a>";
 		echo "<div class='product-image' style='width:" . $thumbwidth . "px;height:" . $thumbheight . "px;'>" . $thum_image . "</div>";
 
 	}
+
 	if ($show_addtocart)
 	{
 		/////////////////////////////////// Product attribute  Start /////////////////////////////////
 		$attributes_set = array();
+
 		if ($row->attribute_set_id > 0)
 		{
 			$attributes_set = $producthelper->getProductAttribute(0, $row->attribute_set_id, 0, 1);
 		}
+
 		$attributes = $producthelper->getProductAttribute($row->product_id);
 		$attributes = array_merge($attributes, $attributes_set);
 		$totalatt   = count($attributes);

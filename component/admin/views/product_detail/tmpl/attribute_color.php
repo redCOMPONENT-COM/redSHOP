@@ -9,8 +9,10 @@
 defined('_JEXEC') or die ('Restricted access');
 
 JHTML::_('behavior.tooltip');
-require_once JPATH_SITE . '/components/com_redshop/helpers/product.php';
-$producthelper = new producthelper();
+JLoader::import('product', JPATH_SITE . '/components/com_redshop/helpers');
+JLoader::import('helper', JPATH_SITE . '/components/com_redshop/helpers');
+$producthelper = new producthelper;
+$redhelper = new redhelper;
 
 JHTMLBehavior::modal();
 $uri = JURI::getInstance();
@@ -20,7 +22,7 @@ $showbuttons = JRequest::getCmd('showbuttons');
 $section_id = JRequest::getCmd('section_id');
 
 $product_id = JRequest::getCmd('cid');
-$images = $producthelper->getAttibuteSubProperty(0, $section_id)
+$images = $producthelper->getAttibuteSubProperty(0, $section_id);
 ?>
 <script language="javascript" type="text/javascript">
 	Joomla.submitbutton = function (pressbutton) {
@@ -46,7 +48,7 @@ $images = $producthelper->getAttibuteSubProperty(0, $section_id)
 			?>
 		</button>
 		<button type="button"
-		        onclick="window.parent.SqueezeBox.close();">
+				onclick="window.parent.SqueezeBox.close();">
 			<?php
 			echo JText::_('COM_REDSHOP_CANCEL');
 			?>
@@ -58,7 +60,7 @@ $images = $producthelper->getAttibuteSubProperty(0, $section_id)
 </fieldset>
 
 <form action="<?php echo JRoute::_('index.php') ?>" method="post" name="adminForm" id="adminForm"
-      enctype="multipart/form-data">
+	  enctype="multipart/form-data">
 
 	<div class="col50">
 		<fieldset class="adminform" style="width: 100px;">
@@ -72,8 +74,8 @@ $images = $producthelper->getAttibuteSubProperty(0, $section_id)
 					</td>
 					<td align="left" colspan="1" class="key">
 						<input type="button" name="addvalue" id="addvalue" class="button"
-						       Value="<?php echo JText::_('COM_REDSHOP_ADD'); ?>"
-						       onclick="addNewRowOfsub('admintable');"/>
+							   Value="<?php echo JText::_('COM_REDSHOP_ADD'); ?>"
+							   onclick="addNewRowOfsub('admintable');"/>
 					</td>
 				</tr>
 				<?php
@@ -83,28 +85,30 @@ $images = $producthelper->getAttibuteSubProperty(0, $section_id)
 					{
 						$image = $images[$i];
 						$thumb = $image->subattribute_color_image;
-						$imgpath = "/components/" . $option . "/helpers/thumb.php?filename=subcolor/" . $thumb . "&newxsize=" . PRODUCT_ADDITIONAL_IMAGE . "&newysize=" . PRODUCT_ADDITIONAL_IMAGE;
+						$imgpath = $redhelper->watermark('subcolor', $thumb, PRODUCT_ADDITIONAL_IMAGE, PRODUCT_ADDITIONAL_IMAGE_HEIGHT, WATERMARK_PRODUCT_ADDITIONAL_IMAGE, $image->subattribute_color_id);
 						?>
 						<tr>
 							<td>
 								<input type="text" name="subattribute_name[]" id="subattribute_name[]"
-								       value="<?php echo $image->subattribute_color_name; ?>" size="30"/>
+									   value="<?php echo $image->subattribute_color_name; ?>" size="30"/>
 							</td>
 							<td>
-								<?php if(is_file(JPATH_COMPONENT_SITE . $imgpath)) ?>
-								<img src="<?php echo $url . $imgpath; ?>"/>
+								<?php if ($imgpath):
+									?>
+									<img src="<?php echo $imgpath; ?>"/>
+								<?php endif; ?>
 							</td>
 							<td>
 								<input type="file" name="property_sub_img[]" id="property_sub_img[]" value=""
-								       size="51"/>
+									   size="51"/>
 								<input type="hidden" name="property_sub_img_tmp[]"
-								       value="<?php echo $image->subattribute_color_image; ?>"/>
+									   value="<?php echo $image->subattribute_color_image; ?>"/>
 								<input type="hidden" name="subattribute_color_id[]"
-								       value="<?php echo $image->subattribute_color_id; ?>"/>
+									   value="<?php echo $image->subattribute_color_id; ?>"/>
 							</td>
 							<td>
 								<input value="<?php echo JText::_('COM_REDSHOP_DELETE'); ?>"
-								       onclick="deleteRowOfsub(this)" class="button" type="button"/>
+									   onclick="deleteRowOfsub(this)" class="button" type="button"/>
 							</td>
 						</tr>
 					<?php
@@ -112,7 +116,6 @@ $images = $producthelper->getAttibuteSubProperty(0, $section_id)
 				}
 				else
 				{
-
 					?>
 					<tr>
 						<td>

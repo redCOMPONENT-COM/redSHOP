@@ -9,8 +9,8 @@
 defined('_JEXEC') or die ('Restricted access');
 
 JHTML::_('behavior.tooltip');
-require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
-$producthelper = new producthelper();
+JLoader::import('product', JPATH_COMPONENT_SITE . '/helpers');
+$producthelper = new producthelper;
 
 JHTMLBehavior::modal();
 $uri = JURI::getInstance();
@@ -21,20 +21,19 @@ $section_id = JRequest::getCmd('section_id');
 $fsec = JRequest::getCmd('fsec');
 
 $product_id = JRequest::getCmd('cid');
+
 if ($fsec == 'subproperty')
 {
 	$images = $this->model->getSubpropertyImages($section_id);
 	$mainImage = $producthelper->getAttibuteSubProperty($section_id);
-
 }
 else
 {
 	$mainImage = $producthelper->getAttibuteProperty($section_id);
 	$images = $this->model->getpropertyImages($section_id);
 }
-$product_id = JRequest::getCmd('cid');
-//$images = $this->model->getPropertyImages($section_id);
 
+$product_id = JRequest::getCmd('cid');
 $mainImage = $mainImage[0];
 ?>
 	<script language="javascript" type="text/javascript">
@@ -61,7 +60,7 @@ $mainImage = $mainImage[0];
 				?>
 			</button>
 			<button type="button"
-			        onclick="window.parent.SqueezeBox.close();">
+					onclick="window.parent.SqueezeBox.close();">
 				<?php
 				echo JText::_('COM_REDSHOP_CANCEL');
 				?>
@@ -73,7 +72,7 @@ $mainImage = $mainImage[0];
 	</fieldset>
 
 	<form action="<?php echo JRoute::_('index.php') ?>" method="post" name="adminForm" id="adminForm"
-	      enctype="multipart/form-data">
+		  enctype="multipart/form-data">
 
 		<div class="col50">
 			<fieldset class="adminform">
@@ -85,7 +84,7 @@ $mainImage = $mainImage[0];
 						</td>
 						<td>
 							<input type="file" name="property_main_img" id="property_main_img" value="" size="75"/>
-							<?php echo JHTML::tooltip(JText::_('COM_REDSHOP_TOOLTIP_PROPERTY_MAIN_IMAGE'), JText::_('COM_REDSHOP_PROPERTY_MAIN_IMAGE'), 'tooltip.png', '', '', false);    ?>
+							<?php echo JHTML::tooltip(JText::_('COM_REDSHOP_TOOLTIP_PROPERTY_MAIN_IMAGE'), JText::_('COM_REDSHOP_PROPERTY_MAIN_IMAGE'), 'tooltip.png', '', '', false); ?>
 						</td>
 					</tr>
 					<tr>
@@ -95,9 +94,9 @@ $mainImage = $mainImage[0];
 						<td>
 							<input type="file" name="property_sub_img[]" id="property_sub_img[]" value="" size="75"/>
 							<input type="button" name="addvalue" id="addvalue" class="button"
-							       Value="<?php echo JText::_('COM_REDSHOP_ADD'); ?>"
-							       onclick="addNewRowOfProp('admintable');"/>
-							<?php echo JHTML::tooltip(JText::_('COM_REDSHOP_TOOLTIP_PROPERTY_SUB_IMAGE'), JText::_('COM_REDSHOP_PROPERTY_SUB_IMAGE'), 'tooltip.png', '', '', false);    ?>
+								   Value="<?php echo JText::_('COM_REDSHOP_ADD'); ?>"
+								   onclick="addNewRowOfProp('admintable');"/>
+							<?php echo JHTML::tooltip(JText::_('COM_REDSHOP_TOOLTIP_PROPERTY_SUB_IMAGE'), JText::_('COM_REDSHOP_PROPERTY_SUB_IMAGE'), 'tooltip.png', '', '', false); ?>
 						</td>
 					</tr>
 				</table>
@@ -127,26 +126,27 @@ else
 }
 
 $mainimg = '';
+
 if (file_exists(REDSHOP_FRONT_IMAGES_RELPATH . $rs_folder . "/" . $thumb) && $thumb != '')
 {
 	$mainimg .= '<div align="center" style="100px;float:left; border:1px solid #ccc">';
-
-	//$mainimg .="<img src='".$url."/components/".$option."/helpers/thumb.php?filename=property/".$thumb."&newxsize=".PRODUCT_ADDITIONAL_IMAGE."&newysize=".PRODUCT_ADDITIONAL_IMAGE."'> ";
 	$mainimg .= "<img  height='50' width='50' src='" . REDSHOP_FRONT_IMAGES_ABSPATH . $rs_folder . "/" . $thumb . "'> ";
 	$mainimg .= "</div>";
 
 	echo '<div style="clear:both"><b>' . JText::_('COM_REDSHOP_MAIN_IMAGE') . '</b></div>';
 	echo $mainimg;
-
 }
+
 if (count($images))
 {
 	echo '<div style="clear:both"><br><br><b>' . JText::_('COM_REDSHOP_ADDITIONAL_IMAGES') . '</b></div>';
 	$more_images = '';
+
 	for ($i = 0; $i < count($images); $i++)
 	{
-		$image = $images[$i]; //print_r($image);
+		$image = $images[$i];
 		$thumb = $image->media_name;
+
 		if (file_exists(REDSHOP_FRONT_IMAGES_RELPATH . "property/" . $thumb) && $thumb != '')
 		{
 			$more_images .= '<div align="center" style="100px;float:left; border:1px solid #ccc">';
@@ -157,8 +157,7 @@ if (count($images))
 
 			$more_images .= "</div>";
 		}
-
 	}
+
 	echo $more_images;
 }
-?>
