@@ -5,7 +5,8 @@ defined('_JEXEC' ) or die( 'Restricted access' );
 
 // Import library dependencies
 jimport('joomla.plugin.plugin');
-require_once JPATH_COMPONENT . '/helpers/product.php';
+JLoader::import('product', JPATH_ROOT . '/components/com_redshop/helpers');
+JLoader::import('helper', JPATH_ROOT . '/components/com_redshop/helpers');
 class plgredshop_productCreateColorImage extends JPlugin
 {
 	public $ImageName = null;
@@ -29,6 +30,7 @@ class plgredshop_productCreateColorImage extends JPlugin
 	function onBeforeImageLoad($productArr)
 	{
 		$producthelper 	= new producthelper;
+		$redhelper = new redhelper;
 		$product_id = $productArr['product_id'];
 		$main_imgwidth = $productArr['main_imgwidth'];
 		$main_imgheight = $productArr['main_imgheight'];
@@ -97,7 +99,7 @@ class plgredshop_productCreateColorImage extends JPlugin
 		$aHrefImageResponse = $imagePath . "/property/" . $ImageName;
 		$Arrreturn['imagename']	= $ImageName;
 		$Arrreturn['aHrefImageResponse']	= $aHrefImageResponse;
-		$mainImageResponse = $url . 'components/com_redshop/helpers/thumb.php?filename=product_attributes/' . $ImageName . '&newxsize=' . $main_imgwidth . '&newysize=' . $main_imgheight . '&swap=1';
+		$mainImageResponse = $redhelper->watermark('product_attributes', $ImageName, $main_imgwidth, $main_imgheight, 0, $property_id);
 /*		for($i=0;$i<count($arrsubproperty_id);$i++)
 		{
 			if(!empty($arrsubproperty_id[$i]))
