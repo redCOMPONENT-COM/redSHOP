@@ -12,8 +12,9 @@ defined('_JEXEC') or die;
 /**
  * redSHOP Product Attribute Price table
  *
- * @package    redSHOP
- * @subpackage Attribute Price Detail
+ * @package     Redshop
+ * @subpackage  Attribute Price Detail
+ * @since       1.2
  */
 class Tableattributeprices_detail extends JTable
 {
