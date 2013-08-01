@@ -257,11 +257,7 @@ class product_detailModelproduct_detail extends JModel
 
 		if (isset($data['image_delete']) || $file['name'] != "" || $data['product_image'] != null && !$isNew)
 		{
-			$unlink_path = REDSHOP_FRONT_IMAGES_RELPATH . 'product/thumb/' . $data['old_image'];
 			$this->imageGenerator->deleteImage($data['old_image'], 'product', $row->product_id, 1);
-
-			if (is_file($unlink_path))
-				unlink($unlink_path);
 
 			$query = 'DELETE FROM ' . $this->_table_prefix . 'media WHERE media_name = "' . $data['old_image'] . '" AND media_section = "product" AND section_id = "' . $row->product_id . '" ';
 			$this->_db->setQuery($query);
@@ -969,13 +965,7 @@ class product_detailModelproduct_detail extends JModel
 
 			foreach ($property_image as $imagename)
 			{
-				$tsrc = REDSHOP_FRONT_IMAGES_RELPATH . 'product_attributes/thumb/' . $imagename->property_image;
 				$this->imageGenerator->deleteImage($imagename->property_image, 'product_attributes', $property_image->attribute_id, 1);
-
-				if (is_file($tsrc))
-				{
-					unlink($tsrc);
-				}
 
 				// Subattribute delete
 				$subattr_delete = 'DELETE FROM ' . $this->_table_prefix . 'product_subattribute_color  WHERE subattribute_id ="' .
@@ -1010,48 +1000,12 @@ class product_detailModelproduct_detail extends JModel
 
 			foreach ($product_image as $imagename)
 			{
-				$dest_full = REDSHOP_FRONT_IMAGES_RELPATH . 'product/thumb/' . $imagename->product_full_image;
-				$tsrc_thumb = REDSHOP_FRONT_IMAGES_RELPATH . 'product/thumb/' . $imagename->product_thumb_image;
-				$dest_back_full = REDSHOP_FRONT_IMAGES_RELPATH . 'product/thumb/' . $imagename->product_back_full_image;
-				$tsrc_back_thumb = REDSHOP_FRONT_IMAGES_RELPATH . 'product/thumb/' . $imagename->product_back_thumb_image;
-				$dest_preview = REDSHOP_FRONT_IMAGES_RELPATH . '/product/thumb/' . $imagename->product_preview_image;
-				$tsrc_preview_back = REDSHOP_FRONT_IMAGES_RELPATH . '/product/thumb/' . $imagename->product_preview_back_image;
 				$this->imageGenerator->deleteImage($imagename->product_full_image, 'product', $imagename->product_id, 1);
 				$this->imageGenerator->deleteImage($imagename->product_thumb_image, 'product', $imagename->product_id, 1);
 				$this->imageGenerator->deleteImage($imagename->product_back_full_image, 'product', $imagename->product_id, 1);
 				$this->imageGenerator->deleteImage($imagename->product_back_thumb_image, 'product', $imagename->product_id, 1);
 				$this->imageGenerator->deleteImage($imagename->product_preview_image, 'product', $imagename->product_id, 1);
 				$this->imageGenerator->deleteImage($imagename->product_preview_back_image, 'product', $imagename->product_id, 1);
-
-				if (is_file($dest_full))
-				{
-					unlink($dest_full);
-				}
-
-				if (is_file($tsrc_thumb))
-				{
-					unlink($tsrc_thumb);
-				}
-
-				if (is_file($dest_back_full))
-				{
-					unlink($dest_back_full);
-				}
-
-				if (is_file($tsrc_back_thumb))
-				{
-					unlink($tsrc_back_thumb);
-				}
-
-				if (is_file($dest_preview))
-				{
-					unlink($dest_preview);
-				}
-
-				if (is_file($tsrc_preview_back))
-				{
-					unlink($tsrc_preview_back);
-				}
 			}
 
 			$query = 'DELETE FROM ' . $this->_table_prefix . 'product WHERE product_id IN ( ' . $cids . ' )';
@@ -1733,13 +1687,7 @@ class product_detailModelproduct_detail extends JModel
 
 			foreach ($prop as $imagename)
 			{
-				$tsrc = REDSHOP_FRONT_IMAGES_RELPATH . 'product_attributes/thumb/' . $imagename->property_image;
 				$this->imageGenerator->deleteImage($imagename->property_image, 'product_attributes', $imagename->property_id, 1);
-
-				if (file_exists($tsrc))
-				{
-					unlink($tsrc);
-				}
 			}
 
 			$query = 'DELETE FROM ' . $this->_table_prefix . 'product_attribute WHERE attribute_id IN ( ' . $cids . ' )';
@@ -1768,8 +1716,6 @@ class product_detailModelproduct_detail extends JModel
 
 	public function deleteprop($cid = array(), $image_name)
 	{
-		$option = JRequest::getVar('option', '', 'request', 'string');
-
 		if (count($cid))
 		{
 			$cids = implode(',', $cid);
@@ -1832,13 +1778,7 @@ class product_detailModelproduct_detail extends JModel
 
 			foreach ($prop as $property_image)
 			{
-				$tsrc = REDSHOP_FRONT_IMAGES_RELPATH . 'product_attributes/thumb/' . $property_image->property_image;
 				$this->imageGenerator->deleteImage($property_image->property_image, 'product_attributes', $property_image->property_id, 1);
-
-				if (file_exists($tsrc))
-				{
-					unlink($tsrc);
-				}
 			}
 
 			$query = 'DELETE FROM ' . $this->_table_prefix . 'product_attribute_property WHERE attribute_id IN ( ' . $cids . ' )';
@@ -2057,13 +1997,7 @@ class product_detailModelproduct_detail extends JModel
 		$this->_db->setQuery($query);
 		$imgdata = $this->_db->loadObject();
 
-		$tsrc = REDSHOP_FRONT_IMAGES_RELPATH . 'property/thumb/' . $imgdata->media_name;
-		$this->imageGenerator->deleteImage($imgdata->media_name, $imgdata->media_section, $imgdata->media_id, 1);
-
-		if (file_exists($tsrc))
-		{
-			unlink($tsrc);
-		}
+		$this->imageGenerator->deleteImage($imgdata->media_name, $imgdata->media_section, $imgdata->section_id, 1);
 
 		$query = 'DELETE FROM ' . $this->_table_prefix . 'media WHERE media_id = "' . $mediaid . '" ';
 
@@ -2106,13 +2040,7 @@ class product_detailModelproduct_detail extends JModel
 
 					if ($post['property_sub_img_tmp'][$i] != "")
 					{
-						$sub_thumb = REDSHOP_FRONT_IMAGES_RELPATH . 'subcolor/thumb/' . $post['property_sub_img_tmp'][$i];
 						$this->imageGenerator->deleteImage($post['property_sub_img_tmp'][$i], 'subcolor', $post['subattribute_color_id'][$i], 1);
-
-						if (file_exists($sub_thumb))
-						{
-							unlink($sub_thumb);
-						}
 					}
 
 					$subpost = array();
@@ -2612,14 +2540,7 @@ class product_detailModelproduct_detail extends JModel
 		$image = $this->_db->LoadObject();
 		$imagename = $image->property_image;
 
-
-		$imagethumbsrcphy = REDSHOP_FRONT_IMAGES_RELPATH . "product_attributes/thumb/" . $imagename;
 		$this->imageGenerator->deleteImage($imagename, 'product_attributes', $pid, 1);
-
-		if (is_file($imagethumbsrcphy))
-		{
-			@unlink($imagethumbsrcphy);
-		}
 
 		$query = "UPDATE `" . $this->_table_prefix . "product_attribute_property` SET `property_image` = '' WHERE `property_id` = '" . $pid . "' ";
 		$this->_db->setQuery($query);
@@ -2639,13 +2560,7 @@ class product_detailModelproduct_detail extends JModel
 		$image = $this->_db->LoadObject();
 		$imagename = $image->subattribute_color_image;
 
-		$imagethumbsrcphy = REDSHOP_FRONT_IMAGES_RELPATH . "subcolor/thumb/" . $imagename;
 		$this->imageGenerator->deleteImage($imagename, 'subcolor', $pid, 1);
-
-		if (is_file($imagethumbsrcphy))
-		{
-			@unlink($imagethumbsrcphy);
-		}
 
 		$query = "UPDATE `" . $this->_table_prefix . "product_subattribute_color` SET `subattribute_color_image` = '' WHERE `subattribute_color_id` = '" . $pid . "' ";
 		$this->_db->setQuery($query);

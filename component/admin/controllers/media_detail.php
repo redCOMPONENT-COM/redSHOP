@@ -80,16 +80,19 @@ class Media_DetailController extends JController
 				if ($post['media_type'] != $post['oldtype'])
 				{
 					$old_path = JPATH_COMPONENT_SITE . '/assets/' . $post['oldtype'] . DS . $post['media_section'] . DS . $post['media_name'];
-					$old_thumb_path = JPATH_COMPONENT_SITE . '/assets/' . $post['oldtype']
-						. DS . $post['media_section'] . '/thumb/' . $post['media_name'];
-
 					$new_path = JPATH_COMPONENT_SITE . '/assets/' . $post['media_type']
 						. '/' . $post['media_section'] . '/' . time() . '_' . $imageGenerator->replaceSpecial($post['media_name']);
 
 					copy($old_path, $new_path);
 
-					unlink($old_path);
-					unlink($old_thumb_path);
+					if ($post['oldtype'] == 'images')
+					{
+						$imageGenerator->deleteImage($post['media_name'], $post['media_section'], $post['section_id'], 1);
+					}
+					else
+					{
+						unlink($old_path);
+					}
 				}
 
 				if ($save = $model->store($post))

@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
+JLoader::import('image_generator', JPATH_SITE . '/components/com_redshop/helpers');
 
 class stockimage_detailModelstockimage_detail extends JModel
 {
@@ -87,10 +88,8 @@ class stockimage_detailModelstockimage_detail extends JModel
 
 		if ($_FILES['stock_amount_image']['name'] != "")
 		{
-			$ext = explode(".", $file['name']);
-			$filetmpname = substr($file['name'], 0, strlen($file['name']) - strlen($ext[count($ext) - 1]));
-
-			$filename = JPath::clean(time() . '_' . $filetmpname . "jpg");
+			$imageGenerator = new ImageGenerator;
+			$filename = JPath::clean(time() . '_' . $imageGenerator->replaceSpecial($file['name']));
 			$row->stock_amount_image = $filename;
 
 			$src = $file['tmp_name'];

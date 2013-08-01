@@ -89,7 +89,7 @@ class configurationModelconfiguration extends JModel
 
 				if ($data['product_default_image'] != "" && is_file(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $data['product_default_image']))
 				{
-					unlink(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $data['product_default_image']);
+					$this->imageGenerator->deleteImage($data['product_default_image'], 'product', 1, 1);
 				}
 
 				JFile::upload($src, $dest);
@@ -138,7 +138,7 @@ class configurationModelconfiguration extends JModel
 				if ($data['default_portal_logo_tmp'] != ""
 					&& is_file(REDSHOP_FRONT_IMAGES_RELPATH . 'shopperlogo/' . $data['default_portal_logo_tmp']))
 				{
-					@unlink(REDSHOP_FRONT_IMAGES_RELPATH . 'shopperlogo/' . $data['default_portal_logo_tmp']);
+					$this->imageGenerator->deleteImage($data['default_portal_logo_tmp'], 'shopperlogo', 1, 1);
 				}
 
 				JFile::upload($src, $dest);
@@ -167,7 +167,7 @@ class configurationModelconfiguration extends JModel
 				if ($data['product_outofstock_image'] != ""
 					&& is_file(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $data['product_outofstock_image']))
 				{
-					unlink(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $data['product_outofstock_image']);
+					$this->imageGenerator->deleteImage($data['product_outofstock_image'], 'product', 1, 1);
 				}
 
 				JFile::upload($src, $dest);
@@ -192,7 +192,7 @@ class configurationModelconfiguration extends JModel
 				if ($data['category_default_image'] != ""
 					&& is_file(REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $data['category_default_image']))
 				{
-					unlink(REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $data['categoryt_default_image']);
+					$this->imageGenerator->deleteImage($data['categoryt_default_image'], 'category', 1, 1);
 				}
 
 				JFile::upload($src, $dest);
