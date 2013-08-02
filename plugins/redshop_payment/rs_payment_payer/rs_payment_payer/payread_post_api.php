@@ -15,72 +15,72 @@
  * Modified by: bihla (master)
  * Verified by: mwall
  *
- * @author  Payer Installation <installation@payer.se>
- * @package payread_post_api
+ * @package  Payread_Post_Api
+ * @author   Payer Installation <installation@payer.se>
  *
-$Id: payread_post_api.php,v 1.23 2012/08/15 15:18:41 bihla Exp $
-$Log: payread_post_api.php,v $
-Revision 1.23  2012/08/15 15:18:41  bihla
-v25 add charset if NOT NULL
-
-Revision 1.22  2012/08/10 11:44:49  bihla
-v24 = added set_options (used when performing a "store")
-
-Revision 1.21  2012/08/10 11:43:18  bihla
-added set_options (used when performing a "store")
-
-Revision 1.20  2012/07/18 14:28:14  bihla
-do not set (reset) value if "*" is used. Use "*" in database if you want to use PayReadConf.php value instead.
-
-Revision 1.19  2012/05/29 09:45:03  bihla
-removed some payment methods among debug types
-
-Revision 1.18  2012/05/11 08:34:52  bihla
-+ allow any payment method to be assigned
-Ver: payer_php_0_2_v22
-
-Revision 1.17  2012/05/10 09:57:25  bihla
-+ added charset handling
-+ added/improved firewall
-= get_api_version now only returns api version - no client version
-Ver: payer_php_0_2_v21
-
-Revision 1.16  2012/05/09 11:51:45  bihla
-payer_php_0_2_v20
-
-Revision 1.15  2012/05/09 11:50:05  bihla
-+ added getKeyA + getKeyB + getChallangeResponse
-
-Revision 1.14  2012/04/27 08:09:13  bihla
-payer_php_0_2_v18
-
-Revision 1.13  2012/04/26 09:17:29  bihla
-add_fee can be called without itemNumber set.
-
-Revision 1.12  2012/04/18 09:11:51  bihla
-handle url encoded callbacks - found in some CMS systems (opencart)
-
-Revision 1.11  2012/04/13 14:55:22  bihla
-payer_php_0_2_v15 setKeyA setKeyB bug fixed
-
-Revision 1.10  2012/04/13 10:04:56  bihla
-payer_php_0_2_v14 setKeyA and setKeyB + setAgent added.
-
-Revision 1.9  2012/04/13 09:44:50  bihla
-added setKeyA + setKeyB (compatible version)
-
-Revision 1.8  2012/04/12 15:29:28  bihla
-new version => payer_php_0_2_v12
-
-Revision 1.7  2012/02/24 15:32:53  bihla
-pay-read.se => payer.se
-
-Revision 1.6  2012/02/24 13:20:46  mwall
-no message
-
-Revision 1.1  2011/11/28 10:10:25  mwall
-Bug 384 - Drupal 7.9 Ubercart 3.0
-
+ * $Id: payread_post_api.php,v 1.23 2012/08/15 15:18:41 bihla Exp $
+ * $Log: payread_post_api.php,v $
+ * Revision 1.23  2012/08/15 15:18:41  bihla
+ * v25 add charset if NOT NULL
+ *
+ * Revision 1.22  2012/08/10 11:44:49  bihla
+ * v24 = added set_options (used when performing a "store")
+ *
+ * Revision 1.21  2012/08/10 11:43:18  bihla
+ * added set_options (used when performing a "store")
+ *
+ * Revision 1.20  2012/07/18 14:28:14  bihla
+ * do not set (reset) value if "*" is used. Use "*" in database if you want to use PayReadConf.php value instead.
+ *
+ * Revision 1.19  2012/05/29 09:45:03  bihla
+ * removed some payment methods among debug types
+ *
+ * Revision 1.18  2012/05/11 08:34:52  bihla
+ * + allow any payment method to be assigned
+ * Ver: payer_php_0_2_v22
+ *
+ * Revision 1.17  2012/05/10 09:57:25  bihla
+ * + added charset handling
+ * + added/improved firewall
+ * = get_api_version now only returns api version - no client version
+ * Ver: payer_php_0_2_v21
+ *
+ * Revision 1.16  2012/05/09 11:51:45  bihla
+ * payer_php_0_2_v20
+ *
+ * Revision 1.15  2012/05/09 11:50:05  bihla
+ * + added getKeyA + getKeyB + getChallangeResponse
+ *
+ * Revision 1.14  2012/04/27 08:09:13  bihla
+ * payer_php_0_2_v18
+ *
+ * Revision 1.13  2012/04/26 09:17:29  bihla
+ * add_fee can be called without itemNumber set.
+ *
+ * Revision 1.12  2012/04/18 09:11:51  bihla
+ * handle url encoded callbacks - found in some CMS systems (opencart)
+ *
+ * Revision 1.11  2012/04/13 14:55:22  bihla
+ * payer_php_0_2_v15 setKeyA setKeyB bug fixed
+ *
+ * Revision 1.10  2012/04/13 10:04:56  bihla
+ * payer_php_0_2_v14 setKeyA and setKeyB + setAgent added.
+ *
+ * Revision 1.9  2012/04/13 09:44:50  bihla
+ * added setKeyA + setKeyB (compatible version)
+ *
+ * Revision 1.8  2012/04/12 15:29:28  bihla
+ * new version => payer_php_0_2_v12
+ *
+ * Revision 1.7  2012/02/24 15:32:53  bihla
+ * pay-read.se => payer.se
+ *
+ * Revision 1.6  2012/02/24 13:20:46  mwall
+ * no message
+ *
+ * Revision 1.1  2011/11/28 10:10:25  mwall
+ * Bug 384 - Drupal 7.9 Ubercart 3.0
+ *
  */
 class payread_post_api
 {
@@ -91,32 +91,55 @@ class payread_post_api
 	 */
 
 	var $myAgentId;
+
 	var $myKeys = array();
+
 	var $myPayerServerUrl;
+
 	var $myClientVersion;
 
 	var $myCurrency;
+
 	var $myDescription;
+
 	var $myHideDetails;
+
 	var $myReferenceId;
+
 	var $myMessage;
+
 	var $myCatalogPurchases = array();
+
 	var $myFreeformPurchases = array();
+
 	var $mySubscriptionPurchases = array();
+
 	var $myInfoLines = array();
+
 	var $myBuyerInfo;
+
 	var $myPaymentMethods;
+
 	var $mySuccessRedirectUrl;
+
 	var $myAuthorizeNotificationUrl;
+
 	var $mySettleNotificationUrl;
+
 	var $myRedirectBackToShopUrl;
+
 	var $myDebugMode;
+
 	var $myTestMode;
+
 	var $myLanguage;
+
 	var $myCharSet;
+
 	var $myFirewall;
 
 	var $myXmlData;
+
 	var $myChecksum;
 
 	/**
@@ -142,7 +165,9 @@ class payread_post_api
 		$this->myLanguage = "sv";
 		$this->myDebugMode = "silent";
 		$this->myTestMode = "true";
-		$this->myCharSet = null; // Use database value as default
+
+		// Use database value as default
+		$this->myCharSet = null;
 		$this->myFirewall = array("192.168.100.1", "79.136.103.5", "94.140.57.180", "94.140.57.181", "94.140.57.184");
 	}
 
@@ -157,24 +182,39 @@ class payread_post_api
 
 	function setAgent($agentid)
 	{
-		if ($agentid != "*") $this->myAgentId = $agentid;
+		if ($agentid != "*")
+		{
+			$this->myAgentId = $agentid;
+		}
 	}
 
 	function setKeys($key1, $key2)
 	{
-		if ($key1 != "*") $this->myKeys["A"] = $key1;
+		if ($key1 != "*")
+		{
+			$this->myKeys["A"] = $key1;
+		}
 
-		if ($key2 != "*") $this->myKeys["B"] = $key2;
+		if ($key2 != "*")
+		{
+			$this->myKeys["B"] = $key2;
+		}
 	}
 
 	function setKeyA($key)
 	{
-		if ($key != "*") $this->myKeys["A"] = $key;
+		if ($key != "*")
+		{
+			$this->myKeys["A"] = $key;
+		}
 	}
 
 	function setKeyB($key)
 	{
-		if ($key != "*") $this->myKeys["B"] = $key;
+		if ($key != "*")
+		{
+			$this->myKeys["B"] = $key;
+		}
 	}
 
 	function getKeyA()
@@ -215,6 +255,7 @@ class payread_post_api
 	 *    <input type="hidden" name="payer_xml_writer" value="get_api_version()">
 	 *    <input type="hidden" name="payer_data" value="get_xml_data()">
 	 *    <input type="hidden" name="payer_checksum" value="get_checksum()">
+	 *
 	 * @return  nothing
 	 */
 	public function generate_form()
@@ -230,11 +271,11 @@ class payread_post_api
 	function generate_form_str()
 	{
 		return
-			"<input type=\"hidden\" name=\"payer_agentid\" value=\"" . $this->get_agentid() . "\" />\n" .
-			"<input type=\"hidden\" name=\"payer_xml_writer\" value=\"" . $this->get_api_version() . "\" />\n" .
-			"<input type=\"hidden\" name=\"payer_data\" value=\"" . $this->get_xml_data() . "\" />\n" .
-			($this->get_charset() == null ? "" : "<input type=\"hidden\" name=\"payer_charset\" value=\"" . $this->get_charset() . "\" />\n") .
-			"<input type=\"hidden\" name=\"payer_checksum\" value=\"" . $this->get_checksum() . "\" />\n";
+			"<input type=\"hidden\" name=\"payer_agentid\" value=\"" . $this->get_agentid() . "\" />\n"
+			. "<input type=\"hidden\" name=\"payer_xml_writer\" value=\"" . $this->get_api_version() . "\" />\n"
+			. "<input type=\"hidden\" name=\"payer_data\" value=\"" . $this->get_xml_data() . "\" />\n"
+			. ($this->get_charset() == null ? "" : "<input type=\"hidden\" name=\"payer_charset\" value=\"" . $this->get_charset() . "\" />\n")
+			. "<input type=\"hidden\" name=\"payer_checksum\" value=\"" . $this->get_checksum() . "\" />\n";
 	}
 
 	/**
@@ -681,18 +722,18 @@ class payread_post_api
 	/**
 	 * This method will validate that the callback orginates from PAYERs server. This method should be called from your authorize and settle pages.
 	 *
-	 * @param string $theUrl URL to be validated (required)
+	 * @param   string  $theUrl  URL to be validated (required)
 	 *
 	 * @return boolean true/false
 	 */
 	public function validate_callback_url($theUrl)
 	{
-		// strip the &md5sum from url
+		// Strip the &md5sum from url
 		$pos = strpos($theUrl, "&md5sum");
 
 		if ($pos === false)
 		{
-			// this case handles opencart and other manipulating $_SERVER vars
+			// This case handles opencart and other manipulating $_SERVER vars
 			$theUrl = htmlspecialchars_decode($theUrl);
 			$strippedUrl = substr($theUrl, 0, strpos($theUrl, "&md5sum"));
 		}
@@ -700,25 +741,29 @@ class payread_post_api
 		{
 			$strippedUrl = substr($theUrl, 0, $pos);
 		}
-		// add the Key1 and Key2 from the stripped url and calculate checksum
+
+		// Add the Key1 and Key2 from the stripped url and calculate checksum
 		$keyA = $this->myKeys["A"];
 		$keyB = $this->myKeys["B"];
 
 		$md5 = strtolower(md5($keyA . $strippedUrl . $keyB));
 
-		// do we find the calculated checksum in in the original URL somewhere ?
+		// Do we find the calculated checksum in in the original URL somewhere ?
 		if (strpos(strtolower($theUrl), $md5) >= 7)
 		{
-			return true; // yes - this is authentic
+			// Yes - this is authentic
+			return true;
 		}
 
-		return false; // no - this is not a properly signed URL
+		// No - this is not a properly signed URL
+		return false;
 	}
 
 	/**
 	 * This method is a VERY SIMPLE firewall on application level
 	 *
 	 * This method will validate that the callback orginates from PAYERs server. This method should be called from your authorize and settle pages.
+	 *
 	 * @return boolean true/false
 	 */
 	public function is_valid_ip()
@@ -740,6 +785,7 @@ class payread_post_api
 
 	/**
 	 * This method will "encrypt" the data using base64
+	 *
 	 * @access private
 	 */
 	public function encrypt_data($theData, $theEncryptionMethod = "base64")
@@ -754,6 +800,7 @@ class payread_post_api
 
 	/**
 	 * This method will set the checksum
+	 *
 	 * @access private
 	 */
 	public function checksum_data($theAuthMethod = "md5")
@@ -772,6 +819,7 @@ class payread_post_api
 
 	/**
 	 * This method will generate the xml data that you need to post p the Post-API.
+	 *
 	 * @access private
 	 */
 	public function generate_purchase_xml()
@@ -818,28 +866,34 @@ class payread_post_api
 				" <options>" . $this->do_encode($this->myBuyerInfo["Options"]) . "</options>\n" : "") .
 			"</buyer_details>\n";
 		$this->myXmlData .= "<purchase>\n";
+
 		// Purchase
 		$this->myXmlData .= "<currency>" . $this->myCurrency . "</currency>\n";
+
 		// Add RefId if used
 		if (!empty($this->myReferenceId))
 		{
 			$this->myXmlData .= "<reference_id>" . $this->do_encode($this->myReferenceId) . "</reference_id>\n";
 		}
+
 		// Add Descr if used
 		if (!empty($this->myDescription))
 		{
 			$this->myXmlData .= "<description>" . $this->do_encode($this->myDescription) . "</description>\n";
 		}
+
 		// Add Message if used
 		if (!empty($this->myMessage))
 		{
 			$this->myXmlData .= "<message>" . $this->do_encode($this->myMessage) . "</message>\n";
 		}
+
 		// Add myHideDetails
 		if (!empty($this->myHideDetails))
 		{
 			$this->myXmlData .= "<hide_details>" . ($this->myHideDetails ? "true" : "false") . "</hide_details>\n";
 		}
+
 		// Start the Purchase list
 		$this->myXmlData .= "<purchase_list>\n";
 
@@ -901,28 +955,29 @@ class payread_post_api
 
 		// Purchase list (info lines)
 		@reset($this->myInfoLines);
+
 		while (list(, $theValues) = @each($this->myInfoLines))
 		{
-			$this->myXmlData .= "<info_line>" .
-				"<line_number>" . $this->do_encode($theValues["LineNo"]) . "</line_number>" .
-				"<text>" . $this->do_encode($theValues["Text"]) . "</text>" .
-				"</info_line>\n";
+			$this->myXmlData .= "<info_line>"
+							. "<line_number>" . $this->do_encode($theValues["LineNo"]) . "</line_number>"
+							. "<text>" . $this->do_encode($theValues["Text"]) . "</text>"
+							. "</info_line>\n";
 		}
 
-		$this->myXmlData .= "</purchase_list>\n" .
-			"</purchase>\n";
+		$this->myXmlData .= "</purchase_list>\n</purchase>\n";
 
 		//Processing control
-		$this->myXmlData .=
-			"<processing_control>\n";
+		$this->myXmlData .= "<processing_control>\n";
 
 		if (!empty($this->mySuccessRedirectUrl))
+		{
 			$this->myXmlData .= "<success_redirect_url>" . $this->do_encode($this->mySuccessRedirectUrl) . "</success_redirect_url>\n";
-		$this->myXmlData .=
-			" <authorize_notification_url>" . $this->do_encode($this->myAuthorizeNotificationUrl) . "</authorize_notification_url>\n" .
-				" <settle_notification_url>" . $this->do_encode($this->mySettleNotificationUrl) . "</settle_notification_url>\n" .
-				" <redirect_back_to_shop_url>" . $this->do_encode($this->myRedirectBackToShopUrl) . "</redirect_back_to_shop_url>\n" .
-				"</processing_control>\n";
+		}
+
+		$this->myXmlData .= "<authorize_notification_url>" . $this->do_encode($this->myAuthorizeNotificationUrl) . "</authorize_notification_url>\n"
+						. " <settle_notification_url>" . $this->do_encode($this->mySettleNotificationUrl) . "</settle_notification_url>\n"
+						. " <redirect_back_to_shop_url>" . $this->do_encode($this->myRedirectBackToShopUrl) . "</redirect_back_to_shop_url>\n"
+						. "</processing_control>\n";
 
 		// Database overrides
 		$this->myXmlData .= "<database_overrides>\n";
@@ -930,6 +985,7 @@ class payread_post_api
 		// Payment methods
 		$this->myXmlData .= "<accepted_payment_methods>\n";
 		@reset($this->myPaymentMethods);
+
 		while (list(, $thePaymentMethod) = @each($this->myPaymentMethods))
 		{
 			$this->myXmlData .= "<payment_method>" . $thePaymentMethod . "</payment_method>\n";
@@ -962,4 +1018,3 @@ class payread_post_api
 		return htmlspecialchars($data);
 	}
 }
-?>

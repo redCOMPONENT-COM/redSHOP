@@ -14,8 +14,9 @@ jimport('joomla.application.component.model');
 /**
  * Barcode reder/generator Model
  *
- * @package    redSHOP
- * @version    1.2
+ * @package     Redshop
+ * @subpackage  Barcode
+ * @since       1.2
  */
 class barcodeModelbarcode extends JModel
 {
