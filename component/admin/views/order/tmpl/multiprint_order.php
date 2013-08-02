@@ -10,13 +10,15 @@ defined('_JEXEC') or die;
 JHTML::_('behavior.tooltip');
 JHTML::_('behavior.modal');
 
-require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
-$producthelper = new producthelper();
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php';
+JLoader::import('product', JPATH_COMPONENT_SITE . '/helpers');
+JLoader::import('order', JPATH_COMPONENT_ADMINISTRATOR . '/helpers');
+JLoader::import('helper', JPATH_COMPONENT_SITE . '/helpers');
 
-$order_functions = new order_functions();
-$shippinghelper = new shipping();
-$carthelper = new rsCarthelper();
+$producthelper = new producthelper;
+$redhelper = new redhelper;
+$order_functions = new order_functions;
+$shippinghelper = new shipping;
+$carthelper = new rsCarthelper;
 $mypost = JRequest::getVar('cid');
 
 $mysplit = preg_split(",", $mypost);
@@ -29,23 +31,15 @@ for ($k = 0; $k < count($mysplit); $k++)
 	{
 		$mycnt = count($mysplit);
 
-
-//exit;
-//echo $mypost;exit;
-
-
 		$option = JRequest::getVar('option');
-		$config = new Redconfiguration();
+		$config = new Redconfiguration;
 		$model = $this->getModel('order_detail');
 
-		$extra_field = new extra_field();
-
+		$extra_field = new extra_field;
 
 		$uri = JURI::getInstance();
 		$url = $uri->root();
-		$redTemplate = new Redtemplate();
-
-//$model = $this->getModel ( 'order_detail' );
+		$redTemplate = new Redtemplate;
 
 		$OrderProducts = $order_functions->getOrderItemDetail($mysplit[$k]);
 		$OrdersDetail = $order_functions->getmultiOrderDetails($mysplit[$k]);
@@ -54,19 +48,18 @@ for ($k = 0; $k < count($mysplit); $k++)
 		$shipping = $order_functions->getOrderShippingUserInfo($OrdersDetail[0]->order_id);
 
 		$is_company = $billing->is_company;
+
 		if (!$shipping)
 		{
-
 			$shipping = $billing;
 		}
 
-
-//$partialpayment = $order_functions->getOrderPartialPayment ( $OrdersDetail->order_id );
-//// get order Payment method information
+// Get order Payment method information
 		$paymentmethod = $order_functions->getOrderPaymentDetail($mysplit[$k]);
 		$paymentmethod = $paymentmethod[0];
 
 		$order_print_template = $redTemplate->getTemplate("order_print");
+
 		if (count($order_print_template) > 0 && $order_print_template[0]->template_desc != "")
 		{
 			$ordersprint_template = $order_print_template[0]->template_desc;
@@ -95,7 +88,7 @@ for ($k = 0; $k < count($mysplit); $k++)
 		$replace[] = $OrdersDetail[0]->customer_note;
 
 
-// set order paymethod name
+// Set order paymethod name
 		$search[] = "{payment_lbl}";
 		$replace[] = JText::_('COM_REDSHOP_ORDER_PAYMENT_METHOD');
 
@@ -107,15 +100,16 @@ for ($k = 0; $k < count($mysplit); $k++)
 		$issplit = $OrdersDetail[0]->split_payment;
 
 		$search[] = "{order_status}";
+
 		if (trim($OrdersDetail[0]->order_payment_status) == 'Paid')
 		{
 			$orderPaymentStatus = JText::_('PAYMENT_STA_PAID');
 		}
-		else if (trim($OrdersDetail[0]->order_payment_status) == 'Unpaid')
+		elseif (trim($OrdersDetail[0]->order_payment_status) == 'Unpaid')
 		{
 			$orderPaymentStatus = JText::_('PAYMENT_STA_UNPAID');
 		}
-		else if (trim($OrdersDetail[0]->order_payment_status) == 'Partial Paid')
+		elseif (trim($OrdersDetail[0]->order_payment_status) == 'Partial Paid')
 		{
 			$orderPaymentStatus = JText::_('PAYMENT_STA_PARTIAL_PAID');
 		}
@@ -143,27 +137,31 @@ for ($k = 0; $k < count($mysplit); $k++)
 
 		$shipping_method = '';
 		$shipping_rate_name = '';
+
 		if ($OrdersDetail[0]->ship_method_id != '')
 		{
 			$ship_method = explode("|", $shippinghelper->decryptShipping(str_replace(" ", "+", $OrdersDetail[0]->ship_method_id)));
+
 			if (count($ship_method) <= 1)
 			{
 				$ship_method = explode("|", $OrdersDetail[0]->ship_method_id);
 			}
+
 			$shipping_method = "";
 			$shipping_rate_name = "";
+
 			if (count($ship_method) > 0)
 			{
 				if (array_key_exists(1, $ship_method))
 				{
 					$shipping_method = $ship_method[1];
 				}
+
 				if (array_key_exists(2, $ship_method))
 				{
 					$shipping_rate_name = $ship_method[2];
 				}
 			}
-
 		}
 
 		$search[] = "{shipping_method}";
@@ -185,6 +183,7 @@ for ($k = 0; $k < count($mysplit); $k++)
 		$template_start = "";
 		$template_middle = "";
 		$template_end = "";
+
 		if (strstr($ordersprint_template, "{product_loop_start}"))
 		{
 			$template_sdata = explode('{product_loop_start}', $ordersprint_template);
@@ -193,32 +192,30 @@ for ($k = 0; $k < count($mysplit); $k++)
 			$template_end = $template_edata [1];
 			$template_middle = $template_edata [0];
 		}
-		$cart_tr = '';
 
+		$cart_tr = '';
 
 		for ($i = 0; $i < count($OrderProducts); $i++)
 		{
-
 			$wrapper_name = "";
+
 			if ($OrderProducts[$i]->wrapper_id)
 			{
 				$wrapper = $producthelper->getWrapper($OrderProducts[$i]->product_id, $OrderProducts[$i]->wrapper_id);
+
 				if (count($wrapper) > 0)
 				{
 					$wrapper_name = JText::_('COM_REDSHOP_WRAPPER') . ":<br/>" . $wrapper[0]->wrapper_name . "(" . $producthelper->getProductFormattedPrice($OrderProducts[$i]->wrapper_price) . ")";
 				}
 			}
+
 			if ($OrderProducts [$i]->is_giftcard == 1)
 			{
-
 				$product_userfields = $producthelper->getuserfield($OrderProducts [$i]->order_item_id, 13);
-
 			}
 			else
 			{
-
 				$product_userfields = $producthelper->getuserfield($OrderProducts [$i]->order_item_id);
-
 			}
 
 			$product_name = "<div  class='product_name'>" . $OrderProducts [$i]->order_item_name . "</div>";
@@ -240,26 +237,25 @@ for ($k = 0; $k < count($mysplit); $k++)
 			if ($product->product_full_image)
 			{
 				if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $product->product_full_image))
-					$product_image_path = $url . "/components/com_redshop/helpers/thumb.php?filename=product/" . $product->product_full_image;
+					$product_image_path = $redhelper->watermark('product', $product->product_full_image, CART_THUMB_WIDTH, CART_THUMB_HEIGHT, WATERMARK_CART_THUMB_IMAGE, $product->product_id);
 				else
 				{
 					if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . PRODUCT_DEFAULT_IMAGE))
-						$product_image_path = $url . "/components/com_redshop/helpers/thumb.php?filename=product/" . PRODUCT_DEFAULT_IMAGE;
+						$product_image_path = $redhelper->watermark('product', PRODUCT_DEFAULT_IMAGE, CART_THUMB_WIDTH, CART_THUMB_HEIGHT, 0);
 					else
 						$product_image_path = "";
 				}
-
 			}
 			else
 			{
 				if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . PRODUCT_DEFAULT_IMAGE))
-					$product_image_path = $url . "/components/com_redshop/helpers/thumb.php?filename=product/" . PRODUCT_DEFAULT_IMAGE;
+					$product_image_path = $redhelper->watermark('product', PRODUCT_DEFAULT_IMAGE, CART_THUMB_WIDTH, CART_THUMB_HEIGHT, 0);
 				else
 					$product_image_path = "";
 			}
 
 			if ($product_image_path)
-				$product_image = "<div  class='product_image'><img src='" . $product_image_path . "&newxsize=" . CART_THUMB_WIDTH . "&newysize=" . CART_THUMB_HEIGHT . "&swap=" . USE_IMAGE_SIZE_SWAPPING . "'></div>";
+				$product_image = "<div  class='product_image'><img src='" . $product_image_path . "'></div>";
 			else
 				$product_image = "<div  class='product_image'></div>";
 
@@ -273,6 +269,7 @@ for ($k = 0; $k < count($mysplit); $k++)
 			$cart_mdata = str_replace("{product_number_lbl}", JText::_('COM_REDSHOP_PRODUCT_NUMBER'), $cart_mdata);
 
 			$user_subscribe_detail = $producthelper->getUserProductSubscriptionDetail($OrderProducts[$i]->order_item_id);
+
 			if (count($user_subscribe_detail) > 0 && $user_subscribe_detail->subscription_id)
 			{
 				$subscription_detail = $producthelper->getProductSubscriptionDetail($OrderProducts [$i]->product_id, $user_subscribe_detail->subscription_id);
@@ -299,7 +296,6 @@ for ($k = 0; $k < count($mysplit); $k++)
 			$cart_mdata = str_replace("{product_total_price}", $product_total_price, $cart_mdata);
 
 			$cart_tr .= $cart_mdata;
-
 		}
 
 		$ordersprint_template = $template_start . $cart_tr . $template_end;
@@ -329,7 +325,6 @@ for ($k = 0; $k < count($mysplit); $k++)
 			$replace[] = JText::_('COM_REDSHOP_ORDER_TAX');
 			$search[] = "{vat end if}";
 			$replace[] = '';
-
 		}
 
 		if ($OrdersDetail[0]->payment_discount <= 0)
@@ -355,7 +350,6 @@ for ($k = 0; $k < count($mysplit); $k++)
 			$replace[] = JText::_('COM_REDSHOP_PAYMENT_DISCOUNT_LBL');
 			$search[] = "{payment_discount end if}";
 			$replace[] = '';
-
 		}
 
 		if ($OrdersDetail->order_discount <= 0)

@@ -312,13 +312,13 @@ if (!$slide)
 
 			if ($row->category_full_image && file_exists($middlepath . $row->category_full_image))
 			{
-				$product_img = $objhelper->watermark('category', $row->category_full_image, $w_thumb, $h_thumb, WATERMARK_CATEGORY_THUMB_IMAGE, '0');
-				$linkimage = $objhelper->watermark('category', $row->category_full_image, '', '', WATERMARK_CATEGORY_IMAGE, '0');
+				$product_img = $objhelper->watermark('category', $row->category_full_image, $w_thumb, $h_thumb, WATERMARK_CATEGORY_THUMB_IMAGE, $row->category_id);
+				$linkimage = $objhelper->watermark('category', $row->category_full_image, '', '', WATERMARK_CATEGORY_IMAGE, $row->category_id);
 			}
 			elseif (CATEGORY_DEFAULT_IMAGE && file_exists($middlepath . CATEGORY_DEFAULT_IMAGE))
 			{
-				$product_img = $objhelper->watermark('category', CATEGORY_DEFAULT_IMAGE, $w_thumb, $h_thumb, WATERMARK_CATEGORY_THUMB_IMAGE, '0');
-				$linkimage = $objhelper->watermark('category', CATEGORY_DEFAULT_IMAGE, '', '', WATERMARK_CATEGORY_IMAGE, '0');
+				$product_img = $objhelper->watermark('category', CATEGORY_DEFAULT_IMAGE, $w_thumb, $h_thumb, 0, 1);
+				$linkimage = $objhelper->watermark('category', CATEGORY_DEFAULT_IMAGE, '', '', 0, 1);
 			}
 
 			if (CAT_IS_LIGHTBOX)
@@ -781,7 +781,7 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 			}
 			else
 			{
-				$mainsrcPath = $url . "components/com_redshop/helpers/thumb.php?filename=product/" . $product->product_full_image . "&newxsize=" . $pw_thumb . "&newysize=" . $ph_thumb . "&swap=" . USE_IMAGE_SIZE_SWAPPING;
+				$mainsrcPath = $objhelper->watermark('product', $product->product_full_image, $pw_thumb, $ph_thumb, WATERMARK_PRODUCT_THUMB_IMAGE, $product->product_id);
 			}
 
 			if ($this->_data->product_back_thumb_image)
@@ -790,7 +790,7 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 			}
 			else
 			{
-				$backsrcPath = $url . "components/com_redshop/helpers/thumb.php?filename=product/" . $product->product_back_full_image . "&newxsize=" . $pw_thumb . "&newysize=" . $ph_thumb . "&swap=" . USE_IMAGE_SIZE_SWAPPING;
+				$backsrcPath = $objhelper->watermark('product', $product->product_back_full_image, $pw_thumb, $ph_thumb, WATERMARK_PRODUCT_THUMB_IMAGE, $product->product_id);
 			}
 
 			$ahrefpath = REDSHOP_FRONT_IMAGES_ABSPATH . "product/" . $product->product_full_image;
@@ -815,7 +815,7 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 		{
 			if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $product->product_preview_image))
 			{
-				$previewsrcPath = $url . "components/com_redshop/helpers/thumb.php?filename=product/" . $product->product_preview_image . "&newxsize=" . CATEGORY_PRODUCT_PREVIEW_IMAGE_WIDTH . "&newysize=" . CATEGORY_PRODUCT_PREVIEW_IMAGE_HEIGHT . "&swap=" . USE_IMAGE_SIZE_SWAPPING;
+				$previewsrcPath = $objhelper->watermark('product', $product->product_preview_image, CATEGORY_PRODUCT_PREVIEW_IMAGE_WIDTH, CATEGORY_PRODUCT_PREVIEW_IMAGE_HEIGHT, 0, $product->product_id);
 				$previewImg = "<img src='" . $previewsrcPath . "' class='rs_previewImg' />";
 				$data_add = str_replace("{product_preview_img}", $previewImg, $data_add);
 			}

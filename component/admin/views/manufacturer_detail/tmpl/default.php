@@ -18,6 +18,8 @@ JHTMLBehavior::modal();
 $editor = JFactory::getEditor();
 $order_functions = new order_functions();
 $plg_manufacturer = $order_functions->getparameters('plg_manucaturer_excluding_category');
+JLoader::import('helper', JPATH_SITE . '/components/com_redshop/helpers');
+$redhelper       = new redhelper;
 ?>
 
 <script language="javascript" type="text/javascript">
@@ -174,6 +176,7 @@ if ($this->detail->manufacturer_id != 0)
 			<td><?php
 				$model = $this->getModel('manufacturer_detail');
 				$media_id = $model->getMediaId($this->detail->manufacturer_id);
+
 				if ($media_id)
 				{
 					$mediaId = $media_id->media_id;
@@ -184,8 +187,9 @@ if ($this->detail->manufacturer_id != 0)
 					$mediaId = 0;
 					$mediaName = '';
 				}
+
 				$ilink = JRoute::_('index.php?tmpl=component&option=com_redshop&view=media_detail&cid[]=' . $mediaId . '&section_id=' . $this->detail->manufacturer_id . '&showbuttons=1&media_section=manufacturer&section_name=' . $this->detail->manufacturer_name);
-				$image_path = JURI::root() . 'components/com_redshop/helpers/thumb.php?filename=manufacturer/' . $mediaName . '&newxsize=' . MANUFACTURER_THUMB_WIDTH . '&newysize=' . MANUFACTURER_THUMB_HEIGHT;
+				$image_path = $redhelper->watermark('manufacturer', $mediaName, MANUFACTURER_THUMB_WIDTH, MANUFACTURER_THUMB_HEIGHT, WATERMARK_MANUFACTURER_THUMB_IMAGE, $this->detail->manufacturer_id);
 
 				?>
 				<div class="button2-left">

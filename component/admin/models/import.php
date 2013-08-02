@@ -12,9 +12,10 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.model');
 jimport('joomla.filesystem.file');
 
-require_once JPATH_COMPONENT . '/helpers/thumbnail.php';
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php';
-require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
+JLoader::import('thumbnail', JPATH_COMPONENT . '/helpers');
+JLoader::import('order', JPATH_COMPONENT_ADMINISTRATOR . '/helpers');
+JLoader::import('product', JPATH_COMPONENT_SITE . '/helpers');
+JLoader::import('image_generator', JPATH_SITE . '/components/com_redshop/helpers');
 
 class importModelimport extends JModel
 {
@@ -1378,9 +1379,9 @@ class importModelimport extends JModel
 
 							// Get field id
 							$query = $this->_db->getQuery(true)
-										->select('field_id')
-										->from($this->_db->quoteName('#__redshop_fields'))
-										->where($this->_db->quoteName('field_id') . ' = ' . $this->_db->quote($field_id));
+								->select('field_id')
+								->from($this->_db->quoteName('#__redshop_fields'))
+								->where($this->_db->quoteName('field_id') . ' = ' . $this->_db->quote($field_id));
 							$this->_db->setQuery($query);
 							$field_id_dv = $this->_db->loadResult();
 
@@ -1389,19 +1390,19 @@ class importModelimport extends JModel
 
 							// Get Data Id
 							$query = $this->_db->getQuery(true)
-										->select('data_id')
-										->from($this->_db->quoteName('#__redshop_fields_data'))
-										->where($this->_db->quoteName('fieldid') . ' = ' . $this->_db->quote($field_id))
-										->where($this->_db->quoteName('data_id') . ' = ' . $this->_db->quote($data_id));
+								->select('data_id')
+								->from($this->_db->quoteName('#__redshop_fields_data'))
+								->where($this->_db->quoteName('fieldid') . ' = ' . $this->_db->quote($field_id))
+								->where($this->_db->quoteName('data_id') . ' = ' . $this->_db->quote($data_id));
 							$this->_db->setQuery($query);
 							$ch_data_id = $this->_db->loadResult();
 
 							// Get Value Id
 							$query = $this->_db->getQuery(true)
-										->select('value_id')
-										->from($this->_db->quoteName('#__redshop_fields_value'))
-										->where($this->_db->quoteName('field_id') . ' = ' . $this->_db->quote($field_id))
-										->where($this->_db->quoteName('value_id') . ' = ' . $this->_db->quote($value_id));
+								->select('value_id')
+								->from($this->_db->quoteName('#__redshop_fields_value'))
+								->where($this->_db->quoteName('field_id') . ' = ' . $this->_db->quote($field_id))
+								->where($this->_db->quoteName('value_id') . ' = ' . $this->_db->quote($value_id));
 							$this->_db->setQuery($query);
 							$ch_value_id = $this->_db->loadResult();
 
@@ -2009,6 +2010,7 @@ class importModelimport extends JModel
 		if ($data != null)
 		{
 			$product_array = array();
+			$imageGenerator = new ImageGenerator;
 
 			foreach ($data as $product_data)
 			{
@@ -2180,13 +2182,8 @@ class importModelimport extends JModel
 
 						// Copy product images to redshop
 						$src         = JPATH_ROOT . "/components/com_virtuemart/shop_image/product/" . $product_full_image;
-						$redimagesrc = REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $red_product_full_image;
 						$dest        = REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $product_full_image;
-
-						if (is_file($redimagesrc))
-						{
-							@unlink($redimagesrc);
-						}
+						$imageGenerator->deleteImage($red_product_full_image, 'product', $red_product_id, 1);
 
 						if (is_file($src))
 						{

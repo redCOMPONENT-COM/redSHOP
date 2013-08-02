@@ -12,9 +12,9 @@ defined('_JEXEC') or die;
 JHTML::_('behavior.tooltip');
 JHTML::_('behavior.modal');
 
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/category.php';
-require_once JPATH_ROOT . '/components/com_redshop/helpers/product.php';
-require_once JPATH_ROOT . '/components/com_redshop/helpers/helper.php';
+JLoader::import('category', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
+JLoader::import('product', JPATH_ROOT . '/components/com_redshop/helpers');
+JLoader::import('helper', JPATH_ROOT . '/components/com_redshop/helpers');
 
 $config = new Redconfiguration;
 $producthelper = new producthelper;
@@ -37,13 +37,13 @@ $returnArr = $producthelper->getProductUserfieldFromTemplate($wishlist_data1);
 $template_userfield = $returnArr[0];
 $userfieldArr = $returnArr[1];
 
-	if ($this->params->get('show_page_heading', 1))
-	{
-		?>
-		<h1 class="componentheading<?php echo $this->escape($this->params->get('pageclass_sfx')); ?>"><?php echo $pagetitle; ?></h1>
-		<div>&nbsp;</div>
-	<?php
-	}
+if ($this->params->get('show_page_heading', 1))
+{
+	?>
+	<h1 class="componentheading<?php echo $this->escape($this->params->get('pageclass_sfx')); ?>"><?php echo $pagetitle; ?></h1>
+	<div>&nbsp;</div>
+<?php
+}
 
 if (!$user->id)
 {
@@ -152,7 +152,7 @@ else
 		for ($j = 0; $j < count($wishlists); $j++)
 		{
 			$wishlist_link = JRoute::_("index.php?view=account&layout=mywishlist&wishlist_id=" . $wishlists[$j]->wishlist_id . "&option=" . $option . "&Itemid=" . $Itemid);
-			$del_wishlist  = JRoute::_("index.php?view=wishlist&task=delwishlist&wishlist_id=" . $wishlists[$j]->wishlist_id . "&option=" . $option . "&Itemid=" . $Itemid);
+			$del_wishlist = JRoute::_("index.php?view=wishlist&task=delwishlist&wishlist_id=" . $wishlists[$j]->wishlist_id . "&option=" . $option . "&Itemid=" . $Itemid);
 			echo "<tr><td><a href=\"" . $wishlist_link . "\">" . $wishlists[$j]->wishlist_name . "</a></td>"
 				. "<td><a href=\"" . $del_wishlist . "\">" . JText::_('COM_REDSHOP_DELETE') . "</a></td></tr>";
 		}
@@ -169,15 +169,15 @@ else
 
 function display_products($rows)
 {
-	$url           = JURI::base();
-	$option        = JRequest::getVar('option');
-	$extraField    = new extraField;
-	$session       = JFactory::getSession();
+	$url = JURI::base();
+	$option = JRequest::getVar('option');
+	$extraField = new extraField;
+	$session = JFactory::getSession();
 	$producthelper = new producthelper;
-	$redhelper     = new redhelper;
-	$config        = new Redconfiguration;
-	$redTemplate   = new Redtemplate;
-	$template      = $redTemplate->getTemplate("wishlist_template");
+	$redhelper = new redhelper;
+	$config = new Redconfiguration;
+	$redTemplate = new Redtemplate;
+	$template = $redTemplate->getTemplate("wishlist_template");
 
 	if (count($template) <= 0)
 	{
@@ -186,9 +186,9 @@ function display_products($rows)
 			$row = $rows[$i];
 
 			$Itemid = $redhelper->getItemid($row->product_id);
-			$link   = JRoute::_('index.php?option=' . $option . '&view=product&pid=' . $row->product_id . '&Itemid=' . $Itemid);
+			$link = JRoute::_('index.php?option=' . $option . '&view=product&pid=' . $row->product_id . '&Itemid=' . $Itemid);
 
-			$product_price          = $producthelper->getProductPrice($row->product_id);
+			$product_price = $producthelper->getProductPrice($row->product_id);
 			$product_price_discount = $producthelper->getProductNetPrice($row->product_id);
 
 			echo "<div id='wishlist_box'>";
@@ -201,7 +201,7 @@ function display_products($rows)
 			else
 			{
 				$maindefaultpath = REDSHOP_FRONT_IMAGES_ABSPATH . "product/" . PRODUCT_DEFAULT_IMAGE;
-				echo  $thum_image = "<div class='wishlist_left'><div class='mod_wishlist_product_image wishlist_image'><a href='" . $link . "'><img src='" . $maindefaultpath . "' height='85' width='63' /></a></div></div>";
+				echo $thum_image = "<div class='wishlist_left'><div class='mod_wishlist_product_image wishlist_image'><a href='" . $link . "'><img src='" . $maindefaultpath . "' height='85' width='63' /></a></div></div>";
 			}
 
 			echo "<div class='wishlist_center'><div class='wishlist_title'><a href='" . $link . "'>" . $row->product_name . "</a></div><br>";
@@ -247,44 +247,44 @@ function display_products($rows)
 	}
 	else
 	{
-		$ph_thumb       = CATEGORY_PRODUCT_THUMB_HEIGHT;
-		$pw_thumb       = CATEGORY_PRODUCT_THUMB_WIDTH;
+		$ph_thumb = CATEGORY_PRODUCT_THUMB_HEIGHT;
+		$pw_thumb = CATEGORY_PRODUCT_THUMB_WIDTH;
 		$wishlist_data1 = $template[0]->template_desc;
 
-		$mlink          = JURI::root() . "index.php?option=com_redshop&view=account&layout=mywishlist&mail=1&tmpl=component&wishlist_id=" . $wishlist_id;
-		$mail_link      = '<a class="redcolorproductimg" href="' . $mlink . '"  ><img src="' . REDSHOP_ADMIN_IMAGES_ABSPATH . 'mailcenter16.png" ></a>';
+		$mlink = JURI::root() . "index.php?option=com_redshop&view=account&layout=mywishlist&mail=1&tmpl=component&wishlist_id=" . $wishlist_id;
+		$mail_link = '<a class="redcolorproductimg" href="' . $mlink . '"  ><img src="' . REDSHOP_ADMIN_IMAGES_ABSPATH . 'mailcenter16.png" ></a>';
 		$wishlist_data1 = str_replace('{mail_link}', $mail_link, $wishlist_data1);
-		$template_d1    = explode("{product_loop_start}", $wishlist_data1);
-		$template_d2    = explode("{product_loop_end}", $template_d1[1]);
-		$temp_template  = '';
+		$template_d1 = explode("{product_loop_start}", $wishlist_data1);
+		$template_d2 = explode("{product_loop_end}", $template_d1[1]);
+		$temp_template = '';
 		$extraFieldName = $extraField->getSectionFieldNameArray(1, 1, 1);
 
 		for ($i = 0; $i < count($rows); $i++)
 		{
-			$row           = $rows[$i];
+			$row = $rows[$i];
 			$wishlist_data = $template_d2[0];
 
 			$Itemid = $redhelper->getItemid($rows[$i]->product_id);
-			$link   = JRoute::_('index.php?option=' . $option . '&view=product&pid=' . $rows[$i]->product_id . '&Itemid=' . $Itemid);
+			$link = JRoute::_('index.php?option=' . $option . '&view=product&pid=' . $rows[$i]->product_id . '&Itemid=' . $Itemid);
 
-			$product_price          = $producthelper->getProductPrice($row->product_id);
+			$product_price = $producthelper->getProductPrice($row->product_id);
 			$product_price_discount = $producthelper->getProductNetPrice($row->product_id);
 
 			if ($row->product_full_image)
 			{
-				$thum_image    = $producthelper->getProductImage($row->product_id, $link, $pw_thumb, $ph_thumb);
+				$thum_image = $producthelper->getProductImage($row->product_id, $link, $pw_thumb, $ph_thumb);
 				$wishlist_data = str_replace('{product_thumb_image}', $thum_image, $wishlist_data);
 			}
 			else
 			{
-				$maindefaultpath = JURI::root() . "components/com_redshop/helpers/thumb.php?filename=product/" . PRODUCT_DEFAULT_IMAGE . "&newxsize=" . $pw_thumb . "&newysize=" . $ph_thumb . "&swap=" . USE_IMAGE_SIZE_SWAPPING;
-				$thum_image      = "<a href='" . $link . "'><img src='" . $maindefaultpath . "'  /></a>";
-				$wishlist_data   = str_replace('{product_thumb_image}', $thum_image, $wishlist_data);
+				$maindefaultpath = $redhelper->watermark('product', PRODUCT_DEFAULT_IMAGE, $pw_thumb, $ph_thumb, 0);
+				$thum_image = "<a href='" . $link . "'><img src='" . $maindefaultpath . "'  /></a>";
+				$wishlist_data = str_replace('{product_thumb_image}', $thum_image, $wishlist_data);
 			}
 
-			$pname   = "<a href='" . $link . "'>" . $row->product_name . "</a>";
+			$pname = "<a href='" . $link . "'>" . $row->product_name . "</a>";
 			$pnumber = $row->product_number;
-			$pdesc   = $row->product_s_desc;
+			$pdesc = $row->product_s_desc;
 
 			// Checking for child products start
 			if (strstr($wishlist_data, "{child_products}"))
@@ -337,7 +337,7 @@ function display_products($rows)
 							$cld_name = @array_merge($cld_name, $childproducts);
 						}
 
-						$selected                  = array($row->product_id);
+						$selected = array($row->product_id);
 						$lists['product_child_id'] = JHTML::_('select.genericlist', $cld_name, 'pid', 'class="inputbox" size="1"  onchange="document.frmChild.submit();"', 'product_id', 'product_name', $selected);
 
 						$frmChild .= "<form name='frmChild' method='get'>";
@@ -347,7 +347,6 @@ function display_products($rows)
 						$frmChild .= "<input type='hidden' name='view' value='product'>";
 						$frmChild .= "<input type='hidden' name='option' value='" . $option . "'>";
 						$frmChild .= "</form>";
-
 					}
 				}
 
@@ -360,7 +359,7 @@ function display_products($rows)
 			{
 				if (PURCHASE_PARENT_WITH_CHILD == 1)
 				{
-					$isChilds       = false;
+					$isChilds = false;
 					$attributes_set = array();
 
 					if ($row->attribute_set_id > 0)
@@ -373,13 +372,13 @@ function display_products($rows)
 				}
 				else
 				{
-					$isChilds   = true;
+					$isChilds = true;
 					$attributes = array();
 				}
 			}
 			else
 			{
-				$isChilds       = false;
+				$isChilds = false;
 				$attributes_set = array();
 
 				if ($row->attribute_set_id > 0)
@@ -399,7 +398,7 @@ function display_products($rows)
 			$wishlist_data = $producthelper->replaceProductInStock($row->product_id, $wishlist_data, $attributes, $attribute_template);
 
 			/////////////////////////////////// Product attribute  Start /////////////////////////////////
-			$totalatt      = count($attributes);
+			$totalatt = count($attributes);
 			$wishlist_data = $producthelper->replaceAttributeData($row->product_id, 0, 0, $attributes, $wishlist_data, $attribute_template, $isChilds);
 
 			/////////////////////////////////// Product attribute  End  	// Checking for child products end/////////////////////////////////
@@ -415,13 +414,13 @@ function display_products($rows)
 						if ($this->show_discountpricelayout)
 						{
 							$mainproduct_price = $producthelper->getProductFormattedPrice($product_price);
-							$product_price     = $product_price_discount;
+							$product_price = $product_price_discount;
 							$mainproduct_price = $producthelper->getProductFormattedPrice($product_price_discount);
 
 						}
 						else
 						{
-							$product_price     = $product_price_discount;
+							$product_price = $product_price_discount;
 							$mainproduct_price = $producthelper->getProductFormattedPrice($product_price);
 						}
 					}
@@ -434,7 +433,6 @@ function display_products($rows)
 				else
 				{
 					$mainproduct_price = $producthelper->getProductFormattedPrice($product_price);
-
 				}
 
 				$wishlist_data = str_replace('{product_price}', $mainproduct_price, $wishlist_data);
@@ -442,22 +440,22 @@ function display_products($rows)
 
 			// Product User Field Start
 			$count_no_user_field = 0;
-			$returnArr           = $producthelper->getProductUserfieldFromTemplate($wishlist_data);
-			$template_userfield  = $returnArr[0];
+			$returnArr = $producthelper->getProductUserfieldFromTemplate($wishlist_data);
+			$template_userfield = $returnArr[0];
 
 			$userfieldArr = $returnArr[1];
 
 			if (strstr($wishlist_data, "{if product_userfield}") && strstr($wishlist_data, "{product_userfield end if}") && $template_userfield != "")
 			{
 				$ufield = "";
-				$cart   = $session->get('cart');
+				$cart = $session->get('cart');
 
 				if (isset($cart['idx']))
 				{
 					$idx = (int) ($cart['idx']);
 				}
 
-				$idx     = 0;
+				$idx = 0;
 				$cart_id = '';
 
 				for ($j = 0; $j < $idx; $j++)
@@ -531,7 +529,7 @@ function display_products($rows)
 			// Product User Field End
 
 			/////////////////////////////////// Product accessory Start /////////////////////////////////
-			$accessory      = $producthelper->getProductAccessory(0, $row->product_id);
+			$accessory = $producthelper->getProductAccessory(0, $row->product_id);
 			$totalAccessory = count($accessory);
 
 			$wishlist_data = $producthelper->replaceAccessoryData($row->product_id, 0, $accessory, $wishlist_data, $isChilds);
@@ -545,7 +543,7 @@ function display_products($rows)
 			$wishlist_data = $producthelper->getExtraSectionTag($extraFieldName, $row->product_id, "1", $wishlist_data, 1);
 			$wishlist_data = $producthelper->replaceCartTemplate($row->product_id, $row->category_id, 0, 0, $wishlist_data, $isChilds, $userfieldArr, $totalatt, $totalAccessory, $count_no_user_field);
 
-			$rmore         = "<a href='" . $link . "' title='" . $row->product_name . "'>" . JText::_('COM_REDSHOP_READ_MORE') . "</a>";
+			$rmore = "<a href='" . $link . "' title='" . $row->product_name . "'>" . JText::_('COM_REDSHOP_READ_MORE') . "</a>";
 			$wishlist_data = str_replace("{read_more}", $rmore, $wishlist_data);
 			$wishlist_data = str_replace("{read_more_link}", $link, $wishlist_data);
 			$wishlist_data = str_replace("{product_loop_start}", '', $wishlist_data);
@@ -560,7 +558,7 @@ function display_products($rows)
 			$wishlist_data = str_replace("{if product_on_sale}", "", $wishlist_data);
 			$wishlist_data = str_replace("{product_on_sale end if}", "", $wishlist_data);
 
-			$regdellink     = JRoute::_("index.php?mydel=1&view=wishlist&wishlist_id=" . $row->product_id . "&task=mysessdelwishlist");
+			$regdellink = JRoute::_("index.php?mydel=1&view=wishlist&wishlist_id=" . $row->product_id . "&task=mysessdelwishlist");
 			$mainregdellink = "<div><a href=\"" . $regdellink . "\">" . JText::_('COM_REDSHOP_REMOVE_PRODUCT_FROM_WISHLIST') . "</a></div>";
 
 			$wishlist_data = str_replace('{remove_product_link}', $mainregdellink, $wishlist_data);
@@ -587,5 +585,3 @@ function display_products($rows)
 		echo eval("?>" . $data . "<?php ");
 	}
 }
-
-

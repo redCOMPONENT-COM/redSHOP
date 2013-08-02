@@ -10,20 +10,23 @@
 defined('_JEXEC') or die;
 JHTML::_('behavior.tooltip');
 
-require_once JPATH_COMPONENT . '/helpers/product.php';
+JLoader::import('product', JPATH_COMPONENT . '/helpers');
+JLoader::import('extra_field', JPATH_COMPONENT . '/helpers');
+JLoader::import('helper', JPATH_SITE . '/components/com_redshop/helpers');
+
 $producthelper = new producthelper;
-require_once JPATH_COMPONENT . '/helpers/extra_field.php';
 $extraField = new extraField;
+$redhelper = new redhelper;
 
 JHTMLBehavior::modal();
 $url = JURI::base();
 
-$model              = $this->getModel('product');
-$option             = JRequest::getVar('option');
-$document           = JFactory::getDocument();
-$session            = JFactory::getSession();
-$layout             = JRequest::getVar('layout');
-$relatedprd_id      = JRequest::getInt('relatedprd_id', 0);
+$model = $this->getModel('product');
+$option = JRequest::getVar('option');
+$document = JFactory::getDocument();
+$session = JFactory::getSession();
+$layout = JRequest::getVar('layout');
+$relatedprd_id = JRequest::getInt('relatedprd_id', 0);
 $ajaxdetal_template = $producthelper->getAjaxDetailboxTemplate($this->data);
 
 ?>
@@ -33,8 +36,8 @@ $ajaxdetal_template = $producthelper->getAjaxDetailboxTemplate($this->data);
 if (count($ajaxdetal_template) > 0)
 {
 	$ajaxdetal_templatedata = $ajaxdetal_template->template_desc;
-	$data_add               = $ajaxdetal_templatedata;
-	$data_add               = str_replace('{product_name}', $this->data->product_name, $data_add);
+	$data_add = $ajaxdetal_templatedata;
+	$data_add = str_replace('{product_name}', $this->data->product_name, $data_add);
 
 	if ($this->data->product_price != 0)
 		$data_add = str_replace('{product_price}', $this->data->product_price, $data_add);
@@ -46,7 +49,7 @@ if (count($ajaxdetal_template) > 0)
 		if ($this->data->product_full_image && file_exists(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $this->data->product_full_image))
 		{
 			$productsrcPath = "<a href='" . REDSHOP_FRONT_IMAGES_ABSPATH . "product/" . $this->data->product_full_image . "' title='" . $this->data->product_name . "' rel='lightbox[product7]'>";
-			$productsrcPath .= "<img src='" . $url . "components/com_redshop/helpers/thumb.php?filename=product/" . $this->data->product_full_image . "&newxsize=" . PRODUCT_MAIN_IMAGE . "&newysize=" . PRODUCT_MAIN_IMAGE_HEIGHT . "&swap=" . USE_IMAGE_SIZE_SWAPPING . "'>";
+			$productsrcPath .= "<img src='" . $redhelper->watermark('product', $this->data->product_full_image, PRODUCT_MAIN_IMAGE, PRODUCT_MAIN_IMAGE_HEIGHT, WATERMARK_PRODUCT_IMAGE, $this->data->product_id);
 			$productsrcPath .= "</a>";
 			$data_add = str_replace('{product_image}', $productsrcPath, $data_add);
 		}
@@ -59,34 +62,34 @@ if (count($ajaxdetal_template) > 0)
 	$count_no_user_field = 0;
 
 	$extrafieldNames = JRequest::getVar('extrafieldNames', '');
-	$nextrafield     = JRequest::getInt('nextrafield', 1);
+	$nextrafield = JRequest::getInt('nextrafield', 1);
 
-	$data                         = array();
-	$data['property_data']        = JRequest::getVar('property_data');
-	$data['subproperty_data']     = JRequest::getVar('subproperty_data');
-	$data['accessory_data']       = JRequest::getVar('accessory_data');
-	$data['acc_quantity_data']    = JRequest::getVar('acc_quantity_data');
-	$data['acc_property_data']    = JRequest::getVar('acc_property_data');
+	$data = array();
+	$data['property_data'] = JRequest::getVar('property_data');
+	$data['subproperty_data'] = JRequest::getVar('subproperty_data');
+	$data['accessory_data'] = JRequest::getVar('accessory_data');
+	$data['acc_quantity_data'] = JRequest::getVar('acc_quantity_data');
+	$data['acc_property_data'] = JRequest::getVar('acc_property_data');
 	$data['acc_subproperty_data'] = JRequest::getVar('acc_subproperty_data');
 
 	$selectAcc = $producthelper->getSelectedAccessoryArray($data);
 	$selectAtt = $producthelper->getSelectedAttributeArray($data);
 
-	$returnArr          = $producthelper->getProductUserfieldFromTemplate($data_add);
+	$returnArr = $producthelper->getProductUserfieldFromTemplate($data_add);
 	$template_userfield = $returnArr[0];
-	$userfieldArr       = $returnArr[1];
+	$userfieldArr = $returnArr[1];
 
 	if ($template_userfield != "")
 	{
 		$ufield = "";
-		$cart   = $session->get('cart');
+		$cart = $session->get('cart');
 
 		if (isset($cart['idx']))
 		{
 			$idx = (int) ($cart['idx']);
 		}
 
-		$idx     = 0;
+		$idx = 0;
 		$cart_id = '';
 
 		for ($j = 0; $j < $idx; $j++)
@@ -181,15 +184,15 @@ if (count($ajaxdetal_template) > 0)
 	}
 
 	$attribute_template = $producthelper->getAttributeTemplate($data_add);
-	$attributes         = $producthelper->getProductAttribute($this->data->product_id);
-	$attributes         = array_merge($attributes, $attributes_set);
-	$totalatt           = count($attributes);
-	$data_add           = $producthelper->replaceAttributeData($this->data->product_id, 0, $relatedprd_id, $attributes, $data_add, $attribute_template, $isChilds, $selectAtt);
+	$attributes = $producthelper->getProductAttribute($this->data->product_id);
+	$attributes = array_merge($attributes, $attributes_set);
+	$totalatt = count($attributes);
+	$data_add = $producthelper->replaceAttributeData($this->data->product_id, 0, $relatedprd_id, $attributes, $data_add, $attribute_template, $isChilds, $selectAtt);
 
 	// Product attribute  End
 
 	// Product accessory Start /////////////////////////////////
-	$accessory      = $producthelper->getProductAccessory(0, $this->data->product_id);
+	$accessory = $producthelper->getProductAccessory(0, $this->data->product_id);
 	$totalAccessory = count($accessory);
 
 	$data_add = $producthelper->replaceAccessoryData($this->data->product_id, $relatedprd_id, $accessory, $data_add, $isChilds, $selectAcc);

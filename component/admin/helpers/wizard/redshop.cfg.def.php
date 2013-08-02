@@ -227,6 +227,7 @@ $defaultarray["product_preview_image_height"] = PRODUCT_PREVIEW_IMAGE_HEIGHT;
 $defaultarray["category_product_preview_image_width"] = CATEGORY_PRODUCT_PREVIEW_IMAGE_WIDTH;
 $defaultarray["category_product_preview_image_height"] = CATEGORY_PRODUCT_PREVIEW_IMAGE_HEIGHT;
 $defaultarray["use_image_size_swapping"] = USE_IMAGE_SIZE_SWAPPING;
+$defaultarray["watermark_position"] = WATERMARK_POSITION;
 $defaultarray["thumb_width"] = THUMB_WIDTH;
 $defaultarray["thumb_height"] = THUMB_HEIGHT;
 $defaultarray["thumb_width_2"] = THUMB_WIDTH_2;

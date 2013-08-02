@@ -673,15 +673,14 @@ class redshopMail
 				{
 					if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $product->product_full_image))
 					{
-						$product_image_path = $url . "/components/com_redshop/helpers/thumb.php?filename=product/"
-							. $product->product_full_image;
+						$product_image_path = $this->_redhelper->watermark('product', $product->product_full_image, CART_THUMB_WIDTH, CART_THUMB_HEIGHT, WATERMARK_CART_THUMB_IMAGE, $product->product_id);
 					}
 
 					else
 					{
 						if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . PRODUCT_DEFAULT_IMAGE))
 						{
-							$product_image_path = $url . "/components/com_redshop/helpers/thumb.php?filename=product/" . PRODUCT_DEFAULT_IMAGE;
+							$product_image_path = $this->_redhelper->watermark('product', PRODUCT_DEFAULT_IMAGE, CART_THUMB_WIDTH, CART_THUMB_HEIGHT, 0);
 						}
 						else
 						{
@@ -693,7 +692,7 @@ class redshopMail
 				{
 					if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . PRODUCT_DEFAULT_IMAGE))
 					{
-						$product_image_path = $url . "/components/com_redshop/helpers/thumb.php?filename=product/" . PRODUCT_DEFAULT_IMAGE;
+						$product_image_path = $this->_redhelper->watermark('product', PRODUCT_DEFAULT_IMAGE, CART_THUMB_WIDTH, CART_THUMB_HEIGHT, 0);
 					}
 					else
 					{
@@ -703,8 +702,7 @@ class redshopMail
 
 				if ($product_image_path)
 				{
-					$product_image = '<div  class="product_image"><img src="' . $product_image_path . '&newxsize='
-						. CART_THUMB_WIDTH . '&newysize=' . CART_THUMB_HEIGHT . '&swap=' . USE_IMAGE_SIZE_SWAPPING . '"></div>';
+					$product_image = '<div  class="product_image"><img src="' . $product_image_path . '"></div>';
 				}
 				else
 				{
@@ -1535,13 +1533,13 @@ class redshopMail
 			{
 				if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $product->product_full_image))
 				{
-					$product_image_path = $url . "/components/com_redshop/helpers/thumb.php?filename=product/" . $product->product_full_image;
+					$product_image_path = $this->_redhelper->watermark('product', $product->product_full_image, CART_THUMB_WIDTH, CART_THUMB_HEIGHT, WATERMARK_CART_THUMB_IMAGE, $product->product_id);
 				}
 				else
 				{
 					if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . PRODUCT_DEFAULT_IMAGE))
 					{
-						$product_image_path = $url . "/components/com_redshop/helpers/thumb.php?filename=product/" . PRODUCT_DEFAULT_IMAGE;
+						$product_image_path = $this->_redhelper->watermark('product', PRODUCT_DEFAULT_IMAGE, CART_THUMB_WIDTH, CART_THUMB_HEIGHT, 0);
 					}
 				}
 			}
@@ -1549,13 +1547,13 @@ class redshopMail
 			{
 				if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . PRODUCT_DEFAULT_IMAGE))
 				{
-					$product_image_path = $url . "/components/com_redshop/helpers/thumb.php?filename=product/" . PRODUCT_DEFAULT_IMAGE;
+					$product_image_path = $this->_redhelper->watermark('product', PRODUCT_DEFAULT_IMAGE, CART_THUMB_WIDTH, CART_THUMB_HEIGHT, 0);
 				}
 			}
 
 			if ($product_image_path)
 			{
-				$product_image = "<div  class='product_image'><img src='" . $product_image_path . "&newxsize=" . CART_THUMB_WIDTH . "&newysize=" . CART_THUMB_HEIGHT . "&swap=" . USE_IMAGE_SIZE_SWAPPING . "'></div>";
+				$product_image = "<div  class='product_image'><img src='" . $product_image_path . "'></div>";
 			}
 			else
 			{

@@ -107,16 +107,8 @@ for ($i = 0; $i < count($rows); $i++)
 	{
 		$thumb = $productInfo->product_full_image;
 
-		if (WATERMARK_PRODUCT_IMAGE)
-		{
-			$thum_image = $redhelper->watermark('product', $thumb, $thumbwidth, $thumbheight, WATERMARK_PRODUCT_THUMB_IMAGE, '0');
-			echo "<div class='mod_redshop_products_image'><img src=" . $thum_image . "></div>";
-		}
-		else
-		{
-			$thum_image = $url . "components/" . $option . "/helpers/thumb.php?filename=product/" . $thumb . "&newxsize=" . $thumbwidth . "&newysize=" . $thumbheight . "&swap=" . USE_IMAGE_SIZE_SWAPPING;
-			echo "<div class='mod_redshop_products_image'><a href='" . $link . "' title='$row->product_name'><img src=" . $thum_image . "></a></div>";
-		}
+		$thum_image = $redhelper->watermark('product', $thumb, $thumbwidth, $thumbheight, WATERMARK_PRODUCT_THUMB_IMAGE, $row->product_id);
+		echo "<div class='mod_redshop_products_image'><img src=" . $thum_image . "></div>";
 	}
 
 	echo $stock_status;

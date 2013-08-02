@@ -81,8 +81,8 @@ if ($gid != 0)
 
 	if (strstr($template, "{giftcard_image}"))
 	{
-		$product_img = $objhelper->watermark('giftcard', $detail->giftcard_image, GIFTCARD_THUMB_WIDTH, GIFTCARD_THUMB_HEIGHT, WATERMARK_GIFTCART_THUMB_IMAGE, '0');
-		$linkimage   = $objhelper->watermark('giftcard', $detail->giftcard_image, '', '', WATERMARK_GIFTCART_IMAGE, '0');
+		$product_img = $objhelper->watermark('giftcard', $detail->giftcard_image, GIFTCARD_THUMB_WIDTH, GIFTCARD_THUMB_HEIGHT, WATERMARK_GIFTCART_THUMB_IMAGE, 1);
+		$linkimage   = $objhelper->watermark('giftcard', $detail->giftcard_image, '', '', WATERMARK_GIFTCART_IMAGE, 1);
 
 		$thum_image = "<a class=\"modal\" href='" . $linkimage . "' title='" . $detail->giftcard_name . "' rel=\"{handler: 'image', size: {}}\">";
 		$thum_image .= "<img src='" . $product_img . "' title='" . $detail->giftcard_name . "' alt='" . $detail->giftcard_name . "'>";
@@ -264,8 +264,8 @@ else
 
 			if (strstr($data_add, "{giftcard_image}"))
 			{
-				$product_img = $objhelper->watermark('giftcard', $detail[$i]->giftcard_image, GIFTCARD_LIST_THUMB_WIDTH, GIFTCARD_LIST_THUMB_HEIGHT, WATERMARK_GIFTCART_THUMB_IMAGE, '0');
-				$linkimage   = $objhelper->watermark('giftcard', $detail[$i]->giftcard_image, '', '', WATERMARK_GIFTCART_IMAGE, '0');
+				$product_img = $objhelper->watermark('giftcard', $detail[$i]->giftcard_image, GIFTCARD_LIST_THUMB_WIDTH, GIFTCARD_LIST_THUMB_HEIGHT, WATERMARK_GIFTCART_THUMB_IMAGE, 1);
+				$linkimage   = $objhelper->watermark('giftcard', $detail[$i]->giftcard_image, '', '', WATERMARK_GIFTCART_IMAGE, 1);
 
 				if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "giftcard/" . $detail[$i]->giftcard_image))
 				{

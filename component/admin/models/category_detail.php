@@ -10,10 +10,10 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
-
-require_once JPATH_COMPONENT . '/helpers/extra_field.php';
-require_once JPATH_COMPONENT . '/helpers/thumbnail.php';
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/category.php';
+JLoader::import('extra_field', JPATH_COMPONENT . '/helpers');
+JLoader::import('thumbnail', JPATH_COMPONENT . '/helpers');
+JLoader::import('category', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
+JLoader::import('image_generator', JPATH_ROOT . '/components/com_redshop/helpers');
 jimport('joomla.client.helper');
 JClientHelper::setCredentialsFromRequest('ftp');
 jimport('joomla.filesystem.file');
@@ -26,6 +26,8 @@ class category_detailModelcategory_detail extends JModel
 
 	public $_table_prefix = null;
 
+	protected $imageGenerator = null;
+
 	public function __construct()
 	{
 		parent::__construct();
@@ -33,6 +35,7 @@ class category_detailModelcategory_detail extends JModel
 		$this->_table_prefix = '#__' . TABLE_PREFIX . '_';
 		$array = JRequest::getVar('cid', 0, '', 'array');
 		$this->setId((int) $array[0]);
+		$this->imageGenerator = new ImageGenerator;
 	}
 
 	public function setId($id)
@@ -81,7 +84,7 @@ class category_detailModelcategory_detail extends JModel
 			$detail->category_more_template = null;
 			$detail->category_description = null;
 			$detail->category_template = 0;
-			$detail->products_per_page = 5;
+			$detail->products_per_page = 15;
 			$detail->category_full_image = null;
 			$detail->category_thumb_image = null;
 			$detail->category_back_full_image = null;
@@ -105,6 +108,7 @@ class category_detailModelcategory_detail extends JModel
 	public function store($data)
 	{
 		$row =& $this->getTable();
+		$imageGenerator = new ImageGenerator;
 
 		if (!$row->bind($data))
 		{
@@ -124,14 +128,12 @@ class category_detailModelcategory_detail extends JModel
 		if (count($file) > 0)
 		{
 			// Make the filename unique
-			$filename = JPath::clean(time() . '_' . $file['name']);
-			$filename = str_replace(" ", "_", $filename);
+			$filename = JPath::clean(time() . '_' . $imageGenerator->replaceSpecial($file['name']));
 		}
 
-		if (isset($data['image_delete']))
+		if (isset($data['image_delete']) && $data['category_id'])
 		{
-			unlink(REDSHOP_FRONT_IMAGES_RELPATH . 'category/thumb/' . $data['old_image']);
-			unlink(REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $data['old_image']);
+			$this->imageGenerator->deleteImage($data['old_image'], 'category', $data['category_id'], 1);
 
 			$query = "UPDATE " . $this->_table_prefix . "category set category_thumb_image = '',category_full_image = ''  where category_id ="
 				. $row->category_id;
@@ -161,11 +163,10 @@ class category_detailModelcategory_detail extends JModel
 		{
 			if (isset($data['category_image']) && $data['category_image'] != null)
 			{
-
 				$image_split = explode('/', $data['category_image']);
 
 				// Make the filename unique
-				$filename = JPath::clean(time() . '_' . $image_split[count($image_split) - 1]);
+				$filename = JPath::clean(time() . '_' . $imageGenerator->replaceSpecial($image_split[count($image_split) - 1]));
 				$row->category_full_image = $filename;
 				$row->category_thumb_image = $filename;
 
@@ -183,10 +184,9 @@ class category_detailModelcategory_detail extends JModel
 		// Get File name, tmp_name
 		$backfile = JRequest::getVar('category_back_full_image', '', 'files', 'array');
 
-		if (isset($data['image_back_delete']))
+		if (isset($data['image_back_delete']) && $data['category_id'])
 		{
-			unlink(REDSHOP_FRONT_IMAGES_RELPATH . 'category/thumb/' . $data['old_back_image']);
-			unlink(REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $data['old_back_image']);
+			$this->imageGenerator->deleteImage($data['old_back_image'], 'category', $data['category_id'], 1);
 
 			$query = "UPDATE " . $this->_table_prefix . "category set category_back_full_image = ''  where category_id =" . $row->category_id;
 			$this->_db->setQuery($query);
@@ -257,8 +257,7 @@ class category_detailModelcategory_detail extends JModel
 			// Sheking for the image at the updation time
 			if ($_FILES['category_full_image']['name'] != "")
 			{
-				@unlink(REDSHOP_FRONT_IMAGES_RELPATH . 'category/thumb/' . $_POST['old_image']);
-				@unlink(REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $_POST['old_image']);
+				$this->imageGenerator->deleteImage($_POST['old_image'], 'category', $data['category_id'], 1);
 			}
 		}
 
@@ -337,21 +336,8 @@ class category_detailModelcategory_detail extends JModel
 			$this->_db->setQuery($q_image);
 			$catimages = $this->_db->loadObject();
 
-			$cat_thumb_image = $catimages->category_thumb_image;
-			$cat_full_image = $catimages->category_full_image;
-
-			$thumb_path = REDSHOP_FRONT_IMAGES_RELPATH . 'category/thumb/' . $cat_thumb_image;
-			$full_image_path = REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $cat_full_image;
-
-			if (file_exists($thumb_path))
-			{
-				@unlink($thumb_path);
-			}
-
-			if (file_exists($full_image_path))
-			{
-				@unlink($full_image_path);
-			}
+			$this->imageGenerator->deleteImage($catimages->category_thumb_image, 'category', $cid[$i], 1);
+			$this->imageGenerator->deleteImage($catimages->category_full_image, 'category', $cid[$i], 1);
 
 			$q_product = 'DELETE FROM ' . $this->_table_prefix . 'product_category_xref WHERE category_id = "' . $cid[$i] . '" ';
 			$this->_db->setQuery($q_product);
