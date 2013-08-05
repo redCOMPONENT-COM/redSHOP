@@ -15,7 +15,7 @@ class redshopViewredshop extends JView
 {
 	public function display($tpl = null)
 	{
-		$layout = JRequest::getVar('layout');
+		$layout = JRequest::getCmd('layout');
 
 		JToolBarHelper::title('&nbsp;', 'redshop_261-x-88');
 
@@ -51,6 +51,7 @@ class redshopViewredshop extends JView
 		{
 			$filteroption = 4;
 		}
+
 		$statsticmodel = JModel::getInstance('statistic', 'statisticModel');
 		$this->turnover = $statsticmodel->getTotalTurnover();
 
@@ -84,7 +85,8 @@ class redshopViewredshop extends JView
 			$this->neworders = $model->getNeworders();
 		}
 
-		$this->lists = $lists;
+		$this->lists  = $lists;
+		$this->layout = $layout;
 
 		parent::display($tpl);
 	}
@@ -98,6 +100,7 @@ class redshopViewredshop extends JView
 		<div style="float:<?php echo ($lang->isRTL()) ? 'right' : 'left'; ?>;">
 			<div class="icon">
 				<?php
+
 				if ($modal == 1)
 				{
 				JHTML::_('behavior.modal');
@@ -105,11 +108,13 @@ class redshopViewredshop extends JView
 				<a href="<?php echo $link . '&amp;tmpl=component'; ?>" style="cursor:pointer" class="modal"
 				   rel="{handler: 'iframe', size: {x: 800, y: 650}}">
 					<?php
-					} else {
+				}
+				else
+				{
 					?>
 					<a href="<?php echo $link; ?>">
 						<?php
-						}
+				}
 
 						echo JHTML::_('image', REDSHOP_ADMIN_IMAGES_ABSPATH . $image, $text);
 						?>
@@ -120,5 +125,3 @@ class redshopViewredshop extends JView
 	<?php
 	}
 }
-
-
