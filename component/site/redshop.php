@@ -13,7 +13,7 @@ $app = JFactory::getApplication();
 JLoader::import('joomla.html.parameter');
 
 $option = JRequest::getCmd('option');
-$view   = JRequest::getVar('view');
+$view   = JRequest::getCmd('view');
 
 // Getting the configuration
 require_once JPATH_ADMINISTRATOR . '/components/' . $option . '/helpers/redshop.cfg.php';
