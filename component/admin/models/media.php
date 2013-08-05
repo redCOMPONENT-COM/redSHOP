@@ -33,7 +33,7 @@ class mediaModelmedia extends JModel
 		$app = JFactory::getApplication();
 
 		$this->_table_prefix = '#__redshop_';
-		$this->_context = 'media_id';
+		$this->_context = 'media';
 		$limit = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
 		$limitstart = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
 
@@ -61,8 +61,9 @@ class mediaModelmedia extends JModel
 	{
 		if (empty($this->_total))
 		{
-			$query = $this->_buildQuery();
-			$this->_total = $this->_getListCount($query);
+			$query = $this->_buildQuery(1);
+			$this->_db->setQuery($query);
+			$this->_total = $this->_db->loadResult();
 		}
 
 		return $this->_total;
@@ -79,7 +80,7 @@ class mediaModelmedia extends JModel
 		return $this->_pagination;
 	}
 
-	public function _buildQuery()
+	public function _buildQuery($getTotal = 0)
 	{
 		$where = "";
 		$media_section = $this->getState('media_section');
@@ -90,20 +91,31 @@ class mediaModelmedia extends JModel
 		{
 			$where .= "AND media_section = '" . $media_section . "' ";
 		}
+
 		if ($section_id)
 		{
 			$where .= "AND section_id = '" . $section_id . "' ";
 		}
+
 		if ($media_type)
 		{
 			$where .= "AND media_type='" . $media_type . "' ";
 		}
-		$orderby = $this->_buildContentOrderBy();
 
-		$query = 'SELECT distinct(m.media_id),m.* FROM ' . $this->_table_prefix . 'media AS m '
-			. 'WHERE 1=1 '
-			. $where
-			. $orderby;
+		if ($getTotal == 0)
+		{
+			$orderby = $this->_buildContentOrderBy();
+			$query = 'SELECT distinct(m.media_id), m.* FROM ' . $this->_table_prefix . 'media AS m '
+				. 'WHERE 1=1 '
+				. $where
+				. $orderby;
+		}
+		else
+		{
+			$query = 'SELECT COUNT(m.media_id) AS count FROM ' . $this->_table_prefix . 'media AS m '
+				. 'WHERE 1=1 '
+				. $where;
+		}
 
 		return $query;
 	}

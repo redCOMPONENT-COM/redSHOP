@@ -9,23 +9,20 @@
 
 defined('_JEXEC') or die;
 
-$url       = JURI::base();
-$redconfig = new Redconfiguration;
+JLoader::import('quotation', JPATH_COMPONENT_ADMINISTRATOR . '/helpers');
+JLoader::import('order', JPATH_COMPONENT_ADMINISTRATOR . '/helpers');
+JLoader::import('helper', JPATH_SITE . '/components/com_redshop/helpers');
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/quotation.php';
+$redconfig       = new Redconfiguration;
 $quotationHelper = new quotationHelper;
 $extra_field     = new extra_field;
-
 $extra_field_new = new extraField;
-
-require_once JPATH_COMPONENT . '/helpers/product.php';
-$producthelper = new producthelper;
-
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php';
+$producthelper   = new producthelper;
 $order_functions = new order_functions;
+$redTemplate     = new Redtemplate;
+$redhelper       = new redhelper;
 
-$redTemplate = new Redtemplate;
-
+$url    = JURI::base();
 $option = JRequest::getVar('option');
 $Itemid = JRequest::getVar('Itemid', 1);
 $quoid  = JRequest::getInt('quoid');
@@ -312,13 +309,13 @@ for ($i = 0; $i < count($quotationProducts); $i++)
 		{
 			if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $product->product_full_image))
 			{
-				$product_image_path = $url . "/components/com_redshop/helpers/thumb.php?filename=product/" . $product->product_full_image;
+				$product_image_path = $redhelper->watermark('product', $product->product_full_image, '', '', 0, $product->product_id);
 			}
 			else
 			{
 				if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . PRODUCT_DEFAULT_IMAGE))
 				{
-					$product_image_path = $url . "/components/com_redshop/helpers/thumb.php?filename=product/" . PRODUCT_DEFAULT_IMAGE;
+					$product_image_path = $redhelper->watermark('product', PRODUCT_DEFAULT_IMAGE, '', '', 0);
 				}
 			}
 		}
@@ -326,7 +323,7 @@ for ($i = 0; $i < count($quotationProducts); $i++)
 		{
 			if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . PRODUCT_DEFAULT_IMAGE))
 			{
-				$product_image_path = $url . "/components/com_redshop/helpers/thumb.php?filename=product/" . PRODUCT_DEFAULT_IMAGE;
+				$product_image_path = $redhelper->watermark('product', PRODUCT_DEFAULT_IMAGE, '', '', 0);
 			}
 		}
 

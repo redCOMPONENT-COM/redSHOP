@@ -10,10 +10,9 @@
 defined('_JEXEC') or die;
 
 JLoader::import('joomla.application.component.view');
-
-require_once JPATH_COMPONENT . '/helpers/extra_field.php';
-require_once JPATH_COMPONENT . '/helpers/category.php';
-require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
+JLoader::import('extra_field', JPATH_COMPONENT . '/helpers');
+JLoader::import('category', JPATH_COMPONENT . '/helpers');
+JLoader::import('product', JPATH_COMPONENT_SITE . '/helpers');
 
 class category_detailVIEWcategory_detail extends JView
 {
@@ -33,8 +32,6 @@ class category_detailVIEWcategory_detail extends JView
 		$option = JRequest::getVar('option');
 		$this->setLayout('default');
 		$uri        = JFactory::getURI();
-		$model      = $this->getModel('category_detail');
-		$categories = $model->getcategories();
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_CATEGORY_MANAGEMENT_DETAIL'), 'redshop_categories48');
 		$document = JFactory::getDocument();
@@ -111,7 +108,8 @@ class category_detailVIEWcategory_detail extends JView
 		$temps[0]->template_id      = 0;
 		$temps[0]->template_name    = JText::_('COM_REDSHOP_SELECT');
 		$templates                  = @array_merge($temps, $templates);
-		$lists['category_template'] = JHTML::_('select.genericlist', $templates, 'category_template', 'class="inputbox" size="1"  onchange="select_dynamic_field(this.value,\'' . $detail->category_id . '\',\'2\');" ', 'template_id', 'template_name', $detail->category_template);
+		$default_category_template =($detail->category_template)?$detail->category_template:CATEGORY_TEMPLATE;
+		$lists['category_template'] = JHTML::_('select.genericlist', $templates, 'category_template', 'class="inputbox" size="1"  onchange="select_dynamic_field(this.value,\'' . $detail->category_id . '\',\'2\');" ', 'template_id', 'template_name', $default_category_template);
 
 		/*
 		 * class name product_category

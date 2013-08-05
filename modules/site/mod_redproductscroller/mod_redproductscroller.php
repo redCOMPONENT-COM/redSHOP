@@ -404,7 +404,7 @@ if (!class_exists('redproductScroller'))
 
 			if ($row->product_full_image)
 			{
-				$thum_image = "<div style='width:" . $this->thumbwidth . "px;height:" . $this->thumbheight . "px;'><a href='" . $link . "' title=''><img src='" . $url . "components/com_redshop/helpers/thumb.php?filename=product/" . $row->product_full_image . "&newxsize=" . $this->thumbwidth . "&newysize=" . $this->thumbheight . "'></a></div>";
+				$thum_image = "<div style='width:" . $this->thumbwidth . "px;height:" . $this->thumbheight . "px;'><a href='" . $link . "' title=''><img src='" . $redhelper->watermark('product', $row->product_full_image, $this->thumbwidth, $this->thumbheight, 0, $row->product_id) . "'></a></div>";
 
 				$data_add .= $thum_image;
 			}

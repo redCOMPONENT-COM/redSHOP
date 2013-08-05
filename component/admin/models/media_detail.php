@@ -9,6 +9,7 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
+JLoader::import('image_generator', JPATH_ROOT . '/components/com_redshop/helpers');
 
 class media_detailModelmedia_detail extends JModel
 {
@@ -112,6 +113,7 @@ class media_detailModelmedia_detail extends JModel
 		if (count($cid))
 		{
 			$cids = implode(',', $cid);
+			$imageGenerator = new ImageGenerator;
 
 			$q = 'SELECT * FROM ' . $this->_table_prefix . 'media  WHERE media_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($q);
@@ -123,6 +125,8 @@ class media_detailModelmedia_detail extends JModel
 					. $mediadata->media_section . '/thumb/' . $mediadata->media_name;
 				$nsrc = JPATH_ROOT . '/components/com_redshop/assets/' . $mediadata->media_type . '/'
 					. $mediadata->media_section . '/' . $mediadata->media_name;
+				if ($mediadata->media_type == 'images')
+					$imageGenerator->deleteImage($mediadata->media_name, $mediadata->media_section, $mediadata->section_id, 0);
 
 				if (is_file($nsrc))
 				{

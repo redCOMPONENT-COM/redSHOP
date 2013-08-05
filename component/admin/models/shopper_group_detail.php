@@ -10,7 +10,9 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
-require_once JPATH_COMPONENT . '/helpers/thumbnail.php';
+JLoader::import('thumbnail', JPATH_COMPONENT . '/helpers');
+JLoader::import('image_generator', JPATH_SITE . '/components/com_redshop/helpers');
+
 jimport('joomla.client.helper');
 JClientHelper::setCredentialsFromRequest('ftp');
 jimport('joomla.filesystem.file');
@@ -23,12 +25,15 @@ class shopper_group_detailModelshopper_group_detail extends JModel
 
 	public $_table_prefix = null;
 
+	protected $imageGenerator = null;
+
 	public function __construct()
 	{
 		parent::__construct();
 		$this->_table_prefix = '#__' . TABLE_PREFIX . '_';
 		$array = JRequest::getVar('cid', 0, '', 'array');
 		$this->setId((int) $array[0]);
+		$this->imageGenerator = new ImageGenerator;
 	}
 
 	public function setId($id)
@@ -115,19 +120,14 @@ class shopper_group_detailModelshopper_group_detail extends JModel
 	{
 		$logo = JRequest::getVar('shopper_group_logo', '', 'files', '');
 
-		if ($logo['name'] != "" || $data['shopper_group_logo_tmp'] != null)
+		if (($logo['name'] != "" || $data['shopper_group_logo_tmp'] != null) && $data['shopper_group_id'])
 		{
-			$logopath = REDSHOP_FRONT_IMAGES_RELPATH . 'shopperlogo/' . $data['shopper_group_logo'];
-
-			if (is_file($logopath))
-			{
-				unlink($logopath);
-			}
+			$this->imageGenerator->deleteImage($data['shopper_group_logo'], 'shopperlogo', $data['shopper_group_id'], 1);
 		}
 
 		if ($logo['name'] != "")
 		{
-			$logoname = JPath::clean(time() . '_' . $logo['name']);
+			$logoname = JPath::clean(time() . '_' . $this->imageGenerator->replaceSpecial($logo['name']));
 
 			// Image Upload
 			$logotype = JFile::getExt($logo['name']);
@@ -259,12 +259,7 @@ class shopper_group_detailModelshopper_group_detail extends JModel
 
 			for ($i = 0; $i < count($list); $i++)
 			{
-				$logopath = REDSHOP_FRONT_IMAGES_RELPATH . 'shopperlogo/' . $list[$i]->shopper_group_logo;
-
-				if (is_file($logopath))
-				{
-					unlink($logopath);
-				}
+				$this->imageGenerator->deleteImage($list[$i]->shopper_group_logo, 'shopperlogo', $list[$i]->shopper_group_id, 1);
 			}
 
 			$query = 'DELETE FROM ' . $this->_table_prefix . 'product_price WHERE shopper_group_id IN ( ' . $cids . ' )';

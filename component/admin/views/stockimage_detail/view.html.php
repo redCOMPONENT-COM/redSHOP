@@ -41,11 +41,13 @@ class stockimage_detailVIEWstockimage_detail extends JView
 		{
 			JToolBarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
 		}
+
 		$model = $this->getModel('stockimage_detail');
 
 		$stock_option = $model->getStockAmountOption();
 		$stockroom_name = $model->getStockRoomList();
 		$op = array();
+		$op[0] = new stdClass;
 		$op[0]->value = 0;
 		$op[0]->text = JText::_('COM_REDSHOP_SELECT');
 		$stockroom_name = array_merge($op, $stockroom_name);

@@ -289,25 +289,45 @@ class configurationController extends JController
 		for ($i = 0; $i < count($thumb_folder); $i++)
 		{
 			$unlink_path = REDSHOP_FRONT_IMAGES_RELPATH . $thumb_folder[$i] . '/thumb';
+			$this->unlinkPath($unlink_path);
+			$unlink_path = REDSHOP_FRONT_IMAGES_RELPATH . 'thumb/' . $thumb_folder[$i];
+			$this->unlinkPath($unlink_path);
+		}
 
-			if (JFolder::exists($unlink_path))
+		return true;
+	}
+
+	public function unlinkPath($unlink_path)
+	{
+		if (JFolder::exists($unlink_path))
+		{
+			if (JFolder::delete($unlink_path) !== true)
 			{
-				if (JFolder::delete($unlink_path) !== true)
+				return false;
+			}
+			else
+			{
+				if (JFolder::create($unlink_path) !== true)
 				{
 					return false;
 				}
 				else
 				{
-					if (JFolder::create($unlink_path) !== true)
-					{
-						return false;
-					}
-					else
-					{
-						$src = REDSHOP_FRONT_IMAGES_RELPATH . 'index.html';
-						JFile::COPY($src, $unlink_path . '/index.html');
-					}
+					$src = REDSHOP_FRONT_IMAGES_RELPATH . 'index.html';
+					JFile::COPY($src, $unlink_path . '/index.html');
 				}
+			}
+		}
+		else
+		{
+			if (JFolder::create($unlink_path) !== true)
+			{
+				return false;
+			}
+			else
+			{
+				$src = REDSHOP_FRONT_IMAGES_RELPATH . 'index.html';
+				JFile::COPY($src, $unlink_path . '/index.html');
 			}
 		}
 

@@ -105,28 +105,10 @@ if (strstr($template_desc, "{manufacturer_image}"))
 				$altText = $row->manufacturer_name;
 			}
 
-			if (WATERMARK_MANUFACTURER_IMAGE)
-			{
-				$manufacturer_img = $redhelper->watermark('manufacturer', $media_image[$m]->media_name, "", "", WATERMARK_MANUFACTURER_IMAGE);
-				$maintype         = "watermarked/main";
-			}
-			else
-			{
-				$maintype = "manufacturer/";
-			}
-
-			if (WATERMARK_MANUFACTURER_THUMB_IMAGE)
-			{
-				$manufacturer_img = $redhelper->watermark('manufacturer', $media_image[$m]->media_name, "", "", WATERMARK_MANUFACTURER_THUMB_IMAGE);
-				$thumbtype        = "watermarked/main";
-			}
-			else
-			{
-				$thumbtype = "manufacturer/";
-			}
-
-			$thum_image = "<a title='" . $altText . "' class=\"modal\" href='" . REDSHOP_FRONT_IMAGES_ABSPATH . $maintype . $media_image[$m]->media_name . "'   rel=\"{handler: 'image', size: {}}\">
-				<img alt='" . $altText . "' title='" . $altText . "' src='" . $url . "/components/" . $option . "/helpers/thumb.php?filename=" . $thumbtype . $media_image[$m]->media_name . "&newxsize=" . $mw_thumb . "&newysize=" . $mh_thumb . "&swap=" . USE_IMAGE_SIZE_SWAPPING . "'></a>";
+			$manufacturer_img = $redhelper->watermark('manufacturer', $media_image[$m]->media_name, '', '', WATERMARK_MANUFACTURER_IMAGE, $row->manufacturer_id);
+			$manufacturer_thumb_img = $redhelper->watermark('manufacturer', $media_image[$m]->media_name, $mw_thumb, $mh_thumb, WATERMARK_MANUFACTURER_THUMB_IMAGE, $row->manufacturer_id);
+			$thum_image = "<a title='" . $altText . "' class=\"modal\" href='" . $manufacturer_img . "'   rel=\"{handler: 'image', size: {}}\">
+				<img alt='" . $altText . "' title='" . $altText . "' src='" . $manufacturer_thumb_img . "'></a>";
 		}
 	}
 

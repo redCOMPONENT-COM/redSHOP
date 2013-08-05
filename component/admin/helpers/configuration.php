@@ -655,6 +655,7 @@ class Redconfiguration
 			"DEFAULT_STOCKROOM"                            => $d ["default_stockroom"],
 			"DEFAULT_CART_CHECKOUT_ITEMID"                 => $d ["default_cart_checkout_itemid"],
 			"USE_IMAGE_SIZE_SWAPPING"                      => $d ["use_image_size_swapping"],
+			"WATERMARK_POSITION"                           => $d ["watermark_position"],
 			"DEFAULT_WRAPPER_THUMB_WIDTH"                  => $d ["default_wrapper_thumb_width"],
 			"DEFAULT_WRAPPER_THUMB_HEIGHT"                 => $d ["default_wrapper_thumb_height"],
 			"DEFAULT_QUANTITY"                             => $d ["default_quantity"],
