@@ -49,22 +49,15 @@ $Itemid = JRequest::getVar('Itemid');
 					<input type="button" value="<?php echo JText::_('COM_REDSHOP_CREATE_SAVE'); ?>"
 					       onclick="checkValidation()"/>&nbsp;
 					<?php
-					if (JRequest::getVar('loginwishlist') == 1)
-					{
+					if (JRequest::getVar('loginwishlist') == 1) : ?>
 						$mywishlist_link = JRoute::_('index.php?view=wishlist&task=viewwishlist&option=com_redshop&Itemid=' . $Itemid);
 						?>
 						<a href="<?PHP echo $mywishlist_link; ?>"><input type="button"
 						                                                 value="<?php echo JText::_('COM_REDSHOP_CANCEL'); ?>"/></a>
-					<?PHP
-					}
-					else
-					{
-						?>
+					<?php else : ?>
 						<input type="button" value="<?php echo JText::_('COM_REDSHOP_CANCEL'); ?>"
 						       onclick="window.parent.SqueezeBox.close();"/>
-					<?
-					}
-					?>
+					<?php endif; ?>
 				</td>
 			</tr>
 		</table>
@@ -74,8 +67,7 @@ $Itemid = JRequest::getVar('Itemid');
 	</form>
 </div>
 <?php
-if ($flage) :
-	?>
+if ($flage) : ?>
 	<div id="wishlist">
 		<?php
 		if ($this->params->get('show_page_heading', 1))
