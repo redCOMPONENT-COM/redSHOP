@@ -84,7 +84,8 @@ class redshopViewredshop extends JView
 			$this->neworders = $model->getNeworders();
 		}
 
-		$this->lists = $lists;
+		$this->lists  = $lists;
+		$this->layout = $layout;
 
 		parent::display($tpl);
 	}
