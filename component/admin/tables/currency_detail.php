@@ -42,7 +42,7 @@ class Tablecurrency_detail extends JTable
 
 		$q = "SELECT currency_id,currency_code  FROM " . $this->_table_prefix . "currency"
 			. " WHERE currency_code = '" . $this->currency_code
-			. "' AND currency_id !=  " . $this->currency_id;
+			. "' AND currency_id !=  " . (int) $this->currency_id;
 
 		$db->setQuery($q);
 

@@ -2035,7 +2035,7 @@ class CheckoutModelCheckout extends JModel
 	{
 		$query = "SELECT c.category_name FROM " . $this->_table_prefix . "product_category_xref AS pcx "
 			. "LEFT JOIN " . $this->_table_prefix . "category AS c ON c.category_id=pcx.category_id "
-			. "WHERE pcx.product_id=" . $pid . " AND c.category_name IS NOT NULL ORDER BY c.category_id ASC LIMIT 0,1";
+			. "WHERE pcx.product_id=" . $this->_db->quote($pid) . " AND c.category_name IS NOT NULL ORDER BY c.category_id ASC LIMIT 0,1";
 
 		$this->_db->setQuery($query);
 

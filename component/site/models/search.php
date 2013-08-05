@@ -484,7 +484,7 @@ class searchModelsearch extends JModel
 
 			if ($manufacture_id != 0)
 			{
-				$query .= " AND p.manufacturer_id =" . $manufacture_id;
+				$query .= " AND p.manufacturer_id =" . (int) $manufacture_id;
 			}
 
 			$query .= " AND " . $defaultSearchType

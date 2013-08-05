@@ -48,7 +48,7 @@ class wishlistModelwishlist extends JModel
 		$user = JFactory::getUser();
 		$db   = JFactory::getDBO();
 
-		$query = "SELECT * FROM " . $this->_table_prefix . "wishlist WHERE user_id=" . $user->id;
+		$query = "SELECT * FROM " . $this->_table_prefix . "wishlist WHERE user_id=" . (int) $user->id;
 		$db->setQuery($query);
 
 		return $db->loadObjectlist();
@@ -69,7 +69,7 @@ class wishlistModelwishlist extends JModel
 				$sql = "SELECT DISTINCT wp.* ,p.* "
 					. "FROM  #__redshop_product as p "
 					. ", #__redshop_wishlist_product as wp "
-					. "WHERE wp.product_id = p.product_id AND wp.wishlist_id = " . $whislists[$i]->wishlist_id;
+					. "WHERE wp.product_id = p.product_id AND wp.wishlist_id = " . (int) $whislists[$i]->wishlist_id;
 				$db->setQuery($sql);
 				$wish_products[$whislists[$i]->wishlist_id] = $db->loadObjectList();
 			}
@@ -154,8 +154,8 @@ class wishlistModelwishlist extends JModel
 			if ($product_id)
 			{
 				$ins_query = "INSERT INTO " . $this->_table_prefix . "wishlist_product "
-					. " SET wishlist_id=" . $row->wishlist_id
-					. ", product_id=" . $product_id
+					. " SET wishlist_id=" . (int) $row->wishlist_id
+					. ", product_id=" . (int) $product_id
 					. ", cdate=" . time();
 				$db->setQuery($ins_query);
 
@@ -185,8 +185,8 @@ class wishlistModelwishlist extends JModel
 						{
 							$myuserdata = $_SESSION['wish_' . $si]->$myfield;
 							$ins_query  = "INSERT INTO #__redshop_wishlist_userfielddata SET "
-								. " wishlist_id = " . $row->wishlist_id
-								. " , product_id = " . $_SESSION['wish_' . $si]->product_id
+								. " wishlist_id = " . (int) $row->wishlist_id
+								. " , product_id = " . (int) $_SESSION['wish_' . $si]->product_id
 								. ", userfielddata = '" . $myuserdata . "'";
 
 							$db->setQuery($ins_query);
@@ -195,9 +195,9 @@ class wishlistModelwishlist extends JModel
 					}
 
 					$ins_query = "INSERT INTO #__redshop_wishlist_product SET "
-						. " wishlist_id = " . $row->wishlist_id
-						. ", product_id = " . $_SESSION['wish_' . $si]->product_id
-						. ", cdate = " . $_SESSION['wish_' . $si]->cdate;
+						. " wishlist_id = " . (int) $row->wishlist_id
+						. ", product_id = " . $this->_db->quote($_SESSION['wish_' . $si]->product_id)
+						. ", cdate = " . $this->_db->quote($_SESSION['wish_' . $si]->cdate);
 					$db->setQuery($ins_query);
 					$db->Query();
 					unset($_SESSION['wish_' . $si]);
@@ -219,7 +219,7 @@ class wishlistModelwishlist extends JModel
 		for ($i = 0; $i < count($cid); $i++)
 		{
 			$query = "SELECT wishlist_product_id FROM " . $this->_table_prefix . "wishlist_product "
-				. " WHERE wishlist_id=" . $cid[$i] . " AND product_id=" . $product_id;
+				. " WHERE wishlist_id=" . (int) $cid[$i] . " AND product_id=" . (int) $product_id;
 			$db->setQuery($query);
 
 			if (count($db->loadResult()) > 0)
@@ -228,8 +228,8 @@ class wishlistModelwishlist extends JModel
 			}
 
 			$ins_query = "INSERT INTO " . $this->_table_prefix . "wishlist_product "
-				. " SET wishlist_id=" . $cid[$i]
-				. ", product_id=" . $product_id
+				. " SET wishlist_id=" . (int) $cid[$i]
+				. ", product_id=" . (int) $product_id
 				. ", cdate=" . time();
 			$db->setQuery($ins_query);
 
@@ -250,7 +250,7 @@ class wishlistModelwishlist extends JModel
 	{
 		$db    = JFactory::getDBO();
 		$query = "SELECT wishlist_id FROM " . $this->_table_prefix . "wishlist "
-			. " WHERE wishlist_id=" . $wishlist_id . " AND user_id=" . $userid;
+			. " WHERE wishlist_id=" . (int) $wishlist_id . " AND user_id=" . (int) $userid;
 		$db->setQuery($query);
 
 		$rs = $db->loadResult();
@@ -269,18 +269,18 @@ class wishlistModelwishlist extends JModel
 	{
 		$db    = JFactory::getDBO();
 		$query = "DELETE FROM " . $this->_table_prefix . "wishlist_product "
-			. " WHERE wishlist_id=" . $wishlist_id;
+			. " WHERE wishlist_id=" . (int) $wishlist_id;
 		$db->setQuery($query);
 
 		$db->Query();
 		$query = "DELETE FROM " . $this->_table_prefix . "wishlist_userfielddata "
-			. " WHERE wishlist_id=" . $wishlist_id;
+			. " WHERE wishlist_id=" . (int) $wishlist_id;
 		$db->setQuery($query);
 
 		if ($db->Query())
 		{
 			$query = "DELETE FROM " . $this->_table_prefix . "wishlist "
-				. " WHERE wishlist_id=" . $wishlist_id . " AND user_id=" . $userid;
+				. " WHERE wishlist_id=" . (int) $wishlist_id . " AND user_id=" . (int) $userid;
 			$db->setQuery($query);
 
 			if ($db->Query())
