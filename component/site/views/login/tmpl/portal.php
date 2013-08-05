@@ -15,6 +15,8 @@ $loginlink = 'index.php?option=' . $option . '&view=login&Itemid=' . $Itemid;
 $newuser_link = 'index.php?option=' . $option . '&view=registration&Itemid=' . $Itemid;
 $forgotpwd_link = 'index.php?option=' . $option . '&view=password&Itemid=' . $Itemid;
 $shoppergroupid = JRequest::getInt('protalid', 0);
+JLoader::import('helper', JPATH_SITE . '/components/com_redshop/helpers');
+$redhelper = new redhelper;
 
 $returnitemid = $Itemid;
 
@@ -24,13 +26,13 @@ if (PORTAL_LOGIN_ITEMID)
 }
 
 $portallogofile = REDSHOP_FRONT_IMAGES_RELPATH . 'shopperlogo/' . DEFAULT_PORTAL_LOGO;
-$portallogo = JURI::root() . 'components/com_redshop/helpers/thumb.php?filename=shopperlogo/' . DEFAULT_PORTAL_LOGO . '&newxsize=' . THUMB_WIDTH . '&newysize=' . THUMB_HEIGHT . '&swap=' . USE_IMAGE_SIZE_SWAPPING;
+$portallogo = $redhelper->watermark('shopperlogo', DEFAULT_PORTAL_LOGO, THUMB_WIDTH, THUMB_HEIGHT, 0);
 $portalname = DEFAULT_PORTAL_NAME;
 $portalintro = "";
 
 if ($shoppergroupid != 0)
 {
-	$portallogo  = JURI::root() . 'components/com_redshop/helpers/thumb.php?filename=shopperlogo/' . $this->ShopperGroupDetail[0]->shopper_group_logo . '&newxsize=' . THUMB_WIDTH . '&newysize=' . THUMB_HEIGHT . '&swap=' . USE_IMAGE_SIZE_SWAPPING;
+	$portallogo  = $redhelper->watermark('shopperlogo', $this->ShopperGroupDetail[0]->shopper_group_logo, THUMB_WIDTH, THUMB_HEIGHT, $this->ShopperGroupDetail[0]->shopper_group_id);
 	$portalname  = $this->ShopperGroupDetail[0]->shopper_group_name;
 	$portalintro = $this->ShopperGroupDetail[0]->shopper_group_introtext;
 }
@@ -43,7 +45,7 @@ if ($shoppergroupid != 0)
 				<?php
 				if (is_file($portallogofile))
 				{
-				?>
+					?>
 					<img src="<?php echo $portallogo; ?>">
 				<?php
 				}
@@ -78,7 +80,7 @@ if ($shoppergroupid != 0)
 		</tr>
 		<tr>
 			<td align="center" colspan="2"><input type="submit" name="submit" class="button"
-			                                      value="<?php echo JText::_('COM_REDSHOP_LOGIN'); ?>"></td>
+												  value="<?php echo JText::_('COM_REDSHOP_LOGIN'); ?>"></td>
 		</tr>
 	</table>
 	<input type="hidden" name="task" id="task" value="setlogin">

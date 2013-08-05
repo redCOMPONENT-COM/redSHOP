@@ -324,8 +324,8 @@ if (strstr($template_desc, "{manufacturer_image}"))
 
 	if ($media_image[$m]->media_name && file_exists(REDSHOP_FRONT_IMAGES_RELPATH . "manufacturer/" . $media_image[$m]->media_name))
 	{
-		$wimg      = $redhelper->watermark('manufacturer', $media_image[$m]->media_name, $mw_thumb, $mh_thumb, WATERMARK_MANUFACTURER_THUMB_IMAGE);
-		$linkimage = $redhelper->watermark('manufacturer', $media_image[$m]->media_name, '', '', WATERMARK_MANUFACTURER_IMAGE);
+		$wimg      = $redhelper->watermark('manufacturer', $media_image[$m]->media_name, $mw_thumb, $mh_thumb, WATERMARK_MANUFACTURER_THUMB_IMAGE, $this->data->manufacturer_id);
+		$linkimage = $redhelper->watermark('manufacturer', $media_image[$m]->media_name, '', '', WATERMARK_MANUFACTURER_IMAGE, $this->data->manufacturer_id);
 
 		$altText = $producthelper->getAltText('manufacturer', $this->data->manufacturer_id);
 
@@ -561,7 +561,7 @@ if (strstr($template_desc, "{wrapper_template:"))
 				{
 					$wrapperimage_div .= "
 					<a onclick='setWrapper($wid,$wp,$wp_withoutvat,\"" . $this->data->product_id . "\");'>
-					<img src='" . $url . "/components/com_redshop/helpers/thumb.php?filename=wrapper/" . $wrapper [$i]->wrapper_image . "&newxsize=" . DEFAULT_WRAPPER_THUMB_WIDTH . "&newysize=" . DEFAULT_WRAPPER_THUMB_HEIGHT . "&swap=" . USE_IMAGE_SIZE_SWAPPING . "' " . $title . $alt . " /></a>";
+					<img src='" . $redhelper->watermark('wrapper', $wrapper [$i]->wrapper_image, DEFAULT_WRAPPER_THUMB_WIDTH, DEFAULT_WRAPPER_THUMB_HEIGHT, 0, $wid) . "' " . $title . $alt . " /></a>";
 				}
 
 				if (strstr($wrappertemplate_data, "{wrapper_price}"))
@@ -895,18 +895,9 @@ if (strstr($template_desc, $mpimg_tag))
 				{
 					$thumb = $media_image [$m]->media_name;
 
-					if (WATERMARK_PRODUCT_ADDITIONAL_IMAGE)
-					{
-						$pimg          = $redhelper->watermark('product', $thumb, $mpw_thumb, $mph_thumb, WATERMARK_PRODUCT_ADDITIONAL_IMAGE, "1");
-						$linkimage     = $redhelper->watermark('product', $thumb, '', '', WATERMARK_PRODUCT_ADDITIONAL_IMAGE, "0");
-						$hoverimg_path = $redhelper->watermark('product', $thumb, ADDITIONAL_HOVER_IMAGE_WIDTH, ADDITIONAL_HOVER_IMAGE_HEIGHT, WATERMARK_PRODUCT_ADDITIONAL_IMAGE, '2');
-					}
-					else
-					{
-						$pimg          = $url . "components/com_redshop/helpers/thumb.php?filename=product/" . $thumb . "&newxsize=" . $mpw_thumb . "&newysize=" . $mph_thumb . "&swap=" . USE_IMAGE_SIZE_SWAPPING;
-						$linkimage     = REDSHOP_FRONT_IMAGES_ABSPATH . "product/" . $thumb;
-						$hoverimg_path = $url . "components/com_redshop/helpers/thumb.php?filename=product/" . $thumb . "&newxsize=" . ADDITIONAL_HOVER_IMAGE_WIDTH . "&newysize=" . ADDITIONAL_HOVER_IMAGE_HEIGHT . "&swap=" . USE_IMAGE_SIZE_SWAPPING;
-					}
+					$pimg          = $redhelper->watermark('product', $thumb, $mpw_thumb, $mph_thumb, WATERMARK_PRODUCT_ADDITIONAL_IMAGE, $this->data->product_id);
+					$linkimage     = $redhelper->watermark('product', $thumb, '', '', WATERMARK_PRODUCT_ADDITIONAL_IMAGE, $this->data->product_id);
+					$hoverimg_path = $redhelper->watermark('product', $thumb, ADDITIONAL_HOVER_IMAGE_WIDTH, ADDITIONAL_HOVER_IMAGE_HEIGHT, WATERMARK_PRODUCT_ADDITIONAL_IMAGE, $this->data->product_id);
 
 					if (PRODUCT_ADDIMG_IS_LIGHTBOX)
 					{
@@ -918,16 +909,9 @@ if (strstr($template_desc, $mpimg_tag))
 					}
 					else
 					{
-						if (WATERMARK_PRODUCT_ADDITIONAL_IMAGE)
-						{
-							$img_path = $redhelper->watermark('product', $thumb, $pw_thumb, $ph_thumb, WATERMARK_PRODUCT_ADDITIONAL_IMAGE, '0');
-						}
-						else
-						{
-							$img_path = $url . "components/com_redshop/helpers/thumb.php?filename=product/" . $thumb . "&newxsize=" . $pw_thumb . "&newysize=" . $ph_thumb . "&swap=" . USE_IMAGE_SIZE_SWAPPING;
-						}
+						$img_path = $redhelper->watermark('product', $thumb, $pw_thumb, $ph_thumb, WATERMARK_PRODUCT_ADDITIONAL_IMAGE, $this->data->product_id);
 
-						$hovermore_images = $redhelper->watermark('product', $thumb, '', '', WATERMARK_PRODUCT_ADDITIONAL_IMAGE, '0');
+						$hovermore_images = $redhelper->watermark('product', $thumb, '', '', WATERMARK_PRODUCT_ADDITIONAL_IMAGE, $this->data->product_id);
 
 						$filename_org = REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $media_image[$m]->product_full_image;
 
@@ -940,12 +924,10 @@ if (strstr($template_desc, $mpimg_tag))
 							$thumb_original = PRODUCT_DEFAULT_IMAGE;
 						}
 
-						if (WATERMARK_PRODUCT_THUMB_IMAGE)
-							$img_path_org = $redhelper->watermark('product', $thumb_original, $pw_thumb, $ph_thumb, WATERMARK_PRODUCT_THUMB_IMAGE, '0');
-						else
-							$img_path_org = $url . "components/com_redshop/helpers/thumb.php?filename=product/" . $thumb_original . "&newxsize=" . $pw_thumb . "&newysize=" . $ph_thumb . "&swap=" . USE_IMAGE_SIZE_SWAPPING;
-						$hovermore_org         = $url . "components/com_redshop/helpers/thumb.php?filename=product/" . $thumb_original . "&newxsize=" . $pw_thumb . "&newysize=" . $ph_thumb . "&swap=" . USE_IMAGE_SIZE_SWAPPING;
-						$oimg_path             = $url . "components/com_redshop/helpers/thumb.php?filename=product/" . $thumb . "&newxsize=" . $mpw_thumb . "&newysize=" . $mph_thumb . "&swap=" . USE_IMAGE_SIZE_SWAPPING;
+						$img_path_org = $redhelper->watermark('product', $thumb_original, $pw_thumb, $ph_thumb, WATERMARK_PRODUCT_THUMB_IMAGE, $this->data->product_id);
+
+						$hovermore_org         = $redhelper->watermark('product', $thumb_original, $pw_thumb, $ph_thumb, 0, $this->data->product_id);
+						$oimg_path             = $redhelper->watermark('product', $thumb, $mpw_thumb, $mpw_thumb, 0, $this->data->product_id);
 						$more_images_div_start = "<div class='additional_image' onmouseover='display_image(\"" . $img_path . "\"," . $this->data->product_id . ",\"" . $hovermore_images . "\");' onmouseout='display_image_out(\"" . $img_path_org . "\"," . $this->data->product_id . ",\"" . $img_path_org . "\");'>";
 						$more_images_div_end   = "</div>";
 						$more_images .= $more_images_div_start;
@@ -1090,8 +1072,8 @@ if (strstr($template_desc, "{if product_userfield}") && strstr($template_desc, "
 // Category front-back image tag...
 if (strstr($template_desc, "{category_product_img}"))
 {
-	$mainsrcPath = $url . "components/com_redshop/helpers/thumb.php?filename=category/" . $this->data->category_full_image . "&newxsize=" . $pw_thumb . "&newysize=" . $ph_thumb . "&swap=" . USE_IMAGE_SIZE_SWAPPING;
-	$backsrcPath = $url . "components/com_redshop/helpers/thumb.php?filename=category/" . $this->data->category_back_full_image . "&newxsize=" . $pw_thumb . "&newysize=" . $ph_thumb . "&swap=" . USE_IMAGE_SIZE_SWAPPING;
+	$mainsrcPath = $redhelper->watermark('category', $this->data->category_full_image, $pw_thumb, $ph_thumb, 0, $this->data->category_id);
+	$backsrcPath = $redhelper->watermark('category', $this->data->category_back_full_image, $pw_thumb, $ph_thumb, 0, $this->data->category_id);
 
 	$ahrefpath     = REDSHOP_FRONT_IMAGES_ABSPATH . "category/" . $this->data->category_full_image;
 	$ahrefbackpath = REDSHOP_FRONT_IMAGES_ABSPATH . "product/" . $this->data->category_back_full_image;
@@ -1124,7 +1106,7 @@ if (strstr($template_desc, "{front_img_link}") || strstr($template_desc, "{back_
 	}
 	else
 	{
-		$mainsrcPath = $url . "components/com_redshop/helpers/thumb.php?filename=product/" . $this->data->product_full_image . "&newxsize=" . $pw_thumb . "&newysize=" . $ph_thumb . "&swap=" . USE_IMAGE_SIZE_SWAPPING;
+		$mainsrcPath = $redhelper->watermark('product', $this->data->product_full_image, $pw_thumb, $ph_thumb, 0, $this->data->product_id);
 	}
 
 	if ($this->data->product_back_thumb_image)
@@ -1133,7 +1115,7 @@ if (strstr($template_desc, "{front_img_link}") || strstr($template_desc, "{back_
 	}
 	else
 	{
-		$backsrcPath = $url . "components/com_redshop/helpers/thumb.php?filename=product/" . $this->data->product_back_full_image . "&newxsize=" . $pw_thumb . "&newysize=" . $ph_thumb . "&swap=" . USE_IMAGE_SIZE_SWAPPING;
+		$backsrcPath = $redhelper->watermark('product', $this->data->product_back_full_image, $pw_thumb, $ph_thumb, 0, $this->data->product_id);
 	}
 
 	$ahrefpath     = REDSHOP_FRONT_IMAGES_ABSPATH . "product/" . $this->data->product_full_image;
@@ -1158,7 +1140,7 @@ if (strstr($template_desc, "{product_preview_img}"))
 {
 	if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $this->data->product_preview_image))
 	{
-		$previewsrcPath = $url . "components/com_redshop/helpers/thumb.php?filename=product/" . $this->data->product_preview_image . "&newxsize=" . PRODUCT_PREVIEW_IMAGE_WIDTH . "&newysize=" . PRODUCT_PREVIEW_IMAGE_HEIGHT . "&swap=" . USE_IMAGE_SIZE_SWAPPING;
+		$previewsrcPath = $redhelper->watermark('product', $this->data->product_preview_image, PRODUCT_PREVIEW_IMAGE_WIDTH, PRODUCT_PREVIEW_IMAGE_HEIGHT, 0, $this->data->product_id);
 
 		$previewImg    = "<img src='" . $previewsrcPath . "' class='rs_previewImg' />";
 		$template_desc = str_replace("{product_preview_img}", $previewImg, $template_desc);

@@ -9,9 +9,9 @@
 require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
 require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/extra_field.php';
 $app = JFactory::getApplication();
-$extra_field = new extra_field();
+$extra_field = new extra_field;
 JHTMLBehavior::modal();
-$producthelper = new producthelper();
+$producthelper = new producthelper;
 $option = JRequest::getVar('option', '', 'request', 'string');
 
 $model = $this->getModel('product');
@@ -37,8 +37,8 @@ $userId = (int) $user->id;
 			form.task.value = pressbutton;
 		}
 
-		if ((pressbutton == 'add') || (pressbutton == 'edit') || (pressbutton == 'publish') || (pressbutton == 'unpublish')
-			|| (pressbutton == 'remove') || (pressbutton == 'copy') || (pressbutton == 'saveorder') || (pressbutton == 'orderup') || (pressbutton == 'orderdown')) {
+		if ((pressbutton == 'add') || (pressbutton == 'publish') || (pressbutton == 'unpublish')
+			|| (pressbutton == 'remove') || (pressbutton == 'copy')) {
 			form.view.value = "product_detail";
 		}
 		if ((pressbutton == 'assignCategory') || (pressbutton == 'removeCategory')) {
@@ -213,7 +213,7 @@ for ($i = 0, $n = count($this->products); $i < $n; $i++)
 
 	$row->id = $row->product_id;
 	$link = JRoute::_('index.php?option=' . $option . '&view=product_detail&task=edit&cid[]=' . $row->product_id);
-
+	$canCheckin = $row->checked_out == $userId || $row->checked_out == 0;
 	//	$published 	= JHtml::_('jgrid.published', $row->published, $i,'',1);
 
 	$published = JHtml::_('jgrid.published', $row->published, $i, '', 1);
@@ -223,13 +223,15 @@ for ($i = 0, $n = count($this->products); $i < $n; $i++)
 		<td>
 			<?php echo $this->pagination->getRowOffset($i); ?>
 		</td>
-		<td><?php echo @JHTML::_('grid.checkedout', $row, $i); ?></td>
+		<td><?php echo JHtml::_('grid.id', $i, $row->product_id); ?></td>
 		<td>
 			<?php
 
-			$checkedOut = ((int) $row->checked_out !== 0 && (int) $row->checked_out === $userId);
-			if ($checkedOut)
+			if ($row->checked_out)
 			{
+				$editor = JFactory::getUser($row->checked_out);
+				echo JHtml::_('jgrid.checkedout', $i, $editor->name, $row->checked_out_time, '', $canCheckin);
+
 				if (isset($row->children))
 				{
 					?>
@@ -295,7 +297,7 @@ for ($i = 0, $n = count($this->products); $i < $n; $i++)
 		<td>
 			<?php echo $row->product_number;?>
 		</td>
-		<td>
+		<td style="white-space:nowrap;">
 			<?php echo $producthelper->getProductFormattedPrice($row->product_price);?>
 		</td>
 

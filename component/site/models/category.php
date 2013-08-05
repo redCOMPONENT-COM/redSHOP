@@ -716,7 +716,7 @@ class CategoryModelCategory extends JModel
 		}
 
 		// Loading template category
-		if (isset($this->_maincat->template_name) && $this->_maincat->template_name != '' && $app->input->get('category_template', $this->_maincat->category_template, 'int') == $selected_template)
+		if (isset($this->_maincat->template_name) && $this->_maincat->template_name != '' && $this->_maincat->category_template == $selected_template)
 		{
 			$this->_template = array();
 			$this->_template[0] = new stdClass;

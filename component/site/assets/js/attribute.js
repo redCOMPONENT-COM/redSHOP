@@ -5,12 +5,12 @@ window.addEvent('domready', function () {
     preloadSlimbox(imagehandle);
     // end
     var otheroptions = {handler: 'iframe'};
-    redBOX.assign($$(".redcolorproductimg"), otheroptions);
-
-    redBOX.assign($$('a.redbox'), {
-        parse: 'rel'
-    });
-
+	if(typeof redBOX != 'undefined'){
+		redBOX.assign($$(".redcolorproductimg"), otheroptions);
+		redBOX.assign($$('a.redbox'), {
+			parse: 'rel'
+		});
+	};
 });
 
 var r_browser = false;
@@ -1423,12 +1423,13 @@ function preloadSlimbox(parameters) {
 
     if (parameters.isenable) {
         var imgoptions = {handler: 'image'};
-        redBOX.initialize({});
-        if (parameters.mainImage)
-            redBOX.assign($$("a[rel='myallimg']"), imgoptions);
-        else
-            redBOX.assign($$(".additional_image > a[rel='myallimg']"), imgoptions);
-
+		if(typeof redBOX != 'undefined'){
+			redBOX.initialize({});
+			if (parameters.mainImage)
+				redBOX.assign($$("a[rel='myallimg']"), imgoptions);
+			else
+				redBOX.assign($$(".additional_image > a[rel='myallimg']"), imgoptions);
+		}
     }
 }
 

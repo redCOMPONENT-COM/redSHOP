@@ -11,8 +11,10 @@ defined('_JEXEC') or die;
 $url = JURI::base();
 
 // Get product helper
-require_once JPATH_ROOT . '/components/com_redshop/helpers/product.php';
+JLoader::import('product', JPATH_SITE . '/components/com_redshop/helpers');
+JLoader::import('helper', JPATH_SITE . '/components/com_redshop/helpers');
 $extra_data = new producthelper;
+$redhelper = new redhelper;
 
 $option = JRequest::getVar('option');
 $Itemid = JRequest::getVar('Itemid');
@@ -49,11 +51,11 @@ if ($user->id != 0)
 					<tr>
 						<td width="10%"><?php echo JText::_('COM_REDSHOP_TAG_NAME');?></td>
 						<td width="70%"><input type="text" name="tags_name"
-						                       value="<?php echo $model->getMytag($tagid); ?>" id="tags_name"
-						                       size="50"/></td>
+											   value="<?php echo $model->getMytag($tagid); ?>" id="tags_name"
+											   size="50"/></td>
 						<td width="20%">
 							<input type="submit" class="button" name="tags_submit"
-							       value="<?php echo JText::_('COM_REDSHOP_EDIT_TAG'); ?>"/>
+								   value="<?php echo JText::_('COM_REDSHOP_EDIT_TAG'); ?>"/>
 							<input type="hidden" name="tags_id" value="<?php echo $tagid; ?>"/>
 							<input type="hidden" name="Itemid" value="<?php echo $Itemid; ?>"/>
 							<input type="hidden" name="task" value="editTag"/>
@@ -83,9 +85,9 @@ if ($user->id != 0)
 				<tr>
 					<td align="right">
 						<span><a href="<?php echo $link_edit; ?>" title=""
-						         style="text-decoration: none;"><?php echo JText::_('COM_REDSHOP_EDIT_TAG');?></a>&nbsp;|</span>
+								 style="text-decoration: none;"><?php echo JText::_('COM_REDSHOP_EDIT_TAG');?></a>&nbsp;|</span>
 						<span><a href="<?php echo $link_remove; ?>" title=""
-						         style="text-decoration: none;"><?php echo JText::_('COM_REDSHOP_REMOVE_TAG');?></a></span>
+								 style="text-decoration: none;"><?php echo JText::_('COM_REDSHOP_REMOVE_TAG');?></a></span>
 					</td>
 				</tr>
 			</table>
@@ -109,7 +111,7 @@ if ($user->id != 0)
 
 								if ($row->product_full_image)
 								{
-									$thum_image = "<div style='width:" . THUMB_WIDTH . "px;height:" . THUMB_HEIGHT . "px;margin-left:20px;' ><a href='" . $link . "' title=''><img src='" . $url . "/components/com_redshop/helpers/thumb.php?filename=product/" . $row->product_full_image . "&newxsize=" . THUMB_WIDTH . "&newysize=" . THUMB_HEIGHT . "&swap=" . USE_IMAGE_SIZE_SWAPPING . "'></a></div>";
+									$thum_image = "<div style='width:" . THUMB_WIDTH . "px;height:" . THUMB_HEIGHT . "px;margin-left:20px;' ><a href='" . $link . "' title=''><img src='" . $redhelper->watermark('product', $row->product_full_image, THUMB_WIDTH, THUMB_HEIGHT, WATERMARK_CATEGORY_THUMB_IMAGE, $row->product_id) . "'></a></div>";
 									$data_add .= $thum_image;
 								}
 
@@ -187,7 +189,7 @@ if ($user->id != 0)
 			<table border="0" cellpadding="2" cellspacing="0">
 				<tr>
 					<td><?php
-if (count($MyTags) != 0)
+						if (count($MyTags) != 0)
 						{
 							foreach ($MyTags as $MyTag)
 							{
@@ -206,7 +208,7 @@ if (count($MyTags) != 0)
 		</fieldset>
 		<div>&nbsp;</div>
 		<div><a href="<?php echo 'index.php?option=com_redshop&view=account&Itemid=' . $Itemid; ?>"
-		        title="<?php echo JText::_('COM_REDSHOP_BACK_TO_MYACCOUNT'); ?>">
+				title="<?php echo JText::_('COM_REDSHOP_BACK_TO_MYACCOUNT'); ?>">
 				<?php echo JText::_('COM_REDSHOP_BACK_TO_MYACCOUNT');?></a>
 		</div>
 	<?php
