@@ -497,12 +497,19 @@ class ProductController extends JController
 		// GetVariables
 		$post = JRequest::get('REQUEST');
 
+		$pid = null;
+
+		if (isset($post['pid']))
+		{
+			$pid = (int) $post['pid'];
+		}
+
 		// Initiallize variable
 		$model = $this->getModel('product');
 
 		if ($post['cmd'] == 'add')
 		{
-			$checkCompare = $model->checkComparelist($post['pid']);
+			$checkCompare = $model->checkComparelist($pid);
 
 			$countCompare = $model->checkComparelist(0);
 
@@ -535,7 +542,7 @@ class ProductController extends JController
 		}
 		elseif ($post['cmd'] == 'remove')
 		{
-			$model->removeCompare($post['pid']);
+			$model->removeCompare($pid);
 			$Message = "1`" . $producthelper->makeCompareProductDiv();
 			echo $Message;
 		}
