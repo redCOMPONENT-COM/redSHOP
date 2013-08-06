@@ -111,6 +111,10 @@ if ($mail == 0)
 
 	if (count($MyWishlist) > 0)
 	{
+		$mainid                 = null;
+		$totattid               = null;
+		$totcount_no_user_field = null;
+
 		foreach ($MyWishlist as $row)
 		{
 			$wishlistuserfielddata  = $producthelper->getwishlistuserfieldata($row->wishlist_id, $row->product_id);
@@ -344,6 +348,11 @@ if ($mail == 0)
 
 			$wishlist_data = str_replace("{if product_on_sale}", "", $wishlist_data);
 			$wishlist_data = str_replace("{product_on_sale end if}", "", $wishlist_data);
+
+			if (isset($row->category_id) === false)
+			{
+				$row->category_id = 0;
+			}
 
 			$wishlist_data = $producthelper->replaceCartTemplate($row->product_id, $row->category_id, 0, 0, $wishlist_data, $isChilds, $userfieldArr, $totalatt, $totalAccessory, $count_no_user_field);
 			$mainid .= $row->product_id . ",";
