@@ -49,4 +49,5 @@ Please follow the next steps in order to release a new version of redSHOP.
 ### Prepare software for next release
 - Merge development branch into Master (see successful git-branching model: http://nvie.com/posts/a-successful-git-branching-model/ )
 - Create a release git TAG
-- Update component version number in root/redshop.xml
+- Update component version number with next release number at https://github.com/redCOMPONENT-COM/redSHOP-1.2/blob/master/redshop.xml#L10
+- Create an empty update .sql file at: https://github.com/redCOMPONENT-COM/redSHOP-1.2/tree/master/component/admin/sql/updates/mysql
