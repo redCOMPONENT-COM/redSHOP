@@ -81,12 +81,11 @@ class productModelproduct extends JModel
 
 		$query = "SELECT p.*, c.category_id, c.category_name ,c.category_back_full_image,c.category_full_image , m.manufacturer_name,pcx.ordering "
 			. "FROM " . $this->_table_prefix . "product AS p "
-			. "LEFT JOIN " . $this->_table_prefix . "product_category_xref AS pcx ON pcx.product_id = p.product_id "
+			. "LEFT JOIN " . $this->_table_prefix . "product_category_xref AS pcx ON pcx.product_id = p.product_id " . $and
 			. "LEFT JOIN " . $this->_table_prefix . "manufacturer AS m ON m.manufacturer_id = p.manufacturer_id "
 			. "LEFT JOIN " . $this->_table_prefix . "category AS c ON c.category_id = pcx.category_id "
 			. "WHERE 1=1 "
 			. "AND p.product_id ='" . $this->_id . "' "
-			. $and
 			. "LIMIT 0,1 ";
 
 		return $query;
