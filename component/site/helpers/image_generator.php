@@ -16,7 +16,7 @@ class ImageGenerator
 		$filetype = JFile::getExt($name);
 		$filename = JFile::stripExt($name);
 		$value = preg_replace("/[&'#]/", "", $filename);
-		$value = JApplication::stringURLSafe($value) . '.' . $filetype;
+		$value = JFilterOutput::stringURLSafe($value) . '.' . $filetype;
 
 		return $value;
 	}
