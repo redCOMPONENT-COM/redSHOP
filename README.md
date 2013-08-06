@@ -30,7 +30,7 @@ Please follow the next steps in order to release a new version of redSHOP.
 > $ git log --oneline --after={2013-04-18} --no-merges --name-only | grep 'modules/*' | cut -d/ -f2 -f3  | sort | uniq
 
 - if modules have been modified:
- -  pdate the release number in their manifest .xml file in the same way you have done it with plugins https://github.com/redCOMPONENT-COM/redSHOP-1.2/edit/master/README.md#l24
+ - Update the release number in their manifest .xml file in the same way you have done it with plugins https://github.com/redCOMPONENT-COM/redSHOP-1.2#plugins
  - execute the modules_packager.xml PHING file and upload the new release to redCOMPONENT.com
 
 ### Test 
