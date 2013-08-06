@@ -73,6 +73,14 @@ class accountViewaccount extends JView
 
 		if ($layout == 'mywishlist')
 		{
+			$wishlist_id = $app->input->getInt('wishlist_id', 0);
+
+			// If wishlist Id is not set then redirect to it's main page
+			if ($wishlist_id == 0)
+			{
+				$app->Redirect("index.php?option=com_redshop&view=wishlist&layout=viewwishlist&Itemid=" . $Itemid);
+			}
+
 			JLoader::import('joomla.html.pagination');
 			JHTML::Stylesheet('colorbox.css', 'components/com_redshop/assets/css/');
 
