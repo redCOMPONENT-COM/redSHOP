@@ -568,7 +568,7 @@ class searchModelsearch extends JModel
 
 			if ($manufacture_id != 0)
 			{
-				$query->where('p.manufacturer_id = ' . $manufacture_id);
+				$query->where('p.manufacturer_id = ' . (int) $manufacture_id);
 			}
 		}
 

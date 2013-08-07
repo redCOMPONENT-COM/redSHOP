@@ -519,7 +519,7 @@ class CartModelCart extends JModel
 		$db          = JFactory::getDBO();
 		$redTemplate = new redTemplate;
 		$q           = "SELECT product_template FROM " . $this->_table_prefix . "product "
-			. "WHERE product_id='" . $product_id;
+			. "WHERE product_id=" . $this->_db->quote($product_id);
 
 		$db->setQuery($q);
 		$row_data = $db->loadResult();

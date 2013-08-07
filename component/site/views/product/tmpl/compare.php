@@ -37,12 +37,6 @@ if (PRODUCT_COMPARISON_TYPE == 'category')
 	$catid           = $compare_product[0]['category_id'];
 	$cid             = JRequest::getInt('cid');
 
-	if (PRODUCT_COMPARISON_TYPE == 'category' && $catid != $cid)
-	{
-		unset($compare_product);
-		$compare['idx'] = 0;
-	}
-
 	$template_id = $producthelper->getCategoryCompareTemplate($catid);
 
 	if ($template_id == "")

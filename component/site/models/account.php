@@ -122,11 +122,11 @@ class AccountModelaccount extends JModel
 					$query .= "\n , " . $this->_table_prefix . "product as p ";
 				}
 
-				$query .= "\n WHERE ptx.users_id =" . $userid . " and pt.published = 1";
+				$query .= "\n WHERE ptx.users_id =" . (int) $userid . " and pt.published = 1";
 
 				if ($tagid != 0)
 				{
-					$query .= "\n AND p.product_id = ptx.product_id AND pt.tags_id =" . $tagid;
+					$query .= "\n AND p.product_id = ptx.product_id AND pt.tags_id =" . $this->_db->quote($tagid);
 				}
 
 				break;

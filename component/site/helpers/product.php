@@ -2425,6 +2425,7 @@ class producthelper
 	{
 		$discountprice = 0;
 		$today = time();
+		$list          = array();
 
 		if (is_object($product) && isset($product->advanced_query) && $product->advanced_query == 1)
 		{
@@ -2445,10 +2446,16 @@ class producthelper
 			{
 				$productid = (int) $product;
 			}
-			$query = "SELECT * FROM " . $this->_table_prefix . "product "
-				. "WHERE product_id = $productid "
-				. "AND ( (discount_enddate='' AND discount_stratdate='') "
-				. "OR ( discount_enddate>='" . $today . "' AND discount_stratdate<='" . $today . "') )";
+
+			$query = $this->_db->getQuery(true)
+				->select('*')
+				->from($this->_db->quoteName('#__redshop_product'))
+				->where($this->_db->quoteName('product_id') . ' = ' . $this->_db->quote($productid))
+				->where('
+				(' . $this->_db->quoteName('discount_enddate') . ' = "" AND ' . $this->_db->quoteName('discount_stratdate') . ' = "")
+				OR
+				(' . $this->_db->quoteName('discount_enddate') . ' >= ' . $this->_db->quote($today) . ' AND ' . $this->_db->quoteName('discount_stratdate') . ' <= ' . $this->_db->quote($today) . ')
+				');
 
 			$this->_db->setQuery($query);
 			$list = $this->_db->loadObjectList();

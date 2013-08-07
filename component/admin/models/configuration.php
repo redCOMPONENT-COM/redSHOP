@@ -536,7 +536,7 @@ class configurationModelconfiguration extends JModel
 
 		foreach ($this->_configdata as $key => $value)
 		{
-			$config .= "define ('$key', '" . addslashes($value) . "');\n";
+			$config .= "define('$key', '" . addslashes($value) . "');\n";
 		}
 
 		$config .= "";
