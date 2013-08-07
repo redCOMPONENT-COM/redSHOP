@@ -2201,10 +2201,11 @@ class producthelper
 			->from($this->_db->quoteName('#__redshop_product'))
 			->where($this->_db->quoteName('product_id') . ' = ' . $this->_db->quote($productid))
 			->where('
+				(
 				(' . $this->_db->quoteName('discount_enddate') . ' = "" AND ' . $this->_db->quoteName('discount_stratdate') . ' = "")
 				OR
 				(' . $this->_db->quoteName('discount_enddate') . ' >= ' . $this->_db->quote($today) . ' AND ' . $this->_db->quoteName('discount_stratdate') . ' <= ' . $this->_db->quote($today) . ')
-				');
+				)');
 
 		// Set the query and load the result.
 		$this->_db->setQuery($query);
