@@ -3367,6 +3367,7 @@ class rsCarthelper
 			$paymentparams_new  = new JRegistry($shippingmethod[0]->params);
 			$extrafield_payment = $paymentparams_new->get('extrafield_shipping');
 			$extrafield_total   = "";
+			$extrafield_hidden  = "";
 
 			if (count($extrafield_payment) > 0)
 			{
@@ -3396,7 +3397,7 @@ class rsCarthelper
 
 			$template_desc = "<div></div>";
 		}
-		elseif ($rateExist == 1)
+		elseif ($rateExist == 1 && $extrafield_total == "")
 		{
 			$template_desc = "<div style='display:none;'>" . $template_desc . "</div>";
 		}
@@ -3727,6 +3728,7 @@ class rsCarthelper
 			$paymentparams_new  = new JRegistry($paymentmethod[0]->params);
 			$extrafield_payment = $paymentparams_new->get('extrafield_payment');
 			$extrafield_total   = '';
+			$extrafield_hidden  = '';
 
 			if (count($extrafield_payment) > 0)
 			{
@@ -5888,6 +5890,15 @@ class rsCarthelper
 		if ($data['product_price'] < 0)
 		{
 			$data['product_price'] = 0;
+		}
+
+		$per_product_total = $product_data->minimum_per_product_total;
+
+		if ($data['product_price'] < $per_product_total)
+		{
+			$msg = JText::_('COM_REDSHOP_PER_PRODUCT_TOTAL') . " " . $per_product_total;
+
+			return $msg;
 		}
 
 		if (!$sameProduct)

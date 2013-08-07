@@ -180,7 +180,8 @@ class Redconfiguration
 		{
 			if (count($org) > 0)
 			{
-				$this->defineCFGVars($org);
+				/* Set last param as false to ensure the last line is empty and not containing '?>' at the end of the file*/
+				$this->defineCFGVars($org, false, false);
 				$this->updateCFGFile();
 			}
 		}
@@ -234,9 +235,16 @@ class Redconfiguration
 		}
 	}
 
-	public function defineCFGVars($data, $bypass = false)
+	public function defineCFGVars($data, $bypass = false, $openPhpTag = true)
 	{
 		$this->_cfgdata = "";
+		$this->_cfgdata .= "<?php\n\n";
+
+		/*To ensure the last line is empty and not containing '?>' at the end of the file*/
+		if ($openPhpTag)
+		{
+			$this->_cfgdata .= "<?php\n\n";
+		}
 
 		foreach ($data as $key => $value)
 		{
@@ -246,7 +254,7 @@ class Redconfiguration
 			}
 		}
 
-		$this->_cfgdata .= '?>';
+		$this->_cfgdata .= '';
 
 		return;
 	}
@@ -255,7 +263,6 @@ class Redconfiguration
 	{
 		if ($fp = fopen($this->_configpath, "w"))
 		{
-			$this->_cfgdata = "<?php \n" . $this->_cfgdata;
 			fputs($fp, $this->_cfgdata, strlen($this->_cfgdata));
 			fclose($fp);
 

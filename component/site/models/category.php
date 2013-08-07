@@ -900,6 +900,9 @@ class CategoryModelCategory extends JModel
 
 						if (!empty($rs))
 						{
+							// Sanitise ids
+							JArrayHelper::toInteger($rs);
+
 							$finder_products = implode("','", $rs);
 						}
 

@@ -26,7 +26,7 @@ class FilterLZW_FPDI extends FilterLZW {
     function FilterLZW_FPDI(&$fpdi) {
         $this->fpdi =& $fpdi;
     }
-
+    
     function error($msg) {
         $this->fpdi->error($msg);
     }

@@ -39,6 +39,11 @@ else
 {product_loop_end}</div></div><p>{category_loop_end}</p><div class='category_pagination'>{pagination}</div></div>";
 }
 
+if (count($this->detail) <= 0)
+{
+	$template_desc = '<div>' . JText::_('COM_REDSHOP_ALL_CATEGORY_VIEW_NO_RESULT_TEXT') . '</div>';
+}
+
 $app    = JFactory::getApplication();
 $router = $app->getRouter();
 $uri    = new JURI('index.php?option=' . $option . '&category&layout=categoryproduct&Itemid=' . $Itemid . '&category_template=' . $this->category_template_id);

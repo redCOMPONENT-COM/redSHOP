@@ -103,7 +103,7 @@ class split_paymentModelsplit_payment extends JModel
 
 			$query = "UPDATE " . $this->_table_prefix
 				. "orders set order_payment_status = '" . $order_paymentstatus
-				. "', split_payment=0  where order_id = " . $oid;
+				. "', split_payment=0  where order_id = " . (int) $oid;
 			$this->_db->setQuery($query);
 			$this->_db->query();
 			$return = JRoute::_('index.php?option=' . $option . '&view=order_detail&oid=' . $oid . '&Itemid=' . $Itemid);

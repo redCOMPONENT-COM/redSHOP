@@ -21,6 +21,8 @@ class question_detailModelquestion_detail extends JModel
 
 	public $_table_prefix = null;
 
+	public $_answers = null;
+
 	public function __construct()
 	{
 		parent::__construct();
@@ -38,13 +40,7 @@ class question_detailModelquestion_detail extends JModel
 
 	public function getanswers()
 	{
-		if ($this->_loadAnswer())
-		{
-		}
-		else
-		{
-			$this->_initAnswer();
-		}
+		$this->_loadAnswer();
 
 		return $this->_answers;
 
@@ -52,45 +48,24 @@ class question_detailModelquestion_detail extends JModel
 
 	public function _loadAnswer()
 	{
-		$query = "SELECT q.* FROM " . $this->_table_prefix . "customer_question AS q "
-			. "WHERE q.parent_id=" . $this->_id;
-		$this->_db->setQuery($query);
-		$this->_answers = $this->_db->loadObjectList();
+		if ($this->_id > 0)
+		{
+			$query = "SELECT q.* FROM " . $this->_table_prefix . "customer_question AS q "
+				. "WHERE q.parent_id=" . $this->_id;
+			$this->_db->setQuery($query);
+			$this->_answers = $this->_db->loadObjectList();
+		}
+		else
+		{
+			$this->_answers = array();
+		}
 
 		return $this->_answers;
 	}
 
-	public function _initAnswer()
-	{
-		$user = JFactory::getUser();
-
-		if (empty($this->_answers))
-		{
-			$detail              = new stdClass;
-			$detail->question_id = 0;
-			$detail->product_id  = null;
-			$detail->parent_id   = null;
-			$detail->user_id     = $user->id;
-			$detail->user_name   = $user->name;
-			$detail->user_email  = $user->email;
-			$detail->address     = null;
-			$detail->telephone   = null;
-			$detail->published   = 1;
-			$this->_answers         = $detail;
-
-			return (boolean) $this->_answers;
-		}
-
-		return true;
-	}
-
 	public function getData()
 	{
-		if ($this->_loadData())
-		{
-
-		}
-		else
+		if (!$this->_loadData())
 		{
 			$this->_initData();
 		}
