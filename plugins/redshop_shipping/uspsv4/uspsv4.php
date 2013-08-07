@@ -189,35 +189,7 @@ class plgredshop_shippinguspsv4 extends JPlugin
 				<td>
 					<?php echo JTEXT::_(_USPS_PREFIX_TOOLTIP) ?>
 				</td>
-				<!--<tr>
-				<td colspan="3"><hr><strong><?php echo _USPS_SHIP; ?></strong><hr></td>
 			</tr>
-			<tr>
-		        <td valign="top"><strong><?php echo JTEXT::_(_USPS_DOMESTIC_SHIPPING_METHOD);
-		        $servicearr = explode(",",USPS_DOMESTIC_SHIPPING_METHOD);
-		        ?></strong>
-				</td>
-				<td>
-		            <select name="USPS_DOMESTIC_SHIPPING_METHOD[]" multiple="multiple">
-		            	<option value="FIRST CLASS" <?php if(in_array("FIRST CLASS",$servicearr)){echo "selected";}?>>FIRST CLASS</option>
-		            	<option value="PRIORITY" <?php if(in_array("PRIORITY",$servicearr)){echo "selected";}?>>PRIORITY</option>
-		            	<option value="PRIORITY COMMERCIAL" <?php if(in_array("PRIORITY COMMERCIAL",$servicearr)){echo "selected";}?>>PRIORITY COMMERCIAL</option>
-		            	<option value="EXPRESS" <?php if(in_array("EXPRESS",$servicearr)){echo "selected";}?>>EXPRESS</option>
-		            	<option value="EXPRESS COMMERCIAL" <?php if(in_array("EXPRESS COMMERCIAL",$servicearr)){echo "selected";}?>>EXPRESS COMMERCIAL</option>
-		            	<option value="EXPRESS SH" <?php if(in_array("EXPRESS SH",$servicearr)){echo "selected";}?>>EXPRESS SH</option>
-		            	<option value="EXPRESS HFP" <?php if(in_array("EXPRESS HFP",$servicearr)){echo "selected";}?>>EXPRESS HFP</option>
-		            	<option value="MEDIA" <?php if(in_array("MEDIA",$servicearr)){echo "selected";}?>>MEDIA</option>
-		            	<option value="LIBRARY" <?php if(in_array("LIBRARY",$servicearr)){echo "selected";}?>>LIBRARY</option>
-		            	<option value="ALL" <?php if(in_array("ALL",$servicearr)){echo "selected";}?>>ALL</option>
-		            	<option value="ONLINE" <?php if(in_array("ONLINE",$servicearr)){echo "selected";}?>>ONLINE</option>
-		            	<option value="PARCEL" <?php if(in_array("PARCEL",$servicearr)){echo "selected";}?>>PARCEL</option>
-		            </select>
-				</td>
-				<td valign="top">
-		            <?php //echo JTEXT::_(USPS_DOMESTIC_SHIPPING_METHOD_TOOLTIP) ?>
-		        </td>
-		    </tr>
-		    -->
 			<tr>
 				<td colspan="3">
 					<hr>
@@ -348,22 +320,50 @@ class plgredshop_shippinguspsv4 extends JPlugin
 				"USPS_SHIP13"                   => $d['USPS_SHIP13'],
 				"USPS_SHIP14"                   => $d['USPS_SHIP14'],
 				"USPS_SHIP15"                   => $d['USPS_SHIP15'],
+				"USPS_SHIP16"                   => $d['USPS_SHIP16'],
+				"USPS_SHIP17"                   => $d['USPS_SHIP17'],
+				"USPS_SHIP18"                   => $d['USPS_SHIP18'],
+				"USPS_SHIP19"                   => $d['USPS_SHIP19'],
+				"USPS_SHIP20"                   => $d['USPS_SHIP20'],
+				"USPS_SHIP21"                   => $d['USPS_SHIP21'],
+				"USPS_SHIP22"                   => $d['USPS_SHIP22'],
+				"USPS_SHIP23"                   => $d['USPS_SHIP23'],
+				"USPS_SHIP24"                   => $d['USPS_SHIP24'],
+				"USPS_SHIP25"                   => $d['USPS_SHIP25'],
+				"USPS_SHIP26"                   => $d['USPS_SHIP26'],
+				"USPS_SHIP27"                   => $d['USPS_SHIP27'],
+				"USPS_SHIP28"                   => $d['USPS_SHIP28'],
+				"USPS_SHIP29"                   => $d['USPS_SHIP29'],
 				"USPS_SHIP0_COMMIT"             => "Overnight, most locations",
 				"USPS_SHIP1_COMMIT"             => "Overnight, most locations",
 				"USPS_SHIP2_COMMIT"             => "Overnight, most locations",
 				"USPS_SHIP3_COMMIT"             => "Overnight, most locations",
 				"USPS_SHIP4_COMMIT"             => "Overnight, most locations",
 				"USPS_SHIP5_COMMIT"             => "Overnight, most locations",
-				"USPS_SHIP6_COMMIT"             => "1 - 3 Days",
-				"USPS_SHIP7_COMMIT"             => "1 - 3 Days",
-				"USPS_SHIP8_COMMIT"             => "1 - 3 Days",
-				"USPS_SHIP9_COMMIT"             => "1 - 3 Days",
-				"USPS_SHIP10_COMMIT"            => "1 - 3 Days",
-				"USPS_SHIP11_COMMIT"            => "1 - 3 Days",
-				"USPS_SHIP12_COMMIT"            => "2 - 9 Days",
-				"USPS_SHIP13_COMMIT"            => "2 - 9 Days",
-				"USPS_SHIP14_COMMIT"            => "2 - 9 Days",
-				"USPS_SHIP15_COMMIT"            => "2 - 9 Days",
+				"USPS_SHIP6_COMMIT"             => "Overnight, most locations",
+				"USPS_SHIP7_COMMIT"             => "Overnight, most locations",
+				"USPS_SHIP8_COMMIT"             => "Overnight, most locations",
+				"USPS_SHIP9_COMMIT"             => "Overnight, most locations",
+				"USPS_SHIP10_COMMIT"            => "Overnight, most locations",
+				"USPS_SHIP11_COMMIT"            => "Overnight, most locations",
+				"USPS_SHIP12_COMMIT"            => "Delivery within 2 days in most cases",
+				"USPS_SHIP13_COMMIT"            => "Delivery within 2 days in most cases",
+				"USPS_SHIP14_COMMIT"            => "Delivery within 2 days in most cases",
+				"USPS_SHIP15_COMMIT"            => "Delivery within 2 days in most cases",
+				"USPS_SHIP16_COMMIT"            => "Delivery within 2 days in most cases",
+				"USPS_SHIP17_COMMIT"            => "Delivery within 2 days in most cases",
+				"USPS_SHIP18_COMMIT"            => "Delivery within 2 days in most cases",
+				"USPS_SHIP19_COMMIT"            => "Delivery within 2 days in most cases",
+				"USPS_SHIP20_COMMIT"            => "Delivery within 2 days in most cases",
+				"USPS_SHIP21_COMMIT"            => "Delivery within 2 days in most cases",
+				"USPS_SHIP22_COMMIT"            => "Delivery within 2 days in most cases",
+				"USPS_SHIP23_COMMIT"            => "Delivery within 2 days in most cases",
+				"USPS_SHIP24_COMMIT"            => "Delivery within 2 days in most cases",
+				"USPS_SHIP25_COMMIT"            => "Delivery within 2 days in most cases",
+				"USPS_SHIP26_COMMIT"            => "Delivery within 2 days in most cases",
+				"USPS_SHIP27_COMMIT"            => "Delivery in 2 to 8 days",
+				"USPS_SHIP28_COMMIT"            => "Delivery in 2 to 8 days",
+				"USPS_SHIP29_COMMIT"            => "Delivery in 2 to 8 days",
 				"USPS_INTL0"                    => $d['USPS_INTL0'],
 				"USPS_INTL1"                    => $d['USPS_INTL1'],
 				"USPS_INTL2"                    => $d['USPS_INTL2'],
@@ -376,36 +376,68 @@ class plgredshop_shippinguspsv4 extends JPlugin
 				"USPS_INTL9"                    => $d['USPS_INTL9'],
 				"USPS_INTL10"                   => $d['USPS_INTL10'],
 				"USPS_INTL11"                   => $d['USPS_INTL11'],
-				"USPS_INTL0_TEXT"               => "Global Express Guaranteed (GXG)",
+				"USPS_INTL12"                   => $d['USPS_INTL12'],
+				"USPS_INTL13"                   => $d['USPS_INTL13'],
+				"USPS_INTL14"                   => $d['USPS_INTL14'],
+				"USPS_INTL15"                   => $d['USPS_INTL15'],
+				"USPS_INTL16"                   => $d['USPS_INTL16'],
+				"USPS_INTL17"                   => $d['USPS_INTL17'],
+				"USPS_INTL18"                   => $d['USPS_INTL18'],
+				"USPS_INTL19"                   => $d['USPS_INTL19'],
+				"USPS_INTL20"                   => $d['USPS_INTL20'],
+				"USPS_INTL21"                   => $d['USPS_INTL21'],
+				"USPS_SHIP0_TEXT"               => "Priority Mail Express Hold For Pickup",
+				"USPS_SHIP1_TEXT"               => "Priority Mail Express",
+				"USPS_SHIP2_TEXT"               => "Priority Mail Express Sunday/Holiday Delivery",
+				"USPS_SHIP3_TEXT"               => "Priority Mail Express Flat Rate Boxes",
+				"USPS_SHIP4_TEXT"               => "Priority Mail Express Flat Rate Boxes Hold For Pickup",
+				"USPS_SHIP5_TEXT"               => "Priority Mail Express Sunday/Holiday Delivery Flat Rate Boxes",
+				"USPS_SHIP6_TEXT"               => "Priority Mail Express Flat Rate Envelope",
+				"USPS_SHIP7_TEXT"               => "Priority Mail Express Flat Rate Envelope Hold For Pickup",
+				"USPS_SHIP8_TEXT"               => "Priority Mail Express Sunday/Holiday Delivery Flat Rate Envelope",
+				"USPS_SHIP9_TEXT"               => "Priority Mail Express Legal Flat Rate Envelope",
+				"USPS_SHIP10_TEXT"              => "Priority Mail Express Legal Flat Rate Envelope Hold For Pickup",
+				"USPS_SHIP11_TEXT"              => "Priority Mail Express Sunday/Holiday Delivery Legal Flat Rate Envelope",
+				"USPS_SHIP12_TEXT"              => "Priority Mail",
+				"USPS_SHIP13_TEXT"              => "Priority Mail Large Flat Rate Box",
+				"USPS_SHIP14_TEXT"              => "Priority Mail Medium Flat Rate Box",
+				"USPS_SHIP15_TEXT"              => "Priority Mail Small Flat Rate Box",
+				"USPS_SHIP16_TEXT"              => "Priority Mail Flat Rate Envelope",
+				"USPS_SHIP17_TEXT"              => "Priority Mail Legal Flat Rate Envelope",
+				"USPS_SHIP18_TEXT"              => "Priority Mail Padded Flat Rate Envelope",
+				"USPS_SHIP19_TEXT"              => "Priority Mail Gift Card Flat Rate Envelope",
+				"USPS_SHIP20_TEXT"              => "Priority Mail Small Flat Rate Envelope",
+				"USPS_SHIP21_TEXT"              => "Priority Mail Window Flat Rate Envelope",
+				"USPS_SHIP22_TEXT"              => "First-Class Mail Parcel",
+				"USPS_SHIP23_TEXT"              => "First-Class Mail Letter",
+				"USPS_SHIP24_TEXT"              => "First-Class Mail Postcards",
+				"USPS_SHIP25_TEXT"              => "First-Class Mail Large Postcards",
+				"USPS_SHIP26_TEXT"              => "First-Class Mail Large Envelope",
+				"USPS_SHIP27_TEXT"              => "Standard Post",
+				"USPS_SHIP28_TEXT"              => "Media Mail",
+				"USPS_SHIP29_TEXT"              => "Library Mail",
+				"USPS_INTL0_TEXT"               => "Global Express Guaranteed (GXG)**",
 				"USPS_INTL1_TEXT"               => "Global Express Guaranteed Non-Document Rectangular",
 				"USPS_INTL2_TEXT"               => "Global Express Guaranteed Non-Document Non-Rectangular",
-				"USPS_INTL3_TEXT"               => "USPS GXG Envelopes",
-				"USPS_INTL4_TEXT"               => "Express Mail International",
-				"USPS_INTL5_TEXT"               => "Express Mail International Flat Rate Envelope",
-				"USPS_INTL6_TEXT"               => "Priority Mail International",
-				"USPS_INTL7_TEXT"               => "Priority Mail International Flat Rate Envelope",
-				"USPS_INTL8_TEXT"               => "Priority Mail International Medium Flat Rate Box",
+				"USPS_INTL3_TEXT"               => "USPS GXG Envelopes**",
+				"USPS_INTL4_TEXT"               => "Priority Mail Express International",
+				"USPS_INTL5_TEXT"               => "Priority Mail Express International Flat Rate Boxes",
+				"USPS_INTL6_TEXT"               => "Priority Mail Express International Flat Rate Envelope",
+				"USPS_INTL7_TEXT"               => "Priority Mail Express International Legal Flat Rate Envelope",
+				"USPS_INTL8_TEXT"               => "Priority Mail International",
 				"USPS_INTL9_TEXT"               => "Priority Mail International Large Flat Rate Box",
-				"USPS_INTL10_TEXT"              => "First-Class Mail International Large Envelope",
-				"USPS_INTL11_TEXT"              => "First-Class Mail International Package",
-				"USPS_INTL12_TEXT"              => "Priority Mail International Small Flat Rate Box",
-				"USPS_SHIP0_TEXT"               => "Express Mail Sunday/Holiday Guarantee",
-				"USPS_SHIP1_TEXT"               => "Express Mail Flat-Rate Envelope Sunday/Holiday Guarantee",
-				"USPS_SHIP2_TEXT"               => "Express Mail Hold For Pickup",
-				"USPS_SHIP3_TEXT"               => "Express Mail",
-				"USPS_SHIP4_TEXT"               => "Express Mail Flat Rate Envelope Hold For Pickup",
-				"USPS_SHIP5_TEXT"               => "Express Mail Flat Rate Envelope",
-				"USPS_SHIP6_TEXT"               => "Priority Mail",
-				"USPS_SHIP7_TEXT"               => "Priority Mail Flat Rate Envelope",
-				"USPS_SHIP8_TEXT"               => "Priority Mail Flat Rate Box",
-				"USPS_SHIP9_TEXT"               => "Priority Mail Large Flat Rate Box",
-				"USPS_SHIP10_TEXT"              => "First Class Mail Flat",
-				"USPS_SHIP11_TEXT"              => "First Class Mail Parcel",
-				"USPS_SHIP12_TEXT"              => "Parcel Post",
-				"USPS_SHIP13_TEXT"              => "Bound Printed Matter",
-				"USPS_SHIP14_TEXT"              => "Media Mail",
-				"USPS_SHIP15_TEXT"              => "Library Mail",
-				"USPS_SHIP16_TEXT"              => "Priority Mail Small Flat Rate Box"
+				"USPS_INTL10_TEXT"              => "Priority Mail International Medium Flat Rate Box",
+				"USPS_INTL11_TEXT"              => "Priority Mail International Small Flat Rate Box**",
+				"USPS_INTL12_TEXT"              => "Priority Mail International DVD Flat Rate priced box**",
+				"USPS_INTL13_TEXT"              => "Priority Mail International Large Video Flat Rate priced box**",
+				"USPS_INTL14_TEXT"              => "Priority Mail International Flat Rate Envelope**",
+				"USPS_INTL15_TEXT"              => "Priority Mail International Legal Flat Rate Envelope**",
+				"USPS_INTL16_TEXT"              => "Priority Mail International Padded Flat Rate Envelope**",
+				"USPS_INTL17_TEXT"              => "Priority Mail International Gift Card Flat Rate Envelope**",
+				"USPS_INTL18_TEXT"              => "Priority Mail International Small Flat Rate Envelope**",
+				"USPS_INTL19_TEXT"              => "Priority Mail International Window Flat Rate Envelope**",
+				"USPS_INTL20_TEXT"              => "First-Class Package International Service**",
+				"USPS_INTL21_TEXT"              => "First-Class Mail International Large Envelope**"
 
 			);
 
@@ -591,6 +623,24 @@ class plgredshop_shippinguspsv4 extends JPlugin
 					$xmlPost .= "</Package>";
 
 					$xmlPost .= "</RateV4Request>";
+
+					$i = 0;
+
+					while (defined("USPS_SHIP" . $i))
+					{
+						$ship_option_avail = constant("USPS_SHIP" . $i);
+						$ship_option_text = constant("USPS_SHIP" . $i . "_TEXT");
+
+						if ($ship_option_avail == '1')
+						{
+							if ($ship_option_text !== "")
+							{
+								$usps_ship_active[] = $ship_option_text;
+							}
+						}
+
+						$i++;
+					}
 				}
 				else
 				{
@@ -611,11 +661,29 @@ class plgredshop_shippinguspsv4 extends JPlugin
 					$xmlPost .= "<Girth>" . ceil($girth) . "</Girth>";
 					$xmlPost .= "<CommercialFlag>N</CommercialFlag>";
 					$xmlPost .= '</Package></IntlRateV2Request>';
+
+					$i = 0;
+
+					while (defined("USPS_INTL" . $i))
+					{
+						$ship_option_avail = constant("USPS_INTL" . $i);
+						$ship_option_text = constant("USPS_INTL" . $i . "_TEXT");
+
+						if ($ship_option_avail == '1')
+						{
+							if ($ship_option_text !== "")
+							{
+								$usps_intl_active[] = $ship_option_text;
+							}
+						}
+
+						$i++;
+					}
 				}
 
 				$html = "";
-				// Using cURL is Up-To-Date and easier!!
-				if (!function_exists("curl_init"))
+
+				if (function_exists("curl_init"))
 				{
 					$CR = curl_init();
 					curl_setopt($CR, CURLOPT_URL, "http://" . USPS_SERVER . USPS_PATH);
@@ -740,33 +808,34 @@ class plgredshop_shippinguspsv4 extends JPlugin
 								$postage_child = $currNode->_children;
 								$mailservice = $currNode->getElementByPath("mailservice");
 
-								for ($tmp = 0; $tmp <= 16; $tmp++)
+								$serviceName = str_replace("&lt;sup&gt;&amp;reg;&lt;/sup&gt;", "", $mailservice->data());
+								$serviceName = str_replace("&lt;sup&gt;&amp;trade;&lt;/sup&gt;", "", $serviceName);
+								$serviceName = str_replace("&lt;sup&gt;&#174;&lt;/sup&gt;", "", $serviceName);
+								$serviceName = str_replace("&lt;sup&gt;&#8482;&lt;/sup&gt;", "", $serviceName);
+								$serviceName = str_replace(" 1-Day", "", $serviceName);
+								$serviceName = str_replace(" 2-Day", "", $serviceName);
+								$serviceName = str_replace(" 3-Day", "", $serviceName);
+								$serviceName = str_replace(" Military", "", $serviceName);
+								$serviceName = str_replace(" DPO", "", $serviceName);
+
+
+								if (in_array($serviceName, $usps_ship_active))
 								{
-									$strTitle = preg_replace('|<sup>(.*?)</sup>|', '', htmlspecialchars_decode($mailservice->data(), ENT_QUOTES));
-									$strTitle = str_replace('*', '', $strTitle);
+									$ship_service[$count] = $serviceName;
+									$rateData = $currNode->getElementByPath("rate");
+									$ship_postage[$count] = $rateData->data();
 
-									if (constant("USPS_SHIP" . $tmp) == '1')
+									if (preg_match('/%$/', USPS_HANDLINGFEE))
 									{
-										if ($strTitle == constant("USPS_SHIP" . $tmp . "_TEXT"))
-										{
-											$ship_service[$count] = $mailservice->data(); //html_entity_decode();
-											$rateData = $currNode->getElementByPath("rate");
-											$ship_postage[$count] = $rateData->data();
-
-											if (preg_match('/%$/', USPS_HANDLINGFEE))
-											{
-												$ship_postage[$count] = $ship_postage[$count] * (1 + substr(USPS_HANDLINGFEE, 0, -1) / 100);
-											}
-											else
-											{
-												$ship_postage[$count] = $ship_postage[$count] + USPS_HANDLINGFEE;
-											}
-
-											$count++;
-										}
+										$ship_postage[$count] = $ship_postage[$count] * (1 + substr(USPS_HANDLINGFEE, 0, -1) / 100);
 									}
-								}
+									else
+									{
+										$ship_postage[$count] = $ship_postage[$count] + USPS_HANDLINGFEE;
+									}
 
+									$count++;
+								}
 							}
 						}
 					}
@@ -789,37 +858,32 @@ class plgredshop_shippinguspsv4 extends JPlugin
 								$service_child = $currNode->_children;
 								$SvcDescription = $currNode->getElementByPath("svcdescription");
 
-								for ($tmp = 0; $tmp <= 11; $tmp++)
+								$serviceName = str_replace("&lt;sup&gt;&amp;reg;&lt;/sup&gt;", "", $SvcDescription->data());
+								$serviceName = str_replace("&lt;sup&gt;&amp;trade;&lt;/sup&gt;", "", $serviceName);
+								$serviceName = str_replace("&lt;sup&gt;&#174;&lt;/sup&gt;", "", $serviceName);
+								$serviceName = str_replace("&lt;sup&gt;&#8482;&lt;/sup&gt;", "", $serviceName);
+
+								if (in_array($serviceName, $usps_intl_active))
 								{
-									$strTitle = preg_replace('|<sup>(.*?)</sup>|', '', htmlspecialchars_decode($SvcDescription->data(), ENT_QUOTES));
-									$strTitle = str_replace('*', '', $strTitle);
+									$ship_service[$count] = $serviceName;
+									$postage = $currNode->getElementByPath("postage");
+									$ship_postage[$count] = $postage->data();
+									$svccommitments = $currNode->getElementByPath("svccommitments");
+									$ship_commit[$count] = $svccommitments->data();
+									$maxweight = $currNode->getElementByPath("maxweight");
+									$ship_weight[$count] = $maxweight->data();
 
-									if (constant("USPS_INTL" . $tmp) == '1')
+									if (preg_match('/%$/', USPS_INTLHANDLINGFEE))
 									{
-										if ($strTitle == constant("USPS_INTL" . $tmp . "_TEXT"))
-										{
-											$ship_service[$count] = $SvcDescription->data(); //html_entity_decode();
-											$postage = $currNode->getElementByPath("postage");
-											$ship_postage[$count] = $postage->data();
-											$svccommitments = $currNode->getElementByPath("svccommitments");
-											$ship_commit[$count] = $svccommitments->data();
-											$maxweight = $currNode->getElementByPath("maxweight");
-											$ship_weight[$count] = $maxweight->data();
-
-											if (preg_match('/%$/', USPS_INTLHANDLINGFEE))
-											{
-												$ship_postage[$count] = $ship_postage[$count] * (1 + substr(USPS_INTLHANDLINGFEE, 0, -1) / 100);
-											}
-											else
-											{
-												$ship_postage[$count] = $ship_postage[$count] + USPS_INTLHANDLINGFEE;
-											}
-
-											$count++;
-										}
+										$ship_postage[$count] = $ship_postage[$count] * (1 + substr(USPS_INTLHANDLINGFEE, 0, -1) / 100);
 									}
-								}
+									else
+									{
+										$ship_postage[$count] = $ship_postage[$count] + USPS_INTLHANDLINGFEE;
+									}
 
+									$count++;
+								}
 							}
 						}
 					}
