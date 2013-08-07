@@ -1,7 +1,7 @@
 <?php
 
-define('USPS_USERNAME', '162LORET7625');
-define('USPS_PASSWORD', '761CR76QH927');
+define('USPS_USERNAME', '');
+define('USPS_PASSWORD', '');
 define('USPS_SERVER', 'production.shippingAPIs.com');
 define('USPS_PATH', '/shippingAPI.dll');
 define('USPS_PROXYSERVER', '');
