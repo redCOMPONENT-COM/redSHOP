@@ -661,9 +661,8 @@ if(is_file(REDSHOP_FRONT_IMAGES_RELPATH.$back_image_path)){    ?>
 	<td align="left"><?php
 		$back_thumb_image_path = 'product/'.trim($this->detail->product_back_thumb_image);
 
-		if(file_exists(REDSHOP_FRONT_IMAGES_RELPATH.$image_path ) && trim($this->detail->product_back_thumb_image)!=""){
-
-
+		if (file_exists(REDSHOP_FRONT_IMAGES_RELPATH . $back_thumb_image_path ) && trim($this->detail->product_back_thumb_image) != '')
+		{
 		?>
 		<div id="image_dis">
 			<img src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH.$back_thumb_image_path; ?>"
