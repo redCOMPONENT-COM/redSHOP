@@ -1506,7 +1506,7 @@ class producthelper
 				}
 				else
 				{
-					$discount_amount = ($row->product_price * $res->discount_amount) / (100);
+					$discount_amount = ($newproductprice * $res->discount_amount) / (100);
 				}
 			}
 
