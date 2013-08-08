@@ -13,8 +13,6 @@ jimport('joomla.application.component.controller');
 require_once JPATH_COMPONENT . '/helpers/order.php';
 require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/mail.php';
 require_once JPATH_SITE . '/components/com_redshop/helpers/helper.php';
-require_once JPATH_SITE . '/components/com_redshop/helpers/tcpdf/tcpdf.php';
-require_once JPATH_SITE . '/components/com_redshop/helpers/tcpdf/PDFMerger.php';
 
 class orderController extends JController
 {
@@ -90,38 +88,39 @@ class orderController extends JController
 		$order_functions = new order_functions;
 		$cnt = JRequest::getInt('cnt', 0);
 		$order_id = $post['cid'];
-
 		$responcemsg = "";
+		JLoader::import('mpdf', JPATH_COMPONENT_SITE . '/helpers/mpdf54');
 
 		for ($i = $cnt, $j = 0; $j < 1; $j++)
 		{
 			if (!isset($order_id[$i]))
 			{
-				$pdf = new PDFMerger;
+				$pdfObj = new mPDF('utf-8', 'A5', '6', '', 8, 8, 8, 0, '', '', 'P');
+				$pdfObj->SetImportUse();
 				$merge_invoice_arr = $session->get('merge_invoice_arr');
 
 				for ($m = 0; $m < count($merge_invoice_arr); $m++)
 				{
-					if (file_exists(JPATH_SITE . '/components/com_redshop/assets/document'
-						. '/invoice/shipped_' . $merge_invoice_arr[$m] . '.pdf'))
+					if (file_exists(JPATH_SITE . '/components/com_redshop/assets/document/invoice/shipped_' . $merge_invoice_arr[$m] . '.pdf'))
 					{
-						$pdf->addPDF(JPATH_SITE . '/components/com_redshop/assets/document'
-							. '/invoice/shipped_' . $merge_invoice_arr[$m] . '.pdf', 'all'
-						);
+						if ($m > 0)
+							$pdfObj->AddPage();
+						$pagecount = $pdfObj->SetSourceFile(JPATH_SITE . '/components/com_redshop/assets/document' . '/invoice/shipped_' . $merge_invoice_arr[$m] . '.pdf');
+
+						// Import the last page of the source PDF file
+						$tplId = $pdfObj->ImportPage($pagecount);
+						$pdfObj->UseTemplate($tplId);
+						$pdfObj->WriteHTML('');
 					}
 				}
 
-				$pdf->merge('file', JPATH_SITE . '/components/com_redshop/assets/document'
-					. '/invoice/shipped_' . $rand_invoice_name . '.pdf'
-				);
+				$pdfObj->Output(JPATH_SITE . '/components/com_redshop/assets/document/invoice/shipped_' . $rand_invoice_name . '.pdf', 'F');
 
 				for ($m = 0; $m < count($merge_invoice_arr); $m++)
 				{
-					if (file_exists(JPATH_SITE . '/components/com_redshop/assets/document'
-						. '/invoice/shipped_' . $merge_invoice_arr[$m] . '.pdf'))
+					if (file_exists(JPATH_SITE . '/components/com_redshop/assets/document/invoice/shipped_' . $merge_invoice_arr[$m] . '.pdf'))
 					{
-						unlink(JPATH_ROOT . '/components/com_redshop/assets/document/invoice/shipped_' . $merge_invoice_arr[$m] . '.pdf'
-						);
+						unlink(JPATH_ROOT . '/components/com_redshop/assets/document/invoice/shipped_' . $merge_invoice_arr[$m] . '.pdf');
 					}
 				}
 
@@ -135,20 +134,18 @@ class orderController extends JController
 			// For shipped pdf generation
 			if ($post['order_status_all'] == "S" && $post['order_paymentstatus' . $order_id[$i]] == "Paid")
 			{
-				$pdfObj = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, 'A5', true, 'UTF-8', false);
-				$pdfObj->SetTitle('Shipped');
-				$pdfObj->SetAuthor('redSHOP');
+				$pdfObj = new mPDF('utf-8', 'A5', '6', '', 8, 8, 8, 0, '', '', 'P');
+				$pdfObj->charset_in = 'utf-8';
 				$pdfObj->SetCreator('redSHOP');
-				$pdfObj->SetMargins(8, 8, 8);
-				$font = 'times';
-				$pdfObj->setImageScale(PDF_IMAGE_SCALE_RATIO);
-				$pdfObj->setHeaderFont(array($font, '', 8));
-				$pdfObj->SetFont($font, "", 6);
+				$pdfObj->SetAuthor('redSHOP');
+				$pdfObj->SetTitle('Shipped');
+				$pdfObj->SetSubject('Shipped');
+				$pdfObj->keep_table_proportions = true;
 
 				$invoice = $order_functions->createShippedInvoicePdf($order_id[$i]);
 				$session->set('merge_invoice_arr', $order_id[$i]);
 				$pdfObj->AddPage();
-				$pdfObj->WriteHTML($invoice, true, false, true, false, '');
+				$pdfObj->WriteHTML($invoice, 2);
 
 				$invoice_pdfName = "shipped_" . $order_id[$i];
 				$merge_invoice_arr[] = $order_id[$i];
@@ -156,7 +153,7 @@ class orderController extends JController
 
 				$pdfObj->Output(
 					JPATH_SITE . '/components/com_redshop/assets/document'
-					. '/invoice/' . $invoice_pdfName . ".pdf", "F");
+					. '/invoice/' . $invoice_pdfName . '.pdf', 'F');
 			}
 
 			$responcemsg .= "<div>" . ($i + 1) . ": " . JText::_('COM_REDSHOP_ORDER_ID') . " " . $order_id[$i] . " -> ";
