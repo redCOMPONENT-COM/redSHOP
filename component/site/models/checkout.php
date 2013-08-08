@@ -1382,7 +1382,7 @@ class CheckoutModelCheckout extends JModel
 	{
 		$url               = JURI::root();
 		$giftcardmail_body = '';
-		JLoader::import('mypdf', JPATH_COMPONENT_SITE . '/helpers/tcpdf');
+		JLoader::import('mpdf', JPATH_COMPONENT_SITE . '/helpers/mpdf54');
 
 		$giftcardmail = $this->_redshopMail->getMailtemplate(0, "giftcard_mail");
 
@@ -1454,24 +1454,29 @@ class CheckoutModelCheckout extends JModel
 			ob_clean();
 			echo "<div id='redshopcomponent' class='redshop'>";
 			$is_giftcard = 1;
-			$pdf         = new MYPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
 
-			if (file_exists(REDSHOP_FRONT_IMAGES_RELPATH . 'giftcard/' . $giftcardData->giftcard_bgimage) && $giftcardData->giftcard_bgimage)
+			$pdfObj = new mPDF('utf-8', 'A4', '12', '', 15, 15, 15, 0, '', '', 'P');
+
+			$pdfObj->SetCreator('redSHOP');
+			$pdfObj->SetAuthor('redSHOP');
+			$pdfObj->SetTitle(JText::_('COM_REDSHOP_INVOICE') . $row->order_id);
+			$pdfObj->SetSubject(JText::_('COM_REDSHOP_INVOICE') . $row->order_id);
+			$pdfObj->keep_table_proportions = true;
+			$pdfObj->AddPage();
+			$img_giftcard = REDSHOP_FRONT_IMAGES_RELPATH . 'giftcard/' . $giftcardData->giftcard_bgimage;
+
+			if ($giftcardData->giftcard_bgimage && file_exists($img_giftcard))
 			{
-				$pdf->img_file = REDSHOP_FRONT_IMAGES_RELPATH . 'giftcard/' . $giftcardData->giftcard_bgimage;
+				$pdfObj->SetWatermarkImage(
+					$src = $img_giftcard,
+					$alpha = 1,
+					$size = 'P',
+					array (0, 0)
+				);
+				$pdfObj->showWatermarkImage = true;
+				$pdfObj->watermarkImgBehind = true;
 			}
 
-			$pdf->SetCreator(PDF_CREATOR);
-			$pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
-			$pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
-			$pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
-			$pdf->SetHeaderMargin(0);
-			$pdf->SetFooterMargin(0);
-			$pdf->setPrintFooter(false);
-			$pdf->SetAutoPageBreak(true, PDF_MARGIN_BOTTOM);
-			$pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
-			$pdf->SetFont('times', '', 18);
-			$pdf->AddPage();
 			$pdfImage = "";
 
 			if (file_exists(REDSHOP_FRONT_IMAGES_RELPATH . 'giftcard/' . $giftcardData->giftcard_image) && $giftcardData->giftcard_image)
@@ -1480,17 +1485,16 @@ class CheckoutModelCheckout extends JModel
 			}
 
 			$giftcardmail_body = str_replace("{giftcard_image}", $pdfImage, $giftcardmail_body);
-			$pdf->writeHTML($giftcardmail_body, $ln = true, $fill = false, $reseth = false, $cell = false, $align = '');
+			$pdfObj->WriteHTML($giftcardmail_body, 2);
 			$g_pdfName = time();
-			$pdf->Output(JPATH_SITE . '/components/com_redshop/assets/orders/' . $g_pdfName . ".pdf", "F");
+			$pdfObj->Output(JPATH_SITE . '/components/com_redshop/assets/orders/' . $g_pdfName . '.pdf', 'F');
 			$config              = JFactory::getConfig();
 			$from                = $config->getValue('mailfrom');
 			$fromname            = $config->getValue('fromname');
-			$giftcard_attachment = JPATH_SITE . '/components/com_redshop/assets/orders/' . $g_pdfName . ".pdf";
+			$giftcard_attachment = JPATH_SITE . '/components/com_redshop/assets/orders/' . $g_pdfName . '.pdf';
 
 			JUtility::sendMail($from, $fromname, $eachorders->giftcard_user_email, $giftcardmailsub, $giftcardmail_body, 1, '', '', $giftcard_attachment);
 		}
-
 	}
 
 	public function billingaddresses()

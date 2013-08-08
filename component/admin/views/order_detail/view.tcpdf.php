@@ -10,25 +10,23 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/extra_field.php';
-//
-require_once JPATH_COMPONENT_SITE . '/helpers/tcpdf/tcpdf.php';
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php';
+JLoader::import('extra_field', JPATH_COMPONENT_ADMINISTRATOR . '/helpers');
+JLoader::import('mpdf', JPATH_COMPONENT_SITE . '/helpers/mpdf54');
+JLoader::import('order', JPATH_COMPONENT_ADMINISTRATOR . '/helpers');
+
 class order_detailVIEWorder_detail extends JView
 {
 	function display($tpl = null)
 	{
-
-		$config = new Redconfiguration();
-		$redTemplate = new Redtemplate();
-
-		$order_functions = new order_functions();
-		$model = $this->getModel();
+		$config = new Redconfiguration;
+		$redTemplate = new Redtemplate;
+		$order_functions = new order_functions;
 
 		$detail = $this->get('data');
 
 		$billing = $order_functions->getBillingAddress($detail->user_id);
 		$shipping = $order_functions->getOrderShippingUserInfo($detail->order_id);
+
 		if (!$shipping)
 		{
 			$shipping = $billing;
@@ -69,7 +67,7 @@ class order_detailVIEWorder_detail extends JView
 		$html_template = str_replace("{shipping_state}", $order_functions->getStateName($shipping->state_code, $shipping->country_code), $html_template);
 		$html_template = str_replace("{shipping_phone}", $shipping->zipcode, $html_template);
 
-		// if user is company than
+		// If user is company than
 		if ($billing->is_company && $billing->company_name != "")
 		{
 			$html_template = str_replace("{company_name}", $billing->company_name, $html_template);
@@ -81,30 +79,18 @@ class order_detailVIEWorder_detail extends JView
 			$html_template = str_replace("{company_name_lbl}", "", $html_template);
 		}
 
-		$pdfObj = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, 'A5', true, 'UTF-8', false);
-		$pdfObj->SetTitle("Order :" . $detail->order_id);
-		$pdfObj->SetAuthor('redSHOP');
+		$pdfObj = new mPDF('utf-8', 'A5', '12', '', 15, 15, 15, 0, '', '', 'P');
+
+		$pdfObj->charset_in = 'utf-8';
 		$pdfObj->SetCreator('redSHOP');
-		$pdfObj->SetMargins(15, 15, 15);
-
-		$font = 'times';
-
-		$pdfObj->SetHeaderData('', '', '', "Order " . $detail->order_id);
-		$pdfObj->setHeaderFont(array($font, '', 10));
-		//$pdfObj->setFooterFont(array($font, '', 8));
-		$pdfObj->SetFont($font, "", 12);
-
-
-		//$pdfObj->AliasNbPages();
+		$pdfObj->SetAuthor('redSHOP');
+		$pdfObj->SetTitle('Order :' . $detail->order_id);
+		$pdfObj->SetSubject('Order :' . $detail->order_id);
+		$pdfObj->keep_table_proportions = true;
+		$pdfObj->SetHTMLHeader('<div style="font-size:10pt; padding: 20pt 0 10pt 0;">Order ' . $detail->order_id . '</div>');
 		$pdfObj->AddPage();
-
-
 		$pdfObj->WriteHTML($html_template);
-
-		$pdfObj->Output("Order_" . $detail->order_id . ".pdf", "D");
+		$pdfObj->Output('Order_' . $detail->order_id . '.pdf', 'D');
 		exit;
 	}
-
 }
-
-?>
