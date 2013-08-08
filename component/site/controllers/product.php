@@ -496,12 +496,19 @@ class ProductController extends JController
 		// GetVariables
 		$post = JRequest::get('REQUEST');
 
+		$pid = null;
+
+		if (isset($post['pid']))
+		{
+			$pid = (int) $post['pid'];
+		}
+
 		// Initiallize variable
 		$model = $this->getModel('product');
 
 		if ($post['cmd'] == 'add')
 		{
-			$checkCompare = $model->checkComparelist($post['pid']);
+			$checkCompare = $model->checkComparelist($pid);
 
 			$countCompare = $model->checkComparelist(0);
 
@@ -534,7 +541,7 @@ class ProductController extends JController
 		}
 		elseif ($post['cmd'] == 'remove')
 		{
-			$model->removeCompare($post['pid']);
+			$model->removeCompare($pid);
 			$Message = "1`" . $producthelper->makeCompareProductDiv();
 			echo $Message;
 		}
@@ -554,7 +561,7 @@ class ProductController extends JController
 
 		// Initiallize variable
 		$model = $this->getModel('product');
-		$model->removeCompare($post['pid']);
+		$model->removeCompare((int) $post['pid']);
 		parent::display();
 	}
 
@@ -879,7 +886,7 @@ class ProductController extends JController
 
 		$post = JRequest::get('post');
 
-		$cid = $producthelper->getCategoryProduct($post['pid']);
+		$cid = $producthelper->getCategoryProduct((int) $post['pid']);
 
 		$ItemData = $producthelper->getMenuInformation(0, 0, '', 'product&pid=' . $post['pid']);
 
@@ -909,7 +916,7 @@ class ProductController extends JController
 
 		$post = JRequest::get('post');
 
-		$cid = $producthelper->getCategoryProduct($post['pid']);
+		$cid = $producthelper->getCategoryProduct((int) $post['pid']);
 
 		$ItemData = $producthelper->getMenuInformation(0, 0, '', 'product&pid=' . $post['pid']);
 
