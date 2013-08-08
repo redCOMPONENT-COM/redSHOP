@@ -47,13 +47,13 @@ class wishlistViewwishlist extends JView
 		$wish_products     = $model->getWishlistProduct();
 		$session_wishlists = $model->getWishlistProductFromSession();
 
-		if ($task == 'viewwishlist')
+		if ($task == 'viewwishlist' || $layout == 'viewwishlist')
 		{
 			$this->setlayout('viewwishlist');
-			$this->wishlists = $wishlist;
+			$this->wishlists     = $wishlist;
 			$this->wish_products = $wish_products;
-			$this->wish_session = $session_wishlists;
-			$this->params = $params;
+			$this->wish_session  = $session_wishlists;
+			$this->params        = $params;
 			parent::display($tpl);
 		}
 		elseif ($task == 'viewloginwishlist')

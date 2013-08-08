@@ -610,7 +610,7 @@ echo  $myTabs->startPanel(JText::_('COM_REDSHOP_PRODUCT_IMAGES'), 'tab4' );
 	<td align="left"><?php
 		if(file_exists(REDSHOP_FRONT_IMAGES_RELPATH.$image_path)){    ?>
 		<label><?php echo JText::_('COM_REDSHOP_DELETE_CURRENT_THUMB_IMAGE');?></label><input type="checkbox"
-																							  name="thumb_image_delete">
+		                                                                                      name="thumb_image_delete">
 		<?php    }    ?>
 	</td>
 </tr>
@@ -632,7 +632,7 @@ echo  $myTabs->startPanel(JText::_('COM_REDSHOP_PRODUCT_IMAGES'), 'tab4' );
 		?>
 		<div id="image_dis">
 			<img src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH.$back_image_path; ?>" id="back_image_display" border="0"
-				 width="200"/>
+			     width="200"/>
 
 		</div>
 		<?php    }    ?>
@@ -644,7 +644,7 @@ if(is_file(REDSHOP_FRONT_IMAGES_RELPATH.$back_image_path)){    ?>
 	<td valign="top" align="right" class="key">&nbsp;</td>
 	<td align="left">
 		<input type="checkbox"
-			   name="back_image_delete"><label><?php echo JText::_('COM_REDSHOP_DELETE_CURRENT_IMAGE');?>
+		       name="back_image_delete"><label><?php echo JText::_('COM_REDSHOP_DELETE_CURRENT_IMAGE');?>
 		</label>
 
 	</td>
@@ -661,13 +661,12 @@ if(is_file(REDSHOP_FRONT_IMAGES_RELPATH.$back_image_path)){    ?>
 	<td align="left"><?php
 		$back_thumb_image_path = 'product/'.trim($this->detail->product_back_thumb_image);
 
-		if(file_exists(REDSHOP_FRONT_IMAGES_RELPATH.$back_thumb_image_path ) && trim($this->detail->product_back_thumb_image)!=""){
-
-
+		if (file_exists(REDSHOP_FRONT_IMAGES_RELPATH . $back_thumb_image_path ) && trim($this->detail->product_back_thumb_image) != '')
+		{
 		?>
 		<div id="image_dis">
 			<img src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH.$back_thumb_image_path; ?>"
-				 id="thumb_back_image_display"/>
+			     id="thumb_back_image_display"/>
 		</div>
 		<?php    }    ?>
 	</td>
@@ -678,7 +677,7 @@ if(is_file(REDSHOP_FRONT_IMAGES_RELPATH.$back_thumb_image_path)){    ?>
 	<td valign="top" align="right" class="key">&nbsp;</td>
 	<td align="left">
 		<input type="checkbox"
-			   name="back_thumb_image_delete"><label><?php echo JText::_('COM_REDSHOP_DELETE_CURRENT_THUMB_IMAGE');?>
+		       name="back_thumb_image_delete"><label><?php echo JText::_('COM_REDSHOP_DELETE_CURRENT_THUMB_IMAGE');?>
 		</label>
 	</td>
 </tr>
@@ -711,7 +710,7 @@ if(is_file(REDSHOP_FRONT_IMAGES_RELPATH.$product_preview_image)){    ?>
 	<td valign="top" align="right" class="key">&nbsp;</td>
 	<td align="left">
 		<input type="checkbox"
-			   name="preview_image_delete"><label><?php echo JText::_('COM_REDSHOP_DELETE_CURRENT_IMAGE');?>
+		       name="preview_image_delete"><label><?php echo JText::_('COM_REDSHOP_DELETE_CURRENT_IMAGE');?>
 		</label>
 	</td>
 </tr>
@@ -733,7 +732,7 @@ if(is_file(REDSHOP_FRONT_IMAGES_RELPATH.$product_preview_image)){    ?>
 		?>
 		<div id="image_dis">
 			<img src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH.$product_preview_back_image; ?>"
-				 id="preview_back_image_display"/>
+			     id="preview_back_image_display"/>
 		</div>
 		<?php    }    ?>
 	</td>
@@ -744,7 +743,7 @@ if(is_file(REDSHOP_FRONT_IMAGES_RELPATH.$product_preview_back_image)){    ?>
 	<td valign="top" align="right" class="key">&nbsp;</td>
 	<td align="left">
 		<input type="checkbox"
-			   name="preview_back_image_delete"><label><?php echo JText::_('COM_REDSHOP_DELETE_CURRENT_IMAGE');?>
+		       name="preview_back_image_delete"><label><?php echo JText::_('COM_REDSHOP_DELETE_CURRENT_IMAGE');?>
 		</label>
 	</td>
 </tr>
@@ -812,28 +811,28 @@ echo  $myTabs->startPanel(JText::_('COM_REDSHOP_META_DATA_TAB'), 'tab5' );
 		<tr>
 			<td align="right" class="key"><?php echo JText::_('COM_REDSHOP_PAGE_TITLE' ); ?>:</td>
 			<td><input class="text_area" type="text" name="pagetitle" id="pagetitle" size="75"
-					   value="<?php echo htmlspecialchars($this->detail->pagetitle); ?>"/>
+			           value="<?php echo htmlspecialchars($this->detail->pagetitle); ?>"/>
 			</td>
 			<td><?php echo JHTML::tooltip( JText::_('COM_REDSHOP_TOOLTIP_PAGE_TITLE' ), JText::_('COM_REDSHOP_PAGE_TITLE' ), 'tooltip.png', '', '', false); ?></td>
 		</tr>
 		<tr>
 			<td align="right" class="key"><?php echo JText::_('COM_REDSHOP_PAGE_HEADING' ); ?>:</td>
 			<td><input class="text_area" type="text" name="pageheading" id="pageheading" size="75"
-					   value="<?php echo $this->detail->pageheading; ?>"/>
+			           value="<?php echo $this->detail->pageheading; ?>"/>
 			</td>
 			<td><?php echo JHTML::tooltip( JText::_('COM_REDSHOP_TOOLTIP_PAGE_HEADING' ), JText::_('COM_REDSHOP_PAGE_HEADING' ), 'tooltip.png', '', '', false); ?></td>
 		</tr>
 		<tr>
 			<td align="right" class="key"><?php echo JText::_('COM_REDSHOP_SEF_URL' ); ?>:</td>
 			<td><input class="text_area" type="text" name="sef_url" id="sef_url" size="75"
-					   value="<?php echo $this->detail->sef_url; ?>"/>
+			           value="<?php echo $this->detail->sef_url; ?>"/>
 			</td>
 			<td><?php echo JHTML::tooltip( JText::_('COM_REDSHOP_TOOLTIP_SEF_URL' ), JText::_('COM_REDSHOP_SEF_URL' ), 'tooltip.png', '', '', false); ?></td>
 		</tr>
 		<tr>
 			<td align="right" class="key"><?php echo JText::_( 'COM_REDSHOP_CANONICAL_URL_PRODUCT' ); ?>:</td>
 			<td><input class="text_area" type="text" name="canonical_url" id="canonical_url" size="75"
-					   value="<?php echo isset($this->detail->canonical_url) ? $this->detail->canonical_url : ""; ?>"/>
+			           value="<?php echo isset($this->detail->canonical_url) ? $this->detail->canonical_url : ""; ?>"/>
 			</td>
 			<td><?php echo JHTML::tooltip( JText::_( 'COM_REDSHOP_TOOLTIP_CANONICAL_URL_PRODUCT' ), JText::_( 'COM_REDSHOP_CANONICAL_URL_PRODUCT' ), 'tooltip.png', '', '', false); ?> </td>
 		</tr>
@@ -850,28 +849,28 @@ echo  $myTabs->startPanel(JText::_('COM_REDSHOP_META_DATA_TAB'), 'tab5' );
 		<tr>
 			<td valign="top" align="right" class="key"><?php echo JText::_('COM_REDSHOP_META_KEYWORDS' ); ?>:</td>
 			<td><textarea class="text_area" type="text" name="metakey" id="metakey" rows="4"
-						  cols="40"/><?php echo $this->detail->metakey; ?></textarea>
+			              cols="40"/><?php echo $this->detail->metakey; ?></textarea>
 			</td>
 			<td><?php echo JHTML::tooltip( JText::_('COM_REDSHOP_TOOLTIP_META_KEYWORDS' ), JText::_('COM_REDSHOP_META_KEYWORDS' ), 'tooltip.png', '', '', false); ?></td>
 		</tr>
 		<tr>
 			<td valign="top" align="right" class="key"><?php echo JText::_('COM_REDSHOP_META_DESCRIPTION' ); ?>:</td>
 			<td><textarea class="text_area" type="text" name="metadesc" id="metadesc" rows="4"
-						  cols="40"/><?php echo htmlspecialchars($this->detail->metadesc); ?></textarea>
+			              cols="40"/><?php echo htmlspecialchars($this->detail->metadesc); ?></textarea>
 			</td>
 			<td> <?php echo JHTML::tooltip( JText::_('COM_REDSHOP_TOOLTIP_META_DESCRIPTION' ), JText::_('COM_REDSHOP_META_DESCRIPTION' ), 'tooltip.png', '', '', false); ?></td>
 		</tr>
 		<tr>
 			<td valign="top" align="right" class="key"><?php echo JText::_('COM_REDSHOP_META_LANG_SETTING' ); ?>:</td>
 			<td><textarea class="text_area" type="text" name="metalanguage_setting" id="metalanguage_setting" rows="4"
-						  cols="40"/><?php echo $this->detail->metalanguage_setting; ?></textarea>
+			              cols="40"/><?php echo $this->detail->metalanguage_setting; ?></textarea>
 			</td>
 			<td><?php echo JHTML::tooltip( JText::_('COM_REDSHOP_TOOLTIP_META_LANG_SETTING' ), JText::_('COM_REDSHOP_META_LANG_SETTING' ), 'tooltip.png', '', '', false); ?></td>
 		</tr>
 		<tr>
 			<td valign="top" align="right" class="key"><?php echo JText::_('COM_REDSHOP_META_ROBOT_INFO' ); ?>:</td>
 			<td><textarea class="text_area" type="text" name="metarobot_info" id="metarobot_info" rows="4"
-						  cols="40"/><?php echo $this->detail->metarobot_info; ?></textarea>
+			              cols="40"/><?php echo $this->detail->metarobot_info; ?></textarea>
 			</td>
 			<td> <?php echo JHTML::tooltip( JText::_('COM_REDSHOP_TOOLTIP_META_ROBOT_INFO' ), JText::_('COM_REDSHOP_META_ROBOT_INFO' ), 'tooltip.png', '', '', false); ?></td>
 		</tr>
@@ -928,7 +927,7 @@ echo $myTabs->startPanel(JText::_('COM_REDSHOP_ECONOMIC_SETTINGS'), 'tab10' );?>
 				<table>
 					<tr>
 						<td valign="top" align="right"
-							class="key"><?php echo JText::_('COM_REDSHOP_ECONOMIC_ACCOUNTGROUP_LBL' ); ?>:
+						    class="key"><?php echo JText::_('COM_REDSHOP_ECONOMIC_ACCOUNTGROUP_LBL' ); ?>:
 						</td>
 						<td><?php echo $this->lists['accountgroup_id'];?>
 						</td>
@@ -936,11 +935,11 @@ echo $myTabs->startPanel(JText::_('COM_REDSHOP_ECONOMIC_SETTINGS'), 'tab10' );?>
 					</tr>
 					<tr>
 						<td valign="top" align="right"
-							class="key"><?php echo JText::_('COM_REDSHOP_DEFAULT_QUANTITY_SELECTBOX_VALUE_LBL' ); ?>:
+						    class="key"><?php echo JText::_('COM_REDSHOP_DEFAULT_QUANTITY_SELECTBOX_VALUE_LBL' ); ?>:
 						</td>
 						<td><input class="text_area" type="text" name="quantity_selectbox_value"
-								   id="quantity_selectbox_value" size="10"
-								   value="<?php echo $this->lists['QUANTITY_SELECTBOX_VALUE']; ?>"/>
+						           id="quantity_selectbox_value" size="10"
+						           value="<?php echo $this->lists['QUANTITY_SELECTBOX_VALUE']; ?>"/>
 						</td>
 						<td><?php echo JHTML::tooltip(JText::_('COM_REDSHOP_TOOLTIP_DEFAULT_QUANTITY_SELECTBOX_VALUE_LBL' ), JText::_('COM_REDSHOP_DEFAULT_QUANTITY_SELECTBOX_VALUE_LBL' ), 'tooltip.png', '', '', false); ?></td>
 					</tr>
@@ -979,15 +978,15 @@ if($container_id) {
 <input type="hidden" name="old_manufacturer_id" value="<?php echo $this->detail->manufacturer_id; ?>"/>
 <input type="hidden" name="old_image" id="old_image" value="<?php echo $this->detail->product_full_image; ?>">
 <input type="hidden" name="old_thumb_image" id="old_thumb_image"
-	   value="<?php echo $this->detail->product_thumb_image; ?>">
+       value="<?php echo $this->detail->product_thumb_image; ?>">
 <input type="hidden" name="product_back_full_image" id="product_back_full_image"
-	   value="<?php echo $this->detail->product_back_full_image; ?>">
+       value="<?php echo $this->detail->product_back_full_image; ?>">
 <input type="hidden" name="product_back_thumb_image" id="product_back_thumb_image"
-	   value="<?php echo $this->detail->product_back_thumb_image; ?>">
+       value="<?php echo $this->detail->product_back_thumb_image; ?>">
 <input type="hidden" name="product_preview_image" id="product_preview_image"
-	   value="<?php echo $this->detail->product_preview_image; ?>">
+       value="<?php echo $this->detail->product_preview_image; ?>">
 <input type="hidden" name="product_preview_back_image" id="product_preview_back_image"
-	   value="<?php echo $this->detail->product_preview_back_image; ?>">
+       value="<?php echo $this->detail->product_preview_back_image; ?>">
 <input type="hidden" name="task" value=""/>
 <input type="hidden" name="section_id" value=""/>
 <input type="hidden" name="template_id" value=""/>

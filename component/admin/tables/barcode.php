@@ -12,8 +12,9 @@ defined('_JEXEC') or die;
 /**
  * Barcode reder/generator Model
  *
- * @package    redSHOP
- * @version    1.2
+ * @package     Redshop
+ * @subpackage  Barcode
+ * @since       1.2
  */
 class TableBarcode extends JTable
 {

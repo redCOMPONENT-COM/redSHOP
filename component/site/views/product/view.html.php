@@ -20,8 +20,6 @@ class productViewproduct extends JView
 {
 	public function display($tpl = null)
 	{
-//   		$app = JFactory::getApplication();
-
 		// Request variables
 		$app     = JFactory::getApplication();
 		$prodhelperobj = new producthelper;
@@ -43,6 +41,8 @@ class productViewproduct extends JView
 		$menu_meta_keywords    = $params->get('menu-meta_keywords');
 		$menu_meta_description = $params->get('menu-meta_description');
 		$menu_robots           = $params->get('robots');
+		$data                  = array();
+		$productTemplate       = null;
 
 		$model   = $this->getModel('product');
 		$session = JFactory::getSession();
@@ -457,4 +457,3 @@ class productViewproduct extends JView
 		parent::display($tpl);
 	}
 }
-

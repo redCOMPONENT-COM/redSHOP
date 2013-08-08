@@ -580,8 +580,8 @@ class productModelproduct extends JModel
 			$idx = 0;
 		}
 
-		$compare_product[$idx]["product_id"] = $data["pid"];
-		$compare_product[$idx]["category_id"] = $data["cid"];
+		$compare_product[$idx]["product_id"]  = (int) $data["pid"];
+		$compare_product[$idx]["category_id"] = (int) $data["cid"];
 
 		$compare_product['idx'] = $idx + 1;
 		$session->set('compare_product', $compare_product);
