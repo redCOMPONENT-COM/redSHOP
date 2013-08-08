@@ -12,8 +12,9 @@ defined('_JEXEC') or die;
 /**
  * redSHOP Product Attribute Price table
  *
- * @package    redSHOP
- * @subpackage Attribute Price Detail
+ * @package     Redshop
+ * @subpackage  Attribute Price Detail
+ * @since       1.2
  */
 class Tableattributeprices_detail extends JTable
 {
@@ -60,17 +61,17 @@ class Tableattributeprices_detail extends JTable
 	public function check()
 	{
 		$query = 'SELECT price_id FROM ' . $this->_table_prefix . 'product_attribute_price WHERE shopper_group_id = "'
-			. $this->shopper_group_id . '" AND section_id = ' . $this->section_id
-			. ' AND price_quantity_start <= ' . $this->price_quantity_start
-			. ' AND price_quantity_end >= ' . $this->price_quantity_start . '';
+			. $this->shopper_group_id . '" AND section_id = ' . (int) $this->section_id
+			. ' AND price_quantity_start <= ' . $this->_db->quote($this->price_quantity_start)
+			. ' AND price_quantity_end >= ' . $this->_db->quote($this->price_quantity_start) . '';
 
 		$this->_db->setQuery($query);
 		$xid = intval($this->_db->loadResult());
 
 		$query_end = 'SELECT price_id FROM ' . $this->_table_prefix . 'product_attribute_price WHERE shopper_group_id = "'
-			. $this->shopper_group_id . '" AND section_id = ' . $this->section_id
-			. ' AND price_quantity_start <= ' . $this->price_quantity_end
-			. ' AND price_quantity_end >= ' . $this->price_quantity_end . '';
+			. $this->shopper_group_id . '" AND section_id = ' . (int) $this->section_id
+			. ' AND price_quantity_start <= ' . $this->_db->quote($this->price_quantity_end)
+			. ' AND price_quantity_end >= ' . $this->_db->quote($this->price_quantity_end) . '';
 
 		$this->_db->setQuery($query_end);
 		$xid_end = intval($this->_db->loadResult());

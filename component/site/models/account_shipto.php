@@ -103,6 +103,9 @@ class Account_shiptoModelaccount_shipto extends JModel
 	{
 		if (count($cid))
 		{
+			// Sanitise ids
+			JArrayHelper::toInteger($cid);
+
 			$cids  = implode(',', $cid);
 			$query = 'DELETE FROM ' . $this->_table_prefix . 'users_info WHERE users_info_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);

@@ -133,7 +133,7 @@ class product_ratingModelproduct_rating extends JModel
 	{
 		$db = JFactory::getDBO();
 
-		$query = "SELECT firstname,lastname from " . $this->_table_prefix . "users_info WHERE user_id=" . $uid . " AND address_type like 'BT'";
+		$query = "SELECT firstname,lastname from " . $this->_table_prefix . "users_info WHERE user_id=" . (int) $uid . " AND address_type like 'BT'";
 		$db->setQuery($query);
 		$userfullname = $db->loadObject();
 
@@ -143,7 +143,7 @@ class product_ratingModelproduct_rating extends JModel
 	public function checkRatedProduct($pid, $uid)
 	{
 		$db    = JFactory::getDBO();
-		$query = "SELECT count(*) as rec from " . $this->_table_prefix . "product_rating WHERE product_id=" . $pid . " AND userid=" . $uid;
+		$query = "SELECT count(*) as rec from " . $this->_table_prefix . "product_rating WHERE product_id=" . (int) $pid . " AND userid=" . (int) $uid;
 		$db->setQuery($query);
 		$already_rated = $db->loadResult();
 
