@@ -52,12 +52,13 @@ class LoginModelLogin extends JModel
 		if ($sid == 0)
 		{
 			$query = "SELECT sg.* FROM #__" . TABLE_PREFIX . "_shopper_group as sg LEFT JOIN #__"
-			. TABLE_PREFIX . "_users_info as ui on sg.`shopper_group_id`= ui.shopper_group_id WHERE ui.user_id = " . $user->id;
+			. TABLE_PREFIX . "_users_info as ui on sg.`shopper_group_id`= ui.shopper_group_id WHERE ui.user_id = " . (int) $user->id;
 		}
 		else
 		{
-			$query = "SELECT sg.* FROM #__" . TABLE_PREFIX . "_shopper_group as sg WHERE sg.`shopper_group_id`= " . $sid;
+			$query = "SELECT sg.* FROM #__" . TABLE_PREFIX . "_shopper_group as sg WHERE sg.`shopper_group_id`= " . (int) $sid;
 		}
+
 		$this->_db->setQuery($query);
 
 		return $this->_db->loadObjectList();
@@ -65,7 +66,7 @@ class LoginModelLogin extends JModel
 
 	public function CheckShopperGroup($username, $shoppergroupid)
 	{
-		$query = "SELECT sg.`shopper_group_id` FROM (`#__" . TABLE_PREFIX . "_shopper_group` as sg LEFT JOIN #__" . TABLE_PREFIX . "_users_info as ui on sg.`shopper_group_id`= ui.shopper_group_id) LEFT JOIN #__users as u on ui.user_id = u.id WHERE u.username = '" . $username . "' AND ui.shopper_group_id =" . $shoppergroupid . " AND sg.shopper_group_portal = 1";
+		$query = "SELECT sg.`shopper_group_id` FROM (`#__" . TABLE_PREFIX . "_shopper_group` as sg LEFT JOIN #__" . TABLE_PREFIX . "_users_info as ui on sg.`shopper_group_id`= ui.shopper_group_id) LEFT JOIN #__users as u on ui.user_id = u.id WHERE u.username = '" . $username . "' AND ui.shopper_group_id =" . (int) $shoppergroupid . " AND sg.shopper_group_portal = 1";
 		$this->_db->setQuery($query);
 
 		return $this->_db->loadResult();
