@@ -426,37 +426,25 @@ class redshopMail
 
 	public function createMultiprintInvoicePdf($oid)
 	{
-		require_once JPATH_SITE . '/components/com_redshop/helpers/tcpdf/config/lang/eng.php';
-		require_once JPATH_SITE . '/components/com_redshop/helpers/tcpdf/tcpdf.php';
+		JLoader::import('mpdf', JPATH_COMPONENT_SITE . '/helpers/mpdf54');
 
 		$order_functions = new order_functions;
 		$shippinghelper  = new shipping;
 		$carthelper      = new rsCarthelper;
-		$extra_field     = new extra_field;
 		$redconfig       = new Redconfiguration;
 		$redTemplate     = new Redtemplate;
 		$producthelper   = new producthelper;
-		$message         = "";
 
-		$pdfObj = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, 'A5', true, 'UTF-8', false);
-		$pdfObj->SetTitle('Shipped');
-		$pdfObj->SetAuthor('redSHOP');
+		$pdfObj = new mPDF('utf-8', 'A5', '6', '', 8, 8, 8, 0, '', '', 'P');
+		$pdfObj->charset_in = 'utf-8';
 		$pdfObj->SetCreator('redSHOP');
-		$pdfObj->SetMargins(8, 8, 8);
-
-		// Changed font to support Unicode Characters - Specially Polish Characters
-		$font = 'freeserif';
-		$pdfObj->setImageScale(PDF_IMAGE_SCALE_RATIO);
-		$pdfObj->setHeaderFont(array($font, '', 8));
-
-		// Set font
-		$pdfObj->SetFont($font, "", 6);
-
-		$order_id = "";
+		$pdfObj->SetAuthor('redSHOP');
+		$pdfObj->SetTitle('Shipped');
+		$pdfObj->SetSubject('Shipped');
+		$pdfObj->keep_table_proportions = true;
 
 		for ($o = 0; $o < count($oid); $o++)
 		{
-			$body          = "";
 			$message       = "";
 			$order_id      = $oid[$o];
 			$OrderProducts = $order_functions->getOrderItemDetail($order_id);
@@ -509,12 +497,8 @@ class redshopMail
 				 <hr /></td></tr></tbody></table></td></tr></tbody></table></td></tr></tbody></table>';
 			}
 
-			$print_tag = "<a onclick='window.print();' title='" . JText::_('COM_REDSHOP_PRINT') . "'>"
-				. "<img src=" . JSYSTEM_IMAGES_PATH . "printButton.png  alt='" . JText::_('COM_REDSHOP_PRINT') . "' title='"
-				. JText::_('COM_REDSHOP_PRINT') . "' /></a>";
-
 			$search[]  = "{print}";
-			$replace[] = $print_tag;
+			$replace[] = '';
 
 			$search[]  = "{order_id}";
 			$replace[] = $OrdersDetail[0]->order_id;
@@ -666,8 +650,6 @@ class redshopMail
 				$product_quantity    = '<div class="product_quantity">' . $OrderProducts[$i]->product_quantity . '</div>';
 
 				$cart_mdata = '';
-				$uri = JURI::getInstance();
-				$url = $uri->root();
 
 				if ($product->product_full_image)
 				{
@@ -702,7 +684,7 @@ class redshopMail
 
 				if ($product_image_path)
 				{
-					$product_image = '<div  class="product_image"><img src="' . $product_image_path . '"></div>';
+					$product_image = '<div  class="product_image"><img src="' . $product_image_path . '" /></div>';
 				}
 				else
 				{
@@ -880,6 +862,9 @@ class redshopMail
 			$search[]  = "{shipping}";
 			$replace[] = $producthelper->getProductFormattedPrice($OrdersDetail[0]->order_shipping);
 
+			$search[] = '{product_subtotal}';
+			$replace[] = $producthelper->getProductFormattedPrice(($OrdersDetail[0]->order_subtotal));
+
 			$search[]  = "{order_total}";
 			$replace[] = $producthelper->getProductFormattedPrice($OrdersDetail[0]->order_total);
 
@@ -887,141 +872,26 @@ class redshopMail
 
 			$search    = "";
 			$replace   = "";
-			$body      = $message;
 
 			$pdfObj->AddPage();
-			$pdfObj->WriteHTML($body, true, false, true, false, '');
+			$pdfObj->WriteHTML($message, 2);
 		}
 
-		$invoice_pdfName = "multiprintorder";
-		$pdfObj->Output(JPATH_SITE . '/components/com_redshop/assets/document/invoice/' . $invoice_pdfName . ".pdf", "F");
-
-		return $invoice_pdfName;
-	}
-
-	function createShippedInvoicePdf($oid)
-	{
-		require_once JPATH_SITE . '/components/com_redshop/helpers/tcpdf'
-			. '/config/lang/eng.php';
-		require_once JPATH_SITE . '/components/com_redshop/helpers/tcpdf'
-			. '/tcpdf.php';
-
-		$redconfig     = new Redconfiguration;
-		$producthelper = new producthelper;
-		$extra_field   = new extra_field;
-		$config        = JFactory::getConfig();
-		$redTemplate   = new Redtemplate;
-		$message       = "";
-		$subject       = "";
-		$cart          = '';
-
-		$pdfObj = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, 'A5', true, 'UTF-8', false);
-		$pdfObj->SetTitle('Shipped');
-		$pdfObj->SetAuthor('redSHOP');
-		$pdfObj->SetCreator('redSHOP');
-		$pdfObj->SetMargins(8, 8, 8);
-		$font = 'times';
-		$pdfObj->setImageScale(PDF_IMAGE_SCALE_RATIO);
-		$pdfObj->setHeaderFont(array($font, '', 8));
-		$pdfObj->SetFont($font, "", 6);
-
-		$order_id = "";
-
-		for ($o = 0; $o < count($oid); $o++)
-		{
-			$order_id          = $oid[$o];
-			$arr_discount_type = array();
-			$mailinfo          = $redTemplate->getTemplate("shippment_invoice_template");
-
-			if (count($mailinfo) > 0)
-			{
-				$message = $mailinfo[0]->template_desc;
-			}
-			else
-			{
-				return false;
-			}
-
-			$row           = $this->_order_functions->getOrderDetails($order_id);
-			$barcode_code  = $row->barcode;
-			$arr_discount  = explode('@', $row->discount_type);
-			$discount_type = '';
-
-			for ($d = 0; $d < count($arr_discount); $d++)
-			{
-				if ($arr_discount[$d])
-				{
-					$arr_discount_type = explode(':', $arr_discount[$d]);
-
-					if ($arr_discount_type[0] == 'c')
-					{
-						$discount_type .= JText::_('COM_REDSHOP_COUPON_CODE') . ' : ' . $arr_discount_type[1] . '<br>';
-					}
-
-					if ($arr_discount_type[0] == 'v')
-					{
-						$discount_type .= JText::_('COM_REDSHOP_VOUCHER_CODE') . ' : ' . $arr_discount_type[1] . '<br>';
-					}
-				}
-			}
-
-			if (!$discount_type)
-			{
-				$discount_type = JText::_('COM_REDSHOP_NO_DISCOUNT_AVAILABLE');
-			}
-
-			$search[]         = "{discount_type}";
-			$replace[]        = $discount_type;
-
-			$message          = str_replace($search, $replace, $message);
-			$message          = $this->imginmail($message);
-			$user             = JFactory::getUser();
-			$billingaddresses = $this->_order_functions->getOrderBillingUserInfo($order_id);
-			$email            = $billingaddresses->user_email;
-			$userfullname     = $billingaddresses->firstname . " " . $billingaddresses->lastname;
-			$message          = $this->_carthelper->replaceOrderTemplate($row, $message);
-
-			echo "<div id='redshopcomponent' class='redshop'>";
-
-			if (strstr($message, "{barcode}"))
-			{
-				$img_url = REDSHOP_FRONT_IMAGES_RELPATH . "barcode/" . $barcode_code . ".png";
-
-				// For pdf
-				if (function_exists("curl_init"))
-				{
-					$bar_codeIMG = '<img src="' . $img_url . '" alt="Barcode"  border="0" />';
-					$message = str_replace("{barcode}", $bar_codeIMG, $message);
-				}
-			}
-
-			$body = $message;
-			$pdfObj->AddPage();
-			$pdfObj->WriteHTML($body, true, false, true, false, '');
-		}
-
-		$rand = rand();
-		$invoice_pdfName = "shipped_" . $rand;
-		$pdfObj->Output(JPATH_SITE . '/components/com_redshop/assets/document'
-		. '/invoice/' . $invoice_pdfName . ".pdf", "F");
+		$invoice_pdfName = 'multiprintorder';
+		$pdfObj->Output(JPATH_SITE . '/components/com_redshop/assets/document/invoice/' . $invoice_pdfName . '.pdf', 'F');
 
 		return $invoice_pdfName;
 	}
 
 	public function sendInvoiceMail($order_id)
 	{
-		require_once JPATH_SITE . '/components/com_redshop/helpers/tcpdf/config'
-			. '/lang/eng.php';
-		require_once JPATH_SITE . '/components/com_redshop/helpers/tcpdf/tcpdf.php';
+		JLoader::import('mpdf', JPATH_COMPONENT_SITE . '/helpers/mpdf54');
 
 		$redconfig         = new Redconfiguration;
-		$producthelper     = new producthelper;
-		$extra_field       = new extra_field;
 
 		$config            = JFactory::getConfig();
 		$message           = "";
 		$subject           = "";
-		$cart              = '';
 		$mailbcc           = null;
 		$arr_discount_type = array();
 
@@ -1078,7 +948,6 @@ class redshopMail
 
 		$message          = str_replace($search, $replace, $message);
 		$message          = $this->imginmail($message);
-		$user             = JFactory::getUser();
 		$billingaddresses = $this->_order_functions->getOrderBillingUserInfo($order_id);
 		$email            = $billingaddresses->user_email;
 		$userfullname     = $billingaddresses->firstname . " " . $billingaddresses->lastname;
@@ -1110,27 +979,21 @@ class redshopMail
 			$body1        = str_replace("{barcode}", $bar_codeIMG1, $body1);
 		}
 
-		$message = $this->_carthelper->replaceOrderTemplate($row, $message);
 		ob_clean();
 
-		echo "<div id='redshopcomponent' class='redshop'>";
-
-		$pdfObj = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, 'A5', true, 'UTF-8', false);
-		$pdfObj->SetTitle(JText::_('COM_REDSHOP_INVOICE') . $row->order_id);
-		$pdfObj->SetAuthor('redSHOP');
+		$pdfObj = new mPDF('utf-8', 'A5', '12', '', 15, 15, 15, 0, '', '', 'P');
 		$pdfObj->SetCreator('redSHOP');
-		$pdfObj->SetMargins(15, 15, 15);
-		$font   = 'times';
-		$pdfObj->setImageScale(PDF_IMAGE_SCALE_RATIO);
-		$pdfObj->setHeaderFont(array($font, '', 10));
-		$pdfObj->SetFont($font, "", 12);
+		$pdfObj->SetAuthor('redSHOP');
+		$pdfObj->SetTitle(JText::_('COM_REDSHOP_INVOICE') . $row->order_id);
+		$pdfObj->SetSubject(JText::_('COM_REDSHOP_INVOICE') . $row->order_id);
+		$pdfObj->keep_table_proportions = true;
 		$pdfObj->AddPage();
-		$pdfObj->WriteHTML($body, true, false, true, false, '');
+		$pdfObj->WriteHTML($body, 2);
 
 		$invoice_pdfName = $row->order_id;
 
-		$pdfObj->Output(JPATH_SITE . '/components/com_redshop/assets/document/invoice/' . $invoice_pdfName . ".pdf", "F");
-		$invoice_attachment = JPATH_SITE . '/components/com_redshop/assets/document/invoice/' . $invoice_pdfName . ".pdf";
+		$pdfObj->Output(JPATH_SITE . '/components/com_redshop/assets/document/invoice/' . $invoice_pdfName . '.pdf', 'F');
+		$invoice_attachment = JPATH_SITE . '/components/com_redshop/assets/document/invoice/' . $invoice_pdfName . '.pdf';
 
 		if ((INVOICE_MAIL_SEND_OPTION == 2 || INVOICE_MAIL_SEND_OPTION == 3) && $email != "")
 		{

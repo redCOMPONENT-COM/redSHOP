@@ -11,26 +11,23 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/extra_field.php';
-//
-require_once JPATH_COMPONENT_SITE . '/helpers/tcpdf/tcpdf.php';
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php';
+JLoader::import('extra_field', JPATH_COMPONENT_ADMINISTRATOR . '/helpers');
+JLoader::import('mpdf', JPATH_COMPONENT_SITE . '/helpers/mpdf54');
+JLoader::import('order', JPATH_COMPONENT_ADMINISTRATOR . '/helpers');
+
 class order_detailVIEWorder_detail extends JView
 {
 	function display($tpl = null)
 	{
-
-		$config = new Redconfiguration();
-		$redTemplate = new Redtemplate();
-		$order_functions = new order_functions();
-		$producthelper = new producthelper();
+		$config = new Redconfiguration;
+		$order_functions = new order_functions;
+		$producthelper = new producthelper;
 		$model = $this->getModel();
-		$redTemplate = new Redtemplate();
 		$detail = $this->get('data');
-		$carthelper = new rsCarthelper();
-		$shippinghelper = new shipping();
+		$carthelper = new rsCarthelper;
 		$products = $order_functions->getOrderItemDetail($detail->order_id);
 		$template = $model->getStockNoteTemplate();
+
 		if (count($template) > 0 && $template->template_desc != "")
 		{
 			$html_template = $template->template_desc;
@@ -54,10 +51,11 @@ class order_detailVIEWorder_detail extends JView
 						</tbody>
 						</table>';
 		}
+
 		ob_start();
+
 		if (strstr($html_template, "{product_loop_start}") && strstr($html_template, "{product_loop_end}"))
 		{
-
 			$template_sdata = explode('{product_loop_start}', $html_template);
 			$template_start = $template_sdata[0];
 			$template_edata = explode('{product_loop_end}', $template_sdata[1]);
@@ -65,6 +63,7 @@ class order_detailVIEWorder_detail extends JView
 			$template_middle = $template_edata[0];
 
 			$middle_data = '';
+
 			for ($p = 0; $p < count($products); $p++)
 			{
 				$middle_data .= $template_middle;
@@ -93,32 +92,30 @@ class order_detailVIEWorder_detail extends JView
 		$html_template = str_replace("{requisition_number}", $detail->requisition_number, $html_template);
 		$html_template = str_replace("{requisition_number_lbl}", JText::_('COM_REDSHOP_REQUISITION_NUMBER'), $html_template);
 
+		// Start pdf code
+		$pdfObj = new mPDF('utf-8', 'A5', '10', '', 15, 15, 15, 0, '', '', 'P');
 
-		// start pdf code
-		$pdfObj = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, 'A5', true, 'UTF-8', false);
-		$pdfObj->SetTitle("Order StockNote: " . $detail->order_id);
-		$pdfObj->SetAuthor('redSHOP');
+		$pdfObj->charset_in = 'utf-8';
 		$pdfObj->SetCreator('redSHOP');
-		$pdfObj->SetMargins(15, 15, 15);
-
-		$font = 'times';
-
-		$pdfObj->SetHeaderData('', '', '', "Order " . $detail->order_id);
-		$pdfObj->setHeaderFont(array($font, '', 10));
-		//$pdfObj->setFooterFont(array($font, '', 8));
-		$pdfObj->SetFont($font, "", 10);
-
-
-		//$pdfObj->AliasNbPages();
+		$pdfObj->SetAuthor('redSHOP');
+		$pdfObj->SetTitle('Order StockNote: ' . $detail->order_id);
+		$pdfObj->SetSubject('Order StockNote: ' . $detail->order_id);
+		$pdfObj->keep_table_proportions = true;
+		$pdfObj->SetHTMLHeader('<div style="font-size: 8pt; padding: 5pt 0 10pt 0;">Order ' . $detail->order_id . '</div>');
 		$pdfObj->AddPage();
-
-
-		$pdfObj->WriteHTML($html_template);
-
-		$pdfObj->Output("StocNoteOrder_" . $detail->order_id . ".pdf", "D");
+		$stylesheet = '
+		table{
+			border-collapse: collapse;
+		}
+		tbody td{
+			border: 1px solid #000;
+		}
+		tbody td td{
+			border: none;
+		}';
+		$pdfObj->WriteHTML($stylesheet, 1);
+		$pdfObj->WriteHTML($html_template, 2);
+		$pdfObj->Output('StocNoteOrder_' . $detail->order_id . '.pdf', 'D');
 		exit;
 	}
-
 }
-
-?>
