@@ -4051,6 +4051,10 @@ class Com_RedshopInstallerScript
 
 		if (file_exists($cfgfile))
 		{
+			$configData = JFile::read($cfgfile);
+			$configData = str_replace('?>', '', $configData);
+			JFile::write($cfgfile, $configData);
+
 			require_once $cfgfile;
 		}
 
