@@ -37,7 +37,7 @@ class ImageGenerator
 			$height = 100;
 		}
 
-		$quality = IMAGE_QUALITY_OUTPUT;
+		$quality = (int) IMAGE_QUALITY_OUTPUT;
 		$crop = USE_IMAGE_SIZE_SWAPPING;
 		$wmPosition = WATERMARK_POSITION;
 		$wmTrans = 100;
@@ -115,9 +115,17 @@ class ImageGenerator
 
 		$fullFileName = $fileNameNoExt . '-' . $width . '-' . $height . '-' . $quality;
 
-		if ($crop == 1)
+		switch ($crop)
 		{
-			$fullFileName .= '-c';
+			case (0):
+				$fullFileName .= '-nr';
+				break;
+			case (1):
+				$fullFileName .= '-r';
+				break;
+			case (2):
+				$fullFileName .= '-c';
+				break;
 		}
 
 		if ($watermark == 1 && strlen($wmFilename) > 1)
@@ -180,15 +188,12 @@ class ImageGenerator
 
 		jimport('joomla.filesystem.file');
 
-		require_once JPATH_SITE . '/components/com_redshop/helpers/wideimage/WideImage.php';
-
 		if (!JFile::exists($destFile))
 		{
 			$ext = JFile::getExt($sourceFile);
 			$imageinfo = getimagesize($sourceFile);
-			$image = WideImage::load($sourceFile);
 
-			if ($watermark == 0 && $crop == 0)
+			if ($watermark == 0 && $crop == 1)
 			{
 				if ($imageinfo[0] <= $width && $imageinfo[1] <= $height)
 				{
@@ -203,7 +208,14 @@ class ImageGenerator
 				}
 			}
 
-			if ($crop == 1 && $imageinfo[0] > $width && $imageinfo[1] > $height)
+			JLoader::import('WideImage', JPATH_SITE . '/components/com_redshop/helpers/wideimage');
+			$image = WideImage::load($sourceFile);
+
+			if ($crop == 0)
+			{
+				$image = $image->resize((int) $width, (int) $height, 'fill', 'any');
+			}
+			elseif ($crop == 2 && $imageinfo[0] > $width && $imageinfo[1] > $height)
 			{
 				$image = $image->resize((int) $width, (int) $height, 'outside')->crop('center', 'middle', (int) $width, (int) $height);
 			}
