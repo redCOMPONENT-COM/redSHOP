@@ -11,8 +11,8 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 
+require_once JPATH_COMPONENT_SITE . '/helpers/cart.php';
 require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/product.php';
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/cart.php';
 require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php';
 require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/shipping.php';
 
