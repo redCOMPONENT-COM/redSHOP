@@ -22,11 +22,14 @@ class redhelper
 
 	public $_imageGenerator = null;
 
+	public $_redshopMenuItems = null;
+
 	public function __construct()
 	{
 		$this->_table_prefix = '#__redshop_';
 		$this->_db = JFactory::getDBO();
 		$this->_imageGenerator = new ImageGenerator;
+		$this->_redshopMenuItems = JFactory::getApplication()->getMenu()->getItems('component', 'com_redshop');
 	}
 
 	/**
@@ -122,12 +125,9 @@ class redhelper
 		$producthelper = new producthelper;
 		$catDetailmenu = false;
 
-		$menu = JFactory::getApplication()->getMenu();
-		$allForItemid = $menu->getMenu();
-
 		if ($cat_id)
 		{
-			foreach ($allForItemid as $key => $oneForItemid)
+			foreach ($this->_redshopMenuItems as $oneForItemid)
 			{
 				if ($oneForItemid->query['option'] == 'com_redshop' && $oneForItemid->query['view'] == 'category' && $oneForItemid->query['cid'] == $cat_id)
 				{

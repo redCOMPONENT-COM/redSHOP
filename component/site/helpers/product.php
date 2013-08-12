@@ -3012,83 +3012,95 @@ class producthelper
 	 * @return    object                    return object search item url
 	 */
 
-	function getMenuInformationMod($Itemid = 0, $sectionid = 0, $sectioname = "", $menuview = "", $isRedshop = true)
+	function getMenuInformationMod($Itemid = 0, $sectionid = 0, $sectioname = '', $menuview = '', $isRedshop = true)
 	{
 		$menu = JFactory::getApplication()->getMenu();
+
 		if ($Itemid != 0)
 		{
-			return ($menu->getItems('id', $Itemid, true));
+			return $menu->getItem($Itemid);
 		}
-		$allForItemid = $menu->getMenu();
-		foreach ($allForItemid as $oneForItemid)
+
+		if ($isRedshop)
 		{
-			if ($isRedshop && $oneForItemid->query['option'] == 'com_redshop')
+			$redshopMenuItems = $this->_redhelper->_redshopMenuItems;
+
+			foreach ($redshopMenuItems as $oneForItemid)
 			{
-				if ($sectionid != 0 && $sectioname != '' && isset($oneForItemid->query[$sectioname]) && $oneForItemid->query[$sectioname] == $sectionid)
+				if ($oneForItemid->query['option'] == 'com_redshop')
 				{
-					if ($menuview != "" && $oneForItemid->query['view'] == $menuview)
+					if ($sectionid != 0 && $sectioname != '' && isset($oneForItemid->query[$sectioname]) && $oneForItemid->query[$sectioname] == $sectionid)
 					{
-						return $oneForItemid;
+						if ($menuview != '' && $oneForItemid->query['view'] == $menuview)
+						{
+							return $oneForItemid;
+						}
+						elseif ($menuview == '')
+						{
+							return $oneForItemid;
+						}
 					}
-					elseif ($menuview == "")
+					elseif ($sectionid == 0 && $sectioname != '' && $oneForItemid->query[$sectioname] != $sectionid)
 					{
-						return $oneForItemid;
+						if ($menuview != '' && $oneForItemid->query['view'] == $menuview)
+						{
+							return $oneForItemid;
+						}
+						elseif ($menuview == '')
+						{
+							return $oneForItemid;
+						}
 					}
-				}
-				elseif ($sectionid == 0 && $sectioname != '' && $oneForItemid->query[$sectioname] != $sectionid)
-				{
-					if ($menuview != "" && $oneForItemid->query['view'] == $menuview)
+					elseif ($sectionid == 0 && $sectioname == '')
 					{
-						return $oneForItemid;
-					}
-					elseif ($menuview == "")
-					{
-						return $oneForItemid;
-					}
-				}
-				elseif ($sectionid == 0 && $sectioname == '')
-				{
-					if ($menuview != "" && $oneForItemid->query['view'] == $menuview)
-					{
-						return $oneForItemid;
-					}
-					elseif ($menuview == "")
-					{
-						return $oneForItemid;
+						if ($menuview != '' && $oneForItemid->query['view'] == $menuview)
+						{
+							return $oneForItemid;
+						}
+						elseif ($menuview == '')
+						{
+							return $oneForItemid;
+						}
 					}
 				}
 			}
-			elseif (!$isRedshop)
+
+		}
+		else
+		{
+			$allForItemid = $menu->getMenu();
+
+			foreach ($allForItemid as $oneForItemid)
 			{
 				if ($sectionid != 0 && $sectioname != '' && $oneForItemid->query[$sectioname] == $sectionid)
 				{
-					if ($menuview != "" && $oneForItemid->query['view'] == $menuview)
+					if ($menuview != '' && $oneForItemid->query['view'] == $menuview)
 					{
 						return $oneForItemid;
 					}
-					elseif ($menuview == "")
+					elseif ($menuview == '')
 					{
 						return $oneForItemid;
 					}
 				}
 				elseif ($sectionid == 0 && $sectioname != '' && $oneForItemid->query[$sectioname] != $sectionid)
 				{
-					if ($menuview != "" && $oneForItemid->query['view'] == $menuview)
+					if ($menuview != '' && $oneForItemid->query['view'] == $menuview)
 					{
 						return $oneForItemid;
 					}
-					elseif ($menuview == "")
+					elseif ($menuview == '')
 					{
 						return $oneForItemid;
 					}
 				}
 				elseif ($sectionid == 0 && $sectioname == '')
 				{
-					if ($menuview != "" && $oneForItemid->query['view'] == $menuview)
+					if ($menuview != '' && $oneForItemid->query['view'] == $menuview)
 					{
 						return $oneForItemid;
 					}
-					elseif ($menuview == "")
+					elseif ($menuview == '')
 					{
 						return $oneForItemid;
 					}
