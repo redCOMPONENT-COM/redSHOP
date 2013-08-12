@@ -61,13 +61,9 @@ class ImageGenerator
 			return false;
 		}
 
-		$imgSize = getimagesize($destFile);
-
 		$fileArray = array();
 		$fileArray['fullFileName'] = $fullFileName;
 		$fileArray['folderName'] = $folderName;
-		$fileArray['width'] = $imgSize[0];
-		$fileArray['height'] = $imgSize[1];
 
 		return $fileArray;
 	}
