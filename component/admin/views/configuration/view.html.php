@@ -290,7 +290,13 @@ class configurationViewconfiguration extends JView
 			'class="inputbox" size="1" ', 'value', 'text', DEFAULT_STOCKROOM
 		);
 		$lists['portalshop']                    = JHTML::_('select.booleanlist', 'portal_shop', 'class="inputbox" size="1"', PORTAL_SHOP);
-		$lists['use_image_size_swapping']       = JHTML::_('select.booleanlist', 'use_image_size_swapping', 'class="inputbox" size="1"', USE_IMAGE_SIZE_SWAPPING);
+
+		$use_image_size_swapping = array(
+			JHTML::_('select.option', '0', JText::_('COM_REDSHOP_NO_PROPORTIONAL_RESIZED')),
+			JHTML::_('select.option', '1', JText::_('COM_REDSHOP_PROPORTIONAL_RESIZED')),
+			JHTML::_('select.option', '2', JText::_('COM_REDSHOP_PROPORTIONAL_RESIZED_AND_CROP'))
+		);
+		$lists['use_image_size_swapping'] = JHTML::_('select.genericlist', $use_image_size_swapping, 'use_image_size_swapping', 'class="inputbox" size="1"', 'value', 'text', USE_IMAGE_SIZE_SWAPPING, 'use_image_size_swapping');
 
 		$watermark_positions = array();
 		$watermark_positions[] = JHTML::_('select.option', 'left_top', JText::_('COM_REDSHOP_WATERMARK_POS_TOPLEFT'));
