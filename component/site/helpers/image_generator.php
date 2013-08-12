@@ -94,7 +94,7 @@ class ImageGenerator
 		{
 			if (!JFolder::create($folderPath, 0755))
 			{
-				JError::raise(2, 500, $folderPath . ' ' . JText::_('COM_REDSHOP_FOLDER_CREATE_ERROR'));
+				$this->raiseError($folderPath . ' ' . JText::_('COM_REDSHOP_FOLDER_CREATE_ERROR'));
 
 				return false;
 			}
