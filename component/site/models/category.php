@@ -367,7 +367,15 @@ class CategoryModelCategory extends JModel
 		);
 
 		// Select product attributes
-		$query->select('(SELECT GROUP_CONCAT(att.attribute_id SEPARATOR ",") FROM ' . $this->_table_prefix . 'product_attribute AS att WHERE att.product_id = p.product_id AND att.attribute_name != "" ) AS list_attribute_id');
+		$query->select('(SELECT GROUP_CONCAT(att.attribute_id SEPARATOR ",") FROM '
+		. $this->_table_prefix . 'product_attribute AS att WHERE att.product_id = p.product_id AND att.attribute_name != "" ) AS list_attribute_id');
+
+		// Select count product in stockrooms
+		if (USE_STOCKROOM == 1)
+		{
+			$query->select('(SELECT SUM(srxp.quantity) FROM ' . $this->_table_prefix .
+			'product_stockroom_xref AS srxp WHERE p.product_id = srxp.product_id AND srxp.quantity >= 0 ) AS quantity_adv');
+		}
 
 		$query->from($this->_table_prefix . 'product AS p');
 

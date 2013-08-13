@@ -121,21 +121,19 @@ class media_detailModelmedia_detail extends JModel
 
 			foreach ($this->_data as $mediadata)
 			{
-				$ntsrc = JPATH_ROOT . '/components/com_redshop/assets/' . $mediadata->media_type . '/'
-					. $mediadata->media_section . '/thumb/' . $mediadata->media_name;
-				$nsrc = JPATH_ROOT . '/components/com_redshop/assets/' . $mediadata->media_type . '/'
-					. $mediadata->media_section . '/' . $mediadata->media_name;
 				if ($mediadata->media_type == 'images')
-					$imageGenerator->deleteImage($mediadata->media_name, $mediadata->media_section, $mediadata->section_id, 0);
-
-				if (is_file($nsrc))
 				{
-					unlink($nsrc);
+					$imageGenerator->deleteImage($mediadata->media_name, $mediadata->media_section, $mediadata->section_id, 1);
 				}
-
-				if (is_file($ntsrc))
+				else
 				{
-					unlink($ntsrc);
+					$nsrc = JPATH_ROOT . '/components/com_redshop/assets/' . $mediadata->media_type . '/'
+						. $mediadata->media_section . '/' . $mediadata->media_name;
+
+					if (is_file($nsrc))
+					{
+						unlink($nsrc);
+					}
 				}
 
 				if ($mediadata->media_section == 'manufacturer')
