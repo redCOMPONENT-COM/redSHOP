@@ -3640,7 +3640,7 @@ class rsCarthelper
 					{
 						if ($flag == false)
 						{
-							if (count($paymentmethod) == 1 || (count($paymentmethod) > 0 && $payment_method_id == 0))
+							if (count($paymentmethod) > 0)
 							{
 								$payment_method_id = $paymentmethod[$p]->name;
 							}
@@ -3669,12 +3669,14 @@ class rsCarthelper
 							if ($is_company == 0 && $private_person == 1)
 							{
 								$display_payment = $payment_radio_output;
+								$flag = true;
 							}
 							else
 							{
 								if ($is_company == 1 && $business == 1 && ($paymentmethod[$p]->name != 'rs_payment_eantransfer' || ($paymentmethod[$p]->name == 'rs_payment_eantransfer' && $ean_number == 1)))
 								{
 									$display_payment = $payment_radio_output;
+									$flag = true;
 								}
 							}
 						}
@@ -3692,6 +3694,7 @@ class rsCarthelper
 						else
 						{
 							$display_payment = $payment_radio_output;
+							$flag = true;
 						}
 
 						if ($is_creditcard)
