@@ -139,7 +139,8 @@ class productModelproduct extends JModel
 		$query->select('1 as advanced_query');
 
 		// Select all child product
-		$query->select('(SELECT GROUP_CONCAT(child.product_id SEPARATOR ";") FROM ' . $this->_table_prefix . 'product as child WHERE p.product_id = child.product_parent_id AND child.published = 1 AND child.expired = 0) AS childs');
+		$query->select('(SELECT GROUP_CONCAT(child.product_id SEPARATOR ";") FROM '
+		. $this->_table_prefix . 'product as child WHERE p.product_id = child.product_parent_id AND child.published = 1 AND child.expired = 0) AS childs');
 
 		// Select accessory
 		$query->select('(SELECT COUNT(a.product_id) FROM ' . $this->_table_prefix . 'product_accessory AS a WHERE a.product_id = p.product_id ) AS totacc');
@@ -178,7 +179,15 @@ class productModelproduct extends JModel
 		);
 
 		// Select product attributes
-		$query->select('(SELECT GROUP_CONCAT(att.attribute_id SEPARATOR ",") FROM ' . $this->_table_prefix . 'product_attribute AS att WHERE att.product_id = p.product_id AND att.attribute_name != "" ) AS list_attribute_id');
+		$query->select('(SELECT GROUP_CONCAT(att.attribute_id SEPARATOR ",") FROM '
+		. $this->_table_prefix . 'product_attribute AS att WHERE att.product_id = p.product_id AND att.attribute_name != "" ) AS list_attribute_id');
+
+		// Select count product in stockrooms
+		if (USE_STOCKROOM == 1)
+		{
+			$query->select('(SELECT SUM(srxp.quantity) FROM ' . $this->_table_prefix .
+			'product_stockroom_xref AS srxp WHERE p.product_id = srxp.product_id AND srxp.quantity >= 0 ) AS quantity_adv');
+		}
 
 		$query->select('pcx.ordering');
 
@@ -191,7 +200,12 @@ class productModelproduct extends JModel
 		$query->leftJoin($this->_table_prefix . 'category AS c ON c.category_id = pcx.category_id');
 		$query->leftJoin($this->_table_prefix . 'tax_rate as tr ON tr.tax_group_id = p.product_tax_group_id ' . $andTr);
 		$query->leftJoin($this->_table_prefix . 'tax_group as tg ON tg.tax_group_id=tr.tax_group_id AND tg.published = 1');
-		$query->leftJoin($this->_table_prefix . 'product_price AS p_price ON p.product_id = p_price.product_id AND ((p_price.price_quantity_start <= ' . (int) $qunselect . ' AND p_price.price_quantity_end >= ' . (int) $qunselect . ') OR(p_price.price_quantity_start = 0 AND p_price.price_quantity_end = 0)) AND p_price.shopper_group_id = ' . (int) $shopperGroupId);
+		$query->leftJoin(
+			$this->_table_prefix . 'product_price AS p_price ON p.product_id = p_price.product_id AND ((p_price.price_quantity_start <= '
+			. (int) $qunselect . ' AND p_price.price_quantity_end >= '
+			. (int) $qunselect . ') OR(p_price.price_quantity_start = 0 AND p_price.price_quantity_end = 0)) AND p_price.shopper_group_id = '
+			. (int) $shopperGroupId
+		);
 
 		// Select product special price
 		$discount_product_id = $producthelper->getProductSpecialId($user_id);

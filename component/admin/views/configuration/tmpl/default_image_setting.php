@@ -16,8 +16,8 @@ defined('_JEXEC') or die ('Restricted access');
 	<tr>
 		<td width="100" align="right" class="key">
 		<span class="editlinktip hasTip"
-		      title="<?php echo JText::_('COM_REDSHOP_TOOLTIP_USE_IMAGE_SIZE_SWAPPING_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_USE_IMAGE_SIZE_SWAPPING'); ?>">
-		<label for="name"><?php echo JText::_('COM_REDSHOP_USE_IMAGE_SIZE_SWAPPING_LBL');?></label></span>
+			  title="<?php echo JText::_('COM_REDSHOP_TOOLTIP_IMAGE_PROCESSING_METHOD_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_IMAGE_PROCESSING_METHOD'); ?>">
+		<label for="name"><?php echo JText::_('COM_REDSHOP_IMAGE_PROCESSING_METHOD_LBL');?></label></span>
 		</td>
 		<td><?php echo $this->lists ['use_image_size_swapping'];?></td>
 	</tr>
@@ -37,7 +37,7 @@ defined('_JEXEC') or die ('Restricted access');
 	<tr>
 		<td width="100" align="right" class="key">
 		<span class="editlinktip hasTip"
-		      title="<?php echo JText::_('COM_REDSHOP_TOOLTIP_THUMB_WIDTH'); ?>::<?php echo JText::_('COM_REDSHOP_THUMB_WIDTH'); ?>">
+			  title="<?php echo JText::_('COM_REDSHOP_TOOLTIP_THUMB_WIDTH'); ?>::<?php echo JText::_('COM_REDSHOP_THUMB_WIDTH'); ?>">
 		<label for="name"><?php echo JText::_('COM_REDSHOP_CATEGORY_THUMB_WIDTH_HEIGHT');?></label></span>
 		</td>
 		<td>
@@ -48,7 +48,7 @@ defined('_JEXEC') or die ('Restricted access');
 	<tr>
 		<td width="100" align="right" class="key">
 		<span class="editlinktip hasTip"
-		      title="<?php echo JText::_('COM_REDSHOP_TOOLTIP_THUMB_WIDTH_TWO'); ?>::<?php echo JText::_('COM_REDSHOP_THUMB_WIDTH_TWO'); ?>">
+			  title="<?php echo JText::_('COM_REDSHOP_TOOLTIP_THUMB_WIDTH_TWO'); ?>::<?php echo JText::_('COM_REDSHOP_THUMB_WIDTH_TWO'); ?>">
 		<label for="name"><?php echo JText::_('COM_REDSHOP_CATEGORY_THUMB_WIDTH_HEIGHT_TWO');?></label></span>
 		</td>
 		<td>
@@ -59,7 +59,7 @@ defined('_JEXEC') or die ('Restricted access');
 	<tr>
 		<td width="100" align="right" class="key">
 		<span class="editlinktip hasTip"
-		      title="<?php echo JText::_('COM_REDSHOP_TOOLTIP_THUMB_WIDTH_THREE'); ?>::<?php echo JText::_('COM_REDSHOP_THUMB_WIDTH_THREE'); ?>">
+			  title="<?php echo JText::_('COM_REDSHOP_TOOLTIP_THUMB_WIDTH_THREE'); ?>::<?php echo JText::_('COM_REDSHOP_THUMB_WIDTH_THREE'); ?>">
 		<label for="name"><?php echo JText::_('COM_REDSHOP_CATEGORY_THUMB_WIDTH_HEIGHT_THREE');?></label></span>
 		</td>
 		<td>
@@ -75,7 +75,7 @@ defined('_JEXEC') or die ('Restricted access');
 	<tr>
 		<td width="100" align="right" class="key">
 		<span class="editlinktip hasTip"
-		      title="<?php echo JText::_('COM_REDSHOP_TOOLTIP_CATEGORY_PRODUCT_THUMB_WIDTH'); ?>::<?php echo JText::_('COM_REDSHOP_CATEGORY_PRODUCT_THUMB_WIDTH_LBL'); ?>">
+			  title="<?php echo JText::_('COM_REDSHOP_TOOLTIP_CATEGORY_PRODUCT_THUMB_WIDTH'); ?>::<?php echo JText::_('COM_REDSHOP_CATEGORY_PRODUCT_THUMB_WIDTH_LBL'); ?>">
 		<label for="name">
 			<?php
 			echo JText::_('COM_REDSHOP_CATEGORY_PRODUCT_THUMB_WIDTH_HEIGHT_LBL');
@@ -84,35 +84,35 @@ defined('_JEXEC') or die ('Restricted access');
 		</td>
 		<td>
 			<input type="text" name="category_product_thumb_width" id="category_product_thumb_width"
-			       value="<?php echo CATEGORY_PRODUCT_THUMB_WIDTH; ?>">
+				   value="<?php echo CATEGORY_PRODUCT_THUMB_WIDTH; ?>">
 			<input type="text" name="category_product_thumb_height" id="category_product_thumb_height"
-			       value="<?php echo CATEGORY_PRODUCT_THUMB_HEIGHT; ?>">
+				   value="<?php echo CATEGORY_PRODUCT_THUMB_HEIGHT; ?>">
 		</td>
 	</tr>
 	<tr>
 		<td width="100" align="right" class="key">
 		<span class="editlinktip hasTip"
-		      title="<?php echo JText::_('COM_REDSHOP_TOOLTIP_CATEGORY_PRODUCT_THUMB_WIDTH_TWO'); ?>::<?php echo JText::_('COM_REDSHOP_CATEGORY_PRODUCT_THUMB_WIDTH_LBL_TWO'); ?>">
+			  title="<?php echo JText::_('COM_REDSHOP_TOOLTIP_CATEGORY_PRODUCT_THUMB_WIDTH_TWO'); ?>::<?php echo JText::_('COM_REDSHOP_CATEGORY_PRODUCT_THUMB_WIDTH_LBL_TWO'); ?>">
 		<label for="name"><?php echo JText::_('COM_REDSHOP_CATEGORY_PRODUCT_THUMB_WIDTH_HEIGHT_TWO');?></label></span>
 		</td>
 		<td>
 			<input type="text" name="category_product_thumb_width_2" id="category_product_thumb_width_2"
-			       value="<?php echo CATEGORY_PRODUCT_THUMB_WIDTH_2; ?>">
+				   value="<?php echo CATEGORY_PRODUCT_THUMB_WIDTH_2; ?>">
 			<input type="text" name="category_product_thumb_height_2" id="category_product_thumb_height_2"
-			       value="<?php echo CATEGORY_PRODUCT_THUMB_HEIGHT_2; ?>">
+				   value="<?php echo CATEGORY_PRODUCT_THUMB_HEIGHT_2; ?>">
 		</td>
 	</tr>
 	<tr>
 		<td width="100" align="right" class="key">
 		<span class="editlinktip hasTip"
-		      title="<?php echo JText::_('COM_REDSHOP_TOOLTIP_CATEGORY_PRODUCT_THUMB_WIDTH_THREE'); ?>::<?php echo JText::_('COM_REDSHOP_CATEGORY_PRODUCT_THUMB_WIDTH_LBL_THREE'); ?>">
+			  title="<?php echo JText::_('COM_REDSHOP_TOOLTIP_CATEGORY_PRODUCT_THUMB_WIDTH_THREE'); ?>::<?php echo JText::_('COM_REDSHOP_CATEGORY_PRODUCT_THUMB_WIDTH_LBL_THREE'); ?>">
 		<label for="name"><?php echo JText::_('COM_REDSHOP_CATEGORY_PRODUCT_THUMB_WIDTH_HEIGHT_THREE');?></label></span>
 		</td>
 		<td>
 			<input type="text" name="category_product_thumb_width_3" id="category_product_thumb_width_3"
-			       value="<?php echo CATEGORY_PRODUCT_THUMB_WIDTH_3; ?>">
+				   value="<?php echo CATEGORY_PRODUCT_THUMB_WIDTH_3; ?>">
 			<input type="text" name="category_product_thumb_height_3" id="category_product_thumb_height_3"
-			       value="<?php echo CATEGORY_PRODUCT_THUMB_HEIGHT_3; ?>">
+				   value="<?php echo CATEGORY_PRODUCT_THUMB_HEIGHT_3; ?>">
 		</td>
 	</tr>
 	<tr>
@@ -123,7 +123,7 @@ defined('_JEXEC') or die ('Restricted access');
 	<tr>
 		<td width="100" align="right" class="key">
 		<span class="editlinktip hasTip"
-		      title="<?php echo JText::_('COM_REDSHOP_TOOLTIP_WATERMARK_CATEGORY_IMAGE_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_WATERMARK_CATEGORY_IMAGE'); ?>">
+			  title="<?php echo JText::_('COM_REDSHOP_TOOLTIP_WATERMARK_CATEGORY_IMAGE_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_WATERMARK_CATEGORY_IMAGE'); ?>">
 		<label for="name">
 			<?php
 			echo JText::_('COM_REDSHOP_WATERMARK_CATEGORY_IMAGE_LBL');
@@ -137,7 +137,7 @@ defined('_JEXEC') or die ('Restricted access');
 	<tr>
 		<td width="100" align="right" class="key">
 		<span class="editlinktip hasTip"
-		      title="<?php echo JText::_('COM_REDSHOP_TOOLTIP_WATERMARK_CATEGORY_THUMB_IMAGE_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_WATERMARK_CATEGORY_THUMB_IMAGE'); ?>">
+			  title="<?php echo JText::_('COM_REDSHOP_TOOLTIP_WATERMARK_CATEGORY_THUMB_IMAGE_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_WATERMARK_CATEGORY_THUMB_IMAGE'); ?>">
 		<label for="name">
 			<?php
 			echo JText::_('COM_REDSHOP_WATERMARK_CATEGORY_THUMB_IMAGE_LBL');
