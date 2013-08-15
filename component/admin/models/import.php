@@ -1392,7 +1392,7 @@ class importModelimport extends JModel
 										->select('data_id')
 										->from($this->_db->quoteName('#__redshop_fields_data'))
 										->where($this->_db->quoteName('fieldid') . ' = ' . $this->_db->quote($field_id))
-										->where($this->_db->quoteName('data_id') . ' = ' . $this->_db->quote($data_id));
+										->where($this->_db->quoteName('itemid') . ' = ' . $this->_db->quote($itemid));
 							$this->_db->setQuery($query);
 							$ch_data_id = $this->_db->loadResult();
 
@@ -1442,11 +1442,20 @@ class importModelimport extends JModel
 								$data_insert_id = $this->_db->insertid();
 							}
 
+							if ($data_insert_id == 0)
+							{
+								$new_field_id = $field_id;
+							}
+							else
+							{
+								$new_field_id = $data_insert_id;
+							}
+
 							if (!$ch_data_id)
 							{
 								$query = "INSERT IGNORE INTO `" . $this->_table_prefix . "fields_data` "
 									. "(`data_id`,`fieldid` ,`data_txt` ,`itemid`,`section`) "
-									. "VALUES ('','" . $field_id . "','" . $data_txt . "','" . $itemid . "','" . $section . "')";
+									. "VALUES ('','" . $new_field_id . "','" . $data_txt . "','" . $itemid . "','" . $section . "')";
 								$this->_db->setQuery($query);
 								$this->_db->Query();
 							}
@@ -1457,7 +1466,7 @@ class importModelimport extends JModel
 									. "`data_txt` = '" . $data_txt . "', "
 									. "`itemid` = '" . $itemid . "', "
 									. "`section` = '" . $section . "' "
-									. "WHERE `data_id` = '" . $data_id . "' ";
+									. "WHERE `data_id` = '" . $ch_data_id . "' ";
 								$this->_db->setQuery($query);
 								$this->_db->Query();
 							}
@@ -1481,15 +1490,6 @@ class importModelimport extends JModel
 									$this->_db->setQuery($query);
 									$this->_db->Query();
 								}
-							}
-
-							if ($data_insert_id == 0)
-							{
-								$new_field_id = $field_id;
-							}
-							else
-							{
-								$new_field_id = $data_insert_id;
 							}
 
 							$correctlines++;
