@@ -1366,6 +1366,7 @@ class importModelimport extends JModel
 							$data_txt            = $rawdata['data_txt'];
 							$itemid              = $rawdata['itemid'];
 							$section             = $rawdata['section'];
+							$data_insert_id      = 0;
 
 							if ($section == 1)
 							{
