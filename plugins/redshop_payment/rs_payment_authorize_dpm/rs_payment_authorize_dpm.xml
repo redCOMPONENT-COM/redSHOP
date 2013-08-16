@@ -35,8 +35,8 @@
                 </field>
                 <field name="is_test" type="list" default="0" label="Test Mode?"
                        description=" Select 'Yes' while testing. Select 'No' for enabling live transactions.">
-                    <option value="FALSE">No</option>
-                    <option value="TRUE">Yes</option>
+                    <option value="0">No</option>
+                    <option value="1">Yes</option>
                 </field>
 
                 <field name="access_id" type="text" default="" label="Authorize.net Access ID code"
