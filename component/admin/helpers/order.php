@@ -434,10 +434,13 @@ class order_functions
 				// Send the Order mail
 				$redshopMail = new redshopMail;
 
+				// Send Order Mail After Payment
 				if (ORDER_MAIL_AFTER)
 				{
 					$redshopMail->sendOrderMail($order_id);
 				}
+
+				// Send Invoice mail only if order mail is set to before payment.
 				elseif (INVOICE_MAIL_ENABLE)
 				{
 					$redshopMail->sendInvoiceMail($order_id);
