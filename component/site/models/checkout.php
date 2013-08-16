@@ -1354,6 +1354,11 @@ class CheckoutModelCheckout extends JModel
 		{
 			$this->_redshopMail->sendOrderMail($row->order_id);
 		}
+		else
+		{
+			// If Order mail set to send after payment then send mail to administrator only.
+			$this->_redshopMail->sendOrderMail($row->order_id, $sendreddesignmail, true);
+		}
 
 		if ($row->order_status == "C")
 		{
