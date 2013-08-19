@@ -276,8 +276,17 @@ class importModelimport extends JModel
 								$rawdata['product_id'] = (int) $product_id;
 							}
 
-							$rawdata['product_desc'] = htmlentities($rawdata['product_desc']);
-							$rawdata['product_s_desc'] = htmlentities($rawdata['product_s_desc']);
+							// Product Description is optional - no need to add column in csv everytime.
+							if (isset($rawdata['product_desc']) === true)
+							{
+								$rawdata['product_desc'] = htmlentities($rawdata['product_desc']);
+							}
+
+							// Product Short Description is also optional - no need to add column in csv everytime.
+							if (isset($rawdata['product_s_desc']) === true)
+							{
+								$rawdata['product_s_desc'] = htmlentities($rawdata['product_s_desc']);
+							}
 
 							if (isset($rawdata['manufacturer_name']))
 							{
