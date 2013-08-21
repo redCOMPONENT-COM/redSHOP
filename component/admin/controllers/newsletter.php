@@ -20,6 +20,7 @@ class newsletterController extends JController
 
 	public function send_newsletter_preview()
 	{
+		$view = $this->getView('newsletter', 'preview');
 		parent::display();
 	}
 
