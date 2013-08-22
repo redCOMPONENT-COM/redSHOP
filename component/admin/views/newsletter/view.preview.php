@@ -16,7 +16,7 @@ class newsletterViewnewsletter extends JView
 {
 	public function display($tpl = null)
 	{
-		global $context;
+		$context = 'newsletter_preview';
 
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 
@@ -37,6 +37,7 @@ class newsletterViewnewsletter extends JView
 		JToolBarHelper::cancel('close', JText::_('JTOOLBAR_CLOSE'));
 
 		$uri = JFactory::getURI();
+		$app = JFactory::getApplication();
 
 		$filter_order = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'newsletter_id');
 		$filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
