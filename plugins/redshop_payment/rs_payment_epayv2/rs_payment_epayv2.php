@@ -77,7 +77,7 @@ class plgRedshop_paymentrs_payment_epayv2 extends JPlugin
 		{
 			$formdata['cancelurl']   = JURI::base() . 'index.php?tmpl=component&option=com_redshop&view=order_detail&controller=order_detail&task=notify_payment&payment_plugin=rs_payment_epayv2&accept=0';
 			$formdata['callbackurl'] = JURI::base() . 'index.php?tmpl=component&option=com_redshop&view=order_detail&controller=order_detail&task=notify_payment&payment_plugin=rs_payment_epayv2&accept=1';
-			$formdata['accepturl']   = JURI::base() . 'index.php?option=com_redshop&view=order_detail&oid=' . $data['order_id'];
+			$formdata['accepturl']   = JURI::base() . 'index.php?option=com_redshop&view=order_detail&layout=receipt&oid=' . $data['order_id'];
 		}
 		else
 		{
