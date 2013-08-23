@@ -774,6 +774,9 @@ $attribute_template = $producthelper->getAttributeTemplate($template_desc);
 // Check product for not for sale
 $template_desc = $producthelper->getProductNotForSaleComment($this->data, $template_desc, $attributes);
 
+// Replace product in stock tags
+$template_desc = $producthelper->replaceProductInStock($this->data->product_id, $template_desc, $attributes, $attribute_template);
+
 // Product attribute  Start
 $totalatt = count($attributes);
 $template_desc = $producthelper->replaceAttributeData($this->data->product_id, 0, 0, $attributes, $template_desc, $attribute_template, $isChilds);

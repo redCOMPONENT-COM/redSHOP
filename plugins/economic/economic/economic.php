@@ -8,8 +8,6 @@
  */
 
 defined('_JEXEC') or die;
-jimport('joomla.event.plugin');
-JPlugin::loadLanguage('plg_economic_economic');
 
 class plgEconomicEconomic extends JPlugin
 {

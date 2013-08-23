@@ -34,7 +34,7 @@ class orderModelorder extends JModel
 		$this->_table_prefix = '#__redshop_';
 		$limit = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
 		$limitstart = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
-		$filter_status = $app->getUserStateFromRequest($this->_context . 'filter_status', 'filter_status', '', 'word');
+		$filter_status = $app->getUserStateFromRequest($this->_context . 'filter_status', 'filter_status', '', 'string');
 		$filter_payment_status = $app->getUserStateFromRequest($this->_context . 'filter_payment_status', 'filter_payment_status', '', '');
 		$filter = $app->getUserStateFromRequest($this->_context . 'filter', 'filter', 0);
 		$filter_by = $app->getUserStateFromRequest($this->_context . 'filter_by', 'filter_by', '', '');
