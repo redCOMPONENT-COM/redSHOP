@@ -55,7 +55,7 @@ class orderVieworder extends JView
 		$filter_order          = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', ' o.order_id ');
 		$filter_order_Dir      = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', 'DESC');
 		$filter_by             = $app->getUserStateFromRequest($context . 'filter_by', 'filter_by', '', '');
-		$filter_status         = $app->getUserStateFromRequest($context . 'filter_status', 'filter_status', '', 'word');
+		$filter_status         = $app->getUserStateFromRequest($context . 'filter_status', 'filter_status', '', 'string');
 		$filter_payment_status = $app->getUserStateFromRequest($context . 'filter_payment_status', 'filter_payment_status', '', '');
 
 		$lists['order']     = $filter_order;
