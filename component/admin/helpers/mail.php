@@ -82,7 +82,7 @@ class redshopMail
 	 *
 	 * @return bool
 	 */
-	public function sendOrderMail($order_id)
+	public function sendOrderMail($order_id, $onlyAdmin = false)
 	{
 		$redconfig = new Redconfiguration;
 		$producthelper = new producthelper;
@@ -264,6 +264,15 @@ class redshopMail
 			$message = str_replace("{lastname}", $billingaddresses->lastname, $message);
 			$body    = $message;
 
+			// As only need to send email to administrator,
+			// Here variables are changed to use bcc email - from redSHOP configuration - Administrator Email
+			if ($onlyAdmin)
+			{
+				$email           = $bcc;
+				$thirdpartyemail = '';
+				$bcc             = null;
+			}
+
 			if ($thirdpartyemail != '')
 			{
 				if (!JUtility::sendMail($from, $fromname, $thirdpartyemail, $subject, $body, 1, null, $bcc))
@@ -276,6 +285,12 @@ class redshopMail
 			{
 				$this->setError(JText::_('COM_REDSHOP_ERROR_SENDING_CONFIRMATION_MAIL'));
 			}
+		}
+
+		// As email only need to send admin no need to send email to others.
+		if ($onlyAdmin)
+		{
+			return true;
 		}
 
 		if (MANUFACTURER_MAIL_ENABLE)

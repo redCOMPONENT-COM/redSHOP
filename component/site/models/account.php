@@ -471,7 +471,7 @@ class AccountModelaccount extends JModel
 			{
 				foreach ($MyWishlist as $row)
 				{
-					$link          = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $row->product_id . '&Itemid=' . $Itemid);
+					$link          = JURI::root() . 'index.php?option=com_redshop&view=product&pid=' . $row->product_id . '&Itemid=' . $Itemid;
 					$thum_image    = $producthelper->getProductImage($row->product_id, $link, $w_thumb, $h_thumb);
 					$pname         = $row->product_name;
 					$pname         = $pname;
