@@ -47,6 +47,8 @@ Please follow the next steps in order to release a new version of redSHOP.
 - Upload the list to http://wiki.redcomponent.com/index.php?title=redSHOP:Changelog
 
 ### Prepare software for next release
+- Update component version number with next release number at https://github.com/redCOMPONENT-COM/redSHOP-1.2/blob/master/redshop.xml#L10
+- Create an empty update .sql file at: https://github.com/redCOMPONENT-COM/redSHOP-1.2/tree/master/component/admin/sql/updates/mysql
 - Merge development branch into Master (see successful git-branching model: http://nvie.com/posts/a-successful-git-branching-model/ )
 - Create a release git TAG
  - create the tag in local:
@@ -55,5 +57,3 @@ Please follow the next steps in order to release a new version of redSHOP.
 > $ git push --tags
  - Check that tag has been created: https://github.com/redCOMPONENT-COM/redSHOP/tags
  - Create the release: https://github.com/redCOMPONENT-COM/redSHOP/releases
-- Update component version number with next release number at https://github.com/redCOMPONENT-COM/redSHOP-1.2/blob/master/redshop.xml#L10
-- Create an empty update .sql file at: https://github.com/redCOMPONENT-COM/redSHOP-1.2/tree/master/component/admin/sql/updates/mysql
