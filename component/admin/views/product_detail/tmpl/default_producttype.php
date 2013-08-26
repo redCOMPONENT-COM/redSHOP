@@ -18,9 +18,8 @@ $div_product = $this->detail->product_type == 'product' ? 'block' : 'none';
 $div_design = $this->detail->product_type == 'design' ? 'block' : 'none';
 $div_file = (($this->detail->product_type == 'file') || ($this->detail->product_download == 1)) ? 'block' : 'none';
 $div_subscription = $this->detail->product_type == 'subscription' ? 'block' : 'none';
-
+$newdiv_subscription = $this->detail->product_type == 'newsubscription' ? 'block' : 'none';
 $td_style = ($this->detail->product_download_infinite == 0) ? 'style="display:table-row;"' : 'style="display:none;"';
-
 ?>
 <div id="div_product" style="display:<?php echo $div_product; ?>;">
 </div>
@@ -159,9 +158,11 @@ $total_serial = count($productSerialDetail);
 		</tr>
 	</table>
 </div>
+<div id="div_newsubscription" style="display:<?php echo $newdiv_subscription; ?>;">
+	<?php echo $this->loadTemplate('subscription');?>
+</div>
 <?php
 $remove_format = JHtml::$formatOptions;
-
 $add_subscription_row = " " . JHTML::_('select.genericlist', $option, 'period_type[]', 'class="inputbox" size="1" ', 'value', 'text');
 $add_subscription_row = str_replace($remove_format['format.indent'], "", $add_subscription_row);
 $add_subscription_row = str_replace($remove_format['format.eol'], "", $add_subscription_row);

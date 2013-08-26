@@ -206,6 +206,18 @@ class Redtemplate
 				$view = "account";
 				break;
 
+			case 'subscription_template_overview':
+				$view = "subscription";
+				break;
+
+			case 'subscription_template_detail':
+				$view = "subscription";
+				break;
+
+			case 'subscription_template_download':
+				$view = "subscription";
+				break;
+	
 			case 'private_billing_template':
 			case 'company_billing_template':
 			case 'billing_template':
@@ -365,6 +377,10 @@ class Redtemplate
 		$optionsection[] = JHTML::_('select.option', 'shipping_template', JText::_('COM_REDSHOP_SHIPPING_TEMPLATE'));
 		$optionsection[] = JHTML::_('select.option', 'shippment_invoice_template', JText::_('COM_REDSHOP_SHIPPMENT_INVOICE_TEMPLATE'));
 		$optionsection[] = JHTML::_('select.option', 'stock_note', JText::_('COM_REDSHOP_STOCK_NOTE_TEMPLATE'));
+		$optionsection[] = JHTML::_('select.option', 'subscription_template_overview', JText::_('COM_REDSHOP_SUBSCRIPTION_TEMPLATE_OVERVIEW'));
+		$optionsection[] = JHTML::_('select.option', 'subscription_template_detail', JText::_('COM_REDSHOP_SUBSCRIPTION_TEMPLATE_DETAIL'));
+		$optionsection[] = JHTML::_('select.option', 'subscription_template_download', JText::_('COM_REDSHOP_SUBSCRIPTION_TEMPLATE_DOWNLOAD'));
+
 
 		// Sort array alphabetically
 		sort($optionsection);

@@ -1010,6 +1010,7 @@ if($container_id) {
 	{
 		document.getElementById("div_file").style.display = "none";
 		document.getElementById("div_subscription").style.display = "none";
+		document.getElementById("div_newsubscription").style.display = "none";
 		var opendiv = document.getElementById("div_" + product_type);
 		opendiv.style.display = 'block';
 

@@ -2682,6 +2682,38 @@ CREATE TABLE IF NOT EXISTS `#__redshop_product_voucher_transaction` (
 PRIMARY KEY ( `transaction_voucher_id` )
 ) DEFAULT CHARSET=utf8 COMMENT='redSHOP Product Voucher Transaction';
 
+CREATE TABLE IF NOT EXISTS `#__redshop_subscription` (
+  `subscription_id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'Subscription Autoincrement Id',
+  `product_id` int(11) NOT NULL COMMENT 'Product Id of Product Table',
+  `subscription_period` int(11) NOT NULL COMMENT 'Define Subscription period',
+  `subscription_period_unit` varchar(255) NOT NULL COMMENT 'Define Subscription type which can be "year","month","day"',
+  `subscription_applicable_products` text NOT NULL COMMENT 'Applicable Product in Current Subscription',
+  `joomla_acl_groups` varchar(255) NOT NULL COMMENT 'Joomla ACL Group for of user when they will subscribe',
+  `fallback_joomla_acl_groups` varchar(255) NOT NULL COMMENT 'Joomla ACL Group for of user when they will Unsubscribe',
+  PRIMARY KEY (`subscription_id`),
+  UNIQUE KEY `product_id` (`product_id`)
+) DEFAULT CHARSET=utf8 COMMENT='redSHOP New Subscription';
+
+CREATE TABLE IF NOT EXISTS `#__redshop_subscription_xref` (
+  `subscription_parent_id` int(11) NOT NULL DEFAULT '0',
+  `subscription_child_id` int(11) NOT NULL DEFAULT '0',
+  UNIQUE KEY `subscription_parent_id` (`subscription_parent_id`,`subscription_child_id`),
+  KEY `subscription_xref_subscription_parent_id` (`subscription_parent_id`),
+  KEY `subscription_xref_subscription_child_id` (`subscription_child_id`)
+) DEFAULT CHARSET=utf8 COMMENT='redSHOP Subscription relation';
+
+
+CREATE TABLE IF NOT EXISTS `#__redshop_users_subscription` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `subscription_id` int(11) NOT NULL,
+  `create_date_subscription` int(11) NOT NULL,
+  `end_date_subscription` int(11) NOT NULL,
+  `order_item_id` text NOT NULL,
+  PRIMARY KEY (`id`)
+) DEFAULT CHARSET=utf8 COMMENT='redSHOP Users Subscription';
+
+
 CREATE TABLE IF NOT EXISTS `#__redshop_product_subscription` (
   `subscription_id` int(11) NOT NULL auto_increment,
   `product_id` int(11) NOT NULL,

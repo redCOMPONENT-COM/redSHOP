@@ -108,5 +108,8 @@ DROP TABLE IF EXISTS `#__redshop_xml_export_log`;
 DROP TABLE IF EXISTS `#__redshop_xml_import`;
 DROP TABLE IF EXISTS `#__redshop_xml_import_log`;
 DROP TABLE IF EXISTS `#__redshop_zipcode`;
+DROP TABLE IF EXISTS `#__redshop_users_subscription`;
+DROP TABLE IF EXISTS `#__redshop_subscription_xref`;
+DROP TABLE IF EXISTS `#__redshop_subscription`;
 
 SET FOREIGN_KEY_CHECKS=1;

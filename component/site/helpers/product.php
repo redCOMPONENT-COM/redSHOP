@@ -13,10 +13,13 @@ JLoader::import('currency', JPATH_SITE . '/components/com_redshop/helpers');
 JLoader::import('helper', JPATH_SITE . '/components/com_redshop/helpers');
 JLoader::import('extra_field', JPATH_SITE . '/components/com_redshop/helpers');
 JLoader::import('user', JPATH_SITE . '/components/com_redshop/helpers');
+JLoader::import('subscription', JPATH_SITE . '/components/com_redshop/models');
 JLoader::import('order', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
 JLoader::import('quotation', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
 JLoader::import('template', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
 JLoader::import('stockroom', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
+
+
 
 class producthelper
 {
@@ -1309,6 +1312,7 @@ class producthelper
 
 	public function GetProductShowPrice($product_id, $data_add, $seoTemplate = "", $user_id = 0, $isrel = 0, $attributes = array())
 	{
+
 		$product_price                  = '';
 		$price_excluding_vat            = '';
 		$display_product_discount_price = '';
@@ -1712,6 +1716,29 @@ class producthelper
 		$ProductPriceArr['product_old_price_excl_vat'] = $product_old_price_excl_vat;
 		$ProductPriceArr['product_price_incl_vat']     = $product_price_incl_vat;
 
+		// Begin: Implement VietNam Team Code
+		$subscriptionModel = new SubscriptionModelsubscription;
+		$user_id = $user->id;
+
+		if ( $user_id > 0  && $row->product_type == "newsubscription")
+		{
+			$subscription_data  = $subscriptionModel->getSubscriptionData($row->product_id);
+			$subscription_id    = $subscription_data->subscription_id;
+			$product_price_temp = $subscriptionModel->getPriceProuctViaSubscription($user_id, $subscription_id);
+
+			if ($product_price_temp > 0)
+			{
+				$ProductPriceArr['productPrice']               = $product_price_temp;
+				$ProductPriceArr['product_price']              = $product_price_temp;
+				$ProductPriceArr['product_main_price']         = $product_price_temp;
+				$ProductPriceArr['product_price_novat']        = $product_price_temp;
+				$ProductPriceArr['seoProductPrice']            = $product_price_temp;
+				$ProductPriceArr['product_old_price_excl_vat'] = $product_price_temp;
+			}
+		}
+
+		// End
+		
 		return $ProductPriceArr;
 	}
 
@@ -3889,6 +3916,24 @@ class producthelper
 
 			$data_add = str_replace("{if product_special}", '', $data_add);
 			$data_add = str_replace("{product_special end if}", '', $data_add);
+		}
+
+		return $data_add;
+	}
+
+	public function getProductIsSubscription($product = array(), $data_add = "")
+	{
+		if (strstr($data_add, "{if product_is_subscription}") && strstr($data_add, "{product_is_subscription end if}"))
+		{
+			if ($product->product_type != "newsubscription")
+			{
+				$template_pd_sdata = explode('{if product_is_subscription}', $data_add);
+				$template_pd_edata = explode('{product_is_subscription end if}', $template_pd_sdata [1]);
+				$data_add          = $template_pd_sdata[0] . $template_pd_edata[1];
+			}
+
+			$data_add = str_replace("{if product_is_subscription}", '', $data_add);
+			$data_add = str_replace("{product_is_subscription end if}", '', $data_add);
 		}
 
 		return $data_add;

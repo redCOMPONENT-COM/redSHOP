@@ -1161,6 +1161,28 @@ class product_detailModelproduct_detail extends JModel
 			{
 				$this->setError($this->_db->getErrorMsg());
 			}
+
+			// Remove new subscription in table relation parent-child, after remove in table subscription
+			$subids = $this->getSubscriptionFromProducts($cids);
+
+
+			$query = 'DELETE FROM ' . $this->_table_prefix . 'subscription_xref  WHERE subscription_child_id IN ( ' . $subids . ' ) ';
+			$this->_db->setQuery($query);
+
+			if (!$this->_db->query())
+			{
+				$this->setError($this->_db->getErrorMsg());
+			}			
+
+			// Remove new subscription fields relation
+			$query = 'DELETE FROM ' . $this->_table_prefix . 'subscription  WHERE product_id IN ( ' . $cids . ' ) ';
+			$this->_db->setQuery($query);
+
+			if (!$this->_db->query())
+			{
+				$this->setError($this->_db->getErrorMsg());
+			}
+
 		}
 
 		return true;
@@ -1186,6 +1208,145 @@ class product_detailModelproduct_detail extends JModel
 
 		return true;
 	}
+
+	public function getNewSubscription()
+	{
+		$query = $this->_db->getQuery(true);
+		$query->select('*');
+		$query->from($this->_table_prefix . 'subscription');
+		$query->where('product_id=' . $this->_id);
+		$this->_db->setQuery($query);
+
+		return  $this->_db->loadObject();
+	}
+
+	public function getProductInSubscription($appProductsImplode)
+	{
+		$query = $this->_db->getQuery(true);
+		$query->select('p.product_name,p.product_id ');
+		$query->from($this->_table_prefix . 'product as p');
+		$query->where("p.product_id IN (" . $appProductsImplode . ") ");
+		$this->_db->setQuery($query);
+
+		return  $this->_db->loadObjectList();
+
+	}
+
+	public function saveSubscription($saveData)
+	{
+		$subsc = $this->getTable('subscription');
+
+		if (!$subsc->bind($saveData))
+		{
+			$this->setError($this->_db->getErrorMsg());
+
+			return false;
+		}
+
+		if (!$subsc->store())
+		{
+			$this->setError($this->_db->getErrorMsg());
+
+			return false;
+		}
+
+		if (!$saveData['subscription_id'])
+		{
+			$new_subscription_id = $this->_db->insertid();
+
+			if (isset($_POST['subscription_parent_id']))
+			{
+				$parentsub = $_POST['subscription_parent_id'];
+			}
+			else
+			{
+				$parentsub = $saveData['subscription_parent_id'];
+			}
+
+			$query = 'INSERT INTO ' . $this->_table_prefix . 'subscription_xref(subscription_parent_id,subscription_child_id) VALUES ("' . $parentsub . '","' . $new_subscription_id . '");';
+			$this->_db->setQuery($query);
+			$this->_db->query();
+		}
+		else
+		{
+			$new_subscription_id = $saveData['subscription_id'];
+
+			if (isset($_POST['subscription_parent_id']))
+			{
+				$parentsub = $_POST['subscription_parent_id'];
+			}
+			else
+			{
+				$parentsub = $saveData['subscription_parent_id'];
+			}
+
+			$query = 'UPDATE ' . $this->_table_prefix . 'subscription_xref SET subscription_parent_id= "' . $parentsub . '"  WHERE subscription_child_id = "' . $new_subscription_id . '" ';
+			$this->_db->setQuery($query);
+			$this->_db->query();
+		}
+
+		return true;
+	}
+
+	public function removeNullInArray($appProducts)
+	{
+		$sum = count($appProducts);
+		$i   = 0;
+
+		for (; $i < $sum; )
+		{
+			if ($appProducts[$i] == "")
+			{
+				unset($appProducts[$i]);
+				sort($appProducts);
+				$i   = 0;
+				$sum = count($appProducts);
+			}
+			else
+			{
+				$i++;
+			}
+		}
+
+		return $appProducts;
+	}
+
+
+	public function &getSubsctiption()
+	{
+		$query  = $this->_db->getQuery(true);
+		$query->select('*  ');
+		$query->from($this->_table_prefix . 'subscription');
+		$query->where("product_id = '" . $this->_id . "'");
+		$this->_db->setQuery($query);
+
+		return $this->_db->loadObject();
+	}
+
+	public function AddProductBonusFromCategories($temp_subscription_applicable_categories)
+	{
+		if (count($temp_subscription_applicable_categories) > 0)
+		{
+			$cids   = implode(",", $temp_subscription_applicable_categories);
+			$query  = $this->_db->getQuery(true);
+			$query->select('product_id ');
+			$query->from($this->_table_prefix . 'product_category_xref');
+			$query->where("category_id IN ( " . $cids . " ) ");
+			$this->_db->setQuery($query);
+			$result = $this->_db->loadObjectList();
+
+			if (count($result) > 0 )
+			{
+				for ($i = 0;$i < count($result);$i++)
+				{
+					$arr[] = $result[$i]->product_id;
+				}
+
+				return $arr;
+			}
+		}
+	}
+
 
 	public function copy($cid = array())
 	{
@@ -3833,5 +3994,223 @@ class product_detailModelproduct_detail extends JModel
 			}
 		}
 
+	}
+
+	public function removeProduct($product_in_subscripton,$cid)
+	{
+		$query = $this->_db->getQuery(true);
+		$query->select('subscription_applicable_products');
+		$query->from($this->_table_prefix . 'subscription');
+		$query->where("product_id ='" . $cid . "'");
+		$this->_db->setQuery($query);
+		$rs = $this->_db->loadResult();
+		$rs = explode("|", $rs);
+
+		if (count($rs) > 0)
+		{
+			for ($i = 0;$i < count($rs);$i++)
+			{
+				if ($rs[$i] == $product_in_subscripton )
+				{
+					unset($rs[$i]);
+				}
+			}
+
+			sort($rs);
+
+			if (count($rs) > 0)
+			{
+				$rs = implode("|", $rs);
+				$q = "UPDATE " . $this->_table_prefix . "subscription"
+						. " SET subscription_applicable_products='" . $rs . "' "
+						. " WHERE product_id='" . $cid . "'";
+				$this->_db->setQuery($q);
+
+				if (!$this->_db->query())
+				{
+					$this->setError($this->_db->getErrorMsg());
+
+					return false;
+				}
+				else
+				{
+					return true;
+				}
+			}
+		}
+	}
+
+	public function listAllSubscription($name, $subscription_id, $selected_subscriptions=Array(), $size=1, $toplevel=true, $multiple=false, $disabledFields=array(),$width=250 )
+	{
+		$html = '';
+		$q    = "SELECT subscription_parent_id FROM " . $this->_table_prefix . "subscription_xref ";
+
+		if ($subscription_id)
+		{
+			$q .= "WHERE subscription_child_id='$subscription_id'";
+		}
+
+		$this->_db->setQuery($q);
+		$subs = $this->_db->loadObjectList();
+
+		if ($subs)
+		{
+			$selected_subscriptions[] = $subs[0]->subscription_parent_id;
+		}
+
+		$multiple = $multiple ? "multiple=\"multiple\"" : "";
+		$id       = str_replace('[]', '', $name);
+		$html    .= "<select class=\"inputbox\" style=\"width: " . $width . "px;\" size=\"$size\" $multiple name=\"$name\" id=\"$id\">\n";
+
+		if ($toplevel)
+		{
+			$html .= "<option value=\"0\"> -Top- </option>\n";
+		}
+
+		$html .= $this->listTreeSubscription($subscription_id, '0', '0', $selected_subscriptions, $disabledFields);
+		$html .= "</select>\n";
+
+		return $html;
+	}
+
+	public function listTreeSubscription($subscription_id="", $subid='0', $level='0', $selected_subscriptions=Array(), $disabledFields=Array(),$html='' )
+	{
+		$level++;
+		$q = "SELECT subscription_id, subscription_child_id,p.product_name as subscription_name "
+			. "FROM " . $this->_table_prefix . "subscription AS s, " . $this->_table_prefix . "subscription_xref AS sx, " . $this->_table_prefix . "product AS p "
+			. "WHERE sx.subscription_parent_id='$subid' "
+			. "AND s.product_id=p.product_id "
+			. "AND s.subscription_id=sx.subscription_child_id "
+			. "AND s.subscription_id != '$subscription_id' "
+			. "ORDER BY subscription_name ASC";
+
+		$this->_db->setQuery($q);
+		$subs = $this->_db->loadObjectList();
+
+		for ($x = 0; $x < count($subs); $x++)
+		{
+			$sub = $subs[$x];
+			$child_id = $sub->subscription_child_id;
+
+			if ($child_id != $subid)
+			{
+				$selected = ($child_id == $subscription_id) ? "selected=\"selected\"" : "";
+
+				if ($selected == "" && @$selected_subscriptions[$child_id] == "1")
+				{
+					$selected = "selected=\"selected\"";
+				}
+
+				if (is_array($selected_subscriptions))
+				{
+					if (in_array($child_id, $selected_subscriptions))
+					{
+						$selected = "selected=\"selected\"";
+					}
+				}
+
+				$disabled = '';
+
+				if (in_array($child_id, $disabledFields))
+				{
+					$disabled = 'disabled="disabled"';
+				}
+
+				if ($disabled != '' && stristr($_SERVER['HTTP_USER_AGENT'], 'msie'))
+				{
+					// IE7 suffers from a bug, which makes disabled option fields selectable
+				}
+				else
+				{
+					$html .= "<option $selected $disabled value=\"$child_id\">\n";
+
+					for ($i = 0; $i < $level; $i++)
+					{
+						$html .= "&#151;";
+					}
+
+					$html .= "|$level|";
+					$html .= "&nbsp;" . $sub->subscription_name . "</option>";
+				}
+			}
+
+			$html .= $this->listTreeSubscription($subscription_id, $child_id, $level, $selected_subscriptions, $disabledFields);
+		}
+
+		return $html;
+	}
+
+	public function checkSubscriptionParent($cid)
+	{
+		if (count($cid) > 0)
+		{
+			$flag = 0;
+
+			for ($i = 0; $i < count($cid); $i++)
+			{
+				$query = $this->_db->getQuery(true);
+				$query->select('s.subscription_id ');
+				$query->from($this->_table_prefix . 'subscription as s');
+				$query->where("s.product_id = " . $cid[$i] . " ");
+				$this->_db->setQuery($query);
+				$result = $this->_db->loadObject();
+
+				if (count($result) > 0)
+				{
+					$query_x = $this->_db->getQuery(true);
+					$query_x->select('sx.*');
+					$query_x->from($this->_table_prefix . 'subscription_xref as sx');
+					$query_x->where("sx.subscription_parent_id = " . $result->subscription_id . " ");
+					$this->_db->setQuery($query_x);
+					$result_x = $this->_db->loadObject();
+
+					if (count($result_x) > 0)
+					{
+						$flag = 1;
+					}
+				}
+			}
+
+			return $flag;
+		}
+	}
+
+	public function getSubscriptionFromProducts($product_ids)
+	{
+		$query_s = $this->_db->getQuery(true);
+		$query_s->select('s.subscription_id ');
+		$query_s->from($this->_table_prefix . 'subscription as s');
+		$query_s->where("s.product_id IN (" . $product_ids . ") ");
+		$this->_db->setQuery($query_s);
+		$result_s = $this->_db->loadObjectList();
+		$cid = "";
+		$cids = "";
+
+		if (count($result_s) > 0)
+		{
+			for ($i = 0; $i < count($result_s); $i++)
+			{
+				$cid[] = $result_s[$i]->subscription_id;
+			}
+
+			$cids = implode(',', $cid);
+		}
+
+		return $cids;
+	}
+
+	public function updateCDate($id, $unix_date)
+	{
+		$query = " UPDATE " . $this->_table_prefix . "users_subscription "
+				. " SET `end_date_subscription` = " . $unix_date . " "
+				. " WHERE id = '" . $id . "'";
+		$this->_db->setQuery($query);
+
+		if (!$this->_db->Query())
+		{
+			return false;
+		}
+
+		return true;
 	}
 }

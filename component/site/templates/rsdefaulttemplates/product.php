@@ -65,3 +65,6 @@
 
 <div>&nbsp;</div>
 {related_product:related_products}
+<p>{if product_is_subscription} {product_in_subscription_loop_start}</p>
+<div class="product_subscription_name">{product_in_subscription_name}</div>
+<p>{product_in_subscription_loop_end} {product_is_subscription end if}</p>

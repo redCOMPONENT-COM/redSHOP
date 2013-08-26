@@ -3708,7 +3708,10 @@ class Com_RedshopInstallerScript
 					(452, 'shippment_invoice_template', 'shippment_invoice_template', '" . $redtemplate->getInstallSectionTemplate('shippment_invoice_template') . "',1),
 					(460, 'private_billing_template', 'private_billing_template', '" . $redtemplate->getInstallSectionTemplate('private_billing_template') . "',1),
 					(461, 'company_billing_template', 'company_billing_template', '" . $redtemplate->getInstallSectionTemplate('company_billing_template') . "',1),
-	                (550, 'stock_note', 'stock_note', '" . $redtemplate->getInstallSectionTemplate('stock_note') . "',1)";
+	                (550, 'stock_note', 'stock_note', '" . $redtemplate->getInstallSectionTemplate('stock_note') . "',1),
+	                (554, 'default_overview', 'subscription_template_overview', '" . $redtemplate->getInstallSectionTemplate('default_overview') . "',1),
+	                (555, 'default_detail', 'subscription_template_detail', '" . $redtemplate->getInstallSectionTemplate('default_detail') . "',1),
+	                (556, 'default_download', 'subscription_template_download', '" . $redtemplate->getInstallSectionTemplate('default_download') . "',1)";
 		$db->setQuery($q);
 		$db->query();
 

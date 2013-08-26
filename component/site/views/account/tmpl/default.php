@@ -559,9 +559,14 @@ if (COMARE_PRODUCTS)
 	}
 }
 
-$template_desc = str_replace('{compare_image}', $cmp_image, $template_desc);
-$template_desc = str_replace('{compare_title}', $cmp_imagelbl, $template_desc);
-$template_desc = str_replace('{edit_compare_link}', $cmp_link, $template_desc);
-
-$template_desc = $redTemplate->parseredSHOPplugin($template_desc);
+$template_desc              = str_replace('{compare_image}', $cmp_image, $template_desc);
+$template_desc              = str_replace('{compare_title}', $cmp_imagelbl, $template_desc);
+$link_subscription_plan     = JRoute::_('index.php?option=' . $option . '&view=subscription&layout=detail&Itemid=' . $Itemid);
+$subscription_plan          = "<a href='$link_subscription_plan'>" . JText::_('COM_REDSHOP_SUBSCRIPTION_PLAN_LABEL') . "</a>";
+$link_subscription_download = JRoute::_('index.php?option=' . $option . '&view=subscription&layout=download&Itemid=' . $Itemid);
+$subscription_download      = "<a href='$link_subscription_download'>" . JText::_('COM_REDSHOP_SUBSCRIPTION_PLAN_DOWNLOAD_LABEL') . "</a>";
+$template_desc              = str_replace('{subscription_area_lbl}', JText::_('COM_REDSHOP_SUBSCRIPTION_AREA_LABEL'), $template_desc);
+$template_desc              = str_replace('{subscription_plan}', $subscription_plan, $template_desc);
+$template_desc              = str_replace('{subscription_download}', $subscription_download, $template_desc);
+$template_desc              = $redTemplate->parseredSHOPplugin($template_desc);
 echo eval("?>" . $template_desc . "<?php ");
