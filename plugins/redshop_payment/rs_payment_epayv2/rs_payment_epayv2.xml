@@ -93,6 +93,7 @@
                 <field name="epay_window_state" type="list" default="1" label="Window State" description="">
                     <option value="1">Overlay</option>
                     <option value="4">Integrated payment form</option>
+                    <option value="2">Iframe (embedded in the side)</option>
                     <option value="3">Full screen</option>
                 </field>
 
