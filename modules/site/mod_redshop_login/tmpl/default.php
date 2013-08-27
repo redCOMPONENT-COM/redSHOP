@@ -22,7 +22,7 @@ $Itemid = JRequest::getVar('Itemid');
 
 ?>
 <?php if ($type == 'logout') : ?>
-	<form action="index.php" method="post" name="login" id="form-login">
+	<form action="<?php echo JRoute::_('index.php', true, $params->get('usesecure')); ?>" method="post" name="login" id="form-login">
 		<?php if ($params->get('greeting')) : ?>
 			<div>
 				<?php if ($params->get('name')) : {
