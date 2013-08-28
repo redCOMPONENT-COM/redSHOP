@@ -3381,12 +3381,13 @@ class rsCarthelper
 			$template_desc = str_replace($template_middle, $rate_data, $template_desc);
 		}
 
+		$extrafield_total = '';
+
 		if (strstr($template_desc, "{shipping_extrafields}"))
 		{
 			$extraField         = new extraField;
 			$paymentparams_new  = new JRegistry($shippingmethod[0]->params);
 			$extrafield_payment = $paymentparams_new->get('extrafield_shipping');
-			$extrafield_total   = "";
 			$extrafield_hidden  = "";
 
 			if (count($extrafield_payment) > 0)
