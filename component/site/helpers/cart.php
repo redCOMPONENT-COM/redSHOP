@@ -3728,8 +3728,6 @@ class rsCarthelper
 
 							$cardinfo .= '</div>';
 						}
-
-						$flag = true;
 					}
 				}
 
