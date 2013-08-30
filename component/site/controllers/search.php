@@ -32,17 +32,6 @@ class SearchController extends JController
 	}
 
 	/**
-	 * display function
-	 *
-	 * @access public
-	 * @return void
-	 */
-	public function display()
-	{
-		parent::display();
-	}
-
-	/**
 	 * loadProducts function
 	 *
 	 * @access public
