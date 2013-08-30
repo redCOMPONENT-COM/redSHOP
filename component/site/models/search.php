@@ -57,11 +57,18 @@ class searchModelsearch extends JModel
 		}
 
 		if ($layout == 'default')
+		{
 			$limit = $perpageproduct;
+		}
 		elseif ($layout == 'productonsale')
+		{
 			$limit = $params->get('productlimit', 5);
+		}
 		else
+		{
 			$limit = $params->get('maxcategory', 5);
+		}
+
 		$productlimit = 0;
 
 		if (isset($item->query['productlimit']))
