@@ -103,11 +103,11 @@ class searchViewsearch extends JView
 				$mypid = JRequest::getVar('pid', 0);
 
 				$app->Redirect('index.php?option=com_redshop&view=product&pid=' . $mypid . '&Itemid=' . $Itemid);
-
 			}
 		}
 
-		$order_data            = redhelper::getOrderByList();
+		$redhelper             = new redhelper;
+		$order_data            = $redhelper->getOrderByList();
 		$getorderby            = JRequest::getVar('order_by', DEFAULT_PRODUCT_ORDERING_METHOD);
 		$lists['order_select'] = JHTML::_('select.genericlist', $order_data, 'order_by', 'class="inputbox" size="1" onchange="document.orderby_form.submit();" ', 'value', 'text', $getorderby);
 
@@ -171,8 +171,14 @@ class searchViewsearch extends JView
 				. ' FROM #__redshop_category  '
 				. 'WHERE category_id=' . JRequest::getInt('cid');
 			$db->setQuery($query);
+
 			$catname_array = $db->loadObjectList();
-			$cat_name      = $catname_array[0]->category_name;
+			$cat_name      = '';
+
+			if (count($catname_array) > 0)
+			{
+				$cat_name = $catname_array[0]->category_name;
+			}
 
 			$session    = JFactory::getSession();
 			$model      = $this->getModel('search');
@@ -199,6 +205,7 @@ class searchViewsearch extends JView
 				echo $pagetitle;
 				echo '</h1>';
 			}
+
 			echo '<div style="clear:both"></div>';
 			$category_tmpl = "";
 
@@ -351,8 +358,9 @@ class searchViewsearch extends JView
 				$final_endlimit = $endlimit;
 			}
 
-			$tagarray = $texts->getTextLibraryTagArray();
-			$data     = "";
+			$tagarray            = $texts->getTextLibraryTagArray();
+			$data                = "";
+			$count_no_user_field = 0;
 
 			for ($i = 0; $i < count($this->search); $i++)
 			{
@@ -686,14 +694,13 @@ class searchViewsearch extends JView
 					if ($this->search[$i]->attribute_set_id > 0)
 					{
 						$attributes_set = $producthelper->getProductAttribute(0, $this->search[$i]->attribute_set_id, 0, 1);
-
 					}
 
 					$attributes = $producthelper->getProductAttribute($this->search[$i]->product_id);
 					$attributes = array_merge($attributes, $attributes_set);
 				}
 
-				/////////////////////////////////// Product attribute  Start /////////////////////////////////
+				// Product attribute  Start
 				$totalatt = count($attributes);
 
 				// Check product for not for sale
@@ -778,4 +785,3 @@ class searchViewsearch extends JView
 		}
 	}
 }
-
