@@ -289,6 +289,7 @@ class searchViewsearch extends JView
 			if (strstr($template_org, "{redproductfinderfilter:"))
 			{
 				$redProductFinerHelper = JPATH_SITE . "/components/com_redproductfinder/helpers/redproductfinder_helper.php";
+
 				if (file_exists($redProductFinerHelper))
 				{
 					include_once $redProductFinerHelper;
