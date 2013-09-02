@@ -626,28 +626,6 @@ class rsUserhelper
 
 			if ($row->is_company && trim($row->ean_number) != '' && JError::isError(JError::getError()))
 			{
-				if ($isNew)
-				{
-					$sql = "DELETE FROM " . $this->_table_prefix . "users_info "
-						. "WHERE users_info_id='" . $original_info_id . "' ";
-					$this->_db->setQuery($sql);
-					$this->_db->Query();
-
-					if ($row->user_id)
-					{
-						$user = JUser::getInstance((int) $row->user_id);
-
-						// Delete user
-						$user->delete();
-
-						if (!$admin)
-						{
-							$user = $this->_session->get('user');
-							unset($user);
-							$this->_session->set('user', $user);
-						}
-					}
-				}
 				$msg = JText::_('PLEASE_ENTER_EAN_NUMBER');
 				JError::raiseWarning('', $msg);
 
