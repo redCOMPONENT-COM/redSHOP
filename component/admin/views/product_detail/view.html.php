@@ -29,6 +29,7 @@ class product_detailVIEWproduct_detail extends JView
 	public function display($tpl = null)
 	{
 		$app = JFactory::getApplication();
+		$this->input = $app->input;
 
 		$redTemplate = new Redtemplate;
 		$redhelper = new redhelper;

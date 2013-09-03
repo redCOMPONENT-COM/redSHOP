@@ -7,15 +7,16 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
-require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
-$producthelper = new producthelper;
+
+jimport('joomla.html.pane');
 JHTML::_('behavior.tooltip');
+require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
+
+$producthelper = new producthelper;
 $editor = JFactory::getEditor();
 JHTMLBehavior::modal();
-$uri = JURI::getInstance();
-$url = $uri->root();
+$url = JURI::getInstance()->root();
 $option = JRequest::getVar('option');
-jimport('joomla.html.pane');
 
 $container_id = JRequest::getVar('container_id', '', 'request', 'string');
 $stockroom_id = JRequest::getVar('stockroom_id', '', 'request', 'string');
@@ -23,7 +24,9 @@ $now = JFactory::getDate();
 $model = $this->getModel('product_detail');
 
 ?>
+
 <script language="javascript" type="text/javascript">
+
 	function add_dependency(type_id, tag_id, product_id) {
 		var request;
 		request = getHTTPObject();
@@ -46,7 +49,7 @@ $model = $this->getModel('product_detail');
 			if (request.readyState == 4) {
 				alert(request.responseText);
 			}
-		}
+		};
 		request.open("GET", url, true);
 		request.send(null);
 	}
@@ -56,7 +59,7 @@ $model = $this->getModel('product_detail');
 
 	Joomla.submitbutton = function (pressbutton) {
 		submitbutton(pressbutton);
-	}
+	};
 
 	submitbutton = function (pressbutton) {
 		var form = document.adminForm;
@@ -99,7 +102,7 @@ $model = $this->getModel('product_detail');
 			}
 		}
 		submitform(pressbutton);
-	}
+	};
 
 	function oprand_check(s) {
 		var oprand = s.value;
@@ -131,12 +134,13 @@ $model = $this->getModel('product_detail');
 
 	}
 </script>
+
 <?php
-$showbuttons = JRequest::getCmd('showbuttons');
+$showbuttons = $this->input->getCmd('showbuttons', '');
+
 if ($showbuttons == 1)
 {
-	?>
-
+?>
 	<fieldset>
 		<div style="float: right">
 			<button type="button" onclick="submitbutton('save');"> <?php echo JText::_('COM_REDSHOP_SAVE'); ?> </button>
@@ -145,7 +149,9 @@ if ($showbuttons == 1)
 		</div>
 		<div class="configuration"><?php echo JText::_('COM_REDSHOP_ADD_PRODUCT'); ?></div>
 	</fieldset>
-<?php } ?>
+<?php
+}
+?>
 <form action="<?php echo JRoute::_($this->request_url) ?>" method="post" name="adminForm" id="adminForm"
       enctype="multipart/form-data" onSubmit="return selectAll_related(this.elements['related_product[]'],this);">
 <?php
@@ -434,7 +440,7 @@ echo $output .= $myTabs->startPanel(JText::_('COM_REDSHOP_PRODUCT_INFORMATION'),
 <?php
 echo $myTabs->endPanel();
 
-echo $myTabs->startPanel(JText::_('COM_REDSHOP_PRODUCT_DATA'), 'tab2' );?>
+echo $myTabs->startPanel(JText::_('COM_REDSHOP_PRODUCT_DATA'), 'tab2');?>
 
 <fieldset class="adminform">
 	<legend><?php echo JText::_( 'COM_REDSHOP_PRODUCT_DATA' ); ?></legend>
@@ -509,8 +515,26 @@ echo $myTabs->startPanel(JText::_('COM_REDSHOP_PRODUCT_DATA'), 'tab2' );?>
 	</table>
 </fieldset>
 <?php echo $myTabs->endPanel();
+
+//Create 7th Tab
+echo  $myTabs->startPanel(JText::_('COM_REDSHOP_CHANGE_PRODUCT_TYPE'), 'tab3');
+
+?>
+<div class="col50">
+	<table class="adminform">
+		<tr>
+			<td><?php echo JText::_('COM_REDSHOP_PRODUCT_TYPE'); ?> </td>
+			<td><?php echo $this->lists['product_type']; ?> <?php echo JHTML::tooltip(JText::_('COM_REDSHOP_PRODUCT_TYPE_TIP'), JText::_('COM_REDSHOP_PRODUCT_TYPE'), 'tooltip.png', '', '', false); ?></td>
+		</tr>
+	</table>
+	<?php echo $this->loadTemplate('producttype')?>
+</div>
+<?php
+
+echo $myTabs->endPanel();
+
 //Create fields Tab
-echo  $myTabs->startPanel(JText::_('COM_REDSHOP_FIELDS'), 'tab3' );
+echo  $myTabs->startPanel(JText::_('COM_REDSHOP_FIELDS'), 'tab4');
 
 if($this->detail->product_template!=0) ?>
 <fieldset class="adminform">
@@ -520,7 +544,7 @@ if($this->detail->product_template!=0) ?>
 <?php
 echo  $myTabs->endPanel();
 //Create 2nd Tab
-echo  $myTabs->startPanel(JText::_('COM_REDSHOP_PRODUCT_IMAGES'), 'tab4' );
+echo  $myTabs->startPanel(JText::_('COM_REDSHOP_PRODUCT_IMAGES'), 'tab5');
 ?>
 <fieldset class="adminform">
 <legend><?php echo JText::_( 'COM_REDSHOP_PRODUCT_IMAGES' ); ?></legend>
@@ -756,22 +780,22 @@ if(is_file(REDSHOP_FRONT_IMAGES_RELPATH.$product_preview_back_image)){    ?>
 <?php
 echo  $myTabs->endPanel();
 //Create 4th Tab
-echo  $myTabs->startPanel(JText::_('COM_REDSHOP_PRODUCT_ATTRIBUTES'), 'tab5' );
+echo  $myTabs->startPanel(JText::_('COM_REDSHOP_PRODUCT_ATTRIBUTES'), 'tab6' );
 echo $this->loadTemplate('product_attribute');
 echo $myTabs->endPanel();
 //Create 6th Tab
-echo  $myTabs->startPanel(JText::_('COM_REDSHOP_ACCESSORY_PRODUCT'), 'tab6' );
+echo  $myTabs->startPanel(JText::_('COM_REDSHOP_ACCESSORY_PRODUCT'), 'tab7' );
 echo $this->loadTemplate('product_accessory');
 echo $myTabs->endPanel();
 //Create 6th Tab
-echo  $myTabs->startPanel(JText::_('COM_REDSHOP_RELATED_PRODUCT'), 'tab6' );
+echo  $myTabs->startPanel(JText::_('COM_REDSHOP_RELATED_PRODUCT'), 'tab8' );
 ?>
 <div class="col50"><?php echo $this->loadTemplate('related');?></div>
 <?php
 if($this->CheckRedProductFinder > 0){
 echo $myTabs->endPanel();
 //Create 7th Tab
-echo  $myTabs->startPanel(JText::_('COM_REDSHOP_REDPRODUCTFINDER_ASSOCIATION'), 'tab7' );
+echo  $myTabs->startPanel(JText::_('COM_REDSHOP_REDPRODUCTFINDER_ASSOCIATION'), 'tab9' );
 
 if(count($this->getassociation) == 0){
 
@@ -799,7 +823,7 @@ $ordering = $this->getassociation->ordering;
 echo $myTabs->endPanel();
 
 //Create 3rd Tab
-echo  $myTabs->startPanel(JText::_('COM_REDSHOP_META_DATA_TAB'), 'tab5' );
+echo  $myTabs->startPanel(JText::_('COM_REDSHOP_META_DATA_TAB'), 'tab10' );
 ?>
 <fieldset class="adminform">
 	<legend><?php echo JText::_( 'COM_REDSHOP_META_DATA_TAB' ); ?></legend>
@@ -882,27 +906,10 @@ echo  $myTabs->startPanel(JText::_('COM_REDSHOP_META_DATA_TAB'), 'tab5' );
 <?php
 echo $myTabs->endPanel();
 
-//Create 7th Tab
-echo  $myTabs->startPanel(JText::_('COM_REDSHOP_CHANGE_PRODUCT_TYPE'), 'tab7' );
-
-?>
-<div class="col50">
-	<table class="adminform">
-		<tr>
-			<td><?php echo JText::_('COM_REDSHOP_PRODUCT_TYPE'); ?> </td>
-			<td><?php echo $this->lists['product_type']; ?> <?php echo JHTML::tooltip(JText::_('COM_REDSHOP_PRODUCT_TYPE_TIP'), JText::_('COM_REDSHOP_PRODUCT_TYPE'), 'tooltip.png', '', '', false); ?></td>
-		</tr>
-	</table>
-	<?php echo $this->loadTemplate('producttype')?>
-</div>
-<?php
-
-echo $myTabs->endPanel();
-
 if ( USE_STOCKROOM == 1)
 {
 //Create 8th Tab
-echo  $myTabs->startPanel(JText::_('COM_REDSHOP_STOCKROOM_TAB'), 'tab8' );
+echo  $myTabs->startPanel(JText::_('COM_REDSHOP_STOCKROOM_TAB'), 'tab11' );
 ?>
 <div class="col50">
 	<?php echo $this->loadTemplate('productstockroom')?>
@@ -912,7 +919,7 @@ echo  $myTabs->endPanel();
 
 }
 //Create 9th Tab
-echo  $myTabs->startPanel(JText::_('COM_REDSHOP_DISCOUNT_CALCULATOR'), 'tab9' );
+echo  $myTabs->startPanel(JText::_('COM_REDSHOP_DISCOUNT_CALCULATOR'), 'tab12' );
 ?>
 <div class="col50">
 	<?php echo $this->loadTemplate('calculator')?>
@@ -920,7 +927,7 @@ echo  $myTabs->startPanel(JText::_('COM_REDSHOP_DISCOUNT_CALCULATOR'), 'tab9' );
 <?php
 echo  $myTabs->endPanel();
 
-echo $myTabs->startPanel(JText::_('COM_REDSHOP_ECONOMIC_SETTINGS'), 'tab10' );?>
+echo $myTabs->startPanel(JText::_('COM_REDSHOP_ECONOMIC_SETTINGS'), 'tab13' );?>
 
 <fieldset class="adminform">
 	<legend><?php echo JText::_( 'COM_REDSHOP_ECONOMIC_SETTINGS' ); ?></legend>
