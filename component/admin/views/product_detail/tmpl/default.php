@@ -77,22 +77,22 @@ $model = $this->getModel('product_detail');
 			return;
 		}
 		if (form.product_name.value == "") {
-			alert("<?php echo JText::_('COM_REDSHOP_PRODUCT_ITEM_MUST_HAVE_A_NAME', true ); ?>");
+			alert("<?php echo JText::_('COM_REDSHOP_PRODUCT_ITEM_MUST_HAVE_A_NAME', true); ?>");
 			return;
 		} else if (form.product_number.value == "") {
-			alert("<?php echo JText::_('COM_REDSHOP_PRODUCT_ITEM_MUST_HAVE_A_NUMBER', true ); ?>");
+			alert("<?php echo JText::_('COM_REDSHOP_PRODUCT_ITEM_MUST_HAVE_A_NUMBER', true); ?>");
 			return;
 		} else if (form.product_category.value == "") {
-			alert("<?php echo JText::_('COM_REDSHOP_CATEGORY_MUST_SELECTED', true ); ?>");
+			alert("<?php echo JText::_('COM_REDSHOP_CATEGORY_MUST_SELECTED', true); ?>");
 			return;
 		} else if (form.product_template.value == "0") {
-			alert("<?php echo JText::_('COM_REDSHOP_TEMPLATE_MUST_SELECTED', true ); ?>");
+			alert("<?php echo JText::_('COM_REDSHOP_TEMPLATE_MUST_SELECTED', true); ?>");
 			return;
 		} else if (form.copy_attribute.length) {
 			for (var i = 0; i < form.copy_attribute.length; i++) {
 				if (form.copy_attribute[i].checked) {
 					if (form.copy_attribute[i].value == "1" && form.attribute_set_id.value == '') {
-						alert("<?php echo JText::_('COM_REDSHOP_ATTRIBUTE_SET_MUST_BE_SELECTED', true ); ?>");
+						alert("<?php echo JText::_('COM_REDSHOP_ATTRIBUTE_SET_MUST_BE_SELECTED', true); ?>");
 						return;
 					}
 				}
@@ -104,7 +104,7 @@ $model = $this->getModel('product_detail');
 	function oprand_check(s) {
 		var oprand = s.value;
 		if (oprand != '+' && oprand != '-' && oprand != '=' && oprand != '*' && oprand != "/") {
-			alert("<?php echo JText::_('COM_REDSHOP_WRONG_OPRAND', true ); ?>");
+			alert("<?php echo JText::_('COM_REDSHOP_WRONG_OPRAND', true); ?>");
 
 			s.value = "+";
 		}
