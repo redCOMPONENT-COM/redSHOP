@@ -67,11 +67,15 @@ class product_detailController extends JController
 			$post ['discount_enddate'] = strtotime($post ['discount_enddate']) + (23 * 59 * 59);
 		}
 
-		$post["product_number"] = trim($post["product_number"]);
+		$post["product_number"]            = trim($post["product_number"]);
 		$post['product_availability_date'] = strtotime($post ['product_availability_date']);
-		$post["product_s_desc"] = JRequest::getVar('product_s_desc', '', 'post', 'string', JREQUEST_ALLOWRAW);
-		$post["product_desc"] = JRequest::getVar('product_desc', '', 'post', 'string', JREQUEST_ALLOWRAW);
-		$post["product_parent_id"] = trim($post["parent"]) == "" ? 0 : $post["product_parent_id"];
+		$post["product_s_desc"]            = JRequest::getVar('product_s_desc', '', 'post', 'string', JREQUEST_ALLOWRAW);
+		$post["product_desc"]              = JRequest::getVar('product_desc', '', 'post', 'string', JREQUEST_ALLOWRAW);
+
+		if (trim($post["parent"]) == "")
+		{
+			$post["product_parent_id"] = 0;
+		}
 
 		$container_id = JRequest::getVar('container_id', '', 'request', 'string');
 
