@@ -26,8 +26,7 @@ $redTemplate     = new Redtemplate;
 $shippinghelper  = new shipping;
 $carthelper      = new rsCarthelper;
 
-$option = JRequest::getVar('option');
-$Itemid = JRequest::getVar('Itemid');
+$Itemid = JRequest::getInt('Itemid');
 $oid    = JRequest::getInt('oid');
 $print  = JRequest::getInt('print');
 
@@ -153,7 +152,7 @@ if ($OrdersDetail->order_status != 'C' && $OrdersDetail->order_status != 'S' && 
 {
 	$frm = "<form method='post'>
 	<input type='hidden' name='order_id' value='$oid'>
-	<input type='hidden' name='option' value='$option'>
+	<input type='hidden' name='option' value='com_redshop'>
 	<input type='hidden' name='view' value='order_detail'>
 	<input type='hidden' name='task' value='payment'>
 	<input type='submit' name='payment' value='" . JText::_("COM_REDSHOP_PAY") . "'>
@@ -164,7 +163,7 @@ else
 	$reorder = "<form method='post' name='frmreorder' id='frmreorder'>";
 	$reorder .= "<input type='submit' name='reorder' id='reorder' value='" . JText::_('COM_REDSHOP_REORDER') . "' onclick='return submitReorder();' />";
 	$reorder .= "<input type='hidden' name='order_id' value='" . $oid . "'>";
-	$reorder .= "<input type='hidden' name='option' value='" . $option . "'>";
+	$reorder .= "<input type='hidden' name='option' value='com_redshop'>";
 	$reorder .= "<input type='hidden' name='view' value='order_detail'>";
 	$reorder .= "<input type='hidden' name='task' value='reorder'></form>";
 }

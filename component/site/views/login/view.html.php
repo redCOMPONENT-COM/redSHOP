@@ -26,7 +26,7 @@ class loginViewlogin extends JView
 
 		$ShopperGroupDetail = $model->ShopperGroupDetail($shoppergroupid);
 
-		$layout = JRequest::getVar('layout', '');
+		$layout = JRequest::getCmd('layout', '');
 
 		$check = $model->CheckShopperGroup($user->username, $shoppergroupid);
 

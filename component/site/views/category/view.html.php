@@ -22,13 +22,12 @@ class CategoryViewcategory extends JView
 		$prodhelperobj = new producthelper;
 
 		// Request variables
-		$option = JRequest::getVar('option', 'com_redshop');
-		$Itemid = JRequest::getVar('Itemid');
+		$Itemid = JRequest::getInt('Itemid');
 		$catid  = JRequest::getInt('cid', 0, '', 'int');
-		$layout = JRequest::getVar('layout');
+		$layout = JRequest::getCmd('layout');
 
-		$print  = JRequest::getVar('print');
-		$params = $app->getParams($option);
+		$print  = JRequest::getInt('print');
+		$params = $app->getParams('com_redshop');
 		$model  = $this->getModel('category');
 
 		$category_template     = (int) $params->get('category_template');
@@ -341,7 +340,7 @@ class CategoryViewcategory extends JView
 		}
 
 		$category_template_id = $app->getUserStateFromRequest($context . 'category_template', 'category_template', $selected_template);
-		$order_by_select      = JRequest::getVar('order_by', '');
+		$order_by_select      = JRequest::getCmd('order_by', '');
 		$manufacturer_id      = JRequest::getInt('manufacturer_id', 0, '', 'int');
 
 		$lists['category_template'] = "";
@@ -378,7 +377,7 @@ class CategoryViewcategory extends JView
 		{
 			if (strstr($loadCategorytemplate[0]->template_desc, "{product_price_slider}"))
 			{
-				if (!JRequest::getVar('ajaxslide'))
+				if (!JRequest::getInt('ajaxslide'))
 				{
 					$loadCategorytemplate[0]->template_desc = str_replace("{show_all_products_in_category}", "<div id='oldredcatpagination'>{show_all_products_in_category}</div>", $loadCategorytemplate[0]->template_desc);
 					$loadCategorytemplate[0]->template_desc = str_replace("{pagination}", "<div id='oldredcatpagination'>{pagination}</div>", $loadCategorytemplate[0]->template_desc);
