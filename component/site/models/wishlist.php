@@ -85,10 +85,10 @@ class wishlistModelwishlist extends JModel
 			{
 				for ($add_i = 1; $add_i < $_SESSION["no_of_prod"]; $add_i++)
 				{
-					$prod_id .= $_SESSION['wish_' . $add_i]->product_id . ",";
+					$prod_id .= (int) $_SESSION['wish_' . $add_i]->product_id . ",";
 				}
 
-				$prod_id .= $_SESSION['wish_' . $add_i]->product_id;
+				$prod_id .= (int) $_SESSION['wish_' . $add_i]->product_id;
 
 				$sql = "SELECT DISTINCT p.* "
 					. "FROM #__redshop_product as p "
@@ -113,11 +113,11 @@ class wishlistModelwishlist extends JModel
 
 				if ($_SESSION['wish_' . $add_i]->product_id != '')
 				{
-					$prod_id .= $_SESSION['wish_' . $add_i]->product_id . ",";
+					$prod_id .= (int) $_SESSION['wish_' . $add_i]->product_id . ",";
 				}
 
 
-			$prod_id .= $_SESSION['wish_' . $add_i]->product_id;
+			$prod_id .= (int) $_SESSION['wish_' . $add_i]->product_id;
 
 			$sql = "SELECT DISTINCT p.* "
 				. "FROM #__redshop_product as p "
@@ -156,7 +156,7 @@ class wishlistModelwishlist extends JModel
 				$ins_query = "INSERT INTO " . $this->_table_prefix . "wishlist_product "
 					. " SET wishlist_id=" . (int) $row->wishlist_id
 					. ", product_id=" . (int) $product_id
-					. ", cdate=" . time();
+					. ", cdate = " . $db->quote(time());
 				$db->setQuery($ins_query);
 
 				if ($db->Query())
@@ -187,7 +187,7 @@ class wishlistModelwishlist extends JModel
 							$ins_query  = "INSERT INTO #__redshop_wishlist_userfielddata SET "
 								. " wishlist_id = " . (int) $row->wishlist_id
 								. " , product_id = " . (int) $_SESSION['wish_' . $si]->product_id
-								. ", userfielddata = '" . $myuserdata . "'";
+								. ", userfielddata = " . $db->quote($myuserdata);
 
 							$db->setQuery($ins_query);
 							$db->Query();
@@ -196,8 +196,8 @@ class wishlistModelwishlist extends JModel
 
 					$ins_query = "INSERT INTO #__redshop_wishlist_product SET "
 						. " wishlist_id = " . (int) $row->wishlist_id
-						. ", product_id = " . $this->_db->quote($_SESSION['wish_' . $si]->product_id)
-						. ", cdate = " . $this->_db->quote($_SESSION['wish_' . $si]->cdate);
+						. ", product_id = " . (int) $_SESSION['wish_' . $si]->product_id
+						. ", cdate = " . $db->quote($_SESSION['wish_' . $si]->cdate);
 					$db->setQuery($ins_query);
 					$db->Query();
 					unset($_SESSION['wish_' . $si]);
@@ -230,7 +230,7 @@ class wishlistModelwishlist extends JModel
 			$ins_query = "INSERT INTO " . $this->_table_prefix . "wishlist_product "
 				. " SET wishlist_id=" . (int) $cid[$i]
 				. ", product_id=" . (int) $product_id
-				. ", cdate=" . time();
+				. ", cdate = " . $db->quote(time());
 			$db->setQuery($ins_query);
 
 			if ($db->query())
