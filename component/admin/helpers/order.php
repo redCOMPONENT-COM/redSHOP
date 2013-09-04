@@ -447,14 +447,22 @@ class order_functions
 				}
 			}
 
+			$dispatcher = JDispatcher::getInstance();
+
 			if ($data->order_payment_status_code == "Paid" && $data->order_status_code == "S")
 			{
 				// For Consignor Label generation
 				JPluginHelper::importPlugin('redshop_shippinglabel');
-				$dispatcher = JDispatcher::getInstance();
 				$results = $dispatcher->trigger('onChangeStatusToShipped',
 					array($order_id, $data->order_status_code, $data->order_payment_status_code)
 				);
+			}
+
+			if ($data->order_payment_status_code == "Paid" && $data->order_status_code == "C")
+			{
+				$xml_order  = $this->getOrderDetails($order_id);
+				JPluginHelper::importPlugin('ERPImportExport');
+				$dispatcher->trigger('exportOrder', array ($xml_order));
 			}
 
 			// For Webpack Postdk Label Generation
@@ -802,16 +810,24 @@ class order_functions
 			// Changing the status of the order
 			$this->updateOrderStatus($order_id, $newstatus, $order_log->order_status_log_id);
 
+			$dispatcher = JDispatcher::getInstance();
+
 			if ($paymentstatus == "Paid" && $newstatus == "S")
 			{
 				// For Consignor Label generation
 				JPluginHelper::importPlugin('redshop_shippinglabel');
-				$dispatcher = JDispatcher::getInstance();
 				$results = $dispatcher->trigger('onChangeStatusToShipped', array($order_id, $newstatus, $paymentstatus));
 			}
 
 			if ($paymentstatus == "Paid")
 			{
+				if ($newstatus == 'C')
+				{
+					$xml_order = $this->getOrderDetails($order_id);
+					JPluginHelper::importPlugin('ERPImportExport');
+					$dispatcher->trigger('exportOrder', array ($xml_order));
+				}
+
 				JModel::addIncludePath(JPATH_SITE . '/components/com_redshop/models');
 				$checkoutModelcheckout = JModel::getInstance('checkout', 'checkoutModel');
 				$checkoutModelcheckout->sendGiftCard($order_id);
