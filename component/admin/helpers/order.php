@@ -77,8 +77,8 @@ class order_functions
 	 */
 	public function getOrderStatusTitle($order_status_code)
 	{
-		$query = 'SELECT order_status_name FROM ' . $this->_table_prefix . 'order_status ' . 'WHERE order_status_code ="'
-			. $order_status_code . '"';
+		$query = 'SELECT order_status_name FROM ' . $this->_table_prefix . 'order_status ' . 'WHERE order_status_code = '
+			. $this->_db->quote($order_status_code);
 		$this->_db->setQuery($query);
 		$res = $this->_db->loadResult();
 
@@ -87,14 +87,14 @@ class order_functions
 
 	public function updateOrderStatus($order_id, $newstatus)
 	{
-		$query = 'UPDATE ' . $this->_table_prefix . 'orders ' . 'SET order_status="' . $newstatus . '", mdate=' . time()
-			. ' WHERE order_id IN(' . $order_id . ')';
+		$query = 'UPDATE ' . $this->_table_prefix . 'orders ' . 'SET order_status = ' . $this->_db->quote($newstatus) . ', mdate = ' . $this->_db->quote(time())
+			. ' WHERE order_id = ' . (int) $order_id;
 		$this->_db->setQuery($query);
 		$this->_db->query();
 
 		$query = "SELECT p.element,op.order_transfee,op.order_payment_trans_id,op.order_payment_amount FROM #__extensions AS p " . "LEFT JOIN "
-			. $this->_table_prefix . "order_payment AS op ON op.payment_method_class=p.element " . "WHERE op.order_id='"
-			. $order_id . "' " . "AND p.folder='redshop_payment' ";
+			. $this->_table_prefix . "order_payment AS op ON op.payment_method_class=p.element " . "WHERE op.order_id = "
+			. (int) $order_id . " " . "AND p.folder='redshop_payment' ";
 		$this->_db->setQuery($query);
 		$result = $this->_db->loadObjectlist();
 		$authorize_status = $result[0]->authorize_status;
@@ -188,15 +188,15 @@ class order_functions
 			$shippingDeliveryType = (int) $shippingRateDecryptDetail[8];
 		}
 
-		$sql = "SELECT country_2_code FROM " . $this->_table_prefix . "country WHERE country_3_code = '" . SHOP_COUNTRY . "'";
+		$sql = "SELECT country_2_code FROM " . $this->_table_prefix . "country WHERE country_3_code = " . $this->_db->quote(SHOP_COUNTRY);
 		$this->_db->setQuery($sql);
 		$billingInfo->country_code = $this->_db->loadResult();
 
-		$sql = "SELECT country_name FROM " . $this->_table_prefix . "country WHERE country_2_code = '" . $billingInfo->country_code . "'";
+		$sql = "SELECT country_name FROM " . $this->_table_prefix . "country WHERE country_2_code = " . $this->_db->quote($billingInfo->country_code);
 		$this->_db->setQuery($sql);
 		$country_name = $this->_db->loadResult();
 
-		$sql = "SELECT country_2_code FROM " . $this->_table_prefix . "country WHERE country_3_code = '" . $shippingInfo->country_code . "'";
+		$sql = "SELECT country_2_code FROM " . $this->_table_prefix . "country WHERE country_3_code = " . $this->_db->quote($shippingInfo->country_code);
 		$this->_db->setQuery($sql);
 		$shippingInfo->country_code = $this->_db->loadResult();
 
@@ -212,7 +212,7 @@ class order_functions
 			$content_products[] = $orderproducts[$c]->order_item_name;
 
 			// Product Weight
-			$sql = "SELECT weight FROM " . $this->_table_prefix . "product WHERE product_id ='" . $orderproducts [$c]->product_id . "'";
+			$sql = "SELECT weight FROM " . $this->_table_prefix . "product WHERE product_id = " . (int) $orderproducts [$c]->product_id;
 			$this->_db->setQuery($sql);
 			$weight = $this->_db->loadResult();
 
@@ -225,8 +225,8 @@ class order_functions
 				for ($a = 0; $a < count($orderAccItemdata); $a++)
 				{
 					$accessory_quantity = $orderAccItemdata[$a]->product_quantity;
-					$acc_sql = "SELECT weight FROM " . $this->_table_prefix . "product WHERE product_id ='"
-						. $orderAccItemdata[$a]->product_id . "'";
+					$acc_sql = "SELECT weight FROM " . $this->_table_prefix . "product WHERE product_id = "
+						. (int) $orderAccItemdata[$a]->product_id;
 					$this->_db->setQuery($acc_sql);
 					$accessory_weight = $this->_db->loadResult();
 					$acc_weight += ($accessory_weight * $accessory_quantity);
@@ -406,20 +406,20 @@ class order_functions
 			}
 
 			// Order status valid and change the status
-			$query = "UPDATE " . $this->_table_prefix . "orders set order_status = '" . $data->order_status_code
-				. "',order_payment_status = '" . $data->order_payment_status_code . "' where order_id = " . $order_id;
+			$query = "UPDATE " . $this->_table_prefix . "orders set order_status = " . $this->_db->quote($data->order_status_code)
+				. ", order_payment_status = " . $this->_db->quote($data->order_payment_status_code) . "' where order_id = " . (int) $order_id;
 			$this->_db->SetQuery($query);
 			$this->_db->Query();
 
-			$query = "UPDATE " . $this->_table_prefix . "order_payment SET order_transfee ='" . $data->transfee
-				. "', order_payment_trans_id = '" . $data->transaction_id . "' where order_id = '" . $this->_db->getEscaped($order_id) . "'";
+			$query = "UPDATE " . $this->_table_prefix . "order_payment SET order_transfee = " . $this->_db->quote($data->transfee)
+				. ", order_payment_trans_id = " . $this->_db->quote($data->transaction_id) . " where order_id = '" . (int) $order_id . "'";
 			$this->_db->SetQuery($query);
 			$this->_db->Query();
 
 			$statusmsg = $data->msg;
-			$query = "INSERT INTO  " . $this->_table_prefix . "order_status_log set order_status = '" . $data->order_status_code
-				. "' ,order_payment_status ='" . $data->order_payment_status_code . "', date_changed='" . time() . "',order_id = "
-				. $order_id . ",customer_note = '" . $data->log . "'";
+			$query = "INSERT INTO  " . $this->_table_prefix . "order_status_log set order_status = " . $this->_db->quote($data->order_status_code)
+				. ", order_payment_status = " . $this->_db->quote($data->order_payment_status_code) . ", date_changed = " . $this->_db->quote(time())
+				. ", order_id = " . (int) $order_id . ", customer_note = " . $this->_db->quote($data->log);
 			$this->_db->SetQuery($query);
 			$this->_db->Query();
 			$this->changeOrderStatusMail($order_id, $data->order_status_code);
@@ -481,24 +481,24 @@ class order_functions
 
 	public function updateOrderPaymentStatus($order_id, $newstatus)
 	{
-		$query = 'UPDATE ' . $this->_table_prefix . 'orders ' . 'SET order_payment_status="' . $newstatus . '", mdate=' . time()
-			. ' WHERE order_id IN(' . $order_id . ')';
+		$query = 'UPDATE ' . $this->_table_prefix . 'orders ' . 'SET order_payment_status = ' . $this->_db->quote($newstatus) . ', mdate = '
+			. $this->_db->quote(time()) . ' WHERE order_id = ' . (int) $order_id;
 		$this->_db->setQuery($query);
 		$this->_db->query();
 	}
 
 	public function updateOrderComment($order_id, $comment = '')
 	{
-		$query = 'UPDATE ' . $this->_table_prefix . 'orders ' . 'SET customer_note="' . $comment . '" '
-			. 'WHERE order_id IN(' . $order_id . ') ';
+		$query = 'UPDATE ' . $this->_table_prefix . 'orders ' . 'SET customer_note = ' . $this->_db->quote($comment) . ' '
+			. 'WHERE order_id = ' . (int) $order_id;
 		$this->_db->setQuery($query);
 		$this->_db->query();
 	}
 
 	public function updateOrderRequisitionNumber($order_id, $requisition_number = '')
 	{
-		$query = 'UPDATE ' . $this->_table_prefix . 'orders ' . 'SET requisition_number="' . $requisition_number . '" '
-			. 'WHERE order_id IN(' . $order_id . ') ';
+		$query = 'UPDATE ' . $this->_table_prefix . 'orders ' . 'SET requisition_number = ' . $this->_db->quote($requisition_number) . ' '
+			. 'WHERE order_id = ' . (int) $order_id;
 		$this->_db->setQuery($query);
 		$this->_db->query();
 		$affected_rows = $this->_db->getAffectedRows();
@@ -531,21 +531,21 @@ class order_functions
 
 		if ($product_id != 0)
 		{
-			$and = " AND product_id='" . $product_id . "' ";
+			$and = " AND product_id = " . (int) $product_id . " ";
 		}
 
 		if ($order_item_id != 0)
 		{
-			$and_order_item = " AND order_item_id='" . $order_item_id . "' ";
+			$and_order_item = " AND order_item_id = " . (int) $order_item_id . " ";
 		}
 
 		if ($product_id != 0)
 		{
-			$field = ", customer_note='" . $comment . "' ";
+			$field = ", customer_note = " . $this->_db->quote($comment) . " ";
 		}
 
-		$query = "UPDATE " . $this->_table_prefix . "order_item " . "SET order_status='" . $newstatus . "' " . $field
-			. "WHERE order_id IN(" . $order_id . ") " . $and . $and_order_item;
+		$query = "UPDATE " . $this->_table_prefix . "order_item " . "SET order_status='" . $this->_db->quote($newstatus) . "' " . $field
+			. "WHERE order_id = " . (int) $order_id . " " . $and . $and_order_item;
 		$this->_db->setQuery($query);
 		$this->_db->query();
 	}
