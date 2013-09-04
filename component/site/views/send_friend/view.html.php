@@ -20,9 +20,8 @@ class send_friendViewsend_friend extends JView
 		$app = JFactory::getApplication();
 
 		// Request variables
-		$id     = JRequest::getVar('id', null, '', 'int');
-		$option = JRequest::getVar('option', 'com_redshop');
-		$Itemid = JRequest::getVar('Itemid');
+		$id     = JRequest::getInt('id');
+		$Itemid = JRequest::getInt('Itemid');
 		$pid    = JRequest::getInt('pid');
 
 		$params = $app->getParams('com_redshop');

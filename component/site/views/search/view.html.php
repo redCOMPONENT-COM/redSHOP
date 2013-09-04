@@ -27,7 +27,7 @@ class searchViewsearch extends JView
 		$params   = $app->getParams('com_redshop');
 		$document = JFactory::getDocument();
 
-		$layout = JRequest::getVar('layout', '');
+		$layout = JRequest::getCmd('layout', '');
 		$model  = $this->getModel('search');
 
 		if ($layout == 'default')
@@ -36,7 +36,6 @@ class searchViewsearch extends JView
 			$document->setTitle($pagetitle);
 		}
 
-		$option   = JRequest::getVar('option');
 		$document = JFactory::getDocument();
 		JHTML::Script('common.js', 'components/com_redshop/assets/js/', false);
 
@@ -59,9 +58,9 @@ class searchViewsearch extends JView
 			$session      = JSession::getInstance('none', array());
 			$tagid        = JRequest::getInt('tagid', 0);
 			$typeid       = JRequest::getInt('typeid', 0);
-			$remove       = JRequest::getVar('remove', 0);
-			$Itemid       = JRequest::getVar('Itemid', 0);
-			$cntproduct   = JRequest::getVar('cnt', 0);
+			$remove       = JRequest::getInt('remove', 0);
+			$Itemid       = JRequest::getInt('Itemid', 0);
+			$cntproduct   = JRequest::getInt('cnt', 0);
 			$getredfilter = $session->get('redfilter');
 
 			if (count($getredfilter) == 0)
@@ -100,7 +99,7 @@ class searchViewsearch extends JView
 
 			if ($cntproduct == 1)
 			{
-				$mypid = JRequest::getVar('pid', 0);
+				$mypid = JRequest::getInt('pid', 0);
 
 				$app->Redirect('index.php?option=com_redshop&view=product&pid=' . $mypid . '&Itemid=' . $Itemid);
 
@@ -108,7 +107,7 @@ class searchViewsearch extends JView
 		}
 
 		$order_data            = redhelper::getOrderByList();
-		$getorderby            = JRequest::getVar('order_by', DEFAULT_PRODUCT_ORDERING_METHOD);
+		$getorderby            = JRequest::getString('order_by', DEFAULT_PRODUCT_ORDERING_METHOD);
 		$lists['order_select'] = JHTML::_('select.genericlist', $order_data, 'order_by', 'class="inputbox" size="1" onchange="document.orderby_form.submit();" ', 'value', 'text', $getorderby);
 
 		$templatedata = $model->getCategoryTemplet();
@@ -153,7 +152,6 @@ class searchViewsearch extends JView
 			$texts            = new text_library;
 			$stockroomhelper  = new rsstockroomhelper;
 
-			$option      = JRequest::getCmd('option');
 			$Itemid      = JRequest::getInt('Itemid');
 			$search_type = JRequest::getCmd('search_type');
 			$cid         = JRequest::getInt('category_id');
@@ -163,7 +161,7 @@ class searchViewsearch extends JView
 			$templateid     = JRequest::getInt('templateid');
 
 			// Cmd removes space between to words
-			$keyword        = JRequest::getVar('keyword');
+			$keyword        = JRequest::getWord('keyword');
 			$layout         = JRequest::getCmd('layout', 'default');
 
 			$db    = JFactory::getDBO();
@@ -177,7 +175,7 @@ class searchViewsearch extends JView
 			$session    = JFactory::getSession();
 			$model      = $this->getModel('search');
 			$limit      = $this->limit;
-			$limitstart = JRequest::getVar('limitstart', 0);
+			$limitstart = JRequest::getInt('limitstart', 0);
 			$total      = $model->_total;
 
 			JHTML::_('behavior.tooltip');
@@ -233,7 +231,7 @@ class searchViewsearch extends JView
 			$template_org = str_replace($category_tmpl, "", $template_org);
 			$template_org = str_replace("{category_loop_start}", "", $template_org);
 			$template_org = str_replace("{category_loop_end}", "", $template_org);
-			$print        = JRequest::getVar('print');
+			$print        = JRequest::getInt('print');
 			$p_url        = @ explode('?', $_SERVER['REQUEST_URI']);
 			$print_tag    = '';
 
@@ -381,7 +379,7 @@ class searchViewsearch extends JView
 				}
 
 				$pro_s_desc = $Redconfiguration->maxchar($pro_s_desc, CATEGORY_PRODUCT_DESC_MAX_CHARS, CATEGORY_PRODUCT_DESC_END_SUFFIX);
-				$link       = JRoute::_('index.php?option=' . $option . '&view=product&pid=' . $this->search[$i]->product_id . '&Itemid=' . $Itemid);
+				$link       = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $this->search[$i]->product_id . '&Itemid=' . $Itemid);
 
 				if (strstr($template_desc, '{product_name}'))
 				{
@@ -526,7 +524,7 @@ class searchViewsearch extends JView
 
 						if (is_file(REDSHOP_FRONT_DOCUMENT_RELPATH . "product/" . $media_documents[$m]->media_name))
 						{
-							$downlink = JUri::root() . 'index.php?tmpl=component&option=' . $option . '&view=product&pid=' . $this->search[$i]->product_id . '&task=downloadDocument&fname=' . $media_documents[$m]->media_name . '&Itemid=' . $Itemid;
+							$downlink = JUri::root() . 'index.php?tmpl=component&option=com_redshop&view=product&pid=' . $this->search[$i]->product_id . '&task=downloadDocument&fname=' . $media_documents[$m]->media_name . '&Itemid=' . $Itemid;
 							$more_doc .= "<div><a href='" . $downlink . "' title='" . $alttext . "'>";
 							$more_doc .= $alttext;
 							$more_doc .= "</a></div>";

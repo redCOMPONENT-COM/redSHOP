@@ -20,21 +20,21 @@ $url = JURI::base();
 
 $redconfig = new Redconfiguration;
 
-$Itemid = JRequest::getVar('Itemid');
-$option = JRequest::getVar('option');
-$return = JRequest::getVar('return');
-$post = JRequest::get('post');
+$Itemid = JRequest::getInt('Itemid');
+$return = JRequest::getString('return');
+$jinput = JFactory::getApplication()->input;
+$post   = $jinput->getArray($_POST);
 
-$detail = $this->detail;
+$detail     = $this->detail;
 
-$firstname = $detail->firstname;
-$lastname = $detail->lastname;
-$address = $detail->address;
-$zipcode = $detail->zipcode;
-$city = $detail->city;
-$country = JText::_($order_functions->getCountryName($detail->country_code));
-$state = $order_functions->getStateName($detail->state_code, $detail->country_code);
-$phone = $detail->phone;
+$firstname  = $detail->firstname;
+$lastname   = $detail->lastname;
+$address    = $detail->address;
+$zipcode    = $detail->zipcode;
+$city       = $detail->city;
+$country    = JText::_($order_functions->getCountryName($detail->country_code));
+$state      = $order_functions->getStateName($detail->state_code, $detail->country_code);
+$phone      = $detail->phone;
 $user_email = $detail->user_email;
 
 $field = new extra_field;
@@ -48,7 +48,7 @@ else
 	$regtype = 1;
 }
 
-$link = 'index.php?option=' . $option . '&view=cart&Itemid=' . $Itemid;
+$link = 'index.php?option=com_redshop&view=cart&Itemid=' . $Itemid;
 ?>
 <script>
 
@@ -158,7 +158,7 @@ $link = 'index.php?option=' . $option . '&view=cart&Itemid=' . $Itemid;
 		</table>
 	</fieldset>
 	<input type="hidden" name="is_company" value="<?php echo $regtype; ?>"/>
-	<input type="hidden" name="option" value="<?php echo $option; ?>"/>
+	<input type="hidden" name="option" value="com_redshop"/>
 	<input type="hidden" name="Itemid" value="<?php echo $Itemid; ?>"/>
 	<input type="hidden" name="task" value="usercreate"/>
 	<input type="hidden" name="view" value="quotation"/>
