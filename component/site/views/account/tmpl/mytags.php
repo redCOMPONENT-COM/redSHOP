@@ -14,13 +14,12 @@ $url = JURI::base();
 require_once JPATH_ROOT . '/components/com_redshop/helpers/product.php';
 $extra_data = new producthelper;
 
-$option = JRequest::getVar('option');
-$Itemid = JRequest::getVar('Itemid');
-$tagid = JRequest::getInt('tagid');
-$edit = JRequest::getVar('edit');
+$Itemid = JRequest::getInt('Itemid');
+$tagid  = JRequest::getInt('tagid');
+$edit   = JRequest::getInt('edit');
 
 $model = $this->getModel('account');
-$user = JFactory::getUser();
+$user  = JFactory::getUser();
 
 $pagetitle = JText::_('COM_REDSHOP_MY_TAGS');
 
@@ -192,7 +191,7 @@ if (count($MyTags) != 0)
 							foreach ($MyTags as $MyTag)
 							{
 								?>
-								<a href="<?php echo 'index.php?option=' . $option . '&view=account&layout=mytags&tagid=' . $MyTag->tags_id . '&Itemid=' . $Itemid; ?>"
+								<a href="<?php echo 'index.php?option=com_redshop&view=account&layout=mytags&tagid=' . $MyTag->tags_id . '&Itemid=' . $Itemid; ?>"
 								   style="text-decoration: none;"><span
 										style="font-size: <?php echo $MyTag->tags_counter + 15; ?>px;">
 										<?php echo $MyTag->tags_name; ?></span></a>
