@@ -36,17 +36,17 @@ class Cron
 		// Move Container to Stockroom start
 		$fdate = date('Y-m-d', $today);
 
-		$db = $db = JFactory::getDBO();
+		$db = JFactory::getDBO();
 
 		// Calculation for move Container once in day
-		$query = "SELECT count(id) FROM #__" . TABLE_PREFIX . "_cron WHERE date = '" . $fdate . "'";
+		$query = "SELECT count(id) FROM #__" . TABLE_PREFIX . "_cron WHERE date = " . $db->quote($fdate);
 		$db->setQuery($query);
 		$data = $db->loadResult();
 
 		if ($data != 1)
 		{
 			// Default $data != 1
-			$q_update = "UPDATE #__" . TABLE_PREFIX . "_cron SET date = '" . $fdate . "' WHERE id = 1";
+			$q_update = "UPDATE #__" . TABLE_PREFIX . "_cron SET date = " . $db->quote($fdate) . " WHERE id = 1";
 			$db->setQuery($q_update);
 			$db->query();
 
@@ -93,7 +93,6 @@ class Cron
 				}
 			}
 		}
-
 	}
 
 	/**
@@ -111,8 +110,8 @@ class Cron
 
 		$q_insert = "INSERT INTO #__"
 			. TABLE_PREFIX
-			. "_stockroom_container_xref (stockroom_id ,container_id) VALUES ('"
-			. $stockroom_id . "', '" . $container_id . "')";
+			. "_stockroom_container_xref (stockroom_id ,container_id) VALUES ("
+			. (int) $stockroom_id . ", " . (int) $container_id . ")";
 		$db->setQuery($q_insert);
 
 		if ($db->query())
@@ -134,7 +133,7 @@ class Cron
 		$db = $db = JFactory::getDBO();
 
 		$select_order = "SELECT  order_item_id, order_id,order_status,delivery_time,container_id,product_id,is_split from #__"
-			. TABLE_PREFIX . "_order_item where container_id = " . $container_id;
+			. TABLE_PREFIX . "_order_item where container_id = " . (int) $container_id;
 		$db->setQuery($select_order);
 		$data = $db->loadObjectList();
 
@@ -145,11 +144,11 @@ class Cron
 				// Payment Is recieved then Status will change
 				if ($newdata->is_split != 0)
 				{
-					$query = "update #__" . TABLE_PREFIX . "_order_item set order_status = 'RD' where order_item_id = " . $newdata->order_item_id;
+					$query = "update #__" . TABLE_PREFIX . "_order_item set order_status = 'RD' where order_item_id = " . (int) $newdata->order_item_id;
 				}
 				else
 				{
-					$query = "update #__" . TABLE_PREFIX . "_order_item set order_status = 'RD1' where order_item_id = " . $newdata->order_item_id;
+					$query = "update #__" . TABLE_PREFIX . "_order_item set order_status = 'RD1' where order_item_id = " . (int) $newdata->order_item_id;
 				}
 
 				$db->setQuery($query);
@@ -214,7 +213,7 @@ class Cron
 
 					if ($sent == 1)
 					{
-						$q_update = "UPDATE #__" . TABLE_PREFIX . "_catalog_request SET reminder_1 = 1 WHERE catalog_user_id = " . $catalog_detail->catalog_user_id;
+						$q_update = "UPDATE #__" . TABLE_PREFIX . "_catalog_request SET reminder_1 = 1 WHERE catalog_user_id = " . (int) $catalog_detail->catalog_user_id;
 						$db->setQuery($q_update);
 						$db->query();
 					}
@@ -264,14 +263,14 @@ class Cron
 
 					$sent = JUtility::sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc);
 
-					$sql = "select id FROM #__users where email = '" . $recipient . "'";
+					$sql = "select id FROM #__users where email = " . $db->quote($recipient);
 					$db->setQuery($sql);
 					$uid = $db->loadResult();
 
 					$sql = "INSERT INTO  #__" . TABLE_PREFIX
 						. "_coupons` (`coupon_code`, `percent_or_total`, `coupon_value`, `start_date`, `end_date`, `coupon_type`, `userid`, `published`) "
-						. "VALUES ('" . $token . "', '1', '" . DISCOUNT_PERCENTAGE . "', '" . $start_date
-						. "', '" . $end_date . "', '1', '" . $uid . "', '1')";
+						. "VALUES ('" . $token . "', '1', '" . DISCOUNT_PERCENTAGE . "', " . $db->quote($start_date)
+						. ", " . $db->quote($end_date) . ", '1', " . (int) $uid . ", '1')";
 
 					$db->setQuery($sql);
 					$db->query();
@@ -292,11 +291,11 @@ class Cron
 					// Coupon reminder
 					$send_date = date("Y-m-d", $catalog_detail->registerDate + (DISCOUNT_DURATION * (60 * 60 * 24)) + (4 * 60 * 60 * 24));
 
-					$sql = "select id FROM #__users where email = '" . $catalog_detail->email . "'";
+					$sql = "select id FROM #__users where email = " . $db->quote($catalog_detail->email);
 					$db->setQuery($sql);
 					$uid = $db->loadResult();
 
-					$sql = "select id FROM #__" . TABLE_PREFIX . "_coupons where userid = '" . $uid . "'";
+					$sql = "select id FROM #__" . TABLE_PREFIX . "_coupons where userid = " . (int) $uid;
 					$db->setQuery($sql);
 					$coupon_code = $db->loadResult();
 
@@ -332,7 +331,7 @@ class Cron
 
 						if ($sent == 1)
 						{
-							$q_update = "UPDATE #__" . TABLE_PREFIX . "_catalog_request SET reminder_3 = 1 WHERE catalog_user_id = " . $catalog_detail->catalog_user_id;
+							$q_update = "UPDATE #__" . TABLE_PREFIX . "_catalog_request SET reminder_3 = 1 WHERE catalog_user_id = " . (int) $catalog_detail->catalog_user_id;
 							$db->setQuery($q_update);
 							$db->query();
 						}
@@ -379,13 +378,13 @@ class Cron
 				. number_format(DISCOUPON_VALUE, 2, PRICE_SEPERATOR, THOUSAND_SEPERATOR) : $discoupon_value = DISCOUPON_VALUE
 				. " %";
 
-			$sql = "SELECT CONCAT(firstname,' ',lastname) as name,user_email as email FROM  `#__redshop_order_users_info` WHERE `order_id` =  '"
-				. $mail_detail->order_id . "' AND `address_type` = 'BT' limit 0,1";
+			$sql = "SELECT CONCAT(firstname,' ',lastname) as name,user_email as email FROM  `#__redshop_order_users_info` WHERE `order_id` =  "
+				. (int) $mail_detail->order_id . " AND `address_type` = 'BT' limit 0,1";
 			$db->setQuery($sql);
 			$orderuserarr = $db->loadObject();
 
-			$sql = "SELECT coupon_left as total,coupon_code,end_date FROM  `#__redshop_coupons` WHERE `order_id` =  '"
-				. $order_id . "' AND coupon_left != 0 limit 0,1";
+			$sql = "SELECT coupon_left as total,coupon_code,end_date FROM  `#__redshop_coupons` WHERE `order_id` =  "
+				. (int) $order_id . " AND coupon_left != 0 limit 0,1";
 			$db->setQuery($sql);
 			$couponeArr = $db->loadObject();
 
@@ -581,7 +580,7 @@ class Cron
 
 					if ($sent == 1)
 					{
-						$q_update = "UPDATE #__" . TABLE_PREFIX . "_sample_request SET reminder_1 = 1 WHERE request_id  = " . $color_detail->request_id;
+						$q_update = "UPDATE #__" . TABLE_PREFIX . "_sample_request SET reminder_1 = 1 WHERE request_id  = " . (int) $color_detail->request_id;
 						$db->setQuery($q_update);
 						$db->query();
 					}
@@ -622,7 +621,7 @@ class Cron
 
 					if ($sent == 1)
 					{
-						$q_update = "UPDATE #__" . TABLE_PREFIX . "_sample_request SET reminder_2 = 1 WHERE request_id  = " . $color_detail->request_id;
+						$q_update = "UPDATE #__" . TABLE_PREFIX . "_sample_request SET reminder_2 = 1 WHERE request_id  = " . (int) $color_detail->request_id;
 						$db->setQuery($q_update);
 						$db->query();
 					}
@@ -672,21 +671,23 @@ class Cron
 
 					$sent = JUtility::sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc);
 
-					$sql = "select id FROM #__users where email = '" . $recipient . "'";
+					$sql = "select id FROM #__users where email = " . $db->quote($recipient);
 					$db->setQuery($sql);
-					$uid = $db->loadResult();
 
-					$sql = "INSERT INTO  #__"
-						. TABLE_PREFIX
-						. "_coupons` (`coupon_code`, `percent_or_total`, `coupon_value`, `start_date`, `end_date`, `coupon_type`, `userid`, `published`)
-									VALUES ('" . $token . "', '1', '" . DISCOUNT_PERCENTAGE . "', '" . $start_date . "', '" . $end_date . "', '1', '" . $uid . "', '1')";
+					if ($uid = $db->loadResult())
+					{
+						$sql = "INSERT INTO  #__"
+							. TABLE_PREFIX
+							. "_coupons` (`coupon_code`, `percent_or_total`, `coupon_value`, `start_date`, `end_date`, `coupon_type`, `userid`, `published`)
+										VALUES (" . $db->quote($token) . ", '1', '" . DISCOUNT_PERCENTAGE . "', " . $db->quote($start_date) . ", " . $db->quote($end_date) . ", '1', '" . (int) $uid . "', '1')";
 
-					$db->setQuery($sql);
-					$db->query();
+						$db->setQuery($sql);
+						$db->query();
+					}
 
 					if ($sent == 1)
 					{
-						$q_update = "UPDATE #__" . TABLE_PREFIX . "_sample_request SET reminder_3 = 1 WHERE request_id  = " . $color_detail->request_id;
+						$q_update = "UPDATE #__" . TABLE_PREFIX . "_sample_request SET reminder_3 = 1 WHERE request_id  = " . (int) $color_detail->request_id;
 						$db->setQuery($q_update);
 						$db->query();
 					}
@@ -698,11 +699,11 @@ class Cron
 				{
 					$send_date = date("Y-m-d", $color_detail->registerdate + (4 * (60 * 60 * 24)));
 
-					$sql = "select id FROM #__users where email = '" . $color_detail->email . "'";
+					$sql = "select id FROM #__users where email = " . $db->quote($color_detail->email);
 					$db->setQuery($sql);
 					$uid = $db->loadResult();
 
-					$sql = "select id FROM #__" . TABLE_PREFIX . "_coupons where userid = '" . $uid . "'";
+					$sql = "select id FROM #__" . TABLE_PREFIX . "_coupons where userid = " . (int) $uid;
 					$db->setQuery($sql);
 					$coupon_code = $db->loadResult();
 
@@ -739,7 +740,7 @@ class Cron
 
 						if ($sent == 1)
 						{
-							$q_update = "UPDATE #__" . TABLE_PREFIX . "_sample_request SET reminder_coupon = 1 WHERE request_id  = " . $color_detail->request_id;
+							$q_update = "UPDATE #__" . TABLE_PREFIX . "_sample_request SET reminder_coupon = 1 WHERE request_id  = " . (int) $color_detail->request_id;
 							$db->setQuery($q_update);
 							$db->query();
 						}
@@ -773,7 +774,7 @@ class Cron
 			// Update mail sent field to 0
 			$update_query = "UPDATE #__" . TABLE_PREFIX . "_product_subscribe_detail "
 				. "SET renewal_reminder = 0 "
-				. "WHERE product_subscribe_id=" . $data[$i]->product_subscribe_id;
+				. "WHERE product_subscribe_id=" . (int) $data[$i]->product_subscribe_id;
 			$db->setQuery($update_query);
 			$db->Query();
 		}
