@@ -28,7 +28,7 @@ class product_category
 
 		if ($category_id)
 		{
-			$q .= "WHERE category_child_id='$category_id'";
+			$q .= "WHERE category_child_id = " . (int) $category_id;
 		}
 
 		$db->setQuery($q);
@@ -63,7 +63,7 @@ class product_category
 			. "FROM " . $this->_table_prefix . "category AS c, " . $this->_table_prefix . "category_xref AS cx "
 			. "WHERE cx.category_parent_id='$cid' "
 			. "AND c.category_id=cx.category_child_id "
-			. "AND c.category_id != '$category_id' "
+			. "AND c.category_id != " . (int) $category_id . " "
 			. "ORDER BY c.category_name ASC";
 		$db->setQuery($q);
 		$cats = $db->loadObjectList();
@@ -148,11 +148,11 @@ class product_category
 
 		if ($category_main_filter)
 		{
-			$and = " AND category_name like '%" . $category_main_filter . "%' ";
+			$and = " AND category_name LIKE " . $db->quote('%' . $category_main_filter . '%') . " ";
 		}
 		else
 		{
-			$and = " AND cx.category_parent_id='$cid' ";
+			$and = " AND cx.category_parent_id = " . (int) $cid . " ";
 		}
 
 		$q = "SELECT c.category_id, cx.category_child_id, cx.category_parent_id "
@@ -203,7 +203,7 @@ class product_category
 		$q = "SELECT c.category_id,c.category_name "
 			. ",cx.category_child_id,cx.category_parent_id "
 			. "FROM " . $this->_table_prefix . "category_xref as cx, " . $this->_table_prefix . "category as c "
-			. "WHERE cx.category_child_id='" . $cid . "' "
+			. "WHERE cx.category_child_id = " . (int) $cid . " "
 			. "AND c.category_id = cx.category_parent_id";
 		$db->setQuery($q);
 		$cats = $db->loadObjectList();
@@ -223,8 +223,8 @@ class product_category
 	{
 		global $context;
 		$app = JFactory::getApplication();
-		$filter_order = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'ordering');
-		$filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
+		$filter_order = urldecode($app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'ordering'));
+		$filter_order_Dir = urldecode($app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', ''));
 		$orderby = ' ORDER BY ' . $filter_order . ' ' . $filter_order_Dir;
 
 		return $orderby;
@@ -257,7 +257,7 @@ class product_category
 		$q = "SELECT c.category_id,c.category_name "
 			. ",cx.category_child_id,cx.category_parent_id "
 			. "FROM " . $this->_table_prefix . "category_xref as cx, " . $this->_table_prefix . "category as c "
-			. "WHERE cx.category_parent_id='" . $cid . "' "
+			. "WHERE cx.category_parent_id = " . (int) $cid . " "
 			. "AND c.category_id = cx.category_child_id";
 
 		$db->setQuery($q);
@@ -282,7 +282,7 @@ class product_category
 			. "FROM " . $this->_table_prefix . "product AS p "
 			. "LEFT JOIN " . $this->_table_prefix . "product_category_xref AS x ON x.product_id = p.product_id "
 			. "LEFT JOIN " . $this->_table_prefix . "category AS c ON x.category_id = c.category_id "
-			. "WHERE 1=1 AND c.category_id = '" . $cid . "' and p.published =1 ";
+			. "WHERE 1=1 AND c.category_id = " . (int) $cid . " and p.published =1 ";
 
 		$db->setQuery($query);
 
@@ -297,7 +297,7 @@ class product_category
 
 		$query = "SELECT accessory_id,product_id "
 			. "FROM " . $this->_table_prefix . "product_accessory  "
-			. "WHERE 1=1 AND product_id = '" . $product_id . "' and child_product_id ='" . $accessory_id . "'";
+			. "WHERE 1=1 AND product_id = " . (int) $product_id . " and child_product_id = " . (int) $accessory_id;
 
 		$db->setQuery($query);
 		$result = $db->loadObjectList();
