@@ -69,11 +69,17 @@ class AccountModelaccount extends JModel
 
 	public function usercoupons($uid)
 	{
-		$query = 'SELECT * FROM ' . $this->_table_prefix . 'coupons '
-			. 'WHERE published = 1 AND userid="' . $uid . '" AND end_date >=' . time() . ' AND coupon_left > 0';
-		$this->_db->setQuery($query);
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select('*')
+			->from('#__redshop_coupons')
+			->where('published = 1')
+			->where('userid = ' . (int) $uid)
+			->where('end_date >= ' . time())
+			->where('coupon_left > 0');
+		$db->setQuery($query);
 
-		return $this->_db->loadObjectlist();
+		return $db->loadObjectlist();
 	}
 
 	public function getMyDetail()
@@ -96,48 +102,44 @@ class AccountModelaccount extends JModel
 	public function _buildQuery()
 	{
 		$app = JFactory::getApplication();
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true);
 
 		$user   = JFactory::getUser();
 		$userid = $user->id;
 
-		$tagid       = JRequest::getInt('tagid', 0, 'int');
-		$wishlist_id = JRequest::getInt('wishlist_id');
-		$layout      = JRequest::getVar('layout');
+		$tagid		 = $app->input->getInt('tagid', 0);
+		$wishlist_id = $app->input->getInt('wishlist_id', 0);
+		$layout		 = $app->input->getCmd('layout', '');
 
 		switch ($layout)
 		{
 			case 'mytags':
-				$query = "SELECT DISTINCT pt.* ";
 
 				if ($tagid != 0)
 				{
-					$query .= " ,ptx.product_id,p.*";
+					$query->select(array('ptx.product_id','p.*'))
+						->leftJoin($db->quoteName('#__redshop_product', 'p') . ' ON p.product_id = ptx.product_id')
+						->where('pt.tags_id = ' . $db->quote($tagid));
 				}
 
-				$query .= "\n FROM " . $this->_table_prefix . "product_tags as pt"
-					. "\n left join " . $this->_table_prefix . "product_tags_xref as ptx on pt.tags_id = ptx.tags_id ";
-
-				if ($tagid != 0)
-				{
-					$query .= "\n , " . $this->_table_prefix . "product as p ";
-				}
-
-				$query .= "\n WHERE ptx.users_id =" . (int) $userid . " and pt.published = 1";
-
-				if ($tagid != 0)
-				{
-					$query .= "\n AND p.product_id = ptx.product_id AND pt.tags_id =" . $this->_db->quote($tagid);
-				}
+				$query->select('DISTINCT pt.*')
+					->from($db->quoteName('#__redshop_product_tags', 'pt'))
+					->leftJoin($db->quoteName('#__redshop_product_tags_xref', 'ptx') . ' ON pt.tags_id = ptx.tags_id')
+					->where('ptx.users_id = ' . (int) $userid)
+					->where('pt.published = 1');
 
 				break;
 			case 'mywishlist':
 				if ($userid && $wishlist_id)
 				{
-					$query = "SELECT DISTINCT w.* ,p.* FROM " . $this->_table_prefix . "wishlist AS w "
-						. "LEFT JOIN " . $this->_table_prefix . "wishlist_product AS pw ON w.wishlist_id=pw.wishlist_id "
-						. "LEFT JOIN " . $this->_table_prefix . "product AS p ON p.product_id = pw.product_id "
-						. "WHERE w.user_id='" . $user->id . "' "
-						. "AND w.wishlist_id='" . $wishlist_id . "' and pw.wishlist_id='" . $wishlist_id . "'";
+					$query->select(array('DISTINCT w.*','p.*'))
+						->from($db->quoteName('#__redshop_wishlist', 'w'))
+						->leftJoin($db->quoteName('#__redshop_wishlist_product', 'pw') . ' ON w.wishlist_id = pw.wishlist_id')
+						->leftJoin($db->quoteName('#__redshop_product', 'p') . ' ON p.product_id = pw.product_id')
+						->where('w.user_id = ' . (int) $user->id)
+						->where('w.wishlist_id = ' . (int) $wishlist_id)
+						->where('pw.wishlist_id = ' . (int) $wishlist_id);
 				}
 				else
 				{
@@ -150,15 +152,16 @@ class AccountModelaccount extends JModel
 						{
 							if ($_SESSION['wish_' . $add_i]->product_id != '')
 							{
-								$prod_id .= $_SESSION['wish_' . $add_i]->product_id . ",";
+								$prod_id .= (int) $_SESSION['wish_' . $add_i]->product_id . ",";
 							}
 						}
 
-						$prod_id .= $_SESSION['wish_' . $add_i]->product_id;
+						$prod_id .= (int) $_SESSION['wish_' . $add_i]->product_id;
 					}
 
-					$query = "SELECT DISTINCT p.* FROM " . $this->_table_prefix . "product AS p "
-						. "WHERE p.product_id IN ('" . substr_replace($prod_id, "", -1) . "') ";
+					$query->select('p.*')
+						->from($db->quoteName('#__redshop_product', 'p'))
+						->where('p.product_id IN (' . substr_replace($prod_id, '', -1) . ')');
 				}
 				break;
 			default:
@@ -175,7 +178,7 @@ class AccountModelaccount extends JModel
 
 		$redconfig = $app->getParams();
 
-		$start = JRequest::getVar('limitstart', 0, '', 'int');
+		$start = $app->input->getInt('limitstart', 0);
 
 		$limit = $redconfig->get('maxcategory', 5);
 
@@ -205,53 +208,65 @@ class AccountModelaccount extends JModel
 	{
 		$user   = JFactory::getUser();
 		$userid = $user->id;
-		$query  = "SELECT COUNT(pt.tags_id) FROM " . $this->_table_prefix . "product_tags AS pt "
-			. "LEFT JOIN " . $this->_table_prefix . "product_tags_xref AS ptx ON pt.tags_id = ptx.tags_id "
-			. "WHERE ptx.users_id='" . $userid . "' AND pt.published = 1";
-		$this->_db->setQuery($query);
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select('COUNT(pt.tags_id)')
+			->from($db->quoteName('#__redshop_product_tags', 'pt'))
+			->leftJoin($db->quoteName('#__redshop_product_tags_xref', 'ptx') . ' ON pt.tags_id = ptx.tags_id')
+			->where('ptx.users_id = ' . (int) $userid)
+			->where('pt.published = 1');
+		$db->setQuery($query);
 
-		return $this->_db->loadResult();
+		return $db->loadResult();
 	}
 
 	public function countMyWishlist()
 	{
 		$user   = JFactory::getUser();
 		$userid = $user->id;
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select('*')
+			->from($db->quoteName('#__redshop_wishlist', 'pw'))
+			->where('pw.user_id = ' . (int) $userid);
+		$db->setQuery($query);
 
-		$query = "SELECT * FROM " . $this->_table_prefix . "wishlist AS pw "
-			. "WHERE pw.user_id = '" . $userid . "' ";
-		$this->_db->setQuery($query);
-
-		return $this->_db->loadResult();
+		return $db->loadResult();
 	}
 
 	public function removeWishlistProduct()
 	{
 		$app = JFactory::getApplication();
+		$db = JFactory::getDbo();
 
-		$Itemid      = JRequest::getVar('Itemid');
-		$option      = JRequest::getVar('option');
-		$wishlist_id = JRequest::getInt('wishlist_id');
-		$pid         = JRequest::getInt('pid', 0, '', 'int');
+		$Itemid      = $app->input->getInt('Itemid', 0);
+		$option      = $app->input->getCmd('option', '');
+		$wishlist_id = $app->input->getInt('wishlist_id', 0);
+		$pid         = $app->input->getInt('pid', 0);
 
 		$user = JFactory::getUser();
 
 		// Check is user have access to wishlist
-		$query = "SELECT wishlist_id FROM " . $this->_table_prefix . "wishlist "
-			. "WHERE user_id='" . $user->id . "' AND wishlist_id='" . $wishlist_id . "' ";
+		$query = $db->getQuery(true)
+			->select('wishlist_id')
+			->from($db->quoteName('#__redshop_wishlist'))
+			->where('user_id = ' . (int) $user->id)
+			->where('wishlist_id = ' . (int) $wishlist_id);
 		echo "<pre>";
 
-		$this->_db->setQuery($query);
-		$list = $this->_db->loadResult();
+		$db->setQuery($query);
+		$list = $db->loadResult();
 
 		if (count($list) > 0)
 		{
-			$query = "DELETE FROM " . $this->_table_prefix . "wishlist_product "
-				. "WHERE product_id = '" . $pid . "' AND wishlist_id='" . $wishlist_id . "' ";
+			$query->clear()
+				->delete($db->quoteName('#__redshop_wishlist_product'))
+				->where('product_id = ' . (int) $pid)
+				->where('wishlist_id = ' . (int) $wishlist_id);
 
-			$this->_db->setQuery($query);
+			$db->setQuery($query);
 
-			if ($this->_db->Query())
+			if ($db->Query())
 			{
 				$app->enqueueMessage(JText::_('COM_REDSHOP_WISHLIST_PRODUCT_DELETED_SUCCESSFULLY'));
 			}
@@ -272,9 +287,9 @@ class AccountModelaccount extends JModel
 	{
 		$app = JFactory::getApplication();
 
-		$Itemid = JRequest::getVar('Itemid');
-		$option = JRequest::getVar('option');
-		$tagid  = JRequest::getVar('tagid', 0, '', 'int');
+		$Itemid = $app->input->getInt('Itemid', 0);
+		$option = $app->input->getCmd('option', '');
+		$tagid  = $app->input->getInt('tagid', 0);
 
 		if ($this->removeTags($tagid))
 		{
@@ -291,21 +306,29 @@ class AccountModelaccount extends JModel
 	public function removeTags($tagid)
 	{
 		$user = JFactory::getUser();
-		$xref = "DELETE FROM " . $this->_table_prefix . "product_tags_xref "
-			. "WHERE tags_id = '" . $tagid . "' AND users_id='" . $user->id . "' ";
-		$this->_db->setQuery($xref);
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->delete($db->quoteName('#__redshop_product_tags_xref'))
+			->where('tags_id = ' . (int) $tagid)
+			->where('users_id = ' . (int) $user->id);
+		$db->setQuery($query);
 
-		if ($this->_db->Query())
+		if ($db->Query())
 		{
-			$check = "SELECT count(tags_id) FROM " . $this->_table_prefix . "product_tags_xref  WHERE tags_id ='" . $tagid . "' ";
-			$this->_db->setQuery($check);
+			$query->clear()
+				->select('COUNT(tags_id)')
+				->from($db->quoteName('#__redshop_product_tags_xref'))
+				->where('tags_id =' . (int) $tagid);
+			$db->setQuery($query);
 
-			if ($this->_db->loadResult() == 0)
+			if ($db->loadResult() == 0)
 			{
-				$query = "DELETE FROM " . $this->_table_prefix . "product_tags WHERE tags_id = '" . $tagid . "' ";
-				$this->_db->setQuery($query);
+				$query->clear()
+					->delete($db->quoteName('#__redshop_product_tags'))
+					->where('tags_id = ' . (int) $tagid);
+				$db->setQuery($query);
 
-				if (!$this->_db->Query())
+				if (!$db->Query())
 				{
 					return false;
 				}
@@ -321,10 +344,13 @@ class AccountModelaccount extends JModel
 
 	public function getMytag($tagid)
 	{
-		$query = "SELECT tags_name FROM " . $this->_table_prefix . "product_tags "
-			. "WHERE tags_id = '" . $tagid . "' ";
-		$this->_db->setQuery($query);
-		$list = $this->_db->loadResult();
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select('tags_name')
+			->from($db->quoteName('#__redshop_product_tags'))
+			->where('tags_id = ' . (int) $tagid);
+		$db->setQuery($query);
+		$list = $db->loadResult();
 
 		return $list;
 	}
