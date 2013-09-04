@@ -40,6 +40,16 @@ class CategoryModelCategory extends JModel
 
 	public $_context = null;
 
+	// @ToDo In fearure, when class Category extends JModelList, replace filter_fields in constructor
+	public $filter_fields = array(
+		'p.product_name ASC', 'product_name ASC',
+		'p.product_price ASC', 'product_price ASC',
+		'p.product_price DESC', 'product_price DESC',
+		'p.product_number ASC', 'product_number ASC',
+		'p.product_id DESC', 'product_id DESC',
+		'pc.ordering ASC', 'ordering ASC'
+	);
+
 	/**
 	 * Constructor
 	 */
@@ -389,17 +399,7 @@ class CategoryModelCategory extends JModel
 		$item     = $menu->getActive();
 		$order_by = urldecode(JRequest::getVar('order_by', ''));
 
-		// @ToDo In fearure, when class Category extends JModelList, replace filter_fields in constructor
-		$filter_fields = array(
-			'p.product_name ASC', 'product_name ASC',
-			'p.product_price ASC', 'product_price ASC',
-			'p.product_price DESC', 'product_price DESC',
-			'p.product_number ASC', 'product_number ASC',
-			'p.product_id DESC', 'product_id DESC',
-			'pc.ordering ASC', 'ordering ASC'
-		);
-
-		if (in_array($order_by, $filter_fields))
+		if (in_array($order_by, $this->filter_fields))
 		{
 			$value = $order_by;
 		}
