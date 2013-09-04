@@ -20,12 +20,11 @@ class wishlistViewwishlist extends JView
 		// Request variables
 
 		$params = $app->getParams('com_redshop');
-		$task   = JRequest::getVar('task', 'com_redshop');
+		$task   = JRequest::getCmd('task', 'com_redshop');
 
-		$option = JRequest::getVar('option', 'com_redshop');
-		$Itemid = JRequest::getVar('Itemid');
+		$Itemid = JRequest::getInt('Itemid');
 		$pid    = JRequest::getInt('product_id');
-		$layout = JRequest::getVar('layout');
+		$layout = JRequest::getCmd('layout');
 
 		$config = new Redconfiguration;
 

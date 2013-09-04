@@ -9,11 +9,10 @@
 
 defined('_JEXEC') or die;
 $url = JURI::base();
-$option = JRequest::getVar('option');
 $wishlist = $this->wishlist;
 $product_id = JRequest::getInt('product_id');
 $flage = ($product_id && count($wishlist) > 0) ? true : false;
-$Itemid = JRequest::getVar('Itemid');
+$Itemid = JRequest::getInt('Itemid');
 ?>
 <?php if ($flage) : ?>
 	<input type="checkbox" name="chkNewwishlist" id="chkNewwishlist"
@@ -49,7 +48,7 @@ $Itemid = JRequest::getVar('Itemid');
 					<input type="button" value="<?php echo JText::_('COM_REDSHOP_CREATE_SAVE'); ?>"
 					       onclick="checkValidation()"/>&nbsp;
 					<?php
-					if (JRequest::getVar('loginwishlist') == 1) : ?>
+					if (JRequest::getInt('loginwishlist') == 1) : ?>
 						$mywishlist_link = JRoute::_('index.php?view=wishlist&task=viewwishlist&option=com_redshop&Itemid=' . $Itemid);
 						?>
 						<a href="<?PHP echo $mywishlist_link; ?>"><input type="button"
@@ -62,7 +61,7 @@ $Itemid = JRequest::getVar('Itemid');
 			</tr>
 		</table>
 		<input type="hidden" name="view" value="wishlist"/>
-		<input type="hidden" name="option" value="<?php echo $option; ?>"/>
+		<input type="hidden" name="option" value="com_redshop"/>
 		<input type="hidden" name="task" value="createsave"/>
 	</form>
 </div>
@@ -133,7 +132,7 @@ if ($flage) : ?>
 			</table>
 			<input type="hidden" name="view" value="wishlist"/>
 			<input type="hidden" name="boxchecked" value=""/>
-			<input type="hidden" name="option" value="<?php echo $option; ?>"/>
+			<input type="hidden" name="option" value="com_redshop"/>
 			<input type="hidden" name="task" value="savewishlist"/>
 		</form>
 	</div>
