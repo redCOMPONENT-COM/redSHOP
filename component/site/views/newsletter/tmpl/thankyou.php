@@ -8,5 +8,5 @@
  */
 
 defined('_JEXEC') or die;
-$msg = JRequest::getVar('msg');
+$msg = JRequest::getString('msg');
 echo $msg;

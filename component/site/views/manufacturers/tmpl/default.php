@@ -17,9 +17,8 @@ $redTemplate = new Redtemplate;
 $extraField = new extraField;
 $config = new Redconfiguration;
 $url = JURI::base();
-$print = JRequest::getVar('print');
-$option = JRequest::getVar('option');
-$Itemid = JRequest::getVar('Itemid');
+$print = JRequest::getInt('print');
+$Itemid = JRequest::getInt('Itemid');
 $redhelper = new redhelper;
 
 // Page Title Start
@@ -99,9 +98,9 @@ if ($template_middle != "")
 			$mh_thumb = MANUFACTURER_THUMB_HEIGHT;
 			$mw_thumb = MANUFACTURER_THUMB_WIDTH;
 
-			$link = JRoute::_('index.php?option=' . $option . '&view=manufacturers&layout=detail&mid=' . $row->manufacturer_id . '&Itemid=' . $Itemid);
+			$link = JRoute::_('index.php?option=com_redshop&view=manufacturers&layout=detail&mid=' . $row->manufacturer_id . '&Itemid=' . $Itemid);
 
-			$manproducts       = JRoute::_('index.php?option=' . $option . '&view=manufacturers&layout=products&mid=' . $row->manufacturer_id . '&Itemid=' . $Itemid);
+			$manproducts       = JRoute::_('index.php?option=com_redshop&view=manufacturers&layout=products&mid=' . $row->manufacturer_id . '&Itemid=' . $Itemid);
 			$manufacturer_name = "<a href='" . $manproducts . "'><b>" . $row->manufacturer_name . "</b></a>";
 
 			$middledata = $template_middle;
@@ -133,7 +132,7 @@ if ($template_middle != "")
 						}
 						else
 						{
-							$manufacturer_img = $url . "/components/" . $option . "/helpers/thumb.php?filename=manufacturer/" . $media_image[$m]->media_name . "&newxsize=" . $mw_thumb . "&newysize=" . $mh_thumb . "&swap=" . USE_IMAGE_SIZE_SWAPPING;
+							$manufacturer_img = $url . "/components/com_redshop/helpers/thumb.php?filename=manufacturer/" . $media_image[$m]->media_name . "&newxsize=" . $mw_thumb . "&newysize=" . $mh_thumb . "&swap=" . USE_IMAGE_SIZE_SWAPPING;
 						}
 
 						if (PRODUCT_IS_LIGHTBOX == 1)
