@@ -15,7 +15,15 @@ require_once JPATH_COMPONENT . '/helpers/category.php';
 require_once JPATH_COMPONENT . '/helpers/shopper.php';
 require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
 
-class product_detailVIEWproduct_detail extends JView
+/**
+ * Product Detail View
+ *
+ * @package     RedShop.Component
+ * @subpackage  Admin
+ *
+ * @since       1.0
+ */
+class Product_DetailViewProduct_Detail extends JView
 {
 	/**
 	 * The request url.
@@ -26,19 +34,31 @@ class product_detailVIEWproduct_detail extends JView
 
 	public $productSerialDetail;
 
+	public $input;
+
+	/**
+	 * Execute and display a template script.
+	 *
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return  mixed  A string if successful, otherwise a JError object.
+	 *
+	 * @see     fetch()
+	 * @since   11.1
+	 */
 	public function display($tpl = null)
 	{
 		$app = JFactory::getApplication();
 		$this->input = $app->input;
+		$user = JFactory::getUser();
 
 		$redTemplate = new Redtemplate;
 		$redhelper = new redhelper;
 		$producthelper = new producthelper;
 
-		$option = JRequest::getVar('option');
+		$option = $this->input->getString('option', 'com_redshop');
 		$db = JFactory::getDBO();
-		$cfg = JFactory::getConfig();
-		$dbPrefix = $cfg->getValue('config.dbprefix');
+		$dbPrefix = $app->getCfg('dbprefix');
 		$lists = array();
 
 		$model = $this->getModel('product_detail');
@@ -52,8 +72,6 @@ class product_detailVIEWproduct_detail extends JView
 			$detail->append_to_global_seo = '';
 			$detail->canonical_url        = '';
 		}
-
-		$user = JFactory::getUser();
 
 		// Fail if checked out not by 'me'
 		if ($model->isCheckedOut($user->get('id')))
@@ -136,10 +154,6 @@ class product_detailVIEWproduct_detail extends JView
 		/* Get the Quality Score data */
 		$qs = $this->get('QualityScores', 'product_detail');
 
-		/* Get the association ID */
-		$assoc_id = JRequest::getVar('cid');
-		$assoc_id = $assoc_id[0];
-
 		/* Create the select list as checkboxes */
 		$html = '<div id="select_box">';
 
@@ -209,16 +223,20 @@ class product_detailVIEWproduct_detail extends JView
 								$selected = in_array($sel_tagid, $dependent_tag) ? "selected" : "";
 								$html .= '<option value="' . $sel_tagid . '" ' . $selected . ' >' . $sel_tag['tag_name'] . '</option>';
 							}
+
 							$html .= '</optgroup>';
 						}
+
 						$html .= '</select>&nbsp;<a href="#" onClick="javascript:add_dependency('
 							. $typeid . ',' . $tagid . ',' . $detail->product_id . ');" >'
 							. JText::_('COM_REDSHOP_ADD_DEPENDENCY') . '</a></td></tr></table>';
 					}
 				}
+
 				$html .= '</div>';
 			}
 		}
+
 		$html .= '</div>';
 		$lists['tags'] = $html;
 
@@ -228,11 +246,11 @@ class product_detailVIEWproduct_detail extends JView
 
 		$supplier = $model->getsupplier();
 
-		$post = JRequest::get('post');
+		$product_categories = $this->input->post->get('product_category', array(), 'array');
 
-		if (array_key_exists('product_category', $post))
+		if (!empty($product_categories))
 		{
-			$productcats = $post['product_category'];
+			$productcats = $product_categories;
 		}
 		else
 		{
@@ -286,12 +304,13 @@ class product_detailVIEWproduct_detail extends JView
 		{
 			$document->addStyleSheet('components/com_redproductfinder/helpers/redproductfinder.css');
 		}
+
 		$document->addScript('components/com_redshop/assets/js/search.js');
 		$document->addScript('components/com_redshop/assets/js/related.js');
 
 		$uri = JFactory::getURI();
 
-		$layout = JRequest::getVar('layout');
+		$layout = $this->input->getString('layout', '');
 
 		if ($layout == 'property_images')
 		{
@@ -356,8 +375,6 @@ class product_detailVIEWproduct_detail extends JView
 
 		$lists['QUANTITY_SELECTBOX_VALUE'] = $detail->quantity_selectbox_value;
 
-		$result_related = $detail->product_id;
-
 		$result = array();
 
 		$lists['product_all'] = JHTML::_('select.genericlist', $result, 'product_all[]',
@@ -367,24 +384,16 @@ class product_detailVIEWproduct_detail extends JView
 
 		$related_product_data = $model->related_product_data($detail->product_id);
 
-		$lists['related_product'] = JHTML::_('select.genericlist',
-			$related_product_data,
-			'related_product[]',
-			'class="inputbox" onmousewheel="mousewheel_related(this);" ondblclick="selectnone_related(this);"
-			multiple="multiple"  size="15" style="width:200px;" '
-			, 'value', 'text', 0
-		);
-
-		$result_related = $detail->product_id;
-
-		$result = array();
+		$relatedProductCssClass   = 'class="inputbox" multiple="multiple"  size="15" style="width:200px;" ';
+		$relatedProductCssClass  .= ' onmousewheel="mousewheel_related(this);" ondblclick="selectnone_related(this);" ';
+		$lists['related_product'] = JHTML::_('select.genericlist', $related_product_data, 'related_product[]', $relatedProductCssClass, 'value', 'text', 0);
 
 		$lists['product_all_related'] = JHTML::_('select.genericlist', $result, 'product_all_related[]',
 			'class="inputbox" ondblclick="selectnone_related(this);" multiple="multiple"  size="15" style="width:200px;" ',
 			'value', 'text', 0
 		);
 
-		// For preselected
+		// For preselected.
 		if ($detail->product_template == "")
 		{
 			$default_preselected = PRODUCT_TEMPLATE;
