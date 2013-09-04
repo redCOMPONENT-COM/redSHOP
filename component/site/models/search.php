@@ -31,7 +31,7 @@ class searchModelsearch extends JModel
 
 	public $_table_prefix = null;
 
-	// @ToDo In fearure, when class Search extends JModelList, replace filter_fields in constructor
+	// @ToDo In feature, when class Search extends JModelList, replace filter_fields in constructor
 	public $filter_fields = array(
 		'p.product_name ASC', 'product_name ASC',
 		'p.product_price ASC', 'product_price ASC',
