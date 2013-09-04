@@ -84,8 +84,8 @@ class producthelper
 
 	public function getwishlistuserfieldata($wishlistid, $productid)
 	{
-		$query = 'SELECT * FROM #__redshop_wishlist_userfielddata  WHERE wishlist_id = "'
-			. $wishlistid . '"  and product_id="' . $productid . '" order by fieldid ASC';
+		$query = 'SELECT * FROM #__redshop_wishlist_userfielddata  WHERE wishlist_id = '
+			. (int) $wishlistid . '  AND product_id=' . (int) $productid . ' ORDER BY fieldid ASC';
 		$this->_db->setQuery($query);
 		$result = $this->_db->loadObjectList();
 
@@ -154,7 +154,7 @@ class producthelper
 		if ($userid)
 		{
 			$query->join('LEFT', $this->_table_prefix . 'users_info AS u ON u.shopper_group_id = p.shopper_group_id');
-			$and = " u.user_id='" . $userid . "' AND u.address_type='BT' ";
+			$and = " u.user_id = " . (int) $userid . " AND u.address_type='BT' ";
 		}
 		else
 		{
@@ -162,9 +162,9 @@ class producthelper
 		}
 
 		$query->from($this->_table_prefix . 'product_price AS p');
-		$query->where('p.product_id = "' . $product_id . '"');
+		$query->where('p.product_id = ' . (int) $product_id);
 		$query->where($and);
-		$query->where(' (( p.price_quantity_start <= "' . $quantity . '" AND p.price_quantity_end >= "'
+		$query->where(' (( p.price_quantity_start <= ' . (int) $quantity . ' AND p.price_quantity_end >= "'
 			. $quantity . '" ) OR (p.price_quantity_start = "0" AND p.price_quantity_end = "0"))');
 		$query->order('price_quantity_start ASC LIMIT 0,1 ');
 
@@ -188,6 +188,8 @@ class producthelper
 
 	public function getProductSpecialPrice($product_price, $discount_product_id, $product_id = 0)
 	{
+		$db = JFactory::getDbo();
+
 		$result          = array();
 		$categoryProduct = '';
 
@@ -210,14 +212,34 @@ class producthelper
 
 		$query = $this->_db->getQuery(true);
 
+		// Secure discount ids
+		if ($discountIds = explode(',', $discount_product_id))
+		{
+			JArrayHelper::toInteger($discountIds);
+		}
+		else
+		{
+			$discountIds = array(0);
+		}
+
+		// Secure category ids
+		if ($catIds = eplode(',', $categoryProduct))
+		{
+			JArrayHelper::toInteger($catIds);
+		}
+		else
+		{
+			$catIds = array(0);
+		}
+
 		// Prepare query.
 		$query->select('*');
 		$query->from('#__redshop_discount_product');
 		$query->where('published = 1');
-		$query->where('(discount_product_id IN ("' . $discount_product_id . '") OR FIND_IN_SET("' . $categoryProduct . '",category_ids) )');
-		$query->where('`start_date` <= ' . time());
-		$query->where('`end_date` >= ' . time());
-		$query->where('`discount_product_id` IN (SELECT `discount_product_id` FROM `#__redshop_discount_product_shoppers` WHERE `shopper_group_id` = "' . $shopperGroupId . '")');
+		$query->where('(discount_product_id IN ("' . implode(',', $discountIds) . '") OR FIND_IN_SET("' . implode(',', $catIds) . '",category_ids) )');
+		$query->where('`start_date` <= ' . $db->quote(time()));
+		$query->where('`end_date` >= ' . $db->quote(time()));
+		$query->where('`discount_product_id` IN (SELECT `discount_product_id` FROM `#__redshop_discount_product_shoppers` WHERE `shopper_group_id` = ' . (int) $shopperGroupId . ')');
 		$query->order('`amount` DESC');
 
 		// Inject the query and load the result.
@@ -241,13 +263,13 @@ class producthelper
 		switch ($result->condition)
 		{
 			case 1:
-				$query->where('`amount` >= "' . $product_price . '"');
+				$query->where('`amount` >= ' . $db->quote($product_price));
 				break;
 			case 2:
-				$query->where('`amount` = "' . $product_price . '"');
+				$query->where('`amount` = ' . $db->quote($product_price));
 				break;
 			case 3:
-				$query->where('`amount` <= "' . $product_price . '"');
+				$query->where('`amount` <= ' . $db->quote($product_price));
 				break;
 		}
 
@@ -271,7 +293,7 @@ class producthelper
 		{
 			$sql = "SELECT ps.discount_product_id FROM " . $this->_table_prefix . "users_info AS ui "
 				. " LEFT JOIN " . $this->_table_prefix . "discount_product_shoppers AS ps ON ui.shopper_group_id = ps.shopper_group_id "
-				. " WHERE user_id = '" . $userid . "' AND address_type='BT'";
+				. " WHERE user_id = " . (int) $userid . " AND address_type='BT'";
 			$this->_db->setQuery($sql);
 			$res = $this->_db->loadObjectList();
 		}
@@ -289,7 +311,7 @@ class producthelper
 			if ($this->_shopper_group_id != $shopperGroupId)
 			{
 				$query = "SELECT * FROM " . $this->_table_prefix . "discount_product_shoppers AS ps "
-					. "WHERE ps.shopper_group_id ='" . $shopperGroupId . "'";
+					. "WHERE ps.shopper_group_id =" . (int) $shopperGroupId;
 				$this->_db->setQuery($query);
 				$this->_shopper_group_id = $shopperGroupId;
 				$res                     = $this->_discount_product_data = $this->_db->loadObjectList();
