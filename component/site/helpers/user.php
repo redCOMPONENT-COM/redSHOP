@@ -350,7 +350,7 @@ class rsUserhelper
 		if ($app->isSite())
 		{
 			$params = JComponentHelper::getParams('com_users');
-			$data['groups'] = $params->get('new_usertype', 2);
+			$data['groups'] = array($params->get('new_usertype', 2));
 		}
 
 		// Do a password safety check
@@ -404,12 +404,14 @@ class rsUserhelper
 
 				return false;
 			}
+
 			if (trim($data['password']) == "")
 			{
 				JError::raiseWarning('', JText::_('COM_REDSHOP_EMPTY_PASSWORD'));
 
 				return false;
 			}
+
 			if (strlen($data['password']) || strlen($data['password2']))
 			{
 				if ($data['password'] != $data['password2'])
@@ -425,15 +427,6 @@ class rsUserhelper
 
 			// If user registration is not allowed, show 403 not authorized.
 			$usersConfig = JComponentHelper::getParams('com_users');
-
-			$usersConfig->set('allowUserRegistration', 1);
-
-			if ($usersConfig->get('allowUserRegistration') == '0')
-			{
-				JError::raiseError(403, JText::_('ACCESS_FORBIDDEN'));
-
-				return false;
-			}
 
 			if (!$user->bind($data))
 			{
