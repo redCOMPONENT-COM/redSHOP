@@ -21,7 +21,6 @@ $producthelper = new producthelper;
 $redhelper     = new redhelper;
 
 $url        = JURI::base();
-$option     = JRequest::getVar('option');
 $wishlists  = $this->wishlists;
 $product_id = JRequest::getInt('product_id');
 $user       = JFactory::getUser();
@@ -88,7 +87,6 @@ else // If user logged in than display this code.
 function display_products($rows)
 {
 	$url        = JURI::base();
-	$option     = JRequest::getVar('option');
 	$extra_data = new producthelper;
 
 	$producthelper = new producthelper;
@@ -98,7 +96,7 @@ function display_products($rows)
 	{
 		$row           = $rows[$i];
 		$Itemid        = $redhelper->getItemid($row->product_id);
-		$link          = JRoute::_('index.php?option=' . $option . '&view=product&pid=' . $row->product_id . '&Itemid=' . $Itemid);
+		$link          = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $row->product_id . '&Itemid=' . $Itemid);
 		$product_price = $producthelper->getProductPrice($row->product_id);
 
 		$productArr             = $producthelper->getProductNetPrice($row->product_id);
