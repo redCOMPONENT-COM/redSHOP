@@ -19,9 +19,8 @@ $redconfig = new Redconfiguration;
 $producthelper = new producthelper;
 $carthelper = new rsCarthelper;
 
-$option = JRequest::getVar('option');
-$Itemid = JRequest::getVar('Itemid');
-$print = JRequest::getVar('print');
+$Itemid = JRequest::getInt('Itemid');
+$print = JRequest::getInt('print');
 $document = JFactory::getDocument();
 $redTemplate = new Redtemplate;
 
@@ -88,7 +87,7 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 			$order_item_name[$j] = $prolist[$j]->order_item_name;
 		}
 
-		$orderdetailurl = JRoute::_('index.php?option=' . $option . '&view=order_detail&oid=' . $this->detail[$i]->order_id);
+		$orderdetailurl = JRoute::_('index.php?option=com_redshop&view=order_detail&oid=' . $this->detail[$i]->order_id);
 
 		$reorderurl = JUri::root() . 'index.php?option=com_redshop&view=order_detail&order_id=' . $this->detail[$i]->order_id . '&task=reorder&tmpl=component';
 
