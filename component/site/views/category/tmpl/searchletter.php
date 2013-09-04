@@ -14,13 +14,12 @@ JHTML::_('behavior.tooltip');
 JLoader::import('joomla.application.module.helper');
 JHTMLBehavior::modal();
 $url       = JURI::base();
-$option    = JRequest::getVar('option');
 $config    = new Redconfiguration;
-$Itemid    = JRequest::getVar('Itemid');
-$letter    = JRequest::getVar('letter');
+$Itemid    = JRequest::getInt('Itemid');
+$letter    = JRequest::getString('letter');
 $objhelper = new redhelper;
 $model     = $this->getModel('category');
-$view      = JRequest::getVar('view');
+$view      = JRequest::getCmd('view');
 $user      = JFactory::getUser();
 $session   = JFactory::getSession();
 $document  = JFactory::getDocument();
@@ -46,7 +45,7 @@ if (!$module)
 	return false;
 }
 
-$mod_title = urldecode(JRequest::getVar('modulename'));
+$mod_title = urldecode(JRequest::getString('modulename'));
 
 $module = JModuleHelper::getModule('redshop_lettersearch', $mod_title);
 $params = $module->params;
@@ -208,7 +207,7 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 		$prddata_add    = $producthelper->getExtraSectionTag($extraFieldName, $product->product_id, "1", $prddata_add);
 
 		//
-		$link = JRoute::_('index.php?option=' . $option . '&view=product&pid=' . $product->product_id . '&cid=' . $catid . '&Itemid=' . $pItemid);
+		$link = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $product->product_id . '&cid=' . $catid . '&Itemid=' . $pItemid);
 
 		if (strstr($prddata_add, '{product_name}'))
 		{
