@@ -59,9 +59,9 @@ class CategoryController extends JController
 					. "LEFT JOIN " . $this->_table_prefix . "xml_export_log AS xl ON x.xmlexport_id=xl.xmlexport_id "
 					. "LEFT JOIN " . $this->_table_prefix . "xml_export_ipaddress AS xi ON x.xmlexport_id=xi.xmlexport_id "
 					. "WHERE x.published=1 "
-					. "AND (x.filename='" . $filename . "' "
-					. "OR xl.xmlexport_filename='" . $filename . "') "
-					. "AND xi.access_ipaddress='" . $_SERVER['REMOTE_ADDR'] . "' "
+					. "AND (x.filename=" . $db->quote((string) $filename) . " "
+					. "OR xl.xmlexport_filename=" . $db->quote((string) $filename) . ") "
+					. "AND xi.access_ipaddress=" . $db->quote((string) $_SERVER['REMOTE_ADDR']) . " "
 					. "ORDER BY xl.xmlexport_date DESC ";
 				$db->setQuery($query);
 				$data = $db->loadObject();
