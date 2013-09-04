@@ -16,12 +16,13 @@ $producthelper = new producthelper;
 $editor = JFactory::getEditor();
 JHTMLBehavior::modal();
 $url = JURI::getInstance()->root();
-$option = JRequest::getVar('option');
+$option = $this->input->getString('option', '');
 
-$container_id = JRequest::getVar('container_id', '', 'request', 'string');
-$stockroom_id = JRequest::getVar('stockroom_id', '', 'request', 'string');
+$container_id = $this->input->getString('container_id', '');
+$stockroom_id = $this->input->getString('stockroom_id', '');
 $now = JFactory::getDate();
 $model = $this->getModel('product_detail');
+$showbuttons = $this->input->getCmd('showbuttons', '');
 
 ?>
 
@@ -53,9 +54,6 @@ $model = $this->getModel('product_detail');
 		request.open("GET", url, true);
 		request.send(null);
 	}
-	/*var dom = {};
-	 dom.query = jQuery.noConflict();
-	 jQuery.noConflict(true);*/
 
 	Joomla.submitbutton = function (pressbutton) {
 		submitbutton(pressbutton);
@@ -135,12 +133,7 @@ $model = $this->getModel('product_detail');
 	}
 </script>
 
-<?php
-$showbuttons = $this->input->getCmd('showbuttons', '');
-
-if ($showbuttons == 1)
-{
-?>
+<?php if ($showbuttons == 1) : ?>
 	<fieldset>
 		<div style="float: right">
 			<button type="button" onclick="submitbutton('save');"> <?php echo JText::_('COM_REDSHOP_SAVE'); ?> </button>
@@ -149,19 +142,20 @@ if ($showbuttons == 1)
 		</div>
 		<div class="configuration"><?php echo JText::_('COM_REDSHOP_ADD_PRODUCT'); ?></div>
 	</fieldset>
-<?php
-}
-?>
+<?php endif; ?>
+
 <form action="<?php echo JRoute::_($this->request_url) ?>" method="post" name="adminForm" id="adminForm"
       enctype="multipart/form-data" onSubmit="return selectAll_related(this.elements['related_product[]'],this);">
 <?php
-//Get JPaneTabs instance
+
+// Get JPaneTabs instance.
 $myTabs = JPane::getInstance('tabs', array('startOffset' => 0));
 $output = '';
 
-//Create Pane
+// Create Pane.
 $output .= $myTabs->startPane('pane');
-//Create 1st Tab
+
+// Create 1st Tab.
 echo $output .= $myTabs->startPanel(JText::_('COM_REDSHOP_PRODUCT_INFORMATION'), 'tab1');?>
 <div class="col50">
 	<fieldset class="adminform">
