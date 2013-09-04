@@ -539,9 +539,9 @@ class CheckoutModelCheckout extends JModel
 		$this->voucher($cart, $order_id);
 
 
-		$query = "UPDATE `#__redshop_orders` SET discount_type = '" . $this->discount_type . "' where order_id = '" . $order_id . "' ";
-		$this->_db->setQuery($query);
-		$this->_db->query();
+		$query = "UPDATE `#__redshop_orders` SET discount_type = " . $db->quote($this->discount_type) . " where order_id = " . (int) $order_id;
+		$db->setQuery($query);
+		$db->query();
 
 		if (SHOW_TERMS_AND_CONDITIONS == 1 && isset($post['termscondition']) && $post['termscondition'] == 1)
 		{
@@ -1398,7 +1398,7 @@ class CheckoutModelCheckout extends JModel
 		}
 
 		$query = 'SELECT * FROM ' . $this->_table_prefix . 'order_item '
-			. 'WHERE order_id = ' . $order_id . ' AND is_giftcard=1';
+			. 'WHERE order_id = ' . (int) $order_id . ' AND is_giftcard=1';
 		$this->_db->setQuery($query);
 		$orders = $this->_db->loadObjectList();
 
@@ -1522,7 +1522,7 @@ class CheckoutModelCheckout extends JModel
 	public function shipaddress($users_info_id)
 	{
 		$query = 'SELECT * FROM ' . $this->_table_prefix . 'users_info '
-			. 'WHERE users_info_id = "' . $users_info_id . '" ';
+			. 'WHERE users_info_id = ' . (int) $users_info_id;
 		$this->_db->setQuery($query);
 		$list = $this->_db->loadObject();
 
@@ -1553,7 +1553,7 @@ class CheckoutModelCheckout extends JModel
 	{
 		$user          = JFactory::getUser();
 		$shopper_group = $this->_order_functions->getBillingAddress($user->id);
-		$query         = "SELECT * FROM " . $this->_table_prefix . "payment_method WHERE published = '1' AND (FIND_IN_SET('" . $shopper_group->shopper_group_id . "', shopper_group) OR shopper_group = '') ORDER BY ordering ASC";
+		$query         = "SELECT * FROM " . $this->_table_prefix . "payment_method WHERE published = '1' AND (FIND_IN_SET('" . (int) $shopper_group->shopper_group_id . "', shopper_group) OR shopper_group = '') ORDER BY ordering ASC";
 		$this->_db->setQuery($query);
 
 		return $this->_db->loadObjectlist();
@@ -2015,11 +2015,12 @@ class CheckoutModelCheckout extends JModel
 	{
 		$session = JFactory::getSession();
 		$cart    = $session->get('cart');
+		$db = JFactory::getDbo();
 		$query   = "SELECT coupon_value,percent_or_total FROM " . $this->_table_prefix . "coupons "
-			. "WHERE coupon_id='" . $cart['coupon_id'] . "' "
-			. "AND coupon_code='" . $cart['coupon_code'] . "' LIMIT 0,1";
-		$this->_db->setQuery($query);
-		$row = $this->_db->loadObject();
+			. "WHERE coupon_id = " . (int) $cart['coupon_id'] . " "
+			. "AND coupon_code = " . $db->quote($cart['coupon_code']) . " LIMIT 0,1";
+		$db->setQuery($query);
+		$row = $db->loadObject();
 
 		if (count($row) > 0)
 		{
@@ -2040,7 +2041,7 @@ class CheckoutModelCheckout extends JModel
 	{
 		$query = "SELECT c.category_name FROM " . $this->_table_prefix . "product_category_xref AS pcx "
 			. "LEFT JOIN " . $this->_table_prefix . "category AS c ON c.category_id=pcx.category_id "
-			. "WHERE pcx.product_id=" . $this->_db->quote($pid) . " AND c.category_name IS NOT NULL ORDER BY c.category_id ASC LIMIT 0,1";
+			. "WHERE pcx.product_id = " . (int) $pid . " AND c.category_name IS NOT NULL ORDER BY c.category_id ASC LIMIT 0,1";
 
 		$this->_db->setQuery($query);
 
@@ -2065,8 +2066,8 @@ class CheckoutModelCheckout extends JModel
 				$voucher_volume         = $cart['voucher'][$i]['used_voucher'];
 				$transaction_voucher_id = 0;
 				$vouchertype[]          = 'v:' . $cart['voucher'][$i]['voucher_code'];
-				$sql                    = "UPDATE " . $this->_table_prefix . "product_voucher SET voucher_left=voucher_left-'" . $voucher_volume . "' "
-					. "WHERE voucher_id  = '" . $voucher_id . "'";
+				$sql                    = "UPDATE " . $this->_table_prefix . "product_voucher SET voucher_left = voucher_left - " . (int) $voucher_volume . " "
+					. "WHERE voucher_id  = " . (int) $voucher_id;
 				$this->_db->setQuery($sql);
 				$this->_db->Query();
 
@@ -2132,8 +2133,8 @@ class CheckoutModelCheckout extends JModel
 				$coupontype[]          = 'c:' . $cart['coupon'][$i]['coupon_code'];
 
 				$rowcouponDetail = $this->getTable('coupon_detail');
-				$sql             = "UPDATE " . $this->_table_prefix . "coupons SET coupon_left=coupon_left-'" . $coupon_volume . "' "
-					. "WHERE coupon_id  = '" . $coupon_id . "'";
+				$sql             = "UPDATE " . $this->_table_prefix . "coupons SET coupon_left = coupon_left - " . (int) $coupon_volume . " "
+					. "WHERE coupon_id  = " . (int) $coupon_id;
 				$this->_db->setQuery($sql);
 				$this->_db->Query();
 
