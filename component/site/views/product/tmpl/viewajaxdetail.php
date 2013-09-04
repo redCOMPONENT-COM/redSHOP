@@ -19,10 +19,9 @@ JHTMLBehavior::modal();
 $url = JURI::base();
 
 $model              = $this->getModel('product');
-$option             = JRequest::getVar('option');
 $document           = JFactory::getDocument();
 $session            = JFactory::getSession();
-$layout             = JRequest::getVar('layout');
+$layout             = JRequest::getCmd('layout');
 $relatedprd_id      = JRequest::getInt('relatedprd_id', 0);
 $ajaxdetal_template = $producthelper->getAjaxDetailboxTemplate($this->data);
 
@@ -58,16 +57,16 @@ if (count($ajaxdetal_template) > 0)
 
 	$count_no_user_field = 0;
 
-	$extrafieldNames = JRequest::getVar('extrafieldNames', '');
+	$extrafieldNames = JRequest::getString('extrafieldNames', '');
 	$nextrafield     = JRequest::getInt('nextrafield', 1);
 
 	$data                         = array();
-	$data['property_data']        = JRequest::getVar('property_data');
-	$data['subproperty_data']     = JRequest::getVar('subproperty_data');
-	$data['accessory_data']       = JRequest::getVar('accessory_data');
-	$data['acc_quantity_data']    = JRequest::getVar('acc_quantity_data');
-	$data['acc_property_data']    = JRequest::getVar('acc_property_data');
-	$data['acc_subproperty_data'] = JRequest::getVar('acc_subproperty_data');
+	$data['property_data']        = JRequest::getString('property_data');
+	$data['subproperty_data']     = JRequest::getString('subproperty_data');
+	$data['accessory_data']       = JRequest::getString('accessory_data');
+	$data['acc_quantity_data']    = JRequest::getString('acc_quantity_data');
+	$data['acc_property_data']    = JRequest::getString('acc_property_data');
+	$data['acc_subproperty_data'] = JRequest::getString('acc_subproperty_data');
 
 	$selectAcc = $producthelper->getSelectedAccessoryArray($data);
 	$selectAtt = $producthelper->getSelectedAttributeArray($data);

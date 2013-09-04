@@ -16,8 +16,8 @@ $url             = JURI::base();
 $u               = JURI::getInstance();
 $Scheme          = $u->getScheme();
 
-$Itemid          = JRequest::getVar('Itemid');
-$print           = JRequest::getVar('print');
+$Itemid          = JRequest::getInt('Itemid');
+$print           = JRequest::getInt('print');
 $model           = $this->getModel('product');
 $user            = JFactory::getUser();
 $session         = JFactory::getSession();
@@ -1685,7 +1685,7 @@ echo eval("?>" . $template_desc . "<?php ");
 <script type="text/javascript">
 
 function setsendImagepath(elm) {
-	var path = document.getElementById('<?php echo "main_image" . JRequest::getVar('pid');?>').src;
+	var path = document.getElementById('<?php echo "main_image" . JRequest::getInt('pid');?>').src;
 	var filenamepath = path.replace(/\\/g, '/').replace(/.*\//, '');
 	var imageName = filenamepath.split('&');
 	elm.href = elm + '&imageName=' + imageName[0];
@@ -1694,7 +1694,7 @@ function setsendImagepath(elm) {
 function setZoomImagepath(elm) {
 	var elmpath = elm.href;
 	var elmfilenamepath = elmpath.replace(/\\/g, '/').replace(/.*\//, '');
-	var path = document.getElementById('<?php echo "main_image" . JRequest::getVar('pid');?>').src;
+	var path = document.getElementById('<?php echo "main_image" . JRequest::getInt('pid');?>').src;
 	var filenamepath = path.replace(/\\/g, '/').replace(/.*\//, '');
 	var imageName = filenamepath.split('&');
 
