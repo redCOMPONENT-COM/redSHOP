@@ -13,10 +13,9 @@ JLoader::import('joomla.application.module.helper');
 
 $app = JFactory::getApplication();
 JHTML::_('behavior.tooltip');
-$option = JRequest::getVar('option');
 
 $user = JFactory::getUser();
-$params = $app->getParams($option);
+$params = $app->getParams('com_redshop');
 
 $Itemid = JRequest::getInt('Itemid');
 
@@ -35,7 +34,7 @@ if ($module->params != "")
 }
 
 ?>
-<form action="<?php echo JRoute::_('index.php?option=' . $option . '&view=login'); ?>" method="post">
+<form action="<?php echo JRoute::_('index.php?option=com_redshop&view=login'); ?>" method="post">
 	<table cellpadding="0" cellspacing="0" border="0" width="100%">
 		<tr>
 			<td>

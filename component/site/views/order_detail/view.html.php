@@ -21,7 +21,7 @@ class order_detailVieworder_detail extends JView
 
 		$order_functions = new order_functions;
 
-		$print = JRequest::getVar('print');
+		$print = JRequest::getInt('print');
 
 	if ($print)
 	{
@@ -42,8 +42,8 @@ class order_detailVieworder_detail extends JView
 		$order_id = $session->get('order_id');
 
 		$oid    = JRequest::getInt('oid', $order_id);
-		$encr   = JRequest::getVar('encr');
-		$layout = JRequest::getVar('layout');
+		$encr   = JRequest::getString('encr');
+		$layout = JRequest::getCmd('layout');
 
 		$model = $this->getModel('order_detail');
 
@@ -53,7 +53,7 @@ class order_detailVieworder_detail extends JView
 		{
 			if ($OrdersDetail->user_id != $user->id)
 			{
-				$app->Redirect('index.php?option=com_redshop&view=login&Itemid=' . JRequest::getVar('Itemid'));
+				$app->Redirect('index.php?option=com_redshop&view=login&Itemid=' . JRequest::getInt('Itemid'));
 
 				return;
 			}
@@ -76,7 +76,7 @@ class order_detailVieworder_detail extends JView
 			// Preform security checks
 			elseif (!$user->id)
 			{
-				$app->Redirect('index.php?option=com_redshop&view=login&Itemid=' . JRequest::getVar('Itemid'));
+				$app->Redirect('index.php?option=com_redshop&view=login&Itemid=' . JRequest::getInt('Itemid'));
 
 				return;
 			}

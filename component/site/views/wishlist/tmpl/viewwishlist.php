@@ -21,8 +21,7 @@ $producthelper = new producthelper;
 $redhelper = new redhelper;
 
 $url = JURI::base();
-$option = JRequest::getVar('option');
-$Itemid = JRequest::getVar('Itemid');
+$Itemid = JRequest::getInt('Itemid');
 $wishlists = $this->wishlists;
 $product_id = JRequest::getInt('product_id');
 $user = JFactory::getUser();
@@ -151,8 +150,8 @@ else
 
 		for ($j = 0; $j < count($wishlists); $j++)
 		{
-			$wishlist_link = JRoute::_("index.php?view=account&layout=mywishlist&wishlist_id=" . $wishlists[$j]->wishlist_id . "&option=" . $option . "&Itemid=" . $Itemid);
-			$del_wishlist  = JRoute::_("index.php?view=wishlist&task=delwishlist&wishlist_id=" . $wishlists[$j]->wishlist_id . "&option=" . $option . "&Itemid=" . $Itemid);
+			$wishlist_link = JRoute::_("index.php?view=account&layout=mywishlist&wishlist_id=" . $wishlists[$j]->wishlist_id . "&option=com_redshop&Itemid=" . $Itemid);
+			$del_wishlist  = JRoute::_("index.php?view=wishlist&task=delwishlist&wishlist_id=" . $wishlists[$j]->wishlist_id . "&option=com_redshop&Itemid=" . $Itemid);
 			echo "<tr><td><a href=\"" . $wishlist_link . "\">" . $wishlists[$j]->wishlist_name . "</a></td>"
 				. "<td><a href=\"" . $del_wishlist . "\">" . JText::_('COM_REDSHOP_DELETE') . "</a></td></tr>";
 		}
@@ -170,7 +169,6 @@ else
 function display_products($rows)
 {
 	$url           = JURI::base();
-	$option        = JRequest::getVar('option');
 	$extraField    = new extraField;
 	$session       = JFactory::getSession();
 	$producthelper = new producthelper;
@@ -186,7 +184,7 @@ function display_products($rows)
 			$row = $rows[$i];
 
 			$Itemid = $redhelper->getItemid($row->product_id);
-			$link   = JRoute::_('index.php?option=' . $option . '&view=product&pid=' . $row->product_id . '&Itemid=' . $Itemid);
+			$link   = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $row->product_id . '&Itemid=' . $Itemid);
 
 			$product_price          = $producthelper->getProductPrice($row->product_id);
 			$product_price_discount = $producthelper->getProductNetPrice($row->product_id);
@@ -265,7 +263,7 @@ function display_products($rows)
 			$wishlist_data = $template_d2[0];
 
 			$Itemid = $redhelper->getItemid($rows[$i]->product_id);
-			$link   = JRoute::_('index.php?option=' . $option . '&view=product&pid=' . $rows[$i]->product_id . '&Itemid=' . $Itemid);
+			$link   = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $rows[$i]->product_id . '&Itemid=' . $Itemid);
 
 			$product_price          = $producthelper->getProductPrice($row->product_id);
 			$product_price_discount = $producthelper->getProductNetPrice($row->product_id);
@@ -345,7 +343,7 @@ function display_products($rows)
 						$frmChild .= "<input type='hidden' name='Itemid' value='" . $Itemid . "'>";
 						$frmChild .= "<input type='hidden' name='cid' value='" . $row->category_id . "'>";
 						$frmChild .= "<input type='hidden' name='view' value='product'>";
-						$frmChild .= "<input type='hidden' name='option' value='" . $option . "'>";
+						$frmChild .= "<input type='hidden' name='option' value='com_redshop'>";
 						$frmChild .= "</form>";
 
 					}

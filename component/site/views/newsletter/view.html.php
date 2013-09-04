@@ -24,8 +24,8 @@ class newsletterViewnewsletter extends JView
 
 		$pathway->addItem(JText::_('COM_REDSHOP_NEWSLETTER_SUBSCRIPTION'), '');
 
-		$userdata = JRequest::getVar('userdata');
-		$layout   = JRequest::getVar('layout');
+		$userdata = JRequest::getString('userdata');
+		$layout   = JRequest::getCmd('layout');
 		$user     = JFactory::getUser();
 
 		$this->user = $user;
