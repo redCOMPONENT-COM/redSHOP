@@ -25,11 +25,13 @@ class statistic
 
 	public function reshop_visitors()
 	{
+		$db = JFactory::getDbo();
+
 		$sid  = session_id();
 		$user = JFactory::getUser();
 
 		$q = "SELECT * FROM " . $this->_table_prefix . "siteviewer "
-			. "WHERE session_id = '" . $sid . "'";
+			. "WHERE session_id = " . $db->quote($sid);
 		$this->_db->setQuery($q);
 		$data = $this->_db->loadObjectList();
 		$date = time();
@@ -38,7 +40,7 @@ class statistic
 		{
 			$query = "INSERT INTO " . $this->_table_prefix . "siteviewer "
 				. "(session_id, user_id, created_date) "
-				. "VALUES ('" . $sid . "', '" . $user->id . "','" . $date . "')";
+				. "VALUES (" . $db->quote($sid) . ", " . (int) $user->id . "," . (int) $date . ")";
 			$this->_db->setQuery($query);
 
 			if ($this->_db->query())
@@ -50,6 +52,7 @@ class statistic
 
 	public function reshop_pageview()
 	{
+		$db      = JFactory::getDbo();
 		$sid     = session_id();
 		$user    = JFactory::getUser();
 		$view    = JRequest::getVar('view');
@@ -74,9 +77,9 @@ class statistic
 		if ($section != "")
 		{
 			$q = "SELECT * FROM " . $this->_table_prefix . "pageviewer "
-				. "WHERE session_id = '" . $sid . "' "
-				. "AND section='" . $view . "' "
-				. "AND section_id='" . $sectionid . "' ";
+				. "WHERE session_id = " . $db->quote($sid) . " "
+				. "AND section = " . $db->quote($view) . " "
+				. "AND section_id = " . (int) $sectionid;
 			$this->_db->setQuery($q);
 			$data = $this->_db->loadObjectList();
 			$date = time();
@@ -87,7 +90,7 @@ class statistic
 			{
 				$query = "INSERT INTO " . $this->_table_prefix . "pageviewer "
 					. "(session_id, user_id, section, section_id, created_date) "
-					. "VALUES ('" . $sid . "','" . $user->id . "','" . $view . "','" . $sectionid . "','" . $date . "')";
+					. "VALUES (" . $db->quote($sid) . "," . (int) $user->id . "," . $db->quote($view) . "," . (int) $sectionid . "," . (int) $date . ")";
 				$this->_db->setQuery($query);
 
 				if ($this->_db->query())
