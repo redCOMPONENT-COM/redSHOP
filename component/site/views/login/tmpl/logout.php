@@ -10,15 +10,14 @@
 defined('_JEXEC') or die;
 JHTML::_('behavior.tooltip');
 $app = JFactory::getApplication();
-$option = JRequest::getVar('option');
-$Itemid = JRequest::getVar('Itemid');
+$Itemid = JRequest::getInt('Itemid');
 $user = JFactory::getUser();
 $params = $app->getParams($option);
 $menu = JFactory::getApplication()->getMenu();
 
 $returnitemid = $params->get('logout', $Itemid);
 ?>
-<form action="<?php echo JRoute::_('index.php?option=' . $option . '&view=login'); ?>" method="post">
+<form action="<?php echo JRoute::_('index.php?option=com_redshop&view=login'); ?>" method="post">
 	<table cellpadding="0" cellspacing="0" border="0" width="100%">
 		<tr>
 			<td colspan="2" height="40">
