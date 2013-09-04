@@ -72,12 +72,12 @@ class product_miniModelproduct_mini extends JModel
 
 		if (trim($keyword) != '')
 		{
-			$where .= " AND " . $search_field . " LIKE '%$keyword%'  ";
+			$where .= " AND " . $this->_db->quoteName($search_field) . " LIKE " . $this->_db->quote('%' . $keyword . '%') . "  ";
 		}
 
 		if ($category_id)
 		{
-			$where .= " AND c.category_id = '$category_id'  ";
+			$where .= " AND c.category_id = " . (int) $category_id . " ";
 		}
 
 		if ($where != '')
@@ -128,12 +128,12 @@ class product_miniModelproduct_mini extends JModel
 
 		if (trim($keyword) != '')
 		{
-			$where .= " AND " . $search_field . " LIKE '%$keyword%'  ";
+			$where .= " AND " . $this->_db->quoteName($search_field) . " LIKE " . $this->_db->quote('%' . $keyword . '%') . "  ";
 		}
 
 		if ($category_id)
 		{
-			$where .= " AND c.category_id = '$category_id'  ";
+			$where .= " AND c.category_id = " . (int) $category_id . " ";
 		}
 
 		// Change limit condition for all issue
@@ -141,7 +141,7 @@ class product_miniModelproduct_mini extends JModel
 
 		if ($this->getState('limit') > 0)
 		{
-			$limit = " LIMIT " . $this->getState('limitstart') . "," . $this->getState('limit');
+			$limit = " LIMIT " . (int) $this->getState('limitstart') . "," . (int) $this->getState('limit');
 		}
 
 		if ($where == '')
@@ -169,9 +169,8 @@ class product_miniModelproduct_mini extends JModel
 
 		$app = JFactory::getApplication();
 
-		$category_id      = $app->getUserStateFromRequest($context . 'category_id', 'category_id', 0);
-		$filter_order     = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'product_id');
-		$filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
+		$filter_order     = urldecode($app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'product_id'));
+		$filter_order_Dir = urldecode($app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', ''));
 
 		$orderby = ' ORDER BY ' . $filter_order . ' ' . $filter_order_Dir;
 
