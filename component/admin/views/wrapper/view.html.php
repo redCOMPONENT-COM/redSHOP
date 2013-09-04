@@ -49,7 +49,7 @@ class wrapperViewwrapper extends JView
 		JToolBarHelper::unpublishList();
 
 		$this->user = JFactory::getUser();
-		$this->lists = $lists;
+		$this->lists = null;
 		$this->data = $data;
 		$this->product_id = $product_id;
 		$this->pagination = $pagination;
