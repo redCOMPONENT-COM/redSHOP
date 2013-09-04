@@ -1,4 +1,4 @@
-function preloadSlimbox(isenable)
+function preloadSlimbox(parameters)
 {
 	jQuery(document).ready(function($){
 		getImagename = function (link) {
@@ -80,5 +80,15 @@ function preloadSlimbox(isenable)
 	    redproductzoom();
 
 	});
+
+	if (parameters.isenable) {
+        var imgoptions = {handler: 'image'};
+        redBOX.initialize({});
+        if (parameters.mainImage)
+            redBOX.assign($$("a[rel='myallimg']"), imgoptions);
+        else
+            redBOX.assign($$(".additional_image > a[rel='myallimg']"), imgoptions);
+
+    }
 }
 
