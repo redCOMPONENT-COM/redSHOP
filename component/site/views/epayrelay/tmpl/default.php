@@ -17,9 +17,8 @@ include_once JPATH_COMPONENT . '/helpers/cart.php';
 $db  = JFactory::getDBO();
 $url = JURI::base();
 
-$option = JRequest::getVar('option');
-
-$post = JRequest::get('post');
+$jinput = JFactory::getApplication()->input;
+$post   = $jinput->getArray($_POST);
 
 JPluginHelper::importPlugin('redshop_payment');
 $dispatcher = JDispatcher::getInstance();
