@@ -120,7 +120,7 @@ class AccountModelaccount extends JModel
 				{
 					$query->select(array('ptx.product_id','p.*'))
 						->leftJoin($db->quoteName('#__redshop_product', 'p') . ' ON p.product_id = ptx.product_id')
-						->where('pt.tags_id = ' . $db->quote($tagid));
+						->where('pt.tags_id = ' . (int) $tagid);
 				}
 
 				$query->select('DISTINCT pt.*')
