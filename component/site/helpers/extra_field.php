@@ -136,6 +136,7 @@ class extraField
 
 						$ex_field .= '<input class="' . $row_data[$i]->field_class . ' ' . $class . '"   type="checkbox"  ' . $checked . ' name="' . $row_data[$i]->field_name . '[]" id="' . $row_data[$i]->field_name . "_" . $field_chk[$c]->value_id . '" value="' . $field_chk[$c]->field_value . '" />' . $field_chk[$c]->field_name . '<br />';
 					}
+
 					$ex_field .= '<label for="' . $row_data[$i]->field_name . '[]" class="error">' . JText::_('COM_REDSHOP_PLEASE_SELECT_YOUR') . '&nbsp;' . $row_data[$i]->field_title . '</label>';
 					break;
 				case 4:
@@ -264,6 +265,7 @@ class extraField
 
 	public function list_all_user_fields($field_section = "", $section_id = 12, $field_type = '', $idx = 'NULL', $isatt = 0, $product_id, $mywish = "", $addwish = 0)
 	{
+		$db      = JFactory::getDbo();
 		$session = JFactory::getSession();
 		$cart    = $session->get('cart');
 		$url     = JURI::base();
@@ -281,10 +283,10 @@ class extraField
 		JHTML::Script('attribute.js', 'components/com_redshop/assets/js/', false);
 
 		$q = "SELECT * FROM " . $this->_table_prefix . "fields "
-			. "WHERE field_section='" . $section_id . "' "
-			. "AND field_name='" . $field_section . "' "
-			. "AND published=1 "
-			. "AND field_show_in_front=1 "
+			. "WHERE field_section = " . $db->quote($section_id) . " "
+			. "AND field_name = " . $db->quote($field_section) . " "
+			. "AND published = 1 "
+			. "AND field_show_in_front = 1 "
 			. "ORDER BY ordering ";
 		$this->_db->setQuery($q);
 
@@ -301,6 +303,7 @@ class extraField
 			{
 				$ex_field_title .= '<div class="userfield_label">' . $asterisk . $row_data[$i]->field_title . '</div>';
 			}
+
 			$data_value = $this->getSectionFieldDataList($row_data[$i]->field_id, $field_section, $section_id);
 
 			$text_value = '';
@@ -570,9 +573,10 @@ class extraField
 
 	public function extra_field_display($field_section = "", $section_id = 0, $field_name = "", $template_data = "", $categorypage = 0)
 	{
+		$db = JFactory::getDbo();
 		$redTemplate = new Redtemplate;
 		$url         = JURI::base();
-		$q = "SELECT * from " . $this->_table_prefix . "fields where field_section='" . $field_section . "' ";
+		$q = "SELECT * from " . $this->_table_prefix . "fields where field_section=" . $db->quote($field_section) . " ";
 
 		if ($field_name != "")
 		{
@@ -649,7 +653,7 @@ class extraField
 						if ($data_value->data_txt != "")
 						{
 							$q = "SELECT country_name FROM " . $this->_table_prefix . "country "
-								. "WHERE country_id=" . $data_value->data_txt;
+								. "WHERE country_id = " . (int) $data_value->data_txt;
 							$this->_db->setQuery($q);
 							$field_chk    = $this->_db->loadObject();
 							$displayvalue = $field_chk->country_name;
@@ -697,7 +701,6 @@ class extraField
 									$displayvalue .= "<a href=\"$link\" target='_blank' >$document_title</a>";
 								}
 							}
-
 						}
 						break;
 					case 11 :
@@ -780,7 +783,7 @@ class extraField
 	public function getFieldValue($id)
 	{
 		$q = "SELECT * FROM " . $this->_table_prefix . "fields_value "
-			. "WHERE field_id='" . $id . "' "
+			. "WHERE field_id=" . (int) $id . " "
 			. "ORDER BY value_id ASC ";
 		$this->_db->setQuery($q);
 		$list = $this->_db->loadObjectlist();
@@ -790,25 +793,27 @@ class extraField
 
 	public function getSectionFieldList($section = 12, $front = 1, $published = 1, $required = 0)
 	{
+		$db = JFactory::getDbo();
+
 		$and = "";
 
 		if ($published == 1)
 		{
-			$and .= "AND published='" . $published . "' ";
+			$and .= "AND published=" . (int) $published . " ";
 		}
 
 		if ($required == 1)
 		{
-			$and .= "AND required='" . $required . "' ";
+			$and .= "AND required=" . (int) $required . " ";
 		}
 
 		if ($front == 1)
 		{
-			$and .= "AND field_show_in_front='" . $front . "' ";
+			$and .= "AND field_show_in_front=" . (int) $front . " ";
 		}
 
 		$query = "SELECT * FROM " . $this->_table_prefix . "fields "
-			. "WHERE field_section='" . $section . "' "
+			. "WHERE field_section=" . $db->quote($section) . " "
 			. $and
 			. "ORDER BY ordering ";
 		$this->_db->setQuery($query);
@@ -819,20 +824,22 @@ class extraField
 
 	public function getSectionFieldNameArray($section = 12, $front = 1, $published = 1, $required = 0)
 	{
+		$db = JFactory::getDbo();
+
 		$and = "";
 
 		if ($published == 1)
 		{
-			$and .= "AND published='" . $published . "' ";
+			$and .= "AND published=" . (int) $published . " ";
 		}
 
 		if ($required == 1)
 		{
-			$and .= "AND required='" . $required . "' ";
+			$and .= "AND required=" . (int) $required . " ";
 		}
 
 		$query = "SELECT field_name FROM " . $this->_table_prefix . "fields "
-			. "WHERE field_section='" . $section . "' "
+			. "WHERE field_section = " . $db->quote($section) . " "
 			. $and;
 		$this->_db->setQuery($query);
 		$list = $this->_db->loadResultArray();
@@ -842,21 +849,23 @@ class extraField
 
 	public function getSectionFieldIdArray($section = 12, $front = 1, $published = 1, $required = 0)
 	{
+		JFactory::getDbo();
+
 		$and = "";
 
 		if ($published == 1)
 		{
-			$and .= "AND published='" . $published . "' ";
+			$and .= "AND published=" . (int) $published . " ";
 		}
 
 		if ($required == 1)
 		{
-			$and .= "AND required='" . $required . "' ";
+			$and .= "AND required=" . (int) $required . " ";
 		}
 
 		$query = "SELECT field_id, field_name FROM " . $this->_table_prefix . "fields "
-			. "WHERE field_section='" . $section . "' "
-			. "AND field_show_in_front='" . $front . "' "
+			. "WHERE field_section = " . $db->quote($section) . " "
+			. "AND field_show_in_front = " . (int) $front . " "
 			. $and;
 		$this->_db->setQuery($query);
 		$list = $this->_db->loadObjectList();
@@ -866,11 +875,13 @@ class extraField
 
 	public function getSectionFieldDataList($fieldid, $section = 0, $orderitemid = 0)
 	{
+		$db = JFactory::getDbo();
+
 		$query = "SELECT fd.*,f.field_title FROM " . $this->_table_prefix . "fields_data AS fd, " . $this->_table_prefix . "fields AS f "
-			. "WHERE fd.itemid='" . $orderitemid . "' "
+			. "WHERE fd.itemid = " . (int) $orderitemid . " "
 			. "AND fd.fieldid=f.field_id "
-			. "AND fd.fieldid='" . $fieldid . "' "
-			. "AND fd.section='" . $section . "' ";
+			. "AND fd.fieldid=" . (int) $fieldid . " "
+			. "AND fd.section=" . $db->quote($section) . " ";
 		$this->_db->setQuery($query);
 		$list = $this->_db->loadObject();
 
