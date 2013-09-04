@@ -21,11 +21,10 @@ JHTMLBehavior::modal();
 $url = JURI::base();
 $user = JFactory::getUser();
 $model = $this->getModel('manufacturers');
-$option = JRequest::getVar('option');
-$Itemid = JRequest::getVar('Itemid');
-$print = JRequest::getVar('print');
-$order_by_select = JRequest::getVar('order_by', DEFAULT_MANUFACTURER_PRODUCT_ORDERING_METHOD);
-$filter_by_select = JRequest::getVar('filter_by', 0);
+$Itemid = JRequest::getInt('Itemid');
+$print = JRequest::getInt('print');
+$order_by_select = JRequest::getString('order_by', DEFAULT_MANUFACTURER_PRODUCT_ORDERING_METHOD);
+$filter_by_select = JRequest::getString('filter_by', 0);
 
 $document = JFactory::getDocument();
 $manufacturer = $this->detail[0];
@@ -33,7 +32,7 @@ $limit = $model->getProductLimit();
 
 $app = JFactory::getApplication();
 $router = $app->getRouter();
-$uri = new JURI('index.php?option=' . $option . '&view=manufacturers&layout=products&mid=' . $manufacturer->manufacturer_id . '&Itemid=' . $Itemid . '&limit=' . $limit . '&order_by=' . $order_by_select . '&filter_by=' . $filter_by_select);
+$uri = new JURI('index.php?option=com_redshop&view=manufacturers&layout=products&mid=' . $manufacturer->manufacturer_id . '&Itemid=' . $Itemid . '&limit=' . $limit . '&order_by=' . $order_by_select . '&filter_by=' . $filter_by_select);
 
 
 // Page Title
@@ -137,7 +136,7 @@ if ($template_middle != "")
 			$cart_mdata = str_replace("{category_heading_end}", "", $cart_mdata);
 		}
 
-		$link         = JRoute::_('index.php?option=' . $option . '&view=product&pid=' . $manufacturer_products[$i]->product_id);
+		$link         = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $manufacturer_products[$i]->product_id);
 		$product_name = "<a href='" . $link . "'>" . $manufacturer_products[$i]->product_name . "</a>";
 		$cart_mdata   = str_replace("{product_name}", $product_name, $cart_mdata);
 
@@ -273,13 +272,13 @@ if (strstr($template_desc, "{manufacturer_image}"))
 	$template_desc = str_replace("{manufacturer_image}", $thum_image, $template_desc);
 }
 
-$manlink = JRoute::_('index.php?option=' . $option . '&view=manufacturers&layout=detail&mid=' . $manufacturer->manufacturer_id . '&Itemid=' . $Itemid);
+$manlink = JRoute::_('index.php?option=com_redshop&view=manufacturers&layout=detail&mid=' . $manufacturer->manufacturer_id . '&Itemid=' . $Itemid);
 
-$manproducts = JRoute::_('index.php?option=' . $option . '&view=manufacturers&layout=products&mid=' . $manufacturer->manufacturer_id . '&Itemid=' . $Itemid);
+$manproducts = JRoute::_('index.php?option=com_redshop&view=manufacturers&layout=products&mid=' . $manufacturer->manufacturer_id . '&Itemid=' . $Itemid);
 
 $template_desc = str_replace("{manufacturer_name}", $manufacturer->manufacturer_name, $template_desc);
 
-///////// Extra field display
+// Extra field display
 $extraFieldName = $extraField->getSectionFieldNameArray(10, 1, 1);
 $template_desc  = $producthelper->getExtraSectionTag($extraFieldName, $manufacturer->manufacturer_id, "10", $template_desc);
 $template_desc  = str_replace("{manufacturer_description}", $manufacturer->manufacturer_desc, $template_desc);
@@ -294,14 +293,14 @@ $template_desc = str_replace("{print}", $print_tag, $template_desc);
 if (strstr($template_desc, '{filter_by}'))
 {
 	$filterby_form = "<form name='filter_form' action='' method='post'>" . JText::_('COM_REDSHOP_SELECT_FILTER_BY') . $this->lists['filter_select'];
-	$filterby_form .= "<input type='hidden' name='order_by' value='" . JRequest::getVar('order_by', '') . "' /></form>";
+	$filterby_form .= "<input type='hidden' name='order_by' value='" . JRequest::getString('order_by', '') . "' /></form>";
 	$template_desc = str_replace("{filter_by}", $filterby_form, $template_desc);
 }
 
 if (strstr($template_desc, '{order_by}'))
 {
 	$orderby_form = "<form name='orderby_form' action='' method='post'>" . JText::_('COM_REDSHOP_SELECT_ORDER_BY') . $this->lists['order_select'];
-	$orderby_form .= "<input type='hidden' name='filter_by' value='" . JRequest::getVar('filter_by', 0) . "' /></form>";
+	$orderby_form .= "<input type='hidden' name='filter_by' value='" . JRequest::getString('filter_by', 0) . "' /></form>";
 	$template_desc = str_replace("{order_by}", $orderby_form, $template_desc);
 }
 

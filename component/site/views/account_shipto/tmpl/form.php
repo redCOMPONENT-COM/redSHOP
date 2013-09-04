@@ -9,20 +9,19 @@
 
 defined('_JEXEC') or die;
 
-$option = JRequest::getVar('option');
-$Itemid = JRequest::getVar('Itemid');
+$Itemid = JRequest::getInt('Itemid');
 $userhelper = new rsUserhelper;
 
 $post = (array) $this->shippingaddresses;
 
-$post['firstname_ST'] = $post['firstname'];
-$post['lastname_ST'] = $post['lastname'];
-$post['address_ST'] = $post['address'];
-$post['city_ST'] = $post['city'];
-$post['zipcode_ST'] = $post['zipcode'];
-$post['phone_ST'] = $post['phone'];
+$post['firstname_ST']    = $post['firstname'];
+$post['lastname_ST']     = $post['lastname'];
+$post['address_ST']      = $post['address'];
+$post['city_ST']         = $post['city'];
+$post['zipcode_ST']      = $post['zipcode'];
+$post['phone_ST']        = $post['phone'];
 $post['country_code_ST'] = $post['country_code'];
-$post['state_code_ST'] = $post['state_code'];
+$post['state_code_ST']   = $post['state_code'];
 ?>
 <script type="text/javascript">
 	function cancelForm(frm) {
@@ -99,5 +98,5 @@ $post['state_code_ST'] = $post['state_code'];
 	<input type="hidden" name="address_type" value="ST"/>
 	<input type="hidden" name="view" value="account_shipto"/>
 	<input type="hidden" name="Itemid" value="<?php echo $Itemid; ?>"/>
-	<input type="hidden" name="option" value="<?php echo $option; ?>"/>
+	<input type="hidden" name="option" value="com_redshop"/>
 </form>

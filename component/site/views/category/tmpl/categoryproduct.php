@@ -20,10 +20,9 @@ $redTemplate     = new Redtemplate;
 $stockroomhelper = new rsstockroomhelper;
 
 $url    = JURI::base();
-$option = JRequest::getVar('option');
-$Itemid = JRequest::getVar('Itemid');
-$catid  = JRequest::getVar('cid', 0, '', 'int');
-$print  = JRequest::getVar('print');
+$Itemid = JRequest::getInt('Itemid');
+$catid  = JRequest::getInt('cid', 0, '', 'int');
+$print  = JRequest::getInt('print');
 
 $model                = $this->getModel('category');
 $loadCategorytemplate = $redTemplate->getTemplate('categoryproduct');
@@ -46,7 +45,7 @@ if (count($this->detail) <= 0)
 
 $app    = JFactory::getApplication();
 $router = $app->getRouter();
-$uri    = new JURI('index.php?option=' . $option . '&category&layout=categoryproduct&Itemid=' . $Itemid . '&category_template=' . $this->category_template_id);
+$uri    = new JURI('index.php?option=com_redshop&category&layout=categoryproduct&Itemid=' . $Itemid . '&category_template=' . $this->category_template_id);
 
 if ($print)
 {
@@ -122,7 +121,7 @@ if (strstr($template_desc, "{category_loop_start}") && strstr($template_desc, "{
 			$tmpItemid = $Itemid;
 		}
 
-		$link        = JRoute::_('index.php?option=' . $option . '&view=category&cid=' . $row->category_id . '&layout=detail&Itemid=' . $tmpItemid);
+		$link        = JRoute::_('index.php?option=com_redshop&view=category&cid=' . $row->category_id . '&layout=detail&Itemid=' . $tmpItemid);
 		$middlepath  = REDSHOP_FRONT_IMAGES_RELPATH . 'category/';
 		$title       = " title='" . $row->category_name . "' ";
 		$alt         = " alt='" . $row->category_name . "' ";
@@ -327,7 +326,7 @@ if (strstr($template_desc, "{category_loop_start}") && strstr($template_desc, "{
 
 				$prddata_add = $producthelper->replaceVatinfo($prddata_add);
 				$catid       = $row->category_id;
-				$link        = JRoute::_('index.php?option=' . $option . '&view=product&pid=' . $product->product_id . '&cid=' . $catid . '&Itemid=' . $pItemid);
+				$link        = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $product->product_id . '&cid=' . $catid . '&Itemid=' . $pItemid);
 
 				if (strstr($prddata_add, '{product_name}'))
 				{

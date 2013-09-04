@@ -10,11 +10,11 @@
 defined('_JEXEC') or die;
 
 require_once JPATH_COMPONENT . '/helpers/helper.php';
-$helper = new redhelper;
+$helper      = new redhelper;
 $redTemplate = new Redtemplate;
 
 $Itemid = $helper->getCheckoutItemid();
-$Itemid = JRequest::getVar('Itemid', $Itemid);
+$Itemid = JRequest::getInt('Itemid', $Itemid);
 $Itemid = $helper->getCartItemid($Itemid);
 
 $cart_template = "";

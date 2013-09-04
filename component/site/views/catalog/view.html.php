@@ -18,7 +18,7 @@ class catalogViewcatalog extends JView
 		$app = JFactory::getApplication();
 
 		$params = $app->getParams('com_redshop');
-		$layout = JRequest::getVar('layout');
+		$layout = JRequest::getCmd('layout');
 
 		if ($layout == "sample")
 		{

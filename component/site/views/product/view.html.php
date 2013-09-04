@@ -28,16 +28,15 @@ class productViewproduct extends JView
 		$texts         = new text_library;
 		$dispatcher    = JDispatcher::getInstance();
 
-		$option   = JRequest::getVar('option', 'com_redshop');
-		$Itemid   = JRequest::getVar('Itemid');
+		$Itemid   = JRequest::getInt('Itemid');
 		$pid      = JRequest::getInt('pid');
-		$cid      = JRequest::getVar('cid');
-		$layout   = JRequest::getVar('layout');
-		$template = JRequest::getVar('r_template');
+		$cid      = JRequest::getInt('cid');
+		$layout   = JRequest::getCmd('layout');
+		$template = JRequest::getString('r_template');
 
 		$pageheadingtag        = '';
 		$document              = JFactory::getDocument();
-		$params                = $app->getParams($option);
+		$params                = $app->getParams('com_redshop');
 		$menu_meta_keywords    = $params->get('menu-meta_keywords');
 		$menu_meta_description = $params->get('menu-meta_description');
 		$menu_robots           = $params->get('robots');
