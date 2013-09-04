@@ -388,9 +388,18 @@ class CategoryModelCategory extends JModel
 		$menu     = $app->getMenu();
 		$item     = $menu->getActive();
 		$order_by = urldecode(JRequest::getVar('order_by', ''));
-		$redhelper = new redhelper;
 
-		if (!in_array($order_by, $redhelper->filter_fields))
+		// @ToDo In fearure, when class Category extends JModelList, replace filter_fields in constructor
+		$filter_fields = array(
+			'p.product_name ASC', 'product_name ASC',
+			'p.product_price ASC', 'product_price ASC',
+			'p.product_price DESC', 'product_price DESC',
+			'p.product_number ASC', 'product_number ASC',
+			'p.product_id DESC', 'product_id DESC',
+			'pc.ordering ASC', 'ordering ASC'
+		);
+
+		if (!in_array($order_by, $filter_fields))
 		{
 			$value = $order_by;
 		}
