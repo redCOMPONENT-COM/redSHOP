@@ -346,6 +346,12 @@ class rsUserhelper
 		$data['email']     = $data['email1'];
 		$data['name']      = $name = $data['firstname'];
 
+		// Prevent front-end user to change user group in the form and then being able to register on any Joomla! user group.
+		if ($app->isSite())
+		{
+			$data['groups'] = array(2);
+		}
+
 		// Do a password safety check
 		if (REGISTER_METHOD == 3)
 		{
