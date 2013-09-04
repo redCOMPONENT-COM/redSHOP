@@ -1,6 +1,11 @@
 function preloadSlimbox(parameters)
 {
 	jQuery(document).ready(function($){
+
+		$('span[id*=additional_images]').find('a').click(function(){
+			$('div[id*=productImageWrapID_]').find('a').attr('href', $(this).attr('data-zoom-image'));
+		});
+
 		getImagename = function (link) {
 	    	var re = new RegExp("filename=(.*?)&newxsize=(.*?)&newysize=(.*?)&swap=(.)");
 			var m = link.match(re);
@@ -36,6 +41,7 @@ function preloadSlimbox(parameters)
 
 				$(this).find('a').attr('data-image', urlthumb);
 				$(this).find('a').attr('data-zoom-image', urlfull);
+
 				$(this).find('a').attr('class', 'elevatezoom-gallery');
 			});
 
@@ -91,4 +97,3 @@ function preloadSlimbox(parameters)
 
     }
 }
-
