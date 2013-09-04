@@ -94,7 +94,7 @@ class CategoryModelCategory extends JModel
 			$left    = "LEFT JOIN " . $this->_table_prefix . "product_category_xref AS pcx ON pcx.category_id = c.category_id "
 				. "LEFT JOIN " . $this->_table_prefix . "product AS p ON p.product_id = pcx.product_id "
 				. "LEFT JOIN " . $this->_table_prefix . "manufacturer AS m ON m.manufacturer_id = p.manufacturer_id ";
-			$and     = "AND m.manufacturer_id='" . $manufacturer_id . "' ";
+			$and     = "AND m.manufacturer_id = " . (int) $manufacturer_id . " ";
 			$groupby = "GROUP BY c.category_id ";
 		}
 
@@ -102,7 +102,7 @@ class CategoryModelCategory extends JModel
 			. "LEFT JOIN " . $this->_table_prefix . "category_xref AS cx ON cx.category_child_id=c.category_id "
 			. $left
 			. "WHERE c.published = 1 "
-			. "AND cx.category_parent_id='" . $this->_id . "' "
+			. "AND cx.category_parent_id = " . (int) $this->_id . " "
 			. $and
 			. $groupby
 			. $orderby;
@@ -194,7 +194,7 @@ class CategoryModelCategory extends JModel
 			. "LEFT JOIN " . $this->_table_prefix . "category AS c ON c.category_id=pc.category_id "
 			. "LEFT JOIN " . $this->_table_prefix . "manufacturer AS m ON m.manufacturer_id=p.manufacturer_id "
 			. "WHERE p.published = 1 AND p.expired = 0 "
-			. "AND pc.category_id='" . $category_id . "' "
+			. "AND pc.category_id = " . (int) $category_id . " "
 			. "AND p.product_parent_id = 0  order by "
 			. $order_by . " LIMIT 0," . $limit;
 
@@ -223,6 +223,9 @@ class CategoryModelCategory extends JModel
 
 		if ($shopper_group_manufactures != "")
 		{
+			$shopper_group_manufactures = explode(',', $shopper_group_manufactures);
+			JArrayHelper::toInteger($shopper_group_manufactures);
+			$shopper_group_manufactures = implode(',', $shopper_group_manufactures);
 			$and .= " AND p.manufacturer_id IN (" . $shopper_group_manufactures . ") ";
 		}
 
@@ -230,7 +233,7 @@ class CategoryModelCategory extends JModel
 
 		if ($manufacturer_id && $manufacturer_id > 0)
 		{
-			$and .= " AND p.manufacturer_id='" . $manufacturer_id . "' ";
+			$and .= " AND p.manufacturer_id = " . (int) $manufacturer_id . " ";
 		}
 
 		if ($minmax && !(strstr($order_by, "p.product_price ASC") || strstr($order_by, "p.product_price DESC")))
@@ -245,7 +248,7 @@ class CategoryModelCategory extends JModel
 			. "LEFT JOIN " . $this->_table_prefix . "category AS c ON c.category_id=pc.category_id "
 			. "LEFT JOIN " . $this->_table_prefix . "manufacturer AS m ON m.manufacturer_id=p.manufacturer_id "
 			. "WHERE p.published = 1 AND p.expired = 0 "
-			. "AND pc.category_id='" . $this->_id . "' "
+			. "AND pc.category_id = " . (int) $this->_id . " "
 			. "AND p.product_parent_id = 0 "
 			. $and . $finder_condition . $order_by;
 
@@ -385,13 +388,18 @@ class CategoryModelCategory extends JModel
 		$menu     = $app->getMenu();
 		$item     = $menu->getActive();
 		$order_by = urldecode(JRequest::getVar('order_by', ''));
+		$redhelper = new redhelper;
 
-		if ($order_by == '')
+		if (!in_array($order_by, $redhelper->filter_fields))
 		{
-			$order_by = (isset($item)) ? $item->params->get('order_by', 'p.product_name ASC') : DEFAULT_PRODUCT_ORDERING_METHOD;
+			$value = $order_by;
+		}
+		else
+		{
+			$value = (isset($item)) ? $item->params->get('order_by', 'p.product_name ASC') : DEFAULT_PRODUCT_ORDERING_METHOD;
 		}
 
-		$orderby = " ORDER BY " . $order_by;
+		$orderby = " ORDER BY " . $value;
 
 		return $orderby;
 	}
@@ -550,7 +558,7 @@ class CategoryModelCategory extends JModel
 
 		if ($mid != 0)
 		{
-			$and = " AND m.manufacturer_id='" . $mid . "' ";
+			$and = " AND m.manufacturer_id = " . (int) $mid . " ";
 		}
 
 		$query = "SELECT DISTINCT(m.manufacturer_id ),m.* FROM " . $this->_table_prefix . "manufacturer AS m "
@@ -559,7 +567,7 @@ class CategoryModelCategory extends JModel
 		if ($cid != 0)
 		{
 			$query .= "LEFT JOIN #__redshop_product_category_xref AS pcx ON p.product_id  = pcx.product_id ";
-			$and .= " AND pcx.category_id='" . $cid . "' ";
+			$and .= " AND pcx.category_id = " . (int) $cid . " ";
 		}
 
 		$query .= "WHERE p.manufacturer_id != 0 AND m.published = 1 " . $and . "ORDER BY m.ordering ASC";
@@ -605,9 +613,11 @@ class CategoryModelCategory extends JModel
 
 	public function _buildfletterQuery($letter, $fieldid)
 	{
+		$db = JFactory::getDbo();
 		$query = "SELECT p.*, fd.* FROM " . $this->_table_prefix . "product AS p ";
 		$query .= " LEFT JOIN #__redshop_fields_data AS fd ON fd.itemid = p.product_id";
-		$query .= " WHERE  fd.data_txt LIKE '$letter%' AND fd.fieldid='$fieldid'  AND  fd.section=1 AND p.published =1 ORDER BY product_name ";
+		$query .= " WHERE  fd.data_txt LIKE " . $db->quote($letter . '%') . " AND fd.fieldid = "
+			. (int) $fieldid . "  AND  fd.section=1 AND p.published =1 ORDER BY product_name ";
 
 		return $query;
 	}
@@ -693,12 +703,12 @@ class CategoryModelCategory extends JModel
 							for ($t = 1; $t < count($tag); $t++)
 							{
 								$finder_query .= " LEFT JOIN #__redproductfinder_association_tag AS at" . $t . " ON at" . $t . ".association_id=at.association_id";
-								$finder_where[] = " at" . $t . ".tag_id = '" . $tag[$t] . "'";
+								$finder_where[] = " at" . $t . ".tag_id = " . (int) $tag[$t] . " ";
 								$i++;
 							}
 						}
 
-						$finder_query .= " WHERE a.id=at.association_id AND at.tag_id = '" . $tag[0] . "'";
+						$finder_query .= " WHERE a.id = at.association_id AND at.tag_id = " . (int) $tag[0] . " ";
 
 						if (is_array($finder_where))
 						{
