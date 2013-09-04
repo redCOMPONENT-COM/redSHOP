@@ -19,9 +19,8 @@ class checkoutViewcheckout extends JView
 	{
 		$app = JFactory::getApplication();
 		$model     = $this->getModel('checkout');
-		$option    = JRequest::getVar('option');
-		$Itemid    = JRequest::getVar('Itemid');
-		$task      = JRequest::getVar('task');
+		$Itemid    = JRequest::getInt('Itemid');
+		$task      = JRequest::getCmd('task');
 		$user      = JFactory::getUser();
 		$redhelper = new redhelper;
 		$field     = new extraField;
@@ -67,7 +66,7 @@ class checkoutViewcheckout extends JView
 		if ($cart['idx'] < 1)
 		{
 			$msg  = JText::_('COM_REDSHOP_EMPTY_CART');
-			$link = 'index.php?option=' . $option . '&Itemid=' . $Itemid;
+			$link = 'index.php?option=com_redshop&Itemid=' . $Itemid;
 			$app->Redirect($link, $msg);
 		}
 
@@ -85,7 +84,7 @@ class checkoutViewcheckout extends JView
 
 				if (DEFAULT_QUOTATION_MODE == 1 && !array_key_exists("quotation_id", $cart))
 				{
-					$app->Redirect('index.php?option=' . $option . '&view=quotation&Itemid=' . $Itemid);
+					$app->Redirect('index.php?option=com_redshop&view=quotation&Itemid=' . $Itemid);
 				}
 
 				$users_info_id     = JRequest::getInt('users_info_id');
@@ -104,13 +103,13 @@ class checkoutViewcheckout extends JView
 					}
 					else
 					{
-						$app->Redirect("index.php?option=" . $option . "&view=account_billto&Itemid=" . $Itemid);
+						$app->Redirect("index.php?option=com_redshop&view=account_billto&Itemid=" . $Itemid);
 					}
 				}
 
-				$shipping_rate_id = JRequest::getVar('shipping_rate_id');
-				$element          = JRequest::getVar('payment_method_id');
-				$ccinfo           = JRequest::getVar('ccinfo');
+				$shipping_rate_id = JRequest::getInt('shipping_rate_id');
+				$element          = JRequest::getCmd('payment_method_id');
+				$ccinfo           = JRequest::getInt('ccinfo');
 
 				$total_discount = $cart['cart_discount'] + $cart['voucher_discount'] + $cart['coupon_discount'];
 				$subtotal       = (SHIPPING_AFTER == 'total') ? $cart['product_subtotal'] - $total_discount : $cart['product_subtotal'];

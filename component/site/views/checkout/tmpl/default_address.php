@@ -9,23 +9,22 @@
 
 defined('_JEXEC') or die;
 
-$option = JRequest::getCmd('option', 'redshop');
-$model = $this->getModel('checkout');
-$uri = JURI::getInstance();
-$url = $uri->root();
+$model     = $this->getModel('checkout');
+$uri       = JURI::getInstance();
+$url       = $uri->root();
 
 $redhelper = new redhelper;
-$Itemid = $redhelper->getCheckoutItemid();
-$session = JFactory::getSession();
-$cart = $session->get('cart');
+$Itemid    = $redhelper->getCheckoutItemid();
+$session   = JFactory::getSession();
+$cart      = $session->get('cart');
 ?>
 
-<form action="<?php echo JRoute::_('index.php?option=' . $option . '&view=checkout&Itemid=' . $Itemid . '') ?>"
+<form action="<?php echo JRoute::_('index.php?option=com_redshop&view=checkout&Itemid=' . $Itemid . '') ?>"
       method="post" name="adminForm" id="adminForm" enctype="multipart/form-data">
 	<input type="hidden" name='l' value='0'>
 	<?php
 	$billingaddresses = $model->billingaddresses();
-	$editbill = $url . "index.php?option=" . $option . "&view=account_billto&return=checkout&tmpl=component&for=true&Itemid=" . $Itemid;        ?>
+	$editbill = $url . "index.php?option=com_redshop&view=account_billto&return=checkout&tmpl=component&for=true&Itemid=" . $Itemid;        ?>
 
 	<fieldset class="adminform">
 		<legend><?php echo JText::_('COM_REDSHOP_BILL_TO_INFORMATION');?></legend>
@@ -99,7 +98,7 @@ $cart = $session->get('cart');
 				}
 
 				$shippingaddresses = $model->shippingaddresses();
-				$add_addlink = $url . "index.php?option=" . $option . "&view=account_shipto&task=addshipping&return=checkout&tmpl=component&for=true&is_company=" . $billingaddresses->is_company . "&Itemid=" . $Itemid;
+				$add_addlink = $url . "index.php?option=com_redshop&view=account_shipto&task=addshipping&return=checkout&tmpl=component&for=true&is_company=" . $billingaddresses->is_company . "&Itemid=" . $Itemid;
 
 				for ($i = 0; $i < count($shippingaddresses); $i++)
 				{
@@ -108,8 +107,8 @@ $cart = $session->get('cart');
 						$checked = ($this->users_info_id == $shippingaddresses [$i]->users_info_id) ? 'checked' : '';
 					}
 
-					$edit_addlink   = $url . "index.php?option=" . $option . "&view=account_shipto&task=addshipping&return=checkout&tmpl=component&for=true&infoid=" . $shippingaddresses[$i]->users_info_id . "&Itemid=" . $Itemid;
-					$delete_addlink = $url . "index.php?option=" . $option . "&view=account_shipto&return=checkout&tmpl=component&task=remove&infoid=" . $shippingaddresses[$i]->users_info_id . "&Itemid=" . $Itemid;    ?>
+					$edit_addlink   = $url . "index.php?option=com_redshop&view=account_shipto&task=addshipping&return=checkout&tmpl=component&for=true&infoid=" . $shippingaddresses[$i]->users_info_id . "&Itemid=" . $Itemid;
+					$delete_addlink = $url . "index.php?option=com_redshop&view=account_shipto&return=checkout&tmpl=component&task=remove&infoid=" . $shippingaddresses[$i]->users_info_id . "&Itemid=" . $Itemid;    ?>
 					<tr>
 						<td>
 							<?php
@@ -186,7 +185,7 @@ $cart = $session->get('cart');
 	<div class="clr"></div>
 	<input type="hidden" name="option" value="com_redshop"/>
 	<input type="hidden" name="Itemid" value="<?php echo $Itemid; ?>"/>
-	<input type="hidden" name="order_id" value="<?php echo JRequest::getVar('order_id'); ?>"/>
+	<input type="hidden" name="order_id" value="<?php echo JRequest::getInt('order_id'); ?>"/>
 	<input type="hidden" name="task" value="checkoutnext"/>
 	<input type="hidden" name="view" value="checkout"/>
 
