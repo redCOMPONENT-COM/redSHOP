@@ -9,11 +9,10 @@
 
 defined('_JEXEC') or die;
 
-$Itemid = JRequest::getVar('Itemid');
-$option = JRequest::getVar('option');
+$Itemid = JRequest::getInt('Itemid');
 
-$add_addlink = "index.php?option=" . $option . "&view=account_shipto&task=addshipping&Itemid=" . $Itemid;
-$backlink = "index.php?option=" . $option . "&view=account&Itemid=" . $Itemid;
+$add_addlink = "index.php?option=com_redshop&view=account_shipto&task=addshipping&Itemid=" . $Itemid;
+$backlink = "index.php?option=com_redshop&view=account&Itemid=" . $Itemid;
 
 $pagetitle = JText::_('COM_REDSHOP_SHIPPING_ADDRESS_INFO_LBL');
 
@@ -50,7 +49,7 @@ if ($this->params->get('show_page_heading', 1))
 
 		for ($i = 0; $i < count($this->shippingaddresses); $i++)
 		{
-			$edit_addlink = "index.php?option=" . $option . "&view=account_shipto&task=addshipping&infoid=" . $this->shippingaddresses[$i]->users_info_id . "&Itemid=" . $Itemid;?>
+			$edit_addlink = "index.php?option=com_redshop&view=account_shipto&task=addshipping&infoid=" . $this->shippingaddresses[$i]->users_info_id . "&Itemid=" . $Itemid;?>
 			<tr>
 				<td>
 					<?php    echo "- <a href='" . JRoute::_($edit_addlink) . "'>" . $this->shippingaddresses[$i]->text . "</a>"; ?>
