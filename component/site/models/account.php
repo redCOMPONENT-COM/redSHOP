@@ -357,10 +357,12 @@ class AccountModelaccount extends JModel
 
 	public function editTag($post)
 	{
-		$query = "UPDATE " . $this->_table_prefix . "product_tags SET tags_name = '" . $post['tags_name'] . "' WHERE tags_id = '" . $post['tags_id'] . "' ";
-		$this->_db->setQuery($query);
+		$db = JFactory::getDbo();
+		$query = "UPDATE " . $this->_table_prefix . "product_tags SET tags_name = "
+			. $db->quote($post['tags_name']) . ' WHERE tags_id = ' . (int) $post['tags_id'];
+		$db->setQuery($query);
 
-		if (!$this->_db->Query())
+		if (!$db->Query())
 		{
 			return false;
 		}
@@ -373,7 +375,7 @@ class AccountModelaccount extends JModel
 		$user  = JFactory::getUser();
 		$query = "SELECT pc.compare_id,pc.user_id,p.* FROM " . $this->_table_prefix . "product_compare AS pc "
 			. "LEFT JOIN " . $this->_table_prefix . "product AS p ON p.product_id = pc.product_id "
-			. "WHERE user_id='" . $user->id . "' ";
+			. "WHERE user_id = " . (int) $user->id;
 
 		return $this->_getList($query);
 	}
@@ -389,7 +391,7 @@ class AccountModelaccount extends JModel
 		$user = JFactory::getUser();
 
 		$query = "DELETE FROM " . $this->_table_prefix . "product_compare "
-			. "WHERE product_id = '" . $product_id . "' AND user_id='" . $user->id . "' ";
+			. "WHERE product_id = " . (int) $product_id . " AND user_id = " . (int) $user->id;
 		$this->_db->setQuery($query);
 
 		if ($this->_db->Query())
@@ -424,8 +426,8 @@ class AccountModelaccount extends JModel
 			$query = "SELECT DISTINCT w.* ,p.* FROM " . $this->_table_prefix . "wishlist AS w "
 				. "LEFT JOIN " . $this->_table_prefix . "wishlist_product AS pw ON w.wishlist_id=pw.wishlist_id "
 				. "LEFT JOIN " . $this->_table_prefix . "product AS p ON p.product_id = pw.product_id "
-				. "WHERE w.user_id='" . $user->id . "' "
-				. "AND w.wishlist_id='" . $wishlist_id . "' ";
+				. "WHERE w.user_id='" . (int) $user->id . "' "
+				. "AND w.wishlist_id='" . (int) $wishlist_id . "' ";
 		}
 		else
 		{
@@ -434,10 +436,10 @@ class AccountModelaccount extends JModel
 
 			for ($add_i = 1; $add_i < $_SESSION["no_of_prod"]; $add_i++)
 			{
-				$prod_id .= $_SESSION['wish_' . $add_i]->product_id . ",";
+				$prod_id .= (int) $_SESSION['wish_' . $add_i]->product_id . ",";
 			}
 
-			$prod_id .= $_SESSION['wish_' . $add_i]->product_id;
+			$prod_id .= (int) $_SESSION['wish_' . $add_i]->product_id;
 			$query = "SELECT DISTINCT p.* FROM " . $this->_table_prefix . "product AS p "
 				. "WHERE p.product_id IN (" . $prod_id . ")";
 		}
@@ -575,7 +577,7 @@ class AccountModelaccount extends JModel
 	{
 		$user            = JFactory::getUser();
 		$query           = "SELECT * FROM " . $this->_table_prefix . "coupons_transaction "
-			. "WHERE userid='" . $user->id . "' AND coupon_value > 0 limit 0,1 ";
+			. "WHERE userid='" . (int) $user->id . "' AND coupon_value > 0 limit 0,1 ";
 		$Data            = $this->_getList($query);
 		$remain_discount = 0;
 
@@ -585,7 +587,7 @@ class AccountModelaccount extends JModel
 		}
 
 		$query = "SELECT * FROM " . $this->_table_prefix . "product_voucher_transaction "
-			. "WHERE user_id='" . $user->id . "' AND amount > 0 limit 0,1 ";
+			. "WHERE user_id='" . (int) $user->id . "' AND amount > 0 limit 0,1 ";
 		$this->_db->setQuery($query);
 		$Data = $this->_getList($query);
 
@@ -602,7 +604,7 @@ class AccountModelaccount extends JModel
 		$query = "SELECT pd.*,product_name FROM " . $this->_table_prefix . "product_download AS pd "
 			. "INNER JOIN " . $this->_table_prefix . "product AS p ON p.product_id=pd.product_id "
 			. "INNER JOIN " . $this->_table_prefix . "orders AS o ON o.order_id=pd.order_id "
-			. "WHERE pd.user_id='" . $user_id . "' AND o.order_payment_status = 'Paid'";
+			. "WHERE pd.user_id='" . (int) $user_id . "' AND o.order_payment_status = 'Paid'";
 		$this->_db->setQuery($query);
 
 		return $this->_db->loadObjectlist();
@@ -610,9 +612,11 @@ class AccountModelaccount extends JModel
 
 	public function unused_coupon_amount($user_id, $coupone_code)
 	{
-		$query = 'SELECT coupon_value FROM ' . $this->_table_prefix . 'coupons_transaction WHERE userid ="' . $user_id . '" AND coupon_code = "' . $coupone_code . '"';
-		$this->_db->setQuery($query);
+		$db = JFactory::getDbo();
+		$query = 'SELECT coupon_value FROM ' . $this->_table_prefix . 'coupons_transaction WHERE userid ="'
+			. (int) $user_id . '" AND coupon_code = ' . $db->quote($coupone_code);
+		$db->setQuery($query);
 
-		return $this->_db->loadResult();
+		return $db->loadResult();
 	}
 }
