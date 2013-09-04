@@ -20,7 +20,7 @@ function display ($tpl = null)
 
 	$quotationHelper = new quotationHelper;
 
-	$print = JRequest::getVar('print');
+	$print = JRequest::getInt('print');
 
 if ($print)
 {
@@ -32,15 +32,13 @@ if ($print)
 }
 
 	$user   = JFactory::getUser();
-	$option = JRequest::getVar('option');
-	$Itemid = JRequest::getVar('Itemid');
-
+	$Itemid = JRequest::getInt('Itemid');
 	$quoid = JRequest::getInt('quoid');
-	$encr  = JRequest::getVar('encr');
+	$encr  = JRequest::getString('encr');
 
 	if (!$quoid)
 	{
-		$app->Redirect('index.php?option=' . $option . '&view=account&Itemid=' . $Itemid);
+		$app->Redirect('index.php?option=com_redshop&view=account&Itemid=' . $Itemid);
 	}
 
 	$quotationDetail = $quotationHelper->getQuotationDetail($quoid);
@@ -70,7 +68,7 @@ if ($print)
 		}
 		else
 		{
-			$app->Redirect('index.php?option=com_redshop&view=login&Itemid=' . JRequest::getVar('Itemid'));
+			$app->Redirect('index.php?option=com_redshop&view=login&Itemid=' . JRequest::getInt('Itemid'));
 
 			return;
 		}

@@ -13,7 +13,6 @@ JHTMLBehavior::modal();
 $url = JURI::base();
 
 $user = JFactory::getUser();
-$option = JRequest::getVar('option');
 $pid = JRequest::getInt('pid');
 $document = JFactory::getDocument();
 JHTML::Script('jquery.tools.min.js', 'components/com_redshop/assets/js/', false);
@@ -39,7 +38,7 @@ JHTML::Script('jquery.tools.min.js', 'components/com_redshop/assets/js/', false)
 	}
 </script>
 <div align="center">
-	<form action="<?php echo JRoute::_('index.php?option=' . $option . '&view=send_friend'); ?>" method="post">
+	<form action="<?php echo JRoute::_('index.php?option=com_redshop&view=send_friend'); ?>" method="post">
 		<table>
 			<tr>
 				<td>&nbsp;
@@ -81,7 +80,7 @@ JHTML::Script('jquery.tools.min.js', 'components/com_redshop/assets/js/', false)
 			</tr>
 			<input type="hidden" name="pid" id="pid" value="<?php echo $pid; ?>"/>
 			<input type="hidden" name="task" id="task" value="sendmail"/>
-			<input type="hidden" name="option" value="<?php echo $option; ?>"/>
+			<input type="hidden" name="option" value="com_redshop"/>
 			<input type="hidden" name="view" value="send_friend"/>
 		</table>
 	</form>
