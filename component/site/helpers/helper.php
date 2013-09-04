@@ -19,15 +19,6 @@ class redhelper
 
 	public $_isredCRM = null;
 
-	public $filter_fields = array(
-		'p.product_name ASC', 'product_name ASC',
-		'p.product_price ASC', 'product_price ASC',
-		'p.product_price DESC', 'product_price DESC',
-		'p.product_number ASC', 'product_number ASC',
-		'p.product_id DESC', 'product_id DESC',
-		'pc.ordering ASC', 'ordering ASC'
-	);
-
 	public function __construct()
 	{
 		$this->_table_prefix = '#__redshop_';
