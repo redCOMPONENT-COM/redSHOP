@@ -31,11 +31,30 @@ class manufacturersModelmanufacturers extends JModel
 
 	public $_template = null;
 
+	public $filter_fields_products = null;
+
+	public $filter_fields_manufacturer = null;
+
 	public function __construct()
 	{
 		global $context;
 
 		$app = JFactory::getApplication();
+
+		// @ToDo In fearure, when class Manufacturers extends JModelList, replace filter_fields in constructor
+		$this->filter_fields_products = array(
+			'p.product_name ASC', 'product_name ASC',
+			'p.product_price ASC', 'product_price ASC',
+			'p.product_price DESC', 'product_price DESC',
+			'p.product_number ASC', 'product_number ASC',
+			'p.product_id DESC', 'product_id DESC',
+			'pc.ordering ASC', 'ordering ASC'
+		);
+		$this->filter_fields_manufacturer = array(
+			'mn.manufacturer_name ASC', 'manufacturer_name ASC',
+			'mn.manufacturer_id DESC', 'manufacturer_id DESC',
+			'mn.ordering ASC', 'ordering ASC'
+		);
 
 		parent::__construct();
 
@@ -91,13 +110,16 @@ class manufacturersModelmanufacturers extends JModel
 
 		if ($shopper_group_manufactures != "")
 		{
+			$shopper_group_manufactures = explode(',', $shopper_group_manufactures);
+			JArrayHelper::toInteger($shopper_group_manufactures);
+			$shopper_group_manufactures = implode(',', $shopper_group_manufactures);
 			$and .= " AND mn.manufacturer_id IN (" . $shopper_group_manufactures . ") ";
 		}
 
 		// Shopper group - choose from manufactures End
 		if ($this->_id)
 		{
-			$and .= " AND mn.manufacturer_id='" . $this->_id . "' ";
+			$and .= " AND mn.manufacturer_id = " . (int) $this->_id . " ";
 		}
 
 		$query = "SELECT mn.* FROM " . $this->_table_prefix . "manufacturer AS mn "
@@ -138,12 +160,14 @@ class manufacturersModelmanufacturers extends JModel
 
 	public function _buildContentOrderBy()
 	{
-		$layout  = JRequest::getVar('layout');
-		$orderby = JRequest::getVar('order_by', DEFAULT_MANUFACTURER_ORDERING_METHOD);
+		$app = JFactory::getApplication();
+		$layout  = $app->input->getCmd('layout', '');
+		$order_by = urldecode($app->input->getCmd('order_by', DEFAULT_MANUFACTURER_ORDERING_METHOD));
 
-		if ($layout != "products" && $orderby)
+		if (($layout == "products" && in_array($order_by, $this->filter_fields_products))
+			|| ($layout != "products" && in_array($order_by, $this->filter_fields_manufacturer)))
 		{
-			$filter_order = $orderby;
+			$filter_order = $order_by;
 		}
 		else
 		{
@@ -171,8 +195,8 @@ class manufacturersModelmanufacturers extends JModel
 			. "FROM " . $this->_table_prefix . "category AS c "
 			. "LEFT JOIN #__redshop_product_category_xref  AS pcx ON c.category_id  = pcx.category_id "
 			. "LEFT JOIN #__redshop_product  AS p ON pcx.product_id = p.product_id  "
-			. "WHERE p.manufacturer_id = '" . $this->_id . "' "
-			. "AND c.published = '1' "
+			. "WHERE p.manufacturer_id = " . (int) $this->_id . " "
+			. "AND c.published = 1 "
 			. "ORDER BY c.category_name ASC";
 		$this->_db->setQuery($query);
 		$list = $this->_db->loadObjectlist();
@@ -201,13 +225,16 @@ class manufacturersModelmanufacturers extends JModel
 
 		if ($shopper_group_manufactures != "")
 		{
+			$shopper_group_manufactures = explode(',', $shopper_group_manufactures);
+			JArrayHelper::toInteger($shopper_group_manufactures);
+			$shopper_group_manufactures = implode(',', $shopper_group_manufactures);
 			$and .= " AND p.manufacturer_id IN (" . $shopper_group_manufactures . ") ";
 		}
 
 		// Shopper group - choose from manufactures End
 		if ($filter_by != '0')
 		{
-			$and .= " AND c.category_id = " . $filter_by;
+			$and .= " AND c.category_id = " . (int) $filter_by;
 		}
 
 		$orderby = $this->_buildProductOrderBy($template_data);
@@ -215,10 +242,10 @@ class manufacturersModelmanufacturers extends JModel
 		$query = "SELECT DISTINCT(p.product_id),p.*, c.category_name, c.category_id FROM " . $this->_table_prefix . "product AS p "
 			. "LEFT JOIN " . $this->_table_prefix . "product_category_xref AS pc ON p.product_id=pc.product_id "
 			. "LEFT JOIN " . $this->_table_prefix . "category AS c ON pc.category_id=c.category_id "
-			. "WHERE p.published=1 "
-			. "AND p.manufacturer_id='" . $this->_id . "' "
-			. "AND p.expired=0 "
-			. "AND p.product_parent_id=0 "
+			. "WHERE p.published = 1 "
+			. "AND p.manufacturer_id = " . (int) $this->_id . " "
+			. "AND p.expired = 0 "
+			. "AND p.product_parent_id = 0 "
 			. $and
 			. " GROUP BY p.product_id "
 			. $orderby;
@@ -234,17 +261,20 @@ class manufacturersModelmanufacturers extends JModel
 
 		if (count($plg_manufacturer) > 0 && $plg_manufacturer[0]->enabled && $tblobj->excluding_category_list != '')
 		{
-			$and = "AND c.category_id NOT IN (" . $tblobj->excluding_category_list . ") ";
+			$excluding_category_list = explode(',', $tblobj->excluding_category_list);
+			JArrayHelper::toInteger($excluding_category_list);
+			$excluding_category_list = implode(',', $excluding_category_list);
+			$and = "AND c.category_id NOT IN (" . $excluding_category_list . ") ";
 		}
 
 		$query = "SELECT DISTINCT(c.category_id), c.category_name,c.category_short_description,c.category_description "
 			. "FROM " . $this->_table_prefix . "product AS p "
 			. "LEFT JOIN " . $this->_table_prefix . "product_category_xref AS pc ON p.product_id=pc.product_id "
 			. "LEFT JOIN " . $this->_table_prefix . "category AS c ON pc.category_id=c.category_id "
-			. "WHERE p.published=1 "
-			. "AND p.manufacturer_id='" . $mid . "' "
-			. "AND p.expired=0 "
-			. "AND p.product_parent_id=0 "
+			. "WHERE p.published = 1 "
+			. "AND p.manufacturer_id = " . (int) $mid . " "
+			. "AND p.expired = 0 "
+			. "AND p.product_parent_id = 0 "
 			. $and;
 
 		$this->_db->setQuery($query);
@@ -271,12 +301,12 @@ class manufacturersModelmanufacturers extends JModel
 
 	public function _buildProductOrderBy($template_data = '')
 	{
-		$layout  = JRequest::getVar('layout');
-		$orderby = JRequest::getVar('order_by', DEFAULT_MANUFACTURER_PRODUCT_ORDERING_METHOD);
+		$app = JFactory::getApplication();
+		$order_by = urldecode($app->input->getCmd('order_by', DEFAULT_MANUFACTURER_PRODUCT_ORDERING_METHOD));
 
-		if ($layout == "products" && $orderby)
+		if (in_array($order_by, $this->filter_fields_products))
 		{
-			$filter_order = $orderby;
+			$filter_order = $order_by;
 		}
 		else
 		{

@@ -399,7 +399,7 @@ class CategoryModelCategory extends JModel
 			'pc.ordering ASC', 'ordering ASC'
 		);
 
-		if (!in_array($order_by, $filter_fields))
+		if (in_array($order_by, $filter_fields))
 		{
 			$value = $order_by;
 		}
