@@ -15,21 +15,20 @@ JHTMLBehavior::modal();
 require_once JPATH_COMPONENT . '/helpers/extra_field.php';
 
 $producthelper = new producthelper;
-$objhelper = new redhelper;
-$extraField = new extraField;
-$redTemplate = new Redtemplate;
+$objhelper     = new redhelper;
+$extraField    = new extraField;
+$redTemplate   = new Redtemplate;
 
-$model = $this->getModel('giftcard');
-$url = JURI::base();
-$option = JRequest::getVar('option');
-$itemid = JRequest::getVar('Itemid');
-$gid = JRequest::getVar('gid', 0, '', 'int');
-$session = JFactory::getSession();
-$cart = $session->get('cart');
+$model     = $this->getModel('giftcard');
+$url       = JURI::base();
+$itemid    = JRequest::getInt('Itemid');
+$gid       = JRequest::getInt('gid', 0, '', 'int');
+$session   = JFactory::getSession();
+$cart      = $session->get('cart');
 $pagetitle = $this->pageheadingtag;
-$detail = $this->detail;
+$detail    = $this->detail;
 
-$app = JFactory::getApplication();
+$app    = JFactory::getApplication();
 $router = $app->getRouter();
 
 if (count($this->template) > 0)
@@ -260,7 +259,7 @@ else
 		{
 			$data_add .= $template_desc;
 			$gid  = $detail[$i]->giftcard_id;
-			$link = JRoute::_('index.php?option=' . $option . '&view=giftcard&gid=' . $gid . '&Itemid=' . $itemid);
+			$link = JRoute::_('index.php?option=com_redshop&view=giftcard&gid=' . $gid . '&Itemid=' . $itemid);
 
 			if (strstr($data_add, "{giftcard_image}"))
 			{
