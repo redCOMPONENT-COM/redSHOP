@@ -36,7 +36,8 @@ class Order_detailModelOrder_detail extends JModel
 
 	public function checkauthorization($oid, $encr)
 	{
-		$query = "SELECT count(order_id) FROM  " . $this->_table_prefix . "orders WHERE order_id = '" . $oid . "' AND encr_key like '" . $encr . "' ";
+		$query = "SELECT count(order_id) FROM  " . $this->_table_prefix . "orders WHERE order_id = '"
+			. (int) $oid . "' AND encr_key like " . $this->_db->quote($encr);
 		$this->_db->setQuery($query);
 		$order_detail = $this->_db->loadResult();
 
@@ -50,7 +51,7 @@ class Order_detailModelOrder_detail extends JModel
 	 */
 	public function UpdateAnalytics_status($oid)
 	{
-		$query = "UPDATE  " . $this->_table_prefix . "orders SET `analytics_status` = 1 WHERE order_id = '" . $oid . "'";
+		$query = "UPDATE  " . $this->_table_prefix . "orders SET `analytics_status` = 1 WHERE order_id = '" . (int) $oid . "'";
 		$this->_db->setQuery($query);
 
 		if (!$this->_db->Query())
@@ -99,7 +100,7 @@ class Order_detailModelOrder_detail extends JModel
 		$db    = JFactory::getDBO();
 		$query = "SELECT c.category_name FROM #__redshop_product_category_xref AS pcx "
 			. "LEFT JOIN #__redshop_category AS c ON c.category_id=pcx.category_id "
-			. "WHERE pcx.product_id=" . $pid . " AND c.category_name IS NOT NULL ORDER BY c.category_id ASC LIMIT 0,1";
+			. "WHERE pcx.product_id=" . (int) $pid . " AND c.category_name IS NOT NULL ORDER BY c.category_id ASC LIMIT 0,1";
 		$db->setQuery($query);
 
 		return $db->loadResult();
@@ -132,13 +133,13 @@ class Order_detailModelOrder_detail extends JModel
 		$order_payment_trans_id = $payment_transaction_id;
 
 		$payment_update = "UPDATE " . $this->_table_prefix . "order_payment "
-			. " SET order_payment_code  = '" . $order_payment_code . "' ,"
-			. " order_payment_cardname  = '" . $order_payment_cardname . "' ,"
-			. " order_payment_number  = '" . $order_payment_number . "' ,"
-			. " order_payment_ccv  = '" . $order_payment_ccv . "' ,"
-			. " order_payment_expire  = '" . $order_payment_expire . "' ,"
-			. " order_payment_trans_id  = '" . $payment_transaction_id . "' "
-			. " WHERE order_id  = '" . $order_id . "'";
+			. " SET order_payment_code  = " . $db->quote($order_payment_code) . ", "
+			. " order_payment_cardname  = " . $db->quote($order_payment_cardname) . ", "
+			. " order_payment_number  = " . $db->quote($order_payment_number) . ", "
+			. " order_payment_ccv  = " . $db->quote($order_payment_ccv) . ", "
+			. " order_payment_expire  = " . $db->quote($order_payment_expire) . ", "
+			. " order_payment_trans_id  = " . $db->quote($payment_transaction_id) . " "
+			. " WHERE order_id  = " . (int) $order_id;
 
 		$db->setQuery($payment_update);
 
