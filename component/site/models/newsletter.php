@@ -63,7 +63,7 @@ class newsletterModelnewsletter extends JModel
 		{
 			$query = "SELECT subscription_id FROM  " . $this->_table_prefix . "newsletter_subscription "
 				. "WHERE email = " . $this->_db->quote($email) . " "
-				. "AND newsletter_id='" . (int) DEFAULT_NEWSLETTER . "' "
+				. "AND newsletter_id = " . (int) DEFAULT_NEWSLETTER . " "
 				. $and;
 			$this->_db->setQuery($query);
 			$alreadysub = $this->_db->loadResult();
