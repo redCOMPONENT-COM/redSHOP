@@ -350,7 +350,7 @@ class rsUserhelper
 		if ($app->isSite())
 		{
 			$params = JComponentHelper::getParams('com_users');
-			$data['groups'] = $params->get('new_usertype', 2);
+			$data['groups'] = array($params->get('new_usertype', 2));
 		}
 
 		// Do a password safety check
