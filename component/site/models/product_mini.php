@@ -72,12 +72,12 @@ class product_miniModelproduct_mini extends JModel
 
 		if (trim($keyword) != '')
 		{
-			$where .= " AND " . $search_field . " LIKE '%$keyword%'  ";
+			$where .= " AND " . $this->_db->quoteName($search_field) . " LIKE " . $this->_db->quote('%' . $keyword . '%') . "  ";
 		}
 
 		if ($category_id)
 		{
-			$where .= " AND c.category_id = '$category_id'  ";
+			$where .= " AND c.category_id = " . (int) $category_id . " ";
 		}
 
 		if ($where != '')
@@ -117,6 +117,8 @@ class product_miniModelproduct_mini extends JModel
 	{
 		global $context;
 
+		$query = null;
+
 		$app = JFactory::getApplication();
 
 		$orderby      = $this->_buildContentOrderBy();
@@ -128,12 +130,12 @@ class product_miniModelproduct_mini extends JModel
 
 		if (trim($keyword) != '')
 		{
-			$where .= " AND " . $search_field . " LIKE '%$keyword%'  ";
+			$where .= " AND " . $this->_db->quoteName($search_field) . " LIKE " . $this->_db->quote('%' . $keyword . '%') . "  ";
 		}
 
 		if ($category_id)
 		{
-			$where .= " AND c.category_id = '$category_id'  ";
+			$where .= " AND c.category_id = " . (int) $category_id . " ";
 		}
 
 		// Change limit condition for all issue
@@ -141,17 +143,10 @@ class product_miniModelproduct_mini extends JModel
 
 		if ($this->getState('limit') > 0)
 		{
-			$limit = " LIMIT " . $this->getState('limitstart') . "," . $this->getState('limit');
+			$limit = " LIMIT " . (int) $this->getState('limitstart') . "," . (int) $this->getState('limit');
 		}
 
-		if ($where == '')
-		{
-			$query = "SELECT distinct(p.product_id),p.* FROM " . $this->_table_prefix . "product AS p "
-				. "WHERE 1=1 "
-				. $orderby
-				. $limit;
-		}
-		else
+		if ($where != '')
 		{
 			$query = 'SELECT distinct(p.product_id),p.*, x.ordering , x.category_id FROM ' . $this->_table_prefix . 'product p '
 				. 'LEFT JOIN ' . $this->_table_prefix . 'product_category_xref x ON x.product_id = p.product_id '
@@ -165,15 +160,16 @@ class product_miniModelproduct_mini extends JModel
 
 	public function _buildContentOrderBy()
 	{
+		$db = JFactory::getDbo();
+
 		global $context;
 
 		$app = JFactory::getApplication();
 
-		$category_id      = $app->getUserStateFromRequest($context . 'category_id', 'category_id', 0);
-		$filter_order     = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'product_id');
-		$filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
+		$filter_order     = urldecode($app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'product_id'));
+		$filter_order_Dir = urldecode($app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', ''));
 
-		$orderby = ' ORDER BY ' . $filter_order . ' ' . $filter_order_Dir;
+		$orderby = ' ORDER BY ' . $db->quote($filter_order . ' ' . $filter_order_Dir);
 
 		return $orderby;
 	}

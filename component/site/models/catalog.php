@@ -95,7 +95,7 @@ class CatalogModelCatalog extends JModel
 
 		if ($sample_id != 0)
 		{
-			$and = "AND c.sample_id='" . $sample_id . "' ";
+			$and = "AND c.sample_id = " . (int) $sample_id . " ";
 		}
 
 		$query   = "SELECT c.* FROM " . $this->_table_prefix . "catalog_colour AS c "

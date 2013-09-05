@@ -37,7 +37,7 @@ class split_paymentModelsplit_payment extends JModel
 
 	public function getordersdetail($oid)
 	{
-		$query = "SELECT * FROM  " . $this->_table_prefix . "orders WHERE order_id = '" . $oid . "' ";
+		$query = "SELECT * FROM  " . $this->_table_prefix . "orders WHERE order_id = " . (int) $oid;
 		$this->_db->setQuery($query);
 		$order_detail = $this->_db->loadObject();
 
@@ -46,7 +46,8 @@ class split_paymentModelsplit_payment extends JModel
 
 	public function getuseraccountinfo($uid)
 	{
-		$query = 'SELECT uf.*,u.email FROM ' . $this->_table_prefix . 'users_info as uf, #__users as u WHERE user_id=' . $uid . ' AND uf.user_id=u.id';
+		$query = 'SELECT uf.*,u.email FROM ' . $this->_table_prefix . 'users_info as uf, #__users as u WHERE user_id = '
+			. (int) $uid . ' AND uf.user_id=u.id';
 		$this->_db->setQuery($query);
 
 		return $this->_db->loadObject();
@@ -183,8 +184,8 @@ class split_paymentModelsplit_payment extends JModel
 					$msg                 = JText::_('COM_REDSHOP_PARTIAL_PAYMENT_DONE');
 
 					$query = "UPDATE " . $this->_table_prefix
-						. "orders set order_payment_status = '" . $order_paymentstatus
-						. "', split_payment=0  where order_id = " . $oid;
+						. "orders set order_payment_status = " . $this->_db->quote($order_paymentstatus)
+						. ", split_payment = 0  where order_id = " . (int) $oid;
 					$this->_db->setQuery($query);
 					$this->_db->query();
 
