@@ -159,7 +159,7 @@ class Tableproduct_detail extends JTable
 		$db = JFactory::getDBO();
 		$q = "SELECT product_id
 			FROM " . $this->_table_prefix . "product
-			WHERE product_number = " . $db->Quote($this->product_number);
+			WHERE product_number = " . $db->quote($this->product_number);
 		$db->setQuery($q);
 
 		$xid = intval($db->loadResult());
