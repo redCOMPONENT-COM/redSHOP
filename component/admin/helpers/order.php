@@ -77,8 +77,8 @@ class order_functions
 	 */
 	public function getOrderStatusTitle($order_status_code)
 	{
-		$query = 'SELECT order_status_name FROM ' . $this->_table_prefix . 'order_status ' . 'WHERE order_status_code ="'
-			. $order_status_code . '"';
+		$query = 'SELECT order_status_name FROM ' . $this->_table_prefix . 'order_status ' . 'WHERE order_status_code = '
+			. $this->_db->quote($order_status_code);
 		$this->_db->setQuery($query);
 		$res = $this->_db->loadResult();
 
@@ -87,14 +87,14 @@ class order_functions
 
 	public function updateOrderStatus($order_id, $newstatus)
 	{
-		$query = 'UPDATE ' . $this->_table_prefix . 'orders ' . 'SET order_status="' . $newstatus . '", mdate=' . time()
-			. ' WHERE order_id IN(' . $order_id . ')';
+		$query = 'UPDATE ' . $this->_table_prefix . 'orders ' . 'SET order_status = ' . $this->_db->quote($newstatus) . ', mdate = ' . $this->_db->quote(time())
+			. ' WHERE order_id = ' . (int) $order_id;
 		$this->_db->setQuery($query);
 		$this->_db->query();
 
 		$query = "SELECT p.element,op.order_transfee,op.order_payment_trans_id,op.order_payment_amount FROM #__extensions AS p " . "LEFT JOIN "
-			. $this->_table_prefix . "order_payment AS op ON op.payment_method_class=p.element " . "WHERE op.order_id='"
-			. $order_id . "' " . "AND p.folder='redshop_payment' ";
+			. $this->_table_prefix . "order_payment AS op ON op.payment_method_class=p.element " . "WHERE op.order_id = "
+			. (int) $order_id . " " . "AND p.folder='redshop_payment' ";
 		$this->_db->setQuery($query);
 		$result = $this->_db->loadObjectlist();
 		$authorize_status = $result[0]->authorize_status;
@@ -188,15 +188,15 @@ class order_functions
 			$shippingDeliveryType = (int) $shippingRateDecryptDetail[8];
 		}
 
-		$sql = "SELECT country_2_code FROM " . $this->_table_prefix . "country WHERE country_3_code = '" . SHOP_COUNTRY . "'";
+		$sql = "SELECT country_2_code FROM " . $this->_table_prefix . "country WHERE country_3_code = " . $this->_db->quote(SHOP_COUNTRY);
 		$this->_db->setQuery($sql);
 		$billingInfo->country_code = $this->_db->loadResult();
 
-		$sql = "SELECT country_name FROM " . $this->_table_prefix . "country WHERE country_2_code = '" . $billingInfo->country_code . "'";
+		$sql = "SELECT country_name FROM " . $this->_table_prefix . "country WHERE country_2_code = " . $this->_db->quote($billingInfo->country_code);
 		$this->_db->setQuery($sql);
 		$country_name = $this->_db->loadResult();
 
-		$sql = "SELECT country_2_code FROM " . $this->_table_prefix . "country WHERE country_3_code = '" . $shippingInfo->country_code . "'";
+		$sql = "SELECT country_2_code FROM " . $this->_table_prefix . "country WHERE country_3_code = " . $this->_db->quote($shippingInfo->country_code);
 		$this->_db->setQuery($sql);
 		$shippingInfo->country_code = $this->_db->loadResult();
 
@@ -212,7 +212,7 @@ class order_functions
 			$content_products[] = $orderproducts[$c]->order_item_name;
 
 			// Product Weight
-			$sql = "SELECT weight FROM " . $this->_table_prefix . "product WHERE product_id ='" . $orderproducts [$c]->product_id . "'";
+			$sql = "SELECT weight FROM " . $this->_table_prefix . "product WHERE product_id = " . (int) $orderproducts [$c]->product_id;
 			$this->_db->setQuery($sql);
 			$weight = $this->_db->loadResult();
 
@@ -225,8 +225,8 @@ class order_functions
 				for ($a = 0; $a < count($orderAccItemdata); $a++)
 				{
 					$accessory_quantity = $orderAccItemdata[$a]->product_quantity;
-					$acc_sql = "SELECT weight FROM " . $this->_table_prefix . "product WHERE product_id ='"
-						. $orderAccItemdata[$a]->product_id . "'";
+					$acc_sql = "SELECT weight FROM " . $this->_table_prefix . "product WHERE product_id = "
+						. (int) $orderAccItemdata[$a]->product_id;
 					$this->_db->setQuery($acc_sql);
 					$accessory_weight = $this->_db->loadResult();
 					$acc_weight += ($accessory_weight * $accessory_quantity);
@@ -406,20 +406,20 @@ class order_functions
 			}
 
 			// Order status valid and change the status
-			$query = "UPDATE " . $this->_table_prefix . "orders set order_status = '" . $data->order_status_code
-				. "',order_payment_status = '" . $data->order_payment_status_code . "' where order_id = " . $order_id;
+			$query = "UPDATE " . $this->_table_prefix . "orders set order_status = " . $this->_db->quote($data->order_status_code)
+				. ", order_payment_status = " . $this->_db->quote($data->order_payment_status_code) . "' where order_id = " . (int) $order_id;
 			$this->_db->SetQuery($query);
 			$this->_db->Query();
 
-			$query = "UPDATE " . $this->_table_prefix . "order_payment SET order_transfee ='" . $data->transfee
-				. "', order_payment_trans_id = '" . $data->transaction_id . "' where order_id = '" . $this->_db->getEscaped($order_id) . "'";
+			$query = "UPDATE " . $this->_table_prefix . "order_payment SET order_transfee = " . $this->_db->quote($data->transfee)
+				. ", order_payment_trans_id = " . $this->_db->quote($data->transaction_id) . " where order_id = '" . (int) $order_id . "'";
 			$this->_db->SetQuery($query);
 			$this->_db->Query();
 
 			$statusmsg = $data->msg;
-			$query = "INSERT INTO  " . $this->_table_prefix . "order_status_log set order_status = '" . $data->order_status_code
-				. "' ,order_payment_status ='" . $data->order_payment_status_code . "', date_changed='" . time() . "',order_id = "
-				. $order_id . ",customer_note = '" . $data->log . "'";
+			$query = "INSERT INTO  " . $this->_table_prefix . "order_status_log set order_status = " . $this->_db->quote($data->order_status_code)
+				. ", order_payment_status = " . $this->_db->quote($data->order_payment_status_code) . ", date_changed = " . $this->_db->quote(time())
+				. ", order_id = " . (int) $order_id . ", customer_note = " . $this->_db->quote($data->log);
 			$this->_db->SetQuery($query);
 			$this->_db->Query();
 			$this->changeOrderStatusMail($order_id, $data->order_status_code);
@@ -481,24 +481,24 @@ class order_functions
 
 	public function updateOrderPaymentStatus($order_id, $newstatus)
 	{
-		$query = 'UPDATE ' . $this->_table_prefix . 'orders ' . 'SET order_payment_status="' . $newstatus . '", mdate=' . time()
-			. ' WHERE order_id IN(' . $order_id . ')';
+		$query = 'UPDATE ' . $this->_table_prefix . 'orders ' . 'SET order_payment_status = ' . $this->_db->quote($newstatus) . ', mdate = '
+			. $this->_db->quote(time()) . ' WHERE order_id = ' . (int) $order_id;
 		$this->_db->setQuery($query);
 		$this->_db->query();
 	}
 
 	public function updateOrderComment($order_id, $comment = '')
 	{
-		$query = 'UPDATE ' . $this->_table_prefix . 'orders ' . 'SET customer_note="' . $comment . '" '
-			. 'WHERE order_id IN(' . $order_id . ') ';
+		$query = 'UPDATE ' . $this->_table_prefix . 'orders ' . 'SET customer_note = ' . $this->_db->quote($comment) . ' '
+			. 'WHERE order_id = ' . (int) $order_id;
 		$this->_db->setQuery($query);
 		$this->_db->query();
 	}
 
 	public function updateOrderRequisitionNumber($order_id, $requisition_number = '')
 	{
-		$query = 'UPDATE ' . $this->_table_prefix . 'orders ' . 'SET requisition_number="' . $requisition_number . '" '
-			. 'WHERE order_id IN(' . $order_id . ') ';
+		$query = 'UPDATE ' . $this->_table_prefix . 'orders ' . 'SET requisition_number = ' . $this->_db->quote($requisition_number) . ' '
+			. 'WHERE order_id = ' . (int) $order_id;
 		$this->_db->setQuery($query);
 		$this->_db->query();
 		$affected_rows = $this->_db->getAffectedRows();
@@ -531,21 +531,21 @@ class order_functions
 
 		if ($product_id != 0)
 		{
-			$and = " AND product_id='" . $product_id . "' ";
+			$and = " AND product_id = " . (int) $product_id . " ";
 		}
 
 		if ($order_item_id != 0)
 		{
-			$and_order_item = " AND order_item_id='" . $order_item_id . "' ";
+			$and_order_item = " AND order_item_id = " . (int) $order_item_id . " ";
 		}
 
 		if ($product_id != 0)
 		{
-			$field = ", customer_note='" . $comment . "' ";
+			$field = ", customer_note = " . $this->_db->quote($comment) . " ";
 		}
 
-		$query = "UPDATE " . $this->_table_prefix . "order_item " . "SET order_status='" . $newstatus . "' " . $field
-			. "WHERE order_id IN(" . $order_id . ") " . $and . $and_order_item;
+		$query = "UPDATE " . $this->_table_prefix . "order_item " . "SET order_status='" . $this->_db->quote($newstatus) . "' " . $field
+			. "WHERE order_id = " . (int) $order_id . " " . $and . $and_order_item;
 		$this->_db->setQuery($query);
 		$this->_db->query();
 	}
@@ -554,18 +554,19 @@ class order_functions
 	{
 		// Adding the products from the container. means decreasing stock
 
-		$query = "SELECT quantity FROM " . $this->_table_prefix . "container_product_xref " . "WHERE container_id='"
-			. $container_id . "' AND product_id='" . $product_id . "' ";
-		$this->_db->setQuery($query);
-		$con_product_qun = $this->_db->loadResult();
+		$db = JFactory::getDbo();
+		$query = "SELECT quantity FROM " . $this->_table_prefix . "container_product_xref " . "WHERE container_id = "
+			. (int) $container_id . " AND product_id = " . (int) $product_id;
+		$db->setQuery($query);
+		$con_product_qun = $db->loadResult();
 		$con_product_qun = $con_product_qun + $quantity;
 
 		if ($con_product_qun > 0)
 		{
-			$query = 'UPDATE ' . $this->_table_prefix . 'container_product_xref ' . 'SET quantity = "' . $con_product_qun
-				. '" ' . ' WHERE container_id="' . $container_id . '" AND product_id="' . $product_id . '" ';
-			$this->_db->setQuery($query);
-			$this->_db->query();
+			$query = 'UPDATE ' . $this->_table_prefix . 'container_product_xref ' . 'SET quantity = ' . (int) $con_product_qun
+				. ' ' . ' WHERE container_id = ' . (int) $container_id . ' AND product_id = ' . (int) $product_id;
+			$db->setQuery($query);
+			$db->query();
 		}
 	}
 
@@ -1214,7 +1215,7 @@ class order_functions
 
 	public function getOrderDetails($order_id)
 	{
-		$query = "SELECT * FROM " . $this->_table_prefix . "orders " . "WHERE order_id='" . $order_id . "' ";
+		$query = "SELECT * FROM " . $this->_table_prefix . "orders " . "WHERE order_id = " . (int) $order_id;
 		$this->_db->setQuery($query);
 		$list = $this->_db->loadObject();
 
@@ -1223,7 +1224,7 @@ class order_functions
 
 	public function getmultiOrderDetails($order_id)
 	{
-		$query = "SELECT * FROM " . $this->_table_prefix . "orders " . "WHERE order_id='" . $order_id . "' ";
+		$query = "SELECT * FROM " . $this->_table_prefix . "orders " . "WHERE order_id = " . (int) $order_id;
 		$this->_db->setQuery($query);
 		$list = $this->_db->loadObjectList();
 
@@ -1239,7 +1240,7 @@ class order_functions
 			$user_id = $user->id;
 		}
 
-		$query = "SELECT * FROM " . $this->_table_prefix . "orders " . "WHERE user_id='" . $user_id . "' ORDER BY `order_id` DESC";
+		$query = "SELECT * FROM " . $this->_table_prefix . "orders " . "WHERE user_id = " . (int) $user_id . " ORDER BY `order_id` DESC";
 		$this->_db->setQuery($query);
 		$list = $this->_db->loadObjectlist();
 
@@ -1252,17 +1253,20 @@ class order_functions
 
 		if ($order_id != 0)
 		{
+			$order_id = explode(',', $order_id);
+			JArrayHelper::toInteger($order_id);
+			$order_id = implode(',', $order_id);
 			$and .= " AND order_id IN (" . $order_id . ") ";
 		}
 
 		if ($product_id != 0)
 		{
-			$and .= " AND product_id='" . $product_id . "' ";
+			$and .= " AND product_id = " . (int) $product_id . " ";
 		}
 
 		if ($order_item_id != 0)
 		{
-			$and .= " AND order_item_id='" . $order_item_id . "' ";
+			$and .= " AND order_item_id = " . (int) $order_item_id . " ";
 		}
 
 		$query = "SELECT * FROM  " . $this->_table_prefix . "order_item " . "WHERE 1=1 " . $and;
@@ -1278,10 +1282,10 @@ class order_functions
 
 		if ($payment_order_id != 0)
 		{
-			$and = ' AND payment_order_id="' . $payment_order_id . '" ';
+			$and = ' AND payment_order_id = ' . (int) $payment_order_id . ' ';
 		}
 
-		$query = 'SELECT * FROM ' . $this->_table_prefix . 'order_payment ' . 'WHERE order_id="' . $order_id . '" ' . $and;
+		$query = 'SELECT * FROM ' . $this->_table_prefix . 'order_payment ' . 'WHERE order_id = ' . (int) $order_id . ' ' . $and;
 		$this->_db->setQuery($query);
 		$list = $this->_db->loadObjectlist();
 
@@ -1290,7 +1294,7 @@ class order_functions
 
 	public function getOrderPartialPayment($order_id)
 	{
-		$query = 'SELECT order_payment_amount FROM ' . $this->_table_prefix . 'order_payment ' . 'WHERE order_id="' . $order_id . '" ';
+		$query = 'SELECT order_payment_amount FROM ' . $this->_table_prefix . 'order_payment ' . 'WHERE order_id = ' . (int) $order_id;
 		$this->_db->setQuery($query);
 		$list = $this->_db->loadObjectlist();
 
@@ -1310,17 +1314,18 @@ class order_functions
 	public function getShippingMethodInfo($shipping_class = '')
 	{
 		$and = "";
+		$db = JFactory::getDbo();
 
 		if ($shipping_class != '')
 		{
-			$and = "AND element='" . $shipping_class . "' ";
+			$and = "AND element = " . $db->quote($shipping_class) . " ";
 		}
 
 		$folder = strtolower('redshop_shipping');
 
-		$query = "SELECT * FROM #__extensions " . "WHERE enabled = '1' " . "AND LOWER(`folder`) = '{$folder}' " . $and . "ORDER BY ordering ASC ";
-		$this->_db->setQuery($query);
-		$list = $this->_db->loadObjectList();
+		$query = "SELECT * FROM #__extensions " . "WHERE enabled = '1' " . "AND LOWER(`folder`) = " . $db->quote($folder) . $and . "ORDER BY ordering ASC ";
+		$db->setQuery($query);
+		$list = $db->loadObjectList();
 
 		return $list;
 	}
@@ -1328,18 +1333,19 @@ class order_functions
 	public function getPaymentMethodInfo($payment_method_class = '')
 	{
 		$and = "";
+		$db = JFactory::getDbo();
 
 		if ($payment_method_class != '')
 		{
-			$and = "AND element='" . $payment_method_class . "' ";
+			$and = "AND element = " . $db->quote($payment_method_class) . " ";
 		}
 
 		$folder = strtolower('redshop_payment');
 
-		$query = "SELECT * FROM #__extensions " . "WHERE enabled = '1' " . $and . "AND LOWER(`folder`) = '{$folder}' " . "ORDER BY ordering ASC ";
+		$query = "SELECT * FROM #__extensions " . "WHERE enabled = '1' " . $and . "AND LOWER(`folder`) = " . $db->quote($folder) . "ORDER BY ordering ASC ";
 
-		$this->_db->setQuery($query);
-		$list = $this->_db->loadObjectList();
+		$db->setQuery($query);
+		$list = $db->loadObjectList();
 
 		return $list;
 	}
@@ -1386,7 +1392,7 @@ class order_functions
 			$query = 'SELECT ui.*,CONCAT(firstname," ",lastname) AS text,d.*,ui.users_info_id FROM '
 				. $this->_table_prefix . 'users_info as ui ' . 'LEFT JOIN ' . $this->_table_prefix_crm
 				. 'debitors as d ON d.users_info_id = ui.users_info_id ' . 'WHERE address_type like "BT" '
-				. 'AND user_id="' . $user_id . '" ';
+				. 'AND user_id = ' . (int) $user_id;
 			$this->_db->setQuery($query);
 			$list = $this->_db->loadObject();
 
@@ -1410,7 +1416,7 @@ class order_functions
 		}
 
 		$query = 'SELECT *,CONCAT(firstname," ",lastname) AS text FROM ' . $this->_table_prefix
-			. 'users_info ' . 'WHERE address_type like "BT" ' . 'AND user_id="' . $user_id . '" ';
+			. 'users_info ' . 'WHERE address_type like "BT" ' . 'AND user_id = ' . (int) $user_id;
 		$this->_db->setQuery($query);
 		$list = $this->_db->loadObject();
 
@@ -1422,7 +1428,7 @@ class order_functions
 		$helper = new redhelper;
 
 		$query = 'SELECT * FROM ' . $this->_table_prefix . 'order_users_info ' . 'WHERE address_type LIKE "BT" '
-			. 'AND order_id="' . $order_id . '" ';
+			. 'AND order_id = ' . (int) $order_id;
 
 		if ($helper->isredCRM())
 		{
@@ -1431,7 +1437,7 @@ class order_functions
 				. 'LEFT JOIN ' . $this->_table_prefix_crm . 'order as co ON co.order_id = oui.order_id ' . 'LEFT JOIN '
 				. $this->_table_prefix_crm . 'contact_persons as cp ON cp.person_id  = co.person_id ' . 'LEFT JOIN '
 				. $this->_table_prefix_crm . 'debitors as cd ON cd.users_info_id = co.debitor_id ' . 'WHERE oui.address_type LIKE "BT" '
-				. 'AND oui.order_id="' . $order_id . '" ';
+				. 'AND oui.order_id = ' . (int) $order_id;
 		}
 
 		$this->_db->setQuery($query);
@@ -1489,6 +1495,7 @@ class order_functions
 			if (count($crmusers) > 0)
 			{
 				$crmusersinfo = '';
+				JArrayHelper::toInteger($crmusers);
 				$crmusersinfo = implode(",", $crmusers);
 
 				$query = 'SELECT ui.*,IFNULL(destination_name,CONCAT(firstname," ",lastname)) AS text FROM '
@@ -1500,6 +1507,9 @@ class order_functions
 			{
 				if (!$is_admin)
 				{
+					$isredcrmuser_debitor = explode(',', $isredcrmuser_debitor);
+					JArrayHelper::toInteger($isredcrmuser_debitor);
+					$isredcrmuser_debitor = implode(',', $isredcrmuser_debitor);
 					$query = 'SELECT ui.*,IFNULL(destination_name,CONCAT(firstname," ",lastname)) AS text FROM '
 						. $this->_table_prefix . 'users_info as ui'
 						. ' LEFT JOIN #__redcrm_shipping as rcs ON rcs.users_info_id = ui.users_info_id '
@@ -1511,7 +1521,7 @@ class order_functions
 					$query = 'SELECT ui.*,IFNULL(destination_name,CONCAT(firstname," ",lastname)) AS text FROM '
 						. $this->_table_prefix . 'users_info as ui'
 						. ' LEFT JOIN #__redcrm_shipping as rcs ON rcs.users_info_id = ui.users_info_id '
-						. ' WHERE address_type like "ST" ' . ' AND ui.user_id IN (' . $user_id . ') ';
+						. ' WHERE address_type like "ST" ' . ' AND ui.user_id  = ' . (int) $user_id;
 				}
 			}
 
@@ -1522,7 +1532,7 @@ class order_functions
 		}
 
 		$query = 'SELECT *,CONCAT(firstname," ",lastname) AS text FROM ' . $this->_table_prefix . 'users_info '
-			. 'WHERE address_type="ST" ' . 'AND user_id="' . $user_id . '" ';
+			. 'WHERE address_type="ST" ' . 'AND user_id = ' . (int) $user_id;
 		$this->_db->setQuery($query);
 		$list = $this->_db->loadObjectlist();
 
@@ -1552,7 +1562,7 @@ class order_functions
 		}
 
 		$query = 'SELECT * FROM ' . $this->_table_prefix . 'order_users_info ' . 'WHERE address_type LIKE "ST" '
-			. 'AND order_id="' . $order_id . '" ';
+			. 'AND order_id = ' . (int) $order_id;
 		$this->_db->setQuery($query);
 		$list = $this->_db->loadObject();
 
@@ -1570,7 +1580,7 @@ class order_functions
 		}
 
 		$query = "SELECT firstname, lastname FROM " . $this->_table_prefix . "users_info " . "WHERE address_type like 'BT' "
-			. "AND user_id='" . $user_id . "' ";
+			. "AND user_id = " . (int) $user_id;
 		$this->_db->setQuery($query);
 		$list = $this->_db->loadObject();
 
@@ -1580,7 +1590,7 @@ class order_functions
 		}
 		else
 		{
-			$query = "SELECT name FROM #__users " . "WHERE id='" . $user_id . "' ";
+			$query = "SELECT name FROM #__users " . "WHERE id = " . (int) $user_id;
 			$this->_db->setQuery($query);
 			$list = $this->_db->loadObject();
 
@@ -1599,7 +1609,7 @@ class order_functions
 
 		if ($order_item_id != 0)
 		{
-			$and .= " AND order_item_id='" . $order_item_id . "' ";
+			$and .= " AND order_item_id = " . (int) $order_item_id . " ";
 		}
 
 		$query = "SELECT * FROM  " . $this->_table_prefix . "order_acc_item " . "WHERE 1=1 " . $and;
@@ -1612,29 +1622,31 @@ class order_functions
 	public function getOrderItemAttributeDetail($order_item_id = 0, $is_accessory = 0, $section = "attribute", $parent_section_id = 0)
 	{
 		$and = "";
+		$db = JFactory::getDbo();
 
 		if ($order_item_id != 0)
 		{
-			$and .= " AND order_item_id='" . $order_item_id . "' ";
+			$and .= " AND order_item_id = " . (int) $order_item_id . " ";
 		}
 
 		if ($parent_section_id != 0)
 		{
-			$and .= " AND parent_section_id='" . $parent_section_id . "' ";
+			$and .= " AND parent_section_id = " . (int) $parent_section_id . " ";
 		}
 
-		$query = "SELECT * FROM  " . $this->_table_prefix . "order_attribute_item " . "WHERE is_accessory_att='" . $is_accessory . "' " . "AND section='" . $section . "' " . $and;
-		$this->_db->setQuery($query);
-		$list = $this->_db->loadObjectlist();
+		$query = "SELECT * FROM  " . $this->_table_prefix . "order_attribute_item " . "WHERE is_accessory_att = " . (int) $is_accessory . " " . "AND section = " . $db->quote($section) . " " . $and;
+		$db->setQuery($query);
+		$list = $db->loadObjectlist();
 
 		return $list;
 	}
 
 	public function getOrderUserfieldData($order_item_id = 0, $section = 0)
 	{
-		$query = "SELECT fd.*,f.field_title,f.field_type,f.field_name FROM " . $this->_table_prefix . "fields_data AS fd " . "LEFT JOIN " . $this->_table_prefix . "fields AS f ON f.field_id=fd.fieldid " . "WHERE fd.itemid='" . $order_item_id . "' " . "AND fd.section='" . $section . "' ";
-		$this->_db->setQuery($query);
-		$list = $this->_db->loadObjectlist();
+		$db = JFactory::getDbo();
+		$query = "SELECT fd.*,f.field_title,f.field_type,f.field_name FROM " . $this->_table_prefix . "fields_data AS fd " . "LEFT JOIN " . $this->_table_prefix . "fields AS f ON f.field_id=fd.fieldid " . "WHERE fd.itemid = " . (int) $order_item_id . " " . "AND fd.section = " . $db->quote($section);
+		$db->setQuery($query);
+		$list = $db->loadObjectlist();
 
 		return $list;
 	}
@@ -1653,7 +1665,7 @@ class order_functions
 		 */
 		if (ECONOMIC_INTEGRATION)
 		{
-			$query = "SELECT order_number FROM " . $this->_table_prefix . "orders " . "WHERE order_id='" . $maxId . "'";
+			$query = "SELECT order_number FROM " . $this->_table_prefix . "orders " . "WHERE order_id = " . (int) $maxId;
 			$this->_db->setQuery($query);
 			$maxOrderNumber = $this->_db->loadResult();
 			$economic = new economic;
@@ -1716,13 +1728,14 @@ class order_functions
 
 	public function getCountryName($cnt3 = "")
 	{
+		$db = JFactory::getDbo();
 		$redhelper = new redhelper;
 		$and = '';
 		$cntname = '';
 
 		if ($cnt3 != "")
 		{
-			$and .= ' AND country_3_code="' . $cnt3 . '" ';
+			$and .= ' AND country_3_code = ' . $db->quote($cnt3) . ' ';
 		}
 		else
 		{
@@ -1731,8 +1744,8 @@ class order_functions
 
 		$query = 'SELECT country_3_code AS value,country_name AS text,country_jtext FROM '
 			. $this->_table_prefix . 'country ' . 'WHERE 1=1 ' . $and;
-		$this->_db->setQuery($query);
-		$countries = $this->_db->loadObjectList();
+		$db->setQuery($query);
+		$countries = $db->loadObjectList();
 		$countries = $redhelper->convertLanguageString($countries);
 
 		if (count($countries) > 0)
@@ -1747,10 +1760,11 @@ class order_functions
 	{
 		$stname = '';
 		$and = '';
+		$db = JFactory::getDbo();
 
 		if ($st3 != "")
 		{
-			$and .= ' AND s.state_2_code="' . $st3 . '" ';
+			$and .= ' AND s.state_2_code = ' . $db->quote($st3) . ' ';
 		}
 		else
 		{
@@ -1759,13 +1773,13 @@ class order_functions
 
 		if ($cnt3 != "")
 		{
-			$and .= ' AND c.country_3_code="' . $cnt3 . '" ';
+			$and .= ' AND c.country_3_code = ' . $db->quote($cnt3) . ' ';
 		}
 
 		$query = 'SELECT s.state_name FROM ' . $this->_table_prefix . 'state AS s ' . ','
 			. $this->_table_prefix . 'country AS c ' . 'WHERE c.country_id=s.country_id ' . $and;
-		$this->_db->setQuery($query);
-		$stname = $this->_db->loadResult();
+		$db->setQuery($query);
+		$stname = $db->loadResult();
 
 		return $stname;
 	}
@@ -1807,7 +1821,7 @@ class order_functions
 		$query = "SELECT uf.firstname, uf.lastname, IFNULL( u.email , uf.`user_email`) AS email
 				FROM " . $this->_table_prefix . "users_info AS uf
 				LEFT JOIN #__users AS u ON uf.user_id = u.id
-				WHERE uf.user_id = '" . $rows[0]->user_id . "'
+				WHERE uf.user_id = " . (int) $rows[0]->user_id . "
 				AND uf.`address_type` = 'BT'";
 		$this->_db->setQuery($query);
 		$userdetail = $this->_db->loadObject();
@@ -1878,7 +1892,7 @@ class order_functions
 	public function getDownloadProduct($order_id)
 	{
 		$query = "SELECT pd.*,product_name FROM " . $this->_table_prefix . "product_download AS pd " . ","
-			. $this->_table_prefix . "product AS p " . "WHERE pd.product_id=p.product_id " . "AND order_id='" . $order_id . "' ";
+			. $this->_table_prefix . "product AS p " . "WHERE pd.product_id=p.product_id " . "AND order_id = " . (int) $order_id;
 		$this->_db->setQuery($query);
 
 		return $this->_db->loadObjectList();
@@ -1886,22 +1900,24 @@ class order_functions
 
 	public function getDownloadProductLog($order_id, $did = '')
 	{
-		$whereDownload_id = ($did != '') ? " AND pdl.download_id = '" . $did . "'" : "";
+		$db = JFactory::getDbo();
+		$whereDownload_id = ($did != '') ? " AND pdl.download_id = " . $db->quote($did) : "";
 
 		$query = "SELECT pdl . * , pd.order_id, pd.product_id, pd.file_name " . " FROM `"
 			. $this->_table_prefix . "product_download_log` AS pdl " . " LEFT JOIN " . $this->_table_prefix
-			. "product_download AS pd ON pd.download_id = pdl.download_id" . " WHERE pd.order_id = '"
-			. $order_id . "' " . $whereDownload_id;
-		$this->_db->setQuery($query);
+			. "product_download AS pd ON pd.download_id = pdl.download_id" . " WHERE pd.order_id = "
+			. (int) $order_id . " " . $whereDownload_id;
+		$db->setQuery($query);
 
-		return $this->_db->loadObjectList();
+		return $db->loadObjectList();
 	}
 
 	public function getparameters($payment)
 	{
-		$sql = "SELECT * FROM #__extensions WHERE `element`='" . $payment . "'";
-		$this->_db->setQuery($sql);
-		$params = $this->_db->loadObjectList();
+		$db = JFactory::getDbo();
+		$sql = "SELECT * FROM #__extensions WHERE `element` = " . $db->quote($payment);
+		$db->setQuery($sql);
+		$params = $db->loadObjectList();
 
 		return $params;
 	}
@@ -1977,9 +1993,10 @@ class order_functions
 
 	function getshippinglocationinfo($shippingname)
 	{
-		$sql = "SELECT shipping_location_info FROM " . $this->_table_prefix . "shipping_rate WHERE shipping_rate_name='" . $shippingname . "'";
-		$this->_db->setQuery($sql);
-		$shippingloc = $this->_db->loadObjectList();
+		$db = JFactory::getDbo();
+		$sql = "SELECT shipping_location_info FROM " . $this->_table_prefix . "shipping_rate WHERE shipping_rate_name = " . $db->quote($shippingname);
+		$db->setQuery($sql);
+		$shippingloc = $db->loadObjectList();
 
 		return $shippingloc;
 	}
@@ -2038,15 +2055,18 @@ class order_functions
 
 	public function updatebarcode($oid, $barcode)
 	{
-		$barcodequery = 'UPDATE ' . $this->_table_prefix . 'orders SET barcode="' . $barcode . '" WHERE order_id =' . $oid;
-		$this->_db->setQuery($barcodequery);
-		$this->_db->query();
+		$db = JFactory::getDbo();
+		$barcodequery = 'UPDATE ' . $this->_table_prefix . 'orders SET barcode = ' . $db->quote($barcode) . ' WHERE order_id = ' . (int) $oid;
+		$db->setQuery($barcodequery);
+		$db->query();
 	}
 
 	public function checkupdateordersts($data)
 	{
 		$res = 1;
-		$query = "SELECT * FROM " . $this->_table_prefix . "orders " . "WHERE order_status='" . $data->order_status_code . "' " . "AND order_payment_status='" . $data->order_payment_status_code . "' " . "AND order_id='" . $data->order_id . "' ";
+		$db = JFactory::getDbo();
+		$query = "SELECT * FROM " . $this->_table_prefix . "orders " . "WHERE order_status = " . $db->quote($data->order_status_code)
+			. " AND order_payment_status = " . $db->quote($data->order_payment_status_code) . " AND order_id = " . (int) $data->order_id;
 		$this->_db->setQuery($query);
 		$order_payment = $this->_db->loadObjectList();
 
