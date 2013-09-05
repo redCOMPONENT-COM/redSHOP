@@ -89,11 +89,13 @@ class redhelper
 
 	public function getallPlugins($folder = 'redshop')
 	{
+		$db = JFactory::getDbo();
+
 		$query = "SELECT * FROM #__extensions "
 			. "WHERE LOWER(`folder`) = " . $db->quote(strtolower($folder)) . " "
 			. "ORDER BY ordering ASC ";
-		$this->_db->setQuery($query);
-		$data = $this->_db->loadObjectList();
+		$db->setQuery($query);
+		$data = $db->loadObjectList();
 
 		return $data;
 	}
@@ -104,10 +106,10 @@ class redhelper
 
 		$res   = false;
 		$query = "SELECT COUNT(*) `qty` FROM `" . $this->_table_prefix . "order_payment` "
-			. "WHERE `order_id` = " . (int) $this->_db->getEscaped($order_id) . " "
+			. "WHERE `order_id` = " . (int) $db->getEscaped($order_id) . " "
 			. "AND order_payment_trans_id = " . $db->quote($tid);
-		$this->_db->SetQuery($query);
-		$order_payment = $this->_db->loadResult();
+		$db->setQuery($query);
+		$order_payment = $db->loadResult();
 
 		if ($order_payment == 0)
 		{
