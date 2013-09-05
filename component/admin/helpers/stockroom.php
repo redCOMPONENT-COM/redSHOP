@@ -33,7 +33,7 @@ class rsstockroomhelper
 
 			if ($stockroom_id != 0)
 			{
-				$and = "AND stockroom_id='" . $stockroom_id . "' ";
+				$and = "AND stockroom_id = " . (int) $stockroom_id . " ";
 			}
 
 			$query = "SELECT * FROM " . $this->_table_prefix . "stockroom "
@@ -222,9 +222,13 @@ class rsstockroomhelper
 
 			if ($section_id != 0)
 			{
+				$section_id = explode(',', $section_id);
+				JArrayHelper::toInteger($section_id);
+				$section_id = implode(',', $section_id);
+
 				if ($section != "product")
 				{
-					$and = "AND x.section='" . $section . "' AND x.section_id IN (" . $section_id . ") ";
+					$and = "AND x.section = " . $db->quote($section) . " AND x.section_id IN (" . $section_id . ") ";
 				}
 				else
 				{
@@ -234,7 +238,7 @@ class rsstockroomhelper
 
 			if ($stockroom_id != 0)
 			{
-				$and .= "AND x.stockroom_id='" . $stockroom_id . "' ";
+				$and .= "AND x.stockroom_id = " . (int) $stockroom_id . " ";
 			}
 
 			$query = "SELECT SUM(x.quantity)  FROM " . $this->_table_prefix . $table . "_stockroom_xref AS x "
@@ -329,9 +333,13 @@ class rsstockroomhelper
 
 			if ($section_id != 0)
 			{
+				$section_id = explode(',', $section_id);
+				JArrayHelper::toInteger($section_id);
+				$section_id = implode(',', $section_id);
+
 				if ($section != "product")
 				{
-					$and = "AND x.section='" . $section . "' AND x.section_id IN (" . $section_id . ") ";
+					$and = "AND x.section = " . $db->quote($section) . " AND x.section_id IN (" . $section_id . ") ";
 				}
 				else
 				{
@@ -341,8 +349,9 @@ class rsstockroomhelper
 
 			if ($stockroom_id != 0)
 			{
-				$and .= "AND x.stockroom_id='" . $stockroom_id . "' ";
+				$and .= "AND x.stockroom_id = " . (int) $stockroom_id . " ";
 			}
+
 			$query = "SELECT SUM(x.preorder_stock) as preorder_stock, SUM(x.ordered_preorder) as ordered_preorder FROM "
 				. $this->_table_prefix . $table . "_stockroom_xref AS x "
 				. ", " . $this->_table_prefix . "stockroom AS s "
@@ -439,17 +448,17 @@ class rsstockroomhelper
 			{
 				if ($section != "product")
 				{
-					$and = "AND x.section='" . $section . "' AND x.section_id='" . $section_id . "' ";
+					$and = "AND x.section = " . $db->quote($section) . " AND x.section_id = " . (int) $section_id . " ";
 				}
 				else
 				{
-					$and = "AND x.product_id='" . $section_id . "' ";
+					$and = "AND x.product_id = " . (int) $section_id . " ";
 				}
 			}
 
 			if ($stockroom_id != 0)
 			{
-				$and .= "AND x.stockroom_id='" . $stockroom_id . "' ";
+				$and .= "AND x.stockroom_id = " . (int) $stockroom_id . " ";
 			}
 
 			$query = "SELECT * FROM " . $this->_table_prefix . $table . "_stockroom_xref AS x "
@@ -484,17 +493,17 @@ class rsstockroomhelper
 			{
 				if ($section != "product")
 				{
-					$and = "AND x.section='" . $section . "' AND x.section_id='" . $section_id . "' ";
+					$and = "AND x.section = " . $db->quote($section) . " AND x.section_id = " . (int) $section_id . " ";
 				}
 				else
 				{
-					$and = "AND x.product_id='" . $section_id . "' ";
+					$and = "AND x.product_id= " . (int) $section_id . " ";
 				}
 			}
 
 			if ($stockroom_id != 0)
 			{
-				$and .= "AND x.stockroom_id='" . $stockroom_id . "' ";
+				$and .= "AND x.stockroom_id = " . (int) $stockroom_id . " ";
 			}
 
 			$query = "SELECT * FROM " . $this->_table_prefix . $table . "_stockroom_xref AS x "
@@ -544,7 +553,7 @@ class rsstockroomhelper
 			if ($quantity > 0)
 			{
 				$preorder_list = $this->getPreorderStockroomAmountDetailList($section_id, $section);
-				$producthelper = new producthelper();
+				$producthelper = new producthelper;
 
 				if ($section == "product")
 				{
@@ -607,22 +616,23 @@ class rsstockroomhelper
 			{
 				if ($section != "product")
 				{
-					$and = "AND section='" . $section . "' AND section_id='" . $section_id . "' ";
+					$and = "AND section = " . $db->quote($section) . " AND section_id = " . (int) $section_id . " ";
 				}
 				else
 				{
-					$and = "AND product_id='" . $section_id . "' ";
+					$and = "AND product_id = " . (int) $section_id . " ";
 				}
 
 				$query = 'UPDATE ' . $this->_table_prefix . $table . '_stockroom_xref '
-					. 'SET quantity=quantity - ' . $quantity . ' '
-					. 'WHERE stockroom_id="' . $stockroom_id . '" '
+					. 'SET quantity = quantity - ' . (int) $quantity . ' '
+					. 'WHERE stockroom_id = ' . (int) $stockroom_id . ' '
 					. 'AND quantity > 0 '
 					. $and;
 				$db->setQuery($query);
 				$db->query();
 			}
 		}
+
 		return true;
 	}
 
@@ -633,7 +643,7 @@ class rsstockroomhelper
 
 		if (USE_STOCKROOM == 1)
 		{
-			$db = JFactory :: getDBO();
+			$db = JFactory::getDBO();
 
 			if ($section != "product")
 			{
@@ -644,16 +654,16 @@ class rsstockroomhelper
 			{
 				if ($section != "product")
 				{
-					$and = "AND section='" . $section . "' AND section_id='" . $section_id . "' ";
+					$and = "AND section = " . $db->quote($section) . " AND section_id = " . (int) $section_id . " ";
 				}
 				else
 				{
-					$and = "AND product_id='" . $section_id . "' ";
+					$and = "AND product_id = " . (int) $section_id . " ";
 				}
 
 				$query = 'UPDATE ' . $this->_table_prefix . $table . '_stockroom_xref '
-					. 'SET ordered_preorder=ordered_preorder + ' . $quantity . ' '
-					. 'WHERE stockroom_id="' . $stockroom_id . '" '
+					. 'SET ordered_preorder = ordered_preorder + ' . (int) $quantity . ' '
+					. 'WHERE stockroom_id = ' . (int) $stockroom_id . ' '
 					. $and;
 				$db->setQuery($query);
 				$db->query();
@@ -680,11 +690,11 @@ class rsstockroomhelper
 			{
 				if ($section != "product")
 				{
-					$and = "AND section='" . $section . "' AND section_id='" . $section_id . "' ";
+					$and = "AND section = " . $db->quote($section) . " AND section_id = " . (int) $section_id . " ";
 				}
 				else
 				{
-					$and = "AND product_id='" . $section_id . "' ";
+					$and = "AND product_id = " . (int) $section_id . " ";
 				}
 			}
 
@@ -696,8 +706,8 @@ class rsstockroomhelper
 				if ($stockId[$i] != "" && $section_id != "" && $section_id != 0)
 				{
 					$query = 'UPDATE ' . $this->_table_prefix . $table . '_stockroom_xref '
-						. 'SET quantity=quantity + ' . $stock_Qty[$i] . ' '
-						. 'WHERE stockroom_id = ' . $stockId[$i] . ' '
+						. 'SET quantity = quantity + ' . (int) $stock_Qty[$i] . ' '
+						. 'WHERE stockroom_id = ' . (int) $stockId[$i] . ' '
 						. $and;
 					$db->setQuery($query);
 					$db->query();
@@ -749,21 +759,21 @@ class rsstockroomhelper
 			$query = "SELECT * FROM " . $this->_table_prefix . "stockroom_amount_image as sm LEFT JOIN "
 				. $this->_table_prefix . "product_stockroom_xref AS sx ON sx.stockroom_id=sm.stockroom_id LEFT JOIN "
 				. $this->_table_prefix . "stockroom AS s ON sx.stockroom_id=s.stockroom_id where  sx.quantity > 0 and sx.product_id= "
-				. $section_id;
+				. (int) $section_id;
 
-			$query1 = $query . " AND stock_option=2 AND stock_quantity='" . $stock_amount . "'";
+			$query1 = $query . " AND stock_option=2 AND stock_quantity = " . (int) $stock_amount . " ";
 			$db->setQuery($query1);
 			$list = $db->loadObjectList();
 
 			if (count($list) <= 0)
 			{
-				$query1 = $query . " AND stock_option=1 AND stock_quantity < '" . $stock_amount . "' ORDER BY stock_quantity DESC, s.max_del_time asc ";
+				$query1 = $query . " AND stock_option=1 AND stock_quantity < " . (int) $stock_amount . " ORDER BY stock_quantity DESC, s.max_del_time asc ";
 				$db->setQuery($query1);
 				$list = $db->loadObjectList();
 
 				if (count($list) <= 0)
 				{
-					$query1 = $query . " AND stock_option=3 AND stock_quantity > '" . $stock_amount . "' ORDER BY stock_quantity ASC , s.max_del_time asc ";
+					$query1 = $query . " AND stock_option=3 AND stock_quantity > " . (int) $stock_amount . " ORDER BY stock_quantity ASC , s.max_del_time asc ";
 					$db->setQuery($query1);
 					$list = $db->loadObjectList();
 				}
@@ -781,8 +791,8 @@ class rsstockroomhelper
 			$session_id = session_id();
 
 			$query = "SELECT SUM(qty) FROM " . $this->_table_prefix . "cart "
-				. "WHERE product_id='" . $section_id . "' "
-				. "AND section='" . $section . "' ";
+				. "WHERE product_id = " . (int) $section_id . " "
+				. "AND section = " . $db->quote($section);
 			$db->setQuery($query);
 			$count = intval($db->loadResult());
 
@@ -800,9 +810,9 @@ class rsstockroomhelper
 			$session_id = session_id();
 
 			$query = "SELECT SUM(qty) FROM " . $this->_table_prefix . "cart "
-				. "WHERE product_id='" . $section_id . "' "
-				. "AND session_id='" . $session_id . "' "
-				. "AND section='" . $section . "' ";
+				. "WHERE product_id = " . (int) $section_id . " "
+				. "AND session_id = " . $db->quote($session_id) . " "
+				. "AND section = " . $db->quote($section);
 			$db->setQuery($query);
 			$count = intval($db->loadResult());
 
@@ -820,7 +830,7 @@ class rsstockroomhelper
 			$time = time() - (CART_TIMEOUT * 60);
 
 			$query = "DELETE FROM " . $this->_table_prefix . "cart "
-				. "WHERE time < $time ";
+				. "WHERE time < " . $db->quote($time);
 			$db->setQuery($query);
 			$db->query();
 		}
@@ -838,11 +848,11 @@ class rsstockroomhelper
 
 			if ($section_id != 0)
 			{
-				$and .= "AND product_id='" . $section_id . "' AND section='" . $section . "' ";
+				$and .= "AND product_id = " . (int) $section_id . "' AND section = " . $db->quote($section) . " ";
 			}
 
 			$query = "DELETE FROM " . $this->_table_prefix . "cart "
-				. "WHERE session_id='" . $session_id . "' "
+				. "WHERE session_id = " . $db->quote($session_id) . " "
 				. $and;
 			$db->setQuery($query);
 			$db->query();
@@ -859,9 +869,9 @@ class rsstockroomhelper
 			$session_id = session_id();
 
 			$time = time();
-			$and = "AND session_id='" . $session_id . "' "
-				. "AND product_id='" . $section_id . "' "
-				. "AND section='" . $section . "' ";
+			$and = "AND session_id = " . $db->quote($session_id) . " "
+				. "AND product_id = " . (int) $section_id . " "
+				. "AND section = " . $db->quote($section) . " ";
 
 			$sql = "SELECT COUNT(*) FROM " . $this->_table_prefix . "cart "
 				. "WHERE 1=1 "
@@ -872,7 +882,7 @@ class rsstockroomhelper
 			if ($count)
 			{
 				$query = "UPDATE " . $this->_table_prefix . "cart "
-					. "SET qty='" . $quantity . "', time='" . $time . "' "
+					. "SET qty = " . (int) $quantity . ", time = " . $db->quote($time) . " "
 					. "WHERE 1=1 "
 					. $and;
 			}
@@ -880,7 +890,8 @@ class rsstockroomhelper
 			{
 				$query = "INSERT INTO " . $this->_table_prefix . "cart "
 					. "(session_id, product_id, qty, time, section) "
-					. "VALUES ('" . $session_id . "', '" . $section_id . "', '" . $quantity . "', '" . $time . "', '" . $section . "')";
+					. "VALUES (" . $db->quote($session_id) . ", " . (int) $section_id . ", " . (int) $quantity . ", " . $db->quote($time)
+					. ", " . $db->quote($section) . ")";
 			}
 
 			$db->setQuery($query);
@@ -893,6 +904,9 @@ class rsstockroomhelper
 	public function getStockroom($stockroom_id)
 	{
 		$db = JFactory::getDBO();
+		$stockroom_id = explode(',', $stockroom_id);
+		JArrayHelper::toInteger($stockroom_id);
+		$stockroom_id = implode(',', $stockroom_id);
 		$query = 'SELECT * FROM ' . $this->_table_prefix . 'stockroom WHERE stockroom_id in  (' . $stockroom_id . ') and published=1';
 		$db->setQuery($query);
 
@@ -905,6 +919,9 @@ class rsstockroomhelper
 	public function getStockroom_maxdelivery($stockroom_id)
 	{
 		$db = JFactory::getDBO();
+		$stockroom_id = explode(',', $stockroom_id);
+		JArrayHelper::toInteger($stockroom_id);
+		$stockroom_id = implode(',', $stockroom_id);
 		$query = 'SELECT max_del_time,delivery_time  FROM ' . $this->_table_prefix . 'stockroom WHERE stockroom_id in  ('
 			. $stockroom_id . ') and published=1 order by max_del_time desc';
 
