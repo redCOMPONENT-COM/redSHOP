@@ -160,6 +160,7 @@ class manufacturersModelmanufacturers extends JModel
 
 	public function _buildContentOrderBy()
 	{
+		$db  = JFactory::getDbo();
 		$app = JFactory::getApplication();
 		$layout  = $app->input->getCmd('layout', '');
 		$order_by = urldecode($app->input->getCmd('order_by', DEFAULT_MANUFACTURER_ORDERING_METHOD));
@@ -174,7 +175,7 @@ class manufacturersModelmanufacturers extends JModel
 			$filter_order = 'mn.manufacturer_id';
 		}
 
-		$orderby = " ORDER BY " . $filter_order . ' ';
+		$orderby = " ORDER BY " . $db->quote($filter_order) . ' ';
 
 		return $orderby;
 	}
@@ -301,6 +302,7 @@ class manufacturersModelmanufacturers extends JModel
 
 	public function _buildProductOrderBy($template_data = '')
 	{
+		$db  = JFactory::getDbo();
 		$app = JFactory::getApplication();
 		$order_by = urldecode($app->input->getCmd('order_by', DEFAULT_MANUFACTURER_PRODUCT_ORDERING_METHOD));
 
@@ -318,7 +320,7 @@ class manufacturersModelmanufacturers extends JModel
 			$filter_order = "c.ordering,c.category_id, " . $filter_order;
 		}
 
-		$orderby = " ORDER BY " . $filter_order . ' ';
+		$orderby = " ORDER BY " . $db->quote($filter_order) . ' ';
 
 		return $orderby;
 	}

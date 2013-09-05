@@ -411,7 +411,7 @@ class searchModelsearch extends JModel
 				. "AND p.expired=0 "
 				. "AND p.product_parent_id=0 "
 				. $whereaclProduct . $cat_array
-				. "order by " . $order_by;
+				. "ORDER BY " . $db->quote($order_by);
 		}
 		elseif ($layout == 'featuredproduct')
 		{
@@ -419,7 +419,7 @@ class searchModelsearch extends JModel
 				. "WHERE p.published = 1 "
 				. "AND p.product_special=1 "
 				. $whereaclProduct
-				. "order by " . $order_by;
+				. "ORDER BY " . $db->quote($order_by);
 		}
 		elseif ($layout == 'newproduct')
 		{
@@ -449,7 +449,7 @@ class searchModelsearch extends JModel
 				. "WHERE p.published = 1  "
 				. "and  p.publish_date BETWEEN " . $db->quote($days_before) . " AND " . $db->quote($today) . " AND p.expired = 0  AND p.product_parent_id = 0 "
 				. $whereaclProduct . $extracond
-				. "order by " . $order_by;
+				. "order by " . $db->quote($order_by);
 		}
 		elseif ($layout == 'redfilter')
 		{
@@ -464,7 +464,7 @@ class searchModelsearch extends JModel
 				$query .= "AND p.product_id IN ( " . $products . " )  ";
 			else
 				$query .= "AND p.product_id IN ( '" . $products . "' )  ";
-			$query .= "order by " . $order_by;
+			$query .= "order by " . $db->quote($order_by);
 		}
 		else
 		{
@@ -503,7 +503,7 @@ class searchModelsearch extends JModel
 
 			$query .= " AND " . $defaultSearchType
 				. " AND p.published = 1"
-				. " order by " . $order_by;
+				. " order by " . $db->quote($order_by);
 		}
 
 		return $query;
@@ -511,6 +511,8 @@ class searchModelsearch extends JModel
 
 	public function _buildContentOrderBy()
 	{
+		$db = JFactory::getDbo();
+
 		global $context;
 
 		$app = JFactory::getApplication();
@@ -518,7 +520,7 @@ class searchModelsearch extends JModel
 		$filter_order     = urldecode($app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'order_id'));
 		$filter_order_Dir = urldecode($app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', ''));
 
-		$orderby = ' ORDER BY ' . $filter_order . ' ' . $filter_order_Dir;
+		$orderby = ' ORDER BY ' . $db->quote($filter_order . ' ' . $filter_order_Dir);
 
 		return $orderby;
 	}
