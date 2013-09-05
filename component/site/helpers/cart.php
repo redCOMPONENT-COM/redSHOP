@@ -3876,7 +3876,7 @@ class rsCarthelper
 			{
 				$user  = JFactory::getUser();
 				$query = "SELECT subscription_id FROM " . $this->_table_prefix . "newsletter_subscription"
-					. " WHERE user_id='" . (int) $user->id . " AND email=" . $db->quote($user->email);
+					. " WHERE user_id=" . (int) $user->id . " AND email=" . $db->quote($user->email);
 				$this->_db->setQuery($query);
 				$subscribe = $this->_db->loadResult();
 
