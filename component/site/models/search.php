@@ -451,7 +451,8 @@ class searchModelsearch extends JModel
 			}
 
 			$query = " SELECT distinct p.* "
-				. " FROM " . $this->_table_prefix . "product p ," . $this->_table_prefix . "product_category_xref pcx "
+				. " FROM " . $this->_table_prefix . "product p "
+				. "LEFT JOIN " . $this->_table_prefix . "product_category_xref pcx ON pcx.product_id = p.product_id "
 				. "WHERE p.published = 1  "
 				. "and  p.publish_date BETWEEN " . $db->quote($days_before) . " AND " . $db->quote($today) . " AND p.expired = 0  AND p.product_parent_id = 0 "
 				. $whereaclProduct . $extracond
