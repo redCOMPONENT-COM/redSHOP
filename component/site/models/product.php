@@ -288,7 +288,7 @@ class productModelproduct extends JModel
 	{
 		$query = "UPDATE " . $this->_table_prefix . "product "
 			. "SET visited=visited + 1 "
-			. "WHERE product_id='" . (int) $product_id . "' ";
+			. "WHERE product_id = " . (int) $product_id;
 		$this->_db->setQuery($query);
 		$this->_db->Query();
 	}
