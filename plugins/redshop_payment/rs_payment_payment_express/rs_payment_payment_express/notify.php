@@ -53,7 +53,7 @@ if (isset($txid) && $tx_status == 'Completed')
 	if (orderPaymentNotYetUpdated($db, $order_id, $txid))
 	{
 		$query = "UPDATE #__redshop_orders set order_status = 'C' where order_id = " . $order_id;
-		$db->SetQuery($query);
+		$db->setQuery($query);
 		$db->Query();
 	}
 
@@ -65,7 +65,7 @@ function orderPaymentNotYetUpdated($dbConn, $order_id, $tid)
 	$db = JFactory::getDBO();
 	$res = false;
 	$query = "SELECT COUNT(*) `qty` FROM `#__redshop_order_payment` WHERE `order_id` = '" . $db->getEscaped($order_id) . "' and order_payment_trans_id = '" . $db->getEscaped($txid) . "'";
-	$db->SetQuery($query);
+	$db->setQuery($query);
 	$order_payment = $db->loadResult();
 
 	if ($order_payment == 0)

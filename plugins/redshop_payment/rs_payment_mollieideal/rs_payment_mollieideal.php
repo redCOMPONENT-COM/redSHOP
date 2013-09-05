@@ -271,7 +271,7 @@ class plgRedshop_paymentrs_payment_mollieideal extends JPlugin
 		if ($mideal->bankurl)
 		{
 			$query = "UPDATE " . $this->_table_prefix . "order_payment SET order_payment_number = '" . $order_id . "', order_payment_trans_id = '" . $mideal->transaction_id . "', order_payment_code = 0 where order_id = '" . $order_id . "'";
-			$db->SetQuery($query);
+			$db->setQuery($query);
 			$db->Query();
 			$form = '<b>Step 2 - ' . JText::_('COM_REDSHOP_MOLLIEIDEAL_STEP_HEADER') . ' <img src="http://www.mollie.nl/images/icons/ideal-25x22.gif" alt="" /></b><br /><br />' . JText::_('COM_REDSHOP_MOLLIEIDEAL_STEP2_DESCRIPTION') . '<br /><br />' .
 				'<button onclick="window.location = \'' . $mideal->bankurl . '\'; return false">' . JText::_('COM_REDSHOP_MOLLIEIDEAL_CONTINUEBUTTON') . '</button>';

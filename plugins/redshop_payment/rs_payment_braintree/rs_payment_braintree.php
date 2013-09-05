@@ -547,7 +547,7 @@ class plgRedshop_paymentrs_payment_braintree extends JPlugin
 		$db = JFactory::getDBO();
 
 		$query = "UPDATE `" . $this->_table_prefix . "users_info` SET `braintree_vault_number` = " . $user_vault_ref . "  WHERE `user_id` =" . $user_id . " AND address_type = 'BT'";
-		$db->SetQuery($query);
+		$db->setQuery($query);
 		$db->query();
 	}
 }
