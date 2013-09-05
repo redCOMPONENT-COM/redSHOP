@@ -80,7 +80,7 @@ class Account_shiptoModelaccount_shipto extends JModel
 	{
 		if ($users_info_id)
 		{
-			$query = 'SELECT * FROM ' . $this->_table_prefix . 'users_info WHERE users_info_id="' . $users_info_id . '" ';
+			$query = 'SELECT * FROM ' . $this->_table_prefix . 'users_info WHERE users_info_id = ' . (int) $users_info_id;
 			$this->_db->setQuery($query);
 			$list = $this->_db->loadObject();
 
@@ -89,7 +89,7 @@ class Account_shiptoModelaccount_shipto extends JModel
 
 		if (empty($this->_data))
 		{
-			$query = 'SELECT * FROM ' . $this->_table_prefix . 'users_info WHERE users_info_id="' . $this->_id . '" ';
+			$query = 'SELECT * FROM ' . $this->_table_prefix . 'users_info WHERE users_info_id = ' . (int) $this->_id;
 			$this->_db->setQuery($query);
 			$this->_data = $this->_db->loadObject();
 

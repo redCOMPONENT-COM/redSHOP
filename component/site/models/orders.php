@@ -49,7 +49,7 @@ class ordersModelorders extends JModel
 	{
 		$user  = JFactory::getUser();
 		$query = "SELECT * FROM  " . $this->_table_prefix . "orders "
-			. "WHERE user_id='" . $user->id . "' ";
+			. "WHERE user_id = " . (int) $user->id;
 
 		return $query;
 	}

@@ -39,8 +39,8 @@ class quotation_detailModelquotation_detail extends JModel
 	public function checkAuthorization($quoid, $encr)
 	{
 		$query = "SELECT COUNT(quotation_id) FROM " . $this->_table_prefix . "quotation "
-			. "WHERE quotation_id='" . $quoid . "' "
-			. "AND quotation_encrkey LIKE '" . $encr . "' ";
+			. "WHERE quotation_id = " . (int) $quoid . " "
+			. "AND quotation_encrkey LIKE " . $this->_db->quote($encr);
 		$this->_db->setQuery($query);
 		$record = $this->_db->loadResult();
 
