@@ -60,9 +60,9 @@ class Tableproduct_discount_calc extends JTable
 
 		$query = "SELECT *
 					FROM `" . $this->_table_prefix . "product_discount_calc`
-					WHERE product_id = " . $this->product_id . " AND (" . $converted_area_start . "
+					WHERE product_id = " . (int) $this->product_id . " AND (" . (int) $converted_area_start . "
 					BETWEEN `area_start_converted`
-					AND `area_end_converted` || " . $converted_area_end . "
+					AND `area_end_converted` || " . (int) $converted_area_end . "
 					BETWEEN `area_start_converted`
 					AND `area_end_converted` )";
 
