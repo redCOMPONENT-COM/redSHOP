@@ -165,6 +165,8 @@ class product_miniModelproduct_mini extends JModel
 
 	public function _buildContentOrderBy()
 	{
+		$db = JFactory::getDbo();
+
 		global $context;
 
 		$app = JFactory::getApplication();
@@ -172,7 +174,7 @@ class product_miniModelproduct_mini extends JModel
 		$filter_order     = urldecode($app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'product_id'));
 		$filter_order_Dir = urldecode($app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', ''));
 
-		$orderby = ' ORDER BY ' . $filter_order . ' ' . $filter_order_Dir;
+		$orderby = ' ORDER BY ' . $db->quote($filter_order . ' ' . $filter_order_Dir);
 
 		return $orderby;
 	}
