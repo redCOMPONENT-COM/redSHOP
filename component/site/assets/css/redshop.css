@@ -991,3 +991,39 @@ div.attribute_multiselect_single
 	min-height:20px;
 	clear:left;
 }
+
+.subscription_progress
+{
+	background-color: #F1F1F1;
+    border: 1px solid #CCCCCC;
+    border-radius: 5px 5px 5px 5px;
+    height: 30px;
+    width: 100%;
+}
+
+.subscription_progress_start
+{
+	background-color: green;
+	border-bottom-left-radius: 5px;
+    border-top-left-radius: 5px;
+    float: left;
+    height: 30px;
+}
+
+.subscription_progress_mid
+{
+	border-bottom-left-radius: 5px;
+    border-top-left-radius: 5px;
+	background-color: yellow;
+    float: left;
+    height: 30px;
+}
+
+.subscription_progress_end
+{
+	border-bottom-left-radius: 5px;
+    border-top-left-radius: 5px;
+	background-color: red;
+    float: left;
+    height: 30px;
+}

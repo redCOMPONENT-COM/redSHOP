@@ -452,6 +452,24 @@ class user_detailModeluser_detail extends JModel
 		return $query;
 	}
 
+	public function checkUserIsSubscriber()
+	{
+		$query = $this->_buildUserSubscriptionsQuery();
+		$list = $this->_getList($query, $this->getState('limitstart'), $this->getState('limit'));
+
+		return $list;
+	}
+
+	public function _buildUserSubscriptionsQuery()
+	{
+		$query =  " SELECT u.* , p.product_name, s.subscription_period, s.subscription_period_unit  FROM `".$this->_table_prefix."users_subscription` as u , `".$this->_table_prefix."product` as p ,  `".$this->_table_prefix."subscription` as s"
+				. " WHERE `user_id`='" . $this->_uid . "' "
+				. " AND u.subscription_id = s.subscription_id AND s.product_id = p.product_id"
+				. " ORDER BY end_date_subscription DESC ";
+
+		return $query;
+	}
+
 	public function getTotal()
 	{
 		if ($this->_id)

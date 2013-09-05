@@ -32,7 +32,7 @@ $stockroomhelper = new rsstockroomhelper;
 $redTemplate     = new Redtemplate;
 $config          = new Redconfiguration;
 $redhelper       = new redhelper;
-
+$objhelper		 = new redhelper;
 $template = $this->template;
 
 if (count($template) > 0 && $template->template_desc != "")
@@ -380,6 +380,53 @@ $template_desc = $producthelper->getProductOnSaleComment($this->data, $template_
  * NO : // OUTPUT : Display blank
  */
 $template_desc = $producthelper->getSpecialProductComment($this->data, $template_desc);
+
+/*
+ * Conditional tag
+ * if product is subscription : Yes
+ * {if product_is_subscription} This is a subscription product {product_is_subscription end if} // OUTPUT : This is a subscription product
+ * NO : // OUTPUT : Display blank
+ */
+$template_desc = $producthelper->getProductIsSubscription($this->data, $template_desc);
+
+if (strstr($template_desc, "{product_in_subscription_loop_start}") && strstr($template_desc, "{product_in_subscription_loop_end}"))
+{
+	$subtemplate_desc    = explode('{product_in_subscription_loop_start}', $template_desc);
+	$subheader           = $subtemplate_desc [0];
+	$subtemplate_desc    = explode('{product_in_subscription_loop_end}', $subtemplate_desc [1]);
+	$middletemplate_desc = $subtemplate_desc[0];
+}
+
+$sub_detail = "";
+
+$product_in_subscription = $model->getProductInSubscription($this->data->product_id);
+
+for ($i = 0; $i < count($product_in_subscription); $i++)
+{
+
+	$row               = & $product_in_subscription[$i];
+	$data_add          = $middletemplate_desc;
+	$cItemid           = $objhelper->getItemid($row->product_id);
+	if ($cItemid != "")
+	{
+		$tmpItemid = $cItemid;
+	}
+	else
+	{
+		$tmpItemid = $Itemid;
+	}
+	$link_buy_now      = JRoute::_('index.php?option=' . $option . '&view=product&pid=' . $row->product_id . '&Itemid=' . $tmpItemid);
+	$link_product_name = "<a href='$link_buy_now'>" . $row->product_name . "</a>";
+	$data_add          = str_replace("{product_in_subscription_name}", $link_product_name, $data_add);
+	$sub_detail       .= $data_add;
+	
+}
+
+$template_desc = str_replace($middletemplate_desc, $sub_detail, $template_desc);
+$template_desc = str_replace("{product_in_subscription_loop_start}", "", $template_desc);
+$template_desc = str_replace("{product_in_subscription_loop_end}", "", $template_desc);
+
+
 
 $manufacturerLink = "<a href='" . JRoute::_('index.php?option=com_redshop&view=manufacturers&layout=detail&mid=' . $this->data->manufacturer_id . '&Itemid=' . $Itemid) . "'>" . JText::_("COM_REDSHOP_VIEW_MANUFACTURER") . "</a>";
 $manufacturerPLink = "<a href='" . JRoute::_('index.php?option=com_redshop&view=manufacturers&layout=products&mid=' . $this->data->manufacturer_id . '&Itemid=' . $Itemid) . "'>" . JText::_("COM_REDSHOP_VIEW_ALL_MANUFACTURER_PRODUCTS") . " " . $this->data->manufacturer_name . "</a>";

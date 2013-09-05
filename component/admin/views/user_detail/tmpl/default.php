@@ -169,6 +169,16 @@ if ($this->pagination->limitstart > 0)
 		echo $myTabs->endPanel();
 	}
 
+	$check_user_is_subscriber = $this->model->checkUserIsSubscriber();
+
+	if ($this->detail->user_id && count($check_user_is_subscriber) > 0)
+	{
+		echo $myTabs->startPanel(JText::_('COM_REDSHOP_SUBSCRIPTION'), 'tab6');
+		echo $this->loadTemplate('subscriptions');
+		echo $myTabs->endPanel();
+	}
+
+
 	if ($this->lists['extra_field'] != "")
 	{
 		echo $myTabs->startPanel(JText::_('COM_REDSHOP_EXTRA_FIELD'), 'tab5');    ?>

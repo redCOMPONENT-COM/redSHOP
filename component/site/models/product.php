@@ -614,4 +614,23 @@ class productModelproduct extends JModel
 
 		return true;
 	}
+
+	public function getProductInSubscription($product_id)
+	{
+		$query = $this->_db->getQuery(true);
+		$query->select('s.subscription_applicable_products');
+		$query->from($this->_table_prefix . 'subscription as s');
+		$query->where("s.product_id = " . $product_id);
+		$this->_db->setQuery($query);
+		$array_product = $this->_db->loadResult();
+		$arr           = explode("|", $array_product);
+		$cids          = implode(",", $arr);
+		$query_x       = $this->_db->getQuery(true);
+		$query_x->select('p.product_name,p.product_id ');
+		$query_x->from($this->_table_prefix . 'product as p');
+		$query_x->where("p.product_id IN (" . $cids . ") ");
+		$this->_db->setQuery($query_x);
+
+		return $this->_db->loadObjectlist();
+	}
 }

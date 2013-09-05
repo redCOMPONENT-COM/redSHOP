@@ -35,7 +35,7 @@ if (count($ajaxdetal_template) > 0)
 	$ajaxdetal_templatedata = $ajaxdetal_template->template_desc;
 	$data_add               = $ajaxdetal_templatedata;
 	$data_add               = str_replace('{product_name}', $this->data->product_name, $data_add);
-
+	
 	if ($this->data->product_price != 0)
 		$data_add = str_replace('{product_price}', $this->data->product_price, $data_add);
 	else

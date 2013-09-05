@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 require_once JPATH_SITE . '/components/com_redshop/helpers/helper.php';
 require_once JPATH_SITE . '/components/com_redshop/helpers/product.php';
 require_once JPATH_SITE . '/components/com_redshop/helpers/extra_field.php';
+require_once JPATH_SITE . '/components/com_redshop/models/subscription.php';
 require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/order.php';
 require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/shipping.php';
 
@@ -3117,6 +3118,95 @@ class rsCarthelper
 				$cartArr[$i]['product_price']              = $product_price;
 			}
 		}
+
+		// Begin: Implement VietNam Team Code
+
+		$subscriptionModel = new SubscriptionModelsubscription;
+		$count             = $cartArr['idx'];
+
+		if ($count > 0)
+		{
+			$subs = array();
+
+			for ($pos = 0; $pos < $count; $pos ++)
+			{
+				$check_sub = $subscriptionModel->getSubscriptionData($cartArr[$pos]['product_id']);
+
+				if (count($check_sub) > 0)
+				{
+					$subs[] = $check_sub->subscription_id;
+				}
+			}
+
+			$subscription_of_user = $subscriptionModel->getDataDetail($user_id);
+
+			$subs_ex = array();
+
+			if (count($subscription_of_user) > 0)
+			{
+				for ($ex = 0; $ex < count($subscription_of_user); $ex++)
+				{
+					$subs_ex[] = $subscription_of_user[$ex]->subscription_id;
+				}
+			}
+
+			if (count($subs_ex) > 0 || count($subs) > 0)
+			{
+				$sub_collection = array_merge($subs_ex, $subs);
+				$sub_collection = array_unique($sub_collection);
+				sort($sub_collection);
+			}
+
+			if ((count($sub_collection) > 0) && $cartArr['idx'] > 1)
+			{
+				$stockroomhelper = new rsstockroomhelper;
+				$sum_total       = $cartArr['idx'];
+				$n               = 0;
+
+				for (; $n < $sum_total; $n++)
+				{
+					$check_product_in_subscription = 0;
+					$check_subscription_parent     = 0;
+					for ($h = 0; $h < count($sub_collection); $h++)
+					{
+						if($cartArr[$n]['product_id'] > 0)
+						{
+							$check_product_in_subscription = $subscriptionModel->checkProductInSubscription($sub_collection[$h], $cartArr[$n]['product_id']);
+
+							$check_sub_ex                  = $subscriptionModel->getSubscriptionData($cartArr[$n]['product_id']);
+
+							if (count($check_sub_ex) > 0)
+							{
+								$check_subscription_parent = $subscriptionModel->checkUpdateSubscription($sub_collection[$h], $check_sub_ex->subscription_id);
+							}
+						}	
+
+						if ($check_product_in_subscription > 0 || $check_subscription_parent > 0)
+						{
+							$stockroomhelper->deleteCartAfterEmpty($cartArr[$n]['product_id']);
+							unset($cartArr[$n]);
+							$Index = $cartArr['idx'] - 1;
+							$cartArr = array_merge(array(), $cartArr);
+							if ($Index > 0)
+							{
+								$cartArr['idx'] = $Index;
+								$sum_total      = $cartArr['idx'];
+								$n              = 0;
+							}
+							else
+							{
+								$cartArr        = array();
+								$cartArr['idx'] = 0;
+								$sum_total      = $cartArr['idx'];
+								$n              = 0;
+							}
+						}
+					}
+				}
+			}
+		}
+
+		// End
 
 		return $cartArr;
 	}

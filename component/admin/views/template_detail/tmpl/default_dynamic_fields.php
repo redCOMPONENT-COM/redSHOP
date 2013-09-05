@@ -133,7 +133,120 @@ if ($this->detail->template_section == "category")
 }
 //Category Template End
 
-//Giftcard Template Start
+
+// Subscription Overview Template Start
+if ($this->detail->template_section == "subscription_template_overview")
+{
+	$title = JText::_('COM_REDSHOP_SUBSCRIPTION_OVERVIEW_FIELDS');
+	echo $this->pane->startPanel($title, 'events');
+?>
+	<table class="adminlist">
+		<tr>
+			<td>
+				<?php
+				$tags_front = $extra_field->getSectionFieldList(1, 1);
+				$tags_admin = $extra_field->getSectionFieldList(1, 0);
+				$tags = array_merge((array) $tags_admin, (array) $tags_front);
+
+				if ( count($tags) == 0)
+				{
+					echo JText::_("COM_REDSHOP_NO_FIELDS_AVAILABLE");
+				}
+
+				for ($i = 0; $i < count($tags); $i++)
+				{
+					echo '<span style="margin-left:10px;">{' . $tags[$i]->field_name . '} -- ' . $tags[$i]->field_title . '</span>';
+				}    ?>
+			</td>
+		</tr>
+		<tr>
+			<td><?php echo JText::_('COM_REDSHOP_SUBSCRIPTION_OVERVIEW_TEMPLATE_HINT'); ?></td>
+		</tr>
+	</table>	
+	<?php
+	echo $this->pane->endPanel();
+	$subscription_template_overview_desc = $redtemplate->getInstallSectionTemplate("subscription_template_overview", $setflag = true);
+
+	if ( $subscription_template_overview_desc != "" )
+	{
+		echo $this->pane->startPanel($default_template, 'events');    ?>
+		<table class="adminlist">
+			<tr>
+				<td>
+					<?php echo $subscription_template_overview_desc;?>
+				</td>
+			</tr>
+		</table>
+		<?php
+		echo $this->pane->endPanel();
+	}
+
+}
+// Subscription Overview Template End
+
+// Subscription Detail Template Start
+if ($this->detail->template_section == "subscription_template_detail")
+{
+	$title = JText::_('COM_REDSHOP_SUBSCRIPTION_DETAIL_FIELDS');
+	echo $this->pane->startPanel($title, 'events');
+?>
+	<table class="adminlist">
+		<tr>
+			<td><?php echo JText::_('COM_REDSHOP_SUBSCRIPTION_DETAIL_TEMPLATE_HINT'); ?></td>
+		</tr>
+	</table>	
+	<?php
+	echo $this->pane->endPanel();
+	$subscription_template_detail_desc = $redtemplate->getInstallSectionTemplate("subscription_template_detail", $setflag = true);
+
+	if ( $subscription_template_detail_desc != "" )
+	{
+		echo $this->pane->startPanel($default_template, 'events');    ?>
+		<table class="adminlist">
+			<tr>
+				<td>
+					<?php echo $subscription_template_detail_desc;?>
+				</td>
+			</tr>
+		</table>
+		<?php
+		echo $this->pane->endPanel();
+	}
+}
+// Subscription Detail Template End
+
+// Subscription Download Template Start
+if ($this->detail->template_section == "subscription_template_download")
+{
+	$title = JText::_('COM_REDSHOP_SUBSCRIPTION_DOWNLOAD_FIELDS');
+	echo $this->pane->startPanel($title, 'events');
+?>
+	<table class="adminlist">
+		<tr>
+			<td><?php echo JText::_('COM_REDSHOP_SUBSCRIPTION_DOWNLOAD_TEMPLATE_HINT'); ?></td>
+		</tr>
+	</table>	
+	<?php
+	echo $this->pane->endPanel();
+	$subscription_template_download_desc = $redtemplate->getInstallSectionTemplate("subscription_template_download", $setflag = true);
+
+	if ( $subscription_template_download_desc != "" )
+	{
+		echo $this->pane->startPanel($default_template, 'events');    ?>
+		<table class="adminlist">
+			<tr>
+				<td>
+					<?php echo $subscription_template_download_desc;?>
+				</td>
+			</tr>
+		</table>
+		<?php
+		echo $this->pane->endPanel();
+	}
+}
+// Subscription Download Template End
+
+// Giftcard Template Start
 if ($this->detail->template_section == "giftcard")
 {
 	$title = JText::_('COM_REDSHOP_GIFTCARD_LIST_HINT');
@@ -287,6 +400,7 @@ if ($this->detail->template_section == "product")
 	}
 }
 //Product Template End
+
 //Product Sample Field Template Start
 if ($this->detail->template_section == "product_sample")
 {

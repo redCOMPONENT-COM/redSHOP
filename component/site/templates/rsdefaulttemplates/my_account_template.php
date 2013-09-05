@@ -139,6 +139,11 @@
 					</td>
 				</tr>
 				<tr>
+					<td>
+						<strong>{subscription_area_lbl}</strong><br />{subscription_plan} <br /> {subscription_download}
+					</td>
+				</tr>
+				<tr>
 					<td>{logout_link}</td>
 					<td>{tag_image}<strong>{tag_title}</strong><br/><br/>
 						<table border="0">

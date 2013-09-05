@@ -524,6 +524,7 @@ class Product_DetailViewProduct_Detail extends JView
 
 		$product_type_opt[] = JHTML::_('select.option', 'file', JText::_('COM_REDSHOP_FILE'));
 		$product_type_opt[] = JHTML::_('select.option', 'subscription', JText::_('COM_REDSHOP_SUBSCRIPTION'));
+		$product_type_opt[] = JHTML::_('select.option', 'newsubscription', JText::_('COM_REDSHOP_NEW_SUBSCRIPTION'));
 
 		if ($detail->product_download == 1)
 		{

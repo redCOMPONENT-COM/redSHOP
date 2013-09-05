@@ -42,3 +42,8 @@
 </div>
 <p>{question_loop_start}{question} - {question_owner} - {question_date}{answer_loop_start}{answer} - {answer_owner} -
 	{answer_date}{answer_loop_end}{question_loop_end}</p>
+<p>{if product_is_subscription} {product_in_subscription_loop_start}</p>
+<div class="product_subscription_name">{product_in_subscription_name}</div>
+<div class="product_subscription_file">{product_in_subscription_file}</div>
+<div class="product_subscription_category">{product_in_subscription_category}</div>
+<p>{product_in_subscription_loop_end} {product_is_subscription end if}</p>
