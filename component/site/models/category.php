@@ -393,6 +393,7 @@ class CategoryModelCategory extends JModel
 
 	public function _buildProductOrderBy()
 	{
+		$db       = JFactory::getDbo();
 		$app      = JFactory::getApplication();
 		$params   = $app->getParams("com_redshop");
 		$menu     = $app->getMenu();
@@ -408,7 +409,7 @@ class CategoryModelCategory extends JModel
 			$value = (isset($item)) ? $item->params->get('order_by', 'p.product_name ASC') : DEFAULT_PRODUCT_ORDERING_METHOD;
 		}
 
-		$orderby = " ORDER BY " . $value;
+		$orderby = " ORDER BY " . $db->quote($value);
 
 		return $orderby;
 	}

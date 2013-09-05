@@ -371,13 +371,21 @@ class searchModelsearch extends JModel
 
 		if ($shopper_group_manufactures != "")
 		{
-			$whereaclProduct .= " AND p.manufacturer_id IN (" . $shopper_group_manufactures . ") ";
+			// Sanitize ids
+			$manufacturerIds = explode(',', $shopper_group_manufactures);
+			JArrayHelper::toInteger($manufacturerIds);
+
+			$whereaclProduct .= " AND p.manufacturer_id IN (" . implode(',', $manufacturerIds) . ") ";
 		}
 
 		// Shopper group - choose from manufactures End
 		if ($aclProducts != "")
 		{
-			$whereaclProduct .= " AND p.product_id IN (" . $aclProducts . ")  ";
+			// Sanitize ids
+			$productIds = explode(',', $aclProducts);
+			JArrayHelper::toInteger($productIds);
+
+			$whereaclProduct .= " AND p.product_id IN (" . implode(',', $productIds) . ")  ";
 		}
 
 		if ($layout == 'productonsale')
@@ -398,9 +406,8 @@ class searchModelsearch extends JModel
 
 				$cat_group_main[] = $categoryid;
 				JArrayHelper::toInteger($cat_group_main);
-				$cat_group_main   = join(',', $cat_group_main);
 
-				$cat_array = " AND pcx.category_id in (" . $cat_group_main . ") AND pcx.product_id=p.product_id ";
+				$cat_array = " AND pcx.category_id IN (" . implode(',', $cat_group_main) . ") AND pcx.product_id=p.product_id ";
 				$left_join = " LEFT JOIN " . $this->_table_prefix . "product_category_xref pcx ON pcx.product_id=p.product_id ";
 			}
 
@@ -411,7 +418,7 @@ class searchModelsearch extends JModel
 				. "AND p.expired=0 "
 				. "AND p.product_parent_id=0 "
 				. $whereaclProduct . $cat_array
-				. "order by " . $order_by;
+				. "ORDER BY " . $db->quote($order_by);
 		}
 		elseif ($layout == 'featuredproduct')
 		{
@@ -419,7 +426,7 @@ class searchModelsearch extends JModel
 				. "WHERE p.published = 1 "
 				. "AND p.product_special=1 "
 				. $whereaclProduct
-				. "order by " . $order_by;
+				. "ORDER BY " . $db->quote($order_by);
 		}
 		elseif ($layout == 'newproduct')
 		{
@@ -435,13 +442,12 @@ class searchModelsearch extends JModel
 
 			$cat_group_main[] = $catid;
 			JArrayHelper::toInteger($cat_group_main);
-			$cat_group_main   = join(',', $cat_group_main);
 
 			$extracond = "";
 
 			if ($catid)
 			{
-				$extracond = " AND pcx.category_id in (" . $cat_group_main . ") AND pcx.product_id=p.product_id ";
+				$extracond = " AND pcx.category_id in (" . implode(',', $cat_group_main) . ") AND pcx.product_id=p.product_id ";
 			}
 
 			$query = " SELECT distinct p.* "
@@ -449,7 +455,7 @@ class searchModelsearch extends JModel
 				. "WHERE p.published = 1  "
 				. "and  p.publish_date BETWEEN " . $db->quote($days_before) . " AND " . $db->quote($today) . " AND p.expired = 0  AND p.product_parent_id = 0 "
 				. $whereaclProduct . $extracond
-				. "order by " . $order_by;
+				. "order by " . $db->quote($order_by);
 		}
 		elseif ($layout == 'redfilter')
 		{
@@ -461,17 +467,24 @@ class searchModelsearch extends JModel
 				. "WHERE p.published = 1 AND p.expired = 0 " . $whereaclProduct;
 
 			if ($products != "")
-				$query .= "AND p.product_id IN ( " . $products . " )  ";
-			else
-				$query .= "AND p.product_id IN ( '" . $products . "' )  ";
-			$query .= "order by " . $order_by;
+			{
+				// Sanitize ids
+				$productIds = explode(',', $products);
+				JArrayHelper::toInteger($productIds);
+
+				$query .= "AND p.product_id IN ( " . implode(',', $productIds) . " )  ";
+			}
+
+			$query .= "order by " . $db->quote($order_by);
 		}
 		else
 		{
 			if ($manufacture_id == 0)
 			{
 				if (!empty($manudata['manufacturer_id']))
+				{
 					$manufacture_id = $manudata['manufacturer_id'];
+				}
 			}
 
 			$query = "SELECT distinct p.* "
@@ -493,6 +506,10 @@ class searchModelsearch extends JModel
 
 			if ($category_id != 0)
 			{
+				// Sanitize ids
+				$catIds = explode(',', $cat_group);
+				JArrayHelper::toInteger($catIds);
+
 				$query .= " AND pcx.category_id in (" . $cat_group . ")";
 			}
 
@@ -503,7 +520,7 @@ class searchModelsearch extends JModel
 
 			$query .= " AND " . $defaultSearchType
 				. " AND p.published = 1"
-				. " order by " . $order_by;
+				. " order by " . $db->quote($order_by);
 		}
 
 		return $query;
@@ -511,6 +528,8 @@ class searchModelsearch extends JModel
 
 	public function _buildContentOrderBy()
 	{
+		$db = JFactory::getDbo();
+
 		global $context;
 
 		$app = JFactory::getApplication();
@@ -518,7 +537,7 @@ class searchModelsearch extends JModel
 		$filter_order     = urldecode($app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'order_id'));
 		$filter_order_Dir = urldecode($app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', ''));
 
-		$orderby = ' ORDER BY ' . $filter_order . ' ' . $filter_order_Dir;
+		$orderby = ' ORDER BY ' . $db->quote($filter_order . ' ' . $filter_order_Dir);
 
 		return $orderby;
 	}
@@ -641,7 +660,9 @@ class searchModelsearch extends JModel
 			for ($i = 0; $i < count($main_sal_type); $i++)
 			{
 				if ($i != 0)
+				{
 					$q .= " LEFT JOIN #__redproductfinder_association_tag AS t" . $i . " ON t" . $i . ".association_id=ta.association_id ";
+				}
 			}
 
 			$q .= "where ( ";
@@ -653,19 +674,28 @@ class searchModelsearch extends JModel
 
 				// Search for checkboxes
 				if ($i != 0)
+				{
 					$chk_q .= "t" . $i . ".tag_id='" . (int) $main_sal_tag[$i] . "' ";
+				}
 				else
+				{
 					$chk_q .= "ta.tag_id='" . (int) $main_sal_tag[$i] . "' ";
+				}
 
 				if ($chk_q != "")
+				{
 					$dep_cond[] = " ( " . $chk_q . " ) ";
+				}
 			}
 
 			if (count($dep_cond) <= 0)
+			{
 				$dep_cond[] = "1=1";
+			}
+
 			$q .= implode(" AND ", $dep_cond);
 
-			$q .= ") AND p.published = '1' AND x.category_id='" . JRequest::getInt('cid', 0) . "' order by p.product_name ";
+			$q .= ") AND p.published = '1' AND x.category_id = " . (int) JRequest::getInt('cid', 0) . " order by p.product_name ";
 			$product = $this->_getList($q);
 
 			for ($i = 0; $i < count($product); $i++)
@@ -765,7 +795,13 @@ class searchModelsearch extends JModel
 			AND j.type_id = " . (int) $id . "  ";
 
 				if ($productids != "")
-					$q .= " AND ra.product_id  IN ( " . $productids . " ) ";
+				{
+					// Sanitize ids
+					$productIds = explode(',', $productids);
+					JArrayHelper::toInteger($productIds);
+
+					$q .= " AND ra.product_id  IN ( " . implode(',', $productIds) . " ) ";
+				}
 				$q .= " GROUP BY t.id ORDER BY t.ordering  ";
 
 				$tags = $this->_getList($q);
@@ -974,9 +1010,6 @@ class searchModelsearch extends JModel
 			{
 				$products[] = $product[$i]->product_id;
 			}
-
-			JArrayHelper::toInteger($products);
-			$productids = implode(",", $products);
 		}
 
 		$q = "SELECT DISTINCT j.tag_id AS tagid,ra.product_id,count(ra.product_id) AS ptotal, "
@@ -989,7 +1022,10 @@ class searchModelsearch extends JModel
 
 		if ($productids != "")
 		{
-			$q .= " AND ra.product_id IN (" . $productids . ") ";
+			// Sanitize ids
+			JArrayHelper::toInteger($products);
+
+			$q .= " AND ra.product_id IN (" . implode(",", $products) . ") ";
 		}
 
 		$q .= " GROUP BY t.id ORDER BY t.ordering ";
@@ -1016,14 +1052,16 @@ class searchModelsearch extends JModel
 		for ($i = 0; $i < count($manufacturer); $i++)
 		{
 			if ($manufacturer[$i]->manufacturer_id > 0)
+			{
 				$mids[] = $manufacturer[$i]->manufacturer_id;
+			}
 		}
 
+		// Sanitize ids
 		JArrayHelper::toInteger($mids);
-		$mid = implode(",", $mids);
 
 		$query = "SELECT manufacturer_id AS value,manufacturer_name AS text FROM " . $this->_table_prefix . "manufacturer "
-			. "WHERE manufacturer_id IN ('" . $mid . "')";
+			. "WHERE manufacturer_id IN ('" . implode(",", $mids). "')";
 		$db->setQuery($query);
 
 		return $db->loadObjectList();
