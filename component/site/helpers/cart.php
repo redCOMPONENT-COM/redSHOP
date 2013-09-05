@@ -3774,8 +3774,6 @@ class rsCarthelper
 
 	public function replaceTermsConditions($template_desc = "", $Itemid = 1)
 	{
-		$db = JFactory::getDbo();
-
 		if (strstr($template_desc, "{terms_and_conditions"))
 		{
 			$user    = JFactory::getUser();
@@ -3786,16 +3784,16 @@ class rsCarthelper
 			if ($user->id)
 			{
 				$query = "SELECT u.* FROM " . $this->_table_prefix . "users_info AS u "
-					. "WHERE u.user_id=" . (int) $user->id
-					. " AND address_type='BT' ";
+					. "WHERE u.user_id='" . $user->id . "' "
+					. "AND address_type='BT' ";
 				$this->_db->setQuery($query);
 				$list = $this->_db->loadObject();
 			}
 			elseif (isset($auth['users_info_id']) && $auth['users_info_id'] > 0)
 			{
 				$query = "SELECT u.* FROM " . $this->_table_prefix . "users_info AS u "
-					. "WHERE u.users_info_id=" . (int) $auth['users_info_id']
-					. " AND address_type='BT' ";
+					. "WHERE u.users_info_id='" . $auth['users_info_id'] . "' "
+					. "AND address_type='BT' ";
 				$this->_db->setQuery($query);
 				$list = $this->_db->loadObject();
 			}
@@ -3885,6 +3883,7 @@ class rsCarthelper
 					if ($onchange)
 					{
 						$link = " onchange='window.location.href=\"" . JUri::root() . "index.php?option=com_redshop&view=account&task=newsletterSubscribe&tmpl=component&Itemid=" . $Itemid . "\"";
+
 					}
 
 					$newslettersignup     = "<input type='checkbox' name='newsletter_signup' value='1' '$link'>";
@@ -4416,8 +4415,8 @@ class rsCarthelper
 			. "left join " . $this->_table_prefix . "product_voucher as v on v.voucher_id = pv.voucher_id "
 			. " \nWHERE v.published = 1"
 			. " AND v.voucher_code=" . $db->quote($voucher_code)
-			. " AND ((v.start_date<=" . $db->quote($current_time) . " and v.end_date>=" . $db->quote($current_time) . ")"
-			. " OR ( v.start_date =0 AND v.end_date = 0) ) and v.voucher_left>0 limit 0,1";
+			. " AND ((v.start_date<=" . $db->quote($current_time) . " AND v.end_date>=" . $db->quote($current_time) . ")"
+			. " OR ( v.start_date =0 AND v.end_date = 0) ) AND v.voucher_left>0 limit 0,1";
 		$this->_db->setQuery($query);
 		$voucher = $this->_db->loadObject();
 
@@ -4858,7 +4857,7 @@ class rsCarthelper
 		if ($user->id <= 0)
 			return false;
 
-		$query = "SELECT cart_id FROM " . $this->_table_prefix . "usercart WHERE user_id=" . (int) $user->id;
+		$query = "SELECT cart_id FROM " . $this->_table_prefix . "usercart WHERE user_id='" . $user->id . "'";
 		$this->_db->setQuery($query);
 		$cart_id = $this->_db->loadResult();
 
@@ -5006,6 +5005,11 @@ class rsCarthelper
 	 */
 	public function removecartfromdb($cart_id = 0, $userid = 0, $delCart = false)
 	{
+		/*if($cart_id==0)
+		{
+			return false;
+		}*/
+
 		if ($userid == 0)
 		{
 			$user   = JFactory::getUser();
