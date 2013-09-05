@@ -53,15 +53,17 @@ class Redtemplate
 
 		if ($tid != 0)
 		{
+			$tid = explode(',', $tid);
+			JArrayHelper::toInteger($tid);
+			$tid = implode(',', $tid);
 			$and = "AND template_id IN (" . $tid . ") ";
 		}
 
-		$and .= ($name != "") ? " AND template_name = '" . $name . "'" : "";
+		$and .= ($name != "") ? " AND template_name = " . $db->quote($name) . " " : "";
 
 		$query = "SELECT * "
 			. "FROM #__redshop_template "
-			. "WHERE template_section "
-			. "LIKE '" . $section . "' AND published=1 "
+			. "WHERE template_section = " . $db->quote($section) . " AND published = 1 "
 			. $and
 			. "ORDER BY template_id ASC ";
 		$db->setQuery($query);
