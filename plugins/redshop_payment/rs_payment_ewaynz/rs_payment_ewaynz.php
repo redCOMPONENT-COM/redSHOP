@@ -76,7 +76,7 @@ class plgRedshop_paymentrs_payment_ewaynz extends JPlugin
 		$db = JFactory::getDBO();
 		$res = false;
 		$query = "SELECT COUNT(*) FROM " . $this->_table_prefix . "order_payment WHERE `order_id` = '" . $db->getEscaped($order_id) . "' and order_payment_trans_id = '" . $db->getEscaped($tid) . "'";
-		$db->SetQuery($query);
+		$db->setQuery($query);
 		$order_payment = $db->loadResult();
 
 		if ($order_payment == 0)
