@@ -223,7 +223,7 @@ class producthelper
 		}
 
 		// Secure category ids
-		if ($catIds = eplode(',', $categoryProduct))
+		if ($catIds = explode(',', $categoryProduct))
 		{
 			JArrayHelper::toInteger($catIds);
 		}
