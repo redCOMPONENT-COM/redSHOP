@@ -38,7 +38,7 @@ class checkoutViewcheckout extends JView
 			$session->set('issplit', $issplit);
 		}
 
-		$payment_method_id = JRequest::getCmd('payment_method_id');
+		$payment_method_id = JRequest::getInt('payment_method_id');
 		$users_info_id     = JRequest::getInt('users_info_id');
 		$auth              = $session->get('auth');
 
