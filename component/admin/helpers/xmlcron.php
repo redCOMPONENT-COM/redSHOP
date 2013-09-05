@@ -63,7 +63,7 @@ class xmlcron
 		{
 			$db = JFactory::getDBO();
 			$query = "SELECT * FROM " . $this->_table_prefix . "xml_export_log AS xl "
-				. "WHERE xl.xmlexport_id='" . $exportlist[$i]->xmlexport_id . "' "
+				. "WHERE xl.xmlexport_id = " . (int) $exportlist[$i]->xmlexport_id . " "
 				. "ORDER BY xl.xmlexport_date DESC ";
 			$db->setQuery($query);
 			$lastrs = $db->loadObject();
@@ -99,7 +99,7 @@ class xmlcron
 		{
 			$db = JFactory::getDBO();
 			$query = "SELECT * FROM " . $this->_table_prefix . "xml_import_log AS xl "
-				. "WHERE xl.xmlimport_id='" . $importlist[$i]->xmlimport_id . "' "
+				. "WHERE xl.xmlimport_id = " . (int) $importlist[$i]->xmlimport_id . "' "
 				. "ORDER BY xl.xmlimport_date DESC ";
 			$db->setQuery($query);
 			$lastrs = $db->loadObject();
