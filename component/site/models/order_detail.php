@@ -36,8 +36,8 @@ class Order_detailModelOrder_detail extends JModel
 
 	public function checkauthorization($oid, $encr)
 	{
-		$query = "SELECT count(order_id) FROM  " . $this->_table_prefix . "orders WHERE order_id = '"
-			. (int) $oid . "' AND encr_key like " . $this->_db->quote($encr);
+		$query = "SELECT count(order_id) FROM  " . $this->_table_prefix . "orders WHERE order_id = "
+			. (int) $oid . " AND encr_key like " . $this->_db->quote($encr);
 		$this->_db->setQuery($query);
 		$order_detail = $this->_db->loadResult();
 
@@ -51,7 +51,7 @@ class Order_detailModelOrder_detail extends JModel
 	 */
 	public function UpdateAnalytics_status($oid)
 	{
-		$query = "UPDATE  " . $this->_table_prefix . "orders SET `analytics_status` = 1 WHERE order_id = '" . (int) $oid . "'";
+		$query = "UPDATE  " . $this->_table_prefix . "orders SET `analytics_status` = 1 WHERE order_id = " . (int) $oid;
 		$this->_db->setQuery($query);
 
 		if (!$this->_db->Query())

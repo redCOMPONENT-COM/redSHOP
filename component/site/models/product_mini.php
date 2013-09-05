@@ -117,6 +117,8 @@ class product_miniModelproduct_mini extends JModel
 	{
 		global $context;
 
+		$query = null;
+
 		$app = JFactory::getApplication();
 
 		$orderby      = $this->_buildContentOrderBy();
@@ -144,14 +146,7 @@ class product_miniModelproduct_mini extends JModel
 			$limit = " LIMIT " . (int) $this->getState('limitstart') . "," . (int) $this->getState('limit');
 		}
 
-		if ($where == '')
-		{
-			$query = "SELECT distinct(p.product_id),p.* FROM " . $this->_table_prefix . "product AS p "
-				. "WHERE 1=1 "
-				. $orderby
-				. $limit;
-		}
-		else
+		if ($where != '')
 		{
 			$query = 'SELECT distinct(p.product_id),p.*, x.ordering , x.category_id FROM ' . $this->_table_prefix . 'product p '
 				. 'LEFT JOIN ' . $this->_table_prefix . 'product_category_xref x ON x.product_id = p.product_id '
@@ -165,6 +160,8 @@ class product_miniModelproduct_mini extends JModel
 
 	public function _buildContentOrderBy()
 	{
+		$db = JFactory::getDbo();
+
 		global $context;
 
 		$app = JFactory::getApplication();
@@ -172,7 +169,7 @@ class product_miniModelproduct_mini extends JModel
 		$filter_order     = urldecode($app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'product_id'));
 		$filter_order_Dir = urldecode($app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', ''));
 
-		$orderby = ' ORDER BY ' . $filter_order . ' ' . $filter_order_Dir;
+		$orderby = ' ORDER BY ' . $db->quote($filter_order . ' ' . $filter_order_Dir);
 
 		return $orderby;
 	}

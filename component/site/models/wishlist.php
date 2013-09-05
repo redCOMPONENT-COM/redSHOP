@@ -78,21 +78,24 @@ class wishlistModelwishlist extends JModel
 		}
 		else
 		{
-			$prod_id = "";
+			$productIds = array();
 			$rows    = array();
 
 			if (isset($_SESSION["no_of_prod"]))
 			{
 				for ($add_i = 1; $add_i < $_SESSION["no_of_prod"]; $add_i++)
 				{
-					$prod_id .= (int) $_SESSION['wish_' . $add_i]->product_id . ",";
+					$productIds[] = (int) $_SESSION['wish_' . $add_i]->product_id;
 				}
 
-				$prod_id .= (int) $_SESSION['wish_' . $add_i]->product_id;
+				$productIds[] = $prod_id .= (int) $_SESSION['wish_' . $add_i]->product_id;
+
+				// Sanitize ids
+				JArrayHelper::toInteger($productIds);
 
 				$sql = "SELECT DISTINCT p.* "
 					. "FROM #__redshop_product as p "
-					. "WHERE p.product_id in( " . $prod_id . ")";
+					. "WHERE p.product_id IN( " . implode(',', $productIds) . ")";
 				$db->setQuery($sql);
 				$rows = $db->loadObjectList();
 			}
@@ -107,21 +110,26 @@ class wishlistModelwishlist extends JModel
 		$prod_id = "";
 		$rows    = array();
 
+		$productIds = array();
+
 		if (isset($_SESSION["no_of_prod"]))
 		{
 			for ($add_i = 1; $add_i <= $_SESSION["no_of_prod"]; $add_i++)
 
 				if ($_SESSION['wish_' . $add_i]->product_id != '')
 				{
-					$prod_id .= (int) $_SESSION['wish_' . $add_i]->product_id . ",";
+					$productIds[] = (int) $_SESSION['wish_' . $add_i]->product_id;
 				}
 
 
-			$prod_id .= (int) $_SESSION['wish_' . $add_i]->product_id;
+			$productIds[] = (int) $_SESSION['wish_' . $add_i]->product_id;
+
+			// Sanitize ids
+			JArrayHelper::toInteger($productIds);
 
 			$sql = "SELECT DISTINCT p.* "
 				. "FROM #__redshop_product as p "
-				. "WHERE p.product_id in( " . substr_replace($prod_id, "", -1) . ")";
+				. "WHERE p.product_id IN( " . implode(',', $productIds) . ")";
 			$db->setQuery($sql);
 			$rows = $db->loadObjectList();
 		}
