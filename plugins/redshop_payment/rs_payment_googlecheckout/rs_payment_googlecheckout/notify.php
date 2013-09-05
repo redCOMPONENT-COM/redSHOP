@@ -131,7 +131,7 @@ $db = JFactory::getDBO();
 if (!isset ($order_id))
 {
 	$query = "SELECT order_id FROM #__redshop_order_payment WHERE order_payment_trans_id = '" . $google_order_id . "'";
-	$db->SetQuery($query);
+	$db->setQuery($query);
 	$order_id = $db->loadResult();
 }
 
