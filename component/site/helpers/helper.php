@@ -77,12 +77,14 @@ class redhelper
 
 	public function getPlugins($folder = 'redshop')
 	{
+		$db = JFactory::getDbo();
+
 		$query = "SELECT * FROM #__extensions "
 			. "WHERE  enabled = '1' "
 			. "AND LOWER(`folder`) = " . $db->quote(strtolower($folder)) . " "
 			. "ORDER BY ordering ASC ";
-		$this->_db->setQuery($query);
-		$data = $this->_db->loadObjectList();
+		$db->setQuery($query);
+		$data = $db->loadObjectList();
 
 		return $data;
 	}
