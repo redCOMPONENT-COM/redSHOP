@@ -108,7 +108,7 @@ class redhelper
 		$query = "SELECT COUNT(*) `qty` FROM `" . $this->_table_prefix . "order_payment` "
 			. "WHERE `order_id` = " . (int) $db->getEscaped($order_id) . " "
 			. "AND order_payment_trans_id = " . $db->quote($tid);
-		$db->SetQuery($query);
+		$db->setQuery($query);
 		$order_payment = $db->loadResult();
 
 		if ($order_payment == 0)
