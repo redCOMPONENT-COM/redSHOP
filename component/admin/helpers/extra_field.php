@@ -624,11 +624,13 @@ class extra_field
 	public function extra_field_save($data, $field_section, $section_id = "", $user_email = "")
 	{
 		$option = JRequest::getVar('option');
+
+		// Sanitize ids
 		$field_section = explode(',', $field_section);
 		JArrayHelper::toInteger($field_section);
-		$field_section = implode(',', $field_section);
+
 		$q = "SELECT * FROM " . $this->_table_prefix . "fields "
-			. "WHERE field_section IN (" . $field_section . ") "
+			. "WHERE field_section IN (" . implode(',', $field_section) . ") "
 			. "AND published=1 ";
 		$this->_db->setQuery($q);
 		$row_data = $this->_db->loadObjectlist();
