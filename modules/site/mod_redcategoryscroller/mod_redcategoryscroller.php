@@ -205,7 +205,7 @@ if (!class_exists('redcategoryScroller'))
 		{
 			global $mosConfig_absolute_path;
 
-			$database = JFactory::getDBO();
+			$database = JFactory::getDbo();
 
 			$cnt = 0;
 			if ($this->ScrollCSSOverride == 'yes')
@@ -298,7 +298,7 @@ if (!class_exists('redcategoryScroller'))
 			}
 
 
-			$database = JFactory::getDBO();
+			$database = JFactory::getDbo();
 
 			if ($limit > 0)
 			{

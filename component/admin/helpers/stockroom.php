@@ -363,7 +363,6 @@ class rsstockroomhelper
 			$db->setQuery($query);
 			$pre_order_stock = $db->loadObjectList();
 
-
 			if ($pre_order_stock[0]->ordered_preorder == $pre_order_stock[0]->preorder_stock
 				|| $pre_order_stock[0]->ordered_preorder > $pre_order_stock[0]->preorder_stock)
 			{

@@ -42,7 +42,7 @@ define('BASE_PATH', "../assets/images/");
 include JPATH_SITE . '/administrator/components/com_redshop/helpers/redshop.cfg.php';
 
 $tracker_id = @basename(urldecode($_REQUEST['tracker_id']));
-$db         = JFactory::getDBO();
+$db         = JFactory::getDbo();
 $query      = "UPDATE `#__redshop_newsletter_tracker` SET `read` = '1' WHERE tracker_id = " . (int) $tracker_id;
 $db->setQuery($query);
 $db->query();

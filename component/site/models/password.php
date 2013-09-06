@@ -25,7 +25,7 @@ class passwordModelpassword extends JModel
 	public function __construct()
 	{
 		parent::__construct();
-		$this->_db = JFactory::getDBO();
+		$this->_db = JFactory::getDbo();
 	}
 
 	public function resetpassword($data)

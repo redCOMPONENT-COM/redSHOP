@@ -208,7 +208,7 @@ if (!defined('CLASS_DG'))
 
 	function create_smart_xml_files($params)
 	{
-		$database  = JFactory::getDBO();
+		$database  = JFactory::getDbo();
 		$cat_id    = trim($params->get('category_id', '0'));
 		$id        = explode(",", $cat_id);
 		$load_curr = trim($params->get('load_curr', '1'));
@@ -383,7 +383,7 @@ if (!defined('CLASS_DG'))
 		$cat_id = implode(", ", $catid_arr);
 
 		global $mosConfig_absolute_path, $sess;
-		$database = JFactory::getDBO();
+		$database = JFactory::getDbo();
 
 		$ret_array = array(
 						'flag' => false,

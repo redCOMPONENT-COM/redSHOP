@@ -24,7 +24,7 @@ class shipping_rate_detailViewshipping_rate_detail extends JView
 		$userhelper = new rsUserhelper;
 		$uri = JFactory::getURI();
 		$model = $this->getModel();
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 
 		$id = $app->getUserStateFromRequest($context . 'extension_id', 'extension_id', '0');
 		$shipping = $shippinghelper->getShippingMethodById($id);

@@ -12,7 +12,7 @@ defined('_JEXEC') or die('Restricted access');
 $Itemid = JRequest::getVar('Itemid');
 $user = JFactory::getUser();
 
-$document = JFactory :: getDocument();
+$document = JFactory::getDocument();
 include_once("modules/mod_redshop_who_bought/assets/css/skin.css.php");
 JHTML::Script('jquery-1.4.2.min.js', 'components/com_redshop/assets/js/', false);
 JHTML::Script('query.jcarousel.min.js', 'modules/mod_redshop_who_bought/assets/js/', false);

@@ -228,7 +228,7 @@ class product_containerModelproduct_container extends JModel
 
 	public function getmanufacturelist($name = 'manufacturelist', $selected = '', $attributes = ' class="inputbox" size="1" ')
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 
 		$query = "SELECT manufacturer_id AS value, manufacturer_name AS text"
 			. "\n FROM " . $this->_table_prefix . "manufacturer  where published = '1'";
@@ -243,7 +243,7 @@ class product_containerModelproduct_container extends JModel
 
 	public function getsupplierlist($name = 'supplierlist', $selected = '', $attributes = ' class="inputbox" size="1" ')
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 
 		// Get list of Groups for dropdown filter
 		$query = "SELECT supplier_id AS value, supplier_name AS text"
@@ -259,7 +259,7 @@ class product_containerModelproduct_container extends JModel
 
 	public function getcontainerlist($name = 'containerlist', $selected = '', $attributes = ' class="inputbox" size="1" ')
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 
 		// Get list of Groups for dropdown filter
 		$query = "SELECT container_id AS value, container_name AS text"

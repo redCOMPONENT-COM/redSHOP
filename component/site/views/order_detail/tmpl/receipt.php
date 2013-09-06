@@ -22,7 +22,7 @@ $producthelper = new producthelper;
 $order_functions = new order_functions;
 $redhelper = new redhelper;
 
-$db = JFactory::getDBO();
+$db = JFactory::getDbo();
 $url = JURI::base();
 $Itemid = $redhelper->getCheckoutItemid();
 $order_id = JRequest::getInt('oid');

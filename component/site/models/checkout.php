@@ -181,7 +181,7 @@ class CheckoutModelCheckout extends JModel
 			$user->id = - $auth['users_info_id'];
 		}
 
-		$db      = JFactory::getDBO();
+		$db      = JFactory::getDbo();
 		$issplit = $session->get('issplit');
 		$url     = JURI::root();
 
@@ -427,7 +427,7 @@ class CheckoutModelCheckout extends JModel
 		$row->shop_id            = $shop_id;
 		$row->customer_message   = $customer_message;
 		$row->referral_code      = $referral_code;
-		$db                      = JFactory::getDBO();
+		$db                      = JFactory::getDbo();
 
 		$dispatcher = JDispatcher::getInstance();
 

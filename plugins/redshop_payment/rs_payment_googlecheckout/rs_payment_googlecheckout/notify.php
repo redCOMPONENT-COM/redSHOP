@@ -126,7 +126,7 @@ switch ($_REQUEST ['_type'])
 // google giving redSHOP order id for the first time
 // we need it back from transaction id
 
-$db = JFactory::getDBO();
+$db = JFactory::getDbo();
 
 if (!isset ($order_id))
 {

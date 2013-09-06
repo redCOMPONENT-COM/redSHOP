@@ -39,7 +39,7 @@ class stateViewstate extends JView
 		$lists['order']     = $filter_order;
 		$lists['order_Dir'] = $filter_order_Dir;
 
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		JToolBarHelper::title(JText::_('COM_REDSHOP_STATES'), 'redshop_region_48');
 
 		$redhelper       = new redhelper;

@@ -53,7 +53,7 @@ class Tablestate_detail extends JTable
 
 	public function check()
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 
 		$q = "SELECT state_id,state_3_code  FROM " . $this->_table_prefix . "state"
 			. " WHERE state_3_code = " . $db->quote($this->state_3_code)

@@ -517,7 +517,7 @@ class CartModelCart extends JModel
 	 */
 	public function checkifTagAvailable($product_id)
 	{
-		$db          = JFactory::getDBO();
+		$db          = JFactory::getDbo();
 		$redTemplate = new redTemplate;
 		$q           = "SELECT product_template FROM " . $this->_table_prefix . "product "
 			. "WHERE product_id = " . (int) $product_id;

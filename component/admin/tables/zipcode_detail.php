@@ -42,7 +42,7 @@ class Tablezipcode_detail extends JTable
 
 	public function check()
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 
 		$q = "SELECT *  FROM " . $this->_table_prefix . "zipcode"
 			. " WHERE zipcode = " . (int) $this->zipcode

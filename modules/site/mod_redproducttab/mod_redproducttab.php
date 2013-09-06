@@ -25,7 +25,7 @@ $show_addtocart = trim($params->get('show_addtocart', 1));
 $show_desc      = trim($params->get('show_desc', 1));
 $thumbwidth     = trim($params->get('thumbwidth', 100)); // get show image thumbwidth size
 $thumbheight    = trim($params->get('thumbheight', 100)); // get show image thumbheight size
-$db             = JFactory::getDBO();
+$db             = JFactory::getDbo();
 
 // Getting the configuration
 require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';

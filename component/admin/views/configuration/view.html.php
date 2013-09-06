@@ -26,7 +26,7 @@ class configurationViewconfiguration extends JView
 
 	public function display($tpl = null)
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 
 		$option   = JRequest::getVar('option');
 		$document = JFactory::getDocument();

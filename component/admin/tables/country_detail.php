@@ -42,7 +42,7 @@ class Tablecountry_detail extends JTable
 
 	public function check()
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 
 		$q = "SELECT country_id,country_3_code  FROM " . $this->_table_prefix . "country"
 			. " WHERE country_3_code = " . $db->quote($this->country_3_code)
