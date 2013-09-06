@@ -53,7 +53,7 @@ if (!class_exists('LofSliderGroupRedshop'))
 			global $mm_action_url;
 			require_once JPATH_SITE . '/components/com_redshop/helpers/product.php';
 
-			$db                  = JFactory::getDBO();
+			$db                  = JFactory::getDbo();
 			$producthelper       = new producthelper();
 			$ordering            = $params->get('redshop_ordering', 'cdate_asc');
 			$limit               = $params->get('limit_items', 4);

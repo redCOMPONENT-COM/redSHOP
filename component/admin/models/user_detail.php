@@ -180,7 +180,7 @@ class user_detailModeluser_detail extends JModel
 
 		// Start data into user table
 		// Initialize some variables
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$me = JFactory::getUser();
 		$acl = JFactory::getACL();
 

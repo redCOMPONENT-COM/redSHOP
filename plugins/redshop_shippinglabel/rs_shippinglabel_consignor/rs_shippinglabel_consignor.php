@@ -51,7 +51,7 @@ class plgRedshop_shippinglabelrs_shippinglabel_consignor extends JPlugin
 		$order_functions = new order_functions;
 		$shippinghelper = new shipping;
 		$config = new Redconfiguration;
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$order_details = $order_functions->getOrderDetails($order_id);
 		$consignor_parameters = $this->getparameters('rs_shippinglabel_consignor');
 		$labelinfo = $consignor_parameters[0];
@@ -198,7 +198,7 @@ class plgRedshop_shippinglabelrs_shippinglabel_consignor extends JPlugin
 
 	function getparameters($payment)
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$sql = "SELECT * FROM #__extensions WHERE `element`='" . $payment . "'";
 		$db->setQuery($sql);
 		$params = $db->loadObjectList();
@@ -208,7 +208,7 @@ class plgRedshop_shippinglabelrs_shippinglabel_consignor extends JPlugin
 
 	function getCondignorCarrierCode($shipping_rate_id)
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$sql = "SELECT consignor_carrier_code FROM #__redshop_shipping_rate  WHERE `shipping_rate_id`='" . $shipping_rate_id . "'";
 		$db->setQuery($sql);
 		$consignor_carrier_code = $db->loadResult();

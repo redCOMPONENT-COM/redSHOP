@@ -46,7 +46,7 @@ class wishlistModelwishlist extends JModel
 	public function getUserWishlist()
 	{
 		$user = JFactory::getUser();
-		$db   = JFactory::getDBO();
+		$db   = JFactory::getDbo();
 
 		$query = "SELECT * FROM " . $this->_table_prefix . "wishlist WHERE user_id=" . (int) $user->id;
 		$db->setQuery($query);
@@ -57,7 +57,7 @@ class wishlistModelwishlist extends JModel
 	public function getWishlistProduct()
 	{
 		$user = JFactory::getUser();
-		$db   = JFactory::getDBO();
+		$db   = JFactory::getDbo();
 
 		if ($user->id)
 		{
@@ -106,7 +106,7 @@ class wishlistModelwishlist extends JModel
 
 	public function getWishlistProductFromSession()
 	{
-		$db      = JFactory::getDBO();
+		$db      = JFactory::getDbo();
 		$prod_id = "";
 		$rows    = array();
 
@@ -156,7 +156,7 @@ class wishlistModelwishlist extends JModel
 		}
 		else
 		{
-			$db         = JFactory::getDBO();
+			$db         = JFactory::getDbo();
 			$product_id = JRequest::getInt('product_id');
 
 			if ($product_id)
@@ -221,7 +221,7 @@ class wishlistModelwishlist extends JModel
 	public function savewishlist()
 	{
 		$cid        = JRequest::getVar('cid', '', 'request', 'array');
-		$db         = JFactory::getDBO();
+		$db         = JFactory::getDbo();
 		$product_id = JRequest::getInt('product_id');
 
 		for ($i = 0; $i < count($cid); $i++)
@@ -256,7 +256,7 @@ class wishlistModelwishlist extends JModel
 
 	public function check_user_wishlist_authority($userid, $wishlist_id)
 	{
-		$db    = JFactory::getDBO();
+		$db    = JFactory::getDbo();
 		$query = "SELECT wishlist_id FROM " . $this->_table_prefix . "wishlist "
 			. " WHERE wishlist_id=" . (int) $wishlist_id . " AND user_id=" . (int) $userid;
 		$db->setQuery($query);
@@ -275,7 +275,7 @@ class wishlistModelwishlist extends JModel
 
 	public function delwishlist($userid, $wishlist_id)
 	{
-		$db    = JFactory::getDBO();
+		$db    = JFactory::getDbo();
 		$query = "DELETE FROM " . $this->_table_prefix . "wishlist_product "
 			. " WHERE wishlist_id=" . (int) $wishlist_id;
 		$db->setQuery($query);

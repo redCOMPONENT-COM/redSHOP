@@ -404,7 +404,7 @@ class accessmanager_detailModelaccessmanager_detail extends JModel
 	 */
 	public function checksection($section)
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$query = " SELECT count(*) FROM " . $this->_table_prefix . "accessmanager "
 			. "WHERE `section_name` = " . $db->quote($section);
 		$this->_db->setQuery($query);

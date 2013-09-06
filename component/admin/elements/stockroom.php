@@ -28,7 +28,7 @@ class JElementstockroom extends JElement
 
 	function fetchElement($name, $value, &$node, $control_name)
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 
 		// This might get a conflict with the dynamic translation - TODO: search for better solution
 		$query = 'SELECT stockroom_id,stockroom_name ' .

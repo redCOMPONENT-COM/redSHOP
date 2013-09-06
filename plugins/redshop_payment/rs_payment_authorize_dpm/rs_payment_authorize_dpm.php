@@ -120,7 +120,7 @@ class plgRedshop_paymentrs_payment_authorize_dpm extends JPlugin
 			$plugin = $element;
 		}
 
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$request = JRequest::get('request');
 		$Itemid = $request["Itemid"];
 		$user = JFActory::getUser();
@@ -165,7 +165,7 @@ class plgRedshop_paymentrs_payment_authorize_dpm extends JPlugin
 
 	public function getparameters($payment)
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$sql = "SELECT * FROM #__extensions WHERE `element`='" . $payment . "'";
 		$db->setQuery($sql);
 		$params = $db->loadObjectList();

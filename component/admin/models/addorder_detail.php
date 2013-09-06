@@ -38,7 +38,7 @@ class addorder_detailModeladdorder_detail extends JModel
 		$array = JRequest::getVar('cid', 0, '', 'array');
 		$this->setId((int) $array[0]);
 		$this->_order_functions = new order_functions;
-		$this->_db = JFactory::getDBO();
+		$this->_db = JFactory::getDbo();
 	}
 
 	public function setId($id)

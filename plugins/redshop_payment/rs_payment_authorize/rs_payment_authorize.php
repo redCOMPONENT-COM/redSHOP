@@ -50,7 +50,7 @@ class plgRedshop_paymentrs_payment_authorize extends JPlugin
 		}
 
 		$app = JFactory::getApplication();
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$user = JFActory::getUser();
 		$session = JFactory::getSession();
 		$ccdata = $session->get('ccdata');
@@ -277,7 +277,7 @@ class plgRedshop_paymentrs_payment_authorize extends JPlugin
 		$objOrder = new order_functions;
 		$order_id = $data['order_id'];
 		$tid = $data['order_transactionid'];
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$billing_info = $data['billinginfo'];
 		$shipping_info = $data['shippinginfo'];
 
@@ -435,7 +435,7 @@ class plgRedshop_paymentrs_payment_authorize extends JPlugin
 		}
 
 		$app = JFactory::getApplication();
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 
 		// Update authorize_status
 		if ($this->_params->get("auth_type") == "AUTH_ONLY")

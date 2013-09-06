@@ -31,7 +31,7 @@ class newsletterModelnewsletter extends JModel
 	{
 		parent::__construct();
 
-		$this->_db           = JFactory::getDBO();
+		$this->_db           = JFactory::getDbo();
 		$this->_table_prefix = '#__redshop_';
 		$sub_id              = JRequest::getInt('sid', '', 'request');
 

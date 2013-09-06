@@ -34,7 +34,7 @@ class rsUserhelper
 	{
 		$this->_table_prefix = '#__' . TABLE_PREFIX . '_';
 		$this->_session      = JFactory::getSession();
-		$this->_db           = JFactory::getDBO();
+		$this->_db           = JFactory::getDbo();
 	}
 
 	/**
@@ -243,7 +243,7 @@ class rsUserhelper
 		}
 
 		$app = JFactory::getApplication();
-		$db  = JFactory::getDBO();
+		$db  = JFactory::getDbo();
 		$me  = JFactory::getUser();
 		$acl = JFactory::getACL();
 

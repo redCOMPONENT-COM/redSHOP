@@ -278,7 +278,7 @@ class orderModelorder extends JModel
 			$where = " WHERE order_id IN (" . $oids . ")";
 		}
 
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$q = "SELECT * FROM #__redshop_orders " . $where . " ORDER BY order_id asc";
 		$db->setQuery($q);
 		$gls_arr = $db->loadObjectList();
@@ -401,7 +401,7 @@ class orderModelorder extends JModel
 		{
 			$where = " WHERE order_id IN (" . $oids . ")";
 		}
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$q = "SELECT * FROM #__redshop_orders " . $where . " ORDER BY order_id asc";
 		$db->setQuery($q);
 		$gls_arr = $db->loadObjectList();

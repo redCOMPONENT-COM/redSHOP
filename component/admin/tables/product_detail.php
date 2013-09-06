@@ -156,7 +156,7 @@ class Tableproduct_detail extends JTable
 	 */
 	public function check()
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$q = "SELECT product_id
 			FROM " . $this->_table_prefix . "product
 			WHERE product_number = " . $db->quote($this->product_number);

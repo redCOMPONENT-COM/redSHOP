@@ -61,7 +61,7 @@ class plgRedshop_paymentrs_payment_certitrade extends JPlugin
 			return;
 		}
 
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$request = JRequest::get('request');
 		$order_id = $request['merchant_order_id'];
 		$Itemid = $request['Itemid'];
@@ -101,7 +101,7 @@ class plgRedshop_paymentrs_payment_certitrade extends JPlugin
 		{
 			// Find the corresponding order in the database
 
-			$db = JFactory::getDBO();
+			$db = JFactory::getDbo();
 			$qv = "SELECT order_id, order_number FROM #__redshop_orders WHERE order_id='" . $data['order_id'] . "'";
 			$db->setQuery($qv);
 			$orders = $db->LoadObjectList();
@@ -143,7 +143,7 @@ class plgRedshop_paymentrs_payment_certitrade extends JPlugin
 
 	public function orderPaymentNotYetUpdated($dbConn, $order_id, $tid)
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$res = false;
 		$query = "SELECT COUNT(*) `qty` FROM " . $this->_table_prefix . "order_payment WHERE `order_id` = '" . $db->getEscaped($order_id) . "' and order_payment_trans_id = '" . $db->getEscaped($tid) . "'";
 		$db->setQuery($query);

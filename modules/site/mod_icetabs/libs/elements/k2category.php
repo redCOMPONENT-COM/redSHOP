@@ -24,7 +24,7 @@ class JFormFieldK2category extends JFormField
 
 		if (is_file(JPATH_SITE . "/components/com_k2/k2.php"))
 		{
-			$db    = JFactory::getDBO();
+			$db    = JFactory::getDbo();
 			$query = 'SELECT m.* FROM #__k2_categories m WHERE published=1 AND trash = 0 ORDER BY parent, ordering';
 			$db->setQuery($query);
 			$mitems   = $db->loadObjectList();
