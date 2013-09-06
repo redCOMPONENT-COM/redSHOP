@@ -45,7 +45,7 @@ class Tablezipcode_detail extends JTable
 		$db = JFactory::getDbo();
 
 		$q = "SELECT *  FROM " . $this->_table_prefix . "zipcode"
-			. " WHERE zipcode = " . (int) $this->zipcode
+			. " WHERE zipcode = " . $db->quote($this->zipcode)
 			. " AND zipcode_id !=  " . (int) $this->zipcode_id
 			. " AND country_code =" . $db->quote($this->country_code);
 
