@@ -111,6 +111,8 @@ function redshopBuildRoute(&$query)
 		unset($query['manufacture_id']);
 	}
 
+	$cateogry_id = null;
+
 	if (isset($query['category_id']))
 	{
 		$category_id = $query['category_id'];
@@ -270,7 +272,7 @@ function redshopBuildRoute(&$query)
 				$segments[] = $layout;
 			}
 
-			if ($category_id != '')
+			if (!empty($category_id))
 			{
 				$segments[] = $category_id;
 			}

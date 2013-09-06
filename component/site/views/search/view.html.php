@@ -106,7 +106,8 @@ class searchViewsearch extends JView
 			}
 		}
 
-		$order_data            = redhelper::getOrderByList();
+		$redHelper = new redhelper;
+		$order_data            = $redHelper->getOrderByList();
 		$getorderby            = JRequest::getString('order_by', DEFAULT_PRODUCT_ORDERING_METHOD);
 		$lists['order_select'] = JHTML::_('select.genericlist', $order_data, 'order_by', 'class="inputbox" size="1" onchange="document.orderby_form.submit();" ', 'value', 'text', $getorderby);
 
@@ -169,8 +170,13 @@ class searchViewsearch extends JView
 				. ' FROM #__redshop_category  '
 				. 'WHERE category_id=' . JRequest::getInt('cid');
 			$db->setQuery($query);
-			$catname_array = $db->loadObjectList();
-			$cat_name      = $catname_array[0]->category_name;
+
+			$cat_name = null;
+
+			if ($catname_array = $db->loadObjectList())
+			{
+				$cat_name = $catname_array[0]->category_name;
+			}
 
 			$session    = JFactory::getSession();
 			$model      = $this->getModel('search');
@@ -541,6 +547,7 @@ class searchViewsearch extends JView
 				$returnArr          = $producthelper->getProductUserfieldFromTemplate($data_add);
 				$template_userfield = $returnArr[0];
 				$userfieldArr       = $returnArr[1];
+				$count_no_user_field = 0;
 
 				if ($template_userfield != "")
 				{
