@@ -39,10 +39,11 @@ if ($adjcat == 0)
 {
 	if ($category != 0)
 	{
-		$sql = "SELECT category_id FROM #__redshop_category AS c WHERE c.category_name = '" . $category . "'";
+		$sql = "SELECT category_id FROM #__redshop_category AS c WHERE c.category_name = " . $db->quote($category) . "";
 		$db->setQuery($sql);
 		$ne   = $db->loadObject();
 		$cids = $ne->category_id;
+
 		if ($cids != 0)
 		{
 			$product_category = new product_category();

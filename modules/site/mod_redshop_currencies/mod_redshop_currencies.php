@@ -19,7 +19,7 @@ $db = JFactory::getDbo();
 if ($currencies)
 {
 
-	$db->setQuery('SELECT currency_id, currency_code, currency_name FROM `#__redshop_currency` WHERE FIND_IN_SET(`currency_code`, \'' . implode(',', $currencies) . '\') ORDER BY `currency_name`');
+	$db->setQuery('SELECT currency_id, currency_code, currency_name FROM `#__redshop_currency` WHERE FIND_IN_SET(`currency_code`, ' . $db->quote(implode(',', $currencies)) . ') ORDER BY `currency_name`');
 	$currenciess = $db->loadObjectList();
 
 }
@@ -30,8 +30,11 @@ for ($i = 0; $i < count($currenciess); $i++)
 }
 
 $session = JFactory::getSession();
-$post = JRequest::get('post');
-$get = JRequest::get('get');
+$jinput = JFactory::getApplication()->input;
+
+$post = $jinput->getArray($_POST);
+$get = $jinput->getArray($_GET);
+
 if (isset($post['product_currency']))
 	$session->set('product_currency', $post['product_currency']);
 ?>

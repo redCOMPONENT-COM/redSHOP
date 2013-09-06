@@ -114,7 +114,7 @@ function displayredManufacturer($limit = 0)
 	$uri        = JUri::getInstance();
 	$url        = $uri->root();
 	$database   = JFactory::getDbo();
-	$Itemid     = intval(JRequest::getVar('Itemid', 0));
+	$Itemid     = JRequest::getInt('Itemid', 0);
 	$extra_data = new producthelper();
 
 	$document = JFactory::getDocument();

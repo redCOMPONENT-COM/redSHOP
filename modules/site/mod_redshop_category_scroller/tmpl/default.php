@@ -17,7 +17,7 @@ require_once JPATH_SITE . '/components/com_redshop/helpers/helper.php';
 $uri = JURI::getInstance();
 $url = $uri->root();
 
-$Itemid = JRequest::getVar('Itemid');
+$Itemid = JRequest::getInt('Itemid');
 $user   = JFactory::getUser();
 $option = 'com_redshop';
 

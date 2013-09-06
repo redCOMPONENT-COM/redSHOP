@@ -14,7 +14,7 @@ JHTML::_('behavior.modal');
 $uri = JURI::getInstance();
 $url = $uri->root();
 
-$Itemid = JRequest::getVar('Itemid');
+$Itemid = JRequest::getInt('Itemid');
 $user   = JFactory::getUser();
 $option = 'com_redshop';
 

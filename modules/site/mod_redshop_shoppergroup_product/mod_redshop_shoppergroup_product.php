@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-$option = JRequest::getVar('option');
+$option = JRequest::getCmd('option');
 //$category = trim( $params->get( 'category', '' ) );
 $count                    = trim($params->get('count', 5));
 $image                    = trim($params->get('image', 0));

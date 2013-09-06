@@ -42,7 +42,7 @@ class JFormFieldRedshopcategory extends JFormField
 		$db = JFactory::getDbo();
 		$level++;
 
-		$and = " AND cx.category_parent_id='$cid' ";
+		$and = " AND cx.category_parent_id=". (int) $cid;
 
 		$q = "SELECT c.category_id, cx.category_child_id, cx.category_parent_id "
 			. ",c.category_name,c.category_description,c.published,ordering "

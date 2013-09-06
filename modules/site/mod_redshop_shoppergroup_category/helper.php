@@ -252,9 +252,9 @@ class redmodMenuHelper
 		$user = JFactory::getUser();
 
 		if ($user->id > 0)
-			$query = "SELECT count(*) as total,sg.* FROM `#__redshop_shopper_group` as sg LEFT JOIN #__redshop_users_info as uf ON sg.`shopper_group_id` = uf.shopper_group_id WHERE uf.user_id = " . $user->id . " AND FIND_IN_SET(" . $cid . ",sg.shopper_group_categories) GROUP BY sg.shopper_group_id ";
+			$query = "SELECT count(*) as total,sg.* FROM `#__redshop_shopper_group` as sg LEFT JOIN #__redshop_users_info as uf ON sg.`shopper_group_id` = uf.shopper_group_id WHERE uf.user_id = " . (int) $user->id . " AND FIND_IN_SET(" . (int) $cid . ",sg.shopper_group_categories) GROUP BY sg.shopper_group_id ";
 		else
-			$query = "SELECT count(*) as total,sg.* FROM `#__redshop_shopper_group` as sg WHERE  sg.`shopper_group_id` = " . SHOPPER_GROUP_DEFAULT_UNREGISTERED . " AND FIND_IN_SET(" . $cid . ",sg.shopper_group_categories) GROUP BY sg.shopper_group_id";
+			$query = "SELECT count(*) as total,sg.* FROM `#__redshop_shopper_group` as sg WHERE  sg.`shopper_group_id` = " . SHOPPER_GROUP_DEFAULT_UNREGISTERED . " AND FIND_IN_SET(" . (int) $cid . ",sg.shopper_group_categories) GROUP BY sg.shopper_group_id";
 
 		$db->setQuery($query);
 		$shoppercatdata = $db->loadObject();

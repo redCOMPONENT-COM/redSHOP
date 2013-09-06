@@ -181,10 +181,10 @@ if (!class_exists('redproductScroller'))
 			$this->show_product_name = $params->get('show_product_name', "yes");
 			$this->show_addtocart    = $params->get('show_addtocart', "yes");
 			$this->show_price        = $params->get('show_price', "yes");
-			$this->category_id = intval(JRequest::getVar('cid', 0));
+			$this->category_id       = JRequest::getInt('cid', 0);
 
-			$this->thumbwidth  = $params->get('thumbwidth', 100);
-			$this->thumbheight = $params->get('thumbheight', 100);
+			$this->thumbwidth        = $params->get('thumbwidth', 100);
+			$this->thumbheight       = $params->get('thumbheight', 100);
 
 			// Limit by NoP
 			$this->NumberOfProducts = $params->get('NumberOfProducts', $this->NumberOfProducts);
