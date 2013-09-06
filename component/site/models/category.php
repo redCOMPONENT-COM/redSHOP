@@ -393,7 +393,7 @@ class CategoryModelCategory extends JModel
 
 	public function _buildProductOrderBy()
 	{
-		$db       = JFactory::getDbo();
+		$db       = JFactory::getDBO();
 		$app      = JFactory::getApplication();
 		$params   = $app->getParams("com_redshop");
 		$menu     = $app->getMenu();
@@ -623,7 +623,7 @@ class CategoryModelCategory extends JModel
 
 	public function _buildfletterQuery($letter, $fieldid)
 	{
-		$db = JFactory::getDbo();
+		$db = JFactory::getDBO();
 		$query = "SELECT p.*, fd.* FROM " . $this->_table_prefix . "product AS p ";
 		$query .= " LEFT JOIN #__redshop_fields_data AS fd ON fd.itemid = p.product_id";
 		$query .= " WHERE  fd.data_txt LIKE " . $db->quote($letter . '%') . " AND fd.fieldid = "

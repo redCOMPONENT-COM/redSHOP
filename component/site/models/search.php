@@ -232,7 +232,7 @@ class searchModelsearch extends JModel
 	{
 		$app = JFactory::getApplication();
 		$context = 'search';
-		$db = JFactory::getDbo();
+		$db = JFactory::getDBO();
 
 		$keyword = $app->getUserStateFromRequest($context . 'keyword', 'keyword', '');
 
@@ -529,7 +529,7 @@ class searchModelsearch extends JModel
 
 	public function _buildContentOrderBy()
 	{
-		$db = JFactory::getDbo();
+		$db = JFactory::getDBO();
 
 		global $context;
 
@@ -716,7 +716,7 @@ class searchModelsearch extends JModel
 
 	public function mod_redProductfilter($Itemid)
 	{
-		$db = JFactory::getDbo();
+		$db = JFactory::getDBO();
 		$query = "SELECT t.*, f.formname AS form_name FROM #__redproductfinder_types t
 		LEFT JOIN #__redproductfinder_forms f
 		ON t.form_id = f.id
@@ -1076,7 +1076,7 @@ class searchModelsearch extends JModel
 		$limit       = $params->get('noofsearchresults');
 		$keyword     = JRequest::getCmd('input');
 		$search_type = JRequest::getCmd('search_type');
-		$db = JFactory::getDbo();
+		$db = JFactory::getDBO();
 
 		$category_id    = JRequest::getInt('category_id');
 		$manufacture_id = JRequest::getInt('manufacture_id');

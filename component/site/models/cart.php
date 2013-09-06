@@ -125,7 +125,7 @@ class CartModelCart extends JModel
 		{
 			$stockroomhelper = new rsstockroomhelper;
 			$session         = JFactory::getSession();
-			$db              = JFactory::getDbo();
+			$db              = JFactory::getDBO();
 			$cart            = $session->get('cart');
 			$session_id      = session_id();
 			$carttimeout     = (int) CART_TIMEOUT;
@@ -451,7 +451,7 @@ class CartModelCart extends JModel
 	{
 		$data            = array();
 		$products_number = explode("\n", $post["numbercart"]);
-		$db = JFactory::getDbo();
+		$db = JFactory::getDBO();
 
 		for ($i = 0; $i < count($products_number); $i++)
 		{

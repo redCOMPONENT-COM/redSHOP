@@ -195,7 +195,7 @@ class rsUserhelper
 
 	public function validate_user($username, $id = 0)
 	{
-		$db = JFactory::getDbo();
+		$db = JFactory::getDBO();
 
 		$query = "SELECT username FROM #__users "
 			. "WHERE username='" . $db->quote($username) . "' "
@@ -208,7 +208,7 @@ class rsUserhelper
 
 	public function validate_email($email, $id = 0)
 	{
-		$db = JFactory::getDbo();
+		$db = JFactory::getDBO();
 
 		$query = "SELECT email FROM #__users "
 			. "WHERE email = " . $db->quote($email) . " "
@@ -892,7 +892,7 @@ class rsUserhelper
 
 	public function newsletterUnsubscribe($email = "")
 	{
-		$db   = JFactory::getDbo();
+		$db   = JFactory::getDBO();
 		$user = JFactory::getUser();
 		$and  = "";
 

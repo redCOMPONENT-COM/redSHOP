@@ -666,7 +666,7 @@ class quotationModelquotation extends JModel
 
 	public function getUserIdByEmail($email)
 	{
-		$db = JFactory::getDbo();
+		$db = JFactory::getDBO();
 
 		$q = "SELECT * FROM " . $this->_table_prefix . "users_info "
 			. "WHERE user_email = " . $db->quote($email) . " "

@@ -55,7 +55,7 @@ class extra_field
 	public function __construct()
 	{
 		$this->_table_prefix = '#__redshop_';
-		$this->_db = JFactory::getDbo();
+		$this->_db = JFactory::getDBO();
 	}
 
 	public function list_all_field_in_product($section = 1)

@@ -2015,7 +2015,7 @@ class CheckoutModelCheckout extends JModel
 	{
 		$session = JFactory::getSession();
 		$cart    = $session->get('cart');
-		$db = JFactory::getDbo();
+		$db = JFactory::getDBO();
 		$query   = "SELECT coupon_value,percent_or_total FROM " . $this->_table_prefix . "coupons "
 			. "WHERE coupon_id = " . (int) $cart['coupon_id'] . " "
 			. "AND coupon_code = " . $db->quote($cart['coupon_code']) . " LIMIT 0,1";

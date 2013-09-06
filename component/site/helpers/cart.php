@@ -3861,7 +3861,7 @@ class rsCarthelper
 
 	public function replaceNewsletterSubscription($template_desc = "", $onchange = 0)
 	{
-		$db = JFactory::getDbo();
+		$db = JFactory::getDBO();
 
 		if (strstr($template_desc, "{newsletter_signup_chk}"))
 		{
@@ -4359,7 +4359,7 @@ class rsCarthelper
 
 	public function getVoucherData($voucher_code, $product_id = 0)
 	{
-		$db = JFactory::getDbo();
+		$db = JFactory::getDBO();
 
 		$user         = JFactory::getUser();
 		$voucher      = array();
@@ -4408,7 +4408,7 @@ class rsCarthelper
 
 	public function globalvoucher($voucher_code)
 	{
-		$db = JFactory::getDbo();
+		$db = JFactory::getDBO();
 
 		$current_time = time();
 		$query        = "SELECT product_id,v.* from " . $this->_table_prefix . "product_voucher_xref as pv  "
@@ -4438,7 +4438,7 @@ class rsCarthelper
 
 	public function getcouponData($coupon_code)
 	{
-		$db = JFactory::getDbo();
+		$db = JFactory::getDBO();
 
 		$current_time = time();
 		$cart         = $this->_session->get('cart');
@@ -5360,7 +5360,7 @@ class rsCarthelper
 
 	public function getCartItemAttributeDetail($cart_item_id = 0, $is_accessory = 0, $section = "attribute", $parent_section_id = 0)
 	{
-		$db = JFactory::getDbo();
+		$db = JFactory::getDBO();
 
 		$and = "";
 
@@ -7011,7 +7011,7 @@ class rsCarthelper
 	 */
 	public function getDiscountCalcDataExtra($pdcextraids = "", $product_id = 0)
 	{
-		$db = JFactory::getDbo();
+		$db = JFactory::getDBO();
 
 		$and = "";
 

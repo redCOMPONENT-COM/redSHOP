@@ -51,7 +51,7 @@ class redhelper
 	 */
 	public function removeShippingRate()
 	{
-		$db = JFactory::getDbo();
+		$db = JFactory::getDBO();
 
 		$query = "SELECT DISTINCT(shipping_class)  FROM " . $this->_table_prefix . "shipping_rate ";
 		$this->_db->setQuery($query);
@@ -77,7 +77,7 @@ class redhelper
 
 	public function getPlugins($folder = 'redshop')
 	{
-		$db = JFactory::getDbo();
+		$db = JFactory::getDBO();
 
 		$query = "SELECT * FROM #__extensions "
 			. "WHERE  enabled = '1' "
@@ -91,7 +91,7 @@ class redhelper
 
 	public function getallPlugins($folder = 'redshop')
 	{
-		$db = JFactory::getDbo();
+		$db = JFactory::getDBO();
 
 		$query = "SELECT * FROM #__extensions "
 			. "WHERE LOWER(`folder`) = " . $db->quote(strtolower($folder)) . " "
@@ -104,7 +104,7 @@ class redhelper
 
 	public function orderPaymentNotYetUpdated($dbConn, $order_id, $tid)
 	{
-		$db = JFactory::getDbo();
+		$db = JFactory::getDBO();
 
 		$res   = false;
 		$query = "SELECT COUNT(*) `qty` FROM `" . $this->_table_prefix . "order_payment` "
@@ -753,7 +753,7 @@ class redhelper
 			return;
 		}
 
-		$db = JFactory::getDbo();
+		$db = JFactory::getDBO();
 
 		$shippinghelper = new shipping;
 

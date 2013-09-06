@@ -160,7 +160,7 @@ class manufacturersModelmanufacturers extends JModel
 
 	public function _buildContentOrderBy()
 	{
-		$db  = JFactory::getDbo();
+		$db  = JFactory::getDBO();
 		$app = JFactory::getApplication();
 		$layout  = $app->input->getCmd('layout', '');
 		$order_by = urldecode($app->input->getCmd('order_by', DEFAULT_MANUFACTURER_ORDERING_METHOD));
@@ -302,7 +302,7 @@ class manufacturersModelmanufacturers extends JModel
 
 	public function _buildProductOrderBy($template_data = '')
 	{
-		$db  = JFactory::getDbo();
+		$db  = JFactory::getDBO();
 		$app = JFactory::getApplication();
 		$order_by = urldecode($app->input->getCmd('order_by', DEFAULT_MANUFACTURER_PRODUCT_ORDERING_METHOD));
 
