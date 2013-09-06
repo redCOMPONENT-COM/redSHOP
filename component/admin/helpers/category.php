@@ -221,11 +221,14 @@ class product_category
 
 	public function _buildContentOrderBy()
 	{
+		$db = JFactory::getDbo();
 		global $context;
 		$app = JFactory::getApplication();
+
 		$filter_order = urldecode($app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'ordering'));
 		$filter_order_Dir = urldecode($app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', ''));
-		$orderby = ' ORDER BY ' . $filter_order . ' ' . $filter_order_Dir;
+
+		$orderby = ' ORDER BY ' . $db->escape($filter_order . ' ' . $filter_order_Dir);
 
 		return $orderby;
 	}
@@ -282,7 +285,7 @@ class product_category
 			. "FROM " . $this->_table_prefix . "product AS p "
 			. "LEFT JOIN " . $this->_table_prefix . "product_category_xref AS x ON x.product_id = p.product_id "
 			. "LEFT JOIN " . $this->_table_prefix . "category AS c ON x.category_id = c.category_id "
-			. "WHERE 1=1 AND c.category_id = " . (int) $cid . " and p.published =1 ";
+			. "WHERE c.category_id = " . (int) $cid . " and p.published =1 ";
 
 		$db->setQuery($query);
 
@@ -297,7 +300,7 @@ class product_category
 
 		$query = "SELECT accessory_id,product_id "
 			. "FROM " . $this->_table_prefix . "product_accessory  "
-			. "WHERE 1=1 AND product_id = " . (int) $product_id . " and child_product_id = " . (int) $accessory_id;
+			. "WHERE product_id = " . (int) $product_id . " and child_product_id = " . (int) $accessory_id;
 
 		$db->setQuery($query);
 		$result = $db->loadObjectList();

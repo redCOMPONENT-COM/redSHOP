@@ -31,9 +31,11 @@ class accessmanager_detailModelaccessmanager_detail extends JModel
 
 	public function getaccessmanager()
 	{
+		$db = JFactory::getDbo();
+
 		$section = JRequest::getVar('section');
 		$query = "SELECT a.* FROM " . $this->_table_prefix . "accessmanager AS a "
-			. "WHERE a.section_name='" . $section . "'";
+			. "WHERE a.section_name = " . $db->quote($section);
 		$this->_db->setQuery($query);
 		$this->_data = $this->_db->loadObjectList();
 
@@ -47,6 +49,8 @@ class accessmanager_detailModelaccessmanager_detail extends JModel
 	 */
 	public function store($data)
 	{
+		$db = JFactory::getDbo();
+
 		/**
 		 * get groups
 		 */
@@ -258,10 +262,13 @@ class accessmanager_detailModelaccessmanager_detail extends JModel
 
 					if ($row->view == 1 && $row->add == 1)
 					{
-						$query = "UPDATE " . $this->_table_prefix . "accessmanager SET `view` = '"
-							. $row->view . "',`add` = '" . $row->add . "',`edit` = '"
-							. $row->edit . "',`delete` = '" . $row->delete . "'"
-							. " WHERE `section_name` = '" . $child_section . "' AND `gid` = '" . $row->gid . "'";
+						$query = "UPDATE " . $this->_table_prefix . "accessmanager".
+							. " SET `view` = " . (int) $row->view . ","
+							. " `add` = " . (int) $row->add . ","
+							. " `edit` = " . (int) $row->edit . ","
+							. " `delete` = " . (int) $row->delete
+							. " WHERE `section_name` = " . $db->quote($child_section)
+							. " AND `gid` = " . (int) $row->gid;
 
 						$this->_db->setQuery($query);
 						$this->_db->Query();
@@ -269,10 +276,13 @@ class accessmanager_detailModelaccessmanager_detail extends JModel
 					else
 					{
 						$child_view = null;
-						$query = "UPDATE " . $this->_table_prefix . "accessmanager SET `view` = '"
-							. $child_view . "',`add` = '" . $row->add . "',`edit` = '"
-							. $row->edit . "',`delete` = '" . $row->delete . "'"
-							. " WHERE `section_name` = '" . $child_section . "' AND `gid` = '" . $row->gid . "'";
+						$query = "UPDATE " . $this->_table_prefix . "accessmanager"
+							. " SET `view` = " . (int) $child_view . ","
+							. " `add` = " . (int) $row->add . ","
+							. " `edit` = " . (int) $row->edit . ","
+							. " `delete` = " . (int) $row->delete
+							. " WHERE `section_name` = " . $db->quote($child_section)
+							. " AND `gid` = " . (int) $row->gid;
 
 						$this->_db->setQuery($query);
 						$this->_db->Query();
@@ -282,10 +292,13 @@ class accessmanager_detailModelaccessmanager_detail extends JModel
 
 					if ($row->view == 1 && $row->edit == 1)
 					{
-						$query = "UPDATE " . $this->_table_prefix . "accessmanager SET `view` = '"
-							. $row->view . "',`add` = '" . $row->add . "',`edit` = '"
-							. $row->edit . "',`delete` = '" . $row->delete . "'"
-							. " WHERE `section_name` = '" . $child_section1 . "' AND `gid` = '" . $row->gid . "'";
+						$query = "UPDATE " . $this->_table_prefix . "accessmanager"
+							. " SET `view` = " . (int) $row->view . ","
+							. " `add` = " . (int) $row->add . ","
+							. " `edit` = " . (int) $row->edit . ","
+							. " `delete` = " . (int) $row->delete . ""
+							. " WHERE `section_name` = " . $db->quote($child_section1)
+							. " AND `gid` = " . (int) $row->gid;
 
 						$this->_db->setQuery($query);
 						$this->_db->Query();
@@ -293,10 +306,13 @@ class accessmanager_detailModelaccessmanager_detail extends JModel
 					else
 					{
 						$child_view1 = null;
-						$query = "UPDATE " . $this->_table_prefix . "accessmanager SET `view` = '"
-							. $child_view1 . "',`add` = '" . $row->add . "',`edit` = '"
-							. $row->edit . "',`delete` = '" . $row->delete . "'"
-							. " WHERE `section_name` = '" . $child_section1 . "' AND `gid` = '" . $row->gid . "'";
+						$query = "UPDATE " . $this->_table_prefix . "accessmanager"
+							. " SET `view` = " . (int) $child_view1 . ","
+							. " `add` = " . (int) $row->add . ","
+							. " `edit` = " . (int) $row->edit . ","
+							. " `delete` = " . (int) $row->delete . ""
+							. " WHERE `section_name` = '" . $db->quote($child_section1)
+							. " AND `gid` = " . (int) $row->gid;
 
 						$this->_db->setQuery($query);
 						$this->_db->Query();
@@ -306,10 +322,13 @@ class accessmanager_detailModelaccessmanager_detail extends JModel
 
 					if ($row->view == 1 && $row->edit == 1)
 					{
-						$query = "UPDATE " . $this->_table_prefix . "accessmanager SET `view` = '"
-							. $row->view . "',`add` = '" . $row->add . "',`edit` = '"
-							. $row->edit . "',`delete` = '" . $row->delete . "'"
-							. " WHERE `section_name` = '" . $child_section2 . "' AND `gid` = '" . $row->gid . "'";
+						$query = "UPDATE " . $this->_table_prefix . "accessmanager"
+							. " SET `view` = " . (int) $row->view . ","
+							. " `add` = " . (int) $row->add . ","
+							. " `edit` = " . (int) $row->edit . ","
+							. " `delete` = " . (int) $row->delete
+							. " WHERE `section_name` = " . $db->quote($child_section2)
+							. " AND `gid` = " . (int) $row->gid;
 
 						$this->_db->setQuery($query);
 						$this->_db->Query();
@@ -318,10 +337,13 @@ class accessmanager_detailModelaccessmanager_detail extends JModel
 					{
 						$child_view2 = null;
 						$child_add2 = null;
-						$query = "UPDATE " . $this->_table_prefix . "accessmanager SET `view` = '"
-							. $child_view2 . "',`add` = '" . $child_add2 . "',`edit` = '"
-							. $row->edit . "',`delete` = '" . $row->delete . "'"
-							. " WHERE `section_name` = '" . $child_section2 . "' AND `gid` = '" . $row->gid . "'";
+						$query = "UPDATE " . $this->_table_prefix . "accessmanager"
+							. " SET `view` = " . (int) $child_view2 . ","
+							. " `add` = " . (int) $child_add2 . ","
+							. " `edit` = " . (int) $row->edit . ","
+							. " `delete` = " . (int) $row->delete
+							. " WHERE `section_name` = '" . $db->quote($child_section2)
+							. " AND `gid` = " . (int) $row->gid;
 
 						$this->_db->setQuery($query);
 						$this->_db->Query();
@@ -331,10 +353,13 @@ class accessmanager_detailModelaccessmanager_detail extends JModel
 
 					if ($row->view == 1 && $row->edit == 1)
 					{
-						$query = "UPDATE " . $this->_table_prefix . "accessmanager SET `view` = '"
-							. $row->view . "',`add` = '" . $row->add . "',`edit` = '"
-							. $row->edit . "',`delete` = '" . $row->delete . "'"
-							. " WHERE `section_name` = '" . $child_section3 . "' AND `gid` = '" . $row->gid . "'";
+						$query = "UPDATE " . $this->_table_prefix . "accessmanager"
+							. " SET `view` = " . (int) $row->view . ","
+							. " `add` = " . (int) $row->add . ","
+							. " `edit` = " . (int) $row->edit . ","
+							. " `delete` = " . (int) $row->delete
+							. " WHERE `section_name` = " . $db->quote($child_section3)
+							. " AND `gid` = " . (int) $row->gid;
 
 						$this->_db->setQuery($query);
 						$this->_db->Query();
@@ -342,20 +367,26 @@ class accessmanager_detailModelaccessmanager_detail extends JModel
 					else
 					{
 						$child_view1 = null;
-						$query = "UPDATE " . $this->_table_prefix . "accessmanager SET `view` = '"
-							. $child_view1 . "',`add` = '" . $row->add . "',`edit` = '"
-							. $row->edit . "',`delete` = '" . $row->delete . "'"
-							. " WHERE `section_name` = '" . $child_section3 . "' AND `gid` = '" . $row->gid . "'";
+						$query = "UPDATE " . $this->_table_prefix . "accessmanager"
+							. " SET `view` = " . (int) $child_view1 . ","
+							. " `add` = " . (int) $row->add . ","
+							. " `edit` = " . (int) $row->edit . ","
+							. " `delete` = " . (int) $row->delete
+							. " WHERE `section_name` = " . $db->quote($child_section3)
+							. " AND `gid` = " . (int) $row->gid;
 
 						$this->_db->setQuery($query);
 						$this->_db->Query();
 					}
 				}
 
-				$query = "UPDATE " . $this->_table_prefix . "accessmanager SET `view` = '"
-					. $row->view . "',`add` = '" . $row->add . "',`edit` = '"
-					. $row->edit . "',`delete` = '" . $row->delete . "'"
-					. " WHERE `section_name` = '" . $row->section_name . "' AND `gid` = '" . $row->gid . "'";
+				$query = "UPDATE " . $this->_table_prefix . "accessmanager"
+					. " SET `view` = " . (int) $row->view . ","
+					. " `add` = " . (int) $row->add . ","
+					. " `edit` = " . (int) $row->edit . ","
+					. " `delete` = " . (int) $row->delete
+					. " WHERE `section_name` = " . $db->quote($row->section_name)
+					. " AND `gid` = " . (int) $row->gid;
 
 				$this->_db->setQuery($query);
 				$this->_db->Query();
@@ -375,7 +406,7 @@ class accessmanager_detailModelaccessmanager_detail extends JModel
 	{
 		$db = JFactory::getDbo();
 		$query = " SELECT count(*) FROM " . $this->_table_prefix . "accessmanager "
-			. "WHERE `section_name` = '" . $section . "'";
+			. "WHERE `section_name` = " . $db->quote($section);
 		$this->_db->setQuery($query);
 
 		return $this->_db->loadResult();

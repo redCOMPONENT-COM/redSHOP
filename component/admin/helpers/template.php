@@ -53,10 +53,11 @@ class Redtemplate
 
 		if ($tid != 0)
 		{
+			// Sanitize ids
 			$tid = explode(',', $tid);
 			JArrayHelper::toInteger($tid);
-			$tid = implode(',', $tid);
-			$and = "AND template_id IN (" . $tid . ") ";
+
+			$and = "AND template_id IN (" . implode(',', $tid) . ") ";
 		}
 
 		$and .= ($name != "") ? " AND template_name = " . $db->quote($name) . " " : "";
@@ -565,7 +566,7 @@ class Redtemplate
 	 */
 	public function GetlettersearchParameters()
 	{
-		$db = Jfactory::getDBO();
+		$db = Jfactory::getDbo();
 		$sel = 'SELECT params from #__extensions where element = "mod_redshop_lettersearch" ';
 		$db->setQuery($sel);
 		$params = $db->loadResult();

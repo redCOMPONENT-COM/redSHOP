@@ -99,7 +99,7 @@ class xmlcron
 		{
 			$db = JFactory::getDbo();
 			$query = "SELECT * FROM " . $this->_table_prefix . "xml_import_log AS xl "
-				. "WHERE xl.xmlimport_id = " . (int) $importlist[$i]->xmlimport_id . "' "
+				. "WHERE xl.xmlimport_id = " . (int) $importlist[$i]->xmlimport_id . " "
 				. "ORDER BY xl.xmlimport_date DESC ";
 			$db->setQuery($query);
 			$lastrs = $db->loadObject();
