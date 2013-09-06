@@ -305,6 +305,9 @@ class configurationViewconfiguration extends JView
 			'class="inputbox" size="1"', SHOW_TERMS_AND_CONDITIONS, $yes = JText::_('COM_REDSHOP_SHOW_PER_USER'),
 			$no = JText::_('COM_REDSHOP_SHOW_PER_ORDER')
 		);
+
+		defined('RATING_REVIEW_LOGIN_REQUIRED') ? RATING_REVIEW_LOGIN_REQUIRED : define('RATING_REVIEW_LOGIN_REQUIRED', '1');
+
 		$lists['rating_review_login_required'] = JHTML::_('select.booleanlist', 'rating_review_login_required',
 			'class="inputbox" size="1"', RATING_REVIEW_LOGIN_REQUIRED
 		);
