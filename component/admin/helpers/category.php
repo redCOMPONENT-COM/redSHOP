@@ -22,7 +22,7 @@ class product_category
 
 	public function list_all($name, $category_id, $selected_categories = Array(), $size = 1, $toplevel = true, $multiple = false, $disabledFields = array(), $width = 250)
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$html = '';
 		$q = "SELECT category_parent_id FROM " . $this->_table_prefix . "category_xref ";
 
@@ -56,7 +56,7 @@ class product_category
 
 	public function list_tree($category_id = "", $cid = '0', $level = '0', $selected_categories = Array(), $disabledFields = Array(), $html = '')
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$level++;
 
 		$q = "SELECT category_id, category_child_id,category_name "
@@ -128,7 +128,7 @@ class product_category
 		$app = JFactory::getApplication();
 
 		$GLOBALS['catlist'] = array();
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$level++;
 		$view = JRequest::getVar('view');
 
@@ -199,7 +199,7 @@ class product_category
 
 	public function getCategoryListReverceArray($cid = '0')
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$q = "SELECT c.category_id,c.category_name "
 			. ",cx.category_child_id,cx.category_parent_id "
 			. "FROM " . $this->_table_prefix . "category_xref as cx, " . $this->_table_prefix . "category as c "
@@ -221,18 +221,21 @@ class product_category
 
 	public function _buildContentOrderBy()
 	{
+		$db = JFactory::getDbo();
 		global $context;
 		$app = JFactory::getApplication();
+
 		$filter_order = urldecode($app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'ordering'));
 		$filter_order_Dir = urldecode($app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', ''));
-		$orderby = ' ORDER BY ' . $filter_order . ' ' . $filter_order_Dir;
+
+		$orderby = ' ORDER BY ' . $db->escape($filter_order . ' ' . $filter_order_Dir);
 
 		return $orderby;
 	}
 
 	public function getParentCategories()
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$query = 'SELECT DISTINCT c.category_name, c.category_id'
 			. ' FROM ' . $this->_table_prefix . 'category c '
 			. ' LEFT JOIN ' . $this->_table_prefix . 'category_xref AS x ON c.category_id = x.category_child_id '
@@ -253,7 +256,7 @@ class product_category
 
 	public function getCategoryTree($cid = '0')
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$q = "SELECT c.category_id,c.category_name "
 			. ",cx.category_child_id,cx.category_parent_id "
 			. "FROM " . $this->_table_prefix . "category_xref as cx, " . $this->_table_prefix . "category as c "
@@ -277,12 +280,12 @@ class product_category
 
 	public function getCategoryProductList($cid)
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$query = "SELECT p.product_id AS id "
 			. "FROM " . $this->_table_prefix . "product AS p "
 			. "LEFT JOIN " . $this->_table_prefix . "product_category_xref AS x ON x.product_id = p.product_id "
 			. "LEFT JOIN " . $this->_table_prefix . "category AS c ON x.category_id = c.category_id "
-			. "WHERE 1=1 AND c.category_id = " . (int) $cid . " and p.published =1 ";
+			. "WHERE c.category_id = " . (int) $cid . " and p.published =1 ";
 
 		$db->setQuery($query);
 
@@ -293,11 +296,11 @@ class product_category
 
 	public function CheckAccessoryExists($product_id, $accessory_id)
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 
 		$query = "SELECT accessory_id,product_id "
 			. "FROM " . $this->_table_prefix . "product_accessory  "
-			. "WHERE 1=1 AND product_id = " . (int) $product_id . " and child_product_id = " . (int) $accessory_id;
+			. "WHERE product_id = " . (int) $product_id . " and child_product_id = " . (int) $accessory_id;
 
 		$db->setQuery($query);
 		$result = $db->loadObjectList();

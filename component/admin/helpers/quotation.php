@@ -72,10 +72,11 @@ class quotationHelper
 
 		if ($quotation_id != 0)
 		{
+			// Sanitize ids
 			$quotation_id = explode(',', $quotation_id);
 			JArrayHelper::toInteger($quotation_id);
-			$quotation_id = implode(',', $quotation_id);
-			$and .= "AND quotation_id IN (" . $quotation_id . ") ";
+
+			$and .= "AND quotation_id IN (" . implode(',', $quotation_id) . ") ";
 		}
 
 		if ($quotation_item_id != 0)
@@ -131,7 +132,7 @@ class quotationHelper
 
 		if ($user->id)
 		{
-			$and = " AND q.user_id='" . $user->id . "' ";
+			$and = " AND q.user_id = " . $user->id . " ";
 		}
 
 		$query = "SELECT q.* FROM " . $this->_table_prefix . "quotation AS q "
@@ -280,10 +281,11 @@ class quotationHelper
 
 		if ($order_id != 0)
 		{
+			// Sanitize ids
 			$order_id = explode(',', $order_id);
 			JArrayHelper::toInteger($order_id);
-			$order_id = implode(',', $order_id);
-			$and = " AND q.order_id IN (" . $order_id . ") ";
+
+			$and = " AND q.order_id IN (" . implode(',', $order_id) . ") ";
 		}
 
 		$query = "SELECT q.* FROM " . $this->_table_prefix . "quotation AS q "
