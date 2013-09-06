@@ -12,7 +12,7 @@ defined('_JEXEC') or die('Restricted access');
 $thumbwidth  = trim($params->get('thumbwidth', 100));
 $thumbheight = trim($params->get('thumbheight', 100));
 
-$db = JFactory::getDBO();
+$db = JFactory::getDbo();
 // Getting the configuration
 require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
 require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/configuration.php';

@@ -59,7 +59,7 @@ class plgRedshop_paymentrs_payment_dotpay extends JPlugin
 			return;
 		}
 
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$request = JRequest::get('request');
 		$id = mysql_real_escape_string($request["id"]);
 		$order_id = $request['order_id'];
@@ -164,7 +164,7 @@ class plgRedshop_paymentrs_payment_dotpay extends JPlugin
 
 	public function getparameters($payment)
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$sql = "SELECT * FROM #__extensions WHERE `element`='" . $payment . "'";
 		$db->setQuery($sql);
 		$params = $db->loadObjectList();
@@ -174,7 +174,7 @@ class plgRedshop_paymentrs_payment_dotpay extends JPlugin
 
 	public function orderPaymentNotYetUpdated($dbConn, $order_id, $tid)
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$res = false;
 		$query = "SELECT COUNT(*) `qty` FROM `#__redshop_order_payment` WHERE `order_id` = '"
 			. $db->getEscaped($order_id) . "' and order_payment_trans_id = '" . $db->getEscaped($tid) . "'";

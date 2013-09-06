@@ -181,7 +181,7 @@ class CheckoutModelCheckout extends JModel
 			$user->id = - $auth['users_info_id'];
 		}
 
-		$db      = JFactory::getDBO();
+		$db      = JFactory::getDbo();
 		$issplit = $session->get('issplit');
 		$url     = JURI::root();
 
@@ -427,7 +427,7 @@ class CheckoutModelCheckout extends JModel
 		$row->shop_id            = $shop_id;
 		$row->customer_message   = $customer_message;
 		$row->referral_code      = $referral_code;
-		$db                      = JFactory::getDBO();
+		$db                      = JFactory::getDbo();
 
 		$dispatcher = JDispatcher::getInstance();
 
@@ -2015,7 +2015,7 @@ class CheckoutModelCheckout extends JModel
 	{
 		$session = JFactory::getSession();
 		$cart    = $session->get('cart');
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$query   = "SELECT coupon_value,percent_or_total FROM " . $this->_table_prefix . "coupons "
 			. "WHERE coupon_id = " . (int) $cart['coupon_id'] . " "
 			. "AND coupon_code = " . $db->quote($cart['coupon_code']) . " LIMIT 0,1";

@@ -25,7 +25,7 @@ class Redaccesslevel
 		$app = JFactory::getApplication();
 
 		$option = JRequest::getVar('option');
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$query = "SELECT  section_name FROM " . $this->_table_prefix . "accessmanager"
 			. " WHERE `view`=1 and `gid` = '" . $group_id . "'";
 		$db->setQuery($query);
@@ -63,7 +63,7 @@ class Redaccesslevel
 		$app = JFactory::getApplication();
 
 		$option = JRequest::getVar('option');
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 
 		if ($view == "shipping_rate_detail" || $view == "shipping_rate" || $view == "shipping_detail")
 		{
@@ -121,7 +121,7 @@ class Redaccesslevel
 	public function getgroup_accesstaskadd($view, $task, $group_id)
 	{
 		$app = JFactory::getApplication();
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 
 		if ($view == "shipping_rate_detail" || $view == "shipping_rate" || $view == "shipping_detail")
 		{
@@ -178,7 +178,7 @@ class Redaccesslevel
 	public function getgroup_accesstaskedit($view, $task, $group_id)
 	{
 		$app = JFactory::getApplication();
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 
 		if ($view == "shipping_rate_detail" || $view == "shipping_rate" || $view == "shipping_detail")
 		{
@@ -231,7 +231,7 @@ class Redaccesslevel
 	public function getgroup_accesstaskdelete($view, $task, $group_id)
 	{
 		$app = JFactory::getApplication();
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 
 		if ($view == "shipping_rate_detail" || $view == "shipping_rate" || $view == "shipping_detail")
 		{

@@ -21,7 +21,7 @@ class JFormFieldVmcategory extends JFormField
 
 	function getInput()
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		if (!is_dir(JPATH_ADMINISTRATOR . '/components/com_virtuemart')) return JText::_('Virtuemart is not installed');
 		// Load the virtuemart main parse code
 		if (file_exists(JPATH_ADMINISTRATOR . '/components/com_virtuemart/virtuemart_parser.php'))

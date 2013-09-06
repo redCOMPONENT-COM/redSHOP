@@ -48,7 +48,7 @@ class Redtemplate
 	 */
 	public function getTemplate($section = '', $tid = 0, $name = "")
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$and = "";
 
 		if ($tid != 0)

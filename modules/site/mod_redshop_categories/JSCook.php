@@ -23,7 +23,7 @@ if (!class_exists('redCategoryMenu'))
 		{
 			static $ibg = 0;
 			global $urlpath, $redproduct_menu;
-			$db = JFactory::getDBO();
+			$db = JFactory::getDbo();
 			$level++;
 			$redproduct_menu = new modProMenuHelper();
 

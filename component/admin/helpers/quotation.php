@@ -23,7 +23,7 @@ class quotationHelper
 
 	public function __construct()
 	{
-		$this->_db = JFactory::getDBO();
+		$this->_db = JFactory::getDbo();
 		$this->_table_prefix = '#__redshop_';
 	}
 
@@ -183,7 +183,7 @@ class quotationHelper
 
 	public function insertQuotationUserfield($field_id = 0, $quotation_item_id = 0, $section_id = 12, $value = '')
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$sql = "INSERT INTO " . $this->_table_prefix . "quotation_fields_data "
 			. "(fieldid,data_txt,quotation_item_id,section) "
 			. "VALUE (" . (int) $field_id . "," . $db->quote($value) . "," . (int) $quotation_item_id . "," . $db->quote($section_id) . ")";
@@ -207,7 +207,7 @@ class quotationHelper
 		$redTemplate = new Redtemplate;
 		$producthelper = new producthelper;
 		$resultArr = array();
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 
 		$sql = "SELECT fd.*,f.field_title,f.field_type,f.field_name "
 			. "FROM " . $this->_table_prefix . "quotation_fields_data AS fd "
@@ -317,7 +317,7 @@ class quotationHelper
 	public function getQuotationItemAttributeDetail($quotation_item_id = 0, $is_accessory = 0, $section = "attribute", $parent_section_id = 0)
 	{
 		$and = "";
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 
 		if ($quotation_item_id != 0)
 		{

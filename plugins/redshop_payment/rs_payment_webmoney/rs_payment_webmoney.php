@@ -66,7 +66,7 @@ class plgRedshop_paymentrs_payment_webmoney extends JPlugin
 		$verify_status = $this->_params->get("verify_status");
 		$invalid_status = $this->_params->get("invalid_status");
 
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$request = JRequest::get('request');
 
 		$post_msg = "";
@@ -231,7 +231,7 @@ class plgRedshop_paymentrs_payment_webmoney extends JPlugin
 
 	function getparameters($payment)
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$sql = "SELECT * FROM #__extensions WHERE `element`='" . $payment . "'";
 		$db->setQuery($sql);
 		$params = $db->loadObjectList();
@@ -241,7 +241,7 @@ class plgRedshop_paymentrs_payment_webmoney extends JPlugin
 
 	function orderPaymentNotYetUpdated($dbConn, $order_id, $tid)
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$res = false;
 		$query = "SELECT COUNT(*) `qty` FROM " . $this->_table_prefix . "order_payment WHERE `order_id` = '" . $db->getEscaped($order_id) . "' and order_payment_trans_id = '" . $db->getEscaped($tid) . "'";
 		$db->setQuery($query);

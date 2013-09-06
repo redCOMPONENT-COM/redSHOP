@@ -61,7 +61,7 @@ class plgRedshop_paymentrs_payment_cyberplus extends JPlugin
 			return;
 		}
 
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$request = JRequest::get('request');
 		$order_id = $request['orderid'];
 		$vads_trans_id = $request['vads_trans_id'];

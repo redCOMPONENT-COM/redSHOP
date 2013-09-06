@@ -28,7 +28,7 @@ class rsstockroomhelper
 
 		if (USE_STOCKROOM == 1)
 		{
-			$db = JFactory::getDBO();
+			$db = JFactory::getDbo();
 			$and = "";
 
 			if ($stockroom_id != 0)
@@ -213,7 +213,7 @@ class rsstockroomhelper
 		{
 			$and = "";
 			$table = "product";
-			$db = JFactory::getDBO();
+			$db = JFactory::getDbo();
 
 			if ($section != "product")
 			{
@@ -324,7 +324,7 @@ class rsstockroomhelper
 		{
 			$and = "";
 			$table = "product";
-			$db = JFactory::getDBO();
+			$db = JFactory::getDbo();
 
 			if ($section != "product")
 			{
@@ -437,7 +437,7 @@ class rsstockroomhelper
 		{
 			$and = "";
 			$table = "product";
-			$db = JFactory::getDBO();
+			$db = JFactory::getDbo();
 
 			if ($section != "product")
 			{
@@ -482,7 +482,7 @@ class rsstockroomhelper
 		{
 			$and = "";
 			$table = "product";
-			$db = JFactory::getDBO();
+			$db = JFactory::getDbo();
 
 			if ($section != "product")
 			{
@@ -605,7 +605,7 @@ class rsstockroomhelper
 
 		if (USE_STOCKROOM == 1)
 		{
-			$db = JFactory::getDBO();
+			$db = JFactory::getDbo();
 
 			if ($section != "product")
 			{
@@ -643,7 +643,7 @@ class rsstockroomhelper
 
 		if (USE_STOCKROOM == 1)
 		{
-			$db = JFactory::getDBO();
+			$db = JFactory::getDbo();
 
 			if ($section != "product")
 			{
@@ -677,7 +677,7 @@ class rsstockroomhelper
 	{
 		if (USE_STOCKROOM == 1)
 		{
-			$db = JFactory::getDBO();
+			$db = JFactory::getDbo();
 			$and = "";
 			$table = "product";
 
@@ -749,7 +749,7 @@ class rsstockroomhelper
 
 		if (USE_STOCKROOM == 1)
 		{
-			$db = JFactory::getDBO();
+			$db = JFactory::getDbo();
 
 			if ($stock_amount == 0)
 			{
@@ -787,7 +787,7 @@ class rsstockroomhelper
 	{
 		if (IS_PRODUCT_RESERVE && USE_STOCKROOM)
 		{
-			$db = JFactory::getDBO();
+			$db = JFactory::getDbo();
 			$session_id = session_id();
 
 			$query = "SELECT SUM(qty) FROM " . $this->_table_prefix . "cart "
@@ -806,7 +806,7 @@ class rsstockroomhelper
 	{
 		if (IS_PRODUCT_RESERVE && USE_STOCKROOM)
 		{
-			$db = JFactory::getDBO();
+			$db = JFactory::getDbo();
 			$session_id = session_id();
 
 			$query = "SELECT SUM(qty) FROM " . $this->_table_prefix . "cart "
@@ -826,7 +826,7 @@ class rsstockroomhelper
 	{
 		if (IS_PRODUCT_RESERVE)
 		{
-			$db = JFactory::getDBO();
+			$db = JFactory::getDbo();
 			$time = time() - (CART_TIMEOUT * 60);
 
 			$query = "DELETE FROM " . $this->_table_prefix . "cart "
@@ -842,7 +842,7 @@ class rsstockroomhelper
 	{
 		if (IS_PRODUCT_RESERVE)
 		{
-			$db = JFactory::getDBO();
+			$db = JFactory::getDbo();
 			$session_id = session_id();
 			$and = "";
 
@@ -865,7 +865,7 @@ class rsstockroomhelper
 	{
 		if (IS_PRODUCT_RESERVE)
 		{
-			$db = JFactory::getDBO();
+			$db = JFactory::getDbo();
 			$session_id = session_id();
 
 			$time = time();
@@ -903,7 +903,7 @@ class rsstockroomhelper
 
 	public function getStockroom($stockroom_id)
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$stockroom_id = explode(',', $stockroom_id);
 		JArrayHelper::toInteger($stockroom_id);
 		$stockroom_id = implode(',', $stockroom_id);
@@ -918,7 +918,7 @@ class rsstockroomhelper
 	 */
 	public function getStockroom_maxdelivery($stockroom_id)
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$stockroom_id = explode(',', $stockroom_id);
 		JArrayHelper::toInteger($stockroom_id);
 		$stockroom_id = implode(',', $stockroom_id);

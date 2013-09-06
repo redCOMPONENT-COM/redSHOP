@@ -18,7 +18,7 @@ class attribute_set_detailVIEWattribute_set_detail extends JView
 		$redTemplate = new Redtemplate;
 
 		$option = JRequest::getVar('option');
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$cfg = JFactory::getConfig();
 		$dbPrefix = $cfg->getValue('config.dbprefix');
 		$lists = array();

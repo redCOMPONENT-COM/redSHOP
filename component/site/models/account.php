@@ -69,7 +69,7 @@ class AccountModelaccount extends JModel
 
 	public function usercoupons($uid)
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select('*')
 			->from('#__redshop_coupons')
@@ -102,7 +102,7 @@ class AccountModelaccount extends JModel
 	public function _buildQuery()
 	{
 		$app = JFactory::getApplication();
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$query = $db->getQuery(true);
 
 		$user   = JFactory::getUser();
@@ -208,7 +208,7 @@ class AccountModelaccount extends JModel
 	{
 		$user   = JFactory::getUser();
 		$userid = $user->id;
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select('COUNT(pt.tags_id)')
 			->from($db->quoteName('#__redshop_product_tags', 'pt'))
@@ -224,7 +224,7 @@ class AccountModelaccount extends JModel
 	{
 		$user   = JFactory::getUser();
 		$userid = $user->id;
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select('*')
 			->from($db->quoteName('#__redshop_wishlist', 'pw'))
@@ -237,7 +237,7 @@ class AccountModelaccount extends JModel
 	public function removeWishlistProduct()
 	{
 		$app = JFactory::getApplication();
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 
 		$Itemid      = $app->input->getInt('Itemid', 0);
 		$option      = $app->input->getCmd('option', '');
@@ -306,7 +306,7 @@ class AccountModelaccount extends JModel
 	public function removeTags($tagid)
 	{
 		$user = JFactory::getUser();
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->delete($db->quoteName('#__redshop_product_tags_xref'))
 			->where('tags_id = ' . (int) $tagid)
@@ -344,7 +344,7 @@ class AccountModelaccount extends JModel
 
 	public function getMytag($tagid)
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$query = $db->getQuery(true)
 			->select('tags_name')
 			->from($db->quoteName('#__redshop_product_tags'))
@@ -357,7 +357,7 @@ class AccountModelaccount extends JModel
 
 	public function editTag($post)
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$query = "UPDATE " . $this->_table_prefix . "product_tags SET tags_name = "
 			. $db->quote($post['tags_name']) . ' WHERE tags_id = ' . (int) $post['tags_id'];
 		$db->setQuery($query);
@@ -612,7 +612,7 @@ class AccountModelaccount extends JModel
 
 	public function unused_coupon_amount($user_id, $coupone_code)
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$query = 'SELECT coupon_value FROM ' . $this->_table_prefix . 'coupons_transaction WHERE userid ='
 			. (int) $user_id . ' AND coupon_code = ' . $db->quote($coupone_code);
 		$db->setQuery($query);

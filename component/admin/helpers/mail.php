@@ -31,7 +31,7 @@ class redshopMail
 
 	public function __construct()
 	{
-		$this->_db = JFactory::getDBO();
+		$this->_db = JFactory::getDbo();
 
 		$this->_table_prefix = '#__' . TABLE_PREFIX . '_';
 
@@ -1179,7 +1179,7 @@ class redshopMail
 		$app = JFactory::getApplication();
 
 		$acl = JFactory::getACL();
-		$db  = JFactory::getDBO();
+		$db  = JFactory::getDbo();
 		$me  = JFactory::getUser();
 
 		$mainpassword = JRequest::getVar('password1', '', 'post', 'string', JREQUEST_ALLOWRAW);

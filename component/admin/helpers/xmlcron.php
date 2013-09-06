@@ -50,7 +50,7 @@ class xmlcron
 		$currenttime = time();
 		$xmlHelper = new xmlHelper;
 
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$query = "SELECT * FROM " . $this->_table_prefix . "xml_export AS x "
 			. "WHERE x.published=1 "
 			. "AND x.auto_sync=1 "
@@ -61,7 +61,7 @@ class xmlcron
 
 		for ($i = 0; $i < count($exportlist); $i++)
 		{
-			$db = JFactory::getDBO();
+			$db = JFactory::getDbo();
 			$query = "SELECT * FROM " . $this->_table_prefix . "xml_export_log AS xl "
 				. "WHERE xl.xmlexport_id = " . (int) $exportlist[$i]->xmlexport_id . " "
 				. "ORDER BY xl.xmlexport_date DESC ";
@@ -86,7 +86,7 @@ class xmlcron
 		$currenttime = time();
 		$xmlHelper = new xmlHelper;
 
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$query = "SELECT * FROM " . $this->_table_prefix . "xml_import AS x "
 			. "WHERE x.published=1 "
 			. "AND x.auto_sync=1 "
@@ -97,7 +97,7 @@ class xmlcron
 
 		for ($i = 0; $i < count($importlist); $i++)
 		{
-			$db = JFactory::getDBO();
+			$db = JFactory::getDbo();
 			$query = "SELECT * FROM " . $this->_table_prefix . "xml_import_log AS xl "
 				. "WHERE xl.xmlimport_id = " . (int) $importlist[$i]->xmlimport_id . "' "
 				. "ORDER BY xl.xmlimport_date DESC ";

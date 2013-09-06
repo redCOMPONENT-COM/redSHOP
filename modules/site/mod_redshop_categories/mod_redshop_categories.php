@@ -15,7 +15,7 @@ global $root_label, $jscook_type, $jscookMenu_style, $jscookTree_style, $mm_acti
 $uri = JURI::getInstance();
 $urlpath = $uri->root();
 $user = JFactory::getUser();
-$db = JFactory::getDBO();
+$db = JFactory::getDbo();
 //get category id
 $category_id = JRequest::getVar('cid');
 unset($GLOBALS['category_info']['category_tree']);

@@ -42,7 +42,7 @@ if ($enableAjaxsearch)
 	$document->addStyleSheet(JURI::base() . "administrator/components/com_redshop/assets/css/search.css");
 	$javaFun = "makeUrl();";
 }
-$db = JFactory::getDBO();
+$db = JFactory::getDbo();
 
 if ($user->id > 0)
 	$query = "SELECT sg.shopper_group_categories FROM `#__redshop_shopper_group` as sg LEFT JOIN #__redshop_users_info as uf ON sg.`shopper_group_id` = uf.shopper_group_id WHERE uf.user_id = " . $user->id . " GROUP BY sg.shopper_group_id  AND sg.shopper_group_portal=1";

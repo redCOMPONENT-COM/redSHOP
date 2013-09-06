@@ -35,7 +35,7 @@ class redmodMenuHelper
 		{
 			// Initialise variables.
 			$list = array();
-			$db   = JFactory::getDBO();
+			$db   = JFactory::getDbo();
 			$user = JFactory::getUser();
 			$app  = JFactory::getApplication();
 			$menu = $app->getMenu();
@@ -248,7 +248,7 @@ class redmodMenuHelper
 	function getShopperGroupCategory($cid = 0)
 	{
 
-		$db   = JFactory::getDBO();
+		$db   = JFactory::getDbo();
 		$user = JFactory::getUser();
 
 		if ($user->id > 0)

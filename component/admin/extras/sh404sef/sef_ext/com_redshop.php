@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 // ------------------  standard plugin initialize function - don't change ---------------------------
 global $sh_LANG;
 $sefConfig      = shRouter::shGetConfig();
-$db             = JFactory::getDBO();
+$db             = JFactory::getDbo();
 $shLangName     = '';
 $shLangIso      = '';
 $title          = array();

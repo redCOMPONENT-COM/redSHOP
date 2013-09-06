@@ -18,14 +18,14 @@ class statistic
 	public function __construct()
 	{
 		$this->_table_prefix = '#__' . TABLE_PREFIX . '_';
-		$this->_db           = JFactory::getDBO();
+		$this->_db           = JFactory::getDbo();
 		statistic::reshop_visitors();
 		statistic::reshop_pageview();
 	}
 
 	public function reshop_visitors()
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 
 		$sid  = session_id();
 		$user = JFactory::getUser();
@@ -52,7 +52,7 @@ class statistic
 
 	public function reshop_pageview()
 	{
-		$db      = JFactory::getDBO();
+		$db      = JFactory::getDbo();
 		$sid     = session_id();
 		$user    = JFactory::getUser();
 		$view    = JRequest::getVar('view');

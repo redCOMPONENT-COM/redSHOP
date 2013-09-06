@@ -15,7 +15,7 @@ $currencies = $params->get('product_currency', '');
 
 $currenciess = array();
 
-$db = JFactory::getDBO();
+$db = JFactory::getDbo();
 if ($currencies)
 {
 

@@ -50,7 +50,7 @@ class plgRedshop_paymentrs_payment_beanstream extends JPlugin
 		}
 
 		$app = JFactory::getApplication();
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$user = JFActory::getUser();
 		$session = JFactory::getSession();
 		$ccdata = $session->get('ccdata');

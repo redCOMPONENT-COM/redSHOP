@@ -171,7 +171,7 @@ class productModelproduct extends JModel
 
 	public function checkReview($email)
 	{
-		$db    = JFactory::getDBO();
+		$db    = JFactory::getDbo();
 		$query = "SELECT email from " . $this->_table_prefix . "product_rating WHERE email = " . $db->quote($email) . " AND email != '' AND product_id = " . (int) $product_id . " limit 0,1 ";
 		$db->setQuery($query);
 		$chkemail = $db->loadResult();
