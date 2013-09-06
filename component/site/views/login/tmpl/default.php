@@ -25,7 +25,7 @@ else
 
 $forgotpwd_link = 'index.php?option=com_redshop&view=password&Itemid=' . $Itemid;
 
-$params       = $app->getParams($option);
+$params       = $app->getParams('com_redshop');
 $returnitemid = $params->get('login', $Itemid);
 
 ?>
@@ -72,5 +72,5 @@ $returnitemid = $params->get('login', $Itemid);
 	<input type="hidden" name="task" id="task" value="setlogin">
 	<input type="hidden" name="mywishlist" id="mywishlist" value="<?php echo JRequest::getString('wishlist'); ?>">
 	<input type="hidden" name="returnitemid" id="returnitemid" value="<?php echo $returnitemid; ?>">
-	<input type="hidden" name="option" id="option" value="<?php echo $option; ?>"/>
+	<input type="hidden" name="option" id="option" value="com_redshop"/>
 </form>
