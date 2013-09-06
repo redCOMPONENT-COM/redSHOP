@@ -29,7 +29,7 @@ class manufacturersViewmanufacturers extends JView
 		$detail = $this->get('data');
 		$limit  = $params->get('maxproduct');
 
-		if (!$limit)
+		if (!$limit && $detail)
 		{
 			$limit = $detail[0]->product_per_page;
 		}
@@ -234,7 +234,9 @@ class manufacturersViewmanufacturers extends JView
 		$lists['order_select'] = JHTML::_('select.genericlist', $order_data, 'order_by', 'class="inputbox" size="1" onchange="document.orderby_form.submit();" ' . $disabled . ' ', 'value', 'text', $order_by_select);
 
 		$categorylist           = $model->getCategoryList();
+
 		$temps                  = array();
+		$temps[0]				= new StdClass;
 		$temps[0]->value        = "0";
 		$temps[0]->text         = JText::_('COM_REDSHOP_SELECT');
 		$categorylist           = array_merge($temps, $categorylist);

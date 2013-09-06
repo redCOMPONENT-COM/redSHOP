@@ -132,7 +132,7 @@ class quotationHelper
 
 		if ($user->id)
 		{
-			$and = " AND q.user_id = " . $user->id . " ";
+			$and = " AND q.user_id = " . (int) $user->id . " ";
 		}
 
 		$query = "SELECT q.* FROM " . $this->_table_prefix . "quotation AS q "
