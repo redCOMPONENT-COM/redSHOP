@@ -811,6 +811,7 @@ class rsUserhelper
 			$post               = array();
 			$post['user_id']    = $jusers[$i]->id;
 			$post['email']      = $jusers[$i]->email;
+			$post['email1']     = $jusers[$i]->email;
 			$post['firstname']  = $name[0];
 			$post['lastname']   = (isset($name[1]) && $name[1]) ? $name[1] : '';
 			$post['is_company'] = (DEFAULT_CUSTOMER_REGISTER_TYPE == 2) ? 1 : 0;

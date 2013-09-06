@@ -135,6 +135,8 @@ function redshopBuildRoute(&$query)
 		unset($query['layout']);
 	}
 
+	$mid = null;
+
 	if (isset($query['mid']))
 	{
 		$mid = $query['mid'];

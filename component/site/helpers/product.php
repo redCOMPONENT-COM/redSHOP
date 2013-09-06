@@ -2587,7 +2587,7 @@ class producthelper
 
 				if (count($res) > 0 && $res->home != 1)
 				{
-					if ($res->parent)
+					if (property_exists($res, 'parent'))
 					{
 						$parentres = $this->getMenuInformation($res->parent);
 
