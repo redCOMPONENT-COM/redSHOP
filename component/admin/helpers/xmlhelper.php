@@ -22,7 +22,7 @@ class xmlHelper
 	public function __construct()
 	{
 		$this->_table_prefix = '#__redshop_';
-		$this->_db = JFactory::getDBO();
+		$this->_db = JFactory::getDbo();
 	}
 
 	public function getSectionTypeList()
@@ -322,7 +322,7 @@ class xmlHelper
 		$query = "INSERT INTO " . $this->_table_prefix . "xml_import_log "
 			. "(xmlimport_id, xmlimport_filename, xmlimport_date) "
 			. "VALUES "
-			. "(" . (int) $xmlexport_id . ", " . $this->_db->quote($filename) . "," . $this->_db->quote(time()) . ") ";
+			. "(" . (int) $xmlexport_id . ", " . $this->_db->quote($filename) . "," . (int) time() . ") ";
 		$this->_db->setQuery($query);
 		$this->_db->query();
 	}
@@ -1129,7 +1129,7 @@ class xmlHelper
 						$datalist[$i]['product_number'] = $oldproduct_number;
 
 						$query = "SELECT product_id FROM " . $this->_table_prefix . "product "
-							. "WHERE product_number=" . $this->_db->quote($oldproduct_number) . " ";
+							. "WHERE product_number=" . $this->_db->quote($oldproduct_number);
 						$this->_db->setQuery($query);
 						$product_id = $this->_db->loadResult();
 
@@ -1236,7 +1236,7 @@ class xmlHelper
 													. "WHERE p.product_id=fa.itemid "
 													. "AND fa.section='1' "
 													. "AND fa.fieldid=" . (int) $value[$j]['fieldid'] . " "
-													. "AND p.product_number=" . $this->_db->quote($oldproduct_number) . " ";
+													. "AND p.product_number=" . $this->_db->quote($oldproduct_number);
 												$this->_db->setQuery($query);
 												$this->_db->Query();
 												$affected_rows = $this->_db->getAffectedRows();
@@ -1403,7 +1403,7 @@ class xmlHelper
 														if ($stockroom_id)
 														{
 															$fieldstring .= ",stockroom_id,product_id";
-															$valuestring .= ",'" . $stockroom_id . "', '" . $product_id . "'";
+															$valuestring .= "," . (int) $stockroom_id . ", " . (int) $product_id . "";
 
 															$query = "INSERT IGNORE INTO " . $this->_table_prefix . "product_stockroom_xref "
 																. "($fieldstring) VALUES ($valuestring)";
@@ -1436,7 +1436,7 @@ class xmlHelper
 													if (trim($fieldstring) != "")
 													{
 														$fieldstring .= ",itemid,section";
-														$valuestring .= ",'" . $product_id . "', '1' ";
+														$valuestring .= "," . (int) $product_id . ", '1' ";
 														$query = "INSERT IGNORE INTO " . $this->_table_prefix . "fields_data "
 															. "($fieldstring) VALUES ($valuestring)";
 														$this->_db->setQuery($query);
@@ -1468,7 +1468,7 @@ class xmlHelper
 									if ($category_id == 0 && isset($catarray['category_name']) && $catarray['category_name'] != "")
 									{
 										$query = "INSERT IGNORE INTO " . $this->_table_prefix . "category "
-											. "(category_name) VALUES ('" . $this->_db->quote($catarray['category_name']) . "')";
+											. "(category_name) VALUES (" . $this->_db->quote($catarray['category_name']) . ")";
 										$this->_db->setQuery($query);
 										$this->_db->Query();
 										$category_id = $this->_db->insertid();
