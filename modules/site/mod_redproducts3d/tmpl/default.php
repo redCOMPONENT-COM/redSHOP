@@ -11,7 +11,7 @@ defined('_JEXEC') or die('Restricted access');
 
 $uri = JURI::getInstance();
 $url = $uri->root();
-$Itemid = JRequest::getVar('Itemid');
+$Itemid = JRequest::getInt('Itemid');
 $option = 'com_redshop';
 
 $document = JFactory::getDocument();

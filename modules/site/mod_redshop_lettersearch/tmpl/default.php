@@ -13,9 +13,9 @@ defined('_JEXEC') or die('Restricted access');
 <table cellspacing='5' cellpadding='5' border='0' width='100%'>
 	<tr>
 		<?php
-		$option = JRequest::getVar('option');
-		$Itemid = JRequest::getVar('Itemid');
-		$letter = JRequest::getVar('letter');
+		$option = JRequest::getCmd('option');
+		$Itemid = JRequest::getInt('Itemid');
+		$letter = JRequest::getString('letter');
 		$j = 1;
 
 		for($i = 0; $i < count($getcharacters); $i++)

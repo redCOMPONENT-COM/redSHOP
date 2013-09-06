@@ -89,7 +89,7 @@ class TransMenu
 
 		$txt       = '';
 		$objhelper = new redhelper ();
-		$Itemid    = JRequest::getVar('Itemid', '1');
+		$Itemid    = JRequest::getInt('Itemid', '1');
 
 		$cItemid = $objhelper->getCategoryItemid($row->id);
 		if ($cItemid != "")

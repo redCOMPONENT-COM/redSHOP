@@ -61,7 +61,7 @@ class Shop_Menu
 							'-1' as browserNav, ordering
 								FROM #__redshop_category, #__redshop_category_xref
 								WHERE #__redshop_category.published='1'
-									AND #__redshop_category.category_id=#__redshop_category_xref.category_child_id ";
+								AND #__redshop_category.category_id=#__redshop_category_xref.category_child_id ";
 		if ($shopper_group_id && count($shoppergroup_cat) > 0)
 		{
 			$query .= " and category_id in (" . $shoppergroup_cat[0] . ")";

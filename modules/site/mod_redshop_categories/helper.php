@@ -22,7 +22,7 @@ class modProMenuHelper
 		if (empty($GLOBALS['category_info'][$category_id]['has_childs']))
 		{
 			$q = "SELECT category_child_id FROM #__redshop_category_xref ";
-			$q .= "WHERE category_parent_id='$category_id' ";
+			$q .= "WHERE category_parent_id=" . (int) $category_id;
 			$db->setQuery($q);
 
 			if ($db->loadObjectList() > 0)
@@ -257,8 +257,7 @@ class modProMenuHelper
 			if (empty($num) || $this->has_childs($category_id))
 			{
 				$q = "SELECT category_child_id FROM #__redshop_category_xref ";
-				$q .= "WHERE category_parent_id='$category_id' ";
-
+				$q .= "WHERE category_parent_id=" . (int) $category_id;
 
 				$db->setQuery($q);
 				$catresults = $db->loadObjectList();
@@ -403,7 +402,7 @@ class modProMenuHelper
 
 				$Itemid = $objhelper->getCategoryItemid($category_tmp[$row_list[$n]]["category_child_id"]);
 				if (!$Itemid)
-					$Itemid = JRequest::getVar('Itemid');
+					$Itemid = JRequest::getInt('Itemid');
 
 				$uri = JURI::getInstance();
 				$url = $uri->root();
@@ -426,7 +425,7 @@ class modProMenuHelper
 	{
 		$db    = JFactory::getDbo();
 		$query = "SELECT shopper_group_categories  FROM #__redshop_shopper_group "
-			. "WHERE shopper_group_id='" . $shopper_group_id . "' ";
+			. "WHERE shopper_group_id=" . (int) $shopper_group_id;
 		$db->setQuery($query);
 		$cat_id_arr = $db->loadResultArray();
 

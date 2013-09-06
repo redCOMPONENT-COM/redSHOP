@@ -27,7 +27,7 @@ $sql = "SELECT s.*,u.user_id "
 	. ", #__redshop_shopper_group AS s "
 	. "WHERE u.shopper_group_id = s.shopper_group_id "
 	. "AND s.published=1 "
-	. "AND u.user_id='" . $user->id . "' ";
+	. "AND u.user_id=" . (int) $user->id . " ";
 $db->setQuery($sql);
 $rows = $db->loadObject();
 

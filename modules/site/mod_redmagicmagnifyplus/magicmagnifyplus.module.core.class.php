@@ -9,7 +9,6 @@
 
 if (!in_array('MagicMagnifyPlusModuleCoreClass', get_declared_classes()))
 {
-
 	require_once dirname(__FILE__) . '/magictoolbox.params.class.php';
 
 	class MagicMagnifyPlusModuleCoreClass
@@ -82,7 +81,7 @@ if (!in_array('MagicMagnifyPlusModuleCoreClass', get_declared_classes()))
                                                 a.setAttribute(\'title\', el.getAttribute(\'title\'));
                                                 a.firstChild.src = el.getAttribute(\'rev\');
                                                 MagicThumb.refresh();
-                                            }            
+                                            }
                                     </script>';
 
 			return implode("\r\n", $headers);
