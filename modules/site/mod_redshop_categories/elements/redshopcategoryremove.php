@@ -35,7 +35,7 @@ class JFormFieldRedshopcategoryremove extends JFormField
 				$this->value[$tmpV] = $tmpV;
 			}
 		}
-		$option = JRequest::getVar('option');
+		$option = JRequest::getInt('option');
 		if ($option != 'com_redshop')
 		{
 			require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';

@@ -45,7 +45,7 @@ $sql = "SELECT * FROM #__redshop_product p "
 	. $leftjoin
 	. "WHERE p.published=1 "
 	. $and
-	. "LIMIT 0," . $count;
+	. "LIMIT 0," . (int) $count;
 $db->setQuery($sql);
 $rows = $db->loadObjectList();
 
