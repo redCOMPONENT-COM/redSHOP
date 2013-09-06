@@ -118,7 +118,7 @@ class accessmanagerModelaccessmanager extends JModel
 		$filter_order = $app->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'question_date');
 		$filter_order_Dir = $app->getUserStateFromRequest($this->_context . 'filter_order_Dir', 'filter_order_Dir', 'DESC');
 
-		$orderby = " ORDER BY " . $db->quote($filter_order . " " . $filter_order_Dir);
+		$orderby = " ORDER BY " . $db->escape($filter_order . " " . $filter_order_Dir);
 
 		return $orderby;
 	}
