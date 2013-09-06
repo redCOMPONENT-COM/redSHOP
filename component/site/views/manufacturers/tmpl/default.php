@@ -86,7 +86,7 @@ if (strstr($template_desc, '{manufacturer_loop_start}') && strstr($template_desc
 $extraFieldName     = $extraField->getSectionFieldNameArray(10, 1, 1);
 $replace_middledata = '';
 
-if ($template_middle != "")
+if ($this->detail && $template_middle != "")
 {
 	for ($i = 0; $i < $this->params->get('maxmanufacturer'); $i++)
 	{
