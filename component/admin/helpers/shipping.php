@@ -1133,7 +1133,7 @@ class shipping
 				OR (shipping_rate_zip_start = "" AND shipping_rate_zip_end = "") ) ';
 			}
 
-			$sql = "SELECT * FROM " . $this->_table_prefix . "shipping_rate WHERE shipping_class = " . $db->quote($shipping_class)) . "
+			$sql = "SELECT * FROM " . $this->_table_prefix . "shipping_rate WHERE shipping_class = " . $db->quote($shipping_class) . "
 				$wherecountry $wherestate $whereshopper
 				$zipCond
 				AND (( '$volume' BETWEEN shipping_rate_volume_start AND shipping_rate_volume_end) OR (shipping_rate_volume_end = 0) )
