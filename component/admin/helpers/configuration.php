@@ -1346,7 +1346,7 @@ class Redconfiguration
 					// Sanitize country list
 					foreach ($country_list as &$countryCode)
 					{
-						$db->quote($countryCode);
+						$countryCode = $db->quote($countryCode);
 					}
 
 					$q = 'SELECT country_3_code AS value,country_name AS text,country_jtext FROM ' . $this->_table_prefix . 'country '
@@ -1374,7 +1374,6 @@ class Redconfiguration
 		{
 			$post['country_code' . $address_type] = $countries[0]->value;
 		}
-
 		elseif (!isset($post['country_code' . $address_type]))
 		{
 			$post['country_code' . $address_type] = SHOP_COUNTRY;
@@ -1432,7 +1431,7 @@ class Redconfiguration
 				// Sanitize country list
 				foreach ($country_list as &$countryCode)
 				{
-					$db->quote($countryCode);
+					$countryCode = $db->quote($countryCode);
 				}
 
 				$q = 'SELECT c.country_id, c.country_3_code, s.state_name, s.state_2_code FROM ' . $this->_table_prefix . 'country AS c '
