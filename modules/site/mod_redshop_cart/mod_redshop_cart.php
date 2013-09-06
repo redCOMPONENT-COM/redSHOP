@@ -8,7 +8,7 @@
  */
 
 defined('_JEXEC') or die('Restricted access');
-$option = JRequest::getVar('option');
+$option = JRequest::getCmd('option');
 
 $show_with_vat = trim($params->get('show_with_vat', 0));
 $button_text = trim($params->get('button_text', ''));

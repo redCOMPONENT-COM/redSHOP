@@ -23,10 +23,10 @@ $Redconfiguration->defineDynamicVars();
 // Getting the configuration
 require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/category.php';
 
-// get product helper
+// Get product helper
 require_once JPATH_ROOT . '/components/com_redshop/helpers/product.php';
 
-// get product helper
+// Get product helper
 require_once JPATH_ROOT . '/components/com_redshop/helpers/helper.php';
 
 $document = JFactory::getDocument();
@@ -43,73 +43,88 @@ JHTML::Script('common.js', 'components/com_redshop/assets/js/', false);
  *
  * @example $scroller = new productScroller($params);
  */
+// Prevent double class declaration
 if (!class_exists('redcategoryScroller'))
-{ // Prevent double class declaration
-
+{
 	class redcategoryScroller
 	{
 		/**
 		 * @var $NumberOfCategory
 		 */
 		var $NumberOfCategory = 5;
+
 		/**
 		 * @var $featuredCategory
 		 */
 		var $featuredCategory = false;
+
 		/**
 		 * // scroll, alternate, slide
 		 * @var $ScrollBehavior
 		 */
 		var $ScrollBehavior = 'scroll';
+
 		/**
 		 * @var $PS_DIRECTION
 		 */
 		var $ScrollDirection = 'up';
+
 		/**
 		 * @var $ScrollHeight
 		 */
 		var $ScrollHeight = '125';
+
 		/**
 		 * @var $ScrollWidth
 		 */
 		var $ScrollWidth = '150';
+
 		/**
 		 * @var $ScrollAmount
 		 */
 		var $ScrollAmount = '2';
+
 		/**
 		 * @var $ScrollDelay
 		 */
 		var $ScrollDelay = '80';
+
 		/**
 		 * @var $ScrollAlign
 		 */
 		var $ScrollAlign = 'center';
+
 		/**
 		 * // newest [asc], oldest [desc], random [rand]
 		 * @var $SortMethod
 		 */
 		var $ScrollSortMethod = 'random';
+
 		/**
 		 * @var $ScrollTitles
 		 */
 		var $ScrollTitles = 'yes';
+
 		/**
 		 * @var $ScrollSpaceChar
 		 */
 		var $ScrollSpaceChar = '&nbsp;';
+
 		/**
 		 * @var $ScrollSpaceCharTimes
 		 */
 		var $ScrollSpaceCharTimes = 5;
+
 		/**
 		 * @var $ScrollLineChar
 		 */
 		var $ScrollLineChar = '<br />';
+
 		/**
 		 * @var $ScrollLineCharTimes
 		 */
 		var $ScrollLineCharTimes = 2;
+
 		/**
 		 * @var $ScrollSection
 		 */
@@ -124,22 +139,27 @@ if (!class_exists('redcategoryScroller'))
 		 * @var $ScrollTextAlign
 		 */
 		var $ScrollTextAlign = 'left';
+
 		/**
 		 * @var $ScrollTextWeight
 		 */
 		var $ScrollTextWeight = 'normal';
+
 		/**
 		 * @var $ScrollTextSize
 		 */
 		var $ScrollTextSize = '10';
+
 		/**
 		 * @var $ScrollTextColor
 		 */
 		var $ScrollTextColor = '#000000';
+
 		/**
 		 * @var $ScrollBGColor
 		 */
 		var $ScrollBGColor = 'transparent';
+
 		/**
 		 * @var $ScrollMargin
 		 */
@@ -156,17 +176,18 @@ if (!class_exists('redcategoryScroller'))
 		 */
 		function redcategoryScroller(&$params, $module_id)
 		{
-
 			$this->params = $params;
-			// standard mammeters
+
+			// Standard mammeters
 			$this->show_category_name = $params->get('show_category_name', "yes");
 			$this->show_addtocart     = $params->get('show_addtocart', "yes");
 			$this->show_price         = $params->get('show_price', "yes");
-			//$this->category_id            =  intval( $params->get('cid', 0 ) );
-			$this->category_id = intval(JRequest::getVar('cid', 0));
+
+			$this->category_id = JRequest::getInt('cid', 0);
 
 			$this->thumbwidth  = $params->get('thumbwidth', 100);
 			$this->thumbheight = $params->get('thumbheight', 100);
+
 			// Limit by NoP
 			$this->NumberOfCategory = $params->get('NumberOfCategory', $this->NumberOfCategory);
 			$this->featuredCategory = $params->get('featuredCategory', $this->featuredCategory);
@@ -185,7 +206,8 @@ if (!class_exists('redcategoryScroller'))
 			$this->ScrollSpaceCharTimes = $params->get('ScrollSpaceCharTimes', $this->ScrollSpaceCharTimes);
 			$this->ScrollLineChar       = $params->get('ScrollLineChar', $this->ScrollLineChar);
 			$this->ScrollLineCharTimes  = $params->get('ScrollLineCharTimes', $this->ScrollLineCharTimes);
-			// customization mammeters
+
+			// Customization mammeters
 			$this->ScrollCSSOverride        = $params->get('ScrollCSSOverride', $this->ScrollCSSOverride);
 			$this->ScrollTextAlign          = $params->get('ScrollTextAlign', $this->ScrollTextAlign);
 			$this->ScrollTextWeight         = $params->get('ScrollTextWeight', $this->ScrollTextWeight);
@@ -208,12 +230,12 @@ if (!class_exists('redcategoryScroller'))
 			$database = JFactory::getDbo();
 
 			$cnt = 0;
+
 			if ($this->ScrollCSSOverride == 'yes')
 			{
 				$txt_size = $this->ScrollTextSize . 'px';
 				$margin   = $this->ScrollMargin . 'px';
-				//$height=($height-intval($margin+0));
-				//$width=($width-intval($margin+30));
+
 				echo $this->params->get('pretext', "");
 				echo " <div style=\"text-align:" . $this->ScrollAlign . ";background-color: " . $this->ScrollBGColor . "; width:" . $this->ScrollWidth . "px;
                        margin-top: $margin; margin-right: $margin; margin-bottom: $margin; margin-left: $margin;\" >
@@ -228,7 +250,6 @@ if (!class_exists('redcategoryScroller'))
 			}
 			else
 			{
-
 				echo " <div style=\"width:" . $this->ScrollWidth . "px;text-align:" . $this->ScrollAlign . ";\">
                <marquee behavior=\"" . $this->ScrollBehavior . "\"
                         direction=\"" . $this->ScrollDirection . "\"
@@ -238,14 +259,18 @@ if (!class_exists('redcategoryScroller'))
                         scrolldelay=\"" . $this->ScrollDelay . "\"
                         truespeed=\"true\" onmouseover=\"this.stop()\" onmouseout=\"this.start()\">";
 			}
+
 			$show_category_name = ($this->show_category_name == "yes") ? true : false;
 			$show_addtocart     = ($this->show_addtocart == "yes") ? true : false;
 			$show_price         = ($this->show_price == "yes") ? true : false;
+
 			if (($this->ScrollDirection == 'left') || ($this->ScrollDirection == 'right'))
 			{
 				echo '<table><tr>';
 			}
+
 			$i = 0;
+
 			foreach ($rows as $row)
 			{
 				if (($this->ScrollDirection == 'left') || ($this->ScrollDirection == 'right'))
@@ -256,6 +281,7 @@ if (!class_exists('redcategoryScroller'))
 				// Display Product
 				$categorydata = $this->ShowCategory($row, $i);
 				echo $categorydata;
+
 				if (($this->ScrollDirection == 'left') || ($this->ScrollDirection == 'right'))
 				{
 					echo '</table></td>';
@@ -268,16 +294,18 @@ if (!class_exists('redcategoryScroller'))
 						echo $this->ScrollLineChar;
 					}
 				}
+
 				$i++;
 			}
+
 			if (($this->ScrollDirection == 'left') || ($this->ScrollDirection == 'right'))
 			{
 				echo '</tr></table>';
 			}
+
 			echo "    </marquee>
             </div>";
-		} // end displayredScroller
-
+		}
 
 		/**
 		 * Helper DB function
@@ -286,7 +314,7 @@ if (!class_exists('redcategoryScroller'))
 		{
 			$app = JFactory::getApplication();
 
-			$category_array = new product_category();
+			$category_array = new product_category;
 
 			$hierachy = $category_array->getCategoryListArray($category_id, $category_id);
 
@@ -296,7 +324,6 @@ if (!class_exists('redcategoryScroller'))
 			{
 				$cid[] = $hierachy[$i]->category_id;
 			}
-
 
 			$database = JFactory::getDbo();
 
@@ -311,8 +338,7 @@ if (!class_exists('redcategoryScroller'))
 
 			$query = "SELECT DISTINCT c.*  FROM #__redshop_category AS c";
 
-			$query .= "\n WHERE c.published = '1'";
-
+			$query .= "\n WHERE c.published = 1 ";
 
 			switch ($how)
 			{
@@ -338,12 +364,13 @@ if (!class_exists('redcategoryScroller'))
 
 		function ShowCategory($row, $i)
 		{
-			$producthelper = new producthelper();
-			$redhelper     = new redhelper();
+			$producthelper = new producthelper;
+			$redhelper     = new redhelper;
 
-			$category_id = intval(JRequest::getVar('cid', 0));
+			$category_id = intval(JRequest::getInt('cid', 0));
 
 			$ItemData = $redhelper->getCategoryItemid($row->category_id);
+
 			if (count($ItemData) > 0)
 			{
 				$Itemid = $ItemData->id;
@@ -352,7 +379,7 @@ if (!class_exists('redcategoryScroller'))
 			{
 				$Itemid = $redhelper->getItemid($row->category_id);
 			}
-			//$data_add ='<div>';
+
 			$data_add   = '';
 			$thum_image = "";
 
@@ -376,6 +403,7 @@ if (!class_exists('redcategoryScroller'))
 				$h_thumb = $this->thumbheight;
 
 				$linkimage = REDSHOP_FRONT_IMAGES_ABSPATH . "noimage.jpg";
+
 				if ($row->category_full_image && file_exists(REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $row->category_full_image))
 				{
 					$product_img = $redhelper->watermark('category', $row->category_full_image, $w_thumb, $h_thumb, WATERMARK_CATEGORY_THUMB_IMAGE);
@@ -386,6 +414,7 @@ if (!class_exists('redcategoryScroller'))
 					$product_img = $redhelper->watermark('category', CATEGORY_DEFAULT_IMAGE, $w_thumb, $h_thumb, WATERMARK_CATEGORY_THUMB_IMAGE);
 					$linkimage   = $redhelper->watermark('category', CATEGORY_DEFAULT_IMAGE, '', '', WATERMARK_CATEGORY_IMAGE);
 				}
+
 				if (CAT_IS_LIGHTBOX)
 				{
 					$cat_thumb = "<a class='modal' href='" . $linkimage . "' rel=\"{handler: 'image', size: {}}\" " . $title . ">";
@@ -394,23 +423,26 @@ if (!class_exists('redcategoryScroller'))
 				{
 					$cat_thumb = "<a href='" . $link . "' " . $title . ">";
 				}
+
 				$cat_thumb .= "<img src='" . $product_img . "' " . $alt . $title . ">";
 				$cat_thumb .= "</a>";
 				$data_add .= "<tr><td>" . $cat_thumb . "</td></tr>";
 			}
+
 			if ($this->show_category_name == 'yes')
 			{
 				$pname = "<tr><td style='text-align:" . $this->ScrollTextAlign . ";font-weight:" . $this->ScrollTextWeight . ";font-size:" . $this->ScrollTextSize . "px;'><a href='" . $link . "' >" . $pname . "</a></td></tr>";
 				$data_add .= $pname;
 			}
 
-
 			return $data_add;
 		}
 	}
-} // end class categoryScroller
+}
+
 $module_id = "mod_" . $module->id;
-// start of category Scroller Script
+
+// Start of category Scroller Script
 $scroller = new redcategoryScroller($params, $module->id);
 
 /**
@@ -422,4 +454,3 @@ $rows = $scroller->getredCategorySKU($scroller->NumberOfCategory, $scroller->Scr
  * Display category Scroller
  **/
 $scroller->displayredScroller($rows);
-
