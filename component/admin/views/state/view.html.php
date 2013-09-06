@@ -46,16 +46,15 @@ class stateViewstate extends JView
 		$q               = "SELECT  country_id as value,country_name as text,country_jtext from #__" . TABLE_PREFIX . "_country ORDER BY country_name ASC";
 		$db->setQuery($q);
 		$countries       = $db->loadObjectList();
+
 		$countries       = $redhelper->convertLanguageString($countries);
 
-		$temps[0]        = new stdClass;
-		$temps[0]->value = "0";
-		$temps[0]->text  = JText::_('COM_REDSHOP_SELECT');
-		$countries       = array_merge($temps, $countries);
-		$country_list    = explode(',', COUNTRY_LIST);
+		$defSelect = new StdClass;
+		$defSelect->value = "0";
+		$defSelect->text  = JText::_('COM_REDSHOP_SELECT');
 
-		$tmp             = new stdClass;
-		$tmp             = array_merge($tmp, $country_list);
+		$temps           = array($defSelect);
+		$countries       = array_merge($temps, $countries);
 
 		$country_id_filter = $app->getUserStateFromRequest($context . 'country_id_filter', 'country_id_filter', '');
 
