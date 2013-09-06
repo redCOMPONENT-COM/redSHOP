@@ -293,7 +293,7 @@ class searchModelsearch extends JModel
 
 			for ($f = 0; $f < count($main_sp_name); $f++)
 			{
-				$defaultSearchType1[] = " p.product_name LIKE ' . $db->quote('%' . $main_sp_name[$f] . '%') . ' ";
+				$defaultSearchType1[] = " p.product_name LIKE " . $db->quote('%' . $main_sp_name[$f] . '%');
 			}
 
 			$defaultSearchType = "(" . implode("AND", $defaultSearchType1) . ")";
