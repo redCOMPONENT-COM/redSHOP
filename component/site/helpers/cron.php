@@ -36,7 +36,7 @@ class Cron
 		// Move Container to Stockroom start
 		$fdate = date('Y-m-d', $today);
 
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 
 		// Calculation for move Container once in day
 		$query = "SELECT count(id) FROM #__" . TABLE_PREFIX . "_cron WHERE date = " . $db->quote($fdate);
@@ -106,7 +106,7 @@ class Cron
 	public function move($container_id, $stockroom_id)
 	{
 		// Move Container To Stockroom
-		$db = $db = JFactory::getDBO();
+		$db = $db = JFactory::getDbo();
 
 		$q_insert = "INSERT INTO #__"
 			. TABLE_PREFIX
@@ -130,7 +130,7 @@ class Cron
 	public function order_status($container_id)
 	{
 		// Change Order Status
-		$db = $db = JFactory::getDBO();
+		$db = $db = JFactory::getDbo();
 
 		$select_order = "SELECT  order_item_id, order_id,order_status,delivery_time,container_id,product_id,is_split from #__"
 			. TABLE_PREFIX . "_order_item where container_id = " . (int) $container_id;
@@ -170,7 +170,7 @@ class Cron
 		$redshopMail = new redshopMail;
 		$fdate       = $date->toFormat('%Y-%m-%d');
 
-		$db = $db = JFactory::getDBO();
+		$db = $db = JFactory::getDbo();
 
 		$query = "SELECT * FROM #__" . TABLE_PREFIX . "_catalog_request where block = 0 ";
 		$db->setQuery($query);
@@ -351,7 +351,7 @@ class Cron
 		$redshopMail     = new redshopMail;
 		$redconfig       = new Redconfiguration;
 		$stockroomhelper = new rsstockroomhelper;
-		$db              = JFactory::getDBO();
+		$db              = JFactory::getDbo();
 		$date            = JFactory::getDate();
 		$fdate           = $date->toFormat('%Y-%m-%d');
 
@@ -538,7 +538,7 @@ class Cron
 
 		$fdate = $date->toFormat('%Y-%m-%d');
 
-		$db = $db = JFactory::getDBO();
+		$db = $db = JFactory::getDbo();
 
 		$query = "SELECT * FROM #__" . TABLE_PREFIX . "_sample_request where block = 0 ";
 		$db->setQuery($query);
@@ -757,7 +757,7 @@ class Cron
 	 */
 	public function subscription_renewal_mail()
 	{
-		$db          = $db = JFactory::getDBO();
+		$db          = $db = JFactory::getDbo();
 		$redshopMail = new redshopMail;
 		$query       = "SELECT ps.* FROM #__" . TABLE_PREFIX . "_product_subscribe_detail AS ps"
 			. " ,#__" . TABLE_PREFIX . "_subscription_renewal AS r"

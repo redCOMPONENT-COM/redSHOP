@@ -148,7 +148,7 @@ class order_detailModelorder_detail extends JModel
 			}
 
 			$cids = implode(',', $cid);
-			$db = JFactory::getDBO();
+			$db = JFactory::getDbo();
 			$order_item = $order_functions->getOrderItemDetail($cids);
 
 			for ($i = 0; $i < count($order_item); $i++)
@@ -1168,7 +1168,7 @@ class order_detailModelorder_detail extends JModel
 	// Get order stats log
 	public function getOrderLog($order_id)
 	{
-		$database = JFactory::getDBO();
+		$database = JFactory::getDbo();
 		$sql = "SELECT log.*,order_status_name "
 			. " FROM " . $this->_table_prefix . "order_status_log AS log , " . $this->_table_prefix . "order_status ros"
 			. " WHERE log.order_id=" . $order_id . " AND log.order_status=ros.order_status_code";
@@ -1180,7 +1180,7 @@ class order_detailModelorder_detail extends JModel
 	// Get Product subscription price
 	public function getProductSubscriptionDetail($product_id, $subscription_id)
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 
 		$query = "SELECT * "
 			. " FROM " . $this->_table_prefix . "product_subscription"
@@ -1194,7 +1194,7 @@ class order_detailModelorder_detail extends JModel
 	// Get User Product subscription detail
 	public function getUserProductSubscriptionDetail($order_item_id)
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$query = "SELECT * "
 			. " FROM " . $this->_table_prefix . "product_subscribe_detail"
 			. " WHERE "
@@ -1207,7 +1207,7 @@ class order_detailModelorder_detail extends JModel
 	// Get credit card detail
 	public function getccdetail($order_id)
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$query = "SELECT * "
 			. " FROM " . $this->_table_prefix . "order_payment  "
 			. " WHERE "
@@ -1255,7 +1255,7 @@ class order_detailModelorder_detail extends JModel
 
 	public function update_ccdata($order_id, $payment_transaction_id)
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 
 		$session = JFactory::getSession();
 		$ccdata = $session->get('ccdata');

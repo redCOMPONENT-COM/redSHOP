@@ -23,7 +23,7 @@ class plgSearchredshop_products extends JPlugin
 {
 	public function onContentSearch($text, $phrase = '', $ordering = '', $areas = null)
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$user = JFactory::getUser();
 
 		$searchText = $text;

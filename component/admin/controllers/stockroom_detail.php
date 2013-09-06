@@ -259,7 +259,7 @@ class stockroom_detailController extends JController
 		if (ECONOMIC_INTEGRATION == 1)
 		{
 			$economic = new economic;
-			$db = JFactory::getDBO();
+			$db = JFactory::getDbo();
 			$incNo = $cnt;
 			$query = 'SELECT p.* FROM #__redshop_product AS p '
 				. 'LIMIT ' . $cnt . ', 10 ';

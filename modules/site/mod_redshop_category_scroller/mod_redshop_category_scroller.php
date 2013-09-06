@@ -36,7 +36,7 @@ if ($NumberOfProducts > 0)
 	$limit = "LIMIT 0,$NumberOfProducts";
 }
 
-$db      = JFactory::getDBO();
+$db      = JFactory::getDbo();
 $orderby = "ORDER BY p.product_id ";
 switch ($ScrollSortMethod)
 {

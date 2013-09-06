@@ -35,7 +35,7 @@ class product_detailVIEWproduct_detail extends JView
 		$producthelper = new producthelper;
 
 		$option = JRequest::getVar('option');
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$cfg = JFactory::getConfig();
 		$dbPrefix = $cfg->getValue('config.dbprefix');
 		$lists = array();

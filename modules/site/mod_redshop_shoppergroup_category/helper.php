@@ -248,7 +248,7 @@ class redmodMenuHelper
 	function getShopperGroupCategory($cid = 0)
 	{
 
-		$db   = JFactory::getDBO();
+		$db   = JFactory::getDbo();
 		$user = JFactory::getUser();
 
 		if ($user->id > 0)

@@ -17,7 +17,7 @@ class modProMenuHelper
 	function has_childs($category_id)
 	{
 
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 
 		if (empty($GLOBALS['category_info'][$category_id]['has_childs']))
 		{
@@ -130,7 +130,7 @@ class modProMenuHelper
 	function getCategoryTreeArray($only_published = 1, $keyword = "", $shopper_group_id, $parent_selected_remove)
 	{
 		global $categorysorttype;
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 
 		if (empty($GLOBALS['category_info']['category_tree']))
 		{
@@ -221,7 +221,7 @@ class modProMenuHelper
 
 	function product_count($category_id)
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 
 		if (!isset($GLOBALS['category_info'][$category_id]['product_count']))
 		{
@@ -248,7 +248,7 @@ class modProMenuHelper
 	function products_in_category($category_id, $params = '')
 	{
 		global $urlpath;
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 
 		$show_noofproducts = $params->get('show_noofproducts', 'yes');
 		$num               = $this->product_count($category_id);
@@ -424,7 +424,7 @@ class modProMenuHelper
 
 	function get_shoppergroup_cat($shopper_group_id)
 	{
-		$db    = JFactory::getDBO();
+		$db    = JFactory::getDbo();
 		$query = "SELECT shopper_group_categories  FROM #__redshop_shopper_group "
 			. "WHERE shopper_group_id='" . $shopper_group_id . "' ";
 		$db->setQuery($query);

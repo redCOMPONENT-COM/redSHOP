@@ -48,7 +48,7 @@ $Itemid = $request["Itemid"];
 
 if (isset($txid) && $tx_status == 'Completed')
 {
-	$db = JFactory::getDBO();
+	$db = JFactory::getDbo();
 
 	if (orderPaymentNotYetUpdated($db, $order_id, $txid))
 	{
@@ -62,7 +62,7 @@ if (isset($txid) && $tx_status == 'Completed')
 
 function orderPaymentNotYetUpdated($dbConn, $order_id, $tid)
 {
-	$db = JFactory::getDBO();
+	$db = JFactory::getDbo();
 	$res = false;
 	$query = "SELECT COUNT(*) `qty` FROM `#__redshop_order_payment` WHERE `order_id` = '" . $db->getEscaped($order_id) . "' and order_payment_trans_id = '" . $db->getEscaped($txid) . "'";
 	$db->setQuery($query);

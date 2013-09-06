@@ -79,7 +79,7 @@ class redTigraTreeMenu
 		static $ibg = 0;
 		global $Itemid, $urlpath, $sortparam;
 
-		$db        = JFactory :: getDBO();
+		$db        = JFactory::getDbo();
 		$objhelper = new redhelper ();
 		$Itemid    = JRequest::getInt('Itemid');
 		$level++;

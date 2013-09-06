@@ -56,7 +56,7 @@ class plgRedshop_paymentrs_payment_dibspaymentmethod extends JPlugin
 
 	public function onNotifyPaymentrs_payment_dibspaymentmethod($element, $request)
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 
 		if ($element != 'rs_payment_dibspaymentmethod')
 		{
@@ -73,7 +73,7 @@ class plgRedshop_paymentrs_payment_dibspaymentmethod extends JPlugin
 		$verify_status = $this->_params->get('verify_status', '');
 		$invalid_status = $this->_params->get('invalid_status', '');
 
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$request = JRequest::get('request');
 		JPlugin::loadLanguage('com_redshop');
 		$order_id = $request['orderid'];
@@ -109,7 +109,7 @@ class plgRedshop_paymentrs_payment_dibspaymentmethod extends JPlugin
 
 	public function getparameters($payment)
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$sql = "SELECT * FROM #__extensions WHERE `element`='" . $payment . "'";
 		$db->setQuery($sql);
 		$params = $db->loadObjectList();
@@ -119,7 +119,7 @@ class plgRedshop_paymentrs_payment_dibspaymentmethod extends JPlugin
 
 	public function orderPaymentNotYetUpdated($dbConn, $order_id, $tid)
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$res = false;
 		$query = "SELECT COUNT(*) `qty` FROM " . $this->_table_prefix . "order_payment` WHERE `order_id` = '" . $db->getEscaped($order_id) . "' and order_payment_trans_id = '" . $db->getEscaped($tid) . "'";
 		$db->setQuery($query);
@@ -142,7 +142,7 @@ class plgRedshop_paymentrs_payment_dibspaymentmethod extends JPlugin
 
 		require_once JPATH_SITE . '/administrator/components/com_redshop/helpers/order.php';
 		$objOrder = new order_functions;
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$order_id = $data['order_id'];
 		JPlugin::loadLanguage('com_redshop');
 		$dibsurl = "https://payment.architrade.com/cgi-bin/capture.cgi?";

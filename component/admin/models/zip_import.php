@@ -183,7 +183,7 @@ class zip_importModelzip_import extends JModel
 	{
 		// Get a database connector
 
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$tempno = $_SESSION['zipno'];
 
 		// Get the URL of the package to install

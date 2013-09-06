@@ -235,7 +235,7 @@ if( !class_exists('redFeatureproduct'))
 		*/
 		function getredFeaturedProduct( $limit=0, $how=null )
 		{
-			$database = JFactory::getDBO();
+			$database = JFactory::getDbo();
 			$qlimit = "";
 			$orderby = "";
 			if($limit>0)

@@ -97,7 +97,7 @@ class Order_detailModelOrder_detail extends JModel
 	 */
 	public function getCategoryNameByProductId($pid)
 	{
-		$db    = JFactory::getDBO();
+		$db    = JFactory::getDbo();
 		$query = "SELECT c.category_name FROM #__redshop_product_category_xref AS pcx "
 			. "LEFT JOIN #__redshop_category AS c ON c.category_id=pcx.category_id "
 			. "WHERE pcx.product_id=" . (int) $pid . " AND c.category_name IS NOT NULL ORDER BY c.category_id ASC LIMIT 0,1";
@@ -118,7 +118,7 @@ class Order_detailModelOrder_detail extends JModel
 
 	public function update_ccdata($order_id, $payment_transaction_id)
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 
 		$session = JFactory::getSession();
 		$ccdata  = $session->get('ccdata');

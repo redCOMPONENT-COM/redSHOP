@@ -1613,7 +1613,7 @@ class importModelimport extends JModel
 								}
 
 								// Initialize some variables
-								$db = JFactory::getDBO();
+								$db = JFactory::getDbo();
 								$me = JFactory::getUser();
 								$acl = JFactory::getACL();
 								$MailFrom = $app->getCfg('mailfrom');

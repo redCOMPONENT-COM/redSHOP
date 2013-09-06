@@ -223,7 +223,7 @@ if (!class_exists('redproductScroller'))
 		 */
 		function displayredScroller(&$rows)
 		{
-			$database = JFactory::getDBO();
+			$database = JFactory::getDbo();
 
 			$cnt = 0;
 
@@ -322,7 +322,7 @@ if (!class_exists('redproductScroller'))
 			}
 
 			$cid      = array_merge((array) $category_id, $cid);
-			$database = JFactory::getDBO();
+			$database = JFactory::getDbo();
 
 			if ($limit > 0)
 			{

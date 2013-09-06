@@ -972,7 +972,7 @@ class searchModelsearch extends JModel
 		// For session
 		$session      = JSession::getInstance('none', array());
 		$getredfilter = $session->get('redfilter');
-		$db           = JFactory::getDBO();
+		$db           = JFactory::getDbo();
 		$productids   = "";
 
 		if (count($getredfilter) > 0 && $all == 1)
@@ -1040,7 +1040,7 @@ class searchModelsearch extends JModel
 	 */
 	public function loadCatProductsManufacturer($cid)
 	{
-		$db    = JFactory::getDBO();
+		$db    = JFactory::getDbo();
 		$query = "SELECT  p.product_id, p.manufacturer_id FROM " . $this->_table_prefix . "product_category_xref AS cx "
 			. ", " . $this->_table_prefix . "product AS p "
 			. "WHERE cx.category_id = " . (int) $cid . " "

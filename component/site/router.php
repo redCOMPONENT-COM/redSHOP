@@ -29,7 +29,7 @@ function redshopBuildRoute(&$query)
 	$manufacturer_id = '';
 
 	$segments = array();
-	$db       = JFactory::getDBO();
+	$db       = JFactory::getDbo();
 	$app      = JFactory::getApplication();
 	$menu     = $app->getMenu();
 	$item     = $menu->getActive();
@@ -675,7 +675,7 @@ function redshopParseRoute($segments)
 	$vars = array();
 	require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
 
-	$db           = JFactory::getDBO();
+	$db           = JFactory::getDbo();
 	$firstSegment = $segments[0];
 
 	switch ($firstSegment)

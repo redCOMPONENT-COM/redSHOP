@@ -14,7 +14,7 @@ require_once JPATH_COMPONENT . '/helpers/product.php';
 include_once JPATH_COMPONENT . '/helpers/helper.php';
 include_once JPATH_COMPONENT . '/helpers/cart.php';
 
-$db  = JFactory::getDBO();
+$db  = JFactory::getDbo();
 $url = JURI::base();
 
 $jinput = JFactory::getApplication()->input;

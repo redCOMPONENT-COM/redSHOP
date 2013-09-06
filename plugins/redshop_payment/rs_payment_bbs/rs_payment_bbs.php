@@ -61,7 +61,7 @@ class plgredshop_paymentrs_payment_bbs extends JPlugin
 			return;
 		}
 
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$request = JRequest::get('request');
 		$order_id = $request['orderid'];
 		JPlugin::loadLanguage('com_redshop');
@@ -132,7 +132,7 @@ class plgredshop_paymentrs_payment_bbs extends JPlugin
 
 	public function getparameters($payment)
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$sql = "SELECT * FROM #__extensions WHERE `element`='" . $payment . "'";
 		$db->setQuery($sql);
 		$params = $db->loadObjectList();
@@ -142,7 +142,7 @@ class plgredshop_paymentrs_payment_bbs extends JPlugin
 
 	public function orderPaymentNotYetUpdated($dbConn, $order_id, $tid)
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$res = false;
 		$query = "SELECT COUNT(*) `qty` FROM " . $this->_table_prefix . "order_payment WHERE `order_id` = '" . $db->getEscaped($order_id) . "' and order_payment_trans_id = '" . $db->getEscaped($tid) . "'";
 		$db->setQuery($query);
@@ -166,7 +166,7 @@ class plgredshop_paymentrs_payment_bbs extends JPlugin
 		$order_id = $data['order_id'];
 		require_once JPATH_SITE . '/administrator/components/com_redshop/helpers/order.php';
 		$objOrder = new order_functions;
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 
 		if ($this->_params->get("is_test") == "TRUE")
 		{

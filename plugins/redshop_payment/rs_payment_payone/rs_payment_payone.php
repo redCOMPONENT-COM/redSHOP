@@ -62,7 +62,7 @@ class plgRedshop_paymentrs_payment_payone extends JPlugin
 			return false;
 		}
 
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$request = JRequest::get('request');
 		$accept = $request["accept"];
 		$tid = $request["tid"];
@@ -89,7 +89,7 @@ class plgRedshop_paymentrs_payment_payone extends JPlugin
 		{
 			// Find the corresponding order in the database
 
-			$db = JFactory::getDBO();
+			$db = JFactory::getDbo();
 			$qv = "SELECT order_id, order_number FROM #__redshop_orders WHERE order_id='" . $order_id . "'";
 			$db->setQuery($qv);
 			$orders = $db->LoadObjectList();
@@ -258,7 +258,7 @@ class plgRedshop_paymentrs_payment_payone extends JPlugin
 
 	public function getparameters($payment)
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$sql = "SELECT * FROM #__extensions WHERE `element`='" . $payment . "'";
 		$db->setQuery($sql);
 		$params = $db->loadObjectList();
@@ -268,7 +268,7 @@ class plgRedshop_paymentrs_payment_payone extends JPlugin
 
 	public function orderPaymentNotYetUpdated($dbConn, $order_id, $tid)
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$res = false;
 		$query = "SELECT COUNT(*) `qty` FROM `#__redshop_order_payment` WHERE `order_id` = '"
 			. $db->getEscaped($order_id) . "' and order_payment_trans_id = '" . $db->getEscaped($tid) . "'";

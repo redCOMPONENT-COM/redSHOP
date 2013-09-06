@@ -24,7 +24,7 @@ $enableimageStroke      = trim($params->get('enableimageStroke', 'yes'));
 $enableMouseOverToolTip = trim($params->get('enableMouseOverToolTip', 'yes'));
 $enableMouseOverEffects = trim($params->get('enableMouseOverEffects', 'yes'));
 
-$db = JFactory::getDBO();
+$db = JFactory::getDbo();
 
 // Getting the configuration
 require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
