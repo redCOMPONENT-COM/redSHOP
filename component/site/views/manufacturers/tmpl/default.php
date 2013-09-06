@@ -88,7 +88,14 @@ $replace_middledata = '';
 
 if ($this->detail && $template_middle != "")
 {
-	for ($i = 0; $i < $this->params->get('maxmanufacturer'); $i++)
+	// Limit the number of manufacturers shown
+	$maxCount = $this->params->get('maxmanufacturer');
+	if (count($this->detail) < $maxCount)
+	{
+		$maxCount = count($this->detail);
+	}
+
+	for ($i = 0; $i < $maxCount; $i++)
 	{
 		$row = $this->detail[$i];
 
