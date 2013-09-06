@@ -7821,7 +7821,7 @@ class producthelper
 
 		if (empty($userArr))
 		{
-			$userArr = $this->_userhelper->createUserSession($userid);
+			$userArr = $this->_userhelper->createUserSession($user->id);
 		}
 
 		$shopperGroupId = $userArr['rs_user_shopperGroup'];
