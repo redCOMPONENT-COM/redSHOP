@@ -84,14 +84,6 @@ class accessmanagerModelaccessmanager extends JModel
 		return $this->_pagination;
 	}
 
-	public function getProduct()
-	{
-		$query = "SELECT * FROM " . $this->_table_prefix . "product ";
-		$list = $this->_data = $this->_getList($query);
-
-		return $list;
-	}
-
 	public function _buildQuery()
 	{
 		$where = "";
@@ -105,13 +97,13 @@ class accessmanagerModelaccessmanager extends JModel
 
 		if ($product_id != 0)
 		{
-			$where .= " AND q.product_id ='" . $product_id . "' ";
+			$where .= " AND q.product_id =" . (int) $product_id . " ";
 		}
 
 		$orderby = $this->_buildContentOrderBy();
 
 		$query = "SELECT q.* FROM " . $this->_table_prefix . "customer_question AS q "
-			. "WHERE q.parent_id='" . $this->_id . "' "
+			. "WHERE q.parent_id = " . (int) $this->_id . " "
 			. $where
 			. $orderby;
 
@@ -120,12 +112,13 @@ class accessmanagerModelaccessmanager extends JModel
 
 	public function _buildContentOrderBy()
 	{
+		$db  = JFactory::getDbo();
 		$app = JFactory::getApplication();
 
 		$filter_order = $app->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'question_date');
 		$filter_order_Dir = $app->getUserStateFromRequest($this->_context . 'filter_order_Dir', 'filter_order_Dir', 'DESC');
 
-		$orderby = " ORDER BY " . $filter_order . " " . $filter_order_Dir;
+		$orderby = " ORDER BY " . $db->quote($filter_order . " " . $filter_order_Dir);
 
 		return $orderby;
 	}

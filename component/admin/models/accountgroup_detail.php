@@ -53,7 +53,7 @@ class accountgroup_detailModelaccountgroup_detail extends JModel
 		if (empty($this->_data))
 		{
 			$query = 'SELECT * FROM ' . $this->_table_prefix . 'economic_accountgroup '
-				. 'WHERE accountgroup_id="' . $this->_id . '" ';
+				. 'WHERE accountgroup_id = ' . (int) $this->_id . ' ';
 			$this->_db->setQuery($query);
 			$this->_data = $this->_db->loadObject();
 
@@ -113,6 +113,8 @@ class accountgroup_detailModelaccountgroup_detail extends JModel
 	{
 		if (count($cid))
 		{
+			// Sanitise ids
+			JArrayHelper::toInteger($cid);
 			$cids = implode(',', $cid);
 
 			$query = 'DELETE FROM ' . $this->_table_prefix . 'economic_accountgroup '
@@ -134,10 +136,12 @@ class accountgroup_detailModelaccountgroup_detail extends JModel
 	{
 		if (count($cid))
 		{
+			// Sanitise ids
+			JArrayHelper::toInteger($cid);
 			$cids = implode(',', $cid);
 
 			$query = 'UPDATE ' . $this->_table_prefix . 'economic_accountgroup'
-				. ' SET published = "' . intval($publish) . '" '
+				. ' SET published = ' . (int) $publish . ' '
 				. ' WHERE accountgroup_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
