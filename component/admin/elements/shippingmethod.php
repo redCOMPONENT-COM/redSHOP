@@ -29,7 +29,7 @@ class JFormFieldshippingmethod extends JFormField
 	protected function getInput()
 	{
 
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 
 		$query = 'SELECT s.* FROM #__extensions AS s '
 			. 'WHERE s.type="plugin" and s.folder="redshop_shipping" and enabled =1';

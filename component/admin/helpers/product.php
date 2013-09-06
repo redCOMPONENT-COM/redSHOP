@@ -507,7 +507,7 @@ class adminproducthelper
 
 	public function admin_insertProdcutUserfield($field_id = 0, $order_item_id = 0, $section_id = 12, $value = '')
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$sql = "INSERT INTO " . $this->_table_prefix . "fields_data "
 			. "(fieldid,data_txt,itemid,section) "
 			. "value ('" . $field_id . "','" . $value . "','" . $order_item_id . "','" . $section_id . "')";

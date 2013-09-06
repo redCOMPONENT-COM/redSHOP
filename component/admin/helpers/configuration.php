@@ -39,7 +39,7 @@ class Redconfiguration
 	{
 		$this->_table_prefix = '#__redshop_';
 
-		$this->_db               = JFactory::getDBO();
+		$this->_db               = JFactory::getDbo();
 		$this->_configpath       = JPATH_SITE . "/administrator/components/com_redshop/helpers/redshop.cfg.php";
 		$this->_config_dist_path = JPATH_SITE . "/administrator/components/com_redshop/helpers/wizard/redshop.cfg.dist.php";
 		$this->_config_bkp_path  = JPATH_SITE . "/administrator/components/com_redshop/helpers/wizard/redshop.cfg.bkp.php";

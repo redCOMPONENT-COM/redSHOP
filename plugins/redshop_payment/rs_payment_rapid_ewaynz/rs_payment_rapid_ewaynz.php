@@ -60,7 +60,7 @@ class plgRedshop_paymentrs_payment_rapid_ewaynz extends JPlugin
 			return;
 		}
 
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$AccessCode = $request["AccessCode"];
 
 		JPlugin::loadLanguage('com_redshop');
@@ -144,7 +144,7 @@ class plgRedshop_paymentrs_payment_rapid_ewaynz extends JPlugin
 
 	function getparameters($payment)
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$sql = "SELECT * FROM #__extensions WHERE `element`='" . $payment . "'";
 		$db->setQuery($sql);
 		$params = $db->loadObjectList();
@@ -154,7 +154,7 @@ class plgRedshop_paymentrs_payment_rapid_ewaynz extends JPlugin
 
 	function orderPaymentNotYetUpdated($dbConn, $order_id, $tid)
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$res = false;
 		$query = "SELECT COUNT(*) FROM " . $this->_table_prefix . "order_payment WHERE `order_id` = '" . $db->getEscaped($order_id) . "' and order_payment_trans_id = '" . $db->getEscaped($tid) . "'";
 		$db->setQuery($query);

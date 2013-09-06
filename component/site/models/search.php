@@ -232,7 +232,7 @@ class searchModelsearch extends JModel
 	{
 		$app = JFactory::getApplication();
 		$context = 'search';
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 
 		$keyword = $app->getUserStateFromRequest($context . 'keyword', 'keyword', '');
 
@@ -529,7 +529,7 @@ class searchModelsearch extends JModel
 
 	public function _buildContentOrderBy()
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 
 		global $context;
 
@@ -716,7 +716,7 @@ class searchModelsearch extends JModel
 
 	public function mod_redProductfilter($Itemid)
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$query = "SELECT t.*, f.formname AS form_name FROM #__redproductfinder_types t
 		LEFT JOIN #__redproductfinder_forms f
 		ON t.form_id = f.id
@@ -972,7 +972,7 @@ class searchModelsearch extends JModel
 		// For session
 		$session      = JSession::getInstance('none', array());
 		$getredfilter = $session->get('redfilter');
-		$db           = JFactory::getDBO();
+		$db           = JFactory::getDbo();
 		$productids   = "";
 
 		if (count($getredfilter) > 0 && $all == 1)
@@ -1040,7 +1040,7 @@ class searchModelsearch extends JModel
 	 */
 	public function loadCatProductsManufacturer($cid)
 	{
-		$db    = JFactory::getDBO();
+		$db    = JFactory::getDbo();
 		$query = "SELECT  p.product_id, p.manufacturer_id FROM " . $this->_table_prefix . "product_category_xref AS cx "
 			. ", " . $this->_table_prefix . "product AS p "
 			. "WHERE cx.category_id = " . (int) $cid . " "
@@ -1076,7 +1076,7 @@ class searchModelsearch extends JModel
 		$limit       = $params->get('noofsearchresults');
 		$keyword     = JRequest::getCmd('input');
 		$search_type = JRequest::getCmd('search_type');
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 
 		$category_id    = JRequest::getInt('category_id');
 		$manufacture_id = JRequest::getInt('manufacture_id');

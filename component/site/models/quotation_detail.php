@@ -53,7 +53,7 @@ class quotation_detailModelquotation_detail extends JModel
 
 		$Itemid  = JRequest::getVar("Itemid");
 		$session = JFactory::getSession();
-		$db      = JFactory::getDBO();
+		$db      = JFactory::getDbo();
 
 		$carthelper      = new rsCarthelper;
 		$producthelper   = new producthelper;

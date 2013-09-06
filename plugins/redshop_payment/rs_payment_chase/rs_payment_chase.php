@@ -179,7 +179,7 @@ class plgRedshop_paymentrs_payment_chase extends JPlugin
 
 	public function getparameters($payment)
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$sql = "SELECT * FROM #__extensions WHERE `element`='" . $payment . "'";
 		$db->setQuery($sql);
 		$params = $db->loadObjectList();
@@ -189,7 +189,7 @@ class plgRedshop_paymentrs_payment_chase extends JPlugin
 
 	public function onCapture_Paymentrs_payment_chase($element, $data)
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		require_once JPATH_SITE . '/administrator/components/com_redshop/helpers'
 			. '/order.php';
 		$objOrder = new order_functions;

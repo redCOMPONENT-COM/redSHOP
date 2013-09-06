@@ -341,7 +341,7 @@ public function onBeforeRender()
 
 	public function getProductData($pid)
 	{
-		$db  = JFactory::getDBO();
+		$db  = JFactory::getDbo();
 		$sql = "SELECT * FROM #__redshop_product WHERE product_id=" . $pid;
 		$db->setQuery($sql);
 		$products = $db->loadObject();

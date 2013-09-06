@@ -393,7 +393,7 @@ class newsletterModelnewsletter extends JModel
 	{
 		$producthelper = new producthelper;
 		$jconfig = new jconfig;
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$newsletter_id = JRequest::getVar('newsletter_id');
 
 		$uri = JURI::getInstance();

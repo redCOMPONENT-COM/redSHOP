@@ -125,7 +125,7 @@ class CartModelCart extends JModel
 		{
 			$stockroomhelper = new rsstockroomhelper;
 			$session         = JFactory::getSession();
-			$db              = JFactory::getDBO();
+			$db              = JFactory::getDbo();
 			$cart            = $session->get('cart');
 			$session_id      = session_id();
 			$carttimeout     = (int) CART_TIMEOUT;
@@ -451,7 +451,7 @@ class CartModelCart extends JModel
 	{
 		$data            = array();
 		$products_number = explode("\n", $post["numbercart"]);
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 
 		for ($i = 0; $i < count($products_number); $i++)
 		{
@@ -517,7 +517,7 @@ class CartModelCart extends JModel
 	 */
 	public function checkifTagAvailable($product_id)
 	{
-		$db          = JFactory::getDBO();
+		$db          = JFactory::getDbo();
 		$redTemplate = new redTemplate;
 		$q           = "SELECT product_template FROM " . $this->_table_prefix . "product "
 			. "WHERE product_id = " . (int) $product_id;

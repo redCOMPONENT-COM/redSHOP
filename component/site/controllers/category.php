@@ -29,7 +29,7 @@ class CategoryController extends JController
 	{
 		$option   = JRequest::getVar('option', 'com_redshop', 'request', 'string');
 		$filename = JRequest::getVar('file', '', 'request', 'string');
-		$db       = JFactory::getDBO();
+		$db       = JFactory::getDbo();
 		$this->_table_prefix = "#__redshop_";
 
 		session_cache_limiter('public');
@@ -271,7 +271,7 @@ class CategoryController extends JController
 	 */
 	public function autofillcityname()
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		ob_clean();
 		$mainzipcode = JRequest::getString('q', '');
 		$sel_zipcode = "select city_name from #__redshop_zipcode where zipcode='" . $mainzipcode . "'";

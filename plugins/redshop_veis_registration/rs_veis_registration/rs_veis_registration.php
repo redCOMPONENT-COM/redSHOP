@@ -35,7 +35,7 @@ class plgRedshop_veis_registrationrs_veis_registration extends JPlugin
 	 */
 	public function checkVeisValidation($element, $data)
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$query = 'SELECT country_2_code FROM ' . $this->_table_prefix . 'country ' . 'WHERE country_3_code LIKE "' . $element['country_code'] . '"';
 		$db->setQuery($query);
 		$member_country_code = $db->loadResult();

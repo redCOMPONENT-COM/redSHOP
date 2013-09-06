@@ -33,7 +33,7 @@ class economic
 
 	public function economic()
 	{
-		$db                     = JFactory::getDBO();
+		$db                     = JFactory::getDbo();
 		$this->_table_prefix    = '#__' . TABLE_PREFIX . '_';
 		$this->_db              = $db;
 		$this->_producthelper   = new producthelper;

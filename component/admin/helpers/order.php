@@ -32,7 +32,7 @@ class order_functions
 
 	public function __construct()
 	{
-		$this->_db = JFactory::getDBO();
+		$this->_db = JFactory::getDbo();
 
 		$this->_table_prefix     = '#__redshop_';
 		$this->_table_prefix_crm = '#__redcrm_';
@@ -554,7 +554,7 @@ class order_functions
 	{
 		// Adding the products from the container. means decreasing stock
 
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$query = "SELECT quantity FROM " . $this->_table_prefix . "container_product_xref " . "WHERE container_id = "
 			. (int) $container_id . " AND product_id = " . (int) $product_id;
 		$db->setQuery($query);
@@ -1314,7 +1314,7 @@ class order_functions
 	public function getShippingMethodInfo($shipping_class = '')
 	{
 		$and = "";
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 
 		if ($shipping_class != '')
 		{
@@ -1333,7 +1333,7 @@ class order_functions
 	public function getPaymentMethodInfo($payment_method_class = '')
 	{
 		$and = "";
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 
 		if ($payment_method_class != '')
 		{
@@ -1622,7 +1622,7 @@ class order_functions
 	public function getOrderItemAttributeDetail($order_item_id = 0, $is_accessory = 0, $section = "attribute", $parent_section_id = 0)
 	{
 		$and = "";
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 
 		if ($order_item_id != 0)
 		{
@@ -1643,7 +1643,7 @@ class order_functions
 
 	public function getOrderUserfieldData($order_item_id = 0, $section = 0)
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$query = "SELECT fd.*,f.field_title,f.field_type,f.field_name FROM " . $this->_table_prefix . "fields_data AS fd " . "LEFT JOIN " . $this->_table_prefix . "fields AS f ON f.field_id=fd.fieldid " . "WHERE fd.itemid = " . (int) $order_item_id . " " . "AND fd.section = " . $db->quote($section);
 		$db->setQuery($query);
 		$list = $db->loadObjectlist();
@@ -1728,7 +1728,7 @@ class order_functions
 
 	public function getCountryName($cnt3 = "")
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$redhelper = new redhelper;
 		$and = '';
 		$cntname = '';
@@ -1760,7 +1760,7 @@ class order_functions
 	{
 		$stname = '';
 		$and = '';
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 
 		if ($st3 != "")
 		{
@@ -1900,7 +1900,7 @@ class order_functions
 
 	public function getDownloadProductLog($order_id, $did = '')
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$whereDownload_id = ($did != '') ? " AND pdl.download_id = " . $db->quote($did) : "";
 
 		$query = "SELECT pdl . * , pd.order_id, pd.product_id, pd.file_name " . " FROM `"
@@ -1914,7 +1914,7 @@ class order_functions
 
 	public function getparameters($payment)
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$sql = "SELECT * FROM #__extensions WHERE `element` = " . $db->quote($payment);
 		$db->setQuery($sql);
 		$params = $db->loadObjectList();
@@ -1993,7 +1993,7 @@ class order_functions
 
 	function getshippinglocationinfo($shippingname)
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$sql = "SELECT shipping_location_info FROM " . $this->_table_prefix . "shipping_rate WHERE shipping_rate_name = " . $db->quote($shippingname);
 		$db->setQuery($sql);
 		$shippingloc = $db->loadObjectList();
@@ -2055,7 +2055,7 @@ class order_functions
 
 	public function updatebarcode($oid, $barcode)
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$barcodequery = 'UPDATE ' . $this->_table_prefix . 'orders SET barcode = ' . $db->quote($barcode) . ' WHERE order_id = ' . (int) $oid;
 		$db->setQuery($barcodequery);
 		$db->query();
@@ -2064,7 +2064,7 @@ class order_functions
 	public function checkupdateordersts($data)
 	{
 		$res = 1;
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$query = "SELECT * FROM " . $this->_table_prefix . "orders " . "WHERE order_status = " . $db->quote($data->order_status_code)
 			. " AND order_payment_status = " . $db->quote($data->order_payment_status_code) . " AND order_id = " . (int) $data->order_id;
 		$this->_db->setQuery($query);

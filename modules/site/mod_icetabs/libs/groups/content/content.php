@@ -204,7 +204,7 @@ if (!class_exists('LofSliderGroupContent'))
 			$isStripedTags  = $params->get('auto_strip_tags', 0);
 			$image_quanlity = $params->get('image_quanlity', 100);
 			$extraURL       = $params->get('open_target') != 'modalbox' ? '' : '&tmpl=component';
-			$db             = JFactory::getDBO();
+			$db             = JFactory::getDbo();
 			$date           = JFactory::getDate();
 			$now            = $date->toMySQL();
 			$cparam         = JComponentHelper::getParams('com_content');

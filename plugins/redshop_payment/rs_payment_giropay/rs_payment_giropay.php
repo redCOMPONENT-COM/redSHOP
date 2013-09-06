@@ -66,7 +66,7 @@ class plgRedshop_paymentrs_payment_giropay extends JPlugin
 			return false;
 		}
 
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$request = JRequest::get('request');
 		$transactionId = $request['order_id'];
 		$gpCode = $request['gpCode'];

@@ -160,7 +160,7 @@ class product_miniModelproduct_mini extends JModel
 
 	public function _buildContentOrderBy()
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 
 		global $context;
 

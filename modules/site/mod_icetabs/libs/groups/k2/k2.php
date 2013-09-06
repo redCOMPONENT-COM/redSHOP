@@ -76,7 +76,7 @@ if (!class_exists('LofSliderGroupK2'))
 			$image_quanlity = $params->get('image_quanlity', 100);
 			$isStripedTags  = $params->get('auto_strip_tags', 0);
 			$extraURL       = $params->get('open_target') != 'modalbox' ? '' : '&tmpl=component';
-			$db             = JFactory::getDBO();
+			$db             = JFactory::getDbo();
 			$date           = JFactory::getDate();
 			$now            = $date->toMySQL();
 

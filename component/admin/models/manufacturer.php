@@ -104,7 +104,7 @@ class manufacturerModelmanufacturer extends JModel
 
 	public function getMediaId($mid)
 	{
-		$database = JFactory::getDBO();
+		$database = JFactory::getDbo();
 
 		$query = ' SELECT media_id '
 			. ' FROM ' . $this->_table_prefix . 'media  WHERE media_section="manufacturer" AND section_id = ' . $mid;
@@ -118,7 +118,7 @@ class manufacturerModelmanufacturer extends JModel
 	{
 		$app = JFactory::getApplication();
 
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$row =& $this->getTable('manufacturer_detail');
 
 		$total = count($cid);

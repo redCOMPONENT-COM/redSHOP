@@ -34,7 +34,7 @@ class rsUserhelper
 	{
 		$this->_table_prefix = '#__' . TABLE_PREFIX . '_';
 		$this->_session      = JFactory::getSession();
-		$this->_db           = JFactory::getDBO();
+		$this->_db           = JFactory::getDbo();
 	}
 
 	/**
@@ -195,7 +195,7 @@ class rsUserhelper
 
 	public function validate_user($username, $id = 0)
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 
 		$query = "SELECT username FROM #__users "
 			. "WHERE username='" . $db->quote($username) . "' "
@@ -208,7 +208,7 @@ class rsUserhelper
 
 	public function validate_email($email, $id = 0)
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 
 		$query = "SELECT email FROM #__users "
 			. "WHERE email = " . $db->quote($email) . " "
@@ -243,7 +243,7 @@ class rsUserhelper
 		}
 
 		$app = JFactory::getApplication();
-		$db  = JFactory::getDBO();
+		$db  = JFactory::getDbo();
 		$me  = JFactory::getUser();
 		$acl = JFactory::getACL();
 
@@ -892,7 +892,7 @@ class rsUserhelper
 
 	public function newsletterUnsubscribe($email = "")
 	{
-		$db   = JFactory::getDBO();
+		$db   = JFactory::getDbo();
 		$user = JFactory::getUser();
 		$and  = "";
 

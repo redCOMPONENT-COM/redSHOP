@@ -3,7 +3,7 @@ $uri =& JURI::getInstance();
 $url = $uri->root();
 $user = JFactory::getUser();
 $sessionid = session_id();
-$db = JFactory::getDBO();
+$db = JFactory::getDbo();
 
 require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
 
