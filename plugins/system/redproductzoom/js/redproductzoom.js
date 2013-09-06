@@ -78,7 +78,8 @@ function preloadSlimbox(parameters)
 		   		var gl = $('.redhoverImagebox').attr('id');
 				mainimg.elevateZoom({
 					cursor: "crosshair",
-			   		gallery : gl
+			   		gallery : gl,
+			   		loadingIcon: 'plugins/system/redproductzoom/js/zoomloader.gif'
 		   		});
 		   	}
 	    }
