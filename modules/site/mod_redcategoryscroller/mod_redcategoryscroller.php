@@ -163,7 +163,7 @@ if (!class_exists('redcategoryScroller'))
 			$this->show_addtocart     = $params->get('show_addtocart', "yes");
 			$this->show_price         = $params->get('show_price', "yes");
 			//$this->category_id            =  intval( $params->get('cid', 0 ) );
-			$this->category_id = intval(JRequest::getVar('cid', 0));
+			$this->category_id = intval(JRequest::getInt('cid', 0));
 
 			$this->thumbwidth  = $params->get('thumbwidth', 100);
 			$this->thumbheight = $params->get('thumbheight', 100);
@@ -286,7 +286,7 @@ if (!class_exists('redcategoryScroller'))
 		{
 			$app = JFactory::getApplication();
 
-			$category_array = new product_category();
+			$category_array = new product_category;
 
 			$hierachy = $category_array->getCategoryListArray($category_id, $category_id);
 
@@ -311,7 +311,7 @@ if (!class_exists('redcategoryScroller'))
 
 			$query = "SELECT DISTINCT c.*  FROM #__redshop_category AS c";
 
-			$query .= "\n WHERE c.published = '1'";
+			$query .= "\n WHERE c.published = 1 ";
 
 
 			switch ($how)
@@ -338,10 +338,10 @@ if (!class_exists('redcategoryScroller'))
 
 		function ShowCategory($row, $i)
 		{
-			$producthelper = new producthelper();
-			$redhelper     = new redhelper();
+			$producthelper = new producthelper;
+			$redhelper     = new redhelper;
 
-			$category_id = intval(JRequest::getVar('cid', 0));
+			$category_id = intval(JRequest::getInt('cid', 0));
 
 			$ItemData = $redhelper->getCategoryItemid($row->category_id);
 			if (count($ItemData) > 0)
