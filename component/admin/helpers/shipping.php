@@ -229,7 +229,7 @@ class shipping
 		$order_subtotal  = $d ['order_subtotal'];
 		$user            = JFactory::getUser();
 		$user_id         = $user->id;
-		$db = JFactory::getDbo();
+		$db = JFactory::getDBO();
 
 		$totaldimention  = $this->getCartItemDimention();
 		$weighttotal     = $totaldimention['totalweight'];
@@ -444,7 +444,7 @@ class shipping
 		$order_subtotal = $d ['order_subtotal'];
 		$user           = JFactory::getUser();
 		$user_id        = $user->id;
-		$db = JFactory::getDbo();
+		$db = JFactory::getDBO();
 
 		$data           = $this->producthelper->getProductById($d['product_id']);
 
@@ -650,7 +650,7 @@ class shipping
 		$rate       = 0;
 		$session    = JFactory::getSession();
 		$cart       = $session->get('cart');
-		$db = JFactory::getDbo();
+		$db = JFactory::getDBO();
 
 		$idx        = (int) ($cart ['idx']);
 
@@ -924,7 +924,7 @@ class shipping
 	public function getShippingMethodByClass($shipping_class = '')
 	{
 		$folder = strtolower('redshop_shipping');
-		$db = JFactory::getDbo();
+		$db = JFactory::getDBO();
 		$query = "SELECT * FROM #__extensions "
 			. "WHERE LOWER(`folder`) = " . $db->quote($folder) . " "
 			. "AND element = " . $db->quote($shipping_class);
@@ -937,7 +937,7 @@ class shipping
 	public function getShippingMethodById($id = 0)
 	{
 		$folder = strtolower('redshop_shipping');
-		$db = JFactory::getDbo();
+		$db = JFactory::getDBO();
 		$query = "SELECT *,extension_id as id FROM #__extensions "
 			. "WHERE LOWER(`folder`) = " . $db->quote($folder) . " "
 			. "AND `extension_id` = " . (int) $id;
@@ -949,7 +949,7 @@ class shipping
 
 	public function getShippingRates($shipping_class)
 	{
-		$db = JFactory::getDbo();
+		$db = JFactory::getDBO();
 		$query = "SELECT * FROM " . $this->_table_prefix . "shipping_rate "
 			. "WHERE shipping_class = " . $db->quote($shipping_class);
 		$db->setQuery($query);
@@ -988,7 +988,7 @@ class shipping
 		$weighttotal    = $totaldimention['totalweight'];
 		$volume         = $totaldimention['totalvolume'];
 		$session        = JFactory::getSession();
-		$db = JFactory::getDbo();
+		$db = JFactory::getDBO();
 
 		$cart           = $session->get('cart');
 		$idx            = (int) ($cart ['idx']);
@@ -1226,7 +1226,7 @@ class shipping
 	{
 		$user    = JFactory::getUser();
 		$session = JFactory::getSession();
-		$db = JFactory::getDbo();
+		$db = JFactory::getDBO();
 
 		if ($user_id == 0)
 		{
@@ -1567,7 +1567,7 @@ class shipping
 	public function getShippingBox()
 	{
 		$volumeShipping      = $this->getProductVolumeShipping();
-		$db = JFactory::getDbo();
+		$db = JFactory::getDBO();
 
 		$whereShippingVolume = "";
 
@@ -1670,7 +1670,7 @@ class shipping
 	public function isCartDimentionMatch(&$d)
 	{
 		$order_subtotal      = $d['order_subtotal'];
-		$db = JFactory::getDbo();
+		$db = JFactory::getDBO();
 
 		$totaldimention      = $this->getCartItemDimention();
 		$weighttotal         = $totaldimention['totalweight'];
@@ -1731,7 +1731,7 @@ class shipping
 	{
 		$userhelper   = new rsUserhelper;
 		$shippingrate = array();
-		$db = JFactory::getDbo();
+		$db = JFactory::getDBO();
 
 		$userInfo     = $this->getShippingAddress($d['users_info_id']);
 		$country      = $userInfo->country_code;
@@ -1871,7 +1871,7 @@ class shipping
 		$userhelper = new rsUserhelper;
 		$session    = JFactory::getSession();
 		$cart       = $session->get('cart', null);
-		$db = JFactory::getDbo();
+		$db = JFactory::getDBO();
 
 		$idx = 0;
 

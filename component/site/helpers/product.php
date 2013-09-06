@@ -188,7 +188,7 @@ class producthelper
 
 	public function getProductSpecialPrice($product_price, $discount_product_id, $product_id = 0)
 	{
-		$db = JFactory::getDbo();
+		$db = JFactory::getDBO();
 
 		$result          = array();
 		$categoryProduct = '';
@@ -557,7 +557,7 @@ class producthelper
 
 	public function getVatRates($product_id = 0, $user_id = 0, $vat_rate_id = 0)
 	{
-		$db   = JFactory::getDbo();
+		$db   = JFactory::getDBO();
 		$user = JFactory::getUser();
 
 		if ($user_id == 0)
@@ -638,7 +638,7 @@ class producthelper
 	// Get Vat for Googlebase xml
 	public function getGoogleVatRates($product_id = 0, $product_price = 0, $tax_exempt = 0)
 	{
-		$db = JFactory::getDbo();
+		$db = JFactory::getDBO();
 
 		$proinfo         = $this->getProductById($product_id);
 		$tax_group_id    = 0;
@@ -1191,7 +1191,7 @@ class producthelper
 
 	public function getProductMinDeliveryTime($product_id = 0, $section_id = 0, $section = '', $loadDiv = 1)
 	{
-		$db = JFactory::getDbo();
+		$db = JFactory::getDBO();
 
 		$helper = new redhelper;
 
@@ -1803,7 +1803,7 @@ class producthelper
 
 	public function getDiscountId($subtotal = 0, $user_id = 0)
 	{
-		$db   = JFactory::getDbo();
+		$db   = JFactory::getDBO();
 		$user = JFactory::getUser();
 
 		if ($user_id == 0)
@@ -2025,7 +2025,7 @@ class producthelper
 
 	public function getAdditionMediaImage($section_id = 0, $section = "", $mediaType = "images")
 	{
-		$db = JFactory::getDbo();
+		$db = JFactory::getDBO();
 
 		$left = "";
 
@@ -2061,7 +2061,7 @@ class producthelper
 
 	public function getAltText($media_section, $section_id, $media_name = '', $media_id = 0, $mediaType = "images")
 	{
-		$db = JFactory::getDbo();
+		$db = JFactory::getDBO();
 
 		$and = '';
 
@@ -2264,7 +2264,7 @@ class producthelper
 
 	public function getPropertyPrice($section_id = '', $quantity = '', $section = '', $user_id = 0)
 	{
-		$db = JFactory::getDbo();
+		$db = JFactory::getDBO();
 
 		$leftjoin = "";
 		$and      = "";
@@ -2731,7 +2731,7 @@ class producthelper
 		// To avoid killing queries do not allow queries that get all the items
 		if ($id != 0)
 		{
-			$db = JFactory::getDbo();
+			$db = JFactory::getDBO();
 
 			$query = " SELECT * FROM " . $db->quoteName($this->_table_prefix . $section)
 				. " WHERE " . $db->quoteName($section . "_id") . " = " . (int) $id . " ";
@@ -2749,7 +2749,7 @@ class producthelper
 		// Do not allow queries that load all the items
 		if ($link != "")
 		{
-			$db = JFactory::getDbo();
+			$db = JFactory::getDBO();
 
 			$query = "SELECT * FROM #__menu "
 				. "WHERE published=1 "
@@ -3254,7 +3254,7 @@ class producthelper
 
 	public function insertProdcutUserfield($id = 'NULL', $cart = array(), $order_item_id = 0, $section_id = 12)
 	{
-		$db == JFactory::getDbo();
+		$db == JFactory::getDBO();
 
 		$extraField = new extraField;
 		$row_data   = $extraField->getSectionFieldList($section_id, 1);
@@ -8106,7 +8106,7 @@ class producthelper
 
 	public function insertProductDownload($product_id, $user_id, $order_id, $media_name, $serial_number)
 	{
-		$db = JFactory::getDbo();
+		$db = JFactory::getDBO();
 
 		// download data
 		$downloadable_product = $this->checkProductDownload($product_id, true); //die();
@@ -8388,7 +8388,7 @@ class producthelper
 	 */
 	public function product_tag($template_id, $section, $template_data)
 	{
-		$db = JFactory::getDbo();
+		$db = JFactory::getDBO();
 
 		$q = "SELECT field_name from " . $this->_table_prefix . "fields where field_section = " . $db->quote($section);
 
@@ -10199,7 +10199,7 @@ class producthelper
 
 	public function insertPaymentShippingField($cart = array(), $order_id = 0, $section_id = 18)
 	{
-		$db = JFactory::getDbo();
+		$db = JFactory::getDBO();
 
 		$extraField = new extraField();
 		$row_data   = $extraField->getSectionFieldList($section_id, 1);

@@ -35,7 +35,7 @@ class redmodMenuHelper
 		{
 			// Initialise variables.
 			$list = array();
-			$db   = JFactory::getDbo();
+			$db   = JFactory::getDBO();
 			$user = JFactory::getUser();
 			$app  = JFactory::getApplication();
 			$menu = $app->getMenu();

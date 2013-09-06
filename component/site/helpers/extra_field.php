@@ -49,7 +49,7 @@ class extraField
 
 	public function __construct()
 	{
-		$this->_db = JFactory::getDbo();
+		$this->_db = JFactory::getDBO();
 		$this->_table_prefix = '#__redshop_';
 	}
 
@@ -265,7 +265,7 @@ class extraField
 
 	public function list_all_user_fields($field_section = "", $section_id = 12, $field_type = '', $idx = 'NULL', $isatt = 0, $product_id, $mywish = "", $addwish = 0)
 	{
-		$db      = JFactory::getDbo();
+		$db      = JFactory::getDBO();
 		$session = JFactory::getSession();
 		$cart    = $session->get('cart');
 		$url     = JURI::base();
@@ -573,7 +573,7 @@ class extraField
 
 	public function extra_field_display($field_section = "", $section_id = 0, $field_name = "", $template_data = "", $categorypage = 0)
 	{
-		$db = JFactory::getDbo();
+		$db = JFactory::getDBO();
 		$redTemplate = new Redtemplate;
 		$url         = JURI::base();
 		$q = "SELECT * from " . $this->_table_prefix . "fields where field_section=" . $db->quote($field_section) . " ";
@@ -793,7 +793,7 @@ class extraField
 
 	public function getSectionFieldList($section = 12, $front = 1, $published = 1, $required = 0)
 	{
-		$db = JFactory::getDbo();
+		$db = JFactory::getDBO();
 
 		$and = "";
 
@@ -824,7 +824,7 @@ class extraField
 
 	public function getSectionFieldNameArray($section = 12, $front = 1, $published = 1, $required = 0)
 	{
-		$db = JFactory::getDbo();
+		$db = JFactory::getDBO();
 
 		$and = "";
 
@@ -849,7 +849,7 @@ class extraField
 
 	public function getSectionFieldIdArray($section = 12, $front = 1, $published = 1, $required = 0)
 	{
-		JFactory::getDbo();
+		JFactory::getDBO();
 
 		$and = "";
 
@@ -875,7 +875,7 @@ class extraField
 
 	public function getSectionFieldDataList($fieldid, $section = 0, $orderitemid = 0)
 	{
-		$db = JFactory::getDbo();
+		$db = JFactory::getDBO();
 
 		$query = "SELECT fd.*,f.field_title FROM " . $this->_table_prefix . "fields_data AS fd, " . $this->_table_prefix . "fields AS f "
 			. "WHERE fd.itemid = " . (int) $orderitemid . " "

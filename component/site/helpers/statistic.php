@@ -25,7 +25,7 @@ class statistic
 
 	public function reshop_visitors()
 	{
-		$db = JFactory::getDbo();
+		$db = JFactory::getDBO();
 
 		$sid  = session_id();
 		$user = JFactory::getUser();
@@ -52,7 +52,7 @@ class statistic
 
 	public function reshop_pageview()
 	{
-		$db      = JFactory::getDbo();
+		$db      = JFactory::getDBO();
 		$sid     = session_id();
 		$user    = JFactory::getUser();
 		$view    = JRequest::getVar('view');

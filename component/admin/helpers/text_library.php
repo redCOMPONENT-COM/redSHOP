@@ -20,7 +20,7 @@ class text_library
 	public function __construct()
 	{
 		$this->_table_prefix = '#__redshop_';
-		$this->_db = JFactory::getDbo();
+		$this->_db = JFactory::getDBO();
 	}
 
 	public function getTextLibraryData()

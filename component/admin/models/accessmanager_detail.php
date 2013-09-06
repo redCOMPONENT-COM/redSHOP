@@ -384,7 +384,7 @@ class accessmanager_detailModelaccessmanager_detail extends JModel
 	public function getGroup()
 	{
 		// Compute usergroups
-		$db = JFactory::getDbo();
+		$db = JFactory::getDBO();
 		$query = "SELECT a.*,COUNT(DISTINCT c2.id) AS level
   FROM `#__usergroups` AS a  LEFT  OUTER JOIN `#__usergroups` AS c2  ON a.lft > c2.lft  AND a.rgt < c2.rgt  GROUP BY a.id
   ORDER BY a.lft asc";
