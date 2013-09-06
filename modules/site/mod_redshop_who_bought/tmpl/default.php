@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-$Itemid = JRequest::getVar('Itemid');
+$Itemid = JRequest::getInt('Itemid');
 $user = JFactory::getUser();
 
 $document = JFactory::getDocument();

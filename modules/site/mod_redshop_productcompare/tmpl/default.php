@@ -19,8 +19,8 @@ require_once JPATH_ROOT . '/components/com_redshop/helpers/helper.php';
 require_once JPATH_ROOT . '/components/com_redshop/helpers/redshop.js.php';
 $redhelper = new redhelper();
 
-$option = JRequest::getVar('option');
-$Itemid = JRequest::getVar('Itemid');
+$option = JRequest::getCmd('option');
+$Itemid = JRequest::getInt('Itemid');
 $cid = JRequest::getInt('cid');
 if (COMARE_PRODUCTS == 1)
 {

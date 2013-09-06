@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-$option = JRequest::getVar('option');
+$option = JRequest::getCmd('option');
 
 $session = JFactory::getSession();
 $cart    = $session->get('cart');
@@ -45,7 +45,7 @@ if ($enableAjaxsearch)
 $db = JFactory::getDbo();
 
 if ($user->id > 0)
-	$query = "SELECT sg.shopper_group_categories FROM `#__redshop_shopper_group` as sg LEFT JOIN #__redshop_users_info as uf ON sg.`shopper_group_id` = uf.shopper_group_id WHERE uf.user_id = " . $user->id . " GROUP BY sg.shopper_group_id  AND sg.shopper_group_portal=1";
+	$query = "SELECT sg.shopper_group_categories FROM `#__redshop_shopper_group` as sg LEFT JOIN #__redshop_users_info as uf ON sg.`shopper_group_id` = uf.shopper_group_id WHERE uf.user_id = " . (int) $user->id . " GROUP BY sg.shopper_group_id  AND sg.shopper_group_portal=1";
 else
 	$query = "SELECT sg.shopper_group_categories FROM `#__redshop_shopper_group` as sg WHERE  sg.`shopper_group_id` = '" . SHOPPER_GROUP_DEFAULT_UNREGISTERED . "' AND sg.shopper_group_portal=1";
 
@@ -77,9 +77,9 @@ $showProductsearchtitle = trim($params->get('showProductsearchtitle'));
 $showKeywordtitle       = trim($params->get('showKeywordtitle'));
 $standardkeyword        = trim($params->get('stdsearchtext'));
 
-$search_type      = JRequest::getVar('search_type', $defaultSearchType);
-$cat_data         = (JRequest::getVar('category_id', '')); // Category Select Id
-$manufacture_data = (JRequest::getVar('manufacturer_id', '')); // manufacturer_id Select Id
+$search_type      = JRequest::getWord('search_type', $defaultSearchType);
+$cat_data         = (JRequest::getInt('category_id', '')); // Category Select Id
+$manufacture_data = (JRequest::getInt('manufacturer_id', '')); // manufacturer_id Select Id
 
 $lists            = array();
 $cat              = array();
