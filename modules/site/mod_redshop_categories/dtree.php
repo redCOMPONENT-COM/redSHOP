@@ -13,7 +13,7 @@ global $root_label, $urlpath;
 $urllive = $urlpath;
 
 
-$db              = JFactory :: getDBO();
+$db              = JFactory::getDBO();
 $objhelper       = new redhelper ();
 $Itemid          = JRequest::getVar('Itemid', '1');
 $redproduct_menu = new modProMenuHelper();

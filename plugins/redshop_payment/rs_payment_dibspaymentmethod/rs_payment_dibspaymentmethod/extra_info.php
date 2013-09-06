@@ -22,7 +22,7 @@ $order_details = $db->loadObjectList();
 $request =& JRequest::get('REQUEST');
 $task = $request['task'];
 
-$db = JFactory :: getDBO();
+$db = JFactory::getDBO();
 
 $q = "SELECT * FROM " . $this->_table_prefix . "order_item WHERE order_id=" . $data['order_id'];
 $db->setQuery($q);
