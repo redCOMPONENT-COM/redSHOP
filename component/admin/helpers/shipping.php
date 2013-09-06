@@ -17,7 +17,7 @@ class shipping
 
 	public function __construct()
 	{
-		$this->_db = JFactory::getDBO();
+		$this->_db = JFactory::getDbo();
 
 		$this->_table_prefix = '#__' . TABLE_PREFIX . '_';
 		$this->producthelper = new producthelper;
@@ -1128,12 +1128,12 @@ class shipping
 
 			if (strlen(str_replace($numbers, '', $zip)) == 0 && $zip != "")
 			{
-				$zipCond = ' AND ( ( shipping_rate_zip_start <= "' . $zip . '" AND shipping_rate_zip_end >= "' . $zip . '" )
+				$zipCond = ' AND ( ( shipping_rate_zip_start <= ' . $db->quote($zip) . ' AND shipping_rate_zip_end >= ' . $db->quote($zip) . ' )
 				OR (shipping_rate_zip_start = "0" AND shipping_rate_zip_end = "0")
 				OR (shipping_rate_zip_start = "" AND shipping_rate_zip_end = "") ) ';
 			}
 
-			$sql = "SELECT * FROM " . $this->_table_prefix . "shipping_rate WHERE shipping_class = '" . $shipping_class . "'
+			$sql = "SELECT * FROM " . $this->_table_prefix . "shipping_rate WHERE shipping_class = " . $db->quote($shipping_class)) . "
 				$wherecountry $wherestate $whereshopper
 				$zipCond
 				AND (( '$volume' BETWEEN shipping_rate_volume_start AND shipping_rate_volume_end) OR (shipping_rate_volume_end = 0) )

@@ -1055,6 +1055,7 @@ class economic
 	 */
 	public function updateInvoiceDateInEconomic($orderdetail, $bookinvoicedate = 0)
 	{
+		$db = JFactory::getDbo();
 		$eco ['invoiceHandle'] = $orderdetail->invoice_no;
 
 		if ($bookinvoicedate != 0)
@@ -1068,9 +1069,9 @@ class economic
 		}
 
 		$bookinvoice_date = strtotime($eco['invoiceDate']);
-		$query            = 'UPDATE ' . $this->_table_prefix . 'orders '
-			. 'SET bookinvoice_date="' . $bookinvoice_date . '" '
-			. 'WHERE order_id="' . $orderdetail->order_id . '" ';
+		$query = 'UPDATE ' . $this->_table_prefix . 'orders '
+			. 'SET bookinvoice_date = ' . $db->quote($bookinvoice_date) . ' '
+			. 'WHERE order_id = ' . (int) $orderdetail->order_id;
 
 		$this->_db->setQuery($query);
 		$this->_db->Query();
@@ -1187,9 +1188,11 @@ class economic
 
 	public function updateInvoiceNumber($order_id = 0, $invoice_no = 0)
 	{
+		$db = JFactory::getDbo();
+
 		$query = 'UPDATE ' . $this->_table_prefix . 'orders '
-			. 'SET invoice_no="' . $invoice_no . '" '
-			. 'WHERE order_id="' . $order_id . '" ';
+			. 'SET invoice_no = ' . $db->quote($invoice_no) . ' '
+			. 'WHERE order_id = ' . (int) $order_id ;
 		$this->_db->setQuery($query);
 		$this->_db->Query();
 	}
@@ -1198,7 +1201,7 @@ class economic
 	{
 		$query = 'UPDATE ' . $this->_table_prefix . 'orders '
 			. 'SET is_booked="1" '
-			. 'WHERE order_id="' . $order_id . '" ';
+			. 'WHERE order_id = ' . (int) $order_id;
 		$this->_db->setQuery($query);
 		$this->_db->Query();
 	}
@@ -1206,16 +1209,18 @@ class economic
 	public function updateBookInvoiceNumber($order_id = 0, $bookinvoice_number = 0)
 	{
 		$query = 'UPDATE ' . $this->_table_prefix . 'orders '
-			. 'SET bookinvoice_number="' . $bookinvoice_number . '" '
-			. 'WHERE order_id="' . $order_id . '" ';
+			. 'SET bookinvoice_number = ' . (int) $bookinvoice_number . ' '
+			. 'WHERE order_id = ' . (int) $order_id;
 		$this->_db->setQuery($query);
 		$this->_db->Query();
 	}
 
 	public function getProductByNumber($product_number = '')
 	{
+		$db = JFactory::getDbo();
+
 		$query = 'SELECT * FROM ' . $this->_table_prefix . 'product '
-			. 'WHERE product_number="' . $product_number . '" ';
+			. 'WHERE product_number = ' . $db->quote($product_number);
 		$this->_db->setQuery($query);
 		$result = $this->_db->loadObject();
 

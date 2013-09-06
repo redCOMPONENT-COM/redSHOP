@@ -32,7 +32,7 @@ class order_functions
 
 	public function __construct()
 	{
-		$this->_db = JFactory::getDBO();
+		$this->_db = JFactory::getDbo();
 
 		$this->_table_prefix     = '#__redshop_';
 		$this->_table_prefix_crm = '#__redcrm_';
@@ -87,7 +87,7 @@ class order_functions
 
 	public function updateOrderStatus($order_id, $newstatus)
 	{
-		$query = 'UPDATE ' . $this->_table_prefix . 'orders ' . 'SET order_status = ' . $this->_db->quote($newstatus) . ', mdate = ' . $this->_db->quote(time())
+		$query = 'UPDATE ' . $this->_table_prefix . 'orders ' . 'SET order_status = ' . $this->_db->quote($newstatus) . ', mdate = ' . (int) time()
 			. ' WHERE order_id = ' . (int) $order_id;
 		$this->_db->setQuery($query);
 		$this->_db->query();
@@ -349,7 +349,7 @@ class order_functions
 
 		if ($oXML->val[1] == "201" && $oXML->val[2] == "Created")
 		{
-			$query = 'UPDATE ' . $this->_table_prefix . 'orders SET `order_label_create` = 1 WHERE order_id=' . $order_id;
+			$query = 'UPDATE ' . $this->_table_prefix . 'orders SET `order_label_create` = 1 WHERE order_id = ' . (int) $order_id;
 			$this->_db->setQuery($query);
 			$this->_db->query();
 
@@ -418,7 +418,7 @@ class order_functions
 
 			$statusmsg = $data->msg;
 			$query = "INSERT INTO  " . $this->_table_prefix . "order_status_log set order_status = " . $this->_db->quote($data->order_status_code)
-				. ", order_payment_status = " . $this->_db->quote($data->order_payment_status_code) . ", date_changed = " . $this->_db->quote(time())
+				. ", order_payment_status = " . $this->_db->quote($data->order_payment_status_code) . ", date_changed = " . (int) time()
 				. ", order_id = " . (int) $order_id . ", customer_note = " . $this->_db->quote($data->log);
 			$this->_db->SetQuery($query);
 			$this->_db->Query();
@@ -1250,6 +1250,7 @@ class order_functions
 	public function getOrderItemDetail($order_id = 0, $product_id = 0, $order_item_id = 0)
 	{
 		$and = "";
+		$list = null;
 
 		if ($order_id != 0)
 		{
@@ -1269,9 +1270,12 @@ class order_functions
 			$and .= " AND order_item_id = " . (int) $order_item_id . " ";
 		}
 
-		$query = "SELECT * FROM  " . $this->_table_prefix . "order_item " . "WHERE 1=1 " . $and;
-		$this->_db->setQuery($query);
-		$list = $this->_db->loadObjectlist();
+		if (!empty($and))
+		{
+			$query = "SELECT * FROM  " . $this->_table_prefix . "order_item " . "WHERE 1=1 " . $and;
+			$this->_db->setQuery($query);
+			$list = $this->_db->loadObjectlist();
+		}
 
 		return $list;
 	}
@@ -1605,18 +1609,16 @@ class order_functions
 
 	public function getOrderItemAccessoryDetail($order_item_id = 0)
 	{
-		$and = "";
-
 		if ($order_item_id != 0)
 		{
-			$and .= " AND order_item_id = " . (int) $order_item_id . " ";
+			$query = "SELECT * FROM  " . $this->_table_prefix . "order_acc_item "
+				. "WHERE order_item_id = " . (int) $order_item_id;
+			$this->_db->setQuery($query);
+
+			return $this->_db->loadObjectlist();
 		}
 
-		$query = "SELECT * FROM  " . $this->_table_prefix . "order_acc_item " . "WHERE 1=1 " . $and;
-		$this->_db->setQuery($query);
-		$list = $this->_db->loadObjectlist();
-
-		return $list;
+		return null;
 	}
 
 	public function getOrderItemAttributeDetail($order_item_id = 0, $is_accessory = 0, $section = "attribute", $parent_section_id = 0)
@@ -1634,7 +1636,10 @@ class order_functions
 			$and .= " AND parent_section_id = " . (int) $parent_section_id . " ";
 		}
 
-		$query = "SELECT * FROM  " . $this->_table_prefix . "order_attribute_item " . "WHERE is_accessory_att = " . (int) $is_accessory . " " . "AND section = " . $db->quote($section) . " " . $and;
+		$query = "SELECT * FROM  " . $this->_table_prefix . "order_attribute_item "
+			. "WHERE is_accessory_att = " . (int) $is_accessory . " "
+			. "AND section = " . $db->quote($section) . " "
+			. $and;
 		$db->setQuery($query);
 		$list = $db->loadObjectlist();
 
@@ -1644,7 +1649,11 @@ class order_functions
 	public function getOrderUserfieldData($order_item_id = 0, $section = 0)
 	{
 		$db = JFactory::getDbo();
-		$query = "SELECT fd.*,f.field_title,f.field_type,f.field_name FROM " . $this->_table_prefix . "fields_data AS fd " . "LEFT JOIN " . $this->_table_prefix . "fields AS f ON f.field_id=fd.fieldid " . "WHERE fd.itemid = " . (int) $order_item_id . " " . "AND fd.section = " . $db->quote($section);
+		$query = "SELECT fd.*,f.field_title,f.field_type,f.field_name"
+			. " FROM " . $this->_table_prefix . "fields_data AS fd "
+			. "LEFT JOIN " . $this->_table_prefix . "fields AS f ON f.field_id=fd.fieldid "
+			. "WHERE fd.itemid = " . (int) $order_item_id . " "
+			. "AND fd.section = " . $db->quote($section);
 		$db->setQuery($query);
 		$list = $db->loadObjectlist();
 
@@ -1665,7 +1674,8 @@ class order_functions
 		 */
 		if (ECONOMIC_INTEGRATION)
 		{
-			$query = "SELECT order_number FROM " . $this->_table_prefix . "orders " . "WHERE order_id = " . (int) $maxId;
+			$query = "SELECT order_number FROM " . $this->_table_prefix . "orders "
+				. "WHERE order_id = " . (int) $maxId;
 			$this->_db->setQuery($query);
 			$maxOrderNumber = $this->_db->loadResult();
 			$economic = new economic;
@@ -1892,7 +1902,9 @@ class order_functions
 	public function getDownloadProduct($order_id)
 	{
 		$query = "SELECT pd.*,product_name FROM " . $this->_table_prefix . "product_download AS pd " . ","
-			. $this->_table_prefix . "product AS p " . "WHERE pd.product_id=p.product_id " . "AND order_id = " . (int) $order_id;
+			. $this->_table_prefix . "product AS p "
+			. "WHERE pd.product_id=p.product_id "
+			. "AND order_id = " . (int) $order_id;
 		$this->_db->setQuery($query);
 
 		return $this->_db->loadObjectList();
@@ -1903,10 +1915,11 @@ class order_functions
 		$db = JFactory::getDbo();
 		$whereDownload_id = ($did != '') ? " AND pdl.download_id = " . $db->quote($did) : "";
 
-		$query = "SELECT pdl . * , pd.order_id, pd.product_id, pd.file_name " . " FROM `"
-			. $this->_table_prefix . "product_download_log` AS pdl " . " LEFT JOIN " . $this->_table_prefix
-			. "product_download AS pd ON pd.download_id = pdl.download_id" . " WHERE pd.order_id = "
-			. (int) $order_id . " " . $whereDownload_id;
+		$query = "SELECT pdl . * , pd.order_id, pd.product_id, pd.file_name "
+			. " FROM `" . $this->_table_prefix . "product_download_log` AS pdl "
+			. " LEFT JOIN " . $this->_table_prefix . "product_download AS pd ON pd.download_id = pdl.download_id"
+			. " WHERE pd.order_id = " . (int) $order_id
+			. " " . $whereDownload_id;
 		$db->setQuery($query);
 
 		return $db->loadObjectList();
@@ -2080,16 +2093,19 @@ class order_functions
 
 	public function changeOrderStatusMail($order_id, $newstatus, $order_comment = '')
 	{
+		$db  = JFactory::getDbo();
 		$app = JFactory::getApplication();
-		$config = new Redconfiguration;
-		$carthelper = new rsCarthelper;
+
+		$config          = new Redconfiguration;
+		$carthelper      = new rsCarthelper;
 		$order_functions = new order_functions;
-		$redshopMail = new redshopMail;
-		$shippinghelper = new shipping;
+		$redshopMail     = new redshopMail;
+		$shippinghelper  = new shipping;
+
 		$MailFrom = $app->getCfg('mailfrom');
 		$FromName = $app->getCfg('fromname');
 		$mailbcc = null;
-		$mailtemplate = $redshopMail->getMailtemplate(0, '', 'mail_section LIKE "order_status" AND mail_order_status LIKE "' . $newstatus . '" ');
+		$mailtemplate = $redshopMail->getMailtemplate(0, '', 'mail_section LIKE "order_status" AND mail_order_status LIKE ' . $db->quote($newstatus) . ' ');
 
 		if (count($mailtemplate) > 0)
 		{

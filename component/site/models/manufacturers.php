@@ -175,7 +175,7 @@ class manufacturersModelmanufacturers extends JModel
 			$filter_order = 'mn.manufacturer_id';
 		}
 
-		$orderby = " ORDER BY " . $db->quote($filter_order) . ' ';
+		$orderby = " ORDER BY " . $db->escape($filter_order) . ' ';
 
 		return $orderby;
 	}
@@ -320,7 +320,7 @@ class manufacturersModelmanufacturers extends JModel
 			$filter_order = "c.ordering,c.category_id, " . $filter_order;
 		}
 
-		$orderby = " ORDER BY " . $db->quote($filter_order) . ' ';
+		$orderby = " ORDER BY " . $db->escape($filter_order) . ' ';
 
 		return $orderby;
 	}

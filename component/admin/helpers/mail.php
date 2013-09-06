@@ -1179,7 +1179,7 @@ class redshopMail
 		$app = JFactory::getApplication();
 
 		$acl = JFactory::getACL();
-		$db  = JFactory::getDBO();
+		$db  = JFactory::getDbo();
 		$me  = JFactory::getUser();
 
 		$mainpassword = JRequest::getVar('password1', '', 'post', 'string', JREQUEST_ALLOWRAW);
