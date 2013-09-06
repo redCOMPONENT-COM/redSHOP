@@ -57,16 +57,29 @@ class searchModelsearch extends JModel
 		$item                = $menu->getActive();
 
 		$layout         = $app->getUserStateFromRequest($context . 'layout', 'layout', 'default');
-		$module         = JModuleHelper::getModule('redshop_search');
-		$module_params  = new JRegistry($module->params);
-		$perpageproduct = $module_params->get('productperpage', 5);
+		if ($module         = JModuleHelper::getModule('redshop_search'))
+		{
+			$module_params  = new JRegistry($module->params);
+			$perpageproduct = $module_params->get('productperpage', 5);
+		}
+		else
+		{
+			$perpageproduct = 5;
+		}
 
 		if ($layout == 'default')
+		{
 			$limit = $perpageproduct;
+		}
 		elseif ($layout == 'productonsale')
+		{
 			$limit = $params->get('productlimit', 5);
+		}
 		else
+		{
 			$limit = $params->get('maxcategory', 5);
+		}
+
 		$productlimit = 0;
 
 		if (isset($item->query['productlimit']))
@@ -358,7 +371,7 @@ class searchModelsearch extends JModel
 		$menu = $app->getMenu();
 		$item = $menu->getActive();
 
-		$days        = $item->query['newproduct'];
+		$days        = isset($item->query['newproduct']) ? $item->query['newproduct'] : 0;
 		$today       = date('Y-m-d H:i:s', time());
 		$days_before = date('Y-m-d H:i:s', time() - ($days * 60 * 60 * 24));
 		$aclProducts = $producthelper->loadAclProducts();
@@ -554,6 +567,8 @@ class searchModelsearch extends JModel
 		$params = JComponentHelper::getParams('com_redshop');
 		$menu   = $app->getMenu();
 		$item   = $menu->getActive();
+
+		$cid = 0;
 
 		if ($layout == 'newproduct')
 		{
