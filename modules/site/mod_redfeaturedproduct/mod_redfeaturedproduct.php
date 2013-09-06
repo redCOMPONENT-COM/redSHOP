@@ -94,7 +94,7 @@ if( !class_exists('redFeatureproduct'))
 			$user =JFactory::getUser();
 			$producthelper = new producthelper();
 			$redhelper = new redhelper();
-			$Itemid = JRequest::getVar('Itemid');
+			$Itemid = JRequest::getInt('Itemid');
 			$view = JRequest::getCmd('view','category');
 
 			$document = JFactory::getDocument();
@@ -279,4 +279,3 @@ $rows = $featured->getredFeaturedProduct( $featured->NumberOfProducts, $featured
 * Display Product Scroller
 **/
 $featured->displayredFeature($rows);
-?>
