@@ -222,17 +222,18 @@ class rsstockroomhelper
 
 			if ($section_id != 0)
 			{
+				// Sanitize ids
 				$section_id = explode(',', $section_id);
 				JArrayHelper::toInteger($section_id);
 				$section_id = implode(',', $section_id);
 
 				if ($section != "product")
 				{
-					$and = "AND x.section = " . $db->quote($section) . " AND x.section_id IN (" . $section_id . ") ";
+					$and = "AND x.section = " . $db->quote($section) . " AND x.section_id IN (" . implode(',', $section_id) . ") ";
 				}
 				else
 				{
-					$and = "AND x.product_id IN (" . $section_id . ") ";
+					$and = "AND x.product_id IN (" . implode(',', $section_id) . ") ";
 				}
 			}
 
@@ -333,17 +334,18 @@ class rsstockroomhelper
 
 			if ($section_id != 0)
 			{
+				// Sanitize ids
 				$section_id = explode(',', $section_id);
 				JArrayHelper::toInteger($section_id);
 				$section_id = implode(',', $section_id);
 
 				if ($section != "product")
 				{
-					$and = "AND x.section = " . $db->quote($section) . " AND x.section_id IN (" . $section_id . ") ";
+					$and = "AND x.section = " . $db->quote($section) . " AND x.section_id IN (" . implode(',', $section_id) . ") ";
 				}
 				else
 				{
-					$and = "AND x.product_id IN (" . $section_id . ") ";
+					$and = "AND x.product_id IN (" . implode(',', $section_id) . ") ";
 				}
 			}
 
@@ -904,10 +906,12 @@ class rsstockroomhelper
 	public function getStockroom($stockroom_id)
 	{
 		$db = JFactory::getDbo();
+
+		// Sanitize ids
 		$stockroom_id = explode(',', $stockroom_id);
 		JArrayHelper::toInteger($stockroom_id);
-		$stockroom_id = implode(',', $stockroom_id);
-		$query = 'SELECT * FROM ' . $this->_table_prefix . 'stockroom WHERE stockroom_id in  (' . $stockroom_id . ') and published=1';
+
+		$query = 'SELECT * FROM ' . $this->_table_prefix . 'stockroom WHERE stockroom_id in  (' . implode(',', $stockroom_id) . ') and published=1';
 		$db->setQuery($query);
 
 		return $db->loadObjectlist();
@@ -919,11 +923,15 @@ class rsstockroomhelper
 	public function getStockroom_maxdelivery($stockroom_id)
 	{
 		$db = JFactory::getDbo();
+
+		// Sanitize ids
 		$stockroom_id = explode(',', $stockroom_id);
 		JArrayHelper::toInteger($stockroom_id);
-		$stockroom_id = implode(',', $stockroom_id);
-		$query = 'SELECT max_del_time,delivery_time  FROM ' . $this->_table_prefix . 'stockroom WHERE stockroom_id in  ('
-			. $stockroom_id . ') and published=1 order by max_del_time desc';
+
+		$query = 'SELECT max_del_time,delivery_time'
+			. ' FROM ' . $this->_table_prefix . 'stockroom'
+			. ' WHERE stockroom_id IN  (' . implode(',', $stockroom_id) . ')'
+			. ' AND published=1 order by max_del_time desc';
 
 		$db->setQuery($query);
 

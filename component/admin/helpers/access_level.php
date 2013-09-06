@@ -27,7 +27,7 @@ class Redaccesslevel
 		$option = JRequest::getVar('option');
 		$db = JFactory::getDbo();
 		$query = "SELECT  section_name FROM " . $this->_table_prefix . "accessmanager"
-			. " WHERE `view`=1 and `gid` = '" . $group_id . "'";
+			. " WHERE `view`=1 and `gid` = " . (int) $group_id;
 		$db->setQuery($query);
 		$access_section = $db->loadResultArray();
 
@@ -106,7 +106,7 @@ class Redaccesslevel
 		}
 
 		$query = "SELECT view  FROM " . $this->_table_prefix . "accessmanager"
-			. " WHERE `section_name` = '" . $view . "' AND `gid` = '" . $group_id . "'";
+			. " WHERE `section_name` = " . $db->quote($view) . " AND `gid` = " . (int) $group_id;
 
 		$db->setQuery($query);
 		$accessview = $db->loadResult();
@@ -164,7 +164,8 @@ class Redaccesslevel
 		}
 
 		$query = "SELECT *  FROM  " . $this->_table_prefix . "accessmanager"
-			. " WHERE `section_name` = '" . str_replace('_detail', '', $view) . "' AND `gid` = '" . $group_id . "'";
+			. " WHERE `section_name` = " . $db->quote(str_replace('_detail', '', $view))
+			. " AND `gid` = " . (int) $group_id;
 		$db->setQuery($query);
 		$accessview = $db->loadObjectList();
 
@@ -216,7 +217,8 @@ class Redaccesslevel
 
 		// Tax_group_detail
 		$query = "SELECT *  FROM  " . $this->_table_prefix . "accessmanager"
-			. " WHERE `section_name` = '" . str_replace('_detail', '', $view) . "' AND `gid` = '" . $group_id . "'";
+			. " WHERE `section_name` = " . $db->quote(str_replace('_detail', '', $view))
+			. " AND `gid` = " . (int) $group_id;
 
 		$db->setQuery($query);
 		$accessview = $db->loadObjectList();
@@ -267,7 +269,8 @@ class Redaccesslevel
 		}
 
 		$query = "SELECT *  FROM  " . $this->_table_prefix . "accessmanager"
-			. " WHERE `section_name` = '" . str_replace('_detail', '', $view) . "' AND `gid` = '" . $group_id . "'";
+			. " WHERE `section_name` = " . $db->quote(str_replace('_detail', '', $view))
+			. " AND `gid` = " . (int) $group_id;
 		$db->setQuery($query);
 		$accessview = $db->loadObjectList();
 
