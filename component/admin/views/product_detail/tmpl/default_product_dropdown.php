@@ -57,7 +57,7 @@ defined('_JEXEC') or die ('Restricted access');
 										<td><input type="text" name="product_navigator[<?php echo $f; ?>][ordering]"
 										           size="5" value="<?php echo $navigator_product[$f]->ordering; ?>"
 										           class="text_area" style="text-align: center"/></td>
-										<td><input value="Remove"
+										<td><input value="<?php echo JText::_('COM_REDSHOP_DELETE'); ?>"
 										           onclick="deleteRow_navigator(this,<?php echo $navigator_product[$f]->navigator_id; ?>,0,<?php echo $navigator_product[$f]->child_product_id; ?>);"
 										           class="button" type="button"></td>
 									</tr>
