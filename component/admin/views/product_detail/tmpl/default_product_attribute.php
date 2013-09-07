@@ -467,7 +467,7 @@ if ($this->lists['attributes'] != '')
 								<!-- End -->
 
 								<div class="remove_attr">
-									<input value="Delete"
+									<input value="<?php echo JText::_('COM_REDSHOP_DELETE'); ?>"
 									       class="btn_attribute_remove" type='button'
 									       width="0"
 									       onclick="if(ajax_delete_property(<?php echo $attribute_id; ?>,<?php echo $property_id; ?>)){deleteRow_property('<?php echo 'property_table' . $property->property_id; ?>','property_table<?php echo $k; ?>','sub_attribute_table<?php echo $k . $g; ?>','<?php echo $k . $g; ?>');}"/>
@@ -789,7 +789,7 @@ if ($this->lists['attributes'] != '')
 														<!-- End: -->
 														<div class="remove_attr">
 															<input
-																value="Delete" class="btn_attribute_remove"
+																value="<?php echo JText::_('COM_REDSHOP_DELETE'); ?>" class="btn_attribute_remove"
 																type='button' width="0"
 																onclick="if(ajax_delete_subproperty(<?php echo $subvalue->subattribute_color_id; ?>,<?php echo $property_id; ?>)){deleteRow_subproperty('<?php echo 'sub_attribute_table' . $subvalue->subattribute_color_id; ?>','sub_attribute_table<?php echo $k . $g; ?>','<?php echo $subvalue->subattribute_color_id; ?>');}"/>
 														</div>
