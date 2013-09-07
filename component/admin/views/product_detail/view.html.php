@@ -36,6 +36,8 @@ class Product_DetailViewProduct_Detail extends JView
 
 	public $input;
 
+	public $producthelper;
+
 	/**
 	 * Execute and display a template script.
 	 *
@@ -54,7 +56,7 @@ class Product_DetailViewProduct_Detail extends JView
 
 		$redTemplate = new Redtemplate;
 		$redhelper = new redhelper;
-		$producthelper = new producthelper;
+		$this->producthelper = new producthelper;
 
 		$option = $this->input->getString('option', 'com_redshop');
 		$db = JFactory::getDBO();
@@ -359,7 +361,7 @@ class Product_DetailViewProduct_Detail extends JView
 
 		if ($detail->product_id)
 		{
-			$accessory_product = $producthelper->getProductAccessory(0, $detail->product_id);
+			$accessory_product = $this->producthelper->getProductAccessory(0, $detail->product_id);
 		}
 
 		$lists['accessory_product'] = $accessory_product;
@@ -368,7 +370,7 @@ class Product_DetailViewProduct_Detail extends JView
 
 		if ($detail->product_id)
 		{
-			$navigator_product = $producthelper->getProductNavigator(0, $detail->product_id);
+			$navigator_product = $this->producthelper->getProductNavigator(0, $detail->product_id);
 		}
 
 		$lists['navigator_product'] = $navigator_product;
