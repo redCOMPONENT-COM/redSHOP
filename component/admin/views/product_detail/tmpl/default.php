@@ -9,7 +9,6 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.html.html.tabs');
-JHTML::_('behavior.tooltip');
 
 $editor = JFactory::getEditor();
 JHTMLBehavior::modal();

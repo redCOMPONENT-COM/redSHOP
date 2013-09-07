@@ -50,6 +50,8 @@ class Product_DetailViewProduct_Detail extends JView
 	 */
 	public function display($tpl = null)
 	{
+		JHTML::_('behavior.tooltip');
+
 		$app = JFactory::getApplication();
 		$this->input = $app->input;
 		$user = JFactory::getUser();
