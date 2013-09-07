@@ -43,8 +43,7 @@ $stockrooms = $model->StockRoomList();
 		newTD1.innerHTML = '<input type="text" name="area_start[]" id="area_start" value="" />';
 		newTD2.innerHTML = '<input type="text" name="area_end[]" id="area_end" value="" />';
 		newTD3.innerHTML = '<input type="text" name="area_price[]" id="area_price" value="" />';
-		newTD4.innerHTML = '<input value="Delete" onclick="deleteDiscountElement(this)" class="button" type="button" />' +
-						   '<input type="hidden" name="discount_calc_id[]" id="discount_calc_id" value="" />';
+		newTD4.innerHTML = '<input value="<?php echo JText::_('COM_REDSHOP_DELETE'); ?>" onclick="deleteDiscountElement(this)" class="button" type="button" /><input type="hidden" name="discount_calc_id[]" id="discount_calc_id" value="" />';
 
 		newTR.appendChild(newTD0);
 		newTR.appendChild(newTD1);
@@ -68,8 +67,7 @@ $stockrooms = $model->StockRoomList();
 		newTD0.innerHTML = '<input type="text" name="pdc_option_name[]" id="pdc_option_name" value="" />';
 		newTD1.innerHTML = '<?php echo $lists['discount_calc_oprand'];?>';
 		newTD2.innerHTML = '<input type="text" name="pdc_price[]" id="pdc_price" value="" />';
-		newTD3.innerHTML = '<input value="Delete" onclick="deleteDiscountElementExtra(this)" class="button" type="button" />' +
-						   '<input type="hidden" name="pdcextra_id[]" id="pdcextra_id" value="" />';
+		newTD3.innerHTML = '<input value="<?php echo JText::_('COM_REDSHOP_DELETE'); ?>" onclick="deleteDiscountElementExtra(this)" class="button" type="button" /><input type="hidden" name="pdcextra_id[]" id="pdcextra_id" value="" />';
 
 		newTR.appendChild(newTD0);
 		newTR.appendChild(newTD1);

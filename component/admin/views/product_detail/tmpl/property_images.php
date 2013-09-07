@@ -148,7 +148,7 @@ if (count($images))
 			$more_images .= '<div align="center" style="100px;float:left; border:1px solid #ccc">';
 
 			$more_images .= "<img  height='50' width='50' src='" . REDSHOP_FRONT_IMAGES_ABSPATH . "property/" . $thumb . "'/>
-			 <br> <a href='index.php?tmpl=component&option=com_redshop&view=product_detail&section_id=" . $section_id . "&cid=" . $product_id . "&mediaid=" . $image->media_id . "&layout=property_images&showbuttons=1&task=deleteimage'>" . JText::_('COM_REDSHOP_Delete') . "</a>
+			 <br> <a href='index.php?tmpl=component&option=com_redshop&view=product_detail&section_id=" . $section_id . "&cid=" . $product_id . "&mediaid=" . $image->media_id . "&layout=property_images&showbuttons=1&task=deleteimage'>" . JText::_('COM_REDSHOP_DELETE') . "</a>
 			 ";
 
 			$more_images .= "</div>";
