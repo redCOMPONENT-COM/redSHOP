@@ -9,12 +9,12 @@
 defined('_JEXEC') or die ('Restricted access');
 
 $db = JFactory::getDBO();
-//$model = $this->getModel();
+
 $template_id = $this->detail->product_template;
 $product_id = $this->detail->product_id;
 $section = '1,12,17';
 
-$redTemplate = new Redtemplate();
+$redTemplate = new Redtemplate;
 
 if ($section == 1 || $section == 12 || $section == 17)
 {
@@ -24,6 +24,7 @@ else
 {
 	$template_desc = $redTemplate->getTemplate("category", $template_id);
 }
+
 if (count($template_desc) == 0)
 {
 	return;
@@ -32,14 +33,19 @@ if (count($template_desc) == 0)
 $template = $template_desc[0]->template_desc;
 $str = array();
 $sec = explode(',', $section);
+
 for ($t = 0; $t < count($sec); $t++)
 {
 	$inArr[] = "'" . $sec[$t] . "'";
 }
+
 $in = implode(',', $inArr);
+
+// ToDo: SQL in a view? Move and fix this.
 $q = "SELECT field_name,field_type,field_section from #__redshop_fields where field_section in (" . $in . ") ";
 $db->setQuery($q);
 $fields = $db->loadObjectlist();
+
 for ($i = 0; $i < count($fields); $i++)
 {
 	if (strstr($template, "{" . $fields[$i]->field_name . "}"))
@@ -47,21 +53,24 @@ for ($i = 0; $i < count($fields); $i++)
 		if ($fields[$i]->field_section == 12)
 		{
 			if ($fields[$i]->field_type == 15)
+			{
 				$str[] = $fields[$i]->field_name;
+			}
 		}
 		else
 		{
 			$str[] = $fields[$i]->field_name;
 		}
-
 	}
 }
 
 $list_field = array();
+
 if (count($str) > 0)
 {
 	$dbname = "'" . implode("','", $str) . "'";
-	$field = new extra_field();
+	$field = new extra_field;
+
 	for ($t = 0; $t < count($sec); $t++)
 	{
 		$list_field[] = $field->list_all_field($sec[$t], $product_id, $dbname);
@@ -79,4 +88,3 @@ else
 {
 	echo $list_field;
 }
-?>
