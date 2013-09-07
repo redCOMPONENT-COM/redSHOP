@@ -8,8 +8,6 @@
  */
 defined('_JEXEC') or die ('Restricted access');
 
-JHTML::_('behavior.tooltip');
-
 JHTMLBehavior::modal();
 $uri = JURI::getInstance();
 $url = $uri->root();

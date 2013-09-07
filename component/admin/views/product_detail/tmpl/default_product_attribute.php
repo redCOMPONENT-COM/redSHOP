@@ -9,8 +9,7 @@
 defined('_JEXEC') or die ('Restricted access');
 $uri = JURI::getInstance();
 $url = $uri->root();
-JHTML::_('behavior.tooltip');
-//$editor =& JFactory::getEditor();
+
 JHTMLBehavior::modal();
 ?>
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
