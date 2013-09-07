@@ -9,8 +9,6 @@
 defined('_JEXEC') or die ('Restricted access');
 
 JHTML::_('behavior.tooltip');
-require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
-$producthelper = new producthelper();
 
 JHTMLBehavior::modal();
 $uri = JURI::getInstance();
@@ -24,12 +22,12 @@ $product_id = JRequest::getCmd('cid');
 if ($fsec == 'subproperty')
 {
 	$images = $this->model->getSubpropertyImages($section_id);
-	$mainImage = $producthelper->getAttibuteSubProperty($section_id);
+	$mainImage = $this->producthelper->getAttibuteSubProperty($section_id);
 
 }
 else
 {
-	$mainImage = $producthelper->getAttibuteProperty($section_id);
+	$mainImage = $this->producthelper->getAttibuteProperty($section_id);
 	$images = $this->model->getpropertyImages($section_id);
 }
 $product_id = JRequest::getCmd('cid');

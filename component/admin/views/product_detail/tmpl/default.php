@@ -10,9 +10,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.html.html.tabs');
 JHTML::_('behavior.tooltip');
-require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
 
-$producthelper = new producthelper;
 $editor = JFactory::getEditor();
 JHTMLBehavior::modal();
 $url = JURI::getInstance()->root();
@@ -276,7 +274,7 @@ echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_PRODUCT_INFORMATION'), 'produc
 								 * @ToDo Fix this mess below. Does the code below get product data again?
 								 * @ToDo Even if product should be loaded by the model? Is that done only to get product_name?
 								 */
-								$list = $producthelper->getProductByID($this->detail->product_parent_id);
+								$list = $this->producthelper->getProductByID($this->detail->product_parent_id);
 								$productname = "";
 
 								if (count($list) > 0)
@@ -415,7 +413,7 @@ echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_PRODUCT_INFORMATION'), 'produc
 								 * @ToDo Seams to be that this mess outputs product's frontend link.
 								 * @ToDo Examine if there is better, more optimized way to obtain this link.
 								 */
-								$ItemData = $producthelper->getMenuInformation(0, 0, '', 'product&pid=' . $this->detail->product_id);
+								$ItemData = $this->producthelper->getMenuInformation(0, 0, '', 'product&pid=' . $this->detail->product_id);
 								$catidmain = $this->detail->first_selected_category_id;
 
 								if (count($ItemData) > 0)
@@ -867,7 +865,7 @@ echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_PRODUCT_DATA'), 'productTab2')
 								   id="product_volume"
 								   size="10"
 								   maxlength="10"
-								   value="<?php echo $producthelper->redunitDecimal($this->detail->product_volume); ?>"
+								   value="<?php echo $this->producthelper->redunitDecimal($this->detail->product_volume); ?>"
 								/>
 							<?php echo DEFAULT_VOLUME_UNIT; ?>3
 						</td>
@@ -898,7 +896,7 @@ echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_PRODUCT_DATA'), 'productTab2')
 								   id="product_length"
 								   size="10"
 						           maxlength="10"
-						           value="<?php echo $producthelper->redunitDecimal($this->detail->product_length); ?>"
+						           value="<?php echo $this->producthelper->redunitDecimal($this->detail->product_length); ?>"
 								/>
 							<?php echo DEFAULT_VOLUME_UNIT; ?>
 						</td>
@@ -929,7 +927,7 @@ echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_PRODUCT_DATA'), 'productTab2')
 								   id="product_width"
 								   size="10"
 								   maxlength="10"
-								   value="<?php echo $producthelper->redunitDecimal($this->detail->product_width); ?>"
+								   value="<?php echo $this->producthelper->redunitDecimal($this->detail->product_width); ?>"
 								/>
 							<?php echo DEFAULT_VOLUME_UNIT; ?></td>
 						<td>
@@ -959,7 +957,7 @@ echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_PRODUCT_DATA'), 'productTab2')
 								   id="product_height"
 								   size="10"
 								   maxlength="10"
-								   value="<?php echo $producthelper->redunitDecimal($this->detail->product_height); ?>"
+								   value="<?php echo $this->producthelper->redunitDecimal($this->detail->product_height); ?>"
 								/>
 							<?php echo DEFAULT_VOLUME_UNIT; ?>
 						</td>
@@ -983,7 +981,7 @@ echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_PRODUCT_DATA'), 'productTab2')
 								   id="product_diameter"
 								   size="10"
 								   maxlength="10"
-								   value="<?php echo $producthelper->redunitDecimal($this->detail->product_diameter); ?>"
+								   value="<?php echo $this->producthelper->redunitDecimal($this->detail->product_diameter); ?>"
 								/>
 							<?php echo DEFAULT_VOLUME_UNIT; ?>
 						</td>
@@ -1007,7 +1005,7 @@ echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_PRODUCT_DATA'), 'productTab2')
 								   id="weight"
 								   size="10"
 								   maxlength="10"
-								   value="<?php echo $producthelper->redunitDecimal($this->detail->weight); ?>"
+								   value="<?php echo $this->producthelper->redunitDecimal($this->detail->weight); ?>"
 								/>
 							<?php echo DEFAULT_WEIGHT_UNIT; ?></td>
 						<td>

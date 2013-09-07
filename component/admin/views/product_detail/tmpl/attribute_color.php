@@ -9,8 +9,6 @@
 defined('_JEXEC') or die ('Restricted access');
 
 JHTML::_('behavior.tooltip');
-require_once JPATH_SITE . '/components/com_redshop/helpers/product.php';
-$producthelper = new producthelper;
 
 JHTMLBehavior::modal();
 $uri = JURI::getInstance();
@@ -18,7 +16,7 @@ $url = $uri->root();
 
 $section_id = $this->input->getInt('section_id', null);
 $product_id = $this->input->getInt('cid', null);
-$images = $producthelper->getAttibuteSubProperty(0, $section_id)
+$images = $this->producthelper->getAttibuteSubProperty(0, $section_id)
 ?>
 
 <script language="javascript" type="text/javascript">

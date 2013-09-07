@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die ('Restricted access');
-$producthelper = new producthelper();
+
 ?>
 <div class="col50">
 	<table width="100%" cellpadding="2" border="0" cellspacing="2">
@@ -47,7 +47,7 @@ $producthelper = new producthelper();
 									$accessory_main_price = 0;
 									if ($this->detail->product_id && $accessory_product[$f]->accessory_id)
 									{
-										$accessory_main_price = $producthelper->getAccessoryPrice($this->detail->product_id, $accessory_product[$f]->newaccessory_price, $accessory_product[$f]->accessory_main_price, 1);
+										$accessory_main_price = $this->producthelper->getAccessoryPrice($this->detail->product_id, $accessory_product[$f]->newaccessory_price, $accessory_product[$f]->accessory_main_price, 1);
 									}
 									$checked = ($accessory_product[$f]->setdefault_selected) ? "checked" : "";    ?>
 									<tr>

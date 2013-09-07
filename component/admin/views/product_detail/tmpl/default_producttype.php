@@ -8,9 +8,6 @@
  */
 defined('_JEXEC') or die;
 
-require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
-$producthelper = new producthelper();
-
 require_once JPATH_COMPONENT_SITE . '/helpers/helper.php';
 $redhelper = new redhelper();
 
@@ -25,7 +22,7 @@ $td_style = ($this->detail->product_download_infinite == 0) ? 'style="display:ta
 <div id="div_product" style="display:<?php echo $div_product; ?>;">
 </div>
 <?php // Subscription
-$subscription = $producthelper->getSubscription($this->detail->product_id);
+$subscription = $this->producthelper->getSubscription($this->detail->product_id);
 $renewal_detail = $this->model->getSubscriptionrenewal();
 $productSerialDetail = $this->productSerialDetail;
 $total_serial = count($productSerialDetail);
