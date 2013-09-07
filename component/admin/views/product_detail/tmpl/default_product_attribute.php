@@ -434,7 +434,7 @@ if ($this->lists['attributes'] != '')
 							<td class="td4" align="left">
 								<input
 									id="btn_attribute_remove_property_<?php echo $property->property_id; ?>"
-									value="Remove"
+									value="<?php echo JText::_('COM_REDSHOP_DELETE'); ?>"
 									class="btn_attribute_remove" type='button'
 									width="0"
 									onclick="javascript:removePropertyImage('<?php echo $property->property_id; ?>','property');"/>
@@ -762,7 +762,7 @@ if ($this->lists['attributes'] != '')
 													</td>
 
 													<td class="td4" align="left">
-														<input value="Remove" type='button' width="0"
+														<input value="<?php echo JText::_('COM_REDSHOP_DELETE'); ?>" type='button' width="0"
 														       onclick="javascript:removePropertyImage('<?php echo $subvalue->subattribute_color_id; ?>','subproperty');"
 														       title="<?php echo JText::_('COM_REDSHOP_REMOVE_IMAGE'); ?>"
 														       class="btn_attribute_remove"
@@ -848,7 +848,7 @@ if ($this->lists['attributes'] != '')
 
 						<input type="file"
 						       name="image[<?php echo $k; ?>][subvalue][][]"> <input
-							value="Remove" class='button' type='button'
+							value="<?php echo JText::_('COM_REDSHOP_DELETE'); ?>" class='button' type='button'
 							width="0"
 							onclick="deleteRow_subproperty(this,'sub_attribute_table<?php echo $k . $g; ?>');"/>
 						<input type="hidden"
