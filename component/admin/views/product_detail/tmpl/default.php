@@ -19,7 +19,7 @@ $container_id = $this->input->getInt('container_id', null);
 $stockroom_id = $this->input->getInt('stockroom_id', null);
 $now = JFactory::getDate();
 $model = $this->getModel('product_detail');
-$showbuttons = $this->input->getCmd('showbuttons', false);
+$showbuttons = $this->input->getBool('showbuttons', false);
 $calendarFormat = '%d-%m-%Y';
 ?>
 
