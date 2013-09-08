@@ -23,7 +23,7 @@ $showbuttons = $this->input->getCmd('showbuttons', false);
 $calendarFormat = '%d-%m-%Y';
 ?>
 
-<script language="javascript" type="text/javascript">
+<script type="text/javascript">
 
 	function add_dependency(type_id, tag_id, product_id) {
 		var request;
