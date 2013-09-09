@@ -32,6 +32,7 @@ class account_shiptoViewaccount_shipto extends JView
 		$session = JFactory::getSession();
 		$auth    = $session->get('auth');
 		$params  = $app->getParams('com_redshop');
+		$lists   = array();
 
 		if ($user->id)
 		{
