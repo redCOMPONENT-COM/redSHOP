@@ -44,11 +44,14 @@ class product_detailController extends JController
 
 	public function save($apply = 0)
 	{
-		$post = JRequest::get('post');
-		$option = JRequest::getVar('option');
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		// Get the input.
+		$input               = JFactory::getApplication()->input;
+		$post                = $input->getArray($_POST);
+
+		$option              = JRequest::getVar('option');
+		$cid                 = JRequest::getVar('cid', array(0), 'post', 'array');
 		$post ['product_id'] = $cid [0];
-		$stockroom_id = '';
+		$stockroom_id        = '';
 
 		if (is_array($post['product_category']) && !in_array($post['cat_in_sefurl'], $post['product_category']))
 		{
@@ -67,10 +70,15 @@ class product_detailController extends JController
 			$post ['discount_enddate'] = strtotime($post ['discount_enddate']) + (23 * 59 * 59);
 		}
 
-		$post ['product_availability_date'] = strtotime($post ['product_availability_date']);
-		$post["product_s_desc"] = JRequest::getVar('product_s_desc', '', 'post', 'string', JREQUEST_ALLOWRAW);
-		$post["product_desc"] = JRequest::getVar('product_desc', '', 'post', 'string', JREQUEST_ALLOWRAW);
-		$post["product_parent_id"] = trim($post["parent"]) == "" ? 0 : $post["product_parent_id"];
+		$post["product_number"]            = trim($input->post->get('product_number', null, 'string'));
+		$post['product_availability_date'] = strtotime($post ['product_availability_date']);
+		$post["product_s_desc"]            = JRequest::getVar('product_s_desc', '', 'post', 'string', JREQUEST_ALLOWRAW);
+		$post["product_desc"]              = JRequest::getVar('product_desc', '', 'post', 'string', JREQUEST_ALLOWRAW);
+
+		if (trim($post["parent"]) == "")
+		{
+			$post["product_parent_id"] = 0;
+		}
 
 		$container_id = JRequest::getVar('container_id', '', 'request', 'string');
 
