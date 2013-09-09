@@ -22,20 +22,23 @@ $Itemid = JRequest::getInt('Itemid');
 $returnitemid = $params->get('logout', $Itemid);
 
 // Get redshop login module
-$module = JModuleHelper::getModule('redshop_login');
-
-// Get redshop login module params
-if ($module->params != "")
+if ($module = JModuleHelper::getModule('redshop_login'))
 {
-	$moduleparams = new JRegistry($module->params);
+	// Get redshop login module params
+	if ($module->params != "")
+	{
+		$moduleparams = new JRegistry($module->params);
 
-	// Set return Itemid for logout
-	$returnitemid = $moduleparams->get('logout', $returnitemid);
+		// Set return Itemid for logout
+		$returnitemid = $moduleparams->get('logout', $returnitemid);
+	}
 }
 
 ?>
+
 <form action="<?php echo JRoute::_('index.php?option=com_redshop&view=login'); ?>" method="post">
 	<table cellpadding="0" cellspacing="0" border="0" width="100%">
+		<?php if (isset($this->ShopperGroupDetail[0])) : ?>
 		<tr>
 			<td>
 				<h1><?php echo $this->ShopperGroupDetail[0]->shopper_group_name; ?></h1>
@@ -46,6 +49,7 @@ if ($module->params != "")
 				<strong><?php echo $this->ShopperGroupDetail[0]->shopper_group_introtext; ?></strong>
 			</td>
 		</tr>
+		<?php endif; ?>
 		<tr>
 			<td><input type="submit" name="submit" class="button" value="<?php echo JText::_('COM_REDSHOP_LOGOUT'); ?>">
 			</td>
