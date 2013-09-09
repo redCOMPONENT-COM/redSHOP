@@ -12,7 +12,7 @@ JHTML::_('behavior.tooltip');
 $app = JFactory::getApplication();
 $Itemid = JRequest::getInt('Itemid');
 $user = JFactory::getUser();
-$params = $app->getParams($option);
+$params = $app->getParams('com_redshop');
 $menu = JFactory::getApplication()->getMenu();
 
 $returnitemid = $params->get('logout', $Itemid);
