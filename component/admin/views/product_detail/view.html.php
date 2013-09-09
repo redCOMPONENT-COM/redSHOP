@@ -118,43 +118,6 @@ class Product_DetailViewProduct_Detail extends JView
 
 		$types = $model->TypeTagList();
 
-		/* Disabled as customer doesn't want a multi-select box now, who knows later??? */
-		if (0)
-		{
-			/* Create the select list */
-			$html = '<select id="tag_id" multiple="multiple" name="tag_id[]">';
-
-			foreach ($types as $key => $type)
-			{
-				/* Add the type */
-				$html .= '<option value="">' . JText::_('COM_REDSHOP_TYPE_LIST') . ' ' . $type['type_name'] . '</option>';
-				/* Add the tags */
-
-				if (count($type['tags']) > 0)
-				{
-					foreach ($type['tags'] as $tagid => $tag)
-					{
-						/* Check if the tag is selected */
-						if (in_array($tagid, $associationtags))
-						{
-							$selected = 'selected="selected"';
-						}
-
-						else
-						{
-							$selected = '';
-						}
-
-						$html .= '<option ' . $selected . ' value="' . $tagid . '" >--- ' . JText::_('COM_REDSHOP_TAG_LIST') . ' '
-							. $tag['tag_name'] . '</option>';
-					}
-				}
-			}
-
-			$html .= '</select>';
-			$lists['tags'] = $html;
-		}
-
 		/* Get the Quality Score data */
 		$qs = $this->get('QualityScores', 'product_detail');
 
