@@ -1897,10 +1897,12 @@ class shipping
 		$users_info_id = JRequest::getVar('users_info_id');
 
 		// Try to load user information
-		$userInfo   = null;
-		$country    = null;
-		$state      = null;
-		$is_company = null;
+		$userInfo     = null;
+		$country      = null;
+		$state        = null;
+		$is_company   = null;
+		$shoppergroup = null;
+		$zip          = null;
 
 		if ($user_id)
 		{
@@ -1911,13 +1913,6 @@ class shipping
 			elseif ($userInfo = $order_functions->getShippingAddress($user_id))
 			{
 				$userInfo = $userInfo[0];
-			}
-
-			if ($userInfo)
-			{
-				$country      = $userInfo->country_code;
-				$state        = $userInfo->state_code;
-				$is_company   = $userInfo->is_company;
 			}
 		}
 
@@ -1934,7 +1929,14 @@ class shipping
 			$where = " AND ( company_only = 1 or company_only = 0) ";
 		}
 
-		$shoppergroup = $userhelper->getShoppergroupData($userInfo->user_id);
+		if ($userInfo)
+		{
+			$country      = $userInfo->country_code;
+			$state        = $userInfo->state_code;
+			$is_company   = $userInfo->is_company;
+			$shoppergroup = $userhelper->getShoppergroupData($userInfo->user_id);
+			$zip          = $userInfo->zipcode;
+		}
 
 		if (count($shoppergroup) > 0)
 		{
@@ -1964,7 +1966,7 @@ class shipping
 		$zipCond = "";
 		$zip = trim($zip);
 
-		if (strlen(str_replace($numbers, '', $zip)) == 0 && $zip != "")
+		if (preg_match('/^[0-9 ]+$/', $zip) && !empty($zip))
 		{
 			$zipCond = ' AND ( ( shipping_rate_zip_start <= ' . $db->quote($zip) . ' AND shipping_rate_zip_end >= ' . $db->quote($zip) . ' )
 				OR (shipping_rate_zip_start = "0" AND shipping_rate_zip_end = "0")
@@ -1983,7 +1985,7 @@ class shipping
 								 WHERE (shipping_rate_value =0 OR shipping_rate_value ='0')
 
 				$wherecountry $wherestate $whereshopper $zipCond $where
-				ORDER BY s.ordering,sr.shipping_rate_priority limit 0,1";
+				ORDER BY s.ordering,sr.shipping_rate)_priority limit 0,1";
 
 		$db->setQuery($sql);
 		$shippingrate = $db->loadObject();
