@@ -48,11 +48,15 @@ function redshopBuildRoute(&$query)
 	$infoid           = '';
 	$task             = '';
 
+	$view = null;
+
 	if (isset($query['view']))
 	{
 		$view = $query['view'];
 		unset($query['view']);
 	}
+
+	$pid = null;
 
 	if (isset($query['pid']))
 	{
@@ -60,26 +64,36 @@ function redshopBuildRoute(&$query)
 		unset($query['pid']);
 	}
 
+	$cid = null;
+
 	if (isset($query['cid']))
 	{
 		$cid = $query['cid'];
 		unset($query['cid']);
 	}
 
+	$limit = null;
+
 	if (isset($query['limit']))
 	{
 		$limit = $query['limit'];
 	}
+
+	$limitstart = null;
 
 	if (isset($query['limitstart']))
 	{
 		$limitstart = $query['limitstart'];
 	}
 
+	$start = null;
+
 	if (isset($query['start']))
 	{
 		$start = $query['start'];
 	}
+
+	$order_by = null;
 
 	if (isset($query['order_by']))
 	{
@@ -87,11 +101,15 @@ function redshopBuildRoute(&$query)
 		unset($query['order_by']);
 	}
 
+	$texpricemin = null;
+
 	if (isset($query['texpricemin']))
 	{
 		$texpricemin = $query['texpricemin'];
 		unset($query['texpricemin']);
 	}
+
+	$texpricemax = null;
 
 	if (isset($query['texpricemax']))
 	{
@@ -99,11 +117,15 @@ function redshopBuildRoute(&$query)
 		unset($query['texpricemax']);
 	}
 
+	$manufacturer_id = null;
+
 	if (isset($query['manufacturer_id']))
 	{
 		$manufacturer_id = $query['manufacturer_id'];
 		unset($query['manufacturer_id']);
 	}
+
+	$manufacture_id = null;
 
 	if (isset($query['manufacture_id']))
 	{
@@ -111,7 +133,7 @@ function redshopBuildRoute(&$query)
 		unset($query['manufacture_id']);
 	}
 
-	$cateogry_id = null;
+	$category_id = null;
 
 	if (isset($query['category_id']))
 	{
@@ -119,17 +141,23 @@ function redshopBuildRoute(&$query)
 		unset($query['category_id']);
 	}
 
+	$category_template = null;
+
 	if (isset($query['category_template']))
 	{
 		$category_template = $query['category_template'];
 		unset($query['category_template']);
 	}
 
+	$gid = null;
+
 	if (isset($query['gid']))
 	{
 		$gid = $query['gid'];
 		unset($query['gid']);
 	}
+
+	$layout = null;
 
 	if (isset($query['layout']))
 	{
@@ -145,11 +173,15 @@ function redshopBuildRoute(&$query)
 		unset($query['mid']);
 	}
 
+	$task = null;
+
 	if (isset($query['task']))
 	{
 		$task = $query['task'];
 		unset($query['task']);
 	}
+
+	$infoid = null;
 
 	if (isset($query['infoid']))
 	{
@@ -157,11 +189,15 @@ function redshopBuildRoute(&$query)
 		unset($query['infoid']);
 	}
 
+	$oid = null;
+
 	if (isset($query['oid']))
 	{
 		$oid = $query['oid'];
 		unset($query['oid']);
 	}
+
+	$order_id = null;
 
 	if (isset($query['order_id']))
 	{
@@ -169,11 +205,15 @@ function redshopBuildRoute(&$query)
 		unset($query['order_id']);
 	}
 
+	$quoid = null;
+
 	if (isset($query['quoid']))
 	{
 		$quoid = $query['quoid'];
 		unset($query['quoid']);
 	}
+
+	$Itemid = null;
 
 	if (isset($query['Itemid']))
 	{
@@ -181,11 +221,15 @@ function redshopBuildRoute(&$query)
 	}
 
 	// Tag id
+	$tagid = null;
+
 	if (isset($query['tagid']))
 	{
 		$tagid = $query['tagid'];
 		unset($query['tagid']);
 	}
+
+	$edit = null;
 
 	if (isset($query['edit']))
 	{
@@ -194,11 +238,15 @@ function redshopBuildRoute(&$query)
 	}
 
 	// Remove flag
+	$remove = null;
+
 	if (isset($query['remove']))
 	{
 		$remove = $query['remove'];
 		unset($query['remove']);
 	}
+
+	$wishlist_id = null;
 
 	if (isset($query['wishlist_id']))
 	{
