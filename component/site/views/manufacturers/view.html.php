@@ -22,6 +22,7 @@ class manufacturersViewmanufacturers extends JView
 		$print         = JRequest::getInt('print');
 		$layout        = JRequest::getCmd('layout', 'default');
 		$params        = $app->getParams('com_redshop');
+		$Itemid        = $app->input->getInt('itemid', null);
 
 		$mid    = 0;
 		$lists  = array();
