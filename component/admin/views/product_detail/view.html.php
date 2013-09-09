@@ -40,6 +40,8 @@ class Product_DetailViewProduct_Detail extends JView
 
 	public $dispatcher;
 
+	public $option;
+
 	/**
 	 * Execute and display a template script.
 	 *
@@ -65,7 +67,7 @@ class Product_DetailViewProduct_Detail extends JView
 		$redhelper = new redhelper;
 		$this->producthelper = new producthelper;
 
-		$option = $this->input->getString('option', 'com_redshop');
+		$this->option = $this->input->getString('option', 'com_redshop');
 		$db = JFactory::getDBO();
 		$dbPrefix = $app->getCfg('dbprefix');
 		$lists = array();
@@ -86,7 +88,7 @@ class Product_DetailViewProduct_Detail extends JView
 		if ($model->isCheckedOut($user->get('id')))
 		{
 			$msg = JText::sprintf('DESCBEINGEDITTED', JText::_('COM_REDSHOP_THE_DETAIL'), $detail->title);
-			$app->redirect('index.php?option=' . $option, $msg);
+			$app->redirect('index.php?option=' . $this->option, $msg);
 		}
 
 		// Check redproductfinder is installed
@@ -271,10 +273,10 @@ class Product_DetailViewProduct_Detail extends JView
 		$document = JFactory::getDocument();
 
 		$document->addScriptDeclaration("var WANT_TO_DELETE = '" . JText::_('COM_REDSHOP_DO_WANT_TO_DELETE') . "';");
-		$document->addScript('components/' . $option . '/assets/js/fields.js');
-		$document->addScript('components/' . $option . '/assets/js/select_sort.js');
-		$document->addScript('components/' . $option . '/assets/js/json.js');
-		$document->addScript('components/' . $option . '/assets/js/validation.js');
+		$document->addScript('components/' . $this->option . '/assets/js/fields.js');
+		$document->addScript('components/' . $this->option . '/assets/js/select_sort.js');
+		$document->addScript('components/' . $this->option . '/assets/js/json.js');
+		$document->addScript('components/' . $this->option . '/assets/js/validation.js');
 		$document->addStyleSheet('components/com_redshop/assets/css/search.css');
 
 		if (file_exists(JPATH_SITE . '/components/com_redproductfinder/helpers/redproductfinder.css'))
@@ -421,34 +423,34 @@ class Product_DetailViewProduct_Detail extends JView
 		// Discount calculator
 		$lists['use_discount_calc'] = JHTML::_('select.booleanlist', 'use_discount_calc', 'class="inputbox"', $detail->use_discount_calc);
 
-		$option = array();
-		$option[] = JHTML::_('select.option', '1', JText::_('COM_REDSHOP_RANGE'));
-		$option[] = JHTML::_('select.option', '0', JText::_('COM_REDSHOP_PRICE_PER_PIECE'));
-		$lists['use_range'] = JHTML::_('select.genericlist', $option, 'use_range', 'class="inputbox" size="1" ', 'value', 'text', $detail->use_range);
-		unset($option);
+		$selectOption = array();
+		$selectOption[] = JHTML::_('select.option', '1', JText::_('COM_REDSHOP_RANGE'));
+		$selectOption[] = JHTML::_('select.option', '0', JText::_('COM_REDSHOP_PRICE_PER_PIECE'));
+		$lists['use_range'] = JHTML::_('select.genericlist', $selectOption, 'use_range', 'class="inputbox" size="1" ', 'value', 'text', $detail->use_range);
+		unset($selectOption);
 
 		// Calculation method
-		$option[] = JHTML::_('select.option', '0', JText::_('COM_REDSHOP_SELECT'));
-		$option[] = JHTML::_('select.option', 'volume', JText::_('COM_REDSHOP_VOLUME'));
-		$option[] = JHTML::_('select.option', 'area', JText::_('COM_REDSHOP_AREA'));
-		$option[] = JHTML::_('select.option', 'circumference', JText::_('COM_REDSHOP_CIRCUMFERENCE'));
-		$lists['discount_calc_method'] = JHTML::_('select.genericlist', $option, 'discount_calc_method',
+		$selectOption[] = JHTML::_('select.option', '0', JText::_('COM_REDSHOP_SELECT'));
+		$selectOption[] = JHTML::_('select.option', 'volume', JText::_('COM_REDSHOP_VOLUME'));
+		$selectOption[] = JHTML::_('select.option', 'area', JText::_('COM_REDSHOP_AREA'));
+		$selectOption[] = JHTML::_('select.option', 'circumference', JText::_('COM_REDSHOP_CIRCUMFERENCE'));
+		$lists['discount_calc_method'] = JHTML::_('select.genericlist', $selectOption, 'discount_calc_method',
 			'class="inputbox" size="1" ', 'value', 'text', $detail->discount_calc_method
 		);
-		unset($option);
+		unset($selectOption);
 
 		// Calculation UNIT
 		$remove_format = JHtml::$formatOptions;
 
-		$option[] = JHTML::_('select.option', 'mm', JText::_('COM_REDSHOP_MILLIMETER'));
-		$option[] = JHTML::_('select.option', 'cm', JText::_('COM_REDSHOP_CENTIMETER'));
-		$option[] = JHTML::_('select.option', 'm', JText::_('COM_REDSHOP_METER'));
-		$lists['discount_calc_unit'] = JHTML::_('select.genericlist', $option, 'discount_calc_unit[]',
+		$selectOption[] = JHTML::_('select.option', 'mm', JText::_('COM_REDSHOP_MILLIMETER'));
+		$selectOption[] = JHTML::_('select.option', 'cm', JText::_('COM_REDSHOP_CENTIMETER'));
+		$selectOption[] = JHTML::_('select.option', 'm', JText::_('COM_REDSHOP_METER'));
+		$lists['discount_calc_unit'] = JHTML::_('select.genericlist', $selectOption, 'discount_calc_unit[]',
 			'class="inputbox" size="1" ', 'value', 'text', DEFAULT_VOLUME_UNIT
 		);
 		$lists['discount_calc_unit'] = str_replace($remove_format['format.indent'], "", $lists['discount_calc_unit']);
 		$lists['discount_calc_unit'] = str_replace($remove_format['format.eol'], "", $lists['discount_calc_unit']);
-		unset($option);
+		unset($selectOption);
 
 		$productVatGroup = $model->getVatGroup();
 		$temps = array();
@@ -510,7 +512,8 @@ class Product_DetailViewProduct_Detail extends JView
 		$product_type_opt[] = JHTML::_('select.option', 'file', JText::_('COM_REDSHOP_FILE'));
 		$product_type_opt[] = JHTML::_('select.option', 'subscription', JText::_('COM_REDSHOP_SUBSCRIPTION'));
 
-		$product_type_opt = $this->dispatcher->trigger('onListProductTypes', array($product_type_opt));
+		$product_type_opt_plugin = $this->dispatcher->trigger('onListProductTypes', array($product_type_opt));
+		$product_type_opt = array_merge($product_type_opt_plugin, $product_type_opt);
 
 		if ($detail->product_download == 1)
 		{
