@@ -1346,15 +1346,13 @@ class Redconfiguration
 					// Sanitize country list
 					$sanitizedCountryArray = array();
 
-					foreach ($country_list as $countryCode)
+					foreach ($country_list as &$countryCode)
 					{
-						$sanitizedCountryArray[] = $db->quote($countryCode);
+						$countryCode = $db->quote($countryCode);
 					}
 
-					$sanitizedCountryList = implode(",", $sanitizedCountryArray);
-
 					$q = 'SELECT country_3_code AS value,country_name AS text,country_jtext FROM ' . $this->_table_prefix . 'country '
-						. 'WHERE country_3_code IN (' . $sanitizedCountryList . ') '
+						. 'WHERE country_3_code IN (' . implode(",", $country_list) . ') '
 						. 'ORDER BY country_name ASC';
 
 					$this->_db->setQuery($q);
@@ -1436,7 +1434,7 @@ class Redconfiguration
 				// Sanitize country list
 				foreach ($country_list as &$countryCode)
 				{
-					$db->quote($countryCode);
+					$countryCode = $db->quote($countryCode);
 				}
 
 				$q = 'SELECT c.country_id, c.country_3_code, s.state_name, s.state_2_code FROM ' . $this->_table_prefix . 'country AS c '
