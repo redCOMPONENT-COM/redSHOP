@@ -1533,9 +1533,10 @@ class shipping
 				{
 					$acc_id     = $cart[$i]['cart_accessory'][$a]['accessory_id'];
 					$acc_qty    = $cart[$i]['cart_accessory'][$a]['accessory_quantity'];
-					$acc_data   = $this->producthelper->getProductById($acc_id);
-
-					$acc_weight += ($acc_data->weight * $acc_qty);
+					if ($acc_data   = $this->producthelper->getProductById($acc_id))
+					{
+						$acc_weight += ($acc_data->weight * $acc_qty);
+					}
 				}
 			}
 
