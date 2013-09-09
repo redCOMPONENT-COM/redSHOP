@@ -246,6 +246,18 @@ echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_PRODUCT_INFORMATION'), 'produc
 
 					<tr>
 						<td class="key">
+							<label for="product_type">
+								<?php echo JText::_('COM_REDSHOP_PRODUCT_TYPE'); ?>
+							</label>
+						</td>
+						<td>
+							<?php echo $this->lists['product_type']; ?>
+							<?php echo JHTML::tooltip(JText::_('COM_REDSHOP_PRODUCT_TYPE_TIP'), JText::_('COM_REDSHOP_PRODUCT_TYPE'), 'tooltip.png', '', '', false); ?>
+						</td>
+					</tr>
+
+					<tr>
+						<td class="key">
 							<label for="published0">
 								<?php echo JText::_('COM_REDSHOP_PUBLISHED'); ?>
 							</label>
@@ -1022,37 +1034,18 @@ echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_PRODUCT_DATA'), 'productTab2')
 
 </fieldset>
 
-<?php
-// Tab3 - Product information tab panel.
-echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_CHANGE_PRODUCT_TYPE'), 'productTab3');
-?>
-<div class="col50">
-
-	<table class="admintable">
-
-		<tr>
-			<td class="key">
-				<label for="product_type">
-					<?php echo JText::_('COM_REDSHOP_PRODUCT_TYPE'); ?>
-				</label>
-			</td>
-			<td>
-				<?php echo $this->lists['product_type']; ?>
-				<?php echo JHTML::tooltip(JText::_('COM_REDSHOP_PRODUCT_TYPE_TIP'), JText::_('COM_REDSHOP_PRODUCT_TYPE'), 'tooltip.png', '', '', false); ?>
-			</td>
-		</tr>
-
-		<tr>
-			<td colspan="2">
-				<hr/>
-			</td>
-		</tr>
-
-	</table>
-
-	<?php echo $this->loadTemplate('producttype')?>
-
-</div>
+<?php if ($this->detail->product_type != 'product') : ?>
+	<?php
+	// Tab3 - Product information tab panel.
+	echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_CHANGE_PRODUCT_TYPE_TAB'), 'productTab3');
+	?>
+	<fieldset class="adminform">
+		<legend>
+			<?php echo JText::_('COM_REDSHOP_CHANGE_PRODUCT_TYPE_TAB_DESC'); ?>
+		</legend>
+		<?php echo $this->loadTemplate('producttype'); ?>
+	</fieldset>
+<?php endif; ?>
 
 <?php
 // Tab4 - Custom fields tab panel.
@@ -1060,12 +1053,12 @@ echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_FIELDS'), 'productTab4');
 ?>
 
 <?php if ($this->detail->product_template != 0) : ?>
-<fieldset class="adminform">
-	<legend>
-		<?php echo JText::_('COM_REDSHOP_FIELDS'); ?>
-	</legend>
-	<?php    echo $this->loadTemplate('extrafield'); ?>
-</fieldset>
+	<fieldset class="adminform">
+		<legend>
+			<?php echo JText::_('COM_REDSHOP_FIELDS'); ?>
+		</legend>
+		<?php echo $this->loadTemplate('extrafield'); ?>
+	</fieldset>
 <?php endif; ?>
 
 <?php

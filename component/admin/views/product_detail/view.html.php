@@ -38,6 +38,8 @@ class Product_DetailViewProduct_Detail extends JView
 
 	public $producthelper;
 
+	public $dispatcher;
+
 	/**
 	 * Execute and display a template script.
 	 *
@@ -55,6 +57,9 @@ class Product_DetailViewProduct_Detail extends JView
 		$app = JFactory::getApplication();
 		$this->input = $app->input;
 		$user = JFactory::getUser();
+
+		JPluginHelper::importPlugin('redshop_product_type');
+		$this->dispatcher = JDispatcher::getInstance();
 
 		$redTemplate = new Redtemplate;
 		$redhelper = new redhelper;
@@ -154,16 +159,14 @@ class Product_DetailViewProduct_Detail extends JView
 							. JText::_('COM_REDSHOP_TAG_LIST') . ' ' . $tag['tag_name'];
 						$html .= '</td></tr>';
 
+						$qs_value = '';
+
 						if (is_array($qs))
 						{
 							if (array_key_exists($typeid . '.' . $tagid, $qs))
 							{
 								$qs_value = $qs[$typeid . '.' . $tagid]['quality_score'];
 							}
-						}
-						else
-						{
-							$qs_value = '';
 						}
 
 						$html .= '<tr><td><span class="quality_score">' . JText::_('COM_REDSHOP_QUALITY_SCORE')
@@ -309,7 +312,7 @@ class Product_DetailViewProduct_Detail extends JView
 
 		if ($detail->product_id > 0)
 		{
-			JToolBarHelper::addNewX('prices', JText::_('COM_REDSHOP_ADD_PRICE_LBL'));
+			JToolBarHelper::addNew('prices', JText::_('COM_REDSHOP_ADD_PRICE_LBL'));
 		}
 
 		JToolBarHelper::apply();
@@ -425,7 +428,6 @@ class Product_DetailViewProduct_Detail extends JView
 		unset($option);
 
 		// Calculation method
-
 		$option[] = JHTML::_('select.option', '0', JText::_('COM_REDSHOP_SELECT'));
 		$option[] = JHTML::_('select.option', 'volume', JText::_('COM_REDSHOP_VOLUME'));
 		$option[] = JHTML::_('select.option', 'area', JText::_('COM_REDSHOP_AREA'));
@@ -433,7 +435,6 @@ class Product_DetailViewProduct_Detail extends JView
 		$lists['discount_calc_method'] = JHTML::_('select.genericlist', $option, 'discount_calc_method',
 			'class="inputbox" size="1" ', 'value', 'text', $detail->discount_calc_method
 		);
-
 		unset($option);
 
 		// Calculation UNIT
@@ -447,7 +448,6 @@ class Product_DetailViewProduct_Detail extends JView
 		);
 		$lists['discount_calc_unit'] = str_replace($remove_format['format.indent'], "", $lists['discount_calc_unit']);
 		$lists['discount_calc_unit'] = str_replace($remove_format['format.eol'], "", $lists['discount_calc_unit']);
-
 		unset($option);
 
 		$productVatGroup = $model->getVatGroup();
@@ -507,18 +507,25 @@ class Product_DetailViewProduct_Detail extends JView
 		// Product type selection
 		$product_type_opt = array();
 		$product_type_opt[] = JHTML::_('select.option', 'product', JText::_('COM_REDSHOP_PRODUCT'));
-
 		$product_type_opt[] = JHTML::_('select.option', 'file', JText::_('COM_REDSHOP_FILE'));
 		$product_type_opt[] = JHTML::_('select.option', 'subscription', JText::_('COM_REDSHOP_SUBSCRIPTION'));
+
+		$product_type_opt = $this->dispatcher->trigger('onListProductTypes', array($product_type_opt));
 
 		if ($detail->product_download == 1)
 		{
 			$detail->product_type = 'file';
 		}
 
-		$lists["product_type"] = JHTML::_('select.genericlist', $product_type_opt, 'product_type',
-			'class="inputbox" size="1" onChange="changeProductDiv(this.value)" ', 'value', 'text', $detail->product_type
-		);
+		$lists["product_type"] = JHTML::_(
+									'select.genericlist',
+									$product_type_opt,
+									'product_type',
+									'class="inputbox" size="1" ',
+									'value',
+									'text',
+									$detail->product_type
+								);
 
 		$accountgroup = $redhelper->getEconomicAccountGroup();
 		$op = array();
