@@ -1896,22 +1896,30 @@ class shipping
 
 		$users_info_id = JRequest::getVar('users_info_id');
 
+		// Try to load user information
+		$userInfo   = null;
+		$country    = null;
+		$state      = null;
+		$is_company = null;
+
 		if ($user_id)
 		{
 			if ($users_info_id)
 			{
 				$userInfo = $this->getShippingAddress($users_info_id);
 			}
-			else
+			elseif ($userInfo = $order_functions->getShippingAddress($user_id))
 			{
-				$userInfo = $order_functions->getShippingAddress($user_id);
 				$userInfo = $userInfo[0];
 			}
-		}
 
-		$country      = $userInfo->country_code;
-		$state        = $userInfo->state_code;
-		$is_company   = $userInfo->is_company;
+			if ($userInfo)
+			{
+				$country      = $userInfo->country_code;
+				$state        = $userInfo->state_code;
+				$is_company   = $userInfo->is_company;
+			}
+		}
 
 		$where        = '';
 		$wherestate   = '';
