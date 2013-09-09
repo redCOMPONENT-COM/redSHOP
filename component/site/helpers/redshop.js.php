@@ -137,6 +137,7 @@ $script = "
 		window.AJAX_DETAIL_BOX_HEIGHT = '" . AJAX_DETAIL_BOX_HEIGHT . "';
 		window.AJAX_BOX_WIDTH = '" . AJAX_BOX_WIDTH . "';
 		window.AJAX_BOX_HEIGHT = '" . AJAX_BOX_HEIGHT . "';
+		window.COM_REDSHOP_EAN_MIN_CHARACTER_LIMIT = '" . JText::_('COM_REDSHOP_EAN_MIN_CHARACTER_LIMIT', true) . "';
 	";
 $doc->addScriptDeclaration($script);
 
