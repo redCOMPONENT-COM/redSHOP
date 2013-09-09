@@ -202,9 +202,14 @@ if(typeof(window['jQuery']) != "undefined")
 				state_code: {
 					required: function (){if(document.getElementById("div_state_txt") && document.getElementById("div_state_txt").style.display!='none') {return true;}else {  return false;}}
 				},
-//				ean_number: {
-//					required: function (){if(rs("#toggler2").is(":checked")) {return true;}else {  return false;}}
-//				},
+				ean_number: {
+					required: function (){if(rs("#toggler2").is(":checked") && document.getElementById("ean_number") && document.getElementById("ean_number").value!='') {return true;}else {  return false;}},
+					minlength: 13,
+					maxlength: 13,
+					decimal: false,
+					negative: false,
+					number: true
+				},
 //				requisition_number: {
 //					required: function (){if(rs("#toggler2").is(":checked") && document.getElementById("ean_number") && document.getElementById("ean_number").value!=''){return true;}else {return false;}}
 //				},
@@ -273,7 +278,14 @@ if(typeof(window['jQuery']) != "undefined")
 				},
 				termscondition: "Please select terms and conditions",
 	//			email: "Please enter a valid email address",
-				agree: "Please accept our policy"
+				agree: "Please accept our policy",
+				ean_number: {
+					minlength: COM_REDSHOP_EAN_MIN_CHARACTER_LIMIT,
+					maxlength: COM_REDSHOP_EAN_MIN_CHARACTER_LIMIT,
+					decimal: COM_REDSHOP_EAN_MIN_CHARACTER_LIMIT,
+					negative: COM_REDSHOP_EAN_MIN_CHARACTER_LIMIT,
+					number: COM_REDSHOP_EAN_MIN_CHARACTER_LIMIT
+				}
 			}
 		});
 
