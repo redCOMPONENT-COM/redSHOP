@@ -8,31 +8,24 @@
  */
 defined('_JEXEC') or die ('Restricted access');
 
-JHTML::_('behavior.tooltip');
-require_once JPATH_SITE . '/components/com_redshop/helpers/product.php';
-$producthelper = new producthelper();
-
 JHTMLBehavior::modal();
 $uri = JURI::getInstance();
 $url = $uri->root();
-$showbuttons = JRequest::getCmd('showbuttons');
 
-$section_id = JRequest::getCmd('section_id');
-
-$product_id = JRequest::getCmd('cid');
-$images = $producthelper->getAttibuteSubProperty(0, $section_id)
+$section_id = $this->input->getInt('section_id', null);
+$product_id = $this->input->getInt('cid', null);
+$images = $this->producthelper->getAttibuteSubProperty(0, $section_id)
 ?>
+
 <script language="javascript" type="text/javascript">
 	Joomla.submitbutton = function (pressbutton) {
 		submitbutton(pressbutton);
-	}
+	};
 
 	submitbutton = function (pressbutton) {
-		var form = document.adminForm;
 
 		if (pressbutton == 'save') {
 			submitform('subattribute_color');
-			return;
 		}
 
 	}
@@ -62,37 +55,45 @@ $images = $producthelper->getAttibuteSubProperty(0, $section_id)
 
 	<div class="col50">
 		<fieldset class="adminform" style="width: 100px;">
-			<table class="admintable" border="0" width="100%" id="admintable">
+			<table class="admintable" border="0" id="admintable">
+
 				<tr>
-					<td align="left" colspan="2" class="key">
+					<td colspan="2" class="key">
 						<?php echo JText::_('COM_REDSHOP_SUBATTRIBUTE_NAME'); ?>
 					</td>
-					<td align="left" colspan="1" class="key">
+					<td colspan="1" class="key">
 						<?php echo JText::_('COM_REDSHOP_PROPERTY_SUB_IMAGE'); ?>
 					</td>
-					<td align="left" colspan="1" class="key">
-						<input type="button" name="addvalue" id="addvalue" class="button"
-						       Value="<?php echo JText::_('COM_REDSHOP_ADD'); ?>"
-						       onclick="addNewRowOfsub('admintable');"/>
+					<td colspan="1" class="key">
+						<input type="button"
+							   name="addvalue"
+							   id="addvalue"
+							   class="button"
+							   value="<?php echo JText::_('COM_REDSHOP_ADD'); ?>"
+							   onclick="addNewRowOfsub('admintable');"
+							/>
 					</td>
 				</tr>
-				<?php
-				if (count($images) > 0)
-				{
-					for ($i = 0; $i < count($images); $i++)
-					{
-						$image = $images[$i];
-						$thumb = $image->subattribute_color_image;
-						$imgpath = "/components/" . $option . "/helpers/thumb.php?filename=subcolor/" . $thumb . "&newxsize=" . PRODUCT_ADDITIONAL_IMAGE . "&newysize=" . PRODUCT_ADDITIONAL_IMAGE;
-						?>
+
+				<?php if (count($images) > 0) : ?>
+					<?php
+						for ($i = 0; $i < count($images); $i++)
+						{
+							$image = $images[$i];
+							$thumb = $image->subattribute_color_image;
+							$imgpath  = '/components/' . $option;
+							$imgpath .= '/helpers/thumb.php?filename=subcolor/' . $thumb;
+							$imgpath .= '&newxsize=' . PRODUCT_ADDITIONAL_IMAGE;
+							$imgpath .= '&newysize=' . PRODUCT_ADDITIONAL_IMAGE;
+					?>
 						<tr>
 							<td>
-								<input type="text" name="subattribute_name[]" id="subattribute_name[]"
-								       value="<?php echo $image->subattribute_color_name; ?>" size="30"/>
+								<input type="text" name="subattribute_name[]" id="subattribute_name[]" value="<?php echo $image->subattribute_color_name; ?>" size="30"/>
 							</td>
 							<td>
-								<?php if(is_file(JPATH_COMPONENT_SITE . $imgpath)) ?>
-								<img src="<?php echo $url . $imgpath; ?>"/>
+								<?php if (is_file(JPATH_COMPONENT_SITE . $imgpath)) : ?>
+									<img src="<?php echo $url . $imgpath; ?>"/>
+								<?php endif; ?>
 							</td>
 							<td>
 								<input type="file" name="property_sub_img[]" id="property_sub_img[]" value=""
@@ -108,12 +109,9 @@ $images = $producthelper->getAttibuteSubProperty(0, $section_id)
 							</td>
 						</tr>
 					<?php
-					}
-				}
-				else
-				{
-
+						}
 					?>
+				<?php else : ?>
 					<tr>
 						<td>
 							<input type="text" name="subattribute_name[]" id="subattribute_name[]" value="" size="30"/>
@@ -128,9 +126,7 @@ $images = $producthelper->getAttibuteSubProperty(0, $section_id)
 						<td>
 						</td>
 					</tr>
-				<?php
-				}
-				?>
+				<?php endif; ?>
 			</table>
 		</fieldset>
 	</div>
