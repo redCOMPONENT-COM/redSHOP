@@ -897,7 +897,7 @@ class Redconfiguration
 		}
 
 		$qurey = "SELECT show_price FROM " . $this->_table_prefix . "shopper_group "
-			. "WHERE shopper_group_id='" . $shopper_group_id . "'";
+			. "WHERE shopper_group_id = " . (int) $shopper_group_id;
 		$this->_db->setQuery($qurey);
 		$list = $this->_db->loadObject();
 
@@ -1281,6 +1281,7 @@ class Redconfiguration
 
 	public function getCountryId($conid)
 	{
+		$db = JFactory::getDbo();
 		$query = 'SELECT country_id FROM ' . $this->_table_prefix . 'country '
 			. 'WHERE country_3_code LIKE ' . $db->quote($conid);
 		$this->_db->setQuery($query);
@@ -1290,6 +1291,7 @@ class Redconfiguration
 
 	public function getCountryCode2($conid)
 	{
+		$db = JFactory::getDbo();
 		$query = 'SELECT country_2_code FROM ' . $this->_table_prefix . 'country '
 			. 'WHERE country_3_code LIKE ' . $db->quote($conid);
 		$this->_db->setQuery($query);
@@ -1299,6 +1301,7 @@ class Redconfiguration
 
 	public function getStateCode2($conid)
 	{
+		$db = JFactory::getDbo();
 		$query = 'SELECT state_2_code FROM ' . $this->_table_prefix . 'state '
 			. 'WHERE state_3_code LIKE ' . $db->quote($conid);
 		$this->_db->setQuery($query);
@@ -1308,6 +1311,7 @@ class Redconfiguration
 
 	public function getStateCode($conid, $tax_code)
 	{
+		$db = JFactory::getDbo();
 		$query = 'SELECT  state_3_code , show_state FROM ' . $this->_table_prefix . 'state '
 		. 'WHERE state_2_code LIKE ' . $db->quote($tax_code)
 		. ' AND country_id = ' . (int) $conid;
