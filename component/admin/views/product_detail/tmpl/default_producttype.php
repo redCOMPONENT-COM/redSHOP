@@ -17,6 +17,7 @@ $div_subscription = $this->detail->product_type == 'subscription' ? 'block' : 'n
 
 $td_style = ($this->detail->product_download_infinite == 0) ? 'style="display:table-row;"' : 'style="display:none;"';
 
+$optionPeriod = array();
 ?>
 
 <div id="div_product" style="display:<?php echo $div_product; ?>;">
@@ -200,10 +201,9 @@ $total_serial = count($productSerialDetail);
 			</tr>
 
 			<?php
-				$option = array();
-				$option[] = JHTML::_('select.option', 'days', JText::_('COM_REDSHOP_DAYS'));
-				$option[] = JHTML::_('select.option', 'month', JText::_('COM_REDSHOP_MONTH'));
-				$option[] = JHTML::_('select.option', 'year', JText::_('COM_REDSHOP_YEAR'));
+				$optionPeriod[] = JHTML::_('select.option', 'days', JText::_('COM_REDSHOP_DAYS'));
+				$optionPeriod[] = JHTML::_('select.option', 'month', JText::_('COM_REDSHOP_MONTH'));
+				$optionPeriod[] = JHTML::_('select.option', 'year', JText::_('COM_REDSHOP_YEAR'));
 
 				for ($sub = 0; $sub < count($subscription); $sub++)
 				{
@@ -217,7 +217,7 @@ $total_serial = count($productSerialDetail);
 						<td>
 							<input type="text" name="subscription_period[]" class="input" size="10" value="<?php echo $subrow->subscription_period; ?>"/>
 							<?php
-								echo JHTML::_('select.genericlist', $option, 'period_type[]', 'class="inputbox" size="1" ', 'value', 'text', $subrow->period_type);
+								echo JHTML::_('select.genericlist', $optionPeriod, 'period_type[]', 'class="inputbox" size="1" ', 'value', 'text', $subrow->period_type);
 							?>
 						</td>
 						<td>
@@ -274,7 +274,7 @@ $total_serial = count($productSerialDetail);
 <?php
 $remove_format = JHtml::$formatOptions;
 
-$add_subscription_row = " " . JHTML::_('select.genericlist', $option, 'period_type[]', 'class="inputbox" size="1" ', 'value', 'text');
+$add_subscription_row = " " . JHTML::_('select.genericlist', $optionPeriod, 'period_type[]', 'class="inputbox" size="1" ', 'value', 'text');
 $add_subscription_row = str_replace($remove_format['format.indent'], "", $add_subscription_row);
 $add_subscription_row = str_replace($remove_format['format.eol'], "", $add_subscription_row);
 
