@@ -285,6 +285,9 @@ echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_ECONOMIC_SETTINGS'), 'productT
 </fieldset>
 
 <?php
+// Echo plugin tabs.
+$this->dispatcher->trigger('onDisplayProductTabs', array($this->detail));
+
 // End tabs.
 echo JHtml::_('tabs.end');
 ?>
