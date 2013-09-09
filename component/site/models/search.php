@@ -250,6 +250,7 @@ class searchModelsearch extends JModel
 		$keyword = $app->getUserStateFromRequest($context . 'keyword', 'keyword', '');
 
 		$defaultSearchType = '';
+		$defaultSearchType_tmp = '';
 
 		if (!empty($manudata['search_type']))
 		{
