@@ -846,54 +846,58 @@ function redshopParseRoute($segments)
 		case 'account':
 
 			$vars['view']   = 'account';
-			$vars['layout'] = $segments[1];
 
-			if ($segments[1] == 'mytags')
+			if (isset($segments[1]))
 			{
-				if (isset($segments[2]))
-				{
-					$vars['tagid'] = $segments[2];
+				$vars['layout'] = $segments[1];
 
-					if (isset($segments[4]))
+				if ($segments[1] == 'mytags')
+				{
+					if (isset($segments[2]))
 					{
-						if ($segments[4] == 'edit')
+						$vars['tagid'] = $segments[2];
+
+						if (isset($segments[4]))
 						{
-							$vars['edit'] = 1;
-						}
-						else
-						{
-							$vars['remove'] = 1;
+							if ($segments[4] == 'edit')
+							{
+								$vars['edit'] = 1;
+							}
+							else
+							{
+								$vars['remove'] = 1;
+							}
 						}
 					}
 				}
-			}
-			elseif ($segments[1] == 'mywishlist')
-			{
-				if (isset($segments[2]))
+				elseif ($segments[1] == 'mywishlist')
 				{
-					$vars['wishlist_id'] = $segments[2];
-				}
+					if (isset($segments[2]))
+					{
+						$vars['wishlist_id'] = $segments[2];
+					}
 
-				if (isset($segments[3]))
-				{
-					$vars['pid'] = $segments[3];
-				}
+					if (isset($segments[3]))
+					{
+						$vars['pid'] = $segments[3];
+					}
 
-				if (isset($segments[4]))
-				{
-					$vars['remove'] = 1;
+					if (isset($segments[4]))
+					{
+						$vars['remove'] = 1;
+					}
 				}
-			}
-			elseif ($segments[1] == 'compare')
-			{
-				if (isset($segments[2]))
+				elseif ($segments[1] == 'compare')
 				{
-					$vars['pid'] = $segments[2];
-				}
+					if (isset($segments[2]))
+					{
+						$vars['pid'] = $segments[2];
+					}
 
-				if (isset($segments[3]))
-				{
-					$vars['remove'] = 1;
+					if (isset($segments[3]))
+					{
+						$vars['remove'] = 1;
+					}
 				}
 			}
 
