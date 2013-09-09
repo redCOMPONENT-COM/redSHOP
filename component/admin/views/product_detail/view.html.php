@@ -92,6 +92,7 @@ class Product_DetailViewProduct_Detail extends JView
 		$getAssociation = $model->getAssociation();
 		$this->getassociation = $getAssociation;
 
+		// ToDo: Move SQL from here. SQL shouldn't be in view files!
 		$sql = "SHOW TABLE STATUS LIKE '" . $dbPrefix . "redshop_product'";
 		$db->setQuery($sql);
 		$row = $db->loadObject();
@@ -99,7 +100,7 @@ class Product_DetailViewProduct_Detail extends JView
 
 		/* Get the tag names */
 		$tags = $model->Tags();
-		$associationtags = 0;
+		$associationtags = array();
 
 		if (isset($getAssociation) && count($getAssociation) > 0)
 		{
@@ -108,11 +109,6 @@ class Product_DetailViewProduct_Detail extends JView
 
 		if (count($tags) > 0)
 		{
-			if (!is_array($associationtags))
-			{
-				$associationtags = array();
-			}
-
 			$lists['tags'] = JHTML::_('select.genericlist', $tags, 'tag_id[]', 'multiple', 'id', 'tag_name', $associationtags);
 		}
 
@@ -121,6 +117,7 @@ class Product_DetailViewProduct_Detail extends JView
 		/* Get the Quality Score data */
 		$qs = $this->get('QualityScores', 'product_detail');
 
+		// ToDo: Don't echo HTML but use tmpl files.
 		/* Create the select list as checkboxes */
 		$html = '<div id="select_box">';
 
@@ -142,7 +139,7 @@ class Product_DetailViewProduct_Detail extends JView
 					foreach ($type['tags'] as $tagid => $tag)
 					{
 						/* Check if the tag is selected */
-						if (@in_array($tagid, $associationtags))
+						if (in_array($tagid, $associationtags))
 						{
 							$selected = 'checked="checked"';
 						}
@@ -157,9 +154,12 @@ class Product_DetailViewProduct_Detail extends JView
 							. JText::_('COM_REDSHOP_TAG_LIST') . ' ' . $tag['tag_name'];
 						$html .= '</td></tr>';
 
-						if (@array_key_exists($typeid . '.' . $tagid, $qs))
+						if (is_array($qs))
 						{
-							$qs_value = $qs[$typeid . '.' . $tagid]['quality_score'];
+							if (array_key_exists($typeid . '.' . $tagid, $qs))
+							{
+								$qs_value = $qs[$typeid . '.' . $tagid]['quality_score'];
+							}
 						}
 						else
 						{
@@ -235,32 +235,39 @@ class Product_DetailViewProduct_Detail extends JView
 		$temps[0] = new stdClass;
 		$temps[0]->template_id = "0";
 		$temps[0]->template_name = JText::_('COM_REDSHOP_SELECT');
-		$templates = @array_merge($temps, $templates);
+
+		if (is_array($templates))
+		{
+			$templates = array_merge($temps, $templates);
+		}
 
 		// Merging select option in the select box
 		$supps = array();
 		$supps[0] = new stdClass;
 		$supps[0]->value = "0";
 		$supps[0]->text = JText::_('COM_REDSHOP_SELECT');
-		$manufacturers = @array_merge($supps, $manufacturers);
+
+		if (is_array($manufacturers))
+		{
+			$manufacturers = array_merge($supps, $manufacturers);
+		}
 
 		// Merging select option in the select box
 		$supps = array();
 		$supps[0] = new stdClass;
 		$supps[0]->value = "0";
 		$supps[0]->text = JText::_('COM_REDSHOP_SELECT');
-		$supplier = @array_merge($supps, $supplier);
+
+		if (is_array($supplier))
+		{
+			$supplier = array_merge($supps, $supplier);
+		}
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_PRODUCT_MANAGEMENT_DETAIL'), 'redshop_products48');
 
 		$document = JFactory::getDocument();
 
-		$document->addScriptDeclaration("
-
-		var WANT_TO_DELETE = '" . JText::_('COM_REDSHOP_DO_WANT_TO_DELETE') . "';
-
-		");
-
+		$document->addScriptDeclaration("var WANT_TO_DELETE = '" . JText::_('COM_REDSHOP_DO_WANT_TO_DELETE') . "';");
 		$document->addScript('components/' . $option . '/assets/js/fields.js');
 		$document->addScript('components/' . $option . '/assets/js/select_sort.js');
 		$document->addScript('components/' . $option . '/assets/js/json.js');
@@ -377,7 +384,11 @@ class Product_DetailViewProduct_Detail extends JView
 		$temps[0] = new stdClass;
 		$temps[0]->value = "0";
 		$temps[0]->text = JText::_('COM_REDSHOP_SELECT');
-		$product_tax = @array_merge($temps, $product_tax);
+
+		if (is_array($product_tax))
+		{
+			$product_tax = array_merge($temps, $product_tax);
+		}
 
 		$lists['product_tax'] = JHTML::_('select.genericlist', $product_tax, 'product_tax_id',
 			'class="inputbox" size="1"  ', 'value', 'text', $detail->product_tax_id
@@ -444,7 +455,11 @@ class Product_DetailViewProduct_Detail extends JView
 		$temps[0] = new stdClass;
 		$temps[0]->value = "";
 		$temps[0]->text = JText::_('COM_REDSHOP_SELECT');
-		$productVatGroup = @array_merge($temps, $productVatGroup);
+
+		if (is_array($productVatGroup))
+		{
+			$productVatGroup = array_merge($temps, $productVatGroup);
+		}
 
 		if (DEFAULT_VAT_GROUP && !$detail->product_tax_group_id)
 		{
@@ -480,9 +495,13 @@ class Product_DetailViewProduct_Detail extends JView
 		$temps[0]->value = "";
 		$temps[0]->text = JText::_('COM_REDSHOP_SELECT');
 
-		$attributesSet = @array_merge($temps, $attributesSet);
+		if (is_array($attributesSet))
+		{
+			$attributesSet = array_merge($temps, $attributesSet);
+		}
+
 		$lists['attributesSet'] = JHTML::_('select.genericlist', $attributesSet, 'attribute_set_id',
-			'class="inputbox" size="1" ', 'value', 'text', @$detail->attribute_set_id
+			'class="inputbox" size="1" ', 'value', 'text', $detail->attribute_set_id
 		);
 
 		// Product type selection
