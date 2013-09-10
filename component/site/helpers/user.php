@@ -193,14 +193,23 @@ class rsUserhelper
 		return $userArr;
 	}
 
+	/**
+	 * This function is used to check if the 'username' already exist in the database with any other ID
+	 *
+	 * @param     $username
+	 * @param int $id
+	 *
+	 * @return int|void
+	 */
 	public function validate_user($username, $id = 0)
 	{
 		$db = JFactory::getDbo();
 
 		$query = "SELECT username FROM #__users "
-			. "WHERE username='" . $db->quote($username) . "' "
-			. "AND id <>" . (int) $id;
-		$db->setQuery($query);
+			. "WHERE username = " . $db->quote($username)
+			. " AND id != " . (int) $id;
+
+		$this->_db->setQuery($query);
 		$users = $db->loadObjectList();
 
 		return count($users);
