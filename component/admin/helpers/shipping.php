@@ -1986,7 +1986,7 @@ class shipping
 								 WHERE (shipping_rate_value =0 OR shipping_rate_value ='0')
 
 				$wherecountry $wherestate $whereshopper $zipCond $where
-				ORDER BY s.ordering,sr.shipping_rate)_priority limit 0,1";
+				ORDER BY s.ordering,sr.shipping_rate_priority LIMIT 0,1";
 
 		$db->setQuery($sql);
 		$shippingrate = $db->loadObject();
