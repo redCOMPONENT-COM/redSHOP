@@ -236,7 +236,7 @@ echo $this->loadTemplate('related');
 	<table class="adminform">
 		<tr>
 			<td>
-				<?php echo JHTML::tooltip(JText::_('COM_REDSHOP_TAG_NAME_TIP'), JText::_('COM_REDSHOP_TAG_NAME'), 'tooltip.png', '', '', false); ?>
+				<?php echo JHtml::tooltip(JText::_('COM_REDSHOP_TAG_NAME_TIP'), JText::_('COM_REDSHOP_TAG_NAME'), 'tooltip.png', '', '', false); ?>
 				<?php echo JText::_('COM_REDSHOP_TAG_NAME'); ?>
 			</td>
 			<td>

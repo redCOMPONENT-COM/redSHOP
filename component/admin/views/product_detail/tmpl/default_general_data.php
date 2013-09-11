@@ -37,7 +37,7 @@ $calendarFormat = '%d-%m-%Y';
 					</td>
 					<td>
 						<?php
-						echo JHTML::tooltip(JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_NAME'), JText::_('COM_REDSHOP_PRODUCT_NAME'), 'tooltip.png', '', '', false);
+						echo JHtml::tooltip(JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_NAME'), JText::_('COM_REDSHOP_PRODUCT_NAME'), 'tooltip.png', '', '', false);
 						?>
 					</td>
 				</tr>
@@ -60,7 +60,7 @@ $calendarFormat = '%d-%m-%Y';
 					</td>
 					<td>
 						<?php
-						echo JHTML::tooltip(JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_NUMBER'), JText::_('COM_REDSHOP_PRODUCT_NUMBER'), 'tooltip.png', '', '', false);
+						echo JHtml::tooltip(JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_NUMBER'), JText::_('COM_REDSHOP_PRODUCT_NUMBER'), 'tooltip.png', '', '', false);
 						?>
 					</td>
 				</tr>
@@ -76,7 +76,7 @@ $calendarFormat = '%d-%m-%Y';
 					</td>
 					<td>
 						<?php
-						echo JHTML::tooltip(
+						echo JHtml::tooltip(
 							JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_TEMPLATE'),
 							JText::_('COM_REDSHOP_PRODUCT_TEMPLATE'),
 							'tooltip.png',
@@ -96,7 +96,7 @@ $calendarFormat = '%d-%m-%Y';
 					</td>
 					<td>
 						<?php echo $this->lists['product_type']; ?>
-						<?php echo JHTML::tooltip(JText::_('COM_REDSHOP_PRODUCT_TYPE_TIP'), JText::_('COM_REDSHOP_PRODUCT_TYPE'), 'tooltip.png', '', '', false); ?>
+						<?php echo JHtml::tooltip(JText::_('COM_REDSHOP_PRODUCT_TYPE_TIP'), JText::_('COM_REDSHOP_PRODUCT_TYPE'), 'tooltip.png', '', '', false); ?>
 					</td>
 				</tr>
 
@@ -149,7 +149,7 @@ $calendarFormat = '%d-%m-%Y';
 					</td>
 					<td>
 						<?php
-						echo JHTML::tooltip(JText::_('COM_REDSHOP_TOOLTIP_PARENT_PRODUCT'), JText::_('COM_REDSHOP_PARENT_PRODUCT'), 'tooltip.png', '', '', false);
+						echo JHtml::tooltip(JText::_('COM_REDSHOP_TOOLTIP_PARENT_PRODUCT'), JText::_('COM_REDSHOP_PARENT_PRODUCT'), 'tooltip.png', '', '', false);
 						?>
 					</td>
 				</tr>
@@ -165,7 +165,7 @@ $calendarFormat = '%d-%m-%Y';
 					</td>
 					<td>
 						<?php
-						echo JHTML::tooltip(
+						echo JHtml::tooltip(
 							JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_CATEGORY'),
 							JText::_('COM_REDSHOP_PRODUCT_CATEGORY'),
 							'tooltip.png',
@@ -194,7 +194,7 @@ $calendarFormat = '%d-%m-%Y';
 					</td>
 					<td>
 						<?php
-						echo JHTML::tooltip(
+						echo JHtml::tooltip(
 							JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_MANUFACTURER'),
 							JText::_('COM_REDSHOP_PRODUCT_MANUFACTURER'),
 							'tooltip.png',
@@ -217,7 +217,7 @@ $calendarFormat = '%d-%m-%Y';
 					</td>
 					<td>
 						<?php
-						echo JHTML::tooltip(JText::_('COM_REDSHOP_TOOLTIP_SUPPLIER'), JText::_('COM_REDSHOP_SUPPLIER'), 'tooltip.png', '', '', false);
+						echo JHtml::tooltip(JText::_('COM_REDSHOP_TOOLTIP_SUPPLIER'), JText::_('COM_REDSHOP_SUPPLIER'), 'tooltip.png', '', '', false);
 						?>
 					</td>
 				</tr>
@@ -327,7 +327,7 @@ $calendarFormat = '%d-%m-%Y';
 					</td>
 					<td>
 						<?php
-						echo JHTML::tooltip(JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_PRICE'), JText::_('COM_REDSHOP_PRODUCT_PRICE'), 'tooltip.png', '', '', false);
+						echo JHtml::tooltip(JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_PRICE'), JText::_('COM_REDSHOP_PRODUCT_PRICE'), 'tooltip.png', '', '', false);
 						?>
 					</td>
 				</tr>
@@ -343,7 +343,7 @@ $calendarFormat = '%d-%m-%Y';
 					</td>
 					<td>
 						<?php
-						echo JHTML::tooltip(JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_TAX'), JText::_('COM_REDSHOP_PRODUCT_TAX_GROUP'), 'tooltip.png', '', '', false);
+						echo JHtml::tooltip(JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_TAX'), JText::_('COM_REDSHOP_PRODUCT_TAX_GROUP'), 'tooltip.png', '', '', false);
 						?>
 					</td>
 				</tr>
@@ -365,7 +365,7 @@ $calendarFormat = '%d-%m-%Y';
 					</td>
 					<td>
 						<?php
-						echo JHTML::tooltip(
+						echo JHtml::tooltip(
 							JText::_('COM_REDSHOP_TOOLTIP_MINIMUM_PER_PRODUCT_TOTAL'),
 							JText::_('COM_REDSHOP_MINIMUM_PER_PRODUCT_TOTAL_LBL'),
 							'tooltip.png',
@@ -401,7 +401,7 @@ $calendarFormat = '%d-%m-%Y';
 					</td>
 					<td>
 						<?php
-						echo JHTML::tooltip(JText::_('COM_REDSHOP_TOOLTIP_DISCOUNT_PRICE'), JText::_('COM_REDSHOP_DISCOUNT_PRICE'), 'tooltip.png', '', '', false);
+						echo JHtml::tooltip(JText::_('COM_REDSHOP_TOOLTIP_DISCOUNT_PRICE'), JText::_('COM_REDSHOP_DISCOUNT_PRICE'), 'tooltip.png', '', '', false);
 						?>
 					</td>
 				</tr>
@@ -421,7 +421,7 @@ $calendarFormat = '%d-%m-%Y';
 							$sdate = date("d-m-Y", $this->detail->discount_stratdate);
 						}
 
-						echo JHTML::_(
+						echo JHtml::_(
 							'calendar',
 							$sdate,
 							'discount_stratdate',
@@ -448,7 +448,7 @@ $calendarFormat = '%d-%m-%Y';
 							$edate = date("d-m-Y", $this->detail->discount_enddate);
 						}
 
-						echo JHTML::_(
+						echo JHtml::_(
 							'calendar',
 							$edate,
 							'discount_enddate',
@@ -477,7 +477,7 @@ $calendarFormat = '%d-%m-%Y';
 					</td>
 					<td>
 						<?php
-						echo JHTML::tooltip(
+						echo JHtml::tooltip(
 							JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_ON_SALE'),
 							JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_ON_SALE_LBL'),
 							'tooltip.png',
@@ -500,7 +500,7 @@ $calendarFormat = '%d-%m-%Y';
 					</td>
 					<td>
 						<?php
-						echo JHTML::tooltip(
+						echo JHtml::tooltip(
 							JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_SPECIAL'),
 							JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_SPECIAL_LBL'),
 							'tooltip.png',
@@ -523,7 +523,7 @@ $calendarFormat = '%d-%m-%Y';
 					</td>
 					<td>
 						<?php
-						echo JHTML::tooltip(
+						echo JHtml::tooltip(
 							JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_EXPIRED'),
 							JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_EXPIRED_LBL'),
 							'tooltip.png',
@@ -546,7 +546,7 @@ $calendarFormat = '%d-%m-%Y';
 					</td>
 					<td>
 						<?php
-						echo JHTML::tooltip(
+						echo JHtml::tooltip(
 							JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_NOT_FOR_SALE'),
 							JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_NOT_FOR_SALE_LBL'),
 							'tooltip.png',
@@ -569,7 +569,7 @@ $calendarFormat = '%d-%m-%Y';
 					</td>
 					<td>
 						<?php
-						echo JHTML::tooltip(
+						echo JHtml::tooltip(
 							JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_PREORDER'),
 							JText::_('COM_REDSHOP_PRODUCT_PREORDER'),
 							'tooltip.png',
@@ -605,7 +605,7 @@ $calendarFormat = '%d-%m-%Y';
 					</td>
 					<td>
 						<?php
-						echo JHTML::tooltip(
+						echo JHtml::tooltip(
 							JText::_('COM_REDSHOP_TOOLTIP_MINIMUM_ORDER_PRODUCT_QUANTITY'),
 							JText::_('COM_REDSHOP_MINIMUM_ORDER_PRODUCT_QUANTITY_LBL'),
 							'tooltip.png',
@@ -635,7 +635,7 @@ $calendarFormat = '%d-%m-%Y';
 					</td>
 					<td>
 						<?php
-						echo JHTML::tooltip(
+						echo JHtml::tooltip(
 							JText::_('COM_REDSHOP_TOOLTIP_MAXIMUM_ORDER_PRODUCT_QUANTITY'),
 							JText::_('COM_REDSHOP_TOOLTIP_MAXIMUM_ORDER_PRODUCT_QUANTITY'),
 							'tooltip.png',
@@ -661,7 +661,7 @@ $calendarFormat = '%d-%m-%Y';
 								$availability_date = date("d-m-Y", $this->detail->product_availability_date);
 							}
 
-							echo JHTML::_(
+							echo JHtml::_(
 								'calendar',
 								$availability_date,
 								'product_availability_date',
@@ -670,7 +670,7 @@ $calendarFormat = '%d-%m-%Y';
 								array('class' => 'inputbox', 'size' => '15',  'maxlength' => '19')
 							);
 
-							echo JHTML::tooltip(
+							echo JHtml::tooltip(
 								JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_AVAILABILITY_DATE'),
 								JText::_('COM_REDSHOP_PRODUCT_AVAILABILITY_DATE_LBL'),
 								'tooltip.png',
@@ -708,7 +708,7 @@ $calendarFormat = '%d-%m-%Y';
 					</td>
 					<td>
 						<?php
-						echo JHTML::tooltip(
+						echo JHtml::tooltip(
 							JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_VOLUME'),
 							JText::_('COM_REDSHOP_PRODUCT_VOLUME'),
 							'tooltip.png',
@@ -739,7 +739,7 @@ $calendarFormat = '%d-%m-%Y';
 					</td>
 					<td>
 						<?php
-						echo JHTML::tooltip(
+						echo JHtml::tooltip(
 							JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_LENGTH'),
 							JText::_('COM_REDSHOP_PRODUCT_LENGTH'),
 							'tooltip.png',
@@ -769,7 +769,7 @@ $calendarFormat = '%d-%m-%Y';
 						<?php echo DEFAULT_VOLUME_UNIT; ?></td>
 					<td>
 						<?php
-						echo JHTML::tooltip(
+						echo JHtml::tooltip(
 							JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_WIDTH'),
 							JText::_('COM_REDSHOP_PRODUCT_WIDTH'),
 							'tooltip.png',
@@ -800,7 +800,7 @@ $calendarFormat = '%d-%m-%Y';
 					</td>
 					<td>
 						<?php
-						echo JHTML::tooltip(JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_HEIGHT'), JText::_('COM_REDSHOP_PRODUCT_HEIGHT'), 'tooltip.png', '', '', false);
+						echo JHtml::tooltip(JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_HEIGHT'), JText::_('COM_REDSHOP_PRODUCT_HEIGHT'), 'tooltip.png', '', '', false);
 						?>
 					</td>
 				</tr>
@@ -824,7 +824,7 @@ $calendarFormat = '%d-%m-%Y';
 					</td>
 					<td>
 						<?php
-						echo JHTML::tooltip(JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_DIAMETER'), JText::_('COM_REDSHOP_PRODUCT_DIAMETER'), 'tooltip.png', '', '', false);
+						echo JHtml::tooltip(JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_DIAMETER'), JText::_('COM_REDSHOP_PRODUCT_DIAMETER'), 'tooltip.png', '', '', false);
 						?>
 					</td>
 				</tr>
@@ -847,7 +847,7 @@ $calendarFormat = '%d-%m-%Y';
 						<?php echo DEFAULT_WEIGHT_UNIT; ?></td>
 					<td>
 						<?php
-						echo JHTML::tooltip(JText::_('COM_REDSHOP_TOOLTIP_WEIGHT'), JText::_('COM_REDSHOP_WEIGHT_LBL'), 'tooltip.png', '', '', false);
+						echo JHtml::tooltip(JText::_('COM_REDSHOP_TOOLTIP_WEIGHT'), JText::_('COM_REDSHOP_WEIGHT_LBL'), 'tooltip.png', '', '', false);
 						?>
 					</td>
 				</tr>
