@@ -20,7 +20,7 @@ defined('_JEXEC') or die;
 		</td>
 		<td>
 			<input type="file" name="product_full_image" id="product_full_image" size="25" />
-			<?php echo JHTML::tooltip(JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_IMAGE'), JText::_('COM_REDSHOP_PRODUCT_IMAGE'), 'tooltip.png', '', '', false); ?>
+			<?php echo JHtml::tooltip(JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_IMAGE'), JText::_('COM_REDSHOP_PRODUCT_IMAGE'), 'tooltip.png', '', '', false); ?>
 		</td>
 	</tr>
 
@@ -116,7 +116,7 @@ defined('_JEXEC') or die;
 		<td>
 			<input type="file" name="product_thumb_image" id="product_thumb_image" size="25">
 			<?php
-			echo JHTML::tooltip(
+			echo JHtml::tooltip(
 				JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_THUMB_IMAGE'),
 				JText::_('COM_REDSHOP_PRODUCT_THUMB_IMAGE'),
 				'tooltip.png',
@@ -165,7 +165,7 @@ defined('_JEXEC') or die;
 		<td>
 			<input type="file" name="product_back_full_image" id="product_back_full_image" size="25" />
 			<?php
-			echo JHTML::tooltip(
+			echo JHtml::tooltip(
 				JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_BACK_IMAGE'),
 				JText::_('COM_REDSHOP_PRODUCT_BACK_IMAGE'),
 				'tooltip.png',
@@ -212,7 +212,7 @@ defined('_JEXEC') or die;
 		<td>
 			<input type="file" name="product_back_thumb_image" id="product_back_thumb_image" size="25" />
 			<?php
-			echo JHTML::tooltip(
+			echo JHtml::tooltip(
 				JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_BACK_THUMB_IMAGE'),
 				JText::_('COM_REDSHOP_PRODUCT_BACK_THUMB_IMAGE'),
 				'tooltip.png',
@@ -259,7 +259,7 @@ defined('_JEXEC') or die;
 		<td>
 			<input type="file" name="product_preview_image" id="product_preview_image" size="25" />
 			<?php
-			echo JHTML::tooltip(
+			echo JHtml::tooltip(
 				JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_PREVIEW_IMAGE'),
 				JText::_('COM_REDSHOP_PRODUCT_PREVIEW_IMAGE'),
 				'tooltip.png',
@@ -306,7 +306,7 @@ defined('_JEXEC') or die;
 		<td>
 			<input type="file" name="product_preview_back_image" id="product_preview_back_image" size="25" />
 			<?php
-			echo JHTML::tooltip(
+			echo JHtml::tooltip(
 				JText::_('COM_REDSHOP_TOOLTIP_PRODUCT_PREVIEW_BACK_IMAGE'),
 				JText::_('COM_REDSHOP_PRODUCT_PREVIEW_BACK_IMAGE'),
 				'tooltip.png',

@@ -8,7 +8,7 @@
  */
 defined('_JEXEC') or die ('Restricted access');
 
-JHTMLBehavior::modal();
+JHtmlBehavior::modal();
 $uri = JURI::getInstance();
 $url = $uri->root();
 
@@ -75,7 +75,7 @@ $mainImage = $mainImage[0];
 				<td>
 					<input type="file" name="property_main_img" id="property_main_img" value="" size="75"/>
 					<?php
-						echo JHTML::tooltip(
+						echo JHtml::tooltip(
 									JText::_('COM_REDSHOP_TOOLTIP_PROPERTY_MAIN_IMAGE'),
 									JText::_('COM_REDSHOP_PROPERTY_MAIN_IMAGE'),
 									'tooltip.png',
@@ -103,7 +103,7 @@ $mainImage = $mainImage[0];
 						   onclick="addNewRowOfProp('admintable');"
 						/>
 					<?php
-						echo JHTML::tooltip(
+						echo JHtml::tooltip(
 									JText::_('COM_REDSHOP_TOOLTIP_PROPERTY_SUB_IMAGE'),
 									JText::_('COM_REDSHOP_PROPERTY_SUB_IMAGE'),
 									'tooltip.png',
