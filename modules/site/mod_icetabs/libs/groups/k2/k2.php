@@ -104,7 +104,7 @@ if (!class_exists('LofSliderGroupK2'))
 				$query .= " AND a.featured = 1";
 			}
 
-			$query .= $condition . ' ORDER BY ' . $ordering;
+			$query .= $condition . ' ORDER BY ' . $db->escape($ordering);
 			$query .= $limit ? ' LIMIT ' . $limit : '';
 
 			$db->setQuery($query);
@@ -154,24 +154,25 @@ if (!class_exists('LofSliderGroupK2'))
 			$source = trim($params->get('k2_source', 'k2_category'));
 			if ($source == 'k2_category')
 			{
-				$catids = $params->get('k2_category', '');
+				$catids = explode(',', $params->get('k2_category', ''));
 
-				if (!$catids)
+				if (!empty($catids))
 				{
-					return '';
+					JArrayHelper::toInteger($catids);
+
+					$condition = ' AND  a.catid IN(' . implode(',', $catids) . ')';
 				}
-				$catids    = !is_array($catids) ? $catids : '"' . implode('","', $catids) . '"';
-				$condition = ' AND  a.catid IN(' . $catids . ')';
 			}
 			else
 			{
-				$ids = preg_split('/,/', $params->get('k2_items_ids', ''));
-				$tmp = array();
-				foreach ($ids as $id)
+				$ids = explode(',', $params->get('k2_items_ids', ''));
+
+				if (!empty($ids))
 				{
-					$tmp[] = (int) trim($id);
+					JArrayHelper::toInteger($ids);
+
+					$condition = " AND a.id IN('" . implode(',', $ids) . "')";
 				}
-				$condition = " AND a.id IN('" . implode("','", $tmp) . "')";
 			}
 
 			return $condition;
