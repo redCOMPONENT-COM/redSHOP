@@ -54,7 +54,7 @@ if (!class_exists('LofSliderGroupRedshop'))
 			require_once JPATH_SITE . '/components/com_redshop/helpers/product.php';
 
 			$db                  = JFactory::getDbo();
-			$producthelper       = new producthelper();
+			$producthelper       = new producthelper;
 			$ordering            = $params->get('redshop_ordering', 'cdate_asc');
 			$limit               = $params->get('limit_items', 4);
 			$ordering            = str_replace('_', '  ', $ordering);
@@ -72,7 +72,7 @@ if (!class_exists('LofSliderGroupRedshop'))
 			{
 				$ordering = " rand() ";
 			}
-			$condition = LofSliderGroupredshop::buildConditionQuery($params);
+			$condition = self::buildConditionQuery($params);
 			// sql query
 			$query = ' SELECT p.*, p.product_id,p.publish_date as cdate, p.published, p.product_number, p.product_name,pc.ordering '
 				. ' 	, p.product_s_desc, product_thumb_image, product_full_image'
@@ -83,7 +83,7 @@ if (!class_exists('LofSliderGroupRedshop'))
 			$query .= ' JOIN #__redshop_category as c ON pc.category_id=c.category_id ';
 			$query .= ' WHERE p.published = \'1\' AND c.published = \'1\' AND product_parent_id=0 ';
 
-			$query .= ' ORDER BY  ' . $ordering;
+			$query .= ' ORDER BY  ' . $db->escape($ordering);
 			$query .= ' LIMIT ' . $limit;
 
 			$db->setQuery($query);
@@ -154,29 +154,28 @@ if (!class_exists('LofSliderGroupRedshop'))
 			$source = trim($params->get('redshop_source', 'redshop_category'));
 			if ($source == 'redshop_category')
 			{
-				$catids = $params->get('redshop_category', '0');
+				$catids = explode(',', $params->get('redshop_category', '0'));
 
-				if (!$catids)
+				if (!empty($catids))
 				{
-					return '';
+					JArrayHelper::toInteger($catids);
+
+					$condition = ' AND  pc.category_id IN( ' . implode(',', $catids) . ' )';
 				}
-				$catids    = !is_array($catids) ? $catids : '"' . implode('","', $catids) . '"';
-				$condition = ' AND  pc.category_id IN( ' . $catids . ' )';
 			}
 			else
 			{
-				$ids = preg_split('/,/', $params->get('redshop_items_ids', ''));
-				$tmp = array();
-				foreach ($ids as $id)
-				{
-					$tmp[] = (int) trim($id);
-				}
+				$ids = explode(',', $params->get('redshop_items_ids', ''));
 
-				$condition = " AND pc.product_id IN('" . implode("','", $tmp) . "')";
+				if (!empty($ids))
+				{
+					JArrayHelper::toInteger($ids);
+
+					$condition = ' AND  pc.product_id IN( ' . implode(',', $ids) . ' )';
+				}
 			}
 
 			return $condition;
 		}
 	}
 }
-?>
