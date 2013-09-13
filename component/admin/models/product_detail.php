@@ -410,7 +410,9 @@ class product_detailModelproduct_detail extends JModel
 		}
 
 		$isNew = ($row->product_id > 0) ? false : true;
+
 		JPluginHelper::importPlugin('redshop_product');
+		JPluginHelper::importPlugin('redshop_product_type');
 
 		/**
 		 * @var array Trigger redSHOP Product Plugin
@@ -3422,18 +3424,17 @@ class product_detailModelproduct_detail extends JModel
 
 	public function delete_subprop($sp, $subattribute_id)
 	{
-		$and = "";
 		$producthelper = new producthelper;
 
 		if ($sp)
 		{
-			$subproperty[0]->subattribute_color_id = $sp;
 			$subproperty = $producthelper->getAttibuteSubProperty($sp, $subattribute_id);
 		}
 		else
 		{
 			$subproperty = $producthelper->getAttibuteSubProperty(0, $subattribute_id);
 		}
+
 		for ($j = 0; $j < count($subproperty); $j++)
 		{
 			$query = "DELETE FROM `" . $this->_table_prefix . "product_subattribute_color` WHERE `subattribute_id` = '" . $subattribute_id . "' and subattribute_color_id= '" . $subproperty[$j]->subattribute_color_id . "'";
@@ -3441,7 +3442,6 @@ class product_detailModelproduct_detail extends JModel
 			$this->_db->query();
 			$this->delete_image($subproperty[$j]->subattribute_color_image, 'subcolor');
 		}
-		exit;
 	}
 
 	public function delete_prop($attribute_id, $property_id)
