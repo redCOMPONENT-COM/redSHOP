@@ -117,10 +117,10 @@ if ($showbuttons)
 			?>
 
 			<fieldset id="bulk_field"
-				<?php if ($this->detail->media_id == 0)
-			{ ?>
-				style="display: none;"
-			<?php }?>
+				<?php if ($this->detail->media_id == 0 || $this->detail->media_type == 'video')
+				{ ?>
+					style="display: none;"
+				<?php }?>
 				>
 				<table cellpadding="0" cellspacing="5" border="0" id="bulk_table">
 
@@ -172,7 +172,12 @@ if ($showbuttons)
 					</tr>
 				</table>
 			</fieldset>
-			<fieldset id="media_bank">
+			<fieldset id="media_bank"
+				<?php if ($this->detail->media_type == 'video')
+				{ ?>
+					style="display: none;"
+				<?php }?>
+				>
 				<table>
 					<tr>
 						<td><?php echo JText::_('COM_REDSHOP_MEDIA_BANK');?></td>
@@ -207,7 +212,7 @@ if ($showbuttons)
 					<?php } ?>
 				</table>
 			</fieldset>
-			<?php if ($this->detail->media_id == 0)
+			<?php if ($this->detail->media_id == 0 && $this->detail->media_type != 'video')
 			{ ?>
 				<fieldset id="extra_field">
 					<table cellpadding="0" cellspacing="5" border="0" id="extra_table">
@@ -231,7 +236,88 @@ if ($showbuttons)
 			<?php } ?>
 		</fieldset>
 
+		<fieldset id="video_field"
+				<?php if ($this->detail->media_id == 0 || $this->detail->media_type != 'video')
+				{ ?>
+					style="display: none;"
+				<?php }?>
+			>
+			<table cellpadding="0" cellspacing="5" border="0" id="extra_table">
+				<?php
+				$k = 1;
+				?>
+				<tr>
+					<td><?php echo JText::_('COM_REDSHOP_EXTRANAL_VIDEO_THUMB'); ?></td>
+					<td>
+						<?php
+						$video_thumb = '';
 
+						if (isset($this->detail->video_thumb))
+						{
+							$video_thumb = $this->detail->video_thumb;
+						}
+						?>
+						<input type="file" name="video_thumb" id="video_thumb" size="75">
+						<input type="hidden" name="oldvideo_thumb" value="<?php echo $video_thumb; ?>"/>
+					</td>
+					<td>
+					<?php
+					if (!empty($video_thumb))
+					{
+						$filetype = strtolower(JFile::getExt($this->detail->video_thumb));
+
+						if ($filetype == 'png' || $filetype == 'jpg' || $filetype == 'jpeg' || $filetype == 'gif')
+						{
+							?>
+							<a class="modal"
+								href="<?php echo $url . 'components/' . $option . '/assets/images/' . $this->detail->media_section . '/' . $this->detail->video_thumb; ?>"
+								title="<?php echo JText::_('COM_REDSHOP_VIEW_IMAGE'); ?>"
+								rel="{handler: 'image', size: {}}">
+								<img
+									src="<?php echo $url; ?>/components/com_redshop/helpers/thumb.php?filename=<?php echo $this->detail->media_section; ?>/<?php echo $this->detail->video_thumb; ?>&newxsize=<?php echo THUMB_WIDTH; ?>&newysize=<?php echo THUMB_HEIGHT; ?>"
+									alt="image"/>
+							</a>
+						<?php
+						}
+					}
+					?>
+					</td>
+				</tr>
+				<tr>
+					<td><?php echo JText::_('COM_REDSHOP_UPLOAD_FILE_FROM_COMPUTER'); ?></td>
+					<td colspan="2">
+						<?php
+						$video_file = '';
+
+						if (isset($this->detail->video_file))
+						{
+							$video_file = $this->detail->video_file;
+						}
+						?>
+						<input type="file" name="video_file" id="video_file" size="75">
+						<input type="hidden" name="oldvideo_file" value="<?php echo $video_file; ?>"/>
+					</td>
+				</tr>
+				<tr>
+					<td><?php echo JText::_('COM_REDSHOP_EXTRANAL_VIDEO_PROVIDER'); ?></td>
+					<td colspan="2"><?php echo $this->lists['video_provider']; ?></td>
+				</tr>
+				<tr>
+					<td><?php echo JText::_('COM_REDSHOP_EXTRANAL_VIDEO'); ?></td>
+					<td colspan="2">
+						<?php
+						$video_text = '';
+
+						if (isset($this->detail->video_text))
+						{
+							$video_text = $this->detail->video_text;
+						}
+						?>
+						<input type="text" value="<?php echo $video_text; ?>" name="video_text" size="70">
+					</td>
+				</tr>
+			</table>
+		</fieldset>
 	</div>
 
 	<div class="clr"></div>
@@ -450,3 +536,21 @@ if ($this->detail->media_id == 0)
 <?php
 }
 ?>
+
+<script type="text/javascript">
+	function change_type(type)
+	{
+		if(type == 'video')
+		{
+			document.getElementById('video_field').style.display = '';
+			document.getElementById('media_bank').style.display = 'none';
+			document.getElementById('extra_field').style.display = 'none';
+		}
+		else
+		{
+			document.getElementById('video_field').style.display = 'none';
+			document.getElementById('media_bank').style.display = '';
+			document.getElementById('extra_field').style.display = '';
+		}
+	}
+</script>

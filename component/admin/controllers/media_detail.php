@@ -68,7 +68,75 @@ class Media_DetailController extends JController
 		$bulkfiletype = strtolower(JFile::getExt($bulkfile['name']));
 		$file = JRequest::getVar('file', 'array', 'files', 'array');
 
-		if ($bulkfile['name'] == null && $file['name'][0] == null && $post['oldmedia'] != "")
+		// Post a video
+		if ($post['media_type'] == 'video')
+		{
+			$post['media_id'] = $cid[0];
+			$video_file_name = "";
+
+			if (!empty($post['video_text']))
+			{
+				$post['media_name'] = $post['video_text'];
+				$post['media_mimetype'] = $post['video_provider'];
+			}
+			else
+			{
+				$post['media_name'] = $post['oldvideo_file'];
+				$video_file = JRequest::getVar('video_file', null, 'files', 'array');
+
+				if (!empty($video_file['name']))
+				{
+					$src = $video_file['tmp_name'];
+					$video_file_name = time() . '_' . $video_file['name'];
+					$dest = JPATH_ROOT . '/components/' . $option . '/assets/' . $post['media_type'] . '/' . $post['media_section'] . '/' . $video_file_name;
+					JFile::upload($src, $dest);
+					$post['media_name'] = $video_file_name;
+					$filenewtype = strtolower(JFile::getExt($video_file['name']));
+					$post['media_mimetype'] = $filenewtype;
+				}
+			}
+
+			if (!empty($post['media_name']))
+			{
+				$video_thumb = JRequest::getVar('video_thumb', null, 'files', 'array');
+				$video_thumb_name = $post['oldvideo_thumb'];
+
+				if (!empty($video_thumb['name']))
+				{
+					$src = $video_thumb['tmp_name'];
+					$video_thumb_name = time() . '_' . $video_thumb['name'];
+					$dest = JPATH_ROOT . '/components/' . $option . '/assets/images/' . $post['media_section'] . '/' . $video_thumb_name;
+					JFile::upload($src, $dest);
+				}
+
+				$post['media_name'] = $video_thumb_name;
+
+				$post['extra_video'] = array(
+											'video_text' 	  => $post['video_text'],
+											'video_file'      => $video_file_name,
+											'video_thumb' 	  => $video_thumb_name
+										);
+
+				if ($save = $model->store($post))
+				{
+					$msg = JText::_('COM_REDSHOP_MEDIA_DETAIL_SAVED');
+				}
+				else
+				{
+					$msg = JText::_('COM_REDSHOP_ERROR_SAVING_MEDIA_DETAIL');
+				}
+			}
+			else
+			{
+				$msg = JText::_('COM_REDSHOP_ERROR_SAVING_MEDIA_DETAIL');
+			}
+
+			$this->setRedirect('index.php?tmpl=component&option=com_redshop&view=media&section_id='
+								. $post['section_id'] . '&showbuttons=1&section_name='
+								. $post['section_name'] . '&media_section=' . $post['media_section'], $msg
+							);
+		}
+		elseif ($bulkfile['name'] == null && $file['name'][0] == null && $post['oldmedia'] != "")
 		{
 			if ($post['media_bank_image'] == "")
 			{
