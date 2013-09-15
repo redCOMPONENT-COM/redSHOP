@@ -40,7 +40,7 @@ $stockrooms = $model->StockRoomList();
 							$ordered_preorder = "";
 							$preorder_stock = "";
 							$quantity = $model->StockRoomProductQuantity($this->detail->product_id, $s->stockroom_id);
-							$preorder_stock_data = $model->StockRoomPreorderProductQuantity($this->detail->product_id, $s->stockroom_id, 'product');
+							$preorder_stock_data = $model->StockRoomPreorderProductQuantity($this->detail->product_id, $s->stockroom_id);
 
 							if ($preorder_stock_data)
 							{
