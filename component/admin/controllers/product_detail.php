@@ -114,9 +114,13 @@ class Product_DetailController extends JController
 		}
 
 		$post["product_number"] = trim($this->input->getString('product_number', ''));
-		$post['product_availability_date'] = strtotime($post ['product_availability_date']);
 		$post["product_s_desc"] = $this->input->get('product_s_desc', '', 'SAFE_HTML');
 		$post["product_desc"] = $this->input->get('product_desc', '', 'SAFE_HTML');
+
+		if (!empty($post['product_availability_date']))
+		{
+			$post['product_availability_date'] = strtotime($post['product_availability_date']);
+		}
 
 		if (trim($post["parent"]) == "")
 		{
@@ -414,7 +418,7 @@ class Product_DetailController extends JController
 
 				if (!empty($property[$p]['mainImage']))
 				{
-					$property_save['property_image'] = $model->copy_image_from_path($property[$p]['mainImage'], 'product_attributes', $property_id);
+					$property_save['property_image'] = $model->copy_image_from_path($property[$p]['mainImage'], 'product_attributes');
 					$property_save['property_id'] = $property_id;
 					$property_array = $model->store_pro($property_save);
 					$this->DeleteMergeImages();
@@ -485,7 +489,7 @@ class Product_DetailController extends JController
 
 					if (!empty($subproperty[$sp]['mainImage']))
 					{
-						$subproperty_save['subattribute_color_image'] = $model->copy_image_from_path($subproperty[$sp]['mainImage'], 'subcolor', $subproperty_id);
+						$subproperty_save['subattribute_color_image'] = $model->copy_image_from_path($subproperty[$sp]['mainImage'], 'subcolor');
 						$subproperty_save['subattribute_color_id'] = $subproperty_id;
 						$subproperty_array = $model->store_sub($subproperty_save);
 						$this->DeleteMergeImages();
