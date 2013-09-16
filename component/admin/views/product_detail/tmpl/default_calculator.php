@@ -12,10 +12,10 @@ $remove_format = JHtml::$formatOptions;
 
 // Calculation UNIT.
 $options = array();
-$options[] = JHTML::_('select.option', '+', JText::_('COM_REDSHOP_PLUS'));
-$options[] = JHTML::_('select.option', '-', JText::_('COM_REDSHOP_MINUS'));
-$options[] = JHTML::_('select.option', '%', JText::_('COM_REDSHOP_PERCENTAGE'));
-$lists['discount_calc_oprand'] = JHTML::_('select.genericlist', $options, 'pdc_oprand[]', 'class="inputbox" size="1" ', 'value', 'text', '+');
+$options[] = JHtml::_('select.option', '+', JText::_('COM_REDSHOP_PLUS'));
+$options[] = JHtml::_('select.option', '-', JText::_('COM_REDSHOP_MINUS'));
+$options[] = JHtml::_('select.option', '%', JText::_('COM_REDSHOP_PERCENTAGE'));
+$lists['discount_calc_oprand'] = JHtml::_('select.genericlist', $options, 'pdc_oprand[]', 'class="inputbox" size="1" ', 'value', 'text', '+');
 $lists['discount_calc_oprand'] = str_replace($remove_format['format.indent'], "", $lists['discount_calc_oprand']);
 $lists['discount_calc_oprand'] = str_replace($remove_format['format.eol'], "", $lists['discount_calc_oprand']);
 
@@ -185,10 +185,10 @@ $stockrooms = $model->StockRoomList();
 							// Calculation UNIT.
 							$lists = array();
 							$options = array();
-							$options[] = JHTML::_('select.option', 'mm', JText::_('COM_REDSHOP_MILLIMETER'));
-							$options[] = JHTML::_('select.option', 'cm', JText::_('COM_REDSHOP_CENTIMETER'));
-							$options[] = JHTML::_('select.option', 'm', JText::_('COM_REDSHOP_METER'));
-							$lists['discount_calc_unit'] = JHTML::_(
+							$options[] = JHtml::_('select.option', 'mm', JText::_('COM_REDSHOP_MILLIMETER'));
+							$options[] = JHtml::_('select.option', 'cm', JText::_('COM_REDSHOP_CENTIMETER'));
+							$options[] = JHtml::_('select.option', 'm', JText::_('COM_REDSHOP_METER'));
+							$lists['discount_calc_unit'] = JHtml::_(
 																	'select.genericlist',
 																	$options,
 																	'discount_calc_unit[]',
@@ -264,10 +264,10 @@ $stockrooms = $model->StockRoomList();
 						{
 							// Calculation UNIT.
 							$options = array();
-							$options[] = JHTML::_('select.option', '+', JText::_('COM_REDSHOP_PLUS'));
-							$options[] = JHTML::_('select.option', '-', JText::_('COM_REDSHOP_MINUS'));
-							$options[] = JHTML::_('select.option', '%', JText::_('COM_REDSHOP_PERCENTAGE'));
-							$lists['discount_calc_oprand'] = JHTML::_(
+							$options[] = JHtml::_('select.option', '+', JText::_('COM_REDSHOP_PLUS'));
+							$options[] = JHtml::_('select.option', '-', JText::_('COM_REDSHOP_MINUS'));
+							$options[] = JHtml::_('select.option', '%', JText::_('COM_REDSHOP_PERCENTAGE'));
+							$lists['discount_calc_oprand'] = JHtml::_(
 																	'select.genericlist',
 																	$options,
 																	'pdc_oprand[]',

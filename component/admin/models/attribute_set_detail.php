@@ -1209,7 +1209,7 @@ class attribute_set_detailModelattribute_set_detail extends JModel
 		}
 		$section = $data['media_section'];
 		$path = $section . '/' . $data['media_name'];
-		$property_image = $this->copy_image_additionalimage_from_path($path, $data['media_section'], $data['section_id']);
+		$property_image = $this->copy_image_additionalimage_from_path($path, $data['media_section']);
 		$data['media_name'] = $property_image;
 
 		if (!$rowmedia->store())
@@ -1220,7 +1220,7 @@ class attribute_set_detailModelattribute_set_detail extends JModel
 		}
 	}
 
-	public function copy_image_additionalimage_from_path($imagePath, $section, $section_id)
+	public function copy_image_additionalimage_from_path($imagePath, $section)
 	{
 		$src = REDSHOP_FRONT_IMAGES_RELPATH . $imagePath;
 

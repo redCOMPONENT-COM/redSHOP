@@ -10,7 +10,7 @@ defined('_JEXEC') or die ('Restricted access');
 $uri = JURI::getInstance();
 $url = $uri->root();
 
-JHTMLBehavior::modal();
+JHtmlBehavior::modal();
 
 // ToDo: This whole tmpl file is one big mess. Try to make it more simple.
 ?>
