@@ -8,7 +8,7 @@
  */
 defined('_JEXEC') or die ('Restricted access');
 
-JHTMLBehavior::modal();
+JHtmlBehavior::modal();
 $uri = JURI::getInstance();
 $url = $uri->root();
 

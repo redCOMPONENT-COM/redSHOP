@@ -28,7 +28,7 @@ defined('_JEXEC') or die;
 					</td>
 					<td>
 						<?php
-						echo JHTML::tooltip(
+						echo JHtml::tooltip(
 							JText::_('COM_REDSHOP_TOOLTIP_ECONOMIC_ACCOUNTGROUP_LBL'),
 							JText::_('COM_REDSHOP_ECONOMIC_ACCOUNTGROUP_LBL'),
 							'tooltip.png',
@@ -57,7 +57,7 @@ defined('_JEXEC') or die;
 					</td>
 					<td>
 						<?php
-						echo JHTML::tooltip(
+						echo JHtml::tooltip(
 							JText::_('COM_REDSHOP_TOOLTIP_DEFAULT_QUANTITY_SELECTBOX_VALUE_LBL'),
 							JText::_('COM_REDSHOP_DEFAULT_QUANTITY_SELECTBOX_VALUE_LBL'),
 							'tooltip.png',
