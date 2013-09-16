@@ -1343,7 +1343,7 @@ class producthelper
 
 		$stockroomhelper = new rsstockroomhelper;
 
-		if (SHOW_PRICE  && (!DEFAULT_QUOTATION_MODE || (DEFAULT_QUOTATION_MODE && SHOW_QUOTATION_PRICE)))
+		if (SHOW_PRICE && (!DEFAULT_QUOTATION_MODE || (DEFAULT_QUOTATION_MODE && SHOW_QUOTATION_PRICE)))
 		{
 			$product_price 				= $this->getPriceReplacement($ProductPriceArr['product_price'] * $qunselect);
 			$product_main_price			= $this->getPriceReplacement($ProductPriceArr['product_main_price'] * $qunselect);
@@ -1357,17 +1357,15 @@ class producthelper
 
 			$isStockExists = $stockroomhelper->isStockExists($product_id);
 
-			if ($isStockExists  && strstr($data_add, "{" . $relPrefix . "product_price_table}"))
+			if ($isStockExists && strstr($data_add, "{" . $relPrefix . "product_price_table}"))
 			{
-				$product_price_table = $this->getProductQuantityPrice($product_id,$user_id);
+				$product_price_table = $this->getProductQuantityPrice($product_id, $user_id);
 				$data_add            = str_replace("{" . $relPrefix . "product_price_table}", $product_price_table, $data_add);
 			}
-
 
 			$price_excluding_vat            = $ProductPriceArr['price_excluding_vat'];
 			$seoProductPrice                = $this->getPriceReplacement($ProductPriceArr['seoProductPrice'] * $qunselect);
 			$seoProductSavingPrice          = $this->getPriceReplacement($ProductPriceArr['seoProductSavingPrice'] * $qunselect);
-
 
 			$product_old_price_lbl          = $ProductPriceArr['product_old_price_lbl'];
 			$product_price_saving_lbl       = $ProductPriceArr['product_price_saving_lbl'];
@@ -1394,14 +1392,14 @@ class producthelper
 				$display_product_price_saving = '<span id="display_product_saving_price' . $product_id . '">' . $product_price_saving . '</span>';
 			}
 
-			if ($ProductPriceArr['product_price_novat'] !="")
+			if ($ProductPriceArr['product_price_novat'] != "")
 			{
-				 $display_product_price_novat = '<span id="display_product_price_no_vat' . $product_id . '">' . $product_price_novat . '</span>';
+				$display_product_price_novat = '<span id="display_product_price_no_vat' . $product_id . '">' . $product_price_novat . '</span>';
 			}
 
-			if ($ProductPriceArr['product_price_incl_vat'] !="")
+			if ($ProductPriceArr['product_price_incl_vat'] != "")
 			{
-				 $display_product_price_incl_vat = '<span id="product_price_incl_vat' . $product_id . '">' . $product_price_incl_vat . '</span>';
+				$display_product_price_incl_vat = '<span id="product_price_incl_vat' . $product_id . '">' . $product_price_incl_vat . '</span>';
 			}
 		}
 
@@ -1410,7 +1408,7 @@ class producthelper
 			$data_add = str_replace("{" . $relPrefix . "product_price_table}", '', $data_add);
 		}
 
-	 	$data_add = str_replace("{" . $relPrefix . "product_price}", '<span id="produkt_kasse_hoejre_pris_indre' . $product_id . '">' . $product_price . '</span>', $data_add);
+		$data_add = str_replace("{" . $relPrefix . "product_price}", '<span id="produkt_kasse_hoejre_pris_indre' . $product_id . '">' . $product_price . '</span>', $data_add);
 		$data_add = str_replace("{" . $relPrefix . "price_excluding_vat}", $price_excluding_vat, $data_add);
 		$data_add = str_replace("{" . $relPrefix . "product_discount_price}", $display_product_discount_price, $data_add);
 
