@@ -1497,7 +1497,7 @@ class producthelper
 
 		$applytax            = $this->getApplyVatOrNot($data_add, $user_id);
 		$discount_product_id = $this->getProductSpecialId($user_id);
-		$res                 = $this->getProductSpecialPrice($newproductprice, $discount_product_id);
+		$res                 = $this->getProductSpecialPrice($newproductprice, $discount_product_id, $product_id);
 
 		if (!empty($res))
 		{
@@ -1511,7 +1511,7 @@ class producthelper
 				}
 				else
 				{
-					$discount_amount = ($row->product_price*$res->discount_amount)/(100);
+					$discount_amount = ($row->product_price * $res->discount_amount) / (100);
 				}
 			}
 
@@ -1546,7 +1546,7 @@ class producthelper
 		}
 		else
 		{
-			$product_price	= $newproductprice;
+			$product_price = $newproductprice;
 		}
 
 		$excludingvat    = $this->defaultAttributeDataPrice($product_id, $product_price, $data_add, $user_id, 0, $attributes);
@@ -1563,7 +1563,7 @@ class producthelper
 			$product_price = $tax_amount + $product_price;
 		}
 
-		if ($product_price < 0 )
+		if ($product_price < 0)
 		{
 			$product_price = 0;
 		}
@@ -1642,19 +1642,19 @@ class producthelper
 				$product_vat_lbl = ' ' . JText::_('COM_REDSHOP_PRICE_EXCLUDING_TAX');
 			}
 
-			$product_price_lbl		= JText::_('COM_REDSHOP_PRODUCT_PRICE');
+			$product_price_lbl = JText::_('COM_REDSHOP_PRODUCT_PRICE');
 		}
 		else
 		{
-			$seoProductPrice 			= '';
-			$seoProductSavingPrice 		= '';
-			$product_discount_price     = '';
-			$product_old_price 			= '';
-			$product_price_saving     	= '';
-			$product_price_novat		= '';
-			$product_main_price			= '';
-			$product_price				= '';
-			$price_excluding_vat		= '';
+			$seoProductPrice        = '';
+			$seoProductSavingPrice  = '';
+			$product_discount_price = '';
+			$product_old_price      = '';
+			$product_price_saving   = '';
+			$product_price_novat    = '';
+			$product_main_price     = '';
+			$product_price          = '';
+			$price_excluding_vat    = '';
 		}
 
 		$ProductPriceArr['productPrice']               = $product_price_novat;
