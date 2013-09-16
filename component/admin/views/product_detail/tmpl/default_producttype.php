@@ -8,20 +8,10 @@
  */
 defined('_JEXEC') or die;
 
-require_once JPATH_COMPONENT_SITE . '/helpers/helper.php';
-$redhelper = new redhelper;
-
-$div_product = $this->detail->product_type == 'product' ? 'block' : 'none';
-$div_file = (($this->detail->product_type == 'file') || ($this->detail->product_download == 1)) ? 'block' : 'none';
-$div_subscription = $this->detail->product_type == 'subscription' ? 'block' : 'none';
-
 $td_style = ($this->detail->product_download_infinite == 0) ? 'style="display:table-row;"' : 'style="display:none;"';
 
 $optionPeriod = array();
 ?>
-
-<div id="div_product" style="display:<?php echo $div_product; ?>;">
-</div>
 
 <?php // Subscription
 $subscription = $this->producthelper->getSubscription($this->detail->product_id);
@@ -50,7 +40,7 @@ $total_serial = count($productSerialDetail);
 				</td>
 				<td>
 					<?php
-						echo JHTML::_('select.booleanlist',
+						echo JHtml::_('select.booleanlist',
 										'product_download_infinite',
 										'class="inputbox" onclick="hideDownloadLimit(this);"',
 										$this->detail->product_download_infinite
@@ -169,7 +159,7 @@ $total_serial = count($productSerialDetail);
 
 	</div>
 <?php elseif ($this->detail->product_type == 'subscription') : ?>
-	<div id="div_subscription" style="display:<?php echo $div_subscription; ?>;">
+	<div id="div_subscription">
 
 		<table id="tbl_scbscription" class="adminlist">
 
@@ -186,13 +176,13 @@ $total_serial = count($productSerialDetail);
 				<th>
 					<?php
 						echo JText::_('COM_REDSHOP_SUBSCRIPTION_PERIOD') . " ";
-						echo JHTML::tooltip(JText::_('COM_REDSHOP_SUBSCRIPTION_PERIOD_TIP'), JText::_('COM_REDSHOP_SUBSCRIPTION_PERIOD'), 'tooltip.png', '', '', false);
+						echo JHtml::tooltip(JText::_('COM_REDSHOP_SUBSCRIPTION_PERIOD_TIP'), JText::_('COM_REDSHOP_SUBSCRIPTION_PERIOD'), 'tooltip.png', '', '', false);
 					?>
 				</th>
 				<th>
 					<?php echo JText::_('COM_REDSHOP_SUBSCRIPTION_PRICE');?>
 					<?php
-						echo JHTML::tooltip(JText::_('COM_REDSHOP_SUBSCRIPTION_PRICE_TIP'), JText::_('COM_REDSHOP_SUBSCRIPTION_PRICE'), 'tooltip.png', '', '', false);
+						echo JHtml::tooltip(JText::_('COM_REDSHOP_SUBSCRIPTION_PRICE_TIP'), JText::_('COM_REDSHOP_SUBSCRIPTION_PRICE'), 'tooltip.png', '', '', false);
 					?>
 				</th>
 				<th>
@@ -201,9 +191,9 @@ $total_serial = count($productSerialDetail);
 			</tr>
 
 			<?php
-				$optionPeriod[] = JHTML::_('select.option', 'days', JText::_('COM_REDSHOP_DAYS'));
-				$optionPeriod[] = JHTML::_('select.option', 'month', JText::_('COM_REDSHOP_MONTH'));
-				$optionPeriod[] = JHTML::_('select.option', 'year', JText::_('COM_REDSHOP_YEAR'));
+				$optionPeriod[] = JHtml::_('select.option', 'days', JText::_('COM_REDSHOP_DAYS'));
+				$optionPeriod[] = JHtml::_('select.option', 'month', JText::_('COM_REDSHOP_MONTH'));
+				$optionPeriod[] = JHtml::_('select.option', 'year', JText::_('COM_REDSHOP_YEAR'));
 
 				for ($sub = 0; $sub < count($subscription); $sub++)
 				{
@@ -217,7 +207,7 @@ $total_serial = count($productSerialDetail);
 						<td>
 							<input type="text" name="subscription_period[]" class="input" size="10" value="<?php echo $subrow->subscription_period; ?>"/>
 							<?php
-								echo JHTML::_('select.genericlist', $optionPeriod, 'period_type[]', 'class="inputbox" size="1" ', 'value', 'text', $subrow->period_type);
+								echo JHtml::_('select.genericlist', $optionPeriod, 'period_type[]', 'class="inputbox" size="1" ', 'value', 'text', $subrow->period_type);
 							?>
 						</td>
 						<td>
@@ -267,14 +257,14 @@ $total_serial = count($productSerialDetail);
 	</div>
 <?php else : ?>
 	<?php
-		$this->dispatcher->trigger('onDisplayProductTypeData', array($this->detail->product_type));
+		$this->dispatcher->trigger('onDisplayProductTypeData');
 	?>
 <?php endif; ?>
 
 <?php
 $remove_format = JHtml::$formatOptions;
 
-$add_subscription_row = " " . JHTML::_('select.genericlist', $optionPeriod, 'period_type[]', 'class="inputbox" size="1" ', 'value', 'text');
+$add_subscription_row = " " . JHtml::_('select.genericlist', $optionPeriod, 'period_type[]', 'class="inputbox" size="1" ', 'value', 'text');
 $add_subscription_row = str_replace($remove_format['format.indent'], "", $add_subscription_row);
 $add_subscription_row = str_replace($remove_format['format.eol'], "", $add_subscription_row);
 
