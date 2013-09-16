@@ -1354,7 +1354,6 @@ class producthelper
 			$product_price_incl_vat		= $this->getPriceReplacement($ProductPriceArr['product_price_incl_vat'] * $qunselect);
 			$product_old_price_excl_vat	= $this->getPriceReplacement($ProductPriceArr['product_old_price_excl_vat'] * $qunselect);
 
-
 			$isStockExists = $stockroomhelper->isStockExists($product_id);
 
 			if ($isStockExists && strstr($data_add, "{" . $relPrefix . "product_price_table}"))
@@ -1463,10 +1462,10 @@ class producthelper
 			$user_id = $user->id;
 		}
 
-		$ProductPriceArr			= array();
-		$stockroomhelper 			= new rsstockroomhelper;
+		$ProductPriceArr = array();
+		$stockroomhelper = new rsstockroomhelper;
 
-		$row 						= $this->getProductById($product_id);
+		$row = $this->getProductById($product_id);
 
 		$product_id					= $row->product_id;
 		$price_text 				= JText::_('COM_REDSHOP_REGULAR_PRICE') . "";
@@ -1485,6 +1484,16 @@ class producthelper
 			$temp_Product_price = $result->product_price;
 			$newproductprice    = $temp_Product_price;
 		}
+
+		// Set Product Custom Price through product plugin
+	    $dispatcher = JDispatcher::getInstance();
+	    JPluginHelper::importPlugin('redshop_product');
+	    $results = $dispatcher->trigger('setProductCustomPrice', array($product_id));
+
+	    if (count($results) > 0 && $results[0])
+	    {
+			$newproductprice = $results[0];
+	    }
 
 		$applytax            = $this->getApplyVatOrNot($data_add, $user_id);
 		$discount_product_id = $this->getProductSpecialId($user_id);
