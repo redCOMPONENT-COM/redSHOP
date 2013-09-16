@@ -1309,19 +1309,19 @@ class producthelper
 
 	public function GetProductShowPrice($product_id, $data_add, $seoTemplate = "", $user_id = 0, $isrel = 0, $attributes = array())
 	{
-		$product_price = '';
-		$price_excluding_vat = '';
+		$product_price                  = '';
+		$price_excluding_vat            = '';
 		$display_product_discount_price = '';
-		$display_product_old_price = '';
-		$display_product_price_saving = '';
-		$display_product_price_novat = '';
+		$display_product_old_price      = '';
+		$display_product_price_saving   = '';
+		$display_product_price_novat    = '';
 		$display_product_price_incl_vat = '';
-		$product_price_saving_lbl = '';
-		$product_old_price_lbl = '';
-		$product_vat_lbl = '';
-		$product_price_lbl = '';
-		$seoProductPrice = '';
-		$seoProductSavingPrice = '';
+		$product_price_saving_lbl       = '';
+		$product_old_price_lbl          = '';
+		$product_vat_lbl                = '';
+		$product_price_lbl              = '';
+		$seoProductPrice                = '';
+		$seoProductSavingPrice          = '';
 
 		$user = JFactory::getUser();
 
@@ -1345,14 +1345,14 @@ class producthelper
 
 		if (SHOW_PRICE && (!DEFAULT_QUOTATION_MODE || (DEFAULT_QUOTATION_MODE && SHOW_QUOTATION_PRICE)))
 		{
-			$product_price 				= $this->getPriceReplacement($ProductPriceArr['product_price'] * $qunselect);
-			$product_main_price			= $this->getPriceReplacement($ProductPriceArr['product_main_price'] * $qunselect);
-			$product_old_price 			= $this->getPriceReplacement($ProductPriceArr['product_old_price'] * $qunselect);
-			$product_price_saving 		= $this->getPriceReplacement($ProductPriceArr['product_price_saving'] * $qunselect);
-			$product_discount_price 	= $this->getPriceReplacement($ProductPriceArr['product_discount_price'] * $qunselect);
-			$product_price_novat 		= $this->getPriceReplacement($ProductPriceArr['product_price_novat'] * $qunselect);
-			$product_price_incl_vat		= $this->getPriceReplacement($ProductPriceArr['product_price_incl_vat'] * $qunselect);
-			$product_old_price_excl_vat	= $this->getPriceReplacement($ProductPriceArr['product_old_price_excl_vat'] * $qunselect);
+			$product_price              = $this->getPriceReplacement($ProductPriceArr['product_price'] * $qunselect);
+			$product_main_price         = $this->getPriceReplacement($ProductPriceArr['product_main_price'] * $qunselect);
+			$product_old_price          = $this->getPriceReplacement($ProductPriceArr['product_old_price'] * $qunselect);
+			$product_price_saving       = $this->getPriceReplacement($ProductPriceArr['product_price_saving'] * $qunselect);
+			$product_discount_price     = $this->getPriceReplacement($ProductPriceArr['product_discount_price'] * $qunselect);
+			$product_price_novat        = $this->getPriceReplacement($ProductPriceArr['product_price_novat'] * $qunselect);
+			$product_price_incl_vat     = $this->getPriceReplacement($ProductPriceArr['product_price_incl_vat'] * $qunselect);
+			$product_old_price_excl_vat = $this->getPriceReplacement($ProductPriceArr['product_old_price_excl_vat'] * $qunselect);
 
 			$isStockExists = $stockroomhelper->isStockExists($product_id);
 
@@ -1467,17 +1467,17 @@ class producthelper
 
 		$row = $this->getProductById($product_id);
 
-		$product_id					= $row->product_id;
-		$price_text 				= JText::_('COM_REDSHOP_REGULAR_PRICE') . "";
-		$result 					= $this->getProductPrices($product_id, $user_id, $quantity);
-		$product_price				= '';
-		$product_vat_lbl			= '';
-		$product_price_lbl			= '';
-		$product_price_table		= '';
-		$product_old_price_lbl		= '';
-		$product_price_saving_lbl	= '';
+		$product_id                 = $row->product_id;
+		$price_text                 = JText::_('COM_REDSHOP_REGULAR_PRICE') . "";
+		$result                     = $this->getProductPrices($product_id, $user_id, $quantity);
+		$product_price              = '';
+		$product_vat_lbl            = '';
+		$product_price_lbl          = '';
+		$product_price_table        = '';
+		$product_old_price_lbl      = '';
+		$product_price_saving_lbl   = '';
 		$product_old_price_excl_vat = '';
-		$newproductprice      		= $row->product_price;
+		$newproductprice            = $row->product_price;
 
 		if (!empty($result))
 		{
@@ -1531,9 +1531,9 @@ class producthelper
 				$reg_price = $row->product_price;
 			}
 
-			$reg_price_tax 		= $this->getProductTax($product_id, $row->product_price, $user_id);
-			$reg_price 			= $row->product_price;
-			$formatted_price 	= $this->getProductFormattedPrice($reg_price);
+			$reg_price_tax   = $this->getProductTax($product_id, $row->product_price, $user_id);
+			$reg_price       = $row->product_price;
+			$formatted_price = $this->getProductFormattedPrice($reg_price);
 
 			$product_price = $newproductprice - $discount_amount;
 
@@ -1570,9 +1570,9 @@ class producthelper
 
 		if (SHOW_PRICE)
 		{
-			$price_excluding_vat 			= $price_text;
-			$product_discount_price_tmp 	= $this->checkDiscountDate($product_id);
-			$product_old_price_excl_vat		= $product_price_exluding_vat;
+			$price_excluding_vat        = $price_text;
+			$product_discount_price_tmp = $this->checkDiscountDate($product_id);
+			$product_old_price_excl_vat = $product_price_exluding_vat;
 
 			if ($row->product_on_sale && $product_discount_price_tmp > 0)
 			{
@@ -1603,8 +1603,8 @@ class producthelper
 
 					if (intval($applytax) && $product_price_saving)
 					{
-						$dis_save_tax_amount 		= $this->getProductTax($product_id, $product_price_saving, $user_id);
-						$product_price_saving 		= $product_price_saving;
+						$dis_save_tax_amount  = $this->getProductTax($product_id, $product_price_saving, $user_id);
+						$product_price_saving = $product_price_saving;
 					}
 
 					$product_price_incl_vat     = $product_discount_price_tmp + $tax_amount;
