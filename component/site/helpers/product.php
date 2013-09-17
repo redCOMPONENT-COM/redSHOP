@@ -5292,7 +5292,7 @@ class producthelper
 						{
 							$borderstyle    = ($selectedsubproperty == $subproperty[$i]->value) ? " 1px solid " : "";
 
-							$filePath      = JPATH_SITE . '/components/com_redshop/assets/images/subcolor/' . $subproperty[$i]->subattribute_color_image;
+							$filePath       = JPATH_SITE . '/components/com_redshop/assets/images/subcolor/' . $subproperty[$i]->subattribute_color_image;
 							$physiclePath   = RedShopHelperImages::generateImages($filePath, '', 'thumb', 'subcolor', ATTRIBUTE_SCROLLER_THUMB_WIDTH, ATTRIBUTE_SCROLLER_THUMB_HEIGHT, USE_IMAGE_SIZE_SWAPPING);
 							$thumbUrl       = REDSHOP_FRONT_IMAGES_ABSPATH . 'subcolor/thumb/' . basename($physiclePath);
 
