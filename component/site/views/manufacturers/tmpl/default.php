@@ -133,7 +133,15 @@ if ($template_middle != "")
 						}
 						else
 						{
-							$manufacturer_img = $url . "/components/" . $option . "/helpers/thumb.php?filename=manufacturer/" . $media_image[$m]->media_name . "&newxsize=" . $mw_thumb . "&newysize=" . $mh_thumb . "&swap=" . USE_IMAGE_SIZE_SWAPPING;
+							$manufacturer_img = RedShopHelperImages::getImagePath(
+													$media_image[$m]->media_name,
+													'',
+													'thumb',
+													'manufacturer',
+													$mw_thumb,
+													$mh_thumb,
+													USE_IMAGE_SIZE_SWAPPING
+												);
 						}
 
 						if (PRODUCT_IS_LIGHTBOX == 1)

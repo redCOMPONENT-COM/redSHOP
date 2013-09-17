@@ -125,8 +125,17 @@ if (strstr($template_desc, "{manufacturer_image}"))
 				$thumbtype = "manufacturer/";
 			}
 
+			$thumbUrl = RedShopHelperImages::getImagePath(
+							$media_image[$m]->media_name,
+							'',
+							'thumb',
+							$thumbtype,
+							$mw_thumb,
+							$mh_thumb,
+							USE_IMAGE_SIZE_SWAPPING
+						);
 			$thum_image = "<a title='" . $altText . "' class=\"modal\" href='" . REDSHOP_FRONT_IMAGES_ABSPATH . $maintype . $media_image[$m]->media_name . "'   rel=\"{handler: 'image', size: {}}\">
-				<img alt='" . $altText . "' title='" . $altText . "' src='" . $url . "/components/" . $option . "/helpers/thumb.php?filename=" . $thumbtype . $media_image[$m]->media_name . "&newxsize=" . $mw_thumb . "&newysize=" . $mh_thumb . "&swap=" . USE_IMAGE_SIZE_SWAPPING . "'></a>";
+				<img alt='" . $altText . "' title='" . $altText . "' src='" . $thumbUrl . "'></a>";
 		}
 	}
 
