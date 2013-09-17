@@ -17,6 +17,7 @@ JLoader::import('order', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers'
 JLoader::import('quotation', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
 JLoader::import('template', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
 JLoader::import('stockroom', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
+JLoader::import('images', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
 
 class producthelper
 {
@@ -5290,24 +5291,23 @@ class producthelper
 						if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "subcolor/" . $subproperty[$i]->subattribute_color_image))
 						{
 							$borderstyle    = ($selectedsubproperty == $subproperty[$i]->value) ? " 1px solid " : "";
-							$subprop_Arry[] = $url . "components/com_redshop/helpers/thumb.php?filename=subcolor/"
-								. $subproperty[$i]->subattribute_color_image . "&newxsize=" . ATTRIBUTE_SCROLLER_THUMB_WIDTH
-								. "&newysize=" . ATTRIBUTE_SCROLLER_THUMB_HEIGHT . "&swap=" . USE_IMAGE_SIZE_SWAPPING . "`_`"
-								. $subproperty[$i]->value;
+
+							$file_path      = JPATH_SITE . '/components/com_redshop/assets/images/subcolor/' . $subproperty[$i]->subattribute_color_image;
+							$physiclePath   = RedShopHelperImages::generateImages($file_path, '', 'thumb', 'subcolor', ATTRIBUTE_SCROLLER_THUMB_WIDTH, ATTRIBUTE_SCROLLER_THUMB_HEIGHT, USE_IMAGE_SIZE_SWAPPING);
+							$thumbUrl       = REDSHOP_FRONT_IMAGES_ABSPATH . 'subcolor/thumb/' . basename($physiclePath);
+
+							$subprop_Arry[] = $thumbUrl;
+
 							$subproperty_woscrollerdiv .= "<div id='" . $subpropertyid . "_subpropimg_"
 								. $subproperty[$i]->value . "' class='subproperty_image_inner'><a onclick='setSubpropImage(\""
 								. $product_id . "\",\"" . $subpropertyid . "\",\"" . $subproperty[$i]->value
 								. "\");calculateTotalPrice(\"" . $product_id . "\",\"" . $relatedprd_id
 								. "\");displayAdditionalImage(\"" . $product_id . "\",\"" . $accessory_id . "\",\""
 								. $relatedprd_id . "\",\"" . $property_id . "\",\"" . $subproperty[$i]->value
-								. "\");'><img class='redAttributeImage'  src='" . $url
-								. "/components/com_redshop/helpers/thumb.php?filename=subcolor/"
-								. $subproperty[$i]->subattribute_color_image . "&newxsize=" . $mpw_thumb . "&newysize="
-								. $mph_thumb . "&swap=" . USE_IMAGE_SIZE_SWAPPING . "'></a></div>";
+								. "\");'><img class='redAttributeImage'  src='" . $thumbUrl . "'></a></div>";
+
 							$subproperty_scrollerdiv .= "isFlowers" . $commonid . ".addThumbnail(\""
-								. $url . "components/com_redshop/helpers/thumb.php?filename=subcolor/"
-								. $subproperty[$i]->subattribute_color_image . "&newxsize=" . $mpw_thumb
-								. "&newysize=" . $mph_thumb . "&swap=" . USE_IMAGE_SIZE_SWAPPING . "\",\"javascript:isFlowers"
+								. $thumbUrl . "\",\"javascript:isFlowers"
 								. $commonid . ".scrollImageCenter('" . $i . "');setSubpropImage('" . $product_id . "','"
 								. $subpropertyid . "','" . $subproperty[$i]->value . "');calculateTotalPrice('"
 								. $product_id . "','" . $relatedprd_id . "');displayAdditionalImage('" . $product_id
