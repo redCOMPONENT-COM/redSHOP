@@ -12,8 +12,6 @@ JHTML::_('behavior.tooltip');
 
 JHTMLBehavior::modal();
 
-require_once JPATH_ROOT . '/administrator/components/com_redshop/helpers/images.php';
-
 $now = JFactory::getDate();
 $model = $this->getModel('attribute_set_detail');
 ?>
