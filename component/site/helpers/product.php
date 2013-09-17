@@ -1445,7 +1445,7 @@ class producthelper
 		if ($seoTemplate != "")
 		{
 			$seoTemplate = str_replace("{" . $relPrefix . "saleprice}", $seoProductPrice, $seoTemplate);
-		    $seoTemplate = str_replace("{" . $relPrefix . "saving}", $seoProductSavingPrice, $seoTemplate);
+			$seoTemplate = str_replace("{" . $relPrefix . "saving}", $seoProductSavingPrice, $seoTemplate);
 
 			return $seoTemplate;
 		}
@@ -1486,14 +1486,14 @@ class producthelper
 		}
 
 		// Set Product Custom Price through product plugin
-	    $dispatcher = JDispatcher::getInstance();
-	    JPluginHelper::importPlugin('redshop_product');
-	    $results = $dispatcher->trigger('setProductCustomPrice', array($product_id));
+		$dispatcher = JDispatcher::getInstance();
+		JPluginHelper::importPlugin('redshop_product');
+		$results = $dispatcher->trigger('setProductCustomPrice', array($product_id));
 
-	    if (count($results) > 0 && $results[0])
-	    {
+		if (count($results) > 0 && $results[0])
+		{
 			$newproductprice = $results[0];
-	    }
+		}
 
 		$applytax            = $this->getApplyVatOrNot($data_add, $user_id);
 		$discount_product_id = $this->getProductSpecialId($user_id);
