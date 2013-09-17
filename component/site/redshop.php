@@ -16,11 +16,12 @@ $option = JRequest::getCmd('option');
 $view   = JRequest::getCmd('view');
 
 // Getting the configuration
-require_once JPATH_ADMINISTRATOR . '/components/' . $option . '/helpers/redshop.cfg.php';
-require_once JPATH_ADMINISTRATOR . '/components/' . $option . '/helpers/configuration.php';
-require_once JPATH_ADMINISTRATOR . '/components/' . $option . '/helpers/template.php';
-require_once JPATH_ADMINISTRATOR . '/components/' . $option . '/helpers/stockroom.php';
-require_once JPATH_ADMINISTRATOR . '/components/' . $option . '/helpers/economic.php';
+JLoader::import('redshop.cfg', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
+JLoader::import('configuration', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
+JLoader::import('template', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
+JLoader::import('stockroom', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
+JLoader::import('economic', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
+JLoader::import('images', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
 
 $Redconfiguration = new Redconfiguration;
 $Redconfiguration->defineDynamicVars();

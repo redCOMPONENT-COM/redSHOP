@@ -17,7 +17,6 @@ JLoader::import('order', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers'
 JLoader::import('quotation', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
 JLoader::import('template', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
 JLoader::import('stockroom', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
-JLoader::import('images', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
 
 class producthelper
 {
@@ -9515,9 +9514,16 @@ class producthelper
 
 					if (ADDITIONAL_HOVER_IMAGE_ENABLE)
 					{
-						$subpropadditionImg .= "<img src='" . $url . "components/com_redshop/helpers/thumb.php?filename="
-							. $filedir . "/" . $thumb . "&newxsize=" . ADDITIONAL_HOVER_IMAGE_WIDTH . "&newysize="
-							. ADDITIONAL_HOVER_IMAGE_HEIGHT . "&swap=" . USE_IMAGE_SIZE_SWAPPING . "' alt='" . $alttext
+						$thumbUrl = RedShopHelperImages::getImagePath(
+										$thumb,
+										'',
+										'thumb',
+										$filedir,
+										ADDITIONAL_HOVER_IMAGE_WIDTH,
+										ADDITIONAL_HOVER_IMAGE_HEIGHT,
+										USE_IMAGE_SIZE_SWAPPING
+									);
+						$subpropadditionImg .= "<img src='" . $thumbUrl . "' alt='" . $alttext
 							. "' title='" . $alttext . "' class='redImagepreview'>";
 					}
 
