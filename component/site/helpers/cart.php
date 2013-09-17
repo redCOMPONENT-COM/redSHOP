@@ -8,11 +8,13 @@
  */
 
 defined('_JEXEC') or die;
-require_once JPATH_SITE . '/components/com_redshop/helpers/helper.php';
-require_once JPATH_SITE . '/components/com_redshop/helpers/product.php';
-require_once JPATH_SITE . '/components/com_redshop/helpers/extra_field.php';
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/order.php';
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/shipping.php';
+
+JLoader::import('helper', JPATH_SITE . '/components/com_redshop/helpers');
+JLoader::import('product', JPATH_SITE . '/components/com_redshop/helpers');
+JLoader::import('extra_field', JPATH_SITE . '/components/com_redshop/helpers');
+JLoader::import('order', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
+JLoader::import('shipping', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
+JLoader::import('images', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
 
 class rsCarthelper
 {
@@ -958,13 +960,17 @@ class rsCarthelper
 				$cart_mdata     = str_replace("{if product_on_sale}", '', $cart_mdata);
 				$cart_mdata     = str_replace("{product_on_sale end if}", '', $cart_mdata);
 
-				$giftcard_image = "<div  class='giftcard_image'><img src='"
-					. $url . "/components/com_redshop/helpers/thumb.php?filename=giftcard/"
-					. $giftcardData->giftcard_image
-					. "&newxsize=" . CART_THUMB_WIDTH
-					. "&newysize=" . CART_THUMB_HEIGHT
-					. "&swap=" . USE_IMAGE_SIZE_SWAPPING
-					. "'></div>";
+				$thumbUrl = RedShopHelperImages::getImagePath(
+								$giftcardData->giftcard_image,
+								'',
+								'thumb',
+								'giftcard',
+								CART_THUMB_WIDTH,
+								CART_THUMB_HEIGHT,
+								USE_IMAGE_SIZE_SWAPPING
+							);
+
+				$giftcard_image = "<div  class='giftcard_image'><img src='" . $thumbUrl. "'></div>";
 				$cart_mdata     = str_replace("{product_thumb_image}", $giftcard_image, $cart_mdata);
 				$user_fields    = $this->_producthelper->GetProdcutUserfield($i, 13);
 				$cart_mdata     = str_replace("{product_userfields}", $user_fields, $cart_mdata);
