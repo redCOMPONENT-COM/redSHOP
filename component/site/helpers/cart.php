@@ -957,6 +957,9 @@ class rsCarthelper
 
 				$cart_mdata     = str_replace("{if product_on_sale}", '', $cart_mdata);
 				$cart_mdata     = str_replace("{product_on_sale end if}", '', $cart_mdata);
+
+				$thumbUrl = RedShopHelperImages::getImagePath($filePath, '', 'thumb', 'subcolor', ATTRIBUTE_SCROLLER_THUMB_WIDTH, ATTRIBUTE_SCROLLER_THUMB_HEIGHT, USE_IMAGE_SIZE_SWAPPING);
+
 				$giftcard_image = "<div  class='giftcard_image'><img src='"
 					. $url . "/components/com_redshop/helpers/thumb.php?filename=giftcard/"
 					. $giftcardData->giftcard_image
