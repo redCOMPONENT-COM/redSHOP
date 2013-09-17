@@ -38,6 +38,7 @@
 	require_once JPATH_COMPONENT . '/helpers/economic.php';
 	require_once JPATH_COMPONENT . '/helpers/access_level.php';
 	require_once JPATH_ROOT . '/components/com_redshop/helpers/helper.php';
+	require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/images.php';
 
 	$redhelper = new redhelper;
 	$redhelper->removeShippingRate();
