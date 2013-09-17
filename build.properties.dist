@@ -1,0 +1,6 @@
+comp.name=redshop
+www.dir=/var/www/redSHOP-1.2
+comp.version=1.2
+joomla.version=2.5
+repo.dir=/wamp/www/github/redSHOP-1.2/
+package.dir=/wamp/www/github
