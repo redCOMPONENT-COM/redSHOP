@@ -12,9 +12,23 @@ $fid = JRequest::getVar('fid', '');
 $fsec = JRequest::getVar('fsec', '');
 $folder = JRequest::getVar('folder', '');
 if ($folder == '')
+{
 	$thumb_path = JURI::root() . "components/com_redshop/assets/images/" . $this->_tmp_img->path_relative;
+}
 else
-	$thumb_path = JURI::root() . "components/com_redshop/helpers/thumb.php?filename=" . $this->_tmp_img->path_relative . "&newxsize=" . $this->_tmp_img->width_60 . "&newysize=" . $this->_tmp_img->height_60;
+{
+	$filePath     = JPATH_SITE . '/components/com_redshop/assets/images/' . $this->_tmp_img->path_relative;
+	$physiclePath = RedShopHelperImages::generateImages(
+						$filePath,
+						'',
+						'thumb',
+						'',
+						$this->_tmp_img->width_60,
+						$this->_tmp_img->height_60,
+						USE_IMAGE_SIZE_SWAPPING
+					);
+	$thumb_path     = REDSHOP_FRONT_IMAGES_ABSPATH . $type . '/thumb/' . basename($physiclePath);
+}
 ?>
 <div class="imgOutline">
 	<div class="imgTotal">
