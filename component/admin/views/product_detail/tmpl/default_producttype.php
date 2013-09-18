@@ -257,7 +257,7 @@ $total_serial = count($productSerialDetail);
 	</div>
 <?php else : ?>
 	<?php
-		$this->dispatcher->trigger('onDisplayProductTypeData');
+		$this->dispatcher->trigger('onDisplayProductTypeData', array($this->detail));
 	?>
 <?php endif; ?>
 
