@@ -560,6 +560,15 @@ JHtmlBehavior::modal();
 																												if (is_file($impath_phy))
 																												{
 																													$is_img = false;
+																													$thumbUrl = RedShopHelperImages::getImagePath(
+																																	$property->property_image,
+																																	'',
+																																	'thumb',
+																																	'product_attributes',
+																																	50,
+																																	0,
+																																	USE_IMAGE_SIZE_SWAPPING
+																																);
 																										?>
 																													<span id="property_image_<?php echo $property->property_id; ?>">
 																														<a class="modal"
@@ -569,7 +578,7 @@ JHtmlBehavior::modal();
 																															<img
 																																id="propertyImage<?php echo $k . $g; ?>"
 																																alt='' title=''
-																																src='<?php echo $url ?>components/com_redshop/helpers/thumb.php?filename=product_attributes/<?php echo $property->property_image ?>&newxsize=50&newysize=0&swap=1'
+																																src='<?php echo $thumbUrl ?>'
 																																/>
 																														</a>
 																													</span>
@@ -945,8 +954,19 @@ JHtmlBehavior::modal();
 																																   rel="{handler: 'image', size: {}}"
 																																   title="<?php echo $subvalue->subattribute_color_image; ?>"
 																																   href="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . 'subcolor/' . $subvalue->subattribute_color_image; ?>">
+																																   <?php
+																																   $thumbUrl = RedShopHelperImages::getImagePath(
+																																					$subvalue->subattribute_color_image,
+																																					'',
+																																					'thumb',
+																																					'subcolor',
+																																					50,
+																																					0,
+																																					USE_IMAGE_SIZE_SWAPPING
+																																				);
+																																   ?>
 																																	<img id="subpropertyImage<?php echo $k . $z; ?>"
-																																		 src='<?php echo $url ?>components/com_redshop/helpers/thumb.php?filename=subcolor/<?php echo $subvalue->subattribute_color_image; ?>&newxsize=50&newysize=0&swap=1'
+																																		 src='<?php echo $thumbUrl; ?>'
 																																		 alt=''
 																																		 title=''
 																																		/>

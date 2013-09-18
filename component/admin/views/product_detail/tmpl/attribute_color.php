@@ -81,18 +81,24 @@ $images = $this->producthelper->getAttibuteSubProperty(0, $section_id)
 						{
 							$image = $images[$i];
 							$thumb = $image->subattribute_color_image;
-							$imgpath  = '/components/' . $option;
-							$imgpath .= '/helpers/thumb.php?filename=subcolor/' . $thumb;
-							$imgpath .= '&newxsize=' . PRODUCT_ADDITIONAL_IMAGE;
-							$imgpath .= '&newysize=' . PRODUCT_ADDITIONAL_IMAGE;
+
+							$thumbUrl = RedShopHelperImages::getImagePath(
+											$thumb,
+											'',
+											'thumb',
+											'subcolor',
+											PRODUCT_ADDITIONAL_IMAGE,
+											PRODUCT_ADDITIONAL_IMAGE,
+											USE_IMAGE_SIZE_SWAPPING
+										);
 					?>
 						<tr>
 							<td>
 								<input type="text" name="subattribute_name[]" id="subattribute_name[]" value="<?php echo $image->subattribute_color_name; ?>" size="30"/>
 							</td>
 							<td>
-								<?php if (is_file(JPATH_COMPONENT_SITE . $imgpath)) : ?>
-									<img src="<?php echo $url . $imgpath; ?>"/>
+								<?php if (file_exists($thumbUrl)) : ?>
+									<img src="<?php echo $thumbUrl; ?>"/>
 								<?php endif; ?>
 							</td>
 							<td>

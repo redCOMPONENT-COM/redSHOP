@@ -12,7 +12,7 @@ defined('_JEXEC') or die('Restricted access');
 // Getting the configuration
 require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
 require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/configuration.php';
-$Redconfiguration = new Redconfiguration();
+$Redconfiguration = new Redconfiguration;
 $Redconfiguration->defineDynamicVars();
 
 // Getting the configuration
@@ -20,7 +20,7 @@ require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/category.php
 
 // get product helper
 require_once JPATH_ROOT . '/components/com_redshop/helpers/product.php';
-
+JLoader::import('images', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
 
 /**
  * This class sets all Parameters.
@@ -142,8 +142,19 @@ function displayredManufacturer($limit = 0)
 		dom1.query = jQuery.noConflict(true);
 		var mycarousel_itemList = [
 			<?php	for($i=0;$i<count($rows);$i++)
-					{	?>
-			{url: "<?php echo $url; ?>/components/com_redshop/helpers/thumb.php?filename=manufacturer/<?php echo $rows[$i]->media_name; ?>&newxsize=<?php echo $this->ImageWidth; ?>&newysize=<?php echo $this->ImageHeight; ?>", title: '<?php echo $rows[$i]->manufacturer_name; ?>', ahref: '<a href="<?php echo JRoute::_('index.php?option=com_redshop&view=manufacturers&layout='.$this->PageLink.'&mid='.$rows[$i]->manufacturer_id.'&Itemid='.$Itemid);?>"  title="<?php echo $rows[$i]->manufacturer_name; ?>">'}
+					{
+						$thumbUrl = RedShopHelperImages::getImagePath(
+										$rows[$i]->media_name,
+										'',
+										'thumb',
+										'manufacturer',
+										$this->ImageWidth,
+										$this->ImageHeight,
+										USE_IMAGE_SIZE_SWAPPING
+									);
+
+						?>
+			{url: "<?php echo $thumbUrl; ?>", title: '<?php echo $rows[$i]->manufacturer_name; ?>', ahref: '<a href="<?php echo JRoute::_('index.php?option=com_redshop&view=manufacturers&layout='.$this->PageLink.'&mid='.$rows[$i]->manufacturer_id.'&Itemid='.$Itemid);?>"  title="<?php echo $rows[$i]->manufacturer_name; ?>">'}
 			<?php	if ($i < count($rows)-1)
 					{	?>
 			,
@@ -286,13 +297,22 @@ function displayredManufacturer($limit = 0)
 					<?php
 					for ($i = 0; $i < count($rows); $i++)
 					{
+						$thumbUrl = RedShopHelperImages::getImagePath(
+										$rows[$i]->media_name,
+										'',
+										'thumb',
+										'manufacturer',
+										100,
+										100,
+										USE_IMAGE_SIZE_SWAPPING
+									);
 						?>
 						<li jcarouselindex="<?php echo $i + 31; ?>"
 						    class="jcarousel-item jcarousel-item-horizontal jcarousel-item-<?php echo $i + 31; ?> jcarousel-item-<?php echo $i + 31; ?>-horizontal">
 							<a href='<?php echo $url; ?>index.php?option=com_redshop&view=manufacturers&layout=<?php echo $this->PageLink; ?>&mid=<?php echo $rows[$i]->manufacturer_id; ?>&Itemid=<?php echo $Itemid; ?>'
-							   title='<?php echo $rows[$i]->manufacturer_name; ?>'><img
-									src='<?php echo $url; ?>/components/com_redshop/helpers/thumb.php?filename=manufacturer/<?php echo $rows[$i]->media_name; ?>&newxsize=100&newysize=100'
-									alt='<?php echo $rows[$i]->media_name; ?>' width='100' height='100'></a>
+							   title='<?php echo $rows[$i]->manufacturer_name; ?>'>
+							   <img src='<?php echo $thumbUrl; ?>' alt='<?php echo $rows[$i]->media_name; ?>' width='100' height='100'>
+							</a>
 						</li>
 
 					<?php

@@ -34,6 +34,8 @@ require_once  JPATH_ROOT.DS.'components'.DS.'com_redshop'.DS.'helpers'.DS.'produ
  // get default helper
 require_once  JPATH_ROOT.DS.'components'.DS.'com_redshop'.DS.'helpers'.DS.'helper.php' ;
 
+JLoader::import('images', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
+
 /**
 * This class sets all Parameters.
 * Must first call the MOS function, something like:
@@ -149,14 +151,38 @@ if( !class_exists('redFeatureproduct'))
 						$cid = $producthelper->getCategoryProduct($row->product_id);
 					}
 					$link 	= JRoute::_( 'index.php?option=com_redshop&view=product&pid='.$row->product_id.'&cid='.$cid.'&Itemid='.$Itemid);
-					$prod_img="";
-					if(is_file(REDSHOP_FRONT_IMAGES_RELPATH."product/".$row->product_full_image))
-					$prod_img=$url."components/com_redshop/helpers/thumb.php?filename=product/".$row->product_full_image."&newxsize=".$this->thumbwidth."&newysize=".$this->thumbheight;
-					else if(is_file(REDSHOP_FRONT_IMAGES_RELPATH."product/".$row->product_thumb_image))
-					$prod_img=$url."components/com_redshop/helpers/thumb.php?filename=product/".$row->product_thumb_image."&newxsize=".$this->thumbwidth."&newysize=".$this->thumbheight;
+					$prod_img = "";
+
+					if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $row->product_full_image))
+					{
+						$prod_img = RedShopHelperImages::getImagePath(
+										$row->product_full_image,
+										'',
+										'thumb',
+										'product',
+										$this->thumbwidth,
+										$this->thumbheight,
+										USE_IMAGE_SIZE_SWAPPING
+									);
+					}
+					elseif (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $row->product_thumb_image))
+					{
+						$prod_img = RedShopHelperImages::getImagePath(
+										$row->product_thumb_image,
+										'',
+										'thumb',
+										'product',
+										$this->thumbwidth,
+										$this->thumbheight,
+										USE_IMAGE_SIZE_SWAPPING
+									);
+					}
 					else
-					$prod_img=REDSHOP_FRONT_IMAGES_ABSPATH."noimage.jpg";
-					$thum_image = "<a href='".$link."' title='' ><img style='width:".$this->thumbwidth."px;height:".$this->thumbheight."px;' src='".$prod_img."'></a>";
+					{
+						$prod_img = REDSHOP_FRONT_IMAGES_ABSPATH . 'noimage.jpg';
+					}
+
+					$thum_image = "<a href='" . $link . "' title='' ><img style='width:" . $this->thumbwidth . "px;height:" . $this->thumbheight . "px;' src='" . $prod_img . "'></a>";
 					?>
 
 					<li red_productindex='<?php echo $i;?>' class='red_product-item red_product-item-horizontal'>
@@ -267,16 +293,17 @@ if( !class_exists('redFeatureproduct'))
 			return $rows;
 		}
 	}
-} // end class productScroller
-$module_id = "mod_".$module->id;
-// start of Product Scroller Script
-$featured = new redFeatureproduct($params,$module_id);
+}
+
+$module_id = "mod_" . $module->id;
+
+// Start of Product Scroller Script
+$featured = new redFeatureproduct($params, $module_id);
 /**
 * Load Products
 **/
-$rows = $featured->getredFeaturedProduct( $featured->NumberOfProducts, $featured->ScrollSortMethod);
+$rows = $featured->getredFeaturedProduct($featured->NumberOfProducts, $featured->ScrollSortMethod);
 /**
 * Display Product Scroller
 **/
 $featured->displayredFeature($rows);
-?>
