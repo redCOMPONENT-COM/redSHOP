@@ -465,7 +465,14 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 
 	for ($i = $start; $i < ($start + $final_endlimit); $i++)
 	{
-		$product = $this->product[$i];
+		// ToDo: This is wrong way to generate tmpl file. And model function to load $this->product is wrong way also. Fix it.
+		// ToDo: Echo a message when no records is returned by selection of empty category or wrong manufacturer in menu item params.
+		$product = null;
+
+		if (!empty($this->product))
+		{
+			$product = $this->product[$i];
+		}
 
 		if (!is_object($product))
 		{
