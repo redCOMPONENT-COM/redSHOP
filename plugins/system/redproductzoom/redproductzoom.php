@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 /**
  * Joomla! System redproductzoom Me Plugin
  *
- * @package        Joomla.Plugin
+ * @package        RedSHOP.Plugin
  * @subpackage     System.redproductzoom
  */
 class plgSystemredproductzoom extends JPlugin
@@ -53,7 +53,5 @@ class plgSystemredproductzoom extends JPlugin
 		$document->addScript($url . '/js/jquery.js');
 		$document->addScript($url . '/js/jquery.elevateZoom.min.js');
 		$document->addScript($url . '/js/redproductzoom.js');
-
-		$document->addStyleSheet($url . '/css/jquery.jqzoom.css');
 	}
 }
