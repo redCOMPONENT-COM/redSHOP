@@ -28,7 +28,7 @@ if ($category != "")
 	$and = "AND xc.category_id IN (" . $category . ") ";
 }
 
-$db = JFactory::getDBO();
+$db = JFactory::getDbo();
 $sql = "SELECT p.*,xc.category_id FROM #__redshop_order_item as oi "
 	. " LEFT JOIN #__redshop_product p ON p.product_id=oi.product_id "
 	. " LEFT JOIN #__redshop_product_category_xref xc ON xc.product_id=oi.product_id "

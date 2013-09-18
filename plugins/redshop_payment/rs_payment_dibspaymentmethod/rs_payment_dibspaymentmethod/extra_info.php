@@ -10,7 +10,7 @@
 $uri =& JURI::getInstance();
 $url = $uri->root();
 $user = JFactory::getUser();
-$db = JFactory::getDBO();
+$db = JFactory::getDbo();
 
 require_once JPATH_BASE . '/administrator/components/com_redshop/helpers/order.php';
 require_once JPATH_COMPONENT . '/helpers/helper.php';
@@ -22,7 +22,7 @@ $order_details = $db->loadObjectList();
 $request =& JRequest::get('REQUEST');
 $task = $request['task'];
 
-$db = JFactory :: getDBO();
+$db = JFactory::getDbo();
 
 $q = "SELECT * FROM " . $this->_table_prefix . "order_item WHERE order_id=" . $data['order_id'];
 $db->setQuery($q);

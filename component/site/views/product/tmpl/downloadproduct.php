@@ -12,7 +12,6 @@ defined('_JEXEC') or die;
 JHTMLBehavior::modal();
 JLoader::import('joomla.filesystem.file');
 
-$option = JRequest::getVar('option');
 $tid    = JRequest::getCmd('tid');
 $model  = $this->getModel();
 ?>

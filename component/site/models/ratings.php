@@ -85,7 +85,7 @@ class ratingsModelratings extends JModel
 	{
 		$query = "SELECT pr.*,uf.firstname,uf.lastname FROM  " . $this->_table_prefix . "product_rating as pr"
 			. ", " . $this->_table_prefix . "users_info as uf "
-			. "WHERE published=1 AND product_id='" . $pid . "' "
+			. "WHERE published=1 AND product_id = " . (int) $pid . " "
 			. "AND uf.address_type LIKE 'BT' AND pr.userid=uf.user_id "
 			. "ORDER BY favoured DESC";
 		$this->_db->setQuery($query);

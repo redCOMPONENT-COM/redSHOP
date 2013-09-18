@@ -16,7 +16,7 @@ $currency_code = "USD"; // currency accepted by google
 
 $order = $data['order'];
 
-$db = JFactory::getDBO();
+$db = JFactory::getDbo();
 
 $q = "SELECT * FROM " . $this->_table_prefix . "order_item WHERE order_id=" . $order->order_id;
 

@@ -23,7 +23,7 @@ $user = JFactory::getUser();
 $shipping_address = $objOrder->getOrderShippingUserInfo($data['order_id']);
 
 $redhelper = new redhelper;
-$db = JFactory::getDBO();
+$db = JFactory::getDbo();
 $user = JFActory::getUser();
 $task = JRequest::getVar('task');
 $app = JFactory::getApplication();

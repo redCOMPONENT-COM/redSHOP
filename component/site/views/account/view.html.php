@@ -22,10 +22,9 @@ class accountViewaccount extends JView
 		$prodhelperobj = new producthelper;
 		$prodhelperobj->generateBreadcrumb();
 
-		$option = JRequest::getVar('option');
-		$Itemid = JRequest::getVar('Itemid');
-		$layout = JRequest::getVar('layout');
-		$params = $app->getParams($option);
+		$Itemid = JRequest::getInt('Itemid');
+		$layout = JRequest::getCmd('layout');
+		$params = $app->getParams('com_redshop');
 
 		$document = JFactory::getDocument();
 
@@ -37,16 +36,16 @@ class accountViewaccount extends JView
 		if (!count($userdata) && $layout != 'mywishlist')
 		{
 			$msg = JText::_('COM_REDSHOP_LOGIN_USER_IS_NOT_REDSHOP_USER');
-			$app->Redirect("index.php?option=" . $option . "&view=account_billto&Itemid=" . $Itemid, $msg);
+			$app->Redirect("index.php?option=com_redshop&view=account_billto&Itemid=" . $Itemid, $msg);
 		}
 
-		$layout = JRequest::getVar('layout', 'default');
-		$mail   = JRequest::getVar('mail');
+		$layout = JRequest::getCmd('layout', 'default');
+		$mail   = JRequest::getInt('mail');
 
 		// Preform security checks
 		if (($user->id == 0 && $layout != 'mywishlist') || ($user->id == 0 && $layout == 'mywishlist' && !isset($mail))) // Give permission to send wishlist while not logged in )
 		{
-			$app->Redirect('index.php?option=com_redshop&view=login&Itemid=' . JRequest::getVar('Itemid'));
+			$app->Redirect('index.php?option=com_redshop&view=login&Itemid=' . JRequest::getInt('Itemid'));
 
 			return;
 		}
@@ -56,7 +55,7 @@ class accountViewaccount extends JView
 			JLoader::import('joomla.html.pagination');
 			$this->setLayout('mytags');
 
-			$remove = JRequest::getVar('remove', 0);
+			$remove = JRequest::getInt('remove', 0);
 
 			if ($remove == 1)
 			{
@@ -65,7 +64,7 @@ class accountViewaccount extends JView
 
 			$maxcategory = $params->get('maxcategory', 5);
 			$limit       = $app->getUserStateFromRequest($context . 'limit', 'limit', $maxcategory, 5);
-			$limitstart  = JRequest::getVar('limitstart', 0, '', 'int');
+			$limitstart  = JRequest::getInt('limitstart', 0, '', 'int');
 			$total       = $this->get('total');
 			$pagination  = new redPagination($total, $limitstart, $limit);
 			$this->pagination = $pagination;
@@ -91,7 +90,7 @@ class accountViewaccount extends JView
 			JHTML::Script('common.js', 'components/com_redshop/assets/js/', false);
 			$this->setLayout('mywishlist');
 
-			$remove = JRequest::getVar('remove', 0);
+			$remove = JRequest::getInt('remove', 0);
 
 			if ($remove == 1)
 			{
@@ -100,7 +99,7 @@ class accountViewaccount extends JView
 
 			$maxcategory = $params->get('maxcategory', 5);
 			$limit       = $app->getUserStateFromRequest($context . 'limit', 'limit', $maxcategory, 5);
-			$limitstart  = JRequest::getVar('limitstart', 0, '', 'int');
+			$limitstart  = JRequest::getInt('limitstart', 0, '', 'int');
 			$total       = $this->get('total');
 			$pagination  = new redPagination($total, $limitstart, $limit);
 			$this->pagination = $pagination;
@@ -108,7 +107,7 @@ class accountViewaccount extends JView
 
 		if ($layout == 'compare')
 		{
-			$remove = JRequest::getVar('remove', 0);
+			$remove = JRequest::getInt('remove', 0);
 
 			if ($remove == 1)
 			{
@@ -119,9 +118,9 @@ class accountViewaccount extends JView
 			$this->setLayout('compare');
 		}
 
-		$this->user = $user;
+		$this->user     = $user;
 		$this->userdata = $userdata;
-		$this->params = $params;
+		$this->params   = $params;
 
 		// RedCRM Template
 

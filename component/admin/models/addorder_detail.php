@@ -38,7 +38,7 @@ class addorder_detailModeladdorder_detail extends JModel
 		$array = JRequest::getVar('cid', 0, '', 'array');
 		$this->setId((int) $array[0]);
 		$this->_order_functions = new order_functions;
-		$this->_db = JFactory::getDBO();
+		$this->_db = JFactory::getDbo();
 	}
 
 	public function setId($id)
@@ -946,8 +946,8 @@ class addorder_detailModeladdorder_detail extends JModel
 
 		$query = 'SELECT * FROM ' . $this->_table_prefix . 'users_info '
 			. 'WHERE address_type like "ST" '
-			. 'AND user_id="' . $user_id . '" '
-			. 'AND users_info_id="' . $shippingadd_id . '" ';
+			. 'AND user_id = ' . (int) $user_id . ' '
+			. 'AND users_info_id = ' . (int) $shippingadd_id;
 		$this->_db->setQuery($query);
 		$list = $this->_db->loadObject();
 

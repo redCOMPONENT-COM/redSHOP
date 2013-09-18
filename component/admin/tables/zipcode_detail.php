@@ -42,11 +42,12 @@ class Tablezipcode_detail extends JTable
 
 	public function check()
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 
-		$q = "SELECT *  FROM " . $this->_table_prefix . "zipcode" . " WHERE zipcode = '" . $this->zipcode
-			. "' AND zipcode_id !=  " . (int) $this->zipcode_id
-			. " AND country_code ='" . $this->country_code . "'";
+		$q = "SELECT *  FROM " . $this->_table_prefix . "zipcode"
+			. " WHERE zipcode = " . $db->quote($this->zipcode)
+			. " AND zipcode_id !=  " . (int) $this->zipcode_id
+			. " AND country_code =" . $db->quote($this->country_code);
 
 		$db->setQuery($q);
 

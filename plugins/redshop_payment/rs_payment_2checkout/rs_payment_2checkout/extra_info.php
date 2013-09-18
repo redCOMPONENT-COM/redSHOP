@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-$db = JFactory::getDBO();
+$db = JFactory::getDbo();
 $user = JFActory::getUser();
 $request = JRequest::get('request');
 $orderHelper = new order_functions;

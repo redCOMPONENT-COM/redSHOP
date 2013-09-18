@@ -11,10 +11,10 @@ defined('_JEXEC') or die('Restricted access');
 //$app = JFactory::getApplication();
 $app = JFactory::getApplication();
 $user = JFactory::getUser();
-$email = JRequest::getVar('email');
-$name = JRequest::getVar('name');
-$option = JRequest::getVar('option');
-$Itemid = JRequest::getVar('Itemid');
+$email = JRequest::getString('email');
+$name = JRequest::getString('name');
+$option = JRequest::getCmd('option');
+$Itemid = JRequest::getInt('Itemid');
 $newsletteritemid = $params->get('redirectpage');
 if ($user->id != "")
 {

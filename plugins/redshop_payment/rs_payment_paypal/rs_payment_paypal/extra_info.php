@@ -24,7 +24,7 @@ $shipping_address = $objOrder->getOrderShippingUserInfo($data['order_id']);
 $Itemid = $_REQUEST['Itemid'];
 
 $redhelper = new redhelper;
-$db = JFactory::getDBO();
+$db = JFactory::getDbo();
 $user = JFActory::getUser();
 $task = JRequest::getVar('task');
 $layout = JRequest::getVar('layout');
@@ -126,7 +126,7 @@ else
 }
 
 
-$db = JFactory::getDBO();
+$db = JFactory::getDbo();
 $q_oi = "SELECT * FROM " . $this->_table_prefix . "order_item ";
 $q_oi .= "WHERE " . $this->_table_prefix . "order_item.order_id='" . $data['order_id'] . "'";
 $db->setQuery($q_oi);

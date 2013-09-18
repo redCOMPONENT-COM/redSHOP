@@ -12,8 +12,8 @@ JHTML::_('behavior.tooltip');
 JHTML::_('behavior.modal');
 $uri = JURI::getInstance();
 $url = $uri->root();
-$Itemid = JRequest::getVar('Itemid');
-$option = JRequest::getVar('option');
+$Itemid = JRequest::getInt('Itemid');
+$option = JRequest::getCmd('option');
 // get product helper
 
 

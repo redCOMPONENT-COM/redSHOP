@@ -20,9 +20,8 @@ require_once JPATH_SITE . '/components/com_redshop/helpers/extra_field.php';
 
 $producthelper = new producthelper;
 
-$option = JRequest::getVar('option');
-$Itemid = JRequest::getVar('Itemid');
-$print  = JRequest::getVar('print');
+$Itemid = JRequest::getInt('Itemid');
+$print  = JRequest::getInt('print');
 $model  = $this->getModel('product');
 $user   = JFactory::getUser();
 

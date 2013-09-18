@@ -19,7 +19,7 @@ $show_desc      = trim($params->get('show_desc', 1));
 $thumbwidth     = $params->get('thumbwidth', "100");
 $thumbheight    = $params->get('thumbheight', "100");
 
-$db = JFactory::getDBO();
+$db = JFactory::getDbo();
 
 // Getting the configuration
 require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
@@ -33,7 +33,7 @@ require_once JPATH_SITE . '/components/com_redshop/helpers/product.php';
 
 if (MY_WISHLIST)
 {
-	$sql = "SELECT wishlist_id,wishlist_name FROM #__redshop_wishlist where user_id = " . $user->id;
+	$sql = "SELECT wishlist_id,wishlist_name FROM #__redshop_wishlist where user_id = " . (int) $user->id;
 	$db->setQuery($sql);
 	$wishlists = $db->loadObjectList();
 
@@ -44,7 +44,7 @@ if (MY_WISHLIST)
 			$sql = "SELECT DISTINCT wp.* ,p.* "
 				. "FROM  #__redshop_product as p "
 				. ", #__redshop_wishlist_product as wp "
-				. "WHERE wp.product_id = p.product_id AND wp.wishlist_id = " . $wishlists[$i]->wishlist_id;
+				. "WHERE wp.product_id = p.product_id AND wp.wishlist_id = " . (int) $wishlists[$i]->wishlist_id;
 			$db->setQuery($sql);
 			$wish_products[$wishlists[$i]->wishlist_id] = $db->loadObjectList();
 		}
@@ -63,7 +63,7 @@ if (MY_WISHLIST)
 
 		$sql = "SELECT DISTINCT p.* "
 			. "FROM #__redshop_product as p "
-			. "WHERE p.product_id in( " . substr_replace($prod_id, "", -1) . ")";
+			. "WHERE p.product_id IN( " . substr_replace($prod_id, "", -1) . ")";
 		$db->setQuery($sql);
 		$rows = $db->loadObjectList();
 	}

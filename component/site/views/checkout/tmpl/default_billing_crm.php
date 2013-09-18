@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-$option = JRequest::getCmd('option', 'redshop');
-
 $model = $this->getModel('checkout');
 
 $uri = JURI::getInstance();
@@ -21,7 +19,7 @@ $Itemid = $redhelper->getCheckoutItemid();
 
 if ($Itemid == 0)
 {
-	$Itemid = JRequest::getVar('Itemid');
+	$Itemid = JRequest::getInt('Itemid');
 }
 
 $session = JFactory::getSession();

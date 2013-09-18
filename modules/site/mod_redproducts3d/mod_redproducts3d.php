@@ -24,7 +24,7 @@ $enableimageStroke      = trim($params->get('enableimageStroke', 'yes'));
 $enableMouseOverToolTip = trim($params->get('enableMouseOverToolTip', 'yes'));
 $enableMouseOverEffects = trim($params->get('enableMouseOverEffects', 'yes'));
 
-$db = JFactory::getDBO();
+$db = JFactory::getDbo();
 
 // Getting the configuration
 require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
@@ -45,7 +45,7 @@ $sql = "SELECT * FROM #__redshop_product p "
 	. $leftjoin
 	. "WHERE p.published=1 "
 	. $and
-	. "LIMIT 0," . $count;
+	. "LIMIT 0," . (int) $count;
 $db->setQuery($sql);
 $rows = $db->loadObjectList();
 

@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-$option = JRequest::getVar('option');
+$option = JRequest::getCmd('option');
 
 require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/shipping.php';
 

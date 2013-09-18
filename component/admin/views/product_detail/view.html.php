@@ -89,7 +89,7 @@ class Product_DetailViewProduct_Detail extends JView
 		if ($model->isCheckedOut($user->get('id')))
 		{
 			$msg = JText::sprintf('DESCBEINGEDITTED', JText::_('COM_REDSHOP_THE_DETAIL'), $detail->title);
-			$app->redirect('index.php?option=' . $this->option, $msg);
+			$app->redirect('index.php?option=com_redshop', $msg);
 		}
 
 		// Check redproductfinder is installed

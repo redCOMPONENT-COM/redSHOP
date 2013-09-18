@@ -6,7 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-$db = JFactory::getDBO();
+$db = JFactory::getDbo();
 $option = JRequest::getVar('option');
 ?>
 <script language="javascript" type="text/javascript">
@@ -72,7 +72,7 @@ $option = JRequest::getVar('option');
 				. "LEFT JOIN #__" . TABLE_PREFIX . "_order_status AS os ON o.order_status=os.order_status_code "
 				. "WHERE uf.address_type='BT' "
 				. "AND o.order_status IN ('RD','RD1','RD2') "
-				. "ORDER BY " . $this->lists['order'] . " " . $this->lists['order_Dir'];
+				. "ORDER BY " . $db->escape($this->lists['order'] . " " . $this->lists['order_Dir']);
 			$db->setQuery($query);
 			$orders = $db->loadObjectList();
 			$k = 0;

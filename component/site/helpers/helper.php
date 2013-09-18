@@ -22,7 +22,7 @@ class redhelper
 	public function __construct()
 	{
 		$this->_table_prefix = '#__redshop_';
-		$this->_db           = JFactory::getDBO();
+		$this->_db           = JFactory::getDbo();
 	}
 
 	/**
@@ -51,6 +51,8 @@ class redhelper
 	 */
 	public function removeShippingRate()
 	{
+		$db = JFactory::getDbo();
+
 		$query = "SELECT DISTINCT(shipping_class)  FROM " . $this->_table_prefix . "shipping_rate ";
 		$this->_db->setQuery($query);
 		$data = $this->_db->loadColumn();
@@ -66,7 +68,7 @@ class redhelper
 
 			for ($i = 0; $i < count($diff_ship); $i++)
 			{
-				$query = "DELETE  FROM " . $this->_table_prefix . "shipping_rate WHERE shipping_class='" . $diff_ship[$i] . "'";
+				$query = "DELETE  FROM " . $this->_table_prefix . "shipping_rate WHERE shipping_class = " . $db->quote($diff_ship[$i]);
 				$this->_db->setQuery($query);
 				$this->_db->query();
 			}
@@ -75,35 +77,41 @@ class redhelper
 
 	public function getPlugins($folder = 'redshop')
 	{
+		$db = JFactory::getDbo();
+
 		$query = "SELECT * FROM #__extensions "
 			. "WHERE  enabled = '1' "
-			. "AND LOWER(`folder`) = '" . strtolower($folder) . "' "
+			. "AND LOWER(`folder`) = " . $db->quote(strtolower($folder)) . " "
 			. "ORDER BY ordering ASC ";
-		$this->_db->setQuery($query);
-		$data = $this->_db->loadObjectList();
+		$db->setQuery($query);
+		$data = $db->loadObjectList();
 
 		return $data;
 	}
 
 	public function getallPlugins($folder = 'redshop')
 	{
+		$db = JFactory::getDbo();
+
 		$query = "SELECT * FROM #__extensions "
-			. "WHERE LOWER(`folder`) = '" . strtolower($folder) . "' "
+			. "WHERE LOWER(`folder`) = " . $db->quote(strtolower($folder)) . " "
 			. "ORDER BY ordering ASC ";
-		$this->_db->setQuery($query);
-		$data = $this->_db->loadObjectList();
+		$db->setQuery($query);
+		$data = $db->loadObjectList();
 
 		return $data;
 	}
 
 	public function orderPaymentNotYetUpdated($dbConn, $order_id, $tid)
 	{
+		$db = JFactory::getDbo();
+
 		$res   = false;
 		$query = "SELECT COUNT(*) `qty` FROM `" . $this->_table_prefix . "order_payment` "
-			. "WHERE `order_id` = '" . $this->_db->getEscaped($order_id) . "' "
-			. "AND order_payment_trans_id = '" . $this->_db->getEscaped($tid) . "' ";
-		$this->_db->SetQuery($query);
-		$order_payment = $this->_db->loadResult();
+			. "WHERE `order_id` = " . (int) $db->getEscaped($order_id) . " "
+			. "AND order_payment_trans_id = " . $db->quote($tid);
+		$db->setQuery($query);
+		$order_payment = $db->loadResult();
 
 		if ($order_payment == 0)
 		{
@@ -124,7 +132,7 @@ class redhelper
 				. "WHERE published=1 "
 				. "AND `link` LIKE '%com_redshop%' "
 				. "AND `link` LIKE '%view=category%' "
-				. "AND ( link LIKE '%cid=" . $cat_id . "' OR link LIKE '%cid=" . $cat_id . "&%' ) "
+				. "AND ( link LIKE '%cid=" . (int) $cat_id . "' OR link LIKE '%cid=" . (int) $cat_id . "&%' ) "
 				. "ORDER BY 'ordering'";
 			$this->_db->setQuery($sql);
 
@@ -147,7 +155,7 @@ class redhelper
 				. "WHERE published=1 "
 				. "AND `link` LIKE '%com_redshop%' "
 				. "AND `link` LIKE '%view=category%' "
-				. "AND ( link LIKE '%cid=" . $cat->category_id . "' OR link LIKE '%cid=" . $cat->category_id . "&%' ) "
+				. "AND ( link LIKE '%cid=" . (int) $cat->category_id . "' OR link LIKE '%cid=" . (int) $cat->category_id . "&%' ) "
 				. "ORDER BY 'ordering'";
 			$this->_db->setQuery($sql);
 
@@ -196,7 +204,7 @@ class redhelper
 	{
 		if ($category_id)
 		{
-			$and = ' AND (`link` LIKE "%option=com_redshop&view=category&layout=detail") AND (`params` LIKE \'%"cid":"' . $category_id . '"%\') ';
+			$and = ' AND (`link` LIKE "%option=com_redshop&view=category&layout=detail") AND (`params` LIKE \'%"cid":"' . (int) $category_id . '"%\') ';
 		}
 		else
 		{
@@ -266,7 +274,7 @@ class redhelper
 
 		if ($user->id)
 		{
-			$userq = "SELECT shopper_group_id FROM " . $this->_table_prefix . "users_info WHERE user_id = " . $user->id . " AND address_type = 'BT'";
+			$userq = "SELECT shopper_group_id FROM " . $this->_table_prefix . "users_info WHERE user_id = " . (int) $user->id . " AND address_type = 'BT'";
 			$where = "AND `shopper_group_id`IN ($userq)";
 		}
 
@@ -290,14 +298,14 @@ class redhelper
 
 		if ($user->id)
 		{
-			$userq = "SELECT shopper_group_id FROM " . $this->_table_prefix . "users_info WHERE user_id = " . $user->id . " AND address_type = 'BT'";
+			$userq = "SELECT shopper_group_id FROM " . $this->_table_prefix . "users_info WHERE user_id = " . (int) $user->id . " AND address_type = 'BT'";
 			$where = "AND `shopper_group_id`IN ($userq)";
 		}
 
 		$query = "SELECT *, count(`shopper_group_id`) as total FROM `" . $this->_table_prefix . "shopper_group` "
 			. "WHERE 1=1 "
 			. $where
-			. "AND FIND_IN_SET(" . $cid . ",shopper_group_categories) "
+			. "AND FIND_IN_SET(" . (int) $cid . ",shopper_group_categories) "
 			. "GROUP BY shopper_group_id ";
 		$this->_db->setQuery($query);
 		$shoppercatdata = $this->_db->loadObject();
@@ -311,7 +319,7 @@ class redhelper
 
 		$query = "SELECT p.product_id,cx.category_id FROM `" . $this->_table_prefix . "product` AS p "
 			. "LEFT JOIN " . $this->_table_prefix . "product_category_xref AS cx ON p.product_id=cx.product_id "
-			. "WHERE p.product_id='" . $pid . "' ";
+			. "WHERE p.product_id=" . (int) $pid ;
 		$this->_db->setQuery($query);
 		$prodctcat = $this->_db->loadObjectList();
 		$catflag   = false;
@@ -749,11 +757,13 @@ class redhelper
 			return;
 		}
 
+		$db = JFactory::getDbo();
+
 		$shippinghelper = new shipping;
 
 		$query = "SELECT * FROM " . $this->_table_prefix . "order_users_info AS oui "
 			. "LEFT JOIN " . $this->_table_prefix . "orders AS o ON o.order_id = oui.order_id "
-			. "WHERE oui.order_id = '" . $order_id . "' "
+			. "WHERE oui.order_id = " . (int) $order_id . " "
 			. "AND address_type='ST' ";
 		$this->_db->setQuery($query);
 		$orderData = $this->_db->loadobject();
@@ -761,7 +771,7 @@ class redhelper
 		$query = "SELECT payment_method_name, oy.payment_method_id FROM " . $this->_table_prefix . "order_payment AS oy "
 			. "LEFT JOIN " . $this->_table_prefix . "orders AS o ON o.order_id = oy.order_id "
 			. "LEFT JOIN " . $this->_table_prefix . "payment_method AS p ON p.payment_method_id = oy.payment_method_id "
-			. "WHERE oy.order_id = '" . $order_id . "' ";
+			. "WHERE oy.order_id = " . (int) $order_id;
 		$this->_db->setQuery($query);
 		$paymentData       = $this->_db->loadobject();
 		$paymentName       = $paymentData->payment_method_name;
@@ -777,13 +787,13 @@ class redhelper
 			$order_shipping_class = $order_shipping[0];
 		}
 
-		$p_where = " AND (FIND_IN_SET( '" . $payment_method_id . "', payment_methods ))";
-		$s_where = " AND (FIND_IN_SET( '" . $order_shipping_class . "', shipping_methods ))";
+		$p_where = " AND (FIND_IN_SET( " . $db->quote($payment_method_id) . ", payment_methods ))";
+		$s_where = " AND (FIND_IN_SET( " . $db->quote($order_shipping_class) . ", shipping_methods ))";
 
 		$orderby = " ORDER BY `template_id` DESC LIMIT 0,1";
 		$query   = "SELECT * FROM " . $this->_table_prefix . "template AS t "
 			. "WHERE t.template_section = 'clicktell_sms_message' "
-			. "AND (FIND_IN_SET( '" . $orderData->order_status . "', order_status )) ";
+			. "AND (FIND_IN_SET( " . $db->quote($orderData->order_status) . ", order_status )) ";
 		$to      = $orderData->phone;
 		$this->_db->setQuery($query . $p_where . $orderby);
 		$payment_methods = $this->_db->loadobject();
@@ -934,7 +944,7 @@ class redhelper
 
 		if ($accountgroup_id != 0)
 		{
-			$and .= 'AND ea.accountgroup_id="' . $accountgroup_id . '" ';
+			$and .= 'AND ea.accountgroup_id = ' . (int) $accountgroup_id . ' ';
 		}
 
 		if ($front != 0)

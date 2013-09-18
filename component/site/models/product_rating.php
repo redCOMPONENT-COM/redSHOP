@@ -131,7 +131,7 @@ class product_ratingModelproduct_rating extends JModel
 
 	public function getuserfullname($uid)
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 
 		$query = "SELECT firstname,lastname from " . $this->_table_prefix . "users_info WHERE user_id=" . (int) $uid . " AND address_type like 'BT'";
 		$db->setQuery($query);
@@ -142,7 +142,7 @@ class product_ratingModelproduct_rating extends JModel
 
 	public function checkRatedProduct($pid, $uid)
 	{
-		$db    = JFactory::getDBO();
+		$db    = JFactory::getDbo();
 		$query = "SELECT count(*) as rec from " . $this->_table_prefix . "product_rating WHERE product_id=" . (int) $pid . " AND userid=" . (int) $uid;
 		$db->setQuery($query);
 		$already_rated = $db->loadResult();

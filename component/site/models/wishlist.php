@@ -46,7 +46,7 @@ class wishlistModelwishlist extends JModel
 	public function getUserWishlist()
 	{
 		$user = JFactory::getUser();
-		$db   = JFactory::getDBO();
+		$db   = JFactory::getDbo();
 
 		$query = "SELECT * FROM " . $this->_table_prefix . "wishlist WHERE user_id=" . (int) $user->id;
 		$db->setQuery($query);
@@ -57,7 +57,7 @@ class wishlistModelwishlist extends JModel
 	public function getWishlistProduct()
 	{
 		$user = JFactory::getUser();
-		$db   = JFactory::getDBO();
+		$db   = JFactory::getDbo();
 
 		if ($user->id)
 		{
@@ -78,21 +78,24 @@ class wishlistModelwishlist extends JModel
 		}
 		else
 		{
-			$prod_id = "";
+			$productIds = array();
 			$rows    = array();
 
 			if (isset($_SESSION["no_of_prod"]))
 			{
 				for ($add_i = 1; $add_i < $_SESSION["no_of_prod"]; $add_i++)
 				{
-					$prod_id .= $_SESSION['wish_' . $add_i]->product_id . ",";
+					$productIds[] = (int) $_SESSION['wish_' . $add_i]->product_id;
 				}
 
-				$prod_id .= $_SESSION['wish_' . $add_i]->product_id;
+				$productIds[] = $prod_id .= (int) $_SESSION['wish_' . $add_i]->product_id;
+
+				// Sanitize ids
+				JArrayHelper::toInteger($productIds);
 
 				$sql = "SELECT DISTINCT p.* "
 					. "FROM #__redshop_product as p "
-					. "WHERE p.product_id in( " . $prod_id . ")";
+					. "WHERE p.product_id IN( " . implode(',', $productIds) . ")";
 				$db->setQuery($sql);
 				$rows = $db->loadObjectList();
 			}
@@ -103,9 +106,11 @@ class wishlistModelwishlist extends JModel
 
 	public function getWishlistProductFromSession()
 	{
-		$db      = JFactory::getDBO();
+		$db      = JFactory::getDbo();
 		$prod_id = "";
 		$rows    = array();
+
+		$productIds = array();
 
 		if (isset($_SESSION["no_of_prod"]))
 		{
@@ -113,15 +118,18 @@ class wishlistModelwishlist extends JModel
 
 				if ($_SESSION['wish_' . $add_i]->product_id != '')
 				{
-					$prod_id .= $_SESSION['wish_' . $add_i]->product_id . ",";
+					$productIds[] = (int) $_SESSION['wish_' . $add_i]->product_id;
 				}
 
 
-			$prod_id .= $_SESSION['wish_' . $add_i]->product_id;
+			$productIds[] = (int) $_SESSION['wish_' . $add_i]->product_id;
+
+			// Sanitize ids
+			JArrayHelper::toInteger($productIds);
 
 			$sql = "SELECT DISTINCT p.* "
 				. "FROM #__redshop_product as p "
-				. "WHERE p.product_id in( " . substr_replace($prod_id, "", -1) . ")";
+				. "WHERE p.product_id IN( " . implode(',', $productIds) . ")";
 			$db->setQuery($sql);
 			$rows = $db->loadObjectList();
 		}
@@ -148,7 +156,7 @@ class wishlistModelwishlist extends JModel
 		}
 		else
 		{
-			$db         = JFactory::getDBO();
+			$db         = JFactory::getDbo();
 			$product_id = JRequest::getInt('product_id');
 
 			if ($product_id)
@@ -156,7 +164,7 @@ class wishlistModelwishlist extends JModel
 				$ins_query = "INSERT INTO " . $this->_table_prefix . "wishlist_product "
 					. " SET wishlist_id=" . (int) $row->wishlist_id
 					. ", product_id=" . (int) $product_id
-					. ", cdate=" . time();
+					. ", cdate = " . $db->quote(time());
 				$db->setQuery($ins_query);
 
 				if ($db->Query())
@@ -187,7 +195,7 @@ class wishlistModelwishlist extends JModel
 							$ins_query  = "INSERT INTO #__redshop_wishlist_userfielddata SET "
 								. " wishlist_id = " . (int) $row->wishlist_id
 								. " , product_id = " . (int) $_SESSION['wish_' . $si]->product_id
-								. ", userfielddata = '" . $myuserdata . "'";
+								. ", userfielddata = " . $db->quote($myuserdata);
 
 							$db->setQuery($ins_query);
 							$db->Query();
@@ -196,8 +204,8 @@ class wishlistModelwishlist extends JModel
 
 					$ins_query = "INSERT INTO #__redshop_wishlist_product SET "
 						. " wishlist_id = " . (int) $row->wishlist_id
-						. ", product_id = " . $this->_db->quote($_SESSION['wish_' . $si]->product_id)
-						. ", cdate = " . $this->_db->quote($_SESSION['wish_' . $si]->cdate);
+						. ", product_id = " . (int) $_SESSION['wish_' . $si]->product_id
+						. ", cdate = " . $db->quote($_SESSION['wish_' . $si]->cdate);
 					$db->setQuery($ins_query);
 					$db->Query();
 					unset($_SESSION['wish_' . $si]);
@@ -213,7 +221,7 @@ class wishlistModelwishlist extends JModel
 	public function savewishlist()
 	{
 		$cid        = JRequest::getVar('cid', '', 'request', 'array');
-		$db         = JFactory::getDBO();
+		$db         = JFactory::getDbo();
 		$product_id = JRequest::getInt('product_id');
 
 		for ($i = 0; $i < count($cid); $i++)
@@ -230,7 +238,7 @@ class wishlistModelwishlist extends JModel
 			$ins_query = "INSERT INTO " . $this->_table_prefix . "wishlist_product "
 				. " SET wishlist_id=" . (int) $cid[$i]
 				. ", product_id=" . (int) $product_id
-				. ", cdate=" . time();
+				. ", cdate = " . $db->quote(time());
 			$db->setQuery($ins_query);
 
 			if ($db->query())
@@ -248,7 +256,7 @@ class wishlistModelwishlist extends JModel
 
 	public function check_user_wishlist_authority($userid, $wishlist_id)
 	{
-		$db    = JFactory::getDBO();
+		$db    = JFactory::getDbo();
 		$query = "SELECT wishlist_id FROM " . $this->_table_prefix . "wishlist "
 			. " WHERE wishlist_id=" . (int) $wishlist_id . " AND user_id=" . (int) $userid;
 		$db->setQuery($query);
@@ -267,7 +275,7 @@ class wishlistModelwishlist extends JModel
 
 	public function delwishlist($userid, $wishlist_id)
 	{
-		$db    = JFactory::getDBO();
+		$db    = JFactory::getDbo();
 		$query = "DELETE FROM " . $this->_table_prefix . "wishlist_product "
 			. " WHERE wishlist_id=" . (int) $wishlist_id;
 		$db->setQuery($query);
