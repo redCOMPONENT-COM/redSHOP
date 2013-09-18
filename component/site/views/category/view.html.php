@@ -51,8 +51,12 @@ class CategoryViewCategory extends JView
 		$layout = $this->input->getString('layout', 'default');
 		$this->print = $this->input->getBool('print', false);
 
-		$params      = $this->app->getParams($this->option);
-		$model       = $this->getModel('category');
+		$params = $this->app->getParams($this->option);
+		$model  = $this->getModel('category');
+
+		JPluginHelper::importPlugin('redshop_product');
+		JPluginHelper::importPlugin('redshop_product_type');
+		$this->dispatcher = JDispatcher::getInstance();
 
 		$category_template     = (int) $params->get('category_template');
 		$menu_meta_keywords    = $params->get('menu-meta_keywords');
@@ -476,7 +480,6 @@ class CategoryViewCategory extends JView
 		$this->order_by_select = $order_by_select;
 		$this->manufacturer_id = $manufacturer_id;
 		$this->loadCategorytemplate = $loadCategorytemplate;
-		$this->dispatcher = JDispatcher::getInstance();
 
 		parent::display($tpl);
 	}
