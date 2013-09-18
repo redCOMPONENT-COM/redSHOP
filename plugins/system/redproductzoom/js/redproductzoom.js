@@ -12,8 +12,6 @@ function preloadSlimbox(parameters)
 			return m;
 	    }
 
-	    //http://localhost/joomla2/components/com_redshop/assets/images/product/thumb/1379486282_bunda_w200_h200_dope.jpg
-
 	    redproductzoom = function () {
 			var mainimg = $('div[id*=productImageWrapID_]').find('img');
 			var m = getImagename(mainimg.attr('src'));
