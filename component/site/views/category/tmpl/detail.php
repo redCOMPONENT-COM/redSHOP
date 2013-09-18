@@ -248,14 +248,20 @@ if (!$slide)
 		$tmpItemid = $this->itemid;
 	}
 
-	$link = JRoute::_('index.php?option=' . $this->option . '&view=category&cid=' . $this->catid . '&manufacturer_id=' . $this->manufacturer_id . '&layout=detail&Itemid=' . $tmpItemid);
+	$link = JRoute::_(
+						'index.php?option=' . $this->option .
+						'&view=category&cid=' . $this->catid .
+						'&manufacturer_id=' . $this->manufacturer_id .
+						'&layout=detail&Itemid=' . $tmpItemid
+					);
 
 	$cat_main_thumb = "";
 
 	if ($this->maincat->category_full_image && file_exists(REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $this->maincat->category_full_image))
 	{
 		$water_cat_img  = $objhelper->watermark('category', $this->maincat->category_full_image, $cw_thumb, $ch_thumb, WATERMARK_CATEGORY_THUMB_IMAGE, '0');
-		$cat_main_thumb = "<a href='" . $link . "' title='" . $main_cat_name . "'><img src='" . $water_cat_img . "' alt='" . $main_cat_name . "' title='" . $main_cat_name . "'></a>";
+		$cat_main_thumb = "<a href='" . $link . "' title='" . $main_cat_name .
+							"'><img src='" . $water_cat_img . "' alt='" . $main_cat_name . "' title='" . $main_cat_name . "'></a>";
 	}
 
 	$template_desc = str_replace($ctag, $cat_main_thumb, $template_desc);
@@ -269,8 +275,9 @@ if (!$slide)
 
 		if (PRODUCT_COMPARISON_TYPE != "")
 		{
-			$comparediv          = $producthelper->makeCompareProductDiv();
-			$compare_product_div = "<form name='frmCompare' method='post' action='" . JRoute::_('index.php?option=com_redshop&view=product&layout=compare&Itemid=' . $this->itemid) . "' >";
+			$comparediv           = $producthelper->makeCompareProductDiv();
+			$compareUrl           = JRoute::_('index.php?option=com_redshop&view=product&layout=compare&Itemid=' . $this->itemid);
+			$compare_product_div  = "<form name='frmCompare' method='post' action='" . $compareUrl . "' >";
 			$compare_product_div .= "<a href='javascript:compare();' >" . JText::_('COM_REDSHOP_COMPARE') . "</a>";
 			$compare_product_div .= "<div id='divCompareProduct'>" . $comparediv . "</div>";
 			$compare_product_div .= "</form>";
