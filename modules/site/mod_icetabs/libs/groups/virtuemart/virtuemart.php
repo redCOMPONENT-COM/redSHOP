@@ -58,6 +58,7 @@ if (!class_exists('LofSliderGroupVirtuemart'))
 		 */
 		public function __getList($params)
 		{
+			$db = JFactory::getDbo();
 			global $sess, $mm_action_url;
 			require_once CLASSPATH . 'ps_product.php';
 			$ps_product          = new ps_product;
@@ -79,7 +80,7 @@ if (!class_exists('LofSliderGroupVirtuemart'))
 			{
 				$ordering = " RAND() ";
 			}
-			$condition = LofSliderGroupVirtuemart::buildConditionQuery($params);
+			$condition = self::buildConditionQuery($params);
 			// sql query
 			$query = ' SELECT p.*, p.product_id, p.product_publish, p.product_sku, p.product_name, p.product_url '
 				. ' 	, p.product_s_desc, product_thumb_image, product_full_image'
@@ -94,7 +95,7 @@ if (!class_exists('LofSliderGroupVirtuemart'))
 				$query .= ' AND product_in_stock > 0 ';
 			}
 
-			$query .= ' ORDER BY  ' . $ordering;
+			$query .= ' ORDER BY  ' . $db->escape($ordering);
 			$query .= ' LIMIT ' . $limit;
 
 			require_once CLASSPATH . 'ps_product.php';
@@ -158,26 +159,28 @@ if (!class_exists('LofSliderGroupVirtuemart'))
 		function buildConditionQuery($params)
 		{
 			$source = trim($params->get('vm_source', 'vm_category'));
+
 			if ($source == 'vm_category')
 			{
-				$catids = $params->get('vm_category', '0');
+				$catids = explode(',', $params->get('vm_category', '0'));
 
-				if (!$catids)
+				if (!empty($catids))
 				{
-					return '';
+					JArrayHelper::toInteger($catids);
+
+					$condition = ' AND  pc.category_id IN(' . implode(',', $catids) . ')';
 				}
-				$catids    = !is_array($catids) ? $catids : '"' . implode('","', $catids) . '"';
-				$condition = ' AND  pc.category_id IN(' . $catids . ')';
 			}
 			else
 			{
-				$ids = preg_split('/,/', $params->get('vm_items_ids', ''));
-				$tmp = array();
-				foreach ($ids as $id)
+				$ids = explode(',', $params->get('vm_items_ids', ''));
+
+				if (!empty($ids))
 				{
-					$tmp[] = (int) trim($id);
+					JArrayHelper::toInteger($ids);
+
+					$condition = " AND pc.product_id IN('" . implode(',', $ids) . "')";
 				}
-				$condition = " AND pc.product_id IN('" . implode("','", $tmp) . "')";
 			}
 
 			return $condition;

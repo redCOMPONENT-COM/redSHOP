@@ -20,7 +20,7 @@ class product_priceViewproduct_price extends JView
 
 		$product_id = JRequest::getVar('pid');
 
-		$db       = JFactory::getDBO();
+		$db       = JFactory::getDbo();
 		$uri      = JFactory::getURI();
 		$document = JFactory::getDocument();
 

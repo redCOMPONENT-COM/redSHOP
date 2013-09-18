@@ -132,7 +132,7 @@ if (strstr($template_desc, "{category_loop_start}") && strstr($template_desc, "{
 			$tmpItemid = $this->itemid;
 		}
 
-		$link        = JRoute::_('index.php?option=' . $this->option . '&view=category&cid=' . $row->category_id . '&layout=detail&Itemid=' . $tmpItemid);
+		$link        = JRoute::_('index.php?option=com_redshop&view=category&cid=' . $row->category_id . '&layout=detail&Itemid=' . $tmpItemid);
 		$middlepath  = REDSHOP_FRONT_IMAGES_RELPATH . 'category/';
 		$title       = " title='" . $row->category_name . "' ";
 		$alt         = " alt='" . $row->category_name . "' ";
@@ -347,7 +347,7 @@ if (strstr($template_desc, "{category_loop_start}") && strstr($template_desc, "{
 				$prddata_add = $producthelper->replaceVatinfo($prddata_add);
 				$this->catid = $row->category_id;
 				$link        = JRoute::_(
-											'index.php?option=' . $this->option . '&view=product&pid=' .
+											'index.php?option=com_redshop&view=product&pid=' .
 											$product->product_id . '&cid=' . $this->catid . '&Itemid=' . $pItemid
 										);
 

@@ -15,21 +15,20 @@ JHTMLBehavior::modal();
 // Get product helper
 require_once JPATH_ROOT . '/components/com_redshop/helpers/product.php';
 $producthelper = new producthelper;
-$configobj = new Redconfiguration;
-$redTemplate = new Redtemplate;
-$extraField = new extraField;
+$configobj     = new Redconfiguration;
+$redTemplate   = new Redtemplate;
+$extraField    = new extraField;
 
-$session = JFactory::getSession();
-$option = JRequest::getVar('option');
-$Itemid = JRequest::getVar('Itemid');
-$wishlist_id = JRequest ::getInt('wishlist_id');
-$mail = JRequest::getVar('mail', 0);
+$session       = JFactory::getSession();
+$Itemid        = JRequest::getInt('Itemid');
+$wishlist_id   = JRequest::getInt('wishlist_id');
+$mail          = JRequest::getInt('mail', 0);
 
-$model = $this->getModel('account');
-$user = JFactory::getUser();
+$model         = $this->getModel('account');
+$user          = JFactory::getUser();
 
-$pagetitle = JText::_('COM_REDSHOP_MY_WISHLIST');
-$window = JRequest::getVar('window');
+$pagetitle     = JText::_('COM_REDSHOP_MY_WISHLIST');
+$window        = JRequest::getInt('window');
 
 if ($window == 1)
 {
@@ -195,7 +194,7 @@ if ($mail == 0)
 						$frmChild .= "<input type='hidden' name='Itemid' value='" . $Itemid . "'>";
 						$frmChild .= "<input type='hidden' name='cid' value='" . $row->category_id . "'>";
 						$frmChild .= "<input type='hidden' name='view' value='product'>";
-						$frmChild .= "<input type='hidden' name='option' value='" . $option . "'>";
+						$frmChild .= "<input type='hidden' name='option' value='com_redshop'>";
 						$frmChild .= "</form>";
 					}
 				}
@@ -428,7 +427,7 @@ else
 	$send_btn = '<input type="submit" name="send" class="button" value="' . JText::_('COM_REDSHOP_SEND') . '" />';
 	$data     = str_replace("{send_button}", $send_btn, $data);
 
-	$data .= '<input type="hidden" name="option" value="' . $option . '" />'
+	$data .= '<input type="hidden" name="option" value="com_redshop" />'
 		. '<input type="hidden" name="window" value="1" />'
 		. '<input type="hidden" name="task" value="sendWishlist" />'
 		. '<input type="hidden" name="Itemid" value="' . $Itemid . '" />'

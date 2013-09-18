@@ -14,13 +14,13 @@ class shoppergroup
 	public function list_all($name, $shopper_group_id, $selected_groups = Array(), $size = 1, $toplevel = true,
 	                         $multiple = false, $disabledFields = array())
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$html = '';
 		$q = "SELECT parent_id,shopper_group_id FROM #__" . TABLE_PREFIX . "_shopper_group ";
 
 		if ($shopper_group_id)
 		{
-			$q .= "WHERE shopper_group_id='$shopper_group_id'";
+			$q .= "WHERE shopper_group_id = " . (int) $shopper_group_id;
 		}
 
 		$db->setQuery($q);
@@ -48,11 +48,11 @@ class shoppergroup
 
 	public function list_tree($shopper_group_id = "", $cid = '0', $level = '0', $selected_groups = Array(), $disabledFields = Array(), $html = '')
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$level++;
 
-		$q = "SELECT shopper_group_id, shopper_group_id,shopper_group_name,parent_id FROM  #__" . TABLE_PREFIX . "_shopper_group ";
-		$q .= "WHERE #__" . TABLE_PREFIX . "_shopper_group.parent_id='$cid' AND shopper_group_id !='$shopper_group_id' ";
+		$q = "SELECT shopper_group_id, shopper_group_id,shopper_group_name,parent_id FROM  #__redshop_shopper_group ";
+		$q .= "WHERE parent_id = " . (int) $cid . " AND shopper_group_id != " . (int) $shopper_group_id;
 
 		$db->setQuery($q);
 		$groups = $db->loadObjectList();
@@ -100,11 +100,11 @@ class shoppergroup
 
 	public function getshopperGroupListArray($shopper_group_id = "", $cid = '0', $level = '0')
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$level++;
 
-		$q = "SELECT * FROM  #__" . TABLE_PREFIX . "_shopper_group ";
-		$q .= "WHERE #__" . TABLE_PREFIX . "_shopper_group.parent_id='$cid' ";
+		$q = "SELECT * FROM  #__redshop_shopper_group ";
+		$q .= "WHERE parent_id = " . (int) $cid;
 
 		$db->setQuery($q);
 		$groups = $db->loadObjectList();
@@ -142,11 +142,11 @@ class shoppergroup
 
 	public function getCategoryListReverceArray($cid = '0')
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 
 		$q = "SELECT c.shopper_group_id,c.category_name,cx.shopper_group_id,cx.parent_id FROM  #__"
 			. TABLE_PREFIX . "_shopper_group as cx, #__" . TABLE_PREFIX . "_shopper_group as c ";
-		$q .= "WHERE cx.shopper_group_id='" . $cid . "'";
+		$q .= "WHERE cx.shopper_group_id = " . (int) $cid . " ";
 		$q .= "and c.shopper_group_id = cx.parent_id";
 
 		$db->setQuery($q);

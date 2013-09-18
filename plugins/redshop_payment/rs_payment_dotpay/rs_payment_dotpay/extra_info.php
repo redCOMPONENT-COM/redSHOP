@@ -10,7 +10,7 @@
 $uri =& JURI::getInstance();
 $url = $uri->root();
 $user = JFactory::getUser();
-$db = JFactory::getDBO();
+$db = JFactory::getDbo();
 
 require_once JPATH_BASE . '/administrator/components/com_redshop/helpers/order.php';
 require_once JPATH_COMPONENT . '/helpers/helper.php';

@@ -150,7 +150,7 @@ $app->redirect($uri[0] . "index.php?option=com_redshop&view=order_detail&oid=" .
 
 function getparameters($payment)
 {
-	$db = JFactory::getDBO();
+	$db = JFactory::getDbo();
 	$sql = "SELECT * FROM #__extensions WHERE `element`='" . $payment . "'";
 	$db->setQuery($sql);
 	$params = $db->loadObjectList();

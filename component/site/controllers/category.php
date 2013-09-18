@@ -29,7 +29,7 @@ class CategoryController extends JController
 	{
 		$option   = JRequest::getVar('option', 'com_redshop', 'request', 'string');
 		$filename = JRequest::getVar('file', '', 'request', 'string');
-		$db       = JFactory::getDBO();
+		$db       = JFactory::getDbo();
 		$this->_table_prefix = "#__redshop_";
 
 		session_cache_limiter('public');
@@ -59,9 +59,9 @@ class CategoryController extends JController
 					. "LEFT JOIN " . $this->_table_prefix . "xml_export_log AS xl ON x.xmlexport_id=xl.xmlexport_id "
 					. "LEFT JOIN " . $this->_table_prefix . "xml_export_ipaddress AS xi ON x.xmlexport_id=xi.xmlexport_id "
 					. "WHERE x.published=1 "
-					. "AND (x.filename='" . $filename . "' "
-					. "OR xl.xmlexport_filename='" . $filename . "') "
-					. "AND xi.access_ipaddress='" . $_SERVER['REMOTE_ADDR'] . "' "
+					. "AND (x.filename=" . $db->quote((string) $filename) . " "
+					. "OR xl.xmlexport_filename=" . $db->quote((string) $filename) . ") "
+					. "AND xi.access_ipaddress=" . $db->quote((string) $_SERVER['REMOTE_ADDR']) . " "
 					. "ORDER BY xl.xmlexport_date DESC ";
 				$db->setQuery($query);
 				$data = $db->loadObject();
@@ -268,7 +268,7 @@ class CategoryController extends JController
 	 */
 	public function autofillcityname()
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		ob_clean();
 		$mainzipcode = JRequest::getString('q', '');
 		$sel_zipcode = "select city_name from #__redshop_zipcode where zipcode='" . $mainzipcode . "'";

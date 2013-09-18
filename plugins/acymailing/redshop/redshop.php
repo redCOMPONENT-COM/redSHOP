@@ -38,7 +38,7 @@ class plgAcymailingRedshop extends JPlugin
 
 	public function acymailingredSHOP_show()
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$query = "SELECT p.product_id,p.product_name,c.category_id,c.category_name FROM "
 			. " #__redshop_product AS p,#__redshop_category AS c,#__redshop_product_category_xref AS pc"
 			. " WHERE pc.category_id=c.category_id AND p.product_id=pc.product_id";
@@ -135,7 +135,7 @@ class plgAcymailingRedshop extends JPlugin
 		$prtemplate = $redTemplate->getTemplate('product_content_template', $prtemplate_id);
 
 		// Get Product Data
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$query = "SELECT * FROM #__redshop_product WHERE product_id=" . $product_id;
 		$db->setQuery($query);
 		$rs = $db->loadObject();
