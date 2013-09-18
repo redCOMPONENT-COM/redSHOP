@@ -25,10 +25,10 @@ class checkoutViewcheckout extends JView
 
 		$params  = $app->getParams('com_redshop');
 		$option  = JRequest::getVar('option');
-		$Itemid  = JRequest::getVar('Itemid');
-		$issplit = JRequest::getVar('issplit');
-		$ccinfo  = JRequest::getVar('ccinfo');
-		$task    = JRequest::getVar('task');
+		$Itemid  = JRequest::getInt('Itemid');
+		$issplit = JRequest::getBool('issplit');
+		$ccinfo  = JRequest::getInt('ccinfo');
+		$task    = JRequest::getCmd('task');
 
 		$model   = $this->getModel('checkout');
 		$session = JFactory::getSession();
@@ -38,7 +38,7 @@ class checkoutViewcheckout extends JView
 			$session->set('issplit', $issplit);
 		}
 
-		$payment_method_id = JRequest::getVar('payment_method_id');
+		$payment_method_id = JRequest::getCmd('payment_method_id');
 		$users_info_id     = JRequest::getInt('users_info_id');
 		$auth              = $session->get('auth');
 
@@ -47,7 +47,7 @@ class checkoutViewcheckout extends JView
 			$users_info_id = $auth['users_info_id'];
 		}
 
-		$shipping_rate_id = JRequest::getVar('shipping_rate_id');
+		$shipping_rate_id = JRequest::getString('shipping_rate_id');
 		$shippingdetail   = explode("|", $shippinghelper->decryptShipping(str_replace(" ", "+", $shipping_rate_id)));
 
 		if (count($shippingdetail) < 4)

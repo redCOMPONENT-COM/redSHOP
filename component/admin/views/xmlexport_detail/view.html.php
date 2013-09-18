@@ -146,8 +146,6 @@ class xmlexport_detailVIEWxmlexport_detail extends JView
 		$lists['use_to_all_users']      = JHTML::_('select.booleanlist', 'use_to_all_users', 'class="inputbox"', $detail->use_to_all_users);
 		$categoryData                   = $model->getCategoryList();
 		$detail->xmlexport_on_category  = explode(',', $detail->xmlexport_on_category);
-		$tmp                            = new stdClass;
-		$tmp                            = array_merge($tmp, $detail->xmlexport_on_category);
 		$lists['xmlexport_on_category'] = JHTML::_('select.genericlist', $categoryData, 'xmlexport_on_category[]',
 			'class="inputbox" multiple="multiple" ', 'value', 'text', $detail->xmlexport_on_category
 		);

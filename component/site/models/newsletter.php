@@ -31,7 +31,7 @@ class newsletterModelnewsletter extends JModel
 	{
 		parent::__construct();
 
-		$this->_db           = JFactory::getDBO();
+		$this->_db           = JFactory::getDbo();
 		$this->_table_prefix = '#__redshop_';
 		$sub_id              = JRequest::getInt('sid', '', 'request');
 
@@ -49,7 +49,7 @@ class newsletterModelnewsletter extends JModel
 
 		if ($user->id)
 		{
-			$and .= "AND `user_id`='" . $user->id . "' ";
+			$and .= "AND `user_id` = " . (int) $user->id . " ";
 			$email = $user->email;
 		}
 
@@ -62,8 +62,8 @@ class newsletterModelnewsletter extends JModel
 		if ($newsletter != 0)
 		{
 			$query = "SELECT subscription_id FROM  " . $this->_table_prefix . "newsletter_subscription "
-				. "WHERE email='" . $email . "' "
-				. "AND newsletter_id='" . DEFAULT_NEWSLETTER . "' "
+				. "WHERE email = " . $this->_db->quote($email) . " "
+				. "AND newsletter_id = " . (int) DEFAULT_NEWSLETTER . " "
 				. $and;
 			$this->_db->setQuery($query);
 			$alreadysub = $this->_db->loadResult();
@@ -86,7 +86,7 @@ class newsletterModelnewsletter extends JModel
 	public function confirmsubscribe($sub_id)
 	{
 		$app = JFactory::getApplication();
-		$query = "UPDATE `" . $this->_table_prefix . "newsletter_subscription` SET `published` = '1' WHERE subscription_id = '" . $sub_id . "' ";
+		$query = "UPDATE `" . $this->_table_prefix . "newsletter_subscription` SET `published` = '1' WHERE subscription_id = '" . (int) $sub_id . "' ";
 		$this->_db->setQuery($query);
 		$this->_db->query();
 		$url  = JURI::root();

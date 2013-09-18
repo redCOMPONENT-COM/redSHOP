@@ -18,23 +18,23 @@ include_once $adminpath . '/helpers/shipping.php';
 JHTML::_('behavior.tooltip');
 JHTMLBehavior::modal();
 
-$dispatcher = JDispatcher::getInstance();
+$dispatcher    = JDispatcher::getInstance();
 $producthelper = new producthelper;
-$objshipping = new shipping;
-$redhelper = new redhelper;
-$carthelper = new rsCarthelper;
-$redTemplate = new Redtemplate;
+$objshipping   = new shipping;
+$redhelper     = new redhelper;
+$carthelper    = new rsCarthelper;
+$redTemplate   = new Redtemplate;
 
-$url = JURI::base();
-$cart = $this->cart;
-$idx = $cart ['idx'];
-$option = JRequest::getVar('option');
-$model = $this->getModel('cart');
+$url     = JURI::base();
+$cart    = $this->cart;
+$idx     = $cart['idx'];
+$model   = $this->getModel('cart');
 $session = JFactory::getSession();
-$user = JFactory::getUser();
-$print = JRequest::getVar('print');
-$Itemid = $redhelper->getCheckoutItemid();
-//	Define array to store product detail for ajax cart display
+$user    = JFactory::getUser();
+$print   = JRequest::getInt('print');
+$Itemid  = $redhelper->getCheckoutItemid();
+
+// Define array to store product detail for ajax cart display
 $cart_data = $this->data [0]->template_desc;
 
 // Process the product plugin before cart template replace tag
@@ -128,12 +128,12 @@ else
 		$c_link->setScheme('https');
 		$c_link->setHost($uri->getHost());
 
-		$c_link->setPath(JRoute::_('index.php?option=' . $option . '&view=checkout&Itemid=' . $Itemid));
+		$c_link->setPath(JRoute::_('index.php?option=com_redshop&view=checkout&Itemid=' . $Itemid));
 		$link = $c_link->toString();
 	}
 	else
 	{
-		$link = JRoute::_('index.php?option=' . $option . '&view=checkout&Itemid=' . $Itemid);
+		$link = JRoute::_('index.php?option=com_redshop&view=checkout&Itemid=' . $Itemid);
 	}
 
 	$checkout .= '<div class="checkout_button"  style="float:right;">';
@@ -154,7 +154,7 @@ else
 $cart_data = str_replace("{checkout}", $checkout, $cart_data);
 $cart_data = str_replace("{checkout_button}", $checkout, $cart_data);
 
-$qlink = $url . 'index.php?option=' . $option . '&view=quotation&tmpl=component&for=true&return=1&Itemid=' . $Itemid;
+$qlink = $url . 'index.php?option=com_redshop&view=quotation&tmpl=component&for=true&return=1&Itemid=' . $Itemid;
 $quotation_request = '<a href="' . $qlink . '" class="modal" rel="{handler: \'iframe\', size: {x: 570, y: 550}}"><input type=button class="greenbutton" value= "' . JText::_('COM_REDSHOP_REQUEST_QUOTATION') . '" /></a>';
 $cart_data = str_replace("{quotation_request}", $quotation_request, $cart_data);
 /*

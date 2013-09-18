@@ -13,8 +13,7 @@ JHTML::_('behavior.tooltip');
 JHTMLBehavior::modal();
 $url = JURI::base();
 
-$option = JRequest::getVar('option');
-$Itemid = JRequest::getVar('Itemid');
+$Itemid = JRequest::getInt('Itemid');
 $mid = JRequest::getInt('mid');
 $redTemplate = new Redtemplate;
 
@@ -27,7 +26,7 @@ for ($i = 0; $i < count($this->detail); $i++)
 {
 	if ($this->detail[$i]->manufacturer_id == $mid)
 	{
-		$link              = JRoute::_('index.php?option=' . $option . '&view=manufacturer_products&mid=' . $this->detail[$i]->manufacturer_id . '&Itemid=' . $Itemid);
+		$link              = JRoute::_('index.php?option=com_redshop&view=manufacturer_products&mid=' . $this->detail[$i]->manufacturer_id . '&Itemid=' . $Itemid);
 		$manufacturer_name = "<a href='" . $link . "'>" . $this->detail[$i]->manufacturer_name . "</a>";
 
 		$manufacturers_data = str_replace("{manufacturer_name}", $manufacturer_name, $manufacturers_template);

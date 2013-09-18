@@ -8,18 +8,14 @@
  */
 
 defined('_JEXEC') or die('Restricted access');
-$option = JRequest::getVar('option');
-
 
 $document = JFactory::getDocument();
 $document->addStyleSheet("modules/mod_redshop_discount/css/discount.css");
 
-
-$db = JFactory::getDBO();
+$db = JFactory::getDbo();
 
 $query = "SELECT * FROM #__redshop_discount where published = 1 order by amount desc";
 $db->setQuery($query);
 $data = $db->LoadObjectList();
-
 
 require JModuleHelper::getLayoutPath('mod_redshop_discount');

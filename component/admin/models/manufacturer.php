@@ -92,19 +92,20 @@ class manufacturerModelmanufacturer extends JModel
 
 	public function _buildContentOrderBy()
 	{
+		$db  = JFactory::getDbo();
 		$app = JFactory::getApplication();
 
 		$filter_order = $app->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'm.ordering');
 		$filter_order_Dir = $app->getUserStateFromRequest($this->_context . 'filter_order_Dir', 'filter_order_Dir', '');
 
-		$orderby = ' ORDER BY ' . $filter_order . ' ' . $filter_order_Dir;
+		$orderby = ' ORDER BY ' . $db->escape($filter_order . ' ' . $filter_order_Dir);
 
 		return $orderby;
 	}
 
 	public function getMediaId($mid)
 	{
-		$database = JFactory::getDBO();
+		$database = JFactory::getDbo();
 
 		$query = ' SELECT media_id '
 			. ' FROM ' . $this->_table_prefix . 'media  WHERE media_section="manufacturer" AND section_id = ' . $mid;
@@ -118,7 +119,7 @@ class manufacturerModelmanufacturer extends JModel
 	{
 		$app = JFactory::getApplication();
 
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$row =& $this->getTable('manufacturer_detail');
 
 		$total = count($cid);

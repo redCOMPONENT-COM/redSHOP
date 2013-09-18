@@ -63,7 +63,7 @@ class plgRedshop_paymentrs_payment_dibsv2 extends JPlugin
 		$dibs_hmac = new dibs_hmac;
 
 		JPlugin::loadLanguage('com_redshop');
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 
 		$verify_status = $this->_params->get('verify_status', '');
 		$invalid_status = $this->_params->get('invalid_status', '');
@@ -111,11 +111,11 @@ class plgRedshop_paymentrs_payment_dibsv2 extends JPlugin
 
 	public function orderPaymentNotYetUpdated($dbConn, $order_id, $tid)
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$res = false;
 		$query = "SELECT COUNT(*) `qty` FROM `" . $this->_table_prefix . "order_payment` WHERE `order_id` = '"
 			. $db->getEscaped($order_id) . "' and order_payment_trans_id = '" . $db->getEscaped($tid) . "'";
-		$db->SetQuery($query);
+		$db->setQuery($query);
 		$order_payment = $db->loadResult();
 
 		if ($order_payment == 0)
@@ -133,7 +133,7 @@ class plgRedshop_paymentrs_payment_dibsv2 extends JPlugin
 			return;
 		}
 
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		JPlugin::loadLanguage('com_redshop');
 		$order_id = $data['order_id'];
 		$dibsurl = "https://payment.architrade.com/cgi-bin/capture.cgi?";

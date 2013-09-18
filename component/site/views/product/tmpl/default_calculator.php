@@ -13,7 +13,7 @@ $rsCarthelper = new rsCarthelper;
 
 $product_id = JRequest::getInt('pid', 0);
 
-$Itemid = JRequest::getVar('Itemid');
+$Itemid = JRequest::getInt('Itemid');
 $url    = JURI::base();
 
 // Get Model

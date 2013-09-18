@@ -22,7 +22,7 @@ class JFormFieldRedshopcategory extends JFormField
 
 	protected function getInput()
 	{
-		$db           = JFactory::getDBO();
+		$db           = JFactory::getDbo();
 		$this->_cats  = array();
 		$name         = $this->name;
 		$control_name = $this->name;
@@ -39,10 +39,10 @@ class JFormFieldRedshopcategory extends JFormField
 	function getCategoryListArray($category_id = "", $cid = '0', $level = '0')
 	{
 
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$level++;
 
-		$and = " AND cx.category_parent_id='$cid' ";
+		$and = " AND cx.category_parent_id=". (int) $cid;
 
 		$q = "SELECT c.category_id, cx.category_child_id, cx.category_parent_id "
 			. ",c.category_name,c.category_description,c.published,ordering "

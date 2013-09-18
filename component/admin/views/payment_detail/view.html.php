@@ -15,7 +15,7 @@ class payment_detailViewpayment_detail extends JView
 {
 	public function display($tpl = null)
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_TEMPLATES_MANAGEMET'), 'redshop_payment48');
 		JSubMenuHelper::addEntry(JText::_('COM_REDSHOP_REDSHOP'), 'index.php?option=com_redshop', true);

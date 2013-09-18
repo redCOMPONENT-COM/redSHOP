@@ -82,11 +82,13 @@ class shippingModelShipping extends JModel
 
 	public function _buildContentOrderBy()
 	{
+		$db  = JFactory::getDbo();
 		$app = JFactory::getApplication();
 
 		$filter_order = $app->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'ordering');
 		$filter_order_Dir = $app->getUserStateFromRequest($this->_context . 'filter_order_Dir', 'filter_order_Dir', '');
-		$orderby = ' ORDER BY ' . $filter_order . ' ' . $filter_order_Dir;
+
+		$orderby = ' ORDER BY ' . $db->escape($filter_order . ' ' . $filter_order_Dir);
 
 		return $orderby;
 	}
@@ -95,7 +97,7 @@ class shippingModelShipping extends JModel
 	{
 		$app = JFactory::getApplication();
 
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$row =& $this->getTable('shipping_detail');
 
 		$total = count($cid);

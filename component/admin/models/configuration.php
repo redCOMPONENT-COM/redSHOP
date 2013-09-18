@@ -672,7 +672,7 @@ class configurationModelconfiguration extends JModel
 
 	public function newsletterEntry($data)
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$newsletter_id = $data['default_newsletter'];
 		$mailfrom = $data['news_mail_from'];
 		$mailfromname = $data['news_from_name'];
@@ -889,7 +889,7 @@ class configurationModelconfiguration extends JModel
 	/* Get all installed module for redshop*/
 	public function getinstalledmodule()
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$query = "SELECT * FROM #__extensions WHERE `element` LIKE '%mod_redshop%'";
 		$db->setQuery($query);
 		$redshop_modules = $db->loadObjectList();
@@ -900,7 +900,7 @@ class configurationModelconfiguration extends JModel
 	/* Get all installed payment plugins for redshop*/
 	public function getinstalledplugins($secion = 'redshop_payment')
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$query = "SELECT * FROM #__extensions WHERE `folder` = '" . $secion . "' ";
 		$db->setQuery($query);
 		$redshop_plugins = $db->loadObjectList();
@@ -911,7 +911,7 @@ class configurationModelconfiguration extends JModel
 	public function resetTemplate()
 	{
 		$Redtemplate = new Redtemplate;
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$q = "SELECT * FROM #__redshop_template";
 		$db->setQuery($q);
 		$list = $db->loadObjectList();

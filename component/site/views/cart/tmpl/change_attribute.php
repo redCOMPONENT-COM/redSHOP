@@ -20,10 +20,9 @@ $redTemplate   = new Redtemplate;
 
 $cart       = $this->cart;
 $idx        = $cart ['idx'];
-$Itemid     = JRequest::getVar('Itemid');
+$Itemid     = JRequest::getInt('Itemid');
 $cart_index = JRequest::getInt('cart_index');
 $product_id = JRequest::getInt('pid');
-$option     = JRequest::getVar('option');
 $model      = $this->getModel('cart');
 
 $session  = JFactory::getSession();

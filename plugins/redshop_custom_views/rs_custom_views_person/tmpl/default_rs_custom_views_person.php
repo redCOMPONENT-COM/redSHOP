@@ -23,7 +23,7 @@ $popup    = JRequest::getVar('popup');
 
 if ($popup)
 {
-	$db = JFactory::getDBO();
+	$db = JFactory::getDbo();
 	$heading = JText::_('COM_REDSHOP_PRODUCT_ORDERED_PERSON');
 	$print = JText::_('COM_REDSHOP_PRINT');
 	$time = JRequest::getVar('maindate');
