@@ -373,6 +373,8 @@ if (!defined('CLASS_DG'))
 
 	function write_prodgallery_xml_data($cat_arr, $params)
 	{
+		JLoader::import('images', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
+
 		$catid_arr = array();
 
 		for ($i = 0;$i < count($cat_arr);$i++)
@@ -394,15 +396,6 @@ if (!defined('CLASS_DG'))
 		$imageHeight = intval($params->get('imageHeight'));
 		$numbproduct = intval($params->get('numbproduct'));
 		$loadtype    = trim($params->get('loadtype', 'random'));
-		$images_path = trim($params->get('images_path', 'components/com_redshop/helpers/thumb.php?filename=product/'));
-
-		// Enhancement for sef enabled url
-		$parse_url = parse_url($images_path);
-
-		if (!isset($parse_url['host']))
-		{
-			$images_path = JUri::root() . $images_path;
-		}
 
 		switch ($loadtype)
 		{
@@ -495,19 +488,26 @@ if (!defined('CLASS_DG'))
 			}
 
 			$curr_link = JRoute::_('index.php?option=com_redshop&amp;view=product&amp;pid=' . $rows[$k]->product_id . '&amp;Itemid=' . $Itemid, true);
-			$imgpath = $images_path;
+
+			$imgpath = RedShopHelperImages::getImagePath(
+										$rows[$i]->product_full_image,
+										'',
+										'thumb',
+										'product',
+										$imageWidth,
+										$imageHeight,
+										USE_IMAGE_SIZE_SWAPPING
+									);
 			$pname = $rows[$k]->product_name;
-			$timage = $rows[$k]->product_full_image . "&amp;newxsize=" . $imageWidth . "&amp;newysize=" . $imageHeight . "&amp;swap=0";
 
 			if (!is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $rows[$k]->product_full_image))
 			{
-				$imgpath = REDSHOP_FRONT_IMAGES_ABSPATH;
-				$timage = "noimage.jpg";
+				$imgpath = REDSHOP_FRONT_IMAGES_ABSPATH . 'noimage.jpg';
 			}
 
 			$xml_data .= '<item>
 			<link>' . $curr_link . '</link>
-			<image>' . $imgpath . $timage . '</image>
+			<image>' . $imgpath . '</image>
 			<title>' . urlencode($pname) . $price_txt . '</title>
 			</item>';
 		}

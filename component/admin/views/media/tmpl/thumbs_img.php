@@ -8,13 +8,26 @@
  */
 defined('_JEXEC') or die;
 
-$fid = JRequest::getVar('fid', '');
-$fsec = JRequest::getVar('fsec', '');
+$fid    = JRequest::getVar('fid', '');
+$fsec   = JRequest::getVar('fsec', '');
 $folder = JRequest::getVar('folder', '');
+
 if ($folder == '')
+{
 	$thumb_path = JURI::root() . "components/com_redshop/assets/images/" . $this->_tmp_img->path_relative;
+}
 else
-	$thumb_path = JURI::root() . "components/com_redshop/helpers/thumb.php?filename=" . $this->_tmp_img->path_relative . "&newxsize=" . $this->_tmp_img->width_60 . "&newysize=" . $this->_tmp_img->height_60;
+{
+	$thumb_path = RedShopHelperImages::getImagePath(
+					basename($this->_tmp_img->path_relative),
+					'',
+					'thumb',
+					$folder,
+					$this->_tmp_img->width_60,
+					$this->_tmp_img->height_60,
+					USE_IMAGE_SIZE_SWAPPING
+				);
+}
 ?>
 <div class="imgOutline">
 	<div class="imgTotal">

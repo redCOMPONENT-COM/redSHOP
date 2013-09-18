@@ -109,7 +109,16 @@ if ($user->id != 0)
 
 								if ($row->product_full_image)
 								{
-									$thum_image = "<div style='width:" . THUMB_WIDTH . "px;height:" . THUMB_HEIGHT . "px;margin-left:20px;' ><a href='" . $link . "' title=''><img src='" . $url . "/components/com_redshop/helpers/thumb.php?filename=product/" . $row->product_full_image . "&newxsize=" . THUMB_WIDTH . "&newysize=" . THUMB_HEIGHT . "&swap=" . USE_IMAGE_SIZE_SWAPPING . "'></a></div>";
+									$thumbUrl = RedShopHelperImages::getImagePath(
+													$row->product_full_image,
+													'',
+													'thumb',
+													'product',
+													THUMB_WIDTH,
+													THUMB_HEIGHT,
+													USE_IMAGE_SIZE_SWAPPING
+												);
+									$thum_image = "<div style='width:" . THUMB_WIDTH . "px;height:" . THUMB_HEIGHT . "px;margin-left:20px;' ><a href='" . $link . "' title=''><img src='" . $thumbUrl . "'></a></div>";
 									$data_add .= $thum_image;
 								}
 

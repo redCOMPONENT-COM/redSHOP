@@ -4018,17 +4018,28 @@ class producthelper
 
 				if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $accessory_main_image))
 				{
+					$thumbUrl = RedShopHelperImages::getImagePath(
+									$accessory_main_image,
+									'',
+									'thumb',
+									'product',
+									$aw_thumb,
+									$ah_thumb,
+									USE_IMAGE_SIZE_SWAPPING
+								);
+
 					if (ACCESSORY_PRODUCT_IN_LIGHTBOX == 1)
+					{
 						$accessorymainimage = "<a id='a_main_image' href='" . REDSHOP_FRONT_IMAGES_ABSPATH
 							. "product/" . $accessory_main_image
-							. "' title='' class=\"modal\" rel=\"{handler: 'image', size: {}}\"><img id='main_image' class='redAttributeImage' src='"
-							. $url . "components/com_redshop/helpers/thumb.php?filename=product/" . $accessory_main_image
-							. "&newxsize=" . $aw_thumb . "&newysize=" . $ah_thumb . "&swap=" . USE_IMAGE_SIZE_SWAPPING
-							. "' /></a>";
+							. "' title='' class=\"modal\" rel=\"{handler: 'image', size: {}}\">"
+							. "<img id='main_image' class='redAttributeImage' src='" . $thumbUrl . "' /></a>";
+					}
 					else
-						$accessorymainimage = "<img id='main_image' class='redAttributeImage' src='" . $url
-							. "components/com_redshop/helpers/thumb.php?filename=product/" . $accessory_main_image
-							. "&newxsize=" . $aw_thumb . "&newysize=" . $ah_thumb . "&swap=" . USE_IMAGE_SIZE_SWAPPING . "' />";
+					{
+						$accessorymainimage = "<img id='main_image' class='redAttributeImage' src='" . $thumbUrl . "' />";
+					}
+
 				}
 
 				$accessory_middle = str_replace($aimg_tag, $accessorymainimage, $accessory_middle);
@@ -4122,31 +4133,69 @@ class producthelper
 					if (ACCESSORY_PRODUCT_IN_LIGHTBOX == 1)
 					{
 						if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $accessory_image))
+						{
+							$thumbUrl = RedShopHelperImages::getImagePath(
+											$accessory_image,
+											'',
+											'thumb',
+											'product',
+											$aw_thumb,
+											$ah_thumb,
+											USE_IMAGE_SIZE_SWAPPING
+										);
 							$accessoryimage = "<a id='a_main_image" . $accessory [$a]->accessory_id
 								. "' href='" . REDSHOP_FRONT_IMAGES_ABSPATH . "product/" . $accessory_image
-								. "' title='' class=\"modal\" rel=\"{handler: 'image', size: {}}\"><img id='main_image"
-								. $accessory [$a]->accessory_id . "' class='redAttributeImage' src='"
-								. $url . "/components/com_redshop/helpers/thumb.php?filename=product/"
-								. $accessory_image . "&newxsize=" . $aw_thumb . "&newysize=" . $ah_thumb . "&swap="
-								. USE_IMAGE_SIZE_SWAPPING . "' /></a>";
+								. "' title='' class=\"modal\" rel=\"{handler: 'image', size: {}}\">"
+								. "<img id='main_image" . $accessory [$a]->accessory_id . "' class='redAttributeImage' src='" . $thumbUrl . "' />"
+								. "</a>";
+						}
 						else
+						{
+							$thumbUrl = RedShopHelperImages::getImagePath(
+											'noimage.jpg',
+											'',
+											'thumb',
+											'',
+											$aw_thumb,
+											$ah_thumb,
+											USE_IMAGE_SIZE_SWAPPING
+										);
 							$accessoryimage = "<a id='a_main_image" . $accessory [$a]->accessory_id
 								. "' href='" . REDSHOP_FRONT_IMAGES_ABSPATH
-								. "noimage.jpg' title='' class=\"modal\" rel=\"{handler: 'image', size: {}}\"><img id='main_image"
-								. $accessory [$a]->accessory_id . "' class='redAttributeImage' src='"
-								. $url . "/components/com_redshop/helpers/thumb.php?filename=noimage.jpg&newxsize="
-								. $aw_thumb . "&newysize=" . $ah_thumb . "&swap=" . USE_IMAGE_SIZE_SWAPPING . "' /></a>";
+								. "noimage.jpg' title='' class=\"modal\" rel=\"{handler: 'image', size: {}}\">"
+								. "<img id='main_image" . $accessory [$a]->accessory_id . "' class='redAttributeImage' src='" . $thumbUrl . "' /></a>";
+						}
 					}
 					else
 					{
 						if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $accessory_image))
+						{
+							$thumbUrl = RedShopHelperImages::getImagePath(
+											$accessory_image,
+											'',
+											'thumb',
+											'product',
+											$aw_thumb,
+											$ah_thumb,
+											USE_IMAGE_SIZE_SWAPPING
+										);
 							$accessoryimage = "<a href='$acc_prod_link'><img id='main_image" . $accessory [$a]->accessory_id
-								. "' class='redAttributeImage' src='" . $url . "/components/com_redshop/helpers/thumb.php?filename=product/" . $accessory_image . "&newxsize=" . $aw_thumb . "&newysize=" . $ah_thumb . "&swap=" . USE_IMAGE_SIZE_SWAPPING . "' /></a>";
+								. "' class='redAttributeImage' src='" . $thumbUrl . "' /></a>";
+						}
 						else
+						{
+							$thumbUrl = RedShopHelperImages::getImagePath(
+											'noimage.jpg',
+											'',
+											'thumb',
+											'',
+											$aw_thumb,
+											$ah_thumb,
+											USE_IMAGE_SIZE_SWAPPING
+										);
 							$accessoryimage = "<a href='$acc_prod_link'><img id='main_image" . $accessory [$a]->accessory_id
-								. "' class='redAttributeImage' src='"
-								. $url . "/components/com_redshop/helpers/thumb.php?filename=noimage.jpg&newxsize="
-								. $aw_thumb . "&newysize=" . $ah_thumb . "&swap=" . USE_IMAGE_SIZE_SWAPPING . "' /></a>";
+								. "' class='redAttributeImage' src='" . $thumbUrl. "' /></a>";
+						}
 					}
 
 					$accessory_div               = str_replace($aimg_tag, $accessoryimage . $hidden_thumb_image, $accessory_div);
@@ -4451,10 +4500,16 @@ class producthelper
 						if ($property[$i]->property_image && is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product_attributes/"
 							. $property[$i]->property_image))
 						{
-							$property_image = "<img title='" . urldecode($property[$i]->property_name)
-								. "' src='" . $url . "components/com_redshop/helpers/thumb.php?filename=product_attributes/"
-								. $property[$i]->property_image . "&newxsize=" . $mpw_thumb . "&newysize=" . $mph_thumb
-								. "&swap=" . USE_IMAGE_SIZE_SWAPPING . "'>";
+							$thumbUrl = RedShopHelperImages::getImagePath(
+											$property[$i]->property_image,
+											'',
+											'thumb',
+											'product_attributes',
+											$mpw_thumb,
+											$mph_thumb,
+											USE_IMAGE_SIZE_SWAPPING
+										);
+							$property_image = "<img title='" . urldecode($property[$i]->property_name) . "' src='" . $thumbUrl . "'>";
 						}
 
 						$property_data = str_replace("{property_image}", $property_image, $property_data);
@@ -4811,21 +4866,26 @@ class producthelper
 							{
 								$borderstyle = ($selectedproperty == $property[$i]->value) ? " 1px solid " : "";
 
+								$thumbUrl = RedShopHelperImages::getImagePath(
+											$property[$i]->property_image,
+											'',
+											'thumb',
+											'product_attributes',
+											$mpw_thumb,
+											$mph_thumb,
+											USE_IMAGE_SIZE_SWAPPING
+										);
+
 								$property_woscrollerdiv .= "<div class='property_image_inner' id='" . $propertyid
 									. "_propimg_" . $property[$i]->value . "'><a onclick='setPropImage(\"" . $product_id
 									. "\",\"" . $propertyid . "\",\"" . $property[$i]->value . "\");changePropertyDropdown(\""
 									. $product_id . "\",\"" . $accessory_id . "\",\"" . $relproduct_id . "\",\""
 									. $attributes [$a]->value . "\",\"" . $property[$i]->value . "\",\"" . $mpw_thumb
 									. "\",\"" . $mph_thumb
-									. "\");'><img class='redAttributeImage' width='50' height='50' src='"
-									. $url . "components/com_redshop/helpers/thumb.php?filename=product_attributes/"
-									. $property[$i]->property_image . "&newxsize=" . $mpw_thumb . "&newysize=" . $mph_thumb
-									. "&swap=" . USE_IMAGE_SIZE_SWAPPING . "'></a></div>";
+									. "\");'><img class='redAttributeImage' width='50' height='50' src='" . $thumbUrl . "'></a></div>";
+
 								$property_scrollerdiv .= "isFlowers" . $commonid . ".addThumbnail(\""
-									. $url . "components/com_redshop/helpers/thumb.php?filename=product_attributes/"
-									. $property[$i]->property_image . "&newxsize=" . ATTRIBUTE_SCROLLER_THUMB_WIDTH
-									. "&newysize=" . ATTRIBUTE_SCROLLER_THUMB_HEIGHT . "&swap=" . USE_IMAGE_SIZE_SWAPPING
-									. "\",\"javascript:isFlowers" . $commonid . ".scrollImageCenter('" . $i . "');setPropImage('"
+									. $thumbUrl . "\",\"javascript:isFlowers" . $commonid . ".scrollImageCenter('" . $i . "');setPropImage('"
 									. $product_id . "','" . $propertyid . "','" . $property[$i]->value . "');changePropertyDropdown('"
 									. $product_id . "','" . $accessory_id . "','" . $relproduct_id . "','"
 									. $attributes [$a]->value . "','" . $property[$i]->value . "','" . $mpw_thumb . "','"
@@ -5253,24 +5313,27 @@ class producthelper
 						if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "subcolor/" . $subproperty[$i]->subattribute_color_image))
 						{
 							$borderstyle    = ($selectedsubproperty == $subproperty[$i]->value) ? " 1px solid " : "";
-							$subprop_Arry[] = $url . "components/com_redshop/helpers/thumb.php?filename=subcolor/"
-								. $subproperty[$i]->subattribute_color_image . "&newxsize=" . ATTRIBUTE_SCROLLER_THUMB_WIDTH
-								. "&newysize=" . ATTRIBUTE_SCROLLER_THUMB_HEIGHT . "&swap=" . USE_IMAGE_SIZE_SWAPPING . "`_`"
-								. $subproperty[$i]->value;
+							$thumbUrl       = RedShopHelperImages::getImagePath(
+												$subproperty[$i]->subattribute_color_image,
+												'',
+												'thumb',
+												'subcolor',
+												ATTRIBUTE_SCROLLER_THUMB_WIDTH,
+												ATTRIBUTE_SCROLLER_THUMB_HEIGHT,
+												USE_IMAGE_SIZE_SWAPPING
+											);
+							$subprop_Arry[] = $thumbUrl;
+
 							$subproperty_woscrollerdiv .= "<div id='" . $subpropertyid . "_subpropimg_"
 								. $subproperty[$i]->value . "' class='subproperty_image_inner'><a onclick='setSubpropImage(\""
 								. $product_id . "\",\"" . $subpropertyid . "\",\"" . $subproperty[$i]->value
 								. "\");calculateTotalPrice(\"" . $product_id . "\",\"" . $relatedprd_id
 								. "\");displayAdditionalImage(\"" . $product_id . "\",\"" . $accessory_id . "\",\""
 								. $relatedprd_id . "\",\"" . $property_id . "\",\"" . $subproperty[$i]->value
-								. "\");'><img class='redAttributeImage'  src='" . $url
-								. "/components/com_redshop/helpers/thumb.php?filename=subcolor/"
-								. $subproperty[$i]->subattribute_color_image . "&newxsize=" . $mpw_thumb . "&newysize="
-								. $mph_thumb . "&swap=" . USE_IMAGE_SIZE_SWAPPING . "'></a></div>";
+								. "\");'><img class='redAttributeImage'  src='" . $thumbUrl . "'></a></div>";
+
 							$subproperty_scrollerdiv .= "isFlowers" . $commonid . ".addThumbnail(\""
-								. $url . "components/com_redshop/helpers/thumb.php?filename=subcolor/"
-								. $subproperty[$i]->subattribute_color_image . "&newxsize=" . $mpw_thumb
-								. "&newysize=" . $mph_thumb . "&swap=" . USE_IMAGE_SIZE_SWAPPING . "\",\"javascript:isFlowers"
+								. $thumbUrl . "\",\"javascript:isFlowers"
 								. $commonid . ".scrollImageCenter('" . $i . "');setSubpropImage('" . $product_id . "','"
 								. $subpropertyid . "','" . $subproperty[$i]->value . "');calculateTotalPrice('"
 								. $product_id . "','" . $relatedprd_id . "');displayAdditionalImage('" . $product_id
@@ -8535,14 +8598,21 @@ class producthelper
 
 			if (count($stockamountList) > 0)
 			{
+				$thumbUrl = RedShopHelperImages::getImagePath(
+								$stockamountList[0]->stock_amount_image,
+								'',
+								'thumb',
+								'stockroom',
+								DEFAULT_STOCKAMOUNT_THUMB_WIDTH,
+								DEFAULT_STOCKAMOUNT_THUMB_HEIGHT,
+								USE_IMAGE_SIZE_SWAPPING
+							);
+
 				$stockamountImage = '<a class="imgtooltip"><span>';
 				$stockamountImage .= '<div class="spnheader">' . JText::_('COM_REDSHOP_STOCK_AMOUNT') . '</div>';
 				$stockamountImage .= '<div class="spnalttext" id="stockImageTooltip' . $product_id . '">'
 					. $stockamountList[0]->stock_amount_image_tooltip . '</div></span>';
-				$stockamountImage .= '<img src="' . JURI::base()
-					. 'components/com_redshop/helpers/thumb.php?filename=stockroom/'
-					. $stockamountList[0]->stock_amount_image . '&newxsize=' . DEFAULT_STOCKAMOUNT_THUMB_WIDTH
-					. '&newysize=' . DEFAULT_STOCKAMOUNT_THUMB_HEIGHT . '&swap=' . USE_IMAGE_SIZE_SWAPPING . '" alt="'
+				$stockamountImage .= '<img src="' . $thumbUrl . '" alt="'
 					. $stockamountList[0]->stock_amount_image_tooltip . '" id="stockImage' . $product_id . '" /></a>';
 			}
 
@@ -8868,8 +8938,15 @@ class producthelper
 			}
 			else
 			{
-				$productmainimg = $url . "components/com_redshop/helpers/thumb.php?filename=$type/" . $imagename
-					. "&newxsize=" . $pw_thumb . "&newysize=" . $ph_thumb . "&swap=" . USE_IMAGE_SIZE_SWAPPING;
+				$productmainimg = RedShopHelperImages::getImagePath(
+									$imagename,
+									'',
+									'thumb',
+									$type,
+									$pw_thumb,
+									$ph_thumb,
+									USE_IMAGE_SIZE_SWAPPING
+								);
 			}
 
 			if ((WATERMARK_PRODUCT_IMAGE) && $type == 'product')
@@ -9064,13 +9141,26 @@ class producthelper
 				}
 				else
 				{
-					$pimg          = $url . "components/com_redshop/helpers/thumb.php?filename=product/" . $thumb
-						. "&newxsize=" . $mpw_thumb . "&newysize=" . $mph_thumb . "&swap=" . USE_IMAGE_SIZE_SWAPPING;
-					$linkimage     = REDSHOP_FRONT_IMAGES_ABSPATH . "product/" . $thumb;
-					$hoverimg_path = $url . "components/com_redshop/helpers/thumb.php?filename=product/" . $thumb
-						. "&newxsize=" . ADDITIONAL_HOVER_IMAGE_WIDTH . "&newysize=" . ADDITIONAL_HOVER_IMAGE_HEIGHT
-						. "&swap=" . USE_IMAGE_SIZE_SWAPPING;
+					$pimg = RedShopHelperImages::getImagePath(
+								$thumb,
+								'',
+								'thumb',
+								'product',
+								$mpw_thumb,
+								$mph_thumb,
+								USE_IMAGE_SIZE_SWAPPING
+							);
+					$linkimage = REDSHOP_FRONT_IMAGES_ABSPATH . "product/" . $thumb;
 
+					$hoverimg_path = RedShopHelperImages::getImagePath(
+										$thumb,
+										'',
+										'thumb',
+										'product',
+										ADDITIONAL_HOVER_IMAGE_WIDTH,
+										ADDITIONAL_HOVER_IMAGE_HEIGHT,
+										USE_IMAGE_SIZE_SWAPPING
+									);
 				}
 
 				if (PRODUCT_ADDIMG_IS_LIGHTBOX)
@@ -9085,10 +9175,22 @@ class producthelper
 				else
 				{
 					if (WATERMARK_PRODUCT_ADDITIONAL_IMAGE)
+					{
 						$img_path = $redhelper->watermark('product', $thumb, $pw_thumb, $ph_thumb, WATERMARK_PRODUCT_ADDITIONAL_IMAGE, '0');
+					}
 					else
-						$img_path = $url . "components/com_redshop/helpers/thumb.php?filename=product/" . $thumb
-							. "&newxsize=" . $pw_thumb . "&newysize=" . $ph_thumb . "&swap=" . USE_IMAGE_SIZE_SWAPPING;
+					{
+						$img_path = RedShopHelperImages::getImagePath(
+										$thumb,
+										'',
+										'thumb',
+										'product',
+										$pw_thumb,
+										$ph_thumb,
+										USE_IMAGE_SIZE_SWAPPING
+									);
+					}
+
 					$filename_thumb = REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $product->product_thumb_image;
 					$filename_org   = REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $media_image [$m]->product_full_image;
 
@@ -9106,11 +9208,22 @@ class producthelper
 					}
 
 					if (WATERMARK_PRODUCT_THUMB_IMAGE)
+					{
 						$img_path_org = $redhelper->watermark('product', $thumb_original, $pw_thumb, $ph_thumb, WATERMARK_PRODUCT_THUMB_IMAGE, '0');
+					}
 					else
-						$img_path_org = $url . "components/" . $option . "/helpers/thumb.php?filename=product/"
-							. $thumb_original . "&newxsize=" . $pw_thumb . "&newysize=" . $ph_thumb . "&swap="
-							. USE_IMAGE_SIZE_SWAPPING;
+					{
+						$img_path_org = RedShopHelperImages::getImagePath(
+										$thumb_original,
+										'',
+										'thumb',
+										'product',
+										$pw_thumb,
+										$ph_thumb,
+										USE_IMAGE_SIZE_SWAPPING
+									);
+					}
+
 					$prodadditionImg_div_start = "<div class='additional_image' onmouseover='display_image_add(\""
 						. $img_path . "\"," . $product_id . ");' onmouseout='display_image_add_out(\"" . $img_path_org
 						. "\"," . $product_id . ");'>";
@@ -9165,57 +9278,99 @@ class producthelper
 					{
 						if (PRODUCT_ADDIMG_IS_LIGHTBOX)
 						{
+							$thumbUrl = RedShopHelperImages::getImagePath(
+											$thumb,
+											'',
+											'thumb',
+											'property',
+											$mpw_thumb,
+											$mph_thumb,
+											USE_IMAGE_SIZE_SWAPPING
+										);
+
 							$propadditionImg_div_start = "<div class='additional_image'><a href='"
 								. REDSHOP_FRONT_IMAGES_ABSPATH . "property/" . $thumb . "' title='" . $alttext
 								. "' rel=\"myallimg\">";
 							$propadditionImg_div_end   = "</a></div>";
 							$propadditionImg .= $propadditionImg_div_start;
-							$propadditionImg .= "<img src='" . $url
-								. "components/com_redshop/helpers/thumb.php?filename=property/" . $thumb . "&newxsize="
-								. $mpw_thumb . "&newysize=" . $mph_thumb . "&swap=" . USE_IMAGE_SIZE_SWAPPING . "' alt='"
-								. $alttext . "' title='" . $alttext . "'>";
+							$propadditionImg .= "<img src='" . $thumbUrl . "' alt='" . $alttext . "' title='" . $alttext . "'>";
 							$prophrefend = "";
 						}
 						else
 						{
-							$imgs_path = $url . "components/com_redshop/helpers/thumb.php?filename=property/" . $thumb
-								. "&newxsize=" . $pw_thumb . "&newysize=" . $ph_thumb . "&swap=" . USE_IMAGE_SIZE_SWAPPING;
+							$imgs_path = RedShopHelperImages::getImagePath(
+											$thumb,
+											'',
+											'thumb',
+											'property',
+											$pw_thumb,
+											$ph_thumb,
+											USE_IMAGE_SIZE_SWAPPING
+										);
 
 							$property_filename_org = REDSHOP_FRONT_IMAGES_RELPATH . "property/" . $imagename;
 
 							if (is_file($property_filename_org))
 							{
 								$property_thumb_original = $imagename;
-								$property_img_path_org   = $url . "components/" . $option
-									. "/helpers/thumb.php?filename=property/" . $property_thumb_original . "&newxsize="
-									. $pw_thumb . "&newysize=" . $ph_thumb . "&swap=" . USE_IMAGE_SIZE_SWAPPING;
+
+								$property_img_path_org = RedShopHelperImages::getImagePath(
+															$property_thumb_original,
+															'',
+															'thumb',
+															'property',
+															$pw_thumb,
+															$ph_thumb,
+															USE_IMAGE_SIZE_SWAPPING
+														);
 							}
 							else
 							{
 								$property_thumb_original = $thumb_original;
-								$property_img_path_org   = $url . "components/" . $option
-									. "/helpers/thumb.php?filename=product/" . $property_thumb_original . "&newxsize="
-									. $pw_thumb . "&newysize=" . $ph_thumb . "&swap=" . USE_IMAGE_SIZE_SWAPPING;
+
+								$property_img_path_org = RedShopHelperImages::getImagePath(
+															$property_thumb_original,
+															'',
+															'thumb',
+															'product',
+															$pw_thumb,
+															$ph_thumb,
+															USE_IMAGE_SIZE_SWAPPING
+														);
 							}
 
 							$propadditionImg_div_start = "<div class='additional_image' onmouseover='display_image_add(\""
 								. $imgs_path . "\"," . $product_id . ");' onmouseout='display_image_add_out(\""
 								. $property_img_path_org . "\"," . $product_id . ");'>";
 							$propadditionImg_div_end   = "</div>";
+
+							$thumbUrl = RedShopHelperImages::getImagePath(
+											$thumb,
+											'',
+											'thumb',
+											'property',
+											$mpw_thumb,
+											$mph_thumb,
+											USE_IMAGE_SIZE_SWAPPING
+										);
+
 							$propadditionImg .= $propadditionImg_div_start;
-							$propadditionImg .= "<a href='javascript:void(0)'>" . "<img src='" . $url
-								. "components/com_redshop/helpers/thumb.php?filename=property/" . $thumb . "&newxsize="
-								. $mpw_thumb . "&newysize=" . $mph_thumb . "&swap=" . USE_IMAGE_SIZE_SWAPPING
-								. "' alt='" . $alttext . "' title='" . $alttext . "' style='cursor: auto;'>";
+							$propadditionImg .= "<a href='javascript:void(0)'>" . "<img src='" . $thumbUrl . "' alt='" . $alttext . "' title='" . $alttext . "' style='cursor: auto;'>";
 							$prophrefend = "</a>";
 						}
 
 						if (ADDITIONAL_HOVER_IMAGE_ENABLE)
 						{
-							$propadditionImg .= "<img src='" . $url
-								. "components/com_redshop/helpers/thumb.php?filename=property/" . $thumb . "&newxsize="
-								. ADDITIONAL_HOVER_IMAGE_WIDTH . "&newysize=" . ADDITIONAL_HOVER_IMAGE_HEIGHT . "&swap="
-								. USE_IMAGE_SIZE_SWAPPING . "' alt='" . $alttext . "' title='" . $alttext
+							$thumbUrl = RedShopHelperImages::getImagePath(
+											$thumb,
+											'',
+											'thumb',
+											'property',
+											ADDITIONAL_HOVER_IMAGE_WIDTH,
+											ADDITIONAL_HOVER_IMAGE_HEIGHT,
+											USE_IMAGE_SIZE_SWAPPING
+										);
+							$propadditionImg .= "<img src='" . $thumbUrl . "' alt='" . $alttext . "' title='" . $alttext
 								. "' class='redImagepreview'>";
 						}
 
@@ -9253,25 +9408,46 @@ class producthelper
 							. REDSHOP_FRONT_IMAGES_ABSPATH . $filedir . "/" . $thumb . "' title='" . $alttext
 							. "' rel=\"myallimg\">";
 						$subpropadditionImg_div_end   = "</a></div>";
+
+						$thumbUrl = RedShopHelperImages::getImagePath(
+										$thumb,
+										'',
+										'thumb',
+										$filedir,
+										$mpw_thumb,
+										$mph_thumb,
+										USE_IMAGE_SIZE_SWAPPING
+									);
+
 						$subpropadditionImg .= $subpropadditionImg_div_start;
-						$subpropadditionImg .= "<img src='" . $url . "components/com_redshop/helpers/thumb.php?filename="
-							. $filedir . "/" . $thumb . "&newxsize=" . $mpw_thumb . "&newysize=" . $mph_thumb . "&swap="
-							. USE_IMAGE_SIZE_SWAPPING . "' alt='" . $alttext . "' title='" . $alttext . "'>";
+						$subpropadditionImg .= "<img src='" . $thumbUrl . "' alt='" . $alttext . "' title='" . $alttext . "'>";
 						$subprophrefend = "";
 					}
 					else
 					{
-						$imgs_path                = $url . "components/com_redshop/helpers/thumb.php?filename="
-							. $filedir . "/" . $thumb . "&newxsize=" . $pw_thumb . "&newysize=" . $ph_thumb . "&swap="
-							. USE_IMAGE_SIZE_SWAPPING;
+						$imgs_path = RedShopHelperImages::getImagePath(
+										$thumb,
+										'',
+										'thumb',
+										$filedir,
+										$pw_thumb,
+										$ph_thumb,
+										USE_IMAGE_SIZE_SWAPPING
+									);
 						$subproperty_filename_org = REDSHOP_FRONT_IMAGES_RELPATH . "subproperty/" . $imagename;
 
 						if (is_file($subproperty_filename_org))
 						{
-							$subproperty_thumb_original = $media_image [$m]->subattribute_color_image;
-							$subproperty_img_path_org   = $url . "components/" . $option
-								. "/helpers/thumb.php?filename=subproperty/" . $media_image [$m]->subattribute_color_main_image
-								. "&newxsize=" . $pw_thumb . "&newysize=" . $ph_thumb . "&swap=" . USE_IMAGE_SIZE_SWAPPING;
+							$subproperty_thumb_original = $media_image[$m]->subattribute_color_image;
+							$subproperty_img_path_org = RedShopHelperImages::getImagePath(
+															$subproperty_thumb_original,
+															'',
+															'thumb',
+															'subproperty',
+															$pw_thumb,
+															$ph_thumb,
+															USE_IMAGE_SIZE_SWAPPING
+														);
 						}
 						else
 						{
@@ -9282,19 +9458,35 @@ class producthelper
 							. $imgs_path . "\"," . $product_id . ");' onmouseout='display_image_add_out(\""
 							. $subproperty_img_path_org . "\"," . $product_id . ");' >";
 						$subpropadditionImg_div_end   = "</div>";
+
+						$thumbUrl = RedShopHelperImages::getImagePath(
+										$thumb,
+										'',
+										'thumb',
+										$filedir,
+										$mpw_thumb,
+										$mph_thumb,
+										USE_IMAGE_SIZE_SWAPPING
+									);
+
 						$subpropadditionImg .= $subpropadditionImg_div_start;
-						$subpropadditionImg .= "<a href='javascript:void(0)'>" . "<img src='" . $url
-							. "components/com_redshop/helpers/thumb.php?filename=" . $filedir . "/" . $thumb . "&newxsize="
-							. $mpw_thumb . "&newysize=" . $mph_thumb . "&swap=" . USE_IMAGE_SIZE_SWAPPING . "' alt='"
+						$subpropadditionImg .= "<a href='javascript:void(0)'>" . "<img src='" . $thumbUrl . "' alt='"
 							. $alttext . "' title='" . $alttext . "' style='cursor: auto;'>";
 						$subprophrefend = "</a>";
 					}
 
 					if (ADDITIONAL_HOVER_IMAGE_ENABLE)
 					{
-						$subpropadditionImg .= "<img src='" . $url . "components/com_redshop/helpers/thumb.php?filename="
-							. $filedir . "/" . $thumb . "&newxsize=" . ADDITIONAL_HOVER_IMAGE_WIDTH . "&newysize="
-							. ADDITIONAL_HOVER_IMAGE_HEIGHT . "&swap=" . USE_IMAGE_SIZE_SWAPPING . "' alt='" . $alttext
+						$thumbUrl = RedShopHelperImages::getImagePath(
+										$thumb,
+										'',
+										'thumb',
+										$filedir,
+										ADDITIONAL_HOVER_IMAGE_WIDTH,
+										ADDITIONAL_HOVER_IMAGE_HEIGHT,
+										USE_IMAGE_SIZE_SWAPPING
+									);
+						$subpropadditionImg .= "<img src='" . $thumbUrl . "' alt='" . $alttext
 							. "' title='" . $alttext . "' class='redImagepreview'>";
 					}
 
