@@ -120,7 +120,17 @@ elseif (isset($compare['idx']) && $compare['idx'] > 1)
 		$link_remove = JRoute::_('index.php?option=com_redshop&view=product&task=removecompare&layout=compare&pid=' . $product->product_id . '&Itemid=' . $Itemid);
 
 		$remove = "<a href='" . $link_remove . "'>" . JText::_('COM_REDSHOP_REMOVE_PRODUCT_FROM_COMPARE_LIST') . "</a>";
-		$img    = "<div style='width:" . COMPARE_PRODUCT_THUMB_WIDTH . "px;height:" . COMPARE_PRODUCT_THUMB_HEIGHT . "px;float: left;' ><a href='" . $link . "' title='" . $product->product_name . "'><img src='" . $url . "/components/com_redshop/helpers/thumb.php?filename=product/" . $product->product_full_image . "&newxsize=" . COMPARE_PRODUCT_THUMB_WIDTH . "&newysize=" . COMPARE_PRODUCT_THUMB_HEIGHT . "&swap=" . USE_IMAGE_SIZE_SWAPPING . "'></a></div>";
+
+		$thumbUrl = RedShopHelperImages::getImagePath(
+							$product->product_full_image,
+							'',
+							'thumb',
+							'product',
+							COMPARE_PRODUCT_THUMB_WIDTH,
+							COMPARE_PRODUCT_THUMB_HEIGHT,
+							USE_IMAGE_SIZE_SWAPPING
+						);
+		$img    = "<div style='width:" . COMPARE_PRODUCT_THUMB_WIDTH . "px;height:" . COMPARE_PRODUCT_THUMB_HEIGHT . "px;float: left;' ><a href='" . $link . "' title='" . $product->product_name . "'><img src='" . $thumbUrl . "'></a></div>";
 
 		$expand = "<a href='javascript:void(0)' onClick='expand_collapse(this," . $product->product_id . ")' style='font-size:18px;text-decoration:none;' >-</a>";
 

@@ -8,6 +8,8 @@
  */
 defined('_JEXEC') or die;
 
+require_once JPATH_ROOT . '/administrator/components/com_redshop/helpers/images.php';
+
 JHTML::_('behavior.tooltip');
 $editor = JFactory::getEditor();
 JHTMLBehavior::modal();
@@ -16,7 +18,9 @@ $url = $uri->root();
 JHTML::_('behavior.calendar');
 jimport('joomla.html.pane');
 $objhelper = new redhelper();
-$producthelper = new producthelper();?>
+$producthelper = new producthelper();
+
+?>
 <script language="javascript" type="text/javascript">
 	Joomla.submitbutton = function (pressbutton) {
 		submitbutton(pressbutton);
@@ -196,10 +200,21 @@ echo  $myTabs->startPanel(JText::_('COM_REDSHOP_CATEGORY_IMAGES'), 'tab2');
 			<tr>
 				<td></td>
 				<td>
+					<?php
+					$thumbUrl = RedShopHelperImages::getImagePath(
+									$this->detail->category_full_image,
+									'',
+									'thumb',
+									'category',
+									THUMB_WIDTH,
+									THUMB_HEIGHT,
+									USE_IMAGE_SIZE_SWAPPING
+								);
+					?>
 					<a class="modal"
 					   href="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH; ?>category/<?php echo $this->detail->category_full_image ?>"
-					   title="" rel="{handler: 'image', size: {}}"><img
-							src="<?php echo $url ?>/components/com_redshop/helpers/thumb.php?filename=category/<?php echo $this->detail->category_full_image ?>&newxsize=<?php echo THUMB_WIDTH; ?>&newysize=<?php echo THUMB_HEIGHT; ?>"></a>
+					   title="" rel="{handler: 'image', size: {}}">
+					   <img src="<?php echo $thumbUrl ?>"></a>
 				</td>
 			</tr>
 		<?php
