@@ -28,7 +28,7 @@ class JFormFieldsearchtype extends JFormField
 
 	protected function getInput()
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 
 		$searchType = array();
 		$searchType[] = JHTML::_('select.option', 'product_name', JText::_('COM_REDSHOP_PRODUCT_NAME'));

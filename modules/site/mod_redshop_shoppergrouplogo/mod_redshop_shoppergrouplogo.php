@@ -12,7 +12,7 @@ defined('_JEXEC') or die('Restricted access');
 $thumbwidth  = trim($params->get('thumbwidth', 100));
 $thumbheight = trim($params->get('thumbheight', 100));
 
-$db = JFactory::getDBO();
+$db = JFactory::getDbo();
 // Getting the configuration
 require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
 require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/configuration.php';
@@ -27,7 +27,7 @@ $sql = "SELECT s.*,u.user_id "
 	. ", #__redshop_shopper_group AS s "
 	. "WHERE u.shopper_group_id = s.shopper_group_id "
 	. "AND s.published=1 "
-	. "AND u.user_id='" . $user->id . "' ";
+	. "AND u.user_id=" . (int) $user->id . " ";
 $db->setQuery($sql);
 $rows = $db->loadObject();
 

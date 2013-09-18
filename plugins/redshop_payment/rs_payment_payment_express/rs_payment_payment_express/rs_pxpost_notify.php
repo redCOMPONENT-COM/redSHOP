@@ -164,7 +164,7 @@ $app->redirect($redirect_url, $values->msg);
 
 function getparameters($payment)
 {
-	$db = JFactory::getDBO();
+	$db = JFactory::getDbo();
 	$sql = "SELECT * FROM #__extensions WHERE `element`='" . $payment . "'";
 	$db->setQuery($sql);
 	$params = $db->loadObjectList();

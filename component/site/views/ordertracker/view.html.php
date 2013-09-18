@@ -20,7 +20,6 @@ class ordertrackerViewordertracker extends JView
 		$params = $app->getParams('com_redshop');
 
 		// Request variables
-		$option = JRequest::getVar('option');
 		$this->params = $params;
 		parent::display($tpl);
 	}

@@ -12,11 +12,13 @@ defined('_JEXEC') or die;
 $dispatcher = JDispatcher::getInstance();
 
 // Event
-$task = JRequest::getVar('task');
+$task = JRequest::getCmd('task');
 
 // Group
-$type = JRequest::getVar('type');
-$post = JRequest::get('request');
+$type   = JRequest::getCmd('type');
+
+$jinput = JFactory::getApplication()->input;
+$post   = $jinput->getArray($_REQUEST);
 
 JPluginHelper::importPlugin($type);
 

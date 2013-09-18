@@ -197,7 +197,7 @@ class payment_detailModelpayment_detail extends JModel
 		}
 
 		// Get a database connector
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 
 		// Get an installer object for the extension type
 		jimport('joomla.installer.installer');
@@ -343,7 +343,7 @@ class payment_detailModelpayment_detail extends JModel
 	public function saveOrder(&$cid)
 	{
 		$app = JFactory::getApplication();
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$row =& $this->getTable();
 
 		$total = count($cid);
@@ -466,7 +466,7 @@ class JInstaller extends JObject
 	 */
 	public function __construct()
 	{
-		$this->_db = JFactory::getDBO();
+		$this->_db = JFactory::getDbo();
 	}
 
 

@@ -14,7 +14,7 @@ class JFormFieldCategories extends JFormField
 
 	function getInput()
 	{
-		$db         = JFactory::getDBO();
+		$db         = JFactory::getDbo();
 		$attributes = $this->element;
 		$parent_id  = $attributes['parent'];
 		$class      = $attributes['class'];

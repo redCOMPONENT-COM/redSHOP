@@ -15,12 +15,12 @@ global $root_label, $jscook_type, $jscookMenu_style, $jscookTree_style, $mm_acti
 $uri = JURI::getInstance();
 $urlpath = $uri->root();
 $user = JFactory::getUser();
-$db = JFactory::getDBO();
+$db = JFactory::getDbo();
 //get category id
-$category_id = JRequest::getVar('cid');
+$category_id = JRequest::getInt('cid');
 unset($GLOBALS['category_info']['category_tree']);
 //get Item id
-$Itemid = JRequest::getVar('Itemid', '1');
+$Itemid = JRequest::getInt('Itemid', '1');
 
 //get module path
 $mod_dir = dirname(__FILE__);
@@ -52,7 +52,7 @@ if ($use_shoppergroup == "yes")
 	if ($user->id)
 	{
 		$query = "SELECT shopper_group_id FROM #__redshop_users_info AS ui "
-			. "WHERE ui.user_id='" . $user->id . "' ";
+			. "WHERE ui.user_id=" . (int) $user->id;
 		$db->setQuery($query);
 		$getShopperGroupID = $db->loadResult();
 		if ($getShopperGroupID)

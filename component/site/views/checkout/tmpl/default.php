@@ -16,19 +16,20 @@ JHTML::_('behavior.tooltip');
 JHTMLBehavior::modal();
 
 
-$url = JURI::base();
-$user = JFactory::getUser();
-$session = JFactory::getSession();
+$url             = JURI::base();
+$user            = JFactory::getUser();
+$session         = JFactory::getSession();
 
-$redhelper = new redhelper;
-$userhelper = new rsUserhelper;
+$redhelper       = new redhelper;
+$userhelper      = new rsUserhelper;
 $order_functions = new order_functions;
 
-$telesearch = $order_functions->getparameters('rs_telesearch');
-$Itemid = $redhelper->getCheckoutItemid();
-$option = JRequest::getVar('option');
-$auth = $session->get('auth');
-$l = JRequest::getVar('l', 1);
+$telesearch      = $order_functions->getparameters('rs_telesearch');
+$Itemid          = $redhelper->getCheckoutItemid();
+$auth            = $session->get('auth');
+$l               = JRequest::getInt('l', 1);
+$jinput          = JFactory::getApplication()->input;
+
 /*
  * REGISTER_METHOD
  * 0 With account creation
@@ -38,7 +39,7 @@ $l = JRequest::getVar('l', 1);
  *
  * */
 
-$post = JRequest::get('post');
+$post = $jinput->getArray($_POST);
 
 $login_template_desc = '<table border="0" cellspacing="3" cellpadding="3" width="100%"><tbody><tr><td><label>{rs_username_lbl}:</label></td><td>{rs_username}</td><td><label>{rs_password_lbl}:</label></td><td>{rs_password}</td><td>{rs_login_button}</td></tr><tr><td colspan="2">{forget_password_link}</td></tr></tbody></table>';
 
@@ -129,7 +130,7 @@ else
 			$login_template_desc = str_replace("{rs_login_button}", $loginbutton, $login_template_desc);
 		}
 
-		$forgotpwd_link      = JRoute::_('index.php?option=' . $option . '&view=password&Itemid=' . $Itemid);
+		$forgotpwd_link      = JRoute::_('index.php?option=com_redshop&view=password&Itemid=' . $Itemid);
 		$forgotpwd           = '<a href="' . $forgotpwd_link . '">' . JText::_('COM_REDSHOP_FORGOT_PWD_LINK') . '</a>';
 		$login_template_desc = str_replace("{forget_password_link}", $forgotpwd, $login_template_desc);
 
@@ -346,7 +347,7 @@ else
 			<input type="hidden" name="is_company" id="is_company" value="<?php echo $is_company; ?>"/>
 			<input type="hidden" name="shopper_group_id" value="1"/>
 			<input type="hidden" name="Itemid" value="<?php echo $Itemid; ?>"/>
-			<input type="hidden" name="option" value="<?php echo $option ?>"/>
+			<input type="hidden" name="option" value="com_redshop"/>
 			<input type="hidden" name="task" value="checkoutprocess"/>
 			<input type="hidden" name="view" value="checkout"/>
 

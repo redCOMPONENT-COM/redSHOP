@@ -204,7 +204,7 @@ if (!class_exists('LofSliderGroupContent'))
 			$isStripedTags  = $params->get('auto_strip_tags', 0);
 			$image_quanlity = $params->get('image_quanlity', 100);
 			$extraURL       = $params->get('open_target') != 'modalbox' ? '' : '&tmpl=component';
-			$db             = JFactory::getDBO();
+			$db             = JFactory::getDbo();
 			$date           = JFactory::getDate();
 			$now            = $date->toMySQL();
 			$cparam         = JComponentHelper::getParams('com_content');
@@ -213,15 +213,15 @@ if (!class_exists('LofSliderGroupContent'))
 				. ' CASE WHEN CHAR_LENGTH(a.alias) THEN CONCAT_WS(":", a.id, a.alias) ELSE a.id END as slug,'
 				. ' CASE WHEN CHAR_LENGTH(cc.alias) THEN CONCAT_WS(":",cc.id,cc.alias) ELSE cc.id END as catslug,'
 				. ' CASE WHEN CHAR_LENGTH(s.alias) THEN CONCAT_WS(":", s.id, s.alias) ELSE s.id END as secslug'
-				. "\n FROM #__content AS a"
+				. " FROM #__content AS a"
 				. ' INNER JOIN #__categories AS cc ON cc.id = a.catid'
 				. ' INNER JOIN #__sections AS s ON s.id = a.sectionid'
-				. "\n WHERE a.state = 1"
-				. "\n AND (a.publish_up = " . $db->Quote($db->getNullDate()) . " OR a.publish_up <= " . $db->Quote($now) . ")"
-				. "\n AND (a.publish_down = " . $db->Quote($db->getNullDate()) . " OR a.publish_down >= " . $db->Quote($now) . ")"
-				. ((!$app->getCfg('shownoauth')) ? "\n AND a.access <= " . (int) $aid : '');
+				. " WHERE a.state = 1"
+				. " AND (a.publish_up = " . $db->quote($db->getNullDate()) . " OR a.publish_up <= " . $db->quote($now) . ")"
+				. " AND (a.publish_down = " . $db->quote($db->getNullDate()) . " OR a.publish_down >= " . $db->quote($now) . ")"
+				. ((!$app->getCfg('shownoauth')) ? " AND a.access <= " . (int) $aid : '');
 
-			$query .= $condition . ' ORDER BY ' . $ordering;
+			$query .= $condition . ' ORDER BY ' . $db->escape($ordering);
 			$query .= $limit ? ' LIMIT ' . $limit : '';
 			$db->setQuery($query);
 			$data = $db->loadObjectlist();
@@ -267,26 +267,28 @@ if (!class_exists('LofSliderGroupContent'))
 		function _buildConditionQuery($params)
 		{
 			$source = trim($params->get('source', 'content_category'));
+
 			if ($source == 'content_category')
 			{
-				$catids = $params->get('content_category', '');
+				$catids = explode(',', $params->get('content_category', ''));
 
-				if (!$catids)
+				if (!empty($catids))
 				{
-					return '';
+					JArrayHelper::toInteger($catids);
+
+					$condition = ' AND  a.catid IN(' . implode(",", $catids) . ')';
 				}
-				$catids    = !is_array($catids) ? $catids : '"' . implode('","', $catids) . '"';
-				$condition = ' AND  a.catid IN(' . $catids . ')';
 			}
 			else
 			{
-				$ids = preg_split('/,/', $params->get('article_ids', ''));
-				$tmp = array();
-				foreach ($ids as $id)
+				$ids = explode(',', $params->get('article_ids', ''));
+
+				if (!empty($ids))
 				{
-					$tmp[] = (int) trim($id);
+					JArrayHelper::toInteger($ids);
+
+					$condition = " AND a.id IN('" . implode(",", $ids) . "')";
 				}
-				$condition = " AND a.id IN('" . implode("','", $tmp) . "')";
 			}
 
 			return $condition;

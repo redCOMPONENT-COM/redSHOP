@@ -34,12 +34,11 @@ class price_filterModelprice_filter extends JModel
 
 	public function _buildQuery()
 	{
-		$category = JRequest::getVar('category');
 		$catfld   = '';
 
-		if ($category != 0)
+		if ($category = JRequest::getInt('category', 0))
 		{
-			$catfld .= " AND cx.category_id IN ($category) ";
+			$catfld .= " AND cx.category_id = " . (int) $category . ' ';
 		}
 
 		$sql = "SELECT DISTINCT(p.product_id),p.* FROM " . $this->_table_prefix . "product AS p "

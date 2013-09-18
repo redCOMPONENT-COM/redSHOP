@@ -17,7 +17,7 @@ require_once JPATH_BASE . '/administrator/components/com_redshop/helpers/order.p
 require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
 $objOrder = new order_functions;
 $redhelper = new redhelper;
-$db = JFactory::getDBO();
+$db = JFactory::getDbo();
 $user = JFActory::getUser();
 
 $order_id = $data['order_id'];

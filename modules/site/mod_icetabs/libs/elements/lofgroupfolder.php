@@ -98,7 +98,7 @@ class JFormFieldLofgroupfolder extends JFormField
 		$moduleId = (int) JRequest::getVar('id') ? (int) JRequest::getVar('id') : JRequest::getVar('extension_id');
 		//get module as an object
 		$moduleId = is_array($moduleId) ? $moduleId[0] : $moduleId;
-		//$db = JFactory::getDBO();
+		//$db = JFactory::getDbo();
 		//$db->setQuery("SELECT * FROM #__plugins WHERE id='$moduleId' ");
 		//$obj = $db->loadObject();
 		$table = JTable::getInstance("Extension", "JTable");

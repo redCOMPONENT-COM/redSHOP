@@ -23,7 +23,6 @@ $redTemplate = new Redtemplate;
 $texts = new text_library;
 $url = JURI::base();
 $model = $this->getModel('category');
-$option = JRequest::getVar('option');
 $Itemid = JRequest::getInt('Itemid');
 $start = JRequest::getInt('limitstart', 0, '', 'int');
 $print = JRequest::getInt('print');
@@ -67,7 +66,7 @@ else
 $app = JFactory::getApplication();
 $router = $app->getRouter();
 
-$uri = new JURI('index.php?option=' . $option . '&view=category&layout=detail&cid=' . $catid . '&Itemid=' . $Itemid . '&limit=' . $endlimit . '&texpricemin=' . $texpricemin . '&texpricemax=' . $texpricemax . '&order_by=' . $this->order_by_select . '&manufacturer_id=' . $this->manufacturer_id . '&category_template=' . $this->category_template_id);
+$uri = new JURI('index.php?option=com_redshop&view=category&layout=detail&cid=' . $catid . '&Itemid=' . $Itemid . '&limit=' . $endlimit . '&texpricemin=' . $texpricemin . '&texpricemax=' . $texpricemax . '&order_by=' . $this->order_by_select . '&manufacturer_id=' . $this->manufacturer_id . '&category_template=' . $this->category_template_id);
 
 $document = JFactory::getDocument();
 $model = $this->getModel('category');
@@ -149,13 +148,13 @@ if (!$slide)
 		if ($parentid != 0)
 		{
 			$categorylist     = $producthelper->getSection("category", $parentid);
-			$returncatlink    = JRoute::_("index.php?option=" . $option . "&view=category&cid=" . $parentid . '&manufacturer_id=' . $this->manufacturer_id . "&Itemid=" . $Itemid);
+			$returncatlink    = JRoute::_("index.php?option=com_redshop&view=category&cid=" . $parentid . '&manufacturer_id=' . $this->manufacturer_id . "&Itemid=" . $Itemid);
 			$returntocategory = '<a href="' . $returncatlink . '">' . DAFULT_RETURN_TO_CATEGORY_PREFIX . '&nbsp;' . $categorylist->category_name . '</a>';
 		}
 		else
 		{
 			$categorylist->category_name = DAFULT_RETURN_TO_CATEGORY_PREFIX;
-			$returncatlink               = JRoute::_("index.php?option=" . $option . "&view=category&manufacturer_id=" . $this->manufacturer_id . "&Itemid=" . $Itemid);
+			$returncatlink               = JRoute::_("index.php?option=com_redshop&view=category&manufacturer_id=" . $this->manufacturer_id . "&Itemid=" . $Itemid);
 			$returntocategory            = '<a href="' . $returncatlink . '">' . DAFULT_RETURN_TO_CATEGORY_PREFIX . '</a>';
 		}
 
@@ -220,7 +219,7 @@ if (!$slide)
 		$tmpItemid = $Itemid;
 	}
 
-	$link = JRoute::_('index.php?option=' . $option . '&view=category&cid=' . $catid . '&manufacturer_id=' . $this->manufacturer_id . '&layout=detail&Itemid=' . $tmpItemid);
+	$link = JRoute::_('index.php?option=com_redshop&view=category&cid=' . $catid . '&manufacturer_id=' . $this->manufacturer_id . '&layout=detail&Itemid=' . $tmpItemid);
 
 	$cat_main_thumb = "";
 
@@ -301,7 +300,7 @@ if (!$slide)
 				$tmpItemid = $Itemid;
 			}
 
-			$link = JRoute::_('index.php?option=' . $option . '&view=category&cid=' . $row->category_id . '&manufacturer_id=' . $this->manufacturer_id . '&layout=detail&Itemid=' . $tmpItemid);
+			$link = JRoute::_('index.php?option=com_redshop&view=category&cid=' . $row->category_id . '&manufacturer_id=' . $this->manufacturer_id . '&layout=detail&Itemid=' . $tmpItemid);
 
 			$middlepath  = REDSHOP_FRONT_IMAGES_RELPATH . 'category/';
 			$title       = " title='" . $row->category_name . "' ";
@@ -533,7 +532,7 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 
 				if (is_file(REDSHOP_FRONT_DOCUMENT_RELPATH . 'product/' . $media_documents[$m]->media_name))
 				{
-					$downlink = JUri::root() . 'index.php?tmpl=component&option=' . $option . '&view=product&pid=' . $this->data->product_id . '&task=downloadDocument&fname=' . $media_documents[$m]->media_name . '&Itemid=' . $Itemid;
+					$downlink = JUri::root() . 'index.php?tmpl=component&option=com_redshop&view=product&pid=' . $this->data->product_id . '&task=downloadDocument&fname=' . $media_documents[$m]->media_name . '&Itemid=' . $Itemid;
 					$more_doc .= "<div><a href='" . $downlink . "' title='" . $alttext . "'>";
 					$more_doc .= $alttext;
 					$more_doc .= "</a></div>";
@@ -625,7 +624,7 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 		/************** end user fields ***************************/
 
 		$ItemData  = $producthelper->getMenuInformation(0, 0, '', 'product&pid=' . $product->product_id);
-		$catidmain = Jrequest::getVar("cid");
+		$catidmain = Jrequest::getInt("cid");
 
 		if (count($ItemData) > 0)
 		{
@@ -651,7 +650,7 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 		$data_add     = str_replace("{product_height}", $producthelper->redunitDecimal($product->product_height) . "&nbsp;" . $product_unit, $data_add);
 
 		$data_add   = $producthelper->replaceVatinfo($data_add);
-		$link       = JRoute::_('index.php?option=' . $option . '&view=product&pid=' . $product->product_id . '&cid=' . $catid . '&Itemid=' . $pItemid);
+		$link       = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $product->product_id . '&cid=' . $catid . '&Itemid=' . $pItemid);
 		$pname      = $Redconfiguration->maxchar($product->product_name, CATEGORY_PRODUCT_TITLE_MAX_CHARS, CATEGORY_PRODUCT_TITLE_END_SUFFIX);
 		$product_nm = $pname;
 

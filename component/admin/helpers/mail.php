@@ -54,12 +54,12 @@ class redshopMail
 
 		if ($tid != 0)
 		{
-			$str .= ' AND mail_id = ' . $tid;
+			$str .= ' AND mail_id = ' . (int) $tid;
 		}
 
 		if ($section != "")
 		{
-			$str .= ' AND mail_section = "' . $section . '" ';
+			$str .= ' AND mail_section = ' . $this->_db->quote($section) . ' ';
 		}
 
 		if ($extracond != "")
@@ -1187,7 +1187,7 @@ class redshopMail
 		$app = JFactory::getApplication();
 
 		$acl = JFactory::getACL();
-		$db  = JFactory::getDBO();
+		$db  = JFactory::getDbo();
 		$me  = JFactory::getUser();
 
 		$mainpassword = JRequest::getVar('password1', '', 'post', 'string', JREQUEST_ALLOWRAW);
@@ -1818,7 +1818,7 @@ class redshopMail
 			}
 
 			$query = "SELECT * FROM " . $this->_table_prefix . "newsletter_subscription " .
-				"WHERE subscription_id='" . $subscription_id . "' ";
+				"WHERE subscription_id = " . (int) $subscription_id;
 
 			$this->_db->setQuery($query);
 
@@ -2120,7 +2120,7 @@ class redshopMail
 		$query = "SELECT * FROM  " . $this->_table_prefix . "media "
 			. "WHERE media_section='catalog' "
 			. "AND media_type='document' "
-			. "AND section_id = '" . $catalog->catalog_id . "' "
+			. "AND section_id = " . (int) $catalog->catalog_id . " "
 			. "AND published = 1 ";
 
 		$this->_db->setQuery($query);
@@ -2153,7 +2153,7 @@ class redshopMail
 
 		$query = "SELECT u.* , ru.* FROM #__users AS u "
 			. "LEFT JOIN " . $this->_table_prefix . "users_info AS ru ON u.id = ru.user_id "
-			. "WHERE u.email='" . $email . "' "
+			. "WHERE u.email = " . $this->_db->quote($email) . " "
 			. "AND ru.address_type='BT' ";
 		$this->_db->setQuery($query);
 		$userinfo = $this->_db->loadObjectList();

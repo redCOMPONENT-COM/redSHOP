@@ -59,7 +59,7 @@ class plgRedshop_paymentrs_payment_paypoint_redirection extends JPlugin
 			return;
 		}
 
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$request = JRequest::get('request');
 		$order_id = $request['orderid'];
 
@@ -79,7 +79,7 @@ class plgRedshop_paymentrs_payment_paypoint_redirection extends JPlugin
 		$uri =& JURI::getInstance();
 		$url = JURI::base();
 		$uid = $user->id;
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 
 		if ($valid == "true")
 		{
@@ -104,7 +104,7 @@ class plgRedshop_paymentrs_payment_paypoint_redirection extends JPlugin
 
 	function getparameters($payment)
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$sql = "SELECT * FROM #__extensions WHERE `element`='" . $payment . "'";
 		$db->setQuery($sql);
 		$params = $db->loadObjectList();
