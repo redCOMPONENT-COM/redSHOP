@@ -72,12 +72,16 @@ class quotationHelper
 
 		if ($quotation_id != 0)
 		{
-			$and .= "AND quotation_id IN (" . $quotation_id . ") ";
+			// Sanitize ids
+			$quotation_id = explode(',', $quotation_id);
+			JArrayHelper::toInteger($quotation_id);
+
+			$and .= "AND quotation_id IN (" . implode(',', $quotation_id) . ") ";
 		}
 
 		if ($quotation_item_id != 0)
 		{
-			$and .= "AND quotation_item_id='" . $quotation_item_id . "' ";
+			$and .= "AND quotation_item_id = " . (int) $quotation_item_id . " ";
 		}
 
 		$query = "SELECT * FROM " . $this->_table_prefix . "quotation_item "
@@ -93,7 +97,7 @@ class quotationHelper
 	{
 		$query = "SELECT q.*,q.user_email AS quotation_email,u.* FROM " . $this->_table_prefix . "quotation AS q "
 			. "LEFT JOIN " . $this->_table_prefix . "users_info AS u ON u.user_id=q.user_id AND u.address_type Like 'BT' "
-			. "WHERE q.quotation_id='" . $quotation_id . "' ";
+			. "WHERE q.quotation_id = " . (int) $quotation_id;
 		$this->_db->setQuery($query);
 		$list = $this->_db->loadObject();
 
@@ -115,8 +119,8 @@ class quotationHelper
 	public function updateQuotationStatus($quotation_id, $status = 1)
 	{
 		$query = "UPDATE " . $this->_table_prefix . "quotation "
-			. "SET quotation_status='" . $status . "' "
-			. "WHERE quotation_id='" . $quotation_id . "' ";
+			. "SET quotation_status = " . (int) $status . " "
+			. "WHERE quotation_id = " . (int) $quotation_id . " ";
 		$this->_db->setQuery($query);
 		$this->_db->query();
 	}
@@ -128,7 +132,7 @@ class quotationHelper
 
 		if ($user->id)
 		{
-			$and = " AND q.user_id='" . $user->id . "' ";
+			$and = " AND q.user_id = " . (int) $user->id . " ";
 		}
 
 		$query = "SELECT q.* FROM " . $this->_table_prefix . "quotation AS q "
@@ -180,18 +184,19 @@ class quotationHelper
 
 	public function insertQuotationUserfield($field_id = 0, $quotation_item_id = 0, $section_id = 12, $value = '')
 	{
+		$db = JFactory::getDbo();
 		$sql = "INSERT INTO " . $this->_table_prefix . "quotation_fields_data "
 			. "(fieldid,data_txt,quotation_item_id,section) "
-			. "VALUE ('" . $field_id . "','" . $value . "','" . $quotation_item_id . "','" . $section_id . "')";
-		$this->_db->setQuery($sql);
-		$this->_db->query();
+			. "VALUE (" . (int) $field_id . "," . $db->quote($value) . "," . (int) $quotation_item_id . "," . $db->quote($section_id) . ")";
+		$db->setQuery($sql);
+		$db->query();
 	}
 
 	public function getQuotationUserfield($quotation_item_id)
 	{
 		$q = "SELECT qf.*,f.* FROM " . $this->_table_prefix . "quotation_fields_data AS qf "
 			. "LEFT JOIN " . $this->_table_prefix . "fields AS f ON f.field_id=qf.fieldid "
-			. "WHERE quotation_item_id='" . $quotation_item_id . "'";
+			. "WHERE quotation_item_id = " . (int) $quotation_item_id;
 		$this->_db->setQuery($q);
 		$row_data = $this->_db->loadObjectlist();
 
@@ -203,13 +208,14 @@ class quotationHelper
 		$redTemplate = new Redtemplate;
 		$producthelper = new producthelper;
 		$resultArr = array();
+		$db = JFactory::getDbo();
 
 		$sql = "SELECT fd.*,f.field_title,f.field_type,f.field_name "
 			. "FROM " . $this->_table_prefix . "quotation_fields_data AS fd "
 			. "LEFT JOIN " . $this->_table_prefix . "fields AS f ON f.field_id=fd.fieldid "
-			. "WHERE fd.quotation_item_id=" . $quotation_item_id . " AND fd.section = " . $section_id;
-		$this->_db->setQuery($sql);
-		$userfield = $this->_db->loadObjectlist();
+			. "WHERE fd.quotation_item_id= " . (int) $quotation_item_id . " AND fd.section = " . $db->quote($section_id);
+		$db->setQuery($sql);
+		$userfield = $db->loadObjectlist();
 
 		if (count($userfield) > 0)
 		{
@@ -260,8 +266,8 @@ class quotationHelper
 	public function updateQuotationwithOrder($quotation_id, $order_id)
 	{
 		$query = 'UPDATE ' . $this->_table_prefix . 'quotation '
-			. 'SET order_id="' . $order_id . '" '
-			. 'WHERE quotation_id=' . $quotation_id;
+			. 'SET order_id = ' . (int) $order_id . ' '
+			. 'WHERE quotation_id = ' . (int) $quotation_id;
 		$this->_db->setQuery($query);
 		$this->_db->query();
 		$this->updateQuotationStatus($quotation_id, 5);
@@ -275,7 +281,11 @@ class quotationHelper
 
 		if ($order_id != 0)
 		{
-			$and = " AND q.order_id IN (" . $order_id . ") ";
+			// Sanitize ids
+			$order_id = explode(',', $order_id);
+			JArrayHelper::toInteger($order_id);
+
+			$and = " AND q.order_id IN (" . implode(',', $order_id) . ") ";
 		}
 
 		$query = "SELECT q.* FROM " . $this->_table_prefix . "quotation AS q "
@@ -294,7 +304,7 @@ class quotationHelper
 
 		if ($quotation_item_id != 0)
 		{
-			$and .= " AND quotation_item_id='" . $quotation_item_id . "' ";
+			$and .= " AND quotation_item_id = " . (int) $quotation_item_id . " ";
 		}
 
 		$query = "SELECT * FROM  " . $this->_table_prefix . "quotation_accessory_item "
@@ -309,23 +319,24 @@ class quotationHelper
 	public function getQuotationItemAttributeDetail($quotation_item_id = 0, $is_accessory = 0, $section = "attribute", $parent_section_id = 0)
 	{
 		$and = "";
+		$db = JFactory::getDbo();
 
 		if ($quotation_item_id != 0)
 		{
-			$and .= " AND quotation_item_id='" . $quotation_item_id . "' ";
+			$and .= " AND quotation_item_id = " . (int) $quotation_item_id . " ";
 		}
 
 		if ($parent_section_id != 0)
 		{
-			$and .= " AND parent_section_id='" . $parent_section_id . "' ";
+			$and .= " AND parent_section_id = " . (int) $parent_section_id . " ";
 		}
 
 		$query = "SELECT * FROM  " . $this->_table_prefix . "quotation_attribute_item "
-			. "WHERE is_accessory_att='" . $is_accessory . "' "
-			. "AND section='" . $section . "' "
+			. "WHERE is_accessory_att = " . (int) $is_accessory . " "
+			. "AND section = " . $db->quote($section) . " "
 			. $and;
-		$this->_db->setQuery($query);
-		$list = $this->_db->loadObjectlist();
+		$db->setQuery($query);
+		$list = $db->loadObjectlist();
 
 		return $list;
 	}

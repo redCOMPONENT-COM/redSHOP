@@ -16,31 +16,29 @@ include_once JPATH_COMPONENT . '/helpers/product.php';
 require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/extra_field.php';
 require_once JPATH_COMPONENT . '/helpers/extra_field.php';
 
-$producthelper = new producthelper;
+$producthelper   = new producthelper;
 $quotationHelper = new quotationHelper;
 $order_functions = new order_functions;
-$configobj = new Redconfiguration;
-$redTemplate = new Redtemplate;
-$extra_field = new extra_field;
-$extraField = new extraField;
-$carthelper = new rsCarthelper;
-$user = JFactory::getUser();
-$option = JRequest::getVar('option');
-$Itemid = JRequest::getVar('Itemid');
+$configobj       = new Redconfiguration;
+$redTemplate     = new Redtemplate;
+$extra_field     = new extra_field;
+$extraField      = new extraField;
+$carthelper      = new rsCarthelper;
 
-$app = JFactory::getApplication();
-$params = $app->getParams($option);
+$user         = JFactory::getUser();
+$Itemid       = JRequest::getInt('Itemid');
+$app          = JFactory::getApplication();
+$params       = $app->getParams('com_redshop');
 $returnitemid = $params->get('logout', $Itemid);
 
-$accountbillto_link = JRoute::_("index.php?option=" . $option . "&view=account_billto&Itemid=" . $Itemid);
-$accountshipto_link = JRoute::_("index.php?option=" . $option . "&view=account_shipto&Itemid=" . $Itemid);
-$logout_link = JRoute::_("index.php?option=" . $option . "&view=login&task=logout&logout=" . $returnitemid . "&Itemid=" . $Itemid);
-$compare_link = JRoute::_("index.php?option=" . $option . "&view=product&layout=compare&Itemid=" . $Itemid);
-$mytags_link = JRoute::_("index.php?option=" . $option . "&view=account&layout=mytags&Itemid=" . $Itemid);
-$wishlist_link = JRoute::_("index.php?option=" . $option . "&view=wishlist&task=viewwishlist&Itemid=" . $Itemid);
+$accountbillto_link = JRoute::_("index.php?option=com_redshop&view=account_billto&Itemid=" . $Itemid);
+$accountshipto_link = JRoute::_("index.php?option=com_redshop&view=account_shipto&Itemid=" . $Itemid);
+$logout_link        = JRoute::_("index.php?option=com_redshop&view=login&task=logout&logout=" . $returnitemid . "&Itemid=" . $Itemid);
+$compare_link       = JRoute::_("index.php?option=com_redshop&view=product&layout=compare&Itemid=" . $Itemid);
+$mytags_link        = JRoute::_("index.php?option=com_redshop&view=account&layout=mytags&Itemid=" . $Itemid);
+$wishlist_link      = JRoute::_("index.php?option=com_redshop&view=wishlist&task=viewwishlist&Itemid=" . $Itemid);
 
-$model = $this->getModel('account');
-
+$model    = $this->getModel('account');
 $template = $redTemplate->getTemplate("account_template");
 
 if (count($template) > 0 && $template[0]->template_desc != "")
@@ -315,7 +313,7 @@ if (strstr($template_desc, "{order_loop_start}") && strstr($template_desc, "{ord
 
 	if (count($orderslist) > 0)
 	{
-		$ordermoreurl_1 = JRoute::_('index.php?option=' . $option . '&view=orders&Itemid=' . $Itemid);
+		$ordermoreurl_1 = JRoute::_('index.php?option=com_redshop&view=orders&Itemid=' . $Itemid);
 		$ordermoreurl   = strtolower($ordermoreurl_1);
 
 		$template_desc = str_replace('{more_orders}', "<a href='" . $ordermoreurl . "'>" . JText::_('COM_REDSHOP_MORE') . "</a>", $template_desc);
@@ -341,7 +339,7 @@ if (strstr($template_desc, "{order_loop_start}") && strstr($template_desc, "{ord
 			}
 
 			$order_data .= $order_desc;
-			$orderdetailurl = JRoute::_('index.php?option=' . $option . '&view=order_detail&oid=' . $orderslist[$j]->order_id . '&Itemid=' . $Itemid);
+			$orderdetailurl = JRoute::_('index.php?option=com_redshop&view=order_detail&oid=' . $orderslist[$j]->order_id . '&Itemid=' . $Itemid);
 			$order_detail   = '<a href="' . $orderdetailurl . '">' . JText::_('COM_REDSHOP_DETAILS') . '</a>';
 
 			$order_data = str_replace('{order_index}', JText::_('COM_REDSHOP_ORDER_NUM'), $order_data);
@@ -445,7 +443,7 @@ if (strstr($template_desc, "{quotation_loop_start}") && strstr($template_desc, "
 	// More Order information
 	if (count($quotationlist) > 0)
 	{
-		$quotationmoreurl = JRoute::_('index.php?option=' . $option . '&view=quotation&Itemid=' . $Itemid);
+		$quotationmoreurl = JRoute::_('index.php?option=com_redshop&view=quotation&Itemid=' . $Itemid);
 		$template_desc    = str_replace('{more_quotations}', "<a href='" . $quotationmoreurl . "'>" . JText::_('COM_REDSHOP_MORE') . "</a>", $template_desc);
 	}
 
@@ -465,7 +463,7 @@ if (strstr($template_desc, "{quotation_loop_start}") && strstr($template_desc, "
 			}
 
 			$quotation_data .= $quotation_desc;
-			$quotationurl     = JRoute::_('index.php?option=' . $option . '&view=quotation_detail&quoid=' . $quotationlist[$j]->quotation_id . '&Itemid=' . $Itemid);
+			$quotationurl     = JRoute::_('index.php?option=com_redshop&view=quotation_detail&quoid=' . $quotationlist[$j]->quotation_id . '&Itemid=' . $Itemid);
 			$quotation_detail = '<a href="' . $quotationurl . '" title="' . JText::_('COM_REDSHOP_VIEW_QUOTATION') . '"  alt="' . JText::_('COM_REDSHOP_VIEW_QUOTATION') . '">' . JText::_('COM_REDSHOP_DETAILS') . '</a>';
 
 			$quotation_data = str_replace('{quotation_index}', JText::_('COM_REDSHOP_QUOTATION') . " #", $quotation_data);

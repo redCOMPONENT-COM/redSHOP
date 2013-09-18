@@ -129,6 +129,10 @@ class ask_questionModelask_question extends JModel
 		$data_add = str_replace("{product_name}", $product->product_name, $data_add);
 		$data_add = str_replace("{product_desc}", $product->product_desc, $data_add);
 
+		// Init required properties
+		$data['address']   = isset($data['address']) ? $data['address'] : null;
+		$data['telephone'] = isset($data['telephone']) ? $data['telephone'] : null;
+
 		$link        = JRoute::_($url . "index.php?option=" . $option . "&view=product&pid=" . $product_id . '&Itemid=' . $Itemid);
 		$product_url = "<a href=" . $link . ">" . $product->product_name . "</a>";
 		$data_add    = str_replace("{product_link}", $product_url, $data_add);

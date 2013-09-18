@@ -109,7 +109,7 @@ class Com_RedshopInstallerScript
 	 */
 	public function updateschema()
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$db->setQuery("SELECT extension_id FROM #__extensions WHERE element ='com_redshop' AND type = 'component'");
 		$component_Id = $db->loadResult();
 
@@ -168,7 +168,7 @@ class Com_RedshopInstallerScript
 	 */
 	private function com_install()
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 
 		// The redshop.cfg.php creation or update
 		$this->redshopHandleCFGFile();
@@ -3748,7 +3748,7 @@ class Com_RedshopInstallerScript
 
 		// TEMPLATE MOVE DB TO  FILE
 
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$q  = "SELECT * FROM #__redshop_template";
 		$db->setQuery($q);
 		$list = $db->loadObjectList();
@@ -4460,9 +4460,9 @@ class Com_RedshopInstallerScript
 		if ($result)
 		{
 			// Get a db instance
-			$db    = JFactory::getDBO();
+			$db    = JFactory::getDbo();
 			$query = "UPDATE #__extensions SET position='icon', ordering=9, enabled=1 WHERE element=" . $db->Quote($module);
-			$db    = JFactory::getDBO();
+			$db    = JFactory::getDbo();
 			$db->setQuery($query);
 			$db->query();
 		}
@@ -4589,7 +4589,7 @@ class Com_RedshopInstallerScript
 				// Enable the installed plugin
 				if ($result)
 				{
-					$db = JFactory::getDBO();
+					$db = JFactory::getDbo();
 					$query = $db->getQuery(true);
 					$query->update($db->quoteName("#__extensions"));
 					$query->set("enabled=1");
@@ -4625,7 +4625,7 @@ class Com_RedshopInstallerScript
 				$extPath = $src . '/libraries/' . $extName;
 				$result  = 0;
 
-				$db = JFactory::getDBO();
+				$db = JFactory::getDbo();
 				$query = $db->getQuery(true)
 					->select('extension_id')
 					->from($db->quoteName("#__extensions"))
@@ -4668,7 +4668,7 @@ class Com_RedshopInstallerScript
 				$extPath   = $src . '/modules/' . $extClient . '/' . $extName;
 				$result    = 0;
 
-				$db = JFactory::getDBO();
+				$db = JFactory::getDbo();
 				$query = $db->getQuery(true)
 					->select('extension_id')
 					->from($db->quoteName("#__extensions"))
@@ -4711,7 +4711,7 @@ class Com_RedshopInstallerScript
 				$extPath  = $src . '/plugins/' . $extGroup . '/' . $extName;
 				$result   = 0;
 
-				$db = JFactory::getDBO();
+				$db = JFactory::getDbo();
 				$query = $db->getQuery(true)
 					->select('extension_id')
 					->from($db->quoteName("#__extensions"))

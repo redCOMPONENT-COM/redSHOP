@@ -9,11 +9,10 @@
 
 defined('_JEXEC') or die;
 JHTML::_('behavior.tooltip');
-$option = JRequest::getVar('option');
-$Itemid = JRequest::getVar('Itemid');
-$loginlink = 'index.php?option=' . $option . '&view=login&Itemid=' . $Itemid;
-$newuser_link = 'index.php?option=' . $option . '&view=registration&Itemid=' . $Itemid;
-$forgotpwd_link = 'index.php?option=' . $option . '&view=password&Itemid=' . $Itemid;
+$Itemid         = JRequest::getInt('Itemid');
+$loginlink      = 'index.php?option=com_redshop&view=login&Itemid=' . $Itemid;
+$newuser_link   = 'index.php?option=com_redshop&view=registration&Itemid=' . $Itemid;
+$forgotpwd_link = 'index.php?option=com_redshop&view=password&Itemid=' . $Itemid;
 $shoppergroupid = JRequest::getInt('protalid', 0);
 
 $returnitemid = $Itemid;
@@ -101,6 +100,6 @@ if ($shoppergroupid != 0)
 	<input type="hidden" name="task" id="task" value="setlogin">
 	<input type="hidden" name="protalid" value="<?php echo $shoppergroupid; ?>">
 	<input type="hidden" name="returnitemid" id="returnitemid" value="<?php echo $returnitemid; ?>">
-	<input type="hidden" name="option" id="option" value="<?php echo $option; ?>"/>
+	<input type="hidden" name="option" id="option" value="com_redshop"/>
 </form>
 <div>&nbsp;</div>

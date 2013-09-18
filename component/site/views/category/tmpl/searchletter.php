@@ -16,6 +16,8 @@ JHTMLBehavior::modal();
 $url       = JURI::base();
 $config    = new Redconfiguration;
 $letter    = $this->input->getString('letter', '');
+$Itemid    = JRequest::getInt('Itemid');
+$letter    = JRequest::getString('letter');
 $objhelper = new redhelper;
 $model     = $this->getModel('category');
 $view      = $this->input->getString('view', 'category');
@@ -44,7 +46,7 @@ if (!$module)
 	return false;
 }
 
-$mod_title = urldecode(JRequest::getVar('modulename'));
+$mod_title = urldecode(JRequest::getString('modulename'));
 
 $module = JModuleHelper::getModule('redshop_lettersearch', $mod_title);
 $params = $module->params;
@@ -214,8 +216,7 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 		$extraFieldName = $extraField->getSectionFieldNameArray(1, 1, 1);
 		$prddata_add    = $producthelper->getExtraSectionTag($extraFieldName, $product->product_id, "1", $prddata_add);
 
-		//
-		$link = JRoute::_('index.php?option=' . $this->itemid . '&view=product&pid=' . $product->product_id . '&cid=' . $catid . '&Itemid=' . $pItemid);
+		$link = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $product->product_id . '&cid=' . $catid . '&Itemid=' . $pItemid);
 
 		if (strstr($prddata_add, '{product_name}'))
 		{
@@ -357,7 +358,7 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 		{
 			$isChilds = false;
 
-			// Get attributes.
+			// Get attributes
 			$attributes_set = array();
 
 			if ($product->attribute_set_id > 0)

@@ -23,8 +23,7 @@ if ($user->id)
 	$uemail = $user->email;
 }
 
-$option = JRequest::getVar('option');
-$Itemid = JRequest::getVar('Itemid');
+$Itemid = JRequest::getInt('Itemid');
 $pid = JRequest::getInt('pid');
 $ask = JRequest::getInt('ask');
 $category_id = JRequest::getInt('category_id');
@@ -92,7 +91,7 @@ else
 		<input type="hidden" name="task" id="task" value="sendaskquestionmail"/>
 		<input type="hidden" name="ask" id="ask" value="1"/>
 		<input type="hidden" name="question_date" id="question_date" value="<?php echo time(); ?>"/>
-		<input type="hidden" name="option" id="option" value="<?php echo $option; ?>"/>
+		<input type="hidden" name="option" id="option" value="com_redshop"/>
 		<input type="hidden" name="category_id" id="category_id" value="<?php echo $category_id; ?>"/>
 		<input type="hidden" name="Itemid" id="Itemid" value="<?php echo $Itemid; ?>"/>
 	</form>

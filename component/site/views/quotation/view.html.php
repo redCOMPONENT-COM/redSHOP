@@ -20,17 +20,16 @@ class quotationViewquotation extends JView
 		$redconfig = new Redconfiguration;
 		$uri       = JFactory::getURI();
 
-		$option  = JRequest::getVar('option');
-		$Itemid  = JRequest::getVar('Itemid');
+		$Itemid  = JRequest::getInt('Itemid');
 		$session = JFactory::getSession();
 		$cart    = $session->get('cart');
-		$return  = JRequest::getVar('return');
+		$return  = JRequest::getString('return');
 
 		if (!$return)
 		{
 			if ($cart['idx'] < 1)
 			{
-				$app->Redirect('index.php?option=' . $option . '&view=cart&Itemid=' . $Itemid);
+				$app->Redirect('index.php?option=com_redshop&view=cart&Itemid=' . $Itemid);
 			}
 		}
 

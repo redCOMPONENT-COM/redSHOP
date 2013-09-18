@@ -17,9 +17,8 @@ $redTemplate = new Redtemplate;
 $extraField = new extraField;
 $config = new Redconfiguration;
 $url = JURI::base();
-$print = JRequest::getVar('print');
-$option = JRequest::getVar('option');
-$Itemid = JRequest::getVar('Itemid');
+$print = JRequest::getInt('print');
+$Itemid = JRequest::getInt('Itemid');
 $redhelper = new redhelper;
 
 // Page Title Start
@@ -87,9 +86,16 @@ if (strstr($template_desc, '{manufacturer_loop_start}') && strstr($template_desc
 $extraFieldName     = $extraField->getSectionFieldNameArray(10, 1, 1);
 $replace_middledata = '';
 
-if ($template_middle != "")
+if ($this->detail && $template_middle != "")
 {
-	for ($i = 0; $i < $this->params->get('maxmanufacturer'); $i++)
+	// Limit the number of manufacturers shown
+	$maxCount = $this->params->get('maxmanufacturer');
+	if (count($this->detail) < $maxCount)
+	{
+		$maxCount = count($this->detail);
+	}
+
+	for ($i = 0; $i < $maxCount; $i++)
 	{
 		$row = $this->detail[$i];
 
@@ -99,9 +105,9 @@ if ($template_middle != "")
 			$mh_thumb = MANUFACTURER_THUMB_HEIGHT;
 			$mw_thumb = MANUFACTURER_THUMB_WIDTH;
 
-			$link = JRoute::_('index.php?option=' . $option . '&view=manufacturers&layout=detail&mid=' . $row->manufacturer_id . '&Itemid=' . $Itemid);
+			$link = JRoute::_('index.php?option=com_redshop&view=manufacturers&layout=detail&mid=' . $row->manufacturer_id . '&Itemid=' . $Itemid);
 
-			$manproducts       = JRoute::_('index.php?option=' . $option . '&view=manufacturers&layout=products&mid=' . $row->manufacturer_id . '&Itemid=' . $Itemid);
+			$manproducts       = JRoute::_('index.php?option=com_redshop&view=manufacturers&layout=products&mid=' . $row->manufacturer_id . '&Itemid=' . $Itemid);
 			$manufacturer_name = "<a href='" . $manproducts . "'><b>" . $row->manufacturer_name . "</b></a>";
 
 			$middledata = $template_middle;

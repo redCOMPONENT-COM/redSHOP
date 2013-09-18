@@ -27,7 +27,7 @@ class product_attribute_priceController extends JController
 
 	public function saveprice()
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$section_id = JRequest::getVar('section_id');
 		$section = JRequest::getVar('section');
 		$cid = JRequest::getVar('cid');

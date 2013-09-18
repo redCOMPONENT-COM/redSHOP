@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 JHTML::_('behavior.tooltip');
-$Itemid = JRequest::getVar('Itemid');
+$Itemid = JRequest::getInt('Itemid');
 $uid = JRequest::getInt('uid');
 ?>
 <script language="javascript" type="text/javascript">

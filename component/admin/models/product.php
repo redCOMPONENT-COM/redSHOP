@@ -294,6 +294,7 @@ class productModelproduct extends JModel
 
 	public function _buildContentOrderBy()
 	{
+		$db  = JFactory::getDbo();
 		$app = JFactory::getApplication();
 
 		$category_id = $this->getState('category_id');
@@ -308,7 +309,7 @@ class productModelproduct extends JModel
 			$filter_order = $app->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'p.product_id');
 		}
 
-		$orderby = " ORDER BY " . $filter_order . ' ' . $filter_order_Dir;
+		$orderby = " ORDER BY " . $db->escape($filter_order . ' ' . $filter_order_Dir);
 
 		return $orderby;
 	}

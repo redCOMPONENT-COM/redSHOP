@@ -16,8 +16,9 @@ JHTMLBehavior::modal();
 $redTemplate = new Redtemplate;
 $carthelper = new rsCarthelper;
 
-$post = JRequest::get('POST');
-$user = JFactory::getUser();
+$user   = JFactory::getUser();
+$jinput = JFactory::getApplication()->input;
+$post   = $jinput->getArray($_POST);
 
 $shippingbox_template = $redTemplate->getTemplate("shipping_box");
 

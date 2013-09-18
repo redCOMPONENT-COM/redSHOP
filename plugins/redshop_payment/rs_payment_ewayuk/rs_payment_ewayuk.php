@@ -60,7 +60,7 @@ class plgRedshop_paymentrs_payment_ewayuk extends JPlugin
 			return;
 		}
 
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$TransactionAccepted = $request["TransactionAccepted"];
 		$Reference = $request["Reference"];
 		$RETC = $request["RETC"];
@@ -113,7 +113,7 @@ class plgRedshop_paymentrs_payment_ewayuk extends JPlugin
 
 	public function getparameters($payment)
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$sql = "SELECT * FROM #__extensions WHERE `element`='" . $payment . "'";
 		$db->setQuery($sql);
 		$params = $db->loadObjectList();
@@ -123,10 +123,10 @@ class plgRedshop_paymentrs_payment_ewayuk extends JPlugin
 
 	public function orderPaymentNotYetUpdated($dbConn, $order_id, $tid)
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$res = false;
 		$query = "SELECT COUNT(*) FROM " . $this->_table_prefix . "order_payment WHERE `order_id` = '" . $db->getEscaped($order_id) . "' and order_payment_trans_id = '" . $db->getEscaped($tid) . "'";
-		$db->SetQuery($query);
+		$db->setQuery($query);
 		$order_payment = $db->loadResult();
 
 		if ($order_payment == 0)

@@ -50,7 +50,7 @@ class plgRedshop_paymentrs_payment_authorize extends JPlugin
 		}
 
 		$app = JFactory::getApplication();
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$user = JFActory::getUser();
 		$session = JFactory::getSession();
 		$ccdata = $session->get('ccdata');
@@ -74,7 +74,7 @@ class plgRedshop_paymentrs_payment_authorize extends JPlugin
 			{
 				$product_id = $cart[$p]['product_id'];
 				$query = "SELECT product_name,product_s_desc FROM `#__redshop_product` WHERE `product_id` = '" . $cart[$p]['product_id'] . "'";
-				$db->SetQuery($query);
+				$db->setQuery($query);
 				$proinfo = $db->loadObjectlist();
 				$product_name = substr(str_replace("&", "and", $proinfo[0]->product_name), 0, 30);
 			}
@@ -83,7 +83,7 @@ class plgRedshop_paymentrs_payment_authorize extends JPlugin
 			{
 				$product_id = $cart[$p]['giftcard_id'];
 				$query_gift = "SELECT * FROM `#__redshop_giftcard` WHERE `giftcard_id` = '" . $cart[$p]['giftcard_id'] . "'";
-				$db->SetQuery($query_gift);
+				$db->setQuery($query_gift);
 				$giftinfoinfo = $db->loadObjectlist();
 				$product_name = substr(str_replace("&", "and", $giftinfoinfo[0]->giftcard_name), 0, 30);
 			}
@@ -277,7 +277,7 @@ class plgRedshop_paymentrs_payment_authorize extends JPlugin
 		$objOrder = new order_functions;
 		$order_id = $data['order_id'];
 		$tid = $data['order_transactionid'];
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$billing_info = $data['billinginfo'];
 		$shipping_info = $data['shippinginfo'];
 
@@ -435,7 +435,7 @@ class plgRedshop_paymentrs_payment_authorize extends JPlugin
 		}
 
 		$app = JFactory::getApplication();
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 
 		// Update authorize_status
 		if ($this->_params->get("auth_type") == "AUTH_ONLY")
@@ -449,7 +449,7 @@ class plgRedshop_paymentrs_payment_authorize extends JPlugin
 
 		$query = "UPDATE " . $this->_table_prefix . "order_payment SET  authorize_status = '"
 			. $authorize_status . "' where order_id = '" . $order_id . "'";
-		$db->SetQuery($query);
+		$db->setQuery($query);
 		$db->Query();
 	}
 }

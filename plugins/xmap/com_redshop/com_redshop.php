@@ -149,7 +149,7 @@ class Xmap_Com_Redshop
 	 */
 	static protected function getCategoryTree($xmap, $parent, &$params, $catid = 0)
 	{
-		$database      = JFactory::getDBO();
+		$database      = JFactory::getDbo();
 		$objhelper     = new redhelper;
 		$producthelper = new producthelper;
 
@@ -264,7 +264,7 @@ class Xmap_Com_Redshop
 	 */
 	static protected function getProductTree($xmap, $parent, &$params, $prod = 0, $category = 0, $manid = 0)
 	{
-		$database      = JFactory::getDBO();
+		$database      = JFactory::getDbo();
 		$objhelper     = new redhelper;
 		$producthelper = new producthelper;
 
@@ -328,7 +328,7 @@ class Xmap_Com_Redshop
 	 */
 	static protected function getManufacturerTree($xmap, $parent, $params, $manid = 0)
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 
 		$whereBy = ($manid > 0) ? " AND manufacturer_id = " . $manid : "";
 

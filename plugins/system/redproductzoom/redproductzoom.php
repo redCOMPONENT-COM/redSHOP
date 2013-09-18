@@ -32,6 +32,10 @@ class plgSystemredproductzoom extends JPlugin
 		{
 			return;
 		}
+		else
+		{
+			$isChilds       = false;
+			$attributes_set = array();
 
 		if ($jinput->get('view') != 'product')
 		{

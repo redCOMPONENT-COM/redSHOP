@@ -28,7 +28,7 @@ class JFormFieldordertemplatelist extends JFormField
 
 	protected function getInput()
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 
 		// This might get a conflict with the dynamic translation - TODO: search for better solution
 		$query = 'SELECT template_id,template_name FROM #__redshop_template '

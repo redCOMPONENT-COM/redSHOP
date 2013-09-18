@@ -505,21 +505,23 @@ class addquotation_detailModeladdquotation_detail extends JModel
 
 	public function getUserData($user_id = 0, $billing = "", $user_info_id = 0)
 	{
+		$db = JFactory::getDbo();
+
 		$and = '';
 
 		if ($user_id != 0)
 		{
-			$and .= ' AND ui.user_id="' . $user_id . '" ';
+			$and .= ' AND ui.user_id = ' . (int) $user_id . ' ';
 		}
 
 		if ($billing != "")
 		{
-			$and .= ' AND ui.address_type like "' . $billing . '" ';
+			$and .= ' AND ui.address_type like ' . $db->quote($billing) . ' ';
 		}
 
 		if ($user_info_id != 0)
 		{
-			$and .= ' AND ui.users_info_id= "' . $user_info_id . '" ';
+			$and .= ' AND ui.users_info_id= ' . (int) $user_info_id . ' ';
 		}
 
 		$query = 'SELECT *,CONCAT(ui.firstname," ",ui.lastname) AS text FROM ' . $this->_table_prefix . 'users_info AS ui '

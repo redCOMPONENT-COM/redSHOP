@@ -20,8 +20,7 @@ class giftcardViewgiftcard extends JView
 		$app = JFactory::getApplication();
 
 		// Request variables
-		$option   = JRequest::getVar('option');
-		$params   = $app->getParams($option);
+		$params   = $app->getParams('com_redshop');
 		$document = JFactory::getDocument();
 		JHTML::Script('redBOX.js', 'components/com_redshop/assets/js/', false);
 		JHTML::Script('common.js', 'components/com_redshop/assets/js/', false);

@@ -10,9 +10,9 @@
 defined('_JEXEC') or die;
 $url = JURI::base();
 
-$option = JRequest::getVar('option');
-$Itemid = JRequest::getVar('Itemid');
-$post = JRequest::get('post');
+$Itemid = JRequest::getInt('Itemid');
+$jinput = JFactory::getApplication()->input;
+$post   = $jinput->getArray($_POST);
 
 $userhelper = new rsUserhelper;
 $rsCarthelper = new rsCarthelper;
@@ -141,7 +141,7 @@ if ($this->params->get('show_page_heading', 1))
 		<div class="clr"></div>
 
 		<input type="hidden" name="l" value="0">
-		<input type="hidden" name="mywishlist" id="mywishlist" value="<?php echo JRequest::getVar('wishlist'); ?>">
+		<input type="hidden" name="mywishlist" id="mywishlist" value="<?php echo JRequest::getString('wishlist'); ?>">
 		<input type="hidden" name="address_type" value="BT"/>
 		<input type="hidden" name="usertype" value="Registered"/>
 		<input type="hidden" name="groups[]" value="2"/>
@@ -149,7 +149,7 @@ if ($this->params->get('show_page_heading', 1))
 		<input type="hidden" name="shopper_group_id" value="1"/>
 		<input type="hidden" name="createaccount" value="1"/>
 		<input type="hidden" name="Itemid" value="<?php echo $Itemid; ?>"/>
-		<input type="hidden" name="option" value="<?php echo $option ?>"/>
+		<input type="hidden" name="option" value="com_redshop"/>
 		<input type="hidden" name="task" value="newregistration"/>
 		<input type="hidden" name="view" value="registration"/>
 	</fieldset>
