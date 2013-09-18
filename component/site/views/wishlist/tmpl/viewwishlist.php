@@ -277,7 +277,15 @@ function display_products($rows)
 			}
 			else
 			{
-				$maindefaultpath = JURI::root() . "components/com_redshop/helpers/thumb.php?filename=product/" . PRODUCT_DEFAULT_IMAGE . "&newxsize=" . $pw_thumb . "&newysize=" . $ph_thumb . "&swap=" . USE_IMAGE_SIZE_SWAPPING;
+				$maindefaultpath = RedShopHelperImages::getImagePath(
+								PRODUCT_DEFAULT_IMAGE,
+								'',
+								'thumb',
+								'product',
+								$pw_thumb,
+								$ph_thumb,
+								USE_IMAGE_SIZE_SWAPPING
+							);
 				$thum_image      = "<a href='" . $link . "'><img src='" . $maindefaultpath . "'  /></a>";
 				$wishlist_data   = str_replace('{product_thumb_image}', $thum_image, $wishlist_data);
 			}

@@ -204,9 +204,19 @@ $url = $uri->root();    ?>
 				<table class="admintable">
 					<tr>
 						<td><input type="file" name="shopper_group_logo" id="shopper_group_logo" size="77"/></td>
-						<td><?php    $ilink = JRoute::_('index.php?tmpl=component&option=com_redshop&view=product_detail&task=media_bank&e_name=text');
-							$image_path = REDSHOP_FRONT_IMAGES_ABSPATH . 'shopperlogo/' . $this->detail->shopper_group_logo;
-							$imagethumb_path = $url . 'components/com_redshop/helpers/thumb.php?filename=shopperlogo/' . $this->detail->shopper_group_logo . '&newxsize=' . THUMB_WIDTH . '&newysize=' . THUMB_HEIGHT;    ?></td>
+						<td><?php
+							$ilink           = JRoute::_('index.php?tmpl=component&option=com_redshop&view=product_detail&task=media_bank&e_name=text');
+							$image_path      = REDSHOP_FRONT_IMAGES_ABSPATH . 'shopperlogo/' . $this->detail->shopper_group_logo;
+							$imagethumb_path = RedShopHelperImages::getImagePath(
+													$this->detail->shopper_group_logo,
+													'',
+													'thumb',
+													'shopperlogo',
+													THUMB_WIDTH,
+													THUMB_HEIGHT,
+													USE_IMAGE_SIZE_SWAPPING
+												);
+							?></td>
 						<td>
 							<div class="button2-left">
 								<div class="image"><a class="modal" title="Image" href="<?php echo $ilink; ?>"

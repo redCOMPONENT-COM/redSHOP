@@ -45,8 +45,17 @@ if (count($ajaxdetal_template) > 0)
 	{
 		if ($this->data->product_full_image && file_exists(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $this->data->product_full_image))
 		{
+			$thumbUrl = RedShopHelperImages::getImagePath(
+						$this->data->product_full_image,
+						'',
+						'thumb',
+						'product',
+						PRODUCT_MAIN_IMAGE,
+						PRODUCT_MAIN_IMAGE_HEIGHT,
+						USE_IMAGE_SIZE_SWAPPING
+					);
 			$productsrcPath = "<a href='" . REDSHOP_FRONT_IMAGES_ABSPATH . "product/" . $this->data->product_full_image . "' title='" . $this->data->product_name . "' rel='lightbox[product7]'>";
-			$productsrcPath .= "<img src='" . $url . "components/com_redshop/helpers/thumb.php?filename=product/" . $this->data->product_full_image . "&newxsize=" . PRODUCT_MAIN_IMAGE . "&newysize=" . PRODUCT_MAIN_IMAGE_HEIGHT . "&swap=" . USE_IMAGE_SIZE_SWAPPING . "'>";
+			$productsrcPath .= "<img src='" . $thumbUrl . "'>";
 			$productsrcPath .= "</a>";
 			$data_add = str_replace('{product_image}', $productsrcPath, $data_add);
 		}

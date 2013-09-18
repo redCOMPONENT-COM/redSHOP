@@ -1,11 +1,12 @@
 <?php
-// no direct access
 
-defined('_JEXEC' ) or die( 'Restricted access' );
+defined('_JEXEC') or die;
 
 // Import library dependencies
 jimport('joomla.plugin.plugin');
 require_once JPATH_COMPONENT . '/helpers/product.php';
+JLoader::import('images', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
+
 class plgredshop_productCreateColorImage extends JPlugin
 {
 	public $ImageName = null;
@@ -23,9 +24,8 @@ class plgredshop_productCreateColorImage extends JPlugin
 	}
 
 	/**
-		This will change product image.
+	 * This will change product image.
 	 */
-
 	function onBeforeImageLoad($productArr)
 	{
 		$producthelper 	= new producthelper;
@@ -97,15 +97,15 @@ class plgredshop_productCreateColorImage extends JPlugin
 		$aHrefImageResponse = $imagePath . "/property/" . $ImageName;
 		$Arrreturn['imagename']	= $ImageName;
 		$Arrreturn['aHrefImageResponse']	= $aHrefImageResponse;
-		$mainImageResponse = $url . 'components/com_redshop/helpers/thumb.php?filename=product_attributes/' . $ImageName . '&newxsize=' . $main_imgwidth . '&newysize=' . $main_imgheight . '&swap=1';
-/*		for($i=0;$i<count($arrsubproperty_id);$i++)
-		{
-			if(!empty($arrsubproperty_id[$i]))
-			{
-				$Arrresult 					= $producthelper->getProperty($arrsubproperty_id[$i], 'subproperty');
-			}
-		}
-*/
+		$mainImageResponse = RedShopHelperImages::getImagePath(
+								$ImageName,
+								'',
+								'thumb',
+								'product_attributes',
+								$main_imgwidth,
+								$main_imgheight,
+								USE_IMAGE_SIZE_SWAPPING
+							);
 		$arrReturn['mainImageResponse']	= $mainImageResponse;
 		$arrReturn['imageTitle'] = $imageTitle;
 		$arrReturn['attrbimg'] = $url . "components/com_redshop/assets/images/product_attributes/" . $ImageName;
