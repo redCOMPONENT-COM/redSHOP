@@ -143,7 +143,7 @@ if (strstr($template_desc, "{category_frontpage_loop_start}") && strstr($templat
 			$tmpItemid = $this->itemid;
 		}
 
-		$link = JRoute::_('index.php?option=' . $this->option . '&view=category&cid=' . $row->category_id . '&layout=detail&Itemid=' . $tmpItemid);
+		$link = JRoute::_('index.php?option=com_redshop&view=category&cid=' . $row->category_id . '&layout=detail&Itemid=' . $tmpItemid);
 
 		$middlepath  = REDSHOP_FRONT_IMAGES_RELPATH . 'category/';
 		$title       = " title='" . $row->category_name . "' ";

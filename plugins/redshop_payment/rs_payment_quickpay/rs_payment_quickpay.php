@@ -59,7 +59,7 @@ class plgRedshop_paymentrs_payment_quickpay extends JPlugin
 			return;
 		}
 
-		$db      = JFactory::getDBO();
+		$db      = JFactory::getDbo();
 		$request = JRequest::get('request');
 
 		$order_id       = $request["orderid"];
@@ -92,9 +92,9 @@ class plgRedshop_paymentrs_payment_quickpay extends JPlugin
 		if ($qpstat == "000")
 		{
 			// Find the corresponding order in the database
-			$db = JFactory::getDBO();
+			$db = JFactory::getDbo();
 			$qv = "SELECT order_id, order_number FROM #__redshop_orders WHERE order_id='" . $order_id . "'";
-			$db->SetQuery($qv);
+			$db->setQuery($qv);
 			$orders = $db->LoadObjectList();
 
 			if ($orders)
@@ -127,7 +127,7 @@ class plgRedshop_paymentrs_payment_quickpay extends JPlugin
 
 	function getparameters($payment)
 	{
-		$db  = JFactory::getDBO();
+		$db  = JFactory::getDbo();
 		$sql = "SELECT * FROM #__extensions WHERE `element`='" . $payment . "'";
 		$db->setQuery($sql);
 		$params = $db->loadObjectList();
@@ -137,10 +137,10 @@ class plgRedshop_paymentrs_payment_quickpay extends JPlugin
 
 	function orderPaymentNotYetUpdated($dbConn, $order_id, $tid)
 	{
-		$db    = JFactory::getDBO();
+		$db    = JFactory::getDbo();
 		$res   = false;
 		$query = "SELECT COUNT(*), `qty` FROM `#__redshop_order_payment` WHERE `order_id` = '" . $db->getEscaped($order_id) . "' and order_payment_trans_id = '" . $db->getEscaped($tid) . "'";
-		$db->SetQuery($query);
+		$db->setQuery($query);
 		$order_payment = $db->loadResult();
 
 		if ($order_payment == 0)
@@ -161,7 +161,7 @@ class plgRedshop_paymentrs_payment_quickpay extends JPlugin
 		require_once JPATH_SITE . '/administrator/components/com_redshop/helpers/order.php';
 
 		$objOrder = new order_functions;
-		$db       = JFactory::getDBO();
+		$db       = JFactory::getDbo();
 
 		$protocol     = '3';
 		$msgtype      = 'capture';
@@ -223,7 +223,7 @@ class plgRedshop_paymentrs_payment_quickpay extends JPlugin
 		require_once JPATH_SITE . '/administrator/components/com_redshop/helpers/order.php';
 
 		$objOrder = new order_functions;
-		$db       = JFactory::getDBO();
+		$db       = JFactory::getDbo();
 
 		$protocol     = '3';
 		$msgtype      = 'refund';
@@ -284,7 +284,7 @@ class plgRedshop_paymentrs_payment_quickpay extends JPlugin
 		require_once JPATH_SITE . '/administrator/components/com_redshop/helpers/order.php';
 
 		$objOrder = new order_functions;
-		$db       = JFactory::getDBO();
+		$db       = JFactory::getDbo();
 
 		$protocol     = '3';
 		$msgtype      = 'status';
@@ -341,7 +341,7 @@ class plgRedshop_paymentrs_payment_quickpay extends JPlugin
 		require_once JPATH_SITE . '/administrator/components/com_redshop/helpers/order.php';
 
 		$objOrder = new order_functions;
-		$db       = JFactory::getDBO();
+		$db       = JFactory::getDbo();
 
 		$protocol     = '3';
 		$msgtype      = 'cancel';

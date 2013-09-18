@@ -29,7 +29,7 @@ function redshopBuildRoute(&$query)
 	$manufacturer_id = '';
 
 	$segments = array();
-	$db       = JFactory::getDBO();
+	$db       = JFactory::getDbo();
 	$app      = JFactory::getApplication();
 	$menu     = $app->getMenu();
 	$item     = $menu->getActive();
@@ -48,11 +48,15 @@ function redshopBuildRoute(&$query)
 	$infoid           = '';
 	$task             = '';
 
+	$view = null;
+
 	if (isset($query['view']))
 	{
 		$view = $query['view'];
 		unset($query['view']);
 	}
+
+	$pid = null;
 
 	if (isset($query['pid']))
 	{
@@ -60,26 +64,36 @@ function redshopBuildRoute(&$query)
 		unset($query['pid']);
 	}
 
+	$cid = null;
+
 	if (isset($query['cid']))
 	{
 		$cid = $query['cid'];
 		unset($query['cid']);
 	}
 
+	$limit = null;
+
 	if (isset($query['limit']))
 	{
 		$limit = $query['limit'];
 	}
+
+	$limitstart = null;
 
 	if (isset($query['limitstart']))
 	{
 		$limitstart = $query['limitstart'];
 	}
 
+	$start = null;
+
 	if (isset($query['start']))
 	{
 		$start = $query['start'];
 	}
+
+	$order_by = null;
 
 	if (isset($query['order_by']))
 	{
@@ -87,11 +101,15 @@ function redshopBuildRoute(&$query)
 		unset($query['order_by']);
 	}
 
+	$texpricemin = null;
+
 	if (isset($query['texpricemin']))
 	{
 		$texpricemin = $query['texpricemin'];
 		unset($query['texpricemin']);
 	}
+
+	$texpricemax = null;
 
 	if (isset($query['texpricemax']))
 	{
@@ -99,11 +117,15 @@ function redshopBuildRoute(&$query)
 		unset($query['texpricemax']);
 	}
 
+	$manufacturer_id = null;
+
 	if (isset($query['manufacturer_id']))
 	{
 		$manufacturer_id = $query['manufacturer_id'];
 		unset($query['manufacturer_id']);
 	}
+
+	$manufacture_id = null;
 
 	if (isset($query['manufacture_id']))
 	{
@@ -111,11 +133,15 @@ function redshopBuildRoute(&$query)
 		unset($query['manufacture_id']);
 	}
 
+	$category_id = null;
+
 	if (isset($query['category_id']))
 	{
 		$category_id = $query['category_id'];
 		unset($query['category_id']);
 	}
+
+	$category_template = null;
 
 	if (isset($query['category_template']))
 	{
@@ -123,11 +149,15 @@ function redshopBuildRoute(&$query)
 		unset($query['category_template']);
 	}
 
+	$gid = null;
+
 	if (isset($query['gid']))
 	{
 		$gid = $query['gid'];
 		unset($query['gid']);
 	}
+
+	$layout = null;
 
 	if (isset($query['layout']))
 	{
@@ -135,11 +165,15 @@ function redshopBuildRoute(&$query)
 		unset($query['layout']);
 	}
 
+	$mid = null;
+
 	if (isset($query['mid']))
 	{
 		$mid = $query['mid'];
 		unset($query['mid']);
 	}
+
+	$task = null;
 
 	if (isset($query['task']))
 	{
@@ -147,11 +181,15 @@ function redshopBuildRoute(&$query)
 		unset($query['task']);
 	}
 
+	$infoid = null;
+
 	if (isset($query['infoid']))
 	{
 		$infoid = $query['infoid'];
 		unset($query['infoid']);
 	}
+
+	$oid = null;
 
 	if (isset($query['oid']))
 	{
@@ -159,11 +197,15 @@ function redshopBuildRoute(&$query)
 		unset($query['oid']);
 	}
 
+	$order_id = null;
+
 	if (isset($query['order_id']))
 	{
 		$order_id = $query['order_id'];
 		unset($query['order_id']);
 	}
+
+	$quoid = null;
 
 	if (isset($query['quoid']))
 	{
@@ -171,17 +213,23 @@ function redshopBuildRoute(&$query)
 		unset($query['quoid']);
 	}
 
+	$Itemid = null;
+
 	if (isset($query['Itemid']))
 	{
 		$Itemid = $query['Itemid'];
 	}
 
 	// Tag id
+	$tagid = null;
+
 	if (isset($query['tagid']))
 	{
 		$tagid = $query['tagid'];
 		unset($query['tagid']);
 	}
+
+	$edit = null;
 
 	if (isset($query['edit']))
 	{
@@ -190,11 +238,15 @@ function redshopBuildRoute(&$query)
 	}
 
 	// Remove flag
+	$remove = null;
+
 	if (isset($query['remove']))
 	{
 		$remove = $query['remove'];
 		unset($query['remove']);
 	}
+
+	$wishlist_id = null;
 
 	if (isset($query['wishlist_id']))
 	{
@@ -268,7 +320,7 @@ function redshopBuildRoute(&$query)
 				$segments[] = $layout;
 			}
 
-			if ($category_id != '')
+			if (!empty($category_id))
 			{
 				$segments[] = $category_id;
 			}
@@ -673,7 +725,7 @@ function redshopParseRoute($segments)
 	$vars = array();
 	require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
 
-	$db           = JFactory::getDBO();
+	$db           = JFactory::getDbo();
 	$firstSegment = $segments[0];
 
 	switch ($firstSegment)
@@ -794,54 +846,58 @@ function redshopParseRoute($segments)
 		case 'account':
 
 			$vars['view']   = 'account';
-			$vars['layout'] = $segments[1];
 
-			if ($segments[1] == 'mytags')
+			if (isset($segments[1]))
 			{
-				if (isset($segments[2]))
-				{
-					$vars['tagid'] = $segments[2];
+				$vars['layout'] = $segments[1];
 
-					if (isset($segments[4]))
+				if ($segments[1] == 'mytags')
+				{
+					if (isset($segments[2]))
 					{
-						if ($segments[4] == 'edit')
+						$vars['tagid'] = $segments[2];
+
+						if (isset($segments[4]))
 						{
-							$vars['edit'] = 1;
-						}
-						else
-						{
-							$vars['remove'] = 1;
+							if ($segments[4] == 'edit')
+							{
+								$vars['edit'] = 1;
+							}
+							else
+							{
+								$vars['remove'] = 1;
+							}
 						}
 					}
 				}
-			}
-			elseif ($segments[1] == 'mywishlist')
-			{
-				if (isset($segments[2]))
+				elseif ($segments[1] == 'mywishlist')
 				{
-					$vars['wishlist_id'] = $segments[2];
-				}
+					if (isset($segments[2]))
+					{
+						$vars['wishlist_id'] = $segments[2];
+					}
 
-				if (isset($segments[3]))
-				{
-					$vars['pid'] = $segments[3];
-				}
+					if (isset($segments[3]))
+					{
+						$vars['pid'] = $segments[3];
+					}
 
-				if (isset($segments[4]))
-				{
-					$vars['remove'] = 1;
+					if (isset($segments[4]))
+					{
+						$vars['remove'] = 1;
+					}
 				}
-			}
-			elseif ($segments[1] == 'compare')
-			{
-				if (isset($segments[2]))
+				elseif ($segments[1] == 'compare')
 				{
-					$vars['pid'] = $segments[2];
-				}
+					if (isset($segments[2]))
+					{
+						$vars['pid'] = $segments[2];
+					}
 
-				if (isset($segments[3]))
-				{
-					$vars['remove'] = 1;
+					if (isset($segments[3]))
+					{
+						$vars['remove'] = 1;
+					}
 				}
 			}
 

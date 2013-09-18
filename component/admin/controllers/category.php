@@ -58,7 +58,7 @@ class categoryController extends JController
 
 	public function autofillcityname()
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		ob_clean();
 		$mainzipcode = JRequest::getString('q', '');
 		$sel_zipcode = "select city_name from #__redshop_zipcode where zipcode='" . $mainzipcode . "'";

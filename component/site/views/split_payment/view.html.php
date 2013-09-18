@@ -24,7 +24,7 @@ class split_paymentViewsplit_payment extends JView
 
 		$pathway->addItem(JText::_('COM_REDSHOP_SPLIT_PAYMENT'), '');
 
-		$userdata = JRequest::getVar('userdata');
+		$userdata = JRequest::getString('userdata');
 		$user     = JFactory::getUser();
 
 		// Preform security checks
@@ -38,7 +38,7 @@ class split_paymentViewsplit_payment extends JView
 		$this->user = $user;
 		$this->userdata = $userdata;
 		$this->params = $params;
-		$payment_method_id = JRequest::getVar('payment_method_id');
+		$payment_method_id = JRequest::getString('payment_method_id');
 		$this->payment_method_id = $payment_method_id;
 
 		parent::display($tpl);

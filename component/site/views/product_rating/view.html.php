@@ -31,16 +31,15 @@ class product_ratingViewproduct_rating extends JView
 			return;
 		}
 
-		$option        = JRequest::getVar('option');
 		$model         = $this->getModel('product_rating');
 		$userinfo      = $model->getuserfullname($user->id);
 		$params        = $app->getParams('com_redshop');
-		$Itemid        = JRequest::getVar('Itemid');
+		$Itemid        = JRequest::getInt('Itemid');
 		$product_id    = JRequest::getInt('product_id');
 		$category_id   = JRequest::getInt('category_id');
 		$user          = JFactory::getUser();
 		$model         = $this->getModel('product_rating');
-		$rate          = JRequest::getVar('rate');
+		$rate          = JRequest::getInt('rate');
 		$already_rated = $model->checkRatedProduct($product_id, $user->id);
 
 	if ($already_rated == 1)
@@ -48,7 +47,7 @@ class product_ratingViewproduct_rating extends JView
 		if ($rate == 1)
 		{
 			$msg  = JText::_('COM_REDSHOP_YOU_CAN_NOT_REVIEW_SAME_PRODUCT_AGAIN');
-			$link = JRoute::_('index.php?option=' . $option . '&view=product&pid=' . $product_id . '&cid=' . $category_id . '&Itemid=' . $Itemid);
+			$link = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $product_id . '&cid=' . $category_id . '&Itemid=' . $Itemid);
 			$app->redirect($link, $msg);
 		}
 		else

@@ -717,7 +717,7 @@ class attribute_set_detailModelattribute_set_detail extends JModel
 
 	public function  attribute_empty()
 	{
-		$database = JFactory::getDBO();
+		$database = JFactory::getDbo();
 		$producthelper = new producthelper;
 
 		if ($this->_id)
@@ -829,7 +829,7 @@ class attribute_set_detailModelattribute_set_detail extends JModel
 	 */
 	public function SaveAttributeStockroom($post)
 	{
-		$database = JFactory::getDBO();
+		$database = JFactory::getDbo();
 		$query = "DELETE FROM " . $this->_table_prefix . "product_attribute_stockroom_xref"
 			. "\n  WHERE section_id = " . $post['section_id'] . " AND section = '" . $post['section'] . "'";
 
@@ -889,7 +889,7 @@ class attribute_set_detailModelattribute_set_detail extends JModel
 
 	public function save_product_attribute_stockquantity($product_attribute_stocks, $section)
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 
 		$sql = "INSERT INTO " . $this->_table_prefix . "product_attribute_stockroom_xref (`section_id`,`section`,`stockroom_id`,`quantity`)
 		VALUES ('" . $product_attribute_stocks->section_id . "','" . $section . "','" . $product_attribute_stocks->stockroom_id . "','"

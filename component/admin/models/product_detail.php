@@ -2866,7 +2866,7 @@ class Product_DetailModelProduct_Detail extends JModel
 			return array();
 		}
 
-		$database = JFactory::getDBO();
+		$database = JFactory::getDbo();
 
 		if (count($cid))
 		{
@@ -2928,7 +2928,7 @@ class Product_DetailModelProduct_Detail extends JModel
 	 */
 	public function StockRoomList()
 	{
-		$database = JFactory::getDBO();
+		$database = JFactory::getDbo();
 
 		$q = "SELECT * FROM " . $this->table_prefix . "stockroom WHERE published = 1";
 		$database->setQuery($q);
@@ -2947,7 +2947,7 @@ class Product_DetailModelProduct_Detail extends JModel
 	 */
 	public function StockRoomProductQuantity($pid, $sid)
 	{
-		$database = JFactory::getDBO();
+		$database = JFactory::getDbo();
 
 		$q = "SELECT `quantity` FROM `" . $this->table_prefix . "product_stockroom_xref`
 			  WHERE `product_id` = '" . $pid . "'
@@ -2969,7 +2969,7 @@ class Product_DetailModelProduct_Detail extends JModel
 	 */
 	public function StockRoomAttProductQuantity($pid, $sid, $section)
 	{
-		$database = JFactory::getDBO();
+		$database = JFactory::getDbo();
 
 		$q = "SELECT `quantity` FROM `" . $this->table_prefix . "product_attribute_stockroom_xref`
 			  WHERE `section_id` = '" . $pid . "'
@@ -2992,7 +2992,7 @@ class Product_DetailModelProduct_Detail extends JModel
 	 */
 	public function StockRoomAttProductPreorderstock($pid, $sid, $section)
 	{
-		$database = JFactory::getDBO();
+		$database = JFactory::getDbo();
 
 		$q = "SELECT `preorder_stock`, `ordered_preorder`
 			  FROM `" . $this->table_prefix . "product_attribute_stockroom_xref`
@@ -3014,7 +3014,7 @@ class Product_DetailModelProduct_Detail extends JModel
 	 */
 	public function StockRoomPreorderProductQuantity($pid, $sid)
 	{
-		$database = JFactory::getDBO();
+		$database = JFactory::getDbo();
 
 		$q = "SELECT `preorder_stock`, `ordered_preorder`  FROM `" . $this->table_prefix . "product_stockroom_xref`
 		WHERE `product_id` = '" . $pid . "' and `stockroom_id` = '" . $sid . "' ";
@@ -3034,7 +3034,7 @@ class Product_DetailModelProduct_Detail extends JModel
 	 */
 	public function SaveStockroom($pid, $post)
 	{
-		$database = JFactory::getDBO();
+		$database = JFactory::getDbo();
 		$query = "DELETE FROM " . $this->table_prefix . "product_stockroom_xref"
 			. "\n  WHERE product_id = '" . $pid . "' ";
 
@@ -3063,7 +3063,7 @@ class Product_DetailModelProduct_Detail extends JModel
 	public function  attribute_empty()
 	{
 		$producthelper = new producthelper;
-		$database = JFactory::getDBO();
+		$database = JFactory::getDbo();
 
 		if ($this->id)
 		{

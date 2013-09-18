@@ -39,7 +39,7 @@ class Redconfiguration
 	{
 		$this->_table_prefix = '#__redshop_';
 
-		$this->_db               = JFactory::getDBO();
+		$this->_db               = JFactory::getDbo();
 		$this->_configpath       = JPATH_SITE . "/administrator/components/com_redshop/helpers/redshop.cfg.php";
 		$this->_config_dist_path = JPATH_SITE . "/administrator/components/com_redshop/helpers/wizard/redshop.cfg.dist.php";
 		$this->_config_bkp_path  = JPATH_SITE . "/administrator/components/com_redshop/helpers/wizard/redshop.cfg.bkp.php";
@@ -897,7 +897,7 @@ class Redconfiguration
 		}
 
 		$qurey = "SELECT show_price FROM " . $this->_table_prefix . "shopper_group "
-			. "WHERE shopper_group_id='" . $shopper_group_id . "'";
+			. "WHERE shopper_group_id = " . (int) $shopper_group_id;
 		$this->_db->setQuery($qurey);
 		$list = $this->_db->loadObject();
 
@@ -936,7 +936,7 @@ class Redconfiguration
 		}
 
 		$qurey = "SELECT use_as_catalog FROM " . $this->_table_prefix . "shopper_group "
-			. "WHERE shopper_group_id='" . $shopper_group_id . "'";
+			. "WHERE shopper_group_id = " . (int) $shopper_group_id;
 		$this->_db->setQuery($qurey);
 		$list = $this->_db->loadObject();
 
@@ -976,7 +976,7 @@ class Redconfiguration
 		}
 
 		$qurey = "SELECT * FROM " . $this->_table_prefix . "shopper_group "
-			. "WHERE shopper_group_id='" . $shopper_group_id . "'";
+			. "WHERE shopper_group_id = " . (int) $shopper_group_id;
 		$this->_db->setQuery($qurey);
 		$list = $this->_db->loadObject();
 
@@ -1281,7 +1281,9 @@ class Redconfiguration
 
 	public function getCountryId($conid)
 	{
-		$query = 'SELECT country_id FROM ' . $this->_table_prefix . 'country ' . 'WHERE country_3_code LIKE "' . $conid . '"';
+		$db = JFactory::getDbo();
+		$query = 'SELECT country_id FROM ' . $this->_table_prefix . 'country '
+			. 'WHERE country_3_code LIKE ' . $db->quote($conid);
 		$this->_db->setQuery($query);
 
 		return $this->_db->loadResult();
@@ -1289,7 +1291,9 @@ class Redconfiguration
 
 	public function getCountryCode2($conid)
 	{
-		$query = 'SELECT country_2_code FROM ' . $this->_table_prefix . 'country ' . 'WHERE country_3_code LIKE "' . $conid . '"';
+		$db = JFactory::getDbo();
+		$query = 'SELECT country_2_code FROM ' . $this->_table_prefix . 'country '
+			. 'WHERE country_3_code LIKE ' . $db->quote($conid);
 		$this->_db->setQuery($query);
 
 		return $this->_db->loadResult();
@@ -1297,7 +1301,9 @@ class Redconfiguration
 
 	public function getStateCode2($conid)
 	{
-		$query = 'SELECT state_2_code FROM ' . $this->_table_prefix . 'state ' . 'WHERE state_3_code LIKE "' . $conid . '"';
+		$db = JFactory::getDbo();
+		$query = 'SELECT state_2_code FROM ' . $this->_table_prefix . 'state '
+			. 'WHERE state_3_code LIKE ' . $db->quote($conid);
 		$this->_db->setQuery($query);
 
 		return $this->_db->loadResult();
@@ -1305,8 +1311,10 @@ class Redconfiguration
 
 	public function getStateCode($conid, $tax_code)
 	{
-		$query = 'SELECT  state_3_code , show_state FROM ' . $this->_table_prefix . 'state ' . 'WHERE state_2_code LIKE "'
-			. $tax_code . '" and country_id="' . $conid . '"';
+		$db = JFactory::getDbo();
+		$query = 'SELECT  state_3_code , show_state FROM ' . $this->_table_prefix . 'state '
+		. 'WHERE state_2_code LIKE ' . $db->quote($tax_code)
+		. ' AND country_id = ' . (int) $conid;
 		$this->_db->setQuery($query);
 		$rslt_data = $this->_db->loadObjectList();
 
@@ -1324,6 +1332,8 @@ class Redconfiguration
 
 	public function countryList()
 	{
+		$db = JFactory::getDbo();
+
 		if (empty($this->_country_list))
 		{
 			require_once JPATH_SITE . '/components/com_redshop/helpers/helper.php';
@@ -1337,11 +1347,16 @@ class Redconfiguration
 
 				if (count($country_list) > 0)
 				{
-					$country_listCode = implode("','", $country_list);
-					$country_listCode = "'" . $country_listCode . "'";
+					// Sanitize country list
+					$sanitizedCountryArray = array();
+
+					foreach ($country_list as &$countryCode)
+					{
+						$countryCode = $db->quote($countryCode);
+					}
 
 					$q = 'SELECT country_3_code AS value,country_name AS text,country_jtext FROM ' . $this->_table_prefix . 'country '
-						. 'WHERE country_3_code IN (' . $country_listCode . ') '
+						. 'WHERE country_3_code IN (' . implode(",", $country_list) . ') '
 						. 'ORDER BY country_name ASC';
 
 					$this->_db->setQuery($q);
@@ -1397,6 +1412,8 @@ class Redconfiguration
 
 	public function getStateList($post = array(), $state_codename = "state_code", $country_codename = "country_code", $address_type = "BT", $isAdmin = 0, $state_class = "inputbox")
 	{
+		$db = JFactory::getDbo();
+
 		$selected_country_code = ($address_type == "ST") ? @$post['country_code_ST'] : @$post['country_code'];
 		$selected_state_code   = ($address_type == "ST") ? @$post['state_code_ST'] : @$post['state_code'];
 
@@ -1418,13 +1435,16 @@ class Redconfiguration
 
 			if (count($country_list) > 0)
 			{
-				$country_listCode = implode("','", $country_list);
-				$country_listCode = "'" . $country_listCode . "'";
+				// Sanitize country list
+				foreach ($country_list as &$countryCode)
+				{
+					$countryCode = $db->quote($countryCode);
+				}
 
 				$q = 'SELECT c.country_id, c.country_3_code, s.state_name, s.state_2_code FROM ' . $this->_table_prefix . 'country AS c '
 					. ',' . $this->_table_prefix . 'state s '
 					. 'WHERE (c.country_id=s.country_id OR s.country_id IS NULL) '
-					. 'AND c.country_3_code IN (' . $country_listCode . ') '
+					. 'AND c.country_3_code IN (' . implode(",", $country_list) . ') '
 					. 'ORDER BY c.country_id, s.state_name ';
 
 				$this->_db->setQuery($q);
@@ -1435,7 +1455,7 @@ class Redconfiguration
 		$q = 'SELECT count(state_id) FROM ' . $this->_table_prefix . 'state AS s '
 			. ',' . $this->_table_prefix . 'country AS c '
 			. 'WHERE c.country_id = s.country_id '
-			. 'AND c.country_3_code="' . $selected_country_code . '" ';
+			. 'AND c.country_3_code = ' . $db->quote($selected_country_code);
 
 		$this->_db->setQuery($q);
 		$is_states = $this->_db->loadResult();

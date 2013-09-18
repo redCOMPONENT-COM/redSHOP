@@ -18,7 +18,7 @@ require_once LETTERSEARCH_MODULE_PATH . '/helper.php';
 $lettersearchHelper = new modlettersearchHelper;
 
 $selected_field = trim($params->get('list_of_fields', ''));
-$db             = JFactory::getDBO();
+$db             = JFactory::getDbo();
 $getcharacters  = $lettersearchHelper->getDefaultModulecharacters($selected_field);
 
 // Get show number of products

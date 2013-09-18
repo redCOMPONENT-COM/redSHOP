@@ -11,8 +11,7 @@ defined('_JEXEC') or die;
 
 $url = JURI::base();
 
-$option = JRequest::getVar('option');
-$Itemid = JRequest::getVar('Itemid');
+$Itemid = JRequest::getInt('Itemid');
 ?>
 <script type="text/javascript" language="javascript">
 	function validate() {
@@ -52,7 +51,7 @@ if ($this->params->get('show_page_heading', 1))
 <?php
 }
 ?>
-<form action="<?php echo JRoute::_('index.php?option=' . $option) ?>" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo JRoute::_('index.php?option=com_redshop') ?>" method="post" name="adminForm" id="adminForm">
 	<table cellpadding="3" cellspacing="3" border="0" width="100%">
 		<tr>
 			<td colspan="2"><?php echo JText::_('COM_REDSHOP_WRITE_REVIEWFORM_HEADER_TEXT'); ?></td>
@@ -145,6 +144,6 @@ if ($this->params->get('show_page_heading', 1))
 	<input type="hidden" name="published" value="0"/>
 	<input type="hidden" name="rate" value="<?php echo $this->rate ?>"/>
 	<input type="hidden" name="time" value="<?php echo time() ?>"/>
-	<input type="hidden" name="option" value="<?php echo $option ?>"/>
+	<input type="hidden" name="option" value="com_redshop"/>
 	<input type="hidden" name="Itemid" value="<?php echo $Itemid ?>"/>
 </form>

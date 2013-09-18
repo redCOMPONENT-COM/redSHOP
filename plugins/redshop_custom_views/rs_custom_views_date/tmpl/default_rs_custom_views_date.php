@@ -18,7 +18,7 @@ $popup    = JRequest::getVar('popup');
 
 if ($popup)
 {
-	$db = JFactory::getDBO();
+	$db = JFactory::getDbo();
 	$heading = JText::_('COM_REDSHOP_PRODUCT_ORDERED_DATE');
 	$print = JText::_('COM_REDSHOP_PRINT');
 	$sel = "select o.*,fd.*,p.* from #__redshop_fields_data fd left outer join  #__redshop_order_item o on o.order_item_id=fd.itemid  left outer join  #__redshop_product p on o.product_id=p.product_id where fd.section=12 order by o.cdate desc";

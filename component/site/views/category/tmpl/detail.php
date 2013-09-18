@@ -699,19 +699,7 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 		$data_add     = str_replace("{product_height}", $producthelper->redunitDecimal($product->product_height) . "&nbsp;" . $product_unit, $data_add);
 
 		$data_add   = $producthelper->replaceVatinfo($data_add);
-
-		$link = $this->dispatcher->trigger('createProductLink', array($product));
-
-		if (empty($link))
-		{
-			$link = JRoute::_(
-				'index.php?option=' . $this->option .
-				'&view=product&pid=' . $product->product_id .
-				'&cid=' . $this->catid .
-				'&Itemid=' . $pItemid
-			);
-		}
-
+		$link       = JRoute::_('index.php?option=' . $option . '&view=product&pid=' . $product->product_id . '&cid=' . $catid . '&Itemid=' . $pItemid);
 		$pname      = $Redconfiguration->maxchar($product->product_name, CATEGORY_PRODUCT_TITLE_MAX_CHARS, CATEGORY_PRODUCT_TITLE_END_SUFFIX);
 		$product_nm = $pname;
 

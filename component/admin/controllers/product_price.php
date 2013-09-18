@@ -27,7 +27,7 @@ class product_priceController extends JController
 
 	public function saveprice()
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$product_id = JRequest::getVar('pid');
 		$shopper_group_id = JRequest::getVar('shopper_group_id', array(), 'post', 'array');
 		$price = JRequest::getVar('price', array(), 'post', 'array');

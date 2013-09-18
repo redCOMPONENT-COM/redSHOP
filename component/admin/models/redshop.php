@@ -24,7 +24,7 @@ class redshopModelredshop extends JModel
 
 	public function demoContentInsert()
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 
 		$query = "INSERT IGNORE INTO `#__redshop_category` (`category_id`, `category_name`, `category_short_description`, `category_description`, `category_template`, `category_more_template`, `products_per_page`, `category_thumb_image`, `category_full_image`, `metakey`, `metadesc`, `metalanguage_setting`, `metarobot_info`, `pagetitle`, `pageheading`, `sef_url`, `published`, `category_pdate`, `ordering`, `category_back_full_image`, `compare_template_id`, `append_to_global_seo`)
 						VALUES
