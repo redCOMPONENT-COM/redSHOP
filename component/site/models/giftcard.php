@@ -60,7 +60,7 @@ class GiftcardModelGiftcard extends JModel
 
 		if ($this->_id)
 		{
-			$and .= "AND giftcard_id='" . $this->_id . "' ";
+			$and .= "AND giftcard_id = " . (int) $this->_id . " ";
 		}
 
 		$query = "SELECT * FROM " . $this->_table_prefix . "giftcard "

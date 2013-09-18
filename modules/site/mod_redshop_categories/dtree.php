@@ -13,10 +13,10 @@ global $root_label, $urlpath;
 $urllive = $urlpath;
 
 
-$db              = JFactory :: getDBO();
+$db              = JFactory::getDbo();
 $objhelper       = new redhelper ();
-$Itemid          = JRequest::getVar('Itemid', '1');
-$redproduct_menu = new modProMenuHelper();
+$Itemid          = JRequest::getInt('Itemid', '1');
+$redproduct_menu = new modProMenuHelper;
 
 /************** CATEGORY TREE *******************************/
 
@@ -49,7 +49,7 @@ $basetext = "";
 
 // what category_id is selected?
 
-$category_id = JRequest::getVar('cid');
+$category_id = JRequest::getInt('cid');
 
 if ($params->get('categorysorttype') == "catnameasc")
 {
@@ -75,10 +75,10 @@ if ($shopper_group_id)
 // select menu items from database
 $query = "SELECT category_id,category_parent_id,category_name FROM #__redshop_category AS c "
 	. "LEFT JOIN #__redshop_category_xref AS cx ON c.category_id=cx.category_child_id "
-	. "WHERE c.published='1' ";
+	. "WHERE c.published=1 ";
 if ($shopper_group_id && count($shoppergroup_cat) > 0)
 {
-	$query .= " and category_id in (" . $shoppergroup_cat[0] . ")";
+	$query .= " and category_id IN(" . $shoppergroup_cat[0] . ")";
 }
 $query .= " ORDER BY " . $sortparam . "";
 //."ORDER BY ".$sortparam." ";

@@ -17,7 +17,7 @@ $user = JFactory::getUser();
 
 
 $redhelper = new redhelper;
-$db = JFactory::getDBO();
+$db = JFactory::getDbo();
 $user = JFActory::getUser();
 $task = JRequest::getVar('task');
 $app = JFactory::getApplication();

@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-$option = JRequest::getVar('option');
+$option = JRequest::getCmd('option');
 //$category = trim( $params->get( 'category', '' ) );
 $count                    = trim($params->get('count', 5));
 $image                    = trim($params->get('image', 0));
@@ -24,7 +24,7 @@ $show_desc                = trim($params->get('show_desc', 1));
 $show_vat                 = trim($params->get('show_vat', 1));
 
 $user = JFactory::getUser();
-$db   = JFactory::getDBO();
+$db   = JFactory::getDbo();
 if ($option != 'com_redshop')
 {
 	// Getting the configuration

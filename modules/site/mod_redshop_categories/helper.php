@@ -17,12 +17,12 @@ class modProMenuHelper
 	function has_childs($category_id)
 	{
 
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 
 		if (empty($GLOBALS['category_info'][$category_id]['has_childs']))
 		{
 			$q = "SELECT category_child_id FROM #__redshop_category_xref ";
-			$q .= "WHERE category_parent_id='$category_id' ";
+			$q .= "WHERE category_parent_id=" . (int) $category_id;
 			$db->setQuery($q);
 
 			if ($db->loadObjectList() > 0)
@@ -130,7 +130,7 @@ class modProMenuHelper
 	function getCategoryTreeArray($only_published = 1, $keyword = "", $shopper_group_id, $parent_selected_remove)
 	{
 		global $categorysorttype;
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 
 		if (empty($GLOBALS['category_info']['category_tree']))
 		{
@@ -221,7 +221,7 @@ class modProMenuHelper
 
 	function product_count($category_id)
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 
 		if (!isset($GLOBALS['category_info'][$category_id]['product_count']))
 		{
@@ -248,7 +248,7 @@ class modProMenuHelper
 	function products_in_category($category_id, $params = '')
 	{
 		global $urlpath;
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 
 		$show_noofproducts = $params->get('show_noofproducts', 'yes');
 		$num               = $this->product_count($category_id);
@@ -257,8 +257,7 @@ class modProMenuHelper
 			if (empty($num) || $this->has_childs($category_id))
 			{
 				$q = "SELECT category_child_id FROM #__redshop_category_xref ";
-				$q .= "WHERE category_parent_id='$category_id' ";
-
+				$q .= "WHERE category_parent_id=" . (int) $category_id;
 
 				$db->setQuery($q);
 				$catresults = $db->loadObjectList();
@@ -403,7 +402,7 @@ class modProMenuHelper
 
 				$Itemid = $objhelper->getCategoryItemid($category_tmp[$row_list[$n]]["category_child_id"]);
 				if (!$Itemid)
-					$Itemid = JRequest::getVar('Itemid');
+					$Itemid = JRequest::getInt('Itemid');
 
 				$uri = JURI::getInstance();
 				$url = $uri->root();
@@ -424,9 +423,9 @@ class modProMenuHelper
 
 	function get_shoppergroup_cat($shopper_group_id)
 	{
-		$db    = JFactory::getDBO();
+		$db    = JFactory::getDbo();
 		$query = "SELECT shopper_group_categories  FROM #__redshop_shopper_group "
-			. "WHERE shopper_group_id='" . $shopper_group_id . "' ";
+			. "WHERE shopper_group_id=" . (int) $shopper_group_id;
 		$db->setQuery($query);
 		$cat_id_arr = $db->loadResultArray();
 

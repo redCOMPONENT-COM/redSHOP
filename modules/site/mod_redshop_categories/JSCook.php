@@ -23,7 +23,7 @@ if (!class_exists('redCategoryMenu'))
 		{
 			static $ibg = 0;
 			global $urlpath, $redproduct_menu;
-			$db = JFactory :: getDBO();
+			$db = JFactory::getDbo();
 			$level++;
 			$redproduct_menu = new modProMenuHelper();
 
@@ -51,16 +51,16 @@ if (!class_exists('redCategoryMenu'))
 			$query = "SELECT category_name, category_id, category_child_id FROM #__redshop_category AS a "
 				. "LEFT JOIN #__redshop_category_xref as b ON a.category_id=b.category_child_id "
 				. "WHERE a.published='1' "
-				. "AND b.category_parent_id='$category_id' ";
+				. "AND b.category_parent_id= " . (int) $category_id;
 			if ($shopper_group_id && count($shoppergroup_cat) > 0)
 			{
-				$query .= " and category_id in (" . $shoppergroup_cat[0] . ")";
+				$query .= " and category_id IN(" . $shoppergroup_cat[0] . ")";
 			}
 			$query .= " ORDER BY " . $sortparam . "";
 			//	."ORDER BY ".$sortparam."";
 			$db->setQuery($query);
 			$traverse_results = $db->loadObjectList();
-			$objhelper        = new redhelper ();
+			$objhelper        = new redhelper;
 			$Itemid           = JRequest::getInt('Itemid');
 
 			foreach ($traverse_results as $traverse_result)

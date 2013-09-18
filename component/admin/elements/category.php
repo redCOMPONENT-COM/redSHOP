@@ -31,7 +31,7 @@ class JFormFieldcategory extends JFormField
 
 	protected function getInput()
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$this->_cats = array();
 		$name = $this->name;
 		$control_name = $this->name;
@@ -46,7 +46,7 @@ class JFormFieldcategory extends JFormField
 	function getCategoryListArray($category_id = "", $cid = '0', $level = '0')
 	{
 
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$level++;
 
 		$and = " AND cx.category_parent_id='$cid' ";

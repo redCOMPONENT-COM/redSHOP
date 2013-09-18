@@ -9,24 +9,23 @@
 
 defined('_JEXEC') or die;
 JHTML::_('behavior.tooltip');
-$app = JFactory::getApplication();
-$option = JRequest::getVar('option');
-$Itemid = JRequest::getVar('Itemid');
-$loginlink = 'index.php?option=' . $option . '&view=login&Itemid=' . $Itemid;
-$mywishlist = JRequest::getVar('wishlist');
+$app        = JFactory::getApplication();
+$Itemid     = JRequest::getInt('Itemid');
+$loginlink  = 'index.php?option=com_redshop&view=login&Itemid=' . $Itemid;
+$mywishlist = JRequest::getString('wishlist');
 
 if ($mywishlist != '')
 {
-	$newuser_link = 'index.php?wishlist=' . $mywishlist . '&option=' . $option . '&view=registration&Itemid=' . $Itemid;
+	$newuser_link = 'index.php?wishlist=' . $mywishlist . '&option=com_redshop&view=registration&Itemid=' . $Itemid;
 }
 else
 {
-	$newuser_link = 'index.php?option=' . $option . '&view=registration&Itemid=' . $Itemid;
+	$newuser_link = 'index.php?option=com_redshop&view=registration&Itemid=' . $Itemid;
 }
 
-$forgotpwd_link = 'index.php?option=' . $option . '&view=password&Itemid=' . $Itemid;
+$forgotpwd_link = 'index.php?option=com_redshop&view=password&Itemid=' . $Itemid;
 
-$params = $app->getParams($option);
+$params       = $app->getParams('com_redshop');
 $returnitemid = $params->get('login', $Itemid);
 
 ?>
@@ -71,7 +70,7 @@ $returnitemid = $params->get('login', $Itemid);
 		</tr>
 	</table>
 	<input type="hidden" name="task" id="task" value="setlogin">
-	<input type="hidden" name="mywishlist" id="mywishlist" value="<?php echo JRequest::getVar('wishlist'); ?>">
+	<input type="hidden" name="mywishlist" id="mywishlist" value="<?php echo JRequest::getString('wishlist'); ?>">
 	<input type="hidden" name="returnitemid" id="returnitemid" value="<?php echo $returnitemid; ?>">
-	<input type="hidden" name="option" id="option" value="<?php echo $option; ?>"/>
+	<input type="hidden" name="option" id="option" value="com_redshop"/>
 </form>

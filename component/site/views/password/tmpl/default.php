@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 JHTML::_('behavior.tooltip');
-$Itemid = JRequest::getVar('Itemid');?>
+$Itemid = JRequest::getInt('Itemid');?>
 <form action="" method="post">
 	<table cellpadding="0" cellspacing="0" border="0" width="100%">
 		<tr>

@@ -22,7 +22,7 @@ class JFormFieldRedshopcategoryremove extends JFormField
 
 	function getInput()
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		if (!is_dir(JPATH_ADMINISTRATOR . '/components/com_redshop')) return JText::_('COM_REDSHOP_REDSHOP_IS_NOT_INSTALLED');
 		if (!is_array($this->value))
 		{
@@ -35,7 +35,7 @@ class JFormFieldRedshopcategoryremove extends JFormField
 				$this->value[$tmpV] = $tmpV;
 			}
 		}
-		$option = JRequest::getVar('option');
+		$option = JRequest::getInt('option');
 		if ($option != 'com_redshop')
 		{
 			require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';

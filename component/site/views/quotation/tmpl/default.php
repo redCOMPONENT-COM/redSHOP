@@ -13,9 +13,8 @@ JHTML::_('behavior.tooltip');
 $redTemplate = new Redtemplate;
 $carthelper = new rsCarthelper;
 
-$Itemid = JRequest::getVar('Itemid');
-$option = JRequest::getVar('option');
-$return = JRequest::getVar('return');
+$Itemid = JRequest::getInt('Itemid');
+$return = JRequest::getString('return');
 $session = JFactory::getSession();
 $cart = $session->get('cart');
 
@@ -102,7 +101,7 @@ else
 
 $cancel_btn = '<input type="submit" class="greenbutton" name="cancel" value="' . JText::_("COM_REDSHOP_CANCEL") . '" onclick="javascript:document.adminForm.task.value=\'cancel\';"/>';
 $quotation_btn = '<input type="submit" class="greenbutton" name="addquotation" value="' . JText::_("COM_REDSHOP_REQUEST_QUOTATION") . '" onclick="return validateInfo();"/>';
-$quotation_btn .= '<input type="hidden" name="option" value="' . $option . '" />';
+$quotation_btn .= '<input type="hidden" name="option" value="com_redshop" />';
 $quotation_btn .= '<input type="hidden" name="Itemid" value="' . $Itemid . '" />';
 $quotation_btn .= '<input type="hidden" name="task" value="addquotation" />';
 $quotation_btn .= '<input type="hidden" name="view" value="quotation" />';

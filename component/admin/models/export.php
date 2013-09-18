@@ -136,7 +136,7 @@ class ExportModelexport extends JModel
 	 */
 	private function loadProducts()
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 
 		$export_product_extra_field = JRequest::getInt('export_product_extra_field', 0);
 		$product_category = JRequest::getVar('product_category');
@@ -744,7 +744,7 @@ class ExportModelexport extends JModel
 	 */
 	private function loadCategories()
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$q = "SELECT c.*,cx.category_parent_id
 			FROM #__redshop_category c LEFT JOIN #__redshop_category_xref cx ON c.category_id = cx.category_child_id WHERE cx.category_parent_id IS NOT NULL ORDER BY c.category_id";
 		$db->setQuery($q);
@@ -831,7 +831,7 @@ class ExportModelexport extends JModel
 	{
 		$producthelper = new producthelper;
 
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$query = "SELECT * FROM `#__redshop_product` ORDER BY product_id asc ";
 		$this->_db->setQuery($query);
 		$cur = $this->_db->loadObjectList();
@@ -1023,7 +1023,7 @@ class ExportModelexport extends JModel
 	 */
 	private function loadManufacturer()
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$query = "SELECT m.* "
 			. "FROM `#__redshop_manufacturer` AS m ";
 		$db->setQuery($query);
@@ -1094,7 +1094,7 @@ class ExportModelexport extends JModel
 	 */
 	private function loadRelatedProducts()
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$relsku = "SELECT `product_number` FROM `#__redshop_product` WHERE `product_id` = pr.`related_id`";
 		$mainsku = "SELECT `product_number` FROM `#__redshop_product` WHERE `product_id` = pr.`product_id`";
 
@@ -1167,7 +1167,7 @@ class ExportModelexport extends JModel
 	{
 		$extra_field   = new extra_field;
 		$producthelper = new producthelper;
-		$db            = JFactory::getDBO();
+		$db            = JFactory::getDbo();
 		$query         = "SELECT * FROM `#__redshop_fields` ORDER BY field_id asc ";
 		$this->_db->setQuery($query);
 		$cur           = $this->_db->loadObjectList();
@@ -1215,7 +1215,7 @@ class ExportModelexport extends JModel
 	 */
 	private function loadUsers()
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$query = "SELECT ui.`users_info_id` , sg.shopper_group_name, IFNULL( u.id, ui.user_id ) as id ,
 		IFNULL( u.email, ui.user_email ) as email , u.username,u.name, u.password, u.usertype, u.block, u.sendEmail, ui.company_name,
 		ui.firstname, ui.lastname, ui.vat_number, ui.tax_exempt, ui.shopper_group_id, ui.country_code, ui.address, ui.city,
@@ -1293,7 +1293,7 @@ class ExportModelexport extends JModel
 	 */
 	private function loadshippingaddress()
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$query = "SELECT  IFNULL( u.email, ui.user_email ) as email , u.username, ui.company_name, ui.firstname,
 		ui.lastname, ui.address, ui.city, ui.state_code, ui.zipcode, ui.country_code, ui.phone
 			FROM (
@@ -1365,7 +1365,7 @@ class ExportModelexport extends JModel
 	 */
 	public function loadShoppergroupPrice()
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$query = "SELECT p.product_number, 'product' AS section, s.shopper_group_id, s.shopper_group_name, pp.product_price,
 		price_quantity_start, price_quantity_end, pp.discount_price, pp.discount_start_date, pp.discount_end_date "
 			. "FROM `#__redshop_product_price` AS pp "

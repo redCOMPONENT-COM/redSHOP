@@ -37,7 +37,7 @@ class state_detailVIEWstate_detail extends JView
 		}
 
 		$text      = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
-		$db        = JFactory::getDBO();
+		$db        = JFactory::getDbo();
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_STATE') . ': <small><small>[ ' . $text . ' ]</small></small>', 'redshop_region_48');
 

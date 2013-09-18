@@ -19,7 +19,7 @@ JLoader::import('images', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers
 $uri = JURI::getInstance();
 $url = $uri->root();
 
-$Itemid = JRequest::getVar('Itemid');
+$Itemid = JRequest::getInt('Itemid');
 $user   = JFactory::getUser();
 $option = 'com_redshop';
 

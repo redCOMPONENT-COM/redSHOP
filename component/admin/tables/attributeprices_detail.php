@@ -62,16 +62,16 @@ class Tableattributeprices_detail extends JTable
 	{
 		$query = 'SELECT price_id FROM ' . $this->_table_prefix . 'product_attribute_price WHERE shopper_group_id = "'
 			. $this->shopper_group_id . '" AND section_id = ' . (int) $this->section_id
-			. ' AND price_quantity_start <= ' . $this->_db->quote($this->price_quantity_start)
-			. ' AND price_quantity_end >= ' . $this->_db->quote($this->price_quantity_start) . '';
+			. ' AND price_quantity_start <= ' . (int) $this->price_quantity_start
+			. ' AND price_quantity_end >= ' . (int) $this->price_quantity_start;
 
 		$this->_db->setQuery($query);
 		$xid = intval($this->_db->loadResult());
 
 		$query_end = 'SELECT price_id FROM ' . $this->_table_prefix . 'product_attribute_price WHERE shopper_group_id = "'
 			. $this->shopper_group_id . '" AND section_id = ' . (int) $this->section_id
-			. ' AND price_quantity_start <= ' . $this->_db->quote($this->price_quantity_end)
-			. ' AND price_quantity_end >= ' . $this->_db->quote($this->price_quantity_end) . '';
+			. ' AND price_quantity_start <= ' . (int) $this->price_quantity_end
+			. ' AND price_quantity_end >= ' . (int) $this->price_quantity_end;
 
 		$this->_db->setQuery($query_end);
 		$xid_end = intval($this->_db->loadResult());

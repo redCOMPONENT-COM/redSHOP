@@ -61,7 +61,7 @@ class extra_field
 	public function list_all_field_in_product($section = 1)
 	{
 		$query = "SELECT * FROM " . $this->_table_prefix . "fields "
-			. "WHERE field_section=" . $section . " "
+			. "WHERE field_section = " . (int) $section . " "
 			. "AND display_in_product=1 "
 			. "AND `published`=1 "
 			. "ORDER BY ordering ";
@@ -77,11 +77,14 @@ class extra_field
 		$option = JRequest::getVar('option');
 		$uri = JURI::getInstance();
 		$url = $uri->root();
-		$q = "SELECT * FROM " . $this->_table_prefix . "fields WHERE field_section='" . $field_section . "' AND published=1 ";
+		$q = "SELECT * FROM " . $this->_table_prefix . "fields WHERE field_section = " . (int) $field_section . " AND published=1 ";
 
 		if ($field_name != "")
 		{
-			$q .= "AND field_name in ($field_name) ";
+			$field_name = explode(',', $field_name);
+			JArrayHelper::toInteger($field_name);
+			$field_name = implode(',', $field_name);
+			$q .= "AND field_name IN ($field_name) ";
 		}
 
 		$q .= " ORDER BY ordering";
@@ -461,7 +464,7 @@ class extra_field
 					$image_link = array();
 					$image_hover = array();
 
- 					for ($ch = 0; $ch < count($chk_data); $ch++)
+					for ($ch = 0; $ch < count($chk_data); $ch++)
 					{
 						$image_link[$chk_data[$ch]] = $tmp_image_link[$ch];
 						$image_hover[$chk_data[$ch]] = $tmp_image_hover[$ch];
@@ -621,8 +624,13 @@ class extra_field
 	public function extra_field_save($data, $field_section, $section_id = "", $user_email = "")
 	{
 		$option = JRequest::getVar('option');
+
+		// Sanitize ids
+		$field_section = explode(',', $field_section);
+		JArrayHelper::toInteger($field_section);
+
 		$q = "SELECT * FROM " . $this->_table_prefix . "fields "
-			. "WHERE field_section IN (" . $field_section . ") "
+			. "WHERE field_section IN (" . implode(',', $field_section) . ") "
 			. "AND published=1 ";
 		$this->_db->setQuery($q);
 		$row_data = $this->_db->loadObjectlist();
@@ -746,11 +754,11 @@ class extra_field
 					$str_image_link = implode(',,,,,', $image_link);
 
 					$sql = "UPDATE " . $this->_table_prefix . "fields_data "
-						. "SET alt_text='" . $str_image_hover . "' , image_link='" . $str_image_link . "' "
-						. "WHERE itemid='" . $section_id . "' "
-						. "AND section='" . $field_section . "' "
-						. "AND user_email='" . $user_email . "' "
-						. "AND fieldid='" . $row_data[$i]->field_id . "' ";
+						. "SET alt_text = " . $this->_db->quote($str_image_hover) . " , image_link = " . $this->_db->quote($str_image_link) . " "
+						. "WHERE itemid = " . (int) $section_id . " "
+						. "AND section = " . $this->_db->quote($field_section) . " "
+						. "AND user_email = " . $this->_db->quote($user_email) . " "
+						. "AND fieldid = " . (int) $row_data[$i]->field_id . " ";
 					$this->_db->setQuery($sql);
 					$this->_db->query();
 				}
@@ -758,18 +766,21 @@ class extra_field
 				if (count($list) > 0)
 				{
 					$sql = "UPDATE " . $this->_table_prefix . "fields_data "
-						. "SET data_txt='" . $data['imgFieldId' . $row_data[$i]->field_id] . "' "
-						. "WHERE itemid='" . $section_id . "' "
-						. "AND section='" . $field_section . "' "
-						. "AND user_email='" . $user_email . "' "
-						. "AND fieldid='" . $row_data[$i]->field_id . "' ";
+						. "SET data_txt = " . $this->_db->quote($data['imgFieldId' . $row_data[$i]->field_id]) . " "
+						. "WHERE itemid = " . (int) $section_id . " "
+						. "AND section = " . $this->_db->quote($field_section) . " "
+						. "AND user_email = " . $this->_db->quote($user_email) . " "
+						. "AND fieldid = " . (int) $row_data[$i]->field_id . " ";
 				}
 				else
 				{
 					$sql = "INSERT INTO " . $this->_table_prefix . "fields_data "
 						. "(fieldid, data_txt, itemid, section, alt_text, image_link, user_email) "
 						. "VALUE "
-						. "('" . $row_data[$i]->field_id . "','" . $data['imgFieldId' . $row_data[$i]->field_id] . "','" . $section_id . "','" . $field_section . "','" . $str_image_hover . "','" . $str_image_link . "', '" . $user_email . "')";
+						. "(" . (int) $row_data[$i]->field_id . "," . $this->_db->quote($data['imgFieldId' . $row_data[$i]->field_id])
+						. "," . (int) $section_id . "," . $this->_db->quote($field_section)
+						. "," . $this->_db->quote($str_image_hover) . "," . $this->_db->quote($str_image_link)
+						. ", " . $this->_db->quote($user_email) . ")";
 				}
 
 				$this->_db->setQuery($sql);
@@ -786,18 +797,19 @@ class extra_field
 						if (count($list) > 0)
 						{
 							$sql = "UPDATE " . $this->_table_prefix . "fields_data "
-								. "SET data_txt=\"" . addslashes($data_txt) . "\" "
-								. "WHERE itemid='" . $section_id . "' "
-								. "AND section='" . $sect[$h] . "' "
-								. "AND user_email='" . $user_email . "' "
-								. "AND fieldid='" . $row_data[$i]->field_id . "' ";
+								. "SET data_txt = " . $this->_db->quote(addslashes($data_txt)) . " "
+								. "WHERE itemid = " . (int) $section_id . " "
+								. "AND section = " . (int) $sect[$h] . " "
+								. "AND user_email = " . $this->_db->quote($user_email) . " "
+								. "AND fieldid = " . (int) $row_data[$i]->field_id . " ";
 						}
 						else
 						{
 							$sql = "INSERT INTO " . $this->_table_prefix . "fields_data "
 								. "(fieldid, data_txt, itemid, section, user_email) "
 								. "VALUE "
-								. "('" . $row_data[$i]->field_id . "','" . addslashes($data_txt) . "','" . $section_id . "','" . $sect[$h] . "', '" . $user_email . "')";
+								. "(" . (int) $row_data[$i]->field_id . "," . $this->_db->quote(addslashes($data_txt))
+								. "," . (int) $section_id . "," . (int) $sect[$h] . ", " . $this->_db->quote($user_email) . ")";
 						}
 
 						$this->_db->setQuery($sql);
@@ -954,7 +966,7 @@ class extra_field
 					if ($data_value && $data_value->data_txt)
 					{
 						$q = "SELECT country_name FROM " . $this->_table_prefix . "country "
-							. "WHERE country_id='" . $data_value->data_txt . "' ";
+							. "WHERE country_id = " . $this->_db->quote($data_value->data_txt);
 						$this->_db->setQuery($q);
 						$field_chk = $this->_db->loadObject();
 						$extra_field_value = $field_chk->country_name;
@@ -1005,8 +1017,8 @@ class extra_field
 		$document->addScript('components/com_redshop/assets/js/attribute.js');
 
 		$q = "SELECT * FROM " . $this->_table_prefix . "fields "
-			. "WHERE field_section='" . $section_id . "' "
-			. "AND field_name='" . $field_section . "' "
+			. "WHERE field_section = " . (int) $section_id . " "
+			. "AND field_name = " . $this->_db->quote($field_section) . " "
 			. "AND published=1 "
 			. "AND field_show_in_front=1 ";
 		$this->_db->setQuery($q);
@@ -1186,7 +1198,7 @@ class extra_field
 	public function getFieldValue($id)
 	{
 		$q = "SELECT * FROM " . $this->_table_prefix . "fields_value "
-			. "WHERE field_id='" . $id . "' "
+			. "WHERE field_id = " . (int) $id . " "
 			. "ORDER BY value_id ASC ";
 		$this->_db->setQuery($q);
 		$list = $this->_db->loadObjectlist();
@@ -1198,8 +1210,8 @@ class extra_field
 	{
 		$query = "SELECT * FROM " . $this->_table_prefix . "fields "
 			. "WHERE published=1 "
-			. "AND field_show_in_front='" . $front . "' "
-			. "AND field_section='" . $section . "'  ORDER BY ordering";
+			. "AND field_show_in_front = " . (int) $front . " "
+			. "AND field_section = " . (int) $section . "  ORDER BY ordering";
 		$this->_db->setQuery($query);
 		$list = $this->_db->loadObjectlist();
 
@@ -1209,10 +1221,10 @@ class extra_field
 	public function getSectionFieldDataList($fieldid, $section = 0, $orderitemid = 0, $user_email = "")
 	{
 		$query = "SELECT * FROM " . $this->_table_prefix . "fields_data "
-			. "WHERE itemid='" . $orderitemid . "' "
-			. "AND fieldid='" . $fieldid . "' "
-			. "AND user_email='" . $user_email . "' "
-			. "AND section='" . $section . "' ";
+			. "WHERE itemid = " . (int) $orderitemid . " "
+			. "AND fieldid = " . (int) $fieldid . " "
+			. "AND user_email = " . $this->_db->quote($user_email) . " "
+			. "AND section = " . (int) $section . " ";
 		$this->_db->setQuery($query);
 		$list = $this->_db->loadObject();
 
@@ -1222,7 +1234,7 @@ class extra_field
 	public function copy_product_extra_field($oldproduct_id, $newPid)
 	{
 		$query = "SELECT * FROM " . $this->_table_prefix . "fields_data "
-			. "WHERE itemid='" . intval($oldproduct_id) . "' "
+			. "WHERE itemid = " . (int) $oldproduct_id . " "
 			. "AND (section='1' or section = '12' or section = '17') ";
 		$this->_db->setQuery($query);
 		$list = $this->_db->loadObjectList();
@@ -1232,7 +1244,9 @@ class extra_field
 			$sql = "INSERT INTO " . $this->_table_prefix . "fields_data "
 				. "(fieldid, data_txt, itemid, section, alt_text, image_link, user_email) "
 				. "VALUE "
-				. "('" . $list[$i]->fieldid . "','" . $list[$i]->data_txt . "','" . $newPid . "','" . $list[$i]->section . "','" . $list[$i]->alt_text . "','" . $list[$i]->image_link . "', '" . $list[$i]->user_email . "')";
+				. "(" . (int) $list[$i]->fieldid . "," . $this->_db->quote($list[$i]->data_txt)
+				. "," . (int) $newPid . "," . (int) $list[$i]->section . "," . $this->_db->quote($list[$i]->alt_text)
+				. "," . $this->_db->quote($list[$i]->image_link) . ", " . $this->_db->quote($list[$i]->user_email) . ")";
 
 			$this->_db->setQuery($sql);
 			$this->_db->query();
@@ -1242,7 +1256,7 @@ class extra_field
 	public function deleteExtraFieldData($data_id)
 	{
 		$query = "DELETE FROM " . $this->_table_prefix . "fields_data "
-			. "WHERE data_id='" . $data_id . "' ";
+			. "WHERE data_id = " . (int) $data_id . " ";
 		$this->_db->setQuery($query);
 		$this->_db->query();
 	}

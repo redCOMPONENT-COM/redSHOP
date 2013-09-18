@@ -88,7 +88,7 @@ class plgredshop_productstock_notifyemail extends JPlugin
 	function getNotifyUsers($stockroom_data)
 	{
 		$section_id = $stockroom_data['section_id'];
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$query = "";
 
 		if ($stockroom_data['section'] == "product")
@@ -154,7 +154,7 @@ class plgredshop_productstock_notifyemail extends JPlugin
 
 	function deleteNotifiedUsers($userData)
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$query = "DELETE FROM " . $this->_table_prefix . "notifystock_users WHERE product_id=" . $userData->product_id . " and property_id=" . $userData->property_id . " and subproperty_id=" . $userData->subproperty_id . " and user_id =" . $userData->user_id . "";
 		$db->setQuery($query);
 		$db->Query();

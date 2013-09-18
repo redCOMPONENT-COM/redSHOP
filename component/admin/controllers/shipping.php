@@ -20,7 +20,7 @@ class shippingcontroller extends JController
 
 	public function importeconomic()
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 
 		// Add product to economic
 		if (ECONOMIC_INTEGRATION == 1)

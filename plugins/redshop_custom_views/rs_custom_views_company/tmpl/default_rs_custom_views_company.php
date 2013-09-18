@@ -22,7 +22,7 @@ $popup    = JRequest::getVar('popup');
 
 if ($popup)
 {
-	$db = JFactory::getDBO();
+	$db = JFactory::getDbo();
 	$print = JText::_('COM_REDSHOP_PRINT');
 ?>
 	<style type="text/css">

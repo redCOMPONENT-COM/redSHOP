@@ -415,7 +415,7 @@ class plgRedshop_paymentrs_payment_braintree extends JPlugin
 			$plugin = $element;
 		}
 
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$request = JRequest::get('request');
 		$Itemid = $request["Itemid"];
 		$user = JFActory::getUser();
@@ -474,7 +474,7 @@ class plgRedshop_paymentrs_payment_braintree extends JPlugin
 
 	public function getparameters($payment)
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$sql = "SELECT * FROM #__extensions WHERE `element`='" . $payment . "'";
 		$db->setQuery($sql);
 		$params = $db->loadObjectList();
@@ -524,7 +524,7 @@ class plgRedshop_paymentrs_payment_braintree extends JPlugin
 
 	public function getUser_BraintreeVault_ref($user_id)
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$query = "SELECT braintree_vault_number
 							FROM  `" . $this->_table_prefix . "users_info`
 							WHERE  `user_id` = '" . $user_id . "'
@@ -544,10 +544,10 @@ class plgRedshop_paymentrs_payment_braintree extends JPlugin
 
 	public function updateUsertovault_token($user_id, $user_vault_ref)
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 
 		$query = "UPDATE `" . $this->_table_prefix . "users_info` SET `braintree_vault_number` = " . $user_vault_ref . "  WHERE `user_id` =" . $user_id . " AND address_type = 'BT'";
-		$db->SetQuery($query);
+		$db->setQuery($query);
 		$db->query();
 	}
 }

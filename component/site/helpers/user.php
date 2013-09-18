@@ -34,7 +34,7 @@ class rsUserhelper
 	{
 		$this->_table_prefix = '#__' . TABLE_PREFIX . '_';
 		$this->_session      = JFactory::getSession();
-		$this->_db           = JFactory::getDBO();
+		$this->_db           = JFactory::getDbo();
 	}
 
 	/**
@@ -51,7 +51,7 @@ class rsUserhelper
 
 		if ($isredcrmuser)
 		{
-			$this->_db->setQuery("SELECT user_id FROM  " . $this->_table_prefix . "users_info WHERE users_info_id IN (SELECT users_info_id FROM #__redcrm_contact_persons WHERE cp_user_id = " . $user_id . ") and address_type='BT'");
+			$this->_db->setQuery("SELECT user_id FROM  " . $this->_table_prefix . "users_info WHERE users_info_id IN (SELECT users_info_id FROM #__redcrm_contact_persons WHERE cp_user_id = " . (int) $user_id . ") and address_type='BT'");
 			$user_id = $this->_db->loadResult();
 		}
 
@@ -83,7 +83,7 @@ class rsUserhelper
 	{
 		$query = 'SELECT group_id FROM ' . $this->_table_prefix . 'users_info AS uf '
 			. 'LEFT JOIN #__user_usergroup_map as u on u.user_id = uf.user_id '
-			. 'WHERE users_info_id="' . $user_id . '" ';
+			. 'WHERE users_info_id = ' . (int) $user_id;
 		$this->_db->setQuery($query);
 		$usergroups = $this->_db->loadResultArray();
 
@@ -92,19 +92,15 @@ class rsUserhelper
 
 	public function updateUserTermsCondition($users_info_id = 0, $isSet = 0)
 	{
-		$and = '';
-
+		// One id is mandatory ALWAYS
 		if ($users_info_id != 0)
 		{
-			$and .= "AND users_info_id = '" . $users_info_id . "' ";
+			$query = "UPDATE " . $this->_table_prefix . "users_info"
+				. " SET accept_terms_conditions = " . (int) $isSet
+				. " WHERE users_info_id = " . (int) $users_info_id;
+			$this->_db->setQuery($query);
+			$this->_db->Query();
 		}
-
-		$query = "UPDATE " . $this->_table_prefix . "users_info "
-			. "SET accept_terms_conditions='" . $isSet . "' "
-			. "WHERE 1=1 "
-			. $and;
-		$this->_db->setQuery($query);
-		$this->_db->Query();
 	}
 
 	public function getShoppergroupData($user_id = 0)
@@ -123,7 +119,7 @@ class rsUserhelper
 			{
 				$query = "SELECT sg.* FROM " . $this->_table_prefix . "shopper_group AS sg "
 					. "LEFT JOIN " . $this->_table_prefix . "users_info AS ui ON ui.shopper_group_id=sg.shopper_group_id "
-					. "WHERE ui.user_id = '" . $user_id . "' and ui.address_type='BT' ORDER BY shopper_group_id DESC  LIMIT 0,1";
+					. "WHERE ui.user_id = " . (int) $user_id . " AND ui.address_type='BT' ORDER BY shopper_group_id DESC  LIMIT 0,1";
 				$this->_db->setQuery($query);
 				$list = $this->_shopperGroupData = $this->_db->loadObject();
 			}
@@ -144,7 +140,7 @@ class rsUserhelper
 
 		if ($shopper_group_id != 0)
 		{
-			$and .= 'AND shopper_group_id="' . $shopper_group_id . '" ';
+			$and .= 'AND shopper_group_id = ' . (int) $shopper_group_id . ' ';
 		}
 
 		$query = 'SELECT sh.*, shopper_group_id AS value, shopper_group_name AS text FROM ' . $this->_table_prefix . 'shopper_group AS sh '
@@ -197,24 +193,37 @@ class rsUserhelper
 		return $userArr;
 	}
 
+	/**
+	 * This function is used to check if the 'username' already exist in the database with any other ID
+	 *
+	 * @param     $username
+	 * @param int $id
+	 *
+	 * @return int|void
+	 */
 	public function validate_user($username, $id = 0)
 	{
+		$db = JFactory::getDbo();
+
 		$query = "SELECT username FROM #__users "
-			. "WHERE username='" . $username . "' "
-			. "AND id!='" . $id . "' ";
+			. "WHERE username = " . $db->quote($username)
+			. " AND id != " . (int) $id;
+
 		$this->_db->setQuery($query);
-		$users = $this->_db->loadObjectList();
+		$users = $db->loadObjectList();
 
 		return count($users);
 	}
 
 	public function validate_email($email, $id = 0)
 	{
+		$db = JFactory::getDbo();
+
 		$query = "SELECT email FROM #__users "
-			. "WHERE email = '" . $email . "' "
-			. "AND id!='" . $id . "' ";
-		$this->_db->setQuery($query);
-		$emails = $this->_db->loadObjectList();
+			. "WHERE email = " . $db->quote($email) . " "
+			. "AND id <> " . (int) $id;
+		$db->setQuery($query);
+		$emails = $db->loadObjectList();
 
 		return count($emails);
 	}
@@ -243,7 +252,7 @@ class rsUserhelper
 		}
 
 		$app = JFactory::getApplication();
-		$db  = JFactory::getDBO();
+		$db  = JFactory::getDbo();
 		$me  = JFactory::getUser();
 		$acl = JFactory::getACL();
 
@@ -346,6 +355,13 @@ class rsUserhelper
 		$data['email']     = $data['email1'];
 		$data['name']      = $name = $data['firstname'];
 
+		// Prevent front-end user to change user group in the form and then being able to register on any Joomla! user group.
+		if ($app->isSite())
+		{
+			$params = JComponentHelper::getParams('com_users');
+			$data['groups'] = array($params->get('new_usertype', 2));
+		}
+
 		// Do a password safety check
 		if (REGISTER_METHOD == 3)
 		{
@@ -397,12 +413,14 @@ class rsUserhelper
 
 				return false;
 			}
+
 			if (trim($data['password']) == "")
 			{
 				JError::raiseWarning('', JText::_('COM_REDSHOP_EMPTY_PASSWORD'));
 
 				return false;
 			}
+
 			if (strlen($data['password']) || strlen($data['password2']))
 			{
 				if ($data['password'] != $data['password2'])
@@ -418,15 +436,6 @@ class rsUserhelper
 
 			// If user registration is not allowed, show 403 not authorized.
 			$usersConfig = JComponentHelper::getParams('com_users');
-
-			$usersConfig->set('allowUserRegistration', 1);
-
-			if ($usersConfig->get('allowUserRegistration') == '0')
-			{
-				JError::raiseError(403, JText::_('ACCESS_FORBIDDEN'));
-
-				return false;
-			}
 
 			if (!$user->bind($data))
 			{
@@ -613,8 +622,8 @@ class rsUserhelper
 					{
 						$nextId = $maxDebtor + 1;
 						$sql    = "UPDATE " . $this->_table_prefix . "users_info "
-							. "SET users_info_id = '" . $nextId . "' "
-							. "WHERE users_info_id='" . $row->users_info_id . "' ";
+							. "SET users_info_id = " . (int) $nextId . " "
+							. "WHERE users_info_id = " . (int) $row->users_info_id;
 						$this->_db->setQuery($sql);
 						$this->_db->Query();
 						$row->users_info_id = $nextId;
@@ -788,7 +797,8 @@ class rsUserhelper
 
 			$post               = array();
 			$post['user_id']    = $jusers[$i]->id;
-			$post['email']      = $post['email1'] = $jusers[$i]->email;
+			$post['email']      = $jusers[$i]->email;
+			$post['email1']     = $jusers[$i]->email;
 			$post['firstname']  = $name[0];
 			$post['lastname']   = (isset($name[1]) && $name[1]) ? $name[1] : '';
 			$post['is_company'] = (DEFAULT_CUSTOMER_REGISTER_TYPE == 2) ? 1 : 0;
@@ -870,6 +880,7 @@ class rsUserhelper
 
 	public function newsletterUnsubscribe($email = "")
 	{
+		$db   = JFactory::getDbo();
 		$user = JFactory::getUser();
 		$and  = "";
 
@@ -880,14 +891,14 @@ class rsUserhelper
 
 		if ($user->id)
 		{
-			$and .= "AND `user_id`='" . $user->id . "' ";
+			$and .= "AND `user_id` = " . (int) $user->id . " ";
 			$email = $user->email;
 		}
 
 		if ($and != "")
 		{
 			$query = "DELETE FROM " . $this->_table_prefix . "newsletter_subscription "
-				. "WHERE email='" . $email . "' "
+				. "WHERE email = " . $db->quote($email) . " "
 				. $and;
 			$this->_db->setQuery($query);
 			$this->_db->query();
@@ -1304,7 +1315,7 @@ class rsUserhelper
 	 */
 	public function setoreredCRMDebtor($row)
 	{
-		$this->_db->setQuery("SELECT debitor_id FROM #__redcrm_debitors WHERE users_info_id = '" . $row->users_info_id . "'");
+		$this->_db->setQuery("SELECT debitor_id FROM #__redcrm_debitors WHERE users_info_id = " . (int) $row->users_info_id);
 		$row->debitor_id = $this->_db->loadResult();
 
 		if ($row->debitor_id > 0)
