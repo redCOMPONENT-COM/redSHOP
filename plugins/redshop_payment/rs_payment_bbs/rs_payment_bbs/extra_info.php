@@ -9,7 +9,7 @@
 
 require_once JPATH_COMPONENT . '/helpers/helper.php';
 $redhelper = new redhelper;
-$db = JFactory::getDBO();
+$db = JFactory::getDbo();
 $user = JFActory::getUser();
 $task = JRequest::getVar('task');
 $app = JFactory::getApplication();

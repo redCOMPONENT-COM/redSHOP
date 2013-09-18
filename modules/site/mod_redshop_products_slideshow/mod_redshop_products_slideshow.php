@@ -208,7 +208,7 @@ if (!defined('CLASS_DG'))
 
 	function create_smart_xml_files($params)
 	{
-		$database  = JFactory::getDBO();
+		$database  = JFactory::getDbo();
 		$cat_id    = trim($params->get('category_id', '0'));
 		$id        = explode(",", $cat_id);
 		$load_curr = trim($params->get('load_curr', '1'));
@@ -239,10 +239,10 @@ if (!defined('CLASS_DG'))
 
 			for ($i = 0; $i < count($id) - 1; $i++)
 			{
-				$query .= "pc.category_id=" . $id[$i] . " or ";
+				$query .= "pc.category_id=" . (int) $id[$i] . " or ";
 			}
 
-			$query .= "pc.category_id=" . $id[$i] . ")";
+			$query .= "pc.category_id=" . (int) $id[$i] . ")";
 			$query .= " ORDER BY px.category_parent_id";
 			$database->setQuery($query);
 			$rows = $database->loadObjectList();
@@ -267,7 +267,7 @@ if (!defined('CLASS_DG'))
 		{
 			$query = "SELECT pc.category_name, pc.published, pc.ordering,pc.ordering, pc.category_id
 					FROM #__redshop_category pc
-					WHERE pc.published = '1'
+					WHERE pc.published = 1
 					ORDER BY pc.category_id";
 			$database->setQuery($query);
 			$databaserecord = $database->loadObjectList();
@@ -383,7 +383,7 @@ if (!defined('CLASS_DG'))
 		$cat_id = implode(", ", $catid_arr);
 
 		global $mosConfig_absolute_path, $sess;
-		$database = JFactory::getDBO();
+		$database = JFactory::getDbo();
 
 		$ret_array = array(
 						'flag' => false,
@@ -454,7 +454,7 @@ if (!defined('CLASS_DG'))
 		{
 			$ret_array['flag'] = true;
 			$price_txt         = '';
-			$Itemid            = JRequest::getVar('Itemid');
+			$Itemid            = JRequest::getInt('Itemid');
 			$ItemData          = $producthelper->getMenuInformation(0, 0, '', 'product&pid=' . $rows[$k]->product_id);
 
 			if (count($ItemData) > 0)

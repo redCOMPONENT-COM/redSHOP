@@ -15,10 +15,7 @@ $forgot_username = $params->get('forgot_username', 0);
 $creat_account = $params->get('creat_account', 0);
 $remember_me = $params->get('remember_me', 0);
 $layout = $params->get('layout', 0);
-$Itemid = JRequest::getVar('Itemid');
-
-
-
+$Itemid = JRequest::getInt('Itemid');
 
 ?>
 <?php if ($type == 'logout') : ?>

@@ -48,20 +48,23 @@ class Redtemplate
 	 */
 	public function getTemplate($section = '', $tid = 0, $name = "")
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$and = "";
 
 		if ($tid != 0)
 		{
-			$and = "AND template_id IN (" . $tid . ") ";
+			// Sanitize ids
+			$tid = explode(',', $tid);
+			JArrayHelper::toInteger($tid);
+
+			$and = "AND template_id IN (" . implode(',', $tid) . ") ";
 		}
 
-		$and .= ($name != "") ? " AND template_name = '" . $name . "'" : "";
+		$and .= ($name != "") ? " AND template_name = " . $db->quote($name) . " " : "";
 
 		$query = "SELECT * "
 			. "FROM #__redshop_template "
-			. "WHERE template_section "
-			. "LIKE '" . $section . "' AND published=1 "
+			. "WHERE template_section = " . $db->quote($section) . " AND published = 1 "
 			. $and
 			. "ORDER BY template_id ASC ";
 		$db->setQuery($query);
@@ -563,7 +566,7 @@ class Redtemplate
 	 */
 	public function GetlettersearchParameters()
 	{
-		$db = Jfactory::getDBO();
+		$db = Jfactory::getDbo();
 		$sel = 'SELECT params from #__extensions where element = "mod_redshop_lettersearch" ';
 		$db->setQuery($sel);
 		$params = $db->loadResult();

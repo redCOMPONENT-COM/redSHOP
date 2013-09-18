@@ -157,12 +157,13 @@ class orderModelorder extends JModel
 
 	public function _buildContentOrderBy()
 	{
+		$db  = JFactory::getDbo();
 		$app = JFactory::getApplication();
 
 		$filter_order = $app->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', ' o.order_id');
 		$filter_order_Dir = $app->getUserStateFromRequest($this->_context . 'filter_order_Dir', 'filter_order_Dir', ' DESC ');
 
-		$orderby = ' ORDER BY ' . $filter_order . ' ' . $filter_order_Dir;
+		$orderby = ' ORDER BY ' . $db->escape($filter_order . ' ' . $filter_order_Dir);
 
 		return $orderby;
 	}
@@ -277,7 +278,7 @@ class orderModelorder extends JModel
 			$where = " WHERE order_id IN (" . $oids . ")";
 		}
 
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$q = "SELECT * FROM #__redshop_orders " . $where . " ORDER BY order_id asc";
 		$db->setQuery($q);
 		$gls_arr = $db->loadObjectList();
@@ -400,7 +401,7 @@ class orderModelorder extends JModel
 		{
 			$where = " WHERE order_id IN (" . $oids . ")";
 		}
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$q = "SELECT * FROM #__redshop_orders " . $where . " ORDER BY order_id asc";
 		$db->setQuery($q);
 		$gls_arr = $db->loadObjectList();

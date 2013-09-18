@@ -132,14 +132,14 @@ class CartModelCart extends JModel
 			$time            = time() - ($carttimeout * 60);
 
 			$sql = "SELECT product_id FROM " . $this->_table_prefix . "cart "
-				. "WHERE session_id ='" . $session_id . "' "
+				. "WHERE session_id = " . $db->quote($session_id) . " "
 				. "AND section='product' "
 				. "AND time < $time ";
 			$db->setQuery($sql);
 			$deletedrs = $db->loadResultArray();
 
 			$sql = "SELECT product_id FROM " . $this->_table_prefix . "cart "
-				. "WHERE session_id ='" . $session_id . "' "
+				. "WHERE session_id = " . $db->quote($session_id) . " "
 				. "AND section='product' ";
 			$db->setQuery($sql);
 			$includedrs = $db->loadResultArray();
@@ -451,6 +451,7 @@ class CartModelCart extends JModel
 	{
 		$data            = array();
 		$products_number = explode("\n", $post["numbercart"]);
+		$db = JFactory::getDbo();
 
 		for ($i = 0; $i < count($products_number); $i++)
 		{
@@ -460,9 +461,9 @@ class CartModelCart extends JModel
 			}
 
 			$query = "SELECT product_id,published, not_for_sale, expired,product_name FROM `" . $this->_table_prefix . "product`
-					WHERE `product_number` = '" . addslashes(trim($products_number[$i])) . "' ";
-			$this->_db->setQuery($query);
-			$product = $this->_db->loadObject();
+					WHERE `product_number` = " . $db->quote(addslashes(trim($products_number[$i]))) . " ";
+			$db->setQuery($query);
+			$product = $db->loadObject();
 
 			$product_id = $product->product_id;
 
@@ -516,10 +517,10 @@ class CartModelCart extends JModel
 	 */
 	public function checkifTagAvailable($product_id)
 	{
-		$db          = JFactory::getDBO();
+		$db          = JFactory::getDbo();
 		$redTemplate = new redTemplate;
 		$q           = "SELECT product_template FROM " . $this->_table_prefix . "product "
-			. "WHERE product_id=" . $this->_db->quote($product_id);
+			. "WHERE product_id = " . (int) $product_id;
 
 		$db->setQuery($q);
 		$row_data = $db->loadResult();

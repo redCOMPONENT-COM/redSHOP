@@ -16,8 +16,7 @@ $order_functions = new order_functions;
 
 $url = JURI::base();
 
-$option = JRequest::getVar('option');
-$Itemid = JRequest::getVar('Itemid');
+$Itemid = JRequest::getInt('Itemid');
 $oid = JRequest::getInt('oid');
 
 $model = $this->getModel('split_payment');
@@ -58,7 +57,7 @@ $is_creditcard = 0;
 	<legend><?php echo JText::_('COM_REDSHOP_PAYMENT_METHOD'); ?></legend>
 	<div>
 
-		<form action="<?php echo JRoute::_('index.php?option=' . $option . '&view=split_payment') ?>" method="post"
+		<form action="<?php echo JRoute::_('index.php?option=com_redshop&view=split_payment') ?>" method="post"
 		      name="adminForm" id="adminForm">
 
 			<?php
@@ -326,7 +325,7 @@ $is_creditcard = 0;
 
 			?>
 
-			<input type="hidden" name="option" value="<?php echo $option; ?>"/>
+			<input type="hidden" name="option" value="com_redshop"/>
 			<input type="hidden" name="Itemid" value="<?php echo $Itemid; ?>"/>
 			<input type="hidden" name="task" value="payremaining"/>
 			<input type="hidden" name="view" value="split_payment"/>

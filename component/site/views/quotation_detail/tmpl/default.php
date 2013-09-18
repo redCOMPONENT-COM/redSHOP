@@ -26,10 +26,9 @@ $order_functions = new order_functions;
 
 $redTemplate = new Redtemplate;
 
-$option = JRequest::getVar('option');
-$Itemid = JRequest::getVar('Itemid', 1);
+$Itemid = JRequest::getInt('Itemid', 1);
 $quoid  = JRequest::getInt('quoid');
-$encr   = JRequest::getVar('encr');
+$encr   = JRequest::getString('encr');
 
 $quotationDetail = $quotationHelper->getQuotationDetail($quoid);
 
@@ -48,7 +47,7 @@ else
 	$quotation_template = "<table border=\"0\" cellspacing=\"0\" cellpadding=\"5\" width=\"100%\">\r\n<tbody>\r\n<tr>\r\n<td colspan=\"2\">\r\n<table border=\"0\" cellspacing=\"0\" cellpadding=\"2\" width=\"100%\">\r\n<tbody>\r\n<tr style=\"background-color: #cccccc\">\r\n<th align=\"left\">{quotation_information_lbl}{print}</th>\r\n</tr>\r\n<tr>\r\n</tr>\r\n<tr>\r\n<td>{quotation_id_lbl} : {quotation_id}</td>\r\n</tr>\r\n<tr>\r\n<td>{quotation_number_lbl} : {quotation_number}</td>\r\n</tr>\r\n<tr>\r\n<td>{quotation_date_lbl} : {quotation_date}</td>\r\n</tr>\r\n<tr>\r\n<td>{quotation_status_lbl} : {quotation_status}</td>\r\n</tr>\r\n<tr>\r\n<td>{quotation_note_lbl} : {quotation_note}</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td colspan=\"2\">\r\n<table border=\"0\" cellspacing=\"0\" cellpadding=\"2\" width=\"100%\">\r\n<tbody>\r\n<tr style=\"background-color: #cccccc\">\r\n<th align=\"left\">{account_information_lbl}</th>\r\n</tr>\r\n<tr>\r\n<td>{account_information}{quotation_custom_field_list}</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td colspan=\"2\">\r\n<table border=\"0\" cellspacing=\"0\" cellpadding=\"2\" width=\"100%\">\r\n<tbody>\r\n<tr style=\"background-color: #cccccc\">\r\n<th align=\"left\">{quotation_detail_lbl}</th>\r\n</tr>\r\n<tr>\r\n</tr>\r\n<tr>\r\n<td>\r\n<table border=\"0\" cellspacing=\"2\" cellpadding=\"2\" width=\"100%\">\r\n<tbody>\r\n<tr>\r\n<td></td>\r\n<td>{product_name_lbl}</td>\r\n<td>{note_lbl}</td>\r\n<td>{price_lbl}</td>\r\n<td>{quantity_lbl}</td>\r\n<td align=\"right\">{total_price_lbl}</td>\r\n</tr>\r\n{product_loop_start}       \r\n<tr>\r\n<td>{product_thumb_image}</td>\r\n<td>{product_name}<br />({product_number_lbl} - {product_number})<br />{product_accessory}<br /> {product_attribute}<br />{product_userfields}</td>\r\n<td>{product_wrapper}</td>\r\n<td>{product_price}</td>\r\n<td>{product_quantity}</td>\r\n<td align=\"right\">{product_total_price}</td>\r\n</tr>\r\n{product_loop_end}\r\n</tbody>\r\n</table>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td></td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<table border=\"0\" cellspacing=\"2\" cellpadding=\"2\" width=\"100%\">\r\n<tbody>\r\n<tr align=\"left\">\r\n<td align=\"left\"><strong>{quotation_subtotal_lbl} : </strong></td>\r\n<td align=\"right\">{quotation_subtotal}</td>\r\n</tr>\r\n<tr align=\"left\">\r\n<td align=\"left\"><strong>{quotation_vat_lbl} : </strong></td>\r\n<td align=\"right\">{quotation_vat}</td>\r\n</tr>\r\n<tr align=\"left\">\r\n<td align=\"left\"><strong>{quotation_discount_lbl} : </strong></td>\r\n<td align=\"right\">{quotation_discount}</td>\r\n</tr>\r\n<tr align=\"left\">\r\n<td colspan=\"2\" align=\"left\">\r\n<hr />\r\n</td>\r\n</tr>\r\n<tr align=\"left\">\r\n<td align=\"left\"><strong>{total_lbl} :</strong></td>\r\n<td align=\"right\">{quotation_total}</td>\r\n</tr>\r\n<tr align=\"left\">\r\n<td colspan=\"2\" align=\"left\">\r\n<hr />\r\n<br /> \r\n<hr />\r\n</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n</td>\r\n</tr>\r\n</tbody>\r\n</table>";
 }
 
-$print     = JRequest::getVar('print');
+$print     = JRequest::getInt('print');
 $p_url     = @ explode('?', $_SERVER['REQUEST_URI']);
 $print_tag = '';
 
@@ -81,7 +80,7 @@ if ($quotationDetail->quotation_status == '2')
 	<input type='radio' name='quotation_status' checked value='3'>" . JText::_('COM_REDSHOP_ACCEPT') . "
 	<input type='radio' name='quotation_status' value='4'>" . JText::_('COM_REDSHOP_REJECT') . "
 	<input type='hidden' name='quotation_id' value='$quoid'>
-	<input type='hidden' name='option' value='$option'>
+	<input type='hidden' name='option' value='com_redshop'>
 	<input type='hidden' name='Itemid' value='$Itemid'>
 	<input type='hidden' name='encr' value='$encr'>
 	<input type='hidden' name='view' value='quotation_detail'>
@@ -93,7 +92,7 @@ elseif ($quotationDetail->quotation_status == '3')
 {
 	$frm = "<form method='post'>
 	<input type='hidden' name='quotation_id' value='$quoid'>
-	<input type='hidden' name='option' value='$option'>
+	<input type='hidden' name='option' value='com_redshop'>
 	<input type='hidden' name='Itemid' value='$Itemid'>
 	<input type='hidden' name='encr' value='$encr'>
 	<input type='hidden' name='task' value='checkout'>

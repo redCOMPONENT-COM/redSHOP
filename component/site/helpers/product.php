@@ -62,7 +62,7 @@ class producthelper
 
 	function __construct()
 	{
-		$this->_db           = JFactory::getDBO();
+		$this->_db           = JFactory::getDbo();
 		$this->_table_prefix = '#__' . TABLE_PREFIX . '_';
 		$this->_userhelper   = new rsUserhelper;
 		$this->_session      = JFactory::getSession();
@@ -84,8 +84,8 @@ class producthelper
 
 	public function getwishlistuserfieldata($wishlistid, $productid)
 	{
-		$query = 'SELECT * FROM #__redshop_wishlist_userfielddata  WHERE wishlist_id = "'
-			. $wishlistid . '"  and product_id="' . $productid . '" order by fieldid ASC';
+		$query = 'SELECT * FROM #__redshop_wishlist_userfielddata  WHERE wishlist_id = '
+			. (int) $wishlistid . '  AND product_id=' . (int) $productid . ' ORDER BY fieldid ASC';
 		$this->_db->setQuery($query);
 		$result = $this->_db->loadObjectList();
 
@@ -154,7 +154,7 @@ class producthelper
 		if ($userid)
 		{
 			$query->join('LEFT', $this->_table_prefix . 'users_info AS u ON u.shopper_group_id = p.shopper_group_id');
-			$and = " u.user_id='" . $userid . "' AND u.address_type='BT' ";
+			$and = " u.user_id = " . (int) $userid . " AND u.address_type='BT' ";
 		}
 		else
 		{
@@ -162,9 +162,9 @@ class producthelper
 		}
 
 		$query->from($this->_table_prefix . 'product_price AS p');
-		$query->where('p.product_id = "' . $product_id . '"');
+		$query->where('p.product_id = ' . (int) $product_id);
 		$query->where($and);
-		$query->where(' (( p.price_quantity_start <= "' . $quantity . '" AND p.price_quantity_end >= "'
+		$query->where(' (( p.price_quantity_start <= ' . (int) $quantity . ' AND p.price_quantity_end >= "'
 			. $quantity . '" ) OR (p.price_quantity_start = "0" AND p.price_quantity_end = "0"))');
 		$query->order('price_quantity_start ASC LIMIT 0,1 ');
 
@@ -188,6 +188,8 @@ class producthelper
 
 	public function getProductSpecialPrice($product_price, $discount_product_id, $product_id = 0)
 	{
+		$db = JFactory::getDbo();
+
 		$result          = array();
 		$categoryProduct = '';
 
@@ -210,14 +212,34 @@ class producthelper
 
 		$query = $this->_db->getQuery(true);
 
+		// Secure discount ids
+		if ($discountIds = explode(',', $discount_product_id))
+		{
+			JArrayHelper::toInteger($discountIds);
+		}
+		else
+		{
+			$discountIds = array(0);
+		}
+
+		// Secure category ids
+		if ($catIds = explode(',', $categoryProduct))
+		{
+			JArrayHelper::toInteger($catIds);
+		}
+		else
+		{
+			$catIds = array(0);
+		}
+
 		// Prepare query.
 		$query->select('*');
 		$query->from('#__redshop_discount_product');
 		$query->where('published = 1');
-		$query->where('(discount_product_id IN ("' . $discount_product_id . '") OR FIND_IN_SET("' . $categoryProduct . '",category_ids) )');
-		$query->where('`start_date` <= ' . time());
-		$query->where('`end_date` >= ' . time());
-		$query->where('`discount_product_id` IN (SELECT `discount_product_id` FROM `#__redshop_discount_product_shoppers` WHERE `shopper_group_id` = "' . $shopperGroupId . '")');
+		$query->where('(discount_product_id IN ("' . implode(',', $discountIds) . '") OR FIND_IN_SET("' . implode(',', $catIds) . '",category_ids) )');
+		$query->where('`start_date` <= ' . $db->quote(time()));
+		$query->where('`end_date` >= ' . $db->quote(time()));
+		$query->where('`discount_product_id` IN (SELECT `discount_product_id` FROM `#__redshop_discount_product_shoppers` WHERE `shopper_group_id` = ' . (int) $shopperGroupId . ')');
 		$query->order('`amount` DESC');
 
 		// Inject the query and load the result.
@@ -241,13 +263,13 @@ class producthelper
 		switch ($result->condition)
 		{
 			case 1:
-				$query->where('`amount` >= "' . $product_price . '"');
+				$query->where('`amount` >= ' . $db->quote($product_price));
 				break;
 			case 2:
-				$query->where('`amount` = "' . $product_price . '"');
+				$query->where('`amount` = ' . $db->quote($product_price));
 				break;
 			case 3:
-				$query->where('`amount` <= "' . $product_price . '"');
+				$query->where('`amount` <= ' . $db->quote($product_price));
 				break;
 		}
 
@@ -271,7 +293,7 @@ class producthelper
 		{
 			$sql = "SELECT ps.discount_product_id FROM " . $this->_table_prefix . "users_info AS ui "
 				. " LEFT JOIN " . $this->_table_prefix . "discount_product_shoppers AS ps ON ui.shopper_group_id = ps.shopper_group_id "
-				. " WHERE user_id = '" . $userid . "' AND address_type='BT'";
+				. " WHERE user_id = " . (int) $userid . " AND address_type='BT'";
 			$this->_db->setQuery($sql);
 			$res = $this->_db->loadObjectList();
 		}
@@ -289,7 +311,7 @@ class producthelper
 			if ($this->_shopper_group_id != $shopperGroupId)
 			{
 				$query = "SELECT * FROM " . $this->_table_prefix . "discount_product_shoppers AS ps "
-					. "WHERE ps.shopper_group_id ='" . $shopperGroupId . "'";
+					. "WHERE ps.shopper_group_id =" . (int) $shopperGroupId;
 				$this->_db->setQuery($query);
 				$this->_shopper_group_id = $shopperGroupId;
 				$res                     = $this->_discount_product_data = $this->_db->loadObjectList();
@@ -523,8 +545,8 @@ class producthelper
 			{
 				$query = "SELECT country_code,state_code FROM " . $this->_table_prefix . "users_info AS u "
 					. "LEFT JOIN " . $this->_table_prefix . "shopper_group AS sh ON sh.shopper_group_id=u.shopper_group_id "
-					. "WHERE u.users_info_id='" . $users_info_id . "' "
-					. "order by u.users_info_id ASC LIMIT 0,1";
+					. "WHERE u.users_info_id = " . (int) $users_info_id . " "
+					. "ORDER BY u.users_info_id ASC LIMIT 0,1";
 				$this->_db->setQuery($query);
 				$userdata = $this->_db->loadObject();
 			}
@@ -535,6 +557,7 @@ class producthelper
 
 	public function getVatRates($product_id = 0, $user_id = 0, $vat_rate_id = 0)
 	{
+		$db   = JFactory::getDbo();
 		$user = JFactory::getUser();
 
 		if ($user_id == 0)
@@ -582,7 +605,7 @@ class producthelper
 		elseif ($proinfo->product_tax_group_id > 0)
 		{
 			$q2 .= 'LEFT JOIN ' . $this->_table_prefix . 'product as p on tr.tax_group_id=p.product_tax_group_id ';
-			$and .= 'AND p.product_id = "' . $product_id . '" ';
+			$and .= 'AND p.product_id = ' . (int) $product_id . ' ';
 		}
 		else
 		{
@@ -591,8 +614,8 @@ class producthelper
 
 		$query = 'SELECT tr.* FROM ' . $this->_table_prefix . 'tax_rate as tr '
 			. $q2
-			. 'WHERE tr.tax_country="' . $userdata->country_code . '" '
-			. 'AND (tr.tax_state = "' . $userdata->state_code . '" OR tr.tax_state = "") '
+			. 'WHERE tr.tax_country=' . $db->quote($userdata->country_code) . ' '
+			. 'AND (tr.tax_state = ' . $db->quote($userdata->state_code) . ' OR tr.tax_state = "") '
 			. $and
 			. ' ORDER BY `tax_rate` DESC LIMIT 0,1';
 		$this->_db->setQuery($query);
@@ -615,6 +638,8 @@ class producthelper
 	// Get Vat for Googlebase xml
 	public function getGoogleVatRates($product_id = 0, $product_price = 0, $tax_exempt = 0)
 	{
+		$db = JFactory::getDbo();
+
 		$proinfo         = $this->getProductById($product_id);
 		$tax_group_id    = 0;
 		$rs_user_info_id = 0;
@@ -638,7 +663,7 @@ class producthelper
 		elseif ($proinfo->product_tax_group_id > 0)
 		{
 			$q2 .= 'LEFT JOIN ' . $this->_table_prefix . 'product as p on tr.tax_group_id=p.product_tax_group_id ';
-			$and .= 'AND p.product_id = "' . $product_id . '" ';
+			$and .= 'AND p.product_id = ' . (int) $product_id . ' ';
 		}
 		else
 		{
@@ -646,8 +671,8 @@ class producthelper
 		}
 
 		$where = $q2
-			. 'WHERE tr.tax_country="' . $country_code . '" '
-			. 'AND (tr.tax_state = "' . $state_code . '" OR tr.tax_state = "") '
+			. 'WHERE tr.tax_country=' . $db->quote($country_code) . ' '
+			. 'AND (tr.tax_state = ' . $db->quote($state_code) . ' OR tr.tax_state = "") '
 			. $and;
 
 		$query = 'SELECT tr.* FROM ' . $this->_table_prefix . 'tax_rate as tr '
@@ -1166,6 +1191,8 @@ class producthelper
 
 	public function getProductMinDeliveryTime($product_id = 0, $section_id = 0, $section = '', $loadDiv = 1)
 	{
+		$db = JFactory::getDbo();
+
 		$helper = new redhelper;
 
 		if (!$section_id && !$section)
@@ -1174,7 +1201,7 @@ class producthelper
 				. " FROM " . $this->_table_prefix . "product_stockroom_xref AS ps , "
 				. $this->_table_prefix . "stockroom as s "
 				. " WHERE "
-				. " ps.product_id = '" . $product_id . "' AND ps.stockroom_id = s.stockroom_id and ps.quantity >0 ORDER BY min_del_time ASC LIMIT 0,1";
+				. " ps.product_id = " . (int) $product_id . " AND ps.stockroom_id = s.stockroom_id and ps.quantity >0 ORDER BY min_del_time ASC LIMIT 0,1";
 		}
 		else
 		{
@@ -1182,7 +1209,7 @@ class producthelper
 				. " FROM " . $this->_table_prefix . "product_attribute_stockroom_xref AS pas , "
 				. $this->_table_prefix . "stockroom as s "
 				. " WHERE "
-				. " pas.section_id = '" . $section_id . "' AND pas.section = '" . $section
+				. " pas.section_id = " . (int) $section_id . " AND pas.section = '" . $db->quote($section)
 				. "' AND pas.stockroom_id = s.stockroom_id and pas.quantity >0 ORDER BY min_del_time ASC LIMIT 0,1";
 		}
 
@@ -1199,8 +1226,8 @@ class producthelper
 					. " FROM " . $this->_table_prefix . "stockroom as s, "
 					. $this->_table_prefix . "product_stockroom_xref AS ps  "
 					. " WHERE "
-					. " ps.product_id = '" . $product_id . "' AND ps.stockroom_id = s.stockroom_id AND s.min_del_time = "
-					. $result->deltime . " and ps.quantity >=0 ORDER BY max_del_time ASC LIMIT 0,1";
+					. " ps.product_id = " . (int) $product_id . " AND ps.stockroom_id = s.stockroom_id AND s.min_del_time = "
+					. (int) $result->deltime . " and ps.quantity >=0 ORDER BY max_del_time ASC LIMIT 0,1";
 			}
 			else
 			{
@@ -1208,8 +1235,8 @@ class producthelper
 					. " FROM " . $this->_table_prefix . "stockroom as s, "
 					. $this->_table_prefix . "product_attribute_stockroom_xref AS pas  "
 					. " WHERE "
-					. " pas.section_id = '" . $section_id . "' AND pas.section = '" . $section
-					. "' AND pas.stockroom_id = s.stockroom_id AND s.min_del_time = " . $result->deltime
+					. " pas.section_id = " . (int) $section_id . " AND pas.section = '" .$db->quote($section)
+					. "' AND pas.stockroom_id = s.stockroom_id AND s.min_del_time = " . (int) $result->deltime
 					. " AND pas.quantity >=0 ORDER BY max_del_time ASC LIMIT 0,1";
 			}
 
@@ -1730,15 +1757,15 @@ class producthelper
 		{
 			$query = "SELECT p.* FROM " . $this->_table_prefix . "users_info AS u "
 				. "LEFT JOIN " . $this->_table_prefix . "product_price AS p ON u.shopper_group_id = p.shopper_group_id "
-				. "WHERE p.product_id = '" . $product_id . "' "
-				. "AND u.user_id='" . $userid . "' AND u.address_type='BT' "
+				. "WHERE p.product_id = " . (int) $product_id . " "
+				. "AND u.user_id=" . (int) $userid . " AND u.address_type='BT' "
 				. "ORDER BY price_quantity_start ASC ";
 		}
 		else
 		{
 			$query = "SELECT p.* FROM " . $this->_table_prefix . "product_price AS p "
-				. "WHERE p.product_id = '" . $product_id . "' "
-				. "AND p.shopper_group_id = '" . $shopperGroupId . "' "
+				. "WHERE p.product_id = " . (int) $product_id . " "
+				. "AND p.shopper_group_id = " . (int) $shopperGroupId . " "
 				. "ORDER BY price_quantity_start ASC ";
 		}
 
@@ -1776,6 +1803,7 @@ class producthelper
 
 	public function getDiscountId($subtotal = 0, $user_id = 0)
 	{
+		$db   = JFactory::getDbo();
 		$user = JFactory::getUser();
 
 		if ($user_id == 0)
@@ -1793,20 +1821,23 @@ class producthelper
 		$shopperGroupId = $userArr['rs_user_shopperGroup'];
 
 		$sql = "SELECT ds.discount_id FROM " . $this->_table_prefix . "discount_shoppers AS ds "
-			. " WHERE ds.shopper_group_id = '" . $shopperGroupId . "' ";
+			. " WHERE ds.shopper_group_id = " . (int) $shopperGroupId;
 
 		$this->_db->setQuery($sql);
 		$list       = $this->_db->loadResultArray();
 		$list       = array_merge(array(0 => '0'), $list);
-		$discountid = implode(',', $list);
 
-		if ($discountid)
+
+		if (!empty($list))
 		{
+			// Secure ids
+			JArrayHelper::toInteger($list);
+
 			$query   = "SELECT * FROM " . $this->_table_prefix . "discount "
 				. "WHERE published =1 "
-				. "AND discount_id IN (" . $discountid . ") "
-				. "AND `start_date`<='" . time() . "' "
-				. "AND `end_date` >='" . time() . "' ";
+				. "AND discount_id IN (" . implode(',', $list) . ") "
+				. "AND `start_date`<=" . $db->quote(time()) . " "
+				. "AND `end_date` >=" . $db->quote(time()) . " ";
 			$orderby = " ORDER BY `amount` DESC LIMIT 0,1";
 
 			if (!$subtotal)
@@ -1818,19 +1849,19 @@ class producthelper
 				return $result;
 			}
 
-			$query1 = $query . "AND `condition`=2 AND amount='" . $subtotal . "' " . $orderby;
+			$query1 = $query . "AND `condition`=2 AND amount=" . (int) $subtotal . " " . $orderby;
 			$this->_db->setQuery($query1);
 			$result = $this->_db->loadObject();
 
 			if (count($result) <= 0)
 			{
-				$query1 = $query . "AND `condition`=1 AND amount > '" . $subtotal . "' " . $orderby;
+				$query1 = $query . "AND `condition`=1 AND amount > " . (int) $subtotal . " " . $orderby;
 				$this->_db->setQuery($query1);
 				$result = $this->_db->loadObject();
 
 				if (count($result) <= 0)
 				{
-					$query1 = $query . "AND `condition`=3 AND amount < '" . $subtotal . "' " . $orderby;
+					$query1 = $query . "AND `condition`=3 AND amount < " . (int) $subtotal . " " . $orderby;
 					$this->_db->setQuery($query1);
 					$result = $this->_db->loadObject();
 				}
@@ -1994,6 +2025,8 @@ class producthelper
 
 	public function getAdditionMediaImage($section_id = 0, $section = "", $mediaType = "images")
 	{
+		$db = JFactory::getDbo();
+
 		$left = "";
 
 		if ($section == "product")
@@ -2015,9 +2048,9 @@ class producthelper
 
 		$query = "SELECT * FROM " . $this->_table_prefix . "media AS m "
 			. $left
-			. "WHERE m.media_section='" . $section . "' "
-			. "AND m.media_type='" . $mediaType . "' "
-			. "AND m.section_id='" . $section_id . "' "
+			. "WHERE m.media_section = " . $db->quote($section) . " "
+			. "AND m.media_type=" . $db->quote($mediaType) . " "
+			. "AND m.section_id=" . (int) $section_id . " "
 			. "AND m.published=1 "
 			. "ORDER BY m.ordering,m.media_id ASC";
 		$this->_db->setQuery($query);
@@ -2028,22 +2061,24 @@ class producthelper
 
 	public function getAltText($media_section, $section_id, $media_name = '', $media_id = 0, $mediaType = "images")
 	{
+		$db = JFactory::getDbo();
+
 		$and = '';
 
 		if ($media_name != '')
 		{
-			$and .= ' AND media_name="' . $media_name . '" ';
+			$and .= ' AND media_name = ' . $db->quote($media_name) . ' ';
 		}
 
 		if ($media_id)
 		{
-			$and .= ' AND media_id="' . $media_id . '" ';
+			$and .= ' AND media_id = ' . (int) $media_id . ' ';
 		}
 
 		$query = 'SELECT * FROM ' . $this->_table_prefix . 'media '
-			. 'WHERE media_section = "' . $media_section . '" '
-			. 'AND section_id ="' . $section_id . '" '
-			. 'AND media_type="' . $mediaType . '" '
+			. 'WHERE media_section = ' . $db->quote($media_section) . ' '
+			. 'AND section_id = ' . (int) $section_id . ' '
+			. 'AND media_type = ' . $db->quote($mediaType) . ' '
 			. $and;
 		$this->_db->setQuery($query);
 		$mediadata = $this->_db->loadObject();
@@ -2074,14 +2109,14 @@ class producthelper
 
 		if ($rs_user_info_id && $address_type == 'ST')
 		{
-			$and = "AND u.users_info_id = '" . $rs_user_info_id . "'";
+			$and = "AND u.users_info_id = " . (int) $rs_user_info_id . " ";
 		}
 
 		if ($userid)
 		{
 			$query = "SELECT sh.*,u.* FROM " . $this->_table_prefix . "users_info AS u "
 				. "LEFT JOIN " . $this->_table_prefix . "shopper_group AS sh ON sh.shopper_group_id=u.shopper_group_id "
-				. "WHERE u.user_id='" . $userid . "' "
+				. "WHERE u.user_id = " . (int) $userid . " "
 				. $and
 				. "order by u.users_info_id ASC LIMIT 0,1";
 			$this->_db->setQuery($query);
@@ -2199,7 +2234,7 @@ class producthelper
 		$query = $this->_db->getQuery(true)
 		    ->select('*')
 			->from($this->_db->quoteName('#__redshop_product'))
-			->where($this->_db->quoteName('product_id') . ' = ' . $this->_db->quote($productid))
+			->where($this->_db->quoteName('product_id') . ' = ' . (int) $productid)
 			->where('
 				(
 				(' . $this->_db->quoteName('discount_enddate') . ' = "" AND ' . $this->_db->quoteName('discount_stratdate') . ' = "")
@@ -2229,6 +2264,8 @@ class producthelper
 
 	public function getPropertyPrice($section_id = '', $quantity = '', $section = '', $user_id = 0)
 	{
+		$db = JFactory::getDbo();
+
 		$leftjoin = "";
 		$and      = "";
 		$user     = JFactory::getUser();
@@ -2250,20 +2287,20 @@ class producthelper
 		if ($user_id)
 		{
 			$leftjoin = " LEFT JOIN " . $this->_table_prefix . "users_info AS u ON u.shopper_group_id=p.shopper_group_id ";
-			$and      = " AND u.user_id='" . $user_id . "' AND u.address_type='BT' ";
+			$and      = " AND u.user_id = " . (int) $user_id . " AND u.address_type='BT' ";
 		}
 		else
 		{
-			$and = " AND p.shopper_group_id = '" . $shopperGroupId . "' ";
+			$and = " AND p.shopper_group_id = " . (int) $shopperGroupId . " ";
 		}
 
 		$query = "SELECT p.price_id,p.product_price,p.product_currency,p.discount_price, p.discount_start_date, p.discount_end_date  "
 			. "FROM " . $this->_table_prefix . "product_attribute_price AS p "
 			. $leftjoin
-			. " WHERE p.section_id = '" . $section_id . "' AND section = '" . $section . "' "
+			. " WHERE p.section_id = " . (int) $section_id . " AND section = " . $db->quote($section) . " "
 			. $and
-			. " AND ( (p.price_quantity_start <= '" . $quantity . "' and p.price_quantity_end >= '"
-			. $quantity . "') OR (p.price_quantity_start = '0' AND p.price_quantity_end = '0')) "
+			. " AND ( (p.price_quantity_start <= " . (int) $quantity . " and p.price_quantity_end >= "
+			. (int) $quantity . ") OR (p.price_quantity_start = '0' AND p.price_quantity_end = '0')) "
 			. "ORDER BY price_quantity_start ASC LIMIT 0,1 ";
 		$this->_db->setQuery($query);
 		$result = $this->_db->loadObject();
@@ -2288,7 +2325,7 @@ class producthelper
 			$query = "SELECT p.*,property_price as product_price  "
 				. " FROM " . $this->_table_prefix . "product_attribute_property AS p "
 				. " WHERE "
-				. " p.property_id = '" . $section_id . "' AND p.property_published = 1 ";
+				. " p.property_id = " . (int) $section_id . " AND p.property_published = 1 ";
 		}
 
 		if ($section == 'subproperty')
@@ -2296,7 +2333,7 @@ class producthelper
 			$query = "SELECT p.*,subattribute_color_price as product_price  "
 				. " FROM " . $this->_table_prefix . "product_subattribute_color AS p "
 				. " WHERE "
-				. " p.subattribute_color_id = '" . $section_id . "' AND p.subattribute_published = 1 ";
+				. " p.subattribute_color_id = " . (int) $section_id . " AND p.subattribute_published = 1 ";
 		}
 
 		$this->_db->setQuery($query);
@@ -2316,13 +2353,13 @@ class producthelper
 		}
 
 		$query = "SELECT * FROM " . $this->_table_prefix . "product_category_xref "
-			. "WHERE product_id = '" . $product_id . "' ";
+			. "WHERE product_id = '" . (int) $product_id . "' ";
 		$this->_db->setQuery($query);
 		$cat = $this->_db->loadObjectList();
 
 		for ($i = 0; $i < count($cat); $i++)
 		{
-			$usetoall .= " OR FIND_IN_SET(" . $cat[$i]->category_id . ",category_id) ";
+			$usetoall .= " OR FIND_IN_SET(" . (int) $cat[$i]->category_id . ",category_id) ";
 		}
 
 		if ($default != 0)
@@ -2332,7 +2369,7 @@ class producthelper
 
 		$query = "SELECT * FROM " . $this->_table_prefix . "wrapper "
 			. "WHERE published = 1 "
-			. "AND (FIND_IN_SET(" . $product_id . ",product_id) "
+			. "AND (FIND_IN_SET(" . (int) $product_id . ",product_id) "
 			. $usetoall . " )"
 			. $and;
 		$this->_db->setQuery($query);
@@ -2504,7 +2541,7 @@ class producthelper
 					{
 						$res = $this->getMenuDetail("index.php?option=com_redshop&view=product&pid=" . $sectionid);
 
-						if (count($res) > 0 && $res->home != 1 && $res->parent)
+						if (count($res) > 0 && $res->home != 1 && property_exists($res, 'parent'))
 						{
 							$parentres = $this->getMenuInformation($res->parent);
 
@@ -2550,7 +2587,7 @@ class producthelper
 
 				if (count($res) > 0 && $res->home != 1)
 				{
-					if ($res->parent)
+					if (property_exists($res, 'parent'))
 					{
 						$parentres = $this->getMenuInformation($res->parent);
 
@@ -2691,37 +2728,38 @@ class producthelper
 
 	public function getSection($section = "", $id = 0)
 	{
-		$and = "";
-
+		// To avoid killing queries do not allow queries that get all the items
 		if ($id != 0)
 		{
-			$and = " WHERE " . $section . "_id = '" . $id . "' ";
+			$db = JFactory::getDbo();
+
+			$query = " SELECT * FROM " . $db->quoteName($this->_table_prefix . $section)
+				. " WHERE " . $db->quoteName($section . "_id") . " = " . (int) $id . " ";
+
+			$db->setQuery($query);
+
+			return  $db->loadObject();
 		}
 
-		$query = " SELECT * FROM " . $this->_table_prefix . $section
-			. $and;
-		$this->_db->setQuery($query);
-		$res = $this->_db->loadObject();
-
-		return $res;
+		return null;
 	}
 
 	public function getMenuDetail($link = "")
 	{
-		$and = "";
-
+		// Do not allow queries that load all the items
 		if ($link != "")
 		{
-			$and .= " AND link = '" . $link . "' ";
+			$db = JFactory::getDbo();
+
+			$query = "SELECT * FROM #__menu "
+				. "WHERE published=1 "
+				. " AND link = " . $db->quote($link) . " ";
+			$db->setQuery($query);
+
+			return $this->_db->loadObject();
 		}
 
-		$query = "SELECT * FROM #__menu "
-			. "WHERE published=1 "
-			. $and;
-		$this->_db->setQuery($query);
-		$res = $this->_db->loadObject();
-
-		return $res;
+		return null;
 	}
 
 	public function getMenuInformation($Itemid = 0, $sectionid = 0, $sectioname = "", $menuview = "", $isRedshop = true)
@@ -2735,7 +2773,7 @@ class producthelper
 
 		if ($sectionid != 0)
 		{
-			$sid = "=" . $sectionid . "\n";
+			$sid = "=" . (int) $sectionid . "\n";
 			$not = "";
 		}
 		else
@@ -2751,7 +2789,7 @@ class producthelper
 
 		if ($Itemid != 0)
 		{
-			$and .= " AND id = '" . $Itemid . "' ";
+			$and .= " AND id = " . (int) $Itemid . " ";
 		}
 
 		if ($isRedshop)
@@ -2771,7 +2809,7 @@ class producthelper
 
 	public function getParentCategory($id = 0)
 	{
-		$query = "SELECT category_parent_id FROM " . $this->_table_prefix . "category_xref WHERE category_child_id='" . $id . "' ";
+		$query = "SELECT category_parent_id FROM " . $this->_table_prefix . "category_xref WHERE category_child_id = " . (int) $id . " ";
 		$this->_db->setQuery($query);
 		$res = $this->_db->loadResult();
 
@@ -2780,7 +2818,7 @@ class producthelper
 
 	public function getCategoryProduct($id = 0)
 	{
-		$query = "SELECT category_id FROM " . $this->_table_prefix . "product_category_xref WHERE product_id='" . $id . "' ";
+		$query = "SELECT category_id FROM " . $this->_table_prefix . "product_category_xref WHERE product_id = " . (int) $id . " ";
 		$this->_db->setQuery($query);
 		$res = $this->_db->loadResult();
 
@@ -2794,12 +2832,16 @@ class producthelper
 
 		if ($shopper_group_manufactures != "")
 		{
-			$and .= " AND p.manufacturer_id IN (" . $shopper_group_manufactures . ") ";
+			// Sanitize groups
+			$shopGroupsIds = explode(',', $shopper_group_manufactures);
+			JArrayHelper::toInteger($shopGroupsIds);
+
+			$and .= " AND p.manufacturer_id IN (" . implode(',', $shopGroupsIds) . ") ";
 		}
 
 		$query = "SELECT p.product_id FROM " . $this->_table_prefix . "product_category_xref pc"
 			. " LEFT JOIN " . $this->_table_prefix . "product AS p ON pc.product_id=p.product_id "
-			. " WHERE category_id='" . $id . "' "
+			. " WHERE category_id = " . (int) $id . " "
 			. $and;
 		$this->_db->setQuery($query);
 		$res = $this->_db->loadObjectlist();
@@ -2821,7 +2863,7 @@ class producthelper
 	{
 		$query = 'SELECT product_download,product_download_days,product_download_limit,product_download_clock,product_download_clock_min,product_download_infinite FROM '
 			. $this->_table_prefix . 'product '
-			. 'WHERE product_id ="' . $pid . '" ';
+			. 'WHERE product_id =' . (int) $pid;
 
 		$this->_db->setQuery($query);
 		$res = $this->_db->loadObject();
@@ -2837,7 +2879,7 @@ class producthelper
 		$query = 'SELECT media_name FROM ' . $this->_table_prefix . 'media '
 			. 'WHERE media_section = "product" '
 			. 'AND media_type="download" '
-			. 'AND published=1 AND section_id="' . $product_id . '" ';
+			. 'AND published=1 AND section_id = ' . (int) $product_id;
 		$this->_db->setQuery($query);
 		$res = $this->_db->loadObjectList();
 
@@ -2848,7 +2890,7 @@ class producthelper
 	{
 		// Subtracting the products from the container. means decreasing stock
 		$query = "SELECT quantity FROM " . $this->_table_prefix . "container_product_xref "
-			. "WHERE container_id='" . $container_id . "' AND product_id='" . $product_id . "' ";
+			. "WHERE container_id = " . (int) $container_id . " AND product_id = " . (int) $product_id;
 		$this->_db->setQuery($query);
 		$con_product_qun = $this->_db->loadResult();
 		$con_product_qun = $con_product_qun - $quantity;
@@ -2857,7 +2899,7 @@ class producthelper
 		{
 			$query = 'UPDATE ' . $this->_table_prefix . 'container_product_xref '
 				. 'SET quantity = ' . $con_product_qun
-				. ' WHERE container_id="' . $container_id . '" AND product_id="' . $product_id . '" ';
+				. ' WHERE container_id=' . (int) $container_id . ' AND product_id = ' . (int) $product_id;
 			$this->_db->setQuery($query);
 			$this->_db->query();
 		}
@@ -2868,7 +2910,7 @@ class producthelper
 	public function getGiftcardData($gid)
 	{
 		$query = "SELECT * FROM " . $this->_table_prefix . "giftcard "
-			. "WHERE giftcard_id='" . $gid . "' ";
+			. "WHERE giftcard_id = " . (int) $gid;
 		$this->_db->setQuery($query);
 		$res = $this->_db->loadObject();
 
@@ -3212,6 +3254,8 @@ class producthelper
 
 	public function insertProdcutUserfield($id = 'NULL', $cart = array(), $order_item_id = 0, $section_id = 12)
 	{
+		$db == JFactory::getDbo();
+
 		$extraField = new extraField;
 		$row_data   = $extraField->getSectionFieldList($section_id, 1);
 
@@ -3225,8 +3269,8 @@ class producthelper
 				{
 					$sql = "INSERT INTO " . $this->_table_prefix . "fields_data "
 						. "(fieldid,data_txt,itemid,section) "
-						. "value ('" . $row_data[$i]->field_id . "','" . addslashes($user_fields) . "','"
-						. $order_item_id . "','" . $section_id . "')";
+						. "value (" . (int) $row_data[$i]->field_id . ",'" . $db->quote(addslashes($user_fields)) . "',"
+						. (int) $order_item_id . "," . $db->quote($section_id) . ")";
 					$this->_db->setQuery($sql);
 					$this->_db->query();
 				}
@@ -3243,32 +3287,36 @@ class producthelper
 
 		if ($product_id != 0)
 		{
-			$and .= "AND a.product_id IN (" . $product_id . ") ";
+			$and .= "AND a.product_id IN (" . (int) $product_id . ") ";
 		}
 
 		if ($attribute_set_id != 0)
 		{
-			$and .= "AND a.attribute_set_id='" . $attribute_set_id . "' ";
+			$and .= "AND a.attribute_set_id = " . (int) $attribute_set_id . " ";
 		}
 
 		if ($attribute_id != 0)
 		{
-			$and .= "AND a.attribute_id='" . $attribute_id . "' ";
+			$and .= "AND a.attribute_id = " . (int) $attribute_id . " ";
 		}
 
 		if ($published != 0)
 		{
-			$astpublished = " AND ast.published='" . $published . "' ";
+			$astpublished = " AND ast.published = " . (int) $published . " ";
 		}
 
 		if ($attribute_required != 0)
 		{
-			$and .= "AND a.attribute_required='" . $attribute_required . "' ";
+			$and .= "AND a.attribute_required = " . (int) $attribute_required . " ";
 		}
 
 		if ($notAttributeId != 0)
 		{
-			$and .= "AND a.attribute_id NOT IN (" . $notAttributeId . ") ";
+			// Sanitize ids
+			$notAttributeIds = explode(',', $notAttributeId);
+			JArrayHelper::toInteger($notAttributeIds);
+
+			$and .= "AND a.attribute_id NOT IN (" . implode(',', $notAttributeIds) . ") ";
 		}
 
 		$query = "SELECT a.attribute_id AS value,a.attribute_name AS text,a.*,ast.attribute_set_name "
@@ -3290,38 +3338,58 @@ class producthelper
 
 		if ($attribute_id != 0)
 		{
-			$and .= "AND ap.attribute_id IN (" . $attribute_id . ") ";
+			// Sanitize ids
+			$attributeIds = explode(',', $attribute_id);
+			JArrayHelper::toInteger($attributeIds);
+
+			$and .= "AND ap.attribute_id IN (" . implode(',', $attributeIds) . ") ";
 		}
 
 		if ($attribute_set_id != 0)
 		{
-			$and .= "AND a.attribute_set_id IN (" . $attribute_set_id . ") ";
+			// Sanitize ids
+			$attributeSetIds = explode(',', $attribute_set_id);
+			JArrayHelper::toInteger($attributeSetIds);
+
+			$and .= "AND a.attribute_set_id IN (" . implode(',', $attributeSetIds) . ") ";
 		}
 
 		if ($property_id != 0)
 		{
-			$and .= "AND ap.property_id IN (" . $property_id . ") ";
+			// Sanitize ids
+			$propertyIds = explode(',', $property_id);
+			JArrayHelper::toInteger($propertyIds);
+
+			$and .= "AND ap.property_id IN (" . implode(',', $propertyIds) . ") ";
 		}
 
 		if ($product_id != 0)
 		{
-			$and .= "AND a.product_id IN (" . $product_id . ") ";
+			// Sanitize ids
+			$productIds = explode(',', $product_id);
+			JArrayHelper::toInteger($productIds);
+
+			$and .= "AND a.product_id IN (" . implode(',', $productIds) . ") ";
 		}
 
 		if ($required != 0)
 		{
-			$and .= "AND ap.setrequire_selected='" . $required . "' ";
+			$and .= "AND ap.setrequire_selected = " . (int) $required . " ";
 		}
 
 		if ($notPropertyId != 0)
 		{
-			$and .= "AND ap.property_id NOT IN (" . $notPropertyId . ") ";
+			// Sanitize ids
+			$notPropertyIds = explode(',', $notPropertyId);
+			JArrayHelper::toInteger($notPropertyIds);
+
+			$and .= "AND ap.property_id NOT IN (" . implode(',', $notPropertyIds) . ") ";
 		}
 
 		$query = "SELECT ap.property_id AS value,ap.property_name AS text,ap.*, a.attribute_name "
 			. "FROM " . $this->_table_prefix . "product_attribute_property AS ap "
 			. "LEFT JOIN " . $this->_table_prefix . "product_attribute AS a ON a.attribute_id = ap.attribute_id "
-			. "WHERE 1=1 AND ap.property_published = 1 "
+			. "WHERE ap.property_published = 1 "
 			. $and
 			. "ORDER BY ap.ordering ASC ";
 		$this->_db->setQuery($query);
@@ -3372,19 +3440,19 @@ class producthelper
 
 		if ($subproperty_id != 0)
 		{
-			$and .= "AND sp.subattribute_color_id='" . $subproperty_id . "' ";
+			$and .= "AND sp.subattribute_color_id = " . (int) $subproperty_id . " ";
 		}
 
 		if ($property_id != 0)
 		{
-			$and .= "AND sp.subattribute_id='" . $property_id . "' ";
+			$and .= "AND sp.subattribute_id = " . (int) $property_id . " ";
 		}
 
 		$query = "SELECT sp.subattribute_color_id AS value, sp.subattribute_color_name AS text"
 			. ",sp.*,p.property_name,p.setrequire_selected,p.setmulti_selected FROM " . $this->_table_prefix
 			. "product_subattribute_color AS sp "
 			. "LEFT JOIN " . $this->_table_prefix . "product_attribute_property AS p ON p.property_id=sp.subattribute_id "
-			. "WHERE 1=1 AND sp.subattribute_published = 1 "
+			. "WHERE sp.subattribute_published = 1 "
 			. $and
 			. " ORDER BY sp.ordering ASC";
 		$this->_db->setQuery($query);
@@ -3463,22 +3531,30 @@ class producthelper
 
 		if ($accessory_id != 0)
 		{
-			$and .= "AND a.accessory_id IN (" . $accessory_id . ") ";
+			// Sanitize ids
+			$accesoryIds = explode(',', $accessory_id);
+			JArrayHelper::toInteger($accesoryIds);
+
+			$and .= "AND a.accessory_id IN (" . implode(',', $accesoryIds) . ") ";
 		}
 
 		if ($product_id != 0)
 		{
-			$and .= "AND a.product_id IN (" . $product_id . ") ";
+			// Sanitize ids
+			$productIds = explode(',', $product_id);
+			JArrayHelper::toInteger($productIds);
+
+			$and .= "AND a.product_id IN (" . implode(',', $productIds) . ") ";
 		}
 
 		if ($child_product_id != 0)
 		{
-			$and .= "AND a.child_product_id='" . $child_product_id . "' ";
+			$and .= "AND a.child_product_id = " . (int) $child_product_id . " ";
 		}
 
 		if ($cid != 0)
 		{
-			$and .= "AND a.category_id='" . $cid . "' ";
+			$and .= "AND a.category_id = " . (int) $cid . " ";
 			$groupby = " GROUP BY a.child_product_id";
 		}
 
@@ -3524,7 +3600,11 @@ class producthelper
 
 		if ($product_id != 0)
 		{
-			$and .= "AND a.product_id IN (" . $product_id . ") ";
+			// Sanitize ids
+			$productIds = explode(',', $product_id);
+			JArrayHelper::toInteger($productIds);
+
+			$and .= "AND a.product_id IN (" . implode(',', $productIds) . ") ";
 		}
 
 		$query = "SELECT a.*, p.product_name, p.product_number "
@@ -3650,6 +3730,10 @@ class producthelper
 
 		if ($product_id != 0)
 		{
+			// Sanitize ids
+			$productIds = explode(',', $product_id);
+			JArrayHelper::toInteger($productIds);
+
 			if ($helper->isredProductfinder())
 			{
 				$q = "SELECT extrafield  FROM #__redproductfinder_types where type_select='Productfinder datepicker'";
@@ -3661,7 +3745,7 @@ class producthelper
 				$finaltypetype_result = array();
 			}
 
-			$and .= "AND r.product_id IN (" . $product_id . ") ";
+			$and .= "AND r.product_id IN (" . implode(',', $productIds) . ") ";
 
 			if (TWOWAY_RELATED_PRODUCT)
 			{
@@ -3674,7 +3758,7 @@ class producthelper
 				$InProduct = "";
 
 				$query = "SELECT * FROM " . $this->_table_prefix . "product_related AS r "
-					. "WHERE r.product_id IN (" . $product_id . ") OR r.related_id IN (" . $product_id . ")" . $orderby_related . "";
+					. "WHERE r.product_id IN (" . implode(',', $productIds) . ") OR r.related_id IN (" . implode(',', $productIds) . ")" . $orderby_related . "";
 				$this->_db->setQuery($query);
 				$list = $this->_db->loadObjectlist();
 
@@ -3697,6 +3781,8 @@ class producthelper
 					return array();
 				}
 
+				// Sanitize ids
+				JArrayHelper::toInteger($relatedArr);
 				$relatedArr = array_unique($relatedArr);
 
 				$query = "SELECT " . $product_id . " AS mainproduct_id,p.* "
@@ -3714,7 +3800,7 @@ class producthelper
 
 		if ($related_id != 0)
 		{
-			$and .= "AND r.related_id='" . $related_id . "' ";
+			$and .= "AND r.related_id = " . (int) $related_id . " ";
 		}
 
 		if (count($finaltypetype_result) > 0 && $finaltypetype_result->extrafield != ''
@@ -3743,7 +3829,7 @@ class producthelper
 		if (count($finaltypetype_result) > 0 && $finaltypetype_result->extrafield != ''
 			&& (DEFAULT_RELATED_ORDERING_METHOD == 'e.data_txt ASC' || DEFAULT_RELATED_ORDERING_METHOD == 'e.data_txt DESC'))
 		{
-			$query .= " AND e.fieldid='" . $finaltypetype_result->extrafield . "' AND e.section=17 ";
+			$query .= " AND e.fieldid = " . (int) $finaltypetype_result->extrafield . " AND e.section=17 ";
 		}
 
 		$query .= " $and GROUP BY r.related_id ";
@@ -7735,7 +7821,7 @@ class producthelper
 
 		if (empty($userArr))
 		{
-			$userArr = $this->_userhelper->createUserSession($userid);
+			$userArr = $this->_userhelper->createUserSession($user->id);
 		}
 
 		$shopperGroupId = $userArr['rs_user_shopperGroup'];
@@ -7744,7 +7830,7 @@ class producthelper
 		if ($user->id > 0)
 			$catquery = "SELECT sg.shopper_group_categories FROM `#__redshop_shopper_group` as sg LEFT JOIN #__redshop_users_info as uf ON sg.`shopper_group_id` = uf.shopper_group_id WHERE uf.user_id = '" . $user->id . "' AND sg.shopper_group_portal=1 ";
 		else
-			$catquery = "SELECT sg.shopper_group_categories FROM `#__redshop_shopper_group` as sg WHERE  sg.`shopper_group_id` = '" . $shopperGroupId . "' AND sg.shopper_group_portal=1";
+			$catquery = "SELECT sg.shopper_group_categories FROM `#__redshop_shopper_group` as sg WHERE  sg.`shopper_group_id` = " . (int) $shopperGroupId . " AND sg.shopper_group_portal=1";
 
 		$this->_db->setQuery($catquery);
 		$category_ids_obj = $this->_db->loadObjectList();
@@ -7757,8 +7843,12 @@ class producthelper
 			$category_ids = $category_ids_obj[0]->shopper_group_categories;
 		}
 
+		// Sanitize ids
+		$catIds = explode(',', $category_ids);
+		JArrayHelper::toInteger($catIds);
+
 		$query = "SELECT product_id
-						FROM `#__redshop_product_category_xref` WHERE category_id IN (" . $category_ids . ")";
+						FROM `#__redshop_product_category_xref` WHERE category_id IN (" . implode(',', $catIds) . ")";
 
 		$this->_db->setQuery($query);
 		$shopperprodata = $this->_db->loadObjectList();
@@ -7996,7 +8086,7 @@ class producthelper
 		$query = "SELECT * "
 			. " FROM " . $this->_table_prefix . "product_subscription"
 			. " WHERE "
-			. " product_id = '" . $product_id . "' And subscription_id = '" . $subscription_id . "'";
+			. " product_id = " . (int) $product_id . " AND subscription_id = " . (int) $subscription_id;
 		$this->_db->setQuery($query);
 
 		return $this->_db->loadObject();
@@ -8007,7 +8097,7 @@ class producthelper
 	{
 		$query = "SELECT * FROM " . $this->_table_prefix . "product_subscribe_detail AS p "
 			. "LEFT JOIN " . $this->_table_prefix . "product_subscription AS ps ON ps.subscription_id=p.subscription_id "
-			. "WHERE order_item_id='" . $order_item_id . "' ";
+			. "WHERE order_item_id = " . (int) $order_item_id;
 		$this->_db->setQuery($query);
 		$list = $this->_db->loadObject();
 
@@ -8016,6 +8106,8 @@ class producthelper
 
 	public function insertProductDownload($product_id, $user_id, $order_id, $media_name, $serial_number)
 	{
+		$db = JFactory::getDbo();
+
 		// download data
 		$downloadable_product = $this->checkProductDownload($product_id, true); //die();
 
@@ -8039,9 +8131,9 @@ class producthelper
 
 		$sql = "INSERT INTO " . $this->_table_prefix . "product_download "
 			. "(product_id,user_id,order_id, end_date, download_max, download_id, file_name,product_serial_number) "
-			. "VALUES('" . $product_id . "', '" . $user_id . "', '" . $order_id . "', "
-			. "'" . $endtime . "', '" . $product_download_limit . "', "
-			. "'" . $token . "', '" . $media_name . "','" . $serial_number . "')";
+			. "VALUES(" . (int) $product_id . ", " . (int) $user_id . ", " . (int) $order_id . ", "
+			. (int) $endtime . ", " . (int) $product_download_limit . ", "
+			. $db->quote($token) . ", " . $db->quote($media_name) . "," . $db->quote($serial_number) . ")";
 		$this->_db->setQuery($sql);
 		$this->_db->query();
 
@@ -8055,8 +8147,8 @@ class producthelper
 	public function getProdcutSerialNumber($product_id, $is_used = 0)
 	{
 		$query = "SELECT * FROM " . $this->_table_prefix . "product_serial_number "
-			. "WHERE product_id = '" . $product_id . "' "
-			. " AND is_used='" . $is_used . "' "
+			. "WHERE product_id = " . (int) $product_id . " "
+			. " AND is_used = " . (int) $is_used . " "
 			. " LIMIT 0,1";
 		$this->_db->setQuery($query);
 		$rs = $this->_db->loadObject();
@@ -8080,7 +8172,7 @@ class producthelper
 	public function updateProdcutSerialNumber($serial_id)
 	{
 		$update_query = "UPDATE " . $this->_table_prefix . "product_serial_number "
-			. " SET is_used='1' WHERE serial_id='" . $serial_id . "'";
+			. " SET is_used='1' WHERE serial_id = " . (int) $serial_id;
 		$this->_db->setQuery($update_query);
 		$this->_db->Query();
 	}
@@ -8088,7 +8180,7 @@ class producthelper
 	public function getSubscription($product_id = 0)
 	{
 		$query = "SELECT * FROM " . $this->_table_prefix . "product_subscription "
-			. "WHERE product_id='" . $product_id . "' "
+			. "WHERE product_id = " . (int) $product_id . " "
 			. "ORDER BY subscription_id ";
 		$this->_db->setQuery($query);
 		$list = $this->_db->loadObjectlist();
@@ -8104,16 +8196,16 @@ class producthelper
 		{
 			if ($faq != 0)
 			{
-				$and .= " AND q.parent_id='" . $questionid . "' ";
+				$and .= " AND q.parent_id = " . (int) $questionid . " ";
 			}
 			else
 			{
-				$and .= " AND q.question_id='" . $questionid . "' ";
+				$and .= " AND q.question_id = " . (int) $questionid . " ";
 			}
 		}
 		else
 		{
-			$and .= " AND q.product_id='" . $productid . "' AND q.parent_id=0 ";
+			$and .= " AND q.product_id = " . (int) $productid . " AND q.parent_id=0 ";
 		}
 
 		if ($front != 0)
@@ -8121,14 +8213,19 @@ class producthelper
 			$and .= " AND q.published='1' ";
 		}
 
-		$query = "SELECT q.* FROM " . $this->_table_prefix . "customer_question AS q "
-			. "WHERE 1=1 "
-			. $and
-			. "ORDER BY q.ordering ";
-		$this->_db->setQuery($query);
-		$rs = $this->_db->loadObjectList();
+		// Avoid db killing
+		if (!empty($and))
+		{
+			$query = "SELECT q.* FROM " . $this->_table_prefix . "customer_question AS q "
+				. "WHERE question_id <> 0 "
+				. $and
+				. "ORDER BY q.ordering ";
+			$this->_db->setQuery($query);
 
-		return $rs;
+			return $this->_db->loadObjectList();
+		}
+
+		return null;
 	}
 
 	public function getProductRating($product_id)
@@ -8136,13 +8233,13 @@ class producthelper
 		$url        = JURI::base();
 		$avgratings = 0;
 		$query      = "SELECT pr.* FROM " . $this->_table_prefix . "product_rating AS pr "
-			. "WHERE pr.product_id='" . $product_id . "' AND pr.published=1";
+			. "WHERE pr.product_id = " . (int) $product_id . " AND pr.published=1";
 		$this->_db->setQuery($query);
 		$allreviews   = $this->_db->loadObjectList();
 		$totalreviews = count($allreviews);
 
 		$query = "SELECT SUM(user_rating) AS rating FROM " . $this->_table_prefix . "product_rating AS pr "
-			. "WHERE pr.product_id='" . $product_id . "' AND pr.published=1";
+			. "WHERE pr.product_id = " . (int) $product_id . " AND pr.published=1";
 		$this->_db->setQuery($query);
 		$totalratings = $this->_db->loadResult();
 
@@ -8169,7 +8266,7 @@ class producthelper
 	{
 		$query = "SELECT ui.firstname,ui.lastname,pr.* FROM " . $this->_table_prefix . "product_rating AS pr "
 			. "LEFT JOIN " . $this->_table_prefix . "users_info AS ui ON ui.user_id=pr.userid "
-			. "WHERE pr.product_id='" . $product_id . "' "
+			. "WHERE pr.product_id = " . (int) $product_id . " "
 			. "AND pr.published = 1 AND ui.address_type LIKE 'BT' "
 			. "ORDER BY pr.favoured DESC";
 		$this->_db->setQuery($query);
@@ -8291,7 +8388,9 @@ class producthelper
 	 */
 	public function product_tag($template_id, $section, $template_data)
 	{
-		$q = "SELECT field_name from " . $this->_table_prefix . "fields where field_section='" . $section . "' ";
+		$db = JFactory::getDbo();
+
+		$q = "SELECT field_name from " . $this->_table_prefix . "fields where field_section = " . $db->quote($section);
 
 		$this->_db->setQuery($q);
 
@@ -8600,7 +8699,7 @@ class producthelper
 	{
 		$query = "SELECT product_parent_id,product_id,product_name,product_number FROM " . $this->_table_prefix
 			. "product "
-			. "WHERE product_parent_id='" . $product_id . "' and published = 1 order by product_id";
+			. "WHERE product_parent_id = " . (int) $product_id . " AND published = 1 ORDER BY product_id";
 		$this->_db->setQuery($query);
 		$list = $this->_db->loadObjectlist();
 
@@ -8616,7 +8715,7 @@ class producthelper
 	{
 		$query = "SELECT product_parent_id FROM " . $this->_table_prefix . "product "
 			. "WHERE published=1 "
-			. "AND product_id='" . $parent_id . "' ";
+			. "AND product_id = " . (int) $parent_id;
 		$this->_db->setQuery($query);
 		$product_parent_id = $this->_db->loadResult();
 
@@ -8670,7 +8769,7 @@ class producthelper
 			if (in_array($field_name, $userfieldArr))
 			{
 				$field_id  = $fieldData->field_id;
-				$dateQuery = "select data_txt from " . $this->_table_prefix . "fields_data where fieldid = '" . $field_id . "' AND itemid = '" . $product_id . "'";
+				$dateQuery = "select data_txt from " . $this->_table_prefix . "fields_data where fieldid = " . (int) $field_id . " AND itemid = " . (int) $product_id;
 				$this->_db->setQuery($dateQuery);
 				$datedata = $this->_db->loadObject();
 
@@ -8745,8 +8844,8 @@ class producthelper
 	public function getCategoryCompareTemplate($cid)
 	{
 		$query = "SELECT t.template_id  FROM " . $this->_table_prefix . "template  AS t "
-			. "LEFT JOIN " . $this->_table_prefix . "category  AS c ON c.compare_template_id=t.template_id "
-			. "WHERE c.category_id='" . $cid . "' "
+			. "LEFT JOIN " . $this->_table_prefix . "category AS c ON c.compare_template_id=t.template_id "
+			. "WHERE c.category_id = " . (int) $cid . " "
 			. "AND t.published=1";
 		$this->_db->setQuery($query);
 		$tmp_name = $this->_db->loadResult();
@@ -8759,7 +8858,7 @@ class producthelper
 		$prodCatsObjectArray = array();
 		$query               = "SELECT  ct.category_name, ct.category_id FROM " . $this->_table_prefix . "category AS ct "
 			. "LEFT JOIN " . $this->_table_prefix . "product_category_xref AS pct ON ct.category_id=pct.category_id "
-			. "WHERE pct.product_id='" . $product_id . "' "
+			. "WHERE pct.product_id = " . (int) $product_id . " "
 			. "AND ct.published=1 ";
 		$this->_db->setQuery($query);
 		$rows = $this->_db->loadObjectList();
@@ -8771,7 +8870,7 @@ class producthelper
 
 			$query = "SELECT cx.category_parent_id,c.category_name FROM " . $this->_table_prefix . "category_xref AS cx "
 				. "LEFT JOIN " . $this->_table_prefix . "category AS c ON cx.category_parent_id=c.category_id "
-				. "WHERE cx.category_child_id='" . $row->category_id . "' ";
+				. "WHERE cx.category_child_id=" . (int) $row->category_id;
 			$this->_db->setQuery($query);
 			$parentCat = $this->_db->loadObject();
 
@@ -8780,7 +8879,7 @@ class producthelper
 				$pCat  = $parentCat->category_name;
 				$query = "SELECT cx.category_parent_id,c.category_name FROM " . $this->_table_prefix . "category_xref AS cx "
 					. "LEFT JOIN " . $this->_table_prefix . "category AS c ON cx.category_parent_id=c.category_id "
-					. "WHERE cx.category_child_id='" . $parentCat->category_parent_id . "' ";
+					. "WHERE cx.category_child_id = " . (int) $parentCat->category_parent_id;
 				$this->_db->setQuery($query);
 				$pparentCat = $this->_db->loadObject();
 
@@ -9864,7 +9963,7 @@ class producthelper
 	{
 		$query = "SELECT c.category_name FROM " . $this->_table_prefix . "product_category_xref AS pcx "
 			. "LEFT JOIN " . $this->_table_prefix . "category AS c ON c.category_id=pcx.category_id "
-			. "WHERE pcx.product_id=" . $pid . " AND c.category_name IS NOT NULL ORDER BY c.category_id ASC LIMIT 0,1";
+			. "WHERE pcx.product_id=" . (int) $pid . " AND c.category_name IS NOT NULL ORDER BY c.category_id ASC LIMIT 0,1";
 
 		$this->_db->setQuery($query);
 
@@ -10090,9 +10189,9 @@ class producthelper
 
 	public function isAlreadyNotifiedUser($user_id, $product_id, $property_id, $subproperty_id)
 	{
-		$query = 'SELECT * FROM ' . $this->_table_prefix . 'notifystock_users  WHERE product_id = ' . $product_id
-			. ' and property_id = ' . $property_id . ' and subproperty_id = ' . $subproperty_id . ' and user_id ='
-			. $user_id . ' and notification_status=0';
+		$query = 'SELECT * FROM ' . $this->_table_prefix . 'notifystock_users  WHERE product_id = ' . (int) $product_id
+			. ' and property_id = ' . (int) $property_id . ' and subproperty_id = ' . (int) $subproperty_id . ' AND user_id ='
+			. (int) $user_id . ' and notification_status=0';
 		$this->_db->setQuery($query);
 
 		return $this->_db->loadResult();
@@ -10100,6 +10199,8 @@ class producthelper
 
 	public function insertPaymentShippingField($cart = array(), $order_id = 0, $section_id = 18)
 	{
+		$db = JFactory::getDbo();
+
 		$extraField = new extraField();
 		$row_data   = $extraField->getSectionFieldList($section_id, 1);
 
@@ -10111,8 +10212,8 @@ class producthelper
 			{
 				$sql = "INSERT INTO " . $this->_table_prefix . "fields_data "
 					. "(fieldid,data_txt,itemid,section) "
-					. "value ('" . $row_data[$i]->field_id . "','" . addslashes($user_fields) . "','" . $order_id
-					. "','" . $section_id . "')";
+					. "value ('" . (int) $row_data[$i]->field_id . "'," . $db->quote(addslashes($user_fields)) . "," . (int) $order_id
+					. "," . $db->quote($section_id) . ")";
 				$this->_db->setQuery($sql);
 				$this->_db->query();
 			}

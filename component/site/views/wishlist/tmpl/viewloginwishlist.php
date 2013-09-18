@@ -22,8 +22,7 @@ $redhelper = new redhelper;
 
 $uri = JURI::getInstance();
 $url = $uri->root();
-$option = JRequest::getVar('option');
-$Itemid = JRequest::getVar('Itemid');
+$Itemid = JRequest::getInt('Itemid');
 $wishlists = $this->wishlists;
 $product_id = JRequest::getInt('product_id');
 $user = JFactory::getUser();
@@ -83,7 +82,7 @@ $auth = $session->get('auth');
 		<input type="hidden" name="view" value="wishlist"/>
 		<input type="hidden" name="boxchecked" value=""/>
 
-		<input type="hidden" name="option" value="<?php echo $option; ?>"/>
+		<input type="hidden" name="option" value="com_redshop"/>
 		<input type="hidden" name="task" value="viewloginwishlist"/>
 	</form>
 </div>

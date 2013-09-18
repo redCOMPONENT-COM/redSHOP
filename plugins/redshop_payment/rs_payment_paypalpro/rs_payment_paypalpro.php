@@ -220,7 +220,7 @@ class plgRedshop_paymentrs_payment_paypalpro extends JPlugin
 			return false;
 		}
 
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$request = JRequest::get('request');
 		$accept = $request["accept"];
 		$tid = $request["tid"];
@@ -248,9 +248,9 @@ class plgRedshop_paymentrs_payment_paypalpro extends JPlugin
 		{
 			// Find the corresponding order in the database
 
-			$db = JFactory::getDBO();
+			$db = JFactory::getDbo();
 			$qv = "SELECT order_id, order_number FROM " . $this->_table_prefix . "orders WHERE order_id='" . $order_id . "'";
-			$db->SetQuery($qv);
+			$db->setQuery($qv);
 			$orders = $db->LoadObjectList();
 
 			foreach ($orders as $order_detail)
@@ -417,7 +417,7 @@ class plgRedshop_paymentrs_payment_paypalpro extends JPlugin
 
 	public function getparameters($payment)
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$sql = "SELECT * FROM #__extensions WHERE `element`='" . $payment . "'";
 		$db->setQuery($sql);
 		$params = $db->loadObjectList();
@@ -427,10 +427,10 @@ class plgRedshop_paymentrs_payment_paypalpro extends JPlugin
 
 	public function orderPaymentNotYetUpdated($dbConn, $order_id, $tid)
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$res = false;
 		$query = "SELECT COUNT(*) `qty` FROM " . $this->_table_prefix . "order_payment WHERE `order_id` = '" . $db->getEscaped($order_id) . "' and order_payment_trans_id = '" . $db->getEscaped($tid) . "'";
-		$db->SetQuery($query);
+		$db->setQuery($query);
 		$order_payment = $db->loadResult();
 
 		if ($order_payment == 0)
@@ -443,7 +443,7 @@ class plgRedshop_paymentrs_payment_paypalpro extends JPlugin
 
 	public function onCapture_Paymentrs_payment_paypalpro($element, $data)
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		require_once JPATH_SITE . '/administrator/components/com_redshop/helpers/order.php';
 		$objOrder = new order_functions;
 

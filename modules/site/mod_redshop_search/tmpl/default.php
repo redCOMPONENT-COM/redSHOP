@@ -13,10 +13,10 @@ require_once JPATH_ROOT . '/components/com_redshop/helpers/helper.php';
 $templateid = $params->get('templateid');
 $defaultSearchType = trim($params->get('defaultSearchType', 'product_name'));
 $perpageproduct = $params->get('productperpage');
-$search_type = JRequest::getVar('search_type', $defaultSearchType);
-$keyword = JRequest::getVar('keyword', $standardkeyword);
+$search_type = JRequest::getWord('search_type', $defaultSearchType);
+$keyword = JRequest::getString('keyword', $standardkeyword);
 
-$manufac_data = (JRequest::getVar('manufacture_id', '')); // Manufacture Select Id
+$manufac_data = (JRequest::getInt('manufacture_id', '')); // Manufacture Select Id
 
 $redhelper = new redhelper();
 $Itemid = $redhelper->getItemid();

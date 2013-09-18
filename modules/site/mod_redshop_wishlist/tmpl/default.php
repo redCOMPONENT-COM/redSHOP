@@ -17,8 +17,6 @@ $url = $uri->root();
 $user      = JFactory::getUser();
 $redhelper = new redhelper();
 $Itemid    = $redhelper->getItemid();
-//$option = JRequest::getVar('option');
-//$Itemid = JRequest::getVar('Itemid');
 
 // get product helper
 // Getting the configuration

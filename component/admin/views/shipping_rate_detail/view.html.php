@@ -24,7 +24,7 @@ class shipping_rate_detailViewshipping_rate_detail extends JView
 		$userhelper = new rsUserhelper;
 		$uri = JFactory::getURI();
 		$model = $this->getModel();
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 
 		$id = $app->getUserStateFromRequest($context . 'extension_id', 'extension_id', '0');
 		$shipping = $shippinghelper->getShippingMethodById($id);
@@ -129,18 +129,30 @@ class shipping_rate_detailViewshipping_rate_detail extends JView
 		$lists['extra_field'] = $list_field;
 
 		$shippingVatGroup = $model->getVatGroup();
-		$temps = array();
-		$temps[0]->value = "";
-		$temps[0]->text = JText::_('COM_REDSHOP_SELECT');
-		$shippingVatGroup = @array_merge($temps, $shippingVatGroup);
 
-		$shippingfor = array();
-		$shippingfor[0]->value = 0;
-		$shippingfor[0]->text = JText::_('COM_REDSHOP_BOTH');
-		$shippingfor[1]->value = 1;
-		$shippingfor[1]->text = JText::_('COM_REDSHOP_COMPANY_ONLY');
-		$shippingfor[2]->value = 2;
-		$shippingfor[2]->text = JText::_('COM_REDSHOP_PRIVATE');
+		$temps = array(
+			(object) array(
+				'value' => '',
+				'text' => JText::_('COM_REDSHOP_SELECT')
+			)
+		);
+
+		$shippingVatGroup = array_merge($temps, $shippingVatGroup);
+
+		$shippingfor = array(
+			(object) array(
+				'value' => 0,
+				'text' => JText::_('COM_REDSHOP_BOTH')
+			),
+			(object) array(
+				'value' => 1,
+				'text' => JText::_('COM_REDSHOP_COMPANY_ONLY')
+			),
+			(object) array(
+				'value' => 2,
+				'text' => JText::_('COM_REDSHOP_PRIVATE')
+			),
+		);
 
 		$lists['company_only'] = JHTML::_('select.genericlist', $shippingfor, 'company_only',
 			'class="inputbox" size="1" ', 'value', 'text', $detail->company_only

@@ -181,10 +181,10 @@ if (!class_exists('redproductScroller'))
 			$this->show_product_name = $params->get('show_product_name', "yes");
 			$this->show_addtocart    = $params->get('show_addtocart', "yes");
 			$this->show_price        = $params->get('show_price', "yes");
-			$this->category_id = intval(JRequest::getVar('cid', 0));
+			$this->category_id       = JRequest::getInt('cid', 0);
 
-			$this->thumbwidth  = $params->get('thumbwidth', 100);
-			$this->thumbheight = $params->get('thumbheight', 100);
+			$this->thumbwidth        = $params->get('thumbwidth', 100);
+			$this->thumbheight       = $params->get('thumbheight', 100);
 
 			// Limit by NoP
 			$this->NumberOfProducts = $params->get('NumberOfProducts', $this->NumberOfProducts);
@@ -223,7 +223,7 @@ if (!class_exists('redproductScroller'))
 		 */
 		function displayredScroller(&$rows)
 		{
-			$database = JFactory::getDBO();
+			$database = JFactory::getDbo();
 
 			$cnt = 0;
 
@@ -322,7 +322,7 @@ if (!class_exists('redproductScroller'))
 			}
 
 			$cid      = array_merge((array) $category_id, $cid);
-			$database = JFactory::getDBO();
+			$database = JFactory::getDbo();
 
 			if ($limit > 0)
 			{

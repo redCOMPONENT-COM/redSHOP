@@ -19,10 +19,9 @@ $extraField    = new extraField;
 $redTemplate   = new Redtemplate;
 
 $url    = JURI::base();
-$option = JRequest::getVar('option');
-$Itemid = JRequest::getVar('Itemid');
-$catid  = JRequest::getVar('cid', 0, '', 'int');
-$print  = JRequest::getVar('print');
+$Itemid = JRequest::getInt('Itemid');
+$catid  = JRequest::getInt('cid', 0, '', 'int');
+$print  = JRequest::getInt('print');
 
 $model                = $this->getModel('category');
 $loadCategorytemplate = $this->loadCategorytemplate;
@@ -45,7 +44,7 @@ if (!strstr($template_desc, "{show_all_products_in_category}") && strstr($templa
 
 $app = JFactory::getApplication();
 $router    = $app->getRouter();
-$uri       = new JURI('index.php?option=' . $option . '&category&layout=default&Itemid=' . $Itemid . '&limit=' . $endlimit . '&category_template=' . $this->category_template_id);
+$uri       = new JURI('index.php?option=com_redshop&category&layout=default&Itemid=' . $Itemid . '&limit=' . $endlimit . '&category_template=' . $this->category_template_id);
 
 if ($this->params->get('show_page_heading', 0))
 {
@@ -143,7 +142,7 @@ if (strstr($template_desc, "{category_frontpage_loop_start}") && strstr($templat
 			$tmpItemid = $Itemid;
 		}
 
-		$link = JRoute::_('index.php?option=' . $option . '&view=category&cid=' . $row->category_id . '&layout=detail&Itemid=' . $tmpItemid);
+		$link = JRoute::_('index.php?option=com_redshop&view=category&cid=' . $row->category_id . '&layout=detail&Itemid=' . $tmpItemid);
 
 		$middlepath  = REDSHOP_FRONT_IMAGES_RELPATH . 'category/';
 		$title       = " title='" . $row->category_name . "' ";

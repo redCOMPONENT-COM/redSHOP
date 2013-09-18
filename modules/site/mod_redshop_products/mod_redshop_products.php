@@ -16,7 +16,7 @@ if (!defined('MOD_REDSHOP_PRODUCTS'))
 	function getDefaultModuleCategories()
 	{
 
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 
 		$sql = "SELECT category_id FROM #__redshop_category WHERE published=1 ORDER BY category_id ASC";
 		$db->setQuery($sql);
@@ -92,7 +92,7 @@ if ($category == "")
 	$category = $cids;
 }
 
-$db = JFactory::getDBO();
+$db = JFactory::getDbo();
 
 // Getting the configuration
 

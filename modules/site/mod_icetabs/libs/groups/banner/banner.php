@@ -32,27 +32,35 @@ if (!class_exists('LofSliderGroupBanner'))
 			$clientids      = $params->get('clientids', '');
 			$imageurl       = "images/banners/";
 
-			// fetch data
+			// Fetch data
 			$query = " SELECT  * FROM #__banner b WHERE showBanner=1 ";
-			// filter by client banner
+
+			// Filter by client banner
 			if (!empty($clientids))
 			{
-				$clientids = !is_array($clientids) ? $clientids : '"' . implode('","', $clientids) . '"';
-				$query .= ' AND  b.cid IN(' . $clientids . ')';
+				$clientids = explode(',', $clientids);
+				JArrayHelper::toInteger($clientids);
+
+				$query .= ' AND  b.cid IN(' . implode(',', $clientids) . ')';
 			}
-			// filter by category
+
+			// Filter by category
 			if (!empty($catids))
 			{
-				$catids = !is_array($catids) ? $catids : '"' . implode('","', $catids) . '"';
-				$query .= ' AND  b.catid IN(' . $catids . ')';
+				$catids = explode(',', $catids);
+				JArrayHelper::toInteger($catids);
+
+				$query .= ' AND  b.catid IN(' . implode(',', $catids) . ')';
 			}
-			// order by
-			$query .= " ORDER BY " . ($ordering[0] == 'random' ? " RAND() " : $ordering[0] . " " . $ordering[1]);
+
+			// Order by
+			$query .= " ORDER BY " . ($ordering[0] == 'random' ? " RAND() " : $db->escape($ordering[0] . " " . $ordering[1]));
 			$query .= " LIMIT " . (int) $limit;
-			$db = JFactory::getDBO();
+			$db = JFactory::getDbo();
 			$db->setQuery($query);
 
 			$banners = $db->loadObjectList();
+
 			if (empty($banners))
 			{
 				return array();

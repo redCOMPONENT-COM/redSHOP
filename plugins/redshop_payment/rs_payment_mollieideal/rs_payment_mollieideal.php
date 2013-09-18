@@ -94,7 +94,7 @@ class plgRedshop_paymentrs_payment_mollieideal extends JPlugin
 		$uri =& JURI::getInstance();
 		$url = JURI::base();
 		$uid = $user->id;
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 
 		if ($response->payed == "false")
 		{
@@ -119,7 +119,7 @@ class plgRedshop_paymentrs_payment_mollieideal extends JPlugin
 
 	public function getparameters($payment)
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$sql = "SELECT * FROM #__extensions WHERE `element`='" . $payment . "'";
 		$db->setQuery($sql);
 		$params = $db->loadObjectList();
@@ -140,7 +140,7 @@ class plgRedshop_paymentrs_payment_mollieideal extends JPlugin
 		require_once JPATH_BASE . '/plugins/redshop_payment/rs_payment_mollieideal' . DS
 			. 'rs_payment_mollieideal/class.mollie.ideal.php';
 
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 
 		// Paid already?
 		$query = 'SELECT * FROM ' . $this->_table_prefix . 'orders WHERE order_id = "' . (int) $order_id . '" AND order_payment_status = "Paid" LIMIT 1; ';
@@ -241,7 +241,7 @@ class plgRedshop_paymentrs_payment_mollieideal extends JPlugin
 			return $this->_show_error('"' . JText::_('COM_REDSHOP_SELECTBANK_ERROR') . '"');
 		}
 
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 
 		$query = 'SELECT order_total FROM #__redshop_orders WHERE order_id = "' . (int) $order_id . '"';
 		$db->setQuery($query);
@@ -271,7 +271,7 @@ class plgRedshop_paymentrs_payment_mollieideal extends JPlugin
 		if ($mideal->bankurl)
 		{
 			$query = "UPDATE " . $this->_table_prefix . "order_payment SET order_payment_number = '" . $order_id . "', order_payment_trans_id = '" . $mideal->transaction_id . "', order_payment_code = 0 where order_id = '" . $order_id . "'";
-			$db->SetQuery($query);
+			$db->setQuery($query);
 			$db->Query();
 			$form = '<b>Step 2 - ' . JText::_('COM_REDSHOP_MOLLIEIDEAL_STEP_HEADER') . ' <img src="http://www.mollie.nl/images/icons/ideal-25x22.gif" alt="" /></b><br /><br />' . JText::_('COM_REDSHOP_MOLLIEIDEAL_STEP2_DESCRIPTION') . '<br /><br />' .
 				'<button onclick="window.location = \'' . $mideal->bankurl . '\'; return false">' . JText::_('COM_REDSHOP_MOLLIEIDEAL_CONTINUEBUTTON') . '</button>';

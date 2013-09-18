@@ -16,8 +16,7 @@ $extra_field = new extra_field;
 $producthelper = new producthelper;
 $redTemplate = new Redtemplate;
 $redhelper = new redhelper;
-$option = JRequest::getVar('option');
-$Itemid = JRequest::getVar('Itemid');
+$Itemid = JRequest::getInt('Itemid');
 $model = $this->getModel('manufacturers');
 
 // Page Title Start
@@ -76,7 +75,7 @@ if (strstr($template_desc, '{category_loop_start}') && strstr($template_desc, '{
 		for ($i = 0; $i < count($category); $i++)
 		{
 			$cart_mdata .= $template_middle;
-			$catlink    = JRoute::_('index.php?option=' . $option . '&view=category&layout=detail&cid=' . $category[$i]->category_id . '&manufacturer_id=' . $row->manufacturer_id . '&Itemid=' . $Itemid);
+			$catlink    = JRoute::_('index.php?option=com_redshop&view=category&layout=detail&cid=' . $category[$i]->category_id . '&manufacturer_id=' . $row->manufacturer_id . '&Itemid=' . $Itemid);
 			$alink      = "<a href='" . $catlink . "'>" . $category[$i]->category_name . "</a>";
 			$cart_mdata = str_replace("{category_name_with_link}", $alink, $cart_mdata);
 			$cart_mdata = str_replace("{category_desc}", $category[$i]->category_description, $cart_mdata);
@@ -126,16 +125,16 @@ if (strstr($template_desc, "{manufacturer_image}"))
 			}
 
 			$thum_image = "<a title='" . $altText . "' class=\"modal\" href='" . REDSHOP_FRONT_IMAGES_ABSPATH . $maintype . $media_image[$m]->media_name . "'   rel=\"{handler: 'image', size: {}}\">
-				<img alt='" . $altText . "' title='" . $altText . "' src='" . $url . "/components/" . $option . "/helpers/thumb.php?filename=" . $thumbtype . $media_image[$m]->media_name . "&newxsize=" . $mw_thumb . "&newysize=" . $mh_thumb . "&swap=" . USE_IMAGE_SIZE_SWAPPING . "'></a>";
+				<img alt='" . $altText . "' title='" . $altText . "' src='" . $url . "/components/com_redshop/helpers/thumb.php?filename=" . $thumbtype . $media_image[$m]->media_name . "&newxsize=" . $mw_thumb . "&newysize=" . $mh_thumb . "&swap=" . USE_IMAGE_SIZE_SWAPPING . "'></a>";
 		}
 	}
 
 	$template_desc = str_replace("{manufacturer_image}", $thum_image, $template_desc);
 }
 
-$manlink = JRoute::_('index.php?option=' . $option . '&view=manufacturers&layout=detail&mid=' . $row->manufacturer_id . '&Itemid=' . $Itemid);
+$manlink = JRoute::_('index.php?option=com_redshop&view=manufacturers&layout=detail&mid=' . $row->manufacturer_id . '&Itemid=' . $Itemid);
 
-$manproducts = JRoute::_('index.php?option=' . $option . '&view=manufacturers&layout=products&mid=' . $row->manufacturer_id . '&Itemid=' . $Itemid);
+$manproducts = JRoute::_('index.php?option=com_redshop&view=manufacturers&layout=products&mid=' . $row->manufacturer_id . '&Itemid=' . $Itemid);
 
 $template_desc = str_replace("{manufacturer_name}", $row->manufacturer_name, $template_desc);
 

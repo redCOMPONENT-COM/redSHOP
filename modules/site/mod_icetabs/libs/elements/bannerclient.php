@@ -34,7 +34,7 @@ class JFormFieldBannerclient extends JFormField
 
 	function getInput()
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		// This might get a conflict with the dynamic translation - TODO: search for better solution
 		$query = 'SELECT id, name' .
 			' FROM #__banner_clients' .

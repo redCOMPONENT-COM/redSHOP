@@ -271,7 +271,7 @@ class orderController extends JController
 		$model = $this->getModel('order');
 		$data = $model->export_data();
 		$product_count = array();
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 
 		$cid = JRequest::getVar('cid', array(0), 'method', 'array');
 		$order_id = implode(',', $cid);
@@ -385,7 +385,7 @@ class orderController extends JController
 		$model = $this->getModel('order');
 
 		$product_count = array();
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 
 		$cid = JRequest::getVar('cid', array(0), 'method', 'array');
 		$data = $model->export_data($cid);

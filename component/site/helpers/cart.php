@@ -1038,7 +1038,6 @@ class rsCarthelper
 					$val                = explode("/", $product_image);
 					$prd_image          = $val[1];
 					$type               = $val[0];
-
 				}
 				elseif ($product->product_full_image && is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $product->product_full_image))
 				{
@@ -1223,7 +1222,6 @@ class rsCarthelper
 					$cart_mdata = str_replace($templateattibute_middle, $pro_detail, $cart_mdata);
 				}
 
-
 				if (count($cart [$i] ['cart_attribute']) > 0)
 				{
 					$cart_mdata = str_replace("{attribute_label}", JText::_("COM_REDSHOP_ATTRIBUTE"), $cart_mdata);
@@ -1332,7 +1330,6 @@ class rsCarthelper
 						$update_cart .= '<img class="update_cart" src="' . REDSHOP_FRONT_IMAGES_ABSPATH . $update_img . '" title="' . JText::_('COM_REDSHOP_UPDATE_PRODUCT_FROM_CART_LBL') . '" alt="' . JText::_('COM_REDSHOP_UPDATE_PRODUCT_FROM_CART_LBL') . '" onclick="document.update_cart' . $i . '.task.value=\'update\';document.update_cart' . $i . '.submit();">';
 
 						$update_cart .= '</form>';
-
 					}
 
 					$update_cart_minus_plus = '<form name="update_cart' . $i . '" method="POST">';
@@ -1366,7 +1363,6 @@ class rsCarthelper
 					if ($mainview == 'checkout')
 					{
 						$remove_product = '';
-
 					}
 					else
 					{
@@ -1376,7 +1372,6 @@ class rsCarthelper
 								<input type="hidden" name="task" value="">
 								<input type="hidden" name="Itemid" value="' . $Itemid . '">
 								<img class="delete_cart" src="' . REDSHOP_FRONT_IMAGES_ABSPATH . $delete_img . '" title="' . JText::_('COM_REDSHOP_DELETE_PRODUCT_FROM_CART_LBL') . '" alt="' . JText::_('COM_REDSHOP_DELETE_PRODUCT_FROM_CART_LBL') . '" onclick="document.delete_cart' . $i . '.task.value=\'delete\';document.delete_cart' . $i . '.submit();"></form>';
-
 					}
 
 					if (QUANTITY_TEXT_DISPLAY)
@@ -1552,7 +1547,6 @@ class rsCarthelper
 			{
 				$cname = $res->category_name;
 				$clink = JRoute::_($url . 'index.php?option=com_redshop&view=category&layout=detail&cid=' . $catId);
-
 			}
 
 			$category_path = "<a href='" . $clink . "'>" . $cname . "</a>";
@@ -3195,7 +3189,7 @@ class rsCarthelper
 		{
 			JPluginHelper::importPlugin('rs_labels_GLS');
 			$dispatcher = JDispatcher::getInstance();
-			$sql        = "SELECT  * FROM #__" . TABLE_PREFIX . "_users_info WHERE users_info_id='" . $users_info_id . "'";
+			$sql        = "SELECT  * FROM #__" . TABLE_PREFIX . "_users_info WHERE users_info_id=" . (int) $users_info_id ;
 			$this->_db->setQuery($sql);
 			$values = $this->_db->loadObject();
 
@@ -3236,6 +3230,7 @@ class rsCarthelper
 		$shippingmethod       = $this->_order_functions->getShippingMethodInfo();
 		$adminpath            = JPATH_ADMINISTRATOR . '/components/com_redshop';
 		$rateExist            = 0;
+		$extrafield_total     = "";
 		$d['user_id']         = $user_id;
 		$d['users_info_id']   = $users_info_id;
 		$d['shipping_box_id'] = $shipping_box_post_id;
@@ -3867,6 +3862,8 @@ class rsCarthelper
 
 	public function replaceNewsletterSubscription($template_desc = "", $onchange = 0)
 	{
+		$db = JFactory::getDbo();
+
 		if (strstr($template_desc, "{newsletter_signup_chk}"))
 		{
 			$Itemid               = JRequest::getVar('Itemid');
@@ -3877,8 +3874,8 @@ class rsCarthelper
 			if (DEFAULT_NEWSLETTER != 0)
 			{
 				$user  = JFactory::getUser();
-				$query = "SELECT subscription_id FROM " . $this->_table_prefix . "newsletter_subscription "
-					. "WHERE user_id='" . $user->id . "' AND email='" . $user->email . "'";
+				$query = "SELECT subscription_id FROM " . $this->_table_prefix . "newsletter_subscription"
+					. " WHERE user_id=" . (int) $user->id . " AND email=" . $db->quote($user->email);
 				$this->_db->setQuery($query);
 				$subscribe = $this->_db->loadResult();
 
@@ -3975,7 +3972,7 @@ class rsCarthelper
 					if ($user->id)
 					{
 						$sel = "SELECT SUM(coupon_value) AS usertotal FROM " . $this->_table_prefix . "coupons_transaction "
-							. "WHERE userid='" . $user->id . "' "
+							. "WHERE userid=" . (int) $user->id
 							. "GROUP BY userid ";
 						$this->_db->setQuery($sel);
 						$userData = $this->_db->loadResult();
@@ -4363,6 +4360,8 @@ class rsCarthelper
 
 	public function getVoucherData($voucher_code, $product_id = 0)
 	{
+		$db = JFactory::getDbo();
+
 		$user         = JFactory::getUser();
 		$voucher      = array();
 		$current_time = time();
@@ -4374,9 +4373,12 @@ class rsCarthelper
 			if ($user->id)
 			{
 				$query = "SELECT vt.transaction_voucher_id,vt.amount as total,vt.product_id from " . $this->_table_prefix . "product_voucher_xref as pv "
-					. " left join " . $this->_table_prefix . "product_voucher as v on v.voucher_id = pv.voucher_id where voucher_code='" . $voucher_code . "' ) as nproduct , v.* FROM " . $this->_table_prefix . "product_voucher as v "
-					. " left join " . $this->_table_prefix . "product_voucher_transaction as vt on vt.voucher_id = v.voucher_id "
-					. "\nWHERE vt.amount > 0 AND v.voucher_type = 'Total' AND v.published = 1 and vt.voucher_code='" . $voucher_code . "' AND ((start_date<='" . $current_time . "' and end_date>='" . $current_time . "') OR ( start_date =0 AND end_date = 0) ) AND vt.user_id='" . $user->id . "' ORDER BY transaction_voucher_id DESC limit 0,1";
+					. " LEFT JOIN " . $this->_table_prefix . "product_voucher as v on v.voucher_id = pv.voucher_id"
+					. " WHERE voucher_code=" . $db->quote($voucher_code) . " ) as nproduct , v.* FROM " . $this->_table_prefix . "product_voucher as v "
+					. " LEFT JOIN " . $this->_table_prefix . "product_voucher_transaction as vt on vt.voucher_id = v.voucher_id "
+					. "\nWHERE vt.amount > 0 AND v.voucher_type = 'Total' AND v.published = 1 and vt.voucher_code=" . $db->quote($voucher_code)
+					. " AND ((start_date<=" . $db->quote($current_time) . " and end_date>=" . $db->quote($current_time) . ")"
+					. " OR ( start_date =0 AND end_date = 0) ) AND vt.user_id=" . (int) $user->id . " ORDER BY transaction_voucher_id DESC limit 0,1";
 				$this->_db->setQuery($query);
 				$voucher = $this->_db->loadObject();
 
@@ -4387,9 +4389,12 @@ class rsCarthelper
 			if ((count($voucher)) <= 0)
 			{
 				$query = "SELECT (select GROUP_CONCAT(DISTINCT CAST(product_id AS CHAR)  SEPARATOR ', ') as product_id from " . $this->_table_prefix . "product_voucher_xref as pv "
-					. " left join " . $this->_table_prefix . "product_voucher as v on v.voucher_id = pv.voucher_id where voucher_code='" . $voucher_code . "') as nproduct,"
+					. " LEFT JOIN " . $this->_table_prefix . "product_voucher as v on v.voucher_id = pv.voucher_id"
+					. " WHERE voucher_code=" . $db->quote($voucher_code) . ") as nproduct,"
 					. " amount as total ,voucher_type,free_shipping,voucher_id,voucher_code,voucher_left  FROM " . $this->_table_prefix . "product_voucher as v  "
-					. "\nWHERE published = 1 and voucher_code='" . $voucher_code . "' and ((start_date<='" . $current_time . "' and end_date>='" . $current_time . "') OR ( start_date =0 AND end_date = 0) ) and voucher_left>0 limit 0,1";
+					. "\nWHERE published = 1 and voucher_code=" . $db->quote($voucher_code)
+					. " AND ((start_date<=" . $db->quote($current_time) . " AND end_date>=" . $db->quote($current_time) . ")"
+					. " OR ( start_date =0 AND end_date = 0) ) and voucher_left>0 limit 0,1";
 				$this->_db->setQuery($query);
 				$voucher = $this->_db->loadObject();
 			}
@@ -4404,12 +4409,15 @@ class rsCarthelper
 
 	public function globalvoucher($voucher_code)
 	{
+		$db = JFactory::getDbo();
+
 		$current_time = time();
 		$query        = "SELECT product_id,v.* from " . $this->_table_prefix . "product_voucher_xref as pv  "
 			. "left join " . $this->_table_prefix . "product_voucher as v on v.voucher_id = pv.voucher_id "
 			. " \nWHERE v.published = 1"
-			. " and v.voucher_code='" . $voucher_code . "' "
-			. " and ((v.start_date<='" . $current_time . "' and v.end_date>='" . $current_time . "') OR ( v.start_date =0 AND v.end_date = 0) ) and v.voucher_left>0 limit 0,1";
+			. " AND v.voucher_code=" . $db->quote($voucher_code)
+			. " AND ((v.start_date<=" . $db->quote($current_time) . " AND v.end_date>=" . $db->quote($current_time) . ")"
+			. " OR ( v.start_date =0 AND v.end_date = 0) ) AND v.voucher_left>0 limit 0,1";
 		$this->_db->setQuery($query);
 		$voucher = $this->_db->loadObject();
 
@@ -4418,8 +4426,9 @@ class rsCarthelper
 			$this->_globalvoucher = 1;
 			$query                = "SELECT v.*,v.amount as total from " . $this->_table_prefix . "product_voucher as v "
 				. "WHERE v.published = 1 "
-				. "AND v.voucher_code='" . $voucher_code . "' "
-				. "AND ((v.start_date<='" . $current_time . "' AND v.end_date>='" . $current_time . "') OR ( v.start_date =0 AND v.end_date = 0) ) "
+				. "AND v.voucher_code=" . $db->quote($voucher_code)
+				. "AND ((v.start_date<=" . $db->quote($current_time) . " AND v.end_date>=" . $db->quote($current_time) . ")"
+				. " OR ( v.start_date =0 AND v.end_date = 0) ) "
 				. "AND v.voucher_left>0 LIMIT 0,1 ";
 			$this->_db->setQuery($query);
 			$voucher = $this->_db->loadObject();
@@ -4430,6 +4439,8 @@ class rsCarthelper
 
 	public function getcouponData($coupon_code)
 	{
+		$db = JFactory::getDbo();
+
 		$current_time = time();
 		$cart         = $this->_session->get('cart');
 		$user         = JFactory::getUser();
@@ -4439,7 +4450,9 @@ class rsCarthelper
 		{
 			$query = "SELECT ct.coupon_value as coupon_value,c.free_shipping, c.coupon_id,c.coupon_code,c.percent_or_total,ct.userid,ct.transaction_coupon_id FROM " . $this->_table_prefix . "coupons as c "
 				. "left join " . $this->_table_prefix . "coupons_transaction as ct on ct.coupon_id = c.coupon_id "
-				. "WHERE ct.coupon_value > 0 AND c.published = 1 and ct.coupon_code='" . $coupon_code . "' AND (c.start_date<='" . $current_time . "' AND c.end_date>='" . $current_time . "' ) AND ct.userid='" . $user->id . "' ORDER BY transaction_coupon_id DESC limit 0,1";
+				. "WHERE ct.coupon_value > 0 AND c.published = 1 and ct.coupon_code=" . $db->quote($coupon_code)
+				. " AND (c.start_date<=" . $db->quote($current_time) . " AND c.end_date>=" . $db->quote($current_time) . " )"
+				. " AND ct.userid=" . (int) $user->id . " ORDER BY transaction_coupon_id DESC limit 0,1";
 			$this->_db->setQuery($query);
 			$coupon = $this->_db->loadObject();
 
@@ -4452,7 +4465,9 @@ class rsCarthelper
 		if (count($coupon) <= 0)
 		{
 			$query = "SELECT * FROM " . $this->_table_prefix . "coupons   "
-				. "WHERE published = 1 and coupon_code='" . $coupon_code . "' and (start_date<='" . $current_time . "' and end_date>='" . $current_time . "' ) AND coupon_left > 0 AND ( '" . $subtotal . "' >= subtotal OR subtotal = 0 OR subtotal = '' ) limit 0,1";
+				. "WHERE published = 1 and coupon_code = " . $db->quote($coupon_code) . " and (start_date<=" . $db->quote($current_time)
+				. " AND end_date>=" . $db->quote($current_time) . " ) AND coupon_left > 0 "
+				. " AND ( " . $db->quote($subtotal) . " >= subtotal OR subtotal = 0 OR subtotal = '' ) limit 0,1";
 			$this->_db->setQuery($query);
 			$coupon = $this->_db->loadObject();
 		}
@@ -4983,9 +4998,9 @@ class rsCarthelper
 	/**
 	 * Remove cart entry from table
 	 *
-	 * @param   int  $cart_id   #__redshop_usercart table key id
-	 * @param   int  $userid    user information id - joomla #__users table key id
-	 * @param   bool $delCart   remove cart from #__redshop_usercart table
+	 * @param   int   $cart_id   #__redshop_usercart table key id
+	 * @param   int   $userid    user information id - joomla #__users table key id
+	 * @param   bool  $delCart   remove cart from #__redshop_usercart table
 	 *
 	 * @return bool
 	 */
@@ -5004,30 +5019,30 @@ class rsCarthelper
 
 		if ($cart_id == 0)
 		{
-			$query = "SELECT cart_id FROM " . $this->_table_prefix . "usercart WHERE user_id='" . $userid . "'";
+			$query = "SELECT cart_id FROM " . $this->_table_prefix . "usercart WHERE user_id=" . (int) $userid;
 			$this->_db->setQuery($query);
 			$cart_id = $this->_db->loadResult();
 		}
 
-		$query = "SELECT cart_item_id FROM " . $this->_table_prefix . "usercart_item WHERE cart_id='" . $cart_id . "'";
+		$query = "SELECT cart_item_id FROM " . $this->_table_prefix . "usercart_item WHERE cart_id=" . (int) $cart_id;
 		$this->_db->setQuery($query);
 		$cart_item_id = $this->_db->loadResult();
 
-		$query = "DELETE FROM " . $this->_table_prefix . "usercart_accessory_item WHERE cart_item_id='" . $cart_item_id . "'";
+		$query = "DELETE FROM " . $this->_table_prefix . "usercart_accessory_item WHERE cart_item_id=" . (int) $cart_item_id;
 		$this->_db->setQuery($query);
 		$this->_db->Query();
 
-		$query = "DELETE FROM " . $this->_table_prefix . "usercart_attribute_item WHERE cart_item_id='" . $cart_item_id . "'";
+		$query = "DELETE FROM " . $this->_table_prefix . "usercart_attribute_item WHERE cart_item_id=" . (int) $cart_item_id;
 		$this->_db->setQuery($query);
 		$this->_db->Query();
 
-		$query = "DELETE FROM " . $this->_table_prefix . "usercart_item WHERE cart_id='" . $cart_id . "'";
+		$query = "DELETE FROM " . $this->_table_prefix . "usercart_item WHERE cart_id=" . (int) $cart_id;
 		$this->_db->setQuery($query);
 		$this->_db->Query();
 
 		if ($delCart)
 		{
-			$query = "DELETE FROM " . $this->_table_prefix . "usercart WHERE cart_id='" . $cart_id . "'";
+			$query = "DELETE FROM " . $this->_table_prefix . "usercart WHERE cart_id=" . (int) $cart_id;
 			$this->_db->setQuery($query);
 			$this->_db->Query();
 		}
@@ -5046,7 +5061,7 @@ class rsCarthelper
 		}
 
 		$query = "SELECT ci.* FROM " . $this->_table_prefix . "usercart AS c," . $this->_table_prefix . "usercart_item AS ci
-				  WHERE c.cart_id = ci.cart_id AND user_id='" . $userId . "' ORDER BY cart_idx";
+				  WHERE c.cart_id = ci.cart_id AND user_id=" . (int) $userId . " ORDER BY cart_idx";
 		$this->_db->setQuery($query);
 		$cart_items = $this->_db->loadObjectlist();
 
@@ -5331,39 +5346,38 @@ class rsCarthelper
 
 	public function getCartItemAccessoryDetail($cart_item_id = 0)
 	{
-		$and = "";
+		$list = null;
 
 		if ($cart_item_id != 0)
 		{
-			$and .= " AND cart_item_id='" . $cart_item_id . "' ";
+			$query = "SELECT * FROM  " . $this->_table_prefix . "usercart_accessory_item "
+				. "WHERE cart_item_id=" . (int) $cart_item_id;
+			$this->_db->setQuery($query);
+			$list = $this->_db->loadObjectlist();
 		}
-
-		$query = "SELECT * FROM  " . $this->_table_prefix . "usercart_accessory_item "
-			. "WHERE 1=1 "
-			. $and;
-		$this->_db->setQuery($query);
-		$list = $this->_db->loadObjectlist();
 
 		return $list;
 	}
 
 	public function getCartItemAttributeDetail($cart_item_id = 0, $is_accessory = 0, $section = "attribute", $parent_section_id = 0)
 	{
+		$db = JFactory::getDbo();
+
 		$and = "";
 
 		if ($cart_item_id != 0)
 		{
-			$and .= " AND cart_item_id='" . $cart_item_id . "' ";
+			$and .= " AND cart_item_id=" . (int) $cart_item_id . " ";
 		}
 
 		if ($parent_section_id != 0)
 		{
-			$and .= " AND parent_section_id='" . $parent_section_id . "' ";
+			$and .= " AND parent_section_id=" . (int) $parent_section_id . " ";
 		}
 
 		$query = "SELECT * FROM  " . $this->_table_prefix . "usercart_attribute_item "
-			. "WHERE is_accessory_att='" . $is_accessory . "' "
-			. "AND section='" . $section . "' "
+			. "WHERE is_accessory_att=" . (int) $is_accessory . " "
+			. "AND section=" . $db->quote($section) . " "
 			. $and;
 		$this->_db->setQuery($query);
 		$list = $this->_db->loadObjectlist();
@@ -6285,27 +6299,39 @@ class rsCarthelper
 
 		if ($product_id != 0)
 		{
-			$and .= "AND p.product_id IN (" . $product_id . ") ";
+			// Secure productsIds
+			if ($productsIds = explode(',', $product_id))
+			{
+				JArrayHelper::toInteger($productsIds);
+
+				$and .= "AND p.product_id IN (" . implode(',', $productsIds) . ") ";
+			}
 		}
 
 		if ($attribute_set_id != 0)
 		{
-			$and .= "AND a.attribute_set_id='" . $attribute_set_id . "' ";
+			$and .= "AND a.attribute_set_id=" . (int) $attribute_set_id . " ";
 		}
 
 		if ($published != 0)
 		{
-			$astpublished = " AND ast.published='" . $published . "' ";
+			$astpublished = " AND ast.published=" . (int) $published . " ";
 		}
 
 		if ($attribute_required != 0)
 		{
-			$and .= "AND a.attribute_required='" . $attribute_required . "' ";
+			$and .= "AND a.attribute_required=" . (int) $attribute_required . " ";
 		}
 
 		if ($notAttributeId != 0)
 		{
-			$and .= "AND a.attribute_id NOT IN (" . $notAttributeId . ") ";
+			// Secure notAttributeId
+			if ($notAttributeIds = explode(',', $notAttributeId))
+			{
+				JArrayHelper::toInteger($notAttributeIds);
+
+				$and .= "AND a.attribute_id NOT IN (" . implode(',', $notAttributeIds) . ") ";
+			}
 		}
 
 		$query = "SELECT a.attribute_id AS value,a.attribute_name AS text,a.*,ast.attribute_set_name "
@@ -6324,7 +6350,7 @@ class rsCarthelper
 	public function getAttributeSetId($pid)
 	{
 		$query = "SELECT attribute_set_id FROM " . $this->_table_prefix . "product"
-			. " WHERE product_id=" . $pid;
+			. " WHERE product_id=" . (int) $pid;
 
 		$this->_db->setQuery($query);
 
@@ -6960,16 +6986,16 @@ class rsCarthelper
 
 		if ($areabetween)
 		{
-			$and .= "AND " . $area . " BETWEEN `area_start` AND `area_end` ";
+			$and .= "AND " . (int) $area . " BETWEEN `area_start` AND `area_end` ";
 		}
 
 		if ($area)
 		{
-			$and .= " AND (" . $area . " >=`area_start_converted` AND " . $area . " <=`area_end_converted`) ";
+			$and .= " AND (" . (int) $area . " >=`area_start_converted` AND " . (int) $area . " <=`area_end_converted`) ";
 		}
 
 		$query = "SELECT * FROM `" . $this->_table_prefix . "product_discount_calc` "
-			. "WHERE `product_id`='" . $pid . "' "
+			. "WHERE `product_id`=" . (int) $pid . " "
 			. $and
 			. "ORDER BY id ASC ";
 		$this->_db->setQuery($query);
@@ -6986,16 +7012,24 @@ class rsCarthelper
 	 */
 	public function getDiscountCalcDataExtra($pdcextraids = "", $product_id = 0)
 	{
+		$db = JFactory::getDbo();
+
 		$and = "";
 
 		if ($product_id)
 		{
-			$and .= "AND product_id = '" . $product_id . "' ";
+			$and .= "AND product_id = " . (int) $product_id . " ";
 		}
 
 		if ($pdcextraids)
 		{
-			$and .= "AND pdcextra_id IN (" . $pdcextraids . ") ";
+			// Secure $pdcextraids
+			if ($extraIds = explode(',', $pdcextraids))
+			{
+				JArrayHelper::toInteger($extraIds);
+			}
+
+			$and .= "AND pdcextra_id IN (" . implode(',', $extraIds) . ") ";
 		}
 
 		$query = "SELECT * FROM `" . $this->_table_prefix . "product_discount_calc_extra` "
