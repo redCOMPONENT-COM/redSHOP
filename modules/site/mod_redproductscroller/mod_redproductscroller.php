@@ -26,6 +26,8 @@ require_once JPATH_ROOT . '/components/com_redshop/helpers/product.php';
 // Get product helper
 require_once JPATH_ROOT . '/components/com_redshop/helpers/helper.php';
 
+JLoader::import('images', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
+
 $document = JFactory::getDocument();
 JHTML::Script('fetchscript.js', 'components/com_redshop/assets/js/', false);
 JHTML::Script('attribute.js', 'components/com_redshop/assets/js/', false);
@@ -404,7 +406,20 @@ if (!class_exists('redproductScroller'))
 
 			if ($row->product_full_image)
 			{
-				$thum_image = "<div style='width:" . $this->thumbwidth . "px;height:" . $this->thumbheight . "px;'><a href='" . $link . "' title=''><img src='" . $url . "components/com_redshop/helpers/thumb.php?filename=product/" . $row->product_full_image . "&newxsize=" . $this->thumbwidth . "&newysize=" . $this->thumbheight . "'></a></div>";
+				$thumbUrl = RedShopHelperImages::getImagePath(
+								$row->product_full_image,
+								'',
+								'thumb',
+								'product',
+								$this->thumbwidth,
+								$this->thumbheight,
+								USE_IMAGE_SIZE_SWAPPING
+							);
+				$thum_image = "<div style='width:" . $this->thumbwidth . "px;height:" . $this->thumbheight . "px;'>
+									<a href='" . $link . "' title=''>
+										<img src='" . $thumbUrl . "'>
+									</a>
+								</div>";
 
 				$data_add .= $thum_image;
 			}
