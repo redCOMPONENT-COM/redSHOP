@@ -9,7 +9,6 @@ function preloadSlimbox(parameters)
 		getImagename = function (link) {
 	    	var re = new RegExp("images\/(.*?)\/thumb\/(.*?)_w([0-9]*?)_h([0-9]*?)_dope(.*?)$");
 			var m = link.match(re);
-			console.log(m);
 			return m;
 	    }
 
