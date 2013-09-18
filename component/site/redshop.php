@@ -16,7 +16,7 @@ $option = JRequest::getCmd('option');
 $view   = JRequest::getCmd('view');
 
 // Getting the configuration
-JLoader::import('redshop.cfg', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
+require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
 JLoader::import('configuration', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
 JLoader::import('template', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
 JLoader::import('stockroom', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
