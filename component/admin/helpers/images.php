@@ -25,6 +25,46 @@ class RedShopHelperImages extends JObject
 		parent::__construct();
 	}
 
+	/**
+	 * Get redSHOP images live thumbnail path
+	 *
+	 * @param   string   $imageName     Image Name
+	 * @param   string   $dest          Image Destination path
+	 * @param   string   $command       Commands like thumb, upload etc...
+	 * @param   string   $type          Thumbnail for types like, product, category, subcolor etc...
+	 * @param   integer  $width         Thumbnail Width
+	 * @param   integer  $height        Thumbnail Height
+	 * @param   integer  $proportional  Thumbnail Proportional sizing enable / disable.
+	 *
+	 * @return  string                 Thumbnail Live path
+	 */
+	public static function getImagePath($imageName, $dest, $command = 'upload', $type = 'product', $width = 50, $height = 50, $proportional = 1)
+	{
+		// Set Default Type
+		if ($type === '')
+		{
+			return REDSHOP_FRONT_IMAGES_ABSPATH . 'noimage.jpg';
+		}
+
+		// Set Default Width
+		if ((int) $width <= 0)
+		{
+			$width = 50;
+		}
+
+		// Set Default Height
+		if ((int) $height <= 0)
+		{
+			$height = 50;
+		}
+
+		$filePath     = JPATH_SITE . '/components/com_redshop/assets/images/' . $type . '/' . $imageName;
+		$physiclePath = self::generateImages($filePath, $dest, $command, $type, $width, $height, $proportional);
+		$thumbUrl     = REDSHOP_FRONT_IMAGES_ABSPATH . $type . '/thumb/' . basename($physiclePath);
+
+		return $thumbUrl;
+	}
+
 	public static function generateImages($file_path, $dest, $command = 'upload', $type, $width, $height, $proportional)
 	{
 		$info = getimagesize($file_path);

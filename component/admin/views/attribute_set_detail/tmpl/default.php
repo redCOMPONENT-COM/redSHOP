@@ -514,19 +514,27 @@ if ($this->lists['attributes'] != '')
 
 												if (is_file($impath_phy))
 												{
-												$is_img = false;
+													$is_img = false;
+													$thumbUrl = RedShopHelperImages::getImagePath(
+																	$property->property_image,
+																	'',
+																	'thumb',
+																	'product_attributes',
+																	50,
+																	0,
+																	1
+																);
 												?> <span id="property_image_<?php echo $property->property_id; ?>">
-
-																								<a class="modal"
-																								   title="<?php echo $property->property_image; ?>"
-																								   rel="{handler: 'image', size: {}}"
-																								   href="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . 'product_attributes/' . $property->property_image; ?>">
-																									<img
-																										id="propertyImage<?php echo $k . $g; ?>"
-																										alt='' title=''
-																										src='<?php echo $url ?>components/com_redshop/helpers/thumb.php?filename=product_attributes/<?php echo $property->property_image ?>&newxsize=50&newysize=0&swap=1'>
-																								</a>
-																							</span>
+														<a class="modal"
+														   title="<?php echo $property->property_image; ?>"
+														   rel="{handler: 'image', size: {}}"
+														   href="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . 'product_attributes/' . $property->property_image; ?>">
+															<img
+																id="propertyImage<?php echo $k . $g; ?>"
+																alt='' title=''
+																src='<?php echo $thumbUrl; ?>'>
+														</a>
+													</span>
 											</td>
 											<td class="td4" align="left">
 												<input
@@ -828,22 +836,34 @@ if ($this->lists['attributes'] != '')
 
 													</td>
 													<td class="td3" align="left">
-														<?php if ($subvalue->subattribute_color_image != "" && is_file($impathphy)) { ?>
+														<?php
+														if ($subvalue->subattribute_color_image != "" && is_file($impathphy))
+														{
+															$thumbUrl = RedShopHelperImages::getImagePath(
+																	$subvalue->subattribute_color_image,
+																	'',
+																	'thumb',
+																	'subcolor',
+																	50,
+																	0,
+																	1
+																);
+															?>
 														<span
 															id="subproperty_image_<?php echo $subvalue->subattribute_color_id; ?>">
-																														<a class="modal"
-																														   rel="{handler: 'image', size: {}}"
-																														   title="<?php echo $subvalue->subattribute_color_image; ?>"
-																														   href="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . 'subcolor/' . $subvalue->subattribute_color_image; ?>">
-																															<img
-																																id="subpropertyImage<?php echo $k . $z; ?>"
-																																src='<?php echo $url ?>components/com_redshop/helpers/thumb.php?filename=subcolor/<?php echo $subvalue->subattribute_color_image; ?>&newxsize=50&newysize=0&swap=1'
-																																alt=''
-																																title=''>
+																<a class="modal"
+																   rel="{handler: 'image', size: {}}"
+																   title="<?php echo $subvalue->subattribute_color_image; ?>"
+																   href="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH . 'subcolor/' . $subvalue->subattribute_color_image; ?>">
+																	<img
+																		id="subpropertyImage<?php echo $k . $z; ?>"
+																		src='<?php echo $thumbUrl; ?>'
+																		alt=''
+																		title=''>
 
 
-																														</a>
-																												</span>
+																</a>
+														</span>
 													</td>
 
 													<td class="td4" align="left">
