@@ -22,19 +22,18 @@ class cartViewcart extends JView
 
 		$session = JFactory::getSession();
 		$cart    = $session->get('cart');
-		$layout  = JRequest::getVar('layout');
+		$layout  = JRequest::getCmd('layout');
 
 		if (!$cart)
 		{
 			$cart = array();
 		}
 
-		$option = JRequest::getVar('option');
-		$Itemid = JRequest::getVar('Itemid');
+		$Itemid = JRequest::getInt('Itemid');
 
-		if (JRequest::getVar('quotemsg') != "")
+		if (JRequest::getString('quotemsg') != "")
 		{
-			$app->Redirect('index.php?option=' . $option . '&view=cart&Itemid=' . $Itemid, JRequest::getVar('quotemsg'));
+			$app->Redirect('index.php?option=com_redshop&view=cart&Itemid=' . $Itemid, JRequest::getString('quotemsg'));
 		}
 
 		JHTML::Script('common.js', 'components/com_redshop/assets/js/', false);
@@ -59,7 +58,7 @@ class cartViewcart extends JView
 
 		$Discount = $this->get('DiscountId');
 
-		$data = $this->get('data');
+		$data     = $this->get('data');
 
 		if ($layout == 'change_attribute')
 		{

@@ -25,7 +25,7 @@ class newsletterViewnewsletter extends JView
 		$model = $this->getModel('newsletter');
 		$subscribers = $model->listallsubscribers($n);
 
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$product_category = new product_category;
 
 		$document = JFactory::getDocument();

@@ -61,7 +61,7 @@ class plgRedshop_paymentrs_payment_worldpay extends JPlugin
 			return;
 		}
 
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$request = JRequest::get('request');
 
 		$order_id = $request['cartId'];

@@ -2458,7 +2458,7 @@ class product_detailModelproduct_detail extends JModel
 			return array();
 		}
 
-		$database = JFactory::getDBO();
+		$database = JFactory::getDbo();
 
 		if (count($cid))
 		{
@@ -2513,7 +2513,7 @@ class product_detailModelproduct_detail extends JModel
 	 */
 	public function StockRoomList()
 	{
-		$database = JFactory::getDBO();
+		$database = JFactory::getDbo();
 
 		$q = "SELECT * FROM " . $this->_table_prefix . "stockroom"
 			. "\n  WHERE published = 1";
@@ -2528,7 +2528,7 @@ class product_detailModelproduct_detail extends JModel
 	 */
 	public function StockRoomProductQuantity($pid, $sid)
 	{
-		$database = JFactory::getDBO();
+		$database = JFactory::getDbo();
 
 		$q = "SELECT `quantity` FROM `" . $this->_table_prefix . "product_stockroom_xref` WHERE `product_id` = '" . $pid . "' and `stockroom_id` = '" . $sid . "' ";
 		$database->setQuery($q);
@@ -2542,7 +2542,7 @@ class product_detailModelproduct_detail extends JModel
 	 */
 	public function StockRoomAttProductQuantity($pid, $sid, $section)
 	{
-		$database = JFactory::getDBO();
+		$database = JFactory::getDbo();
 
 		$q = "SELECT `quantity` FROM `" . $this->_table_prefix . "product_attribute_stockroom_xref` WHERE `section_id` = '"
 			. $pid . "' and `stockroom_id` = '" . $sid . "' AND section = '" . $section . "'";
@@ -2554,7 +2554,7 @@ class product_detailModelproduct_detail extends JModel
 
 	public function StockRoomAttProductPreorderstock($pid, $sid, $section)
 	{
-		$database = JFactory::getDBO();
+		$database = JFactory::getDbo();
 
 		$q = "SELECT `preorder_stock`, `ordered_preorder`  FROM `" . $this->_table_prefix . "product_attribute_stockroom_xref`
 		WHERE `section_id` = '" . $pid . "' and `stockroom_id` = '" . $sid . "' AND section = '" . $section . "'";
@@ -2567,7 +2567,7 @@ class product_detailModelproduct_detail extends JModel
 	// Getting Preorder Stock Quantity
 	public function StockRoomPreorderProductQuantity($pid, $sid, $section)
 	{
-		$database = JFactory::getDBO();
+		$database = JFactory::getDbo();
 
 		$q = "SELECT `preorder_stock`, `ordered_preorder`  FROM `" . $this->_table_prefix . "product_stockroom_xref`
 		WHERE `product_id` = '" . $pid . "' and `stockroom_id` = '" . $sid . "' ";
@@ -2580,7 +2580,7 @@ class product_detailModelproduct_detail extends JModel
 	// Store stockroom product xref
 	public function SaveStockroom($pid, $post)
 	{
-		$database = JFactory::getDBO();
+		$database = JFactory::getDbo();
 		$query = "DELETE FROM " . $this->_table_prefix . "product_stockroom_xref"
 			. "\n  WHERE product_id = '" . $pid . "' ";
 
@@ -2604,7 +2604,7 @@ class product_detailModelproduct_detail extends JModel
 	public function  attribute_empty()
 	{
 		$producthelper = new producthelper;
-		$database = JFactory::getDBO();
+		$database = JFactory::getDbo();
 
 		if ($this->_id)
 		{

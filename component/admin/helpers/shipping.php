@@ -17,7 +17,7 @@ class shipping
 
 	public function __construct()
 	{
-		$this->_db = JFactory::getDBO();
+		$this->_db = JFactory::getDbo();
 
 		$this->_table_prefix = '#__' . TABLE_PREFIX . '_';
 		$this->producthelper = new producthelper;
@@ -26,7 +26,7 @@ class shipping
 	public function getDeliveryTimeOfProduct($product_id)
 	{
 		$sql = "SELECT max_del_time FROM " . $this->_table_prefix . "container c," . $this->_table_prefix . "container_product_xref cx
-	     		WHERE  cx.container_id = c.container_id AND cx.product_id = '$product_id' order by max_del_time desc";
+	     		WHERE  cx.container_id = c.container_id AND cx.product_id = " . (int) $product_id . " order by max_del_time desc";
 		$this->_db->setQuery($sql);
 		$delivery = $this->_db->loadResult();
 
@@ -41,7 +41,7 @@ class shipping
 	public function getProductContainerId($product_id)
 	{
 		$sql = "SELECT c.container_id FROM " . $this->_table_prefix . "container c," . $this->_table_prefix . "container_product_xref cx
-	     		WHERE  cx.container_id = c.container_id AND cx.product_id = '$product_id' order by max_del_time desc";
+	     		WHERE  cx.container_id = c.container_id AND cx.product_id = " . (int) $product_id . " order by max_del_time desc";
 		$this->_db->setQuery($sql);
 
 		return $this->_db->loadResult();
@@ -229,6 +229,7 @@ class shipping
 		$order_subtotal  = $d ['order_subtotal'];
 		$user            = JFactory::getUser();
 		$user_id         = $user->id;
+		$db = JFactory::getDbo();
 
 		$totaldimention  = $this->getCartItemDimention();
 		$weighttotal     = $totaldimention['totalweight'];
@@ -257,22 +258,22 @@ class shipping
 		if (count($shoppergroup) > 0)
 		{
 			$shopper_group_id = $shoppergroup->shopper_group_id;
-			$whereshopper     = ' AND (FIND_IN_SET( "' . $shopper_group_id . '", shipping_rate_on_shopper_group ) OR shipping_rate_on_shopper_group="") ';
+			$whereshopper     = ' AND (FIND_IN_SET(' . (int) $shopper_group_id . ', shipping_rate_on_shopper_group ) OR shipping_rate_on_shopper_group="") ';
 		}
 
 		if ($country)
 		{
-			$wherecountry = '(FIND_IN_SET( "' . $country . '", shipping_rate_country ) OR shipping_rate_country="0" OR shipping_rate_country="")';
+			$wherecountry = '(FIND_IN_SET(' . $db->quote($country) . ', shipping_rate_country ) OR shipping_rate_country="0" OR shipping_rate_country="")';
 		}
 		else
 		{
-			$wherecountry = '(FIND_IN_SET( "' . DEFAULT_SHIPPING_COUNTRY . '", shipping_rate_country ) OR shipping_rate_country="0"
+			$wherecountry = '(FIND_IN_SET(' . $db->quote(DEFAULT_SHIPPING_COUNTRY) . ', shipping_rate_country ) OR shipping_rate_country="0"
 			OR shipping_rate_country="")';
 		}
 
 		if ($state)
 		{
-			$wherestate = ' AND (FIND_IN_SET( "' . $state . '", shipping_rate_state ) OR shipping_rate_state="0" OR shipping_rate_state="")';
+			$wherestate = ' AND (FIND_IN_SET(' . $db->quote($state) . ', shipping_rate_state ) OR shipping_rate_state="0" OR shipping_rate_state="")';
 		}
 
 		if (!$is_company)
@@ -304,7 +305,7 @@ class shipping
 				for ($i = 0; $i < $idx; $i++)
 				{
 					$product_id = $cart [$i] ['product_id'];
-					$pwhere     .= 'FIND_IN_SET("' . $product_id . '", shipping_rate_on_product)';
+					$pwhere     .= 'FIND_IN_SET(' . (int) $product_id . ', shipping_rate_on_product)';
 
 					if ($i != $idx - 1)
 					{
@@ -318,16 +319,17 @@ class shipping
 							. "LEFT JOIN #__extensions AS s ON sr.shipping_class = s.element
 		 	     				 WHERE s.folder='redshop_shipping' and s.enabled =1  and  $wherecountry
 								 $iswhere
-								 AND ((shipping_rate_volume_start <= '$volume' AND  shipping_rate_volume_end >= '$volume') OR (shipping_rate_volume_end = 0) )
-								 AND ((shipping_rate_ordertotal_start <= '$order_subtotal' AND  shipping_rate_ordertotal_end >= '
-								 $order_subtotal')  OR (shipping_rate_ordertotal_end = 0))
-								 AND ((shipping_rate_weight_start <= '$weighttotal' AND  shipping_rate_weight_end >= '
-								 $weighttotal')  OR (shipping_rate_weight_end = 0))
+								 AND ((shipping_rate_volume_start <= " . $db->quote($volume) . " AND  shipping_rate_volume_end >= "
+					. $db->quote($volume) . ") OR (shipping_rate_volume_end = 0) )
+								 AND ((shipping_rate_ordertotal_start <= " . $db->quote($order_subtotal) . " AND  shipping_rate_ordertotal_end >= "
+					. $db->quote($order_subtotal) . ")  OR (shipping_rate_ordertotal_end = 0))
+								 AND ((shipping_rate_weight_start <= " . $db->quote($weighttotal) . " AND  shipping_rate_weight_end >= "
+					. $db->quote($weighttotal) . ")  OR (shipping_rate_weight_end = 0))
 								 $pwhere $wherestate $whereshopper
 								   ORDER BY s.ordering, sr.shipping_rate_priority  LIMIT 0,1";
 
-				$this->_db->setQuery($sql);
-				$shippingrate = $this->_db->loadObject();
+				$db->setQuery($sql);
+				$shippingrate = $db->loadObject();
 			}
 
 			if (!$shippingrate)
@@ -335,9 +337,9 @@ class shipping
 				for ($i = 0; $i < $idx; $i++)
 				{
 					$product_id = $cart [$i] ['product_id'];
-					$sel = 'SELECT category_id FROM ' . $this->_table_prefix . 'product_category_xref WHERE product_id = ' . $product_id;
-					$this->_db->setQuery($sel);
-					$categorydata = $this->_db->loadObjectList();
+					$sel = 'SELECT category_id FROM ' . $this->_table_prefix . 'product_category_xref WHERE product_id = ' . (int) $product_id;
+					$db->setQuery($sel);
+					$categorydata = $db->loadObjectList();
 					$where = ' ';
 
 					if ($categorydata)
@@ -346,7 +348,7 @@ class shipping
 
 						for ($c = 0; $c < count($categorydata); $c++)
 						{
-							$where .= " FIND_IN_SET('" . $categorydata [$c]->category_id . "', shipping_rate_on_category) ";
+							$where .= " FIND_IN_SET(" . (int) $categorydata [$c]->category_id . ", shipping_rate_on_category) ";
 
 							if ($c != count($categorydata) - 1)
 							{
@@ -362,17 +364,17 @@ class shipping
 									 sr.shipping_class = s.element
 			 	     				 WHERE  s.folder='redshop_shipping' and s.enabled =1 and $wherecountry $whereshopper
 									 $iswhere
-									 AND ((shipping_rate_volume_start <= '$volume' AND  shipping_rate_volume_end >= '
-									 $volume') OR (shipping_rate_volume_end = 0) )
-									 AND ((shipping_rate_ordertotal_start <= '$order_subtotal' AND  shipping_rate_ordertotal_end >= '
-									 $order_subtotal')  OR (shipping_rate_ordertotal_end = 0))
-									 AND ((shipping_rate_weight_start <= '$weighttotal' AND  shipping_rate_weight_end >= '
-									 $weighttotal')  OR (shipping_rate_weight_end = 0))
+									 AND ((shipping_rate_volume_start <= " . $db->quote($volume) . " AND  shipping_rate_volume_end >= "
+							. $db->quote($volume) . ") OR (shipping_rate_volume_end = 0) )
+									 AND ((shipping_rate_ordertotal_start <= " . $db->quote($order_subtotal) . " AND  shipping_rate_ordertotal_end >= "
+							. $db->quote($order_subtotal) . ")  OR (shipping_rate_ordertotal_end = 0))
+									 AND ((shipping_rate_weight_start <= " . $db->quote($weighttotal) . " AND  shipping_rate_weight_end >= "
+							. $db->quote($weighttotal) . ")  OR (shipping_rate_weight_end = 0))
 									 $where $wherestate
 									ORDER BY s.ordering, sr.shipping_rate_priority  LIMIT 0,1";
 
-						$this->_db->setQuery($sql);
-						$shippingrate = $this->_db->loadObject();
+						$db->setQuery($sql);
+						$shippingrate = $db->loadObject();
 					}
 				}
 			}
@@ -385,17 +387,17 @@ class shipping
 								 sr.shipping_class = s.element
 		 	     		WHERE s.folder='redshop_shipping' and s.enabled =1  and $wherecountry $whereshopper
 						$iswhere $wherestate
-						AND ((shipping_rate_volume_start <= '$volume' AND  shipping_rate_volume_end >= '
-						$volume') OR (shipping_rate_volume_end = 0) )
-						AND ((shipping_rate_ordertotal_start <= '$order_subtotal' AND  shipping_rate_ordertotal_end >= '
-						$order_subtotal')  OR (shipping_rate_ordertotal_end = 0))
-						AND ((shipping_rate_weight_start <= '$weighttotal' AND  shipping_rate_weight_end >= '
-						$weighttotal')  OR (shipping_rate_weight_end = 0))
+						AND ((shipping_rate_volume_start <= " . $db->quote($volume) . " AND  shipping_rate_volume_end >= "
+					. $db->quote($volume) . ") OR (shipping_rate_volume_end = 0) )
+						AND ((shipping_rate_ordertotal_start <= " . $db->quote($order_subtotal) . " AND  shipping_rate_ordertotal_end >= "
+					. $db->quote($order_subtotal) . ")  OR (shipping_rate_ordertotal_end = 0))
+						AND ((shipping_rate_weight_start <= " . $db->quote($weighttotal) . " AND  shipping_rate_weight_end >= "
+					. $db->quote($weighttotal) . ")  OR (shipping_rate_weight_end = 0))
 						AND (shipping_rate_on_product = '' $newpwhere) AND (shipping_rate_on_category = '' $newcwhere )
 						ORDER BY s.ordering, sr.shipping_rate_priority  LIMIT 0,1";
 
-				$this->_db->setQuery($sql);
-				$shippingrate = $this->_db->loadObject();
+				$db->setQuery($sql);
+				$shippingrate = $db->loadObject();
 			}
 
 			$total = 0;
@@ -442,6 +444,7 @@ class shipping
 		$order_subtotal = $d ['order_subtotal'];
 		$user           = JFactory::getUser();
 		$user_id        = $user->id;
+		$db = JFactory::getDbo();
 
 		$data           = $this->producthelper->getProductById($d['product_id']);
 
@@ -474,24 +477,24 @@ class shipping
 		if (count($shoppergroup) > 0)
 		{
 			$shopper_group_id = $shoppergroup->shopper_group_id;
-			$whereshopper = ' AND (FIND_IN_SET( "' . $shopper_group_id . '", shipping_rate_on_shopper_group )
+			$whereshopper = ' AND (FIND_IN_SET(' . (int) $shopper_group_id . ', shipping_rate_on_shopper_group )
 			OR shipping_rate_on_shopper_group="") ';
 		}
 
 		if ($country)
 		{
-			$wherecountry = '(FIND_IN_SET( "' . $country . '", shipping_rate_country ) OR shipping_rate_country="0"
+			$wherecountry = '(FIND_IN_SET(' . $db->quote($country) . ', shipping_rate_country ) OR shipping_rate_country="0"
 			OR shipping_rate_country="")';
 		}
 		else
 		{
-			$wherecountry = '(FIND_IN_SET( "' . DEFAULT_SHIPPING_COUNTRY . '", shipping_rate_country ) OR shipping_rate_country="0"
+			$wherecountry = '(FIND_IN_SET(' . $db->quote(DEFAULT_SHIPPING_COUNTRY) . ', shipping_rate_country ) OR shipping_rate_country="0"
 			OR shipping_rate_country="")';
 		}
 
 		if ($state)
 		{
-			$wherestate = ' AND (FIND_IN_SET( "' . $state . '", shipping_rate_state ) OR shipping_rate_state="0"
+			$wherestate = ' AND (FIND_IN_SET(' . $db->quote($state) . ', shipping_rate_state ) OR shipping_rate_state="0"
 			OR shipping_rate_state="")';
 		}
 
@@ -516,29 +519,29 @@ class shipping
 
 			$shippingrate = array();
 
-			$pwhere = 'AND ( FIND_IN_SET("' . $product_id . '", shipping_rate_on_product) )';
+			$pwhere = 'AND ( FIND_IN_SET(' . (int) $product_id . ', shipping_rate_on_product) )';
 			$newpwhere = str_replace("AND (", "OR (", $pwhere);
 
 			$sql = "SELECT * FROM " . $this->_table_prefix . "shipping_rate as sr "
 				. "LEFT JOIN #__extensions AS s ON sr.shipping_class = s.element
  	     				 WHERE s.folder='redshop_shipping' and  $wherecountry
 						 $iswhere
-						 AND ((shipping_rate_volume_start <= '$volume' AND  shipping_rate_volume_end >= '
-						 $volume') OR (shipping_rate_volume_end = 0) )
-						 AND ((shipping_rate_ordertotal_start <= '$order_subtotal' AND  shipping_rate_ordertotal_end >= '
-						 $order_subtotal')  OR (shipping_rate_ordertotal_end = 0))
-						 AND ((shipping_rate_weight_start <= '$weighttotal' AND  shipping_rate_weight_end >= '
-						 $weighttotal')  OR (shipping_rate_weight_end = 0))
+						 AND ((shipping_rate_volume_start <= " . $db->quote($volume) . " AND  shipping_rate_volume_end >= "
+				. $db->quote($volume) . ") OR (shipping_rate_volume_end = 0) )
+						 AND ((shipping_rate_ordertotal_start <= " . $db->quote($order_subtotal) . " AND  shipping_rate_ordertotal_end >= "
+				. $db->quote($order_subtotal) . ")  OR (shipping_rate_ordertotal_end = 0))
+						 AND ((shipping_rate_weight_start <= " . $db->quote($weighttotal) . " AND  shipping_rate_weight_end >= "
+				. $db->quote($weighttotal) . ")  OR (shipping_rate_weight_end = 0))
 						 $pwhere $wherestate $whereshopper
 						   ORDER BY sr.shipping_rate_priority  LIMIT 0,1";
 
-			$this->_db->setQuery($sql);
-			$shippingrate = $this->_db->loadObject();
+			$db->setQuery($sql);
+			$shippingrate = $db->loadObject();
 
 			if (!$shippingrate)
 			{
 				$product_id = $cart ['product_id'];
-				$sel = 'SELECT category_id FROM ' . $this->_table_prefix . 'product_category_xref WHERE product_id = ' . $product_id;
+				$sel = 'SELECT category_id FROM ' . $this->_table_prefix . 'product_category_xref WHERE product_id = ' . (int) $product_id;
 				$this->_db->setQuery($sel);
 				$categorydata = $this->_db->loadObjectList();
 				$where = ' ';
@@ -549,7 +552,7 @@ class shipping
 
 					for ($c = 0; $c < count($categorydata); $c++)
 					{
-						$where .= " FIND_IN_SET('" . $categorydata [$c]->category_id . "', shipping_rate_on_category) ";
+						$where .= " FIND_IN_SET(" . (int) $categorydata [$c]->category_id . ", shipping_rate_on_category) ";
 
 						if ($c != count($categorydata) - 1)
 						{
@@ -565,17 +568,17 @@ class shipping
 									 sr.shipping_class = s.element
 			 	     				 WHERE  s.folder='redshop_shipping' and $wherecountry $whereshopper
 									 $iswhere
-									 AND ((shipping_rate_volume_start <= '$volume' AND  shipping_rate_volume_end >= '
-									 $volume') OR (shipping_rate_volume_end = 0) )
-									 AND ((shipping_rate_ordertotal_start <= '$order_subtotal' AND  shipping_rate_ordertotal_end >= '
-									 $order_subtotal')  OR (shipping_rate_ordertotal_end = 0))
-									 AND ((shipping_rate_weight_start <= '$weighttotal' AND  shipping_rate_weight_end >= '
-									 $weighttotal')  OR (shipping_rate_weight_end = 0))
+									 AND ((shipping_rate_volume_start <= " . $db->quote($volume) . " AND  shipping_rate_volume_end >= "
+						. $db->quote($volume) . ") OR (shipping_rate_volume_end = 0) )
+									 AND ((shipping_rate_ordertotal_start <= " . $db->quote($order_subtotal) . " AND  shipping_rate_ordertotal_end >= "
+						. $db->quote($order_subtotal) . ")  OR (shipping_rate_ordertotal_end = 0))
+									 AND ((shipping_rate_weight_start <= " . $db->quote($weighttotal) . " AND  shipping_rate_weight_end >= "
+						. $db->quote($weighttotal) . "  OR (shipping_rate_weight_end = 0))
 									 $where $wherestate
 									ORDER BY sr.shipping_rate_priority  LIMIT 0,1";
 
-					$this->_db->setQuery($sql);
-					$shippingrate = $this->_db->loadObject();
+					$db->setQuery($sql);
+					$shippingrate = $db->loadObject();
 				}
 			}
 
@@ -587,17 +590,17 @@ class shipping
 								 sr.shipping_class = s.element
 		 	     		WHERE s.folder='redshop_shipping' and $wherecountry $whereshopper
 						$iswhere $wherestate
-						AND ((shipping_rate_volume_start <= '$volume' AND  shipping_rate_volume_end >= '
-						$volume') OR (shipping_rate_volume_end = 0) )
-						AND ((shipping_rate_ordertotal_start <= '$order_subtotal' AND  shipping_rate_ordertotal_end >= '
-						$order_subtotal')  OR (shipping_rate_ordertotal_end = 0))
-						AND ((shipping_rate_weight_start <= '$weighttotal' AND  shipping_rate_weight_end >= '
-						$weighttotal')  OR (shipping_rate_weight_end = 0))
+						AND ((shipping_rate_volume_start <= " . $db->quote($volume) . " AND  shipping_rate_volume_end >= "
+					. $db->quote($volume) . ") OR (shipping_rate_volume_end = 0) )
+						AND ((shipping_rate_ordertotal_start <= " . $db->quote($order_subtotal) . " AND  shipping_rate_ordertotal_end >= "
+					. $db->quote($order_subtotal) . ")  OR (shipping_rate_ordertotal_end = 0))
+						AND ((shipping_rate_weight_start <= " . $db->quote($weighttotal) . " AND  shipping_rate_weight_end >= "
+					. $db->quote($weighttotal) . ")  OR (shipping_rate_weight_end = 0))
 						AND (shipping_rate_on_product = '' $newpwhere) AND (shipping_rate_on_category = '' $newcwhere )
 						ORDER BY sr.shipping_rate_priority  LIMIT 0,1";
 
-				$this->_db->setQuery($sql);
-				$shippingrate = $this->_db->loadObject();
+				$db->setQuery($sql);
+				$shippingrate = $db->loadObject();
 			}
 
 			$total = 0;
@@ -647,6 +650,7 @@ class shipping
 		$rate       = 0;
 		$session    = JFactory::getSession();
 		$cart       = $session->get('cart');
+		$db = JFactory::getDbo();
 
 		$idx        = (int) ($cart ['idx']);
 
@@ -658,14 +662,14 @@ class shipping
 			$ordertotal += ($cart[$i]['product_price'] * $cart[$i]['quantity']);
 
 			$product_id = $cart [$i] ['product_id'];
-			$pwhere     .= 'FIND_IN_SET("' . $product_id . '", shipping_rate_on_product)';
+			$pwhere     .= 'FIND_IN_SET(' . (int) $product_id . ', shipping_rate_on_product)';
 
 			if ($i != $idx - 1)
 			{
 				$pwhere .= " or ";
 			}
 
-			$sel = 'SELECT category_id FROM ' . $this->_table_prefix . 'product_category_xref WHERE product_id = ' . $product_id;
+			$sel = 'SELECT category_id FROM ' . $this->_table_prefix . 'product_category_xref WHERE product_id = ' . (int) $product_id;
 			$this->_db->setQuery($sel);
 			$categorydata = $this->_db->loadObjectList();
 
@@ -675,7 +679,7 @@ class shipping
 
 				for ($c = 0; $c < count($categorydata); $c++)
 				{
-					$cwhere .= " FIND_IN_SET('" . $categorydata [$c]->category_id . "', shipping_rate_on_category) ";
+					$cwhere .= " FIND_IN_SET(" . (int) $categorydata [$c]->category_id . ", shipping_rate_on_category) ";
 
 					if ($c != count($categorydata) - 1)
 					{
@@ -717,9 +721,10 @@ class shipping
 				$whereShippingVolume .= "AND (";
 			}
 
-			$whereShippingVolume .= "((shipping_rate_length_start <= '$length' AND  shipping_rate_length_end >= '$length')
-			AND (shipping_rate_width_start <= '$width' AND  shipping_rate_width_end >= '$width') AND (shipping_rate_height_start <= '
-			$height' AND  shipping_rate_height_end >= '$height')) ";
+			$whereShippingVolume .= "((shipping_rate_length_start <= " . $db->quote($length) . " AND  shipping_rate_length_end >= "
+				. $db->quote($length) . " AND (shipping_rate_width_start <= " . $db->quote($width) . " AND  shipping_rate_width_end >= "
+				. $db->quote($width) . ") AND (shipping_rate_height_start <= " . $db->quote($length) . " AND  shipping_rate_height_end >= "
+				. $db->quote($length) . ")) ";
 
 			if ($g != count($volumeShipping) - 1)
 			{
@@ -739,7 +744,7 @@ class shipping
 
 		if (strlen(str_replace($numbers, '', $zip)) == 0 && $zip != "")
 		{
-			$zipCond = ' AND ( ( shipping_rate_zip_start <= "' . $zip . '" AND shipping_rate_zip_end >= "' . $zip . '" )
+			$zipCond = ' AND ( ( shipping_rate_zip_start <= ' . $db->quote($zip) . ' AND shipping_rate_zip_end >= ' . $db->quote($zip) . ' )
 			OR (shipping_rate_zip_start = "0" AND shipping_rate_zip_end = "0")
 			OR (shipping_rate_zip_start = "" AND shipping_rate_zip_end = "") ) ';
 		}
@@ -749,13 +754,13 @@ class shipping
 
 		if ($country)
 		{
-			$wherecountry = ' AND (FIND_IN_SET( "' . $country . '", shipping_rate_country ) OR (shipping_rate_country ="0"
+			$wherecountry = ' AND (FIND_IN_SET(' . $db->quote($country) . ', shipping_rate_country ) OR (shipping_rate_country ="0"
 			OR shipping_rate_country ="") )';
 		}
 
 		if ($state)
 		{
-			$wherestate = ' AND (FIND_IN_SET( "' . $state . '", shipping_rate_state ) OR shipping_rate_state="0" OR shipping_rate_state="")';
+			$wherestate = ' AND (FIND_IN_SET(' . $db->quote($state) . ', shipping_rate_state ) OR shipping_rate_state="0" OR shipping_rate_state="")';
 		}
 
 		$sql = "SELECT shipping_rate_value,shipping_rate_zip_start,shipping_rate_zip_end FROM " . $this->_table_prefix . "shipping_rate as sr
@@ -764,11 +769,12 @@ class shipping
 				sr.shipping_class = s.element WHERE 1=1 and s.folder='redshop_shipping'  and
 				$wherecountry $wherestate
 				$zipCond
-				AND ((shipping_rate_volume_start <= '$volume' AND  shipping_rate_volume_end >= '$volume') OR (shipping_rate_volume_end = 0) )
-				AND ((shipping_rate_ordertotal_start <= '$ordertotal' AND  shipping_rate_ordertotal_end >= '
-				$ordertotal')  OR (shipping_rate_ordertotal_end = 0))
-				AND ((shipping_rate_weight_start <= '$weighttotal' AND  shipping_rate_weight_end >= '
-				$weighttotal')  OR (shipping_rate_weight_end = 0))
+				AND ((shipping_rate_volume_start <= " . $db->quote($volume) . " AND  shipping_rate_volume_end >= "
+			. $db->quote($volume) . ") OR (shipping_rate_volume_end = 0) )
+				AND ((shipping_rate_ordertotal_start <= " . $db->quote($ordertotal) . " AND  shipping_rate_ordertotal_end >= "
+			. $db->quote($ordertotal) . "  OR (shipping_rate_ordertotal_end = 0))
+				AND ((shipping_rate_weight_start <= " . $db->quote($weighttotal) . " AND  shipping_rate_weight_end >= "
+			. $db->quote($weighttotal) . ")  OR (shipping_rate_weight_end = 0))
 				$whereShippingVolume
 				AND (shipping_rate_on_product = '' $pwhere) AND (shipping_rate_on_category = '' $cwhere )
 
@@ -908,7 +914,7 @@ class shipping
 	public function getShippingAddress($user_info_id)
 	{
 		$query = 'SELECT * FROM ' . $this->_table_prefix . 'users_info '
-			. 'WHERE users_info_id="' . $user_info_id . '" ';
+			. 'WHERE users_info_id = ' .(int) $user_info_id;
 		$this->_db->setQuery($query);
 		$result = $this->_db->loadObject();
 
@@ -918,11 +924,12 @@ class shipping
 	public function getShippingMethodByClass($shipping_class = '')
 	{
 		$folder = strtolower('redshop_shipping');
+		$db = JFactory::getDbo();
 		$query = "SELECT * FROM #__extensions "
-			. "WHERE LOWER(`folder`) = '{$folder}' "
-			. "AND element='" . $shipping_class . "' ";
-		$this->_db->setQuery($query);
-		$result = $this->_db->loadObject();
+			. "WHERE LOWER(`folder`) = " . $db->quote($folder) . " "
+			. "AND element = " . $db->quote($shipping_class);
+		$db->setQuery($query);
+		$result = $db->loadObject();
 
 		return $result;
 	}
@@ -930,22 +937,23 @@ class shipping
 	public function getShippingMethodById($id = 0)
 	{
 		$folder = strtolower('redshop_shipping');
-
+		$db = JFactory::getDbo();
 		$query = "SELECT *,extension_id as id FROM #__extensions "
-			. "WHERE LOWER(`folder`) = '{$folder}' "
-			. "AND `extension_id`='" . $id . "' ";
-		$this->_db->setQuery($query);
-		$list = $this->_db->loadObject();
+			. "WHERE LOWER(`folder`) = " . $db->quote($folder) . " "
+			. "AND `extension_id` = " . (int) $id;
+		$db->setQuery($query);
+		$list = $db->loadObject();
 
 		return $list;
 	}
 
 	public function getShippingRates($shipping_class)
 	{
+		$db = JFactory::getDbo();
 		$query = "SELECT * FROM " . $this->_table_prefix . "shipping_rate "
-			. "WHERE shipping_class='" . $shipping_class . "' ";
-		$this->_db->setQuery($query);
-		$result = $this->_db->loadObjectlist();
+			. "WHERE shipping_class = " . $db->quote($shipping_class);
+		$db->setQuery($query);
+		$result = $db->loadObjectlist();
 
 		return $result;
 	}
@@ -980,6 +988,7 @@ class shipping
 		$weighttotal    = $totaldimention['totalweight'];
 		$volume         = $totaldimention['totalvolume'];
 		$session        = JFactory::getSession();
+		$db = JFactory::getDbo();
 
 		$cart           = $session->get('cart');
 		$idx            = (int) ($cart ['idx']);
@@ -1005,11 +1014,11 @@ class shipping
 				}
 
 				$whereShippingVolume .= "(
-						(	('$length' BETWEEN shipping_rate_length_start AND shipping_rate_length_end)
+						(	(" . $db->quote($length) . " BETWEEN shipping_rate_length_start AND shipping_rate_length_end)
 							OR (shipping_rate_length_start = '0' AND shipping_rate_length_end = '0'))
-						AND (('$width' BETWEEN shipping_rate_width_start AND shipping_rate_width_end)
+						AND ((" . $db->quote($width) . " BETWEEN shipping_rate_width_start AND shipping_rate_width_end)
 							OR (shipping_rate_width_start = '0' AND shipping_rate_width_end = '0'))
-						AND (('$height' BETWEEN shipping_rate_height_start AND shipping_rate_height_end)
+						AND ((" . $db->quote($height) . " BETWEEN shipping_rate_height_start AND shipping_rate_height_end)
 							OR (shipping_rate_height_start = '0' AND shipping_rate_height_end = '0'))
 						) ";
 			}
@@ -1040,7 +1049,7 @@ class shipping
 		if (count($shoppergroup) > 0)
 		{
 			$shopper_group_id = $shoppergroup->shopper_group_id;
-			$whereshopper     = ' AND (FIND_IN_SET( "' . $shopper_group_id . '", shipping_rate_on_shopper_group )
+			$whereshopper     = ' AND (FIND_IN_SET(' . (int) $shopper_group_id . ', shipping_rate_on_shopper_group )
 			OR shipping_rate_on_shopper_group="") ';
 		}
 
@@ -1048,17 +1057,17 @@ class shipping
 
 		if ($country)
 		{
-			$wherecountry = 'AND (FIND_IN_SET( "' . $country . '", shipping_rate_country ) OR shipping_rate_country="0"
+			$wherecountry = 'AND (FIND_IN_SET(' . $db->quote($country) . ', shipping_rate_country ) OR shipping_rate_country="0"
 			OR shipping_rate_country="" )';
 		}
 		else
 		{
-			$wherecountry = 'AND (FIND_IN_SET( "' . DEFAULT_SHIPPING_COUNTRY . '", shipping_rate_country ) )';
+			$wherecountry = 'AND (FIND_IN_SET(' . $db->quote(DEFAULT_SHIPPING_COUNTRY) . ', shipping_rate_country ) )';
 		}
 
 		if ($state)
 		{
-			$wherestate = ' AND (FIND_IN_SET( "' . $state . '", shipping_rate_state ) OR shipping_rate_state="0" OR shipping_rate_state="")';
+			$wherestate = ' AND (FIND_IN_SET(' . $db->quote($state) . ', shipping_rate_state ) OR shipping_rate_state="0" OR shipping_rate_state="")';
 		}
 
 		$pwhere = "";
@@ -1071,7 +1080,7 @@ class shipping
 			for ($i = 0; $i < $idx; $i++)
 			{
 				$product_id = $cart [$i] ['product_id'];
-				$pwhere .= 'FIND_IN_SET("' . $product_id . '", shipping_rate_on_product)';
+				$pwhere .= 'FIND_IN_SET(' . (int) $product_id . ', shipping_rate_on_product)';
 
 				if ($i != $idx - 1)
 				{
@@ -1090,7 +1099,7 @@ class shipping
 			for ($i = 0; $i < $idx; $i++)
 			{
 				$product_id = $cart [$i] ['product_id'];
-				$sel = 'SELECT category_id FROM ' . $this->_table_prefix . 'product_category_xref WHERE product_id = ' . $product_id;
+				$sel = 'SELECT category_id FROM ' . $this->_table_prefix . 'product_category_xref WHERE product_id = ' . (int) $product_id;
 				$this->_db->setQuery($sel);
 				$categorydata = $this->_db->loadObjectList();
 
@@ -1098,7 +1107,7 @@ class shipping
 				{
 					for ($c = 0; $c < count($categorydata); $c++)
 					{
-						$acwhere[] = " FIND_IN_SET('" . $categorydata [$c]->category_id . "', shipping_rate_on_category) ";
+						$acwhere[] = " FIND_IN_SET(" . (int) $categorydata [$c]->category_id . ", shipping_rate_on_category) ";
 					}
 				}
 			}
@@ -1119,12 +1128,12 @@ class shipping
 
 			if (strlen(str_replace($numbers, '', $zip)) == 0 && $zip != "")
 			{
-				$zipCond = ' AND ( ( shipping_rate_zip_start <= "' . $zip . '" AND shipping_rate_zip_end >= "' . $zip . '" )
+				$zipCond = ' AND ( ( shipping_rate_zip_start <= ' . $db->quote($zip) . ' AND shipping_rate_zip_end >= ' . $db->quote($zip) . ' )
 				OR (shipping_rate_zip_start = "0" AND shipping_rate_zip_end = "0")
 				OR (shipping_rate_zip_start = "" AND shipping_rate_zip_end = "") ) ';
 			}
 
-			$sql = "SELECT * FROM " . $this->_table_prefix . "shipping_rate WHERE shipping_class = '" . $shipping_class . "'
+			$sql = "SELECT * FROM " . $this->_table_prefix . "shipping_rate WHERE shipping_class = " . $db->quote($shipping_class) . "
 				$wherecountry $wherestate $whereshopper
 				$zipCond
 				AND (( '$volume' BETWEEN shipping_rate_volume_start AND shipping_rate_volume_end) OR (shipping_rate_volume_end = 0) )
@@ -1135,8 +1144,8 @@ class shipping
 				$where
 				ORDER BY shipping_rate_priority";
 
-			$this->_db->setQuery($sql);
-			$shippingrate = $this->_db->loadObjectList();
+			$db->setQuery($sql);
+			$shippingrate = $db->loadObjectList();
 		}
 
 		/*
@@ -1217,6 +1226,7 @@ class shipping
 	{
 		$user    = JFactory::getUser();
 		$session = JFactory::getSession();
+		$db = JFactory::getDbo();
 
 		if ($user_id == 0)
 		{
@@ -1270,35 +1280,35 @@ class shipping
 			{
 				$query = "SELECT country_code,state_code FROM " . $this->_table_prefix . "users_info AS u "
 					. "LEFT JOIN " . $this->_table_prefix . "shopper_group AS sh ON sh.shopper_group_id=u.shopper_group_id "
-					. "WHERE u.users_info_id='" . $users_info_id . "' "
+					. "WHERE u.users_info_id = " . (int) $users_info_id . " "
 					. "order by u.users_info_id ASC LIMIT 0,1";
-				$this->_db->setQuery($query);
-				$userdata = $this->_db->loadObject();
+				$db->setQuery($query);
+				$userdata = $db->loadObject();
 			}
 		}
 
 		if ($shipping_tax_group_id == 0)
 		{
-			$and .= 'AND tr.tax_group_id = "' . DEFAULT_VAT_GROUP . '" ';
+			$and .= 'AND tr.tax_group_id = ' . (int) DEFAULT_VAT_GROUP . ' ';
 		}
 		elseif ($shipping_tax_group_id > 0)
 		{
 			$q2 = 'LEFT JOIN ' . $this->_table_prefix . 'shipping_rate as s on tr.tax_group_id=s.shipping_tax_group_id ';
-			$and .= 'AND s.shipping_tax_group_id = "' . $shipping_tax_group_id . '" ';
+			$and .= 'AND s.shipping_tax_group_id = ' . (int) $shipping_tax_group_id . ' ';
 		}
 		else
 		{
-			$and .= 'AND tr.tax_group_id=' . DEFAULT_VAT_GROUP . ' ';
+			$and .= 'AND tr.tax_group_id = ' . (int) DEFAULT_VAT_GROUP . ' ';
 		}
 
 		$query = 'SELECT tr.* FROM ' . $this->_table_prefix . 'tax_rate as tr '
 			. $q2
-			. 'WHERE ( tr.tax_country="' . $userdata->country_code . '" or tr.tax_country = "") '
-			. 'AND ( tr.tax_state = "' . $userdata->state_code . '" or tr.tax_state = "")'
+			. 'WHERE ( tr.tax_country = ' . $db->quote($userdata->country_code) . ' or tr.tax_country = "") '
+			. 'AND ( tr.tax_state = ' . $db->quote($userdata->state_code) . ' or tr.tax_state = "")'
 			. $and
 			. ' ORDER BY `tax_rate` DESC';
-		$this->_db->setQuery($query);
-		$taxdata = $this->_db->loadObject();
+		$db->setQuery($query);
+		$taxdata = $db->loadObject();
 
 		return $taxdata;
 	}
@@ -1523,9 +1533,10 @@ class shipping
 				{
 					$acc_id     = $cart[$i]['cart_accessory'][$a]['accessory_id'];
 					$acc_qty    = $cart[$i]['cart_accessory'][$a]['accessory_quantity'];
-					$acc_data   = $this->producthelper->getProductById($acc_id);
-
-					$acc_weight += ($acc_data->weight * $acc_qty);
+					if ($acc_data   = $this->producthelper->getProductById($acc_id))
+					{
+						$acc_weight += ($acc_data->weight * $acc_qty);
+					}
 				}
 			}
 
@@ -1557,6 +1568,7 @@ class shipping
 	public function getShippingBox()
 	{
 		$volumeShipping      = $this->getProductVolumeShipping();
+		$db = JFactory::getDbo();
 
 		$whereShippingVolume = "";
 
@@ -1575,7 +1587,8 @@ class shipping
 					$whereShippingVolume .= " OR ";
 				}
 
-				$whereShippingVolume .= " (shipping_box_length >= '$length' AND shipping_box_width >= '$width' AND shipping_box_height >= '$height') ";
+				$whereShippingVolume .= " (shipping_box_length >= " . $db->quote($length) . " AND shipping_box_width >= "
+					. $db->quote($width) . " AND shipping_box_height >= " . $db->quote($height) . ") ";
 			}
 
 			$whereShippingVolume .= " ) ";
@@ -1585,8 +1598,8 @@ class shipping
 			. "WHERE published = 1 "
 			. $whereShippingVolume
 			. " ORDER BY shipping_box_priority ASC ";
-		$this->_db->setQuery($query);
-		$list = $this->_db->loadObjectList();
+		$db->setQuery($query);
+		$list = $db->loadObjectList();
 
 		return $list;
 	}
@@ -1606,7 +1619,7 @@ class shipping
 		{
 			$query = "SELECT * FROM " . $this->_table_prefix . "shipping_boxes "
 				. "WHERE published = 1 "
-				. "AND shipping_box_id ='" . $boxid . "' ";
+				. "AND shipping_box_id = " . (int) $boxid;
 			$this->_db->setQuery($query);
 			$box_detail = $this->_db->loadObject();
 
@@ -1658,6 +1671,7 @@ class shipping
 	public function isCartDimentionMatch(&$d)
 	{
 		$order_subtotal      = $d['order_subtotal'];
+		$db = JFactory::getDbo();
 
 		$totaldimention      = $this->getCartItemDimention();
 		$weighttotal         = $totaldimention['totalweight'];
@@ -1684,11 +1698,11 @@ class shipping
 				}
 
 				$whereShippingVolume .= "(
-						(	('$length' BETWEEN shipping_rate_length_start AND shipping_rate_length_end)
+						(	(" . $db->quote($length) . " BETWEEN shipping_rate_length_start AND shipping_rate_length_end)
 							OR (shipping_rate_length_start = '0' AND shipping_rate_length_end = '0'))
-						AND (('$width' BETWEEN shipping_rate_width_start AND shipping_rate_width_end)
+						AND ((" . $db->quote($width) . " BETWEEN shipping_rate_width_start AND shipping_rate_width_end)
 							OR (shipping_rate_width_start = '0' AND shipping_rate_width_end = '0'))
-						AND (('$height' BETWEEN shipping_rate_height_start AND shipping_rate_height_end)
+						AND ((" . $db->quote($height) . " BETWEEN shipping_rate_height_start AND shipping_rate_height_end)
 							OR (shipping_rate_height_start = '0' AND shipping_rate_height_end = '0'))
 						) ";
 			}
@@ -1698,13 +1712,13 @@ class shipping
 
 		$query = "SELECT * FROM " . $this->_table_prefix . "shipping_rate "
 			. "WHERE (shipping_class = 'default_shipping' OR shipping_class = 'shipper') "
-			. "AND (( '$volume' BETWEEN shipping_rate_volume_start AND shipping_rate_volume_end) OR (shipping_rate_volume_end = 0) ) "
-			. "AND (( '$order_subtotal' BETWEEN shipping_rate_ordertotal_start AND shipping_rate_ordertotal_end)  OR (shipping_rate_ordertotal_end = 0)) "
-			. "AND (( '$weighttotal' BETWEEN shipping_rate_weight_start AND shipping_rate_weight_end)  OR (shipping_rate_weight_end = 0)) "
+			. "AND ((" . $db->quote($volume) . " BETWEEN shipping_rate_volume_start AND shipping_rate_volume_end) OR (shipping_rate_volume_end = 0) ) "
+			. "AND ((" . $db->quote($order_subtotal) . " BETWEEN shipping_rate_ordertotal_start AND shipping_rate_ordertotal_end)  OR (shipping_rate_ordertotal_end = 0)) "
+			. "AND ((" . $db->quote($weighttotal) . " BETWEEN shipping_rate_weight_start AND shipping_rate_weight_end)  OR (shipping_rate_weight_end = 0)) "
 			. $whereShippingVolume
 			. " ORDER BY shipping_rate_priority ";
-		$this->_db->setQuery($query);
-		$shippingrate = $this->_db->loadObjectList();
+		$db->setQuery($query);
+		$shippingrate = $db->loadObjectList();
 
 		if (count($shippingrate) > 0)
 		{
@@ -1718,6 +1732,7 @@ class shipping
 	{
 		$userhelper   = new rsUserhelper;
 		$shippingrate = array();
+		$db = JFactory::getDbo();
 
 		$userInfo     = $this->getShippingAddress($d['users_info_id']);
 		$country      = $userInfo->country_code;
@@ -1739,11 +1754,11 @@ class shipping
 
 		if ($country)
 		{
-			$wherecountry = "AND (FIND_IN_SET( '" . $country . "', shipping_rate_country ) OR shipping_rate_country='0' OR shipping_rate_country='') ";
+			$wherecountry = "AND (FIND_IN_SET(" . $db->quote($country) . ", shipping_rate_country ) OR shipping_rate_country='0' OR shipping_rate_country='') ";
 		}
 		else
 		{
-			$wherecountry = "AND (FIND_IN_SET( '" . DEFAULT_SHIPPING_COUNTRY . "', shipping_rate_country)) ";
+			$wherecountry = "AND (FIND_IN_SET(" . $db->quote(DEFAULT_SHIPPING_COUNTRY) . ", shipping_rate_country)) ";
 		}
 
 		$shoppergroup = $userhelper->getShoppergroupData($userInfo->user_id);
@@ -1751,12 +1766,12 @@ class shipping
 		if (count($shoppergroup) > 0)
 		{
 			$shopper_group_id = $shoppergroup->shopper_group_id;
-			$whereshopper = ' AND (FIND_IN_SET( "' . $shopper_group_id . '", shipping_rate_on_shopper_group ) OR shipping_rate_on_shopper_group="") ';
+			$whereshopper = ' AND (FIND_IN_SET(' . (int) $shopper_group_id . ', shipping_rate_on_shopper_group ) OR shipping_rate_on_shopper_group="") ';
 		}
 
 		if ($state)
 		{
-			$wherestate = "AND (FIND_IN_SET( '" . $state . "', shipping_rate_state ) OR shipping_rate_state='0' OR shipping_rate_state='') ";
+			$wherestate = "AND (FIND_IN_SET(" . $db->quote($state) . ", shipping_rate_state ) OR shipping_rate_state='0' OR shipping_rate_state='') ";
 		}
 
 		$numbers = array("1", "2", "3", "4", "5", "6", "7", "8", "9", "0", " ");
@@ -1765,7 +1780,7 @@ class shipping
 
 		if (strlen(str_replace($numbers, '', $zip)) == 0 && $zip != "")
 		{
-			$zipCond = "AND ( ( shipping_rate_zip_start <= '" . $zip . "' AND shipping_rate_zip_end >= '" . $zip . "' ) "
+			$zipCond = "AND ( ( shipping_rate_zip_start <= " . $db->quote($zip) . " AND shipping_rate_zip_end >= " . $db->quote($zip) . " ) "
 				. "OR (shipping_rate_zip_start='0' AND shipping_rate_zip_end='0') "
 				. "OR (shipping_rate_zip_start='' AND shipping_rate_zip_end='') ) ";
 		}
@@ -1778,8 +1793,8 @@ class shipping
 			. $zipCond
 			. $where
 			. " ORDER BY shipping_rate_priority ";
-		$this->_db->setQuery($query);
-		$shippingrate = $this->_db->loadObjectList();
+		$db->setQuery($query);
+		$shippingrate = $db->loadObjectList();
 
 		if (count($shippingrate) > 0)
 		{
@@ -1805,7 +1820,7 @@ class shipping
 			for ($i = 0; $i < $idx; $i++)
 			{
 				$product_id = $cart [$i] ['product_id'];
-				$pwhere .= 'FIND_IN_SET("' . $product_id . '", shipping_rate_on_product)';
+				$pwhere .= 'FIND_IN_SET(' . (int) $product_id . ', shipping_rate_on_product)';
 
 				if ($i != $idx - 1)
 				{
@@ -1821,13 +1836,13 @@ class shipping
 		for ($i = 0; $i < $idx; $i++)
 		{
 			$product_id = $cart[$i]['product_id'];
-			$sel = 'SELECT category_id FROM ' . $this->_table_prefix . 'product_category_xref WHERE product_id="' . $product_id . '" ';
+			$sel = 'SELECT category_id FROM ' . $this->_table_prefix . 'product_category_xref WHERE product_id = ' . (int) $product_id;
 			$this->_db->setQuery($sel);
 			$categorydata = $this->_db->loadObjectList();
 
 			for ($c = 0; $c < count($categorydata); $c++)
 			{
-				$acwhere[] = " FIND_IN_SET('" . $categorydata [$c]->category_id . "', shipping_rate_on_category) ";
+				$acwhere[] = " FIND_IN_SET(" . (int) $categorydata [$c]->category_id . ", shipping_rate_on_category) ";
 			}
 		}
 
@@ -1857,6 +1872,7 @@ class shipping
 		$userhelper = new rsUserhelper;
 		$session    = JFactory::getSession();
 		$cart       = $session->get('cart', null);
+		$db = JFactory::getDbo();
 
 		$idx = 0;
 
@@ -1881,22 +1897,25 @@ class shipping
 
 		$users_info_id = JRequest::getVar('users_info_id');
 
+		// Try to load user information
+		$userInfo     = null;
+		$country      = null;
+		$state        = null;
+		$is_company   = null;
+		$shoppergroup = null;
+		$zip          = null;
+
 		if ($user_id)
 		{
 			if ($users_info_id)
 			{
 				$userInfo = $this->getShippingAddress($users_info_id);
 			}
-			else
+			elseif ($userInfo = $order_functions->getShippingAddress($user_id))
 			{
-				$userInfo = $order_functions->getShippingAddress($user_id);
 				$userInfo = $userInfo[0];
 			}
 		}
-
-		$country      = $userInfo->country_code;
-		$state        = $userInfo->state_code;
-		$is_company   = $userInfo->is_company;
 
 		$where        = '';
 		$wherestate   = '';
@@ -1911,12 +1930,19 @@ class shipping
 			$where = " AND ( company_only = 1 or company_only = 0) ";
 		}
 
-		$shoppergroup = $userhelper->getShoppergroupData($userInfo->user_id);
+		if ($userInfo)
+		{
+			$country      = $userInfo->country_code;
+			$state        = $userInfo->state_code;
+			$is_company   = $userInfo->is_company;
+			$shoppergroup = $userhelper->getShoppergroupData($userInfo->user_id);
+			$zip          = $userInfo->zipcode;
+		}
 
 		if (count($shoppergroup) > 0)
 		{
 			$shopper_group_id = $shoppergroup->shopper_group_id;
-			$whereshopper = ' AND (FIND_IN_SET( "' . $shopper_group_id . '", shipping_rate_on_shopper_group )
+			$whereshopper = ' AND (FIND_IN_SET(' . (int) $shopper_group_id . ', shipping_rate_on_shopper_group )
 			OR shipping_rate_on_shopper_group="") ';
 		}
 
@@ -1924,33 +1950,33 @@ class shipping
 
 		if ($country)
 		{
-			$wherecountry = 'AND (FIND_IN_SET( "' . $country . '", shipping_rate_country ) OR shipping_rate_country="0"
+			$wherecountry = 'AND (FIND_IN_SET(' . $db->quote($country) . ', shipping_rate_country ) OR shipping_rate_country="0"
 			OR shipping_rate_country="" )';
 		}
 		else
 		{
-			$wherecountry = 'AND (FIND_IN_SET( "' . DEFAULT_SHIPPING_COUNTRY . '", shipping_rate_country )
+			$wherecountry = 'AND (FIND_IN_SET(' . $db->quote(DEFAULT_SHIPPING_COUNTRY) . ', shipping_rate_country )
 			OR shipping_rate_country="0" OR shipping_rate_country="")';
 		}
 
 		if ($state)
 		{
-			$wherestate = ' AND (FIND_IN_SET( "' . $state . '", shipping_rate_state ) OR shipping_rate_state="0" OR shipping_rate_state="")';
+			$wherestate = ' AND (FIND_IN_SET(' . $db->quote($state) . ', shipping_rate_state ) OR shipping_rate_state="0" OR shipping_rate_state="")';
 		}
 
 		$zipCond = "";
 		$zip = trim($zip);
 
-		if (strlen(str_replace($numbers, '', $zip)) == 0 && $zip != "")
+		if (preg_match('/^[0-9 ]+$/', $zip) && !empty($zip))
 		{
-			$zipCond = ' AND ( ( shipping_rate_zip_start <= "' . $zip . '" AND shipping_rate_zip_end >= "' . $zip . '" )
+			$zipCond = ' AND ( ( shipping_rate_zip_start <= ' . $db->quote($zip) . ' AND shipping_rate_zip_end >= ' . $db->quote($zip) . ' )
 				OR (shipping_rate_zip_start = "0" AND shipping_rate_zip_end = "0")
 				OR (shipping_rate_zip_start = "" AND shipping_rate_zip_end = "") ) ';
 		}
 
 		if ($shipping_rate_id)
 		{
-			$where .= ' AND sr.shipping_rate_id = "' . $shipping_rate_id . '"';
+			$where .= ' AND sr.shipping_rate_id = ' . (int) $shipping_rate_id . ' ';
 		}
 
 		$sql = "SELECT * FROM " . $this->_table_prefix . "shipping_rate as sr
@@ -1960,10 +1986,10 @@ class shipping
 								 WHERE (shipping_rate_value =0 OR shipping_rate_value ='0')
 
 				$wherecountry $wherestate $whereshopper $zipCond $where
-				ORDER BY s.ordering,sr.shipping_rate_priority limit 0,1";
+				ORDER BY s.ordering,sr.shipping_rate_priority LIMIT 0,1";
 
-		$this->_db->setQuery($sql);
-		$shippingrate = $this->_db->loadObject();
+		$db->setQuery($sql);
+		$shippingrate = $db->loadObject();
 
 		if ($shippingrate)
 		{

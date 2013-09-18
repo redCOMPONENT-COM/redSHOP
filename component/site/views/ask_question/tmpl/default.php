@@ -11,11 +11,11 @@ defined('_JEXEC') or die;
 JHTML::_('behavior.tooltip');
 JHTMLBehavior::modal();
 $redTemplate = new Redtemplate;
-$uname = '';
-$uemail = '';
-$address = '';
-$telephone = '';
-$user = JFactory::getUser();
+$uname       = '';
+$uemail      = '';
+$address     = '';
+$telephone   = '';
+$user        = JFactory::getUser();
 
 if ($user->id)
 {
@@ -23,13 +23,12 @@ if ($user->id)
 	$uemail = $user->email;
 }
 
-$option = JRequest::getVar('option');
-$Itemid = JRequest::getVar('Itemid');
-$pid = JRequest::getInt('pid');
-$ask = JRequest::getInt('ask');
+$Itemid      = JRequest::getInt('Itemid');
+$pid         = JRequest::getInt('pid');
+$ask         = JRequest::getInt('ask');
 $category_id = JRequest::getInt('category_id');
-$document = JFactory::getDocument();
-$userhelper = new rsUserhelper;
+$document    = JFactory::getDocument();
+$userhelper  = new rsUserhelper;
 JHTML::Script('jquery.tools.min.js', 'components/com_redshop/assets/js/', false);
 
 $template = $redTemplate->getTemplate('ask_question_template');
@@ -99,7 +98,7 @@ else
 		<input type="hidden" name="task" id="task" value="sendaskquestionmail"/>
 		<input type="hidden" name="ask" id="ask" value="<?php echo $ask; ?>"/>
 		<input type="hidden" name="question_date" id="question_date" value="<?php echo time(); ?>"/>
-		<input type="hidden" name="option" id="option" value="<?php echo $option; ?>"/>
+		<input type="hidden" name="option" id="option" value="com_redshop"/>
 		<input type="hidden" name="category_id" id="category_id" value="<?php echo $category_id; ?>"/>
 		<input type="hidden" name="Itemid" id="Itemid" value="<?php echo $Itemid; ?>"/>
 	</form>

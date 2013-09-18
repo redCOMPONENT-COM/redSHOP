@@ -38,11 +38,11 @@ class Tablecurrency_detail extends JTable
 
 	public function check()
 	{
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 
 		$q = "SELECT currency_id,currency_code  FROM " . $this->_table_prefix . "currency"
-			. " WHERE currency_code = '" . $this->currency_code
-			. "' AND currency_id !=  " . (int) $this->currency_id;
+			. " WHERE currency_code = " . $db->quote($this->currency_code)
+			. " AND currency_id <>  " . (int) $this->currency_id;
 
 		$db->setQuery($q);
 

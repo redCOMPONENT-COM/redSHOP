@@ -25,12 +25,12 @@ class passwordModelpassword extends JModel
 	public function __construct()
 	{
 		parent::__construct();
-		$this->_db = JFactory::getDBO();
+		$this->_db = JFactory::getDbo();
 	}
 
 	public function resetpassword($data)
 	{
-		$query = "SELECT id FROM #__users WHERE email='" . $data['email'] . "' ";
+		$query = "SELECT id FROM #__users WHERE email = " . $this->_db->quote($data['email']);
 		$this->_db->setQuery($query);
 		$id = $this->_db->loadResult();
 
@@ -39,9 +39,9 @@ class passwordModelpassword extends JModel
 			// Generate a new token
 			$token = $this->genRandomString();
 			$query = 'UPDATE #__users '
-				. 'SET activation="' . $token . '" '
-				. 'WHERE id="' . (int) $id . '" '
-				. 'AND block=0 ';
+				. 'SET activation = ' . $this->_db->quote($token) . ' '
+				. 'WHERE id = ' . (int) $id . ' '
+				. 'AND block = 0 ';
 			$this->_db->setQuery($query);
 
 			// Save the token
@@ -93,8 +93,8 @@ class passwordModelpassword extends JModel
 
 	public function setpassword($data)
 	{
-		$query = 'UPDATE #__users SET password = "' . md5($data['password']) . '", activation = NULL '
-			. 'WHERE id="' . (int) $data['uid'] . '" '
+		$query = 'UPDATE #__users SET password = ' . $this->_db->quote(md5($data['password'])) . ', activation = NULL '
+			. 'WHERE id = ' . (int) $data['uid'] . ' '
 			. 'AND block=0 ';
 		$this->_db->setQuery($query);
 

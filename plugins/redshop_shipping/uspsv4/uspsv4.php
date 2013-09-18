@@ -470,7 +470,7 @@ class plgredshop_shippinguspsv4 extends JPlugin
 		$producthelper = new producthelper;
 		$redconfig = new Redconfiguration;
 		$shipping = $shippinghelper->getShippingMethodByClass($this->classname);
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		//require_once  JPATH_SITE. '/includes/domit/xml_domit_lite_include.php' ;
 		$xmlDoc = JFactory::getXMLParser('Simple');
 

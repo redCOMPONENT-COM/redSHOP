@@ -22,10 +22,9 @@ $producthelper = new producthelper;
 $order_functions = new order_functions;
 $redhelper = new redhelper;
 
-$db = JFactory::getDBO();
+$db = JFactory::getDbo();
 $url = JURI::base();
 $Itemid = $redhelper->getCheckoutItemid();
-$option = JRequest::getVar('option');
 $order_id = JRequest::getInt('oid');
 
 // For barcode
@@ -83,7 +82,7 @@ else
 
 $orderitem = $order_functions->getOrderItemDetail($order_id);
 
-$print = JRequest::getVar('print');
+$print = JRequest::getInt('print');
 
 if ($print)
 {

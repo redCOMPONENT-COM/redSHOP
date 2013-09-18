@@ -24,7 +24,7 @@ class account_shiptoViewaccount_shipto extends JView
 		// Extra_field;
 		$extra_field     = new extraField;
 
-		$task = JRequest::getVar('task');
+		$task = JRequest::getCmd('task');
 		$user = JFactory::getUser();
 		$uri  = JFactory::getURI();
 
@@ -32,6 +32,7 @@ class account_shiptoViewaccount_shipto extends JView
 		$session = JFactory::getSession();
 		$auth    = $session->get('auth');
 		$params  = $app->getParams('com_redshop');
+		$lists   = array();
 
 		if ($user->id)
 		{
@@ -44,7 +45,7 @@ class account_shiptoViewaccount_shipto extends JView
 		}
 		else
 		{
-			$app->Redirect('index.php?option=com_redshop&view=login&Itemid=' . JRequest::getVar('Itemid'));
+			$app->Redirect('index.php?option=com_redshop&view=login&Itemid=' . JRequest::getInt('Itemid'));
 			exit;
 		}
 

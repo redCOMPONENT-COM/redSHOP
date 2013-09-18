@@ -24,7 +24,7 @@ $shipping_address = $objOrder->getOrderShippingUserInfo($data['order_id']);
 
 $Itemid = $_REQUEST['Itemid'];
 $redhelper = new redhelper;
-$db = JFactory::getDBO();
+$db = JFactory::getDbo();
 $user = JFActory::getUser();
 $task = JRequest::getVar('task');
 $app = JFactory::getApplication();

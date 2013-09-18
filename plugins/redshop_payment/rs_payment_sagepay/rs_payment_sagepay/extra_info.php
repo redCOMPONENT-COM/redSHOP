@@ -19,7 +19,7 @@ $strRedirecturl = "https://test.sagepay.com/simulator/vspformgateway.asp";
 $uri =& JURI::getInstance();
 $url = $uri->root();
 $user = JFactory::getUser();
-$db = JFactory::getDBO();
+$db = JFactory::getDbo();
 $Itemid = $_REQUEST['Itemid'];
 
 if ($this->_params->get("payment_method") == "TEST")

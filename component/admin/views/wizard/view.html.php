@@ -41,7 +41,7 @@ class wizardViewwizard extends JView
 		$this->temparray = $temparray;
 
 		$uri         = JFactory::getURI();
-		$db          = JFactory::getDBO();
+		$db          = JFactory::getDbo();
 		$redhelper   = new redhelper;
 		$config      = new Redconfiguration;
 		$extra_field = new extra_field;

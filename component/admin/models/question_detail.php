@@ -149,7 +149,7 @@ class question_detailModelquestion_detail extends JModel
 	public function store($data)
 	{
 		$user = JFactory::getUser();
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		$row =& $this->getTable();
 
 		if (!$data['question_id'])

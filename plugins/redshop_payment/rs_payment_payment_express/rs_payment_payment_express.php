@@ -207,7 +207,7 @@ class plgRedshop_paymentrs_payment_payment_express extends JPlugin
 		}
 
 		$objOrder = new order_functions;
-		$db = JFactory::getDBO();
+		$db = JFactory::getDbo();
 		JPlugin::loadLanguage('com_redshop');
 		$order_id = $data['order_id'];
 		$Itemid = $_REQUEST['Itemid'];
@@ -216,7 +216,7 @@ class plgRedshop_paymentrs_payment_payment_express extends JPlugin
 		{
 			$orderDetail = $objOrder->getOrderPaymentDetail($data['order_id']);
 			$cmdDoTxnTransaction = "";
-			$db = JFactory::getDBO();
+			$db = JFactory::getDbo();
 
 			// Get user billing information
 

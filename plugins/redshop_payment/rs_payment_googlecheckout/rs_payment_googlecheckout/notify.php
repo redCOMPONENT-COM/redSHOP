@@ -126,12 +126,12 @@ switch ($_REQUEST ['_type'])
 // google giving redSHOP order id for the first time
 // we need it back from transaction id
 
-$db = JFactory::getDBO();
+$db = JFactory::getDbo();
 
 if (!isset ($order_id))
 {
 	$query = "SELECT order_id FROM #__redshop_order_payment WHERE order_payment_trans_id = '" . $google_order_id . "'";
-	$db->SetQuery($query);
+	$db->setQuery($query);
 	$order_id = $db->loadResult();
 }
 

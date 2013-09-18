@@ -10,7 +10,7 @@
 $uri =& JURI::getInstance();
 $url = $uri->root();
 $user = JFactory::getUser();
-$db = JFactory::getDBO();
+$db = JFactory::getDbo();
 $option = JRequest::getVar('option');
 
 $md5key_demo = "AAAABBBBCCCCDDDDEEEEFFFFGGGGHHHH";

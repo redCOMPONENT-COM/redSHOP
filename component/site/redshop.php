@@ -12,15 +12,14 @@ defined('_JEXEC') or die ('Restricted access');
 $app = JFactory::getApplication();
 JLoader::import('joomla.html.parameter');
 
-$option = JRequest::getCmd('option');
 $view   = JRequest::getCmd('view');
 
 // Getting the configuration
-require_once JPATH_ADMINISTRATOR . '/components/' . $option . '/helpers/redshop.cfg.php';
-require_once JPATH_ADMINISTRATOR . '/components/' . $option . '/helpers/configuration.php';
-require_once JPATH_ADMINISTRATOR . '/components/' . $option . '/helpers/template.php';
-require_once JPATH_ADMINISTRATOR . '/components/' . $option . '/helpers/stockroom.php';
-require_once JPATH_ADMINISTRATOR . '/components/' . $option . '/helpers/economic.php';
+require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
+require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/configuration.php';
+require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/template.php';
+require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/stockroom.php';
+require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/economic.php';
 
 $Redconfiguration = new Redconfiguration;
 $Redconfiguration->defineDynamicVars();

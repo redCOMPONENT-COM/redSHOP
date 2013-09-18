@@ -55,15 +55,14 @@ $Itemid = $redhelper->getCheckoutItemid();
 
 if ($Itemid == 0)
 {
-	$Itemid = JRequest::getVar('Itemid');
+	$Itemid = JRequest::getInt('Itemid');
 }
 
-$ccinfo = JRequest::getVar('ccinfo');
-$print = JRequest::getVar('print');
-$option = JRequest::getVar('option');
-$gls_mobile = JRequest::getVar('gls_mobile');
+$ccinfo = JRequest::getInt('ccinfo');
+$print = JRequest::getInt('print');
+$gls_mobile = JRequest::getString('gls_mobile');
 
-$shop_id = JRequest::getVar('shop_id') . '###' . $gls_mobile;
+$shop_id = JRequest::getString('shop_id') . '###' . $gls_mobile;
 $model = $this->getModel('checkout');
 
 $is_creditcard = $this->is_creditcard;
@@ -111,9 +110,9 @@ $results = $dispatcher->trigger('onStartCartTemplateReplace', array(& $cart_data
 <?php
 if ($is_creditcard == 1 && $ccinfo != '1' && $cart['total'] > 0)
 {
-	$cart_data = '<form action="' . JRoute::_('index.php?option=' . $option . '&view=checkout') . '" method="post" name="adminForm" id="adminForm" enctype="multipart/form-data" onsubmit="return CheckCardNumber(this);">';
+	$cart_data = '<form action="' . JRoute::_('index.php?option=com_redshop&view=checkout') . '" method="post" name="adminForm" id="adminForm" enctype="multipart/form-data" onsubmit="return CheckCardNumber(this);">';
 	$cart_data .= $carthelper->replaceCreditCardInformation($this->payment_method_id);
-	$cart_data .= '<input type="hidden" name="option" value="' . $option . '" />';
+	$cart_data .= '<input type="hidden" name="option" value="com_redshop" />';
 	$cart_data .= '<input type="hidden" name="Itemid" value="' . $Itemid . '" />';
 	$cart_data .= '<input type="hidden" name="task" value="checkoutnext" />';
 	$cart_data .= '<input type="hidden" name="view" value="checkout" />';
@@ -146,7 +145,7 @@ elseif ($cart_data != "")
 	$cart_data = str_replace("{with_vat}", '', $cart_data);
 	$cart_data = $model->displayShoppingCart($cart_data, $this->users_info_id, $this->shipping_rate_id, $this->payment_method_id, $Itemid, '', '', '', '', '', $shop_id);
 
-	$cart_data = '<form	action="' . JRoute::_('index.php?option=' . $option . '&view=checkout') . '" method="post" name="adminForm" id="adminForm"	enctype="multipart/form-data" onsubmit="return chkvalidaion();">' . $cart_data . '</form>';
+	$cart_data = '<form	action="' . JRoute::_('index.php?option=com_redshop&view=checkout') . '" method="post" name="adminForm" id="adminForm"	enctype="multipart/form-data" onsubmit="return chkvalidaion();">' . $cart_data . '</form>';
 	echo eval("?>" . $cart_data . "<?php ");
 }
 

@@ -31,6 +31,16 @@ class searchModelsearch extends JModel
 
 	public $_table_prefix = null;
 
+	// @ToDo In feature, when class Search extends JModelList, replace filter_fields in constructor
+	public $filter_fields = array(
+		'p.product_name ASC', 'product_name ASC',
+		'p.product_price ASC', 'product_price ASC',
+		'p.product_price DESC', 'product_price DESC',
+		'p.product_number ASC', 'product_number ASC',
+		'p.product_id DESC', 'product_id DESC',
+		'pc.ordering ASC', 'ordering ASC'
+	);
+
 	public function __construct()
 	{
 		global $context;
@@ -47,16 +57,29 @@ class searchModelsearch extends JModel
 		$item                = $menu->getActive();
 
 		$layout         = $app->getUserStateFromRequest($context . 'layout', 'layout', 'default');
-		$module         = JModuleHelper::getModule('redshop_search');
-		$module_params  = new JRegistry($module->params);
-		$perpageproduct = $module_params->get('productperpage', 5);
+		if ($module         = JModuleHelper::getModule('redshop_search'))
+		{
+			$module_params  = new JRegistry($module->params);
+			$perpageproduct = $module_params->get('productperpage', 5);
+		}
+		else
+		{
+			$perpageproduct = 5;
+		}
 
 		if ($layout == 'default')
+		{
 			$limit = $perpageproduct;
+		}
 		elseif ($layout == 'productonsale')
+		{
 			$limit = $params->get('productlimit', 5);
+		}
 		else
+		{
 			$limit = $params->get('maxcategory', 5);
+		}
+
 		$productlimit = 0;
 
 		if (isset($item->query['productlimit']))
@@ -222,18 +245,18 @@ class searchModelsearch extends JModel
 	{
 		$app = JFactory::getApplication();
 		$context = 'search';
+		$db = JFactory::getDbo();
 
 		$keyword = $app->getUserStateFromRequest($context . 'keyword', 'keyword', '');
 
 		$defaultSearchType = '';
+		$defaultSearchType_tmp = '';
 
 		if (!empty($manudata['search_type']))
 		{
 			$defaultSearchType     = $manudata['search_type'];
 			$defaultSearchType_tmp = $manudata['search_type'];
 		}
-
-		$product_s_desc_srch = '';
 
 		if ($defaultSearchType == "")
 		{
@@ -243,34 +266,38 @@ class searchModelsearch extends JModel
 		if ($defaultSearchType == "name_number")
 		{
 			$defaultSearchField = "name_number";
-			$defaultSearchType  = '(p.product_name LIKE "%' . $keyword . '%" OR p.product_number LIKE "%' . $keyword . '%")';
+			$defaultSearchType  = '(p.product_name LIKE '
+				. $db->quote('%' . $keyword . '%') . ' OR p.product_number LIKE ' . $db->quote('%' . $keyword . '%') . ')';
 		}
 		elseif ($defaultSearchType == "name_desc")
 		{
 			$defaultSearchField = "name_desc";
-			$defaultSearchType  = '(p.product_name LIKE "%' . $keyword
-				. '%" OR p.product_desc LIKE "%' . $keyword
-				. '%" OR  p.product_s_desc LIKE "%' . $keyword . '%")';
+			$defaultSearchType  = '(p.product_name LIKE '
+				. $db->quote('%' . $keyword . '%') . ' OR p.product_desc LIKE '
+				. $db->quote('%' . $keyword . '%') . ' OR  p.product_s_desc LIKE '
+				. $db->quote('%' . $keyword . '%') . ')';
 		}
 		elseif ($defaultSearchType == "virtual_product_num")
 		{
 			$defaultSearchField = "virtual_product_num";
-			$defaultSearchType  = '(pa.property_number LIKE "%' . $keyword . '%" OR  ps.subattribute_color_number LIKE "%' . $keyword . '%")';
+			$defaultSearchType  = '(pa.property_number LIKE '
+				. $db->quote('%' . $keyword . '%') . ' OR  ps.subattribute_color_number LIKE '
+				. $db->quote('%' . $keyword . '%') . ')';
 		}
 		elseif ($defaultSearchType == "name_number_desc")
 		{
-			$defaultSearchType = '(p.product_name LIKE "%' . $keyword
-				. '%" OR p.product_number LIKE "%' . $keyword
-				. '%" OR p.product_desc LIKE "%' . $keyword
-				. '%" OR  p.product_s_desc LIKE "%' . $keyword
-				. '%" OR  pa.property_number LIKE "%' . $keyword
-				. '%" OR  ps.subattribute_color_number LIKE "%' . $keyword
-				. '%")';
+			$defaultSearchType = '(p.product_name LIKE ' . $db->quote('%' . $keyword . '%') . ' OR p.product_number LIKE '
+				. $db->quote('%' . $keyword . '%') . ' OR p.product_desc LIKE '
+				. $db->quote('%' . $keyword . '%') . ' OR  p.product_s_desc LIKE '
+				. $db->quote('%' . $keyword . '%') . ' OR  pa.property_number LIKE '
+				. $db->quote('%' . $keyword . '%') . ' OR  ps.subattribute_color_number LIKE '
+				. $db->quote('%' . $keyword . '%') . ')';
 		}
 		elseif ($defaultSearchType == "product_desc")
 		{
 			$defaultSearchField = $defaultSearchType;
-			$defaultSearchType  = '(p.' . $defaultSearchType . ' LIKE "%' . $keyword . '%" OR  p.product_s_desc LIKE "%' . $keyword . '%" )';
+			$defaultSearchType  = '(p.' . $defaultSearchType . ' LIKE '
+				. $db->quote('%' . $keyword . '%') . ' OR  p.product_s_desc LIKE ' . $db->quote('%' . $keyword . '%') . ' )';
 		}
 		elseif ($defaultSearchType == "product_name")
 		{
@@ -280,7 +307,7 @@ class searchModelsearch extends JModel
 
 			for ($f = 0; $f < count($main_sp_name); $f++)
 			{
-				$defaultSearchType1[] = " p.product_name LIKE '%" . $main_sp_name[$f] . "%' ";
+				$defaultSearchType1[] = " p.product_name LIKE " . $db->quote('%' . $main_sp_name[$f] . '%');
 			}
 
 			$defaultSearchType = "(" . implode("AND", $defaultSearchType1) . ")";
@@ -288,20 +315,17 @@ class searchModelsearch extends JModel
 		elseif ($defaultSearchType == "product_number")
 		{
 			$defaultSearchField = $defaultSearchType;
-			$defaultSearchType  = '(p.product_number LIKE "%' . $keyword . '%")';
-		}
-
-		if ($product_s_desc_srch != '')
-		{
-			$defaultSearchType .= " OR (" . $product_s_desc_srch . ") ";
+			$defaultSearchType  = '(p.product_number LIKE ' . $db->quote('%' . $keyword . '%') . ')';
 		}
 
 		$redconfig  = $app->getParams();
-		$getorderby = JRequest::getVar('order_by', '');
+		$getorderby = urldecode(JRequest::getCmd('order_by', ''));
 
-		$order_by = $getorderby;
-
-		if ($getorderby == "")
+		if (in_array($getorderby, $this->filter_fields))
+		{
+			$order_by = $getorderby;
+		}
+		else
 		{
 			$order_by = $redconfig->get('order_by', DEFAULT_PRODUCT_ORDERING_METHOD);
 		}
@@ -332,6 +356,8 @@ class searchModelsearch extends JModel
 			}
 		}
 
+		JArrayHelper::toInteger($cat_group);
+
 		if ($cat_group)
 		{
 			$cat_group = join(',', $cat_group);
@@ -346,7 +372,7 @@ class searchModelsearch extends JModel
 		$menu = $app->getMenu();
 		$item = $menu->getActive();
 
-		$days        = $item->query['newproduct'];
+		$days        = isset($item->query['newproduct']) ? $item->query['newproduct'] : 0;
 		$today       = date('Y-m-d H:i:s', time());
 		$days_before = date('Y-m-d H:i:s', time() - ($days * 60 * 60 * 24));
 		$aclProducts = $producthelper->loadAclProducts();
@@ -359,13 +385,21 @@ class searchModelsearch extends JModel
 
 		if ($shopper_group_manufactures != "")
 		{
-			$whereaclProduct .= " AND p.manufacturer_id IN (" . $shopper_group_manufactures . ") ";
+			// Sanitize ids
+			$manufacturerIds = explode(',', $shopper_group_manufactures);
+			JArrayHelper::toInteger($manufacturerIds);
+
+			$whereaclProduct .= " AND p.manufacturer_id IN (" . implode(',', $manufacturerIds) . ") ";
 		}
 
 		// Shopper group - choose from manufactures End
 		if ($aclProducts != "")
 		{
-			$whereaclProduct .= " AND p.product_id IN (" . $aclProducts . ")  ";
+			// Sanitize ids
+			$productIds = explode(',', $aclProducts);
+			JArrayHelper::toInteger($productIds);
+
+			$whereaclProduct .= " AND p.product_id IN (" . implode(',', $productIds) . ")  ";
 		}
 
 		if ($layout == 'productonsale')
@@ -385,9 +419,9 @@ class searchModelsearch extends JModel
 				}
 
 				$cat_group_main[] = $categoryid;
-				$cat_group_main   = join(',', $cat_group_main);
+				JArrayHelper::toInteger($cat_group_main);
 
-				$cat_array = " AND pcx.category_id in (" . $cat_group_main . ") AND pcx.product_id=p.product_id ";
+				$cat_array = " AND pcx.category_id IN (" . implode(',', $cat_group_main) . ") AND pcx.product_id=p.product_id ";
 				$left_join = " LEFT JOIN " . $this->_table_prefix . "product_category_xref pcx ON pcx.product_id=p.product_id ";
 			}
 
@@ -398,7 +432,7 @@ class searchModelsearch extends JModel
 				. "AND p.expired=0 "
 				. "AND p.product_parent_id=0 "
 				. $whereaclProduct . $cat_array
-				. "order by " . $order_by;
+				. " ORDER BY " . $db->escape($order_by);
 		}
 		elseif ($layout == 'featuredproduct')
 		{
@@ -406,7 +440,7 @@ class searchModelsearch extends JModel
 				. "WHERE p.published = 1 "
 				. "AND p.product_special=1 "
 				. $whereaclProduct
-				. "order by " . $order_by;
+				. " ORDER BY " . $db->escape($order_by);
 		}
 		elseif ($layout == 'newproduct')
 		{
@@ -421,21 +455,22 @@ class searchModelsearch extends JModel
 			}
 
 			$cat_group_main[] = $catid;
-			$cat_group_main   = join(',', $cat_group_main);
+			JArrayHelper::toInteger($cat_group_main);
 
 			$extracond = "";
 
 			if ($catid)
 			{
-				$extracond = " AND pcx.category_id in (" . $cat_group_main . ") AND pcx.product_id=p.product_id ";
+				$extracond = " AND pcx.category_id in (" . implode(',', $cat_group_main) . ") AND pcx.product_id=p.product_id ";
 			}
 
 			$query = " SELECT distinct p.* "
-				. " FROM " . $this->_table_prefix . "product p ," . $this->_table_prefix . "product_category_xref pcx "
+				. " FROM " . $this->_table_prefix . "product p "
+				. "LEFT JOIN " . $this->_table_prefix . "product_category_xref pcx ON pcx.product_id = p.product_id "
 				. "WHERE p.published = 1  "
-				. "and  p.publish_date BETWEEN '" . $days_before . "' AND '" . $today . "' AND p.expired = 0  AND p.product_parent_id = 0 "
+				. "and  p.publish_date BETWEEN " . $db->quote($days_before) . " AND " . $db->quote($today) . " AND p.expired = 0  AND p.product_parent_id = 0 "
 				. $whereaclProduct . $extracond
-				. "order by " . $order_by;
+				. " ORDER BY " . $db->escape($order_by);
 		}
 		elseif ($layout == 'redfilter')
 		{
@@ -447,17 +482,24 @@ class searchModelsearch extends JModel
 				. "WHERE p.published = 1 AND p.expired = 0 " . $whereaclProduct;
 
 			if ($products != "")
-				$query .= "AND p.product_id IN ( " . $products . " )  ";
-			else
-				$query .= "AND p.product_id IN ( '" . $products . "' )  ";
-			$query .= "order by " . $order_by;
+			{
+				// Sanitize ids
+				$productIds = explode(',', $products);
+				JArrayHelper::toInteger($productIds);
+
+				$query .= "AND p.product_id IN ( " . implode(',', $productIds) . " )  ";
+			}
+
+			$query .= " ORDER BY " . $db->escape($order_by);
 		}
 		else
 		{
 			if ($manufacture_id == 0)
 			{
 				if (!empty($manudata['manufacturer_id']))
+				{
 					$manufacture_id = $manudata['manufacturer_id'];
+				}
 			}
 
 			$query = "SELECT distinct p.* "
@@ -479,6 +521,10 @@ class searchModelsearch extends JModel
 
 			if ($category_id != 0)
 			{
+				// Sanitize ids
+				$catIds = explode(',', $cat_group);
+				JArrayHelper::toInteger($catIds);
+
 				$query .= " AND pcx.category_id in (" . $cat_group . ")";
 			}
 
@@ -489,7 +535,7 @@ class searchModelsearch extends JModel
 
 			$query .= " AND " . $defaultSearchType
 				. " AND p.published = 1"
-				. " order by " . $order_by;
+				. " ORDER BY " . $db->escape($order_by);
 		}
 
 		return $query;
@@ -497,14 +543,16 @@ class searchModelsearch extends JModel
 
 	public function _buildContentOrderBy()
 	{
+		$db = JFactory::getDbo();
+
 		global $context;
 
 		$app = JFactory::getApplication();
 
-		$filter_order     = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'order_id');
-		$filter_order_Dir = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
+		$filter_order     = urldecode($app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'order_id'));
+		$filter_order_Dir = urldecode($app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', ''));
 
-		$orderby = ' ORDER BY ' . $filter_order . ' ' . $filter_order_Dir;
+		$orderby = ' ORDER BY ' . $db->escape($filter_order . ' ' . $filter_order_Dir);
 
 		return $orderby;
 	}
@@ -520,6 +568,8 @@ class searchModelsearch extends JModel
 		$params = JComponentHelper::getParams('com_redshop');
 		$menu   = $app->getMenu();
 		$item   = $menu->getActive();
+
+		$cid = 0;
 
 		if ($layout == 'newproduct')
 		{
@@ -560,12 +610,12 @@ class searchModelsearch extends JModel
 
 		if ($cid != 0)
 		{
-			$and .= " AND c.category_id = '" . $cid . "' ";
+			$and .= " AND c.category_id = " . (int) $cid . " ";
 		}
 
 		if ($templateid != 0)
 		{
-			$and .= " AND t.template_id = '" . $templateid . "' ";
+			$and .= " AND t.template_id = " . (int) $templateid . " ";
 		}
 
 		$query = "SELECT c.category_template, t.* FROM " . $this->_table_prefix . "template AS t "
@@ -627,7 +677,9 @@ class searchModelsearch extends JModel
 			for ($i = 0; $i < count($main_sal_type); $i++)
 			{
 				if ($i != 0)
+				{
 					$q .= " LEFT JOIN #__redproductfinder_association_tag AS t" . $i . " ON t" . $i . ".association_id=ta.association_id ";
+				}
 			}
 
 			$q .= "where ( ";
@@ -639,19 +691,28 @@ class searchModelsearch extends JModel
 
 				// Search for checkboxes
 				if ($i != 0)
-					$chk_q .= "t" . $i . ".tag_id='" . $main_sal_tag[$i] . "' ";
+				{
+					$chk_q .= "t" . $i . ".tag_id='" . (int) $main_sal_tag[$i] . "' ";
+				}
 				else
-					$chk_q .= "ta.tag_id='" . $main_sal_tag[$i] . "' ";
+				{
+					$chk_q .= "ta.tag_id='" . (int) $main_sal_tag[$i] . "' ";
+				}
 
 				if ($chk_q != "")
+				{
 					$dep_cond[] = " ( " . $chk_q . " ) ";
+				}
 			}
 
 			if (count($dep_cond) <= 0)
+			{
 				$dep_cond[] = "1=1";
+			}
+
 			$q .= implode(" AND ", $dep_cond);
 
-			$q .= ") AND p.published = '1' AND x.category_id='" . JRequest::getVar('cid') . "' order by p.product_name ";
+			$q .= ") AND p.published = '1' AND x.category_id = " . (int) JRequest::getInt('cid', 0) . " order by p.product_name ";
 			$product = $this->_getList($q);
 
 			for ($i = 0; $i < count($product); $i++)
@@ -671,6 +732,7 @@ class searchModelsearch extends JModel
 
 	public function mod_redProductfilter($Itemid)
 	{
+		$db = JFactory::getDbo();
 		$query = "SELECT t.*, f.formname AS form_name FROM #__redproductfinder_types t
 		LEFT JOIN #__redproductfinder_forms f
 		ON t.form_id = f.id
@@ -725,9 +787,9 @@ class searchModelsearch extends JModel
 
 					$query = "SELECT ra.product_id FROM `#__redproductfinder_association_tag` as rat
 					LEFT JOIN #__redproductfinder_associations as ra ON rat.`association_id` = ra.id
-					WHERE  rat.`type_id` IN (" . $lasttypeid . ") ";
+					WHERE  rat.`type_id` = " . $db->quote($lasttypeid) . " ";
 
-					$query .= "AND  rat.`tag_id` IN (" . $lasttagid . ") ";
+					$query .= "AND  rat.`tag_id` = " . $db->quote($lasttagid) . " ";
 
 					$product = $this->_getList($query);
 
@@ -738,6 +800,7 @@ class searchModelsearch extends JModel
 						$products[] = $product[$i]->product_id;
 					}
 
+					JArrayHelper::toInteger($products);
 					$productids = implode(",", $products);
 				}
 
@@ -746,10 +809,16 @@ class searchModelsearch extends JModel
 			LEFT JOIN #__redproductfinder_association_tag as rat ON  t.`id` = rat.`tag_id`)
 			LEFT JOIN #__redproductfinder_associations as ra ON ra.id = rat.association_id
 			WHERE j.tag_id = t.id
-			AND j.type_id = " . $id . "  ";
+			AND j.type_id = " . (int) $id . "  ";
 
 				if ($productids != "")
-					$q .= " AND ra.product_id  IN ( " . $productids . " ) ";
+				{
+					// Sanitize ids
+					$productIds = explode(',', $productids);
+					JArrayHelper::toInteger($productIds);
+
+					$q .= " AND ra.product_id  IN ( " . implode(',', $productIds) . " ) ";
+				}
 				$q .= " GROUP BY t.id ORDER BY t.ordering  ";
 
 				$tags = $this->_getList($q);
@@ -767,7 +836,7 @@ class searchModelsearch extends JModel
 						$query = "SELECT count(*) as count FROM #__redproductfinder_association_tag as ra
 							left join #__redproductfinder_associations as a on ra.association_id = a.id
 							left join #__redshop_product as rp on rp.product_id = a.product_id
-							WHERE type_id = '" . $type_id[1] . "' AND tag_id ='" . $type_id[0] . "' AND rp.published = 1";
+							WHERE type_id = " . $db->quote($type_id[1]) . " AND tag_id = " . $db->quote($type_id[0]) . " AND rp.published = 1";
 
 						$published = $this->_getList($query);
 
@@ -919,7 +988,7 @@ class searchModelsearch extends JModel
 		// For session
 		$session      = JSession::getInstance('none', array());
 		$getredfilter = $session->get('redfilter');
-		$db           = JFactory::getDBO();
+		$db           = JFactory::getDbo();
 		$productids   = "";
 
 		if (count($getredfilter) > 0 && $all == 1)
@@ -948,8 +1017,8 @@ class searchModelsearch extends JModel
 
 			$query = "SELECT ra.product_id FROM #__redproductfinder_association_tag AS rat "
 				. "LEFT JOIN #__redproductfinder_associations AS ra ON rat.association_id = ra.id "
-				. "WHERE rat.type_id IN (" . $lasttypeid . ") "
-				. "AND rat.tag_id IN (" . $lasttagid . ") ";
+				. "WHERE rat.type_id = " . $db->quote($lasttypeid) . " "
+				. "AND rat.tag_id = " . $db->quote($lasttagid) . " ";
 			$db->setQuery($query);
 			$product  = $db->loadObjectList();
 			$products = array();
@@ -958,8 +1027,6 @@ class searchModelsearch extends JModel
 			{
 				$products[] = $product[$i]->product_id;
 			}
-
-			$productids = implode(",", $products);
 		}
 
 		$q = "SELECT DISTINCT j.tag_id AS tagid,ra.product_id,count(ra.product_id) AS ptotal, "
@@ -968,11 +1035,14 @@ class searchModelsearch extends JModel
 			. "LEFT JOIN #__redproductfinder_association_tag as rat ON  t.`id` = rat.`tag_id`) "
 			. "LEFT JOIN #__redproductfinder_associations as ra ON ra.id = rat.association_id "
 			. "WHERE j.tag_id = t.id "
-			. "AND j.type_id = " . $id . " ";
+			. "AND j.type_id = " . (int) $id . " ";
 
 		if ($productids != "")
 		{
-			$q .= " AND ra.product_id IN (" . $productids . ") ";
+			// Sanitize ids
+			JArrayHelper::toInteger($products);
+
+			$q .= " AND ra.product_id IN (" . implode(",", $products) . ") ";
 		}
 
 		$q .= " GROUP BY t.id ORDER BY t.ordering ";
@@ -986,10 +1056,10 @@ class searchModelsearch extends JModel
 	 */
 	public function loadCatProductsManufacturer($cid)
 	{
-		$db    = JFactory::getDBO();
+		$db    = JFactory::getDbo();
 		$query = "SELECT  p.product_id, p.manufacturer_id FROM " . $this->_table_prefix . "product_category_xref AS cx "
 			. ", " . $this->_table_prefix . "product AS p "
-			. "WHERE cx.category_id='" . $cid . "' "
+			. "WHERE cx.category_id = " . (int) $cid . " "
 			. "AND p.product_id=cx.product_id ";
 		$db->setQuery($query);
 		$manufacturer = $db->loadObjectList();
@@ -999,13 +1069,16 @@ class searchModelsearch extends JModel
 		for ($i = 0; $i < count($manufacturer); $i++)
 		{
 			if ($manufacturer[$i]->manufacturer_id > 0)
+			{
 				$mids[] = $manufacturer[$i]->manufacturer_id;
+			}
 		}
 
-		$mid = implode(",", $mids);
+		// Sanitize ids
+		JArrayHelper::toInteger($mids);
 
 		$query = "SELECT manufacturer_id AS value,manufacturer_name AS text FROM " . $this->_table_prefix . "manufacturer "
-			. "WHERE manufacturer_id IN ('" . $mid . "')";
+			. "WHERE manufacturer_id IN ('" . implode(",", $mids). "')";
 		$db->setQuery($query);
 
 		return $db->loadObjectList();
@@ -1019,6 +1092,7 @@ class searchModelsearch extends JModel
 		$limit       = $params->get('noofsearchresults');
 		$keyword     = JRequest::getCmd('input');
 		$search_type = JRequest::getCmd('search_type');
+		$db = JFactory::getDbo();
 
 		$category_id    = JRequest::getInt('category_id');
 		$manufacture_id = JRequest::getInt('manufacture_id');
@@ -1027,41 +1101,44 @@ class searchModelsearch extends JModel
 
 		if ($search_type == 'product_name')
 		{
-			$where[] = "p.product_name LIKE('%" . $keyword . "%')";
+			$where[] = "p.product_name LIKE " . $db->quote('%' . $keyword . '%') . " ";
 		}
 		elseif ($search_type == 'product_number')
 		{
-			$where[] = "p.product_number LIKE('%" . $keyword . "%')";
+			$where[] = "p.product_number LIKE " . $db->quote('%' . $keyword . '%') . " ";
 		}
 		elseif ($search_type == 'name_number')
 		{
-			$where[] = "p.product_name LIKE('%" . $keyword . "%') or p.product_number LIKE('%" . $keyword . "%')";
+			$where[] = "p.product_name LIKE " . $db->quote('%' . $keyword . '%')
+				. " or p.product_number LIKE " . $db->quote('%' . $keyword . '%') . " ";
 		}
 		elseif ($search_type == 'product_desc')
 		{
-			$where[] = "p.product_s_desc LIKE('%" . $keyword . "%') or p.product_desc LIKE('%" . $keyword . "%')";
+			$where[] = "p.product_s_desc LIKE " . $db->quote('%' . $keyword . '%')
+				. "  or p.product_desc LIKE " . $db->quote('%' . $keyword . '%') . " ";
 		}
 		elseif ($search_type == 'name_desc')
 		{
-			$where[] = "p.product_name LIKE('%" . $keyword . "%') or p.product_s_desc LIKE('%" . $keyword . "%') or p.product_desc LIKE('%" . $keyword . "%')";
+			$where[] = "p.product_name LIKE " . $db->quote('%' . $keyword . '%')
+				. " or p.product_s_desc LIKE " . $db->quote('%' . $keyword . '%')
+				. " or p.product_desc LIKE " . $db->quote('%' . $keyword . '%') . " ";
 		}
 		elseif ($search_type == 'name_number_desc')
 		{
-			$where[] = "p.product_name LIKE('%"
-				. $keyword . "%') or p.product_number LIKE('%"
-				. $keyword . "%') or p.product_s_desc LIKE('%"
-				. $keyword . "%') or p.product_desc LIKE('%"
-				. $keyword . "%')";
+			$where[] = "p.product_name LIKE " . $db->quote('%' . $keyword . '%')
+				. "  or p.product_number LIKE " . $db->quote('%' . $keyword . '%')
+				. "  or p.product_s_desc LIKE " . $db->quote('%' . $keyword . '%')
+				. "  or p.product_desc LIKE " . $db->quote('%' . $keyword . '%') . " ";
 		}
 
 		if ($category_id != "0")
 		{
-			$where[] = "c.category_id = '" . $category_id . "'";
+			$where[] = "c.category_id = " . (int) $category_id . " ";
 		}
 
 		if ($manufacture_id != "0")
 		{
-			$where[] = "p.manufacturer_id = '" . $manufacture_id . "'";
+			$where[] = "p.manufacturer_id = " . (int) $manufacture_id . " ";
 		}
 
 		$wheres = '';

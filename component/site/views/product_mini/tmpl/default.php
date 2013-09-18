@@ -7,9 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-$option = JRequest::getVar('option', '', 'request', 'string');
-
-$eName = JRequest::getVar('e_name');
+$eName = JRequest::getString('e_name');
 $eName = preg_replace('#[^A-Z0-9\-\_\[\]]#i', '', $eName);
 ?>
 <script language="javascript" type="text/javascript">
@@ -96,7 +94,7 @@ $eName = preg_replace('#[^A-Z0-9\-\_\[\]]#i', '', $eName);
 			{
 				$row     = $this->products[$i];
 				$row->id = $row->product_id;
-				$link    = JRoute::_('index.php?option=' . $option . '&view=product_detail&task=edit&cid[]=' . $row->product_id);
+				$link    = JRoute::_('index.php?option=com_redshop&view=product_detail&task=edit&cid[]=' . $row->product_id);
 
 				$published = JHtml::_('jgrid.published', $row->published, $i, '', 1);
 
