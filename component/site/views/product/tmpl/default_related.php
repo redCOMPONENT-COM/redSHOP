@@ -15,11 +15,10 @@ $Itemid = JRequest::getInt('Itemid');
 
 $producthelper = new producthelper;
 $config        = new Redconfiguration;
-$redTemplate   = new Redtemplate;
 
 $related_product  = $producthelper->getRelatedProduct($product_id);
 $template         = JRequest::getWord('template', '');
-$relptemplate     = $redTemplate->getTemplate("related_product", 0, $template);
+$relptemplate     = $this->redTemplate->getTemplate("related_product", 0, $template);
 $related_template = $relptemplate[0]->template_desc;
 
 if (count($relptemplate) > 0)

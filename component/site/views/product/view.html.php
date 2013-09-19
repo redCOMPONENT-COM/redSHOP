@@ -26,6 +26,7 @@ require_once JPATH_COMPONENT_SITE . '/helpers/helper.php';
  */
 class ProductViewProduct extends JView
 {
+	public $redTemplate;
 	/**
 	 * Execute and display a template script.
 	 *
@@ -41,7 +42,7 @@ class ProductViewProduct extends JView
 		// Request variables
 		$app     = JFactory::getApplication();
 		$prodhelperobj = new producthelper;
-		$redTemplate   = new Redtemplate;
+		$this->redTemplate = new Redtemplate;
 		$redhelper     = new redhelper;
 		$texts         = new text_library;
 		$dispatcher    = JDispatcher::getInstance();

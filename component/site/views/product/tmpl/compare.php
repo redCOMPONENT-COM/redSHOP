@@ -30,7 +30,6 @@ $pagetitle = JText::_('COM_REDSHOP_COMPARE_PRODUCTS');
 $config  = new Redconfiguration;
 $compare = $producthelper->getCompare();
 
-$redTemplate     = new Redtemplate;
 $stockroomhelper = new rsstockroomhelper;
 
 if (PRODUCT_COMPARISON_TYPE == 'category')
@@ -43,13 +42,13 @@ if (PRODUCT_COMPARISON_TYPE == 'category')
 	$template_id = $producthelper->getCategoryCompareTemplate($catid);
 
 	if ($template_id == "")
-		$compare_template = $redTemplate->getTemplate("compare_product", COMPARE_TEMPLATE_ID);
+		$compare_template = $this->redTemplate->getTemplate("compare_product", COMPARE_TEMPLATE_ID);
 	else
-		$compare_template = $redTemplate->getTemplate("compare_product", $template_id);
+		$compare_template = $this->redTemplate->getTemplate("compare_product", $template_id);
 }
 else
 {
-	$compare_template = $redTemplate->getTemplate("compare_product", COMPARE_TEMPLATE_ID);
+	$compare_template = $this->redTemplate->getTemplate("compare_product", COMPARE_TEMPLATE_ID);
 }
 
 if (count($compare_template) > 0 && $compare_template[0]->template_desc != "")
@@ -298,7 +297,7 @@ elseif (isset($compare['idx']) && $compare['idx'] > 1)
 	$template = str_replace('{remove}', "", $template);
 	$template = str_replace('{add_to_cart}', "", $template);
 
-	$template = $redTemplate->parseredSHOPplugin($template);
+	$template = $this->redTemplate->parseredSHOPplugin($template);
 }
 else
 {
