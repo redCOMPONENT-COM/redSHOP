@@ -16,8 +16,26 @@ require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/text_library.php';
 require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
 require_once JPATH_COMPONENT_SITE . '/helpers/helper.php';
 
-class productViewproduct extends JView
+/**
+ * Product Detail View
+ *
+ * @package     RedShop.Component
+ * @subpackage  Site
+ *
+ * @since       1.0
+ */
+class ProductViewProduct extends JView
 {
+	/**
+	 * Execute and display a template script.
+	 *
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return  mixed  A string if successful, otherwise a JError object.
+	 *
+	 * @see     fetch()
+	 * @since   11.1
+	 */
 	public function display($tpl = null)
 	{
 		// Request variables
