@@ -19,7 +19,6 @@ $extraField = new extraField;
 
 $url = JURI::base();
 
-$document           = JFactory::getDocument();
 $session            = JFactory::getSession();
 $layout             = $this->input->getString('layout', '');
 $relatedprd_id      = $this->input->getInt('relatedprd_id', 0);

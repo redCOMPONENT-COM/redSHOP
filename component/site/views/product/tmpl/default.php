@@ -19,7 +19,6 @@ $Scheme          = $u->getScheme();
 $print           = $this->input->getBool('print', false);
 $user            = JFactory::getUser();
 $session         = JFactory::getSession();
-$document        = JFactory::getDocument();
 
 $extraField      = new extraField;
 $producthelper   = new producthelper;
@@ -410,9 +409,9 @@ if (strstr($template_desc, "{facebook_like_button}"))
 	$jconfig  = JFactory::getConfig();
 	$sitename = $jconfig->getValue('config.sitename');
 
-	$document->setMetaData("og:url", $uri->toString());
-	$document->setMetaData("og:type", "product");
-	$document->setMetaData("og:site_name", $sitename);
+	$this->document->setMetaData("og:url", $uri->toString());
+	$this->document->setMetaData("og:type", "product");
+	$this->document->setMetaData("og:site_name", $sitename);
 }
 
 // Google I like Button
