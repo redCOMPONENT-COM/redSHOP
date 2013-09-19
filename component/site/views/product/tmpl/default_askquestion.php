@@ -23,7 +23,6 @@ if ($user->id)
 	$uemail = $user->email;
 }
 
-$pid = JRequest::getInt('pid');
 $ask = JRequest::getInt('ask');
 $category_id = JRequest::getInt('category_id');
 $document = JFactory::getDocument();
@@ -85,7 +84,7 @@ else
 
 		echo eval("?>" . $template_desc . "<?php ");
 		?>
-		<input type="hidden" name="pid" id="pid" value="<?php echo $pid; ?>"/>
+		<input type="hidden" name="pid" id="pid" value="<?php echo $this->pid; ?>"/>
 		<input type="hidden" name="view" id="view" value="ask_question"/>
 		<input type="hidden" name="task" id="task" value="sendaskquestionmail"/>
 		<input type="hidden" name="ask" id="ask" value="1"/>

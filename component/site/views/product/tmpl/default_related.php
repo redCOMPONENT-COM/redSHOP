@@ -9,12 +9,10 @@
 
 defined('_JEXEC') or die;
 
-$product_id = JRequest::getInt('pid', 0);
-
 $producthelper = new producthelper;
 $config        = new Redconfiguration;
 
-$related_product  = $producthelper->getRelatedProduct($product_id);
+$related_product  = $producthelper->getRelatedProduct($this->pid);
 $template         = JRequest::getWord('template', '');
 $relptemplate     = $this->redTemplate->getTemplate("related_product", 0, $template);
 $related_template = $relptemplate[0]->template_desc;

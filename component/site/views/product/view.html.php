@@ -44,6 +44,9 @@ class ProductViewProduct extends JView
 	// Menu item ID
 	public $itemId;
 
+	// Product ID
+	public $pid;
+
 	/**
 	 * Execute and display a template script.
 	 *
@@ -66,7 +69,7 @@ class ProductViewProduct extends JView
 		$dispatcher    = JDispatcher::getInstance();
 
 		$this->itemId = $this->input->getInt('Itemid', null);
-		$pid          = $this->input->getInt('pid', null);
+		$this->pid    = $this->input->getInt('pid', 0);
 		$layout       = $this->input->getString('layout', 'default');
 		$template     = $this->input->getString('r_template', '');
 
