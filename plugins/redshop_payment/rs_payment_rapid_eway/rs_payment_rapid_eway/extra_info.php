@@ -21,7 +21,7 @@ $order_functions = new order_functions;
 $order_items = $order_functions->getOrderItemDetail($data['order_id']);
 $session = JFactory::getSession();
 $ccdata = $session->get('redirect_ccdata');
-$api_path = JPATH_SITE . '/plugins/redshop_payment/' . $plugin . DS . $plugin . '/Rapid.php';
+$api_path = JPATH_SITE . '/plugins/redshop_payment/' . $plugin . '/' . $plugin . '/Rapid.php';
 include($api_path);
 // GetCountryCode2
 $data['billinginfo']->country_code = $Redconfiguration->getCountryCode2($data['billinginfo']->country_code);

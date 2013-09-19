@@ -37,7 +37,7 @@ class shipping_rate_detailViewshipping_rate_detail extends JView
 		$document->addScript('components/' . $option . '/assets/js/search.js');
 		$document->addScript('components/' . $option . '/assets/js/common.js');
 
-		$shippingpath = JPATH_ROOT . '/plugins/' . $shipping->folder . DS . $shipping->element . '.xml';
+		$shippingpath = JPATH_ROOT . '/plugins/' . $shipping->folder . '/' . $shipping->element . '.xml';
 		$myparams = new JRegistry($shipping->params, $shippingpath);
 		$is_shipper = $myparams->get('is_shipper');
 		$shipper_location = $myparams->get('shipper_location');

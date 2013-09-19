@@ -150,7 +150,7 @@ class shopper_group_detailModelshopper_group_detail extends JModel
 				$data['shopper_group_logo'] = $logoname;
 
 				// Image copy
-				$src = JPATH_ROOT . DS . $data['shopper_group_logo_tmp'];
+				$src = JPATH_ROOT . '/' . $data['shopper_group_logo_tmp'];
 				$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'shopperlogo/' . $logoname;
 
 				copy($src, $dest);

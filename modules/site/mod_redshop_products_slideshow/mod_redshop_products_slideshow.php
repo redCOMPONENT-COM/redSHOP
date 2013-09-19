@@ -293,14 +293,14 @@ if (!defined('CLASS_DG'))
 			$cats_info = $cat_graph->GetCatInfo($cat_graph->first);
 		}
 
-		$module_path       = dirname(__FILE__) . DS;
+		$module_path       = dirname(__FILE__) . '/';
 		$xml_data_filename = $module_path . 'data.xml';
 		$xml_data_data     = '<?xml version="1.0" encoding="utf-8"?>
 	<data>
 	<channel>';
 		$xml_data_data_btns = '';
 		$c_name             = array();
-		$module_path        = dirname(__FILE__) . DS;
+		$module_path        = dirname(__FILE__) . '/';
 		$get_catxml         = write_prodgallery_xml_data($cats_info, $params);
 
 		if ($get_catxml['flag'])

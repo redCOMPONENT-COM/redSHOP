@@ -50,9 +50,7 @@ class plgRedshop_paymentrs_payment_realex_redirect extends JPlugin
 
 		$session =& Jfactory::getSession();
 		$ccdata = $session->get('ccdata');
-		/*$app = JFactory::getApplication();
-		 $paymentpath=JPATH_SITE.DS.'plugins'.DS.'redshop_payment'.DS.$plugin.DS.$plugin.DS.'extra_info.php';
-		include($paymentpath);*/
+
 		$merchantid = $this->_params->get("realex_merchant_id");
 		$secret = $this->_params->get("realex_shared_secret");
 		$account = $this->_params->get("realex_account_name");

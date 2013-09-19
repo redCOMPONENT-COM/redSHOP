@@ -60,9 +60,9 @@ class payment_detailViewpayment_detail extends JView
 
 			$paymentxml = $adminpath . '/helpers/payments/' . $detail->plugin . '.xml';
 
-			$paymentfile = $adminpath . '/helpers/payments/' . $detail->plugin . DS . $detail->plugin . '.php';
+			$paymentfile = $adminpath . '/helpers/payments/' . $detail->plugin . '/' . $detail->plugin . '.php';
 
-			$paymentcfg = $adminpath . '/helpers/payments/' . $detail->plugin . DS . $detail->plugin . '.cfg.php';
+			$paymentcfg = $adminpath . '/helpers/payments/' . $detail->plugin . '/' . $detail->plugin . '.cfg.php';
 
 			include_once ($paymentfile);
 

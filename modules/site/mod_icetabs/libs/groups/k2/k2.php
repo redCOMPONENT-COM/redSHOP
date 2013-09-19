@@ -205,7 +205,7 @@ if (!class_exists('LofSliderGroupK2'))
 			if ($isThumb)
 			{
 				$path       = str_replace(JURI::base(), '', $path);
-				$imagSource = JPATH_SITE . DS . str_replace('/', DS, $path);
+				$imagSource = JPATH_SITE . '/' . str_replace('/', DS, $path);
 				if (file_exists($imagSource))
 				{
 					$path      = $width . "x" . $height . '/' . $path;

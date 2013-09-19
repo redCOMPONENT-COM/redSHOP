@@ -286,7 +286,7 @@ class plgredshop_shippinguspsv4 extends JPlugin
 	{
 		if ($d['element'] == $this->classname)
 		{
-			$maincfgfile = JPATH_ROOT . '/plugins/' . $d['plugin'] . DS . $this->classname . DS . $this->classname . '.cfg.php';
+			$maincfgfile = JPATH_ROOT . '/plugins/' . $d['plugin'] . '/' . $this->classname . '/' . $this->classname . '.cfg.php';
 			$my_config_array = array(
 				"USPS_USERNAME"                 => $d['USPS_USERNAME'],
 				"USPS_PASSWORD"                 => $d['USPS_PASSWORD'],
@@ -479,7 +479,7 @@ class plgredshop_shippinguspsv4 extends JPlugin
 		$shippingrate = array();
 		$rate = 0;
 
-		$shippingcfg = JPATH_ROOT . '/plugins/' . $shipping->folder . DS . $shipping->element . DS . $shipping->element . '.cfg.php';
+		$shippingcfg = JPATH_ROOT . '/plugins/' . $shipping->folder . '/' . $shipping->element . '/' . $shipping->element . '.cfg.php';
 		include_once ($shippingcfg);
 
 		// conversation of weight ( ration )
