@@ -167,7 +167,7 @@ echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_PRODUCT_INFORMATION'), 'produc
 	</legend>
 	<?php echo $this->loadTemplate('general_data'); ?>
 </fieldset>
-<?php if ($this->detail->product_type != 'product') : ?>
+<?php if ($this->detail->product_type != 'product' && !empty($this->detail->product_type)) : ?>
 	<?php
 	// Tab2 - Product information tab panel.
 	echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_CHANGE_PRODUCT_TYPE_TAB'), 'productTab2');
