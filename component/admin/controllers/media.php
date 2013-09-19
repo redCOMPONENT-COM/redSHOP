@@ -30,7 +30,7 @@ class mediaController extends JController
 
 		if (substr(PRODUCT_DOWNLOAD_ROOT, -1) != DS)
 		{
-			$product_download_root = PRODUCT_DOWNLOAD_ROOT . DS;
+			$product_download_root = PRODUCT_DOWNLOAD_ROOT . '/';
 		}
 
 		if ($post['hdn_download_file'] != "")

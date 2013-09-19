@@ -118,9 +118,9 @@ class payment_detailModelpayment_detail extends JModel
 
 		$adminpath = JPATH_ADMINISTRATOR . '/components/com_redshop';
 
-		$paymentfile = $adminpath . '/helpers/payments/' . $row->plugin . DS . $row->plugin . '.php';
+		$paymentfile = $adminpath . '/helpers/payments/' . $row->plugin . '/' . $row->plugin . '.php';
 
-		$paymentcfg = $adminpath . '/helpers/payments/' . $row->plugin . DS . $row->plugin . '.cfg.php';
+		$paymentcfg = $adminpath . '/helpers/payments/' . $row->plugin . '/' . $row->plugin . '.cfg.php';
 
 		include_once ($paymentfile);
 
@@ -277,7 +277,7 @@ class payment_detailModelpayment_detail extends JModel
 		if (!is_file($package['packagefile']))
 		{
 			$config = JFactory::getConfig();
-			$package['packagefile'] = $config->getValue('config.tmp_path') . DS . $package['packagefile'];
+			$package['packagefile'] = $config->getValue('config.tmp_path') . '/' . $package['packagefile'];
 		}
 
 		JInstallerHelper::cleanupInstall($package['packagefile'], $package['extractdir']);
@@ -325,7 +325,7 @@ class payment_detailModelpayment_detail extends JModel
 
 		// Build the appropriate paths
 		$config = JFactory::getConfig();
-		$tmp_dest = $config->getValue('config.tmp_path') . DS . $userfile['name'];
+		$tmp_dest = $config->getValue('config.tmp_path') . '/' . $userfile['name'];
 		$tmp_src = $userfile['tmp_name'];
 
 		// Move uploaded file
@@ -928,11 +928,11 @@ class JInstaller extends JObject
 			{
 				$sqlfile = $file->data();
 				// Check that sql files exists before reading. Otherwise raise error for rollback
-				if (!file_exists($this->getPath('extension_administrator') . DS . $sqlfile))
+				if (!file_exists($this->getPath('extension_administrator') . '/' . $sqlfile))
 				{
 					return false;
 				}
-				$buffer = file_get_contents($this->getPath('extension_administrator') . DS . $sqlfile);
+				$buffer = file_get_contents($this->getPath('extension_administrator') . '/' . $sqlfile);
 
 				// Graceful exit and rollback if read not successful
 				if ($buffer === false)
@@ -1026,7 +1026,7 @@ class JInstaller extends JObject
 
 		if ($folder = $element->attributes('folder'))
 		{
-			$source = $this->getPath('source') . DS . $folder;
+			$source = $this->getPath('source') . '/' . $folder;
 		}
 		else
 		{
@@ -1036,8 +1036,8 @@ class JInstaller extends JObject
 		// Process each file in the $files array (children of $tagName).
 		foreach ($files as $file)
 		{
-			$path['src'] = $source . DS . $file->data();
-			$path['dest'] = $destination . DS . $pFolder . DS . $file->data();
+			$path['src'] = $source . '/' . $file->data();
+			$path['dest'] = $destination . '/' . $pFolder . '/' . $file->data();
 
 			// Is this path a file or folder?
 			$path['type'] = ($file->name() == 'folder') ? 'folder' : 'file';
@@ -1256,7 +1256,7 @@ class JInstaller extends JObject
 
 			if ($file->name() == 'language' && $file->attributes('tag') != '')
 			{
-				$path = $source . DS . $file->attributes('tag') . DS . basename($file->data());
+				$path = $source . '/' . $file->attributes('tag') . '/' . basename($file->data());
 
 				// If the language folder is not present, then the core pack hasn't been installed... ignore
 				if (!JFolder::exists(dirname($path)))
@@ -1266,7 +1266,7 @@ class JInstaller extends JObject
 			}
 			else
 			{
-				$path = $source . DS . $file->data();
+				$path = $source . '/' . $file->data();
 			}
 
 			if (is_dir($path))
@@ -1298,12 +1298,12 @@ class JInstaller extends JObject
 		if ($client)
 		{
 			$pathname = 'extension_' . $client->name;
-			$path['dest'] = $this->getPath($pathname) . DS . basename($this->getPath('manifest'));
+			$path['dest'] = $this->getPath($pathname) . '/' . basename($this->getPath('manifest'));
 		}
 		else
 		{
 			$pathname = 'extension_root';
-			$path['dest'] = $this->getPath($pathname) . DS . basename($this->getPath('manifest'));
+			$path['dest'] = $this->getPath($pathname) . '/' . basename($this->getPath('manifest'));
 		}
 		return $this->copyFiles(array($path), true);
 	}
