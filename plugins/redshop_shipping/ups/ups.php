@@ -331,7 +331,7 @@ class plgredshop_shippingups extends JPlugin
 	{
 		if ($d['element'] == $this->classname)
 		{
-			$maincfgfile = JPATH_ROOT . '/plugins/' . $d['plugin'] . DS . $this->classname . DS . $this->classname . '.cfg.php';
+			$maincfgfile = JPATH_ROOT . '/plugins/' . $d['plugin'] . '/' . $this->classname . '/' . $this->classname . '.cfg.php';
 
 			$my_config_array = array(
 				"UPS_ACCESS_CODE"                   => $d['UPS_ACCESS_CODE'],
@@ -407,7 +407,7 @@ class plgredshop_shippingups extends JPlugin
 		$shipping = $shippinghelper->getShippingMethodByClass($this->classname);
 
 		$itemparams = new JRegistry($shipping->params);
-		$shippingcfg = JPATH_ROOT . '/plugins/' . $shipping->folder . DS . $shipping->element . DS . $shipping->element . '.cfg.php';
+		$shippingcfg = JPATH_ROOT . '/plugins/' . $shipping->folder . '/' . $shipping->element . '/' . $shipping->element . '.cfg.php';
 		include_once ($shippingcfg);
 
 		$shippingrate = array();

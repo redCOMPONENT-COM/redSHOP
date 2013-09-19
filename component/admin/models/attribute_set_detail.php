@@ -1182,7 +1182,7 @@ class attribute_set_detailModelattribute_set_detail extends JModel
 
 	public function copy_image_from_path($imagePath, $section, $section_id)
 	{
-		$src = JPATH_ROOT . DS . $imagePath;
+		$src = JPATH_ROOT . '/' . $imagePath;
 
 		$imgname = basename($imagePath);
 

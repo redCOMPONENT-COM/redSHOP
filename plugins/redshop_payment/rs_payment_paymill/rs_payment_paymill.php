@@ -48,7 +48,7 @@ class plgRedshop_paymentrs_payment_paymill extends JPlugin
 		}
 
 		$app = JFactory::getApplication();
-		$paymentpath = JPATH_SITE . '/plugins/redshop_payment/' . $plugin . DS . $plugin . '/creditcardform.php';
+		$paymentpath = JPATH_SITE . '/plugins/redshop_payment/' . $plugin . '/' . $plugin . '/creditcardform.php';
 
 		include $paymentpath;
 	}
@@ -179,7 +179,7 @@ class plgRedshop_paymentrs_payment_paymill extends JPlugin
 
 		$session = JFactory::getSession();
 		$Itemid = JRequest::getVar('Itemid');
-		$paymentpath = JPATH_SITE . '/plugins/redshop_payment/' . $element . DS . $element . '/lib/Services/Paymill/Transactions.php';
+		$paymentpath = JPATH_SITE . '/plugins/redshop_payment/' . $element . '/' . $element . '/lib/Services/Paymill/Transactions.php';
 		include $paymentpath;
 
 		if ($token = $data['paymillToken'])

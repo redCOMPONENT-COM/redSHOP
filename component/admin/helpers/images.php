@@ -88,7 +88,7 @@ class RedShopHelperImages extends JObject
 					mt_srand();
 					$rand4 = mt_rand(0, mt_getrandmax());
 
-					$dest = $original_path . DS . $data['image_name'] . '-' . $rand1 . $rand2 . $rand3 . $rand4
+					$dest = $original_path . '/' . $data['image_name'] . '-' . $rand1 . $rand2 . $rand3 . $rand4
 						. '.' . JFile::getExt(strtolower($file['name']));
 				}
 
