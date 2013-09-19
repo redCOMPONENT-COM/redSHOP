@@ -29,7 +29,6 @@ $texts           = new text_library;
 $producthelper   = new producthelper;
 $redshopconfig   = new Redconfiguration;
 $stockroomhelper = new rsstockroomhelper;
-$redTemplate     = new Redtemplate;
 $config          = new Redconfiguration;
 $redhelper       = new redhelper;
 
@@ -497,7 +496,7 @@ else
 
 // PRODUCT WRAPPER START
 $wrapper = $producthelper->getWrapper($this->data->product_id, 0, 1);
-$wrappertemplate = $redTemplate->getTemplate("wrapper_template");
+$wrappertemplate = $this->redTemplate->getTemplate("wrapper_template");
 
 if (strstr($template_desc, "{wrapper_template:"))
 {
@@ -1495,7 +1494,7 @@ if (strstr($template_desc, "{product_rating}"))
 	else
 		$mainblock = 5;
 
-	$main_template = $redTemplate->getTemplate("review");
+	$main_template = $this->redTemplate->getTemplate("review");
 
 	if (count($main_template) > 0 && $main_template[0]->template_desc)
 	{
@@ -1740,7 +1739,7 @@ $template_desc = str_replace("{without_vat}", "", $template_desc);
 $template_desc = str_replace("{attribute_price_with_vat}", "", $template_desc);
 $template_desc = str_replace("{attribute_price_without_vat}", "", $template_desc);
 
-$template_desc = $redTemplate->parseredSHOPplugin($template_desc);
+$template_desc = $this->redTemplate->parseredSHOPplugin($template_desc);
 
 $template_desc = $texts->replace_texts($template_desc);
 

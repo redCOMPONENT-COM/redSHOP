@@ -8,9 +8,9 @@
  */
 
 defined('_JEXEC') or die;
-JHTML::_('behavior.tooltip');
-JHTMLBehavior::modal();
-$redTemplate = new Redtemplate;
+JHtml::_('behavior.tooltip');
+JHtmlBehavior::modal();
+
 $uname = '';
 $uemail = '';
 $address = '';
@@ -30,7 +30,7 @@ $category_id = JRequest::getInt('category_id');
 $document = JFactory::getDocument();
 JHTML::Script('jquery.tools.min.js', 'components/com_redshop/assets/js/', false);
 
-$template = $redTemplate->getTemplate('ask_question_template');
+$template = $this->redTemplate->getTemplate('ask_question_template');
 
 if (count($template) > 0 && $template[0]->template_desc != "")
 {
