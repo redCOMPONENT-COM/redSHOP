@@ -255,10 +255,19 @@ class ProductViewProduct extends JView
 				}
 				else
 				{
-					$this->document->setTitle($data->product_name . " | " . $data->category_name . " | " . $this->app->getCfg('sitename') . " | " . $data->product_number);
+					$this->document->setTitle(
+												$data->product_name . " | " .
+												$data->category_name . " | " .
+												$this->app->getCfg('sitename') . " | " .
+												$data->product_number
+											);
+
 					$this->document->setMetaData(
 											"og:title",
-											$data->product_name . " | " . $data->category_name . " | " . $this->app->getCfg('sitename') . " | " . $data->product_number
+											$data->product_name . " | " .
+											$data->category_name . " | " .
+											$this->app->getCfg('sitename') . " | " .
+											$data->product_number
 										);
 				}
 			}
@@ -452,7 +461,7 @@ class ProductViewProduct extends JView
 			 * Show content return by plugin directly into product page after display product title
 			 */
 			$data->event = new stdClass;
-			$results = $this->dispatcher->trigger('onAfterDisplayProductTitle', array(& $productTemplate->template_desc, & $params, $data));
+			$results = $this->dispatcher->trigger('onAfterDisplayProductTitle', array(&$productTemplate->template_desc, $params, $data));
 			$data->event->afterDisplayTitle = trim(implode("\n", $results));
 
 			/**
@@ -460,7 +469,7 @@ class ProductViewProduct extends JView
 			 *
 			 * Trigger event onBeforeDisplayProduct will display content before product display
 			 */
-			$results = $this->dispatcher->trigger('onBeforeDisplayProduct', array(& $productTemplate->template_desc, & $params, $data));
+			$results = $this->dispatcher->trigger('onBeforeDisplayProduct', array(&$productTemplate->template_desc, $params, $data));
 			$data->event->beforeDisplayProduct = trim(implode("\n", $results));
 
 			// For page heading
