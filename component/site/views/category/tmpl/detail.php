@@ -866,51 +866,6 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 			}
 		}
 
-		// 	product preview image end.
-
-		// Front-back preview image tag...
-		if (strstr($data_add, "{front_preview_img_link}") || strstr($data_add, "{back_preview_img_link}"))
-		{
-			$product_front_image_link = '';
-			$product_back_image_link  = '';
-
-			if ($product->product_preview_image)
-			{
-				$mainpreviewsrcPath = RedShopHelperImages::getImagePath(
-										$product->product_preview_image,
-										'',
-										'thumb',
-										'product',
-										CATEGORY_PRODUCT_PREVIEW_IMAGE_WIDTH,
-										CATEGORY_PRODUCT_PREVIEW_IMAGE_HEIGHT,
-										USE_IMAGE_SIZE_SWAPPING
-									);
-				$product_front_image_link = "<a href='#' onClick='javascript:changeproductPreviewImage(" . $product->product_id . ",\"" . $mainpreviewsrcPath . "\");'>" . JText::_('COM_REDSHOP_FRONT_IMAGE') . "</a>";
-			}
-
-			if ($product->product_preview_back_image)
-			{
-				$backpreviewsrcPath = RedShopHelperImages::getImagePath(
-										$product->product_preview_back_image,
-										'',
-										'thumb',
-										'product',
-										CATEGORY_PRODUCT_PREVIEW_IMAGE_WIDTH,
-										CATEGORY_PRODUCT_PREVIEW_IMAGE_HEIGHT,
-										USE_IMAGE_SIZE_SWAPPING
-									);
-				$product_back_image_link  = "<a href='#' onClick='javascript:changeproductPreviewImage(" . $product->product_id . ",\"" . $backpreviewsrcPath . "\");'>" . JText::_('COM_REDSHOP_BACK_IMAGE') . "</a>";
-			}
-
-			$data_add = str_replace("{front_preview_img_link}", $product_front_image_link, $data_add);
-			$data_add = str_replace("{back_preview_img_link}", $product_back_image_link, $data_add);
-		}
-		else
-		{
-			$data_add = str_replace("{front_preview_img_link}", "", $data_add);
-			$data_add = str_replace("{back_preview_img_link}", "", $data_add);
-		}
-
 		$data_add = $producthelper->getJcommentEditor($product, $data_add);
 
 		/*
