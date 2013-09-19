@@ -17,7 +17,6 @@ require_once JPATH_SITE . '/components/com_redshop/helpers/extra_field.php';
 $producthelper = new producthelper;
 
 $print  = $this->input->getBool('print', false);
-$model  = $this->getModel('product');
 $user   = JFactory::getUser();
 
 $pagetitle = JText::_('COM_REDSHOP_COMPARE_PRODUCTS');

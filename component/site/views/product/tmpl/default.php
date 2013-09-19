@@ -17,11 +17,9 @@ $u               = JURI::getInstance();
 $Scheme          = $u->getScheme();
 
 $print           = $this->input->getBool('print', false);
-$model           = $this->getModel('product');
 $user            = JFactory::getUser();
 $session         = JFactory::getSession();
 $document        = JFactory::getDocument();
-$dispatcher      = JDispatcher::getInstance();
 
 $extraField      = new extraField;
 $producthelper   = new producthelper;
@@ -112,7 +110,7 @@ if (strstr($template_desc, '{navigation_link_right}') || strstr($template_desc, 
 	$prevbutton = '';
 
 	// Next Navigation
-	$nextproducts = $model->getPrevNextproduct($this->data->product_id, $this->data->category_id, 1);
+	$nextproducts = $this->model->getPrevNextproduct($this->data->product_id, $this->data->category_id, 1);
 
 	if (count($nextproducts) > 0)
 	{
@@ -133,7 +131,7 @@ if (strstr($template_desc, '{navigation_link_right}') || strstr($template_desc, 
 	}
 
 	// Start previous logic
-	$previousproducts = $model->getPrevNextproduct($this->data->product_id, $this->data->category_id, -1);
+	$previousproducts = $this->model->getPrevNextproduct($this->data->product_id, $this->data->category_id, -1);
 
 	if (count($previousproducts) > 0)
 	{
@@ -684,7 +682,7 @@ if (strstr($template_desc, "{child_products}"))
 		$productInfo = $producthelper->getProductById($parentproductid);
 
 		// Get child products
-		$childproducts = $model->getAllChildProductArrayList(0, $parentproductid);
+		$childproducts = $this->model->getAllChildProductArrayList(0, $parentproductid);
 
 		if (count($childproducts) > 0)
 		{
@@ -1747,7 +1745,7 @@ $template_desc = $producthelper->getRelatedtemplateView($template_desc, $this->d
  *
  * Trigger event onAfterDisplayProduct will display content after product display
  */
-$dispatcher->trigger('onAfterDisplayProduct', array(& $template_desc, & $this->params, $this->data));
+$this->dispatcher->trigger('onAfterDisplayProduct', array(& $template_desc, & $this->params, $this->data));
 
 echo eval("?>" . $template_desc . "<?php ");
 
