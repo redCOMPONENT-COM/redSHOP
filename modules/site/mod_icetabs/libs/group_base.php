@@ -81,14 +81,13 @@ if (!class_exists('LofSliderGroupBase'))
 		 *
 		 * @param array $path
 		 *
-		 * @access public,
 		 * @return boolean.
 		 */
 
 		function makeDir($path)
 		{
 			$folders = explode('/', ($path));
-			$tmppath = JPATH_SITE . '/images/icethumbs' . DS;
+			$tmppath = JPATH_SITE . '/images/icethumbs/';
 
 			if (!file_exists($tmppath))
 			{
@@ -101,7 +100,7 @@ if (!class_exists('LofSliderGroupBase'))
 				{
 					return false;
 				}
-				$tmppath = $tmppath . $folders [$i] . DS;
+				$tmppath = $tmppath . $folders [$i] . '/';
 			}
 
 			return true;

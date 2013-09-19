@@ -61,7 +61,7 @@ class Media_DetailController extends JController
 
 		if (substr(PRODUCT_DOWNLOAD_ROOT, -1) != DS)
 		{
-			$product_download_root = PRODUCT_DOWNLOAD_ROOT . DS;
+			$product_download_root = PRODUCT_DOWNLOAD_ROOT . '/';
 		}
 
 		$bulkfile = JRequest::getVar('bulkfile', null, 'files', 'array');
