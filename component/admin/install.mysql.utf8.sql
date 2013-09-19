@@ -978,7 +978,7 @@ INSERT IGNORE INTO `#__redshop_currency` (`currency_id`, `currency_name`, `curre
 (96, 'Mauritius Rupee', 'MUR'),
 (97, 'Maldive Rufiyaa', 'MVR'),
 (98, 'Malawi Kwacha', 'MWK'),
-(99, 'Mexican Peso', 'MXP'),
+(99, 'Mexican Peso', 'MXN'),
 (100, 'Malaysian Ringgit', 'MYR'),
 (101, 'Mozambique Metical', 'MZM'),
 (102, 'Nigerian Naira', 'NGN'),
