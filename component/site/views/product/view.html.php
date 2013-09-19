@@ -26,6 +26,10 @@ require_once JPATH_COMPONENT_SITE . '/helpers/helper.php';
  */
 class ProductViewProduct extends JView
 {
+	public $app;
+
+	public $input;
+
 	public $redTemplate;
 
 	public $redHelper;
@@ -45,22 +49,22 @@ class ProductViewProduct extends JView
 	public function display($tpl = null)
 	{
 		// Request variables
-		$app               = JFactory::getApplication();
+		$this->app         = JFactory::getApplication();
+		$this->input       = $this->app->input;
 		$prodhelperobj     = new producthelper;
 		$this->redTemplate = new Redtemplate;
 		$this->redHelper   = new redhelper;
 		$this->textHelper  = new text_library;
 		$dispatcher    = JDispatcher::getInstance();
 
-		$Itemid   = JRequest::getInt('Itemid');
-		$pid      = JRequest::getInt('pid');
-		$cid      = JRequest::getInt('cid');
-		$layout   = JRequest::getCmd('layout');
-		$template = JRequest::getString('r_template');
+		$Itemid   = $this->input->getInt('Itemid', null);
+		$pid      = $this->input->getInt('pid', null);
+		$layout   = $this->input->getString('layout', 'default');
+		$template = $this->input->getString('r_template', '');
 
 		$pageheadingtag        = '';
 		$document              = JFactory::getDocument();
-		$params                = $app->getParams('com_redshop');
+		$params                = $this->app->getParams('com_redshop');
 		$menu_meta_keywords    = $params->get('menu-meta_keywords');
 		$menu_meta_description = $params->get('menu-meta_description');
 		$menu_robots           = $params->get('robots');
@@ -221,8 +225,8 @@ class ProductViewProduct extends JView
 				}
 				else
 				{
-					$document->setTitle($data->product_name . " | " . $data->category_name . " | " . $app->getCfg('sitename') . " | " . $data->product_number);
-					$document->setMetaData("og:title", $data->product_name . " | " . $data->category_name . " | " . $app->getCfg('sitename') . " | " . $data->product_number);
+					$document->setTitle($data->product_name . " | " . $data->category_name . " | " . $this->app->getCfg('sitename') . " | " . $data->product_number);
+					$document->setMetaData("og:title", $data->product_name . " | " . $data->category_name . " | " . $this->app->getCfg('sitename') . " | " . $data->product_number);
 				}
 			}
 
@@ -468,7 +472,7 @@ class ProductViewProduct extends JView
 		$this->pageheadingtag = $pageheadingtag;
 		$this->params = $params;
 
-		$for = JRequest::getWord("for", false);
+		$for = $this->input->getBool("for", false);
 
 		if ($for)
 		{
