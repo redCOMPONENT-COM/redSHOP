@@ -55,6 +55,10 @@ class ProductViewProduct extends JView
 
 	// JDocument object
 	public $document;
+
+	// JSession object
+	public $session;
+
 	/**
 	 * Execute and display a template script.
 	 *
@@ -77,7 +81,7 @@ class ProductViewProduct extends JView
 		$this->input           = $this->app->input;
 		$this->model           = $this->getModel('product');
 		$this->document        = JFactory::getDocument();
-		$session               = JFactory::getSession();
+		$this->session         = JFactory::getSession();
 		$pageheadingtag        = '';
 		$params                = $this->app->getParams('com_redshop');
 		$menu_meta_keywords    = $params->get('menu-meta_keywords');
@@ -484,13 +488,13 @@ class ProductViewProduct extends JView
 			}
 
 			$visited = array();
-			$visited = $session->get('visited', $visited);
+			$visited = $this->session->get('visited', $visited);
 
 			if ($this->pid && !(in_array($this->pid, $visited)))
 			{
 				$this->model->updateVisited($this->pid);
 				$visited[] = $this->pid;
-				$session->set('visited', $visited);
+				$this->session->set('visited', $visited);
 			}
 
 			// End

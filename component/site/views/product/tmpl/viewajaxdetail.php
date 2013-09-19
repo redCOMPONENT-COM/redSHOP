@@ -19,7 +19,6 @@ $extraField = new extraField;
 
 $url = JURI::base();
 
-$session            = JFactory::getSession();
 $layout             = $this->input->getString('layout', '');
 $relatedprd_id      = $this->input->getInt('relatedprd_id', 0);
 $ajaxdetal_template = $producthelper->getAjaxDetailboxTemplate($this->data);
@@ -90,7 +89,7 @@ if (count($ajaxdetal_template) > 0)
 	if ($template_userfield != "")
 	{
 		$ufield = "";
-		$cart   = $session->get('cart');
+		$cart   = $this->session->get('cart');
 
 		if (isset($cart['idx']))
 		{

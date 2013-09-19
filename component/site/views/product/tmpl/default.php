@@ -18,7 +18,6 @@ $Scheme          = $u->getScheme();
 
 $print           = $this->input->getBool('print', false);
 $user            = JFactory::getUser();
-$session         = JFactory::getSession();
 
 $extraField      = new extraField;
 $producthelper   = new producthelper;
@@ -1093,7 +1092,7 @@ $userfieldArr = $returnArr[1];
 if (strstr($template_desc, "{if product_userfield}") && strstr($template_desc, "{product_userfield end if}") && $template_userfield != "")
 {
 	$ufield = "";
-	$cart   = $session->get('cart');
+	$cart   = $this->session->get('cart');
 
 	if (isset($cart['idx']))
 	{
@@ -1327,14 +1326,12 @@ else
 
 if (strstr($template_desc, "{form_rating_without_link}"))
 {
-	$session = JFactory::getSession();
-
 	$a = intval(mt_rand(1, 100) / 10);
 	$b = intval(mt_rand(1, 100) / 10);
 
 	$hash = uniqid();
 
-	$session->set('session.simplemath' . $hash, $a + $b);
+	$this->session->set('session.simplemath' . $hash, $a + $b);
 
 	$reviewform = "<form name='writereview' action='' method='post' onSubmit=\"return validateReview();\">";
 	$reviewform .= "<div style='clear:both;'>";
