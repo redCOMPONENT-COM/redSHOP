@@ -374,7 +374,7 @@ class Product_DetailModelProduct_Detail extends JModel
 				$filename = $new_image_name;
 				$row->product_full_image = $filename;
 
-				$src = JPATH_ROOT . DS . $data['product_image'];
+				$src = JPATH_ROOT . '/' . $data['product_image'];
 				$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $filename;
 
 				copy($src, $dest);
@@ -4303,7 +4303,7 @@ class Product_DetailModelProduct_Detail extends JModel
 	 */
 	public function copy_image_from_path($imagePath, $section)
 	{
-		$src = JPATH_ROOT . DS . $imagePath;
+		$src = JPATH_ROOT . '/' . $imagePath;
 
 		$imgname = $this->cleanFileName($imagePath);
 
