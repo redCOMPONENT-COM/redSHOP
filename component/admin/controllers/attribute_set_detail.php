@@ -319,12 +319,12 @@ class attribute_set_detailController extends JController
 				if ($t[$n] == 'images')
 				{
 					$path_bk = REDSHOP_FRONT_IMAGES_RELPATH;
-					$dir_path = "components/com_redshop/assets/images/" .$t[$na];
+					$dir_path = 'components/com_redshop/assets/images/' . $t[$na];
 				}
 				else
 				{
-					$path_bk = REDSHOP_FRONT_IMAGES_RELPATH . DS . $t[$n];
-					$dir_path = "components/com_redshop/assets/images/" .$t[$n] . DS . $t[$na];
+					$path_bk = REDSHOP_FRONT_IMAGES_RELPATH . '/' . $t[$n];
+					$dir_path = 'components/com_redshop/assets/images/' . $t[$n] . '/' . $t[$na];
 				}
 
 				$folder_img_bk = "components/com_redshop/assets/images/folderup_32.png";
@@ -405,7 +405,7 @@ class attribute_set_detailController extends JController
 			{
 				if (preg_match("/.jpg/", $filename) || preg_match("/.gif/", $filename) || preg_match("/.png/", $filename))
 				{
-					$live_path = $url . $dir_path . DS . $filename;
+					$live_path = $url . $dir_path . '/' . $filename;
 
 					$info = @getimagesize($live_path);
 
@@ -427,7 +427,7 @@ class attribute_set_detailController extends JController
 
 					$tbl .= "<td width='25%'><table width='120' height='70' style='background-color:#C0C0C0;' cellspacing='1' cellpdding='1'>
 					<tr><td align='center' style='background-color:#FFFFFF;'>
-					<a href=\"javascript:window.parent.jimage_insert('" . $dir_path . DS . $filename . "');window.parent.SqueezeBox.close();\">
+					<a href=\"javascript:window.parent.jimage_insert('" . $dir_path . '/' . $filename . "');window.parent.SqueezeBox.close();\">
 					<img width='" . $width_60 . "' height='" . $height_60 . "' alt='" . $filename . "' src='" . $live_path . "'></a>
 					</td></tr><tr height='15'><td style='background-color:#F7F7F7;' align='center'><label>" . substr($filename, 0, 10) . "</label>
 					</td></tr></table></td>";

@@ -327,12 +327,12 @@ class JInstallerPayment extends JObject
 
 
 		// If the folder is empty, let's delete it
-		$files = JFolder::files($this->parent->getPath('extension_root') . DS . $row->plugin);
+		$files = JFolder::files($this->parent->getPath('extension_root') . '/' . $row->plugin);
 
 
-		$this->parent->getPath('extension_root') . DS . $row->plugin;
+		$this->parent->getPath('extension_root') . '/' . $row->plugin;
 		//if (!count($files)) {
-		JFolder::delete($this->parent->getPath('extension_root') . DS . $row->plugin);
+		JFolder::delete($this->parent->getPath('extension_root') . '/' . $row->plugin);
 		//}
 		unset ($row);
 

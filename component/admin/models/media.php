@@ -216,7 +216,7 @@ class mediaModelmedia extends JModel
 		{
 			if (strlen($current) > 0)
 			{
-				$basePath = PRODUCT_DOWNLOAD_ROOT . DS . $current;
+				$basePath = PRODUCT_DOWNLOAD_ROOT . '/' . $current;
 			}
 			else
 			{
@@ -239,11 +239,11 @@ class mediaModelmedia extends JModel
 		{
 			foreach ($fileList as $file)
 			{
-				if (file_exists($basePath . DS . $file) && substr($file, 0, 1) != '.' && strtolower($file) !== 'index.html')
+				if (file_exists($basePath . '/' . $file) && substr($file, 0, 1) != '.' && strtolower($file) !== 'index.html')
 				{
 					$tmp = new JObject;
 					$tmp->name = $file;
-					$tmp->path = str_replace(DS, '/', JPath::clean($basePath . DS . $file));
+					$tmp->path = str_replace(DS, '/', JPath::clean($basePath . '/' . $file));
 					$tmp->path_relative = str_replace($mediaBase, '', $tmp->path);
 					$tmp->size = filesize($tmp->path);
 
@@ -296,27 +296,26 @@ class mediaModelmedia extends JModel
 
 						// Non-image document
 						default:
-							$iconfile_32 = JPATH_ADMINISTRATOR . "/components/com_redshop" . DS
-								. "assets/images/mime-icon-32/" .$ext . ".png";
+							$iconfile_32 = JPATH_ADMINISTRATOR . '/components/com_redshop/assets/images/mime-icon-32/' . $ext . '.png';
 
 							if (file_exists($iconfile_32))
 							{
-								$tmp->icon_32 = "components/com_redshop/assets/images/mime-icon-32/" . $ext . ".png";
+								$tmp->icon_32 = 'components/com_redshop/assets/images/mime-icon-32/' . $ext . '.png';
 							}
 							else
 							{
-								$tmp->icon_32 = "components/com_redshop/assets/images/con_info.png";
+								$tmp->icon_32 = 'components/com_redshop/assets/images/con_info.png';
 							}
 
-							$iconfile_16 = JPATH_ADMINISTRATOR . "/components/com_redshop/assets/images/mime-icon-16/" .$ext . ".png";
+							$iconfile_16 = JPATH_ADMINISTRATOR . '/components/com_redshop/assets/images/mime-icon-16/' . $ext . '.png';
 
 							if (file_exists($iconfile_16))
 							{
-								$tmp->icon_16 = "components/com_redshop/assets/images/mime-icon-16/" . $ext . ".png";
+								$tmp->icon_16 = 'components/com_redshop/assets/images/mime-icon-16/' . $ext . '.png';
 							}
 							else
 							{
-								$tmp->icon_16 = "components/com_redshop/assets/images/con_info.png";
+								$tmp->icon_16 = 'components/com_redshop/assets/images/con_info.png';
 							}
 
 							$docs[] = $tmp;
@@ -333,7 +332,7 @@ class mediaModelmedia extends JModel
 			{
 				$tmp = new JObject;
 				$tmp->name = basename($folder);
-				$tmp->path = str_replace(DS, '/', JPath::clean($basePath . DS . $folder));
+				$tmp->path = str_replace(DS, '/', JPath::clean($basePath . '/' . $folder));
 				$tmp->path_relative = str_replace($mediaBase, '', $tmp->path);
 				$count = $mediaHelper->countFiles($tmp->path);
 				$tmp->files = $count[0];

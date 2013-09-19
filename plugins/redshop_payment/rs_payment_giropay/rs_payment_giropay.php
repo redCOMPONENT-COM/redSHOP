@@ -48,11 +48,11 @@ class plgRedshop_paymentrs_payment_giropay extends JPlugin
 		}
 
 		$app = JFactory::getApplication();
-		$class_path = JPATH_SITE . '/plugins/redshop_payment/' . $element . DS . $element . '/gsGiropay.php';
+		$class_path = JPATH_SITE . '/plugins/redshop_payment/' . $element . '/' . $element . '/gsGiropay.php';
 		include $class_path;
 
 		$gsGiropay = new gsGiropay;
-		$paymentpath = JPATH_SITE . '/plugins/redshop_payment/' . $element . DS . $plugin . '/extra_info.php';
+		$paymentpath = JPATH_SITE . '/plugins/redshop_payment/' . $element . '/' . $plugin . '/extra_info.php';
 		include $paymentpath;
 	}
 
@@ -84,7 +84,7 @@ class plgRedshop_paymentrs_payment_giropay extends JPlugin
 		$debug_mode = $this->_params->get("debug_mode");
 		$values = new stdClass;
 
-		$class_path = JPATH_SITE . '/plugins/redshop_payment/' . $element . DS . $element . '/gsGiropay.php';
+		$class_path = JPATH_SITE . '/plugins/redshop_payment/' . $element . '/' . $element . '/gsGiropay.php';
 		include $class_path;
 
 		$gsGiropay = new gsGiropay;

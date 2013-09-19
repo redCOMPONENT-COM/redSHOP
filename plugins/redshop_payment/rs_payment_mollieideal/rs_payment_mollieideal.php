@@ -50,9 +50,6 @@ class plgRedshop_paymentrs_payment_mollieideal extends JPlugin
 
 		$app = JFactory::getApplication();
 		echo $this->show_mollie_ideal($data['order_id']);
-		/* 		$paymentpath=JPATH_SITE.DS.'plugins'.DS.'redshop_payment'.DS.$plugin.DS.$plugin.DS.'extra_info.php';
-				include $paymentpath;
-		*/
 	}
 
 	public function onNotifyPaymentrs_payment_mollieideal($element, $request)
@@ -81,7 +78,7 @@ class plgRedshop_paymentrs_payment_mollieideal extends JPlugin
 		$cancel_status = $paymentparams->get('cancel_status', '');
 
 		// Check Payment True/False
-		$paymentpath = JPATH_SITE . '/plugins/redshop_payment/rs_payment_mollieideal' . DS
+		$paymentpath = JPATH_SITE . '/plugins/redshop_payment/rs_payment_mollieideal/'
 			. 'rs_payment_mollieideal/class.mollie.ideal.php';
 		include $paymentpath;
 
@@ -137,8 +134,7 @@ class plgRedshop_paymentrs_payment_mollieideal extends JPlugin
 			return $this->_show_error('"' . JText::_('COM_REDSHOP_MOLLIEIDEAL_ORDER_ERROR') . '"');
 		}
 
-		require_once JPATH_BASE . '/plugins/redshop_payment/rs_payment_mollieideal' . DS
-			. 'rs_payment_mollieideal/class.mollie.ideal.php';
+		require_once JPATH_BASE . '/plugins/redshop_payment/rs_payment_mollieideal/rs_payment_mollieideal/class.mollie.ideal.php';
 
 		$db = JFactory::getDbo();
 

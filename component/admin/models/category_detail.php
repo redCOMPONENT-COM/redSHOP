@@ -173,7 +173,7 @@ class category_detailModelcategory_detail extends JModel
 				$newwidth = THUMB_WIDTH;
 				$newheight = THUMB_HEIGHT;
 
-				$src = JPATH_ROOT . DS . $data['category_image'];
+				$src = JPATH_ROOT . '/' . $data['category_image'];
 				$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'category/' . $filename;
 
 				copy($src, $dest);

@@ -99,8 +99,7 @@ class plgRedshop_paymentrs_payment_moneris extends JPlugin
 
 		$tax_exempt = false;
 
-		$paymentpath = JPATH_SITE . '/plugins/redshop_payment/rs_payment_moneris' . DS
-			. 'rs_payment_moneris/moneris.helper.php';
+		$paymentpath = JPATH_SITE . '/plugins/redshop_payment/rs_payment_moneris/rs_payment_moneris/moneris.helper.php';
 		include $paymentpath;
 
 		if ($moneris_test_status == 1)

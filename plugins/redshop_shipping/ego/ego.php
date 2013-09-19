@@ -53,7 +53,7 @@ class plgredshop_shippingego extends JPlugin
 	{
 		if ($d['element'] == $this->classname)
 		{
-			$maincfgfile = JPATH_ROOT . '/plugins/' . $d['plugin'] . DS . $this->classname . '.cfg.php';
+			$maincfgfile = JPATH_ROOT . '/plugins/' . $d['plugin'] . '/' . $this->classname . '.cfg.php';
 
 			$my_config_array = array(
 				"EGO_PICKUPZIPCODE" => $d['EGO_PICKUPZIPCODE']
