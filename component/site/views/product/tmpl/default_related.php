@@ -11,8 +11,6 @@ defined('_JEXEC') or die;
 
 $product_id = JRequest::getInt('pid', 0);
 
-$Itemid = JRequest::getInt('Itemid');
-
 $producthelper = new producthelper;
 $config        = new Redconfiguration;
 
@@ -40,7 +38,7 @@ if (count($relptemplate) > 0)
 	{
 		$related_template_data .= $tempdata_div_middle;
 
-		$rlink = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $related_product[$r]->product_id . '&Itemid=' . $Itemid);
+		$rlink = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $related_product[$r]->product_id . '&Itemid=' . $this->itemId);
 
 		if (strstr($related_template_data, "{relproduct_image_3}"))
 		{
@@ -103,7 +101,7 @@ if (count($relptemplate) > 0)
 
 		if (count($manufacturer) > 0)
 		{
-			$man_url               = JRoute::_('index.php?option=com_redshop&view=manufacturers&layout=products&mid=' . $related_product[$r]->manufacturer_id . '&Itemid=' . $Itemid);
+			$man_url               = JRoute::_('index.php?option=com_redshop&view=manufacturers&layout=products&mid=' . $related_product[$r]->manufacturer_id . '&Itemid=' . $this->itemId);
 			$manufacturerLink      = "<a href='" . $man_url . "'>" . JText::_("COM_REDSHOP_VIEW_ALL_MANUFACTURER_PRODUCTS") . "</a>";
 			$related_template_data = str_replace("{manufacturer_name}", $manufacturer->manufacturer_name, $related_template_data);
 			$related_template_data = str_replace("{manufacturer_link}", $manufacturerLink, $related_template_data);
@@ -133,7 +131,7 @@ if (count($relptemplate) > 0)
 
 		// End Show Price
 
-		$relmorelinkhref       = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $related_product [$r]->product_id . '&cid=' . $related_product[$r]->cat_in_sefurl . '&Itemid=' . $Itemid);
+		$relmorelinkhref       = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $related_product [$r]->product_id . '&cid=' . $related_product[$r]->cat_in_sefurl . '&Itemid=' . $this->itemId);
 		$relmorelink           = 'javascript:window.parent.SqueezeBox.close();window.parent.location.href="' . $relmorelinkhref . '"';
 		$rmore                 = "<a href='" . $relmorelink . "' title='" . $related_product [$r]->product_name . "'>" . JText::_('COM_REDSHOP_READ_MORE') . "</a>";
 		$related_template_data = str_replace("{read_more}", $rmore, $related_template_data);

@@ -16,7 +16,6 @@ $url             = JURI::base();
 $u               = JURI::getInstance();
 $Scheme          = $u->getScheme();
 
-$Itemid          = JRequest::getInt('Itemid');
 $print           = JRequest::getInt('print');
 $model           = $this->getModel('product');
 $user            = JFactory::getUser();
@@ -98,7 +97,7 @@ if (strstr($template_desc, '{returntocategory_link}') || strstr($template_desc, 
 
 	if ($this->data->category_id)
 	{
-		$returncatlink    = JRoute::_('index.php?option=com_redshop&view=category&layout=detail&cid=' . $this->data->category_id . '&Itemid=' . $Itemid);
+		$returncatlink    = JRoute::_('index.php?option=com_redshop&view=category&layout=detail&cid=' . $this->data->category_id . '&Itemid=' . $this->itemId);
 		$returntocategory = '<a href="' . $returncatlink . '">' . DAFULT_RETURN_TO_CATEGORY_PREFIX . " " . $this->data->category_name . '</a>';
 	}
 
@@ -117,7 +116,7 @@ if (strstr($template_desc, '{navigation_link_right}') || strstr($template_desc, 
 
 	if (count($nextproducts) > 0)
 	{
-		$nextlink = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $nextproducts->product_id . '&cid=' . $this->data->category_id . '&Itemid=' . $Itemid);
+		$nextlink = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $nextproducts->product_id . '&cid=' . $this->data->category_id . '&Itemid=' . $this->itemId);
 
 		if (DEFAULT_LINK_FIND == 0)
 		{
@@ -138,7 +137,7 @@ if (strstr($template_desc, '{navigation_link_right}') || strstr($template_desc, 
 
 	if (count($previousproducts) > 0)
 	{
-		$prevlink = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $previousproducts->product_id . '&cid=' . $this->data->category_id . '&Itemid=' . $Itemid);
+		$prevlink = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $previousproducts->product_id . '&cid=' . $this->data->category_id . '&Itemid=' . $this->itemId);
 
 		if (DEFAULT_LINK_FIND == 0)
 		{
@@ -249,7 +248,7 @@ if ($print)
 }
 else
 {
-	$print_url = $url . "index.php?option=com_redshop&view=product&pid=" . $this->data->product_id . "&cid=" . $this->data->category_id . "&print=1&tmpl=component&Itemid=" . $Itemid;
+	$print_url = $url . "index.php?option=com_redshop&view=product&pid=" . $this->data->product_id . "&cid=" . $this->data->category_id . "&print=1&tmpl=component&Itemid=" . $this->itemId;
 	$onclick   = "onclick='window.open(\"$print_url\",\"mywindow\",\"scrollbars=1\",\"location=1\")'";
 }
 
@@ -378,8 +377,8 @@ $template_desc = $producthelper->getProductOnSaleComment($this->data, $template_
  */
 $template_desc = $producthelper->getSpecialProductComment($this->data, $template_desc);
 
-$manufacturerLink = "<a href='" . JRoute::_('index.php?option=com_redshop&view=manufacturers&layout=detail&mid=' . $this->data->manufacturer_id . '&Itemid=' . $Itemid) . "'>" . JText::_("COM_REDSHOP_VIEW_MANUFACTURER") . "</a>";
-$manufacturerPLink = "<a href='" . JRoute::_('index.php?option=com_redshop&view=manufacturers&layout=products&mid=' . $this->data->manufacturer_id . '&Itemid=' . $Itemid) . "'>" . JText::_("COM_REDSHOP_VIEW_ALL_MANUFACTURER_PRODUCTS") . " " . $this->data->manufacturer_name . "</a>";
+$manufacturerLink = "<a href='" . JRoute::_('index.php?option=com_redshop&view=manufacturers&layout=detail&mid=' . $this->data->manufacturer_id . '&Itemid=' . $this->itemId) . "'>" . JText::_("COM_REDSHOP_VIEW_MANUFACTURER") . "</a>";
+$manufacturerPLink = "<a href='" . JRoute::_('index.php?option=com_redshop&view=manufacturers&layout=products&mid=' . $this->data->manufacturer_id . '&Itemid=' . $this->itemId) . "'>" . JText::_("COM_REDSHOP_VIEW_ALL_MANUFACTURER_PRODUCTS") . " " . $this->data->manufacturer_name . "</a>";
 $template_desc = str_replace("{manufacturer_link}", $manufacturerLink, $template_desc);
 $template_desc = str_replace("{manufacturer_product_link}", $manufacturerPLink, $template_desc);
 $template_desc = str_replace("{manufacturer_name}", $this->data->manufacturer_name, $template_desc);
@@ -658,7 +657,7 @@ if (strstr($template_desc, "{navigator_products}"))
 			$frmChild .= "<input type='hidden' name='view' value='product'>";
 			$frmChild .= "<input type='hidden' name='task' value='gotonavproduct'>";
 			$frmChild .= "<input type='hidden' name='option' value='com_redshop'>";
-			$frmChild .= "<input type='hidden' name='Itemid' value='" . $Itemid . "'>";
+			$frmChild .= "<input type='hidden' name='Itemid' value='" . $this->itemId . "'>";
 			$frmChild .= "</form>";
 		}
 	}
@@ -729,7 +728,7 @@ if (strstr($template_desc, "{child_products}"))
 			$frmChild .= "<input type='hidden' name='view' value='product'>";
 			$frmChild .= "<input type='hidden' name='task' value='gotochild'>";
 			$frmChild .= "<input type='hidden' name='option' value='com_redshop'>";
-			$frmChild .= "<input type='hidden' name='Itemid' value='" . $Itemid . "'>";
+			$frmChild .= "<input type='hidden' name='Itemid' value='" . $this->itemId . "'>";
 			$frmChild .= "</form>";
 		}
 	}
@@ -1051,7 +1050,7 @@ if (strstr($template_desc, "{more_documents}"))
 
 		if (is_file(REDSHOP_FRONT_DOCUMENT_RELPATH . "product/" . $media_documents[$m]->media_name))
 		{
-			$downlink = JUri::root() . 'index.php?tmpl=component&option=com_redshop&view=product&pid=' . $this->data->product_id . '&task=downloadDocument&fname=' . $media_documents[$m]->media_name . '&Itemid=' . $Itemid;
+			$downlink = JUri::root() . 'index.php?tmpl=component&option=com_redshop&view=product&pid=' . $this->data->product_id . '&task=downloadDocument&fname=' . $media_documents[$m]->media_name . '&Itemid=' . $this->itemId;
 			$more_doc .= "<div><a href='" . $downlink . "' title='" . $alttext . "'>";
 			$more_doc .= $alttext;
 			$more_doc .= "</a></div>";
@@ -1300,7 +1299,7 @@ if ($user->id)
 	// Write Review link with the products
 	if (strstr($template_desc, "{form_rating_without_lightbox}"))
 	{
-		$reviewlink    = JURI::root() . 'index.php?option=com_redshop&view=product_rating&rate=1&product_id=' . $this->data->product_id . '&category_id=' . $this->data->category_id . '&Itemid=' . $Itemid;
+		$reviewlink    = JURI::root() . 'index.php?option=com_redshop&view=product_rating&rate=1&product_id=' . $this->data->product_id . '&category_id=' . $this->data->category_id . '&Itemid=' . $this->itemId;
 		$reviewform    = '<a href="' . $reviewlink . '">' . JText::_('WRITE_REVIEW') . '</a>';
 		$template_desc = str_replace("{form_rating_without_lightbox}", $reviewform, $template_desc);
 	}
@@ -1309,7 +1308,7 @@ if ($user->id)
 	{
 		$reviewlink    = "";
 		$reviewform    = "";
-		$reviewlink    = JURI::root() . 'index.php?option=com_redshop&view=product_rating&tmpl=component&product_id=' . $this->data->product_id . '&category_id=' . $this->data->category_id . '&Itemid=' . $Itemid;
+		$reviewlink    = JURI::root() . 'index.php?option=com_redshop&view=product_rating&tmpl=component&product_id=' . $this->data->product_id . '&category_id=' . $this->data->category_id . '&Itemid=' . $this->itemId;
 		$reviewform    = '<a class="redbox" rel="{handler:\'iframe\',size:{x:620,y:420}}" href="' . $reviewlink . '">' . JText::_('COM_REDSHOP_WRITE_REVIEW') . '</a>';
 		$template_desc = str_replace("{form_rating}", $reviewform, $template_desc);
 	}
@@ -1461,7 +1460,7 @@ if (strstr($template_desc, "{form_rating_without_link}"))
 	$reviewform .= "<input type=\"hidden\" name=\"time\" value='" . time() . "' />";
 
 	$reviewform .= "<input type='hidden' name='task' value='writeReview'>";
-	$reviewform .= "<input type='hidden' name='Itemid' value='" . $Itemid . "'>";
+	$reviewform .= "<input type='hidden' name='Itemid' value='" . $this->itemId . "'>";
 	$reviewform .= "</div>";
 	$reviewform .= "</form>";
 
@@ -1585,14 +1584,14 @@ if (strstr($template_desc, "{product_rating}"))
 }
 
 // Send to friend
-$rlink = JURI::root() . 'index.php?option=com_redshop&view=send_friend&pid=' . $this->data->product_id . '&tmpl=component&Itemid=' . $Itemid;
+$rlink = JURI::root() . 'index.php?option=com_redshop&view=send_friend&pid=' . $this->data->product_id . '&tmpl=component&Itemid=' . $this->itemId;
 $send_friend_link = '<a class="redcolorproductimg" href="' . $rlink . '" >' . JText::_('COM_REDSHOP_SEND_FRIEND') . '</a>';
 $template_desc = str_replace("{send_to_friend}", $send_friend_link, $template_desc);
 
 // Ask question about this product
 if (strstr($template_desc, "{ask_question_about_product}"))
 {
-	$asklink           = JURI::root() . 'index.php?option=com_redshop&view=ask_question&pid=' . $this->data->product_id . '&tmpl=component&Itemid=' . $Itemid;
+	$asklink           = JURI::root() . 'index.php?option=com_redshop&view=ask_question&pid=' . $this->data->product_id . '&tmpl=component&Itemid=' . $this->itemId;
 	$ask_question_link = '<a class="redbox" rel="{handler:\'iframe\',size:{x:500,y:280}}" href="' . $asklink . '" >' . JText::_('COM_REDSHOP_ASK_QUESTION_ABOUT_PRODUCT') . '</a>';
 	$template_desc     = str_replace("{ask_question_about_product}", $ask_question_link, $template_desc);
 }

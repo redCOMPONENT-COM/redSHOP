@@ -16,7 +16,6 @@ require_once JPATH_SITE . '/components/com_redshop/helpers/extra_field.php';
 
 $producthelper = new producthelper;
 
-$Itemid = JRequest::getInt('Itemid');
 $print  = JRequest::getInt('print');
 $model  = $this->getModel('product');
 $user   = JFactory::getUser();
@@ -64,7 +63,7 @@ if (isset($compare['idx']) && $compare['idx'] == 1)
 }
 elseif (isset($compare['idx']) && $compare['idx'] > 1)
 {
-	$returnlink = JRoute::_("index.php?option=com_redshop&view=category&cid=" . $compare[$compare['idx'] - 1]["category_id"] . "&Itemid=" . $Itemid);
+	$returnlink = JRoute::_("index.php?option=com_redshop&view=category&cid=" . $compare[$compare['idx'] - 1]["category_id"] . "&Itemid=" . $this->itemId);
 
 	if ($print)
 	{
@@ -110,8 +109,8 @@ elseif (isset($compare['idx']) && $compare['idx'] > 1)
 		$exp_div = "<div name='exp_" . $product->product_id . "'>";
 		$div_end = "</div>";
 
-		$link        = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $product->product_id . '&Itemid=' . $Itemid);
-		$link_remove = JRoute::_('index.php?option=com_redshop&view=product&task=removecompare&layout=compare&pid=' . $product->product_id . '&Itemid=' . $Itemid);
+		$link        = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $product->product_id . '&Itemid=' . $this->itemId);
+		$link_remove = JRoute::_('index.php?option=com_redshop&view=product&task=removecompare&layout=compare&pid=' . $product->product_id . '&Itemid=' . $this->itemId);
 
 		$remove = "<a href='" . $link_remove . "'>" . JText::_('COM_REDSHOP_REMOVE_PRODUCT_FROM_COMPARE_LIST') . "</a>";
 

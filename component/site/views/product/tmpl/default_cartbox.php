@@ -11,8 +11,6 @@ defined('_JEXEC') or die;
 
 require_once JPATH_COMPONENT . '/helpers/helper.php';
 
-$Itemid = $this->redHelper->getCheckoutItemid();
-$Itemid = JRequest::getInt('Itemid', $Itemid);
 $Itemid = $this->redHelper->getCartItemid($Itemid);
 
 $cart_template = "";

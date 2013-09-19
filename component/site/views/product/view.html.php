@@ -26,15 +26,23 @@ require_once JPATH_COMPONENT_SITE . '/helpers/helper.php';
  */
 class ProductViewProduct extends JView
 {
+	// JApplication object
 	public $app;
 
+	// JInput object
 	public $input;
 
+	// Redtemplate helper
 	public $redTemplate;
 
+	// Redhelper
 	public $redHelper;
 
+	// Text_library helper
 	public $textHelper;
+
+	// Menu item ID
+	public $itemId;
 
 	/**
 	 * Execute and display a template script.
@@ -57,10 +65,10 @@ class ProductViewProduct extends JView
 		$this->textHelper  = new text_library;
 		$dispatcher    = JDispatcher::getInstance();
 
-		$Itemid   = $this->input->getInt('Itemid', null);
-		$pid      = $this->input->getInt('pid', null);
-		$layout   = $this->input->getString('layout', 'default');
-		$template = $this->input->getString('r_template', '');
+		$this->itemId = $this->input->getInt('Itemid', null);
+		$pid          = $this->input->getInt('pid', null);
+		$layout       = $this->input->getString('layout', 'default');
+		$template     = $this->input->getString('r_template', '');
 
 		$pageheadingtag        = '';
 		$document              = JFactory::getDocument();
@@ -148,7 +156,7 @@ class ProductViewProduct extends JView
 				}
 				else
 				{
-					$main_url  = substr_replace(JURI::root(), "", -1) . JRoute::_('index.php?option=com_redshop&view=product&layout=detail&Itemid=' . $Itemid . '&pid=' . $data->product_parent_id, false);
+					$main_url  = substr_replace(JURI::root(), "", -1) . JRoute::_('index.php?option=com_redshop&view=product&layout=detail&Itemid=' . $this->itemId . '&pid=' . $data->product_parent_id, false);
 					$canonical = '<link rel="canonical" href="' . $main_url . '" />';
 					$document->addCustomTag($canonical);
 				}
