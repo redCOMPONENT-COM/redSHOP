@@ -37,23 +37,24 @@ class plgSystemredproductzoom extends JPlugin
 			$isChilds       = false;
 			$attributes_set = array();
 
-		if ($jinput->get('view') != 'product')
-		{
-			return;
+			if ($jinput->get('view') != 'product')
+			{
+				return;
+			}
+
+			if ($jinput->get('pid', 0, 'INT') == 0)
+			{
+				return;
+			}
+
+			$document = JFactory::getDocument();
+			$url = JURI::base(true) . '/plugins/system/redproductzoom';
+
+			$document->addScript($url . '/js/jquery.js');
+			$document->addScript($url . '/js/jquery.elevateZoom.min.js');
+			$document->addScript($url . '/js/redproductzoom.js');
+
+			$document->addStyleSheet($url . '/css/jquery.jqzoom.css');
 		}
-
-		if ($jinput->get('pid', 0, 'INT') == 0)
-		{
-			return;
-		}
-
-		$document = JFactory::getDocument();
-		$url = JURI::base(true) . '/plugins/system/redproductzoom';
-
-		$document->addScript($url . '/js/jquery.js');
-		$document->addScript($url . '/js/jquery.elevateZoom.min.js');
-		$document->addScript($url . '/js/redproductzoom.js');
-
-		$document->addStyleSheet($url . '/css/jquery.jqzoom.css');
 	}
 }
