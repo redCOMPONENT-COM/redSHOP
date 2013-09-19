@@ -49,10 +49,14 @@ class CategoryViewCategory extends JView
 		$this->itemid = $this->input->getInt('Itemid', null);
 		$this->catid = $this->input->getInt('cid', 0);
 		$layout = $this->input->getString('layout', 'default');
-
 		$this->print = $this->input->getBool('print', false);
-		$params      = $this->app->getParams($this->option);
-		$model       = $this->getModel('category');
+
+		$params = $this->app->getParams($this->option);
+		$model  = $this->getModel('category');
+
+		JPluginHelper::importPlugin('redshop_product');
+		JPluginHelper::importPlugin('redshop_product_type');
+		$this->dispatcher = JDispatcher::getInstance();
 
 		$category_template     = (int) $params->get('category_template');
 		$menu_meta_keywords    = $params->get('menu-meta_keywords');
@@ -72,18 +76,16 @@ class CategoryViewCategory extends JView
 
 		$document = JFactory::getDocument();
 
-		JHTML::Script('jquery.js', 'components/com_redshop/assets/js/', false);
-		JHTML::Script('redBOX.js', 'components/com_redshop/assets/js/', false);
+		JHtml::Script('jquery.js', 'components/com_redshop/assets/js/', false);
+		JHtml::Script('redBOX.js', 'components/com_redshop/assets/js/', false);
 
-		JHTML::Script('attribute.js', 'components/com_redshop/assets/js/', false);
-		JHTML::Script('common.js', 'components/com_redshop/assets/js/', false);
+		JHtml::Script('attribute.js', 'components/com_redshop/assets/js/', false);
+		JHtml::Script('common.js', 'components/com_redshop/assets/js/', false);
 
-		JHTML::Stylesheet('priceslider.css', 'components/com_redshop/assets/css/');
+		JHtml::Stylesheet('priceslider.css', 'components/com_redshop/assets/css/');
 
-		// Start Code for fixes IE9 issue
+		// Add jQueryUI because of IE9 issue
 		$document->addStyleSheet('http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/base/jquery-ui.css');
-
-		// End Code for fixes IE9 issue
 
 		$lists   = array();
 		$minmax  = array(0, 0);
@@ -340,7 +342,7 @@ class CategoryViewCategory extends JView
 		$prodhelperobj->generateBreadcrumb($this->catid);
 		$disabled = "";
 
-		if ($print)
+		if ($this->print)
 		{
 			$disabled = "disabled";
 		}
@@ -379,7 +381,7 @@ class CategoryViewCategory extends JView
 				)
 			);
 			$manufacturers = array_merge($temps, $manufacturers);
-			$lists['manufacturer'] = JHTML::_(
+			$lists['manufacturer'] = JHtml::_(
 												'select.genericlist',
 												$manufacturers,
 												'manufacturer_id',
@@ -392,7 +394,7 @@ class CategoryViewCategory extends JView
 
 		if (count($allCategoryTemplate) > 1)
 		{
-			$lists['category_template'] = JHTML::_(
+			$lists['category_template'] = JHtml::_(
 													'select.genericlist',
 													$allCategoryTemplate,
 													'category_template',
@@ -408,7 +410,7 @@ class CategoryViewCategory extends JView
 			$order_by_select = $params->get('order_by', DEFAULT_PRODUCT_ORDERING_METHOD);
 		}
 
-		$lists['order_by'] = JHTML::_(
+		$lists['order_by'] = JHtml::_(
 										'select.genericlist',
 										$order_data,
 										'order_by',
