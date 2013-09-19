@@ -21,7 +21,7 @@ $producthelper = new producthelper;
 
 $url        = JURI::base();
 $wishlists  = $this->wishlists;
-$product_id = JRequest::getInt('product_id');
+$product_id = $this->input->getInt('product_id');
 $user       = JFactory::getUser();
 
 if (!$user->id)

@@ -60,19 +60,16 @@ class ProductViewProduct extends JView
 	public function display($tpl = null)
 	{
 		// Request variables
-		$this->app         = JFactory::getApplication();
-		$this->input       = $this->app->input;
 		$prodhelperobj     = new producthelper;
 		$this->redTemplate = new Redtemplate;
 		$this->redHelper   = new redhelper;
 		$this->textHelper  = new text_library;
-		$dispatcher    = JDispatcher::getInstance();
 
-		$this->itemId = $this->input->getInt('Itemid', null);
-		$this->pid    = $this->input->getInt('pid', 0);
-		$layout       = $this->input->getString('layout', 'default');
-		$template     = $this->input->getString('r_template', '');
-
+		$this->app             = JFactory::getApplication();
+		$this->input           = $this->app->input;
+		$dispatcher            = JDispatcher::getInstance();
+		$model                 = $this->getModel('product');
+		$session               = JFactory::getSession();
 		$pageheadingtag        = '';
 		$document              = JFactory::getDocument();
 		$params                = $this->app->getParams('com_redshop');
@@ -82,26 +79,28 @@ class ProductViewProduct extends JView
 		$data                  = array();
 		$productTemplate       = null;
 
-		$model   = $this->getModel('product');
-		$session = JFactory::getSession();
+		$this->itemId = $this->input->getInt('Itemid', null);
+		$this->pid    = $this->input->getInt('pid', 0);
+		$layout       = $this->input->getString('layout', 'default');
+		$template     = $this->input->getString('r_template', '');
 
-		if (!$pid)
+		if (!$this->pid)
 		{
-			$pid = $params->get('productid');
+			$this->pid = $params->get('productid');
 		}
 
 		// Include Javascript
 
-		JHTML::Script('jquery.js', 'components/com_redshop/assets/js/', false);
-		JHTML::Script('redBOX.js', 'components/com_redshop/assets/js/', false);
+		JHtml::Script('jquery.js', 'components/com_redshop/assets/js/', false);
+		JHtml::Script('redBOX.js', 'components/com_redshop/assets/js/', false);
 
-		JHTML::Script('json.js', 'components/com_redshop/assets/js/', false);
-		JHTML::Script('attribute.js', 'components/com_redshop/assets/js/', false);
-		JHTML::Script('common.js', 'components/com_redshop/assets/js/', false);
+		JHtml::Script('json.js', 'components/com_redshop/assets/js/', false);
+		JHtml::Script('attribute.js', 'components/com_redshop/assets/js/', false);
+		JHtml::Script('common.js', 'components/com_redshop/assets/js/', false);
 
 		// Lightbox Javascript
-		JHTML::Stylesheet('style.css', 'components/com_redshop/assets/css/');
-		JHTML::Stylesheet('scrollable-navig.css', 'components/com_redshop/assets/css/');
+		JHtml::Stylesheet('style.css', 'components/com_redshop/assets/css/');
+		JHtml::Stylesheet('scrollable-navig.css', 'components/com_redshop/assets/css/');
 
 		if ($layout == "downloadproduct")
 		{
@@ -460,10 +459,10 @@ class ProductViewProduct extends JView
 			$visited = array();
 			$visited = $session->get('visited', $visited);
 
-			if ($pid && !(in_array($pid, $visited)))
+			if ($this->pid && !(in_array($this->pid, $visited)))
 			{
-				$visit     = $model->updateVisited($pid);
-				$visited[] = $pid;
+				$visit     = $model->updateVisited($this->pid);
+				$visited[] = $this->pid;
 				$session->set('visited', $visited);
 			}
 
@@ -471,9 +470,9 @@ class ProductViewProduct extends JView
 		}
 
 		// Breadcrumb
-		if ($pid)
+		if ($this->pid)
 		{
-			$prodhelperobj->generateBreadcrumb($pid);
+			$prodhelperobj->generateBreadcrumb($this->pid);
 		}
 
 		// Breadcrumb end
