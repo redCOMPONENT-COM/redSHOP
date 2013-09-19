@@ -34,7 +34,7 @@ $post   = JRequest::get('POST');
 $Itemid = JRequest::getVar('Itemid');
 require_once JPATH_SITE . '/components/com_redshop/helpers/helper.php';
 $redhelper   = new redhelper ();
-$cart_Itemid = $redhelper->getCartItemid($Itemid);
+$cart_Itemid = $redhelper->getCartItemid();
 
 if ($cart_Itemid == "" || $cart_Itemid == 0)
 {

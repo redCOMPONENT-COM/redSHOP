@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 require_once JPATH_COMPONENT . '/helpers/helper.php';
 
-$Itemid = $this->redHelper->getCartItemid($Itemid);
+$Itemid = $this->redHelper->getCartItemid();
 
 $cart_template = "";
 $ajax_template = $this->redTemplate->getTemplate("ajax_cart_box");
