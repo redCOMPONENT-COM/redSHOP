@@ -47,6 +47,12 @@ class ProductViewProduct extends JView
 	// Product ID
 	public $pid;
 
+	// The Dispatcher
+	public $dispatcher;
+
+	// Product model
+	public $model;
+
 	/**
 	 * Execute and display a template script.
 	 *
@@ -67,10 +73,10 @@ class ProductViewProduct extends JView
 
 		$this->app             = JFactory::getApplication();
 		$this->input           = $this->app->input;
-		$model                 = $this->getModel('product');
+		$this->model           = $this->getModel('product');
+		$document              = JFactory::getDocument();
 		$session               = JFactory::getSession();
 		$pageheadingtag        = '';
-		$document              = JFactory::getDocument();
 		$params                = $this->app->getParams('com_redshop');
 		$menu_meta_keywords    = $params->get('menu-meta_keywords');
 		$menu_meta_description = $params->get('menu-meta_description');
@@ -84,7 +90,7 @@ class ProductViewProduct extends JView
 		$template     = $this->input->getString('r_template', '');
 
 		JPluginHelper::importPlugin('redshop_product');
-		$dispatcher = JDispatcher::getInstance();
+		$this->dispatcher = JDispatcher::getInstance();
 
 		if (!$this->pid)
 		{
@@ -171,12 +177,12 @@ class ProductViewProduct extends JView
 				}
 			}
 
-			$productTemplate = $model->getProductTemplate();
+			$productTemplate = $this->model->getProductTemplate();
 
 			/*
 			 * Process the prepare Product plugins
 			 */
-			$dispatcher->trigger('onPrepareProduct', array(& $productTemplate->template_desc, & $params, $data));
+			$this->dispatcher->trigger('onPrepareProduct', array(& $productTemplate->template_desc, & $params, $data));
 
 			$pagetitletag = '';
 
@@ -439,8 +445,8 @@ class ProductViewProduct extends JView
 			 * Trigger event onAfterDisplayProduct
 			 * Show content return by plugin directly into product page after display product title
 			 */
-			$data->event                    = new stdClass;
-			$results                        = $dispatcher->trigger('onAfterDisplayProductTitle', array(& $productTemplate->template_desc, & $params, $data));
+			$data->event = new stdClass;
+			$results = $this->dispatcher->trigger('onAfterDisplayProductTitle', array(& $productTemplate->template_desc, & $params, $data));
 			$data->event->afterDisplayTitle = trim(implode("\n", $results));
 
 			/**
@@ -448,7 +454,7 @@ class ProductViewProduct extends JView
 			 *
 			 * Trigger event onBeforeDisplayProduct will display content before product display
 			 */
-			$results                           = $dispatcher->trigger('onBeforeDisplayProduct', array(& $productTemplate->template_desc, & $params, $data));
+			$results = $this->dispatcher->trigger('onBeforeDisplayProduct', array(& $productTemplate->template_desc, & $params, $data));
 			$data->event->beforeDisplayProduct = trim(implode("\n", $results));
 
 			// For page heading
@@ -480,7 +486,7 @@ class ProductViewProduct extends JView
 
 			if ($this->pid && !(in_array($this->pid, $visited)))
 			{
-				$model->updateVisited($this->pid);
+				$this->model->updateVisited($this->pid);
 				$visited[] = $this->pid;
 				$session->set('visited', $visited);
 			}

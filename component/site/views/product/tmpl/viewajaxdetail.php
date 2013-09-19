@@ -8,17 +8,17 @@
  */
 
 defined('_JEXEC') or die;
-JHTML::_('behavior.tooltip');
+
+JHtm::_('behavior.tooltip');
+JHtmlBehavior::modal();
 
 require_once JPATH_COMPONENT . '/helpers/product.php';
 $producthelper = new producthelper;
 require_once JPATH_COMPONENT . '/helpers/extra_field.php';
 $extraField = new extraField;
 
-JHTMLBehavior::modal();
 $url = JURI::base();
 
-$model              = $this->getModel('product');
 $document           = JFactory::getDocument();
 $session            = JFactory::getSession();
 $layout             = $this->input->getString('layout', '');

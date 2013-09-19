@@ -13,9 +13,6 @@ $rsCarthelper = new rsCarthelper;
 
 $url    = JURI::base();
 
-// Get Model
-$model = $this->getModel('product');
-
 // Check that we need to use discount calculator
 
 // Default calculation method
