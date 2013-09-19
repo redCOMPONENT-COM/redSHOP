@@ -11,8 +11,6 @@ defined('_JEXEC') or die;
 
 $rsCarthelper = new rsCarthelper;
 
-$product_id = JRequest::getInt('pid', 0);
-
 $url    = JURI::base();
 
 // Get Model
@@ -41,7 +39,7 @@ $width     = "<tr><td><label>" . JText::_('COM_REDSHOP_WIDTH') . "</label></td><
 $depth     = "<tr><td><label>" . JText::_('COM_REDSHOP_LENGTH') . "</label></td><td><input type='text' name='calc_depth' id='calc_depth' value='' /></td></tr>";
 $radius    = "<tr><td><label>" . JText::_('COM_REDSHOP_RADIUS') . "</label></td><td><input type='text' name='calc_radius' id='calc_radius' value='' /></td></tr>";
 $calculate = "<tr><td>&nbsp;</td><td>";
-$calculate .= '<input type="button" name="calc_calculate" id="calc_calculate" onclick="discountCalculation(\'' . $product_id . '\')" value="' . JText::_('COM_REDSHOP_CALCULATE') . '" /></td></tr>';
+$calculate .= '<input type="button" name="calc_calculate" id="calc_calculate" onclick="discountCalculation(\'' . $this->pid . '\')" value="' . JText::_('COM_REDSHOP_CALCULATE') . '" /></td></tr>';
 $hiddenVar = "<tr><td colspan='2'><input type='hidden' name='calc_unit' id='calc_unit' value='' />
 			  <input type='hidden' name='calc_method' id='calc_method' value='" . $calcMethod . "' /></td></tr>";
 
@@ -81,7 +79,7 @@ for ($p = 0; $p < count($pdc_extra_datas); $p++)
 	$pdcstring = $option_name . ' (' . $pdcoprand . ' ' . $pdcprice . ' )';
 
 	$pdc_extra_output .= "<tr>";
-	$pdc_extra_output .= '<td colspan="2">' . $pdcstring . '<input type="checkbox" name="pdc_option_name[]" onclick="discountCalculation(\'' . $product_id . '\')" value="' . $pdcextra_id . '"></td>';
+	$pdc_extra_output .= '<td colspan="2">' . $pdcstring . '<input type="checkbox" name="pdc_option_name[]" onclick="discountCalculation(\'' . $this->pid . '\')" value="' . $pdcextra_id . '"></td>';
 	$pdc_extra_output .= "</tr>";
 }
 

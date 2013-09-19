@@ -650,7 +650,7 @@ if (strstr($template_desc, "{navigator_products}"))
 
 			$selected = array($this->data->product_id);
 
-			$lists['product_child_id'] = JHTML::_('select.genericlist', $cld_name, 'pid', 'class="inputbox" size="1"  onchange="document.frmNav.submit();"', 'child_product_id', 'product_name', $selected);
+			$lists['product_child_id'] = JHtml::_('select.genericlist', $cld_name, 'pid', 'class="inputbox" size="1"  onchange="document.frmNav.submit();"', 'child_product_id', 'product_name', $selected);
 
 			$frmChild .= "<form name='frmNav' id='frmNav' method='post' action=''>";
 			$frmChild .= "<div class='product_child_product_list'>" . $lists ['product_child_id'] . "</div>";
@@ -721,7 +721,7 @@ if (strstr($template_desc, "{child_products}"))
 			$display_text = (CHILDPRODUCT_DROPDOWN == "product_number") ? "product_number" : "product_name";
 
 			$selected                  = array($this->data->product_id);
-			$lists['product_child_id'] = JHTML::_('select.genericlist', $cld_name, 'pid', 'class="inputbox" size="1"  onchange="document.frmChild.submit();"', 'product_id', $display_text, $selected);
+			$lists['product_child_id'] = JHtml::_('select.genericlist', $cld_name, 'pid', 'class="inputbox" size="1"  onchange="document.frmChild.submit();"', 'product_id', $display_text, $selected);
 
 			$frmChild .= "<form name='frmChild' method='post' action=''>";
 			$frmChild .= "<div class='product_child_product'>" . JText::_('COM_REDSHOP_CHILD_PRODUCTS') . "</div><div class='product_child_product_list'>" . $lists ['product_child_id'] . "</div>";
@@ -1756,7 +1756,7 @@ echo eval("?>" . $template_desc . "<?php ");
 <script type="text/javascript">
 
 function setsendImagepath(elm) {
-	var path = document.getElementById('<?php echo "main_image" . JRequest::getInt('pid');?>').src;
+	var path = document.getElementById('<?php echo "main_image" . $this->pid;?>').src;
 	var filenamepath = path.replace(/\\/g, '/').replace(/.*\//, '');
 	var imageName = filenamepath.split('&');
 	elm.href = elm + '&imageName=' + imageName[0];
@@ -1765,7 +1765,7 @@ function setsendImagepath(elm) {
 function setZoomImagepath(elm) {
 	var elmpath = elm.href;
 	var elmfilenamepath = elmpath.replace(/\\/g, '/').replace(/.*\//, '');
-	var path = document.getElementById('<?php echo "main_image" . JRequest::getInt('pid');?>').src;
+	var path = document.getElementById('<?php echo "main_image" . $this->pid;?>').src;
 	var filenamepath = path.replace(/\\/g, '/').replace(/.*\//, '');
 	var imageName = filenamepath.split('&');
 
