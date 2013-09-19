@@ -22,16 +22,13 @@ if (!class_exists('LofSliderGroupBase'))
 	{
 		/**
 		 * @var string $_name is name of group;
-		 *
-		 * @access private;
 		 */
 		var $__name = 'base';
 		/**
 		 * @var string $__currentPath;
-		 *
-		 * @access private;
 		 */
 		var $__currentPath = '';
+
 		static $REPLACER = "...";
 
 		/**

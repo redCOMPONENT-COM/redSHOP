@@ -195,7 +195,7 @@ class redSHOPWizardTemplate
 
 	function __construct()
 	{
-		require_once JPATH_COMPONENT. '/controllers'. '/wizard.php';
+		require_once JPATH_COMPONENT . '/controllers/wizard.php';
 
 		$this->title	= '';
 		$classname  = 'wizardController';
