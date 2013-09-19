@@ -9,8 +9,8 @@
 
 defined('_JEXEC') or die;
 
-JHTML::_('behavior.tooltip');
-JHTMLBehavior::modal();
+JHtml::_('behavior.tooltip');
+JHtmlBehavior::modal();
 
 $url             = JURI::base();
 $u               = JURI::getInstance();
@@ -25,12 +25,10 @@ $document        = JFactory::getDocument();
 $dispatcher      = JDispatcher::getInstance();
 
 $extraField      = new extraField;
-$texts           = new text_library;
 $producthelper   = new producthelper;
 $redshopconfig   = new Redconfiguration;
 $stockroomhelper = new rsstockroomhelper;
 $config          = new Redconfiguration;
-$redhelper       = new redhelper;
 
 $template = $this->template;
 
@@ -262,7 +260,7 @@ $print_tag .= "</a>";
 // Associate_tag display update nayan panchal start
 $ass_tag = '';
 
-if ($redhelper->isredProductfinder())
+if ($this->redHelper->isredProductfinder())
 {
 	$associate_tag = $producthelper->getassociatetag($this->data->product_id);
 
@@ -321,8 +319,8 @@ if (strstr($template_desc, "{manufacturer_image}"))
 
 	if ($media_image[$m]->media_name && file_exists(REDSHOP_FRONT_IMAGES_RELPATH . "manufacturer/" . $media_image[$m]->media_name))
 	{
-		$wimg      = $redhelper->watermark('manufacturer', $media_image[$m]->media_name, $mw_thumb, $mh_thumb, WATERMARK_MANUFACTURER_THUMB_IMAGE);
-		$linkimage = $redhelper->watermark('manufacturer', $media_image[$m]->media_name, '', '', WATERMARK_MANUFACTURER_IMAGE);
+		$wimg      = $this->redHelper->watermark('manufacturer', $media_image[$m]->media_name, $mw_thumb, $mh_thumb, WATERMARK_MANUFACTURER_THUMB_IMAGE);
+		$linkimage = $this->redHelper->watermark('manufacturer', $media_image[$m]->media_name, '', '', WATERMARK_MANUFACTURER_IMAGE);
 
 		$altText = $producthelper->getAltText('manufacturer', $this->data->manufacturer_id);
 
@@ -908,9 +906,9 @@ if (strstr($template_desc, $mpimg_tag))
 
 					if (WATERMARK_PRODUCT_ADDITIONAL_IMAGE)
 					{
-						$pimg          = $redhelper->watermark('product', $thumb, $mpw_thumb, $mph_thumb, WATERMARK_PRODUCT_ADDITIONAL_IMAGE, "1");
-						$linkimage     = $redhelper->watermark('product', $thumb, '', '', WATERMARK_PRODUCT_ADDITIONAL_IMAGE, "0");
-						$hoverimg_path = $redhelper->watermark('product', $thumb, ADDITIONAL_HOVER_IMAGE_WIDTH, ADDITIONAL_HOVER_IMAGE_HEIGHT, WATERMARK_PRODUCT_ADDITIONAL_IMAGE, '2');
+						$pimg          = $this->redHelper->watermark('product', $thumb, $mpw_thumb, $mph_thumb, WATERMARK_PRODUCT_ADDITIONAL_IMAGE, "1");
+						$linkimage     = $this->redHelper->watermark('product', $thumb, '', '', WATERMARK_PRODUCT_ADDITIONAL_IMAGE, "0");
+						$hoverimg_path = $this->redHelper->watermark('product', $thumb, ADDITIONAL_HOVER_IMAGE_WIDTH, ADDITIONAL_HOVER_IMAGE_HEIGHT, WATERMARK_PRODUCT_ADDITIONAL_IMAGE, '2');
 					}
 					else
 					{
@@ -948,7 +946,7 @@ if (strstr($template_desc, $mpimg_tag))
 					{
 						if (WATERMARK_PRODUCT_ADDITIONAL_IMAGE)
 						{
-							$img_path = $redhelper->watermark('product', $thumb, $pw_thumb, $ph_thumb, WATERMARK_PRODUCT_ADDITIONAL_IMAGE, '0');
+							$img_path = $this->redHelper->watermark('product', $thumb, $pw_thumb, $ph_thumb, WATERMARK_PRODUCT_ADDITIONAL_IMAGE, '0');
 						}
 						else
 						{
@@ -963,7 +961,7 @@ if (strstr($template_desc, $mpimg_tag))
 										);
 						}
 
-						$hovermore_images = $redhelper->watermark('product', $thumb, '', '', WATERMARK_PRODUCT_ADDITIONAL_IMAGE, '0');
+						$hovermore_images = $this->redHelper->watermark('product', $thumb, '', '', WATERMARK_PRODUCT_ADDITIONAL_IMAGE, '0');
 
 						$filename_org = REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $media_image[$m]->product_full_image;
 
@@ -978,7 +976,7 @@ if (strstr($template_desc, $mpimg_tag))
 
 						if (WATERMARK_PRODUCT_THUMB_IMAGE)
 						{
-							$img_path_org = $redhelper->watermark('product', $thumb_original, $pw_thumb, $ph_thumb, WATERMARK_PRODUCT_THUMB_IMAGE, '0');
+							$img_path_org = $this->redHelper->watermark('product', $thumb_original, $pw_thumb, $ph_thumb, WATERMARK_PRODUCT_THUMB_IMAGE, '0');
 						}
 						else
 						{
@@ -1741,7 +1739,7 @@ $template_desc = str_replace("{attribute_price_without_vat}", "", $template_desc
 
 $template_desc = $this->redTemplate->parseredSHOPplugin($template_desc);
 
-$template_desc = $texts->replace_texts($template_desc);
+$template_desc = $this->textHelper->replace_texts($template_desc);
 
 $template_desc = $producthelper->getRelatedtemplateView($template_desc, $this->data->product_id);
 
