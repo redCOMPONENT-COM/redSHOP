@@ -10,10 +10,6 @@
 defined('_JEXEC') or die;
 $url = JURI::base();
 
-// Text library
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/text_library.php';
-$texts = new text_library;
-
 // Get product helper
 require_once JPATH_ROOT . '/components/com_redshop/helpers/product.php';
 require_once JPATH_SITE . '/components/com_redshop/helpers/extra_field.php';

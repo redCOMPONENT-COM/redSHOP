@@ -18,7 +18,6 @@ require_once JPATH_ROOT . '/components/com_redshop/helpers/helper.php';
 
 $config        = new Redconfiguration;
 $producthelper = new producthelper;
-$redhelper     = new redhelper;
 
 $url        = JURI::base();
 $wishlists  = $this->wishlists;
@@ -90,12 +89,11 @@ function display_products($rows)
 	$extra_data = new producthelper;
 
 	$producthelper = new producthelper;
-	$redhelper     = new redhelper;
 
 	for ($i = 0; $i < count($rows); $i++)
 	{
 		$row           = $rows[$i];
-		$Itemid        = $redhelper->getItemid($row->product_id);
+		$Itemid        = $this->redHelper->getItemid($row->product_id);
 		$link          = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $row->product_id . '&Itemid=' . $Itemid);
 		$product_price = $producthelper->getProductPrice($row->product_id);
 
