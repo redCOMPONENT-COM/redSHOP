@@ -62,7 +62,7 @@ abstract class modIceTabsHelper
 			if (class_exists($className))
 			{
 				$object = new $className($group);
-				$object->setCurrentPath(dirname(__FILE__) . '/libs/groups/' . strtolower($group) . DS);
+				$object->setCurrentPath(dirname(__FILE__) . '/libs/groups/' . strtolower($group) . '/');
 			}
 		}
 		if ($object)

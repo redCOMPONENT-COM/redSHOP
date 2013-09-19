@@ -296,8 +296,7 @@ class mediaModelmedia extends JModel
 
 						// Non-image document
 						default:
-							$iconfile_32 = JPATH_ADMINISTRATOR . "/components/com_redshop" . DS
-								. "assets/images/mime-icon-32/" .$ext . ".png";
+							$iconfile_32 = JPATH_ADMINISTRATOR . "/components/com_redshop/assets/images/mime-icon-32/" . $ext . ".png";
 
 							if (file_exists($iconfile_32))
 							{
@@ -308,7 +307,7 @@ class mediaModelmedia extends JModel
 								$tmp->icon_32 = "components/com_redshop/assets/images/con_info.png";
 							}
 
-							$iconfile_16 = JPATH_ADMINISTRATOR . "/components/com_redshop/assets/images/mime-icon-16/" .$ext . ".png";
+							$iconfile_16 = JPATH_ADMINISTRATOR . "/components/com_redshop/assets/images/mime-icon-16/" . $ext . ".png";
 
 							if (file_exists($iconfile_16))
 							{
