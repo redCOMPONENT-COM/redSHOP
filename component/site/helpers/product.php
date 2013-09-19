@@ -20,10 +20,6 @@ JLoader::import('stockroom', JPATH_ADMINISTRATOR . '/components/com_redshop/help
 
 class producthelper
 {
-	public $_id = null;
-
-	public $_data = null;
-
 	public $_db = null;
 
 	public $_userdata = null;
@@ -68,11 +64,6 @@ class producthelper
 		$this->_session      = JFactory::getSession();
 	}
 
-	public function setId($id)
-	{
-		$this->_id = $id;
-	}
-
 	public function getWishlistmodule($menu_id)
 	{
 		$query = 'SELECT * FROM #__extensions WHERE element = "' . $menu_id . '" ';
@@ -92,26 +83,17 @@ class producthelper
 		return $result;
 	}
 
-	public function getProductById($product_id, $field_name = "", $test = '')
+	public function getProductById($product_id)
 	{
 		$query = $this->_db->getQuery(true);
 
 		$query->select(' * ');
-		$query->from($this->_table_prefix . 'product');
-		$query->where('product_id = "' . $product_id . '"');
+		$query->from($this->_db->quoteName($this->_table_prefix . 'product'));
+		$query->where($this->_db->quoteName('product_id') . ' = ' . (int)$product_id);
 
-		if ($this->_id != $product_id)
-		{
-			$this->_db->setQuery($query);
-			$this->setId($product_id);
-			$result = $this->_data = $this->_db->loadObject();
-		}
-		else
-		{
-			$result = $this->_data;
-		}
+		$this->_db->setQuery($query);
 
-		return $result;
+		return $this->_db->loadObject();
 	}
 
 	public function country_in_eu_common_vat_zone($country)
