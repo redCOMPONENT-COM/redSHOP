@@ -410,6 +410,7 @@ class AccountModelaccount extends JModel
 	{
 		$user        = JFactory::getUser();
 		$redshopMail = new redshopMail;
+		$redhelper   = new redhelper;
 
 		$wishlist_id = JRequest::getInt('wishlist_id');
 		$emailto     = $post['emailto'];
@@ -499,7 +500,8 @@ class AccountModelaccount extends JModel
 			{
 				foreach ($MyWishlist as $row)
 				{
-					$link          = JURI::root() . 'index.php?option=com_redshop&view=product&pid=' . $row->product_id . '&Itemid=' . $Itemid;
+					$Itemid        = $redhelper->getItemid($row->product_id);
+					$link          = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $row->product_id . '&Itemid=' . (int) $Itemid, true, -1);
 					$thum_image    = $producthelper->getProductImage($row->product_id, $link, $w_thumb, $h_thumb);
 					$pname         = $row->product_name;
 					$pname         = $pname;
