@@ -1538,7 +1538,7 @@ if (strstr($template_desc, "{product_rating}"))
 
 		for ($j = 0; $j < $mainblock && $j < count($reviews); $j++)
 		{
-			$fullname  = $reviews [$j]->firstname . " " . $reviews [$j]->lastname;
+			$fullname  = $reviews[$j]->firstname . " " . $reviews[$j]->lastname;
 			$starimage = '<img src="' . REDSHOP_ADMIN_IMAGES_ABSPATH . 'star_rating/' . $reviews[$j]->user_rating . '.gif">';
 
 			$reviews_data1 = str_replace("{fullname}", $fullname, $reviews_template);
