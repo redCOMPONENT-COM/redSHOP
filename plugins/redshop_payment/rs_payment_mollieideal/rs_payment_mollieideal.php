@@ -50,9 +50,6 @@ class plgRedshop_paymentrs_payment_mollieideal extends JPlugin
 
 		$app = JFactory::getApplication();
 		echo $this->show_mollie_ideal($data['order_id']);
-		/* 		$paymentpath=JPATH_SITE.DS.'plugins'.DS.'redshop_payment'.DS.$plugin.DS.$plugin.DS.'extra_info.php';
-				include $paymentpath;
-		*/
 	}
 
 	public function onNotifyPaymentrs_payment_mollieideal($element, $request)

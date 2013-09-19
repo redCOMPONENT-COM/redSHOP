@@ -327,9 +327,9 @@ class configurationController extends JController
 			$extra_field->deleteExtraFieldData($data_id);
 		}
 
-		if (JPATH_ROOT . DS . $spath . DS . $imname)
+		if (JPATH_ROOT . '/' . $spath . '/' . $imname)
 		{
-			unlink(JPATH_ROOT . DS . $spath . DS . $imname);
+			unlink(JPATH_ROOT . '/' . $spath . '/' . $imname);
 		}
 
 		exit;

@@ -149,7 +149,7 @@ class xmlimport_detailModelxmlimport_detail extends JModel
 			$destpath = JPATH_COMPONENT_SITE . "/assets/xmlfile/import";
 
 			$filename = JPath::clean($file['name']);
-			$dest = $destpath . DS . $filename;
+			$dest = $destpath . '/' . $filename;
 
 			JFile::upload($src, $dest);
 			$xmlimport_url = $dest;

@@ -698,7 +698,7 @@ class Product_DetailController extends JController
 			{
 				if (preg_match("/.jpg/", $filename) || preg_match("/.gif/", $filename) || preg_match("/.png/", $filename))
 				{
-					$live_path = $url . $dir_path . DS . $filename;
+					$live_path = $url . $dir_path . '/' . $filename;
 
 					$width = 0;
 					$height = 0;
@@ -725,7 +725,7 @@ class Product_DetailController extends JController
 
 					$tbl .= "<td width='25%'><table width='120' height='70' style='background-color:#C0C0C0;' cellspacing='1' cellpdding='1'>
 					<tr><td align='center' style='background-color:#FFFFFF;'>
-					<a href=\"javascript:window.parent.jimage_insert('" . $dir_path . DS . $filename . "');window.parent.SqueezeBox.close();\">
+					<a href=\"javascript:window.parent.jimage_insert('" . $dir_path . '/' . $filename . "');window.parent.SqueezeBox.close();\">
 					<img width='" . $width_60 . "' height='" . $height_60 . "' alt='" . $filename . "' src='" . $live_path . "'></a></td>
 					</tr><tr height='15'><td style='background-color:#F7F7F7;' align='center'><label>" . substr($filename, 0, 10) . "</label>
 					</td></tr></table></td>";

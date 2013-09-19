@@ -77,12 +77,12 @@ class Media_DetailController extends JController
 
 				if ($post['media_type'] != $post['oldtype'])
 				{
-					$old_path = JPATH_COMPONENT_SITE . '/assets/' . $post['oldtype'] . DS . $post['media_section'] . DS . $post['media_name'];
+					$old_path = JPATH_COMPONENT_SITE . '/assets/' . $post['oldtype'] . '/' . $post['media_section'] . '/' . $post['media_name'];
 					$old_thumb_path = JPATH_COMPONENT_SITE . '/assets/' . $post['oldtype']
-						. DS . $post['media_section'] . '/thumb/' . $post['media_name'];
+						. '/' . $post['media_section'] . '/thumb/' . $post['media_name'];
 
 					$new_path = JPATH_COMPONENT_SITE . '/assets/' . $post['media_type']
-						. DS . $post['media_section'] . DS . time() . '_' . $post['media_name'];
+						. '/' . $post['media_section'] . '/' . time() . '_' . $post['media_name'];
 
 					copy($old_path, $new_path);
 
@@ -160,13 +160,13 @@ class Media_DetailController extends JController
 				else
 				{
 					$post['media_name'] = $filename;
-					$dest = JPATH_COMPONENT_SITE . '/assets/' . $post['media_type'] . DS . $post['media_section'] . DS . $filename;
+					$dest = JPATH_COMPONENT_SITE . '/assets/' . $post['media_type'] . '/' . $post['media_section'] . '/' . $filename;
 				}
 
 				$model->store($post);
 
 				// Image Upload
-				$src = JPATH_ROOT . DS . $post['media_bank_image'];
+				$src = JPATH_ROOT . '/' . $post['media_bank_image'];
 				copy($src, $dest);
 
 				// 	Media Bank End
@@ -208,7 +208,7 @@ class Media_DetailController extends JController
 				}
 				else
 				{
-					$download_path = "product" . DS . $post['hdn_download_file'];
+					$download_path = "product" . '/' . $post['hdn_download_file'];
 					$post['media_name'] = $post['hdn_download_file'];
 				}
 
@@ -232,9 +232,9 @@ class Media_DetailController extends JController
 					{
 						$post['media_name'] = $filename;
 
-						$down_src = JPATH_COMPONENT_SITE . '/assets/' . $post['media_type'] . DS . $post['hdn_download_file_path'];
+						$down_src = JPATH_COMPONENT_SITE . '/assets/' . $post['media_type'] . '/' . $post['hdn_download_file_path'];
 
-						$down_dest = JPATH_COMPONENT_SITE . '/assets/' . $post['media_type'] . DS . $post['media_section'] . DS . $post['media_name'];
+						$down_dest = JPATH_COMPONENT_SITE . '/assets/' . $post['media_type'] . '/' . $post['media_section'] . '/' . $post['media_name'];
 					}
 
 					copy($down_src, $down_dest);
@@ -285,13 +285,13 @@ class Media_DetailController extends JController
 				else
 				{
 					$post['media_name'] = $filename;
-					$dest = JPATH_COMPONENT_SITE . '/assets/' . $post['media_type'] . DS . $post['media_section'] . DS . $filename;
+					$dest = JPATH_COMPONENT_SITE . '/assets/' . $post['media_type'] . '/' . $post['media_section'] . '/' . $filename;
 				}
 
 				$model->store($post);
 
 				// Image Upload
-				$src = JPATH_ROOT . DS . $post['media_bank_image'];
+				$src = JPATH_ROOT . '/' . $post['media_bank_image'];
 				copy($src, $dest);
 
 				if (isset($post['set']) && $post['media_section'] != 'manufacturer' && $post['oldmedia'] == "")

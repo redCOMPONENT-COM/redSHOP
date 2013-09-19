@@ -59,7 +59,7 @@ class plgredshop_shippingshipwire extends JPlugin
 	{
 		if ($d['element'] == $this->classname)
 		{
-			$maincfgfile = JPATH_ROOT . '/plugins/' . $d['plugin'] . DS . $this->classname . '.cfg.php';
+			$maincfgfile = JPATH_ROOT . '/plugins/' . $d['plugin'] . '/' . $this->classname . '.cfg.php';
 
 			$my_config_array = array(
 				"SHIPWIRE_EMAIL"    => $d['SHIPWIRE_EMAIL'],

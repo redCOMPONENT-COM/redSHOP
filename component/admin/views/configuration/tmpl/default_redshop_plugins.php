@@ -27,7 +27,7 @@ defined('_JEXEC') or die ('Restricted access');
 				?>
 				<tr>
 					<td><strong><?php echo JText::_($getinstalledplugins->name);?></strong></td>
-					<td><?php echo (JFile::exists(JPATH_PLUGINS . '/redshop_payment/' . $getinstalledplugins->element . DS . $getinstalledplugins->element . '.php')) ? JText::_('COM_REDSHOP_INSTALLED') : JText::_('COM_REDSHOP_NOT_INSTALLED');?></td>
+					<td><?php echo (JFile::exists(JPATH_PLUGINS . '/redshop_payment/' . $getinstalledplugins->element . '/' . $getinstalledplugins->element . '.php')) ? JText::_('COM_REDSHOP_INSTALLED') : JText::_('COM_REDSHOP_NOT_INSTALLED');?></td>
 
 					<td align="center"><?php echo ($getinstalledplugins->enabled) ? "<img src='../administrator/components/com_redshop/assets/images/tick.png' />" : "<img src='../administrator/components/com_redshop/assets/images/publish_x.png' />";?></td>
 

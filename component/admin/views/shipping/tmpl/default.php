@@ -88,7 +88,7 @@ $ordering = ($this->lists['order'] == 'ordering');
 
 				$adminpath = JPATH_ROOT . '/plugins';
 
-				$paymentxml = $adminpath . DS . $row->folder . DS . $row->element . '.xml';
+				$paymentxml = $adminpath . '/' . $row->folder . '/' . $row->element . '.xml';
 
 				$xml = JFactory::getXMLParser('Simple');
 
