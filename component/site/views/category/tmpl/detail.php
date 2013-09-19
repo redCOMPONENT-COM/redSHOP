@@ -699,7 +699,23 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 		$data_add     = str_replace("{product_height}", $producthelper->redunitDecimal($product->product_height) . "&nbsp;" . $product_unit, $data_add);
 
 		$data_add   = $producthelper->replaceVatinfo($data_add);
-		$link       = JRoute::_('index.php?option=' . $option . '&view=product&pid=' . $product->product_id . '&cid=' . $catid . '&Itemid=' . $pItemid);
+
+		$specificLink = $this->dispatcher->trigger('createProductLink', array($product));
+
+		if (empty($specificLink))
+		{
+			$link = JRoute::_(
+				'index.php?option=' . $this->option .
+				'&view=product&pid=' . $product->product_id .
+				'&cid=' . $this->catid .
+				'&Itemid=' . $pItemid
+			);
+		}
+		else
+		{
+			$link = $specificLink[0];
+		}
+
 		$pname      = $Redconfiguration->maxchar($product->product_name, CATEGORY_PRODUCT_TITLE_MAX_CHARS, CATEGORY_PRODUCT_TITLE_END_SUFFIX);
 		$product_nm = $pname;
 
@@ -710,7 +726,7 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 
 		if (strstr($data_add, '{product_name}'))
 		{
-			$pname    = "<a href='" . $link[0] . "' title='" . $product->product_name . "'>" . $pname . "</a>";
+			$pname    = "<a href='" . $link . "' title='" . $product->product_name . "'>" . $pname . "</a>";
 			$data_add = str_replace("{product_name}", $pname, $data_add);
 		}
 
