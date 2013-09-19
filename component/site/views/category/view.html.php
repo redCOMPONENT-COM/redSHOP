@@ -340,7 +340,7 @@ class CategoryViewCategory extends JView
 		$prodhelperobj->generateBreadcrumb($this->catid);
 		$disabled = "";
 
-		if ($print)
+		if ($this->input->getInt('print', 0))
 		{
 			$disabled = "disabled";
 		}
