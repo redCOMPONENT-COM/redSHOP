@@ -28,8 +28,7 @@ $stockroomhelper = new rsstockroomhelper;
 
 if (PRODUCT_COMPARISON_TYPE == 'category')
 {
-	$session         = JFactory::getSession();
-	$compare_product = $session->get('compare_product');
+	$compare_product = $this->session->get('compare_product');
 	$catid           = $compare_product[0]['category_id'];
 	$cid             = $this->input->getInt('cid', null);
 
