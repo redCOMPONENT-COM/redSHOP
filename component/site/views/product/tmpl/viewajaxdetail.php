@@ -21,8 +21,8 @@ $url = JURI::base();
 $model              = $this->getModel('product');
 $document           = JFactory::getDocument();
 $session            = JFactory::getSession();
-$layout             = JRequest::getCmd('layout');
-$relatedprd_id      = JRequest::getInt('relatedprd_id', 0);
+$layout             = $this->input->getString('layout', '');
+$relatedprd_id      = $this->input->getInt('relatedprd_id', 0);
 $ajaxdetal_template = $producthelper->getAjaxDetailboxTemplate($this->data);
 
 ?>
@@ -36,9 +36,13 @@ if (count($ajaxdetal_template) > 0)
 	$data_add               = str_replace('{product_name}', $this->data->product_name, $data_add);
 
 	if ($this->data->product_price != 0)
+	{
 		$data_add = str_replace('{product_price}', $this->data->product_price, $data_add);
+	}
 	else
+	{
 		$data_add = str_replace('{product_price}', " ", $data_add);
+	}
 
 	if (strstr($data_add, "{product_image}"))
 	{
@@ -66,16 +70,16 @@ if (count($ajaxdetal_template) > 0)
 
 	$count_no_user_field = 0;
 
-	$extrafieldNames = JRequest::getString('extrafieldNames', '');
-	$nextrafield     = JRequest::getInt('nextrafield', 1);
+	$extrafieldNames = $this->input->getString('extrafieldNames', '');
+	$nextrafield     = $this->input->getInt('nextrafield', 1);
 
 	$data                         = array();
-	$data['property_data']        = JRequest::getString('property_data');
-	$data['subproperty_data']     = JRequest::getString('subproperty_data');
-	$data['accessory_data']       = JRequest::getString('accessory_data');
-	$data['acc_quantity_data']    = JRequest::getString('acc_quantity_data');
-	$data['acc_property_data']    = JRequest::getString('acc_property_data');
-	$data['acc_subproperty_data'] = JRequest::getString('acc_subproperty_data');
+	$data['property_data']        = $this->input->getString('property_data', '');
+	$data['subproperty_data']     = $this->input->getString('subproperty_data', '');
+	$data['accessory_data']       = $this->input->getString('accessory_data', '');
+	$data['acc_quantity_data']    = $this->input->getString('acc_quantity_data', '');
+	$data['acc_property_data']    = $this->input->getString('acc_property_data', '');
+	$data['acc_subproperty_data'] = $this->input->getString('acc_subproperty_data', '');
 
 	$selectAcc = $producthelper->getSelectedAccessoryArray($data);
 	$selectAtt = $producthelper->getSelectedAttributeArray($data);

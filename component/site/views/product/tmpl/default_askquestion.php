@@ -23,8 +23,7 @@ if ($user->id)
 	$uemail = $user->email;
 }
 
-$ask = JRequest::getInt('ask');
-$category_id = JRequest::getInt('category_id');
+$category_id = $this->input->getInt('category_id', null);
 $document = JFactory::getDocument();
 JHTML::Script('jquery.tools.min.js', 'components/com_redshop/assets/js/', false);
 

@@ -16,7 +16,7 @@ require_once JPATH_SITE . '/components/com_redshop/helpers/extra_field.php';
 
 $producthelper = new producthelper;
 
-$print  = JRequest::getInt('print');
+$print  = $this->input->getBool('print', false);
 $model  = $this->getModel('product');
 $user   = JFactory::getUser();
 
@@ -32,14 +32,18 @@ if (PRODUCT_COMPARISON_TYPE == 'category')
 	$session         = JFactory::getSession();
 	$compare_product = $session->get('compare_product');
 	$catid           = $compare_product[0]['category_id'];
-	$cid             = JRequest::getInt('cid');
+	$cid             = $this->input->getInt('cid', null);
 
 	$template_id = $producthelper->getCategoryCompareTemplate($catid);
 
 	if ($template_id == "")
+	{
 		$compare_template = $this->redTemplate->getTemplate("compare_product", COMPARE_TEMPLATE_ID);
+	}
 	else
+	{
 		$compare_template = $this->redTemplate->getTemplate("compare_product", $template_id);
+	}
 }
 else
 {

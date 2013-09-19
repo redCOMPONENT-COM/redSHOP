@@ -16,7 +16,7 @@ $url             = JURI::base();
 $u               = JURI::getInstance();
 $Scheme          = $u->getScheme();
 
-$print           = JRequest::getInt('print');
+$print           = $this->input->getBool('print', false);
 $model           = $this->getModel('product');
 $user            = JFactory::getUser();
 $session         = JFactory::getSession();

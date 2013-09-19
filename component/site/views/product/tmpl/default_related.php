@@ -13,7 +13,7 @@ $producthelper = new producthelper;
 $config        = new Redconfiguration;
 
 $related_product  = $producthelper->getRelatedProduct($this->pid);
-$template         = JRequest::getWord('template', '');
+$template         = $this->input->getString('template', '');
 $relptemplate     = $this->redTemplate->getTemplate("related_product", 0, $template);
 $related_template = $relptemplate[0]->template_desc;
 
