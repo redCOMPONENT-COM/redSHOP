@@ -129,7 +129,7 @@ if (!class_exists('LofSliderGroupBase'))
 					$image_quanlity = 100;
 				}
 				$path       = str_replace(JURI::base(), '', $path);
-				$imagSource = JPATH_SITE . DS . str_replace('/', DS, $path);
+				$imagSource = JPATH_SITE . '/' . str_replace('/', DS, $path);
 
 				if (file_exists($imagSource))
 				{

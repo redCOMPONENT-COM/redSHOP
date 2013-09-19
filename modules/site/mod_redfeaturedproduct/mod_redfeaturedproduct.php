@@ -14,7 +14,7 @@ JHTMLBehavior::modal();
 // Getting the configuration in redshop.js.php
 require_once  JPATH_ROOT . '/components/com_redshop/helpers/redshop.js.php';
 
-require_once  JPATH_ROOT.DS.'components'.DS.'com_redshop'.DS.'helpers'.DS.'redshop.js.php' ;
+require_once  JPATH_ROOT. '/components'. '/com_redshop'. '/helpers'. '/redshop.js.php' ;
 
 global $Redconfiguration;
 $Redconfiguration = new Redconfiguration;

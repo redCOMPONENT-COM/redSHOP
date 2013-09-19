@@ -30,7 +30,7 @@ class JFormFieldLofgroupfolder extends JFormField
 	{
 		jimport('joomla.filesystem.folder');
 		// path to images directory
-		$path    = JPATH_ROOT . DS . $this->element['directory'];
+		$path    = JPATH_ROOT . '/' . $this->element['directory'];
 		$filter  = $this->element['filter'];
 		$exclude = $this->element['exclude'];
 		$folders = JFolder::folders($path, $filter);

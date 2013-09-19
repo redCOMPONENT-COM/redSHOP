@@ -350,7 +350,7 @@ class plgRedshop_paymentrs_payment_epayv2 extends JPlugin
 		$paymentparams = new JRegistry($paymentinfo->params);
 
 		// Get the class
-		$paymentpath = JPATH_SITE . '/plugins/redshop_payment/' . $element . DS . $element . '/epaysoap.php';
+		$paymentpath = JPATH_SITE . '/plugins/redshop_payment/' . $element . '/' . $element . '/epaysoap.php';
 		include $paymentpath;
 
 		// Access the webservice
@@ -387,7 +387,7 @@ class plgRedshop_paymentrs_payment_epayv2 extends JPlugin
 		$paymentparams = new JRegistry($paymentinfo->params);
 
 		// Get the class
-		$paymentpath = JPATH_SITE . '/plugins/redshop_payment/' . $element . DS . $element . '/epaysoap.php';
+		$paymentpath = JPATH_SITE . '/plugins/redshop_payment/' . $element . '/' . $element . '/epaysoap.php';
 		include $paymentpath;
 
 		// Access the webservice
