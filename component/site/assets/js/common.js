@@ -484,15 +484,6 @@ function changeproductImage(product_id,imgPath,ahrefpath)
 	}
 }
 
-function changeproductPreviewImage(product_id,imgPath)
-{
-	if(document.getElementById('rs_previewImg_id_'+product_id))
-	{
-		document.getElementById('rs_previewImg_id_'+product_id).src=imgPath;
-	}
-}
-
-
 /********************NEW REGISTRATION FUNCTION*************************/
 
 function billingIsShipping(obj)
