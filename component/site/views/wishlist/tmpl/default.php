@@ -49,8 +49,10 @@ $Itemid = JRequest::getInt('Itemid');
 					       onclick="checkValidation()"/>&nbsp;
 					<?php
 					if (JRequest::getInt('loginwishlist') == 1) : ?>
+
+					<?php
 						$mywishlist_link = JRoute::_('index.php?view=wishlist&task=viewwishlist&option=com_redshop&Itemid=' . $Itemid);
-						?>
+					?>
 						<a href="<?PHP echo $mywishlist_link; ?>"><input type="button"
 						                                                 value="<?php echo JText::_('COM_REDSHOP_CANCEL'); ?>"/></a>
 					<?php else : ?>
