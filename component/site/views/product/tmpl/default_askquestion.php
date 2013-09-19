@@ -23,7 +23,6 @@ if ($user->id)
 	$uemail = $user->email;
 }
 
-$Itemid = JRequest::getInt('Itemid');
 $pid = JRequest::getInt('pid');
 $ask = JRequest::getInt('ask');
 $category_id = JRequest::getInt('category_id');
@@ -93,6 +92,6 @@ else
 		<input type="hidden" name="question_date" id="question_date" value="<?php echo time(); ?>"/>
 		<input type="hidden" name="option" id="option" value="com_redshop"/>
 		<input type="hidden" name="category_id" id="category_id" value="<?php echo $category_id; ?>"/>
-		<input type="hidden" name="Itemid" id="Itemid" value="<?php echo $Itemid; ?>"/>
+		<input type="hidden" name="Itemid" id="Itemid" value="<?php echo $this->itemId; ?>"/>
 	</form>
 </div>
