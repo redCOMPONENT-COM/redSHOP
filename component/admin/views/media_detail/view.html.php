@@ -98,7 +98,7 @@ class media_detailVIEWmedia_detail extends JView
 			$detail->section_id = $section_id;
 		}
 
-		$lists['type'] = JHTML::_('select.genericlist', $optiontype, 'media_type', 'class="inputbox" size="1" ', 'value', 'text', $detail->media_type, '0');
+		$lists['type'] = JHTML::_('select.genericlist', $optiontype, 'media_type', 'class="inputbox" size="1" onchange="change_type(this.value);"', 'value', 'text', $detail->media_type, '0');
 
 		if ($detail->media_id == 0)
 		{
@@ -118,6 +118,54 @@ class media_detailVIEWmedia_detail extends JView
 		$lists['bulk'] = JHTML::_('select.genericlist', $optionbulk, 'bulk',
 			'class="inputbox" size="1" onchange="media_bulk(this)" title="' . $option . '" ',
 			'value', 'text', 'no'
+		);
+
+		$optionprovider = array();
+		$optionprovider[] = JHTML::_('select.option', 'youtube', 'Youtube');
+		$optionprovider[] = JHTML::_('select.option', 'vimeo', 'Vimeo');
+		$optionprovider[] = JHTML::_('select.option', 'dailymotion', 'Dailymotion');
+		$optionprovider[] = JHTML::_('select.option', 'google', 'Google');
+		$optionprovider[] = JHTML::_('select.option', 'blip', 'Blip');
+		$optionprovider[] = JHTML::_('select.option', '123video', '123video');
+		$optionprovider[] = JHTML::_('select.option', 'aniboom', 'Aniboom');
+		$optionprovider[] = JHTML::_('select.option', 'collegehumor', 'Collegehumor');
+		$optionprovider[] = JHTML::_('select.option', 'dotsub', 'Dotsub');
+		$optionprovider[] = JHTML::_('select.option', 'flickr', 'Flickr');
+		$optionprovider[] = JHTML::_('select.option', 'funnyordie', 'Funnyordie');
+		$optionprovider[] = JHTML::_('select.option', 'gametrailers', 'Gametrailers');
+		$optionprovider[] = JHTML::_('select.option', 'goal4replay', 'Goal4replay');
+		$optionprovider[] = JHTML::_('select.option', 'godtube', 'Godtube');
+		$optionprovider[] = JHTML::_('select.option', 'grindtv', 'Grindtv');
+		$optionprovider[] = JHTML::_('select.option', 'justin', 'Justin');
+		$optionprovider[] = JHTML::_('select.option', 'kewego', 'Kewego');
+		$optionprovider[] = JHTML::_('select.option', 'ku6', 'Ku6');
+		$optionprovider[] = JHTML::_('select.option', 'liveleak', 'Liveleak');
+		$optionprovider[] = JHTML::_('select.option', 'livevideo', 'Livevideo');
+		$optionprovider[] = JHTML::_('select.option', 'metacafe', 'Metacafe');
+		$optionprovider[] = JHTML::_('select.option', 'myspace', 'Myspace');
+		$optionprovider[] = JHTML::_('select.option', 'myvideo', 'Myvideo');
+		$optionprovider[] = JHTML::_('select.option', 'sapo', 'Sapo');
+		$optionprovider[] = JHTML::_('select.option', 'screenr', 'Screenr');
+		$optionprovider[] = JHTML::_('select.option', 'sevenload', 'Sevenload');
+		$optionprovider[] = JHTML::_('select.option', 'sohu', 'Sohu');
+		$optionprovider[] = JHTML::_('select.option', 'soundcloud', 'Soundcloud');
+		$optionprovider[] = JHTML::_('select.option', 'southpark', 'Southpark');
+		$optionprovider[] = JHTML::_('select.option', 'stupidvideos', 'Stupidvideos');
+		$optionprovider[] = JHTML::_('select.option', 'tnaondemand', 'Tnaondemand');
+		$optionprovider[] = JHTML::_('select.option', 'tudou', 'Tudou');
+		$optionprovider[] = JHTML::_('select.option', 'twitvid', 'Twitvid');
+		$optionprovider[] = JHTML::_('select.option', 'ustream', 'Ustream');
+		$optionprovider[] = JHTML::_('select.option', 'vbox7', 'Vbox7');
+		$optionprovider[] = JHTML::_('select.option', 'veevr', 'Veevr');
+		$optionprovider[] = JHTML::_('select.option', 'veoh', 'Veoh');
+		$optionprovider[] = JHTML::_('select.option', 'vidiac', 'Vidiac');
+		$optionprovider[] = JHTML::_('select.option', 'yahoo', 'Yahoo');
+		$optionprovider[] = JHTML::_('select.option', 'yfrog', 'Yfrog');
+		$optionprovider[] = JHTML::_('select.option', 'youmaker', 'Youmaker');
+
+		$lists['video_provider'] = JHTML::_('select.genericlist', $optionprovider, 'video_provider',
+			'class="inputbox" size="1" style="width:100px;"',
+			'value', 'text', $detail->media_mimetype, 'video_provider'
 		);
 
 		$this->lists = $lists;

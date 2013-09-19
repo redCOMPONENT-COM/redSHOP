@@ -5,7 +5,7 @@
 	<div class="redSHOP_product_box clearfix">
 		<div class="redSHOP_product_box_left">
 			<div class="product_image">{product_thumb_image}</div>
-			<div class="product_more_images">{more_images}</div>
+			<div class="product_more_images">{more_images}{more_videos_lightbox}</div>
 			<div class="redSHOP_links">
 				<span>{ask_question_about_product}</span>
 
@@ -61,6 +61,10 @@
 <div class="gd_content clearfix">
 	<div>{product_rating_summary}</div>
 	<div>{form_rating}</div>
+</div>
+
+<div class="product_more_videos">
+	{more_videos}
 </div>
 
 <div>&nbsp;</div>

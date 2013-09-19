@@ -1,0 +1,1 @@
+ALTER IGNORE TABLE `#__redshop_media` ADD COLUMN `extra_video` TEXT AFTER `media_mimetype`;

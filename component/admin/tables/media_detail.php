@@ -11,24 +11,6 @@ defined('_JEXEC') or die;
 
 class Tablemedia_detail extends JTable
 {
-	public $media_id = null;
-
-	public $media_name = null;
-
-	public $media_alternate_text = null;
-
-	public $media_section = null;
-
-	public $section_id = null;
-
-	public $media_type = null;
-
-	public $media_mimetype = null;
-
-	public $published = null;
-
-	public $ordering = null;
-
 	public function __construct(&$db)
 	{
 		$this->_table_prefix = '#__redshop_';
@@ -43,6 +25,13 @@ class Tablemedia_detail extends JTable
 			$registry = new JRegistry;
 			$registry->loadArray($array['params']);
 			$array['params'] = $registry->toString();
+		}
+
+		if (array_key_exists('extra_video', $array) && is_array($array['extra_video']))
+		{
+			$registry = new JRegistry;
+			$registry->loadArray($array['extra_video']);
+			$array['extra_video'] = $registry->toString();
 		}
 
 		return parent::bind($array, $ignore);

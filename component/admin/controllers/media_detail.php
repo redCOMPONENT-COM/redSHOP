@@ -21,6 +21,11 @@ jimport('joomla.filesystem.archive');
  */
 class Media_DetailController extends JController
 {
+	public $app;
+
+	public $input;
+
+	public $option;
 	/**
 	 * Media Detail Constructor
 	 *
@@ -29,7 +34,12 @@ class Media_DetailController extends JController
 	public function __construct($default = array())
 	{
 		parent::__construct($default);
+
 		$this->registerTask('add', 'edit');
+
+		$this->app    = JFactory::getApplication();
+		$this->input  = $this->app->input;
+		$this->option = $this->input->getString('option', 'com_redshop');
 	}
 
 	/**
@@ -39,9 +49,10 @@ class Media_DetailController extends JController
 	 */
 	public function edit()
 	{
-		JRequest::setVar('view', 'media_detail');
-		JRequest::setVar('layout', 'default');
-		JRequest::setVar('hidemainmenu', 1);
+		$this->input->set('view', 'media_detail');
+		$this->input->set('layout', 'default');
+		$this->input->set('hidemainmenu', 1);
+
 		parent::display();
 	}
 
@@ -52,9 +63,8 @@ class Media_DetailController extends JController
 	 */
 	public function save()
 	{
-		$post = JRequest::get('post');
-		$option = JRequest::getVar('option');
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$post = $this->input->getArray($_POST);
+		$cid = $this->input->post->get('cid', array(), 'array');
 		$model = $this->getModel('media_detail');
 
 		$product_download_root = PRODUCT_DOWNLOAD_ROOT;
@@ -64,11 +74,79 @@ class Media_DetailController extends JController
 			$product_download_root = PRODUCT_DOWNLOAD_ROOT . DS;
 		}
 
-		$bulkfile = JRequest::getVar('bulkfile', null, 'files', 'array');
+		$bulkfile = $this->input->files->get('bulkfile');
 		$bulkfiletype = strtolower(JFile::getExt($bulkfile['name']));
-		$file = JRequest::getVar('file', 'array', 'files', 'array');
+		$file = $this->input->files->get('file');
 
-		if ($bulkfile['name'] == null && $file['name'][0] == null && $post['oldmedia'] != "")
+		// Post a video
+		if ($post['media_type'] == 'video')
+		{
+			$post['media_id'] = $cid[0];
+			$video_file_name = "";
+
+			if (!empty($post['video_text']))
+			{
+				$post['media_name'] = $post['video_text'];
+				$post['media_mimetype'] = $post['video_provider'];
+			}
+			else
+			{
+				$post['media_name'] = $post['oldvideo_file'];
+				$video_file = $this->input->files->get('video_file');
+
+				if (!empty($video_file['name']))
+				{
+					$src = $video_file['tmp_name'];
+					$video_file_name = time() . '_' . $video_file['name'];
+					$dest = JPATH_ROOT . '/components/' . $this->option . '/assets/' . $post['media_type'] . '/' . $post['media_section'] . '/' . $video_file_name;
+					JFile::upload($src, $dest);
+					$post['media_name'] = $video_file_name;
+					$filenewtype = strtolower(JFile::getExt($video_file['name']));
+					$post['media_mimetype'] = $filenewtype;
+				}
+			}
+
+			if (!empty($post['media_name']))
+			{
+				$video_thumb = $this->input->files->get('video_thumb');
+				$video_thumb_name = $post['oldvideo_thumb'];
+
+				if (!empty($video_thumb['name']))
+				{
+					$src = $video_thumb['tmp_name'];
+					$video_thumb_name = time() . '_' . $video_thumb['name'];
+					$dest = JPATH_ROOT . '/components/' . $this->option . '/assets/images/' . $post['media_section'] . '/' . $video_thumb_name;
+					JFile::upload($src, $dest);
+				}
+
+				$post['media_name'] = $video_thumb_name;
+
+				$post['extra_video'] = array(
+											'video_text' 	  => $post['video_text'],
+											'video_file'      => $video_file_name,
+											'video_thumb' 	  => $video_thumb_name
+										);
+
+				if ($save = $model->store($post))
+				{
+					$msg = JText::_('COM_REDSHOP_MEDIA_DETAIL_SAVED');
+				}
+				else
+				{
+					$msg = JText::_('COM_REDSHOP_ERROR_SAVING_MEDIA_DETAIL');
+				}
+			}
+			else
+			{
+				$msg = JText::_('COM_REDSHOP_ERROR_SAVING_MEDIA_DETAIL');
+			}
+
+			$this->setRedirect('index.php?tmpl=component&option=com_redshop&view=media&section_id='
+								. $post['section_id'] . '&showbuttons=1&section_name='
+								. $post['section_name'] . '&media_section=' . $post['media_section'], $msg
+							);
+		}
+		elseif ($bulkfile['name'] == null && $file[0]['name'] == null && $post['oldmedia'] != "")
 		{
 			if ($post['media_bank_image'] == "")
 			{
@@ -107,14 +185,14 @@ class Media_DetailController extends JController
 
 						elseif (isset($post['set']) && $post['media_section'] == 'manufacturer')
 						{
-							$link = 'index.php?option=' . $option . '&view=manufacturer';        ?>
+							$link = 'index.php?option=' . $this->option . '&view=manufacturer';        ?>
 							<script language="javascript" type="text/javascript">
 								window.parent.document.location = '<?php echo $link; ?>';
 							</script><?php
 						}
 						else
 						{
-							$this->setRedirect('index.php?option=' . $option . '&view=media', $msg);
+							$this->setRedirect('index.php?option=' . $this->option . '&view=media', $msg);
 						}
 					}
 				}
@@ -124,14 +202,14 @@ class Media_DetailController extends JController
 
 					if (isset($post['set']))
 					{
-						$this->setRedirect('index.php?tmpl=component&option=' . $option . '&view=media_detail&section_id='
+						$this->setRedirect('index.php?tmpl=component&option=' . $this->option . '&view=media_detail&section_id='
 							. $post['section_id'] . '&showbuttons=1&section_name='
 							. $post['section_name'] . '&media_section=' . $post['media_section'], $msg
 						);
 					}
 					else
 					{
-						$this->setRedirect('index.php?option=' . $option . '&view=media_detail', $msg);
+						$this->setRedirect('index.php?option=' . $this->option . '&view=media_detail', $msg);
 					}
 				}
 			}
@@ -172,21 +250,21 @@ class Media_DetailController extends JController
 				// 	Media Bank End
 				if (isset($post['set']) && $post['media_section'] != 'manufacturer')
 				{
-					$this->setRedirect('index.php?tmpl=component&option=' . $option . '&view=media&section_id='
+					$this->setRedirect('index.php?tmpl=component&option=' . $this->option . '&view=media&section_id='
 						. $post['section_id'] . '&showbuttons=1&section_name='
 						. $post['section_name'] . '&media_section=' . $post['media_section'], $msg
 					);
 				}
 				elseif (isset($post['set']) && $post['media_section'] == 'manufacturer')
 				{
-					$link = 'index.php?option=' . $option . '&view=manufacturer';        ?>
+					$link = 'index.php?option=' . $this->option . '&view=manufacturer';        ?>
 					<script language="javascript" type="text/javascript">
 						window.parent.document.location = '<?php echo $link; ?>';
 					</script><?php
 				}
 				else
 				{
-					$this->setRedirect('index.php?option=' . $option . '&view=media', $msg);
+					$this->setRedirect('index.php?option=' . $this->option . '&view=media', $msg);
 				}
 			}
 		}
@@ -247,7 +325,7 @@ class Media_DetailController extends JController
 					// Set First Image as product Main Imaged
 					if ($save->media_section == 'product')
 					{
-						$this->setRedirect('index.php?tmpl=component&option=' . $option . '&view=media_detail', $msg);
+						$this->setRedirect('index.php?tmpl=component&option=' . $this->option . '&view=media_detail', $msg);
 					}
 				}
 				else
@@ -256,14 +334,14 @@ class Media_DetailController extends JController
 
 					if (isset($post['set']))
 					{
-						$this->setRedirect('index.php?tmpl=component&option=' . $option
+						$this->setRedirect('index.php?tmpl=component&option=' . $this->option
 							. '&view=media_detail&section_id=' . $post['section_id'] . '&showbuttons=1&section_name='
 							. $post['section_name'] . '&media_section=' . $post['media_section'], $msg
 						);
 					}
 					else
 					{
-						$this->setRedirect('index.php?option=' . $option . '&view=media_detail', $msg);
+						$this->setRedirect('index.php?option=' . $this->option . '&view=media_detail', $msg);
 					}
 				}
 			}
@@ -296,21 +374,21 @@ class Media_DetailController extends JController
 
 				if (isset($post['set']) && $post['media_section'] != 'manufacturer' && $post['oldmedia'] == "")
 				{
-					$this->setRedirect('index.php?tmpl=component&option=' . $option
+					$this->setRedirect('index.php?tmpl=component&option=' . $this->option
 						. '&view=media&section_id=' . $post['section_id'] . '&showbuttons=1&section_name='
 						. $post['section_name'] . '&media_section=' . $post['media_section'], $msg
 					);
 				}
 				elseif (isset($post['set']) && $post['media_section'] == 'manufacturer')
 				{
-					$link = 'index.php?option=' . $option . '&view=manufacturer';        ?>
+					$link = 'index.php?option=' . $this->option . '&view=manufacturer';        ?>
 					<script language="javascript" type="text/javascript">
 						window.parent.document.location = '<?php echo $link; ?>';
 					</script><?php
 				}
 				else
 				{
-					$this->setRedirect('index.php?option=' . $option . '&view=media', $msg);
+					$this->setRedirect('index.php?option=' . $this->option . '&view=media', $msg);
 				}
 			}
 
@@ -321,7 +399,7 @@ class Media_DetailController extends JController
 			if ($directory == 0)
 			{
 				$msg = JText::_('COM_REDSHOP_PLEASE_CHECK_DIRECTORY_PERMISSION');
-				JError::raiseWarning(403, $msg);
+				$this->app->enqueueMessage($msg, 'error');
 			}
 
 			// Starting of Bull upload creation
@@ -331,17 +409,17 @@ class Media_DetailController extends JController
 				{
 					// Fix the width of the thumb nail images
 					$src = $bulkfile['tmp_name'];
-					$dest = JPATH_ROOT . '/components/' . $option . '/assets/' . $post['media_type'] . '/' . $post['media_section'] . '/'
+					$dest = JPATH_ROOT . '/components/' . $this->option . '/assets/' . $post['media_type'] . '/' . $post['media_section'] . '/'
 						. $bulkfile['name'];
 					$file_upload = JFile::upload($src, $dest);
 
 					if ($file_upload != 1)
 					{
 						$msg = JText::_('COM_REDSHOP_PLEASE_CHECK_DIRECTORY_PERMISSION');
-						JError::raiseWarning(403, $msg);
+						$this->app->enqueueMessage($msg, 'error');
 					}
 
-					$target = 'components/' . $option . '/assets/media/extracted/' . $bulkfile['name'];
+					$target = 'components/' . $this->option . '/assets/media/extracted/' . $bulkfile['name'];
 					JArchive::extract($dest, $target);
 					$name = explode('.', $bulkfile['name']);
 					$scan = scandir($target);
@@ -373,21 +451,21 @@ class Media_DetailController extends JController
 
 										if (isset($post['set']) && $post['media_section'] != 'manufacturer')
 										{
-											$this->setRedirect('index.php?tmpl=component&option=' . $option . '&view=media&section_id='
+											$this->setRedirect('index.php?tmpl=component&option=' . $this->option . '&view=media&section_id='
 												. $post['section_id'] . '&showbuttons=1&section_name=' . $post['section_name']
 												. '&media_section=' . $post['media_section'], $msg
 											);
 										}
 										elseif (isset($post['set']) && $post['media_section'] == 'manufacturer')
 										{
-											$link = 'index.php?option=' . $option . '&view=manufacturer';    ?>
+											$link = 'index.php?option=' . $this->option . '&view=manufacturer';    ?>
 											<script language="javascript" type="text/javascript">
 												window.parent.document.location = '<?php echo $link; ?>';
 											</script><?php
 										}
 										else
 										{
-											$this->setRedirect('index.php?option=' . $option . '&view=media', $msg);
+											$this->setRedirect('index.php?option=' . $this->option . '&view=media', $msg);
 										}
 									}
 									else
@@ -396,14 +474,14 @@ class Media_DetailController extends JController
 
 										if (isset($post['set']))
 										{
-											$this->setRedirect('index.php?tmpl=component&option=' . $option . '&view=media_detail&section_id='
+											$this->setRedirect('index.php?tmpl=component&option=' . $this->option . '&view=media_detail&section_id='
 												. $post['section_id'] . '&showbuttons=1&section_name=' . $post['section_name']
 												. '&media_section=' . $post['media_section'], $msg
 											);
 										}
 										else
 										{
-											$this->setRedirect('index.php?option=' . $option . '&view=media_detail', $msg);
+											$this->setRedirect('index.php?option=' . $this->option . '&view=media_detail', $msg);
 										}
 									}
 								}
@@ -413,7 +491,7 @@ class Media_DetailController extends JController
 									{
 										if ($row = $model->store($post))
 										{
-											$originaldir = JPATH_ROOT . '/components/' . $option . '/assets/' . $row->media_type . '/'
+											$originaldir = JPATH_ROOT . '/components/' . $this->option . '/assets/' . $row->media_type . '/'
 												. $row->media_section . '/' . time() . '_' . $newscan[$j];
 
 											copy($btsrc, $originaldir);
@@ -422,7 +500,7 @@ class Media_DetailController extends JController
 
 											if (isset($post['set']) && $post['media_section'] != 'manufacturer')
 											{
-												$this->setRedirect('index.php?tmpl=component&option=' . $option . '&view=media&section_id='
+												$this->setRedirect('index.php?tmpl=component&option=' . $this->option . '&view=media&section_id='
 													. $post['section_id'] . '&showbuttons=1&section_name='
 													. $post['section_name'] . '&media_section=' . $post['media_section'], $msg
 												);
@@ -430,14 +508,14 @@ class Media_DetailController extends JController
 
 											elseif (isset($post['set']) && $post['media_section'] == 'manufacturer')
 											{
-												$link = 'index.php?option=' . $option . '&view=manufacturer';    ?>
+												$link = 'index.php?option=' . $this->option . '&view=manufacturer';    ?>
 												<script language="javascript" type="text/javascript">
 													window.parent.document.location = '<?php echo $link; ?>';
 												</script><?php
 											}
 											else
 											{
-												$this->setRedirect('index.php?option=' . $option . '&view=media', $msg);
+												$this->setRedirect('index.php?option=' . $this->option . '&view=media', $msg);
 											}
 										}
 									}
@@ -447,14 +525,14 @@ class Media_DetailController extends JController
 
 										if (isset($post['set']))
 										{
-											$this->setRedirect('index.php?tmpl=component&option=' . $option . '&view=media_detail&section_id='
+											$this->setRedirect('index.php?tmpl=component&option=' . $this->option . '&view=media_detail&section_id='
 												. $post['section_id'] . '&showbuttons=1&section_name=' . $post['section_name'] . '&media_section='
 												. $post['media_section'], $msg
 											);
 										}
 										else
 										{
-											$this->setRedirect('index.php?option=' . $option . '&view=media_detail', $msg);
+											$this->setRedirect('index.php?option=' . $this->option . '&view=media_detail', $msg);
 										}
 									}
 								}
@@ -480,7 +558,7 @@ class Media_DetailController extends JController
 
 									if (isset($post['set']) && $post['media_section'] != 'manufacturer')
 									{
-										$this->setRedirect('index.php?tmpl=component&option=' . $option . '&view=media&section_id='
+										$this->setRedirect('index.php?tmpl=component&option=' . $this->option . '&view=media&section_id='
 											. $post['section_id'] . '&showbuttons=1&section_name=' . $post['section_name'] . '&media_section='
 											. $post['media_section'], $msg
 										);
@@ -488,14 +566,14 @@ class Media_DetailController extends JController
 
 									elseif (isset($post['set']) && $post['media_section'] == 'manufacturer')
 									{
-										$link = 'index.php?option=' . $option . '&view=manufacturer';    ?>
+										$link = 'index.php?option=' . $this->option . '&view=manufacturer';    ?>
 										<script language="javascript" type="text/javascript">
 											window.parent.document.location = '<?php echo $link; ?>';
 										</script><?php
 									}
 									else
 									{
-										$this->setRedirect('index.php?option=' . $option . '&view=media', $msg);
+										$this->setRedirect('index.php?option=' . $this->option . '&view=media', $msg);
 									}
 								}
 								else
@@ -504,14 +582,14 @@ class Media_DetailController extends JController
 
 									if (isset($post['set']))
 									{
-										$this->setRedirect('index.php?tmpl=component&option=' . $option . '&view=media_detail&section_id='
+										$this->setRedirect('index.php?tmpl=component&option=' . $this->option . '&view=media_detail&section_id='
 											. $post['section_id'] . '&showbuttons=1&section_name=' . $post['section_name'] . '&media_section='
 											. $post['media_section'], $msg
 										);
 									}
 									else
 									{
-										$this->setRedirect('index.php?option=' . $option . '&view=media_detail', $msg);
+										$this->setRedirect('index.php?option=' . $this->option . '&view=media_detail', $msg);
 									}
 								}
 							}
@@ -522,7 +600,7 @@ class Media_DetailController extends JController
 									if ($row = $model->store($post))
 									{
 										// Set First Image as product Main Imaged
-										$originaldir = JPATH_ROOT . '/components/' . $option . '/assets/' . $row->media_type . '/'
+										$originaldir = JPATH_ROOT . '/components/' . $this->option . '/assets/' . $row->media_type . '/'
 											. $row->media_section . '/' . time() . '_' . $scan[$i];
 
 										copy($btsrc, $originaldir);
@@ -545,21 +623,21 @@ class Media_DetailController extends JController
 
 										if (isset($post['set']) && $post['media_section'] != 'manufacturer')
 										{
-											$this->setRedirect('index.php?tmpl=component&option=' . $option . '&view=media&section_id='
+											$this->setRedirect('index.php?tmpl=component&option=' . $this->option . '&view=media&section_id='
 												. $post['section_id'] . '&showbuttons=1&section_name=' . $post['section_name']
 												. '&media_section=' . $post['media_section'], $msg
 											);
 										}
 										elseif (isset($post['set']) && $post['media_section'] == 'manufacturer')
 										{
-											$link = 'index.php?option=' . $option . '&view=manufacturer';    ?>
+											$link = 'index.php?option=' . $this->option . '&view=manufacturer';    ?>
 											<script language="javascript" type="text/javascript">
 												window.parent.document.location = '<?php echo $link; ?>';
 											</script><?php
 										}
 										else
 										{
-											$this->setRedirect('index.php?option=' . $option . '&view=media', $msg);
+											$this->setRedirect('index.php?option=' . $this->option . '&view=media', $msg);
 										}
 									}
 								}
@@ -569,14 +647,14 @@ class Media_DetailController extends JController
 
 									if (isset($post['set']))
 									{
-										$this->setRedirect('index.php?tmpl=component&option=' . $option . '&view=media_detail&section_id='
+										$this->setRedirect('index.php?tmpl=component&option=' . $this->option . '&view=media_detail&section_id='
 											. $post['section_id'] . '&showbuttons=1&section_name=' . $post['section_name'] . '&media_section='
 											. $post['media_section'], $msg
 										);
 									}
 									else
 									{
-										$this->setRedirect('index.php?option=' . $option . '&view=media_detail', $msg);
+										$this->setRedirect('index.php?option=' . $this->option . '&view=media_detail', $msg);
 									}
 								}
 							}
@@ -591,14 +669,14 @@ class Media_DetailController extends JController
 
 					if (isset($post['set']))
 					{
-						$this->setRedirect('index.php?tmpl=component&option=' . $option . '&view=media_detail&section_id='
+						$this->setRedirect('index.php?tmpl=component&option=' . $this->option . '&view=media_detail&section_id='
 							. $post['section_id'] . '&showbuttons=1&section_name=' . $post['section_name'] . '&media_section='
 							. $post['media_section'], $msg
 						);
 					}
 					else
 					{
-						$this->setRedirect('index.php?option=' . $option . '&view=media_detail', $msg);
+						$this->setRedirect('index.php?option=' . $this->option . '&view=media_detail', $msg);
 					}
 				}
 				else
@@ -607,25 +685,25 @@ class Media_DetailController extends JController
 
 					if (isset($post['set']))
 					{
-						$this->setRedirect('index.php?tmpl=component&option=' . $option . '&view=media_detail&section_id='
+						$this->setRedirect('index.php?tmpl=component&option=' . $this->option . '&view=media_detail&section_id='
 							. $post['section_id'] . '&showbuttons=1&section_name=' . $post['section_name'] . '&media_section='
 							. $post['media_section'], $msg
 						);
 					}
 					else
 					{
-						$this->setRedirect('index.php?option=' . $option . '&view=media_detail', $msg);
+						$this->setRedirect('index.php?option=' . $this->option . '&view=media_detail', $msg);
 					}
 				}
 			}
 
-			if ($file['name'][0] != '')
+			if ($file[0]['name'] != '')
 			{
-				$num = count($file['name']);
+				$num = count($file);
 
 				for ($i = 0; $i < $num; $i++)
 				{
-					$filetype = strtolower(JFile::getExt($file['name'][$i]));
+					$filetype = strtolower(JFile::getExt($file[$i]['name']));
 
 					if ($filetype != 'png' && $filetype != 'gif' && $filetype != 'jpeg' && $filetype != 'jpg' && $filetype != 'zip'
 						&& $filetype != 'mpeg' && $filetype != 'mp4' && $filetype != 'avi' && $filetype != '3gp'
@@ -636,14 +714,14 @@ class Media_DetailController extends JController
 
 						if (isset($post['set']))
 						{
-							$this->setRedirect('index.php?tmpl=component&option=' . $option . '&view=media_detail&section_id='
+							$this->setRedirect('index.php?tmpl=component&option=' . $this->option . '&view=media_detail&section_id='
 								. $post['section_id'] . '&showbuttons=1&section_name=' . $post['section_name'] . '&media_section='
 								. $post['media_section'], $msg
 							);
 						}
 						else
 						{
-							$this->setRedirect('index.php?option=' . $option . '&view=media_detail', $msg);
+							$this->setRedirect('index.php?option=' . $this->option . '&view=media_detail', $msg);
 						}
 					}
 					elseif ($post['media_section'] == '0')
@@ -652,14 +730,14 @@ class Media_DetailController extends JController
 
 						if (isset($post['set']))
 						{
-							$this->setRedirect('index.php?tmpl=component&option=' . $option . '&view=media_detail&section_id='
+							$this->setRedirect('index.php?tmpl=component&option=' . $this->option . '&view=media_detail&section_id='
 								. $post['section_id'] . '&showbuttons=1&section_name=' . $post['section_name'] . '&media_section='
 								. $post['media_section'], $msg
 							);
 						}
 						else
 						{
-							$this->setRedirect('index.php?option=' . $option . '&view=media_detail', $msg);
+							$this->setRedirect('index.php?option=' . $this->option . '&view=media_detail', $msg);
 						}
 					}
 					elseif ($post['bulk'] != 'yes' && $post['bulk'] != 'no')
@@ -668,14 +746,14 @@ class Media_DetailController extends JController
 
 						if (isset($post['set']))
 						{
-							$this->setRedirect('index.php?tmpl=component&option=' . $option . '&view=media_detail&section_id='
+							$this->setRedirect('index.php?tmpl=component&option=' . $this->option . '&view=media_detail&section_id='
 								. $post['section_id'] . '&showbuttons=1&section_name=' . $post['section_name'] . '&media_section='
 								. $post['media_section'], $msg
 							);
 						}
 						else
 						{
-							$this->setRedirect('index.php?option=' . $option . '&view=media_detail', $msg);
+							$this->setRedirect('index.php?option=' . $this->option . '&view=media_detail', $msg);
 						}
 					}
 
@@ -685,36 +763,36 @@ class Media_DetailController extends JController
 
 						if (isset($post['set']))
 						{
-							$this->setRedirect('index.php?tmpl=component&option=' . $option . '&view=media_detail&section_id='
+							$this->setRedirect('index.php?tmpl=component&option=' . $this->option . '&view=media_detail&section_id='
 								. $post['section_id'] . '&showbuttons=1&section_name=' . $post['section_name'] . '&media_section='
 								. $post['media_section'], $msg
 							);
 						}
 						else
 						{
-							$this->setRedirect('index.php?option=' . $option . '&view=media_detail', $msg);
+							$this->setRedirect('index.php?option=' . $this->option . '&view=media_detail', $msg);
 						}
 					}
 					else
 					{
-						$src = $file['tmp_name'][$i];
+						$src = $file[$i]['tmp_name'];
 
-						$file['name'][$i] = str_replace(" ", "_", $file['name'][$i]);
+						$file[$i]['name'] = str_replace(" ", "_", $file[$i]['name']);
 
 						// Download product changes
 						if ($post['media_type'] == 'download')
 						{
-							$post['media_name'] = $product_download_root . time() . "_" . str_replace(" ", "_", $file['name'][$i]);
+							$post['media_name'] = $product_download_root . time() . "_" . str_replace(" ", "_", $file[$i]['name']);
 							$dest = $post['media_name'];
 						}
 						else
 						{
-							$post['media_name'] = time() . "_" . $file['name'][$i];
-							$dest = JPATH_ROOT . '/components/' . $option . '/assets/' . $post['media_type'] . '/'
-								. $post['media_section'] . '/' . time() . '_' . $file['name'][$i];
+							$post['media_name'] = time() . "_" . $file[$i]['name'];
+							$dest = JPATH_ROOT . '/components/' . $this->option . '/assets/' . $post['media_type'] . '/'
+								. $post['media_section'] . '/' . time() . '_' . $file[$i]['name'];
 						}
 
-						$post['media_mimetype'] = $file['type'][$i];
+						$post['media_mimetype'] = $file[$i]['type'];
 						$file_upload = JFile::upload($src, $dest);
 
 						if ($file_upload == 1 && $row = $model->store($post))
@@ -723,7 +801,7 @@ class Media_DetailController extends JController
 
 							if (isset($post['set']) && $post['media_section'] != 'manufacturer')
 							{
-								$this->setRedirect('index.php?tmpl=component&option=' . $option . '&view=media&section_id='
+								$this->setRedirect('index.php?tmpl=component&option=' . $this->option . '&view=media&section_id='
 									. $post['section_id'] . '&showbuttons=1&section_name=' . $post['section_name'] . '&media_section='
 									. $post['media_section'], $msg
 								);
@@ -731,14 +809,14 @@ class Media_DetailController extends JController
 
 							elseif (isset($post['set']) && $post['media_section'] == 'manufacturer')
 							{
-								$link = 'index.php?option=' . $option . '&view=manufacturer';    ?>
+								$link = 'index.php?option=' . $this->option . '&view=manufacturer';    ?>
 								<script language="javascript" type="text/javascript">
 									window.parent.document.location = '<?php echo $link; ?>';
 								</script><?php
 							}
 							else
 							{
-								$this->setRedirect('index.php?option=' . $option . '&view=media', $msg);
+								$this->setRedirect('index.php?option=' . $this->option . '&view=media', $msg);
 							}
 						}
 						else
@@ -747,14 +825,14 @@ class Media_DetailController extends JController
 
 							if (isset($post['set']))
 							{
-								$this->setRedirect('index.php?tmpl=component&option=' . $option . '&view=media_detail&section_id='
+								$this->setRedirect('index.php?tmpl=component&option=' . $this->option . '&view=media_detail&section_id='
 									. $post['section_id'] . '&showbuttons=1&section_name=' . $post['section_name'] . '&media_section='
 									. $post['media_section'], $msg
 								);
 							}
 							else
 							{
-								$this->setRedirect('index.php?option=' . $option . '&view=media_detail', $msg);
+								$this->setRedirect('index.php?option=' . $this->option . '&view=media_detail', $msg);
 							}
 						}
 					}
@@ -770,15 +848,14 @@ class Media_DetailController extends JController
 	 */
 	public function remove()
 	{
-		$post = JRequest::get('post');
-		$option = JRequest::getVar('option');
-		$section_id = JRequest::getVar('section_id');
-		$media_section = JRequest::getVar('media_section');
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$post = $this->input->getArray($_POST);
+		$cid = $this->input->post->get('cid', array(), 'array');
+		$section_id = $this->input->getInt('section_id', null);
+		$media_section = $this->input->get('media_section', '');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
-			JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'));
+			$this->app->enqueueMessage(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_DELETE'), 'notice');
 		}
 
 		$model = $this->getModel('media_detail');
@@ -792,20 +869,20 @@ class Media_DetailController extends JController
 
 		if (isset($section_id))
 		{
-			$this->setRedirect('index.php?tmpl=component&option=' . $option . '&view=media&section_id='
+			$this->setRedirect('index.php?tmpl=component&option=' . $this->option . '&view=media&section_id='
 				. $section_id . '&showbuttons=1&media_section=' . $media_section, $msg
 			);
 		}
 		elseif (isset($post['set']) && $post['media_section'] == 'manufacturer')
 		{
-			$link = 'index.php?option=' . $option . '&view=manufacturer';    ?>
+			$link = 'index.php?option=' . $this->option . '&view=manufacturer';    ?>
 			<script language="javascript" type="text/javascript">
 				window.parent.document.location = '<?php echo $link; ?>';
 			</script><?php
 		}
 		else
 		{
-			$this->setRedirect('index.php?option=' . $option . '&view=media', $msg);
+			$this->setRedirect('index.php?option=' . $this->option . '&view=media', $msg);
 		}
 	}
 
@@ -816,15 +893,14 @@ class Media_DetailController extends JController
 	 */
 	public function publish()
 	{
-		$post = JRequest::get('post');
-		$option = JRequest::getVar('option');
-		$section_id = JRequest::getVar('section_id');
-		$media_section = JRequest::getVar('media_section');
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$post = $this->input->getArray($_POST);
+		$cid = $this->input->post->get('cid', array(), 'array');
+		$section_id = $this->input->getInt('section_id', null);
+		$media_section = $this->input->get('media_section', '');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
-			JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'));
+			$this->app->enqueueMessage(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'), 'notice');
 		}
 
 		$model = $this->getModel('media_detail');
@@ -838,21 +914,21 @@ class Media_DetailController extends JController
 
 		if (isset($section_id))
 		{
-			$this->setRedirect('index.php?tmpl=component&option=' . $option . '&view=media&section_id=' . $section_id
+			$this->setRedirect('index.php?tmpl=component&option=' . $this->option . '&view=media&section_id=' . $section_id
 				. '&showbuttons=1&media_section=' . $media_section, $msg
 			);
 		}
 
 		elseif (isset($post['set']) && $post['media_section'] == 'manufacturer')
 		{
-			$link = 'index.php?option=' . $option . '&view=manufacturer';    ?>
+			$link = 'index.php?option=' . $this->option . '&view=manufacturer';    ?>
 			<script language="javascript" type="text/javascript">
 				window.parent.document.location = '<?php echo $link; ?>';
 			</script><?php
 		}
 		else
 		{
-			$this->setRedirect('index.php?option=' . $option . '&view=media', $msg);
+			$this->setRedirect('index.php?option=' . $this->option . '&view=media', $msg);
 		}
 	}
 
@@ -863,15 +939,14 @@ class Media_DetailController extends JController
 	 */
 	public function defaultmedia()
 	{
-		$post = JRequest::get('post');
-		$option = JRequest::getVar('option');
-		$section_id = JRequest::getVar('section_id');
-		$media_section = JRequest::getVar('media_section');
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$post = $this->input->getArray($_POST);
+		$cid = $this->input->post->get('cid', array(), 'array');
+		$section_id = $this->input->getInt('section_id', null);
+		$media_section = $this->input->get('media_section', '');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
-			JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_MAKE_PRIMARY_MEDIA'));
+			$this->app->enqueueMessage(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_MAKE_PRIMARY_MEDIA'), 'notice');
 		}
 
 		$model = $this->getModel('media_detail');
@@ -888,20 +963,20 @@ class Media_DetailController extends JController
 
 		if (isset($section_id))
 		{
-			$this->setRedirect('index.php?tmpl=component&option=' . $option . '&view=media&section_id=' . $section_id
+			$this->setRedirect('index.php?tmpl=component&option=' . $this->option . '&view=media&section_id=' . $section_id
 				. '&showbuttons=1&media_section=' . $media_section, $msg
 			);
 		}
 		elseif (isset($post['set']) && $post['media_section'] == 'manufacturer')
 		{
-			$link = 'index.php?option=' . $option . '&view=manufacturer';    ?>
+			$link = 'index.php?option=' . $this->option . '&view=manufacturer';    ?>
 			<script language="javascript" type="text/javascript">
 				window.parent.document.location = '<?php echo $link; ?>';
 			</script><?php
 		}
 		else
 		{
-			$this->setRedirect('index.php?option=' . $option . '&view=media', $msg);
+			$this->setRedirect('index.php?option=' . $this->option . '&view=media', $msg);
 		}
 	}
 
@@ -912,15 +987,14 @@ class Media_DetailController extends JController
 	 */
 	public function unpublish()
 	{
-		$post = JRequest::get('post');
-		$option = JRequest::getVar('option');
-		$section_id = JRequest::getVar('section_id');
-		$media_section = JRequest::getVar('media_section');
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$post = $this->input->getArray($_POST);
+		$cid = $this->input->post->get('cid', array(), 'array');
+		$section_id = $this->input->getInt('section_id', null);
+		$media_section = $this->input->get('media_section', '');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
-			JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));
+			$this->app->enqueueMessage(JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'), 'notice');
 		}
 
 		$model = $this->getModel('media_detail');
@@ -934,20 +1008,20 @@ class Media_DetailController extends JController
 
 		if (isset($section_id))
 		{
-			$this->setRedirect('index.php?tmpl=component&option=' . $option . '&view=media&section_id=' . $section_id
+			$this->setRedirect('index.php?tmpl=component&option=' . $this->option . '&view=media&section_id=' . $section_id
 				. '&showbuttons=1&media_section=' . $media_section, $msg
 			);
 		}
 		elseif (isset($post['set']) && $post['media_section'] == 'manufacturer')
 		{
-			$link = 'index.php?option=' . $option . '&view=manufacturer';    ?>
+			$link = 'index.php?option=' . $this->option . '&view=manufacturer';    ?>
 			<script language="javascript" type="text/javascript">
 				window.parent.document.location = '<?php echo $link; ?>';
 			</script><?php
 		}
 		else
 		{
-			$this->setRedirect('index.php?option=' . $option . '&view=media', $msg);
+			$this->setRedirect('index.php?option=' . $this->option . '&view=media', $msg);
 		}
 	}
 
@@ -958,9 +1032,8 @@ class Media_DetailController extends JController
 	 */
 	public function cancel()
 	{
-		$option = JRequest::getVar('option');
 		$msg = JText::_('COM_REDSHOP_MEDIA_DETAIL_EDITING_CANCELLED');
-		$this->setRedirect('index.php?option=' . $option . '&view=media', $msg);
+		$this->setRedirect('index.php?option=' . $this->option . '&view=media', $msg);
 	}
 
 	/**
@@ -990,18 +1063,18 @@ class Media_DetailController extends JController
 	 */
 	public function saveorder()
 	{
-		$post = JRequest::get('post');
-		$option = JRequest::getVar('option');
-		$section_id = JRequest::getVar('section_id');
-		$media_section = JRequest::getVar('media_section');
-		$cid = JRequest::getVar('cid', array(), 'post', 'array');
-		$order = JRequest::getVar('order', array(), 'post', 'array');
+		$post = $this->input->getArray($_POST);
+		$cid = $this->input->post->get('cid', array(), 'array');
+		$section_id = $this->input->getInt('section_id', null);
+		$media_section = $this->input->get('media_section', '');
+		$order = $this->input->post->get('order', array(), 'array');
+
 		JArrayHelper::toInteger($cid);
 		JArrayHelper::toInteger($order);
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
-			JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_ORDERING'));
+			$this->app->enqueueMessage(JText::_('COM_REDSHOP_SELECT_ORDERING'), 'notice');
 		}
 
 		$model = $this->getModel('media_detail');
@@ -1015,20 +1088,20 @@ class Media_DetailController extends JController
 
 		if (isset($section_id))
 		{
-			$this->setRedirect('index.php?tmpl=component&option=' . $option . '&view=media&section_id=' . $section_id
+			$this->setRedirect('index.php?tmpl=component&option=' . $this->option . '&view=media&section_id=' . $section_id
 				. '&showbuttons=1&media_section=' . $media_section, $msg
 			);
 		}
 		elseif (isset($post['set']) && $post['media_section'] == 'manufacturer')
 		{
-			$link = 'index.php?option=' . $option . '&view=manufacturer';    ?>
+			$link = 'index.php?option=' . $this->option . '&view=manufacturer';    ?>
 			<script language="javascript" type="text/javascript">
 				window.parent.document.location = '<?php echo $link; ?>';
 			</script><?php
 		}
 		else
 		{
-			$this->setRedirect('index.php?option=' . $option . '&view=media', $msg);
+			$this->setRedirect('index.php?option=' . $this->option . '&view=media', $msg);
 		}
 	}
 
@@ -1039,15 +1112,14 @@ class Media_DetailController extends JController
 	 */
 	public function orderup()
 	{
-		$post = JRequest::get('post');
-		$option = JRequest::getVar('option');
-		$section_id = JRequest::getVar('section_id');
-		$media_section = JRequest::getVar('media_section');
-		$cid = JRequest::getVar('cid', array(), 'post', 'array');
+		$post = $this->input->getArray($_POST);
+		$cid = $this->input->post->get('cid', array(), 'array');
+		$section_id = $this->input->getInt('section_id', null);
+		$media_section = $this->input->get('media_section', '');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
-			JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_ORDERING'));
+			$this->app->enqueueMessage(JText::_('COM_REDSHOP_SELECT_ORDERING'), 'notice');
 		}
 
 		$model = $this->getModel('media_detail');
@@ -1061,20 +1133,20 @@ class Media_DetailController extends JController
 
 		if (isset($section_id))
 		{
-			$this->setRedirect('index.php?tmpl=component&option=' . $option . '&view=media&section_id=' . $section_id
+			$this->setRedirect('index.php?tmpl=component&option=' . $this->option . '&view=media&section_id=' . $section_id
 				. '&showbuttons=1&media_section=' . $media_section, $msg
 			);
 		}
 		elseif (isset($post['set']) && $post['media_section'] == 'manufacturer')
 		{
-			$link = 'index.php?option=' . $option . '&view=manufacturer';    ?>
+			$link = 'index.php?option=' . $this->option . '&view=manufacturer';    ?>
 			<script language="javascript" type="text/javascript">
 				window.parent.document.location = '<?php echo $link; ?>';
 			</script><?php
 		}
 		else
 		{
-			$this->setRedirect('index.php?option=' . $option . '&view=media', $msg);
+			$this->setRedirect('index.php?option=' . $this->option . '&view=media', $msg);
 		}
 	}
 
@@ -1085,15 +1157,14 @@ class Media_DetailController extends JController
 	 */
 	public function orderdown()
 	{
-		$post = JRequest::get('post');
-		$option = JRequest::getVar('option');
-		$section_id = JRequest::getVar('section_id');
-		$media_section = JRequest::getVar('media_section');
-		$cid = JRequest::getVar('cid', array(), 'post', 'array');
+		$post = $this->input->getArray($_POST);
+		$cid = $this->input->post->get('cid', array(), 'array');
+		$section_id = $this->input->getInt('section_id', null);
+		$media_section = $this->input->get('media_section', '');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
-			JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_ORDERING'));
+			$this->app->enqueueMessage(JText::_('COM_REDSHOP_SELECT_ORDERING'), 'notice');
 		}
 
 		$model = $this->getModel('media_detail');
@@ -1107,18 +1178,18 @@ class Media_DetailController extends JController
 
 		if (isset($section_id))
 		{
-			$this->setRedirect('index.php?tmpl=component&option=' . $option . '&view=media&section_id=' . $section_id . '&showbuttons=1&media_section=' . $media_section, $msg);
+			$this->setRedirect('index.php?tmpl=component&option=' . $this->option . '&view=media&section_id=' . $section_id . '&showbuttons=1&media_section=' . $media_section, $msg);
 		}
 		elseif (isset($post['set']) && $post['media_section'] == 'manufacturer')
 		{
-			$link = 'index.php?option=' . $option . '&view=manufacturer';    ?>
+			$link = 'index.php?option=' . $this->option . '&view=manufacturer';    ?>
 	        <script language="javascript" type="text/javascript">
 	            window.parent.document.location = '<?php echo $link; ?>';
 	        </script><?php
 		}
 		else
 		{
-			$this->setRedirect('index.php?option=' . $option . '&view=media', $msg);
+			$this->setRedirect('index.php?option=' . $this->option . '&view=media', $msg);
 		}
 	}
 }

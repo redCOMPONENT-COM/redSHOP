@@ -59,6 +59,14 @@ class media_detailModelmedia_detail extends JModel
 			$this->_db->setQuery($query);
 			$this->_data = $this->_db->loadObject();
 
+			if (!empty($this->_data->extra_video))
+			{
+				$extra_video = json_decode($this->_data->extra_video);
+				$this->_data->video_text = $extra_video->video_text;
+				$this->_data->video_thumb = $extra_video->video_thumb;
+				$this->_data->video_file = $extra_video->video_file;
+			}
+
 			return (boolean) $this->_data;
 		}
 
@@ -76,6 +84,10 @@ class media_detailModelmedia_detail extends JModel
 			$detail->media_name = null;
 			$detail->media_alternate_text = null;
 			$detail->media_section = null;
+			$detail->media_mimetype = null;
+			$detail->video_text = null;
+			$detail->video_file = null;
+			$detail->video_thumb = null;
 			$detail->section_id = null;
 			$detail->published = 1;
 			$this->_data = $detail;

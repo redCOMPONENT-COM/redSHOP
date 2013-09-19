@@ -215,11 +215,12 @@ else
 
 						if ($filetype == 'png' || $filetype == 'jpg' || $filetype == 'jpeg' || $filetype == 'gif')
 						{
-							$media_img = $url . 'components/com_redshop/assets/' . $row->media_type . '/' . $row->media_section . '/' . trim($row->media_name);    ?>
+							$media_img = $url . 'components/com_redshop/assets/images/' . $row->media_section . '/' . trim($row->media_name);
+							$thumb_img = $url . 'components/com_redshop/helpers/thumb.php?filename=' . $row->media_section . '/' . trim($row->media_name) . '&newxsize=50&newysize=50'; ?>
 							<a class="modal" href="<?php echo $media_img; ?>"
 							   title="<?php echo JText::_('COM_REDSHOP_VIEW_IMAGE'); ?>"
 							   rel="{handler: 'image', size: {}}">
-								<img src="<?php echo $media_img ?>" height="50" width="50"/></a>
+							   <img src="<?php echo $thumb_img ?>" alt="image"/>
 						<?php
 						}
 						else

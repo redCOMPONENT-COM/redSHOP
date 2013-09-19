@@ -1037,6 +1037,83 @@ if (strstr($template_desc, $mpimg_tag))
 
 // More images end
 
+// More videos
+if (strstr($template_desc, "{more_videos}"))
+{
+	$media_videos = $producthelper->getAdditionMediaImage($this->data->product_id, "product", "video");
+	$more_videos = "";
+
+	if (count($media_videos) > 0)
+	{
+		foreach ($media_videos as $v => $video)
+		{
+			$extra_video = json_decode($video->extra_video);
+
+			if (!empty($extra_video->video_text))
+			{
+				$video_text = $extra_video->video_text;
+				$video_provider = $video->media_mimetype;
+			}
+			else
+			{
+				$video_text = $url . 'components/com_redshop/assets/' . $video->media_type . '/' . $video->media_section . '/' . $extra_video->video_file;
+				$video_provider = $video->media_mimetype . 'remote';
+			}
+
+			$more_videos .= '<span class="more_video">{' . $video_provider . '}' . $video_text . '{/' . $video_provider . '}</span>';
+		}
+	}
+
+	$template_desc = str_replace('{more_videos}', $more_videos, $template_desc);
+}
+
+if (strstr($template_desc, "{more_videos_lightbox}"))
+{
+	$media_videos = $producthelper->getAdditionMediaImage($this->data->product_id, "product", "video");
+	$more_videos_lightbox = "";
+	$more_videos_lightbox_div = "";
+
+	if (count($media_videos) > 0)
+	{
+		foreach ($media_videos as $v => $video)
+		{
+			$extra_video = json_decode($video->extra_video);
+
+			if (!empty($extra_video->video_text))
+			{
+				$video_text = $extra_video->video_text;
+				$video_provider = $video->media_mimetype;
+			}
+			else
+			{
+				$video_text = $url . 'components/com_redshop/assets/' . $video->media_type . '/' . $video->media_section . '/' . $extra_video->video_file;
+				$video_provider = $video->media_mimetype . 'remote';
+			}
+
+			if ($extra_video->video_thumb && file_exists(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $extra_video->video_thumb))
+			{
+				$video_thumb = $extra_video->video_thumb;
+			}
+			else
+			{
+				$video_thumb = PRODUCT_DEFAULT_IMAGE;
+			}
+
+			$thumb_path = $url . "components/com_redshop/helpers/thumb.php?filename=product/" . $video_thumb . "&newxsize=" . $mpw_thumb . "&newysize=" . $mph_thumb . "&swap=" . USE_IMAGE_SIZE_SWAPPING;
+
+			$more_videos_lightbox .= '<a class="modal" href="#video_' . $v . '" rel="{size: {x: 550, y: 308}}"><img src="' . $thumb_path . '"></a>';
+			$more_videos_lightbox_div .= '<div id="video_' . $v . '">{' . $video_provider . '}' . $video_text . '{/' . $video_provider . '}</div>';
+		}
+
+		$more_videos_lightbox_div = '<div style="display: none">' . $more_videos_lightbox_div . '</div>';
+		$more_videos_lightbox .= $more_videos_lightbox_div;
+	}
+
+	$template_desc = str_replace('{more_videos_lightbox}', '<span class="more_video">' . $more_videos_lightbox . '</span>', $template_desc);
+}
+
+// More videos end
+
 // More documents
 if (strstr($template_desc, "{more_documents}"))
 {
