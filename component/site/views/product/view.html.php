@@ -110,7 +110,7 @@ class ProductViewProduct extends JView
 		 *  Include JavaScript.
 		 *  But, first check if a plugin wants to use its own jQuery.
 		 */
-		$stopJQuery = $this->dispatcher->trigger('stopProductRedshopJQuery', array($this->data));
+		$stopJQuery = $this->dispatcher->trigger('stopProductRedshopJQuery', array($this->data, $layout));
 
 		if (in_array(true, $stopJQuery, true))
 		{
