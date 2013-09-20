@@ -835,7 +835,7 @@ class CheckoutModelCheckout extends JModel
 			}
 
 			// Add plugin support
-			$results = $dispatcher->trigger('afterOrderItemSave', array($cart, $rowitem, $i));
+			$dispatcher->trigger('afterOrderItemSave', array($cart, $rowitem, $i));
 
 			// End
 
