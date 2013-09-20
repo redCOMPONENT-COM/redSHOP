@@ -172,28 +172,30 @@ class plgRedshop_paymentrs_payment_quickpay extends JPlugin
 		$md5word      = $this->_params->get("quickpay_paymentkey");
 		$md5check     = md5($protocol . $msgtype . $merchant_id . $order_amount . $finalize . $transaction . $md5word);
 
-		$message = array('protocol' => $protocol, 'msgtype' => $msgtype, 'merchant' => $merchant_id, 'amount' => $order_amount, 'finalize' => $finalize, 'transaction' => $transaction, 'md5check' => $md5check);
+		$message = array(
+						'protocol'    => $protocol,
+						'msgtype'     => $msgtype,
+						'merchant'    => $merchant_id,
+						'amount'      => $order_amount,
+						'finalize'    => $finalize,
+						'transaction' => $transaction,
+						'md5check'    => $md5check
+					);
 
-		$context = stream_context_create(
-			array(
-				'http' => array(
-					'method'  => 'POST',
-					'content' => http_build_query($message, false, '&'),
-				),
-			)
-		);
+		$encoded = http_build_query($message, false, '&');
 
-		if (!$fp = @fopen('https://secure.quickpay.dk/api', 'r', false, $context))
-		{
-			throw new Exception('Could not connect to gateway');
-		}
+		$ch = curl_init('https://secure.quickpay.dk/api');
+		curl_setopt($ch, CURLOPT_POSTFIELDS,  $encoded);
+		curl_setopt($ch, CURLOPT_HEADER, 0);
+		curl_setopt($ch, CURLOPT_POST, 1);
 
-		if (($response = @stream_get_contents($fp)) === false)
-		{
-			throw new Exception('Could not read data from gateway');
-		}
+		// Return the transfer as a string
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		$response = curl_exec($ch);
+		curl_close($ch);
 
 		$response  = new SimpleXMLElement($response);
+
 		$qpstat    = $response->qpstat;
 		$qpstatmsg = addslashes($response->qpstatmsg);
 
