@@ -14,7 +14,7 @@ $redhelper     = new redhelper;
 $uri           = JURI::getInstance();
 $url           = $uri->root(true);
 $app           = JFactory::getApplication();
-$itemId        = (int) $redhelper->getCartItemid($app->input->getInt('Itemid', 101));
+$itemId        = (int) $redhelper->getCartItemid();
 
 $getNewItemId = true;
 
