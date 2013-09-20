@@ -59,6 +59,9 @@ class ProductViewProduct extends JView
 	// JSession object
 	public $session;
 
+	// Product data object
+	public $data;
+
 	/**
 	 * Execute and display a template script.
 	 *
@@ -87,7 +90,7 @@ class ProductViewProduct extends JView
 		$menu_meta_keywords    = $params->get('menu-meta_keywords');
 		$menu_meta_description = $params->get('menu-meta_description');
 		$menu_robots           = $params->get('robots');
-		$data                  = array();
+		$this->data            = $this->get('data');
 		$productTemplate       = null;
 
 		$this->itemId = $this->input->getInt('Itemid', null);
@@ -103,9 +106,26 @@ class ProductViewProduct extends JView
 			$this->pid = $params->get('productid');
 		}
 
-		// Include Javascript
+		/*
+		 *  Include JavaScript.
+		 *  But, first check if a plugin wants to use its own jQuery.
+		 */
+		$stopJQuery = $this->dispatcher->trigger('stopProductRedshopJQuery', array($this->data));
 
-		JHtml::Script('jquery.js', 'components/com_redshop/assets/js/', false);
+		if (in_array(true, $stopJQuery, true))
+		{
+			$stopJQuery = true;
+		}
+		else
+		{
+			$stopJQuery = false;
+		}
+
+		if (!$stopJQuery)
+		{
+			JHtml::Script('jquery.js', 'components/com_redshop/assets/js/', false);
+		}
+
 		JHtml::Script('redBOX.js', 'components/com_redshop/assets/js/', false);
 
 		JHtml::Script('json.js', 'components/com_redshop/assets/js/', false);
@@ -127,7 +147,6 @@ class ProductViewProduct extends JView
 		elseif ($layout == "viewajaxdetail")
 		{
 			$this->setLayout('viewajaxdetail');
-			$data = $this->get('data');
 		}
 		elseif ($layout == "searchletter")
 		{
@@ -146,23 +165,22 @@ class ProductViewProduct extends JView
 				$this->setLayout('default');
 			}
 
-			$data = $this->get('data');
-			$prodhelperobj_array_main = $prodhelperobj->getProductNetPrice($data->product_id);
+			$prodhelperobj_array_main = $prodhelperobj->getProductNetPrice($this->data->product_id);
 
-			if ($data->published == 0)
+			if ($this->data->published == 0)
 			{
-				JError::raiseError(404, sprintf(JText::_('COM_REDSHOP_PRODUCT_IS_NOT_PUBLISHED'), $data->product_name, $data->product_number));
+				JError::raiseError(404, sprintf(JText::_('COM_REDSHOP_PRODUCT_IS_NOT_PUBLISHED'), $this->data->product_name, $this->data->product_number));
 			}
 
-			if ($data->canonical_url != "")
+			if ($this->data->canonical_url != "")
 			{
-				$main_url  = JURI::root() . $data->canonical_url;
+				$main_url  = JURI::root() . $this->data->canonical_url;
 				$canonical = '<link rel="canonical" href="' . $main_url . '" />';
 				$this->document->addCustomTag($canonical);
 			}
-			elseif ($data->product_parent_id != 0 && $data->product_parent_id != "")
+			elseif ($this->data->product_parent_id != 0 && $this->data->product_parent_id != "")
 			{
-				$product_parent_data = $prodhelperobj->getProductById($data->product_parent_id);
+				$product_parent_data = $prodhelperobj->getProductById($this->data->product_parent_id);
 
 				if ($product_parent_data->canonical_url != "")
 				{
@@ -175,7 +193,7 @@ class ProductViewProduct extends JView
 					$main_url  = substr_replace(JURI::root(), "", -1);
 					$main_url .= JRoute::_(
 											'index.php?option=com_redshop&view=product&layout=detail&Itemid=' . $this->itemId .
-											'&pid=' . $data->product_parent_id,
+											'&pid=' . $this->data->product_parent_id,
 											false
 										);
 					$canonical = '<link rel="canonical" href="' . $main_url . '" />';
@@ -188,7 +206,7 @@ class ProductViewProduct extends JView
 			/*
 			 * Process the prepare Product plugins
 			 */
-			$this->dispatcher->trigger('onPrepareProduct', array(& $productTemplate->template_desc, & $params, $data));
+			$this->dispatcher->trigger('onPrepareProduct', array(& $productTemplate->template_desc, & $params, $this->data));
 
 			$pagetitletag = '';
 
@@ -197,17 +215,17 @@ class ProductViewProduct extends JView
 			{
 				$pagetitletag = SEO_PAGE_TITLE;
 
-				$pagetitletag = str_replace("{productname}", $data->product_name, $pagetitletag);
-				$pagetitletag = str_replace("{categoryname}", $data->category_name, $pagetitletag);
-				$pagetitletag = str_replace("{manufacturer}", $data->manufacturer_name, $pagetitletag);
-				$pagetitletag = str_replace("{productsku}", $data->product_number, $pagetitletag);
-				$pagetitletag = str_replace("{productnumber}", $data->product_number, $pagetitletag);
+				$pagetitletag = str_replace("{productname}", $this->data->product_name, $pagetitletag);
+				$pagetitletag = str_replace("{categoryname}", $this->data->category_name, $pagetitletag);
+				$pagetitletag = str_replace("{manufacturer}", $this->data->manufacturer_name, $pagetitletag);
+				$pagetitletag = str_replace("{productsku}", $this->data->product_number, $pagetitletag);
+				$pagetitletag = str_replace("{productnumber}", $this->data->product_number, $pagetitletag);
 				$pagetitletag = str_replace("{shopname}", SHOP_NAME, $pagetitletag);
-				$pagetitletag = str_replace("{productshortdesc}", strip_tags($data->product_s_desc), $pagetitletag);
+				$pagetitletag = str_replace("{productshortdesc}", strip_tags($this->data->product_s_desc), $pagetitletag);
 				$pagetitletag = str_replace("{saleprice}", $prodhelperobj_array_main['product_price'], $pagetitletag);
 
 				$parentcat = "";
-				$parentid  = $prodhelperobj->getParentCategory($data->category_id);
+				$parentid  = $prodhelperobj->getParentCategory($this->data->category_id);
 
 				while ($parentid != 0)
 				{
@@ -218,35 +236,35 @@ class ProductViewProduct extends JView
 
 				$pagetitletag = str_replace("{parentcategoryloop}", $parentcat, $pagetitletag);
 
-				$pagetitletag = $prodhelperobj->getProductNotForSaleComment($data, $pagetitletag);
+				$pagetitletag = $prodhelperobj->getProductNotForSaleComment($this->data, $pagetitletag);
 			}
 
-			if ($data->pagetitle != '' && AUTOGENERATED_SEO && SEO_PAGE_TITLE != '')
+			if ($this->data->pagetitle != '' && AUTOGENERATED_SEO && SEO_PAGE_TITLE != '')
 			{
-				if ($data->append_to_global_seo == 'append')
+				if ($this->data->append_to_global_seo == 'append')
 				{
-					$pagetitletag .= " " . $data->pagetitle;
+					$pagetitletag .= " " . $this->data->pagetitle;
 					$this->document->setTitle($pagetitletag);
 					$this->document->setMetaData("og:title", $pagetitletag);
 				}
-				elseif ($data->append_to_global_seo == 'prepend')
+				elseif ($this->data->append_to_global_seo == 'prepend')
 				{
-					$pagetitletag = $data->pagetitle . " " . $pagetitletag;
+					$pagetitletag = $this->data->pagetitle . " " . $pagetitletag;
 					$this->document->setTitle($pagetitletag);
 					$this->document->setMetaData("og:title", $pagetitletag);
 				}
-				elseif ($data->append_to_global_seo == 'replace')
+				elseif ($this->data->append_to_global_seo == 'replace')
 				{
-					$this->document->setTitle($data->pagetitle);
-					$this->document->setMetaData("og:title", $data->pagetitle);
+					$this->document->setTitle($this->data->pagetitle);
+					$this->document->setMetaData("og:title", $this->data->pagetitle);
 				}
 			}
 			else
 			{
-				if ($data->pagetitle != '')
+				if ($this->data->pagetitle != '')
 				{
-					$this->document->setTitle($data->pagetitle);
-					$this->document->setMetaData("og:title", $data->pagetitle);
+					$this->document->setTitle($this->data->pagetitle);
+					$this->document->setMetaData("og:title", $this->data->pagetitle);
 				}
 				elseif (AUTOGENERATED_SEO && SEO_PAGE_TITLE != '')
 				{
@@ -256,18 +274,18 @@ class ProductViewProduct extends JView
 				else
 				{
 					$this->document->setTitle(
-												$data->product_name . " | " .
-												$data->category_name . " | " .
+												$this->data->product_name . " | " .
+												$this->data->category_name . " | " .
 												$this->app->getCfg('sitename') . " | " .
-												$data->product_number
+												$this->data->product_number
 											);
 
 					$this->document->setMetaData(
 											"og:title",
-											$data->product_name . " | " .
-											$data->category_name . " | " .
+											$this->data->product_name . " | " .
+											$this->data->category_name . " | " .
 											$this->app->getCfg('sitename') . " | " .
-											$data->product_number
+											$this->data->product_number
 										);
 				}
 			}
@@ -276,13 +294,13 @@ class ProductViewProduct extends JView
 			$scheme = $uri->getScheme();
 			$host   = $uri->getHost();
 
-			if ($data->product_thumb_image && file_exists(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $data->product_thumb_image))
+			if ($this->data->product_thumb_image && file_exists(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $this->data->product_thumb_image))
 			{
-				$this->document->setMetaData("og:image", $scheme . "://" . $host . "/components/com_redshop/assets/images/product/" . $data->product_thumb_image);
+				$this->document->setMetaData("og:image", $scheme . "://" . $host . "/components/com_redshop/assets/images/product/" . $this->data->product_thumb_image);
 			}
-			elseif ($data->product_full_image && file_exists(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $data->product_full_image))
+			elseif ($this->data->product_full_image && file_exists(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $this->data->product_full_image))
 			{
-				$this->document->setMetaData("og:image", $scheme . "://" . $host . "/components/com_redshop/assets/images/product/" . $data->product_full_image);
+				$this->document->setMetaData("og:image", $scheme . "://" . $host . "/components/com_redshop/assets/images/product/" . $this->data->product_full_image);
 			}
 
 			$pagekeywordstag = '';
@@ -290,40 +308,40 @@ class ProductViewProduct extends JView
 			if (AUTOGENERATED_SEO && SEO_PAGE_KEYWORDS != '')
 			{
 				$pagekeywordstag = SEO_PAGE_KEYWORDS;
-				$pagekeywordstag = str_replace("{productname}", $data->product_name, $pagekeywordstag);
-				$pagekeywordstag = str_replace("{categoryname}", $data->category_name, $pagekeywordstag);
-				$pagekeywordstag = str_replace("{manufacturer}", $data->manufacturer_name, $pagekeywordstag);
-				$pagekeywordstag = str_replace("{productsku}", $data->product_number, $pagekeywordstag);
-				$pagekeywordstag = str_replace("{productnumber}", $data->product_number, $pagekeywordstag);
+				$pagekeywordstag = str_replace("{productname}", $this->data->product_name, $pagekeywordstag);
+				$pagekeywordstag = str_replace("{categoryname}", $this->data->category_name, $pagekeywordstag);
+				$pagekeywordstag = str_replace("{manufacturer}", $this->data->manufacturer_name, $pagekeywordstag);
+				$pagekeywordstag = str_replace("{productsku}", $this->data->product_number, $pagekeywordstag);
+				$pagekeywordstag = str_replace("{productnumber}", $this->data->product_number, $pagekeywordstag);
 				$pagekeywordstag = str_replace("{shopname}", SHOP_NAME, $pagekeywordstag);
-				$pagekeywordstag = str_replace("{productshortdesc}", strip_tags($data->product_s_desc), $pagekeywordstag);
+				$pagekeywordstag = str_replace("{productshortdesc}", strip_tags($this->data->product_s_desc), $pagekeywordstag);
 				$pagekeywordstag = str_replace("{saleprice}", $prodhelperobj_array_main['product_price'], $pagekeywordstag);
-				$pagekeywordstag = $prodhelperobj->getProductNotForSaleComment($data, $pagekeywordstag);
+				$pagekeywordstag = $prodhelperobj->getProductNotForSaleComment($this->data, $pagekeywordstag);
 
 				$this->document->setMetaData('keywords', $pagekeywordstag);
 			}
 
-			if (trim($data->metakey) != '' && AUTOGENERATED_SEO && SEO_PAGE_KEYWORDS != '')
+			if (trim($this->data->metakey) != '' && AUTOGENERATED_SEO && SEO_PAGE_KEYWORDS != '')
 			{
-				if ($data->append_to_global_seo == 'append')
+				if ($this->data->append_to_global_seo == 'append')
 				{
-					$pagekeywordstag .= "," . trim($data->metakey);
+					$pagekeywordstag .= "," . trim($this->data->metakey);
 					$this->document->setMetaData('keywords', $pagekeywordstag);
 				}
-				elseif ($data->append_to_global_seo == 'prepend')
+				elseif ($this->data->append_to_global_seo == 'prepend')
 				{
 					$this->document->setMetaData('keywords', $pagekeywordstag);
 				}
-				elseif ($data->append_to_global_seo == 'replace')
+				elseif ($this->data->append_to_global_seo == 'replace')
 				{
-					$this->document->setMetaData('keywords', $data->metakey);
+					$this->document->setMetaData('keywords', $this->data->metakey);
 				}
 			}
 			else
 			{
-				if (trim($data->metakey) != '')
+				if (trim($this->data->metakey) != '')
 				{
-					$this->document->setMetaData('keywords', $data->metakey);
+					$this->document->setMetaData('keywords', $this->data->metakey);
 				}
 				else
 				{
@@ -337,14 +355,14 @@ class ProductViewProduct extends JView
 					}
 					else
 					{
-						$this->document->setMetaData('keywords', $data->product_name . ", " . $data->category_name . ", " . SHOP_NAME . ", " . $data->product_number);
+						$this->document->setMetaData('keywords', $this->data->product_name . ", " . $this->data->category_name . ", " . SHOP_NAME . ", " . $this->data->product_number);
 					}
 				}
 			}
 
-			if (trim($data->metarobot_info) != '')
+			if (trim($this->data->metarobot_info) != '')
 			{
-				$this->document->setMetaData('robots', $data->metarobot_info);
+				$this->document->setMetaData('robots', $this->data->metarobot_info);
 			}
 			else
 			{
@@ -378,43 +396,43 @@ class ProductViewProduct extends JView
 				}
 
 				$pagedesctag = SEO_PAGE_DESCRIPTION;
-				$pagedesctag = str_replace("{productname}", $data->product_name, $pagedesctag);
-				$pagedesctag = str_replace("{categoryname}", $data->category_name, $pagedesctag);
-				$pagedesctag = str_replace("{manufacturer}", $data->manufacturer_name, $pagedesctag);
-				$pagedesctag = str_replace("{productsku}", $data->product_number, $pagedesctag);
-				$pagedesctag = str_replace("{productnumber}", $data->product_number, $pagedesctag);
+				$pagedesctag = str_replace("{productname}", $this->data->product_name, $pagedesctag);
+				$pagedesctag = str_replace("{categoryname}", $this->data->category_name, $pagedesctag);
+				$pagedesctag = str_replace("{manufacturer}", $this->data->manufacturer_name, $pagedesctag);
+				$pagedesctag = str_replace("{productsku}", $this->data->product_number, $pagedesctag);
+				$pagedesctag = str_replace("{productnumber}", $this->data->product_number, $pagedesctag);
 				$pagedesctag = str_replace("{shopname}", SHOP_NAME, $pagedesctag);
-				$pagedesctag = str_replace("{productshortdesc}", strip_tags($data->product_s_desc), $pagedesctag);
-				$pagedesctag = str_replace("{productdesc}", strip_tags($data->product_desc), $pagedesctag);
+				$pagedesctag = str_replace("{productshortdesc}", strip_tags($this->data->product_s_desc), $pagedesctag);
+				$pagedesctag = str_replace("{productdesc}", strip_tags($this->data->product_desc), $pagedesctag);
 				$pagedesctag = str_replace("{saleprice}", $prodhelperobj_array_main['product_price'], $pagedesctag);
 				$pagedesctag = str_replace("{saving}", $product_price_saving_main, $pagedesctag);
-				$pagedesctag = $prodhelperobj->getProductNotForSaleComment($data, $pagedesctag);
+				$pagedesctag = $prodhelperobj->getProductNotForSaleComment($this->data, $pagedesctag);
 			}
 
-			if (trim($data->metadesc) != '' && AUTOGENERATED_SEO && SEO_PAGE_DESCRIPTION != '')
+			if (trim($this->data->metadesc) != '' && AUTOGENERATED_SEO && SEO_PAGE_DESCRIPTION != '')
 			{
-				if ($data->append_to_global_seo == 'append')
+				if ($this->data->append_to_global_seo == 'append')
 				{
-					$pagedesctag .= " " . $data->metadesc;
+					$pagedesctag .= " " . $this->data->metadesc;
 					$this->document->setMetaData('description', $pagedesctag);
 					$this->document->setMetaData("og:description", $pagedesctag);
 				}
-				elseif ($data->append_to_global_seo == 'prepend')
+				elseif ($this->data->append_to_global_seo == 'prepend')
 				{
 					$this->document->setMetaData('description', $pagedesctag);
 					$this->document->setMetaData("og:description", $pagedesctag);
 				}
-				elseif ($data->append_to_global_seo == 'replace')
+				elseif ($this->data->append_to_global_seo == 'replace')
 				{
-					$this->document->setMetaData('description', $data->metadesc);
-					$this->document->setMetaData("og:description", $data->metadesc);
+					$this->document->setMetaData('description', $this->data->metadesc);
+					$this->document->setMetaData("og:description", $this->data->metadesc);
 				}
 			}
 			else
 			{
-				if (trim($data->metadesc) != '')
+				if (trim($this->data->metadesc) != '')
 				{
-					$this->document->setMetaData('description', $data->metadesc);
+					$this->document->setMetaData('description', $this->data->metadesc);
 					$this->document->setMetaData("og:description", $pagedesctag);
 				}
 				elseif (AUTOGENERATED_SEO && SEO_PAGE_DESCRIPTION != '')
@@ -429,7 +447,7 @@ class ProductViewProduct extends JView
 				}
 				else
 				{
-					$prodhelperobj_array = $prodhelperobj->getProductNetPrice($data->product_id);
+					$prodhelperobj_array = $prodhelperobj->getProductNetPrice($this->data->product_id);
 
 					if ($prodhelperobj_array['product_price_saving'] != '')
 					{
@@ -442,13 +460,13 @@ class ProductViewProduct extends JView
 
 					$this->document->setMetaData(
 											'description',
-											JText::_('COM_REDSHOP_META_BUY') . ' ' . $data->product_name . ' ' .
+											JText::_('COM_REDSHOP_META_BUY') . ' ' . $this->data->product_name . ' ' .
 											JText::_('COM_REDSHOP_META_AT_ONLY') . ' ' . $prodhelperobj_array['product_price'] . ' ' .
 											JText::_('COM_REDSHOP_META_SAVE') . ' ' . $product_price_saving_main
 										);
 					$this->document->setMetaData(
 											'og:description',
-											JText::_('COM_REDSHOP_META_BUY') . ' ' . $data->product_name . ' ' .
+											JText::_('COM_REDSHOP_META_BUY') . ' ' . $this->data->product_name . ' ' .
 											JText::_('COM_REDSHOP_META_AT_ONLY') . ' ' . $prodhelperobj_array['product_price'] . ' ' .
 											JText::_('COM_REDSHOP_META_SAVE') . ' ' . $product_price_saving_main
 										);
@@ -456,43 +474,43 @@ class ProductViewProduct extends JView
 			}
 
 			/**
-			 * @var $data
+			 * @var $this->data
 			 * Trigger event onAfterDisplayProduct
 			 * Show content return by plugin directly into product page after display product title
 			 */
-			$data->event = new stdClass;
-			$results = $this->dispatcher->trigger('onAfterDisplayProductTitle', array(&$productTemplate->template_desc, $params, $data));
-			$data->event->afterDisplayTitle = trim(implode("\n", $results));
+			$this->data->event = new stdClass;
+			$results = $this->dispatcher->trigger('onAfterDisplayProductTitle', array(&$productTemplate->template_desc, $params, $this->data));
+			$this->data->event->afterDisplayTitle = trim(implode("\n", $results));
 
 			/**
-			 * @var $data
+			 * @var $this->data
 			 *
 			 * Trigger event onBeforeDisplayProduct will display content before product display
 			 */
-			$results = $this->dispatcher->trigger('onBeforeDisplayProduct', array(&$productTemplate->template_desc, $params, $data));
-			$data->event->beforeDisplayProduct = trim(implode("\n", $results));
+			$results = $this->dispatcher->trigger('onBeforeDisplayProduct', array(&$productTemplate->template_desc, $params, $this->data));
+			$this->data->event->beforeDisplayProduct = trim(implode("\n", $results));
 
 			// For page heading
 			if (AUTOGENERATED_SEO && SEO_PAGE_HEADING != '')
 			{
 				$pageheadingtag = SEO_PAGE_HEADING;
-				$pageheadingtag = str_replace("{productname}", $data->product_name, $pageheadingtag);
-				$pageheadingtag = str_replace("{categoryname}", $data->category_name, $pageheadingtag);
-				$pageheadingtag = str_replace("{manufacturer}", $data->manufacturer_name, $pageheadingtag);
-				$pageheadingtag = str_replace("{productsku}", $data->product_number, $pageheadingtag);
-				$pageheadingtag = str_replace("{productnumber}", $data->product_number, $pageheadingtag);
-				$pageheadingtag = str_replace("{productshortdesc}", strip_tags($data->product_s_desc), $pageheadingtag);
+				$pageheadingtag = str_replace("{productname}", $this->data->product_name, $pageheadingtag);
+				$pageheadingtag = str_replace("{categoryname}", $this->data->category_name, $pageheadingtag);
+				$pageheadingtag = str_replace("{manufacturer}", $this->data->manufacturer_name, $pageheadingtag);
+				$pageheadingtag = str_replace("{productsku}", $this->data->product_number, $pageheadingtag);
+				$pageheadingtag = str_replace("{productnumber}", $this->data->product_number, $pageheadingtag);
+				$pageheadingtag = str_replace("{productshortdesc}", strip_tags($this->data->product_s_desc), $pageheadingtag);
 			}
 
-			if (trim($data->pageheading) != '' && AUTOGENERATED_SEO && SEO_PAGE_HEADING != '')
+			if (trim($this->data->pageheading) != '' && AUTOGENERATED_SEO && SEO_PAGE_HEADING != '')
 			{
-				$pageheadingtag = $pageheadingtag . " " . $data->pageheading;
+				$pageheadingtag = $pageheadingtag . " " . $this->data->pageheading;
 			}
 			else
 			{
-				if (trim($data->pageheading) != '')
+				if (trim($this->data->pageheading) != '')
 				{
-					$pageheadingtag = $data->pageheading;
+					$pageheadingtag = $this->data->pageheading;
 				}
 			}
 
@@ -515,9 +533,6 @@ class ProductViewProduct extends JView
 			$prodhelperobj->generateBreadcrumb($this->pid);
 		}
 
-		// Breadcrumb end
-
-		$this->data = $data;
 		$this->template = $productTemplate;
 		$this->pageheadingtag = $pageheadingtag;
 		$this->params = $params;
