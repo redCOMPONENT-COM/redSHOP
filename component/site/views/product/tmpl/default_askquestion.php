@@ -8,9 +8,9 @@
  */
 
 defined('_JEXEC') or die;
-JHTML::_('behavior.tooltip');
-JHTMLBehavior::modal();
-$redTemplate = new Redtemplate;
+JHtml::_('behavior.tooltip');
+JHtmlBehavior::modal();
+
 $uname = '';
 $uemail = '';
 $address = '';
@@ -23,14 +23,11 @@ if ($user->id)
 	$uemail = $user->email;
 }
 
-$Itemid = JRequest::getInt('Itemid');
-$pid = JRequest::getInt('pid');
-$ask = JRequest::getInt('ask');
-$category_id = JRequest::getInt('category_id');
-$document = JFactory::getDocument();
-JHTML::Script('jquery.tools.min.js', 'components/com_redshop/assets/js/', false);
+$category_id = $this->input->getInt('category_id', null);
 
-$template = $redTemplate->getTemplate('ask_question_template');
+JHtml::Script('jquery.tools.min.js', 'components/com_redshop/assets/js/', false);
+
+$template = $this->redTemplate->getTemplate('ask_question_template');
 
 if (count($template) > 0 && $template[0]->template_desc != "")
 {
@@ -86,13 +83,13 @@ else
 
 		echo eval("?>" . $template_desc . "<?php ");
 		?>
-		<input type="hidden" name="pid" id="pid" value="<?php echo $pid; ?>"/>
+		<input type="hidden" name="pid" id="pid" value="<?php echo $this->pid; ?>"/>
 		<input type="hidden" name="view" id="view" value="ask_question"/>
 		<input type="hidden" name="task" id="task" value="sendaskquestionmail"/>
 		<input type="hidden" name="ask" id="ask" value="1"/>
 		<input type="hidden" name="question_date" id="question_date" value="<?php echo time(); ?>"/>
 		<input type="hidden" name="option" id="option" value="com_redshop"/>
 		<input type="hidden" name="category_id" id="category_id" value="<?php echo $category_id; ?>"/>
-		<input type="hidden" name="Itemid" id="Itemid" value="<?php echo $Itemid; ?>"/>
+		<input type="hidden" name="Itemid" id="Itemid" value="<?php echo $this->itemId; ?>"/>
 	</form>
 </div>

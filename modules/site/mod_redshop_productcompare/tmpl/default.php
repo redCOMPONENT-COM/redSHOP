@@ -38,7 +38,7 @@ if (COMARE_PRODUCTS == 1)
 			{
 				for ($i = 0; $i < $compare['idx']; $i++)
 				{
-					$row = $producthelper->getProductById($compare[$i]["product_id"], "product_id,product_name");
+					$row = $producthelper->getProductById($compare[$i]["product_id"]);
 
 					$catid = $compare[$i]["category_id"];
 					if (!$cid)
