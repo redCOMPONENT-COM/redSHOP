@@ -10,19 +10,13 @@
 defined('_JEXEC') or die;
 $url = JURI::base();
 
-// Text library
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/text_library.php';
-$texts = new text_library;
-
 // Get product helper
 require_once JPATH_ROOT . '/components/com_redshop/helpers/product.php';
 require_once JPATH_SITE . '/components/com_redshop/helpers/extra_field.php';
 
 $producthelper = new producthelper;
 
-$Itemid = JRequest::getInt('Itemid');
-$print  = JRequest::getInt('print');
-$model  = $this->getModel('product');
+$print  = $this->input->getBool('print', false);
 $user   = JFactory::getUser();
 
 $pagetitle = JText::_('COM_REDSHOP_COMPARE_PRODUCTS');
@@ -30,26 +24,28 @@ $pagetitle = JText::_('COM_REDSHOP_COMPARE_PRODUCTS');
 $config  = new Redconfiguration;
 $compare = $producthelper->getCompare();
 
-$redTemplate     = new Redtemplate;
 $stockroomhelper = new rsstockroomhelper;
 
 if (PRODUCT_COMPARISON_TYPE == 'category')
 {
-	$session         = JFactory::getSession();
-	$compare_product = $session->get('compare_product');
+	$compare_product = $this->session->get('compare_product');
 	$catid           = $compare_product[0]['category_id'];
-	$cid             = JRequest::getInt('cid');
+	$cid             = $this->input->getInt('cid', null);
 
 	$template_id = $producthelper->getCategoryCompareTemplate($catid);
 
 	if ($template_id == "")
-		$compare_template = $redTemplate->getTemplate("compare_product", COMPARE_TEMPLATE_ID);
+	{
+		$compare_template = $this->redTemplate->getTemplate("compare_product", COMPARE_TEMPLATE_ID);
+	}
 	else
-		$compare_template = $redTemplate->getTemplate("compare_product", $template_id);
+	{
+		$compare_template = $this->redTemplate->getTemplate("compare_product", $template_id);
+	}
 }
 else
 {
-	$compare_template = $redTemplate->getTemplate("compare_product", COMPARE_TEMPLATE_ID);
+	$compare_template = $this->redTemplate->getTemplate("compare_product", COMPARE_TEMPLATE_ID);
 }
 
 if (count($compare_template) > 0 && $compare_template[0]->template_desc != "")
@@ -69,7 +65,7 @@ if (isset($compare['idx']) && $compare['idx'] == 1)
 }
 elseif (isset($compare['idx']) && $compare['idx'] > 1)
 {
-	$returnlink = JRoute::_("index.php?option=com_redshop&view=category&cid=" . $compare[$compare['idx'] - 1]["category_id"] . "&Itemid=" . $Itemid);
+	$returnlink = JRoute::_("index.php?option=com_redshop&view=category&cid=" . $compare[$compare['idx'] - 1]["category_id"] . "&Itemid=" . $this->itemId);
 
 	if ($print)
 	{
@@ -115,8 +111,8 @@ elseif (isset($compare['idx']) && $compare['idx'] > 1)
 		$exp_div = "<div name='exp_" . $product->product_id . "'>";
 		$div_end = "</div>";
 
-		$link        = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $product->product_id . '&Itemid=' . $Itemid);
-		$link_remove = JRoute::_('index.php?option=com_redshop&view=product&task=removecompare&layout=compare&pid=' . $product->product_id . '&Itemid=' . $Itemid);
+		$link        = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $product->product_id . '&Itemid=' . $this->itemId);
+		$link_remove = JRoute::_('index.php?option=com_redshop&view=product&task=removecompare&layout=compare&pid=' . $product->product_id . '&Itemid=' . $this->itemId);
 
 		$remove = "<a href='" . $link_remove . "'>" . JText::_('COM_REDSHOP_REMOVE_PRODUCT_FROM_COMPARE_LIST') . "</a>";
 
@@ -298,7 +294,7 @@ elseif (isset($compare['idx']) && $compare['idx'] > 1)
 	$template = str_replace('{remove}', "", $template);
 	$template = str_replace('{add_to_cart}', "", $template);
 
-	$template = $redTemplate->parseredSHOPplugin($template);
+	$template = $this->redTemplate->parseredSHOPplugin($template);
 }
 else
 {

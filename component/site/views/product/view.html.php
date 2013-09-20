@@ -16,53 +16,105 @@ require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/text_library.php';
 require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
 require_once JPATH_COMPONENT_SITE . '/helpers/helper.php';
 
-class productViewproduct extends JView
+/**
+ * Product Detail View
+ *
+ * @package     RedShop.Component
+ * @subpackage  Site
+ *
+ * @since       1.0
+ */
+class ProductViewProduct extends JView
 {
+	// JApplication object
+	public $app;
+
+	// JInput object
+	public $input;
+
+	// Redtemplate helper
+	public $redTemplate;
+
+	// Redhelper
+	public $redHelper;
+
+	// Text_library helper
+	public $textHelper;
+
+	// Menu item ID
+	public $itemId;
+
+	// Product ID
+	public $pid;
+
+	// The Dispatcher
+	public $dispatcher;
+
+	// Product model
+	public $model;
+
+	// JDocument object
+	public $document;
+
+	// JSession object
+	public $session;
+
+	/**
+	 * Execute and display a template script.
+	 *
+	 * @param   string  $tpl  The name of the template file to parse; automatically searches through the template paths.
+	 *
+	 * @return  mixed  A string if successful, otherwise a JError object.
+	 *
+	 * @see     fetch()
+	 * @since   11.1
+	 */
 	public function display($tpl = null)
 	{
 		// Request variables
-		$app     = JFactory::getApplication();
-		$prodhelperobj = new producthelper;
-		$redTemplate   = new Redtemplate;
-		$redhelper     = new redhelper;
-		$texts         = new text_library;
-		$dispatcher    = JDispatcher::getInstance();
+		$prodhelperobj     = new producthelper;
+		$this->redTemplate = new Redtemplate;
+		$this->redHelper   = new redhelper;
+		$this->textHelper  = new text_library;
 
-		$Itemid   = JRequest::getInt('Itemid');
-		$pid      = JRequest::getInt('pid');
-		$cid      = JRequest::getInt('cid');
-		$layout   = JRequest::getCmd('layout');
-		$template = JRequest::getString('r_template');
-
+		$this->app             = JFactory::getApplication();
+		$this->input           = $this->app->input;
+		$this->model           = $this->getModel('product');
+		$this->document        = JFactory::getDocument();
+		$this->session         = JFactory::getSession();
 		$pageheadingtag        = '';
-		$document              = JFactory::getDocument();
-		$params                = $app->getParams('com_redshop');
+		$params                = $this->app->getParams('com_redshop');
 		$menu_meta_keywords    = $params->get('menu-meta_keywords');
 		$menu_meta_description = $params->get('menu-meta_description');
 		$menu_robots           = $params->get('robots');
 		$data                  = array();
 		$productTemplate       = null;
 
-		$model   = $this->getModel('product');
-		$session = JFactory::getSession();
+		$this->itemId = $this->input->getInt('Itemid', null);
+		$this->pid    = $this->input->getInt('pid', 0);
+		$layout       = $this->input->getString('layout', 'default');
+		$template     = $this->input->getString('r_template', '');
 
-		if (!$pid)
+		JPluginHelper::importPlugin('redshop_product');
+		$this->dispatcher = JDispatcher::getInstance();
+
+		if (!$this->pid)
 		{
-			$pid = $params->get('productid');
+			$this->pid = $params->get('productid');
 		}
 
 		// Include Javascript
 
-		JHTML::Script('jquery.js', 'components/com_redshop/assets/js/', false);
-		JHTML::Script('redBOX.js', 'components/com_redshop/assets/js/', false);
+		JHtml::Script('jquery.js', 'components/com_redshop/assets/js/', false);
+		JHtml::Script('redBOX.js', 'components/com_redshop/assets/js/', false);
 
-		JHTML::Script('json.js', 'components/com_redshop/assets/js/', false);
-		JHTML::Script('attribute.js', 'components/com_redshop/assets/js/', false);
-		JHTML::Script('common.js', 'components/com_redshop/assets/js/', false);
+		JHtml::Script('json.js', 'components/com_redshop/assets/js/', false);
+		JHtml::Script('attribute.js', 'components/com_redshop/assets/js/', false);
+		JHtml::Script('common.js', 'components/com_redshop/assets/js/', false);
 
 		// Lightbox Javascript
-		JHTML::Stylesheet('style.css', 'components/com_redshop/assets/css/');
-		JHTML::Stylesheet('scrollable-navig.css', 'components/com_redshop/assets/css/');
+		JHtml::Stylesheet('style.css', 'components/com_redshop/assets/css/');
+		JHtml::Stylesheet('scrollable-navig.css', 'components/com_redshop/assets/css/');
 
 		if ($layout == "downloadproduct")
 		{
@@ -106,7 +158,7 @@ class productViewproduct extends JView
 			{
 				$main_url  = JURI::root() . $data->canonical_url;
 				$canonical = '<link rel="canonical" href="' . $main_url . '" />';
-				$document->addCustomTag($canonical);
+				$this->document->addCustomTag($canonical);
 			}
 			elseif ($data->product_parent_id != 0 && $data->product_parent_id != "")
 			{
@@ -116,23 +168,29 @@ class productViewproduct extends JView
 				{
 					$main_url  = JURI::root() . $product_parent_data->canonical_url;
 					$canonical = '<link rel="canonical" href="' . $main_url . '" />';
-					$document->addCustomTag($canonical);
+					$this->document->addCustomTag($canonical);
 				}
 				else
 				{
-					$main_url  = substr_replace(JURI::root(), "", -1) . JRoute::_('index.php?option=com_redshop&view=product&layout=detail&Itemid=' . $Itemid . '&pid=' . $data->product_parent_id, false);
+					$main_url  = substr_replace(JURI::root(), "", -1);
+					$main_url .= JRoute::_(
+											'index.php?option=com_redshop&view=product&layout=detail&Itemid=' . $this->itemId .
+											'&pid=' . $data->product_parent_id,
+											false
+										);
 					$canonical = '<link rel="canonical" href="' . $main_url . '" />';
-					$document->addCustomTag($canonical);
+					$this->document->addCustomTag($canonical);
 				}
 			}
 
-			$productTemplate = $model->getProductTemplate();
+			$productTemplate = $this->model->getProductTemplate();
 
 			/*
 			 * Process the prepare Product plugins
 			 */
-			JPluginHelper::importPlugin('redshop_product');
-			$results = $dispatcher->trigger('onPrepareProduct', array(& $productTemplate->template_desc, & $params, $data));
+			$this->dispatcher->trigger('onPrepareProduct', array(& $productTemplate->template_desc, & $params, $data));
+
+			$pagetitletag = '';
 
 			// For page title
 			if (AUTOGENERATED_SEO && SEO_PAGE_TITLE != '')
@@ -167,38 +225,50 @@ class productViewproduct extends JView
 			{
 				if ($data->append_to_global_seo == 'append')
 				{
-					$pagetitletag = $pagetitletag . " " . $data->pagetitle;
-					$document->setTitle($pagetitletag);
-					$document->setMetaData("og:title", $pagetitletag);
+					$pagetitletag .= " " . $data->pagetitle;
+					$this->document->setTitle($pagetitletag);
+					$this->document->setMetaData("og:title", $pagetitletag);
 				}
 				elseif ($data->append_to_global_seo == 'prepend')
 				{
 					$pagetitletag = $data->pagetitle . " " . $pagetitletag;
-					$document->setTitle($pagetitletag);
-					$document->setMetaData("og:title", $pagetitletag);
+					$this->document->setTitle($pagetitletag);
+					$this->document->setMetaData("og:title", $pagetitletag);
 				}
 				elseif ($data->append_to_global_seo == 'replace')
 				{
-					$document->setTitle($data->pagetitle);
-					$document->setMetaData("og:title", $data->pagetitle);
+					$this->document->setTitle($data->pagetitle);
+					$this->document->setMetaData("og:title", $data->pagetitle);
 				}
 			}
 			else
 			{
 				if ($data->pagetitle != '')
 				{
-					$document->setTitle($data->pagetitle);
-					$document->setMetaData("og:title", $data->pagetitle);
+					$this->document->setTitle($data->pagetitle);
+					$this->document->setMetaData("og:title", $data->pagetitle);
 				}
 				elseif (AUTOGENERATED_SEO && SEO_PAGE_TITLE != '')
 				{
-					$document->setTitle($pagetitletag);
-					$document->setMetaData("og:title", $pagetitletag);
+					$this->document->setTitle($pagetitletag);
+					$this->document->setMetaData("og:title", $pagetitletag);
 				}
 				else
 				{
-					$document->setTitle($data->product_name . " | " . $data->category_name . " | " . $app->getCfg('sitename') . " | " . $data->product_number);
-					$document->setMetaData("og:title", $data->product_name . " | " . $data->category_name . " | " . $app->getCfg('sitename') . " | " . $data->product_number);
+					$this->document->setTitle(
+												$data->product_name . " | " .
+												$data->category_name . " | " .
+												$this->app->getCfg('sitename') . " | " .
+												$data->product_number
+											);
+
+					$this->document->setMetaData(
+											"og:title",
+											$data->product_name . " | " .
+											$data->category_name . " | " .
+											$this->app->getCfg('sitename') . " | " .
+											$data->product_number
+										);
 				}
 			}
 
@@ -208,12 +278,14 @@ class productViewproduct extends JView
 
 			if ($data->product_thumb_image && file_exists(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $data->product_thumb_image))
 			{
-				$document->setMetaData("og:image", $scheme . "://" . $host . "/components/com_redshop/assets/images/product/" . $data->product_thumb_image);
+				$this->document->setMetaData("og:image", $scheme . "://" . $host . "/components/com_redshop/assets/images/product/" . $data->product_thumb_image);
 			}
 			elseif ($data->product_full_image && file_exists(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $data->product_full_image))
 			{
-				$document->setMetaData("og:image", $scheme . "://" . $host . "/components/com_redshop/assets/images/product/" . $data->product_full_image);
+				$this->document->setMetaData("og:image", $scheme . "://" . $host . "/components/com_redshop/assets/images/product/" . $data->product_full_image);
 			}
+
+			$pagekeywordstag = '';
 
 			if (AUTOGENERATED_SEO && SEO_PAGE_KEYWORDS != '')
 			{
@@ -228,69 +300,70 @@ class productViewproduct extends JView
 				$pagekeywordstag = str_replace("{saleprice}", $prodhelperobj_array_main['product_price'], $pagekeywordstag);
 				$pagekeywordstag = $prodhelperobj->getProductNotForSaleComment($data, $pagekeywordstag);
 
-				$document->setMetaData('keywords', $pagekeywordstag);
+				$this->document->setMetaData('keywords', $pagekeywordstag);
 			}
 
 			if (trim($data->metakey) != '' && AUTOGENERATED_SEO && SEO_PAGE_KEYWORDS != '')
 			{
 				if ($data->append_to_global_seo == 'append')
 				{
-					$pagekeywordstag = $pagekeywordstag . "," . trim($data->metakey);
-					$document->setMetaData('keywords', $pagekeywordstag);
+					$pagekeywordstag .= "," . trim($data->metakey);
+					$this->document->setMetaData('keywords', $pagekeywordstag);
 				}
 				elseif ($data->append_to_global_seo == 'prepend')
 				{
-					$pagetitletag = trim($data->metakey) . " " . $pagekeywordstag;
-					$document->setMetaData('keywords', $pagekeywordstag);
+					$this->document->setMetaData('keywords', $pagekeywordstag);
 				}
 				elseif ($data->append_to_global_seo == 'replace')
 				{
-					$document->setMetaData('keywords', $data->metakey);
+					$this->document->setMetaData('keywords', $data->metakey);
 				}
 			}
 			else
 			{
 				if (trim($data->metakey) != '')
 				{
-					$document->setMetaData('keywords', $data->metakey);
+					$this->document->setMetaData('keywords', $data->metakey);
 				}
 				else
 				{
 					if (AUTOGENERATED_SEO && SEO_PAGE_KEYWORDS != '')
 					{
-						$document->setMetaData('keywords', $pagekeywordstag);
+						$this->document->setMetaData('keywords', $pagekeywordstag);
 					}
 					elseif ($menu_meta_keywords != "")
 					{
-						$document->setMetaData('keywords', $menu_meta_keywords);
+						$this->document->setMetaData('keywords', $menu_meta_keywords);
 					}
 					else
 					{
-						$document->setMetaData('keywords', $data->product_name . ", " . $data->category_name . ", " . SHOP_NAME . ", " . $data->product_number);
+						$this->document->setMetaData('keywords', $data->product_name . ", " . $data->category_name . ", " . SHOP_NAME . ", " . $data->product_number);
 					}
 				}
 			}
 
 			if (trim($data->metarobot_info) != '')
 			{
-				$document->setMetaData('robots', $data->metarobot_info);
+				$this->document->setMetaData('robots', $data->metarobot_info);
 			}
 			else
 			{
 				if (AUTOGENERATED_SEO && SEO_PAGE_ROBOTS != '')
 				{
 					$pagerobotstag = SEO_PAGE_ROBOTS;
-					$document->setMetaData('robots', $pagerobotstag);
+					$this->document->setMetaData('robots', $pagerobotstag);
 				}
 				elseif ($menu_robots != "")
 				{
-					$document->setMetaData('robots', $menu_robots);
+					$this->document->setMetaData('robots', $menu_robots);
 				}
 				else
 				{
-					$document->setMetaData('robots', "INDEX,FOLLOW");
+					$this->document->setMetaData('robots', "INDEX,FOLLOW");
 				}
 			}
+
+			$pagedesctag = '';
 
 			// For meta description
 			if (AUTOGENERATED_SEO && SEO_PAGE_DESCRIPTION != '')
@@ -322,44 +395,43 @@ class productViewproduct extends JView
 			{
 				if ($data->append_to_global_seo == 'append')
 				{
-					$pagedesctag = $pagedesctag . " " . $data->metadesc;
-					$document->setMetaData('description', $pagedesctag);
-					$document->setMetaData("og:description", $pagedesctag);
+					$pagedesctag .= " " . $data->metadesc;
+					$this->document->setMetaData('description', $pagedesctag);
+					$this->document->setMetaData("og:description", $pagedesctag);
 				}
 				elseif ($data->append_to_global_seo == 'prepend')
 				{
-					$pagetitletag = trim($data->metadesc) . " " . $pagedesctag;
-					$document->setMetaData('description', $pagedesctag);
-					$document->setMetaData("og:description", $pagedesctag);
+					$this->document->setMetaData('description', $pagedesctag);
+					$this->document->setMetaData("og:description", $pagedesctag);
 				}
 				elseif ($data->append_to_global_seo == 'replace')
 				{
-					$document->setMetaData('description', $data->metadesc);
-					$document->setMetaData("og:description", $data->metadesc);
+					$this->document->setMetaData('description', $data->metadesc);
+					$this->document->setMetaData("og:description", $data->metadesc);
 				}
 			}
 			else
 			{
 				if (trim($data->metadesc) != '')
 				{
-					$document->setMetaData('description', $data->metadesc);
-					$document->setMetaData("og:description", $pagedesctag);
+					$this->document->setMetaData('description', $data->metadesc);
+					$this->document->setMetaData("og:description", $pagedesctag);
 				}
 				elseif (AUTOGENERATED_SEO && SEO_PAGE_DESCRIPTION != '')
 				{
-					$document->setMetaData('description', $pagedesctag);
-					$document->setMetaData("og:description", $pagedesctag);
+					$this->document->setMetaData('description', $pagedesctag);
+					$this->document->setMetaData("og:description", $pagedesctag);
 				}
 				elseif ($menu_meta_description != "")
 				{
-					$document->setMetaData('description', $menu_meta_description);
-					$document->setMetaData("og:description", $menu_meta_description);
+					$this->document->setMetaData('description', $menu_meta_description);
+					$this->document->setMetaData("og:description", $menu_meta_description);
 				}
 				else
 				{
 					$prodhelperobj_array = $prodhelperobj->getProductNetPrice($data->product_id);
 
-					if ($prodhelperobj_array['product_price_saving'] != "")
+					if ($prodhelperobj_array['product_price_saving'] != '')
 					{
 						$product_price_saving_main = $prodhelperobj_array['product_price_saving'];
 					}
@@ -368,8 +440,18 @@ class productViewproduct extends JView
 						$product_price_saving_main = 0;
 					}
 
-					$document->setMetaData('description', JText::_('COM_REDSHOP_META_BUY') . " " . $data->product_name . " " . JText::_('COM_REDSHOP_META_AT_ONLY') . " " . $prodhelperobj_array['product_price'] . " " . JText::_('COM_REDSHOP_META_SAVE') . " " . $product_price_saving_main);
-					$document->setMetaData("og:description", JText::_('COM_REDSHOP_META_BUY') . " " . $data->product_name . " " . JText::_('COM_REDSHOP_META_AT_ONLY') . " " . $prodhelperobj_array['product_price'] . " " . JText::_('COM_REDSHOP_META_SAVE') . " " . $product_price_saving_main);
+					$this->document->setMetaData(
+											'description',
+											JText::_('COM_REDSHOP_META_BUY') . ' ' . $data->product_name . ' ' .
+											JText::_('COM_REDSHOP_META_AT_ONLY') . ' ' . $prodhelperobj_array['product_price'] . ' ' .
+											JText::_('COM_REDSHOP_META_SAVE') . ' ' . $product_price_saving_main
+										);
+					$this->document->setMetaData(
+											'og:description',
+											JText::_('COM_REDSHOP_META_BUY') . ' ' . $data->product_name . ' ' .
+											JText::_('COM_REDSHOP_META_AT_ONLY') . ' ' . $prodhelperobj_array['product_price'] . ' ' .
+											JText::_('COM_REDSHOP_META_SAVE') . ' ' . $product_price_saving_main
+										);
 				}
 			}
 
@@ -378,8 +460,8 @@ class productViewproduct extends JView
 			 * Trigger event onAfterDisplayProduct
 			 * Show content return by plugin directly into product page after display product title
 			 */
-			$data->event                    = new stdClass;
-			$results                        = $dispatcher->trigger('onAfterDisplayProductTitle', array(& $productTemplate->template_desc, & $params, $data));
+			$data->event = new stdClass;
+			$results = $this->dispatcher->trigger('onAfterDisplayProductTitle', array(&$productTemplate->template_desc, $params, $data));
 			$data->event->afterDisplayTitle = trim(implode("\n", $results));
 
 			/**
@@ -387,7 +469,7 @@ class productViewproduct extends JView
 			 *
 			 * Trigger event onBeforeDisplayProduct will display content before product display
 			 */
-			$results                           = $dispatcher->trigger('onBeforeDisplayProduct', array(& $productTemplate->template_desc, & $params, $data));
+			$results = $this->dispatcher->trigger('onBeforeDisplayProduct', array(&$productTemplate->template_desc, $params, $data));
 			$data->event->beforeDisplayProduct = trim(implode("\n", $results));
 
 			// For page heading
@@ -412,29 +494,25 @@ class productViewproduct extends JView
 				{
 					$pageheadingtag = $data->pageheading;
 				}
-				elseif (AUTOGENERATED_SEO && SEO_PAGE_HEADING != '')
-				{
-					$pageheadingtag = $pageheadingtag;
-				}
 			}
 
 			$visited = array();
-			$visited = $session->get('visited', $visited);
+			$visited = $this->session->get('visited', $visited);
 
-			if ($pid && !(in_array($pid, $visited)))
+			if ($this->pid && !(in_array($this->pid, $visited)))
 			{
-				$visit     = $model->updateVisited($pid);
-				$visited[] = $pid;
-				$session->set('visited', $visited);
+				$this->model->updateVisited($this->pid);
+				$visited[] = $this->pid;
+				$this->session->set('visited', $visited);
 			}
 
 			// End
 		}
 
 		// Breadcrumb
-		if ($pid)
+		if ($this->pid)
 		{
-			$prodhelperobj->generateBreadcrumb($pid);
+			$prodhelperobj->generateBreadcrumb($this->pid);
 		}
 
 		// Breadcrumb end
@@ -444,7 +522,7 @@ class productViewproduct extends JView
 		$this->pageheadingtag = $pageheadingtag;
 		$this->params = $params;
 
-		$for = JRequest::getWord("for", false);
+		$for = $this->input->getBool("for", false);
 
 		if ($for)
 		{

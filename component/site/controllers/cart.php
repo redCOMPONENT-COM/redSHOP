@@ -48,7 +48,7 @@ class CartController extends JController
 		$Itemid                     = JRequest::getVar('Itemid');
 		$producthelper              = new producthelper;
 		$redhelper                  = new redhelper;
-		$Itemid                     = $redhelper->getCartItemid($Itemid);
+		$Itemid                     = $redhelper->getCartItemid();
 		$model                      = $this->getModel('cart');
 
 		// Call add method of modal to store product in cart session
@@ -299,7 +299,7 @@ class CartController extends JController
 		$post      = JRequest::get('post');
 		$Itemid    = JRequest::getVar('Itemid');
 		$redhelper = new redhelper;
-		$Itemid    = $redhelper->getCartItemid($Itemid);
+		$Itemid    = $redhelper->getCartItemid();
 		$model     = $this->getModel('cart');
 
 		// Call coupon method of model to apply coupon
@@ -337,7 +337,7 @@ class CartController extends JController
 		$post      = JRequest::get('post');
 		$Itemid    = JRequest::getVar('Itemid');
 		$redhelper = new redhelper;
-		$Itemid    = $redhelper->getCartItemid($Itemid);
+		$Itemid    = $redhelper->getCartItemid();
 		$model     = $this->getModel('cart');
 
 		// Call voucher method of model to apply voucher to cart
@@ -373,7 +373,7 @@ class CartController extends JController
 		$post      = JRequest::get('post');
 		$Itemid    = JRequest::getVar('Itemid');
 		$redhelper = new redhelper;
-		$Itemid    = $redhelper->getCartItemid($Itemid);
+		$Itemid    = $redhelper->getCartItemid();
 		$model     = $this->getModel('cart');
 
 		// Call update method of model to update product info of cart
@@ -395,7 +395,7 @@ class CartController extends JController
 		$post      = JRequest::get('post');
 		$Itemid    = JRequest::getVar('Itemid');
 		$redhelper = new redhelper;
-		$Itemid    = $redhelper->getCartItemid($Itemid);
+		$Itemid    = $redhelper->getCartItemid();
 		$model     = $this->getModel('cart');
 
 		// Call update_all method of model to update all products info of cart
@@ -416,7 +416,7 @@ class CartController extends JController
 		$option    = JRequest::getVar('option');
 		$Itemid    = JRequest::getVar('Itemid');
 		$redhelper = new redhelper;
-		$Itemid    = $redhelper->getCartItemid($Itemid);
+		$Itemid    = $redhelper->getCartItemid();
 		$model     = $this->getModel('cart');
 
 		// Call empty_cart method of model to remove all products from cart
@@ -444,7 +444,7 @@ class CartController extends JController
 		$cartElement = $post['cart_index'];
 		$Itemid      = JRequest::getVar('Itemid');
 		$redhelper   = new redhelper;
-		$Itemid      = $redhelper->getCartItemid($Itemid);
+		$Itemid      = $redhelper->getCartItemid();
 		$model       = $this->getModel('cart');
 
 		$model->delete($cartElement);

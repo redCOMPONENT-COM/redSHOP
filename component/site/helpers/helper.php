@@ -541,7 +541,7 @@ class redhelper
 	}
 
 	// Get cart Itemid
-	public function getCartItemid($Itemid)
+	public function getCartItemid()
 	{
 		$userhelper         = new rsUserhelper;
 		$Itemid             = DEFAULT_CART_CHECKOUT_ITEMID;

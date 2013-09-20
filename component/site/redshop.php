@@ -54,7 +54,7 @@ else
 JHTML::Stylesheet('style.css', 'components/com_redshop/assets/css/');
 $Itemid = $helper->getCheckoutItemid();
 $Itemid = JRequest::getInt('Itemid', $Itemid);
-$Itemid = $helper->getCartItemid($Itemid);
+$Itemid = $helper->getCartItemid();
 
 // Include redshop js file.
 require_once JPATH_COMPONENT . '/helpers/redshop.js.php';

@@ -266,7 +266,7 @@ class Order_detailController extends JController
 		if (is_bool($result) && $result)
 		{
 			$Itemid = JRequest::getVar('Itemid');
-			$Itemid = $this->_redhelper->getCartItemid($Itemid);
+			$Itemid = $this->_redhelper->getCartItemid();
 			$this->_carthelper->cartFinalCalculation();
 			$app->redirect('index.php?option=com_redshop&view=cart&Itemid=' . $Itemid);
 		}
@@ -308,7 +308,7 @@ class Order_detailController extends JController
 		$post     = JRequest::get('post');
 		$order_id = (isset($post['order_id'])) ? $post['order_id'] : JRequest::getInt('order_id');
 		$Itemid   = JRequest::getVar('Itemid');
-		$Itemid   = $this->_redhelper->getCartItemid($Itemid);
+		$Itemid   = $this->_redhelper->getCartItemid();
 
 		$returnmsg = "";
 
