@@ -5608,7 +5608,7 @@ class rsCarthelper
 			$cart[$idx]['attributeImage'] = $attributeImage . '.png';
 		}
 
-		if ($data['reorder'] && $data['attributeImage'])
+		if (!empty($data['reorder']) && !empty($data['attributeImage']))
 		{
 			$cart[$idx]['attributeImage'] = $data['attributeImage'];
 		}
