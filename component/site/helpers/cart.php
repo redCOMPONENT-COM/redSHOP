@@ -6033,7 +6033,7 @@ class rsCarthelper
 			 * trigger the event of redSHOP product plugin support on Before cart session is set - on prepare cart session
 			 */
 			JPluginHelper::importPlugin('redshop_product');
-			$results = $dispatcher->trigger('onBeforeSetCartSession', array(& $cart, $data));
+			$dispatcher->trigger('onBeforeSetCartSession', array(& $cart, $data));
 
 			$cart['idx'] = $idx + 1;
 
