@@ -847,7 +847,7 @@ class rsstockroomhelper
 
 			if ($section_id != 0)
 			{
-				$and .= "AND product_id = " . (int) $section_id . "' AND section = " . $db->quote($section) . " ";
+				$and .= "AND product_id = " . (int) $section_id . " AND section = " . $db->quote($section) . " ";
 			}
 
 			$query = "DELETE FROM " . $this->_table_prefix . "cart "
