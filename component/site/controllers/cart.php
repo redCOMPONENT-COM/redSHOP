@@ -54,6 +54,10 @@ class CartController extends JController
 		// Call add method of modal to store product in cart session
 		$userfiled = JRequest::getVar('userfiled');
 
+		JPluginHelper::importPlugin('redshop_product');
+		$dispatcher = JDispatcher::getInstance();
+		$dispatcher->trigger('onBeforeAddProductToCart', array(&$post));
+
 		$result = $this->_carthelper->addProductToCart($post);
 
 		if (is_bool($result) && $result)
