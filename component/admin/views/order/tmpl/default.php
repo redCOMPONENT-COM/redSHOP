@@ -228,13 +228,9 @@ for ($i = 0, $n = count($this->orders); $i < $n; $i++)
 					</td>
 				</tr>
 				<tr>
-					<td><textarea
-							name="customer_note<?php echo $row->order_id; ?>"><?php echo $row->customer_note;?></textarea>
+					<td>
+						<textarea name="customer_note<?php echo $row->order_id ?>"><?php echo $row->customer_note;?></textarea>
 					</td>
-					<!-- <td>
-							<input class="inputbox" name="ic<?php echo $row->order_id ;?>" id="include_comment<?php echo $row->order_id ;?>" value="N" type="checkbox" onclick="if(this.checked==true) {this.value = 'Y';} else {this.value = 'N';}"><?php echo JText::_('COM_REDSHOP_INCLUDE_COMMENT_MSG' ); ?><br />
-							<input class="inputbox" name="nc<?php echo $row->order_id ;?>" id="notify_customer<?php echo $row->order_id ;?>" value="N" type="checkbox" onclick="if(this.checked==true) {this.value = 'Y';} else {this.value = 'N';}"><?php echo JText::_('COM_REDSHOP_NOTIFY_CUSTOMER_MSG' ); ?>
-						</td> -->
 				</tr>
 				<tr>
 					<td>
@@ -244,7 +240,6 @@ for ($i = 0, $n = count($this->orders); $i < $n; $i++)
 					</td>
 				</tr>
 				<tr>
-					<!-- <td></td> -->
 					<td>
 						<input class="button"
 						       onclick="location.href = '<?php echo $linkupdate; ?>&status='+document.adminForm.order_status<?php echo $row->order_id; ?>.value+'&customer_note='+encodeURIComponent(document.adminForm.customer_note<?php echo $row->order_id; ?>.value)+'&order_sendordermail='+document.adminForm.sendordermail<?php echo $row->order_id; ?>.checked+'&order_paymentstatus='+document.adminForm.order_paymentstatus<?php echo $row->order_id; ?>.value  ; "
