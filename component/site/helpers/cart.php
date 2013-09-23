@@ -5608,7 +5608,7 @@ class rsCarthelper
 			$cart[$idx]['attributeImage'] = $attributeImage . '.png';
 		}
 
-		if ($data['reorder'] && $data['attributeImage'])
+		if (!empty($data['reorder']) && !empty($data['attributeImage']))
 		{
 			$cart[$idx]['attributeImage'] = $data['attributeImage'];
 		}
@@ -5950,7 +5950,7 @@ class rsCarthelper
 						 * Usually redSHOP update quantity
 						 */
 						JPluginHelper::importPlugin('redshop_product');
-						$results = $dispatcher->trigger('onSameCartProduct', array(& $cart, $data, $i));
+						$dispatcher->trigger('onSameCartProduct', array(& $cart, $data, $i));
 
 						$this->_session->set('cart', $cart);
 						$data['cart_index'] = $i;
@@ -6033,7 +6033,7 @@ class rsCarthelper
 			 * trigger the event of redSHOP product plugin support on Before cart session is set - on prepare cart session
 			 */
 			JPluginHelper::importPlugin('redshop_product');
-			$results = $dispatcher->trigger('onBeforeSetCartSession', array(& $cart, $data));
+			$dispatcher->trigger('onBeforeSetCartSession', array(&$cart, $data));
 
 			$cart['idx'] = $idx + 1;
 
@@ -6045,14 +6045,7 @@ class rsCarthelper
 
 				if ($tmpstr)
 				{
-					$tmparray = explode('`', $data_txt);
-					$tmp      = new stdClass;
-					$tmp      = @array_merge($tmp, $tmparray);
-
-					if (is_array($tmparray))
-					{
-						$data_txt = implode(",", $tmparray);
-					}
+					$data_txt = str_replace('`', ',', $data_txt);
 				}
 
 				$cart[$idx][$field_name] = $data_txt;
