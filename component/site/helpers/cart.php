@@ -5950,7 +5950,7 @@ class rsCarthelper
 						 * Usually redSHOP update quantity
 						 */
 						JPluginHelper::importPlugin('redshop_product');
-						$results = $dispatcher->trigger('onSameCartProduct', array(& $cart, $data, $i));
+						$dispatcher->trigger('onSameCartProduct', array(& $cart, $data, $i));
 
 						$this->_session->set('cart', $cart);
 						$data['cart_index'] = $i;
