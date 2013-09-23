@@ -179,11 +179,12 @@ for ($i = 0, $n = count($this->orders); $i < $n; $i++)
 	$row->id = $row->order_id;
 	$link = 'index.php?option=' . $option . '&view=order_detail&task=edit&cid[]=' . $row->order_id;
 	$link = $redhelper->sslLink($link);
+
 	/**
-	 * @var $data
-	 * Trigger event onAfterDisplayProduct
-	 * Show content return by plugin directly into product page after display product title
+	 * This is an event that is useing into back-end order listing page. In to grid column, below checkbox.
+	 * This event is called to add heightlighter from which order can be identified that plugin enhancment is included into this order.
 	 */
+	$data = new stdClass;
 	$data->highlight = new stdClass;
 	$results = $dispatcher->trigger('toHighlightGrid', array(& $row));
 	$data->highlight->toHighlightGrid = trim(implode("\n", $results));
