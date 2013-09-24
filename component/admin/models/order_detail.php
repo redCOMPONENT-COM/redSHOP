@@ -986,8 +986,9 @@ class order_detailModelorder_detail extends JModel
 
 		$orderdata = $this->getTable('order_detail');
 		$orderdata->load($this->_id);
+
 		$order_functions = new order_functions;
-		$OrderItems = $order_functions->getOrderItemDetail($this->_id);
+		$OrderItems      = $order_functions->getOrderItemDetail($this->_id);
 
 		if (!$orderdata->special_discount)
 		{
@@ -1014,24 +1015,17 @@ class order_detailModelorder_detail extends JModel
 			if ($order_item_id != $OrderItems[$i]->order_item_id)
 			{
 				$subtotal_excl_vat = $subtotal_excl_vat + ($OrderItems[$i]->product_item_price_excl_vat * $OrderItems[$i]->product_quantity);
-				$subtotal = $subtotal + ($OrderItems[$i]->product_item_price * $OrderItems[$i]->product_quantity);
+				$subtotal          = $subtotal + ($OrderItems[$i]->product_item_price * $OrderItems[$i]->product_quantity);
 			}
 		}
-		if (APPLY_VAT_ON_DISCOUNT)
-		{
-			$amt = $subtotal;
-		}
-		else
-		{
-			$amt = $subtotal_excl_vat;
-		}
 
-		$discount_price = ($amt * $special_discount) / 100;
-		$orderdata->special_discount = $special_discount;
+		$discount_price                     = ($subtotal * $special_discount) / 100;
+		$orderdata->special_discount        = $special_discount;
 		$orderdata->special_discount_amount = $discount_price;
 
-		$order_total = $subtotal + $orderdata->order_shipping - $discount_price - $orderdata->order_discount;
+		$order_total            = $subtotal + $orderdata->order_shipping - $discount_price - $orderdata->order_discount;
 		$orderdata->order_total = $order_total;
+
 		$orderdata->mdate = time();
 
 		if (!$orderdata->store())
@@ -1041,7 +1035,7 @@ class order_detailModelorder_detail extends JModel
 
 		if (ECONOMIC_INTEGRATION == 1)
 		{
-			$economic = new economic;
+			$economic      = new economic;
 			$invoiceHandle = $economic->renewInvoiceInEconomic($orderdata);
 		}
 
