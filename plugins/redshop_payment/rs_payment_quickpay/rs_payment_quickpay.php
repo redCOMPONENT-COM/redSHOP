@@ -152,7 +152,7 @@ class plgRedshop_paymentrs_payment_quickpay extends JPlugin
 	}
 
 	/**
-	 * Get QuickPay response
+	 * Send Information on QuickPay using CURL
 	 *
 	 * @param   array   $data  Order Information
 	 * @param   string  $type  Request Type
