@@ -16,13 +16,13 @@ require_once JPATH_COMPONENT_SITE . '/helpers/cart.php';
 require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php';
 require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/shipping.php';
 
-$producthelper = new producthelper();
-$carthelper = new rsCarthelper();
-$order_functions = new order_functions();
-$redhelper = new redhelper();
-$extra_field = new extra_field();
-$shippinghelper = new shipping();
-$config = new Redconfiguration();
+$producthelper = new producthelper;
+$carthelper = new rsCarthelper;
+$order_functions = new order_functions;
+$redhelper = new redhelper;
+$extra_field = new extra_field;
+$shippinghelper = new shipping;
+$config = new Redconfiguration;
 
 $uri = JURI::getInstance();
 $url = $uri->root();
@@ -535,23 +535,31 @@ for ($i = 0; $i < count($products); $i++)
 						      name="itemForm<?php echo $order_item_id; ?>">
 							<table border="0" cellspacing="0" cellpadding="0" class="adminlist" width="100%">
 								<tr>
-
-									<td width="20%"><?php echo $Product_name; ?>
+									<td width="20%">
+										<?php echo $Product_name; ?>
 									</td>
-									<td width="15%"><?php
+									<td width="15%">
+										<?php
+											echo $products[$i]->product_attribute . "<br />" . $products[$i]->product_accessory . "<br/>" . $products[$i]->discount_calc_data;
 
-										echo $products[$i]->product_attribute . "<br />" . $products[$i]->product_accessory . "<br/>" . $products[$i]->discount_calc_data;
-										if ($wrapper_id)
-										{
-											$wrapper = $producthelper->getWrapper($product_id, $wrapper_id);
-											echo "<br>" . JText::_('COM_REDSHOP_WRAPPER') . ": " . $wrapper[0]->wrapper_name . "(" . $products[$i]->wrapper_price . ")";
-										}
-										if ($subscribe_detail)
-										{
-											$subscription_detail = $model->getProductSubscriptionDetail($product_id, $subscribe_detail->subscription_id);
-											$selected_subscription = $subscription_detail->subscription_period . " " . $subscription_detail->period_type;
-											echo JText::_('COM_REDSHOP_SUBSCRIPTION') . ': ' . $selected_subscription;
-										}
+											if ($wrapper_id)
+											{
+												$wrapper = $producthelper->getWrapper($product_id, $wrapper_id);
+												echo "<br>" . JText::_('COM_REDSHOP_WRAPPER') . ": " . $wrapper[0]->wrapper_name . "(" . $products[$i]->wrapper_price . ")";
+											}
+
+											if ($subscribe_detail)
+											{
+												$subscription_detail = $model->getProductSubscriptionDetail($product_id, $subscribe_detail->subscription_id);
+												$selected_subscription = $subscription_detail->subscription_period . " " . $subscription_detail->period_type;
+												echo JText::_('COM_REDSHOP_SUBSCRIPTION') . ': ' . $selected_subscription;
+											}
+										?>
+										<br/><br/>
+										<?php
+											JPluginHelper::importPlugin('redshop_product');
+											$dispatcher = JDispatcher::getInstance();
+											$dispatcher->trigger('onDisplayOrderItemNote', array($products[$i]));
 										?>
 									</td>
 									<td width="10%">
