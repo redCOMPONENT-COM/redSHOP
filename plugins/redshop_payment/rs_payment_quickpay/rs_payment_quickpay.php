@@ -151,20 +151,18 @@ class plgRedshop_paymentrs_payment_quickpay extends JPlugin
 		return $res;
 	}
 
-	function onCapture_Paymentrs_payment_quickpay($element, $data)
+	/**
+	 * Get QuickPay response
+	 *
+	 * @param   array   $data  Order Information
+	 * @param   string  $type  Response Type
+	 *
+	 * @return  object         Simple XML object
+	 */
+	private function getQuickpayResponse($data, $type)
 	{
-		if ($element != 'rs_payment_quickpay')
-		{
-			return;
-		}
-
-		require_once JPATH_SITE . '/administrator/components/com_redshop/helpers/order.php';
-
-		$objOrder = new order_functions;
-		$db       = JFactory::getDbo();
-
 		$protocol     = '3';
-		$msgtype      = 'capture';
+		$msgtype      = $type;
 		$finalize     = 1;
 		$merchant_id  = $this->_params->get("quickpay_customer_id");
 		$order_amount = ($data['order_amount'] * 100);
@@ -182,9 +180,9 @@ class plgRedshop_paymentrs_payment_quickpay extends JPlugin
 						'md5check'    => $md5check
 					);
 
+		$ch = curl_init('https://secure.quickpay.dk/api');
 		$encoded = http_build_query($message, false, '&');
 
-		$ch = curl_init('https://secure.quickpay.dk/api');
 		curl_setopt($ch, CURLOPT_POSTFIELDS,  $encoded);
 		curl_setopt($ch, CURLOPT_HEADER, 0);
 		curl_setopt($ch, CURLOPT_POST, 1);
@@ -196,6 +194,17 @@ class plgRedshop_paymentrs_payment_quickpay extends JPlugin
 
 		$response  = new SimpleXMLElement($response);
 
+		return $response;
+	}
+
+	function onCapture_Paymentrs_payment_quickpay($element, $data)
+	{
+		if ($element != 'rs_payment_quickpay')
+		{
+			return;
+		}
+
+		$response  = $this->getQuickpayResponse($data, 'capture');
 		$qpstat    = $response->qpstat;
 		$qpstatmsg = addslashes($response->qpstatmsg);
 
@@ -222,41 +231,7 @@ class plgRedshop_paymentrs_payment_quickpay extends JPlugin
 			return;
 		}
 
-		require_once JPATH_SITE . '/administrator/components/com_redshop/helpers/order.php';
-
-		$objOrder = new order_functions;
-		$db       = JFactory::getDbo();
-
-		$protocol     = '3';
-		$msgtype      = 'refund';
-		$merchant_id  = $this->_params->get("quickpay_customer_id");
-		$order_amount = ($data['order_amount'] * 100);
-		$transaction  = $data['order_transactionid'];
-		$md5word      = $this->_params->get("quickpay_paymentkey");
-		$md5check     = md5($protocol . $msgtype . $merchant_id . $order_amount . $transaction . $md5word);
-
-		$message = array('protocol' => $protocol, 'msgtype' => $msgtype, 'merchant' => $merchant_id, 'amount' => $order_amount, 'transaction' => $transaction, 'md5check' => $md5check);
-
-		$context = stream_context_create(
-			array(
-				'http' => array(
-					'method'  => 'POST',
-					'content' => http_build_query($message, false, '&'),
-				),
-			)
-		);
-
-		if (!$fp = @fopen('https://secure.quickpay.dk/api', 'r', false, $context))
-		{
-			throw new Exception('Could not connect to gateway');
-		}
-
-		if (($response = @stream_get_contents($fp)) === false)
-		{
-			throw new Exception('Could not read data from gateway');
-		}
-
-		$response  = new SimpleXMLElement($response);
+		$response  = $this->getQuickpayResponse($data, 'refund');
 		$qpstat    = $response->qpstat;
 		$qpstatmsg = addslashes($response->qpstatmsg);
 
@@ -283,41 +258,7 @@ class plgRedshop_paymentrs_payment_quickpay extends JPlugin
 			return;
 		}
 
-		require_once JPATH_SITE . '/administrator/components/com_redshop/helpers/order.php';
-
-		$objOrder = new order_functions;
-		$db       = JFactory::getDbo();
-
-		$protocol     = '3';
-		$msgtype      = 'status';
-		$merchant_id  = $this->_params->get("quickpay_customer_id");
-		$order_amount = ($data['order_amount'] * 100);
-		$transaction  = $data['order_transactionid'];
-		$md5word      = $this->_params->get("quickpay_paymentkey");
-		$md5check     = md5($protocol . $msgtype . $merchant_id . $order_amount . $transaction . $md5word);
-
-		$message = array('protocol' => $protocol, 'msgtype' => $msgtype, 'merchant' => $merchant_id, 'amount' => $order_amount, 'transaction' => $transaction, 'md5check' => $md5check);
-
-		$context = stream_context_create(
-			array(
-				'http' => array(
-					'method'  => 'POST',
-					'content' => http_build_query($message, false, '&'),
-				),
-			)
-		);
-
-		if (!$fp = @fopen('https://secure.quickpay.dk/api', 'r', false, $context))
-		{
-			throw new Exception('Could not connect to gateway');
-		}
-
-		if (($response = @stream_get_contents($fp)) === false)
-		{
-			throw new Exception('Could not read data from gateway');
-		}
-
-		$response        = new SimpleXMLElement($response);
+		$response        = $this->getQuickpayResponse($data, 'status');
 		$status_count    = count($response->history) - 1;
 		$quickpay_status = $response->history[$status_count]->msgtype;
 
@@ -340,41 +281,7 @@ class plgRedshop_paymentrs_payment_quickpay extends JPlugin
 			return;
 		}
 
-		require_once JPATH_SITE . '/administrator/components/com_redshop/helpers/order.php';
-
-		$objOrder = new order_functions;
-		$db       = JFactory::getDbo();
-
-		$protocol     = '3';
-		$msgtype      = 'cancel';
-		$merchant_id  = $this->_params->get("quickpay_customer_id");
-		$order_amount = ($data['order_amount'] * 100);
-		$transaction  = $data['order_transactionid'];
-		$md5word      = $this->_params->get("quickpay_paymentkey");
-		$md5check     = md5($protocol . $msgtype . $merchant_id . $order_amount . $transaction . $md5word);
-
-		$message = array('protocol' => $protocol, 'msgtype' => $msgtype, 'merchant' => $merchant_id, 'amount' => $order_amount, 'transaction' => $transaction, 'md5check' => $md5check);
-
-		$context = stream_context_create(
-			array(
-				'http' => array(
-					'method'  => 'POST',
-					'content' => http_build_query($message, false, '&'),
-				),
-			)
-		);
-
-		if (!$fp = @fopen('https://secure.quickpay.dk/api', 'r', false, $context))
-		{
-			throw new Exception('Could not connect to gateway');
-		}
-
-		if (($response = @stream_get_contents($fp)) === false)
-		{
-			throw new Exception('Could not read data from gateway');
-		}
-
-		$response  = new SimpleXMLElement($response);
+		$response  = $this->getQuickpayResponse($data, 'cancel');
 		$qpstat    = $response->qpstat;
 		$qpstatmsg = addslashes($response->qpstatmsg);
 
