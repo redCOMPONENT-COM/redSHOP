@@ -155,11 +155,11 @@ class plgRedshop_paymentrs_payment_quickpay extends JPlugin
 	 * Get QuickPay response
 	 *
 	 * @param   array   $data  Order Information
-	 * @param   string  $type  Response Type
+	 * @param   string  $type  Request Type
 	 *
 	 * @return  object         Simple XML object
 	 */
-	private function getQuickpayResponse($data, $type)
+	private function sendQuickpayRequest($data, $type)
 	{
 		$protocol     = '3';
 		$msgtype      = $type;
@@ -204,7 +204,7 @@ class plgRedshop_paymentrs_payment_quickpay extends JPlugin
 			return;
 		}
 
-		$response  = $this->getQuickpayResponse($data, 'capture');
+		$response  = $this->sendQuickpayRequest($data, 'capture');
 		$qpstat    = $response->qpstat;
 		$qpstatmsg = addslashes($response->qpstatmsg);
 
@@ -231,7 +231,7 @@ class plgRedshop_paymentrs_payment_quickpay extends JPlugin
 			return;
 		}
 
-		$response  = $this->getQuickpayResponse($data, 'refund');
+		$response  = $this->sendQuickpayRequest($data, 'refund');
 		$qpstat    = $response->qpstat;
 		$qpstatmsg = addslashes($response->qpstatmsg);
 
@@ -258,7 +258,7 @@ class plgRedshop_paymentrs_payment_quickpay extends JPlugin
 			return;
 		}
 
-		$response        = $this->getQuickpayResponse($data, 'status');
+		$response        = $this->sendQuickpayRequest($data, 'status');
 		$status_count    = count($response->history) - 1;
 		$quickpay_status = $response->history[$status_count]->msgtype;
 
@@ -281,7 +281,7 @@ class plgRedshop_paymentrs_payment_quickpay extends JPlugin
 			return;
 		}
 
-		$response  = $this->getQuickpayResponse($data, 'cancel');
+		$response  = $this->sendQuickpayRequest($data, 'cancel');
 		$qpstat    = $response->qpstat;
 		$qpstatmsg = addslashes($response->qpstatmsg);
 
