@@ -10,25 +10,28 @@
 defined('_JEXEC') or die;
 
 require_once JPATH_BASE . '/administrator/components/com_redshop/helpers/order.php';
-$Itemid = $_REQUEST['Itemid'];
+
+$Itemid          = JRequest::getInt('Itemid');
 $order_functions = new order_functions;
-$currencyClass = new CurrencyHelper;
-$order_items = $order_functions->getOrderItemDetail($data['order_id']);
-$order = $order_functions->getOrderDetails($data['order_id']);
-$hmac_key = $this->_params->get("hmac_key");
-$language = $this->_params->get("dibs_languages");
+$currencyClass   = new CurrencyHelper;
+$order_items     = $order_functions->getOrderItemDetail($data['order_id']);
+$order           = $order_functions->getOrderDetails($data['order_id']);
+$hmac_key        = $this->_params->get("hmac_key");
+$language        = $this->_params->get("dibs_languages");
 
 if ($language == "Auto")
 {
 	$language = "en";
 }
-// for total amount
+
+// For total amount
 $amount = $currencyClass->convert($data['carttotal'], '', $this->_params->get("dibs_currency"));
 $amount = floor($amount * 1000) / 1000;
 $amount = number_format($amount, 2, '.', '') * 100;
 $paytype = $this->_params->get("dibs_paytype");
 $dibs_paytype = implode(",", $paytype);
-//Authnet vars to send
+
+// Authnet vars to send
 $formdata = array(
 	'merchant'            => $this->_params->get("seller_id"),
 	'orderId'             => $data['order_id'],
@@ -38,19 +41,22 @@ $formdata = array(
 	'acceptReturnUrl'     => JURI::base() . "index.php?tmpl=component&option=com_redshop&view=order_detail&controller=order_detail&task=notify_payment&payment_plugin=rs_payment_dibsv2&Itemid=$Itemid&orderid=" . $data['order_id'],
 	'cancelreturnurl'     => JURI::base() . "index.php?tmpl=component&option=com_redshop&view=order_detail&controller=order_detail&task=notify_payment&payment_plugin=rs_payment_dibsv2&Itemid=$Itemid&orderid=" . $data['order_id'],
 	'callbackUrl'         => JURI::base() . "index.php?tmpl=component&option=com_redshop&view=order_detail&controller=order_detail&task=notify_payment&payment_plugin=rs_payment_dibsv2&Itemid=$Itemid&orderid=" . $data['order_id'],
+
 	// Customer Billing Address
 	'billingFirstName'    => $data['billinginfo']->firstname,
 	'billingLastName'     => $data['billinginfo']->lastname,
 	'billingAddress'      => $data['billinginfo']->address,
 	'billingPostalCode'   => $data['billinginfo']->zipcode,
 	'billingPostalPlace'  => $data['billinginfo']->city,
+
 	// Customer Shipping Address
 	'shippingFirstName'   => $data['shippinginfo']->firstname,
 	'shippingLastName'    => $data['shippinginfo']->lastname,
 	'shippingAddress'     => $data['shippinginfo']->address,
 	'shippingPostalCode'  => $data['shippinginfo']->zipcode,
 	'shippingPostalPlace' => $data['shippinginfo']->city,
-	//Extra parameters
+
+	// Extra parameters
 	'payType'             => $dibs_paytype,
 	'oiTypes'             => "QUANTITY;UNITCODE;DESCRIPTION;AMOUNT;ITEMID;VATAMOUNT",
 	'oiNames'             => "Items;UnitCode;Description;Amount;ItemId;VatAmount"
@@ -68,7 +74,7 @@ if ($this->_params->get("is_test"))
 
 for ($p = 0; $p < count($order_items); $p++)
 {
-	// price conversion
+	// Price conversion
 	$product_item_price = $currencyClass->convert($order_items[$p]->product_item_price, '', $this->_params->get("dibs_currency"));
 	$product_item_price_excl_vat = $currencyClass->convert($order_items[$p]->product_item_price_excl_vat, '', $this->_params->get("dibs_currency"));
 	$pvat = $product_item_price - $product_item_price_excl_vat;
@@ -77,7 +83,13 @@ for ($p = 0; $p < count($order_items); $p++)
 	$product_item_price_excl_vat = number_format($product_item_price_excl_vat, 2, '.', '') * 100;
 	$pvat = floor($pvat * 1000) / 1000;
 	$pvat = number_format($pvat, 2, '.', '') * 100;
-	$formdata['oiRow' . ($p + 1) . ''] = "" . $order_items[$p]->product_quantity . ";" . $order_items[$p]->order_item_name . ";" . $order_items[$p]->order_item_name . ";" . $product_item_price_excl_vat . ";" . $order_items[$p]->product_id . ";" . $pvat;
+
+	$formdata['oiRow' . ($p + 1) . ''] = $order_items[$p]->product_quantity
+										. ";pcs"
+										. ";" . trim($order_items[$p]->order_item_name)
+										. ";" . $product_item_price_excl_vat
+										. ";" . $order_items[$p]->product_id
+										. ";" . $pvat;
 }
 
 if ($order->order_discount > 0)
@@ -88,7 +100,13 @@ if ($order->order_discount > 0)
 	$discount_amount = number_format($discount_amount, 2, '.', '') * 100;
 	$discount_amount = -$discount_amount;
 	$discount_pvat = 0;
-	$formdata['oiRow' . ($p + 1) . ''] = "" . $quantity_discount . ";Discount;Discount;" . $discount_amount . ";" . ($p + 1) . ";" . $discount_pvat;
+
+	$formdata['oiRow' . ($p + 1) . ''] = $quantity_discount
+										. ";pcs"
+										. ";Discount"
+										. ";" . $discount_amount
+										. ";" . ($p + 1)
+										. ";" . $discount_pvat;
 	$p++;
 }
 
@@ -109,7 +127,12 @@ if ($order->order_shipping > 0)
 	$shipping_vat = floor($shipping_vat * 1000) / 1000;
 	$shipping_vat = number_format($shipping_vat, 2, '.', '') * 100;
 
-	$formdata['oiRow' . ($p + 1) . ''] = "" . $quantity_shipping . ";Shipping;Shipping;" . $shipping_price . ";" . ($p + 1) . ";" . $shipping_vat;
+	$formdata['oiRow' . ($p + 1) . ''] = $quantity_shipping
+										. ";pcs"
+										. ";Shipping"
+										. ";" . ($shipping_price - $shipping_vat)
+										. ";" . ($p + 1)
+										. ";" . $shipping_vat;
 	$p++;
 }
 
@@ -132,23 +155,31 @@ if ($payment_price > 0)
 	}
 
 	$payment_vat = 0;
-	$formdata['oiRow' . ($p + 1) . ''] = "" . $quantity_payment . ";Payment Handling;Payment Handling;" . $discount_payment_price . ";" . ($p + 1) . ";" . $payment_vat;
+
+	$formdata['oiRow' . ($p + 1) . ''] = $quantity_payment
+										. ";pcs"
+										. ";Payment Handling"
+										. ";" . $discount_payment_price
+										. ";" . ($p + 1)
+										. ";" . $payment_vat;
 }
 
-$api_path = JPATH_SITE . '/plugins/redshop_payment/' . $plugin . '/' . $plugin . '/dibs_hmac.php';
-include($api_path);
+include JPATH_SITE . '/plugins/redshop_payment/' . $plugin . '/' . $plugin . '/dibs_hmac.php';
 $dibs_hmac = new dibs_hmac;
 $mac_key = $dibs_hmac->calculateMac($formdata, $hmac_key);
+
 // Action Url
 $dibsurl = "https://sat1.dibspayment.com/dibspaymentwindow/entrypoint";
 ?>
 <form action="<?php echo $dibsurl ?>" id='dibscheckout' name="dibscheckout" method="post" accept-charset="utf-8">
-	<?php foreach ($formdata as $name => $value)
+	<?php
+	foreach ($formdata as $name => $value)
 	{
-		?>
+	?>
 		<input type="hidden" name="<?php echo $name ?>" value="<?php echo $value ?>"/>
 	<?php
-	} ?>
+	}
+	?>
 	<input type="hidden" name="MAC" value="<?php echo $mac_key ?>"/>
 </form>
 <script>
