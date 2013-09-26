@@ -831,6 +831,8 @@ function calculateTotalPrice(product_id, relatedprd_id) {
     final_price_f = parseFloat(mainprice) + parseFloat(accfinalprice) + parseFloat(wprice);
     // product dropdown qunty change multiple by original product price start
 
+    final_price_f *= parseInt(qty);
+
     if (document.getElementById('quantity' + prefix) && document.getElementById('quantity' + prefix).type == "select-one") {
         //alert('Please wait while calculating price');
         window.setTimeout(this.checkTimeout.bind(this), 40000);
@@ -856,7 +858,9 @@ function calculateTotalPrice(product_id, relatedprd_id) {
     } else {
         final_price = getPriceReplacement(final_price_f);
     }
-    if (SHOW_PRICE == '1' && ( DEFAULT_QUOTATION_MODE != '1' || (DEFAULT_QUOTATION_MODE && SHOW_QUOTATION_PRICE))) {
+
+    if (SHOW_PRICE == '1' && ( DEFAULT_QUOTATION_MODE != '1' || (DEFAULT_QUOTATION_MODE && SHOW_QUOTATION_PRICE)))
+    {
         //if(document.getElementById('quantity'+prefix) && document.getElementById('quantity'+prefix).type=="select-one")
         //{
         if (document.getElementById('produkt_kasse_hoejre_pris_indre' + product_id)) {
