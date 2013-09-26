@@ -409,7 +409,7 @@ class CategoryModelCategory extends JModel
 			$value = (isset($item)) ? $item->params->get('order_by', 'p.product_name ASC') : DEFAULT_PRODUCT_ORDERING_METHOD;
 		}
 
-		$orderby = " ORDER BY " . $db->quote($value);
+		$orderby = " ORDER BY " . $db->escape($value);
 
 		return $orderby;
 	}
