@@ -1191,8 +1191,8 @@ class producthelper
 				. " FROM " . $this->_table_prefix . "product_attribute_stockroom_xref AS pas , "
 				. $this->_table_prefix . "stockroom as s "
 				. " WHERE "
-				. " pas.section_id = " . (int) $section_id . " AND pas.section = '" . $db->quote($section)
-				. "' AND pas.stockroom_id = s.stockroom_id and pas.quantity >0 ORDER BY min_del_time ASC LIMIT 0,1";
+				. " pas.section_id = " . (int) $section_id . " AND pas.section = " . $db->quote($section)
+				. " AND pas.stockroom_id = s.stockroom_id and pas.quantity >0 ORDER BY min_del_time ASC LIMIT 0,1";
 		}
 
 		$this->_db->setQuery($query);
