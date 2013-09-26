@@ -762,25 +762,41 @@ $session->set('cart', $cart); ?>
 			<tr align="left">
 				<td align="right" width="70%"><strong><?php echo JText::_('COM_REDSHOP_ORDER_SUBTOTAL'); ?>:</strong>
 				</td>
-				<td align="right"
-				    width="30%"><?php echo $producthelper->getProductFormattedPrice($subtotal_excl_vat);//CURRENCY_SYMBOL."&nbsp;&nbsp;".( $this->detail->order_subtotal - $this->detail->order_discount); ?></td>
+				<td align="right" width="30%">
+					<?php echo $producthelper->getProductFormattedPrice($subtotal_excl_vat);?>
+				</td>
 			</tr>
 			<tr align="left">
 				<td align="right" width="70%"><strong><?php echo JText::_('COM_REDSHOP_ORDER_TAX'); ?>:</strong></td>
 				<?php
-				$order_tax     = $this->detail->order_tax;
-				$totaldiscount = $this->detail->order_discount;
-				if (APPLY_VAT_ON_DISCOUNT == '0' && VAT_RATE_AFTER_DISCOUNT && $this->detail->order_discount != "0.00" && $order_tax && !empty($this->detail->order_discount))
-				{
 
-					$totaldiscount = $this->detail->order_discount;
-					$Discountvat = (VAT_RATE_AFTER_DISCOUNT * $totaldiscount) / (1 + VAT_RATE_AFTER_DISCOUNT);
+				$order_tax               = $this->detail->order_tax;
+				$totaldiscount           = $this->detail->order_discount;
+				$special_discount_amount = $this->detail->special_discount_amount;
+				$vatOnDiscount           = false;
+
+				if ((int) APPLY_VAT_ON_DISCOUNT == 0 && VAT_RATE_AFTER_DISCOUNT && (int) $this->detail->order_discount != 0 && $order_tax && !empty($this->detail->order_discount))
+				{
+					$vatOnDiscount = true;
+					$Discountvat   = (VAT_RATE_AFTER_DISCOUNT * $totaldiscount) / (1 + VAT_RATE_AFTER_DISCOUNT);
 					$totaldiscount = $totaldiscount - $Discountvat;
-					$order_tax = VAT_RATE_AFTER_DISCOUNT * ($subtotal_excl_vat - $totaldiscount);
+				}
+
+				if ((int) APPLY_VAT_ON_DISCOUNT == 0 && VAT_RATE_AFTER_DISCOUNT && (int) $this->detail->special_discount_amount != 0 && $order_tax && !empty($this->detail->special_discount_amount))
+				{
+					$vatOnDiscount           = true;
+					$Discountvat             = (VAT_RATE_AFTER_DISCOUNT * $special_discount_amount) / (1 + VAT_RATE_AFTER_DISCOUNT);
+					$special_discount_amount = $special_discount_amount - $Discountvat;
+				}
+
+				if ($vatOnDiscount)
+				{
+					$order_tax = VAT_RATE_AFTER_DISCOUNT * ($subtotal_excl_vat - ($totaldiscount + $special_discount_amount));
 				}
 				?>
-				<td align="right"
-				    width="30%"><?php echo $producthelper->getProductFormattedPrice($order_tax);//CURRENCY_SYMBOL."&nbsp;&nbsp;".$this->detail->order_tax; ?></td>
+				<td align="right" width="30%">
+					<?php echo $producthelper->getProductFormattedPrice($order_tax);?>
+				</td>
 			</tr>
 			<tr align="left">
 				<td align="right" width="70%">
@@ -807,17 +823,19 @@ $session->set('cart', $cart); ?>
 					<form action="<?php echo 'index.php?option=' . $option; ?>" method="post"
 					      name="update_discount<?php echo $order_id; ?>">
 						<label style="float: left;">
-							<?php echo REDCURRENCY_SYMBOL . "&nbsp;&nbsp;"; ?><input type="text" name="update_discount"
-							                                                         id="update_discount"
-							                                                         value="<?php echo $producthelper->redpriceDecimal($this->detail->order_discount); ?>"
-							                                                         size="10">
-							&nbsp;<img class="update_price" align="absmiddle"
-							           src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH; ?>update.jpg"
-							           title="<?php echo JText::_('COM_REDSHOP_UPDATE'); ?>"
-							           alt="<?php echo JText::_('COM_REDSHOP_UPDATE'); ?>"
-							           onclick="document.update_discount<?php echo $order_id; ?>.submit();">
+							<?php echo REDCURRENCY_SYMBOL . "&nbsp;&nbsp;"; ?>
+							<input type="text" name="update_discount"
+								id="update_discount"
+								value="<?php echo $producthelper->redpriceDecimal($this->detail->order_discount); ?>"
+								size="10">
+							&nbsp;
+							<img class="update_price" align="absmiddle"
+								src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH; ?>update.jpg"
+								title="<?php echo JText::_('COM_REDSHOP_UPDATE'); ?>"
+								alt="<?php echo JText::_('COM_REDSHOP_UPDATE'); ?>"
+								onclick="document.update_discount<?php echo $order_id; ?>.submit();">
 						</label>
-						<?php echo $producthelper->getProductFormattedPrice($totaldiscount);//CURRENCY_SYMBOL."&nbsp;&nbsp;".$this->detail->order_discount; ?>
+						<?php echo $producthelper->getProductFormattedPrice($totaldiscount);?>
 						<input type="hidden" name="task" value="update_discount">
 						<input type="hidden" name="view" value="order_detail">
 						<input type="hidden" name="cid[]" value="<?php echo $order_id; ?>">
@@ -831,20 +849,21 @@ $session->set('cart', $cart); ?>
 					<form action="<?php echo 'index.php?option=' . $option; ?>" method="post"
 					      name="special_discount<?php echo $order_id; ?>">
 						<label style="float: left;">
-							<?php echo REDCURRENCY_SYMBOL . "&nbsp;&nbsp;"; ?><input type="text" name="special_discount"
-							                                                         id="special_discount"
-							                                                         value="<?php echo $this->detail->special_discount; ?>"
-							                                                         size="10">%
-							&nbsp;<img class="update_price" align="absmiddle"
-							           src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH; ?>update.jpg"
-							           title="<?php echo JText::_('COM_REDSHOP_UPDATE'); ?>"
-							           alt="<?php echo JText::_('COM_REDSHOP_UPDATE'); ?>"
-							           onclick="document.special_discount<?php echo $order_id; ?>.submit();">
+							<?php echo REDCURRENCY_SYMBOL . "&nbsp;&nbsp;"; ?>
+							<input type="text" name="special_discount"
+								id="special_discount"
+								value="<?php echo $this->detail->special_discount; ?>"
+								size="10">%
+							&nbsp;
+							<img class="update_price" align="absmiddle"
+								src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH; ?>update.jpg"
+								title="<?php echo JText::_('COM_REDSHOP_UPDATE'); ?>"
+								alt="<?php echo JText::_('COM_REDSHOP_UPDATE'); ?>"
+								onclick="document.special_discount<?php echo $order_id; ?>.submit();">
 						</label>
 						<?php
-
-						echo $producthelper->getProductFormattedPrice($this->detail->special_discount_amount);//CURRENCY_SYMBOL."&nbsp;&nbsp;".$this->detail->special_discount_amount; ?>
-
+							echo $producthelper->getProductFormattedPrice($special_discount_amount);
+						?>
 						<input type="hidden" name="order_total" value="<?php echo $this->detail->order_total; ?>">
 						<input type="hidden" name="task" value="special_discount">
 						<input type="hidden" name="view" value="order_detail">
@@ -855,8 +874,9 @@ $session->set('cart', $cart); ?>
 			<tr align="left">
 				<td align="right" width="70%"><strong><?php echo JText::_('COM_REDSHOP_ORDER_SHIPPING'); ?>:</strong>
 				</td>
-				<td align="right"
-				    width="30%"><?php echo $producthelper->getProductFormattedPrice($this->detail->order_shipping);//CURRENCY_SYMBOL."&nbsp;&nbsp;".$this->detail->order_shipping; ?></td>
+				<td align="right" width="30%">
+					<?php echo $producthelper->getProductFormattedPrice($this->detail->order_shipping);?>
+				</td>
 			</tr>
 			<tr align="left">
 				<td colspan="2" align="left">
@@ -865,8 +885,9 @@ $session->set('cart', $cart); ?>
 			</tr>
 			<tr align="left">
 				<td align="right" width="70%"><strong><?php echo JText::_('COM_REDSHOP_ORDER_TOTAL'); ?>:</strong></td>
-				<td align="right"
-				    width="30%"><?php echo $producthelper->getProductFormattedPrice($this->detail->order_total);//CURRENCY_SYMBOL."&nbsp;&nbsp;".$this->detail->order_total; ?></td>
+				<td align="right" width="30%">
+					<?php echo $producthelper->getProductFormattedPrice($this->detail->order_total);?>
+				</td>
 			</tr>
 			<tr align="left">
 				<td colspan="2" align="left">
