@@ -91,10 +91,10 @@ class Product_DetailController extends JController
 	public function save($apply = 0)
 	{
 		// ToDo: This is potentially unsafe because $_POST elements are not sanitized.
-		$post = $this->input->getArray($_POST);
-		$cid = $this->input->post->get('cid', array(), 'array');
+		$post                = $this->input->getArray($_POST);
+		$cid                 = $this->input->post->get('cid', array(), 'array');
 		$post ['product_id'] = $cid[0];
-		$stockroom_id = '';
+		$stockroom_id        = '';
 
 		if (is_array($post['product_category']) && !in_array($post['cat_in_sefurl'], $post['product_category']))
 		{
@@ -114,8 +114,12 @@ class Product_DetailController extends JController
 		}
 
 		$post["product_number"] = trim($this->input->getString('product_number', ''));
-		$post["product_s_desc"] = $this->input->get('product_s_desc', '', 'SAFE_HTML');
-		$post["product_desc"] = $this->input->get('product_desc', '', 'SAFE_HTML');
+
+		$product_s_desc         = $this->input->post->get('product_s_desc', array(), 'array');
+		$post["product_s_desc"] = stripslashes($product_s_desc[0]);
+
+		$product_desc           = $this->input->post->get('product_desc', array(), 'array');
+		$post["product_desc"]   = stripslashes($product_desc[0]);
 
 		if (!empty($post['product_availability_date']))
 		{
