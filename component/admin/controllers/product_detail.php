@@ -447,6 +447,19 @@ class Product_DetailController extends JController
 					$economic->createPropertyInEconomic($row, $property_array);
 				}
 
+				// Set trigger to save Attribute Property Plugin Data
+				if ((int) $property_id)
+				{
+					$dispatcher	= JDispatcher::getInstance();
+					JPluginHelper::importPlugin('redshop_product');
+
+					// Trigger the data preparation event.
+					$results = $dispatcher->trigger(
+									'onAttributePropertySaveLoop',
+									array($row, &$property[$p], &$property_array)
+								);
+				}
+
 				$subproperty = array_merge(array(), $property[$p]['subproperty']);
 				$subproperty_title = $property[$p]['subproperty']['title'];
 				$subpropertyImage = array_keys($property[$p]['subproperty']);
