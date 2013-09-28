@@ -648,6 +648,25 @@ JHtmlBehavior::modal();
 																												/>
 																										</div>
 																									</td>
+																									<?php
+																										if ((int) $property->property_id)
+																										{
+																											$dispatcher	= JDispatcher::getInstance();
+																											JPluginHelper::importPlugin('redshop_product');
+
+																											$property->k = $k;
+																											$property->g = $g;
+																											$property->pluginHtml = '';
+
+																											// Trigger the data preparation event.
+																											$results = $dispatcher->trigger(
+																															'onAttributePropertyPrepareLoop',
+																															array(&$property)
+																														);
+
+																											echo $property->pluginHtml;
+																										}
+																									?>
 																								</tr>
 
 																							</table>
