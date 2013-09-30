@@ -280,7 +280,7 @@ JHtmlBehavior::modal();
 
 													<tr>
 														<td class="td1">
-															<a class="btn_attribute" href="addproperty('property_table<?php echo $k ?>','<?php echo $k ?>')">
+															<a class="btn_attribute" href="javascript:addproperty('property_table<?php echo $k ?>','<?php echo $k ?>')">
 																<span>
 																	<?php
 																		echo "+ ";
@@ -783,7 +783,7 @@ JHtmlBehavior::modal();
 																		<tr>
 																			<td class="td1">
 																				<a class="btn_attribute"
-																				   href="showpropertytitle('<?php echo $k . $g ?>');
+																				   href="javascript:showpropertytitle('<?php echo $k . $g ?>');
 																						 addsubproperty('sub_attribute_table<?php echo $k . $g ?>','<?php echo $k ?>','<?php echo $g; ?>')"
 																					>
 																					<span id="new_sub_property">
