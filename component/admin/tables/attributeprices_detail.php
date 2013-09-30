@@ -76,7 +76,16 @@ class Tableattributeprices_detail extends JTable
 		$this->_db->setQuery($query_end);
 		$xid_end = intval($this->_db->loadResult());
 
-		if (($xid || $xid_end) && ($xid != intval($this->price_id) || $xid_end != intval($this->price_id)))
+		if (($xid || $xid_end) 
+			&& (
+				($xid != intval($this->price_id) 
+				&& $xid != 0) 
+				|| (
+					$xid_end != intval($this->price_id) 
+					&& $xid_end != 0
+				)
+			)
+		)
 		{
 			$this->_error = JText::sprintf('WARNNAMETRYAGAIN', JText::_('COM_REDSHOP_PRICE_ALREADY_EXISTS'));
 
