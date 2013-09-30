@@ -62,7 +62,9 @@ JHtmlBehavior::modal();
 
 					<tr>
 						<td colspan="2">
-							<a class="btn_attribute" href="javascript:addNewRow_attribute('attribute_table')" id="new_attribute">
+							<a class="btn_attribute"
+							   href="javascript:addNewRow_attribute('attribute_table');"
+							   id="new_attribute">
 								<?php
 									echo "+ ";
 									echo JText::_('COM_REDSHOP_NEW_ATTRIBUTE');
@@ -648,25 +650,6 @@ JHtmlBehavior::modal();
 																												/>
 																										</div>
 																									</td>
-																									<?php
-																										if ((int) $property->property_id)
-																										{
-																											$dispatcher	= JDispatcher::getInstance();
-																											JPluginHelper::importPlugin('redshop_product');
-
-																											$property->k = $k;
-																											$property->g = $g;
-																											$property->pluginHtml = '';
-
-																											// Trigger the data preparation event.
-																											$results = $dispatcher->trigger(
-																															'onAttributePropertyPrepareLoop',
-																															array(&$property)
-																														);
-
-																											echo $property->pluginHtml;
-																										}
-																									?>
 																								</tr>
 
 																							</table>
@@ -674,6 +657,22 @@ JHtmlBehavior::modal();
 																						</div>
 																					</td>
 																				</tr>
+
+																				<?php
+																					/**
+																					 * This is the place to inject property value data from a product type plugin.
+																					 * Plugin group is already loaded in the view.html.php and you can use $this->dispatcher.
+																					 * This is used for integration with other redSHOP extensions which can extend product type.
+																					 */
+
+																					if (!empty($property->property_id))
+																					{
+																						$property->k = $k;
+																						$property->g = $g;
+
+																						$this->dispatcher->trigger('productTypeAttributeValue', array($property));
+																					}
+																				?>
 
 																			</table>
 
