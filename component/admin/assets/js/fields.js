@@ -1,6 +1,6 @@
 
 if (!String.prototype.trim) {
-   //code for trim
+   // Code for trim.
 	String.prototype.trim=function(){return this.replace(/^\s\s*/, '').replace(/\s\s*$/, '');};
 
 }
@@ -68,9 +68,7 @@ function addNewRow(tableRef){
 	newTR.appendChild (newTD2);
 	tBody.appendChild(newTR);
 	f++;
-
-	//modalpopup();
-	}
+}
 
 var f=1;
 function addNewRowcustom(field_name){
@@ -95,8 +93,8 @@ function addNewRowcustom(field_name){
 	newTR.appendChild (newTD2);
 	tBody.appendChild(newTR);
 	f++;
-	//modalpopup();
-	}
+
+}
 
 function create_table_data(data,volume,id){
 	name=data;
@@ -126,13 +124,12 @@ function create_table_data(data,volume,id){
 	newTR.appendChild (newTD4);
 	tBody.appendChild(newTR);
 	f++;
-
-	//modalpopup();
 }
+
 function changeM3(id,qty,volume){
- //var volume = document.getElementById('volume'+id).value;
   document.getElementById('volume'+id).value = qty*volume;
 }
+
 function create_table_accessory(data,id,price){
 	name=data;
 	var g=parseInt(document.getElementById("total_accessory").value) + parseInt(f);
@@ -145,7 +142,6 @@ function create_table_accessory(data,id,price){
 	var newTD3 = document.createElement('td');
 	var newTD4 = document.createElement('td');
 	var newTD5 = document.createElement('td');
-//	var newTD6 = document.createElement('td');
 	var newTD7 = document.createElement('td');
 
 	newTD1.innerHTML = name+'<input type="hidden" value="'+id+'" name="product_accessory['+g+'][child_product_id]"><input type="hidden" value="0" name="product_accessory['+g+'][accessory_id]">';
@@ -153,7 +149,6 @@ function create_table_accessory(data,id,price){
 	newTD3.innerHTML = '<input size="1" maxlength="1" onchange="javascript:oprand_check(this);" type="text" name="product_accessory['+g+'][oprand]" value="+" >';
 	newTD4.innerHTML = '<input size="5" type="text" name="product_accessory['+g+'][accessory_price]" value="0">';
 	newTD5.innerHTML = '<input type="text" name="product_accessory['+g+'][ordering]" size="5" value="" class="text_area" style="text-align: center" />';
-//	newTD6.innerHTML = '<input value="1" class="button" type="checkbox" name="product_accessory['+g+'][setdefault_selected]">';
 	newTD7.innerHTML = '<input value="Remove" onclick="javascript:deleteRow_accessory(this,0,0,0);" class="button" type="button" />';
 
 	newTR.appendChild (newTD1);
@@ -161,31 +156,28 @@ function create_table_accessory(data,id,price){
 	newTR.appendChild (newTD3);
 	newTR.appendChild (newTD4);
 	newTR.appendChild (newTD5);
-//	newTR.appendChild (newTD6);
 	newTR.appendChild (newTD7);
 	tBody.appendChild(newTR);
 	f++;
-
-	//modalpopup();
 }
+
 function deleteRow(r) {
 	if(window.confirm("Are you sure you want to delete field value?"))
 	{
 	var i=r.parentNode.parentNode.rowIndex;
 	document.getElementById('extra_table').deleteRow(i);
 	}
-	}
+}
 
 var gh=0;
 var h=1;
 var or = 1;
 
 function addNewRow_attribute(tableRef){
-	//var g=parseInt(document.getElementById("attribute_table").value) + parseInt(gh);
 	if(gh == 0)
 		gh=document.getElementById("total_table").value;
 	total_g = h-1;
-//	total_g=document.getElementById("total_g").value;
+
 	var p=0;
 	var tit=document.getElementById("atitle").innerHTML;
 	var ord = document.getElementById("aordering").innerHTML;
@@ -233,7 +225,6 @@ function addNewRow_attribute(tableRef){
 
 	var newTR = document.createElement('tr');
 	var newTD = document.createElement('td');
-	//newTD.setAttribute("width","11%");
 	newTD.setAttribute("align","left");
 	var newTD1 = document.createElement('td');
 	newTD1.setAttribute("class","td2");
@@ -276,17 +267,13 @@ function addNewRow_attribute(tableRef){
 	newTD6.innerHTML = apublished+":<input type='checkbox' checked='checked' class='text_area' size='55' name='attribute["+gh+"][published]' value='1' >";
 
 	newTD7.innerHTML = "";
-//	newTD7.innerHTML = "<a href=\"javascript:addNewRow_attribute('"+tableRef+"')\">"+new_attrib+"</a>&nbsp;|&nbsp;<a href=\"javascript:addproperty('"+table_pr+"','"+gh+"')\">"+new_prop+"</a>";
+
 	newTD8.innerHTML = '<input value="'+delete_attri+'" onclick="javascript:deleteRow_attribute(\'mainattributetable'+gh+'\',\''+tableRef+'\',\''+table_pr+'\')" class="btn_attribute" type="button" style="float:right;"/>';
 
-
-	//newTR.appendChild (newTDImage);
 	newTR.appendChild (newTD);
 	newTR.appendChild (newTD1);
 	newTR.appendChild (newTD2);
-	//newTR.appendChild (newTD3);
 	newTR.appendChild (newTD4);
-	//newTR.appendChild (newTD5);
 	newTR.appendChild (newTD6);
 	newTR.appendChild (newTD7);
 	newTR.appendChild (newTD8);
@@ -337,33 +324,19 @@ function addNewRow_attribute(tableRef){
 	newTD_multi_2.setAttribute("class","td3");
 
 	newTD_multi_3.setAttribute("class","td4");
-	//newTD_multi_4.setAttribute("width","4%");
-	//newTD_multi_5.setAttribute("width","8%");
-
 
 	newTD_multi_7.setAttribute("class","td5");
 	newTD_multi_7.setAttribute("align","right");
-//	newTD_multi_8.setAttribute("width","4%");
-
 
 	newTD_multi_9.setAttribute("class","td6");
 	newTD_multi_9.setAttribute("align","right");
 
 	newTD_multi_10.setAttribute("class","td7");
 
-
-
-
-// 	var newTD_hide_price = document.createElement('td');
-
-	//newTD_hide_price.setAttribute("colSpan","4");
-//	newTD_multi_0.innerHTML = "<a href=\"javascript:addNewRow_attribute('"+tableRef+"')\">"+new_attrib+"</a>&nbsp;|&nbsp;<a href=\"javascript:addproperty('"+table_pr+"','"+gh+"')\">"+new_prop+"</a>";
 	newTD_multi_0.innerHTML = "<a class='btn_attribute' href=\"javascript:addproperty('"+table_pr+"','"+gh+"')\">+ Add "+new_prop+"</a>";
 	newTD_multi_1.innerHTML = spn_allow_multiple+": <input type='checkbox' size='5' name='attribute['"+gh+"'][allow_multiple_selection]' >";
 	newTD_multi_7.innerHTML = spn_hide_price+': <input type="checkbox" size="5" name="attribute['+gh+'][hide_attribute_price]" >';
 	newTD_multi_9.innerHTML = spn_display_type+': <select name="attribute['+gh+'][display_type]"><option value="dropdown">Dropdown List</option><option value="radio">Radio Button</option></select>';
-	//newTD_multi_1.innerHTML = '<input type="checkbox" size="5" name="attribute['+gh+'][allow_multiple_selection]" >';
-	//newTD_multi_1.innerHTML = '<input type="checkbox" size="5" name="attribute['+gh+'][allow_multiple_selection]" >';
 	newTD_multi_3.innerHTML = "&nbsp;";
 	newTD_multi_10.innerHTML = "&nbsp;";
 
@@ -371,16 +344,9 @@ function addNewRow_attribute(tableRef){
 	newTR_0.appendChild (newTD_multi_1);
 	newTR_0.appendChild (newTD_multi_2);
 	newTR_0.appendChild (newTD_multi_3);
-	//newTR_0.appendChild (newTD_multi_4);
-	//newTR_0.appendChild (newTD_multi_5);
 	newTR_0.appendChild (newTD_multi_7);
-	//newTR_0.appendChild (newTD_multi_8);
 	newTR_0.appendChild (newTD_multi_9);
 	newTR_0.appendChild (newTD_multi_10);
-
-	//newTR_0.appendChild (newTD_hide_price);
-
-	//tBody.appendChild(newTR_0);
 
 	subnewTable0_0.appendChild (newTR_0);
 	subnewTD0_0.appendChild (subnewTable0_0);
@@ -390,7 +356,6 @@ function addNewRow_attribute(tableRef){
 	newTD0.appendChild (newTable);
 	newTR0.appendChild (newTD0);
 	tBody.appendChild(newTR0);
-
 
 	var subnewTable1	= document.createElement('table');
 	subnewTable1.setAttribute("class","");
@@ -406,9 +371,6 @@ function addNewRow_attribute(tableRef){
 
 	var newTR1 = document.createElement('tr');
 	var newTD1 = document.createElement('td');
-
-	//newTD1.setAttribute("colSpan","5");
-
 
 	newTD1.innerHTML = '<table  class="grey_solid_area"  width="100%" cellpadding="0" border="0" cellspacing="0" id="property_table'+gh+'">'
 
@@ -446,33 +408,10 @@ function addNewRow_attribute(tableRef){
 	  +'<tr class="sub_property" id="sub_property'+gh+p+'"><td style="padding: 0px;"><table width="100%" border="0" cellpadding="0" cellspacing="0"  id="sub_property_table'+gh+p+'">'
 	  +'<tr><td colspan="12" class="td1" style="border-right: 1px solid #CCCCCC;" valign="top"><a href="javascript: addsubproperty(\'sub_attribute_table'+gh+'0\',\''+gh+'\',\'0\')" class="btn_attribute">+ '+new_sub_prop+'</a>'
 	  +'</td><td><table width="100%" border="0" cellpadding="0"  cellspacing="0" id="sub_attribute_table'+gh+'0" class="sub_attribute_table"><tr style="display:none;"><td></td></tr></table></td></tr></table></td></tr>'
-	 /* +'<tr>'
-	  +'<td><a href="javascript: addsubproperty(\'sub_attribute_table'+gh+'0\','+gh+',\'0\')"><span id="new_sub_property">'+new_sub_prop+'</span></a></td>'
-	  +'<td colspan="5"><table class="adminform"  border="0" cellpadding="2" cellspacing="2" id="sub_attribute_table'+gh+'0"><tr><td><div style="display:none;" id="showhidetitle'+gh+'0"><span id="showpropertytitlespan">'+showpropertytitlespan+'</span><input type="text" name="attribute['+gh+'][property]['+total_g+'][subproperty][title]" size="15" value="" ><span>'+sub_areq+'</span><input type="checkbox" name="attribute['+gh+'][property]['+total_g+'][req_sub_att]" /><span>'+sub_multi+'</span><input type="checkbox" name="attribute['+gh+'][property]['+total_g+'][multi_sub_att]" /><span>'+spn_display_type+'</span>'
-	  +'<select name="attribute['+gh+'][property]['+total_g+'][setdisplay_type]"><option value="dropdown">Dropdown List</option><option value="radio">Radio Button</option></select></div></td></tr></table></td></tr>'*/
 	  +'</td></tr></table>';
-
-
-
-	/*newTD1.innerHTML = +'<table width="100%" border="0" cellpadding="0" cellspacing="0" >'
-		+'<tr><td><table width="100%" border="0" cellpadding="0" cellspacing="0" class="attribute_parameter">'
-		+'<td class="red_blue_blue" width="11%">Attribute parameter</td>'
-		+'<td  width="9%"><input type="text" name="attribute['+rh+'][property]['+h+'][subproperty][title]" size="22" value="" >'
-		+'<td align="right" width="1%">Required:</td>'
-		+'<td width="4%" align="left"><input type="checkbox" name="attribute['+rh+'][property]['+h+'][req_sub_att]" onChange=\'javascript:if(this.checked){document.getElementById("hdnpropsub_attdselected'+rh+or+'").value=1;}else{document.getElementById("hdnpropsub_attdselected'+rh+or+'").value=0;}\'><input type="hidden" name="propsub_attdselected['+rh+'][value][]" id="hdnpropsub_attdselected'+rh+or+'" >'
-		+'<td width="4%" align="right">Multiselect:</td>'
-		+'<td width="6%"><input type="checkbox" name="attribute['+rh+'][property]['+h+'][multi_sub_att]" onChange=\'javascript:if(this.checked){document.getElementById("hdnpropsub_multiselected'+rh+or+'").value=1;}else{document.getElementById("hdnpropsub_multiselected'+rh+or+'").value=0;}\'><input type="hidden" name="propsub_multiselected['+rh+'][value][]" id="hdnpropsub_multiselected'+rh+or+'" ></td>'
-		+'<td width="7%" align="left">'+spn_display_type+':</td>'
-		+'<td width="43%"></span><select name="attribute['+rh+'][property]['+h+'][setdisplay_type]"><option value="dropdown">Dropdown List</option><option value="radio">Radio Button</option></select>'
-		+'</td></tr></table></td></tr>'
-		+'</table>';*/
-
-	///<input value="Remove" onclick="javascript:deleteRow_property(\'property_table'+gh+'\',\'\',\'\')" class="button" type="button" /><input type="hidden" name="attribute['+gh+'][property]['+total_g+'][property_id] value="0" ><a href="javascript: addsubproperty(\'sub_attribute_table'+gh+'0\','+gh+',\'0\')" class="btn_attribute">'+new_sub_prop+'</a>
 
 	newTR1.appendChild (newTD1);
 	tBody.appendChild(newTR1);
-
-
 
 	subnewTbody1.appendChild (newTR1);
 	subnewTable1.appendChild (subnewTbody1);
@@ -483,19 +422,7 @@ function addNewRow_attribute(tableRef){
 	newTD0.appendChild (newTable);
 	newTR0.appendChild (newTD0);
 	tBody.appendChild  (newTR0);
-	//SqueezeBox.initialize({});
-	/*$$('a.modal-button').each(function(el) {
-		el.addEvent('click', function(e) {
-			new Event(e).stop();
-			SqueezeBox.fromElement(el);
-		});
-	});*/
-	/*var el = document.getElementById('modal'+gh+'0');
-	el.addEvent('click', function(e) {
-		new Event(e).stop();
-		SqueezeBox.fromElement(el);
-	});*/
-	//addproperty(table_pr,gh);
+
 	modalpopup('modal'+gh+'0');
 	gh++;
 }
@@ -551,8 +478,6 @@ function addproperty(tableRef,rh){
 	var newTD7 = document.createElement('td');
 	var newTD8 = document.createElement('td');
 	var newTD9 = document.createElement('td');
-	//var newTD10 = document.createElement('td');
-	//var newTD11 = document.createElement('td');
 
 	newTD.innerHTML = '<table id="attribute_table'+h+'" class="attribute_value">'
 			 +'<tr>'
@@ -592,28 +517,6 @@ function addproperty(tableRef,rh){
 		+'<tr><td colspan="12" class="td1" style="border-right: 1px solid #CCCCCC;" valign="top"><a href="javascript:addsubproperty(\'sub_attribute_table'+rh+h+'\',\''+rh+'\',\''+h+'\')" class="btn_attribute" align="right">+ Add sub property</a>'
 		+'</td><td style="padding:0px;"><table width="100%" border="0" cellpadding="0"  cellspacing="0" id="sub_attribute_table'+rh+h+'" class="sub_attribute_table"><tr style="display:none;"><td></td></tr></table></td></tr></table>';
 
-
-
-
-	//newTD.innerHTML = newTD.innerHTML + '<td>'+sub_areq+'<td>';
-	//newTD.innerHTML = newTD.innerHTML + '<td><input type="checkbox" name="attribute['+rh+'][property]['+h+'][req_sub_att]" onChange=\'javascript:if(this.checked){document.getElementById("hdnpropsub_attdselected'+rh+or+'").value=1;}else{document.getElementById("hdnpropsub_attdselected'+rh+or+'").value=0;}\'><input type="hidden" name="propsub_attdselected['+rh+'][value][]" id="hdnpropsub_attdselected'+rh+or+'" >';
-
-
-
-	//newTD.innerHTML = '<td width="2%"><img src="../administrator/components/com_redshop/assets/images/arrow.png" alt="img"></td>'+prop;
-	//newTD1.innerHTML ='<input type="text" class="text_area" size="40" name="attribute['+rh+'][property]['+h+'][name]" ><input type="hidden" name="attribute['+rh+'][property]['+h+'][property_id]" value="0" ><span>'+ord+'</span><input type="text" name="attribute['+rh+'][property]['+h+'][order]" size="3" value="'+or+'" ><span>'+adselected+'</span><input type="checkbox" name="attribute['+rh+'][property]['+h+'][default_sel]" onChange=\'javascript:if(this.checked){document.getElementById("hdnpropdselected'+rh+or+'").value=1;}else{document.getElementById("hdnpropdselected'+rh+or+'").value=0;}\'><input type="hidden" name="attribute['+rh+'][property]['+h+'][propselected]" id="hdnpropdselected'+rh+or+'" ><span>'+sub_areq+'</span><input type="checkbox" name="attribute['+rh+'][property]['+h+'][req_sub_att]" onChange=\'javascript:if(this.checked){document.getElementById("hdnpropsub_attdselected'+rh+or+'").value=1;}else{document.getElementById("hdnpropsub_attdselected'+rh+or+'").value=0;}\'><input type="hidden" name="propsub_attdselected['+rh+'][value][]" id="hdnpropsub_attdselected'+rh+or+'" >';
-	//newTD2.innerHTML = pri;
-	//newTD3.innerHTML = '<input type="text" class="text_area" size="12" name="attribute['+rh+'][property]['+h+'][price]"  >';
-	//newTD5.innerHTML = '<input type="text" class="text_area" size="2" name="attribute['+rh+'][property]['+h+'][oprand]" style="text-align: center;" id="oprand'+rh+h+'" value="+" maxlength="1" onchange="javascript:oprand_check(this);" > ';
-	//newTD4.innerHTML = '<img id="propertyImage'+rh+or+'" src="" style="display: none;" /><span><div class="button2-left"><div class="image"><a class="modal" id="modal'+rh+or+'" title="Image" href="index3.php?option=com_redshop&view=media&fsec=property&fid='+rh+or+'&layout=thumbs" rel="{handler: \'iframe\', size: {x: 900, y: 500}}"></a></div></div></span><input type="hidden"  name="attribute['+rh+'][property]['+h+'][mainImage]" id="propmainImage'+rh+or+'" value=""><input type="hidden" class="text_area" size="12" name="imagetmp['+rh+'][value][]"  /><input type="file" class="text_area" size="12" name="attribute_'+rh+'_property_'+h+'_image"  > '+"&nbsp;<input value='Remove' onclick=\"javascript:deleteRow_property(this,'"+tableRef+"','sub_attribute_table"+rh+h+"')\" class='button' type='button' /> ";
-
-	//newTD11.innerHTML = '<a href="javascript:addsubproperty(\'sub_attribute_table'+rh+h+'\','+rh+','+h+')"><span id="new_sub_property">'+new_sub_prop+'</span></a>';
-	//newTD6.setAttribute("colSpan","5");
-	//newTD6.innerHTML = '<table class="adminform" width="100%" border="0" cellpadding="2" cellspacing="2" id="sub_attribute_table'+rh+h+'"><tr><td><div style="display:none;" id="showhidetitle'+rh+h+'"><span id="showpropertytitlespan">'+showpropertytitlespan+'</span><input type="text" name="attribute['+rh+'][property]['+h+'][subproperty][title]" size="15" value="" ><span>'+sub_areq+'</span><input type="checkbox" name="attribute['+rh+'][property]['+h+'][req_sub_att]" onChange=\'javascript:if(this.checked){document.getElementById("hdnpropsub_attdselected'+rh+or+'").value=1;}else{document.getElementById("hdnpropsub_attdselected'+rh+or+'").value=0;}\'><input type="hidden" name="propsub_attdselected['+rh+'][value][]" id="hdnpropsub_attdselected'+rh+or+'" ><span>'+sub_multi+'</span><input type="checkbox" name="attribute['+rh+'][property]['+h+'][multi_sub_att]" onChange=\'javascript:if(this.checked){document.getElementById("hdnpropsub_multiselected'+rh+or+'").value=1;}else{document.getElementById("hdnpropsub_multiselected'+rh+or+'").value=0;}\'><input type="hidden" name="propsub_multiselected['+rh+'][value][]" id="hdnpropsub_multiselected'+rh+or+'" ><span>'+spn_display_type+'</span><select name="attribute['+rh+'][property]['+h+'][setdisplay_type]"><option value="dropdown">Dropdown List</option><option value="radio">Radio Button</option></select></div></td></tr></table>';
-
-
-
-
 	newTR.appendChild (newTD);
 	newTR1.appendChild (newTD1);
 	newTR2.appendChild (newTD2);
@@ -621,12 +524,6 @@ function addproperty(tableRef,rh){
 	tBody.appendChild(newTR);
 	tBody.appendChild(newTR1);
 	tBody.appendChild(newTR2);
-
-	/*var el = document.getElementById('modal'+rh+or);
-	el.addEvent('click', function(e) {
-		new Event(e).stop();
-		SqueezeBox.fromElement(el);
-	});*/
 
 	modalpopup('modal'+rh+or);
 
@@ -671,9 +568,7 @@ function addsubproperty(tableRef,rh,sh){
 	var newTD2 = document.createElement('td');
 	var newTD3 = document.createElement('td');
 	var newTD5 = document.createElement('td');
-//	attribute['+rh+'][property]['+h+'][oprand]
 
-	//<table border="0" align="left" width="100%" cellspacing="0" cellpadding="0" class="subattribute" id="sub_attribute_table3" style="border-bottom: 1px solid #CCCCCC;">
 	newTD.innerHTML = '<table id="sub'+rh+orde+'" border="0" align="left" width="100%" cellspacing="0" cellpadding="0" class="subattribute" style="border-bottom: 1px solid #CCCCCC;">'
 			 +'<tr valign="top">'
 			 +'<td class="td2" align="right">Parameter: '
@@ -698,33 +593,14 @@ function addsubproperty(tableRef,rh,sh){
 			 +'</td>'
 			+ '</tr></table>';
 
-	//newTD.innerHTML = '<input type="text" class="text_area" size="40" name="attribute['+rh+'][property]['+sh+'][subproperty]['+sp+'][name]" ><span>'+ord+'</span><input type="text" name="attribute['+rh+'][property]['+sh+'][subproperty]['+sp+'][order]" size="3" value="'+orde+'" ><span>'+adselected+'</span><input type="checkbox" name="attribute['+rh+'][property]['+sh+'][subproperty]['+sp+'][chk_propdselected]" ><input type="hidden" name="propdselected['+rh+'][subvalue]['+sh+'][]" id="hdnsubpropdselected'+rh+sh+orde+'" ><input type="hidden" name="property_id['+rh+'][subvalue]['+sh+'][]" value="0" >';
-	//newTD1.innerHTML =pri;
-	//newTD2.innerHTML = '<input type="text" class="text_area" size="12" name="attribute['+rh+'][property]['+sh+'][subproperty]['+sp+'][price]"  > ';
-	//newTD3.innerHTML = '<input type="text" class="text_area" size="2" name="attribute['+rh+'][property]['+sh+'][subproperty]['+sp+'][oprand]" style="text-align: center;" id="oprand'+rh+sh+'" value="+" maxlength="1" onchange="javascript:oprand_check(this);" >';
-	//newTD5.innerHTML = '<img id="subpropertyImage'+rh+orde+'" src="" style="display: none;" /><span><div class="button2-left"><div class="image"><a class="modal" id="submodal'+rh+orde+'" title="Image" href="index3.php?option=com_redshop&view=media&fsec=subproperty&fid='+rh+orde+'&layout=thumbs" rel="{handler: \'iframe\', size: {x: 900, y: 500}}"></a></div></div></span><input type="hidden"  name="attribute['+rh+'][property]['+sh+'][subproperty]['+sp+'][mainImage]" id="subpropmainImage'+rh+orde+'" value=""><input type="hidden" class="text_area" size="12" name="imagetmp['+rh+'][subvalue]['+sh+'][]"  /><input type="file" class="text_area" size="12" name="attribute_'+rh+'_property_'+sh+'_subproperty_'+sp+'_image"  > '+"&nbsp;<input value='Remove' onclick=\"javascript:deleteRow_subproperty(this,'"+tableRef+"')\" class='button' type='button' /> ";
-
 	newTR.appendChild (newTD);
-	//newTR.appendChild (newTD1);
-	//newTR.appendChild (newTD3);
-	//newTR.appendChild (newTD2);
-	//newTR.appendChild (newTD5);
 
 	tBody.appendChild(newTR);
-
-	/*var el = document.getElementById('submodal'+rh+orde);
-	el.addEvent('click', function(e) {
-		new Event(e).stop();
-		SqueezeBox.fromElement(el);
-	});*/
 
 	modalpopup('submodal'+rh+sp);
 
 	sp++;
 	orde++;
-	//h++;
-
-
 }
 
 function deleteRow_attribute(r,tableref,table_pr,attr_id) {
@@ -759,29 +635,6 @@ function deleteRow_attribute(r,tableref,table_pr,attr_id) {
 
 
 function deleteRow_property(r,tableref,tableref_sub,porp_id) {
-
-	//var delRow = r.parentNode.parentNode.rowIndex;
-	//document.getElementById(r.id).deleteRow(delRow);
-	//document.getElementById("attribute_parameter" + porp_id).deleteRow(delRow);
-	//sub_property
-
-
-	/*if(tableref_sub)
-	{
-		for(var i = document.getElementById(tableref_sub).rows.length; i > 0;i--)
-		{
-			document.getElementById(tableref_sub).deleteRow(i -1);
-		}
-	}
-
-	if(r)
-	{
-		for(var i = document.getElementById(r).rows.length; i > 0;i--)
-		{
-			document.getElementById(r).deleteRow(i -1);
-		}
-	}*/
-
 	if(document.getElementById("attr_tbody" + porp_id) != undefined)
 	{
 		var node = document.getElementById("attr_tbody" + porp_id);
@@ -820,10 +673,7 @@ function deleteRow_property(r,tableref,tableref_sub,porp_id) {
 			else
 				document.getElementById('hdn_del_property').value = porp_id;
 		}
-
-
-
-	}
+}
 
 function deleteRow_subproperty(r,tableref,subprop_id) {
 
@@ -833,30 +683,7 @@ function deleteRow_subproperty(r,tableref,subprop_id) {
 		node.parentNode.removeChild(node);
 	}
 
-	/*if(document.getElementById(r))
-	{
-		for(var i = document.getElementById(r).rows.length; i > 0;i--)
-		{
-			document.getElementById(r).deleteRow(i -1);
-		}
-	}*/
-
-
-
-
-
 	return;
-
-	var i=r.parentNode.parentNode.parentNode.rowIndex;
-
-	document.getElementById(tableref).deleteRow(i);
-	if(document.getElementById('hdn_del_subproperty'))
-	{
-		if(document.getElementById('hdn_del_subproperty').value != "")
-			document.getElementById('hdn_del_subproperty').value += ","+ subprop_id;
-		else
-			document.getElementById('hdn_del_subproperty').value = subprop_id;
-	}
 }
 
 
@@ -877,12 +704,11 @@ function deleteRow_accessory(r, accessory_id,category_id, child_product_id)
 		}
 	}
 }
-//******************************** Add New Poperty Element ******************
 
-
+/**
+ * Add New Poperty Element
+ */
 function addNewRowOfProp(tableRef){
-
-
 	var myTable = document.getElementById(tableRef);
 	var tBody = myTable.getElementsByTagName('tbody')[0];
 	var newTR = document.createElement('tr');
@@ -894,14 +720,12 @@ function addNewRowOfProp(tableRef){
 	newTR.appendChild (newTD);
 	newTR.appendChild (newTD1);
 	tBody.appendChild(newTR);
-
-	//modalpopup();
-
 }
 
 
-//******************************** Delete Poperty Element ******************
-
+/**
+ * Delete Poperty Element
+ */
 function deleteRowOfProp(r) {
 	var i=r.parentNode.parentNode.rowIndex;
 	document.getElementById('admintable').deleteRow(i);
