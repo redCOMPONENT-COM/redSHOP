@@ -48,7 +48,7 @@ class CategoryViewCategory extends JView
 		$this->option = $this->input->getString('option', 'com_redshop');
 		$this->itemid = $this->input->getInt('Itemid', null);
 		$this->catid = $this->input->getInt('cid', 0);
-		$layout = $this->input->getString('layout', 'default');
+		$layout = $this->input->getString('layout', '');
 		$this->print = $this->input->getBool('print', false);
 
 		$params = $this->app->getParams($this->option);
@@ -69,7 +69,7 @@ class CategoryViewCategory extends JView
 			$this->setLayout('detail');
 		}
 
-		if (!isset($layout) && $this->catid > 0)
+		if (empty($layout) && $this->catid > 0)
 		{
 			$this->setLayout('detail');
 		}
