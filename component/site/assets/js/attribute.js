@@ -1011,8 +1011,6 @@ function calculateTotalPrice(product_id, relatedprd_id) {
 
     final_price_f = parseFloat(mainprice) + parseFloat(accfinalprice) + parseFloat(wprice);
 
-    final_price_f *= parseInt(qty);
-
     product_price_without_vat = parseFloat(price_without_vat) + parseFloat(accfinalprice_withoutvat) + parseFloat(wrapper_price_withoutvat);
 
     product_old_price = parseFloat(old_price) + parseFloat(accfinalprice) + parseFloat(wprice);
