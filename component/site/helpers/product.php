@@ -6938,8 +6938,9 @@ class producthelper
 		{
 			$user_id = $user->id;
 		}
-//		$data 					= $this->getcartTemplate();
-		$chktag                = $this->getApplyattributeVatOrNot($data, $user_id);
+
+		$data                  = $this->getcartTemplate();
+		$chktag                = $this->getApplyattributeVatOrNot($data[0]->template_desc, $user_id);
 		$setPropEqual          = true;
 		$setSubpropEqual       = true;
 		$displayaccessory      = "";
