@@ -1,5 +1,6 @@
 // open modal box
 window.addEvent('domready', function () {
+
     // Load redbox on page load to make modal working.
     var imagehandle = {isenable: true, mainImage: true};
     preloadSlimbox(imagehandle);
@@ -15,206 +16,286 @@ window.addEvent('domready', function () {
 
 var r_browser = false;
 var subproperty_main_image = "";
-function getHTTPObject() {
+
+function getHTTPObject()
+{
     var xhr = false;
-    if (window.XMLHttpRequest) {
+
+    if (window.XMLHttpRequest)
+    {
         xhr = new XMLHttpRequest();
-    } else if (window.ActiveXObject) {
-        try {
+    }
+    else if (window.ActiveXObject)
+    {
+        try
+        {
             xhr = new ActiveXObject("Msxml2.XMLHTTP");
         }
-        catch (e) {
-            try {
+        catch (e)
+        {
+            try
+            {
                 xhr = new ActiveXObject("Microsoft.XMLHTTP");
             }
-            catch (e) {
+            catch (e)
+            {
                 xhr = false;
             }
         }
     }
+
     return xhr;
 }
+
 var request;
 
-/************************Js Clean up code start function*******************************/
-function productaddprice(product_id, relatedprd_id) {
+// Js Clean up code start function
+function productaddprice(product_id, relatedprd_id)
+{
     var qty = 1;
 
-    if (relatedprd_id != 0) {
+    if (relatedprd_id != 0)
+    {
         prefix = relatedprd_id;
-    } else {
+    }
+    else
+    {
         prefix = product_id;
     }
 
-    if (document.getElementById("accessory_data")) {
+    if (document.getElementById("accessory_data"))
+    {
         var accessory_data = document.getElementById("accessory_data").value;
     }
-    if (document.getElementById("acc_quantity_data")) {
+
+    if (document.getElementById("acc_quantity_data"))
+    {
         var acc_quantity_data = document.getElementById("acc_quantity_data").value;
     }
-    if (document.getElementById("acc_attribute_data")) {
+
+    if (document.getElementById("acc_attribute_data"))
+    {
         var acc_attribute_data = document.getElementById("acc_attribute_data").value.replace("##", "::");
     }
-    if (document.getElementById("acc_property_data")) {
+
+    if (document.getElementById("acc_property_data"))
+    {
         var acc_property_data = document.getElementById("acc_property_data").value.replace("##", "::");
     }
-    if (document.getElementById("acc_subproperty_data")) {
+
+    if (document.getElementById("acc_subproperty_data"))
+    {
         var acc_subproperty_data = document.getElementById("acc_subproperty_data").value.replace("##", "::");
     }
-//	alert(accessory_data + " " + acc_quantity_data + " " + acc_attribute_data + " " + acc_property_data + " " + acc_subproperty_data);
 
-    if (document.getElementById('quantity' + prefix) && document.getElementById('quantity' + prefix)) {
+    if (document.getElementById('quantity' + prefix) && document.getElementById('quantity' + prefix))
+    {
         qty = document.getElementById('quantity' + prefix).value;
     }
-    if (document.getElementById('attribute_data')) {
+
+    if (document.getElementById('attribute_data'))
+    {
         var attribute_data = document.getElementById('attribute_data').value.replace("##", "::");
     }
-    if (document.getElementById('property_data')) {
+
+    if (document.getElementById('property_data'))
+    {
         var property_data = document.getElementById('property_data').value.replace("##", "::");
     }
-    if (document.getElementById('subproperty_data')) {
+
+    if (document.getElementById('subproperty_data'))
+    {
         var subproperty_data = document.getElementById('subproperty_data').value.replace("##", "::");
     }
-    //	alert("123");
+
     var url = site_url + "index.php?option=com_redshop&view=product&task=displayProductaddprice&tmpl=component&qunatity=" + qty;
     url = url + "&product_id=" + product_id + "&attribute_data=" + attribute_data + "&property_data=" + property_data + "&subproperty_data=" + subproperty_data;
     url = url + "&accessory_data=" + accessory_data + "&acc_quantity_data=" + acc_quantity_data + "&acc_attribute_data=" + acc_attribute_data + "&acc_property_data=" + acc_property_data + "&acc_subproperty_data=" + acc_subproperty_data;
 
     request = getHTTPObject();
     request.onreadystatechange = function () {
-        // if request object received response
 
-        if (request.readyState == 4) {
-            //alert(request.responseText);
+        // if request object received response
+        if (request.readyState == 4)
+        {
             var str = request.responseText.split(":");
             var accessory_price = 0;
             var accessory_price_withoutvat = 0;
             var wprice = 0;
             var wrapper_price_withoutvat = 0;
 
-
-//			if(document.getElementById('accessory_price'))
-//			{
-//				accessory_price = parseFloat(document.getElementById('accessory_price').value)*myqty;
-//			}
-//			if(document.getElementById('accessory_price_withoutvat'))
-//			{
-//				accessory_price_withoutvat = parseFloat(document.getElementById('accessory_price_withoutvat').value);
-//			}
-            if (document.getElementById("wrapper_price")) {
+            if (document.getElementById("wrapper_price"))
+            {
                 wprice = parseFloat(document.getElementById("wrapper_price").value);
             }
-            if (document.getElementById("wrapper_price_withoutvat")) {
+
+            if (document.getElementById("wrapper_price_withoutvat"))
+            {
                 wrapper_price_withoutvat = parseFloat(document.getElementById("wrapper_price_withoutvat").value);
             }
 
-            if (document.getElementById('produkt_kasse_hoejre_pris_indre' + prefix)) {
+            if (document.getElementById('produkt_kasse_hoejre_pris_indre' + prefix))
+            {
                 document.getElementById('produkt_kasse_hoejre_pris_indre' + prefix).innerHTML = number_format(parseFloat(str[0]) + (wprice * qty), PRICE_DECIMAL, PRICE_SEPERATOR, THOUSAND_SEPERATOR);
             }
-            if (document.getElementById('display_product_discount_price' + prefix)) {
+
+            if (document.getElementById('display_product_discount_price' + prefix))
+            {
                 document.getElementById('display_product_discount_price' + prefix).innerHTML = number_format(str[4], PRICE_DECIMAL, PRICE_SEPERATOR, THOUSAND_SEPERATOR);
             }
-            if (document.getElementById('display_product_price_without_vat' + prefix)) {
+
+            if (document.getElementById('display_product_price_without_vat' + prefix))
+            {
                 document.getElementById('display_product_price_without_vat' + prefix).innerHTML = number_format(parseFloat(str[5]) + (wrapper_price_withoutvat * qty), PRICE_DECIMAL, PRICE_SEPERATOR, THOUSAND_SEPERATOR);
             }
-            if (document.getElementById('display_product_price_no_vat' + prefix)) {
+
+            if (document.getElementById('display_product_price_no_vat' + prefix))
+            {
                 document.getElementById('display_product_price_no_vat' + prefix).innerHTML = number_format(parseFloat(str[5]) + (wrapper_price_withoutvat * qty), PRICE_DECIMAL, PRICE_SEPERATOR, THOUSAND_SEPERATOR);
             }
-            if (document.getElementById('display_product_old_price' + prefix)) {
+
+            if (document.getElementById('display_product_old_price' + prefix))
+            {
                 document.getElementById('display_product_old_price' + prefix).innerHTML = number_format(str[2], PRICE_DECIMAL, PRICE_SEPERATOR, THOUSAND_SEPERATOR);
             }
-            if (document.getElementById('display_product_saving_price' + prefix)) {
+
+            if (document.getElementById('display_product_saving_price' + prefix))
+            {
                 document.getElementById('display_product_saving_price' + prefix).innerHTML = number_format(str[3], PRICE_DECIMAL, PRICE_SEPERATOR, THOUSAND_SEPERATOR);
             }
 
-            if (document.getElementById('main_price' + prefix)) {
+            if (document.getElementById('main_price' + prefix))
+            {
                 document.getElementById('main_price' + prefix).value = str[0];
             }
-            if (document.getElementById('product_price_no_vat' + prefix)) {
+
+            if (document.getElementById('product_price_no_vat' + prefix))
+            {
                 document.getElementById('product_price_no_vat' + prefix).value = str[5];
-                if (document.getElementById('main_price' + product_id)) {
+
+                if (document.getElementById('main_price' + product_id))
+                {
                     document.getElementById('main_price' + product_id).value = str[0];
                 }
-                if (document.getElementById('product_price_no_vat' + product_id)) {
+
+                if (document.getElementById('product_price_no_vat' + product_id))
+                {
                     document.getElementById('product_price_no_vat' + product_id).value = str[5];
                 }
-                if (document.getElementById('product_old_price' + product_id)) {
+
+                if (document.getElementById('product_old_price' + product_id))
+                {
                     document.getElementById('product_old_price' + product_id).value = str[2];
                 }
-
-
             }
-            if (document.getElementById('product_old_price' + prefix)) {
+
+            if (document.getElementById('product_old_price' + prefix))
+            {
                 document.getElementById('product_old_price' + prefix).value = str[2];
             }
         }
     };
+
     request.open("GET", url, true);
     request.send(null);
-
 }
-function changePropertyDropdown(product_id, accessory_id, relatedprd_id, attribute_id, selectedproperty_id, mpw_thumb, mph_thumb) {
-    var allarg = arguments;
-    var propArr = new Array();
-    var subpropArr = new Array();
-    var property_data = "";
+
+function changePropertyDropdown(product_id, accessory_id, relatedprd_id, attribute_id, selectedproperty_id, mpw_thumb, mph_thumb)
+{
+    var allarg           = arguments;
+    var propArr          = new Array();
+    var subpropArr       = new Array();
+    var property_data    = "";
     var subproperty_data = "";
-    var suburl = "";
-    var subatthtml = "";
-    var layout = "";
+    var suburl           = "";
+    var subatthtml       = "";
+    var layout           = "";
     var prefix;
-    if (document.getElementById('isAjaxBoxOpen')) {
+
+    if (document.getElementById('isAjaxBoxOpen'))
+    {
         layout = document.getElementById('isAjaxBoxOpen').value;
     }
 
     var preprefix = "";
-    if (layout == "viewajaxdetail") {
+
+    if (layout == "viewajaxdetail")
+    {
         preprefix = "ajax_";
     }
-    if (accessory_id != 0) {
+
+    if (accessory_id != 0)
+    {
         prefix = preprefix + "acc_";
-    } else if (relatedprd_id != 0) {
+    }
+    else if (relatedprd_id != 0)
+    {
         prefix = preprefix + "rel_";
-    } else {
+    }
+    else
+    {
         prefix = preprefix + "prd_";
     }
 
     var commonid = prefix + product_id + '_' + accessory_id + '_' + attribute_id;
-    if (document.getElementById('subattdata_' + commonid)) {
+
+    if (document.getElementById('subattdata_' + commonid))
+    {
         subatthtml = document.getElementById('subattdata_' + commonid).value;
     }
+
     suburl = suburl + "&subatthtml=" + subatthtml;
     suburl = suburl + "&product_id=" + product_id;
     suburl = suburl + "&attribute_id=" + attribute_id;
     suburl = suburl + "&accessory_id=" + accessory_id;
     suburl = suburl + "&relatedprd_id=" + relatedprd_id;
 
-    if (document.getElementsByName('property_id_' + commonid + '[]')) {
+    if (document.getElementsByName('property_id_' + commonid + '[]'))
+    {
         var propName = document.getElementsByName('property_id_' + commonid + '[]');
         var sel_i = 0;
-        for (var p = 0; p < propName.length; p++) {
-            if (propName[p].type == 'checkbox' || propName[p].type == 'radio') {
-                if (propName[p].checked) {
+
+        for (var p = 0; p < propName.length; p++)
+        {
+            if (propName[p].type == 'checkbox' || propName[p].type == 'radio')
+            {
+                if (propName[p].checked)
+                {
                     propArr[sel_i++] = propName[p].value;
                 }
-            } else {
-                if (propName[p].selectedIndex) {
+            }
+            else
+            {
+                if (propName[p].selectedIndex)
+                {
                     propArr[sel_i++] = propName[p].options[propName[p].selectedIndex].value;
                 }
             }
         }
+
         var subsel_i = 0;
-        for (var sp = 0; sp < propArr.length; sp++) {
+
+        for (var sp = 0; sp < propArr.length; sp++)
+        {
             var spcommonid = commonid + '_' + propArr[sp];
-            if (document.getElementsByName('subproperty_id_' + spcommonid + '[]')) {
+
+            if (document.getElementsByName('subproperty_id_' + spcommonid + '[]'))
+            {
                 var subpropName = document.getElementsByName('subproperty_id_' + spcommonid + '[]');
-                for (var p = 0; p < subpropName.length; p++) {
-                    if (subpropName[p].type == 'checkbox' || subpropName[p].type == 'radio') {
-                        if (subpropName[p].checked) {
+
+                for (var p = 0; p < subpropName.length; p++)
+                {
+                    if (subpropName[p].type == 'checkbox' || subpropName[p].type == 'radio')
+                    {
+                        if (subpropName[p].checked)
+                        {
                             subpropArr[subsel_i++] = subpropName[p].value;
                         }
-                    } else {
-                        if (subpropName[p].selectedIndex) {
+                    }
+                    else
+                    {
+                        if (subpropName[p].selectedIndex)
+                        {
                             subpropArr[subsel_i++] = subpropName[p].options[subpropName[p].selectedIndex].value;
                         }
                     }
@@ -227,43 +308,58 @@ function changePropertyDropdown(product_id, accessory_id, relatedprd_id, attribu
         suburl = suburl + "&property_id=" + property_data;
         suburl = suburl + "&subproperty_id=" + subproperty_data;
     }
+
     var url = site_url + "index.php?option=com_redshop&view=product&task=displaySubProperty&tmpl=component&isAjaxBox=" + layout;
     url = url + suburl;
-//	alert(url);
+
     request = getHTTPObject();
     request.onreadystatechange = function () {
         // if request object received response
-        if (document.getElementById('property_responce' + commonid)) {
+        if (document.getElementById('property_responce' + commonid))
+        {
             document.getElementById('property_responce' + commonid).style.display = 'none';
         }
-        if (request.readyState == 4) {
+
+        if (request.readyState == 4)
+        {
             var property_id = 0;
-            if (document.getElementById('property_responce' + commonid)) {
+            if (document.getElementById('property_responce' + commonid))
+            {
                 document.getElementById('property_responce' + commonid).innerHTML = request.responseText;
                 document.getElementById('property_responce' + commonid).style.display = '';
 
-                for (var p = 0; p < propArr.length; p++) {
+                for (var p = 0; p < propArr.length; p++)
+                {
                     property_id = propArr[p];
                     var scrollercommonid = commonid + '_' + property_id;
-//					alert('divsubimgscroll'+commonid+'_'+property_id);
-                    if (document.getElementById('divsubimgscroll' + scrollercommonid)) {
+
+                    if (document.getElementById('divsubimgscroll' + scrollercommonid))
+                    {
                         var scrollhtml = document.getElementById('divsubimgscroll' + scrollercommonid).innerHTML;
-                        if (scrollhtml != "") {
+
+                        if (scrollhtml != "")
+                        {
                             var imgs = scrollhtml.split('#_#');
                             var unique = "isFlowers" + scrollercommonid;
                             unique = new ImageScroller('isFlowersFrame' + scrollercommonid, 'isFlowersImageRow' + scrollercommonid);
                             var subpropertycommonid = 'subproperty_id_' + scrollercommonid;
                             var subinfo = '';
-                            for (i = 0; i < imgs.length; i++) {
+
+                            for (i = 0; i < imgs.length; i++)
+                            {
                                 subinfo = imgs[i].split('`_`');
                                 var subproperty_id = subinfo[1];
                                 unique.addThumbnail(subinfo[0], "javascript:isFlowers" + scrollercommonid + ".scrollImageCenter('" + i + "');setSubpropImage('" + product_id + "','" + subpropertycommonid + "','" + subproperty_id + "');calculateTotalPrice('" + product_id + "','" + relatedprd_id + "');displayAdditionalImage('" + product_id + "','" + accessory_id + "','" + relatedprd_id + "','" + property_id + "','" + subproperty_id + "');", "", "", subpropertycommonid + "_subpropimg_" + subproperty_id, "");
                             }
+
                             var rs_size = 50;
-                            if (mph_thumb > mpw_thumb) {
+
+                            if (mph_thumb > mpw_thumb)
+                            {
                                 rs_size = mph_thumb;
                             }
-                            else {
+                            else
+                            {
                                 rs_size = mpw_thumb;
                             }
 
@@ -281,6 +377,7 @@ function changePropertyDropdown(product_id, accessory_id, relatedprd_id, attribu
                     }
                 }
             }
+
             displayAdditionalImage(product_id, accessory_id, relatedprd_id, property_id, 0);
             calculateTotalPrice(product_id, relatedprd_id);
 
@@ -288,6 +385,7 @@ function changePropertyDropdown(product_id, accessory_id, relatedprd_id, attribu
             onchangePropertyDropdown(allarg);
         }
     };
+
     request.open("GET", url, true);
     request.send(null);
 }
@@ -297,30 +395,38 @@ function changePropertyDropdown(product_id, accessory_id, relatedprd_id, attribu
  *
  * @params: orgarg  All the arguments array from the original function
  */
-function onchangePropertyDropdown(orgarg) {
+function onchangePropertyDropdown(orgarg)
+{
     return true;
 }
 
-function display_image(imgs, product_id, gethover) {
+function display_image(imgs, product_id, gethover)
+{
     if (!PRODUCT_DETAIL_IS_LIGHTBOX)
         document.getElementById('a_main_image' + product_id).href = gethover;
     document.getElementById('main_image' + product_id).src = imgs;
 }
-function display_image_out(imgs, product_id, gethover) {
+
+function display_image_out(imgs, product_id, gethover)
+{
     document.getElementById('main_image' + product_id).src = gethover;
 }
-function display_image_add(img, product_id) {
+
+function display_image_add(img, product_id)
+{
     document.getElementById('main_image' + product_id).src = img;
 }
-function display_image_add_out(img, product_id) {
+
+function display_image_add_out(img, product_id)
+{
     if (subproperty_main_image != "")
         document.getElementById('main_image' + product_id).src = subproperty_main_image;
     else
         document.getElementById('main_image' + product_id).src = img;
 }
-function collectAttributes(product_id, accessory_id, relatedprd_id) {
 
-
+function collectAttributes(product_id, accessory_id, relatedprd_id)
+{
     var prefix;
     var attrArr = new Array();
     var allpropArr = new Array();
@@ -336,140 +442,178 @@ function collectAttributes(product_id, accessory_id, relatedprd_id) {
     var layout = "";
 
     var myaccQuan = 1;
-    if (document.getElementById("accquantity_" + product_id + "_" + accessory_id)) {
+    if (document.getElementById("accquantity_" + product_id + "_" + accessory_id))
+    {
         myaccQuan = document.getElementById("accquantity_" + product_id + "_" + accessory_id).value;
     }
 
-
-    if (document.getElementById('product_preorder' + product_id)) {
+    if (document.getElementById('product_preorder' + product_id))
+    {
         var preorder = document.getElementById('product_preorder' + product_id).value;
     }
-    if (document.getElementById('product_stock' + product_id)) {
+
+    if (document.getElementById('product_stock' + product_id))
+    {
         var product_stock = document.getElementById('product_stock' + product_id).value;
     }
-    if (document.getElementById('preorder_product_stock' + product_id)) {
+
+    if (document.getElementById('preorder_product_stock' + product_id))
+    {
         var preorder_stock = document.getElementById('preorder_product_stock' + product_id).value;
     }
 
-
-    if (document.getElementById('isAjaxBoxOpen')) {
+    if (document.getElementById('isAjaxBoxOpen'))
+    {
         layout = document.getElementById('isAjaxBoxOpen').value;
     }
 
     var preprefix = "";
-    if (layout == "viewajaxdetail") {
+
+    if (layout == "viewajaxdetail")
+    {
         preprefix = "ajax_";
     }
 
-    if (accessory_id != 0) {
+    if (accessory_id != 0)
+    {
         prefix = preprefix + "acc_";
-        if (document.getElementById('accessory_id_' + product_id + '_' + accessory_id)) {
+
+        if (document.getElementById('accessory_id_' + product_id + '_' + accessory_id))
+        {
             mainprice = parseFloat(document.getElementById('accessory_id_' + product_id + '_' + accessory_id).getAttribute('accessoryprice'));
             price_without_vat = parseFloat(document.getElementById('accessory_id_' + product_id + '_' + accessory_id).getAttribute('accessorywithoutvatprice'));
         }
+
         old_price = mainprice;
-    } else if (relatedprd_id != 0) {
+    }
+    else if (relatedprd_id != 0)
+    {
         prefix = preprefix + "rel_";
-        if (document.getElementById('main_price' + product_id)) {
+
+        if (document.getElementById('main_price' + product_id))
+        {
             mainprice = parseFloat(document.getElementById('main_price' + product_id).value);
         }
-        if (document.getElementById('product_price_excluding_price' + product_id)) {
+
+        if (document.getElementById('product_price_excluding_price' + product_id))
+        {
             price_without_vat = parseFloat(document.getElementById('product_price_excluding_price' + product_id).value);
-        } else if (document.getElementById('product_price_no_vat' + product_id)) {
+        }
+        else if (document.getElementById('product_price_no_vat' + product_id))
+        {
             price_without_vat = parseFloat(document.getElementById('product_price_no_vat' + product_id).value);
         }
-        if (document.getElementById('product_old_price' + product_id)) {
+
+        if (document.getElementById('product_old_price' + product_id))
+        {
             old_price = parseFloat(document.getElementById('product_old_price' + product_id).value);
         }
-
-    } else {
-
+    }
+    else
+    {
         prefix = preprefix + "prd_";
-        if (document.getElementById('main_price' + product_id)) {
-            mainprice = parseFloat(document.getElementById('main_price' + product_id).value);
 
+        if (document.getElementById('main_price' + product_id))
+        {
+            mainprice = parseFloat(document.getElementById('main_price' + product_id).value);
         }
-        if (document.getElementById('product_price_excluding_price' + product_id)) {
+
+        if (document.getElementById('product_price_excluding_price' + product_id))
+        {
             price_without_vat = parseFloat(document.getElementById('product_price_excluding_price' + product_id).value);
-        } else if (document.getElementById('product_price_no_vat' + product_id)) {
+        }
+        else if (document.getElementById('product_price_no_vat' + product_id))
+        {
             price_without_vat = parseFloat(document.getElementById('product_price_no_vat' + product_id).value);
         }
-        if (document.getElementById('product_old_price' + product_id)) {
+
+        if (document.getElementById('product_old_price' + product_id))
+        {
             old_price = parseFloat(document.getElementById('product_old_price' + product_id).value);
         }
     }
 
-
     var commonid = prefix + product_id + '_' + accessory_id;
     var commonstockid = prefix + product_id;
-//	alert("mainprice = " + mainprice);
-    if (document.getElementsByName('attribute_id_' + commonid + '[]')) {
+
+    if (document.getElementsByName('attribute_id_' + commonid + '[]'))
+    {
         var attrName = document.getElementsByName('attribute_id_' + commonid + '[]');
-        for (var i = 0; i < attrName.length; i++) {
+
+        for (var i = 0; i < attrName.length; i++)
+        {
             attrArr[i] = attrName[i].value;
         }
     }
 
-    // removing " USE_STOCKROOM==1 && " from below condition - Gunjan
-    //if(isStock && ALLOW_PRE_ORDER!=1)
-
-    //alert(preorder_stock);
-    if (isStock) {
+    if (isStock)
+    {
         isStock = checkProductStockRoom(product_stock, commonstockid, preorder, preorder_stock);
     }
-    if (attrArr.length <= 0 && AJAX_CART_BOX == 1) {
-        if (document.getElementById("requiedAttribute")) {
+
+    if (attrArr.length <= 0 && AJAX_CART_BOX == 1)
+    {
+        if (document.getElementById("requiedAttribute"))
+        {
             acc_error = document.getElementById("requiedAttribute").value;
         }
 
-        if (document.getElementById("requiedProperty")) {
+        if (document.getElementById("requiedProperty"))
+        {
             subacc_error = document.getElementById("requiedProperty").value;
         }
     }
 
-
-    for (var i = 0; i < attrArr.length; i++) {
-
-        //alert("hi");
+    for (var i = 0; i < attrArr.length; i++)
+    {
         var attribute_id = attrArr[i];
         commonid = prefix + product_id + '_' + accessory_id + '_' + attribute_id;
         var propId = document.getElementById('property_id_' + commonid);
-        if (propId) {
+
+        if (propId)
+        {
             setPropertyImage(product_id, 'property_id_' + commonid);
             var propName = document.getElementsByName('property_id_' + commonid + '[]');
 
             var seli = 0;
             var propArr = new Array();
-            /******Collect property start*******/
-            for (var p = 0; p < propName.length; p++) {
-                if (propName[p].type == 'checkbox' || propName[p].type == 'radio') {
-                    if (propName[p].checked && propName[p].value != 0) {
+
+            // Collect property start
+            for (var p = 0; p < propName.length; p++)
+            {
+                if (propName[p].type == 'checkbox' || propName[p].type == 'radio')
+                {
+                    if (propName[p].checked && propName[p].value != 0)
+                    {
                         propArr[seli++] = propName[p].value;
                     }
-                } else {
-                    if (propName[p].selectedIndex && propName[p].options[propName[p].selectedIndex].value != 0) {
-
+                }
+                else
+                {
+                    if (propName[p].selectedIndex && propName[p].options[propName[p].selectedIndex].value != 0)
+                    {
                         propArr[seli++] = propName[p].options[propName[p].selectedIndex].value;
-
                     }
                 }
             }
-            //alert("propArr = " + propArr.length);
-            if (propArr.length > 0) {
+
+            if (propArr.length > 0)
+            {
                 allpropArr[i] = propArr.join(",,");
             }
-            //alert(" propArr.length = " + propArr.length);
+
             // required check
             if (propId.getAttribute('required') == 1 && propArr.length == 0) {
                 acc_error += document.getElementById('att_lebl').innerHTML + " " + unescape(propId.getAttribute('attribute_name')) + "\n";
             }
 
-
             /******Collect property Price start*******/
-            if (setPropEqual && setSubpropEqual) {
+            if (setPropEqual && setSubpropEqual)
+            {
                 var oprandElementId = 'property_id_' + commonid + '_oprand';
                 var priceElementId = 'property_id_' + commonid + '_proprice';
                 var retProArr = calculateSingleProductPrice(mainprice, oprandElementId, priceElementId, propArr);
+
                 //setPropEqual = retProArr[0];
                 mainprice = retProArr[1];
 
@@ -480,66 +624,69 @@ function collectAttributes(product_id, accessory_id, relatedprd_id) {
                 retProArr = calculateSingleProductPrice(price_without_vat, oprandElementId, priceElementId, propArr);
                 price_without_vat = retProArr[1];
             }
-            /******Collect property Price end*******/
-
-            /******Collect property end*******/
 
             /******Collect subproperty start*******/
             var isSubproperty = false;
             var allsubpropArr = new Array();
-            for (var p = 0; p < propArr.length; p++) {
+            for (var p = 0; p < propArr.length; p++)
+            {
                 var property_id = propArr[p];
                 var stockElementId = 'property_id_' + commonid + '_stock' + property_id;
                 var preOrderstockElementId = 'property_id_' + commonid + '_preorderstock' + property_id;
 
-
                 // removing " USE_STOCKROOM==1 && " from below condition - Gunjan
-                if (document.getElementById(stockElementId) && document.getElementById(preOrderstockElementId) && isStock && accessory_id == 0) {
-                    //alert(document.getElementById(stockElementId).value);
-                    //if( (preorder == 'global' && ALLOW_PRE_ORDER!=1) || (preorder == '' && ALLOW_PRE_ORDER!=1) || (preorder == 'no'))
-                    //{
+                if (document.getElementById(stockElementId) && document.getElementById(preOrderstockElementId) && isStock && accessory_id == 0)
+                {
                     isStock = checkProductStockRoom(document.getElementById(stockElementId).value, commonstockid, preorder, document.getElementById(preOrderstockElementId).value);
-                    //}
                 }
 
                 var subcommonid = prefix + product_id + '_' + accessory_id + '_' + attribute_id + '_' + property_id;
                 var subPropId = document.getElementById('subproperty_id_' + subcommonid);
-                if (subPropId) {
+                if (subPropId)
+                {
                     setSubpropertyImage(product_id, 'subproperty_id_' + subcommonid);
                     isSubproperty = true;
                     var subpropName = document.getElementsByName('subproperty_id_' + subcommonid + '[]');
                     seli = 0;
                     var subpropArr = new Array();
-                    for (var sp = 0; sp < subpropName.length; sp++) {
-                        if (subpropName[sp].type == 'checkbox' || subpropName[sp].type == 'radio') {
-                            if (subpropName[sp].checked && subpropName[sp].value) {
+
+                    for (var sp = 0; sp < subpropName.length; sp++)
+                    {
+                        if (subpropName[sp].type == 'checkbox' || subpropName[sp].type == 'radio')
+                        {
+                            if (subpropName[sp].checked && subpropName[sp].value)
+                            {
                                 subpropArr[seli++] = subpropName[sp].value;
                             }
-                        } else {
-                            if (subpropName[sp].selectedIndex && subpropName[sp].options[subpropName[sp].selectedIndex].value) {
+                        }
+                        else
+                        {
+                            if (subpropName[sp].selectedIndex && subpropName[sp].options[subpropName[sp].selectedIndex].value)
+                            {
                                 subpropArr[seli++] = subpropName[sp].options[subpropName[sp].selectedIndex].value;
                             }
                         }
                     }
-                    for (var sp = 0; sp < subpropArr.length; sp++) {
+
+                    for (var sp = 0; sp < subpropArr.length; sp++)
+                    {
                         var stockElementId = 'subproperty_id_' + subcommonid + '_stock' + subpropArr[sp];
-                        if (USE_STOCKROOM == 1 && document.getElementById(stockElementId) && accessory_id == 0) {
-                            //if( (preorder == 'global' && ALLOW_PRE_ORDER!=1) || (preorder == '' && ALLOW_PRE_ORDER!=1) || (preorder == 'no'))
-                            //{
+                        if (USE_STOCKROOM == 1 && document.getElementById(stockElementId) && accessory_id == 0)
+                        {
                             isStock = checkProductStockRoom(document.getElementById(stockElementId).value, commonstockid, preorder, preorder_stock);
-                            //}
                         }
                     }
 
                     if (subPropId.getAttribute('required') == 1 && subpropArr.length == 0) {
                         subacc_error += document.getElementById('subprop_lbl').innerHTML + " " + unescape(subPropId.getAttribute('subpropName')) + "\n";
                     }
+
                     /******Collect subproperty Price start*******/
-                    if (setPropEqual && setSubpropEqual) {
+                    if (setPropEqual && setSubpropEqual)
+                    {
                         var oprandElementId = 'subproperty_id_' + subcommonid + '_oprand';
                         var priceElementId = 'subproperty_id_' + subcommonid + '_proprice';
                         var retSubArr = calculateSingleProductPrice(mainprice, oprandElementId, priceElementId, subpropArr);
-                        //setSubpropEqual = retSubArr[0];
                         mainprice = retSubArr[1];
 
                         var retSubArr = calculateSingleProductPrice(old_price, oprandElementId, priceElementId, subpropArr);
@@ -547,88 +694,111 @@ function collectAttributes(product_id, accessory_id, relatedprd_id) {
 
                         priceElementId = 'subproperty_id_' + subcommonid + '_proprice_withoutvat';
 
-
                         retSubArr = calculateSingleProductPrice(price_without_vat, oprandElementId, priceElementId, subpropArr);
                         price_without_vat = retSubArr[1];
                     }
-                    /******Collect subproperty Price end*******/
+
                     allsubpropArr[p] = subpropArr.join("::");
                 }
             }
+
             tolallsubpropArr[i] = allsubpropArr.join(",,");
-            /******Collect subproperty end*******/
         }
     }
-    if (allpropArr.length == 0) {
+
+    if (allpropArr.length == 0)
+    {
         attrArr = new Array();
     }
-    //alert("mainprice = " + mainprice);
-//	alert("attrArr = " + attrArr + "allpropArr = " + allpropArr + "tolallsubpropArr = " + tolallsubpropArr);
 
-    if (accessory_id != 0) {
-        if (document.getElementById("acc_attribute_data")) {
+    if (accessory_id != 0)
+    {
+        if (document.getElementById("acc_attribute_data"))
+        {
             document.getElementById("acc_attribute_data").value = attrArr.join("##");
         }
-        if (document.getElementById("acc_property_data")) {
+
+        if (document.getElementById("acc_property_data"))
+        {
             document.getElementById("acc_property_data").value = allpropArr.join("##");
         }
+
         if (document.getElementById("acc_subproperty_data")) {
             document.getElementById("acc_subproperty_data").value = tolallsubpropArr.join("##");
         }
-        if (document.getElementById("accessory_price")) {
+
+        if (document.getElementById("accessory_price"))
+        {
             document.getElementById("accessory_price").value = mainprice;
         }
-        if (document.getElementById("accessory_price_withoutvat")) {
+
+        if (document.getElementById("accessory_price_withoutvat"))
+        {
             document.getElementById("accessory_price_withoutvat").value = price_without_vat;
         }
-    } else {
-        if (document.getElementById("attribute_data")) {
+    }
+    else
+    {
+        if (document.getElementById("attribute_data"))
+        {
             document.getElementById("attribute_data").value = attrArr.join("##");
         }
+
         if (document.getElementById("property_data")) {
             document.getElementById("property_data").value = allpropArr.join("##");
         }
-        if (document.getElementById("subproperty_data")) {
+
+        if (document.getElementById("subproperty_data"))
+        {
             document.getElementById("subproperty_data").value = tolallsubpropArr.join("##");
         }
-        if (document.getElementById("tmp_product_price")) {
+
+        if (document.getElementById("tmp_product_price"))
+        {
             document.getElementById("tmp_product_price").value = mainprice;
         }
-        if (document.getElementById("productprice_notvat")) {
 
+        if (document.getElementById("productprice_notvat"))
+        {
             document.getElementById("productprice_notvat").value = price_without_vat;
         }
-        if (document.getElementById("tmp_product_old_price")) {
+
+        if (document.getElementById("tmp_product_old_price"))
+        {
             document.getElementById("tmp_product_old_price").value = old_price;
         }
     }
-    if (document.getElementById("requiedAttribute")) {
+
+    if (document.getElementById("requiedAttribute"))
+    {
         document.getElementById("requiedAttribute").value = acc_error;
     }
+
     if (document.getElementById("requiedProperty")) {
         document.getElementById("requiedProperty").value = subacc_error;
     }
 }
 
-/*//Arguments
+/*
+//Arguments
  stockAmount= normal stock amount
  commonstockid = Id
  preorder  = Preorder is Enable or not
  preorder_stock = prorder stock amount
-
-
  */
-
-function checkProductStockRoom(stockAmount, commonstockid, preorder, preorder_stock) {
-
+function checkProductStockRoom(stockAmount, commonstockid, preorder, preorder_stock)
+{
     var isStock = true;
 
-    if (stockAmount > 0) {
-        if (document.getElementById('pdaddtocart' + commonstockid)) {
+    if (stockAmount > 0)
+    {
+        if (document.getElementById('pdaddtocart' + commonstockid))
+        {
             document.getElementById('pdaddtocart' + commonstockid).style.display = '';
         }
 
-        if (USE_AS_CATALOG == 1) {
+        if (USE_AS_CATALOG == 1)
+        {
             if (document.getElementById('pdaddtocart' + commonstockid)) {
                 document.getElementById('pdaddtocart' + commonstockid).style.display = 'none';
             }
@@ -766,77 +936,82 @@ function calculateSingleProductPrice(price, oprandElementId, priceElementId, ele
 // calculate attribute price
 function calculateTotalPrice(product_id, relatedprd_id) {
 
-    if (product_id == 0 || product_id == "") {
-//		alert("Product ID is missing");
+    if (product_id == 0 || product_id == "")
+    {
         return false;
     }
+
     var mainprice = 0;
     var price_without_vat = 0;
     var old_price = 0;
     var accfinalprice_withoutvat = 0;
     var product_old_price = 0;
-    // accessory price add
+
+    // Accessory price add
     var accfinalprice = collectAccessory(product_id, relatedprd_id);
-
-
     var qty = 1;
-    if (relatedprd_id != 0) {
+
+    if (relatedprd_id != 0)
+    {
         prefix = relatedprd_id;
-    } else {
+    }
+    else
+    {
         prefix = product_id;
     }
-    if (document.getElementById('quantity' + prefix) && document.getElementById('quantity' + prefix)) {
 
+    if (document.getElementById('quantity' + prefix) && document.getElementById('quantity' + prefix))
+    {
         qty = document.getElementById('quantity' + prefix).value;
     }
 
-    if (document.getElementById('accessory_price_withoutvat')) {
+    if (document.getElementById('accessory_price_withoutvat'))
+    {
         accfinalprice_withoutvat = parseFloat(document.getElementById('accessory_price_withoutvat').value);
     }
 
     collectAttributes(product_id, 0, relatedprd_id);
 
-    if (document.getElementById('quantity' + prefix) && document.getElementById('quantity' + prefix).type == "select-one") {
-        productaddprice(product_id, relatedprd_id);
-    }
-
-    if (document.getElementById('tmp_product_price')) {
+    if (document.getElementById('tmp_product_price'))
+    {
         mainprice = parseFloat(document.getElementById('tmp_product_price').value);
     }
-    if (document.getElementById('hidden_subscription_prize')) {
+
+    if (document.getElementById('hidden_subscription_prize'))
+    {
         mainprice = parseFloat(mainprice) + parseFloat(document.getElementById('hidden_subscription_prize').value);
     }
-    if (document.getElementById('productprice_notvat')) {
+
+    if (document.getElementById('productprice_notvat'))
+    {
         price_without_vat = parseFloat(document.getElementById('productprice_notvat').value);
     }
-    if (document.getElementById('tmp_product_old_price')) {
+
+    if (document.getElementById('tmp_product_old_price'))
+    {
         old_price = parseFloat(document.getElementById('tmp_product_old_price').value);
     }
-    // end
+
     // setting wrapper price
     setWrapperComboBox();
+
     var wprice = 0;
-    if (document.getElementById("wrapper_price")) {
+
+    if (document.getElementById("wrapper_price"))
+    {
         wprice = document.getElementById("wrapper_price").value;
     }
+
     var wrapper_price_withoutvat = 0;
-    if (document.getElementById("wrapper_price_withoutvat")) {
+
+    if (document.getElementById("wrapper_price_withoutvat"))
+    {
         wrapper_price_withoutvat = document.getElementById("wrapper_price_withoutvat").value;
     }
-    // end wrapper
 
-//    alert("main price = " + mainprice + " : aacc = " + accfinalprice + " : wrapp = " + wprice);
-
-    //var final_price_f = parseFloat(mainprice) + parseFloat(attribute_price) + parseFloat(accfinalprice) + parseFloat(wprice);
     final_price_f = parseFloat(mainprice) + parseFloat(accfinalprice) + parseFloat(wprice);
-    // product dropdown qunty change multiple by original product price start
 
-    if (document.getElementById('quantity' + prefix) && document.getElementById('quantity' + prefix).type == "select-one") {
-        //alert('Please wait while calculating price');
-        window.setTimeout(this.checkTimeout.bind(this), 40000);
-
-    }
-
+    final_price_f *= parseInt(qty);
 
     product_price_without_vat = parseFloat(price_without_vat) + parseFloat(accfinalprice_withoutvat) + parseFloat(wrapper_price_withoutvat);
 
@@ -844,65 +1019,85 @@ function calculateTotalPrice(product_id, relatedprd_id) {
 
     savingprice = parseFloat(product_old_price) - parseFloat(final_price_f);
 
-
-    if (SHOW_PRICE == '1') {
-        if (!final_price_f || (DEFAULT_QUOTATION_MODE == '1' && SHOW_QUOTATION_PRICE != '1')) {
-
+    if (SHOW_PRICE == '1')
+    {
+        if (!final_price_f || (DEFAULT_QUOTATION_MODE == '1' && SHOW_QUOTATION_PRICE != '1'))
+        {
             final_price = getPriceReplacement(final_price_f);
-        } else {
-
+        }
+        else
+        {
             final_price = number_format(final_price_f, PRICE_DECIMAL, PRICE_SEPERATOR, THOUSAND_SEPERATOR);
         }
-    } else {
+    }
+    else
+    {
         final_price = getPriceReplacement(final_price_f);
     }
-    if (SHOW_PRICE == '1' && ( DEFAULT_QUOTATION_MODE != '1' || (DEFAULT_QUOTATION_MODE && SHOW_QUOTATION_PRICE))) {
-        //if(document.getElementById('quantity'+prefix) && document.getElementById('quantity'+prefix).type=="select-one")
-        //{
-        if (document.getElementById('produkt_kasse_hoejre_pris_indre' + product_id)) {
+
+    if (SHOW_PRICE == '1' && ( DEFAULT_QUOTATION_MODE != '1' || (DEFAULT_QUOTATION_MODE && SHOW_QUOTATION_PRICE)))
+    {
+        if (document.getElementById('produkt_kasse_hoejre_pris_indre' + product_id))
+        {
             document.getElementById('produkt_kasse_hoejre_pris_indre' + product_id).innerHTML = final_price;
         }
-        //}
-        if (document.getElementById('display_product_discount_price' + product_id)) {
+
+        if (document.getElementById('display_product_discount_price' + product_id))
+        {
             document.getElementById('display_product_discount_price' + product_id).innerHTML = final_price;
         }
-        if (!product_price_without_vat) {
+
+        if (!product_price_without_vat)
+        {
             product_price_without_vat = getPriceReplacement(product_price_without_vat);
-        } else {
+        }
+        else
+        {
             product_price_without_vat = number_format(product_price_without_vat, PRICE_DECIMAL, PRICE_SEPERATOR, THOUSAND_SEPERATOR);
         }
-        if (document.getElementById('display_product_price_without_vat' + product_id)) {
+
+        if (document.getElementById('display_product_price_without_vat' + product_id))
+        {
             document.getElementById('display_product_price_without_vat' + product_id).innerHTML = product_price_without_vat;
         }
-        //	if(document.getElementById('quantity'+prefix) && document.getElementById('quantity'+prefix).type=="select-one")
-        //{
-        if (document.getElementById('display_product_price_no_vat' + product_id)) {
+
+        if (document.getElementById('display_product_price_no_vat' + product_id))
+        {
             document.getElementById('display_product_price_no_vat' + product_id).innerHTML = product_price_without_vat;
         }
-        //}
 
-        if (document.getElementById('display_product_old_price' + product_id)) {
-            if (!product_old_price) {
+        if (document.getElementById('display_product_old_price' + product_id))
+        {
+            if (!product_old_price)
+            {
                 product_old_price = getPriceReplacement(product_old_price);
-            } else {
+            }
+            else
+            {
                 product_old_price = number_format(product_old_price, PRICE_DECIMAL, PRICE_SEPERATOR, THOUSAND_SEPERATOR);
             }
+
             document.getElementById('display_product_old_price' + product_id).innerHTML = product_old_price;
         }
-        if (document.getElementById('display_product_saving_price' + product_id)) {
+
+        if (document.getElementById('display_product_saving_price' + product_id))
+        {
             savingprice = number_format(savingprice, PRICE_DECIMAL, PRICE_SEPERATOR, THOUSAND_SEPERATOR);
             document.getElementById('display_product_saving_price' + product_id).innerHTML = savingprice;
         }
-        if (document.getElementById("rs_selected_accessory_price")) {
+
+        if (document.getElementById("rs_selected_accessory_price"))
+        {
             document.getElementById("rs_selected_accessory_price").innerHTML = final_price;
         }
     }
 }
 
-//Accessory data collect start
-function collectAccessory(product_id, relatedprd_id) {
-    if (product_id == 0 || product_id == "") {
-//		alert("Product ID is missing");
+// Accessory data collect start
+function collectAccessory(product_id, relatedprd_id)
+{
+    if (product_id == 0 || product_id == "")
+    {
         return false;
     }
     var layout = "";
