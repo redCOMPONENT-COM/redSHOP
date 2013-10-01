@@ -274,7 +274,30 @@ class Product_DetailViewProduct_Detail extends JView
 		$document = JFactory::getDocument();
 
 		$document->addScriptDeclaration("var WANT_TO_DELETE = '" . JText::_('COM_REDSHOP_DO_WANT_TO_DELETE') . "';");
-		$document->addScript('components/' . $this->option . '/assets/js/fields.js');
+
+		/**
+		 * Override field.js file.
+		 * With this trigger the file can be loaded from a plugin. This can be used
+		 * to display different JS generated interface for attributes depending on a product type.
+		 * So, product type plugins should be used for this event. Be aware that this file should
+		 * be loaded only once.
+		 */
+		$loadedFromAPlugin = $this->dispatcher->trigger('loadFieldsJSFromPlugin', array($detail));
+
+		if (in_array(1, $loadedFromAPlugin))
+		{
+			$loadedFromAPlugin = true;
+		}
+		else
+		{
+			$loadedFromAPlugin = false;
+		}
+
+		if (!$loadedFromAPlugin)
+		{
+			$document->addScript('components/' . $this->option . '/assets/js/fields.js');
+		}
+
 		$document->addScript('components/' . $this->option . '/assets/js/select_sort.js');
 		$document->addScript('components/' . $this->option . '/assets/js/json.js');
 		$document->addScript('components/' . $this->option . '/assets/js/validation.js');
