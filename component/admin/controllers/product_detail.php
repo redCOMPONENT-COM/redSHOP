@@ -455,13 +455,10 @@ class Product_DetailController extends JController
 				if ((int) $property_id)
 				{
 					$dispatcher	= JDispatcher::getInstance();
-					JPluginHelper::importPlugin('redshop_product');
+					JPluginHelper::importPlugin('redshop_product_type');
 
 					// Trigger the data preparation event.
-					$results = $dispatcher->trigger(
-									'onAttributePropertySaveLoop',
-									array($row, &$property[$p], &$property_array)
-								);
+					$dispatcher->trigger('onAttributePropertySaveLoop', array($row, &$property[$p], &$property_array));
 				}
 
 				$subproperty = array_merge(array(), $property[$p]['subproperty']);
