@@ -5956,22 +5956,22 @@ class producthelper
 	public function replaceCartTemplate($product_id = 0, $category_id = 0, $accessory_id = 0, $relproduct_id = 0, $data_add = "", $isChilds = false, $userfieldArr = array(), $totalatt = 0, $totalAccessory = 0, $count_no_user_field = 0, $module_id = 0, $giftcard_id = 0)
 	{
 		$user_id         = 0;
-		$url             = JURI::root();
 		$redconfig       = new Redconfiguration();
 		$extraField      = new extraField();
 		$stockroomhelper = new rsstockroomhelper();
 
 		$product_quantity = JRequest::getVar('product_quantity');
-		$option           = 'com_redshop';
 		$Itemid           = JRequest::getInt('Itemid');
 		$user             = JFactory::getUser();
+
+		JPluginHelper::importPlugin('redshop_product');
+		$dispatcher = JDispatcher::getInstance();
 
 		if ($user_id == 0)
 		{
 			$user_id = $user->id;
 		}
 
-		$add_cart_flag = false;
 		$field_section = 12;
 
 		if ($relproduct_id != 0)
@@ -6002,7 +6002,6 @@ class producthelper
 			$cart_template                = new stdclass();
 			$cart_template->template_name = "";
 			$cart_template->template_desc = "";
-//			return $data_add;
 		}
 
 		if ($data_add == "" && count($cart_template) <= 0)
@@ -6047,7 +6046,6 @@ class producthelper
 
 		if ($giftcard_id != 0)
 		{
-			$add_cart_flag       = true;
 			$product_price       = $product->giftcard_price;
 			$product_price_novat = 0;
 			$product_old_price   = 0;
@@ -6142,7 +6140,7 @@ class producthelper
 			}
 
 			$qunselect = $this->GetDefaultQuantity($product_id, $data_add);
-			//$qunselect=1;
+
 			$productArr          = $this->getProductNetPrice($product_id, $user_id, $qunselect, $data_add);
 			$product_price       = $productArr['product_price'] * $qunselect;
 			$product_price_novat = $productArr['product_price_novat'] * $qunselect;
@@ -6160,8 +6158,6 @@ class producthelper
 		$stockdisplay        = false;
 		$preorderdisplay     = false;
 		$cartdisplay         = false;
-		$preorder_stock_flag = false;
-		$pre_order_value     = 0;
 
 		$display_text = JText::_('COM_REDSHOP_PRODUCT_OUTOFSTOCK_MESSAGE');
 
@@ -6169,7 +6165,7 @@ class producthelper
 		{
 			// Check if preorder is set to yes than add pre order button
 			$product_preorder = $product->preorder;
-			//if (ALLOW_PRE_ORDER && !empty($product->product_availability_date))
+
 			if (($product_preorder == "global"
 				&& ALLOW_PRE_ORDER)
 				|| ($product_preorder == "yes")
@@ -6355,9 +6351,9 @@ class producthelper
 				$product_userhiddenfileds .= '</table>';
 				$cartform .= $product_userhiddenfileds;
 			}
+
 			//Start Hidden attribute image in cart
 			$attributes = $this->getProductAttribute($product_id);
-			$attrib     = $this->getProductAttribute($product_id);
 
 			if (count($attributes) > 0)
 			{
@@ -6541,6 +6537,8 @@ class producthelper
 				}
 			}
 
+			$addtocart_quantity = '';
+
 			if (strstr($cartform, "{addtocart_quantity}"))
 			{
 				$addtocart_quantity = "<span id='stockQuantity" . $stockId
@@ -6656,12 +6654,30 @@ class producthelper
 			$cartIcon  = '';
 			$cartTitle = ' title="' . $ADD_OR_TOOLTIP . '" ';
 
+			// Trigger event which hepls us to add new JS functions to the Add To Cart button onclick
+			$addToCartClickJS = $dispatcher->trigger('onAddToCartClickJS', array($product, $cart));
+
+			if (!empty($addToCartClickJS))
+			{
+				$addToCartClickJS = implode('', $addToCartClickJS);
+			}
+
 			if ($giftcard_id)
-				$onclick = ' onclick="if(validateEmail()){if(displayAddtocartForm(\'' . $addtocartFormName
-					. '\',\'' . $product_id . '\',\'' . $relproduct_id . '\',\'' . $giftcard_id . '\', \'user_fields_form\')){checkAddtocartValidation(\'' . $addtocartFormName . '\',\'' . $product_id . '\',\'' . $relproduct_id . '\',\'' . $giftcard_id . '\', \'user_fields_form\',\'' . $totalatt . '\',\'' . $totalAccessory . '\',\'' . $count_no_user_field . '\');}}" ';
+				$onclick = ' onclick="' . $addToCartClickJS . 'if(validateEmail()){if(displayAddtocartForm(\'' .
+																	$addtocartFormName . '\',\'' .
+																	$product_id . '\',\'' .
+																	$relproduct_id . '\',\'' .
+																	$giftcard_id . '\', \'user_fields_form\')){checkAddtocartValidation(\'' .
+																	$addtocartFormName . '\',\'' .
+																	$product_id . '\',\'' .
+																	$relproduct_id . '\',\'' .
+																	$giftcard_id . '\', \'user_fields_form\',\'' .
+																	$totalatt . '\',\'' .
+																	$totalAccessory . '\',\'' .
+																	$count_no_user_field . '\');}}" ';
 			else
 			{
-				$onclick = ' onclick="if(displayAddtocartForm(\'' . $addtocartFormName . '\',\'' . $product_id
+				$onclick = ' onclick="' . $addToCartClickJS . 'if(displayAddtocartForm(\'' . $addtocartFormName . '\',\'' . $product_id
 					. '\',\'' . $relproduct_id . '\',\'' . $giftcard_id
 					. '\', \'user_fields_form\')){checkAddtocartValidation(\'' . $addtocartFormName . '\',\''
 					. $product_id . '\',\'' . $relproduct_id . '\',\'' . $giftcard_id . '\', \'user_fields_form\',\''
