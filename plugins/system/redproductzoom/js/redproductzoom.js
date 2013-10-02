@@ -87,7 +87,8 @@ function preloadSlimbox(parameters)
 
 	});
 
-	if (parameters.isenable) {
+	if (parameters.isenable)
+	{
         var imgoptions = {handler: 'image'};
         redBOX.initialize({});
         if (parameters.mainImage)
