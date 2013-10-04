@@ -774,7 +774,14 @@ class producthelper
 			$CurrencyHelper  = new CurrencyHelper;
 			$product_price = $CurrencyHelper->convert($product_price);
 
-			$currency_symbol = $session->get('product_currency');
+			if (CURRENCY_SYMBOL_POSITION == 'behind')
+			{
+				$currency_symbol = " " . $session->get('product_currency');
+			}
+			else
+			{
+				$currency_symbol = $session->get('product_currency') . " ";
+			}
 		}
 
 		$price = '';
