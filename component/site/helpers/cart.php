@@ -5433,6 +5433,7 @@ class rsCarthelper
 
 	public function addProductToCart($data = array())
 	{
+		JPluginHelper::importPlugin('redshop_product');
 		$dispatcher   = JDispatcher::getInstance();
 		$rsUserhelper = new rsUserhelper;
 		$redTemplate  = new Redtemplate;
@@ -5896,13 +5897,21 @@ class rsCarthelper
 					$sameProduct = false;
 				}
 
-				/*
-				 * Process the prepare Product plugins
-				 *
-				 *  For future enhancement - not working anymore
+				/**
+				 * Previous comment stated it is not used anymore.
+				 * Changing it for another purpose. It can intercept and decide whether added product should be added as same or new product.
 				 */
-				JPluginHelper::importPlugin('redshop_product');
-				$results = $dispatcher->trigger('checkSameCartProduct', array(& $cart, $data));
+				$notSame = $dispatcher->trigger('checkSameCartProduct', array(&$cart, $data));
+
+				if (in_array(true, $notSame))
+				{
+					$notSame = true;
+				}
+
+				if ($notSame)
+				{
+					$sameProduct = false;
+				}
 
 				// Product userfiled
 				if (!empty($row_data))
@@ -5949,7 +5958,6 @@ class rsCarthelper
 						 *
 						 * Usually redSHOP update quantity
 						 */
-						JPluginHelper::importPlugin('redshop_product');
 						$dispatcher->trigger('onSameCartProduct', array(& $cart, $data, $i));
 
 						$this->_session->set('cart', $cart);
@@ -6032,7 +6040,6 @@ class rsCarthelper
 			 * Implement new plugin support before session update
 			 * trigger the event of redSHOP product plugin support on Before cart session is set - on prepare cart session
 			 */
-			JPluginHelper::importPlugin('redshop_product');
 			$dispatcher->trigger('onBeforeSetCartSession', array(&$cart, $data));
 
 			$cart['idx'] = $idx + 1;
