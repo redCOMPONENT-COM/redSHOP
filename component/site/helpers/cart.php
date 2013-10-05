@@ -885,6 +885,7 @@ class rsCarthelper
 
 	public function replaceCartItem($data, $cart = array(), $replace_button, $quotation_mode = 0)
 	{
+		JPluginHelper::importPlugin('redshop_product');
 		$dispatcher = JDispatcher::getInstance();
 		$prdItemid  = JRequest::getInt('Itemid');
 		$option     = JRequest::getVar('option', 'com_redshop');
@@ -1098,6 +1099,9 @@ class rsCarthelper
 				{
 					$product_image = "<div  class='product_image'></div>";
 				}
+
+				// Trigger to change product image.
+				$dispatcher->trigger('changeCartOrderItemImage', array(&$cart, &$product_image, $product, $i));
 
 				$chktag              = $this->_producthelper->getApplyVatOrNot($data);
 				$product_total_price = "<div class='product_price'>";
@@ -1418,8 +1422,7 @@ class rsCarthelper
 			}
 
 			// Plugin support:  Process the product plugin for cart item
-			JPluginHelper::importPlugin('redshop_product');
-			$results = $dispatcher->trigger('onCartItemDisplay', array(& $cart_mdata, $cart, $i));
+			$dispatcher->trigger('onCartItemDisplay', array(& $cart_mdata, $cart, $i));
 
 			$cart_tr .= $cart_mdata;
 		}
@@ -5901,17 +5904,7 @@ class rsCarthelper
 				 * Previous comment stated it is not used anymore.
 				 * Changing it for another purpose. It can intercept and decide whether added product should be added as same or new product.
 				 */
-				$notSame = $dispatcher->trigger('checkSameCartProduct', array(&$cart, $data));
-
-				if (in_array(true, $notSame))
-				{
-					$notSame = true;
-				}
-
-				if ($notSame)
-				{
-					$sameProduct = false;
-				}
+				$dispatcher->trigger('checkSameCartProduct', array(&$cart, $data, &$sameProduct));
 
 				// Product userfiled
 				if (!empty($row_data))
