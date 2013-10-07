@@ -3214,7 +3214,7 @@ class producthelper
 				{
 					$sql = "INSERT INTO " . $this->_table_prefix . "fields_data "
 						. "(fieldid,data_txt,itemid,section) "
-						. "value (" . (int) $row_data[$i]->field_id . ",'" . $db->quote(addslashes($user_fields)) . "',"
+						. "value (" . (int) $row_data[$i]->field_id . "," . $db->quote(addslashes($user_fields)) . ","
 						. (int) $order_item_id . "," . $db->quote($section_id) . ")";
 					$this->_db->setQuery($sql);
 					$this->_db->query();
