@@ -362,10 +362,10 @@ if ($this->lists['attributes'] != '')
 
 			$property_published = "";
 
-																		if ($property->property_published)
-																		{
-																			$property_published = "checked='checked'";
-																		}
+			if ($property->property_published)
+			{
+				$property_published = "checked='checked'";
+			}
 
 			?>
 
