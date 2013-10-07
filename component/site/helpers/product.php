@@ -3199,7 +3199,7 @@ class producthelper
 
 	public function insertProdcutUserfield($id = 'NULL', $cart = array(), $order_item_id = 0, $section_id = 12)
 	{
-		$db == JFactory::getDbo();
+		$db = JFactory::getDbo();
 
 		$extraField = new extraField;
 		$row_data   = $extraField->getSectionFieldList($section_id, 1);
