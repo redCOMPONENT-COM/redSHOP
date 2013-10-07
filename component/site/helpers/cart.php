@@ -477,60 +477,60 @@ class rsCarthelper
 
 				if ($billingaddresses->is_company == 1 && $billingaddresses->company_name != "")
 				{
-					$billadd .= JText::_('COM_REDSHOP_COMPANY_NAME') . ' : ' . $billingaddresses->company_name . '<br />';
+					$billadd .= JText::_('COM_REDSHOP_COMPANY_NAME') . ' ' . $billingaddresses->company_name . '<br />';
 				}
 
 				if ($billingaddresses->firstname != "")
 				{
-					$billadd .= JText::_("COM_REDSHOP_FIRSTNAME") . ' : ' . $billingaddresses->firstname . '<br />';
+					$billadd .= JText::_("COM_REDSHOP_FIRSTNAME") . ' ' . $billingaddresses->firstname . '<br />';
 				}
 
 				if ($billingaddresses->lastname != "")
 				{
-					$billadd .= JText::_("COM_REDSHOP_LASTNAME") . ' : ' . $billingaddresses->lastname . '<br />';
+					$billadd .= JText::_("COM_REDSHOP_LASTNAME") . ' ' . $billingaddresses->lastname . '<br />';
 				}
 
 				if ($billingaddresses->address != "")
 				{
-					$billadd .= JText::_("COM_REDSHOP_ADDRESS") . ' : ' . $billingaddresses->address . '<br /> ';
+					$billadd .= JText::_("COM_REDSHOP_ADDRESS") . ' ' . $billingaddresses->address . '<br /> ';
 				}
 
 				if ($billingaddresses->zipcode != "")
 				{
-					$billadd .= JText::_("COM_REDSHOP_ZIP") . ' : ' . $billingaddresses->zipcode . '<br />';
+					$billadd .= JText::_("COM_REDSHOP_ZIP") . ' ' . $billingaddresses->zipcode . '<br />';
 				}
 
 				if ($billingaddresses->city != "")
 				{
-					$billadd .= JText::_("COM_REDSHOP_CITY") . ' : ' . $billingaddresses->city . '<br /> ';
+					$billadd .= JText::_("COM_REDSHOP_CITY") . ' ' . $billingaddresses->city . '<br /> ';
 				}
 
 				$cname = $this->_order_functions->getCountryName($billingaddresses->country_code);
 
 				if ($cname != "")
 				{
-					$billadd .= JText::_("COM_REDSHOP_COUNTRY") . ' : ' . JText::_($cname) . '<br />';
+					$billadd .= JText::_("COM_REDSHOP_COUNTRY") . ' ' . JText::_($cname) . '<br />';
 				}
 
 				$sname = $this->_order_functions->getStateName($billingaddresses->state_code, $billingaddresses->country_code);
 
 				if ($sname != "")
 				{
-					$billadd .= JText::_("COM_REDSHOP_STATE") . ' : ' . $sname . '<br />';
+					$billadd .= JText::_("COM_REDSHOP_STATE") . ' ' . $sname . '<br />';
 				}
 
 				if ($billingaddresses->phone != "")
 				{
-					$billadd .= JText::_("COM_REDSHOP_PHONE") . ' : ' . $billingaddresses->phone . '<br/>';
+					$billadd .= JText::_("COM_REDSHOP_PHONE") . ' ' . $billingaddresses->phone . '<br/>';
 				}
 
 				if ($billingaddresses->user_email != "")
 				{
-					$billadd .= JText::_("COM_REDSHOP_EMAIL") . ' : ' . $billingaddresses->user_email . '<br />';
+					$billadd .= JText::_("COM_REDSHOP_EMAIL") . ' ' . $billingaddresses->user_email . '<br />';
 				}
 				elseif ($user->email != '')
 				{
-					$billadd .= JText::_("COM_REDSHOP_EMAIL") . ' : ' . $user->email . '<br />';
+					$billadd .= JText::_("COM_REDSHOP_EMAIL") . ' ' . $user->email . '<br />';
 				}
 
 				if ($billingaddresses->is_company == 1)
@@ -716,51 +716,51 @@ class rsCarthelper
 			{
 				if ($shippingaddresses->is_company == 1 && $shippingaddresses->company_name != "")
 				{
-					$shipadd .= JText::_('COM_REDSHOP_COMPANY_NAME') . ' : ' . $shippingaddresses->company_name . '<br />';
+					$shipadd .= JText::_('COM_REDSHOP_COMPANY_NAME') . ' ' . $shippingaddresses->company_name . '<br />';
 				}
 
 				if ($shippingaddresses->firstname != "")
 				{
-					$shipadd .= JText::_("COM_REDSHOP_FIRSTNAME") . ' : ' . $shippingaddresses->firstname . '<br />';
+					$shipadd .= JText::_("COM_REDSHOP_FIRSTNAME") . ' ' . $shippingaddresses->firstname . '<br />';
 				}
 
 				if ($shippingaddresses->lastname != "")
 				{
-					$shipadd .= JText::_("COM_REDSHOP_LASTNAME") . ' : ' . $shippingaddresses->lastname . '<br />';
+					$shipadd .= JText::_("COM_REDSHOP_LASTNAME") . ' ' . $shippingaddresses->lastname . '<br />';
 				}
 
 				if ($shippingaddresses->address != "")
 				{
-					$shipadd .= JText::_("COM_REDSHOP_ADDRESS") . ' : ' . $shippingaddresses->address . '<br />';
+					$shipadd .= JText::_("COM_REDSHOP_ADDRESS") . ' ' . $shippingaddresses->address . '<br />';
 				}
 
 				if ($shippingaddresses->zipcode != "")
 				{
-					$shipadd .= JText::_("COM_REDSHOP_ZIP") . ' : ' . $shippingaddresses->zipcode . '<br />';
+					$shipadd .= JText::_("COM_REDSHOP_ZIP") . ' ' . $shippingaddresses->zipcode . '<br />';
 				}
 
 				if ($shippingaddresses->city != "")
 				{
-					$shipadd .= JText::_("COM_REDSHOP_CITY") . ' : ' . $shippingaddresses->city . '<br />';
+					$shipadd .= JText::_("COM_REDSHOP_CITY") . ' ' . $shippingaddresses->city . '<br />';
 				}
 
 				$cname = $this->_order_functions->getCountryName($shippingaddresses->country_code);
 
 				if ($cname != "")
 				{
-					$shipadd .= JText::_("COM_REDSHOP_COUNTRY") . ' : ' . JText::_($cname) . '<br />';
+					$shipadd .= JText::_("COM_REDSHOP_COUNTRY") . ' ' . JText::_($cname) . '<br />';
 				}
 
 				$sname = $this->_order_functions->getStateName($shippingaddresses->state_code, $shippingaddresses->country_code);
 
 				if ($sname != "")
 				{
-					$shipadd .= JText::_("COM_REDSHOP_STATE") . ' : ' . $sname . '<br />';
+					$shipadd .= JText::_("COM_REDSHOP_STATE") . ' ' . $sname . '<br />';
 				}
 
 				if ($shippingaddresses->phone != "")
 				{
-					$shipadd .= JText::_("COM_REDSHOP_PHONE") . ' : ' . $shippingaddresses->phone . '<br />';
+					$shipadd .= JText::_("COM_REDSHOP_PHONE") . ' ' . $shippingaddresses->phone . '<br />';
 				}
 
 				if ($shippingaddresses->is_company == 1)
