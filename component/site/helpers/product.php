@@ -7845,7 +7845,7 @@ class producthelper
 		$category_ids_obj = $this->_db->loadObjectList();
 		if(empty($category_ids_obj))
 		{
-			$category_ids = "''";
+			return "";
 		}
 		else
 		{
