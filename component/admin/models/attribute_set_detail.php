@@ -201,7 +201,9 @@ class RedshopModelAttribute_set_detail extends JModel
 
 		for ($i = 0; $i < count($attr); $i++)
 		{
-			$prop = $producthelper->getAttibuteProperty(0, $attr[$i]->attribute_id);
+			$query = 'SELECT * FROM ' . $this->_table_prefix . 'product_attribute_property WHERE attribute_id ="' . $attr[$i]->attribute_id . '" ORDER BY ordering ASC';
+			$this->_db->setQuery($query);
+			$prop = $this->_db->loadObjectlist();
 
 			$attribute_id = $attr[$i]->attribute_id;
 			$attribute_name = $attr[$i]->attribute_name;
@@ -214,7 +216,10 @@ class RedshopModelAttribute_set_detail extends JModel
 
 			for ($j = 0; $j < count($prop); $j++)
 			{
-				$subprop = $producthelper->getAttibuteSubProperty(0, $prop[$j]->property_id);
+				$query = 'SELECT * FROM ' . $this->_table_prefix . 'product_subattribute_color WHERE subattribute_id ="'
+						. $prop[$j]->property_id . '" ORDER BY ordering ASC';
+				$this->_db->setQuery($query);
+				$subprop = $this->_db->loadObjectlist();
 				$prop[$j]->subvalue = $subprop;
 			}
 
@@ -237,7 +242,10 @@ class RedshopModelAttribute_set_detail extends JModel
 
 		for ($i = 0; $i < count($attr); $i++)
 		{
-			$prop = $producthelper->getAttibuteProperty(0, $attr[$i]->attribute_id);
+			$query = 'SELECT * FROM ' . $this->_table_prefix . 'product_attribute_property WHERE attribute_id ="'
+				. $attr[$i]->attribute_id . '" ORDER BY property_id ASC';
+			$this->_db->setQuery($query);
+			$prop = $this->_db->loadObjectlist();
 			$attribute_id = $attr[$i]->attribute_id;
 			$attribute_name = $attr[$i]->attribute_name;
 			$attribute_data[] = array('attribute_id' => $attribute_id, 'attribute_name' => $attribute_name, 'property' => $prop);
@@ -253,7 +261,9 @@ class RedshopModelAttribute_set_detail extends JModel
 		if (count($data))
 		{
 			$cids = implode(',', $data);
-			$prop = $producthelper->getAttibuteProperty($cids);
+			$query = 'SELECT * FROM ' . $this->_table_prefix . 'product_attribute_property WHERE property_id IN ( ' . $cids . ' )';
+			$this->_db->setQuery($query);
+			$prop = $this->_db->loadObjectlist();
 		}
 
 		return $prop;
