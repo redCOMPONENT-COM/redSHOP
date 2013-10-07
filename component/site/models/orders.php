@@ -48,8 +48,13 @@ class ordersModelorders extends JModel
 	public function _buildQuery()
 	{
 		$user  = JFactory::getUser();
-		$query = "SELECT * FROM  " . $this->_table_prefix . "orders "
-			. "WHERE user_id = " . (int) $user->id;
+		$db = $this->getDbo();
+		$query = $db->getQuery(true);
+
+		$query->select('*');
+		$query->from($this->_table_prefix . "orders");
+		$query->where('user_id = ' . (int) $user->id);
+		$query->order('cdate DESC');
 
 		return $query;
 	}
