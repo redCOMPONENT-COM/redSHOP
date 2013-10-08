@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-JHtm::_('behavior.tooltip');
+JHtml::_('behavior.tooltip');
 JHtmlBehavior::modal();
 
 require_once JPATH_COMPONENT . '/helpers/product.php';
