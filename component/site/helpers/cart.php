@@ -1432,6 +1432,7 @@ class rsCarthelper
 
 	public function repalceOrderItems($data, $rowitem = array())
 	{
+		JPluginHelper::importPlugin('redshop_product');
 		$dispatcher = JDispatcher::getInstance();
 		$mainview   = JRequest::getVar('view');
 		$fieldArray = $this->_extraFieldFront->getSectionFieldList(17, 0, 0);
@@ -1545,6 +1546,8 @@ class rsCarthelper
 					}
 				}
 			}
+
+			$dispatcher->trigger('changeCartOrderItemImage', array(&$data, &$attrib_img, $rowitem[$i], $i));
 
 			$product_name        = "<div class='product_name'>" . $product_name . "</div>";
 			$product_total_price = "<div class='product_price'>";
@@ -1822,8 +1825,7 @@ class rsCarthelper
 			}
 
 			// Process the product plugin for cart item
-			JPluginHelper::importPlugin('redshop_product');
-			$results = $dispatcher->trigger('onOrderItemDisplay', array(& $cart_mdata, &$rowitem, $i));
+			$dispatcher->trigger('onOrderItemDisplay', array(& $cart_mdata, &$rowitem, $i));
 
 			$cart .= $cart_mdata;
 		}
