@@ -885,6 +885,7 @@ class rsCarthelper
 
 	public function replaceCartItem($data, $cart = array(), $replace_button, $quotation_mode = 0)
 	{
+		JPluginHelper::importPlugin('redshop_product');
 		$dispatcher = JDispatcher::getInstance();
 		$prdItemid  = JRequest::getInt('Itemid');
 		$option     = JRequest::getVar('option', 'com_redshop');
@@ -1098,6 +1099,9 @@ class rsCarthelper
 				{
 					$product_image = "<div  class='product_image'></div>";
 				}
+
+				// Trigger to change product image.
+				$dispatcher->trigger('changeCartOrderItemImage', array(&$cart, &$product_image, $product, $i));
 
 				$chktag              = $this->_producthelper->getApplyVatOrNot($data);
 				$product_total_price = "<div class='product_price'>";
@@ -1418,8 +1422,7 @@ class rsCarthelper
 			}
 
 			// Plugin support:  Process the product plugin for cart item
-			JPluginHelper::importPlugin('redshop_product');
-			$results = $dispatcher->trigger('onCartItemDisplay', array(& $cart_mdata, $cart, $i));
+			$dispatcher->trigger('onCartItemDisplay', array(& $cart_mdata, $cart, $i));
 
 			$cart_tr .= $cart_mdata;
 		}
@@ -5433,6 +5436,7 @@ class rsCarthelper
 
 	public function addProductToCart($data = array())
 	{
+		JPluginHelper::importPlugin('redshop_product');
 		$dispatcher   = JDispatcher::getInstance();
 		$rsUserhelper = new rsUserhelper;
 		$redTemplate  = new Redtemplate;
@@ -5896,13 +5900,11 @@ class rsCarthelper
 					$sameProduct = false;
 				}
 
-				/*
-				 * Process the prepare Product plugins
-				 *
-				 *  For future enhancement - not working anymore
+				/**
+				 * Previous comment stated it is not used anymore.
+				 * Changing it for another purpose. It can intercept and decide whether added product should be added as same or new product.
 				 */
-				JPluginHelper::importPlugin('redshop_product');
-				$results = $dispatcher->trigger('checkSameCartProduct', array(& $cart, $data));
+				$dispatcher->trigger('checkSameCartProduct', array(&$cart, $data, &$sameProduct));
 
 				// Product userfiled
 				if (!empty($row_data))
@@ -5949,7 +5951,6 @@ class rsCarthelper
 						 *
 						 * Usually redSHOP update quantity
 						 */
-						JPluginHelper::importPlugin('redshop_product');
 						$dispatcher->trigger('onSameCartProduct', array(& $cart, $data, $i));
 
 						$this->_session->set('cart', $cart);
@@ -6032,7 +6033,6 @@ class rsCarthelper
 			 * Implement new plugin support before session update
 			 * trigger the event of redSHOP product plugin support on Before cart session is set - on prepare cart session
 			 */
-			JPluginHelper::importPlugin('redshop_product');
 			$dispatcher->trigger('onBeforeSetCartSession', array(&$cart, $data));
 
 			$cart['idx'] = $idx + 1;
