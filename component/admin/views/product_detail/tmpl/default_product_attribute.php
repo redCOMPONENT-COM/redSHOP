@@ -667,8 +667,9 @@ JHtmlBehavior::modal();
 
 																					if (!empty($property->property_id))
 																					{
-																						$property->k = $k;
-																						$property->g = $g;
+																						$property->product = $this->detail;
+																						$property->k       = $k;
+																						$property->g       = $g;
 
 																						$this->dispatcher->trigger('productTypeAttributeValue', array($property));
 																					}
