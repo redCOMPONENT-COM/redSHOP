@@ -201,9 +201,15 @@ class RedshopModelAttribute_set_detail extends JModel
 
 		for ($i = 0; $i < count($attr); $i++)
 		{
-			$query = 'SELECT * FROM ' . $this->_table_prefix . 'product_attribute_property WHERE attribute_id ="' . $attr[$i]->attribute_id . '" ORDER BY ordering ASC';
-			$this->_db->setQuery($query);
-			$prop = $this->_db->loadObjectlist();
+			$db = $this->_db;
+			$query = $db->getQuery(true);
+			$query->select('*')
+				->from($db->quoteName('#__redshop_product_attribute_property'))
+				->where($db->quoteName('attribute_id') . ' = ' . (int) $attr[$i]->attribute_id)
+				->order($db->quoteName('ordering') . ' ASC');
+
+			$db->setQuery($query);
+			$prop = $db->loadObjectlist();
 
 			$attribute_id = $attr[$i]->attribute_id;
 			$attribute_name = $attr[$i]->attribute_name;
@@ -216,10 +222,14 @@ class RedshopModelAttribute_set_detail extends JModel
 
 			for ($j = 0; $j < count($prop); $j++)
 			{
-				$query = 'SELECT * FROM ' . $this->_table_prefix . 'product_subattribute_color WHERE subattribute_id ="'
-						. $prop[$j]->property_id . '" ORDER BY ordering ASC';
-				$this->_db->setQuery($query);
-				$subprop = $this->_db->loadObjectlist();
+				$query = $db->getQuery(true);
+				$query->select('*')
+					->from($db->quoteName('#__redshop_product_subattribute_color'))
+					->where($db->quoteName('subattribute_id') . ' = ' . (int) $prop[$j]->property_id)
+					->order($db->quoteName('ordering') . ' ASC');
+
+				$db->setQuery($query);
+				$subprop = $db->loadObjectlist();
 				$prop[$j]->subvalue = $subprop;
 			}
 
@@ -236,16 +246,21 @@ class RedshopModelAttribute_set_detail extends JModel
 
 	public function getattributelist($data)
 	{
+		$db = $this->_db;
 		$attribute_data = '';
 		$producthelper = new producthelper;
 		$attr = $producthelper->getProductAttribute(0, $data);
 
 		for ($i = 0; $i < count($attr); $i++)
 		{
-			$query = 'SELECT * FROM ' . $this->_table_prefix . 'product_attribute_property WHERE attribute_id ="'
-				. $attr[$i]->attribute_id . '" ORDER BY property_id ASC';
-			$this->_db->setQuery($query);
-			$prop = $this->_db->loadObjectlist();
+			$query = $db->getQuery(true);
+			$query->select('*')
+				->from($db->quoteName('#__redshop_product_attribute_property'))
+				->where($db->quoteName('attribute_id') . ' = ' . (int) $attr[$i]->attribute_id)
+				->order($db->quoteName('property_id') . ' ASC');
+
+			$db->setQuery($query);
+			$prop = $db->loadObjectlist();
 			$attribute_id = $attr[$i]->attribute_id;
 			$attribute_name = $attr[$i]->attribute_name;
 			$attribute_data[] = array('attribute_id' => $attribute_id, 'attribute_name' => $attribute_name, 'property' => $prop);
@@ -256,14 +271,19 @@ class RedshopModelAttribute_set_detail extends JModel
 
 	public function getpropertylist($data)
 	{
+		$db = $this->_db;
 		$producthelper = new producthelper;
 
 		if (count($data))
 		{
 			$cids = implode(',', $data);
-			$query = 'SELECT * FROM ' . $this->_table_prefix . 'product_attribute_property WHERE property_id IN ( ' . $cids . ' )';
-			$this->_db->setQuery($query);
-			$prop = $this->_db->loadObjectlist();
+			$query = $db->getQuery(true);
+			$query->select('*')
+				->from($db->quoteName('#__redshop_product_attribute_property'))
+				->where($db->quoteName('property_id') . ' IN ( ' . $cids . ' )');
+
+			$db->setQuery($query);
+			$prop = $db->loadObjectlist();
 		}
 
 		return $prop;
