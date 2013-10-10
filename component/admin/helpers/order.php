@@ -407,7 +407,7 @@ class order_functions
 
 			// Order status valid and change the status
 			$query = "UPDATE " . $this->_table_prefix . "orders set order_status = " . $this->_db->quote($data->order_status_code)
-				. ", order_payment_status = " . $this->_db->quote($data->order_payment_status_code) . "' where order_id = " . (int) $order_id;
+				. ", order_payment_status = " . $this->_db->quote($data->order_payment_status_code) . " where order_id = " . (int) $order_id;
 			$this->_db->SetQuery($query);
 			$this->_db->Query();
 
