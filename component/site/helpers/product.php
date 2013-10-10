@@ -6668,6 +6668,10 @@ class producthelper
 			{
 				$addToCartClickJS = implode('', $addToCartClickJS);
 			}
+			else
+			{
+				$addToCartClickJS = "";
+			}
 
 			if ($giftcard_id)
 				$onclick = ' onclick="' . $addToCartClickJS . 'if(validateEmail()){if(displayAddtocartForm(\'' .
