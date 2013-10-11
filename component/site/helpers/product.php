@@ -774,7 +774,14 @@ class producthelper
 			$CurrencyHelper  = new CurrencyHelper;
 			$product_price = $CurrencyHelper->convert($product_price);
 
-			$currency_symbol = $session->get('product_currency');
+			if (CURRENCY_SYMBOL_POSITION == 'behind')
+			{
+				$currency_symbol = " " . $session->get('product_currency');
+			}
+			else
+			{
+				$currency_symbol = $session->get('product_currency') . " ";
+			}
 		}
 
 		$price = '';
@@ -3199,7 +3206,7 @@ class producthelper
 
 	public function insertProdcutUserfield($id = 'NULL', $cart = array(), $order_item_id = 0, $section_id = 12)
 	{
-		$db == JFactory::getDbo();
+		$db = JFactory::getDbo();
 
 		$extraField = new extraField;
 		$row_data   = $extraField->getSectionFieldList($section_id, 1);
@@ -3214,7 +3221,7 @@ class producthelper
 				{
 					$sql = "INSERT INTO " . $this->_table_prefix . "fields_data "
 						. "(fieldid,data_txt,itemid,section) "
-						. "value (" . (int) $row_data[$i]->field_id . ",'" . $db->quote(addslashes($user_fields)) . "',"
+						. "value (" . (int) $row_data[$i]->field_id . "," . $db->quote(addslashes($user_fields)) . ","
 						. (int) $order_item_id . "," . $db->quote($section_id) . ")";
 					$this->_db->setQuery($sql);
 					$this->_db->query();
@@ -6661,6 +6668,10 @@ class producthelper
 			{
 				$addToCartClickJS = implode('', $addToCartClickJS);
 			}
+			else
+			{
+				$addToCartClickJS = "";
+			}
 
 			if ($giftcard_id)
 				$onclick = ' onclick="' . $addToCartClickJS . 'if(validateEmail()){if(displayAddtocartForm(\'' .
@@ -7861,7 +7872,7 @@ class producthelper
 		$category_ids_obj = $this->_db->loadObjectList();
 		if(empty($category_ids_obj))
 		{
-			$category_ids = "''";
+			return "";
 		}
 		else
 		{

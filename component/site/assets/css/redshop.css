@@ -4,15 +4,15 @@
 	font-weight:bold;
 	padding-bottom:1px;
 	text-align:center;
-	border:0px;	
+	border:0px;
 	background: url(../images/up.png) no-repeat top left ;
 	width: 40px;
 	height: 15px;
 
-  	
 
 
-     
+
+
 }
 .mydownbutton{
 	color:#ffffff;
@@ -33,7 +33,7 @@ a{
 }
 td.field_label
 {
-	font-weight: bold;	
+	font-weight: bold;
 }
 
 /* --- redSHOP Category Frontpage View --- */
@@ -52,7 +52,7 @@ td.field_label
 	margin-bottom: 10px;
 	padding-bottom: 10px;
 	border: 1px solid #8e8d8d;
-	
+
 }
 .category_product__front{
 margin:0;
@@ -91,7 +91,7 @@ margin:0;
 
 .redshop_print{
 	text-align: right !important;
-	cursor: pointer;	
+	cursor: pointer;
 }
 
 /* --- redSHOP Category View --- */
@@ -126,7 +126,7 @@ margin:0;
 .category_box_outside {
 	margin:0;
 	padding:0;
-	
+
 	_height: auto !important;
 	height: auto !important;
 	min-height: 100px;
@@ -143,7 +143,7 @@ margin:0;
 .category_product_box_outside {
 	margin:0;
 	padding:0;
-	
+
 	_height: auto !important;
 	height: auto !important;
 	min-height: 100px;
@@ -315,13 +315,13 @@ margin:0;
 	text-align: right;
 }
 div.prevbutton {
-	float:left; 
-	width:49%;	
+	float:left;
+	width:49%;
 }
 div.nextbutton {
 	float:right;
-	width:50%; 
-	text-align: right !important;		
+	width:50%;
+	text-align: right !important;
 }
 div.product_writereview {
 	padding-bottom: 5px;
@@ -451,13 +451,13 @@ div.product_writereview {
 	display: block;
 }
 .accessory_left {
-	float: left; 
+	float: left;
 	width: 100px;
 }
 .accessory_right {
 	margin:0;
 	padding:0;
-	float: left; 
+	float: left;
 	width: 200px;
 }
 .accessory_image {
@@ -499,7 +499,7 @@ div.product_writereview {
 	border-top: 1px dashed #8e8d8d;
 	margin-top: 10px;
 	padding-top: 10px;
-	
+
 }
 .related_product_inside, .related_produkt_indre {
 	margin: 0;
@@ -571,7 +571,7 @@ div.product_writereview {
 .related_product_addtocart div.cart-wrapper div.cart-link {
 	width: 260px;
 	clear: left;
-	
+
 	text-align: right;
 }
 .related_product_readmore, .related_product_readmore a, .related_produkt_laes_mere, .related_produkt_laes_mere a {
@@ -582,22 +582,22 @@ div.product_writereview {
 /* Pro redSHOP Product Content - View Rating/Reviews */
 
 div.ratingblock {
-	width: 100%;	
+	width: 100%;
 }
 div.rating_username {
-	float:left; 
-	width:78%;	
+	float:left;
+	width:78%;
 	font-weight: bold;
 }
 div.rating_comments {
-	float:left; 
+	float:left;
 	width:80%;
 	text-align: justify !important;
 	margin-bottom:10px;
 }
 div.rating_userrating {
-	float:right; 
-	width:15%;	
+	float:right;
+	width:15%;
 }
 .ratingheading {
 	background-color: #cccccc;
@@ -605,7 +605,7 @@ div.rating_userrating {
 	height: 22px;
 	padding:2px;
 	margin-bottom: 10px;
-	font-weight: bold;	
+	font-weight: bold;
 }
 
 /*  redSHOP Cart View */
@@ -627,17 +627,17 @@ div.rating_userrating {
 .update_cart{
 	cursor:pointer;
 }
- 
+
 table.tdborder{
-	border-left:0px solid #ccc !important;  
-	border-right:0px solid #ccc !important;        
+	border-left:0px solid #ccc !important;
+	border-right:0px solid #ccc !important;
 }
 .tdborder th{
 	padding-top:5px;
 	padding-bottom:5px;
 	padding-left:5px;
 	border-bottom:1px solid #ccc;
-	border-left:0px solid #ccc !important;  
+	border-left:0px solid #ccc !important;
 	border-right:0px solid #ccc !important;
 }
 .tdborder td{
@@ -704,7 +704,7 @@ div.cartaccessory {
 }
 
 table .billing_address td{
-	color:#000000; 
+	color:#000000;
 }
 table .shipping_address td{
 	color:#000000;
@@ -782,9 +782,9 @@ td.cart_discount_form div.update_cart form {
 	padding-top: 3px;
 	vertical-align: middle;
 	text-align:center;
-	background-color: #CA2128;	
+	background-color: #CA2128;
 	color: #ffffff;
-	
+
 }
 .cbBox {
 	overflow: hidden;
@@ -826,7 +826,7 @@ div#ajax-cart div#ajax-cart-access div.accessory_info {
 }
 div#ajax-cart div#ajax-cart-access div.accessory_title h3 {
 	background-color: transparent !important;
-	color: #CA2128 !important;	
+	color: #CA2128 !important;
 }
 div#ajax-cart div#ajax-cart-user {
 	text-align: left;
@@ -850,51 +850,51 @@ div#ajax-cart div#ajax-cart-user {
 }
 
 .checkout-bar-1  {
-	background: url(../images/checkout/one.jpg) no-repeat left center; 
+	background: url(../images/checkout/one.jpg) no-repeat left center;
 	padding-left: 40px;
 	height: 25px;
 }
 
 .checkout-bar-1-active  {
-	background: url(../images/checkout/one_on.jpg) no-repeat left center; 
+	background: url(../images/checkout/one_on.jpg) no-repeat left center;
 	padding-left: 40px;
 	height: 25px;
 }
 
 .checkout-bar-2  {
-	background: url(../images/checkout/two.jpg) no-repeat left center; 
+	background: url(../images/checkout/two.jpg) no-repeat left center;
 	padding-left: 40px;
 	height: 25px;
 }
 
 .checkout-bar-2-active  {
-	background: url(../images/checkout/two_on.jpg) no-repeat left center; 
+	background: url(../images/checkout/two_on.jpg) no-repeat left center;
 	padding-left: 40px;
 	height: 25px;
 }
 
 .checkout-bar-3  {
-	background: url(../images/checkout/three.jpg) no-repeat left center; 
+	background: url(../images/checkout/three.jpg) no-repeat left center;
 	padding-left: 40px;
 	height: 25px;
 }
 
 .checkout-bar-3-active  {
-	background: url(../images/checkout/three_on.jpg) no-repeat left center; 
+	background: url(../images/checkout/three_on.jpg) no-repeat left center;
 	padding-left: 40px;
 	height: 25px;
 }
 
 .redpagination-enable-style {
-	border: 1px solid ; 
-	padding-left: 5px; 
-	padding-right: 5px; 
-	background-color:#CCCCCC;	
+	border: 1px solid ;
+	padding-left: 5px;
+	padding-right: 5px;
+	background-color:#CCCCCC;
 }
 .redpagination-style {
-	border: 1px solid ; 
-	padding-left: 5px; 
-	padding-right: 5px; 
+	border: 1px solid ;
+	padding-left: 5px;
+	padding-right: 5px;
 }
 
 
@@ -918,27 +918,27 @@ form#registration_adminForm label.error { display: none; }
 form#billship_adminForm label.error { display: none; }
 
 div.property_main_outer{
-	width: 100px;	
-	
+	width: 100px;
+
 }
 div.property_image_inner{
 	width: 50px;
-	float: left;			
+	float: left;
 }
 
 div.subproperty_main_outer{
-	width: 104px;	
-	
+	width: 104px;
+
 }
 div.subproperty_image_inner{
 	width: 50px;
-	float: left;			
+	float: left;
 }
 div.attribute_wrapper{
 	clear: both;
 	float: left;
 	width:105px;
-	
+
 }
 div.additional_image
 {
@@ -948,26 +948,26 @@ div.additional_image
 {
 	color: green;
 	font-weight:bold;
-	background: url(../images/stockroom/icon_lock.gif) no-repeat left; 
+	background: url(../images/stockroom/icon_lock.gif) no-repeat left;
 	padding-left: 20px;
 	float:left;
-	
+
 }
 .out_stock_cls
 {
 	color: red;
 	font-weight:bold;
-	background: url(../images/stockroom/icon_lock.gif) no-repeat left; 
+	background: url(../images/stockroom/icon_lock.gif) no-repeat left;
 	padding-left: 20px;
-	
+
 }
 .pre_order_cls
 {
 	color: blue;
 	font-weight:bold;
-	background: url(../images/stockroom/icon_lock.gif) no-repeat left; 
+	background: url(../images/stockroom/icon_lock.gif) no-repeat left;
 	padding-left: 20px;
-	
+
 }
 .clearfix:after {
 	clear: both;
@@ -990,4 +990,9 @@ div.attribute_multiselect_single
 {
 	min-height:20px;
 	clear:left;
+}
+
+.search_hightlight
+{
+	color: #FF0000;
 }
