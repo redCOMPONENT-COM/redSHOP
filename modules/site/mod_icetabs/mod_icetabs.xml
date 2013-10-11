@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <extension type="module" version="1.6.0" client="site" method="upgrade">
     <name>MOD_ICETABS</name>
-    <version>1.3.2</version>
+    <version>1.3.3</version>
     <creationDate>April 2013</creationDate>
     <author>IceTheme</author>
     <copyright>GNU / GPL</copyright>
