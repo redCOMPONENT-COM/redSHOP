@@ -2710,6 +2710,24 @@ class rsCarthelper
 		$replace[] = $orderPaymentStatus . " " . JRequest::getVar('order_payment_log') . $issplitdisplay . $issplitdisplay2;
 		$search[]  = "{order_payment_status}";
 		$replace[] = $orderPaymentStatus . " " . JRequest::getVar('order_payment_log') . $issplitdisplay . $issplitdisplay2;
+		$order_total = $row->order_total;
+
+		if ($row->order_status == "C" && $row->order_payment_status == "Paid")
+		{
+			$search  [] = "{order_transfee}";
+			$replace [] = $this->_producthelper->getProductFormattedPrice($paymentmethod->order_transfee);
+			$search  [] = "{order_transfee_lbl}";
+			$replace [] = JText::_('COM_REDSHOP_ORDER_TRANSFEE_LBL');
+
+			$order_total = $order_total + $paymentmethod->order_transfee;
+		}
+		else
+		{
+			$search  [] = "{order_transfee}";
+			$replace [] = "";
+			$search  [] = "{order_transfee_lbl}";
+			$replace [] = "";
+		}
 
 		$search  [] = "{order_total}";
 		$replace [] = $this->_producthelper->getProductFormattedPrice($row->order_total);
