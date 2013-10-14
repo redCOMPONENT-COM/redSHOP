@@ -8,6 +8,7 @@ before_script:
   - pear channel-discover pear.phing.info
   - pear install phing/phing
   - phpenv rehash
+  - phpenv config-add .travis.ini
 
 script:
   - find ./component -name '*.php' -exec php -l {} \;
