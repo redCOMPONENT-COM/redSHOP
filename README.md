@@ -2,7 +2,6 @@ redSHOP 1.x
 ==========
 
 # Travis Status
-Master: [![Build Status](https://magnum.travis-ci.com/redCOMPONENT-COM/redSHOP.png?branch=master&token=vpkyAMSd8vTHK9zwpML6)](https://magnum.travis-ci.com/redCOMPONENT-COM/redSHOP/)
 Develop: [![Build Status](https://magnum.travis-ci.com/redCOMPONENT-COM/redSHOP.png?branch=develop&token=vpkyAMSd8vTHK9zwpML6)](https://magnum.travis-ci.com/redCOMPONENT-COM/redSHOP/)
 
 Documentation
