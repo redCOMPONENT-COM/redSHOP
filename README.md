@@ -1,4 +1,4 @@
-redSHOP1.2
+redSHOP 1.x
 ==========
 
 # Travis Status
