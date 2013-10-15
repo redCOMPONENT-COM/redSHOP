@@ -113,8 +113,8 @@ class Redtemplate
 	public function getTemplatefilepath($section, $filename, $is_admin = false)
 	{
 		$app           = JFactory::getApplication();
-		$filename      = preg_replace("/[^a-zA-Z0-9]+/", "", $filename);
-		$section       = preg_replace("/[^a-zA-Z0-9]+/", "", $section);
+		$filename      = str_replace(array('/', '\\'), '', $filename);
+		$section       = str_replace(array('/', '\\'), '', $section);
 		$tempate_file  = "";
 		$template_view = $this->getTemplateView($section);
 		$layout        = JRequest::getVar('layout');
