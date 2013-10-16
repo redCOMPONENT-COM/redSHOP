@@ -46,7 +46,7 @@ class prices_detailVIEWprices_detail extends JView
 		$lists['product_name'] = $detail->product_name;
 
 		$q = 'SELECT shopper_group_id AS value,shopper_group_name AS text '
-			. 'FROM #__' . TABLE_PREFIX . '_shopper_group';
+			. 'FROM #__redshop_shopper_group';
 		$db->setQuery($q);
 		$shoppergroup = $db->loadObjectList();
 

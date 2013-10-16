@@ -40,7 +40,7 @@ class rsCarthelper
 
 	public function __construct()
 	{
-		$this->_table_prefix    = '#__' . TABLE_PREFIX . '_';
+		$this->_table_prefix    = '#__redshop_';
 		$this->_db              = Jfactory::getDBO();
 		$this->_session         = JFactory::getSession();
 		$this->_order_functions = new order_functions;
