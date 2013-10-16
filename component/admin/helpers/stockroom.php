@@ -19,7 +19,7 @@ class rsstockroomhelper
 
 	public function __construct()
 	{
-		$this->_table_prefix = '#__' . TABLE_PREFIX . '_';
+		$this->_table_prefix = '#__redshop_';
 	}
 
 	public function getStockroomDetail($stockroom_id = 0)

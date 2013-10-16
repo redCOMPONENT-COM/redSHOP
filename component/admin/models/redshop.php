@@ -18,7 +18,7 @@ class redshopModelredshop extends JModel
 	public function __construct()
 	{
 		parent::__construct();
-		$this->_table_prefix = '#__' . TABLE_PREFIX . '_';
+		$this->_table_prefix = '#__redshop_';
 		$this->_filteroption = 3;
 	}
 
@@ -281,7 +281,7 @@ class redshopModelredshop extends JModel
 
 	public function gettotalOrder($id = 0)
 	{
-		$this->_table_prefix = '#__' . TABLE_PREFIX . '_';
+		$this->_table_prefix = '#__redshop_';
 		$userquery = "SELECT SUM(order_total) AS order_total, count(*) AS tot_order FROM " . $this->_table_prefix . "orders "
 			. "WHERE `user_info_id`='" . $id . "' ";
 		$this->_db->setQuery($userquery);
@@ -291,7 +291,7 @@ class redshopModelredshop extends JModel
 
 	public function gettotalAmount($user_id)
 	{
-		$this->_table_prefix = '#__' . TABLE_PREFIX . '_';
+		$this->_table_prefix = '#__redshop_';
 		$query = 'SELECT  SUM(o.order_total) AS order_total '
 			. 'FROM ' . $this->_table_prefix . 'orders AS o '
 			. 'LEFT JOIN ' . $this->_table_prefix . 'users_info as uf ON o.user_id =uf.user_id'
@@ -304,7 +304,7 @@ class redshopModelredshop extends JModel
 
 	public function getavgAmount($user_id)
 	{
-		$this->_table_prefix = '#__' . TABLE_PREFIX . '_';
+		$this->_table_prefix = '#__redshop_';
 		$query = 'SELECT  (SUM(o.order_total)/ COUNT( DISTINCT o.user_id ) ) AS avg_order '
 			. 'FROM ' . $this->_table_prefix . 'orders AS o '
 			. 'WHERE o.user_id =' . $user_id . ' and (o.order_status = "C" OR o.order_status = "PR" OR o.order_status = "S") ';
@@ -315,7 +315,7 @@ class redshopModelredshop extends JModel
 
 	public function getUserinfo($user_id)
 	{
-		$this->_table_prefix = '#__' . TABLE_PREFIX . '_';
+		$this->_table_prefix = '#__redshop_';
 		$userquery = "SELECT CONCAT(firstname,' ',lastname) as name  FROM " . $this->_table_prefix .
 			"users_info where address_type='BT' and user_id=" . $user_id;
 		$this->_db->setQuery($userquery);
