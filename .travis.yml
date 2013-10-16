@@ -7,6 +7,7 @@ before_script:
   - pear install PHP_CodeSniffer
   - pear channel-discover pear.phing.info
   - pear install phing/phing
+  - phpenv config-add .travis.ini
   - phpenv rehash
 
 script:
