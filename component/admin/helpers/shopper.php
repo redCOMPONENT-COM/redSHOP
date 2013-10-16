@@ -16,7 +16,7 @@ class shoppergroup
 	{
 		$db = JFactory::getDbo();
 		$html = '';
-		$q = "SELECT parent_id,shopper_group_id FROM #__" . TABLE_PREFIX . "_shopper_group ";
+		$q = "SELECT parent_id,shopper_group_id FROM #__redshop_shopper_group ";
 
 		if ($shopper_group_id)
 		{
@@ -145,7 +145,7 @@ class shoppergroup
 		$db = JFactory::getDbo();
 
 		$q = "SELECT c.shopper_group_id,c.category_name,cx.shopper_group_id,cx.parent_id FROM  #__"
-			. TABLE_PREFIX . "_shopper_group as cx, #__" . TABLE_PREFIX . "_shopper_group as c ";
+			. TABLE_PREFIX . "_shopper_group as cx, #__redshop_shopper_group as c ";
 		$q .= "WHERE cx.shopper_group_id = " . (int) $cid . " ";
 		$q .= "and c.shopper_group_id = cx.parent_id";
 

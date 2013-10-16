@@ -3243,7 +3243,7 @@ class rsCarthelper
 		{
 			JPluginHelper::importPlugin('rs_labels_GLS');
 			$dispatcher = JDispatcher::getInstance();
-			$sql        = "SELECT  * FROM #__" . TABLE_PREFIX . "_users_info WHERE users_info_id=" . (int) $users_info_id ;
+			$sql        = "SELECT  * FROM #__redshop_users_info WHERE users_info_id=" . (int) $users_info_id ;
 			$this->_db->setQuery($sql);
 			$values = $this->_db->loadObject();
 
