@@ -108,9 +108,7 @@ class Cron
 		// Move Container To Stockroom
 		$db = $db = JFactory::getDbo();
 
-		$q_insert = "INSERT INTO #__"
-			. TABLE_PREFIX
-			. "_stockroom_container_xref (stockroom_id ,container_id) VALUES ("
+		$q_insert = "INSERT INTO #__redshop_stockroom_container_xref (stockroom_id ,container_id) VALUES ("
 			. (int) $stockroom_id . ", " . (int) $container_id . ")";
 		$db->setQuery($q_insert);
 
@@ -132,8 +130,8 @@ class Cron
 		// Change Order Status
 		$db = $db = JFactory::getDbo();
 
-		$select_order = "SELECT  order_item_id, order_id,order_status,delivery_time,container_id,product_id,is_split from #__"
-			. TABLE_PREFIX . "_order_item where container_id = " . (int) $container_id;
+		$select_order = "SELECT  order_item_id, order_id,order_status,delivery_time,container_id,product_id,is_split "
+			. " FROM #__redshop_order_item where container_id = " . (int) $container_id;
 		$db->setQuery($select_order);
 		$data = $db->loadObjectList();
 
@@ -267,8 +265,7 @@ class Cron
 					$db->setQuery($sql);
 					$uid = $db->loadResult();
 
-					$sql = "INSERT INTO  #__" . TABLE_PREFIX
-						. "_coupons` (`coupon_code`, `percent_or_total`, `coupon_value`, `start_date`, `end_date`, `coupon_type`, `userid`, `published`) "
+					$sql = "INSERT INTO  #__redshop_coupons` (`coupon_code`, `percent_or_total`, `coupon_value`, `start_date`, `end_date`, `coupon_type`, `userid`, `published`) "
 						. "VALUES ('" . $token . "', '1', '" . DISCOUNT_PERCENTAGE . "', " . $db->quote($start_date)
 						. ", " . $db->quote($end_date) . ", '1', " . (int) $uid . ", '1')";
 
@@ -277,8 +274,7 @@ class Cron
 
 					if ($sent == 1)
 					{
-						$q_update = "UPDATE #__" . TABLE_PREFIX
-							. "_catalog_request SET reminder_2 = 1 WHERE catalog_user_id = " . $catalog_detail->catalog_user_id;
+						$q_update = "UPDATE #__redshop_catalog_request SET reminder_2 = 1 WHERE catalog_user_id = " . $catalog_detail->catalog_user_id;
 						$db->setQuery($q_update);
 						$db->query();
 					}
@@ -676,9 +672,7 @@ class Cron
 
 					if ($uid = $db->loadResult())
 					{
-						$sql = "INSERT INTO  #__"
-							. TABLE_PREFIX
-							. "_coupons` (`coupon_code`, `percent_or_total`, `coupon_value`, `start_date`, `end_date`, `coupon_type`, `userid`, `published`)
+						$sql = "INSERT INTO  #__redshop_coupons` (`coupon_code`, `percent_or_total`, `coupon_value`, `start_date`, `end_date`, `coupon_type`, `userid`, `published`)
 										VALUES (" . $db->quote($token) . ", '1', '" . DISCOUNT_PERCENTAGE . "', " . $db->quote($start_date) . ", " . $db->quote($end_date) . ", '1', '" . (int) $uid . "', '1')";
 
 						$db->setQuery($sql);
