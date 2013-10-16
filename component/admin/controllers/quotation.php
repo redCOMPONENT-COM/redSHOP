@@ -25,8 +25,6 @@ class quotationController extends JController
 		$quotationhelper = new quotationHelper;
 		$model = $this->getModel('quotation');
 
-
-
 		$cid = JRequest::getVar('cid', array(0), 'method', 'array');
 		$data = $model->export_data($cid);
 
