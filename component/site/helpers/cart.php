@@ -2132,11 +2132,12 @@ class rsCarthelper
 		return $data;
 	}
 
-	/**
-	 *
-	* APPLY_VAT_ON_DISCOUNT = When the discount is a "fixed amount" the final price may vary, depending on if the discount affects "the price+VAT" or just "the price". This CONSTANT will define if the discounts needs to be applied BEFORE or AFTER the VAT is applied to the product price.
-	*
-	*/
+   /**
+   * APPLY_VAT_ON_DISCOUNT = When the discount is a "fixed amount" the
+   * final price may vary, depending on if the discount affects "the price+VAT"
+   * or just "the price". This CONSTANT will define if the discounts needs to
+   * be applied BEFORE or AFTER the VAT is applied to the product price.
+   */
 	public function calculation($cart, $shipping = 0, $user_id = 0)
 	{
 		$Idx               = $cart['idx'];
