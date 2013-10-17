@@ -2229,7 +2229,7 @@ class rsCarthelper
 		if (VAT_RATE_AFTER_DISCOUNT && APPLY_VAT_ON_DISCOUNT)
 		{
 			$Discountvat = (VAT_RATE_AFTER_DISCOUNT * $total_discount) / (1 + VAT_RATE_AFTER_DISCOUNT);
-			$vat = $vat - $Discountvat;
+			$vat         = $vat - $Discountvat;
 		}
 
 		if (isset($cart['discount_tax']) && !empty($cart['discount_tax']))
