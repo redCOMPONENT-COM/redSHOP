@@ -2230,15 +2230,15 @@ class rsCarthelper
 		{
 			if (isset($cart['discount_tax']) && !empty($cart['discount_tax']))
 			{
-				$Discountvat = $cart['discount_tax'];
+				$discountVAT = $cart['discount_tax'];
 				$subtotal    = $subtotal - $cart['discount_tax'];
 			}
 			else
 			{
-				$Discountvat = (VAT_RATE_AFTER_DISCOUNT * $total_discount) / (1 + VAT_RATE_AFTER_DISCOUNT);
+				$discountVAT = (VAT_RATE_AFTER_DISCOUNT * $total_discount) / (1 + VAT_RATE_AFTER_DISCOUNT);
 			}
 
-			$vat         = $vat - $Discountvat;
+			$vat         = $vat - $discountVAT;
 		}
 
 		$total      = $subtotal + $shipping;
