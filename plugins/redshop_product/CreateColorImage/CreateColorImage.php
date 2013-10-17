@@ -43,6 +43,8 @@ class plgredshop_productCreateColorImage extends JPlugin
 		$arrproperty_id	= explode('##', $property_data);
 
 		$arrsubproperty_id = explode('##', $subproperty_data);
+
+		JTable::addIncludePath(JPATH_BASE . '/administrator/components/com_redshop/tables');
 		$row = JTable::getInstance('attribute_property', 'Table');
 		$checkflg = false;
 		$checkReverse = false;
