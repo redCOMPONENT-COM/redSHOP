@@ -64,6 +64,7 @@ class rsCarthelper
 	 */
 	public function replaceTax($data = '', $amount = 0, $discount = 0, $check = 0, $quotation_mode = 0)
 	{
+		
 		if (strstr($data, '{if vat}') && strstr($data, '{vat end if}'))
 		{
 			$cart = $this->_session->get('cart');
@@ -135,25 +136,38 @@ class rsCarthelper
 	 * Calculate tax after Discount is apply
 	 */
 
+	// Begin : calculator VAT on discount
 	public function calculateTaxafterDiscount($tax = 0, $discount = 0)
 	{
 		$tax_after_discount = 0;
 		$cart               = $this->_session->get('cart');
+
+		$temp = $cart['tax'] + $cart['discount_vat'] ;
 
 		if (APPLY_VAT_ON_DISCOUNT && VAT_RATE_AFTER_DISCOUNT)
 		{
 			if ($discount > 0)
 			{
 				$tmptax             = VAT_RATE_AFTER_DISCOUNT * $discount;
-				$tax_after_discount = $tax - $tmptax;
+				$tax_after_discount = $temp + $tmptax;
 			}
 		}
 
 		$cart['tax_after_discount'] = $tax_after_discount;
+
+		$cart['tax'] = $tax_after_discount;		
+
+		$cart['product_subtotal'] = $cart['product_subtotal_excl_vat'] + $cart['tax'];
+
+		$cart['total']  = $cart['product_subtotal'] - ($cart['coupon_discount'] + $cart['voucher_discount']) ;
+
+		$cart['subtotal'] = $cart['product_subtotal'] - ($cart['coupon_discount'] + $cart['voucher_discount']) ;
+
 		$this->_session->set('cart', $cart);
 
 		return $tax_after_discount;
 	}
+	//End
 
 	/*
 	 * replace Conditional tag from Redshop Discount
@@ -2356,6 +2370,29 @@ class rsCarthelper
 			$template_middle = $this->replaceCartItem($template_middle, $cart, 1, DEFAULT_QUOTATION_MODE);
 			$cart_data       = $template_start . $template_middle . $template_end;
 		}
+
+		// Begin: Calculator VAT on discount
+		if (APPLY_VAT_ON_DISCOUNT && VAT_RATE_AFTER_DISCOUNT)
+		{
+			
+			$temp 				= $cart['tax'] + $cart['discount_vat'] ;
+
+			$tmptax             = VAT_RATE_AFTER_DISCOUNT * $cart['coupon_discount'] + $cart['voucher_discount'];
+
+			$tax_after_discount = $temp + $tmptax;
+
+			$cart['tax_after_discount'] = $tax_after_discount;
+
+			$cart['tax'] = $tax_after_discount;		
+
+			$cart['product_subtotal'] = $cart['product_subtotal_excl_vat'] + $cart['tax'];
+
+			$cart['total']  = $cart['product_subtotal'] - ($cart['coupon_discount'] + $cart['voucher_discount']) ;
+
+			$cart['subtotal'] = $cart['product_subtotal'] - ($cart['coupon_discount'] + $cart['voucher_discount']) ;
+		}
+		// End 
+		
 
 		$total                     = $cart ['total'];
 		$subtotal_excl_vat         = $cart ['subtotal_excl_vat'];
