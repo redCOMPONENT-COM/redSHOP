@@ -1906,8 +1906,9 @@ class producthelper
 			}
 			else
 			{
-				$discount_amt    = $discount_amount / (1 + ($vatrate));
-				$discount_amount = $discount_amt;
+				$discount_amt         = $discount_amount;
+				$vat                  = $discount_amount * VAT_RATE_AFTER_DISCOUNT;
+				$cart['discount_tax'] = $vat;
 			}
 
 			// Added specific discount amount for useage for e-conomic
