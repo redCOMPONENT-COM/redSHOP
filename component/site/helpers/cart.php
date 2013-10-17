@@ -2226,10 +2226,16 @@ class rsCarthelper
 			$shippingVat = $cart['shipping_vat'];
 		}
 
-		if (VAT_RATE_AFTER_DISCOUNT)
+		if (VAT_RATE_AFTER_DISCOUNT && APPLY_VAT_ON_DISCOUNT)
 		{
 			$Discountvat = (VAT_RATE_AFTER_DISCOUNT * $total_discount) / (1 + VAT_RATE_AFTER_DISCOUNT);
 			$vat         = $vat - $Discountvat;
+		}
+
+		if (isset($cart['discount_tax']) && !empty($cart['discount_tax']))
+		{
+			$vat      = $vat - $cart['discount_tax'];
+			$subtotal = $subtotal - $cart['discount_tax'];
 		}
 
 		$total      = $subtotal + $shipping;
@@ -4612,7 +4618,7 @@ class rsCarthelper
 		$Discountvat = 0;
 		$chktag      = $this->_producthelper->taxexempt_addtocart();
 
-		if (VAT_RATE_AFTER_DISCOUNT && !empty($chktag))
+		if (VAT_RATE_AFTER_DISCOUNT && !empty($chktag) && APPLY_VAT_ON_DISCOUNT)
 		{
 			$Discountvat = (VAT_RATE_AFTER_DISCOUNT * $totaldiscount) / (1 + VAT_RATE_AFTER_DISCOUNT);
 		}
