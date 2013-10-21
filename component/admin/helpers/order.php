@@ -2476,8 +2476,11 @@ class order_functions
 		$dispatcher = JDispatcher::getInstance();
 		$results = $dispatcher->trigger('onChangeStatusToShipped', array($order_id, $newstatus, $paymentstatus));
 
-		// For Webpack Postdk Label Generation
-		$this->createWebPacklabel($order_id, "", $newstatus, $paymentstatus);
+		if ($post['isPacsoft'])
+		{
+			// For Webpack Postdk Label Generation
+			$this->createWebPacklabel($order_id, "", $newstatus, $paymentstatus);
+		}
 
 		if (CLICKATELL_ENABLE)
 		{

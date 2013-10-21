@@ -30,7 +30,11 @@ $stockroomhelper = new rsstockroomhelper;
 $dispatcher = JDispatcher::getInstance();
 JPluginHelper::importPlugin('redshop_product');
 ?>
-
+<style type="text/css">
+	div#toolbar-box div.m{
+		height: 70px;
+	}
+</style>
 <script language="javascript" type="text/javascript">
 	Joomla.submitbutton = function (pressbutton)
 	{

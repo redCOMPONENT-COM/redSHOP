@@ -81,6 +81,11 @@ class orderController extends JController
 		return;
 	}
 
+	public function allStatusExceptPacsoft()
+	{
+		$this->allstatus(false);
+	}
+
 	public function updateOrderStatus()
 	{
 		$session = JFactory::getSession();
@@ -102,11 +107,12 @@ class orderController extends JController
 
 				for ($m = 0; $m < count($merge_invoice_arr); $m++)
 				{
-					if (file_exists(JPATH_SITE . '/components/com_redshop/assets/document'
-						. '/invoice/shipped_' . $merge_invoice_arr[$m] . '.pdf'))
+					if (file_exists(
+						JPATH_SITE . '/components/com_redshop/assets/document' . '/invoice/shipped_' . $merge_invoice_arr[$m] . '.pdf'
+						))
 					{
-						$pdf->addPDF(JPATH_SITE . '/components/com_redshop/assets/document'
-							. '/invoice/shipped_' . $merge_invoice_arr[$m] . '.pdf', 'all'
+						$pdf->addPDF(
+							JPATH_SITE . '/components/com_redshop/assets/document' . '/invoice/shipped_' . $merge_invoice_arr[$m] . '.pdf', 'all'
 						);
 					}
 				}
@@ -117,10 +123,12 @@ class orderController extends JController
 
 				for ($m = 0; $m < count($merge_invoice_arr); $m++)
 				{
-					if (file_exists(JPATH_SITE . '/components/com_redshop/assets/document'
-						. '/invoice/shipped_' . $merge_invoice_arr[$m] . '.pdf'))
+					if (file_exists(
+						JPATH_SITE . '/components/com_redshop/assets/document' . '/invoice/shipped_' . $merge_invoice_arr[$m] . '.pdf'
+						))
 					{
-						unlink(JPATH_ROOT . '/components/com_redshop/assets/document/invoice/shipped_' . $merge_invoice_arr[$m] . '.pdf'
+						unlink(
+							JPATH_ROOT . '/components/com_redshop/assets/document/invoice/shipped_' . $merge_invoice_arr[$m] . '.pdf'
 						);
 					}
 				}
