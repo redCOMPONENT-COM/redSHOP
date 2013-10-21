@@ -249,8 +249,10 @@ for ($i = 0, $n = count($this->orders); $i < $n; $i++)
 				</tr>
 			</table>
 		</td>
-		<?php if (USE_STOCKROOM == 1)
-		{ ?>
+		<?php
+		if (USE_STOCKROOM == 1)
+		{
+		?>
 			<td align="center">
 				<?php $order_items = $order_function->getOrderItemDetail($row->order_id);
 
@@ -280,7 +282,12 @@ for ($i = 0, $n = count($this->orders); $i < $n; $i++)
 				?>
 
 			</td>
-			<td align="center"> <?php
+			<td align="center">
+			<?php
+				$carthelper    = new rsCarthelper;
+				echo $shipping_name = $carthelper->replaceShippingMethod($row, "{shipping_method}");
+				echo "<br />";
+
 				if ($stockroom_id != "")
 				{
 					$max_delivery = $stockroomhelper->getStockroom_maxdelivery(substr_replace($stockroom_id, "", -1));
@@ -290,14 +297,19 @@ for ($i = 0, $n = count($this->orders); $i < $n; $i++)
 					$delivery_date = date('d/m/Y', $stamp);
 					$current_date = date('d/m/Y');
 					$datediff = $stockroomhelper->getdateDiff($stamp, time());
+
 					if ($datediff < 0)
 					{
 						$datediff = 0;
 					}
 
 					echo $datediff . " " . $max_delivery[0]->delivery_time;
-				} ?> </td>
-		<?php } ?>
+				}
+				?>
+			</td>
+		<?php
+		}
+		?>
 		<td align="center">
 			<?php echo $config->convertDateFormat($row->cdate); ?>
 		</td>
