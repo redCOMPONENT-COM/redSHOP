@@ -88,7 +88,7 @@ class Product_DetailViewProduct_Detail extends JView
 		// Fail if checked out not by 'me'
 		if ($model->isCheckedOut($user->get('id')))
 		{
-			$msg = JText::sprintf('DESCBEINGEDITTED', JText::_('COM_REDSHOP_THE_DETAIL'), $detail->title);
+			$msg = JText::_('COM_REDSHOP_PRODUCT_BEING_EDITED');
 			$app->redirect('index.php?option=com_redshop', $msg);
 		}
 
