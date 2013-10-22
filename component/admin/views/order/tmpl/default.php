@@ -177,12 +177,12 @@ for ($i = 0, $n = count($this->orders); $i < $n; $i++)
 {
 	$row = & $this->orders[$i];
 	$row->id = $row->order_id;
-	$link = 'index.php?option=' . $option . '&view=order_detail&task=edit&cid[]=' . $row->order_id;
+	$link = 'index.php?option=com_redshop&view=order_detail&task=edit&cid[]=' . $row->order_id;
 	$link = $redhelper->sslLink($link);
 
 	/**
-	 * This is an event that is useing into back-end order listing page. In to grid column, below checkbox.
-	 * This event is called to add heightlighter from which order can be identified that plugin enhancment is included into this order.
+	 * This is an event that is using into back-end order listing page. In to grid column, below check-box.
+	 * This event is called to add highlighter from which order can be identified that plug-in enhancement is included into this order.
 	 */
 	$data = new stdClass;
 	$data->highlight = new stdClass;
@@ -199,15 +199,16 @@ for ($i = 0, $n = count($this->orders); $i < $n; $i++)
 		</td>
 		<td align="center">
 			<a href="<?php echo $link; ?>"
-			   title="<?php echo JText::_('COM_REDSHOP_EDIT_ORDER'); ?>"><?php echo $row->order_id; ?></a>
+			   title="<?php echo JText::_('COM_REDSHOP_EDIT_ORDER'); ?>">
+			   <?php echo $row->order_id; ?>
+			</a>
 		</td>
 		<td align="center"><?php echo $row->order_number; ?></td>
-		<?php
-		if (ECONOMIC_INTEGRATION == 1 && ECONOMIC_INVOICE_DRAFT == 2 && $row->invoice_no && $row->is_booked == 1 && $row->bookinvoice_number)
-		{
-			?>
+
+		<?php if (ECONOMIC_INTEGRATION == 1 && ECONOMIC_INVOICE_DRAFT == 2 && $row->invoice_no && $row->is_booked == 1 && $row->bookinvoice_number) : ?>
 			<td align="center"><?php echo $row->bookinvoice_number; ?></td>
-		<?php } ?>
+		<?php endif; ?>
+
 		<td><?php
 			echo $row->firstname . ' ' . $row->lastname;
 			echo ($row->is_company && $row->company_name != "") ? "<br />" . $row->company_name : ""; ?>
@@ -236,7 +237,8 @@ for ($i = 0, $n = count($this->orders); $i < $n; $i++)
 					<td>
 						<input type="checkbox" <?php echo $send_mail_to_customer;?>  value=""
 						       name="sendordermail<?php echo $row->order_id; ?>"
-						       id="sendordermail<?php echo $row->order_id; ?>"/><?php echo JText::_('COM_REDSHOP_SEND_ORDER_MAIL'); ?>
+						       id="sendordermail<?php echo $row->order_id; ?>"/>
+						       <?php echo JText::_('COM_REDSHOP_SEND_ORDER_MAIL'); ?>
 					</td>
 				</tr>
 				<tr>
@@ -249,10 +251,7 @@ for ($i = 0, $n = count($this->orders); $i < $n; $i++)
 				</tr>
 			</table>
 		</td>
-		<?php
-		if (USE_STOCKROOM == 1)
-		{
-		?>
+		<?php if (USE_STOCKROOM == 1) : ?>
 			<td align="center">
 				<?php $order_items = $order_function->getOrderItemDetail($row->order_id);
 
@@ -307,9 +306,7 @@ for ($i = 0, $n = count($this->orders); $i < $n; $i++)
 				}
 				?>
 			</td>
-		<?php
-		}
-		?>
+		<?php endif; ?>
 		<td align="center">
 			<?php echo $config->convertDateFormat($row->cdate); ?>
 		</td>
