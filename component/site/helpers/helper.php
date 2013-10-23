@@ -541,7 +541,7 @@ class redhelper
 	}
 
 	// Get cart Itemid
-	public function getCartItemid($Itemid)
+	public function getCartItemid()
 	{
 		$userhelper         = new rsUserhelper;
 		$Itemid             = DEFAULT_CART_CHECKOUT_ITEMID;
@@ -731,11 +731,15 @@ class redhelper
 		{
 			if (($thumb_width != '' || $thumb_width != 0) && ($thumb_height != '' || $thumb_width != 0))
 			{
-				$filename = $url
-					. "components/com_redshop/helpers/thumb.php?filename="
-					. $mtype . "/" . $Imagename . "&newxsize="
-					. $thumb_width . "&newysize=" . $thumb_height
-					. "&swap=" . USE_IMAGE_SIZE_SWAPPING;
+				$filename = RedShopHelperImages::getImagePath(
+								$Imagename,
+								'',
+								'thumb',
+								$mtype,
+								$thumb_width,
+								$thumb_height,
+								USE_IMAGE_SIZE_SWAPPING
+							);
 			}
 			else
 			{

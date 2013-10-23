@@ -40,7 +40,7 @@ class shipping_rateViewshipping_rate extends JView
 		$total          = $this->get('Total');
 		$pagination     = $this->get('Pagination');
 
-		$shippingpath     = JPATH_ROOT . '/plugins/' . $shipping->folder . DS . $shipping->element . '.xml';
+		$shippingpath     = JPATH_ROOT . '/plugins/' . $shipping->folder . '/' . $shipping->element . '.xml';
 		$myparams         = new JRegistry($shipping->params, $shippingpath);
 		$is_shipper       = $myparams->get('is_shipper');
 		$shipper_location = $myparams->get('shipper_location');

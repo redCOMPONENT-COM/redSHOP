@@ -151,9 +151,6 @@ class CategoryController extends JController
 	 */
 	public function downloadFile($fil, $p = null)
 	{
-		// Only show errors and remove warnings from corrupting file
-		error_reporting(E_ERROR);
-
 		ob_clean();
 
 		if (connection_status() != 0)

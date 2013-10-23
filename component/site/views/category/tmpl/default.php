@@ -19,9 +19,6 @@ $extraField    = new extraField;
 $redTemplate   = new Redtemplate;
 
 $url    = JURI::base();
-$Itemid = JRequest::getInt('Itemid');
-$catid  = JRequest::getInt('cid', 0, '', 'int');
-$print  = JRequest::getInt('print');
 
 $model                = $this->getModel('category');
 $loadCategorytemplate = $this->loadCategorytemplate;
@@ -32,7 +29,10 @@ if (count($loadCategorytemplate) > 0 && $loadCategorytemplate[0]->template_desc 
 }
 else
 {
-	$template_desc = "<div class=\"category_front_introtext\">{print}<p>{category_frontpage_introtext}</p></div>\r\n{category_frontpage_loop_start}<div class=\"category_front\">\r\n<div class=\"category_front_image\">{category_thumb_image}</div>\r\n<div class=\"category_front_title\"><h3>{category_name}</h3></div>\r\n</div>{category_frontpage_loop_end}";
+	$template_desc  = "<div class=\"category_front_introtext\">{print}<p>{category_frontpage_introtext}</p></div>";
+	$template_desc .= "\r\n{category_frontpage_loop_start}<div class=\"category_front\">\r\n";
+	$template_desc .= "<div class=\"category_front_image\">{category_thumb_image}</div>\r\n";
+	$template_desc .= "<div class=\"category_front_title\"><h3>{category_name}</h3></div>\r\n</div>{category_frontpage_loop_end}";
 }
 
 $endlimit = count($this->detail);
@@ -42,18 +42,18 @@ if (!strstr($template_desc, "{show_all_products_in_category}") && strstr($templa
 	$endlimit = $model->getProductPerPage();
 }
 
-$app = JFactory::getApplication();
-$router    = $app->getRouter();
-$uri       = new JURI('index.php?option=com_redshop&category&layout=default&Itemid=' . $Itemid . '&limit=' . $endlimit . '&category_template=' . $this->category_template_id);
-
 if ($this->params->get('show_page_heading', 0))
 {
-	if (!$catid)
+	if (!$this->catid)
+	{
 		echo '<div class="category_title' . $this->escape($this->params->get('pageclass_sfx')) . '">';
+	}
 	else
+	{
 		echo '<div class="category' . $this->escape($this->params->get('pageclass_sfx')) . '">';
+	}
 
-	if (!$catid)
+	if (!$this->catid)
 	{
 		echo '<h1>';
 
@@ -72,18 +72,19 @@ if ($this->params->get('show_page_heading', 0))
 	echo '</div>';
 }
 
-if ($print)
+if ($this->print)
 {
 	$onclick = "onclick='window.print();'";
 }
 else
 {
-	$print_url = $url . "index.php?option=com_redshop&view=category&print=1&tmpl=component&Itemid=" . $Itemid;
+	$print_url = $url . "index.php?option=com_redshop&view=category&print=1&tmpl=component&Itemid=" . $this->itemid;
 	$onclick   = "onclick='window.open(\"$print_url\",\"mywindow\",\"scrollbars=1\",\"location=1\")'";
 }
 
-$print_tag = "<a " . $onclick . " title='" . JText::_('COM_REDSHOP_PRINT_LBL') . "'>";
-$print_tag .= "<img src='" . JSYSTEM_IMAGES_PATH . "printButton.png' alt='" . JText::_('COM_REDSHOP_PRINT_LBL') . "' title='" . JText::_('COM_REDSHOP_PRINT_LBL') . "' />";
+$print_tag  = "<a " . $onclick . " title='" . JText::_('COM_REDSHOP_PRINT_LBL') . "'>";
+$print_tag .= "<img src='" . JSYSTEM_IMAGES_PATH . "printButton.png' alt='" .
+				JText::_('COM_REDSHOP_PRINT_LBL') . "' title='" . JText::_('COM_REDSHOP_PRINT_LBL') . "' />";
 $print_tag .= "</a>";
 
 $template_desc = str_replace("{print}", $print_tag, $template_desc);
@@ -139,7 +140,7 @@ if (strstr($template_desc, "{category_frontpage_loop_start}") && strstr($templat
 		}
 		else
 		{
-			$tmpItemid = $Itemid;
+			$tmpItemid = $this->itemid;
 		}
 
 		$link = JRoute::_('index.php?option=com_redshop&view=category&cid=' . $row->category_id . '&layout=detail&Itemid=' . $tmpItemid);

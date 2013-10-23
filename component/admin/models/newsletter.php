@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.model');
 require_once JPATH_ROOT . '/components/com_redshop/helpers/product.php';
 require_once JPATH_COMPONENT . '/helpers/text_library.php';
+require_once JPATH_ROOT . '/administrator/components/com_redshop/helpers/images.php';
 
 class newsletterModelnewsletter extends JModel
 {
@@ -457,10 +458,18 @@ class newsletterModelnewsletter extends JModel
 
 				if ($product_id_list[$i]->product_full_image)
 				{
+					$thumbUrl = RedShopHelperImages::getImagePath(
+									$product_id_list[$i]->product_full_image,
+									'',
+									'thumb',
+									'product',
+									PRODUCT_MAIN_IMAGE,
+									PRODUCT_MAIN_IMAGE,
+									USE_IMAGE_SIZE_SWAPPING
+								);
 					$thum_image = "<a id='a_main_image' href='" . REDSHOP_FRONT_IMAGES_ABSPATH . "product/"
 						. $product_id_list[$i]->product_full_image . "' title='' rel=\"lightbox[product7]\">";
-					$thum_image .= "<img id='main_image' src='" . $url . "/components/com_redshop/helpers/thumb.php?filename=product/"
-						. $product_id_list[$i]->product_full_image . "&newxsize=" . PRODUCT_MAIN_IMAGE . "&newysize=" . PRODUCT_MAIN_IMAGE . "'>";
+					$thum_image .= "<img id='main_image' src='" . $thumbUrl . "'>";
 					$thum_image .= "</a>";
 				}
 

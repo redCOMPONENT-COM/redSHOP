@@ -22,16 +22,13 @@ if (!class_exists('LofSliderGroupBase'))
 	{
 		/**
 		 * @var string $_name is name of group;
-		 *
-		 * @access private;
 		 */
 		var $__name = 'base';
 		/**
 		 * @var string $__currentPath;
-		 *
-		 * @access private;
 		 */
 		var $__currentPath = '';
+
 		static $REPLACER = "...";
 
 		/**
@@ -84,14 +81,13 @@ if (!class_exists('LofSliderGroupBase'))
 		 *
 		 * @param array $path
 		 *
-		 * @access public,
 		 * @return boolean.
 		 */
 
 		function makeDir($path)
 		{
 			$folders = explode('/', ($path));
-			$tmppath = JPATH_SITE . '/images/icethumbs' . DS;
+			$tmppath = JPATH_SITE . '/images/icethumbs/';
 
 			if (!file_exists($tmppath))
 			{
@@ -104,7 +100,7 @@ if (!class_exists('LofSliderGroupBase'))
 				{
 					return false;
 				}
-				$tmppath = $tmppath . $folders [$i] . DS;
+				$tmppath = $tmppath . $folders [$i] . '/';
 			}
 
 			return true;
@@ -129,7 +125,7 @@ if (!class_exists('LofSliderGroupBase'))
 					$image_quanlity = 100;
 				}
 				$path       = str_replace(JURI::base(), '', $path);
-				$imagSource = JPATH_SITE . DS . str_replace('/', DS, $path);
+				$imagSource = JPATH_SITE . '/' . str_replace('/', DS, $path);
 
 				if (file_exists($imagSource))
 				{

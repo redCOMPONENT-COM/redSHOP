@@ -236,32 +236,48 @@ for ($k = 0; $k < count($mysplit); $k++)
 			$product_quantity = '<div class="product_quantity">' . $OrderProducts [$i]->product_quantity . '</div>';
 
 			$cart_mdata = '';
+			$product_image_path = '';
 
 			if ($product->product_full_image)
 			{
 				if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $product->product_full_image))
-					$product_image_path = $url . "/components/com_redshop/helpers/thumb.php?filename=product/" . $product->product_full_image;
+				{
+					$product_image_path = $product->product_full_image;
+				}
 				else
 				{
 					if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . PRODUCT_DEFAULT_IMAGE))
-						$product_image_path = $url . "/components/com_redshop/helpers/thumb.php?filename=product/" . PRODUCT_DEFAULT_IMAGE;
-					else
-						$product_image_path = "";
+					{
+						$product_image_path = PRODUCT_DEFAULT_IMAGE;
+					}
 				}
 
 			}
 			else
 			{
 				if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . PRODUCT_DEFAULT_IMAGE))
-					$product_image_path = $url . "/components/com_redshop/helpers/thumb.php?filename=product/" . PRODUCT_DEFAULT_IMAGE;
-				else
-					$product_image_path = "";
+				{
+					$product_image_path = PRODUCT_DEFAULT_IMAGE;
+				}
 			}
 
 			if ($product_image_path)
-				$product_image = "<div  class='product_image'><img src='" . $product_image_path . "&newxsize=" . CART_THUMB_WIDTH . "&newysize=" . CART_THUMB_HEIGHT . "&swap=" . USE_IMAGE_SIZE_SWAPPING . "'></div>";
+			{
+				$thumbUrl = RedShopHelperImages::getImagePath(
+								$product_image_path,
+								'',
+								'thumb',
+								'product',
+								CART_THUMB_WIDTH,
+								CART_THUMB_HEIGHT,
+								USE_IMAGE_SIZE_SWAPPING
+							);
+				$product_image = "<div class='product_image'><img src='" . $thumbUrl . "'></div>";
+			}
 			else
-				$product_image = "<div  class='product_image'></div>";
+			{
+				$product_image = "<div class='product_image'></div>";
+			}
 
 			$cart_mdata = str_replace("{product_name}", $product_name, $template_middle);
 			$cart_mdata = str_replace("{product_thumb_image}", $product_image, $cart_mdata);

@@ -8,11 +8,13 @@
  */
 
 defined('_JEXEC') or die;
-require_once JPATH_SITE . '/components/com_redshop/helpers/helper.php';
-require_once JPATH_SITE . '/components/com_redshop/helpers/product.php';
-require_once JPATH_SITE . '/components/com_redshop/helpers/extra_field.php';
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/order.php';
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/shipping.php';
+
+JLoader::import('helper', JPATH_SITE . '/components/com_redshop/helpers');
+JLoader::import('product', JPATH_SITE . '/components/com_redshop/helpers');
+JLoader::import('extra_field', JPATH_SITE . '/components/com_redshop/helpers');
+JLoader::import('order', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
+JLoader::import('shipping', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
+JLoader::import('images', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
 
 class rsCarthelper
 {
@@ -883,6 +885,7 @@ class rsCarthelper
 
 	public function replaceCartItem($data, $cart = array(), $replace_button, $quotation_mode = 0)
 	{
+		JPluginHelper::importPlugin('redshop_product');
 		$dispatcher = JDispatcher::getInstance();
 		$prdItemid  = JRequest::getInt('Itemid');
 		$option     = JRequest::getVar('option', 'com_redshop');
@@ -957,13 +960,18 @@ class rsCarthelper
 
 				$cart_mdata     = str_replace("{if product_on_sale}", '', $cart_mdata);
 				$cart_mdata     = str_replace("{product_on_sale end if}", '', $cart_mdata);
-				$giftcard_image = "<div  class='giftcard_image'><img src='"
-					. $url . "/components/com_redshop/helpers/thumb.php?filename=giftcard/"
-					. $giftcardData->giftcard_image
-					. "&newxsize=" . CART_THUMB_WIDTH
-					. "&newysize=" . CART_THUMB_HEIGHT
-					. "&swap=" . USE_IMAGE_SIZE_SWAPPING
-					. "'></div>";
+
+				$thumbUrl = RedShopHelperImages::getImagePath(
+								$giftcardData->giftcard_image,
+								'',
+								'thumb',
+								'giftcard',
+								CART_THUMB_WIDTH,
+								CART_THUMB_HEIGHT,
+								USE_IMAGE_SIZE_SWAPPING
+							);
+
+				$giftcard_image = "<div  class='giftcard_image'><img src='" . $thumbUrl. "'></div>";
 				$cart_mdata     = str_replace("{product_thumb_image}", $giftcard_image, $cart_mdata);
 				$user_fields    = $this->_producthelper->GetProdcutUserfield($i, 13);
 				$cart_mdata     = str_replace("{product_userfields}", $user_fields, $cart_mdata);
@@ -1020,11 +1028,11 @@ class rsCarthelper
 
 				$link = JRoute::_('index.php?option=' . $option . '&view=product&pid=' . $product_id . '&Itemid=' . $Itemid);
 
-				$pname        = $product->product_name;
-				$product_name = "<div  class='product_name'><a href='" . $link . "'>" . $pname . "</a></div>";
-
-				$product_image      = "";
-				$product_image_path = "";
+				$pname         = $product->product_name;
+				$product_name  = "<div  class='product_name'><a href='" . $link . "'>" . $pname . "</a></div>";
+				$product_image = "";
+				$prd_image     = '';
+				$type          = 'product';
 
 				if (WANT_TO_SHOW_ATTRIBUTE_IMAGE_INCART && isset($cart[$i]['hidden_attribute_cartimage']))
 				{
@@ -1034,22 +1042,19 @@ class rsCarthelper
 
 				if ($product_image && is_file(REDSHOP_FRONT_IMAGES_RELPATH . $product_image))
 				{
-					$product_image_path = JURI::base() . "/components/com_redshop/helpers/thumb.php?filename=" . $product_image;
-					$val                = explode("/", $product_image);
-					$prd_image          = $val[1];
-					$type               = $val[0];
+					$val        = explode("/", $product_image);
+					$prd_image  = $val[1];
+					$type       = $val[0];
 				}
 				elseif ($product->product_full_image && is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $product->product_full_image))
 				{
-					$product_image_path = $url . "/components/com_redshop/helpers/thumb.php?filename=product/" . $product->product_full_image;
-					$prd_image          = $product->product_full_image;
-					$type               = 'product';
+					$prd_image = $product->product_full_image;
+					$type      = 'product';
 				}
 				elseif (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . PRODUCT_DEFAULT_IMAGE))
 				{
-					$product_image_path = $url . "/components/com_redshop/helpers/thumb.php?filename=product/" . PRODUCT_DEFAULT_IMAGE;
-					$prd_image          = PRODUCT_DEFAULT_IMAGE;
-					$type               = 'product';
+					$prd_image = PRODUCT_DEFAULT_IMAGE;
+					$type      = 'product';
 				}
 
 				$isAttributeImage = false;
@@ -1061,12 +1066,11 @@ class rsCarthelper
 
 				if ($isAttributeImage)
 				{
-					$product_image_path = $url . "/components/com_redshop/helpers/thumb.php?filename=mergeImages/" . $cart[$i]['attributeImage'];
-					$prd_image          = $cart[$i]['attributeImage'];
-					$type               = 'mergeImages';
+					$prd_image = $cart[$i]['attributeImage'];
+					$type      = 'mergeImages';
 				}
 
-				if ($product_image_path)
+				if ($prd_image !== '')
 				{
 					$redhelper = new redhelper;
 
@@ -1078,17 +1082,26 @@ class rsCarthelper
 					}
 					else
 					{
-						$product_image = "<div  class='product_image'><img src='" . $product_image_path
-							. "&newxsize=" . CART_THUMB_WIDTH
-							. "&newysize=" . CART_THUMB_HEIGHT
-							. "&swap=" . USE_IMAGE_SIZE_SWAPPING
-							. "'></div>";
+						$thumbUrl = RedShopHelperImages::getImagePath(
+								$prd_image,
+								'',
+								'thumb',
+								$type,
+								CART_THUMB_WIDTH,
+								CART_THUMB_HEIGHT,
+								USE_IMAGE_SIZE_SWAPPING
+							);
+
+						$product_image = "<div  class='product_image'><img src='" . $thumbUrl . "'></div>";
 					}
 				}
 				else
 				{
 					$product_image = "<div  class='product_image'></div>";
 				}
+
+				// Trigger to change product image.
+				$dispatcher->trigger('changeCartOrderItemImage', array(&$cart, &$product_image, $product, $i));
 
 				$chktag              = $this->_producthelper->getApplyVatOrNot($data);
 				$product_total_price = "<div class='product_price'>";
@@ -1409,8 +1422,7 @@ class rsCarthelper
 			}
 
 			// Plugin support:  Process the product plugin for cart item
-			JPluginHelper::importPlugin('redshop_product');
-			$results = $dispatcher->trigger('onCartItemDisplay', array(& $cart_mdata, $cart, $i));
+			$dispatcher->trigger('onCartItemDisplay', array(& $cart_mdata, $cart, $i));
 
 			$cart_tr .= $cart_mdata;
 		}
@@ -1420,6 +1432,7 @@ class rsCarthelper
 
 	public function repalceOrderItems($data, $rowitem = array())
 	{
+		JPluginHelper::importPlugin('redshop_product');
 		$dispatcher = JDispatcher::getInstance();
 		$mainview   = JRequest::getVar('view');
 		$fieldArray = $this->_extraFieldFront->getSectionFieldList(17, 0, 0);
@@ -1455,15 +1468,31 @@ class rsCarthelper
 
 			if (is_file($dirname))
 			{
-				$attribute_image_path = $url . "components/com_redshop/helpers/thumb.php?filename=orderMergeImages/" . $rowitem [$i]->attribute_image . "&newxsize=" . CART_THUMB_WIDTH . "&newysize=" . CART_THUMB_HEIGHT . "&swap=" . USE_IMAGE_SIZE_SWAPPING;
-				$attrib_img           = "<img src='" . $attribute_image_path . "'>";
+				$attribute_image_path = RedShopHelperImages::getImagePath(
+											$rowitem[$i]->attribute_image,
+											'',
+											'thumb',
+											'orderMergeImages',
+											CART_THUMB_WIDTH,
+											CART_THUMB_HEIGHT,
+											USE_IMAGE_SIZE_SWAPPING
+										);
+				$attrib_img = "<img src='" . $attribute_image_path . "'>";
 			}
 			else
 			{
 				if (is_file(JPATH_COMPONENT_SITE . "/assets/images/product_attributes/" . $rowitem [$i]->attribute_image))
 				{
-					$attribute_image_path = $url . "components/com_redshop/helpers/thumb.php?filename=product_attributes/" . $rowitem [$i]->attribute_image . "&newxsize=" . CART_THUMB_WIDTH . "&newysize=" . CART_THUMB_HEIGHT . "&swap=" . USE_IMAGE_SIZE_SWAPPING;
-					$attrib_img           = "<img src='" . $attribute_image_path . "'>";
+					$attribute_image_path = RedShopHelperImages::getImagePath(
+												$rowitem[$i]->attribute_image,
+												'',
+												'thumb',
+												'product_attributes',
+												CART_THUMB_WIDTH,
+												CART_THUMB_HEIGHT,
+												USE_IMAGE_SIZE_SWAPPING
+											);
+					$attrib_img = "<img src='" . $attribute_image_path . "'>";
 				}
 				else
 				{
@@ -1471,15 +1500,31 @@ class rsCarthelper
 					{
 						if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $product->product_full_image))
 						{
-							$attribute_image_path = $url . "components/com_redshop/helpers/thumb.php?filename=product/" . $product->product_full_image;
-							$attrib_img           = "<img src='" . $attribute_image_path . "'>";
+							$attribute_image_path = RedShopHelperImages::getImagePath(
+														$product->product_full_image,
+														'',
+														'thumb',
+														'product',
+														CART_THUMB_WIDTH,
+														CART_THUMB_HEIGHT,
+														USE_IMAGE_SIZE_SWAPPING
+													);
+							$attrib_img = "<img src='" . $attribute_image_path . "'>";
 						}
 						else
 						{
 							if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . PRODUCT_DEFAULT_IMAGE))
 							{
-								$attribute_image_path = $url . "components/com_redshop/helpers/thumb.php?filename=product/" . PRODUCT_DEFAULT_IMAGE;
-								$attrib_img           = "<img src='" . $attribute_image_path . "'>";
+								$attribute_image_path = RedShopHelperImages::getImagePath(
+															PRODUCT_DEFAULT_IMAGE,
+															'',
+															'thumb',
+															'product',
+															CART_THUMB_WIDTH,
+															CART_THUMB_HEIGHT,
+															USE_IMAGE_SIZE_SWAPPING
+														);
+								$attrib_img = "<img src='" . $attribute_image_path . "'>";
 							}
 						}
 					}
@@ -1487,12 +1532,22 @@ class rsCarthelper
 					{
 						if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . PRODUCT_DEFAULT_IMAGE))
 						{
-							$attribute_image_path = $url . "components/com_redshop/helpers/thumb.php?filename=product/" . PRODUCT_DEFAULT_IMAGE;
-							$attrib_img           = "<img src='" . $attribute_image_path . "'>";
+							$attribute_image_path = RedShopHelperImages::getImagePath(
+														PRODUCT_DEFAULT_IMAGE,
+														'',
+														'thumb',
+														'product',
+														CART_THUMB_WIDTH,
+														CART_THUMB_HEIGHT,
+														USE_IMAGE_SIZE_SWAPPING
+													);
+							$attrib_img = "<img src='" . $attribute_image_path . "'>";
 						}
 					}
 				}
 			}
+
+			$dispatcher->trigger('changeCartOrderItemImage', array(&$data, &$attrib_img, $rowitem[$i], $i));
 
 			$product_name        = "<div class='product_name'>" . $product_name . "</div>";
 			$product_total_price = "<div class='product_price'>";
@@ -1647,7 +1702,7 @@ class rsCarthelper
 			if ($mainview == "order_detail")
 			{
 				$Itemid     = JRequest::getVar('Itemid');
-				$Itemid     = $this->_redhelper->getCartItemid($Itemid);
+				$Itemid     = $this->_redhelper->getCartItemid();
 				$copytocart = "<a href='" . JRoute::_('index.php?option=com_redshop&view=order_detail&task=copyorderitemtocart&order_item_id=' . $rowitem[$i]->order_item_id . '&Itemid=' . $Itemid, false) . "'>";
 				$copytocart .= "<img src='" . REDSHOP_ADMIN_IMAGES_ABSPATH . "add.jpg' title='" . JText::_("COM_REDSHOP_COPY_TO_CART") . "' alt='" . JText::_("COM_REDSHOP_COPY_TO_CART") . "' /></a>";
 				$cart_mdata = str_replace("{copy_orderitem}", $copytocart, $cart_mdata);
@@ -1770,8 +1825,7 @@ class rsCarthelper
 			}
 
 			// Process the product plugin for cart item
-			JPluginHelper::importPlugin('redshop_product');
-			$results = $dispatcher->trigger('onOrderItemDisplay', array(& $cart_mdata, &$rowitem, $i));
+			$dispatcher->trigger('onOrderItemDisplay', array(& $cart_mdata, &$rowitem, $i));
 
 			$cart .= $cart_mdata;
 		}
@@ -2078,7 +2132,12 @@ class rsCarthelper
 		return $data;
 	}
 
-	// Add cart
+   /**
+   * APPLY_VAT_ON_DISCOUNT = When the discount is a "fixed amount" the
+   * final price may vary, depending on if the discount affects "the price+VAT"
+   * or just "the price". This CONSTANT will define if the discounts needs to
+   * be applied BEFORE or AFTER the VAT is applied to the product price.
+   */
 	public function calculation($cart, $shipping = 0, $user_id = 0)
 	{
 		$Idx               = $cart['idx'];
@@ -2172,10 +2231,19 @@ class rsCarthelper
 			$shippingVat = $cart['shipping_vat'];
 		}
 
-		if (VAT_RATE_AFTER_DISCOUNT)
+		if (VAT_RATE_AFTER_DISCOUNT && !APPLY_VAT_ON_DISCOUNT)
 		{
-			$Discountvat = (VAT_RATE_AFTER_DISCOUNT * $total_discount) / (1 + VAT_RATE_AFTER_DISCOUNT);
-			$vat         = $vat - $Discountvat;
+			if (isset($cart['discount_tax']) && !empty($cart['discount_tax']))
+			{
+				$discountVAT = $cart['discount_tax'];
+				$subtotal    = $subtotal - $cart['discount_tax'];
+			}
+			else
+			{
+				$discountVAT = (VAT_RATE_AFTER_DISCOUNT * $total_discount) / (1 + VAT_RATE_AFTER_DISCOUNT);
+			}
+
+			$vat         = $vat - $discountVAT;
 		}
 
 		$total      = $subtotal + $shipping;
@@ -3376,12 +3444,13 @@ class rsCarthelper
 			$template_desc = str_replace($template_middle, $rate_data, $template_desc);
 		}
 
+		$extrafield_total = '';
+
 		if (strstr($template_desc, "{shipping_extrafields}"))
 		{
 			$extraField         = new extraField;
 			$paymentparams_new  = new JRegistry($shippingmethod[0]->params);
 			$extrafield_payment = $paymentparams_new->get('extrafield_shipping');
-			$extrafield_total   = "";
 			$extrafield_hidden  = "";
 
 			if (count($extrafield_payment) > 0)
@@ -3723,8 +3792,6 @@ class rsCarthelper
 
 							$cardinfo .= '</div>';
 						}
-
-						$flag = true;
 					}
 				}
 
@@ -4409,8 +4476,6 @@ class rsCarthelper
 
 	public function globalvoucher($voucher_code)
 	{
-		$db = JFactory::getDbo();
-
 		$current_time = time();
 		$query        = "SELECT product_id,v.* from " . $this->_table_prefix . "product_voucher_xref as pv  "
 			. "left join " . $this->_table_prefix . "product_voucher as v on v.voucher_id = pv.voucher_id "
@@ -4502,6 +4567,7 @@ class rsCarthelper
 		if (DISCOUNT_ENABLE == 1)
 		{
 			$discount_amount = $this->_producthelper->getDiscountAmount($cart);
+			$cart            = $this->_session->get('cart');
 		}
 
 		if (!isset($cart['quotation_id']) || (isset($cart['quotation_id']) && !$cart['quotation_id']))
@@ -4561,7 +4627,7 @@ class rsCarthelper
 		$Discountvat = 0;
 		$chktag      = $this->_producthelper->taxexempt_addtocart();
 
-		if (VAT_RATE_AFTER_DISCOUNT && !empty($chktag))
+		if (VAT_RATE_AFTER_DISCOUNT && !empty($chktag) && !APPLY_VAT_ON_DISCOUNT)
 		{
 			$Discountvat = (VAT_RATE_AFTER_DISCOUNT * $totaldiscount) / (1 + VAT_RATE_AFTER_DISCOUNT);
 		}
@@ -4998,9 +5064,9 @@ class rsCarthelper
 	/**
 	 * Remove cart entry from table
 	 *
-	 * @param   int   $cart_id   #__redshop_usercart table key id
-	 * @param   int   $userid    user information id - joomla #__users table key id
-	 * @param   bool  $delCart   remove cart from #__redshop_usercart table
+	 * @param   int  $cart_id   #__redshop_usercart table key id
+	 * @param   int  $userid    user information id - joomla #__users table key id
+	 * @param   bool $delCart   remove cart from #__redshop_usercart table
 	 *
 	 * @return bool
 	 */
@@ -5387,6 +5453,7 @@ class rsCarthelper
 
 	public function addProductToCart($data = array())
 	{
+		JPluginHelper::importPlugin('redshop_product');
 		$dispatcher   = JDispatcher::getInstance();
 		$rsUserhelper = new rsUserhelper;
 		$redTemplate  = new Redtemplate;
@@ -5562,7 +5629,7 @@ class rsCarthelper
 			$cart[$idx]['attributeImage'] = $attributeImage . '.png';
 		}
 
-		if ($data['reorder'] && $data['attributeImage'])
+		if (!empty($data['reorder']) && !empty($data['attributeImage']))
 		{
 			$cart[$idx]['attributeImage'] = $data['attributeImage'];
 		}
@@ -5850,13 +5917,11 @@ class rsCarthelper
 					$sameProduct = false;
 				}
 
-				/*
-				 * Process the prepare Product plugins
-				 *
-				 *  For future enhancement - not working anymore
+				/**
+				 * Previous comment stated it is not used anymore.
+				 * Changing it for another purpose. It can intercept and decide whether added product should be added as same or new product.
 				 */
-				JPluginHelper::importPlugin('redshop_product');
-				$results = $dispatcher->trigger('checkSameCartProduct', array(& $cart, $data));
+				$dispatcher->trigger('checkSameCartProduct', array(&$cart, $data, &$sameProduct));
 
 				// Product userfiled
 				if (!empty($row_data))
@@ -5903,8 +5968,7 @@ class rsCarthelper
 						 *
 						 * Usually redSHOP update quantity
 						 */
-						JPluginHelper::importPlugin('redshop_product');
-						$results = $dispatcher->trigger('onSameCartProduct', array(& $cart, $data, $i));
+						$dispatcher->trigger('onSameCartProduct', array(& $cart, $data, $i));
 
 						$this->_session->set('cart', $cart);
 						$data['cart_index'] = $i;
@@ -5986,8 +6050,7 @@ class rsCarthelper
 			 * Implement new plugin support before session update
 			 * trigger the event of redSHOP product plugin support on Before cart session is set - on prepare cart session
 			 */
-			JPluginHelper::importPlugin('redshop_product');
-			$results = $dispatcher->trigger('onBeforeSetCartSession', array(& $cart, $data));
+			$dispatcher->trigger('onBeforeSetCartSession', array(&$cart, $data));
 
 			$cart['idx'] = $idx + 1;
 
@@ -5999,14 +6062,7 @@ class rsCarthelper
 
 				if ($tmpstr)
 				{
-					$tmparray = explode('`', $data_txt);
-					$tmp      = new stdClass;
-					$tmp      = @array_merge($tmp, $tmparray);
-
-					if (is_array($tmparray))
-					{
-						$data_txt = implode(",", $tmparray);
-					}
+					$data_txt = str_replace('`', ',', $data_txt);
 				}
 
 				$cart[$idx][$field_name] = $data_txt;

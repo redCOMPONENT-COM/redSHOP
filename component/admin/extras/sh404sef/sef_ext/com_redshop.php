@@ -406,6 +406,13 @@ switch ($view)
 
 		$title[] = $sh_LANG[$shLangIso]['_REDSHOP_PASSWORD'];
 		shRemoveFromGETVarsList('view');
+
+		if ($layout != "")
+		{
+			$title[] = $layout;
+			shRemoveFromGETVarsList('layout');
+		}
+
 		break;
 
 	case 'registration':

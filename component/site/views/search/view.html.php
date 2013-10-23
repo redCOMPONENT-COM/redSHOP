@@ -102,7 +102,6 @@ class searchViewsearch extends JView
 				$mypid = JRequest::getInt('pid', 0);
 
 				$app->Redirect('index.php?option=com_redshop&view=product&pid=' . $mypid . '&Itemid=' . $Itemid);
-
 			}
 		}
 
@@ -355,8 +354,9 @@ class searchViewsearch extends JView
 				$final_endlimit = $endlimit;
 			}
 
-			$tagarray = $texts->getTextLibraryTagArray();
-			$data     = "";
+			$tagarray            = $texts->getTextLibraryTagArray();
+			$data                = "";
+			$count_no_user_field = 0;
 
 			for ($i = 0; $i < count($this->search); $i++)
 			{
@@ -366,7 +366,7 @@ class searchViewsearch extends JView
 
 				if ($search_type == 'product_number')
 				{
-					$product_number = str_ireplace($keyword, "<b style='color: red;'>" . $keyword . "</b>", $this->search[$i]->product_number);
+					$product_number = str_ireplace($keyword, "<b class='search_hightlight'>" . $keyword . "</b>", $this->search[$i]->product_number);
 					$pro_s_desc     = $this->search[$i]->product_s_desc;
 					$pro_desc       = $this->search[$i]->product_desc;
 				}
@@ -378,9 +378,9 @@ class searchViewsearch extends JView
 
 					if (!in_array($keyword, $tagarray))
 					{
-						$pname      = str_ireplace($keyword, "<b style='color: red;'>" . $keyword . "</b>", $pname);
-						$pro_s_desc = str_ireplace($keyword, "<b style='color: red;'>" . $keyword . "</b>", $pro_s_desc);
-						$pro_desc   = str_ireplace($keyword, "<b style='color: red;'>" . $keyword . "</b>", $pro_desc);
+						$pname      = str_ireplace($keyword, "<b class='search_hightlight'>" . $keyword . "</b>", $pname);
+						$pro_s_desc = str_ireplace($keyword, "<b class='search_hightlight'>" . $keyword . "</b>", $pro_s_desc);
+						$pro_desc   = str_ireplace($keyword, "<b class='search_hightlight'>" . $keyword . "</b>", $pro_desc);
 					}
 				}
 
@@ -691,14 +691,13 @@ class searchViewsearch extends JView
 					if ($this->search[$i]->attribute_set_id > 0)
 					{
 						$attributes_set = $producthelper->getProductAttribute(0, $this->search[$i]->attribute_set_id, 0, 1);
-
 					}
 
 					$attributes = $producthelper->getProductAttribute($this->search[$i]->product_id);
 					$attributes = array_merge($attributes, $attributes_set);
 				}
 
-				/////////////////////////////////// Product attribute  Start /////////////////////////////////
+				// Product attribute  Start
 				$totalatt = count($attributes);
 
 				// Check product for not for sale
@@ -783,4 +782,3 @@ class searchViewsearch extends JView
 		}
 	}
 }
-

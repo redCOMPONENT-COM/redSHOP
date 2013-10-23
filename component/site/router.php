@@ -947,9 +947,19 @@ function redshopParseRoute($segments)
 
 						$menu           = JFactory::getApplication()->getMenu();
 						$item           = $menu->getActive();
-						$vars['Itemid'] = $item->id;
 
-						if (isset($segments[0]) && $segments[0] != $item->id)
+						if (!empty($item))
+						{
+							$vars['Itemid'] = $item->id;
+							$item_id        = $item->id;
+						}
+						else
+						{
+							$vars['Itemid'] = "";
+							$item_id        = "";
+						}
+
+						if (isset($segments[0]) && $segments[0] != $item_id)
 						{
 							$vars['cid'] = $segments[0];
 						}

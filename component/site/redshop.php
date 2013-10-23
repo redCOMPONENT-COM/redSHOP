@@ -16,10 +16,11 @@ $view   = JRequest::getCmd('view');
 
 // Getting the configuration
 require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/configuration.php';
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/template.php';
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/stockroom.php';
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/economic.php';
+JLoader::import('configuration', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
+JLoader::import('template', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
+JLoader::import('stockroom', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
+JLoader::import('economic', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
+JLoader::import('images', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
 
 $Redconfiguration = new Redconfiguration;
 $Redconfiguration->defineDynamicVars();
@@ -53,7 +54,7 @@ else
 JHTML::Stylesheet('style.css', 'components/com_redshop/assets/css/');
 $Itemid = $helper->getCheckoutItemid();
 $Itemid = JRequest::getInt('Itemid', $Itemid);
-$Itemid = $helper->getCartItemid($Itemid);
+$Itemid = $helper->getCartItemid();
 
 // Include redshop js file.
 require_once JPATH_COMPONENT . '/helpers/redshop.js.php';

@@ -625,12 +625,8 @@ class extra_field
 	{
 		$option = JRequest::getVar('option');
 
-		// Sanitize ids
-		$field_section = explode(',', $field_section);
-		JArrayHelper::toInteger($field_section);
-
 		$q = "SELECT * FROM " . $this->_table_prefix . "fields "
-			. "WHERE field_section IN (" . implode(',', $field_section) . ") "
+			. "WHERE field_section IN (" . (int) $field_section . ") "
 			. "AND published=1 ";
 		$this->_db->setQuery($q);
 		$row_data = $this->_db->loadObjectlist();

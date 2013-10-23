@@ -23,13 +23,30 @@ if (PORTAL_LOGIN_ITEMID)
 }
 
 $portallogofile = REDSHOP_FRONT_IMAGES_RELPATH . 'shopperlogo/' . DEFAULT_PORTAL_LOGO;
-$portallogo = JURI::root() . 'components/com_redshop/helpers/thumb.php?filename=shopperlogo/' . DEFAULT_PORTAL_LOGO . '&newxsize=' . THUMB_WIDTH . '&newysize=' . THUMB_HEIGHT . '&swap=' . USE_IMAGE_SIZE_SWAPPING;
+
+$portallogo = RedShopHelperImages::getImagePath(
+					DEFAULT_PORTAL_LOGO,
+					'',
+					'thumb',
+					'shopperlogo',
+					THUMB_WIDTH,
+					THUMB_HEIGHT,
+					USE_IMAGE_SIZE_SWAPPING
+				);
 $portalname = DEFAULT_PORTAL_NAME;
 $portalintro = "";
 
 if ($shoppergroupid != 0)
 {
-	$portallogo  = JURI::root() . 'components/com_redshop/helpers/thumb.php?filename=shopperlogo/' . $this->ShopperGroupDetail[0]->shopper_group_logo . '&newxsize=' . THUMB_WIDTH . '&newysize=' . THUMB_HEIGHT . '&swap=' . USE_IMAGE_SIZE_SWAPPING;
+	$portallogo = RedShopHelperImages::getImagePath(
+					$this->ShopperGroupDetail[0]->shopper_group_logo,
+					'',
+					'thumb',
+					'shopperlogo',
+					THUMB_WIDTH,
+					THUMB_HEIGHT,
+					USE_IMAGE_SIZE_SWAPPING
+				);
 	$portalname  = $this->ShopperGroupDetail[0]->shopper_group_name;
 	$portalintro = $this->ShopperGroupDetail[0]->shopper_group_introtext;
 }

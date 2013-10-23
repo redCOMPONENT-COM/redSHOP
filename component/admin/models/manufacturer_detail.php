@@ -107,7 +107,11 @@ class manufacturer_detailModelmanufacturer_detail extends JModel
 		}
 
 		$row =& $this->getTable();
-		$data['ordering'] = $this->MaxOrdering();
+
+		if ($data['manufacturer_id'] == 0)
+		{
+			$data['ordering'] = $this->MaxOrdering();
+		}
 
 		if (!$row->bind($data))
 		{
