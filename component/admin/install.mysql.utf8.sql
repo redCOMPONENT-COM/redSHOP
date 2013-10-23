@@ -978,7 +978,7 @@ INSERT IGNORE INTO `#__redshop_currency` (`currency_id`, `currency_name`, `curre
 (96, 'Mauritius Rupee', 'MUR'),
 (97, 'Maldive Rufiyaa', 'MVR'),
 (98, 'Malawi Kwacha', 'MWK'),
-(99, 'Mexican Peso', 'MXP'),
+(99, 'Mexican Peso', 'MXN'),
 (100, 'Malaysian Ringgit', 'MYR'),
 (101, 'Mozambique Metical', 'MZM'),
 (102, 'Nigerian Naira', 'NGN'),
@@ -2794,6 +2794,16 @@ CREATE TABLE IF NOT EXISTS `#__redshop_product_navigator` (
   `ordering` int(11) NOT NULL,
   PRIMARY KEY (`navigator_id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COMMENT='redSHOP Products Navigator';
+
+CREATE TABLE IF NOT EXISTS `#__redshop_notifystock_users` (
+`id` INT(11) NOT NULL AUTO_INCREMENT,
+`product_id` INT NOT NULL ,
+`property_id` INT NOT NULL ,
+`subproperty_id` INT NOT NULL ,
+`user_id` INT NOT NULL ,
+`notification_status` INT NOT NULL DEFAULT '0',
+PRIMARY KEY (`id`)
+) ENGINE = MYISAM  DEFAULT CHARSET=utf8;
 
 --
 

@@ -67,6 +67,12 @@ class searchModelsearch extends JModel
 			$perpageproduct = 5;
 		}
 
+		if ($module)
+		{
+			$module_params  = new JRegistry($module->params);
+			$perpageproduct = $module_params->get('productperpage', 5);
+		}
+
 		if ($layout == 'default')
 		{
 			$limit = $perpageproduct;
@@ -250,7 +256,6 @@ class searchModelsearch extends JModel
 		$keyword = $app->getUserStateFromRequest($context . 'keyword', 'keyword', '');
 
 		$defaultSearchType = '';
-		$defaultSearchType_tmp = '';
 
 		if (!empty($manudata['search_type']))
 		{
@@ -371,6 +376,7 @@ class searchModelsearch extends JModel
 
 		$menu = $app->getMenu();
 		$item = $menu->getActive();
+		$days = 0;
 
 		$days        = isset($item->query['newproduct']) ? $item->query['newproduct'] : 0;
 		$today       = date('Y-m-d H:i:s', time());
@@ -568,6 +574,7 @@ class searchModelsearch extends JModel
 		$params = JComponentHelper::getParams('com_redshop');
 		$menu   = $app->getMenu();
 		$item   = $menu->getActive();
+		$cid 	= 0;
 
 		$cid = 0;
 

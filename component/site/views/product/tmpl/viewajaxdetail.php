@@ -8,21 +8,19 @@
  */
 
 defined('_JEXEC') or die;
-JHTML::_('behavior.tooltip');
+
+JHtml::_('behavior.tooltip');
+JHtmlBehavior::modal();
 
 require_once JPATH_COMPONENT . '/helpers/product.php';
 $producthelper = new producthelper;
 require_once JPATH_COMPONENT . '/helpers/extra_field.php';
 $extraField = new extraField;
 
-JHTMLBehavior::modal();
 $url = JURI::base();
 
-$model              = $this->getModel('product');
-$document           = JFactory::getDocument();
-$session            = JFactory::getSession();
-$layout             = JRequest::getCmd('layout');
-$relatedprd_id      = JRequest::getInt('relatedprd_id', 0);
+$layout             = $this->input->getString('layout', '');
+$relatedprd_id      = $this->input->getInt('relatedprd_id', 0);
 $ajaxdetal_template = $producthelper->getAjaxDetailboxTemplate($this->data);
 
 ?>
@@ -36,16 +34,29 @@ if (count($ajaxdetal_template) > 0)
 	$data_add               = str_replace('{product_name}', $this->data->product_name, $data_add);
 
 	if ($this->data->product_price != 0)
+	{
 		$data_add = str_replace('{product_price}', $this->data->product_price, $data_add);
+	}
 	else
+	{
 		$data_add = str_replace('{product_price}', " ", $data_add);
+	}
 
 	if (strstr($data_add, "{product_image}"))
 	{
 		if ($this->data->product_full_image && file_exists(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $this->data->product_full_image))
 		{
+			$thumbUrl = RedShopHelperImages::getImagePath(
+						$this->data->product_full_image,
+						'',
+						'thumb',
+						'product',
+						PRODUCT_MAIN_IMAGE,
+						PRODUCT_MAIN_IMAGE_HEIGHT,
+						USE_IMAGE_SIZE_SWAPPING
+					);
 			$productsrcPath = "<a href='" . REDSHOP_FRONT_IMAGES_ABSPATH . "product/" . $this->data->product_full_image . "' title='" . $this->data->product_name . "' rel='lightbox[product7]'>";
-			$productsrcPath .= "<img src='" . $url . "components/com_redshop/helpers/thumb.php?filename=product/" . $this->data->product_full_image . "&newxsize=" . PRODUCT_MAIN_IMAGE . "&newysize=" . PRODUCT_MAIN_IMAGE_HEIGHT . "&swap=" . USE_IMAGE_SIZE_SWAPPING . "'>";
+			$productsrcPath .= "<img src='" . $thumbUrl . "'>";
 			$productsrcPath .= "</a>";
 			$data_add = str_replace('{product_image}', $productsrcPath, $data_add);
 		}
@@ -57,16 +68,16 @@ if (count($ajaxdetal_template) > 0)
 
 	$count_no_user_field = 0;
 
-	$extrafieldNames = JRequest::getString('extrafieldNames', '');
-	$nextrafield     = JRequest::getInt('nextrafield', 1);
+	$extrafieldNames = $this->input->getString('extrafieldNames', '');
+	$nextrafield     = $this->input->getInt('nextrafield', 1);
 
 	$data                         = array();
-	$data['property_data']        = JRequest::getString('property_data');
-	$data['subproperty_data']     = JRequest::getString('subproperty_data');
-	$data['accessory_data']       = JRequest::getString('accessory_data');
-	$data['acc_quantity_data']    = JRequest::getString('acc_quantity_data');
-	$data['acc_property_data']    = JRequest::getString('acc_property_data');
-	$data['acc_subproperty_data'] = JRequest::getString('acc_subproperty_data');
+	$data['property_data']        = $this->input->getString('property_data', '');
+	$data['subproperty_data']     = $this->input->getString('subproperty_data', '');
+	$data['accessory_data']       = $this->input->getString('accessory_data', '');
+	$data['acc_quantity_data']    = $this->input->getString('acc_quantity_data', '');
+	$data['acc_property_data']    = $this->input->getString('acc_property_data', '');
+	$data['acc_subproperty_data'] = $this->input->getString('acc_subproperty_data', '');
 
 	$selectAcc = $producthelper->getSelectedAccessoryArray($data);
 	$selectAtt = $producthelper->getSelectedAttributeArray($data);
@@ -78,7 +89,7 @@ if (count($ajaxdetal_template) > 0)
 	if ($template_userfield != "")
 	{
 		$ufield = "";
-		$cart   = $session->get('cart');
+		$cart   = $this->session->get('cart');
 
 		if (isset($cart['idx']))
 		{

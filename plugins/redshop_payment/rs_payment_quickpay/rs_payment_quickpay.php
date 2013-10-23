@@ -48,7 +48,7 @@ class plgRedshop_paymentrs_payment_quickpay extends JPlugin
 		}
 
 		$app         = JFactory::getApplication();
-		$paymentpath = JPATH_SITE . '/plugins/redshop_payment/' . $plugin . DS . $plugin . '/extra_info.php';
+		$paymentpath = JPATH_SITE . '/plugins/redshop_payment/' . $plugin . '/' . $plugin . '/extra_info.php';
 		include $paymentpath;
 	}
 
@@ -151,20 +151,18 @@ class plgRedshop_paymentrs_payment_quickpay extends JPlugin
 		return $res;
 	}
 
-	function onCapture_Paymentrs_payment_quickpay($element, $data)
+	/**
+	 * Send Information on QuickPay using CURL
+	 *
+	 * @param   array   $data  Order Information
+	 * @param   string  $type  Request Type
+	 *
+	 * @return  object         Simple XML object
+	 */
+	private function sendQuickpayRequest($data, $type)
 	{
-		if ($element != 'rs_payment_quickpay')
-		{
-			return;
-		}
-
-		require_once JPATH_SITE . '/administrator/components/com_redshop/helpers/order.php';
-
-		$objOrder = new order_functions;
-		$db       = JFactory::getDbo();
-
 		$protocol     = '3';
-		$msgtype      = 'capture';
+		$msgtype      = $type;
 		$finalize     = 1;
 		$merchant_id  = $this->_params->get("quickpay_customer_id");
 		$order_amount = ($data['order_amount'] * 100);
@@ -172,28 +170,41 @@ class plgRedshop_paymentrs_payment_quickpay extends JPlugin
 		$md5word      = $this->_params->get("quickpay_paymentkey");
 		$md5check     = md5($protocol . $msgtype . $merchant_id . $order_amount . $finalize . $transaction . $md5word);
 
-		$message = array('protocol' => $protocol, 'msgtype' => $msgtype, 'merchant' => $merchant_id, 'amount' => $order_amount, 'finalize' => $finalize, 'transaction' => $transaction, 'md5check' => $md5check);
+		$message = array(
+						'protocol'    => $protocol,
+						'msgtype'     => $msgtype,
+						'merchant'    => $merchant_id,
+						'amount'      => $order_amount,
+						'finalize'    => $finalize,
+						'transaction' => $transaction,
+						'md5check'    => $md5check
+					);
 
-		$context = stream_context_create(
-			array(
-				'http' => array(
-					'method'  => 'POST',
-					'content' => http_build_query($message, false, '&'),
-				),
-			)
-		);
+		$ch = curl_init('https://secure.quickpay.dk/api');
+		$encoded = http_build_query($message, false, '&');
 
-		if (!$fp = @fopen('https://secure.quickpay.dk/api', 'r', false, $context))
-		{
-			throw new Exception('Could not connect to gateway');
-		}
+		curl_setopt($ch, CURLOPT_POSTFIELDS,  $encoded);
+		curl_setopt($ch, CURLOPT_HEADER, 0);
+		curl_setopt($ch, CURLOPT_POST, 1);
 
-		if (($response = @stream_get_contents($fp)) === false)
-		{
-			throw new Exception('Could not read data from gateway');
-		}
+		// Return the transfer as a string
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		$response = curl_exec($ch);
+		curl_close($ch);
 
 		$response  = new SimpleXMLElement($response);
+
+		return $response;
+	}
+
+	function onCapture_Paymentrs_payment_quickpay($element, $data)
+	{
+		if ($element != 'rs_payment_quickpay')
+		{
+			return;
+		}
+
+		$response  = $this->sendQuickpayRequest($data, 'capture');
 		$qpstat    = $response->qpstat;
 		$qpstatmsg = addslashes($response->qpstatmsg);
 
@@ -220,41 +231,7 @@ class plgRedshop_paymentrs_payment_quickpay extends JPlugin
 			return;
 		}
 
-		require_once JPATH_SITE . '/administrator/components/com_redshop/helpers/order.php';
-
-		$objOrder = new order_functions;
-		$db       = JFactory::getDbo();
-
-		$protocol     = '3';
-		$msgtype      = 'refund';
-		$merchant_id  = $this->_params->get("quickpay_customer_id");
-		$order_amount = ($data['order_amount'] * 100);
-		$transaction  = $data['order_transactionid'];
-		$md5word      = $this->_params->get("quickpay_paymentkey");
-		$md5check     = md5($protocol . $msgtype . $merchant_id . $order_amount . $transaction . $md5word);
-
-		$message = array('protocol' => $protocol, 'msgtype' => $msgtype, 'merchant' => $merchant_id, 'amount' => $order_amount, 'transaction' => $transaction, 'md5check' => $md5check);
-
-		$context = stream_context_create(
-			array(
-				'http' => array(
-					'method'  => 'POST',
-					'content' => http_build_query($message, false, '&'),
-				),
-			)
-		);
-
-		if (!$fp = @fopen('https://secure.quickpay.dk/api', 'r', false, $context))
-		{
-			throw new Exception('Could not connect to gateway');
-		}
-
-		if (($response = @stream_get_contents($fp)) === false)
-		{
-			throw new Exception('Could not read data from gateway');
-		}
-
-		$response  = new SimpleXMLElement($response);
+		$response  = $this->sendQuickpayRequest($data, 'refund');
 		$qpstat    = $response->qpstat;
 		$qpstatmsg = addslashes($response->qpstatmsg);
 
@@ -281,41 +258,7 @@ class plgRedshop_paymentrs_payment_quickpay extends JPlugin
 			return;
 		}
 
-		require_once JPATH_SITE . '/administrator/components/com_redshop/helpers/order.php';
-
-		$objOrder = new order_functions;
-		$db       = JFactory::getDbo();
-
-		$protocol     = '3';
-		$msgtype      = 'status';
-		$merchant_id  = $this->_params->get("quickpay_customer_id");
-		$order_amount = ($data['order_amount'] * 100);
-		$transaction  = $data['order_transactionid'];
-		$md5word      = $this->_params->get("quickpay_paymentkey");
-		$md5check     = md5($protocol . $msgtype . $merchant_id . $order_amount . $transaction . $md5word);
-
-		$message = array('protocol' => $protocol, 'msgtype' => $msgtype, 'merchant' => $merchant_id, 'amount' => $order_amount, 'transaction' => $transaction, 'md5check' => $md5check);
-
-		$context = stream_context_create(
-			array(
-				'http' => array(
-					'method'  => 'POST',
-					'content' => http_build_query($message, false, '&'),
-				),
-			)
-		);
-
-		if (!$fp = @fopen('https://secure.quickpay.dk/api', 'r', false, $context))
-		{
-			throw new Exception('Could not connect to gateway');
-		}
-
-		if (($response = @stream_get_contents($fp)) === false)
-		{
-			throw new Exception('Could not read data from gateway');
-		}
-
-		$response        = new SimpleXMLElement($response);
+		$response        = $this->sendQuickpayRequest($data, 'status');
 		$status_count    = count($response->history) - 1;
 		$quickpay_status = $response->history[$status_count]->msgtype;
 
@@ -338,41 +281,7 @@ class plgRedshop_paymentrs_payment_quickpay extends JPlugin
 			return;
 		}
 
-		require_once JPATH_SITE . '/administrator/components/com_redshop/helpers/order.php';
-
-		$objOrder = new order_functions;
-		$db       = JFactory::getDbo();
-
-		$protocol     = '3';
-		$msgtype      = 'cancel';
-		$merchant_id  = $this->_params->get("quickpay_customer_id");
-		$order_amount = ($data['order_amount'] * 100);
-		$transaction  = $data['order_transactionid'];
-		$md5word      = $this->_params->get("quickpay_paymentkey");
-		$md5check     = md5($protocol . $msgtype . $merchant_id . $order_amount . $transaction . $md5word);
-
-		$message = array('protocol' => $protocol, 'msgtype' => $msgtype, 'merchant' => $merchant_id, 'amount' => $order_amount, 'transaction' => $transaction, 'md5check' => $md5check);
-
-		$context = stream_context_create(
-			array(
-				'http' => array(
-					'method'  => 'POST',
-					'content' => http_build_query($message, false, '&'),
-				),
-			)
-		);
-
-		if (!$fp = @fopen('https://secure.quickpay.dk/api', 'r', false, $context))
-		{
-			throw new Exception('Could not connect to gateway');
-		}
-
-		if (($response = @stream_get_contents($fp)) === false)
-		{
-			throw new Exception('Could not read data from gateway');
-		}
-
-		$response  = new SimpleXMLElement($response);
+		$response  = $this->sendQuickpayRequest($data, 'cancel');
 		$qpstat    = $response->qpstat;
 		$qpstatmsg = addslashes($response->qpstatmsg);
 

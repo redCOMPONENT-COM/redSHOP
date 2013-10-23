@@ -556,7 +556,7 @@ class plgredshop_shippingusps extends JPlugin
 	{
 		if ($d['element'] == $this->classname)
 		{
-			$maincfgfile = JPATH_ROOT . '/plugins/' . $d['plugin'] . DS . $this->classname . DS . $this->classname . '.cfg.php';
+			$maincfgfile = JPATH_ROOT . '/plugins/' . $d['plugin'] . '/' . $this->classname . '/' . $this->classname . '.cfg.php';
 			$my_config_array = array(
 				"USPS_USERNAME"                  => $d['USPS_USERNAME'],
 				"USPS_PASSWORD"                  => $d['USPS_PASSWORD'],
@@ -625,7 +625,7 @@ class plgredshop_shippingusps extends JPlugin
 		$producthelper = new producthelper;
 
 		$shipping = $shippinghelper->getShippingMethodByClass($this->classname);
-		$shippingcfg = JPATH_ROOT . '/plugins/' . $shipping->folder . DS . $shipping->element . DS . $shipping->element . '.cfg.php';
+		$shippingcfg = JPATH_ROOT . '/plugins/' . $shipping->folder . '/' . $shipping->element . '/' . $shipping->element . '.cfg.php';
 		include_once ($shippingcfg);
 		$shippingrate = array();
 		$rate = 0;

@@ -92,18 +92,11 @@ class plgRedshop_paymentrs_payment_epayv2 extends JPlugin
 		$json_pass_string = json_encode($formdata);
 
 		$html = '';
-		$html .= '
-		<style>
-		#epay_frame{
-			margin-left: -200px;
-			padding-left: 25px;
-			position: absolute;
-			top: 400px;
-		}
-		</style>';
 		$html .= '<script charset="UTF-8" src="https://ssl.ditonlinebetalingssystem.dk/integration/ewindow/paymentwindow.js" type="text/javascript"></script>';
+		$html .= '<div id="payment-div"></div>';
 		$html .= '<script type="text/javascript">';
 			$html .= 'paymentwindow = new PaymentWindow(' . $json_pass_string . ');';
+			$html .= 'paymentwindow.append(\'payment-div\');';
 			$html .= 'paymentwindow.open();';
 		$html .= '</script>';
 		$html .= '<input onclick="javascript: paymentwindow.open()" type="button" value="Go to payment">';
@@ -357,7 +350,7 @@ class plgRedshop_paymentrs_payment_epayv2 extends JPlugin
 		$paymentparams = new JRegistry($paymentinfo->params);
 
 		// Get the class
-		$paymentpath = JPATH_SITE . '/plugins/redshop_payment/' . $element . DS . $element . '/epaysoap.php';
+		$paymentpath = JPATH_SITE . '/plugins/redshop_payment/' . $element . '/' . $element . '/epaysoap.php';
 		include $paymentpath;
 
 		// Access the webservice
@@ -394,7 +387,7 @@ class plgRedshop_paymentrs_payment_epayv2 extends JPlugin
 		$paymentparams = new JRegistry($paymentinfo->params);
 
 		// Get the class
-		$paymentpath = JPATH_SITE . '/plugins/redshop_payment/' . $element . DS . $element . '/epaysoap.php';
+		$paymentpath = JPATH_SITE . '/plugins/redshop_payment/' . $element . '/' . $element . '/epaysoap.php';
 		include $paymentpath;
 
 		// Access the webservice

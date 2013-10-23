@@ -13,12 +13,12 @@
 		<td>{user_question}</td>
 	</tr>
 	<tr>
-		<td></td>
-		<td>{send_button}</td>
-	</tr>
-	<tr>
 		<td>{captcha_lbl}</td>
 		<td>{captcha}</td>
+	</tr>
+	<tr>
+		<td></td>
+		<td>{send_button}</td>
 	</tr>
 	</tbody>
 </table>

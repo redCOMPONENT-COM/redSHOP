@@ -31,7 +31,7 @@ $dosef = shInitializePlugin( $lang='', $shLangName, $shLangIso, $option);
 
 if(!defined('TABLE_PREFIX'))
 {
-	require_once JPATH_ADMINISTRATOR.DS.'components'.DS.$option.DS.'helpers'.DS.'configuration.php';
+	require_once JPATH_ADMINISTRATOR. '/components/com_redshop/helpers/configuration.php';
 	$config = new Redconfiguration();
 	$config->config();
 }

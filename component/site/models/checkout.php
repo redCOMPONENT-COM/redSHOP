@@ -431,6 +431,8 @@ class CheckoutModelCheckout extends JModel
 
 		$dispatcher = JDispatcher::getInstance();
 
+		$order_status_log = '';
+
 		// For credit card payment gateway page will redirect to order detail page from plugin
 		if ($is_creditcard == 1 && $is_redirected == 1)
 		{
@@ -455,7 +457,6 @@ class CheckoutModelCheckout extends JModel
 			$paymentResponses         = $dispatcher->trigger('onPrePayment_' . $values['payment_plugin'], array($values['payment_plugin'], $values));
 			$paymentResponse          = $paymentResponses[0];
 
-
 			if ($paymentResponse->responsestatus == "Success")
 			{
 				$d ["order_payment_trans_id"] = $paymentResponse->transaction_id;
@@ -467,7 +468,7 @@ class CheckoutModelCheckout extends JModel
 			{
 				if ($values['payment_plugin'] != 'rs_payment_localcreditcard')
 				{
-					$order_status_log = $errorMsg = $paymentResponse->message;
+					$errorMsg = $paymentResponse->message;
 					$this->setError($errorMsg);
 
 					return false;
@@ -743,14 +744,14 @@ class CheckoutModelCheckout extends JModel
 
 			$vals = explode('product_attributes/', $cart[$i]['hidden_attribute_cartimage']);
 
-			if ($cart[$i]['attributeImage'] && file_exists(JPATH_ROOT . '/components/com_redshop/assets/images/mergeImages/' . $cart[$i]['attributeImage']))
+			if (!empty($cart[$i]['attributeImage']) && file_exists(JPATH_ROOT . '/components/com_redshop/assets/images/mergeImages/' . $cart[$i]['attributeImage']))
 			{
 				$rowitem->attribute_image = $order_id . $cart[$i]['attributeImage'];
 				$old_media                = JPATH_ROOT . '/components/com_redshop/assets/images/mergeImages/' . $cart[$i]['attributeImage'];
 				$new_media                = JPATH_ROOT . '/components/com_redshop/assets/images/orderMergeImages' . $rowitem->attribute_image;
 				copy($old_media, $new_media);
 			}
-			else
+			elseif (!empty($vals[1]))
 			{
 				$rowitem->attribute_image = $vals[1];
 			}
@@ -796,7 +797,7 @@ class CheckoutModelCheckout extends JModel
 			}
 
 			// End
-			$retAccArr                    = $this->_producthelper->makeAccessoryCart($cart [$i] ['cart_accessory'], $product_id);
+			$retAccArr                    = $this->_producthelper->makeAccessoryCart($cart[$i]['cart_accessory'], $product_id);
 			$cart_accessory               = $retAccArr[0];
 			$rowitem->order_id            = $order_id;
 			$rowitem->user_info_id        = $users_info_id;
@@ -807,11 +808,23 @@ class CheckoutModelCheckout extends JModel
 			$rowitem->product_attribute   = $cart_attribute;
 			$rowitem->discount_calc_data  = $cart_calc_data;
 			$rowitem->product_accessory   = $cart_accessory;
-			$rowitem->container_id        = $objshipping->getProductContainerId($cart [$i] ['product_id']);
-			$rowitem->wrapper_id          = @$cart [$i] ['wrapper_id'];
+			$rowitem->container_id        = $objshipping->getProductContainerId($cart[$i]['product_id']);
 			$rowitem->wrapper_price       = $wrapper_price;
-			$rowitem->giftcard_user_email = $cart [$i] ['reciver_email'];
-			$rowitem->giftcard_user_name  = $cart [$i] ['reciver_name'];
+
+			if (!empty($cart[$i]['wrapper_id']))
+			{
+				$rowitem->wrapper_id = $cart[$i]['wrapper_id'];
+			}
+
+			if (!empty($cart[$i]['reciver_email']))
+			{
+				$rowitem->giftcard_user_email = $cart[$i]['reciver_email'];
+			}
+
+			if (!empty($cart[$i]['reciver_name']))
+			{
+				$rowitem->giftcard_user_name  = $cart[$i]['reciver_name'];
+			}
 
 			if ($this->_producthelper->checkProductDownload($rowitem->product_id))
 			{
@@ -835,7 +848,7 @@ class CheckoutModelCheckout extends JModel
 			}
 
 			// Add plugin support
-			$results = $dispatcher->trigger('afterOrderItemSave', array($cart, $rowitem, $i));
+			$dispatcher->trigger('afterOrderItemSave', array($cart, $rowitem, $i));
 
 			// End
 
@@ -1357,7 +1370,7 @@ class CheckoutModelCheckout extends JModel
 		else
 		{
 			// If Order mail set to send after payment then send mail to administrator only.
-			$this->_redshopMail->sendOrderMail($row->order_id, $sendreddesignmail, true);
+			$this->_redshopMail->sendOrderMail($row->order_id, true);
 		}
 
 		if ($row->order_status == "C")

@@ -14,6 +14,8 @@ require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/configuratio
 require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
 require_once JPATH_SITE . '/components/com_redshop/helpers/product.php';
 require_once JPATH_SITE . '/components/com_redshop/helpers/helper.php';
+JLoader::import('images', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
+
 $uri = JURI::getInstance();
 $url = $uri->root();
 
@@ -27,16 +29,17 @@ $document->addStyleSheet(JURI::base() . 'modules/mod_redshop_products/css/produc
 // 	include redshop js file.
 require_once JPATH_SITE . '/components/com_redshop/helpers/redshop.js.php';
 
-// lightbox Javascript
+// Light-box Java-script
 JHTML::Script('redBOX.js', 'components/com_redshop/assets/js/', false);
 JHTML::Script('attribute.js', 'components/com_redshop/assets/js/', false);
 JHTML::Script('common.js', 'components/com_redshop/assets/js/', false);
 JHTML::Stylesheet('fetchscript.css', 'components/com_redshop/assets/css/');
-$config = new Redconfiguration();
+
+$config = new Redconfiguration;
 $config->defineDynamicVars();
 
-$producthelper = new producthelper();
-$redhelper     = new redhelper();
+$producthelper = new producthelper;
+$redhelper     = new redhelper;
 
 $view      = JRequest::getCmd('view', 'category');
 $module_id = "mod_" . $module->id;
@@ -57,6 +60,7 @@ else
 {
 	JHTML::Script('jquery.tools.min.js', 'components/com_redshop/assets/js/', false);
 }
+
 JHTML::Script('jquery.js', 'modules/mod_redshop_category_scroller/js/', false);
 JHTML::Script('rscategoryscroller.js', 'modules/mod_redshop_category_scroller/js/', false);
 
@@ -75,6 +79,7 @@ for ($i = 0; $i < count($rows); $i++)
 	$row = $rows[$i];
 
 	$ItemData = $producthelper->getMenuInformation(0, 0, '', 'product&pid=' . $row->product_id);
+
 	if (count($ItemData) > 0)
 	{
 		$Itemid = $ItemData->id;
@@ -83,7 +88,9 @@ for ($i = 0; $i < count($rows); $i++)
 	{
 		$Itemid = $redhelper->getItemid($row->product_id);
 	}
+
 	$catattach = '';
+
 	if ($row->category_id)
 	{
 		$catattach = '&cid=' . $row->category_id;
@@ -92,17 +99,20 @@ for ($i = 0; $i < count($rows); $i++)
 	$link = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $row->product_id . $catattach . '&Itemid=' . $Itemid);
 	$url  = JURI::base();
 	echo "<li red_productindex='" . $i . "' class='red_product-item red_product-item-horizontal'><div class='listing-item'><div class='product-shop'>";
+
 	if ($show_product_name)
 	{
 		$pname = $config->maxchar($row->product_name, $product_title_max_chars, $product_title_end_suffix);
 		echo "<a href='" . $link . "' title='" . $row->product_name . "'>" . $pname . "</a>";
 	}
+
 	if (SHOW_PRICE && !USE_AS_CATALOG && !DEFAULT_QUOTATION_MODE && $show_price && !$row->not_for_sale)
 	{
 		$productArr           = $producthelper->getProductNetPrice($row->product_id);
 		$product_price        = $producthelper->getPriceReplacement($productArr['product_price']);
 		$product_price_saving = $producthelper->getPriceReplacement($productArr['product_price_saving']);
 		$product_old_price    = $producthelper->getPriceReplacement($productArr['product_old_price']);
+
 		if ($show_discountpricelayout)
 		{
 			echo "<div id='mod_redoldprice' class='mod_redoldprice'><span style='text-decoration:line-through;'>" . $product_old_price . "</span></div>";
@@ -114,46 +124,74 @@ for ($i = 0; $i < count($rows); $i++)
 			echo "<div class='mod_redproducts_price'>" . $product_price . "</div>";
 		}
 	}
+
 	if ($show_readmore)
 	{
 		echo "<div class='mod_redshop_category_scroller_readmore'><a href='" . $link . "'>" . JText::_('COM_REDSHOP_TXT_READ_MORE') . "</a></div>";
 	}
+
 	echo "</div>";
+
 	if ($show_image)
 	{
 		$prod_img = "";
 
 		if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "/product/" . $row->product_full_image))
-			$prod_img = $url . "components/com_redshop/helpers/thumb.php?filename=product/" . $row->product_full_image . "&newxsize=" . $thumbwidth . "&newysize=" . $thumbheight;
-		else if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "/product/" . $row->product_thumb_image))
-			$prod_img = $url . "components/com_redshop/helpers/thumb.php?filename=product/" . $row->product_thumb_image . "&newxsize=" . $thumbwidth . "&newysize=" . $thumbheight;
+		{
+			$prod_img = RedShopHelperImages::getImagePath(
+							$row->product_full_image,
+							'',
+							'thumb',
+							'product',
+							$thumbwidth,
+							$thumbheight,
+							USE_IMAGE_SIZE_SWAPPING
+						);
+		}
+		elseif (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "/product/" . $row->product_thumb_image))
+		{
+			$prod_img = RedShopHelperImages::getImagePath(
+							$row->product_thumb_image,
+							'',
+							'thumb',
+							'product',
+							$thumbwidth,
+							$thumbheight,
+							USE_IMAGE_SIZE_SWAPPING
+						);
+		}
 		else
+		{
 			$prod_img = REDSHOP_FRONT_IMAGES_ABSPATH . "noimage.jpg";
+		}
+
 		$thum_image = "<a href='" . $link . "'><img style='width:" . $thumbwidth . "px;height:" . $thumbheight . "px;' src='" . $prod_img . "'></a>";
 		echo "<div class='product-image' style='width:" . $thumbwidth . "px;height:" . $thumbheight . "px;'>" . $thum_image . "</div>";
-
 	}
+
 	if ($show_addtocart)
 	{
-		/////////////////////////////////// Product attribute  Start /////////////////////////////////
+		// Product attribute  Start
 		$attributes_set = array();
+
 		if ($row->attribute_set_id > 0)
 		{
 			$attributes_set = $producthelper->getProductAttribute(0, $row->attribute_set_id, 0, 1);
 		}
+
 		$attributes = $producthelper->getProductAttribute($row->product_id);
 		$attributes = array_merge($attributes, $attributes_set);
 		$totalatt   = count($attributes);
-		/////////////////////////////////// Product attribute  End /////////////////////////////////
 
-
-		/////////////////////////////////// Product accessory Start /////////////////////////////////
+		// Product accessory Start
 		$accessory      = $producthelper->getProductAccessory(0, $row->product_id);
 		$totalAccessory = count($accessory);
 
 		$addtocart_data = $producthelper->replaceCartTemplate($row->product_id, 0, 0, 0, "", false, array(), $totalatt, $totalAccessory, 0, $module_id);
 		echo "<div class='form-button'>" . $addtocart_data . "<div>";
 	}
+
 	echo "</div></li>";
 }
+
 echo "</ul></div></div></div></div></div>";

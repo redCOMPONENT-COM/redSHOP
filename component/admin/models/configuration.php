@@ -14,6 +14,7 @@ jimport('joomla.filesystem.file');
 
 require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
 require_once JPATH_COMPONENT . '/helpers/text_library.php';
+require_once JPATH_ROOT . '/administrator/components/com_redshop/helpers/images.php';
 
 class configurationModelconfiguration extends JModel
 {
@@ -205,12 +206,12 @@ class configurationModelconfiguration extends JModel
 
 				$src = $cartimg['tmp_name'];
 
-				$dest = REDSHOP_FRONT_IMAGES_RELPATH . DS . $cartimg['name'];
+				$dest = REDSHOP_FRONT_IMAGES_RELPATH . '/' . $cartimg['name'];
 
 				if ($data['addtocart_image'] != ""
-					&& is_file(REDSHOP_FRONT_IMAGES_RELPATH . DS . $data['addtocart_image']))
+					&& is_file(REDSHOP_FRONT_IMAGES_RELPATH . '/' . $data['addtocart_image']))
 				{
-					unlink(REDSHOP_FRONT_IMAGES_RELPATH . DS . $data['addtocart_image']);
+					unlink(REDSHOP_FRONT_IMAGES_RELPATH . '/' . $data['addtocart_image']);
 				}
 
 				JFile::upload($src, $dest);
@@ -229,12 +230,12 @@ class configurationModelconfiguration extends JModel
 
 				$src = $quoteimg['tmp_name'];
 
-				$dest = REDSHOP_FRONT_IMAGES_RELPATH . DS . $quoteimg['name'];
+				$dest = REDSHOP_FRONT_IMAGES_RELPATH . '/' . $quoteimg['name'];
 
 				if ($data['requestquote_image'] != ""
-					&& is_file(REDSHOP_FRONT_IMAGES_RELPATH . DS . $data['requestquote_image']))
+					&& is_file(REDSHOP_FRONT_IMAGES_RELPATH . '/' . $data['requestquote_image']))
 				{
-					unlink(REDSHOP_FRONT_IMAGES_RELPATH . DS . $data['requestquote_image']);
+					unlink(REDSHOP_FRONT_IMAGES_RELPATH . '/' . $data['requestquote_image']);
 				}
 
 				JFile::upload($src, $dest);
@@ -254,12 +255,12 @@ class configurationModelconfiguration extends JModel
 
 				$src = $cartdelete['tmp_name'];
 
-				$dest = REDSHOP_FRONT_IMAGES_RELPATH . DS . $cartdelete['name'];
+				$dest = REDSHOP_FRONT_IMAGES_RELPATH . '/' . $cartdelete['name'];
 
 				if ($data['addtocart_delete'] != ""
-					&& is_file(REDSHOP_FRONT_IMAGES_RELPATH . DS . $data['addtocart_delete']))
+					&& is_file(REDSHOP_FRONT_IMAGES_RELPATH . '/' . $data['addtocart_delete']))
 				{
-					unlink(REDSHOP_FRONT_IMAGES_RELPATH . DS . $data['addtocart_delete']);
+					unlink(REDSHOP_FRONT_IMAGES_RELPATH . '/' . $data['addtocart_delete']);
 				}
 
 				JFile::upload($src, $dest);
@@ -279,12 +280,12 @@ class configurationModelconfiguration extends JModel
 
 				$src = $cartupdate['tmp_name'];
 
-				$dest = REDSHOP_FRONT_IMAGES_RELPATH . DS . $cartupdate['name'];
+				$dest = REDSHOP_FRONT_IMAGES_RELPATH . '/' . $cartupdate['name'];
 
 				if ($data['addtocart_update'] != ""
-					&& is_file(REDSHOP_FRONT_IMAGES_RELPATH . DS . $data['addtocart_update']))
+					&& is_file(REDSHOP_FRONT_IMAGES_RELPATH . '/' . $data['addtocart_update']))
 				{
-					unlink(REDSHOP_FRONT_IMAGES_RELPATH . DS . $data['addtocart_update']);
+					unlink(REDSHOP_FRONT_IMAGES_RELPATH . '/' . $data['addtocart_update']);
 				}
 
 				JFile::upload($src, $dest);
@@ -304,12 +305,12 @@ class configurationModelconfiguration extends JModel
 
 				$src = $preorderimg['tmp_name'];
 
-				$dest = REDSHOP_FRONT_IMAGES_RELPATH . DS . $preorderimg['name'];
+				$dest = REDSHOP_FRONT_IMAGES_RELPATH . '/' . $preorderimg['name'];
 
 				if ($data['pre_order_image'] != ""
-					&& is_file(REDSHOP_FRONT_IMAGES_RELPATH . DS . $data['pre_order_image']))
+					&& is_file(REDSHOP_FRONT_IMAGES_RELPATH . '/' . $data['pre_order_image']))
 				{
-					unlink(REDSHOP_FRONT_IMAGES_RELPATH . DS . $data['pre_order_image']);
+					unlink(REDSHOP_FRONT_IMAGES_RELPATH . '/' . $data['pre_order_image']);
 				}
 
 				JFile::upload($src, $dest);
@@ -329,12 +330,12 @@ class configurationModelconfiguration extends JModel
 
 				$src = $cartback['tmp_name'];
 
-				$dest = REDSHOP_FRONT_IMAGES_RELPATH . DS . $cartback['name'];
+				$dest = REDSHOP_FRONT_IMAGES_RELPATH . '/' . $cartback['name'];
 
 				if ($data['addtocart_background'] != ""
-					&& is_file(REDSHOP_FRONT_IMAGES_RELPATH . DS . $data['addtocart_background']))
+					&& is_file(REDSHOP_FRONT_IMAGES_RELPATH . '/' . $data['addtocart_background']))
 				{
-					unlink(REDSHOP_FRONT_IMAGES_RELPATH . DS . $data['addtocart_background']);
+					unlink(REDSHOP_FRONT_IMAGES_RELPATH . '/' . $data['addtocart_background']);
 				}
 
 				JFile::upload($src, $dest);
@@ -353,12 +354,12 @@ class configurationModelconfiguration extends JModel
 
 				$src = $quoteback['tmp_name'];
 
-				$dest = REDSHOP_FRONT_IMAGES_RELPATH . DS . $quoteback['name'];
+				$dest = REDSHOP_FRONT_IMAGES_RELPATH . '/' . $quoteback['name'];
 
 				if ($data['requestquote_background'] != ""
-					&& is_file(REDSHOP_FRONT_IMAGES_RELPATH . DS . $data['requestquote_background']))
+					&& is_file(REDSHOP_FRONT_IMAGES_RELPATH . '/' . $data['requestquote_background']))
 				{
-					unlink(REDSHOP_FRONT_IMAGES_RELPATH . DS . $data['requestquote_background']);
+					unlink(REDSHOP_FRONT_IMAGES_RELPATH . '/' . $data['requestquote_background']);
 				}
 
 				JFile::upload($src, $dest);
@@ -378,12 +379,12 @@ class configurationModelconfiguration extends JModel
 
 				$src = $imgnext['tmp_name'];
 
-				$dest = REDSHOP_FRONT_IMAGES_RELPATH . DS . $imgnext['name'];
+				$dest = REDSHOP_FRONT_IMAGES_RELPATH . '/' . $imgnext['name'];
 
 				if ($data['image_next_link'] != ""
-					&& is_file(REDSHOP_FRONT_IMAGES_RELPATH . DS . $data['image_next_link']))
+					&& is_file(REDSHOP_FRONT_IMAGES_RELPATH . '/' . $data['image_next_link']))
 				{
-					unlink(REDSHOP_FRONT_IMAGES_RELPATH . DS . $data['image_next_link']);
+					unlink(REDSHOP_FRONT_IMAGES_RELPATH . '/' . $data['image_next_link']);
 				}
 
 				JFile::upload($src, $dest);
@@ -403,12 +404,12 @@ class configurationModelconfiguration extends JModel
 
 				$src = $imgpre['tmp_name'];
 
-				$dest = REDSHOP_FRONT_IMAGES_RELPATH . DS . $imgpre['name'];
+				$dest = REDSHOP_FRONT_IMAGES_RELPATH . '/' . $imgpre['name'];
 
 				if ($data['image_previous_link'] != ""
-					&& is_file(REDSHOP_FRONT_IMAGES_RELPATH . DS . $data['image_previous_link']))
+					&& is_file(REDSHOP_FRONT_IMAGES_RELPATH . '/' . $data['image_previous_link']))
 				{
-					unlink(REDSHOP_FRONT_IMAGES_RELPATH . DS . $data['image_previous_link']);
+					unlink(REDSHOP_FRONT_IMAGES_RELPATH . '/' . $data['image_previous_link']);
 				}
 
 				JFile::upload($src, $dest);
@@ -725,10 +726,18 @@ class configurationModelconfiguration extends JModel
 
 				if ($product_id_list[$i]->product_full_image)
 				{
+					$thumbUrl = RedShopHelperImages::getImagePath(
+									$product_id_list[$i]->product_full_image,
+									'',
+									'thumb',
+									'product',
+									PRODUCT_MAIN_IMAGE,
+									PRODUCT_MAIN_IMAGE,
+									USE_IMAGE_SIZE_SWAPPING
+								);
 					$thum_image = "<a id='a_main_image' href='" . REDSHOP_FRONT_IMAGES_ABSPATH . "product/"
 						. $product_id_list[$i]->product_full_image . "' title='' rel=\"lightbox[product7]\">";
-					$thum_image .= "<img id='main_image' src='" . $url . "/components/com_redshop/helpers/thumb.php?filename=product/"
-						. $product_id_list[$i]->product_full_image . "&newxsize=" . PRODUCT_MAIN_IMAGE . "&newysize=" . PRODUCT_MAIN_IMAGE . "'>";
+					$thum_image .= "<img id='main_image' src='" . $thumbUrl . "'>";
 					$thum_image .= "</a>";
 				}
 

@@ -23,6 +23,7 @@ $document->addStyleSheet('modules/mod_redshop_products/css/products.css');
 
 // Include redshop js file.
 require_once JPATH_SITE . '/components/com_redshop/helpers/redshop.js.php';
+JLoader::import('images', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
 
 // Lightbox Javascript
 JHTML::Script('attribute.js', 'components/com_redshop/assets/js/', false);
@@ -114,7 +115,15 @@ for ($i = 0; $i < count($rows); $i++)
 		}
 		else
 		{
-			$thum_image = $url . "components/" . $option . "/helpers/thumb.php?filename=product/" . $thumb . "&newxsize=" . $thumbwidth . "&newysize=" . $thumbheight . "&swap=" . USE_IMAGE_SIZE_SWAPPING;
+			$thum_image = RedShopHelperImages::getImagePath(
+							$thumb,
+							'',
+							'thumb',
+							'product',
+							$thumbwidth,
+							$thumbheight,
+							USE_IMAGE_SIZE_SWAPPING
+						);
 			echo "<div class='mod_redshop_products_image'><a href='" . $link . "' title='$row->product_name'><img src=" . $thum_image . "></a></div>";
 		}
 	}

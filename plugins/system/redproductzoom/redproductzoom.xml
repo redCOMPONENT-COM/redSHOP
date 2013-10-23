@@ -2,21 +2,20 @@
 <extension version="2.5" type="plugin" group="system">
     <name>plg_system_redproductzoom</name>
     <author>redCOMPONENT.com</author>
-    <version>1.3.2</version>
-    <creationDate>April 2013</creationDate>
+    <version>1.3.3</version>
+    <creationDate>October 2013</creationDate>
     <copyright>redCOMPONENT.com</copyright>
     <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
     <authorEmail>email@redcomponent.com</authorEmail>
     <authorUrl>redCOMPONENT.com</authorUrl>
-    <description>RedProductZoom</description>
+    <description>PLG_SYSTEM_REDPRODUCTZOOM_DESC</description>
+    <languages>
+        <language tag="en-GB">language/en-GB/en-GB.plg_system_redproductzoom.ini</language>
+        <language tag="en-GB">language/en-GB/en-GB.plg_system_redproductzoom.sys.ini</language>
+    </languages>
     <files>
         <filename plugin="redproductzoom">redproductzoom.php</filename>
-        <folder plugin="redproductzoom">css</folder>
         <folder plugin="redproductzoom">js</folder>
-        <folder plugin="redproductzoom">ajax</folder>
         <filename>index.html</filename>
     </files>
-    <languages folder="language">
-        <language tag="en-GB">en-GB.plg_system_redproductzoom.ini</language>
-    </languages>
 </extension>

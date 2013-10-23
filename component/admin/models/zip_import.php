@@ -159,7 +159,7 @@ class zip_importModelzip_import extends JModel
 		if (!is_file($package['packagefile']))
 		{
 			$config = JFactory::getConfig();
-			$package['packagefile'] = $config->getValue('config.tmp_path') . DS . $package['packagefile'];
+			$package['packagefile'] = $config->getValue('config.tmp_path') . '/' . $package['packagefile'];
 		}
 
 		JInstallerHelper::cleanupInstall($package['packagefile'], $package['extractdir']);
@@ -221,7 +221,7 @@ class zip_importModelzip_import extends JModel
 		$tmp_dest = $config->getValue('config.tmp_path');
 
 		// Unpack the downloaded package file
-		$package = JInstallerHelper::unpack($tmp_dest . DS . $p_file);
+		$package = JInstallerHelper::unpack($tmp_dest . '/' . $p_file);
 
 		?>
 		<script type='text/javascript' language='javascript'>

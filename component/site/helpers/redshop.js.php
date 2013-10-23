@@ -34,7 +34,7 @@ $post   = JRequest::get('POST');
 $Itemid = JRequest::getVar('Itemid');
 require_once JPATH_SITE . '/components/com_redshop/helpers/helper.php';
 $redhelper   = new redhelper ();
-$cart_Itemid = $redhelper->getCartItemid($Itemid);
+$cart_Itemid = $redhelper->getCartItemid();
 
 if ($cart_Itemid == "" || $cart_Itemid == 0)
 {
@@ -137,6 +137,7 @@ $script = "
 		window.AJAX_DETAIL_BOX_HEIGHT = '" . AJAX_DETAIL_BOX_HEIGHT . "';
 		window.AJAX_BOX_WIDTH = '" . AJAX_BOX_WIDTH . "';
 		window.AJAX_BOX_HEIGHT = '" . AJAX_BOX_HEIGHT . "';
+		window.COM_REDSHOP_EAN_MIN_CHARACTER_LIMIT = '" . JText::_('COM_REDSHOP_EAN_MIN_CHARACTER_LIMIT', true) . "';
 	";
 $doc->addScriptDeclaration($script);
 

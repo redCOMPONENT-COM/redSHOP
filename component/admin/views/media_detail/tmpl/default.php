@@ -136,13 +136,22 @@ if ($showbuttons)
 
 								if ($filetype == 'png' || $filetype == 'jpg' || $filetype == 'jpeg' || $filetype == 'gif')
 								{
+									$thumbUrl = RedShopHelperImages::getImagePath(
+													$this->detail->media_name,
+													'',
+													'thumb',
+													$this->detail->media_section,
+													THUMB_WIDTH,
+													THUMB_HEIGHT,
+													USE_IMAGE_SIZE_SWAPPING
+												);
 									?>
 									<a class="modal"
 									   href="<?php echo $url . 'components/' . $option . '/assets/' . $this->detail->media_type . '/' . $this->detail->media_section . '/' . $this->detail->media_name; ?>"
 									   title="<?php echo JText::_('COM_REDSHOP_VIEW_IMAGE'); ?>"
 									   rel="{handler: 'image', size: {}}">
 										<img
-											src="<?php echo $url; ?>/components/com_redshop/helpers/thumb.php?filename=<?php echo $this->detail->media_section; ?>/<?php echo $this->detail->media_name; ?>&newxsize=<?php echo THUMB_WIDTH; ?>&newysize=<?php echo THUMB_HEIGHT; ?>"
+											src="<?php echo $thumbUrl; ?>"
 											alt="image"/></a>
 								<?php
 								}
