@@ -3298,7 +3298,6 @@ class rsCarthelper
 		$shippingmethod       = $this->_order_functions->getShippingMethodInfo();
 		$adminpath            = JPATH_ADMINISTRATOR . '/components/com_redshop';
 		$rateExist            = 0;
-		$extrafield_total     = "";
 		$d['user_id']         = $user_id;
 		$d['users_info_id']   = $users_info_id;
 		$d['shipping_box_id'] = $shipping_box_post_id;
@@ -3436,6 +3435,31 @@ class rsCarthelper
 							$rate_data = str_replace($template_rate_middle, $data, $rate_data);
 						}
 					}
+
+					if (strstr($rate_data, "{shipping_extrafields}"))
+					{
+						$extraField         = new extraField;
+						$paymentparams_new  = new JRegistry($shippingmethod[$s]->params);
+						$extrafield_payment = $paymentparams_new->get('extrafield_shipping');
+						$extrafield_total   = "";
+						$extrafield_hidden  = "";
+
+						if (count($extrafield_payment) > 0)
+						{
+							for ($ui = 0; $ui < count($extrafield_payment); $ui++)
+							{
+								$product_userfileds = $extraField->list_all_user_fields($extrafield_payment[$ui], 19, '', 0, 0, 0);
+								$extrafield_total .= $product_userfileds[0] . " " . $product_userfileds[1] . "<br>";
+								$extrafield_hidden .= "<input type='hidden' name='extrafields[]' value='" . $extrafield_payment[$ui] . "'>";
+							}
+
+							$rate_data = str_replace("{shipping_extrafields}", "<div id='extrafield_shipping'></div>", $rate_data);
+						}
+						else
+						{
+							$rate_data = str_replace("{shipping_extrafields}", "", $rate_data);
+						}
+					}
 				}
 			}
 
@@ -3444,31 +3468,7 @@ class rsCarthelper
 			$template_desc = str_replace($template_middle, $rate_data, $template_desc);
 		}
 
-		$extrafield_total = '';
 
-		if (strstr($template_desc, "{shipping_extrafields}"))
-		{
-			$extraField         = new extraField;
-			$paymentparams_new  = new JRegistry($shippingmethod[0]->params);
-			$extrafield_payment = $paymentparams_new->get('extrafield_shipping');
-			$extrafield_hidden  = "";
-
-			if (count($extrafield_payment) > 0)
-			{
-				for ($ui = 0; $ui < count($extrafield_payment); $ui++)
-				{
-					$product_userfileds = $extraField->list_all_user_fields($extrafield_payment[$ui], 19, '', 0, 0, 0);
-					$extrafield_total .= $product_userfileds[0] . " " . $product_userfileds[1] . "<br>";
-					$extrafield_hidden .= "<input type='hidden' name='extrafields[]' value='" . $extrafield_payment[$ui] . "'>";
-				}
-
-				$template_desc = str_replace("{shipping_extrafields}", "<div id='extrafield_shipping'>" . $extrafield_total . $extrafield_hidden . "</div>", $template_desc);
-			}
-			else
-			{
-				$template_desc = str_replace("{shipping_extrafields}", "<div id='extrafield_shipping'></div>", $template_desc);
-			}
-		}
 
 		if ($rateExist == 0)
 		{
