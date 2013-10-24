@@ -112,10 +112,12 @@ class Redtemplate
 	 */
 	public function getTemplatefilepath($section, $filename, $is_admin = false)
 	{
-		$app = JFactory::getApplication();
-		$tempate_file = "";
+		$app           = JFactory::getApplication();
+		$filename      = str_replace(array('/', '\\'), '', $filename);
+		$section       = str_replace(array('/', '\\'), '', $section);
+		$tempate_file  = "";
 		$template_view = $this->getTemplateView($section);
-		$layout = JRequest::getVar('layout');
+		$layout        = JRequest::getVar('layout');
 
 		if (!$is_admin && $section != 'categoryproduct')
 		{

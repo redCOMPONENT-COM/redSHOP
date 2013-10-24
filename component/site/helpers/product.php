@@ -1840,7 +1840,7 @@ class producthelper
 		$discount = $this->getDiscountId($cart['product_subtotal'], $user_id);
 
 		$discount_amount = 0;
-		$discount_vat    = 0;
+		$discountVAT     = 0;
 
 		if (count($discount) > 0)
 		{
@@ -1856,63 +1856,19 @@ class producthelper
 				{
 					$discount_amount = $discount->discount_amount;
 				}
+
+				if (VAT_RATE_AFTER_DISCOUNT && !APPLY_VAT_ON_DISCOUNT)
+				{
+					$discountVAT = $discount_amount * VAT_RATE_AFTER_DISCOUNT;
+				}
+
+				$cart['discount_tax'] = $discountVAT;
+				$this->_session->set('cart', $cart);
 			}
 			else
 			{
 				$discount_amount = $product_subtotal * $discount->discount_amount / 100;
 			}
-
-			// Added specific vat amount for useage for e-conomic
-			$cart['discount_vat_amount'] = $discount_vat;
-			// take vatrates when there is discount on ex price of products
-			// formula is used discount amount / 1 + (vat rate).
-
-// 			$vatData = $this->getVatRates(0,$user_id);
-			$vatrate = 0;
-
-			/*if(isset($vatData->tax_rate)){
-				$vatrate = $vatData->tax_rate;
-			}*/
-
-			$discount_amount = round($discount_amount, 2);
-			$discount_amt    = $discount_amount;
-			//$discount_amt = $discount_amount / ( 1 + ($vatrate)); // exluding vat on discount
-
-			if (APPLY_VAT_ON_DISCOUNT)
-			{
-				$discount_vat = $this->getProductTax(1, $discount_amount, $user_id);
-
-				// Temp fix to solve issues with difference in amount of digits between e-conomic and redSHOP make them calculate on the same
-				$discount_vat = round($discount_vat, 2);
-
-				// Temp fix to show right VAT of cart content subtotal
-				$cart['tax'] = $cart['tax'];
-
-				// Temp fix to solve issues with difference in amount of digits between e-conomic and redSHOP make them calculate on the same
-				$discount_amount = round($discount_amount, 2);
-
-				// Temp fix to add in new var with discount vat to fix e-conomic discount and calculated based on the
-				// actual VAT rate for the user retracted from the discount amount incl. VAT
-				$discount_vat_fix = 0;
-
-				if ($discount_amount)
-				{
-					$discount_vat_fix = ($discount_amount - ($discount_amount / (1 + (1 - (($discount_amount - $discount_vat) / $discount_amount)))));
-				}
-
-				$cart['discount_vat_amount'] = $discount_vat_fix;
-
-				// End of temp fix
-			}
-			else
-			{
-				$discount_amt    = $discount_amount / (1 + ($vatrate));
-				$discount_amount = $discount_amt;
-			}
-
-			// Added specific discount amount for useage for e-conomic
-			$cart['discount_ex_vat'] = $discount_amt;
-			$this->_session->set('cart', $cart);
 		}
 
 		return $discount_amount;

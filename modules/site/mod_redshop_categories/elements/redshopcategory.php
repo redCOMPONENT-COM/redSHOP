@@ -50,7 +50,7 @@ class JFormFieldRedshopcategory extends JFormField
 			. " ,#__redshop_category_xref AS cx "
 			. "WHERE c.category_id=cx.category_child_id "
 			. $and
-			. "ORDER BY c.category_name ASC";
+			. " ORDER BY c.category_name ASC";
 
 		$db->setQuery($q);
 		$cats = $db->loadObjectList();

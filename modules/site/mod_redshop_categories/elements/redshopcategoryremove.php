@@ -26,7 +26,7 @@ class JFormFieldRedshopcategoryremove extends JFormField
 		if (!is_dir(JPATH_ADMINISTRATOR . '/components/com_redshop')) return JText::_('COM_REDSHOP_REDSHOP_IS_NOT_INSTALLED');
 		if (!is_array($this->value))
 		{
-			$this->value = array('' . $valueElement . '' => '1');
+			$this->value  = array('' => '1');
 		}
 		else
 		{

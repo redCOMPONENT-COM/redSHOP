@@ -2132,7 +2132,12 @@ class rsCarthelper
 		return $data;
 	}
 
-	// Add cart
+   /**
+   * APPLY_VAT_ON_DISCOUNT = When the discount is a "fixed amount" the
+   * final price may vary, depending on if the discount affects "the price+VAT"
+   * or just "the price". This CONSTANT will define if the discounts needs to
+   * be applied BEFORE or AFTER the VAT is applied to the product price.
+   */
 	public function calculation($cart, $shipping = 0, $user_id = 0)
 	{
 		$Idx               = $cart['idx'];
@@ -2226,10 +2231,19 @@ class rsCarthelper
 			$shippingVat = $cart['shipping_vat'];
 		}
 
-		if (VAT_RATE_AFTER_DISCOUNT)
+		if (VAT_RATE_AFTER_DISCOUNT && !APPLY_VAT_ON_DISCOUNT)
 		{
-			$Discountvat = (VAT_RATE_AFTER_DISCOUNT * $total_discount) / (1 + VAT_RATE_AFTER_DISCOUNT);
-			$vat         = $vat - $Discountvat;
+			if (isset($cart['discount_tax']) && !empty($cart['discount_tax']))
+			{
+				$discountVAT = $cart['discount_tax'];
+				$subtotal    = $subtotal - $cart['discount_tax'];
+			}
+			else
+			{
+				$discountVAT = (VAT_RATE_AFTER_DISCOUNT * $total_discount) / (1 + VAT_RATE_AFTER_DISCOUNT);
+			}
+
+			$vat         = $vat - $discountVAT;
 		}
 
 		$total      = $subtotal + $shipping;
@@ -4553,6 +4567,7 @@ class rsCarthelper
 		if (DISCOUNT_ENABLE == 1)
 		{
 			$discount_amount = $this->_producthelper->getDiscountAmount($cart);
+			$cart            = $this->_session->get('cart');
 		}
 
 		if (!isset($cart['quotation_id']) || (isset($cart['quotation_id']) && !$cart['quotation_id']))
@@ -4612,7 +4627,7 @@ class rsCarthelper
 		$Discountvat = 0;
 		$chktag      = $this->_producthelper->taxexempt_addtocart();
 
-		if (VAT_RATE_AFTER_DISCOUNT && !empty($chktag))
+		if (VAT_RATE_AFTER_DISCOUNT && !empty($chktag) && !APPLY_VAT_ON_DISCOUNT)
 		{
 			$Discountvat = (VAT_RATE_AFTER_DISCOUNT * $totaldiscount) / (1 + VAT_RATE_AFTER_DISCOUNT);
 		}

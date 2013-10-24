@@ -383,36 +383,6 @@ if (!JRequest::getvar('ajaxtask'))
 							<table width="100%" border="0" cellspacing="0" cellpadding="0" class="adminlist">
 								<tbody>
 								<tr align="left">
-									<td align="right" width="85%">
-										<strong><?php echo JText::_('COM_REDSHOP_QUOTATION_DISCOUNT'); ?></strong></td>
-									<td align="right">
-
-										<div id="divMainDiscount" style="float: right;">
-
-
-											<div style="float: right;">
-												<input type="text" name="quotation_discount" size='10' value=""
-												       id="quotation_discount" onchange="calculateOfflineTotal();"/>
-												&nbsp;&nbsp;&nbsp;&nbsp;</div>
-									</td>
-								</tr>
-								<tr align="left">
-									<td align="right" width="85%">
-										<strong><?php echo JText::_('COM_REDSHOP_QUOTATION_SPECIAL_DISCOUNT'); ?></strong>
-									</td>
-									<td align="right">
-
-										<div id="divMainSpecialDiscount" style="float: right;">
-
-										</div>
-										<div style="float: right;">
-											<input type="text" name="quotation_special_discount" size='10' value=""
-											       id="quotation_special_discount"
-											       onchange="calculateQuotationTotal();"/>
-											%&nbsp;&nbsp;&nbsp;</div>
-									</td>
-								</tr>
-								<tr align="left">
 									<td align="right" width="70%">
 										<strong><?php echo JText::_('COM_REDSHOP_QUOTATION_SUBTOTAL'); ?>:</strong></td>
 									<td align="right" width="30%">

@@ -1,5 +1,8 @@
-redSHOP1.2
+redSHOP 1.x
 ==========
+
+# Travis Status
+Develop: [![Build Status](https://magnum.travis-ci.com/redCOMPONENT-COM/redSHOP.png?branch=develop&token=vpkyAMSd8vTHK9zwpML6)](https://magnum.travis-ci.com/redCOMPONENT-COM/redSHOP/)
 
 Documentation
 
