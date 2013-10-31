@@ -260,17 +260,27 @@ class CartController extends JController
 		$calArr = $this->_carthelper->calculation($cart);
 
 		$tax = $calArr[5];
-		$Discountvat = 0;
+		$discountVAT = 0;
 		$chktag = $producthelper->taxexempt_addtocart();
 
-		if (APPLY_VAT_ON_DISCOUNT && VAT_RATE_AFTER_DISCOUNT && !empty($chktag))
+		if (VAT_RATE_AFTER_DISCOUNT && !APPLY_VAT_ON_DISCOUNT)
 		{
-			$Discountvat = (VAT_RATE_AFTER_DISCOUNT * $totaldiscount) / (1 + VAT_RATE_AFTER_DISCOUNT);
+			if (isset($cart['discount_tax']) && !empty($cart['discount_tax']))
+			{
+				$discountVAT = $cart['discount_tax'];
+				$calArr[1]    = $calArr[1] - $cart['discount_tax'];
+			}
+			else
+			{
+				$discountVAT = (VAT_RATE_AFTER_DISCOUNT * $total_discount) / (1 + VAT_RATE_AFTER_DISCOUNT);
+			}
+
+			$tax         = $tax - $discountVAT;
 		}
 
 		$cart['total'] = $calArr[0] - $totaldiscount;
 		$cart['subtotal'] = $calArr[1] + $calArr[3] - $totaldiscount;
-		$cart['subtotal_excl_vat'] = $calArr[2] + ($calArr[3] - $calArr[6]) - ($totaldiscount - $Discountvat);
+		$cart['subtotal_excl_vat'] = $calArr[2] + ($calArr[3] - $calArr[6]) - ($totaldiscount - $discountVAT);
 
 		if ($cart['total'] <= 0)
 		{
@@ -282,9 +292,9 @@ class CartController extends JController
 		$cart['shipping']                  = $calArr[3];
 		$cart['tax']                       = $tax;
 		$cart['sub_total_vat']             = $tax + $calArr[6];
-		$cart['discount_vat']              = $Discountvat;
+		$cart['discount_vat']              = $discountVAT;
 		$cart['shipping_tax']              = $calArr[6];
-		$cart['discount_ex_vat']           = $totaldiscount - $Discountvat;
+		$cart['discount_ex_vat']           = $totaldiscount - $discountVAT;
 		$cart['mod_cart_total']            = $this->_carthelper->GetCartModuleCalc($cart);
 		$session->set('cart', $cart);
 
