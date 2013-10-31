@@ -74,7 +74,7 @@ class Plgredshop_ProductCreateColorImage extends JPlugin
 				{
 					$checkflg        = true;
 					$ext             = JFile::getExt($productImage);
-					$ImageName       = $property_id . '_' . str_replace('#', '', $extra_field) . "." . $ext;
+					$ImageName       = $product_id . '_' . $property_id . '_' . str_replace('#', '', $extra_field) . "." . $ext;
 					$this->ImageName = $ImageName;
 					$section         = "product_attributes";
 
@@ -87,14 +87,19 @@ class Plgredshop_ProductCreateColorImage extends JPlugin
 
 					if ($extra_field == $colorToBeReplaced)
 					{
+						$imageProperty 	= new Imagick($imagePath . "/product/" . $productImage);
+
+						$width = $imageProperty->getImageWidth();
+						$height = $imageProperty->getImageHeight();
+
 						$cmd = "convert $imagePath/product/$productImage +level-colors '" . $extra_field . "', " . JPATH_COMPONENT . "/assets/images/product_attributes/$ImageName";
 						exec($cmd);
 
-						$BgImageName       = $property_id . '_' . str_replace('#', '', $extra_field) . ".jpg";
-						$cmd = "convert " . JPATH_SITE . "/$bgImage " . JPATH_COMPONENT . "/assets/images/product_attributes/$ImageName -gravity Center -composite " . JPATH_COMPONENT . "/assets/images/product_attributes/$BgImageName";
-
+						$cmd = "convert " . JPATH_SITE . "/$bgImage -resize " . $width . "x" . $height . " "
+								. JPATH_COMPONENT . "/assets/images/product_attributes/" . $ImageName
+								. " -gravity center -composite -mosaic " . JPATH_COMPONENT
+								. "/assets/images/product_attributes/$ImageName";
 						exec($cmd);
-						$ImageName = $BgImageName;
 					}
 					else
 					{
