@@ -4567,7 +4567,11 @@ class rsCarthelper
 		if (DISCOUNT_ENABLE == 1)
 		{
 			$discount_amount = $this->_producthelper->getDiscountAmount($cart);
-			$cart            = $this->_session->get('cart');
+
+			if ($discount_amount > 0)
+			{
+				$cart = $this->_session->get('cart');
+			}
 		}
 
 		if (!isset($cart['quotation_id']) || (isset($cart['quotation_id']) && !$cart['quotation_id']))
