@@ -797,11 +797,8 @@ class ProductController extends JController
 
 		if (move_uploaded_file($_FILES[$name]['tmp_name'], $uploadfile))
 		{
-			// Create random number.
-			$random = rand();
-
 			$sendData               = array();
-			$sendData['id']         = $random;
+			$sendData['id']         = rand();
 			$sendData['product_id'] = $app->input->getInt('product_id');
 			$sendData['uniqueOl']   = $app->input->getString('uniqueOl');
 			$sendData['name']       = $filename;
