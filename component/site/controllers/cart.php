@@ -237,6 +237,11 @@ class CartController extends JController
 		if (DISCOUNT_ENABLE == 1)
 		{
 			$discount_amount = $producthelper->getDiscountAmount($cart);
+
+			if ($discount_amount > 0)
+			{
+				$cart = $this->_session->get('cart');
+			}
 		}
 
 		$cart['cart_discount'] = $discount_amount;
@@ -263,19 +268,18 @@ class CartController extends JController
 		$discountVAT = 0;
 		$chktag = $producthelper->taxexempt_addtocart();
 
-		if (VAT_RATE_AFTER_DISCOUNT && !APPLY_VAT_ON_DISCOUNT && !empty($chktag))
+		if (VAT_RATE_AFTER_DISCOUNT && !APPLY_VAT_ON_DISCOUNT)
 		{
 			if (isset($cart['discount_tax']) && !empty($cart['discount_tax']))
 			{
 				$discountVAT = $cart['discount_tax'];
-				$calArr[1]    = $calArr[1] - $cart['discount_tax'];
+				$calArr[1]   = $calArr[1] - $cart['discount_tax'];
+				$tax         = $tax - $discountVAT;
 			}
 			else
 			{
-				$discountVAT = (VAT_RATE_AFTER_DISCOUNT * $total_discount) / (1 + VAT_RATE_AFTER_DISCOUNT);
+				$discountVAT = (VAT_RATE_AFTER_DISCOUNT * $totaldiscount) / (1 + VAT_RATE_AFTER_DISCOUNT);
 			}
-
-			$tax         = $tax - $discountVAT;
 		}
 
 		$cart['total'] = $calArr[0] - $totaldiscount;
