@@ -797,8 +797,9 @@ class ProductController extends JController
 
 		if (move_uploaded_file($_FILES[$name]['tmp_name'], $uploadfile))
 		{
+			$random                 = rand();
 			$sendData               = array();
-			$sendData['id']         = rand();
+			$sendData['id']         = $random;
 			$sendData['product_id'] = $app->input->getInt('product_id');
 			$sendData['uniqueOl']   = $app->input->getString('uniqueOl');
 			$sendData['name']       = $filename;
@@ -834,6 +835,10 @@ class ProductController extends JController
 		if (is_file($filePath))
 		{
 			unlink($filePath);
+		}
+		else
+		{
+			echo "No File at:" . JUri::root() . 'components/com_redshop/assets/document/product/' . $fileName;
 		}
 
 		$app->close();
