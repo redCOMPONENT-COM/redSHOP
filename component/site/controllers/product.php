@@ -788,14 +788,29 @@ class ProductController extends JController
 	 */
 	public function ajaxupload()
 	{
-		$uploaddir = JPATH_COMPONENT_SITE . '/assets/document/product/';
-		$name = JRequest::getVar('mname');
-		$filename = time() . '_' . basename($_FILES[$name]['name']);
+		$app = JFactory::getApplication();
+
+		$uploaddir  = JPATH_COMPONENT_SITE . '/assets/document/product/';
+		$name       = $app->input->getCmd('mname');
+		$filename   = time() . '_' . basename($_FILES[$name]['name']);
 		$uploadfile = $uploaddir . $filename;
 
 		if (move_uploaded_file($_FILES[$name]['tmp_name'], $uploadfile))
 		{
-			echo $filename;
+			// Create random number.
+			$random = rand();
+
+			$sendData               = array();
+			$sendData['id']         = $random;
+			$sendData['product_id'] = $app->input->getInt('product_id');
+			$sendData['uniqueOl']   = $app->input->getString('uniqueOl');
+			$sendData['name']       = $filename;
+			$sendData['action']     = JURI::root() . 'index.php?tmpl=component&option=com_redshop&view=product&task=removeAjaxUpload';
+
+			echo "<li id='uploadNameSpan" . $random . "' name='" . $filename . "'>"
+					. "<span>" . $filename . "</span>"
+					. "<a href='javascript:removeAjaxUpload(" . json_encode($sendData) . ");'>&nbsp;Remove</a>"
+				."</li>";
 		}
 		else
 		{
@@ -804,7 +819,27 @@ class ProductController extends JController
 			echo "error";
 		}
 
-		exit;
+		$app->close();
+	}
+
+	/**
+	 * Function to remove Extra Field AJAX upload data
+	 *
+	 * @return  void
+	 */
+	function removeAjaxUpload()
+	{
+		$app = JFactory::getApplication();
+
+		$fileName = $app->input->getString('fileName');
+		$filePath = JPATH_SITE . '/components/com_redshop/assets/document/product/' . $fileName;
+
+		if (is_file($filePath))
+		{
+			unlink($filePath);
+		}
+
+		$app->close();
 	}
 
 	/**
