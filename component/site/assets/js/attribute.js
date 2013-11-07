@@ -1751,9 +1751,6 @@ function discountCalculation(proid) {
     	}).done(function(responseText) {
     		var areaPrice = responseText;
 
-    		
-    		
-    		
             //var areaPrice = responce.split("~");
             areaPrice = areaPrice.replace(/^\s+|\s+$/g, "");
 
@@ -1765,7 +1762,7 @@ function discountCalculation(proid) {
 
                 areaPrice = areaPrice.split("\n");
 
-                // get quantity
+                // get quantity 2
 
                 var eld = document.getElementsByName('quantity'), qty = 1;
                 for (var g = 0; g < eld.length; g++) {
