@@ -74,7 +74,8 @@ class ProductViewProduct extends JView
 	 */
 	public function display($tpl = null)
 	{
-		// Request variables
+		
+		// Request variables.
 		$prodhelperobj     = new producthelper;
 		$this->redTemplate = new Redtemplate;
 		$this->redHelper   = new redhelper;
