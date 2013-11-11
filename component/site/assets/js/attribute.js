@@ -1731,7 +1731,6 @@ function discountCalculation(proid) {
         }
     }
     pdcoptionid = pdcoptionid.join(",");
-    
     (function($){
     	$.ajax({
     		url: site_url + "index.php",
@@ -1751,9 +1750,6 @@ function discountCalculation(proid) {
     	}).done(function(responseText) {
     		var areaPrice = responseText;
 
-    		
-    		
-    		
             //var areaPrice = responce.split("~");
             areaPrice = areaPrice.replace(/^\s+|\s+$/g, "");
 
@@ -1764,7 +1760,6 @@ function discountCalculation(proid) {
             } else {
 
                 areaPrice = areaPrice.split("\n");
-
                 // get quantity
 
                 var eld = document.getElementsByName('quantity'), qty = 1;
@@ -1780,16 +1775,11 @@ function discountCalculation(proid) {
                         }
                     }
                 }
-                // end
-
-
+                
                 total_area = areaPrice[0];
-
                 price_per_area = areaPrice[1];
-
                 price_per_piece = areaPrice[2];
                 price_excl_vat = areaPrice[7];
-
 
                 // format numbers
                 var formatted_price_per_area = number_format(price_per_area, PRICE_DECIMAL, PRICE_SEPERATOR, THOUSAND_SEPERATOR);
@@ -1818,7 +1808,7 @@ function discountCalculation(proid) {
                 				$(elattr).change();
                 			});
                 		}
-                	})(jQuery); //
+                	})(jQuery);
                 }
 
                 if (document.getElementById('main_price' + proid)) {

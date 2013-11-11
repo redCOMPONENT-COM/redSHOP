@@ -9,7 +9,6 @@
 
 if (!defined('_VALID_MOS') && !defined('_JEXEC')) die('Direct Access to ' . basename(__FILE__) . ' is not allowed.');
 
-
 $text_before = $params->get('text_before', '');
 $currencies = $params->get('product_currency', '');
 

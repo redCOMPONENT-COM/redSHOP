@@ -2,12 +2,15 @@
 /**
  * @package     RedSHOP.Frontend
  * @subpackage  Helper
- *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
- * @license     GNU General Public License version 2 or later; see LICENSE
+ * @link
+ * @category
+ * @author
+ * @copyright  Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @license    GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die;
+
+defined('_JEXEC') || die;
 
 JLoader::import('helper', JPATH_SITE . '/components/com_redshop/helpers');
 JLoader::import('product', JPATH_SITE . '/components/com_redshop/helpers');
@@ -15,6 +18,7 @@ JLoader::import('extra_field', JPATH_SITE . '/components/com_redshop/helpers');
 JLoader::import('order', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
 JLoader::import('shipping', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
 JLoader::import('images', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
+
 
 class rsCarthelper
 {
@@ -131,9 +135,8 @@ class rsCarthelper
 		return $data;
 	}
 
-	
 	/**
-	 * 
+	 *
 	 * @param unknown_type $tax
 	 * @param unknown_type $discount
 	 * @return number
@@ -158,9 +161,8 @@ class rsCarthelper
 		return $tax_after_discount;
 	}
 
-	
 	/**
-	 * 
+	 *
 	 * @param unknown_type $data
 	 * @param unknown_type $discount
 	 * @param unknown_type $subtotal
@@ -6799,7 +6801,7 @@ class rsCarthelper
 			}
 		}
 	}
-	
+
 	/*
 	 * discount calculaor Ajax Function
 	 *
@@ -6807,7 +6809,6 @@ class rsCarthelper
 	 */
 	public function discountCalculator($get)
 	{
-		
 		$product_id = $get['product_id'];
 
 		$discount_cal = array();
@@ -6817,7 +6818,6 @@ class rsCarthelper
 		$product_price = $productprice['product_price_novat'];
 
 		$data = $this->_producthelper->getProductById($product_id);
-
 		// Default calculation method
 		$calcMethod = $data->discount_calc_method;
 
@@ -6971,13 +6971,14 @@ class rsCarthelper
 
 			$conversation_unit = $discount_calc_data[0]->discount_calc_unit;
 
+// 			$session = JFactory::getsession();
+// 			$currency = $session->get('product_currency');
+// 			echo $currency;die;
 			if ($use_range)
 			{
 				$display_final_area = $finalArea / ($unit * $unit);
 
 				$price_per_piece = $area_price * $finalArea;
-
-				//$price_per_piece = $area_price;
 
 				$formatted_price_per_area = $this->_producthelper->getProductFormattedPrice($area_price);
 
@@ -6985,7 +6986,6 @@ class rsCarthelper
 				$chktag              = $this->_producthelper->getApplyattributeVatOrNot();
 				$price_per_piece_tax = $this->_producthelper->getProductTax($product_id, $price_per_piece, 0, 1);
 
-				
 				echo $display_final_area . "\n";
 
 				echo $area_price . "\n";
@@ -7043,8 +7043,7 @@ class rsCarthelper
 
 		return $discount_cal;
 	}
-	
-	
+
 	/**
 	 * Function to get Discount calculation data
 	 *
