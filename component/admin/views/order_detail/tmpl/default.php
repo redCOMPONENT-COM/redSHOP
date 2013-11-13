@@ -471,6 +471,11 @@ if (!$discount_type)
 		<table border="0" cellspacing="0" cellpadding="0" class="adminlist" width="100%">
 			<tr>
 				<td>
+
+
+
+
+
 					<table border="0" cellspacing="0" cellpadding="0" class="adminlist" width="100%">
 						<tr>
 							<td width="20%"><?php echo JText::_('COM_REDSHOP_PRODUCT_NAME'); ?></td>
