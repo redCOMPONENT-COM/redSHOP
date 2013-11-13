@@ -1,4 +1,4 @@
-<?xml version="1.5" encoding="iso-8859-1"?>
+<?xml version="1.0" encoding="iso-8859-1"?> 
 <extension version="2.5" client="site" type="plugin" group="content" method="upgrade">
     <name>Redshop Product Content Replacement Plugin</name>
     <version>1.2</version>
