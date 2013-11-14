@@ -131,10 +131,13 @@ class rsCarthelper
 		return $data;
 	}
 
-	/*
-	 * Calculate tax after Discount is apply
+	
+	/**
+	 * 
+	 * @param unknown_type $tax
+	 * @param unknown_type $discount
+	 * @return number
 	 */
-
 	public function calculateTaxafterDiscount($tax = 0, $discount = 0)
 	{
 		$tax_after_discount = 0;
@@ -155,10 +158,15 @@ class rsCarthelper
 		return $tax_after_discount;
 	}
 
-	/*
-	 * replace Conditional tag from Redshop Discount
+	
+	/**
+	 * 
+	 * @param unknown_type $data
+	 * @param unknown_type $discount
+	 * @param unknown_type $subtotal
+	 * @param unknown_type $quotation_mode
+	 * @return Ambigous <string, mixed>
 	 */
-
 	public function replaceDiscount($data = '', $discount = 0, $subtotal = 0, $quotation_mode = 0)
 	{
 		if (strstr($data, '{if discount}') && strstr($data, '{discount end if}'))
@@ -6788,7 +6796,7 @@ class rsCarthelper
 			}
 		}
 	}
-
+	
 	/*
 	 * discount calculaor Ajax Function
 	 *
@@ -6796,6 +6804,7 @@ class rsCarthelper
 	 */
 	public function discountCalculator($get)
 	{
+		
 		$product_id = $get['product_id'];
 
 		$discount_cal = array();
@@ -6965,7 +6974,7 @@ class rsCarthelper
 
 				$price_per_piece = $area_price * $finalArea;
 
-				$price_per_piece = $area_price;
+				//$price_per_piece = $area_price;
 
 				$formatted_price_per_area = $this->_producthelper->getProductFormattedPrice($area_price);
 
@@ -6973,6 +6982,7 @@ class rsCarthelper
 				$chktag              = $this->_producthelper->getApplyattributeVatOrNot();
 				$price_per_piece_tax = $this->_producthelper->getProductTax($product_id, $price_per_piece, 0, 1);
 
+				
 				echo $display_final_area . "\n";
 
 				echo $area_price . "\n";
@@ -7011,6 +7021,7 @@ class rsCarthelper
 				echo JText::_('COM_REDSHOP_PRICE_TOTAL') . "\n";
 
 				echo $price_per_piece_tax . "\n";
+				echo $totalpriceAttrs . "\n";
 				echo $chktag . "\n";
 			}
 		}
@@ -7029,7 +7040,8 @@ class rsCarthelper
 
 		return $discount_cal;
 	}
-
+	
+	
 	/**
 	 * Function to get Discount calculation data
 	 *
