@@ -7116,7 +7116,7 @@ class rsCarthelper
 
 			$registry = new JRegistry($json);
 			$json = $registry->toString();
-			echo $json;
+			echo $json; //echo json for attribute.js
 		}
 		else
 		{
