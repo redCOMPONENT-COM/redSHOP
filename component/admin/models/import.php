@@ -508,7 +508,7 @@ class importModelimport extends JModel
 
 								// Product Extra Field Import
 								$newkeys = array();
-								array_walk($rawdata, 'checkkeys', $newkeys);
+								array_walk($rawdata, 'checkkeys', &$newkeys);
 
 								if (count($newkeys) > 0)
 								{
