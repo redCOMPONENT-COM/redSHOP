@@ -1736,6 +1736,7 @@ function discountCalculation(proid) {
     	$.ajax({
     		url: site_url + 'index.php',
     		method:'get',
+    		dataType:'json',
     		data:{
     			option:'com_redshop',
     			view:'cart',
@@ -1749,102 +1750,83 @@ function discountCalculation(proid) {
     			pdcextraid:pdcoptionid,
     			tmpl:'component'
     		},
-    		onSuccess:function(responseText){
+    		success:function(responseText){
     			var areaPrice = responseText;
+    			console.log(areaPrice);
+                var eld = document.getElementsByName('quantity'), qty = 1;
+                for (var g = 0; g < eld.length; g++) {
 
-                //var areaPrice = responce.split("~");
-                areaPrice = areaPrice.replace(/^\s+|\s+$/g, "");
+                    if (eld[g].id == 'ajax_quantity' + proid) {
 
-                if (areaPrice == "fail") {
-
-                    alert(COM_REDSHOP_NOT_AVAILABLE);
-                    return false;
-                } else {
-
-                    areaPrice = areaPrice.split("\n");
-
-                    // get quantity
-
-                    var eld = document.getElementsByName('quantity'), qty = 1;
-                    for (var g = 0; g < eld.length; g++) {
-
-                        if (eld[g].id == 'ajax_quantity' + proid) {
+                        qty = eld[g].value;
+                    } else {
+                        if (eld[g].id == 'quantity' + proid) {
 
                             qty = eld[g].value;
+                        }
+                    }
+                }
+               //tinh toan sai het roi , phai tinh lai
+                total_area = areaPrice.final_area;
+                price_per_area = areaPrice.area_price;
+                price_per_piece = areaPrice.price_per_piece;
+                price_excl_vat = areaPrice.price_per_piece_tax;
+
+                // format numbers
+                var formatted_price_per_area = number_format(price_per_area, PRICE_DECIMAL, PRICE_SEPERATOR, THOUSAND_SEPERATOR);
+
+                var formatted_price_per_piece = number_format(price_per_piece, PRICE_DECIMAL, PRICE_SEPERATOR, THOUSAND_SEPERATOR);
+
+                if (qty <= 0)
+                    qty = 1;
+
+                price_total = parseFloat(price_per_piece) * qty;
+
+                var formatted_price_total = number_format(price_total, PRICE_DECIMAL, PRICE_SEPERATOR, THOUSAND_SEPERATOR);
+
+
+                output = areaPrice.title_total_area + total_area + "<br />";
+                output += areaPrice.title_price_per_area + formatted_price_per_area + "<br />";
+                output += areaPrice.title_price_per_piece + formatted_price_per_piece + "<br />";
+                output += areaPrice.title_price_total + formatted_price_total;
+
+
+                if (document.getElementById('discount_cal_final_price')) {
+                    document.getElementById('discount_cal_final_price').innerHTML = output;
+                }
+
+                if (document.getElementById('main_price' + proid)) {
+                    var product_main_price = document.getElementById('main_price' + proid).value;
+
+                    calculateTotalPrice(proid, 0);
+
+                    if (SHOW_PRICE == '1' && ( DEFAULT_QUOTATION_MODE != '1' || (DEFAULT_QUOTATION_MODE && SHOW_QUOTATION_PRICE))) {
+
+
+                        var product_total = final_price_f - parseFloat(product_main_price) + parseFloat(price_total);
+
+                        if (areaPrice.checktag == 1) {
+                            var product_price_excl_vat = price_total + price_excl_vat * qty;
                         } else {
-                            if (eld[g].id == 'quantity' + proid) {
-
-                                qty = eld[g].value;
-                            }
+                            var product_price_excl_vat = price_total * qty;
                         }
-                    }
-                    // end
 
-
-                    total_area = areaPrice[0];
-
-                    price_per_area = areaPrice[1];
-
-                    price_per_piece = areaPrice[2];
-                    price_excl_vat = areaPrice[7];
-
-
-                    // format numbers
-                    var formatted_price_per_area = number_format(price_per_area, PRICE_DECIMAL, PRICE_SEPERATOR, THOUSAND_SEPERATOR);
-
-                    var formatted_price_per_piece = number_format(price_per_piece, PRICE_DECIMAL, PRICE_SEPERATOR, THOUSAND_SEPERATOR);
-
-                    if (qty <= 0)
-                        qty = 1;
-
-                    price_total = parseFloat(price_per_piece) * qty;
-
-                    var formatted_price_total = number_format(price_total, PRICE_DECIMAL, PRICE_SEPERATOR, THOUSAND_SEPERATOR);
-
-
-                    output = areaPrice[3] + total_area + "<br />";
-                    output += areaPrice[4] + formatted_price_per_area + "<br />";
-                    output += areaPrice[5] + formatted_price_per_piece + "<br />";
-                    output += areaPrice[6] + formatted_price_total;
-
-
-                    if (document.getElementById('discount_cal_final_price')) {
-                        document.getElementById('discount_cal_final_price').innerHTML = output;
-                    }
-
-                    if (document.getElementById('main_price' + proid)) {
-                        var product_main_price = document.getElementById('main_price' + proid).value;
-
-                        calculateTotalPrice(proid, 0);
-
-                        if (SHOW_PRICE == '1' && ( DEFAULT_QUOTATION_MODE != '1' || (DEFAULT_QUOTATION_MODE && SHOW_QUOTATION_PRICE))) {
-
-
-                            var product_total = final_price_f - parseFloat(product_main_price) + parseFloat(price_total);
-
-                            if (areaPrice[8] == 1) {
-                                var product_price_excl_vat = price_total + price_excl_vat * qty;
-                            } else {
-                                var product_price_excl_vat = price_total * qty;
-                            }
-
-                            formatted_price_total = number_format(product_total, PRICE_DECIMAL, PRICE_SEPERATOR, THOUSAND_SEPERATOR);
-                            formatted_product_price_excl_vat = number_format(product_price_excl_vat, PRICE_DECIMAL, PRICE_SEPERATOR, THOUSAND_SEPERATOR);
-                            if (document.getElementById('produkt_kasse_hoejre_pris_indre' + proid)) {
-                                document.getElementById('produkt_kasse_hoejre_pris_indre' + proid).innerHTML = formatted_product_price_excl_vat;
-                                if (document.getElementById('display_product_price_no_vat' + proid))
-                                    document.getElementById('display_product_price_no_vat' + proid).innerHTML = formatted_price_total;
-                                if (document.getElementById('product_price_no_vat' + proid))
-                                    document.getElementById('product_price_no_vat' + proid).value = product_total;
-                            }
-
-                            if (document.getElementById('product_price_incl_vat' + proid)) {
-                                document.getElementById('product_price_incl_vat' + proid).innerHTML = formatted_product_price_excl_vat;
-                            }
-
-                            // set product main price as price total for dynamic price change
-                            document.getElementById('main_price' + proid).value = product_price_excl_vat;
+                        formatted_price_total = number_format(product_total, PRICE_DECIMAL, PRICE_SEPERATOR, THOUSAND_SEPERATOR);
+                        formatted_product_price_excl_vat = number_format(product_price_excl_vat, PRICE_DECIMAL, PRICE_SEPERATOR, THOUSAND_SEPERATOR);
+                        if (document.getElementById('produkt_kasse_hoejre_pris_indre' + proid)) {
+                            document.getElementById('produkt_kasse_hoejre_pris_indre' + proid).innerHTML = formatted_product_price_excl_vat;
+                            if (document.getElementById('display_product_price_no_vat' + proid))
+                                document.getElementById('display_product_price_no_vat' + proid).innerHTML = formatted_price_total;
+                            if (document.getElementById('product_price_no_vat' + proid))
+                                document.getElementById('product_price_no_vat' + proid).value = product_total;
                         }
+
+                        if (document.getElementById('product_price_incl_vat' + proid)) {
+                            document.getElementById('product_price_incl_vat' + proid).innerHTML = formatted_product_price_excl_vat;
+                        }
+
+                        // set product main price as price total for dynamic price change
+                        document.getElementById('main_price' + proid).value = product_price_excl_vat;
                     }
                 }
     		}
