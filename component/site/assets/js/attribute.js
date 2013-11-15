@@ -1662,18 +1662,13 @@ function setWrapperComboBox() {
     }
 }
 
-/*
- * ajax function for calculatin of discount
+/**
+ * 
+ * @param proid
+ * @returns {Boolean}
  */
 function discountCalculation(proid) {
     var calHeight = 0, calWidth = 0, calDepth = 0, calRadius = 0, calUnit = 'cm', globalcalUnit = 'cm', total_area = '', price_per_area = 0, price_per_piece = 0, output = "", price_total = 0;
-
-    /*if(document.getElementById('product_id')){
-     proid = document.getElementById('product_id').value;
-     }else{
-     alert("No Add to cart Available");
-     return false;
-     }*/
 
     if (document.getElementById('calc_height')) {
         calHeight = document.getElementById('calc_height').value;

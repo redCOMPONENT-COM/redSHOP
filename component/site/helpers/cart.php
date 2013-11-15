@@ -38,6 +38,9 @@ class rsCarthelper
 
 	public $_globalvoucher = 0;
 
+	/**
+	 * construct function
+	 */
 	public function __construct()
 	{
 		$this->_table_prefix    = '#__' . TABLE_PREFIX . '_';
@@ -133,7 +136,7 @@ class rsCarthelper
 
 	/*
 	 * Calculate tax after Discount is apply
-	 */
+	*/
 
 	public function calculateTaxafterDiscount($tax = 0, $discount = 0)
 	{
@@ -157,7 +160,7 @@ class rsCarthelper
 
 	/*
 	 * replace Conditional tag from Redshop Discount
-	 */
+	*/
 
 	public function replaceDiscount($data = '', $discount = 0, $subtotal = 0, $quotation_mode = 0)
 	{
@@ -179,7 +182,6 @@ class rsCarthelper
 				{
 					$data = str_replace("{discount}", "", $data);
 					$data = str_replace("{discount_in_percentage}", $percentage, $data);
-
 				}
 				else
 				{
@@ -247,11 +249,9 @@ class rsCarthelper
 	/**
 	 * Calculate payment Discount/charges
 	 *
-	 * @param int $total
-	 * @param     $paymentinfo
-	 * @param     $finalAmount
-	 *
-	 * @return array
+	 * @param unknown_type $total
+	 * @param unknown_type $paymentinfo
+	 * @param unknown_type $finalAmount
 	 */
 	public function calculatePayment($total = 0, $paymentinfo, $finalAmount)
 	{
@@ -604,6 +604,7 @@ class rsCarthelper
 	 * Replace Shipping Address
 	 *
 	 * @param $data
+	 *
 	 * @param $shippingaddresses
 	 *
 	 * @return mixed
@@ -962,14 +963,14 @@ class rsCarthelper
 				$cart_mdata     = str_replace("{product_on_sale end if}", '', $cart_mdata);
 
 				$thumbUrl = RedShopHelperImages::getImagePath(
-								$giftcardData->giftcard_image,
-								'',
-								'thumb',
-								'giftcard',
-								CART_THUMB_WIDTH,
-								CART_THUMB_HEIGHT,
-								USE_IMAGE_SIZE_SWAPPING
-							);
+						$giftcardData->giftcard_image,
+						'',
+						'thumb',
+						'giftcard',
+						CART_THUMB_WIDTH,
+						CART_THUMB_HEIGHT,
+						USE_IMAGE_SIZE_SWAPPING
+				);
 
 				$giftcard_image = "<div  class='giftcard_image'><img src='" . $thumbUrl. "'></div>";
 				$cart_mdata     = str_replace("{product_thumb_image}", $giftcard_image, $cart_mdata);
@@ -991,9 +992,9 @@ class rsCarthelper
 				<input type="hidden" name="task" value="">
 				<input type="hidden" name="Itemid" value="' . $Itemid . '">
 				<img class="delete_cart" src="' . REDSHOP_FRONT_IMAGES_ABSPATH . $delete_img
-					. '" title="' . JText::_('COM_REDSHOP_DELETE_PRODUCT_FROM_CART_LBL')
-					. '" alt="' . JText::_('COM_REDSHOP_DELETE_PRODUCT_FROM_CART_LBL')
-					. '" onclick="document.delete_cart' . $i . '.task.value=\'delete\';document.delete_cart' . $i . '.submit();"></form>';
+				. '" title="' . JText::_('COM_REDSHOP_DELETE_PRODUCT_FROM_CART_LBL')
+				. '" alt="' . JText::_('COM_REDSHOP_DELETE_PRODUCT_FROM_CART_LBL')
+				. '" onclick="document.delete_cart' . $i . '.task.value=\'delete\';document.delete_cart' . $i . '.submit();"></form>';
 
 				if (QUANTITY_TEXT_DISPLAY)
 				{
@@ -1090,7 +1091,7 @@ class rsCarthelper
 								CART_THUMB_WIDTH,
 								CART_THUMB_HEIGHT,
 								USE_IMAGE_SIZE_SWAPPING
-							);
+						);
 
 						$product_image = "<div  class='product_image'><img src='" . $thumbUrl . "'></div>";
 					}
@@ -1327,9 +1328,9 @@ class rsCarthelper
 						$update_cart = '<form style="padding:0px;margin:0px;" name="update_cart' . $i . '" method="POST" >';
 						$update_cart .= '<input class="inputbox" type="text" value="' . $quantity . '" name="quantity" id="quantitybox' . $i . '" size="' . DEFAULT_QUANTITY . '" maxlength="' . DEFAULT_QUANTITY . '" onchange="validateInputNumber(this.id);">';
 						$update_cart .= '<input type="hidden" name="product_id" value="' . $product_id . '">
-								<input type="hidden" name="cart_index" value="' . $i . '">
-								<input type="hidden" name="Itemid" value="' . $Itemid . '">
-								<input type="hidden" name="task" value="">';
+						<input type="hidden" name="cart_index" value="' . $i . '">
+						<input type="hidden" name="Itemid" value="' . $Itemid . '">
+						<input type="hidden" name="task" value="">';
 
 						if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . ADDTOCART_UPDATE))
 						{
@@ -1348,15 +1349,15 @@ class rsCarthelper
 					$update_cart_minus_plus = '<form name="update_cart' . $i . '" method="POST">';
 
 					$update_cart_minus_plus .= '<input type="text" id="quantitybox' . $i . '" name="quantity"  size="1"  value="' . $quantity . '" /><input type="button" id="minus" value="-"
-									    onClick="quantity.value = (quantity.value) ; var qty1 = quantity.value; if( !isNaN( qty1 ) &amp;&amp; qty1 > 1 ) quantity.value--;return false;">';
+					onClick="quantity.value = (quantity.value) ; var qty1 = quantity.value; if( !isNaN( qty1 ) &amp;&amp; qty1 > 1 ) quantity.value--;return false;">';
 
 					$update_cart_minus_plus .= '<input type="button" value="+"
-									    onClick="quantity.value = (+quantity.value+1)"><input type="hidden" name="product_id" value="' . $product_id . '">
-																	<input type="hidden" name="cart_index" value="' . $i . '">
-																	<input type="hidden" name="Itemid" value="' . $Itemid . '">
-																	<input type="hidden" name="task" value=""><img class="update_cart" src="' . REDSHOP_FRONT_IMAGES_ABSPATH . $update_img . '" title="' . JText::_('COM_REDSHOP_UPDATE_PRODUCT_FROM_CART_LBL') . '" alt="' . JText::_('COM_REDSHOP_UPDATE_PRODUCT_FROM_CART_LBL') . '" onclick="document.update_cart' . $i . '.task.value=\'update\';document.update_cart' . $i . '.submit();">
-									</form>
-									';
+					onClick="quantity.value = (+quantity.value+1)"><input type="hidden" name="product_id" value="' . $product_id . '">
+					<input type="hidden" name="cart_index" value="' . $i . '">
+					<input type="hidden" name="Itemid" value="' . $Itemid . '">
+					<input type="hidden" name="task" value=""><img class="update_cart" src="' . REDSHOP_FRONT_IMAGES_ABSPATH . $update_img . '" title="' . JText::_('COM_REDSHOP_UPDATE_PRODUCT_FROM_CART_LBL') . '" alt="' . JText::_('COM_REDSHOP_UPDATE_PRODUCT_FROM_CART_LBL') . '" onclick="document.update_cart' . $i . '.task.value=\'update\';document.update_cart' . $i . '.submit();">
+					</form>
+					';
 
 					if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . ADDTOCART_DELETE))
 					{
@@ -1368,10 +1369,10 @@ class rsCarthelper
 					}
 
 					$empty_cart = '<form style="padding:0px;margin:0px;" name="delete_cart' . $i . '" method="POST" >
-								<input type="hidden" name="product_id" value="' . $product_id . '">
-								<input type="hidden" name="task" value="">
-								<input type="hidden" name="Itemid" value="' . $Itemid . '">
-								<img class="delete_cart" src="' . REDSHOP_FRONT_IMAGES_ABSPATH . $delete_img . '"  onclick="document.delete_cart' . $i . '.task.value=\'delete\';document.delete_cart' . $i . '.submit();"></form>';
+					<input type="hidden" name="product_id" value="' . $product_id . '">
+					<input type="hidden" name="task" value="">
+					<input type="hidden" name="Itemid" value="' . $Itemid . '">
+					<img class="delete_cart" src="' . REDSHOP_FRONT_IMAGES_ABSPATH . $delete_img . '"  onclick="document.delete_cart' . $i . '.task.value=\'delete\';document.delete_cart' . $i . '.submit();"></form>';
 
 					if ($mainview == 'checkout')
 					{
@@ -1380,11 +1381,11 @@ class rsCarthelper
 					else
 					{
 						$remove_product = '<form style="padding:0px;margin:0px;" name="delete_cart' . $i . '" method="POST" >
-								<input type="hidden" name="product_id" value="' . $product_id . '">
-								<input type="hidden" name="cart_index" value="' . $i . '">
-								<input type="hidden" name="task" value="">
-								<input type="hidden" name="Itemid" value="' . $Itemid . '">
-								<img class="delete_cart" src="' . REDSHOP_FRONT_IMAGES_ABSPATH . $delete_img . '" title="' . JText::_('COM_REDSHOP_DELETE_PRODUCT_FROM_CART_LBL') . '" alt="' . JText::_('COM_REDSHOP_DELETE_PRODUCT_FROM_CART_LBL') . '" onclick="document.delete_cart' . $i . '.task.value=\'delete\';document.delete_cart' . $i . '.submit();"></form>';
+						<input type="hidden" name="product_id" value="' . $product_id . '">
+						<input type="hidden" name="cart_index" value="' . $i . '">
+						<input type="hidden" name="task" value="">
+						<input type="hidden" name="Itemid" value="' . $Itemid . '">
+						<img class="delete_cart" src="' . REDSHOP_FRONT_IMAGES_ABSPATH . $delete_img . '" title="' . JText::_('COM_REDSHOP_DELETE_PRODUCT_FROM_CART_LBL') . '" alt="' . JText::_('COM_REDSHOP_DELETE_PRODUCT_FROM_CART_LBL') . '" onclick="document.delete_cart' . $i . '.task.value=\'delete\';document.delete_cart' . $i . '.submit();"></form>';
 					}
 
 					if (QUANTITY_TEXT_DISPLAY)
@@ -1469,14 +1470,14 @@ class rsCarthelper
 			if (is_file($dirname))
 			{
 				$attribute_image_path = RedShopHelperImages::getImagePath(
-											$rowitem[$i]->attribute_image,
-											'',
-											'thumb',
-											'orderMergeImages',
-											CART_THUMB_WIDTH,
-											CART_THUMB_HEIGHT,
-											USE_IMAGE_SIZE_SWAPPING
-										);
+						$rowitem[$i]->attribute_image,
+						'',
+						'thumb',
+						'orderMergeImages',
+						CART_THUMB_WIDTH,
+						CART_THUMB_HEIGHT,
+						USE_IMAGE_SIZE_SWAPPING
+				);
 				$attrib_img = "<img src='" . $attribute_image_path . "'>";
 			}
 			else
@@ -1484,14 +1485,14 @@ class rsCarthelper
 				if (is_file(JPATH_COMPONENT_SITE . "/assets/images/product_attributes/" . $rowitem [$i]->attribute_image))
 				{
 					$attribute_image_path = RedShopHelperImages::getImagePath(
-												$rowitem[$i]->attribute_image,
-												'',
-												'thumb',
-												'product_attributes',
-												CART_THUMB_WIDTH,
-												CART_THUMB_HEIGHT,
-												USE_IMAGE_SIZE_SWAPPING
-											);
+							$rowitem[$i]->attribute_image,
+							'',
+							'thumb',
+							'product_attributes',
+							CART_THUMB_WIDTH,
+							CART_THUMB_HEIGHT,
+							USE_IMAGE_SIZE_SWAPPING
+					);
 					$attrib_img = "<img src='" . $attribute_image_path . "'>";
 				}
 				else
@@ -1501,14 +1502,14 @@ class rsCarthelper
 						if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $product->product_full_image))
 						{
 							$attribute_image_path = RedShopHelperImages::getImagePath(
-														$product->product_full_image,
-														'',
-														'thumb',
-														'product',
-														CART_THUMB_WIDTH,
-														CART_THUMB_HEIGHT,
-														USE_IMAGE_SIZE_SWAPPING
-													);
+									$product->product_full_image,
+									'',
+									'thumb',
+									'product',
+									CART_THUMB_WIDTH,
+									CART_THUMB_HEIGHT,
+									USE_IMAGE_SIZE_SWAPPING
+							);
 							$attrib_img = "<img src='" . $attribute_image_path . "'>";
 						}
 						else
@@ -1516,14 +1517,14 @@ class rsCarthelper
 							if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . PRODUCT_DEFAULT_IMAGE))
 							{
 								$attribute_image_path = RedShopHelperImages::getImagePath(
-															PRODUCT_DEFAULT_IMAGE,
-															'',
-															'thumb',
-															'product',
-															CART_THUMB_WIDTH,
-															CART_THUMB_HEIGHT,
-															USE_IMAGE_SIZE_SWAPPING
-														);
+										PRODUCT_DEFAULT_IMAGE,
+										'',
+										'thumb',
+										'product',
+										CART_THUMB_WIDTH,
+										CART_THUMB_HEIGHT,
+										USE_IMAGE_SIZE_SWAPPING
+								);
 								$attrib_img = "<img src='" . $attribute_image_path . "'>";
 							}
 						}
@@ -1533,14 +1534,14 @@ class rsCarthelper
 						if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . PRODUCT_DEFAULT_IMAGE))
 						{
 							$attribute_image_path = RedShopHelperImages::getImagePath(
-														PRODUCT_DEFAULT_IMAGE,
-														'',
-														'thumb',
-														'product',
-														CART_THUMB_WIDTH,
-														CART_THUMB_HEIGHT,
-														USE_IMAGE_SIZE_SWAPPING
-													);
+									PRODUCT_DEFAULT_IMAGE,
+									'',
+									'thumb',
+									'product',
+									CART_THUMB_WIDTH,
+									CART_THUMB_HEIGHT,
+									USE_IMAGE_SIZE_SWAPPING
+							);
 							$attrib_img = "<img src='" . $attribute_image_path . "'>";
 						}
 					}
@@ -1802,13 +1803,13 @@ class rsCarthelper
 					$ip            = $downloads->ip;
 
 					$mailtoken = "<a href='" . JUri::root() . "index.php?option=com_redshop&view=product&layout=downloadproduct&tid="
-						. $download_id . "'>"
-						. $file_name . "</a>";
+					. $download_id . "'>"
+					. $file_name . "</a>";
 
 					$dpData .= "</tr>";
 					$dpData .= "<td>(" . $g . ") " . $mailtoken . " "
-						. JText::_('COM_REDSHOP_ON') . " " . $download_date . " "
-						. JText::_('COM_REDSHOP_FROM') . " " . $ip . "</td>";
+					. JText::_('COM_REDSHOP_ON') . " " . $download_date . " "
+					. JText::_('COM_REDSHOP_FROM') . " " . $ip . "</td>";
 					$dpData .= "</tr>";
 
 					$g++;
@@ -2132,12 +2133,16 @@ class rsCarthelper
 		return $data;
 	}
 
-   /**
-   * APPLY_VAT_ON_DISCOUNT = When the discount is a "fixed amount" the
-   * final price may vary, depending on if the discount affects "the price+VAT"
-   * or just "the price". This CONSTANT will define if the discounts needs to
-   * be applied BEFORE or AFTER the VAT is applied to the product price.
-   */
+	/**
+	 * APPLY_VAT_ON_DISCOUNT = When the discount is a "fixed amount" the
+	 * final price may vary, depending on if the discount affects "the price+VAT"
+	 * or just "the price". This CONSTANT will define if the discounts needs to
+	 * be applied BEFORE or AFTER the VAT is applied to the product price.
+	 *
+	 * @param   unknown_type  $cart			cart.
+	 * @param   unknown_type  $shipping		shipping.
+	 * @param   unknown_type  $user_id		userid.
+	 */
 	public function calculation($cart, $shipping = 0, $user_id = 0)
 	{
 		$Idx               = $cart['idx'];
@@ -2349,6 +2354,14 @@ class rsCarthelper
 		return $mod_cart_total;
 	}
 
+
+	/**
+	 *
+	 * @param unknown_type $cart
+	 * @param unknown_type $cart_data
+	 * @param unknown_type $checkout
+	 * @return Ambigous <mixed, string>
+	 */
 	public function replaceTemplate($cart, $cart_data, $checkout = 1)
 	{
 		$cart_data = $this->replaceLabel($cart_data);
@@ -2548,6 +2561,12 @@ class rsCarthelper
 		return $cart_data;
 	}
 
+	/**
+	 *
+	 * @param unknown_type $row
+	 * @param unknown_type $ReceiptTemplate
+	 * @return Ambigous <mixed, string>
+	 */
 	public function replaceOrderTemplate($row, $ReceiptTemplate)
 	{
 		$url       = JURI::base();
@@ -2738,7 +2757,6 @@ class rsCarthelper
 		{
 			$search  [] = "{denotation_label}";
 			$replace [] = "";
-
 		}
 
 		$search  [] = "{discount_denotation}";
@@ -2845,7 +2863,7 @@ class rsCarthelper
 		if ($paymentmethod_detail->element == "rs_payment_banktransfer" || $paymentmethod_detail->element == "rs_payment_banktransfer_discount" || $paymentmethod_detail->element == "rs_payment_banktransfer2" || $paymentmethod_detail->element == "rs_payment_banktransfer3" || $paymentmethod_detail->element == "rs_payment_banktransfer4" || $paymentmethod_detail->element == "rs_payment_banktransfer5")
 		{
 			$paymentpath   = JPATH_SITE . '/plugins/redshop_payment/'
-				. $paymentmethod_detail->element . '/' . $paymentmethod_detail->element . '.xml';
+			. $paymentmethod_detail->element . '/' . $paymentmethod_detail->element . '.xml';
 			$paymentparams = new JRegistry($paymentmethod_detail->params);
 			$txtextra_info = $paymentparams->get('txtextra_info', '');
 		}
@@ -3046,6 +3064,10 @@ class rsCarthelper
 		return $outputArr;
 	}
 
+	/**
+	 *
+	 * @return multitype:string
+	 */
 	public function GetCartParameters()
 	{
 		$sel = 'SELECT params  from #__modules where module = "mod_redshop_cart" and published =1';
@@ -3074,6 +3096,12 @@ class rsCarthelper
 		return $cartparamArr;
 	}
 
+	/**
+	 *
+	 * @param unknown_type $cartArr
+	 * @param unknown_type $user_id
+	 * @return void|Ambigous <unknown, number>
+	 */
 	public function modifyCart($cartArr, $user_id)
 	{
 		$cartArr['user_id'] = $user_id;
@@ -3300,6 +3328,17 @@ class rsCarthelper
 		return $output;
 	}
 
+	/**
+	 *
+	 * @param unknown_type $template_desc
+	 * @param unknown_type $shipping_rate_id
+	 * @param unknown_type $shipping_box_post_id
+	 * @param unknown_type $user_id
+	 * @param unknown_type $users_info_id
+	 * @param unknown_type $ordertotal
+	 * @param unknown_type $order_subtotal
+	 * @return multitype:Ambigous <string, mixed> unknown
+	 */
 	public function replaceShippingTemplate($template_desc = "", $shipping_rate_id = 0, $shipping_box_post_id = 0, $user_id = 0, $users_info_id = 0, $ordertotal = 0, $order_subtotal = 0)
 	{
 		$shippingmethod       = $this->_order_functions->getShippingMethodInfo();
@@ -3395,10 +3434,10 @@ class rsCarthelper
 								}
 
 								$shipping_rate_name = '<input type="radio" id="shipping_rate_id_'.$shippingmethod[$s]->extension_id.'_'.$i.'" name="shipping_rate_id" value="'
-									. $rate[$i]->value . '" '
-									. $checked
-									. ' onclick="javascript:onestepCheckoutProcess(this.name,\'' . $classname . '\');">'
-									. '<label for="shipping_rate_id_'.$shippingmethod[$s]->extension_id.'_'.$i.'">' . html_entity_decode($rate[$i]->text) . '</label>';
+								. $rate[$i]->value . '" '
+								. $checked
+								. ' onclick="javascript:onestepCheckoutProcess(this.name,\'' . $classname . '\');">'
+								. '<label for="shipping_rate_id_'.$shippingmethod[$s]->extension_id.'_'.$i.'">' . html_entity_decode($rate[$i]->text) . '</label>';
 
 								$shipping_rate_short_desc = '';
 
@@ -3498,6 +3537,11 @@ class rsCarthelper
 		return $returnarr;
 	}
 
+	/**
+	 *
+	 * @param unknown_type $payment_method_id
+	 * @return string
+	 */
 	public function replaceCreditCardInformation($payment_method_id = 0)
 	{
 		$ccdata = $this->_session->get('ccdata');
@@ -3625,6 +3669,14 @@ class rsCarthelper
 		return $cardinfo;
 	}
 
+	/**
+	 *
+	 * @param unknown_type $template_desc
+	 * @param unknown_type $payment_method_id
+	 * @param unknown_type $is_company
+	 * @param unknown_type $ean_number
+	 * @return Ambigous <string, mixed>
+	 */
 	public function replacePaymentTemplate($template_desc = "", $payment_method_id = 0, $is_company = 0, $ean_number = 0)
 	{
 		$ccdata = $this->_session->get('ccdata');
@@ -3774,13 +3826,13 @@ class rsCarthelper
 						elseif ($is_subscription)
 						{
 							$display_payment = '<input id="' . $paymentmethod[$p]->name . $p . '" type="radio" name="payment_method_id" value="'
-								. $paymentmethod[$p]->name . '" '
-								. $checked . ' onclick="javascript:onestepCheckoutProcess(this.name);" />'
-								. '<label for="' . $paymentmethod[$p]->name . $p . '">' . JText::_($paymentmethod[$p]->name) . '</label><br>';
+							. $paymentmethod[$p]->name . '" '
+							. $checked . ' onclick="javascript:onestepCheckoutProcess(this.name);" />'
+							. '<label for="' . $paymentmethod[$p]->name . $p . '">' . JText::_($paymentmethod[$p]->name) . '</label><br>';
 							$display_payment .= '<table><tr><td>'
-								. JText::_('COM_REDSHOP_SUBSCRIPTION_PLAN')
-								. '</td><td>' . $this->getSubscriptionPlans()
-								. '<td></tr><table>';
+							. JText::_('COM_REDSHOP_SUBSCRIPTION_PLAN')
+							. '</td><td>' . $this->getSubscriptionPlans()
+							. '<td></tr><table>';
 						}
 						else
 						{
@@ -3847,6 +3899,12 @@ class rsCarthelper
 		return $template_desc;
 	}
 
+	/**
+	 *
+	 * @param unknown_type $template_desc
+	 * @param unknown_type $Itemid
+	 * @return mixed
+	 */
 	public function replaceTermsConditions($template_desc = "", $Itemid = 1)
 	{
 		if (strstr($template_desc, "{terms_and_conditions"))
@@ -3859,16 +3917,16 @@ class rsCarthelper
 			if ($user->id)
 			{
 				$query = "SELECT u.* FROM " . $this->_table_prefix . "users_info AS u "
-					. "WHERE u.user_id='" . $user->id . "' "
-					. "AND address_type='BT' ";
+				. "WHERE u.user_id='" . $user->id . "' "
+				. "AND address_type='BT' ";
 				$this->_db->setQuery($query);
 				$list = $this->_db->loadObject();
 			}
 			elseif (isset($auth['users_info_id']) && $auth['users_info_id'] > 0)
 			{
 				$query = "SELECT u.* FROM " . $this->_table_prefix . "users_info AS u "
-					. "WHERE u.users_info_id='" . $auth['users_info_id'] . "' "
-					. "AND address_type='BT' ";
+				. "WHERE u.users_info_id='" . $auth['users_info_id'] . "' "
+				. "AND address_type='BT' ";
 				$this->_db->setQuery($query);
 				$list = $this->_db->loadObject();
 			}
@@ -3934,6 +3992,12 @@ class rsCarthelper
 		return $template_desc;
 	}
 
+	/**
+	 *
+	 * @param unknown_type $template_desc
+	 * @param unknown_type $onchange
+	 * @return mixed
+	 */
 	public function replaceNewsletterSubscription($template_desc = "", $onchange = 0)
 	{
 		$db = JFactory::getDbo();
@@ -3949,7 +4013,7 @@ class rsCarthelper
 			{
 				$user  = JFactory::getUser();
 				$query = "SELECT subscription_id FROM " . $this->_table_prefix . "newsletter_subscription"
-					. " WHERE user_id=" . (int) $user->id . " AND email=" . $db->quote($user->email);
+				. " WHERE user_id=" . (int) $user->id . " AND email=" . $db->quote($user->email);
 				$this->_db->setQuery($query);
 				$subscribe = $this->_db->loadResult();
 
@@ -3958,7 +4022,6 @@ class rsCarthelper
 					if ($onchange)
 					{
 						$link = " onchange='window.location.href=\"" . JUri::root() . "index.php?option=com_redshop&view=account&task=newsletterSubscribe&tmpl=component&Itemid=" . $Itemid . "\"";
-
 					}
 
 					$newslettersignup     = "<input type='checkbox' name='newsletter_signup' value='1' '$link'>";
@@ -3974,6 +4037,15 @@ class rsCarthelper
 		return $template_desc;
 	}
 
+	/**
+	 * short description
+	 *
+	 * @param   unknown_type  $product_id  		comment
+	 * @param   unknown_type  $cart				comment
+	 * @param   unknown_type  $voucher_left		comment
+	 *
+	 * @return multitype:string number
+	 */
 	public function getCartProductPrice($product_id, $cart, $voucher_left)
 	{
 		$productArr             = array();
@@ -4019,6 +4091,12 @@ class rsCarthelper
 		return $productArr;
 	}
 
+	/**
+	 * short description
+	 *
+	 * @param unknown_type $c_data
+	 * @return void|boolean|number|Ambigous <boolean, Ambigous, number, unknown_type>
+	 */
 	public function coupon($c_data = array())
 	{
 		$coupon_code = JRequest::getVar('discount_code', '');
@@ -4046,8 +4124,8 @@ class rsCarthelper
 					if ($user->id)
 					{
 						$sel = "SELECT SUM(coupon_value) AS usertotal FROM " . $this->_table_prefix . "coupons_transaction "
-							. "WHERE userid=" . (int) $user->id
-							. "GROUP BY userid ";
+						. "WHERE userid=" . (int) $user->id
+						. "GROUP BY userid ";
 						$this->_db->setQuery($sel);
 						$userData = $this->_db->loadResult();
 
@@ -4150,7 +4228,6 @@ class rsCarthelper
 						if ($valueExist && $key)
 						{
 							$return = false;
-
 						}
 						break;
 
@@ -4210,6 +4287,11 @@ class rsCarthelper
 		}
 	}
 
+	/**
+	 *
+	 * @param unknown_type $v_data
+	 * @return Ambigous <number, unknown>|boolean
+	 */
 	public function voucher($v_data = array())
 	{
 		$voucher_code = JRequest::getVar('discount_code', '');
@@ -4375,6 +4457,12 @@ class rsCarthelper
 		}
 	}
 
+	/**
+	 *
+	 * @param unknown_type $needle
+	 * @param unknown_type $haystack
+	 * @return boolean
+	 */
 	public function rs_multi_array_key_exists($needle, $haystack)
 	{
 		foreach ($haystack as $key => $value)
@@ -4396,6 +4484,13 @@ class rsCarthelper
 		return false;
 	}
 
+	/**
+	 *
+	 * @param unknown_type $haystack
+	 * @param unknown_type $needle
+	 * @param unknown_type $index
+	 * @return boolean
+	 */
 	public function rs_recursiveArraySearch($haystack, $needle, $index = null)
 	{
 		$aIt = new RecursiveArrayIterator($haystack);
@@ -4447,12 +4542,12 @@ class rsCarthelper
 			if ($user->id)
 			{
 				$query = "SELECT vt.transaction_voucher_id,vt.amount as total,vt.product_id from " . $this->_table_prefix . "product_voucher_xref as pv "
-					. " LEFT JOIN " . $this->_table_prefix . "product_voucher as v on v.voucher_id = pv.voucher_id"
-					. " WHERE voucher_code=" . $db->quote($voucher_code) . " ) as nproduct , v.* FROM " . $this->_table_prefix . "product_voucher as v "
-					. " LEFT JOIN " . $this->_table_prefix . "product_voucher_transaction as vt on vt.voucher_id = v.voucher_id "
-					. "\nWHERE vt.amount > 0 AND v.voucher_type = 'Total' AND v.published = 1 and vt.voucher_code=" . $db->quote($voucher_code)
-					. " AND ((start_date<=" . $db->quote($current_time) . " and end_date>=" . $db->quote($current_time) . ")"
-					. " OR ( start_date =0 AND end_date = 0) ) AND vt.user_id=" . (int) $user->id . " ORDER BY transaction_voucher_id DESC limit 0,1";
+				. " LEFT JOIN " . $this->_table_prefix . "product_voucher as v on v.voucher_id = pv.voucher_id"
+				. " WHERE voucher_code=" . $db->quote($voucher_code) . " ) as nproduct , v.* FROM " . $this->_table_prefix . "product_voucher as v "
+				. " LEFT JOIN " . $this->_table_prefix . "product_voucher_transaction as vt on vt.voucher_id = v.voucher_id "
+				. "\nWHERE vt.amount > 0 AND v.voucher_type = 'Total' AND v.published = 1 and vt.voucher_code=" . $db->quote($voucher_code)
+				. " AND ((start_date<=" . $db->quote($current_time) . " and end_date>=" . $db->quote($current_time) . ")"
+				. " OR ( start_date =0 AND end_date = 0) ) AND vt.user_id=" . (int) $user->id . " ORDER BY transaction_voucher_id DESC limit 0,1";
 				$this->_db->setQuery($query);
 				$voucher = $this->_db->loadObject();
 
@@ -4463,12 +4558,12 @@ class rsCarthelper
 			if ((count($voucher)) <= 0)
 			{
 				$query = "SELECT (select GROUP_CONCAT(DISTINCT CAST(product_id AS CHAR)  SEPARATOR ', ') as product_id from " . $this->_table_prefix . "product_voucher_xref as pv "
-					. " LEFT JOIN " . $this->_table_prefix . "product_voucher as v on v.voucher_id = pv.voucher_id"
-					. " WHERE voucher_code=" . $db->quote($voucher_code) . ") as nproduct,"
-					. " amount as total ,voucher_type,free_shipping,voucher_id,voucher_code,voucher_left  FROM " . $this->_table_prefix . "product_voucher as v  "
-					. "\nWHERE published = 1 and voucher_code=" . $db->quote($voucher_code)
-					. " AND ((start_date<=" . $db->quote($current_time) . " AND end_date>=" . $db->quote($current_time) . ")"
-					. " OR ( start_date =0 AND end_date = 0) ) and voucher_left>0 limit 0,1";
+				. " LEFT JOIN " . $this->_table_prefix . "product_voucher as v on v.voucher_id = pv.voucher_id"
+				. " WHERE voucher_code=" . $db->quote($voucher_code) . ") as nproduct,"
+				. " amount as total ,voucher_type,free_shipping,voucher_id,voucher_code,voucher_left  FROM " . $this->_table_prefix . "product_voucher as v  "
+				. "\nWHERE published = 1 and voucher_code=" . $db->quote($voucher_code)
+				. " AND ((start_date<=" . $db->quote($current_time) . " AND end_date>=" . $db->quote($current_time) . ")"
+				. " OR ( start_date =0 AND end_date = 0) ) and voucher_left>0 limit 0,1";
 				$this->_db->setQuery($query);
 				$voucher = $this->_db->loadObject();
 			}
@@ -4487,11 +4582,11 @@ class rsCarthelper
 
 		$current_time = time();
 		$query        = "SELECT product_id,v.* from " . $this->_table_prefix . "product_voucher_xref as pv  "
-			. "left join " . $this->_table_prefix . "product_voucher as v on v.voucher_id = pv.voucher_id "
-			. " \nWHERE v.published = 1"
-			. " AND v.voucher_code=" . $db->quote($voucher_code)
-			. " AND ((v.start_date<=" . $db->quote($current_time) . " AND v.end_date>=" . $db->quote($current_time) . ")"
-			. " OR ( v.start_date =0 AND v.end_date = 0) ) AND v.voucher_left>0 limit 0,1";
+		. "left join " . $this->_table_prefix . "product_voucher as v on v.voucher_id = pv.voucher_id "
+		. " \nWHERE v.published = 1"
+		. " AND v.voucher_code=" . $db->quote($voucher_code)
+		. " AND ((v.start_date<=" . $db->quote($current_time) . " AND v.end_date>=" . $db->quote($current_time) . ")"
+		. " OR ( v.start_date =0 AND v.end_date = 0) ) AND v.voucher_left>0 limit 0,1";
 		$this->_db->setQuery($query);
 		$voucher = $this->_db->loadObject();
 
@@ -4499,11 +4594,11 @@ class rsCarthelper
 		{
 			$this->_globalvoucher = 1;
 			$query                = "SELECT v.*,v.amount as total from " . $this->_table_prefix . "product_voucher as v "
-				. "WHERE v.published = 1 "
-				. "AND v.voucher_code=" . $db->quote($voucher_code)
-				. "AND ((v.start_date<=" . $db->quote($current_time) . " AND v.end_date>=" . $db->quote($current_time) . ")"
-				. " OR ( v.start_date =0 AND v.end_date = 0) ) "
-				. "AND v.voucher_left>0 LIMIT 0,1 ";
+			. "WHERE v.published = 1 "
+			. "AND v.voucher_code=" . $db->quote($voucher_code)
+			. "AND ((v.start_date<=" . $db->quote($current_time) . " AND v.end_date>=" . $db->quote($current_time) . ")"
+			. " OR ( v.start_date =0 AND v.end_date = 0) ) "
+			. "AND v.voucher_left>0 LIMIT 0,1 ";
 			$this->_db->setQuery($query);
 			$voucher = $this->_db->loadObject();
 		}
@@ -4523,10 +4618,10 @@ class rsCarthelper
 		if ($user->id)
 		{
 			$query = "SELECT ct.coupon_value as coupon_value,c.free_shipping, c.coupon_id,c.coupon_code,c.percent_or_total,ct.userid,ct.transaction_coupon_id FROM " . $this->_table_prefix . "coupons as c "
-				. "left join " . $this->_table_prefix . "coupons_transaction as ct on ct.coupon_id = c.coupon_id "
-				. "WHERE ct.coupon_value > 0 AND c.published = 1 and ct.coupon_code=" . $db->quote($coupon_code)
-				. " AND (c.start_date<=" . $db->quote($current_time) . " AND c.end_date>=" . $db->quote($current_time) . " )"
-				. " AND ct.userid=" . (int) $user->id . " ORDER BY transaction_coupon_id DESC limit 0,1";
+			. "left join " . $this->_table_prefix . "coupons_transaction as ct on ct.coupon_id = c.coupon_id "
+			. "WHERE ct.coupon_value > 0 AND c.published = 1 and ct.coupon_code=" . $db->quote($coupon_code)
+			. " AND (c.start_date<=" . $db->quote($current_time) . " AND c.end_date>=" . $db->quote($current_time) . " )"
+			. " AND ct.userid=" . (int) $user->id . " ORDER BY transaction_coupon_id DESC limit 0,1";
 			$this->_db->setQuery($query);
 			$coupon = $this->_db->loadObject();
 
@@ -4539,9 +4634,9 @@ class rsCarthelper
 		if (count($coupon) <= 0)
 		{
 			$query = "SELECT * FROM " . $this->_table_prefix . "coupons   "
-				. "WHERE published = 1 and coupon_code = " . $db->quote($coupon_code) . " and (start_date<=" . $db->quote($current_time)
-				. " AND end_date>=" . $db->quote($current_time) . " ) AND coupon_left > 0 "
-				. " AND ( " . $db->quote($subtotal) . " >= subtotal OR subtotal = 0 OR subtotal = '' ) limit 0,1";
+			. "WHERE published = 1 and coupon_code = " . $db->quote($coupon_code) . " and (start_date<=" . $db->quote($current_time)
+			. " AND end_date>=" . $db->quote($current_time) . " ) AND coupon_left > 0 "
+			. " AND ( " . $db->quote($subtotal) . " >= subtotal OR subtotal = 0 OR subtotal = '' ) limit 0,1";
 			$this->_db->setQuery($query);
 			$coupon = $this->_db->loadObject();
 		}
@@ -5076,8 +5171,8 @@ class rsCarthelper
 	public function removecartfromdb($cart_id = 0, $userid = 0, $delCart = false)
 	{
 		/*if($cart_id==0)
-		{
-			return false;
+		 {
+		return false;
 		}*/
 
 		if ($userid == 0)
@@ -5130,7 +5225,7 @@ class rsCarthelper
 		}
 
 		$query = "SELECT ci.* FROM " . $this->_table_prefix . "usercart AS c," . $this->_table_prefix . "usercart_item AS ci
-				  WHERE c.cart_id = ci.cart_id AND user_id=" . (int) $userId . " ORDER BY cart_idx";
+		WHERE c.cart_id = ci.cart_id AND user_id=" . (int) $userId . " ORDER BY cart_idx";
 		$this->_db->setQuery($query);
 		$cart_items = $this->_db->loadObjectlist();
 
@@ -5420,7 +5515,7 @@ class rsCarthelper
 		if ($cart_item_id != 0)
 		{
 			$query = "SELECT * FROM  " . $this->_table_prefix . "usercart_accessory_item "
-				. "WHERE cart_item_id=" . (int) $cart_item_id;
+			. "WHERE cart_item_id=" . (int) $cart_item_id;
 			$this->_db->setQuery($query);
 			$list = $this->_db->loadObjectlist();
 		}
@@ -5445,9 +5540,9 @@ class rsCarthelper
 		}
 
 		$query = "SELECT * FROM  " . $this->_table_prefix . "usercart_attribute_item "
-			. "WHERE is_accessory_att=" . (int) $is_accessory . " "
-			. "AND section=" . $db->quote($section) . " "
-			. $and;
+		. "WHERE is_accessory_att=" . (int) $is_accessory . " "
+		. "AND section=" . $db->quote($section) . " "
+		. $and;
 		$this->_db->setQuery($query);
 		$list = $this->_db->loadObjectlist();
 
@@ -5572,8 +5667,8 @@ class rsCarthelper
 
 		/*
 		 * Check if required userfield are filled or not if not than redirect to product detail page...
-		 * get product userfield from selected product template...
-		 */
+		* get product userfield from selected product template...
+		*/
 		if (!AJAX_CART_BOX)
 		{
 			$fieldreq = $this->userfieldValidation($data, $data_add, $section);
@@ -5756,7 +5851,7 @@ class rsCarthelper
 		{
 			/*
 			 * Check if required attribute is filled or not ...
-			 */
+			*/
 			$attribute_template = $this->_producthelper->getAttributeTemplate($data_add);
 
 			if (count($attribute_template) > 0)
@@ -5968,9 +6063,9 @@ class rsCarthelper
 
 						/*
 						 * trigger the event of redSHOP product plugin support on Same product is going to add into cart
-						 *
-						 * Usually redSHOP update quantity
-						 */
+						*
+						* Usually redSHOP update quantity
+						*/
 						$dispatcher->trigger('onSameCartProduct', array(& $cart, $data, $i));
 
 						$this->_session->set('cart', $cart);
@@ -6394,12 +6489,12 @@ class rsCarthelper
 		}
 
 		$query = "SELECT a.attribute_id AS value,a.attribute_name AS text,a.*,ast.attribute_set_name "
-			. "FROM " . $this->_table_prefix . "product_attribute AS a "
-			. "LEFT JOIN " . $this->_table_prefix . "attribute_set AS ast ON ast.attribute_set_id=a.attribute_set_id "
-			. "LEFT JOIN " . $this->_table_prefix . "product AS p ON p.attribute_set_id=a.attribute_set_id " . $astpublished
-			. "WHERE a.attribute_name!='' "
-			. $and
-			. " and attribute_published=1 ORDER BY a.ordering ASC ";
+		. "FROM " . $this->_table_prefix . "product_attribute AS a "
+		. "LEFT JOIN " . $this->_table_prefix . "attribute_set AS ast ON ast.attribute_set_id=a.attribute_set_id "
+		. "LEFT JOIN " . $this->_table_prefix . "product AS p ON p.attribute_set_id=a.attribute_set_id " . $astpublished
+		. "WHERE a.attribute_name!='' "
+		. $and
+		. " and attribute_published=1 ORDER BY a.ordering ASC ";
 		$this->_db->setQuery($query);
 		$list = $this->_db->loadObjectlist();
 
@@ -6409,7 +6504,7 @@ class rsCarthelper
 	public function getAttributeSetId($pid)
 	{
 		$query = "SELECT attribute_set_id FROM " . $this->_table_prefix . "product"
-			. " WHERE product_id=" . (int) $pid;
+		. " WHERE product_id=" . (int) $pid;
 
 		$this->_db->setQuery($query);
 
@@ -6791,9 +6886,9 @@ class rsCarthelper
 
 	/*
 	 * discount calculaor Ajax Function
-	 *
-	 * @return: ajax responce
-	 */
+	*
+	* @return: ajax responce
+	*/
 	public function discountCalculator($get)
 	{
 		$product_id = $get['product_id'];
@@ -6858,14 +6953,20 @@ class rsCarthelper
 				$Area = $calcHeight * $calcWidth * $calcLength;
 
 				if (!$use_range)
+				{
 					$product_area = $product_height * $product_width * $product_length;
+				}
+
 				break;
 
 			case "area":
 				$Area = $calcLength * $calcWidth;
 
 				if (!$use_range)
+				{
 					$product_area = $product_length * $product_width;
+				}
+
 				break;
 
 			case "circumference":
@@ -6873,7 +6974,10 @@ class rsCarthelper
 				$Area = 2 * PI * $calcRadius;
 
 				if (!$use_range)
+				{
 					$product_area = PI * $product_diameter;
+				}
+
 				break;
 		}
 
@@ -6885,7 +6989,6 @@ class rsCarthelper
 
 			// Calculation prices as per various area
 			$discount_calc_data = $this->getDiscountCalcData($finalArea, $product_id);
-
 		}
 		else
 		{
@@ -6894,7 +6997,10 @@ class rsCarthelper
 
 			// Total sheet calculation
 			if ($final_product_Area <= 0)
+			{
 				$final_product_Area = 1;
+			}
+
 			$total_sheet = $finalArea / $final_product_Area;
 
 			// Returns the next highest integer value by rounding up value if necessary.
@@ -6902,7 +7008,10 @@ class rsCarthelper
 
 			// If sheet is less than 0 or equal to 0 than
 			if ($total_sheet <= 0)
+			{
 				$total_sheet = 1;
+			}
+
 
 			// Product price of all sheets
 			$product_price_total = $total_sheet * $product_price;
@@ -6973,22 +7082,17 @@ class rsCarthelper
 				$chktag              = $this->_producthelper->getApplyattributeVatOrNot();
 				$price_per_piece_tax = $this->_producthelper->getProductTax($product_id, $price_per_piece, 0, 1);
 
-				echo $display_final_area . "\n";
-
-				echo $area_price . "\n";
-
-				echo $price_per_piece . "\n";
-
-				echo JText::_('COM_REDSHOP_TOTAL_AREA') . "\n";
-
-				echo JText::_('COM_REDSHOP_PRICE_PER_AREA') . "\n";
-
-				echo JText::_('COM_REDSHOP_PRICE_PER_PIECE') . "\n";
-
-				echo JText::_('COM_REDSHOP_PRICE_TOTAL') . "\n";
-
-				echo $price_per_piece_tax . "\n";
-				echo $chktag . "\n";
+				$json = array(
+						'final_area'			=> $display_final_area,
+						'area_price'			=> $area_price,
+						'price_per_piece'		=> $price_per_piece,
+						'title_total_area'		=> JText::_('COM_REDSHOP_TOTAL_AREA'),
+						'title_price_per_area'	=> JText::_('COM_REDSHOP_PRICE_PER_AREA'),
+						'title_price_per_piece'	=> JText::_('COM_REDSHOP_PRICE_PER_PIECE'),
+						'title_price_total'		=> JText::_('COM_REDSHOP_PRICE_TOTAL'),
+						'price_per_piece_tax'	=> $price_per_piece_tax,
+						'checktag'				=> $chktag
+				);
 			}
 			else
 			{
@@ -6996,23 +7100,23 @@ class rsCarthelper
 
 				$price_per_piece_tax = $this->_producthelper->getProductTax($product_id, $price_per_piece, 0, 1);
 
-				echo $Area . "<br />" . JText::_('COM_REDSHOP_TOTAL_PIECE') . $total_sheet . "\n";
-
-				echo $area_price . "\n";
-
-				echo $price_per_piece . "\n";
-
-				echo JText::_('COM_REDSHOP_TOTAL_AREA') . "\n";
-
-				echo JText::_('COM_REDSHOP_PRICE_PER_PIECE') . "\n";
-
-				echo JText::_('COM_REDSHOP_PRICE_OF_ALL_PIECE') . "\n";
-
-				echo JText::_('COM_REDSHOP_PRICE_TOTAL') . "\n";
-
-				echo $price_per_piece_tax . "\n";
-				echo $chktag . "\n";
+				$json = array(
+						'final_area'			=> $Area . "<br />" . JText::_('COM_REDSHOP_TOTAL_PIECE') . $total_sheet,
+						'area_price'			=> $area_price,
+						'price_per_piece'		=> $price_per_piece,
+						'title_total_area'		=> JText::_('COM_REDSHOP_TOTAL_AREA'),
+						'title_price_per_area'	=> JText::_('COM_REDSHOP_PRICE_PER_AREA'),
+						'title_price_per_piece'	=> JText::_('COM_REDSHOP_PRICE_PER_PIECE'),
+						'title_price_all_piece'	=> JText::_('COM_REDSHOP_PRICE_OF_ALL_PIECE'),
+						'title_price_total'		=> JText::_('COM_REDSHOP_PRICE_TOTAL'),
+						'price_per_piece_tax'	=> $price_per_piece_tax,
+						'checktag'				=> $chktag
+				);
 			}
+
+			$registry = new JRegistry($json);
+			$json = $registry->toString();
+			echo $json;
 		}
 		else
 		{
@@ -7033,9 +7137,9 @@ class rsCarthelper
 	/**
 	 * Function to get Discount calculation data
 	 *
-	 * @param int $area
-	 * @param     $pid
-	 * @param int $areabetween
+	 * @param   int  $area
+	 * @param   int  $pid
+	 * @param   int  $areabetween
 	 *
 	 * @return mixed
 	 */
@@ -7054,9 +7158,9 @@ class rsCarthelper
 		}
 
 		$query = "SELECT * FROM `" . $this->_table_prefix . "product_discount_calc` "
-			. "WHERE `product_id`=" . (int) $pid . " "
-			. $and
-			. "ORDER BY id ASC ";
+		. "WHERE `product_id`=" . (int) $pid . " "
+		. $and
+		. "ORDER BY id ASC ";
 		$this->_db->setQuery($query);
 		$list = $this->_db->loadObjectlist();
 
@@ -7092,9 +7196,9 @@ class rsCarthelper
 		}
 
 		$query = "SELECT * FROM `" . $this->_table_prefix . "product_discount_calc_extra` "
-			. "WHERE 1=1 "
-			. $and
-			. "ORDER BY option_name ";
+		. "WHERE 1=1 "
+		. $and
+		. "ORDER BY option_name ";
 		$this->_db->setQuery($query);
 		$list = $this->_db->loadObjectlist();
 
