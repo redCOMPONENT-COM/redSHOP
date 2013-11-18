@@ -3177,6 +3177,10 @@ class rsCarthelper
 				$cartArr[$i]['product_price_excl_vat']     = $product_price_excl_vat;
 				$cartArr[$i]['product_vat']                = $product_vat;
 				$cartArr[$i]['product_price']              = $product_price;
+
+				JPluginHelper::importPlugin('redshop_product');
+				$dispatcher = JDispatcher::getInstance();
+				$dispatcher->trigger('onBeforeLoginCartSession', array(&$cartArr, $i));
 			}
 		}
 
