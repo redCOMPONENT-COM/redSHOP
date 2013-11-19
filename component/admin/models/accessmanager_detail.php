@@ -262,7 +262,7 @@ class accessmanager_detailModelaccessmanager_detail extends JModel
 
 					if ($row->view == 1 && $row->add == 1)
 					{
-						$query = "UPDATE " . $this->_table_prefix . "accessmanager".
+						$query = "UPDATE " . $this->_table_prefix . "accessmanager"
 							. " SET `view` = " . (int) $row->view . ","
 							. " `add` = " . (int) $row->add . ","
 							. " `edit` = " . (int) $row->edit . ","

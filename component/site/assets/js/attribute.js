@@ -1729,10 +1729,20 @@ function discountCalculation(proid) {
             }
         }
     }
+    
+    //extra option product
     pdcoptionid = pdcoptionid.join(",");
     // End
  
     (function($){
+    	if($('#attribute_ajax_span'))
+    	{
+    		var attrObj = $('#attribute_ajax_span').find('select[attribute_name]');
+    		propertyId = attrObj.val();
+    		proAttrIdStr = attrObj.attr('id');
+    		proAttrIdStr = proAttrIdStr.split('_');
+    	}
+    	
     	$.ajax({
     		url: site_url + 'index.php',
     		method:'get',
@@ -1748,6 +1758,8 @@ function discountCalculation(proid) {
     			calcRadius:calRadius,
     			calcUnit:calUnit,
     			pdcextraid:pdcoptionid,
+    			pdcAttrsId:proAttrIdStr[5],
+    			pdcPropertyId:propertyId,
     			tmpl:'component'
     		},
     		success:function(responseText){
@@ -1760,13 +1772,13 @@ function discountCalculation(proid) {
 
                         qty = eld[g].value;
                     } else {
-                        if (eld[g].id == 'quantity' + proid) {
-
+                        if (eld[g].id == 'quantity' + proid)
+                        {
                             qty = eld[g].value;
                         }
                     }
                 }
-               //tinh toan sai het roi , phai tinh lai
+
                 total_area = areaPrice.final_area;
                 price_per_area = areaPrice.area_price;
                 price_per_piece = areaPrice.price_per_piece;
@@ -1778,18 +1790,19 @@ function discountCalculation(proid) {
                 var formatted_price_per_piece = number_format(price_per_piece, PRICE_DECIMAL, PRICE_SEPERATOR, THOUSAND_SEPERATOR);
 
                 if (qty <= 0)
-                    qty = 1;
+                {
+                	qty = 1;
+                }
 
-                price_total = parseFloat(price_per_piece) * qty;
+                //price total recalculation, add attributes price
+                price_total = parseFloat(price_per_area) * qty;
 
                 var formatted_price_total = number_format(price_total, PRICE_DECIMAL, PRICE_SEPERATOR, THOUSAND_SEPERATOR);
-
-
+               
                 output = areaPrice.title_total_area + total_area + "<br />";
                 output += areaPrice.title_price_per_area + formatted_price_per_area + "<br />";
                 output += areaPrice.title_price_per_piece + formatted_price_per_piece + "<br />";
                 output += areaPrice.title_price_total + formatted_price_total;
-
 
                 if (document.getElementById('discount_cal_final_price')) {
                     document.getElementById('discount_cal_final_price').innerHTML = output;
@@ -1801,7 +1814,6 @@ function discountCalculation(proid) {
                     calculateTotalPrice(proid, 0);
 
                     if (SHOW_PRICE == '1' && ( DEFAULT_QUOTATION_MODE != '1' || (DEFAULT_QUOTATION_MODE && SHOW_QUOTATION_PRICE))) {
-
 
                         var product_total = final_price_f - parseFloat(product_main_price) + parseFloat(price_total);
 

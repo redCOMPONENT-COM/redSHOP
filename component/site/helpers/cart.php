@@ -16,6 +16,10 @@ JLoader::import('order', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers'
 JLoader::import('shipping', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
 JLoader::import('images', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
 
+/**
+ * redshop cart helper
+ *
+ */
 class rsCarthelper
 {
 	public $_table_prefix = null;
@@ -6446,10 +6450,24 @@ class rsCarthelper
 		return $generateAccessoryCart;
 	}
 
+	/**
+	 * short description
+	 *
+	 * @param   unknown_type  $product_id
+	 * @param   unknown_type  $attribute_set_id
+	 * @param   unknown_type  $attribute_id
+	 * @param   unknown_type  $published
+	 * @param   unknown_type  $attribute_required
+	 * @param   unknown_type  $notAttributeId
+	 */
 	public function getProductAccAttribute($product_id = 0, $attribute_set_id = 0, $attribute_id = 0, $published = 0, $attribute_required = 0, $notAttributeId = 0)
 	{
-		$and          = "";
-		$astpublished = "";
+		$query = $this->_db->getQuery(true);
+		$query->select('a.attribute_id AS value,a.attribute_name AS text,a.*');
+		$query->from($this->_table_prefix . "product_attribute AS a ");
+		$query->where("a.attribute_name!=''");
+		$query->where("a.attribute_published=1");
+		$query->order('a.ordering');
 
 		if ($product_id != 0)
 		{
@@ -6457,24 +6475,25 @@ class rsCarthelper
 			if ($productsIds = explode(',', $product_id))
 			{
 				JArrayHelper::toInteger($productsIds);
-
-				$and .= "AND p.product_id IN (" . implode(',', $productsIds) . ") ";
+				$query->join('left', $this->_table_prefix . "product AS p ON p.attribute_set_id=a.attribute_set_id ");
+				$query->where("p.product_id IN (" . implode(',', $productsIds) . ") ");
 			}
 		}
 
 		if ($attribute_set_id != 0)
 		{
-			$and .= "AND a.attribute_set_id=" . (int) $attribute_set_id . " ";
+			$query->where("a.attribute_set_id=" . (int) $attribute_set_id);
 		}
 
 		if ($published != 0)
 		{
-			$astpublished = " AND ast.published=" . (int) $published . " ";
+			$query->join('left',$this->_table_prefix . "attribute_set AS ast ON ast.attribute_set_id=a.attribute_set_id ");
+			$query->where("ast.published=" . (int) $published);
 		}
 
 		if ($attribute_required != 0)
 		{
-			$and .= "AND a.attribute_required=" . (int) $attribute_required . " ";
+			$query->where("a.attribute_required=" . (int) $attribute_required);
 		}
 
 		if ($notAttributeId != 0)
@@ -6483,24 +6502,30 @@ class rsCarthelper
 			if ($notAttributeIds = explode(',', $notAttributeId))
 			{
 				JArrayHelper::toInteger($notAttributeIds);
-
-				$and .= "AND a.attribute_id NOT IN (" . implode(',', $notAttributeIds) . ") ";
+				$query->where("a.attribute_id NOT IN (" . implode(',', $notAttributeIds) . ") ");
 			}
 		}
-
-		$query = "SELECT a.attribute_id AS value,a.attribute_name AS text,a.*,ast.attribute_set_name "
+		/* $query = "SELECT a.attribute_id AS value,a.attribute_name AS text,a.*,ast.attribute_set_name "
 		. "FROM " . $this->_table_prefix . "product_attribute AS a "
 		. "LEFT JOIN " . $this->_table_prefix . "attribute_set AS ast ON ast.attribute_set_id=a.attribute_set_id "
 		. "LEFT JOIN " . $this->_table_prefix . "product AS p ON p.attribute_set_id=a.attribute_set_id " . $astpublished
 		. "WHERE a.attribute_name!='' "
 		. $and
-		. " and attribute_published=1 ORDER BY a.ordering ASC ";
+		. " and attribute_published=1 ORDER BY a.ordering ASC "; */
 		$this->_db->setQuery($query);
-		$list = $this->_db->loadObjectlist();
+		if(!$list = $this->_db->loadObjectlist())
+		{
+			echo $query;die;
+		}
 
 		return $list;
 	}
 
+	/**
+	 * short description
+	 *
+	 * @param unknown_type $pid
+	 */
 	public function getAttributeSetId($pid)
 	{
 		$query = "SELECT attribute_set_id FROM " . $this->_table_prefix . "product"
@@ -6884,11 +6909,12 @@ class rsCarthelper
 		}
 	}
 
-	/*
-	 * discount calculaor Ajax Function
-	*
-	* @return: ajax responce
-	*/
+	/**
+	 * short description
+	 *
+	 * @param unknown_type $get
+	 * @return multitype:Ambigous <number, boolean> string number
+	 */
 	public function discountCalculator($get)
 	{
 		$product_id = $get['product_id'];
@@ -7012,7 +7038,6 @@ class rsCarthelper
 				$total_sheet = 1;
 			}
 
-
 			// Product price of all sheets
 			$product_price_total = $total_sheet * $product_price;
 
@@ -7065,6 +7090,29 @@ class rsCarthelper
 				}
 			}
 
+			$proAttrsId = $get['pdcAttrsId'];
+			$propertyId = $get['pdcPropertyId'];
+
+			if(isset($proAttrsId) && $proAttrsId && $proAttrsId != 'undefined' && $propertyId)
+			{
+				$db = $this->_db;
+				$query = $db->getQuery(true);
+				$query->select('a.*');
+				$query->from($this->_table_prefix.'product_attribute_property as a');
+				$query->where('a.attribute_id = '.$proAttrsId);
+				$query->where('a.property_id = '.$propertyId);
+				$db->setquery($query);
+
+				if(!$proProperty = $db->loadObject())
+				{
+					echo $query;die;
+				}
+				else
+				{
+					$proPropertyPrice = $proProperty->oprand . $proProperty->property_price;
+					$area_price += $proPropertyPrice;
+				}
+			}
 
 			$conversation_unit = $discount_calc_data[0]->discount_calc_unit;
 
@@ -7073,8 +7121,6 @@ class rsCarthelper
 				$display_final_area = $finalArea / ($unit * $unit);
 
 				$price_per_piece = $area_price * $finalArea;
-
-				$price_per_piece = $area_price;
 
 				$formatted_price_per_area = $this->_producthelper->getProductFormattedPrice($area_price);
 
