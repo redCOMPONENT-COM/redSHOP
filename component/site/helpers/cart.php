@@ -7099,19 +7099,19 @@ class rsCarthelper
 				$query = $db->getQuery(true);
 				$query->select('a.*');
 				$query->from($this->_table_prefix.'product_attribute_property as a');
-				$query->where('a.attribute_id = '.$proAttrsId);
-				$query->where('a.property_id = '.$propertyId);
+				$query->where('a.attribute_id in ('.$proAttrsId.')');
+				$query->where('a.property_id in ('.$propertyId.')');
 				$db->setquery($query);
 
-				if(!$proProperty = $db->loadObject())
+				if($proProperties = $db->loadObjectList())
 				{
-					echo $query;die;
+					foreach($proProperties as $k=>$proProperty)
+					{
+						$proPropertyPrice = $proProperty->oprand . $proProperty->property_price;
+						$area_price += $proPropertyPrice;
+					}
 				}
-				else
-				{
-					$proPropertyPrice = $proProperty->oprand . $proProperty->property_price;
-					$area_price += $proPropertyPrice;
-				}
+
 			}
 
 			$conversation_unit = $discount_calc_data[0]->discount_calc_unit;

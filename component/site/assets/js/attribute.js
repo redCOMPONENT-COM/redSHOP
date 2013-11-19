@@ -1737,31 +1737,41 @@ function discountCalculation(proid) {
     (function($){
     	if($('#attribute_ajax_span'))
     	{
-    		var attrObj = $('#attribute_ajax_span').find('select[attribute_name]');
-    		propertyId = attrObj.val();
-    		proAttrIdStr = attrObj.attr('id');
-    		proAttrIdStr = proAttrIdStr.split('_');
+    		var 
+    			attrObjs = $('#attribute_ajax_span').find('select[attribute_name]'),
+    			proAttrIds = new Array(),
+    			propertyIds = new Array()
+    		;
+
+    		$.each(attrObjs,function(index,attrObj){
+    			propertyIds.push($(attrObj).val());
+        		proAttrIdStr = $(attrObj).attr('id');
+        		proAttrIdStr = proAttrIdStr.split('_');
+        		proAttrIds.push(proAttrIdStr[5]); 
+    		});
     	}
+    	
+    	var datajax = {
+				option:'com_redshop',
+				view:'cart',
+				task:'discountCalculator',
+				product_id:proid,
+				calcHeight:calHeight,
+				calcWidth:calWidth,
+				calcDepth:calDepth,
+				calcRadius:calRadius,
+				calcUnit:calUnit,
+				pdcextraid:pdcoptionid,
+				pdcAttrsId:proAttrIds.join(','),
+				pdcPropertyId:propertyIds.join(','),
+				tmpl:'component'
+			}
     	
     	$.ajax({
     		url: site_url + 'index.php',
     		method:'get',
     		dataType:'json',
-    		data:{
-    			option:'com_redshop',
-    			view:'cart',
-    			task:'discountCalculator',
-    			product_id:proid,
-    			calcHeight:calHeight,
-    			calcWidth:calWidth,
-    			calcDepth:calDepth,
-    			calcRadius:calRadius,
-    			calcUnit:calUnit,
-    			pdcextraid:pdcoptionid,
-    			pdcAttrsId:proAttrIdStr[5],
-    			pdcPropertyId:propertyId,
-    			tmpl:'component'
-    		},
+    		data:datajax,
     		success:function(responseText){
     			var areaPrice = responseText;
     			console.log(areaPrice);
@@ -1818,9 +1828,9 @@ function discountCalculation(proid) {
                         var product_total = final_price_f - parseFloat(product_main_price) + parseFloat(price_total);
 
                         if (areaPrice.checktag == 1) {
-                            var product_price_excl_vat = price_total + price_excl_vat * qty;
+                            var product_price_excl_vat = price_total + price_excl_vat;
                         } else {
-                            var product_price_excl_vat = price_total * qty;
+                            var product_price_excl_vat = price_total;
                         }
 
                         formatted_price_total = number_format(product_total, PRICE_DECIMAL, PRICE_SEPERATOR, THOUSAND_SEPERATOR);
