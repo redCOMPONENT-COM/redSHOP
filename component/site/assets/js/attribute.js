@@ -202,6 +202,11 @@ function productaddprice(product_id, relatedprd_id)
 
 function changePropertyDropdown(product_id, accessory_id, relatedprd_id, attribute_id, selectedproperty_id, mpw_thumb, mph_thumb)
 {
+	discountCalculation(product_id);
+}
+
+function changePropertyDropdown2(product_id, accessory_id, relatedprd_id, attribute_id, selectedproperty_id, mpw_thumb, mph_thumb)
+{
     var allarg           = arguments;
     var propArr          = new Array();
     var subpropArr       = new Array();
