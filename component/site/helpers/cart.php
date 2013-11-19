@@ -7146,6 +7146,7 @@ class rsCarthelper
 
 				$price_per_piece_tax = $this->_producthelper->getProductTax($product_id, $price_per_piece, 0, 1);
 
+				//test push in window
 				$json = array(
 						'final_area'			=> $Area . "<br />" . JText::_('COM_REDSHOP_TOTAL_PIECE') . $total_sheet,
 						'area_price'			=> $area_price,
