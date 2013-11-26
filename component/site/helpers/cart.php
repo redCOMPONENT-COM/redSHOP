@@ -2231,7 +2231,9 @@ class rsCarthelper
 			$shippingVat = $cart['shipping_vat'];
 		}
 
-		if (VAT_RATE_AFTER_DISCOUNT && !APPLY_VAT_ON_DISCOUNT)
+		$chktag = $this->_producthelper->taxexempt_addtocart();
+
+		if (VAT_RATE_AFTER_DISCOUNT && !APPLY_VAT_ON_DISCOUNT && !empty($chktag))
 		{
 			if (isset($cart['discount_tax']) && !empty($cart['discount_tax']))
 			{
@@ -2240,7 +2242,12 @@ class rsCarthelper
 			}
 			else
 			{
-				$discountVAT = (VAT_RATE_AFTER_DISCOUNT * $total_discount) / (1 + VAT_RATE_AFTER_DISCOUNT);
+				$vatData = $this->_producthelper->getVatRates();
+
+				if (isset($vatData->tax_rate) && !empty($vatData->tax_rate))
+				{
+					$discountVAT = (VAT_RATE_AFTER_DISCOUNT * $total_discount) / (1 + VAT_RATE_AFTER_DISCOUNT);
+				}
 			}
 
 			$vat         = $vat - $discountVAT;
@@ -4476,6 +4483,8 @@ class rsCarthelper
 
 	public function globalvoucher($voucher_code)
 	{
+		$db = JFactory::getDbo();
+
 		$current_time = time();
 		$query        = "SELECT product_id,v.* from " . $this->_table_prefix . "product_voucher_xref as pv  "
 			. "left join " . $this->_table_prefix . "product_voucher as v on v.voucher_id = pv.voucher_id "
@@ -4567,7 +4576,11 @@ class rsCarthelper
 		if (DISCOUNT_ENABLE == 1)
 		{
 			$discount_amount = $this->_producthelper->getDiscountAmount($cart);
-			$cart            = $this->_session->get('cart');
+
+			if ($discount_amount > 0)
+			{
+				$cart = $this->_session->get('cart');
+			}
 		}
 
 		if (!isset($cart['quotation_id']) || (isset($cart['quotation_id']) && !$cart['quotation_id']))
@@ -4607,29 +4620,19 @@ class rsCarthelper
 		$codeDsicount            = $voucherDiscount + $couponDiscount;
 		$totaldiscount           = $cart['cart_discount'] + $codeDsicount;
 
-		$calArr = $this->calculation($cart);
-
-		if (!APPLY_VAT_ON_DISCOUNT)
-		{
-			$vatData = $this->_producthelper->getVatRates();
-			$vatrate = 0;
-
-			if (isset($vatData->tax_rate))
-			{
-				$vatrate = $vatData->tax_rate;
-			}
-
-			$discount_excl_vat = round($totaldiscount, 2);
-			$discount_excl_vat = $discount_excl_vat / (1 + ($vatrate));
-		}
-
+		$calArr 	 = $this->calculation($cart);
 		$tax         = $calArr[5];
 		$Discountvat = 0;
 		$chktag      = $this->_producthelper->taxexempt_addtocart();
 
 		if (VAT_RATE_AFTER_DISCOUNT && !empty($chktag) && !APPLY_VAT_ON_DISCOUNT)
 		{
-			$Discountvat = (VAT_RATE_AFTER_DISCOUNT * $totaldiscount) / (1 + VAT_RATE_AFTER_DISCOUNT);
+			$vatData = $this->_producthelper->getVatRates();
+
+			if (isset($vatData->tax_rate) && !empty($vatData->tax_rate))
+			{
+				$Discountvat = (VAT_RATE_AFTER_DISCOUNT * $totaldiscount) / (1 + VAT_RATE_AFTER_DISCOUNT);
+			}
 		}
 
 		$cart['total'] = $calArr[0] - $totaldiscount;

@@ -111,7 +111,6 @@ class CheckoutModelCheckout extends JModel
 		if ($user->id)
 		{
 			$cart = $this->_carthelper->modifyCart($cart, $user->id);
-			$cart = $this->_carthelper->modifyDiscount($cart);
 		}
 
 		$session->set('cart', $cart);
