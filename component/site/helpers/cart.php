@@ -4483,7 +4483,6 @@ class rsCarthelper
 
 	public function globalvoucher($voucher_code)
 	{
-		$db = JFactory::getDbo();
 
 		$current_time = time();
 		$query        = "SELECT product_id,v.* from " . $this->_table_prefix . "product_voucher_xref as pv  "
