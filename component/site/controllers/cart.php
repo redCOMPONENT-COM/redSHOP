@@ -282,7 +282,10 @@ class CartController extends JController
 
 				if (isset($vatData->tax_rate) && !empty($vatData->tax_rate))
 				{
-					$discountVAT = (VAT_RATE_AFTER_DISCOUNT * $totaldiscount) / (1 + VAT_RATE_AFTER_DISCOUNT);
+					$productPriceExclVAT = $cart['product_subtotal_excl_vat'];
+					$productVAT 		 = $cart['product_subtotal'] - $cart['product_subtotal_excl_vat'];
+					$avgVAT 			 = (($productPriceExclVAT + $productVAT) / $productPriceExclVAT) - 1;
+					$discountVAT 		 = ($avgVAT * $totaldiscount) / (1 + $avgVAT);
 				}
 			}
 		}
