@@ -303,12 +303,16 @@ class Order_detailController extends JController
 	 */
 	public function reorder()
 	{
-		$app      = JFactory::getApplication();
-		$session  = JFactory::getSession();
-		$post     = JRequest::get('post');
-		$order_id = (isset($post['order_id'])) ? $post['order_id'] : JRequest::getInt('order_id');
-		$Itemid   = JRequest::getVar('Itemid');
-		$Itemid   = $this->_redhelper->getCartItemid();
+		// Import redSHOP Product Plug-in
+		JPluginHelper::importPlugin('redshop_product');
+
+		$dispatcher = JDispatcher::getInstance();
+		$app        = JFactory::getApplication();
+		$session    = JFactory::getSession();
+		$post       = JRequest::get('post');
+		$order_id   = (isset($post['order_id'])) ? $post['order_id'] : JRequest::getInt('order_id');
+		$Itemid     = JRequest::getVar('Itemid');
+		$Itemid     = $this->_redhelper->getCartItemid();
 
 		$returnmsg = "";
 
@@ -323,6 +327,10 @@ class Order_detailController extends JController
 			for ($i = 0; $i < count($orderItem); $i++)
 			{
 				$row = (array) $orderItem[$i];
+
+				// Event Trigger on reordering cart item
+				$dispatcher->trigger('onReorderCartItem', array(&$row));
+
 				$subscription_id = 0;
 				$row['quantity'] = $row['product_quantity'];
 
