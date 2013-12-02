@@ -1668,95 +1668,104 @@ function setWrapperComboBox() {
 }
 
 /**
- * 
- * @param proid
- * @returns {Boolean}
- */
+*
+* @param proid
+* @returns {Boolean}
+*/
 function discountCalculation(proid) {
-    var calHeight = 0, calWidth = 0, calDepth = 0, calRadius = 0, calUnit = 'cm', globalcalUnit = 'cm', total_area = '', price_per_area = 0, price_per_piece = 0, output = "", price_total = 0;
+   var calHeight = 0, calWidth = 0, calDepth = 0, calRadius = 0, calUnit = 'cm', globalcalUnit = 'cm', total_area = '', price_per_area = 0, price_per_piece = 0, output = "", price_total = 0;
 
-    if (document.getElementById('calc_height')) {
-        calHeight = document.getElementById('calc_height').value;
-        if (calHeight == "") {
-            alert(COM_REDSHOP_PLEASE_INSERT_HEIGHT);
-            return false;
-        }
+   if (document.getElementById('calc_height')) {
+       calHeight = document.getElementById('calc_height').value;
+       if (calHeight == "") {
+           alert(COM_REDSHOP_PLEASE_INSERT_HEIGHT);
+           return false;
+       }
 
-    }
+   }
 
-    if (document.getElementById('calc_width')) {
-        calWidth = document.getElementById('calc_width').value;
-        if (calWidth == "") {
-            alert(COM_REDSHOP_PLEASE_INSERT_WIDTH);
-            return false;
-        }
-    }
+   if (document.getElementById('calc_width')) {
+       calWidth = document.getElementById('calc_width').value;
+       if (calWidth == "") {
+           alert(COM_REDSHOP_PLEASE_INSERT_WIDTH);
+           return false;
+       }
+   }
 
-    if (document.getElementById('calc_depth')) {
-        calDepth = document.getElementById('calc_depth').value;
-        if (calDepth == "") {
-            alert(COM_REDSHOP_PLEASE_INSERT_DEPTH);
-            return false;
-        }
-    }
+   if (document.getElementById('calc_depth')) {
+       calDepth = document.getElementById('calc_depth').value;
+       if (calDepth == "") {
+           alert(COM_REDSHOP_PLEASE_INSERT_DEPTH);
+           return false;
+       }
+   }
 
-    if (document.getElementById('calc_radius')) {
-        calRadius = document.getElementById('calc_radius').value;
-        if (calRadius == "") {
-            alert(COM_REDSHOP_PLEASE_INSERT_RADIUS);
-            return false;
-        }
-    }
+   if (document.getElementById('calc_radius')) {
+       calRadius = document.getElementById('calc_radius').value;
+       if (calRadius == "") {
+           alert(COM_REDSHOP_PLEASE_INSERT_RADIUS);
+           return false;
+       }
+   }
 
-    if (document.getElementById('discount_calc_unit')) {
-        calUnit = document.getElementById('discount_calc_unit').value;
-        if (calUnit == 0) {
-            alert(COM_REDSHOP_PLEASE_INSERT_UNIT);
-            return false;
-        }
-    }
+   if (document.getElementById('discount_calc_unit')) {
+       calUnit = document.getElementById('discount_calc_unit').value;
+       if (calUnit == 0) {
+           alert(COM_REDSHOP_PLEASE_INSERT_UNIT);
+           return false;
+       }
+   }
 
-    if (document.getElementById('calc_unit')) {
-        globalcalUnit = document.getElementById('calc_unit').value;
-    }
+   if (document.getElementById('calc_unit')) {
+       globalcalUnit = document.getElementById('calc_unit').value;
+   }
 
-    // new extra enhancement of discount calculator added
-    var pdcoptionid = new Array();
-    if (document.getElementsByName('pdc_option_name[]')) {
+   // new extra enhancement of discount calculator added
+   var pdcoptionid = new Array();
+   if (document.getElementsByName('pdc_option_name[]')) {
 
-        var pdcoptions = document.getElementsByName('pdc_option_name[]');
-        var opk = 0;
-        for (var op = 0; op < pdcoptions.length; op++) {
-            var pdcoption = pdcoptions[op];
-            if (pdcoption.checked) {
-                pdcoptionid[opk] = pdcoption.value;
-                opk++;
-            }
-        }
-    }
-    
-    //extra option product
-    pdcoptionid = pdcoptionid.join(",");
-    // End
- 
-    (function($){
-    	if($('#attribute_ajax_span'))
-    	{
-    		var 
-    			attrObjs = $('#attribute_ajax_span').find('select[attribute_name]'),
-    			proAttrIds = new Array(),
-    			propertyIds = new Array()
-    		;
+       var pdcoptions = document.getElementsByName('pdc_option_name[]');
+       var opk = 0;
+       for (var op = 0; op < pdcoptions.length; op++) {
+           var pdcoption = pdcoptions[op];
+           if (pdcoption.checked) {
+               pdcoptionid[opk] = pdcoption.value;
+               opk++;
+           }
+       }
+   }
 
-    		$.each(attrObjs,function(index,attrObj){
-    			propertyIds.push($(attrObj).val());
-        		proAttrIdStr = $(attrObj).attr('id');
-        		proAttrIdStr = proAttrIdStr.split('_');
-        		proAttrIds.push(proAttrIdStr[5]); 
-    		});
-    	}
-    	
-    	var datajax = {
+   //extra option product
+   pdcoptionid = pdcoptionid.join(",");
+   // End
+
+   (function($){
+   	if($('#attribute_ajax_span'))
+   	{
+   		var
+   			attrObjs = $('#attribute_ajax_span').find('select[attribute_name]'),
+   			proAttrIds = new Array(),
+   			propertyIds = new Array()
+   		;
+
+   		$.each(attrObjs,function(index,attrObj){
+   			propertyIds.push($(attrObj).val());
+       		proAttrIdStr = $(attrObj).attr('id');
+       		proAttrIdStr = proAttrIdStr.split('_');
+       		proAttrIds.push(proAttrIdStr[5]); 
+   		});
+
+   		attrObjs = $('#attribute_ajax_span').find('input[attribute_name]:checked');
+   		$.each(attrObjs,function(index,attrObj){
+   			propertyIds.push($(attrObj).val());
+       		proAttrIdStr = $(attrObj).attr('id');
+       		proAttrIdStr = proAttrIdStr.split('_');
+       		proAttrIds.push(proAttrIdStr[5]); 
+   		});
+
+   	}
+
+   	var datajax = {
 				option:'com_redshop',
 				view:'cart',
 				task:'discountCalculator',
@@ -1771,94 +1780,94 @@ function discountCalculation(proid) {
 				pdcPropertyId:propertyIds.join(','),
 				tmpl:'component'
 			}
-    	
-    	$.ajax({
-    		url: site_url + 'index.php',
-    		method:'get',
-    		dataType:'json',
-    		data:datajax,
-    		success:function(responseText){
-    			var areaPrice = responseText;
-    			console.log(areaPrice);
-                var eld = document.getElementsByName('quantity'), qty = 1;
-                for (var g = 0; g < eld.length; g++) {
 
-                    if (eld[g].id == 'ajax_quantity' + proid) {
+   	$.ajax({
+   		url: site_url + 'index.php',
+   		method:'get',
+   		dataType:'json',
+   		data:datajax,
+   		success:function(responseText){
+   			var areaPrice = responseText;
+   			console.log(areaPrice);
+               var eld = document.getElementsByName('quantity'), qty = 1;
+               for (var g = 0; g < eld.length; g++) {
 
-                        qty = eld[g].value;
-                    } else {
-                        if (eld[g].id == 'quantity' + proid)
-                        {
-                            qty = eld[g].value;
-                        }
-                    }
-                }
+                   if (eld[g].id == 'ajax_quantity' + proid) {
 
-                total_area = areaPrice.final_area;
-                price_per_area = areaPrice.area_price;
-                price_per_piece = areaPrice.price_per_piece;
-                price_excl_vat = areaPrice.price_per_piece_tax;
+                       qty = eld[g].value;
+                   } else {
+                       if (eld[g].id == 'quantity' + proid)
+                       {
+                           qty = eld[g].value;
+                       }
+                   }
+               }
 
-                // format numbers
-                var formatted_price_per_area = number_format(price_per_area, PRICE_DECIMAL, PRICE_SEPERATOR, THOUSAND_SEPERATOR);
+               total_area = areaPrice.final_area;
+               price_per_area = areaPrice.area_price;
+               price_per_piece = areaPrice.price_per_piece;
+               price_excl_vat = areaPrice.price_per_piece_tax;
 
-                var formatted_price_per_piece = number_format(price_per_piece, PRICE_DECIMAL, PRICE_SEPERATOR, THOUSAND_SEPERATOR);
+               // format numbers
+               var formatted_price_per_area = number_format(price_per_area, PRICE_DECIMAL, PRICE_SEPERATOR, THOUSAND_SEPERATOR);
 
-                if (qty <= 0)
-                {
-                	qty = 1;
-                }
+               var formatted_price_per_piece = number_format(price_per_piece, PRICE_DECIMAL, PRICE_SEPERATOR, THOUSAND_SEPERATOR);
 
-                //price total recalculation, add attributes price
-                price_total = parseFloat(price_per_area) * qty;
+               if (qty <= 0)
+               {
+               	qty = 1;
+               }
 
-                var formatted_price_total = number_format(price_total, PRICE_DECIMAL, PRICE_SEPERATOR, THOUSAND_SEPERATOR);
-               
-                output = areaPrice.title_total_area + total_area + "<br />";
-                output += areaPrice.title_price_per_area + formatted_price_per_area + "<br />";
-                output += areaPrice.title_price_per_piece + formatted_price_per_piece + "<br />";
-                output += areaPrice.title_price_total + formatted_price_total;
+               //price total recalculation, add attributes price
+               price_total = parseFloat(price_per_area) * qty;
 
-                if (document.getElementById('discount_cal_final_price')) {
-                    document.getElementById('discount_cal_final_price').innerHTML = output;
-                }
+               var formatted_price_total = number_format(price_total, PRICE_DECIMAL, PRICE_SEPERATOR, THOUSAND_SEPERATOR);
 
-                if (document.getElementById('main_price' + proid)) {
-                    var product_main_price = document.getElementById('main_price' + proid).value;
+               output = areaPrice.title_total_area + total_area + "<br />";
+               output += areaPrice.title_price_per_area + formatted_price_per_area + "<br />";
+               output += areaPrice.title_price_per_piece + formatted_price_per_piece + "<br />";
+               output += areaPrice.title_price_total + formatted_price_total;
 
-                    calculateTotalPrice(proid, 0);
+               if (document.getElementById('discount_cal_final_price')) {
+                   document.getElementById('discount_cal_final_price').innerHTML = output;
+               }
 
-                    if (SHOW_PRICE == '1' && ( DEFAULT_QUOTATION_MODE != '1' || (DEFAULT_QUOTATION_MODE && SHOW_QUOTATION_PRICE))) {
+               if (document.getElementById('main_price' + proid)) {
+                   var product_main_price = document.getElementById('main_price' + proid).value;
 
-                        var product_total = final_price_f - parseFloat(product_main_price) + parseFloat(price_total);
+                   calculateTotalPrice(proid, 0);
 
-                        if (areaPrice.checktag == 1) {
-                            var product_price_excl_vat = price_total + price_excl_vat;
-                        } else {
-                            var product_price_excl_vat = price_total;
-                        }
+                   if (SHOW_PRICE == '1' && ( DEFAULT_QUOTATION_MODE != '1' || (DEFAULT_QUOTATION_MODE && SHOW_QUOTATION_PRICE))) {
 
-                        formatted_price_total = number_format(product_total, PRICE_DECIMAL, PRICE_SEPERATOR, THOUSAND_SEPERATOR);
-                        formatted_product_price_excl_vat = number_format(product_price_excl_vat, PRICE_DECIMAL, PRICE_SEPERATOR, THOUSAND_SEPERATOR);
-                        if (document.getElementById('produkt_kasse_hoejre_pris_indre' + proid)) {
-                            document.getElementById('produkt_kasse_hoejre_pris_indre' + proid).innerHTML = formatted_product_price_excl_vat;
-                            if (document.getElementById('display_product_price_no_vat' + proid))
-                                document.getElementById('display_product_price_no_vat' + proid).innerHTML = formatted_price_total;
-                            if (document.getElementById('product_price_no_vat' + proid))
-                                document.getElementById('product_price_no_vat' + proid).value = product_total;
-                        }
+                       var product_total = final_price_f - parseFloat(product_main_price) + parseFloat(price_total);
 
-                        if (document.getElementById('product_price_incl_vat' + proid)) {
-                            document.getElementById('product_price_incl_vat' + proid).innerHTML = formatted_product_price_excl_vat;
-                        }
+                       if (areaPrice.checktag == 1) {
+                           var product_price_excl_vat = price_total + price_excl_vat;
+                       } else {
+                           var product_price_excl_vat = price_total;
+                       }
 
-                        // set product main price as price total for dynamic price change
-                        document.getElementById('main_price' + proid).value = product_price_excl_vat;
-                    }
-                }
-    		}
-    	});
-    })(jQuery);
+                       formatted_price_total = number_format(product_total, PRICE_DECIMAL, PRICE_SEPERATOR, THOUSAND_SEPERATOR);
+                       formatted_product_price_excl_vat = number_format(product_price_excl_vat, PRICE_DECIMAL, PRICE_SEPERATOR, THOUSAND_SEPERATOR);
+                       if (document.getElementById('produkt_kasse_hoejre_pris_indre' + proid)) {
+                           document.getElementById('produkt_kasse_hoejre_pris_indre' + proid).innerHTML = formatted_product_price_excl_vat;
+                           if (document.getElementById('display_product_price_no_vat' + proid))
+                               document.getElementById('display_product_price_no_vat' + proid).innerHTML = formatted_price_total;
+                           if (document.getElementById('product_price_no_vat' + proid))
+                               document.getElementById('product_price_no_vat' + proid).value = product_total;
+                       }
+
+                       if (document.getElementById('product_price_incl_vat' + proid)) {
+                           document.getElementById('product_price_incl_vat' + proid).innerHTML = formatted_product_price_excl_vat;
+                       }
+
+                       // set product main price as price total for dynamic price change
+                       document.getElementById('main_price' + proid).value = product_price_excl_vat;
+                   }
+               }
+   		}
+   	});
+   })(jQuery);
 }
 
 function setProductUserFieldImage(id, prodid, value1, ele) {
