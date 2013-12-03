@@ -1538,17 +1538,7 @@ function displayAdditionalImage(product_id, accessory_id, relatedprd_id, selecte
                 //	document.getElementById('a_main_image'+product_id).src=arrResponse[4];
                 //}
                 if (arrResponse[4] != "") {
-                    if (PRODUCT_ADDIMG_IS_LIGHTBOX == 1 && REDSHOP_VIEW == "product") {
-                        document.getElementById('a_main_image' + product_id).innerHTML = arrResponse[4];
-                    }
-                    else if (REDSHOP_VIEW == "category") {
-                        document.getElementById('a_main_image' + product_id).innerHTML = arrResponse[4];
-                    }
-                    else {
-                        if (document.getElementById('main_image' + product_id) && arrResponse[4] != "") {
-                            document.getElementById('main_image' + product_id).src = arrResponse[4];
-                        }
-                    }
+                    document.getElementById('a_main_image' + product_id).innerHTML = arrResponse[4];
                 }
             }
             else {
