@@ -328,6 +328,9 @@ class CartModelCart extends JModel
 		$quantity_all = $data['quantity_all'];
 		$quantity     = explode(",", $quantity_all);
 
+		JPluginHelper::importPlugin('redshop_product');
+		$dispatcher = JDispatcher::getInstance();
+
 		for ($i = 0; $i < $idx; $i++)
 		{
 			if ($quantity[$i] < 0)
@@ -355,6 +358,8 @@ class CartModelCart extends JModel
 					$calculator_price  = $discount_cal['product_price'];
 					$product_price_tax = $discount_cal['product_price_tax'];
 				}
+
+				$dispatcher->trigger('onBeforeCartItemUpdate', array(&$cart, $i, &$calculator_price));
 
 				// Attribute price
 				$retAttArr                  = $this->_producthelper->makeAttributeCart($cart[$i]['cart_attribute'], $cart[$i]['product_id'], $user->id, $calculator_price, $cart[$i]['quantity']);
@@ -402,6 +407,8 @@ class CartModelCart extends JModel
 				$cart[$i]['product_old_price_excl_vat'] = $product_old_price_excl_vat + $accessory_total_price + $wrapper_price;
 				$cart[$i]['product_price_excl_vat']     = $product_price + $accessory_total_price + $wrapper_price;
 				$cart[$i]['product_vat']                = $product_vat_price + $accessory_vat_price + $wrapper_vat;
+
+				$dispatcher->trigger('onAfterCartItemUpdate', array(&$cart, $i, $data));
 			}
 		}
 
