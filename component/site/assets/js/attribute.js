@@ -2490,7 +2490,11 @@ function displayAjaxCartdetail(frmCartName, product_id, relatedprd_id, giftcard_
 
 }
 
-function submitAjaxCartdetail(frmCartName, product_id, relatedprd_id, giftcard_id, totAttribute, totAccessory, totUserfield) {
+// Global JS variable to set Plugin additional add to cart parameters
+var getExtraParamsArray = {};
+
+function submitAjaxCartdetail(frmCartName, product_id, relatedprd_id, giftcard_id, totAttribute, totAccessory, totUserfield)
+{
     var frm = document.getElementById(frmCartName);
 
     var proid = 0;
@@ -2729,15 +2733,17 @@ function submitAjaxCartdetail(frmCartName, product_id, relatedprd_id, giftcard_i
     params = params + subscription_data + extrafieldpost;
 
     /*
-     * Function will override from any non redSHOP core javascript to append more cart params
-     *
-     * Also we can use the same function as validator
+     * @var getExtraParamsArray is a global JS variable to set additional add to cart parameters
+     * using redshop_product plugin.
+     * Example: getExtraParamsArray.foo = 'bar';
      */
-    if (getExtraParams(frm)) {
-        params = params + getExtraParams(frm);
-    } else {
-        return false;
-    }
+    if ('object' === typeof getExtraParamsArray)
+    {
+        for(key in getExtraParamsArray)
+        {
+            params += '&' + key + '=' + getExtraParamsArray[key];
+        }
+    };
 
     var url = site_url + "index.php?" + params;
 
@@ -2813,13 +2819,6 @@ function submitAjaxCartdetail(frmCartName, product_id, relatedprd_id, giftcard_i
     };
     request.send(url);
     //request.send(params);
-}
-
-/*
- * This function originally will override for AJAX CART Submit Data
- */
-function getExtraParams(frm) {
-    return '&';
 }
 
 function displayAddtocartProperty(frmCartName, product_id, attribute_id, property_id) {
@@ -3230,15 +3229,17 @@ function submitAjaxwishlistCartdetail(frmCartName, product_id, relatedprd_id, gi
     params = params + subscription_data + extrafieldpost;
 
     /*
-     * Function will override from any non redSHOP core javascript to append more cart params
-     *
-     * Also we can use the same function as validator
+     * @var getExtraParamsArray is a global JS variable to set additional add to cart parameters
+     * using redshop_product plugin.
+     * Example: getExtraParamsArray.foo = 'bar';
      */
-    if (getExtraParams(frm)) {
-        params = params + getExtraParams(frm);
-    } else {
-        return false;
-    }
+    if ('object' === typeof getExtraParamsArray)
+    {
+        for(key in getExtraParamsArray)
+        {
+            params += '&' + key + '=' + getExtraParamsArray[key];
+        }
+    };
 
     var url = site_url + "index.php?" + params;
 
