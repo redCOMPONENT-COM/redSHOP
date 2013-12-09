@@ -2159,6 +2159,7 @@ class rsCarthelper
 			$vat += $quantity * $cart[$i]['product_vat'];
 		}
 
+		$avgVAT 			= (($subtotal_excl_vat + $vat) / $subtotal_excl_vat) - 1;
 		$tmparr             = array();
 		$tmparr['subtotal'] = $subtotal;
 
@@ -2246,7 +2247,7 @@ class rsCarthelper
 
 				if (isset($vatData->tax_rate) && !empty($vatData->tax_rate))
 				{
-					$discountVAT = (VAT_RATE_AFTER_DISCOUNT * $total_discount) / (1 + VAT_RATE_AFTER_DISCOUNT);
+					$discountVAT = ($avgVAT * $total_discount) / (1 + $avgVAT);
 				}
 			}
 
@@ -4093,7 +4094,15 @@ class rsCarthelper
 
 				if ($dis_type == 0)
 				{
-					$couponValue = $coupon->coupon_value;
+					$avgVAT = 1;
+
+					if (VAT_RATE_AFTER_DISCOUNT && !APPLY_VAT_ON_DISCOUNT)
+					{
+						$productVAT = $cart['product_subtotal'] - $cart['product_subtotal_excl_vat'];
+						$avgVAT = $cart['product_subtotal'] / $cart['product_subtotal_excl_vat'];
+					}
+
+					$couponValue = $avgVAT * $coupon->coupon_value;
 				}
 				else
 				{
@@ -4631,7 +4640,10 @@ class rsCarthelper
 
 			if (isset($vatData->tax_rate) && !empty($vatData->tax_rate))
 			{
-				$Discountvat = (VAT_RATE_AFTER_DISCOUNT * $totaldiscount) / (1 + VAT_RATE_AFTER_DISCOUNT);
+				$productPriceExclVAT = $cart['product_subtotal_excl_vat'];
+				$productVAT 		 = $cart['product_subtotal'] - $cart['product_subtotal_excl_vat'];
+				$avgVAT 			 = (($productPriceExclVAT + $productVAT) / $productPriceExclVAT) - 1;
+				$Discountvat 		 = ($avgVAT * $totaldiscount) / (1 + $avgVAT);
 			}
 		}
 
