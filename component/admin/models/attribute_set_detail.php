@@ -996,6 +996,7 @@ class attribute_set_detailModelattribute_set_detail extends JModel
 								$attribute_properties['ordering'] = $product_attributes_property->ordering;
 								$attribute_properties['setdefault_selected'] = $product_attributes_property->setdefault_selected;
 								$attribute_properties['property_number'] = $product_attributes_property->property_number;
+								$attribute_properties['extra_field'] = $product_attributes_property->extra_field;
 
 								$row =& $this->getTable('attribute_property');
 
@@ -1091,6 +1092,7 @@ class attribute_set_detailModelattribute_set_detail extends JModel
 										$sub_attribute_properties['setdefault_selected'] = $product_sub_attributes_property->setdefault_selected;
 										$sub_attribute_properties['subattribute_color_number'] = $product_sub_attributes_property->subattribute_color_number;
 										$sub_attribute_properties['subattribute_color_title'] = $product_sub_attributes_property->subattribute_color_title;
+										$sub_attribute_properties['extra_field'] = $product_sub_attributes_property->extra_field;
 										$sub_attribute_properties['subattribute_color_main_image'] = $product_sub_attributes_property->subattribute_color_main_image;
 										$row =& $this->getTable('subattribute_property');
 
