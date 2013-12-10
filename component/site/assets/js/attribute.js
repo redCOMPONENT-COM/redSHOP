@@ -2490,8 +2490,20 @@ function displayAjaxCartdetail(frmCartName, product_id, relatedprd_id, giftcard_
 
 }
 
-// Global JS variable to set Plugin additional add to cart parameters
+/**
+ * To get redSHOP Add to cart Extra add to cart parameters
+ * Global JS variable to set Plugin additional add to cart parameters
+ *
+ * @type  {Object}
+ */
 var getExtraParamsArray = {};
+
+/**
+ * To set redSHOP Add to cart trigger functions
+ *
+ * @type  {Array}
+ */
+var redShopJsTrigger = [];
 
 function submitAjaxCartdetail(frmCartName, product_id, relatedprd_id, giftcard_id, totAttribute, totAccessory, totUserfield)
 {
@@ -2732,8 +2744,17 @@ function submitAjaxCartdetail(frmCartName, product_id, relatedprd_id, giftcard_i
 
     params = params + subscription_data + extrafieldpost;
 
+    // Setting up redSHOP JavaScript Add to cart trigger
+    if (redShopJsTrigger.length > 0)
+    {
+        for(var g = 0, n = redShopJsTrigger.length; g < n; g++)
+        {
+            new redShopJsTrigger[g](arguments);
+        };
+    };
+
     /*
-     * @var getExtraParamsArray is a global JS variable to set additional add to cart parameters
+     * getExtraParamsArray is a global JS variable to set additional add to cart parameters
      * using redshop_product plugin.
      * Example: getExtraParamsArray.foo = 'bar';
      */
@@ -3228,8 +3249,17 @@ function submitAjaxwishlistCartdetail(frmCartName, product_id, relatedprd_id, gi
 
     params = params + subscription_data + extrafieldpost;
 
+    // Setting up redSHOP JavaScript Add to cart trigger
+    if (redShopJsTrigger.length > 0)
+    {
+        for(var g = 0, n = redShopJsTrigger.length; g < n; g++)
+        {
+            new redShopJsTrigger[g](arguments);
+        };
+    };
+
     /*
-     * @var getExtraParamsArray is a global JS variable to set additional add to cart parameters
+     * getExtraParamsArray is a global JS variable to set additional add to cart parameters
      * using redshop_product plugin.
      * Example: getExtraParamsArray.foo = 'bar';
      */
