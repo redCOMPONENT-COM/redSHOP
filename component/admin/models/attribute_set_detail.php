@@ -917,7 +917,6 @@ class attribute_set_detailModelattribute_set_detail extends JModel
 				$post['published'] = $copydata[$i]->published;
 				$row = $this->store($post);
 
-
 				// Fetch attributes from the attribute set ID
 				$query = 'SELECT * FROM ' . $this->_table_prefix . 'product_attribute  WHERE `attribute_set_id` = '
 					. $copydata[$i]->attribute_set_id . ' ';
@@ -930,7 +929,6 @@ class attribute_set_detailModelattribute_set_detail extends JModel
 				{
 					foreach ($product_attributes as $product_attribute)
 					{
-
 						// Create $attribute array of attributes
 						$attribute['attribute_name'] = $product_attribute->attribute_name;
 						$attribute['attribute_required'] = $product_attribute->attribute_required;
@@ -982,6 +980,33 @@ class attribute_set_detailModelattribute_set_detail extends JModel
 								else
 								{
 									$row->attribute_id = $loopattribute_id;
+								}
+
+								if ($product_attributes_property->property_image)
+								{
+									$image_split = $product_attributes_property->property_image;
+
+									// Make the filename unique.
+									$filename = JPath::clean(time() . '_' . $image_split);
+									$product_attributes_property->property_image = $filename;
+									$src = REDSHOP_FRONT_IMAGES_RELPATH . 'product_attributes/' . $image_split;
+									$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'product_attributes/' . $filename;
+									copy($src, $dest);
+								}
+
+								if ($product_attributes_property->property_main_image)
+								{
+									$prop_main_img = $product_attributes_property->property_main_image;
+									$image_split = $prop_main_img;
+									$image_split = explode('_', $image_split);
+									$image_split = $image_split[1];
+
+									// Make the filename unique.
+									$filename = JPath::clean(time() . '_' . $image_split);
+									$product_attributes_property->property_main_image = $filename;
+									$src = REDSHOP_FRONT_IMAGES_RELPATH . 'property/' . $prop_main_img;
+									$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'property/' . $filename;
+									copy($src, $dest);
 								}
 
 								// Create $attribute_properties array of attributes properties
@@ -1078,6 +1103,34 @@ class attribute_set_detailModelattribute_set_detail extends JModel
 										else
 										{
 											$row->property_id = $loopproperty_id;
+										}
+
+										if ($product_sub_attributes_property->subattribute_color_image)
+										{
+											$image_split = $product_sub_attributes_property->subattribute_color_image;
+
+											// Make the filename unique.
+											$filename = JPath::clean(time() . '_' . $image_split);
+											$product_sub_attributes_property->subattribute_color_image = $filename;
+											$src = REDSHOP_FRONT_IMAGES_RELPATH . 'subcolor/' . $image_split;
+											$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'subcolor/' . $filename;
+											copy($src, $dest);
+										}
+
+										if ($product_sub_attributes_property->subattribute_color_main_image)
+										{
+											$sub_main_img = $product_sub_attributes_property->subattribute_color_main_image;
+											$image_split = $product_sub_attributes_property->subattribute_color_main_image;
+											$image_split = explode('_', $image_split);
+											$image_split = $image_split[1];
+
+											// Make the filename unique.
+											$filename = JPath::clean(time() . '_' . $image_split);
+
+											$product_sub_attributes_property->subattribute_color_main_image = $filename;
+											$src = REDSHOP_FRONT_IMAGES_RELPATH . 'subproperty/' . $sub_main_img;
+											$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'subproperty/' . $filename;
+											copy($src, $dest);
 										}
 
 										// Create $sub_attribute_properties array of subattributes properties
