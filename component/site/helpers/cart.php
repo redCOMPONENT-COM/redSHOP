@@ -6806,7 +6806,7 @@ class rsCarthelper
 	 *
 	 * @return: ajax responce
 	 */
-	public function discountCalculator($get)
+public function discountCalculator($get)
 	{
 		$product_id = $get['product_id'];
 
@@ -6870,14 +6870,20 @@ class rsCarthelper
 				$Area = $calcHeight * $calcWidth * $calcLength;
 
 				if (!$use_range)
+				{
 					$product_area = $product_height * $product_width * $product_length;
+				}
+
 				break;
 
 			case "area":
 				$Area = $calcLength * $calcWidth;
 
 				if (!$use_range)
+				{
 					$product_area = $product_length * $product_width;
+				}
+
 				break;
 
 			case "circumference":
@@ -6885,7 +6891,10 @@ class rsCarthelper
 				$Area = 2 * PI * $calcRadius;
 
 				if (!$use_range)
+				{
 					$product_area = PI * $product_diameter;
+				}
+
 				break;
 		}
 
@@ -6894,10 +6903,8 @@ class rsCarthelper
 		if ($use_range)
 		{
 			$finalArea = number_format($finalArea, 8, '.', '');
-
 			// Calculation prices as per various area
 			$discount_calc_data = $this->getDiscountCalcData($finalArea, $product_id);
-
 		}
 		else
 		{
@@ -6906,7 +6913,10 @@ class rsCarthelper
 
 			// Total sheet calculation
 			if ($final_product_Area <= 0)
+			{
 				$final_product_Area = 1;
+			}
+
 			$total_sheet = $finalArea / $final_product_Area;
 
 			// Returns the next highest integer value by rounding up value if necessary.
@@ -6914,7 +6924,9 @@ class rsCarthelper
 
 			// If sheet is less than 0 or equal to 0 than
 			if ($total_sheet <= 0)
+			{
 				$total_sheet = 1;
+			}
 
 			// Product price of all sheets
 			$product_price_total = $total_sheet * $product_price;
@@ -6968,6 +6980,28 @@ class rsCarthelper
 				}
 			}
 
+			$proAttrsId = $get['pdcAttrsId'];
+			$propertyId = $get['pdcPropertyId'];
+
+			if(isset($proAttrsId) && $proAttrsId && $proAttrsId != 'undefined' && $propertyId)
+			{
+				$db = $this->_db;
+				$query = $db->getQuery(true);
+				$query->select('a.*');
+				$query->from($this->_table_prefix.'product_attribute_property as a');
+				$query->where('a.attribute_id in ('.$proAttrsId.')');
+				$query->where('a.property_id in ('.$propertyId.')');
+				$db->setquery($query);
+
+				if($proProperties = $db->loadObjectList())
+				{
+					foreach($proProperties as $k=>$proProperty)
+					{
+						$proPropertyPrice = $proProperty->oprand . $proProperty->property_price;
+						$area_price += $proPropertyPrice;
+					}
+				}
+			}
 
 			$conversation_unit = $discount_calc_data[0]->discount_calc_unit;
 
@@ -6977,30 +7011,23 @@ class rsCarthelper
 
 				$price_per_piece = $area_price * $finalArea;
 
-				$price_per_piece = $area_price;
-
 				$formatted_price_per_area = $this->_producthelper->getProductFormattedPrice($area_price);
 
 				// Applying TAX
 				$chktag              = $this->_producthelper->getApplyattributeVatOrNot();
 				$price_per_piece_tax = $this->_producthelper->getProductTax($product_id, $price_per_piece, 0, 1);
 
-				echo $display_final_area . "\n";
-
-				echo $area_price . "\n";
-
-				echo $price_per_piece . "\n";
-
-				echo JText::_('COM_REDSHOP_TOTAL_AREA') . "\n";
-
-				echo JText::_('COM_REDSHOP_PRICE_PER_AREA') . "\n";
-
-				echo JText::_('COM_REDSHOP_PRICE_PER_PIECE') . "\n";
-
-				echo JText::_('COM_REDSHOP_PRICE_TOTAL') . "\n";
-
-				echo $price_per_piece_tax . "\n";
-				echo $chktag . "\n";
+				$json = array(
+				        'final_area'			=> $display_final_area,
+						'area_price'			=> $area_price,
+						'price_per_piece'		=> $price_per_piece,
+						'title_total_area'		=> JText::_('COM_REDSHOP_TOTAL_AREA'),
+						'title_price_per_area'	=> JText::_('COM_REDSHOP_PRICE_PER_AREA'),
+						'title_price_per_piece'	=> JText::_('COM_REDSHOP_PRICE_PER_PIECE'),
+						'title_price_total'		=> JText::_('COM_REDSHOP_PRICE_TOTAL'),
+						'price_per_piece_tax'	=> $price_per_piece_tax,
+						'checktag'				=> $chktag
+				);
 			}
 			else
 			{
@@ -7008,23 +7035,24 @@ class rsCarthelper
 
 				$price_per_piece_tax = $this->_producthelper->getProductTax($product_id, $price_per_piece, 0, 1);
 
-				echo $Area . "<br />" . JText::_('COM_REDSHOP_TOTAL_PIECE') . $total_sheet . "\n";
-
-				echo $area_price . "\n";
-
-				echo $price_per_piece . "\n";
-
-				echo JText::_('COM_REDSHOP_TOTAL_AREA') . "\n";
-
-				echo JText::_('COM_REDSHOP_PRICE_PER_PIECE') . "\n";
-
-				echo JText::_('COM_REDSHOP_PRICE_OF_ALL_PIECE') . "\n";
-
-				echo JText::_('COM_REDSHOP_PRICE_TOTAL') . "\n";
-
-				echo $price_per_piece_tax . "\n";
-				echo $chktag . "\n";
+				//test push in window
+				$json = array(
+						'final_area'			=> $Area . "<br />" . JText::_('COM_REDSHOP_TOTAL_PIECE') . $total_sheet,
+						'area_price'			=> $area_price,
+						'price_per_piece'		=> $price_per_piece,
+						'title_total_area'		=> JText::_('COM_REDSHOP_TOTAL_AREA'),
+						'title_price_per_area'	=> JText::_('COM_REDSHOP_PRICE_PER_AREA'),
+						'title_price_per_piece'	=> JText::_('COM_REDSHOP_PRICE_PER_PIECE'),
+						'title_price_all_piece'	=> JText::_('COM_REDSHOP_PRICE_OF_ALL_PIECE'),
+						'title_price_total'		=> JText::_('COM_REDSHOP_PRICE_TOTAL'),
+						'price_per_piece_tax'	=> $price_per_piece_tax,
+						'checktag'				=> $chktag
+				);
 			}
+
+			$registry = new JRegistry($json);
+			$json = $registry->toString();
+			echo $json; //echo json for attribute.js
 		}
 		else
 		{
@@ -7057,18 +7085,19 @@ class rsCarthelper
 
 		if ($areabetween)
 		{
-			$and .= "AND " . (int) $area . " BETWEEN `area_start` AND `area_end` ";
+			$and .= "AND " . (float) $area . " BETWEEN `area_start` AND `area_end` ";
 		}
 
 		if ($area)
 		{
-			$and .= " AND (" . (int) $area . " >=`area_start_converted` AND " . (int) $area . " <=`area_end_converted`) ";
+			$and .= " AND (" . (float) $area . " >=`area_start_converted` AND " . (float) $area . " <=`area_end_converted`) ";
 		}
 
 		$query = "SELECT * FROM `" . $this->_table_prefix . "product_discount_calc` "
 			. "WHERE `product_id`=" . (int) $pid . " "
 			. $and
 			. "ORDER BY id ASC ";
+
 		$this->_db->setQuery($query);
 		$list = $this->_db->loadObjectlist();
 
