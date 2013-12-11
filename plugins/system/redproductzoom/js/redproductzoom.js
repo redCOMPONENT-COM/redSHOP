@@ -7,7 +7,7 @@ function preloadSlimbox(parameters)
 		});
 
 		getImagename = function (link) {
-	    	var re = new RegExp("filename=(.*?)&newxsize=(.*?)&newysize=(.*?)&swap=(.)");
+	    	var re = new RegExp("images\/(.*?)\/thumb\/(.*?)_w([0-9]*?)_h([0-9]*?)_dope(.*?)$");
 			var m = link.match(re);
 			return m;
 	    }
@@ -15,10 +15,9 @@ function preloadSlimbox(parameters)
 	    redproductzoom = function () {
 			var mainimg = $('div[id*=productImageWrapID_]').find('img');
 			var m = getImagename(mainimg.attr('src'));
-			var newxsize = m[2];
-			var newysize = m[3];
-			var swap = m[4];
-			var urlfull = site_url + 'components/com_redshop/assets/images/' + m[1];
+			var newxsize = m[3];
+			var newysize = m[4];
+			var urlfull = site_url + 'components/com_redshop/assets/images/' + m[1] + '/' + m[2] + m[5];
 
 			mainimg.attr('data-zoom-image', urlfull);
 
@@ -36,8 +35,8 @@ function preloadSlimbox(parameters)
 
 				var m = getImagename(urlimg);
 
-				var urlthumb = site_url + 'components/com_redshop/helpers/thumb.php?filename=' + m[1] + '&newxsize=' + newxsize + '&newysize=' + newysize + '&swap=' + swap;
-				var urlfull = site_url + 'components/com_redshop/assets/images/' + m[1];
+				var urlthumb = site_url + 'components/com_redshop/assets/images/' + m[1] + '/thumb/' + m[2] + '_w' + newxsize + '_h' + newysize + '_dope' + m[5];
+				var urlfull = site_url + 'components/com_redshop/assets/images/' + m[1] + '/' + m[2] + m[5];
 
 				$(this).find('a').attr('data-image', urlthumb);
 				$(this).find('a').attr('data-zoom-image', urlfull);
@@ -88,7 +87,8 @@ function preloadSlimbox(parameters)
 
 	});
 
-	if (parameters.isenable) {
+	if (parameters.isenable) 
+	{
         var imgoptions = {handler: 'image'};
         redBOX.initialize({});
         if (parameters.mainImage)

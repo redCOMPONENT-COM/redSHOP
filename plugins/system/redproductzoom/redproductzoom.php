@@ -10,13 +10,21 @@
 defined('_JEXEC') or die;
 
 /**
- * Joomla! System redproductzoom Me Plugin
+ * Joomla! System redproductzoom Plugin
  *
- * @package        Joomla.Plugin
- * @subpackage     System.redproductzoom
+ * @package     RedSHOP.Plugin
+ * @subpackage  System.redproductzoom
+ * @since       1.3.3.1
  */
-class plgSystemredproductzoom extends JPlugin
+class PlgSystemredproductzoom extends JPlugin
 {
+	/**
+	 * This event is triggered immediately before pushing the document buffers into the template placeholders,
+	 * retrieving data from the document and pushing it into the into the JResponse buffer.
+	 * http://docs.joomla.org/Plugin/Events/System
+	 *
+	 * @return void
+	 */
 	public function onBeforeRender()
 	{
 		$app = JFactory::getApplication();
@@ -53,8 +61,6 @@ class plgSystemredproductzoom extends JPlugin
 			$document->addScript($url . '/js/jquery.js');
 			$document->addScript($url . '/js/jquery.elevateZoom.min.js');
 			$document->addScript($url . '/js/redproductzoom.js');
-
-			$document->addStyleSheet($url . '/css/jquery.jqzoom.css');
 		}
 	}
 }
