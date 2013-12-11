@@ -148,7 +148,7 @@ class JInstallerShipping extends JObject
 
 		// Check to see if a plugin by the same name is already installed
 		$query = 'SELECT `shipping_id`' .
-			' FROM `#__' . TABLE_PREFIX . '_shipping_method`' .
+			' FROM `#__redshop_shipping_method`' .
 			' WHERE plugin = "' . $pname . '" OR shipping_class = ' . $db->Quote($shipping_class);
 
 		$db->setQuery($query);
@@ -285,7 +285,7 @@ class JInstallerShipping extends JObject
 
 		// Remove the entry from the #__plugins table
 		$query = 'DELETE' .
-			' FROM `#__' . TABLE_PREFIX . '_shipping_method`' .
+			' FROM `#__redshop_shipping_method`' .
 			' WHERE shipping_id=' . (int) $arg['shipping_id'];
 		$db->setQuery($query);
 
