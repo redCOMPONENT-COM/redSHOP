@@ -204,7 +204,7 @@ class JInstallerPayment extends JObject
 
 		// Check to see if a plugin by the same name is already installed
 		$query = 'SELECT `payment_method_id`' .
-			' FROM `#__' . TABLE_PREFIX . '_payment_method`' .
+			' FROM `#__redshop_payment_method`' .
 			' WHERE plugin = "' . $pname . '" OR payment_class = ' . $db->Quote($payment_class);
 
 		$db->setQuery($query);
@@ -346,7 +346,7 @@ class JInstallerPayment extends JObject
 
 		// Remove the entry from the #__plugins table
 		$query = 'DELETE' .
-			' FROM `#__' . TABLE_PREFIX . '_payment_method`' .
+			' FROM `#__redshop_payment_method`' .
 			' WHERE payment_method_id=' . (int) $arg['payment_method_id'];
 		$db->setQuery($query);
 

@@ -40,7 +40,7 @@ class rsCarthelper
 
 	public function __construct()
 	{
-		$this->_table_prefix    = '#__' . TABLE_PREFIX . '_';
+		$this->_table_prefix    = '#__redshop_';
 		$this->_db              = Jfactory::getDBO();
 		$this->_session         = JFactory::getSession();
 		$this->_order_functions = new order_functions;
@@ -3265,7 +3265,7 @@ class rsCarthelper
 		{
 			JPluginHelper::importPlugin('rs_labels_GLS');
 			$dispatcher = JDispatcher::getInstance();
-			$sql        = "SELECT  * FROM #__" . TABLE_PREFIX . "_users_info WHERE users_info_id=" . (int) $users_info_id ;
+			$sql        = "SELECT  * FROM #__redshop_users_info WHERE users_info_id=" . (int) $users_info_id ;
 			$this->_db->setQuery($sql);
 			$values = $this->_db->loadObject();
 
