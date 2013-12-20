@@ -59,7 +59,7 @@ class producthelper
 	function __construct()
 	{
 		$this->_db           = JFactory::getDbo();
-		$this->_table_prefix = '#__' . TABLE_PREFIX . '_';
+		$this->_table_prefix = '#__redshop_';
 		$this->_userhelper   = new rsUserhelper;
 		$this->_session      = JFactory::getSession();
 	}
