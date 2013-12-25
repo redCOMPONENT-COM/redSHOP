@@ -322,16 +322,17 @@ class redhelper
 			. "WHERE p.product_id=" . (int) $pid ;
 		$this->_db->setQuery($query);
 		$prodctcat = $this->_db->loadObjectList();
-		$catflag   = false;
+		$catflag   = true;
 
 		for ($i = 0; $i < count($prodctcat); $i++)
 		{
 			$cid            = $prodctcat[$i]->category_id;
 			$shoppercatdata = $this->getShopperGroupCategory($cid);
 
-			if (count($shoppercatdata) <= 0 && $catflag == false)
+			if (count($shoppercatdata) > 0)
 			{
-				$catflag = true;
+				$catflag = false;
+				break;
 			}
 		}
 
