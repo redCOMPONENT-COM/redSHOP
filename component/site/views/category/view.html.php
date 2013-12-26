@@ -366,7 +366,6 @@ class CategoryViewCategory extends JView
 		}
 
 		$category_template_id = $this->app->getUserStateFromRequest($context . 'category_template', 'category_template', $selected_template);
-		$order_by_select      = $this->input->getString('order_by', '');
 		$manufacturer_id      = $this->input->getInt('manufacturer_id', 0);
 
 		$lists['category_template'] = "";
@@ -405,10 +404,25 @@ class CategoryViewCategory extends JView
 												);
 		}
 
-		if ($order_by_select == '')
+		// Save order_by on session
+
+		if (!JRequest::getVar("order_by"))
 		{
-			$order_by_select = $params->get('order_by', DEFAULT_PRODUCT_ORDERING_METHOD);
+			$order_by_select = JFactory::getApplication()->getUserState("order_by");
+
+			if (!$order_by_select)
+			{
+				$order_by_select = $params->get('order_by', DEFAULT_PRODUCT_ORDERING_METHOD);
+			}
 		}
+		else
+		{
+			$order_by_select = JRequest::getVar("order_by");
+		}
+
+		JFactory::getApplication()->setUserState("order_by", $order_by_select);
+
+		// End save order_by on session
 
 		$lists['order_by'] = JHtml::_(
 										'select.genericlist',
