@@ -16,7 +16,16 @@ require_once JPATH_COMPONENT . '/helpers/thumbnail.php';
 require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php';
 require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
 
-class importModelimport extends JModel
+/**
+ * Class import data
+ *
+ * @package     RedSHOP.Backend
+ * @subpackage  Model
+ * 
+ * @since       11.1
+ */
+
+class ImportModelimport extends JModel
 {
 	public $_data = null;
 
@@ -25,15 +34,24 @@ class importModelimport extends JModel
 	public $_pagination = null;
 
 	public $_table_prefix = null;
-	
+
 	public $_countItem = 0;
 
+	/**
+	 * Method construc for class ImportModelimport
+	 * 
+	 */
 	public function __construct()
 	{
 		parent::__construct();
 		$this->_table_prefix = '#__redshop_';
 	}
 
+	/**
+	 * Method get data from model to import
+	 * 
+	 * @return void
+	 */
 	public function getData()
 	{
 		ob_clean();
@@ -82,6 +100,11 @@ class importModelimport extends JModel
 		return;
 	}
 
+	/**
+	 * Method importdata to begin importdata to database
+	 * 
+	 * @return boolean
+	 */
 	public function importdata()
 	{
 		ob_clean();
@@ -120,7 +143,7 @@ class importModelimport extends JModel
 
 		/* Loop through the CSV file */
 		/* First line first as that is the column headers: $this->_countItem = 0 */
-		
+
 		$headers = array();
 		$correctlines = 0;
 		$handle = fopen(JPATH_ROOT . '/components/com_redshop/assets/importcsv/' . $post['import'] . '/' . $file_name, "r");
@@ -141,7 +164,7 @@ class importModelimport extends JModel
 			if ($this->getTimeLeft() > 0)
 			{
 				// Skip headers
-				if ((int)$this->_countItem == 0)
+				if ((int) $this->_countItem == 0)
 				{
 					foreach ($data as $key => $name)
 					{
@@ -344,10 +367,9 @@ class importModelimport extends JModel
 								// Insert
 								$row->product_id = (int) $rawdata['product_id'];
 								$ret = $this->_db->insertObject($this->_table_prefix . 'product', $row, 'product_id');
-								
+
 								if (!$ret)
 								{
-									
 									$isError = true;
 
 									return JText::_('COM_REDSHOP_ERROR_DURING_IMPORT');
@@ -374,7 +396,7 @@ class importModelimport extends JModel
 										@copy($name, $dest);
 									}
 								}
-								
+
 								$section_images = $rawdata['images'];
 								$image_name = explode("#", $section_images);
 
@@ -1864,25 +1886,35 @@ class importModelimport extends JModel
 					}
 				}
 
-				$this->_countItem = (int)($this->_countItem + 1);
+				$this->_countItem = (int) ($this->_countItem + 1);
 			}
 			else
 			{
 				// CountItem - 1 to remove line of header.
-				$text  = ($this->_countItem - 1). "`_`";
+				$text  = ($this->_countItem - 1);
+				$text .= "`_`";
 				ob_clean();
 				echo  $text;
 				exit;
 			}
 		}
-		
+
 		fclose($handle);
-		$text = "`_`" .  ($this->_countItem - 1). "`_`";
+		$text  = "`_`";
+		$text .= ($this->_countItem - 1);
+		$text .= "`_`";
 		ob_clean();
 		echo $text;
 		exit;
 	}
 
+	/**
+	 * Method importShopperGroupPrice to help import data into group price
+	 * 
+	 * @param   unknown  $rawdata  The rawdata must an Array data
+	 * 
+	 * @return boolean
+	 */
 	public function importShopperGroupPrice($rawdata)
 	{
 		if (trim($rawdata['product_number']) != "")
@@ -1976,6 +2008,11 @@ class importModelimport extends JModel
 		return false;
 	}
 
+	/**
+	 * Method check_vm to check if exist virtuemart extension
+	 * 
+	 * @return boolean
+	 */
 	public function check_vm()
 	{
 		// Check Virtual Mart Is Install or Not
@@ -2009,6 +2046,11 @@ class importModelimport extends JModel
 		}
 	}
 
+	/**
+	 * Method Product_sync to sync product of virtuemart
+	 * 
+	 * @return number
+	 */
 	public function Product_sync()
 	{
 		// Insert VM Product into Redshop
@@ -2255,6 +2297,13 @@ class importModelimport extends JModel
 		}
 	}
 
+	/**
+	 * Method Category_sync to sync product to virtuemart
+	 * 
+	 * @param   unknown  $product_array  Array data
+	 * 
+	 * @return number
+	 */
 	public function Category_sync($product_array)
 	{
 		$k = 0;
@@ -2437,6 +2486,11 @@ class importModelimport extends JModel
 		return $k;
 	}
 
+	/**
+	 * Method Shopper_Group_Insert will insert shopper into group
+	 * 
+	 * @return number
+	 */
 	public function Shopper_Group_Insert()
 	{
 		$query = "SELECT vmsg.shopper_group_id,vmsg.shopper_group_name,vmsg.shopper_group_desc,rdsg.shopper_group_name as rdsp_shopper_group_name FROM `#__vm_shopper_group` as vmsg left join " . $this->_table_prefix . "shopper_group as rdsg on  rdsg.shopper_group_name = vmsg.shopper_group_name";
@@ -2482,8 +2536,10 @@ class importModelimport extends JModel
 		return $k;
 	}
 
-	/*
-	 * import customer information From VM
+	/**
+	 * Import customer information From VM
+	 * 
+	 * @return number
 	 */
 	public function customerInformation()
 	{
@@ -2575,6 +2631,11 @@ class importModelimport extends JModel
 		return $k;
 	}
 
+	/**
+	 * Method Orders_insert will insert order into VM
+	 * 
+	 * @return number
+	 */
 	public function Orders_insert()
 	{
 		$producthelper = new producthelper;
@@ -2744,6 +2805,11 @@ class importModelimport extends JModel
 		return $k;
 	}
 
+	/**
+	 * Method Order_status_insert insert status of order shopper
+	 * 
+	 * @return number
+	 */
 	public function Order_status_insert()
 	{
 		$query = "SELECT vmos.*,rdos.order_status_code as rdcode FROM `#__vm_order_status` AS vmos "
@@ -2777,6 +2843,11 @@ class importModelimport extends JModel
 		return $k;
 	}
 
+	/**
+	 * Method Manufacturer_insert : insert manufacture to VM
+	 * 
+	 * @return number
+	 */
 	public function Manufacturer_insert()
 	{
 		$query = "SELECT vmmf.*,vmpmf.product_id,vmp.product_sku,rdp.product_id as rdp_product_id,rdmf.manufacturer_id as rdmf_manufacturer_id,rdmf.manufacturer_name as rdmf_manufacturer_name  FROM (((`#__vm_manufacturer` as vmmf LEFT JOIN #__vm_product_mf_xref as vmpmf ON vmmf.`manufacturer_id` = vmpmf.manufacturer_id) LEFT JOIN #__vm_product as vmp ON vmpmf.product_id = vmp.product_id) LEFT JOIN " . $this->_table_prefix . "product as rdp ON rdp.product_number = vmp.product_sku) "
@@ -2841,7 +2912,14 @@ class importModelimport extends JModel
 		return $k;
 	}
 
-	// 	related product sync
+	/**
+	 * Related product sync
+	 * 
+	 * @param   unknown  $vmproarr   value must an Array data
+	 * @param   unknown  $redproarr  value must an Array data
+	 * 
+	 * @return boolean
+	 */
 	public function related_product_sync($vmproarr, $redproarr)
 	{
 		// Vmproduct loop for product inter realtion
@@ -2879,6 +2957,13 @@ class importModelimport extends JModel
 		return true;
 	}
 
+	/**
+	 * Method getProductIdByNumber :get product is by product_number of product
+	 * 
+	 * @param   string  $product_number  Value must a string, number, etc
+	 * 
+	 * @return Number
+	 */
 	public function getProductIdByNumber($product_number)
 	{
 		$q = "SELECT product_id FROM `" . $this->_table_prefix . "product` "
@@ -2889,6 +2974,14 @@ class importModelimport extends JModel
 		return $product_id;
 	}
 
+	/**
+	 * Method storePropertyStockPosition : save stock position of property
+	 * 
+	 * @param   array   $data     Value is an Array data
+	 * @param   string  $section  Default value is property
+	 * 
+	 * @return void|boolean|unknown
+	 */
 	public function storePropertyStockPosition($data, $section = 'property')
 	{
 		JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_redcrm/tables');
@@ -2986,6 +3079,11 @@ class importModelimport extends JModel
 		return;
 	}
 
+	/**
+	 * Method getTimeLeft : get max_execution_time on server
+	 * 
+	 * @return number
+	 */
 	public function getTimeLeft()
 	{
 		if (@function_exists('ini_get'))
@@ -3027,9 +3125,11 @@ class importModelimport extends JModel
 /**
  * External function to collect matched keys
  *
- * @param array $item
- * @param array $keyproduct
- * @param array $newkeys - reference variable
+ * @param   array  $item        Value is Array
+ * @param   array  $keyproduct  Value is a string
+ * @param   array  &$newkeys    Reference variable
+ * 
+ * @return void
  */
 function checkkeys($item, $keyproduct, &$newkeys)
 {
