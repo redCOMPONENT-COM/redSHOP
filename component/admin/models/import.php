@@ -25,6 +25,8 @@ class importModelimport extends JModel
 	public $_pagination = null;
 
 	public $_table_prefix = null;
+	
+	public $_countItem = 0;
 
 	public function __construct()
 	{
@@ -117,8 +119,8 @@ class importModelimport extends JModel
 		}
 
 		/* Loop through the CSV file */
-		/* First line first as that is the column headers */
-		$line = 1;
+		/* First line first as that is the column headers: $this->_countItem = 0 */
+		
 		$headers = array();
 		$correctlines = 0;
 		$handle = fopen(JPATH_ROOT . '/components/com_redshop/assets/importcsv/' . $post['import'] . '/' . $file_name, "r");
@@ -139,7 +141,7 @@ class importModelimport extends JModel
 			if ($this->getTimeLeft() > 0)
 			{
 				// Skip headers
-				if ($line == 1)
+				if ((int)$this->_countItem == 0)
 				{
 					foreach ($data as $key => $name)
 					{
@@ -149,7 +151,7 @@ class importModelimport extends JModel
 				}
 				else
 				{
-					if ($line > $new_line)
+					if ($this->_countItem > $new_line)
 					{
 						$rawdata = array();
 
@@ -342,9 +344,10 @@ class importModelimport extends JModel
 								// Insert
 								$row->product_id = (int) $rawdata['product_id'];
 								$ret = $this->_db->insertObject($this->_table_prefix . 'product', $row, 'product_id');
-
+								
 								if (!$ret)
 								{
+									
 									$isError = true;
 
 									return JText::_('COM_REDSHOP_ERROR_DURING_IMPORT');
@@ -371,7 +374,7 @@ class importModelimport extends JModel
 										@copy($name, $dest);
 									}
 								}
-
+								
 								$section_images = $rawdata['images'];
 								$image_name = explode("#", $section_images);
 
@@ -1861,21 +1864,20 @@ class importModelimport extends JModel
 					}
 				}
 
-				$line++;
+				$this->_countItem = (int)($this->_countItem + 1);
 			}
 			else
 			{
-				$blank = "";
-				$text = "" . $line . "`_`" . $blank . "";
+				// CountItem - 1 to remove line of header.
+				$text  = ($this->_countItem - 1). "`_`";
 				ob_clean();
 				echo  $text;
 				exit;
 			}
 		}
-
+		
 		fclose($handle);
-		$blank = "";
-		$text = "`_`" . $line . "`_`" . $line . "";
+		$text = "`_`" .  ($this->_countItem - 1). "`_`";
 		ob_clean();
 		echo $text;
 		exit;
