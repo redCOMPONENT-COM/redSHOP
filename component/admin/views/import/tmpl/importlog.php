@@ -29,7 +29,7 @@ defined('_JEXEC') or die;
 
 	window.onload = function ()
 	{
-		importdata(1);
+		importdata(0);
 	}
 
 	function importdata(new_line)
