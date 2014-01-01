@@ -87,7 +87,6 @@ class addquotation_detailVIEWaddquotation_detail extends JView
 		$this->lists = $lists;
 		$this->detail = $detail;
 		$this->billing = $billing;
-		$this->userlist = $userlists;
 		$this->request_url = $uri->toString();
 
 		parent::display($tpl);
