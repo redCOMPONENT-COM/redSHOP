@@ -26,10 +26,10 @@ else
 <script type="text/javascript">
 	var xmlhttp;
 	var rowCount = 1;
-	function addNewproductRow(tblid) {
+	function addNewproductRow(tblid)
+	{
 		var table = document.getElementById(tblid);
 
-//	var rowCount = table.rows.length;
 		rowCount++;
 		var newTR = document.createElement('tr');//table.insertRow(rowCount);
 
@@ -181,7 +181,10 @@ if (!JRequest::getvar('ajaxtask'))
 					<tbody>
 					<tr>
 						<td width="100" align="right"><?php echo JText::_('COM_REDSHOP_SELECT_USER'); ?>:</td>
-						<td><?php echo $this->lists['userlist']; ?></td>
+						<td>
+							<input type="text" name="searchUsername" id="searchUsername" value="" size="30"/>
+							<input type="hidden" name="user_id" id="user_id" value=""/>
+						</td>
 					</tr>
 					</tbody>
 				</table>
@@ -428,12 +431,30 @@ if (!JRequest::getvar('ajaxtask'))
 	<input type="hidden" name="option" value="<?php echo $option; ?>"/>
 	<input type="hidden" name="view" value="addquotation_detail"/>
 </form>
-	<div id="divCalc"></div>
-<?php
-}
-?>
+<div id="divCalc"></div>
+			<?php
+				}
+			?>
 <script type="text/javascript">
-	var productoptions = {
+
+// Set User JSON Search
+new bsn.AutoSuggest(
+	'searchUsername',
+	{
+		script: "index.php?tmpl=component&&option=com_redshop&view=search&addreduser=1&json=true&",
+		varname: "input",
+		json: true,
+		shownoresults: true,
+		callback: function (obj) {
+			document.getElementById('user_id').value = obj.id;
+			showquotationUserDetail();
+		}
+	}
+);
+
+new bsn.AutoSuggest(
+	'searchproduct1',
+	{
 		script: "index.php?option=com_redshop&view=search&isproduct=1&tmpl=component&json=true&",
 		varname: "input",
 		json: true,
@@ -442,12 +463,14 @@ if (!JRequest::getvar('ajaxtask'))
 			document.getElementById('product1').value = obj.id;
 			displayProductDetailInfo('product1', 0);
 		}
-	};
+	}
+);
 
-	var as_json = new bsn.AutoSuggest('searchproduct1', productoptions);
-
-	function createJsonObject(uniqueId) {
-		var productopt = {
+function createJsonObject(uniqueId)
+{
+	new bsn.AutoSuggest(
+		'searchproduct' + uniqueId,
+		{
 			script: "index.php?option=com_redshop&view=search&isproduct=1&tmpl=component&json=true&",
 			varname: "input",
 			json: true,
@@ -456,7 +479,7 @@ if (!JRequest::getvar('ajaxtask'))
 				document.getElementById('product' + uniqueId).value = obj.id;
 				displayProductDetailInfo('product' + uniqueId, 0);
 			}
-		};
-		var as_json1 = new bsn.AutoSuggest('searchproduct' + uniqueId, productopt);
-	}
+		}
+	);
+}
 </script>
