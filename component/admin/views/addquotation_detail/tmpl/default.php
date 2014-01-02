@@ -24,154 +24,177 @@ else
 ?>
 
 <script type="text/javascript">
-	var xmlhttp;
-	var rowCount = 1;
-	function addNewproductRow(tblid) {
-		var table = document.getElementById(tblid);
+var xmlhttp;
+var rowCount = 1;
 
-//	var rowCount = table.rows.length;
-		rowCount++;
-		var newTR = document.createElement('tr');//table.insertRow(rowCount);
+function addNewproductRow(tblid)
+{
+	var table = document.getElementById(tblid);
 
-		var newTD = document.createElement('td');
-		var newTD1 = document.createElement('td');
-		var newTD2 = document.createElement('td');
-		var newTD3 = document.createElement('td');
-		var newTD4 = document.createElement('td');
-		var newTD5 = document.createElement('td');
-		var newTD6 = document.createElement('td');
-		var newTD7 = document.createElement('td');
-		var item = new Array();
+	rowCount++;
 
-		newTD.innerHTML = '<img onclick="deleteOfflineProductRow(' + rowCount + ');" src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH; ?>cross.jpg" title="<?php echo JText::_('COM_REDSHOP_DELETE'); ?>" alt="<?php echo JText::_('COM_REDSHOP_DELETE');?>">';
-		newTD1.innerHTML = '<input type="text" name="searchproduct' + rowCount + '" id="searchproduct' + rowCount + '" size="30" /><input type="hidden" name="product' + rowCount + '" id="product' + rowCount + '" value="0" /><div id="divAttproduct' + rowCount + '"></div><div id="divAccproduct' + rowCount + '"></div><div id="divUserFieldproduct' + rowCount + '"></div>';
-		newTD2.innerHTML = '';
-		newTD2.id = 'tdnoteproduct' + rowCount;
-		newTD3.innerHTML = '<input type="text" name="prdexclpriceproduct' + rowCount + '" id="prdexclpriceproduct' + rowCount + '" onchange="changeOfflinePriceBox(\'product' + rowCount + '\');" value="0" size="10" >';
-		newTD4.innerHTML = '<div id="prdtaxproduct' + rowCount + '"></div><input type="hidden" name="taxpriceproduct' + rowCount + '" id="taxpriceproduct' + rowCount + '" value="0">';
-		newTD4.align = 'right';
-		newTD5.innerHTML = '<div id="prdpriceproduct' + rowCount + '"></div><input type="hidden" name="productpriceproduct' + rowCount + '" id="productpriceproduct' + rowCount + '" value="0">';
-		newTD5.align = 'right';
-		newTD6.innerHTML = '<input type="text" name="quantityproduct' + rowCount + '" id="quantityproduct' + rowCount + '" onchange="changeOfflineQuantityBox(\'product' + rowCount + '\');" value="1" size="<?php echo DEFAULT_QUANTITY;?>" maxlength="<?php echo DEFAULT_QUANTITY;?>">';
-		newTD7.innerHTML = '<div id="tdtotalprdproduct' + rowCount + '"></div><input name="subpriceproduct' + rowCount + '" id="subpriceproduct' + rowCount + '" type="hidden" value="0" /><input type="hidden" name="main_priceproduct' + rowCount + '" id="main_priceproduct' + rowCount + '" value="0" /><input type="hidden" name="tmp_product_priceproduct' + rowCount + '" id="tmp_product_priceproduct' + rowCount + '" value="0"><input type="hidden" name="product_vatpriceproduct' + rowCount + '" id="product_vatpriceproduct' + rowCount + '" value="0"><input type="hidden" name="tmp_product_vatpriceproduct' + rowCount + '" id="tmp_product_vatpriceproduct' + rowCount + '" value="0"><input type="hidden" name="wrapper_dataproduct' + rowCount + '" id="wrapper_dataproduct' + rowCount + '" value="0"><input type="hidden" name="wrapper_vatpriceproduct' + rowCount + '" id="wrapper_vatpriceproduct' + rowCount + '" value="0"><input type="hidden" name="accessory_dataproduct' + rowCount + '" id="accessory_dataproduct' + rowCount + '" value="0"><input type="hidden" name="acc_attribute_dataproduct' + rowCount + '" id="acc_attribute_dataproduct' + rowCount + '" value="0"><input type="hidden" name="acc_property_dataproduct' + rowCount + '" id="acc_property_dataproduct' + rowCount + '" value="0"><input type="hidden" name="acc_subproperty_dataproduct' + rowCount + '" id="acc_subproperty_dataproduct' + rowCount + '" value="0"><input type="hidden" name="accessory_priceproduct' + rowCount + '" id="accessory_priceproduct' + rowCount + '" value="0"><input type="hidden" name="accessory_vatpriceproduct' + rowCount + '" id="accessory_vatpriceproduct' + rowCount + '" value="0"><input type="hidden" name="attribute_dataproduct' + rowCount + '" id="attribute_dataproduct' + rowCount + '" value="0"><input type="hidden" name="property_dataproduct' + rowCount + '" id="property_dataproduct' + rowCount + '" value="0"><input type="hidden" name="subproperty_dataproduct' + rowCount + '" id="subproperty_dataproduct' + rowCount + '" value="0"><input type="hidden" name="requiedAttributeproduct' + rowCount + '" id="requiedAttributeproduct' + rowCount + '" value="0">';
-		newTD7.align = 'right';
+	var newTR  = document.createElement('tr');
+	var newTD  = document.createElement('td');
+	var newTD1 = document.createElement('td');
+	var newTD2 = document.createElement('td');
+	var newTD3 = document.createElement('td');
+	var newTD4 = document.createElement('td');
+	var newTD5 = document.createElement('td');
+	var newTD6 = document.createElement('td');
+	var newTD7 = document.createElement('td');
+	var item   = new Array();
 
-		var item = document.getElementsByName('order_item');
+	newTD.innerHTML  = '<img onclick="deleteOfflineProductRow(' + rowCount + ');" src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH; ?>cross.jpg" title="<?php echo JText::_('COM_REDSHOP_DELETE'); ?>" alt="<?php echo JText::_('COM_REDSHOP_DELETE');?>">';
+	newTD1.innerHTML = '<input type="text" name="searchproduct' + rowCount + '" id="searchproduct' + rowCount + '" size="30" /><input type="hidden" name="product' + rowCount + '" id="product' + rowCount + '" value="0" /><div id="divAttproduct' + rowCount + '"></div><div id="divAccproduct' + rowCount + '"></div><div id="divUserFieldproduct' + rowCount + '"></div>';
+	newTD2.innerHTML = '';
+	newTD2.id        = 'tdnoteproduct' + rowCount;
+	newTD3.innerHTML = '<input type="text" name="prdexclpriceproduct' + rowCount + '" id="prdexclpriceproduct' + rowCount + '" onchange="changeOfflinePriceBox(\'product' + rowCount + '\');" value="0" size="10" >';
+	newTD4.innerHTML = '<div id="prdtaxproduct' + rowCount + '"></div><input type="hidden" name="taxpriceproduct' + rowCount + '" id="taxpriceproduct' + rowCount + '" value="0">';
+	newTD4.align     = 'right';
+	newTD5.innerHTML = '<div id="prdpriceproduct' + rowCount + '"></div><input type="hidden" name="productpriceproduct' + rowCount + '" id="productpriceproduct' + rowCount + '" value="0">';
+	newTD5.align     = 'right';
+	newTD6.innerHTML = '<input type="text" name="quantityproduct' + rowCount + '" id="quantityproduct' + rowCount + '" onchange="changeOfflineQuantityBox(\'product' + rowCount + '\');" value="1" size="<?php echo DEFAULT_QUANTITY;?>" maxlength="<?php echo DEFAULT_QUANTITY;?>">';
+	newTD7.innerHTML = '<div id="tdtotalprdproduct' + rowCount + '"></div><input name="subpriceproduct' + rowCount + '" id="subpriceproduct' + rowCount + '" type="hidden" value="0" /><input type="hidden" name="main_priceproduct' + rowCount + '" id="main_priceproduct' + rowCount + '" value="0" /><input type="hidden" name="tmp_product_priceproduct' + rowCount + '" id="tmp_product_priceproduct' + rowCount + '" value="0"><input type="hidden" name="product_vatpriceproduct' + rowCount + '" id="product_vatpriceproduct' + rowCount + '" value="0"><input type="hidden" name="tmp_product_vatpriceproduct' + rowCount + '" id="tmp_product_vatpriceproduct' + rowCount + '" value="0"><input type="hidden" name="wrapper_dataproduct' + rowCount + '" id="wrapper_dataproduct' + rowCount + '" value="0"><input type="hidden" name="wrapper_vatpriceproduct' + rowCount + '" id="wrapper_vatpriceproduct' + rowCount + '" value="0"><input type="hidden" name="accessory_dataproduct' + rowCount + '" id="accessory_dataproduct' + rowCount + '" value="0"><input type="hidden" name="acc_attribute_dataproduct' + rowCount + '" id="acc_attribute_dataproduct' + rowCount + '" value="0"><input type="hidden" name="acc_property_dataproduct' + rowCount + '" id="acc_property_dataproduct' + rowCount + '" value="0"><input type="hidden" name="acc_subproperty_dataproduct' + rowCount + '" id="acc_subproperty_dataproduct' + rowCount + '" value="0"><input type="hidden" name="accessory_priceproduct' + rowCount + '" id="accessory_priceproduct' + rowCount + '" value="0"><input type="hidden" name="accessory_vatpriceproduct' + rowCount + '" id="accessory_vatpriceproduct' + rowCount + '" value="0"><input type="hidden" name="attribute_dataproduct' + rowCount + '" id="attribute_dataproduct' + rowCount + '" value="0"><input type="hidden" name="property_dataproduct' + rowCount + '" id="property_dataproduct' + rowCount + '" value="0"><input type="hidden" name="subproperty_dataproduct' + rowCount + '" id="subproperty_dataproduct' + rowCount + '" value="0"><input type="hidden" name="requiedAttributeproduct' + rowCount + '" id="requiedAttributeproduct' + rowCount + '" value="0">';
+	newTD7.align     = 'right';
 
-		newTR.appendChild(newTD);
-		newTR.appendChild(newTD1);
-		newTR.appendChild(newTD2);
-		newTR.appendChild(newTD3);
-		newTR.appendChild(newTD4);
-		newTR.appendChild(newTD5);
-		newTR.appendChild(newTD6);
-		newTR.appendChild(newTD7);
+	var item = document.getElementsByName('order_item');
 
-		newTR.id = 'trPrd' + rowCount;
+	newTR.appendChild(newTD);
+	newTR.appendChild(newTD1);
+	newTR.appendChild(newTD2);
+	newTR.appendChild(newTD3);
+	newTR.appendChild(newTD4);
+	newTR.appendChild(newTD5);
+	newTR.appendChild(newTD6);
+	newTR.appendChild(newTD7);
 
-		table.appendChild(newTR);
+	newTR.id = 'trPrd' + rowCount;
 
-		createJsonObject(rowCount);
+	table.appendChild(newTR);
+
+	createJsonObject(rowCount);
+}
+
+Joomla.submitbutton = function (pressbutton)
+{
+	var form = document.adminForm;
+
+	if (pressbutton == 'cancel')
+	{
+		submitform(pressbutton);
+		return;
 	}
-	Joomla.submitbutton = function (pressbutton) {
-		submitbutton(pressbutton);
-	}
 
-	submitbutton = function (pressbutton) {
-
-		var form = document.adminForm;
-
-		if (pressbutton == 'cancel') {
-			submitform(pressbutton);
-			return;
-		}
-		if ((pressbutton == 'save') || (pressbutton == 'send')) {
-			if (form.user_id.value == 0) {
-				if (validateUserDetail()) {
-					alert("<?php echo JText::_('COM_REDSHOP_SELECT_USER');?>");
-					return;
-				}
-			}
-			if (form.product1.value == 0) {
-				alert("<?php echo JText::_('COM_REDSHOP_SELECT_PRODUCT');?>");
+	if ((pressbutton == 'save') || (pressbutton == 'send'))
+	{
+		if (form.user_id.value == 0)
+		{
+			if (validateUserDetail())
+			{
+				alert("<?php echo JText::_('COM_REDSHOP_SELECT_USER');?>");
 				return;
 			}
-			if (validateExtrafield(form) == false) {
-				return false;
-			}
 		}
-		submitform(pressbutton);
+
+		if (form.product1.value == 0)
+		{
+			alert("<?php echo JText::_('COM_REDSHOP_SELECT_PRODUCT');?>");
+			return;
+		}
+
+		if (validateExtrafield(form) == false)
+		{
+			return false;
+		}
 	}
-	function validateUserDetail() {
-		var form = document.adminForm;
+	submitform(pressbutton);
+}
 
-		if (form.firstname.value == '') {
-			alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_FIRST_NAME')?>");
-			form.firstname.focus();
-			return false;
-		}
-		if (form.lastname.value == '') {
-			alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_LAST_NAME')?>");
-			form.lastname.focus();
-			return false;
-		}
-		if (form.address.value == '') {
-			alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_ADDRESS')?>");
-			form.address.focus();
-			return false;
-		}
-		if (form.zipcode.value == '') {
-			alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_ZIPCODE')?>");
-			form.zipcode.focus();
-			return false;
-		}
-		if (form.city.value == '') {
-			alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_CITY')?>");
-			form.city.focus();
-			return false;
-		}
-		if (form.phone.value == '') {
-			alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_PHONE')?>");
-			form.phone.focus();
-			return false;
-		}
+function validateUserDetail()
+{
+	var form = document.adminForm;
 
-		var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
-		if (form.user_email.value == '') {
-			alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_EMAIL_ADDRESS')?>");
-			form.email.focus();
-			return false;
-		}
-
-		if (document.getElementById('username') && form.username.value == "") {
-			alert("<?php echo JText::_('COM_REDSHOP_YOU_MUST_PROVIDE_LOGIN_NAME', true ); ?>");
-			form.username.focus();
-			return false;
-		}
-
-
-		if (document.getElementById('password')) {
-			if (form.password.value == '') {
-				alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_PASSWORD')?>");
-				form.password.focus();
-				return false;
-			}
-
-			if (((trim(form.password.value) != "") || (trim(form.password2.value) != "")) && (form.password.value != form.password2.value)) {
-				alert("<?php echo JText::_('COM_REDSHOP_PASSWORD_NOT_MATCH', true ); ?>");
-				form.password2.focus();
-				return false;
-			}
-		}
-
-		return;
-		//	submitform( 'save' );
+	if (form.firstname.value == '')
+	{
+		alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_FIRST_NAME')?>");
+		form.firstname.focus();
+		return false;
 	}
+
+	if (form.lastname.value == '')
+	{
+		alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_LAST_NAME')?>");
+		form.lastname.focus();
+		return false;
+	}
+
+	if (form.address.value == '')
+	{
+		alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_ADDRESS')?>");
+		form.address.focus();
+		return false;
+	}
+
+	if (form.zipcode.value == '')
+	{
+		alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_ZIPCODE')?>");
+		form.zipcode.focus();
+		return false;
+	}
+
+	if (form.city.value == '')
+	{
+		alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_CITY')?>");
+		form.city.focus();
+		return false;
+	}
+
+	if (form.phone.value == '')
+	{
+		alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_PHONE')?>");
+		form.phone.focus();
+		return false;
+	}
+
+	var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+
+	if (form.user_email.value == '') {
+		alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_EMAIL_ADDRESS')?>");
+		form.email.focus();
+		return false;
+	}
+
+	if (document.getElementById('username') && form.username.value == "")
+	{
+		alert("<?php echo JText::_('COM_REDSHOP_YOU_MUST_PROVIDE_LOGIN_NAME', true ); ?>");
+		form.username.focus();
+		return false;
+	}
+
+	if (document.getElementById('password'))
+	{
+		if (form.password.value == '')
+		{
+			alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_PASSWORD')?>");
+			form.password.focus();
+			return false;
+		}
+
+		if (((trim(form.password.value) != "") || (trim(form.password2.value) != "")) && (form.password.value != form.password2.value))
+		{
+			alert("<?php echo JText::_('COM_REDSHOP_PASSWORD_NOT_MATCH', true ); ?>");
+			form.password2.focus();
+			return false;
+		}
+	}
+
+	return;
+}
 </script>
 <?php
 if (!JRequest::getvar('ajaxtask'))
 {
-	?>
+?>
 <form action="<?php echo JRoute::_($this->request_url) ?>" method="post" name="adminForm" id="adminForm">
 	<table border="0" cellspacing="0" cellpadding="0" class="adminlist">
 		<tbody>
@@ -181,7 +204,10 @@ if (!JRequest::getvar('ajaxtask'))
 					<tbody>
 					<tr>
 						<td width="100" align="right"><?php echo JText::_('COM_REDSHOP_SELECT_USER'); ?>:</td>
-						<td><?php echo $this->lists['userlist']; ?></td>
+						<td>
+							<input type="text" name="searchUsername" id="searchUsername" value="" size="30"/>
+							<input type="hidden" name="user_id" id="user_id" value=""/>
+						</td>
 					</tr>
 					</tbody>
 				</table>
@@ -428,12 +454,30 @@ if (!JRequest::getvar('ajaxtask'))
 	<input type="hidden" name="option" value="<?php echo $option; ?>"/>
 	<input type="hidden" name="view" value="addquotation_detail"/>
 </form>
-	<div id="divCalc"></div>
-<?php
-}
-?>
+<div id="divCalc"></div>
+			<?php
+				}
+			?>
 <script type="text/javascript">
-	var productoptions = {
+
+// Set User JSON Search
+new bsn.AutoSuggest(
+	'searchUsername',
+	{
+		script: "index.php?tmpl=component&&option=com_redshop&view=search&addreduser=1&json=true&",
+		varname: "input",
+		json: true,
+		shownoresults: true,
+		callback: function (obj) {
+			document.getElementById('user_id').value = obj.id;
+			showquotationUserDetail();
+		}
+	}
+);
+
+new bsn.AutoSuggest(
+	'searchproduct1',
+	{
 		script: "index.php?option=com_redshop&view=search&isproduct=1&tmpl=component&json=true&",
 		varname: "input",
 		json: true,
@@ -442,12 +486,14 @@ if (!JRequest::getvar('ajaxtask'))
 			document.getElementById('product1').value = obj.id;
 			displayProductDetailInfo('product1', 0);
 		}
-	};
+	}
+);
 
-	var as_json = new bsn.AutoSuggest('searchproduct1', productoptions);
-
-	function createJsonObject(uniqueId) {
-		var productopt = {
+function createJsonObject(uniqueId)
+{
+	new bsn.AutoSuggest(
+		'searchproduct' + uniqueId,
+		{
 			script: "index.php?option=com_redshop&view=search&isproduct=1&tmpl=component&json=true&",
 			varname: "input",
 			json: true,
@@ -456,7 +502,7 @@ if (!JRequest::getvar('ajaxtask'))
 				document.getElementById('product' + uniqueId).value = obj.id;
 				displayProductDetailInfo('product' + uniqueId, 0);
 			}
-		};
-		var as_json1 = new bsn.AutoSuggest('searchproduct' + uniqueId, productopt);
-	}
+		}
+	);
+}
 </script>
