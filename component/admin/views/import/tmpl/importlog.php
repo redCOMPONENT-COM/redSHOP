@@ -8,7 +8,7 @@
  */
 defined('_JEXEC') or die;
 ?>
-<script language="javascript" type="text/javascript">
+<script type="text/javascript">
 	var xmlhttp;
 
 	function GetXmlHttpObject()
