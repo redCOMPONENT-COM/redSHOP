@@ -13,9 +13,23 @@ defined('_JEXEC') or die;
 require_once JPATH_SITE . '/components/com_redshop/helpers/product.php';
 require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
 
-class plgAcymailingRedshop extends JPlugin
+/**
+ * Plugin plgAcymailingRedshop add product of redshop into template acymailling
+ *
+ * @package     RedSHOP.Backend
+ * @subpackage  Model
+ *
+ * @since       11.1
+ */
+class PlgAcymailingRedshop extends JPlugin
 {
-	public function plgAcymailingRedshop(&$subject, $config)
+	/**
+	 * Construct for class PlgAcymailingRedshop
+	 *
+	 * @param   unknown  &$subject  Subject for construct plugin
+	 * @param   unknown  $config    Array config pf plugin
+	 */
+	public function __construct(&$subject, $config)
 	{
 		parent::__construct($subject, $config);
 
@@ -26,6 +40,11 @@ class plgAcymailingRedshop extends JPlugin
 		}
 	}
 
+	/**
+	 * Method get plugin type
+	 *
+	 * @return NULL
+	 */
 	public function acymailing_getPluginType()
 	{
 		$onePlugin = null;
@@ -36,6 +55,11 @@ class plgAcymailingRedshop extends JPlugin
 		return $onePlugin;
 	}
 
+	/**
+	 * Method Show product of reshop to acymailling template
+	 *
+	 * @return null
+	 */
 	public function acymailingredSHOP_show()
 	{
 		$db = JFactory::getDbo();
@@ -129,7 +153,7 @@ class plgAcymailingRedshop extends JPlugin
 	public function getProduct($product_id)
 	{
 		require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/template.php';
-		$redTemplate = new producthelper;
+		$redTemplate = new Redtemplate;
 
 		$prtemplate_id = trim($this->params->get('product_template', 1));
 		$prtemplate = $redTemplate->getTemplate('product_content_template', $prtemplate_id);
