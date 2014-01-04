@@ -63,15 +63,18 @@ class PlgAcymailingRedshop extends JPlugin
 	public function acymailingredSHOP_show()
 	{
 		$db = JFactory::getDbo();
-		$query = "SELECT p.product_id,p.product_name,c.category_id,c.category_name FROM "
-			. " #__redshop_product AS p,#__redshop_category AS c,#__redshop_product_category_xref AS pc"
-			. " WHERE pc.category_id=c.category_id AND p.product_id=pc.product_id";
+		$query = $db->getQuery(true);
+		$query->select("p.product_id,p.product_name,c.category_id,c.category_name");
+		$query->from("#__redshop_product AS p,#__redshop_category AS c,#__redshop_product_category_xref AS pc");
+		$query->where("pc.category_id=c.category_id AND p.product_id=pc.product_id");
 		$db->setQuery($query);
 
 		$rs = $db->loadObjectlist();
-		$text = '<table class="adminlist" cellpadding="1">';
-		$text .= '<tr style="cursor:pointer" ><th>' . JText::_('COM_REDSHOP_PRODUCT_NAME') . '</th><th>'
-			. JText::_('COM_REDSHOP_CATEGORY_NAME') . '</th></tr>';
+		$text  = '<table class="adminlist" cellpadding="1">';
+		$text .= '<tr style="cursor:pointer" ><th>';
+		$text .= JText::_('COM_REDSHOP_PRODUCT_NAME');
+		$text .= '</th><th>';
+		$text .= JText::_('COM_REDSHOP_CATEGORY_NAME') . '</th></tr>';
 		$k = 0;
 
 		for ($i = 0; $i < count($rs); $i++)
@@ -87,11 +90,25 @@ class PlgAcymailingRedshop extends JPlugin
 		echo $text;
 	}
 
+	/**
+	 * Method Preview when user insert tags
+	 *
+	 * @param   unknown  &$email  Email variable to send and review
+	 *
+	 * @return string
+	 */
 	public function acymailing_replaceusertagspreview(&$email)
 	{
 		return $this->acymailing_replaceusertags($email);
 	}
 
+	/**
+	 * Method replace user tags
+	 *
+	 * @param   unknown  &$email  Email variable
+	 *
+	 * @return void
+	 */
 	public function acymailing_replaceusertags(&$email)
 	{
 		$match = '#{product:?([^:]*)}#Ui';
@@ -160,7 +177,10 @@ class PlgAcymailingRedshop extends JPlugin
 
 		// Get Product Data
 		$db = JFactory::getDbo();
-		$query = "SELECT * FROM #__redshop_product WHERE product_id=" . $product_id;
+		$query = $db->getQuery(true);
+		$query->select("*");
+		$query->from("#__redshop_product");
+		$query->where("product_id = " . $product_id);
 		$db->setQuery($query);
 		$rs = $db->loadObject();
 
@@ -175,7 +195,10 @@ class PlgAcymailingRedshop extends JPlugin
 		$link = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $product_id);
 
 		// Get product Image
-		$productImage = $producthelper->getProductImage($product_id, $link, PRODUCT_MAIN_IMAGE, PRODUCT_MAIN_IMAGE_HEIGHT, PRODUCT_DETAIL_IS_LIGHTBOX);
+		$pr_images = PRODUCT_MAIN_IMAGE;
+		$pr_heights = PRODUCT_MAIN_IMAGE_HEIGHT;
+		$pr_detaits = PRODUCT_DETAIL_IS_LIGHTBOX;
+		$productImage = $producthelper->getProductImage($product_id, $link, $pr_images, $pr_heights, $pr_detaits);
 
 		$text = "<div>" . $productImage . "</div><div>" . $rs->product_name . "</div><div>" . $price . "</div>";
 
