@@ -17,7 +17,7 @@ require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.
  * Plugin plgAcymailingRedshop add product of redshop into template acymailling
  *
  * @package     RedSHOP.Backend
- * @subpackage  Model
+ * @subpackage  Plugin
  *
  * @since       11.1
  */
