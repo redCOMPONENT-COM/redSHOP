@@ -66,7 +66,8 @@ class PlgAcymailingRedshop extends JPlugin
 		$query = $db->getQuery(true);
 		$query->select("p.product_id,p.product_name,c.category_id,c.category_name");
 		$query->from("#__redshop_product AS p,#__redshop_category AS c,#__redshop_product_category_xref AS pc");
-		$query->where("pc.category_id=c.category_id AND p.product_id=pc.product_id");
+		$query->where("pc.category_id = c.category_id");
+		$query->where("p.product_id = pc.product_id");
 		$db->setQuery($query);
 
 		$rs = $db->loadObjectlist();
