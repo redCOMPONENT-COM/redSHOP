@@ -1362,11 +1362,11 @@ class CheckoutModelCheckout extends JModel
 		// End Economic
 
 		// Send the Order mail before payment
-		if (!ORDER_MAIL_AFTER || (ORDER_MAIL_AFTER && $row->order_payment_status == "Paid"))
+		if (!ORDER_MAIL_AFTER)
 		{
 			$this->_redshopMail->sendOrderMail($row->order_id);
 		}
-		else
+		elseif (ORDER_MAIL_AFTER && $row->order_payment_status == "Paid")
 		{
 			// If Order mail set to send after payment then send mail to administrator only.
 			$this->_redshopMail->sendOrderMail($row->order_id, true);
