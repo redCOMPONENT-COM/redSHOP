@@ -79,7 +79,7 @@ class Order_detailController extends JController
 		$shippingaddresses    = $this->_order_functions->getOrderShippingUserInfo($order->order_id);
 		$d['shippingaddress'] = $shippingaddresses;
 
-		$Itemid               = JRequest::getVar('Itemid');
+		$Itemid               = JRequest::getInt('Itemid');
 
 		if (isset($billingaddresses))
 		{
@@ -175,7 +175,7 @@ class Order_detailController extends JController
 		$app     = JFactory::getApplication();
 		$db      = JFactory::getDbo();
 		$request = JRequest::get('request');
-		$Itemid  = JRequest::getVar('Itemid');
+		$Itemid  = JRequest::getInt('Itemid');
 		$objOrder = new order_functions;
 
 		JPluginHelper::importPlugin('redshop_payment');
@@ -265,7 +265,6 @@ class Order_detailController extends JController
 
 		if (is_bool($result) && $result)
 		{
-			$Itemid = JRequest::getVar('Itemid');
 			$Itemid = $this->_redhelper->getCartItemid();
 			$this->_carthelper->cartFinalCalculation();
 			$app->redirect('index.php?option=com_redshop&view=cart&Itemid=' . $Itemid);
@@ -311,7 +310,6 @@ class Order_detailController extends JController
 		$session    = JFactory::getSession();
 		$post       = JRequest::get('post');
 		$order_id   = (isset($post['order_id'])) ? $post['order_id'] : JRequest::getInt('order_id');
-		$Itemid     = JRequest::getVar('Itemid');
 		$Itemid     = $this->_redhelper->getCartItemid();
 
 		$returnmsg = "";
@@ -431,9 +429,8 @@ class Order_detailController extends JController
 	{
 		$app       = JFactory::getApplication();
 		$redconfig = new Redconfiguration;
-		$Itemid    = JRequest::getVar('Itemid');
+		$Itemid    = JRequest::getInt('Itemid');
 		$order_id  = JRequest::getInt('order_id');
-		$option    = JRequest::getVar('option');
 
 		$order       = $this->_order_functions->getOrderDetails($order_id);
 		$paymentInfo = $this->_order_functions->getOrderPaymentDetail($order_id);
