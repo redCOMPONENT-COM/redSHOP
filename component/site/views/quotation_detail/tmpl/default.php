@@ -48,7 +48,7 @@ else
 }
 
 $print     = JRequest::getInt('print');
-$p_url     = @ explode('?', $_SERVER['REQUEST_URI']);
+$p_url     = explode('?', $_SERVER['REQUEST_URI']);
 $print_tag = '';
 
 if ($print)
@@ -72,6 +72,12 @@ $replace [] = $quotationDetail->quotation_number;
 $search []  = "{quotation_date}";
 $replace [] = $redconfig->convertDateFormat($quotationDetail->quotation_cdate);
 
+$search [] = "{quotation_customer_note_lbl}";
+$replace[] = JText::_('COM_REDSHOP_QUOTATION_CUSTOMER_NOTE');
+
+$search [] = "{quotation_customer_note}";
+$replace[] = $quotationDetail->quotation_customer_note;
+
 $statustext = $quotationHelper->getQuotationStatusName($quotationDetail->quotation_status);
 
 if ($quotationDetail->quotation_status == '2')
@@ -86,7 +92,13 @@ if ($quotationDetail->quotation_status == '2')
 	<input type='hidden' name='view' value='quotation_detail'>
 	<input type='hidden' name='task' value='updatestatus'>
 	<input type='submit' name='submit' value='" . JText::_("COM_REDSHOP_SUBMIT") . "' onclick='return confirm(\"" . JText::_('COM_REDSHOP_CONFIRM_SEND_QUOTATION') . "\")' />
+	<div>
+		<textarea name='quotation_customer_note' >" . $quotationDetail->quotation_customer_note . "</textarea>"
+	. "</div>
 	</form>";
+
+	$quotation_template = str_replace('{quotation_customer_note_lbl}', '', $quotation_template);
+	$quotation_template = str_replace('{quotation_customer_note}', '', $quotation_template);
 }
 elseif ($quotationDetail->quotation_status == '3')
 {
@@ -311,7 +323,6 @@ for ($i = 0; $i < count($quotationProducts); $i++)
 		{
 			if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $product->product_full_image))
 			{
-
 				$product_image_path = $product->product_full_image;
 			}
 			else
