@@ -775,14 +775,18 @@ $session->set('cart', $cart); ?>
 				$special_discount_amount = $this->detail->special_discount_amount;
 				$vatOnDiscount           = false;
 
-				if ((int) APPLY_VAT_ON_DISCOUNT == 0 && VAT_RATE_AFTER_DISCOUNT && (int) $this->detail->order_discount != 0 && $order_tax && !empty($this->detail->order_discount))
+				if ((int) APPLY_VAT_ON_DISCOUNT == 0 && VAT_RATE_AFTER_DISCOUNT
+					&& (int) $this->detail->order_discount != 0 && (int) $order_tax
+					&& !empty($this->detail->order_discount))
 				{
 					$vatOnDiscount = true;
 					$Discountvat   = (VAT_RATE_AFTER_DISCOUNT * $totaldiscount) / (1 + VAT_RATE_AFTER_DISCOUNT);
 					$totaldiscount = $totaldiscount - $Discountvat;
 				}
 
-				if ((int) APPLY_VAT_ON_DISCOUNT == 0 && VAT_RATE_AFTER_DISCOUNT && (int) $this->detail->special_discount_amount != 0 && $order_tax && !empty($this->detail->special_discount_amount))
+				if ((int) APPLY_VAT_ON_DISCOUNT == 0 && VAT_RATE_AFTER_DISCOUNT
+					&& (int) $this->detail->special_discount_amount != 0 && (int) $order_tax
+					&& !empty($this->detail->special_discount_amount))
 				{
 					$vatOnDiscount           = true;
 					$Discountvat             = (VAT_RATE_AFTER_DISCOUNT * $special_discount_amount) / (1 + VAT_RATE_AFTER_DISCOUNT);
