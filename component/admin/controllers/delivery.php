@@ -21,8 +21,7 @@ class deliverycontroller extends JController
 	public function export_data()
 	{
 		$db = JFactory::getDbo();
-		$query = "SELECT  * FROM   #__" . TABLE_PREFIX . "_users_info as uf , #__" . TABLE_PREFIX . "_orders as o LEFT JOIN #__"
-			. TABLE_PREFIX . "_order_status os ON o.order_status=os.order_status_code WHERE o.user_id = uf.user_id AND uf.address_type = 'BT'  AND o.order_status  IN ('RD','RD1','RD2')   ";
+		$query = "SELECT  * FROM   #__redshop_users_info as uf , #__redshop_orders as o LEFT JOIN #__redshop_order_status os ON o.order_status=os.order_status_code WHERE o.user_id = uf.user_id AND uf.address_type = 'BT'  AND o.order_status  IN ('RD','RD1','RD2')   ";
 
 		$db->setQuery($query);
 		$orders = $db->loadObjectList();
@@ -57,10 +56,11 @@ class deliverycontroller extends JController
 
 			$row->id = $row->order_id;
 
-			$query = "SELECT oi.*,p.product_volume FROM #__"
-				. TABLE_PREFIX . "_order_item oi LEFT JOIN #__"
-				. TABLE_PREFIX . "_product p ON p.product_id = oi.product_id WHERE order_id = '"
-				. $row->order_id . "' ORDER BY delivery_time";
+			$query = "SELECT oi.*,p.product_volume "
+				. " FROM #__redshop_order_item oi "
+				. " LEFT JOIN #__redshop_product p ON p.product_id = oi.product_id "
+				. " WHERE order_id = " . (int) $row->order_id
+				. " ORDER BY delivery_time";
 
 			$db->setQuery($query);
 
@@ -72,7 +72,7 @@ class deliverycontroller extends JController
 			{
 				$product = $products[$j];
 
-				$query = "SELECT * FROM #__" . TABLE_PREFIX . "_container WHERE container_id = '" . $product->container_id . "'";
+				$query = "SELECT * FROM #__redshop_container WHERE container_id = '" . $product->container_id . "'";
 
 				$db->setQuery($query);
 
