@@ -26,7 +26,7 @@ class shopper_group_detailModelshopper_group_detail extends JModel
 	public function __construct()
 	{
 		parent::__construct();
-		$this->_table_prefix = '#__' . TABLE_PREFIX . '_';
+		$this->_table_prefix = '#__redshop_';
 		$array = JRequest::getVar('cid', 0, '', 'array');
 		$this->setId((int) $array[0]);
 	}
