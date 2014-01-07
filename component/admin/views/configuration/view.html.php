@@ -806,6 +806,14 @@ class configurationViewconfiguration extends JView
 		$option[5]->value = 'm';
 		$option[5]->text  = JText::_('COM_REDSHOP_METER');
 
+		$option[5]        = new stdClass;
+		$option[5]->value = 'l';
+		$option[5]->text  = JText::_('COM_REDSHOP_LITER');
+
+		$option[5]        = new stdClass;
+		$option[5]->value = 'ml';
+		$option[5]->text  = JText::_('COM_REDSHOP_MILLILITER');
+
 		$lists['default_volume_unit'] = JHTML::_('select.genericlist', $option, 'default_volume_unit',
 			'class="inputbox" ', 'value', 'text', DEFAULT_VOLUME_UNIT
 		);
