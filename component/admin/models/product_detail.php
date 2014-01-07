@@ -4148,7 +4148,7 @@ class Product_DetailModelProduct_Detail extends JModel
 
 		if ($sp)
 		{
-			$subproperty = $producthelper->getAttibuteSubProperty($sp, $subattribute_id);
+			$subproperty[0]->subattribute_color_id = $sp;
 		}
 		else
 		{
@@ -4180,7 +4180,7 @@ class Product_DetailModelProduct_Detail extends JModel
 
 		if ($property_id)
 		{
-			$property = $producthelper->getAttibuteProperty($property_id, $attribute_id);
+			$property[0]->property_id = $property_id;
 		}
 		else
 		{
