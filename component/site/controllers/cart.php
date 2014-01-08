@@ -341,7 +341,7 @@ class CartController extends JController
 		if ($valid)
 		{
 			$link = JRoute::_('index.php?option=' . $option . '&view=cart&Itemid=' . $Itemid, false);
-			$this->setRedirect($link);
+			$this->setRedirect($link, JText::_('COM_REDSHOP_DISCOUNT_CODE_IS_VALID'));
 		}
 		else
 		{
@@ -377,7 +377,7 @@ class CartController extends JController
 			$this->modifyCalculation($cart);
 			$this->_carthelper->cartFinalCalculation(false);
 			$link = JRoute::_('index.php?option=' . $option . '&view=cart&seldiscount=voucher&Itemid=' . $Itemid, false);
-			$this->setRedirect($link);
+			$this->setRedirect($link, JText::_('COM_REDSHOP_DISCOUNT_CODE_IS_VALID'));
 		}
 		else
 		{
