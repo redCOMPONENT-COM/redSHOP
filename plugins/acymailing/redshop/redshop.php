@@ -129,7 +129,7 @@ class plgAcymailingRedshop extends JPlugin
 	public function getProduct($product_id)
 	{
 		require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/template.php';
-		$redTemplate = new producthelper;
+		$redTemplate = new Redtemplate;
 
 		$prtemplate_id = trim($this->params->get('product_template', 1));
 		$prtemplate = $redTemplate->getTemplate('product_content_template', $prtemplate_id);
