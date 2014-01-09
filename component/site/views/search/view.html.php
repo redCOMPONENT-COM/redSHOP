@@ -126,7 +126,7 @@ class searchViewsearch extends JView
 		$this->templatedata = $templatedata;
 		$this->search = $search;
 		$this->pagination = $pagination;
-		$this->request_url = $uri->toString();
+		$this->request_url = JFilterOutput::cleanText($uri->toString());
 		parent::display($tpl);
 	}
 

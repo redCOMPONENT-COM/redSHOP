@@ -917,7 +917,7 @@ class redhelper
 			$uri->setScheme('http');
 		}
 
-		$link = $uri->toString();
+		$link = JFilterOutput::cleanText($uri->toString());
 
 		return $link;
 	}

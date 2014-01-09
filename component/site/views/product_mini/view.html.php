@@ -59,7 +59,7 @@ class product_miniViewproduct_mini extends JView
 		$this->lists = $lists;
 		$this->products = $products;
 		$this->pagination = $pagination;
-		$this->request_url = $uri->toString();
+		$this->request_url = JFilterOutput::cleanText($uri->toString());
 		parent::display($tpl);
 	}
 }
