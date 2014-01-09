@@ -406,21 +406,21 @@ class CategoryViewCategory extends JView
 
 		// Save order_by on session
 
-		if (!JRequest::getVar("order_by"))
+		if (!$this->input->getString("order_by",""))
 		{
-			$order_by_select = JFactory::getApplication()->getUserState("order_by");
+			$orderBySelect = JFactory::getApplication()->getUserState("order_by");
 
-			if (!$order_by_select)
+			if (!$orderBySelect)
 			{
-				$order_by_select = $params->get('order_by', DEFAULT_PRODUCT_ORDERING_METHOD);
+				$orderBySelect = $params->get('order_by', DEFAULT_PRODUCT_ORDERING_METHOD);
 			}
 		}
 		else
 		{
-			$order_by_select = JRequest::getVar("order_by");
+			$orderBySelect = $this->input->getString("order_by","");
 		}
 
-		JFactory::getApplication()->setUserState("order_by", $order_by_select);
+		JFactory::getApplication()->setUserState("order_by", $orderBySelect);
 
 		// End save order_by on session
 
@@ -431,7 +431,7 @@ class CategoryViewCategory extends JView
 										'class="inputbox" size="1" onChange="javascript:setSliderMinMax();" ' . $disabled . ' ',
 										'value',
 										'text',
-										$order_by_select
+										$orderBySelect
 									);
 
 		// THIS FILE MUST LOAD AFTER MODEL CONSTUCTOR LOAD
@@ -491,7 +491,7 @@ class CategoryViewCategory extends JView
 		$this->params = $params;
 		$this->maincat = $maincat;
 		$this->category_template_id = $category_template_id;
-		$this->order_by_select = $order_by_select;
+		$this->order_by_select = $orderBySelect;
 		$this->manufacturer_id = $manufacturer_id;
 		$this->loadCategorytemplate = $loadCategorytemplate;
 
