@@ -154,12 +154,12 @@ class configurationViewconfiguration extends JView
 		defined('AJAX_BOX_WIDTH') ? AJAX_BOX_WIDTH : define('AJAX_BOX_WIDTH', '500');
 		defined('AJAX_BOX_HEIGHT') ? AJAX_BOX_HEIGHT : define('AJAX_BOX_HEIGHT', '150');
 
-		$q = "SELECT  country_3_code as value,country_name as text,country_jtext from #__" . TABLE_PREFIX . "_country ORDER BY country_name ASC";
+		$q = "SELECT  country_3_code as value,country_name as text,country_jtext from #__redshop_country ORDER BY country_name ASC";
 		$db->setQuery($q);
 		$countries = $db->loadObjectList();
 		$countries = $redhelper->convertLanguageString($countries);
 
-		$q = "SELECT  stockroom_id as value,stockroom_name as text from #__" . TABLE_PREFIX . "_stockroom ORDER BY stockroom_name ASC";
+		$q = "SELECT  stockroom_id as value,stockroom_name as text from #__redshop_stockroom ORDER BY stockroom_name ASC";
 		$db->setQuery($q);
 		$stockroom = $db->loadObjectList();
 
@@ -469,8 +469,8 @@ class configurationViewconfiguration extends JView
 		}
 
 		$db->setQuery("SELECT c.country_id, c.country_3_code, s.state_name, s.state_2_code
-						FROM #__" . TABLE_PREFIX . "_country c
-						LEFT JOIN #__" . TABLE_PREFIX . "_state s
+						FROM #__redshop_country c
+						LEFT JOIN #__redshop_state s
 						ON c.country_id=s.country_id OR s.country_id IS NULL
 						ORDER BY c.country_id, s.state_name");
 		$states = $db->loadObjectList();
@@ -805,6 +805,14 @@ class configurationViewconfiguration extends JView
 		$option[5]        = new stdClass;
 		$option[5]->value = 'm';
 		$option[5]->text  = JText::_('COM_REDSHOP_METER');
+
+		$option[5]        = new stdClass;
+		$option[5]->value = 'l';
+		$option[5]->text  = JText::_('COM_REDSHOP_LITER');
+
+		$option[5]        = new stdClass;
+		$option[5]->value = 'ml';
+		$option[5]->text  = JText::_('COM_REDSHOP_MILLILITER');
 
 		$lists['default_volume_unit'] = JHTML::_('select.genericlist', $option, 'default_volume_unit',
 			'class="inputbox" ', 'value', 'text', DEFAULT_VOLUME_UNIT

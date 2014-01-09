@@ -111,6 +111,12 @@ $quotation_item = $quotationHelper->getQuotationProduct($quotation->quotation_id
 				              id="quotation_note"><?php echo $quotation->quotation_note;?></textarea></td>
 			</tr>
 			<tr>
+				<td><?php echo JText::_('COM_REDSHOP_QUOTATION_CUSTOMER_NOTE');?></td>
+				<td>
+				    <?php echo $quotation->quotation_customer_note;?>
+				</td>
+			</tr>
+			<tr>
 				<td><?php echo JText::_('COM_REDSHOP_QUOTATION_STATUS'); ?></td>
 				<td><?php echo $this->lists['quotation_status'];?></td>
 			</tr>

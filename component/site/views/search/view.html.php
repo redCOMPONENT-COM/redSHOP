@@ -161,7 +161,7 @@ class searchViewsearch extends JView
 			$templateid     = JRequest::getInt('templateid');
 
 			// Cmd removes space between to words
-			$keyword        = JRequest::getWord('keyword');
+			$keyword        = JRequest::getString('keyword');
 			$layout         = JRequest::getCmd('layout', 'default');
 
 			$db    = JFactory::getDbo();

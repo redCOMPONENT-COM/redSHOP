@@ -27,7 +27,7 @@
                 slider.css({overflow:'visible'});
 
                 url = site_url+"index.php?option=com_redshop&view=category";
-            	url = url + "&cid=<?php echo $catid;?>&layout=detail&Itemid=<?php echo $Itemid;?>";
+            	url = url + "&cid=<?php echo $this->catid;?>&layout=detail&Itemid=<?php echo $Itemid;?>";
             	url = url + "&texpricemin=" + ui.values[0] + "&texpricemax=" + ui.values[1];
             	url = url + "&category_template=<?php echo $category_template_id;?>&manufacturer_id=<?php echo $manufacturer_id;?>&order_by=<?php echo urlencode($order_by_select);?>";
 
@@ -37,8 +37,8 @@
                     oldredcatpagination.html(redJ("#redcatpagination").html());
                 });
             	// Start Code for fixes IE9 issue
-        		redJ(this).parent("div").attr('style','');	
-        		// End Code for fixes IE9 issue	
+        		redJ(this).parent("div").attr('style','');
+        		// End Code for fixes IE9 issue
             }
         });
         startrange = number_format(slider.slider("values", 0),PRICE_DECIMAL,PRICE_SEPERATOR,THOUSAND_SEPERATOR);
