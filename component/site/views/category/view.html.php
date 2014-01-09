@@ -406,7 +406,7 @@ class CategoryViewCategory extends JView
 
 		// Save order_by on session
 
-		if (!$this->input->getString("order_by",""))
+		if (!$this->input->getString("order_by", ""))
 		{
 			$orderBySelect = JFactory::getApplication()->getUserState("order_by");
 
@@ -417,7 +417,7 @@ class CategoryViewCategory extends JView
 		}
 		else
 		{
-			$orderBySelect = $this->input->getString("order_by","");
+			$orderBySelect = $this->input->getString("order_by", "");
 		}
 
 		JFactory::getApplication()->setUserState("order_by", $orderBySelect);
