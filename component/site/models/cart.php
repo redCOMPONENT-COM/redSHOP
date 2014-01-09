@@ -301,6 +301,9 @@ class CartModelCart extends JModel
 			$cart[$cartElement]['product_old_price_excl_vat'] = $product_old_price_excl_vat + $accessory_total_price + $wrapper_price;
 			$cart[$cartElement]['product_price_excl_vat']     = $product_price + $accessory_total_price + $wrapper_price;
 			$cart[$cartElement]['product_vat']                = $product_vat_price + $accessory_vat_price + $wrapper_vat;
+			JPluginHelper::importPlugin('redshop_product');
+			$dispatcher = JDispatcher::getInstance();
+			$dispatcher->trigger('onAfterCartUpdate', array(&$cart, $cartElement, $data));
 		}
 
 		$session->set('cart', $cart);

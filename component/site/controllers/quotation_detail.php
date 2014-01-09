@@ -36,16 +36,22 @@ class Quotation_detailController extends JController
 		$option = JRequest::getVar('option');
 		$Itemid = JRequest::getVar('Itemid');
 		$encr   = JRequest::getVar('encr');
+		$model = $this->getModel();
 
 		$quotationHelper = new quotationHelper;
 		$redshopMail     = new redshopMail;
+
+		// Update Status
 		$quotationHelper->updateQuotationStatus($post['quotation_id'], $post['quotation_status']);
+
+		// Add Customer Note
+		$model->addQuotationCustomerNote($post);
 
 		$mailbool = $redshopMail->sendQuotationMail($post['quotation_id'], $post['quotation_status']);
 
 		$msg = JText::_('COM_REDSHOP_QUOTATION_STATUS_UPDATED_SUCCESSFULLY');
 
-		$this->setRedirect('index.php?option=' . $option . '&view=quotation_detail&quoid=' . $post['quotation_id'] . '&encr=' . $encr . '&Itemid=' . $Itemid, $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=quotation_detail&quoid=' . $post['quotation_id'] . '&encr=' . $encr . '&Itemid=' . $Itemid, $msg);
 	}
 
 	/**

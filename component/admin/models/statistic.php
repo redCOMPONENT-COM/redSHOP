@@ -43,7 +43,7 @@ class statisticModelstatistic extends JModel
 	{
 		parent::__construct();
 
-		$this->_table_prefix = '#__' . TABLE_PREFIX . '_';
+		$this->_table_prefix = '#__redshop_';
 
 		$this->_startdate = strtotime(JRequest::getVar('startdate'));
 		$this->_enddate = strtotime(JRequest::getVar('enddate'));
