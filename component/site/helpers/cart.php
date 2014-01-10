@@ -2677,6 +2677,9 @@ class rsCarthelper
 		$replace [] = $row->special_discount . '%';
 		$search  [] = "{special_discount_amount}";
 		$replace [] = $this->_producthelper->getProductFormattedPrice($row->special_discount_amount);
+		$search[]   = "{special_discount_lbl}";
+		$replace[]  = JText::_('COM_REDSHOP_SPECIAL_DISCOUNT');
+
 		$search[]   = "{order_detail_link}";
 		$replace[]  = "<a href='" . $orderdetailurl . "'>" . JText::_("COM_REDSHOP_ORDER_MAIL") . "</a>";
 
