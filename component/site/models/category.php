@@ -244,14 +244,14 @@ class CategoryModelCategory extends JModel
 
 		// Shopper group - choose from manufactures Start
 		$rsUserhelper               = new rsUserhelper;
-		$shopper_group_manufactures = $rsUserhelper->getShopperGroupManufacturers();
+		$shopperGroupManufactures = $rsUserhelper->getShopperGroupManufacturers();
 
-		if ($shopper_group_manufactures != "")
+		if ($shopperGroupManufactures != "")
 		{
-			$shopper_group_manufactures = explode(',', $shopper_group_manufactures);
-			JArrayHelper::toInteger($shopper_group_manufactures);
-			$shopper_group_manufactures = implode(',', $shopper_group_manufactures);
-			$and .= "p.manufacturer_id IN (" . $shopper_group_manufactures . ") ";
+			$shopperGroupManufactures = explode(',', $shopperGroupManufactures);
+			JArrayHelper::toInteger($shopperGroupManufactures);
+			$shopper_group_manufactures = implode(',', $shopperGroupManufactures);
+			$and .= "p.manufacturer_id IN (" . $shopperGroupManufactures . ") ";
 		}
 
 		// Shopper group - choose from manufactures End
