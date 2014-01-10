@@ -420,12 +420,18 @@ class CategoryModelCategory extends JModel
 		return $sorted;
 	}
 
+	/**
+	 * Method get string order by of product when choose category
+	 *
+	 * @return unknown
+	 */
 	public function buildProductOrderBy()
 	{
 		$db = JFactory::getDbo();
 		$app = JFactory::getApplication();
 		$input = $app->input;
 		$params = $app->getParams("com_redshop");
+
 		if (!$input->getString("order_by", ""))
 		{
 			$orderBySelect = JFactory::getApplication()->getUserState("order_by");
@@ -439,9 +445,10 @@ class CategoryModelCategory extends JModel
 		{
 			$orderBySelect = $input->getString("order_by", "");
 		}
+
 		JFactory::getApplication()->setUserState("order_by", $orderBySelect);
 
-		//return only value of order by not " ORDER BY ". $orderBySelect
+		// Return only value of order by not " ORDER BY ". $orderBySelect
 		return $orderBySelect;
 	}
 
