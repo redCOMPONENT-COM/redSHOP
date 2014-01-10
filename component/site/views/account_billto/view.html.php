@@ -70,7 +70,7 @@ class Account_billtoViewaccount_billto extends JView
 
 		$this->lists            = $lists;
 		$this->billingaddresses = $billingaddresses;
-		$this->request_url      = $uri->toString();
+		$this->request_url      = JFilterOutput::cleanText($uri->toString());
 		$this->params           = $params;
 
 		parent::display($tpl);

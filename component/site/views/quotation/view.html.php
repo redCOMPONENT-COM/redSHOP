@@ -40,7 +40,7 @@ class quotationViewquotation extends JView
 		$detail = $model->getData();
 
 		$this->detail = $detail;
-		$this->request_url = $uri->toString();
+		$this->request_url = JFilterOutput::cleanText($uri->toString());
 
 		parent::display($tpl);
 	}
