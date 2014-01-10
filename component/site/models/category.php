@@ -213,16 +213,31 @@ class CategoryModelCategory extends JModel
 		return $this->_product;
 	}
 
+	/**
+	 * Method get Product of Category
+	 *
+	 * @param   number   $minmax    default variable is 0
+	 * @param   boolean  $isSlider  default variable is false
+	 *
+	 * @return multitype:NULL
+	 */
 	public function getCategoryProduct($minmax = 0, $isSlider = false)
 	{
 		$app             = JFactory::getApplication();
 		$menu            = $app->getMenu();
 		$item            = $menu->getActive();
-		$manufacturer_id = (isset($item)) ? intval($item->params->get('manufacturer_id')) : 0;
+
+		$manufacturerId = 0;
+
+		if (isset($item))
+		{
+			$manufacturerId = intval($item->params->get('manufacturer_id'));
+		}
 
 		$setproductfinderobj = new redhelper;
-		$order_by            = $this->buildProductOrderBy();
-		$manufacturer_id     = JRequest::getInt('manufacturer_id', $manufacturer_id, '', 'int');
+		$orderBy            = $this->buildProductOrderBy();
+
+		$manufacturerId		 = $app->input->get("manufacturer_id", $manufacturerId, "int");
 
 		$sort = "";
 		$and  = "";
@@ -241,44 +256,46 @@ class CategoryModelCategory extends JModel
 
 		// Shopper group - choose from manufactures End
 
-		if ($manufacturer_id && $manufacturer_id > 0)
+		if ($manufacturerId && $manufacturerId > 0)
 		{
-			$and .= " AND p.manufacturer_id = " . (int) $manufacturer_id . " ";
+			$and .= " AND p.manufacturer_id = " . (int) $manufacturerId . " ";
 		}
 
-		if ($minmax && !(strstr($order_by, "p.product_price ASC") || strstr($order_by, "p.product_price DESC")))
+		if ($minmax && !(strstr($orderBy, "p.product_price ASC") || strstr($orderBy, "p.product_price DESC")))
 		{
-			$order_by = "p.product_price ASC";
+			$orderBy = "p.product_price ASC";
 		}
 
 		$query = JFactory::getDbo()->getQuery(true);
 		$query->select("*");
 		$query->from($this->_table_prefix . "product AS p ");
-		$query->join("LEFT",$this->_table_prefix . "product_category_xref AS pc ON pc.product_id=p.product_id ");
-		$query->join("LEFT",$this->_table_prefix . "category AS c ON c.category_id=pc.category_id ");
-		$query->join("LEFT",$this->_table_prefix . "manufacturer AS m ON m.manufacturer_id=p.manufacturer_id ");
+		$query->join("LEFT", $this->_table_prefix . "product_category_xref AS pc ON pc.product_id=p.product_id ");
+		$query->join("LEFT", $this->_table_prefix . "category AS c ON c.category_id=pc.category_id ");
+		$query->join("LEFT", $this->_table_prefix . "manufacturer AS m ON m.manufacturer_id=p.manufacturer_id ");
 		$query->where("p.published = 1 AND p.expired = 0");
 		$query->where("pc.category_id = " . (int) $this->_id);
 		$query->where("p.published = 1 AND p.expired = 0");
-		if($and != "")
+
+		if ($and != "")
 		{
 			$query->where($and);
 		}
 
 		$finder_condition = $this->getredproductfindertags();
-		if($finder_condition != "")
+
+		if ($finder_condition != "")
 		{
 			$finder_condition = str_replace("AND", "", $finder_condition);
 			$query->where($finder_condition);
 		}
 
-		$query->order($order_by);
+		$query->order($orderBy);
 
 		$this->_product = $this->_getList($query);
 
 		$priceSort = false;
 
-		if (strstr($order_by, "p.product_price ASC"))
+		if (strstr($orderBy, "p.product_price ASC"))
 		{
 			$priceSort = true;
 
@@ -290,7 +307,7 @@ class CategoryModelCategory extends JModel
 
 			$this->_product = $this->columnSort($this->_product, 'productPrice', 'ASC');
 		}
-		elseif (strstr($order_by, "p.product_price DESC"))
+		elseif (strstr($orderBy, "p.product_price DESC"))
 		{
 			$priceSort = true;
 			$sort      = "DESC";
