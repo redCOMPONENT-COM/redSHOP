@@ -187,7 +187,7 @@ class productModelproduct extends JModel
 
 		if (trim($keyword) != '')
 		{
-			$arr_keyword = explode(' ', $keyword);
+			$arr_keyword = preg_split("/[\s-]+/", $keyword);
 		}
 
 		if ($search_field != 'pa.property_number')
