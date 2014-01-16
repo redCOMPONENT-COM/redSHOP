@@ -1421,10 +1421,6 @@ class Redconfiguration
 		{
 			$selected_state_code = "originalPos";
 		}
-		else
-		{
-			$selected_state_code = "'" . $selected_state_code . "'";
-		}
 
 		$varState = array();
 		$states   = array();

@@ -298,9 +298,7 @@ class orderController extends JController
 		$shipping_helper = new shipping;
 		ob_clean();
 
-		echo "Order number, Order status, Order date , Shipping method , Shipping user, Shipping address, Shipping postalcode,
-		Shipping city, Shipping country, Company name, Email ,Billing address, Billing postalcode, Billing city, Billing country,
-		Billing User ,";
+		echo "Order number, Order status, Order date , Shipping method , Shipping user, Shipping address, Shipping postalcode,Shipping city, Shipping country, Company name, Email ,Billing address, Billing postalcode, Billing city, Billing country,Billing User ,";
 
 		for ($i = 1; $i <= $no_products; $i++)
 		{
@@ -415,8 +413,7 @@ class orderController extends JController
 
 		$no_products = max($product_count);
 
-		echo "Order id,Buyer name,Email Id, PhoneNumber,Billing Address ,Billing City,Billing State,Billing Country,BillingPostcode,
-		Shipping Address,Shipping City,Shipping State,Shipping Country,ShippingPostCode,Order Status,Order Date,";
+		echo "Order id,Buyer name,Email Id, PhoneNumber,Billing Address ,Billing City,Billing State,Billing Country,BillingPostcode,Shipping Address,Shipping City,Shipping State,Shipping Country,ShippingPostCode,Order Status,Order Date,";
 
 		for ($i = 1; $i <= $no_products; $i++)
 		{
