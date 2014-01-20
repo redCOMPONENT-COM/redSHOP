@@ -52,7 +52,7 @@ $idx = 0;
 
 if ((!array_key_exists("idx", $cart) || (array_key_exists("idx", $cart) && $cart['idx'] < 1)) && $params->get("use_cookies_value") == 1)
 {
-	if ($_COOKIE['redSHOPcart'] != "")
+	if (isset($_COOKIE['redSHOPcart']) && ($_COOKIE['redSHOPcart'] != ''))
 	{
 		$session->set('cart', unserialize(stripslashes($_COOKIE['redSHOPcart'])));
 		$cart = $session->get('cart');
