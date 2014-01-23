@@ -159,7 +159,7 @@ class attribute_set_detailController extends JController
 		{
 			$attribute_save['attribute_id'] = $attribute[$a]['id'];
 			$attribute_save['attribute_set_id'] = $row->attribute_set_id;
-			$attribute_save['attribute_name'] = urldecode($attribute[$a]['name']);
+			$attribute_save['attribute_name'] = htmlspecialchars($attribute[$a]['name']);
 			$attribute_save['ordering'] = $attribute[$a]['ordering'];
 			$attribute_save['attribute_required'] = ($attribute[$a]['required'] == 'on' || $attribute[$a]['required'] == '1') ? '1' : '0';
 			$attribute_save['allow_multiple_selection'] = ($attribute[$a]['allow_multiple_selection'] == 'on'
@@ -178,7 +178,7 @@ class attribute_set_detailController extends JController
 			{
 				$property_save['property_id'] = $property[$p]['property_id'];
 				$property_save['attribute_id'] = $attribute_array->attribute_id;
-				$property_save['property_name'] = urldecode($property[$p]['name']);
+				$property_save['property_name'] = htmlspecialchars($property[$p]['name']);
 				$property_save['property_price'] = $property[$p]['price'];
 				$property_save['oprand'] = $property[$p]['oprand'];
 				$property_save['property_number'] = $property[$p]['number'];

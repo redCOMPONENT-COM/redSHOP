@@ -374,7 +374,7 @@ class Product_DetailController extends JController
 			$attribute_save['attribute_id'] = $attribute[$a]['id'];
 			$tmpordering = ($attribute[$a]['tmpordering']) ? $attribute[$a]['tmpordering'] : $a;
 			$attribute_save['product_id'] = $row->product_id;
-			$attribute_save['attribute_name'] = urldecode($attribute[$a]['name']);
+			$attribute_save['attribute_name'] = htmlspecialchars($attribute[$a]['name']);
 			$attribute_save['ordering'] = $attribute[$a]['ordering'];
 			$attribute_save['attribute_published'] = ($attribute[$a]['published'] == 'on' || $attribute[$a]['published'] == '1') ? '1' : '0';
 			$attribute_save['attribute_required'] = ($attribute[$a]['required'] == 'on' || $attribute[$a]['required'] == '1') ? '1' : '0';
@@ -393,7 +393,7 @@ class Product_DetailController extends JController
 			{
 				$property_save['property_id'] = $property[$p]['property_id'];
 				$property_save['attribute_id'] = $attribute_array->attribute_id;
-				$property_save['property_name'] = urldecode($property[$p]['name']);
+				$property_save['property_name'] = htmlspecialchars($property[$p]['name']);
 				$property_save['property_price'] = $property[$p]['price'];
 				$property_save['oprand'] = $property[$p]['oprand'];
 				$property_save['property_number'] = $property[$p]['number'];
