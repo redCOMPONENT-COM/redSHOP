@@ -224,11 +224,18 @@ class Order_detailController extends JController
 	 */
 	public function copyorderitemtocart()
 	{
+		// Import redSHOP Product Plugin
+		JPluginHelper::importPlugin('redshop_product');
+		$dispatcher = JDispatcher::getInstance();
+
 		$app           = JFactory::getApplication();
 		$order_item_id = JRequest::getInt('order_item_id');
 
 		$orderItem = $this->_order_functions->getOrderItemDetail(0, 0, $order_item_id);
 		$row = (array) $orderItem[0];
+
+		// Event Trigger on reordering cart item
+		$dispatcher->trigger('onReorderCartItem', array(&$row));
 
 		$subscription_id = 0;
 		$row['quantity'] = $row['product_quantity'];
