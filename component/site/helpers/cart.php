@@ -1236,10 +1236,13 @@ class rsCarthelper
 								{
 									$product_attribute_value_price = $product_attribute_value_price + $temp_tpi[$tpi]['attribute_childs'][0]['property_childs'][0]['subproperty_price'];
 								}
-
-								$product_attribute_value_price   = $this->_producthelper->getProductFormattedPrice($product_attribute_value_price);
-								$productAttributeCalculatedPrice = $this->_producthelper->getProductFormattedPrice($productAttributeCalculatedPrice);
 							}
+
+							$product_attribute_calculated_price = $this->_producthelper->getProductFormattedPrice($product_attribute_calculated_price);
+							$product_attribute_calculated_price = sprintf(
+								JText::_('COM_REDSHOP_CART_PRODUCT_ATTRIBUTE_CALCULATED_PRICE'),
+								$product_attribute_calculated_price
+							);
 
 							$data_add_pro = $templateattibute_middle;
 							$data_add_pro = str_replace("{product_attribute_name}", $product_attribute_name, $data_add_pro);
