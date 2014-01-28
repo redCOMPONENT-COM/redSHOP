@@ -122,7 +122,18 @@ class extra_field
 				case 1:
 					$text_value = ($data_value && $data_value->data_txt) ? $data_value->data_txt : '';
 					$size = ($row_data[$i]->field_size > 0) ? $row_data[$i]->field_size : 20;
-					$extra_field_value = '<input class="' . $row_data[$i]->field_class . '" type="text" maxlength="' . $row_data[$i]->field_maxlength . '" ' . $required . $reqlbl . $errormsg . ' name="' . $row_data[$i]->field_name . '"  id="' . $row_data[$i]->field_name . '" value="' . htmlspecialchars(stripslashes($text_value)) . '" size="' . $size . '" />';
+					$extra_field_value = '<input
+											class="' . $row_data[$i]->field_class . '"
+											type="text"
+											maxlength="' . $row_data[$i]->field_maxlength . '" '
+											. $required
+											. $reqlbl
+											. $errormsg
+											. ' name="' . $row_data[$i]->field_name . '"
+											id="' . $row_data[$i]->field_name . '"
+											value="' . htmlspecialchars(stripslashes($text_value)) . '"
+											size="' . $size . '"
+										/>';
 					$ex_field .= '<td valign="top" width="100" align="right" class="key">' . $extra_field_label . '</td>';
 					$ex_field .= '<td>' . $extra_field_value;
 					break;
