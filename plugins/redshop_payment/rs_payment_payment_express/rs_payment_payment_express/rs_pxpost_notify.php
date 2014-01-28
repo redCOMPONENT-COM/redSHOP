@@ -17,10 +17,10 @@
 /*** access Joomla's configuration file ***/
 $my_path = dirname(__FILE__);
 
-if (file_exists($my_path . "/../../../configuration.php"))
+if (file_exists($my_path . "/../../../../configuration.php"))
 {
-	$absolute_path = dirname($my_path . "/../../../configuration.php");
-	require_once $my_path . "/../../../configuration.php";
+	$absolute_path = dirname($my_path . "/../../../../configuration.php");
+	require_once $my_path . "/../../../../configuration.php";
 }
 else
 {
@@ -46,13 +46,13 @@ JDEBUG ? $_PROFILER->mark('afterLoad') : null;
  *
  * NOTE :
  */
-$app = JFactory::getApplication();
+$app = JFactory::getApplication("site");
 
 // Initialize the framework
 $app->initialise();
 
 require_once JPATH_BASE . '/administrator/components/com_redshop/helpers/order.php';
-require_once JPATH_BASE . '/plugins/redshop_payment/rs_payment_payment_express/PxPay_Curl.inc.php';
+require_once JPATH_BASE . '/plugins/redshop_payment/rs_payment_payment_express/rs_payment_payment_express/PxPay_Curl.inc.php';
 require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
 
 $objOrder = new order_functions;

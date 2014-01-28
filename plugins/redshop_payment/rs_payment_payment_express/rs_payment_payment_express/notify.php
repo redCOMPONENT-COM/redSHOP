@@ -29,7 +29,7 @@ JDEBUG ? $_PROFILER->mark('afterLoad') : null;
  *
  * NOTE :
  */
-$app = JFactory::getApplication();
+$app = JFactory::getApplication("site");
 
 /**
  * INITIALISE THE APPLICATION
