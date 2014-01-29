@@ -59,8 +59,9 @@ class CheckoutController extends JController
 		}
 		else
 		{
-			$link = JRoute::_('index.php?option=' . $option . '&view=checkout&Itemid=' . $Itemid, false);
-			$this->setRedirect($link);
+			JRequest::setVar('view', 'checkout');
+			JRequest::setVar('task', '');
+			parent::display('default');
 		}
 	}
 
