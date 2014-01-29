@@ -705,7 +705,7 @@ class extra_field
 							}
 							else
 							{
-								$documents[$ij] = '';
+								$documents[$ij] = $documents_value[$ij];
 							}
 						}
 
