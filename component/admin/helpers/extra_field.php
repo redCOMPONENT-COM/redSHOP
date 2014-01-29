@@ -699,7 +699,14 @@ class extra_field
 						// Editing uploaded file
 						if (isset($documents_value[$ij]) && $documents_value[$ij] != "")
 						{
-							$documents[trim($texts[$ij])] = $documents_value[$ij];
+							if (trim($texts[$ij]) != '')
+							{
+								$documents[trim($texts[$ij])] = $documents_value[$ij];
+							}
+							else
+							{
+								$documents[$ij] = '';
+							}
 						}
 
 						if ($file != "")
@@ -710,7 +717,15 @@ class extra_field
 							$destination = REDSHOP_FRONT_DOCUMENT_RELPATH . 'extrafields/' . $name;
 
 							JFile::upload($src, $destination);
-							$documents[trim($texts[$ij])] = $name;
+
+							if (trim($texts[$ij]) != '')
+							{
+								$documents[trim($texts[$ij])] = $name;
+							}
+							else
+							{
+								$documents[$ij] = $name;
+							}
 						}
 					}
 
