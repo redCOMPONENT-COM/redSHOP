@@ -6001,7 +6001,7 @@ class rsCarthelper
 
 					if ($newcartquantity != $cart[$i]['quantity'])
 					{
-						$cart[$i]['quantity'] = $newcartquantity;
+						$cart[$i]['quantity'] = $quantity;
 
 						/*
 						 * trigger the event of redSHOP product plugin support on Same product is going to add into cart
@@ -6013,7 +6013,9 @@ class rsCarthelper
 						$this->_session->set('cart', $cart);
 						$data['cart_index'] = $i;
 						$data['quantity']   = $newcartquantity;
-						$this->update($data);
+
+						$cartModel = JModel::getInstance('cart', 'cartModel');
+						$cartModel->update($data);
 
 						return true;
 					}
