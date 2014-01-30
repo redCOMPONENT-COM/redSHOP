@@ -1238,7 +1238,9 @@ class rsCarthelper
 								}
 							}
 
-							$product_attribute_calculated_price = $this->_producthelper->getProductFormattedPrice($product_attribute_calculated_price);
+							$product_attribute_calculated_price = $this->_producthelper->getProductFormattedPrice(
+								$product_attribute_calculated_price
+							);
 							$product_attribute_calculated_price = sprintf(
 								JText::_('COM_REDSHOP_CART_PRODUCT_ATTRIBUTE_CALCULATED_PRICE'),
 								$product_attribute_calculated_price
@@ -1248,7 +1250,11 @@ class rsCarthelper
 							$data_add_pro = str_replace("{product_attribute_name}", $product_attribute_name, $data_add_pro);
 							$data_add_pro = str_replace("{product_attribute_value}", $product_attribute_value, $data_add_pro);
 							$data_add_pro = str_replace("{product_attribute_value_price}", $product_attribute_value_price, $data_add_pro);
-							$data_add_pro = str_replace("{product_attribute_calculated_price}", $productAttributeCalculatedPrice, $data_add_pro);
+							$data_add_pro = str_replace(
+								"{product_attribute_calculated_price}",
+								$productAttributeCalculatedPrice,
+								$data_add_pro
+							);
 							$pro_detail .= $data_add_pro;
 						}
 					}
