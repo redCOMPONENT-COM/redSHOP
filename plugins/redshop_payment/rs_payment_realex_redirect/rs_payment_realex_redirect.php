@@ -48,7 +48,7 @@ class plgRedshop_paymentrs_payment_realex_redirect extends JPlugin
 			$plugin = $element;
 		}
 
-		$session =& JFactory::getSession();
+		$session = JFactory::getSession();
 		$ccdata = $session->get('ccdata');
 
 		$merchantid = $this->_params->get("realex_merchant_id");
