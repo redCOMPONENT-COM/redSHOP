@@ -7576,9 +7576,18 @@ class producthelper
 					$tmp_attribute_middle_template = str_replace("{product_attribute_value_price}", $disPrice, $tmp_attribute_middle_template);
 
 					// Format Calculated price using Language variable
-					$productAttributeCalculatedPrice = $this->getProductFormattedPrice($productAttributeCalculatedPrice);
-					$productAttributeCalculatedPrice = sprintf(JText::_('COM_REDSHOP_CART_PRODUCT_ATTRIBUTE_CALCULATED_PRICE'), $productAttributeCalculatedPrice);
-					$tmp_attribute_middle_template   = str_replace("{product_attribute_calculated_price}", $productAttributeCalculatedPrice, $tmp_attribute_middle_template);
+					$productAttributeCalculatedPrice = $this->getProductFormattedPrice(
+						$productAttributeCalculatedPrice
+					);
+					$productAttributeCalculatedPrice = sprintf(
+						JText::_('COM_REDSHOP_CART_PRODUCT_ATTRIBUTE_CALCULATED_PRICE'),
+						$productAttributeCalculatedPrice
+					);
+					$tmp_attribute_middle_template   = str_replace(
+						"{product_attribute_calculated_price}",
+						$productAttributeCalculatedPrice,
+						$tmp_attribute_middle_template
+					);
 
 					// Assign tmp variable to looping variable to get copy of all texts
 					$attribute_final_template .= $tmp_attribute_middle_template;
