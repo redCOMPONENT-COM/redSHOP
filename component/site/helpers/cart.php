@@ -1238,12 +1238,12 @@ class rsCarthelper
 								}
 							}
 
-							$product_attribute_calculated_price = $this->_producthelper->getProductFormattedPrice(
-								$product_attribute_calculated_price
+							$productAttributeCalculatedPrice = $this->_producthelper->getProductFormattedPrice(
+								$productAttributeCalculatedPrice
 							);
-							$product_attribute_calculated_price = sprintf(
+							$productAttributeCalculatedPrice = sprintf(
 								JText::_('COM_REDSHOP_CART_PRODUCT_ATTRIBUTE_CALCULATED_PRICE'),
-								$product_attribute_calculated_price
+								$productAttributeCalculatedPrice
 							);
 
 							$data_add_pro = $templateattibute_middle;
