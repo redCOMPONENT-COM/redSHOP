@@ -70,7 +70,7 @@ class plgRedshop_paymentrs_payment_rapid_eway extends JPlugin
 
 		$AccessCode = $request["AccessCode"];
 		$api_path = JPATH_SITE . '/plugins/redshop_payment/' . $element . '/' . $element . '/Rapid.php';
-		include($api_path);
+		include $api_path;
 		$service = new RapidAPI;
 		//Call RapidAPI to get the result
 		$service->setTestMode($test_mode);

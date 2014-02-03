@@ -38,7 +38,7 @@ else
 	$currency_main = "USD";
 }
 
-include(JPATH_SITE . '/plugins/redshop_payment/' . $plugin . '/' . $plugin . '/payread_post_api.php'); //Loads Payers API.
+include JPATH_SITE . '/plugins/redshop_payment/' . $plugin . '/' . $plugin . '/payread_post_api.php'; //Loads Payers API.
 $thePayreadApi = new payread_post_api; //Creates an object from Payers API.
 $thePayreadApi->add_valid_ip($_SERVER["REMOTE_ADDR"]);
 $thePayreadApi->setAgent($this->_params->get("agent_id"));
