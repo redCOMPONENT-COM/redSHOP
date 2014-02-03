@@ -230,7 +230,7 @@ class plgredshop_shippingbring extends JPlugin
 
 		$shipping = $shippinghelper->getShippingMethodByClass($this->classname);
 		$shippingcfg = JPATH_ROOT . '/plugins/' . $shipping->folder . '/' . $shipping->element . '.cfg.php';
-		include_once ($shippingcfg);
+		include_once $shippingcfg;
 
 		$shippingrate = array();
 		$rate = 0;
