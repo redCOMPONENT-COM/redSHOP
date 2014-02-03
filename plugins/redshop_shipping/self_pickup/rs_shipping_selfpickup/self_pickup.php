@@ -23,7 +23,7 @@ jimport('joomla.plugin.plugin');
  * @package        Joomla
  * @subpackage     System
  */
-include_once (JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/shipping.php');
+include_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/shipping.php';
 
 class plgredshop_shippingself_pickup extends JPlugin
 {
