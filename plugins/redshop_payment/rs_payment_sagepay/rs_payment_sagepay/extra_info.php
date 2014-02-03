@@ -38,11 +38,11 @@ if (!$this->params->get("enable_shipping"))
 	$shippingaddresses = $billingaddresses;
 }
 
-$sql = "SELECT cc.country_2_code FROM " . $this->_table_prefix . "country AS cc LEFT JOIN " . $this->_table_prefix . "users_info AS ui ON cc.country_3_code  = ui.country_code  WHERE ui.address_type ='BT' and ui.user_id='" . $data['order']->user_id . "'";
+$sql = "SELECT cc.country_2_code FROM #__redshop_country AS cc LEFT JOIN #__redshop_users_info AS ui ON cc.country_3_code  = ui.country_code  WHERE ui.address_type ='BT' and ui.user_id='" . $data['order']->user_id . "'";
 $db->setQuery($sql);
 $country_code = $db->loadResult();
 
-$sql_st = "SELECT cc.country_2_code FROM " . $this->_table_prefix . "country AS cc LEFT JOIN " . $this->_table_prefix . "users_info AS ui ON cc.country_3_code  = ui.country_code  WHERE ui.address_type ='ST' and ui.user_id='" . $data['order']->user_id . "'";
+$sql_st = "SELECT cc.country_2_code FROM #__redshop_country AS cc LEFT JOIN #__redshop_users_info AS ui ON cc.country_3_code  = ui.country_code  WHERE ui.address_type ='ST' and ui.user_id='" . $data['order']->user_id . "'";
 $db->setQuery($sql_st);
 $country_code_st = $db->loadResult();
 
