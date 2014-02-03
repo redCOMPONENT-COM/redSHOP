@@ -4066,6 +4066,20 @@ class rsCarthelper
 				$userid      = $coupon->userid;
 				$userType    = false;
 				$return      = true;
+				$counter     = 0;
+
+				foreach ($cart['coupon'] as $key => $val)
+				{
+					if ($val['coupon_code'] == $coupon_code)
+					{
+						$counter++;
+					}
+				}
+
+				if ($coupon->coupon_left <= $counter)
+				{
+					return false;
+				}
 
 				if ($coupon_type == 1)
 				{
@@ -4267,6 +4281,20 @@ class rsCarthelper
 				$return     = true;
 				$type       = $voucher->voucher_type;
 				$voucher_id = $voucher->voucher_id;
+				$counter    = 0;
+
+				foreach ($cart['voucher'] as $key => $val)
+				{
+					if ($val['voucher_code'] == $voucher_code)
+					{
+						$counter++;
+					}
+				}
+
+				if($voucher->voucher_left <= $counter)
+				{
+					return false;
+				}
 
 				if ($type == 'Percentage')
 				{
