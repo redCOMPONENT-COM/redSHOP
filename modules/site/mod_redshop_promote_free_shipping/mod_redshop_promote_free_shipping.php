@@ -25,5 +25,5 @@ $shippinghelper = new shipping;
 $shipping_rate_id = $params->get("shipping_rate_id");
 $text = $shippinghelper->getfreeshippingRate($shipping_rate_id);
 
-require(JModuleHelper::getLayoutPath('mod_redshop_promote_free_shipping'));
+require JModuleHelper::getLayoutPath('mod_redshop_promote_free_shipping');
 
