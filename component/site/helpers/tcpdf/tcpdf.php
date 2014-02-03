@@ -4726,7 +4726,7 @@ class TCPDF {
 		}
 		// include font file
 		if (file_exists($fontfile)) {
-			include($fontfile);
+			include $fontfile;
 		} else {
 			$this->Error('Could not include font definition file: '.$family.'');
 		}
