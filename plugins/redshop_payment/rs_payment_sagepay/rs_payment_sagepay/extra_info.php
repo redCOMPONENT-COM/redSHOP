@@ -1,46 +1,39 @@
 <?php
-
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license   GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- *            Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     RedSHOP
+ * @subpackage  Plugin
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 $strRedirecturl = "https://test.sagepay.com/simulator/vspformgateway.asp";
-$uri =& JURI::getInstance();
-$url = $uri->root();
-$user = JFactory::getUser();
-$db = JFactory::getDbo();
-$Itemid = $_REQUEST['Itemid'];
+$uri    = JURI::getInstance();
+$url    = $uri->root();
+$user   = JFactory::getUser();
+$db     = JFactory::getDbo();
+$input  = JFactory::getApplication()->input;
+$Itemid = $input->getInt('Itemid');
 
-if ($this->_params->get("payment_method") == "TEST")
+if ($this->params->get("payment_method") == "TEST")
 {
 	$strRedirecturl = "https://test.sagepay.com/gateway/service/vspform-register.vsp";
 }
-else if ($this->_params->get("payment_method") == "LIVE")
+elseif ($this->params->get("payment_method") == "LIVE")
 {
 	$strRedirecturl = "https://live.sagepay.com/gateway/service/vspform-register.vsp";
 }
 
-$strTransactionType = strtoupper($this->_params->get("sagepay_transactiontype"));
-$strVendorName = $this->_params->get("sagepay_vendorname");
-$VendorEMail = $this->_params->get("sagepay_vendoremail");
-$strEncryptionPassword = $this->_params->get("sagepay_encryptpass");
-$strProtocol = $this->_params->get("sagepay_protocol");
-$intRandNum = rand(0, 32000) * rand(0, 32000);
+$strTransactionType    = strtoupper($this->params->get("sagepay_transactiontype"));
+$strVendorName         = $this->params->get("sagepay_vendorname");
+$VendorEMail           = $this->params->get("sagepay_vendoremail");
+$strEncryptionPassword = $this->params->get("sagepay_encryptpass");
+$strProtocol           = $this->params->get("sagepay_protocol");
+$intRandNum            = rand(0, 32000) * rand(0, 32000);
 
 $strVendorTxCode = $strVendorName . "-" . $intRandNum;
 
-if (!$this->_params->get("enable_shipping"))
+if (!$this->params->get("enable_shipping"))
 {
 	$shippingaddresses = $billingaddresses;
 }
@@ -144,11 +137,6 @@ else
 	);
 }
 
-//  if($data['billinginfo']->country_2_code!='US')
-//      unset($crypt_variables['BillingState']);
-//  if($data['shippinginfo']->country_2_code!='US')
-//      unset($crypt_variables['DeliveryState']);
-
 $strPost = "";
 $i = 0;
 
@@ -178,12 +166,14 @@ $post_variables = Array(
 	"VPSProtocol" => $strProtocol,
 	"Crypt"       => $strCrypt
 );
+
 echo '<form action="' . $strRedirecturl . '" method="post" name="frmsagepay">';
 
 foreach ($post_variables as $name => $value)
 {
 	echo '<input type="hidden" name="' . $name . '" value="' . $value . '" />';
 }
+
 echo '</form>';
 
 function base64Encode($plain)
@@ -200,7 +190,7 @@ function base64Encode($plain)
 
 function base64Decode($scrambled)
 {
-	// Initialise output variable
+	// Initialize output variable
 	$output = "";
 
 	// Fix plus to space conversion issue
@@ -215,9 +205,10 @@ function base64Decode($scrambled)
 
 function simpleXor($InString, $Key)
 {
-	// Initialise key array
+	// Initialize key array
 	$KeyList = array();
-	// Initialise out variable
+
+	// Initialize out variable
 	$output = "";
 
 	// Convert $Key into array of ASCII values
