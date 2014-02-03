@@ -33,13 +33,12 @@ class plgRedshop_paymentrs_payment_sagepay_vps extends JPlugin
 		}
 
 		// Get params from plugin
-		$paymentparams = new JRegistry($paymentinfo->params);
-		$sagepay_vps_vendorname = $this->params->get('sagepay_vendorname', '');
-		$payment_method = $this->params->get('payment_method', '');
+		$sagepay_vps_vendorname       = $this->params->get('sagepay_vendorname', '');
+		$payment_method               = $this->params->get('payment_method', '');
 		$sagepay_vps_transaction_type = $this->params->get('sagepay_vps_transaction_type', 'PAYMENT');
-		$order_desc = $this->params->get('order_desc', '');
-		$sagepay_vps_test_status = $this->params->get('sagepay_vps_test_status', '');
-		$sagepay_3dsecure = $this->params->get('sagepay_3dsecure', '0');
+		$order_desc                   = $this->params->get('order_desc', '');
+		$sagepay_vps_test_status      = $this->params->get('sagepay_vps_test_status', '');
+		$sagepay_3dsecure             = $this->params->get('sagepay_3dsecure', '0');
 
 		if ($this->params->get("currency"))
 		{
@@ -54,36 +53,36 @@ class plgRedshop_paymentrs_payment_sagepay_vps extends JPlugin
 			$currency_main = "USD";
 		}
 
-		$session = JFactory::getSession();
+		$session         = JFactory::getSession();
 		$redirect_ccdata = $session->get('redirect_ccdata');
 
 		// Additional Customer Data
-		$user_id = $data['billinginfo']->user_id;
+		$user_id    = $data['billinginfo']->user_id;
 		$remote_add = $_SERVER["REMOTE_ADDR"];
 
 		// Email Settings
-		$user_email = $data['billinginfo']->user_email;
+		$user_email   = $data['billinginfo']->user_email;
 		$order_number = substr($data['order_number'], 0, 16);
-		$tax_exempt = false;
+		$tax_exempt   = false;
 
 		// Get Credit card Information
-		$strCardType = $redirect_ccdata['creditcard_code'];
+		$strCardType   = $redirect_ccdata['creditcard_code'];
 		$strCardHolder = substr($redirect_ccdata['order_payment_name'], 0, 100);
 		$strCardNumber = substr($redirect_ccdata['order_payment_number'], 0, 20);
 		$strExpiryDate = substr($redirect_ccdata['order_payment_expire_month'], 0, 2) . substr($redirect_ccdata['order_payment_expire_year'], -2);
-		$strCV2 = substr($redirect_ccdata['credit_card_code'], 0, 4);
+		$strCV2        = substr($redirect_ccdata['credit_card_code'], 0, 4);
 
-		$strTimeStamp = date("y-m-d-H-i-s", time());
-		$intRandNum = rand(0, 32000) * rand(0, 32000);
+		$strTimeStamp    = date("y-m-d-H-i-s", time());
+		$intRandNum      = rand(0, 32000) * rand(0, 32000);
 		$strVendorTxCode = $strVendorName . "-" . $strTimeStamp . "-" . $intRandNum;
 
-		$strCurrency = $currency_main;
+		$strCurrency              = $currency_main;
 		$_SESSION["VendorTxCode"] = $strVendorTxCode;
 
 		// Assign Amount
 		$tot_amount = $order_total = $data['order']->order_total;
-		$amount = $currencyClass->convert($tot_amount, '', $strCurrency);
-		$amount = number_format($amount, 2, '.', '');
+		$amount     = $currencyClass->convert($tot_amount, '', $strCurrency);
+		$amount     = number_format($amount, 2, '.', '');
 
 		$strPost = "VPSProtocol=2.23";
 
@@ -258,13 +257,11 @@ class plgRedshop_paymentrs_payment_sagepay_vps extends JPlugin
 			return;
 		}
 
-		$verify_status = $this->params->get("verify_status");
+		$verify_status  = $this->params->get("verify_status");
 		$invalid_status = $this->params->get("invalid_status");
-
-		$order_id = $request['orderid'];
-
-		$transresult = $request['responsestatus'];
-		$message = $request['responsemessage'];
+		$order_id       = $request['orderid'];
+		$transresult    = $request['responsestatus'];
+		$message        = $request['responsemessage'];
 
 		if ($transresult == "success")
 		{
