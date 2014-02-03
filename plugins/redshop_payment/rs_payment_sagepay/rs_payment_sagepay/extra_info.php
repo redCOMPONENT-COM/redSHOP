@@ -164,7 +164,12 @@ foreach ($crypt_variables as $name => $value)
 	$i++;
 }
 
-$strCrypt = base64Encode(SimpleXor($strPost, $strEncryptionPassword));
+$strCrypt = '';
+
+if ($strEncryptionPassword != null)
+{
+	$strCrypt = base64Encode(simpleXor($strPost, $strEncryptionPassword));
+}
 
 $post_variables = Array(
 
