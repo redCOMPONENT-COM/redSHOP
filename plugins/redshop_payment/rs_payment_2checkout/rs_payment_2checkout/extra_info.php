@@ -16,7 +16,7 @@ $Itemid      = $request["Itemid"];
 
 // Authnet vars to send
 $formdata = array(
-	'sid'                => $this->_params->get("vendor_id"),
+	'sid'                => $this->params->get("vendor_id"),
 	'cart_order_id'      => "Order Id:" . $data['order_id'],
 	'merchant_order_id'  => $data['order_id'],
 	//   'email_merchant' => ((TWOCO_MERCHANT_EMAIL == 'True') ? 'TRUE' : 'FALSE'),
@@ -50,7 +50,7 @@ for ($p = 0; $p < count($rs); $p++)
 	$formdata['c_description_' . ($p + 1)] = "";
 }
 
-if ($this->_params->get("is_test") == "1")
+if ($this->params->get("is_test") == "1")
 	$formdata['demo'] = "Y";
 
 $version = "2";
