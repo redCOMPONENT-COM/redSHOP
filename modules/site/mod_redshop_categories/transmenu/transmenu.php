@@ -106,7 +106,7 @@ class TransMenu
 			case 'component_item_link':
 				break;
 			case 'content_item_link':
-				$temp = split("&task=view&id=", $row->link);
+				$temp = explode("&task=view&id=", $row->link);
 				$row->link .= '&Itemid=' . $app->getItemid($temp[1]);
 				break;
 			case 'url':
@@ -172,7 +172,7 @@ class TransMenu
 			case 'component_item_link':
 				break;
 			case 'content_item_link':
-				$temp = split("&task=view&id=", $mitem->link);
+				$temp = explode("&task=view&id=", $mitem->link);
 				$mitem->link .= '&Itemid=' . $app->getItemid($temp[1]);
 				break;
 			case 'url':
