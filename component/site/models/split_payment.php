@@ -454,16 +454,16 @@ class split_paymentModelsplit_payment extends JModel
 
 
 		// Load an array with the valid prefixes for this card
-		$prefix = split(',', $cards [$cardType] ['prefixes']);
+		$prefix = explode(',', $cards [$cardType] ['prefixes']);
 
 		// Now see if any of them match what we have in the card number
 		$PrefixValid = false;
 
 		for ($i = 0; $i < sizeof($prefix); $i++)
 		{
-			$exp = '^' . $prefix [$i];
+			$exp = '/^' . $prefix [$i] . '/';
 
-			if (ereg($exp, $cardNo))
+			if (preg_match($exp, $cardNo))
 			{
 				$PrefixValid = true;
 				break;
@@ -481,7 +481,7 @@ class split_paymentModelsplit_payment extends JModel
 
 		// See if the length is valid for this card
 		$LengthValid = false;
-		$lengths     = split(',', $cards [$cardType] ['length']);
+		$lengths     = explode(',', $cards [$cardType] ['length']);
 
 		for ($j = 0; $j < sizeof($lengths); $j++)
 		{

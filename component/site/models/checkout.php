@@ -1845,7 +1845,7 @@ class CheckoutModelCheckout extends JModel
 		// The following are the card-specific checks we undertake.
 
 		// Load an array with the valid prefixes for this card
-		$prefix = split(',', $cards[$cardType]['prefixes']);
+		$prefix = explode(',', $cards[$cardType]['prefixes']);
 
 		// Now see if any of them match what we have in the card number
 
@@ -1853,9 +1853,9 @@ class CheckoutModelCheckout extends JModel
 
 		for ($i = 0; $i < count($prefix); $i++)
 		{
-			$exp = '^' . $prefix [$i];
+			$exp = '/^' . $prefix [$i] . '/';
 
-			if (ereg($exp, $cardNo))
+			if (preg_match($exp, $cardNo))
 			{
 				$PrefixValid = true;
 				break;
@@ -1873,7 +1873,7 @@ class CheckoutModelCheckout extends JModel
 
 		// See if the length is valid for this card
 		$LengthValid = false;
-		$lengths     = split(',', $cards[$cardType]['length']);
+		$lengths     = explode(',', $cards[$cardType]['length']);
 
 		for ($j = 0; $j < count($lengths); $j++)
 		{
