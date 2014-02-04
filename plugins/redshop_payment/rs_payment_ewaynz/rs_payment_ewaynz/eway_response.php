@@ -31,35 +31,29 @@ else
 
 $absolute_path = realpath($absolute_path);
 
-define ('_JEXEC', 1);
-define ('JPATH_BASE', $absolute_path);
-define ('DS', DIRECTORY_SEPARATOR);
-define ('JPATH_COMPONENT_ADMINISTRATOR', JPATH_BASE . '/administrator/components/com_redshop');
-define ('JPATH_COMPONENT', JPATH_BASE . '/components/com_redshop');
+define('_JEXEC', 1);
+define('JPATH_BASE', $absolute_path);
+define('DS', DIRECTORY_SEPARATOR);
+define('JPATH_COMPONENT_ADMINISTRATOR', JPATH_BASE . '/administrator/components/com_redshop');
+define('JPATH_COMPONENT', JPATH_BASE . '/components/com_redshop');
 
 // Load the framework
 
 require_once $absolute_path . '/includes/defines.php';
 require_once $absolute_path . '/includes/framework.php';
 
-// create the mainframe object
+// Create the mainframe object
 $app = JFactory::getApplication();
 
 // Initialize the framework
 $app->initialise();
 
-// load system plugin group
+// Load system plugin group
 JPluginHelper::importPlugin('system');
-
-// trigger the onBeforeStart events
-//$app->triggerEvent ( 'onBeforeStart' );
-//$lang = JFactory::getLanguage ();
-//$mosConfig_lang = $GLOBALS ['mosConfig_lang'] = strtolower ( $lang->getBackwardLang () );
-// Adjust the live site path
 
 /*** END of Joomla config ***/
 
-// redshop language file
+// Redshop language file
 JPlugin::loadLanguage('com_redshop');
 
 $request = JRequest::get('request');
@@ -78,37 +72,30 @@ $UserName = $paymentparams->get('username', '');
 $CustomerID = $paymentparams->get('customer_id', '');
 $debug_mode = $paymentparams->get('debug_mode', 0);
 
-
 $querystring = "CustomerID=" . $CustomerID . "&UserName=" . $UserName . "&AccessPaymentCode=" . $_REQUEST['AccessPaymentCode'];
-//echo $posturl="https://www.ewaygateway.com/Gateway/UK/Results.aspx?".$querystring;
-$posturl = "https://nz.ewaygateway.com/Result/?" . $querystring;
+$posturl     = "https://nz.ewaygateway.com/Result/?" . $querystring;
 
 $ch = curl_init();
 curl_setopt($ch, CURLOPT_URL, $posturl);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 curl_setopt($ch, CURLOPT_HEADER, 1);
 curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
-//if (CURL_PROXY_REQUIRED == 'True')
-{
-	$proxy_tunnel_flag = (defined('CURL_PROXY_TUNNEL_FLAG') && strtoupper(CURL_PROXY_TUNNEL_FLAG) == 'FALSE') ? false : true;
-	curl_setopt($ch, CURLOPT_HTTPPROXYTUNNEL, $proxy_tunnel_flag);
-	curl_setopt($ch, CURLOPT_PROXYTYPE, CURLPROXY_HTTP);
-	//curl_setopt ($ch, CURLOPT_PROXY, CURL_PROXY_SERVER_DETAILS);
-}
+$proxy_tunnel_flag = (defined('CURL_PROXY_TUNNEL_FLAG') && strtoupper(CURL_PROXY_TUNNEL_FLAG) == 'FALSE') ? false : true;
+curl_setopt($ch, CURLOPT_HTTPPROXYTUNNEL, $proxy_tunnel_flag);
+curl_setopt($ch, CURLOPT_PROXYTYPE, CURLPROXY_HTTP);
 
-$response = curl_exec($ch);
-#print_r($response);
-$responsecode = fetch_data($response, '<responsecode>', '</responsecode>');
-$trxnnumber = fetch_data($response, '<trxnnumber>', '</trxnnumber>');
-$auth_code = fetch_data($response, '<AuthCode>', '</AuthCode>');
-$order_id = fetch_data($response, '<MerchantReference>', '</MerchantReference>');
-$trxnstatus = fetch_data($response, '<trxnstatus>', '</trxnstatus>');
+$response            = curl_exec($ch);
+$responsecode        = fetch_data($response, '<responsecode>', '</responsecode>');
+$trxnnumber          = fetch_data($response, '<trxnnumber>', '</trxnnumber>');
+$auth_code           = fetch_data($response, '<AuthCode>', '</AuthCode>');
+$order_id            = fetch_data($response, '<MerchantReference>', '</MerchantReference>');
+$trxnstatus          = fetch_data($response, '<trxnstatus>', '</trxnstatus>');
 $trxnresponsemessage = fetch_data($response, '<trxnresponsemessage>', '</trxnresponsemessage>');
 
 // Response Success Message
 if ($responsecode == "00" || $responsecode == "08" || $responsecode == "10" || $responsecode == "11" || $responsecode == "16")
 {
-	$values->order_status_code = $verify_status;
+	$values->order_status_code         = $verify_status;
 	$values->order_payment_status_code = 'Paid';
 
 	if ($debug_mode == 1)
@@ -175,6 +162,3 @@ function fetch_data($string, $start_tag, $end_tag)
 
 	return $fetch_data;
 }
-
-
-?>
