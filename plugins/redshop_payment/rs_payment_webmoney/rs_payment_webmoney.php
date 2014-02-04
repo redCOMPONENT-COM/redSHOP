@@ -88,7 +88,7 @@ class plgRedshop_paymentrs_payment_webmoney extends JPlugin
 				$ipnval = stripslashes($ipnval);
 			}
 			// ^ Antidote to potential variable injection and poisoning
-			if (!eregi("^[_0-9a-z-]{1,30}$", $ipnkey))
+			if (!preg_match("/^[_0-9a-z-]{1,30}$/i", $ipnkey))
 			{
 				unset ($ipnkey);
 				unset ($ipnval);

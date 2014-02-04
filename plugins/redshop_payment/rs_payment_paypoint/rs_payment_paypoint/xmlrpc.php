@@ -364,9 +364,6 @@ function xmlrpc_cd($parser, $data)
 {
 	global $_xh, $xmlrpc_backslash;
 
-	//if (ereg("^[\n\r \t]+$", $data)) return;
-	// print "adding [${data}]\n";
-
 	if ($_xh[$parser]['lv'] != 3)
 	{
 		// "lookforvalue==3" means that we've found an entire value

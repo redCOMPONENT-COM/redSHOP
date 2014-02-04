@@ -110,9 +110,9 @@ class TransMenu
 				$row->link .= '&Itemid=' . $app->getItemid($temp[1]);
 				break;
 			case 'url':
-				if (eregi('index.php\?', $row->link))
+				if (preg_match('/index.php\?/i', $row->link))
 				{
-					if (!eregi('Itemid=', $row->link))
+					if (!preg_match('/Itemid=/i', $row->link))
 					{
 						$row->link .= '&Itemid=' . $tmpItemid;
 					}
@@ -176,9 +176,9 @@ class TransMenu
 				$mitem->link .= '&Itemid=' . $app->getItemid($temp[1]);
 				break;
 			case 'url':
-				if (eregi('index.php\?', $mitem->link))
+				if (preg_match('/index.php\?/i', $mitem->link))
 				{
-					if (!eregi('Itemid=', $mitem->link))
+					if (!preg_match('/Itemid=/i', $mitem->link))
 					{
 						$mitem->link .= '&Itemid=' . $mitem->id;
 					}
