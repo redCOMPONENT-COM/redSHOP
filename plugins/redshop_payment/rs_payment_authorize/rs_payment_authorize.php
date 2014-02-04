@@ -28,12 +28,12 @@ class plgRedshop_paymentrs_payment_authorize extends JPlugin
 			$plugin = $element;
 		}
 
-		$app = JFactory::getApplication();
-		$db = JFactory::getDbo();
-		$user = JFActory::getUser();
+		$app     = JFactory::getApplication();
+		$db      = JFactory::getDbo();
+		$user    = JFActory::getUser();
 		$session = JFactory::getSession();
-		$ccdata = $session->get('ccdata');
-		$cart = $session->get('cart');
+		$ccdata  = $session->get('ccdata');
+		$cart    = $session->get('cart');
 
 		// For total amount
 		$cal_no = 2;
@@ -51,17 +51,17 @@ class plgRedshop_paymentrs_payment_authorize extends JPlugin
 		{
 			if (isset($cart[$p]['product_id']) && $cart[$p]['product_id'] != "")
 			{
-				$product_id = $cart[$p]['product_id'];
-				$query = "SELECT product_name,product_s_desc FROM `#__redshop_product` WHERE `product_id` = '" . $cart[$p]['product_id'] . "'";
+				$product_id   = $cart[$p]['product_id'];
+				$query        = "SELECT product_name,product_s_desc FROM `#__redshop_product` WHERE `product_id` = '" . $cart[$p]['product_id'] . "'";
 				$db->setQuery($query);
-				$proinfo = $db->loadObjectlist();
+				$proinfo      = $db->loadObjectlist();
 				$product_name = substr(str_replace("&", "and", $proinfo[0]->product_name), 0, 30);
 			}
 
 			if (isset($cart[$p]['giftcard_id']) && $cart[$p]['giftcard_id'] != "")
 			{
-				$product_id = $cart[$p]['giftcard_id'];
-				$query_gift = "SELECT * FROM `#__redshop_giftcard` WHERE `giftcard_id` = '" . $cart[$p]['giftcard_id'] . "'";
+				$product_id   = $cart[$p]['giftcard_id'];
+				$query_gift   = "SELECT * FROM `#__redshop_giftcard` WHERE `giftcard_id` = '" . $cart[$p]['giftcard_id'] . "'";
 				$db->setQuery($query_gift);
 				$giftinfoinfo = $db->loadObjectlist();
 				$product_name = substr(str_replace("&", "and", $giftinfoinfo[0]->giftcard_name), 0, 30);
@@ -253,11 +253,11 @@ class plgRedshop_paymentrs_payment_authorize extends JPlugin
 
 	public function onCapture_Paymentrs_payment_authorize($element, $data)
 	{
-		$objOrder = new order_functions;
-		$order_id = $data['order_id'];
-		$tid = $data['order_transactionid'];
-		$db = JFactory::getDbo();
-		$billing_info = $data['billinginfo'];
+		$objOrder      = new order_functions;
+		$order_id      = $data['order_id'];
+		$tid           = $data['order_transactionid'];
+		$db            = JFactory::getDbo();
+		$billing_info  = $data['billinginfo'];
 		$shipping_info = $data['shippinginfo'];
 
 		// Fetch the Credit Card information from Order Id

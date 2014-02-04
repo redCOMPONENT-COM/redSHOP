@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.plugin.plugin');
-
 require_once JPATH_SITE . '/administrator/components/com_redshop/helpers/order.php';
 
 class plgRedshop_paymentrs_payment_beanstream extends JPlugin
