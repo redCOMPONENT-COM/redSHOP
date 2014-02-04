@@ -64,7 +64,7 @@ class payment_detailViewpayment_detail extends JView
 
 			$paymentcfg = $adminpath . '/helpers/payments/' . $detail->plugin . '/' . $detail->plugin . '.cfg.php';
 
-			include_once ($paymentfile);
+			include_once $paymentfile;
 
 			$ps = new $detail->payment_class;
 
@@ -77,7 +77,7 @@ class payment_detailViewpayment_detail extends JView
 					echo "<font color='red'>" . $paymentcfg . ' is not writable</font>';
 				}
 
-				include_once ($paymentcfg);
+				include_once $paymentcfg;
 			}
 
 			$myparams = new JRegistry($detail->params, $paymentxml);

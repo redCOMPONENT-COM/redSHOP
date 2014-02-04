@@ -19,4 +19,4 @@ $return  = modRedshopLoginHelper::getReturnURL($params, $type);
 $rItemid = trim($params->get('registrationitemid', ''));
 $user    = JFactory::getUser();
 
-require(JModuleHelper::getLayoutPath('mod_redshop_login'));
+require JModuleHelper::getLayoutPath('mod_redshop_login');
