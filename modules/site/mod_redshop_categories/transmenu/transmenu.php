@@ -212,7 +212,6 @@ class TransMenu
 
 		$id = 'id="menu' . $mitem->id . '"';
 
-
 		if (strcasecmp(substr($mitem->link, 0, 4), 'http'))
 		{
 			$mitem->link = JRoute::_($mitem->link);
