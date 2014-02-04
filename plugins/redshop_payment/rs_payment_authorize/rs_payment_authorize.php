@@ -9,31 +9,10 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.plugin.plugin');
-//$app = JFactory::getApplication();
-//$app->registerEvent( 'onPrePayment', 'plgRedshoprs_payment_bbs' );
 require_once JPATH_SITE . '/administrator/components/com_redshop/helpers/order.php';
+
 class plgRedshop_paymentrs_payment_authorize extends JPlugin
 {
-	public $_table_prefix = null;
-
-	/**
-	 * Constructor
-	 *
-	 * For php4 compatability we must not use the __constructor as a constructor for
-	 * plugins because func_get_args ( void ) returns a copy of all passed arguments
-	 * NOT references.  This causes problems with cross-referencing necessary for the
-	 * observer design pattern.
-	 */
-	public function plgRedshop_paymentrs_payment_authorize(&$subject)
-	{
-		// Load plugin parameters
-		parent::__construct($subject);
-		$this->_table_prefix = '#__redshop_';
-		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_authorize');
-		$this->_params = new JRegistry($this->_plugin->params);
-	}
-
 	/**
 	 * Plugin method with the same name as the event will be called automatically.
 	 */
@@ -105,7 +84,7 @@ class plgRedshop_paymentrs_payment_authorize extends JPlugin
 		$item_str = implode("&x_line_item=", $item_details);
 
 		// For Email Receipt
-		if ($this->_params->get("emailreceipt_to_customer") == 1)
+		if ($this->params->get("emailreceipt_to_customer") == 1)
 		{
 			$x_merchant_email = $data['billinginfo']->user_email;
 		}
@@ -114,15 +93,15 @@ class plgRedshop_paymentrs_payment_authorize extends JPlugin
 			$x_merchant_email = "";
 		}
 
-		$view_table_format = $this->_params->get("view_table_format");
+		$view_table_format = $this->params->get("view_table_format");
 
 		// Authnet vars to send
 
 		$formdata = array(
 			'x_version'            => '3.1',
-			'x_login'              => $this->_params->get("access_id"),
-			'x_tran_key'           => $this->_params->get("transaction_id"),
-			'x_test_request'       => $this->_params->get("is_test"),
+			'x_login'              => $this->params->get("access_id"),
+			'x_tran_key'           => $this->params->get("transaction_id"),
+			'x_test_request'       => $this->params->get("is_test"),
 
 			// Gateway Response Configuration
 			'x_delim_data'         => 'TRUE',
@@ -157,7 +136,7 @@ class plgRedshop_paymentrs_payment_authorize extends JPlugin
 
 			// Email Settings
 			'x_email'              => $data['billinginfo']->user_email,
-			'x_email_customer'     => $this->_params->get("emailreceipt_to_customer"),
+			'x_email_customer'     => $this->params->get("emailreceipt_to_customer"),
 			'x_merchant_email'     => $x_merchant_email,
 
 			// Invoice Information
@@ -172,7 +151,7 @@ class plgRedshop_paymentrs_payment_authorize extends JPlugin
 			'x_amount'             => $order_total,
 			'x_currency_code'      => CURRENCY_CODE,
 			'x_method'             => 'CC',
-			'x_type'               => $this->_params->get("auth_type"),
+			'x_type'               => $this->params->get("auth_type"),
 
 			'x_card_num'           => $ccdata['order_payment_number'],
 			'x_card_code'          => $ccdata['credit_card_code'],
@@ -203,7 +182,7 @@ class plgRedshop_paymentrs_payment_authorize extends JPlugin
 		// Strip off trailing ampersand
 		$poststring = substr($poststring, 0, -1);
 
-		if ($this->_params->get("is_test") == 'TRUE')
+		if ($this->params->get("is_test") == 'TRUE')
 		{
 			$host = 'test.authorize.net';
 		}
@@ -282,13 +261,12 @@ class plgRedshop_paymentrs_payment_authorize extends JPlugin
 		$shipping_info = $data['shippinginfo'];
 
 		// Fetch the Credit Card information from Order Id
-
-		$sql = "SELECT op.*,o.order_total,o.user_id FROM " . $this->_table_prefix . "order_payment AS op LEFT JOIN " . $this->_table_prefix . "orders AS o ON op.order_id = o.order_id  WHERE o.order_id='" . $order_id . "' AND op.order_payment_trans_id='" . $tid . "' ";
+		$sql = "SELECT op.*,o.order_total,o.user_id FROM `#__redshop_order_payment` AS op LEFT JOIN #__redshop_orders AS o ON op.order_id = o.order_id  WHERE o.order_id='" . $order_id . "' AND op.order_payment_trans_id='" . $tid . "' ";
 		$db->setQuery($sql);
 		$order_details = $db->loadObject();
 
 		// For Email Receipt
-		if ($this->_params->get("emailreceipt_to_customer") == 1)
+		if ($this->params->get("emailreceipt_to_customer") == 1)
 		{
 			$x_merchant_email = $data['billinginfo']->user_email;
 		}
@@ -310,8 +288,8 @@ class plgRedshop_paymentrs_payment_authorize extends JPlugin
 		// Authnet vars to send
 		$formdata = array(
 			'x_version'            => '3.1',
-			'x_login'              => $this->_params->get("access_id"),
-			'x_tran_key'           => $this->_params->get("transaction_id"),
+			'x_login'              => $this->params->get("access_id"),
+			'x_tran_key'           => $this->params->get("transaction_id"),
 			// Gateway Response Configuration
 			'x_delim_data'         => 'TRUE',
 			'x_delim_char'         => '|',
@@ -341,7 +319,7 @@ class plgRedshop_paymentrs_payment_authorize extends JPlugin
 			'x_customer_ip'        => $_SERVER["REMOTE_ADDR"],
 			// Email Settings
 			'x_email'              => $billing_info->user_email,
-			'x_email_customer'     => $this->_params->get("emailreceipt_to_customer"),
+			'x_email_customer'     => $this->params->get("emailreceipt_to_customer"),
 			'x_merchant_email'     => $x_merchant_email,
 			// Invoice Information
 			'x_invoice_num'        => substr($data['order_number'], 0, 20),
@@ -370,7 +348,7 @@ class plgRedshop_paymentrs_payment_authorize extends JPlugin
 		// Strip off trailing ampersand
 		$poststring = substr($poststring, 0, -1);
 
-		if ($this->_params->get("is_test") == 'TRUE')
+		if ($this->params->get("is_test") == 'TRUE')
 		{
 			$host = 'test.authorize.net';
 		}
@@ -438,7 +416,7 @@ class plgRedshop_paymentrs_payment_authorize extends JPlugin
 		$db = JFactory::getDbo();
 
 		// Update authorize_status
-		if ($this->_params->get("auth_type") == "AUTH_ONLY")
+		if ($this->params->get("auth_type") == "AUTH_ONLY")
 		{
 			$authorize_status = "Authorized";
 		}
@@ -447,7 +425,7 @@ class plgRedshop_paymentrs_payment_authorize extends JPlugin
 			$authorize_status = "Captured";
 		}
 
-		$query = "UPDATE " . $this->_table_prefix . "order_payment SET  authorize_status = '"
+		$query = "UPDATE `#__redshop_order_payment` SET  authorize_status = '"
 			. $authorize_status . "' where order_id = '" . $order_id . "'";
 		$db->setQuery($query);
 		$db->Query();

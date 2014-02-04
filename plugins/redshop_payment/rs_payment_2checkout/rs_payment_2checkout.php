@@ -82,21 +82,21 @@ class plgRedshop_paymentrs_payment_2checkout extends JPlugin
 		// Now validate on the MD5 stamping. If the MD5 key is valid or if MD5 is disabled
 		if ($order_ekey === $hash_to_check)
 		{
-			$transaction_id = $invoice_id;
-			$values->order_status_code = $verify_status;
+			$transaction_id                    = $invoice_id;
+			$values->order_status_code         = $verify_status;
 			$values->order_payment_status_code = 'Paid';
-			$values->log = JText::_('COM_REDSHOP_ORDER_PLACED');
-			$values->msg = JText::_('COM_REDSHOP_ORDER_PLACED');
-			$values->transaction_id = $transaction_id;
-			$values->order_id = $order_id;
+			$values->log                       = JText::_('COM_REDSHOP_ORDER_PLACED');
+			$values->msg                       = JText::_('COM_REDSHOP_ORDER_PLACED');
+			$values->transaction_id            = $transaction_id;
+			$values->order_id                  = $order_id;
 		}
 		else
 		{
-			$values->order_status_code = $invalid_status;
+			$values->order_status_code         = $invalid_status;
 			$values->order_payment_status_code = 'Unpaid';
-			$values->log = JText::_('COM_REDSHOP_ORDER_NOT_PLACED');
-			$values->msg = JText::_('COM_REDSHOP_ORDER_NOT_PLACED');
-			$msg = JText::_('COM_REDSHOP_PHPSHOP_PAYMENT_ERROR');
+			$values->log                       = JText::_('COM_REDSHOP_ORDER_NOT_PLACED');
+			$values->msg                       = JText::_('COM_REDSHOP_ORDER_NOT_PLACED');
+			$msg                               = JText::_('COM_REDSHOP_PHPSHOP_PAYMENT_ERROR');
 		}
 
 		return $values;
