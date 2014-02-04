@@ -9,30 +9,8 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.plugin.plugin');
-//$app = JFactory::getApplication();
-//$app->registerEvent( 'onPrePayment', 'plgRedshoprs_payment_bbs' );
 class plgRedshop_paymentrs_payment_webmoney extends JPlugin
 {
-	var $_table_prefix = null;
-
-	/**
-	 * Constructor
-	 *
-	 * For php4 compatability we must not use the __constructor as a constructor for
-	 * plugins because func_get_args ( void ) returns a copy of all passed arguments
-	 * NOT references.  This causes problems with cross-referencing necessary for the
-	 * observer design pattern.
-	 */
-	public function plgRedshop_paymentrs_payment_webmoney(&$subject)
-	{
-		// Load plugin parameters
-		parent::__construct($subject);
-		$this->_table_prefix = '#__redshop_';
-		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_webmoney');
-		$this->_params = new JRegistry($this->_plugin->params);
-	}
-
 	/**
 	 * Plugin method with the same name as the event will be called automatically.
 	 */
@@ -63,8 +41,8 @@ class plgRedshop_paymentrs_payment_webmoney extends JPlugin
 			break;
 		}
 
-		$verify_status = $this->_params->get("verify_status");
-		$invalid_status = $this->_params->get("invalid_status");
+		$verify_status = $this->params->get("verify_status");
+		$invalid_status = $this->params->get("invalid_status");
 
 		$db = JFactory::getDbo();
 		$request = JRequest::get('request');
@@ -97,13 +75,14 @@ class plgRedshop_paymentrs_payment_webmoney extends JPlugin
 			$pure_feedback[$ipnkey] = $ipnval;
 		}
 
-		// prerequest
+		// Prerequest
 
 		$wm_post_0 = trim($request['LMI_PREREQUEST']);
 		$wm_post_4 = trim($request['LMI_MODE']);
 		$wm_post_5 = trim($request['LMI_PAYER_PURSE']);
 		$wm_post_6 = trim($request['LMI_PAYER_WM']);
-		//transaction
+
+		// Transaction
 		$wm_post_7 = trim($request['LMI_SYS_INVS_NO']);
 		$wm_post_8 = trim($request['LMI_SYS_TRANS_NO']);
 		$wm_post_9 = trim($request['LMI_SYS_TRANS_DATE']);
@@ -142,10 +121,9 @@ class plgRedshop_paymentrs_payment_webmoney extends JPlugin
 				exit;
 			}
 
-			//retrieving invoice parameters from DB
-
+			// Retrieving invoice parameters from DB
 			$sql = "SELECT *
-		                FROM " . $this->_table_prefix . "orders
+		                FROM #__redshop_orders
 		                WHERE `order_id`='" . $invoice . "'";
 
 			$query = $db->setQuery($sql);
@@ -190,7 +168,7 @@ class plgRedshop_paymentrs_payment_webmoney extends JPlugin
 		else
 		{
 			$sql = "SELECT *
-							FROM " . $this->_table_prefix . "orders
+							FROM #__redshop_orders
 							WHERE `order_id`='" . $invoice . "'";
 
 			$query = $db->setQuery($sql);
@@ -243,7 +221,7 @@ class plgRedshop_paymentrs_payment_webmoney extends JPlugin
 	{
 		$db = JFactory::getDbo();
 		$res = false;
-		$query = "SELECT COUNT(*) `qty` FROM " . $this->_table_prefix . "order_payment WHERE `order_id` = '" . $db->getEscaped($order_id) . "' and order_payment_trans_id = '" . $db->getEscaped($tid) . "'";
+		$query = "SELECT COUNT(*) `qty` FROM #__redshop_order_payment WHERE `order_id` = '" . $db->getEscaped($order_id) . "' and order_payment_trans_id = '" . $db->getEscaped($tid) . "'";
 		$db->setQuery($query);
 		$order_payment = $db->loadResult();
 
@@ -259,5 +237,4 @@ class plgRedshop_paymentrs_payment_webmoney extends JPlugin
 	{
 		return;
 	}
-
 }
