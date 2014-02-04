@@ -9,31 +9,10 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.plugin.plugin');
-
 require_once JPATH_SITE . '/administrator/components/com_redshop/helpers/order.php';
 
 class plgRedshop_paymentrs_payment_cyberplus extends JPlugin
 {
-	public $_table_prefix = null;
-
-	/**
-	 * Constructor
-	 *
-	 * For php4 compatability we must not use the __constructor as a constructor for
-	 * plugins because func_get_args ( void ) returns a copy of all passed arguments
-	 * NOT references.  This causes problems with cross-referencing necessary for the
-	 * observer design pattern.
-	 */
-	public function plgRedshop_paymentrs_payment_cyberplus(&$subject)
-	{
-		// Load plugin parameters
-		parent::__construct($subject);
-		$this->_table_prefix = '#__redshop_';
-		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_cyberplus');
-		$this->_params = new JRegistry($this->_plugin->params);
-	}
-
 	/**
 	 * Plugin method with the same name as the event will be called automatically.
 	 */
@@ -50,8 +29,8 @@ class plgRedshop_paymentrs_payment_cyberplus extends JPlugin
 		}
 
 		$app = JFactory::getApplication();
-		$paymentpath = JPATH_SITE . '/plugins/redshop_payment/' . $plugin . '/extra_info.php';
-		include $paymentpath;
+
+		include JPATH_SITE . '/plugins/redshop_payment/' . $plugin . '/extra_info.php';
 	}
 
 	public function onNotifyPaymentrs_payment_cyberplus($element, $request)
@@ -61,18 +40,18 @@ class plgRedshop_paymentrs_payment_cyberplus extends JPlugin
 			return;
 		}
 
-		$db = JFactory::getDbo();
-		$request = JRequest::get('request');
-		$order_id = $request['orderid'];
-		$vads_trans_id = $request['vads_trans_id'];
+		$db                 = JFactory::getDbo();
+		$request            = JRequest::get('request');
+		$order_id           = $request['orderid'];
+		$vads_trans_id      = $request['vads_trans_id'];
 
 		// Get params from plugin parameters
-		$verify_status = $this->_params->get("verify_status");
-		$invalid_status = $this->_params->get("invalid_status");
-		$site_id = $this->_params->get("site_id");
-		$certificate_number = $this->_params->get("certificate_number");
-		$key = $certificate_number;
-		$contenu_signature = "";
+		$verify_status      = $this->params->get("verify_status");
+		$invalid_status     = $this->params->get("invalid_status");
+		$site_id            = $this->params->get("site_id");
+		$certificate_number = $this->params->get("certificate_number");
+		$key                = $certificate_number;
+		$contenu_signature  = "";
 		ksort($request);
 
 		foreach ($request as $nom => $valeur)
@@ -89,7 +68,7 @@ class plgRedshop_paymentrs_payment_cyberplus extends JPlugin
 
 		$contenu_signature .= $key;
 
-		// The certifica
+		// The certificate
 		$signature_calculee = sha1($contenu_signature);
 
 		if (isset($request['signature']) && $signature_calculee == $request['signature'])
@@ -102,31 +81,31 @@ class plgRedshop_paymentrs_payment_cyberplus extends JPlugin
 			if ($request['vads_result'] == "00")
 			{
 				// Payment ok
-				$values->order_status_code = $verify_status;
+				$values->order_status_code         = $verify_status;
 				$values->order_payment_status_code = 'Paid';
-				$values->log = JText::_('COM_REDSHOP_ORDER_PLACED');
-				$values->msg = JText::_('COM_REDSHOP_ORDER_PLACED');
-				$values->transaction_id = $vads_trans_id;
-				$values->order_id = $order_id;
+				$values->log                       = JText::_('COM_REDSHOP_ORDER_PLACED');
+				$values->msg                       = JText::_('COM_REDSHOP_ORDER_PLACED');
+				$values->transaction_id            = $vads_trans_id;
+				$values->order_id                  = $order_id;
 			}
 			else
 			{
 				// Payment refused or referral
-				$values->order_status_code = $invalid_status;
+				$values->order_status_code         = $invalid_status;
 				$values->order_payment_status_code = 'Unpaid';
-				$values->log = JText::_('COM_REDSHOP_ORDER_NOT_PLACED');
-				$values->msg = JText::_('COM_REDSHOP_ORDER_NOT_PLACED');
-				$values->order_id = $order_id;
+				$values->log                       = JText::_('COM_REDSHOP_ORDER_NOT_PLACED');
+				$values->msg                       = JText::_('COM_REDSHOP_ORDER_NOT_PLACED');
+				$values->order_id                  = $order_id;
 			}
 		}
 		else
 		{
 			// Invalid signature – do not take this entry form into account
-			$values->order_status_code = $invalid_status;
+			$values->order_status_code         = $invalid_status;
 			$values->order_payment_status_code = 'Unpaid';
-			$values->log = JText::_('COM_REDSHOP_ORDER_NOT_PLACED');
-			$values->msg = JText::_('COM_REDSHOP_ORDER_NOT_PLACED');
-			$values->order_id = $order_id;
+			$values->log                       = JText::_('COM_REDSHOP_ORDER_NOT_PLACED');
+			$values->msg                       = JText::_('COM_REDSHOP_ORDER_NOT_PLACED');
+			$values->order_id                  = $order_id;
 		}
 
 		return $values;
