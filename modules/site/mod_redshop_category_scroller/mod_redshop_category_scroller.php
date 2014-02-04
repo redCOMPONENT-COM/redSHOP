@@ -117,5 +117,5 @@ else
 $db->setQuery($query);
 $rows = $db->loadObjectList();
 
-require(JModuleHelper::getLayoutPath('mod_redshop_category_scroller'));
+require JModuleHelper::getLayoutPath('mod_redshop_category_scroller');
 

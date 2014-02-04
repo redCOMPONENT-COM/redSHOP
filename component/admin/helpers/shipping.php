@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-include_once (JPATH_SITE . '/components/com_redshop/helpers/product.php');
+include_once JPATH_SITE . '/components/com_redshop/helpers/product.php';
 
 class shipping
 {
