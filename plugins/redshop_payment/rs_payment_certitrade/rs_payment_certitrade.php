@@ -9,31 +9,10 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.plugin.plugin');
-
 require_once JPATH_SITE . '/administrator/components/com_redshop/helpers/order.php';
 
 class plgRedshop_paymentrs_payment_certitrade extends JPlugin
 {
-	public $_table_prefix = null;
-
-	/**
-	 * Constructor
-	 *
-	 * For php4 compatability we must not use the __constructor as a constructor for
-	 * plugins because func_get_args ( void ) returns a copy of all passed arguments
-	 * NOT references.  This causes problems with cross-referencing necessary for the
-	 * observer design pattern.
-	 */
-	public function plgRedshop_paymentrs_payment_certitrade(&$subject)
-	{
-		// Load plugin parameters
-		parent::__construct($subject);
-		$this->_table_prefix = '#__redshop_';
-		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_certitrade');
-		$this->_params = new JRegistry($this->_plugin->params);
-	}
-
 	/**
 	 * Plugin method with the same name as the event will be called automatically.
 	 */
@@ -50,8 +29,8 @@ class plgRedshop_paymentrs_payment_certitrade extends JPlugin
 		}
 
 		$app = JFactory::getApplication();
-		$paymentpath = JPATH_SITE . '/plugins/redshop_payment/' . $plugin . '/' . $plugin . '/extra_info.php';
-		include $paymentpath;
+
+		include JPATH_SITE . '/plugins/redshop_payment/' . $plugin . '/' . $plugin . '/extra_info.php';
 	}
 
 	public function onNotifyPaymentrs_payment_certitrade($element, $request)
@@ -61,17 +40,18 @@ class plgRedshop_paymentrs_payment_certitrade extends JPlugin
 			return;
 		}
 
-		$db = JFactory::getDbo();
-		$request = JRequest::get('request');
-		$order_id = $request['merchant_order_id'];
-		$Itemid = $request['Itemid'];
-		$vendor_id = $this->_params->get("vendor_id");
-		$verify_status = $this->_params->get("verify_status");
-		$invalid_status = $this->_params->get("invalid_status");
-		$secret_words = $this->_params->get("secret_words");
-		$order_amount = $request["total"];
-		$order_ekey = $request["key"];
-		$accept = $_REQUEST["sid"];
+		$db             = JFactory::getDbo();
+		$request        = JRequest::get('request');
+		$order_id       = $request['merchant_order_id'];
+		$Itemid         = $request['Itemid'];
+		$vendor_id      = $this->params->get("vendor_id");
+		$verify_status  = $this->params->get("verify_status");
+		$invalid_status = $this->params->get("invalid_status");
+		$secret_words   = $this->params->get("secret_words");
+		$order_amount   = $request["total"];
+		$order_ekey     = $request["key"];
+		$accept         = $_REQUEST["sid"];
+
 		JPlugin::loadLanguage('com_redshop');
 
 		// Get value from xml file
@@ -83,7 +63,7 @@ class plgRedshop_paymentrs_payment_certitrade extends JPlugin
 		// Append the order number, in this script it will always be 1
 		if ($is_test)
 		{
-			$string_to_hash .= 1; //$_REQUEST['order_number'];
+			$string_to_hash .= 1;
 		}
 		else
 		{
@@ -115,22 +95,22 @@ class plgRedshop_paymentrs_payment_certitrade extends JPlugin
 			if ($this->orderPaymentNotYetUpdated($db, $order_id, $tid))
 			{
 				// UPDATE THE ORDER STATUS to 'VALID'
-				$transaction_id = $tid;
-				$values->order_status_code = $verify_status;
+				$transaction_id                    = $tid;
+				$values->order_status_code         = $verify_status;
 				$values->order_payment_status_code = 'Paid';
-				$values->log = JText::_('COM_REDSHOP_ORDER_PLACED');
-				$values->msg = JText::_('COM_REDSHOP_ORDER_PLACED');
-				$values->transaction_id = $transaction_id;
-				$values->order_id = $order_id;
+				$values->log                       = JText::_('COM_REDSHOP_ORDER_PLACED');
+				$values->msg                       = JText::_('COM_REDSHOP_ORDER_PLACED');
+				$values->transaction_id            = $transaction_id;
+				$values->order_id                  = $order_id;
 			}
 		}
 		else
 		{
-			$values->order_status_code = $invalid_status;
+			$values->order_status_code         = $invalid_status;
 			$values->order_payment_status_code = 'Unpaid';
-			$values->log = JText::_('COM_REDSHOP_ORDER_NOT_PLACED.');
-			$values->msg = JText::_('COM_REDSHOP_ORDER_NOT_PLACED');
-			$msg = JText::_('COM_REDSHOP_PHPSHOP_PAYMENT_ERROR');
+			$values->log                       = JText::_('COM_REDSHOP_ORDER_NOT_PLACED.');
+			$values->msg                       = JText::_('COM_REDSHOP_ORDER_NOT_PLACED');
+			$msg                               = JText::_('COM_REDSHOP_PHPSHOP_PAYMENT_ERROR');
 		}
 
 		return $values;
@@ -145,7 +125,7 @@ class plgRedshop_paymentrs_payment_certitrade extends JPlugin
 	{
 		$db = JFactory::getDbo();
 		$res = false;
-		$query = "SELECT COUNT(*) `qty` FROM " . $this->_table_prefix . "order_payment WHERE `order_id` = '" . $db->getEscaped($order_id) . "' and order_payment_trans_id = '" . $db->getEscaped($tid) . "'";
+		$query = "SELECT COUNT(*) `qty` FROM #__redshop_order_payment WHERE `order_id` = '" . $db->getEscaped($order_id) . "' and order_payment_trans_id = '" . $db->getEscaped($tid) . "'";
 		$db->setQuery($query);
 		$order_payment = $db->loadResult();
 
