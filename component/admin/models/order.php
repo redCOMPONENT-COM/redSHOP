@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
-
 require_once(JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php');
 
 class orderModelorder extends JModel
@@ -113,15 +111,15 @@ class orderModelorder extends JModel
 			{
 				$where[] = "(o.order_id like '%" . $filter . "%')";
 			}
-			else if ($filter_by == 'ordernumber')
+			elseif ($filter_by == 'ordernumber')
 			{
 				$where[] = "(o.order_number like '%" . $filter . "%')";
 			}
-			else if ($filter_by == 'fullname')
+			elseif ($filter_by == 'fullname')
 			{
 				$where[] = "(REPLACE(CONCAT(uf.firstname, uf.lastname), ' ', '') like '%" . $filter . "%')";
 			}
-			else if ($filter_by == 'useremail')
+			elseif ($filter_by == 'useremail')
 			{
 				$where[] = "(uf.user_email like '%" . $filter . "%')";
 			}
@@ -145,6 +143,7 @@ class orderModelorder extends JModel
 		{
 			$where = " order_label_create=1 ";
 		}
+
 		$query = 'SELECT o.*,uf.lastname, uf.firstname, uf.user_email, uf.is_company, uf.company_name,uf.ean_number FROM ' . $this->_table_prefix . 'orders AS o '
 			. 'LEFT JOIN ' . $this->_table_prefix . 'order_users_info AS uf ON o.user_id=uf.user_id '
 			. 'WHERE uf.address_type LIKE "BT" '
@@ -193,6 +192,7 @@ class orderModelorder extends JModel
 		{
 			$where[] = " o.order_id IN (" . $order_id . ")";
 		}
+
 		$where = count($where) ? '  ' . implode(' AND ', $where) : '';
 		$orderby = " order by o.order_id DESC";
 
@@ -252,10 +252,11 @@ class orderModelorder extends JModel
 		{
 			$UserBrowser = '';
 		}
+
 		$mime_type = ($UserBrowser == 'IE' || $UserBrowser == 'Opera') ? 'application/octetstream' : 'application/octet-stream';
 
 		/* Clean the buffer */
-		while (@ob_end_clean()) ;
+		while (ob_end_clean());
 
 		header('Content-Type: ' . $mime_type);
 		header('Content-Encoding: UTF-8');
@@ -307,7 +308,6 @@ class orderModelorder extends JModel
 					$db->setQuery($sql);
 					$weight = $db->loadResult();
 					$totalWeight += ($weight * $orderproducts [$c]->product_quantity);
-
 				}
 
 				if (empty($totalWeight))
@@ -322,7 +322,6 @@ class orderModelorder extends JModel
 
 				$shopDetails_temparr = explode("###", $shopDetails_arr[7]);
 				$shopDetails_arr[7] = $shopDetails_temparr[0];
-
 
 				$shopDetails_arr[2] = str_replace(',', '-', $shopDetails_arr[2]);
 				$userDetail = "";
@@ -339,6 +338,7 @@ class orderModelorder extends JModel
 						. $gls_arr[$i]->customer_note . '","36515","' . $billingDetails->user_email . '"';
 					$userDetail .= ',"' . $userphoneArr[1];
 				}
+
 				$shipmenttype = 'Z';
 				echo '"' . $gls_arr[$i]->order_number . '","' . $shopDetails_arr[1] . '","' . $shopDetails_arr[2] . '","Pakkeshop: '
 					. $shopDetails_arr[0] . '","' . $shopDetails_arr[3] . '","' . $shopDetails_arr[7] . '","008","'
@@ -347,6 +347,7 @@ class orderModelorder extends JModel
 				echo "\r\n";
 			}
 		}
+
 		exit;
 	}
 
