@@ -9,31 +9,10 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.plugin.plugin');
-
 require_once JPATH_SITE . '/administrator/components/com_redshop/helpers/order.php';
 
 class plgRedshop_paymentrs_payment_ogone extends JPlugin
 {
-	var $_table_prefix = null;
-
-	/**
-	 * Constructor
-	 *
-	 * For php4 compatability we must not use the __constructor as a constructor for
-	 * plugins because func_get_args ( void ) returns a copy of all passed arguments
-	 * NOT references.  This causes problems with cross-referencing necessary for the
-	 * observer design pattern.
-	 */
-	public function plgRedshop_paymentrs_payment_ogone(&$subject)
-	{
-		// Load plugin parameters
-		parent::__construct($subject);
-		$this->_table_prefix = '#__redshop_';
-		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_ogone');
-		$this->_params = new JRegistry($this->_plugin->params);
-	}
-
 	/**
 	 * Plugin method with the same name as the event will be called automatically.
 	 */
@@ -50,8 +29,8 @@ class plgRedshop_paymentrs_payment_ogone extends JPlugin
 		}
 
 		$app = JFactory::getApplication();
-		$paymentpath = JPATH_SITE . "/plugins/redshop_payment/$plugin/$plugin/extra_info.php";
-		include $paymentpath;
+
+		include JPATH_SITE . "/plugins/redshop_payment/$plugin/$plugin/extra_info.php";
 	}
 
 	function onNotifyPaymentrs_payment_ogone($element, $request)
@@ -61,33 +40,33 @@ class plgRedshop_paymentrs_payment_ogone extends JPlugin
 			return;
 		}
 
-		$db = JFactory::getDbo();
-		$request = JRequest::get('request');
+		$db                  = JFactory::getDbo();
+		$request             = JRequest::get('request');
 
-		$ACCEPTANCE = $request['ACCEPTANCE'];
-		$amount = $request['amount'];
-		$CARDNO = $request['CARDNO'];
-		$CN = $request['CN'];
-		$currency = $request['currency'];
-		$ED = $request['ED'];
-		$IP = $request['IP'];
-		$NCERROR = $request['NCERROR'];
-		$order_id = $request['orderID'];
-		$PAYID = $request['PAYID'];
-		$PM = $request['PM'];
-		$STATUS = $request['STATUS'];
-		$TRXDATE = $request['TRXDATE'];
-		$response_hash = $request['SHASIGN'];
+		$ACCEPTANCE          = $request['ACCEPTANCE'];
+		$amount              = $request['amount'];
+		$CARDNO              = $request['CARDNO'];
+		$CN                  = $request['CN'];
+		$currency            = $request['currency'];
+		$ED                  = $request['ED'];
+		$IP                  = $request['IP'];
+		$NCERROR             = $request['NCERROR'];
+		$order_id            = $request['orderID'];
+		$PAYID               = $request['PAYID'];
+		$PM                  = $request['PM'];
+		$STATUS              = $request['STATUS'];
+		$TRXDATE             = $request['TRXDATE'];
+		$response_hash       = $request['SHASIGN'];
 
-		$tid = $request['PAYID'];
+		$tid                 = $request['PAYID'];
 
 		// Get params from plugin
-		$sha_out_pass_phrase = $this->_params->get("sha_out_pass_phrase");
-		$algo_used = $this->_params->get("algo_used");
-		$hash_string = $this->_params->get("hash_string");
-		$verify_status = $this->_params->get("verify_status");
-		$invalid_status = $this->_params->get("invalid_status");
-		$secret_words = "";
+		$sha_out_pass_phrase = $this->params->get("sha_out_pass_phrase");
+		$algo_used           = $this->params->get("algo_used");
+		$hash_string         = $this->params->get("hash_string");
+		$verify_status       = $this->params->get("verify_status");
+		$invalid_status      = $this->params->get("invalid_status");
+		$secret_words        = "";
 
 		$request = array_change_key_case($request, CASE_UPPER);
 		ksort($request, SORT_STRING);
@@ -120,7 +99,6 @@ class plgRedshop_paymentrs_payment_ogone extends JPlugin
 			if ($response_hash === $hash_to_check)
 			{
 				// UPDATE THE ORDER STATUS to 'VALID'
-
 				$values->order_status_code = $verify_status;
 				$values->order_payment_status_code = 'Paid';
 				$values->log = JTEXT::_('ORDER_PLACED');
