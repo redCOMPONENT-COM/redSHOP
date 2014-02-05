@@ -4545,7 +4545,7 @@ class rsCarthelper
 		return $voucher;
 	}
 
-	public function getcouponData($coupon_code)
+	public function getcouponData($coupon_code, $subtotal = 0)
 	{
 		$db = JFactory::getDbo();
 
