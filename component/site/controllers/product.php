@@ -421,7 +421,7 @@ class ProductController extends JController
 
 		$model = $this->getModel('product');
 
-		$tagnames = preg_split(" ", $tagnames);
+		$tagnames = explode(" ", $tagnames);
 
 		for ($i = 0; $i < count($tagnames); $i++)
 		{
