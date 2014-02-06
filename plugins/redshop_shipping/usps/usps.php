@@ -626,7 +626,7 @@ class plgredshop_shippingusps extends JPlugin
 
 		$shipping = $shippinghelper->getShippingMethodByClass($this->classname);
 		$shippingcfg = JPATH_ROOT . '/plugins/' . $shipping->folder . '/' . $shipping->element . '/' . $shipping->element . '.cfg.php';
-		include_once ($shippingcfg);
+		include_once $shippingcfg;
 		$shippingrate = array();
 		$rate = 0;
 

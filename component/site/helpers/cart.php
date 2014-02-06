@@ -41,7 +41,7 @@ class rsCarthelper
 	public function __construct()
 	{
 		$this->_table_prefix    = '#__redshop_';
-		$this->_db              = Jfactory::getDBO();
+		$this->_db              = JFactory::getDBO();
 		$this->_session         = JFactory::getSession();
 		$this->_order_functions = new order_functions;
 		$this->_extra_field     = new extra_field;
@@ -1143,6 +1143,9 @@ class rsCarthelper
 							$product_old_price = $cart[$i]['product_old_price_excl_vat'];
 						}
 
+						// Set Product Old Price without format
+						$productOldPriceNoFormat = $product_old_price;
+
 						$product_old_price = $this->_producthelper->getProductFormattedPrice($product_old_price, true);
 					}
 				}
@@ -1198,6 +1201,8 @@ class rsCarthelper
 
 					if ($sum_total > 0)
 					{
+						$propertyCalculatedPriceSum = $productOldPriceNoFormat;
+
 						for ($tpi = 0; $tpi < $sum_total; $tpi++)
 						{
 							$product_attribute_name        = "";
@@ -1215,19 +1220,32 @@ class rsCarthelper
 								}
 
 								$product_attribute_value_price = $temp_tpi[$tpi]['attribute_childs'][0]['property_price'];
+								$propertyOperand               = $temp_tpi[$tpi]['attribute_childs'][0]['property_oprand'];
+
+								// Show actual productive price
+								if ($product_attribute_value_price > 0)
+								{
+									$string = "$propertyCalculatedPriceSum$propertyOperand$product_attribute_value_price";
+									eval("\$productAttributeCalculatedPriceBase = $string;");
+
+									$productAttributeCalculatedPrice = $productAttributeCalculatedPriceBase - $propertyCalculatedPriceSum;
+									$propertyCalculatedPriceSum      = $productAttributeCalculatedPriceBase;
+								}
 
 								if (count($temp_tpi[$tpi]['attribute_childs'][0]['property_childs']) > 0)
 								{
 									$product_attribute_value_price = $product_attribute_value_price + $temp_tpi[$tpi]['attribute_childs'][0]['property_childs'][0]['subproperty_price'];
 								}
 
-								$product_attribute_value_price = $this->_producthelper->getProductFormattedPrice($product_attribute_value_price);
+								$product_attribute_value_price   = $this->_producthelper->getProductFormattedPrice($product_attribute_value_price);
+								$productAttributeCalculatedPrice = $this->_producthelper->getProductFormattedPrice($productAttributeCalculatedPrice);
 							}
 
 							$data_add_pro = $templateattibute_middle;
 							$data_add_pro = str_replace("{product_attribute_name}", $product_attribute_name, $data_add_pro);
 							$data_add_pro = str_replace("{product_attribute_value}", $product_attribute_value, $data_add_pro);
 							$data_add_pro = str_replace("{product_attribute_value_price}", $product_attribute_value_price, $data_add_pro);
+							$data_add_pro = str_replace("{product_attribute_calculated_price}", $productAttributeCalculatedPrice, $data_add_pro);
 							$pro_detail .= $data_add_pro;
 						}
 					}
@@ -2677,6 +2695,9 @@ class rsCarthelper
 		$replace [] = $row->special_discount . '%';
 		$search  [] = "{special_discount_amount}";
 		$replace [] = $this->_producthelper->getProductFormattedPrice($row->special_discount_amount);
+		$search[]   = "{special_discount_lbl}";
+		$replace[]  = JText::_('COM_REDSHOP_SPECIAL_DISCOUNT');
+
 		$search[]   = "{order_detail_link}";
 		$replace[]  = "<a href='" . $orderdetailurl . "'>" . JText::_("COM_REDSHOP_ORDER_MAIL") . "</a>";
 
@@ -3185,6 +3206,10 @@ class rsCarthelper
 				$cartArr[$i]['product_price_excl_vat']     = $product_price_excl_vat;
 				$cartArr[$i]['product_vat']                = $product_vat;
 				$cartArr[$i]['product_price']              = $product_price;
+
+				JPluginHelper::importPlugin('redshop_product');
+				$dispatcher = JDispatcher::getInstance();
+				$dispatcher->trigger('onBeforeLoginCartSession', array(&$cartArr, $i));
 			}
 		}
 

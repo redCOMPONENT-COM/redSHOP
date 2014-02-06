@@ -68,9 +68,11 @@ class Account_billtoViewaccount_billto extends JView
 		$lists['extra_field_user']      = $extra_field->list_all_field(7, @$billingaddresses->users_info_id);
 		$lists['extra_field_company']   = $extra_field->list_all_field(8, @$billingaddresses->users_info_id);
 
+		$requestUrl = $uri->toString();
+
 		$this->lists            = $lists;
 		$this->billingaddresses = $billingaddresses;
-		$this->request_url      = $uri->toString();
+		$this->request_url      = JFilterOutput::cleanText($requestUrl);
 		$this->params           = $params;
 
 		parent::display($tpl);

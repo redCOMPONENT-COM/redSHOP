@@ -221,7 +221,7 @@ class PhpThumb
 					continue;
 				}
 
-				include_once($pluginPath . '/' . $file);
+				include_once $pluginPath . '/' . $file;
 			}
 		}
 	}

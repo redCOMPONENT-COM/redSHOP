@@ -196,12 +196,8 @@ class Product_DetailModelProduct_Detail extends JModel
 			$detail->quantity_selectbox_value   = (isset($data['quantity_selectbox_value'])) ? $data['quantity_selectbox_value'] : null;
 			$detail->preorder                   = (isset($data['preorder'])) ? $data['preorder'] : 'global';
 			$detail->minimum_per_product_total  = (isset($data['minimum_per_product_total'])) ? $data['minimum_per_product_total'] : 0;
-			$detail->attribute_set_id           = 0;
-
-			if (isset($data['attribute_set_id']))
-			{
-				$detail->attribute_set_id = $data['attribute_set_id'];
-			}
+			$detail->attribute_set_id           = (isset($data['attribute_set_id'])) ? $data['attribute_set_id'] : 0;
+			$detail->append_to_global_seo		= (isset($data['append_to_global_seo'])) ? $data['append_to_global_seo'] : JText::_('COM_REDSHOP_APPEND_TO_GLOBAL_SEO');
 
 			$this->data                         = $detail;
 
@@ -4148,7 +4144,7 @@ class Product_DetailModelProduct_Detail extends JModel
 
 		if ($sp)
 		{
-			$subproperty = $producthelper->getAttibuteSubProperty($sp, $subattribute_id);
+			$subproperty[0]->subattribute_color_id = $sp;
 		}
 		else
 		{
@@ -4180,7 +4176,7 @@ class Product_DetailModelProduct_Detail extends JModel
 
 		if ($property_id)
 		{
-			$property = $producthelper->getAttibuteProperty($property_id, $attribute_id);
+			$property[0]->property_id = $property_id;
 		}
 		else
 		{

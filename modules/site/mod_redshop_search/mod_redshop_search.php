@@ -104,5 +104,5 @@ $searchType[]            = JHTML::_('select.option', 'name_desc', JText::_("COM_
 $searchType[]            = JHTML::_('select.option', 'name_number_desc', JTEXT::_("COM_REDSHOP_PRODUCT_NAME_AND_PRODUCT_NUMBER_AND_VIRTUAL_PRODUCT_NUM_AND_PRODUCT_DESCRIPTION"));
 $lists['searchtypedata'] = JHTML::_('select.genericlist', $searchType, 'search_type', 'class="inputbox" style="width: 163px;" size="1" onchange="setSearchType();' . $javaFun . '" ', 'value', 'text', $search_type);
 
-require(JModuleHelper::getLayoutPath('mod_redshop_search'));
+require JModuleHelper::getLayoutPath('mod_redshop_search');
 

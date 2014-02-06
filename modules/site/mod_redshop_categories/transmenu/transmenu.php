@@ -1,5 +1,12 @@
 <?php
-if (!defined('_JEXEC')) die('Direct Access to ' . basename(__FILE__) . ' is not allowed.');
+/**
+ * @package     RedSHOP.Backend
+ * @subpackage  Model
+ *
+ * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
+ */
+defined('_JEXEC') or die;
 
 class TransMenu
 {
@@ -26,17 +33,20 @@ class TransMenu
 		$left      = $this->parent->_params->get('p_l', 0);
 		$subpad_x  = $this->parent->_params->get('subpad_x', 1);
 		$subpad_y  = $this->parent->_params->get('subpad_y', 0);
+
 		switch ($this->parent->_params->get('menu_style', "vertical"))
 		{
 			case 'vertical':
 				echo '<div id="wrap"><div id="menu">';
 				echo '<table cellpadding="0" cellspacing="0" border="0">';
+
 				foreach ($this->parent->children[0] as $v)
 				{
 					echo "<tr><td>";
 					echo $this->getFirstLevelItem($v);
 					echo "</td></tr>";
 				}
+
 				echo "</table></div></div>";
 				break;
 
@@ -44,16 +54,19 @@ class TransMenu
 			default:
 				echo '<div id="wrap"><div id="menu">';
 				echo '<table cellpadding="0" cellspacing="0" border="0"><tr>';
+
 				foreach ($this->parent->children[0] as $v)
 				{
 					echo "<td>";
 					echo $this->getFirstLevelItem($v);
 					echo "</td>";
 				}
+
 				echo "</tr></table></div></div>";
 
 				break;
 		}
+
 		echo '
 			<script type="text/javascript">
 			if (TransMenu.isSupported()) {
@@ -82,16 +95,16 @@ class TransMenu
 
 	function genMenuItem(&$row, $level, $pos)
 	{
-
 		global $urlpath;
 
 		$app = JFactory::getApplication();
 
 		$txt       = '';
-		$objhelper = new redhelper ();
+		$objhelper = new redhelper;
 		$Itemid    = JRequest::getInt('Itemid', '1');
 
 		$cItemid = $objhelper->getCategoryItemid($row->id);
+
 		if ($cItemid != "")
 		{
 			$tmpItemid = $cItemid;
@@ -100,19 +113,20 @@ class TransMenu
 		{
 			$tmpItemid = $Itemid;
 		}
+
 		switch ($row->type)
 		{
 			case 'separator':
 			case 'component_item_link':
 				break;
 			case 'content_item_link':
-				$temp = split("&task=view&id=", $row->link);
+				$temp = explode("&task=view&id=", $row->link);
 				$row->link .= '&Itemid=' . $app->getItemid($temp[1]);
 				break;
 			case 'url':
-				if (eregi('index.php\?', $row->link))
+				if (preg_match('/index.php\?/i', $row->link))
 				{
-					if (!eregi('Itemid=', $row->link))
+					if (!preg_match('/Itemid=/i', $row->link))
 					{
 						$row->link .= '&Itemid=' . $tmpItemid;
 					}
@@ -124,7 +138,6 @@ class TransMenu
 				break;
 		}
 
-
 		if (strcasecmp(substr($row->link, 0, 4), 'http'))
 		{
 			$row->link = JRoute::_($row->link);
@@ -135,7 +148,12 @@ class TransMenu
 			$pmenu = "tmenu$row->parent";
 
 			$active = 0;
-			if (in_array($row->id, $this->parent->open)) $active = 1;
+
+			if (in_array($row->id, $this->parent->open))
+			{
+				$active = 1;
+			}
+
 			$row->link = JRoute::_($row->link);
 			echo "$pmenu.addItem(\"$row->name\", \"$row->link\", $row->browserNav, $active);\n";
 		}
@@ -143,8 +161,10 @@ class TransMenu
 		{
 			$pmenu = "ms";
 		}
+
 		$cmenu  = "tmenu$row->id";
 		$idmenu = "menu$row->id";
+
 		if ($this->parent->hasSubItems($row->id))
 		{
 			if ($level == 0)
@@ -172,13 +192,13 @@ class TransMenu
 			case 'component_item_link':
 				break;
 			case 'content_item_link':
-				$temp = split("&task=view&id=", $mitem->link);
+				$temp = explode("&task=view&id=", $mitem->link);
 				$mitem->link .= '&Itemid=' . $app->getItemid($temp[1]);
 				break;
 			case 'url':
-				if (eregi('index.php\?', $mitem->link))
+				if (preg_match('/index.php\?/i', $mitem->link))
 				{
-					if (!eregi('Itemid=', $mitem->link))
+					if (!preg_match('/Itemid=/i', $mitem->link))
 					{
 						$mitem->link .= '&Itemid=' . $mitem->id;
 					}
@@ -192,7 +212,6 @@ class TransMenu
 
 		$id = 'id="menu' . $mitem->id . '"';
 
-
 		if (strcasecmp(substr($mitem->link, 0, 4), 'http'))
 		{
 			$mitem->link = JRoute::_($mitem->link);
@@ -202,6 +221,7 @@ class TransMenu
 
 		// Active Menu highlighting
 		$current_itemid = trim(JRequest::getInt('Itemid'));
+
 		if (in_array($mitem->id, $this->parent->open))
 		{
 			$menuclass = 'mainlevel_active' . $this->parent->_params->get('class_sfx');
@@ -209,24 +229,25 @@ class TransMenu
 
 		switch ($mitem->browserNav)
 		{
-			// cases are slightly different
+			// Cases are slightly different
 			case 1:
-				// open in a new window
+				// Open in a new window
 				$txt = '<a href="' . $mitem->link . '" target="_blank" class="' . $menuclass . '" ' . $id . '>' . $mitem->name . '</a>';
 				break;
 
 			case 2:
-				// open in a popup window
+				// Open in a popup window
 				$txt = "<a href=\"#\" onclick=\"javascript: window.open('" . $mitem->link . "', '', 'toolbar=no,location=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=780,height=550'); return false\" class=\"$menuclass\" " . $id . ">" . $mitem->name . "</a>\n";
 				break;
 
 			case 3:
-				// don't link it
+				// Don't link it
 				$txt = '<span class="' . $menuclass . '" ' . $id . '>' . $mitem->name . '</span>';
 				break;
 
-			default: // formerly case 2
-				// open in parent window
+			default:
+				// Formerly case 2
+				// Open in parent window
 				$txt = '<a href="' . $mitem->link . '" class="' . $menuclass . '" ' . $id . '>' . $mitem->name;
 				if ($this->parent->hasSubItems($mitem->id))
 					$txt .= '&nbsp;&nbsp;<img border="0" src="' . $this->parent->_params->get('LSPath') . '/img/tabarrow.gif" alt="arrow" />';
@@ -236,12 +257,14 @@ class TransMenu
 
 		if ($this->parent->_params->get('menu_images'))
 		{
-			$menu_params = new stdClass();
+			$menu_params = new stdClass;
 			$menu_params = new mosParameters($mitem->params);
 			$menu_image  = $menu_params->def('menu_image', -1);
+
 			if (($menu_image <> '-1') && $menu_image)
 			{
 				$image = '<img src="' . $urlpath . 'images/stories/' . $menu_image . '" border="0" alt="' . $mitem->name . '"/>';
+
 				if ($this->parent->_params->get('menu_images_align'))
 				{
 					$txt = $txt . ' ' . $image;
@@ -256,4 +279,3 @@ class TransMenu
 		return $txt;
 	}
 }
-?>
