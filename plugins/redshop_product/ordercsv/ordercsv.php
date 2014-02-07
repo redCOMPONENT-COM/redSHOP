@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.filesystem.file');
-
 class plgredshop_productordercsv extends JPlugin
 {
 	/**
