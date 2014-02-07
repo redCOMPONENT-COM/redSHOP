@@ -40,8 +40,8 @@ class rsCarthelper
 
 	public function __construct()
 	{
-		$this->_table_prefix    = '#__' . TABLE_PREFIX . '_';
-		$this->_db              = Jfactory::getDBO();
+		$this->_table_prefix    = '#__redshop_';
+		$this->_db              = JFactory::getDBO();
 		$this->_session         = JFactory::getSession();
 		$this->_order_functions = new order_functions;
 		$this->_extra_field     = new extra_field;
@@ -1143,6 +1143,9 @@ class rsCarthelper
 							$product_old_price = $cart[$i]['product_old_price_excl_vat'];
 						}
 
+						// Set Product Old Price without format
+						$productOldPriceNoFormat = $product_old_price;
+
 						$product_old_price = $this->_producthelper->getProductFormattedPrice($product_old_price, true);
 					}
 				}
@@ -1198,6 +1201,8 @@ class rsCarthelper
 
 					if ($sum_total > 0)
 					{
+						$propertyCalculatedPriceSum = $productOldPriceNoFormat;
+
 						for ($tpi = 0; $tpi < $sum_total; $tpi++)
 						{
 							$product_attribute_name        = "";
@@ -1215,19 +1220,32 @@ class rsCarthelper
 								}
 
 								$product_attribute_value_price = $temp_tpi[$tpi]['attribute_childs'][0]['property_price'];
+								$propertyOperand               = $temp_tpi[$tpi]['attribute_childs'][0]['property_oprand'];
+
+								// Show actual productive price
+								if ($product_attribute_value_price > 0)
+								{
+									$string = "$propertyCalculatedPriceSum$propertyOperand$product_attribute_value_price";
+									eval("\$productAttributeCalculatedPriceBase = $string;");
+
+									$productAttributeCalculatedPrice = $productAttributeCalculatedPriceBase - $propertyCalculatedPriceSum;
+									$propertyCalculatedPriceSum      = $productAttributeCalculatedPriceBase;
+								}
 
 								if (count($temp_tpi[$tpi]['attribute_childs'][0]['property_childs']) > 0)
 								{
 									$product_attribute_value_price = $product_attribute_value_price + $temp_tpi[$tpi]['attribute_childs'][0]['property_childs'][0]['subproperty_price'];
 								}
 
-								$product_attribute_value_price = $this->_producthelper->getProductFormattedPrice($product_attribute_value_price);
+								$product_attribute_value_price   = $this->_producthelper->getProductFormattedPrice($product_attribute_value_price);
+								$productAttributeCalculatedPrice = $this->_producthelper->getProductFormattedPrice($productAttributeCalculatedPrice);
 							}
 
 							$data_add_pro = $templateattibute_middle;
 							$data_add_pro = str_replace("{product_attribute_name}", $product_attribute_name, $data_add_pro);
 							$data_add_pro = str_replace("{product_attribute_value}", $product_attribute_value, $data_add_pro);
 							$data_add_pro = str_replace("{product_attribute_value_price}", $product_attribute_value_price, $data_add_pro);
+							$data_add_pro = str_replace("{product_attribute_calculated_price}", $productAttributeCalculatedPrice, $data_add_pro);
 							$pro_detail .= $data_add_pro;
 						}
 					}
@@ -2159,6 +2177,7 @@ class rsCarthelper
 			$vat += $quantity * $cart[$i]['product_vat'];
 		}
 
+		$avgVAT 			= (($subtotal_excl_vat + $vat) / $subtotal_excl_vat) - 1;
 		$tmparr             = array();
 		$tmparr['subtotal'] = $subtotal;
 
@@ -2231,7 +2250,9 @@ class rsCarthelper
 			$shippingVat = $cart['shipping_vat'];
 		}
 
-		if (VAT_RATE_AFTER_DISCOUNT && !APPLY_VAT_ON_DISCOUNT)
+		$chktag = $this->_producthelper->taxexempt_addtocart();
+
+		if (VAT_RATE_AFTER_DISCOUNT && !APPLY_VAT_ON_DISCOUNT && !empty($chktag))
 		{
 			if (isset($cart['discount_tax']) && !empty($cart['discount_tax']))
 			{
@@ -2240,7 +2261,12 @@ class rsCarthelper
 			}
 			else
 			{
-				$discountVAT = (VAT_RATE_AFTER_DISCOUNT * $total_discount) / (1 + VAT_RATE_AFTER_DISCOUNT);
+				$vatData = $this->_producthelper->getVatRates();
+
+				if (isset($vatData->tax_rate) && !empty($vatData->tax_rate))
+				{
+					$discountVAT = ($avgVAT * $total_discount) / (1 + $avgVAT);
+				}
 			}
 
 			$vat         = $vat - $discountVAT;
@@ -2669,6 +2695,9 @@ class rsCarthelper
 		$replace [] = $row->special_discount . '%';
 		$search  [] = "{special_discount_amount}";
 		$replace [] = $this->_producthelper->getProductFormattedPrice($row->special_discount_amount);
+		$search[]   = "{special_discount_lbl}";
+		$replace[]  = JText::_('COM_REDSHOP_SPECIAL_DISCOUNT');
+
 		$search[]   = "{order_detail_link}";
 		$replace[]  = "<a href='" . $orderdetailurl . "'>" . JText::_("COM_REDSHOP_ORDER_MAIL") . "</a>";
 
@@ -3177,6 +3206,10 @@ class rsCarthelper
 				$cartArr[$i]['product_price_excl_vat']     = $product_price_excl_vat;
 				$cartArr[$i]['product_vat']                = $product_vat;
 				$cartArr[$i]['product_price']              = $product_price;
+
+				JPluginHelper::importPlugin('redshop_product');
+				$dispatcher = JDispatcher::getInstance();
+				$dispatcher->trigger('onBeforeLoginCartSession', array(&$cartArr, $i));
 			}
 		}
 
@@ -3257,7 +3290,7 @@ class rsCarthelper
 		{
 			JPluginHelper::importPlugin('rs_labels_GLS');
 			$dispatcher = JDispatcher::getInstance();
-			$sql        = "SELECT  * FROM #__" . TABLE_PREFIX . "_users_info WHERE users_info_id=" . (int) $users_info_id ;
+			$sql        = "SELECT  * FROM #__redshop_users_info WHERE users_info_id=" . (int) $users_info_id ;
 			$this->_db->setQuery($sql);
 			$values = $this->_db->loadObject();
 
@@ -3298,7 +3331,6 @@ class rsCarthelper
 		$shippingmethod       = $this->_order_functions->getShippingMethodInfo();
 		$adminpath            = JPATH_ADMINISTRATOR . '/components/com_redshop';
 		$rateExist            = 0;
-		$extrafield_total     = "";
 		$d['user_id']         = $user_id;
 		$d['users_info_id']   = $users_info_id;
 		$d['shipping_box_id'] = $shipping_box_post_id;
@@ -3436,6 +3468,31 @@ class rsCarthelper
 							$rate_data = str_replace($template_rate_middle, $data, $rate_data);
 						}
 					}
+
+					if (strstr($rate_data, "{shipping_extrafields}"))
+					{
+						$extraField         = new extraField;
+						$paymentparams_new  = new JRegistry($shippingmethod[$s]->params);
+						$extrafield_payment = $paymentparams_new->get('extrafield_shipping');
+						$extrafield_total   = "";
+						$extrafield_hidden  = "";
+
+						if (count($extrafield_payment) > 0)
+						{
+							for ($ui = 0; $ui < count($extrafield_payment); $ui++)
+							{
+								$product_userfileds = $extraField->list_all_user_fields($extrafield_payment[$ui], 19, '', 0, 0, 0);
+								$extrafield_total .= $product_userfileds[0] . " " . $product_userfileds[1] . "<br>";
+								$extrafield_hidden .= "<input type='hidden' name='extrafields[]' value='" . $extrafield_payment[$ui] . "'>";
+							}
+
+							$rate_data = str_replace("{shipping_extrafields}", "<div id='extrafield_shipping'></div>", $rate_data);
+						}
+						else
+						{
+							$rate_data = str_replace("{shipping_extrafields}", "", $rate_data);
+						}
+					}
 				}
 			}
 
@@ -3444,31 +3501,7 @@ class rsCarthelper
 			$template_desc = str_replace($template_middle, $rate_data, $template_desc);
 		}
 
-		$extrafield_total = '';
 
-		if (strstr($template_desc, "{shipping_extrafields}"))
-		{
-			$extraField         = new extraField;
-			$paymentparams_new  = new JRegistry($shippingmethod[0]->params);
-			$extrafield_payment = $paymentparams_new->get('extrafield_shipping');
-			$extrafield_hidden  = "";
-
-			if (count($extrafield_payment) > 0)
-			{
-				for ($ui = 0; $ui < count($extrafield_payment); $ui++)
-				{
-					$product_userfileds = $extraField->list_all_user_fields($extrafield_payment[$ui], 19, '', 0, 0, 0);
-					$extrafield_total .= $product_userfileds[0] . " " . $product_userfileds[1] . "<br>";
-					$extrafield_hidden .= "<input type='hidden' name='extrafields[]' value='" . $extrafield_payment[$ui] . "'>";
-				}
-
-				$template_desc = str_replace("{shipping_extrafields}", "<div id='extrafield_shipping'>" . $extrafield_total . $extrafield_hidden . "</div>", $template_desc);
-			}
-			else
-			{
-				$template_desc = str_replace("{shipping_extrafields}", "<div id='extrafield_shipping'></div>", $template_desc);
-			}
-		}
 
 		if ($rateExist == 0)
 		{
@@ -4086,7 +4119,15 @@ class rsCarthelper
 
 				if ($dis_type == 0)
 				{
-					$couponValue = $coupon->coupon_value;
+					$avgVAT = 1;
+
+					if (VAT_RATE_AFTER_DISCOUNT && !APPLY_VAT_ON_DISCOUNT)
+					{
+						$productVAT = $cart['product_subtotal'] - $cart['product_subtotal_excl_vat'];
+						$avgVAT = $cart['product_subtotal'] / $cart['product_subtotal_excl_vat'];
+					}
+
+					$couponValue = $avgVAT * $coupon->coupon_value;
 				}
 				else
 				{
@@ -4476,6 +4517,8 @@ class rsCarthelper
 
 	public function globalvoucher($voucher_code)
 	{
+		$db = JFactory::getDbo();
+
 		$current_time = time();
 		$query        = "SELECT product_id,v.* from " . $this->_table_prefix . "product_voucher_xref as pv  "
 			. "left join " . $this->_table_prefix . "product_voucher as v on v.voucher_id = pv.voucher_id "
@@ -4567,7 +4610,11 @@ class rsCarthelper
 		if (DISCOUNT_ENABLE == 1)
 		{
 			$discount_amount = $this->_producthelper->getDiscountAmount($cart);
-			$cart            = $this->_session->get('cart');
+
+			if ($discount_amount > 0)
+			{
+				$cart = $this->_session->get('cart');
+			}
 		}
 
 		if (!isset($cart['quotation_id']) || (isset($cart['quotation_id']) && !$cart['quotation_id']))
@@ -4607,29 +4654,22 @@ class rsCarthelper
 		$codeDsicount            = $voucherDiscount + $couponDiscount;
 		$totaldiscount           = $cart['cart_discount'] + $codeDsicount;
 
-		$calArr = $this->calculation($cart);
-
-		if (!APPLY_VAT_ON_DISCOUNT)
-		{
-			$vatData = $this->_producthelper->getVatRates();
-			$vatrate = 0;
-
-			if (isset($vatData->tax_rate))
-			{
-				$vatrate = $vatData->tax_rate;
-			}
-
-			$discount_excl_vat = round($totaldiscount, 2);
-			$discount_excl_vat = $discount_excl_vat / (1 + ($vatrate));
-		}
-
+		$calArr 	 = $this->calculation($cart);
 		$tax         = $calArr[5];
 		$Discountvat = 0;
 		$chktag      = $this->_producthelper->taxexempt_addtocart();
 
 		if (VAT_RATE_AFTER_DISCOUNT && !empty($chktag) && !APPLY_VAT_ON_DISCOUNT)
 		{
-			$Discountvat = (VAT_RATE_AFTER_DISCOUNT * $totaldiscount) / (1 + VAT_RATE_AFTER_DISCOUNT);
+			$vatData = $this->_producthelper->getVatRates();
+
+			if (isset($vatData->tax_rate) && !empty($vatData->tax_rate))
+			{
+				$productPriceExclVAT = $cart['product_subtotal_excl_vat'];
+				$productVAT 		 = $cart['product_subtotal'] - $cart['product_subtotal_excl_vat'];
+				$avgVAT 			 = (($productPriceExclVAT + $productVAT) / $productPriceExclVAT) - 1;
+				$Discountvat 		 = ($avgVAT * $totaldiscount) / (1 + $avgVAT);
+			}
 		}
 
 		$cart['total'] = $calArr[0] - $totaldiscount;

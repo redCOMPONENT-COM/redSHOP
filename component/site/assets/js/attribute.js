@@ -1538,17 +1538,7 @@ function displayAdditionalImage(product_id, accessory_id, relatedprd_id, selecte
                 //	document.getElementById('a_main_image'+product_id).src=arrResponse[4];
                 //}
                 if (arrResponse[4] != "") {
-                    if (PRODUCT_ADDIMG_IS_LIGHTBOX == 1 && REDSHOP_VIEW == "product") {
-                        document.getElementById('a_main_image' + product_id).innerHTML = arrResponse[4];
-                    }
-                    else if (REDSHOP_VIEW == "category") {
-                        document.getElementById('a_main_image' + product_id).innerHTML = arrResponse[4];
-                    }
-                    else {
-                        if (document.getElementById('main_image' + product_id) && arrResponse[4] != "") {
-                            document.getElementById('main_image' + product_id).src = arrResponse[4];
-                        }
-                    }
+                    document.getElementById('a_main_image' + product_id).innerHTML = arrResponse[4];
                 }
             }
             else {
@@ -2490,7 +2480,23 @@ function displayAjaxCartdetail(frmCartName, product_id, relatedprd_id, giftcard_
 
 }
 
-function submitAjaxCartdetail(frmCartName, product_id, relatedprd_id, giftcard_id, totAttribute, totAccessory, totUserfield) {
+/**
+ * To get redSHOP Add to cart Extra add to cart parameters
+ * Global JS variable to set Plugin additional add to cart parameters
+ *
+ * @type  {Object}
+ */
+var getExtraParamsArray = {};
+
+/**
+ * To set redSHOP Add to cart trigger functions
+ *
+ * @type  {Array}
+ */
+var redShopJsTrigger = [];
+
+function submitAjaxCartdetail(frmCartName, product_id, relatedprd_id, giftcard_id, totAttribute, totAccessory, totUserfield)
+{
     var frm = document.getElementById(frmCartName);
 
     var proid = 0;
@@ -2728,16 +2734,27 @@ function submitAjaxCartdetail(frmCartName, product_id, relatedprd_id, giftcard_i
 
     params = params + subscription_data + extrafieldpost;
 
+    // Setting up redSHOP JavaScript Add to cart trigger
+    if (redShopJsTrigger.length > 0)
+    {
+        for(var g = 0, n = redShopJsTrigger.length; g < n; g++)
+        {
+            new redShopJsTrigger[g](arguments);
+        };
+    };
+
     /*
-     * Function will override from any non redSHOP core javascript to append more cart params
-     *
-     * Also we can use the same function as validator
+     * getExtraParamsArray is a global JS variable to set additional add to cart parameters
+     * using redshop_product plugin.
+     * Example: getExtraParamsArray.foo = 'bar';
      */
-    if (getExtraParams(frm)) {
-        params = params + getExtraParams(frm);
-    } else {
-        return false;
-    }
+    if ('object' === typeof getExtraParamsArray)
+    {
+        for(key in getExtraParamsArray)
+        {
+            params += '&' + key + '=' + getExtraParamsArray[key];
+        }
+    };
 
     var url = site_url + "index.php?" + params;
 
@@ -2813,13 +2830,6 @@ function submitAjaxCartdetail(frmCartName, product_id, relatedprd_id, giftcard_i
     };
     request.send(url);
     //request.send(params);
-}
-
-/*
- * This function originally will override for AJAX CART Submit Data
- */
-function getExtraParams(frm) {
-    return '&';
 }
 
 function displayAddtocartProperty(frmCartName, product_id, attribute_id, property_id) {
@@ -3229,16 +3239,27 @@ function submitAjaxwishlistCartdetail(frmCartName, product_id, relatedprd_id, gi
 
     params = params + subscription_data + extrafieldpost;
 
+    // Setting up redSHOP JavaScript Add to cart trigger
+    if (redShopJsTrigger.length > 0)
+    {
+        for(var g = 0, n = redShopJsTrigger.length; g < n; g++)
+        {
+            new redShopJsTrigger[g](arguments);
+        };
+    };
+
     /*
-     * Function will override from any non redSHOP core javascript to append more cart params
-     *
-     * Also we can use the same function as validator
+     * getExtraParamsArray is a global JS variable to set additional add to cart parameters
+     * using redshop_product plugin.
+     * Example: getExtraParamsArray.foo = 'bar';
      */
-    if (getExtraParams(frm)) {
-        params = params + getExtraParams(frm);
-    } else {
-        return false;
-    }
+    if ('object' === typeof getExtraParamsArray)
+    {
+        for(key in getExtraParamsArray)
+        {
+            params += '&' + key + '=' + getExtraParamsArray[key];
+        }
+    };
 
     var url = site_url + "index.php?" + params;
 

@@ -1136,8 +1136,6 @@ if (!$slide)
 		{
 			$template_selecter_form = "<form name='template_selecter_form' action='' method='post' >";
 			$template_selecter_form .= $this->lists['category_template'];
-			$template_selecter_form .= "<input type='hidden' name='texpricemin' id='temp_texpricemin' value='" . $texpricemin . "' />";
-			$template_selecter_form .= "<input type='hidden' name='texpricemax' id='temp_texpricemax' value='" . $texpricemax . "' />";
 			$template_selecter_form .= "<input type='hidden' name='order_by' id='order_by' value='" . $this->order_by_select . "' />";
 			$template_selecter_form .= "<input type='hidden' name='manufacturer_id' id='manufacturer_id' value='" . $this->manufacturer_id . "' />";
 			$template_selecter_form .= "</form>";

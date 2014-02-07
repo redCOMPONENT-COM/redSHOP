@@ -66,18 +66,6 @@ class addquotation_detailVIEWaddquotation_detail extends JView
 
 		$session->set('offlineuser_id', $user_id);
 
-		$userop = array();
-		$userop[0] = new stdClass;
-		$userop[0]->user_id = 0;
-		$userop[0]->text = JText::_('COM_REDSHOP_SELECT');
-		$userlists = $model->getUserData(0, "BT");
-		$userlist = array_merge($userop, $userlists);
-		$lists['userlist'] = JHTML::_('select.genericlist', $userlist, 'user_id',
-			'class="inputbox" onchange="showquotationUserDetail();" ',
-			'user_id',
-			'text'
-		);
-
 		JToolBarHelper::title(
 			JText::_('COM_REDSHOP_QUOTATION_MANAGEMENT') . ': <small><small>[ '
 				. JText::_('COM_REDSHOP_NEW') . ' ]</small></small>', 'redshop_order48'
@@ -99,7 +87,6 @@ class addquotation_detailVIEWaddquotation_detail extends JView
 		$this->lists = $lists;
 		$this->detail = $detail;
 		$this->billing = $billing;
-		$this->userlist = $userlists;
 		$this->request_url = $uri->toString();
 
 		parent::display($tpl);

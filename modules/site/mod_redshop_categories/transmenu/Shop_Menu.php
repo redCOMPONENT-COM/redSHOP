@@ -24,7 +24,7 @@ class Shop_Menu
 		switch ($this->_params->get('menutype'))
 		{
 			default:
-				include_once("transmenu.php");
+				include_once "transmenu.php";
 				$this->menuObj = new TransMenu($this);
 				break;
 		}

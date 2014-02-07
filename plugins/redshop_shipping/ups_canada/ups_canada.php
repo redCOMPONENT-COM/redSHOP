@@ -373,7 +373,7 @@ class plgredshop_shippingups_canada extends JPlugin
 
 		$itemparams = new JRegistry($shipping->params);
 		$shippingcfg = JPATH_ROOT . '/plugins/' . $shipping->folder . '/' . $shipping->element . '/' . $shipping->element . '.cfg.php';
-		include_once ($shippingcfg);
+		include_once $shippingcfg;
 
 		$shippingrate = array();
 		$rate = 0;

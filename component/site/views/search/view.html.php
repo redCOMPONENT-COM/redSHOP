@@ -126,7 +126,7 @@ class searchViewsearch extends JView
 		$this->templatedata = $templatedata;
 		$this->search = $search;
 		$this->pagination = $pagination;
-		$this->request_url = $uri->toString();
+		$this->request_url = JFilterOutput::cleanText($uri->toString());
 		parent::display($tpl);
 	}
 
@@ -161,7 +161,7 @@ class searchViewsearch extends JView
 			$templateid     = JRequest::getInt('templateid');
 
 			// Cmd removes space between to words
-			$keyword        = JRequest::getWord('keyword');
+			$keyword        = JRequest::getString('keyword');
 			$layout         = JRequest::getCmd('layout', 'default');
 
 			$db    = JFactory::getDbo();

@@ -279,13 +279,13 @@ class importModelimport extends JModel
 							// Product Description is optional - no need to add column in csv everytime.
 							if (isset($rawdata['product_desc']) === true)
 							{
-								$rawdata['product_desc'] = htmlentities($rawdata['product_desc']);
+								$rawdata['product_desc'] = htmlentities($rawdata['product_desc'], ENT_COMPAT, 'UTF-8');
 							}
 
 							// Product Short Description is also optional - no need to add column in csv everytime.
 							if (isset($rawdata['product_s_desc']) === true)
 							{
-								$rawdata['product_s_desc'] = htmlentities($rawdata['product_s_desc']);
+								$rawdata['product_s_desc'] = htmlentities($rawdata['product_s_desc'], ENT_COMPAT, 'UTF-8');
 							}
 
 							if (isset($rawdata['manufacturer_name']))

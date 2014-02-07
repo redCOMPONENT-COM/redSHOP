@@ -128,7 +128,11 @@ for ($i = 0; $i < count($rows); $i++)
 		}
 	}
 
-	echo $stock_status;
+	if (!empty($stock_status))
+	{
+		echo $stock_status;
+	}
+
 	echo "<div class='mod_redshop_products_title'><a href='" . $link . "' title=''>" . $row->product_name . "</a></div>";
 
 	if ($show_short_description)

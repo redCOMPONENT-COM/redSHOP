@@ -17,7 +17,7 @@ class statistic
 
 	public function __construct()
 	{
-		$this->_table_prefix = '#__' . TABLE_PREFIX . '_';
+		$this->_table_prefix = '#__redshop_';
 		$this->_db           = JFactory::getDbo();
 		statistic::reshop_visitors();
 		statistic::reshop_pageview();
