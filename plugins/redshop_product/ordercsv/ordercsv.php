@@ -9,7 +9,12 @@
 
 defined('_JEXEC') or die;
 
-class plgredshop_productordercsv extends JPlugin
+/**
+ * Order CSV export and send email after order update
+ *
+ * @since  1.3.3.1
+ */
+class PlgRedshop_Productordercsv extends JPlugin
 {
 	/**
 	 * CSV file path
@@ -138,16 +143,33 @@ class plgredshop_productordercsv extends JPlugin
 		return $html;
 	}
 
+	/**
+	 * Get CSV File path
+	 *
+	 * @return  string  CSV File Path
+	 */
 	private function getCsvFile()
 	{
 		return self::$csvFilePath;
 	}
 
+	/**
+	 * Read Order CSV File
+	 *
+	 * @return  string  CSV Data
+	 */
 	private function readCsvFile()
 	{
 		return file_get_contents(self::$csvFilePath);
 	}
 
+	/**
+	 * Write Order CSV File from buffer
+	 *
+	 * @param   string  $buffer  String CSV Buffer
+	 *
+	 * @return  void
+	 */
 	private function writeCsvFile($buffer)
 	{
 		if ($this->readCsvFile() === true)
@@ -162,6 +184,11 @@ class plgredshop_productordercsv extends JPlugin
 		file_put_contents(self::$csvFilePath, $csvData, FILE_APPEND | LOCK_EX);
 	}
 
+	/**
+	 * Send CSV File in E-mail
+	 *
+	 * @return  string  Success Message
+	 */
 	private function sendCSVFile()
 	{
 		$fromEmail = $this->params->get('send_email_from', 'no-email');
@@ -181,6 +208,13 @@ class plgredshop_productordercsv extends JPlugin
 		}
 	}
 
+	/**
+	 * Get Order Information
+	 *
+	 * @param   integer  $orderId  Order Information Id
+	 *
+	 * @return  object   Order Information
+	 */
 	private function getOrderDetail($orderId)
 	{
 		// Initialize variables.
@@ -189,11 +223,11 @@ class plgredshop_productordercsv extends JPlugin
 
 		// Create the base select statement.
 		$query->select('o.*, oui.*, op.order_payment_name')
-			->from($db->quoteName('#__redshop_orders') . ' AS o')
-			->leftjoin($db->quoteName('#__redshop_order_users_info') . ' AS oui ON oui.order_id = o.order_id')
-			->leftjoin($db->quoteName('#__redshop_order_payment') . ' AS op ON op.order_id = o.order_id')
-			->where($db->quoteName('o.order_id') . ' = ' . $db->quote($orderId))
-			->where($db->quoteName('oui.address_type') . ' = ' . $db->quote('BT'));
+			->from($db->qn('#__redshop_orders') . ' AS o')
+			->leftjoin($db->qn('#__redshop_order_users_info') . ' AS oui ON oui.order_id = o.order_id')
+			->leftjoin($db->qn('#__redshop_order_payment') . ' AS op ON op.order_id = o.order_id')
+			->where($db->qn('o.order_id') . ' = ' . $db->q($orderId))
+			->where($db->qn('oui.address_type') . ' = ' . $db->q('BT'));
 
 		// Set the query and load the result.
 		$db->setQuery($query);
@@ -210,6 +244,13 @@ class plgredshop_productordercsv extends JPlugin
 		return $result;
 	}
 
+	/**
+	 * Get Order Items using Order ID
+	 *
+	 * @param   integer  $orderId  Order Information Id
+	 *
+	 * @return  array    Order Items
+	 */
 	private function getOrderItems($orderId)
 	{
 		// Initialize variables.
@@ -218,8 +259,8 @@ class plgredshop_productordercsv extends JPlugin
 
 		// Create the base select statement.
 		$query->select('oi.*')
-			->from($db->quoteName('#__redshop_order_item') . ' AS oi')
-			->where($db->quoteName('oi.order_id') . ' = ' . $db->quote($orderId));
+			->from($db->qn('#__redshop_order_item') . ' AS oi')
+			->where($db->qn('oi.order_id') . ' = ' . $db->q($orderId));
 
 		// Set the query and load the result.
 		$db->setQuery($query);
