@@ -923,22 +923,22 @@ function onestepCheckoutProcess(objectname,classname)
 
 	if(document.getElementById('responceonestep'))
 	{
+		var propName = document.getElementsByName('payment_method_id');
+		for(var p=0;p<propName.length;p++)
+		{
+			if (propName[p].checked)
+			{
+				payment_method_id = propName[p].value;
+				newparam = newparam + "&payment_method_id=" + payment_method_id;
+			}
+			if (document.getElementById('divcardinfo_'+propName[p].value))
+			{
+				document.getElementById('divcardinfo_'+propName[p].value).innerHTML = "";
+			}
+		}
+
 		if(objectname=="payment_method_id")
 		{
-			var propName = document.getElementsByName('payment_method_id');
-			for(var p=0;p<propName.length;p++)
-			{
-				if(propName[p].checked)
-				{
-					payment_method_id = propName[p].value;
-					newparam = newparam + "&payment_method_id=" + payment_method_id;
-				}
-				if(document.getElementById('divcardinfo_'+propName[p].value))
-				{
-					document.getElementById('divcardinfo_'+propName[p].value).innerHTML = "";
-				}
-			}
-
 			xmlhttp1=GetXmlHttpObject();
 			var url1= site_url+'index.php?tmpl=component&option=com_redshop&view=checkout&task=displaycreditcard';
 			url1 = url1 + newparam;

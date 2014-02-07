@@ -18,13 +18,6 @@ class googleanalytics
 {
 	public $_data = null;
 
-	public $_table_prefix = null;
-
-	public function __construct()
-	{
-		$this->_table_prefix = '#__' . TABLE_PREFIX;
-	}
-
 	/**
 	 * When you first begin implementing tracking in Google Analytics website, you need to install the tracking code on your website pages.
 	 * The generic tracking code snippet consists of two parts: a script tag that references the ga.js tracking code,

@@ -41,7 +41,7 @@ $model = $this->getModel('attribute_set_detail');
 	}
 	function oprand_check(s) {
 		var oprand = s.value;
-		if (oprand != '+' && oprand != '-' && oprand != '=') {
+		if (oprand != '+' && oprand != '-' && oprand != '=' && oprand != '*' && oprand != "/") {
 			alert("<?php
 		echo JText::_('COM_REDSHOP_WRONG_OPRAND', true );
 		?>");

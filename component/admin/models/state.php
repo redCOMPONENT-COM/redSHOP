@@ -31,7 +31,7 @@ class stateModelstate extends JModel
 
 		$this->_context = 'state_id';
 
-		$this->_table_prefix = '#__' . TABLE_PREFIX . '_';
+		$this->_table_prefix = '#__redshop_';
 		$limit = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
 		$limitstart = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
 		$country_id_filter = $app->getUserStateFromRequest($this->_context . 'country_id_filter', 'country_id_filter', 0);

@@ -48,7 +48,7 @@ $db->setQuery($query);
 $db->query();
 
 $uri        = JURI::getInstance();
-$requesturl = $uri->toString();
+$requesturl = JFilterOutput::cleanText($uri->toString());
 $url        = parse_url($requesturl);
 
 $img = $url['scheme'] . "://" . $url['host'] . '/components/com_redshop/assets/images/spacer.gif';

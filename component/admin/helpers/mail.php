@@ -34,7 +34,7 @@ class redshopMail
 	{
 		$this->_db = JFactory::getDbo();
 
-		$this->_table_prefix = '#__' . TABLE_PREFIX . '_';
+		$this->_table_prefix = '#__redshop_';
 
 		$this->_carthelper      = new rsCarthelper;
 		$this->_redhelper       = new redhelper;

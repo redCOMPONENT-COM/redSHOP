@@ -143,11 +143,11 @@ abstract class modIceTabsHelper
 
 		if (file_exists($tPath))
 		{
-			require($tPath);
+			require $tPath;
 		}
 		elseif (file_exists($bPath))
 		{
-			require($bPath);
+			require $bPath;
 		}
 	}
 

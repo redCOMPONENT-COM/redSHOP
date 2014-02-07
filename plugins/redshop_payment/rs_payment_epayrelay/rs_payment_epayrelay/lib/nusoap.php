@@ -1133,44 +1133,6 @@ class nusoap_base
 //xsd:dateTime helpers
 
 /**
- * convert unix timestamp to ISO 8601 compliant date string
- *
- * @param    string  $timestamp Unix time stamp
- * @param    boolean $utc       Whether the time stamp is UTC or local
- *
- * @access   public
- */
- public function timestamp_to_iso8601($timestamp, $utc = true)
-{
-	$datestr = date('Y-m-d\TH:i:sO', $timestamp);
-
-	if ($utc)
-	{
-		$pattern = '/' .
-			'([0-9]{4})-' . // centuries & years CCYY-
-			'([0-9]{2})-' . // months MM-
-			'([0-9]{2})' . // days DD
-			'T' . // separator T
-			'([0-9]{2}):' . // hours hh:
-			'([0-9]{2}):' . // minutes mm:
-			'([0-9]{2})(\.[0-9]*)?' . // seconds ss.ss...
-			'(Z|[+\-][0-9]{2}:?[0-9]{2})?' . // Z to indicate UTC, -/+HH:MM:SS.SS... for local tz's
-			'/';
-
-		if (preg_match($pattern, $datestr, $regs))
-		{
-			return sprintf('%04d-%02d-%02dT%02d:%02d:%02dZ', $regs[1], $regs[2], $regs[3], $regs[4], $regs[5], $regs[6]);
-		}
-
-		return false;
-	}
-	else
-	{
-		return $datestr;
-	}
-}
-
-/**
  * convert ISO 8601 compliant date string to unix timestamp
  *
  * @param    string $datestr ISO 8601 compliant date string
@@ -3056,7 +3018,7 @@ class soap_transport_http extends nusoap_base
 				// recent versions of cURL turn on peer/host checking by default,
 				// while PHP binaries are not compiled with a default location for the
 				// CA cert bundle, so disable peer/host checking.
-				//$this->setCurlOption(CURLOPT_CAINFO, 'f:\php-4.3.2-win32\extensions\curl-ca-bundle.crt');		
+				//$this->setCurlOption(CURLOPT_CAINFO, 'f:\php-4.3.2-win32\extensions\curl-ca-bundle.crt');
 				$this->setCurlOption(CURLOPT_SSL_VERIFYPEER, 0);
 				$this->setCurlOption(CURLOPT_SSL_VERIFYHOST, 0);
 
@@ -9461,7 +9423,7 @@ class nusoap_client extends nusoap_base
 			// no WSDL
 			//$this->namespaces['ns1'] = $namespace;
 			$nsPrefix = 'ns' . rand(1000, 9999);
-			// serialize 
+			// serialize
 			$payload = '';
 
 			if (is_string($params))

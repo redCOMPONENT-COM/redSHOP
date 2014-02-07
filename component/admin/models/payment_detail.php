@@ -122,7 +122,7 @@ class payment_detailModelpayment_detail extends JModel
 
 		$paymentcfg = $adminpath . '/helpers/payments/' . $row->plugin . '/' . $row->plugin . '.cfg.php';
 
-		include_once ($paymentfile);
+		include_once $paymentfile;
 
 		$ps = new $row->payment_class;
 

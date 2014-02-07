@@ -59,7 +59,7 @@ class producthelper
 	function __construct()
 	{
 		$this->_db           = JFactory::getDbo();
-		$this->_table_prefix = '#__' . TABLE_PREFIX . '_';
+		$this->_table_prefix = '#__redshop_';
 		$this->_userhelper   = new rsUserhelper;
 		$this->_session      = JFactory::getSession();
 	}
@@ -1840,7 +1840,7 @@ class producthelper
 		$discount = $this->getDiscountId($cart['product_subtotal'], $user_id);
 
 		$discount_amount = 0;
-		$discount_vat    = 0;
+		$discountVAT     = 0;
 
 		if (count($discount) > 0)
 		{
@@ -1859,10 +1859,10 @@ class producthelper
 
 				if (VAT_RATE_AFTER_DISCOUNT && !APPLY_VAT_ON_DISCOUNT)
 				{
-					$Discountvat = $discount_amount * VAT_RATE_AFTER_DISCOUNT;
+					$discountVAT = $discount_amount * VAT_RATE_AFTER_DISCOUNT;
 				}
 
-				$cart['discount_tax'] = $Discountvat;
+				$cart['discount_tax'] = $discountVAT;
 				$this->_session->set('cart', $cart);
 			}
 			else
@@ -2395,7 +2395,7 @@ class producthelper
 
 					if (count($res) > 0 && $res->home != 1)
 					{
-						if ($res->parent)
+						if (isset($res->parent))
 						{
 							$parentres = $this->getMenuInformation($res->parent);
 
