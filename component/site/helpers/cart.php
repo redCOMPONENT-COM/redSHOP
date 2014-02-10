@@ -5494,11 +5494,12 @@ class rsCarthelper
 	public function addProductToCart($data = array())
 	{
 		JPluginHelper::importPlugin('redshop_product');
-		$dispatcher   = JDispatcher::getInstance();
-		$rsUserhelper = new rsUserhelper;
-		$redTemplate  = new Redtemplate;
-		$user         = JFactory::getUser();
-		$cart         = $this->_session->get('cart');
+		$dispatcher       = JDispatcher::getInstance();
+		$rsUserhelper     = new rsUserhelper;
+		$redTemplate      = new Redtemplate;
+		$user             = JFactory::getUser();
+		$cart             = $this->_session->get('cart');
+		$data['quantity'] = round($data['quantity']);
 
 		if (!$cart || !array_key_exists("idx", $cart) || array_key_exists("quotation_id", $cart))
 		{
