@@ -88,6 +88,8 @@ CREATE TABLE IF NOT EXISTS `#__redshop_order_attribute_item` (
   `section_vat` decimal(15,4) NOT NULL,
   `section_oprand` char(1) NOT NULL,
   `is_accessory_att` tinyint(4) NOT NULL,
+  `stockroom_id` varchar(255) NOT NULL,
+  `stockroom_quantity` varchar(255) NOT NULL,
   PRIMARY KEY  (`order_att_item_id`)
 )DEFAULT CHARSET=utf8 COMMENT='redSHOP order Attribute item';
 
