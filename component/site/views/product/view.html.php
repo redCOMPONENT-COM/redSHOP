@@ -273,7 +273,8 @@ class ProductViewProduct extends JView
 				}
 				else
 				{
-					$this->document->setTitle($this->data->product_name . " | " .
+					$this->document->setTitle(
+												$this->data->product_name . " | " .
 												$this->data->category_name . " | " .
 												$this->app->getCfg('sitename') . " | " .
 												$this->data->product_number
