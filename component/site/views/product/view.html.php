@@ -273,8 +273,7 @@ class ProductViewProduct extends JView
 				}
 				else
 				{
-					$this->document->setTitle(
-												$this->data->product_name . " | " .
+					$this->document->setTitle($this->data->product_name . " | " .
 												$this->data->category_name . " | " .
 												$this->app->getCfg('sitename') . " | " .
 												$this->data->product_number
@@ -296,11 +295,27 @@ class ProductViewProduct extends JView
 
 			if ($this->data->product_thumb_image && file_exists(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $this->data->product_thumb_image))
 			{
-				$this->document->setMetaData("og:image", $scheme . "://" . $host . "/components/com_redshop/assets/images/product/" . $this->data->product_thumb_image);
+				$imageLink = $scheme . "://" . $host . "/components/com_redshop/assets/images/product/" . $this->data->product_thumb_image;
+
+				list($width, $height, $type, $attr) = @getimagesize(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $this->data->product_thumb_image);
+
+				$openGraphTag = '<meta property="og:image" content="' . $imageLink . '" />' . "\n";
+				$openGraphTag .= '<meta property="og:image:type" content="image/jpeg" />' . "\n";
+				$openGraphTag .= '<meta property="og:image:width" content="' . $width . '" />' . "\n";
+				$openGraphTag .= '<meta property="og:image:height" content="' . $height . '" />' . "\n";
+				$document->addCustomTag($openGraphTag);
 			}
 			elseif ($this->data->product_full_image && file_exists(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $this->data->product_full_image))
 			{
-				$this->document->setMetaData("og:image", $scheme . "://" . $host . "/components/com_redshop/assets/images/product/" . $this->data->product_full_image);
+				$imageLink = $scheme . "://" . $host . "/components/com_redshop/assets/images/product/" . $this->data->product_full_image;
+
+				list($width, $height, $type, $attr) = @getimagesize(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $this->data->product_full_image);
+
+				$openGraphTag = '<meta name="og:image" property="og:image" content="' . $imageLink . '" />' . "\n";
+				$openGraphTag .= '<meta name="og:image:type" property="og:image:type" content="image/jpeg" />' . "\n";
+				$openGraphTag .= '<meta name="og:image:width" property="og:image:width" content="' . $width . '" />' . "\n";
+				$openGraphTag .= '<meta name="og:image:height" property="og:image:height" content="' . $height . '" />' . "\n";
+				$document->addCustomTag($openGraphTag);
 			}
 
 			$pagekeywordstag = '';
