@@ -1086,6 +1086,15 @@ function onestepCheckoutProcess(objectname,classname)
 					document.getElementById('divRedshopCart').innerHTML = document.getElementById('onestepdisplaycart').innerHTML;
 				}
 				document.getElementById('responceonestep').innerHTML = "";
+				
+				SqueezeBox.initialize({});
+				 
+				$$('a.modal').each(function(el) {
+					el.addEvent('click', function(e) {
+						new Event(e).stop();
+						SqueezeBox.fromElement(el);
+					});
+				});
 			}
 		};
 		if(/Firefox[\/\s](\d+\.\d+)/.test(navigator.userAgent))
