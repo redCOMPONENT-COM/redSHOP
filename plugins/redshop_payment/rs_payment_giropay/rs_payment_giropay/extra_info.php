@@ -25,7 +25,7 @@ $parameter['amount'] = number_format($amount, 2, '.', '');
 $parameter['vwz'] = "Order";
 $parameter['bankcode'] = '';
 $parameter['urlRedirect'] = JURI::base() . "index.php?option=com_redshop&view=order_detail&oid=" . $data['order_id'];
-$parameter['urlNotify'] = JURI::base() . "index2.php?option=com_redshop&view=order_detail&controller=order_detail&task=notify_payment&payment_plugin=rs_payment_giropay&orderid=" . $data['order_id'];
+$parameter['urlNotify'] = JURI::base() . "index.php?option=com_redshop&view=order_detail&tmpl=component&controller=order_detail&task=notify_payment&payment_plugin=rs_payment_giropay&orderid=" . $data['order_id'];
 
 $secret_password = $this->_params->get("secret_password");
 $hash = $gsGiropay->generateHash(implode('', $parameter), $secret_password);
