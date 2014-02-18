@@ -7,10 +7,9 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 JHTML::_('behavior.tooltip');
-//$uri = JURI::getInstance();
-//$url= $uri->root();
+
 $section = JRequest::getVar('section');
-$producthelper = new producthelper();
+$producthelper = new producthelper;
 ?>
 <fieldset>
 	<div style="float: right">
@@ -102,22 +101,28 @@ $producthelper = new producthelper();
 					<td width="100" align="right" class="key"><?php echo JText::_('COM_REDSHOP_DISCOUNT_START_DATE'); ?>
 						:
 					</td>
-					<td><?php $sdate = "";
-						if ($this->detail->discount_start_date)
-						{
+					<td>
+						<?php
+						$sdate = "";
+
+						if ($this->detail->discount_start_date) :
 							$sdate = date("d-m-Y", $this->detail->discount_start_date);
-						}
+						endif;
+
 						echo JHTML::_('calendar', $sdate, 'discount_start_date', 'discount_start_date', $format = '%d-%m-%Y', array('class' => 'inputbox', 'size' => '15', 'maxlength' => '19'));?></td>
 				</tr>
 				<tr>
 					<td width="100" align="right" class="key"><?php echo JText::_('COM_REDSHOP_DISCOUNT_END_DATE'); ?>
 						:
 					</td>
-					<td><?php $sdate = "";
-						if ($this->detail->discount_end_date)
-						{
+					<td>
+					<?php
+						$sdate = "";
+
+						if ($this->detail->discount_end_date) :
 							$sdate = date("d-m-Y", $this->detail->discount_end_date);
-						}
+						endif;
+
 						echo JHTML::_('calendar', $sdate, 'discount_end_date', 'discount_end_date', $format = '%d-%m-%Y', array('class' => 'inputbox', 'size' => '15', 'maxlength' => '19'));?></td>
 				</tr>
 			</table>
