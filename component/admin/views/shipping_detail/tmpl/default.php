@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 JHTML::_('behavior.tooltip');
 jimport('joomla.html.pane');
-//$editor =& JFactory::getEditor();
+//$editor = JFactory::getEditor();
 ?>
 
 <script language="javascript" type="text/javascript">

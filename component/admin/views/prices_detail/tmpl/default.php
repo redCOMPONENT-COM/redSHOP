@@ -7,9 +7,9 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 JHTML::_('behavior.tooltip');
-//$editor =& JFactory::getEditor();
+//$editor = JFactory::getEditor();
 //JHTMLBehavior::modal();
-//$uri =& JURI::getInstance();
+//$uri = JURI::getInstance();
 //$url= $uri->root();
 //jimport('joomla.html.pane');
 

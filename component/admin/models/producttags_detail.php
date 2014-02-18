@@ -83,7 +83,7 @@ class producttags_detailModelproducttags_detail extends JModel
 
 	public function store($data)
 	{
-		$row =& $this->getTable('product_tags');
+		$row = $this->getTable('product_tags');
 
 		if (!$row->bind($data))
 		{

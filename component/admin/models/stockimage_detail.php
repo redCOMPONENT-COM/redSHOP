@@ -82,7 +82,7 @@ class stockimage_detailModelstockimage_detail extends JModel
 
 	public function store($data)
 	{
-		$row =& $this->getTable('stockimage_detail');
+		$row = $this->getTable('stockimage_detail');
 		$file = JRequest::getVar('stock_amount_image', '', 'files', 'array');
 
 		if ($_FILES['stock_amount_image']['name'] != "")

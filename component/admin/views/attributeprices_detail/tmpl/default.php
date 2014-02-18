@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 JHTML::_('behavior.tooltip');
-//$uri =& JURI::getInstance();
+//$uri = JURI::getInstance();
 //$url= $uri->root();
 $section = JRequest::getVar('section');
 $producthelper = new producthelper();

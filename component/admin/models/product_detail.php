@@ -709,7 +709,7 @@ class Product_DetailModelProduct_Detail extends JModel
 			for ($a = 0; $a < count($data['product_accessory']); $a++)
 			{
 				$acc = $data['product_accessory'][$a];
-				$accdetail =& $this->getTable('accessory_detail');
+				$accdetail = $this->getTable('accessory_detail');
 
 				if ($data['copy_product'] != 1)
 				{
@@ -739,7 +739,7 @@ class Product_DetailModelProduct_Detail extends JModel
 			for ($a = 0; $a < count($data['product_navigator']); $a++)
 			{
 				$acc = $data['product_navigator'][$a];
-				$accdetail =& $this->getTable('navigator_detail');
+				$accdetail = $this->getTable('navigator_detail');
 
 				if ($data['copy_product'] != 1)
 				{
@@ -928,7 +928,7 @@ class Product_DetailModelProduct_Detail extends JModel
 		{
 			for ($sub = 0; $sub < count($data['subscription_period']); $sub++)
 			{
-				$sub_row =& $this->getTable('product_subscription');
+				$sub_row = $this->getTable('product_subscription');
 				$sub_row->subscription_id = $data['subscription_id'][$sub];
 				$sub_row->subscription_period = $data['subscription_period'][$sub];
 				$sub_row->period_type = $data['period_type'][$sub];
@@ -972,7 +972,7 @@ class Product_DetailModelProduct_Detail extends JModel
 					{
 						if ($csv_row[0] != "")
 						{
-							$product_serial =& $this->getTable('product_serial_number');
+							$product_serial = $this->getTable('product_serial_number');
 							$product_serial->serial_number = $csv_row[0];
 							$product_serial->product_id = $row->product_id;
 
@@ -1519,7 +1519,7 @@ class Product_DetailModelProduct_Detail extends JModel
 
 				for ($i = 0; $i < count($productpricedata); $i++)
 				{
-					$rowprices_detail =& $this->getTable('prices_detail');
+					$rowprices_detail = $this->getTable('prices_detail');
 					$data['price_id '] = 0;
 					$data['product_id'] = $row->product_id;
 					$data['product_price'] = $productpricedata[$i]->product_price;
@@ -1551,7 +1551,7 @@ class Product_DetailModelProduct_Detail extends JModel
 					$new_media = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . JPath::clean(time() . $new_img);
 					copy($old_media, $new_media);
 
-					$rowmedia =& $this->getTable('media_detail');
+					$rowmedia = $this->getTable('media_detail');
 					$data['media_id '] = 0;
 					$data['media_name'] = JPath::clean(time() . $new_img);
 					$data['media_alternate_text'] = $mediadata[$j]->media_alternate_text;
@@ -3627,7 +3627,7 @@ class Product_DetailModelProduct_Detail extends JModel
 		$old_imgname = strstr($data['media_name'], '_') ? strstr($data['media_name'], '_') : $data['media_name'];
 		$new_imgname = JPath::clean(time() . $old_imgname);
 		$data['media_name'] = $new_imgname;
-		$rowmedia =& $this->getTable('media_detail');
+		$rowmedia = $this->getTable('media_detail');
 		$data['media_id '] = 0;
 
 		if (!$rowmedia->bind($data))
@@ -4611,7 +4611,7 @@ class Product_DetailModelProduct_Detail extends JModel
 
 			// End
 
-			$calcrow =& $this->getTable('product_discount_calc');
+			$calcrow = $this->getTable('product_discount_calc');
 			$calcrow->load();
 			$calcrow->discount_calc_unit = $discount_calc_unit;
 			$calcrow->area_start = $new_area_start;
@@ -4645,7 +4645,7 @@ class Product_DetailModelProduct_Detail extends JModel
 
 			if (trim($pdc_option_name) != "")
 			{
-				$pdcextrarow =& $this->getTable('product_discount_calc_extra');
+				$pdcextrarow = $this->getTable('product_discount_calc_extra');
 				$pdcextrarow->load();
 				$pdcextrarow->pdcextra_id = 0;
 				$pdcextrarow->option_name = $pdc_option_name;
