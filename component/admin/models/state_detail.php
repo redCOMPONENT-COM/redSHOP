@@ -84,7 +84,7 @@ class state_detailModelstate_detail extends JModel
 	public function store($data)
 	{
 
-		$row =& $this->getTable('state_detail');
+		$row = $this->getTable('state_detail');
 
 		if (!$row->bind($data))
 		{
