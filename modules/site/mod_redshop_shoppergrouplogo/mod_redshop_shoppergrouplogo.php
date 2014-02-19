@@ -31,4 +31,4 @@ $sql = "SELECT s.*,u.user_id "
 $db->setQuery($sql);
 $rows = $db->loadObject();
 
-require(JModuleHelper::getLayoutPath('mod_redshop_shoppergrouplogo'));?>
+require JModuleHelper::getLayoutPath('mod_redshop_shoppergrouplogo');?>

@@ -510,7 +510,7 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 		// ToDo: Echo a message when no records is returned by selection of empty category or wrong manufacturer in menu item params.
 		$product = null;
 
-		if (!empty($this->product))
+		if ((!empty($this->product)) && (isset($this->product[$i])))
 		{
 			$product = $this->product[$i];
 		}

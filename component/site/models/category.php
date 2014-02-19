@@ -213,60 +213,89 @@ class CategoryModelCategory extends JModel
 		return $this->_product;
 	}
 
+	/**
+	 * Method get Product of Category
+	 *
+	 * @param   number   $minmax    default variable is 0
+	 * @param   boolean  $isSlider  default variable is false
+	 *
+	 * @return multitype:NULL
+	 */
 	public function getCategoryProduct($minmax = 0, $isSlider = false)
 	{
 		$app             = JFactory::getApplication();
 		$menu            = $app->getMenu();
 		$item            = $menu->getActive();
-		$manufacturer_id = (isset($item)) ? intval($item->params->get('manufacturer_id')) : 0;
+
+		$manufacturerId = 0;
+
+		if (isset($item))
+		{
+			$manufacturerId = intval($item->params->get('manufacturer_id'));
+		}
 
 		$setproductfinderobj = new redhelper;
-		$order_by            = $this->_buildProductOrderBy();
-		$manufacturer_id     = JRequest::getInt('manufacturer_id', $manufacturer_id, '', 'int');
+		$orderBy            = $this->buildProductOrderBy();
+
+		$manufacturerId		 = $app->input->get("manufacturer_id", $manufacturerId, "int");
 
 		$sort = "";
 		$and  = "";
 
 		// Shopper group - choose from manufactures Start
 		$rsUserhelper               = new rsUserhelper;
-		$shopper_group_manufactures = $rsUserhelper->getShopperGroupManufacturers();
+		$shopperGroupManufactures = $rsUserhelper->getShopperGroupManufacturers();
 
-		if ($shopper_group_manufactures != "")
+		if ($shopperGroupManufactures != "")
 		{
-			$shopper_group_manufactures = explode(',', $shopper_group_manufactures);
-			JArrayHelper::toInteger($shopper_group_manufactures);
-			$shopper_group_manufactures = implode(',', $shopper_group_manufactures);
-			$and .= " AND p.manufacturer_id IN (" . $shopper_group_manufactures . ") ";
+			$shopperGroupManufactures = explode(',', $shopperGroupManufactures);
+			JArrayHelper::toInteger($shopperGroupManufactures);
+			$shopper_group_manufactures = implode(',', $shopperGroupManufactures);
+			$and .= "p.manufacturer_id IN (" . $shopperGroupManufactures . ") ";
 		}
 
 		// Shopper group - choose from manufactures End
 
-		if ($manufacturer_id && $manufacturer_id > 0)
+		if ($manufacturerId && $manufacturerId > 0)
 		{
-			$and .= " AND p.manufacturer_id = " . (int) $manufacturer_id . " ";
+			$and .= " AND p.manufacturer_id = " . (int) $manufacturerId . " ";
 		}
 
-		if ($minmax && !(strstr($order_by, "p.product_price ASC") || strstr($order_by, "p.product_price DESC")))
+		if ($minmax && !(strstr($orderBy, "p.product_price ASC") || strstr($orderBy, "p.product_price DESC")))
 		{
-			$order_by = " ORDER BY p.product_price ASC";
+			$orderBy = "p.product_price ASC";
+		}
+
+		$query = JFactory::getDbo()->getQuery(true);
+		$query->select("*");
+		$query->from($this->_table_prefix . "product AS p ");
+		$query->join("LEFT", $this->_table_prefix . "product_category_xref AS pc ON pc.product_id=p.product_id ");
+		$query->join("LEFT", $this->_table_prefix . "category AS c ON c.category_id=pc.category_id ");
+		$query->join("LEFT", $this->_table_prefix . "manufacturer AS m ON m.manufacturer_id=p.manufacturer_id ");
+		$query->where("p.published = 1 AND p.expired = 0");
+		$query->where("pc.category_id = " . (int) $this->_id);
+		$query->where("p.published = 1 AND p.expired = 0");
+
+		if ($and != "")
+		{
+			$query->where($and);
 		}
 
 		$finder_condition = $this->getredproductfindertags();
 
-		$query = "SELECT * FROM " . $this->_table_prefix . "product AS p "
-			. "LEFT JOIN " . $this->_table_prefix . "product_category_xref AS pc ON pc.product_id=p.product_id "
-			. "LEFT JOIN " . $this->_table_prefix . "category AS c ON c.category_id=pc.category_id "
-			. "LEFT JOIN " . $this->_table_prefix . "manufacturer AS m ON m.manufacturer_id=p.manufacturer_id "
-			. "WHERE p.published = 1 AND p.expired = 0 "
-			. "AND pc.category_id = " . (int) $this->_id . " "
-			. "AND p.product_parent_id = 0 "
-			. $and . $finder_condition . $order_by;
+		if ($finder_condition != "")
+		{
+			$finder_condition = str_replace("AND", "", $finder_condition);
+			$query->where($finder_condition);
+		}
+
+		$query->order($orderBy);
 
 		$this->_product = $this->_getList($query);
 
 		$priceSort = false;
 
-		if (strstr($order_by, "p.product_price ASC"))
+		if (strstr($orderBy, "p.product_price ASC"))
 		{
 			$priceSort = true;
 
@@ -278,7 +307,7 @@ class CategoryModelCategory extends JModel
 
 			$this->_product = $this->columnSort($this->_product, 'productPrice', 'ASC');
 		}
-		elseif (strstr($order_by, "p.product_price DESC"))
+		elseif (strstr($orderBy, "p.product_price DESC"))
 		{
 			$priceSort = true;
 			$sort      = "DESC";
@@ -391,27 +420,36 @@ class CategoryModelCategory extends JModel
 		return $sorted;
 	}
 
-	public function _buildProductOrderBy()
+	/**
+	 * Method get string order by of product when choose category
+	 *
+	 * @return unknown
+	 */
+	public function buildProductOrderBy()
 	{
-		$db       = JFactory::getDbo();
-		$app      = JFactory::getApplication();
-		$params   = $app->getParams("com_redshop");
-		$menu     = $app->getMenu();
-		$item     = $menu->getActive();
-		$order_by = urldecode(JRequest::getVar('order_by', ''));
+		$db = JFactory::getDbo();
+		$app = JFactory::getApplication();
+		$input = $app->input;
+		$params = $app->getParams("com_redshop");
 
-		if (in_array($order_by, $this->filter_fields))
+		if (!$input->getString("order_by", ""))
 		{
-			$value = $order_by;
+			$orderBySelect = JFactory::getApplication()->getUserState("order_by");
+
+			if (!$orderBySelect)
+			{
+				$orderBySelect = $params->get('order_by', DEFAULT_PRODUCT_ORDERING_METHOD);
+			}
 		}
 		else
 		{
-			$value = (isset($item)) ? $item->params->get('order_by', 'p.product_name ASC') : DEFAULT_PRODUCT_ORDERING_METHOD;
+			$orderBySelect = $input->getString("order_by", "");
 		}
 
-		$orderby = " ORDER BY " . $db->escape($value);
+		JFactory::getApplication()->setUserState("order_by", $orderBySelect);
 
-		return $orderby;
+		// Return only value of order by not " ORDER BY ". $orderBySelect
+		return $orderBySelect;
 	}
 
 	public function getData()

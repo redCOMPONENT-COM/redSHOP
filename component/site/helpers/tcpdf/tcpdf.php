@@ -1756,7 +1756,7 @@ class TCPDF {
 			$this->internal_encoding = mb_internal_encoding();
 			mb_internal_encoding('ASCII');
 		}
-		require(dirname(__FILE__).'/htmlcolors.php');
+		require dirname(__FILE__).'/htmlcolors.php';
 		$this->webcolor = $webcolor;
 		require_once dirname(__FILE__).'/unicode_data.php';
 		$this->unicode = new TCPDF_UNICODE_DATA();
@@ -4726,7 +4726,7 @@ class TCPDF {
 		}
 		// include font file
 		if (file_exists($fontfile)) {
-			include($fontfile);
+			include $fontfile;
 		} else {
 			$this->Error('Could not include font definition file: '.$family.'');
 		}

@@ -464,7 +464,7 @@ function AddFont($family, $style='', $file='')
 	$fontkey=$family.$style;
 	if(isset($this->fonts[$fontkey]))
 		return;
-	include($this->_getfontpath().$file);
+	include $this->_getfontpath().$file;
 	if(!isset($name))
 		$this->Error('Could not include font definition file');
 	$i=count($this->fonts)+1;
@@ -538,7 +538,7 @@ function SetFont($family, $style='', $size=0)
 				$file=$family;
 				if($family=='times' || $family=='helvetica')
 					$file.=strtolower($style);
-				include($this->_getfontpath().$file.'.php');
+				include $this->_getfontpath().$file.'.php';
 				if(!isset($fpdf_charwidths[$fontkey]))
 					$this->Error('Could not include font metric file');
 			}
