@@ -69,7 +69,6 @@ class plgRedshop_paymentrs_payment_epayv2 extends JPlugin
 			'windowid'        => $this->_params->get("windowid"),
 			'ownreceipt'      => $this->_params->get("ownreceipt"),
 			'use3D'           => $this->_params->get("epay_3dsecure"),
-			'addfee'          => $this->_params->get("transaction_fee"),
 			'subscription'    => $this->_params->get("epay_subscription")
 		);
 
