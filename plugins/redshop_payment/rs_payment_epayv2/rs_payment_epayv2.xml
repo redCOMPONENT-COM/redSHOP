@@ -38,8 +38,8 @@
                 </field>
                 <field name="merchant_id" type="text" default="" label="PBS Merchant ID"
                        description=" The Merchant ID you have received from PBS. For testing purpose a test Merchant ID can be obtained by contacting ePay (sales@epay.dk)"/>
-                <field name="windowid" type="text" default="1" label="PBS WindowID"
-                       description="Window Id from PBS Merchant Account"/>
+                <field name="windowid" type="text" default="1" label="PBS WindowID/Transfee Setting"
+                       description="Window Id from PBS Merchant Account. \n You change the settings for transaction costs in your ePay administration under Settings -> Payment window. Click ‘Edit settings’ by your payment window. At the bottom of the page you can choose whether the transaction fee should be placed on your customers or you want to pay it yourself. "/>
                 <field name="verify_status" type="sql"
                        query="SELECT order_status_code AS st_value, order_status_name AS st_title FROM #__redshop_order_status"
                        key_field="st_value" value_field="st_title" default="C"
@@ -111,11 +111,6 @@
 	shop even if the customer during the payment process closes the browser)">
                     <option value="0">Callback is disabled</option>
                     <option value="1">Enable callback</option>
-                </field>
-                <field name="transaction_fee" type="list" default="0" label="Transaction Fee"
-                       description="Often it is necessary to present the transaction fee to the customer ePay will calculate the fee and put it on the payment before the payment is made">
-                    <option value="0">Customer does not pay the transaction fee</option>
-                    <option value="1">The customer pays the transaction fee</option>
                 </field>
                 <field name="epay_subscription" type="list" default="0" label="Subscription"
                        description="Subscriptions are used for creating payments that can be authorized more than once (recurrent payments)">
