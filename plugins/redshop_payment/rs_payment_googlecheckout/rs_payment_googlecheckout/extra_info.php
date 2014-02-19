@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-include_once (JPATH_COMPONENT_ADMINISTRATOR . '/helpers/shipping.php');
+include_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/shipping.php';
 $shippinghelper = new shipping;
 
 $currencyClass = new CurrencyHelper;
