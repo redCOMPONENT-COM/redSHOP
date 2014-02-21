@@ -142,7 +142,7 @@ switch ($type)
 
 	case '4':
 
-		$sql = "SELECT DISTINCT(p.product_id),p.*  FROM #__redshop_product p left outer join #__redshop_product_category_xref cx on cx.product_id = p.product_id  WHERE p.published=1 AND p.product_on_sale = 1 " . $where_featured . " " . $main_child . " AND cx.category_id IN ($category) ORDER BY rand() LIMIT 0,$count";
+		$sql = "SELECT DISTINCT(p.product_id),p.*  FROM #__redshop_product p left outer join #__redshop_product_category_xref cx on cx.product_id = p.product_id  WHERE p.published=1 AND p.product_on_sale = 1 " . $where_featured . " " . $main_child . " AND cx.category_id IN ($category) AND (p.discount_stratdate <= " . time() . " AND p.discount_enddate >= " . time() . ") ORDER BY rand() LIMIT 0,$count";
 
 		break;
 
