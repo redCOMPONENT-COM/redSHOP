@@ -304,7 +304,7 @@ class ProductViewProduct extends JView
 				$openGraphTag .= '<meta property="og:image:type" content="image/jpeg" />' . "\n";
 				$openGraphTag .= '<meta property="og:image:width" content="' . $width . '" />' . "\n";
 				$openGraphTag .= '<meta property="og:image:height" content="' . $height . '" />' . "\n";
-				$document->addCustomTag($openGraphTag);
+				$this->document->addCustomTag($openGraphTag);
 			}
 			elseif ($this->data->product_full_image && file_exists(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $this->data->product_full_image))
 			{
@@ -316,7 +316,7 @@ class ProductViewProduct extends JView
 				$openGraphTag .= '<meta name="og:image:type" property="og:image:type" content="image/jpeg" />' . "\n";
 				$openGraphTag .= '<meta name="og:image:width" property="og:image:width" content="' . $width . '" />' . "\n";
 				$openGraphTag .= '<meta name="og:image:height" property="og:image:height" content="' . $height . '" />' . "\n";
-				$document->addCustomTag($openGraphTag);
+				$this->document->addCustomTag($openGraphTag);
 			}
 
 			$pagekeywordstag = '';
