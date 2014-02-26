@@ -273,6 +273,20 @@ class Order_detailController extends JController
 			$row['subscription_id'] = $subscription_id;
 			$row['sel_wrapper_id']  = $row['wrapper_id'];
 			$row['category_id']     = 0;
+
+			if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "orderMergeImages/" . $row['attribute_image']))
+			{
+				$new_media = JPATH_ROOT . '/components/com_redshop/assets/images/mergeImages/' . $row['attribute_image'];
+				$old_media = JPATH_ROOT . '/components/com_redshop/assets/images/orderMergeImages/' . $row['attribute_image'];
+				copy($old_media, $new_media);
+			}
+
+			$row['attributeImage'] = $row['attribute_image'];
+
+			if (is_file(JPATH_COMPONENT_SITE . "/assets/images/product_attributes/" . $row['attribute_image']))
+			{
+				$row['hidden_attribute_cartimage'] = REDSHOP_FRONT_IMAGES_ABSPATH . "product_attributes/" . $row['attribute_image'];
+			}
 		}
 
 		$result = $this->_carthelper->addProductToCart($row);
