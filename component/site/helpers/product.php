@@ -9023,6 +9023,12 @@ class producthelper
 				$aHrefImageResponse = REDSHOP_FRONT_IMAGES_ABSPATH . $type . "/" . $imagename;
 			}
 
+			// Encode the file name
+			$tmpImageArray = explode('/', $productmainimg);
+			$tmpFileName = array_pop($tmpImageArray);
+			$tmpImageArray[] = urlencode($tmpFileName);
+			$productmainimg = implode('/', $tmpImageArray);
+
 			$mainImageResponse = "<img id='main_image" . $product_id . "' src='" . $productmainimg . "' alt='"
 				. $product->product_name . "' title='" . $product->product_name . "'>";
 
