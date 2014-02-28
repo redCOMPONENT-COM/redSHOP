@@ -1770,7 +1770,7 @@ class rsCarthelper
 					$download_id  = $downloads->download_id;
 					$download_max = $downloads->download_max;
 					$end_date     = $downloads->end_date;
-					$mailtoken    = "<a href='" . JUri::root() . "index.php?option=com_redshop&view=product&layout=downloadproduct&tid=" . $download_id . "'>" . $file_name . "</a>";
+					$mailtoken    = "<a href='" . JURI::root() . "index.php?option=com_redshop&view=product&layout=downloadproduct&tid=" . $download_id . "'>" . $file_name . "</a>";
 					$dpData .= "</tr>";
 					$dpData .= "<td>(" . $g . ") " . $product_name . ": " . $mailtoken . "</td>";
 					$dpData .= "</tr>";
@@ -1819,7 +1819,7 @@ class rsCarthelper
 					$download_date = date("d-m-Y H:i:s", $download_time);
 					$ip            = $downloads->ip;
 
-					$mailtoken = "<a href='" . JUri::root() . "index.php?option=com_redshop&view=product&layout=downloadproduct&tid="
+					$mailtoken = "<a href='" . JURI::root() . "index.php?option=com_redshop&view=product&layout=downloadproduct&tid="
 						. $download_id . "'>"
 						. $file_name . "</a>";
 
@@ -2714,7 +2714,7 @@ class rsCarthelper
 				$downloadfilename = substr(basename($downloadProduct->file_name), 11);
 				$downloadToken    = $downloadProduct->download_id;
 				$product_name     = $downloadProduct->product_name;
-				$mailtoken        = $product_name . ": <a href='" . JUri::root() . "index.php?option=com_redshop&view=product&layout=downloadproduct&tid=" . $downloadToken . "'>" . $downloadfilename . "</a>";
+				$mailtoken        = $product_name . ": <a href='" . JURI::root() . "index.php?option=com_redshop&view=product&layout=downloadproduct&tid=" . $downloadToken . "'>" . $downloadfilename . "</a>";
 
 				$dpData .= "</tr>";
 				$dpData .= "<td>(" . $g . ") " . $mailtoken . "</td>";
@@ -3983,7 +3983,7 @@ class rsCarthelper
 				{
 					if ($onchange)
 					{
-						$link = " onchange='window.location.href=\"" . JUri::root() . "index.php?option=com_redshop&view=account&task=newsletterSubscribe&tmpl=component&Itemid=" . $Itemid . "\"";
+						$link = " onchange='window.location.href=\"" . JURI::root() . "index.php?option=com_redshop&view=account&task=newsletterSubscribe&tmpl=component&Itemid=" . $Itemid . "\"";
 
 					}
 
