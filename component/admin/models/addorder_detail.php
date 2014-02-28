@@ -747,7 +747,7 @@ class addorder_detailModeladdorder_detail extends JModel
 					// RMA transation log
 					if (isset($item[$i]->reason))
 					{
-						$rmaTrans =& $this->getTable('rma_transaction');
+						$rmaTrans = $this->getTable('rma_transaction');
 						$rmaTrans->rma_transaction_id = 0;
 						$rmaTrans->rma_number = $postdata['rma_number'];
 						$rmaTrans->order_item_return_id = $rowitem->order_item_id;

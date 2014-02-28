@@ -98,7 +98,7 @@ class fields_detailModelfields_detail extends JModel
 
 	public function store($data)
 	{
-		$row =& $this->getTable();
+		$row = $this->getTable();
 		$field_cid = $data['cid'][0];
 
 		if (!$field_cid)
@@ -282,7 +282,7 @@ class fields_detailModelfields_detail extends JModel
 
 	public function saveorder($cid = array(), $order)
 	{
-		$row =& $this->getTable();
+		$row = $this->getTable();
 		$groupings = array();
 		$conditions = array();
 
