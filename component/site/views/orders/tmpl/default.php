@@ -89,7 +89,7 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 
 		$orderdetailurl = JRoute::_('index.php?option=com_redshop&view=order_detail&oid=' . $this->detail[$i]->order_id);
 
-		$reorderurl = JUri::root() . 'index.php?option=com_redshop&view=order_detail&order_id=' . $this->detail[$i]->order_id . '&task=reorder&tmpl=component';
+		$reorderurl = JURI::root() . 'index.php?option=com_redshop&view=order_detail&order_id=' . $this->detail[$i]->order_id . '&task=reorder&tmpl=component';
 
 		$order_number = "<div class='order_number'>" . $this->detail[$i]->order_number . "</div>";
 

@@ -111,7 +111,7 @@ class redManufacturer
 	 */
 function displayredManufacturer($limit = 0)
 {
-	$uri        = JUri::getInstance();
+	$uri        = JURI::getInstance();
 	$url        = $uri->root();
 	$database   = JFactory::getDbo();
 	$Itemid     = JRequest::getInt('Itemid', 0);
