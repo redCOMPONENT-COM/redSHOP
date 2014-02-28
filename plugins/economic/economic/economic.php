@@ -41,7 +41,7 @@ class plgEconomicEconomic extends JPlugin
 	public function __construct(&$subject, $config = array())
 	{
 		parent::__construct($subject, $config);
-		$isEnabled =& JPluginHelper::isEnabled('economic');
+		$isEnabled = JPluginHelper::isEnabled('economic');
 
 		if ($isEnabled)
 		{
@@ -63,7 +63,7 @@ class plgEconomicEconomic extends JPlugin
 	public function onEconomicConnection()
 	{
 		// Get plugin info
-		$plugin =& JPluginHelper::getPlugin('economic', 'economic');
+		$plugin = JPluginHelper::getPlugin('economic', 'economic');
 		$pluginParams = new JRegistry($plugin->params);
 		$this->ecoparams = $pluginParams;
 

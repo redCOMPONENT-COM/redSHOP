@@ -89,7 +89,7 @@ if (!class_exists('redFeatureproduct'))
 		function displayredFeature (&$rows)
 		{
 			global $Redconfiguration;
-			$uri           = JUri::getInstance();
+			$uri           = JURI::getInstance();
 			$url           = $uri->root();
 			$user          = JFactory::getUser();
 			$producthelper = new producthelper;

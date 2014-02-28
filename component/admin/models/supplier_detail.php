@@ -87,7 +87,7 @@ class supplier_detailModelsupplier_detail extends JModel
 
 	public function store($data)
 	{
-		$row =& $this->getTable('supplier_detail');
+		$row = $this->getTable('supplier_detail');
 
 		if (!$row->bind($data))
 		{
