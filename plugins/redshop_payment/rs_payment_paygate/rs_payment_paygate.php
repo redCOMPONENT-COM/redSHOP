@@ -79,7 +79,7 @@ class plgRedshop_paymentrs_payment_paygate extends JPlugin
 		$tid = $request['TRANSACTION_ID'];
 		$result_code = $request['RESULT_CODE'];
 		$auth_code = $request['AUTH_CODE'];
-		$uri =& JURI::getInstance();
+		$uri = JURI::getInstance();
 		$url = JURI::base();
 		$uid = $user->id;
 		$db = JFactory::getDbo();

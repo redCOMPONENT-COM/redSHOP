@@ -95,7 +95,7 @@ class mass_discount_detailModelmass_discount_detail extends JModel
 	{
 		$producthelper = new producthelper;
 
-		$row =& $this->getTable('mass_discount_detail');
+		$row = $this->getTable('mass_discount_detail');
 
 		if (!$row->bind($data))
 		{
@@ -112,12 +112,11 @@ class mass_discount_detailModelmass_discount_detail extends JModel
 		$newchange_product = false;
 
 		$this->setId($row->mass_discount_id);
-		$dataDiscount =& $this->getData();
+		$dataDiscount = $this->getData();
 
 		$discount_product = explode(',', $dataDiscount->discount_product);
 		$tmp = new stdClass;
 		$tmp = @array_merge($tmp, $discount_product);
-
 
 		$newdiscount_product = explode(',', $row->discount_product);
 		$tmp = new stdClass;

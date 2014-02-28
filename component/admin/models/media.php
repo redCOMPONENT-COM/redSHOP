@@ -349,7 +349,7 @@ class mediaModelmedia extends JModel
 
 	public function store($data)
 	{
-		$row =& $this->getTable('media_download');
+		$row = $this->getTable('media_download');
 
 		if (!$row->bind($data))
 		{
@@ -404,7 +404,7 @@ class mediaModelmedia extends JModel
 
 	public function saveorder($cid = array(), $order)
 	{
-		$row =& $this->getTable('media_detail');
+		$row = $this->getTable('media_detail');
 		$order = JRequest::getVar('order', array(0), 'post', 'array');
 		$conditions = array();
 

@@ -120,7 +120,7 @@ class manufacturerModelmanufacturer extends JModel
 		$app = JFactory::getApplication();
 
 		$db = JFactory::getDbo();
-		$row =& $this->getTable('manufacturer_detail');
+		$row = $this->getTable('manufacturer_detail');
 
 		$total = count($cid);
 		$order = JRequest::getVar('order', array(0), 'post', 'array');

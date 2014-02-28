@@ -103,7 +103,7 @@ class discount_detailModeldiscount_detail extends JModel
 
 	public function store($data)
 	{
-		$row =& $this->getTable('discount_detail');
+		$row = $this->getTable('discount_detail');
 
 		if (!$row->bind($data))
 		{
@@ -258,7 +258,7 @@ class discount_detailModeldiscount_detail extends JModel
 
 	public function storeDiscountProduct($data)
 	{
-		$dprow =& $this->getTable('discount_product');
+		$dprow = $this->getTable('discount_product');
 
 		if (!$dprow->bind($data))
 		{
