@@ -6952,6 +6952,9 @@ class rsCarthelper
 			// Product price of all sheets
 			$product_price_total = $total_sheet * $product_price;
 
+			$discount_calc_data = array();
+			$discount_calc_data[0] = new stdClass;
+
 			// Generating array
 			$discount_calc_data[0]->area_price         = $product_price;
 			$discount_calc_data[0]->discount_calc_unit = $product_unit;
@@ -7001,6 +7004,8 @@ class rsCarthelper
 				}
 			}
 
+			// Applying TAX
+			$chktag              = $this->_producthelper->getApplyattributeVatOrNot();
 
 			$conversation_unit = $discount_calc_data[0]->discount_calc_unit;
 
@@ -7014,8 +7019,6 @@ class rsCarthelper
 
 				$formatted_price_per_area = $this->_producthelper->getProductFormattedPrice($area_price);
 
-				// Applying TAX
-				$chktag              = $this->_producthelper->getApplyattributeVatOrNot();
 				$price_per_piece_tax = $this->_producthelper->getProductTax($product_id, $price_per_piece, 0, 1);
 
 				echo $display_final_area . "\n";
