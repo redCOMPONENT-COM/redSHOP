@@ -1222,6 +1222,12 @@ class rsCarthelper
 								$product_attribute_value_price = $temp_tpi[$tpi]['attribute_childs'][0]['property_price'];
 								$propertyOperand               = $temp_tpi[$tpi]['attribute_childs'][0]['property_oprand'];
 
+								if (count($temp_tpi[$tpi]['attribute_childs'][0]['property_childs']) > 0)
+								{
+									$product_attribute_value_price = $product_attribute_value_price + $temp_tpi[$tpi]['attribute_childs'][0]['property_childs'][0]['subproperty_price'];
+									$propertyOperand               = $temp_tpi[$tpi]['attribute_childs'][0]['property_childs'][0]['subproperty_oprand'];
+								}
+
 								// Show actual productive price
 								if ($product_attribute_value_price > 0)
 								{
@@ -1232,10 +1238,6 @@ class rsCarthelper
 									$propertyCalculatedPriceSum      = $productAttributeCalculatedPriceBase;
 								}
 
-								if (count($temp_tpi[$tpi]['attribute_childs'][0]['property_childs']) > 0)
-								{
-									$product_attribute_value_price = $product_attribute_value_price + $temp_tpi[$tpi]['attribute_childs'][0]['property_childs'][0]['subproperty_price'];
-								}
 							}
 
 							$productAttributeCalculatedPrice = $this->_producthelper->getProductFormattedPrice(
