@@ -16,10 +16,10 @@ JHTMLBehavior::modal();
 
 require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php';
 
-include_once (JPATH_COMPONENT_SITE . '/helpers/product.php');
-include_once (JPATH_COMPONENT_SITE . '/helpers/cart.php');
-include_once (JPATH_COMPONENT_SITE . '/helpers/user.php');
-include_once (JPATH_COMPONENT_SITE . '/helpers/helper.php');
+include_once JPATH_COMPONENT_SITE . '/helpers/product.php';
+include_once JPATH_COMPONENT_SITE . '/helpers/cart.php';
+include_once JPATH_COMPONENT_SITE . '/helpers/user.php';
+include_once JPATH_COMPONENT_SITE . '/helpers/helper.php';
 
 $carthelper = new rsCarthelper();
 $producthelper = new producthelper();

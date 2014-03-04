@@ -106,7 +106,7 @@ class manufacturer_detailModelmanufacturer_detail extends JModel
 			$data['excluding_category_list'] = @ implode(',', $data['excluding_category_list']);
 		}
 
-		$row =& $this->getTable();
+		$row = $this->getTable();
 
 		if ($data['manufacturer_id'] == 0)
 		{
@@ -232,7 +232,7 @@ class manufacturer_detailModelmanufacturer_detail extends JModel
 		$app = JFactory::getApplication();
 
 		$db = JFactory::getDbo();
-		$row =& $this->getTable();
+		$row = $this->getTable();
 
 		$total = count($cid);
 		$order = JRequest::getVar('order', array(0), 'post', 'array');

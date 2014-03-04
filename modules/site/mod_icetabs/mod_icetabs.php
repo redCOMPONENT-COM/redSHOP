@@ -58,11 +58,11 @@ switch ($navPos)
 // load custom theme
 if ($theme && $theme != -1)
 {
-	require(modIceTabsHelper::getLayoutByTheme($module, $group, $theme));
+	require modIceTabsHelper::getLayoutByTheme($module, $group, $theme);
 }
 else
 {
-	require(JModuleHelper::getLayoutPath($module->module));
+	require JModuleHelper::getLayoutPath($module->module);
 }
 modIceTabsHelper::loadMediaFiles($params, $module, $theme);
 ?>

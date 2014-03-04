@@ -67,5 +67,5 @@ if (MY_WISHLIST)
 		$db->setQuery($sql);
 		$rows = $db->loadObjectList();
 	}
-	require(JModuleHelper::getLayoutPath('mod_redshop_wishlist'));
+	require JModuleHelper::getLayoutPath('mod_redshop_wishlist');
 }

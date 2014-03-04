@@ -88,7 +88,7 @@ class media_detailModelmedia_detail extends JModel
 
 	public function store($data)
 	{
-		$row =& $this->getTable();
+		$row = $this->getTable();
 
 		if (!$row->bind($data))
 		{
@@ -258,7 +258,7 @@ class media_detailModelmedia_detail extends JModel
 
 	public function saveorder($cid = array(), $order)
 	{
-		$row =& $this->getTable();
+		$row = $this->getTable();
 		$order = JRequest::getVar('order', array(0), 'post', 'array');
 		$conditions = array();
 
@@ -309,7 +309,7 @@ class media_detailModelmedia_detail extends JModel
 
 	public function orderup()
 	{
-		$row =& $this->getTable();
+		$row = $this->getTable();
 		$row->load($this->_id);
 		$row->move(-1, 'section_id = ' . (int) $row->section_id . ' AND media_section = "' . $row->media_section . '"');
 		$row->store();
@@ -319,7 +319,7 @@ class media_detailModelmedia_detail extends JModel
 
 	public function orderdown()
 	{
-		$row =& $this->getTable();
+		$row = $this->getTable();
 		$row->load($this->_id);
 		$row->move(1, 'section_id = ' . (int) $row->section_id . ' AND media_section = "' . $row->media_section . '"');
 		$row->store();

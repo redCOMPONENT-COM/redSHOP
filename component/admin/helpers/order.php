@@ -1891,7 +1891,7 @@ class order_functions
 				$downloadfilename = "";
 				$downloadfilename = substr(basename($row->file_name), 11);
 
-				$mailtoken = "<a href='" . JUri::root() . "index.php?option=com_redshop&view=product&layout=downloadproduct&tid="
+				$mailtoken = "<a href='" . JURI::root() . "index.php?option=com_redshop&view=product&layout=downloadproduct&tid="
 					. $row->download_id . "'>" . $downloadfilename . "</a>";
 
 				$datamessage = str_replace("{product_serial_number}", $row->product_serial_number, $datamessage);
@@ -2057,7 +2057,7 @@ class order_functions
 
 			if (function_exists("curl_init"))
 			{
-				$url = JUri::root() . 'administrator/components/com_redshop/helpers/barcode/barcode.php?code='
+				$url = JURI::root() . 'administrator/components/com_redshop/helpers/barcode/barcode.php?code='
 					. $rand_barcode . '&encoding=EAN&scale=2&mode=png';
 
 				$ch = curl_init();

@@ -17,7 +17,7 @@ jimport('joomla.plugin.plugin');
  * @package        Joomla
  * @subpackage     System
  */
-include_once (JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/shipping.php');
+include_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/shipping.php';
 class  plgredshop_shippingdefault_shipping_GLS extends JPlugin
 {
 	var $payment_code = "default_shipping_GLS";

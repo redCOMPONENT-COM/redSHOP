@@ -373,7 +373,7 @@ class plgredshop_shippingups_canada extends JPlugin
 
 		$itemparams = new JRegistry($shipping->params);
 		$shippingcfg = JPATH_ROOT . '/plugins/' . $shipping->folder . '/' . $shipping->element . '/' . $shipping->element . '.cfg.php';
-		include_once ($shippingcfg);
+		include_once $shippingcfg;
 
 		$shippingrate = array();
 		$rate = 0;
@@ -761,7 +761,7 @@ class plgredshop_shippingups_canada extends JPlugin
 		}
 
 		/* require_once  JPATH_SITE."/includes/domit/xml_domit_lite_include.php" ;
-			$xmlDoc =& new DOMIT_Lite_Document;
+			$xmlDoc = new DOMIT_Lite_Document;
 			 if( !$xmlResult)
 			 {
 				$error = true;
@@ -795,7 +795,7 @@ class plgredshop_shippingups_canada extends JPlugin
 				echo "Cart Contents: ".$order_weight. "<br><br>\n";
 			}
 			// retrieve the list of all "RatedShipment" Elements
-			$rate_list =& $xmlDoc->getElementsByTagName( "RatedShipment" );
+			$rate_list = $xmlDoc->getElementsByTagName( "RatedShipment" );
 			$allservicecodes = array(
 						"UPS_Canada_Express",
 						"UPS_Canada_Expedited",
@@ -822,7 +822,7 @@ class plgredshop_shippingups_canada extends JPlugin
 			// Loop through the rate List
 			for ($i = 0; $i < $rate_list->getLength(); $i++)
 			{
-				$currNode =& $rate_list->item($i);
+				$currNode = $rate_list->item($i);
 
 				if ( in_array($currNode->childNodes[0]->getText(),$myservicecodes) )
 				{
