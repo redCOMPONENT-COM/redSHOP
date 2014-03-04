@@ -4833,11 +4833,8 @@ class producthelper
 					}
 
 					$property_scrollerdiv = "<table cellpadding='5' cellspacing='5'><tr>";
-					$property_scrollerdiv .= "<td><a id=\"FirstButton\" href=\"javascript:isFlowers" . $commonid
-						. ".scrollReverse();\" onmouseover=\"isFlowers" . $commonid
-						. ".smoothScrollReverse();\" onmouseout=\"isFlowers" . $commonid
-						. ".stopSmoothScroll();\"><img src=\"" . REDSHOP_FRONT_IMAGES_ABSPATH
-						. "leftarrow.jpg\" style=\"margin-top: 12px;margin-right: 6px;\" style=\"margin-top: 3px;\" border=\"0\" /></a></td>";
+					$property_scrollerdiv .= "<td><a class='leftButton' id=\"FirstButton\" href=\"javascript:isFlowers" . $commonid
+						. ".scrollReverse();\"></a></td>";
 					$property_scrollerdiv .= "<td><div id=\"isFlowersFrame" . $commonid
 						. "\" name=\"isFlowersFrame" . $commonid
 						. "\" style=\"margin: 0px; padding: 0px;position: relative; overflow: hidden;\"><div id=\"isFlowersImageRow"
@@ -5024,10 +5021,8 @@ class producthelper
 					isFlowers" . $commonid . ".renderScroller();
         		    </script>";
 					$property_scrollerdiv .= "</div></div></td>";
-					$property_scrollerdiv .= "<td><a id=\"FirstButton\" href=\"javascript:isFlowers" . $commonid
-						. ".scrollForward();\" onmouseover=\"isFlowers" . $commonid . ".smoothScrollForward();\" onmouseout=\"isFlowers"
-						. $commonid . ".stopSmoothScroll();\"><img src=\"" . REDSHOP_FRONT_IMAGES_ABSPATH
-						. "rightarrow.jpg\" style=\"margin-top: 12px;margin-right: 6px;\" style=\"margin-top: 3px;\" border=\"0\" /></a></td>";
+					$property_scrollerdiv .= "<td><a class='rightButton' id=\"FirstButton\" href=\"javascript:isFlowers" . $commonid
+						. ".scrollForward();\"></a></td>";
 					$property_scrollerdiv .= "</tr></table>";
 
 					if (strstr($attribute_table, "{property_image_without_scroller}"))
@@ -5305,11 +5300,8 @@ class producthelper
 				}
 
 				$subproperty_scrollerdiv = "<table cellpadding='0' cellspacing='0' border='0'><tr>";
-				$subproperty_scrollerdiv .= "<td><a id=\"FirstButton\" href=\"javascript:isFlowers" . $commonid
-					. ".scrollReverse();\" onmouseover=\"isFlowers"
-					. $commonid . ".smoothScrollReverse();\" onmouseout=\"isFlowers" . $commonid
-					. ".stopSmoothScroll();\"><img src=\"" . REDSHOP_FRONT_IMAGES_ABSPATH
-					. "leftarrow.jpg\" style=\"margin-top: 12px;margin-right: 6px;\" style=\"margin-top: 3px;\" border=\"0\" /></a></td>";
+				$subproperty_scrollerdiv .= "<td><a class='leftButton' id=\"FirstButton\" href=\"javascript:isFlowers" . $commonid
+					. ".scrollReverse();\" ></a></td>";
 				$subproperty_scrollerdiv .= "<td><div id=\"isFlowersFrame" . $commonid . "\" name=\"isFlowersFrame"
 					. $commonid
 					. "\" style=\"margin: 0px; padding: 0px;position: relative; overflow: hidden;\"><div id=\"isFlowersImageRow"
@@ -5454,11 +5446,8 @@ class producthelper
 				$subproperty_scrollerdiv .= "<div id=\"divsubimgscroll" . $commonid . "\" style=\"display:none\">"
 					. implode("#_#", $subprop_Arry) . "</div>";
 				$subproperty_scrollerdiv .= "</div></div></td>";
-				$subproperty_scrollerdiv .= "<td><a id=\"FirstButton\" href=\"javascript:isFlowers" . $commonid
-					. ".scrollForward();\" onmouseover=\"isFlowers" . $commonid
-					. ".smoothScrollForward();\" onmouseout=\"isFlowers" . $commonid
-					. ".stopSmoothScroll();\"><img src=\"" . REDSHOP_FRONT_IMAGES_ABSPATH
-					. "rightarrow.jpg\" style=\"margin-top: 12px;margin-right: 6px;\" style=\"margin-top: 3px;\" border=\"0\" /></a></td>";
+				$subproperty_scrollerdiv .= "<td><a class='rightButton' id=\"FirstButton\" href=\"javascript:isFlowers" . $commonid
+					. ".scrollForward();\" ></a></td>";
 				$subproperty_scrollerdiv .= "</tr></table>";
 
 				if (strstr($subatthtml, "{subproperty_image_without_scroller}"))
