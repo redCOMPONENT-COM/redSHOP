@@ -32,8 +32,8 @@ $app->initialise();
 
 require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php';
 require_once JPATH_COMPONENT . '/helpers/product.php';
-include_once (JPATH_COMPONENT . '/helpers/helper.php');
-include_once (JPATH_COMPONENT . '/helpers/cart.php');
+include_once JPATH_COMPONENT . '/helpers/helper.php';
+include_once JPATH_COMPONENT . '/helpers/cart.php';
 
 
 $db = JFactory::getDbo();
@@ -45,7 +45,7 @@ $option = JRequest::getVar('option');
 $post = JRequest::get('post');
 
 JPluginHelper::importPlugin('redshop_payment');
-$dispatcher =& JDispatcher::getInstance();
+$dispatcher = JDispatcher::getInstance();
 $results = $dispatcher->trigger('onPrePayment', array($post['payment_plugin'], $post));
 
 ?>

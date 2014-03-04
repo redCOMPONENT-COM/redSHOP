@@ -568,7 +568,7 @@ class Redtemplate
 	 */
 	public function GetlettersearchParameters()
 	{
-		$db = Jfactory::getDbo();
+		$db = JFactory::getDbo();
 		$sel = 'SELECT params from #__extensions where element = "mod_redshop_lettersearch" ';
 		$db->setQuery($sel);
 		$params = $db->loadResult();

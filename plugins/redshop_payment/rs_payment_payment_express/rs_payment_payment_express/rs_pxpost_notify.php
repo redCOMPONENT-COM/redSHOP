@@ -155,7 +155,7 @@ else
 }
 //$redhelper->changeorderstatus('TRANSACTION ID' , 'RESPONSE CODE' , 'ORDER ID' );
 $objOrder->changeorderstatus($values);
-$uri =& JURI::getInstance();
+$uri = JURI::getInstance();
 $url = JURI::base();
 $explode = explode("plugins", $url);
 

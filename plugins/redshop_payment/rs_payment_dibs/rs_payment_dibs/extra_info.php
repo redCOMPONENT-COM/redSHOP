@@ -7,13 +7,13 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-$uri =& JURI::getInstance();
+$uri = JURI::getInstance();
 $url = $uri->root();
 $user = JFactory::getUser();
 $db = JFactory::getDbo();
 
 require_once JPATH_BASE . '/administrator/components/com_redshop/helpers/order.php';
-$request =& JRequest::get('REQUEST');
+$request = JRequest::get('REQUEST');
 $task = $request['task'];
 $Itemid = $_REQUEST['Itemid'];
 $orderHelper = new order_functions;

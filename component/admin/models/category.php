@@ -177,7 +177,7 @@ class categoryModelcategory extends JModel
 
 	public function saveorder($cid = array(), $order)
 	{
-		$row =& $this->getTable('category_detail');
+		$row = $this->getTable('category_detail');
 		$groupings = array();
 
 		// Update ordering values

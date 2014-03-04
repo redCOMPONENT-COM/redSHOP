@@ -461,7 +461,7 @@ class searchViewsearch extends JView
 
 					if (count($related_product) > 0)
 					{
-						$linktortln = JUri::root() . "index.php?option=com_redshop&view=product&pid=" . $this->search[$i]->product_id . "&tmpl=component&template=" . $rtln . "&for=rtln";
+						$linktortln = JURI::root() . "index.php?option=com_redshop&view=product&pid=" . $this->search[$i]->product_id . "&tmpl=component&template=" . $rtln . "&for=rtln";
 						$rtlna      = '<a class="modal" href="' . $linktortln . '" rel="{handler:\'iframe\',size:{x:' . $rtlnfwidth . ',y:' . $rtlnfheight . '}}" >' . JText::_('COM_REDSHOP_RELATED_PRODUCT_LIST_IN_LIGHTBOX') . '</a>';
 					}
 					else
@@ -530,7 +530,7 @@ class searchViewsearch extends JView
 
 						if (is_file(REDSHOP_FRONT_DOCUMENT_RELPATH . "product/" . $media_documents[$m]->media_name))
 						{
-							$downlink = JUri::root() . 'index.php?tmpl=component&option=com_redshop&view=product&pid=' . $this->search[$i]->product_id . '&task=downloadDocument&fname=' . $media_documents[$m]->media_name . '&Itemid=' . $Itemid;
+							$downlink = JURI::root() . 'index.php?tmpl=component&option=com_redshop&view=product&pid=' . $this->search[$i]->product_id . '&task=downloadDocument&fname=' . $media_documents[$m]->media_name . '&Itemid=' . $Itemid;
 							$more_doc .= "<div><a href='" . $downlink . "' title='" . $alttext . "'>";
 							$more_doc .= $alttext;
 							$more_doc .= "</a></div>";

@@ -12,7 +12,7 @@ $option = JRequest::getVar('option');
 $editor = JFactory::getEditor();
 JHTML::_('behavior.tooltip');
 $user = JFactory::getUser();
-$url = JUri::base();
+$url = JURI::base();
 
 $product_data = JRequest::getVar('product');
 $model = $this->getModel('rating_detail');

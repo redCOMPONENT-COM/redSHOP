@@ -138,9 +138,9 @@ if ($preloader)
 {
 	?>
 	<script type="text/javascript"
-	        src="<?php echo JUri::root(); ?>components/com_redshop/assets/js/mootools-core.js"></script>
+	        src="<?php echo JURI::root(); ?>components/com_redshop/assets/js/mootools-core.js"></script>
 	<script type="text/javascript"
-	        src="<?php echo JUri::root(); ?>components/com_redshop/assets/js/muxloader.js"></script>
+	        src="<?php echo JURI::root(); ?>components/com_redshop/assets/js/muxloader.js"></script>
 	<script type="text/javascript">
 		window.addEvent('domready', function () {
 			document.getElement('.mux-loader-bar').grab($(new MUX.Loader.Bar()));
