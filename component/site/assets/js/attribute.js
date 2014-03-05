@@ -320,6 +320,12 @@ function changePropertyDropdown(product_id, accessory_id, relatedprd_id, attribu
             document.getElementById('property_responce' + commonid).style.display = 'none';
         }
 
+        if(request.readyState != 4 )
+        {
+            if(document.getElementById('rs_image_loader'))
+                document.getElementById('rs_image_loader').style.display = 'block';
+        }
+
         if (request.readyState == 4)
         {
             var property_id = 0;
@@ -1615,6 +1621,10 @@ function displayAdditionalImage(product_id, accessory_id, relatedprd_id, selecte
             var imagehandle = {isenable: true, mainImage: false};
             preloadSlimbox(imagehandle);
 
+            if(document.getElementById('rs_image_loader'))
+            {
+                setTimeout ( document.getElementById('rs_image_loader').style.display = 'none', 800000 );
+            }
         }
     };
     request.open("GET", url, true);
