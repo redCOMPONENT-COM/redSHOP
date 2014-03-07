@@ -252,7 +252,7 @@ echo JText::_('COM_REDSHOP_NO_DATA_DELETE' );
 	function getHTTPObject() {
 		var xhr = false;
 		if (window.XMLHttpRequest) {
-			xhr = new XMLHttpRequest;
+			xhr = new XMLHttpRequest();
 		} else if (window.ActiveXObject) {
 			try {
 				xhr = new ActiveXObject("Msxml2.XMLHTTP");
