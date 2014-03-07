@@ -8,7 +8,7 @@
  */
 
 require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php';
-$order_function = new order_functions();
+$order_function = new order_functions;
 
 $option = JRequest::getVar('option');
 $filter = JRequest::getVar('filter');

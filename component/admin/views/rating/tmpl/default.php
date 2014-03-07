@@ -12,7 +12,7 @@ $option = JRequest::getVar('option');
 $model = $this->getModel('rating');
 $config = new Redconfiguration;
 $url = JURI::base();
-$order_functions = new order_functions();
+$order_functions = new order_functions;
 $comment = JRequest::getVar('comment_filter');
 ?>
 <script language="javascript" type="text/javascript">

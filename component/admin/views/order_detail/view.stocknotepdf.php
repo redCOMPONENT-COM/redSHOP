@@ -22,7 +22,7 @@ class order_detailVIEWorder_detail extends JView
 
 		$config = new Redconfiguration;
 		$redTemplate = new Redtemplate;
-		$order_functions = new order_functions();
+		$order_functions = new order_functions;
 		$producthelper = new producthelper;
 		$model = $this->getModel();
 		$redTemplate = new Redtemplate;
