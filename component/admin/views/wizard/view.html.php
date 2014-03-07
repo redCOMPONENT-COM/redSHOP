@@ -250,7 +250,7 @@ class wizardViewwizard extends JView
 			i = 0;
 			for (x in source) {
 				if (source[x][0] == key) {
-					opt = new Option;
+					opt = new Option();
 					opt.value = source[x][1];
 					opt.text = source[x][2];
 
