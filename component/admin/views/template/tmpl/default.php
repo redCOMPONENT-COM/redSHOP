@@ -94,7 +94,7 @@ $redtemplate = new Redtemplate;
 				$row        = $this->templates[$i];
 				$row->id    = $row->template_id;
 				$canCheckin = $this->user->authorise('core.manage',     'com_checkin') || $row->checked_out == $this->user->get('id') || $row->checked_out == 0;
-				$link       = JRoute::_('index.php?option=' . $option . '&view=template_detail&task=edit&cid[]=' . $row->template_id);
+				$link       = JRoute::_('index.php?option=com_redshop&view=template_detail&task=edit&cid[]=' . $row->template_id);
 				$published  = JHtml::_('jgrid.published', $row->published, $i, '', 1);
 
 				?>
