@@ -155,7 +155,7 @@ require_once JPATH_COMPONENT . '/helpers/extra_field.php';
 				</tr>
 				<tr>
 					<?php
-					$field = new extra_field();
+					$field = new extra_field;
 					if ($shipping->is_company == 1)
 					{
 						echo $extrafields = $field->list_all_field(15, $shipping->users_info_id);

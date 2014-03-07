@@ -16,7 +16,7 @@ $uri = JURI::getInstance();
 $url = $uri->root();
 jimport('joomla.html.pane');
 require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/extra_field.php';
-$extra_field = new extra_field();
+$extra_field = new extra_field;
 
 ?>
 
