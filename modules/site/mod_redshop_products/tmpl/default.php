@@ -151,7 +151,7 @@ for ($i = 0; $i < count($rows); $i++)
 		}
 		else
 		{
-			$product_price          = $productArr['product_price_novat'];
+			$product_price          = $productArr['product_old_price_excl_vat'];
 			$product_price_discount = $productArr['productPrice'];
 		}
 
