@@ -115,7 +115,7 @@ Array.prototype.unique = function () {
 }
 
 Array.prototype.getUnique = function () {
-	var o = new Object;
+	var o = new Object();
 	var i, e;
 	for (i = 0; e = this[i]; i++) {
 		o[e] = 1
