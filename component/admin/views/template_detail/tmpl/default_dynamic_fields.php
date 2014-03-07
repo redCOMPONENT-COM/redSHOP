@@ -11,7 +11,7 @@ JHTML::_('behavior.tooltip');
 $model = $this->getModel('template_detail');
 require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/template.php';
 require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/extra_field.php';
-$redtemplate = new Redtemplate();
+$redtemplate = new Redtemplate;
 $extra_field = new extra_field();
 $default_template = JText::_('COM_REDSHOP_DEFAULT_TEMPLATE_DETAIL');
 $newbillingtag = '{billing_address_start}

@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
 		if (window.XMLHttpRequest)
 		{
 			// code for IE7+, Firefox, Chrome, Opera, Safari
-			return new XMLHttpRequest();
+			return new XMLHttpRequest;
 		}
 
 		if (window.ActiveXObject)

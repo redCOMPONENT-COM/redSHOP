@@ -10,7 +10,7 @@ defined('_JEXEC') or die;
 require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
 JHTMLBehavior::modal();
 $app = JFactory::getApplication();
-$productobj = new producthelper();
+$productobj = new producthelper;
 $option = JRequest::getVar('option', '', 'request', 'string');
 
 $model = $this->getModel('product');

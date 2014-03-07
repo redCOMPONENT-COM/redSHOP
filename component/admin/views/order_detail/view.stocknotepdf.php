@@ -20,15 +20,15 @@ class order_detailVIEWorder_detail extends JView
 	function display($tpl = null)
 	{
 
-		$config = new Redconfiguration();
-		$redTemplate = new Redtemplate();
+		$config = new Redconfiguration;
+		$redTemplate = new Redtemplate;
 		$order_functions = new order_functions();
-		$producthelper = new producthelper();
+		$producthelper = new producthelper;
 		$model = $this->getModel();
-		$redTemplate = new Redtemplate();
+		$redTemplate = new Redtemplate;
 		$detail = $this->get('data');
-		$carthelper = new rsCarthelper();
-		$shippinghelper = new shipping();
+		$carthelper = new rsCarthelper;
+		$shippinghelper = new shipping;
 		$products = $order_functions->getOrderItemDetail($detail->order_id);
 		$template = $model->getStockNoteTemplate();
 		if (count($template) > 0 && $template->template_desc != "")

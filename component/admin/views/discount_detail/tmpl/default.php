@@ -9,7 +9,7 @@
 defined('_JEXEC') or die;
 
 JHTML::_('behavior.tooltip');
-$producthelper = new producthelper();
+$producthelper = new producthelper;
 $now = JFactory::getDate();
 
 ?>

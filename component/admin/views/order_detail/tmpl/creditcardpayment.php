@@ -21,11 +21,11 @@ include_once JPATH_COMPONENT_SITE . '/helpers/cart.php';
 include_once JPATH_COMPONENT_SITE . '/helpers/user.php';
 include_once JPATH_COMPONENT_SITE . '/helpers/helper.php';
 
-$carthelper = new rsCarthelper();
-$producthelper = new producthelper();
+$carthelper = new rsCarthelper;
+$producthelper = new producthelper;
 $order_functions = new order_functions();
-$redhelper = new redhelper();
-$userhelper = new rsUserhelper();
+$redhelper = new redhelper;
+$userhelper = new rsUserhelper;
 $user = JFactory::getUser();
 $session = JFactory::getSession();
 $user_id = $user->id;

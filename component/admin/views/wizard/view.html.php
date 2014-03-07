@@ -198,7 +198,7 @@ class wizardViewwizard extends JView
 		$script = "<script>";
 		$script .= "var originalOrder = '1';\n";
 		$script .= "var originalPos = '$selected_country_code';\n";
-		$script .= "var states = new Array();	// array in the format [key,value,text]\n";
+		$script .= "var states = new Array;	// array in the format [key,value,text]\n";
 		$i = 0;
 		$prev_country = '';
 
@@ -250,7 +250,7 @@ class wizardViewwizard extends JView
 			i = 0;
 			for (x in source) {
 				if (source[x][0] == key) {
-					opt = new Option();
+					opt = new Option;
 					opt.value = source[x][1];
 					opt.text = source[x][2];
 

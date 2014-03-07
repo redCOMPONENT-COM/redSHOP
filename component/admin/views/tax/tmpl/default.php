@@ -8,8 +8,8 @@
  */
 defined('_JEXEC') or die;
 require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
-$producthelper = new producthelper();
-$redconfig = new Redconfiguration();
+$producthelper = new producthelper;
+$redconfig = new Redconfiguration;
 
 
 $option = JRequest::getVar('option', '', 'request', 'string');
