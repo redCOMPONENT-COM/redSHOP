@@ -102,7 +102,7 @@ function getUniqueArray(a) {
 ;
 
 Array.prototype.unique = function () {
-	var r = new Array;
+	var r = new Array();
 	o:for (var i = 0, n = this.length; i < n; i++) {
 		for (var x = 0, y = r.length; x < y; x++) {
 			if (r[x] == this[i]) {
@@ -121,7 +121,7 @@ Array.prototype.getUnique = function () {
 		o[e] = 1
 	}
 	;
-	var a = new Array;
+	var a = new Array();
 	for (e in o) {
 		a.push(e)
 	}
@@ -141,7 +141,7 @@ submitbutton = function (pressbutton) {
 	if (document.getElementsByName("xmlfiletag[]")) {
 		var xmltag = document.getElementsByName("xmlfiletag[]");
 		var totallen = document.getElementsByName("xmlfiletag[]").length;
-		var idval = new Array;
+		var idval = new Array();
 		for (i = 0, j = 0; i < totallen; i++) {
 			if (document.getElementById(xmltag[i].value).value != "") {
 				idval[j] = document.getElementById(xmltag[i].value).value;
@@ -163,7 +163,7 @@ submitbutton = function (pressbutton) {
 		var xmltag = document.getElementsByName("xmlbillingtag[]");
 		var totallen = xmltag.length;
 		if (totallen > 0) {
-			var idval = new Array;
+			var idval = new Array();
 			for (i = 0, j = 0; i < totallen; i++) {
 				if (document.getElementById("bill_" + xmltag[i].value).value != "") {
 					idval[j] = document.getElementById("bill_" + xmltag[i].value).value;
@@ -186,7 +186,7 @@ submitbutton = function (pressbutton) {
 		var xmltag = document.getElementsByName("xmlshippingtag[]");
 		var totallen = xmltag.length;
 		if (totallen > 0) {
-			var idval = new Array;
+			var idval = new Array();
 			for (i = 0, j = 0; i < totallen; i++) {
 				if (document.getElementById("shipp_" + xmltag[i].value).value != "") {
 					idval[j] = document.getElementById("shipp_" + xmltag[i].value).value;
@@ -209,7 +209,7 @@ submitbutton = function (pressbutton) {
 		var xmltag = document.getElementsByName("xmlitemtag[]");
 		var totallen = xmltag.length;
 		if (totallen > 0) {
-			var idval = new Array;
+			var idval = new Array();
 			for (i = 0, j = 0; i < totallen; i++) {
 				if (document.getElementById("item_" + xmltag[i].value).value != "") {
 					idval[j] = document.getElementById("item_" + xmltag[i].value).value;
@@ -232,7 +232,7 @@ submitbutton = function (pressbutton) {
 		var xmltag = document.getElementsByName("xmlstocktag[]");
 		var totallen = xmltag.length;
 		if (totallen > 0) {
-			var idval = new Array;
+			var idval = new Array();
 			for (i = 0, j = 0; i < totallen; i++) {
 				if (document.getElementById("stock_" + xmltag[i].value).value != "") {
 					idval[j] = document.getElementById("stock_" + xmltag[i].value).value;
@@ -255,7 +255,7 @@ submitbutton = function (pressbutton) {
 		var xmltag = document.getElementsByName("xmlprdextrafieldtag[]");
 		var totallen = xmltag.length;
 		if (totallen > 0) {
-			var idval = new Array;
+			var idval = new Array();
 			for (i = 0, j = 0; i < totallen; i++) {
 				if (document.getElementById("prdext_" + xmltag[i].value).value != "") {
 					idval[j] = document.getElementById("prdext_" + xmltag[i].value).value;

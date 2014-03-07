@@ -78,7 +78,7 @@ function addNewproductRow(tblid) {
 	var newTD5 = document.createElement('td');
 	var newTD6 = document.createElement('td');
 	var newTD7 = document.createElement('td');
-	var item = new Array;
+	var item = new Array();
 
 	newTD.innerHTML = '<img onclick="deleteOfflineProductRow(' + rowCount + ');" src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH; ?>cross.jpg" title="<?php echo JText::_('COM_REDSHOP_DELETE'); ?>" alt="<?php echo JText::_('COM_REDSHOP_DELETE');?>">';
 
