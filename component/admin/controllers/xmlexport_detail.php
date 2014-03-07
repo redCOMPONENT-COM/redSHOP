@@ -126,7 +126,7 @@ function setChildElement()
 {
 	JHTMLBehavior::modal();
 
-	$xmlhelper = new xmlHelper();
+	$xmlhelper = new xmlHelper;
 	$post = JRequest::get('post');
 	$session = JFactory::getSession();
 	$childelement = $session->get('childelement');

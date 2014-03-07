@@ -12,7 +12,7 @@ $order_function = new order_functions();
 
 $option = JRequest::getVar('option');
 $filter = JRequest::getVar('filter');
-$config = new Redconfiguration();
+$config = new Redconfiguration;
 $model = $this->getModel('newslettersubscr');
 ?>
 <script language="javascript" type="text/javascript">

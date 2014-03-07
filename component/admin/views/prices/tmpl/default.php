@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
-$producthelper = new producthelper();
+$producthelper = new producthelper;
 $option = JRequest::getVar('option', '', 'request', 'string');?>
 <script language="javascript" type="text/javascript">
 	Joomla.submitbutton = function (pressbutton) {

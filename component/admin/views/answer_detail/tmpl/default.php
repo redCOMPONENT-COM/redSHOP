@@ -11,7 +11,7 @@ JHTML::_('behavior.tooltip');
 JHTML::_('behavior.modal');
 
 require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
-$producthelper = new producthelper();
+$producthelper = new producthelper;
 
 $option = JRequest::getVar('option');
 $model = $this->getModel('answer_detail');

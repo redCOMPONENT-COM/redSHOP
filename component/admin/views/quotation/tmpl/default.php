@@ -7,12 +7,12 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
-$producthelper = new producthelper();
+$producthelper = new producthelper;
 
 require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/quotation.php';
-$quotationHelper = new quotationHelper();
+$quotationHelper = new quotationHelper;
 
-$config = new Redconfiguration();
+$config = new Redconfiguration;
 
 $option = JRequest::getVar('option');
 $filter = JRequest::getVar('filter');

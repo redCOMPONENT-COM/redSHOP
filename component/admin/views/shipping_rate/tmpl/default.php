@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-$producthelper = new producthelper();
+$producthelper = new producthelper;
 $option = JRequest::getVar('option', '', 'request', 'string');
 $bool = true;
 $shippname = JText::_('COM_REDSHOP_SHIPPING_RATE_NAME');

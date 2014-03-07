@@ -26,7 +26,7 @@ $showbuttons = $this->input->getBool('showbuttons', false);
 	function add_dependency(type_id, tag_id, product_id) {
 		var request;
 		request = getHTTPObject();
-		var arry_sel = new Array();
+		var arry_sel = new Array;
 		if (document.getElementById('sel_dep' + type_id + '_' + tag_id)) {
 			var j = 0;
 			var selVal = document.getElementById('sel_dep' + type_id + '_' + tag_id);

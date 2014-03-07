@@ -19,8 +19,8 @@ class order_detailVIEWorder_detail extends JView
 	function display($tpl = null)
 	{
 
-		$config = new Redconfiguration();
-		$redTemplate = new Redtemplate();
+		$config = new Redconfiguration;
+		$redTemplate = new Redtemplate;
 
 		$order_functions = new order_functions();
 		$model = $this->getModel();

@@ -480,7 +480,7 @@ class configurationViewconfiguration extends JView
 		$script .= "<!--\n";
 		$script .= "var originalOrder = '1';\n";
 		$script .= "var originalPos = '$selected_country_code';\n";
-		$script .= "var states = new Array();	// array in the format [key,value,text]\n";
+		$script .= "var states = new Array;	// array in the format [key,value,text]\n";
 		$i            = 0;
 		$prev_country = '';
 

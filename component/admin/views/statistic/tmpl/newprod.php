@@ -8,7 +8,7 @@
  */
 defined('_JEXEC') or die ('restricted access');
 require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
-$producthelper = new producthelper();
+$producthelper = new producthelper;
 
 $user = JFactory::getUser();
 $option = JRequest::getVar('option');

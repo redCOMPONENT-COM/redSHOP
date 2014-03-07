@@ -11,7 +11,7 @@ require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/extra_field.php';
 $app = JFactory::getApplication();
 $extra_field = new extra_field();
 JHTMLBehavior::modal();
-$producthelper = new producthelper();
+$producthelper = new producthelper;
 $option = JRequest::getVar('option', '', 'request', 'string');
 
 $model = $this->getModel('product');

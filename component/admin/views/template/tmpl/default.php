@@ -8,7 +8,7 @@
  */
 $option = JRequest::getVar('option');
 $filter = JRequest::getVar('filter');
-$redtemplate = new Redtemplate();
+$redtemplate = new Redtemplate;
 ?>
 <script language="javascript" type="text/javascript">
 

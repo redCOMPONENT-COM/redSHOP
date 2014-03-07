@@ -8,7 +8,7 @@
  */
 JHTMLBehavior::modal();
 require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
-$producthelper = new producthelper();
+$producthelper = new producthelper;
 
 $showall = JRequest::getVar('showall', '0');
 $page = "";
