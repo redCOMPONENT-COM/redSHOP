@@ -34,7 +34,7 @@ class JFormFieldcurrency extends JFormField
 		require_once JPATH_SITE . '/components/com_redshop/helpers/currency.php';
 
 		// This might get a conflict with the dynamic translation - TODO: search for better solution
-		$CurrencyHelper = new CurrencyHelper();
+		$CurrencyHelper = new CurrencyHelper;
 
 		$CurrencyHelper->init();
 
