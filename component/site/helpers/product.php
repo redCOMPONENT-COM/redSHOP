@@ -7297,7 +7297,9 @@ class producthelper
 						$selectedProperty[$selP++] = $propArr[$k]['property_id'];
 					}
 
-					if ($subpropArr[$l]['subproperty_price'] > 0)
+					if ($subpropArr[$l]['subproperty_price'] > 0
+						&& $subpropArr[$l]['subproperty_oprand'] != '*'
+						&&  $subpropArr[$l]['subproperty_oprand'] != '/')
 					{
 						$att_vat = $this->getProducttax($product_id, $subpropArr[$l]['subproperty_price'], $user_id);
 					}
