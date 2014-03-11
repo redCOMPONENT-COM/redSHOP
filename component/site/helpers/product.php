@@ -4917,7 +4917,7 @@ class producthelper
 									. $product_id . "','" . $propertyid . "','" . $property[$i]->value . "');changePropertyDropdown('"
 									. $product_id . "','" . $accessory_id . "','" . $relproduct_id . "','"
 									. $attributes [$a]->value . "','" . $property[$i]->value . "','" . $mpw_thumb . "','"
-									. $mph_thumb . "');\",\"\",\"\",\"" . $propertyid . "_propimg_" . $property[$i]->value
+									. $mph_thumb . "');\",\"" . $property[$i]->text . "\",\"\",\"" . $propertyid . "_propimg_" . $property[$i]->value
 									. "\",\"" . $borderstyle . "\");";
 								$imgAdded++;
 							}
