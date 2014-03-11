@@ -353,9 +353,10 @@ function changePropertyDropdown(product_id, accessory_id, relatedprd_id, attribu
 
                             for (i = 0; i < imgs.length; i++)
                             {
-                                subinfo = imgs[i].split('`_`');
-                                var subproperty_id = subinfo[1];
-                                unique.addThumbnail(subinfo[0], "javascript:isFlowers" + scrollercommonid + ".scrollImageCenter('" + i + "');setSubpropImage('" + product_id + "','" + subpropertycommonid + "','" + subproperty_id + "');calculateTotalPrice('" + product_id + "','" + relatedprd_id + "');displayAdditionalImage('" + product_id + "','" + accessory_id + "','" + relatedprd_id + "','" + property_id + "','" + subproperty_id + "');", "", "", subpropertycommonid + "_subpropimg_" + subproperty_id, "");
+                                subinfo = imgs[i].match(/\d+/g);
+                                var subproperty_id = subinfo[0];
+                                var subname = document.getElementById(subpropertycommonid + "_name" + subproperty_id).value;
+                                unique.addThumbnail(imgs[i], "javascript:isFlowers" + scrollercommonid + ".scrollImageCenter('" + i + "');setSubpropImage('" + product_id + "','" + subpropertycommonid + "','" + subproperty_id + "');calculateTotalPrice('" + product_id + "','" + relatedprd_id + "');displayAdditionalImage('" + product_id + "','" + accessory_id + "','" + relatedprd_id + "','" + property_id + "','" + subproperty_id + "');", subname, "", subpropertycommonid + "_subpropimg_" + subproperty_id, "");
                             }
 
                             var rs_size = 50;
