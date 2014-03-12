@@ -85,7 +85,7 @@ class PlgRedshop_ProductShopperGroup_Tags extends JPlugin
 	 *
 	 * @return  integer  String position
 	 */
-	function getStringPosition($haystack, $needle)
+	protected function getStringPosition($haystack, $needle)
 	{
 		if (strlen($needle) > strlen($haystack))
 		{
