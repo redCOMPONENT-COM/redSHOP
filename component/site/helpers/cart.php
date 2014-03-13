@@ -1495,7 +1495,7 @@ class rsCarthelper
 											CART_THUMB_HEIGHT,
 											USE_IMAGE_SIZE_SWAPPING
 										);
-				$attrib_img = "<img src='" . $attribute_image_path . "'>";
+				$attrib_img = '<img src="' . $attribute_image_path . '">';
 			}
 			else
 			{
@@ -1510,7 +1510,7 @@ class rsCarthelper
 												CART_THUMB_HEIGHT,
 												USE_IMAGE_SIZE_SWAPPING
 											);
-					$attrib_img = "<img src='" . $attribute_image_path . "'>";
+					$attrib_img = '<img src="' . $attribute_image_path . '">';
 				}
 				else
 				{
@@ -1527,7 +1527,7 @@ class rsCarthelper
 														CART_THUMB_HEIGHT,
 														USE_IMAGE_SIZE_SWAPPING
 													);
-							$attrib_img = "<img src='" . $attribute_image_path . "'>";
+							$attrib_img = '<img src="' . $attribute_image_path . '">';
 						}
 						else
 						{
@@ -1542,7 +1542,7 @@ class rsCarthelper
 															CART_THUMB_HEIGHT,
 															USE_IMAGE_SIZE_SWAPPING
 														);
-								$attrib_img = "<img src='" . $attribute_image_path . "'>";
+								$attrib_img = '<img src="' . $attribute_image_path . '">';
 							}
 						}
 					}
@@ -1559,7 +1559,7 @@ class rsCarthelper
 														CART_THUMB_HEIGHT,
 														USE_IMAGE_SIZE_SWAPPING
 													);
-							$attrib_img = "<img src='" . $attribute_image_path . "'>";
+							$attrib_img = '<img src="' . $attribute_image_path . '">';
 						}
 					}
 				}
