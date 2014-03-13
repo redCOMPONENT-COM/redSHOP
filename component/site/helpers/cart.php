@@ -4725,7 +4725,7 @@ class rsCarthelper
 
 			if ($use_cookies_value == 1)
 			{
-				setcookie("redSHOPcart", serialize($cart), time() + (60 * 60 * 24 * 365));
+				setcookie("redSHOPcart", serialize(addslashes($cart)), time() + (60 * 60 * 24 * 365));
 			}
 		}
 
@@ -5725,9 +5725,9 @@ class rsCarthelper
 			$calc_output_array = $discountArr[1];
 
 			// Calculate price without VAT
-			$data['product_price'] += $discountArr[2] + $discountArr[3];
+			$data['product_price'] = $discountArr[2] + $discountArr[3];
 
-			$cart[$idx]['product_price_excl_vat'] += $discountArr[2];
+			$cart[$idx]['product_price_excl_vat'] = $discountArr[2];
 			$product_vat_price += $discountArr[3];
 			$cart[$idx]['discount_calc_price'] = $discountArr[2];
 		}
@@ -5923,6 +5923,13 @@ class rsCarthelper
 				$newdiff2 = array_diff($selectAtt[0], $prevSelectAtt[0]);
 
 				if (count($newdiff1) > 0 || count($newdiff2) > 0)
+				{
+					$sameProduct = false;
+				}
+
+				if (!empty($discountArr)
+					&& ($cart[$i]["discount_calc"]["calcWidth"] != $data["calcWidth"]
+					|| $cart[$i]["discount_calc"]["calcDepth"] != $data["calcDepth"]))
 				{
 					$sameProduct = false;
 				}
@@ -6956,6 +6963,9 @@ class rsCarthelper
 			// Product price of all sheets
 			$product_price_total = $total_sheet * $product_price;
 
+			$discount_calc_data = array();
+			$discount_calc_data[0] = new stdClass;
+
 			// Generating array
 			$discount_calc_data[0]->area_price         = $product_price;
 			$discount_calc_data[0]->discount_calc_unit = $product_unit;
@@ -7005,6 +7015,8 @@ class rsCarthelper
 				}
 			}
 
+			// Applying TAX
+			$chktag              = $this->_producthelper->getApplyattributeVatOrNot();
 
 			$conversation_unit = $discount_calc_data[0]->discount_calc_unit;
 
@@ -7018,8 +7030,6 @@ class rsCarthelper
 
 				$formatted_price_per_area = $this->_producthelper->getProductFormattedPrice($area_price);
 
-				// Applying TAX
-				$chktag              = $this->_producthelper->getApplyattributeVatOrNot();
 				$price_per_piece_tax = $this->_producthelper->getProductTax($product_id, $price_per_piece, 0, 1);
 
 				echo $display_final_area . "\n";
@@ -7071,41 +7081,58 @@ class rsCarthelper
 
 		$discount_cal['product_price']     = $price_per_piece;
 		$discount_cal['product_price_tax'] = $price_per_piece_tax;
-		$discount_cal['pdcextra_data']     = (count($pdcstring) > 0) ? implode("<br />", $pdcstring) : '';
-		$discount_cal['pdcextra_ids']      = (count($pdcids) > 0) ? implode(",", $pdcids) : '';
-		$discount_cal['total_piece']       = $total_sheet;
+		$discount_cal['pdcextra_data']     = "";
+
+		if (isset($pdcstring) && count($pdcstring) > 0)
+		{
+			$discount_cal['pdcextra_data'] = implode("<br />", $pdcstring);
+		}
+
+		$discount_cal['pdcextra_ids']      = '';
+
+		if (isset($pdcids) && (count($pdcids) > 0))
+		{
+			$discount_cal['pdcextra_ids'] = implode(",", $pdcids);
+		}
+
+		if (isset($total_sheet))
+		{
+			$discount_cal['total_piece']       = $total_sheet;
+		}
+
 		$discount_cal['price_per_piece']   = $area_price;
 
 		return $discount_cal;
 	}
 
 	/**
-	 * Function to get Discount calculation data
+	 * Funtion get Discount calculation data
 	 *
-	 * @param int $area
-	 * @param     $pid
-	 * @param int $areabetween
+	 * @param   number  $area         default value is 0
+	 * @param   number  $pid          default value can be null
+	 * @param   number  $areabetween  default value is 0
 	 *
-	 * @return mixed
+	 * @return object
 	 */
-	public function getDiscountCalcData($area = 0, $pid, $areabetween = 0)
+	public function getDiscountCalcData($area = 0, $pid = 0, $areabetween = 0)
 	{
-		$and = "";
+		$query = $this->_db->getQuery(true)
+			->select("*")
+			->from($this->_db->quoteName("#__redshop_product_discount_calc"))
+			->where($this->_db->quoteName("product_id") . "=" . (int) $pid)
+			->order("id ASC");
 
 		if ($areabetween)
 		{
-			$and .= "AND " . (int) $area . " BETWEEN `area_start` AND `area_end` ";
+			$query->where((floatval($area)) . " BETWEEN `area_start` AND `area_end` ");
 		}
 
 		if ($area)
 		{
-			$and .= " AND (" . (int) $area . " >=`area_start_converted` AND " . (int) $area . " <=`area_end_converted`) ";
+			$query->where($this->_db->quoteName("area_start_converted") . "<=" . floatval($area))
+				->where($this->_db->quoteName("area_end_converted") . ">=" . floatval($area));
 		}
 
-		$query = "SELECT * FROM `" . $this->_table_prefix . "product_discount_calc` "
-			. "WHERE `product_id`=" . (int) $pid . " "
-			. $and
-			. "ORDER BY id ASC ";
 		$this->_db->setQuery($query);
 		$list = $this->_db->loadObjectlist();
 
