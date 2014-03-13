@@ -441,6 +441,7 @@ class Redtemplate
 		$optiontype[] = JHTML::_('select.option', 'subscription_renewal_mail', JText::_('COM_REDSHOP_SUBSCRIPTION_RENEWAL_MAIL'));
 		$optiontype[] = JHTML::_('select.option', 'review_mail', JText::_('COM_REDSHOP_REVIEW_MAIL'));
 		$optiontype[] = JHTML::_('select.option', 'notify_stock_mail', JText::_('COM_REDSHOP_NOTIFY_STOCK'));
+		$optiontype[] = JHTML::_('select.option', 'invoicefile_mail', JText::_('COM_REDSHOP_INVOICE_FILE_MAIL'));
 
 		// Sort array alphabetically
 		sort($optiontype);
