@@ -95,15 +95,23 @@ if ($this->pagination->limitstart > 0)
 		}
 		<?php 	}	?>
 		var chks = document.getElementsByName('groups[]');
-		var checkCount = 0;
-		for (var i = 0; i < chks.length; i++) {
-			if (chks[i].checked) {
-				checkCount++;
+
+		if (chks.length)
+		{
+			var checkCount = 0;
+
+			for (var i = 0; i < chks.length; i++)
+			{
+				if (chks[i].checked)
+				{
+					checkCount++;
+				}
 			}
-		}
-		if (checkCount == 0) {
-			alert("<?php echo JText::_('COM_REDSHOP_SELECT_USER_GROUP', true );?>");
-			return false;
+
+			if (checkCount == 0) {
+				alert("<?php echo JText::_('COM_REDSHOP_SELECT_USER_GROUP', true );?>");
+				return false;
+			}
 		}
 
 
