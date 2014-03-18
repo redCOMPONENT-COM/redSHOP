@@ -36,23 +36,41 @@ class Order_detailModelOrder_detail extends JModel
 
 	public function checkauthorization($oid, $encr)
 	{
-		$query = "SELECT count(order_id) as count, user_info_id FROM  " . $this->_table_prefix . "orders WHERE order_id = "
-			. (int) $oid . " AND encr_key like " . $this->_db->quote($encr);
-		$this->_db->setQuery($query);
-		$order_detail = $this->_db->loadObject();
+		// Initialize variables.
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true);
 
-		if ($order_detail->count)
+		// Create the base select statement.
+		$query->select('count(order_id) as count, user_info_id')
+			->from($db->qn('#__redshop_orders'))
+			->where($db->qn('order_id') . ' = ' . (int) $oid)
+			->where($db->qn('encr_key') . ' LIKE ' . $db->q($encr));
+
+		// Set the query and load the result.
+		$db->setQuery($query);
+
+		try
 		{
-			$session = JFactory::getSession();
-			$auth['users_info_id'] = $order_detail->user_info_id;
+			$encKeyInfo = $db->loadObject();
+		}
+		catch (RuntimeException $e)
+		{
+			throw new RuntimeException($e->getMessage(), $e->getCode());
+		}
+
+		if ($encKeyInfo->count)
+		{
+			$session               = JFactory::getSession();
+			$auth['users_info_id'] = $encKeyInfo->user_info_id;
+
 			$session->set('auth', $auth);
 		}
 
-		return $order_detail->count;
+		return $encKeyInfo->count;
 	}
 
 	/**
-	 * Update analytics status
+	 * Update analytic status
 	 *
 	 * @return  boolean
 	 */
