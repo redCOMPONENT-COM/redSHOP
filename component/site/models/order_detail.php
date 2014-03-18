@@ -36,12 +36,19 @@ class Order_detailModelOrder_detail extends JModel
 
 	public function checkauthorization($oid, $encr)
 	{
-		$query = "SELECT count(order_id) FROM  " . $this->_table_prefix . "orders WHERE order_id = "
+		$query = "SELECT count(order_id) as count, user_info_id FROM  " . $this->_table_prefix . "orders WHERE order_id = "
 			. (int) $oid . " AND encr_key like " . $this->_db->quote($encr);
 		$this->_db->setQuery($query);
-		$order_detail = $this->_db->loadResult();
+		$order_detail = $this->_db->loadObject();
 
-		return $order_detail;
+		if ($order_detail->count)
+		{
+			$session = JFactory::getSession();
+			$auth['users_info_id'] = $order_detail->user_info_id;
+			$session->set('auth', $auth);
+		}
+
+		return $order_detail->count;
 	}
 
 	/**
