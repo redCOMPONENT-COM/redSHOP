@@ -8256,13 +8256,37 @@ class producthelper
 
 	public function getProductReviewList($product_id)
 	{
-		$query = "SELECT ui.firstname,ui.lastname,pr.* FROM " . $this->_table_prefix . "product_rating AS pr "
-			. "LEFT JOIN " . $this->_table_prefix . "users_info AS ui ON ui.user_id=pr.userid "
-			. "WHERE pr.product_id = " . (int) $product_id . " "
-			. "AND pr.published = 1 AND ui.address_type LIKE 'BT' "
-			. "ORDER BY pr.favoured DESC";
-		$this->_db->setQuery($query);
-		$reviews = $this->_db->loadObjectList();
+		// Initialize variables.
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true);
+
+		// Create the base select statement.
+		$query->select('pr.*')
+			->from($db->qn('#__redshop_product_rating', 'pr'))
+			->where($db->qn('pr.product_id') . ' = ' . (int) $product_id)
+			->where($db->qn('pr.published') . ' = 1')
+			->where($db->qn('pr.email') . ' != ""')
+			->order($db->qn('pr.favoured') . ' DESC');
+
+		$query->select('ui.firstname,ui.lastname')
+		      ->leftjoin(
+					$db->qn('#__redshop_users_info', 'ui')
+					. ' ON '
+					. $db->qn('ui.user_id') . '=' . $db->qn('pr.userid')
+					. ' AND ' . $db->qn('ui.address_type') . '="BT"'
+				);
+
+		// Set the query and load the result.
+		$db->setQuery($query);
+
+		try
+		{
+			$reviews = $db->loadObjectList();
+		}
+		catch (RuntimeException $e)
+		{
+			throw new RuntimeException($e->getMessage(), $e->getCode());
+		}
 
 		return $reviews;
 	}
