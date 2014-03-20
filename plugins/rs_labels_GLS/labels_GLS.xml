@@ -12,7 +12,7 @@
 	</files>
 	<fields name="params">
         <fieldset name="basic">
-			<field name="normal_parcel_weight_start" type="text" default="" label="Normal Parcel Start Weight" description="=Enter Normal Parcel Start Weight" />
+			<field name="normal_parcel_weight_start" type="text" default="" label="Normal Parcel Start Weight" description="Enter Normal Parcel Start Weight" />
 			<field name="normal_parcel_weight_end" type="text" default="" label="Normal Parcel End Weight" description="Enter Normal Parcel End Weight" />
 			<field name="small_parcel_weight_start" type="text" default="" label="Small Parcel Start Weight" description="Enter Small Parcel Start Weight" />
 			<field name="small_parcel_weight_end" type="text" default="" label="Smalll Parcel End Weight" description="Enter Small Parcel End Weight" />
