@@ -91,7 +91,7 @@ class plgContentredshop_product extends JPlugin
 			// Or JPATH_ADMINISTRATOR if the template language file is only
 			$lang->load('plg_content_redshop_product', JPATH_ADMINISTRATOR);
 
-			$plugin =& JPluginHelper::getPlugin('content', 'redshop_product');
+			$plugin = JPluginHelper::getPlugin('content', 'redshop_product');
 			$red_params = new JRegistry($plugin->params);
 
 			// Get show price yes/no option
