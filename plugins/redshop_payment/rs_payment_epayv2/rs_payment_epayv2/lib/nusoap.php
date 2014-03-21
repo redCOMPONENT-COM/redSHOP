@@ -6804,7 +6804,7 @@ class nusoap_parser extends nusoap_base {
 				// add placeholder to href array
 				$this->multirefs[$id][$pos] = 'placeholder';
 				// add set a reference to it as the result value
-				$this->message[$pos]['result'] =& $this->multirefs[$id][$pos];
+				$this->message[$pos]['result'] = $this->multirefs[$id][$pos];
             // build complexType values
 			} elseif($this->message[$pos]['children'] != ''){
 				// if result has already been generated (struct/array)
@@ -7536,7 +7536,7 @@ class nusoap_client extends nusoap_base  {
 			case preg_match('/^http/',$this->endpoint):
 				$this->debug('transporting via HTTP');
 				if($this->persistentConnection == true && is_object($this->persistentConnection)){
-					$http =& $this->persistentConnection;
+					$http = $this->persistentConnection;
 				} else {
 					$http = new soap_transport_http($this->endpoint, $this->curl_options, $this->use_curl);
 					if ($this->persistentConnection) {

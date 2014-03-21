@@ -108,7 +108,7 @@ class xmlexport_detailModelxmlexport_detail extends JModel
 		$xmlhelper = new xmlHelper;
 
 		$data['xmlexport_on_category'] = @ implode(',', $data['xmlexport_on_category']);
-		$row =& $this->getTable();
+		$row = $this->getTable();
 
 		if (!$row->bind($data))
 		{

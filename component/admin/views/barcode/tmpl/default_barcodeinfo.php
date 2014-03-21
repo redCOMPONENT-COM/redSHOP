@@ -8,7 +8,7 @@
  */
 JHTMLBehavior::modal();
 $option = JRequest::getVar('option');
-$url = JUri::base();
+$url = JURI::base();
 
 $order_id = JRequest::getVar('order_id');
 

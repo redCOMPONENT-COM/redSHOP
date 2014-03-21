@@ -7,7 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 $option = JRequest::getVar('option');
-$filter = JRequest::getVar('filter');
+$filter = $this->state->get("filter");
+
 $redtemplate = new Redtemplate();
 ?>
 <script language="javascript" type="text/javascript">

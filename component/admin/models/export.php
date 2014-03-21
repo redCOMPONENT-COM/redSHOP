@@ -304,7 +304,7 @@ class ExportModelexport extends JModel
 				// Added site path
 				if ($fields)
 				{
-					$sitepath = JUri::root();
+					$sitepath = JURI::root();
 					echo $sitepath . ",";
 				}
 
