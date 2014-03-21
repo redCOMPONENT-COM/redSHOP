@@ -2882,7 +2882,7 @@ class rsCarthelper
 		if ($paymentmethod->order_transfee > 0)
 		{
 			$orderTransFeeLabel = JText::_('COM_REDSHOP_ORDER_TRANSACTION_FEE_LABEL');
-			$orderTransFee      = $paymentmethod->order_transfee;
+			$orderTransFee      = $this->_producthelper->getProductFormattedPrice($paymentmethod->order_transfee);
 		}
 
 		$search [] = "{order_transfee_label}";
@@ -2890,6 +2890,11 @@ class rsCarthelper
 
 		$search [] = "{order_transfee}";
 		$replace[] = $orderTransFee;
+
+		$search [] = "{order_total_incl_transfee}";
+		$replace[] = $this->_producthelper->getProductFormattedPrice(
+			$paymentmethod->order_transfee + $row->order_total
+		);
 
 		if (JRequest::getVar('order_delivery'))
 		{
