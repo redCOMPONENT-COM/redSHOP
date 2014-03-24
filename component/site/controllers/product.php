@@ -960,4 +960,47 @@ class ProductController extends JController
 
 		exit;
 	}
+
+	/**
+	 * Add product to compare list
+	 *
+	 * @return none
+	 */
+	public function addToCompareList()
+	{
+		$pid = JRequest::getInt('pid');
+		$Itemid = JRequest::getInt('Itemid');
+
+		$session =JFactory::getSession();
+		$compare_product = $session->get('compare_product');
+
+		if ($compare_product['idx'] == '')
+		{
+			$compare_product['idx'] = 1;
+			$compare_product[] = array('product_id' => $pid);
+		}
+		else
+		{
+			$exist = false;
+
+			for ($i = 0; $i < $compare_product['idx']; $i++)
+			{
+				if ($compare_product[$i]['product_id'] == $pid)
+				{
+					$exist = true;
+					break;
+				}
+			}
+
+			if (!$exist)
+			{
+				$compare_product['idx'] ++;
+				$compare_product[] = array('product_id' => $pid);
+			}
+		}
+
+		$session->set('compare_product', $compare_product);
+
+		$this->setRedirect(JRoute::_('index.php?option=com_redshop&view=product&layout=compare&Itemid=' . $Itemid));
+	}
 }
