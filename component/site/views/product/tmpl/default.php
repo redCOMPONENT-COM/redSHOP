@@ -30,8 +30,6 @@ $template = $this->template;
 if (count($template) > 0 && $template->template_desc != "")
 {
 	$template_desc = $template->template_desc;
-	// $template_desc = str_replace("{compare_products_button}", "xxx", $template_desc);
-	//echo $template_desc;
 }
 else
 {
@@ -1910,9 +1908,6 @@ $template_desc = str_replace("{without_vat}", "", $template_desc);
 
 $template_desc = str_replace("{attribute_price_with_vat}", "", $template_desc);
 $template_desc = str_replace("{attribute_price_without_vat}", "", $template_desc);
-
-// echo $template_desc;
-// $template_desc = str_replace("{compare_products_button}", "xxx", $template_desc);
 
 $template_desc = $this->redTemplate->parseredSHOPplugin($template_desc);
 
