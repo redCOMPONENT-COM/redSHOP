@@ -306,6 +306,14 @@ class CartModelCart extends JModel
 			$dispatcher->trigger('onAfterCartUpdate', array(&$cart, $cartElement, $data));
 		}
 
+		$options = array(
+			'defaultgroup' => 'desktop',
+			'cachebase' => JPATH_SITE . '/cache'
+		);
+
+		$cache = JCache::getInstance('callback', $options);
+		$cache->clean();
+
 		$session->set('cart', $cart);
 	}
 
@@ -414,6 +422,14 @@ class CartModelCart extends JModel
 				$dispatcher->trigger('onAfterCartItemUpdate', array(&$cart, $i, $data));
 			}
 		}
+
+		$options = array(
+			'defaultgroup' => 'desktop',
+			'cachebase' => JPATH_SITE . '/cache'
+		);
+
+		$cache = JCache::getInstance('callback', $options);
+		$cache->clean();
 
 		$session->set('cart', $cart);
 	}
