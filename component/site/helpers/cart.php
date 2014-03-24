@@ -3410,6 +3410,7 @@ class rsCarthelper
 
 								if ($classname == 'default_shipping_GLS')
 								{
+									$rate++;
 									$glsLocation = $this->getGLSLocation($users_info_id, $classname);
 									$style       = ($checked != "checked") ? "style='display:none;'" : "style='display:block;'";
 
