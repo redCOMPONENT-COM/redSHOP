@@ -4262,7 +4262,7 @@ class producthelper
 						1
 					);
 
-					if (!strstr($data_add, "{without_vat}"))
+					if (!strstr($accessory_div, "{without_vat}"))
 					{
 						$accessorypricelist = $this->getAccessoryPrice($product_id,
 							$accessory[$a]->newaccessory_price,
