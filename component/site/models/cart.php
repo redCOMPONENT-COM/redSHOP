@@ -86,6 +86,14 @@ class CartModelCart extends JModel
 		$cart    = $session->get('cart');
 		$task    = JRequest::getVar('task');
 
+		$options = array(
+			'defaultgroup' => 'desktop',
+			'cachebase' => JPATH_SITE . '/cache'
+		);
+
+		$cache = JCache::getInstance('callback', $options);
+		$cache->clean();
+
 		if (!empty($cart))
 		{
 			if (!$cart)
