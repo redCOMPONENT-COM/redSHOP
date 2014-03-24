@@ -128,7 +128,7 @@ class fieldsModelfields extends JModel
 
 	public function saveorder($cid = array(), $order)
 	{
-		$row =& $this->getTable('fields_detail');
+		$row = $this->getTable('fields_detail');
 		$groupings = array();
 		$conditions = array();
 

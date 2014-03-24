@@ -11,7 +11,7 @@ require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php';
 $option = JRequest::getVar('option');
 $model = $this->getModel('rating');
 $config = new Redconfiguration();
-$url = JUri::base();
+$url = JURI::base();
 $order_functions = new order_functions();
 $comment = JRequest::getVar('comment_filter');
 ?>

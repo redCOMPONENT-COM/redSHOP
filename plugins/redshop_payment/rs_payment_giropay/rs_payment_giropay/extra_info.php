@@ -9,7 +9,7 @@
 
 require_once JPATH_SITE . '/components/com_redshop/helpers/currency.php';
 
-$uri =& JURI::getInstance();
+$uri = JURI::getInstance();
 $url = $uri->root();
 $user = JFactory::getUser();
 $sessionid = session_id();

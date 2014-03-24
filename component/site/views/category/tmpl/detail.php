@@ -510,7 +510,7 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 		// ToDo: Echo a message when no records is returned by selection of empty category or wrong manufacturer in menu item params.
 		$product = null;
 
-		if (!empty($this->product))
+		if ((!empty($this->product)) && (isset($this->product[$i])))
 		{
 			$product = $this->product[$i];
 		}
@@ -573,7 +573,7 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 
 				if (is_file(REDSHOP_FRONT_DOCUMENT_RELPATH . 'product/' . $media_documents[$m]->media_name))
 				{
-					$downlink = JUri::root() .
+					$downlink = JURI::root() .
 								'index.php?tmpl=component&option=' . $this->option .
 								'&view=product&pid=' . $this->data->product_id .
 								'&task=downloadDocument&fname=' . $media_documents[$m]->media_name .
@@ -767,7 +767,7 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 
 			if (count($related_product) > 0)
 			{
-				$linktortln = JUri::root() .
+				$linktortln = JURI::root() .
 								"index.php?option=com_redshop&view=product&pid=" . $product->product_id .
 								"&tmpl=component&template=" . $rtln . "&for=rtln";
 				$rtlna      = '<a class="redcolorproductimg" href="' . $linktortln . '"  >' . JText::_('COM_REDSHOP_RELATED_PRODUCT_LIST_IN_LIGHTBOX') . '</a>';

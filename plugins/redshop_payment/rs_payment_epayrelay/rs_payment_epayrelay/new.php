@@ -45,7 +45,7 @@ $option = JRequest::getVar('option');
 $post = JRequest::get('post');
 
 JPluginHelper::importPlugin('redshop_payment');
-$dispatcher =& JDispatcher::getInstance();
+$dispatcher = JDispatcher::getInstance();
 $results = $dispatcher->trigger('onPrePayment', array($post['payment_plugin'], $post));
 
 ?>

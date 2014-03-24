@@ -94,7 +94,7 @@ class CategoryViewCategory extends JView
 		$maincat = $model->_loadCategory();
 
 		$allCategoryTemplate  = $model->getCategoryTemplate();
-		$order_data           = $objhelper->getOrderByList();
+		$orderData           = $objhelper->getOrderByList();
 		$manufacturers        = $model->getManufacturer();
 		$loadCategorytemplate = $model->loadCategoryTemplate();
 		$detail               = $model->getdata();
@@ -365,9 +365,8 @@ class CategoryViewCategory extends JView
 			$selected_template = DEFAULT_CATEGORYLIST_TEMPLATE;
 		}
 
-		$category_template_id = $this->app->getUserStateFromRequest($context . 'category_template', 'category_template', $selected_template);
-		$order_by_select      = $this->input->getString('order_by', '');
-		$manufacturer_id      = $this->input->getInt('manufacturer_id', 0);
+		$categoryTemplateId = $this->app->getUserStateFromRequest($context . 'category_template', 'category_template', $selected_template);
+		$manufacturerId      = $this->input->getInt('manufacturer_id', 0);
 
 		$lists['category_template'] = "";
 		$lists['manufacturer']      = "";
@@ -388,7 +387,7 @@ class CategoryViewCategory extends JView
 												'class="inputbox" onchange="javascript:setSliderMinMaxForManufactur();" ' . $disabled . ' ',
 												'manufacturer_id',
 												'manufacturer_name',
-												$manufacturer_id
+												$manufacturerId
 											);
 		}
 
@@ -401,23 +400,26 @@ class CategoryViewCategory extends JView
 													'class="inputbox" size="1" onchange="javascript:setSliderMinMaxForTemplate();" ' . $disabled . ' ',
 													'template_id',
 													'template_name',
-													$category_template_id
+													$categoryTemplateId
 												);
 		}
 
-		if ($order_by_select == '')
+		// Save order_by on session
+
+		$orderBySelect = JFactory::getApplication()->getUserState("order_by");
+		if(empty($orderBySelect))
 		{
-			$order_by_select = $params->get('order_by', DEFAULT_PRODUCT_ORDERING_METHOD);
+			$orderBySelect      = $this->input->getString('order_by', '');
 		}
 
 		$lists['order_by'] = JHtml::_(
 										'select.genericlist',
-										$order_data,
+										$orderData,
 										'order_by',
 										'class="inputbox" size="1" onChange="javascript:setSliderMinMax();" ' . $disabled . ' ',
 										'value',
 										'text',
-										$order_by_select
+										$orderBySelect
 									);
 
 		// THIS FILE MUST LOAD AFTER MODEL CONSTUCTOR LOAD
@@ -462,7 +464,7 @@ class CategoryViewCategory extends JView
 				$loadCategorytemplate[0]->template_desc = str_replace("{order_by_lbl}", "", $loadCategorytemplate[0]->template_desc);
 				$loadCategorytemplate[0]->template_desc = str_replace("{order_by}", "", $loadCategorytemplate[0]->template_desc);
 
-				if (!$manufacturer_id)
+				if (!$manufacturerId)
 				{
 					$loadCategorytemplate[0]->template_desc = str_replace("{filter_by_lbl}", "", $loadCategorytemplate[0]->template_desc);
 					$loadCategorytemplate[0]->template_desc = str_replace("{filter_by}", "", $loadCategorytemplate[0]->template_desc);
@@ -476,9 +478,9 @@ class CategoryViewCategory extends JView
 		$this->pageheadingtag = $pageheadingtag;
 		$this->params = $params;
 		$this->maincat = $maincat;
-		$this->category_template_id = $category_template_id;
-		$this->order_by_select = $order_by_select;
-		$this->manufacturer_id = $manufacturer_id;
+		$this->category_template_id = $categoryTemplateId;
+		$this->order_by_select = $orderBySelect;
+		$this->manufacturer_id = $manufacturerId;
 		$this->loadCategorytemplate = $loadCategorytemplate;
 
 		parent::display($tpl);
