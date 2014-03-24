@@ -959,6 +959,8 @@ class order_detailModelorder_detail extends JModel
 		}
 
 		$orderdata->order_total = $order_total;
+		$orderdata->order_tax = $orderdata->order_tax + $orderdata->order_discount_vat - $Discountvat;
+		$orderdata->order_discount_vat = $Discountvat;
 		$orderdata->order_discount = $update_discount;
 		$orderdata->mdate = time();
 
