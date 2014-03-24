@@ -82,10 +82,6 @@ class CartModelCart extends JModel
 
 		$user = JFactory::getUser();
 
-		$session = JFactory::getSession();
-		$cart    = $session->get('cart');
-		$task    = JRequest::getVar('task');
-
 		$options = array(
 			'defaultgroup' => 'desktop',
 			'cachebase' => JPATH_SITE . '/cache'
@@ -93,6 +89,10 @@ class CartModelCart extends JModel
 
 		$cache = JCache::getInstance('callback', $options);
 		$cache->clean();
+
+		$session = JFactory::getSession();
+		$cart    = $session->get('cart');
+		$task    = JRequest::getVar('task');
 
 		if (!empty($cart))
 		{
@@ -314,14 +314,6 @@ class CartModelCart extends JModel
 			$dispatcher->trigger('onAfterCartUpdate', array(&$cart, $cartElement, $data));
 		}
 
-		$options = array(
-			'defaultgroup' => 'desktop',
-			'cachebase' => JPATH_SITE . '/cache'
-		);
-
-		$cache = JCache::getInstance('callback', $options);
-		$cache->clean();
-
 		$session->set('cart', $cart);
 	}
 
@@ -430,14 +422,6 @@ class CartModelCart extends JModel
 				$dispatcher->trigger('onAfterCartItemUpdate', array(&$cart, $i, $data));
 			}
 		}
-
-		$options = array(
-			'defaultgroup' => 'desktop',
-			'cachebase' => JPATH_SITE . '/cache'
-		);
-
-		$cache = JCache::getInstance('callback', $options);
-		$cache->clean();
 
 		$session->set('cart', $cart);
 	}
