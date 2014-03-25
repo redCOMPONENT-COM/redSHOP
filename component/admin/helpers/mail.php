@@ -906,6 +906,29 @@ class redshopMail
 			$search[]  = "{shipping}";
 			$replace[] = $producthelper->getProductFormattedPrice($OrdersDetail[0]->order_shipping);
 
+			// Set order transaction fee tag
+			$orderTransFeeLabel = '';
+			$orderTransFee = '';
+
+			if ($paymentmethod->order_transfee > 0)
+			{
+				$orderTransFeeLabel = JText::_('COM_REDSHOP_ORDER_TRANSACTION_FEE_LABEL');
+				$orderTransFee = $producthelper->getProductFormattedPrice(
+					$paymentmethod->order_transfee
+				);
+			}
+
+			$search [] = "{order_transfee_label}";
+			$replace[] = $orderTransFeeLabel;
+
+			$search [] = "{order_transfee}";
+			$replace[] = $orderTransFee;
+
+			$search [] = "{order_total_incl_transfee}";
+			$replace[] = $producthelper->getProductFormattedPrice(
+				$paymentmethod->order_transfee + $OrdersDetail[0]->order_total
+			);
+
 			$search[]  = "{order_total}";
 			$replace[] = $producthelper->getProductFormattedPrice($OrdersDetail[0]->order_total);
 
