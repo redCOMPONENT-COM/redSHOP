@@ -88,7 +88,6 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 		}
 
 		$orderpayment = $order_function->getOrderPaymentDetail($this->detail[$i]->order_id);
-		$paymentmethod = $order_function->getPaymentMethodInfo($orderpayment[0]->payment_method_class);
 		$paymentmethod = $paymentmethod[0];
 
 		if ($paymentmethod->order_transfee > 0)
