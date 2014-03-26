@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-JLoader::import('joomla.application.component.view');
 require_once JPATH_COMPONENT . '/helpers/product.php';
 
 class product_ratingViewproduct_rating extends JView

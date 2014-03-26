@@ -1,4 +1,3 @@
-
 <?php
 /**
  * @package     RedSHOP.Frontend
@@ -9,7 +8,6 @@
  */
 
 defined('_JEXEC') or die;
-JLoader::import('joomla.application.component.model');
 
 require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/quotation.php';
 require_once JPATH_COMPONENT . '/helpers/extra_field.php';
@@ -29,17 +27,9 @@ class quotation_detailModelquotation_detail extends JModel
 
 	public $_data = null;
 
-	public $_table_prefix = null;
-
-	public function __construct()
-	{
-		parent::__construct();
-		$this->_table_prefix = '#__redshop_';
-	}
-
 	public function checkAuthorization($quoid, $encr)
 	{
-		$query = "SELECT COUNT(quotation_id) FROM " . $this->_table_prefix . "quotation "
+		$query = "SELECT COUNT(quotation_id) FROM #__redshop_quotation "
 			. "WHERE quotation_id='" . $quoid . "' "
 			. "AND quotation_encrkey LIKE '" . $encr . "' ";
 		$this->_db->setQuery($query);
@@ -200,8 +190,8 @@ class quotation_detailModelquotation_detail extends JModel
 			$generateAttributeCart[$ia]['attribute_childs'] = $accPropertyCart;
 		}
 
-		$cart[$idx]['cart_attribute'] = $generateAttributeCart;
-		$cart[$idx]['cart_accessory'] = $generateAccessoryCart;
+		$cart[$idx]['cart_attribute']         = $generateAttributeCart;
+		$cart[$idx]['cart_accessory']         = $generateAccessoryCart;
 		$cart[$idx]['wrapper_id']             = $data->product_wrapperid;
 		$cart[$idx]['wrapper_price']          = $data->wrapper_price;
 		$cart[$idx]['product_price_excl_vat'] = $data->product_excl_price;
