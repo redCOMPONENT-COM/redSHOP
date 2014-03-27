@@ -164,6 +164,7 @@ class quotation_detailController extends JController
 
 		$quotationItem = $adminproducthelper->redesignProductItem($post);
 
+		$post['quotation_id'] = $cid;
 		$post['quotation_item'] = $quotationItem;
 
 		if ($model->newQuotationItem($post))

@@ -279,13 +279,15 @@ $quotation_item = $quotationHelper->getQuotationProduct($quotation->quotation_id
 										     alt="<?php echo JText::_('COM_REDSHOP_DELETE'); ?>"
 										     onclick="submitbutton('deleteitem');">
 									</a></td>
-								<td><?php echo $product_title; ?><input type="hidden"
-								                                        name="quotation_item_idp<?php echo $unq; ?>"
-								                                        id="quotation_item_id<?php echo $unq; ?>"
-								                                        value="<?php echo $quo->quotation_item_id; ?>"/>
+								<td>
+									<?php echo $product_title; ?>
+									<input type="hidden"
+										name="quotation_item_idp<?php echo $unq; ?>"
+										id="quotation_item_id<?php echo $unq; ?>"
+										value="<?php echo $quo->quotation_item_id; ?>"/>
+									<?php echo $wrapper_name; ?>
 								</td>
-
-								<td><?php echo $wrapper_name; ?></td>
+								<td><?php echo $quo->note; ?></td>
 								<td><input type="text" name="product_excl_pricep<?php echo $unq; ?>"
 								           id="product_excl_pricep<?php echo $unq; ?>" size="10" maxlength="50"
 								           value="<?php echo $producthelper->redpriceDecimal($quo->product_excl_price); ?>"

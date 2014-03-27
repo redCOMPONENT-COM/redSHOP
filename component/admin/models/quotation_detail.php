@@ -439,7 +439,7 @@ class quotation_detailModelquotation_detail extends JModel
 			$qitemdata = $this->getTable('quotation_item_detail');
 
 			$qitemdata->quotation_item_id   = 0;
-			$qitemdata->quotation_id        = $this->_id;
+			$qitemdata->quotation_id        = $data['quotation_id'];
 			$qitemdata->product_id          = $product_id;
 			$qitemdata->is_giftcard         = 0;
 			$qitemdata->product_name        = $product->product_name;
@@ -452,6 +452,7 @@ class quotation_detailModelquotation_detail extends JModel
 			$qitemdata->product_wrapperid   = $item[$i]->wrapper_data;
 			$qitemdata->wrapper_price       = $wrapper_price;
 			$qitemdata->product_quantity    = $quantity;
+			$qitemdata->note                = $item[$i]->extrafieldname[0];
 
 			if (!$qitemdata->store())
 			{
@@ -731,7 +732,7 @@ class quotation_detailModelquotation_detail extends JModel
 
 		// Update Quotation Record
 		$QuotationData = $this->getTable('quotation_detail');
-		$QuotationData->load($this->_id);
+		$QuotationData->load($data['quotation_id']);
 
 		$QuotationTotal       = 0;
 		$QuotationSubTotal    = 0;
