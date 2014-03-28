@@ -58,15 +58,15 @@ class plgrs_labels_GLSlabels_GLS extends JPlugin
 
 		try
 		{
-			$d ['street'] 	= $values->address;
-			$d ['zipcode'] 	= $values->zipcode;
-			$d ['Amount'] 	= 4;
+			$d['street']  = $values->address;
+			$d['zipcode'] = $values->zipcode;
+			$d['Amount']  = 4;
 
 			$Handle = $this->client->SearchNearestParcelShops(
 				array(
-					'street' => $d['street'],
+					'street'  => $d['street'],
 					'zipcode' => $d['zipcode'],
-					'Amount' => $d['Amount']
+					'Amount'  => $d['Amount']
 				)
 			)->SearchNearestParcelShopsResult;
 
