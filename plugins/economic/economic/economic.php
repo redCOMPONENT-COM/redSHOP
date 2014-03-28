@@ -1756,7 +1756,9 @@ class plgEconomicEconomic extends JPlugin
 			$pdf = $this->Invoice_GetPdf($bookHandle);
 
 			// Cashbook entry
-			if ($d['amount'] > 0)
+			$makeCashbook = (int) $this->ecoparams->get('economicUseCashbook', 1);
+
+			if ($makeCashbook && $d['amount'] > 0)
 			{
 				$this->createCashbookEntry($d, $bookHandle);
 			}
@@ -1891,6 +1893,14 @@ class plgEconomicEconomic extends JPlugin
 	 */
 	public function createCashbookEntry($d, $bookHandle)
 	{
+		// Cashbook entry
+		$makeCashbook = (int) $this->ecoparams->get('economicUseCashbook', 1);
+
+		if (!$makeCashbook)
+		{
+			return;
+		}
+
 		if ($this->error)
 		{
 			return $this->errorMsg;
