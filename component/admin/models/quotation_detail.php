@@ -354,9 +354,6 @@ class quotation_detailModelquotation_detail extends JModel
 		// Deduct normal Discount
 		$QuotationDiscount = $QuotationData->quotation_discount;
 
-		// Special DIsocunt
-		$QuotationSpDiscount = ($QuotationData->quotation_special_discount * $QuotationTotal) / 100;
-
 		// Total Discount
 		$QuotationTotDiscount = $QuotationDiscount + $QuotationSpDiscount;
 
@@ -365,9 +362,6 @@ class quotation_detailModelquotation_detail extends JModel
 
 		// Deduct normal Discount
 		$QuotationDiscount = $QuotationData->quotation_discount;
-
-		// Special DIsocunt
-		$QuotationSpDiscount = ($QuotationData->quotation_special_discount * ($QuotationSubTotal + $QuotationTax)) / 100;
 
 		// Total Discount
 		$QuotationTotDiscount = $QuotationDiscount + $QuotationSpDiscount;
@@ -750,9 +744,6 @@ class quotation_detailModelquotation_detail extends JModel
 
 		// Deduct normal Discount
 		$QuotationDiscount = $QuotationData->quotation_discount;
-
-		// Special DIsocunt
-		$QuotationSpDiscount = ($QuotationData->quotation_special_discount * ($QuotationSubTotal + $QuotationTax)) / 100;
 
 		// Total Discount
 		$QuotationTotDiscount = $QuotationDiscount + $QuotationSpDiscount;
