@@ -371,14 +371,6 @@ $quotation_item = $quotationHelper->getQuotationProduct($quotation->quotation_id
 											$DiscountWithotVat = $quotation->quotation_discount - $Discountvat;
 											$tax               = $tax - $Discountvat;
 										}
-
-										if (VAT_RATE_AFTER_DISCOUNT)
-										{
-											$sp_discount         = ($quotation->quotation_special_discount * ($quotation->quotation_subtotal + $quotation->quotation_tax)) / 100;
-											$Discountspvat       = ($sp_discount * VAT_RATE_AFTER_DISCOUNT) / (1 + VAT_RATE_AFTER_DISCOUNT);
-											$DiscountspWithotVat = $sp_discount - $Discountspvat;
-											$tax                 = $tax - $Discountspvat;
-										}
 										?>
 										<?php echo JText::_('COM_REDSHOP_DISCOUNT_EXCL_VAT'); ?>
 										<br/>

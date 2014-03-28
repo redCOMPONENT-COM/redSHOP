@@ -10,18 +10,8 @@ defined('_JEXEC') or die;
 
 class quotationController extends JController
 {
-	public function __construct($default = array())
-	{
-		parent::__construct($default);
-	}
-
 	public function cancel()
 	{
-		$this->setRedirect('index.php');
-	}
-
-	public function display()
-	{
-		parent::display();
+		$this->setRedirect('index.php?option=com_redshop');
 	}
 }
