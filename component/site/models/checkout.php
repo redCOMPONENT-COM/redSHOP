@@ -747,7 +747,7 @@ class CheckoutModelCheckout extends JModel
 			{
 				$rowitem->attribute_image = $order_id . $cart[$i]['attributeImage'];
 				$old_media                = JPATH_ROOT . '/components/com_redshop/assets/images/mergeImages/' . $cart[$i]['attributeImage'];
-				$new_media                = JPATH_ROOT . '/components/com_redshop/assets/images/orderMergeImages' . $rowitem->attribute_image;
+				$new_media                = JPATH_ROOT . '/components/com_redshop/assets/images/orderMergeImages/' . $rowitem->attribute_image;
 				copy($old_media, $new_media);
 			}
 			elseif (!empty($vals[1]))
