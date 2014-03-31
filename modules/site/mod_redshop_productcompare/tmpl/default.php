@@ -13,11 +13,11 @@ $url = $uri->root();
 
 // get product helper
 require_once JPATH_ROOT . '/components/com_redshop/helpers/product.php';
-$producthelper = new producthelper();
+$producthelper = new producthelper;
 
 require_once JPATH_ROOT . '/components/com_redshop/helpers/helper.php';
 require_once JPATH_ROOT . '/components/com_redshop/helpers/redshop.js.php';
-$redhelper = new redhelper();
+$redhelper = new redhelper;
 
 $option = JRequest::getCmd('option');
 $Itemid = JRequest::getInt('Itemid');

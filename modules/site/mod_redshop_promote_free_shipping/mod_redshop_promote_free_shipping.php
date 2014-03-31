@@ -17,7 +17,7 @@ if ($option != 'com_redshop')
 {
 	require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
 	require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/configuration.php';
-	$Redconfiguration = new Redconfiguration();
+	$Redconfiguration = new Redconfiguration;
 	$Redconfiguration->defineDynamicVars();
 }
 
