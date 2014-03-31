@@ -37,25 +37,16 @@ $force_ssl = $config->getValue('force_ssl');
 if ($getshm == 'https' && $force_ssl > 2)
 {
 	$uri->setScheme('http');
-}?>
-	<script type="text/javascript">
-		function submitReorder() {
-			if (!confirm("<?php echo JText::_('COM_REDSHOP_CONFIRM_CART_EMPTY');?>")) {
-				return false;
-			}
-			return true;
-		}
-	</script>
-<?php
-if ($this->params->get('show_page_heading', 1))
-{
-	?>
-	<div class="componentheading<?php echo $this->params->get('pageclass_sfx') ?>">
-		<?php echo $this->escape(JText::_('COM_REDSHOP_ORDER_DETAILS'));?></div>
-<?php
 }
+
+if ($this->params->get('show_page_heading', 1)) : ?>
+	<div class="componentheading<?php echo $this->params->get('pageclass_sfx') ?>">
+		<?php echo $this->escape(JText::_('COM_REDSHOP_ORDER_DETAILS'));?>
+	</div>
+<?php
+endif;
 ?>
-	<div><?php echo ORDER_DETAIL_INTROTEXT;?></div>
+<div><?php echo ORDER_DETAIL_INTROTEXT;?></div>
 <?php
 $model          = $this->getModel('order_detail');
 $OrdersDetail   = $this->OrdersDetail;
