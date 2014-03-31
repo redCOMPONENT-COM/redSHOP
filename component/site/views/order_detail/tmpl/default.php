@@ -83,6 +83,9 @@ else
 	}
 }
 
+// Replace Reorder Button
+$this->replaceReorderButton(&$orderslist_template);
+
 if ($print)
 {
 	$onclick = "onclick='window.print();'";
@@ -145,29 +148,6 @@ if ($issplit && ($split_amount > 0))
 	$payremaininglink = "<br />" . JText::_('COM_REDSHOP_REMAINING_AMOUNT_TOBE_PAID_BEFORE_DEL') . ": " . $producthelper->getProductFormattedPrice($split_amount) . "<a href='" . JRoute::_('index.php?option=com_redshop&view=split_payment&oid=' . $oid . '&Itemid=' . $Itemid) . "'>" . JText::_('COM_REDSHOP_PAY_REMAINING') . "</a>";
 }
 
-$frm     = '';
-$reorder = '';
-
-if ($OrdersDetail->order_status != 'C' && $OrdersDetail->order_status != 'S' && $OrdersDetail->order_status != 'PR' && $OrdersDetail->order_status != 'APP' && $print != 1 && $OrdersDetail->order_payment_status != 'Paid')
-{
-	$frm = "<form method='post'>
-	<input type='hidden' name='order_id' value='$oid'>
-	<input type='hidden' name='option' value='com_redshop'>
-	<input type='hidden' name='view' value='order_detail'>
-	<input type='hidden' name='task' value='payment'>
-	<input type='submit' name='payment' value='" . JText::_("COM_REDSHOP_PAY") . "'>
-	</form>";
-}
-else
-{
-	$reorder = "<form method='post' name='frmreorder' id='frmreorder'>";
-	$reorder .= "<input type='submit' name='reorder' id='reorder' value='" . JText::_('COM_REDSHOP_REORDER') . "' onclick='return submitReorder();' />";
-	$reorder .= "<input type='hidden' name='order_id' value='" . $oid . "'>";
-	$reorder .= "<input type='hidden' name='option' value='com_redshop'>";
-	$reorder .= "<input type='hidden' name='view' value='order_detail'>";
-	$reorder .= "<input type='hidden' name='task' value='reorder'></form>";
-}
-
 $search [] = "{order_status}";
 
 if (trim($OrdersDetail->order_payment_status) == 'Paid')
@@ -200,9 +180,6 @@ if (strstr($orderslist_template, "{order_status_payment_only}"))
 	$search []  = "{order_status_payment_only}";
 	$replace [] = $orderPaymentStatus;
 }
-
-$search []  = "{reorder_button}";
-$replace [] = $reorder;
 
 $message = str_replace($search, $replace, $orderslist_template);
 

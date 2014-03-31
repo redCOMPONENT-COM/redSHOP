@@ -15,7 +15,7 @@ require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/order.php';
 
 class order_detailVieworder_detail extends JView
 {
-	function display ($tpl = null)
+	public function display ($tpl = null)
 	{
 		$app = JFactory::getApplication();
 
@@ -23,14 +23,14 @@ class order_detailVieworder_detail extends JView
 
 		$print = JRequest::getInt('print');
 
-	if ($print)
-	{
-		?>
-		<script type="text/javascript" language="javascript">
-			window.print();
-		</script>
-	<?php
-	}
+		if ($print)
+		{
+			?>
+			<script type="text/javascript" language="javascript">
+				window.print();
+			</script>
+		<?php
+		}
 
 		$params = $app->getParams('com_redshop');
 
@@ -87,5 +87,52 @@ class order_detailVieworder_detail extends JView
 		$this->params = $params;
 
 		parent::display($tpl);
+	}
+
+	/**
+	 * Replace Reorder Button
+	 *
+	 * @param   string  $template  Template Data
+	 *
+	 * @return  void
+	 */
+	public function replaceReorderButton($template)
+	{
+		$app     = JFactory::getApplication();
+		$order   = $this->OrdersDetail;
+		$orderId = $app->input->getInt('oid', 0);
+		$print   = $app->input->getInt('print', 0);
+		$frm     = '';
+		$reorder = '';
+
+		if ($order->order_status != 'C' && $order->order_status != 'S' && $order->order_status != 'PR' && $order->order_status != 'APP' && $print != 1 && $order->order_payment_status != 'Paid')
+		{
+			$frm = "<form method='post'>
+			<input type='hidden' name='order_id' value='$order_id'>
+			<input type='hidden' name='option' value='com_redshop'>
+			<input type='hidden' name='view' value='order_detail'>
+			<input type='hidden' name='task' value='payment'>
+			<input type='submit' name='payment' value='" . JText::_("COM_REDSHOP_PAY") . "'>
+			</form>";
+		}
+		else
+		{
+			JFactory::getDocument()->addScriptDeclaration('
+				function submitReorder() {
+					if (!confirm("' . JText::_('COM_REDSHOP_CONFIRM_CART_EMPTY') . '")) {
+						return false;
+					}
+					return true;
+				}
+			');
+			$reorder = "<form method='post' name='frmreorder' id='frmreorder'>";
+			$reorder .= "<input type='submit' name='reorder' id='reorder' value='" . JText::_('COM_REDSHOP_REORDER') . "' onclick='return submitReorder();' />";
+			$reorder .= "<input type='hidden' name='order_id' value='" . $orderId . "'>";
+			$reorder .= "<input type='hidden' name='option' value='com_redshop'>";
+			$reorder .= "<input type='hidden' name='view' value='order_detail'>";
+			$reorder .= "<input type='hidden' name='task' value='reorder'></form>";
+		}
+
+		$template = str_replace("{reorder_button}", $reorder, $template);
 	}
 }
