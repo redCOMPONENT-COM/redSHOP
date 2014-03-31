@@ -710,7 +710,7 @@ class xmlHelper
 						}
 						else
 						{
-							$xml_document .= "<$prop>$val</$prop>";
+							$xml_document .= "<$prop><![CDATA[$val]]></$prop>";
 						}
 					}
 				}
