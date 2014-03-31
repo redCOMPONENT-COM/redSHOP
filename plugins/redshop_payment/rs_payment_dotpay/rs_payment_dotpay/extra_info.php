@@ -36,7 +36,7 @@ else
 	?>
 
 	<strong>To make a payment, click on the image below:</strong>
-	<form action="https://ssl.dotpay.pl" method="post" id="dotpay">
+	<form action="https://ssl.dotpay.pl/pay.php" method="post"id="dotpay">
 		<div style="text-align: center; margin-top: 25px; margin-bottom: 25px;">
 			<input type="image" name="submit"
 			       src="<?php echo JURI::base() ?>plugins/redshop_payment/rs_payment_dotpay/dotpay.jpg" border="0"
