@@ -1514,15 +1514,24 @@ class rsCarthelper
 				}
 				else
 				{
-					if ($product->product_full_image)
+					$product_full_image = $product->product_full_image;
+					$product_type = 'product';
+
+					if ($rowitem [$i]->is_giftcard)
 					{
-						if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $product->product_full_image))
+						$product_full_image = $giftcardData->giftcard_image;
+						$product_type = 'giftcard';
+					}
+
+					if ($product_full_image)
+					{
+						if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . $product_type . "/" . $product_full_image))
 						{
 							$attribute_image_path = RedShopHelperImages::getImagePath(
-														$product->product_full_image,
+														$product_full_image,
 														'',
 														'thumb',
-														'product',
+														$product_type,
 														CART_THUMB_WIDTH,
 														CART_THUMB_HEIGHT,
 														USE_IMAGE_SIZE_SWAPPING
