@@ -22,6 +22,13 @@ $redTemplate = new Redtemplate;
 $texts = new text_library;
 
 $start = $this->input->getInt('limitstart', 0);
+
+// check limitstart
+if (count($this->product) < $start)
+{
+	$start = 0;
+}
+
 $slide = $this->input->getInt('ajaxslide', null);
 $filter_by = $this->input->getInt('manufacturer_id', $this->params->get('manufacturer_id'));
 $category_template = $this->input->getInt('category_template', 0);
