@@ -6855,7 +6855,7 @@ class rsCarthelper
 		$calcMethod = $data->discount_calc_method;
 
 		// Default calculation unit
-		$globalUnit = "m";
+		$globalUnit = DEFAULT_VOLUME_UNIT;
 
 		// Use range or not
 		$use_range = $data->use_range;
@@ -6964,7 +6964,7 @@ class rsCarthelper
 		$area_price          = 0;
 		$price_per_piece     = 0;
 		$price_per_piece_tax = 0;
-		$conversation_unit   = "m";
+		$conversation_unit   = DEFAULT_VOLUME_UNIT;
 
 		if (count($discount_calc_data))
 		{
@@ -7099,11 +7099,10 @@ class rsCarthelper
 	 *
 	 * @param   number  $area         default value is 0
 	 * @param   number  $pid          default value can be null
-	 * @param   number  $areabetween  default value is 0
 	 *
 	 * @return object
 	 */
-	public function getDiscountCalcData($area = 0, $pid = 0, $areabetween = 0)
+	public function getDiscountCalcData($area = 0, $pid = 0)
 	{
 		$query = $this->_db->getQuery(true)
 			->select("*")
@@ -7111,15 +7110,10 @@ class rsCarthelper
 			->where($this->_db->quoteName("product_id") . "=" . (int) $pid)
 			->order("id ASC");
 
-		if ($areabetween)
-		{
-			$query->where((floatval($area)) . " BETWEEN `area_start` AND `area_end` ");
-		}
-
 		if ($area)
 		{
-			$query->where($this->_db->quoteName("area_start_converted") . "<=" . floatval($area))
-				->where($this->_db->quoteName("area_end_converted") . ">=" . floatval($area));
+			$query->where($this->_db->quoteName("area_start") . "<=" . floatval($area))
+				->where($this->_db->quoteName("area_end") . ">=" . floatval($area));
 		}
 
 		$this->_db->setQuery($query);
