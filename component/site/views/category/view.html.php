@@ -366,7 +366,12 @@ class CategoryViewCategory extends JView
 		}
 
 		$categoryTemplateId = $this->app->getUserStateFromRequest($context . 'category_template', 'category_template', $selected_template);
-		$manufacturerId      = $this->input->getInt('manufacturer_id', 0);
+		$manufacturerId = JFactory::getApplication()->getUserState("manufacturer_id");
+
+		if ($manufacturerId === "")
+		{
+			$manufacturerId      = $this->input->get('manufacturer_id', 0);
+		}
 
 		$lists['category_template'] = "";
 		$lists['manufacturer']      = "";
