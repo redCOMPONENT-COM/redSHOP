@@ -3,7 +3,7 @@
  * @package     RedSHOP
  * @subpackage  Plugin
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -21,18 +21,19 @@ class plgrs_labels_GLSlabels_GLS extends JPlugin
 	public $error    = 0;
 
 	/**
-	 * specific redform plugin parameters
+	 * Constructor
 	 *
-	 * @var JParameter object
+	 * @param       $subject
+	 * @param array $config
 	 */
-	function __construct( &$subject, $config = array() )
+	public function __construct( &$subject, $config = array() )
 	{
 		parent::__construct($subject, $config);
 
 		$this->onlabels_GLSConnection();
 	}
 
-	function onlabels_GLSConnection()
+	public function onlabels_GLSConnection()
 	{
 		$url = 'http://www.gls.dk/webservices_v2/wsPakkeshop.asmx?WSDL';
 
@@ -49,7 +50,14 @@ class plgrs_labels_GLSlabels_GLS extends JPlugin
 		}
 	}
 
-	function GetNearstParcelShops ($values)
+	/**
+	 * Get Parcel shops from around
+	 *
+	 * @param $values
+	 *
+	 * @return array|string
+	 */
+	public function GetNearstParcelShops($values)
 	{
 		if ($this->error)
 		{
@@ -81,10 +89,16 @@ class plgrs_labels_GLSlabels_GLS extends JPlugin
 		}
 	}
 
-	function ShopArray($PakkeshopData)
+	/**
+	 * Prepares an array of shops
+	 *
+	 * @param $PakkeshopData
+	 *
+	 * @return array
+	 */
+	public function ShopArray($PakkeshopData)
 	{
 		$j              = 0;
-		$shippinghelper = new shipping;
 		$returnArr      = array();
 
 		for ($i = 0; $i < count($PakkeshopData); $i++)
