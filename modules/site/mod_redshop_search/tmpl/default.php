@@ -18,7 +18,7 @@ $keyword = JRequest::getString('keyword', $standardkeyword);
 
 $manufac_data = (JRequest::getInt('manufacture_id', '')); // Manufacture Select Id
 
-$redhelper = new redhelper();
+$redhelper = new redhelper;
 $Itemid = $redhelper->getItemid();
 $modsearchitemid = trim($params->get('modsearchitemid', ''));
 if ($modsearchitemid != "")

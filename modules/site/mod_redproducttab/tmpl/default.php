@@ -34,9 +34,9 @@ $module_id = "mod_" . $module->id;
 
 // get product helper
 require_once JPATH_ROOT . '/components/com_redshop/helpers/product.php';
-$producthelper = new producthelper();
-$redhelper     = new redhelper();
-$extraField    = new extraField();
+$producthelper = new producthelper;
+$redhelper     = new redhelper;
+$extraField    = new extraField;
 ?>
 	<script type="text/javascript">jQuery.noConflict();</script>
 	<style>

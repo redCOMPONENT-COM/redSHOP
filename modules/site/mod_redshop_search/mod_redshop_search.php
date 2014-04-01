@@ -21,7 +21,7 @@ if (isset($cart['idx']))
 
 require_once JPATH_ROOT . '/administrator/components/com_redshop/helpers/redshop.cfg.php';
 require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/configuration.php';
-$Redconfiguration = new Redconfiguration();
+$Redconfiguration = new Redconfiguration;
 $Redconfiguration->defineDynamicVars();
 
 $user = JFactory::getUser();
