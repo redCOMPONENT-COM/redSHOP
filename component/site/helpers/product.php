@@ -3938,7 +3938,7 @@ class producthelper
 	{
 		$user_id   = 0;
 		$url       = JURI::base();
-		$redconfig = new Redconfiguration();
+		$redconfig = new Redconfiguration;
 
 		$viewacc = JRequest::getVar('viewacc', 1);
 		$layout  = JRequest::getVar('layout');
@@ -4420,8 +4420,8 @@ class producthelper
 	{
 		$user_id         = 0;
 		$url             = JURI::base();
-		$stockroomhelper = new rsstockroomhelper();
-		$redTemplate     = new Redtemplate();
+		$stockroomhelper = new rsstockroomhelper;
+		$redTemplate     = new Redtemplate;
 
 		if (count($attribute_template) <= 0)
 		{
@@ -4686,7 +4686,7 @@ class producthelper
 		$user_id         = 0;
 		$url             = JURI::base();
 		$redTemplate     = new Redtemplate ();
-		$stockroomhelper = new rsstockroomhelper();
+		$stockroomhelper = new rsstockroomhelper;
 
 		$chktagArr['chkvat'] = $chktag = $this->getApplyattributeVatOrNot($data_add);
 		$this->_session->set('chkvat', $chktagArr);
@@ -5203,8 +5203,8 @@ class producthelper
 
 	public function replaceSubPropertyData($product_id = 0, $accessory_id = 0, $relatedprd_id = 0, $attribute_id = 0, $property_id = 0, $subatthtml = "", $layout = "", $selectSubproperty = array())
 	{
-		$redTemplate     = new Redtemplate();
-		$stockroomhelper = new rsstockroomhelper();
+		$redTemplate     = new Redtemplate;
+		$stockroomhelper = new rsstockroomhelper;
 		$url             = JURI::base();
 		$attribute_table = "";
 		$subproperty     = array();
@@ -5701,7 +5701,7 @@ class producthelper
 	{
 		$user_id         = 0;
 		$url             = JURI::base();
-		$stockroomhelper = new rsstockroomhelper();
+		$stockroomhelper = new rsstockroomhelper;
 		$option          = 'com_redshop';
 		$Itemid          = JRequest::getInt('Itemid');
 
@@ -5919,9 +5919,9 @@ class producthelper
 	public function replaceCartTemplate($product_id = 0, $category_id = 0, $accessory_id = 0, $relproduct_id = 0, $data_add = "", $isChilds = false, $userfieldArr = array(), $totalatt = 0, $totalAccessory = 0, $count_no_user_field = 0, $module_id = 0, $giftcard_id = 0)
 	{
 		$user_id         = 0;
-		$redconfig       = new Redconfiguration();
-		$extraField      = new extraField();
-		$stockroomhelper = new rsstockroomhelper();
+		$redconfig       = new Redconfiguration;
+		$extraField      = new extraField;
+		$stockroomhelper = new rsstockroomhelper;
 
 		$product_quantity = JRequest::getVar('product_quantity');
 		$Itemid           = JRequest::getInt('Itemid');
@@ -5962,14 +5962,14 @@ class producthelper
 
 		if (count($cart_template) <= 0 && $data_add != "")
 		{
-			$cart_template                = new stdclass();
+			$cart_template                = new stdclass;
 			$cart_template->template_name = "";
 			$cart_template->template_desc = "";
 		}
 
 		if ($data_add == "" && count($cart_template) <= 0)
 		{
-			$cart_template                = new stdclass();
+			$cart_template                = new stdclass;
 			$cart_template->template_name = "notemplate";
 			$cart_template->template_desc = "<div>{addtocart_image_aslink}</div>";
 			$data_add                     = "{form_addtocart:$cart_template->template_name}";
@@ -7138,7 +7138,7 @@ class producthelper
 	{
 		if (empty($this->_cartTemplateData))
 		{
-			$redTemplate = new Redtemplate();
+			$redTemplate = new Redtemplate;
 
 			if (!USE_AS_CATALOG || USE_AS_CATALOG)
 				$this->_cartTemplateData = $redTemplate->getTemplate("cart");
@@ -7153,7 +7153,7 @@ class producthelper
 	{
 		$user            = JFactory::getUser();
 		$cart            = $this->_session->get('cart');
-		$stockroomhelper = new rsstockroomhelper();
+		$stockroomhelper = new rsstockroomhelper;
 		$product         = $this->getProductById($product_id);
 
 		if ($user_id == 0)
@@ -7428,7 +7428,7 @@ class producthelper
 
 	public function makeAccessoryOrder($order_item_id = 0)
 	{
-		$order_functions  = new order_functions();
+		$order_functions  = new order_functions;
 		$displayaccessory = "";
 		$orderItemdata    = $order_functions->getOrderItemAccessoryDetail($order_item_id);
 
@@ -7718,7 +7718,7 @@ class producthelper
 
 	public function makeAttributeQuotation($quotation_item_id = 0, $is_accessory = 0, $parent_section_id = 0, $quotation_status = 2, $stock = 0)
 	{
-		$quotationHelper  = new quotationHelper();
+		$quotationHelper  = new quotationHelper;
 		$displayattribute = "";
 
 		$product_attribute = "";
@@ -8634,7 +8634,7 @@ class producthelper
 			}
 		}
 
-		$stockroomhelper = new rsstockroomhelper();
+		$stockroomhelper = new rsstockroomhelper;
 		$productinstock  = $stockroomhelper->getStockAmountwithReserve($Id, $sec);
 
 		if ($productinstock == 0)
@@ -8894,13 +8894,13 @@ class producthelper
 
 			if ($displaylink)
 			{
-				$redhelper = new redhelper();
+				$redhelper = new redhelper;
 				$catItem   = $redhelper->getCategoryItemid($row->category_id);
 				$catlink   = JRoute::_('index.php?option=com_redshop&view=category&layout=detail&cid='
 					. $row->category_id . '&Itemid=' . $catItem);
 			}
 
-			$prodCatsObject        = new stdClass();
+			$prodCatsObject        = new stdClass;
 			$prodCatsObject->name  = $ppCat . $pspacediv . $pCat . $spacediv . $row->category_name;
 			$prodCatsObject->link  = $catlink;
 			$prodCatsObjectArray[] = $prodCatsObject;
@@ -8914,7 +8914,7 @@ class producthelper
 		$url                 = JURI::base();
 		$option              = JRequest::getVar('option');
 		$product             = $this->getProductById($product_id);
-		$redhelper           = new redhelper();
+		$redhelper           = new redhelper;
 		$aHrefImageResponse  = '';
 		$imagename           = '';
 		$aTitleImageResponse = '';
@@ -9047,10 +9047,10 @@ class producthelper
 	{
 		$redshopconfig   = new Redconfiguration ();
 		$redTemplate     = new Redtemplate ();
-		$stockroomhelper = new rsstockroomhelper();
+		$stockroomhelper = new rsstockroomhelper;
 		$url             = JURI::base();
 		$option          = JRequest::getVar('option');
-		$redhelper       = new redhelper();
+		$redhelper       = new redhelper;
 
 		if ($accessory_id != 0)
 		{
@@ -9813,7 +9813,7 @@ class producthelper
 
 	public function getProductFinderDatepickerValue($templatedata = "", $productid = 0, $fieldArray = array(), $giftcard = 0)
 	{
-		$extraField = new extraField();
+		$extraField = new extraField;
 
 		if (count($fieldArray) > 0)
 		{
@@ -9844,10 +9844,10 @@ class producthelper
 
 	public function getRelatedtemplateView($template_desc, $product_id)
 	{
-		$extra_field      = new extraField();
-		$config           = new Redconfiguration();
-		$redTemplate      = new Redtemplate();
-		$redhelper        = new redhelper();
+		$extra_field      = new extraField;
+		$config           = new Redconfiguration;
+		$redTemplate      = new Redtemplate;
+		$redhelper        = new redhelper;
 		$related_product  = $this->getRelatedProduct($product_id);
 		$related_template = $this->getRelatedProductTemplate($template_desc);
 		$option           = 'com_redshop';
@@ -10094,7 +10094,7 @@ class producthelper
 
 	public function removeOutofstockProduct($products)
 	{
-		$stockroomhelper = new rsstockroomhelper();
+		$stockroomhelper = new rsstockroomhelper;
 		$filter_products = array();
 
 		for ($s = 0; $s < count($products); $s++)
@@ -10126,7 +10126,7 @@ class producthelper
 
 	public function getproductStockStatus($product_id = 0, $totalatt = 0, $selectedpropertyId = 0, $selectedsubpropertyId = 0)
 	{
-		$stockroomhelper            = new rsstockroomhelper();
+		$stockroomhelper            = new rsstockroomhelper;
 		$producDetail               = $this->getProductById($product_id);
 		$product_preorder           = trim($producDetail->preorder);
 		$rsltdata                   = array();
@@ -10322,7 +10322,7 @@ class producthelper
 	{
 		$db = JFactory::getDbo();
 
-		$extraField = new extraField();
+		$extraField = new extraField;
 		$row_data   = $extraField->getSectionFieldList($section_id, 1);
 
 		for ($i = 0; $i < count($row_data); $i++)
@@ -10345,7 +10345,7 @@ class producthelper
 
 	public function getPaymentandShippingExtrafields($order, $section_id)
 	{
-		$extraField = new extraField();
+		$extraField = new extraField;
 		$row_data   = $extraField->getSectionFieldList($section_id, 1);
 		$resultArr  = array();
 

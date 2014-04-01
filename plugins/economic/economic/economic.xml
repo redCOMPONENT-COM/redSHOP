@@ -36,6 +36,11 @@
                        description="COM_REDSHOP_DESC_ECONOMIC_LAYOUT_ID_LBL"/>
                 <field name="economic_units_id" type="text" default="" label="COM_REDSHOP_ECONOMIC_UNITS_ID_LBL"
                        description="COM_REDSHOP_DESC_ECONOMIC_UNITS_ID_LBL"/>
+                <field name="economicUseCashbook" type="radio" default="1" label="COM_REDSHOP_ECONOMIC_USE_CASHBOOK_LBL"
+                       description="COM_REDSHOP_ECONOMIC_USE_CASHBOOK_DESC">
+                       <option value="1">JYES</option>
+                       <option value="0">JNO</option>
+                </field>
                 <field name="economic_cashbook_number" type="hidden" default=""
                        label="COM_REDSHOP_ECONOMIC_CASHBOOK_NUMBER_LBL"
                        description="COM_REDSHOP_ECONOMIC_CASHBOOK_NUMBER_LBL"/>
