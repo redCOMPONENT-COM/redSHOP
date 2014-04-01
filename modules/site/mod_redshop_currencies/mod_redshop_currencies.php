@@ -3,25 +3,27 @@
  * @package     RedSHOP.Frontend
  * @subpackage  mod_redshop_currencies
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-if (!defined('_VALID_MOS') && !defined('_JEXEC')) die('Direct Access to ' . basename(__FILE__) . ' is not allowed.');
+defined('_JEXEC') or die;
 
-
+$db = JFactory::getDbo();
 $text_before = $params->get('text_before', '');
 $currencies = $params->get('product_currency', '');
 
 $currenciess = array();
 
-$db = JFactory::getDbo();
 if ($currencies)
 {
-
-	$db->setQuery('SELECT currency_id, currency_code, currency_name FROM `#__redshop_currency` WHERE FIND_IN_SET(`currency_code`, ' . $db->quote(implode(',', $currencies)) . ') ORDER BY `currency_name`');
+	$query = $db->getQuery(true)
+		->select($db->qn(array('currency_id', 'currency_code', 'currency_name')))
+		->from($db->qn('#__redshop_currency'))
+		->where('FIND_IN_SET(' . $db->qn('currency_code') . ', ' . $db->quote(implode(',', $currencies)) . ')')
+		->order($db->qn('currency_name'));
+	$db->setQuery($query);
 	$currenciess = $db->loadObjectList();
-
 }
 
 for ($i = 0; $i < count($currenciess); $i++)
@@ -32,11 +34,10 @@ for ($i = 0; $i < count($currenciess); $i++)
 $session = JFactory::getSession();
 $jinput = JFactory::getApplication()->input;
 
-$post = $jinput->getArray($_POST);
-$get = $jinput->getArray($_GET);
+$productCurrency = $jinput->post->get('product_currency', '');
 
-if (isset($post['product_currency']))
-	$session->set('product_currency', $post['product_currency']);
+if (!empty($productCurrency))
+	$session->set('product_currency', $productCurrency);
 ?>
 <!-- Currency Selector Module -->
 <?php echo $text_before; ?>
