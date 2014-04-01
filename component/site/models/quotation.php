@@ -7,51 +7,31 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die ('Restricted access');
-
-JLoader::import('joomla.application.component.model');
+defined('_JEXEC') or die;
 
 require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/quotation.php';
 require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/mail.php';
 require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php';
-include_once JPATH_COMPONENT_SITE . '/helpers/product.php';
+require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
 
-/**
- * Class quotationModelquotation
- *
- * @package     RedSHOP.Frontend
- * @subpackage  Model
- * @since       1.0
- */
 class quotationModelquotation extends JModel
 {
 	public $_id = null;
 
 	public $_data = null;
 
-	public $_table_prefix = null;
-
-	public function __construct()
-	{
-		parent::__construct();
-
-		$this->_table_prefix = '#__redshop_';
-	}
-
-	public function &getData()
+	function &getData()
 	{
 		if ($this->_loadData())
 		{
+
 		}
-		else
-		{
-			$this->_initData();
-		}
+		else  $this->_initData();
 
 		return $this->_data;
 	}
 
-	public function _loadData()
+	function _loadData()
 	{
 		$order_functions = new order_functions;
 		$user            = JFactory::getUser();
@@ -67,7 +47,7 @@ class quotationModelquotation extends JModel
 		return false;
 	}
 
-	public function _initData()
+	function _initData()
 	{
 		$detail                        = new stdClass;
 		$detail->user_info_id          = 0;
@@ -88,7 +68,7 @@ class quotationModelquotation extends JModel
 		$this->_data                   = $detail;
 	}
 
-	public function store($data, $post)
+	function store($data, $post)
 	{
 		$this->_loadData();
 		$quotationHelper = new quotationHelper;
@@ -153,7 +133,6 @@ class quotationModelquotation extends JModel
 		for ($i = 0; $i < $totalitem; $i++)
 		{
 			$rowitem                          = $this->getTable('quotation_item_detail');
-			$quotation_item[$i]               = new stdClass;
 			$quotation_item[$i]->quotation_id = $row->quotation_id;
 
 			if (isset($data[$i]['giftcard_id']) && $data[$i]['giftcard_id'] != 0)
@@ -252,17 +231,13 @@ class quotationModelquotation extends JModel
 							}
 						}
 
-
 						$propArr = $attchildArr[$j]['attribute_childs'];
 
 						for ($k = 0; $k < count($propArr); $k++)
 						{
 							$section_vat = $producthelper->getProducttax($rowitem->product_id, $propArr[$k]['property_price']);
 							$property_id = $propArr[$k]['property_id'];
-							$accessory_attribute .= urldecode($propArr[$k]['property_name'])
-								. " (" . $propArr[$k]['property_oprand']
-								. $producthelper->getProductFormattedPrice($propArr[$k]['property_price'] + $section_vat)
-								. ")<br/>";
+							$accessory_attribute .= urldecode($propArr[$k]['property_name']) . " (" . $propArr[$k]['property_oprand'] . $producthelper->getProductFormattedPrice($propArr[$k]['property_price'] + $section_vat) . ")<br/>";
 							$subpropArr = $propArr[$k]['property_childs'];
 
 							$rowattitem                        = $this->getTable('quotation_attribute_item');
@@ -291,9 +266,7 @@ class quotationModelquotation extends JModel
 							{
 								$section_vat    = $producthelper->getProducttax($rowitem->product_id, $subpropArr[$l]['subproperty_price']);
 								$subproperty_id = $subpropArr[$l]['subproperty_id'];
-								$accessory_attribute .= urldecode($subpropArr[$l]['subproperty_name'])
-									. " (" . $subpropArr[$l]['subproperty_oprand']
-									. $producthelper->getProductFormattedPrice($subpropArr[$l]['subproperty_price'] + $section_vat) . ")<br/>";
+								$accessory_attribute .= urldecode($subpropArr[$l]['subproperty_name']) . " (" . $subpropArr[$l]['subproperty_oprand'] . $producthelper->getProductFormattedPrice($subpropArr[$l]['subproperty_price'] + $section_vat) . ")<br/>";
 
 								$rowattitem                        = $this->getTable('quotation_attribute_item');
 								$rowattitem->quotation_att_item_id = 0;
@@ -353,7 +326,7 @@ class quotationModelquotation extends JModel
 				}
 			}
 
-			// My attribute save in table start
+			/** my attribute save in table start */
 			if (count($data[$i]['cart_attribute']) > 0)
 			{
 				$attArr = $data [$i] ['cart_attribute'];
@@ -416,7 +389,6 @@ class quotationModelquotation extends JModel
 						{
 							$section_vat    = $producthelper->getProducttax($rowitem->product_id, $subpropArr[$l]['subproperty_price']);
 							$subproperty_id = $subpropArr[$l]['subproperty_id'];
-
 							$rowattitem                        = $this->getTable('quotation_attribute_item');
 							$rowattitem->quotation_att_item_id = 0;
 							$rowattitem->quotation_item_id     = $rowitem->quotation_item_id;
@@ -449,23 +421,23 @@ class quotationModelquotation extends JModel
 		return $row;
 	}
 
-	public function usercreate($data)
+	function usercreate($data)
 	{
 		$redshopMail     = new redshopMail;
 		$order_functions = new order_functions;
 		$Itemid          = JRequest::getVar('Itemid');
-		$app = JFactory::getApplication();
+		$mainframe       = JFactory::getApplication();
 
 		// Get required system objects
 		$user      = clone(JFactory::getUser());
-		$pathway   = $app->getPathway();
+		$pathway   = $mainframe->getPathway();
 		$config    = JFactory::getConfig();
 		$authorize = JFactory::getACL();
 		$document  = JFactory::getDocument();
 
-		$MailFrom = $app->getCfg('mailfrom');
-		$FromName = $app->getCfg('fromname');
-		$SiteName = $app->getCfg('sitename');
+		$MailFrom = $mainframe->getCfg('mailfrom');
+		$FromName = $mainframe->getCfg('fromname');
+		$SiteName = $mainframe->getCfg('sitename');
 
 		$usersConfig = JComponentHelper::getParams('com_users');
 		$usersConfig->set('allowUserRegistration', 1);
@@ -503,8 +475,7 @@ class quotationModelquotation extends JModel
 
 		if ($useractivation == '1')
 		{
-			JLoader::import('joomla.user.helper');
-
+			jimport('joomla.user.helper');
 			$user->set('block', '0');
 		}
 
@@ -550,9 +521,11 @@ class quotationModelquotation extends JModel
 			$message = JText::_('COM_REDSHOP_REG_COMPLETE');
 		}
 
-		// Creating Joomla user end
+		//Creating Joomla user end
+
 		$row          = $this->getTable('user_detail');
 		$row->user_id = $user_id;
+
 
 		if (!$row->bind($data))
 		{
@@ -560,6 +533,7 @@ class quotationModelquotation extends JModel
 
 			return false;
 		}
+
 
 		if ($data['is_company'] == 1)
 		{
@@ -638,6 +612,7 @@ class quotationModelquotation extends JModel
 
 		$this->sendQuotationMail($quotationDetail->quotation_id);
 
+
 		$link = "<a href='" . $quotationdetailurl . "'>" . JText::_("COM_REDSHOP_QUOTATION_DETAILS") . "</a>";
 
 		$mailbody = str_replace('{link}', $link, $mailbody);
@@ -656,7 +631,7 @@ class quotationModelquotation extends JModel
 		return;
 	}
 
-	public function sendQuotationMail($quotaion_id)
+	function sendQuotationMail($quotaion_id)
 	{
 		$redshopMail = new redshopMail;
 		$send        = $redshopMail->sendQuotationMail($quotaion_id);
@@ -664,12 +639,10 @@ class quotationModelquotation extends JModel
 		return $send;
 	}
 
-	public function getUserIdByEmail($email)
+	function getUserIdByEmail($email)
 	{
-		$db = JFactory::getDbo();
-
-		$q = "SELECT * FROM " . $this->_table_prefix . "users_info "
-			. "WHERE user_email = " . $db->quote($email) . " "
+		$q = "SELECT * FROM #__redshop_users_info "
+			. "WHERE user_email='" . $email . "' "
 			. "AND address_type='BT' ";
 		$this->_db->setQuery($q);
 		$list = $this->_db->loadObject();

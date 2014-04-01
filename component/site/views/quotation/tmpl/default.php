@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     RedSHOP.Frontend
- * @subpackage  Template
+ * @subpackage  View
  *
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
@@ -13,9 +13,10 @@ JHTML::_('behavior.tooltip');
 $redTemplate = new Redtemplate;
 $carthelper = new rsCarthelper;
 
-$Itemid = JRequest::getInt('Itemid');
-$return = JRequest::getString('return');
-$session = JFactory::getSession();
+$Itemid = JRequest::getVar('Itemid');
+$option = JRequest::getVar('option');
+$return = JRequest::getVar('return');
+$session =& JFactory::getSession();
 $cart = $session->get('cart');
 
 $detail = $this->detail;
@@ -31,13 +32,13 @@ if (count($quotation_template) > 0 && $quotation_template[0]->template_desc != "
 else
 {
 	$template_desc = "<fieldset class=\"adminform\"><legend>{order_detail_lbl}</legend> \r\n<table class=\"admintable\">\r\n<tbody>\r\n<tr>\r\n<td>{product_name_lbl}</td>\r\n<td>{quantity_lbl}</td>\r\n</tr>\r\n{product_loop_start}\r\n<tr>\r\n<td>{product_name}<br />{product_attribute}<br />{product_accessory}<br />{product_userfields}</td>\r\n<td>{update_cart}</td>\r\n</tr>\r\n{product_loop_end}\r\n</tbody>\r\n</table>\r\n</fieldset>\r\n<p>{customer_note_lbl}:{customer_note}</p>\r\n<fieldset class=\"adminform\"><legend>{billing_address_information_lbl}</legend> {billing_address}{quotation_custom_field_list} </fieldset> \r\n<table border=\"0\">\r\n<tbody>\r\n<tr>\r\n<td align=\"center\">{cancel_btn}{request_quotation_btn}</td>\r\n</tr>\r\n</tbody>\r\n</table>";
-}?>
+}
+?>
 <script type="text/javascript">
 	function validateInfo() {
 		var frm = document.adminForm;
 
 		var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
-
 		if (frm.user_email.value == '') {
 			alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_EMAIL_ADDRESS')?>");
 			return false;
@@ -49,7 +50,6 @@ else
 			alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_VALID_EMAIL_ADDRESS')?>");
 			return false;
 		}
-
 		if (validateExtrafield(frm) == false) {
 			return false;
 		}
@@ -69,6 +69,7 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 	$template_middle = $carthelper->replaceCartItem($template_middle, $cart, 0, DEFAULT_QUOTATION_MODE);
 	$template_desc   = $template_start . $template_middle . $template_end;
 }
+
 
 $template_desc = $carthelper->replaceLabel($template_desc);
 
@@ -101,7 +102,7 @@ else
 
 $cancel_btn = '<input type="submit" class="greenbutton" name="cancel" value="' . JText::_("COM_REDSHOP_CANCEL") . '" onclick="javascript:document.adminForm.task.value=\'cancel\';"/>';
 $quotation_btn = '<input type="submit" class="greenbutton" name="addquotation" value="' . JText::_("COM_REDSHOP_REQUEST_QUOTATION") . '" onclick="return validateInfo();"/>';
-$quotation_btn .= '<input type="hidden" name="option" value="com_redshop" />';
+$quotation_btn .= '<input type="hidden" name="option" value="' . $option . '" />';
 $quotation_btn .= '<input type="hidden" name="Itemid" value="' . $Itemid . '" />';
 $quotation_btn .= '<input type="hidden" name="task" value="addquotation" />';
 $quotation_btn .= '<input type="hidden" name="view" value="quotation" />';
@@ -116,4 +117,5 @@ $template_desc = str_replace("{customer_note}", '<textarea name="quotation_note"
 
 $template_desc = '<form action="' . JRoute::_($this->request_url) . '" method="post" name="adminForm" id="adminForm" enctype="multipart/form-data">' . $template_desc . '</form>';
 
-echo eval("?>" . $template_desc . "<?php ");?>
+echo eval("?>" . $template_desc . "<?php ");
+?>

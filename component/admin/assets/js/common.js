@@ -12,17 +12,16 @@ function GetXmlHttpObject() {
 
 function updateGLSLocation(zipcode) {
     xmlhttp1 = GetXmlHttpObject();
-    var url1 = site_url + 'index.php?tmpl=component&option=com_redshop&view=checkout&task=updateGLSLocation';
-    url1 = url1 + "&zipcode=" + zipcode;
+
+    var url = site_url + 'index.php?tmpl=component&option=com_redshop&view=checkout&task=updateGLSLocation&zipcode=' + zipcode;
     xmlhttp1.onreadystatechange = function () {
         if (xmlhttp1.readyState == 4) {
             if (document.getElementById('rs_locationdropdown')) {
                 document.getElementById('rs_locationdropdown').innerHTML = xmlhttp1.responseText;
-
             }
         }
     };
-    xmlhttp1.open("GET", url1, true);
+    xmlhttp1.open("GET", url, true);
     xmlhttp1.send(null);
 }
 
@@ -529,6 +528,7 @@ function displayProductDetailInfo(unique_id, newprice) {
 
     xmlhttp.onreadystatechange = function () {
         if (xmlhttp.readyState == 4) {
+
             document.getElementById("divCalc").innerHTML = xmlhttp.responseText;
             // hidden variable for quantity price change issue
             if (document.getElementById("change_product_tmp_price" + unique_id) && document.getElementById("change_product_tmp_price" + unique_id).value == '0') {
@@ -536,6 +536,7 @@ function displayProductDetailInfo(unique_id, newprice) {
             }
             if (document.getElementById("prdexclprice" + unique_id)) {
                 document.getElementById("prdexclprice" + unique_id).value = document.getElementById("product_price_excl_vat").innerHTML;
+
             }
 
             if (document.getElementById("taxprice" + unique_id)) {
@@ -629,56 +630,10 @@ function displayProductDetailInfo(unique_id, newprice) {
                 newxmlhttp.open("GET", newurl, true);
                 newxmlhttp.send(null);
             }
-
-            // load calendar setup
-            calendarDefaultLoad();
         }
     }
     xmlhttp.open("GET", url, true);
     xmlhttp.send(null);
-}
-
-/**
- * load calendar when order item response load
- * Fetch extra field elemnts and set calander js dynamically
- */
-function calendarDefaultLoad() {
-
-    var cal_img_elm = $$('.userfield_input').getElements('img[id^=rs_]');
-    var cal_input_elm = $$('.userfield_input').getElements('input[id^=rs_]');
-
-    var idcollection = [];
-    cal_input_elm.each(function (el) {
-
-        if (el.length > 0) idcollection.push(el[0].id);
-
-    });
-
-    var imgcollection = [];
-    cal_img_elm.each(function (el) {
-
-        if (el.length > 0) imgcollection.push(el[0].id);
-
-    });
-
-    imgcollection.each(function (el, ind) {
-
-        //document.write(idcollection[ind] + "  " + imgcollection[ind] + " <br />");
-        Calendar.setup({
-            // Id of the input field
-            inputField: idcollection[ind],
-            // Format of the input field
-            ifFormat: "%Y-%m-%d",
-            // Trigger for the calendar (button ID)
-            button: imgcollection[ind],
-            // Alignment (defaults to "Bl")
-            align: "Tl",
-            singleClick: true,
-            firstDay: 0
-        });
-
-    });
-
 }
 
 function changeOfflinePropertyDropdown(product_id, accessory_id, attribute_id, unique_id) {
@@ -747,13 +702,18 @@ function calculateOfflineTotal() {
     var table = document.getElementById('tblproductRow');
     var subtotal = 0;
     var totalTax = 0;
+    var total = 0;
 
     for (i = 1; i <= rowCount; i++) {
-        if (document.getElementById("subpriceproduct" + i)) {
-            subtotal = parseFloat(subtotal) + parseFloat(document.getElementById("subpriceproduct" + i).value);
+        if (document.getElementById("prdexclpriceproduct" + i)) {
+
+            subtotal = parseFloat(subtotal) + (parseFloat(document.getElementById("prdexclpriceproduct" + i).value) * parseFloat(document.getElementById("quantityproduct" + i).value));
         }
         if (document.getElementById("taxpriceproduct" + i)) {
             totalTax = parseFloat(totalTax) + parseFloat(document.getElementById("taxpriceproduct" + i).value);
+        }
+        if (document.getElementById("subpriceproduct" + i)) {
+            total = parseFloat(total) + parseFloat(document.getElementById("subpriceproduct" + i).value);
         }
     }
 
@@ -776,12 +736,12 @@ function calculateOfflineTotal() {
     if (document.getElementById("divShipping")) {
         document.getElementById("divShipping").innerHTML = number_format(order_shipping, PRICE_DECIMAL, PRICE_SEPERATOR, THOUSAND_SEPERATOR);
     }
-    var displaytotal = parseFloat(subtotal) + parseFloat(order_shipping);
+    var displaytotal = parseFloat(total) + parseFloat(order_shipping);
     if (document.getElementById("divFinalTotal")) {
         document.getElementById("divFinalTotal").innerHTML = number_format(displaytotal, PRICE_DECIMAL, PRICE_SEPERATOR, THOUSAND_SEPERATOR);
     }
     if (document.getElementById("order_total")) {
-        document.getElementById("order_total").value = subtotal;
+        document.getElementById("order_total").value = total;
     }
 }
 
@@ -849,18 +809,22 @@ function changeOfflinePriceBox(unique_id) {
     if (document.getElementById("change_product_tmp_price" + unique_id)) {
         document.getElementById("change_product_tmp_price" + unique_id).value = prdexclprice;
     }
+
     displayProductDetailInfo(unique_id, prdexclprice);
 }
 
 function changeOfflineQuantityBox(unique_id) {
+
     var prdexclprice = 0;
-    if (document.getElementById("main_price" + unique_id) && document.getElementById("product_vatprice" + unique_id)) {
+    if (document.getElementById("main_price" + unique_id)) {
+
         prdexclprice = parseFloat(document.getElementById("main_price" + unique_id).value) - parseFloat(document.getElementById("product_vatprice" + unique_id).value);
     }
     document.getElementById("prdexclprice" + unique_id).value = prdexclprice;
     if (document.getElementById("change_product_tmp_price" + unique_id)) {
         prdexclprice = document.getElementById("change_product_tmp_price" + unique_id).value;
     }
+
     displayProductDetailInfo(unique_id, prdexclprice);
 }
 
@@ -955,76 +919,55 @@ function getQuotationDetail(unqid) {
 }
 
 function calculateQuotationTotal() {
+    var table = $('tblproductRow'), subtotal = 0, tax = 0, total = 0, q_discount = 0, q_p_discount = 0, q_p_discount_total = 0;
 
-    var table = document.getElementById('tblproductRow');
-    var subtotal = 0;
-    var tax = 0;
-    var total = 0;
-    var q_discount = 0;
-    var q_p_discount = 0, q_p_discount_total = 0;
     for (i = 1; i <= qrowCount; i++) {
-        if (document.getElementById("totalpricep" + i))
-        {
-            subtotal = parseFloat(subtotal) + parseFloat(document.getElementById("totalpricep" + i).value);
-            total = parseFloat(total) + parseFloat(document.getElementById("totalpricep"+i).value);
-        }
-        if (document.getElementById("taxpricep" + i))
-        {
-            tax = parseFloat(tax) + parseFloat(document.getElementById("taxpricep" + i).value);
-        }
+        subtotal = parseFloat(subtotal) + parseFloat($("totalpricep" + i).value) - parseFloat($("taxpricep" + i).value);
+        tax = parseFloat(tax) + parseFloat($("taxpricep" + i).value);
+        total = parseFloat(total) + parseFloat($("totalpricep" + i).value);
+    }
+
+    if ($("Discountvat")) {
+        //displaytax = parseFloat(tax) - parseFloat($("Discountvat").value);
+        //total = parseFloat(total)- parseFloat($("Discountvat").value);
     }
 
     total = total;
-    subtot_with_discount =  subtotal;
+    subtot_with_discount = subtotal;
 
-    if (document.getElementById("quotation_discount") && (trim(document.getElementById("quotation_discount").value) != "" && !isNaN(document.getElementById("quotation_discount").value)))
-    {
-        q_discount = parseFloat(document.getElementById("quotation_discount").value);
+    var isPercentage = $$('input[name=isPercentage]:checked')[0].get('value');
 
-        if(VAT_RATE_AFTER_DISCOUNT)
-        {
-            vatondiscount = (parseFloat(q_discount) * VAT_RATE_AFTER_DISCOUNT)/(1+parseFloat(VAT_RATE_AFTER_DISCOUNT));
+    if (!isNaN($("quotation_discount").value)) {
+        q_discount = parseFloat($("quotation_discount").value);
+
+        if (1 == isPercentage) {
+            q_discount = (total * q_discount) / 100;
+
+            // Show  calculated price in text box
+            $("quotation_discount").set('value', q_discount.round(2));
         }
-        else
-        {
-            vatondiscount = 0;
-        }
+
+        vatondiscount = (parseFloat(q_discount) * VAT_RATE_AFTER_DISCOUNT) / (1 + parseFloat(VAT_RATE_AFTER_DISCOUNT));
 
         displaytax = parseFloat(tax) - parseFloat(vatondiscount);
-        displaydiscount  = parseFloat(q_discount) - parseFloat(vatondiscount);
+
+        displaydiscount = parseFloat(q_discount) - parseFloat(vatondiscount);
+
         displaytotal = total - parseFloat(q_discount);
-        subtot_with_discount =  subtot_with_discount - parseFloat(displaydiscount);
+
+        subtot_with_discount = subtot_with_discount - parseFloat(displaydiscount);
     }
 
-    if (document.getElementById("quotation_special_discount") && (trim(document.getElementById("quotation_special_discount").value) != "" && !isNaN(document.getElementById("quotation_special_discount").value)))
-    {
-        q_p_discount = parseFloat(document.getElementById("quotation_special_discount").value);
-        q_p_discount_total = (total*q_p_discount)/100;
-        if(VAT_RATE_AFTER_DISCOUNT)
-        {
-            vatonspdiscount = (parseFloat(q_p_discount_total) * VAT_RATE_AFTER_DISCOUNT)/(1+parseFloat(VAT_RATE_AFTER_DISCOUNT));
-        }
-        else
-        {
-            vatonspdiscount = 0;
-        }
-        displaytax = parseFloat(displaytax) - parseFloat(vatonspdiscount);
-        displayspdiscount  = parseFloat(q_p_discount_total) - parseFloat(vatonspdiscount);
-        total = displaytotal - q_p_discount_total;
-        subtot_with_discount =  subtot_with_discount - parseFloat(q_p_discount_total) + parseFloat(vatonspdiscount);
-    }
+    $("divMainSubTotalwithDiscount").innerHTML = number_format(subtot_with_discount, PRICE_DECIMAL, PRICE_SEPERATOR, THOUSAND_SEPERATOR);
+    $("divMainSubTotal").innerHTML = number_format(subtotal, PRICE_DECIMAL, PRICE_SEPERATOR, THOUSAND_SEPERATOR);
+    $("quotation_subtotal").value = subtotal;
 
-    document.getElementById("divMainSubTotalwithDiscount").innerHTML = number_format(subtot_with_discount,PRICE_DECIMAL,PRICE_SEPERATOR,THOUSAND_SEPERATOR);
-    document.getElementById("divMainSubTotal").innerHTML = number_format(subtotal,PRICE_DECIMAL,PRICE_SEPERATOR,THOUSAND_SEPERATOR);
-    document.getElementById("quotation_subtotal").value = subtotal;
+    $("divMainFinalTotal").innerHTML = number_format(total, PRICE_DECIMAL, PRICE_SEPERATOR, THOUSAND_SEPERATOR);
+    $("quotation_total").value = total;
 
-    document.getElementById("divMainFinalTotal").innerHTML = number_format(total,PRICE_DECIMAL,PRICE_SEPERATOR,THOUSAND_SEPERATOR);
-    document.getElementById("quotation_total").value = total;
-
-    document.getElementById("divMainTax").innerHTML = number_format(displaytax,PRICE_DECIMAL,PRICE_SEPERATOR,THOUSAND_SEPERATOR);
-    document.getElementById("quotation_tax").value = tax;
-    document.getElementById("divMainSpecialDiscount").innerHTML = number_format(displayspdiscount,PRICE_DECIMAL,PRICE_SEPERATOR,THOUSAND_SEPERATOR);
-    document.getElementById("divMainDiscount").innerHTML = number_format(displaydiscount,PRICE_DECIMAL,PRICE_SEPERATOR,THOUSAND_SEPERATOR);
+    $("divMainTax").innerHTML = number_format(displaytax, PRICE_DECIMAL, PRICE_SEPERATOR, THOUSAND_SEPERATOR);
+    $("quotation_tax").value = tax;
+    $("divMainDiscount").innerHTML = number_format(displaydiscount, PRICE_DECIMAL, PRICE_SEPERATOR, THOUSAND_SEPERATOR);
 }
 
 function deleteOfflineProductRow(index) {

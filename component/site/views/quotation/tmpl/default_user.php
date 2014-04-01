@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     RedSHOP.Frontend
- * @subpackage  Template
+ * @subpackage  View
  *
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
@@ -12,19 +12,17 @@ defined('_JEXEC') or die;
 JHTML::_('behavior.tooltip');
 
 require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php';
+
 $order_functions = new order_functions;
+$redconfig       = new Redconfiguration;
 
 $url = JURI::base();
 
-$redconfig = new Redconfiguration;
-
-$Itemid = JRequest::getInt('Itemid');
-$return = JRequest::getString('return');
-$jinput = JFactory::getApplication()->input;
-$post   = $jinput->getArray($_POST);
-
+$Itemid     = JRequest::getVar('Itemid');
+$option     = JRequest::getVar('option');
+$return     = JRequest::getVar('return');
+$post       = JRequest::get('post');
 $detail     = $this->detail;
-
 $firstname  = $detail->firstname;
 $lastname   = $detail->lastname;
 $address    = $detail->address;
@@ -46,15 +44,15 @@ else
 	$regtype = 1;
 }
 
-$link = 'index.php?option=com_redshop&view=cart&Itemid=' . $Itemid;
+$link = 'index.php?option=' . $option . '&view=cart&Itemid=' . $Itemid;
 ?>
 <script>
 
 	function validateInfo() {
+
 		var frm = document.adminForm;
 
 		var reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
-
 		if (frm.email.value == '') {
 			alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_EMAIL_ADDRESS')?>");
 			return false;
@@ -66,82 +64,68 @@ $link = 'index.php?option=com_redshop&view=cart&Itemid=' . $Itemid;
 			alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_VALID_EMAIL_ADDRESS')?>");
 			return false;
 		}
-
 		if (frm.username.value == '') {
 			alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_USERNAME')?>");
 			return false;
 		}
 
 		<?php
-		if ($regtype == 1)
+		if ($regtype==1)
 		{
 		?>
 		if (frm.company_name.value == '') {
 			alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_COMPANY_NAME')?>");
 			return false;
 		}
-
 		<?php
 		}
 		else
 		{
 		?>
+
 		if (frm.firstname.value == '') {
 			alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_FIRST_NAME')?>");
 			return false;
 		}
-
 		if (frm.lastname.value == '') {
 			alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_LAST_NAME')?>");
 			return false;
 		}
-
 		<?php
 		}
 		?>
 
 		return true;
 	}
-
 </script>
-
 <form action="<?php echo JRoute::_($this->request_url); ?>" method="post" name="adminForm" id="adminForm"
       enctype="multipart/form-data">
 	<fieldset class="adminform">
-		<legend><?php echo JText::_('COM_REDSHOP_ACCOUNT_CREATION');?></legend>
+		<legend><?php echo JText::_('COM_REDSHOP_ACCOUNT_CREATION'); ?></legend>
 		<table class="admintable">
-			<?php
-			if ($regtype == 1)
-			{
-			?>
+			<?php if ($regtype == 1) : ?>
 				<tr>
-					<td width="100" align="left"><?php echo JText::_('COM_REDSHOP_COMPANY_NAME');?>:</td>
+					<td width="100" align="left"><?php echo JText::_('COM_REDSHOP_COMPANY_NAME'); ?>:</td>
 					<td><input type='text' name="company_name" value='<?php echo @$post['company_name']; ?>'/></td>
 				</tr>
-			<?php
-			}
-			else
-			{
-			?>
+			<?php else: ?>
 				<tr>
-					<td width="100" align="left"><?php echo JText::_('COM_REDSHOP_FIRSTNAME');?>:</td>
+					<td width="100" align="left"><?php echo JText::_('COM_REDSHOP_FIRSTNAME'); ?>:</td>
 					<td><input type='text' name="firstname" value='<?php echo @$post['firstname']; ?>'/></td>
 				</tr>
 				<tr>
-					<td width="100" align="left"><?php echo JText::_('COM_REDSHOP_LASTNAME');?>:</td>
+					<td width="100" align="left"><?php echo JText::_('COM_REDSHOP_LASTNAME'); ?>:</td>
 					<td><input type='text' name="lastname" value='<?php echo @$post['lastname']; ?>'/></td>
 				</tr>
-				<td><?php echo $lastname;?></td></tr>
-			<?php
-			}
-			?>
+				<td><?php echo $lastname; ?></td></tr>
+			<?php endif; ?>
 			<tr>
-				<td width="100" align="left"><?php echo JText::_('COM_REDSHOP_USERNAME');?>:</td>
+				<td width="100" align="left"><?php echo JText::_('COM_REDSHOP_USERNAME'); ?>:</td>
 				<td><input type='text' name="username" value='<?php echo @$post['username']; ?>'/></td>
 			</tr>
 
 			<tr>
-				<td width="100" align="left"><?php echo JText::_('COM_REDSHOP_EMAIL');?>:</td>
+				<td width="100" align="left"><?php echo JText::_('COM_REDSHOP_EMAIL'); ?>:</td>
 				<td><input type='text' name="email" value="<?php echo @$post['email']; ?>"/></td>
 			</tr>
 
@@ -156,10 +140,9 @@ $link = 'index.php?option=com_redshop&view=cart&Itemid=' . $Itemid;
 		</table>
 	</fieldset>
 	<input type="hidden" name="is_company" value="<?php echo $regtype; ?>"/>
-	<input type="hidden" name="option" value="com_redshop"/>
+	<input type="hidden" name="option" value="<?php echo $option; ?>"/>
 	<input type="hidden" name="Itemid" value="<?php echo $Itemid; ?>"/>
 	<input type="hidden" name="task" value="usercreate"/>
 	<input type="hidden" name="view" value="quotation"/>
 	<input type="hidden" name="return" value="<?php echo $return; ?>"/>
-
 </form>

@@ -1,7 +1,7 @@
 <?php
 /**
  * @package     RedSHOP.Frontend
- * @subpackage  Template
+ * @subpackage  View
  *
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
@@ -9,8 +9,8 @@
 
 defined('_JEXEC') or die;
 
-$url       = JURI::base();
-$redconfig = new Redconfiguration;
+$url             = JURI::base();
+$redconfig       = new Redconfiguration;
 
 require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/quotation.php';
 $quotationHelper = new quotationHelper;
@@ -19,16 +19,17 @@ $extra_field     = new extra_field;
 $extra_field_new = new extraField;
 
 require_once JPATH_COMPONENT . '/helpers/product.php';
-$producthelper = new producthelper;
+$producthelper   = new producthelper;
 
 require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php';
 $order_functions = new order_functions;
 
-$redTemplate = new Redtemplate;
+$redTemplate     = new Redtemplate;
 
-$Itemid = JRequest::getInt('Itemid', 1);
-$quoid  = JRequest::getInt('quoid');
-$encr   = JRequest::getString('encr');
+$option          = JRequest::getVar('option');
+$Itemid          = JRequest::getVar('Itemid', 1);
+$quoid           = JRequest::getInt('quoid');
+$encr            = JRequest::getVar('encr');
 
 $quotationDetail = $quotationHelper->getQuotationDetail($quoid);
 
@@ -47,8 +48,8 @@ else
 	$quotation_template = "<table border=\"0\" cellspacing=\"0\" cellpadding=\"5\" width=\"100%\">\r\n<tbody>\r\n<tr>\r\n<td colspan=\"2\">\r\n<table border=\"0\" cellspacing=\"0\" cellpadding=\"2\" width=\"100%\">\r\n<tbody>\r\n<tr style=\"background-color: #cccccc\">\r\n<th align=\"left\">{quotation_information_lbl}{print}</th>\r\n</tr>\r\n<tr>\r\n</tr>\r\n<tr>\r\n<td>{quotation_id_lbl} : {quotation_id}</td>\r\n</tr>\r\n<tr>\r\n<td>{quotation_number_lbl} : {quotation_number}</td>\r\n</tr>\r\n<tr>\r\n<td>{quotation_date_lbl} : {quotation_date}</td>\r\n</tr>\r\n<tr>\r\n<td>{quotation_status_lbl} : {quotation_status}</td>\r\n</tr>\r\n<tr>\r\n<td>{quotation_note_lbl} : {quotation_note}</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td colspan=\"2\">\r\n<table border=\"0\" cellspacing=\"0\" cellpadding=\"2\" width=\"100%\">\r\n<tbody>\r\n<tr style=\"background-color: #cccccc\">\r\n<th align=\"left\">{account_information_lbl}</th>\r\n</tr>\r\n<tr>\r\n<td>{account_information}{quotation_custom_field_list}</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td colspan=\"2\">\r\n<table border=\"0\" cellspacing=\"0\" cellpadding=\"2\" width=\"100%\">\r\n<tbody>\r\n<tr style=\"background-color: #cccccc\">\r\n<th align=\"left\">{quotation_detail_lbl}</th>\r\n</tr>\r\n<tr>\r\n</tr>\r\n<tr>\r\n<td>\r\n<table border=\"0\" cellspacing=\"2\" cellpadding=\"2\" width=\"100%\">\r\n<tbody>\r\n<tr>\r\n<td></td>\r\n<td>{product_name_lbl}</td>\r\n<td>{note_lbl}</td>\r\n<td>{price_lbl}</td>\r\n<td>{quantity_lbl}</td>\r\n<td align=\"right\">{total_price_lbl}</td>\r\n</tr>\r\n{product_loop_start}       \r\n<tr>\r\n<td>{product_thumb_image}</td>\r\n<td>{product_name}<br />({product_number_lbl} - {product_number})<br />{product_accessory}<br /> {product_attribute}<br />{product_userfields}</td>\r\n<td>{product_wrapper}</td>\r\n<td>{product_price}</td>\r\n<td>{product_quantity}</td>\r\n<td align=\"right\">{product_total_price}</td>\r\n</tr>\r\n{product_loop_end}\r\n</tbody>\r\n</table>\r\n</td>\r\n</tr>\r\n<tr>\r\n<td></td>\r\n</tr>\r\n<tr>\r\n<td>\r\n<table border=\"0\" cellspacing=\"2\" cellpadding=\"2\" width=\"100%\">\r\n<tbody>\r\n<tr align=\"left\">\r\n<td align=\"left\"><strong>{quotation_subtotal_lbl} : </strong></td>\r\n<td align=\"right\">{quotation_subtotal}</td>\r\n</tr>\r\n<tr align=\"left\">\r\n<td align=\"left\"><strong>{quotation_vat_lbl} : </strong></td>\r\n<td align=\"right\">{quotation_vat}</td>\r\n</tr>\r\n<tr align=\"left\">\r\n<td align=\"left\"><strong>{quotation_discount_lbl} : </strong></td>\r\n<td align=\"right\">{quotation_discount}</td>\r\n</tr>\r\n<tr align=\"left\">\r\n<td colspan=\"2\" align=\"left\">\r\n<hr />\r\n</td>\r\n</tr>\r\n<tr align=\"left\">\r\n<td align=\"left\"><strong>{total_lbl} :</strong></td>\r\n<td align=\"right\">{quotation_total}</td>\r\n</tr>\r\n<tr align=\"left\">\r\n<td colspan=\"2\" align=\"left\">\r\n<hr />\r\n<br /> \r\n<hr />\r\n</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n</td>\r\n</tr>\r\n</tbody>\r\n</table>\r\n</td>\r\n</tr>\r\n</tbody>\r\n</table>";
 }
 
-$print     = JRequest::getInt('print');
-$p_url     = explode('?', $_SERVER['REQUEST_URI']);
+$print = JRequest::getVar('print');
+$p_url = @ explode('?', $_SERVER['REQUEST_URI']);
 $print_tag = '';
 
 if ($print)
@@ -63,20 +64,14 @@ else
 
 $quotation_template = str_replace("{print}", $print_tag, $quotation_template);
 
-$search []  = "{quotation_id}";
+$search [] = "{quotation_id}";
 $replace [] = $quoid;
 
-$search []  = "{quotation_number}";
+$search [] = "{quotation_number}";
 $replace [] = $quotationDetail->quotation_number;
 
-$search []  = "{quotation_date}";
+$search [] = "{quotation_date}";
 $replace [] = $redconfig->convertDateFormat($quotationDetail->quotation_cdate);
-
-$search [] = "{quotation_customer_note_lbl}";
-$replace[] = JText::_('COM_REDSHOP_QUOTATION_CUSTOMER_NOTE');
-
-$search [] = "{quotation_customer_note}";
-$replace[] = $quotationDetail->quotation_customer_note;
 
 $statustext = $quotationHelper->getQuotationStatusName($quotationDetail->quotation_status);
 
@@ -86,25 +81,19 @@ if ($quotationDetail->quotation_status == '2')
 	<input type='radio' name='quotation_status' checked value='3'>" . JText::_('COM_REDSHOP_ACCEPT') . "
 	<input type='radio' name='quotation_status' value='4'>" . JText::_('COM_REDSHOP_REJECT') . "
 	<input type='hidden' name='quotation_id' value='$quoid'>
-	<input type='hidden' name='option' value='com_redshop'>
+	<input type='hidden' name='option' value='$option'>
 	<input type='hidden' name='Itemid' value='$Itemid'>
 	<input type='hidden' name='encr' value='$encr'>
 	<input type='hidden' name='view' value='quotation_detail'>
 	<input type='hidden' name='task' value='updatestatus'>
 	<input type='submit' name='submit' value='" . JText::_("COM_REDSHOP_SUBMIT") . "' onclick='return confirm(\"" . JText::_('COM_REDSHOP_CONFIRM_SEND_QUOTATION') . "\")' />
-	<div>
-		<textarea name='quotation_customer_note' >" . $quotationDetail->quotation_customer_note . "</textarea>"
-	. "</div>
 	</form>";
-
-	$quotation_template = str_replace('{quotation_customer_note_lbl}', '', $quotation_template);
-	$quotation_template = str_replace('{quotation_customer_note}', '', $quotation_template);
 }
 elseif ($quotationDetail->quotation_status == '3')
 {
 	$frm = "<form method='post'>
 	<input type='hidden' name='quotation_id' value='$quoid'>
-	<input type='hidden' name='option' value='com_redshop'>
+	<input type='hidden' name='option' value='$option'>
 	<input type='hidden' name='Itemid' value='$Itemid'>
 	<input type='hidden' name='encr' value='$encr'>
 	<input type='hidden' name='task' value='checkout'>
@@ -250,7 +239,7 @@ else
 	$quotation_template = $extra_field->list_all_field_display(16, $quotationDetail->user_info_id, 1, $quotationDetail->quotation_email, $quotation_template);
 }
 
-$search []  = "{account_information}";
+$search [] = "{account_information}";
 $replace [] = $billadd;
 
 $product_name = "";
@@ -263,10 +252,10 @@ $product_quantity = "";
 
 $product_total_price = "";
 
-$template_start  = $quotation_template;
-$template_end    = "";
+$template_start = $quotation_template;
+$template_end = "";
 $template_middle = "";
-$template_sdata  = explode('{product_loop_start}', $quotation_template);
+$template_sdata = explode('{product_loop_start}', $quotation_template);
 
 if (count($template_sdata) > 0)
 {
@@ -284,7 +273,7 @@ if (count($template_sdata) > 0)
 	}
 }
 
-$cart_mdata        = '';
+$cart_mdata = '';
 $subtotal_excl_vat = 0;
 
 for ($i = 0; $i < count($quotationProducts); $i++)
@@ -323,13 +312,13 @@ for ($i = 0; $i < count($quotationProducts); $i++)
 		{
 			if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $product->product_full_image))
 			{
-				$product_image_path = $product->product_full_image;
+				$product_image_path = $url . "/components/com_redshop/helpers/thumb.php?filename=product/" . $product->product_full_image;
 			}
 			else
 			{
 				if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . PRODUCT_DEFAULT_IMAGE))
 				{
-					$product_image_path = PRODUCT_DEFAULT_IMAGE;
+					$product_image_path = $url . "/components/com_redshop/helpers/thumb.php?filename=product/" . PRODUCT_DEFAULT_IMAGE;
 				}
 			}
 		}
@@ -337,22 +326,13 @@ for ($i = 0; $i < count($quotationProducts); $i++)
 		{
 			if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . PRODUCT_DEFAULT_IMAGE))
 			{
-				$product_image_path = PRODUCT_DEFAULT_IMAGE;
+				$product_image_path = $url . "/components/com_redshop/helpers/thumb.php?filename=product/" . PRODUCT_DEFAULT_IMAGE;
 			}
 		}
 
 		if ($product_image_path)
 		{
-			$thumbUrl = RedShopHelperImages::getImagePath(
-							$product_image_path,
-							'',
-							'thumb',
-							'product',
-							CART_THUMB_WIDTH,
-							CART_THUMB_HEIGHT,
-							USE_IMAGE_SIZE_SWAPPING
-						);
-			$product_image = "<div class='product_image'><img src='" . $thumbUrl . "'></div>";
+			$product_image = "<div class='product_image'><img src='" . $product_image_path . "&newxsize=" . CART_THUMB_WIDTH . "&newysize=" . CART_THUMB_HEIGHT . "&swap=" . USE_IMAGE_SIZE_SWAPPING . "'></div>";
 		}
 		else
 		{
@@ -416,73 +396,107 @@ if ($quotationDetail->quotation_status == 1)
 }
 else
 {
-	$quotation_total    = $producthelper->getProductFormattedPrice($quotationDetail->quotation_total);
-	$quotation_subtotal = $producthelper->getProductFormattedPrice($quotationDetail->quotation_subtotal);
-	$quotation_tax      = $producthelper->getProductFormattedPrice($quotationDetail->quotation_tax);
-	$quotation_discount = $producthelper->getProductFormattedPrice($quotationDetail->quotation_discount);
+	$tax               = $quotationDetail->quotation_tax;
+	$DiscountWithotVat = $quotationDetail->quotation_discount;
+
+	if (VAT_RATE_AFTER_DISCOUNT)
+	{
+		$Discountvat                         = (VAT_RATE_AFTER_DISCOUNT * $quotationDetail->quotation_discount) / (1 + VAT_RATE_AFTER_DISCOUNT);
+		$DiscountWithotVat                   = $quotationDetail->quotation_discount - $Discountvat;
+		$quotationDetail->quotation_discount = $quotationDetail->quotation_discount - $Discountvat;
+		$tax                                 = $tax - $Discountvat;
+	}
+
+	if (VAT_RATE_AFTER_DISCOUNT)
+	{
+		$sp_discount                         = ($quotationDetail->quotation_special_discount * ($quotationDetail->quotation_subtotal + $quotationDetail->quotation_tax)) / 100;
+		$Discountspvat                       = ($sp_discount * VAT_RATE_AFTER_DISCOUNT) / (1 + VAT_RATE_AFTER_DISCOUNT);
+		$DiscountspWithotVat                 = $sp_discount - $Discountspvat;
+		$tax                                 = $tax - $Discountspvat;
+		$quotationDetail->quotation_discount = $quotationDetail->quotation_discount + $DiscountspWithotVat;
+	}
+
+	$quotationDetail->quotation_subtotal;
+	$quotation_subtotal_excl_vat      = $producthelper->getProductFormattedPrice($quotationDetail->quotation_subtotal);
+	$quotation_subtotal_with_discount = $producthelper->getProductFormattedPrice($quotationDetail->quotation_subtotal - $DiscountWithotVat - $DiscountspWithotVat);
+	$quotation_total                  = $producthelper->getProductFormattedPrice($quotationDetail->quotation_total);
+	$quotation_subtotal               = $producthelper->getProductFormattedPrice($quotationDetail->quotation_subtotal);
+	$quotation_tax                    = $producthelper->getProductFormattedPrice($tax);
+	$quotation_discount               = $producthelper->getProductFormattedPrice($quotationDetail->quotation_discount);
 }
 
-$search []  = "{quotation_discount}";
+$search [] = "{quotation_discount}";
 $replace [] = $quotation_discount;
 
-$search[]  = "{quotation_discount_lbl}";
-$replace[] = JText::_('COM_REDSHOP_QUOTATION_DISCOUNT_LBL');
+$search [] = "{quotation_subtotal_excl_vat}";
+$replace [] = $quotation_subtotal_excl_vat;
 
-$search []  = "{quotation_subtotal}";
+
+$search [] = "{quotation_subtotal_with_discount}";
+$replace [] = $quotation_subtotal_with_discount;
+
+$search [] = "{quotation_subtotal_with_discount_lbl}";
+$replace [] = JText::_('QUOTATION_SUBTOTAL_WITH_DISCOUNT');
+
+$search[] = "{quotation_discount_lbl}";
+$replace[] = JText::_('QUOTATION_DISCOUNT');
+
+$search [] = "{quotation_subtotal}";
 $replace [] = $quotation_subtotal;
 
-$search[]  = "{quotation_id_lbl}";
+$search[] = "{quotation_id_lbl}";
 $replace[] = JText::_('COM_REDSHOP_QUOTATION_ID');
 
-$search[]  = "{quotation_number_lbl}";
+$search[] = "{quotation_number_lbl}";
 $replace[] = JText::_('COM_REDSHOP_QUOTATION_NUMBER');
 
-$search[]  = "{quotation_date_lbl}";
+$search[] = "{quotation_date_lbl}";
 $replace[] = JText::_('COM_REDSHOP_QUOTATION_DATE');
 
-$search[]  = "{quotation_status_lbl}";
+$search[] = "{quotation_status_lbl}";
 $replace[] = JText::_('COM_REDSHOP_QUOTATION_STATUS');
 
-$search[]  = "{quotation_information_lbl}";
+$search[] = "{quotation_information_lbl}";
 $replace[] = JText::_('COM_REDSHOP_QUOTATION_INFORMATION');
 
-$search[]  = "{account_information_lbl}";
+$search[] = "{account_information_lbl}";
 $replace[] = JText::_('COM_REDSHOP_ACCOUNT_INFORMATION');
 
-$search[]  = "{quotation_detail_lbl}";
+$search[] = "{quotation_detail_lbl}";
 $replace[] = JText::_('COM_REDSHOP_QUOTATION_DETAILS');
 
-$search[]  = "{product_name_lbl}";
+$search[] = "{product_name_lbl}";
 $replace[] = JText::_('COM_REDSHOP_PRODUCT_NAME');
 
-$search[]  = "{note_lbl}";
+$search[] = "{note_lbl}";
 $replace[] = JText::_('COM_REDSHOP_NOTE_LBL');
 
-$search[]  = "{price_lbl}";
+$search[] = "{price_lbl}";
 $replace[] = JText::_('COM_REDSHOP_PRICE_LBL');
 
-$search[]  = "{quantity_lbl}";
+$search[] = "{quantity_lbl}";
 $replace[] = JText::_('COM_REDSHOP_QUANTITY_LBL');
 
-$search[]  = "{total_price_lbl}";
+$search[] = "{total_price_lbl}";
 $replace[] = JText::_('COM_REDSHOP_TOTAL_PRICE_LBL');
 
-$search[]  = "{quotation_subtotal_lbl}";
+$search[] = "{quotation_subtotal_lbl}";
 $replace[] = JText::_('COM_REDSHOP_QUOTATION_SUBTOTAL');
 
-$search[]  = "{total_lbl}";
+$search[] = "{total_lbl}";
 $replace[] = JText::_('COM_REDSHOP_QUOTATION_TOTAL');
 
-$search []  = "{quotation_total}";
+$search [] = "{quotation_total}";
 $replace [] = $quotation_total;
 
-$search[]  = "{quotation_tax_lbl}";
+$search[] = "{quotation_tax_lbl}";
 $replace[] = JText::_('COM_REDSHOP_QUOTATION_TAX');
 
-$search []  = "{quotation_tax}";
+$search [] = "{quotation_tax}";
 $replace [] = $quotation_tax;
 
 $message = str_replace($search, $replace, $quotation_template);
 
 $message = $redTemplate->parseredSHOPplugin($message);
 echo eval("?>" . $message . "<?php ");
+?>

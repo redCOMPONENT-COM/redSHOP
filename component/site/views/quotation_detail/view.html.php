@@ -9,81 +9,81 @@
 
 defined('_JEXEC') or die;
 
-JLoader::import('joomla.application.component.view');
 require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/quotation.php';
 
 class quotation_detailViewquotation_detail extends JView
 {
-function display ($tpl = null)
-{
-	$app = JFactory::getApplication();
-
-	$quotationHelper = new quotationHelper;
-
-	$print = JRequest::getInt('print');
-
-if ($print)
-{
-	?>
-	<script type="text/javascript" language="javascript">
-		window.print();
-	</script>
-<?php
-}
-
-	$user   = JFactory::getUser();
-	$Itemid = JRequest::getInt('Itemid');
-	$quoid = JRequest::getInt('quoid');
-	$encr  = JRequest::getString('encr');
-
-	if (!$quoid)
+	function display($tpl = null)
 	{
-		$app->Redirect('index.php?option=com_redshop&view=account&Itemid=' . $Itemid);
-	}
+		$mainframe = JFactory::getApplication();
+		$quotationHelper = new quotationHelper;
 
-	$quotationDetail = $quotationHelper->getQuotationDetail($quoid);
+		$print = JRequest::getVar('print');
 
-	if (count($quotationDetail) < 1)
-	{
-		JError::raiseWarning(404, JText::_('COM_REDSHOP_NOACCESS_QUOTATION'));
-		echo JText::_('COM_REDSHOP_NOACCESS_QUOTATION');
-
-		return;
-	}
-
-	if (!$user->id)
-	{
-		if (isset($encr))
+		if ($print)
 		{
-			$model         = $this->getModel('quotation_detail');
-			$authorization = $model->checkAuthorization($quoid, $encr);
-
-			if (!$authorization)
-			{
-				JError::raiseWarning(404, JText::_('COM_REDSHOP_QUOTATION_ENCKEY_FAILURE'));
-				echo JText::_('COM_REDSHOP_QUOTATION_ENCKEY_FAILURE');
-
-				return false;
-			}
+			?>
+			<script type="text/javascript" language="javascript">
+				window.print();
+			</script>
+		<?php
 		}
-		else
+
+		$user   = JFactory::getUser();
+		$option = JRequest::getVar('option');
+		$Itemid = JRequest::getVar('Itemid');
+
+		$quoid  = JRequest::getInt('quoid');
+		$encr   = JRequest::getVar('encr');
+
+		if (!$quoid)
 		{
-			$app->Redirect('index.php?option=com_redshop&view=login&Itemid=' . JRequest::getInt('Itemid'));
-
-			return;
+			$mainframe->Redirect('index.php?option=' . $option . '&view=account&Itemid=' . $Itemid);
 		}
-	}
-	else
-	{
-		if (count($quotationDetail) > 0 && $quotationDetail->user_id != $user->id)
+
+		$quotationDetail = $quotationHelper->getQuotationDetail($quoid);
+
+		if (count($quotationDetail) < 1)
 		{
 			JError::raiseWarning(404, JText::_('COM_REDSHOP_NOACCESS_QUOTATION'));
 			echo JText::_('COM_REDSHOP_NOACCESS_QUOTATION');
 
 			return;
 		}
-	}
 
-	parent::display($tpl);
-}
+		if (!$user->id)
+		{
+			if (isset($encr))
+			{
+				$model         = $this->getModel('quotation_detail');
+				$authorization = $model->checkAuthorization($quoid, $encr);
+
+				if (!$authorization)
+				{
+					JError::raiseWarning(404, JText::_('COM_REDSHOP_QUOTATION_ENCKEY_FAILURE'));
+					echo JText::_('COM_REDSHOP_QUOTATION_ENCKEY_FAILURE');
+
+					return false;
+				}
+			}
+			else
+			{
+				$mainframe->Redirect('index.php?option=com_redshop&view=login&Itemid=' . JRequest::getVar('Itemid'));
+
+				return;
+			}
+		}
+		else
+		{
+			if (count($quotationDetail) > 0 && $quotationDetail->user_id != $user->id)
+			{
+				JError::raiseWarning(404, JText::_('COM_REDSHOP_NOACCESS_QUOTATION'));
+				echo JText::_('COM_REDSHOP_NOACCESS_QUOTATION');
+
+				return;
+			}
+		}
+
+		parent::display($tpl);
+	}
 }

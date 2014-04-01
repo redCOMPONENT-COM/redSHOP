@@ -9,27 +9,26 @@
 
 defined('_JEXEC') or die;
 
-JLoader::import('joomla.application.component.view');
-
 class quotationViewquotation extends JView
 {
-	public function display($tpl = null)
+	function display($tpl = null)
 	{
-		$app = JFactory::getApplication();
+		$mainframe = JFactory::getApplication();
 
 		$redconfig = new Redconfiguration;
-		$uri       = JFactory::getURI();
+		$uri       = & JFactory::getURI();
 
-		$Itemid  = JRequest::getInt('Itemid');
-		$session = JFactory::getSession();
+		$option  = JRequest::getVar('option');
+		$Itemid  = JRequest::getVar('Itemid');
+		$session =& JFactory::getSession();
 		$cart    = $session->get('cart');
-		$return  = JRequest::getString('return');
+		$return  = JRequest::getVar('return');
 
 		if (!$return)
 		{
 			if ($cart['idx'] < 1)
 			{
-				$app->Redirect('index.php?option=com_redshop&view=cart&Itemid=' . $Itemid);
+				$mainframe->Redirect('index.php?option=' . $option . '&view=cart&Itemid=' . $Itemid);
 			}
 		}
 
@@ -39,8 +38,8 @@ class quotationViewquotation extends JView
 
 		$detail = $model->getData();
 
-		$this->detail = $detail;
-		$this->request_url = JFilterOutput::cleanText($uri->toString());
+		$this->assignRef('detail', $detail);
+		$this->assignRef('request_url', $uri->toString());
 
 		parent::display($tpl);
 	}

@@ -1,18 +1,20 @@
 <?php
 /**
  * @package     RedSHOP.Backend
- * @subpackage  Template
+ * @subpackage  View
  *
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+defined('_JEXEC') or die;
+
 require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
-$producthelper = new producthelper();
+$producthelper = new producthelper;
 
 require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/quotation.php';
-$quotationHelper = new quotationHelper();
+$quotationHelper = new quotationHelper;
 
-$config = new Redconfiguration();
+$config = new Redconfiguration;
 
 $option = JRequest::getVar('option');
 $filter = JRequest::getVar('filter');
@@ -21,9 +23,7 @@ $model = $this->getModel('quotation');
 ?>
 <script language="javascript" type="text/javascript">
 	Joomla.submitbutton = function (pressbutton) {
-		submitbutton(pressbutton);
-	}
-	submitbutton = function (pressbutton) {
+
 		var form = document.adminForm;
 		if (pressbutton) {
 			form.task.value = pressbutton;
@@ -84,39 +84,49 @@ $model = $this->getModel('quotation');
 			</thead>
 			<?php
 			$k = 0;
+
 			for ($i = 0, $n = count($this->quotation); $i < $n; $i++)
 			{
-				$row = & $this->quotation[$i];
+				$row     = & $this->quotation[$i];
 				$row->id = $row->quotation_id;
 				$display = $row->user_email;
+
 				if ($row->user_id)
 				{
 					$userarr = $producthelper->getUserInformation($row->user_id);
+
 					if (count($userarr) > 0)
 					{
 						$display = $userarr->firstname . ' ' . $userarr->lastname;
 						$display .= ($userarr->is_company && $userarr->company_name != "") ? "<br>" . $userarr->company_name : "";
 					}
 				}
-				$link = JRoute::_('index.php?option=' . $option . '&view=quotation_detail&task=edit&cid[]=' . $row->quotation_id);
+
+				$link   = JRoute::_('index.php?option=' . $option . '&view=quotation_detail&task=edit&cid[]=' . $row->quotation_id);
 				$status = $quotationHelper->getQuotationStatusName($row->quotation_status);
+
 				if ($row->quotation_status == 5)
 				{
-//			$orderlink = JRoute::_( 'index.php?option='.$option.'&view=order_detail&task=edit&cid[]='.$row->order_id );
-//			$status .= " <a href='".$orderlink."'>(".JText::_('COM_REDSHOP_ORDER_ID')."-".$row->order_id." )</a>";
 					$status .= " (" . JText::_('COM_REDSHOP_ORDER_ID') . "-" . $row->order_id . " )";
-				}    ?>
+				}
+				?>
 				<tr class="<?php echo "row$k"; ?>">
 					<td align="center"><?php echo $this->pagination->getRowOffset($i); ?></td>
 					<td align="center"><?php echo JHTML::_('grid.id', $i, $row->id); ?></td>
-					<td align="center"><a href="<?php echo $link; ?>"
-					                      title="<?php echo JText::_('COM_REDSHOP_VIEW_QUOTATION'); ?>"><?php echo $row->quotation_id; ?></a>
+					<td align="center">
+						<a href="<?php echo $link; ?>"
+					        title="<?php echo JText::_('COM_REDSHOP_VIEW_QUOTATION'); ?>">
+					        <?php echo $row->quotation_id; ?>
+						</a>
 					</td>
-					<td align="center"><a href="<?php echo $link; ?>"
-					                      title="<?php echo JText::_('COM_REDSHOP_VIEW_QUOTATION'); ?>"><?php echo $row->quotation_number; ?></a>
+					<td align="center">
+						<a href="<?php echo $link; ?>"
+					    	title="<?php echo JText::_('COM_REDSHOP_VIEW_QUOTATION'); ?>">
+					    	<?php echo $row->quotation_number; ?>
+						</a>
 					</td>
 					<td><?php echo $display; ?></td>
-					<td align="center"><?php echo $status;?></td>
+					<td align="center"><?php echo $status; ?></td>
 					<td align="center"><?php echo $producthelper->getProductFormattedPrice($row->quotation_total); ?></td>
 					<td align="center"><?php echo $config->convertDateFormat($row->quotation_cdate); ?></td>
 				</tr>

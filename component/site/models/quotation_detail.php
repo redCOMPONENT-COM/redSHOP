@@ -8,7 +8,6 @@
  */
 
 defined('_JEXEC') or die;
-JLoader::import('joomla.application.component.model');
 
 require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/quotation.php';
 require_once JPATH_COMPONENT . '/helpers/extra_field.php';
@@ -28,19 +27,11 @@ class quotation_detailModelquotation_detail extends JModel
 
 	public $_data = null;
 
-	public $_table_prefix = null;
-
-	public function __construct()
-	{
-		parent::__construct();
-		$this->_table_prefix = '#__redshop_';
-	}
-
 	public function checkAuthorization($quoid, $encr)
 	{
-		$query = "SELECT COUNT(quotation_id) FROM " . $this->_table_prefix . "quotation "
-			. "WHERE quotation_id = " . (int) $quoid . " "
-			. "AND quotation_encrkey LIKE " . $this->_db->quote($encr);
+		$query = "SELECT COUNT(quotation_id) FROM #__redshop_quotation "
+			. "WHERE quotation_id='" . $quoid . "' "
+			. "AND quotation_encrkey LIKE '" . $encr . "' ";
 		$this->_db->setQuery($query);
 		$record = $this->_db->loadResult();
 
@@ -144,6 +135,7 @@ class quotation_detailModelquotation_detail extends JModel
 					$accPropertyCart[$ip]['property_id']     = $acc_prop_data[$ip]->section_id;
 					$accPropertyCart[$ip]['property_name']   = $acc_prop_data[$ip]->section_name;
 					$accPropertyCart[$ip]['property_oprand'] = $acc_prop_data[$ip]->section_oprand;
+					$accPropertyCart[$ip]['property_price']  = $acc_prop_data[$ip]->section_price;
 
 					$acc_subpro_data = $quotationHelper->getQuotationItemAttributeDetail($data->quotation_item_id, 1, "subproperty", $acc_prop_data[$ip]->section_id);
 
@@ -152,6 +144,7 @@ class quotation_detailModelquotation_detail extends JModel
 						$accSubpropertyCart[$isp]['subproperty_id']     = $acc_subpro_data[$isp]->section_id;
 						$accSubpropertyCart[$isp]['subproperty_name']   = $acc_subpro_data[$isp]->section_name;
 						$accSubpropertyCart[$isp]['subproperty_oprand'] = $acc_subpro_data[$isp]->section_oprand;
+						$accSubpropertyCart[$isp]['subproperty_price']  = $acc_subpro_data[$isp]->section_price;
 					}
 
 					$accPropertyCart[$ip]['property_childs'] = $accSubpropertyCart;
@@ -179,6 +172,7 @@ class quotation_detailModelquotation_detail extends JModel
 				$accPropertyCart[$ip]['property_id']     = $acc_prop_data[$ip]->section_id;
 				$accPropertyCart[$ip]['property_name']   = $acc_prop_data[$ip]->section_name;
 				$accPropertyCart[$ip]['property_oprand'] = $acc_prop_data[$ip]->section_oprand;
+				/*$accPropertyCart[$ip]['property_price']  = $acc_prop_data[$ip]->section_price;*/
 
 				$acc_subpro_data = $quotationHelper->getQuotationItemAttributeDetail($data->quotation_item_id, 0, "subproperty", $acc_prop_data[$ip]->section_id);
 
@@ -187,6 +181,7 @@ class quotation_detailModelquotation_detail extends JModel
 					$accSubpropertyCart[$isp]['subproperty_id']     = $acc_subpro_data[$isp]->section_id;
 					$accSubpropertyCart[$isp]['subproperty_name']   = $acc_subpro_data[$isp]->section_name;
 					$accSubpropertyCart[$isp]['subproperty_oprand'] = $acc_subpro_data[$isp]->section_oprand;
+					/*$accSubpropertyCart[$isp]['subproperty_price']  = $acc_subpro_data[$isp]->section_price;*/
 				}
 
 				$accPropertyCart[$ip]['property_childs'] = $accSubpropertyCart;
@@ -195,8 +190,8 @@ class quotation_detailModelquotation_detail extends JModel
 			$generateAttributeCart[$ia]['attribute_childs'] = $accPropertyCart;
 		}
 
-		$cart[$idx]['cart_attribute'] = $generateAttributeCart;
-		$cart[$idx]['cart_accessory'] = $generateAccessoryCart;
+		$cart[$idx]['cart_attribute']         = $generateAttributeCart;
+		$cart[$idx]['cart_accessory']         = $generateAccessoryCart;
 		$cart[$idx]['wrapper_id']             = $data->product_wrapperid;
 		$cart[$idx]['wrapper_price']          = $data->wrapper_price;
 		$cart[$idx]['product_price_excl_vat'] = $data->product_excl_price;
@@ -222,36 +217,5 @@ class quotation_detailModelquotation_detail extends JModel
 
 		$session->set('cart', $cart);
 		$carthelper->cartFinalCalculation(false);
-	}
-
-	/**
-	 * Add Quotation Detail Customer note
-	 *
-	 * @param   array  $data  Quotation Detail Post Data
-	 *
-	 * @return  void
-	 */
-	public function addQuotationCustomerNote($data)
-	{
-		// Initialize variables.
-		$db    = JFactory::getDbo();
-		$query = $db->getQuery(true);
-
-		// Create the base update statement.
-		$query->update($db->quoteName('#__redshop_quotation'))
-			->set($db->quoteName('quotation_customer_note') . ' = ' . $db->quote($data['quotation_customer_note']))
-			->where($db->quoteName('quotation_id') . ' = ' . (int) $data['quotation_id']);
-
-		// Set the query and execute the update.
-		$db->setQuery($query);
-
-		try
-		{
-			$db->execute();
-		}
-		catch (RuntimeException $e)
-		{
-			throw new RuntimeException($e->getMessage(), $e->getCode());
-		}
 	}
 }

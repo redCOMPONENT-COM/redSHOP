@@ -9,20 +9,18 @@
 
 defined('_JEXEC') or die;
 
-JLoader::import('joomla.application.component.controller');
-
 require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/quotation.php';
 require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/mail.php';
 require_once JPATH_COMPONENT . '/helpers/helper.php';
 
 /**
- * Quotation Detail Controller.
+ * Quotation Detail Controller
  *
  * @package     RedSHOP.Frontend
  * @subpackage  Controller
  * @since       1.0
  */
-class Quotation_detailController extends JController
+class quotation_detailController extends JController
 {
 	/**
 	 * update status function
@@ -30,28 +28,22 @@ class Quotation_detailController extends JController
 	 * @access public
 	 * @return void
 	 */
-	public function updatestatus()
+	function updatestatus()
 	{
 		$post   = JRequest::get('post');
 		$option = JRequest::getVar('option');
 		$Itemid = JRequest::getVar('Itemid');
 		$encr   = JRequest::getVar('encr');
-		$model = $this->getModel();
 
 		$quotationHelper = new quotationHelper;
 		$redshopMail     = new redshopMail;
-
-		// Update Status
 		$quotationHelper->updateQuotationStatus($post['quotation_id'], $post['quotation_status']);
-
-		// Add Customer Note
-		$model->addQuotationCustomerNote($post);
 
 		$mailbool = $redshopMail->sendQuotationMail($post['quotation_id'], $post['quotation_status']);
 
 		$msg = JText::_('COM_REDSHOP_QUOTATION_STATUS_UPDATED_SUCCESSFULLY');
 
-		$this->setRedirect('index.php?option=com_redshop&view=quotation_detail&quoid=' . $post['quotation_id'] . '&encr=' . $encr . '&Itemid=' . $Itemid, $msg);
+		$this->setRedirect('index.php?option=' . $option . '&view=quotation_detail&quoid=' . $post['quotation_id'] . '&encr=' . $encr . '&Itemid=' . $Itemid, $msg);
 	}
 
 	/**
@@ -60,7 +52,7 @@ class Quotation_detailController extends JController
 	 * @access public
 	 * @return void
 	 */
-	public function checkout()
+	function checkout()
 	{
 		$option = JRequest::getVar('option');
 		$Itemid = JRequest::getVar('Itemid');
@@ -69,10 +61,10 @@ class Quotation_detailController extends JController
 
 		$quotationHelper = new quotationHelper;
 		$model           = $this->getmodel();
-		$session         = JFactory::getSession();
+		$session         =& JFactory::getSession();
 		$redhelper       = new redhelper;
 
-		$cart = array();
+		$cart        = array();
 		$cart['idx'] = 0;
 		$session->set('cart', $cart);
 
@@ -85,7 +77,7 @@ class Quotation_detailController extends JController
 
 		$cart = $session->get('cart');
 
-		$quotationDetail = $quotationHelper->getQuotationDetail($post['quotation_id']);
+		$quotationDetail       = $quotationHelper->getQuotationDetail($post['quotation_id']);
 		$cart['customer_note'] = $quotationDetail->quotation_note;
 		$cart['quotation_id']  = $quotationDetail->quotation_id;
 		$cart['cart_discount'] = $quotationDetail->quotation_discount;
@@ -94,6 +86,7 @@ class Quotation_detailController extends JController
 
 		$model->modifyQuotation($quotationDetail->user_id);
 		$Itemid = $redhelper->getCheckoutItemid();
+
 		$this->setRedirect('index.php?option=' . $option . '&view=checkout&quotation=1&encr=' . $encr . '&Itemid=' . $Itemid);
 	}
 }
