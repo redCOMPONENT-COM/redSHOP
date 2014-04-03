@@ -57,6 +57,7 @@ class templateViewtemplate extends JView
 		$this->templates = $templates;
 		$this->pagination = $pagination;
 		$this->request_url = $uri->toString();
+		$this->state = $this->get("state");
 
 		parent::display($tpl);
 	}

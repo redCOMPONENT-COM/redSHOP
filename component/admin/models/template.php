@@ -116,7 +116,7 @@ class templateModeltemplate extends JModel
 		$filter_order = $app->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'template_id');
 		$filter_order_Dir = $app->getUserStateFromRequest($this->_context . 'filter_order_Dir', 'filter_order_Dir', '');
 
-		$orderby = ' ORDER BY ' . $db->escape($filter_order . ' ' . $filter_order_Dir);
+		$orderby = $db->escape($filter_order . ' ' . $filter_order_Dir);
 
 		return $orderby;
 	}
