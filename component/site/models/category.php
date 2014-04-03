@@ -219,7 +219,7 @@ class CategoryModelCategory extends JModel
 	 * @param   number   $minmax    default variable is 0
 	 * @param   boolean  $isSlider  default variable is false
 	 *
-	 * @return multitype:NULL
+	 * @return mixed
 	 */
 	public function getCategoryProduct($minmax = 0, $isSlider = false)
 	{
@@ -227,17 +227,27 @@ class CategoryModelCategory extends JModel
 		$menu            = $app->getMenu();
 		$item            = $menu->getActive();
 
-		$manufacturerId = 0;
+		$manufacturerId = $app->input->post->get("manufacturer_id", "");
 
-		if (isset($item))
+		if ($manufacturerId === "")
 		{
-			$manufacturerId = intval($item->params->get('manufacturer_id'));
+			$manufacturerId = JFactory::getApplication()->getUserState("manufacturer_id");
+
+			if ($manufacturerId === "")
+			{
+				// If session is null variable, get value in default request
+				$manufacturerId = $app->input->get('manufacturer_id', 0);
+			}
 		}
+		else
+		{
+			$manufacturerId = $app->input->post->get("manufacturer_id", 0);
+		}
+
+		$app->setUserState("manufacturer_id", $manufacturerId);
 
 		$setproductfinderobj = new redhelper;
 		$orderBy            = $this->buildProductOrderBy();
-
-		$manufacturerId		 = $app->input->get("manufacturer_id", $manufacturerId, "int");
 
 		$sort = "";
 		$and  = "";
@@ -258,7 +268,7 @@ class CategoryModelCategory extends JModel
 
 		if ($manufacturerId && $manufacturerId > 0)
 		{
-			$and .= " AND p.manufacturer_id = " . (int) $manufacturerId . " ";
+			$and .= " p.manufacturer_id = " . (int) $manufacturerId . " ";
 		}
 
 		if ($minmax && !(strstr($orderBy, "p.product_price ASC") || strstr($orderBy, "p.product_price DESC")))

@@ -15,14 +15,14 @@ $uri = JURI::getInstance();
 $url = $uri->root();
 
 $user      = JFactory::getUser();
-$redhelper = new redhelper();
+$redhelper = new redhelper;
 $Itemid    = $redhelper->getItemid();
 
 // get product helper
 // Getting the configuration
 require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
 require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/configuration.php';
-$Redconfiguration = new Redconfiguration();
+$Redconfiguration = new Redconfiguration;
 $Redconfiguration->defineDynamicVars();
 
 if (MY_WISHLIST)
