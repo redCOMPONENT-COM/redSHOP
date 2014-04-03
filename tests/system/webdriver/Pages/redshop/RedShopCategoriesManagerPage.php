@@ -220,4 +220,19 @@ class RedShopCategoriesManagerPage extends AdminManagerPage
 			$this->driver->waitForElementUntilIsPresent(By::xPath($this->waitForXpath));
 		}
 	}
+
+	public function copyCategory($categoryName)
+	{
+		$elementObject = $this->driver;
+		$searchField = $elementObject->findElement(By::xPath("//input[@id='category_main_filter']"));
+		$searchField->clear();
+		$searchField->sendKeys($categoryName);
+		$elementObject->findElement(By::xPath("//button[@onclick=\"document.adminForm.submit();\"]"))->click();
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//tbody/tr/td[3]/a[contains(text(),'" . $categoryName . "')]"), 10);
+		$row = $this->getRowNumber($categoryName) - 1;
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='cb" . $row . "']"), 10);
+		$elementObject->findElement(By::xPath("//input[@id='cb" . $row . "']"))->click();
+		$elementObject->findElement(By::xPath("//li[@id='toolbar-copy']/a"))->click();
+		sleep(4);
+	}
 }
