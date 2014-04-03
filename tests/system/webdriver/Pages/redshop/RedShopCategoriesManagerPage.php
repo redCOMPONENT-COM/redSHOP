@@ -51,7 +51,7 @@ class RedShopCategoriesManagerPage extends AdminManagerPage
 		$elementObject = $this->driver;
 		$elementObject->findElement(By::xPath("//a[@onclick=\"Joomla.submitbutton('add')\"]"))->click();
 		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='category_name']"));
-		$nameField = $elementObject->findElement(By::xPath("//input[@id='jform_category_name']"));
+		$nameField = $elementObject->findElement(By::xPath("//input[@id='category_name']"));
 		$nameField->clear();
 		$nameField->sendKeys($categoryName);
 		$noOfProductsField = $elementObject->findElement(By::xPath("//input[@id='products_per_page']"));
