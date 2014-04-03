@@ -19,7 +19,7 @@ class AdminLoginPage extends AdminPage
 	public function loginValidUser($userName, $password)
 	{
 		$this->executeLogin($userName, $password);
-		return $this->test->getPageObject('ControlPanelPage');
+		return $this->test->getPageObject('GenericAdminPage');
 	}
 
 	private function executeLogin($userName, $password)
@@ -31,7 +31,7 @@ class AdminLoginPage extends AdminPage
 		$webElement->clear();
 		$webElement->sendKeys($this->cfg->password);
 		//access button
-		$this->driver->findElement(By::xPath("//button[contains(., 'Log in')]"))->click();
+		$this->driver->findElement(By::xPath("//div[@class='button1']//a[contains(text(),'Log in')]"))->click();
 	}
 
 }
