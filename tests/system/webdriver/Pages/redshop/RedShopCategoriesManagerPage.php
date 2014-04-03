@@ -221,6 +221,13 @@ class RedShopCategoriesManagerPage extends AdminManagerPage
 		}
 	}
 
+	/**
+	 * Function to Copy Category
+	 *
+	 * @param   string  $categoryName  Name of the Category
+	 *
+	 * @return RedShop2CategoriesManagerPage
+	 */
 	public function copyCategory($categoryName)
 	{
 		$elementObject = $this->driver;
