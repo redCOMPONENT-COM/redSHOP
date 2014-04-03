@@ -167,12 +167,12 @@ class JoomlaWebdriverTestCase extends PHPUnit_Framework_TestCase
 			$d->findElement(By::xPath("//div[@id='lang_chzn']/div/div/input"))->sendKeys($this->cfg->language);
 			$d->findElement(By::xPath("//div[@id='lang_chzn']//ul[@class='chzn-results']/li[contains(.,'" . $this->cfg->language . "')]"))->click();
 			$cpPage = $loginPage->loginValidUser($this->cfg->username, $this->cfg->password);
-			$this->assertTrue(is_a($cpPage, 'ControlPanelPage'));
+			$this->assertTrue(is_a($cpPage, 'GenericAdminPage'));
 		}
 		else
 		{
 			$cpPage = $loginPage->loginValidUser($this->cfg->username, $this->cfg->password);
-			$this->assertTrue(is_a($cpPage, 'ControlPanelPage'));
+			$this->assertTrue(is_a($cpPage, 'GenericAdminPage'));
 		}
 		return $cpPage;
 	}
