@@ -123,6 +123,14 @@ class RedShopCategoriesManagerPage extends AdminManagerPage
 		$elementObject->findElement(By::xPath("//li[@id='toolbar-delete']/a"))->click();
 	}
 
+	/**
+	 * Function to Search for a Category
+	 *
+	 * @param   string  $categoryName  Name of the Category
+	 * @param   string  $functionName  Name of the function after which Search is getting called
+	 *
+	 * @return bool True or False Based on the Value
+	 */
 	public function searchCategory($categoryName, $functionName = 'Search')
 	{
 		$elementObject = $this->driver;
