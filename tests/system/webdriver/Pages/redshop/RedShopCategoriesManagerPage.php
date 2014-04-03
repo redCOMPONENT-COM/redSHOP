@@ -38,6 +38,14 @@ class RedShopCategoriesManagerPage extends AdminManagerPage
 	 */
 	protected $url = 'administrator/index.php?option=com_redshop&view=category';
 
+	/**
+	 * Function to add a new Category
+	 *
+	 * @param   string  $categoryName  Name of the Category
+	 * @param   string  $noOfProducts  No of Products Per Page
+	 *
+	 * @return RedShopCategoriesManagerPage
+	 */
 	public function addCategory($categoryName = 'Sample Category', $noOfProducts = '5')
 	{
 		$elementObject = $this->driver;
