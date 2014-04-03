@@ -157,4 +157,28 @@ class RedShopCategoriesManagerPage extends AdminManagerPage
 			return false;
 		}
 	}
+
+	public function getState($categoryName)
+	{
+		$elementObject = $this->driver;
+		$searchField = $elementObject->findElement(By::xPath("//input[@id='category_main_filter']"));
+		$searchField->clear();
+		$searchField->sendKeys($categoryName);
+		$elementObject->findElement(By::xPath("//button[@onclick=\"document.adminForm.submit();\"]"))->click();
+		sleep(5);
+		$row = $this->getRowNumber($categoryName);
+		$text = $this->driver->findElement(By::xPath("//tbody/tr[" . $row . "]/td[7]//a"))->getAttribute(@onclick);
+
+		if (strpos($text, 'unpublish') > 0)
+		{
+			$result = 'published';
+		}
+
+		if (strpos($text, 'publish') > 0)
+		{
+			$result = 'unpublished';
+		}
+
+		return $result;
+	}
 }
