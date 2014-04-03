@@ -189,6 +189,14 @@ class RedShopCategoriesManagerPage extends AdminManagerPage
 		return $result;
 	}
 
+	/**
+	 * Function to Change State of a Category
+	 *
+	 * @param   string  $categoryName  Name of the Category
+	 * @param   string  $state         State for the Category
+	 *
+	 * @return RedShopCategoriesManagerPage
+	 */
 	public function changeCategoryState($categoryName, $state = 'published')
 	{
 		$elementObject = $this->driver;
