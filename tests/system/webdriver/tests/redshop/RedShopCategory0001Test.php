@@ -58,6 +58,13 @@ class RedShopCategory0001Test extends JoomlaWebdriverTestCase
 		parent::tearDown();
 	}
 
+	/**
+	 * Function to Test Category Creation
+	 *
+	 * @test
+	 *
+	 * @return void
+	 */
 	public function createCategory()
 	{
 		$rand = rand();
