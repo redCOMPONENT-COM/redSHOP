@@ -158,6 +158,13 @@ class RedShopCategoriesManagerPage extends AdminManagerPage
 		}
 	}
 
+	/**
+	 * Function to Get State of a Category
+	 *
+	 * @param   string  $categoryName  Name of the Category
+	 *
+	 * @return string Based on the value
+	 */
 	public function getState($categoryName)
 	{
 		$elementObject = $this->driver;
