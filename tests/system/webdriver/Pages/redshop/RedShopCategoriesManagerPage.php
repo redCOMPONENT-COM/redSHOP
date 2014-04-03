@@ -61,6 +61,15 @@ class RedShopCategoriesManagerPage extends AdminManagerPage
 		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='category_main_filter']"), 10);
 	}
 
+	/**
+	 * Function to Update a Category Info
+	 *
+	 * @param   string  $field         Field Name
+	 * @param   string  $newValue      New value for the Field
+	 * @param   string  $categoryName  Name of the Category Which is to be Updated
+	 *
+	 * @return RedShopCategoriesManagerPage
+	 */
 	public function editCategory($field, $newValue, $categoryName)
 	{
 		$elementObject = $this->driver;
