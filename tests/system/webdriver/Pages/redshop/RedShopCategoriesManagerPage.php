@@ -102,6 +102,13 @@ class RedShopCategoriesManagerPage extends AdminManagerPage
 		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='category_main_filter']"), 10);
 	}
 
+	/**
+	 * Function to delete a Category
+	 *
+	 * @param   string  $categoryName  Name of the Category
+	 *
+	 * @return RedShopCategoriesManagerPage
+	 */
 	public function deleteCategory($categoryName)
 	{
 		$elementObject = $this->driver;
