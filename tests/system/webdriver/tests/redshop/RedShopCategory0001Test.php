@@ -97,6 +97,13 @@ class RedShopCategory0001Test extends JoomlaWebdriverTestCase
 		$this->assertFalse($this->appTestPage->searchCategory($newName, 'Delete'), 'Category Must be Deleted');
 	}
 
+	/**
+	 * Function to verify state change
+	 *
+	 * @test
+	 *
+	 * @return void
+	 */
 	public function changeState()
 	{
 		$rand = rand();
