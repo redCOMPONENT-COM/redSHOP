@@ -116,4 +116,20 @@ class RedShopCategory0001Test extends JoomlaWebdriverTestCase
 		$this->appTestPage->deleteCategory($name);
 		$this->assertFalse($this->appTestPage->searchCategory($name, 'Delete'), 'Category Must be Deleted');
 	}
+
+	public function checkCopy()
+	{
+		$rand = rand();
+		$name = 'Red Category' . $rand;
+		$copyCategoryName = 'copy' . $name;
+		$noOfProducts = rand(10, 99);
+		$this->appTestPage->addCategory($name, $noOfProducts);
+		$this->assertTrue($this->appTestPage->searchCategory($name), 'Category Must be Created');
+		$this->appTestPage->copyCategory($name);
+		$this->assertTrue($this->appTestPage->searchCategory($copyCategoryName), 'A Copy Category must be created');
+		$this->appTestPage->deleteCategory($copyCategoryName);
+		$this->assertFalse($this->appTestPage->searchCategory($copyCategoryName, 'Delete'), 'Category Must be Deleted');
+		$this->appTestPage->deleteCategory($name);
+		$this->assertFalse($this->appTestPage->searchCategory($name, 'Delete'), 'Category Must be Deleted');
+	}
 }
