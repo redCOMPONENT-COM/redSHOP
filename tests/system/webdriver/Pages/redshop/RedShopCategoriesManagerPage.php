@@ -114,6 +114,8 @@ class RedShopCategoriesManagerPage extends AdminManagerPage
 		$elementObject = $this->driver;
 		$searchField = $elementObject->findElement(By::xPath("//input[@id='category_main_filter']"));
 		$searchField->clear();
+		sleep(3);
+		$searchField = $elementObject->findElement(By::xPath("//input[@id='category_main_filter']"));
 		$searchField->sendKeys($categoryName);
 		$elementObject->findElement(By::xPath("//button[@onclick=\"document.adminForm.submit();\"]"))->click();
 		$elementObject->waitForElementUntilIsPresent(By::xPath("//tbody/tr/td[3]/a[contains(text(),'" . $categoryName . "')]"), 10);
@@ -121,6 +123,7 @@ class RedShopCategoriesManagerPage extends AdminManagerPage
 		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='cb" . $row . "']"), 10);
 		$elementObject->findElement(By::xPath("//input[@id='cb" . $row . "']"))->click();
 		$elementObject->findElement(By::xPath("//li[@id='toolbar-delete']/a"))->click();
+		$elementObject->switchTo()->getAlert()->accept();
 	}
 
 	/**
