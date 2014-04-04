@@ -72,5 +72,7 @@ class RedShopCategory0001Test extends JoomlaWebdriverTestCase
 		$noOfProducts = rand(10, 99);
 		$this->appTestPage->addCategory($name, $noOfProducts);
 		$this->assertTrue($this->appTestPage->searchCategory($name), 'Category Must be Created');
+		$this->appTestPage->deleteCategory($name);
+		$this->assertFalse($this->appTestPage->searchCategory($name, 'Delete'), 'Category Must be Deleted');
 	}
 }
