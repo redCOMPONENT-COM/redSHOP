@@ -75,4 +75,18 @@ class RedShopCategory0001Test extends JoomlaWebdriverTestCase
 		$this->appTestPage->deleteCategory($name);
 		$this->assertFalse($this->appTestPage->searchCategory($name, 'Delete'), 'Category Must be Deleted');
 	}
+
+	public function updateCategory()
+	{
+		$rand = rand();
+		$name = 'Red Category' . $rand;
+		$newName = 'New Red Category' . $rand;
+		$noOfProducts = rand(10, 99);
+		$this->appTestPage->addCategory($name, $noOfProducts);
+		$this->assertTrue($this->appTestPage->searchCategory($name), 'Category Must be Created');
+		$this->appTestPage->editCategory('Name', $newName, $name);
+		$this->assertTrue($this->appTestPage->searchCategory($newName), 'Category Must be Updated');
+		$this->appTestPage->deleteCategory($newName);
+		$this->assertFalse($this->appTestPage->searchCategory($newName, 'Delete'), 'Category Must be Deleted');
+	}
 }
