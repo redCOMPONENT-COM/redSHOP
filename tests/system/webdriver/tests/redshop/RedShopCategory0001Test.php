@@ -117,6 +117,13 @@ class RedShopCategory0001Test extends JoomlaWebdriverTestCase
 		$this->assertFalse($this->appTestPage->searchCategory($name, 'Delete'), 'Category Must be Deleted');
 	}
 
+	/**
+	 * Function to Test Copy Creation
+	 *
+	 * @test
+	 *
+	 * @return void
+	 */
 	public function checkCopy()
 	{
 		$rand = rand();
