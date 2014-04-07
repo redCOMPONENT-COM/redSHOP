@@ -149,6 +149,13 @@ class RedShopVouchersManagerPage extends AdminManagerPage
 		}
 	}
 
+	/**
+	 * Function to get State of a Voucher
+	 *
+	 * @param   string  $voucherCode  Code of the Voucher
+	 *
+	 * @return string  Depending on the Value
+	 */
 	public function getState($voucherCode)
 	{
 		$elementObject = $this->driver;
