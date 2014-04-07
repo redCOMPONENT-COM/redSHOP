@@ -70,12 +70,31 @@ class RedShopVoucher0001Test extends JoomlaWebdriverTestCase
 		$rand = rand();
 		$voucherCode = 'RedShop2 Code' . $rand;
 		$voucherAmount = '100';
+		$voucherVerifyingAmount = '$ ' . $voucherAmount;
 		$voucherLeft = '10';
 		$this->appTestPage->addVoucher($voucherCode, $voucherAmount, $voucherLeft);
 		$this->assertTrue($this->appTestPage->searchVoucher($voucherCode), 'Voucher Must be Created');
-		$this->assertEquals($this->appTestPage->getVoucherAmount($voucherCode), $voucherAmount, 'Both Must be Equal');
+		$this->assertEquals($this->appTestPage->getVoucherAmount($voucherCode), $voucherVerifyingAmount, 'Both Must be Equal');
 		$this->assertEquals($this->appTestPage->getVoucherLeft($voucherCode), $voucherLeft, 'Both Must be Equal');
 		$this->appTestPage->deleteVoucher($voucherCode);
-		$this->assertFalse($this->appTestPage->searchVoucher($voucherCode, 'Delete'), 'Voucher Must be Deleted');
+		$this->assertFalse($this->appTestPage->searchVoucher($voucherCode), 'Voucher Must be Deleted');
+	}
+
+	public function updateVoucher()
+	{
+		$rand = rand();
+		$voucherCode = 'RedShop2 Code' . $rand;
+		$voucherNewCode = 'Updated Code' . $rand;
+		$voucherAmount = '100';
+		$verifyVoucherAmount = '$ ' . $voucherAmount
+		$voucherLeft = '10';
+		$this->appTestPage->addVoucher($voucherCode, $voucherAmount, $voucherLeft);
+		$this->assertTrue($this->appTestPage->searchVoucher($voucherCode), 'Voucher Must be Created');
+		$this->assertEquals($this->appTestPage->getVoucherAmount($voucherCode), $verifyVoucherAmount, 'Both Must be Equal');
+		$this->assertEquals($this->appTestPage->getVoucherLeft($voucherCode), $voucherLeft, 'Both Must be Equal');
+		$this->appTestPage->editVoucher('Voucher Code', $voucherNewCode, $voucherCode);
+		$this->assertTrue($this->appTestPage->searchVoucher($voucherNewCode), 'Voucher Must be Updated');
+		$this->appTestPage->deleteVoucher($voucherNewCode);
+		$this->assertFalse($this->appTestPage->searchVoucher($voucherNewCode), 'Voucher Must be Deleted');
 	}
 }
