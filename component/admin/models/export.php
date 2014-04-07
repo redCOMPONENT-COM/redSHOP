@@ -1366,7 +1366,7 @@ class ExportModelexport extends JModel
 	public function loadShoppergroupPrice()
 	{
 		$db = JFactory::getDbo();
-		$query = "SELECT p.product_number, 'product' AS section, s.shopper_group_id, s.shopper_group_name, pp.product_price,
+		$query = "SELECT p.product_number, p.product_name, 'product' AS section, s.shopper_group_id, s.shopper_group_name, pp.product_price,
 		price_quantity_start, price_quantity_end, pp.discount_price, pp.discount_start_date, pp.discount_end_date "
 			. "FROM `#__redshop_product_price` AS pp "
 			. "LEFT JOIN `#__redshop_product` AS p ON p.product_id = pp.product_id "
@@ -1424,7 +1424,9 @@ class ExportModelexport extends JModel
 			}
 		}
 
-		$query = "SELECT IFNULL( p.property_number, sp.subattribute_color_number ) AS product_number, ap.section,
+		$query = "SELECT IFNULL( p.property_number, sp.subattribute_color_number ) AS product_number,
+		IFNULL( p.property_name, sp.subattribute_color_name ) AS product_name,
+		ap.section,
 		s.shopper_group_id, s.shopper_group_name, ap.product_price, price_quantity_start, price_quantity_end,
 		ap.discount_price, ap.discount_start_date, ap.discount_end_date "
 			. "FROM `#__redshop_product_attribute_price` AS ap "
