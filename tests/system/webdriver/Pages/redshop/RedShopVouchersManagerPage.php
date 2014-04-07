@@ -203,6 +203,13 @@ class RedShopVouchersManagerPage extends AdminManagerPage
 		}
 	}
 
+	/**
+	 * Function to get the value of the field Voucher Amount
+	 *
+	 * @param   string  $voucherCode  Code of the Voucher
+	 *
+	 * @return String Value of the Field
+	 */
 	public function getVoucherAmount($voucherCode)
 	{
 		$elementObject = $this->driver;
