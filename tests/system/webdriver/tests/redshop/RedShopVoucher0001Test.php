@@ -105,6 +105,13 @@ class RedShopVoucher0001Test extends JoomlaWebdriverTestCase
 		$this->assertFalse($this->appTestPage->searchVoucher($voucherNewCode), 'Voucher Must be Deleted');
 	}
 
+	/**
+	 * Function to test State Change
+	 *
+	 * @test
+	 *
+	 * @return void
+	 */
 	public function changeState()
 	{
 		$rand = rand();
