@@ -174,4 +174,24 @@ class RedShopVouchersManagerPage extends AdminManagerPage
 
 		return $result;
 	}
+
+	public function changeVoucherState($voucherCode, $state = 'published')
+	{
+		$elementObject = $this->driver;
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//tbody/tr/td[3]/a[contains(text(),'" . $voucherCode . "')]"), 10);
+		$row = $this->getRowNumber($voucherCode) - 1;
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='cb" . $row . "']"), 10);
+		$elementObject->findElement(By::xPath("//input[@id='cb" . $row . "']"))->click();
+
+		if (strtolower($state) == 'published')
+		{
+			$elementObject->findElement(By::xPath("//li[@id='toolbar-publish']/a"))->click();
+			$this->driver->waitForElementUntilIsPresent(By::xPath($this->waitForXpath));
+		}
+		elseif (strtolower($state) == 'unpublished')
+		{
+			$elementObject->findElement(By::xPath("//li[@id='toolbar-unpublish']/a"))->click();
+			$this->driver->waitForElementUntilIsPresent(By::xPath($this->waitForXpath));
+		}
+	}
 }
