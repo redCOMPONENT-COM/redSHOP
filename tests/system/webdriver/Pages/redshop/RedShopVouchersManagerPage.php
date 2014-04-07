@@ -148,4 +148,23 @@ class RedShopVouchersManagerPage extends AdminManagerPage
 			return false;
 		}
 	}
+
+	public function getState($voucherCode)
+	{
+		$elementObject = $this->driver;
+		$row = $this->getRowNumber($voucherCode);
+		$text = $elementObject->findElement(By::xPath("//tbody/tr[" . $row . "]/td[9]//a"))->getAttribute(@onclick);
+
+		if (strpos($text, 'unpublish') > 0)
+		{
+			$result = 'published';
+		}
+
+		if (strpos($text, 'publish') > 0)
+		{
+			$result = 'unpublished';
+		}
+
+		return $result;
+	}
 }
