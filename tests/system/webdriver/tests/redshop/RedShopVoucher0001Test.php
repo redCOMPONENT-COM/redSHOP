@@ -58,6 +58,13 @@ class RedShopVoucher0001Test extends JoomlaWebdriverTestCase
 		parent::tearDown();
 	}
 
+	/**
+	 * Function to test voucher creation
+	 *
+	 * @test
+	 *
+	 * @return void
+	 */
 	public function createVoucher()
 	{
 		$rand = rand();
