@@ -218,4 +218,13 @@ class RedShopVouchersManagerPage extends AdminManagerPage
 
 		return $fieldValue;
 	}
+
+	public function getVoucherLeft($voucherCode)
+	{
+		$elementObject = $this->driver;
+		$row = $this->getRowNumber($voucherCode);
+		$fieldValue = $elementObject->findElement(By::xPath("//tbody/tr[" . $row . "]/td[8]"))->getText();
+
+		return $fieldValue;
+	}
 }
