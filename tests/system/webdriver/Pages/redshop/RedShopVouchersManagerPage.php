@@ -66,4 +66,48 @@ class RedShopVouchersManagerPage extends AdminManagerPage
 		$elementObject->findElement(By::xPath("//a[@onclick=\"Joomla.submitbutton('save')\"]"))->click();
 		$elementObject->waitForElementUntilIsPresent(By::xPath("//h2[contains(text(),'Voucher Management')]"), 10);
 	}
+
+	/**
+	 * Function to Edit a Voucher
+	 *
+	 * @param   string  $field        Field which is to be Edited
+	 *
+	 * @param   string  $newValue     New Value for the Field
+	 *
+	 * @param   string  $voucherCode  Code for the Voucher
+	 *
+	 * @return RedShop2VouchersManagerPage
+	 */
+	public function editVoucher($field, $newValue, $voucherCode)
+	{
+		$elementObject = $this->driver;
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//tbody/tr/td[3]/a[contains(text(),'" . $voucherCode . "')]"), 10);
+		$row = $this->getRowNumber($voucherCode) - 1;
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='cb" . $row . "']"), 10);
+		$elementObject->findElement(By::xPath("//input[@id='cb" . $row . "']"))->click();
+		$elementObject->findElement(By::xPath("//li[@id='toolbar-edit']/a"))->click();
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='voucher_code']"), 10);
+
+		switch ($field)
+		{
+			case "Voucher Code":
+				$voucherCodeField = $elementObject->findElement(By::xPath("//input[@id='voucher_code']"));
+				$voucherCodeField->clear();
+				$voucherCodeField->sendKeys($newValue);
+				break;
+			case "Voucher Amount":
+				$voucherAmountField = $elementObject->findElement(By::xPath("//input[@id='amount']"));
+				$voucherAmountField->clear();
+				$voucherAmountField->sendKeys($newValue);
+				break;
+			case "Voucher Left":
+				$voucherLeftField = $elementObject->findElement(By::xPath("//input[@id='voucher_left']"));
+				$voucherLeftField->clear();
+				$voucherLeftField->sendKeys($newValue);
+				break;
+		}
+
+		$elementObject->findElement(By::xPath("//a[@onclick=\"Joomla.submitbutton('save')\"]"))->click();
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//h2[contains(text(),'Voucher Management')]"), 10);
+	}
 }
