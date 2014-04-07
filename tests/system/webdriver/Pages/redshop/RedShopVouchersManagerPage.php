@@ -127,4 +127,18 @@ class RedShopVouchersManagerPage extends AdminManagerPage
 		$elementObject->findElement(By::xPath("//input[@id='cb" . $row . "']"))->click();
 		$elementObject->findElement(By::xPath("//li[@id='toolbar-delete']/a"))->click();
 	}
+
+	public function searchVoucher($voucherCode)
+	{
+		$row = $this->getRowNumber($voucherCode);
+
+		if ($row > 0)
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
 }
