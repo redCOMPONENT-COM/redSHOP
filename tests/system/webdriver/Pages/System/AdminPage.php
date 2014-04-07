@@ -112,6 +112,7 @@ abstract class AdminPage
 		'Joomla Shop' => 'http://shop.joomla.org/',
 		'Tags' => 'administrator/index.php?option=com_tags',
 		'RedSHOP_Category' => 'administrator/index.php?option=com_redshop&view=category',
+		'RedSHOP_Voucher'  => 'administrator/index.php?option=com_redshop&view=voucher',
 	);
 
 	/**
