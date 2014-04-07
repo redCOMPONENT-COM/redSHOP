@@ -175,6 +175,14 @@ class RedShopVouchersManagerPage extends AdminManagerPage
 		return $result;
 	}
 
+	/**
+	 * Function to change state of a Voucher
+	 *
+	 * @param   string  $voucherCode  Code of the Voucher
+	 * @param   string  $state        New State of the Voucher
+	 *
+	 * @return RedShopVouchersManagerPage
+	 */
 	public function changeVoucherState($voucherCode, $state = 'published')
 	{
 		$elementObject = $this->driver;
