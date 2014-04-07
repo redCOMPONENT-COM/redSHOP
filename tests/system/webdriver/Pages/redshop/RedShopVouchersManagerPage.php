@@ -128,6 +128,13 @@ class RedShopVouchersManagerPage extends AdminManagerPage
 		$elementObject->findElement(By::xPath("//li[@id='toolbar-delete']/a"))->click();
 	}
 
+	/**
+	 * Function to Search for a Voucher
+	 *
+	 * @param   string  $voucherCode  Code of the Voucher
+	 *
+	 * @return bool True or False depending on the Value
+	 */
 	public function searchVoucher($voucherCode)
 	{
 		$row = $this->getRowNumber($voucherCode);
