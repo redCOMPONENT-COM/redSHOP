@@ -111,6 +111,13 @@ class RedShopVouchersManagerPage extends AdminManagerPage
 		$elementObject->waitForElementUntilIsPresent(By::xPath("//h2[contains(text(),'Voucher Management')]"), 10);
 	}
 
+	/**
+	 * Function to Delete a Voucher
+	 *
+	 * @param   string  $voucherCode  Code of the Voucher which is to be deleted
+	 *
+	 * @return RedShopVouchersManagerPage
+	 */
 	public function deleteVoucher($voucherCode)
 	{
 		$elementObject = $this->driver;
