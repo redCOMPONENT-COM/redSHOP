@@ -202,4 +202,13 @@ class RedShopVouchersManagerPage extends AdminManagerPage
 			$this->driver->waitForElementUntilIsPresent(By::xPath($this->waitForXpath));
 		}
 	}
+
+	public function getVoucherAmount($voucherCode)
+	{
+		$elementObject = $this->driver;
+		$row = $this->getRowNumber($voucherCode);
+		$fieldValue = $elementObject->findElement(By::xPath("//tbody/tr[" . $row . "]/td[4]"))->getText();
+
+		return $fieldValue;
+	}
 }
