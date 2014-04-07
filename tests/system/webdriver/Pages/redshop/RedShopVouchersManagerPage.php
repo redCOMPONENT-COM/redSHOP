@@ -110,4 +110,14 @@ class RedShopVouchersManagerPage extends AdminManagerPage
 		$elementObject->findElement(By::xPath("//a[@onclick=\"Joomla.submitbutton('save')\"]"))->click();
 		$elementObject->waitForElementUntilIsPresent(By::xPath("//h2[contains(text(),'Voucher Management')]"), 10);
 	}
+
+	public function deleteVoucher($voucherCode)
+	{
+		$elementObject = $this->driver;
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//tbody/tr/td[3]/a[contains(text(),'" . $voucherCode . "')]"), 10);
+		$row = $this->getRowNumber($voucherCode) - 1;
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='cb" . $row . "']"), 10);
+		$elementObject->findElement(By::xPath("//input[@id='cb" . $row . "']"))->click();
+		$elementObject->findElement(By::xPath("//li[@id='toolbar-delete']/a"))->click();
+	}
 }
