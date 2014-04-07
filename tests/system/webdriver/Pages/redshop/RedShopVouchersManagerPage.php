@@ -219,6 +219,13 @@ class RedShopVouchersManagerPage extends AdminManagerPage
 		return $fieldValue;
 	}
 
+	/**
+	 * Function to get Amount of Vouchers LEft
+	 *
+	 * @param   string  $voucherCode  Code of the Voucher
+	 *
+	 * @return String  Value of the Field
+	 */
 	public function getVoucherLeft($voucherCode)
 	{
 		$elementObject = $this->driver;
