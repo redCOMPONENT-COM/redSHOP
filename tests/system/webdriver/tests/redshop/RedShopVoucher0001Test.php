@@ -68,7 +68,7 @@ class RedShopVoucher0001Test extends JoomlaWebdriverTestCase
 	public function createVoucher()
 	{
 		$rand = rand();
-		$voucherCode = 'RedShop2 Code' . $rand;
+		$voucherCode = 'RedShop Code' . $rand;
 		$voucherAmount = '100';
 		$voucherVerifyingAmount = '$ ' . $voucherAmount;
 		$voucherLeft = '10';
@@ -90,7 +90,7 @@ class RedShopVoucher0001Test extends JoomlaWebdriverTestCase
 	public function updateVoucher()
 	{
 		$rand = rand();
-		$voucherCode = 'RedShop2 Code' . $rand;
+		$voucherCode = 'RedShop Code' . $rand;
 		$voucherNewCode = 'Updated Code' . $rand;
 		$voucherAmount = '100';
 		$verifyVoucherAmount = '$ ' . $voucherAmount;
@@ -115,7 +115,7 @@ class RedShopVoucher0001Test extends JoomlaWebdriverTestCase
 	public function changeState()
 	{
 		$rand = rand();
-		$voucherCode = 'RedShop2 Code' . $rand;
+		$voucherCode = 'RedShop Code' . $rand;
 		$voucherAmount = '100';
 		$voucherVerifyingAmount = '$ ' . $voucherAmount;
 		$voucherLeft = '10';
