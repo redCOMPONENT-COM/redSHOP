@@ -111,20 +111,7 @@ abstract class AdminPage
 		'Developer Resources' => 'http://developer.joomla.org/',
 		'Joomla Shop' => 'http://shop.joomla.org/',
 		'Tags' => 'administrator/index.php?option=com_tags',
-		'RedSHOP2_Manufacturer' => 'administrator/index.php?option=com_redshop&view=manufacturers',
-		'RedSHOP2_Currency' => 'administrator/index.php?option=com_redshop&view=currencies',
-		'RedSHOP2_GiftCard' => 'administrator/index.php?option=com_redshop&view=giftcards',
-		'RedSHOP2_Country' => 'administrator/index.php?option=com_redshop&view=countries',
-		'RedSHOP2_State' => 'administrator/index.php?option=com_redshop&view=states',
-		'RedSHOP2_Category' => 'administrator/index.php?option=com_redshop&view=categories',
-		'RedSHOP2_StockRooms' => 'administrator/index.php?option=com_redshop&view=stockrooms',
-		'RedSHOP2_TextLibrary' => 'administrator/index.php?option=com_redshop&view=textlibraries',
-		'RedSHOP2_Wrapper' => 'administrator/index.php?option=com_redshop&view=wrappers',
-		'RedSHOP2_MailCenter' => 'administrator/index.php?option=com_redshop&view=mailcenters',
-		'RedSHOP2_Question' => 'administrator/index.php?option=com_redshop&view=questions',
-		'RedSHOP2_Voucher' => 'administrator/index.php?option=com_redshop&view=vouchers',
-		'RedSHOP2_Field' => 'administrator/index.php?option=com_redshop&view=fields',
-		'RedSHOP2_User' => 'administrator/index.php?option=com_redshop&view=users',
+		'RedSHOP_Category' => 'administrator/index.php?option=com_redshop&view=category',
 	);
 
 	/**
