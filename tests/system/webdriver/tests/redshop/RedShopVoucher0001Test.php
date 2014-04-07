@@ -57,4 +57,18 @@ class RedShopVoucher0001Test extends JoomlaWebdriverTestCase
 		$this->doAdminLogout();
 		parent::tearDown();
 	}
+
+	public function createVoucher()
+	{
+		$rand = rand();
+		$voucherCode = 'RedShop2 Code' . $rand;
+		$voucherAmount = '100';
+		$voucherLeft = '10';
+		$this->appTestPage->addVoucher($voucherCode, $voucherAmount, $voucherLeft);
+		$this->assertTrue($this->appTestPage->searchVoucher($voucherCode), 'Voucher Must be Created');
+		$this->assertEquals($this->appTestPage->getVoucherAmount($voucherCode), $voucherAmount, 'Both Must be Equal');
+		$this->assertEquals($this->appTestPage->getVoucherLeft($voucherCode), $voucherLeft, 'Both Must be Equal');
+		$this->appTestPage->deleteVoucher($voucherCode);
+		$this->assertFalse($this->appTestPage->searchVoucher($voucherCode, 'Delete'), 'Voucher Must be Deleted');
+	}
 }
