@@ -1,0 +1,69 @@
+<?php
+/**
+ * @package     RedSHOP
+ * @subpackage  Page
+ * @copyright   Copyright (C) 2012 - 2014 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ */
+use SeleniumClient\By;
+use SeleniumClient\SelectElement;
+use SeleniumClient\WebDriver;
+use SeleniumClient\WebDriverWait;
+use SeleniumClient\DesiredCapabilities;
+use SeleniumClient\WebElement;
+
+/**
+ * Page class for the back-end Vouchers Redshop.
+ *
+ * @package     RedShop.Test
+ * @subpackage  Webdriver
+ * @since       1.0
+ */
+class RedShopVouchersManagerPage extends AdminManagerPage
+{
+	/**
+	 * XPath string used to uniquely identify this page
+	 *
+	 * @var    string
+	 *
+	 * @since    1.0
+	 */
+	protected $waitForXpath = "//h2[contains(text(),'Voucher Management')]";
+
+	/**
+	 * URL used to uniquely identify this page
+	 *
+	 * @var    string
+	 * @since  3.0
+	 */
+	protected $url = 'administrator/index.php?option=com_redshop&view=voucher';
+
+	/**
+	 * Function to add a new voucher
+	 *
+	 * @param   string  $voucherCode    Code for the new Voucher
+	 *
+	 * @param   string  $voucherAmount  Amount for the Voucher
+	 *
+	 * @param   string  $voucherLeft    No. of Vouchers Left
+	 *
+	 * @return RedShopVouchersManagerPage
+	 */
+	public function addVoucher($voucherCode = '123', $voucherAmount = '100', $voucherLeft = '10')
+	{
+		$elementObject = $this->driver;
+		$elementObject->findElement(By::xPath("//a[@onclick=\"Joomla.submitbutton('add')\"]"))->click();
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='voucher_code']"));
+		$voucherCodeField = $elementObject->findElement(By::xPath("//input[@id='voucher_code']"));
+		$voucherCodeField->clear();
+		$voucherCodeField->sendKeys($voucherCode);
+		$voucherAmountField = $elementObject->findElement(By::xPath("//input[@id='amount']"));
+		$voucherAmountField->clear();
+		$voucherAmountField->sendKeys($voucherAmount);
+		$voucherLeftField = $elementObject->findElement(By::xPath("//input[@id='voucher_left']"));
+		$voucherLeftField->clear();
+		$voucherLeftField->sendKeys($voucherLeft);
+		$elementObject->findElement(By::xPath("//a[@onclick=\"Joomla.submitbutton('save')\"]"))->click();
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//h2[contains(text(),'Voucher Management')]"), 10);
+	}
+}
