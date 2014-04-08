@@ -1,5 +1,10 @@
 <?php
-
+/**
+ * @package     RedSHOP
+ * @subpackage  Page
+ * @copyright   Copyright (C) 2012 - 2014 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ */
 use SeleniumClient\By;
 use SeleniumClient\SelectElement;
 use SeleniumClient\WebDriver;
@@ -10,6 +15,7 @@ use SeleniumClient\WebElement;
 /**
  * Class for the back-end control panel screen.
  *
+ * @since  1.3
  */
 class ExtensionManagerPage extends AdminManagerPage
 {
@@ -20,7 +26,7 @@ class ExtensionManagerPage extends AdminManagerPage
 	 *
 	 * @since    1.0
 	 */
-	protected $waitForXpath = "//input[contains(@onclick,'Joomla.submitbuttonInstallWebInstaller()')]";
+	protected $waitForXpath = "//input[@id='install_directory']";
 
 	/**
 	 * URL used to uniquely identify this page
@@ -33,7 +39,7 @@ class ExtensionManagerPage extends AdminManagerPage
 	/**
 	 * Function to Install Redcore
 	 *
-	 * @param $cfg Object for the Configuration file
+	 * @param   Configuration  $cfg  Object for the Configuration file
 	 *
 	 * @return ExtensionManagerPage
 	 */
@@ -52,46 +58,46 @@ class ExtensionManagerPage extends AdminManagerPage
 	}
 
 	/**
-	 * Function to install the main Extension RedShop2
+	 * Function to Install RedShop Extension
 	 *
-	 * @param $cfg Configuration File Object
+	 * @param   Configuration  $cfg         Configuration Object
+	 * @param   string         $sampleData  Sample Data to be installed for the component
 	 *
 	 * @return ExtensionManagerPage
 	 */
-	public function installRedShop2($cfg)
+	public function installRedShop($cfg, $sampleData = 'Sample Data')
 	{
 		$elementObject = $this->driver;
 		$elementObject->get($cfg->host . $cfg->path . $this->url);
-		$elementObject->findElement(By::xPath("//a[contains(text(),'Install from Directory')]"))->click();
-		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='install_directory']"), 50);
 		$installDirectory = $elementObject->findElement(By::xPath("//input[@id='install_directory']"));
 		$installDirectory->clear();
 		$installDirectory->sendKeys($cfg->folder);
 		$elementObject->findElement(By::xPath("//input[contains(@onclick,'Joomla.submitbutton3()')]"))->click();
-		sleep(50);
-		$elementObject->waitForElementUntilIsPresent(By::xPath("//div[@class='alert alert-success']"), 30);
+		sleep(5);
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//li[contains(text(),'Installing component was successful')]"), 30);
+
+		if ($sampleData == 'Sample Data')
+		{
+			$elementObject->findElement(By::xPath("//input[@onclick=\"submitWizard('content');\" and @value='install Demo Content']"))->click();
+			$elementObject->waitForElementUntilIsPresent(By::xPath("//li[contains(text(),'Sample Data Installed Successfully')]"), 30);
+		}
 	}
 
 	/**
 	 * Function to Verify if the extension was installed or not
 	 *
-	 * @param string $extensionName
+	 * @param   Configuration  $cfg            Configuration Object
+	 * @param   string         $extensionName  Name of the Extension
 	 *
 	 * @return bool
 	 */
-	public function verifyInstallation($extensionName = 'RedShop2')
+	public function verifyInstallation($cfg, $extensionName = 'redShop')
 	{
 		$elementObject = $this->driver;
-		$elementObject->findElement(By::xPath("//a[@href='index.php?option=com_installer&view=manage']"))->click();
-		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='filter_search']"), 50);
-		$searchField = $elementObject->findElement(By::xPath("//input[@id='filter_search']"));
-		$searchField->clear();
-		$searchField->sendKeys($extensionName);
-		$elementObject->findElement(By::xPath("//button[@data-original-title='Search' or @title='Search']"))->click();
-		sleep(5);
-		$row = $this->getRowNumber($extensionName) - 1;
-		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='cb" . $row . "']"), 10);
-		$arrayElement = $elementObject->findElements(By::xPath("//tbody/tr/td[2]//span[contains(text(),'" . $extensionName . "')]"));
+		$componentURl = 'administrator/index.php?option=com_redshop';
+		$elementObject->get($cfg->host . $cfg->path . $componentURl);
+		$arrayElement = $elementObject->findElements(By::xPath("//a//span[contains(text(),'Products')]"));
+
 		if (count($arrayElement))
 		{
 			return true;
