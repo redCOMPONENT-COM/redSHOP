@@ -52,7 +52,7 @@ class SeleniumConfig
 	// optional setting to select sample data
 	// Set to partial text of sample data label on installation screen
 	// Note: This must be 'Learn Joomla' for the standard tests to work!
-	var $sample_data_file = 'Learn Joomla';
+	var $sample_data_file = 'Default English';
 
 	// set the site name (keep to less than 14 characters)
 	var $site_name = 'Joomla';
