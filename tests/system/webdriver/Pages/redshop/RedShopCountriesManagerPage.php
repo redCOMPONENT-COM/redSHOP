@@ -38,6 +38,16 @@ class RedShopCountriesManagerPage extends AdminManagerPage
 	 */
 	protected $url = 'administrator/index.php?option=com_redshop&view=country';
 
+	/**
+	 * Function to add a new COuntry to RedShop
+	 *
+	 * @param   string  $name       Country Name
+	 * @param   string  $codeThree  Value for three Code
+	 * @param   string  $codeTwo    Value for Two Code
+	 * @param   string  $country    Name of the COuntry
+	 *
+	 * @return RedShopCountriesManagerPage
+	 */
 	public function addCountry($name = 'Sample Country', $codeThree = '123', $codeTwo = '22', $country = 'Test')
 	{
 		$elementObject = $this->driver;
