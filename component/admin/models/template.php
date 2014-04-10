@@ -77,24 +77,33 @@ class templateModeltemplate extends JModel
 
 	public function _buildQuery()
 	{
-		$orderby = $this->_buildContentOrderBy();
-		$filter = $this->getState('filter');
+		$orderby          = $this->_buildContentOrderBy();
+		$filter           = $this->getState('filter');
 		$template_section = $this->getState('template_section');
 
-		$where = '';
+		// Initialize variables.
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true);
+
+		// Create the base select statement.
+		$query->select('distinct(t.template_id)')
+			->select('t.*')
+			->from($db->qn('#__redshop_template', 't'))
+			->order($orderby);
 
 		if ($filter)
 		{
-			$where .= "AND t.template_name LIKE '" . $filter . "%' ";
+			$query->where($db->qn('t.template_name') . 'LIKE ' . $db->q($filter . '%'));
 		}
+
 		if ($template_section)
 		{
-			$where .= "AND t.template_section='" . $template_section . "' ";
+			$query->where($db->qn('t.template_section') . 'LIKE ' . $db->q($template_section));
 		}
-		$query = 'SELECT distinct(t.template_id),t.* FROM ' . $this->_table_prefix . 'template AS t '
-			. 'WHERE 1=1 '
-			. $where
-			. $orderby;
+
+		// Join over the users for the checked out user.
+		$query->select('uc.name AS editor');
+		$query->join('LEFT', '#__users AS uc ON uc.id=t.checked_out');
 
 		return $query;
 	}
@@ -107,7 +116,7 @@ class templateModeltemplate extends JModel
 		$filter_order = $app->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'template_id');
 		$filter_order_Dir = $app->getUserStateFromRequest($this->_context . 'filter_order_Dir', 'filter_order_Dir', '');
 
-		$orderby = ' ORDER BY ' . $db->escape($filter_order . ' ' . $filter_order_Dir);
+		$orderby = $db->escape($filter_order . ' ' . $filter_order_Dir);
 
 		return $orderby;
 	}
