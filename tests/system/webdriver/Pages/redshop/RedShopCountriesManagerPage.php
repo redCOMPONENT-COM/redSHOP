@@ -118,6 +118,13 @@ class RedShopCountriesManagerPage extends AdminManagerPage
 		$elementObject->waitForElementUntilIsPresent(By::xPath("//li[contains(text(),'Country detail saved')]"), 10);
 	}
 
+	/**
+	 * Function to Delete a Country
+	 *
+	 * @param   string  $name  Name of the Country
+	 *
+	 * @return RedShopCountriesManagerPage
+	 */
 	public function deleteCountry($name)
 	{
 		$elementObject = $this->driver;
