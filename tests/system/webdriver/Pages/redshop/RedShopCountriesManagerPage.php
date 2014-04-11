@@ -117,4 +117,16 @@ class RedShopCountriesManagerPage extends AdminManagerPage
 		$elementObject->findElement(By::xPath("//a[@onclick=\"Joomla.submitbutton('save')\"]"))->click();
 		$elementObject->waitForElementUntilIsPresent(By::xPath("//li[contains(text(),'Country detail saved')]"), 10);
 	}
+
+	public function deleteCountry($name)
+	{
+		$elementObject = $this->driver;
+		$elementObject->findElement(By::xPath("//a[contains(.,'Country Name')]"))->click();
+		sleep(1);
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//tbody/tr/td[3]/a[contains(text(),'" . $name . "')]"), 10);
+		$row = $this->getRowNumber($name) - 1;
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='cb" . $row . "']"), 10);
+		$elementObject->findElement(By::xPath("//input[@id='cb" . $row . "']"))->click();
+		$elementObject->findElement(By::xPath("//li[@id='toolbar-delete']/a"))->click();
+	}
 }
