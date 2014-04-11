@@ -1419,8 +1419,27 @@ class Redconfiguration
 	{
 		$db = JFactory::getDbo();
 
-		$selected_country_code = ($address_type == "ST") ? @$post['country_code_ST'] : @$post['country_code'];
-		$selected_state_code   = ($address_type == "ST") ? @$post['state_code_ST'] : @$post['state_code'];
+		$selected_country_code = "";
+
+		if (isset($post['country_code']))
+		{
+			$selected_country_code = $post['country_code'];
+		}
+		else
+		{
+			$selected_country_code = $post['country_code_ST'];
+		}
+
+		$selected_state_code = "";
+
+		if (isset($post['state_code']))
+		{
+			$selected_state_code = $post['state_code'];
+		}
+		else
+		{
+			$selected_state_code = $post['state_code_ST'];
+		}
 
 		if (empty($selected_state_code))
 		{
@@ -1428,7 +1447,11 @@ class Redconfiguration
 		}
 		else
 		{
-			$selected_state_code = "'" . $selected_state_code . "'";
+			// If it is edit, don't quote variable
+			if (!$isAdmin)
+			{
+				$selected_state_code = "'" . $selected_state_code . "'";
+			}
 		}
 
 		$varState = array();
