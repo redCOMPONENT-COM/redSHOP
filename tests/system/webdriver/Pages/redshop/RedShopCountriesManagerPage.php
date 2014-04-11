@@ -207,4 +207,23 @@ class RedShopCountriesManagerPage extends AdminManagerPage
 
 		return $fieldValue;
 	}
+
+	/**
+	 * Function to Get Value of Country Field
+	 *
+	 * @param   string  $name  Name of the Country
+	 *
+	 * @return   string  Value of the Field
+	 */
+	public function getCountry($name)
+	{
+		$elementObject = $this->driver;
+		$elementObject->findElement(By::xPath("//a[contains(.,'Country Name')]"))->click();
+		sleep(1);
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//tbody/tr/td[3]/a[contains(text(),'" . $name . "')]"), 10);
+		$row = $this->getRowNumber($name);
+		$fieldValue = $elementObject->findElement(By::xPath("//tbody/tr[" . $row . "]/td[6]"))->getText();
+
+		return $fieldValue;
+	}
 }
