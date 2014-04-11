@@ -189,6 +189,13 @@ class RedShopCountriesManagerPage extends AdminManagerPage
 		return $fieldValue;
 	}
 
+	/**
+	 * Function to get Three Code Value
+	 *
+	 * @param   string  $name  Name of the Country
+	 *
+	 * @return  string  Value of the Field
+	 */
 	public function getThreeCode($name)
 	{
 		$elementObject = $this->driver;
