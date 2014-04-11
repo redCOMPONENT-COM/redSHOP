@@ -170,6 +170,13 @@ class RedShopCountriesManagerPage extends AdminManagerPage
 		}
 	}
 
+	/**
+	 * Function to get Value for Two Code
+	 *
+	 * @param   string  $name  Name of the Country
+	 *
+	 * @return  string  Value of the Field
+	 */
 	public function getTwoCode($name)
 	{
 		$elementObject = $this->driver;
