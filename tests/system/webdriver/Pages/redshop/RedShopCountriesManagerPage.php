@@ -237,16 +237,17 @@ class RedShopCountriesManagerPage extends AdminManagerPage
 	public function getRowNumber($name)
 	{
 		$result = false;
-		$tableElements = $this->driver->findElements(By::xPath("//table[@class='adminlist']/tbody"));
+		$tableElements = $this->driver->findElements(By::xPath("//form[@id='adminForm']//table//tbody"));
 
 		if (isset($tableElements[0]))
 		{
-			$rowElements = $this->driver->findElement(By::xPath("//table[@class='adminlist']/tbody"))->findElements(By::tagName('tr'));
+			$rowElements = $this->driver->findElement(By::xPath("//form[@id='adminForm']//table//tbody"))->findElements(By::tagName('tr'));
 			$count = count($rowElements);
 
 			for ($i = 0; $i < $count; $i ++)
 			{
 				$rowText = $rowElements[$i]->getText();
+				echo $rowText;
 
 				if (strpos(strtolower($rowText), strtolower($name)) !== false)
 				{
