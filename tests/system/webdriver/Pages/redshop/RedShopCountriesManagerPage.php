@@ -146,13 +146,13 @@ class RedShopCountriesManagerPage extends AdminManagerPage
 	public function searchCountry($name, $functionName = 'Search')
 	{
 		$elementObject = $this->driver;
-		$elementObject->findElement(By::xPath("//a[contains(.,'Country Name')]"))->click();
-		sleep(1);
-		$elementObject->waitForElementUntilIsPresent(By::xPath("//tbody/tr/td[3]/a[contains(text(),'" . $name . "')]"), 10);
-		$row = $this->getRowNumber($name) - 1;
 
 		if ($functionName == 'Search')
 		{
+			$elementObject->findElement(By::xPath("//a[contains(.,'Country Name')]"))->click();
+			sleep(1);
+			$elementObject->waitForElementUntilIsPresent(By::xPath("//tbody/tr/td[3]/a[contains(text(),'" . $name . "')]"), 10);
+			$row = $this->getRowNumber($name) - 1;
 			$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='cb" . $row . "']"), 10);
 		}
 
