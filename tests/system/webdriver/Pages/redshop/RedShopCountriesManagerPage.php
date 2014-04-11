@@ -137,6 +137,14 @@ class RedShopCountriesManagerPage extends AdminManagerPage
 		$elementObject->findElement(By::xPath("//li[@id='toolbar-delete']/a"))->click();
 	}
 
+	/**
+	 * Function to Search for a Country
+	 *
+	 * @param   string  $name          Name of the Country
+	 * @param   string  $functionName  Name of the Function after Which Search is getting Called
+	 *
+	 * @return bool True or False Depending on the Value
+	 */
 	public function searchCountry($name, $functionName = 'Search')
 	{
 		$elementObject = $this->driver;
