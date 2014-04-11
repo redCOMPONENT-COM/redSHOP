@@ -101,7 +101,11 @@ defined('_JEXEC') or die;
 		xmlhttp.send(null);
 	}
 </script>
-<form action="<?php echo $this->request_url; ?>" method="post" name="adminForm" id="adminForm">
+<?php if (!empty($this->request_url)) : ?>
+	<form action="<?php echo $this->request_url; ?>" method="post" name="adminForm" id="adminForm">
+<?php else : ?>
+	<form action="" method="post" name="adminForm" id="adminForm">
+<?php endif;?>
 	<div id="editcell">
 		<fieldset>
 			<legend><?php echo JText::_('COM_REDSHOP_IMPORT_UPDATE_LOG'); ?></legend>

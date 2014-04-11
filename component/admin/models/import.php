@@ -1866,7 +1866,7 @@ class importModelimport extends JModel
 			else
 			{
 				$blank = "";
-				$text = "" . $line . "`_`" . $blank . "";
+				$text = "" . ((int) $line - 1) . "`_`" . $blank . "";
 				ob_clean();
 				echo  $text;
 				exit;
@@ -1874,8 +1874,7 @@ class importModelimport extends JModel
 		}
 
 		fclose($handle);
-		$blank = "";
-		$text = "`_`" . $line . "`_`" . $line . "";
+		$text = "`_`" . ((int) $line - 2) . "`_`" . ((int) $line - 2) . "";
 		ob_clean();
 		echo $text;
 		exit;
