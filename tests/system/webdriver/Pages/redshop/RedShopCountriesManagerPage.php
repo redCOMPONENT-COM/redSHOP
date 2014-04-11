@@ -68,5 +68,45 @@ class RedShopCountriesManagerPage extends AdminManagerPage
 		$elementObject->findElement(By::xPath("//a[@onclick=\"Joomla.submitbutton('save')\"]"))->click();
 		$elementObject->waitForElementUntilIsPresent(By::xPath("//li[contains(text(),'Country detail saved')]"), 10);
 	}
+
+	public function editCountry($field, $newValue, $name)
+	{
+		$elementObject = $this->driver;
+		$elementObject->findElement(By::xPath("//a[contains(.,'Country Name')]"))->click();
+		sleep(1);
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//tbody/tr/td[3]/a[contains(text(),'" . $name . "')]"), 10);
+		$row = $this->getRowNumber($name) - 1;
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='cb" . $row . "']"), 10);
+		$elementObject->findElement(By::xPath("//input[@id='cb" . $row . "']"))->click();
+		$elementObject->findElement(By::xPath("//li[@id='toolbar-edit']/a"))->click();
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='country_name']"), 10);
+
+		switch ($field)
+		{
+			case "Name":
+				$nameField = $elementObject->findElement(By::xPath("//input[@id='country_name']"));
+				$nameField->clear();
+				$nameField->sendKeys($newValue);
+				break;
+			case "3-Code":
+				$codeThreeField = $elementObject->findElement(By::xPath("//input[@id='country_3_code']"));
+				$codeThreeField->clear();
+				$codeThreeField->sendKeys($newValue);
+				break;
+			case "2-Code":
+				$codeTwoField = $elementObject->findElement(By::xPath("//input[@id='country_2_code']"));
+				$codeTwoField->clear();
+				$codeTwoField->sendKeys($newValue);
+				break;
+			case "Country":
+				$countryField = $elementObject->findElement(By::xPath("//input[@id='country_jtext']"));
+				$countryField->clear();
+				$countryField->sendKeys($newValue);
+				break;
+		}
+
+		$elementObject->findElement(By::xPath("//a[@onclick=\"Joomla.submitbutton('save')\"]"))->click();
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//li[contains(text(),'Country detail saved')]"), 10);
+	}
 }
 
