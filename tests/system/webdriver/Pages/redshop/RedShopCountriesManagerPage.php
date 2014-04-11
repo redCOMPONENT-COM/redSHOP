@@ -226,4 +226,36 @@ class RedShopCountriesManagerPage extends AdminManagerPage
 
 		return $fieldValue;
 	}
+
+	/**
+	 * Checks a table for a row containing the desired text
+	 *
+	 * @param   string  $name  Text that identifies the desired row
+	 *
+	 * @return mixed row that contains the text or false if row not found
+	 */
+	public function getRowNumber($name)
+	{
+		$result = false;
+		$tableElements = $this->driver->findElements(By::xPath("//table[@class='adminlist']/tbody"));
+
+		if (isset($tableElements[0]))
+		{
+			$rowElements = $this->driver->findElement(By::xPath("//div[@id='editcell']/table/tbody"))->findElements(By::tagName('tr'));
+			$count = count($rowElements);
+
+			for ($i = 0; $i < $count; $i ++)
+			{
+				$rowText = $rowElements[$i]->getText();
+
+				if (strpos(strtolower($rowText), strtolower($name)) !== false)
+				{
+					$result = $i + 1;
+					break;
+				}
+			}
+		}
+
+		return $result;
+	}
 }
