@@ -39,7 +39,7 @@ class RedShopCountriesManagerPage extends AdminManagerPage
 	protected $url = 'administrator/index.php?option=com_redshop&view=country';
 
 	/**
-	 * Function to add a new COuntry to RedShop
+	 * Function to add a new Country to RedShop
 	 *
 	 * @param   string  $name       Country Name
 	 * @param   string  $codeThree  Value for three Code
@@ -135,5 +135,30 @@ class RedShopCountriesManagerPage extends AdminManagerPage
 		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='cb" . $row . "']"), 10);
 		$elementObject->findElement(By::xPath("//input[@id='cb" . $row . "']"))->click();
 		$elementObject->findElement(By::xPath("//li[@id='toolbar-delete']/a"))->click();
+	}
+
+	public function searchCountry($name, $functionName = 'Search')
+	{
+		$elementObject = $this->driver;
+		$elementObject->findElement(By::xPath("//a[contains(.,'Country Name')]"))->click();
+		sleep(1);
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//tbody/tr/td[3]/a[contains(text(),'" . $name . "')]"), 10);
+		$row = $this->getRowNumber($name) - 1;
+
+		if ($functionName == 'Search')
+		{
+			$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='cb" . $row . "']"), 10);
+		}
+
+		$arrayElement = $elementObject->findElements(By::xPath("//tbody/tr/td[3]/a[contains(text(),'" . $name . "')]"));
+
+		if (count($arrayElement))
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
 	}
 }
