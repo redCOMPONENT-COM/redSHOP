@@ -239,7 +239,6 @@ class RedShopCountriesManagerPage extends AdminManagerPage
 			for ($i = 0; $i < $count; $i ++)
 			{
 				$rowText = $rowElements[$i]->getText();
-				echo $rowText;
 
 				if (strpos(strtolower($rowText), strtolower($name)) !== false)
 				{
