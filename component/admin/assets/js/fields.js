@@ -261,10 +261,10 @@ function addNewRow_attribute(tableRef){
 	table_pr="property_table"+gh;
 	newTD1.innerHTML = "<input type='hidden' class='text_area'  size='22' value='0' name='attribute["+gh+"][id]' ><input type='text' class='text_area input_t1' size='22' name='attribute["+gh+"][name]'  >";
 
-	newTD2.innerHTML = "<label for='attribute["+gh+"][ordering]'>"+ord+"</label><input id='attribute["+gh+"][ordering]' type='text_area input_t4' name='attribute["+gh+"][ordering]' size='2' value='"+gh+"' ><input type='hidden' name='attribute["+gh+"][tmpordering]' size='3' value='"+gh+"' >";
-	newTD4.innerHTML = "<label for='attribute["+gh+"][required]'>"+areq+"</label><input id='attribute["+gh+"][required]' type='checkbox'  name='attribute["+gh+"][required]' value='1' >";
+	newTD2.innerHTML = ord+":<input type='text_area input_t4' name='attribute["+gh+"][ordering]' size='2' value='"+gh+"' ><input type='hidden' name='attribute["+gh+"][tmpordering]' size='3' value='"+gh+"' >";
+	newTD4.innerHTML = areq+":<input type='checkbox'  name='attribute["+gh+"][required]' value='1' >";
 
-	newTD6.innerHTML = "<label for='attribute["+gh+"][published]'>"+apublished+"</label><input type='checkbox' checked='checked' class='text_area' size='55' id='attribute["+gh+"][published]' name='attribute["+gh+"][published]' value='1' >";
+	newTD6.innerHTML = apublished+":<input type='checkbox' checked='checked' class='text_area' size='55' name='attribute["+gh+"][published]' value='1' >";
 
 	newTD7.innerHTML = "";
 
@@ -334,9 +334,9 @@ function addNewRow_attribute(tableRef){
 	newTD_multi_10.setAttribute("class","td7");
 
 	newTD_multi_0.innerHTML = "<a class='btn_attribute' href=\"javascript:addproperty('"+table_pr+"','"+gh+"')\">+ Add "+new_prop+"</a>";
-	newTD_multi_1.innerHTML = "<label for='attribute['"+gh+"'][allow_multiple_selection]'>"+spn_allow_multiple+"</label> <input type='checkbox' size='5' id='attribute['"+gh+"'][allow_multiple_selection]' name='attribute['"+gh+"'][allow_multiple_selection]' >";
-	newTD_multi_7.innerHTML = '<label for="attribute['+gh+'][hide_attribute_price]">'+spn_hide_price+'</label> <input type="checkbox" size="5" id="attribute['+gh+'][hide_attribute_price]" name="attribute['+gh+'][hide_attribute_price]" >';
-	newTD_multi_9.innerHTML = '<label for="attribute['+gh+'][display_type]">'+spn_display_type+'</label> <select id="attribute['+gh+'][display_type]" name="attribute['+gh+'][display_type]"><option value="dropdown">Dropdown List</option><option value="radio">Radio Button</option></select>';
+	newTD_multi_1.innerHTML = spn_allow_multiple+": <input type='checkbox' size='5' name='attribute['"+gh+"'][allow_multiple_selection]' >";
+	newTD_multi_7.innerHTML = spn_hide_price+': <input type="checkbox" size="5" name="attribute['+gh+'][hide_attribute_price]" >';
+	newTD_multi_9.innerHTML = spn_display_type+': <select name="attribute['+gh+'][display_type]"><option value="dropdown">Dropdown List</option><option value="radio">Radio Button</option></select>';
 	newTD_multi_3.innerHTML = "&nbsp;";
 	newTD_multi_10.innerHTML = "&nbsp;";
 
