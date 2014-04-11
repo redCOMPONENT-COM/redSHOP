@@ -78,6 +78,35 @@ class RedShopCountry0001Test extends JoomlaWebdriverTestCase
 		$this->assertEquals($this->appTestPage->getTwoCode($name), $twoCode, 'Both Two Codes Must be Equal');
 		$this->assertEquals($this->appTestPage->getCountry($name), $country, 'Both Country Must be Equal');
 		$this->appTestPage->deleteCountry($name);
+		sleep(4);
 		$this->assertFalse($this->appTestPage->searchCountry($name, 'Delete'), 'Country Must be Deleted');
+	}
+
+	/**
+	 * Function to Test editing of Country
+	 *
+	 * @test
+	 *
+	 * @return void
+	 */
+	public function updateCountry()
+	{
+		$rand = rand();
+		$name = '01RedShopCountry' . $rand;
+		$newName = '01RedShopNewCountry' . $rand;
+		$threeCode = rand(100, 999);
+		$twoCode = rand(10, 99);
+		$country = '01RedCountry' . $rand;
+		$this->appTestPage->addCountry($name, $threeCode, $twoCode, $country);
+		$this->assertTrue($this->appTestPage->searchCountry($name), 'Country Must be Created');
+		$this->assertEquals($this->appTestPage->getThreeCode($name), $threeCode, 'Both Three Codes Must be Equal');
+		$this->assertEquals($this->appTestPage->getTwoCode($name), $twoCode, 'Both Two Codes Must be Equal');
+		$this->assertEquals($this->appTestPage->getCountry($name), $country, 'Both Country Must be Equal');
+		$this->appTestPage->editCountry('Name', $newName, $name);
+		sleep(3);
+		$this->assertTrue($this->appTestPage->searchCountry($newName, 'After Edit'), 'Country Name must be Updated');
+		$this->appTestPage->deleteCountry($newName);
+		sleep(4);
+		$this->assertFalse($this->appTestPage->searchCountry($newName, 'Delete'), 'Country Must be Deleted');
 	}
 }
