@@ -58,6 +58,13 @@ class RedShopCountry0001Test extends JoomlaWebdriverTestCase
 		parent::tearDown();
 	}
 
+	/**
+	 * Function to Test Country Creation
+	 *
+	 * @test
+	 *
+	 * @return void
+	 */
 	public function createCountry()
 	{
 		$rand = rand();
