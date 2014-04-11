@@ -1051,6 +1051,16 @@ class redshopMail
 		$arr_discount_type = array();
 
 		$mailinfo          = $this->getMailtemplate(0, "invoice_mail");
+		$invoiceFileMail  = $this->getMailtemplate(0, "invoicefile_mail");
+
+		if (count($invoiceFileMail) > 0)
+		{
+			$body = $invoiceFileMail[0]->mail_body;
+		}
+		else
+		{
+			$body = $mailinfo[0]->mail_body;
+		}
 
 		if (count($mailinfo) > 0)
 		{
@@ -1102,7 +1112,10 @@ class redshopMail
 		$replace_sub[]    = SHOP_NAME;
 
 		$message          = str_replace($search, $replace, $message);
+		$body          = str_replace($search, $replace, $body);
+
 		$message          = $this->imginmail($message);
+		$body             = $this->imginmail($body);
 		$user             = JFactory::getUser();
 		$billingaddresses = $this->_order_functions->getOrderBillingUserInfo($order_id);
 		$email            = $billingaddresses->user_email;
@@ -1119,7 +1132,11 @@ class redshopMail
 		$message          = $this->_carthelper->replaceOrderTemplate($row, $message);
 		$message          = str_replace("{firstname}", $billingaddresses->firstname, $message);
 		$message          = str_replace("{lastname}", $billingaddresses->lastname, $message);
-		$body             = $message;
+
+		$body             = $this->_carthelper->replaceOrderTemplate($row, $body);
+		$body             = str_replace("{firstname}", $billingaddresses->firstname, $body);
+		$body             = str_replace("{lastname}", $billingaddresses->lastname, $body);
+
 		$body1            = $message;
 		$img_url1         = REDSHOP_FRONT_IMAGES_ABSPATH . "barcode/" . $barcode_code . ".png";
 		$img_url          = REDSHOP_FRONT_IMAGES_RELPATH . "barcode/" . $barcode_code . ".png";
