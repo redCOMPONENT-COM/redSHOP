@@ -241,7 +241,7 @@ class RedShopCountriesManagerPage extends AdminManagerPage
 
 		if (isset($tableElements[0]))
 		{
-			$rowElements = $this->driver->findElement(By::xPath("//div[@id='editcell']/table/tbody"))->findElements(By::tagName('tr'));
+			$rowElements = $this->driver->findElement(By::xPath("//table[@class='adminlist']/tbody"))->findElements(By::tagName('tr'));
 			$count = count($rowElements);
 
 			for ($i = 0; $i < $count; $i ++)
