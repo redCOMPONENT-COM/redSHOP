@@ -69,6 +69,15 @@ class RedShopCountriesManagerPage extends AdminManagerPage
 		$elementObject->waitForElementUntilIsPresent(By::xPath("//li[contains(text(),'Country detail saved')]"), 10);
 	}
 
+	/**
+	 * Function to Edit a Country Detail
+	 *
+	 * @param   string  $field     Name of the Field
+	 * @param   string  $newValue  New value for the Field
+	 * @param   string  $name      Name of the Country
+	 *
+	 * @return RedShopCountriesManagerPage
+	 */
 	public function editCountry($field, $newValue, $name)
 	{
 		$elementObject = $this->driver;
@@ -109,4 +118,3 @@ class RedShopCountriesManagerPage extends AdminManagerPage
 		$elementObject->waitForElementUntilIsPresent(By::xPath("//li[contains(text(),'Country detail saved')]"), 10);
 	}
 }
-
