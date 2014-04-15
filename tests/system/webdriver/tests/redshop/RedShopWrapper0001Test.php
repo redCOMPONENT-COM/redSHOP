@@ -57,9 +57,10 @@ class RedShopWrapper0001Test extends JoomlaWebdriverTestCase
 		$rand = rand();
 		$wrapperName = 'RedShop Wrapper' . $rand;
 		$wrapperPrice = '100';
+		$displayPrice = '$ ' . $wrapperPrice;
 		$this->appTestPage->addWrapper($wrapperName, $wrapperPrice);
 		$this->assertTrue($this->appTestPage->searchWrapper($wrapperName), 'Wrapper Must be Created');
-		$this->assertEquals($this->appTestPage->getPrice($wrapperName), $wrapperPrice, 'Both Must be Equal');
+		$this->assertEquals($this->appTestPage->getPrice($wrapperName), $displayPrice, 'Both Must be Equal');
 		$this->appTestPage->deleteWrapper($wrapperName);
 		$this->assertFalse($this->appTestPage->searchWrapper($wrapperName, 'Delete'), 'Wrapper Must be Deleted');
 	}
@@ -76,10 +77,11 @@ class RedShopWrapper0001Test extends JoomlaWebdriverTestCase
 		$rand = rand();
 		$wrapperName = 'RedShop Wrapper' . $rand;
 		$wrapperPrice = '100';
+		$displayPrice = '$ ' . $wrapperPrice;
 		$wrapperNewName = 'Updated Name' . $rand;
 		$this->appTestPage->addWrapper($wrapperName, $wrapperPrice);
 		$this->assertTrue($this->appTestPage->searchWrapper($wrapperName), 'Wrapper Must be Created');
-		$this->assertEquals($this->appTestPage->getPrice($wrapperName), $wrapperPrice, 'Must be Equal');
+		$this->assertEquals($this->appTestPage->getPrice($wrapperName), $displayPrice, 'Must be Equal');
 		$this->appTestPage->editWrapper('Name', $wrapperNewName, $wrapperName);
 		$this->assertTrue($this->appTestPage->searchWrapper($wrapperNewName), 'Wrapper Must be Updated');
 		$this->appTestPage->deleteWrapper($wrapperNewName);
@@ -98,9 +100,10 @@ class RedShopWrapper0001Test extends JoomlaWebdriverTestCase
 		$rand = rand();
 		$wrapperName = 'RedShop Wrapper' . $rand;
 		$wrapperPrice = '100';
+		$displayPrice = '$ ' . $wrapperPrice;
 		$this->appTestPage->addWrapper($wrapperName, $wrapperPrice);
 		$this->assertTrue($this->appTestPage->searchWrapper($wrapperName), 'Wrapper Must be Created');
-		$this->assertEquals($this->appTestPage->getPrice($wrapperName), $wrapperPrice, 'Must be Equal');
+		$this->assertEquals($this->appTestPage->getPrice($wrapperName), $displayPrice, 'Must be Equal');
 		$this->appTestPage->changeWrapperState($wrapperName, 'unpublished');
 		$this->assertEquals($this->appTestPage->getState($wrapperName), 'unpublished', 'State Must be Changed');
 		$this->appTestPage->deleteWrapper($wrapperName);
