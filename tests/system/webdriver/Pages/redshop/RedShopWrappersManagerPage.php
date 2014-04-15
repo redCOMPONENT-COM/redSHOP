@@ -116,7 +116,6 @@ class RedShopWrappersManagerPage extends AdminManagerPage
 	}
 
 	/**
-	 *
 	 * Function to Search for a Wrapper
 	 *
 	 * @param   string  $wrapperName   Name of the Wrapper which we want to search
@@ -146,6 +145,13 @@ class RedShopWrappersManagerPage extends AdminManagerPage
 		}
 	}
 
+	/**
+	 * Function to get state of a Wrapper
+	 *
+	 * @param   string  $wrapperName  Name of the Wrapper
+	 *
+	 * @return string
+	 */
 	public function getState($wrapperName)
 	{
 		$elementObject = $this->driver;
