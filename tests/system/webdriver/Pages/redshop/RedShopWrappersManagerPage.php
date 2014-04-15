@@ -38,6 +38,14 @@ class RedShopWrappersManagerPage extends AdminManagerPage
 	 */
 	protected $url = 'administrator/index.php?option=com_redshop&view=wrapper';
 
+	/**
+	 * Function to Add a Wrapper
+	 *
+	 * @param   string  $wrapperName   Name of the Wrapper
+	 * @param   string  $wrapperPrice  Price of the Wrapper
+	 *
+	 * @return RedShopWrappersManagerPage
+	 */
 	public function addWrapper($wrapperName = 'Sample', $wrapperPrice = '100')
 	{
 		$elementObject = $this->driver;
