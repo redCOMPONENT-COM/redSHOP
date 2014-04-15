@@ -1548,12 +1548,13 @@ class Product_DetailModelProduct_Detail extends JModel
 					$old_img = $mediadata[$j]->media_name;
 					$new_img = strstr($old_img, '_') ? strstr($old_img, '_') : $old_img;
 					$old_media = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $mediadata[$j]->media_name;
-					$new_media = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . JPath::clean(time() . $new_img);
+					$mediaName = JPath::clean(time() . $new_img);
+					$new_media = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $mediaName;
 					copy($old_media, $new_media);
 
 					$rowmedia = $this->getTable('media_detail');
 					$data['media_id '] = 0;
-					$data['media_name'] = JPath::clean(time() . $new_img);
+					$data['media_name'] = $mediaName;
 					$data['media_alternate_text'] = $mediadata[$j]->media_alternate_text;
 					$data['media_section'] = $mediadata[$j]->media_section;
 					$data['section_id'] = $row->product_id;
