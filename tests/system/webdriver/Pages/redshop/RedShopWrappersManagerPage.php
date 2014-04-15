@@ -172,9 +172,10 @@ class RedShopWrappersManagerPage extends AdminManagerPage
 	}
 
 	/**
-	 * Function to change state of a wrapper
+	 * Function to Change State of a wrapper
 	 *
-	 * @param   string  $wrapperName  Name of the Wrapper for which the State is to be changed
+	 * @param   string  $wrapperName  Name of the Wrapper
+	 * @param   string  $state        State of the Wrapper
 	 *
 	 * @return RedShopWrappersManagerPage
 	 */
