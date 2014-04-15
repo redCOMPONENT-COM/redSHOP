@@ -115,6 +115,15 @@ class RedShopWrappersManagerPage extends AdminManagerPage
 		$elementObject->findElement(By::xPath("//li[@id='toolbar-delete']/a"))->click();
 	}
 
+	/**
+	 *
+	 * Function to Search for a Wrapper
+	 *
+	 * @param   string  $wrapperName   Name of the Wrapper which we want to search
+	 * @param   string  $functionName  Name of the function after which Search is getting called
+	 *
+	 * @return bool True or False Depending on the Value
+	 */
 	public function searchWrapper($wrapperName, $functionName = 'Search')
 	{
 		$elementObject = $this->driver;
