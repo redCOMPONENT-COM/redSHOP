@@ -197,4 +197,14 @@ class RedShopWrappersManagerPage extends AdminManagerPage
 			$this->driver->waitForElementUntilIsPresent(By::xPath($this->waitForXpath));
 		}
 	}
+
+	public function getPrice($wrapperName)
+	{
+		$elementObject = $this->driver;
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//tbody/tr/td[3]/a[contains(text(),'" . $wrapperName . "')]"), 10);
+		$row = $this->getRowNumber($wrapperName);
+		$fieldValue = $elementObject->findElement(By::xPath("//tbody/tr[" . $row . "]/td[5]"))->getText();
+
+		return $fieldValue;
+	}
 }
