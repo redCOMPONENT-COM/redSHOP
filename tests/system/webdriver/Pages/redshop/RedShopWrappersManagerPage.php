@@ -61,6 +61,15 @@ class RedShopWrappersManagerPage extends AdminManagerPage
 		$elementObject->waitForElementUntilIsPresent(By::xPath("//li[contains(text(),'Wrapping detail saved')]"), 10);
 	}
 
+	/**
+	 * Function to edit a Wrapper
+	 *
+	 * @param   string  $field        Name of the Field which is to be updated
+	 * @param   string  $newValue     New Value of the Field
+	 * @param   string  $wrapperName  Name of the Wrapper
+	 *
+	 * @return RedShopWrappersManagerPage
+	 */
 	public function editWrapper($field, $newValue, $wrapperName)
 	{
 		$elementObject = $this->driver;
