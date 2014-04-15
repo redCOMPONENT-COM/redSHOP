@@ -98,6 +98,13 @@ class RedShopWrappersManagerPage extends AdminManagerPage
 		$elementObject->waitForElementUntilIsPresent(By::xPath("//li[contains(text(),'Wrapping detail saved')]"), 10);
 	}
 
+	/**
+	 * Function to delete a Wrapper
+	 *
+	 * @param   string  $wrapperName  Name of the Wrapper
+	 *
+	 * @return RedShopWrappersManagerPage
+	 */
 	public function deleteWrapper($wrapperName)
 	{
 		$elementObject = $this->driver;
