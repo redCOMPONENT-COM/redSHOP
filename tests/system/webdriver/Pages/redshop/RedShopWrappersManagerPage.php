@@ -77,7 +77,7 @@ class RedShopWrappersManagerPage extends AdminManagerPage
 		$row = $this->getRowNumber($wrapperName) - 1;
 		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='cb" . $row . "']"), 10);
 		$elementObject->findElement(By::xPath("//input[@id='cb" . $row . "']"))->click();
-		$elementObject->findElement(By::xPath("//li[@id='toolbar-edit']/a"))->click();
+		$elementObject->findElement(By::xPath("//tbody/tr/td[3]/a[contains(text(),'" . $wrapperName . "')]"))->click();
 		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='wrapper_name']"), 10);
 
 		switch ($field)
