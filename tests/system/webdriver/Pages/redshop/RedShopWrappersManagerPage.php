@@ -171,7 +171,14 @@ class RedShopWrappersManagerPage extends AdminManagerPage
 		return $result;
 	}
 
-	public function changeWrapperState($wrapperName)
+	/**
+	 * Function to change state of a wrapper
+	 *
+	 * @param   string  $wrapperName  Name of the Wrapper for which the State is to be changed
+	 *
+	 * @return RedShopWrappersManagerPage
+	 */
+	public function changeWrapperState($wrapperName, $state = 'published')
 	{
 		$elementObject = $this->driver;
 		$elementObject->waitForElementUntilIsPresent(By::xPath("//tbody/tr/td[3]/a[contains(text(),'" . $wrapperName . "')]"), 10);
