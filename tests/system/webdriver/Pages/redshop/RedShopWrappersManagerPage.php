@@ -145,4 +145,23 @@ class RedShopWrappersManagerPage extends AdminManagerPage
 			return false;
 		}
 	}
+
+	public function getState($wrapperName)
+	{
+		$elementObject = $this->driver;
+		$row = $this->getRowNumber($wrapperName);
+		$text = $this->driver->findElement(By::xPath("//tbody/tr[" . $row . "]/td[7]//a"))->getAttribute(@onclick);
+
+		if (strpos($text, 'unpublish') > 0)
+		{
+			$result = 'published';
+		}
+
+		if (strpos($text, 'publish') > 0)
+		{
+			$result = 'unpublished';
+		}
+
+		return $result;
+	}
 }
