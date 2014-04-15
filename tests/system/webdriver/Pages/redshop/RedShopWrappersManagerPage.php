@@ -198,6 +198,13 @@ class RedShopWrappersManagerPage extends AdminManagerPage
 		}
 	}
 
+	/**
+	 * Function to get the Value of Price Field
+	 *
+	 * @param   String  $wrapperName  Name of the Wrapper
+	 *
+	 * @return RedShopWrappersManagerPage
+	 */
 	public function getPrice($wrapperName)
 	{
 		$elementObject = $this->driver;
