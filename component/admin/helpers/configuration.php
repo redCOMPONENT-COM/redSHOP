@@ -1415,6 +1415,18 @@ class Redconfiguration
 		return $return;
 	}
 
+	/**
+	 * This function will get state list from country code and return HTML of state (both billing and shipping)
+	 *
+	 * @param   array   $post              $post get from $_POST request
+	 * @param   string  $state_codename    State Code from billing or Shipping
+	 * @param   string  $country_codename  Country code from billing or shipping
+	 * @param   string  $address_type      Distinguish billing or shipping
+	 * @param   number  $isAdmin           It will determine is admin or site front end
+	 * @param   string  $state_class       Class of state of selected field
+	 *
+	 * @return array
+	 */
 	public function getStateList($post = array(), $state_codename = "state_code", $country_codename = "country_code", $address_type = "BT", $isAdmin = 0, $state_class = "inputbox")
 	{
 		$db = JFactory::getDbo();

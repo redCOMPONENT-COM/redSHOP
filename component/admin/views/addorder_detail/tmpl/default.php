@@ -482,9 +482,8 @@ function validateUserDetail() {
 								<td><?php echo $this->lists['state_code_ST']; ?></td>
 							</tr>
 							<script type="text/javascript" language="javascript">
-								///alert(document.getElementById('state_code').options[1].value);
-
-								if (document.getElementById('state_code_ST').options[1] == undefined) {
+								if (document.getElementById('state_code_ST').options[1] == undefined)
+								{
 									document.getElementById('div_state_st_txt').style.display = 'none';
 								}
 							</script>
