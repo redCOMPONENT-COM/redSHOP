@@ -20,7 +20,7 @@ require_once JPATH_ADMINISTRATOR . '/components/com_acymailing/helpers/list.php'
  *
  * @since  1.0
  */
-class Plgredshop_userregistration_acymailing extends JPlugin
+class PlgRedshop_UserRegistration_Acymailing extends JPlugin
 {
 	/**
 	 * autoAcymailingSubscription function
@@ -42,7 +42,7 @@ class Plgredshop_userregistration_acymailing extends JPlugin
 		$db->setQuery($query);
 		$sub = $db->loadObject();
 
-		$plugin = JPluginHelper::getPlugin('highrise', 'acymailing');
+		$plugin = JPluginHelper::getPlugin('redshop_user', 'registration_acymailing');
 		$pluginParams = new JRegistry($plugin->params);
 
 		$list = $pluginParams->get('listschecked');
