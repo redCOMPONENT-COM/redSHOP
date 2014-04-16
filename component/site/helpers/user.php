@@ -713,6 +713,15 @@ class rsUserhelper
 			JPluginHelper::importPlugin('highrise');
 			$dispatcher = JDispatcher::getInstance();
 			$hResponses = $dispatcher->trigger('oncreateHighriseUser', array());
+
+			$isNewsLetter = $data['newsletter_signup'];
+
+			if ($isNewsLetter)
+			{
+				JPluginHelper::importPlugin('redshop_user');
+				$dispatcher = JDispatcher::getInstance();
+				$hResponses = $dispatcher->trigger('autoAcymailingSubscription', array());
+			}
 		}
 
 		/**
