@@ -145,4 +145,23 @@ class RedShopGiftCardsManagerPage extends AdminManagerPage
 		$elementObject->findElement(By::xPath("//input[@id='cb" . $row . "']"))->click();
 		$elementObject->findElement(By::xPath("//li[@id='toolbar-delete']/a"))->click();
 	}
+
+	public function getState($name)
+	{
+		$elementObject = $this->driver;
+		$row = $this->getRowNumber($name);
+		$text = $elementObject->findElement(By::xPath("//tbody/tr[" . $row . "]/td[9]//a"))->getAttribute(@onclick);
+
+		if (strpos($text, 'unpublish') > 0)
+		{
+			$result = 'published';
+		}
+
+		if (strpos($text, 'publish') > 0)
+		{
+			$result = 'unpublished';
+		}
+
+		return $result;
+	}
 }
