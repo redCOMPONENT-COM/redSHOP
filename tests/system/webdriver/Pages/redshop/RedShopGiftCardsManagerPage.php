@@ -49,7 +49,7 @@ class RedShopGiftCardsManagerPage extends AdminManagerPage
 	 *
 	 * @return RedShopGiftCardsManagerPage
 	 */
-	public function addCard($name = 'Sample Card', $price = '100', $value = '10', $validity = '10', $description = 'Sample Gift Card')
+	public function addCard($name = 'Sample Card', $price = '100', $value = '10', $validity = '10')
 	{
 		$elementObject = $this->driver;
 		$elementObject->findElement(By::xPath("//a[@onclick=\"Joomla.submitbutton('add')\"]"))->click();
@@ -66,11 +66,6 @@ class RedShopGiftCardsManagerPage extends AdminManagerPage
 		$validityField = $elementObject->findElement(By::xPath("//input[@id='giftcard_validity']"));
 		$validityField->clear();
 		$validityField->sendKeys($validity);
-		$elementObject->findElement(By::xPath("//a[@title='Toggle editor']"))->click();
-		sleep(4);
-		$descriptionField = $elementObject->findElement(By::xPath("//textarea[@id='jform_giftcard_desc']"));
-		$descriptionField->clear();
-		$descriptionField->sendKeys($description);
 		$elementObject->findElement(By::xPath("//a[@onclick=\"Joomla.submitbutton('save')\"]"))->click();
 		$elementObject->waitForElementUntilIsPresent(By::xPath("//li[contains(text(),'Gift Card Saved')]"), 10);
 	}
@@ -115,13 +110,6 @@ class RedShopGiftCardsManagerPage extends AdminManagerPage
 				$validityField = $elementObject->findElement(By::xPath("//input[@id='giftcard_validity']"));
 				$validityField->clear();
 				$validityField->sendKeys($newValue);
-				break;
-			case "Description":
-				$elementObject->findElement(By::xPath("//a[@title='Toggle editor']"))->click();
-				sleep(4);
-				$descriptionField = $elementObject->findElement(By::xPath("//textarea[@id='giftcard_desc']"));
-				$descriptionField->clear();
-				$descriptionField->sendKeys($newValue);
 				break;
 		}
 
