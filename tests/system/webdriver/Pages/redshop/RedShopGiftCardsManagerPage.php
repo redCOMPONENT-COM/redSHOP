@@ -38,6 +38,17 @@ class RedShopGiftCardsManagerPage extends AdminManagerPage
 	 */
 	protected $url = 'administrator/index.php?option=com_redshop&view=giftcard';
 
+	/**
+	 * Function to Add a Card
+	 *
+	 * @param   string  $name         Name of the Card
+	 * @param   string  $price        Price of the card
+	 * @param   string  $value        Value of the Card
+	 * @param   string  $validity     Validity of the Card
+	 * @param   string  $description  Description of the Card
+	 *
+	 * @return RedShopGiftCardsManagerPage
+	 */
 	public function addCard($name = 'Sample Card', $price = '100', $value = '10', $validity = '10', $description = 'Sample Gift Card')
 	{
 		$elementObject = $this->driver;
