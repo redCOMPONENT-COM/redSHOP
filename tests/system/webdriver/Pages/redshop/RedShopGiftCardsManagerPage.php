@@ -129,6 +129,13 @@ class RedShopGiftCardsManagerPage extends AdminManagerPage
 		$elementObject->waitForElementUntilIsPresent(By::xPath("//li[contains(text(),'Gift Card Saved')]"), 10);
 	}
 
+	/**
+	 * Function to Delete a giftCard
+	 *
+	 * @param   string  $name  Name of the Card
+	 *
+	 * @return RedShopGiftCardsManagerpage
+	 */
 	public function deleteCard($name)
 	{
 		$elementObject = $this->driver;
