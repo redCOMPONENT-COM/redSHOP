@@ -199,4 +199,15 @@ class RedShopGiftCardsManagerPage extends AdminManagerPage
 			$this->driver->waitForElementUntilIsPresent(By::xPath($this->waitForXpath));
 		}
 	}
+
+	public function copyCard($name)
+	{
+		$elementObject = $this->driver;
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//tbody/tr/td[3]/a[contains(text(),'" . $name . "')]"), 10);
+		$row = $this->getRowNumber($name) - 1;
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='cb" . $row . "']"), 10);
+		$elementObject->findElement(By::xPath("//input[@id='cb" . $row . "']"))->click();
+		$elementObject->findElement(By::xPath("//li[@id='toolbar-copy']/a"))->click();
+		sleep(4);
+	}
 }
