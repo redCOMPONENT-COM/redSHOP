@@ -200,6 +200,13 @@ class RedShopGiftCardsManagerPage extends AdminManagerPage
 		}
 	}
 
+	/**
+	 * Function to Copy a Card
+	 *
+	 * @param   string  $name  Name of the Gift Card
+	 *
+	 * @return RedShopGiftCardsManagerPage
+	 */
 	public function copyCard($name)
 	{
 		$elementObject = $this->driver;
