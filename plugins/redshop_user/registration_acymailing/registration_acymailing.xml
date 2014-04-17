@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="1.0" type="plugin" group="redshop_user" method="upgrade">
 	<name>PLG_REDSHOP_USER_REGISTRATION_ACYMAILING</name>
-	<creationDate>17-04-2014</creationDate>
-	<author>redWEB Aps</author>
-	<authorEmail>redCOMPONENT.com</authorEmail>
+	<creationDate>April 2014</creationDate>
+	<author>redCOMPONENT.com</author>
+	<authorEmail>email@redcomponent.com</authorEmail>
 	<authorUrl>www.redcomponent.com</authorUrl>
 	<copyright>(C) 2014 redCOMPONENT.com</copyright>
 	<license>GNU/GPL</license>
