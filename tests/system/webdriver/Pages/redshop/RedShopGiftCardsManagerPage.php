@@ -74,4 +74,49 @@ class RedShopGiftCardsManagerPage extends AdminManagerPage
 		$elementObject->findElement(By::xPath("//a[@onclick=\"Joomla.submitbutton('save')\"]"))->click();
 		$elementObject->waitForElementUntilIsPresent(By::xPath("//li[contains(text(),'Gift Card Saved')]"), 10);
 	}
+
+	public function editCard($field, $newValue, $name)
+	{
+		$elementObject = $this->driver;
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//tbody/tr/td[3]/a[contains(text(),'" . $name . "')]"), 10);
+		$row = $this->getRowNumber($name) - 1;
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='cb" . $row . "']"), 10);
+		$elementObject->findElement(By::xPath("//input[@id='cb" . $row . "']"))->click();
+		$elementObject->findElement(By::xPath("//li[@id='toolbar-edit']/a"))->click();
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='giftcard_name']"), 10);
+
+		switch ($field)
+		{
+			case "Name":
+				$nameField = $elementObject->findElement(By::xPath("//input[@id='giftcard_name']"));
+				$nameField->clear();
+				$nameField->sendKeys($newValue);
+				break;
+			case "Price":
+				$priceField = $elementObject->findElement(By::xPath("//input[@id='giftcard_price']"));
+				$priceField->clear();
+				$priceField->sendKeys($newValue);
+				break;
+			case "Value":
+				$valueField = $elementObject->findElement(By::xPath("//input[@id='giftcard_value']"));
+				$valueField->clear();
+				$valueField->sendKeys($newValue);
+				break;
+			case "Validity":
+				$validityField = $elementObject->findElement(By::xPath("//input[@id='giftcard_validity']"));
+				$validityField->clear();
+				$validityField->sendKeys($newValue);
+				break;
+			case "Description":
+				$elementObject->findElement(By::xPath("//a[@title='Toggle editor']"))->click();
+				sleep(4);
+				$descriptionField = $elementObject->findElement(By::xPath("//textarea[@id='giftcard_desc']"));
+				$descriptionField->clear();
+				$descriptionField->sendKeys($newValue);
+				break;
+		}
+
+		$elementObject->findElement(By::xPath("//a[@onclick=\"Joomla.submitbutton('save')\"]"))->click();
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//li[contains(text(),'Gift Card Saved')]"), 10);
+	}
 }
