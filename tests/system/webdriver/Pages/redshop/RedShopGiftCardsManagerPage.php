@@ -172,6 +172,14 @@ class RedShopGiftCardsManagerPage extends AdminManagerPage
 		return $result;
 	}
 
+	/**
+	 * Function to change State of a gift card
+	 *
+	 * @param   string  $name   Name of the Card
+	 * @param   string  $state  New State of the Card
+	 *
+	 * @return RedShopGiftCardsManagerPage
+	 */
 	public function changeCardState($name, $state = 'published')
 	{
 		$elementObject = $this->driver;
