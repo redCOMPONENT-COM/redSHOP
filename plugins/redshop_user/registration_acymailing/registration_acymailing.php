@@ -29,7 +29,7 @@ class PlgRedshop_UserRegistration_Acymailing extends JPlugin
 	 * 
 	 * @return boolean
 	 */
-	public function autoAcymailingSubscription($data = array())
+	public function onAfterCreateRedshopUser($data = array())
 	{
 		$user = JFactory::getUser();
 		$db = JFactory::getDbo();

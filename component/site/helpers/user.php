@@ -714,13 +714,12 @@ class rsUserhelper
 			$dispatcher = JDispatcher::getInstance();
 			$hResponses = $dispatcher->trigger('oncreateHighriseUser', array());
 
-			$isNewsLetter = $data['newsletter_signup'];
-
-			if ($isNewsLetter)
+			// Event after create redshop user
+			if (isset($data['newsletter_signup']) && $data['newsletter_signup'])
 			{
 				JPluginHelper::importPlugin('redshop_user');
 				$dispatcher = JDispatcher::getInstance();
-				$hResponses = $dispatcher->trigger('autoAcymailingSubscription', array());
+				$hResponses = $dispatcher->trigger('onAfterCreateRedshopUser', array());
 			}
 		}
 
