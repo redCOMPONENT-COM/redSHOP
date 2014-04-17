@@ -217,4 +217,26 @@ class RedShopGiftCardsManagerPage extends AdminManagerPage
 		$elementObject->findElement(By::xPath("//li[@id='toolbar-copy']/a"))->click();
 		sleep(4);
 	}
+
+	public function searchCard($name, $functionName = 'Search')
+	{
+		$elementObject = $this->driver;
+		$row = $this->getRowNumber($name) - 1;
+
+		if ($functionName == 'Search')
+		{
+			$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='cb" . $row . "']"), 10);
+		}
+
+		$arrayElement = $elementObject->findElements(By::xPath("//tbody/tr/td[3]/a[contains(text(),'" . $name . "')]"));
+
+		if (count($arrayElement))
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
 }
