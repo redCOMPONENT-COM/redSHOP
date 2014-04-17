@@ -218,6 +218,14 @@ class RedShopGiftCardsManagerPage extends AdminManagerPage
 		sleep(4);
 	}
 
+	/**
+	 * Function to search for a Gift Card
+	 *
+	 * @param   string  $name          Name of the Gift Card
+	 * @param   string  $functionName  Function after which the search function is getting called
+	 *
+	 * @return bool True or False Depending on the Value
+	 */
 	public function searchCard($name, $functionName = 'Search')
 	{
 		$elementObject = $this->driver;
