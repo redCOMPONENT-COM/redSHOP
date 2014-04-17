@@ -75,6 +75,15 @@ class RedShopGiftCardsManagerPage extends AdminManagerPage
 		$elementObject->waitForElementUntilIsPresent(By::xPath("//li[contains(text(),'Gift Card Saved')]"), 10);
 	}
 
+	/**
+	 * Function to Edit a Gift Card
+	 *
+	 * @param   string  $field     Field which is to be Updated
+	 * @param   string  $newValue  New Value of the Field
+	 * @param   string  $name      Name of the Card
+	 *
+	 * @return RedShopGiftCardsManagerPage
+	 */
 	public function editCard($field, $newValue, $name)
 	{
 		$elementObject = $this->driver;
