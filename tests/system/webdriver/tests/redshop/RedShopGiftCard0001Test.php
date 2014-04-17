@@ -72,8 +72,7 @@ class RedShopGiftCard0001Test extends JoomlaWebdriverTestCase
 		$price = '100';
 		$value = '50';
 		$validity = '10';
-		$description = 'This is Test Description' . $rand;
-		$this->appTestPage->addCard($name, $price, $value, $validity, $description);
+		$this->appTestPage->addCard($name, $price, $value, $validity);
 		$this->assertTrue($this->appTestPage->searchCard($name), 'Gift Card Must be Created');
 		$this->appTestPage->deleteCard($name);
 		$this->assertFalse($this->appTestPage->searchCard($name, 'Delete'), 'Gift Card Must be Deleted');
@@ -94,8 +93,7 @@ class RedShopGiftCard0001Test extends JoomlaWebdriverTestCase
 		$price = '100';
 		$value = '50';
 		$validity = '10';
-		$description = 'This is Test Description' . $rand;
-		$this->appTestPage->addCard($name, $price, $value, $validity, $description);
+		$this->appTestPage->addCard($name, $price, $value, $validity);
 		$this->assertTrue($this->appTestPage->searchCard($name), 'Gift Card Must be Created');
 		$this->appTestPage->editCard('Name', $newName, $name);
 		$this->assertTrue($this->appTestPage->searchCard($newName), 'Gift Card Must be Updated');
@@ -117,8 +115,7 @@ class RedShopGiftCard0001Test extends JoomlaWebdriverTestCase
 		$price = '100';
 		$value = '50';
 		$validity = '10';
-		$description = 'This is Test Description' . $rand;
-		$this->appTestPage->addCard($name, $price, $value, $validity, $description);
+		$this->appTestPage->addCard($name, $price, $value, $validity);
 		$this->assertTrue($this->appTestPage->searchCard($name), 'Gift Card Must be Created');
 		$this->appTestPage->changeCardState($name, 'unpublished');
 		$this->assertEquals($this->appTestPage->getState($name), 'unpublished', 'Gift card state Must be changed to unpublished now');
@@ -141,8 +138,7 @@ class RedShopGiftCard0001Test extends JoomlaWebdriverTestCase
 		$price = '100';
 		$value = '50';
 		$validity = '10';
-		$description = 'This is Test Description' . $rand;
-		$this->appTestPage->addCard($name, $price, $value, $validity, $description);
+		$this->appTestPage->addCard($name, $price, $value, $validity);
 		$this->assertTrue($this->appTestPage->searchCard($name), 'Gift Card Must be Created');
 		$this->appTestPage->copyCard($name);
 		$this->assertTrue($this->appTestPage->searchCard($copyCardName), 'A Copy Gift Card must be created');
