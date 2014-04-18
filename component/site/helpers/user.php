@@ -666,12 +666,9 @@ class rsUserhelper
 		{
 			$this->newsletterSubscribe($row->user_id, $data);
 
-			if ($isNew)
-			{
-				JPluginHelper::importPlugin('redshop_user');
-				$dispatcher = JDispatcher::getInstance();
-				$hResponses = $dispatcher->trigger('addNewsLetterSubscription', array());
-			}
+			JPluginHelper::importPlugin('redshop_user');
+			$dispatcher = JDispatcher::getInstance();
+			$hResponses = $dispatcher->trigger('addNewsLetterSubscription', array($isNew, $data));
 		}
 
 		$billisship = 1;
