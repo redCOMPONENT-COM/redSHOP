@@ -665,6 +665,13 @@ class rsUserhelper
 		if (isset($data['newsletter_signup']) && $data['newsletter_signup'] == 1)
 		{
 			$this->newsletterSubscribe($row->user_id, $data);
+
+			if ($isNew)
+			{
+				JPluginHelper::importPlugin('redshop_user');
+				$dispatcher = JDispatcher::getInstance();
+				$hResponses = $dispatcher->trigger('addNewsLetterSubscription', array());
+			}
 		}
 
 		$billisship = 1;
@@ -713,14 +720,6 @@ class rsUserhelper
 			JPluginHelper::importPlugin('highrise');
 			$dispatcher = JDispatcher::getInstance();
 			$hResponses = $dispatcher->trigger('oncreateHighriseUser', array());
-
-			// Event auto add user to news-letter subscription
-			if (isset($data['newsletter_signup']) && $data['newsletter_signup'])
-			{
-				JPluginHelper::importPlugin('redshop_user');
-				$dispatcher = JDispatcher::getInstance();
-				$hResponses = $dispatcher->trigger('addNewsLetterSubscription', array());
-			}
 		}
 
 		/**
