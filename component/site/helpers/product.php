@@ -2140,14 +2140,16 @@ class producthelper
 
 		// Initialiase variables.
 		$query = $this->_db->getQuery(true)
-		    ->select('*')
+			->select('*')
 			->from($this->_db->quoteName('#__redshop_product'))
 			->where($this->_db->quoteName('product_id') . ' = ' . (int) $productid)
 			->where('
 				(
-				(' . $this->_db->quoteName('discount_enddate') . ' = "" AND ' . $this->_db->quoteName('discount_stratdate') . ' = "")
-				OR
-				(' . $this->_db->quoteName('discount_enddate') . ' >= ' . $this->_db->quote($today) . ' AND ' . $this->_db->quoteName('discount_stratdate') . ' <= ' . $this->_db->quote($today) . ')
+					(' . $this->_db->quoteName('discount_enddate') . ' = "" AND ' . $this->_db->quoteName('discount_stratdate') . ' = "")
+					OR
+					(' . $this->_db->quoteName('discount_enddate') . ' >= ' . $this->_db->quote($today) . ' AND ' . $this->_db->quoteName('discount_stratdate') . ' <= ' . $this->_db->quote($today) . ')
+					OR
+					(' . $this->_db->quoteName('discount_enddate') . ' = "" AND ' . $this->_db->quoteName('discount_stratdate') . ' <= ' . $this->_db->quote($today) . ')
 				)');
 
 		// Set the query and load the result.
