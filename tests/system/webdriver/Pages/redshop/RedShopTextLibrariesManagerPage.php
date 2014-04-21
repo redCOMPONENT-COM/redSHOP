@@ -65,6 +65,15 @@ class RedShopTextLibrariesManagerPage extends AdminManagerPage
 		$elementObject->waitForElementUntilIsPresent(By::xPath("//li[contains(text(),'Text Library Detail Saved')]"), 10);
 	}
 
+	/**
+	 * Function to edit a Library
+	 *
+	 * @param   string  $field        Field Which we are going to edit
+	 * @param   string  $newValue     New Value of the Field
+	 * @param   string  $description  Description of the Library
+	 *
+	 * @return RedShopTextLibrariesManagerPage
+	 */
 	public function editLibrary($field, $newValue, $description)
 	{
 		$elementObject = $this->driver;
