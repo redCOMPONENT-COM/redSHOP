@@ -167,6 +167,13 @@ class RedShopTextLibrariesManagerPage extends AdminManagerPage
 		}
 	}
 
+	/**
+	 * Function to get State of a Library
+	 *
+	 * @param   string  $description  Description of the text Library 
+	 *
+	 * @return string  Depending on the State
+	 */
 	public function getState($description)
 	{
 		$elementObject = $this->driver;
