@@ -64,4 +64,41 @@ class RedShopTextLibrariesManagerPage extends AdminManagerPage
 		$elementObject->findElement(By::xPath("//a[@onclick=\"Joomla.submitbutton('save')\"]"))->click();
 		$elementObject->waitForElementUntilIsPresent(By::xPath("//li[contains(text(),'Text Library Detail Saved')]"), 10);
 	}
+
+	public function editLibrary($field, $newValue, $description)
+	{
+		$elementObject = $this->driver;
+		$searchField = $elementObject->findElement(By::xPath("//input[@id='filter']"));
+		$searchField->clear();
+		$searchField->sendKeys($description);
+		$elementObject->findElement(By::xPath("//button[@onclick=\"document.adminForm.submit();\"]"))->click();
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//tbody/tr/td[4][contains(text(),'" . $description . "')]"), 10);
+		$row = $this->getRowNumber($description) - 1;
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='cb" . $row . "']"), 10);
+		$elementObject->findElement(By::xPath("//input[@id='cb" . $row . "']"))->click();
+		$elementObject->findElement(By::xPath("//li[@id='toolbar-edit']/a"))->click();
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='text_name']"), 10);
+
+		switch ($field)
+		{
+			case "Name":
+				$nameField = $elementObject->findElement(By::xPath("//input[@id='text_name']"));
+				$nameField->clear();
+				$nameField->sendKeys($newValue);
+				break;
+			case "Description":
+				$descField = $elementObject->findElement(By::xPath("//input[@id='text_desc']"));
+				$descField->clear();
+				$descField->sendKeys($newValue);
+				break;
+			case "Section":
+				$elementObject->findElement(By::xPath("//select[@id='section']"))->click();
+				sleep(1);
+				$elementObject->findElement(By::xPath("//select[@id='section']//option[@value='" . $newValue . "']"))->click();
+				break;
+		}
+
+		$elementObject->findElement(By::xPath("//a[@onclick=\"Joomla.submitbutton('save')\"]"))->click();
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='filter']"), 10);
+	}
 }
