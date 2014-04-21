@@ -132,6 +132,14 @@ class RedShopTextLibrariesManagerPage extends AdminManagerPage
 		$elementObject->findElement(By::xPath("//li[@id='toolbar-delete']/a"))->click();
 	}
 
+	/**
+	 * Function to search for a Library
+	 *
+	 * @param   string  $description   Description of the Library
+	 * @param   string  $functionName  Name of the function after which this function is getting called
+	 *
+	 * @return bool True or False
+	 */
 	public function searchLibrary($description, $functionName = 'Search')
 	{
 		$elementObject = $this->driver;
