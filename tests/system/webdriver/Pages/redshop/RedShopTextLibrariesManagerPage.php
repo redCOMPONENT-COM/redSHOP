@@ -80,7 +80,7 @@ class RedShopTextLibrariesManagerPage extends AdminManagerPage
 		$searchField = $elementObject->findElement(By::xPath("//input[@id='filter']"));
 		$searchField->clear();
 		$searchField->sendKeys($description);
-		$elementObject->findElement(By::xPath("//button[@onclick=\"document.adminForm.submit();\"]"))->click();
+		$elementObject->findElement(By::xPath("//button[@onclick=\"this.form.submit();\"]"))->click();
 		$elementObject->waitForElementUntilIsPresent(By::xPath("//tbody/tr/td[4][contains(text(),'" . $description . "')]"), 10);
 		$row = $this->getRowNumber($description) - 1;
 		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='cb" . $row . "']"), 10);
@@ -109,5 +109,19 @@ class RedShopTextLibrariesManagerPage extends AdminManagerPage
 
 		$elementObject->findElement(By::xPath("//a[@onclick=\"Joomla.submitbutton('save')\"]"))->click();
 		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='filter']"), 10);
+	}
+
+	public function deleteLibrary($description)
+	{
+		$elementObject = $this->driver;
+		$searchField = $elementObject->findElement(By::xPath("//input[@id='filter']"));
+		$searchField->clear();
+		$searchField->sendKeys($description);
+		$elementObject->findElement(By::xPath("//button[@onclick=\"this.form.submit();\"]"))->click();
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//tbody/tr/td[4][contains(text(),'" . $description . "')]"), 10);
+		$row = $this->getRowNumber($description) - 1;
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='cb" . $row . "']"), 10);
+		$elementObject->findElement(By::xPath("//input[@id='cb" . $row . "']"))->click();
+		$elementObject->findElement(By::xPath("//li[@id='toolbar-delete']/a"))->click();
 	}
 }
