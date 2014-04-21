@@ -166,4 +166,28 @@ class RedShopTextLibrariesManagerPage extends AdminManagerPage
 			return false;
 		}
 	}
+
+	public function getState($description)
+	{
+		$elementObject = $this->driver;
+		$searchField = $elementObject->findElement(By::xPath("//input[@id='filter']"));
+		$searchField->clear();
+		$searchField->sendKeys($description);
+		$elementObject->findElement(By::xPath("//button[@onclick=\"this.form.submit();\"]"))->click();
+		sleep(5);
+		$row = $this->getRowNumber($description);
+		$text = $this->driver->findElement(By::xPath("//tbody/tr[" . $row . "]/td[6]//a"))->getAttribute(@onclick);
+
+		if (strpos($text, 'unpublish') > 0)
+		{
+			$result = 'published';
+		}
+
+		if (strpos($text, 'publish') > 0)
+		{
+			$result = 'unpublished';
+		}
+
+		return $result;
+	}
 }
