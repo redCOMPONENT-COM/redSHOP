@@ -170,7 +170,7 @@ class RedShopTextLibrariesManagerPage extends AdminManagerPage
 	/**
 	 * Function to get State of a Library
 	 *
-	 * @param   string  $description  Description of the text Library 
+	 * @param   string  $description  Description of the text Library
 	 *
 	 * @return string  Depending on the State
 	 */
@@ -196,5 +196,29 @@ class RedShopTextLibrariesManagerPage extends AdminManagerPage
 		}
 
 		return $result;
+	}
+
+	public function changeLibraryState($description, $state = 'published')
+	{
+		$elementObject = $this->driver;
+		$searchField = $elementObject->findElement(By::xPath("//input[@id='filter']"));
+		$searchField->clear();
+		$searchField->sendKeys($description);
+		$elementObject->findElement(By::xPath("//button[@onclick=\"this.form.submit();\"]"))->click();
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//tbody/tr/td[4][contains(text(),'" . $description . "')]"), 10);
+		$row = $this->getRowNumber($description) - 1;
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='cb" . $row . "']"), 10);
+		$elementObject->findElement(By::xPath("//input[@id='cb" . $row . "']"))->click();
+
+		if (strtolower($state) == 'published')
+		{
+			$elementObject->findElement(By::xPath("//li[@id='toolbar-publish']/a"))->click();
+			$this->driver->waitForElementUntilIsPresent(By::xPath($this->waitForXpath));
+		}
+		elseif (strtolower($state) == 'unpublished')
+		{
+			$elementObject->findElement(By::xPath("//li[@id='toolbar-unpublish']/a"))->click();
+			$this->driver->waitForElementUntilIsPresent(By::xPath($this->waitForXpath));
+		}
 	}
 }
