@@ -116,6 +116,7 @@ abstract class AdminPage
 		'RedSHOP_Country'  => 'administrator/index.php?option=com_redshop&view=country',
 		'RedSHOP_Wrapper'  => 'administrator/index.php?option=com_redshop&view=wrapper',
 		'RedSHOP_GiftCard' => 'administrator/index.php?option=com_redshop&view=giftcard',
+		'RedSHOP_TextLibrary' => 'administrator/index.php?option=com_redshop&view=textlibrary',
 	);
 
 	/**
