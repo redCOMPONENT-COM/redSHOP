@@ -238,7 +238,7 @@ class RedShopTextLibrariesManagerPage extends AdminManagerPage
 	/**
 	 * Function to Copy a Library
 	 *
-	 * @param   string  $description  Description of the Library 
+	 * @param   string  $description  Description of the Library
 	 *
 	 * @return RedShopTextLibrariesManagerPage
 	 */
