@@ -198,6 +198,14 @@ class RedShopTextLibrariesManagerPage extends AdminManagerPage
 		return $result;
 	}
 
+	/**
+	 * Function to change State of a Library
+	 *
+	 * @param   string  $description  Description of the text library
+	 * @param   string  $state        New State of the Library
+	 *
+	 * @return RedShopTextLibrariesManagerPage
+	 */
 	public function changeLibraryState($description, $state = 'published')
 	{
 		$elementObject = $this->driver;
