@@ -37,4 +37,22 @@ class RedShopTextLibrariesManagerPage extends AdminManagerPage
 	 * @since  3.0
 	 */
 	protected $url = 'administrator/index.php?option=com_redshop&view=textlibrary';
+
+	public function addLibrary($tagName = 'Sample RedShop', $tagDescription = 'Testing RedShop', $tagSection = 'Category')
+	{
+		$elementObject = $this->driver;
+		$elementObject->findElement(By::xPath("//a[@onclick=\"Joomla.submitbutton('add')\"]"))->click();
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='text_name']"));
+		$nameField = $elementObject->findElement(By::xPath("//input[@id='text_name']"));
+		$nameField->clear();
+		$nameField->sendKeys($tagName);
+		$descField = $elementObject->findElement(By::xPath("//input[@id='text_desc']"));
+		$descField->clear();
+		$descField->sendKeys($tagDescription);
+		$elementObject->findElement(By::xPath("//select[@id='section']"))->click();
+		sleep(1);
+		$elementObject->findElement(By::xPath("//select[@id='section']//option[@value='" . $tagSection . "']"))->click();
+		$elementObject->findElement(By::xPath("//a[@onclick=\"Joomla.submitbutton('save')\"]"))->click();
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//li[contains(text(),'Text Library Detail Saved')]"), 10);
+	}
 }
