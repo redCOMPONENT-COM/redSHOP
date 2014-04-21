@@ -38,6 +38,15 @@ class RedShopTextLibrariesManagerPage extends AdminManagerPage
 	 */
 	protected $url = 'administrator/index.php?option=com_redshop&view=textlibrary';
 
+	/**
+	 * Function to add Library
+	 *
+	 * @param   string  $tagName         Name of the Tag
+	 * @param   string  $tagDescription  Description of the tag
+	 * @param   string  $tagSection      Section for the new Tag
+	 *
+	 * @return RedShopTextLibrariesManagerPage
+	 */
 	public function addLibrary($tagName = 'Sample RedShop', $tagDescription = 'Testing RedShop', $tagSection = 'Category')
 	{
 		$elementObject = $this->driver;
