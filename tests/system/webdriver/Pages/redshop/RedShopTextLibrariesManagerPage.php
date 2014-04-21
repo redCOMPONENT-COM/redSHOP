@@ -111,6 +111,13 @@ class RedShopTextLibrariesManagerPage extends AdminManagerPage
 		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='filter']"), 10);
 	}
 
+	/**
+	 * Function to delete a Library
+	 *
+	 * @param   string  $description  Description of the library which is to be deleted
+	 *
+	 * @return RedShopTextLibrariesManagerPage
+	 */
 	public function deleteLibrary($description)
 	{
 		$elementObject = $this->driver;
