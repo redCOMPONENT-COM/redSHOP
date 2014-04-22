@@ -47,7 +47,7 @@ class RedShopTextLibrariesManagerPage extends AdminManagerPage
 	 *
 	 * @return RedShopTextLibrariesManagerPage
 	 */
-	public function addLibrary($tagName = 'Sample RedShop', $tagDescription = 'Testing RedShop', $tagSection = 'Category')
+	public function addLibrary($tagName = 'Sample RedShop', $tagDescription = 'Testing RedShop', $tagSection = 'category')
 	{
 		$elementObject = $this->driver;
 		$elementObject->findElement(By::xPath("//a[@onclick=\"Joomla.submitbutton('add')\"]"))->click();
@@ -58,9 +58,8 @@ class RedShopTextLibrariesManagerPage extends AdminManagerPage
 		$descField = $elementObject->findElement(By::xPath("//input[@id='text_desc']"));
 		$descField->clear();
 		$descField->sendKeys($tagDescription);
-		$elementObject->findElement(By::xPath("//select[@id='section']"))->click();
-		sleep(1);
 		$elementObject->findElement(By::xPath("//select[@id='section']//option[@value='" . $tagSection . "']"))->click();
+		sleep(5);
 		$elementObject->findElement(By::xPath("//a[@onclick=\"Joomla.submitbutton('save')\"]"))->click();
 		$elementObject->waitForElementUntilIsPresent(By::xPath("//li[contains(text(),'Text Library Detail Saved')]"), 10);
 	}
@@ -102,9 +101,8 @@ class RedShopTextLibrariesManagerPage extends AdminManagerPage
 				$descField->sendKeys($newValue);
 				break;
 			case "Section":
-				$elementObject->findElement(By::xPath("//select[@id='section']"))->click();
-				sleep(1);
 				$elementObject->findElement(By::xPath("//select[@id='section']//option[@value='" . $newValue . "']"))->click();
+				sleep(5);
 				break;
 		}
 
