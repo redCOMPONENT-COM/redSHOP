@@ -3651,7 +3651,7 @@ class rsCarthelper
 		return $cardinfo;
 	}
 
-	public function replacePaymentTemplate($template_desc = "", $payment_method_id = 0, $is_company = 0, $ean_number = 0)
+	public function replacePaymentTemplate($template_desc = "", $payment_method_id = 0, $is_company = 0, $eanNumber = 0)
 	{
 		$ccdata = $this->_session->get('ccdata');
 
@@ -3790,7 +3790,7 @@ class rsCarthelper
 							}
 							else
 							{
-								if ($is_company == 1 && $business == 1 && ($paymentmethod[$p]->name != 'rs_payment_eantransfer' || ($paymentmethod[$p]->name == 'rs_payment_eantransfer' && $ean_number == 1)))
+								if ($is_company == 1 && $business == 1 && ($paymentmethod[$p]->name != 'rs_payment_eantransfer' || ($paymentmethod[$p]->name == 'rs_payment_eantransfer' && $eanNumber != 0)))
 								{
 									$display_payment = $payment_radio_output;
 									$flag = true;
