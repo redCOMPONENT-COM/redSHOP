@@ -70,7 +70,7 @@ class plgEconomicEconomic extends JPlugin
 		// Check whether plugin has been unpublished
 		if (count($pluginParams) > 0)
 		{
-			$url = 'https://www.e-conomic.com/secure/api1/EconomicWebservice.asmx?WSDL';
+			$url = 'https://api.e-conomic.com/secure/api1/EconomicWebservice.asmx?WSDL';
 
 			try
 			{
