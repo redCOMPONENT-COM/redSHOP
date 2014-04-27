@@ -79,7 +79,7 @@ class plgEconomicEconomic extends JPlugin
 			catch (Exception $exception)
 			{
 				$this->error = 1;
-				echo $this->errorMsg = "Unable to connect soap client";
+				echo $this->errorMsg = "Unable to connect soap client - E-conomic Plugin Failure.";
 				JError::raiseWarning(21, $exception->getMessage());
 			}
 			try
