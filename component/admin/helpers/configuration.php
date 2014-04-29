@@ -1311,6 +1311,11 @@ class Redconfiguration
 
 	public function getStateCode($conid, $tax_code)
 	{
+		if (empty($tax_code))
+		{
+			return null;
+		}
+
 		$db = JFactory::getDbo();
 		$query = 'SELECT  state_3_code , show_state FROM ' . $this->_table_prefix . 'state '
 		. 'WHERE state_2_code LIKE ' . $db->quote($tax_code)
