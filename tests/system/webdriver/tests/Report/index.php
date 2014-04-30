@@ -33,17 +33,41 @@ if (file_exists('../logs/junit.xml'))
 	echo "</thead>";
 	echo "<tbody>";
 
-	for ($i = 0; $i < $xml->testsuite[0]->children()->count(); $i++)
+	if (isset($xml->testsuite[0]->testsuite[0]))
+	{
+		$count = $xml->testsuite[0]->children()->count();
+	}
+	else
+	{
+		$count = 1;
+	}
+
+	for ($i = 0; $i < $count; $i++)
 	{
 		echo "<tr>";
 
-		foreach ($xml->testsuite[0]->testsuite[$i]->attributes() as $a => $b)
+		if (isset($xml->testsuite[0]->testsuite[$i]))
 		{
-			if (in_array($a, $attributes))
+			foreach ($xml->testsuite[0]->testsuite[$i]->attributes() as $a => $b)
 			{
-				echo "<td>";
-				echo $b;
-				echo "</td>";
+				if (in_array($a, $attributes))
+				{
+					echo "<td>";
+					echo $b;
+					echo "</td>";
+				}
+			}
+		}
+		else
+		{
+			foreach ($xml->testsuite[0]->attributes() as $a => $b)
+			{
+				if (in_array($a, $attributes))
+				{
+					echo "<td>";
+					echo $b;
+					echo "</td>";
+				}
 			}
 		}
 
