@@ -384,7 +384,7 @@ class Cron
 			$db->setQuery($sql);
 			$couponeArr = $db->loadObject();
 
-			if (count($couponeArr) <= 0)
+			if (count($couponeArr) <= 0 && $mail_detail->mail1_status != 0)
 			{
 				continue;
 			}
