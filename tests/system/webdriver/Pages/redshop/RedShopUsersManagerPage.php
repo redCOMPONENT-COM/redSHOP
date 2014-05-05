@@ -106,6 +106,7 @@ class RedShopUsersManagerPage extends AdminManagerPage
 		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='cb" . $row . "']"), 10);
 		$elementObject->findElement(By::xPath("//input[@id='cb" . $row . "']"))->click();
 		$elementObject->findElement(By::xPath("//li[@id='toolbar-edit']/a"))->click();
+		$elementObject->findElement(By::xPath("//dl[@id='pane']/dt[1]/span[contains(text(),'General User Information')]"))->click();
 		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='username']"), 10);
 
 		switch ($field)
