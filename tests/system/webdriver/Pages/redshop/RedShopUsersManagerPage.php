@@ -41,7 +41,19 @@ class RedShopUsersManagerPage extends AdminManagerPage
 	 */
 	protected $url = 'administrator/index.php?option=com_redshop&view=user';
 
-	public function addUser($firstName = 'Testing', $lastName = 'LastName', $userName = 'User', $password = '1234', $email = 'redshop@redshop.com', $shopperGroup = 'Default Private')
+	/**
+	 * Function to Create a New User
+	 *
+	 * @param   string  $firstName     First Name of the User
+	 * @param   string  $lastName      Last Name
+	 * @param   string  $userName      User Name
+	 * @param   string  $password      Password of the User
+	 * @param   string  $email         Email of the User
+	 * @param   string  $shopperGroup  Name of the Group
+	 *
+	 * @return RedShopUsersManagerPage
+	 */
+	public function addUser($firstName = 'Testing', $lastName = 'Name', $userName = 'User', $password = '12', $email = 'red@op.com', $shopperGroup = 'Default Private')
 	{
 		$elementObject = $this->driver;
 		$elementObject->findElement(By::xPath("//a[@onclick=\"Joomla.submitbutton('add')\"]"))->click();
