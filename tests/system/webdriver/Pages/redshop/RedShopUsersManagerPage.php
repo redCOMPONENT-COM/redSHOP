@@ -148,6 +148,13 @@ class RedShopUsersManagerPage extends AdminManagerPage
 		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='filter']"), 10);
 	}
 
+	/**
+	 * Function to Delete a User
+	 *
+	 * @param   string  $name  Name of the User
+	 *
+	 * @return RedShopUsersManagerPage
+	 */
 	public function deleteUser($name)
 	{
 		$elementObject = $this->driver;
