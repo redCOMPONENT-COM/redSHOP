@@ -61,7 +61,7 @@ class RedShopUser0001Test extends JoomlaWebdriverTestCase
 	/**
 	 * Function to Test User Creation
 	 *
-	 *
+	 * @test
 	 *
 	 * @return void
 	 */
