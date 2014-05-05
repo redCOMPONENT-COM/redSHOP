@@ -47,13 +47,13 @@ class RedShopUsersManagerPage extends AdminManagerPage
 	 * @param   string  $firstName     First Name of the User
 	 * @param   string  $lastName      Last Name
 	 * @param   string  $userName      User Name
-	 * @param   string  $password      Password of the User
 	 * @param   string  $email         Email of the User
+	 * @param   string  $password      Password of the User
 	 * @param   string  $shopperGroup  Name of the Group
 	 *
 	 * @return RedShopUsersManagerPage
 	 */
-	public function addUser($firstName = 'Testing', $lastName = 'Name', $userName = 'User', $password = '12', $email = 'red@op.com', $shopperGroup = 'Default Private')
+	public function addUser($firstName = 'Testing', $lastName = 'Name', $userName = 'User', $email = 'red@op.com', $password = '5121', $shopperGroup = 'Default Private')
 	{
 		$elementObject = $this->driver;
 		$elementObject->findElement(By::xPath("//a[@onclick=\"Joomla.submitbutton('add')\"]"))->click();
@@ -88,7 +88,7 @@ class RedShopUsersManagerPage extends AdminManagerPage
 	 *
 	 * @param   string  $field     Field which we are going to update
 	 * @param   string  $newValue  New Value of the Field
-	 * @param   string  $name      Name of the User which is to be updated
+	 * @param   string  $name      User Name of the User which is to be updated
 	 *
 	 * @return RedShopUsersManagerPage
 	 */
@@ -101,7 +101,7 @@ class RedShopUsersManagerPage extends AdminManagerPage
 		$searchField = $elementObject->findElement(By::xPath("//input[@id='filter']"));
 		$searchField->sendKeys($name);
 		$elementObject->findElement(By::xPath("//button[@onclick=\"this.form.submit();\"]"))->click();
-		$elementObject->waitForElementUntilIsPresent(By::xPath("//tbody/tr/td[3]/a[contains(text(),'" . $name . "')]"), 10);
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//tbody/tr/td[6][contains(text(),'" . $name . "')]"), 10);
 		$row = $this->getRowNumber($name) - 1;
 		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='cb" . $row . "']"), 10);
 		$elementObject->findElement(By::xPath("//input[@id='cb" . $row . "']"))->click();
@@ -151,7 +151,7 @@ class RedShopUsersManagerPage extends AdminManagerPage
 	/**
 	 * Function to Delete a User
 	 *
-	 * @param   string  $name  Name of the User
+	 * @param   string  $name  User Name of the User
 	 *
 	 * @return RedShopUsersManagerPage
 	 */
@@ -164,7 +164,7 @@ class RedShopUsersManagerPage extends AdminManagerPage
 		$searchField = $elementObject->findElement(By::xPath("//input[@id='filter']"));
 		$searchField->sendKeys($name);
 		$elementObject->findElement(By::xPath("//button[@onclick=\"this.form.submit();\"]"))->click();
-		$elementObject->waitForElementUntilIsPresent(By::xPath("//tbody/tr/td[3]/a[contains(text(),'" . $name . "')]"), 10);
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//tbody/tr/td[6][contains(text(),'" . $name . "')]"), 10);
 		$row = $this->getRowNumber($name) - 1;
 		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='cb" . $row . "']"), 10);
 		$elementObject->findElement(By::xPath("//input[@id='cb" . $row . "']"))->click();
@@ -174,7 +174,7 @@ class RedShopUsersManagerPage extends AdminManagerPage
 	/**
 	 * Function to Search for a User
 	 *
-	 * @param   string  $name          Name of the user for which search is getting called
+	 * @param   string  $name          User Name of the user for which search is getting called
 	 * @param   string  $functionName  Name of the Function after which Search is being called
 	 *
 	 * @return bool True or False Depending on the Value
@@ -194,7 +194,7 @@ class RedShopUsersManagerPage extends AdminManagerPage
 			$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='cb" . $row . "']"), 10);
 		}
 
-		$arrayElement = $elementObject->findElements(By::xPath("//tbody/tr/td[3]/a[contains(text(),'" . $name . "')]"));
+		$arrayElement = $elementObject->findElements(By::xPath("//tbody/tr/td[6][contains(text(),'" . $name . "')]"));
 
 		if (count($arrayElement))
 		{
