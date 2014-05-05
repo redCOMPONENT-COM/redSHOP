@@ -171,6 +171,14 @@ class RedShopUsersManagerPage extends AdminManagerPage
 		$elementObject->findElement(By::xPath("//li[@id='toolbar-delete']/a"))->click();
 	}
 
+	/**
+	 * Function to Search for a User
+	 *
+	 * @param   string  $name          Name of the user for which search is getting called
+	 * @param   string  $functionName  Name of the Function after which Search is being called
+	 *
+	 * @return bool True or False Depending on the Value
+	 */
 	public function searchUser($name, $functionName = 'Search')
 	{
 		$elementObject = $this->driver;
