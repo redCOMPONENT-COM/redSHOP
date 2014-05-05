@@ -61,14 +61,14 @@ class RedShopUser0001Test extends JoomlaWebdriverTestCase
 	/**
 	 * Function to Test User Creation
 	 *
-	 * @test
+	 *
 	 *
 	 * @return void
 	 */
 	public function createUser()
 	{
 		$rand = rand();
-		$userName = 'RedShop User' . $rand;
+		$userName = 'RedShopUser' . $rand;
 		$email = 'RedShop' . $rand . '@fakeemail.com';
 		$firstName = 'Raj' . $rand;
 		$lastName = 'Red';
@@ -88,8 +88,8 @@ class RedShopUser0001Test extends JoomlaWebdriverTestCase
 	public function updateUser()
 	{
 		$rand = rand();
-		$userName = 'RedShop User' . $rand;
-		$newUserName = 'New User' . $rand;
+		$userName = 'RedShopUser' . $rand;
+		$newUserName = 'NewUser' . $rand;
 		$email = 'RedShop' . $rand . '@fakeemail.com';
 		$firstName = 'Raj' . $rand;
 		$lastName = 'Red';
