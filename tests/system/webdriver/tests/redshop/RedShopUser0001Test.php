@@ -57,4 +57,47 @@ class RedShopUser0001Test extends JoomlaWebdriverTestCase
 		$this->doAdminLogout();
 		parent::tearDown();
 	}
+
+	/**
+	 * Function to Test User Creation
+	 *
+	 * @test
+	 *
+	 * @return void
+	 */
+	public function createUser()
+	{
+		$rand = rand();
+		$userName = 'RedShop User' . $rand;
+		$email = 'RedShop' . $rand . '@fakeemail.com';
+		$firstName = 'Raj' . $rand;
+		$lastName = 'Red';
+		$this->appTestPage->addUser($firstName, $lastName, $userName, $email);
+		$this->assertTrue($this->appTestPage->searchUser($userName), 'User Must be Created');
+		$this->appTestPage->deleteUser($userName);
+		$this->assertFalse($this->appTestPage->searchUser($userName, 'Delete'), 'user must be deleted');
+	}
+
+	/**
+	 * Function to Check Edit Feature
+	 *
+	 * @test
+	 *
+	 * @return void
+	 */
+	public function updateUser()
+	{
+		$rand = rand();
+		$userName = 'RedShop User' . $rand;
+		$newUserName = 'New User' . $rand;
+		$email = 'RedShop' . $rand . '@fakeemail.com';
+		$firstName = 'Raj' . $rand;
+		$lastName = 'Red';
+		$this->appTestPage->addUser($firstName, $lastName, $userName, $email);
+		$this->assertTrue($this->appTestPage->searchUser($userName), 'User Must be Created');
+		$this->appTestPage->editUser('User Name', $newUserName, $userName);
+		$this->assertTrue($this->appTestPage->searchUser($newUserName), 'user Name must be updated');
+		$this->appTestPage->deleteUser($newUserName);
+		$this->assertFalse($this->appTestPage->searchUser($newUserName, 'Delete'), 'user must be deleted');
+	}
 }
