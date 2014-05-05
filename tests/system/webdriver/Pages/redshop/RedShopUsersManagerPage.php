@@ -83,6 +83,15 @@ class RedShopUsersManagerPage extends AdminManagerPage
 		$elementObject->waitForElementUntilIsPresent(By::xPath("//li[contains(text(),'User detail saved')]"), 10);
 	}
 
+	/**
+	 * Function to Edit a User Details
+	 *
+	 * @param   string  $field     Field which we are going to update
+	 * @param   string  $newValue  New Value of the Field
+	 * @param   string  $name      Name of the User which is to be updated
+	 *
+	 * @return RedShopUsersManagerPage
+	 */
 	public function editUser($field, $newValue, $name)
 	{
 		$elementObject = $this->driver;
