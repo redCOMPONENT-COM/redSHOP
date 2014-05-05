@@ -170,5 +170,32 @@ class RedShopUsersManagerPage extends AdminManagerPage
 		$elementObject->findElement(By::xPath("//input[@id='cb" . $row . "']"))->click();
 		$elementObject->findElement(By::xPath("//li[@id='toolbar-delete']/a"))->click();
 	}
+
+	public function searchUser($name, $functionName = 'Search')
+	{
+		$elementObject = $this->driver;
+		$searchField = $elementObject->findElement(By::xPath("//input[@id='filter']"));
+		$searchField->clear();
+		$searchField->sendKeys($name);
+		$elementObject->findElement(By::xPath("//button[@onclick=\"this.form.submit();\"]"))->click();
+		sleep(5);
+		$row = $this->getRowNumber($name) - 1;
+
+		if ($functionName == 'Search')
+		{
+			$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='cb" . $row . "']"), 10);
+		}
+
+		$arrayElement = $elementObject->findElements(By::xPath("//tbody/tr/td[3]/a[contains(text(),'" . $name . "')]"));
+
+		if (count($arrayElement))
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
 }
 
