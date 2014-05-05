@@ -82,4 +82,61 @@ class RedShopUsersManagerPage extends AdminManagerPage
 		$elementObject->findElement(By::xPath("//a[@onclick=\"Joomla.submitbutton('save')\"]"))->click();
 		$elementObject->waitForElementUntilIsPresent(By::xPath("//li[contains(text(),'User detail saved')]"), 10);
 	}
+
+	public function editUser($field, $newValue, $name)
+	{
+		$elementObject = $this->driver;
+		$searchField = $elementObject->findElement(By::xPath("//input[@id='filter']"));
+		$searchField->clear();
+		sleep(4);
+		$searchField = $elementObject->findElement(By::xPath("//input[@id='filter']"));
+		$searchField->sendKeys($name);
+		$elementObject->findElement(By::xPath("//button[@onclick=\"this.form.submit();\"]"))->click();
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//tbody/tr/td[3]/a[contains(text(),'" . $name . "')]"), 10);
+		$row = $this->getRowNumber($name) - 1;
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='cb" . $row . "']"), 10);
+		$elementObject->findElement(By::xPath("//input[@id='cb" . $row . "']"))->click();
+		$elementObject->findElement(By::xPath("//li[@id='toolbar-edit']/a"))->click();
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='username']"), 10);
+
+		switch ($field)
+		{
+			case "First Name":
+				$elementObject->findElement(By::xPath("//dl[@id='pane']/dt[2]/span[contains(text(),'Billing Information')]"))->click();
+				$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='firstname']"), 10);
+				$firstNameField = $elementObject->findElement(By::xPath("//input[@id='firstname']"));
+				$firstNameField->clear();
+				$firstNameField->sendKeys($newValue);
+				break;
+			case "Last Name":
+				$elementObject->findElement(By::xPath("//dl[@id='pane']/dt[2]/span[contains(text(),'Billing Information')]"))->click();
+				$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='firstname']"), 10);
+				$lastNameField = $elementObject->findElement(By::xPath("//input[@id='lastname']"));
+				$lastNameField->clear();
+				$lastNameField->sendKeys($newValue);
+				break;
+			case "User Name":
+				$userNameField = $elementObject->findElement(By::xPath("//input[@id='username']"));
+				$userNameField->clear();
+				$userNameField->sendKeys($newValue);
+				break;
+			case "Email":
+				$emailField = $elementObject->findElement(By::xPath("//input[@id='email']"));
+				$emailField->clear();
+				$emailField->sendKeys($newValue);
+				break;
+			case "Password":
+				$passwordField = $elementObject->findElement(By::xPath("//input[@id='password']"));
+				$passwordField->clear();
+				$passwordField->sendKeys($newValue);
+				$confirmPassword = $elementObject->findElement(By::xPath("//input[@id='password2']"));
+				$confirmPassword->clear();
+				$confirmPassword->sendKeys($newValue);
+				break;
+		}
+
+		$elementObject->findElement(By::xPath("//a[@onclick=\"Joomla.submitbutton('save')\"]"))->click();
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='filter']"), 10);
+	}
 }
+
