@@ -40,7 +40,7 @@ class checkoutViewcheckout extends JView
 
 		// Load Shipping language file
 		$shippingPlugins = $redhelper->getPlugins("redshop_shipping");
-		$base_dir          = JPATH_ADMINISTRATOR;
+		$base_dir        = JPATH_ADMINISTRATOR;
 
 		for ($l = 0; $l < count($shippingPlugins); $l++)
 		{
