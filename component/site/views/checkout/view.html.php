@@ -38,6 +38,16 @@ class checkoutViewcheckout extends JView
 			$language->load($extension, $base_dir, $language_tag, true);
 		}
 
+		// Load Shipping language file
+		$shippingPlugins = $redhelper->getPlugins("redshop_shipping");
+		$base_dir          = JPATH_ADMINISTRATOR;
+
+		for ($l = 0; $l < count($shippingPlugins); $l++)
+		{
+			$extension = 'plg_redshop_shipping_' . $shippingPlugins[$l]->element;
+			$language->load($extension, $base_dir);
+		}
+
 		JHTML::Script('joomla.javascript.js', 'includes/js/', false);
 		JHTML::Script('validate.js', 'media/system/js/', false);
 		JHTML::Script('jquery-1.4.2.min.js', 'components/com_redshop/assets/js/', false);
