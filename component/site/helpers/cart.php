@@ -3387,7 +3387,7 @@ class rsCarthelper
 						$rs        = $shippingmethod[$s];
 						$classname = $rs->element;
 						$rate_data .= $template_middle;
-						$rate_data = str_replace("{shipping_method_title}", $rs->name, $rate_data);
+						$rate_data = str_replace("{shipping_method_title}", JText::_($rs->name), $rate_data);
 
 						if ($template_rate_middle != "")
 						{
