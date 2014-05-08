@@ -1,9 +1,9 @@
 <?php
 /**
- * @package    RedCore
- * @subpackage Model
- * @copyright  Copyright (C) 2012 - 2014 redCOMPONENT.com. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     RedShop
+ * @subpackage  Test
+ * @copyright   Copyright (C) 2012 - 2014 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 require_once 'JoomlaWebdriverTestCase.php';
