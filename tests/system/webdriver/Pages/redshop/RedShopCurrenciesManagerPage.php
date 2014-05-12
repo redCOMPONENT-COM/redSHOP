@@ -130,4 +130,31 @@ class RedShopCurrenciesManagerPage extends AdminManagerPage
 		$elementObject->findElement(By::xPath("//li[@id='toolbar-delete']/a"))->click();
 		$this->sortData();
 	}
+
+	public function searchCurrency($name, $functionName = 'Search')
+	{
+		$elementObject = $this->driver;
+		$this->sortData();
+		$row = $this->getRowNumber($name) - 1;
+
+		if ($functionName == 'Search')
+		{
+			$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='cb" . $row . "']"), 10);
+		}
+
+		$arrayElement = $elementObject->findElements(By::xPath("//tbody/tr/td[3]/a[contains(text(),'" . $name . "')]"));
+
+		if (count($arrayElement))
+		{
+			$this->sortData();
+
+			return true;
+		}
+		else
+		{
+			$this->sortData();
+
+			return false;
+		}
+	}
 }
