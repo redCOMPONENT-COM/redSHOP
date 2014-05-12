@@ -131,6 +131,14 @@ class RedShopCurrenciesManagerPage extends AdminManagerPage
 		$this->sortData();
 	}
 
+	/**
+	 * Function to Search for a Currency
+	 *
+	 * @param   string  $name          Name of the Currency which we are searching for
+	 * @param   string  $functionName  Name of the Function after which the search function is being called
+	 *
+	 * @return bool True or Flase Depending on the Value
+	 */
 	public function searchCurrency($name, $functionName = 'Search')
 	{
 		$elementObject = $this->driver;
