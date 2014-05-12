@@ -38,6 +38,14 @@ class RedShopCurrenciesManagerPage extends AdminManagerPage
 	 */
 	protected $url = 'administrator/index.php?option=com_redshop&view=currency';
 
+	/**
+	 * Function to Add a New Currency
+	 *
+	 * @param   string  $name  Name of the Currency
+	 * @param   string  $code  Code of the Currency
+	 *
+	 * @return RedShopCurrenciesManagerPage
+	 */
 	public function addCurrency($name = '1RedShop', $code = '123')
 	{
 		$elementObject = $this->driver;
