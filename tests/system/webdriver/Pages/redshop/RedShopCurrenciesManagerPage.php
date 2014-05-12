@@ -111,4 +111,16 @@ class RedShopCurrenciesManagerPage extends AdminManagerPage
 		$elementObject->findElement(By::xPath("//a[contains(text(),'ID')]"))->click();
 		sleep(2);
 	}
+
+	public function deleteCurrency($name)
+	{
+		$elementObject = $this->driver;
+		$this->sortData();
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//tbody/tr/td[3]/a[contains(text(),'" . $name . "')]"), 10);
+		$row = $this->getRowNumber($name) - 1;
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='cb" . $row . "']"), 10);
+		$elementObject->findElement(By::xPath("//input[@id='cb" . $row . "']"))->click();
+		$elementObject->findElement(By::xPath("//li[@id='toolbar-delete']/a"))->click();
+		$this->sortData();
+	}
 }
