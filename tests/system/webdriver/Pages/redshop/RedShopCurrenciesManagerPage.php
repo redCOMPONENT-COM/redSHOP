@@ -50,7 +50,7 @@ class RedShopCurrenciesManagerPage extends AdminManagerPage
 	{
 		$elementObject = $this->driver;
 		$elementObject->findElement(By::xPath("//a[@onclick=\"Joomla.submitbutton('add')\"]"))->click();
-		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='jform_currency_name']"));
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='currency_name']"));
 		$nameField = $elementObject->findElement(By::xPath("//input[@id='currency_name']"));
 		$nameField->clear();
 		$nameField->sendKeys($name);
@@ -58,6 +58,48 @@ class RedShopCurrenciesManagerPage extends AdminManagerPage
 		$codeField->clear();
 		$codeField->sendKeys($code);
 		$elementObject->findElement(By::xPath("//a[@onclick=\"Joomla.submitbutton('save')\"]"))->click();
-		$elementObject->waitForElementUntilIsPresent(By::xPath("//li[contains(text(),'Currency Detail Saved')]"), 10
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//li[contains(text(),'Currency Detail Saved')]"), 10);
+	}
+
+	public function editCurrency($field, $newValue, $name)
+	{
+		$elementObject = $this->driver;
+		$this->sortData();
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//tbody/tr/td[3]/a[contains(text(),'" . $name . "')]"), 10);
+		$row = $this->getRowNumber($name);
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='cb" . $row . "']"), 10);
+		$elementObject->findElement(By::xPath("//input[@id='cb" . $row . "']"))->click();
+		$elementObject->findElement(By::xPath("//li[@id='toolbar-edit']/a"))->click();
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='currency_name']"));
+
+		switch ($field)
+		{
+			case "Name":
+				$nameField = $elementObject->findElement(By::xPath("//input[@id='currency_name']"));
+				$nameField->clear();
+				$nameField->sendKeys($newValue);
+				break;
+			case "Code":
+				$codeField = $elementObject->findElement(By::xPath("//input[@id='currency_code']"));
+				$codeField->clear();
+				$codeField->sendKeys($newValue);
+				break;
+		}
+
+		$elementObject->findElement(By::xPath("//a[@onclick=\"Joomla.submitbutton('save')\"]"))->click();
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//li[contains(text(),'Currency Detail Saved')]"), 10);
+		$this->sortData();
+	}
+
+	/**
+	 * Function to Toggle the Data and sort it
+	 *
+	 * @return RedShopCurrenciesManagerPage
+	 */
+	public function sortData()
+	{
+		$elementObject = $this->driver;
+		$elementObject->findElement(By::xPath("//a[contains(text(),'ID')]"))->click();
+		sleep(2);
 	}
 }
