@@ -112,6 +112,13 @@ class RedShopCurrenciesManagerPage extends AdminManagerPage
 		sleep(2);
 	}
 
+	/**
+	 * Function to Delete a Currency
+	 *
+	 * @param   string  $name  Name of the Currency which is to be Deleted
+	 *
+	 * @return RedShopCurrenciesManagerPage
+	 */
 	public function deleteCurrency($name)
 	{
 		$elementObject = $this->driver;
