@@ -166,6 +166,13 @@ class RedShopCurrenciesManagerPage extends AdminManagerPage
 		}
 	}
 
+	/**
+	 * Function to get Rownumber of a Currency
+	 *
+	 * @param   string  $name  Name of the Currency
+	 *
+	 * @return bool|int|mixed
+	 */
 	public function getRowNumber($name)
 	{
 		$result = false;
