@@ -61,6 +61,15 @@ class RedShopCurrenciesManagerPage extends AdminManagerPage
 		$elementObject->waitForElementUntilIsPresent(By::xPath("//li[contains(text(),'Currency Detail Saved')]"), 10);
 	}
 
+	/**
+	 * Function to Edit a Currency
+	 *
+	 * @param   string  $field     Field which is to be Updated
+	 * @param   string  $newValue  New value of the Field
+	 * @param   string  $name      Name of the Currency
+	 *
+	 * @return RedShopCurrenciesManagerPage
+	 */
 	public function editCurrency($field, $newValue, $name)
 	{
 		$elementObject = $this->driver;
