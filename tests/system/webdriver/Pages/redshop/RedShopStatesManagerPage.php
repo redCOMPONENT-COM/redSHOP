@@ -119,4 +119,30 @@ class RedShopStatesManagerPage extends AdminManagerPage
 		$elementObject->findElement(By::xPath("//a[@onclick=\"Joomla.submitbutton('save')\"]"))->click();
 		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='country_main_filter']"), 10);
 	}
+
+	public function getRowNumber($name)
+	{
+		$result = false;
+		$tableElements = $this->driver->findElements(By::xPath("//form/table[@class='adminlist']/tbody"));
+		$noOfElements = count($tableElements);
+
+		if (isset($tableElements[0]))
+		{
+			$rowElements = $this->driver->findElement(By::xPath("//form/table[@class='adminlist']/tbody"))->findElements(By::tagName('tr'));
+			$count = count($rowElements);
+
+			for ($i = 0; $i < $count; $i ++)
+			{
+				$rowText = $rowElements[$i]->getText();
+
+				if (strpos(strtolower($rowText), strtolower($name)) !== false)
+				{
+					$result = $i + 1;
+					break;
+				}
+			}
+		}
+
+		return $result;
+	}
 }
