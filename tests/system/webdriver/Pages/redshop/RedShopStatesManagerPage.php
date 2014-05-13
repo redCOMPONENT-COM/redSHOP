@@ -67,4 +67,47 @@ class RedShopStatesManagerPage extends AdminManagerPage
 		$elementObject->findElement(By::xPath("//a[@onclick=\"Joomla.submitbutton('save')\"]"))->click();
 		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='country_main_filter']"), 10);
 	}
+
+	public function editState($field, $newValue, $name)
+	{
+		$elementObject = $this->driver;
+		$searchField = $elementObject->findElement(By::xPath("//input[@id='country_main_filter']"));
+		$searchField->clear();
+		$searchField = $elementObject->findElement(By::xPath("//input[@id='country_main_filter']"));
+		$searchField->sendKeys($name);
+		$elementObject->findElement(By::xPath("//input[@type='submit']"))->click();
+		sleep(2);
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//tbody/tr/td[3]/a[contains(text(),'" . $name . "')]"), 10);
+		$row = $this->getRowNumber($name) - 1;
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='cb" . $row . "']"), 10);
+		$elementObject->findElement(By::xPath("//input[@id='cb" . $row . "']"))->click();
+		$elementObject->findElement(By::xPath("//button[@class='btn'][1]"))->click();
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='state_name']"), 10);
+
+		switch ($field)
+		{
+			case "Name":
+				$nameField = $elementObject->findElement(By::xPath("//input[@id='state_name']"));
+				$nameField->clear();
+				$nameField->sendKeys($newValue);
+				break;
+			case "3-Code":
+				$codeThreeField = $elementObject->findElement(By::xPath("//input[@id='state_3_code']"));
+				$codeThreeField->clear();
+				$codeThreeField->sendKeys($newValue);
+				break;
+			case "2-Code":
+				$codeTwoField = $elementObject->findElement(By::xPath("//input[@id='state_2_code']"));
+				$codeTwoField->clear();
+				$codeTwoField->sendKeys($newValue);
+				break;
+			case "Country":
+				$elementObject->findElement(By::xPath("//option[contains(text(),'" . $newValue . "')]"))->click();
+				sleep(1);
+				break;
+		}
+
+		$elementObject->findElement(By::xPath("//a[@onclick=\"Joomla.submitbutton('save')\"]"))->click();
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='country_main_filter']"), 10);
+	}
 }
