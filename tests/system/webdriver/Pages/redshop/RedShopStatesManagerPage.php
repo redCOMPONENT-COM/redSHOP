@@ -153,6 +153,13 @@ class RedShopStatesManagerPage extends AdminManagerPage
 		return $result;
 	}
 
+	/**
+	 * Function to Delete a State
+	 *
+	 * @param   string  $name  Name of the State
+	 *
+	 * @return RedShopStatesManagerPage
+	 */
 	public function deleteState($name)
 	{
 		$elementObject = $this->driver;
