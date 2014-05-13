@@ -179,11 +179,12 @@ class RedShopStatesManagerPage extends AdminManagerPage
 	/**
 	 * Function to Search for a State
 	 *
-	 * @param   string  $name  Name of the State
+	 * @param   string  $name          Name of the State
+	 * @param   string  $functionName  Name of the Function after which search is being called
 	 *
 	 * @return bool
 	 */
-	public function searchState($name)
+	public function searchState($name, $functionName = 'Search')
 	{
 		$elementObject = $this->driver;
 		$searchField = $elementObject->findElement(By::xPath("//input[@id='country_main_filter']"));
