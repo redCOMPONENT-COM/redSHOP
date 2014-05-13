@@ -68,6 +68,15 @@ class RedShopStatesManagerPage extends AdminManagerPage
 		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='country_main_filter']"), 10);
 	}
 
+	/**
+	 * Function to Update a State
+	 *
+	 * @param   string  $field     Field which is to be updated
+	 * @param   stirng  $newValue  New value of the Field
+	 * @param   string  $name      Name of the State which is to be updated
+	 *
+	 * @return RedShopStatesManagerPage
+	 */
 	public function editState($field, $newValue, $name)
 	{
 		$elementObject = $this->driver;
