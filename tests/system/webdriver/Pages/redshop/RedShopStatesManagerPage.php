@@ -37,4 +37,24 @@ class RedShopStatesManagerPage extends AdminManagerPage
 	 * @since  3.0
 	 */
 	protected $url = 'administrator/index.php?option=com_redshop&view=state';
+
+	public function addState($stateName = 'Sample', $codeThree = '123', $codeTwo = '33', $countryName = 'Sample Country')
+	{
+		$elementObject = $this->driver;
+		$elementObject->findElement(By::xPath("//a[@onclick=\"Joomla.submitbutton('add')\"]"))->click();
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='state_name']"));
+		$nameField = $elementObject->findElement(By::xPath("//input[@id='state_name']"));
+		$nameField->clear();
+		$nameField->sendKeys($stateName);
+		$codeThreeField = $elementObject->findElement(By::xPath("//input[@id='state_3_code']"));
+		$codeThreeField->clear();
+		$codeThreeField->sendKeys($codeThree);
+		$codeTwoField = $elementObject->findElement(By::xPath("//input[@id='state_2_code']"));
+		$codeTwoField->clear();
+		$codeTwoField->sendKeys($codeTwo);
+		$elementObject->findElement(By::xPath("//option[contains(text(),'" . $countryName . "')]"))->click();
+		sleep(1);
+		$elementObject->findElement(By::xPath("//a[@onclick=\"Joomla.submitbutton('save')\"]"))->click();
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='country_main_filter']"), 10);
+	}
 }
