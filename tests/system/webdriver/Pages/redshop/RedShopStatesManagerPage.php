@@ -211,6 +211,13 @@ class RedShopStatesManagerPage extends AdminManagerPage
 		}
 	}
 
+	/**
+	 * Function to get the three digit code for a state
+	 *
+	 * @param   string  $name  Name of the State
+	 *
+	 * @return String Value of the Code
+	 */
 	public function getThreeCode($name)
 	{
 		$elementObject = $this->driver;
