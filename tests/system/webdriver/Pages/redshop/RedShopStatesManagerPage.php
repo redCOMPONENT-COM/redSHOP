@@ -176,6 +176,13 @@ class RedShopStatesManagerPage extends AdminManagerPage
 		$elementObject->findElement(By::xPath("//li[@id='toolbar-delete']/a"))->click();
 	}
 
+	/**
+	 * Function to Search for a State
+	 *
+	 * @param   string  $name  Name of the State
+	 *
+	 * @return bool
+	 */
 	public function searchState($name)
 	{
 		$elementObject = $this->driver;
