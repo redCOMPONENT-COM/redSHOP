@@ -119,6 +119,7 @@ abstract class AdminPage
 		'RedSHOP_TextLibrary' => 'administrator/index.php?option=com_redshop&view=textlibrary',
 		'RedSHOP_User' => 'administrator/index.php?option=com_redshop&view=user',
 		'RedSHOP_Currency' => 'administrator/index.php?option=com_redshop&view=currency',
+		'RedSHOP_State' => 'administrator/index.php?option=com_redshop&view=state',
 	);
 
 	/**
