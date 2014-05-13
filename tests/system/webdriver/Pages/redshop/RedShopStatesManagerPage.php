@@ -90,7 +90,7 @@ class RedShopStatesManagerPage extends AdminManagerPage
 		$row = $this->getRowNumber($name) - 1;
 		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='cb" . $row . "']"), 10);
 		$elementObject->findElement(By::xPath("//input[@id='cb" . $row . "']"))->click();
-		$elementObject->findElement(By::xPath("//button[@class='btn'][1]"))->click();
+		$elementObject->findElement(By::xPath("//li[@id='toolbar-edit']/a"))->click();
 		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='state_name']"), 10);
 
 		switch ($field)
