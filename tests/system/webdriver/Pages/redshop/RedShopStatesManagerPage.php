@@ -254,4 +254,26 @@ class RedShopStatesManagerPage extends AdminManagerPage
 
 		return $fieldValue;
 	}
+
+	/**
+	 * Function to get the country Name for the State
+	 *
+	 * @param   string  $name  Name of the State
+	 *
+	 * @return String Name of the COuntry
+	 */
+	public function getCountry($name)
+	{
+		$elementObject = $this->driver;
+		$searchField = $elementObject->findElement(By::xPath("//input[@id='country_main_filter']"));
+		$searchField->clear();
+		$searchField = $elementObject->findElement(By::xPath("//input[@id='country_main_filter']"));
+		$searchField->sendKeys($name);
+		$elementObject->findElement(By::xPath("//input[@type='submit']"))->click();
+		sleep(2);
+		$row = $this->getRowNumber($name);
+		$fieldValue = $elementObject->findElement(By::xPath("//tbody/tr[" . $row . "]/td[4]"))->getText();
+
+		return $fieldValue;
+	}
 }
