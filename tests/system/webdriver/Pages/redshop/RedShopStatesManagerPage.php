@@ -210,4 +210,17 @@ class RedShopStatesManagerPage extends AdminManagerPage
 			return false;
 		}
 	}
+
+	public function getThreeCode($name)
+	{
+		$elementObject = $this->driver;
+		$searchField = $elementObject->findElement(By::xPath("//input[@id='country_main_filter']"));
+		$searchField->clear();
+		$searchField = $elementObject->findElement(By::xPath("//input[@id='country_main_filter']"));
+		$searchField->sendKeys($name);
+		$row = $this->getRowNumber($name);
+		$fieldValue = $elementObject->findElement(By::xPath("//tbody/tr[" . $row . "]/td[5]"))->getText();
+
+		return $fieldValue;
+	}
 }
