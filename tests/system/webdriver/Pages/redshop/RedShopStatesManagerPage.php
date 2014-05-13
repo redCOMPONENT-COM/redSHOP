@@ -38,6 +38,16 @@ class RedShopStatesManagerPage extends AdminManagerPage
 	 */
 	protected $url = 'administrator/index.php?option=com_redshop&view=state';
 
+	/**
+	 * Function to Add a State
+	 *
+	 * @param   string  $stateName    Name of the New State
+	 * @param   string  $codeThree    Three Code of the State
+	 * @param   string  $codeTwo      Two code of the State
+	 * @param   string  $countryName  Name of the Country
+	 *
+	 * @return RedShopStatesManagerPage
+	 */
 	public function addState($stateName = 'Sample', $codeThree = '123', $codeTwo = '33', $countryName = 'Sample Country')
 	{
 		$elementObject = $this->driver;
