@@ -120,6 +120,13 @@ class RedShopStatesManagerPage extends AdminManagerPage
 		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='country_main_filter']"), 10);
 	}
 
+	/**
+	 * Function to get Row Number
+	 *
+	 * @param   string  $name  Name of the State
+	 *
+	 * @return bool|int|mixed
+	 */
 	public function getRowNumber($name)
 	{
 		$result = false;
