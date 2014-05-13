@@ -225,8 +225,32 @@ class RedShopStatesManagerPage extends AdminManagerPage
 		$searchField->clear();
 		$searchField = $elementObject->findElement(By::xPath("//input[@id='country_main_filter']"));
 		$searchField->sendKeys($name);
+		$elementObject->findElement(By::xPath("//input[@type='submit']"))->click();
+		sleep(2);
 		$row = $this->getRowNumber($name);
 		$fieldValue = $elementObject->findElement(By::xPath("//tbody/tr[" . $row . "]/td[5]"))->getText();
+
+		return $fieldValue;
+	}
+
+	/**
+	 * Function to get the two digit code
+	 *
+	 * @param   string  $name  Name of the State
+	 *
+	 * @return String Value of the two digit code
+	 */
+	public function getTwoCode($name)
+	{
+		$elementObject = $this->driver;
+		$searchField = $elementObject->findElement(By::xPath("//input[@id='country_main_filter']"));
+		$searchField->clear();
+		$searchField = $elementObject->findElement(By::xPath("//input[@id='country_main_filter']"));
+		$searchField->sendKeys($name);
+		$elementObject->findElement(By::xPath("//input[@type='submit']"))->click();
+		sleep(2);
+		$row = $this->getRowNumber($name);
+		$fieldValue = $elementObject->findElement(By::xPath("//tbody/tr[" . $row . "]/td[6]"))->getText();
 
 		return $fieldValue;
 	}
