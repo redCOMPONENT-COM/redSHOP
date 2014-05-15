@@ -56,9 +56,7 @@ if (file_exists('../logs/junit.xml'))
 			{
 				if (in_array($a, $attributes))
 				{
-					echo "<td>";
-					echo $b;
-					echo "</td>";
+					echo "<td>$b</td>";
 				}
 			}
 		}
@@ -68,9 +66,7 @@ if (file_exists('../logs/junit.xml'))
 			{
 				if (in_array($a, $attributes))
 				{
-					echo "<td>";
-					echo $b;
-					echo "</td>";
+					echo "<td>$b</td>";
 				}
 			}
 		}
