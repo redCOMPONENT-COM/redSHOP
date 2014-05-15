@@ -58,15 +58,20 @@ if (file_exists('../logs/junit.xml'))
 			</thead>
 			<tbody>
 			<?php foreach ($xml->xpath('//testsuite') as $testsuite) : ?>
-				<tr>
+				<?php
+					$class = '';
+					if ((int)$testsuite->attributes()->failures or (int)$testsuite->attributes()->errors) $class = 'danger';
+					elseif (!(int) $testsuite->attributes()->assertions or !(int) $testsuite->attributes()->tests) $class = 'warning';
+				?>
+				<tr class="<?= $class ?>" ?>
 					<td>
-						<?php echo $testsuite->attributes()->name; ?> (<?php echo $testsuite->attributes()->tests; ?> tests)
+						<?php echo $testsuite->attributes()->name; ?> <span class="label label-primary"><?php echo $testsuite->attributes()->tests; ?> tests</span>
 					</td>
 					<td>
 						<?php echo $testsuite->attributes()->assertions; ?>
 					</td>
 					<td>
-						<?php echo round($testsuite->attributes()->time); ?> seconds
+						<span class="label label-success"><?php echo gmdate('i\m s\s', (int) $testsuite->attributes()->time); ?>
 					</td>
 					<td>
 						<?php foreach ($testsuite->testcase as $testcase) : ?>
