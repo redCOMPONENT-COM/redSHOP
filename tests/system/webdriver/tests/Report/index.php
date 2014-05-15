@@ -25,7 +25,7 @@ if (file_exists('../logs/junit.xml'))
 {
 	$xml = simplexml_load_file('../logs/junit.xml');
 ?>
-	<table class="table table-striped">
+	<table class="table table-striped table-hover">
 		<thead>
 			<tr>
 				<th>Name</th>
