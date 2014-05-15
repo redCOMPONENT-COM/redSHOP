@@ -6,25 +6,22 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
-$logFileExist = true;
+$logFileExist = false;
 
 // Check if System Test Log file exist
-if (!file_exists('../logs/junit.xml'))
-{
-	$logFileExist = false;
-}
-else
+if (file_exists('../logs/junit.xml'))
 {
 	$xmlinfo = new SplFileInfo('../logs/junit.xml');
 
-	// Check XML is empty
-	if (!$xmlinfo->getSize() > 0)
-	{
-		$logFileExist = false;
-	}
-	else
+	// Check XML is not empty
+	if ($xmlinfo->getSize() > 0)
 	{
 		$xml = simplexml_load_file('../logs/junit.xml');
+
+		if ($xml->count())
+		{
+			$logFileExist = true;
+		}
 	}
 }
 
