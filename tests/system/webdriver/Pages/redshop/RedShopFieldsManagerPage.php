@@ -281,4 +281,26 @@ class RedShopFieldsManagerPage extends AdminManagerPage
 
 		return $fieldValue;
 	}
+
+	/**
+	 * Function to Get Field Section Value
+	 *
+	 * @param   string  $fieldTitle  Title of the Field for which we need the Value
+	 *
+	 * @return String Value of the Field
+	 */
+	public function getFieldSection($fieldTitle)
+	{
+		$elementObject = $this->driver;
+		$searchField = $elementObject->findElement(By::xPath("//input[@id='filter']"));
+		$searchField->clear();
+		$searchField = $elementObject->findElement(By::xPath("//input[@id='filter']"));
+		$searchField->sendKeys($fieldTitle);
+		$elementObject->findElement(By::xPath("//button[@onclick='this.form.submit();']"))->click();
+		sleep(2);
+		$row = $this->getRowNumber($fieldTitle);
+		$fieldValue = $elementObject->findElement(By::xPath("//tbody/tr[" . $row . "]/td[6]"))->getText();
+
+		return $fieldValue;
+	}
 }
