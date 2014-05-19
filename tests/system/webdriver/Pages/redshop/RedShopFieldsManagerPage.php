@@ -259,4 +259,26 @@ class RedShopFieldsManagerPage extends AdminManagerPage
 
 		return $result;
 	}
+
+	/**
+	 * Function to get Type Field Value
+	 *
+	 * @param   string  $fieldTitle  Title of the Field
+	 *
+	 * @return String Value of the Field
+	 */
+	public function getFieldType($fieldTitle)
+	{
+		$elementObject = $this->driver;
+		$searchField = $elementObject->findElement(By::xPath("//input[@id='filter']"));
+		$searchField->clear();
+		$searchField = $elementObject->findElement(By::xPath("//input[@id='filter']"));
+		$searchField->sendKeys($fieldTitle);
+		$elementObject->findElement(By::xPath("//button[@onclick='this.form.submit();']"))->click();
+		sleep(2);
+		$row = $this->getRowNumber($fieldTitle);
+		$fieldValue = $elementObject->findElement(By::xPath("//tbody/tr[" . $row . "]/td[5]"))->getText();
+
+		return $fieldValue;
+	}
 }
