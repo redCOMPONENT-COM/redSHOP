@@ -192,4 +192,39 @@ class RedShopFieldsManagerPage extends AdminManagerPage
 			return false;
 		}
 	}
+
+	/**
+	 * Function to change a Field State
+	 *
+	 * @param   string  $fieldTitle  title of the field for which the state is to be changed
+	 *
+	 * @param   string  $state       New state for the Field
+	 *
+	 * @return RedShopFieldsManagerPage
+	 */
+	public function changeFieldState($fieldTitle, $state = 'published')
+	{
+		$elementObject = $this->driver;
+		$searchField = $elementObject->findElement(By::xPath("//input[@id='filter']"));
+		$searchField->clear();
+		$searchField = $elementObject->findElement(By::xPath("//input[@id='filter']"));
+		$searchField->sendKeys($fieldTitle);
+		$elementObject->findElement(By::xPath("//button[@onclick='this.form.submit();']"))->click();
+		sleep(2);
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//tbody/tr/td[3]/a[contains(text(),'" . $fieldTitle . "')]"), 10);
+		$row = $this->getRowNumber($fieldTitle) - 1;
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='cb" . $row . "']"), 10);
+		$elementObject->findElement(By::xPath("//input[@id='cb" . $row . "']"))->click();
+
+		if (strtolower($state) == 'published')
+		{
+			$elementObject->findElement(By::xPath("//li[@id='toolbar-publish']/a"))->click();
+			$this->driver->waitForElementUntilIsPresent(By::xPath($this->waitForXpath));
+		}
+		elseif (strtolower($state) == 'unpublished')
+		{
+			$elementObject->findElement(By::xPath("//li[@id='toolbar-unpublish']/a"))->click();
+			$this->driver->waitForElementUntilIsPresent(By::xPath($this->waitForXpath));
+		}
+	}
 }
