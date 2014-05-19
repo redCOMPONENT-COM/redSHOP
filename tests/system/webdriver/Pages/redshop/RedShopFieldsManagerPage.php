@@ -132,4 +132,27 @@ class RedShopFieldsManagerPage extends AdminManagerPage
 		$elementObject->findElement(By::xPath("//a[@onclick=\"Joomla.submitbutton('save')\"]"))->click();
 		$elementObject->waitForElementUntilIsPresent(By::xPath("//li[contains(text(),'Field details saved')]"), 10);
 	}
+
+	/**
+	 * Function to delete a Field
+	 *
+	 * @param   string  $fieldTitle  Field which we are going to delete
+	 *
+	 * @return RedShopFieldsManagerPage
+	 */
+	public function deleteField($fieldTitle)
+	{
+		$elementObject = $this->driver;
+		$searchField = $elementObject->findElement(By::xPath("//input[@id='filter']"));
+		$searchField->clear();
+		$searchField = $elementObject->findElement(By::xPath("//input[@id='filter']"));
+		$searchField->sendKeys($fieldTitle);
+		$elementObject->findElement(By::xPath("//button[@onclick='this.form.submit();']"))->click();
+		sleep(2);
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//tbody/tr/td[3]/a[contains(text(),'" . $fieldTitle . "')]"), 10);
+		$row = $this->getRowNumber($fieldTitle) - 1;
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='cb" . $row . "']"), 10);
+		$elementObject->findElement(By::xPath("//input[@id='cb" . $row . "']"))->click();
+		$elementObject->findElement(By::xPath("//li[@id='toolbar-delete']/a"))->click();
+	}
 }
