@@ -28,14 +28,14 @@ class plgRedshop_paymentrs_payment_paypalpro extends JPlugin
 			$plugin = $element;
 		}
 
-		$app              = JFactory::getApplication();
-		$objOrder         = new order_functions;
-		$uri              =& JURI::getInstance();
-		$url              = $uri->root();
-		$user             = JFactory::getUser();
-		$sessionid        = session_id();
-		$session          = JFactory::getSession();
-		$ccdata           = $session->get('ccdata');
+		$app = JFactory::getApplication();
+		$objOrder = new order_functions;
+		$uri = JURI::getInstance();
+		$url = $uri->root();
+		$user = JFactory::getUser();
+		$sessionid = session_id();
+		$session = JFactory::getSession();
+		$ccdata = $session->get('ccdata');
 
 		// Set request-specific fields.
 		$paymentType      = urlencode($this->params->get("sales_auth_only"));

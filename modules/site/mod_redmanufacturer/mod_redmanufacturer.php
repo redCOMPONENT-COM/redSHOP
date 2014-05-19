@@ -111,11 +111,11 @@ class redManufacturer
 	 */
 function displayredManufacturer($limit = 0)
 {
-	$uri        = JUri::getInstance();
+	$uri        = JURI::getInstance();
 	$url        = $uri->root();
 	$database   = JFactory::getDbo();
 	$Itemid     = JRequest::getInt('Itemid', 0);
-	$extra_data = new producthelper();
+	$extra_data = new producthelper;
 
 	$document = JFactory::getDocument();
 	JHTML::Script('jquery-1.js', 'modules/mod_redmanufacturer/js/', false);

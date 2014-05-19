@@ -14,7 +14,7 @@ $option = JRequest::getVar('option');
 $editor = JFactory::getEditor();
 JHTML::_('behavior.tooltip');
 $user = JFactory::getUser();
-$url = JUri::base();
+$url = JURI::base();
 
 $model = $this->getModel('coupon_detail');
 

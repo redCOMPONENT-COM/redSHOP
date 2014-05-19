@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-$uri =& JURI::getInstance();
+$uri = JURI::getInstance();
 $url = $uri->root();
 $user = JFactory::getUser();
 $db = JFactory::getDbo();
@@ -19,7 +19,7 @@ require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.
 $sql = "SELECT op.*,o.order_total,o.user_id,o.order_tax,o.order_shipping FROM " . $this->_table_prefix . "order_payment AS op LEFT JOIN " . $this->_table_prefix . "orders AS o ON op.order_id = o.order_id  WHERE o.order_id='" . $data['order_id'] . "'";
 $db->setQuery($sql);
 $order_details = $db->loadObjectList();
-$request =& JRequest::get('REQUEST');
+$request = JRequest::get('REQUEST');
 $task = $request['task'];
 
 $db = JFactory::getDbo();

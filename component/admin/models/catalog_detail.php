@@ -89,7 +89,7 @@ class catalog_detailModelcatalog_detail extends JModel
 
 	public function store($data)
 	{
-		$row =& $this->getTable('catalog');
+		$row = $this->getTable('catalog');
 
 		if (!$row->bind($data))
 		{

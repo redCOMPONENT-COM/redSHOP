@@ -98,7 +98,7 @@ class shippingModelShipping extends JModel
 		$app = JFactory::getApplication();
 
 		$db = JFactory::getDbo();
-		$row =& $this->getTable('shipping_detail');
+		$row = $this->getTable('shipping_detail');
 
 		$total = count($cid);
 		$order = JRequest::getVar('order', array(0), 'post', 'array');

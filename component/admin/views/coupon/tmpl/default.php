@@ -14,7 +14,7 @@ $order_functions = new order_functions();
 
 $option = JRequest::getVar('option');
 $model = $this->getModel('coupon');
-$url = JUri::base();
+$url = JURI::base();
 $comment = JRequest::getVar('filter');
 ?>
 <script language="javascript" type="text/javascript">
