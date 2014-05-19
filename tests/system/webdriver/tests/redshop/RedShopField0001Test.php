@@ -78,7 +78,7 @@ class RedShopField0001Test extends JoomlaWebdriverTestCase
 		$this->assertEquals($this->appTestPage->getFieldType($title), $type, 'Both Must be Equal');
 		$this->assertEquals($this->appTestPage->getFieldSection($title), $section, 'Both Must be Equal');
 		$this->appTestPage->deleteField($title);
-		$this->assertFalse($this->appTestPage->searchField($title), 'Field Must be Deleted');
+		$this->assertFalse($this->appTestPage->searchField($title, 'Delete'), 'Field Must be Deleted');
 	}
 
 	/**
@@ -104,7 +104,7 @@ class RedShopField0001Test extends JoomlaWebdriverTestCase
 		$this->appTestPage->editField('Title', $newTitle, $title);
 		$this->assertTrue($this->appTestPage->searchField($newTitle), 'Title Must be Updated');
 		$this->appTestPage->deleteField($newTitle);
-		$this->assertFalse($this->appTestPage->searchField($newTitle), 'Field Must be Deleted');
+		$this->assertFalse($this->appTestPage->searchField($newTitle, 'Delete'), 'Field Must be Deleted');
 	}
 
 	/**
@@ -117,7 +117,7 @@ class RedShopField0001Test extends JoomlaWebdriverTestCase
 	public function changeState()
 	{
 		$rand = rand();
-		$type = 'Text are';
+		$type = 'Text area';
 		$section = 'Category';
 		$name = 'RedShop Field' . $rand;
 		$title = 'RedShop Field' . $rand;
@@ -129,6 +129,6 @@ class RedShopField0001Test extends JoomlaWebdriverTestCase
 		$this->appTestPage->changeFieldState($title, 'unpublished');
 		$this->assertEquals($this->appTestPage->getState($title), 'unpublished', 'Field Must be Unpublished');
 		$this->appTestPage->deleteField($title);
-		$this->assertFalse($this->appTestPage->searchField($title), 'Field Must be Deleted');
+		$this->assertFalse($this->appTestPage->searchField($title, 'Delete'), 'Field Must be Deleted');
 	}
 }
