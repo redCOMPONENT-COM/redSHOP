@@ -74,4 +74,62 @@ class RedShopFieldsManagerPage extends AdminManagerPage
 		$elementObject->findElement(By::xPath("//a[@onclick=\"Joomla.submitbutton('save')\"]"))->click();
 		$elementObject->waitForElementUntilIsPresent(By::xPath("//li[contains(text(),'Field details saved')]"), 10);
 	}
+
+	/**
+	 * Function to edit a Field
+	 *
+	 * @param   string  $field       Name of the Field
+	 *
+	 * @param   string  $newValue    New value for that field
+	 *
+	 * @param   string  $fieldTitle  Field which are going to edit
+	 *
+	 * @return RedShopFieldsManagerPage
+	 */
+	public function editField($field, $newValue, $fieldTitle)
+	{
+		$elementObject = $this->driver;
+		$searchField = $elementObject->findElement(By::xPath("//input[@id='filter']"));
+		$searchField->clear();
+		$searchField = $elementObject->findElement(By::xPath("//input[@id='filter']"));
+		$searchField->sendKeys($fieldTitle);
+		$elementObject->findElement(By::xPath("//button[@onclick='this.form.submit();']"))->click();
+		sleep(2);
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//tbody/tr/td[3]/a[contains(text(),'" . $fieldTitle . "')]"), 10);
+		$row = $this->getRowNumber($fieldTitle) - 1;
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='cb" . $row . "']"), 10);
+		$elementObject->findElement(By::xPath("//input[@id='cb" . $row . "']"))->click();
+		$elementObject->findElement(By::xPath("//li[@id='toolbar-edit']/a"))->click();
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='field_name']"), 10);
+
+		switch ($field)
+		{
+			case "Name":
+				$nameField = $elementObject->findElement(By::xPath("//input[@id='field_name']"));
+				$nameField->clear();
+				$nameField->sendKeys($newValue);
+				break;
+			case "Type":
+				$elementObject->findElement(By::xPath("//option[contains(text(),'" . $newValue . "')]"))->click();
+				sleep(2);
+				break;
+			case "Section":
+				$elementObject->findElement(By::xPath("//option[contains(text(),'" . $newValue . "')]"))->click();
+				sleep(2);
+				break;
+			case "Class":
+				$classField = $elementObject->findElement(By::xPath("//input[@id='field_class']"));
+				$classField->clear();
+				$classField->sendKeys($newValue);
+				break;
+			case "Title":
+				$titleField = $elementObject->findElement(By::xPath("//input[@id='field_title']"));
+				$titleField->clear();
+				$titleField->sendKeys($newValue);
+				break;
+		}
+
+		$elementObject->findElement(By::xPath("//a[@onclick=\"Joomla.submitbutton('save')\"]"))->click();
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//li[contains(text(),'Field details saved')]"), 10);
+	}
 }
