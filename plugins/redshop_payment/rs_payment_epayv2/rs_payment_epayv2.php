@@ -47,8 +47,6 @@ class plgRedshop_paymentrs_payment_epayv2 extends JPlugin
 			'windowstate'     => $this->params->get("epay_window_state"),
 			'windowid'        => $this->params->get("windowid"),
 			'ownreceipt'      => $this->params->get("ownreceipt"),
-			'use3D'           => $this->params->get("epay_3dsecure"),
-			'addfee'          => $this->params->get("transaction_fee"),
 			'subscription'    => $this->params->get("epay_subscription")
 		);
 
@@ -65,7 +63,7 @@ class plgRedshop_paymentrs_payment_epayv2 extends JPlugin
 		}
 
 		// Create hash value to post
-		$formdata['hash'] = md5(implode($formdata, "") . $this->params->get("epay_paymentkey"));
+		$formdata['hash'] = md5(implode("", array_values($formdata)) . $this->params->get("epay_paymentkey"));
 
 		// New Code
 		$json_pass_string = json_encode($formdata);

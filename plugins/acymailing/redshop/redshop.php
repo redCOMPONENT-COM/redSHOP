@@ -21,7 +21,7 @@ class plgAcymailingRedshop extends JPlugin
 
 		if (!isset($this->params))
 		{
-			$plugin =& JPluginHelper::getPlugin('acymailing', 'redshop');
+			$plugin = JPluginHelper::getPlugin('acymailing', 'redshop');
 			$this->params = new JRegistry($plugin->params);
 		}
 	}

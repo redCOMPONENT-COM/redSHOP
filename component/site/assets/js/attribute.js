@@ -905,31 +905,56 @@ function checkProductStockRoom(stockAmount, commonstockid, preorder, preorder_st
     return isStock;
 }
 
-function calculateSingleProductPrice(price, oprandElementId, priceElementId, elementArr) {
+/**
+ * Parse Price using Operand
+ *
+ * @param   {number}  price            Base Price
+ * @param   {string}  oprandElementId  Operand Element Id
+ * @param   {string}  priceElementId   Price Element Id
+ * @param   {array}  elementArr        Base Element Array
+ *
+ * @return  {array}                    Return success index[0] and price[1] in array
+ */
+function calculateSingleProductPrice(price, oprandElementId, priceElementId, elementArr)
+{
     var setEqual = true;
-    for (var i = 0; i < elementArr.length; i++) {
-        var id = elementArr[i];
+        price = parseFloat(price);
 
-        var oprand = document.getElementById(oprandElementId + id).value;
+    for (var i = 0; i < elementArr.length; i++)
+    {
+        var id       = elementArr[i];
+        var oprand   = document.getElementById(oprandElementId + id).value;
         var subprice = document.getElementById(priceElementId + id).value;
 
-        if (oprand == "-") {
+        if (oprand == "-")
+        {
             price -= parseFloat(subprice);
-        } else if (oprand == "+") {
+        }
+        else if (oprand == "+")
+        {
             price += parseFloat(subprice);
-        } else if (oprand == "*") {
+        }
+        else if (oprand == "*")
+        {
             price *= parseFloat(subprice);
-        } else if (oprand == "/") {
+        }
+        else if (oprand == "/")
+        {
             price /= parseFloat(subprice);
-        } else if (oprand == "=") {
+        }
+        else if (oprand == "=")
+        {
             price = parseFloat(subprice);
             setEqual = false;
+
             break;
         }
     }
+
     var retArr = new Array();
-    retArr[0] = setEqual;
-    retArr[1] = price;
+    retArr[0]  = setEqual;
+    retArr[1]  = price;
+
     return retArr;
 }
 

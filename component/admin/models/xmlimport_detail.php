@@ -317,7 +317,7 @@ class xmlimport_detailModelxmlimport_detail extends JModel
 			$data['add_prefix_for_existing'] = "xml_";
 		}
 
-		$row =& $this->getTable();
+		$row = $this->getTable();
 
 		if (!$row->bind($data))
 		{

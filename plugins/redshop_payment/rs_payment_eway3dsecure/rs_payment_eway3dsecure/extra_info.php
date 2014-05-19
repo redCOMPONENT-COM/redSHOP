@@ -89,6 +89,7 @@ echo $html_hidden_params;
 
 // Now we make our own form end tag without any visible html
 echo "</form>";
+
 ?>
 <script>
 	document.eway3dform.submit();

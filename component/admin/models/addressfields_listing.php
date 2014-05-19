@@ -148,7 +148,7 @@ class addressfields_listingModeladdressfields_listing extends JModel
 
 	public function saveorder($cid = array(), $order)
 	{
-		$row =& $this->getTable("fields_detail");
+		$row = $this->getTable("fields_detail");
 		$groupings = array();
 		$conditions = array();
 
@@ -216,7 +216,7 @@ class addressfields_listingModeladdressfields_listing extends JModel
 	 */
 	public function move($direction, $field_id)
 	{
-		$row =& $this->getTable("fields_detail");
+		$row = $this->getTable("fields_detail");
 
 		if (!$row->load($field_id))
 		{
