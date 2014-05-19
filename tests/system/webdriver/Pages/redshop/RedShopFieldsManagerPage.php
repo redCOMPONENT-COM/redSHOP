@@ -155,4 +155,41 @@ class RedShopFieldsManagerPage extends AdminManagerPage
 		$elementObject->findElement(By::xPath("//input[@id='cb" . $row . "']"))->click();
 		$elementObject->findElement(By::xPath("//li[@id='toolbar-delete']/a"))->click();
 	}
+
+	/**
+	 * Function  to search for a Field
+	 *
+	 * @param   string  $fieldTitle    Title of the field which we are going to search
+	 *
+	 * @param   string  $functionName  Name of the function after which the Search function is getting called
+	 *
+	 * @return bool True or False depending on the value
+	 */
+	public function searchField($fieldTitle, $functionName = 'Search')
+	{
+		$elementObject = $this->driver;
+		$searchField = $elementObject->findElement(By::xPath("//input[@id='filter']"));
+		$searchField->clear();
+		$searchField = $elementObject->findElement(By::xPath("//input[@id='filter']"));
+		$searchField->sendKeys($fieldTitle);
+		$elementObject->findElement(By::xPath("//button[@onclick='this.form.submit();']"))->click();
+		sleep(2);
+		$row = $this->getRowNumber($fieldTitle) - 1;
+
+		if ($functionName == 'Search')
+		{
+			$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='cb" . $row . "']"), 10);
+		}
+
+		$arrayElement = $elementObject->findElements(By::xPath("//tbody/tr/td[3]/a[contains(text(),'" . $fieldTitle . "')]"));
+
+		if (count($arrayElement))
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
 }
