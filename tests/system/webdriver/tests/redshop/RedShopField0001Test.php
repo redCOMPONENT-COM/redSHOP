@@ -57,4 +57,78 @@ class RedShopField0001Test extends JoomlaWebdriverTestCase
 		$this->doAdminLogout();
 		parent::tearDown();
 	}
+
+	/**
+	 * Function to Test Field Creation
+	 *
+	 * @test
+	 *
+	 * @return void
+	 */
+	public function createField()
+	{
+		$rand = rand();
+		$type = 'Text area';
+		$section = 'Category';
+		$name = 'RedShop Field' . $rand;
+		$title = 'RedShop Field' . $rand;
+		$class = 'Sample Class' . $rand;
+		$this->appTestPage->addField($type, $section, $name, $title, $class);
+		$this->assertTrue($this->appTestPage->searchField($title), 'Field Must be Present');
+		$this->assertEquals($this->appTestPage->getFieldType($title), $type, 'Both Must be Equal');
+		$this->assertEquals($this->appTestPage->getFieldSection($title), $section, 'Both Must be Equal');
+		$this->appTestPage->deleteField($title);
+		$this->assertFalse($this->appTestPage->searchField($title), 'Field Must be Deleted');
+	}
+
+	/**
+	 * Function to Test Update Feature
+	 *
+	 * @test
+	 *
+	 * @return void
+	 */
+	public function updateField()
+	{
+		$rand = rand();
+		$type = 'Text area';
+		$section = 'Category';
+		$name = 'RedShop Field' . $rand;
+		$title = 'RedShop Field' . $rand;
+		$newTitle = 'Updated Title' . $rand;
+		$class = 'Sample Class' . $rand;
+		$this->appTestPage->addField($type, $section, $name, $title, $class);
+		$this->assertTrue($this->appTestPage->searchField($title), 'Field Must be Present');
+		$this->assertEquals($this->appTestPage->getFieldType($title), $type, 'Both Must be Equal');
+		$this->assertEquals($this->appTestPage->getFieldSection($title), $section, 'Both Must be Equal');
+		$this->appTestPage->editField('Title', $newTitle, $title);
+		$this->assertTrue($this->appTestPage->searchField($newTitle), 'Title Must be Updated');
+		$this->appTestPage->deleteField($newTitle);
+		$this->assertFalse($this->appTestPage->searchField($newTitle), 'Field Must be Deleted');
+	}
+
+	/**
+	 * Function to Test State Change Feature
+	 *
+	 * @test
+	 *
+	 * @return void
+	 */
+	public function changeState()
+	{
+		$rand = rand();
+		$type = 'Text are';
+		$section = 'Category';
+		$name = 'RedShop Field' . $rand;
+		$title = 'RedShop Field' . $rand;
+		$class = 'Sample Class' . $rand;
+		$this->appTestPage->addField($type, $section, $name, $title, $class);
+		$this->assertTrue($this->appTestPage->searchField($title), 'Field Must be Present');
+		$this->assertEquals($this->appTestPage->getFieldType($title), $type, 'Both Must be Equal');
+		$this->assertEquals($this->appTestPage->getFieldSection($title), $section, 'Both Must be Equal');
+		$this->appTestPage->changeFieldState($title, 'unpublished');
+		$this->assertEquals($this->appTestPage->getState($title), 'unpublished', 'Field Must be Unpublished');
+		$this->appTestPage->deleteField($title);
+		$this->assertFalse($this->appTestPage->searchField($title), 'Field Must be Deleted');
+	}
 }
