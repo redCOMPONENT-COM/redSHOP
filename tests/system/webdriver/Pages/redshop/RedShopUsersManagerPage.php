@@ -29,7 +29,7 @@ class RedShopUsersManagerPage extends AdminManagerPage
 	 *
 	 * @since    1.0
 	 */
-	protected $waitForXpath = "//div[@id='toolbar-box']";
+	protected $waitForXpath = "//h2[contains(text(),'User Management')]";
 
 	// We need to change this, and update it to the header of the View
 
