@@ -341,6 +341,7 @@ class order_functions
 		curl_setopt($ch, CURLOPT_VERBOSE, true);
 		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
 		curl_setopt($ch, CURLOPT_POSTFIELDS, $xmlnew);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 		$response = curl_exec($ch);
 		$error = curl_error($ch);
 		curl_close($ch);
