@@ -654,7 +654,8 @@ class CheckoutController extends JController
 		}
 
 		$cart_total = $producthelper->getProductFormattedPrice($cart['mod_cart_total']);
-		echo "`_`" . $description . "`_`" . $cart_total;
+
+		echo eval("?>" . "`_`" . $description . "`_`" . $cart_total . "<?php ");
 		die();
 	}
 
