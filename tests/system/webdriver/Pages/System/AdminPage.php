@@ -121,6 +121,7 @@ abstract class AdminPage
 		'RedSHOP_Currency' => 'administrator/index.php?option=com_redshop&view=currency',
 		'RedSHOP_State' => 'administrator/index.php?option=com_redshop&view=state',
 		'RedSHOP_Field' => 'administrator/index.php?option=com_redshop&view=fields',
+		'RedSHOP_Manufacturer' => 'administrator/index.php?option=com_redshop&view=manufacturer',
 	);
 
 	/**
