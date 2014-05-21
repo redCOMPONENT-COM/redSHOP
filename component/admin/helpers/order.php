@@ -2333,13 +2333,24 @@ class order_functions
 		return $invoice;
 	}
 
+	/**
+	 * Create PacSoft Label from Order Status Change functions
+	 *
+	 * @param   integer  $order_id           Order Information ID
+	 * @param   string   $specifiedSendDate  Label Create Date
+	 * @param   string   $order_status       Order Status Code
+	 * @param   string   $paymentstatus      Order Payment Status Code
+	 *
+	 * @return  void
+	 */
 	public function createWebPacklabel($order_id, $specifiedSendDate, $order_status, $paymentstatus)
 	{
-		if (POSTDK_INTEGRATION && ($order_status == "S" && $paymentstatus == "Paid"))
+		// Only Execute this function if AUTO_GENERATE_PARCEL is set to yes in configuration
+		if (POSTDK_INTEGRATION && AUTO_GENERATE_PARCEL && ($order_status == "S" && $paymentstatus == "Paid"))
 		{
 			$shippinghelper = new shipping;
-			$order_details = $this->getOrderDetails($order_id);
-			$details = explode("|", $shippinghelper->decryptShipping(str_replace(" ", "+", $order_details->ship_method_id)));
+			$order_details  = $this->getOrderDetails($order_id);
+			$details        = explode("|", $shippinghelper->decryptShipping(str_replace(" ", "+", $order_details->ship_method_id)));
 
 			if ($details[0] === 'plgredshop_shippingdefault_shipping' && !$order_details->order_label_create)
 			{
