@@ -371,7 +371,129 @@ class Redtemplate
 			'stock_note'                 => JText::_('COM_REDSHOP_STOCK_NOTE_TEMPLATE')
 		);
 
-		// Sort Template array
+		return $this->prepareSectionOptions($options, $sectionValue);
+	}
+
+	/**
+	 * Collect Mail Template Section Select Option Value
+	 *
+	 * @param   string  $sectionValue  Selected Section Name
+	 *
+	 * @return  array                 Mail Template Select list options
+	 */
+	public function getMailSections($sectionValue = "")
+	{
+		$options = array(
+			'order'                             => JText::_('COM_REDSHOP_ORDER_MAIL'),
+			'catalogue_order'                   => JText::_('COM_REDSHOP_CATALOGUE_ORDER_MAIL'),
+			'order_special_discount'            => JText::_('COM_REDSHOP_ORDER_SPECIAL_DISCOUNT_MAIL'),
+			'order_status'                      => JText::_('COM_REDSHOP_ORDER_STATUS_CHANGE'),
+			'register'                          => JText::_('COM_REDSHOP_REGISTRATION_MAIL'),
+			'product'                           => JText::_('COM_REDSHOP_PRODUCT_INFORMATION'),
+			'status_of_password_reset'          => JText::_('COM_REDSHOP_STSTUS_OF_PASSWORD_RESET'),
+			'tax_exempt_approval_mail'          => JText::_('COM_REDSHOP_TAX_EXEMPT_APPROVAL_MAIL'),
+			'tax_exempt_disapproval_mail'       => JText::_('COM_REDSHOP_TAX_EXEMPT_DISAPPROVAL_MAIL'),
+			'tax_exempt_waiting_approval_mail'  => JText::_('COM_REDSHOP_TAX_EXEMPT_WAITING_APPROVAL_MAIL'),
+			'catalog'                           => JText::_('COM_REDSHOP_CATALOG_SEND_MAIL'),
+			'catalog_first_reminder'            => JText::_('COM_REDSHOP_CATALOG_FIRST_REMINDER'),
+			'catalog_second_reminder'           => JText::_('COM_REDSHOP_CATALOG_SECOND_REMINDER'),
+			'catalog_coupon_reminder'           => JText::_('COM_REDSHOP_CATALOG_COUPON_REMINDER'),
+			'colour_sample_first_reminder'      => JText::_('COM_REDSHOP_CATALOG_SAMPLE_FIRST_REMINDER'),
+			'colour_sample_second_reminder'     => JText::_('COM_REDSHOP_CATALOG_SAMPLE_SECOND_REMINDER'),
+			'colour_sample_third_reminder'      => JText::_('COM_REDSHOP_CATALOG_SAMPLE_THIRD_REMINDER'),
+			'colour_sample_coupon_reminder'     => JText::_('COM_REDSHOP_CATALOG_SAMPLE_COUPON_REMINDER'),
+			'first_mail_after_order_purchased'  => JText::_('COM_REDSHOP_FIRST_MAIL_AFTER_ORDER_PURCHASED'),
+			'second_mail_after_order_purchased' => JText::_('COM_REDSHOP_SECOND_MAIL_AFTER_ORDER_PURCHASED'),
+			'third_mail_after_order_purchased'  => JText::_('COM_REDSHOP_THIRD_MAIL_AFTER_ORDER_PURCHASED'),
+			'economic_inoice'                   => JText::_('COM_REDSHOP_ECONOMIC_INVOICE'),
+			'newsletter_confirmation'           => JText::_('COM_REDSHOP_NEWSLETTER_CONFIRMTION'),
+			'newsletter_cancellation'           => JText::_('COM_REDSHOP_NEWSLETTER_CANCELLATION'),
+			'mywishlist_mail'                   => JText::_('COM_REDSHOP_WISHLIST_MAIL'),
+			'ask_question_mail'                 => JText::_('COM_REDSHOP_ASK_QUESTION_MAIL'),
+			'downloadable_product_mail'         => JText::_('COM_REDSHOP_DOWNLOADABLE_PRODUCT_MAIL'),
+			'giftcard_mail'                     => JText::_('COM_REDSHOP_GIFTCARD_MAIL'),
+			'invoice_mail'                      => JText::_('COM_REDSHOP_INVOICE_MAIL'),
+			'quotation_mail'                    => JText::_('COM_REDSHOP_QUOTATION_MAIL'),
+			'quotation_user_register'           => JText::_('COM_REDSHOP_QUOTATION_USER_REGISTER_MAIL'),
+			'request_tax_exempt_mail'           => JText::_('COM_REDSHOP_REQUEST_TAX_EXEMPT_MAIL'),
+			'subscription_renewal_mail'         => JText::_('COM_REDSHOP_SUBSCRIPTION_RENEWAL_MAIL'),
+			'review_mail'                       => JText::_('COM_REDSHOP_REVIEW_MAIL'),
+			'notify_stock_mail'                 => JText::_('COM_REDSHOP_NOTIFY_STOCK')
+		);
+
+		return $this->prepareSectionOptions($options, $sectionValue);
+	}
+
+	/**
+	 * Collect redSHOP costume field section select list option
+	 *
+	 * @param   string  $sectionValue  Selected option Value
+	 *
+	 * @return  array                 Costume field Select list options
+	 */
+	public function getFieldSections($sectionValue = "")
+	{
+		$options = array(
+			'1'  => JText::_('COM_REDSHOP_PRODUCT'),
+			'2'  => JText::_('COM_REDSHOP_CATEGORY'),
+			'7'  => JText::_('COM_REDSHOP_CUSTOMER_ADDRESS'),
+			'8'  => JText::_('COM_REDSHOP_COMPANY_ADDRESS'),
+			'9'  => JText::_('COM_REDSHOP_COLOR_SAMPLE'),
+			'10' => JText::_('COM_REDSHOP_MANUFACTURER'),
+			'11' => JText::_('COM_REDSHOP_SHIPPING'),
+			'12' => JText::_('COM_REDSHOP_PRODUCT_USERFIELD'),
+			'13' => JText::_('COM_REDSHOP_GIFTCARD_USERFIELD'),
+			'14' => JText::_('COM_REDSHOP_CUSTOMER_SHIPPING_ADDRESS'),
+			'15' => JText::_('COM_REDSHOP_COMPANY_SHIPPING_ADDRESS'),
+			'17' => JText::_('COM_REDSHOP_PRODUCTFINDER_DATEPICKER'),
+			'16' => JText::_('COM_REDSHOP_QUOTATION'),
+			'18' => JText::_('COM_REDSHOP_PAYMENT_GATEWAY'),
+			'19' => JText::_('COM_REDSHOP_SHIPPING_GATEWAY')
+		);
+
+		return $this->prepareSectionOptions($options, $sectionValue);
+	}
+
+	/**
+	 * Collect Costume field type select list options
+	 *
+	 * @param   string  $sectionValue  Selected field type section
+	 *
+	 * @return  array                 Costume field type option list
+	 */
+	public function getFieldTypeSections($sectionValue = "")
+	{
+		$options = array(
+			'1'  => JText::_('COM_REDSHOP_TEXT_FIELD'),
+			'2'  => JText::_('COM_REDSHOP_TEXT_AREA'),
+			'3'  => JText::_('COM_REDSHOP_CHECKBOX'),
+			'4'  => JText::_('COM_REDSHOP_RADIOBOX'),
+			'5'  => JText::_('COM_REDSHOP_SINGLE_SELECT_BOX'),
+			'6'  => JText::_('COM_REDSHOP_MULTI_SELECT_BOX'),
+			'7'  => JText::_('COM_REDSHOP_SELECT_COUNTRY_BOX'),
+			'8'  => JText::_('COM_REDSHOP_WYSIWYG'),
+			'9'  => JText::_('COM_REDSHOP_MEDIA'),
+			'10' => JText::_('COM_REDSHOP_DOCUMENTS'),
+			'11' => JText::_('COM_REDSHOP_IMAGE'),
+			'12' => JText::_('COM_REDSHOP_DATE_PICKER'),
+			'13' => JText::_('COM_REDSHOP_IMAGE_WITH_LINK'),
+			'15' => JText::_('COM_REDSHOP_SELECTION_BASED_ON_SELECTED_CONDITIONS')
+		);
+
+		return $this->prepareSectionOptions($options, $sectionValue);
+	}
+
+	/**
+	 * Prepare Options for Select list
+	 *
+	 * @param   array   $options       Associative Options array
+	 * @param   string  $sectionValue  Get single Section name
+	 *
+	 * @return  mixed   String or array based on $sectionValue
+	 */
+	public function prepareSectionOptions($options, $sectionValue)
+	{
+		// Sort array alphabetically
 		asort($options);
 
 		$optionSection = array();
@@ -391,172 +513,6 @@ class Redtemplate
 		}
 
 		return $optionSection;
-	}
-
-	/**
-	 * Collect Mail Template Section Select Option Value
-	 *
-	 * @param   string  $sectionvalue  Selected Section Name
-	 *
-	 * @return  array                 Mail Template Select list options
-	 */
-	public function getMailSections($sectionvalue = "")
-	{
-		$optiontype = array();
-		$optiontype[] = JHTML::_('select.option', '0', JText::_('COM_REDSHOP_SELECT'));
-		$optiontype[] = JHTML::_('select.option', 'order', JText::_('COM_REDSHOP_ORDER_MAIL'));
-		$optiontype[] = JHTML::_('select.option', 'catalogue_order', JText::_('COM_REDSHOP_CATALOGUE_ORDER_MAIL'));
-		$optiontype[] = JHTML::_('select.option', 'order_special_discount', JText::_('COM_REDSHOP_ORDER_SPECIAL_DISCOUNT_MAIL'));
-		$optiontype[] = JHTML::_('select.option', 'order_status', JText::_('COM_REDSHOP_ORDER_STATUS_CHANGE'));
-		$optiontype[] = JHTML::_('select.option', 'register', JText::_('COM_REDSHOP_REGISTRATION_MAIL'));
-		$optiontype[] = JHTML::_('select.option', 'product', JText::_('COM_REDSHOP_PRODUCT_INFORMATION'));
-		$optiontype[] = JHTML::_('select.option', 'status_of_password_reset', JText::_('COM_REDSHOP_STSTUS_OF_PASSWORD_RESET'));
-		$optiontype[] = JHTML::_('select.option', 'tax_exempt_approval_mail', JText::_('COM_REDSHOP_TAX_EXEMPT_APPROVAL_MAIL'));
-		$optiontype[] = JHTML::_('select.option', 'tax_exempt_disapproval_mail', JText::_('COM_REDSHOP_TAX_EXEMPT_DISAPPROVAL_MAIL'));
-		$optiontype[] = JHTML::_('select.option', 'tax_exempt_waiting_approval_mail', JText::_('COM_REDSHOP_TAX_EXEMPT_WAITING_APPROVAL_MAIL'));
-		$optiontype[] = JHTML::_('select.option', 'catalog', JText::_('COM_REDSHOP_CATALOG_SEND_MAIL'));
-		$optiontype[] = JHTML::_('select.option', 'catalog_first_reminder', JText::_('COM_REDSHOP_CATALOG_FIRST_REMINDER'));
-		$optiontype[] = JHTML::_('select.option', 'catalog_second_reminder', JText::_('COM_REDSHOP_CATALOG_SECOND_REMINDER'));
-		$optiontype[] = JHTML::_('select.option', 'catalog_coupon_reminder', JText::_('COM_REDSHOP_CATALOG_COUPON_REMINDER'));
-		$optiontype[] = JHTML::_('select.option', 'colour_sample_first_reminder', JText::_('COM_REDSHOP_CATALOG_SAMPLE_FIRST_REMINDER'));
-		$optiontype[] = JHTML::_('select.option', 'colour_sample_second_reminder', JText::_('COM_REDSHOP_CATALOG_SAMPLE_SECOND_REMINDER'));
-		$optiontype[] = JHTML::_('select.option', 'colour_sample_third_reminder', JText::_('COM_REDSHOP_CATALOG_SAMPLE_THIRD_REMINDER'));
-		$optiontype[] = JHTML::_('select.option', 'colour_sample_coupon_reminder', JText::_('COM_REDSHOP_CATALOG_SAMPLE_COUPON_REMINDER'));
-		$optiontype[] = JHTML::_('select.option', 'first_mail_after_order_purchased', JText::_('COM_REDSHOP_FIRST_MAIL_AFTER_ORDER_PURCHASED'));
-		$optiontype[] = JHTML::_('select.option', 'second_mail_after_order_purchased', JText::_('COM_REDSHOP_SECOND_MAIL_AFTER_ORDER_PURCHASED'));
-		$optiontype[] = JHTML::_('select.option', 'third_mail_after_order_purchased', JText::_('COM_REDSHOP_THIRD_MAIL_AFTER_ORDER_PURCHASED'));
-		$optiontype[] = JHTML::_('select.option', 'economic_inoice', JText::_('COM_REDSHOP_ECONOMIC_INVOICE'));
-		$optiontype[] = JHTML::_('select.option', 'newsletter_confirmation', JText::_('COM_REDSHOP_NEWSLETTER_CONFIRMTION'));
-		$optiontype[] = JHTML::_('select.option', 'newsletter_cancellation', JText::_('COM_REDSHOP_NEWSLETTER_CANCELLATION'));
-		$optiontype[] = JHTML::_('select.option', 'mywishlist_mail', JText::_('COM_REDSHOP_WISHLIST_MAIL'));
-		$optiontype[] = JHTML::_('select.option', 'ask_question_mail', JText::_('COM_REDSHOP_ASK_QUESTION_MAIL'));
-		$optiontype[] = JHTML::_('select.option', 'downloadable_product_mail', JText::_('COM_REDSHOP_DOWNLOADABLE_PRODUCT_MAIL'));
-		$optiontype[] = JHTML::_('select.option', 'giftcard_mail', JText::_('COM_REDSHOP_GIFTCARD_MAIL'));
-		$optiontype[] = JHTML::_('select.option', 'invoice_mail', JText::_('COM_REDSHOP_INVOICE_MAIL'));
-		$optiontype[] = JHTML::_('select.option', 'quotation_mail', JText::_('COM_REDSHOP_QUOTATION_MAIL'));
-		$optiontype[] = JHTML::_('select.option', 'quotation_user_register', JText::_('COM_REDSHOP_QUOTATION_USER_REGISTER_MAIL'));
-		$optiontype[] = JHTML::_('select.option', 'request_tax_exempt_mail', JText::_('COM_REDSHOP_REQUEST_TAX_EXEMPT_MAIL'));
-		$optiontype[] = JHTML::_('select.option', 'subscription_renewal_mail', JText::_('COM_REDSHOP_SUBSCRIPTION_RENEWAL_MAIL'));
-		$optiontype[] = JHTML::_('select.option', 'review_mail', JText::_('COM_REDSHOP_REVIEW_MAIL'));
-		$optiontype[] = JHTML::_('select.option', 'notify_stock_mail', JText::_('COM_REDSHOP_NOTIFY_STOCK'));
-
-		// Sort array alphabetically
-		sort($optiontype);
-
-		if ($sectionvalue != "")
-		{
-			$sectionname = "";
-
-			for ($i = 0; $i < count($optiontype); $i++)
-			{
-				if ($optiontype[$i]->value == $sectionvalue)
-				{
-					$sectionname = $optiontype[$i]->text;
-					break;
-				}
-			}
-
-			return $sectionname;
-		}
-		else
-		{
-			return $optiontype;
-		}
-	}
-
-	/**
-	 * Collect redSHOP costume field section select list option
-	 *
-	 * @param   string  $sectionvalue  Selected option Value
-	 *
-	 * @return  array                 Costume field Select list options
-	 */
-	public function getFieldSections($sectionvalue = "")
-	{
-		$optionsection   = array();
-		$optionsection[] = JHTML::_('select.option', '0', JText::_('COM_REDSHOP_SELECT'));
-		$optionsection[] = JHTML::_('select.option', '1', JText::_('COM_REDSHOP_PRODUCT'));
-		$optionsection[] = JHTML::_('select.option', '2', JText::_('COM_REDSHOP_CATEGORY'));
-		$optionsection[] = JHTML::_('select.option', '7', JText::_('COM_REDSHOP_CUSTOMER_ADDRESS'));
-		$optionsection[] = JHTML::_('select.option', '8', JText::_('COM_REDSHOP_COMPANY_ADDRESS'));
-		$optionsection[] = JHTML::_('select.option', '9', JText::_('COM_REDSHOP_COLOR_SAMPLE'));
-		$optionsection[] = JHTML::_('select.option', '10', JText::_('COM_REDSHOP_MANUFACTURER'));
-		$optionsection[] = JHTML::_('select.option', '11', JText::_('COM_REDSHOP_SHIPPING'));
-		$optionsection[] = JHTML::_('select.option', '12', JText::_('COM_REDSHOP_PRODUCT_USERFIELD'));
-		$optionsection[] = JHTML::_('select.option', '13', JText::_('COM_REDSHOP_GIFTCARD_USERFIELD'));
-		$optionsection[] = JHTML::_('select.option', '14', JText::_('COM_REDSHOP_CUSTOMER_SHIPPING_ADDRESS'));
-		$optionsection[] = JHTML::_('select.option', '15', JText::_('COM_REDSHOP_COMPANY_SHIPPING_ADDRESS'));
-		$optionsection[] = JHTML::_('select.option', '17', JText::_('COM_REDSHOP_PRODUCTFINDER_DATEPICKER'));
-		$optionsection[] = JHTML::_('select.option', '16', JText::_('COM_REDSHOP_QUOTATION'));
-		$optionsection[] = JHTML::_('select.option', '18', JText::_('COM_REDSHOP_PAYMENT_GATEWAY'));
-		$optionsection[] = JHTML::_('select.option', '19', JText::_('COM_REDSHOP_SHIPPING_GATEWAY'));
-
-		if ($sectionvalue != "")
-		{
-			$sectionname = "";
-
-			for ($i = 0; $i < count($optionsection); $i++)
-			{
-				if ($optionsection[$i]->value == $sectionvalue)
-				{
-					$sectionname = $optionsection[$i]->text;
-					break;
-				}
-			}
-
-			return $sectionname;
-		}
-		else
-		{
-			return $optionsection;
-		}
-	}
-
-	/**
-	 * Collect Costume field type select list options
-	 *
-	 * @param   string  $sectionvalue  Selected field type section
-	 *
-	 * @return  array                 Costume field type option list
-	 */
-	public function getFieldTypeSections($sectionvalue = "")
-	{
-		$optiontype = array();
-		$optiontype[] = JHTML::_('select.option', '0', JText::_('COM_REDSHOP_SELECT'));
-		$optiontype[] = JHTML::_('select.option', '1', JText::_('COM_REDSHOP_TEXT_FIELD'));
-		$optiontype[] = JHTML::_('select.option', '2', JText::_('COM_REDSHOP_TEXT_AREA'));
-		$optiontype[] = JHTML::_('select.option', '3', JText::_('COM_REDSHOP_CHECKBOX'));
-		$optiontype[] = JHTML::_('select.option', '4', JText::_('COM_REDSHOP_RADIOBOX'));
-		$optiontype[] = JHTML::_('select.option', '5', JText::_('COM_REDSHOP_SINGLE_SELECT_BOX'));
-		$optiontype[] = JHTML::_('select.option', '6', JText::_('COM_REDSHOP_MULTI_SELECT_BOX'));
-		$optiontype[] = JHTML::_('select.option', '7', JText::_('COM_REDSHOP_SELECT_COUNTRY_BOX'));
-		$optiontype[] = JHTML::_('select.option', '8', JText::_('COM_REDSHOP_WYSIWYG'));
-		$optiontype[] = JHTML::_('select.option', '9', JText::_('COM_REDSHOP_MEDIA'));
-		$optiontype[] = JHTML::_('select.option', '10', JText::_('COM_REDSHOP_DOCUMENTS'));
-		$optiontype[] = JHTML::_('select.option', '11', JText::_('COM_REDSHOP_IMAGE'));
-		$optiontype[] = JHTML::_('select.option', '12', JText::_('COM_REDSHOP_DATE_PICKER'));
-		$optiontype[] = JHTML::_('select.option', '13', JText::_('COM_REDSHOP_IMAGE_WITH_LINK'));
-		$optiontype[] = JHTML::_('select.option', '15 ', JText::_('COM_REDSHOP_SELECTION_BASED_ON_SELECTED_CONDITIONS'));
-
-		if ($sectionvalue != "")
-		{
-			$sectionname = "";
-
-			for ($i = 0; $i < count($optiontype); $i++)
-			{
-				if ($optiontype[$i]->value == $sectionvalue)
-				{
-					$sectionname = $optiontype[$i]->text;
-					break;
-				}
-			}
-
-			return $sectionname;
-		}
-		else
-		{
-			return $optiontype;
-		}
 	}
 
 	/**
