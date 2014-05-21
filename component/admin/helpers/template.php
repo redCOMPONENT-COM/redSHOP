@@ -304,95 +304,93 @@ class Redtemplate
 	/**
 	 * Collect list of redSHOP Template
 	 *
-	 * @param   string  $sectionvalue  Template Section selected value
+	 * @param   string  $sectionValue  Template Section selected value
 	 *
 	 * @return  array                 Template Section List options
 	 */
-	public function getTemplateSections($sectionvalue = "")
+	public function getTemplateSections($sectionValue = "")
 	{
-		$optionsection = array();
-		$optionsection[] = JHTML::_('select.option', '0', JText::_('COM_REDSHOP_SELECT'));
-		$optionsection[] = JHTML::_('select.option', 'product', JText::_('COM_REDSHOP_PRODUCT'));
-		$optionsection[] = JHTML::_('select.option', 'related_product', JText::_('COM_REDSHOP_RELATED_PRODUCT'));
-		$optionsection[] = JHTML::_('select.option', 'category', JText::_('COM_REDSHOP_Category'));
-		$optionsection[] = JHTML::_('select.option', 'manufacturer', JText::_('COM_REDSHOP_Manufacturer'));
-		$optionsection[] = JHTML::_('select.option', 'manufacturer_detail', JText::_('COM_REDSHOP_MANUFACTURER_DETAIL'));
-		$optionsection[] = JHTML::_('select.option', 'manufacturer_products', JText::_('COM_REDSHOP_MANUFACTURER_PRODUCTS'));
-		$optionsection[] = JHTML::_('select.option', 'newsletter', JText::_('COM_REDSHOP_Newsletter'));
-		$optionsection[] = JHTML::_('select.option', 'newsletter_product', JText::_('COM_REDSHOP_NEWSLETTER_PRODUCTS'));
-		$optionsection[] = JHTML::_('select.option', 'empty_cart', JText::_('COM_REDSHOP_EMPTY_CART'));
-		$optionsection[] = JHTML::_('select.option', 'cart', JText::_('COM_REDSHOP_Cart'));
-		$optionsection[] = JHTML::_('select.option', 'add_to_cart', JText::_('COM_REDSHOP_ADD_TO_CART'));
-		$optionsection[] = JHTML::_('select.option', 'catalog', JText::_('COM_REDSHOP_CATALOG'));
-		$optionsection[] = JHTML::_('select.option', 'product_sample', JText::_('COM_REDSHOP_PRODUCT_SAMPLE'));
-		$optionsection[] = JHTML::_('select.option', 'order_list', JText::_('COM_REDSHOP_ORDER_LIST'));
-		$optionsection[] = JHTML::_('select.option', 'order_detail', JText::_('COM_REDSHOP_ORDER_DETAIL'));
-		$optionsection[] = JHTML::_('select.option', 'order_receipt', JText::_('COM_REDSHOP_ORDER_RECEIPT'));
-		$optionsection[] = JHTML::_('select.option', 'review', JText::_('COM_REDSHOP_Review'));
-		$optionsection[] = JHTML::_('select.option', 'frontpage_category', JText::_('COM_REDSHOP_FRONTPAGE_CATEGORY'));
-		$optionsection[] = JHTML::_('select.option', 'attribute_template', JText::_('COM_REDSHOP_ATTRIBUTE_TEMPLATE'));
-		$optionsection[] = JHTML::_('select.option', 'attributewithcart_template', JText::_('COM_REDSHOP_ATTRIBUTE_WITH_CART_TEMPLATE'));
-		$optionsection[] = JHTML::_('select.option', 'accessory_template', JText::_('COM_REDSHOP_ACCESSORY_TEMPLATE'));
-		$optionsection[] = JHTML::_('select.option', 'account_template', JText::_('COM_REDSHOP_ACCOUNT_TEMPLATE'));
-		$optionsection[] = JHTML::_('select.option', 'wishlist_template', JText::_('COM_REDSHOP_WISHLIST_TEMPLATE'));
-		$optionsection[] = JHTML::_('select.option', 'wishlist_mail_template', JText::_('COM_REDSHOP_WISHLIST_MAIL_TEMPLATE'));
-		$optionsection[] = JHTML::_('select.option', 'wrapper_template', JText::_('COM_REDSHOP_WRAPPER_TEMPLATE'));
-		$optionsection[] = JHTML::_('select.option', 'ajax_cart_detail_box', JText::_('COM_REDSHOP_AJAX_CART_DETAIL_BOX'));
-		$optionsection[] = JHTML::_('select.option', 'ajax_cart_box', JText::_('COM_REDSHOP_AJAX_CART_BOX_TMP'));
-		$optionsection[] = JHTML::_('select.option', 'ask_question_template', JText::_('COM_REDSHOP_ASK_QUESTION_TEMPLATE'));
-		$optionsection[] = JHTML::_('select.option', 'giftcard_list', JText::_('COM_REDSHOP_GIFTCARD_LIST_TEMPLATE'));
-		$optionsection[] = JHTML::_('select.option', 'giftcard', JText::_('COM_REDSHOP_GIFTCARD_TEMPLATE'));
-		$optionsection[] = JHTML::_('select.option', 'shipping_pdf', JText::_('COM_REDSHOP_SHIPPING_PDF_TEMPLATE'));
-		$optionsection[] = JHTML::_('select.option', 'clicktell_sms_message', JText::_('COM_REDSHOP_CLICKTELL_SMS_MESSAGE'));
-		$optionsection[] = JHTML::_('select.option', 'order_print', JText::_('COM_REDSHOP_ORDER_PRINT_TEMPLATE'));
-		$optionsection[] = JHTML::_('select.option', 'redproductfinder', JText::_('COM_REDSHOP_redPRODUCTFINDER'));
-		$optionsection[] = JHTML::_('select.option', 'quotation_detail', JText::_('COM_REDSHOP_QUOTATION_DETAIL_TEMPLATE'));
-		$optionsection[] = JHTML::_('select.option', 'quotation_cart', JText::_('COM_REDSHOP_QUOTATION_CART'));
-		$optionsection[] = JHTML::_('select.option', 'quotation_request', JText::_('COM_REDSHOP_QUOTATION_REQUEST_TEMPLATE'));
-		$optionsection[] = JHTML::_('select.option', 'catalogue_cart', JText::_('COM_REDSHOP_CATALOGUE_CART_TEMPLATE'));
-		$optionsection[] = JHTML::_('select.option', 'catalogue_order_detail', JText::_('COM_REDSHOP_CATALOGUE_ORDER_DETAIL_TEMPLATE'));
-		$optionsection[] = JHTML::_('select.option', 'catalogue_order_receipt', JText::_('COM_REDSHOP_CATALOGUE_ORDER_RECEIPT_TEMPLATE'));
-		$optionsection[] = JHTML::_('select.option', 'compare_product', JText::_('COM_REDSHOP_COMPARE_PRODUCT_TEMPLATE'));
-		$optionsection[] = JHTML::_('select.option', 'clickatell', JText::_('COM_REDSHOP_CLICKATELL'));
-		$optionsection[] = JHTML::_('select.option', 'redshop_payment', JText::_('COM_REDSHOP_PAYMENT_METHOD_TEMPLATE'));
-		$optionsection[] = JHTML::_('select.option', 'redshop_shipping', JText::_('COM_REDSHOP_SHIPPING_METHOD_TEMPLATE'));
-		$optionsection[] = JHTML::_('select.option', 'shippingbox', JText::_('COM_REDSHOP_SHIPPING_BOX_TEMPLATE'));
-		$optionsection[] = JHTML::_('select.option', 'onestep_checkout', JText::_('COM_REDSHOP_ONESTEP_CHECKOUT_TEMPLATE'));
-		$optionsection[] = JHTML::_('select.option', 'categoryproduct', JText::_('COM_REDSHOP_PRODUCT_CATEGORY_TEMPLATE'));
-		$optionsection[] = JHTML::_('select.option', 'change_cart_attribute', JText::_('COM_REDSHOP_CHANGE_CART_ATTRIBUTE_TEMPLATE'));
-		$optionsection[] = JHTML::_('select.option', 'searchletter', JText::_('COM_REDSHOP_LETTER_SEARCH_TEMPLATE'));
-		$optionsection[] = JHTML::_('select.option', 'crmorder_receipt', JText::_('COM_REDSHOP_redCRM_ORDER_RECIEPT'));
-		$optionsection[] = JHTML::_('select.option', 'checkout', JText::_('COM_REDSHOP_CHECKOUT_TEMPLATE'));
-		$optionsection[] = JHTML::_('select.option', 'product_content_template', JText::_('COM_REDSHOP_PRODUCT_CONTENT'));
-		$optionsection[] = JHTML::_('select.option', 'billing_template', JText::_('COM_REDSHOP_BILLING_TEMPLATE'));
-		$optionsection[] = JHTML::_('select.option', 'private_billing_template', JText::_('COM_REDSHOP_PRIVATE_BILLING_TEMPLATE'));
-		$optionsection[] = JHTML::_('select.option', 'company_billing_template', JText::_('COM_REDSHOP_COMPANY_BILLING_TEMPLATE'));
-		$optionsection[] = JHTML::_('select.option', 'shipping_template', JText::_('COM_REDSHOP_SHIPPING_TEMPLATE'));
-		$optionsection[] = JHTML::_('select.option', 'shippment_invoice_template', JText::_('COM_REDSHOP_SHIPPMENT_INVOICE_TEMPLATE'));
-		$optionsection[] = JHTML::_('select.option', 'stock_note', JText::_('COM_REDSHOP_STOCK_NOTE_TEMPLATE'));
+		$options = array(
+			'product'                    => JText::_('COM_REDSHOP_PRODUCT'),
+			'related_product'            => JText::_('COM_REDSHOP_RELATED_PRODUCT'),
+			'category'                   => JText::_('COM_REDSHOP_Category'),
+			'manufacturer'               => JText::_('COM_REDSHOP_Manufacturer'),
+			'manufacturer_detail'        => JText::_('COM_REDSHOP_MANUFACTURER_DETAIL'),
+			'manufacturer_products'      => JText::_('COM_REDSHOP_MANUFACTURER_PRODUCTS'),
+			'newsletter'                 => JText::_('COM_REDSHOP_Newsletter'),
+			'newsletter_product'         => JText::_('COM_REDSHOP_NEWSLETTER_PRODUCTS'),
+			'empty_cart'                 => JText::_('COM_REDSHOP_EMPTY_CART'),
+			'cart'                       => JText::_('COM_REDSHOP_Cart'),
+			'add_to_cart'                => JText::_('COM_REDSHOP_ADD_TO_CART'),
+			'catalog'                    => JText::_('COM_REDSHOP_CATALOG'),
+			'product_sample'             => JText::_('COM_REDSHOP_PRODUCT_SAMPLE'),
+			'order_list'                 => JText::_('COM_REDSHOP_ORDER_LIST'),
+			'order_detail'               => JText::_('COM_REDSHOP_ORDER_DETAIL'),
+			'order_receipt'              => JText::_('COM_REDSHOP_ORDER_RECEIPT'),
+			'review'                     => JText::_('COM_REDSHOP_Review'),
+			'frontpage_category'         => JText::_('COM_REDSHOP_FRONTPAGE_CATEGORY'),
+			'attribute_template'         => JText::_('COM_REDSHOP_ATTRIBUTE_TEMPLATE'),
+			'attributewithcart_template' => JText::_('COM_REDSHOP_ATTRIBUTE_WITH_CART_TEMPLATE'),
+			'accessory_template'         => JText::_('COM_REDSHOP_ACCESSORY_TEMPLATE'),
+			'account_template'           => JText::_('COM_REDSHOP_ACCOUNT_TEMPLATE'),
+			'wishlist_template'          => JText::_('COM_REDSHOP_WISHLIST_TEMPLATE'),
+			'wishlist_mail_template'     => JText::_('COM_REDSHOP_WISHLIST_MAIL_TEMPLATE'),
+			'wrapper_template'           => JText::_('COM_REDSHOP_WRAPPER_TEMPLATE'),
+			'ajax_cart_detail_box'       => JText::_('COM_REDSHOP_AJAX_CART_DETAIL_BOX'),
+			'ajax_cart_box'              => JText::_('COM_REDSHOP_AJAX_CART_BOX_TMP'),
+			'ask_question_template'      => JText::_('COM_REDSHOP_ASK_QUESTION_TEMPLATE'),
+			'giftcard_list'              => JText::_('COM_REDSHOP_GIFTCARD_LIST_TEMPLATE'),
+			'giftcard'                   => JText::_('COM_REDSHOP_GIFTCARD_TEMPLATE'),
+			'shipping_pdf'               => JText::_('COM_REDSHOP_SHIPPING_PDF_TEMPLATE'),
+			'clicktell_sms_message'      => JText::_('COM_REDSHOP_CLICKTELL_SMS_MESSAGE'),
+			'order_print'                => JText::_('COM_REDSHOP_ORDER_PRINT_TEMPLATE'),
+			'redproductfinder'           => JText::_('COM_REDSHOP_redPRODUCTFINDER'),
+			'quotation_detail'           => JText::_('COM_REDSHOP_QUOTATION_DETAIL_TEMPLATE'),
+			'quotation_cart'             => JText::_('COM_REDSHOP_QUOTATION_CART'),
+			'quotation_request'          => JText::_('COM_REDSHOP_QUOTATION_REQUEST_TEMPLATE'),
+			'catalogue_cart'             => JText::_('COM_REDSHOP_CATALOGUE_CART_TEMPLATE'),
+			'catalogue_order_detail'     => JText::_('COM_REDSHOP_CATALOGUE_ORDER_DETAIL_TEMPLATE'),
+			'catalogue_order_receipt'    => JText::_('COM_REDSHOP_CATALOGUE_ORDER_RECEIPT_TEMPLATE'),
+			'compare_product'            => JText::_('COM_REDSHOP_COMPARE_PRODUCT_TEMPLATE'),
+			'clickatell'                 => JText::_('COM_REDSHOP_CLICKATELL'),
+			'redshop_payment'            => JText::_('COM_REDSHOP_PAYMENT_METHOD_TEMPLATE'),
+			'redshop_shipping'           => JText::_('COM_REDSHOP_SHIPPING_METHOD_TEMPLATE'),
+			'shippingbox'                => JText::_('COM_REDSHOP_SHIPPING_BOX_TEMPLATE'),
+			'onestep_checkout'           => JText::_('COM_REDSHOP_ONESTEP_CHECKOUT_TEMPLATE'),
+			'categoryproduct'            => JText::_('COM_REDSHOP_PRODUCT_CATEGORY_TEMPLATE'),
+			'change_cart_attribute'      => JText::_('COM_REDSHOP_CHANGE_CART_ATTRIBUTE_TEMPLATE'),
+			'searchletter'               => JText::_('COM_REDSHOP_LETTER_SEARCH_TEMPLATE'),
+			'crmorder_receipt'           => JText::_('COM_REDSHOP_redCRM_ORDER_RECIEPT'),
+			'checkout'                   => JText::_('COM_REDSHOP_CHECKOUT_TEMPLATE'),
+			'product_content_template'   => JText::_('COM_REDSHOP_PRODUCT_CONTENT'),
+			'billing_template'           => JText::_('COM_REDSHOP_BILLING_TEMPLATE'),
+			'private_billing_template'   => JText::_('COM_REDSHOP_PRIVATE_BILLING_TEMPLATE'),
+			'company_billing_template'   => JText::_('COM_REDSHOP_COMPANY_BILLING_TEMPLATE'),
+			'shipping_template'          => JText::_('COM_REDSHOP_SHIPPING_TEMPLATE'),
+			'shippment_invoice_template' => JText::_('COM_REDSHOP_SHIPPMENT_INVOICE_TEMPLATE'),
+			'stock_note'                 => JText::_('COM_REDSHOP_STOCK_NOTE_TEMPLATE')
+		);
 
-		// Sort array alphabetically
-		sort($optionsection);
+		// Sort Template array
+		asort($options);
 
-		if ($sectionvalue != "")
+		$optionSection = array();
+		$optionSection[] = JHTML::_('select.option', '0', JText::_('COM_REDSHOP_SELECT'));
+
+		foreach ($options as $key => $value)
 		{
-			$sectionname = "";
+			$optionSection[] = JHTML::_('select.option', $key, $value);
 
-			for ($i = 0; $i < count($optionsection); $i++)
+			if ($sectionValue != "")
 			{
-				if ($optionsection[$i]->value == $sectionvalue)
+				if ($key == $sectionValue)
 				{
-					$sectionname = $optionsection[$i]->text;
-					break;
+					return $value;
 				}
 			}
+		}
 
-			return $sectionname;
-		}
-		else
-		{
-			return $optionsection;
-		}
+		return $optionSection;
 	}
 
 	/**
