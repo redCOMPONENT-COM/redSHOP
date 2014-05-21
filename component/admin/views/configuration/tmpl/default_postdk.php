@@ -66,6 +66,22 @@ defined('_JEXEC') or die ('Restricted access');
 		<td class="key">
 			<label for="name">
 				<span class="editlinktip hasTip"
+				      title="<?php echo JText::_('COM_REDSHOP_TOOLTIP_AUTO_GENERATE_PARCEL_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_AUTO_GENERATE_PARCEL'); ?>">
+					<?php echo JText::_('COM_REDSHOP_AUTO_GENERATE_PARCEL_LBL');?>
+				</span>
+			</label>
+		</td>
+		<td>
+			<?php
+				defined('AUTO_GENERATE_PARCEL') ? AUTO_GENERATE_PARCEL : define('AUTO_GENERATE_PARCEL', 1);
+				echo JHTML::_('select.booleanlist', 'auto_generate_parcel', 'class="inputbox" size="1"', AUTO_GENERATE_PARCEL);
+			?>
+		</td>
+	</tr>
+	<tr>
+		<td class="key">
+			<label for="name">
+				<span class="editlinktip hasTip"
 				      title="<?php echo JText::_('COM_REDSHOP_TOOLTIP_SHOW_PRODUCT_DETAIL_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_SHOW_PRODUCT_DETAIL'); ?>">
 					<?php echo JText::_('COM_REDSHOP_SHOW_PRODUCT_DETAIL_LBL');?>
 				</span>
