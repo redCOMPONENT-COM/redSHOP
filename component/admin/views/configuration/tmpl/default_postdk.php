@@ -88,21 +88,13 @@ defined('_JEXEC') or die;
 				AUTO_GENERATE_LABEL
 			);
 
-			$style = "none";
+			$order_functions = new order_functions;
 
-			if (GENERATE_LABEL_ON_STATUS == 1)
-			{
-				$style = "";
-			}
-			?>
-			<?php
-				$order_functions = new order_functions;
-
-				echo $order_functions->getstatuslist(
-					'generate_label_on_status',
-					GENERATE_LABEL_ON_STATUS,
-					"class=\"inputbox\" size=\"1\" "
-				);
+			echo $order_functions->getstatuslist(
+				'generate_label_on_status',
+				GENERATE_LABEL_ON_STATUS,
+				"class=\"inputbox\" size=\"1\" "
+			);
 			?>
 		</td>
 	</tr>
