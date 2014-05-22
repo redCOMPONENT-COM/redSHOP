@@ -59,7 +59,7 @@ class RedShopManufacturer0001Test extends JoomlaWebdriverTestCase
 	}
 
 	/**
-	 * Function to Test Creation of Manufacturers
+	 * Function to test Creation of Manufacturers
 	 *
 	 * @test
 	 *
@@ -74,6 +74,20 @@ class RedShopManufacturer0001Test extends JoomlaWebdriverTestCase
 		$url = 'http://www.redcomponent.com';
 		$productPerPage = 10;
 		$this->appTestPage->addManufacturer($name, $template, $email, $url, $productPerPage);
-		$this->assertTrue($this->appTestPage->searchField($name), 'Field Must be Present');
+		$this->assertTrue($this->appTestPage->existManufacturer($name), 'Field Must be Present');
+		$this->appTestPage->deleteManufacturer($name);
+		$this->assertFalse($this->appTestPage->existManufacturer($name), 'Field Must not Exist');
+	}
+
+	/**
+	 * Function to test the edition of a Manufacturer
+	 *
+	 * @test
+	 *
+	 * @return void
+	 */
+	public function updateManufacturer()
+	{
+
 	}
 }
