@@ -60,7 +60,6 @@ class RedShopManufacturersManagerPage extends AdminManagerPage
 
 		// @Todo: we can valuate using SeleniumClient\SelectElement;
 		$elementObject->findElement(By::xPath("//select[@id='template_id']//option[@value='{$template}']"))->click();
-		sleep(5);
 
 		$emailField = $elementObject->findElement(By::xPath("//input[@id='manufacturer_email']"));
 		$emailField->clear();
@@ -73,5 +72,98 @@ class RedShopManufacturersManagerPage extends AdminManagerPage
 		$productPerPageField->sendKeys($productPerPage);
 		$elementObject->findElement(By::xPath("//a[@onclick=\"Joomla.submitbutton('save')\"]"))->click();
 		$elementObject->waitForElementUntilIsPresent(By::xPath("//li[contains(text(),'Manufacturer Detail Saved')]"), 10);
+	}
+
+	/**
+	 * Function to Modify an existing Manufacturer
+	 *
+	 * @param string $name
+	 * @param int    $template
+	 * @param string $email
+	 * @param string $url
+	 * @param int    $productPerPage
+	 */
+	public function editManufacturer($name = 'Sample Manufacturer', $template = 0, $email = '', $url = '', $productPerPage = 10)
+	{
+		// Search the name of the Manufacturer using search filter
+		$elementObject = $this->driver;
+		$searchField = $elementObject->findElement(By::xPath("//input[@id='filter']"));
+		$searchField->clear();
+		$searchField = $elementObject->findElement(By::xPath("//input[@id='filter']"));
+		$searchField->sendKeys($name);
+		$elementObject->findElement(By::xPath("//button[@onclick='this.form.submit();']"))->click();
+
+		sleep(2);
+
+		// Select the right manufacturer to edit in the Manufacturers list
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//a[contains(text(),'{$name}')]"), 10);
+		$elementObject->findElement(By::xPath("//a[contains(text(),'{$name}')]"))->click();
+
+		$elementObject->findElement(By::xPath("//select[@id='template_id']//option[@value='{$template}']"))->click();
+
+		$emailField = $elementObject->findElement(By::xPath("//input[@id='manufacturer_email']"));
+		$emailField->clear();
+		$emailField->sendKeys($email);
+		$urlField = $elementObject->findElement(By::xPath("//input[@id='manufacturer_url']"));
+		$urlField->clear();
+		$urlField->sendKeys($url);
+		$productPerPageField = $elementObject->findElement(By::xPath("//input[@id='product_per_page']"));
+		$productPerPageField->clear();
+		$productPerPageField->sendKeys($productPerPage);
+		$elementObject->findElement(By::xPath("//a[@onclick=\"Joomla.submitbutton('save')\"]"))->click();
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//li[contains(text(),'Manufacturer Detail Saved')]"), 10);
+	}
+
+	/**
+	 * Function to delete a Manufacturer
+	 *
+	 * @param   string  $name  Name of the State
+	 *
+	 * @return RedShopStatesManagerPage
+	 */
+	public function deleteManufacturer($name)
+	{
+		$elementObject = $this->driver;
+		$searchField = $elementObject->findElement(By::xPath("//input[@id='filter']"));
+		$searchField->clear();
+		$searchField = $elementObject->findElement(By::xPath("//input[@id='filter']"));
+		$searchField->sendKeys($name);
+		$elementObject->findElement(By::xPath("//button[@onclick='this.form.submit();']"))->click();
+
+		sleep(2);
+
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//tbody/tr/td[3]/a[contains(text(),'" . $name . "')]"), 10);
+		$elementObject->findElement(By::xPath("//a[contains(text(),'{$name}')]/../../td[2]/input"))->click();
+		$elementObject->findElement(By::xPath("//li[@id='toolbar-delete']/a"))->click();
+	}
+
+	/**
+	 * Function to check the existence of a specific Manufacturer searching it by name
+	 *
+	 * @param   string  $name          Name of the State
+	 * @param   string  $functionName  Name of the Function after which search is being called
+	 *
+	 * @return bool
+	 */
+	public function existManufacturer($name, $functionName = 'Search')
+	{
+		// Search the name of the Manufacturer using search filter
+		$elementObject = $this->driver;
+		$searchField = $elementObject->findElement(By::xPath("//input[@id='filter']"));
+		$searchField->clear();
+		$searchField = $elementObject->findElement(By::xPath("//input[@id='filter']"));
+		$searchField->sendKeys($name);
+		$elementObject->findElement(By::xPath("//button[@onclick='this.form.submit();']"))->click();
+
+		sleep(2);
+
+		$existManufacturer = $elementObject->findElements(By::xPath("//tbody/tr/td[3]/a[contains(text(),'" . $name . "')]"));
+
+		if (count($existManufacturer))
+		{
+			return true;
+		}
+
+		return false;
 	}
 }
