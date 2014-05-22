@@ -77,39 +77,33 @@ class RedShopManufacturersManagerPage extends AdminManagerPage
 	/**
 	 * Function to Modify an existing Manufacturer
 	 *
+	 * @param string $originalName
 	 * @param string $name
 	 * @param int    $template
 	 * @param string $email
 	 * @param string $url
 	 * @param int    $productPerPage
 	 */
-	public function editManufacturer($name = 'Sample Manufacturer', $template = 0, $email = '', $url = '', $productPerPage = 10)
+	public function editManufacturer($originalName, $name = 'Sample Manufacturer')
 	{
 		// Search the name of the Manufacturer using search filter
 		$elementObject = $this->driver;
 		$searchField = $elementObject->findElement(By::xPath("//input[@id='filter']"));
 		$searchField->clear();
 		$searchField = $elementObject->findElement(By::xPath("//input[@id='filter']"));
-		$searchField->sendKeys($name);
+		$searchField->sendKeys($originalName);
 		$elementObject->findElement(By::xPath("//button[@onclick='this.form.submit();']"))->click();
 
 		sleep(2);
 
 		// Select the right manufacturer to edit in the Manufacturers list
-		$elementObject->waitForElementUntilIsPresent(By::xPath("//a[contains(text(),'{$name}')]"), 10);
-		$elementObject->findElement(By::xPath("//a[contains(text(),'{$name}')]"))->click();
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//a[contains(text(),'{$originalName}')]"), 10);
+		$elementObject->findElement(By::xPath("//a[contains(text(),'{$originalName}')]"))->click();
 
-		$elementObject->findElement(By::xPath("//select[@id='template_id']//option[@value='{$template}']"))->click();
+		$nameField = $elementObject->findElement(By::xPath("//input[@id='manufacturer_name']"));
+		$nameField->clear();
+		$nameField->sendKeys($name);
 
-		$emailField = $elementObject->findElement(By::xPath("//input[@id='manufacturer_email']"));
-		$emailField->clear();
-		$emailField->sendKeys($email);
-		$urlField = $elementObject->findElement(By::xPath("//input[@id='manufacturer_url']"));
-		$urlField->clear();
-		$urlField->sendKeys($url);
-		$productPerPageField = $elementObject->findElement(By::xPath("//input[@id='product_per_page']"));
-		$productPerPageField->clear();
-		$productPerPageField->sendKeys($productPerPage);
 		$elementObject->findElement(By::xPath("//a[@onclick=\"Joomla.submitbutton('save')\"]"))->click();
 		$elementObject->waitForElementUntilIsPresent(By::xPath("//li[contains(text(),'Manufacturer Detail Saved')]"), 10);
 	}
