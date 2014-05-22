@@ -2345,13 +2345,13 @@ class order_functions
 	 */
 	public function createWebPacklabel($order_id, $specifiedSendDate, $order_status, $paymentstatus)
 	{
-		// If PacSoft is not enable than return
+		// If PacSoft is not enable then return
 		if (!POSTDK_INTEGRATION)
 		{
 			return;
 		}
 
-		// If auto generation is disable than return
+		// If auto generation is disable then return
 		if (!AUTO_GENERATE_LABEL)
 		{
 			return;
