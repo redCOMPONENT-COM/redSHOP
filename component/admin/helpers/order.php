@@ -2345,8 +2345,20 @@ class order_functions
 	 */
 	public function createWebPacklabel($order_id, $specifiedSendDate, $order_status, $paymentstatus)
 	{
-		// Only Execute this function if AUTO_GENERATE_PARCEL is set to yes in configuration
-		if (POSTDK_INTEGRATION && AUTO_GENERATE_PARCEL && ($order_status == "S" && $paymentstatus == "Paid"))
+		// If PacSoft is not enable than return
+		if (!POSTDK_INTEGRATION)
+		{
+			return;
+		}
+
+		// If auto generation is disable than return
+		if (!AUTO_GENERATE_LABEL)
+		{
+			return;
+		}
+
+		// Only Execute this function for selected status match
+		if ($order_status == GENERATE_LABEL_ON_STATUS && $paymentstatus == "Paid")
 		{
 			$shippinghelper = new shipping;
 			$order_details  = $this->getOrderDetails($order_id);

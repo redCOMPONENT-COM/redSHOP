@@ -769,7 +769,8 @@ class Redconfiguration
 						"POSTDK_INTEGRATION"                           => $d ["postdk_integration"],
 						"POSTDANMARK_ADDRESS"                          => $d ["postdk_address"],
 						"POSTDANMARK_POSTALCODE"                       => $d ["postdk_postalcode"],
-						"AUTO_GENERATE_PARCEL"                         => $d ["auto_generate_parcel"],
+						"AUTO_GENERATE_LABEL"                          => $d ["auto_generate_label"],
+						"GENERATE_LABEL_ON_STATUS"                     => $d ["generate_label_on_status"],
 
 						"QUICKLINK_ICON"                               => $d ["quicklink_icon"],
 						"DISPLAY_NEW_ORDERS"                           => $d ["display_new_orders"],
