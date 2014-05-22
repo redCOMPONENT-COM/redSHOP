@@ -3,10 +3,10 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined('_JEXEC') or die ('Restricted access');
+defined('_JEXEC') or die;
 ?>
 <table class="admintable" id="measurement">
 	<tr>
@@ -66,15 +66,43 @@ defined('_JEXEC') or die ('Restricted access');
 		<td class="key">
 			<label for="name">
 				<span class="editlinktip hasTip"
-				      title="<?php echo JText::_('COM_REDSHOP_TOOLTIP_AUTO_GENERATE_PARCEL_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_AUTO_GENERATE_PARCEL'); ?>">
-					<?php echo JText::_('COM_REDSHOP_AUTO_GENERATE_PARCEL_LBL');?>
+				      title="<?php echo JText::_('COM_REDSHOP_POSTDANMARK_AUTO_GENERATE_LABEL_TOOLTIP'); ?>::<?php echo JText::_('COM_REDSHOP_POSTDANMARK_AUTO_GENERATE_LABEL_TOOLTIP_DESC'); ?>">
+					<?php echo JText::_('COM_REDSHOP_POSTDANMARK_AUTO_GENERATE_LABEL_LBL');?>
 				</span>
 			</label>
 		</td>
 		<td>
 			<?php
-				defined('AUTO_GENERATE_PARCEL') ? AUTO_GENERATE_PARCEL : define('AUTO_GENERATE_PARCEL', 1);
-				echo JHTML::_('select.booleanlist', 'auto_generate_parcel', 'class="inputbox" size="1"', AUTO_GENERATE_PARCEL);
+
+			$options   = array();
+			$options[] = JHTML::_('select.option', 0, JText::_('COM_REDSHOP_POSTDANMARK_GENERATE_LABEL_MANUALLY'));
+			$options[] = JHTML::_('select.option', 1, JText::_('COM_REDSHOP_POSTDANMARK_AUTO_GENERATE_LABEL'));
+
+			echo JHTML::_(
+				'select.genericlist',
+				$options,
+				'auto_generate_label',
+				'class="inputbox"',
+				'value',
+				'text',
+				AUTO_GENERATE_LABEL
+			);
+
+			$style = "none";
+
+			if (GENERATE_LABEL_ON_STATUS == 1)
+			{
+				$style = "";
+			}
+			?>
+			<?php
+				$order_functions = new order_functions;
+
+				echo $order_functions->getstatuslist(
+					'generate_label_on_status',
+					GENERATE_LABEL_ON_STATUS,
+					"class=\"inputbox\" size=\"1\" "
+				);
 			?>
 		</td>
 	</tr>
@@ -112,3 +140,26 @@ defined('_JEXEC') or die ('Restricted access');
 		<td><?php echo $this->lists['webpack_enable_sms'];?></td>
 	</tr>
 </table>
+<script type="text/javascript">
+
+window.addEvent('domready', function() {
+
+	var toggleGenerateParcel = function(val){
+		if (val == 1)
+		{
+			document.id('generate_label_on_status').style.display = 'block';
+		}
+		else
+		{
+			document.id('generate_label_on_status').style.display = 'none';
+		}
+	};
+
+	// Set Toggle on page load
+	toggleGenerateParcel(document.id('auto_generate_label').get('value'));
+
+	document.id('auto_generate_label').addEvent('change', function() {
+		toggleGenerateParcel(this.get('value'));
+	});
+});
+</script>
