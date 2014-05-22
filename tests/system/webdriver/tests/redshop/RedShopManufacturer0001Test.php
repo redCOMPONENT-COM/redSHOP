@@ -88,6 +88,20 @@ class RedShopManufacturer0001Test extends JoomlaWebdriverTestCase
 	 */
 	public function updateManufacturer()
 	{
+		$rand = rand();
+		$name = 'RedShopManufacturer' . $rand;
+		$template = 14;
+		$email = $rand . '@' . $rand . '.com';
+		$url = 'http://www.redcomponent.com';
+		$productPerPage = 10;
+		$this->appTestPage->addManufacturer($name, $template, $email, $url, $productPerPage);
+		$this->assertTrue($this->appTestPage->existManufacturer($name), 'Field Must be Present');
 
+		$newName = 'NewManufacturer' . $rand;
+		$this->appTestPage->editManufacturer($name, $newName);
+		$this->assertTrue($this->appTestPage->existManufacturer($newName), 'Field Must be Present');
+
+		$this->appTestPage->deleteManufacturer($newName);
+		$this->assertFalse($this->appTestPage->existManufacturer($newName), 'Field Must not Exist');
 	}
 }
