@@ -1,23 +1,18 @@
 <?php
 /**
- * @package    RedSHOP
- * @subpackage Page
- * @copyright  Copyright (C) 2012 - 2014 redCOMPONENT.com. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     RedSHOP
+ * @subpackage  Page
+ * @copyright   Copyright (C) 2012 - 2014 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 use SeleniumClient\By;
-use SeleniumClient\SelectElement;
-use SeleniumClient\WebDriver;
-use SeleniumClient\WebDriverWait;
-use SeleniumClient\DesiredCapabilities;
-use SeleniumClient\WebElement;
 
 /**
  * Page class for the back-end Manufacturer Redshop.
  *
- * @package    RedShop2.Test
- * @subpackage Webdriver
- * @since      1.0
+ * @package     RedShop2.Test
+ * @subpackage  Webdriver
+ * @since       1.0
  */
 class RedShopManufacturersManagerPage extends AdminManagerPage
 {
@@ -58,7 +53,6 @@ class RedShopManufacturersManagerPage extends AdminManagerPage
 		$nameField->clear();
 		$nameField->sendKeys($name);
 
-		// @Todo: we can valuate using SeleniumClient\SelectElement;
 		$elementObject->findElement(By::xPath("//select[@id='template_id']//option[@value='{$template}']"))->click();
 
 		$emailField = $elementObject->findElement(By::xPath("//input[@id='manufacturer_email']"));
@@ -75,14 +69,12 @@ class RedShopManufacturersManagerPage extends AdminManagerPage
 	}
 
 	/**
-	 * Function to Modify an existing Manufacturer
+	 * Function to Modify an existing Manufacturer name
 	 *
-	 * @param string $originalName
-	 * @param string $name
-	 * @param int    $template
-	 * @param string $email
-	 * @param string $url
-	 * @param int    $productPerPage
+	 * @param   string  $originalName  Name of the Manufacturer before being edited
+	 * @param   string  $name          The new name for the Macturer
+	 *
+	 * @return void
 	 */
 	public function editManufacturer($originalName, $name = 'Sample Manufacturer')
 	{
@@ -139,7 +131,7 @@ class RedShopManufacturersManagerPage extends AdminManagerPage
 	 *
 	 * @return bool
 	 */
-	public function existManufacturer($name, $functionName = 'Search')
+	public function searchManufacturer($name)
 	{
 		// Search the name of the Manufacturer using search filter
 		$elementObject = $this->driver;
