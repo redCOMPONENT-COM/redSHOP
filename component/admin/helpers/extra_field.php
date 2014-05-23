@@ -81,6 +81,9 @@ class extra_field
 
 		if ($field_name != "")
 		{
+			$field_name = explode(',', $field_name);
+			JArrayHelper::toString($field_name);
+			$field_name = implode(',', $field_name);
 			$q .= "AND field_name IN ($field_name) ";
 		}
 
