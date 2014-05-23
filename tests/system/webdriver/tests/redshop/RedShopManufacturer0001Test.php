@@ -73,8 +73,12 @@ class RedShopManufacturer0001Test extends JoomlaWebdriverTestCase
 		$email = $rand . '@' . $rand . '.com';
 		$url = 'http://www.redcomponent.com';
 		$productPerPage = 10;
+
+		// Create a new Manufacturer
 		$this->appTestPage->addManufacturer($name, $template, $email, $url, $productPerPage);
 		$this->assertTrue($this->appTestPage->searchManufacturer($name), 'Field Must be Present');
+
+		// Remove created Manufacturer
 		$this->appTestPage->deleteManufacturer($name);
 		$this->assertFalse($this->appTestPage->searchManufacturer($name), 'Field Must not Exist');
 	}
@@ -94,13 +98,18 @@ class RedShopManufacturer0001Test extends JoomlaWebdriverTestCase
 		$email = $rand . '@' . $rand . '.com';
 		$url = 'http://www.redcomponent.com';
 		$productPerPage = 10;
+
+		// Create a new Manufacturer
 		$this->appTestPage->addManufacturer($name, $template, $email, $url, $productPerPage);
 		$this->assertTrue($this->appTestPage->searchManufacturer($name), 'Field Must be Present');
 
+		// Edit the new Manufacturer
 		$newName = 'NewManufacturer' . $rand;
+
 		$this->appTestPage->editManufacturer($name, $newName);
 		$this->assertTrue($this->appTestPage->searchManufacturer($newName), 'Field Must be Present');
 
+		// Remove the Manufacturer
 		$this->appTestPage->deleteManufacturer($newName);
 		$this->assertFalse($this->appTestPage->searchManufacturer($newName), 'Field Must not Exist');
 	}
