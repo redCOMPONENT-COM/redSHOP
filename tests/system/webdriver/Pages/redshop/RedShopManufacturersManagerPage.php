@@ -126,8 +126,7 @@ class RedShopManufacturersManagerPage extends AdminManagerPage
 	/**
 	 * Function to check the existence of a specific Manufacturer searching it by name
 	 *
-	 * @param   string  $name          Name of the State
-	 * @param   string  $functionName  Name of the Function after which search is being called
+	 * @param   string  $name  Name of the Manufacturer
 	 *
 	 * @return bool
 	 */
