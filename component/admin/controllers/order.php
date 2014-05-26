@@ -298,9 +298,9 @@ class orderController extends JController
 		$shipping_helper = new shipping;
 		ob_clean();
 
-		echo "Order number, Order status, Order date , Shipping method , Shipping user, Shipping address, Shipping postalcode,
-		Shipping city, Shipping country, Company name, Email ,Billing address, Billing postalcode, Billing city, Billing country,
-		Billing User ,";
+		echo "Order number, Order status, Order date , Shipping method , Shipping user, Shipping address,";
+		echo "Shipping postalcode,Shipping city, Shipping country, Company name, Email ,Billing address,";
+		echo "Billing postalcode, Billing city, Billing country,Billing User ,";
 
 		for ($i = 1; $i <= $no_products; $i++)
 		{
@@ -343,7 +343,7 @@ class orderController extends JController
 			for ($it = 0; $it < count($no_items); $it++)
 			{
 				echo str_replace(",", " ", utf8_decode($no_items [$it]->order_item_name)) . " ,";
-				echo "\"" . REDCURRENCY_SYMBOL . "\"" . $no_items [$it]->product_final_price;
+				echo REDCURRENCY_SYMBOL . " " . $no_items [$it]->product_final_price . ",";
 
 				$product_attribute = $producthelper->makeAttributeOrder($no_items [$it]->order_item_id, 0, $no_items [$it]->product_id, 0, 1);
 				$product_attribute = strip_tags(str_replace(",", " ", $product_attribute->product_attribute));
@@ -358,7 +358,7 @@ class orderController extends JController
 				echo str_repeat(' ,', $temp * 3);
 			}
 
-			echo "\"" . REDCURRENCY_SYMBOL . "\"" . $data [$i]->order_total . "\n";
+			echo  REDCURRENCY_SYMBOL . " " . $data [$i]->order_total . "\n";
 		}
 
 		exit ();
@@ -415,8 +415,8 @@ class orderController extends JController
 
 		$no_products = max($product_count);
 
-		echo "Order id,Buyer name,Email Id, PhoneNumber,Billing Address ,Billing City,Billing State,Billing Country,BillingPostcode,
-		Shipping Address,Shipping City,Shipping State,Shipping Country,ShippingPostCode,Order Status,Order Date,";
+		echo "Order id,Buyer name,Email Id, PhoneNumber,Billing Address ,Billing City,Billing State,Billing Country,BillingPostcode,";
+		echo "Shipping Address,Shipping City,Shipping State,Shipping Country,ShippingPostCode,Order Status,Order Date,";
 
 		for ($i = 1; $i <= $no_products; $i++)
 		{

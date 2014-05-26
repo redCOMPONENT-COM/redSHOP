@@ -26,6 +26,10 @@ Desktop.ini
 # Phing build script
 build.properties
 
+# Test related files
+/tests/system/servers/configdef.php
+/tests/system/webdriver/tests/logs/
+
 # Never ignore
 !.gitignore
 !index.html

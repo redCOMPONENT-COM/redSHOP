@@ -150,7 +150,7 @@ class question_detailModelquestion_detail extends JModel
 	{
 		$user = JFactory::getUser();
 		$db = JFactory::getDbo();
-		$row =& $this->getTable();
+		$row = $this->getTable();
 
 		if (!$data['question_id'])
 		{
@@ -276,7 +276,7 @@ class question_detailModelquestion_detail extends JModel
 	 */
 	public function saveorder($cid = array(), $order)
 	{
-		$row =& $this->getTable();
+		$row = $this->getTable();
 		$order = JRequest::getVar('order', array(0), 'post', 'array');
 		$groupings = array();
 
@@ -320,7 +320,7 @@ class question_detailModelquestion_detail extends JModel
 	 */
 	public function orderup()
 	{
-		$row =& $this->getTable();
+		$row = $this->getTable();
 		$row->load($this->_id);
 		$row->move(-1);
 		$row->store();
@@ -336,7 +336,7 @@ class question_detailModelquestion_detail extends JModel
 	 */
 	public function orderdown()
 	{
-		$row =& $this->getTable();
+		$row = $this->getTable();
 		$row->load($this->_id);
 		$row->move(1);
 		$row->store();

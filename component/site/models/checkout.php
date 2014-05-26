@@ -747,7 +747,7 @@ class CheckoutModelCheckout extends JModel
 			{
 				$rowitem->attribute_image = $order_id . $cart[$i]['attributeImage'];
 				$old_media                = JPATH_ROOT . '/components/com_redshop/assets/images/mergeImages/' . $cart[$i]['attributeImage'];
-				$new_media                = JPATH_ROOT . '/components/com_redshop/assets/images/orderMergeImages' . $rowitem->attribute_image;
+				$new_media                = JPATH_ROOT . '/components/com_redshop/assets/images/orderMergeImages/' . $rowitem->attribute_image;
 				copy($old_media, $new_media);
 			}
 			elseif (!empty($vals[1]))
@@ -1845,7 +1845,7 @@ class CheckoutModelCheckout extends JModel
 		// The following are the card-specific checks we undertake.
 
 		// Load an array with the valid prefixes for this card
-		$prefix = split(',', $cards[$cardType]['prefixes']);
+		$prefix = explode(',', $cards[$cardType]['prefixes']);
 
 		// Now see if any of them match what we have in the card number
 
@@ -1853,9 +1853,9 @@ class CheckoutModelCheckout extends JModel
 
 		for ($i = 0; $i < count($prefix); $i++)
 		{
-			$exp = '^' . $prefix [$i];
+			$exp = '/^' . $prefix [$i] . '/';
 
-			if (ereg($exp, $cardNo))
+			if (preg_match($exp, $cardNo))
 			{
 				$PrefixValid = true;
 				break;
@@ -1873,7 +1873,7 @@ class CheckoutModelCheckout extends JModel
 
 		// See if the length is valid for this card
 		$LengthValid = false;
-		$lengths     = split(',', $cards[$cardType]['length']);
+		$lengths     = explode(',', $cards[$cardType]['length']);
 
 		for ($j = 0; $j < count($lengths); $j++)
 		{

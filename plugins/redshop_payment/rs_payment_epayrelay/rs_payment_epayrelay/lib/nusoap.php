@@ -8704,7 +8704,7 @@ class nusoap_parser extends nusoap_base
 				// add placeholder to href array
 				$this->multirefs[$id][$pos] = 'placeholder';
 				// add set a reference to it as the result value
-				$this->message[$pos]['result'] =& $this->multirefs[$id][$pos];
+				$this->message[$pos]['result'] = $this->multirefs[$id][$pos];
 				// build complexType values
 			}
 			elseif ($this->message[$pos]['children'] != '')
@@ -9605,7 +9605,7 @@ class nusoap_client extends nusoap_base
 	public function loadWSDL()
 	{
 		$this->debug('instantiating wsdl class with doc: ' . $this->wsdlFile);
-		$this->wsdl =& new wsdl('', $this->proxyhost, $this->proxyport, $this->proxyusername, $this->proxypassword, $this->timeout, $this->response_timeout, $this->curl_options, $this->use_curl);
+		$this->wsdl = new wsdl('', $this->proxyhost, $this->proxyport, $this->proxyusername, $this->proxypassword, $this->timeout, $this->response_timeout, $this->curl_options, $this->use_curl);
 		$this->wsdl->setCredentials($this->username, $this->password, $this->authtype, $this->certRequest);
 		$this->wsdl->fetchWSDL($this->wsdlFile);
 		$this->checkWSDL();
@@ -9664,7 +9664,7 @@ class nusoap_client extends nusoap_base
 
 				if ($this->persistentConnection == true && is_object($this->persistentConnection))
 				{
-					$http =& $this->persistentConnection;
+					$http = $this->persistentConnection;
 				}
 				else
 				{
