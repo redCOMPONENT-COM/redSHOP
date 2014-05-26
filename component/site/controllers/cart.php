@@ -239,7 +239,7 @@ class CartController extends JController
 
 			if ($discount_amount > 0)
 			{
-				$cart = $this->_session->get('cart');
+				$cart = $session->get('cart');
 			}
 		}
 

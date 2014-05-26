@@ -108,7 +108,7 @@ class template_detailModeltemplate_detail extends JModel
 	{
 		$red_template = new Redtemplate;
 
-		$row =& $this->getTable();
+		$row = $this->getTable();
 
 		if (isset($data['payment_methods']) && count($data['payment_methods']) > 0)
 		{

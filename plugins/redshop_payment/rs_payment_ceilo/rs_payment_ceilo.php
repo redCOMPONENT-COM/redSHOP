@@ -41,7 +41,7 @@ class plgRedshop_paymentrs_payment_ceilo extends JPlugin
 		$currencyClass = new CurrencyHelper;
 		$app = JFactory::getApplication();
 		$objOrder = new order_functions;
-		$uri =& JURI::getInstance();
+		$uri = JURI::getInstance();
 		$url = $uri->root();
 		$user = JFactory::getUser();
 		$sessionid = session_id();

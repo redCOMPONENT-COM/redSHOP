@@ -71,23 +71,25 @@ class fields_detailModelfields_detail extends JModel
 	{
 		if (empty($this->_data))
 		{
-			$detail = new stdClass;
-			$detail->field_id = 0;
-			$detail->field_title = null;
-			$detail->wysiwyg = null;
-			$detail->field_type = 0;
-			$detail->field_name = null;
-			$detail->field_desc = null;
-			$detail->field_class = null;
-			$detail->field_section = 0;
-			$detail->field_maxlength = 0;
-			$detail->field_cols = 0;
-			$detail->field_rows = 0;
-			$detail->field_size = 0;
+			$detail                      = new stdClass;
+			$detail->field_id            = 0;
+			$detail->field_title         = null;
+			$detail->wysiwyg             = null;
+			$detail->field_type          = 0;
+			$detail->field_name          = null;
+			$detail->field_desc          = null;
+			$detail->field_class         = null;
+			$detail->field_section       = 0;
+			$detail->field_maxlength     = 0;
+			$detail->field_cols          = 0;
+			$detail->field_rows          = 0;
+			$detail->field_size          = 0;
 			$detail->field_show_in_front = 0;
-			$detail->required = 0;
-			$detail->published = 1;
-			$detail->display_in_product = 0;
+			$detail->required            = 0;
+			$detail->published           = 1;
+			$detail->display_in_product  = 0;
+			$detail->display_in_checkout = 0;
+
 			$this->_data = $detail;
 
 			return (boolean) $this->_data;
@@ -98,7 +100,7 @@ class fields_detailModelfields_detail extends JModel
 
 	public function store($data)
 	{
-		$row =& $this->getTable();
+		$row = $this->getTable();
 		$field_cid = $data['cid'][0];
 
 		if (!$field_cid)
@@ -282,7 +284,7 @@ class fields_detailModelfields_detail extends JModel
 
 	public function saveorder($cid = array(), $order)
 	{
-		$row =& $this->getTable();
+		$row = $this->getTable();
 		$groupings = array();
 		$conditions = array();
 

@@ -17,7 +17,7 @@ if ($option != 'com_redshop')
 {
 	require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
 	require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/configuration.php';
-	$Redconfiguration = new Redconfiguration();
+	$Redconfiguration = new Redconfiguration;
 	$Redconfiguration->defineDynamicVars();
 }
 
@@ -25,5 +25,5 @@ $shippinghelper = new shipping;
 $shipping_rate_id = $params->get("shipping_rate_id");
 $text = $shippinghelper->getfreeshippingRate($shipping_rate_id);
 
-require(JModuleHelper::getLayoutPath('mod_redshop_promote_free_shipping'));
+require JModuleHelper::getLayoutPath('mod_redshop_promote_free_shipping');
 

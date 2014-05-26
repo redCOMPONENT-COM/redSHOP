@@ -13,19 +13,19 @@ $Itemid = JRequest::getInt('Itemid');
 $user = JFactory::getUser();
 
 $document = JFactory::getDocument();
-include_once("modules/mod_redshop_who_bought/assets/css/skin.css.php");
+include_once "modules/mod_redshop_who_bought/assets/css/skin.css.php";
 JHTML::Script('jquery-1.4.2.min.js', 'components/com_redshop/assets/js/', false);
 JHTML::Script('query.jcarousel.min.js', 'modules/mod_redshop_who_bought/assets/js/', false);
 
 require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
 require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/configuration.php';
-$Redconfiguration = new Redconfiguration();
+$Redconfiguration = new Redconfiguration;
 $Redconfiguration->defineDynamicVars();
 
-$producthelper = new producthelper();
-$redhelper = new redhelper();
-$redTemplate = new Redtemplate();
-$extraField = new extraField();
+$producthelper = new producthelper;
+$redhelper = new redhelper;
+$redTemplate = new Redtemplate;
+$extraField = new extraField;
 $module_id = "mod_" . $module->id;
 
 // 	include redshop js file.
