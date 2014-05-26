@@ -563,10 +563,9 @@ class order_detailController extends JController
 	{
 		$redshopMail = new redshopMail;
 
-		$input       = JFactory::getApplication()->input;
-
-		$orderId     = $input->getInt('orderid');
-		$tmpl        = $input->getCmd('tmpl');
+		$input   = JFactory::getApplication()->input;
+		$orderId = $input->getInt('orderid');
+		$tmpl    = $input->getCmd('tmpl');
 
 		if ($redshopMail->sendOrderMail($orderId))
 		{
