@@ -553,4 +553,37 @@ class order_detailController extends JController
 			$this->setRedirect('index.php?option=' . $option . '&view=order_detail&cid[]=' . $cid[0], $msg);
 		}
 	}
+
+	/**
+	 * Resend Order Mail on Demand
+	 *
+	 * @return  void
+	 */
+	public function resendOrderMail()
+	{
+		$redshopMail = new redshopMail;
+
+		$input       = JFactory::getApplication()->input;
+
+		$orderId     = $input->getInt('orderid');
+		$tmpl        = $input->getCmd('tmpl');
+
+		if ($redshopMail->sendOrderMail($orderId))
+		{
+			$msg = JText::_('COM_REDSHOP_SEND_ORDER_MAIL');
+		}
+		else
+		{
+			$msg = JText::_('COM_REDSHOP_ERROR_SENDING_ORDER_MAIL');
+		}
+
+		if ($tmpl)
+		{
+			$this->setRedirect('index.php?option=com_redshop&view=order_detail&cid[]=' . $orderId . '&tmpl=' . $tmpl, $msg);
+		}
+		else
+		{
+			$this->setRedirect('index.php?option=com_redshop&view=order_detail&cid[]=' . $orderId, $msg);
+		}
+	}
 }
