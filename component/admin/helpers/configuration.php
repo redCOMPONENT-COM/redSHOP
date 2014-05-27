@@ -707,6 +707,7 @@ class Redconfiguration
 						"WEBPACK_ENABLE_SMS"                           => $d ["webpack_enable_sms"],
 						"WEBPACK_ENABLE_EMAIL_TRACK"                   => $d ["webpack_enable_email_track"],
 
+						"STATISTICS_ENABLE"                            => $d ["statistics_enable"],
 						"NEWSLETTER_ENABLE"                            => $d ["newsletter_enable"],
 						"NEWSLETTER_CONFIRMATION"                      => $d ["newsletter_confirmation"],
 						"WATERMARK_IMAGE"                              => $d ["watermark_image"],

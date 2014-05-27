@@ -23,6 +23,21 @@ $url = $uri->root();
 	</tr>
 	<tr>
 		<td width="100" align="right" class="key">
+			<span
+				class="editlinktip hasTip"
+		    	title="<?php echo JText::_('COM_REDSHOP_STATISTICS_ENABLE_TEXT'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_STATISTICS_ENABLE'); ?>"
+	    	>
+				<label for="statistics_enable">
+					<?php  echo JText::_('COM_REDSHOP_STATISTICS_ENABLE_TEXT');?>
+				</label>
+			</span>
+		</td>
+		<td>
+			<?php echo JHTML::_('select.booleanlist', 'statistics_enable', 'class="inputbox" size="1"', STATISTICS_ENABLE); ?>
+		</td>
+	</tr>
+	<tr>
+		<td width="100" align="right" class="key">
 		<span class="editlinktip hasTip"
 		      title="<?php echo JText::_('COM_REDSHOP_NEWSLETTER_ENABLE_TEXT'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_NEWSLETTER_ENABLE'); ?>">
 		<label
