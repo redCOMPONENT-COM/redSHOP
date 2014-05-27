@@ -19,8 +19,13 @@ class statistic
 	{
 		$this->_table_prefix = '#__redshop_';
 		$this->_db           = JFactory::getDbo();
-		statistic::reshop_visitors();
-		statistic::reshop_pageview();
+
+		// Disable Statistics for site viewer and page viewer
+		if (STATISTICS_ENABLE)
+		{
+			$this->reshop_visitors();
+			$this->reshop_pageview();
+		}
 	}
 
 	public function reshop_visitors()
