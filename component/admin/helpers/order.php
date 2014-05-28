@@ -299,9 +299,9 @@ class order_functions
 		}
 
 		$xmlnew = '<?xml version="1.0" encoding="ISO-8859-1"?>
-				<pacsoftonline>
+				<unifaunonline>
 				<meta>
-				<val n="printer">1</val>
+				<val n="created">"' . date('Y-m-d H:i') . '"</val>
 				</meta>
 				<receiver rcvid="' . $shippingInfo->users_info_id . '">
 				<val n="name"><![CDATA[' . $full_name . ']]></val>
@@ -330,7 +330,7 @@ class order_functions
 				<val n="packagecode">PC</val>
 				</container>
 				</shipment>
-				</pacsoftonline>';
+				</unifaunonline>';
 
 		$postURL = "https://www.pacsoftonline.com/ufoweb/order?session=po_DK&user=" . POSTDK_CUSTOMER_NO . "&pin=" . POSTDK_CUSTOMER_PASSWORD . "&type=xml";
 		$ch = curl_init();
