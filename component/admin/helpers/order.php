@@ -332,7 +332,11 @@ class order_functions
 				</shipment>
 				</unifaunonline>';
 
-		$postURL = "https://www.pacsoftonline.com/ufoweb/order?session=po_DK&user=" . POSTDK_CUSTOMER_NO . "&pin=" . POSTDK_CUSTOMER_PASSWORD . "&type=xml";
+		$postURL = "https://www.pacsoftonline.com/ufoweb/order?session=po_DK"
+					. "&user=" . POSTDK_CUSTOMER_NO
+					. "&pin=" . POSTDK_CUSTOMER_PASSWORD
+					. "&developerid=" . POSTDK_DEVELOPER_ID
+					. "&type=xml";
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_URL, $postURL);
 		curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: text/xml'));
