@@ -17,7 +17,6 @@ class statistic
 
 	public function __construct()
 	{
-		$this->_table_prefix = '#__redshop_';
 		$this->_db           = JFactory::getDbo();
 
 		// Add entry to statistics if Statistics is enabled in configuration
@@ -35,7 +34,7 @@ class statistic
 		$sid  = session_id();
 		$user = JFactory::getUser();
 
-		$q = "SELECT * FROM " . $this->_table_prefix . "siteviewer "
+		$q = "SELECT * FROM #__redshop_siteviewer "
 			. "WHERE session_id = " . $db->quote($sid);
 		$this->_db->setQuery($q);
 		$data = $this->_db->loadObjectList();
@@ -43,7 +42,7 @@ class statistic
 
 		if (!count($data))
 		{
-			$query = "INSERT INTO " . $this->_table_prefix . "siteviewer "
+			$query = "INSERT INTO #__redshop_siteviewer "
 				. "(session_id, user_id, created_date) "
 				. "VALUES (" . $db->quote($sid) . ", " . (int) $user->id . "," . (int) $date . ")";
 			$this->_db->setQuery($query);
@@ -81,7 +80,7 @@ class statistic
 
 		if ($section != "")
 		{
-			$q = "SELECT * FROM " . $this->_table_prefix . "pageviewer "
+			$q = "SELECT * FROM #__redshop_pageviewer "
 				. "WHERE session_id = " . $db->quote($sid) . " "
 				. "AND section = " . $db->quote($view) . " "
 				. "AND section_id = " . (int) $sectionid;
@@ -93,7 +92,7 @@ class statistic
 
 			if (!count($data))
 			{
-				$query = "INSERT INTO " . $this->_table_prefix . "pageviewer "
+				$query = "INSERT INTO #__redshop_pageviewer "
 					. "(session_id, user_id, section, section_id, created_date) "
 					. "VALUES (" . $db->quote($sid) . "," . (int) $user->id . "," . $db->quote($view) . "," . (int) $sectionid . "," . (int) $date . ")";
 				$this->_db->setQuery($query);
