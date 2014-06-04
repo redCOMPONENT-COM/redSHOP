@@ -20,7 +20,7 @@ class statistic
 		$this->_table_prefix = '#__redshop_';
 		$this->_db           = JFactory::getDbo();
 
-		// Disable Statistics for site viewer and page viewer
+		// Add entry to statistics if Statistics is enabled in configuration
 		if (STATISTICS_ENABLE)
 		{
 			$this->reshop_visitors();
