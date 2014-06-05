@@ -35,15 +35,19 @@ $url = $uri->root();
 		<td>
 			<?php
 
-			$defualtStatisticValue = 1;
-
-			if (defined('STATISTICS_ENABLE'))
+			if (!defined('STATISTICS_ENABLE'))
 			{
-				$defualtStatisticValue = STATISTICS_ENABLE;
+				$defaultStatisticValue = 1;
+
+				define('STATISTICS_ENABLE', 1);
+			}
+			else
+			{
+				$defaultStatisticValue = STATISTICS_ENABLE;
 			}
 
 			?>
-			<?php echo JHTML::_('select.booleanlist', 'statistics_enable', 'class="inputbox" size="1"', $defualtStatisticValue); ?>
+			<?php echo JHTML::_('select.booleanlist', 'statistics_enable', 'class="inputbox" size="1"', $defaultStatisticValue); ?>
 		</td>
 	</tr>
 	<tr>
