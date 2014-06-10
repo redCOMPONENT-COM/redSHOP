@@ -28,7 +28,7 @@ class RedShopGiftCardsManagerPage extends AdminManagerPage
 	 *
 	 * @since    1.0
 	 */
-	protected $waitForXpath = "//h2[contains(text(),'Gift Card Management')]";
+	protected $waitForXpath = "//h2[text() = 'Gift Card Management']";
 
 	/**
 	 * URL used to uniquely identify this page
@@ -41,11 +41,10 @@ class RedShopGiftCardsManagerPage extends AdminManagerPage
 	/**
 	 * Function to Add a Card
 	 *
-	 * @param   string  $name         Name of the Card
-	 * @param   string  $price        Price of the card
-	 * @param   string  $value        Value of the Card
-	 * @param   string  $validity     Validity of the Card
-	 * @param   string  $description  Description of the Card
+	 * @param   string  $name      Name of the Card
+	 * @param   string  $price     Price of the card
+	 * @param   string  $value     Value of the Card
+	 * @param   string  $validity  Validity of the Card
 	 *
 	 * @return RedShopGiftCardsManagerPage
 	 */
@@ -67,7 +66,7 @@ class RedShopGiftCardsManagerPage extends AdminManagerPage
 		$validityField->clear();
 		$validityField->sendKeys($validity);
 		$elementObject->findElement(By::xPath("//a[@onclick=\"Joomla.submitbutton('save')\"]"))->click();
-		$elementObject->waitForElementUntilIsPresent(By::xPath("//li[contains(text(),'Gift Card Saved')]"), 10);
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//li[text() = 'Gift Card Saved.']"), 10);
 	}
 
 	/**
@@ -82,7 +81,7 @@ class RedShopGiftCardsManagerPage extends AdminManagerPage
 	public function editCard($field, $newValue, $name)
 	{
 		$elementObject = $this->driver;
-		$elementObject->waitForElementUntilIsPresent(By::xPath("//tbody/tr/td[3]/a[contains(text(),'" . $name . "')]"), 10);
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//tbody/tr/td[3]/a[text() = '" . $name . "']"), 10);
 		$row = $this->getRowNumber($name) - 1;
 		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='cb" . $row . "']"), 10);
 		$elementObject->findElement(By::xPath("//input[@id='cb" . $row . "']"))->click();
@@ -114,7 +113,7 @@ class RedShopGiftCardsManagerPage extends AdminManagerPage
 		}
 
 		$elementObject->findElement(By::xPath("//a[@onclick=\"Joomla.submitbutton('save')\"]"))->click();
-		$elementObject->waitForElementUntilIsPresent(By::xPath("//li[contains(text(),'Gift Card Saved')]"), 10);
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//li[text() = 'Gift Card Saved.']"), 10);
 	}
 
 	/**
@@ -127,7 +126,7 @@ class RedShopGiftCardsManagerPage extends AdminManagerPage
 	public function deleteCard($name)
 	{
 		$elementObject = $this->driver;
-		$elementObject->waitForElementUntilIsPresent(By::xPath("//tbody/tr/td[3]/a[contains(text(),'" . $name . "')]"), 10);
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//tbody/tr/td[3]/a[text() = '" . $name . "']"), 10);
 		$row = $this->getRowNumber($name) - 1;
 		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='cb" . $row . "']"), 10);
 		$elementObject->findElement(By::xPath("//input[@id='cb" . $row . "']"))->click();
@@ -171,7 +170,7 @@ class RedShopGiftCardsManagerPage extends AdminManagerPage
 	public function changeCardState($name, $state = 'published')
 	{
 		$elementObject = $this->driver;
-		$elementObject->waitForElementUntilIsPresent(By::xPath("//tbody/tr/td[3]/a[contains(text(),'" . $name . "')]"), 10);
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//tbody/tr/td[3]/a[text() = '" . $name . "']"), 10);
 		$row = $this->getRowNumber($name) - 1;
 		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='cb" . $row . "']"), 10);
 		$elementObject->findElement(By::xPath("//input[@id='cb" . $row . "']"))->click();
@@ -198,7 +197,7 @@ class RedShopGiftCardsManagerPage extends AdminManagerPage
 	public function copyCard($name)
 	{
 		$elementObject = $this->driver;
-		$elementObject->waitForElementUntilIsPresent(By::xPath("//tbody/tr/td[3]/a[contains(text(),'" . $name . "')]"), 10);
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//tbody/tr/td[3]/a[text() = '" . $name . "']"), 10);
 		$row = $this->getRowNumber($name) - 1;
 		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='cb" . $row . "']"), 10);
 		$elementObject->findElement(By::xPath("//input[@id='cb" . $row . "']"))->click();
@@ -224,7 +223,7 @@ class RedShopGiftCardsManagerPage extends AdminManagerPage
 			$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='cb" . $row . "']"), 10);
 		}
 
-		$arrayElement = $elementObject->findElements(By::xPath("//tbody/tr/td[3]/a[contains(text(),'" . $name . "')]"));
+		$arrayElement = $elementObject->findElements(By::xPath("//tbody/tr/td[3]/a[text() = '" . $name . "']"));
 
 		if (count($arrayElement))
 		{
