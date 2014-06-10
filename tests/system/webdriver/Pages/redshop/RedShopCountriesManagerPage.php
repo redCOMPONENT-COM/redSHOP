@@ -28,7 +28,7 @@ class RedShopCountriesManagerPage extends AdminManagerPage
 	 *
 	 * @since    1.0
 	 */
-	protected $waitForXpath = "//h2[contains(text(),'Country Management')]";
+	protected $waitForXpath = "//h2[text() = 'Country Management']";
 
 	/**
 	 * URL used to uniquely identify this page
@@ -66,7 +66,7 @@ class RedShopCountriesManagerPage extends AdminManagerPage
 		$countryField->clear();
 		$countryField->sendKeys($country);
 		$elementObject->findElement(By::xPath("//a[@onclick=\"Joomla.submitbutton('save')\"]"))->click();
-		$elementObject->waitForElementUntilIsPresent(By::xPath("//li[contains(text(),'Country detail saved')]"), 10);
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//li[text() = 'Country detail saved']"), 10);
 	}
 
 	/**
@@ -81,7 +81,7 @@ class RedShopCountriesManagerPage extends AdminManagerPage
 	public function editCountry($field, $newValue, $name)
 	{
 		$elementObject = $this->driver;
-		$elementObject->waitForElementUntilIsPresent(By::xPath("//tbody/tr/td[3]/a[contains(text(),'" . $name . "')]"), 10);
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//tbody/tr/td[3]/a[text() = '" . $name . "']"), 10);
 		$row = $this->getRowNumber($name) - 1;
 		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='cb" . $row . "']"), 10);
 		$elementObject->findElement(By::xPath("//input[@id='cb" . $row . "']"))->click();
@@ -113,7 +113,7 @@ class RedShopCountriesManagerPage extends AdminManagerPage
 		}
 
 		$elementObject->findElement(By::xPath("//a[@onclick=\"Joomla.submitbutton('save')\"]"))->click();
-		$elementObject->waitForElementUntilIsPresent(By::xPath("//li[contains(text(),'Country detail saved')]"), 10);
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//li[text() = 'Country detail saved']"), 10);
 	}
 
 	/**
@@ -126,7 +126,7 @@ class RedShopCountriesManagerPage extends AdminManagerPage
 	public function deleteCountry($name)
 	{
 		$elementObject = $this->driver;
-		$elementObject->waitForElementUntilIsPresent(By::xPath("//tbody/tr/td[3]/a[contains(text(),'" . $name . "')]"), 10);
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//tbody/tr/td[3]/a[text() = '" . $name . "']"), 10);
 		$row = $this->getRowNumber($name) - 1;
 		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='cb" . $row . "']"), 10);
 		$elementObject->findElement(By::xPath("//input[@id='cb" . $row . "']"))->click();
@@ -149,12 +149,12 @@ class RedShopCountriesManagerPage extends AdminManagerPage
 		{
 			$elementObject->findElement(By::xPath("//a[contains(.,'Country Name')]"))->click();
 			sleep(1);
-			$elementObject->waitForElementUntilIsPresent(By::xPath("//tbody/tr/td[3]/a[contains(text(),'" . $name . "')]"), 10);
+			$elementObject->waitForElementUntilIsPresent(By::xPath("//tbody/tr/td[3]/a[text() = '" . $name . "']"), 10);
 			$row = $this->getRowNumber($name) - 1;
 			$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='cb" . $row . "']"), 10);
 		}
 
-		$arrayElement = $elementObject->findElements(By::xPath("//tbody/tr/td[3]/a[contains(text(),'" . $name . "')]"));
+		$arrayElement = $elementObject->findElements(By::xPath("//tbody/tr/td[3]/a[text() = '" . $name . "']"));
 
 		if (count($arrayElement))
 		{
@@ -176,7 +176,7 @@ class RedShopCountriesManagerPage extends AdminManagerPage
 	public function getTwoCode($name)
 	{
 		$elementObject = $this->driver;
-		$elementObject->waitForElementUntilIsPresent(By::xPath("//tbody/tr/td[3]/a[contains(text(),'" . $name . "')]"), 10);
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//tbody/tr/td[3]/a[text() = '" . $name . "']"), 10);
 		$row = $this->getRowNumber($name);
 		$fieldValue = $elementObject->findElement(By::xPath("//tbody/tr[" . $row . "]/td[5]"))->getText();
 
@@ -193,7 +193,7 @@ class RedShopCountriesManagerPage extends AdminManagerPage
 	public function getThreeCode($name)
 	{
 		$elementObject = $this->driver;
-		$elementObject->waitForElementUntilIsPresent(By::xPath("//tbody/tr/td[3]/a[contains(text(),'" . $name . "')]"), 10);
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//tbody/tr/td[3]/a[text() = '" . $name . "']"), 10);
 		$row = $this->getRowNumber($name);
 		$fieldValue = $elementObject->findElement(By::xPath("//tbody/tr[" . $row . "]/td[4]"))->getText();
 
@@ -210,7 +210,7 @@ class RedShopCountriesManagerPage extends AdminManagerPage
 	public function getCountry($name)
 	{
 		$elementObject = $this->driver;
-		$elementObject->waitForElementUntilIsPresent(By::xPath("//tbody/tr/td[3]/a[contains(text(),'" . $name . "')]"), 10);
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//tbody/tr/td[3]/a[text() = '" . $name . "']"), 10);
 		$row = $this->getRowNumber($name);
 		$fieldValue = $elementObject->findElement(By::xPath("//tbody/tr[" . $row . "]/td[6]"))->getText();
 
