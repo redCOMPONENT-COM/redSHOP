@@ -28,7 +28,7 @@ class RedShopFieldsManagerPage extends AdminManagerPage
 	 *
 	 * @since    1.0
 	 */
-	protected $waitForXpath = "//h2[contains(text(),'Custom Field Management')]";
+	protected $waitForXpath = "//h2[text() = 'Custom Field Management']";
 
 	/**
 	 * URL used to uniquely identify this page
@@ -67,12 +67,12 @@ class RedShopFieldsManagerPage extends AdminManagerPage
 		$classField = $elementObject->findElement(By::xPath("//input[@id='field_class']"));
 		$classField->clear();
 		$classField->sendKeys($class);
-		$elementObject->findElement(By::xPath("//option[contains(text(),'" . $type . "')]"))->click();
+		$elementObject->findElement(By::xPath("//option[text() = '" . $type . "']"))->click();
 		sleep(2);
-		$elementObject->findElement(By::xPath("//option[contains(text(),'" . $section . "')]"))->click();
+		$elementObject->findElement(By::xPath("//option[text() = '" . $section . "']"))->click();
 		sleep(2);
 		$elementObject->findElement(By::xPath("//a[@onclick=\"Joomla.submitbutton('save')\"]"))->click();
-		$elementObject->waitForElementUntilIsPresent(By::xPath("//li[contains(text(),'Field details saved')]"), 10);
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//li[text() = 'Field details saved']"), 10);
 	}
 
 	/**
@@ -95,7 +95,7 @@ class RedShopFieldsManagerPage extends AdminManagerPage
 		$searchField->sendKeys($fieldTitle);
 		$elementObject->findElement(By::xPath("//button[@onclick='this.form.submit();']"))->click();
 		sleep(2);
-		$elementObject->waitForElementUntilIsPresent(By::xPath("//tbody/tr/td[3]/a[contains(text(),'" . $fieldTitle . "')]"), 10);
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//tbody/tr/td[3]/a[text() = '" . $fieldTitle . "']"), 10);
 		$row = $this->getRowNumber($fieldTitle) - 1;
 		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='cb" . $row . "']"), 10);
 		$elementObject->findElement(By::xPath("//input[@id='cb" . $row . "']"))->click();
@@ -110,11 +110,11 @@ class RedShopFieldsManagerPage extends AdminManagerPage
 				$nameField->sendKeys($newValue);
 				break;
 			case "Type":
-				$elementObject->findElement(By::xPath("//option[contains(text(),'" . $newValue . "')]"))->click();
+				$elementObject->findElement(By::xPath("//option[text() = '" . $newValue . "']"))->click();
 				sleep(2);
 				break;
 			case "Section":
-				$elementObject->findElement(By::xPath("//option[contains(text(),'" . $newValue . "')]"))->click();
+				$elementObject->findElement(By::xPath("//option[text() = '" . $newValue . "']"))->click();
 				sleep(2);
 				break;
 			case "Class":
@@ -130,7 +130,7 @@ class RedShopFieldsManagerPage extends AdminManagerPage
 		}
 
 		$elementObject->findElement(By::xPath("//a[@onclick=\"Joomla.submitbutton('save')\"]"))->click();
-		$elementObject->waitForElementUntilIsPresent(By::xPath("//li[contains(text(),'Field details saved')]"), 10);
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//li[text() = 'Field details saved']"), 10);
 	}
 
 	/**
@@ -149,7 +149,7 @@ class RedShopFieldsManagerPage extends AdminManagerPage
 		$searchField->sendKeys($fieldTitle);
 		$elementObject->findElement(By::xPath("//button[@onclick='this.form.submit();']"))->click();
 		sleep(2);
-		$elementObject->waitForElementUntilIsPresent(By::xPath("//tbody/tr/td[3]/a[contains(text(),'" . $fieldTitle . "')]"), 10);
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//tbody/tr/td[3]/a[text() = '" . $fieldTitle . "']"), 10);
 		$row = $this->getRowNumber($fieldTitle) - 1;
 		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='cb" . $row . "']"), 10);
 		$elementObject->findElement(By::xPath("//input[@id='cb" . $row . "']"))->click();
@@ -181,7 +181,7 @@ class RedShopFieldsManagerPage extends AdminManagerPage
 			$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='cb" . $row . "']"), 10);
 		}
 
-		$arrayElement = $elementObject->findElements(By::xPath("//tbody/tr/td[3]/a[contains(text(),'" . $fieldTitle . "')]"));
+		$arrayElement = $elementObject->findElements(By::xPath("//tbody/tr/td[3]/a[text() = '" . $fieldTitle . "']"));
 
 		if (count($arrayElement))
 		{
@@ -211,7 +211,7 @@ class RedShopFieldsManagerPage extends AdminManagerPage
 		$searchField->sendKeys($fieldTitle);
 		$elementObject->findElement(By::xPath("//button[@onclick='this.form.submit();']"))->click();
 		sleep(2);
-		$elementObject->waitForElementUntilIsPresent(By::xPath("//tbody/tr/td[3]/a[contains(text(),'" . $fieldTitle . "')]"), 10);
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//tbody/tr/td[3]/a[text() = '" . $fieldTitle . "']"), 10);
 		$row = $this->getRowNumber($fieldTitle) - 1;
 		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='cb" . $row . "']"), 10);
 		$elementObject->findElement(By::xPath("//input[@id='cb" . $row . "']"))->click();
