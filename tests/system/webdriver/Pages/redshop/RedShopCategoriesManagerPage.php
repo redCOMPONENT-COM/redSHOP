@@ -28,7 +28,7 @@ class RedShopCategoriesManagerPage extends AdminManagerPage
 	 *
 	 * @since    1.0
 	 */
-	protected $waitForXpath = "//h2[contains(text(),'Category Management')]";
+	protected $waitForXpath = "//h2[text() = 'Category Management']";
 
 	/**
 	 * URL used to uniquely identify this page
@@ -79,7 +79,7 @@ class RedShopCategoriesManagerPage extends AdminManagerPage
 		$searchField = $elementObject->findElement(By::xPath("//input[@id='category_main_filter']"));
 		$searchField->sendKeys($categoryName);
 		$elementObject->findElement(By::xPath("//button[@onclick=\"document.adminForm.submit();\"]"))->click();
-		$elementObject->waitForElementUntilIsPresent(By::xPath("//tbody/tr/td[3]/a[contains(text(),'" . $categoryName . "')]"), 10);
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//tbody/tr/td[3]/a[text() = '" . $categoryName . "']"), 10);
 		$row = $this->getRowNumber($categoryName) - 1;
 		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='cb" . $row . "']"), 10);
 		$elementObject->findElement(By::xPath("//input[@id='cb" . $row . "']"))->click();
@@ -120,7 +120,7 @@ class RedShopCategoriesManagerPage extends AdminManagerPage
 		$searchField = $elementObject->findElement(By::xPath("//input[@id='category_main_filter']"));
 		$searchField->sendKeys($categoryName);
 		$elementObject->findElement(By::xPath("//button[@onclick=\"document.adminForm.submit();\"]"))->click();
-		$elementObject->waitForElementUntilIsPresent(By::xPath("//tbody/tr/td[3]/a[contains(text(),'" . $categoryName . "')]"), 10);
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//tbody/tr/td[3]/a[text() = '" . $categoryName . "']"), 10);
 		$row = $this->getRowNumber($categoryName) - 1;
 		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='cb" . $row . "']"), 10);
 		$elementObject->findElement(By::xPath("//input[@id='cb" . $row . "']"))->click();
@@ -151,7 +151,7 @@ class RedShopCategoriesManagerPage extends AdminManagerPage
 			$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='cb" . $row . "']"), 10);
 		}
 
-		$arrayElement = $elementObject->findElements(By::xPath("//tbody/tr/td[3]/a[contains(text(),'" . $categoryName . "')]"));
+		$arrayElement = $elementObject->findElements(By::xPath("//tbody/tr/td[3]/a[text() = '" . $categoryName . "']"));
 
 		if (count($arrayElement))
 		{
@@ -210,7 +210,7 @@ class RedShopCategoriesManagerPage extends AdminManagerPage
 		$searchField = $elementObject->findElement(By::xPath("//input[@id='category_main_filter']"));
 		$searchField->sendKeys($categoryName);
 		$elementObject->findElement(By::xPath("//button[@onclick=\"document.adminForm.submit();\"]"))->click();
-		$elementObject->waitForElementUntilIsPresent(By::xPath("//tbody/tr/td[3]/a[contains(text(),'" . $categoryName . "')]"), 10);
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//tbody/tr/td[3]/a[text() = '" . $categoryName . "']"), 10);
 		$row = $this->getRowNumber($categoryName) - 1;
 		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='cb" . $row . "']"), 10);
 		$elementObject->findElement(By::xPath("//input[@id='cb" . $row . "']"))->click();
@@ -242,7 +242,7 @@ class RedShopCategoriesManagerPage extends AdminManagerPage
 		$searchField = $elementObject->findElement(By::xPath("//input[@id='category_main_filter']"));
 		$searchField->sendKeys($categoryName);
 		$elementObject->findElement(By::xPath("//button[@onclick=\"document.adminForm.submit();\"]"))->click();
-		$elementObject->waitForElementUntilIsPresent(By::xPath("//tbody/tr/td[3]/a[contains(text(),'" . $categoryName . "')]"), 10);
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//tbody/tr/td[3]/a[text() = '" . $categoryName . "']"), 10);
 		$row = $this->getRowNumber($categoryName) - 1;
 		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='cb" . $row . "']"), 10);
 		$elementObject->findElement(By::xPath("//input[@id='cb" . $row . "']"))->click();
