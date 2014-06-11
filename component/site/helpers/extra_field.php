@@ -532,7 +532,7 @@ class extraField
 														this.disable();
 													}
 													,onComplete :function(file,response){
-														jQuery("#ol_' . $unique . '")).html(response);
+														jQuery("#ol_' . $unique . '").html(response);
 
 														var uploadfiles = jQuery("#ol_' . $unique . ' li").map(function(){
 															return jQuery(this).text();
