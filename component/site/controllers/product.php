@@ -791,12 +791,30 @@ class ProductController extends JController
 		$app = JFactory::getApplication();
 
 		$uploaddir  = JPATH_COMPONENT_SITE . '/assets/document/product/';
-		$name       = $app->input->getCmd('mname');
+		$name       = $app->input->getCmd('mname') . '_' . $app->input->getInt('product_id');
 
 		if (isset($_FILES[$name]))
 		{
-			$filename   = time() . '_' . basename($_FILES[$name]['name']);
-			$uploadfile = $uploaddir . $filename;
+			$fileExtension = JFile::getExt($_FILES[$name]['name']);
+
+			$fileOrgName = $_FILES[$name]['name'];
+			$filename    = time()
+						. '_'
+						. JFilterOutput::stringURLSafe(JFile::stripExt($fileOrgName))
+						. '.'
+						. $fileExtension;
+
+			$uploadfile = JPath::clean($uploaddir . $filename);
+
+			$legalExts = explode(",", MEDIA_ALLOWED_MIME_TYPE);
+
+			// If Extension is not legal than don't upload file
+			if (!in_array($fileExtension, $legalExts))
+			{
+				echo JText::_('COM_REDSHOP_FILE_EXTENSION_NOT_ALLOWED');
+
+				$app->close();
+			}
 
 			if (move_uploaded_file($_FILES[$name]['tmp_name'], $uploadfile))
 			{
@@ -809,7 +827,7 @@ class ProductController extends JController
 				$sendData['action']     = JURI::root() . 'index.php?tmpl=component&option=com_redshop&view=product&task=removeAjaxUpload';
 
 				echo "<li id='uploadNameSpan" . $random . "' name='" . $filename . "'>"
-						. "<span>" . $filename . "</span>"
+						. "<span>" . $fileOrgName . "</span>"
 						. "<a href='javascript:removeAjaxUpload(" . json_encode($sendData) . ");'>&nbsp;Remove</a>"
 					. "</li>";
 			}
