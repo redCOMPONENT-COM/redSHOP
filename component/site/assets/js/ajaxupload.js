@@ -694,21 +694,20 @@
 function removeAjaxUpload(removeData)
 {
     jQuery.ajax({
+        type: "POST",
         url: removeData.action,
-        type: 'POST',
         data: {fileName: removeData.name},
-    })
-    .done(function() {
+        success: function(data){
+            jQuery('#uploadNameSpan' + removeData.id).remove();
 
-        jQuery('#uploadNameSpan' + removeData.id).remove();
-
-        jQuery('#rs_upload_' + removeData.product_id).val(
-            jQuery("#ol_" + removeData.uniqueOl + " li").map(function() {
-                return jQuery(this).attr("name");
-            }).get().join(",")
-        );
-    })
-    .fail(function() {
-        console.log("error");
+            jQuery('#rs_upload_' + removeData.product_id).val(
+                jQuery("#ol_" + removeData.uniqueOl + " li").map(function() {
+                    return jQuery(this).attr("name");
+                }).get().join(",")
+            );
+        },
+        fail: function() {
+            console.log("error");
+        }
     });
 }
