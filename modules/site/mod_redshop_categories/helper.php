@@ -38,9 +38,11 @@ class modProMenuHelper
 	{
 
 		// Copy the Array into an Array with auto_incrementing Indexes
-		$key = array_keys($categoryArr); // Array of category table primary keys
+		// Array of category table primary keys
+		$key = array_keys($categoryArr);
 
-		$nrows = $size = sizeOf($key); // Category count
+		// Category count
+		$nrows = $size = sizeOf($key);
 
 		/** FIRST STEP
 		 * Order the Category Array and build a Tree of it
@@ -54,12 +56,14 @@ class modProMenuHelper
 		$parent_ids      = array();
 		$parent_ids_hash = array();
 
-		//Build an array of category references
+		// Build an array of category references
 		$category_tmp = Array();
+
 		for ($i = 0; $i < $size; $i++)
 		{
 			$category_tmp[$i] = $categoryArr[$key[$i]];
 			$parent_ids[$i]   = $category_tmp[$i]['category_parent_id'];
+
 			if ($category_tmp[$i]["category_parent_id"] == $parent_selected)
 			{
 				array_push($id_list, $category_tmp[$i]["category_child_id"]);
@@ -72,7 +76,6 @@ class modProMenuHelper
 			if (isset($parent_ids_hash[$parent_id]))
 			{
 				$parent_ids_hash[$parent_id][$i] = $parent_id;
-
 			}
 			else
 			{
@@ -81,7 +84,10 @@ class modProMenuHelper
 		}
 
 		$loop_count = 0;
-		$watch      = array(); // Hash to store children
+
+		// Hash to store children
+		$watch      = array();
+
 		while (count($id_list) < $nrows)
 		{
 			if ($loop_count > $nrows)
@@ -89,6 +95,7 @@ class modProMenuHelper
 			$id_temp    = array();
 			$row_temp   = array();
 			$depth_temp = array();
+
 			for ($i = 0; $i < count($id_list); $i++)
 			{
 				$id    = $id_list[$i];
@@ -252,6 +259,7 @@ class modProMenuHelper
 
 		$show_noofproducts = $params->get('show_noofproducts', 'yes');
 		$num               = $this->product_count($category_id);
+
 		if ($show_noofproducts == 'yes')
 		{
 			if (empty($num) || $this->has_childs($category_id))
@@ -328,31 +336,30 @@ class modProMenuHelper
 			$nrows = count($row_list);
 		}
 
+		$depth = max($depth_list);
+
 		// Now show the categories
 		for ($n = 0; $n < $nrows; $n++)
 		{
-
 			if (!isset($row_list[$n]) || !isset($category_tmp[$row_list[$n]]["category_child_id"]))
 				continue;
 			if ($category_id == $category_tmp[$row_list[$n]]["category_child_id"] || $category_tmp[$row_list[$n]]["category_child_id"] == $root["category_child_id"]
-				|| in_array($category_tmp[$row_list[$n]]["category_child_id"], $allowed_subcategories)
-			)
+				|| in_array($category_tmp[$row_list[$n]]["category_child_id"], $allowed_subcategories))
 				$style = $highlighted_style;
 			else
 				$style = "";
 
 			$allowed = false;
+
 			if ($depth_list[$n] > 0)
 			{
 				// Subcategory!
 				if ((isset($root) && in_array($category_tmp[$row_list[$n]]["category_child_id"], $allowed_subcategories))
 					|| $category_tmp[$row_list[$n]]["category_parent_id"] == $category_id
 					|| $category_tmp[$row_list[$n]]["category_parent_id"] == @$categories[$category_id]["category_parent_id"]
-						|| $category_tmp[$row_list[$n]]["category_parent_id"] == $root["category_child_id"]
-				)
+					|| $category_tmp[$row_list[$n]]["category_parent_id"] == $root["category_child_id"])
 				{
 					$allowed = true;
-
 				}
 			}
 			else
@@ -364,21 +371,28 @@ class modProMenuHelper
 			{
 				if ($n == 0)
 					$html .= '<ul>';
+
 				if ($style == $highlighted_style)
 				{
 					$append = '&id=active_menu';
-					$class  = "class='active'";
+					$class  = "class='parent active'";
 				}
 
 				if ($depth_list[$n] > 0)
 				{
 					$css_class = "sublevel";
 
+					if ($depth == $depth_list[$n] && $style == $highlighted_style)
+					{
+						$class  = "class='active'";
+					}
+
 					if ($depth_list[$n] > ($sub))
 					{
 						$html .= '<ul>';
 						$sub = $depth_list[$n];
 					}
+
 					if ($depth_list[$n] < ($sub))
 					{
 						for ($i = $depth_list[$n]; $i < $sub; $i++)
@@ -390,11 +404,13 @@ class modProMenuHelper
 				else
 				{
 					$css_class = $links_css_class;
+
 					if ($sub > 0)
 					{
 						$html .= str_repeat("</ul></li>", $sub);
 						$sub = 0;
 					}
+
 					$html .= "</li>";
 				}
 
