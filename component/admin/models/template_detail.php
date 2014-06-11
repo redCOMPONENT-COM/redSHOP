@@ -9,7 +9,6 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
-//Import filesystem libraries. Perhaps not necessary, but does not hurt
 jimport('joomla.filesystem.file');
 
 class template_detailModeltemplate_detail extends JModel
@@ -287,7 +286,6 @@ class template_detailModeltemplate_detail extends JModel
 
 			// Lets get to it and checkout the thing...
 			$template_detail = $this->getTable('template_detail');
-
 
 			if (!$template_detail->checkout($uid, $this->_id))
 			{
