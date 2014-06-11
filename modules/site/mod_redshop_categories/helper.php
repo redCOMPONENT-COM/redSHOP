@@ -375,7 +375,7 @@ class modProMenuHelper
 				if ($style == $highlighted_style)
 				{
 					$append = '&id=active_menu';
-					$class  = "class='parent active'";
+					$class  = "class='parent-active'";
 				}
 
 				if ($depth_list[$n] > 0)
