@@ -65,11 +65,20 @@ class orderController extends JController
 		$model->update_status();
 	}
 
-	public function allstatus()
+	/**
+	 * Update all Order Status using AJAX
+	 *
+	 * @param   boolean  $isPacsoft  If true then Pacsoft lable will be created else not
+	 *
+	 * @return  void
+	 */
+	public function allstatus($isPacsoft = true)
 	{
 		$session = JFactory::getSession();
 		$post = JRequest::get('post');
 		$option = $post['option'];
+		$post['isPacsoft'] = $isPacsoft;
+
 		$merge_invoice_arr = array();
 
 		$session->clear('updateOrderIdPost');
@@ -81,6 +90,21 @@ class orderController extends JController
 		return;
 	}
 
+	/**
+	 * Update All Order status using AJAX without generating pacsoft label
+	 *
+	 * @return  void
+	 */
+	public function allStatusExceptPacsoft()
+	{
+		$this->allstatus(false);
+	}
+
+	/**
+	 * Update All Order status AJAX Task
+	 *
+	 * @return  html  Simply display HTML as AJAX Response
+	 */
 	public function updateOrderStatus()
 	{
 		$session = JFactory::getSession();
@@ -102,11 +126,12 @@ class orderController extends JController
 
 				for ($m = 0; $m < count($merge_invoice_arr); $m++)
 				{
-					if (file_exists(JPATH_SITE . '/components/com_redshop/assets/document'
-						. '/invoice/shipped_' . $merge_invoice_arr[$m] . '.pdf'))
+					if (file_exists(
+						JPATH_SITE . '/components/com_redshop/assets/document' . '/invoice/shipped_' . $merge_invoice_arr[$m] . '.pdf'
+						))
 					{
-						$pdf->addPDF(JPATH_SITE . '/components/com_redshop/assets/document'
-							. '/invoice/shipped_' . $merge_invoice_arr[$m] . '.pdf', 'all'
+						$pdf->addPDF(
+							JPATH_SITE . '/components/com_redshop/assets/document' . '/invoice/shipped_' . $merge_invoice_arr[$m] . '.pdf', 'all'
 						);
 					}
 				}
@@ -117,10 +142,12 @@ class orderController extends JController
 
 				for ($m = 0; $m < count($merge_invoice_arr); $m++)
 				{
-					if (file_exists(JPATH_SITE . '/components/com_redshop/assets/document'
-						. '/invoice/shipped_' . $merge_invoice_arr[$m] . '.pdf'))
+					if (file_exists(
+						JPATH_SITE . '/components/com_redshop/assets/document' . '/invoice/shipped_' . $merge_invoice_arr[$m] . '.pdf'
+						))
 					{
-						unlink(JPATH_ROOT . '/components/com_redshop/assets/document/invoice/shipped_' . $merge_invoice_arr[$m] . '.pdf'
+						unlink(
+							JPATH_ROOT . '/components/com_redshop/assets/document/invoice/shipped_' . $merge_invoice_arr[$m] . '.pdf'
 						);
 					}
 				}
@@ -173,6 +200,11 @@ class orderController extends JController
 
 			$responcemsg .= "</div>";
 		}
+
+		// Trigger when order status changed.
+		$dispatcher = JDispatcher::getInstance();
+		JPluginHelper::importPlugin('redshop_product');
+		$results = $dispatcher->trigger('onAjaxOrderStatusUpdate', array($post));
 
 		$responcemsg = "<div id='sentresponse'>" . $responcemsg . "</div>";
 		echo $responcemsg;
@@ -298,9 +330,9 @@ class orderController extends JController
 		$shipping_helper = new shipping;
 		ob_clean();
 
-		echo "Order number, Order status, Order date , Shipping method , Shipping user, Shipping address, Shipping postalcode,
-		Shipping city, Shipping country, Company name, Email ,Billing address, Billing postalcode, Billing city, Billing country,
-		Billing User ,";
+		echo "Order number, Order status, Order date , Shipping method , Shipping user, Shipping address,";
+		echo "Shipping postalcode,Shipping city, Shipping country, Company name, Email ,Billing address,";
+		echo "Billing postalcode, Billing city, Billing country,Billing User ,";
 
 		for ($i = 1; $i <= $no_products; $i++)
 		{
@@ -343,7 +375,7 @@ class orderController extends JController
 			for ($it = 0; $it < count($no_items); $it++)
 			{
 				echo str_replace(",", " ", utf8_decode($no_items [$it]->order_item_name)) . " ,";
-				echo "\"" . REDCURRENCY_SYMBOL . "\"" . $no_items [$it]->product_final_price;
+				echo REDCURRENCY_SYMBOL . " " . $no_items [$it]->product_final_price . ",";
 
 				$product_attribute = $producthelper->makeAttributeOrder($no_items [$it]->order_item_id, 0, $no_items [$it]->product_id, 0, 1);
 				$product_attribute = strip_tags(str_replace(",", " ", $product_attribute->product_attribute));
@@ -358,7 +390,7 @@ class orderController extends JController
 				echo str_repeat(' ,', $temp * 3);
 			}
 
-			echo "\"" . REDCURRENCY_SYMBOL . "\"" . $data [$i]->order_total . "\n";
+			echo  REDCURRENCY_SYMBOL . " " . $data [$i]->order_total . "\n";
 		}
 
 		exit ();
@@ -415,8 +447,8 @@ class orderController extends JController
 
 		$no_products = max($product_count);
 
-		echo "Order id,Buyer name,Email Id, PhoneNumber,Billing Address ,Billing City,Billing State,Billing Country,BillingPostcode,
-		Shipping Address,Shipping City,Shipping State,Shipping Country,ShippingPostCode,Order Status,Order Date,";
+		echo "Order id,Buyer name,Email Id, PhoneNumber,Billing Address ,Billing City,Billing State,Billing Country,BillingPostcode,";
+		echo "Shipping Address,Shipping City,Shipping State,Shipping Country,ShippingPostCode,Order Status,Order Date,";
 
 		for ($i = 1; $i <= $no_products; $i++)
 		{

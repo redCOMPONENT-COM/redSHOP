@@ -279,13 +279,13 @@ class importModelimport extends JModel
 							// Product Description is optional - no need to add column in csv everytime.
 							if (isset($rawdata['product_desc']) === true)
 							{
-								$rawdata['product_desc'] = htmlentities($rawdata['product_desc']);
+								$rawdata['product_desc'] = htmlentities($rawdata['product_desc'], ENT_COMPAT, 'UTF-8');
 							}
 
 							// Product Short Description is also optional - no need to add column in csv everytime.
 							if (isset($rawdata['product_s_desc']) === true)
 							{
-								$rawdata['product_s_desc'] = htmlentities($rawdata['product_s_desc']);
+								$rawdata['product_s_desc'] = htmlentities($rawdata['product_s_desc'], ENT_COMPAT, 'UTF-8');
 							}
 
 							if (isset($rawdata['manufacturer_name']))
@@ -2901,7 +2901,7 @@ class importModelimport extends JModel
 		$this->_db->setQuery("SELECT attribute_stock_placement_id FROM " . $this->_crmtable_prefix . "attribute_stock_placement WHERE section = '" . $data['section'] . "' AND section_id = '" . $data['section_id'] . "'");
 		$autoid = $this->_db->loadResult();
 
-		$row =& $this->getTable('attributestock_placement');
+		$row = $this->getTable('attributestock_placement');
 		$row->load($autoid);
 
 		$data['stock_placement'] = $data['stockposition'];

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="1.5" type="plugin" group="rs_labels_GLS" method="upgrade">
+	<name>GLS Labels</name>
+	<version>1.3.3.1</version>
+	<creationDate>April 2014</creationDate>
+	<author>redCOMPONENT.com</author>
+	<copyright>redCOMPONENT.com</copyright>
+	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+	<description>redSHOP Labels for GLS shipping method</description>
+	<files>
+		<filename plugin="labels_GLS">labels_GLS.php</filename>
+	</files>
+	<fields name="params">
+        <fieldset name="basic">
+			<field name="normal_parcel_weight_start" type="text" default="" label="Normal Parcel Start Weight" description="Enter Normal Parcel Start Weight" />
+			<field name="normal_parcel_weight_end" type="text" default="" label="Normal Parcel End Weight" description="Enter Normal Parcel End Weight" />
+			<field name="small_parcel_weight_start" type="text" default="" label="Small Parcel Start Weight" description="Enter Small Parcel Start Weight" />
+			<field name="small_parcel_weight_end" type="text" default="" label="Smalll Parcel End Weight" description="Enter Small Parcel End Weight" />
+			<field name="pallet_parcel_weight_start" type="text" default="" label="Pallet Parcel Start Weight" description="Enter Pallet Parcel Start Weight" />
+			<field name="pallet_parcel_weight_end" type="text" default="" label="PPallet Parcel End Weight" description="Enter Pallet Parcel End Weight" />
+		</fieldset>
+	</fields>
+</extension>

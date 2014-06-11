@@ -82,6 +82,7 @@ $option = JRequest::getVar('option', '', 'request', 'string');
 			<?php
 
 			$k = 0;
+
 			for ($i = 0, $n = count($this->vouchers); $i < $n; $i++)
 			{
 				$row = & $this->vouchers[$i];
@@ -98,8 +99,9 @@ $option = JRequest::getVar('option', '', 'request', 'string');
 						<?php echo JHTML::_('grid.id', $i, $row->id); ?>
 					</td>
 					<td align="center">
-						<a href="<?php echo $link; ?>" title="<?php echo JText::_('COM_REDSHOP_EDIT_VOUCHER'); ?>">
-							<?php echo $row->voucher_code; ?></a>
+						<a href="<?php echo $link; ?>" title="
+						<?php echo JText::_('COM_REDSHOP_EDIT_VOUCHER'); ?>
+						"><?php echo $row->voucher_code; ?></a>
 					</td>
 					<td align="center">
 						<?php echo $producthelper->getProductFormattedPrice($row->amount); ?>

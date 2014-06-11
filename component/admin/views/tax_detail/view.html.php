@@ -50,7 +50,7 @@ class tax_detailVIEWtax_detail extends JView
 
 		$model = $this->getModel('tax_detail');
 
-		$q = "SELECT  country_3_code as value,country_name as text from #__" . TABLE_PREFIX . "_country ORDER BY country_name ASC";
+		$q = "SELECT  country_3_code as value,country_name as text from #__redshop_country ORDER BY country_name ASC";
 		$db->setQuery($q);
 		$countries = $db->loadObjectList();
 
@@ -74,8 +74,8 @@ class tax_detailVIEWtax_detail extends JView
 		}
 
 		$db->setQuery("SELECT c.country_id, c.country_3_code, s.state_name, s.state_2_code
-						FROM #__" . TABLE_PREFIX . "_country c
-						LEFT JOIN #__" . TABLE_PREFIX . "_state s
+						FROM #__redshop_country c
+						LEFT JOIN #__redshop_state s
 						ON c.country_id=s.country_id OR s.country_id IS NULL
 						ORDER BY c.country_id, s.state_name");
 

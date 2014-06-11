@@ -22,7 +22,7 @@ class adminproducthelper
 
 	public function __construct()
 	{
-		$this->_table_prefix = '#__' . TABLE_PREFIX . '_';
+		$this->_table_prefix = '#__redshop_';
 	}
 
 	public function replaceAccessoryData($product_id = 0, $accessory = array(), $user_id = 0, $uniqueid = "")

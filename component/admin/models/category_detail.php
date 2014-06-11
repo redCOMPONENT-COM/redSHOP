@@ -30,7 +30,7 @@ class category_detailModelcategory_detail extends JModel
 	{
 		parent::__construct();
 
-		$this->_table_prefix = '#__' . TABLE_PREFIX . '_';
+		$this->_table_prefix = '#__redshop_';
 		$array = JRequest::getVar('cid', 0, '', 'array');
 		$this->setId((int) $array[0]);
 	}
@@ -104,7 +104,7 @@ class category_detailModelcategory_detail extends JModel
 
 	public function store($data)
 	{
-		$row =& $this->getTable();
+		$row = $this->getTable();
 
 		if (!$row->bind($data))
 		{
@@ -286,7 +286,7 @@ class category_detailModelcategory_detail extends JModel
 
 					if ($product_id != $acc['child_product_id'])
 					{
-						$accdetail =& $this->getTable('accessory_detail');
+						$accdetail = $this->getTable('accessory_detail');
 
 						$accdetail->accessory_id = $accessory_id;
 						$accdetail->category_id = $newcatid;
@@ -402,7 +402,7 @@ class category_detailModelcategory_detail extends JModel
 
 	public function move($direction)
 	{
-		$row =& $this->getTable();
+		$row = $this->getTable();
 
 		if (!$row->load($this->_id))
 		{
@@ -423,7 +423,7 @@ class category_detailModelcategory_detail extends JModel
 
 	public function saveorder($cid = array(), $order)
 	{
-		$row =& $this->getTable();
+		$row = $this->getTable();
 		$groupings = array();
 
 		// Update ordering values

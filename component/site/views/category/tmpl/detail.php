@@ -22,6 +22,13 @@ $redTemplate = new Redtemplate;
 $texts = new text_library;
 
 $start = $this->input->getInt('limitstart', 0);
+
+// check limitstart
+if (count($this->product) < $start)
+{
+	$start = 0;
+}
+
 $slide = $this->input->getInt('ajaxslide', null);
 $filter_by = $this->input->getInt('manufacturer_id', $this->params->get('manufacturer_id'));
 $category_template = $this->input->getInt('category_template', 0);
@@ -510,7 +517,7 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 		// ToDo: Echo a message when no records is returned by selection of empty category or wrong manufacturer in menu item params.
 		$product = null;
 
-		if (!empty($this->product))
+		if ((!empty($this->product)) && (isset($this->product[$i])))
 		{
 			$product = $this->product[$i];
 		}
@@ -573,7 +580,7 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 
 				if (is_file(REDSHOP_FRONT_DOCUMENT_RELPATH . 'product/' . $media_documents[$m]->media_name))
 				{
-					$downlink = JUri::root() .
+					$downlink = JURI::root() .
 								'index.php?tmpl=component&option=' . $this->option .
 								'&view=product&pid=' . $this->data->product_id .
 								'&task=downloadDocument&fname=' . $media_documents[$m]->media_name .
@@ -767,7 +774,7 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 
 			if (count($related_product) > 0)
 			{
-				$linktortln = JUri::root() .
+				$linktortln = JURI::root() .
 								"index.php?option=com_redshop&view=product&pid=" . $product->product_id .
 								"&tmpl=component&template=" . $rtln . "&for=rtln";
 				$rtlna      = '<a class="redcolorproductimg" href="' . $linktortln . '"  >' . JText::_('COM_REDSHOP_RELATED_PRODUCT_LIST_IN_LIGHTBOX') . '</a>';
@@ -1136,8 +1143,6 @@ if (!$slide)
 		{
 			$template_selecter_form = "<form name='template_selecter_form' action='' method='post' >";
 			$template_selecter_form .= $this->lists['category_template'];
-			$template_selecter_form .= "<input type='hidden' name='texpricemin' id='temp_texpricemin' value='" . $texpricemin . "' />";
-			$template_selecter_form .= "<input type='hidden' name='texpricemax' id='temp_texpricemax' value='" . $texpricemax . "' />";
 			$template_selecter_form .= "<input type='hidden' name='order_by' id='order_by' value='" . $this->order_by_select . "' />";
 			$template_selecter_form .= "<input type='hidden' name='manufacturer_id' id='manufacturer_id' value='" . $this->manufacturer_id . "' />";
 			$template_selecter_form .= "</form>";

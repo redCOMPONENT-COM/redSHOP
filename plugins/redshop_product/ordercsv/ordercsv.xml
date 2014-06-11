@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="2.5" type="plugin" group="redshop_product" method="upgrade">
+    <name>plg_redshop_product_ordercsv</name>
+    <author>redCOMPONENT.com</author>
+    <version>1.2.2</version>
+    <creationDate>April 2013</creationDate>
+    <copyright>redCOMPONENT.com</copyright>
+    <license>GNU/GPL</license>
+    <authorEmail>email@redcomponent.com</authorEmail>
+    <authorUrl>www.redweb.dk</authorUrl>
+    <description>redSHOP Custom Product Price Enter By User</description>
+    <files>
+        <filename plugin="ordercsv">ordercsv.php</filename>
+    </files>
+    <config>
+        <fields name="params">
+            <fieldset name="basic">
+                <field name="send_email_from" type="text" default="" label="Send e-mail from"
+                       description="Please enter email id from you want to send." />
+                <field name="from_name" type="text" default="" label="Email Sender Name"
+                       description="Email Sender Name" />
+                <field type="spacer" name="space" hr="true" />
+                <field name="send_email_to" type="text" default="" label="Send e-mail to"
+                       description="Please enter email id where you want to send generated csv" />
+                <field name="email_subject" type="text" default="" label="Subject of email"
+                       description="Please set subject of email which you want to sent." />
+                <field type="spacer" name="myspacer" hr="true" />
+                <field name="email_message" type="editor" default="Please find the attachment." label="Email Template"
+                       description="Set your email template here." />
+            </fieldset>
+        </fields>
+    </config>
+</extension>
