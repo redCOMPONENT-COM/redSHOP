@@ -792,29 +792,37 @@ class ProductController extends JController
 
 		$uploaddir  = JPATH_COMPONENT_SITE . '/assets/document/product/';
 		$name       = $app->input->getCmd('mname');
-		$filename   = time() . '_' . basename($_FILES[$name]['name']);
-		$uploadfile = $uploaddir . $filename;
 
-		if (move_uploaded_file($_FILES[$name]['tmp_name'], $uploadfile))
+		if (isset($_FILES[$name]))
 		{
-			$random                 = rand();
-			$sendData               = array();
-			$sendData['id']         = $random;
-			$sendData['product_id'] = $app->input->getInt('product_id');
-			$sendData['uniqueOl']   = $app->input->getString('uniqueOl');
-			$sendData['name']       = $filename;
-			$sendData['action']     = JURI::root() . 'index.php?tmpl=component&option=com_redshop&view=product&task=removeAjaxUpload';
+			$filename   = time() . '_' . basename($_FILES[$name]['name']);
+			$uploadfile = $uploaddir . $filename;
 
-			echo "<li id='uploadNameSpan" . $random . "' name='" . $filename . "'>"
-					. "<span>" . $filename . "</span>"
-					. "<a href='javascript:removeAjaxUpload(" . json_encode($sendData) . ");'>&nbsp;Remove</a>"
-				."</li>";
+			if (move_uploaded_file($_FILES[$name]['tmp_name'], $uploadfile))
+			{
+				$random                 = rand();
+				$sendData               = array();
+				$sendData['id']         = $random;
+				$sendData['product_id'] = $app->input->getInt('product_id');
+				$sendData['uniqueOl']   = $app->input->getString('uniqueOl');
+				$sendData['name']       = $filename;
+				$sendData['action']     = JURI::root() . 'index.php?tmpl=component&option=com_redshop&view=product&task=removeAjaxUpload';
+
+				echo "<li id='uploadNameSpan" . $random . "' name='" . $filename . "'>"
+						. "<span>" . $filename . "</span>"
+						. "<a href='javascript:removeAjaxUpload(" . json_encode($sendData) . ");'>&nbsp;Remove</a>"
+					. "</li>";
+			}
+			else
+			{
+				// WARNING! DO NOT USE "FALSE" STRING AS A RESPONSE!
+				// Otherwise onSubmit event will not be fired
+				echo "error";
+			}
 		}
 		else
 		{
-			// WARNING! DO NOT USE "FALSE" STRING AS A RESPONSE!
-			// Otherwise onSubmit event will not be fired
-			echo "error";
+			echo JText::_('COM_REDSHOP_NO_FILE_SELECTED');
 		}
 
 		$app->close();
