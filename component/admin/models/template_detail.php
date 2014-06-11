@@ -286,7 +286,7 @@ class template_detailModeltemplate_detail extends JModel
 			}
 
 			// Lets get to it and checkout the thing...
-			$template_detail = & $this->getTable('template_detail');
+			$template_detail = $this->getTable('template_detail');
 
 
 			if (!$template_detail->checkout($uid, $this->_id))
