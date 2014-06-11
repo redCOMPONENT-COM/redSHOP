@@ -42,7 +42,6 @@ class RedShopManufacturersManagerPage extends AdminManagerPage
 	 * @param   string  $url             Manufacturer website
 	 * @param   int     $productPerPage  Description of the Card
 	 *
-	 * @return RedShopManufacturerManagerPage
 	 */
 	public function addManufacturer($name = 'Sample Manufacturer', $template = 0, $email = '', $url = '', $productPerPage = 10)
 	{
@@ -89,9 +88,14 @@ class RedShopManufacturersManagerPage extends AdminManagerPage
 		sleep(2);
 
 		// Select the right manufacturer to edit in the Manufacturers list
-		$elementObject->waitForElementUntilIsPresent(By::xPath("//a[contains(text(),'{$originalName}')]"), 10);
-		$elementObject->findElement(By::xPath("//a[contains(text(),'{$originalName}')]"))->click();
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//tbody/tr/td[3]/a[text() = '" . $originalName . "']"), 10);
+		$row = $this->getRowNumber($originalName) - 1;
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='cb" . $row . "']"), 10);
+		$elementObject->findElement(By::xPath("//input[@id='cb" . $row . "']"))->click();
+		$elementObject->findElement(By::xPath("//li[@id='toolbar-edit']/a"))->click();
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='manufacturer_name']"), 10);
 
+		// @Todo now it only modifies the name but we need to extend it to other fields
 		$nameField = $elementObject->findElement(By::xPath("//input[@id='manufacturer_name']"));
 		$nameField->clear();
 		$nameField->sendKeys($name);
