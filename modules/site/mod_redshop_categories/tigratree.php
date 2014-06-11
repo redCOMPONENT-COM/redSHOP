@@ -34,7 +34,7 @@ if ($params->get('categorysorttype') == "catorder")
 	$sortparam = "ordering ASC";
 }
 // The tree generator
-$vmTigraTree = new redTigraTreeMenu();
+$vmTigraTree = new redTigraTreeMenu;
 
 // A unique name for our tree (to support multiple instances of the menu)
 $varname = uniqid("TigraTree_");
@@ -83,7 +83,7 @@ class redTigraTreeMenu
 		$objhelper = new redhelper ();
 		$Itemid    = JRequest::getInt('Itemid');
 		$level++;
-		$redproduct_menu = new modProMenuHelper();
+		$redproduct_menu = new modProMenuHelper;
 		if ($shopper_group_id)
 		{
 			$shoppergroup_cat = $redproduct_menu->get_shoppergroup_cat($shopper_group_id);

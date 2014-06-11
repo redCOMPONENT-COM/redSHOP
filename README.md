@@ -38,7 +38,7 @@ Please follow the next steps in order to release a new version of redSHOP.
 
 ### Test 
 - test the packages to ensure that everything works properly.
-- share the package in the redSHOP testing chat, so others can do some testing
+- share the package in the redSHOP testing chat, so others can do some testing.
 - add fast fixes if issues has been identified during testing
 - Generate the final packages and contact the Product Owner (Ole) and ask him to upload the packages to redCOMPOPNENT.com 
 

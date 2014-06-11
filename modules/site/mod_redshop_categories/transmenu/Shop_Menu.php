@@ -24,7 +24,7 @@ class Shop_Menu
 		switch ($this->_params->get('menutype'))
 		{
 			default:
-				include_once("transmenu.php");
+				include_once "transmenu.php";
 				$this->menuObj = new TransMenu($this);
 				break;
 		}
@@ -33,7 +33,7 @@ class Shop_Menu
 	function  loadMenu($shopper_group_id)
 	{
 		global $my, $database, $cur_template, $Itemid, $urlpath;
-		$redproduct_menu = new modProMenuHelper();
+		$redproduct_menu = new modProMenuHelper;
 
 		if ($this->_params->get('categorysorttype') == "catnameasc")
 		{

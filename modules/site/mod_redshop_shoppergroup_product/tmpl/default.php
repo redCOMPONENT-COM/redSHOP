@@ -31,10 +31,10 @@ JHTML::Script('common.js', 'components/com_redshop/assets/js/', false);
 JHTML::Script('fetchscript.js', 'components/com_redshop/assets/js/', false);
 
 JHTML::Stylesheet('fetchscript.css', 'components/com_redshop/assets/css/');
-$producthelper = new producthelper();
-$redhelper     = new redhelper();
-$redTemplate   = new Redtemplate();
-$extraField    = new extraField();
+$producthelper = new producthelper;
+$redhelper     = new redhelper;
+$redTemplate   = new Redtemplate;
+$extraField    = new extraField;
 
 echo "<div class='mod_redshop_shoppergroup_product_wrapper'>";
 

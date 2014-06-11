@@ -8,7 +8,7 @@
  */
 JHTMLBehavior::modal();
 $option = JRequest::getVar('option');
-$url = JUri::base();
+$url = JURI::base();
 $comment = JRequest::getVar('filter');
 $model = $this->getModel('catalog');
 ?>

@@ -24,7 +24,7 @@ $db = JFactory::getDbo();
 // Getting the configuration
 require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
 require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/configuration.php';
-$Redconfiguration = new Redconfiguration();
+$Redconfiguration = new Redconfiguration;
 $Redconfiguration->defineDynamicVars();
 
 
@@ -67,5 +67,5 @@ if (MY_WISHLIST)
 		$db->setQuery($sql);
 		$rows = $db->loadObjectList();
 	}
-	require(JModuleHelper::getLayoutPath('mod_redshop_wishlist'));
+	require JModuleHelper::getLayoutPath('mod_redshop_wishlist');
 }

@@ -44,7 +44,7 @@ class state_detailVIEWstate_detail extends JView
 		require_once JPATH_COMPONENT_SITE . '/helpers/helper.php';
 
 		$redhelper = new redhelper;
-		$q         = "SELECT  country_id as value,country_name as text,country_jtext from #__" . TABLE_PREFIX . "_country ORDER BY country_name ASC";
+		$q         = "SELECT  country_id as value,country_name as text,country_jtext from #__redshop_country ORDER BY country_name ASC";
 		$db->setQuery($q);
 		$countries = $db->loadObjectList();
 		$countries = $redhelper->convertLanguageString($countries);
