@@ -28,7 +28,7 @@ class RedShopTextLibrariesManagerPage extends AdminManagerPage
 	 *
 	 * @since    1.0
 	 */
-	protected $waitForXpath = "//h2[contains(text(),'Text Library Management')]";
+	protected $waitForXpath = "//h2[text() = 'Text Library Management']";
 
 	/**
 	 * URL used to uniquely identify this page
@@ -61,7 +61,7 @@ class RedShopTextLibrariesManagerPage extends AdminManagerPage
 		$elementObject->findElement(By::xPath("//select[@id='section']//option[@value='" . $tagSection . "']"))->click();
 		sleep(5);
 		$elementObject->findElement(By::xPath("//a[@onclick=\"Joomla.submitbutton('save')\"]"))->click();
-		$elementObject->waitForElementUntilIsPresent(By::xPath("//li[contains(text(),'Text Library Detail Saved')]"), 10);
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//li[text() = 'Text Library Detail Saved']"), 10);
 	}
 
 	/**
@@ -81,7 +81,7 @@ class RedShopTextLibrariesManagerPage extends AdminManagerPage
 		$searchField = $elementObject->findElement(By::xPath("//input[@id='filter']"));
 		$searchField->sendKeys($description);
 		$elementObject->findElement(By::xPath("//button[@onclick=\"this.form.submit();\"]"))->click();
-		$elementObject->waitForElementUntilIsPresent(By::xPath("//tbody/tr/td[4][contains(text(),'" . $description . "')]"), 10);
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//tbody/tr/td[4][text() = '" . $description . "']"), 10);
 		$row = $this->getRowNumber($description) - 1;
 		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='cb" . $row . "']"), 10);
 		$elementObject->findElement(By::xPath("//input[@id='cb" . $row . "']"))->click();
@@ -125,7 +125,7 @@ class RedShopTextLibrariesManagerPage extends AdminManagerPage
 		$searchField = $elementObject->findElement(By::xPath("//input[@id='filter']"));
 		$searchField->sendKeys($description);
 		$elementObject->findElement(By::xPath("//button[@onclick=\"this.form.submit();\"]"))->click();
-		$elementObject->waitForElementUntilIsPresent(By::xPath("//tbody/tr/td[4][contains(text(),'" . $description . "')]"), 10);
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//tbody/tr/td[4][text() = '" . $description . "']"), 10);
 		$row = $this->getRowNumber($description) - 1;
 		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='cb" . $row . "']"), 10);
 		$elementObject->findElement(By::xPath("//input[@id='cb" . $row . "']"))->click();
@@ -156,7 +156,7 @@ class RedShopTextLibrariesManagerPage extends AdminManagerPage
 			$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='cb" . $row . "']"), 10);
 		}
 
-		$arrayElement = $elementObject->findElements(By::xPath("//tbody/tr/td[4][contains(text(),'" . $description . "')]"));
+		$arrayElement = $elementObject->findElements(By::xPath("//tbody/tr/td[4][text() = '" . $description . "']"));
 
 		if (count($arrayElement))
 		{
@@ -216,7 +216,7 @@ class RedShopTextLibrariesManagerPage extends AdminManagerPage
 		$searchField = $elementObject->findElement(By::xPath("//input[@id='filter']"));
 		$searchField->sendKeys($description);
 		$elementObject->findElement(By::xPath("//button[@onclick=\"this.form.submit();\"]"))->click();
-		$elementObject->waitForElementUntilIsPresent(By::xPath("//tbody/tr/td[4][contains(text(),'" . $description . "')]"), 10);
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//tbody/tr/td[4][text() = '" . $description . "']"), 10);
 		$row = $this->getRowNumber($description) - 1;
 		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='cb" . $row . "']"), 10);
 		$elementObject->findElement(By::xPath("//input[@id='cb" . $row . "']"))->click();
@@ -248,7 +248,7 @@ class RedShopTextLibrariesManagerPage extends AdminManagerPage
 		$searchField = $elementObject->findElement(By::xPath("//input[@id='filter']"));
 		$searchField->sendKeys($description);
 		$elementObject->findElement(By::xPath("//button[@onclick=\"this.form.submit();\"]"))->click();
-		$elementObject->waitForElementUntilIsPresent(By::xPath("//tbody/tr/td[4][contains(text(),'" . $description . "')]"), 10);
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//tbody/tr/td[4][text() = '" . $description . "']"), 10);
 		$row = $this->getRowNumber($description) - 1;
 		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='cb" . $row . "']"), 10);
 		$elementObject->findElement(By::xPath("//input[@id='cb" . $row . "']"))->click();
