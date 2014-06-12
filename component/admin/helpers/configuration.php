@@ -201,9 +201,9 @@ class Redconfiguration
 	}
 
 	/**
-	 * Write Defination File
+	 * Write Definition File
 	 *
-	 * @param   array  $def  Array of configuration definations
+	 * @param   array  $def  Array of configuration Definition
 	 *
 	 * @return  boolean  True when file successfully saved.
 	 */
@@ -243,7 +243,7 @@ class Redconfiguration
 	}
 
 	/**
-	 * Define Configuration file. We are prepating define text on this function.
+	 * Define Configuration file. We are preparing define text on this function.
 	 *
 	 * @param   array    $data    Configuration Data associative array
 	 * @param   boolean  $bypass  Don't write anything and simply bypass if it is set to true.
