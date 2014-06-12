@@ -181,7 +181,7 @@ class Redconfiguration
 			if (count($org) > 0)
 			{
 				/* Set last param as false to ensure the last line is empty and not containing '?>' at the end of the file*/
-				$this->defineCFGVars($org, false, false);
+				$this->defineCFGVars($org, false);
 				$this->updateCFGFile();
 			}
 		}
@@ -200,6 +200,13 @@ class Redconfiguration
 		return true;
 	}
 
+	/**
+	 * Write Defination File
+	 *
+	 * @param   array  $def  Array of configuration definations
+	 *
+	 * @return  boolean  True when file successfully saved.
+	 */
 	public function WriteDefFile($def = array())
 	{
 		if (count($def) <= 0)
@@ -235,15 +242,17 @@ class Redconfiguration
 		}
 	}
 
-	public function defineCFGVars($data, $bypass = false, $openPhpTag = true)
+	/**
+	 * Define Configuration file. We are prepating define text on this function.
+	 *
+	 * @param   array    $data    Configuration Data associative array
+	 * @param   boolean  $bypass  Don't write anything and simply bypass if it is set to true.
+	 *
+	 * @return  void
+	 */
+	public function defineCFGVars($data, $bypass = false)
 	{
 		$this->_cfgdata = "";
-
-		/*To ensure the last line is empty and not containing '?>' at the end of the file*/
-		if ($openPhpTag)
-		{
-			$this->_cfgdata .= "<?php\n\n";
-		}
 
 		foreach ($data as $key => $value)
 		{
@@ -253,16 +262,25 @@ class Redconfiguration
 			}
 		}
 
-		$this->_cfgdata .= '';
-
 		return;
 	}
 
+	/**
+	 * Write prepared data into a file.
+	 *
+	 * @return  boolean  True when file successfully saved.
+	 */
 	public function writeCFGFile()
 	{
 		if ($fp = fopen($this->_configpath, "w"))
 		{
-			fputs($fp, $this->_cfgdata, strlen($this->_cfgdata));
+			// Cleaning <?php and ?\> tag from the code
+			$this->_cfgdata = str_replace(array('<?php', '?>', "\n"), '', $this->_cfgdata);
+
+			// Now, adding <?php tag at the top of the file.
+			$this->_cfgdata = "<?php \n" . $this->_cfgdata;
+
+			fwrite($fp, $this->_cfgdata, strlen($this->_cfgdata));
 			fclose($fp);
 
 			return true;
@@ -273,6 +291,12 @@ class Redconfiguration
 		}
 	}
 
+	/**
+	 * Update Configuration file with new parameter.
+	 * This function is specially use during upgrading redSHOP and need to put new configuration params.
+	 *
+	 * @return  boolean  True when file successfully updated.
+	 */
 	public function updateCFGFile()
 	{
 		if ($fp = fopen($this->_configpath, "a"))
@@ -289,6 +313,11 @@ class Redconfiguration
 		}
 	}
 
+	/**
+	 * Backup Configuration file before running wizard.
+	 *
+	 * @return  boolean  True on successfully backed up.
+	 */
 	public function backupCFGFile()
 	{
 		if ($this->isCFGFile())
@@ -310,6 +339,11 @@ class Redconfiguration
 		return true;
 	}
 
+	/**
+	 * Try to find if temp configuration file is available. This function is for wizard.
+	 *
+	 * @return  boolean  True when file is exist.
+	 */
 	public function isTmpFile()
 	{
 		if (file_exists($this->_config_tmp_path))
@@ -329,6 +363,11 @@ class Redconfiguration
 		return false;
 	}
 
+	/**
+	 * Check if temp file is writeable or not.
+	 *
+	 * @return  boolean  True if file is writeable.
+	 */
 	public function isTMPFileWritable()
 	{
 		if (!is_writable($this->_config_tmp_path))
@@ -341,6 +380,11 @@ class Redconfiguration
 		return true;
 	}
 
+	/**
+	 * Check if definition file is available or not.
+	 *
+	 * @return  boolean  True if file is exist.
+	 */
 	public function isDEFFile()
 	{
 		if (file_exists($this->_config_def_path))
@@ -360,6 +404,11 @@ class Redconfiguration
 		return false;
 	}
 
+	/**
+	 * Check for def file is writeable or not.
+	 *
+	 * @return  boolean  True if file is writeable.
+	 */
 	public function isDEFFileWritable()
 	{
 		if (!is_writable($this->_config_def_path))
@@ -372,6 +421,11 @@ class Redconfiguration
 		return true;
 	}
 
+	/**
+	 * Restore configuration file from temp file.
+	 *
+	 * @return  boolean  True if file is restored.
+	 */
 	public function storeFromTMPFile()
 	{
 		global $temparray;
@@ -393,6 +447,14 @@ class Redconfiguration
 		return true;
 	}
 
+	/**
+	 * This function will define relation between keys and define variables.
+	 * This needs to be updated when you want new variable in configuration.
+	 *
+	 * @param   array  $d  Associative array of values. Typically a from $_POST.
+	 *
+	 * @return  array      Associative array of configuration variables which are ready to write.
+	 */
 	public function redshopCFGData($d)
 	{
 		$d['booking_order_status'] = (isset($d['booking_order_status'])) ? $d['booking_order_status'] : 0;
