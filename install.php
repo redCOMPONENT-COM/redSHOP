@@ -4437,6 +4437,11 @@ class Com_RedshopInstallerScript
 			$cfgarr["ORDER_MAIL_AFTER"] = 0;
 		}
 
+		if (!defined("STATISTICS_ENABLE"))
+		{
+			$cfgarr["STATISTICS_ENABLE"] = 1;
+		}
+
 		$Redconfiguration->manageCFGFile($cfgarr);
 
 		// End
