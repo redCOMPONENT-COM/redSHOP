@@ -4443,8 +4443,6 @@ class Com_RedshopInstallerScript
 		}
 
 		$Redconfiguration->manageCFGFile($cfgarr);
-
-		// End
 	}
 
 	/**

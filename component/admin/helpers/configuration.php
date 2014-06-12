@@ -239,12 +239,6 @@ class Redconfiguration
 	{
 		$this->_cfgdata = "";
 
-		/*To ensure the last line is empty and not containing '?>' at the end of the file*/
-		if ($openPhpTag)
-		{
-			$this->_cfgdata .= "<?php\n\n";
-		}
-
 		foreach ($data as $key => $value)
 		{
 			if (!defined($key) || $bypass)
@@ -253,8 +247,6 @@ class Redconfiguration
 			}
 		}
 
-		$this->_cfgdata .= '';
-
 		return;
 	}
 
@@ -262,7 +254,13 @@ class Redconfiguration
 	{
 		if ($fp = fopen($this->_configpath, "w"))
 		{
-			fputs($fp, $this->_cfgdata, strlen($this->_cfgdata));
+			// Cleaning <?php and ?\> tag from the code
+			$this->_cfgdata = str_replace(array('<?php', '?>', "\n"), '', $this->_cfgdata);
+
+			// Now, adding <?php tag at the top of the file.
+			$this->_cfgdata = "<?php \n" . $this->_cfgdata;
+
+			fwrite($fp, $this->_cfgdata, strlen($this->_cfgdata));
 			fclose($fp);
 
 			return true;
