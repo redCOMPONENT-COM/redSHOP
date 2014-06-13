@@ -65,11 +65,20 @@ class orderController extends JController
 		$model->update_status();
 	}
 
-	public function allstatus()
+	/**
+	 * Update all Order Status using AJAX
+	 *
+	 * @param   boolean  $isPacsoft  If true then Pacsoft lable will be created else not
+	 *
+	 * @return  void
+	 */
+	public function allstatus($isPacsoft = true)
 	{
 		$session = JFactory::getSession();
 		$post = JRequest::get('post');
 		$option = $post['option'];
+		$post['isPacsoft'] = $isPacsoft;
+
 		$merge_invoice_arr = array();
 
 		$session->clear('updateOrderIdPost');
@@ -81,6 +90,21 @@ class orderController extends JController
 		return;
 	}
 
+	/**
+	 * Update All Order status using AJAX without generating pacsoft label
+	 *
+	 * @return  void
+	 */
+	public function allStatusExceptPacsoft()
+	{
+		$this->allstatus(false);
+	}
+
+	/**
+	 * Update All Order status AJAX Task
+	 *
+	 * @return  html  Simply display HTML as AJAX Response
+	 */
 	public function updateOrderStatus()
 	{
 		$session = JFactory::getSession();
@@ -102,11 +126,12 @@ class orderController extends JController
 
 				for ($m = 0; $m < count($merge_invoice_arr); $m++)
 				{
-					if (file_exists(JPATH_SITE . '/components/com_redshop/assets/document'
-						. '/invoice/shipped_' . $merge_invoice_arr[$m] . '.pdf'))
+					if (file_exists(
+						JPATH_SITE . '/components/com_redshop/assets/document' . '/invoice/shipped_' . $merge_invoice_arr[$m] . '.pdf'
+						))
 					{
-						$pdf->addPDF(JPATH_SITE . '/components/com_redshop/assets/document'
-							. '/invoice/shipped_' . $merge_invoice_arr[$m] . '.pdf', 'all'
+						$pdf->addPDF(
+							JPATH_SITE . '/components/com_redshop/assets/document' . '/invoice/shipped_' . $merge_invoice_arr[$m] . '.pdf', 'all'
 						);
 					}
 				}
@@ -117,10 +142,12 @@ class orderController extends JController
 
 				for ($m = 0; $m < count($merge_invoice_arr); $m++)
 				{
-					if (file_exists(JPATH_SITE . '/components/com_redshop/assets/document'
-						. '/invoice/shipped_' . $merge_invoice_arr[$m] . '.pdf'))
+					if (file_exists(
+						JPATH_SITE . '/components/com_redshop/assets/document' . '/invoice/shipped_' . $merge_invoice_arr[$m] . '.pdf'
+						))
 					{
-						unlink(JPATH_ROOT . '/components/com_redshop/assets/document/invoice/shipped_' . $merge_invoice_arr[$m] . '.pdf'
+						unlink(
+							JPATH_ROOT . '/components/com_redshop/assets/document/invoice/shipped_' . $merge_invoice_arr[$m] . '.pdf'
 						);
 					}
 				}
@@ -173,6 +200,11 @@ class orderController extends JController
 
 			$responcemsg .= "</div>";
 		}
+
+		// Trigger when order status changed.
+		$dispatcher = JDispatcher::getInstance();
+		JPluginHelper::importPlugin('redshop_product');
+		$results = $dispatcher->trigger('onAjaxOrderStatusUpdate', array($post));
 
 		$responcemsg = "<div id='sentresponse'>" . $responcemsg . "</div>";
 		echo $responcemsg;
