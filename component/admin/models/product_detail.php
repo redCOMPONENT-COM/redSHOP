@@ -105,8 +105,9 @@ class Product_DetailModelProduct_Detail extends JModel
 		// ToDo: This is potentially unsafe because $_POST elements are not sanitized.
 		$post = $this->input->getArray($_POST);
 
-		// Post data will not more than 15 when it will comes from product listing page to edit.
-		if (empty($this->data) && count($post) < 15)
+		$viewFrom = JFactory::getApplication()->input->getCmd('viewFrom', false);
+
+		if (empty($this->data) && ($viewFrom === 'productList' || empty($post)))
 		{
 			// Initialiase variables.
 			$db    = JFactory::getDbo();
