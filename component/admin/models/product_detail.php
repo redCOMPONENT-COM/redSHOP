@@ -109,10 +109,8 @@ class Product_DetailModelProduct_Detail extends JModel
 		{
 			// Initialiase variables.
 			$db    = JFactory::getDbo();
-			$query = $db->getQuery(true);
-
-			// Create the base select statement.
-			$query->select('*')
+			$query = $db->getQuery(true)
+				->select('*')
 				->from($db->qn('#__redshop_product'))
 				->where($db->qn('product_id') . ' = ' . (int) $this->id);
 
