@@ -2167,6 +2167,7 @@ class rsCarthelper
 		$discount          = 0;
 		$user_info_id      = 0;
 		$total_discount    = 0;
+		$discountVAT       = 0;
 		$redArray          = array();
 
 		for ($i = 0; $i < $Idx; $i++)
