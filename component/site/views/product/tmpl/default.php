@@ -349,7 +349,7 @@ if (strstr($template_desc, "{zoom_image}"))
 if (strstr($template_desc, "{product_category_list}"))
 {
 	$pcats    = "";
-	$prodCats = $producthelper->getProductCaterories($this->data->product_id);
+	$prodCats = $producthelper->getProductCaterories($this->data->product_id, 1);
 
 	foreach ($prodCats as $prodCat)
 	{
