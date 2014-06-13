@@ -105,11 +105,28 @@ class Product_DetailModelProduct_Detail extends JModel
 		// ToDo: This is potentially unsafe because $_POST elements are not sanitized.
 		$post = $this->input->getArray($_POST);
 
-		if (empty($this->data) && empty($post))
+		if (empty($this->data) && count($post) < 15)
 		{
-			$query = 'SELECT * FROM ' . $this->table_prefix . 'product WHERE product_id = "' . $this->id . '" ';
-			$this->_db->setQuery($query);
-			$this->data = $this->_db->loadObject();
+			// Initialiase variables.
+			$db    = JFactory::getDbo();
+			$query = $db->getQuery(true);
+
+			// Create the base select statement.
+			$query->select('*')
+				->from($db->qn('#__redshop_product'))
+				->where($db->qn('product_id') . ' = ' . (int) $this->id);
+
+			// Set the query and load the result.
+			$db->setQuery($query);
+
+			try
+			{
+				$this->data = $db->loadObject();
+			}
+			catch (RuntimeException $e)
+			{
+				throw new RuntimeException($e->getMessage(), $e->getCode());
+			}
 
 			return (boolean) $this->data;
 		}
