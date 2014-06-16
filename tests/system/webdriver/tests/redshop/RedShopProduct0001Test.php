@@ -117,7 +117,6 @@ class RedShopProduct0001Test extends JoomlaWebdriverTestCase
 		$category = 'redCOMPONENT';
 		$this->appTestPage->addProduct($name, $number, $price, $category);
 		$this->assertTrue($this->appTestPage->searchProduct($name), 'Product Must be Present');
-		$this->assertEquals($this->appTestPage->getState($name), 'published', 'Both Must be Equal');
 		$this->appTestPage->changeProductState($name, 'unpublished');
 		$this->assertEquals($this->appTestPage->getState($name), 'unpublished', 'Product must be Unpublished');
 		$this->appTestPage->deleteProduct($name);
