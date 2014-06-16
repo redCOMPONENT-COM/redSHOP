@@ -57,4 +57,24 @@ class RedShopProduct0001Test extends JoomlaWebdriverTestCase
 		$this->doAdminLogout();
 		parent::tearDown();
 	}
+
+	/**
+	 * Function to Test Product Creation
+	 *
+	 * @test
+	 *
+	 * @return void
+	 */
+	public function createProduct()
+	{
+		$rand = rand();
+		$name = $rand . 'RedShop Product';
+		$number = $rand;
+		$price = 10;
+		$category = 'redCOMPONENT';
+		$this->appTestPage->addProduct($name, $number, $price, $category);
+		$this->assertTrue($this->appTestPage->searchProduct($name), 'Product Must be Present');
+		$this->appTestPage->deleteProduct($name);
+		$this->assertFalse($this->appTestPage->searchProduct($name, 'Delete'), 'Product Must be Deleted');
+	}
 }
