@@ -100,4 +100,27 @@ class RedShopProduct0001Test extends JoomlaWebdriverTestCase
 		$this->appTestPage->deleteProduct($newName);
 		$this->assertFalse($this->appTestPage->searchProduct($newName, 'Delete'), 'Product Must be Deleted');
 	}
+
+	/**
+	 * Function to test State Change of  Product
+	 *
+	 * @test
+	 *
+	 * @return void
+	 */
+	public function changeState()
+	{
+		$rand = rand();
+		$name = $rand . 'RedShop Product';
+		$number = $rand;
+		$price = 10;
+		$category = 'redCOMPONENT';
+		$this->appTestPage->addProduct($name, $number, $price, $category);
+		$this->assertTrue($this->appTestPage->searchProduct($name), 'Product Must be Present');
+		$this->assertEquals($this->appTestPage->getState($name), 'published', 'Both Must be Equal');
+		$this->appTestPage->changeProductState($name, 'unpublished');
+		$this->assertEquals($this->appTestPage->getState($name), 'unpublished', 'Product must be Unpublished');
+		$this->appTestPage->deleteProduct($name);
+		$this->assertFalse($this->appTestPage->searchProduct($name, 'Delete'), 'Product Must be Deleted');
+	}
 }
