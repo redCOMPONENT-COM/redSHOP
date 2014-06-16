@@ -83,5 +83,9 @@ class RedShopIntegration0001Test extends JoomlaWebdriverTestCase
 		$elementObject->get($config->host . $config->path . $frontEndURL);
 		$this->redShopFrontEndManagerPage = $this->getPageObject("RedShopFrontEndManagerPage");
 		$this->assertTrue($this->redShopFrontEndManagerPage->checkOutProduct($name, $category, $customerInfo), 'Product Must be Succesfully Checked Out');
+		$elementObject->get($config->host . $config->path . $productsURL);
+		$this->redShopProductsManagerPage = $this->getPageObject("RedShopProductsManagerPage");
+		$this->redShopProductsManagerPage->deleteProduct($name);
+		$this->assertFalse($this->redShopProductsManagerPage->searchProduct($name, 'Delete'), 'Product Must be Deleted');
 	}
 }
