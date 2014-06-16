@@ -122,6 +122,13 @@ class RedShopProductsManagerPage extends AdminManagerPage
 		$elementObject->waitForElementUntilIsPresent(By::xPath("//li[text() = 'Product details saved']"), 10);
 	}
 
+	/**
+	 * Function to Delete a Product
+	 *
+	 * @param   string  $productName  Name of the Product which is to be deleted
+	 *
+	 * @return RedShopProductsManagerPage
+	 */
 	public function deleteProduct($productName)
 	{
 		$elementObject = $this->driver;
