@@ -38,7 +38,6 @@ class modProMenuHelper
 
 	function sortCategoryTreeArray(&$categoryArr, $parent_selected)
 	{
-
 		// Copy the Array into an Array with auto_incrementing Indexes
 		// Array of category table primary keys
 		$key = array_keys($categoryArr);
@@ -100,6 +99,7 @@ class modProMenuHelper
 			$id_temp    = array();
 			$row_temp   = array();
 			$depth_temp = array();
+			$children   = array();
 
 			for ($i = 0; $i < count($id_list); $i++)
 			{
@@ -111,7 +111,10 @@ class modProMenuHelper
 				array_push($row_temp, $row);
 				array_push($depth_temp, $depth);
 
-				$children = $parent_ids_hash[$id];
+				if (isset($parent_ids_hash[$id]))
+				{
+					$children = $parent_ids_hash[$id];
+				}
 
 				if (!empty($children))
 				{
