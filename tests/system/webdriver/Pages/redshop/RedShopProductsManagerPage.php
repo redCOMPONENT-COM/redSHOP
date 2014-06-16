@@ -245,6 +245,5 @@ class RedShopProductsManagerPage extends AdminManagerPage
 		}
 
 		return $result;
-
 	}
 }
