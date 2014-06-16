@@ -69,6 +69,15 @@ class RedShopProductsManagerPage extends AdminManagerPage
 		$elementObject->waitForElementUntilIsPresent(By::xPath("//li[text() = 'Product details saved']"), 10);
 	}
 
+	/**
+	 * Function to Edit a Product
+	 *
+	 * @param   string  $field        Field which we are going to Update
+	 * @param   string  $newValue     New value of the Field
+	 * @param   string  $productName  Name of the Product which we are going to edit
+	 * 
+	 * @return RedShopProductsManagerPage
+	 */
 	public function editProduct($field, $newValue, $productName)
 	{
 		$elementObject = $this->driver;
