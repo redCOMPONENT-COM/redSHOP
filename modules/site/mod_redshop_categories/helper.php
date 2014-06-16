@@ -288,7 +288,7 @@ class modProMenuHelper
 	function get_category_tree($params, $category_id = 0,
 		$links_css_class = "mainlevel",
 		$list_css_class = "mm123",
-		$highlighted_style = "font-style:italic;", $shopper_group_id)
+		$highlighted_style = "font-style:italic;", $shopper_group_id = 0)
 	{
 		$objhelper              = new redhelper;
 		$parent_selected        = $params->get('redshop_category', '');
@@ -315,6 +315,7 @@ class modProMenuHelper
 
 		// Find out if we have subcategories to display
 		$allowed_subcategories = Array();
+		$root                  = array('category_child_id' => 0, 'category_parent_id' => 0);
 
 		if (!empty($categories[$category_id]["category_parent_id"]))
 		{
@@ -326,7 +327,15 @@ class modProMenuHelper
 			while (!empty($root["category_parent_id"]))
 			{
 				$allowed_subcategories[] = $categories[$root["category_child_id"]]["category_child_id"];
-				$root                    = $categories[$root["category_parent_id"]];
+
+				if (isset($categories[$root["category_parent_id"]]))
+				{
+					$root = $categories[$root["category_parent_id"]];
+				}
+				else
+				{
+					$root = array('category_child_id' => 0, 'category_parent_id' => 0);
+				}
 			}
 		}
 
@@ -366,6 +375,7 @@ class modProMenuHelper
 				$allowed = true;
 			$append = "";
 			$class  = "";
+			$sub    = 0;
 
 			if ($allowed)
 			{
