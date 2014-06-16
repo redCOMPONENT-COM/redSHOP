@@ -144,4 +144,40 @@ class RedShopProductsManagerPage extends AdminManagerPage
 		$elementObject->findElement(By::xPath("//input[@id='cb" . $row . "']"))->click();
 		$elementObject->findElement(By::xPath("//a[@onclick=\"if (document.adminForm.boxchecked.value==0){alert('Please first make a selection from the list');}else{ Joomla.submitbutton('remove')}\"]"))->click();
 	}
+
+	/**
+	 * Function to Search for a Product
+	 *
+	 * @param   string  $productName   Name of the Product for which we are going to Search
+	 * @param   string  $functionName  Name of the function after which Search is getting called
+	 *
+	 * @return bool
+	 */
+	public function searchProduct($productName, $functionName = 'Search')
+	{
+		$elementObject = $this->driver;
+		$searchField = $elementObject->findElement(By::xPath("//input[@name='keyword']"));
+		$searchField->clear();
+		$searchField = $elementObject->findElement(By::xPath("//input[@name='keyword']"));
+		$searchField->sendKeys($productName);
+		$elementObject->findElement(By::xPath("//input[@type='submit']"))->click();
+		sleep(2);
+		$row = $this->getRowNumber($productName) - 1;
+
+		if ($functionName == 'Search')
+		{
+			$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='cb" . $row . "']"), 10);
+		}
+
+		$arrayElement = $elementObject->findElements(By::xPath("//tbody/tr/td[3]/a[text() = '" . $productName . "']"));
+
+		if (count($arrayElement))
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
 }
