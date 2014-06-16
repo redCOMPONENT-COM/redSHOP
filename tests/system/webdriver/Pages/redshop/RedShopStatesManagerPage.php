@@ -52,6 +52,7 @@ class RedShopStatesManagerPage extends AdminManagerPage
 	{
 		$elementObject = $this->driver;
 		$elementObject->findElement(By::xPath("//a[@onclick=\"Joomla.submitbutton('add')\"]"))->click();
+		$this->checkNoticesForEditView(get_class($this));
 		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='state_name']"));
 		$nameField = $elementObject->findElement(By::xPath("//input[@id='state_name']"));
 		$nameField->clear();
@@ -91,6 +92,7 @@ class RedShopStatesManagerPage extends AdminManagerPage
 		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='cb" . $row . "']"), 10);
 		$elementObject->findElement(By::xPath("//input[@id='cb" . $row . "']"))->click();
 		$elementObject->findElement(By::xPath("//li[@id='toolbar-edit']/a"))->click();
+		$this->checkNoticesForEditView(get_class($this));
 		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='state_name']"), 10);
 
 		switch ($field)
