@@ -69,4 +69,47 @@ class RedShopProductsManagerPage extends AdminManagerPage
 		$elementObject->waitForElementUntilIsPresent(By::xPath("//li[text() = 'Product details saved']"), 10);
 	}
 
+	public function editProduct($field, $newValue, $productName)
+	{
+		$elementObject = $this->driver;
+		$searchField = $elementObject->findElement(By::xPath("//input[@name='keyword']"));
+		$searchField->clear();
+		$searchField = $elementObject->findElement(By::xPath("//input[@name='keyword']"));
+		$searchField->sendKeys($productName);
+		$elementObject->findElement(By::xPath("//input[@type='submit']"))->click();
+		sleep(2);
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//tbody/tr/td[3]/a[text() = '" . $productName . "']"), 10);
+		$row = $this->getRowNumber($productName) - 1;
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='cb" . $row . "']"), 10);
+		$elementObject->findElement(By::xPath("//input[@id='cb" . $row . "']"))->click();
+		$elementObject->findElement(By::xPath("//li[@id='toolbar-edit']/a"))->click();
+		$this->checkNoticesForEditView(get_class($this));
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='product_name']"), 10);
+
+		switch ($field)
+		{
+			case "Name":
+				$nameField = $elementObject->findElement(By::xPath("//input[@id='product_name']"));
+				$nameField->clear();
+				$nameField->sendKeys($newValue);
+				break;
+			case "Price":
+				$priceField = $elementObject->findElement(By::xPath("//input[@id='product_price']"));
+				$priceField->clear();
+				$priceField->sendKeys($newValue);
+				break;
+			case "Number":
+				$numberField = $elementObject->findElement(By::xPath("//input[@id='product_number']"));
+				$numberField->clear();
+				$numberField->sendKeys($newValue);
+				break;
+			case "Category":
+				$elementObject->findElement(By::xPath("//select[@id='product_category']//option[contains(text(),'" . $newValue . "')]"))->click();
+				sleep(2);
+				break;
+		}
+
+		$elementObject->findElement(By::xPath("//a[@onclick=\"Joomla.submitbutton('save')\"]"))->click();
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//li[text() = 'Product details saved']"), 10);
+	}
 }
