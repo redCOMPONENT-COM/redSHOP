@@ -180,4 +180,38 @@ class RedShopProductsManagerPage extends AdminManagerPage
 			return false;
 		}
 	}
+
+	/**
+	 * Function to change state of a product
+	 *
+	 * @param   string  $productName  Name of the Product
+	 * @param   string  $state        State of the product
+	 *
+	 * @return RedShopProductsManagerPage
+	 */
+	public function changeProductState($productName, $state = 'published')
+	{
+		$elementObject = $this->driver;
+		$searchField = $elementObject->findElement(By::xPath("//input[@name='keyword']"));
+		$searchField->clear();
+		$searchField = $elementObject->findElement(By::xPath("//input[@name='keyword']"));
+		$searchField->sendKeys($productName);
+		$elementObject->findElement(By::xPath("//input[@type='submit']"))->click();
+		sleep(2);
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//tbody/tr/td[3]/a[text() = '" . $productName . "']"), 10);
+		$row = $this->getRowNumber($productName) - 1;
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='cb" . $row . "']"), 10);
+		$elementObject->findElement(By::xPath("//input[@id='cb" . $row . "']"))->click();
+
+		if (strtolower($state) == 'published')
+		{
+			$elementObject->findElement(By::xPath("//li[@id='toolbar-publish']/a"))->click();
+			$this->driver->waitForElementUntilIsPresent(By::xPath($this->waitForXpath));
+		}
+		elseif (strtolower($state) == 'unpublished')
+		{
+			$elementObject->findElement(By::xPath("//li[@id='toolbar-unpublish']/a"))->click();
+			$this->driver->waitForElementUntilIsPresent(By::xPath($this->waitForXpath));
+		}
+	}
 }
