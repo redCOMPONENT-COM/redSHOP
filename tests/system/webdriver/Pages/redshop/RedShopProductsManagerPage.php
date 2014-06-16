@@ -75,7 +75,7 @@ class RedShopProductsManagerPage extends AdminManagerPage
 	 * @param   string  $field        Field which we are going to Update
 	 * @param   string  $newValue     New value of the Field
 	 * @param   string  $productName  Name of the Product which we are going to edit
-	 * 
+	 *
 	 * @return RedShopProductsManagerPage
 	 */
 	public function editProduct($field, $newValue, $productName)
@@ -120,5 +120,21 @@ class RedShopProductsManagerPage extends AdminManagerPage
 
 		$elementObject->findElement(By::xPath("//a[@onclick=\"Joomla.submitbutton('save')\"]"))->click();
 		$elementObject->waitForElementUntilIsPresent(By::xPath("//li[text() = 'Product details saved']"), 10);
+	}
+
+	public function deleteProduct($productName)
+	{
+		$elementObject = $this->driver;
+		$searchField = $elementObject->findElement(By::xPath("//input[@name='keyword']"));
+		$searchField->clear();
+		$searchField = $elementObject->findElement(By::xPath("//input[@name='keyword']"));
+		$searchField->sendKeys($productName);
+		$elementObject->findElement(By::xPath("//input[@type='submit']"))->click();
+		sleep(2);
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//tbody/tr/td[3]/a[text() = '" . $productName . "']"), 10);
+		$row = $this->getRowNumber($productName) - 1;
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='cb" . $row . "']"), 10);
+		$elementObject->findElement(By::xPath("//input[@id='cb" . $row . "']"))->click();
+		$elementObject->findElement(By::xPath("//a[@onclick=\"if (document.adminForm.boxchecked.value==0){alert('Please first make a selection from the list');}else{ Joomla.submitbutton('remove')}\"]"))->click();
 	}
 }
