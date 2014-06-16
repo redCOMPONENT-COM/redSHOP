@@ -214,4 +214,37 @@ class RedShopProductsManagerPage extends AdminManagerPage
 			$this->driver->waitForElementUntilIsPresent(By::xPath($this->waitForXpath));
 		}
 	}
+
+	/**
+	 * Function to fetch State of a Product
+	 *
+	 * @param   string  $productName  Name of the product
+	 *
+	 * @return string
+	 */
+	public function getState($productName)
+	{
+		$elementObject = $this->driver;
+		$searchField = $elementObject->findElement(By::xPath("//input[@name='keyword']"));
+		$searchField->clear();
+		$searchField = $elementObject->findElement(By::xPath("//input[@name='keyword']"));
+		$searchField->sendKeys($productName);
+		$elementObject->findElement(By::xPath("//input[@type='submit']"))->click();
+		sleep(2);
+		$row = $this->getRowNumber($productName);
+		$text = $this->driver->findElement(By::xPath("//tbody/tr[" . $row . "]/td[12]//a"))->getAttribute(@onclick);
+
+		if (strpos($text, 'unpublish') > 0)
+		{
+			$result = 'published';
+		}
+
+		if (strpos($text, 'publish') > 0)
+		{
+			$result = 'unpublished';
+		}
+
+		return $result;
+
+	}
 }
