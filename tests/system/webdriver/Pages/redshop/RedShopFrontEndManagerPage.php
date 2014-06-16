@@ -107,13 +107,16 @@ class RedShopFrontEndManagerPage extends AdminManagerPage
 		$elementObject->findElement(By::xPath("//input[@id='submitbtn']"))->click();
 		sleep(2);
 		$elementObject->findElement(By::xPath("//input[@name='checkoutnext']"))->click();
-		sleep(1);
+		sleep(2);
 		$elementObject->waitForElementUntilIsPresent(By::xPath("//a[text() = '" . $productName . "']"));
 		$arrayElement = $elementObject->findElement(By::xPath("//a[text() = '" . $productName . "']"));
 
 		if (count($arrayElement))
 		{
 			$elementObject->findElement(By::xPath("//input[@id='termscondition']"))->click();
+			$elementObject->findElement(By::xPath("//input[@id='checkout_final']"))->click();
+			sleep(2);
+			$elementObject->waitForElementUntilIsPresent(By::xPath("//div[text()='" . $productName . "']"));
 
 			return true;
 		}
