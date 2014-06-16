@@ -38,6 +38,16 @@ class RedShopProductsManagerPage extends AdminManagerPage
 	 */
 	protected $url = 'administrator/index.php?option=com_redshop&view=product';
 
+	/**
+	 * Function to Add a new Product
+	 *
+	 * @param   string  $name      Name of the Product
+	 * @param   string  $number    Number of the Product
+	 * @param   string  $price     Price of the Product
+	 * @param   string  $category  Category of the Product
+	 *
+	 * @return RedShopProductsManagerPage
+	 */
 	public function addProduct($name = 'Sample', $number = '123455', $price = '10', $category = 'redCOMPONENT')
 	{
 		$elementObject = $this->driver;
@@ -58,4 +68,5 @@ class RedShopProductsManagerPage extends AdminManagerPage
 		$elementObject->findElement(By::xPath("//a[@onclick=\"Joomla.submitbutton('save')\"]"))->click();
 		$elementObject->waitForElementUntilIsPresent(By::xPath("//li[text() = 'Product details saved']"), 10);
 	}
+
 }
