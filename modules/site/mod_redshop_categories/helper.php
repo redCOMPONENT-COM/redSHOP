@@ -13,10 +13,8 @@ require_once JPATH_SITE . '/components/com_redshop/helpers/helper.php';
 
 class modProMenuHelper
 {
-
 	function has_childs($category_id)
 	{
-
 		$db = JFactory::getDbo();
 
 		if (empty($GLOBALS['category_info'][$category_id]['has_childs']))
@@ -26,9 +24,13 @@ class modProMenuHelper
 			$db->setQuery($q);
 
 			if ($db->loadObjectList() > 0)
+			{
 				$GLOBALS['category_info'][$category_id]['has_childs'] = true;
+			}
 			else
+			{
 				$GLOBALS['category_info'][$category_id]['has_childs'] = false;
+			}
 		}
 
 		return $GLOBALS['category_info'][$category_id]['has_childs'];
@@ -57,7 +59,7 @@ class modProMenuHelper
 		$parent_ids_hash = array();
 
 		// Build an array of category references
-		$category_tmp = Array();
+		$category_tmp = array();
 
 		for ($i = 0; $i < $size; $i++)
 		{
@@ -91,7 +93,10 @@ class modProMenuHelper
 		while (count($id_list) < $nrows)
 		{
 			if ($loop_count > $nrows)
+			{
 				break;
+			}
+
 			$id_temp    = array();
 			$row_temp   = array();
 			$depth_temp = array();
@@ -101,11 +106,12 @@ class modProMenuHelper
 				$id    = $id_list[$i];
 				$row   = $row_list[$i];
 				$depth = $depth_list[$i];
+
 				array_push($id_temp, $id);
 				array_push($row_temp, $row);
 				array_push($depth_temp, $depth);
 
-				$children = @$parent_ids_hash[$id];
+				$children = $parent_ids_hash[$id];
 
 				if (!empty($children))
 				{
@@ -114,6 +120,7 @@ class modProMenuHelper
 						if (!isset($watch[$id][$category_tmp[$key]["category_child_id"]]))
 						{
 							$watch[$id][$category_tmp[$key]["category_child_id"]] = 1;
+
 							array_push($id_temp, $category_tmp[$key]["category_child_id"]);
 							array_push($row_temp, $key);
 							array_push($depth_temp, $depth + 1);
@@ -125,13 +132,16 @@ class modProMenuHelper
 			$id_list    = $id_temp;
 			$row_list   = $row_temp;
 			$depth_list = $depth_temp;
+
 			$loop_count++;
 		}
 
-		return array('id_list'      => $id_list,
-					'row_list'     => $row_list,
-					'depth_list'   => $depth_list,
-					'category_tmp' => $category_tmp);
+		return array(
+			'id_list'      => $id_list,
+			'row_list'     => $row_list,
+			'depth_list'   => $depth_list,
+			'category_tmp' => $category_tmp
+		);
 	}
 
 	function getCategoryTreeArray($only_published = 1, $keyword = "", $shopper_group_id, $parent_selected_remove)
@@ -201,7 +211,7 @@ class modProMenuHelper
 			$db->setQuery($query);
 			$cat_results = $db->loadObjectList();
 
-			$categories = Array();
+			$categories = array();
 
 			if (count($cat_results) > 0)
 			{
@@ -270,7 +280,6 @@ class modProMenuHelper
 				$db->setQuery($q);
 				$catresults = $db->loadObjectList();
 
-
 				foreach ($catresults as $catresult)
 				{
 					$child_product_id = $catresult->category_child_id;
@@ -281,7 +290,9 @@ class modProMenuHelper
 			return " ($num) ";
 		}
 		else
+		{
 			return ("");
+		}
 
 	}
 
@@ -296,7 +307,6 @@ class modProMenuHelper
 
 		$categories = $this->getCategoryTreeArray($only_published = 1, $keyword = "", $shopper_group_id, $parent_selected_remove);
 
-		// $categories = $this->getCategoryTreeArray(); // Get array of category objects
 		// Sort array of category objects
 		$result       = $this->sortCategoryTreeArray($categories, $parent_selected);
 		$row_list     = $result['row_list'];
@@ -314,7 +324,7 @@ class modProMenuHelper
 		$html = "";
 
 		// Find out if we have subcategories to display
-		$allowed_subcategories = Array();
+		$allowed_subcategories = array();
 		$root                  = array('category_child_id' => 0, 'category_parent_id' => 0);
 
 		if (!empty($categories[$category_id]["category_parent_id"]))
@@ -351,12 +361,19 @@ class modProMenuHelper
 		for ($n = 0; $n < $nrows; $n++)
 		{
 			if (!isset($row_list[$n]) || !isset($category_tmp[$row_list[$n]]["category_child_id"]))
+			{
 				continue;
+			}
+
 			if ($category_id == $category_tmp[$row_list[$n]]["category_child_id"] || $category_tmp[$row_list[$n]]["category_child_id"] == $root["category_child_id"]
 				|| in_array($category_tmp[$row_list[$n]]["category_child_id"], $allowed_subcategories))
+			{
 				$style = $highlighted_style;
+			}
 			else
+			{
 				$style = "";
+			}
 
 			$allowed = false;
 
@@ -372,7 +389,10 @@ class modProMenuHelper
 				}
 			}
 			else
+			{
 				$allowed = true;
+			}
+
 			$append = "";
 			$class  = "";
 			$sub    = 0;
@@ -380,7 +400,9 @@ class modProMenuHelper
 			if ($allowed)
 			{
 				if ($n == 0)
+				{
 					$html .= '<ul>';
+				}
 
 				if ($style == $highlighted_style)
 				{
@@ -406,7 +428,9 @@ class modProMenuHelper
 					if ($depth_list[$n] < ($sub))
 					{
 						for ($i = $depth_list[$n]; $i < $sub; $i++)
+						{
 							$html .= '</ul></li>';
+						}
 
 						$sub = $depth_list[$n];
 					}
@@ -427,20 +451,25 @@ class modProMenuHelper
 				$catname = JText::_($category_tmp[$row_list[$n]]["category_name"]);
 
 				$Itemid = $objhelper->getCategoryItemid($category_tmp[$row_list[$n]]["category_child_id"]);
+
 				if (!$Itemid)
+				{
 					$Itemid = JRequest::getInt('Itemid');
+				}
 
 				$uri = JURI::getInstance();
 				$url = $uri->root();
 
 				$catlink = 'index.php?option=com_redshop&view=category&layout=detail&cid=' . $category_tmp[$row_list[$n]]["category_child_id"] . $append . '&Itemid=' . $Itemid;
-				$html .= '
-           <li ' . $class . ' ><a title="' . $catname . '" style="display:block;' . $style . '" class="' . $css_class . '" href=' . JRoute::_($catlink) . '>'
+				$html .= '<li ' . $class . ' ><a title="' . $catname . '" style="display:block;' . $style . '" class="' . $css_class . '" href=' . JRoute::_($catlink) . '>'
 					. str_repeat("", $depth_list[$n]) . $catname
 					. $this->products_in_category($category_tmp[$row_list[$n]]["category_child_id"], $params)
 					. '</a>';
+
 				if ($n == ($nrows - 1))
+				{
 					$html .= "</ul>";
+				}
 			}
 		}
 
