@@ -1882,6 +1882,7 @@ class producthelper
 			else
 			{
 				$discount_amount = $product_subtotal * $discount->discount_amount / 100;
+				$this->_session->set('cart', $cart);
 			}
 		}
 
