@@ -33,10 +33,10 @@ if (file_exists('../logs/junit.xml'))
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1\">
-		<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
-		<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
-		<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+		<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+		<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
+		<script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
+		<script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
 	</head>
 	<body>
 		<?php if (!$logFileExist) : ?>
@@ -75,7 +75,30 @@ if (file_exists('../logs/junit.xml'))
 					</td>
 					<td>
 						<?php foreach ($testsuite->testcase as $testcase) : ?>
-							<?php echo $testcase->attributes()->name; ?><br/>
+						<?php
+							if (isset($testcase->failure))
+							{
+						?>
+						<div class="panel-group" id="accordion">
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h4 class="panel-title">
+										<a data-toggle="collapse" data-parent="#accordion" href="#<?php echo $testcase->attributes()->name; ?>"><?php echo $testcase->attributes()->name; ?><br/></a>
+									</h4>
+								</div>
+								<div id="<?php echo $testcase->attributes()->name; ?>" class="panel-collapse collapse">
+									<div class="panel-body">
+										<p><?php echo $testcase->failure; ?></p>
+									</div>
+								</div>
+							</div>
+						<?php
+							}
+							else
+							{
+						?>
+								<?php echo $testcase->attributes()->name; ?><br/>
+						<?php   }   ?>
 						<?php endforeach; ?>
 					</td>
 					<td>
