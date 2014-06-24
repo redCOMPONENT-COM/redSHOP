@@ -75,10 +75,7 @@ if (file_exists('../logs/junit.xml'))
 					</td>
 					<td>
 						<?php foreach ($testsuite->testcase as $testcase) : ?>
-						<?php
-							if (isset($testcase->failure))
-							{
-						?>
+						<?php if (isset($testcase->failure)) { ?>
 						<div class="panel-group" id="accordion">
 							<div class="panel panel-default">
 								<div class="panel-heading">
@@ -92,13 +89,9 @@ if (file_exists('../logs/junit.xml'))
 									</div>
 								</div>
 							</div>
-						<?php
-							}
-							else
-							{
-						?>
-								<?php echo $testcase->attributes()->name; ?><br/>
-						<?php   }   ?>
+						<?php } else { ?>
+							<?php echo $testcase->attributes()->name; ?><br/>
+						<?php    }   ?>
 						<?php endforeach; ?>
 					</td>
 					<td>
