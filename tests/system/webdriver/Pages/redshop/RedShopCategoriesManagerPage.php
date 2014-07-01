@@ -234,7 +234,7 @@ class RedShopCategoriesManagerPage extends AdminManagerPage
 	 *
 	 * @param   string  $categoryName  Name of the Category
 	 *
-	 * @return RedShop2CategoriesManagerPage
+	 * @return RedShopCategoriesManagerPage
 	 */
 	public function copyCategory($categoryName)
 	{
