@@ -207,7 +207,7 @@ abstract class AdminPage
 	{
 		$haystack = strip_tags($this->driver->pageSource());
 
-		return (bool) (stripos($haystack, "( ! ) Notice") || stripos($haystack, "( ! ) Warning"));
+		return (bool) (stripos($haystack, "Notice:") || stripos($haystack, "Warning:"));
 	}
 
 	/**
