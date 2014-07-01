@@ -122,4 +122,29 @@ class RedShopProduct0001Test extends JoomlaWebdriverTestCase
 		$this->appTestPage->deleteProduct($name);
 		$this->assertFalse($this->appTestPage->searchProduct($name, 'Delete'), 'Product Must be Deleted');
 	}
+
+	/**
+	 * Function to test  Copy Function of  Product
+	 *
+	 * @test
+	 *
+	 * @return void
+	 */
+	public function checkCopy()
+	{
+		$rand = rand();
+		$name = $rand . 'RedShop Product';
+		$copiedProduct = 'Copy of ' . $name;
+		$number = $rand;
+		$price = 10;
+		$category = 'redCOMPONENT';
+		$this->appTestPage->addProduct($name, $number, $price, $category);
+		$this->assertTrue($this->appTestPage->searchProduct($name), 'Product Must be Present');
+		$this->appTestPage->copyProduct($name);
+		$this->assertTrue($this->appTestPage->searchProduct($copiedProduct), 'A copied Product must be made');
+		$this->appTestPage->deleteProduct($copiedProduct);
+		$this->assertFalse($this->appTestPage->searchProduct($copiedProduct, 'Delete'), 'Product Must be Deleted');
+		$this->appTestPage->deleteProduct($name);
+		$this->assertFalse($this->appTestPage->searchProduct($name, 'Delete'), 'Product Must be Deleted');
+	}
 }

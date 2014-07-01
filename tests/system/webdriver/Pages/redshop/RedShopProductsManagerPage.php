@@ -246,4 +246,28 @@ class RedShopProductsManagerPage extends AdminManagerPage
 
 		return $result;
 	}
+
+	/**
+	 * Function to Copy Product
+	 *
+	 * @param   string  $productName  Name of the Product
+	 *
+	 * @return RedShopProductsManagerPage
+	 */
+	public function copyProduct($productName)
+	{
+		$elementObject = $this->driver;
+		$searchField = $elementObject->findElement(By::xPath("//input[@name='keyword']"));
+		$searchField->clear();
+		$searchField = $elementObject->findElement(By::xPath("//input[@name='keyword']"));
+		$searchField->sendKeys($productName);
+		$elementObject->findElement(By::xPath("//input[@type='submit']"))->click();
+		sleep(2);
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//tbody/tr/td[3]/a[text() = '" . $productName . "']"), 10);
+		$row = $this->getRowNumber($productName) - 1;
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='cb" . $row . "']"), 10);
+		$elementObject->findElement(By::xPath("//input[@id='cb" . $row . "']"))->click();
+		$elementObject->findElement(By::xPath("//li[@id='toolbar-copy']/a"))->click();
+		sleep(4);
+	}
 }
