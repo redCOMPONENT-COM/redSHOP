@@ -381,6 +381,7 @@ for ($i = 0, $n = count($this->products); $i < $n; $i++)
 
 <input type="hidden" name="view" value="product"/>
 <input type="hidden" name="task" value=""/>
+<input type="hidden" name="viewFrom" value="productList"/>
 <input type="hidden" name="boxchecked" value="0"/>
 <input type="hidden" name="product_template" value=""/>
 <input type="hidden" name="filter_order" value="<?php echo $this->lists['order']; ?>"/>
