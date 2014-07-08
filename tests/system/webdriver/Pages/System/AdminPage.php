@@ -207,7 +207,20 @@ abstract class AdminPage
 	public function checkForNotices()
 	{
 		$haystack = strip_tags($this->driver->pageSource());
-		return (bool) (stripos($haystack, "( ! ) Notice") || stripos($haystack, "( ! ) Warning"));
+
+		return (bool) (stripos($haystack, "Notice:") || stripos($haystack, "Warning:"));
+	}
+
+	/**
+	 * Function to Verify Notices in Edit View of a MVC
+	 *
+	 * @param   Object  $pageType  Type of Page for which this is getting called
+	 *
+	 * @return void
+	 */
+	public function checkNoticesForEditView($pageType)
+	{
+		$this->test->assertFalse($this->checkForNotices(), 'PHP Notice found on Edit View  of the following page Type ' . $pageType);
 	}
 
 	/**
