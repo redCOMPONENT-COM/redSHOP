@@ -208,10 +208,8 @@ class RedShopStatesManagerPage extends AdminManagerPage
 		{
 			return true;
 		}
-		else
-		{
-			return false;
-		}
+
+		return false;
 	}
 
 	/**
