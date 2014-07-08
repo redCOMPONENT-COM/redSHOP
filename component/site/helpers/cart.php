@@ -2167,6 +2167,7 @@ class rsCarthelper
 		$discount          = 0;
 		$user_info_id      = 0;
 		$total_discount    = 0;
+		$discountVAT       = 0;
 		$redArray          = array();
 
 		for ($i = 0; $i < $Idx; $i++)
@@ -3337,6 +3338,7 @@ class rsCarthelper
 		$d['ordertotal']      = $ordertotal;
 		$d['order_subtotal']  = $order_subtotal;
 		$template_desc        = str_replace("{shipping_heading}", JText::_('COM_REDSHOP_SHIPPING_METHOD'), $template_desc);
+		$extrafield_total     = "";
 
 		if (strstr($template_desc, "{shipping_method_loop_start}") && strstr($template_desc, "{shipping_method_loop_end}"))
 		{
@@ -3474,7 +3476,7 @@ class rsCarthelper
 						$extraField         = new extraField;
 						$paymentparams_new  = new JRegistry($shippingmethod[$s]->params);
 						$extrafield_payment = $paymentparams_new->get('extrafield_shipping');
-						$extrafield_total   = "";
+
 						$extrafield_hidden  = "";
 
 						if (count($extrafield_payment) > 0)
@@ -3500,8 +3502,6 @@ class rsCarthelper
 			$template_desc = str_replace("{shipping_method_loop_end}", "", $template_desc);
 			$template_desc = str_replace($template_middle, $rate_data, $template_desc);
 		}
-
-
 
 		if ($rateExist == 0)
 		{
