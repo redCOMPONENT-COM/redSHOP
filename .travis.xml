@@ -8,7 +8,6 @@
 		<exec executable="phpcs" passthru="true">
 			<arg line="-p" />
 			<arg line="-w" />
-			<arg line="-vv" />
 			<arg value="--report=full"/>
 			<arg value="--extensions=php"/>
 			<arg value="--standard=${basedir}/.travis/phpcs/Joomla/ruleset.xml"/>
