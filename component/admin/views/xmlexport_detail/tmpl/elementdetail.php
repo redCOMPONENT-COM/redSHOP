@@ -19,10 +19,6 @@ $url = $uri->root();    ?>
 
 <script language="javascript" type="text/javascript">
 	Joomla.submitbutton = function (pressbutton) {
-		submitbutton(pressbutton);
-	}
-
-	submitbutton = function (pressbutton) {
 		var form = document.adminForm;
 		if (form.element_name.value == "") {
 			alert("<?php echo JText::_('COM_REDSHOP_PLEASE_ENTER_XMLEXPORT_CHILD_ELEMENT_NAME', true ); ?>");
