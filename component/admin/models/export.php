@@ -1365,27 +1365,56 @@ class ExportModelexport extends JModel
 	 */
 	public function loadShoppergroupPrice()
 	{
-		$db = JFactory::getDbo();
-		$query = "SELECT p.product_number, 'product' AS section, s.shopper_group_id, s.shopper_group_name, pp.product_price,
-		price_quantity_start, price_quantity_end, pp.discount_price, pp.discount_start_date, pp.discount_end_date "
-			. "FROM `#__redshop_product_price` AS pp "
-			. "LEFT JOIN `#__redshop_product` AS p ON p.product_id = pp.product_id "
-			. "LEFT JOIN `#__redshop_shopper_group` AS s ON s.shopper_group_id = pp.shopper_group_id "
-			. "WHERE p.product_number!='' ";
+		// Initialiase variables.
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true);
+
+		// Create the base select statement.
+		$query->select(
+			array(
+					$db->qn('p.product_number'),
+					$db->qn('p.product_name'),
+					'"product" as ' . $db->qn('section'),
+					$db->qn('s.shopper_group_id'),
+					$db->qn('s.shopper_group_name'),
+					$db->qn('pp.product_price'),
+					$db->qn('price_quantity_start'),
+					$db->qn('price_quantity_end'),
+					$db->qn('pp.discount_price'),
+					$db->qn('pp.discount_start_date'),
+					$db->qn('pp.discount_end_date')
+				)
+			)
+			->from($db->qn('#__redshop_product_price', 'pp'))
+			->leftjoin(
+				$db->qn('#__redshop_product', 'p')
+				. ' ON ' . $db->qn('p.product_id') . '=' . $db->qn('pp.product_id')
+			)
+			->leftjoin(
+				$db->qn('#__redshop_shopper_group', 's')
+				. ' ON ' . $db->qn('s.shopper_group_id') . '=' . $db->qn('pp.shopper_group_id')
+			)
+			->where($db->qn('p.product_number') . '!= ""');
+
+		// Set the query and load the result.
 		$db->setQuery($query);
 
-		if (!($cur = $db->LoadObjectList()))
+		try
 		{
-			return null;
+			$product = $db->loadObjectList();
+		}
+		catch (RuntimeException $e)
+		{
+			throw new RuntimeException($e->getMessage(), $e->getCode());
 		}
 
 		$i = 0;
 
-		if (count($cur) > 0)
+		if (count($product) > 0)
 		{
-			for ($e = 0; $e < count($cur); $e++)
+			for ($e = 0; $e < count($product); $e++)
 			{
-				$row = $cur[$e];
+				$row = $product[$e];
 				$row = (array) $row;
 				$fields = count($row);
 
@@ -1424,29 +1453,60 @@ class ExportModelexport extends JModel
 			}
 		}
 
-		$query = "SELECT IFNULL( p.property_number, sp.subattribute_color_number ) AS product_number, ap.section,
-		s.shopper_group_id, s.shopper_group_name, ap.product_price, price_quantity_start, price_quantity_end,
-		ap.discount_price, ap.discount_start_date, ap.discount_end_date "
-			. "FROM `#__redshop_product_attribute_price` AS ap "
-			. "LEFT JOIN `#__redshop_shopper_group` AS s ON s.shopper_group_id=ap.shopper_group_id "
-			. "LEFT JOIN `#__redshop_product_attribute_property` AS p ON p.property_id=ap.section_id AND ap.section='property'
-			AND p.property_number != '' "
-			. "LEFT JOIN `#__redshop_product_subattribute_color` AS sp ON sp.subattribute_color_id=ap.section_id
-			AND ap.section='subproperty' AND sp.subattribute_color_number != '' ";
+		// Property and Subproperty Data collect
+		$query = $db->getQuery(true);
 
+		// Create the base select statement.
+		$query->select(
+				array(
+					'IFNULL(' . $db->qn('p.property_number') . ', ' . $db->qn('sp.subattribute_color_number') . ') AS product_number',
+					'IFNULL(' . $db->qn('p.property_name') . ', ' . $db->qn('sp.subattribute_color_name') . ') AS product_name',
+					$db->qn('ap.section'),
+					$db->qn('s.shopper_group_id'),
+					$db->qn('s.shopper_group_name'),
+					$db->qn('ap.product_price'),
+					$db->qn('price_quantity_start'),
+					$db->qn('price_quantity_end'),
+					$db->qn('ap.discount_price'),
+					$db->qn('ap.discount_start_date'),
+					$db->qn('ap.discount_end_date'),
+				)
+			)
+			->from($db->qn('#__redshop_product_attribute_price', 'ap'))
+			->leftjoin(
+				$db->qn('#__redshop_shopper_group', 's')
+				. ' ON ' . $db->qn('s.shopper_group_id') . '=' . $db->qn('ap.shopper_group_id')
+			)
+			->leftjoin(
+				$db->qn('#__redshop_product_attribute_property', 'p')
+				. ' ON ' . $db->qn('p.property_id') . '=' . $db->qn('ap.section_id')
+				. ' AND ' . $db->qn('ap.section') . ' = "property" '
+				. ' AND ' . $db->qn('p.property_number') . ' != "" '
+			)
+			->leftjoin(
+				$db->qn('#__redshop_product_subattribute_color', 'sp')
+				. ' ON ' . $db->qn('sp.subattribute_color_id') . '=' . $db->qn('ap.section_id')
+				. ' AND ' . $db->qn('ap.section') . ' = "subproperty" '
+				. ' AND ' . $db->qn('sp.subattribute_color_number') . ' != "" '
+			);
+
+		// Set the query and load the result.
 		$db->setQuery($query);
-		$cur1 = $db->LoadObjectList();
 
-		if (!($cur1 = $db->LoadObjectList()))
+		try
 		{
-			return null;
+			$attributes = $db->loadObjectList();
+		}
+		catch (RuntimeException $e)
+		{
+			throw new RuntimeException($e->getMessage(), $e->getCode());
 		}
 
-		if (count($cur1) > 0)
+		if (count($attributes) > 0)
 		{
-			for ($f = 0; $f < count($cur1); $f++)
+			for ($f = 0; $f < count($attributes); $f++)
 			{
-				$row = $cur1[$f];
+				$row = $attributes[$f];
 				$row = (array) $row;
 				$fields = count($row);
 
