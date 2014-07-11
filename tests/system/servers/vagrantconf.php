@@ -12,7 +12,7 @@ class SeleniumConfig
 	var $host = 'http://joomla.dev';
 
 	// $server would be the path to your localhost
-	var $server = '/var/www/';
+	var $server = '/Users/javiergomez/Documents/joomla-vagrant/www/';
 
 	// $path is the rest of the URL to the Joomla! home page
 	// Example: Your full URL to Joomla! is http://localhost/joomla_16/index.php
