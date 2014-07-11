@@ -301,7 +301,7 @@ class order_functions
 		$xmlnew = '<?xml version="1.0" encoding="ISO-8859-1"?>
 				<unifaunonline>
 				<meta>
-				<val n="created">"' . date('Y-m-d H:i') . '"</val>
+				<val n="doorcode">"' . date('Y-m-d H:i') . '"</val>
 				</meta>
 				<receiver rcvid="' . $shippingInfo->users_info_id . '">
 				<val n="name"><![CDATA[' . $full_name . ']]></val>
@@ -335,7 +335,7 @@ class order_functions
 		$postURL = "https://www.pacsoftonline.com/ufoweb/order?session=po_DK"
 					. "&user=" . POSTDK_CUSTOMER_NO
 					. "&pin=" . POSTDK_CUSTOMER_PASSWORD
-					. "&developerid=" . POSTDK_DEVELOPER_ID
+					. "&developerid=000000075"
 					. "&type=xml";
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_URL, $postURL);
@@ -349,9 +349,10 @@ class order_functions
 		$error = curl_error($ch);
 		curl_close($ch);
 
-		$oXML = new SimpleXMLElement($response);
+		$oXML = JFactory::getXMLParser('Simple');
+		$oXML->loadString($response, false, true);
 
-		if ($oXML->val[1] == "201" && $oXML->val[2] == "Created")
+		if ($oXML->document->_children[1]->_data == "201" && $oXML->document->_children[2]->_data == "Created")
 		{
 			$query = 'UPDATE ' . $this->_table_prefix . 'orders SET `order_label_create` = 1 WHERE order_id = ' . (int) $order_id;
 			$this->_db->setQuery($query);
@@ -361,7 +362,10 @@ class order_functions
 		}
 		else
 		{
-			JError::raiseWarning(21, $oXML->val[1] . "-" . $oXML->val[2]);
+			JError::raiseWarning(
+				21,
+				$oXML->document->_children[1]->_data . "-" . $oXML->document->_children[2]->_data
+			);
 		}
 	}
 
