@@ -1602,19 +1602,27 @@ class ExportModelexport extends JModel
 
 				$i = 0;
 
+				$isProductNumber = (int) $row['product_number'];
+
 				foreach ($row as $id => $value)
 				{
-					echo '"' . str_replace('"', '""', $value) . '"';
-
-					if ($i < ($fields - 1))
+					if ($isProductNumber)
 					{
-						echo ',';
+						echo '"' . str_replace('"', '""', $value) . '"';
+
+						if ($i < ($fields - 1))
+						{
+							echo ',';
+						}
 					}
 
 					$i++;
 				}
 
-				echo "\r\n";
+				if ($isProductNumber)
+				{
+					echo "\r\n";
+				}
 			}
 		}
 	}
