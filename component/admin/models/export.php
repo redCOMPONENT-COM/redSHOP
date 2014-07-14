@@ -1602,10 +1602,12 @@ class ExportModelexport extends JModel
 
 				$i = 0;
 
+				// Get product number from array
 				$isProductNumber = (int) $row['product_number'];
 
 				foreach ($row as $id => $value)
 				{
+					// Only allow attribute which has product number
 					if ($isProductNumber)
 					{
 						echo '"' . str_replace('"', '""', $value) . '"';
@@ -1619,6 +1621,7 @@ class ExportModelexport extends JModel
 					$i++;
 				}
 
+				// Only allow add new line when it has product number
 				if ($isProductNumber)
 				{
 					echo "\r\n";
