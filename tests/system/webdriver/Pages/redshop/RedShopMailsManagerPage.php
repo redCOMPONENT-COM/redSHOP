@@ -118,7 +118,7 @@ class RedShopMailsManagerPage extends AdminManagerPage
 	 *
 	 * @return bool
 	 */
-	public function searchEmail($emailName, $functionName = 'Search')
+	public function searchMail($emailName, $functionName = 'Search')
 	{
 		$elementObject = $this->driver;
 		$searchField = $elementObject->findElement(By::xPath("//input[@id='filter']"));
@@ -153,7 +153,7 @@ class RedShopMailsManagerPage extends AdminManagerPage
 	 *
 	 * @return RedShopMailsManagerPage
 	 */
-	public function deleteEmail($mailName)
+	public function deleteMail($mailName)
 	{
 		$elementObject = $this->driver;
 		$searchField = $elementObject->findElement(By::xPath("//input[@id='filter']"));
