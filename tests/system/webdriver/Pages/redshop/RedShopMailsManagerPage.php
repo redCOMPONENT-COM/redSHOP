@@ -201,4 +201,30 @@ class RedShopMailsManagerPage extends AdminManagerPage
 
 		return $result;
 	}
+
+	public function changeMailState($mailName, $state = 'published')
+	{
+		$elementObject = $this->driver;
+		$searchField = $elementObject->findElement(By::xPath("//input[@id='filter']"));
+		$searchField->clear();
+		$searchField = $elementObject->findElement(By::xPath("//input[@id='filter']"));
+		$searchField->sendKeys($mailName);
+		$elementObject->findElement(By::xPath("//button[@onclick=\"this.form.submit();\"]"))->click();
+		sleep(3);
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//tbody/tr/td[3]/a[text() = '" . $mailName . "']"), 10);
+		$row = $this->getRowNumber($mailName) - 1;
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='cb" . $row . "']"), 10);
+		$elementObject->findElement(By::xPath("//input[@id='cb" . $row . "']"))->click();
+
+		if (strtolower($state) == 'published')
+		{
+			$elementObject->findElement(By::xPath("//li[@id='toolbar-publish']/a"))->click();
+			$this->driver->waitForElementUntilIsPresent(By::xPath($this->waitForXpath));
+		}
+		elseif (strtolower($state) == 'unpublished')
+		{
+			$elementObject->findElement(By::xPath("//li[@id='toolbar-unpublish']/a"))->click();
+			$this->driver->waitForElementUntilIsPresent(By::xPath($this->waitForXpath));
+		}
+	}
 }
