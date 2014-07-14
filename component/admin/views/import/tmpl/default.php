@@ -8,7 +8,19 @@
  */
 defined('_JEXEC') or die;
 
-$option = JRequest::getVar('option', '', 'request', 'string');
+$data = array(
+	'categories'                 => 'COM_REDSHOP_IMPORT_CATEGORIES',
+	'products'                   => 'COM_REDSHOP_IMPORT_PRODUCTS',
+	'attributes'                 => 'COM_REDSHOP_IMPORT_ATTRIBUTES',
+	'manufacturer'               => 'COM_REDSHOP_IMPORT_MANUFACTURER',
+	'related_product'            => 'COM_REDSHOP_IMPORT_RELATED_PRODUCTS',
+	'fields'                     => 'COM_REDSHOP_IMPORT_FIELDS',
+	'users'                      => 'COM_REDSHOP_IMPORT_USERS',
+	'shipping_address'           => 'COM_REDSHOP_IMPORT_SHIPPING_ADDRESS',
+	'shopperGroupProductPrice'   => 'COM_REDSHOP_IMPORT_SHOPPER_GROUP_PRODUCT_SPECIFIC_PRICE',
+	'shopperGroupAttributePrice' => 'COM_REDSHOP_IMPORT_SHOPPER_GROUP_ATTRIBUTE_SPECIFIC_PRICE',
+	'product_stockroom_data'     => 'COM_REDSHOP_PRODUCT_STOCKROOM_DATA'
+);
 ?>
 <script type="text/javascript">
 	Joomla.submitbutton = function (pressbutton) {
@@ -24,77 +36,45 @@ $option = JRequest::getVar('option', '', 'request', 'string');
 	}
 </script>
 <h1><?php echo JText::_('COM_REDSHOP_DATA_IMPORT'); ?></h1>
-<br/>
+<p>
 <?php echo $this->result; ?>
-<br/>
-<br/>
-<form action="<?php echo 'index.php?option=' . $option; ?>" method="post" name="adminForm" id="adminForm"
-      enctype="multipart/form-data">
+</p>
+<form
+	action="index.php?option=com_redshop"
+	method="post"
+	name="adminForm"
+	id="adminForm"
+    enctype="multipart/form-data"
+>
 	<table class="adminList">
 		<tr>
-			<td><?php echo JText::_('COM_REDSHOP_SEPRATOR');?></td>
-			<td><input type="text" name="separator" size="1" value=","/></td>
-		</tr>
-		<tr>
-			<td><input type="radio" name="import"
-			           value="categories"><?php echo JText::_('COM_REDSHOP_IMPORT_CATEGORIES'); ?></input></td>
-			<td><input type="file" name="importfilecategories" size="75"/></td>
-		</tr>
-		<tr>
-			<td><input type="radio" name="import"
-			           value="products"><?php echo JText::_('COM_REDSHOP_IMPORT_PRODUCTS'); ?></input></td>
-			<td><input type="file" name="importfileproducts" size="75"/></td>
-		</tr>
-		<tr>
-			<td><input type="radio" name="import"
-			           value="attributes"><?php echo JText::_('COM_REDSHOP_IMPORT_ATTRIBUTES'); ?></input></td>
-			<td><input type="file" name="importfileattributes" size="75"/></td>
-		</tr>
-		<tr>
-			<td><input type="radio" name="import"
-			           value="manufacturer"><?php echo JText::_('COM_REDSHOP_IMPORT_MANUFACTURER'); ?></input></td>
-			<td><input type="file" name="importfilemanufacturer" size="75"/></td>
-		</tr>
-		<tr>
-			<td><input type="radio" name="import"
-			           value="related_product"><?php echo JText::_('COM_REDSHOP_IMPORT_RELATED_PRODUCTS'); ?></input>
+			<td colspan="2">
+				<?php echo JText::_('COM_REDSHOP_SEPRATOR');?>
+				<input type="text" name="separator" maxlength="1" size="1" value=","/>
 			</td>
-			<td><input type="file" name="importfilerelated_product" size="75"/></td>
 		</tr>
+		<?php foreach ($data as $value => $text): ?>
 		<tr>
-			<td><input type="radio" name="import"
-			           value="fields"><?php echo JText::_('COM_REDSHOP_IMPORT_FIELDS'); ?></input></td>
-			<td><input type="file" name="importfilefields" size="75"/></td>
-		</tr>
-		<!--<tr>
-	<td><input type="radio" name="import" value="fields_data"><?php echo JText::_('COM_REDSHOP_IMPORT_FIELDS_DATA'); ?></input></td>
-	<td><input type="file" name="importfilefields_data" size="75" /></td>
-</tr>
--->
-		<tr>
-			<td><input type="radio" name="import"
-			           value="users"><?php echo JText::_('COM_REDSHOP_IMPORT_USERS'); ?></input></td>
-			<td><input type="file" name="importfileusers" size="75"/></td>
-		</tr>
-		<tr>
-			<td><input type="radio" name="import"
-			           value="shipping_address"><?php echo JText::_('COM_REDSHOP_IMPORT_SHIPPING_ADDRESS'); ?></input>
+			<td>
+				<input
+					type="radio"
+					value="<?php echo $value; ?>"
+					id="import<?php echo $value; ?>"
+					name="import"
+				>
+				<label
+					class="radiobtn"
+					id="import<?php echo $value; ?>-lbl"
+					for="import<?php echo $value; ?>"
+				>
+			    <?php echo JText::_($text); ?>
+			    </label>
 			</td>
-			<td><input type="file" name="importfileshipping_address" size="75"/></td>
-		</tr>
-		<tr>
-			<td><input type="radio" name="import"
-			           value="shopper_group_price"><?php echo JText::_('COM_REDSHOP_IMPORT_SHOPPER_GROUP_SPECIFIC_PRICE'); ?></input>
+			<td>
+				<input type="file" name="importfile<?php echo $value; ?>" size="75"/>
 			</td>
-			<td><input type="file" name="importfileshopper_group_price" size="75"/></td>
 		</tr>
-		<tr>
-			<td><input type="radio" name="import"
-			           value="product_stockroom_data"><?php echo JText::_('COM_REDSHOP_PRODUCT_STOCKROOM_DATA'); ?></input>
-			</td>
-			<td><input type="file" name="importfileproduct_stockroom_data" size="75"/></td>
-		</tr>
-
+		<?php endforeach; ?>
 	</table>
 	<input type="hidden" name="view" value="import"/>
 	<input type="hidden" name="task" value=""/>
