@@ -47,8 +47,11 @@ abstract class AdminManagerPage extends AdminPage
 	/**
 	 * Returns an array of field values from an edit screen.
 	 *
+	 * @param string  $className   class of form element
 	 * @param string  $itemName    Name of item (user name, article title, and so on)
 	 * @param array   $fieldNames  Array of field labels to get values of.
+	 *
+	 * @return array
 	 */
 	public function getFieldValues($className, $itemName, $fieldNames)
 	{
