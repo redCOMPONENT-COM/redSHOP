@@ -17,10 +17,6 @@ $filteroption = JRequest::getVar('filteroption');
 
 <script language="javascript" type="text/javascript">
 	Joomla.submitbutton = function (pressbutton) {
-		submitbutton(pressbutton);
-	}
-
-	submitbutton = function (pressbutton) {
 		if (pressbutton == 'configuration') {
 			var link = 'index.php?option=com_redshop&view=configuration';
 			window.location.href = link;

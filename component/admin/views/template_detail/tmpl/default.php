@@ -25,10 +25,6 @@ $showbuttons = JRequest::getVar('showbuttons');
 		}
 	}
 	Joomla.submitbutton = function (pressbutton) {
-		submitbutton(pressbutton);
-	}
-
-	submitbutton = function (pressbutton) {
 		var form = document.adminForm;
 		if (pressbutton == 'cancel') {
 			submitform(pressbutton);
