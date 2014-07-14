@@ -64,6 +64,15 @@ class RedShopMailsManagerPage extends AdminManagerPage
 		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='filter']"), 10);
 	}
 
+	/**
+	 * Function to update an Email
+	 *
+	 * @param   string  $field     Field which is to be Updated
+	 * @param   string  $newValue  New value of the Updated Field
+	 * @param   string  $mailName  Name of the Mail which is to be updated
+	 *
+	 * @return RedShopMailsManagerPage
+	 */
 	public function editMail($field, $newValue, $mailName)
 	{
 		$elementObject = $this->driver;
