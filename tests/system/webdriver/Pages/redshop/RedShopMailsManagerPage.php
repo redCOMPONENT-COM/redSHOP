@@ -202,6 +202,14 @@ class RedShopMailsManagerPage extends AdminManagerPage
 		return $result;
 	}
 
+	/**
+	 * Function to Change Mail State
+	 *
+	 * @param   string  $mailName  Name of the Email
+	 * @param   string  $state     State of the mail
+	 *
+	 * @return RedShopMailsManagerPage
+	 */
 	public function changeMailState($mailName, $state = 'published')
 	{
 		$elementObject = $this->driver;
