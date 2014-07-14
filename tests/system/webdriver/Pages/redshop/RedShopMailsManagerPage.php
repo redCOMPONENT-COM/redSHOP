@@ -38,6 +38,15 @@ class RedShopMailsManagerPage extends AdminManagerPage
 	 */
 	protected $url = 'administrator/index.php?option=com_redshop&view=mail';
 
+	/**
+	 * Function to Add a Mail
+	 *
+	 * @param   string  $mailName     Name of the Mail
+	 * @param   string  $mailSubject  Subject of the Email
+	 * @param   string  $mailSection  Section of the Email
+	 *
+	 * @return RedShopMailsManagerPage
+	 */
 	public function addMail($mailName = 'Sample Mail', $mailSubject = 'Subject of Email', $mailSection = 'Ask question about product')
 	{
 		$elementObject = $this->driver;
