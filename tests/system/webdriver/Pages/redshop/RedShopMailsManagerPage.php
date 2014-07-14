@@ -63,4 +63,41 @@ class RedShopMailsManagerPage extends AdminManagerPage
 		$elementObject->findElement(By::xPath("//a[@onclick=\"Joomla.submitbutton('save')\"]"))->click();
 		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='filter']"), 10);
 	}
+
+	public function editMail($field, $newValue, $mailName)
+	{
+		$elementObject = $this->driver;
+		$searchField = $elementObject->findElement(By::xPath("//input[@id='filter']"));
+		$searchField->clear();
+		$searchField = $elementObject->findElement(By::xPath("//input[@id='filter']"));
+		$searchField->sendKeys($mailName);
+		$elementObject->findElement(By::xPath("//button[@onclick=\"this.form.submit();\"]"))->click();
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//tbody/tr/td[3]/a[text() = '" . $mailName . "']"), 10);
+		$row = $this->getRowNumber($mailName) - 1;
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='cb" . $row . "']"), 10);
+		$elementObject->findElement(By::xPath("//input[@id='cb" . $row . "']"))->click();
+		$elementObject->findElement(By::xPath("//li[@id='toolbar-edit']/a"))->click();
+		$this->checkNoticesForEditView(get_class($this));
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='mail_name']"), 10);
+
+		switch ($field)
+		{
+			case "Mail Name":
+				$mailNameField = $elementObject->findElement(By::xPath("//input[@id='mail_name']"));
+				$mailNameField->clear();
+				$mailNameField->sendKeys($newValue);
+				break;
+			case "Mail Subject":
+				$mailSubjectField = $elementObject->findElement(By::xPath("//input[@id='mail_subject']"));
+				$mailSubjectField->clear();
+				$mailSubjectField->sendKeys($newValue);
+				break;
+			case "Mail Section":
+				$elementObject->findElement(By::xPath("//option[text() = '" . $newValue . "']"))->click();
+				break;
+		}
+
+		$elementObject->findElement(By::xPath("//a[@onclick=\"Joomla.submitbutton('save')\"]"))->click();
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='filter']"), 10);
+	}
 }
