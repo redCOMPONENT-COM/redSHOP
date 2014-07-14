@@ -109,4 +109,31 @@ class RedShopMailsManagerPage extends AdminManagerPage
 		$elementObject->findElement(By::xPath("//a[@onclick=\"Joomla.submitbutton('save')\"]"))->click();
 		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='filter']"), 10);
 	}
+
+	public function searchEmail($emailName, $functionName = 'Search')
+	{
+		$elementObject = $this->driver;
+		$searchField = $elementObject->findElement(By::xPath("//input[@id='filter']"));
+		$searchField->clear();
+		$searchField->sendKeys($emailName);
+		$elementObject->findElement(By::xPath("//button[@onclick=\"this.form.submit();\"]"))->click();
+		sleep(5);
+		$row = $this->getRowNumber($emailName) - 1;
+
+		if ($functionName == 'Search')
+		{
+			$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='cb" . $row . "']"), 10);
+		}
+
+		$arrayElement = $elementObject->findElements(By::xPath("//tbody/tr/td[3]/a[text() = '" . $emailName . "']"));
+
+		if (count($arrayElement))
+		{
+			return true;
+		}
+		else
+		{
+			return false;
+		}
+	}
 }
