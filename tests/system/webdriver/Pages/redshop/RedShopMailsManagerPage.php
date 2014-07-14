@@ -167,7 +167,6 @@ class RedShopMailsManagerPage extends AdminManagerPage
 		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='cb" . $row . "']"), 10);
 		$elementObject->findElement(By::xPath("//input[@id='cb" . $row . "']"))->click();
 		$elementObject->findElement(By::xPath("//li[@id='toolbar-delete']/a"))->click();
-		$elementObject->switchTo()->getAlert()->accept();
 	}
 
 	/**
