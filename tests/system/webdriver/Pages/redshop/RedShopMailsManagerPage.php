@@ -123,6 +123,7 @@ class RedShopMailsManagerPage extends AdminManagerPage
 		$elementObject = $this->driver;
 		$searchField = $elementObject->findElement(By::xPath("//input[@id='filter']"));
 		$searchField->clear();
+		$searchField = $elementObject->findElement(By::xPath("//input[@id='filter']"));
 		$searchField->sendKeys($emailName);
 		$elementObject->findElement(By::xPath("//button[@onclick=\"this.form.submit();\"]"))->click();
 		sleep(5);
@@ -143,5 +144,21 @@ class RedShopMailsManagerPage extends AdminManagerPage
 		{
 			return false;
 		}
+	}
+
+	public function deleteEmail($mailName)
+	{
+		$elementObject = $this->driver;
+		$searchField = $elementObject->findElement(By::xPath("//input[@id='filter']"));
+		$searchField->clear();
+		$searchField = $elementObject->findElement(By::xPath("//input[@id='filter']"));
+		$searchField->sendKeys($mailName);
+		$elementObject->findElement(By::xPath("//button[@onclick=\"this.form.submit();\"]"))->click();
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//tbody/tr/td[3]/a[text() = '" . $mailName . "']"), 10);
+		$row = $this->getRowNumber($mailName) - 1;
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='cb" . $row . "']"), 10);
+		$elementObject->findElement(By::xPath("//input[@id='cb" . $row . "']"))->click();
+		$elementObject->findElement(By::xPath("//li[@id='toolbar-delete']/a"))->click();
+		$elementObject->switchTo()->getAlert()->accept();
 	}
 }
