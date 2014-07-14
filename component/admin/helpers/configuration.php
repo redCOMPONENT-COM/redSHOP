@@ -829,6 +829,7 @@ class Redconfiguration
 						"ACCESSORY_AS_PRODUCT_IN_CART_ENABLE"          => $d ["accessory_as_product_in_cart_enable"],
 						"POSTDK_CUSTOMER_NO"                           => $d ["postdk_customer_no"],
 						"POSTDK_CUSTOMER_PASSWORD"                     => $d ["postdk_customer_password"],
+						"POSTDK_DEVELOPER_ID"						   => $d ["postdk_developer_id"],
 						"POSTDK_INTEGRATION"                           => $d ["postdk_integration"],
 						"POSTDANMARK_ADDRESS"                          => $d ["postdk_address"],
 						"POSTDANMARK_POSTALCODE"                       => $d ["postdk_postalcode"],
