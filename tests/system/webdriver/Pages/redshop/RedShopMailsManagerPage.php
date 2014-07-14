@@ -110,6 +110,14 @@ class RedShopMailsManagerPage extends AdminManagerPage
 		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='filter']"), 10);
 	}
 
+	/**
+	 * Function to Search for an Email
+	 *
+	 * @param   string  $emailName     Email for which we are searching
+	 * @param   string  $functionName  Name of the function after which search is being Called
+	 *
+	 * @return bool
+	 */
 	public function searchEmail($emailName, $functionName = 'Search')
 	{
 		$elementObject = $this->driver;
