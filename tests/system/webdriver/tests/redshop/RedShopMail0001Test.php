@@ -57,4 +57,66 @@ class RedShopMail0001Test extends JoomlaWebdriverTestCase
 		$this->doAdminLogout();
 		parent::tearDown();
 	}
+
+	/**
+	 * Function to Test Basic Mail Creation
+	 *
+	 * @test
+	 *
+	 * @return void
+	 */
+	public function createMail()
+	{
+		$rand = rand();
+		$name = 'RedMail Sample' . $rand;
+		$subject = 'RedSubject Sample' . $rand;
+		$section = 'Ask question about product';
+		$this->appTestPage->addMail($name, $subject, $section);
+		$this->assertTrue($this->appTestPage->searchMail($name), "Email Must be Created");
+		$this->appTestPage->deleteMail($name);
+		$this->assertFalse($this->appTestPage->searchMail($name, 'Delete'), "Email Must be Deleted");
+	}
+
+	/**
+	 * Function to test basic Editing Functionality
+	 *
+	 * @test
+	 *
+	 * @return void
+	 */
+	public function updateMail()
+	{
+		$rand = rand();
+		$name = 'RedMail Sample' . $rand;
+		$newName = 'New Red Name' . $rand;
+		$subject = 'RedSubject Sample' . $rand;
+		$section = 'Ask question about product';
+		$this->appTestPage->addMail($name, $subject, $section);
+		$this->assertTrue($this->appTestPage->searchMail($name), "Email Must be Created");
+		$this->appTestPage->editMail("Mail Name", $newName, $name);
+		$this->assertTrue($this->appTestPage->searchMail($newName), "Mail Name must be Updated");
+		$this->appTestPage->deleteMail($newName);
+		$this->assertFalse($this->appTestPage->searchMail($newName, 'Delete'), "Email Must be Deleted");
+	}
+
+	/**
+	 * Function to Test State Changing Functionality
+	 *
+	 * @test
+	 *
+	 * @return void
+	 */
+	public function changeState()
+	{
+		$rand = rand();
+		$name = 'RedMail Sample' . $rand;
+		$subject = 'RedSubject Sample' . $rand;
+		$section = 'Ask question about product';
+		$this->appTestPage->addMail($name, $subject, $section);
+		$this->assertTrue($this->appTestPage->searchMail($name), "Email Must be Created");
+		$this->appTestPage->changeMailState($name, 'unpublished');
+		$this->assertEquals($this->appTestPage->getState($name), 'unpublished', 'Mail State Must be Changed');
+		$this->appTestPage->deleteMail($name);
+		$this->assertFalse($this->appTestPage->searchMail($name, 'Delete'), "Email Must be Deleted");
+	}
 }
