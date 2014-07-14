@@ -6,18 +6,18 @@
 class SeleniumConfig
 {
 	// $folder is the path to the apache root folder
-	var $folder = '/var/www/selenium/redshop1/'; // typical linux example
+	var $folder = '/var/www/selenium/redSHOP/'; // typical linux example
 
 	// $host is normally 'http://localhost'
 	var $host = 'http://joomla.dev';
 
 	// $server would be the path to your localhost
-	var $server = '/Applications/XAMPP/xamppfiles/htdocs/';  //typical windows Path with Wamp
+	var $server = '/Users/javiergomez/Documents/joomla-vagrant/www/';
 
 	// $path is the rest of the URL to the Joomla! home page
 	// Example: Your full URL to Joomla! is http://localhost/joomla_16/index.php
 	// then $path would be '/joomla_16/'
-	var $path = '/var/www/';
+	var $path = '/selenium/redSHOP/tests/system/joomla-cms/';
 
 	// $baseURI set in contructor to the full path
 	var $baseURI;
