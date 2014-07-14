@@ -170,6 +170,13 @@ class RedShopMailsManagerPage extends AdminManagerPage
 		$elementObject->switchTo()->getAlert()->accept();
 	}
 
+	/**
+	 * Function to get State of an email
+	 *
+	 * @param   string  $mailName  Name of the Email
+	 *
+	 * @return string
+	 */
 	public function getState($mailName)
 	{
 		$elementObject = $this->driver;
