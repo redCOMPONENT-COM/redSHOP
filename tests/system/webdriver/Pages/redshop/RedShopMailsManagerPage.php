@@ -146,6 +146,13 @@ class RedShopMailsManagerPage extends AdminManagerPage
 		}
 	}
 
+	/**
+	 * Function to Delete a Email
+	 *
+	 * @param   string  $mailName  Mail Name which is to be deleted
+	 *
+	 * @return RedShopMailsManagerPage
+	 */
 	public function deleteEmail($mailName)
 	{
 		$elementObject = $this->driver;
