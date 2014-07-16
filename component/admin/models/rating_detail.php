@@ -10,6 +10,13 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
+/**
+ * rating_detailModelrating_detail
+ *
+ * @package     RedSHOP
+ * @subpackage  Model
+ * @since       1.0
+ */
 class rating_detailModelrating_detail extends JModel
 {
 	public $_id = null;
@@ -18,6 +25,9 @@ class rating_detailModelrating_detail extends JModel
 
 	public $_table_prefix = null;
 
+	/**
+	 * __construct
+	 */
 	public function __construct()
 	{
 		parent::__construct();
@@ -29,12 +39,21 @@ class rating_detailModelrating_detail extends JModel
 		$this->setId((int) $array[0]);
 	}
 
+	/**
+	 * setId
+	 *
+	 * @param $id
+	 *
+	 */
 	public function setId($id)
 	{
 		$this->_id = $id;
 		$this->_data = null;
 	}
 
+	/**
+	 * getData
+	 */
 	public function &getData()
 	{
 		if ($this->_loadData())
@@ -48,6 +67,9 @@ class rating_detailModelrating_detail extends JModel
 		return $this->_data;
 	}
 
+	/**
+	 * _loadData
+	 */
 	public function _loadData()
 	{
 		if (empty($this->_data))
@@ -64,6 +86,9 @@ class rating_detailModelrating_detail extends JModel
 		return true;
 	}
 
+	/**
+	 * _initData
+	 */
 	public function _initData()
 	{
 		if (empty($this->_data))
@@ -85,6 +110,12 @@ class rating_detailModelrating_detail extends JModel
 		return true;
 	}
 
+	/**
+	 * store
+	 *
+	 * @param $data
+	 *
+	 */
 	public function store($data)
 	{
 		$row = $this->getTable();
@@ -106,6 +137,12 @@ class rating_detailModelrating_detail extends JModel
 		return $row;
 	}
 
+	/**
+	 * delete
+	 *
+	 * @param $cid
+	 *
+	 */
 	public function delete($cid = array())
 	{
 		if (count($cid))
@@ -126,6 +163,12 @@ class rating_detailModelrating_detail extends JModel
 		return true;
 	}
 
+	/**
+	 * publish
+	 *
+	 * @param $cid
+	 *
+	 */
 	public function publish($cid = array(), $publish = 1)
 	{
 		if (count($cid))
@@ -148,6 +191,12 @@ class rating_detailModelrating_detail extends JModel
 		return true;
 	}
 
+	/**
+	 * favoured
+	 *
+	 * @param $cid
+	 *
+	 */
 	public function favoured($cid = array(), $publish = 1)
 	{
 		if (count($cid))
@@ -170,6 +219,9 @@ class rating_detailModelrating_detail extends JModel
 		return true;
 	}
 
+	/**
+	 * getuserslist
+	 */
 	public function getuserslist()
 	{
 		$query = 'SELECT u.id as value,u.name as text FROM  #__users as u,' . $this->_table_prefix .
@@ -179,6 +231,9 @@ class rating_detailModelrating_detail extends JModel
 		return $this->_db->loadObjectlist();
 	}
 
+	/**
+	 * getproducts
+	 */
 	public function getproducts()
 	{
 		$product_id = JRequest::getVar('pid');
@@ -192,6 +247,12 @@ class rating_detailModelrating_detail extends JModel
 		}
 	}
 
+	/**
+	 * getuserfullname2
+	 *
+	 * @param $uid
+	 *
+	 */
 	public function getuserfullname2($uid)
 	{
 		$query = "SELECT firstname,lastname,username FROM " . $this->_table_prefix . "users_info as uf, #__users as u WHERE user_id="

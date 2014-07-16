@@ -15,6 +15,13 @@ jimport('joomla.client.helper');
 JClientHelper::setCredentialsFromRequest('ftp');
 jimport('joomla.filesystem.file');
 
+/**
+ * shopper_group_detailModelshopper_group_detail
+ *
+ * @package     RedSHOP
+ * @subpackage  Model
+ * @since       1.0
+ */
 class shopper_group_detailModelshopper_group_detail extends JModel
 {
 	public $_id = null;
@@ -23,6 +30,9 @@ class shopper_group_detailModelshopper_group_detail extends JModel
 
 	public $_table_prefix = null;
 
+	/**
+	 * __construct
+	 */
 	public function __construct()
 	{
 		parent::__construct();
@@ -31,12 +41,21 @@ class shopper_group_detailModelshopper_group_detail extends JModel
 		$this->setId((int) $array[0]);
 	}
 
+	/**
+	 * setId
+	 *
+	 * @param $id
+	 *
+	 */
 	public function setId($id)
 	{
 		$this->_id = $id;
 		$this->_data = null;
 	}
 
+	/**
+	 * getData
+	 */
 	public function &getData()
 	{
 		if ($this->_loadData())
@@ -50,6 +69,9 @@ class shopper_group_detailModelshopper_group_detail extends JModel
 		return $this->_data;
 	}
 
+	/**
+	 * _loadData
+	 */
 	public function _loadData()
 	{
 		if (empty($this->_data))
@@ -78,6 +100,9 @@ class shopper_group_detailModelshopper_group_detail extends JModel
 		return true;
 	}
 
+	/**
+	 * _initData
+	 */
 	public function _initData()
 	{
 		if (empty($this->_data))
@@ -111,6 +136,12 @@ class shopper_group_detailModelshopper_group_detail extends JModel
 		return true;
 	}
 
+	/**
+	 * store
+	 *
+	 * @param $data
+	 *
+	 */
 	public function store($data)
 	{
 		$logo = JRequest::getVar('shopper_group_logo', '', 'files', '');
@@ -246,6 +277,12 @@ class shopper_group_detailModelshopper_group_detail extends JModel
 		return $row;
 	}
 
+	/**
+	 * delete
+	 *
+	 * @param $cid
+	 *
+	 */
 	public function delete($cid = array())
 	{
 		if (count($cid))
@@ -301,6 +338,12 @@ class shopper_group_detailModelshopper_group_detail extends JModel
 		return true;
 	}
 
+	/**
+	 * publish
+	 *
+	 * @param $cid
+	 *
+	 */
 	public function publish($cid = array(), $publish = 1)
 	{
 		if (count($cid))
@@ -322,6 +365,9 @@ class shopper_group_detailModelshopper_group_detail extends JModel
 		return true;
 	}
 
+	/**
+	 * getVatGroup
+	 */
 	public function getVatGroup()
 	{
 		$query = "SELECT tg.tax_group_name as text, tg.tax_group_id as value FROM `" . $this->_table_prefix . "tax_group` as tg WHERE `published` = 1 ";
@@ -330,6 +376,9 @@ class shopper_group_detailModelshopper_group_detail extends JModel
 		return $this->_db->loadObjectList();
 	}
 
+	/**
+	 * getmanufacturers
+	 */
 	public function getmanufacturers()
 	{
 		$query = 'SELECT manufacturer_id as value,manufacturer_name as text FROM ' . $this->_table_prefix . 'manufacturer

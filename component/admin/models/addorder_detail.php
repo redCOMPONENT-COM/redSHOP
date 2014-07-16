@@ -20,6 +20,13 @@ require_once JPATH_SITE . '/administrator/components/com_redshop/helpers/order.p
 require_once JPATH_SITE . '/administrator/components/com_redshop/helpers/product.php';
 require_once JPATH_SITE . '/administrator/components/com_redshop/helpers/shipping.php';
 
+/**
+ * addorder_detailModeladdorder_detail
+ *
+ * @package     RedSHOP
+ * @subpackage  Model
+ * @since       1.0
+ */
 class addorder_detailModeladdorder_detail extends JModel
 {
 	public $_id = null;
@@ -30,6 +37,9 @@ class addorder_detailModeladdorder_detail extends JModel
 
 	public $_copydata = null;
 
+	/**
+	 * __construct
+	 */
 	public function __construct()
 	{
 		parent::__construct();
@@ -41,12 +51,21 @@ class addorder_detailModeladdorder_detail extends JModel
 		$this->_db = JFactory::getDbo();
 	}
 
+	/**
+	 * setId
+	 *
+	 * @param $id
+	 *
+	 */
 	public function setId($id)
 	{
 		$this->_id = $id;
 		$this->_data = null;
 	}
 
+	/**
+	 * getData
+	 */
 	public function &getData()
 	{
 		if ($this->_loadData())
@@ -61,6 +80,9 @@ class addorder_detailModeladdorder_detail extends JModel
 		return $this->_data;
 	}
 
+	/**
+	 * _loadData
+	 */
 	public function _loadData()
 	{
 		$order_functions = new order_functions;
@@ -75,6 +97,9 @@ class addorder_detailModeladdorder_detail extends JModel
 		return true;
 	}
 
+	/**
+	 * setBilling
+	 */
 	public function setBilling()
 	{
 		$post = JRequest::get('post');
@@ -103,6 +128,9 @@ class addorder_detailModeladdorder_detail extends JModel
 		return $detail;
 	}
 
+	/**
+	 * setShipping
+	 */
 	public function setShipping()
 	{
 		$post = JRequest::get('post');
@@ -122,6 +150,9 @@ class addorder_detailModeladdorder_detail extends JModel
 		return $detail;
 	}
 
+	/**
+	 * _initData
+	 */
 	public function _initData()
 	{
 		if (empty($this->_data))
@@ -153,6 +184,12 @@ class addorder_detailModeladdorder_detail extends JModel
 		return true;
 	}
 
+	/**
+	 * storeShipping
+	 *
+	 * @param $data
+	 *
+	 */
 	public function storeShipping($data)
 	{
 		$userhelper = new rsUserhelper;
@@ -244,6 +281,12 @@ class addorder_detailModeladdorder_detail extends JModel
 		return $reduser;
 	}
 
+	/**
+	 * store
+	 *
+	 * @param $postdata
+	 *
+	 */
 	public function store($postdata)
 	{
 		$redshopMail = new redshopMail;
@@ -933,12 +976,26 @@ class addorder_detailModeladdorder_detail extends JModel
 		return $row;
 	}
 
+	/**
+	 * sendRegistrationMail
+	 *
+	 * @param $post
+	 *
+	 */
 	public function sendRegistrationMail($post)
 	{
 		$redshopMail = new redshopMail;
 		$redshopMail->sendRegistrationMail($post);
 	}
 
+	/**
+	 * changeshippingaddress
+	 *
+	 * @param $shippingadd_id
+	 * @param $user_id
+	 * @param $is_company
+	 *
+	 */
 	public function changeshippingaddress($shippingadd_id, $user_id, $is_company)
 	{
 		$extra_field = new extra_field;

@@ -11,6 +11,13 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
+/**
+ * newslettersubscr_detailModelnewslettersubscr_detail
+ *
+ * @package     RedSHOP
+ * @subpackage  Model
+ * @since       1.0
+ */
 class newslettersubscr_detailModelnewslettersubscr_detail extends JModel
 {
 	public $_id = null;
@@ -19,6 +26,9 @@ class newslettersubscr_detailModelnewslettersubscr_detail extends JModel
 
 	public $_table_prefix = null;
 
+	/**
+	 * __construct
+	 */
 	public function __construct()
 	{
 		parent::__construct();
@@ -30,12 +40,21 @@ class newslettersubscr_detailModelnewslettersubscr_detail extends JModel
 		$this->setId((int) $array[0]);
 	}
 
+	/**
+	 * setId
+	 *
+	 * @param $id
+	 *
+	 */
 	public function setId($id)
 	{
 		$this->_id = $id;
 		$this->_data = null;
 	}
 
+	/**
+	 * getData
+	 */
 	public function &getData()
 	{
 		if ($this->_loadData())
@@ -49,6 +68,9 @@ class newslettersubscr_detailModelnewslettersubscr_detail extends JModel
 		return $this->_data;
 	}
 
+	/**
+	 * _loadData
+	 */
 	public function _loadData()
 	{
 		if (empty($this->_data))
@@ -64,6 +86,9 @@ class newslettersubscr_detailModelnewslettersubscr_detail extends JModel
 		return true;
 	}
 
+	/**
+	 * _initData
+	 */
 	public function _initData()
 	{
 		if (empty($this->_data))
@@ -84,6 +109,12 @@ class newslettersubscr_detailModelnewslettersubscr_detail extends JModel
 		return true;
 	}
 
+	/**
+	 * store
+	 *
+	 * @param $data
+	 *
+	 */
 	public function store($data)
 	{
 		$row = $this->getTable();
@@ -105,6 +136,12 @@ class newslettersubscr_detailModelnewslettersubscr_detail extends JModel
 		return $row;
 	}
 
+	/**
+	 * delete
+	 *
+	 * @param $cid
+	 *
+	 */
 	public function delete($cid = array())
 	{
 		if (count($cid))
@@ -125,6 +162,12 @@ class newslettersubscr_detailModelnewslettersubscr_detail extends JModel
 		return true;
 	}
 
+	/**
+	 * publish
+	 *
+	 * @param $cid
+	 *
+	 */
 	public function publish($cid = array(), $publish = 1)
 	{
 		if (count($cid))
@@ -147,6 +190,9 @@ class newslettersubscr_detailModelnewslettersubscr_detail extends JModel
 		return true;
 	}
 
+	/**
+	 * getuserlist
+	 */
 	public function getuserlist()
 	{
 		$query = 'SELECT user_id as value,firstname as text FROM ' . $this->_table_prefix
@@ -156,6 +202,9 @@ class newslettersubscr_detailModelnewslettersubscr_detail extends JModel
 		return $this->_db->loadObjectlist();
 	}
 
+	/**
+	 * getnewsletters
+	 */
 	public function getnewsletters()
 	{
 		$query = 'SELECT newsletter_id as value,name as text FROM ' . $this->_table_prefix . 'newsletter WHERE published=1';
@@ -164,6 +213,12 @@ class newslettersubscr_detailModelnewslettersubscr_detail extends JModel
 		return $this->_db->loadObjectlist();
 	}
 
+	/**
+	 * getuserfullname2
+	 *
+	 * @param $uid
+	 *
+	 */
 	public function getuserfullname2($uid)
 	{
 		$query = "SELECT firstname,lastname,username FROM " . $this->_table_prefix
@@ -185,6 +240,12 @@ class newslettersubscr_detailModelnewslettersubscr_detail extends JModel
 		return $fullname;
 	}
 
+	/**
+	 * getnewslettersbsc
+	 *
+	 * @param $subsc
+	 *
+	 */
 	public function getnewslettersbsc($subsc = array())
 	{
 		$where = "";
@@ -204,6 +265,12 @@ class newslettersubscr_detailModelnewslettersubscr_detail extends JModel
 		return $this->_db->loadObjectlist();
 	}
 
+	/**
+	 * getuserfullname
+	 *
+	 * @param $uid
+	 *
+	 */
 	public function getuserfullname($uid)
 	{
 		$query = "SELECT uf.firstname,uf.lastname,IFNULL(u.email,uf.user_email)  as email FROM "
@@ -215,6 +282,12 @@ class newslettersubscr_detailModelnewslettersubscr_detail extends JModel
 		return $this->_db->loadObject();
 	}
 
+	/**
+	 * getUserFromEmail
+	 *
+	 * @param $email
+	 *
+	 */
 	public function getUserFromEmail($email)
 	{
 		$query = "SELECT * FROM " . $this->_table_prefix . "users_info AS uf "

@@ -13,6 +13,13 @@ jimport('joomla.application.component.model');
 
 require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/xmlhelper.php';
 
+/**
+ * xmlexport_detailModelxmlexport_detail
+ *
+ * @package     RedSHOP
+ * @subpackage  Model
+ * @since       1.0
+ */
 class xmlexport_detailModelxmlexport_detail extends JModel
 {
 	public $_id = null;
@@ -21,6 +28,9 @@ class xmlexport_detailModelxmlexport_detail extends JModel
 
 	public $_table_prefix = null;
 
+	/**
+	 * __construct
+	 */
 	public function __construct()
 	{
 		parent::__construct();
@@ -30,12 +40,21 @@ class xmlexport_detailModelxmlexport_detail extends JModel
 		$this->setId((int) $array[0]);
 	}
 
+	/**
+	 * setId
+	 *
+	 * @param $id
+	 *
+	 */
 	public function setId($id)
 	{
 		$this->_id = $id;
 		$this->_data = null;
 	}
 
+	/**
+	 * getData
+	 */
 	public function &getData()
 	{
 		if ($this->_loadData())
@@ -49,6 +68,9 @@ class xmlexport_detailModelxmlexport_detail extends JModel
 		return $this->_data;
 	}
 
+	/**
+	 * _loadData
+	 */
 	public function _loadData()
 	{
 		$query = "SELECT x.* FROM " . $this->_table_prefix . "xml_export AS x "
@@ -59,6 +81,9 @@ class xmlexport_detailModelxmlexport_detail extends JModel
 		return (boolean) $this->_data;
 	}
 
+	/**
+	 * _initData
+	 */
 	public function _initData()
 	{
 		if (empty($this->_data))
@@ -227,6 +252,12 @@ class xmlexport_detailModelxmlexport_detail extends JModel
 		return true;
 	}
 
+	/**
+	 * deleteIpAddress
+	 *
+	 * @param $xmlexport_ip_id
+	 *
+	 */
 	public function deleteIpAddress($xmlexport_ip_id = 0)
 	{
 		$query = 'DELETE FROM ' . $this->_table_prefix . 'xml_export_ipaddress '
@@ -243,6 +274,12 @@ class xmlexport_detailModelxmlexport_detail extends JModel
 		return true;
 	}
 
+	/**
+	 * auto_syncpublish
+	 *
+	 * @param $cid
+	 *
+	 */
 	public function auto_syncpublish($cid = array(), $publish = 1)
 	{
 		if (count($cid))
@@ -265,6 +302,12 @@ class xmlexport_detailModelxmlexport_detail extends JModel
 		return true;
 	}
 
+	/**
+	 * usetoallpublish
+	 *
+	 * @param $cid
+	 *
+	 */
 	public function usetoallpublish($cid = array(), $publish = 1)
 	{
 		if (count($cid))
@@ -315,6 +358,9 @@ class xmlexport_detailModelxmlexport_detail extends JModel
 		return true;
 	}
 
+	/**
+	 * getCategoryList
+	 */
 	public function getCategoryList()
 	{
 		$query = 'SELECT category_name AS text,category_id AS value FROM ' . $this->_table_prefix . 'category '

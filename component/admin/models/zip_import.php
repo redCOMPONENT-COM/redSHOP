@@ -18,6 +18,13 @@ jimport('joomla.filesystem.file');
 require_once JPATH_COMPONENT . '/helpers/thumbnail.php';
 require_once JPATH_COMPONENT . '/helpers/redshop.cfg.php';
 
+/**
+ * zip_importModelzip_import
+ *
+ * @package     RedSHOP
+ * @subpackage  Model
+ * @since       1.0
+ */
 class zip_importModelzip_import extends JModel
 {
 	public $_data = null;
@@ -33,6 +40,9 @@ class zip_importModelzip_import extends JModel
 	/** @var object JTable object */
 	public $_url = null;
 
+	/**
+	 * getData
+	 */
 	public function getData()
 	{
 		$thumb = new thumbnail;
@@ -48,6 +58,9 @@ class zip_importModelzip_import extends JModel
 		$app->redirect(JURI::base() . 'index.php?option=com_redshop', $msg);
 	}
 
+	/**
+	 * getzipfilescount
+	 */
 	public function getzipfilescount()
 	{
 		$x = 5;
@@ -72,6 +85,9 @@ class zip_importModelzip_import extends JModel
 		return $x;
 	}
 
+	/**
+	 * getzipfilenames
+	 */
 	public function getzipfilenames()
 	{
 		$live_path = JURI::base();
@@ -104,6 +120,9 @@ class zip_importModelzip_import extends JModel
 	}
 
 	// Related product sync
+	/**
+	 * install
+	 */
 	public function install()
 	{
 		$app = JFactory::getApplication();
@@ -232,6 +251,9 @@ class zip_importModelzip_import extends JModel
 	}
 
 
+	/**
+	 * _getPackageFromFolder
+	 */
 	public function _getPackageFromFolder()
 	{
 		$p_dir = JRequest::getString('install_directory');

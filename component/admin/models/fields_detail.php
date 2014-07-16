@@ -13,6 +13,13 @@ jimport('joomla.application.component.model');
 
 require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/extra_field.php';
 
+/**
+ * fields_detailModelfields_detail
+ *
+ * @package     RedSHOP
+ * @subpackage  Model
+ * @since       1.0
+ */
 class fields_detailModelfields_detail extends JModel
 {
 	public $_id = null;
@@ -23,6 +30,9 @@ class fields_detailModelfields_detail extends JModel
 
 	public $_fielddata = null;
 
+	/**
+	 * __construct
+	 */
 	public function __construct()
 	{
 		parent::__construct();
@@ -34,12 +44,21 @@ class fields_detailModelfields_detail extends JModel
 		$this->setId((int) $array[0]);
 	}
 
+	/**
+	 * setId
+	 *
+	 * @param $id
+	 *
+	 */
 	public function setId($id)
 	{
 		$this->_id = $id;
 		$this->_data = null;
 	}
 
+	/**
+	 * getData
+	 */
 	public function &getData()
 	{
 		if ($this->_loadData())
@@ -53,6 +72,9 @@ class fields_detailModelfields_detail extends JModel
 		return $this->_data;
 	}
 
+	/**
+	 * _loadData
+	 */
 	public function _loadData()
 	{
 		if (empty($this->_data))
@@ -67,6 +89,9 @@ class fields_detailModelfields_detail extends JModel
 		return true;
 	}
 
+	/**
+	 * _initData
+	 */
 	public function _initData()
 	{
 		if (empty($this->_data))
@@ -98,6 +123,12 @@ class fields_detailModelfields_detail extends JModel
 		return true;
 	}
 
+	/**
+	 * store
+	 *
+	 * @param $data
+	 *
+	 */
 	public function store($data)
 	{
 		$row = $this->getTable();
@@ -125,6 +156,13 @@ class fields_detailModelfields_detail extends JModel
 		return $row;
 	}
 
+	/**
+	 * field_save
+	 *
+	 * @param $id
+	 * @param $post
+	 *
+	 */
 	public function field_save($id, $post)
 	{
 		$extra_field = new extra_field;
@@ -216,6 +254,13 @@ class fields_detailModelfields_detail extends JModel
 		}
 	}
 
+	/**
+	 * field_delete
+	 *
+	 * @param $id
+	 * @param $field
+	 *
+	 */
 	public function field_delete($id, $field)
 	{
 		$id = implode(',', $id);
@@ -231,6 +276,12 @@ class fields_detailModelfields_detail extends JModel
 		}
 	}
 
+	/**
+	 * delete
+	 *
+	 * @param $cid
+	 *
+	 */
 	public function delete($cid = array())
 	{
 		if (count($cid))
@@ -260,6 +311,12 @@ class fields_detailModelfields_detail extends JModel
 		return true;
 	}
 
+	/**
+	 * publish
+	 *
+	 * @param $cid
+	 *
+	 */
 	public function publish($cid = array(), $publish = 1)
 	{
 		if (count($cid))
@@ -282,6 +339,12 @@ class fields_detailModelfields_detail extends JModel
 		return true;
 	}
 
+	/**
+	 * saveorder
+	 *
+	 * @param $cid
+	 *
+	 */
 	public function saveorder($cid = array(), $order)
 	{
 		$row = $this->getTable();
@@ -337,6 +400,9 @@ class fields_detailModelfields_detail extends JModel
 		return true;
 	}
 
+	/**
+	 * MaxOrdering
+	 */
 	public function MaxOrdering()
 	{
 		$query = "SELECT (count(*)+1) FROM " . $this->_table_prefix . "fields";

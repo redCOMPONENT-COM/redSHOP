@@ -12,10 +12,20 @@ jimport('joomla.application.component.model');
 
 require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/mail.php';
 
+/**
+ * accessmanager_detailModelaccessmanager_detail
+ *
+ * @package     RedSHOP
+ * @subpackage  Model
+ * @since       1.0
+ */
 class accessmanager_detailModelaccessmanager_detail extends JModel
 {
 	public $_table_prefix = null;
 
+	/**
+	 * __construct
+	 */
 	public function __construct()
 	{
 		parent::__construct();
@@ -23,12 +33,21 @@ class accessmanager_detailModelaccessmanager_detail extends JModel
 		$this->_table_prefix = '#__redshop_';
 	}
 
+	/**
+	 * setId
+	 *
+	 * @param $id
+	 *
+	 */
 	public function setId($id)
 	{
 		$this->_id = $id;
 		$this->_data = null;
 	}
 
+	/**
+	 * getaccessmanager
+	 */
 	public function getaccessmanager()
 	{
 		$db = JFactory::getDbo();
@@ -412,6 +431,9 @@ class accessmanager_detailModelaccessmanager_detail extends JModel
 		return $this->_db->loadResult();
 	}
 
+	/**
+	 * getGroup
+	 */
 	public function getGroup()
 	{
 		// Compute usergroups
@@ -435,6 +457,12 @@ class accessmanager_detailModelaccessmanager_detail extends JModel
 		return ($groups);
 	}
 
+	/**
+	 * formatGroup
+	 *
+	 * @param $groups
+	 *
+	 */
 	public function formatGroup($groups)
 	{
 		$returnable = array();

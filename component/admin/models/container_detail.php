@@ -11,6 +11,13 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
+/**
+ * container_detailModelcontainer_detail
+ *
+ * @package     RedSHOP
+ * @subpackage  Model
+ * @since       1.0
+ */
 class container_detailModelcontainer_detail extends JModel
 {
 	public $_id = null;
@@ -19,6 +26,9 @@ class container_detailModelcontainer_detail extends JModel
 
 	public $_table_prefix = null;
 
+	/**
+	 * __construct
+	 */
 	public function __construct()
 	{
 		parent::__construct();
@@ -30,12 +40,21 @@ class container_detailModelcontainer_detail extends JModel
 		$this->setId((int) $array[0]);
 	}
 
+	/**
+	 * setId
+	 *
+	 * @param $id
+	 *
+	 */
 	public function setId($id)
 	{
 		$this->_id = $id;
 		$this->_data = null;
 	}
 
+	/**
+	 * getData
+	 */
 	public function &getData()
 	{
 		if ($this->_loadData())
@@ -49,6 +68,9 @@ class container_detailModelcontainer_detail extends JModel
 		return $this->_data;
 	}
 
+	/**
+	 * _loadData
+	 */
 	public function _loadData()
 	{
 		if (empty($this->_data))
@@ -63,6 +85,9 @@ class container_detailModelcontainer_detail extends JModel
 		return true;
 	}
 
+	/**
+	 * _initData
+	 */
 	public function _initData()
 	{
 		if (empty($this->_data))
@@ -87,6 +112,9 @@ class container_detailModelcontainer_detail extends JModel
 		return true;
 	}
 
+	/**
+	 * cancel
+	 */
 	public function cancel()
 	{
 		$sql = "DELETE FROM  " . $this->_table_prefix . "container_product_xref   where container_id= 0";
@@ -94,6 +122,12 @@ class container_detailModelcontainer_detail extends JModel
 		$this->_db->query();
 	}
 
+	/**
+	 * store
+	 *
+	 * @param $data
+	 *
+	 */
 	public function store($data)
 	{
 		$row = $this->getTable();
@@ -161,6 +195,12 @@ class container_detailModelcontainer_detail extends JModel
 		return $row;
 	}
 
+	/**
+	 * saveanddisplay
+	 *
+	 * @param $data
+	 *
+	 */
 	public function saveanddisplay($data)
 	{
 		$container_id = $data['container_id'];
@@ -207,6 +247,12 @@ class container_detailModelcontainer_detail extends JModel
 		return $container_id;
 	}
 
+	/**
+	 * deleteProduct
+	 *
+	 * @param $data
+	 *
+	 */
 	public function deleteProduct($data)
 	{
 		$container_id = $data['container_id'];
@@ -218,6 +264,12 @@ class container_detailModelcontainer_detail extends JModel
 		$this->_db->query();
 	}
 
+	/**
+	 * delete
+	 *
+	 * @param $cid
+	 *
+	 */
 	public function delete($cid = array())
 	{
 		if (count($cid))
@@ -248,6 +300,12 @@ class container_detailModelcontainer_detail extends JModel
 		return true;
 	}
 
+	/**
+	 * publish
+	 *
+	 * @param $cid
+	 *
+	 */
 	public function publish($cid = array(), $publish = 1)
 	{
 		if (count($cid))
@@ -270,6 +328,12 @@ class container_detailModelcontainer_detail extends JModel
 		return true;
 	}
 
+	/**
+	 * Container_Product_Data
+	 *
+	 * @param $container_id
+	 *
+	 */
 	public function Container_Product_Data($container_id)
 	{
 
@@ -283,6 +347,12 @@ class container_detailModelcontainer_detail extends JModel
 		return $this->_productdata;
 	}
 
+	/**
+	 * Container_newProduct
+	 *
+	 * @param $conid
+	 *
+	 */
 	public function Container_newProduct($conid)
 	{
 		$conid = implode(",", $conid);
@@ -295,6 +365,12 @@ class container_detailModelcontainer_detail extends JModel
 		return $this->_productdata;
 	}
 
+	/**
+	 * stockroom_Data
+	 *
+	 * @param $id
+	 *
+	 */
 	public function stockroom_Data($id)
 	{
 		if ($id == 0)
@@ -311,6 +387,9 @@ class container_detailModelcontainer_detail extends JModel
 		return $this->_db->loadObjectList();
 	}
 
+	/**
+	 * getmanufacturers
+	 */
 	public function getmanufacturers()
 	{
 		$query = 'SELECT manufacturer_id as value,manufacturer_name as text FROM ' . $this->_table_prefix . 'manufacturer  WHERE published=1';
@@ -319,6 +398,9 @@ class container_detailModelcontainer_detail extends JModel
 		return $this->_db->loadObjectlist();
 	}
 
+	/**
+	 * getsupplier
+	 */
 	public function getsupplier()
 	{
 		$query = 'SELECT supplier_id as value,supplier_name as text FROM ' . $this->_table_prefix . 'supplier ';

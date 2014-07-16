@@ -11,6 +11,13 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
+/**
+ * stockroom_detailModelstockroom_detail
+ *
+ * @package     RedSHOP
+ * @subpackage  Model
+ * @since       1.0
+ */
 class stockroom_detailModelstockroom_detail extends JModel
 {
 	public $_id = null;
@@ -23,6 +30,9 @@ class stockroom_detailModelstockroom_detail extends JModel
 
 	public $_containerdata = null;
 
+	/**
+	 * __construct
+	 */
 	public function __construct()
 	{
 		parent::__construct();
@@ -34,12 +44,21 @@ class stockroom_detailModelstockroom_detail extends JModel
 		$this->setId((int) $array[0]);
 	}
 
+	/**
+	 * setId
+	 *
+	 * @param $id
+	 *
+	 */
 	public function setId($id)
 	{
 		$this->_id = $id;
 		$this->_data = null;
 	}
 
+	/**
+	 * getData
+	 */
 	public function &getData()
 	{
 		if ($this->_loadData())
@@ -53,6 +72,9 @@ class stockroom_detailModelstockroom_detail extends JModel
 		return $this->_data;
 	}
 
+	/**
+	 * _loadData
+	 */
 	public function _loadData()
 	{
 		if (empty($this->_data))
@@ -67,6 +89,9 @@ class stockroom_detailModelstockroom_detail extends JModel
 		return true;
 	}
 
+	/**
+	 * _initData
+	 */
 	public function _initData()
 	{
 		if (empty($this->_data))
@@ -90,6 +115,12 @@ class stockroom_detailModelstockroom_detail extends JModel
 		return true;
 	}
 
+	/**
+	 * store
+	 *
+	 * @param $data
+	 *
+	 */
 	public function store($data)
 	{
 		$row = $this->getTable();
@@ -130,6 +161,12 @@ class stockroom_detailModelstockroom_detail extends JModel
 		return $row;
 	}
 
+	/**
+	 * delete
+	 *
+	 * @param $cid
+	 *
+	 */
 	public function delete($cid = array())
 	{
 		if (count($cid))
@@ -172,6 +209,12 @@ class stockroom_detailModelstockroom_detail extends JModel
 		return true;
 	}
 
+	/**
+	 * publish
+	 *
+	 * @param $cid
+	 *
+	 */
 	public function publish($cid = array(), $publish = 1)
 	{
 		if (count($cid))
@@ -194,6 +237,12 @@ class stockroom_detailModelstockroom_detail extends JModel
 		return true;
 	}
 
+	/**
+	 * frontpublish
+	 *
+	 * @param $cid
+	 *
+	 */
 	public function frontpublish($cid = array(), $publish = 1)
 	{
 		if (count($cid))
@@ -216,6 +265,12 @@ class stockroom_detailModelstockroom_detail extends JModel
 		return true;
 	}
 
+	/**
+	 * copy
+	 *
+	 * @param $cid
+	 *
+	 */
 	public function copy($cid = array())
 	{
 		if (count($cid))
@@ -244,6 +299,12 @@ class stockroom_detailModelstockroom_detail extends JModel
 		return true;
 	}
 
+	/**
+	 * stock_product_data
+	 *
+	 * @param $stockroom_id
+	 *
+	 */
 	public function stock_product_data($stockroom_id)
 	{
 		$query = "SELECT cp.container_id as value,p.container_name as text FROM " . $this->_table_prefix . "container as p , "
@@ -254,6 +315,12 @@ class stockroom_detailModelstockroom_detail extends JModel
 		return $this->_productdata;
 	}
 
+	/**
+	 * stock_product
+	 *
+	 * @param $container_id
+	 *
+	 */
 	public function stock_product($container_id)
 	{
 		$query = "SELECT DISTINCT p.product_id as pid,p.product_name,p.product_number,p.product_volume,cp.quantity "
@@ -266,6 +333,12 @@ class stockroom_detailModelstockroom_detail extends JModel
 		return $this->_productdata;
 	}
 
+	/**
+	 * stock_container
+	 *
+	 * @param $stockroom_id
+	 *
+	 */
 	public function stock_container($stockroom_id)
 	{
 		if ($stockroom_id != 0)
@@ -290,6 +363,9 @@ class stockroom_detailModelstockroom_detail extends JModel
 		return $this->_containerdata;
 	}
 
+	/**
+	 * getStockRoomList
+	 */
 	public function getStockRoomList()
 	{
 		$query = 'SELECT s.stockroom_id AS value, s.stockroom_name AS text,s.* FROM ' . $this->_table_prefix . 'stockroom AS s ';

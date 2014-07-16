@@ -16,6 +16,13 @@ require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
 require_once JPATH_COMPONENT . '/helpers/text_library.php';
 require_once JPATH_ROOT . '/administrator/components/com_redshop/helpers/images.php';
 
+/**
+ * configurationModelconfiguration
+ *
+ * @package     RedSHOP
+ * @subpackage  Model
+ * @since       1.0
+ */
 class configurationModelconfiguration extends JModel
 {
 	public $_id = null;
@@ -30,6 +37,9 @@ class configurationModelconfiguration extends JModel
 
 	public $Redconfiguration = null;
 
+	/**
+	 * __construct
+	 */
 	public function __construct()
 	{
 		parent::__construct();
@@ -41,6 +51,13 @@ class configurationModelconfiguration extends JModel
 		$this->_configpath = JPATH_SITE . "/administrator/components/com_redshop/helpers/redshop.cfg.php";
 	}
 
+	/**
+	 * cleanFileName
+	 *
+	 * @param $name
+	 * @param $id
+	 *
+	 */
 	public function cleanFileName($name, $id = null)
 	{
 		$filetype = JFile::getExt($name);
@@ -64,6 +81,12 @@ class configurationModelconfiguration extends JModel
 		return $filename;
 	}
 
+	/**
+	 * store
+	 *
+	 * @param $data
+	 *
+	 */
 	public function store($data)
 	{
 		// Product Default Image upload
@@ -510,6 +533,12 @@ class configurationModelconfiguration extends JModel
 		return is_readable($this->_configpath);
 	}
 
+	/**
+	 * configurationPrepare
+	 *
+	 * @param $d
+	 *
+	 */
 	public function configurationPrepare($d)
 	{
 		$this->_configdata = $this->Redconfiguration->redshopCFGData($d);
@@ -572,6 +601,9 @@ class configurationModelconfiguration extends JModel
 		return $this->_db->loadObjectlist();
 	}
 
+	/**
+	 * getnewsletters
+	 */
 	public function getnewsletters()
 	{
 		$query = 'SELECT newsletter_id as value,name as text FROM ' . $this->_table_prefix . 'newsletter WHERE published=1';
@@ -580,6 +612,9 @@ class configurationModelconfiguration extends JModel
 		return $this->_db->loadObjectlist();
 	}
 
+	/**
+	 * cleardata
+	 */
 	public function cleardata()
 	{
 		$redirect = "";
@@ -611,6 +646,9 @@ class configurationModelconfiguration extends JModel
 		return (count($result1));
 	}
 
+	/**
+	 * getShopperGroupPrivate
+	 */
 	public function getShopperGroupPrivate()
 	{
 		$query = "SELECT shopper_group_id as value , shopper_group_name as text "
@@ -621,6 +659,9 @@ class configurationModelconfiguration extends JModel
 		return $this->_db->loadObjectList();
 	}
 
+	/**
+	 * getShopperGroupCompany
+	 */
 	public function getShopperGroupCompany()
 	{
 		$query = "SELECT shopper_group_id as value , shopper_group_name as text "
@@ -631,6 +672,9 @@ class configurationModelconfiguration extends JModel
 		return $this->_db->loadObjectList();
 	}
 
+	/**
+	 * getVatGroup
+	 */
 	public function getVatGroup()
 	{
 		$query = 'SELECT tg.tax_group_id as value,tg.tax_group_name as text FROM ' . $this->_table_prefix
@@ -640,6 +684,12 @@ class configurationModelconfiguration extends JModel
 		return $this->_db->loadObjectlist();
 	}
 
+	/**
+	 * getnewsletter_content
+	 *
+	 * @param $newsletter_id
+	 *
+	 */
 	public function getnewsletter_content($newsletter_id)
 	{
 		$query = 'SELECT n.template_id,n.body,n.subject,nt.template_desc FROM ' . $this->_table_prefix . 'newsletter AS n '
@@ -653,6 +703,9 @@ class configurationModelconfiguration extends JModel
 		return $list;
 	}
 
+	/**
+	 * getProductIdList
+	 */
 	public function getProductIdList()
 	{
 		$query = 'SELECT * FROM ' . $this->_table_prefix . 'product WHERE published=1';
@@ -661,6 +714,9 @@ class configurationModelconfiguration extends JModel
 		return $this->_db->loadObjectList();
 	}
 
+	/**
+	 * getnewsletterproducts_content
+	 */
 	public function getnewsletterproducts_content()
 	{
 		$query = 'SELECT nt.template_desc FROM ' . $this->_table_prefix . 'template as nt '
@@ -670,6 +726,12 @@ class configurationModelconfiguration extends JModel
 		return $this->_db->loadObjectList();
 	}
 
+	/**
+	 * newsletterEntry
+	 *
+	 * @param $data
+	 *
+	 */
 	public function newsletterEntry($data)
 	{
 		$db = JFactory::getDbo();
@@ -807,6 +869,9 @@ class configurationModelconfiguration extends JModel
 		return false;
 	}
 
+	/**
+	 * getOrderstatus
+	 */
 	public function getOrderstatus()
 	{
 		$query = "SELECT order_status_code AS value, order_status_name AS text"
@@ -908,6 +973,9 @@ class configurationModelconfiguration extends JModel
 		return $redshop_plugins;
 	}
 
+	/**
+	 * resetTemplate
+	 */
 	public function resetTemplate()
 	{
 		$Redtemplate = new Redtemplate;

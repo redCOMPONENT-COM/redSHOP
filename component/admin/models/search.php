@@ -11,6 +11,13 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
+/**
+ * searchModelsearch
+ *
+ * @package     RedSHOP
+ * @subpackage  Model
+ * @since       1.0
+ */
 class searchModelsearch extends JModel
 {
 	public $_id = null;
@@ -33,6 +40,9 @@ class searchModelsearch extends JModel
 
 	public $_iscompany = null;
 
+	/**
+	 * __construct
+	 */
 	public function __construct()
 	{
 		parent::__construct();
@@ -106,12 +116,21 @@ class searchModelsearch extends JModel
 		$this->_products = $products;
 	}
 
+	/**
+	 * setId
+	 *
+	 * @param $id
+	 *
+	 */
 	public function setId($id)
 	{
 		$this->_id = $id;
 		$this->_data = null;
 	}
 
+	/**
+	 * getData
+	 */
 	public function getData()
 	{
 		if ($this->_alert == 'termsarticle')
@@ -127,6 +146,9 @@ class searchModelsearch extends JModel
 		return $this->_data;
 	}
 
+	/**
+	 * _buildQuery
+	 */
 	public function _buildQuery()
 	{
 		if ($this->_media_section)

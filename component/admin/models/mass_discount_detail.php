@@ -12,6 +12,13 @@ require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
 
 jimport('joomla.application.component.model');
 
+/**
+ * mass_discount_detailModelmass_discount_detail
+ *
+ * @package     RedSHOP
+ * @subpackage  Model
+ * @since       1.0
+ */
 class mass_discount_detailModelmass_discount_detail extends JModel
 {
 	public $_id = null;
@@ -22,6 +29,9 @@ class mass_discount_detailModelmass_discount_detail extends JModel
 
 	public $_table_prefix = null;
 
+	/**
+	 * __construct
+	 */
 	public function __construct()
 	{
 		parent::__construct();
@@ -33,12 +43,21 @@ class mass_discount_detailModelmass_discount_detail extends JModel
 		$this->setId((int) $array[0]);
 	}
 
+	/**
+	 * setId
+	 *
+	 * @param $id
+	 *
+	 */
 	public function setId($id)
 	{
 		$this->_id = $id;
 		$this->_data = null;
 	}
 
+	/**
+	 * getData
+	 */
 	public function &getData()
 	{
 		if ($this->_loadData())
@@ -52,6 +71,9 @@ class mass_discount_detailModelmass_discount_detail extends JModel
 		return $this->_data;
 	}
 
+	/**
+	 * _loadData
+	 */
 	public function _loadData()
 	{
 		if (empty($this->_data))
@@ -68,6 +90,9 @@ class mass_discount_detailModelmass_discount_detail extends JModel
 	}
 
 
+	/**
+	 * _initData
+	 */
 	public function _initData()
 	{
 		if (empty($this->_data))
@@ -91,6 +116,12 @@ class mass_discount_detailModelmass_discount_detail extends JModel
 		return true;
 	}
 
+	/**
+	 * store
+	 *
+	 * @param $data
+	 *
+	 */
 	public function store($data)
 	{
 		$producthelper = new producthelper;
@@ -377,6 +408,12 @@ class mass_discount_detailModelmass_discount_detail extends JModel
 		return $row;
 	}
 
+	/**
+	 * delete
+	 *
+	 * @param $cid
+	 *
+	 */
 	public function delete($cid = array())
 	{
 		$layout = JRequest::getVar('layout');
@@ -431,6 +468,12 @@ class mass_discount_detailModelmass_discount_detail extends JModel
 		return true;
 	}
 
+	/**
+	 * customImplode
+	 *
+	 * @param $productArr
+	 *
+	 */
 	public function customImplode($productArr)
 	{
 		$pArr = array(0);
@@ -443,6 +486,12 @@ class mass_discount_detailModelmass_discount_detail extends JModel
 		return implode(',', $pArr);
 	}
 
+	/**
+	 * updateProduct
+	 *
+	 * @param $productId
+	 *
+	 */
 	public function updateProduct($productId)
 	{
 		$query = 'UPDATE ' . $this->_table_prefix . 'product SET product_on_sale="0" where product_id in (' . $productId . ')';
@@ -456,6 +505,9 @@ class mass_discount_detailModelmass_discount_detail extends JModel
 		}
 	}
 
+	/**
+	 * getmanufacturers
+	 */
 	public function getmanufacturers()
 	{
 		$query = 'SELECT manufacturer_id as value,manufacturer_name as text FROM ' . $this->_table_prefix . 'manufacturer  WHERE published=1';
@@ -464,6 +516,12 @@ class mass_discount_detailModelmass_discount_detail extends JModel
 		return $this->_db->loadObjectlist();
 	}
 
+	/**
+	 * GetProductmanufacturer
+	 *
+	 * @param $id
+	 *
+	 */
 	public function GetProductmanufacturer($id)
 	{
 		$query = 'SELECT product_id FROM ' . $this->_table_prefix . 'product   WHERE manufacturer_id="' . $id . '" ';
@@ -472,6 +530,12 @@ class mass_discount_detailModelmass_discount_detail extends JModel
 		return $this->_db->loadObjectlist();
 	}
 
+	/**
+	 * GetProductListshippingrate
+	 *
+	 * @param $d
+	 *
+	 */
 	public function GetProductListshippingrate($d)
 	{
 		if ($d != '')
@@ -490,6 +554,9 @@ class mass_discount_detailModelmass_discount_detail extends JModel
 		return $this->_db->loadObjectList();
 	}
 
+	/**
+	 * GetProductList
+	 */
 	public function GetProductList()
 	{
 		$query = 'SELECT product_name as text,product_id as value FROM ' . $this->_table_prefix . 'product WHERE published = 1';

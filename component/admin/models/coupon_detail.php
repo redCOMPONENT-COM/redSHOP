@@ -11,6 +11,13 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
+/**
+ * coupon_detailModelcoupon_detail
+ *
+ * @package     RedSHOP
+ * @subpackage  Model
+ * @since       1.0
+ */
 class coupon_detailModelcoupon_detail extends JModel
 {
 	public $_id = null;
@@ -19,6 +26,9 @@ class coupon_detailModelcoupon_detail extends JModel
 
 	public $_table_prefix = null;
 
+	/**
+	 * __construct
+	 */
 	public function __construct()
 	{
 		parent::__construct();
@@ -30,12 +40,21 @@ class coupon_detailModelcoupon_detail extends JModel
 		$this->setId((int) $array[0]);
 	}
 
+	/**
+	 * setId
+	 *
+	 * @param $id
+	 *
+	 */
 	public function setId($id)
 	{
 		$this->_id = $id;
 		$this->_data = null;
 	}
 
+	/**
+	 * getData
+	 */
 	public function &getData()
 	{
 		if ($this->_loadData())
@@ -49,6 +68,9 @@ class coupon_detailModelcoupon_detail extends JModel
 		return $this->_data;
 	}
 
+	/**
+	 * _loadData
+	 */
 	public function _loadData()
 	{
 		if (empty($this->_data))
@@ -63,6 +85,9 @@ class coupon_detailModelcoupon_detail extends JModel
 		return true;
 	}
 
+	/**
+	 * _initData
+	 */
 	public function _initData()
 	{
 		if (empty($this->_data))
@@ -88,6 +113,12 @@ class coupon_detailModelcoupon_detail extends JModel
 		return true;
 	}
 
+	/**
+	 * store
+	 *
+	 * @param $data
+	 *
+	 */
 	public function store($data)
 	{
 		$row = $this->getTable();
@@ -108,6 +139,12 @@ class coupon_detailModelcoupon_detail extends JModel
 		return $row;
 	}
 
+	/**
+	 * delete
+	 *
+	 * @param $cid
+	 *
+	 */
 	public function delete($cid = array())
 	{
 		if (count($cid))
@@ -128,6 +165,9 @@ class coupon_detailModelcoupon_detail extends JModel
 		return true;
 	}
 
+	/**
+	 * getRemainingCouponAmount
+	 */
 	public function getRemainingCouponAmount()
 	{
 		$query = 'SELECT coupon_value FROM ' . $this->_table_prefix . 'coupons_transaction WHERE coupon_id =' . $this->_id;
@@ -136,6 +176,12 @@ class coupon_detailModelcoupon_detail extends JModel
 		return $this->_db->loadResult();
 	}
 
+	/**
+	 * publish
+	 *
+	 * @param $cid
+	 *
+	 */
 	public function publish($cid = array(), $publish = 1)
 	{
 		if (count($cid))
@@ -158,6 +204,9 @@ class coupon_detailModelcoupon_detail extends JModel
 		return true;
 	}
 
+	/**
+	 * getuserslist
+	 */
 	public function getuserslist()
 	{
 		$query = 'SELECT u.id as value,u.name as text FROM  #__users as u,' . $this->_table_prefix
@@ -167,6 +216,9 @@ class coupon_detailModelcoupon_detail extends JModel
 		return $this->_db->loadObjectlist();
 	}
 
+	/**
+	 * getproducts
+	 */
 	public function getproducts()
 	{
 		$product_id = JRequest::getVar('pid');
@@ -180,6 +232,12 @@ class coupon_detailModelcoupon_detail extends JModel
 		}
 	}
 
+	/**
+	 * getuserfullname2
+	 *
+	 * @param $uid
+	 *
+	 */
 	public function getuserfullname2($uid)
 	{
 		$query = "SELECT firstname,lastname,username FROM " . $this->_table_prefix . "users_info as uf, #__users as u WHERE user_id="
@@ -196,6 +254,12 @@ class coupon_detailModelcoupon_detail extends JModel
 		return $fullname;
 	}
 
+	/**
+	 * checkduplicate
+	 *
+	 * @param $discount_code
+	 *
+	 */
 	public function checkduplicate($discount_code)
 	{
 		$query = "SELECT count(*) as code from " . $this->_table_prefix . "coupons"

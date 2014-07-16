@@ -11,6 +11,13 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
+/**
+ * sample_catalogModelsample_catalog
+ *
+ * @package     RedSHOP
+ * @subpackage  Model
+ * @since       1.0
+ */
 class sample_catalogModelsample_catalog extends JModel
 {
 	public $_id = null;
@@ -19,6 +26,9 @@ class sample_catalogModelsample_catalog extends JModel
 
 	public $_table_prefix = null;
 
+	/**
+	 * __construct
+	 */
 	public function __construct()
 	{
 		parent::__construct();
@@ -31,12 +41,21 @@ class sample_catalogModelsample_catalog extends JModel
 
 	}
 
+	/**
+	 * setId
+	 *
+	 * @param $id
+	 *
+	 */
 	public function setId($id)
 	{
 		$this->_id = $id;
 		$this->_data = null;
 	}
 
+	/**
+	 * getData
+	 */
 	public function &getData()
 	{
 		if ($this->_loadData())
@@ -50,6 +69,12 @@ class sample_catalogModelsample_catalog extends JModel
 		return $this->_data;
 	}
 
+	/**
+	 * getsample
+	 *
+	 * @param $sample
+	 *
+	 */
 	public function getsample($sample)
 	{
 		$query = 'SELECT * FROM ' . $this->_table_prefix . 'catalog_colour as c left join ' . $this->_table_prefix .
@@ -60,6 +85,9 @@ class sample_catalogModelsample_catalog extends JModel
 		return $sample_data;
 	}
 
+	/**
+	 * _loadData
+	 */
 	public function _loadData()
 	{
 		if (empty($this->_data))
@@ -74,6 +102,9 @@ class sample_catalogModelsample_catalog extends JModel
 		return true;
 	}
 
+	/**
+	 * _initData
+	 */
 	public function _initData()
 	{
 		if (empty($this->_data))

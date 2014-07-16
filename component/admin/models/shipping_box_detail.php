@@ -11,6 +11,13 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
+/**
+ * shipping_box_detailModelshipping_box_detail
+ *
+ * @package     RedSHOP
+ * @subpackage  Model
+ * @since       1.0
+ */
 class shipping_box_detailModelshipping_box_detail extends JModel
 {
 	public $_id = null;
@@ -21,6 +28,9 @@ class shipping_box_detailModelshipping_box_detail extends JModel
 
 	public $_copydata = null;
 
+	/**
+	 * __construct
+	 */
 	public function __construct()
 	{
 		parent::__construct();
@@ -32,12 +42,21 @@ class shipping_box_detailModelshipping_box_detail extends JModel
 		$this->setId((int) $array[0]);
 	}
 
+	/**
+	 * setId
+	 *
+	 * @param $id
+	 *
+	 */
 	public function setId($id)
 	{
 		$this->_id = $id;
 		$this->_data = null;
 	}
 
+	/**
+	 * getData
+	 */
 	public function &getData()
 	{
 		if ($this->_loadData())
@@ -51,6 +70,9 @@ class shipping_box_detailModelshipping_box_detail extends JModel
 		return $this->_data;
 	}
 
+	/**
+	 * _loadData
+	 */
 	public function _loadData()
 	{
 		$red_template = new Redtemplate;
@@ -67,6 +89,9 @@ class shipping_box_detailModelshipping_box_detail extends JModel
 		return true;
 	}
 
+	/**
+	 * _initData
+	 */
 	public function _initData()
 	{
 		if (empty($this->_data))
@@ -87,6 +112,12 @@ class shipping_box_detailModelshipping_box_detail extends JModel
 		return true;
 	}
 
+	/**
+	 * store
+	 *
+	 * @param $data
+	 *
+	 */
 	public function store($data)
 	{
 		$row = $this->getTable();
@@ -108,6 +139,12 @@ class shipping_box_detailModelshipping_box_detail extends JModel
 		return $row;
 	}
 
+	/**
+	 * delete
+	 *
+	 * @param $cid
+	 *
+	 */
 	public function delete($cid = array())
 	{
 		$red_template = new Redtemplate;
@@ -130,6 +167,12 @@ class shipping_box_detailModelshipping_box_detail extends JModel
 		return true;
 	}
 
+	/**
+	 * publish
+	 *
+	 * @param $cid
+	 *
+	 */
 	public function publish($cid = array(), $publish = 1)
 	{
 		if (count($cid))

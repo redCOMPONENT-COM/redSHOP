@@ -20,6 +20,13 @@ require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/quotation.ph
 require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/mail.php';
 require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/product.php';
 
+/**
+ * order_detailModelorder_detail
+ *
+ * @package     RedSHOP
+ * @subpackage  Model
+ * @since       1.0
+ */
 class order_detailModelorder_detail extends JModel
 {
 	public $_id = null;
@@ -30,6 +37,9 @@ class order_detailModelorder_detail extends JModel
 
 	public $_copydata = null;
 
+	/**
+	 * __construct
+	 */
 	public function __construct()
 	{
 		parent::__construct();
@@ -41,12 +51,21 @@ class order_detailModelorder_detail extends JModel
 		$this->setId((int) $array[0]);
 	}
 
+	/**
+	 * setId
+	 *
+	 * @param $id
+	 *
+	 */
 	public function setId($id)
 	{
 		$this->_id = $id;
 		$this->_data = null;
 	}
 
+	/**
+	 * getData
+	 */
 	public function &getData()
 	{
 		if ($this->_loadData())
@@ -60,6 +79,9 @@ class order_detailModelorder_detail extends JModel
 		return $this->_data;
 	}
 
+	/**
+	 * _loadData
+	 */
 	public function _loadData()
 	{
 		$order_functions = new order_functions;
@@ -74,6 +96,9 @@ class order_detailModelorder_detail extends JModel
 		return true;
 	}
 
+	/**
+	 * _initData
+	 */
 	public function _initData()
 	{
 		if (empty($this->_data))
@@ -105,6 +130,12 @@ class order_detailModelorder_detail extends JModel
 		return true;
 	}
 
+	/**
+	 * store
+	 *
+	 * @param $data
+	 *
+	 */
 	public function store($data)
 	{
 		$row = $this->getTable();
@@ -126,6 +157,12 @@ class order_detailModelorder_detail extends JModel
 		return true;
 	}
 
+	/**
+	 * delete
+	 *
+	 * @param $cid
+	 *
+	 */
 	public function delete($cid = array())
 	{
 		$producthelper = new producthelper;
@@ -262,6 +299,12 @@ class order_detailModelorder_detail extends JModel
 		return true;
 	}
 
+	/**
+	 * getProducts
+	 *
+	 * @param $order_id
+	 *
+	 */
 	public function getProducts($order_id)
 	{
 		$query = "SELECT DISTINCT( p.product_id ) as value,p.product_name as text,oi.order_id FROM "
@@ -273,6 +316,14 @@ class order_detailModelorder_detail extends JModel
 		return $products;
 	}
 
+	/**
+	 * neworderitem
+	 *
+	 * @param $data
+	 * @param $quantity
+	 * @param $order_item_id
+	 *
+	 */
 	public function neworderitem($data, $quantity, $order_item_id)
 	{
 		$adminproducthelper = new adminproducthelper;
@@ -689,6 +740,12 @@ class order_detailModelorder_detail extends JModel
 		return true;
 	}
 
+	/**
+	 * delete_item
+	 *
+	 * @param $data
+	 *
+	 */
 	public function delete_item($data)
 	{
 		$producthelper = new producthelper;
@@ -754,6 +811,12 @@ class order_detailModelorder_detail extends JModel
 		return true;
 	}
 
+	/**
+	 * updateItem
+	 *
+	 * @param $data
+	 *
+	 */
 	public function updateItem($data)
 	{
 		$producthelper = new producthelper;
@@ -867,6 +930,14 @@ class order_detailModelorder_detail extends JModel
 		return true;
 	}
 
+	/**
+	 * updateAttributeItem
+	 *
+	 * @param $order_item_id
+	 * @param $quantity
+	 * @param $stockroom_id
+	 *
+	 */
 	public function updateAttributeItem($order_item_id, $quantity = 0, $stockroom_id = 0)
 	{
 		$stockroomhelper = new rsstockroomhelper;
@@ -915,6 +986,12 @@ class order_detailModelorder_detail extends JModel
 		return true;
 	}
 
+	/**
+	 * update_discount
+	 *
+	 * @param $data
+	 *
+	 */
 	public function update_discount($data)
 	{
 		// Get Order Info
@@ -980,6 +1057,13 @@ class order_detailModelorder_detail extends JModel
 		return true;
 	}
 
+	/**
+	 * special_discount
+	 *
+	 * @param $data
+	 * @param $chk
+	 *
+	 */
 	public function special_discount($data, $chk = false)
 	{
 		$redshopMail = new redshopMail;
@@ -1045,6 +1129,12 @@ class order_detailModelorder_detail extends JModel
 		return true;
 	}
 
+	/**
+	 * update_shippingrates
+	 *
+	 * @param $data
+	 *
+	 */
 	public function update_shippingrates($data)
 	{
 		$redhelper = new redhelper;
@@ -1089,6 +1179,12 @@ class order_detailModelorder_detail extends JModel
 		return true;
 	}
 
+	/**
+	 * updateShippingAdd
+	 *
+	 * @param $data
+	 *
+	 */
 	public function updateShippingAdd($data)
 	{
 		$row = $this->getTable('order_user_detail');
@@ -1125,6 +1221,12 @@ class order_detailModelorder_detail extends JModel
 		}
 	}
 
+	/**
+	 * updateBillingAdd
+	 *
+	 * @param $data
+	 *
+	 */
 	public function updateBillingAdd($data)
 	{
 		$row = $this->getTable('order_user_detail');
@@ -1160,6 +1262,12 @@ class order_detailModelorder_detail extends JModel
 	}
 
 	// Get order stats log
+	/**
+	 * getOrderLog
+	 *
+	 * @param $order_id
+	 *
+	 */
 	public function getOrderLog($order_id)
 	{
 		$database = JFactory::getDbo();
@@ -1172,6 +1280,13 @@ class order_detailModelorder_detail extends JModel
 	}
 
 	// Get Product subscription price
+	/**
+	 * getProductSubscriptionDetail
+	 *
+	 * @param $product_id
+	 * @param $subscription_id
+	 *
+	 */
 	public function getProductSubscriptionDetail($product_id, $subscription_id)
 	{
 		$db = JFactory::getDbo();
@@ -1186,6 +1301,12 @@ class order_detailModelorder_detail extends JModel
 	}
 
 	// Get User Product subscription detail
+	/**
+	 * getUserProductSubscriptionDetail
+	 *
+	 * @param $order_item_id
+	 *
+	 */
 	public function getUserProductSubscriptionDetail($order_item_id)
 	{
 		$db = JFactory::getDbo();
@@ -1199,6 +1320,12 @@ class order_detailModelorder_detail extends JModel
 	}
 
 	// Get credit card detail
+	/**
+	 * getccdetail
+	 *
+	 * @param $order_id
+	 *
+	 */
 	public function getccdetail($order_id)
 	{
 		$db = JFactory::getDbo();
@@ -1212,6 +1339,12 @@ class order_detailModelorder_detail extends JModel
 		return $db->loadObject();
 	}
 
+	/**
+	 * send_downloadmail
+	 *
+	 * @param $oid
+	 *
+	 */
 	public function send_downloadmail($oid)
 	{
 		$order_functions = new order_functions;
@@ -1227,6 +1360,12 @@ class order_detailModelorder_detail extends JModel
 		}
 	}
 
+	/**
+	 * getvar
+	 *
+	 * @param $name
+	 *
+	 */
 	public function getvar($name)
 	{
 		global $_GET, $_POST;
@@ -1247,6 +1386,13 @@ class order_detailModelorder_detail extends JModel
 		}
 	}
 
+	/**
+	 * update_ccdata
+	 *
+	 * @param $order_id
+	 * @param $payment_transaction_id
+	 *
+	 */
 	public function update_ccdata($order_id, $payment_transaction_id)
 	{
 		$db = JFactory::getDbo();
@@ -1278,6 +1424,9 @@ class order_detailModelorder_detail extends JModel
 		}
 	}
 
+	/**
+	 * getStockNoteTemplate
+	 */
 	public function getStockNoteTemplate()
 	{
 		$redTemplate = new Redtemplate;

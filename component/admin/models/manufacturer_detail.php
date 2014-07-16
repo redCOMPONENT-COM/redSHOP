@@ -11,6 +11,13 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
+/**
+ * manufacturer_detailModelmanufacturer_detail
+ *
+ * @package     RedSHOP
+ * @subpackage  Model
+ * @since       1.0
+ */
 class manufacturer_detailModelmanufacturer_detail extends JModel
 {
 	public $_id = null;
@@ -23,6 +30,9 @@ class manufacturer_detailModelmanufacturer_detail extends JModel
 
 	public $_templatedata = null;
 
+	/**
+	 * __construct
+	 */
 	public function __construct()
 	{
 		parent::__construct();
@@ -34,12 +44,21 @@ class manufacturer_detailModelmanufacturer_detail extends JModel
 		$this->setId((int) $array[0]);
 	}
 
+	/**
+	 * setId
+	 *
+	 * @param $id
+	 *
+	 */
 	public function setId($id)
 	{
 		$this->_id = $id;
 		$this->_data = null;
 	}
 
+	/**
+	 * getData
+	 */
 	public function &getData()
 	{
 		if ($this->_loadData())
@@ -54,6 +73,9 @@ class manufacturer_detailModelmanufacturer_detail extends JModel
 		return $this->_data;
 	}
 
+	/**
+	 * _loadData
+	 */
 	public function _loadData()
 	{
 		if (empty($this->_data))
@@ -68,6 +90,9 @@ class manufacturer_detailModelmanufacturer_detail extends JModel
 		return true;
 	}
 
+	/**
+	 * _initData
+	 */
 	public function _initData()
 	{
 		if (empty($this->_data))
@@ -96,6 +121,12 @@ class manufacturer_detailModelmanufacturer_detail extends JModel
 		return true;
 	}
 
+	/**
+	 * store
+	 *
+	 * @param $data
+	 *
+	 */
 	public function store($data)
 	{
 		$order_functions = new order_functions;
@@ -137,6 +168,12 @@ class manufacturer_detailModelmanufacturer_detail extends JModel
 		return $row;
 	}
 
+	/**
+	 * delete
+	 *
+	 * @param $cid
+	 *
+	 */
 	public function delete($cid = array())
 	{
 		if (count($cid))
@@ -156,6 +193,12 @@ class manufacturer_detailModelmanufacturer_detail extends JModel
 		return true;
 	}
 
+	/**
+	 * publish
+	 *
+	 * @param $cid
+	 *
+	 */
 	public function publish($cid = array(), $publish = 1)
 	{
 		if (count($cid))
@@ -176,6 +219,12 @@ class manufacturer_detailModelmanufacturer_detail extends JModel
 		return true;
 	}
 
+	/**
+	 * copy
+	 *
+	 * @param $cid
+	 *
+	 */
 	public function copy($cid = array())
 	{
 
@@ -208,6 +257,9 @@ class manufacturer_detailModelmanufacturer_detail extends JModel
 		return true;
 	}
 
+	/**
+	 * TemplateData
+	 */
 	public function TemplateData()
 	{
 		$query = "SELECT template_id as value,template_name as text FROM " . $this->_table_prefix
@@ -218,6 +270,12 @@ class manufacturer_detailModelmanufacturer_detail extends JModel
 		return $this->_templatedata;
 	}
 
+	/**
+	 * getMediaId
+	 *
+	 * @param $mid
+	 *
+	 */
 	public function getMediaId($mid)
 	{
 		$query = 'SELECT media_id,media_name FROM ' . $this->_table_prefix . 'media '
@@ -227,6 +285,12 @@ class manufacturer_detailModelmanufacturer_detail extends JModel
 		return $this->_db->loadObject();
 	}
 
+	/**
+	 * saveOrder
+	 *
+	 * @param $cid
+	 *
+	 */
 	public function saveOrder(&$cid)
 	{
 		$app = JFactory::getApplication();
@@ -272,6 +336,12 @@ class manufacturer_detailModelmanufacturer_detail extends JModel
 		return $this->_db->loadResult();
 	}
 
+	/**
+	 * move
+	 *
+	 * @param $direction
+	 *
+	 */
 	public function move($direction)
 	{
 		$row = JTable::getInstance('manufacturer_detail', 'Table');

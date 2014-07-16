@@ -14,6 +14,13 @@ jimport('joomla.installer.installer');
 jimport('joomla.installer.helper');
 jimport('joomla.filesystem.file');
 
+/**
+ * shipping_rate_detailModelShipping_rate_detail
+ *
+ * @package     RedSHOP
+ * @subpackage  Model
+ * @since       1.0
+ */
 class shipping_rate_detailModelShipping_rate_detail extends JModel
 {
 	public $_id = null;
@@ -24,6 +31,9 @@ class shipping_rate_detailModelShipping_rate_detail extends JModel
 
 	public $_copydata = null;
 
+	/**
+	 * __construct
+	 */
 	public function __construct()
 	{
 		parent::__construct();
@@ -33,12 +43,21 @@ class shipping_rate_detailModelShipping_rate_detail extends JModel
 		$this->setId((int) $array[0]);
 	}
 
+	/**
+	 * setId
+	 *
+	 * @param $id
+	 *
+	 */
 	public function setId($id)
 	{
 		$this->_id = $id;
 		$this->_data = null;
 	}
 
+	/**
+	 * getData
+	 */
 	public function &getData()
 	{
 		if ($this->_loadData())
@@ -52,6 +71,9 @@ class shipping_rate_detailModelShipping_rate_detail extends JModel
 		return $this->_data;
 	}
 
+	/**
+	 * _loadData
+	 */
 	public function _loadData()
 	{
 		if (empty($this->_data))
@@ -66,6 +88,9 @@ class shipping_rate_detailModelShipping_rate_detail extends JModel
 		return true;
 	}
 
+	/**
+	 * _initData
+	 */
 	public function _initData()
 	{
 		if (empty($this->_data))
@@ -110,6 +135,12 @@ class shipping_rate_detailModelShipping_rate_detail extends JModel
 		return true;
 	}
 
+	/**
+	 * store
+	 *
+	 * @param $data
+	 *
+	 */
 	public function store($data)
 	{
 		$data['shipping_rate_country'] = @ implode(',', $data['shipping_rate_country']);
@@ -162,6 +193,12 @@ class shipping_rate_detailModelShipping_rate_detail extends JModel
 		return $row;
 	}
 
+	/**
+	 * delete
+	 *
+	 * @param $cid
+	 *
+	 */
 	public function delete($cid = array())
 	{
 		if (count($cid))
@@ -182,6 +219,12 @@ class shipping_rate_detailModelShipping_rate_detail extends JModel
 		return true;
 	}
 
+	/**
+	 * GetProductListshippingrate
+	 *
+	 * @param $d
+	 *
+	 */
 	public function GetProductListshippingrate($d)
 	{
 		$and = '';
@@ -196,6 +239,9 @@ class shipping_rate_detailModelShipping_rate_detail extends JModel
 		return $this->_db->loadObjectList();
 	}
 
+	/**
+	 * GetProductList
+	 */
 	public function GetProductList()
 	{
 		$query = 'SELECT product_name as text,product_id as value FROM ' . $this->_table_prefix . 'product WHERE published = 1';
@@ -204,6 +250,9 @@ class shipping_rate_detailModelShipping_rate_detail extends JModel
 		return $this->_db->loadObjectList();
 	}
 
+	/**
+	 * GetCategoryList
+	 */
 	public function GetCategoryList()
 	{
 		$query = 'SELECT category_name as text,category_id as value FROM ' . $this->_table_prefix . 'category WHERE published = 1';
@@ -212,6 +261,12 @@ class shipping_rate_detailModelShipping_rate_detail extends JModel
 		return $this->_db->loadObjectList();
 	}
 
+	/**
+	 * GetStateList
+	 *
+	 * @param $country_codes
+	 *
+	 */
 	public function GetStateList($country_codes)
 	{
 		$query = 'SELECT s.state_name as text,s.state_2_code as value FROM ' . $this->_table_prefix . 'state AS s '
@@ -223,6 +278,12 @@ class shipping_rate_detailModelShipping_rate_detail extends JModel
 		return $this->_db->loadObjectList();
 	}
 
+	/**
+	 * copy
+	 *
+	 * @param $cid
+	 *
+	 */
 	public function copy($cid = array())
 	{
 		$copydata = array();
@@ -272,6 +333,9 @@ class shipping_rate_detailModelShipping_rate_detail extends JModel
 		return $result;
 	}
 
+	/**
+	 * getVatGroup
+	 */
 	public function getVatGroup()
 	{
 		$query = "SELECT tg.tax_group_name as text, tg.tax_group_id as value FROM `" . $this->_table_prefix . "tax_group` as tg WHERE
@@ -281,6 +345,12 @@ class shipping_rate_detailModelShipping_rate_detail extends JModel
 		return $this->_db->loadObjectList();
 	}
 
+	/**
+	 * GetStateDropdown
+	 *
+	 * @param $data
+	 *
+	 */
 	public function GetStateDropdown($data)
 	{
 		$coutry_code = $data['country_codes'];

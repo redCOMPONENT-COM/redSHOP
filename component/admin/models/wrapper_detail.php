@@ -13,6 +13,13 @@ jimport('joomla.application.component.model');
 jimport('joomla.filesystem.file');
 require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
 
+/**
+ * wrapper_detailModelwrapper_detail
+ *
+ * @package     RedSHOP
+ * @subpackage  Model
+ * @since       1.0
+ */
 class wrapper_detailModelwrapper_detail extends JModel
 {
 	public $_id = null;
@@ -23,6 +30,9 @@ class wrapper_detailModelwrapper_detail extends JModel
 
 	public $_table_prefix = null;
 
+	/**
+	 * __construct
+	 */
 	public function __construct()
 	{
 		parent::__construct();
@@ -33,12 +43,21 @@ class wrapper_detailModelwrapper_detail extends JModel
 		$this->setId((int) $array[0]);
 	}
 
+	/**
+	 * setId
+	 *
+	 * @param $id
+	 *
+	 */
 	public function setId($id)
 	{
 		$this->_id = $id;
 		$this->_data = null;
 	}
 
+	/**
+	 * getData
+	 */
 	public function &getData()
 	{
 		if ($this->_loadData())
@@ -52,6 +71,9 @@ class wrapper_detailModelwrapper_detail extends JModel
 		return $this->_data;
 	}
 
+	/**
+	 * _loadData
+	 */
 	public function _loadData()
 	{
 		if (empty($this->_data))
@@ -69,6 +91,9 @@ class wrapper_detailModelwrapper_detail extends JModel
 		return true;
 	}
 
+	/**
+	 * _initData
+	 */
 	public function _initData()
 	{
 		if (empty($this->_data))
@@ -91,6 +116,12 @@ class wrapper_detailModelwrapper_detail extends JModel
 		return true;
 	}
 
+	/**
+	 * getProductName
+	 *
+	 * @param $productid
+	 *
+	 */
 	public function getProductName($productid)
 	{
 		$q = 'SELECT product_name '
@@ -102,6 +133,12 @@ class wrapper_detailModelwrapper_detail extends JModel
 		return $pname;
 	}
 
+	/**
+	 * getProductInfo
+	 *
+	 * @param $productid
+	 *
+	 */
 	public function getProductInfo($productid = 0)
 	{
 		$query = 'SELECT product_name as text,product_id as value FROM ' . $this->_table_prefix .
@@ -112,6 +149,12 @@ class wrapper_detailModelwrapper_detail extends JModel
 		return $list;
 	}
 
+	/**
+	 * getCategoryName
+	 *
+	 * @param $categoryid
+	 *
+	 */
 	public function getCategoryName($categoryid)
 	{
 		$q = 'SELECT category_name '
@@ -123,6 +166,12 @@ class wrapper_detailModelwrapper_detail extends JModel
 		return $name;
 	}
 
+	/**
+	 * getCategoryInfo
+	 *
+	 * @param $categoryid
+	 *
+	 */
 	public function getCategoryInfo($categoryid = 0)
 	{
 		$and = '';
@@ -141,6 +190,12 @@ class wrapper_detailModelwrapper_detail extends JModel
 		return $list;
 	}
 
+	/**
+	 * getProductInfowrapper
+	 *
+	 * @param $productid
+	 *
+	 */
 	public function getProductInfowrapper($productid = 0)
 	{
 		if ($productid)
@@ -160,6 +215,17 @@ class wrapper_detailModelwrapper_detail extends JModel
 		return $list;
 	}
 
+	/**
+	 * getMultiselectBox
+	 *
+	 * @param $name
+	 * @param $list
+	 * @param $sellist
+	 * @param $displayid
+	 * @param $displayname
+	 * @param $multiple
+	 *
+	 */
 	public function getMultiselectBox($name, $list, $sellist, $displayid, $displayname, $multiple = false)
 	{
 		$multiple = $multiple ? "multiple='multiple'" : "";
@@ -187,6 +253,12 @@ class wrapper_detailModelwrapper_detail extends JModel
 		return $html;
 	}
 
+	/**
+	 * store
+	 *
+	 * @param $data
+	 *
+	 */
 	public function store($data)
 	{
 		$row = $this->getTable();
@@ -268,6 +340,12 @@ class wrapper_detailModelwrapper_detail extends JModel
 		return true;
 	}
 
+	/**
+	 * delete
+	 *
+	 * @param $cid
+	 *
+	 */
 	public function delete($cid = array())
 	{
 		if (count($cid))
@@ -315,6 +393,12 @@ class wrapper_detailModelwrapper_detail extends JModel
 		return true;
 	}
 
+	/**
+	 * enable_defaultpublish
+	 *
+	 * @param $cid
+	 *
+	 */
 	public function enable_defaultpublish($cid = array(), $publish = 1)
 	{
 		if (count($cid))

@@ -11,6 +11,13 @@ defined('_JEXEC') or die;
 
 require_once(JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php');
 
+/**
+ * orderModelorder
+ *
+ * @package     RedSHOP
+ * @subpackage  Model
+ * @since       1.0
+ */
 class orderModelorder extends JModel
 {
 	public $_data = null;
@@ -23,6 +30,9 @@ class orderModelorder extends JModel
 
 	public $_context = null;
 
+	/**
+	 * __construct
+	 */
 	public function __construct()
 	{
 		parent::__construct();
@@ -45,6 +55,9 @@ class orderModelorder extends JModel
 		$this->setState('filter_payment_status', $filter_payment_status);
 	}
 
+	/**
+	 * getData
+	 */
 	public function getData()
 	{
 		if (empty($this->_data))
@@ -56,6 +69,9 @@ class orderModelorder extends JModel
 		return $this->_data;
 	}
 
+	/**
+	 * getTotal
+	 */
 	public function getTotal()
 	{
 		if (empty($this->_total))
@@ -67,6 +83,9 @@ class orderModelorder extends JModel
 		return $this->_total;
 	}
 
+	/**
+	 * getPagination
+	 */
 	public function getPagination()
 	{
 		if (empty($this->_pagination))
@@ -78,6 +97,9 @@ class orderModelorder extends JModel
 		return $this->_pagination;
 	}
 
+	/**
+	 * _buildQuery
+	 */
 	public function _buildQuery()
 	{
 		$where = "";
@@ -154,6 +176,9 @@ class orderModelorder extends JModel
 		return $query;
 	}
 
+	/**
+	 * _buildContentOrderBy
+	 */
 	public function _buildContentOrderBy()
 	{
 		$db  = JFactory::getDbo();
@@ -167,18 +192,30 @@ class orderModelorder extends JModel
 		return $orderby;
 	}
 
+	/**
+	 * update_status
+	 */
 	public function update_status()
 	{
 		$order_functions = new order_functions;
 		$order_functions->update_status();
 	}
 
+	/**
+	 * update_status_all
+	 */
 	public function update_status_all()
 	{
 		$order_functions = new order_functions;
 		$order_functions->update_status_all();
 	}
 
+	/**
+	 * export_data
+	 *
+	 * @param $cid
+	 *
+	 */
 	public function export_data($cid)
 	{
 		$where = "";
@@ -205,6 +242,14 @@ class orderModelorder extends JModel
 		return $this->_getList($query);
 	}
 
+	/**
+	 * updateDownloadSetting
+	 *
+	 * @param $did
+	 * @param $limit
+	 * @param $enddate
+	 *
+	 */
 	public function updateDownloadSetting($did, $limit, $enddate)
 	{
 		$query = "UPDATE " . $this->_table_prefix . "product_download "
@@ -220,6 +265,12 @@ class orderModelorder extends JModel
 		return true;
 	}
 
+	/**
+	 * gls_export
+	 *
+	 * @param $cid
+	 *
+	 */
 	public function gls_export($cid)
 	{
 		$app = JFactory::getApplication();
@@ -351,6 +402,12 @@ class orderModelorder extends JModel
 		exit;
 	}
 
+	/**
+	 * business_gls_export
+	 *
+	 * @param $cid
+	 *
+	 */
 	public function business_gls_export($cid)
 	{
 		$app = JFactory::getApplication();

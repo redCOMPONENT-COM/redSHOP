@@ -11,6 +11,13 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
+/**
+ * manufacturerModelmanufacturer
+ *
+ * @package     RedSHOP
+ * @subpackage  Model
+ * @since       1.0
+ */
 class manufacturerModelmanufacturer extends JModel
 {
 	public $_data = null;
@@ -23,6 +30,9 @@ class manufacturerModelmanufacturer extends JModel
 
 	public $_context = null;
 
+	/**
+	 * __construct
+	 */
 	public function __construct()
 	{
 		parent::__construct();
@@ -39,6 +49,9 @@ class manufacturerModelmanufacturer extends JModel
 		$this->setState('limitstart', $limitstart);
 	}
 
+	/**
+	 * getData
+	 */
 	public function getData()
 	{
 		if (empty($this->_data))
@@ -50,6 +63,9 @@ class manufacturerModelmanufacturer extends JModel
 		return $this->_data;
 	}
 
+	/**
+	 * getTotal
+	 */
 	public function getTotal()
 	{
 		if (empty($this->_total))
@@ -61,6 +77,9 @@ class manufacturerModelmanufacturer extends JModel
 		return $this->_total;
 	}
 
+	/**
+	 * getPagination
+	 */
 	public function getPagination()
 	{
 		if (empty($this->_pagination))
@@ -72,6 +91,9 @@ class manufacturerModelmanufacturer extends JModel
 		return $this->_pagination;
 	}
 
+	/**
+	 * _buildQuery
+	 */
 	public function _buildQuery()
 	{
 		$filter = $this->getState('filter');
@@ -90,6 +112,9 @@ class manufacturerModelmanufacturer extends JModel
 		return $query;
 	}
 
+	/**
+	 * _buildContentOrderBy
+	 */
 	public function _buildContentOrderBy()
 	{
 		$db  = JFactory::getDbo();
@@ -103,6 +128,12 @@ class manufacturerModelmanufacturer extends JModel
 		return $orderby;
 	}
 
+	/**
+	 * getMediaId
+	 *
+	 * @param $mid
+	 *
+	 */
 	public function getMediaId($mid)
 	{
 		$database = JFactory::getDbo();
@@ -115,6 +146,12 @@ class manufacturerModelmanufacturer extends JModel
 		return $database->loadResult();
 	}
 
+	/**
+	 * saveOrder
+	 *
+	 * @param $cid
+	 *
+	 */
 	public function saveOrder(&$cid)
 	{
 		$app = JFactory::getApplication();

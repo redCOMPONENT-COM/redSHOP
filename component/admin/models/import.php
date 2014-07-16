@@ -16,6 +16,13 @@ require_once JPATH_COMPONENT . '/helpers/thumbnail.php';
 require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php';
 require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
 
+/**
+ * importModelimport
+ *
+ * @package     RedSHOP
+ * @subpackage  Model
+ * @since       1.0
+ */
 class importModelimport extends JModel
 {
 	public $_data = null;
@@ -26,11 +33,17 @@ class importModelimport extends JModel
 
 	public $_table_prefix = null;
 
+	/**
+	 * __construct
+	 */
 	public function __construct()
 	{
 		parent::__construct();
 	}
 
+	/**
+	 * getData
+	 */
 	public function getData()
 	{
 		ob_clean();
@@ -79,6 +92,9 @@ class importModelimport extends JModel
 		return;
 	}
 
+	/**
+	 * importdata
+	 */
 	public function importdata()
 	{
 		ob_clean();
@@ -2085,6 +2101,9 @@ class importModelimport extends JModel
 		}
 	}
 
+	/**
+	 * check_vm
+	 */
 	public function check_vm()
 	{
 		// Check Virtual Mart Is Install or Not
@@ -2118,6 +2137,9 @@ class importModelimport extends JModel
 		}
 	}
 
+	/**
+	 * Product_sync
+	 */
 	public function Product_sync()
 	{
 		// Insert VM Product into Redshop
@@ -2363,6 +2385,12 @@ class importModelimport extends JModel
 		}
 	}
 
+	/**
+	 * Category_sync
+	 *
+	 * @param $product_array
+	 *
+	 */
 	public function Category_sync($product_array)
 	{
 		$k = 0;
@@ -2545,6 +2573,9 @@ class importModelimport extends JModel
 		return $k;
 	}
 
+	/**
+	 * Shopper_Group_Insert
+	 */
 	public function Shopper_Group_Insert()
 	{
 		$query = "SELECT vmsg.shopper_group_id,vmsg.shopper_group_name,vmsg.shopper_group_desc,rdsg.shopper_group_name as rdsp_shopper_group_name FROM `#__vm_shopper_group` as vmsg left join #__redshop_shopper_group as rdsg on  rdsg.shopper_group_name = vmsg.shopper_group_name";
@@ -2683,6 +2714,9 @@ class importModelimport extends JModel
 		return $k;
 	}
 
+	/**
+	 * Orders_insert
+	 */
 	public function Orders_insert()
 	{
 		$producthelper = new producthelper;
@@ -2852,6 +2886,9 @@ class importModelimport extends JModel
 		return $k;
 	}
 
+	/**
+	 * Order_status_insert
+	 */
 	public function Order_status_insert()
 	{
 		$query = "SELECT vmos.*,rdos.order_status_code as rdcode FROM `#__vm_order_status` AS vmos "
@@ -2885,6 +2922,9 @@ class importModelimport extends JModel
 		return $k;
 	}
 
+	/**
+	 * Manufacturer_insert
+	 */
 	public function Manufacturer_insert()
 	{
 		$query = "SELECT vmmf.*,vmpmf.product_id,vmp.product_sku,rdp.product_id as rdp_product_id,rdmf.manufacturer_id as rdmf_manufacturer_id,rdmf.manufacturer_name as rdmf_manufacturer_name  FROM (((`#__vm_manufacturer` as vmmf LEFT JOIN #__vm_product_mf_xref as vmpmf ON vmmf.`manufacturer_id` = vmpmf.manufacturer_id) LEFT JOIN #__vm_product as vmp ON vmpmf.product_id = vmp.product_id) LEFT JOIN #__redshop_product as rdp ON rdp.product_number = vmp.product_sku) "
@@ -2950,6 +2990,13 @@ class importModelimport extends JModel
 	}
 
 	// 	related product sync
+	/**
+	 * related_product_sync
+	 *
+	 * @param $vmproarr
+	 * @param $redproarr
+	 *
+	 */
 	public function related_product_sync($vmproarr, $redproarr)
 	{
 		// Vmproduct loop for product inter realtion
@@ -2987,6 +3034,12 @@ class importModelimport extends JModel
 		return true;
 	}
 
+	/**
+	 * getProductIdByNumber
+	 *
+	 * @param $product_number
+	 *
+	 */
 	public function getProductIdByNumber($product_number)
 	{
 		$q = "SELECT product_id FROM `#__redshop_product` "
@@ -2997,6 +3050,13 @@ class importModelimport extends JModel
 		return $product_id;
 	}
 
+	/**
+	 * storePropertyStockPosition
+	 *
+	 * @param $data
+	 * @param $section
+	 *
+	 */
 	public function storePropertyStockPosition($data, $section = 'property')
 	{
 		JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_redcrm/tables');
@@ -3094,6 +3154,9 @@ class importModelimport extends JModel
 		return;
 	}
 
+	/**
+	 * getTimeLeft
+	 */
 	public function getTimeLeft()
 	{
 		if (@function_exists('ini_get'))

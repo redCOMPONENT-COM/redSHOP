@@ -19,6 +19,13 @@ require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php';
 require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/product.php';
 require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/quotation.php';
 
+/**
+ * addquotation_detailModeladdquotation_detail
+ *
+ * @package     RedSHOP
+ * @subpackage  Model
+ * @since       1.0
+ */
 class addquotation_detailModeladdquotation_detail extends JModel
 {
 	public $_id = null;
@@ -29,6 +36,9 @@ class addquotation_detailModeladdquotation_detail extends JModel
 
 	public $_copydata = null;
 
+	/**
+	 * __construct
+	 */
 	public function __construct()
 	{
 		parent::__construct();
@@ -37,12 +47,21 @@ class addquotation_detailModeladdquotation_detail extends JModel
 		$this->setId((int) $array[0]);
 	}
 
+	/**
+	 * setId
+	 *
+	 * @param $id
+	 *
+	 */
 	public function setId($id)
 	{
 		$this->_id = $id;
 		$this->_data = null;
 	}
 
+	/**
+	 * setBilling
+	 */
 	public function setBilling()
 	{
 		$detail = new stdClass;
@@ -62,6 +81,12 @@ class addquotation_detailModeladdquotation_detail extends JModel
 		return $detail;
 	}
 
+	/**
+	 * storeShipping
+	 *
+	 * @param $data
+	 *
+	 */
 	public function storeShipping($data)
 	{
 		$data['address_type'] = 'BT';
@@ -103,12 +128,24 @@ class addquotation_detailModeladdquotation_detail extends JModel
 		return $row;
 	}
 
+	/**
+	 * sendRegistrationMail
+	 *
+	 * @param $post
+	 *
+	 */
 	public function sendRegistrationMail($post)
 	{
 		$redshopMail = new redshopMail;
 		$redshopMail->sendRegistrationMail($post);
 	}
 
+	/**
+	 * store
+	 *
+	 * @param $data
+	 *
+	 */
 	public function store($data)
 	{
 		$extra_field = new extra_field;
@@ -495,6 +532,12 @@ class addquotation_detailModeladdquotation_detail extends JModel
 		return $row;
 	}
 
+	/**
+	 * sendQuotationMail
+	 *
+	 * @param $quotaion_id
+	 *
+	 */
 	public function sendQuotationMail($quotaion_id)
 	{
 		$redshopMail = new redshopMail;
@@ -503,6 +546,14 @@ class addquotation_detailModeladdquotation_detail extends JModel
 		return $send;
 	}
 
+	/**
+	 * getUserData
+	 *
+	 * @param $user_id
+	 * @param $billing
+	 * @param $user_info_id
+	 *
+	 */
 	public function getUserData($user_id = 0, $billing = "", $user_info_id = 0)
 	{
 		$db = JFactory::getDbo();
@@ -534,6 +585,17 @@ class addquotation_detailModeladdquotation_detail extends JModel
 	}
 
 
+	/**
+	 * replaceSubPropertyData
+	 *
+	 * @param $product_id
+	 * @param $accessory_id
+	 * @param $attribute_id
+	 * @param $property_id
+	 * @param $user_id
+	 * @param $uniqueid
+	 *
+	 */
 	public function replaceSubPropertyData($product_id = 0, $accessory_id = 0, $attribute_id = 0, $property_id = 0, $user_id, $uniqueid = "")
 	{
 		$producthelper = new producthelper;

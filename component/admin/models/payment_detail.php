@@ -15,6 +15,13 @@ jimport('joomla.installer.installer');
 jimport('joomla.installer.helper');
 jimport('joomla.filesystem.file');
 
+/**
+ * payment_detailModelpayment_detail
+ *
+ * @package     RedSHOP
+ * @subpackage  Model
+ * @since       1.0
+ */
 class payment_detailModelpayment_detail extends JModel
 {
 	public $_id = null;
@@ -25,6 +32,9 @@ class payment_detailModelpayment_detail extends JModel
 
 	public $_copydata = null;
 
+	/**
+	 * __construct
+	 */
 	public function __construct()
 	{
 		parent::__construct();
@@ -36,12 +46,21 @@ class payment_detailModelpayment_detail extends JModel
 		$this->setId((int) $array[0]);
 	}
 
+	/**
+	 * setId
+	 *
+	 * @param $id
+	 *
+	 */
 	public function setId($id)
 	{
 		$this->_id = $id;
 		$this->_data = null;
 	}
 
+	/**
+	 * getData
+	 */
 	public function &getData()
 	{
 		if ($this->_loadData())
@@ -56,6 +75,9 @@ class payment_detailModelpayment_detail extends JModel
 		return $this->_data;
 	}
 
+	/**
+	 * _loadData
+	 */
 	public function _loadData()
 	{
 		if (empty($this->_data))
@@ -70,6 +92,9 @@ class payment_detailModelpayment_detail extends JModel
 		return true;
 	}
 
+	/**
+	 * _initData
+	 */
 	public function _initData()
 	{
 		if (empty($this->_data))
@@ -95,6 +120,12 @@ class payment_detailModelpayment_detail extends JModel
 		return true;
 	}
 
+	/**
+	 * store
+	 *
+	 * @param $data
+	 *
+	 */
 	public function store($data)
 	{
 		$row = $this->getTable();
@@ -139,6 +170,12 @@ class payment_detailModelpayment_detail extends JModel
 		return true;
 	}
 
+	/**
+	 * delete
+	 *
+	 * @param $cid
+	 *
+	 */
 	public function delete($cid = array())
 	{
 		if (count($cid))
@@ -159,6 +196,12 @@ class payment_detailModelpayment_detail extends JModel
 		return true;
 	}
 
+	/**
+	 * publish
+	 *
+	 * @param $cid
+	 *
+	 */
 	public function publish($cid = array(), $publish = 1)
 	{
 		if (count($cid))
@@ -180,6 +223,12 @@ class payment_detailModelpayment_detail extends JModel
 		return true;
 	}
 
+	/**
+	 * uninstall
+	 *
+	 * @param $eid
+	 *
+	 */
 	public function uninstall($eid = array())
 	{
 		$app = JFactory::getApplication();
@@ -238,6 +287,9 @@ class payment_detailModelpayment_detail extends JModel
 		return $result;
 	}
 
+	/**
+	 * install
+	 */
 	public function install()
 	{
 		$app = JFactory::getApplication();
@@ -285,6 +337,9 @@ class payment_detailModelpayment_detail extends JModel
 		return $result;
 	}
 
+	/**
+	 * _getPackageFromUpload
+	 */
 	public function _getPackageFromUpload()
 	{
 		// Get the uploaded file information
@@ -340,6 +395,12 @@ class payment_detailModelpayment_detail extends JModel
 
 
 	// Payment ordering
+	/**
+	 * saveOrder
+	 *
+	 * @param $cid
+	 *
+	 */
 	public function saveOrder(&$cid)
 	{
 		$app = JFactory::getApplication();
@@ -414,6 +475,13 @@ class payment_detailModelpayment_detail extends JModel
 	}
 
 }
+/**
+ * JInstaller
+ *
+ * @package     RedSHOP
+ * @subpackage  Model
+ * @since       1.0
+ */
 class JInstaller extends JObject
 {
 	/**
@@ -470,6 +538,9 @@ class JInstaller extends JObject
 	}
 
 
+	/**
+	 * getInstance
+	 */
 	public function &getInstance()
 	{
 		static $instance;
@@ -482,12 +553,21 @@ class JInstaller extends JObject
 	}
 
 
+	/**
+	 * getOverwrite
+	 */
 	public function getOverwrite()
 	{
 		return $this->_overwrite;
 	}
 
 
+	/**
+	 * setOverwrite
+	 *
+	 * @param $state
+	 *
+	 */
 	public function setOverwrite($state = false)
 	{
 		$tmp = $this->_overwrite;
@@ -504,12 +584,18 @@ class JInstaller extends JObject
 	}
 
 
+	/**
+	 * getDBO
+	 */
 	public function &getDBO()
 	{
 		return $this->_db;
 	}
 
 
+	/**
+	 * getManifest
+	 */
 	public function &getManifest()
 	{
 		if (!is_object($this->_manifest))
@@ -1062,6 +1148,9 @@ class JInstaller extends JObject
 	}
 
 
+	/**
+	 * getParams
+	 */
 	public function getParams()
 	{
 		// Get the manifest document root element
@@ -1106,6 +1195,13 @@ class JInstaller extends JObject
 	}
 
 
+	/**
+	 * copyFiles
+	 *
+	 * @param $files
+	 * @param $overwrite
+	 *
+	 */
 	public function copyFiles($files, $overwrite = null)
 	{
 
@@ -1193,6 +1289,13 @@ class JInstaller extends JObject
 	}
 
 
+	/**
+	 * removeFiles
+	 *
+	 * @param $element
+	 * @param $cid
+	 *
+	 */
 	public function removeFiles($element, $cid = 0)
 	{
 		// Initialize variables
@@ -1287,6 +1390,12 @@ class JInstaller extends JObject
 		return $retval;
 	}
 
+	/**
+	 * copyManifest
+	 *
+	 * @param $cid
+	 *
+	 */
 	public function copyManifest($cid = 1)
 	{
 		// Get the client info
@@ -1308,6 +1417,9 @@ class JInstaller extends JObject
 		return $this->copyFiles(array($path), true);
 	}
 
+	/**
+	 * _findManifest
+	 */
 	public function _findManifest()
 	{
 		// Get an array of all the xml files from teh installation directory
@@ -1356,6 +1468,12 @@ class JInstaller extends JObject
 		}
 	}
 
+	/**
+	 * _isManifest
+	 *
+	 * @param $file
+	 *
+	 */
 	public function &_isManifest($file)
 	{
 		// Initialize variables

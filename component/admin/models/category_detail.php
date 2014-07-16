@@ -18,6 +18,13 @@ jimport('joomla.client.helper');
 JClientHelper::setCredentialsFromRequest('ftp');
 jimport('joomla.filesystem.file');
 
+/**
+ * category_detailModelcategory_detail
+ *
+ * @package     RedSHOP
+ * @subpackage  Model
+ * @since       1.0
+ */
 class category_detailModelcategory_detail extends JModel
 {
 	public $_id = null;
@@ -26,6 +33,9 @@ class category_detailModelcategory_detail extends JModel
 
 	public $_table_prefix = null;
 
+	/**
+	 * __construct
+	 */
 	public function __construct()
 	{
 		parent::__construct();
@@ -35,12 +45,21 @@ class category_detailModelcategory_detail extends JModel
 		$this->setId((int) $array[0]);
 	}
 
+	/**
+	 * setId
+	 *
+	 * @param $id
+	 *
+	 */
 	public function setId($id)
 	{
 		$this->_id = $id;
 		$this->_data = null;
 	}
 
+	/**
+	 * getData
+	 */
 	public function &getData()
 	{
 		if ($this->_loadData())
@@ -54,6 +73,9 @@ class category_detailModelcategory_detail extends JModel
 		return $this->_data;
 	}
 
+	/**
+	 * _loadData
+	 */
 	public function _loadData()
 	{
 		if (empty($this->_data))
@@ -70,6 +92,9 @@ class category_detailModelcategory_detail extends JModel
 		return true;
 	}
 
+	/**
+	 * _initData
+	 */
 	public function _initData()
 	{
 		if (empty($this->_data))
@@ -102,6 +127,12 @@ class category_detailModelcategory_detail extends JModel
 		return true;
 	}
 
+	/**
+	 * store
+	 *
+	 * @param $data
+	 *
+	 */
 	public function store($data)
 	{
 		$row = $this->getTable();
@@ -312,6 +343,12 @@ class category_detailModelcategory_detail extends JModel
 		return $row;
 	}
 
+	/**
+	 * delete
+	 *
+	 * @param $cid
+	 *
+	 */
 	public function delete($cid = array())
 	{
 		$noError = true;
@@ -370,6 +407,12 @@ class category_detailModelcategory_detail extends JModel
 		return $noError;
 	}
 
+	/**
+	 * publish
+	 *
+	 * @param $cid
+	 *
+	 */
 	public function publish($cid = array(), $publish = 1)
 	{
 		if (count($cid))
@@ -392,6 +435,9 @@ class category_detailModelcategory_detail extends JModel
 		return true;
 	}
 
+	/**
+	 * getcategories
+	 */
 	public function getcategories()
 	{
 		$query = 'SELECT category_id as value,category_name as text FROM ' . $this->_table_prefix . 'category  WHERE published=1';
@@ -400,6 +446,12 @@ class category_detailModelcategory_detail extends JModel
 		return $this->_db->loadObjectlist();
 	}
 
+	/**
+	 * move
+	 *
+	 * @param $direction
+	 *
+	 */
 	public function move($direction)
 	{
 		$row = $this->getTable();
@@ -421,6 +473,12 @@ class category_detailModelcategory_detail extends JModel
 		return true;
 	}
 
+	/**
+	 * saveorder
+	 *
+	 * @param $cid
+	 *
+	 */
 	public function saveorder($cid = array(), $order)
 	{
 		$row = $this->getTable();
@@ -450,6 +508,13 @@ class category_detailModelcategory_detail extends JModel
 		return true;
 	}
 
+	/**
+	 * updateorder
+	 *
+	 * @param $oprand
+	 * @param $cat_id
+	 *
+	 */
 	public function updateorder($oprand, $cat_id = 0)
 	{
 		$q = "UPDATE " . $this->_table_prefix . "category ";
@@ -464,6 +529,9 @@ class category_detailModelcategory_detail extends JModel
 		$this->_db->query();
 	}
 
+	/**
+	 * orderup
+	 */
 	public function orderup()
 	{
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
@@ -503,6 +571,9 @@ class category_detailModelcategory_detail extends JModel
 		}
 	}
 
+	/**
+	 * orderdown
+	 */
 	public function orderdown()
 	{
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
@@ -543,6 +614,12 @@ class category_detailModelcategory_detail extends JModel
 		}
 	}
 
+	/**
+	 * getmaxminOrder
+	 *
+	 * @param $type
+	 *
+	 */
 	public function getmaxminOrder($type)
 	{
 		$q = "SELECT " . $type . "(ordering) as morder FROM " . $this->_table_prefix . "category";
@@ -553,6 +630,9 @@ class category_detailModelcategory_detail extends JModel
 		return $cat;
 	}
 
+	/**
+	 * getProductCompareTemplate
+	 */
 	public function getProductCompareTemplate()
 	{
 		$query = "SELECT ts.template_section as text, ts.template_id as value FROM `" . $this->_table_prefix
@@ -562,6 +642,12 @@ class category_detailModelcategory_detail extends JModel
 		return $this->_db->loadObjectList();
 	}
 
+	/**
+	 * copy
+	 *
+	 * @param $cid
+	 *
+	 */
 	public function copy($cid = array())
 	{
 		if (count($cid))

@@ -11,6 +11,13 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
+/**
+ * addressfields_listingModeladdressfields_listing
+ *
+ * @package     RedSHOP
+ * @subpackage  Model
+ * @since       1.0
+ */
 class addressfields_listingModeladdressfields_listing extends JModel
 {
 	public $_context = null;
@@ -23,6 +30,9 @@ class addressfields_listingModeladdressfields_listing extends JModel
 
 	public $_table_prefix = null;
 
+	/**
+	 * __construct
+	 */
 	public function __construct()
 	{
 		parent::__construct();
@@ -39,6 +49,9 @@ class addressfields_listingModeladdressfields_listing extends JModel
 		$this->setState('limitstart', $limitstart);
 	}
 
+	/**
+	 * getData
+	 */
 	public function getData()
 	{
 		if (empty($this->_data))
@@ -50,6 +63,9 @@ class addressfields_listingModeladdressfields_listing extends JModel
 		return $this->_data;
 	}
 
+	/**
+	 * getTotal
+	 */
 	public function getTotal()
 	{
 		$query = $this->_buildQuerycount();
@@ -63,6 +79,9 @@ class addressfields_listingModeladdressfields_listing extends JModel
 		return $this->_total;
 	}
 
+	/**
+	 * getPagination
+	 */
 	public function getPagination()
 	{
 		if (empty($this->_pagination))
@@ -74,6 +93,9 @@ class addressfields_listingModeladdressfields_listing extends JModel
 		return $this->_pagination;
 	}
 
+	/**
+	 * _buildQuerycount
+	 */
 	public function _buildQuerycount()
 	{
 		$filter = $this->getState('section_id');
@@ -97,6 +119,9 @@ class addressfields_listingModeladdressfields_listing extends JModel
 	}
 
 
+	/**
+	 * _buildQuery
+	 */
 	public function _buildQuery()
 	{
 		$filter = $this->getState('section_id');
@@ -126,6 +151,9 @@ class addressfields_listingModeladdressfields_listing extends JModel
 		return $query;
 	}
 
+	/**
+	 * _buildContentOrderBy
+	 */
 	public function _buildContentOrderBy()
 	{
 		$db  = JFactory::getDbo();
@@ -146,6 +174,12 @@ class addressfields_listingModeladdressfields_listing extends JModel
 		return $orderby;
 	}
 
+	/**
+	 * saveorder
+	 *
+	 * @param $cid
+	 *
+	 */
 	public function saveorder($cid = array(), $order)
 	{
 		$row = $this->getTable("fields_detail");
@@ -199,6 +233,9 @@ class addressfields_listingModeladdressfields_listing extends JModel
 		return true;
 	}
 
+	/**
+	 * MaxOrdering
+	 */
 	public function MaxOrdering()
 	{
 		$query = "SELECT (count(*)+1) FROM " . $this->_table_prefix . "fields";

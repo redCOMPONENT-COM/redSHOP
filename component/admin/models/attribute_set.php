@@ -11,6 +11,13 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
+/**
+ * attribute_setModelattribute_set
+ *
+ * @package     RedSHOP
+ * @subpackage  Model
+ * @since       1.0
+ */
 class attribute_setModelattribute_set extends JModel
 {
 	public $_data = null;
@@ -23,6 +30,9 @@ class attribute_setModelattribute_set extends JModel
 
 	public $_context = null;
 
+	/**
+	 * __construct
+	 */
 	public function __construct()
 	{
 		parent::__construct();
@@ -40,6 +50,9 @@ class attribute_setModelattribute_set extends JModel
 		$this->setState('limitstart', $limitstart);
 	}
 
+	/**
+	 * getData
+	 */
 	public function getData()
 	{
 		if (empty($this->_data))
@@ -51,6 +64,9 @@ class attribute_setModelattribute_set extends JModel
 		return $this->_data;
 	}
 
+	/**
+	 * getTotal
+	 */
 	public function getTotal()
 	{
 		if (empty($this->_total))
@@ -62,6 +78,9 @@ class attribute_setModelattribute_set extends JModel
 		return $this->_total;
 	}
 
+	/**
+	 * getPagination
+	 */
 	public function getPagination()
 	{
 		if (empty($this->_pagination))
@@ -73,6 +92,9 @@ class attribute_setModelattribute_set extends JModel
 		return $this->_pagination;
 	}
 
+	/**
+	 * _buildQuery
+	 */
 	public function _buildQuery()
 	{
 		$orderby = $this->_buildContentOrderBy();
@@ -83,6 +105,9 @@ class attribute_setModelattribute_set extends JModel
 		return $query;
 	}
 
+	/**
+	 * _buildContentOrderBy
+	 */
 	public function _buildContentOrderBy()
 	{
 		$db  = JFactory::getDbo();

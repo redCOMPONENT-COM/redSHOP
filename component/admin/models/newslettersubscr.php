@@ -11,6 +11,13 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
+/**
+ * newslettersubscrModelnewslettersubscr
+ *
+ * @package     RedSHOP
+ * @subpackage  Model
+ * @since       1.0
+ */
 class newslettersubscrModelnewslettersubscr extends JModel
 {
 	public $_data = null;
@@ -23,6 +30,9 @@ class newslettersubscrModelnewslettersubscr extends JModel
 
 	public $_context = null;
 
+	/**
+	 * __construct
+	 */
 	public function __construct()
 	{
 		parent::__construct();
@@ -39,6 +49,9 @@ class newslettersubscrModelnewslettersubscr extends JModel
 		$this->setState('filter', $filter);
 	}
 
+	/**
+	 * getData
+	 */
 	public function getData()
 	{
 		if (empty($this->_data))
@@ -50,6 +63,9 @@ class newslettersubscrModelnewslettersubscr extends JModel
 		return $this->_data;
 	}
 
+	/**
+	 * getTotal
+	 */
 	public function getTotal()
 	{
 		if (empty($this->_total))
@@ -61,6 +77,9 @@ class newslettersubscrModelnewslettersubscr extends JModel
 		return $this->_total;
 	}
 
+	/**
+	 * getPagination
+	 */
 	public function getPagination()
 	{
 		if (empty($this->_pagination))
@@ -72,6 +91,9 @@ class newslettersubscrModelnewslettersubscr extends JModel
 		return $this->_pagination;
 	}
 
+	/**
+	 * _buildQuery
+	 */
 	public function _buildQuery()
 	{
 		$filter = $this->getState('filter');
@@ -92,6 +114,9 @@ class newslettersubscrModelnewslettersubscr extends JModel
 		return $query;
 	}
 
+	/**
+	 * _buildContentOrderBy
+	 */
 	public function _buildContentOrderBy()
 	{
 		$db  = JFactory::getDbo();
@@ -105,6 +130,12 @@ class newslettersubscrModelnewslettersubscr extends JModel
 		return $orderby;
 	}
 
+	/**
+	 * getnewslettername
+	 *
+	 * @param $nid
+	 *
+	 */
 	public function getnewslettername($nid)
 	{
 		$query = 'SELECT name FROM ' . $this->_table_prefix . 'newsletter WHERE newsletter_id=' . $nid;
@@ -113,6 +144,9 @@ class newslettersubscrModelnewslettersubscr extends JModel
 		return $this->_db->loadResult();
 	}
 
+	/**
+	 * getnewsletters
+	 */
 	public function getnewsletters()
 	{
 		$query = 'SELECT newsletter_id as value,name as text FROM ' . $this->_table_prefix . 'newsletter WHERE published=1';
@@ -121,6 +155,14 @@ class newslettersubscrModelnewslettersubscr extends JModel
 		return $this->_db->loadObjectlist();
 	}
 
+	/**
+	 * importdata
+	 *
+	 * @param $nid
+	 * @param $name
+	 * @param $email
+	 *
+	 */
 	public function importdata($nid, $name, $email)
 	{
 		if (trim($nid) != null && (trim($name) != null) && (trim($email) != null))

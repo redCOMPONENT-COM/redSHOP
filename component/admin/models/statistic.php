@@ -11,6 +11,13 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
+/**
+ * statisticModelstatistic
+ *
+ * @package     RedSHOP
+ * @subpackage  Model
+ * @since       1.0
+ */
 class statisticModelstatistic extends JModel
 {
 	public $_table_prefix = null;
@@ -39,6 +46,9 @@ class statisticModelstatistic extends JModel
 
 	public $_pageviewer = 0;
 
+	/**
+	 * __construct
+	 */
 	public function __construct()
 	{
 		parent::__construct();
@@ -55,6 +65,9 @@ class statisticModelstatistic extends JModel
 		}
 	}
 
+	/**
+	 * getMostPopular
+	 */
 	public function getMostPopular()
 	{
 		$today = $this->getStartDate();
@@ -109,6 +122,9 @@ class statisticModelstatistic extends JModel
 		return $this->_mostpopular;
 	}
 
+	/**
+	 * getBestSellers
+	 */
 	public function getBestSellers()
 	{
 		$today = $this->getStartDate();
@@ -162,6 +178,9 @@ class statisticModelstatistic extends JModel
 		return $this->_bestsallers;
 	}
 
+	/**
+	 * getNewProducts
+	 */
 	public function getNewProducts()
 	{
 		$today = $this->getStartDate();
@@ -212,6 +231,9 @@ class statisticModelstatistic extends JModel
 		return $this->_newproducts;
 	}
 
+	/**
+	 * getNewOrders
+	 */
 	public function getNewOrders()
 	{
 		$today = $this->getStartDate();
@@ -264,6 +286,9 @@ class statisticModelstatistic extends JModel
 		return $this->_neworders;
 	}
 
+	/**
+	 * getTotalTurnover
+	 */
 	public function getTotalTurnover()
 	{
 		$today = $this->getStartDate();
@@ -322,6 +347,9 @@ class statisticModelstatistic extends JModel
 		return $this->_turnover;
 	}
 
+	/**
+	 * getAvgOrderAmount
+	 */
 	public function getAvgOrderAmount()
 	{
 		$today = $this->getStartDate();
@@ -374,6 +402,9 @@ class statisticModelstatistic extends JModel
 		return $this->_amountprice;
 	}
 
+	/**
+	 * getAmountPrice
+	 */
 	public function getAmountPrice()
 	{
 		$today = $this->getStartDate();
@@ -428,6 +459,9 @@ class statisticModelstatistic extends JModel
 		return $this->_amountprice;
 	}
 
+	/**
+	 * getAmountSpentInTotal
+	 */
 	public function getAmountSpentInTotal()
 	{
 		$today = $this->getStartDate();
@@ -482,6 +516,9 @@ class statisticModelstatistic extends JModel
 		return $this->_amountprice;
 	}
 
+	/**
+	 * getAmountOrder
+	 */
 	public function getAmountOrder()
 	{
 		$today = $this->getStartDate();
@@ -537,6 +574,9 @@ class statisticModelstatistic extends JModel
 		return $this->_amountorder;
 	}
 
+	/**
+	 * getPageViewer
+	 */
 	public function getPageViewer()
 	{
 		$today = $this->getStartDate();
@@ -589,6 +629,9 @@ class statisticModelstatistic extends JModel
 		return $this->_pageviewer;
 	}
 
+	/**
+	 * getRedshopViewer
+	 */
 	public function getRedshopViewer()
 	{
 		$today = $this->getStartDate();
@@ -642,6 +685,12 @@ class statisticModelstatistic extends JModel
 		return $this->siteviewer;
 	}
 
+	/**
+	 * getNextInterval
+	 *
+	 * @param $today
+	 *
+	 */
 	public function getNextInterval($today)
 	{
 		$list = array();
@@ -674,6 +723,9 @@ class statisticModelstatistic extends JModel
 		return $list;
 	}
 
+	/**
+	 * getStartDate
+	 */
 	public function getStartDate()
 	{
 		$return = "";
@@ -709,6 +761,9 @@ class statisticModelstatistic extends JModel
 		return $return;
 	}
 
+	/**
+	 * getDateFormate
+	 */
 	public function getDateFormate()
 	{
 		$return = "";
@@ -735,6 +790,13 @@ class statisticModelstatistic extends JModel
 		return $return;
 	}
 
+	/**
+	 * getSectionDetail
+	 *
+	 * @param $section
+	 * @param $sectionid
+	 *
+	 */
 	public function getSectionDetail($section, $sectionid)
 	{
 		$return = array();

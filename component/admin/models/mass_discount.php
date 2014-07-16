@@ -11,6 +11,13 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
+/**
+ * mass_discountModelmass_discount
+ *
+ * @package     RedSHOP
+ * @subpackage  Model
+ * @since       1.0
+ */
 class mass_discountModelmass_discount extends JModel
 {
 	public $_data = null;
@@ -23,6 +30,9 @@ class mass_discountModelmass_discount extends JModel
 
 	public $_context = null;
 
+	/**
+	 * __construct
+	 */
 	public function __construct()
 	{
 		parent::__construct();
@@ -39,6 +49,9 @@ class mass_discountModelmass_discount extends JModel
 		$this->setState('limitstart', $limitstart);
 	}
 
+	/**
+	 * getData
+	 */
 	public function getData()
 	{
 		if (empty($this->_data))
@@ -50,6 +63,9 @@ class mass_discountModelmass_discount extends JModel
 		return $this->_data;
 	}
 
+	/**
+	 * getTotal
+	 */
 	public function getTotal()
 	{
 		if (empty($this->_total))
@@ -60,6 +76,9 @@ class mass_discountModelmass_discount extends JModel
 		return $this->_total;
 	}
 
+	/**
+	 * getPagination
+	 */
 	public function getPagination()
 	{
 		if (empty($this->_pagination))
@@ -71,6 +90,9 @@ class mass_discountModelmass_discount extends JModel
 		return $this->_pagination;
 	}
 
+	/**
+	 * _buildQuery
+	 */
 	public function _buildQuery()
 	{
 		$orderby = $this->_buildContentOrderBy();
@@ -79,6 +101,9 @@ class mass_discountModelmass_discount extends JModel
 		return $query;
 	}
 
+	/**
+	 * _buildContentOrderBy
+	 */
 	public function _buildContentOrderBy()
 	{
 		$db  = JFactory::getDbo();

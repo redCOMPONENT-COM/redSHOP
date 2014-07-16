@@ -15,6 +15,13 @@ require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/stockroom.ph
 require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/shipping.php';
 require_once JPATH_SITE . '/components/com_redshop/helpers/product.php';
 
+/**
+ * productModelproduct
+ *
+ * @package     RedSHOP
+ * @subpackage  Model
+ * @since       1.0
+ */
 class productModelproduct extends JModel
 {
 	public $_data = null;
@@ -29,6 +36,9 @@ class productModelproduct extends JModel
 
 	public $_context = null;
 
+	/**
+	 * __construct
+	 */
 	public function __construct()
 	{
 		parent::__construct();
@@ -53,6 +63,9 @@ class productModelproduct extends JModel
 		$this->setState('limitstart', $limitstart);
 	}
 
+	/**
+	 * getData
+	 */
 	public function getData()
 	{
 		if (empty($this->_data))
@@ -89,6 +102,9 @@ class productModelproduct extends JModel
 		return $this->_data;
 	}
 
+	/**
+	 * getTotal
+	 */
 	public function getTotal()
 	{
 		if (empty($this->_total))
@@ -100,6 +116,9 @@ class productModelproduct extends JModel
 		return $this->_total;
 	}
 
+	/**
+	 * getPagination
+	 */
 	public function getPagination()
 	{
 		if (empty($this->_pagination))
@@ -111,6 +130,9 @@ class productModelproduct extends JModel
 		return $this->_pagination;
 	}
 
+	/**
+	 * _buildQuery
+	 */
 	public function _buildQuery()
 	{
 		static $items;
@@ -272,6 +294,12 @@ class productModelproduct extends JModel
 		return $query;
 	}
 
+	/**
+	 * getFinalProductStock
+	 *
+	 * @param $product_stock
+	 *
+	 */
 	public function getFinalProductStock($product_stock)
 	{
 		if (count($product_stock) > 0)
@@ -292,6 +320,9 @@ class productModelproduct extends JModel
 		}
 	}
 
+	/**
+	 * _buildContentOrderBy
+	 */
 	public function _buildContentOrderBy()
 	{
 		$db  = JFactory::getDbo();
@@ -314,6 +345,12 @@ class productModelproduct extends JModel
 		return $orderby;
 	}
 
+	/**
+	 * MediaDetail
+	 *
+	 * @param $pid
+	 *
+	 */
 	public function MediaDetail($pid)
 	{
 		$query = 'SELECT * FROM ' . $this->_table_prefix . 'media  WHERE section_id ="' . $pid . '" AND media_section = "product"';
@@ -322,6 +359,12 @@ class productModelproduct extends JModel
 		return $this->_db->loadObjectlist();
 	}
 
+	/**
+	 * listedincats
+	 *
+	 * @param $pid
+	 *
+	 */
 	public function listedincats($pid)
 	{
 		$query = 'SELECT c.category_name FROM ' . $this->_table_prefix . 'product_category_xref as ref, '
@@ -332,6 +375,14 @@ class productModelproduct extends JModel
 		return $this->_db->loadObjectlist();
 	}
 
+	/**
+	 * product_template
+	 *
+	 * @param $template_id
+	 * @param $product_id
+	 * @param $section
+	 *
+	 */
 	public function product_template($template_id, $product_id, $section)
 	{
 		$redTemplate = new Redtemplate;
@@ -406,6 +457,12 @@ class productModelproduct extends JModel
 		}
 	}
 
+	/**
+	 * getmanufacturername
+	 *
+	 * @param $mid
+	 *
+	 */
 	public function getmanufacturername($mid)
 	{
 		$query = 'SELECT manufacturer_name FROM ' . $this->_table_prefix . 'manufacturer  WHERE manufacturer_id="' . $mid . '" ';
@@ -414,6 +471,12 @@ class productModelproduct extends JModel
 		return $this->_db->loadResult();
 	}
 
+	/**
+	 * assignTemplate
+	 *
+	 * @param $data
+	 *
+	 */
 	public function assignTemplate($data)
 	{
 		$cid = $data['cid'];
@@ -438,6 +501,12 @@ class productModelproduct extends JModel
 		return true;
 	}
 
+	/**
+	 * gbasefeed
+	 *
+	 * @param $data
+	 *
+	 */
 	public function gbasefeed($data)
 	{
 		$producthelper = new producthelper;
@@ -676,6 +745,9 @@ class productModelproduct extends JModel
 		return false;
 	}
 
+	/**
+	 * getCategoryList
+	 */
 	public function getCategoryList()
 	{
 		if ($this->_categorytreelist)
@@ -713,6 +785,17 @@ class productModelproduct extends JModel
 		return $this->_categorytreelist;
 	}
 
+	/**
+	 * treerecurse
+	 *
+	 * @param $id
+	 * @param $indent
+	 * @param $list
+	 * @param $children
+	 * @param $maxlevel
+	 * @param $level
+	 *
+	 */
 	public function treerecurse($id, $indent, $list, &$children, $maxlevel = 9999, $level = 0)
 	{
 		if (@$children[$id] && $level <= $maxlevel)

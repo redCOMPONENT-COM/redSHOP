@@ -16,6 +16,13 @@ jimport('joomla.client.helper');
 JClientHelper::setCredentialsFromRequest('ftp');
 jimport('joomla.filesystem.file');
 
+/**
+ * mail_detailModelmail_detail
+ *
+ * @package     RedSHOP
+ * @subpackage  Model
+ * @since       1.0
+ */
 class mail_detailModelmail_detail extends JModel
 {
 	public $_id = null;
@@ -24,6 +31,9 @@ class mail_detailModelmail_detail extends JModel
 
 	public $_table_prefix = null;
 
+	/**
+	 * __construct
+	 */
 	public function __construct()
 	{
 		parent::__construct();
@@ -35,12 +45,21 @@ class mail_detailModelmail_detail extends JModel
 		$this->setId((int) $array[0]);
 	}
 
+	/**
+	 * setId
+	 *
+	 * @param $id
+	 *
+	 */
 	public function setId($id)
 	{
 		$this->_id = $id;
 		$this->_data = null;
 	}
 
+	/**
+	 * getData
+	 */
 	public function &getData()
 	{
 		if ($this->_loadData())
@@ -55,6 +74,9 @@ class mail_detailModelmail_detail extends JModel
 		return $this->_data;
 	}
 
+	/**
+	 * _loadData
+	 */
 	public function _loadData()
 	{
 		if (empty($this->_data))
@@ -70,6 +92,9 @@ class mail_detailModelmail_detail extends JModel
 	}
 
 
+	/**
+	 * _initData
+	 */
 	public function _initData()
 	{
 		if (empty($this->_data))
@@ -91,6 +116,12 @@ class mail_detailModelmail_detail extends JModel
 		return true;
 	}
 
+	/**
+	 * store
+	 *
+	 * @param $data
+	 *
+	 */
 	public function store($data)
 	{
 		$row = $this->getTable();
@@ -112,6 +143,12 @@ class mail_detailModelmail_detail extends JModel
 		return $row;
 	}
 
+	/**
+	 * delete
+	 *
+	 * @param $cid
+	 *
+	 */
 	public function delete($cid = array())
 	{
 		if (count($cid))
@@ -132,6 +169,12 @@ class mail_detailModelmail_detail extends JModel
 		return true;
 	}
 
+	/**
+	 * publish
+	 *
+	 * @param $cid
+	 *
+	 */
 	public function publish($cid = array(), $publish = 1)
 	{
 		if (count($cid))
@@ -154,6 +197,9 @@ class mail_detailModelmail_detail extends JModel
 		return true;
 	}
 
+	/**
+	 * mail_section
+	 */
 	public function mail_section()
 	{
 		$query = 'SELECT order_status_code as value, concat(order_status_name," (",order_status_code,")") as text FROM '
@@ -164,6 +210,12 @@ class mail_detailModelmail_detail extends JModel
 		return $this->_db->loadObjectList();
 	}
 
+	/**
+	 * order_statusHtml
+	 *
+	 * @param $order_status
+	 *
+	 */
 	public function order_statusHtml($order_status)
 	{
 		$select = array();

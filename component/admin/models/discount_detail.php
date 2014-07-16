@@ -11,6 +11,13 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
+/**
+ * discount_detailModeldiscount_detail
+ *
+ * @package     RedSHOP
+ * @subpackage  Model
+ * @since       1.0
+ */
 class discount_detailModeldiscount_detail extends JModel
 {
 	public $_id = null;
@@ -21,6 +28,9 @@ class discount_detailModeldiscount_detail extends JModel
 
 	public $_table_prefix = null;
 
+	/**
+	 * __construct
+	 */
 	public function __construct()
 	{
 		parent::__construct();
@@ -32,12 +42,21 @@ class discount_detailModeldiscount_detail extends JModel
 		$this->setId((int) $array[0]);
 	}
 
+	/**
+	 * setId
+	 *
+	 * @param $id
+	 *
+	 */
 	public function setId($id)
 	{
 		$this->_id = $id;
 		$this->_data = null;
 	}
 
+	/**
+	 * getData
+	 */
 	public function &getData()
 	{
 		if ($this->_loadData())
@@ -51,6 +70,9 @@ class discount_detailModeldiscount_detail extends JModel
 		return $this->_data;
 	}
 
+	/**
+	 * _loadData
+	 */
 	public function _loadData()
 	{
 		$layout = JRequest::getVar('layout');
@@ -75,6 +97,9 @@ class discount_detailModeldiscount_detail extends JModel
 		return true;
 	}
 
+	/**
+	 * _initData
+	 */
 	public function _initData()
 	{
 		if (empty($this->_data))
@@ -101,6 +126,12 @@ class discount_detailModeldiscount_detail extends JModel
 		return true;
 	}
 
+	/**
+	 * store
+	 *
+	 * @param $data
+	 *
+	 */
 	public function store($data)
 	{
 		$row = $this->getTable('discount_detail');
@@ -133,6 +164,12 @@ class discount_detailModeldiscount_detail extends JModel
 		return $row;
 	}
 
+	/**
+	 * delete
+	 *
+	 * @param $cid
+	 *
+	 */
 	public function delete($cid = array())
 	{
 		$layout = JRequest::getVar('layout');
@@ -163,6 +200,12 @@ class discount_detailModeldiscount_detail extends JModel
 		return true;
 	}
 
+	/**
+	 * publish
+	 *
+	 * @param $cid
+	 *
+	 */
 	public function publish($cid = array(), $publish = 1)
 	{
 		$layout = JRequest::getVar('layout');
@@ -197,6 +240,9 @@ class discount_detailModeldiscount_detail extends JModel
 		return true;
 	}
 
+	/**
+	 * getShoppers
+	 */
 	public function &getShoppers()
 	{
 		$query = 'SELECT shopper_group_id as value,shopper_group_name as text FROM ' . $this->_table_prefix . 'shopper_group WHERE published = 1';
@@ -206,6 +252,9 @@ class discount_detailModeldiscount_detail extends JModel
 		return $this->_shoppers;
 	}
 
+	/**
+	 * selectedShoppers
+	 */
 	public function selectedShoppers()
 	{
 		$layout = JRequest::getVar('layout');
@@ -230,6 +279,13 @@ class discount_detailModeldiscount_detail extends JModel
 		return $this->_db->loadObjectList();
 	}
 
+	/**
+	 * saveShoppers
+	 *
+	 * @param $did
+	 * @param $sids
+	 *
+	 */
 	public function saveShoppers($did, $sids)
 	{
 		$layout = JRequest::getVar('layout');
@@ -256,6 +312,12 @@ class discount_detailModeldiscount_detail extends JModel
 		return true;
 	}
 
+	/**
+	 * storeDiscountProduct
+	 *
+	 * @param $data
+	 *
+	 */
 	public function storeDiscountProduct($data)
 	{
 		$dprow = $this->getTable('discount_product');

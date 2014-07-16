@@ -15,6 +15,13 @@ jimport('joomla.client.helper');
 JClientHelper::setCredentialsFromRequest('ftp');
 jimport('joomla.filesystem.file');
 
+/**
+ * tax_detailModeltax_detail
+ *
+ * @package     RedSHOP
+ * @subpackage  Model
+ * @since       1.0
+ */
 class tax_detailModeltax_detail extends JModel
 {
 	public $_id = null;
@@ -25,6 +32,9 @@ class tax_detailModeltax_detail extends JModel
 
 	public $_tax_group_id = null;
 
+	/**
+	 * __construct
+	 */
 	public function __construct()
 	{
 		parent::__construct();
@@ -39,6 +49,13 @@ class tax_detailModeltax_detail extends JModel
 
 	}
 
+	/**
+	 * setId
+	 *
+	 * @param $id
+	 * @param $_tax_group_id
+	 *
+	 */
 	public function setId($id, $_tax_group_id)
 	{
 		$this->_id = $id;
@@ -46,6 +63,9 @@ class tax_detailModeltax_detail extends JModel
 		$this->_data = null;
 	}
 
+	/**
+	 * getData
+	 */
 	public function &getData()
 	{
 		if ($this->_loadData())
@@ -59,6 +79,9 @@ class tax_detailModeltax_detail extends JModel
 		return $this->_data;
 	}
 
+	/**
+	 * _loadData
+	 */
 	public function _loadData()
 	{
 		if (empty($this->_data))
@@ -76,6 +99,9 @@ class tax_detailModeltax_detail extends JModel
 		return true;
 	}
 
+	/**
+	 * _initData
+	 */
 	public function _initData()
 	{
 		if (empty($this->_data))
@@ -97,6 +123,12 @@ class tax_detailModeltax_detail extends JModel
 		return true;
 	}
 
+	/**
+	 * store
+	 *
+	 * @param $data
+	 *
+	 */
 	public function store($data)
 	{
 		$row = $this->getTable();
@@ -118,6 +150,12 @@ class tax_detailModeltax_detail extends JModel
 		return true;
 	}
 
+	/**
+	 * delete
+	 *
+	 * @param $cid
+	 *
+	 */
 	public function delete($cid = array())
 	{
 		if (count($cid))

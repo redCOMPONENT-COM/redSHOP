@@ -11,6 +11,13 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
+/**
+ * userModeluser
+ *
+ * @package     RedSHOP
+ * @subpackage  Model
+ * @since       1.0
+ */
 class userModeluser extends JModel
 {
 	public $_data = null;
@@ -25,6 +32,9 @@ class userModeluser extends JModel
 
 	public $_context = null;
 
+	/**
+	 * __construct
+	 */
 	public function __construct()
 	{
 		parent::__construct();
@@ -57,11 +67,20 @@ class userModeluser extends JModel
 		$this->setState('tax_exempt_request_filter', $tax_exempt_request_filter);
 	}
 
+	/**
+	 * setId
+	 *
+	 * @param $id
+	 *
+	 */
 	public function setId($id)
 	{
 		$this->_id = $id;
 	}
 
+	/**
+	 * getData
+	 */
 	public function getData()
 	{
 		if (empty($this->_data))
@@ -73,6 +92,9 @@ class userModeluser extends JModel
 		return $this->_data;
 	}
 
+	/**
+	 * getTotal
+	 */
 	public function getTotal()
 	{
 		if (empty($this->_total))
@@ -84,6 +106,9 @@ class userModeluser extends JModel
 		return $this->_total;
 	}
 
+	/**
+	 * getPagination
+	 */
 	public function getPagination()
 	{
 		if (empty($this->_pagination))
@@ -95,6 +120,9 @@ class userModeluser extends JModel
 		return $this->_pagination;
 	}
 
+	/**
+	 * _buildQuery
+	 */
 	public function _buildQuery()
 	{
 		$filter = $this->getState('filter');
@@ -166,6 +194,9 @@ class userModeluser extends JModel
 		return $query;
 	}
 
+	/**
+	 * _buildContentOrderBy
+	 */
 	public function _buildContentOrderBy()
 	{
 		$db  = JFactory::getDbo();
@@ -179,6 +210,12 @@ class userModeluser extends JModel
 		return $orderby;
 	}
 
+	/**
+	 * customertotalsales
+	 *
+	 * @param $uid
+	 *
+	 */
 	public function customertotalsales($uid)
 	{
 		$query = 'SELECT SUM(order_total) FROM ' . $this->_table_prefix . 'orders WHERE user_id=' . $uid;

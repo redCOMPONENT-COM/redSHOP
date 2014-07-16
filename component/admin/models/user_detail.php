@@ -15,6 +15,13 @@ require_once JPATH_SITE . '/administrator/components/com_redshop/helpers/mail.ph
 require_once JPATH_SITE . '/components/com_redshop/helpers/extra_field.php';
 require_once JPATH_SITE . '/components/com_redshop/helpers/user.php';
 
+/**
+ * user_detailModeluser_detail
+ *
+ * @package     RedSHOP
+ * @subpackage  Model
+ * @since       1.0
+ */
 class user_detailModeluser_detail extends JModel
 {
 	public $_id = null;
@@ -31,6 +38,9 @@ class user_detailModeluser_detail extends JModel
 
 	public $_context = null;
 
+	/**
+	 * __construct
+	 */
 	public function __construct()
 	{
 		$app = JFactory::getApplication();
@@ -50,12 +60,21 @@ class user_detailModeluser_detail extends JModel
 		$this->setId((int) $array[0]);
 	}
 
+	/**
+	 * setId
+	 *
+	 * @param $id
+	 *
+	 */
 	public function setId($id)
 	{
 		$this->_id = $id;
 		$this->_data = null;
 	}
 
+	/**
+	 * getData
+	 */
 	public function &getData()
 	{
 		if ($this->_loadData())
@@ -69,6 +88,9 @@ class user_detailModeluser_detail extends JModel
 		return $this->_data;
 	}
 
+	/**
+	 * _loadData
+	 */
 	public function _loadData()
 	{
 		if (empty($this->_data))
@@ -94,6 +116,9 @@ class user_detailModeluser_detail extends JModel
 		return true;
 	}
 
+	/**
+	 * _initData
+	 */
 	public function _initData()
 	{
 		if (empty($this->_data))
@@ -309,6 +334,12 @@ class user_detailModeluser_detail extends JModel
 		return $user;
 	}
 
+	/**
+	 * storeUser
+	 *
+	 * @param $post
+	 *
+	 */
 	public function storeUser($post)
 	{
 
@@ -340,6 +371,12 @@ class user_detailModeluser_detail extends JModel
 		return $reduser;
 	}
 
+	/**
+	 * store
+	 *
+	 * @param $post
+	 *
+	 */
 	public function store($post)
 	{
 		$userhelper = new rsUserhelper;
@@ -376,6 +413,12 @@ class user_detailModeluser_detail extends JModel
 		return $reduser;
 	}
 
+	/**
+	 * delete
+	 *
+	 * @param $cid
+	 *
+	 */
 	public function delete($cid = array())
 	{
 		if (count($cid))
@@ -395,6 +438,12 @@ class user_detailModeluser_detail extends JModel
 		return true;
 	}
 
+	/**
+	 * publish
+	 *
+	 * @param $cid
+	 *
+	 */
 	public function publish($cid = array(), $publish = 1)
 	{
 		if (count($cid))
@@ -417,6 +466,13 @@ class user_detailModeluser_detail extends JModel
 		return true;
 	}
 
+	/**
+	 * validate_user
+	 *
+	 * @param $user
+	 * @param $uid
+	 *
+	 */
 	public function validate_user($user, $uid)
 	{
 		$query = "SELECT username FROM #__users WHERE username='" . $user . "' AND id !=" . $uid;
@@ -426,6 +482,13 @@ class user_detailModeluser_detail extends JModel
 		return count($users);
 	}
 
+	/**
+	 * validate_email
+	 *
+	 * @param $email
+	 * @param $uid
+	 *
+	 */
 	public function validate_email($email, $uid)
 	{
 		$query = "SELECT email FROM #__users WHERE email = '" . $email . "' AND id !=" . $uid;
@@ -435,6 +498,9 @@ class user_detailModeluser_detail extends JModel
 		return count($emails);
 	}
 
+	/**
+	 * userOrders
+	 */
 	public function userOrders()
 	{
 		$query = $this->_buildUserorderQuery();
@@ -443,6 +509,9 @@ class user_detailModeluser_detail extends JModel
 		return $list;
 	}
 
+	/**
+	 * _buildUserorderQuery
+	 */
 	public function _buildUserorderQuery()
 	{
 		$query = "SELECT * FROM `" . $this->_table_prefix . "orders` "
@@ -452,6 +521,9 @@ class user_detailModeluser_detail extends JModel
 		return $query;
 	}
 
+	/**
+	 * getTotal
+	 */
 	public function getTotal()
 	{
 		if ($this->_id)
@@ -463,6 +535,9 @@ class user_detailModeluser_detail extends JModel
 		}
 	}
 
+	/**
+	 * getPagination
+	 */
 	public function getPagination()
 	{
 		if (empty($this->_pagination))

@@ -13,6 +13,13 @@ jimport('joomla.application.component.model');
 
 require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/mail.php';
 
+/**
+ * question_detailModelquestion_detail
+ *
+ * @package     RedSHOP
+ * @subpackage  Model
+ * @since       1.0
+ */
 class question_detailModelquestion_detail extends JModel
 {
 	public $_id = null;
@@ -23,6 +30,9 @@ class question_detailModelquestion_detail extends JModel
 
 	public $_answers = null;
 
+	/**
+	 * __construct
+	 */
 	public function __construct()
 	{
 		parent::__construct();
@@ -32,12 +42,21 @@ class question_detailModelquestion_detail extends JModel
 		$this->setId((int) $array[0]);
 	}
 
+	/**
+	 * setId
+	 *
+	 * @param $id
+	 *
+	 */
 	public function setId($id)
 	{
 		$this->_id = $id;
 		$this->_data = null;
 	}
 
+	/**
+	 * getanswers
+	 */
 	public function getanswers()
 	{
 		$this->_loadAnswer();
@@ -46,6 +65,9 @@ class question_detailModelquestion_detail extends JModel
 
 	}
 
+	/**
+	 * _loadAnswer
+	 */
 	public function _loadAnswer()
 	{
 		if ($this->_id > 0)
@@ -63,6 +85,9 @@ class question_detailModelquestion_detail extends JModel
 		return $this->_answers;
 	}
 
+	/**
+	 * getData
+	 */
 	public function getData()
 	{
 		if (!$this->_loadData())
@@ -73,6 +98,9 @@ class question_detailModelquestion_detail extends JModel
 		return $this->_data;
 	}
 
+	/**
+	 * _loadData
+	 */
 	public function _loadData()
 	{
 		$query = "SELECT q.* FROM " . $this->_table_prefix . "customer_question AS q "
@@ -83,6 +111,9 @@ class question_detailModelquestion_detail extends JModel
 		return (boolean) $this->_data;
 	}
 
+	/**
+	 * getTotal
+	 */
 	public function getTotal()
 	{
 		if (empty($this->_total))
@@ -94,6 +125,9 @@ class question_detailModelquestion_detail extends JModel
 		return $this->_total;
 	}
 
+	/**
+	 * _buildQuery
+	 */
 	public function _buildQuery()
 	{
 		$query = "SELECT q.* FROM " . $this->_table_prefix . "customer_question AS q "
@@ -102,6 +136,9 @@ class question_detailModelquestion_detail extends JModel
 		return $query;
 	}
 
+	/**
+	 * getPagination
+	 */
 	public function getPagination()
 	{
 		if (empty($this->_pagination))
@@ -113,6 +150,9 @@ class question_detailModelquestion_detail extends JModel
 		return $this->_pagination;
 	}
 
+	/**
+	 * getProduct
+	 */
 	public function getProduct()
 	{
 		$query = "SELECT * FROM " . $this->_table_prefix . "product ";
@@ -121,6 +161,9 @@ class question_detailModelquestion_detail extends JModel
 		return $list;
 	}
 
+	/**
+	 * _initData
+	 */
 	public function _initData()
 	{
 		$user = JFactory::getUser();
@@ -146,6 +189,12 @@ class question_detailModelquestion_detail extends JModel
 		return true;
 	}
 
+	/**
+	 * store
+	 *
+	 * @param $data
+	 *
+	 */
 	public function store($data)
 	{
 		$user = JFactory::getUser();
@@ -344,6 +393,12 @@ class question_detailModelquestion_detail extends JModel
 		return true;
 	}
 
+	/**
+	 * sendMailForAskQuestion
+	 *
+	 * @param $ansid
+	 *
+	 */
 	public function sendMailForAskQuestion($ansid)
 	{
 		$redshopMail = new redshopMail;

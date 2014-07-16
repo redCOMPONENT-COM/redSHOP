@@ -11,6 +11,13 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
+/**
+ * fieldsModelfields
+ *
+ * @package     RedSHOP
+ * @subpackage  Model
+ * @since       1.0
+ */
 class fieldsModelfields extends JModel
 {
 	public $_data = null;
@@ -23,6 +30,9 @@ class fieldsModelfields extends JModel
 
 	public $_context = null;
 
+	/**
+	 * __construct
+	 */
 	public function __construct()
 	{
 		parent::__construct();
@@ -44,6 +54,9 @@ class fieldsModelfields extends JModel
 		$this->setState('filtersection', $filtersection);
 	}
 
+	/**
+	 * getData
+	 */
 	public function getData()
 	{
 		if (empty($this->_data))
@@ -55,6 +68,9 @@ class fieldsModelfields extends JModel
 		return $this->_data;
 	}
 
+	/**
+	 * getTotal
+	 */
 	public function getTotal()
 	{
 		if (empty($this->_total))
@@ -66,6 +82,9 @@ class fieldsModelfields extends JModel
 		return $this->_total;
 	}
 
+	/**
+	 * getPagination
+	 */
 	public function getPagination()
 	{
 		if (empty($this->_pagination))
@@ -77,6 +96,9 @@ class fieldsModelfields extends JModel
 		return $this->_pagination;
 	}
 
+	/**
+	 * _buildQuery
+	 */
 	public function _buildQuery()
 	{
 		$orderby = $this->_buildContentOrderBy();
@@ -106,6 +128,9 @@ class fieldsModelfields extends JModel
 		return $query;
 	}
 
+	/**
+	 * _buildContentOrderBy
+	 */
 	public function _buildContentOrderBy()
 	{
 		$db  = JFactory::getDbo();
@@ -126,6 +151,12 @@ class fieldsModelfields extends JModel
 		return $orderby;
 	}
 
+	/**
+	 * saveorder
+	 *
+	 * @param $cid
+	 *
+	 */
 	public function saveorder($cid = array(), $order)
 	{
 		$row = $this->getTable('fields_detail');

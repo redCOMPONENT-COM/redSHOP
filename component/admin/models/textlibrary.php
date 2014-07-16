@@ -11,6 +11,13 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
+/**
+ * textlibraryModeltextlibrary
+ *
+ * @package     RedSHOP
+ * @subpackage  Model
+ * @since       1.0
+ */
 class textlibraryModeltextlibrary extends JModel
 {
 	public $_data = null;
@@ -23,6 +30,9 @@ class textlibraryModeltextlibrary extends JModel
 
 	public $_context = null;
 
+	/**
+	 * __construct
+	 */
 	public function __construct()
 	{
 		parent::__construct();
@@ -41,6 +51,9 @@ class textlibraryModeltextlibrary extends JModel
 		$this->setState('filter', $filter);
 	}
 
+	/**
+	 * getData
+	 */
 	public function getData()
 	{
 		if (empty($this->_data))
@@ -52,6 +65,9 @@ class textlibraryModeltextlibrary extends JModel
 		return $this->_data;
 	}
 
+	/**
+	 * getTotal
+	 */
 	public function getTotal()
 	{
 		if (empty($this->_total))
@@ -63,6 +79,9 @@ class textlibraryModeltextlibrary extends JModel
 		return $this->_total;
 	}
 
+	/**
+	 * getPagination
+	 */
 	public function getPagination()
 	{
 		if (empty($this->_pagination))
@@ -74,6 +93,9 @@ class textlibraryModeltextlibrary extends JModel
 		return $this->_pagination;
 	}
 
+	/**
+	 * _buildQuery
+	 */
 	public function _buildQuery()
 	{
 		$where = "";
@@ -99,6 +121,9 @@ class textlibraryModeltextlibrary extends JModel
 		return $query;
 	}
 
+	/**
+	 * _buildContentOrderBy
+	 */
 	public function _buildContentOrderBy()
 	{
 		$db  = JFactory::getDbo();

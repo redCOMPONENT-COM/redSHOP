@@ -14,6 +14,13 @@ jimport('joomla.filesystem.file');
 
 require_once JPATH_COMPONENT . '/helpers/media.php';
 
+/**
+ * mediaModelmedia
+ *
+ * @package     RedSHOP
+ * @subpackage  Model
+ * @since       1.0
+ */
 class mediaModelmedia extends JModel
 {
 	public $_data = null;
@@ -26,6 +33,9 @@ class mediaModelmedia extends JModel
 
 	public $_context = null;
 
+	/**
+	 * __construct
+	 */
 	public function __construct()
 	{
 		parent::__construct();
@@ -46,6 +56,9 @@ class mediaModelmedia extends JModel
 		$this->setState('media_type', $media_type);
 	}
 
+	/**
+	 * getData
+	 */
 	public function getData()
 	{
 		if (empty($this->_data))
@@ -57,6 +70,9 @@ class mediaModelmedia extends JModel
 		return $this->_data;
 	}
 
+	/**
+	 * getTotal
+	 */
 	public function getTotal()
 	{
 		if (empty($this->_total))
@@ -68,6 +84,9 @@ class mediaModelmedia extends JModel
 		return $this->_total;
 	}
 
+	/**
+	 * getPagination
+	 */
 	public function getPagination()
 	{
 		if (empty($this->_pagination))
@@ -79,6 +98,9 @@ class mediaModelmedia extends JModel
 		return $this->_pagination;
 	}
 
+	/**
+	 * _buildQuery
+	 */
 	public function _buildQuery()
 	{
 		$where = "";
@@ -108,6 +130,9 @@ class mediaModelmedia extends JModel
 		return $query;
 	}
 
+	/**
+	 * _buildContentOrderBy
+	 */
 	public function _buildContentOrderBy()
 	{
 		$db  = JFactory::getDbo();
@@ -147,6 +172,9 @@ class mediaModelmedia extends JModel
 		return parent::getState($property);
 	}
 
+	/**
+	 * getImages
+	 */
 	public function getImages()
 	{
 		$list = $this->getList();
@@ -154,6 +182,9 @@ class mediaModelmedia extends JModel
 		return $list['images'];
 	}
 
+	/**
+	 * getFolders
+	 */
 	public function getFolders()
 	{
 		$list = $this->getList();
@@ -161,6 +192,9 @@ class mediaModelmedia extends JModel
 		return $list['folders'];
 	}
 
+	/**
+	 * getDocuments
+	 */
 	public function getDocuments()
 	{
 		$list = $this->getList();
@@ -347,6 +381,12 @@ class mediaModelmedia extends JModel
 		return $list;
 	}
 
+	/**
+	 * store
+	 *
+	 * @param $data
+	 *
+	 */
 	public function store($data)
 	{
 		$row = $this->getTable('media_download');
@@ -368,6 +408,12 @@ class mediaModelmedia extends JModel
 		return $row;
 	}
 
+	/**
+	 * getAdditionalFiles
+	 *
+	 * @param $media_id
+	 *
+	 */
 	public function getAdditionalFiles($media_id)
 	{
 		$query = "SELECT * FROM `" . $this->_table_prefix . "media_download` "
@@ -376,6 +422,12 @@ class mediaModelmedia extends JModel
 		return $this->_getList($query);
 	}
 
+	/**
+	 * deleteAddtionalFiles
+	 *
+	 * @param $fileId
+	 *
+	 */
 	public function deleteAddtionalFiles($fileId)
 	{
 		$query = "SELECT name FROM `" . $this->_table_prefix . "media_download` "
@@ -402,6 +454,12 @@ class mediaModelmedia extends JModel
 		return true;
 	}
 
+	/**
+	 * saveorder
+	 *
+	 * @param $cid
+	 *
+	 */
 	public function saveorder($cid = array(), $order)
 	{
 		$row = $this->getTable('media_detail');

@@ -15,6 +15,13 @@ jimport('joomla.installer.installer');
 jimport('joomla.installer.helper');
 jimport('joomla.filesystem.file');
 
+/**
+ * shipping_detailModelshipping_detail
+ *
+ * @package     RedSHOP
+ * @subpackage  Model
+ * @since       1.0
+ */
 class shipping_detailModelshipping_detail extends JModel
 {
 	public $_id = null;
@@ -25,6 +32,9 @@ class shipping_detailModelshipping_detail extends JModel
 
 	public $_copydata = null;
 
+	/**
+	 * __construct
+	 */
 	public function __construct()
 	{
 		parent::__construct();
@@ -36,12 +46,21 @@ class shipping_detailModelshipping_detail extends JModel
 		$this->setId((int) $array[0]);
 	}
 
+	/**
+	 * setId
+	 *
+	 * @param $id
+	 *
+	 */
 	public function setId($id)
 	{
 		$this->_id = $id;
 		$this->_data = null;
 	}
 
+	/**
+	 * getData
+	 */
 	public function &getData()
 	{
 		$this->_loadData();
@@ -49,6 +68,9 @@ class shipping_detailModelshipping_detail extends JModel
 		return $this->_data;
 	}
 
+	/**
+	 * _loadData
+	 */
 	public function _loadData()
 	{
 		$query = 'SELECT * FROM #__extensions WHERE folder="redshop_shipping" and extension_id ="' . $this->_id . '" ';
@@ -58,6 +80,12 @@ class shipping_detailModelshipping_detail extends JModel
 		return (boolean) $this->_data;
 	}
 
+	/**
+	 * store
+	 *
+	 * @param $data
+	 *
+	 */
 	public function store($data)
 	{
 		$query = 'UPDATE #__extensions '
@@ -81,6 +109,12 @@ class shipping_detailModelshipping_detail extends JModel
 		return true;
 	}
 
+	/**
+	 * publish
+	 *
+	 * @param $cid
+	 *
+	 */
 	public function publish($cid = array(), $publish = 1)
 	{
 		if (count($cid))
@@ -102,6 +136,12 @@ class shipping_detailModelshipping_detail extends JModel
 		return true;
 	}
 
+	/**
+	 * saveOrder
+	 *
+	 * @param $cid
+	 *
+	 */
 	public function saveOrder(&$cid)
 	{
 		$app = JFactory::getApplication();

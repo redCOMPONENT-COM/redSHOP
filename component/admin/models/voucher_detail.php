@@ -11,6 +11,13 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
+/**
+ * voucher_detailModelvoucher_detail
+ *
+ * @package     RedSHOP
+ * @subpackage  Model
+ * @since       1.0
+ */
 class voucher_detailModelvoucher_detail extends JModel
 {
 	public $_id = null;
@@ -19,6 +26,9 @@ class voucher_detailModelvoucher_detail extends JModel
 
 	public $_table_prefix = null;
 
+	/**
+	 * __construct
+	 */
 	public function __construct()
 	{
 		parent::__construct();
@@ -30,12 +40,21 @@ class voucher_detailModelvoucher_detail extends JModel
 		$this->setId((int) $array[0]);
 	}
 
+	/**
+	 * setId
+	 *
+	 * @param $id
+	 *
+	 */
 	public function setId($id)
 	{
 		$this->_id = $id;
 		$this->_data = null;
 	}
 
+	/**
+	 * getData
+	 */
 	public function &getData()
 	{
 		if ($this->_loadData())
@@ -49,6 +68,9 @@ class voucher_detailModelvoucher_detail extends JModel
 		return $this->_data;
 	}
 
+	/**
+	 * _loadData
+	 */
 	public function _loadData()
 	{
 		if (empty($this->_data))
@@ -63,6 +85,9 @@ class voucher_detailModelvoucher_detail extends JModel
 		return true;
 	}
 
+	/**
+	 * _initData
+	 */
 	public function _initData()
 	{
 		if (empty($this->_data))
@@ -85,6 +110,12 @@ class voucher_detailModelvoucher_detail extends JModel
 		return true;
 	}
 
+	/**
+	 * store
+	 *
+	 * @param $data
+	 *
+	 */
 	public function store($data)
 	{
 		$row = $this->getTable();
@@ -124,6 +155,12 @@ class voucher_detailModelvoucher_detail extends JModel
 		return $row;
 	}
 
+	/**
+	 * delete
+	 *
+	 * @param $cid
+	 *
+	 */
 	public function delete($cid = array())
 	{
 		if (count($cid))
@@ -144,6 +181,12 @@ class voucher_detailModelvoucher_detail extends JModel
 		return true;
 	}
 
+	/**
+	 * publish
+	 *
+	 * @param $cid
+	 *
+	 */
 	public function publish($cid = array(), $publish = 1)
 	{
 		if (count($cid))
@@ -166,6 +209,9 @@ class voucher_detailModelvoucher_detail extends JModel
 		return true;
 	}
 
+	/**
+	 * product_data
+	 */
 	public function product_data()
 	{
 		$query = "SELECT pv.product_id,p.product_name FROM " . $this->_table_prefix . "product_voucher_xref as pv,"
@@ -176,6 +222,12 @@ class voucher_detailModelvoucher_detail extends JModel
 		return $this->_productdata;
 	}
 
+	/**
+	 * voucher_products_sel
+	 *
+	 * @param $voucher_id
+	 *
+	 */
 	public function voucher_products_sel($voucher_id)
 	{
 		$query = "SELECT cp.product_id as value,p.product_name as text FROM " . $this->_table_prefix . "product as p , "
@@ -186,6 +238,12 @@ class voucher_detailModelvoucher_detail extends JModel
 		return $this->_productdata;
 	}
 
+	/**
+	 * checkduplicate
+	 *
+	 * @param $discount_code
+	 *
+	 */
 	public function checkduplicate($discount_code)
 	{
 		$query = "SELECT count(*) as code from " . $this->_table_prefix . "coupons"

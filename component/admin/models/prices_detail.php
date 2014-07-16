@@ -15,6 +15,13 @@ jimport('joomla.client.helper');
 JClientHelper::setCredentialsFromRequest('ftp');
 jimport('joomla.filesystem.file');
 
+/**
+ * prices_detailModelprices_detail
+ *
+ * @package     RedSHOP
+ * @subpackage  Model
+ * @since       1.0
+ */
 class prices_detailModelprices_detail extends JModel
 {
 	public $_id = null;
@@ -27,6 +34,9 @@ class prices_detailModelprices_detail extends JModel
 
 	public $_table_prefix = null;
 
+	/**
+	 * __construct
+	 */
 	public function __construct()
 	{
 		parent::__construct();
@@ -39,12 +49,21 @@ class prices_detailModelprices_detail extends JModel
 		$this->setProductName();
 	}
 
+	/**
+	 * setId
+	 *
+	 * @param $id
+	 *
+	 */
 	public function setId($id)
 	{
 		$this->_id = $id;
 		$this->_data = null;
 	}
 
+	/**
+	 * setProductName
+	 */
 	public function setProductName()
 	{
 		$query = ' SELECT prd.product_name '
@@ -54,6 +73,9 @@ class prices_detailModelprices_detail extends JModel
 		$this->_prodname = $this->_db->loadObject()->product_name;
 	}
 
+	/**
+	 * getData
+	 */
 	public function &getData()
 	{
 		if ($this->_loadData())
@@ -67,6 +89,9 @@ class prices_detailModelprices_detail extends JModel
 		return $this->_data;
 	}
 
+	/**
+	 * _loadData
+	 */
 	public function _loadData()
 	{
 		if (empty($this->_data))
@@ -86,6 +111,9 @@ class prices_detailModelprices_detail extends JModel
 		return true;
 	}
 
+	/**
+	 * _initData
+	 */
 	public function _initData()
 	{
 		if (empty($this->_data))
@@ -111,6 +139,12 @@ class prices_detailModelprices_detail extends JModel
 		return true;
 	}
 
+	/**
+	 * store
+	 *
+	 * @param $data
+	 *
+	 */
 	public function store($data)
 	{
 		$row = $this->getTable();
@@ -139,6 +173,12 @@ class prices_detailModelprices_detail extends JModel
 		return true;
 	}
 
+	/**
+	 * delete
+	 *
+	 * @param $cid
+	 *
+	 */
 	public function delete($cid = array())
 	{
 		if (count($cid))

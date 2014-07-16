@@ -10,6 +10,13 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
+/**
+ * state_detailModelstate_detail
+ *
+ * @package     RedSHOP
+ * @subpackage  Model
+ * @since       1.0
+ */
 class state_detailModelstate_detail extends JModel
 {
 	public $_id = null;
@@ -18,6 +25,9 @@ class state_detailModelstate_detail extends JModel
 
 	public $_table_prefix = null;
 
+	/**
+	 * __construct
+	 */
 	public function __construct()
 	{
 		parent::__construct();
@@ -28,12 +38,21 @@ class state_detailModelstate_detail extends JModel
 		$this->setId((int) $array[0]);
 	}
 
+	/**
+	 * setId
+	 *
+	 * @param $id
+	 *
+	 */
 	public function setId($id)
 	{
 		$this->_id = $id;
 		$this->_data = null;
 	}
 
+	/**
+	 * getData
+	 */
 	public function &getData()
 	{
 		if ($this->_loadData())
@@ -47,6 +66,9 @@ class state_detailModelstate_detail extends JModel
 		return $this->_data;
 	}
 
+	/**
+	 * _loadData
+	 */
 	public function _loadData()
 	{
 		if (empty($this->_data))
@@ -61,6 +83,9 @@ class state_detailModelstate_detail extends JModel
 		return true;
 	}
 
+	/**
+	 * _initData
+	 */
 	public function _initData()
 	{
 		if (empty($this->_data))
@@ -81,6 +106,12 @@ class state_detailModelstate_detail extends JModel
 		return true;
 	}
 
+	/**
+	 * store
+	 *
+	 * @param $data
+	 *
+	 */
 	public function store($data)
 	{
 
@@ -110,6 +141,12 @@ class state_detailModelstate_detail extends JModel
 		return $row;
 	}
 
+	/**
+	 * delete
+	 *
+	 * @param $cid
+	 *
+	 */
 	public function delete($cid = array())
 	{
 		if (count($cid))
@@ -130,6 +167,9 @@ class state_detailModelstate_detail extends JModel
 		return true;
 	}
 
+	/**
+	 * getcountry
+	 */
 	public function getcountry()
 	{
 		require_once JPATH_COMPONENT_SITE . '/helpers/helper.php';

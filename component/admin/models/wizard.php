@@ -13,10 +13,20 @@ jimport('joomla.application.component.model');
 
 require_once 'components/com_redshop/models/configuration.php';
 
+/**
+ * wizardModelwizard
+ *
+ * @package     RedSHOP
+ * @subpackage  Model
+ * @since       1.0
+ */
 class wizardModelwizard extends configurationModelconfiguration
 {
 	public $_tax_rates = null;
 
+	/**
+	 * getTaxRates
+	 */
 	public function getTaxRates()
 	{
 		$query = "SELECT tax_group_id,tax_rate_id,tax_country,tax_rate FROM " . $this->_table_prefix . "tax_rate WHERE tax_group_id = 1";

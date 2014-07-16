@@ -11,6 +11,13 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
+/**
+ * paymentModelpayment
+ *
+ * @package     RedSHOP
+ * @subpackage  Model
+ * @since       1.0
+ */
 class paymentModelpayment extends JModel
 {
 	public $_data = null;
@@ -23,6 +30,9 @@ class paymentModelpayment extends JModel
 
 	public $_context = null;
 
+	/**
+	 * __construct
+	 */
 	public function __construct()
 	{
 		parent::__construct();
@@ -38,6 +48,9 @@ class paymentModelpayment extends JModel
 		$this->setState('template_section', $template_section);
 	}
 
+	/**
+	 * getData
+	 */
 	public function getData()
 	{
 		if (empty($this->_data))
@@ -49,6 +62,9 @@ class paymentModelpayment extends JModel
 		return $this->_data;
 	}
 
+	/**
+	 * getTotal
+	 */
 	public function getTotal()
 	{
 		$query = 'SELECT count(*) FROM ' . $this->_table_prefix . 'payment_method p ';
@@ -62,6 +78,9 @@ class paymentModelpayment extends JModel
 		return $this->_total;
 	}
 
+	/**
+	 * getPagination
+	 */
 	public function getPagination()
 	{
 		if (empty($this->_pagination))
@@ -73,6 +92,9 @@ class paymentModelpayment extends JModel
 		return $this->_pagination;
 	}
 
+	/**
+	 * _buildQuery
+	 */
 	public function _buildQuery()
 	{
 		$where = '';
@@ -89,6 +111,9 @@ class paymentModelpayment extends JModel
 		return $query;
 	}
 
+	/**
+	 * _buildContentOrderBy
+	 */
 	public function _buildContentOrderBy()
 	{
 		$db  = JFactory::getDbo();

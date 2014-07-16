@@ -11,6 +11,13 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
+/**
+ * categoryModelcategory
+ *
+ * @package     RedSHOP
+ * @subpackage  Model
+ * @since       1.0
+ */
 class categoryModelcategory extends JModel
 {
 	public $_data = null;
@@ -23,6 +30,9 @@ class categoryModelcategory extends JModel
 
 	public $_context = null;
 
+	/**
+	 * __construct
+	 */
 	public function __construct()
 	{
 		parent::__construct();
@@ -41,6 +51,9 @@ class categoryModelcategory extends JModel
 		$this->setState('category_id', $category_id);
 	}
 
+	/**
+	 * getData
+	 */
 	public function getData()
 	{
 		if (empty($this->_data))
@@ -50,6 +63,9 @@ class categoryModelcategory extends JModel
 		return $this->_data;
 	}
 
+	/**
+	 * getPagination
+	 */
 	public function getPagination()
 	{
 		if ($this->_pagination == null)
@@ -59,6 +75,9 @@ class categoryModelcategory extends JModel
 		return $this->_pagination;
 	}
 
+	/**
+	 * _buildQuery
+	 */
 	public function _buildQuery()
 	{
 		$app = JFactory::getApplication();
@@ -124,6 +143,9 @@ class categoryModelcategory extends JModel
 		return $items;
 	}
 
+	/**
+	 * _buildContentOrderBy
+	 */
 	public function _buildContentOrderBy()
 	{
 		$db  = JFactory::getDbo();
@@ -137,6 +159,12 @@ class categoryModelcategory extends JModel
 		return $orderby;
 	}
 
+	/**
+	 * getProducts
+	 *
+	 * @param $cid
+	 *
+	 */
 	public function getProducts($cid)
 	{
 		$query = 'SELECT count(category_id) FROM ' . $this->_table_prefix . 'product_category_xref WHERE category_id="' . $cid . '" ';
@@ -175,6 +203,12 @@ class categoryModelcategory extends JModel
 		return true;
 	}
 
+	/**
+	 * saveorder
+	 *
+	 * @param $cid
+	 *
+	 */
 	public function saveorder($cid = array(), $order)
 	{
 		$row = $this->getTable('category_detail');

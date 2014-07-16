@@ -11,6 +11,13 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
+/**
+ * product_containerModelproduct_container
+ *
+ * @package     RedSHOP
+ * @subpackage  Model
+ * @since       1.0
+ */
 class product_containerModelproduct_container extends JModel
 {
 	public $_data = null;
@@ -23,6 +30,9 @@ class product_containerModelproduct_container extends JModel
 
 	public $_context = null;
 
+	/**
+	 * __construct
+	 */
 	public function __construct()
 	{
 		parent::__construct();
@@ -42,6 +52,9 @@ class product_containerModelproduct_container extends JModel
 		$this->setState('limitstart', $limitstart);
 	}
 
+	/**
+	 * getData
+	 */
 	public function getData()
 	{
 		if (empty($this->_data))
@@ -65,6 +78,9 @@ class product_containerModelproduct_container extends JModel
 		return $this->_data;
 	}
 
+	/**
+	 * getTotal
+	 */
 	public function getTotal()
 	{
 		if (empty($this->_total))
@@ -76,6 +92,9 @@ class product_containerModelproduct_container extends JModel
 		return $this->_total;
 	}
 
+	/**
+	 * getPagination
+	 */
 	public function getPagination()
 	{
 		if (empty($this->_pagination))
@@ -87,6 +106,9 @@ class product_containerModelproduct_container extends JModel
 		return $this->_pagination;
 	}
 
+	/**
+	 * _buildQuery
+	 */
 	public function _buildQuery()
 	{
 		$filter_supplier = $this->getState('filter_supplier');
@@ -154,6 +176,9 @@ class product_containerModelproduct_container extends JModel
 		return $query;
 	}
 
+	/**
+	 * _buildContentOrderBy
+	 */
 	public function _buildContentOrderBy()
 	{
 		$db  = JFactory::getDbo();
@@ -167,6 +192,12 @@ class product_containerModelproduct_container extends JModel
 		return $orderby;
 	}
 
+	/**
+	 * listedincats
+	 *
+	 * @param $pid
+	 *
+	 */
 	public function listedincats($pid)
 	{
 		$query = 'SELECT c.category_name FROM ' . $this->_table_prefix . 'product_category_xref as ref, ' .
@@ -176,6 +207,14 @@ class product_containerModelproduct_container extends JModel
 		return $this->_db->loadObjectlist();
 	}
 
+	/**
+	 * product_template
+	 *
+	 * @param $template_id
+	 * @param $product_id
+	 * @param $section
+	 *
+	 */
 	public function product_template($template_id, $product_id, $section)
 	{
 		require_once JPATH_COMPONENT . '/helpers/extra_field.php';
@@ -218,6 +257,12 @@ class product_containerModelproduct_container extends JModel
 		return $list_field;
 	}
 
+	/**
+	 * getmanufacturername
+	 *
+	 * @param $mid
+	 *
+	 */
 	public function getmanufacturername($mid)
 	{
 		$query = 'SELECT manufacturer_name FROM ' . $this->_table_prefix . 'manufacturer  WHERE manufacturer_id=' . $mid;
@@ -226,6 +271,14 @@ class product_containerModelproduct_container extends JModel
 		return $this->_db->loadResult();
 	}
 
+	/**
+	 * getmanufacturelist
+	 *
+	 * @param $name
+	 * @param $selected
+	 * @param $attributes
+	 *
+	 */
 	public function getmanufacturelist($name = 'manufacturelist', $selected = '', $attributes = ' class="inputbox" size="1" ')
 	{
 		$db = JFactory::getDbo();
@@ -241,6 +294,14 @@ class product_containerModelproduct_container extends JModel
 		return $mylist['manufacturelist'];
 	}
 
+	/**
+	 * getsupplierlist
+	 *
+	 * @param $name
+	 * @param $selected
+	 * @param $attributes
+	 *
+	 */
 	public function getsupplierlist($name = 'supplierlist', $selected = '', $attributes = ' class="inputbox" size="1" ')
 	{
 		$db = JFactory::getDbo();
@@ -257,6 +318,14 @@ class product_containerModelproduct_container extends JModel
 		return $mylist['supplierlist'];
 	}
 
+	/**
+	 * getcontainerlist
+	 *
+	 * @param $name
+	 * @param $selected
+	 * @param $attributes
+	 *
+	 */
 	public function getcontainerlist($name = 'containerlist', $selected = '', $attributes = ' class="inputbox" size="1" ')
 	{
 		$db = JFactory::getDbo();
@@ -273,6 +342,9 @@ class product_containerModelproduct_container extends JModel
 		return $mylist['containerlist'];
 	}
 
+	/**
+	 * getcontainerproducts
+	 */
 	public function getcontainerproducts()
 	{
 		$query = $this->_buildQuery();

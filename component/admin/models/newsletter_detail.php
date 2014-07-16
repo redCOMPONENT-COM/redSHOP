@@ -11,6 +11,13 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
+/**
+ * newsletter_detailModelnewsletter_detail
+ *
+ * @package     RedSHOP
+ * @subpackage  Model
+ * @since       1.0
+ */
 class newsletter_detailModelnewsletter_detail extends JModel
 {
 	public $_id = null;
@@ -19,6 +26,9 @@ class newsletter_detailModelnewsletter_detail extends JModel
 
 	public $_table_prefix = null;
 
+	/**
+	 * __construct
+	 */
 	public function __construct()
 	{
 		parent::__construct();
@@ -27,12 +37,21 @@ class newsletter_detailModelnewsletter_detail extends JModel
 		$this->setId((int) $array[0]);
 	}
 
+	/**
+	 * setId
+	 *
+	 * @param $id
+	 *
+	 */
 	public function setId($id)
 	{
 		$this->_id = $id;
 		$this->_data = null;
 	}
 
+	/**
+	 * getData
+	 */
 	public function &getData()
 	{
 		if ($this->_loadData())
@@ -46,6 +65,9 @@ class newsletter_detailModelnewsletter_detail extends JModel
 		return $this->_data;
 	}
 
+	/**
+	 * _loadData
+	 */
 	public function _loadData()
 	{
 		if (empty($this->_data))
@@ -60,6 +82,9 @@ class newsletter_detailModelnewsletter_detail extends JModel
 		return true;
 	}
 
+	/**
+	 * _initData
+	 */
 	public function _initData()
 	{
 		if (empty($this->_data))
@@ -79,6 +104,12 @@ class newsletter_detailModelnewsletter_detail extends JModel
 		return true;
 	}
 
+	/**
+	 * store
+	 *
+	 * @param $data
+	 *
+	 */
 	public function store($data)
 	{
 		$row = $this->getTable();
@@ -100,6 +131,12 @@ class newsletter_detailModelnewsletter_detail extends JModel
 		return $row;
 	}
 
+	/**
+	 * delete
+	 *
+	 * @param $cid
+	 *
+	 */
 	public function delete($cid = array())
 	{
 		if (count($cid))
@@ -120,6 +157,12 @@ class newsletter_detailModelnewsletter_detail extends JModel
 		return true;
 	}
 
+	/**
+	 * publish
+	 *
+	 * @param $cid
+	 *
+	 */
 	public function publish($cid = array(), $publish = 1)
 	{
 		if (count($cid))
@@ -142,6 +185,12 @@ class newsletter_detailModelnewsletter_detail extends JModel
 		return true;
 	}
 
+	/**
+	 * copy
+	 *
+	 * @param $cid
+	 *
+	 */
 	public function copy($cid = array())
 	{
 		$copydata = array();
@@ -191,6 +240,9 @@ class newsletter_detailModelnewsletter_detail extends JModel
 		return true;
 	}
 
+	/**
+	 * gettemplates
+	 */
 	public function gettemplates()
 	{
 		$query = 'SELECT template_id AS value,template_name AS text FROM ' . $this->_table_prefix . 'template '
@@ -201,6 +253,9 @@ class newsletter_detailModelnewsletter_detail extends JModel
 		return $this->_db->loadObjectlist();
 	}
 
+	/**
+	 * getnewslettertexts
+	 */
 	public function getnewslettertexts()
 	{
 		$query = 'SELECT text_name,text_desc FROM ' . $this->_table_prefix . 'textlibrary '
@@ -211,6 +266,12 @@ class newsletter_detailModelnewsletter_detail extends JModel
 		return $this->_db->loadObjectlist();
 	}
 
+	/**
+	 * getNewsletterList
+	 *
+	 * @param $newsletter_id
+	 *
+	 */
 	public function getNewsletterList($newsletter_id = 0)
 	{
 		$and = "";
@@ -230,6 +291,12 @@ class newsletter_detailModelnewsletter_detail extends JModel
 		return $list;
 	}
 
+	/**
+	 * getNewsletterTracker
+	 *
+	 * @param $newsletter_id
+	 *
+	 */
 	public function getNewsletterTracker($newsletter_id = 0)
 	{
 		$data = $this->getNewsletterList($newsletter_id);
@@ -277,6 +344,12 @@ class newsletter_detailModelnewsletter_detail extends JModel
 		return $return;
 	}
 
+	/**
+	 * getReadNewsletter
+	 *
+	 * @param $newsletter_id
+	 *
+	 */
 	public function getReadNewsletter($newsletter_id)
 	{
 		$query = "SELECT COUNT(*) AS total FROM " . $this->_table_prefix . "newsletter_tracker "

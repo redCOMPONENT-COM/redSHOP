@@ -11,6 +11,13 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
+/**
+ * zipcodeModelzipcode
+ *
+ * @package     RedSHOP
+ * @subpackage  Model
+ * @since       1.0
+ */
 class zipcodeModelzipcode extends JModel
 {
 	public $_data = null;
@@ -23,6 +30,9 @@ class zipcodeModelzipcode extends JModel
 
 	public $_context = null;
 
+	/**
+	 * __construct
+	 */
 	public function __construct()
 	{
 		parent::__construct();
@@ -39,6 +49,9 @@ class zipcodeModelzipcode extends JModel
 		$this->setState('limitstart', $limitstart);
 	}
 
+	/**
+	 * getData
+	 */
 	public function getData()
 	{
 		if (empty($this->_data))
@@ -49,6 +62,9 @@ class zipcodeModelzipcode extends JModel
 		return $this->_data;
 	}
 
+	/**
+	 * getTotal
+	 */
 	public function getTotal()
 	{
 		if (empty($this->_total))
@@ -60,6 +76,9 @@ class zipcodeModelzipcode extends JModel
 		return $this->_total;
 	}
 
+	/**
+	 * getPagination
+	 */
 	public function getPagination()
 	{
 		if (empty($this->_pagination))
@@ -71,6 +90,9 @@ class zipcodeModelzipcode extends JModel
 		return $this->_pagination;
 	}
 
+	/**
+	 * _buildQuery
+	 */
 	public function _buildQuery()
 	{
 		$orderby = $this->_buildContentOrderBy();
@@ -86,6 +108,9 @@ class zipcodeModelzipcode extends JModel
 		return $query;
 	}
 
+	/**
+	 * _buildContentOrderBy
+	 */
 	public function _buildContentOrderBy()
 	{
 		$db  = JFactory::getDbo();
@@ -99,6 +124,12 @@ class zipcodeModelzipcode extends JModel
 		return $orderby;
 	}
 
+	/**
+	 * getCountryName
+	 *
+	 * @param $country_id
+	 *
+	 */
 	public function getCountryName($country_id)
 	{
 		$query = "SELECT  c.country_name from " . $this->_table_prefix . "country AS c where c.country_id=" . $country_id;

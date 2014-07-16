@@ -19,6 +19,13 @@ require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/product.php';
 require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/mail.php';
 require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/stockroom.php';
 
+/**
+ * quotation_detailModelquotation_detail
+ *
+ * @package     RedSHOP
+ * @subpackage  Model
+ * @since       1.0
+ */
 class quotation_detailModelquotation_detail extends JModel
 {
 	public $_id = null;
@@ -29,6 +36,9 @@ class quotation_detailModelquotation_detail extends JModel
 
 	public $_copydata = null;
 
+	/**
+	 * __construct
+	 */
 	public function __construct()
 	{
 		parent::__construct();
@@ -38,12 +48,21 @@ class quotation_detailModelquotation_detail extends JModel
 		$this->setId((int) $array[0]);
 	}
 
+	/**
+	 * setId
+	 *
+	 * @param $id
+	 *
+	 */
 	public function setId($id)
 	{
 		$this->_id = $id;
 		$this->_data = null;
 	}
 
+	/**
+	 * getData
+	 */
 	public function &getData()
 	{
 		if ($this->_loadData())
@@ -57,6 +76,9 @@ class quotation_detailModelquotation_detail extends JModel
 		return $this->_data;
 	}
 
+	/**
+	 * _loadData
+	 */
 	public function _loadData()
 	{
 		$query = "SELECT q.* FROM " . $this->_table_prefix . "quotation AS q "
@@ -67,6 +89,9 @@ class quotation_detailModelquotation_detail extends JModel
 		return (boolean) $this->_data;
 	}
 
+	/**
+	 * getuserdata
+	 */
 	public function &getuserdata()
 	{
 		$producthelper = new producthelper;
@@ -118,6 +143,9 @@ class quotation_detailModelquotation_detail extends JModel
 		return $userdata;
 	}
 
+	/**
+	 * _initData
+	 */
 	public function _initData()
 	{
 		$quotationHelper = new quotationHelper;
@@ -157,6 +185,12 @@ class quotation_detailModelquotation_detail extends JModel
 		return true;
 	}
 
+	/**
+	 * store
+	 *
+	 * @param $data
+	 *
+	 */
 	public function store($data)
 	{
 		$row = $this->getTable();
@@ -203,6 +237,12 @@ class quotation_detailModelquotation_detail extends JModel
 		return $row;
 	}
 
+	/**
+	 * sendQuotationMail
+	 *
+	 * @param $quotaion_id
+	 *
+	 */
 	public function sendQuotationMail($quotaion_id)
 	{
 		$redshopMail = new redshopMail;
@@ -211,6 +251,12 @@ class quotation_detailModelquotation_detail extends JModel
 		return $send;
 	}
 
+	/**
+	 * delete
+	 *
+	 * @param $cid
+	 *
+	 */
 	public function delete($cid = array())
 	{
 		$quotationHelper = new quotationHelper;
@@ -283,6 +329,13 @@ class quotation_detailModelquotation_detail extends JModel
 		return true;
 	}
 
+	/**
+	 * deleteitem
+	 *
+	 * @param $cids
+	 * @param $quotation_id
+	 *
+	 */
 	public function deleteitem($cids = 0, $quotation_id = 0)
 	{
 		$quotationHelper = new quotationHelper;
@@ -379,6 +432,12 @@ class quotation_detailModelquotation_detail extends JModel
 	}
 
 	// Add new Quotation Item
+	/**
+	 * newQuotationItem
+	 *
+	 * @param $data
+	 *
+	 */
 	public function newQuotationItem($data)
 	{
 		$quotationHelper = new quotationHelper;

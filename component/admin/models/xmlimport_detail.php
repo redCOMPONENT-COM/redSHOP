@@ -13,6 +13,13 @@ jimport('joomla.application.component.model');
 
 require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/xmlhelper.php';
 
+/**
+ * xmlimport_detailModelxmlimport_detail
+ *
+ * @package     RedSHOP
+ * @subpackage  Model
+ * @since       1.0
+ */
 class xmlimport_detailModelxmlimport_detail extends JModel
 {
 	public $_id = null;
@@ -21,6 +28,9 @@ class xmlimport_detailModelxmlimport_detail extends JModel
 
 	public $_table_prefix = null;
 
+	/**
+	 * __construct
+	 */
 	public function __construct()
 	{
 		parent::__construct();
@@ -30,12 +40,21 @@ class xmlimport_detailModelxmlimport_detail extends JModel
 		$this->setId((int) $array[0]);
 	}
 
+	/**
+	 * setId
+	 *
+	 * @param $id
+	 *
+	 */
 	public function setId($id)
 	{
 		$this->_id = $id;
 		$this->_data = null;
 	}
 
+	/**
+	 * getData
+	 */
 	public function &getData()
 	{
 		$post = JRequest::get('post');
@@ -116,6 +135,9 @@ class xmlimport_detailModelxmlimport_detail extends JModel
 		return $this->_data;
 	}
 
+	/**
+	 * _loadData
+	 */
 	public function _loadData()
 	{
 		$query = "SELECT x.* FROM " . $this->_table_prefix . "xml_import AS x "
@@ -126,11 +148,17 @@ class xmlimport_detailModelxmlimport_detail extends JModel
 		return (boolean) $this->_data;
 	}
 
+	/**
+	 * getXMLImporturl
+	 */
 	public function getXMLImporturl()
 	{
 		return $this->_data->xmlimport_url;
 	}
 
+	/**
+	 * updateFile
+	 */
 	public function updateFile()
 	{
 		$post = JRequest::get('post');
@@ -163,6 +191,9 @@ class xmlimport_detailModelxmlimport_detail extends JModel
 		return $xmlimport_url;
 	}
 
+	/**
+	 * _initData
+	 */
 	public function _initData()
 	{
 		$user = JFactory::getUser();
@@ -396,6 +427,12 @@ class xmlimport_detailModelxmlimport_detail extends JModel
 		return true;
 	}
 
+	/**
+	 * auto_syncpublish
+	 *
+	 * @param $cid
+	 *
+	 */
 	public function auto_syncpublish($cid = array(), $publish = 1)
 	{
 		if (count($cid))

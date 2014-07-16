@@ -11,6 +11,13 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
+/**
+ * taxModeltax
+ *
+ * @package     RedSHOP
+ * @subpackage  Model
+ * @since       1.0
+ */
 class taxModeltax extends JModel
 {
 	public $_data = null;
@@ -25,6 +32,9 @@ class taxModeltax extends JModel
 
 	public $_context = null;
 
+	/**
+	 * __construct
+	 */
 	public function __construct()
 	{
 		parent::__construct();
@@ -43,6 +53,12 @@ class taxModeltax extends JModel
 		$this->setProductId((int) $tax_group_id);
 	}
 
+	/**
+	 * setProductId
+	 *
+	 * @param $id
+	 *
+	 */
 	public function setProductId($id)
 	{
 		// Set employees_detail id and wipe data
@@ -50,11 +66,17 @@ class taxModeltax extends JModel
 		$this->_data = null;
 	}
 
+	/**
+	 * getProductId
+	 */
 	public function getProductId()
 	{
 		return $this->_tax_group_id;
 	}
 
+	/**
+	 * getData
+	 */
 	public function getData()
 	{
 		if (empty($this->_data))
@@ -66,6 +88,9 @@ class taxModeltax extends JModel
 		return $this->_data;
 	}
 
+	/**
+	 * getTotal
+	 */
 	public function getTotal()
 	{
 		if (empty($this->_total))
@@ -77,6 +102,9 @@ class taxModeltax extends JModel
 		return $this->_total;
 	}
 
+	/**
+	 * getPagination
+	 */
 	public function getPagination()
 	{
 		if (empty($this->_pagination))
@@ -88,6 +116,9 @@ class taxModeltax extends JModel
 		return $this->_pagination;
 	}
 
+	/**
+	 * _buildQuery
+	 */
 	public function _buildQuery()
 	{
 		$query = ' SELECT tr.*,tg.tax_group_name  '

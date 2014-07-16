@@ -11,6 +11,13 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
+/**
+ * attributeprices_detailModelattributeprices_detail
+ *
+ * @package     RedSHOP
+ * @subpackage  Model
+ * @since       1.0
+ */
 class attributeprices_detailModelattributeprices_detail extends JModel
 {
 	public $_id = null;
@@ -23,6 +30,9 @@ class attributeprices_detailModelattributeprices_detail extends JModel
 
 	public $_table_prefix = null;
 
+	/**
+	 * __construct
+	 */
 	public function __construct()
 	{
 		parent::__construct();
@@ -35,12 +45,21 @@ class attributeprices_detailModelattributeprices_detail extends JModel
 		$this->setId((int) $array[0]);
 	}
 
+	/**
+	 * setId
+	 *
+	 * @param $id
+	 *
+	 */
 	public function setId($id)
 	{
 		$this->_id = $id;
 		$this->_data = null;
 	}
 
+	/**
+	 * getData
+	 */
 	public function &getData()
 	{
 		if ($this->_loadData())
@@ -54,6 +73,9 @@ class attributeprices_detailModelattributeprices_detail extends JModel
 		return $this->_data;
 	}
 
+	/**
+	 * _loadData
+	 */
 	public function _loadData()
 	{
 		if (empty($this->_data))
@@ -83,6 +105,9 @@ class attributeprices_detailModelattributeprices_detail extends JModel
 		return true;
 	}
 
+	/**
+	 * _initData
+	 */
 	public function _initData()
 	{
 		if (empty($this->_data))
@@ -107,6 +132,9 @@ class attributeprices_detailModelattributeprices_detail extends JModel
 		return true;
 	}
 
+	/**
+	 * getShopperGroup
+	 */
 	public function getShopperGroup()
 	{
 		$q = 'SELECT shopper_group_id AS value,shopper_group_name AS text '
@@ -117,6 +145,9 @@ class attributeprices_detailModelattributeprices_detail extends JModel
 		return $shoppergroup;
 	}
 
+	/**
+	 * getPropertyName
+	 */
 	public function getPropertyName()
 	{
 		$propertyid = $this->_sectionid;
@@ -140,6 +171,12 @@ class attributeprices_detailModelattributeprices_detail extends JModel
 		return $rs;
 	}
 
+	/**
+	 * store
+	 *
+	 * @param $data
+	 *
+	 */
 	public function store($data)
 	{
 		$row = $this->getTable();
@@ -168,6 +205,12 @@ class attributeprices_detailModelattributeprices_detail extends JModel
 		return true;
 	}
 
+	/**
+	 * delete
+	 *
+	 * @param $cid
+	 *
+	 */
 	public function delete($cid = array())
 	{
 		if (count($cid))

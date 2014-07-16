@@ -11,6 +11,13 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
+/**
+ * order_containerModelorder_container
+ *
+ * @package     RedSHOP
+ * @subpackage  Model
+ * @since       1.0
+ */
 class order_containerModelorder_container extends JModel
 {
 	public $_data = null;
@@ -23,6 +30,9 @@ class order_containerModelorder_container extends JModel
 
 	public $_context = null;
 
+	/**
+	 * __construct
+	 */
 	public function __construct()
 	{
 		parent::__construct();
@@ -41,6 +51,9 @@ class order_containerModelorder_container extends JModel
 		$this->setState('filter_status', $filter_status);
 	}
 
+	/**
+	 * getData
+	 */
 	public function getData()
 	{
 		if (empty($this->_data))
@@ -52,6 +65,9 @@ class order_containerModelorder_container extends JModel
 		return $this->_data;
 	}
 
+	/**
+	 * getTotal
+	 */
 	public function getTotal()
 	{
 		if (empty($this->_total))
@@ -63,6 +79,9 @@ class order_containerModelorder_container extends JModel
 		return $this->_total;
 	}
 
+	/**
+	 * getPagination
+	 */
 	public function getPagination()
 	{
 		if (empty($this->_pagination))
@@ -74,6 +93,9 @@ class order_containerModelorder_container extends JModel
 		return $this->_pagination;
 	}
 
+	/**
+	 * _buildQuery
+	 */
 	public function _buildQuery()
 	{
 		$where = "";
@@ -105,6 +127,9 @@ class order_containerModelorder_container extends JModel
 		return $query;
 	}
 
+	/**
+	 * _buildContentOrderBy
+	 */
 	public function _buildContentOrderBy()
 	{
 		$db  = JFactory::getDbo();
@@ -118,6 +143,9 @@ class order_containerModelorder_container extends JModel
 		return $orderby;
 	}
 
+	/**
+	 * update_status
+	 */
 	public function update_status()
 	{
 		require_once JPATH_COMPONENT . '/helpers/order.php';
@@ -126,6 +154,9 @@ class order_containerModelorder_container extends JModel
 		$order_function->update_status();
 	}
 
+	/**
+	 * export_data
+	 */
 	public function export_data()
 	{
 		$query = ' SELECT * '

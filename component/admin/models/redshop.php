@@ -11,10 +11,20 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
+/**
+ * redshopModelredshop
+ *
+ * @package     RedSHOP
+ * @subpackage  Model
+ * @since       1.0
+ */
 class redshopModelredshop extends JModel
 {
 	public $_table_prefix = null;
 
+	/**
+	 * __construct
+	 */
 	public function __construct()
 	{
 		parent::__construct();
@@ -22,6 +32,9 @@ class redshopModelredshop extends JModel
 		$this->_filteroption = 3;
 	}
 
+	/**
+	 * demoContentInsert
+	 */
 	public function demoContentInsert()
 	{
 		$db = JFactory::getDbo();
@@ -250,6 +263,9 @@ class redshopModelredshop extends JModel
 		/*********************************************************/
 	}
 
+	/**
+	 * getNewcustomers
+	 */
 	public function getNewcustomers()
 	{
 		$this->_table_prefix = '#__redshop_';
@@ -259,6 +275,9 @@ class redshopModelredshop extends JModel
 		return $this->_db->loadObjectlist();
 	}
 
+	/**
+	 * getNeworders
+	 */
 	public function getNeworders()
 	{
 		$query = 'SELECT o.*,CONCAT(u.firstname," ",u.lastname) AS name FROM #__redshop_order_users_info AS u '
@@ -270,6 +289,12 @@ class redshopModelredshop extends JModel
 		return $rows;
 	}
 
+	/**
+	 * getUser
+	 *
+	 * @param $user_id
+	 *
+	 */
 	public function getUser($user_id)
 	{
 		$this->_table_prefix = '#__';
@@ -279,6 +304,12 @@ class redshopModelredshop extends JModel
 		return $this->_db->loadObject();
 	}
 
+	/**
+	 * gettotalOrder
+	 *
+	 * @param $id
+	 *
+	 */
 	public function gettotalOrder($id = 0)
 	{
 		$this->_table_prefix = '#__redshop_';
@@ -289,6 +320,12 @@ class redshopModelredshop extends JModel
 		return $this->_db->loadObject();
 	}
 
+	/**
+	 * gettotalAmount
+	 *
+	 * @param $user_id
+	 *
+	 */
 	public function gettotalAmount($user_id)
 	{
 		$this->_table_prefix = '#__redshop_';
@@ -302,6 +339,12 @@ class redshopModelredshop extends JModel
 		return $this->_db->loadObject();
 	}
 
+	/**
+	 * getavgAmount
+	 *
+	 * @param $user_id
+	 *
+	 */
 	public function getavgAmount($user_id)
 	{
 		$this->_table_prefix = '#__redshop_';
@@ -313,6 +356,12 @@ class redshopModelredshop extends JModel
 		return $this->_db->loadObject();
 	}
 
+	/**
+	 * getUserinfo
+	 *
+	 * @param $user_id
+	 *
+	 */
 	public function getUserinfo($user_id)
 	{
 		$this->_table_prefix = '#__redshop_';

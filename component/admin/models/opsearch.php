@@ -11,6 +11,13 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
+/**
+ * opsearchModelopsearch
+ *
+ * @package     RedSHOP
+ * @subpackage  Model
+ * @since       1.0
+ */
 class opsearchModelopsearch extends JModel
 {
 	public $_data = null;
@@ -23,6 +30,9 @@ class opsearchModelopsearch extends JModel
 
 	public $_context = null;
 
+	/**
+	 * __construct
+	 */
 	public function __construct()
 	{
 		parent::__construct();
@@ -45,6 +55,9 @@ class opsearchModelopsearch extends JModel
 		$this->setState('limitstart', $limitstart);
 	}
 
+	/**
+	 * getData
+	 */
 	public function getData()
 	{
 		if (empty($this->_data))
@@ -56,6 +69,9 @@ class opsearchModelopsearch extends JModel
 		return $this->_data;
 	}
 
+	/**
+	 * getTotal
+	 */
 	public function getTotal()
 	{
 		$query = $this->_buildQuery();
@@ -68,6 +84,9 @@ class opsearchModelopsearch extends JModel
 		return $this->_total;
 	}
 
+	/**
+	 * getPagination
+	 */
 	public function getPagination()
 	{
 		if (empty($this->_pagination))
@@ -79,6 +98,9 @@ class opsearchModelopsearch extends JModel
 		return $this->_pagination;
 	}
 
+	/**
+	 * _buildQuery
+	 */
 	public function _buildQuery()
 	{
 		$orderby = $this->_buildContentOrderBy();
@@ -112,6 +134,9 @@ class opsearchModelopsearch extends JModel
 		return $query;
 	}
 
+	/**
+	 * _buildContentOrderBy
+	 */
 	public function _buildContentOrderBy()
 	{
 		$db  = JFactory::getDbo();
@@ -125,6 +150,14 @@ class opsearchModelopsearch extends JModel
 		return $orderby;
 	}
 
+	/**
+	 * getuserlist
+	 *
+	 * @param $name
+	 * @param $selected
+	 * @param $attributes
+	 *
+	 */
 	public function getuserlist($name = 'userlist', $selected = '', $attributes = ' class="inputbox" size="1" ')
 	{
 		$query = "SELECT uf.users_info_id AS value, CONCAT(uf.firstname,' ',uf.lastname) AS text FROM " . $this->_table_prefix . "users_info AS uf "

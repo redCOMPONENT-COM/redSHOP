@@ -12,8 +12,18 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.model');
 require_once JPATH_COMPONENT . '/helpers/extra_field.php';
 
+/**
+ * product_categoryModelproduct_category
+ *
+ * @package     RedSHOP
+ * @subpackage  Model
+ * @since       1.0
+ */
 class product_categoryModelproduct_category extends JModel
 {
+	/**
+	 * __construct
+	 */
 	public function __construct()
 	{
 		parent::__construct();
@@ -21,6 +31,9 @@ class product_categoryModelproduct_category extends JModel
 		$this->_table_prefix = '#__redshop_';
 	}
 
+	/**
+	 * getProductlist
+	 */
 	public function getProductlist()
 	{
 		$pid = JRequest::getVar('cid', array(), 'post', 'array');
@@ -31,6 +44,9 @@ class product_categoryModelproduct_category extends JModel
 		return $this->_db->loadObjectlist();
 	}
 
+	/**
+	 * saveProduct_Category
+	 */
 	public function saveProduct_Category()
 	{
 		$pid = JRequest::getVar('cid', array(), 'post', 'array');
@@ -57,6 +73,9 @@ class product_categoryModelproduct_category extends JModel
 		return true;
 	}
 
+	/**
+	 * removeProduct_Category
+	 */
 	public function removeProduct_Category()
 	{
 		$pid = JRequest::getVar('cid', array(), 'post', 'array');
@@ -78,6 +97,13 @@ class product_categoryModelproduct_category extends JModel
 		return true;
 	}
 
+	/**
+	 * getIdfromXref
+	 *
+	 * @param $pid
+	 * @param $cid
+	 *
+	 */
 	public function getIdfromXref($pid, $cid)
 	{
 		$query = 'SELECT product_id FROM ' . $this->_table_prefix . 'product_category_xref '

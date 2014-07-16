@@ -11,6 +11,13 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
+/**
+ * questionModelquestion
+ *
+ * @package     RedSHOP
+ * @subpackage  Model
+ * @since       1.0
+ */
 class questionModelquestion extends JModel
 {
 	public $_data = null;
@@ -23,6 +30,9 @@ class questionModelquestion extends JModel
 
 	public $_context = null;
 
+	/**
+	 * __construct
+	 */
 	public function __construct()
 	{
 		parent::__construct();
@@ -44,6 +54,9 @@ class questionModelquestion extends JModel
 		$this->setState('product_id', $product_id);
 	}
 
+	/**
+	 * getData
+	 */
 	public function getData()
 	{
 		if (empty($this->_data))
@@ -55,6 +68,9 @@ class questionModelquestion extends JModel
 		return $this->_data;
 	}
 
+	/**
+	 * getTotal
+	 */
 	public function getTotal()
 	{
 		if (empty($this->_total))
@@ -66,6 +82,9 @@ class questionModelquestion extends JModel
 		return $this->_total;
 	}
 
+	/**
+	 * getPagination
+	 */
 	public function getPagination()
 	{
 		if (empty($this->_pagination))
@@ -77,6 +96,9 @@ class questionModelquestion extends JModel
 		return $this->_pagination;
 	}
 
+	/**
+	 * getProduct
+	 */
 	public function getProduct()
 	{
 		$query = "SELECT * FROM " . $this->_table_prefix . "product ";
@@ -85,6 +107,9 @@ class questionModelquestion extends JModel
 		return $list;
 	}
 
+	/**
+	 * _buildQuery
+	 */
 	public function _buildQuery()
 	{
 		$where = "";
@@ -112,6 +137,9 @@ class questionModelquestion extends JModel
 		return $query;
 	}
 
+	/**
+	 * _buildContentOrderBy
+	 */
 	public function _buildContentOrderBy()
 	{
 		$db  = JFactory::getDbo();
@@ -125,6 +153,12 @@ class questionModelquestion extends JModel
 		return $orderby;
 	}
 
+	/**
+	 * saveorder
+	 *
+	 * @param $cid
+	 *
+	 */
 	public function saveorder($cid = array(), $order)
 	{
 		$row = $this->getTable('question_detail');

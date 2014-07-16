@@ -13,6 +13,13 @@ jimport('joomla.application.component.model');
 
 require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/mail.php';
 
+/**
+ * answer_detailModelanswer_detail
+ *
+ * @package     RedSHOP
+ * @subpackage  Model
+ * @since       1.0
+ */
 class answer_detailModelanswer_detail extends JModel
 {
 	public $_id = null;
@@ -23,6 +30,9 @@ class answer_detailModelanswer_detail extends JModel
 
 	public $_table_prefix = null;
 
+	/**
+	 * __construct
+	 */
 	public function __construct()
 	{
 		parent::__construct();
@@ -33,12 +43,21 @@ class answer_detailModelanswer_detail extends JModel
 		$this->setId((int) $array[0]);
 	}
 
+	/**
+	 * setId
+	 *
+	 * @param $id
+	 *
+	 */
 	public function setId($id)
 	{
 		$this->_id = $id;
 		$this->_data = null;
 	}
 
+	/**
+	 * getData
+	 */
 	public function &getData()
 	{
 		if ($this->_loadData())
@@ -52,6 +71,9 @@ class answer_detailModelanswer_detail extends JModel
 		return $this->_data;
 	}
 
+	/**
+	 * _loadData
+	 */
 	public function _loadData()
 	{
 		$query = "SELECT q.* FROM " . $this->_table_prefix . "customer_question AS q "
@@ -62,6 +84,9 @@ class answer_detailModelanswer_detail extends JModel
 		return (boolean) $this->_data;
 	}
 
+	/**
+	 * getProduct
+	 */
 	public function getProduct()
 	{
 		$query = "SELECT * FROM " . $this->_table_prefix . "product ";
@@ -70,6 +95,9 @@ class answer_detailModelanswer_detail extends JModel
 		return $list;
 	}
 
+	/**
+	 * _initData
+	 */
 	public function _initData()
 	{
 		$user = JFactory::getUser();
@@ -288,6 +316,12 @@ class answer_detailModelanswer_detail extends JModel
 		return true;
 	}
 
+	/**
+	 * sendMailForAskQuestion
+	 *
+	 * @param $ansid
+	 *
+	 */
 	public function sendMailForAskQuestion($ansid)
 	{
 		$redshopMail = new redshopMail;

@@ -11,6 +11,13 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
+/**
+ * wrapperModelwrapper
+ *
+ * @package     RedSHOP
+ * @subpackage  Model
+ * @since       1.0
+ */
 class wrapperModelwrapper extends JModel
 {
 	public $_productid = 0;
@@ -25,6 +32,9 @@ class wrapperModelwrapper extends JModel
 
 	public $_context = null;
 
+	/**
+	 * __construct
+	 */
 	public function __construct()
 	{
 		parent::__construct();
@@ -43,12 +53,21 @@ class wrapperModelwrapper extends JModel
 		$this->setProductId((int) $product_id);
 	}
 
+	/**
+	 * setProductId
+	 *
+	 * @param $id
+	 *
+	 */
 	public function setProductId($id)
 	{
 		$this->_productid = $id;
 		$this->_data = null;
 	}
 
+	/**
+	 * getData
+	 */
 	public function getData()
 	{
 		if (empty($this->_data))
@@ -60,6 +79,9 @@ class wrapperModelwrapper extends JModel
 		return $this->_data;
 	}
 
+	/**
+	 * getTotal
+	 */
 	public function getTotal()
 	{
 		if (empty($this->_total))
@@ -71,6 +93,9 @@ class wrapperModelwrapper extends JModel
 		return $this->_total;
 	}
 
+	/**
+	 * getPagination
+	 */
 	public function getPagination()
 	{
 		if (empty($this->_pagination))
@@ -82,6 +107,9 @@ class wrapperModelwrapper extends JModel
 		return $this->_pagination;
 	}
 
+	/**
+	 * _buildQuery
+	 */
 	public function _buildQuery()
 	{
 		$showall = JRequest::getVar('showall', '0');

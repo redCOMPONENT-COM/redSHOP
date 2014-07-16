@@ -28,6 +28,9 @@ class barcodeModelbarcode extends JModel
 
 	public $_loglist = null;
 
+	/**
+	 * __construct
+	 */
 	public function __construct()
 	{
 		parent::__construct();
@@ -36,6 +39,12 @@ class barcodeModelbarcode extends JModel
 		$this->_table_prefix = '#__redshop_';
 	}
 
+	/**
+	 * save
+	 *
+	 * @param $data
+	 *
+	 */
 	public function save($data)
 	{
 		$row = & $this->getTable('barcode');
@@ -55,6 +64,12 @@ class barcodeModelbarcode extends JModel
 		}
 	}
 
+	/**
+	 * checkorder
+	 *
+	 * @param $barcode
+	 *
+	 */
 	public function checkorder($barcode)
 	{
 		$query = "SELECT order_id  FROM " . $this->_table_prefix . "orders where barcode='" . $barcode . "'";
@@ -69,6 +84,12 @@ class barcodeModelbarcode extends JModel
 		return $order;
 	}
 
+	/**
+	 * getLog
+	 *
+	 * @param $order_id
+	 *
+	 */
 	public function getLog($order_id)
 	{
 		$query = "SELECT count(*) as log FROM " . $this->_table_prefix . "orderbarcode_log where order_id=" . $order_id;
@@ -77,6 +98,12 @@ class barcodeModelbarcode extends JModel
 		return $this->_db->loadObject();
 	}
 
+	/**
+	 * getLogdetail
+	 *
+	 * @param $order_id
+	 *
+	 */
 	public function getLogdetail($order_id)
 	{
 		$logquery = "SELECT *  FROM " . $this->_table_prefix . "orderbarcode_log where order_id=" . $order_id;
@@ -85,6 +112,12 @@ class barcodeModelbarcode extends JModel
 		return $this->_db->loadObjectlist();
 	}
 
+	/**
+	 * getUser
+	 *
+	 * @param $user_id
+	 *
+	 */
 	public function getUser($user_id)
 	{
 
@@ -95,6 +128,13 @@ class barcodeModelbarcode extends JModel
 		return $this->_db->loadObject();
 	}
 
+	/**
+	 * updateorderstatus
+	 *
+	 * @param $barcode
+	 * @param $order_id
+	 *
+	 */
 	public function updateorderstatus($barcode, $order_id)
 	{
 		$update_query = "UPDATE " . $this->_table_prefix . "orders SET order_status = 'S' where barcode='"
