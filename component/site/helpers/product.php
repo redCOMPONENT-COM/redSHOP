@@ -18,6 +18,13 @@ JLoader::import('quotation', JPATH_ADMINISTRATOR . '/components/com_redshop/help
 JLoader::import('template', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
 JLoader::import('stockroom', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
 
+/**
+ * producthelper
+ *
+ * @package     RedSHOP
+ * @subpackage  Helper
+ * @since       1.0
+ */
 class producthelper
 {
 	public $_db = null;
@@ -56,6 +63,9 @@ class producthelper
 
 	public $_discount_product_data = null;
 
+	/**
+	 * __construct
+	 */
 	function __construct()
 	{
 		$this->_db           = JFactory::getDbo();
@@ -64,6 +74,12 @@ class producthelper
 		$this->_session      = JFactory::getSession();
 	}
 
+	/**
+	 * getWishlistmodule
+	 *
+	 * @param $menu_id
+	 *
+	 */
 	public function getWishlistmodule($menu_id)
 	{
 		$query = 'SELECT * FROM #__extensions WHERE element = "' . $menu_id . '" ';
@@ -73,6 +89,13 @@ class producthelper
 		return $result;
 	}
 
+	/**
+	 * getwishlistuserfieldata
+	 *
+	 * @param $wishlistid
+	 * @param $productid
+	 *
+	 */
 	public function getwishlistuserfieldata($wishlistid, $productid)
 	{
 		$query = 'SELECT * FROM #__redshop_wishlist_userfielddata  WHERE wishlist_id = '
@@ -83,6 +106,12 @@ class producthelper
 		return $result;
 	}
 
+	/**
+	 * getProductById
+	 *
+	 * @param $product_id
+	 *
+	 */
 	public function getProductById($product_id)
 	{
 		$query = $this->_db->getQuery(true);
@@ -96,6 +125,12 @@ class producthelper
 		return $this->_db->loadObject();
 	}
 
+	/**
+	 * country_in_eu_common_vat_zone
+	 *
+	 * @param $country
+	 *
+	 */
 	public function country_in_eu_common_vat_zone($country)
 	{
 		$eu_countries = array('AUT', 'BGR', 'BEL', 'CYP', 'CZE', 'DEU', 'DNK', 'ESP', 'EST',
@@ -105,6 +140,14 @@ class producthelper
 		return in_array($country, $eu_countries);
 	}
 
+	/**
+	 * getProductPrices
+	 *
+	 * @param $product_id
+	 * @param $userid
+	 * @param $quantity
+	 *
+	 */
 	public function getProductPrices($product_id, $userid, $quantity = 1)
 	{
 		$leftjoin = "";
@@ -168,6 +211,14 @@ class producthelper
 		return $result;
 	}
 
+	/**
+	 * getProductSpecialPrice
+	 *
+	 * @param $product_price
+	 * @param $discount_product_id
+	 * @param $product_id
+	 *
+	 */
 	public function getProductSpecialPrice($product_price, $discount_product_id, $product_id = 0)
 	{
 		$db = JFactory::getDbo();
@@ -269,6 +320,12 @@ class producthelper
 		return $result;
 	}
 
+	/**
+	 * getProductSpecialId
+	 *
+	 * @param $userid
+	 *
+	 */
 	public function getProductSpecialId($userid)
 	{
 		if ($userid)
@@ -317,6 +374,15 @@ class producthelper
 		return $discount_product_id;
 	}
 
+	/**
+	 * getProductTax
+	 *
+	 * @param $product_id
+	 * @param $product_price
+	 * @param $user_id
+	 * @param $tax_exempt
+	 *
+	 */
 	public function getProductTax($product_id = 0, $product_price = 0, $user_id = 0, $tax_exempt = 0)
 	{
 		$userArr = $this->_session->get('rs_user');
@@ -402,6 +468,12 @@ class producthelper
 		return $protax;
 	}
 
+	/**
+	 * replaceVatinfo
+	 *
+	 * @param $data_add
+	 *
+	 */
 	public function replaceVatinfo($data_add)
 	{
 		if (strstr($data_add, "{vat_info}"))
@@ -424,6 +496,13 @@ class producthelper
 		return $data_add;
 	}
 
+	/**
+	 * taxexempt_addtocart
+	 *
+	 * @param $user_id
+	 * @param $btn_show_addto_cart
+	 *
+	 */
 	public function taxexempt_addtocart($user_id = 0, $btn_show_addto_cart = 0)
 	{
 		$user = JFactory::getUser();
@@ -467,6 +546,12 @@ class producthelper
 		return true;
 	}
 
+	/**
+	 * getVatUserinfo
+	 *
+	 * @param $user_id
+	 *
+	 */
 	public function getVatUserinfo($user_id = 0)
 	{
 		$user = JFactory::getUser();
@@ -537,6 +622,14 @@ class producthelper
 		return $userdata;
 	}
 
+	/**
+	 * getVatRates
+	 *
+	 * @param $product_id
+	 * @param $user_id
+	 * @param $vat_rate_id
+	 *
+	 */
 	public function getVatRates($product_id = 0, $user_id = 0, $vat_rate_id = 0)
 	{
 		$db   = JFactory::getDbo();
@@ -618,6 +711,14 @@ class producthelper
 	}
 
 	// Get Vat for Googlebase xml
+	/**
+	 * getGoogleVatRates
+	 *
+	 * @param $product_id
+	 * @param $product_price
+	 * @param $tax_exempt
+	 *
+	 */
 	public function getGoogleVatRates($product_id = 0, $product_price = 0, $tax_exempt = 0)
 	{
 		$db = JFactory::getDbo();
@@ -725,6 +826,12 @@ class producthelper
 		return $template_data;
 	}
 
+	/**
+	 * getPriceReplacement
+	 *
+	 * @param $product_price
+	 *
+	 */
 	public function getPriceReplacement($product_price)
 	{
 		$return = "";
@@ -811,6 +918,12 @@ class producthelper
 		return $price;
 	}
 
+	/**
+	 * productPriceRound
+	 *
+	 * @param $product_price
+	 *
+	 */
 	public function productPriceRound($product_price)
 	{
 		$cal_no = 4;
@@ -825,6 +938,12 @@ class producthelper
 		return $product_price;
 	}
 
+	/**
+	 * getProductparentImage
+	 *
+	 * @param $product_parent_id
+	 *
+	 */
 	public function getProductparentImage($product_parent_id)
 	{
 		$result = $this->getProductById($product_parent_id);
@@ -837,6 +956,18 @@ class producthelper
 		return $result;
 	}
 
+	/**
+	 * getProductImage
+	 *
+	 * @param $product_id
+	 * @param $link
+	 * @param $width
+	 * @param $height
+	 * @param $Product_detail_is_light
+	 * @param $enableHover
+	 * @param $suffixid
+	 *
+	 */
 	public function getProductImage($product_id = 0, $link = '', $width, $height, $Product_detail_is_light = 2, $enableHover = 0, $suffixid = 0)
 	{
 		$thum_image      = '';
@@ -1022,6 +1153,20 @@ class producthelper
 		return $thum_image;
 	}
 
+	/**
+	 * replaceProductImage
+	 *
+	 * @param $product
+	 * @param $imagename
+	 * @param $linkimagename
+	 * @param $link
+	 * @param $width
+	 * @param $height
+	 * @param $Product_detail_is_light
+	 * @param $enableHover
+	 * @param $preselectedResult
+	 *
+	 */
 	public function replaceProductImage($product, $imagename = "", $linkimagename = "", $link = "", $width, $height, $Product_detail_is_light = 2, $enableHover = 0, $preselectedResult = array(), $suffixid = 0)
 	{
 		$url           = JURI::root();
@@ -1145,6 +1290,16 @@ class producthelper
 		return $thum_image;
 	}
 
+	/**
+	 * getProductCategoryImage
+	 *
+	 * @param $product_id
+	 * @param $category_img
+	 * @param $link
+	 * @param $width
+	 * @param $height
+	 *
+	 */
 	public function getProductCategoryImage($product_id = 0, $category_img = '', $link = '', $width, $height)
 	{
 		$redhelper  = new redhelper;
@@ -1178,6 +1333,15 @@ class producthelper
 		return $thum_image;
 	}
 
+	/**
+	 * getProductMinDeliveryTime
+	 *
+	 * @param $product_id
+	 * @param $section_id
+	 * @param $section
+	 * @param $loadDiv
+	 *
+	 */
 	public function getProductMinDeliveryTime($product_id = 0, $section_id = 0, $section = '', $loadDiv = 1)
 	{
 		$helper = new redhelper;
@@ -1305,6 +1469,13 @@ class producthelper
 		return $product_delivery_time;
 	}
 
+	/**
+	 * GetDefaultQuantity
+	 *
+	 * @param $product_id
+	 * @param $data_add
+	 *
+	 */
 	public function GetDefaultQuantity($product_id = 0, $data_add = "")
 	{
 		$cart_template = $this->getAddtoCartTemplate($data_add);
@@ -1337,6 +1508,17 @@ class producthelper
 		return $qunselect;
 	}
 
+	/**
+	 * GetProductShowPrice
+	 *
+	 * @param $product_id
+	 * @param $data_add
+	 * @param $seoTemplate
+	 * @param $user_id
+	 * @param $isrel
+	 * @param $attributes
+	 *
+	 */
 	public function GetProductShowPrice($product_id, $data_add, $seoTemplate = "", $user_id = 0, $isrel = 0, $attributes = array())
 	{
 		$product_price                  = '';
@@ -1483,6 +1665,16 @@ class producthelper
 		return $data_add;
 	}
 
+	/**
+	 * getProductNetPrice
+	 *
+	 * @param $product_id
+	 * @param $user_id
+	 * @param $quantity
+	 * @param $data_add
+	 * @param $attributes
+	 *
+	 */
 	public function getProductNetPrice($product_id, $user_id = 0, $quantity = 1, $data_add = '', $attributes = array())
 	{
 		$user = JFactory::getUser();
@@ -1708,6 +1900,13 @@ class producthelper
 		return $ProductPriceArr;
 	}
 
+	/**
+	 * getProductQuantityPrice
+	 *
+	 * @param $product_id
+	 * @param $userid
+	 *
+	 */
 	public function getProductQuantityPrice($product_id, $userid)
 	{
 		$userArr = $this->_session->get('rs_user');
@@ -1767,6 +1966,13 @@ class producthelper
 		return $quantitytable;
 	}
 
+	/**
+	 * getDiscountId
+	 *
+	 * @param $subtotal
+	 * @param $user_id
+	 *
+	 */
 	public function getDiscountId($subtotal = 0, $user_id = 0)
 	{
 		$db   = JFactory::getDbo();
@@ -1839,6 +2045,12 @@ class producthelper
 		return;
 	}
 
+	/**
+	 * getDiscountAmount
+	 *
+	 * @param $cart
+	 *
+	 */
 	public function getDiscountAmount($cart = array(), $user_id = 0)
 	{
 		$user = JFactory::getUser();
@@ -1888,6 +2100,14 @@ class producthelper
 		return $discount_amount;
 	}
 
+	/**
+	 * getProductPrice
+	 *
+	 * @param $product_id
+	 * @param $show_price_with_vat
+	 * @param $user_id
+	 *
+	 */
 	public function getProductPrice($product_id, $show_price_with_vat = 1, $user_id = 0)
 	{
 		$user = JFactory::getUser();
@@ -1945,6 +2165,14 @@ class producthelper
 		return $product_price;
 	}
 
+	/**
+	 * getAdditionMediaImage
+	 *
+	 * @param $section_id
+	 * @param $section
+	 * @param $mediaType
+	 *
+	 */
 	public function getAdditionMediaImage($section_id = 0, $section = "", $mediaType = "images")
 	{
 		$db = JFactory::getDbo();
@@ -1981,6 +2209,16 @@ class producthelper
 		return $list;
 	}
 
+	/**
+	 * getAltText
+	 *
+	 * @param $media_section
+	 * @param $section_id
+	 * @param $media_name
+	 * @param $media_id
+	 * @param $mediaType
+	 *
+	 */
 	public function getAltText($media_section, $section_id, $media_name = '', $media_id = 0, $mediaType = "images")
 	{
 		$db = JFactory::getDbo();
@@ -2013,6 +2251,14 @@ class producthelper
 		return $mediadata->media_alternate_text;
 	}
 
+	/**
+	 * getUserInformation
+	 *
+	 * @param $userid
+	 * @param $address_type
+	 * @param $rs_user_info_id
+	 *
+	 */
 	public function getUserInformation($userid = 0, $address_type = 'BT', $rs_user_info_id = 0)
 	{
 		$list = array();
@@ -2048,6 +2294,13 @@ class producthelper
 		return $list;
 	}
 
+	/**
+	 * getApplyVatOrNot
+	 *
+	 * @param $data_add
+	 * @param $user_id
+	 *
+	 */
 	public function getApplyVatOrNot($data_add = "", $user_id = 0)
 	{
 		$user            = JFactory::getUser();
@@ -2088,6 +2341,13 @@ class producthelper
 		return true;
 	}
 
+	/**
+	 * getApplyattributeVatOrNot
+	 *
+	 * @param $data_add
+	 * @param $user_id
+	 *
+	 */
 	public function getApplyattributeVatOrNot($data_add = "", $user_id = 0)
 	{
 		$user            = JFactory::getUser();
@@ -2132,6 +2392,9 @@ class producthelper
 		return true;
 	}
 
+	/**
+	 * GetdefaultshopperGroupData
+	 */
 	public function GetdefaultshopperGroupData()
 	{
 		$list           = array();
@@ -2146,6 +2409,12 @@ class producthelper
 		return $list;
 	}
 
+	/**
+	 * checkDiscountDate
+	 *
+	 * @param $productid
+	 *
+	 */
 	public function checkDiscountDate($productid = 0)
 	{
 		$discountprice = 0;
@@ -2184,6 +2453,15 @@ class producthelper
 		return $discountprice;
 	}
 
+	/**
+	 * getPropertyPrice
+	 *
+	 * @param $section_id
+	 * @param $quantity
+	 * @param $section
+	 * @param $user_id
+	 *
+	 */
 	public function getPropertyPrice($section_id = '', $quantity = '', $section = '', $user_id = 0)
 	{
 		$db = JFactory::getDbo();
@@ -2240,6 +2518,13 @@ class producthelper
 		return $result;
 	}
 
+	/**
+	 * getProperty
+	 *
+	 * @param $section_id
+	 * @param $section
+	 *
+	 */
 	public function getProperty($section_id, $section)
 	{
 		if ($section == 'property')
@@ -2264,6 +2549,14 @@ class producthelper
 		return $result;
 	}
 
+	/**
+	 * getWrapper
+	 *
+	 * @param $product_id
+	 * @param $wrapper_id
+	 * @param $default
+	 *
+	 */
 	public function getWrapper($product_id, $wrapper_id = 0, $default = 1)
 	{
 		$usetoall = "";
@@ -2300,6 +2593,12 @@ class producthelper
 		return $list;
 	}
 
+	/**
+	 * getBreadcrumbPathway
+	 *
+	 * @param $category
+	 *
+	 */
 	public function getBreadcrumbPathway($category = array())
 	{
 		$pathway_items = array();
@@ -2315,6 +2614,12 @@ class producthelper
 		return $pathway_items;
 	}
 
+	/**
+	 * getCategoryNavigationlist
+	 *
+	 * @param $category_id
+	 *
+	 */
 	public function getCategoryNavigationlist($category_id)
 	{
 		$redhelper = new redhelper;
@@ -2351,6 +2656,12 @@ class producthelper
 		return $category_list;
 	}
 
+	/**
+	 * generateBreadcrumb
+	 *
+	 * @param $sectionid
+	 *
+	 */
 	public function generateBreadcrumb($sectionid = 0)
 	{
 		$app     = JFactory::getApplication();
@@ -2648,6 +2959,13 @@ class producthelper
 		}
 	}
 
+	/**
+	 * getSection
+	 *
+	 * @param $section
+	 * @param $id
+	 *
+	 */
 	public function getSection($section = "", $id = 0)
 	{
 		// To avoid killing queries do not allow queries that get all the items
@@ -2666,6 +2984,12 @@ class producthelper
 		return null;
 	}
 
+	/**
+	 * getMenuDetail
+	 *
+	 * @param $link
+	 *
+	 */
 	public function getMenuDetail($link = "")
 	{
 		// Do not allow queries that load all the items
@@ -2684,6 +3008,16 @@ class producthelper
 		return null;
 	}
 
+	/**
+	 * getMenuInformation
+	 *
+	 * @param $Itemid
+	 * @param $sectionid
+	 * @param $sectioname
+	 * @param $menuview
+	 * @param $isRedshop
+	 *
+	 */
 	public function getMenuInformation($Itemid = 0, $sectionid = 0, $sectioname = "", $menuview = "", $isRedshop = true)
 	{
 		$and = "";
@@ -2729,6 +3063,12 @@ class producthelper
 		return $res;
 	}
 
+	/**
+	 * getParentCategory
+	 *
+	 * @param $id
+	 *
+	 */
 	public function getParentCategory($id = 0)
 	{
 		$query = "SELECT category_parent_id FROM " . $this->_table_prefix . "category_xref WHERE category_child_id = " . (int) $id . " ";
@@ -2738,6 +3078,12 @@ class producthelper
 		return $res;
 	}
 
+	/**
+	 * getCategoryProduct
+	 *
+	 * @param $id
+	 *
+	 */
 	public function getCategoryProduct($id = 0)
 	{
 		$query = "SELECT category_id FROM " . $this->_table_prefix . "product_category_xref WHERE product_id = " . (int) $id . " ";
@@ -2747,6 +3093,12 @@ class producthelper
 		return $res;
 	}
 
+	/**
+	 * getProductCategory
+	 *
+	 * @param $id
+	 *
+	 */
 	public function getProductCategory($id = 0)
 	{
 		$rsUserhelper               = new rsUserhelper;
@@ -2796,6 +3148,12 @@ class producthelper
 			return $res->product_download;
 	}
 
+	/**
+	 * getProductMediaName
+	 *
+	 * @param $product_id
+	 *
+	 */
 	public function getProductMediaName($product_id)
 	{
 		$query = 'SELECT media_name FROM ' . $this->_table_prefix . 'media '
@@ -2808,6 +3166,14 @@ class producthelper
 		return $res;
 	}
 
+	/**
+	 * updateContainerStock
+	 *
+	 * @param $product_id
+	 * @param $quantity
+	 * @param $container_id
+	 *
+	 */
 	public function updateContainerStock($product_id, $quantity, $container_id)
 	{
 		// Subtracting the products from the container. means decreasing stock
@@ -2829,6 +3195,12 @@ class producthelper
 		// Subtracting the products from the container. means decreasing stock end
 	}
 
+	/**
+	 * getGiftcardData
+	 *
+	 * @param $gid
+	 *
+	 */
 	public function getGiftcardData($gid)
 	{
 		$query = "SELECT * FROM " . $this->_table_prefix . "giftcard "
@@ -2839,6 +3211,13 @@ class producthelper
 		return $res;
 	}
 
+	/**
+	 * getValidityDate
+	 *
+	 * @param $period
+	 * @param $data
+	 *
+	 */
 	public function getValidityDate($period, $data)
 	{
 		$todate = mktime(0, 0, 0, date('m'), date('d') + $period, date('Y'));
@@ -2853,6 +3232,16 @@ class producthelper
 		return $data;
 	}
 
+	/**
+	 * getAccessoryPrice
+	 *
+	 * @param $product_id
+	 * @param $accessory_price
+	 * @param $accessory_main_price
+	 * @param $vat
+	 * @param $user_id
+	 *
+	 */
 	public function getAccessoryPrice($product_id = 0, $accessory_price = 0, $accessory_main_price = 0, $vat = 0, $user_id = 0)
 	{
 		$return = array();
@@ -2902,6 +3291,13 @@ class producthelper
 		return $return;
 	}
 
+	/**
+	 * getuserfield
+	 *
+	 * @param $orderitemid
+	 * @param $section_id
+	 *
+	 */
 	public function getuserfield($orderitemid = 0, $section_id = 12)
 	{
 		$redTemplate     = new Redtemplate;
@@ -2966,6 +3362,13 @@ class producthelper
 		return $resultstr;
 	}
 
+	/**
+	 * getProductUserfieldFromTemplate
+	 *
+	 * @param $templatedata
+	 * @param $giftcard
+	 *
+	 */
 	public function getProductUserfieldFromTemplate($templatedata = "", $giftcard = 0)
 	{
 		$userfields      = array();
@@ -3044,6 +3447,13 @@ class producthelper
 		return $retArr;
 	}
 
+	/**
+	 * GetProdcutUserfield
+	 *
+	 * @param $id
+	 * @param $section_id
+	 *
+	 */
 	public function GetProdcutUserfield($id = 'NULL', $section_id = 12)
 	{
 		$extraField  = new extraField;
@@ -3107,6 +3517,13 @@ class producthelper
 		return $resultstr;
 	}
 
+	/**
+	 * GetProdcutfield
+	 *
+	 * @param $id
+	 * @param $section_id
+	 *
+	 */
 	public function GetProdcutfield($id = 'NULL', $section_id = 1)
 	{
 		$extraField = new extraField;
@@ -3139,6 +3556,13 @@ class producthelper
 		return $resultstr;
 	}
 
+	/**
+	 * GetProdcutfield_order
+	 *
+	 * @param $orderitemid
+	 * @param $section_id
+	 *
+	 */
 	public function GetProdcutfield_order($orderitemid = 'NULL', $section_id = 1)
 	{
 		$extraField      = new extraField;
@@ -3174,6 +3598,13 @@ class producthelper
 		return $resultstr;
 	}
 
+	/**
+	 * insertProdcutUserfield
+	 *
+	 * @param $id
+	 * @param $cart
+	 *
+	 */
 	public function insertProdcutUserfield($id = 'NULL', $cart = array(), $order_item_id = 0, $section_id = 12)
 	{
 		$db = JFactory::getDbo();
@@ -3202,6 +3633,17 @@ class producthelper
 		return;
 	}
 
+	/**
+	 * getProductAttribute
+	 *
+	 * @param $product_id
+	 * @param $attribute_set_id
+	 * @param $attribute_id
+	 * @param $published
+	 * @param $attribute_required
+	 * @param $notAttributeId
+	 *
+	 */
 	public function getProductAttribute($product_id = 0, $attribute_set_id = 0, $attribute_id = 0, $published = 0, $attribute_required = 0, $notAttributeId = 0)
 	{
 		$and          = "";
@@ -3254,6 +3696,17 @@ class producthelper
 		return $list;
 	}
 
+	/**
+	 * getAttibuteProperty
+	 *
+	 * @param $property_id
+	 * @param $attribute_id
+	 * @param $product_id
+	 * @param $attribute_set_id
+	 * @param $required
+	 * @param $notPropertyId
+	 *
+	 */
 	public function getAttibuteProperty($property_id = 0, $attribute_id = 0, $product_id = 0, $attribute_set_id = 0, $required = 0, $notPropertyId = 0)
 	{
 		$and = "";
@@ -3320,6 +3773,12 @@ class producthelper
 		return $list;
 	}
 
+	/**
+	 * getAttibutePropertyWithStock
+	 *
+	 * @param $property
+	 *
+	 */
 	public function getAttibutePropertyWithStock($property)
 	{
 		$stockroomhelper     = new rsstockroomhelper;
@@ -3338,6 +3797,12 @@ class producthelper
 		return $property_with_stock;
 	}
 
+	/**
+	 * getAttibuteSubPropertyWithStock
+	 *
+	 * @param $subproperty
+	 *
+	 */
 	public function getAttibuteSubPropertyWithStock($subproperty)
 	{
 		$stockroomhelper        = new rsstockroomhelper;
@@ -3356,6 +3821,13 @@ class producthelper
 		return $subproperty_with_stock;
 	}
 
+	/**
+	 * getAttibuteSubProperty
+	 *
+	 * @param $subproperty_id
+	 * @param $property_id
+	 *
+	 */
 	public function getAttibuteSubProperty($subproperty_id = 0, $property_id = 0)
 	{
 		$and = "";
@@ -3383,6 +3855,13 @@ class producthelper
 		return $list;
 	}
 
+	/**
+	 * getAttributeTemplate
+	 *
+	 * @param $data_add
+	 * @param $display
+	 *
+	 */
 	public function getAttributeTemplate($data_add = "", $display = true)
 	{
 		$attribute_template      = array();
@@ -3439,6 +3918,15 @@ class producthelper
 		return $attribute_template_data;
 	}
 
+	/**
+	 * getProductAccessory
+	 *
+	 * @param $accessory_id
+	 * @param $product_id
+	 * @param $child_product_id
+	 * @param $cid
+	 *
+	 */
 	public function getProductAccessory($accessory_id = 0, $product_id = 0, $child_product_id = 0, $cid = 0)
 	{
 		$orderby = "ORDER BY child_product_id ASC";
@@ -3513,6 +4001,15 @@ class producthelper
 		return $list;
 	}
 
+	/**
+	 * getProductNavigator
+	 *
+	 * @param $accessory_id
+	 * @param $product_id
+	 * @param $child_product_id
+	 * @param $cid
+	 *
+	 */
 	public function getProductNavigator($accessory_id = 0, $product_id = 0, $child_product_id = 0, $cid = 0)
 	{
 		$orderby = "ORDER BY ordering ASC";
@@ -3541,6 +4038,12 @@ class producthelper
 		return $list;
 	}
 
+	/**
+	 * getAddtoCartTemplate
+	 *
+	 * @param $data_add
+	 *
+	 */
 	public function getAddtoCartTemplate($data_add = "")
 	{
 		$redTemplate = new Redtemplate;
@@ -3577,6 +4080,12 @@ class producthelper
 		return $cart_template_data;
 	}
 
+	/**
+	 * getAccessoryTemplate
+	 *
+	 * @param $data_add
+	 *
+	 */
 	public function getAccessoryTemplate($data_add = "")
 	{
 		$redTemplate = new Redtemplate;
@@ -3613,6 +4122,12 @@ class producthelper
 		return $acc_template_data;
 	}
 
+	/**
+	 * getRelatedProductTemplate
+	 *
+	 * @param $data_add
+	 *
+	 */
 	public function getRelatedProductTemplate($data_add = "")
 	{
 		$redTemplate   = new Redtemplate;
@@ -3637,6 +4152,13 @@ class producthelper
 		return $template_data;
 	}
 
+	/**
+	 * getRelatedProduct
+	 *
+	 * @param $product_id
+	 * @param $related_id
+	 *
+	 */
 	public function getRelatedProduct($product_id = 0, $related_id = 0)
 	{
 		$helper          = new redhelper;
@@ -3782,6 +4304,13 @@ class producthelper
 		return $list;
 	}
 
+	/**
+	 * makeTotalPriceByOprand
+	 *
+	 * @param $price
+	 * @param $oprandArr
+	 *
+	 */
 	public function makeTotalPriceByOprand($price = 0, $oprandArr = array(), $priceArr = array())
 	{
 		$setEqual = true;
@@ -3822,6 +4351,12 @@ class producthelper
 		return $retArr;
 	}
 
+	/**
+	 * getProductOnSaleComment
+	 *
+	 * @param $product
+	 *
+	 */
 	public function getProductOnSaleComment($product = array(), $data_add = "")
 	{
 		$redconfig = new Redconfiguration;
@@ -3850,6 +4385,12 @@ class producthelper
 		return $data_add;
 	}
 
+	/**
+	 * getProductNotForSaleComment
+	 *
+	 * @param $product
+	 *
+	 */
 	public function getProductNotForSaleComment($product = array(), $data_add = "", $attributes = array(), $is_relatedproduct = 0, $seoTemplate = "")
 	{
 		if (!$product->not_for_sale)
@@ -3884,6 +4425,12 @@ class producthelper
 		return $data_add;
 	}
 
+	/**
+	 * getSpecialProductComment
+	 *
+	 * @param $product
+	 *
+	 */
 	public function getSpecialProductComment($product = array(), $data_add = "")
 	{
 		if (strstr($data_add, "{if product_special}") && strstr($data_add, "{product_special end if}"))
@@ -3902,6 +4449,12 @@ class producthelper
 		return $data_add;
 	}
 
+	/**
+	 * getAjaxDetailboxTemplate
+	 *
+	 * @param $product
+	 *
+	 */
 	public function getAjaxDetailboxTemplate($product = array())
 	{
 		if (!AJAX_CART_BOX)
@@ -3948,6 +4501,14 @@ class producthelper
 		return $this->_ajaxdetail_templatedata;
 	}
 
+	/**
+	 * replaceAccessoryData
+	 *
+	 * @param $product_id
+	 * @param $relproduct_id
+	 * @param $accessory
+	 *
+	 */
 	public function replaceAccessoryData($product_id = 0, $relproduct_id = 0, $accessory = array(), $data_add, $isChilds = false, $selectAcc = array())
 	{
 		$user_id   = 0;
@@ -4430,6 +4991,15 @@ class producthelper
 		return $data_add;
 	}
 
+	/**
+	 * replaceAttributewithCartData
+	 *
+	 * @param $product_id
+	 * @param $accessory_id
+	 * @param $relproduct_id
+	 * @param $attributes
+	 *
+	 */
 	public function replaceAttributewithCartData($product_id = 0, $accessory_id = 0, $relproduct_id = 0, $attributes = array(), $data_add, $attribute_template = array(), $isChilds = false)
 	{
 		$user_id         = 0;
@@ -4666,6 +5236,14 @@ class producthelper
 		return $data_add;
 	}
 
+	/**
+	 * get_hidden_attribute_cartimage
+	 *
+	 * @param $product_id
+	 * @param $property_id
+	 * @param $subproperty_id
+	 *
+	 */
 	public function get_hidden_attribute_cartimage($product_id, $property_id, $subproperty_id)
 	{
 		$url      = JURI::base();
@@ -4695,6 +5273,15 @@ class producthelper
 		return $attrbimg;
 	}
 
+	/**
+	 * replaceAttributeData
+	 *
+	 * @param $product_id
+	 * @param $accessory_id
+	 * @param $relproduct_id
+	 * @param $attributes
+	 *
+	 */
 	public function replaceAttributeData($product_id = 0, $accessory_id = 0, $relproduct_id = 0, $attributes = array(), $data_add, $attribute_template = array(), $isChilds = false, $selectAtt = array(), $displayIndCart = 1, $category_id = 0)
 	{
 		$user_id         = 0;
@@ -5215,6 +5802,19 @@ class producthelper
 		return $data_add;
 	}
 
+	/**
+	 * replaceSubPropertyData
+	 *
+	 * @param $product_id
+	 * @param $accessory_id
+	 * @param $relatedprd_id
+	 * @param $attribute_id
+	 * @param $property_id
+	 * @param $subatthtml
+	 * @param $layout
+	 * @param $selectSubproperty
+	 *
+	 */
 	public function replaceSubPropertyData($product_id = 0, $accessory_id = 0, $relatedprd_id = 0, $attribute_id = 0, $property_id = 0, $subatthtml = "", $layout = "", $selectSubproperty = array())
 	{
 		$redTemplate     = new Redtemplate;
@@ -5609,6 +6209,17 @@ class producthelper
 		return $attribute_table;
 	}
 
+	/**
+	 * defaultAttributeDataPrice
+	 *
+	 * @param $product_id
+	 * @param $product_showprice
+	 * @param $data_add
+	 * @param $user_id
+	 * @param $applyTax
+	 * @param $attributes
+	 *
+	 */
 	public function defaultAttributeDataPrice($product_id = 0, $product_showprice = 0, $data_add, $user_id = 0, $applyTax = 0, $attributes = array())
 	{
 		if (count($attributes) <= 0 || INDIVIDUAL_ADD_TO_CART_ENABLE)
@@ -5711,6 +6322,18 @@ class producthelper
 		return $product_showprice;
 	}
 
+	/**
+	 * replacePropertyAddtoCart
+	 *
+	 * @param $product_id
+	 * @param $property_id
+	 * @param $category_id
+	 * @param $commonid
+	 * @param $property_stock
+	 * @param $property_data
+	 * @param $cart_template
+	 *
+	 */
 	public function replacePropertyAddtoCart($product_id = 0, $property_id = 0, $category_id = 0, $commonid = "", $property_stock = 0, $property_data = "", $cart_template = array(), $data_add = "")
 	{
 		$user_id         = 0;
@@ -5930,6 +6553,18 @@ class producthelper
 		return $property_data;
 	}
 
+	/**
+	 * replaceCartTemplate
+	 *
+	 * @param $product_id
+	 * @param $category_id
+	 * @param $accessory_id
+	 * @param $relproduct_id
+	 * @param $data_add
+	 * @param $isChilds
+	 * @param $userfieldArr
+	 *
+	 */
 	public function replaceCartTemplate($product_id = 0, $category_id = 0, $accessory_id = 0, $relproduct_id = 0, $data_add = "", $isChilds = false, $userfieldArr = array(), $totalatt = 0, $totalAccessory = 0, $count_no_user_field = 0, $module_id = 0, $giftcard_id = 0)
 	{
 		$user_id         = 0;
@@ -6796,6 +7431,13 @@ class producthelper
 		return $data_add;
 	}
 
+	/**
+	 * replaceWishlistButton
+	 *
+	 * @param $product_id
+	 * @param $data_add
+	 *
+	 */
 	public function replaceWishlistButton($product_id = 0, $data_add = "")
 	{
 		$my_wishlist = '';
@@ -6885,6 +7527,15 @@ class producthelper
 		return $data_add;
 	}
 
+	/**
+	 * replaceCompareProductsButton
+	 *
+	 * @param $product_id
+	 * @param $category_id
+	 * @param $data_add
+	 * @param $is_relatedproduct
+	 *
+	 */
 	public function replaceCompareProductsButton($product_id = 0, $category_id = 0, $data_add = "", $is_relatedproduct = 0)
 	{
 		$Itemid = JRequest::getInt('Itemid');
@@ -6927,6 +7578,12 @@ class producthelper
 		return $data_add;
 	}
 
+	/**
+	 * makeAccessoryCart
+	 *
+	 * @param $attArr
+	 *
+	 */
 	public function makeAccessoryCart($attArr = array(), $product_id = 0, $user_id = 0, $data = '')
 	{
 		$user = JFactory::getUser();
@@ -7148,6 +7805,9 @@ class producthelper
 		return array($displayaccessory, $accessory_total_price, $accessory_vat_price);
 	}
 
+	/**
+	 * getcartTemplate
+	 */
 	public function getcartTemplate()
 	{
 		if (empty($this->_cartTemplateData))
@@ -7163,6 +7823,12 @@ class producthelper
 		return $this->_cartTemplateData;
 	}
 
+	/**
+	 * makeAttributeCart
+	 *
+	 * @param $attArr
+	 *
+	 */
 	public function makeAttributeCart($attArr = array(), $product_id = 0, $user_id = 0, $new_product_price = 0, $quantity = 1, $data = '')
 	{
 		$user            = JFactory::getUser();
@@ -7440,6 +8106,12 @@ class producthelper
 		);
 	}
 
+	/**
+	 * makeAccessoryOrder
+	 *
+	 * @param $order_item_id
+	 *
+	 */
 	public function makeAccessoryOrder($order_item_id = 0)
 	{
 		$order_functions  = new order_functions;
@@ -7473,6 +8145,17 @@ class producthelper
 		return $displayaccessory;
 	}
 
+	/**
+	 * makeAttributeOrder
+	 *
+	 * @param $order_item_id
+	 * @param $is_accessory
+	 * @param $parent_section_id
+	 * @param $stock
+	 * @param $export
+	 * @param $data
+	 *
+	 */
 	public function makeAttributeOrder($order_item_id = 0, $is_accessory = 0, $parent_section_id = 0, $stock = 0, $export = 0, $data = '')
 	{
 		$stockroomhelper   = new rsstockroomhelper;
@@ -7692,6 +8375,13 @@ class producthelper
 		return $template_middle;
 	}
 
+	/**
+	 * makeAccessoryQuotation
+	 *
+	 * @param $quotation_item_id
+	 * @param $quotation_status
+	 *
+	 */
 	public function makeAccessoryQuotation($quotation_item_id = 0, $quotation_status = 2)
 	{
 		$quotationHelper  = new quotationHelper;
@@ -7730,6 +8420,16 @@ class producthelper
 		return $displayaccessory;
 	}
 
+	/**
+	 * makeAttributeQuotation
+	 *
+	 * @param $quotation_item_id
+	 * @param $is_accessory
+	 * @param $parent_section_id
+	 * @param $quotation_status
+	 * @param $stock
+	 *
+	 */
 	public function makeAttributeQuotation($quotation_item_id = 0, $is_accessory = 0, $parent_section_id = 0, $quotation_status = 2, $stock = 0)
 	{
 		$quotationHelper  = new quotationHelper;
@@ -7882,6 +8582,13 @@ class producthelper
 	 * $calcUnit: Unit ratio which to convert
 	 */
 
+	/**
+	 * getUnitConversation
+	 *
+	 * @param $globalUnit
+	 * @param $calcUnit
+	 *
+	 */
 	public function getUnitConversation($globalUnit, $calcUnit)
 	{
 		/*
@@ -8087,6 +8794,13 @@ class producthelper
 	}
 
 	// Get Product subscription price
+	/**
+	 * getProductSubscriptionDetail
+	 *
+	 * @param $product_id
+	 * @param $subscription_id
+	 *
+	 */
 	public function getProductSubscriptionDetail($product_id, $subscription_id)
 	{
 		$query = "SELECT * "
@@ -8099,6 +8813,12 @@ class producthelper
 	}
 
 	// Get User Product subscription detail
+	/**
+	 * getUserProductSubscriptionDetail
+	 *
+	 * @param $order_item_id
+	 *
+	 */
 	public function getUserProductSubscriptionDetail($order_item_id)
 	{
 		$query = "SELECT * FROM " . $this->_table_prefix . "product_subscribe_detail AS p "
@@ -8110,6 +8830,16 @@ class producthelper
 		return $list;
 	}
 
+	/**
+	 * insertProductDownload
+	 *
+	 * @param $product_id
+	 * @param $user_id
+	 * @param $order_id
+	 * @param $media_name
+	 * @param $serial_number
+	 *
+	 */
 	public function insertProductDownload($product_id, $user_id, $order_id, $media_name, $serial_number)
 	{
 		$db = JFactory::getDbo();
@@ -8150,6 +8880,13 @@ class producthelper
 	 *  Get serial number for downloadable product only retrive one number.
 	 */
 
+	/**
+	 * getProdcutSerialNumber
+	 *
+	 * @param $product_id
+	 * @param $is_used
+	 *
+	 */
 	public function getProdcutSerialNumber($product_id, $is_used = 0)
 	{
 		$query = "SELECT * FROM " . $this->_table_prefix . "product_serial_number "
@@ -8183,6 +8920,12 @@ class producthelper
 		$this->_db->Query();
 	}
 
+	/**
+	 * getSubscription
+	 *
+	 * @param $product_id
+	 *
+	 */
 	public function getSubscription($product_id = 0)
 	{
 		$query = "SELECT * FROM " . $this->_table_prefix . "product_subscription "
@@ -8194,6 +8937,15 @@ class producthelper
 		return $list;
 	}
 
+	/**
+	 * getQuestionAnswer
+	 *
+	 * @param $questionid
+	 * @param $productid
+	 * @param $faq
+	 * @param $front
+	 *
+	 */
 	public function getQuestionAnswer($questionid = 0, $productid = 0, $faq = 0, $front = 0)
 	{
 		$and = "";
@@ -8234,6 +8986,12 @@ class producthelper
 		return null;
 	}
 
+	/**
+	 * getProductRating
+	 *
+	 * @param $product_id
+	 *
+	 */
 	public function getProductRating($product_id)
 	{
 		$url        = JURI::base();
@@ -8268,6 +9026,12 @@ class producthelper
 		return $final_avgreview_data;
 	}
 
+	/**
+	 * getProductReviewList
+	 *
+	 * @param $product_id
+	 *
+	 */
 	public function getProductReviewList($product_id)
 	{
 		$query = "SELECT ui.firstname,ui.lastname,pr.* FROM " . $this->_table_prefix . "product_rating AS pr "
@@ -8281,6 +9045,14 @@ class producthelper
 		return $reviews;
 	}
 
+	/**
+	 * calOprandPrice
+	 *
+	 * @param $price_1
+	 * @param $oprand
+	 * @param $price_2
+	 *
+	 */
 	public function calOprandPrice($price_1, $oprand, $price_2)
 	{
 		switch ($oprand)
@@ -8310,6 +9082,12 @@ class producthelper
 	 * 	return checked if product is in session of compare product cart else blank
 	 */
 
+	/**
+	 * checkcompareproduct
+	 *
+	 * @param $product_id
+	 *
+	 */
 	public function checkcompareproduct($product_id)
 	{
 		$compare_product = $this->_session->get('compare_product');
@@ -8331,6 +9109,9 @@ class producthelper
 		}
 	}
 
+	/**
+	 * makeCompareProductDiv
+	 */
 	public function makeCompareProductDiv()
 	{
 		$Itemid          = JRequest::getVar('Itemid');
@@ -8376,6 +9157,9 @@ class producthelper
 		return $div;
 	}
 
+	/**
+	 * getCompare
+	 */
 	public function getCompare()
 	{
 		$compare_product = $this->_session->get('compare_product');
@@ -8417,6 +9201,12 @@ class producthelper
 		return $str;
 	}
 
+	/**
+	 * getJcommentEditor
+	 *
+	 * @param $product
+	 *
+	 */
 	public function getJcommentEditor($product = array(), $data_add = "")
 	{
 		$app       = JFactory::getApplication();
@@ -8442,6 +9232,12 @@ class producthelper
 		return $data_add;
 	}
 
+	/**
+	 * getSelectedAccessoryArray
+	 *
+	 * @param $data
+	 *
+	 */
 	public function getSelectedAccessoryArray($data = array())
 	{
 		$selectedAccessory    = array();
@@ -8520,6 +9316,12 @@ class producthelper
 		return $ret;
 	}
 
+	/**
+	 * getSelectedAttributeArray
+	 *
+	 * @param $data
+	 *
+	 */
 	public function getSelectedAttributeArray($data = array())
 	{
 		$selectedproperty    = array();
@@ -8571,6 +9373,14 @@ class producthelper
 		return $ret;
 	}
 
+	/**
+	 * replaceProductInStock
+	 *
+	 * @param $product_id
+	 * @param $data_add
+	 * @param $attributes
+	 *
+	 */
 	public function replaceProductInStock($product_id = 0, $data_add, $attributes = array(), $attribute_template = array())
 	{
 		if (count($attribute_template) <= 0)
@@ -8708,6 +9518,12 @@ class producthelper
 	 * @return: integer
 	 */
 
+	/**
+	 * getChildProduct
+	 *
+	 * @param $product_id
+	 *
+	 */
 	public function getChildProduct($product_id = 0)
 	{
 		$query = "SELECT product_parent_id,product_id,product_name,product_number FROM " . $this->_table_prefix
@@ -8740,11 +9556,23 @@ class producthelper
 		return $parent_id;
 	}
 
+	/**
+	 * redpriceDecimal
+	 *
+	 * @param $price
+	 *
+	 */
 	public function redpriceDecimal($price)
 	{
 		return number_format($price, PRICE_DECIMAL, '.', '');
 	}
 
+	/**
+	 * redunitDecimal
+	 *
+	 * @param $price
+	 *
+	 */
 	public function redunitDecimal($price)
 	{
 		if (defined('UNIT_DECIMAL') && UNIT_DECIMAL != "")
@@ -8753,6 +9581,13 @@ class producthelper
 			return $price;
 	}
 
+	/**
+	 * isProductDateRange
+	 *
+	 * @param $userfieldArr
+	 * @param $product_id
+	 *
+	 */
 	public function isProductDateRange($userfieldArr, $product_id)
 	{
 		$isEnable = true;
@@ -8845,6 +9680,12 @@ class producthelper
 		return $isEnable;
 	}
 
+	/**
+	 * getassociatetag
+	 *
+	 * @param $product_id
+	 *
+	 */
 	public function getassociatetag($product_id = 0)
 	{
 		$query = " SELECT a.product_id,at.tag_id,rg.tag_name,ty.type_name FROM  #__redproductfinder_associations as a left outer join #__redproductfinder_association_tag as at on a.id=at.association_id left outer join #__redproductfinder_tags as rg on at.tag_id=rg.id left outer join #__redproductfinder_types as ty on at.type_id=ty.id where a.product_id='" . $product_id . "' ";
@@ -8854,6 +9695,12 @@ class producthelper
 		return $res;
 	}
 
+	/**
+	 * getCategoryCompareTemplate
+	 *
+	 * @param $cid
+	 *
+	 */
 	public function getCategoryCompareTemplate($cid)
 	{
 		$query = "SELECT t.template_id  FROM " . $this->_table_prefix . "template  AS t "
@@ -8866,6 +9713,13 @@ class producthelper
 		return $tmp_name;
 	}
 
+	/**
+	 * getProductCaterories
+	 *
+	 * @param $product_id
+	 * @param $displaylink
+	 *
+	 */
 	public function getProductCaterories($product_id, $displaylink = 0)
 	{
 		$prodCatsObjectArray = array();
@@ -8923,6 +9777,17 @@ class producthelper
 		return $prodCatsObjectArray;
 	}
 
+	/**
+	 * getdisplaymainImage
+	 *
+	 * @param $product_id
+	 * @param $property_id
+	 * @param $subproperty_id
+	 * @param $pw_thumb
+	 * @param $ph_thumb
+	 * @param $redview
+	 *
+	 */
 	public function getdisplaymainImage($product_id = 0, $property_id = 0, $subproperty_id = 0, $pw_thumb = 0, $ph_thumb = 0, $redview = "")
 	{
 		$url                 = JURI::base();
@@ -9057,6 +9922,20 @@ class producthelper
 		return $Arrreturn;
 	}
 
+	/**
+	 * displayAdditionalImage
+	 *
+	 * @param $product_id
+	 * @param $accessory_id
+	 * @param $relatedprd_id
+	 * @param $property_id
+	 * @param $subproperty_id
+	 * @param $main_imgwidth
+	 * @param $main_imgheight
+	 * @param $redview
+	 * @param $redlayout
+	 *
+	 */
 	public function displayAdditionalImage($product_id = 0, $accessory_id = 0, $relatedprd_id = 0, $property_id = 0, $subproperty_id = 0, $main_imgwidth = 0, $main_imgheight = 0, $redview = "", $redlayout = "")
 	{
 		$redshopconfig   = new Redconfiguration ();
@@ -9825,6 +10704,14 @@ class producthelper
 		return $ret;
 	}
 
+	/**
+	 * getProductFinderDatepickerValue
+	 *
+	 * @param $templatedata
+	 * @param $productid
+	 * @param $fieldArray
+	 *
+	 */
 	public function getProductFinderDatepickerValue($templatedata = "", $productid = 0, $fieldArray = array(), $giftcard = 0)
 	{
 		$extraField = new extraField;
@@ -9856,6 +10743,13 @@ class producthelper
 
 // function for related product layout
 
+	/**
+	 * getRelatedtemplateView
+	 *
+	 * @param $template_desc
+	 * @param $product_id
+	 *
+	 */
 	public function getRelatedtemplateView($template_desc, $product_id)
 	{
 		$extra_field      = new extraField;
@@ -10094,6 +10988,12 @@ class producthelper
 		return $templatedata;
 	}
 
+	/**
+	 * getCategoryNameByProductId
+	 *
+	 * @param $pid
+	 *
+	 */
 	public function getCategoryNameByProductId($pid)
 	{
 		$query = "SELECT c.category_name FROM " . $this->_table_prefix . "product_category_xref AS pcx "
@@ -10106,6 +11006,12 @@ class producthelper
 
 	}
 
+	/**
+	 * removeOutofstockProduct
+	 *
+	 * @param $products
+	 *
+	 */
 	public function removeOutofstockProduct($products)
 	{
 		$stockroomhelper = new rsstockroomhelper;
@@ -10138,6 +11044,15 @@ class producthelper
 		return $filter_products;
 	}
 
+	/**
+	 * getproductStockStatus
+	 *
+	 * @param $product_id
+	 * @param $totalatt
+	 * @param $selectedpropertyId
+	 * @param $selectedsubpropertyId
+	 *
+	 */
 	public function getproductStockStatus($product_id = 0, $totalatt = 0, $selectedpropertyId = 0, $selectedsubpropertyId = 0)
 	{
 		$stockroomhelper            = new rsstockroomhelper;
@@ -10191,6 +11106,16 @@ class producthelper
 		return $rsltdata;
 	}
 
+	/**
+	 * replaceProductStockdata
+	 *
+	 * @param $product_id
+	 * @param $property_id
+	 * @param $subproperty_id
+	 * @param $data_add
+	 * @param $stockStatusArray
+	 *
+	 */
 	public function replaceProductStockdata($product_id, $property_id, $subproperty_id, $data_add, $stockStatusArray)
 	{
 		if (strstr($data_add, "{stock_status"))
@@ -10322,6 +11247,15 @@ class producthelper
 		return $data_add;
 	}
 
+	/**
+	 * isAlreadyNotifiedUser
+	 *
+	 * @param $user_id
+	 * @param $product_id
+	 * @param $property_id
+	 * @param $subproperty_id
+	 *
+	 */
 	public function isAlreadyNotifiedUser($user_id, $product_id, $property_id, $subproperty_id)
 	{
 		$query = 'SELECT * FROM ' . $this->_table_prefix . 'notifystock_users  WHERE product_id = ' . (int) $product_id
@@ -10332,6 +11266,12 @@ class producthelper
 		return $this->_db->loadResult();
 	}
 
+	/**
+	 * insertPaymentShippingField
+	 *
+	 * @param $cart
+	 *
+	 */
 	public function insertPaymentShippingField($cart = array(), $order_id = 0, $section_id = 18)
 	{
 		$db = JFactory::getDbo();
@@ -10357,6 +11297,13 @@ class producthelper
 		return;
 	}
 
+	/**
+	 * getPaymentandShippingExtrafields
+	 *
+	 * @param $order
+	 * @param $section_id
+	 *
+	 */
 	public function getPaymentandShippingExtrafields($order, $section_id)
 	{
 		$extraField = new extraField;

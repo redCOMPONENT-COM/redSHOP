@@ -14,6 +14,13 @@ require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/extra_field.
 require_once JPATH_SITE . '/components/com_redshop/helpers/cart.php';
 require_once JPATH_SITE . '/components/com_redshop/helpers/helper.php';
 
+/**
+ * rsUserhelper
+ *
+ * @package     RedSHOP
+ * @subpackage  Helper
+ * @since       1.0
+ */
 class rsUserhelper
 {
 	public $_table_prefix = null;
@@ -30,6 +37,9 @@ class rsUserhelper
 
 	public $_shopper_group_data = null;
 
+	/**
+	 * __construct
+	 */
 	public function __construct()
 	{
 		$this->_table_prefix = '#__redshop_';
@@ -90,6 +100,13 @@ class rsUserhelper
 		return $usergroups;
 	}
 
+	/**
+	 * updateUserTermsCondition
+	 *
+	 * @param $users_info_id
+	 * @param $isSet
+	 *
+	 */
 	public function updateUserTermsCondition($users_info_id = 0, $isSet = 0)
 	{
 		// One id is mandatory ALWAYS
@@ -103,6 +120,12 @@ class rsUserhelper
 		}
 	}
 
+	/**
+	 * getShoppergroupData
+	 *
+	 * @param $user_id
+	 *
+	 */
 	public function getShoppergroupData($user_id = 0)
 	{
 		$list = array();
@@ -134,6 +157,12 @@ class rsUserhelper
 		return $list;
 	}
 
+	/**
+	 * getShopperGroupList
+	 *
+	 * @param $shopper_group_id
+	 *
+	 */
 	public function getShopperGroupList($shopper_group_id = 0)
 	{
 		$and = '';
@@ -154,6 +183,12 @@ class rsUserhelper
 		return $list;
 	}
 
+	/**
+	 * createUserSession
+	 *
+	 * @param $user_id
+	 *
+	 */
 	public function createUserSession($user_id)
 	{
 		$userArr = $this->_session->get('rs_user');
@@ -215,6 +250,13 @@ class rsUserhelper
 		return count($users);
 	}
 
+	/**
+	 * validate_email
+	 *
+	 * @param $email
+	 * @param $id
+	 *
+	 */
 	public function validate_email($email, $id = 0)
 	{
 		$db = JFactory::getDbo();
@@ -228,6 +270,12 @@ class rsUserhelper
 		return count($emails);
 	}
 
+	/**
+	 * updateJoomlaUser
+	 *
+	 * @param $data
+	 *
+	 */
 	public function updateJoomlaUser($data)
 	{
 		$app = JFactory::getApplication();
@@ -344,6 +392,13 @@ class rsUserhelper
 		return $user;
 	}
 
+	/**
+	 * createJoomlaUser
+	 *
+	 * @param $data
+	 * @param $createuser
+	 *
+	 */
 	public function createJoomlaUser($data, $createuser = 0)
 	{
 		$app = JFactory::getApplication();
@@ -481,6 +536,12 @@ class rsUserhelper
 		return true;
 	}
 
+	/**
+	 * checkCaptcha
+	 *
+	 * @param $data
+	 *
+	 */
 	public function checkCaptcha($data)
 	{
 		if (SHOW_CAPTCHA)
@@ -501,6 +562,14 @@ class rsUserhelper
 		return true;
 	}
 
+	/**
+	 * storeRedshopUser
+	 *
+	 * @param $data
+	 * @param $user_id
+	 * @param $admin
+	 *
+	 */
 	public function storeRedshopUser($data, $user_id = 0, $admin = 0)
 	{
 		$redshopMail = new redshopMail;
@@ -726,6 +795,12 @@ class rsUserhelper
 		return $row;
 	}
 
+	/**
+	 * storeRedshopUserShipping
+	 *
+	 * @param $data
+	 *
+	 */
 	public function storeRedshopUserShipping($data)
 	{
 		$extra_field = new extra_field;
@@ -783,6 +858,9 @@ class rsUserhelper
 		return $rowShip;
 	}
 
+	/**
+	 * userSynchronization
+	 */
 	public function userSynchronization()
 	{
 		$query = "SELECT u.* FROM #__users AS u "
@@ -810,6 +888,13 @@ class rsUserhelper
 		return count($jusers);
 	}
 
+	/**
+	 * newsletterSubscribe
+	 *
+	 * @param $user_id
+	 * @param $data
+	 *
+	 */
 	public function newsletterSubscribe($user_id = 0, $data = array(), $sendmail = 0)
 	{
 		$newsletter = 1;
@@ -878,6 +963,12 @@ class rsUserhelper
 		return true;
 	}
 
+	/**
+	 * newsletterUnsubscribe
+	 *
+	 * @param $email
+	 *
+	 */
 	public function newsletterUnsubscribe($email = "")
 	{
 		$db   = JFactory::getDbo();
@@ -909,6 +1000,12 @@ class rsUserhelper
 		return true;
 	}
 
+	/**
+	 * getBillingTable
+	 *
+	 * @param $post
+	 *
+	 */
 	public function getBillingTable($post = array(), $is_company = 0, $lists, $show_shipping = 0, $show_newsletter = 0, $create_account = 1)
 	{
 		$redTemplate = new Redtemplate;
@@ -1061,6 +1158,13 @@ class rsUserhelper
 		return $template_desc;
 	}
 
+	/**
+	 * replaceBillingCommonFields
+	 *
+	 * @param $template_desc
+	 * @param $post
+	 *
+	 */
 	public function replaceBillingCommonFields($template_desc, $post = array(), $lists)
 	{
 		$Redconfiguration = new Redconfiguration;
@@ -1123,6 +1227,13 @@ class rsUserhelper
 		return $template_desc;
 	}
 
+	/**
+	 * replacePrivateCustomer
+	 *
+	 * @param $template_desc
+	 * @param $post
+	 *
+	 */
 	public function replacePrivateCustomer($template_desc, $post = array(), $lists)
 	{
 		$template_desc = $this->replaceBillingCommonFields($template_desc, $post, $lists);
@@ -1136,6 +1247,13 @@ class rsUserhelper
 		return $template_desc;
 	}
 
+	/**
+	 * replaceCompanyCustomer
+	 *
+	 * @param $template_desc
+	 * @param $post
+	 *
+	 */
 	public function replaceCompanyCustomer($template_desc, $post = array(), $lists)
 	{
 		$template_desc = $this->replaceBillingCommonFields($template_desc, $post, $lists);
@@ -1191,6 +1309,12 @@ class rsUserhelper
 		return $template_desc;
 	}
 
+	/**
+	 * getShippingTable
+	 *
+	 * @param $post
+	 *
+	 */
 	public function getShippingTable($post = array(), $is_company = 0, $lists)
 	{
 		$Redconfiguration  = new Redconfiguration;
@@ -1275,6 +1399,9 @@ class rsUserhelper
 		return $template_desc;
 	}
 
+	/**
+	 * getCaptchaTable
+	 */
 	public function getCaptchaTable()
 	{
 		$html = '';
@@ -1293,6 +1420,9 @@ class rsUserhelper
 		return $html;
 	}
 
+	/**
+	 * getAskQuestionCaptcha
+	 */
 	public function getAskQuestionCaptcha()
 	{
 		$html = '';
@@ -1354,6 +1484,9 @@ class rsUserhelper
 		return $debtor;
 	}
 
+	/**
+	 * getShopperGroupManufacturers
+	 */
 	public function getShopperGroupManufacturers()
 	{
 		$user                       = JFactory::getUser();

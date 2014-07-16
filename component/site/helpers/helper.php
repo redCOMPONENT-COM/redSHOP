@@ -11,6 +11,13 @@ defined('_JEXEC') or die;
 require_once JPATH_SITE . '/components/com_redshop/helpers/product.php';
 require_once JPATH_SITE . '/components/com_redshop/helpers/user.php';
 
+/**
+ * redhelper
+ *
+ * @package     RedSHOP
+ * @subpackage  Helper
+ * @since       1.0
+ */
 class redhelper
 {
 	public $_table_prefix = null;
@@ -19,6 +26,9 @@ class redhelper
 
 	public $_isredCRM = null;
 
+	/**
+	 * __construct
+	 */
 	public function __construct()
 	{
 		$this->_table_prefix = '#__redshop_';
@@ -75,6 +85,12 @@ class redhelper
 		}
 	}
 
+	/**
+	 * getPlugins
+	 *
+	 * @param $folder
+	 *
+	 */
 	public function getPlugins($folder = 'redshop')
 	{
 		$db = JFactory::getDbo();
@@ -89,6 +105,12 @@ class redhelper
 		return $data;
 	}
 
+	/**
+	 * getallPlugins
+	 *
+	 * @param $folder
+	 *
+	 */
 	public function getallPlugins($folder = 'redshop')
 	{
 		$db = JFactory::getDbo();
@@ -102,6 +124,14 @@ class redhelper
 		return $data;
 	}
 
+	/**
+	 * orderPaymentNotYetUpdated
+	 *
+	 * @param $dbConn
+	 * @param $order_id
+	 * @param $tid
+	 *
+	 */
 	public function orderPaymentNotYetUpdated($dbConn, $order_id, $tid)
 	{
 		$db = JFactory::getDbo();
@@ -121,6 +151,13 @@ class redhelper
 		return $res;
 	}
 
+	/**
+	 * getItemid
+	 *
+	 * @param $product_id
+	 * @param $cat_id
+	 *
+	 */
 	public function getItemid($product_id = '', $cat_id = 0)
 	{
 		$producthelper = new producthelper;
@@ -200,6 +237,12 @@ class redhelper
 		return $Itemid;
 	}
 
+	/**
+	 * getCategoryItemid
+	 *
+	 * @param $category_id
+	 *
+	 */
 	public function getCategoryItemid($category_id = 0)
 	{
 		if ($category_id)
@@ -221,6 +264,12 @@ class redhelper
 		return $Itemid;
 	}
 
+	/**
+	 * convertLanguageString
+	 *
+	 * @param $arr
+	 *
+	 */
 	public function convertLanguageString($arr)
 	{
 		for ($i = 0; $i < count($arr); $i++)
@@ -313,6 +362,12 @@ class redhelper
 		return $shoppercatdata;
 	}
 
+	/**
+	 * getShopperGroupProductCategory
+	 *
+	 * @param $pid
+	 *
+	 */
 	public function getShopperGroupProductCategory($pid = 0)
 	{
 		$user = JFactory::getUser();
@@ -339,6 +394,9 @@ class redhelper
 	}
 
 	// 	Order by list
+	/**
+	 * getOrderByList
+	 */
 	public function getOrderByList()
 	{
 		$order_data           = array();
@@ -369,6 +427,9 @@ class redhelper
 		return $order_data;
 	}
 
+	/**
+	 * getManufacturerOrderByList
+	 */
 	public function getManufacturerOrderByList()
 	{
 		$order_data           = array();
@@ -387,6 +448,9 @@ class redhelper
 		return $order_data;
 	}
 
+	/**
+	 * getRelatedOrderByList
+	 */
 	public function getRelatedOrderByList()
 	{
 		$order_data           = array();
@@ -433,6 +497,9 @@ class redhelper
 		return $order_data;
 	}
 
+	/**
+	 * getAccessoryOrderByList
+	 */
 	public function getAccessoryOrderByList()
 	{
 		$order_data           = array();
@@ -472,6 +539,9 @@ class redhelper
 	}
 
 	//  function to get preorder option list
+	/**
+	 * getPreOrderByList
+	 */
 	public function getPreOrderByList()
 	{
 		$preorder_data = array();
@@ -491,6 +561,9 @@ class redhelper
 	}
 
 	//  function to get child product option list
+	/**
+	 * getChildProductOption
+	 */
 	public function getChildProductOption()
 	{
 		$childproduct_data = array();
@@ -506,6 +579,9 @@ class redhelper
 	}
 
 	//  function to get state abbrivation option list
+	/**
+	 * getStateAbbrivationByList
+	 */
 	public function getStateAbbrivationByList()
 	{
 		$state_data           = array();
@@ -521,6 +597,9 @@ class redhelper
 	}
 
 	// Get checkout Itemid
+	/**
+	 * getCheckoutItemid
+	 */
 	public function getCheckoutItemid()
 	{
 		$userhelper         = new rsUserhelper;
@@ -541,6 +620,9 @@ class redhelper
 	}
 
 	// Get cart Itemid
+	/**
+	 * getCartItemid
+	 */
 	public function getCartItemid()
 	{
 		$userhelper         = new rsUserhelper;
@@ -750,6 +832,12 @@ class redhelper
 		}
 	}
 
+	/**
+	 * clickatellSMS
+	 *
+	 * @param $order_id
+	 *
+	 */
 	public function clickatellSMS($order_id)
 	{
 		if (CLICKATELL_ENABLE <= 0)
@@ -825,6 +913,13 @@ class redhelper
 		}
 	}
 
+	/**
+	 * sendmessage
+	 *
+	 * @param $text
+	 * @param $to
+	 *
+	 */
 	public function sendmessage($text, $to)
 	{
 		// Clickatell_username
@@ -871,6 +966,14 @@ class redhelper
 		}
 	}
 
+	/**
+	 * replaceMessage
+	 *
+	 * @param $message
+	 * @param $orderData
+	 * @param $paymentName
+	 *
+	 */
 	public function replaceMessage($message, $orderData, $paymentName)
 	{
 		$shippinghelper  = new shipping;
@@ -904,6 +1007,13 @@ class redhelper
 		return $message;
 	}
 
+	/**
+	 * getsslLink
+	 *
+	 * @param $link
+	 * @param $applySSL
+	 *
+	 */
 	public function getsslLink($link, $applySSL)
 	{
 		$uri = JURI::getInstance($link);
@@ -922,6 +1032,13 @@ class redhelper
 		return $link;
 	}
 
+	/**
+	 * sslLink
+	 *
+	 * @param $link
+	 * @param $applySSL
+	 *
+	 */
 	public function sslLink($link, $applySSL = 1)
 	{
 		if (!SSL_ENABLE_IN_BACKEND || $applySSL == 0)
@@ -938,6 +1055,13 @@ class redhelper
 		return $link;
 	}
 
+	/**
+	 * getEconomicAccountGroup
+	 *
+	 * @param $accountgroup_id
+	 * @param $front
+	 *
+	 */
 	public function getEconomicAccountGroup($accountgroup_id = 0, $front = 0)
 	{
 		$and = '';
@@ -961,6 +1085,9 @@ class redhelper
 		return $list;
 	}
 
+	/**
+	 * isredProductfinder
+	 */
 	public function isredProductfinder()
 	{
 		$user = JFactory::getUser();

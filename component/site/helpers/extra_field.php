@@ -11,6 +11,13 @@ defined('_JEXEC') or die;
 
 JHTML::_('behavior.tooltip');
 
+/**
+ * extraField
+ *
+ * @package     RedSHOP
+ * @subpackage  Helper
+ * @since       1.0
+ */
 class extraField
 {
 	/*
@@ -47,12 +54,23 @@ class extraField
 
 	public $_db           = null;
 
+	/**
+	 * __construct
+	 */
 	public function __construct()
 	{
 		$this->_db = JFactory::getDbo();
 		$this->_table_prefix = '#__redshop_';
 	}
 
+	/**
+	 * list_all_field
+	 *
+	 * @param $field_section
+	 * @param $section_id
+	 * @param $uclass
+	 *
+	 */
 	public function list_all_field($field_section = "", $section_id = 0, $uclass = '')
 	{
 		$row_data = $this->getSectionFieldList($field_section, 1);
@@ -263,6 +281,19 @@ class extraField
 		return $ex_field;
 	}
 
+	/**
+	 * list_all_user_fields
+	 *
+	 * @param $field_section
+	 * @param $section_id
+	 * @param $field_type
+	 * @param $idx
+	 * @param $isatt
+	 * @param $product_id
+	 * @param $mywish
+	 * @param $addwish
+	 *
+	 */
 	public function list_all_user_fields($field_section = "", $section_id = 12, $field_type = '', $idx = 'NULL', $isatt = 0, $product_id, $mywish = "", $addwish = 0)
 	{
 		$db      = JFactory::getDbo();
@@ -571,6 +602,16 @@ class extraField
 		return $ex;
 	}
 
+	/**
+	 * extra_field_display
+	 *
+	 * @param $field_section
+	 * @param $section_id
+	 * @param $field_name
+	 * @param $template_data
+	 * @param $categorypage
+	 *
+	 */
 	public function extra_field_display($field_section = "", $section_id = 0, $field_name = "", $template_data = "", $categorypage = 0)
 	{
 		$db = JFactory::getDbo();
@@ -780,6 +821,12 @@ class extraField
 		return $template_data;
 	}
 
+	/**
+	 * getFieldValue
+	 *
+	 * @param $id
+	 *
+	 */
 	public function getFieldValue($id)
 	{
 		$q = "SELECT * FROM " . $this->_table_prefix . "fields_value "
@@ -791,6 +838,15 @@ class extraField
 		return $list;
 	}
 
+	/**
+	 * getSectionFieldList
+	 *
+	 * @param $section
+	 * @param $front
+	 * @param $published
+	 * @param $required
+	 *
+	 */
 	public function getSectionFieldList($section = 12, $front = 1, $published = 1, $required = 0)
 	{
 		$db = JFactory::getDbo();
@@ -822,6 +878,15 @@ class extraField
 		return $list;
 	}
 
+	/**
+	 * getSectionFieldNameArray
+	 *
+	 * @param $section
+	 * @param $front
+	 * @param $published
+	 * @param $required
+	 *
+	 */
 	public function getSectionFieldNameArray($section = 12, $front = 1, $published = 1, $required = 0)
 	{
 		$db = JFactory::getDbo();
@@ -847,6 +912,15 @@ class extraField
 		return $list;
 	}
 
+	/**
+	 * getSectionFieldIdArray
+	 *
+	 * @param $section
+	 * @param $front
+	 * @param $published
+	 * @param $required
+	 *
+	 */
 	public function getSectionFieldIdArray($section = 12, $front = 1, $published = 1, $required = 0)
 	{
 		JFactory::getDbo();
@@ -873,6 +947,14 @@ class extraField
 		return $list;
 	}
 
+	/**
+	 * getSectionFieldDataList
+	 *
+	 * @param $fieldid
+	 * @param $section
+	 * @param $orderitemid
+	 *
+	 */
 	public function getSectionFieldDataList($fieldid, $section = 0, $orderitemid = 0)
 	{
 		$db = JFactory::getDbo();

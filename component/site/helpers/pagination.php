@@ -9,8 +9,18 @@
 
 defined('_JEXEC') or die;
 
+/**
+ * redPagination
+ *
+ * @package     RedSHOP
+ * @subpackage  Helper
+ * @since       1.0
+ */
 class redPagination extends JPagination
 {
+	/**
+	 * getPagesLinks
+	 */
 	public function getPagesLinks()
 	{
 		$app = JFactory::getApplication();
@@ -130,6 +140,9 @@ class redPagination extends JPagination
 		}
 	}
 
+	/**
+	 * getPagesCounter
+	 */
 	public function getPagesCounter()
 	{
 		// Initialize variables
@@ -143,6 +156,12 @@ class redPagination extends JPagination
 
 	}
 
+	/**
+	 * _list_footer
+	 *
+	 * @param $list
+	 *
+	 */
 	public function _list_footer($list)
 	{
 		$html = "<div class=\"pagination-list-footer\">\n";
@@ -158,6 +177,12 @@ class redPagination extends JPagination
 	}
 
 
+	/**
+	 * _list_render
+	 *
+	 * @param $list
+	 *
+	 */
 	public function _list_render($list)
 	{
 		// Initialize variables
@@ -188,6 +213,12 @@ class redPagination extends JPagination
 
 	}
 
+	/**
+	 * _item_active
+	 *
+	 * @param $item
+	 *
+	 */
 	public function _item_active(&$item)
 	{
 		if (PAGINATION == 0)
@@ -201,6 +232,12 @@ class redPagination extends JPagination
 
 	}
 
+	/**
+	 * _item_inactive
+	 *
+	 * @param $item
+	 *
+	 */
 	public function _item_inactive(&$item)
 	{
 		if (PAGINATION == 0)

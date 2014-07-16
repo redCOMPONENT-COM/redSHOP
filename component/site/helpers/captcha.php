@@ -7,10 +7,23 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+/**
+ * CaptchaSecurityImages
+ *
+ * @package     RedSHOP
+ * @subpackage  Helper
+ * @since       1.0
+ */
 class CaptchaSecurityImages
 {
 	public $font = 'components/com_redshop/assets/captcha/monofont.ttf';
 
+	/**
+	 * generateCode
+	 *
+	 * @param $characters
+	 *
+	 */
 	public function generateCode($characters)
 	{
 		/* list all possible characters, similar looking characters and vowels have been removed */
@@ -27,6 +40,15 @@ class CaptchaSecurityImages
 		return $code;
 	}
 
+	/**
+	 * CaptchaSecurityImages
+	 *
+	 * @param $width
+	 * @param $height
+	 * @param $characters
+	 * @param $captchaname
+	 *
+	 */
 	public function CaptchaSecurityImages($width = '120', $height = '40', $characters = '6', $captchaname = 'security_code')
 	{
 		$session = JFactory::getSession();

@@ -16,6 +16,13 @@ JLoader::import('order', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers'
 JLoader::import('shipping', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
 JLoader::import('images', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
 
+/**
+ * rsCarthelper
+ *
+ * @package     RedSHOP
+ * @subpackage  Helper
+ * @since       1.0
+ */
 class rsCarthelper
 {
 	public $_table_prefix = null;
@@ -38,6 +45,9 @@ class rsCarthelper
 
 	public $_globalvoucher = 0;
 
+	/**
+	 * __construct
+	 */
 	public function __construct()
 	{
 		$this->_table_prefix    = '#__redshop_';
@@ -135,6 +145,13 @@ class rsCarthelper
 	 * Calculate tax after Discount is apply
 	 */
 
+	/**
+	 * calculateTaxafterDiscount
+	 *
+	 * @param $tax
+	 * @param $discount
+	 *
+	 */
 	public function calculateTaxafterDiscount($tax = 0, $discount = 0)
 	{
 		$tax_after_discount = 0;
@@ -159,6 +176,15 @@ class rsCarthelper
 	 * replace Conditional tag from Redshop Discount
 	 */
 
+	/**
+	 * replaceDiscount
+	 *
+	 * @param $data
+	 * @param $discount
+	 * @param $subtotal
+	 * @param $quotation_mode
+	 *
+	 */
 	public function replaceDiscount($data = '', $discount = 0, $subtotal = 0, $quotation_mode = 0)
 	{
 		if (strstr($data, '{if discount}') && strstr($data, '{discount end if}'))
@@ -883,6 +909,13 @@ class rsCarthelper
 		return $data;
 	}
 
+	/**
+	 * replaceCartItem
+	 *
+	 * @param $data
+	 * @param $cart
+	 *
+	 */
 	public function replaceCartItem($data, $cart = array(), $replace_button, $quotation_mode = 0)
 	{
 		JPluginHelper::importPlugin('redshop_product');
@@ -1448,6 +1481,13 @@ class rsCarthelper
 		return $cart_tr;
 	}
 
+	/**
+	 * repalceOrderItems
+	 *
+	 * @param $data
+	 * @param $rowitem
+	 *
+	 */
 	public function repalceOrderItems($data, $rowitem = array())
 	{
 		JPluginHelper::importPlugin('redshop_product');
@@ -1854,6 +1894,12 @@ class rsCarthelper
 		return $returnArr;
 	}
 
+	/**
+	 * replaceLabel
+	 *
+	 * @param $data
+	 *
+	 */
 	public function replaceLabel($data)
 	{
 		$search  = array();
@@ -2297,6 +2343,12 @@ class rsCarthelper
 		return $redArray;
 	}
 
+	/**
+	 * GetCartModuleCalc
+	 *
+	 * @param $redArray
+	 *
+	 */
 	public function GetCartModuleCalc($redArray)
 	{
 		$cartParamArr       = array();
@@ -2374,6 +2426,14 @@ class rsCarthelper
 		return $mod_cart_total;
 	}
 
+	/**
+	 * replaceTemplate
+	 *
+	 * @param $cart
+	 * @param $cart_data
+	 * @param $checkout
+	 *
+	 */
 	public function replaceTemplate($cart, $cart_data, $checkout = 1)
 	{
 		$cart_data = $this->replaceLabel($cart_data);
@@ -2573,6 +2633,13 @@ class rsCarthelper
 		return $cart_data;
 	}
 
+	/**
+	 * replaceOrderTemplate
+	 *
+	 * @param $row
+	 * @param $ReceiptTemplate
+	 *
+	 */
 	public function replaceOrderTemplate($row, $ReceiptTemplate)
 	{
 		$url       = JURI::base();
@@ -2983,6 +3050,12 @@ class rsCarthelper
 		return $message;
 	}
 
+	/**
+	 * makeCart_output
+	 *
+	 * @param $cart
+	 *
+	 */
 	public function makeCart_output($cart)
 	{
 		$outputArr          = array();
@@ -3074,6 +3147,9 @@ class rsCarthelper
 		return $outputArr;
 	}
 
+	/**
+	 * GetCartParameters
+	 */
 	public function GetCartParameters()
 	{
 		$sel = 'SELECT params  from #__modules where module = "mod_redshop_cart" and published =1';
@@ -3102,6 +3178,13 @@ class rsCarthelper
 		return $cartparamArr;
 	}
 
+	/**
+	 * modifyCart
+	 *
+	 * @param $cartArr
+	 * @param $user_id
+	 *
+	 */
 	public function modifyCart($cartArr, $user_id)
 	{
 		$cartArr['user_id'] = $user_id;
@@ -3222,6 +3305,13 @@ class rsCarthelper
 		return $cartArr;
 	}
 
+	/**
+	 * replaceShippingBoxTemplate
+	 *
+	 * @param $box_template_desc
+	 * @param $shipping_box_post_id
+	 *
+	 */
 	public function replaceShippingBoxTemplate($box_template_desc = "", $shipping_box_post_id = 0)
 	{
 		// Get shipping boxes HTML
@@ -3285,6 +3375,14 @@ class rsCarthelper
 		return $box_template_desc;
 	}
 
+	/**
+	 * getGLSLocation
+	 *
+	 * @param $users_info_id
+	 * @param $classname
+	 * @param $shop_id
+	 *
+	 */
 	public function getGLSLocation($users_info_id, $classname, $shop_id = 0)
 	{
 		$output = '';
@@ -3332,6 +3430,18 @@ class rsCarthelper
 		return $output;
 	}
 
+	/**
+	 * replaceShippingTemplate
+	 *
+	 * @param $template_desc
+	 * @param $shipping_rate_id
+	 * @param $shipping_box_post_id
+	 * @param $user_id
+	 * @param $users_info_id
+	 * @param $ordertotal
+	 * @param $order_subtotal
+	 *
+	 */
 	public function replaceShippingTemplate($template_desc = "", $shipping_rate_id = 0, $shipping_box_post_id = 0, $user_id = 0, $users_info_id = 0, $ordertotal = 0, $order_subtotal = 0)
 	{
 		$shippingmethod       = $this->_order_functions->getShippingMethodInfo();
@@ -3529,6 +3639,12 @@ class rsCarthelper
 		return $returnarr;
 	}
 
+	/**
+	 * replaceCreditCardInformation
+	 *
+	 * @param $payment_method_id
+	 *
+	 */
 	public function replaceCreditCardInformation($payment_method_id = 0)
 	{
 		$ccdata = $this->_session->get('ccdata');
@@ -3656,6 +3772,15 @@ class rsCarthelper
 		return $cardinfo;
 	}
 
+	/**
+	 * replacePaymentTemplate
+	 *
+	 * @param $template_desc
+	 * @param $payment_method_id
+	 * @param $is_company
+	 * @param $eanNumber
+	 *
+	 */
 	public function replacePaymentTemplate($template_desc = "", $payment_method_id = 0, $is_company = 0, $eanNumber = 0)
 	{
 		$ccdata = $this->_session->get('ccdata');
@@ -3878,6 +4003,13 @@ class rsCarthelper
 		return $template_desc;
 	}
 
+	/**
+	 * replaceTermsConditions
+	 *
+	 * @param $template_desc
+	 * @param $Itemid
+	 *
+	 */
 	public function replaceTermsConditions($template_desc = "", $Itemid = 1)
 	{
 		if (strstr($template_desc, "{terms_and_conditions"))
@@ -3965,6 +4097,13 @@ class rsCarthelper
 		return $template_desc;
 	}
 
+	/**
+	 * replaceNewsletterSubscription
+	 *
+	 * @param $template_desc
+	 * @param $onchange
+	 *
+	 */
 	public function replaceNewsletterSubscription($template_desc = "", $onchange = 0)
 	{
 		$db = JFactory::getDbo();
@@ -4005,6 +4144,14 @@ class rsCarthelper
 		return $template_desc;
 	}
 
+	/**
+	 * getCartProductPrice
+	 *
+	 * @param $product_id
+	 * @param $cart
+	 * @param $voucher_left
+	 *
+	 */
 	public function getCartProductPrice($product_id, $cart, $voucher_left)
 	{
 		$productArr             = array();
@@ -4050,6 +4197,12 @@ class rsCarthelper
 		return $productArr;
 	}
 
+	/**
+	 * coupon
+	 *
+	 * @param $c_data
+	 *
+	 */
 	public function coupon($c_data = array())
 	{
 		$coupon_code = JRequest::getVar('discount_code', '');
@@ -4249,6 +4402,12 @@ class rsCarthelper
 		}
 	}
 
+	/**
+	 * voucher
+	 *
+	 * @param $v_data
+	 *
+	 */
 	public function voucher($v_data = array())
 	{
 		$voucher_code = JRequest::getVar('discount_code', '');
@@ -4414,6 +4573,13 @@ class rsCarthelper
 		}
 	}
 
+	/**
+	 * rs_multi_array_key_exists
+	 *
+	 * @param $needle
+	 * @param $haystack
+	 *
+	 */
 	public function rs_multi_array_key_exists($needle, $haystack)
 	{
 		foreach ($haystack as $key => $value)
@@ -4435,6 +4601,14 @@ class rsCarthelper
 		return false;
 	}
 
+	/**
+	 * rs_recursiveArraySearch
+	 *
+	 * @param $haystack
+	 * @param $needle
+	 * @param $index
+	 *
+	 */
 	public function rs_recursiveArraySearch($haystack, $needle, $index = null)
 	{
 		$aIt = new RecursiveArrayIterator($haystack);
@@ -4453,6 +4627,13 @@ class rsCarthelper
 		return false;
 	}
 
+	/**
+	 * calculateDiscount
+	 *
+	 * @param $type
+	 * @param $typeArr
+	 *
+	 */
 	public function calculateDiscount($type, $typeArr)
 	{
 		$value        = $type == 'voucher' ? 'voucher_value' : 'coupon_value';
@@ -4471,6 +4652,13 @@ class rsCarthelper
 		return $codediscount;
 	}
 
+	/**
+	 * getVoucherData
+	 *
+	 * @param $voucher_code
+	 * @param $product_id
+	 *
+	 */
 	public function getVoucherData($voucher_code, $product_id = 0)
 	{
 		$db = JFactory::getDbo();
@@ -4520,6 +4708,12 @@ class rsCarthelper
 		return $voucher;
 	}
 
+	/**
+	 * globalvoucher
+	 *
+	 * @param $voucher_code
+	 *
+	 */
 	public function globalvoucher($voucher_code)
 	{
 		$db = JFactory::getDbo();
@@ -4550,6 +4744,12 @@ class rsCarthelper
 		return $voucher;
 	}
 
+	/**
+	 * getcouponData
+	 *
+	 * @param $coupon_code
+	 *
+	 */
 	public function getcouponData($coupon_code)
 	{
 		$db = JFactory::getDbo();
@@ -4588,6 +4788,12 @@ class rsCarthelper
 		return $coupon;
 	}
 
+	/**
+	 * modifyDiscount
+	 *
+	 * @param $cart
+	 *
+	 */
 	public function modifyDiscount($cart)
 	{
 		$calArr                            = $this->calculation($cart);
@@ -4731,6 +4937,12 @@ class rsCarthelper
 
 	}
 
+	/**
+	 * getWrapperPriceArr
+	 *
+	 * @param $cartArr
+	 *
+	 */
 	public function getWrapperPriceArr($cartArr = array())
 	{
 		$wrapper     = $this->_producthelper->getWrapper($cartArr['product_id'], $cartArr['wrapper_id']);
@@ -4753,6 +4965,12 @@ class rsCarthelper
 		return $wrapperArr;
 	}
 
+	/**
+	 * checkQuantityInStock
+	 *
+	 * @param $data
+	 *
+	 */
 	public function checkQuantityInStock($data = array(), $newquantity = 1, $minQuantity = 0)
 	{
 		$main_quantity   = $newquantity;
@@ -4830,6 +5048,12 @@ class rsCarthelper
 		return $newquantity;
 	}
 
+	/**
+	 * checkAttributeStockRoom
+	 *
+	 * @param $data
+	 *
+	 */
 	public function checkAttributeStockRoom($data = array(), $productData = array())
 	{
 		$stockroomhelper  = new rsstockroomhelper;
@@ -4932,6 +5156,12 @@ class rsCarthelper
 		return $newquantity;
 	}
 
+	/**
+	 * cartFinalCalculation
+	 *
+	 * @param $callmodify
+	 *
+	 */
 	public function cartFinalCalculation($callmodify = true)
 	{
 		$ajax = JRequest::getVar('ajax_cart_box');
@@ -4959,6 +5189,12 @@ class rsCarthelper
 		return $cartoutputArray;
 	}
 
+	/**
+	 * carttodb
+	 *
+	 * @param $cart
+	 *
+	 */
 	public function carttodb($cart = array())
 	{
 		if (count($cart) <= 0)
@@ -5050,6 +5286,12 @@ class rsCarthelper
 		}
 	}
 
+	/**
+	 * attributetodb
+	 *
+	 * @param $attribute
+	 *
+	 */
 	public function attributetodb($attribute = array(), $cart_item_id = 0, $product_id = 0, $isAccessary = false)
 	{
 		if ($cart_item_id == 0)
@@ -5165,6 +5407,12 @@ class rsCarthelper
 		return true;
 	}
 
+	/**
+	 * dbtocart
+	 *
+	 * @param $userId
+	 *
+	 */
 	public function dbtocart($userId = 0)
 	{
 		$rsUserhelper = new rsUserhelper;
@@ -5370,6 +5618,15 @@ class rsCarthelper
 		}
 	}
 
+	/**
+	 * generateAttributeFromCart
+	 *
+	 * @param $cart_item_id
+	 * @param $is_accessory
+	 * @param $parent_section_id
+	 * @param $quantity
+	 *
+	 */
 	public function generateAttributeFromCart($cart_item_id = 0, $is_accessory = 0, $parent_section_id = 0, $quantity = 1)
 	{
 		$generateAttributeCart = array();
@@ -5437,6 +5694,14 @@ class rsCarthelper
 		return $generateAttributeCart;
 	}
 
+	/**
+	 * generateAccessoryFromCart
+	 *
+	 * @param $cart_item_id
+	 * @param $product_id
+	 * @param $quantity
+	 *
+	 */
 	public function generateAccessoryFromCart($cart_item_id = 0, $product_id = 0, $quantity = 1)
 	{
 		$generateAccessoryCart = array();
@@ -5459,6 +5724,12 @@ class rsCarthelper
 		return $generateAccessoryCart;
 	}
 
+	/**
+	 * getCartItemAccessoryDetail
+	 *
+	 * @param $cart_item_id
+	 *
+	 */
 	public function getCartItemAccessoryDetail($cart_item_id = 0)
 	{
 		$list = null;
@@ -5474,6 +5745,15 @@ class rsCarthelper
 		return $list;
 	}
 
+	/**
+	 * getCartItemAttributeDetail
+	 *
+	 * @param $cart_item_id
+	 * @param $is_accessory
+	 * @param $section
+	 * @param $parent_section_id
+	 *
+	 */
 	public function getCartItemAttributeDetail($cart_item_id = 0, $is_accessory = 0, $section = "attribute", $parent_section_id = 0)
 	{
 		$db = JFactory::getDbo();
@@ -5500,6 +5780,12 @@ class rsCarthelper
 		return $list;
 	}
 
+	/**
+	 * addProductToCart
+	 *
+	 * @param $data
+	 *
+	 */
 	public function addProductToCart($data = array())
 	{
 		JPluginHelper::importPlugin('redshop_product');
@@ -6153,6 +6439,12 @@ class rsCarthelper
 		return true;
 	}
 
+	/**
+	 * update
+	 *
+	 * @param $data
+	 *
+	 */
 	public function update($data)
 	{
 		$session = JFactory::getSession();
@@ -6226,6 +6518,14 @@ class rsCarthelper
 		$session->set('cart', $cart);
 	}
 
+	/**
+	 * userfieldValidation
+	 *
+	 * @param $data
+	 * @param $data_add
+	 * @param $section
+	 *
+	 */
 	public function userfieldValidation($data, $data_add, $section = 12)
 	{
 		$returnArr    = $this->_producthelper->getProductUserfieldFromTemplate($data_add);
@@ -6252,6 +6552,13 @@ class rsCarthelper
 		return $msg;
 	}
 
+	/**
+	 * generateAccessoryArray
+	 *
+	 * @param $data
+	 * @param $user_id
+	 *
+	 */
 	public function generateAccessoryArray($data, $user_id = 0)
 	{
 		$generateAccessoryCart = array();
@@ -6405,6 +6712,17 @@ class rsCarthelper
 		return $generateAccessoryCart;
 	}
 
+	/**
+	 * getProductAccAttribute
+	 *
+	 * @param $product_id
+	 * @param $attribute_set_id
+	 * @param $attribute_id
+	 * @param $published
+	 * @param $attribute_required
+	 * @param $notAttributeId
+	 *
+	 */
 	public function getProductAccAttribute($product_id = 0, $attribute_set_id = 0, $attribute_id = 0, $published = 0, $attribute_required = 0, $notAttributeId = 0)
 	{
 		$and          = "";
@@ -6460,6 +6778,12 @@ class rsCarthelper
 		return $list;
 	}
 
+	/**
+	 * getAttributeSetId
+	 *
+	 * @param $pid
+	 *
+	 */
 	public function getAttributeSetId($pid)
 	{
 		$query = "SELECT attribute_set_id FROM " . $this->_table_prefix . "product"
@@ -6470,6 +6794,13 @@ class rsCarthelper
 		return $this->_db->loadResult();
 	}
 
+	/**
+	 * generateAttributeArray
+	 *
+	 * @param $data
+	 * @param $user_id
+	 *
+	 */
 	public function generateAttributeArray($data, $user_id = 0)
 	{
 		$generateAttributeCart = array();
@@ -6567,6 +6898,12 @@ class rsCarthelper
 		return $generateAttributeCart;
 	}
 
+	/**
+	 * getSelectedCartAttributeArray
+	 *
+	 * @param $attArr
+	 *
+	 */
 	public function getSelectedCartAttributeArray($attArr = array())
 	{
 		$selectedproperty    = array();
@@ -6593,6 +6930,12 @@ class rsCarthelper
 		return $ret;
 	}
 
+	/**
+	 * getSelectedCartAccessoryArray
+	 *
+	 * @param $attArr
+	 *
+	 */
 	public function getSelectedCartAccessoryArray($attArr = array())
 	{
 		$selectedAccessory   = array();
@@ -6626,6 +6969,15 @@ class rsCarthelper
 		return $ret;
 	}
 
+	/**
+	 * generateAttributeFromOrder
+	 *
+	 * @param $order_item_id
+	 * @param $is_accessory
+	 * @param $parent_section_id
+	 * @param $quantity
+	 *
+	 */
 	public function generateAttributeFromOrder($order_item_id = 0, $is_accessory = 0, $parent_section_id = 0, $quantity = 1)
 	{
 		$generateAttributeCart = array();
@@ -6693,6 +7045,14 @@ class rsCarthelper
 		return $generateAttributeCart;
 	}
 
+	/**
+	 * generateAccessoryFromOrder
+	 *
+	 * @param $order_item_id
+	 * @param $product_id
+	 * @param $quantity
+	 *
+	 */
 	public function generateAccessoryFromOrder($order_item_id = 0, $product_id = 0, $quantity = 1)
 	{
 		$generateAccessoryCart = array();
@@ -6716,6 +7076,13 @@ class rsCarthelper
 		return $generateAccessoryCart;
 	}
 
+	/**
+	 * discountCalculatorData
+	 *
+	 * @param $product_data
+	 * @param $data
+	 *
+	 */
 	public function discountCalculatorData($product_data, $data)
 	{
 		$use_discount_calculator = $product_data->use_discount_calc;

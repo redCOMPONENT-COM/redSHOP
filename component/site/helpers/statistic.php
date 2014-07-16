@@ -9,12 +9,22 @@
 
 defined('_JEXEC') or die;
 
+/**
+ * statistic
+ *
+ * @package     RedSHOP
+ * @subpackage  Helper
+ * @since       1.0
+ */
 class statistic
 {
 	public $_table_prefix = null;
 
 	public $_db = null;
 
+	/**
+	 * __construct
+	 */
 	public function __construct()
 	{
 		$this->_db           = JFactory::getDbo();
@@ -27,6 +37,9 @@ class statistic
 		}
 	}
 
+	/**
+	 * reshop_visitors
+	 */
 	public function reshop_visitors()
 	{
 		$db = JFactory::getDbo();
@@ -54,6 +67,9 @@ class statistic
 		}
 	}
 
+	/**
+	 * reshop_pageview
+	 */
 	public function reshop_pageview()
 	{
 		$db      = JFactory::getDbo();

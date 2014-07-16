@@ -7,6 +7,13 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
+/**
+ * zipfile
+ *
+ * @package     RedSHOP
+ * @subpackage  Helper
+ * @since       1.0
+ */
 class zipfile
 {
 	/**
