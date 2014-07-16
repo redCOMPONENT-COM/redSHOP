@@ -1,14 +1,21 @@
 language: php
 php:
-- 5.3
-- 5.4
-- 5.5
+  - 5.3
+  - 5.4
+  - 5.5
+
 before_script:
-- composer install
+  - composer install
+  - sudo apt-get update > /dev/null
+  - sudo apt-get install -y --force-yes apache2 libapache2-mod-php5 php5-curl php5-mysql php5-intl
+
 script:
-- find ./component -name '*.php' -exec php -l {} \;
-- php .travis/phpcs.php
-- php .travis/phpmd.php
+  - find ./component -name '*.php' -exec php -l {} \;
+  - "curl -O http://selenium-release.storage.googleapis.com/2.41/selenium-server-standalone-2.41.0.jar"
+  - "java -jar selenium-server-standalone-2.41.0.jar -host 127.0.0.1 -port 4444 &"
+  # - php .travis/phpcs.php
+  # - php .travis/phpmd.php
+
 notifications:
   slack:
     secure: XX4m+uA8suXodJS0SvLDqrWovNvx7bxiJwyebj3gA8JwSP2E3XsRJFxsAt5++GTOv1nmMCGIkXnovY44XoA8ErEVSseElCUtKOr3/sa6tCPDYl4Lz+Q4FxPxPJcz6glpwXyOc2tCMNaKWiFdWrDsHNucPjw9iN5N16+jIvYwrrQ=
