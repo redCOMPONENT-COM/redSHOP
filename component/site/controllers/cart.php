@@ -221,6 +221,12 @@ class CartController extends JController
 		}
 	}
 
+	/**
+	 * modifyCalculation
+	 *
+	 * @param $cart
+	 *
+	 */
 	public function modifyCalculation($cart)
 	{
 		$producthelper            = new producthelper;

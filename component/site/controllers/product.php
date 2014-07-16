@@ -76,6 +76,9 @@ class ProductController extends JController
 		exit;
 	}
 
+	/**
+	 * writeReview
+	 */
 	public function writeReview()
 	{
 		$post           = JRequest::get('post');
@@ -403,6 +406,9 @@ class ProductController extends JController
 	 * @return void
 	 */
 
+	/**
+	 * addProductTags
+	 */
 	public function addProductTags()
 	{
 		$app = JFactory::getApplication();
