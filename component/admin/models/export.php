@@ -1587,12 +1587,13 @@ class ExportModelexport extends JModel
 				$i = 0;
 
 				// Get product number from array
-				$isProductNumber = (int) $row['product_number'];
+				$isProductNumber   = (int) $row['product_number'];
+				$isAttributeNumber = (int) $row['attribute_number'];
 
 				foreach ($row as $id => $value)
 				{
-					// Only allow attribute which has product number
-					if ($isProductNumber)
+					// Only allow attribute which has product number and attribute number
+					if ($isProductNumber && $isAttributeNumber)
 					{
 						echo '"' . str_replace('"', '""', $value) . '"';
 
