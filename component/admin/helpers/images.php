@@ -65,6 +65,18 @@ class RedShopHelperImages extends JObject
 		return $thumbUrl;
 	}
 
+	/**
+	 * generateImages
+	 *
+	 * @param $file_path
+	 * @param $dest
+	 * @param $command
+	 * @param $type
+	 * @param $width
+	 * @param $height
+	 * @param $proportional
+	 *
+	 */
 	public static function generateImages($file_path, $dest, $command = 'upload', $type, $width, $height, $proportional)
 	{
 		$info = getimagesize($file_path);
@@ -139,6 +151,17 @@ class RedShopHelperImages extends JObject
 		return $ret;
 	}
 
+	/**
+	 * writeImage
+	 *
+	 * @param $src
+	 * @param $dest
+	 * @param $alt_dest
+	 * @param $width
+	 * @param $height
+	 * @param $proportional
+	 *
+	 */
 	public static function writeImage($src, $dest, $alt_dest, $width, $height, $proportional)
 	{
 		ob_start();
@@ -164,6 +187,12 @@ class RedShopHelperImages extends JObject
 		return $dest;
 	}
 
+	/**
+	 * createDir
+	 *
+	 * @param $path
+	 *
+	 */
 	public static function createDir($path)
 	{
 		if (!JFolder::exists($path))
@@ -187,6 +216,18 @@ class RedShopHelperImages extends JObject
 		return true;
 	}
 
+	/**
+	 * resizeImage
+	 *
+	 * @param $file
+	 * @param $width
+	 * @param $height
+	 * @param $proportional
+	 * @param $output
+	 * @param $delete_original
+	 * @param $use_linux_commands
+	 *
+	 */
 	public static function resizeImage($file, $width = 0, $height = 0, $proportional = false, $output = 'file', $delete_original = true, $use_linux_commands = false)
 	{
 		if ($height <= 0 && $width <= 0)

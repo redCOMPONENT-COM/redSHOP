@@ -15,18 +15,31 @@ require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/extra_field.
 require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/configuration.php';
 require_once JPATH_SITE . '/components/com_redshop/helpers/helper.php';
 
+/**
+ * quotationHelper
+ *
+ * @package     RedSHOP
+ * @subpackage  Helper
+ * @since       1.0
+ */
 class quotationHelper
 {
 	public $_data = null;
 	public $_table_prefix = null;
 	public $_db = null;
 
+	/**
+	 * __construct
+	 */
 	public function __construct()
 	{
 		$this->_db = JFactory::getDbo();
 		$this->_table_prefix = '#__redshop_';
 	}
 
+	/**
+	 * getQuotationStatusList
+	 */
 	public function getQuotationStatusList()
 	{
 		$status = array();
@@ -40,6 +53,12 @@ class quotationHelper
 		return $status;
 	}
 
+	/**
+	 * getQuotationStatusName
+	 *
+	 * @param $value
+	 *
+	 */
 	public function getQuotationStatusName($value = 0)
 	{
 		$name = "-";
@@ -66,6 +85,13 @@ class quotationHelper
 		return $name;
 	}
 
+	/**
+	 * getQuotationProduct
+	 *
+	 * @param $quotation_id
+	 * @param $quotation_item_id
+	 *
+	 */
 	public function getQuotationProduct($quotation_id = 0, $quotation_item_id = 0)
 	{
 		$and = "";
@@ -93,6 +119,12 @@ class quotationHelper
 		return $list;
 	}
 
+	/**
+	 * getQuotationDetail
+	 *
+	 * @param $quotation_id
+	 *
+	 */
 	public function getQuotationDetail($quotation_id)
 	{
 		$query = "SELECT q.*,q.user_email AS quotation_email,u.* FROM " . $this->_table_prefix . "quotation AS q "
@@ -104,6 +136,9 @@ class quotationHelper
 		return $list;
 	}
 
+	/**
+	 * generateQuotationNumber
+	 */
 	public function generateQuotationNumber()
 	{
 		/* Generated a unique quotation number */
@@ -148,6 +183,9 @@ class quotationHelper
 		}
 	}
 
+	/**
+	 * getQuotationUserList
+	 */
 	public function getQuotationUserList()
 	{
 		$user = JFactory::getUser();
@@ -168,6 +206,12 @@ class quotationHelper
 		return $list;
 	}
 
+	/**
+	 * randomQuotationEncrkey
+	 *
+	 * @param $p_length
+	 *
+	 */
 	public function randomQuotationEncrkey($p_length = '30')
 	{
 		/* Generated a unique order number */
@@ -185,6 +229,12 @@ class quotationHelper
 		return $random;
 	}
 
+	/**
+	 * manageQuotationUserfield
+	 *
+	 * @param $cart
+	 *
+	 */
 	public function manageQuotationUserfield($cart = array(), $quotation_item_id = 0, $section_id = 12)
 	{
 		$extra_field = new extra_field;
@@ -205,6 +255,15 @@ class quotationHelper
 		return true;
 	}
 
+	/**
+	 * insertQuotationUserfield
+	 *
+	 * @param $field_id
+	 * @param $quotation_item_id
+	 * @param $section_id
+	 * @param $value
+	 *
+	 */
 	public function insertQuotationUserfield($field_id = 0, $quotation_item_id = 0, $section_id = 12, $value = '')
 	{
 		$db = JFactory::getDbo();
@@ -215,6 +274,12 @@ class quotationHelper
 		$db->query();
 	}
 
+	/**
+	 * getQuotationUserfield
+	 *
+	 * @param $quotation_item_id
+	 *
+	 */
 	public function getQuotationUserfield($quotation_item_id)
 	{
 		$q = "SELECT qf.*,f.* FROM " . $this->_table_prefix . "quotation_fields_data AS qf "
@@ -226,6 +291,13 @@ class quotationHelper
 		return $row_data;
 	}
 
+	/**
+	 * displayQuotationUserfield
+	 *
+	 * @param $quotation_item_id
+	 * @param $section_id
+	 *
+	 */
 	public function displayQuotationUserfield($quotation_item_id = 0, $section_id = 12)
 	{
 		$redTemplate = new Redtemplate;
@@ -286,6 +358,13 @@ class quotationHelper
 		return $resultstr;
 	}
 
+	/**
+	 * updateQuotationwithOrder
+	 *
+	 * @param $quotation_id
+	 * @param $order_id
+	 *
+	 */
 	public function updateQuotationwithOrder($quotation_id, $order_id)
 	{
 		$query = 'UPDATE ' . $this->_table_prefix . 'quotation '
@@ -298,6 +377,12 @@ class quotationHelper
 		return true;
 	}
 
+	/**
+	 * getQuotationwithOrder
+	 *
+	 * @param $order_id
+	 *
+	 */
 	public function getQuotationwithOrder($order_id = 0)
 	{
 		$and = "";
@@ -321,6 +406,12 @@ class quotationHelper
 		return $list;
 	}
 
+	/**
+	 * getQuotationItemAccessoryDetail
+	 *
+	 * @param $quotation_item_id
+	 *
+	 */
 	public function getQuotationItemAccessoryDetail($quotation_item_id = 0)
 	{
 		$and = "";
@@ -339,6 +430,15 @@ class quotationHelper
 		return $list;
 	}
 
+	/**
+	 * getQuotationItemAttributeDetail
+	 *
+	 * @param $quotation_item_id
+	 * @param $is_accessory
+	 * @param $section
+	 * @param $parent_section_id
+	 *
+	 */
 	public function getQuotationItemAttributeDetail($quotation_item_id = 0, $is_accessory = 0, $section = "attribute", $parent_section_id = 0)
 	{
 		$and = "";

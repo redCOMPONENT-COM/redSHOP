@@ -12,6 +12,13 @@ defined('_JEXEC') or die;
 JHTML::_('behavior.tooltip');
 jimport('joomla.filesystem.file');
 
+/**
+ * extra_field
+ *
+ * @package     RedSHOP
+ * @subpackage  Helper
+ * @since       1.0
+ */
 class extra_field
 {
 	/**
@@ -52,12 +59,21 @@ class extra_field
 
 	public $_db = null;
 
+	/**
+	 * __construct
+	 */
 	public function __construct()
 	{
 		$this->_table_prefix = '#__redshop_';
 		$this->_db = JFactory::getDbo();
 	}
 
+	/**
+	 * list_all_field_in_product
+	 *
+	 * @param $section
+	 *
+	 */
 	public function list_all_field_in_product($section = 1)
 	{
 		$query = "SELECT * FROM " . $this->_table_prefix . "fields "
@@ -72,6 +88,16 @@ class extra_field
 		return $row_data;
 	}
 
+	/**
+	 * list_all_field
+	 *
+	 * @param $field_section
+	 * @param $section_id
+	 * @param $field_name
+	 * @param $table
+	 * @param $template_desc
+	 *
+	 */
 	public function list_all_field($field_section = "", $section_id = 0, $field_name = "", $table = "", $template_desc = "")
 	{
 		$option = JRequest::getVar('option');
@@ -621,6 +647,15 @@ class extra_field
 		return $ex_field;
 	}
 
+	/**
+	 * extra_field_save
+	 *
+	 * @param $data
+	 * @param $field_section
+	 * @param $section_id
+	 * @param $user_email
+	 *
+	 */
 	public function extra_field_save($data, $field_section, $section_id = "", $user_email = "")
 	{
 		$option = JRequest::getVar('option');
@@ -816,6 +851,13 @@ class extra_field
 		}
 	}
 
+	/**
+	 * chk_extrafieldValidation
+	 *
+	 * @param $field_section
+	 * @param $section_id
+	 *
+	 */
 	public function chk_extrafieldValidation($field_section = "", $section_id = 0)
 	{
 		$row_data = $this->getSectionFieldList($field_section);
@@ -834,6 +876,16 @@ class extra_field
 		return false;
 	}
 
+	/**
+	 * list_all_field_display
+	 *
+	 * @param $field_section
+	 * @param $section_id
+	 * @param $flag
+	 * @param $user_email
+	 * @param $template_desc
+	 *
+	 */
 	public function list_all_field_display($field_section = "", $section_id = 0, $flag = 0, $user_email = "", $template_desc = "")
 	{
 		$row_data = $this->getSectionFieldList($field_section);
@@ -1005,6 +1057,15 @@ class extra_field
 	}
 
 
+	/**
+	 * list_all_user_fields
+	 *
+	 * @param $field_section
+	 * @param $section_id
+	 * @param $field_type
+	 * @param $unique_id
+	 *
+	 */
 	public function list_all_user_fields($field_section = "", $section_id = 12, $field_type = '', $unique_id)
 	{
 		$url = JURI::base();
@@ -1171,6 +1232,17 @@ class extra_field
 		return $ex;
 	}
 
+	/**
+	 * booleanlist
+	 *
+	 * @param $name
+	 * @param $attribs
+	 * @param $selected
+	 * @param $yes
+	 * @param $no
+	 * @param $id
+	 *
+	 */
 	public function booleanlist($name, $attribs = null, $selected = null, $yes = 'yes', $no = 'no', $id = false)
 	{
 		$arr = array(
@@ -1181,6 +1253,19 @@ class extra_field
 		return JHTML::_('select.radiolist', $arr, $name, $attribs, 'value', 'text', $selected, $id);
 	}
 
+	/**
+	 * rs_booleanlist
+	 *
+	 * @param $name
+	 * @param $attribs
+	 * @param $selected
+	 * @param $yes
+	 * @param $no
+	 * @param $id
+	 * @param $yes_value
+	 * @param $no_value
+	 *
+	 */
 	public function rs_booleanlist($name, $attribs = null, $selected = null, $yes = 'yes', $no = 'no', $id = false, $yes_value, $no_value)
 	{
 		$arr = array(
@@ -1191,6 +1276,12 @@ class extra_field
 		return JHTML::_('select.radiolist', $arr, $name, $attribs, 'value', 'text', $selected, $id);
 	}
 
+	/**
+	 * getFieldValue
+	 *
+	 * @param $id
+	 *
+	 */
 	public function getFieldValue($id)
 	{
 		$q = "SELECT * FROM " . $this->_table_prefix . "fields_value "
@@ -1202,6 +1293,13 @@ class extra_field
 		return $list;
 	}
 
+	/**
+	 * getSectionFieldList
+	 *
+	 * @param $section
+	 * @param $front
+	 *
+	 */
 	public function getSectionFieldList($section = 12, $front = 1)
 	{
 		$query = "SELECT * FROM " . $this->_table_prefix . "fields "
@@ -1214,6 +1312,15 @@ class extra_field
 		return $list;
 	}
 
+	/**
+	 * getSectionFieldDataList
+	 *
+	 * @param $fieldid
+	 * @param $section
+	 * @param $orderitemid
+	 * @param $user_email
+	 *
+	 */
 	public function getSectionFieldDataList($fieldid, $section = 0, $orderitemid = 0, $user_email = "")
 	{
 		$query = "SELECT * FROM " . $this->_table_prefix . "fields_data "
@@ -1227,6 +1334,13 @@ class extra_field
 		return $list;
 	}
 
+	/**
+	 * copy_product_extra_field
+	 *
+	 * @param $oldproduct_id
+	 * @param $newPid
+	 *
+	 */
 	public function copy_product_extra_field($oldproduct_id, $newPid)
 	{
 		$query = "SELECT * FROM " . $this->_table_prefix . "fields_data "
@@ -1249,6 +1363,12 @@ class extra_field
 		}
 	}
 
+	/**
+	 * deleteExtraFieldData
+	 *
+	 * @param $data_id
+	 *
+	 */
 	public function deleteExtraFieldData($data_id)
 	{
 		$query = "DELETE FROM " . $this->_table_prefix . "fields_data "

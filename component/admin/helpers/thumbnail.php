@@ -9,8 +9,25 @@
 
 defined('_JEXEC') or die;
 
+/**
+ * thumbnail
+ *
+ * @package     RedSHOP
+ * @subpackage  Helper
+ * @since       1.0
+ */
 class thumbnail
 {
+	/**
+	 * CreatThumb
+	 *
+	 * @param $filetype
+	 * @param $tsrc
+	 * @param $dest
+	 * @param $n_width
+	 * @param $n_height
+	 *
+	 */
 	public function CreatThumb($filetype, $tsrc, $dest, $n_width, $n_height)
 	{
 		if ($filetype == "gif")
@@ -61,6 +78,13 @@ class thumbnail
 	}
 }
 
+/**
+ * thumbnail_images
+ *
+ * @package     RedSHOP
+ * @subpackage  Helper
+ * @since       1.0
+ */
 class thumbnail_images
 {
 	public $PathImgOld;
@@ -69,6 +93,13 @@ class thumbnail_images
 	public $NewHeight;
 	public $mime;
 
+	/**
+	 * imagejpeg_new
+	 *
+	 * @param $NewImg
+	 * @param $path_img
+	 *
+	 */
 	public function imagejpeg_new($NewImg, $path_img)
 	{
 		if ($this->mime == 'image/jpeg' || $this->mime == 'image/pjpeg')
@@ -94,6 +125,12 @@ class thumbnail_images
 		return true;
 	}
 
+	/**
+	 * imagecreatefromjpeg_new
+	 *
+	 * @param $path_img
+	 *
+	 */
 	public function imagecreatefromjpeg_new($path_img)
 	{
 		if ($this->mime == 'image/jpeg' or $this->mime == 'image/pjpeg')
@@ -119,6 +156,9 @@ class thumbnail_images
 		return $OldImg;
 	}
 
+	/**
+	 * create_thumbnail_images
+	 */
 	public function create_thumbnail_images()
 	{
 		$PathImgOld = $this->PathImgOld;

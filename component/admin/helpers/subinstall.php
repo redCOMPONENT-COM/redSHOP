@@ -9,6 +9,13 @@
 
 defined('_JEXEC') or die;
 
+/**
+ * SubInstaller
+ *
+ * @package     RedSHOP
+ * @subpackage  Helper
+ * @since       1.0
+ */
 class SubInstaller extends JObject
 {
 

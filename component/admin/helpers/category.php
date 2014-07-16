@@ -9,17 +9,35 @@
 
 defined('_JEXEC') or die;
 
+/**
+ * product_category
+ *
+ * @package     RedSHOP
+ * @subpackage  Helper
+ * @since       1.0
+ */
 class product_category
 {
 	public $_cats = array();
 
 	public $_table_prefix = null;
 
+	/**
+	 * __construct
+	 */
 	public function __construct()
 	{
 		$this->_table_prefix = '#__redshop_';
 	}
 
+	/**
+	 * list_all
+	 *
+	 * @param $name
+	 * @param $category_id
+	 * @param $selected_categories
+	 *
+	 */
 	public function list_all($name, $category_id, $selected_categories = Array(), $size = 1, $toplevel = true, $multiple = false, $disabledFields = array(), $width = 250)
 	{
 		$db = JFactory::getDbo();
@@ -54,6 +72,15 @@ class product_category
 		return $html;
 	}
 
+	/**
+	 * list_tree
+	 *
+	 * @param $category_id
+	 * @param $cid
+	 * @param $level
+	 * @param $selected_categories
+	 *
+	 */
 	public function list_tree($category_id = "", $cid = '0', $level = '0', $selected_categories = Array(), $disabledFields = Array(), $html = '')
 	{
 		$db = JFactory::getDbo();
@@ -121,6 +148,14 @@ class product_category
 		return $html;
 	}
 
+	/**
+	 * getCategoryListArray
+	 *
+	 * @param $category_id
+	 * @param $cid
+	 * @param $level
+	 *
+	 */
 	public function getCategoryListArray($category_id = "", $cid = '0', $level = '0')
 	{
 		global $context;
@@ -197,6 +232,12 @@ class product_category
 		return $this->_cats;
 	}
 
+	/**
+	 * getCategoryListReverceArray
+	 *
+	 * @param $cid
+	 *
+	 */
 	public function getCategoryListReverceArray($cid = '0')
 	{
 		$db = JFactory::getDbo();
@@ -219,6 +260,9 @@ class product_category
 		return $GLOBALS['catlist_reverse'];
 	}
 
+	/**
+	 * _buildContentOrderBy
+	 */
 	public function _buildContentOrderBy()
 	{
 		$db = JFactory::getDbo();
@@ -233,6 +277,9 @@ class product_category
 		return $orderby;
 	}
 
+	/**
+	 * getParentCategories
+	 */
 	public function getParentCategories()
 	{
 		$db = JFactory::getDbo();
@@ -254,6 +301,12 @@ class product_category
 	 *
 	 */
 
+	/**
+	 * getCategoryTree
+	 *
+	 * @param $cid
+	 *
+	 */
 	public function getCategoryTree($cid = '0')
 	{
 		$db = JFactory::getDbo();
@@ -278,6 +331,12 @@ class product_category
 		return $GLOBALS['catlist'];
 	}
 
+	/**
+	 * getCategoryProductList
+	 *
+	 * @param $cid
+	 *
+	 */
 	public function getCategoryProductList($cid)
 	{
 		$db = JFactory::getDbo();
@@ -294,6 +353,13 @@ class product_category
 		return $result;
 	}
 
+	/**
+	 * CheckAccessoryExists
+	 *
+	 * @param $product_id
+	 * @param $accessory_id
+	 *
+	 */
 	public function CheckAccessoryExists($product_id, $accessory_id)
 	{
 		$db = JFactory::getDbo();

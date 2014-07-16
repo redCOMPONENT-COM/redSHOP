@@ -9,6 +9,13 @@
 
 defined('_JEXEC') or die;
 
+/**
+ * redMediahelper
+ *
+ * @package     RedSHOP
+ * @subpackage  Helper
+ * @since       1.0
+ */
 class redMediahelper
 {
 	/**
@@ -37,6 +44,12 @@ class redMediahelper
 		return strtolower(substr($fileName, strrpos($fileName, '.') + 1));
 	}
 
+	/**
+	 * parseSize
+	 *
+	 * @param $size
+	 *
+	 */
 	public function parseSize($size)
 	{
 		if ($size < 1024)
@@ -57,6 +70,14 @@ class redMediahelper
 		}
 	}
 
+	/**
+	 * imageResize
+	 *
+	 * @param $width
+	 * @param $height
+	 * @param $target
+	 *
+	 */
 	public function imageResize($width, $height, $target)
 	{
 		/**
@@ -81,6 +102,12 @@ class redMediahelper
 		return array($width, $height);
 	}
 
+	/**
+	 * countFiles
+	 *
+	 * @param $dir
+	 *
+	 */
 	public function countFiles($dir)
 	{
 		$total_file = 0;

@@ -11,6 +11,13 @@ defined('_JEXEC') or die;
 
 require_once JPATH_SITE . '/components/com_redshop/helpers/user.php';
 
+/**
+ * Redconfiguration
+ *
+ * @package     RedSHOP
+ * @subpackage  Helper
+ * @since       1.0
+ */
 class Redconfiguration
 {
 	public $_def_array = null;
@@ -936,6 +943,9 @@ class Redconfiguration
 		}
 	}
 
+	/**
+	 * checkMagicMagnity
+	 */
 	public function checkMagicMagnity()
 	{
 		jimport('joomla.application.module.helper');
@@ -943,6 +953,9 @@ class Redconfiguration
 		return JModuleHelper::isEnabled('redmagicmagnifyplus');
 	}
 
+	/**
+	 * showPrice
+	 */
 	public function showPrice()
 	{
 		$user       = JFactory::getUser();
@@ -983,6 +996,9 @@ class Redconfiguration
 		}
 	}
 
+	/**
+	 * getCatalog
+	 */
 	public function getCatalog()
 	{
 		$user             = JFactory::getUser();
@@ -1023,6 +1039,9 @@ class Redconfiguration
 		}
 	}
 
+	/**
+	 * setQuotationMode
+	 */
 	public function setQuotationMode()
 	{
 		$user             = JFactory::getUser();
@@ -1063,6 +1082,14 @@ class Redconfiguration
 		}
 	}
 
+	/**
+	 * maxchar
+	 *
+	 * @param $desc
+	 * @param $maxchars
+	 * @param $suffix
+	 *
+	 */
 	public function maxchar($desc = '', $maxchars = 0, $suffix = '')
 	{
 		$strdesc = '';
@@ -1079,6 +1106,16 @@ class Redconfiguration
 		return $strdesc;
 	}
 
+	/**
+	 * substrws
+	 *
+	 * @param $text
+	 * @param $length
+	 * @param $ending
+	 * @param $exact
+	 * @param $considerHtml
+	 *
+	 */
 	public function substrws($text, $length = 50, $ending = '...', $exact = false, $considerHtml = true)
 	{
 		if ($considerHtml)
@@ -1343,6 +1380,12 @@ class Redconfiguration
 		return $convertformat;
 	}
 
+	/**
+	 * getCountryId
+	 *
+	 * @param $conid
+	 *
+	 */
 	public function getCountryId($conid)
 	{
 		$db = JFactory::getDbo();
@@ -1353,6 +1396,12 @@ class Redconfiguration
 		return $this->_db->loadResult();
 	}
 
+	/**
+	 * getCountryCode2
+	 *
+	 * @param $conid
+	 *
+	 */
 	public function getCountryCode2($conid)
 	{
 		$db = JFactory::getDbo();
@@ -1363,6 +1412,12 @@ class Redconfiguration
 		return $this->_db->loadResult();
 	}
 
+	/**
+	 * getStateCode2
+	 *
+	 * @param $conid
+	 *
+	 */
 	public function getStateCode2($conid)
 	{
 		$db = JFactory::getDbo();
@@ -1373,6 +1428,13 @@ class Redconfiguration
 		return $this->_db->loadResult();
 	}
 
+	/**
+	 * getStateCode
+	 *
+	 * @param $conid
+	 * @param $tax_code
+	 *
+	 */
 	public function getStateCode($conid, $tax_code)
 	{
 		if (empty($tax_code))
@@ -1399,6 +1461,9 @@ class Redconfiguration
 		return $state_code;
 	}
 
+	/**
+	 * countryList
+	 */
 	public function countryList()
 	{
 		$db = JFactory::getDbo();
@@ -1440,6 +1505,12 @@ class Redconfiguration
 		return $this->_country_list;
 	}
 
+	/**
+	 * getCountryList
+	 *
+	 * @param $post
+	 *
+	 */
 	public function getCountryList($post = array(), $country_codename = "country_code", $address_type = "BT", $country_class = "inputbox")
 	{
 		$address_type = ($address_type == "ST") ? "_ST" : "";
@@ -1479,6 +1550,12 @@ class Redconfiguration
 		return $return;
 	}
 
+	/**
+	 * getStateList
+	 *
+	 * @param $post
+	 *
+	 */
 	public function getStateList($post = array(), $state_codename = "state_code", $country_codename = "country_code", $address_type = "BT", $isAdmin = 0, $state_class = "inputbox")
 	{
 		$db = JFactory::getDbo();

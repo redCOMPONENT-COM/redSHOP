@@ -9,8 +9,23 @@
 
 defined('_JEXEC') or die;
 
+/**
+ * shoppergroup
+ *
+ * @package     RedSHOP
+ * @subpackage  Helper
+ * @since       1.0
+ */
 class shoppergroup
 {
+	/**
+	 * list_all
+	 *
+	 * @param $name
+	 * @param $shopper_group_id
+	 * @param $selected_groups
+	 *
+	 */
 	public function list_all($name, $shopper_group_id, $selected_groups = Array(), $size = 1, $toplevel = true,
 	                         $multiple = false, $disabledFields = array())
 	{
@@ -46,6 +61,15 @@ class shoppergroup
 		return $html;
 	}
 
+	/**
+	 * list_tree
+	 *
+	 * @param $shopper_group_id
+	 * @param $cid
+	 * @param $level
+	 * @param $selected_groups
+	 *
+	 */
 	public function list_tree($shopper_group_id = "", $cid = '0', $level = '0', $selected_groups = Array(), $disabledFields = Array(), $html = '')
 	{
 		$db = JFactory::getDbo();
@@ -98,6 +122,14 @@ class shoppergroup
 		return $html;
 	}
 
+	/**
+	 * getshopperGroupListArray
+	 *
+	 * @param $shopper_group_id
+	 * @param $cid
+	 * @param $level
+	 *
+	 */
 	public function getshopperGroupListArray($shopper_group_id = "", $cid = '0', $level = '0')
 	{
 		$db = JFactory::getDbo();
@@ -140,6 +172,12 @@ class shoppergroup
 		return array();
 	}
 
+	/**
+	 * getCategoryListReverceArray
+	 *
+	 * @param $cid
+	 *
+	 */
 	public function getCategoryListReverceArray($cid = '0')
 	{
 		$db = JFactory::getDbo();

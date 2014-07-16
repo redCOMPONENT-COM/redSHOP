@@ -13,18 +13,31 @@ JHTML::_('behavior.tooltip');
 
 require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/configuration.php';
 
+/**
+ * xmlHelper
+ *
+ * @package     RedSHOP
+ * @subpackage  Helper
+ * @since       1.0
+ */
 class xmlHelper
 {
 	public $_db = null;
 	public $_data = null;
 	public $_table_prefix = null;
 
+	/**
+	 * __construct
+	 */
 	public function __construct()
 	{
 		$this->_table_prefix = '#__redshop_';
 		$this->_db = JFactory::getDbo();
 	}
 
+	/**
+	 * getSectionTypeList
+	 */
 	public function getSectionTypeList()
 	{
 		$section = array();
@@ -34,6 +47,12 @@ class xmlHelper
 		return $section;
 	}
 
+	/**
+	 * getSectionTypeName
+	 *
+	 * @param $value
+	 *
+	 */
 	public function getSectionTypeName($value = '')
 	{
 		$name = "-";
@@ -51,6 +70,9 @@ class xmlHelper
 		return $name;
 	}
 
+	/**
+	 * getSynchIntervalList
+	 */
 	public function getSynchIntervalList()
 	{
 		$section = array();
@@ -62,6 +84,12 @@ class xmlHelper
 		return $section;
 	}
 
+	/**
+	 * getSynchIntervalName
+	 *
+	 * @param $value
+	 *
+	 */
 	public function getSynchIntervalName($value = 0)
 	{
 		$name = "-";
@@ -82,6 +110,13 @@ class xmlHelper
 		return $name;
 	}
 
+	/**
+	 * getSectionColumnList
+	 *
+	 * @param $section
+	 * @param $childSection
+	 *
+	 */
 	public function getSectionColumnList($section = "", $childSection = "")
 	{
 		$cols = array();
@@ -226,6 +261,13 @@ class xmlHelper
 		return $cols;
 	}
 
+	/**
+	 * getXMLFileTag
+	 *
+	 * @param $fieldname
+	 * @param $xmlfiletag
+	 *
+	 */
 	public function getXMLFileTag($fieldname = "", $xmlfiletag)
 	{
 		$result = "";
@@ -251,6 +293,12 @@ class xmlHelper
 		return array($result, $update);
 	}
 
+	/**
+	 * explodeXMLFileString
+	 *
+	 * @param $xmlfiletag
+	 *
+	 */
 	public function explodeXMLFileString($xmlfiletag = "")
 	{
 		$value = array();
@@ -268,6 +316,12 @@ class xmlHelper
 		return $value;
 	}
 
+	/**
+	 * getXMLExportInfo
+	 *
+	 * @param $xmlexport_id
+	 *
+	 */
 	public function getXMLExportInfo($xmlexport_id = 0)
 	{
 		$query = "SELECT * FROM " . $this->_table_prefix . "xml_export AS x "
@@ -278,6 +332,12 @@ class xmlHelper
 		return $list;
 	}
 
+	/**
+	 * getXMLExportIpAddress
+	 *
+	 * @param $xmlexport_id
+	 *
+	 */
 	public function getXMLExportIpAddress($xmlexport_id = 0)
 	{
 		$query = "SELECT * FROM " . $this->_table_prefix . "xml_export_ipaddress AS x "
@@ -288,6 +348,13 @@ class xmlHelper
 		return $list;
 	}
 
+	/**
+	 * insertXMLExportlog
+	 *
+	 * @param $xmlexport_id
+	 * @param $filename
+	 *
+	 */
 	public function insertXMLExportlog($xmlexport_id = 0, $filename = "")
 	{
 		$query = "INSERT INTO " . $this->_table_prefix . "xml_export_log "
@@ -298,6 +365,13 @@ class xmlHelper
 		$this->_db->query();
 	}
 
+	/**
+	 * updateXMLExportFilename
+	 *
+	 * @param $xmlexport_id
+	 * @param $filename
+	 *
+	 */
 	public function updateXMLExportFilename($xmlexport_id = 0, $filename = "")
 	{
 		$query = "UPDATE " . $this->_table_prefix . "xml_export "
@@ -307,6 +381,12 @@ class xmlHelper
 		$this->_db->query();
 	}
 
+	/**
+	 * getXMLImportInfo
+	 *
+	 * @param $xmlimport_id
+	 *
+	 */
 	public function getXMLImportInfo($xmlimport_id = 0)
 	{
 		$query = "SELECT * FROM " . $this->_table_prefix . "xml_import "
@@ -317,6 +397,13 @@ class xmlHelper
 		return $list;
 	}
 
+	/**
+	 * insertXMLImportlog
+	 *
+	 * @param $xmlimport_id
+	 * @param $filename
+	 *
+	 */
 	public function insertXMLImportlog($xmlimport_id = 0, $filename = "")
 	{
 		$query = "INSERT INTO " . $this->_table_prefix . "xml_import_log "
@@ -327,6 +414,13 @@ class xmlHelper
 		$this->_db->query();
 	}
 
+	/**
+	 * updateXMLImportFilename
+	 *
+	 * @param $xmlimport_id
+	 * @param $filename
+	 *
+	 */
 	public function updateXMLImportFilename($xmlimport_id = 0, $filename = "")
 	{
 		$query = "UPDATE " . $this->_table_prefix . "xml_import "
@@ -336,6 +430,12 @@ class xmlHelper
 		$this->_db->query();
 	}
 
+	/**
+	 * writeXMLExportFile
+	 *
+	 * @param $xmlexport_id
+	 *
+	 */
 	public function writeXMLExportFile($xmlexport_id = 0)
 	{
 		$config   = new Redconfiguration;
@@ -737,6 +837,13 @@ class xmlHelper
 		return $filename;
 	}
 
+	/**
+	 * writeXMLImportFile
+	 *
+	 * @param $xmlimport_id
+	 * @param $tmlxmlimport_url
+	 *
+	 */
 	public function writeXMLImportFile($xmlimport_id = 0, $tmlxmlimport_url = "")
 	{
 		$destpath = JPATH_SITE . "/components/com_redshop/assets/xmlfile/import/";
@@ -841,6 +948,13 @@ class xmlHelper
 		return $filename;
 	}
 
+	/**
+	 * readXMLImportFile
+	 *
+	 * @param $file
+	 * @param $data
+	 *
+	 */
 	public function readXMLImportFile($file = "", $data = array(), $isImport = 0)
 	{
 		$resultarray = array();
@@ -1062,6 +1176,12 @@ class xmlHelper
 		return $result;
 	}
 
+	/**
+	 * importXMLFile
+	 *
+	 * @param $xmlimport_id
+	 *
+	 */
 	function importXMLFile($xmlimport_id = 0)
 	{
 		$xmlimportdata = $this->getXMLImportInfo($xmlimport_id);
@@ -1758,6 +1878,12 @@ class xmlHelper
 		return true;
 	}
 
+	/**
+	 * getProductExist
+	 *
+	 * @param $product_number
+	 *
+	 */
 	public function getProductExist($product_number = "")
 	{
 		$query = "SELECT * FROM " . $this->_table_prefix . "product "
@@ -1773,6 +1899,12 @@ class xmlHelper
 		return false;
 	}
 
+	/**
+	 * getOrderExist
+	 *
+	 * @param $order_number
+	 *
+	 */
 	public function getOrderExist($order_number = "")
 	{
 		$query = "SELECT * FROM " . $this->_table_prefix . "orders "
@@ -1788,6 +1920,12 @@ class xmlHelper
 		return false;
 	}
 
+	/**
+	 * getProductList
+	 *
+	 * @param $xmlarray
+	 *
+	 */
 	public function getProductList($xmlarray = array(), $xmlExport = array())
 	{
 		$list = array();
@@ -1871,6 +2009,12 @@ class xmlHelper
 		return $list;
 	}
 
+	/**
+	 * getOrderList
+	 *
+	 * @param $xmlarray
+	 *
+	 */
 	public function getOrderList($xmlarray = array())
 	{
 		$list = array();
@@ -1901,6 +2045,12 @@ class xmlHelper
 		return $list;
 	}
 
+	/**
+	 * getOrderUserInfoList
+	 *
+	 * @param $xmlarray
+	 *
+	 */
 	public function getOrderUserInfoList($xmlarray = array(), $order_id = 0, $addresstype = "BT")
 	{
 		$list = array();
@@ -1933,6 +2083,12 @@ class xmlHelper
 		return $list;
 	}
 
+	/**
+	 * getOrderItemList
+	 *
+	 * @param $xmlarray
+	 *
+	 */
 	public function getOrderItemList($xmlarray = array(), $order_id = 0)
 	{
 		$list = array();
@@ -1964,6 +2120,12 @@ class xmlHelper
 		return $list;
 	}
 
+	/**
+	 * getStockroomList
+	 *
+	 * @param $xmlarray
+	 *
+	 */
 	public function getStockroomList($xmlarray = array(), $product_id = 0)
 	{
 		$list = array();
@@ -1996,6 +2158,12 @@ class xmlHelper
 		return $list;
 	}
 
+	/**
+	 * getExtraFieldList
+	 *
+	 * @param $xmlarray
+	 *
+	 */
 	public function getExtraFieldList($xmlarray = array(), $section_id = 0, $fieldsection = 0)
 	{
 		$list = array();
@@ -2027,6 +2195,13 @@ class xmlHelper
 		return $list;
 	}
 
+	/**
+	 * importRemoteImage
+	 *
+	 * @param $src
+	 * @param $dest
+	 *
+	 */
 	public function importRemoteImage($src, $dest)
 	{
 		chmod($dest, 0777);

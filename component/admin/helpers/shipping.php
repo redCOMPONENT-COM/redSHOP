@@ -11,10 +11,20 @@ defined('_JEXEC') or die;
 
 include_once JPATH_SITE . '/components/com_redshop/helpers/product.php';
 
+/**
+ * shipping
+ *
+ * @package     RedSHOP
+ * @subpackage  Helper
+ * @since       1.0
+ */
 class shipping
 {
 	public $_db;
 
+	/**
+	 * __construct
+	 */
 	public function __construct()
 	{
 		$this->_db = JFactory::getDbo();
@@ -23,6 +33,12 @@ class shipping
 		$this->producthelper = new producthelper;
 	}
 
+	/**
+	 * getDeliveryTimeOfProduct
+	 *
+	 * @param $product_id
+	 *
+	 */
 	public function getDeliveryTimeOfProduct($product_id)
 	{
 		$sql = "SELECT max_del_time FROM " . $this->_table_prefix . "container c," . $this->_table_prefix . "container_product_xref cx
@@ -38,6 +54,12 @@ class shipping
 		return $delivery;
 	}
 
+	/**
+	 * getProductContainerId
+	 *
+	 * @param $product_id
+	 *
+	 */
 	public function getProductContainerId($product_id)
 	{
 		$sql = "SELECT c.container_id FROM " . $this->_table_prefix . "container c," . $this->_table_prefix . "container_product_xref cx
@@ -47,6 +69,9 @@ class shipping
 		return $this->_db->loadResult();
 	}
 
+	/**
+	 * getRegularDelivery
+	 */
 	function getRegularDelivery()
 	{
 		$session = JFactory::getSession();
@@ -100,6 +125,9 @@ class shipping
 		return $delarr;
 	}
 
+	/**
+	 * getSplitDelivery
+	 */
 	function getSplitDelivery()
 	{
 		$session = JFactory::getSession();
@@ -196,6 +224,12 @@ class shipping
 		return ($return);
 	}
 
+	/**
+	 * getProductDeliveryArray
+	 *
+	 * @param $shipping_rate_id
+	 *
+	 */
 	public function getProductDeliveryArray($shipping_rate_id)
 	{
 		if (strstr($shipping_rate_id, "regular"))
@@ -888,6 +922,12 @@ class shipping
 		return $result;
 	}
 
+	/**
+	 * decryptShipping
+	 *
+	 * @param $Str_Message
+	 *
+	 */
 	public function decryptShipping($Str_Message)
 	{
 		$Str_Message           = base64_decode($Str_Message);
@@ -911,6 +951,12 @@ class shipping
 		return $Str_Encrypted_Message;
 	}
 
+	/**
+	 * getShippingAddress
+	 *
+	 * @param $user_info_id
+	 *
+	 */
 	public function getShippingAddress($user_info_id)
 	{
 		$query = 'SELECT * FROM ' . $this->_table_prefix . 'users_info '
@@ -921,6 +967,12 @@ class shipping
 		return $result;
 	}
 
+	/**
+	 * getShippingMethodByClass
+	 *
+	 * @param $shipping_class
+	 *
+	 */
 	public function getShippingMethodByClass($shipping_class = '')
 	{
 		$folder = strtolower('redshop_shipping');
@@ -934,6 +986,12 @@ class shipping
 		return $result;
 	}
 
+	/**
+	 * getShippingMethodById
+	 *
+	 * @param $id
+	 *
+	 */
 	public function getShippingMethodById($id = 0)
 	{
 		$folder = strtolower('redshop_shipping');
@@ -947,6 +1005,12 @@ class shipping
 		return $list;
 	}
 
+	/**
+	 * getShippingRates
+	 *
+	 * @param $shipping_class
+	 *
+	 */
 	public function getShippingRates($shipping_class)
 	{
 		$db = JFactory::getDbo();
@@ -958,6 +1022,12 @@ class shipping
 		return $result;
 	}
 
+	/**
+	 * applyVatOnShippingRate
+	 *
+	 * @param $shippingrate
+	 *
+	 */
 	public function applyVatOnShippingRate($shippingrate = array(), $user_id)
 	{
 		$shipping_rate_vat = $shippingrate->shipping_rate_value;
@@ -979,6 +1049,14 @@ class shipping
 		return $shipping_rate_vat;
 	}
 
+	/**
+	 * listshippingrates
+	 *
+	 * @param $shipping_class
+	 * @param $users_info_id
+	 * @param $d
+	 *
+	 */
 	public function listshippingrates($shipping_class, $users_info_id, &$d)
 	{
 		$userhelper     = new rsUserhelper;
@@ -1222,6 +1300,13 @@ class shipping
 		}
 	}
 
+	/**
+	 * getShippingVatRates
+	 *
+	 * @param $shipping_tax_group_id
+	 * @param $user_id
+	 *
+	 */
 	public function getShippingVatRates($shipping_tax_group_id, $user_id = 0)
 	{
 		$user    = JFactory::getUser();
@@ -1313,6 +1398,12 @@ class shipping
 		return $taxdata;
 	}
 
+	/**
+	 * getShopperGroupDefaultShipping
+	 *
+	 * @param $user_id
+	 *
+	 */
 	public function getShopperGroupDefaultShipping($user_id = 0)
 	{
 		$shippingArr = array();
@@ -1362,6 +1453,13 @@ class shipping
 	}
 
 	// function to find first number position.
+	/**
+	 * strposa
+	 *
+	 * @param $haystack
+	 * @param $needles
+	 *
+	 */
 	public function strposa($haystack, $needles = array(), $offset = 0)
 	{
 		$chr = array();
@@ -1384,6 +1482,12 @@ class shipping
 		}
 	}
 
+	/**
+	 * filter_by_priority
+	 *
+	 * @param $shippingrate
+	 *
+	 */
 	public function filter_by_priority($shippingrate)
 	{
 		$tmp_shippingrates = array();
@@ -1509,6 +1613,9 @@ class shipping
 		return $cases;
 	}
 
+	/**
+	 * getCartItemDimention
+	 */
 	public function getCartItemDimention()
 	{
 		$session = JFactory::getSession();
@@ -1634,6 +1741,12 @@ class shipping
 		return $whereShippingBoxes;
 	}
 
+	/**
+	 * getShippingRateError
+	 *
+	 * @param $d
+	 *
+	 */
 	public function getShippingRateError(&$d)
 	{
 		$bool = $this->isCartDimentionMatch($d);
@@ -1668,6 +1781,12 @@ class shipping
 		}
 	}
 
+	/**
+	 * isCartDimentionMatch
+	 *
+	 * @param $d
+	 *
+	 */
 	public function isCartDimentionMatch(&$d)
 	{
 		$order_subtotal      = $d['order_subtotal'];
@@ -1728,6 +1847,12 @@ class shipping
 		return false;
 	}
 
+	/**
+	 * isUserInfoMatch
+	 *
+	 * @param $d
+	 *
+	 */
 	public function isUserInfoMatch(&$d)
 	{
 		$userhelper   = new rsUserhelper;
@@ -1804,6 +1929,12 @@ class shipping
 		return false;
 	}
 
+	/**
+	 * isProductDetailMatch
+	 *
+	 * @param $d
+	 *
+	 */
 	public function isProductDetailMatch(&$d)
 	{
 		$session = JFactory::getSession();
@@ -1867,6 +1998,12 @@ class shipping
 		return false;
 	}
 
+	/**
+	 * getfreeshippingRate
+	 *
+	 * @param $shipping_rate_id
+	 *
+	 */
 	public function getfreeshippingRate($shipping_rate_id = 0)
 	{
 		$userhelper = new rsUserhelper;

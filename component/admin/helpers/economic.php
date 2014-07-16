@@ -15,6 +15,13 @@ require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/order.php';
 require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/shipping.php';
 require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/stockroom.php';
 
+/**
+ * economic
+ *
+ * @package     RedSHOP
+ * @subpackage  Helper
+ * @since       1.0
+ */
 class economic
 {
 	public $_table_prefix = null;
@@ -31,6 +38,9 @@ class economic
 
 	public $_dispatcher = null;
 
+	/**
+	 * economic
+	 */
 	public function economic()
 	{
 		$db                     = JFactory::getDbo();
@@ -283,6 +293,12 @@ class economic
 		return $ecoProductNumber;
 	}
 
+	/**
+	 * getTotalProperty
+	 *
+	 * @param $productId
+	 *
+	 */
 	public function getTotalProperty($productId)
 	{
 		$producthelper = new producthelper;
@@ -429,6 +445,12 @@ class economic
 		return $ecoProductNumber;
 	}
 
+	/**
+	 * importStockFromEconomic
+	 *
+	 * @param $prdrow
+	 *
+	 */
 	public function importStockFromEconomic($prdrow = array())
 	{
 		$eco['product_number'] = $prdrow->product_number;
@@ -1186,6 +1208,13 @@ class economic
 		return $file;
 	}
 
+	/**
+	 * updateInvoiceNumber
+	 *
+	 * @param $order_id
+	 * @param $invoice_no
+	 *
+	 */
 	public function updateInvoiceNumber($order_id = 0, $invoice_no = 0)
 	{
 		$db = JFactory::getDbo();
@@ -1197,6 +1226,12 @@ class economic
 		$this->_db->Query();
 	}
 
+	/**
+	 * updateBookInvoice
+	 *
+	 * @param $order_id
+	 *
+	 */
 	public function updateBookInvoice($order_id = 0)
 	{
 		$query = 'UPDATE ' . $this->_table_prefix . 'orders '
@@ -1206,6 +1241,13 @@ class economic
 		$this->_db->Query();
 	}
 
+	/**
+	 * updateBookInvoiceNumber
+	 *
+	 * @param $order_id
+	 * @param $bookinvoice_number
+	 *
+	 */
 	public function updateBookInvoiceNumber($order_id = 0, $bookinvoice_number = 0)
 	{
 		$query = 'UPDATE ' . $this->_table_prefix . 'orders '
@@ -1215,6 +1257,12 @@ class economic
 		$this->_db->Query();
 	}
 
+	/**
+	 * getProductByNumber
+	 *
+	 * @param $product_number
+	 *
+	 */
 	public function getProductByNumber($product_number = '')
 	{
 		$db = JFactory::getDbo();
@@ -1227,6 +1275,14 @@ class economic
 		return $result;
 	}
 
+	/**
+	 * makeAccessoryOrder
+	 *
+	 * @param $invoice_no
+	 * @param $orderItem
+	 * @param $user_id
+	 *
+	 */
 	public function makeAccessoryOrder($invoice_no, $orderItem, $user_id = 0)
 	{
 		$displayaccessory = "";
@@ -1300,6 +1356,16 @@ class economic
 		return $displayaccessory;
 	}
 
+	/**
+	 * makeAttributeOrder
+	 *
+	 * @param $invoice_no
+	 * @param $orderItem
+	 * @param $is_accessory
+	 * @param $parent_section_id
+	 * @param $user_id
+	 *
+	 */
 	public function makeAttributeOrder($invoice_no, $orderItem, $is_accessory = 0, $parent_section_id = 0, $user_id = 0)
 	{
 		$displayattribute = "";
@@ -1421,6 +1487,14 @@ class economic
 		return $displayattribute;
 	}
 
+	/**
+	 * createAttributeInvoiceLineInEconomic
+	 *
+	 * @param $invoice_no
+	 * @param $orderItem
+	 * @param $orderAttitem
+	 *
+	 */
 	public function createAttributeInvoiceLineInEconomic($invoice_no, $orderItem, $orderAttitem)
 	{
 		for ($i = 0; $i < count($orderAttitem); $i++)
@@ -1436,6 +1510,12 @@ class economic
 		}
 	}
 
+	/**
+	 * getEconomicTaxZone
+	 *
+	 * @param $country_code
+	 *
+	 */
 	public function getEconomicTaxZone($country_code = "")
 	{
 		if ($country_code == SHOP_COUNTRY)
@@ -1455,6 +1535,12 @@ class economic
 		return $taxzone;
 	}
 
+	/**
+	 * isEUCountry
+	 *
+	 * @param $country
+	 *
+	 */
 	public function isEUCountry($country)
 	{
 		$eu_country = array('AUT', 'BGR', 'BEL', 'CYP', 'CZE', 'DEU', 'DNK', 'ESP', 'EST', 'FIN',

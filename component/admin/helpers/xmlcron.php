@@ -36,8 +36,18 @@ $app->initialise();
 
 require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/xmlhelper.php';
 
+/**
+ * xmlcron
+ *
+ * @package     RedSHOP
+ * @subpackage  Helper
+ * @since       1.0
+ */
 class xmlcron
 {
+	/**
+	 * xmlcron
+	 */
 	public function xmlcron()
 	{
 		$this->_table_prefix = '#__redshop_';
@@ -45,6 +55,9 @@ class xmlcron
 		$this->xmlImportFileUpdate();
 	}
 
+	/**
+	 * xmlExportFileUpdate
+	 */
 	public function xmlExportFileUpdate()
 	{
 		$currenttime = time();
@@ -81,6 +94,9 @@ class xmlcron
 		}
 	}
 
+	/**
+	 * xmlImportFileUpdate
+	 */
 	public function xmlImportFileUpdate()
 	{
 		$currenttime = time();

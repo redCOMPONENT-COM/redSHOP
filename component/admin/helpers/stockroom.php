@@ -11,17 +11,33 @@ defined('_JEXEC') or die;
 
 require_once JPATH_SITE . '/components/com_redshop/helpers/product.php';
 
+/**
+ * rsstockroomhelper
+ *
+ * @package     RedSHOP
+ * @subpackage  Helper
+ * @since       1.0
+ */
 class rsstockroomhelper
 {
 	public $_data = null;
 
 	public $_table_prefix = null;
 
+	/**
+	 * __construct
+	 */
 	public function __construct()
 	{
 		$this->_table_prefix = '#__redshop_';
 	}
 
+	/**
+	 * getStockroomDetail
+	 *
+	 * @param $stockroom_id
+	 *
+	 */
 	public function getStockroomDetail($stockroom_id = 0)
 	{
 		$list = array();
@@ -46,6 +62,14 @@ class rsstockroomhelper
 		return $list;
 	}
 
+	/**
+	 * isStockExists
+	 *
+	 * @param $section_id
+	 * @param $section
+	 * @param $stockroom_id
+	 *
+	 */
 	public function isStockExists($section_id = 0, $section = "product", $stockroom_id = 0)
 	{
 		if (USE_STOCKROOM == 1)
@@ -63,6 +87,12 @@ class rsstockroomhelper
 		return true;
 	}
 
+	/**
+	 * isAttributeStockExists
+	 *
+	 * @param $product_id
+	 *
+	 */
 	public function isAttributeStockExists($product_id)
 	{
 		$isStockExists = false;
@@ -106,6 +136,14 @@ class rsstockroomhelper
 		return $isStockExists;
 	}
 
+	/**
+	 * isPreorderStockExists
+	 *
+	 * @param $section_id
+	 * @param $section
+	 * @param $stockroom_id
+	 *
+	 */
 	public function isPreorderStockExists($section_id = 0, $section = "product", $stockroom_id = 0)
 	{
 		if (USE_STOCKROOM == 1)
@@ -123,6 +161,12 @@ class rsstockroomhelper
 		return true;
 	}
 
+	/**
+	 * isAttributePreorderStockExists
+	 *
+	 * @param $product_id
+	 *
+	 */
 	public function isAttributePreorderStockExists($product_id)
 	{
 		$producthelper = new producthelper;
@@ -165,6 +209,14 @@ class rsstockroomhelper
 		return $isPreorderStockExists;
 	}
 
+	/**
+	 * getStockroomTotalAmount
+	 *
+	 * @param $section_id
+	 * @param $section
+	 * @param $stockroom_id
+	 *
+	 */
 	public function getStockroomTotalAmount($section_id = 0, $section = "product", $stockroom_id = 0)
 	{
 		$quantity = 1;
@@ -185,6 +237,14 @@ class rsstockroomhelper
 		return $quantity;
 	}
 
+	/**
+	 * getPreorderStockroomTotalAmount
+	 *
+	 * @param $section_id
+	 * @param $section
+	 * @param $stockroom_id
+	 *
+	 */
 	public function getPreorderStockroomTotalAmount($section_id = 0, $section = "product", $stockroom_id = 0)
 	{
 		$quantity = 1;
@@ -205,6 +265,14 @@ class rsstockroomhelper
 		return $quantity;
 	}
 
+	/**
+	 * getStockAmountwithReserve
+	 *
+	 * @param $section_id
+	 * @param $section
+	 * @param $stockroom_id
+	 *
+	 */
 	public function getStockAmountwithReserve($section_id = 0, $section = "product", $stockroom_id = 0)
 	{
 		$quantity = 1;
@@ -316,6 +384,14 @@ class rsstockroomhelper
 		return $quantity;
 	}
 
+	/**
+	 * getPreorderStockAmountwithReserve
+	 *
+	 * @param $section_id
+	 * @param $section
+	 * @param $stockroom_id
+	 *
+	 */
 	function getPreorderStockAmountwithReserve($section_id = 0, $section = "product", $stockroom_id = 0)
 	{
 		$quantity = 1;
@@ -428,6 +504,14 @@ class rsstockroomhelper
 		return $quantity;
 	}
 
+	/**
+	 * getStockroomAmountDetailList
+	 *
+	 * @param $section_id
+	 * @param $section
+	 * @param $stockroom_id
+	 *
+	 */
 	public function getStockroomAmountDetailList($section_id = 0, $section = "product", $stockroom_id = 0)
 	{
 		$list = array();
@@ -473,6 +557,14 @@ class rsstockroomhelper
 		return $list;
 	}
 
+	/**
+	 * getPreorderStockroomAmountDetailList
+	 *
+	 * @param $section_id
+	 * @param $section
+	 * @param $stockroom_id
+	 *
+	 */
 	public function getPreorderStockroomAmountDetailList($section_id = 0, $section = "product", $stockroom_id = 0)
 	{
 		$list = array();
@@ -518,6 +610,15 @@ class rsstockroomhelper
 		return $list;
 	}
 
+	/**
+	 * updateStockroomQuantity
+	 *
+	 * @param $section_id
+	 * @param $quantity
+	 * @param $section
+	 * @param $product_id
+	 *
+	 */
 	public function updateStockroomQuantity($section_id = 0, $quantity = 0, $section = "product", $product_id = 0)
 	{
 		$affected_row = array();
@@ -597,6 +698,15 @@ class rsstockroomhelper
 		return $result_array;
 	}
 
+	/**
+	 * updateStockAmount
+	 *
+	 * @param $section_id
+	 * @param $quantity
+	 * @param $stockroom_id
+	 * @param $section
+	 *
+	 */
 	public function updateStockAmount($section_id = 0, $quantity = 0, $stockroom_id = 0, $section = "product")
 	{
 		$and = "";
@@ -635,6 +745,15 @@ class rsstockroomhelper
 		return true;
 	}
 
+	/**
+	 * updatePreorderStockAmount
+	 *
+	 * @param $section_id
+	 * @param $quantity
+	 * @param $stockroom_id
+	 * @param $section
+	 *
+	 */
 	public function updatePreorderStockAmount($section_id = 0, $quantity = 0, $stockroom_id = 0, $section = "product")
 	{
 		$and = "";
@@ -672,6 +791,15 @@ class rsstockroomhelper
 		return true;
 	}
 
+	/**
+	 * manageStockAmount
+	 *
+	 * @param $section_id
+	 * @param $quantity
+	 * @param $stockroom_id
+	 * @param $section
+	 *
+	 */
 	public function manageStockAmount($section_id = 0, $quantity = 0, $stockroom_id = 0, $section = "product")
 	{
 		if (USE_STOCKROOM == 1)
@@ -723,6 +851,14 @@ class rsstockroomhelper
 		return true;
 	}
 
+	/**
+	 * replaceStockroomAmountDetail
+	 *
+	 * @param $template_desc
+	 * @param $section_id
+	 * @param $section
+	 *
+	 */
 	public function replaceStockroomAmountDetail($template_desc = "", $section_id = 0, $section = "product")
 	{
 		$productinstock = "";
@@ -742,6 +878,14 @@ class rsstockroomhelper
 		return $template_desc;
 	}
 
+	/**
+	 * getStockAmountImage
+	 *
+	 * @param $section_id
+	 * @param $section
+	 * @param $stock_amount
+	 *
+	 */
 	public function getStockAmountImage($section_id = 0, $section = "product", $stock_amount = 0)
 	{
 		$list = array();
@@ -782,6 +926,13 @@ class rsstockroomhelper
 		return $list;
 	}
 
+	/**
+	 * getReservedStock
+	 *
+	 * @param $section_id
+	 * @param $section
+	 *
+	 */
 	public function getReservedStock($section_id, $section = "product")
 	{
 		if (IS_PRODUCT_RESERVE && USE_STOCKROOM)
@@ -801,6 +952,13 @@ class rsstockroomhelper
 		return 0;
 	}
 
+	/**
+	 * getCurrentUserReservedStock
+	 *
+	 * @param $section_id
+	 * @param $section
+	 *
+	 */
 	public function getCurrentUserReservedStock($section_id, $section = "product")
 	{
 		if (IS_PRODUCT_RESERVE && USE_STOCKROOM)
@@ -821,6 +979,9 @@ class rsstockroomhelper
 		return 0;
 	}
 
+	/**
+	 * deleteExpiredCartProduct
+	 */
 	public function deleteExpiredCartProduct()
 	{
 		if (IS_PRODUCT_RESERVE)
@@ -837,6 +998,13 @@ class rsstockroomhelper
 		return true;
 	}
 
+	/**
+	 * deleteCartAfterEmpty
+	 *
+	 * @param $section_id
+	 * @param $section
+	 *
+	 */
 	public function deleteCartAfterEmpty($section_id = 0, $section = "product")
 	{
 		if (IS_PRODUCT_RESERVE)
@@ -860,6 +1028,14 @@ class rsstockroomhelper
 		return true;
 	}
 
+	/**
+	 * addReservedStock
+	 *
+	 * @param $section_id
+	 * @param $quantity
+	 * @param $section
+	 *
+	 */
 	public function addReservedStock($section_id, $quantity = 0, $section = "product")
 	{
 		if (IS_PRODUCT_RESERVE)
@@ -900,6 +1076,12 @@ class rsstockroomhelper
 		return true;
 	}
 
+	/**
+	 * getStockroom
+	 *
+	 * @param $stockroom_id
+	 *
+	 */
 	public function getStockroom($stockroom_id)
 	{
 		$db = JFactory::getDbo();
@@ -935,6 +1117,13 @@ class rsstockroomhelper
 		return $db->loadObjectlist();
 	}
 
+	/**
+	 * getdatediff
+	 *
+	 * @param $endDate
+	 * @param $beginDate
+	 *
+	 */
 	public function getdatediff($endDate, $beginDate)
 	{
 		$epoch_1 = mktime(0, 0, 0, date("m", $endDate), date("d", $endDate), date("Y", $endDate));
@@ -945,6 +1134,13 @@ class rsstockroomhelper
 		return $fullDays;
 	}
 
+	/**
+	 * getFinalStockofProduct
+	 *
+	 * @param $product_id
+	 * @param $totalatt
+	 *
+	 */
 	public function getFinalStockofProduct($product_id, $totalatt)
 	{
 		$producthelper = new producthelper;
@@ -992,6 +1188,13 @@ class rsstockroomhelper
 		return $isStockExists;
 	}
 
+	/**
+	 * getFinalPreorderStockofProduct
+	 *
+	 * @param $product_id
+	 * @param $totalatt
+	 *
+	 */
 	public function getFinalPreorderStockofProduct($product_id, $totalatt)
 	{
 		$producthelper = new producthelper;

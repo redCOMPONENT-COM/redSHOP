@@ -11,18 +11,31 @@ defined('_JEXEC') or die;
 
 JHTML::_('behavior.tooltip');
 
+/**
+ * text_library
+ *
+ * @package     RedSHOP
+ * @subpackage  Helper
+ * @since       1.0
+ */
 class text_library
 {
 	public  $_data = null;
 	public  $_table_prefix = null;
 	public  $_db = null;
 
+	/**
+	 * __construct
+	 */
 	public function __construct()
 	{
 		$this->_table_prefix = '#__redshop_';
 		$this->_db = JFactory::getDbo();
 	}
 
+	/**
+	 * getTextLibraryData
+	 */
 	public function getTextLibraryData()
 	{
 		$query = "SELECT * FROM " . $this->_table_prefix . "textlibrary "
@@ -33,6 +46,9 @@ class text_library
 		return $textdata;
 	}
 
+	/**
+	 * getTextLibraryTagArray
+	 */
 	public function getTextLibraryTagArray()
 	{
 		$result = array();
@@ -46,6 +62,12 @@ class text_library
 		return $result;
 	}
 
+	/**
+	 * replace_texts
+	 *
+	 * @param $data
+	 *
+	 */
 	public function replace_texts($data)
 	{
 		$textdata = $this->getTextLibraryData();

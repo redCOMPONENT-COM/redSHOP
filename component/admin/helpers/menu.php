@@ -9,8 +9,18 @@
 
 defined('_JEXEC') or die;
 
+/**
+ * leftmenu
+ *
+ * @package     RedSHOP
+ * @subpackage  Helper
+ * @since       1.0
+ */
 class leftmenu
 {
+	/**
+	 * __construct
+	 */
 	public function  __construct()
 	{
 		jimport('joomla.html.pane');

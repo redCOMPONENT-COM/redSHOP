@@ -9,6 +9,13 @@
 
 defined('_JEXEC') or die;
 
+/**
+ * Redaccesslevel
+ *
+ * @package     RedSHOP
+ * @subpackage  Helper
+ * @since       1.0
+ */
 class Redaccesslevel
 {
 	/**
@@ -20,6 +27,12 @@ class Redaccesslevel
 		$this->_table_prefix = '#__redshop_';
 	}
 
+	/**
+	 * checkaccessofuser
+	 *
+	 * @param $group_id
+	 *
+	 */
 	public function checkaccessofuser($group_id)
 	{
 		$app = JFactory::getApplication();
@@ -34,6 +47,14 @@ class Redaccesslevel
 		return $access_section;
 	}
 
+	/**
+	 * checkgroup_access
+	 *
+	 * @param $view
+	 * @param $task
+	 * @param $group_id
+	 *
+	 */
 	public function checkgroup_access($view, $task, $group_id)
 	{
 		if ($task == '')
@@ -58,6 +79,13 @@ class Redaccesslevel
 		}
 	}
 
+	/**
+	 * getgroup_access
+	 *
+	 * @param $view
+	 * @param $group_id
+	 *
+	 */
 	public function getgroup_access($view, $group_id)
 	{
 		$app = JFactory::getApplication();
@@ -118,6 +146,14 @@ class Redaccesslevel
 		}
 	}
 
+	/**
+	 * getgroup_accesstaskadd
+	 *
+	 * @param $view
+	 * @param $task
+	 * @param $group_id
+	 *
+	 */
 	public function getgroup_accesstaskadd($view, $task, $group_id)
 	{
 		$app = JFactory::getApplication();
@@ -176,6 +212,14 @@ class Redaccesslevel
 		}
 	}
 
+	/**
+	 * getgroup_accesstaskedit
+	 *
+	 * @param $view
+	 * @param $task
+	 * @param $group_id
+	 *
+	 */
 	public function getgroup_accesstaskedit($view, $task, $group_id)
 	{
 		$app = JFactory::getApplication();
@@ -230,6 +274,14 @@ class Redaccesslevel
 		}
 	}
 
+	/**
+	 * getgroup_accesstaskdelete
+	 *
+	 * @param $view
+	 * @param $task
+	 * @param $group_id
+	 *
+	 */
 	public function getgroup_accesstaskdelete($view, $task, $group_id)
 	{
 		$app = JFactory::getApplication();

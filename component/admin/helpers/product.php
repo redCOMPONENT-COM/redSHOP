@@ -12,6 +12,13 @@ defined('_JEXEC') or die;
 require_once JPATH_SITE . '/components/com_redshop/helpers/extra_field.php';
 require_once JPATH_SITE . '/components/com_redshop/helpers/product.php';
 
+/**
+ * adminproducthelper
+ *
+ * @package     RedSHOP
+ * @subpackage  Helper
+ * @since       1.0
+ */
 class adminproducthelper
 {
 	public $_data = null;
@@ -20,11 +27,21 @@ class adminproducthelper
 
 	public $_product_level = 0;
 
+	/**
+	 * __construct
+	 */
 	public function __construct()
 	{
 		$this->_table_prefix = '#__redshop_';
 	}
 
+	/**
+	 * replaceAccessoryData
+	 *
+	 * @param $product_id
+	 * @param $accessory
+	 *
+	 */
 	public function replaceAccessoryData($product_id = 0, $accessory = array(), $user_id = 0, $uniqueid = "")
 	{
 		$uri = JURI::getInstance();
@@ -86,6 +103,14 @@ class adminproducthelper
 		return $accessorylist;
 	}
 
+	/**
+	 * replaceAttributeData
+	 *
+	 * @param $product_id
+	 * @param $accessory_id
+	 * @param $attributes
+	 *
+	 */
 	function replaceAttributeData($product_id = 0, $accessory_id = 0, $attributes = array(), $user_id, $uniqueid = "")
 	{
 		$uri = JURI::getInstance();
@@ -209,6 +234,14 @@ class adminproducthelper
 		return $attributelist;
 	}
 
+	/**
+	 * replaceWrapperData
+	 *
+	 * @param $product_id
+	 * @param $user_id
+	 * @param $uniqueid
+	 *
+	 */
 	public function replaceWrapperData($product_id = 0, $user_id, $uniqueid = "")
 	{
 		$producthelper = new producthelper;
@@ -253,6 +286,16 @@ class adminproducthelper
 		return $wrapperlist;
 	}
 
+	/**
+	 * getProductItemInfo
+	 *
+	 * @param $product_id
+	 * @param $quantity
+	 * @param $unique_id
+	 * @param $user_id
+	 * @param $newproduct_price
+	 *
+	 */
 	public function getProductItemInfo($product_id = 0, $quantity = 1, $unique_id = "", $user_id = 0, $newproduct_price = 0)
 	{
 		$producthelper = new producthelper;
@@ -321,6 +364,12 @@ class adminproducthelper
 		return $displayrespoce;
 	}
 
+	/**
+	 * replaceShippingMethod
+	 *
+	 * @param $d
+	 *
+	 */
 	public function replaceShippingMethod($d = array(), $shipp_users_info_id = 0, $shipping_rate_id = 0, $shipping_box_post_id = 0)
 	{
 		$producthelper = new producthelper;
@@ -386,6 +435,12 @@ class adminproducthelper
 		return $displayrespoce;
 	}
 
+	/**
+	 * redesignProductItem
+	 *
+	 * @param $post
+	 *
+	 */
 	public function redesignProductItem($post = array())
 	{
 		$orderItem = array();
@@ -478,6 +533,14 @@ class adminproducthelper
 		return $orderItem;
 	}
 
+	/**
+	 * replaceUserfield
+	 *
+	 * @param $product_id
+	 * @param $template_id
+	 * @param $unique_id
+	 *
+	 */
 	public function replaceUserfield($product_id = 0, $template_id = 0, $unique_id = "")
 	{
 		$producthelper = new producthelper;
@@ -505,6 +568,15 @@ class adminproducthelper
 		return $product_userfileds;
 	}
 
+	/**
+	 * admin_insertProdcutUserfield
+	 *
+	 * @param $field_id
+	 * @param $order_item_id
+	 * @param $section_id
+	 * @param $value
+	 *
+	 */
 	public function admin_insertProdcutUserfield($field_id = 0, $order_item_id = 0, $section_id = 12, $value = '')
 	{
 		$db = JFactory::getDbo();
@@ -515,6 +587,9 @@ class adminproducthelper
 		$db->query();
 	}
 
+	/**
+	 * getProductrBySortedList
+	 */
 	public function getProductrBySortedList()
 	{
 		$product_data = array();

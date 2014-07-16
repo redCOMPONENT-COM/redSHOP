@@ -20,6 +20,13 @@ JLoader::import('order', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers'
 JLoader::import('quotation', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
 JLoader::import('images', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
 
+/**
+ * redshopMail
+ *
+ * @package     RedSHOP
+ * @subpackage  Helper
+ * @since       1.0
+ */
 class redshopMail
 {
 	public $_table_prefix = null;
@@ -30,6 +37,9 @@ class redshopMail
 
 	public $_redhelper = null;
 
+	/**
+	 * __construct
+	 */
 	public function __construct()
 	{
 		$this->_db = JFactory::getDbo();
@@ -48,6 +58,14 @@ class redshopMail
 	 * @return array
 	 */
 
+	/**
+	 * getMailtemplate
+	 *
+	 * @param $tid
+	 * @param $section
+	 * @param $extracond
+	 *
+	 */
 	public function getMailtemplate($tid = 0, $section = "", $extracond = "")
 	{
 		$str = '';
@@ -329,6 +347,12 @@ class redshopMail
 		return true;
 	}
 
+	/**
+	 * sendOrderSpecialDiscountMail
+	 *
+	 * @param $order_id
+	 *
+	 */
 	public function sendOrderSpecialDiscountMail($order_id)
 	{
 		$redconfig     = new Redconfiguration;
@@ -441,6 +465,12 @@ class redshopMail
 		return true;
 	}
 
+	/**
+	 * createMultiprintInvoicePdf
+	 *
+	 * @param $oid
+	 *
+	 */
 	public function createMultiprintInvoicePdf($oid)
 	{
 		require_once JPATH_SITE . '/components/com_redshop/helpers/tcpdf/config/lang/eng.php';
@@ -925,6 +955,12 @@ class redshopMail
 		return $invoice_pdfName;
 	}
 
+	/**
+	 * createShippedInvoicePdf
+	 *
+	 * @param $oid
+	 *
+	 */
 	function createShippedInvoicePdf($oid)
 	{
 		require_once JPATH_SITE . '/components/com_redshop/helpers/tcpdf'
@@ -1033,6 +1069,12 @@ class redshopMail
 		return $invoice_pdfName;
 	}
 
+	/**
+	 * sendInvoiceMail
+	 *
+	 * @param $order_id
+	 *
+	 */
 	public function sendInvoiceMail($order_id)
 	{
 		require_once JPATH_SITE . '/components/com_redshop/helpers/tcpdf/config'
@@ -1182,6 +1224,12 @@ class redshopMail
 		return true;
 	}
 
+	/**
+	 * sendRegistrationMail
+	 *
+	 * @param $data
+	 *
+	 */
 	public function sendRegistrationMail(&$data)
 	{
 		$app = JFactory::getApplication();
@@ -1272,6 +1320,13 @@ class redshopMail
 		return true;
 	}
 
+	/**
+	 * sendTaxExemptMail
+	 *
+	 * @param $section
+	 * @param $userinfo
+	 *
+	 */
 	public function sendTaxExemptMail($section, $userinfo = array(), $email = "")
 	{
 		if (USE_TAX_EXEMPT)
@@ -1338,6 +1393,12 @@ class redshopMail
 		return true;
 	}
 
+	/**
+	 * sendSubscriptionRenewalMail
+	 *
+	 * @param $data
+	 *
+	 */
 	function sendSubscriptionRenewalMail($data = array())
 	{
 		$app           = JFactory::getApplication();
@@ -1420,6 +1481,12 @@ class redshopMail
 		return true;
 	}
 
+	/**
+	 * imginmail
+	 *
+	 * @param $message
+	 *
+	 */
 	public function imginmail($message)
 	{
 		$uri   = JFactory::getURI();
@@ -1457,6 +1524,13 @@ class redshopMail
 		return $data1;
 	}
 
+	/**
+	 * sendQuotationMail
+	 *
+	 * @param $quotation_id
+	 * @param $status
+	 *
+	 */
 	public function sendQuotationMail($quotation_id, $status = 0)
 	{
 		$uri             = JURI::getInstance();
@@ -1791,6 +1865,12 @@ class redshopMail
 		return true;
 	}
 
+	/**
+	 * sendNewsletterConfirmationMail
+	 *
+	 * @param $subscription_id
+	 *
+	 */
 	public function sendNewsletterConfirmationMail($subscription_id)
 	{
 		if (NEWSLETTER_CONFIRMATION)
@@ -1861,6 +1941,12 @@ class redshopMail
 		return true;
 	}
 
+	/**
+	 * sendNewsletterCancellationMail
+	 *
+	 * @param $email
+	 *
+	 */
 	public function sendNewsletterCancellationMail($email = "")
 	{
 		$config = JFactory::getConfig();
@@ -1903,6 +1989,12 @@ class redshopMail
 		return true;
 	}
 
+	/**
+	 * sendAskQuestionMail
+	 *
+	 * @param $ansid
+	 *
+	 */
 	public function sendAskQuestionMail($ansid)
 	{
 		$producthelper = new producthelper;
@@ -1983,6 +2075,13 @@ class redshopMail
 		return false;
 	}
 
+	/**
+	 * sendEconomicBookInvoiceMail
+	 *
+	 * @param $order_id
+	 * @param $bookinvoicepdf
+	 *
+	 */
 	public function sendEconomicBookInvoiceMail($order_id = 0, $bookinvoicepdf = "")
 	{
 		if ($order_id == 0)
@@ -2053,6 +2152,13 @@ class redshopMail
 		return true;
 	}
 
+	/**
+	 * sendRequestTaxExemptMail
+	 *
+	 * @param $data
+	 * @param $username
+	 *
+	 */
 	public function sendRequestTaxExemptMail($data, $username = "")
 	{
 		if (ADMINISTRATOR_EMAIL != '')
@@ -2095,6 +2201,12 @@ class redshopMail
 		}
 	}
 
+	/**
+	 * sendCatalogRequest
+	 *
+	 * @param $catalog
+	 *
+	 */
 	public function sendCatalogRequest($catalog = array())
 	{
 		$maildata = $this->getMailtemplate(0, "catalog");
@@ -2145,6 +2257,12 @@ class redshopMail
 		}
 	}
 
+	/**
+	 * sendResetPasswordMail
+	 *
+	 * @param $email
+	 *
+	 */
 	public function sendResetPasswordMail($email)
 	{
 		$config = JFactory::getConfig();
