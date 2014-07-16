@@ -11,13 +11,26 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 
+/**
+ * product_attribute_priceController
+ *
+ * @package     RedSHOP
+ * @subpackage  Controller
+ * @since       1.0
+ */
 class product_attribute_priceController extends JController
 {
+	/**
+	 * cancel
+	 */
 	public function cancel()
 	{
 		$this->setRedirect('index.php');
 	}
 
+	/**
+	 * listing
+	 */
 	public function listing()
 	{
 		JRequest::setVar('layout', 'listing');
@@ -25,6 +38,9 @@ class product_attribute_priceController extends JController
 		parent::display();
 	}
 
+	/**
+	 * saveprice
+	 */
 	public function saveprice()
 	{
 		$db = JFactory::getDbo();

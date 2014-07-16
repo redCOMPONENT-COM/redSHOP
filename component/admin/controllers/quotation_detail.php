@@ -15,14 +15,30 @@ require_once JPATH_ROOT . '/components/com_redshop/helpers/product.php';
 require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/quotation.php';
 require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/product.php';
 
+/**
+ * quotation_detailController
+ *
+ * @package     RedSHOP
+ * @subpackage  Controller
+ * @since       1.0
+ */
 class quotation_detailController extends JController
 {
+	/**
+	 * __construct
+	 *
+	 * @param $default
+	 *
+	 */
 	public function __construct($default = array())
 	{
 		parent::__construct($default);
 		$this->registerTask('add', 'edit');
 	}
 
+	/**
+	 * edit
+	 */
 	public function edit()
 	{
 		JRequest::setVar('view', 'quotation_detail');
@@ -31,6 +47,12 @@ class quotation_detailController extends JController
 		parent::display();
 	}
 
+	/**
+	 * save
+	 *
+	 * @param $send
+	 *
+	 */
 	public function save($send = 0)
 	{
 		$quotationHelper = new quotationHelper;
@@ -109,11 +131,17 @@ class quotation_detailController extends JController
 		$this->setRedirect('index.php?option=' . $option . '&view=quotation', $msg);
 	}
 
+	/**
+	 * send
+	 */
 	public function send()
 	{
 		$this->save(1);
 	}
 
+	/**
+	 * remove
+	 */
 	public function remove()
 	{
 		$option = JRequest::getVar('option', '', 'request', 'string');
@@ -135,6 +163,9 @@ class quotation_detailController extends JController
 		$this->setRedirect('index.php?option=' . $option . '&view=quotation', $msg);
 	}
 
+	/**
+	 * deleteitem
+	 */
 	public function deleteitem()
 	{
 		$option = JRequest::getVar('option', '', 'request', 'string');
@@ -152,6 +183,9 @@ class quotation_detailController extends JController
 		$this->setRedirect('index.php?option=' . $option . '&view=quotation_detail&task=edit&cid[]=' . $cid[0], $msg);
 	}
 
+	/**
+	 * cancel
+	 */
 	public function cancel()
 	{
 		$option = JRequest::getVar('option', '', 'request', 'string');
@@ -159,6 +193,9 @@ class quotation_detailController extends JController
 		$this->setRedirect('index.php?option=' . $option . '&view=quotation', $msg);
 	}
 
+	/**
+	 * newQuotationItem
+	 */
 	public function newQuotationItem()
 	{
 		$adminproducthelper = new adminproducthelper;
@@ -184,6 +221,9 @@ class quotation_detailController extends JController
 		$this->setRedirect('index.php?option=' . $option . '&view=quotation_detail&cid[]=' . $cid[0], $msg);
 	}
 
+	/**
+	 * getQuotationPriceTax
+	 */
 	public function getQuotationPriceTax()
 	{
 		$producthelper = new producthelper;

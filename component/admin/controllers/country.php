@@ -11,6 +11,13 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 
+/**
+ * countryController
+ *
+ * @package     RedSHOP
+ * @subpackage  Controller
+ * @since       1.0
+ */
 class countryController extends JController
 {
 }

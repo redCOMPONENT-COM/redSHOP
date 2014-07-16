@@ -16,8 +16,18 @@ require_once JPATH_SITE . '/components/com_redshop/helpers/helper.php';
 require_once JPATH_SITE . '/components/com_redshop/helpers/tcpdf/tcpdf.php';
 require_once JPATH_SITE . '/components/com_redshop/helpers/tcpdf/PDFMerger.php';
 
+/**
+ * orderController
+ *
+ * @package     RedSHOP
+ * @subpackage  Controller
+ * @since       1.0
+ */
 class orderController extends JController
 {
+	/**
+	 * multiprint_order
+	 */
 	public function multiprint_order()
 	{
 		$mypost = JRequest::getVar('cid');
@@ -53,12 +63,18 @@ class orderController extends JController
 	<?php
 	}
 
+	/**
+	 * cancel
+	 */
 	public function cancel()
 	{
 		$option = JRequest::getVar('option');
 		$this->setRedirect('index.php?option=' . $option . '&view=order');
 	}
 
+	/**
+	 * update_status
+	 */
 	public function update_status()
 	{
 		$model = $this->getModel('order');
@@ -211,6 +227,9 @@ class orderController extends JController
 		exit;
 	}
 
+	/**
+	 * bookInvoice
+	 */
 	public function bookInvoice()
 	{
 		$post = JRequest::get('post');
@@ -236,6 +255,9 @@ class orderController extends JController
 		$this->setRedirect('index.php?option=com_redshop&view=order', $ecomsg);
 	}
 
+	/**
+	 * createInvoice
+	 */
 	public function createInvoice()
 	{
 		if (ECONOMIC_INTEGRATION == 1 && ECONOMIC_INVOICE_DRAFT != 2)
@@ -285,6 +307,9 @@ class orderController extends JController
 		$this->setRedirect('index.php?option=com_redshop&view=order');
 	}
 
+	/**
+	 * export_fullorder_data
+	 */
 	public function export_fullorder_data()
 	{
 		$extrafile = JPATH_SITE . '/administrator/components/com_redshop/extras/order_export.php';
@@ -396,6 +421,9 @@ class orderController extends JController
 		exit ();
 	}
 
+	/**
+	 * export_data
+	 */
 	public function export_data()
 	{
 		/**
@@ -519,6 +547,9 @@ class orderController extends JController
 		exit ();
 	}
 
+	/**
+	 * generateParcel
+	 */
 	public function generateParcel()
 	{
 		$order_function = new order_functions;
@@ -539,6 +570,9 @@ class orderController extends JController
 		}
 	}
 
+	/**
+	 * download_token
+	 */
 	public function download_token()
 	{
 		$post = JRequest::get('post');
@@ -585,6 +619,9 @@ class orderController extends JController
 		$this->setRedirect('index.php?option=com_redshop&view=order_detail&cid[]=' . $cid [0]);
 	}
 
+	/**
+	 * gls_export
+	 */
 	public function gls_export()
 	{
 		$cid = JRequest::getVar('cid', array(0), 'method', 'array');
@@ -592,6 +629,9 @@ class orderController extends JController
 		$model->gls_export($cid);
 	}
 
+	/**
+	 * business_gls_export
+	 */
 	public function business_gls_export()
 	{
 		$cid = JRequest::getVar('cid', array(0), 'method', 'array');

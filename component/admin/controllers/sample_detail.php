@@ -11,14 +11,30 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 
+/**
+ * sample_detailController
+ *
+ * @package     RedSHOP
+ * @subpackage  Controller
+ * @since       1.0
+ */
 class sample_detailController extends JController
 {
+	/**
+	 * __construct
+	 *
+	 * @param $default
+	 *
+	 */
 	public function __construct($default = array())
 	{
 		parent::__construct($default);
 		$this->registerTask('add', 'edit');
 	}
 
+	/**
+	 * edit
+	 */
 	public function edit()
 	{
 		JRequest::setVar('view', 'sample_detail');
@@ -26,6 +42,9 @@ class sample_detailController extends JController
 		parent::display();
 	}
 
+	/**
+	 * save
+	 */
 	public function save()
 	{
 		$post = JRequest::get('post');
@@ -51,6 +70,9 @@ class sample_detailController extends JController
 		$this->setRedirect($link, $msg);
 	}
 
+	/**
+	 * remove
+	 */
 	public function remove()
 	{
 		$option = JRequest::getVar('option');
@@ -73,6 +95,9 @@ class sample_detailController extends JController
 		$this->setRedirect('index.php?option=' . $option . '&view=sample', $msg);
 	}
 
+	/**
+	 * publish
+	 */
 	public function publish()
 	{
 		$option = JRequest::getVar('option');
@@ -95,6 +120,9 @@ class sample_detailController extends JController
 		$this->setRedirect('index.php?option=' . $option . '&view=sample', $msg);
 	}
 
+	/**
+	 * unpublish
+	 */
 	public function unpublish()
 	{
 		$option = JRequest::getVar('option');
@@ -117,6 +145,9 @@ class sample_detailController extends JController
 		$this->setRedirect('index.php?option=' . $option . '&view=sample', $msg);
 	}
 
+	/**
+	 * cancel
+	 */
 	public function cancel()
 	{
 		$option = JRequest::getVar('option');

@@ -11,14 +11,30 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 
+/**
+ * newsletter_detailController
+ *
+ * @package     RedSHOP
+ * @subpackage  Controller
+ * @since       1.0
+ */
 class newsletter_detailController extends JController
 {
+	/**
+	 * __construct
+	 *
+	 * @param $default
+	 *
+	 */
 	public function __construct($default = array())
 	{
 		parent::__construct($default);
 		$this->registerTask('add', 'edit');
 	}
 
+	/**
+	 * edit
+	 */
 	public function edit()
 	{
 		JRequest::setVar('view', 'newsletter_detail');
@@ -28,11 +44,20 @@ class newsletter_detailController extends JController
 		parent::display();
 	}
 
+	/**
+	 * apply
+	 */
 	public function apply()
 	{
 		$this->save(1);
 	}
 
+	/**
+	 * save
+	 *
+	 * @param $apply
+	 *
+	 */
 	public function save($apply = 0)
 	{
 		$post = JRequest::get('post');
@@ -66,6 +91,9 @@ class newsletter_detailController extends JController
 		}
 	}
 
+	/**
+	 * remove
+	 */
 	public function remove()
 	{
 		$option = JRequest::getVar('option');
@@ -107,6 +135,9 @@ class newsletter_detailController extends JController
 		$this->setRedirect('index.php?option=' . $option . '&view=newsletter', $msg);
 	}
 
+	/**
+	 * publish
+	 */
 	public function publish()
 	{
 		$option = JRequest::getVar('option');
@@ -129,6 +160,9 @@ class newsletter_detailController extends JController
 		$this->setRedirect('index.php?option=' . $option . '&view=newsletter', $msg);
 	}
 
+	/**
+	 * unpublish
+	 */
 	public function unpublish()
 	{
 		$option = JRequest::getVar('option');
@@ -151,6 +185,9 @@ class newsletter_detailController extends JController
 		$this->setRedirect('index.php?option=' . $option . '&view=newsletter', $msg);
 	}
 
+	/**
+	 * cancel
+	 */
 	public function cancel()
 	{
 		$option = JRequest::getVar('option');
@@ -158,6 +195,9 @@ class newsletter_detailController extends JController
 		$this->setRedirect('index.php?option=' . $option . '&view=newsletter', $msg);
 	}
 
+	/**
+	 * copy
+	 */
 	public function copy()
 	{
 		$option = JRequest::getVar('option');

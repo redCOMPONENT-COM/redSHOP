@@ -13,6 +13,13 @@ jimport('joomla.application.component.controller');
 
 require_once JPATH_BASE . '/components/com_redshop/helpers/configuration.php';
 
+/**
+ * wizardController
+ *
+ * @package     RedSHOP
+ * @subpackage  Controller
+ * @since       1.0
+ */
 class wizardController extends JController
 {
 	public $_temp_file = null;
@@ -21,6 +28,12 @@ class wizardController extends JController
 
 	public $_temp_file_dist = null;
 
+	/**
+	 * __construct
+	 *
+	 * @param $default
+	 *
+	 */
 	public function __construct($default = array())
 	{
 		parent::__construct($default);
@@ -29,6 +42,9 @@ class wizardController extends JController
 		$this->_temp_file_dist = JPATH_BASE . '/components/com_redshop/helpers/wizard/redshop.cfg.tmp.dist.php';
 	}
 
+	/**
+	 * isTmpFile
+	 */
 	public function isTmpFile()
 	{
 		if (file_exists($this->_temp_file))
@@ -47,6 +63,9 @@ class wizardController extends JController
 		return false;
 	}
 
+	/**
+	 * isWritable
+	 */
 	public function isWritable()
 	{
 		if (!is_writable($this->_temp_file))
@@ -58,6 +77,9 @@ class wizardController extends JController
 		return true;
 	}
 
+	/**
+	 * WriteTmpFile
+	 */
 	public function WriteTmpFile()
 	{
 		$html = "<?php \n";
@@ -95,6 +117,9 @@ class wizardController extends JController
 		JFile::copy($this->_temp_file_dist, $this->_temp_file);
 	}
 
+	/**
+	 * save
+	 */
 	function save()
 	{
 		$post = JRequest::get('post');
@@ -164,6 +189,9 @@ class wizardController extends JController
 		}
 	}
 
+	/**
+	 * finish
+	 */
 	public function finish()
 	{
 		$Redconfiguration = new Redconfiguration;
@@ -202,6 +230,9 @@ class wizardController extends JController
 		$this->setRedirect($link, $msg);
 	}
 
+	/**
+	 * demoContentInsert
+	 */
 	public function demoContentInsert()
 	{
 		$model = $this->getModel('redshop', 'redshopModel');

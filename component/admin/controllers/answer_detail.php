@@ -11,14 +11,30 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 
+/**
+ * answer_detailController
+ *
+ * @package     RedSHOP
+ * @subpackage  Controller
+ * @since       1.0
+ */
 class answer_detailController extends JController
 {
+	/**
+	 * __construct
+	 *
+	 * @param $default
+	 *
+	 */
 	public function __construct($default = array())
 	{
 		parent::__construct($default);
 		$this->registerTask('add', 'edit');
 	}
 
+	/**
+	 * edit
+	 */
 	public function edit()
 	{
 		JRequest::setVar('view', 'answer_detail');
@@ -27,6 +43,12 @@ class answer_detailController extends JController
 		parent::display();
 	}
 
+	/**
+	 * save
+	 *
+	 * @param $send
+	 *
+	 */
 	public function save($send = 0)
 	{
 		$post = JRequest::get('post');
@@ -63,11 +85,17 @@ class answer_detailController extends JController
 		$this->setRedirect('index.php?option=' . $option . '&view=answer&parent_id=' . $parent_id, $msg);
 	}
 
+	/**
+	 * send
+	 */
 	public function send()
 	{
 		$this->save(1);
 	}
 
+	/**
+	 * remove
+	 */
 	public function remove()
 	{
 		$parent_id = JRequest::getVar('parent_id');
@@ -90,6 +118,9 @@ class answer_detailController extends JController
 		$this->setRedirect('index.php?option=' . $option . '&view=answer&parent_id=' . $parent_id, $msg);
 	}
 
+	/**
+	 * cancel
+	 */
 	public function cancel()
 	{
 		$parent_id = JRequest::getVar('parent_id');
@@ -98,6 +129,9 @@ class answer_detailController extends JController
 		$this->setRedirect('index.php?option=' . $option . '&view=answer&parent_id=' . $parent_id, $msg);
 	}
 
+	/**
+	 * publish
+	 */
 	public function publish()
 	{
 		$option = JRequest::getVar('option');
@@ -120,6 +154,9 @@ class answer_detailController extends JController
 		$this->setRedirect('index.php?option=' . $option . '&view=answer&parent_id=' . $parent_id, $msg);
 	}
 
+	/**
+	 * unpublish
+	 */
 	public function unpublish()
 	{
 		$option = JRequest::getVar('option');

@@ -11,8 +11,18 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 
+/**
+ * zip_importController
+ *
+ * @package     RedSHOP
+ * @subpackage  Controller
+ * @since       1.0
+ */
 class zip_importController extends JController
 {
+	/**
+	 * cancel
+	 */
 	public function cancel()
 	{
 		$this->setRedirect('index.php');

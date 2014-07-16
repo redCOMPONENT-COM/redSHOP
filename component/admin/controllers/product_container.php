@@ -11,13 +11,26 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 
+/**
+ * product_containerController
+ *
+ * @package     RedSHOP
+ * @subpackage  Controller
+ * @since       1.0
+ */
 class product_containerController extends JController
 {
+	/**
+	 * cancel
+	 */
 	public function cancel()
 	{
 		$this->setRedirect('index.php');
 	}
 
+	/**
+	 * template
+	 */
 	public function template()
 	{
 		$json = JRequest::getVar('json', '');
@@ -38,6 +51,9 @@ class product_containerController extends JController
 		die($encoded);
 	}
 
+	/**
+	 * export_data
+	 */
 	public function export_data()
 	{
 		$model = $this->getModel('product_container');
@@ -68,6 +84,9 @@ class product_containerController extends JController
 		exit;
 	}
 
+	/**
+	 * print_data
+	 */
 	public function print_data()
 	{
 		echo '<script type="text/javascript" language="javascript">	window.print(); </script>';

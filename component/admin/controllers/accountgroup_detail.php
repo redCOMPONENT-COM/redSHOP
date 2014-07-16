@@ -11,14 +11,30 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 
+/**
+ * accountgroup_detailController
+ *
+ * @package     RedSHOP
+ * @subpackage  Controller
+ * @since       1.0
+ */
 class accountgroup_detailController extends JController
 {
+	/**
+	 * __construct
+	 *
+	 * @param $default
+	 *
+	 */
 	public function __construct($default = array())
 	{
 		parent::__construct($default);
 		$this->registerTask('add', 'edit');
 	}
 
+	/**
+	 * edit
+	 */
 	public function edit()
 	{
 		JRequest::setVar('view', 'accountgroup_detail');
@@ -27,11 +43,20 @@ class accountgroup_detailController extends JController
 		parent::display();
 	}
 
+	/**
+	 * apply
+	 */
 	public function apply()
 	{
 		$this->save(1);
 	}
 
+	/**
+	 * save
+	 *
+	 * @param $apply
+	 *
+	 */
 	public function save($apply = 0)
 	{
 		$post = JRequest::get('post');
@@ -60,6 +85,9 @@ class accountgroup_detailController extends JController
 		}
 	}
 
+	/**
+	 * cancel
+	 */
 	public function cancel()
 	{
 		$option = JRequest::getVar('option');
@@ -67,6 +95,9 @@ class accountgroup_detailController extends JController
 		$this->setRedirect('index.php?option=' . $option . '&view=accountgroup', $msg);
 	}
 
+	/**
+	 * remove
+	 */
 	public function remove()
 	{
 		$option = JRequest::getVar('option');
@@ -88,6 +119,9 @@ class accountgroup_detailController extends JController
 		$this->setRedirect('index.php?option=' . $option . '&view=accountgroup', $msg);
 	}
 
+	/**
+	 * publish
+	 */
 	public function publish()
 	{
 		$option = JRequest::getVar('option');
@@ -110,6 +144,9 @@ class accountgroup_detailController extends JController
 		$this->setRedirect('index.php?option=' . $option . '&view=accountgroup', $msg);
 	}
 
+	/**
+	 * unpublish
+	 */
 	public function unpublish()
 	{
 		$option = JRequest::getVar('option');

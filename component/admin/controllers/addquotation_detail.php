@@ -14,14 +14,33 @@ jimport('joomla.application.component.controller');
 require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
 require_once JPATH_COMPONENT . '/helpers/product.php';
 
+/**
+ * addquotation_detailController
+ *
+ * @package     RedSHOP
+ * @subpackage  Controller
+ * @since       1.0
+ */
 class addquotation_detailController extends JController
 {
+	/**
+	 * __construct
+	 *
+	 * @param $default
+	 *
+	 */
 	public function __construct($default = array())
 	{
 		parent::__construct($default);
 		JRequest::setVar('hidemainmenu', 1);
 	}
 
+	/**
+	 * save
+	 *
+	 * @param $send
+	 *
+	 */
 	public function save($send = 0)
 	{
 		$post = JRequest::get('post');
@@ -99,11 +118,17 @@ class addquotation_detailController extends JController
 		$this->setRedirect('index.php?option=' . $option . '&view=quotation', $msg);
 	}
 
+	/**
+	 * send
+	 */
 	public function send()
 	{
 		$this->save(1);
 	}
 
+	/**
+	 * cancel
+	 */
 	public function cancel()
 	{
 		$option = JRequest::getVar('option', '', 'request', 'string');
@@ -111,6 +136,9 @@ class addquotation_detailController extends JController
 		$this->setRedirect('index.php?option=' . $option . '&view=quotation', $msg);
 	}
 
+	/**
+	 * displayOfflineSubProperty
+	 */
 	public function displayOfflineSubProperty()
 	{
 		$get = JRequest::get('get');

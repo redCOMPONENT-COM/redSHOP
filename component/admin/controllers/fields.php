@@ -11,13 +11,26 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 
+/**
+ * fieldsController
+ *
+ * @package     RedSHOP
+ * @subpackage  Controller
+ * @since       1.0
+ */
 class fieldsController extends JController
 {
+	/**
+	 * cancel
+	 */
 	public function cancel()
 	{
 		$this->setRedirect('index.php');
 	}
 
+	/**
+	 * saveorder
+	 */
 	public function saveorder()
 	{
 		$option = JRequest::getVar('option');

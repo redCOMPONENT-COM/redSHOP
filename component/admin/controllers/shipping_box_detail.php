@@ -13,14 +13,30 @@ jimport('joomla.application.component.controller');
 
 require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/template.php';
 
+/**
+ * shipping_box_detailController
+ *
+ * @package     RedSHOP
+ * @subpackage  Controller
+ * @since       1.0
+ */
 class shipping_box_detailController extends JController
 {
+	/**
+	 * __construct
+	 *
+	 * @param $default
+	 *
+	 */
 	public function __construct($default = array())
 	{
 		parent::__construct($default);
 		$this->registerTask('add', 'edit');
 	}
 
+	/**
+	 * edit
+	 */
 	public function edit()
 	{
 		JRequest::setVar('view', 'shipping_box_detail');
@@ -29,11 +45,20 @@ class shipping_box_detailController extends JController
 		parent::display();
 	}
 
+	/**
+	 * apply
+	 */
 	public function apply()
 	{
 		$this->save(1);
 	}
 
+	/**
+	 * save
+	 *
+	 * @param $apply
+	 *
+	 */
 	public function save($apply = 0)
 	{
 		$post = JRequest::get('post');
@@ -62,6 +87,9 @@ class shipping_box_detailController extends JController
 		}
 	}
 
+	/**
+	 * remove
+	 */
 	public function remove()
 	{
 		$option = JRequest::getVar('option');
@@ -83,6 +111,9 @@ class shipping_box_detailController extends JController
 		$this->setRedirect('index.php?option=' . $option . '&view=shipping_box');
 	}
 
+	/**
+	 * publish
+	 */
 	public function publish()
 	{
 		$option = JRequest::getVar('option');
@@ -104,6 +135,9 @@ class shipping_box_detailController extends JController
 		$this->setRedirect('index.php?option=' . $option . '&view=shipping_box');
 	}
 
+	/**
+	 * unpublish
+	 */
 	public function unpublish()
 	{
 		$option = JRequest::getVar('option');
@@ -125,6 +159,9 @@ class shipping_box_detailController extends JController
 		$this->setRedirect('index.php?option=' . $option . '&view=shipping_box');
 	}
 
+	/**
+	 * cancel
+	 */
 	public function cancel()
 	{
 		$option = JRequest::getVar('option');

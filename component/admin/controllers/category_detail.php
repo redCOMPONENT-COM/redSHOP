@@ -11,14 +11,30 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 
+/**
+ * category_detailController
+ *
+ * @package     RedSHOP
+ * @subpackage  Controller
+ * @since       1.0
+ */
 class category_detailController extends JController
 {
+	/**
+	 * __construct
+	 *
+	 * @param $default
+	 *
+	 */
 	public function __construct($default = array())
 	{
 		parent::__construct($default);
 		$this->registerTask('add', 'edit');
 	}
 
+	/**
+	 * edit
+	 */
 	public function edit()
 	{
 		JRequest::setVar('view', 'category_detail');
@@ -28,16 +44,28 @@ class category_detailController extends JController
 		parent::display();
 	}
 
+	/**
+	 * save2new
+	 */
 	public function save2new()
 	{
 		$this->save(2);
 	}
 
+	/**
+	 * apply
+	 */
 	public function apply()
 	{
 		$this->save(1);
 	}
 
+	/**
+	 * save
+	 *
+	 * @param $apply
+	 *
+	 */
 	public function save($apply = 0)
 	{
 		$post = JRequest::get('post');
@@ -82,6 +110,9 @@ class category_detailController extends JController
 		}
 	}
 
+	/**
+	 * remove
+	 */
 	public function remove()
 	{
 		$option = JRequest::getVar('option');
@@ -112,6 +143,9 @@ class category_detailController extends JController
 		$this->setRedirect('index.php?option=' . $option . '&view=category', $msg);
 	}
 
+	/**
+	 * publish
+	 */
 	public function publish()
 	{
 		$option = JRequest::getVar('option');
@@ -134,6 +168,9 @@ class category_detailController extends JController
 		$this->setRedirect('index.php?option=' . $option . '&view=category', $msg);
 	}
 
+	/**
+	 * unpublish
+	 */
 	public function unpublish()
 	{
 		$option = JRequest::getVar('option');
@@ -156,6 +193,9 @@ class category_detailController extends JController
 		$this->setRedirect('index.php?option=' . $option . '&view=category', $msg);
 	}
 
+	/**
+	 * cancel
+	 */
 	public function cancel()
 	{
 		$option = JRequest::getVar('option');
@@ -163,6 +203,9 @@ class category_detailController extends JController
 		$this->setRedirect('index.php?option=' . $option . '&view=category', $msg);
 	}
 
+	/**
+	 * orderup
+	 */
 	public function orderup()
 	{
 		$option = JRequest::getVar('option');
@@ -174,6 +217,9 @@ class category_detailController extends JController
 		$this->setRedirect('index.php?option=' . $option . '&view=category', $msg);
 	}
 
+	/**
+	 * orderdown
+	 */
 	public function orderdown()
 	{
 		$option = JRequest::getVar('option');
@@ -185,6 +231,9 @@ class category_detailController extends JController
 		$this->setRedirect('index.php?option=' . $option . '&view=category', $msg);
 	}
 
+	/**
+	 * saveorder
+	 */
 	public function saveorder()
 	{
 		$option = JRequest::getVar('option');
@@ -201,6 +250,9 @@ class category_detailController extends JController
 		$this->setRedirect('index.php?option=' . $option . '&view=category', $msg);
 	}
 
+	/**
+	 * copy
+	 */
 	public function copy()
 	{
 		$option = JRequest::getVar('option');

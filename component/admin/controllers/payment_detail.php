@@ -14,14 +14,30 @@ jimport('joomla.application.component.controller');
 define('WARNSAME', "There is already a file called '%s'.");
 define('INSTALLEXT', 'Install %s %s');
 
+/**
+ * payment_detailController
+ *
+ * @package     RedSHOP
+ * @subpackage  Controller
+ * @since       1.0
+ */
 class payment_detailController extends JController
 {
+	/**
+	 * __construct
+	 *
+	 * @param $default
+	 *
+	 */
 	public function __construct($default = array())
 	{
 		parent::__construct($default);
 		$this->registerTask('add', 'edit');
 	}
 
+	/**
+	 * install
+	 */
 	public function install()
 	{
 		$model = $this->getModel('payment_detail');
@@ -34,6 +50,9 @@ class payment_detailController extends JController
 		parent::display();
 	}
 
+	/**
+	 * edit
+	 */
 	public function edit()
 	{
 		JRequest::setVar('view', 'payment_detail');
@@ -42,6 +61,9 @@ class payment_detailController extends JController
 		parent::display();
 	}
 
+	/**
+	 * save
+	 */
 	public function save()
 	{
 		$post = JRequest::get('post');
@@ -70,6 +92,9 @@ class payment_detailController extends JController
 		$this->setRedirect('index.php?option=' . $option . '&view=payment', $msg);
 	}
 
+	/**
+	 * remove
+	 */
 	public function remove()
 	{
 		$option = JRequest::getVar('option');
@@ -82,6 +107,9 @@ class payment_detailController extends JController
 		$this->setRedirect('index.php?option=' . $option . '&view=payment');
 	}
 
+	/**
+	 * publish
+	 */
 	public function publish()
 	{
 		$option = JRequest::getVar('option');
@@ -103,6 +131,9 @@ class payment_detailController extends JController
 		$this->setRedirect('index.php?option=' . $option . '&view=payment');
 	}
 
+	/**
+	 * unpublish
+	 */
 	public function unpublish()
 	{
 		$option = JRequest::getVar('option');
@@ -124,6 +155,9 @@ class payment_detailController extends JController
 		$this->setRedirect('index.php?option=' . $option . '&view=payment');
 	}
 
+	/**
+	 * cancel
+	 */
 	public function cancel()
 	{
 		$option = JRequest::getVar('option');

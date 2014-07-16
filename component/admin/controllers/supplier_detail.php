@@ -11,14 +11,30 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 
+/**
+ * supplier_detailController
+ *
+ * @package     RedSHOP
+ * @subpackage  Controller
+ * @since       1.0
+ */
 class supplier_detailController extends JController
 {
+	/**
+	 * __construct
+	 *
+	 * @param $default
+	 *
+	 */
 	public function __construct($default = array())
 	{
 		parent::__construct($default);
 		$this->registerTask('add', 'edit');
 	}
 
+	/**
+	 * edit
+	 */
 	public function edit()
 	{
 		JRequest::setVar('view', 'supplier_detail');
@@ -27,6 +43,9 @@ class supplier_detailController extends JController
 		parent::display();
 	}
 
+	/**
+	 * save
+	 */
 	public function save()
 	{
 		$post = JRequest::get('post', JREQUEST_ALLOWRAW);
@@ -52,6 +71,9 @@ class supplier_detailController extends JController
 		$this->setRedirect('index.php?option=' . $option . '&view=supplier', $msg);
 	}
 
+	/**
+	 * remove
+	 */
 	public function remove()
 	{
 
@@ -75,6 +97,9 @@ class supplier_detailController extends JController
 		$this->setRedirect('index.php?option=' . $option . '&view=supplier', $msg);
 	}
 
+	/**
+	 * publish
+	 */
 	public function publish()
 	{
 		$option = JRequest::getVar('option');
@@ -97,6 +122,9 @@ class supplier_detailController extends JController
 		$this->setRedirect('index.php?option=' . $option . '&view=supplier', $msg);
 	}
 
+	/**
+	 * unpublish
+	 */
 	public function unpublish()
 	{
 		$option = JRequest::getVar('option');
@@ -119,6 +147,9 @@ class supplier_detailController extends JController
 		$this->setRedirect('index.php?option=' . $option . '&view=supplier', $msg);
 	}
 
+	/**
+	 * cancel
+	 */
 	public function cancel()
 	{
 		$option = JRequest::getVar('option');
@@ -126,6 +157,9 @@ class supplier_detailController extends JController
 		$this->setRedirect('index.php?option=' . $option . '&view=supplier', $msg);
 	}
 
+	/**
+	 * copy
+	 */
 	public function copy()
 	{
 		$option = JRequest::getVar('option');

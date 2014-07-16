@@ -11,14 +11,30 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 
+/**
+ * wrapper_detailController
+ *
+ * @package     RedSHOP
+ * @subpackage  Controller
+ * @since       1.0
+ */
 class wrapper_detailController extends JController
 {
+	/**
+	 * __construct
+	 *
+	 * @param $default
+	 *
+	 */
 	public function __construct($default = array())
 	{
 		parent::__construct($default);
 		$this->registerTask('add', 'edit');
 	}
 
+	/**
+	 * edit
+	 */
 	public function edit()
 	{
 		JRequest::setVar('view', 'wrapper_detail');
@@ -28,6 +44,9 @@ class wrapper_detailController extends JController
 		parent::display();
 	}
 
+	/**
+	 * save
+	 */
 	public function save()
 	{
 		$showall = JRequest::getVar('showall', '0');
@@ -60,6 +79,9 @@ class wrapper_detailController extends JController
 		$this->setRedirect('index' . $page . '.php?option=' . $option . '&view=wrapper&showall=' . $showall . '&product_id=' . $product_id, $msg);
 	}
 
+	/**
+	 * remove
+	 */
 	public function remove()
 	{
 		$showall = JRequest::getVar('showall', '0');
@@ -90,6 +112,9 @@ class wrapper_detailController extends JController
 		$this->setRedirect('index' . $page . '.php?option=' . $option . '&view=wrapper&showall=' . $showall . '&product_id=' . $product_id, $msg);
 	}
 
+	/**
+	 * cancel
+	 */
 	public function cancel()
 	{
 		$showall = JRequest::getVar('showall', '0');
@@ -179,6 +204,9 @@ class wrapper_detailController extends JController
 		$this->setRedirect('index' . $page . '.php?option=' . $option . '&view=wrapper&showall=' . $showall . '&product_id=' . $product_id, $msg);
 	}
 
+	/**
+	 * enable_defaultpublish
+	 */
 	public function enable_defaultpublish()
 	{
 		$showall = JRequest::getVar('showall', '0');
@@ -209,6 +237,9 @@ class wrapper_detailController extends JController
 		$this->setRedirect('index' . $page . '.php?option=' . $option . '&view=wrapper&showall=' . $showall . '&product_id=' . $product_id, $msg);
 	}
 
+	/**
+	 * enable_defaultunpublish
+	 */
 	public function enable_defaultunpublish()
 	{
 		$showall = JRequest::getVar('showall', '0');

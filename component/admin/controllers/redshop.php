@@ -11,8 +11,18 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 
+/**
+ * redshopController
+ *
+ * @package     RedSHOP
+ * @subpackage  Controller
+ * @since       1.0
+ */
 class redshopController extends JController
 {
+	/**
+	 * demoContentInsert
+	 */
 	public function demoContentInsert()
 	{
 		$model = $this->getModel();

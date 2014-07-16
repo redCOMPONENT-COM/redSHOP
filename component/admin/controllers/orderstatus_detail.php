@@ -11,14 +11,30 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 
+/**
+ * orderstatus_detailController
+ *
+ * @package     RedSHOP
+ * @subpackage  Controller
+ * @since       1.0
+ */
 class orderstatus_detailController extends JController
 {
+	/**
+	 * __construct
+	 *
+	 * @param $default
+	 *
+	 */
 	public function __construct($default = array())
 	{
 		parent::__construct($default);
 		$this->registerTask('add', 'edit');
 	}
 
+	/**
+	 * edit
+	 */
 	public function edit()
 	{
 		JRequest::setVar('view', 'orderstatus_detail');
@@ -28,6 +44,9 @@ class orderstatus_detailController extends JController
 		parent::display();
 	}
 
+	/**
+	 * save
+	 */
 	public function save()
 	{
 		$post = JRequest::get('post');
@@ -58,6 +77,9 @@ class orderstatus_detailController extends JController
 		$this->setRedirect($link, $msg);
 	}
 
+	/**
+	 * remove
+	 */
 	public function remove()
 	{
 		$option = JRequest::getVar('option');
@@ -80,6 +102,9 @@ class orderstatus_detailController extends JController
 		$this->setRedirect('index.php?option=' . $option . '&view=orderstatus', $msg);
 	}
 
+	/**
+	 * publish
+	 */
 	public function publish()
 	{
 		$option = JRequest::getVar('option');
@@ -102,6 +127,9 @@ class orderstatus_detailController extends JController
 		$this->setRedirect('index.php?option=' . $option . '&view=orderstatus', $msg);
 	}
 
+	/**
+	 * unpublish
+	 */
 	public function unpublish()
 	{
 		$option = JRequest::getVar('option');
@@ -124,6 +152,9 @@ class orderstatus_detailController extends JController
 		$this->setRedirect('index.php?option=' . $option . '&view=orderstatus', $msg);
 	}
 
+	/**
+	 * cancel
+	 */
 	public function cancel()
 	{
 		$option = JRequest::getVar('option');

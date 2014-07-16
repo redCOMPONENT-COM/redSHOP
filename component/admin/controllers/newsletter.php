@@ -11,19 +11,35 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 
+/**
+ * newsletterController
+ *
+ * @package     RedSHOP
+ * @subpackage  Controller
+ * @since       1.0
+ */
 class newsletterController extends JController
 {
+	/**
+	 * cancel
+	 */
 	public function cancel()
 	{
 		$this->setRedirect('index.php');
 	}
 
+	/**
+	 * send_newsletter_preview
+	 */
 	public function send_newsletter_preview()
 	{
 		$view = $this->getView('newsletter', 'preview');
 		parent::display();
 	}
 
+	/**
+	 * send_newsletter
+	 */
 	public function send_newsletter()
 	{
 		$session = JFactory::getSession();
@@ -48,6 +64,9 @@ class newsletterController extends JController
 		return;
 	}
 
+	/**
+	 * sendRecursiveNewsletter
+	 */
 	public function sendRecursiveNewsletter()
 	{
 		$session = JFactory::getSession();

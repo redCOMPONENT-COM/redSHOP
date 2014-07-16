@@ -11,13 +11,26 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 
+/**
+ * stockroom_listingController
+ *
+ * @package     RedSHOP
+ * @subpackage  Controller
+ * @since       1.0
+ */
 class stockroom_listingController extends JController
 {
+	/**
+	 * cancel
+	 */
 	public function cancel()
 	{
 		$this->setRedirect('index.php');
 	}
 
+	/**
+	 * saveStock
+	 */
 	public function saveStock()
 	{
 		$model = $this->getModel('stockroom_listing');
@@ -37,6 +50,9 @@ class stockroom_listingController extends JController
 		$this->setRedirect('index.php?option=com_redshop&view=stockroom_listing&id=0&stockroom_type=' . $stockroom_type);
 	}
 
+	/**
+	 * ResetPreorderStock
+	 */
 	public function ResetPreorderStock()
 	{
 		$model = $this->getModel('stockroom_listing');
@@ -49,6 +65,9 @@ class stockroom_listingController extends JController
 		$this->setRedirect('index.php?option=com_redshop&view=stockroom_listing&id=0&stockroom_type=' . $stockroom_type);
 	}
 
+	/**
+	 * export_data
+	 */
 	public function export_data()
 	{
 		$model = $this->getModel('stockroom_listing');
@@ -119,6 +138,9 @@ class stockroom_listingController extends JController
 		exit;
 	}
 
+	/**
+	 * print_data
+	 */
 	public function print_data()
 	{
 		echo '<script type="text/javascript" language="javascript">	window.print(); </script>';

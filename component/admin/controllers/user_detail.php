@@ -11,8 +11,21 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 
+/**
+ * user_detailController
+ *
+ * @package     RedSHOP
+ * @subpackage  Controller
+ * @since       1.0
+ */
 class user_detailController extends JController
 {
+	/**
+	 * __construct
+	 *
+	 * @param $default
+	 *
+	 */
 	public function __construct($default = array())
 	{
 		parent::__construct($default);
@@ -21,6 +34,9 @@ class user_detailController extends JController
 		$this->redhelper = new redhelper;
 	}
 
+	/**
+	 * edit
+	 */
 	public function edit()
 	{
 		JRequest::setVar('view', 'user_detail');
@@ -29,11 +45,20 @@ class user_detailController extends JController
 		parent::display();
 	}
 
+	/**
+	 * apply
+	 */
 	public function apply()
 	{
 		$this->save(1);
 	}
 
+	/**
+	 * save
+	 *
+	 * @param $apply
+	 *
+	 */
 	public function save($apply = 0)
 	{
 		$option = JRequest::getVar('option', '', 'request', 'string');
@@ -73,6 +98,9 @@ class user_detailController extends JController
 		$this->setRedirect($link, $msg);
 	}
 
+	/**
+	 * remove
+	 */
 	public function remove()
 	{
 		$option = JRequest::getVar('option', '', 'request', 'string');
@@ -104,6 +132,9 @@ class user_detailController extends JController
 		}
 	}
 
+	/**
+	 * publish
+	 */
 	public function publish()
 	{
 		$option = JRequest::getVar('option', '', 'request', 'string');
@@ -126,6 +157,9 @@ class user_detailController extends JController
 		$this->setRedirect('index.php?option=' . $option . '&view=user', $msg);
 	}
 
+	/**
+	 * unpublish
+	 */
 	public function unpublish()
 	{
 		$option = JRequest::getVar('option', '', 'request', 'string');
@@ -148,6 +182,9 @@ class user_detailController extends JController
 		$this->setRedirect('index.php?option=' . $option . '&view=user', $msg);
 	}
 
+	/**
+	 * cancel
+	 */
 	public function cancel()
 	{
 		$option = JRequest::getVar('option', '', 'request', 'string');
@@ -170,6 +207,9 @@ class user_detailController extends JController
 		$this->setRedirect($link, $msg);
 	}
 
+	/**
+	 * order
+	 */
 	public function order()
 	{
 		$option = JRequest::getVar('option', '', 'request', 'string');
@@ -177,6 +217,9 @@ class user_detailController extends JController
 		$this->setRedirect('index.php?option=' . $option . '&view=addorder_detail&user_id=' . $user_id);
 	}
 
+	/**
+	 * validation
+	 */
 	public function validation()
 	{
 		$json = JRequest::getVar('json', '');

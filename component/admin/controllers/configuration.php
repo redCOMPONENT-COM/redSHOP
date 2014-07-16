@@ -14,19 +14,41 @@ jimport('joomla.application.component.controller');
 require_once JPATH_COMPONENT_SITE . '/helpers/currency.php';
 require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/extra_field.php';
 
+/**
+ * configurationController
+ *
+ * @package     RedSHOP
+ * @subpackage  Controller
+ * @since       1.0
+ */
 class configurationController extends JController
 {
+	/**
+	 * __construct
+	 *
+	 * @param $default
+	 *
+	 */
 	public function __construct($default = array())
 	{
 		parent::__construct($default);
 		$this->_configpath1 = JPATH_SITE . "/administrator/components/com_redshop/helpers/newtxt.php";
 	}
 
+	/**
+	 * apply
+	 */
 	public function apply()
 	{
 		$this->save(1);
 	}
 
+	/**
+	 * save
+	 *
+	 * @param $apply
+	 *
+	 */
 	public function save($apply = 0)
 	{
 		$post = JRequest::get('post');
@@ -314,6 +336,9 @@ class configurationController extends JController
 		return true;
 	}
 
+	/**
+	 * removeimg
+	 */
 	public function removeimg()
 	{
 		ob_clean();
@@ -335,6 +360,9 @@ class configurationController extends JController
 		exit;
 	}
 
+	/**
+	 * cancel
+	 */
 	public function cancel()
 	{
 		$option = JRequest::getVar('option');
@@ -361,6 +389,9 @@ class configurationController extends JController
 		parent::display($cachable, $urlparams);
 	}
 
+	/**
+	 * clearsef
+	 */
 	public function clearsef()
 	{
 		$model = $this->getModel('configuration');
@@ -370,6 +401,9 @@ class configurationController extends JController
 		exit;
 	}
 
+	/**
+	 * resetTemplate
+	 */
 	public function resetTemplate()
 	{
 		$model = $this->getModel('configuration');
@@ -381,6 +415,9 @@ class configurationController extends JController
 		$this->setRedirect('index.php?option=' . $option, $msg);
 	}
 
+	/**
+	 * resetTermsCondition
+	 */
 	public function resetTermsCondition()
 	{
 		$userhelper = new rsUserhelper;
@@ -388,6 +425,9 @@ class configurationController extends JController
 		die();
 	}
 
+	/**
+	 * resetOrderId
+	 */
 	public function resetOrderId()
 	{
 		$order_functions = new order_functions;

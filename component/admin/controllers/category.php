@@ -11,8 +11,18 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 
+/**
+ * categoryController
+ *
+ * @package     RedSHOP
+ * @subpackage  Controller
+ * @since       1.0
+ */
 class categoryController extends JController
 {
+	/**
+	 * cancel
+	 */
 	public function cancel()
 	{
 		$this->setRedirect('index.php');
@@ -40,6 +50,9 @@ class categoryController extends JController
 		$this->setRedirect('index.php?option=com_redshop&view=category', $msg);
 	}
 
+	/**
+	 * saveorder
+	 */
 	public function saveorder()
 	{
 		$option = JRequest::getVar('option');
@@ -56,6 +69,9 @@ class categoryController extends JController
 		$this->setRedirect('index.php?option=' . $option . '&view=category', $msg);
 	}
 
+	/**
+	 * autofillcityname
+	 */
 	public function autofillcityname()
 	{
 		$db = JFactory::getDbo();

@@ -17,24 +17,49 @@ require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/product.php';
 require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php';
 require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/shipping.php';
 
+/**
+ * addorder_detailController
+ *
+ * @package     RedSHOP
+ * @subpackage  Controller
+ * @since       1.0
+ */
 class addorder_detailController extends JController
 {
+	/**
+	 * __construct
+	 *
+	 * @param $default
+	 *
+	 */
 	public function __construct($default = array())
 	{
 		parent::__construct($default);
 		JRequest::setVar('hidemainmenu', 1);
 	}
 
+	/**
+	 * savepay
+	 */
 	public function savepay()
 	{
 		$this->save(1);
 	}
 
+	/**
+	 * save_without_sendmail
+	 */
 	public function save_without_sendmail()
 	{
 		$this->save();
 	}
 
+	/**
+	 * save
+	 *
+	 * @param $apply
+	 *
+	 */
 	public function save($apply = 0)
 	{
 		$post = JRequest::get('post');
@@ -225,6 +250,9 @@ class addorder_detailController extends JController
 		}
 	}
 
+	/**
+	 * cancel
+	 */
 	public function cancel()
 	{
 		$option = JRequest::getVar('option', '', 'request', 'string');
@@ -232,6 +260,9 @@ class addorder_detailController extends JController
 		$this->setRedirect('index.php?option=' . $option . '&view=order', $msg);
 	}
 
+	/**
+	 * guestuser
+	 */
 	public function guestuser()
 	{
 		$post = JRequest::get('post');
@@ -261,6 +292,9 @@ class addorder_detailController extends JController
 		}
 	}
 
+	/**
+	 * changeshippingaddress
+	 */
 	public function changeshippingaddress()
 	{
 		$shippingadd_id = JRequest::getVar('shippingadd_id', 0);
@@ -275,6 +309,9 @@ class addorder_detailController extends JController
 		die();
 	}
 
+	/**
+	 * getShippingRate
+	 */
 	public function getShippingRate()
 	{
 		$shippinghelper = new shipping;

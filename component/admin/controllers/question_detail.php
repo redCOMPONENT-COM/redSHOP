@@ -13,14 +13,30 @@ require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/mail.php';
 
 jimport('joomla.application.component.controller');
 
+/**
+ * question_detailController
+ *
+ * @package     RedSHOP
+ * @subpackage  Controller
+ * @since       1.0
+ */
 class question_detailController extends JController
 {
+	/**
+	 * __construct
+	 *
+	 * @param $default
+	 *
+	 */
 	public function __construct($default = array())
 	{
 		parent::__construct($default);
 		$this->registerTask('add', 'edit');
 	}
 
+	/**
+	 * edit
+	 */
 	public function edit()
 	{
 		JRequest::setVar('view', 'question_detail');
@@ -29,6 +45,12 @@ class question_detailController extends JController
 		parent::display();
 	}
 
+	/**
+	 * save
+	 *
+	 * @param $send
+	 *
+	 */
 	public function save($send = 0)
 	{
 		$post = JRequest::get('post');
@@ -65,11 +87,17 @@ class question_detailController extends JController
 		$this->setRedirect('index.php?option=' . $option . '&view=question', $msg);
 	}
 
+	/**
+	 * send
+	 */
 	public function send()
 	{
 		$this->save(1);
 	}
 
+	/**
+	 * remove
+	 */
 	public function remove()
 	{
 		$option = JRequest::getVar('option', '', 'request', 'string');
@@ -91,6 +119,9 @@ class question_detailController extends JController
 		$this->setRedirect('index.php?option=' . $option . '&view=question', $msg);
 	}
 
+	/**
+	 * removeanswer
+	 */
 	public function removeanswer()
 	{
 		$option = JRequest::getVar('option', '', 'request', 'string');
@@ -113,6 +144,9 @@ class question_detailController extends JController
 		$this->setRedirect('index.php?option=' . $option . '&view=question_detail&task=edit&cid[]=' . $qid[0], $msg);
 	}
 
+	/**
+	 * sendanswer
+	 */
 	public function sendanswer()
 	{
 		$option = JRequest::getVar('option', '', 'request', 'string');
@@ -129,6 +163,9 @@ class question_detailController extends JController
 		$this->setRedirect('index.php?option=' . $option . '&view=question_detail&task=edit&cid[]=' . $qid[0], $msg);
 	}
 
+	/**
+	 * cancel
+	 */
 	public function cancel()
 	{
 		$option = JRequest::getVar('option', '', 'request', 'string');
@@ -136,6 +173,9 @@ class question_detailController extends JController
 		$this->setRedirect('index.php?option=' . $option . '&view=question', $msg);
 	}
 
+	/**
+	 * publish
+	 */
 	public function publish()
 	{
 		$option = JRequest::getVar('option');
@@ -158,6 +198,9 @@ class question_detailController extends JController
 		$this->setRedirect('index.php?option=' . $option . '&view=question', $msg);
 	}
 
+	/**
+	 * unpublish
+	 */
 	public function unpublish()
 	{
 		$option = JRequest::getVar('option');

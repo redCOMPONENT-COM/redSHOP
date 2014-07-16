@@ -12,13 +12,26 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.controller');
 jimport('joomla.filesystem.file');
 
+/**
+ * mediaController
+ *
+ * @package     RedSHOP
+ * @subpackage  Controller
+ * @since       1.0
+ */
 class mediaController extends JController
 {
+	/**
+	 * cancel
+	 */
 	public function cancel()
 	{
 		$this->setRedirect('index.php');
 	}
 
+	/**
+	 * saveAdditionalFiles
+	 */
 	public function saveAdditionalFiles()
 	{
 		$post = JRequest::get('POST');
@@ -99,6 +112,9 @@ class mediaController extends JController
 		);
 	}
 
+	/**
+	 * deleteAddtionalFiles
+	 */
 	public function deleteAddtionalFiles()
 	{
 		$media_id = JRequest::getInt('media_id');
@@ -119,6 +135,9 @@ class mediaController extends JController
 		);
 	}
 
+	/**
+	 * saveorder
+	 */
 	public function saveorder()
 	{
 		$option = JRequest::getVar('option');

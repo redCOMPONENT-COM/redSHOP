@@ -11,19 +11,35 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 
+/**
+ * order_containerController
+ *
+ * @package     RedSHOP
+ * @subpackage  Controller
+ * @since       1.0
+ */
 class order_containerController extends JController
 {
+	/**
+	 * cancel
+	 */
 	public function cancel()
 	{
 		$this->setRedirect('index.php');
 	}
 
+	/**
+	 * update_status
+	 */
 	public function update_status()
 	{
 		$model = $this->getModel('order_container');
 		$model->update_status();
 	}
 
+	/**
+	 * export_data
+	 */
 	public function export_data()
 	{
 		require_once JPATH_COMPONENT . '/helpers/order.php';

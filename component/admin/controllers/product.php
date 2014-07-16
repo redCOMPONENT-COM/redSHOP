@@ -11,8 +11,18 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 
+/**
+ * productController
+ *
+ * @package     RedSHOP
+ * @subpackage  Controller
+ * @since       1.0
+ */
 class productController extends JController
 {
+	/**
+	 * cancel
+	 */
 	public function cancel()
 	{
 		$this->setRedirect('index.php');
@@ -28,6 +38,9 @@ class productController extends JController
 		parent::display();
 	}
 
+	/**
+	 * ins_product
+	 */
 	public function ins_product()
 	{
 		JRequest::setVar('layout', 'ins_product');
@@ -35,6 +48,9 @@ class productController extends JController
 		parent::display();
 	}
 
+	/**
+	 * listing
+	 */
 	public function listing()
 	{
 		JRequest::setVar('layout', 'listing');
@@ -42,6 +58,9 @@ class productController extends JController
 		parent::display();
 	}
 
+	/**
+	 * importeconomic
+	 */
 	public function importeconomic()
 	{
 		// Add product to economic
@@ -101,6 +120,9 @@ class productController extends JController
 		die();
 	}
 
+	/**
+	 * importatteco
+	 */
 	public function importatteco()
 	{
 		// Add product attribute to economic
@@ -212,6 +234,9 @@ class productController extends JController
 		die();
 	}
 
+	/**
+	 * saveprice
+	 */
 	public function saveprice()
 	{
 		$db = JFactory::getDbo();
@@ -229,6 +254,9 @@ class productController extends JController
 		$this->setRedirect('index.php?option=com_redshop&view=product&task=listing');
 	}
 
+	/**
+	 * savediscountprice
+	 */
 	public function savediscountprice()
 	{
 		$db = JFactory::getDbo();
@@ -246,6 +274,9 @@ class productController extends JController
 		$this->setRedirect('index.php?option=com_redshop&view=product&task=listing');
 	}
 
+	/**
+	 * template
+	 */
 	public function template()
 	{
 		$template_id = JRequest::getVar('template_id', '');
@@ -271,6 +302,9 @@ class productController extends JController
 		exit;
 	}
 
+	/**
+	 * assignTemplate
+	 */
 	public function assignTemplate()
 	{
 		$post = JRequest::get('post');
@@ -289,6 +323,9 @@ class productController extends JController
 		$this->setRedirect('index.php?option=com_redshop&view=product', $msg);
 	}
 
+	/**
+	 * gbasefeed
+	 */
 	public function gbasefeed()
 	{
 		$post = JRequest::get('post');
@@ -306,6 +343,9 @@ class productController extends JController
 		$this->setRedirect('index.php?option=com_redshop&view=product', $msg);
 	}
 
+	/**
+	 * saveorder
+	 */
 	public function saveorder()
 	{
 		$option = JRequest::getVar('option');

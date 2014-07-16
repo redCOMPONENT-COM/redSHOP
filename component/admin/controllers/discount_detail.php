@@ -11,14 +11,30 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 
+/**
+ * discount_detailController
+ *
+ * @package     RedSHOP
+ * @subpackage  Controller
+ * @since       1.0
+ */
 class discount_detailController extends JController
 {
+	/**
+	 * __construct
+	 *
+	 * @param $default
+	 *
+	 */
 	public function __construct($default = array())
 	{
 		parent::__construct($default);
 		$this->registerTask('add', 'edit');
 	}
 
+	/**
+	 * edit
+	 */
 	public function edit()
 	{
 		$layout = JRequest::getVar('layout');
@@ -40,11 +56,20 @@ class discount_detailController extends JController
 		parent::display();
 	}
 
+	/**
+	 * apply
+	 */
 	public function apply()
 	{
 		$this->save(1);
 	}
 
+	/**
+	 * save
+	 *
+	 * @param $apply
+	 *
+	 */
 	public function save($apply = 0)
 	{
 		$post = JRequest::get('post');
@@ -117,6 +142,9 @@ class discount_detailController extends JController
 		}
 	}
 
+	/**
+	 * remove
+	 */
 	public function remove()
 	{
 		$layout = JRequest::getVar('layout');
@@ -146,6 +174,9 @@ class discount_detailController extends JController
 		}
 	}
 
+	/**
+	 * publish
+	 */
 	public function publish()
 	{
 		$layout = JRequest::getVar('layout');
@@ -175,6 +206,9 @@ class discount_detailController extends JController
 		}
 	}
 
+	/**
+	 * unpublish
+	 */
 	public function unpublish()
 	{
 		$layout = JRequest::getVar('layout');
@@ -204,6 +238,9 @@ class discount_detailController extends JController
 		}
 	}
 
+	/**
+	 * cancel
+	 */
 	public function cancel()
 	{
 		$layout = JRequest::getVar('layout');

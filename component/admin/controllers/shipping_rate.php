@@ -11,8 +11,18 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 
+/**
+ * shipping_ratecontroller
+ *
+ * @package     RedSHOP
+ * @subpackage  Controller
+ * @since       1.0
+ */
 class shipping_ratecontroller extends JController
 {
+	/**
+	 * cancel
+	 */
 	public function cancel()
 	{
 		$post = JRequest::get('post');

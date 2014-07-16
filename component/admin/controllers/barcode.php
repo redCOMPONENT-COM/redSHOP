@@ -11,8 +11,18 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 
+/**
+ * barcodeController
+ *
+ * @package     RedSHOP
+ * @subpackage  Controller
+ * @since       1.0
+ */
 class barcodeController extends JController
 {
+	/**
+	 * getsearch
+	 */
 	public function getsearch()
 	{
 		$post = JRequest::get('post');
@@ -59,6 +69,9 @@ class barcodeController extends JController
 		}
 	}
 
+	/**
+	 * changestatus
+	 */
 	public function changestatus()
 	{
 		$post = JRequest::get('post');

@@ -11,14 +11,30 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 
+/**
+ * rating_detailController
+ *
+ * @package     RedSHOP
+ * @subpackage  Controller
+ * @since       1.0
+ */
 class rating_detailController extends JController
 {
+	/**
+	 * __construct
+	 *
+	 * @param $default
+	 *
+	 */
 	public function __construct($default = array())
 	{
 		parent::__construct($default);
 		$this->registerTask('add', 'edit');
 	}
 
+	/**
+	 * edit
+	 */
 	public function edit()
 	{
 		JRequest::setVar('view', 'rating_detail');
@@ -35,6 +51,9 @@ class rating_detailController extends JController
 		parent::display();
 	}
 
+	/**
+	 * save
+	 */
 	public function save()
 	{
 		$post = JRequest::get('post');
@@ -61,6 +80,9 @@ class rating_detailController extends JController
 		$this->setRedirect('index.php?option=' . $option . '&view=rating', $msg);
 	}
 
+	/**
+	 * remove
+	 */
 	public function remove()
 	{
 		$option = JRequest::getVar('option');
@@ -83,6 +105,9 @@ class rating_detailController extends JController
 		$this->setRedirect('index.php?option=' . $option . '&view=rating', $msg);
 	}
 
+	/**
+	 * publish
+	 */
 	public function publish()
 	{
 		$option = JRequest::getVar('option');
@@ -105,6 +130,9 @@ class rating_detailController extends JController
 		$this->setRedirect('index.php?option=' . $option . '&view=rating', $msg);
 	}
 
+	/**
+	 * unpublish
+	 */
 	public function unpublish()
 	{
 		$option = JRequest::getVar('option');
@@ -127,6 +155,9 @@ class rating_detailController extends JController
 		$this->setRedirect('index.php?option=' . $option . '&view=rating', $msg);
 	}
 
+	/**
+	 * fv_publish
+	 */
 	public function fv_publish()
 	{
 		$option = JRequest::getVar('option');
@@ -149,6 +180,9 @@ class rating_detailController extends JController
 		$this->setRedirect('index.php?option=' . $option . '&view=rating', $msg);
 	}
 
+	/**
+	 * fv_unpublish
+	 */
 	public function fv_unpublish()
 	{
 		$option = JRequest::getVar('option');
@@ -171,6 +205,9 @@ class rating_detailController extends JController
 		$this->setRedirect('index.php?option=' . $option . '&view=rating', $msg);
 	}
 
+	/**
+	 * cancel
+	 */
 	public function cancel()
 	{
 		$option = JRequest::getVar('option');

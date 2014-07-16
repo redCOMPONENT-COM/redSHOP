@@ -13,14 +13,30 @@ jimport('joomla.application.component.controller');
 
 require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/xmlhelper.php';
 
+/**
+ * xmlexport_detailController
+ *
+ * @package     RedSHOP
+ * @subpackage  Controller
+ * @since       1.0
+ */
 class xmlexport_detailController extends JController
 {
+	/**
+	 * __construct
+	 *
+	 * @param $default
+	 *
+	 */
 	public function __construct($default = array())
 	{
 		parent::__construct($default);
 		$this->registerTask('add', 'edit');
 	}
 
+	/**
+	 * edit
+	 */
 	public function edit()
 	{
 		JRequest::setVar('view', 'xmlexport_detail');
@@ -29,11 +45,20 @@ class xmlexport_detailController extends JController
 		parent::display();
 	}
 
+	/**
+	 * xmlexport
+	 */
 	public function xmlexport()
 	{
 		$this->save(1);
 	}
 
+	/**
+	 * save
+	 *
+	 * @param $export
+	 *
+	 */
 	public function save($export = 0)
 	{
 		$session = JFactory::getSession();
@@ -122,6 +147,9 @@ class xmlexport_detailController extends JController
 		$this->setRedirect('index.php?option=' . $option . '&view=xmlexport', $msg);
 	}
 
+	/**
+	 * setChildElement
+	 */
 function setChildElement()
 {
 	JHTMLBehavior::modal();
@@ -166,6 +194,9 @@ function setChildElement()
 	</script>
 <?php
 }
+	/**
+	 * removeIpAddress
+	 */
 	public function removeIpAddress()
 	{
 		$xmlexport_ip_id = JRequest::getVar('xmlexport_ip_id', 0);
@@ -175,6 +206,9 @@ function setChildElement()
 		die();
 	}
 
+	/**
+	 * remove
+	 */
 	public function remove()
 	{
 		$option = JRequest::getVar('option', '', 'request', 'string');
@@ -196,6 +230,9 @@ function setChildElement()
 		$this->setRedirect('index.php?option=' . $option . '&view=xmlexport', $msg);
 	}
 
+	/**
+	 * cancel
+	 */
 	public function cancel()
 	{
 		$option = JRequest::getVar('option', '', 'request', 'string');

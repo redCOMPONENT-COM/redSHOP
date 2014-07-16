@@ -14,14 +14,30 @@ jimport('joomla.filesystem.file');
 
 require_once JPATH_COMPONENT . '/helpers/thumbnail.php';
 
+/**
+ * attribute_set_detailController
+ *
+ * @package     RedSHOP
+ * @subpackage  Controller
+ * @since       1.0
+ */
 class attribute_set_detailController extends JController
 {
+	/**
+	 * __construct
+	 *
+	 * @param $default
+	 *
+	 */
 	public function __construct($default = array())
 	{
 		parent::__construct($default);
 		$this->registerTask('add', 'edit');
 	}
 
+	/**
+	 * edit
+	 */
 	public function edit()
 	{
 		JRequest::setVar('view', 'attribute_set_detail');
@@ -31,11 +47,20 @@ class attribute_set_detailController extends JController
 		parent::display();
 	}
 
+	/**
+	 * apply
+	 */
 	public function apply()
 	{
 		$this->save(1);
 	}
 
+	/**
+	 * save
+	 *
+	 * @param $apply
+	 *
+	 */
 	public function save($apply = 0)
 	{
 		$post = JRequest::get('post');
@@ -65,6 +90,9 @@ class attribute_set_detailController extends JController
 		}
 	}
 
+	/**
+	 * remove
+	 */
 	public function remove()
 	{
 		$option = JRequest::getVar('option');
@@ -87,6 +115,9 @@ class attribute_set_detailController extends JController
 		$this->setRedirect('index.php?option=' . $option . '&view=attribute_set', $msg);
 	}
 
+	/**
+	 * publish
+	 */
 	public function publish()
 	{
 		$option = JRequest::getVar('option');
@@ -109,6 +140,9 @@ class attribute_set_detailController extends JController
 		$this->setRedirect('index.php?option=' . $option . '&view=attribute_set', $msg);
 	}
 
+	/**
+	 * unpublish
+	 */
 	public function unpublish()
 	{
 		$option = JRequest::getVar('option');
@@ -131,6 +165,9 @@ class attribute_set_detailController extends JController
 		$this->setRedirect('index.php?option=' . $option . '&view=attribute_set', $msg);
 	}
 
+	/**
+	 * cancel
+	 */
 	public function cancel()
 	{
 		$option = JRequest::getVar('option');
@@ -138,6 +175,14 @@ class attribute_set_detailController extends JController
 		$this->setRedirect('index.php?option=' . $option . '&view=attribute_set', $msg);
 	}
 
+	/**
+	 * attribute_save
+	 *
+	 * @param $post
+	 * @param $row
+	 * @param $file
+	 *
+	 */
 	public function attribute_save($post, $row, $file)
 	{
 		$model = $this->getModel('attribute_set_detail');
@@ -256,6 +301,14 @@ class attribute_set_detailController extends JController
 		return;
 	}
 
+	/**
+	 * _imageResize
+	 *
+	 * @param $width
+	 * @param $height
+	 * @param $target
+	 *
+	 */
 	public function _imageResize($width, $height, $target)
 	{
 		if ($width > $height)
@@ -283,6 +336,9 @@ class attribute_set_detailController extends JController
 		return array($width, $height);
 	}
 
+	/**
+	 * media_bank
+	 */
 	public function media_bank()
 	{
 		$uri = JURI::getInstance();
@@ -447,6 +503,9 @@ class attribute_set_detailController extends JController
 		}
 	}
 
+	/**
+	 * property_more_img
+	 */
 	public function property_more_img()
 	{
 		$uri = JURI::getInstance();
@@ -486,6 +545,9 @@ class attribute_set_detailController extends JController
 		}
 	}
 
+	/**
+	 * deleteimage
+	 */
 	public function deleteimage()
 	{
 		$uri = JURI::getInstance();
@@ -507,6 +569,9 @@ class attribute_set_detailController extends JController
 		}
 	}
 
+	/**
+	 * subattribute_color
+	 */
 	public function subattribute_color()
 	{
 		$post = JRequest::get('post');
@@ -530,6 +595,9 @@ class attribute_set_detailController extends JController
 	<?php
 	}
 
+	/**
+	 * removepropertyImage
+	 */
 	public function removepropertyImage()
 	{
 		$get = JRequest::get('get');
@@ -546,6 +614,9 @@ class attribute_set_detailController extends JController
 		exit;
 	}
 
+	/**
+	 * removesubpropertyImage
+	 */
 	public function removesubpropertyImage()
 	{
 		$get = JRequest::get('get');
@@ -562,6 +633,9 @@ class attribute_set_detailController extends JController
 		exit;
 	}
 
+	/**
+	 * saveAttributeStock
+	 */
 	public function saveAttributeStock()
 	{
 		$post = JRequest::get('post');
@@ -583,6 +657,9 @@ class attribute_set_detailController extends JController
 		$this->setRedirect($link, $msg);
 	}
 
+	/**
+	 * copy
+	 */
 	public function copy()
 	{
 		$option = JRequest::getVar('option');

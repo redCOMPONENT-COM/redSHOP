@@ -11,13 +11,26 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 
+/**
+ * containerController
+ *
+ * @package     RedSHOP
+ * @subpackage  Controller
+ * @since       1.0
+ */
 class containerController extends JController
 {
+	/**
+	 * cancel
+	 */
 	public function cancel()
 	{
 		$this->setRedirect('index.php');
 	}
 
+	/**
+	 * export_data
+	 */
 	public function export_data()
 	{
 		$model = $this->getModel('container');
@@ -44,6 +57,9 @@ class containerController extends JController
 		exit;
 	}
 
+	/**
+	 * print_data
+	 */
 	public function print_data()
 	{
 		echo '<script type="text/javascript" language="javascript">	window.print(); </script>';

@@ -15,14 +15,30 @@ require_once JPATH_ROOT . '/components/com_redshop/helpers/product.php';
 require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/mail.php';
 require_once JPATH_COMPONENT . '/helpers/product.php';
 
+/**
+ * order_detailController
+ *
+ * @package     RedSHOP
+ * @subpackage  Controller
+ * @since       1.0
+ */
 class order_detailController extends JController
 {
+	/**
+	 * __construct
+	 *
+	 * @param $default
+	 *
+	 */
 	public function __construct($default = array())
 	{
 		parent::__construct($default);
 		$this->registerTask('add', 'edit');
 	}
 
+	/**
+	 * edit
+	 */
 	public function edit()
 	{
 		JRequest::setVar('view', 'order_detail');
@@ -31,6 +47,9 @@ class order_detailController extends JController
 		parent::display();
 	}
 
+	/**
+	 * save
+	 */
 	public function save()
 	{
 		$post = JRequest::get('post');
@@ -59,6 +78,9 @@ class order_detailController extends JController
 		$this->setRedirect('index.php?option=' . $option . '&view=order', $msg);
 	}
 
+	/**
+	 * remove
+	 */
 	public function remove()
 	{
 		$option = JRequest::getVar('option', '', 'request', 'string');
@@ -81,6 +103,9 @@ class order_detailController extends JController
 		$this->setRedirect('index.php?option=' . $option . '&view=order', $msg);
 	}
 
+	/**
+	 * cancel
+	 */
 	public function cancel()
 	{
 		$option = JRequest::getVar('option', '', 'request', 'string');
@@ -88,6 +113,9 @@ class order_detailController extends JController
 		$this->setRedirect('index.php?option=' . $option . '&view=order', $msg);
 	}
 
+	/**
+	 * neworderitem
+	 */
 	public function neworderitem()
 	{
 		$adminproducthelper = new adminproducthelper;
@@ -170,6 +198,9 @@ class order_detailController extends JController
 		}
 	}
 
+	/**
+	 * delete_item
+	 */
 	public function delete_item()
 	{
 		$post = JRequest::get('post');
@@ -203,6 +234,9 @@ class order_detailController extends JController
 		$this->setRedirect('index.php?option=' . $option . '&view=order_detail&cid[]=' . $cid[0], $msg);
 	}
 
+	/**
+	 * updateItem
+	 */
 	public function updateItem()
 	{
 		$post = JRequest::get('post');
@@ -223,6 +257,9 @@ class order_detailController extends JController
 		$this->setRedirect('index.php?option=' . $option . '&view=order_detail&cid[]=' . $cid[0], $msg);
 	}
 
+	/**
+	 * update_discount
+	 */
 	public function update_discount()
 	{
 		$post = JRequest::get('post');
@@ -243,6 +280,9 @@ class order_detailController extends JController
 		$this->setRedirect('index.php?option=' . $option . '&view=order_detail&cid[]=' . $cid[0], $msg);
 	}
 
+	/**
+	 * special_discount
+	 */
 	public function special_discount()
 	{
 		$post = JRequest::get('post');
@@ -263,6 +303,9 @@ class order_detailController extends JController
 		$this->setRedirect('index.php?option=' . $option . '&view=order_detail&cid[]=' . $cid[0], $msg);
 	}
 
+	/**
+	 * update_shippingrates
+	 */
 	public function update_shippingrates()
 	{
 		$post = JRequest::get('post');
@@ -283,6 +326,9 @@ class order_detailController extends JController
 		$this->setRedirect('index.php?option=' . $option . '&view=order_detail&cid[]=' . $cid[0], $msg);
 	}
 
+	/**
+	 * updateShippingAdd
+	 */
 	public function updateShippingAdd()
 	{
 		$post = JRequest::get('post');
@@ -315,6 +361,9 @@ class order_detailController extends JController
 		exit;
 	}
 
+	/**
+	 * updateBillingAdd
+	 */
 	public function updateBillingAdd()
 	{
 		$post = JRequest::get('post');
@@ -345,18 +394,27 @@ class order_detailController extends JController
 		exit;
 	}
 
+	/**
+	 * createpdf
+	 */
 	public function createpdf()
 	{
 		$view = $this->getView('order_detail', 'tcpdf');
 		parent::display();
 	}
 
+	/**
+	 * createpdfstocknote
+	 */
 	public function createpdfstocknote()
 	{
 		$view = $this->getView('order_detail', 'stocknotepdf');
 		parent::display();
 	}
 
+	/**
+	 * send_downloadmail
+	 */
 	public function send_downloadmail()
 	{
 		$option = JRequest::getVar('option', '', 'request', 'string');
@@ -383,6 +441,9 @@ class order_detailController extends JController
 		}
 	}
 
+	/**
+	 * displayProductItemInfo
+	 */
 	public function displayProductItemInfo()
 	{
 		$adminproducthelper = new adminproducthelper;
@@ -399,6 +460,9 @@ class order_detailController extends JController
 		exit;
 	}
 
+	/**
+	 * checkoutnext
+	 */
 	public function checkoutnext()
 	{
 		$app = JFactory::getApplication();
@@ -527,6 +591,9 @@ class order_detailController extends JController
 		$app->redirect($redirect_url, $msg);
 	}
 
+	/**
+	 * send_invoicemail
+	 */
 	public function send_invoicemail()
 	{
 		$redshopMail = new redshopMail;

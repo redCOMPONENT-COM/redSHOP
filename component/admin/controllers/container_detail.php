@@ -11,14 +11,30 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 
+/**
+ * container_detailController
+ *
+ * @package     RedSHOP
+ * @subpackage  Controller
+ * @since       1.0
+ */
 class container_detailController extends JController
 {
+	/**
+	 * __construct
+	 *
+	 * @param $default
+	 *
+	 */
 	public function __construct($default = array())
 	{
 		parent::__construct($default);
 		$this->registerTask('add', 'edit');
 	}
 
+	/**
+	 * edit
+	 */
 	public function edit()
 	{
 		$model = $this->getModel('container_detail');
@@ -30,6 +46,9 @@ class container_detailController extends JController
 		parent::display();
 	}
 
+	/**
+	 * addcontainer
+	 */
 	public function addcontainer()
 	{
 		$conid = JRequest::getVar('cid', array(0), 'post', 'array');
@@ -40,6 +59,9 @@ class container_detailController extends JController
 		parent::display();
 	}
 
+	/**
+	 * saveanddisplay
+	 */
 	public function saveanddisplay()
 	{
 		$post = JRequest::get('get');
@@ -53,6 +75,9 @@ class container_detailController extends JController
 		);
 	}
 
+	/**
+	 * deleteProduct
+	 */
 	public function deleteProduct()
 	{
 		$post = JRequest::get('get');
@@ -66,11 +91,20 @@ class container_detailController extends JController
 		$this->setRedirect('index.php?tmpl=component&option=com_redshop&view=container_detail&layout=products&task=edit&cid[]=' . $container_id);
 	}
 
+	/**
+	 * apply
+	 */
 	public function apply()
 	{
 		$this->save(1);
 	}
 
+	/**
+	 * save
+	 *
+	 * @param $apply
+	 *
+	 */
 	public function save($apply = 0)
 	{
 		$post = JRequest::get('post');
@@ -122,6 +156,9 @@ class container_detailController extends JController
 		}
 	}
 
+	/**
+	 * remove
+	 */
 	public function remove()
 	{
 		$option = JRequest::getVar('option');
@@ -144,6 +181,9 @@ class container_detailController extends JController
 		$this->setRedirect('index.php?option=' . $option . '&view=container', $msg);
 	}
 
+	/**
+	 * publish
+	 */
 	public function publish()
 	{
 		$option = JRequest::getVar('option');
@@ -166,6 +206,9 @@ class container_detailController extends JController
 		$this->setRedirect('index.php?option=' . $option . '&view=container', $msg);
 	}
 
+	/**
+	 * unpublish
+	 */
 	public function unpublish()
 	{
 		$option = JRequest::getVar('option');
@@ -188,6 +231,9 @@ class container_detailController extends JController
 		$this->setRedirect('index.php?option=' . $option . '&view=container', $msg);
 	}
 
+	/**
+	 * cancel
+	 */
 	public function cancel()
 	{
 		$option = JRequest::getVar('option');

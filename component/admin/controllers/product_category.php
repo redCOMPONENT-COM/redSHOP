@@ -11,14 +11,27 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 
+/**
+ * product_categoryController
+ *
+ * @package     RedSHOP
+ * @subpackage  Controller
+ * @since       1.0
+ */
 class product_categoryController extends JController
 {
+	/**
+	 * assignCategory
+	 */
 	public function assignCategory()
 	{
 		JRequest::setVar('hidemainmenu', 1);
 		parent::display();
 	}
 
+	/**
+	 * saveProduct_Category
+	 */
 	public function saveProduct_Category()
 	{
 		$app = JFactory::getApplication();
@@ -36,6 +49,9 @@ class product_categoryController extends JController
 		$app->redirect("index.php?option=com_redshop&view=product", $msg);
 	}
 
+	/**
+	 * removeProduct_Category
+	 */
 	public function removeProduct_Category()
 	{
 		$app = JFactory::getApplication();
