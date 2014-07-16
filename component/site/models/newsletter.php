@@ -41,6 +41,12 @@ class newsletterModelnewsletter extends JModel
 		}
 	}
 
+	/**
+	 * checksubscriptionbymail
+	 *
+	 * @param $email
+	 *
+	 */
 	public function checksubscriptionbymail($email)
 	{
 		$app = JFactory::getApplication();
@@ -83,6 +89,12 @@ class newsletterModelnewsletter extends JModel
 		}
 	}
 
+	/**
+	 * confirmsubscribe
+	 *
+	 * @param $sub_id
+	 *
+	 */
 	public function confirmsubscribe($sub_id)
 	{
 		$app = JFactory::getApplication();

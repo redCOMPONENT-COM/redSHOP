@@ -26,12 +26,18 @@ class price_filterModelprice_filter extends JModel
 
 	public $_table_prefix = null;
 
+	/**
+	 * __construct
+	 */
 	public function __construct()
 	{
 		parent::__construct();
 		$this->_table_prefix = '#__redshop_';
 	}
 
+	/**
+	 * _buildQuery
+	 */
 	public function _buildQuery()
 	{
 		$catfld   = '';
@@ -50,6 +56,9 @@ class price_filterModelprice_filter extends JModel
 		return $sql;
 	}
 
+	/**
+	 * getData
+	 */
 	public function getData()
 	{
 		if (empty($this->_data))

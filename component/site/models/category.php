@@ -81,12 +81,21 @@ class CategoryModelCategory extends JModel
 		$this->setId((int) $Id);
 	}
 
+	/**
+	 * setId
+	 *
+	 * @param $id
+	 *
+	 */
 	public function setId($id)
 	{
 		$this->_id   = $id;
 		$this->_data = null;
 	}
 
+	/**
+	 * _buildQuery
+	 */
 	public function _buildQuery()
 	{
 		$app = JFactory::getApplication();
@@ -120,6 +129,9 @@ class CategoryModelCategory extends JModel
 		return $query;
 	}
 
+	/**
+	 * _buildContentOrderBy
+	 */
 	public function _buildContentOrderBy()
 	{
 		$app = JFactory::getApplication();
@@ -138,6 +150,9 @@ class CategoryModelCategory extends JModel
 		return $orderby;
 	}
 
+	/**
+	 * _loadCategory
+	 */
 	public function _loadCategory()
 	{
 		$this->_maincat = array();
@@ -152,6 +167,9 @@ class CategoryModelCategory extends JModel
 		return $this->_maincat;
 	}
 
+	/**
+	 * getProductPerPage
+	 */
 	public function getProductPerPage()
 	{
 		$app = JFactory::getApplication();
@@ -189,6 +207,12 @@ class CategoryModelCategory extends JModel
 		return $limit;
 	}
 
+	/**
+	 * getCategorylistProduct
+	 *
+	 * @param $category_id
+	 *
+	 */
 	public function getCategorylistProduct($category_id = 0)
 	{
 		$app   = JFactory::getApplication();
@@ -392,6 +416,14 @@ class CategoryModelCategory extends JModel
 		return $this->_product;
 	}
 
+	/**
+	 * columnSort
+	 *
+	 * @param $unsorted
+	 * @param $column
+	 * @param $sort
+	 *
+	 */
 	public function columnSort($unsorted, $column, $sort)
 	{
 		$sorted = $unsorted;
@@ -462,6 +494,9 @@ class CategoryModelCategory extends JModel
 		return $orderBySelect;
 	}
 
+	/**
+	 * getData
+	 */
 	public function getData()
 	{
 		$app = JFactory::getApplication();
@@ -511,6 +546,9 @@ class CategoryModelCategory extends JModel
 		return $this->_data;
 	}
 
+	/**
+	 * getCategoryPagination
+	 */
 	public function getCategoryPagination()
 	{
 		$endlimit          = $this->getProductPerPage();
@@ -520,6 +558,9 @@ class CategoryModelCategory extends JModel
 		return $this->_pagination;
 	}
 
+	/**
+	 * getCategoryProductPagination
+	 */
 	public function getCategoryProductPagination()
 	{
 		$app = JFactory::getApplication();
@@ -533,6 +574,9 @@ class CategoryModelCategory extends JModel
 		return $this->_pagination;
 	}
 
+	/**
+	 * getTotal
+	 */
 	public function getTotal()
 	{
 		$query        = $this->_buildQuery();
@@ -541,6 +585,9 @@ class CategoryModelCategory extends JModel
 		return $this->_total;
 	}
 
+	/**
+	 * getCategoryTemplate
+	 */
 	public function getCategoryTemplate()
 	{
 		$app = JFactory::getApplication();
@@ -574,6 +621,9 @@ class CategoryModelCategory extends JModel
 		return $alltemplate;
 	}
 
+	/**
+	 * loadCategoryTemplate
+	 */
 	public function loadCategoryTemplate()
 	{
 		$app = JFactory::getApplication();
@@ -609,6 +659,12 @@ class CategoryModelCategory extends JModel
 		return $this->_template;
 	}
 
+	/**
+	 * getManufacturer
+	 *
+	 * @param $mid
+	 *
+	 */
 	public function getManufacturer($mid = 0)
 	{
 		$and = "";
@@ -635,11 +691,22 @@ class CategoryModelCategory extends JModel
 		return $list;
 	}
 
+	/**
+	 * setMaxMinProductPrice
+	 *
+	 * @param $minmax
+	 * @param 0
+	 * @param 0
+	 *
+	 */
 	public function setMaxMinProductPrice($minmax = array(0, 0))
 	{
 		$this->minmaxArr = $minmax;
 	}
 
+	/**
+	 * getMaxMinProductPrice
+	 */
 	public function getMaxMinProductPrice()
 	{
 		return $this->minmaxArr;
@@ -669,6 +736,13 @@ class CategoryModelCategory extends JModel
 		return $product_lists;
 	}
 
+	/**
+	 * _buildfletterQuery
+	 *
+	 * @param $letter
+	 * @param $fieldid
+	 *
+	 */
 	public function _buildfletterQuery($letter, $fieldid)
 	{
 		$db = JFactory::getDbo();
@@ -680,6 +754,13 @@ class CategoryModelCategory extends JModel
 		return $query;
 	}
 
+	/**
+	 * getfletterPagination
+	 *
+	 * @param $letter
+	 * @param $fieldid
+	 *
+	 */
 	public function getfletterPagination($letter, $fieldid)
 	{
 		$endlimit          = $this->getProductPerPage();
@@ -689,6 +770,13 @@ class CategoryModelCategory extends JModel
 		return $this->_pagination;
 	}
 
+	/**
+	 * getfletterTotal
+	 *
+	 * @param $letter
+	 * @param $fieldid
+	 *
+	 */
 	public function getfletterTotal($letter, $fieldid)
 	{
 		if (empty ($this->_total))
@@ -700,6 +788,9 @@ class CategoryModelCategory extends JModel
 		return $this->_total;
 	}
 
+	/**
+	 * getredproductfindertags
+	 */
 	public function getredproductfindertags()
 	{
 		global $context;

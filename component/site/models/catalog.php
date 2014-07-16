@@ -23,12 +23,21 @@ class CatalogModelCatalog extends JModel
 {
 	public $_table_prefix = null;
 
+	/**
+	 * __construct
+	 */
 	public function __construct()
 	{
 		parent::__construct();
 		$this->_table_prefix = '#__redshop_';
 	}
 
+	/**
+	 * catalogStore
+	 *
+	 * @param $data
+	 *
+	 */
 	public function catalogStore($data)
 	{
 		$row = $this->getTable('catalog_request');
@@ -50,6 +59,12 @@ class CatalogModelCatalog extends JModel
 		return true;
 	}
 
+	/**
+	 * catalogSampleStore
+	 *
+	 * @param $data
+	 *
+	 */
 	public function catalogSampleStore($data)
 	{
 		$row = $this->getTable('sample_request');
@@ -71,6 +86,9 @@ class CatalogModelCatalog extends JModel
 		return true;
 	}
 
+	/**
+	 * getCatalogList
+	 */
 	public function getCatalogList()
 	{
 		$query   = "SELECT c.*,c.catalog_id AS value,c.catalog_name AS text FROM " . $this->_table_prefix . "catalog AS c "
@@ -80,6 +98,9 @@ class CatalogModelCatalog extends JModel
 		return $catalog;
 	}
 
+	/**
+	 * getCatalogSampleList
+	 */
 	public function getCatalogSampleList()
 	{
 		$query   = "SELECT c.* FROM " . $this->_table_prefix . "catalog_sample AS c "
@@ -89,6 +110,12 @@ class CatalogModelCatalog extends JModel
 		return $catalog;
 	}
 
+	/**
+	 * getCatalogSampleColorList
+	 *
+	 * @param $sample_id
+	 *
+	 */
 	public function getCatalogSampleColorList($sample_id = 0)
 	{
 		$and = "";

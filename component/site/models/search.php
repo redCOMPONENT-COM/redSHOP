@@ -41,6 +41,9 @@ class searchModelsearch extends JModel
 		'pc.ordering ASC', 'ordering ASC'
 	);
 
+	/**
+	 * __construct
+	 */
 	public function __construct()
 	{
 		global $context;
@@ -99,6 +102,9 @@ class searchModelsearch extends JModel
 		$this->setState('limitstart', $limitstart);
 	}
 
+	/**
+	 * getData
+	 */
 	public function getData()
 	{
 		$post = JRequest::get('POST');
@@ -160,6 +166,9 @@ class searchModelsearch extends JModel
 		return $this->_data;
 	}
 
+	/**
+	 * getProductPerPage
+	 */
 	public function getProductPerPage()
 	{
 		$app = JFactory::getApplication();
@@ -211,6 +220,9 @@ class searchModelsearch extends JModel
 		return $limit;
 	}
 
+	/**
+	 * getTotal
+	 */
 	public function getTotal()
 	{
 		$app = JFactory::getApplication();
@@ -237,6 +249,9 @@ class searchModelsearch extends JModel
 		return $this->_total;
 	}
 
+	/**
+	 * getPagination
+	 */
 	public function getPagination()
 	{
 		if (empty($this->_pagination))
@@ -247,6 +262,12 @@ class searchModelsearch extends JModel
 		return $this->_pagination;
 	}
 
+	/**
+	 * _buildQuery
+	 *
+	 * @param $manudata
+	 *
+	 */
 	public function _buildQuery($manudata = 0)
 	{
 		$app = JFactory::getApplication();
@@ -547,6 +568,9 @@ class searchModelsearch extends JModel
 		return $query;
 	}
 
+	/**
+	 * _buildContentOrderBy
+	 */
 	public function _buildContentOrderBy()
 	{
 		$db = JFactory::getDbo();
@@ -563,6 +587,9 @@ class searchModelsearch extends JModel
 		return $orderby;
 	}
 
+	/**
+	 * getCategoryTemplet
+	 */
 	public function getCategoryTemplet()
 	{
 		$app = JFactory::getApplication();
@@ -737,6 +764,12 @@ class searchModelsearch extends JModel
 		return $products;
 	}
 
+	/**
+	 * mod_redProductfilter
+	 *
+	 * @param $Itemid
+	 *
+	 */
 	public function mod_redProductfilter($Itemid)
 	{
 		$db = JFactory::getDbo();
@@ -990,6 +1023,13 @@ class searchModelsearch extends JModel
 		}
 	}
 
+	/**
+	 * getTagsDetail
+	 *
+	 * @param $id
+	 * @param $all
+	 *
+	 */
 	public function getTagsDetail($id, $all = 1)
 	{
 		// For session
@@ -1091,6 +1131,9 @@ class searchModelsearch extends JModel
 		return $db->loadObjectList();
 	}
 
+	/**
+	 * getajaxData
+	 */
 	public function getajaxData()
 	{
 		JLoader::import('joomla.application.module.helper');

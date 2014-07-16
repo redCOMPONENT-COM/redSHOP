@@ -20,11 +20,21 @@ JLoader::import('joomla.application.component.model');
  */
 class LoginModelLogin extends JModel
 {
+	/**
+	 * __construct
+	 */
 	public function __construct()
 	{
 		parent::__construct();
 	}
 
+	/**
+	 * setlogin
+	 *
+	 * @param $username
+	 * @param $password
+	 *
+	 */
 	public function setlogin($username, $password)
 	{
 		$app = JFactory::getApplication();
@@ -45,6 +55,12 @@ class LoginModelLogin extends JModel
 		}
 	}
 
+	/**
+	 * ShopperGroupDetail
+	 *
+	 * @param $sid
+	 *
+	 */
 	public function ShopperGroupDetail($sid = 0)
 	{
 		$user = JFactory::getUser();
@@ -63,6 +79,13 @@ class LoginModelLogin extends JModel
 		return $this->_db->loadObjectList();
 	}
 
+	/**
+	 * CheckShopperGroup
+	 *
+	 * @param $username
+	 * @param $shoppergroupid
+	 *
+	 */
 	public function CheckShopperGroup($username, $shoppergroupid)
 	{
 		$db = JFactory::getDbo();

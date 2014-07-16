@@ -28,6 +28,9 @@ class split_paymentModelsplit_payment extends JModel
 
 	public $_table_prefix = null;
 
+	/**
+	 * __construct
+	 */
 	public function __construct()
 	{
 		parent::__construct();
@@ -35,6 +38,12 @@ class split_paymentModelsplit_payment extends JModel
 		$this->_table_prefix = '#__redshop_';
 	}
 
+	/**
+	 * getordersdetail
+	 *
+	 * @param $oid
+	 *
+	 */
 	public function getordersdetail($oid)
 	{
 		$query = "SELECT * FROM  " . $this->_table_prefix . "orders WHERE order_id = " . (int) $oid;
@@ -44,6 +53,12 @@ class split_paymentModelsplit_payment extends JModel
 		return $order_detail;
 	}
 
+	/**
+	 * getuseraccountinfo
+	 *
+	 * @param $uid
+	 *
+	 */
 	public function getuseraccountinfo($uid)
 	{
 		$query = 'SELECT uf.*,u.email FROM ' . $this->_table_prefix . 'users_info as uf, #__users as u WHERE user_id = '
@@ -53,6 +68,9 @@ class split_paymentModelsplit_payment extends JModel
 		return $this->_db->loadObject();
 	}
 
+	/**
+	 * orderplace
+	 */
 	public function orderplace()
 	{
 		$app = JFactory::getApplication();
@@ -206,6 +224,9 @@ class split_paymentModelsplit_payment extends JModel
 		$app->Redirect($return, $msg);
 	}
 
+	/**
+	 * validatepaymentccinfo
+	 */
 	public function validatepaymentccinfo()
 	{
 		$validpayment [0] = 1;
@@ -252,6 +273,15 @@ class split_paymentModelsplit_payment extends JModel
 		return $validpayment;
 	}
 
+	/**
+	 * checkCreditCard
+	 *
+	 * @param $cardnumber
+	 * @param $cardname
+	 * @param $errornumber
+	 * @param $errortext
+	 *
+	 */
 	public function checkCreditCard($cardnumber, $cardname, &$errornumber, &$errortext)
 	{
 		/*
@@ -505,6 +535,13 @@ class split_paymentModelsplit_payment extends JModel
 		return true;
 	}
 
+	/**
+	 * validateCC
+	 *
+	 * @param $cc_num
+	 * @param $type
+	 *
+	 */
 	public function validateCC($cc_num, $type)
 	{
 		if ($type == "American")

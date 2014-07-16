@@ -27,6 +27,9 @@ class ask_questionModelask_question extends JModel
 
 	public $_table_prefix = null;
 
+	/**
+	 * __construct
+	 */
 	public function __construct()
 	{
 		parent::__construct();
@@ -34,6 +37,12 @@ class ask_questionModelask_question extends JModel
 		$this->setId((int) JRequest::getInt('pid', 0));
 	}
 
+	/**
+	 * setId
+	 *
+	 * @param $id
+	 *
+	 */
 	public function setId($id)
 	{
 		$this->_id = $id;
@@ -93,6 +102,12 @@ class ask_questionModelask_question extends JModel
 		return $this->_db->loadResult();
 	}
 
+	/**
+	 * sendMailForAskQuestion
+	 *
+	 * @param $data
+	 *
+	 */
 	public function sendMailForAskQuestion($data)
 	{
 		$this->store($data);

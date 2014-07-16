@@ -35,6 +35,9 @@ class GiftcardModelGiftcard extends JModel
 
 	public $_limit = null;
 
+	/**
+	 * __construct
+	 */
 	public function __construct()
 	{
 		$app = JFactory::getApplication();
@@ -46,12 +49,21 @@ class GiftcardModelGiftcard extends JModel
 		$this->setId((int) $Id);
 	}
 
+	/**
+	 * setId
+	 *
+	 * @param $id
+	 *
+	 */
 	public function setId($id)
 	{
 		$this->_id   = $id;
 		$this->_data = null;
 	}
 
+	/**
+	 * _buildQuery
+	 */
 	public function _buildQuery()
 	{
 		$app = JFactory::getApplication();
@@ -70,6 +82,9 @@ class GiftcardModelGiftcard extends JModel
 		return $query;
 	}
 
+	/**
+	 * getData
+	 */
 	public function getData()
 	{
 		if (empty ($this->_data))
@@ -81,6 +96,9 @@ class GiftcardModelGiftcard extends JModel
 		return $this->_data;
 	}
 
+	/**
+	 * getGiftcardTemplate
+	 */
 	public function getGiftcardTemplate()
 	{
 		$redTemplate = new Redtemplate;

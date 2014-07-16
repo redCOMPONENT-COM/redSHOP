@@ -26,6 +26,9 @@ class product_ratingModelproduct_rating extends JModel
 
 	public $_table_prefix = null;
 
+	/**
+	 * __construct
+	 */
 	public function __construct()
 	{
 		$app = JFactory::getApplication();
@@ -38,6 +41,12 @@ class product_ratingModelproduct_rating extends JModel
 		$cid                 = JRequest::getInt('cid');
 	}
 
+	/**
+	 * store
+	 *
+	 * @param $data
+	 *
+	 */
 	public function store($data)
 	{
 		$user                = JFactory::getUser();
@@ -70,6 +79,12 @@ class product_ratingModelproduct_rating extends JModel
 		return true;
 	}
 
+	/**
+	 * sendMailForReview
+	 *
+	 * @param $data
+	 *
+	 */
 	public function sendMailForReview($data)
 	{
 		$this->store($data);
@@ -129,6 +144,12 @@ class product_ratingModelproduct_rating extends JModel
 		}
 	}
 
+	/**
+	 * getuserfullname
+	 *
+	 * @param $uid
+	 *
+	 */
 	public function getuserfullname($uid)
 	{
 		$db = JFactory::getDbo();
@@ -140,6 +161,13 @@ class product_ratingModelproduct_rating extends JModel
 		return $userfullname;
 	}
 
+	/**
+	 * checkRatedProduct
+	 *
+	 * @param $pid
+	 * @param $uid
+	 *
+	 */
 	public function checkRatedProduct($pid, $uid)
 	{
 		$db    = JFactory::getDbo();

@@ -31,6 +31,9 @@ class quotationModelquotation extends JModel
 
 	public $_table_prefix = null;
 
+	/**
+	 * __construct
+	 */
 	public function __construct()
 	{
 		parent::__construct();
@@ -38,6 +41,9 @@ class quotationModelquotation extends JModel
 		$this->_table_prefix = '#__redshop_';
 	}
 
+	/**
+	 * getData
+	 */
 	public function &getData()
 	{
 		if ($this->_loadData())
@@ -51,6 +57,9 @@ class quotationModelquotation extends JModel
 		return $this->_data;
 	}
 
+	/**
+	 * _loadData
+	 */
 	public function _loadData()
 	{
 		$order_functions = new order_functions;
@@ -67,6 +76,9 @@ class quotationModelquotation extends JModel
 		return false;
 	}
 
+	/**
+	 * _initData
+	 */
 	public function _initData()
 	{
 		$detail                        = new stdClass;
@@ -88,6 +100,13 @@ class quotationModelquotation extends JModel
 		$this->_data                   = $detail;
 	}
 
+	/**
+	 * store
+	 *
+	 * @param $data
+	 * @param $post
+	 *
+	 */
 	public function store($data, $post)
 	{
 		$this->_loadData();
@@ -449,6 +468,12 @@ class quotationModelquotation extends JModel
 		return $row;
 	}
 
+	/**
+	 * usercreate
+	 *
+	 * @param $data
+	 *
+	 */
 	public function usercreate($data)
 	{
 		$redshopMail     = new redshopMail;
@@ -656,6 +681,12 @@ class quotationModelquotation extends JModel
 		return;
 	}
 
+	/**
+	 * sendQuotationMail
+	 *
+	 * @param $quotaion_id
+	 *
+	 */
 	public function sendQuotationMail($quotaion_id)
 	{
 		$redshopMail = new redshopMail;
@@ -664,6 +695,12 @@ class quotationModelquotation extends JModel
 		return $send;
 	}
 
+	/**
+	 * getUserIdByEmail
+	 *
+	 * @param $email
+	 *
+	 */
 	public function getUserIdByEmail($email)
 	{
 		$db = JFactory::getDbo();

@@ -30,6 +30,9 @@ class registrationModelregistration extends JModel
 
 	public $_table_prefix = null;
 
+	/**
+	 * __construct
+	 */
 	public function __construct()
 	{
 		parent::__construct();
@@ -37,6 +40,12 @@ class registrationModelregistration extends JModel
 		$this->_table_prefix = '#__redshop_';
 	}
 
+	/**
+	 * store
+	 *
+	 * @param $data
+	 *
+	 */
 	public function store(&$data)
 	{
 		$userhelper = new rsUserhelper;

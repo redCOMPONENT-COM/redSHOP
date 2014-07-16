@@ -54,6 +54,9 @@ class CartModelCart extends JModel
 
 	public $_objshipping = null;
 
+	/**
+	 * __construct
+	 */
 	public function __construct()
 	{
 		parent::__construct();
@@ -119,6 +122,9 @@ class CartModelCart extends JModel
 		}
 	}
 
+	/**
+	 * emptyExpiredCartProducts
+	 */
 	public function emptyExpiredCartProducts()
 	{
 		if (IS_PRODUCT_RESERVE)
@@ -186,6 +192,9 @@ class CartModelCart extends JModel
 		$stockroomhelper->deleteCartAfterEmpty();
 	}
 
+	/**
+	 * getData
+	 */
 	public function getData()
 	{
 		if (empty($this->_data))
@@ -309,6 +318,12 @@ class CartModelCart extends JModel
 		$session->set('cart', $cart);
 	}
 
+	/**
+	 * update_all
+	 *
+	 * @param $data
+	 *
+	 */
 	public function update_all($data)
 	{
 		$session = JFactory::getSession();
@@ -418,6 +433,12 @@ class CartModelCart extends JModel
 		$session->set('cart', $cart);
 	}
 
+	/**
+	 * delete
+	 *
+	 * @param $cartElement
+	 *
+	 */
 	public function delete($cartElement)
 	{
 		$stockroomhelper = new rsstockroomhelper;
@@ -447,16 +468,34 @@ class CartModelCart extends JModel
 		$session->set('cart', $cart);
 	}
 
+	/**
+	 * coupon
+	 *
+	 * @param $c_data
+	 *
+	 */
 	public function coupon($c_data = array())
 	{
 		return $this->_carthelper->coupon();
 	}
 
+	/**
+	 * voucher
+	 *
+	 * @param $v_data
+	 *
+	 */
 	public function voucher($v_data = array())
 	{
 		return $this->_carthelper->voucher();
 	}
 
+	/**
+	 * redmasscart
+	 *
+	 * @param $post
+	 *
+	 */
 	public function redmasscart($post)
 	{
 		$data            = array();
@@ -578,6 +617,12 @@ class CartModelCart extends JModel
 		return $shipping_calc;
 	}
 
+	/**
+	 * updateAccessoryPriceArray
+	 *
+	 * @param $data
+	 *
+	 */
 	public function updateAccessoryPriceArray($data = array(), $newquantity = 1)
 	{
 		$attArr = $data['cart_accessory'];
@@ -635,6 +680,12 @@ class CartModelCart extends JModel
 		return $attArr;
 	}
 
+	/**
+	 * updateAttributePriceArray
+	 *
+	 * @param $data
+	 *
+	 */
 	public function updateAttributePriceArray($data = array(), $newquantity = 1)
 	{
 		$attArr = $data['cart_attribute'];
@@ -683,6 +734,14 @@ class CartModelCart extends JModel
 		return $attArr;
 	}
 
+	/**
+	 * getCartProductPrice
+	 *
+	 * @param $product_id
+	 * @param $cart
+	 * @param $voucher_left
+	 *
+	 */
 	public function getCartProductPrice($product_id, $cart, $voucher_left)
 	{
 		$productArr             = array();
@@ -719,6 +778,12 @@ class CartModelCart extends JModel
 		return $productArr;
 	}
 
+	/**
+	 * changeAttribute
+	 *
+	 * @param $data
+	 *
+	 */
 	public function changeAttribute($data)
 	{
 		$imagename = '';

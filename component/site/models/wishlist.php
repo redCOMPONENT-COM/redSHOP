@@ -37,12 +37,18 @@ class wishlistModelwishlist extends JModel
 
 	public $_cdate = null;
 
+	/**
+	 * __construct
+	 */
 	public function __construct()
 	{
 		parent::__construct();
 		$this->_table_prefix = '#__redshop_';
 	}
 
+	/**
+	 * getUserWishlist
+	 */
 	public function getUserWishlist()
 	{
 		$user = JFactory::getUser();
@@ -54,6 +60,9 @@ class wishlistModelwishlist extends JModel
 		return $db->loadObjectlist();
 	}
 
+	/**
+	 * getWishlistProduct
+	 */
 	public function getWishlistProduct()
 	{
 		$user = JFactory::getUser();
@@ -104,6 +113,9 @@ class wishlistModelwishlist extends JModel
 		}
 	}
 
+	/**
+	 * getWishlistProductFromSession
+	 */
 	public function getWishlistProductFromSession()
 	{
 		$db      = JFactory::getDbo();
@@ -137,6 +149,12 @@ class wishlistModelwishlist extends JModel
 		return $rows;
 	}
 
+	/**
+	 * store
+	 *
+	 * @param $data
+	 *
+	 */
 	public function store($data)
 	{
 		$row = $this->getTable();
@@ -218,6 +236,9 @@ class wishlistModelwishlist extends JModel
 		return true;
 	}
 
+	/**
+	 * savewishlist
+	 */
 	public function savewishlist()
 	{
 		$cid        = JRequest::getVar('cid', '', 'request', 'array');
@@ -254,6 +275,13 @@ class wishlistModelwishlist extends JModel
 		return true;
 	}
 
+	/**
+	 * check_user_wishlist_authority
+	 *
+	 * @param $userid
+	 * @param $wishlist_id
+	 *
+	 */
 	public function check_user_wishlist_authority($userid, $wishlist_id)
 	{
 		$db    = JFactory::getDbo();
@@ -273,6 +301,13 @@ class wishlistModelwishlist extends JModel
 		}
 	}
 
+	/**
+	 * delwishlist
+	 *
+	 * @param $userid
+	 * @param $wishlist_id
+	 *
+	 */
 	public function delwishlist($userid, $wishlist_id)
 	{
 		$db    = JFactory::getDbo();
@@ -306,6 +341,12 @@ class wishlistModelwishlist extends JModel
 		}
 	}
 
+	/**
+	 * mysessdelwishlist
+	 *
+	 * @param $wishlist_id
+	 *
+	 */
 	public function mysessdelwishlist($wishlist_id)
 	{
 		if (!empty($_SESSION["no_of_prod"]))

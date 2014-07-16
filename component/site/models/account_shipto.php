@@ -26,6 +26,9 @@ class Account_shiptoModelaccount_shipto extends JModel
 
 	public $_table_prefix = null;
 
+	/**
+	 * __construct
+	 */
 	public function __construct()
 	{
 		parent::__construct();
@@ -36,12 +39,21 @@ class Account_shiptoModelaccount_shipto extends JModel
 		$this->setId($infoid);
 	}
 
+	/**
+	 * setId
+	 *
+	 * @param $id
+	 *
+	 */
 	public function setId($id)
 	{
 		$this->_id   = $id;
 		$this->_data = null;
 	}
 
+	/**
+	 * getData
+	 */
 	public function &getData()
 	{
 		if (!$this->_loadData())
@@ -52,6 +64,9 @@ class Account_shiptoModelaccount_shipto extends JModel
 		return $this->_data;
 	}
 
+	/**
+	 * _initData
+	 */
 	public function _initData()
 	{
 		if (empty($this->_data))
@@ -76,6 +91,12 @@ class Account_shiptoModelaccount_shipto extends JModel
 		return true;
 	}
 
+	/**
+	 * _loadData
+	 *
+	 * @param $users_info_id
+	 *
+	 */
 	public function _loadData($users_info_id = 0)
 	{
 		if ($users_info_id)
@@ -99,6 +120,12 @@ class Account_shiptoModelaccount_shipto extends JModel
 		return true;
 	}
 
+	/**
+	 * delete
+	 *
+	 * @param $cid
+	 *
+	 */
 	public function delete($cid = array())
 	{
 		if (count($cid))
@@ -121,6 +148,12 @@ class Account_shiptoModelaccount_shipto extends JModel
 		return true;
 	}
 
+	/**
+	 * store
+	 *
+	 * @param $post
+	 *
+	 */
 	public function store($post)
 	{
 		$userhelper = new rsUserhelper;

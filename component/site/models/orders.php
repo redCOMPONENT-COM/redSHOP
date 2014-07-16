@@ -32,6 +32,9 @@ class ordersModelorders extends JModel
 
 	public $_limit = null;
 
+	/**
+	 * __construct
+	 */
 	public function __construct()
 	{
 		global $context;
@@ -45,6 +48,9 @@ class ordersModelorders extends JModel
 		$this->_limit        = $app->getUserStateFromRequest($context . 'limit', 'limit', 10, 'int');
 	}
 
+	/**
+	 * _buildQuery
+	 */
 	public function _buildQuery()
 	{
 		$user  = JFactory::getUser();
@@ -59,6 +65,9 @@ class ordersModelorders extends JModel
 		return $query;
 	}
 
+	/**
+	 * getData
+	 */
 	public function getData()
 	{
 		$query       = $this->_buildQuery();
@@ -67,6 +76,9 @@ class ordersModelorders extends JModel
 		return $this->_data;
 	}
 
+	/**
+	 * getPagination
+	 */
 	public function getPagination()
 	{
 		if (empty($this->_pagination))
@@ -78,6 +90,9 @@ class ordersModelorders extends JModel
 		return $this->_pagination;
 	}
 
+	/**
+	 * getTotal
+	 */
 	public function getTotal()
 	{
 		if (empty($this->_total))

@@ -39,6 +39,12 @@ class AccountModelaccount extends JModel
 		$this->_table_prefix = '#__redshop_';
 	}
 
+	/**
+	 * getuseraccountinfo
+	 *
+	 * @param $uid
+	 *
+	 */
 	public function getuseraccountinfo($uid)
 	{
 		$order_functions = new order_functions;
@@ -67,6 +73,12 @@ class AccountModelaccount extends JModel
 		return $list;
 	}
 
+	/**
+	 * usercoupons
+	 *
+	 * @param $uid
+	 *
+	 */
 	public function usercoupons($uid)
 	{
 		$db = JFactory::getDbo();
@@ -82,6 +94,9 @@ class AccountModelaccount extends JModel
 		return $db->loadObjectlist();
 	}
 
+	/**
+	 * getMyDetail
+	 */
 	public function getMyDetail()
 	{
 		$app = JFactory::getApplication();
@@ -99,6 +114,9 @@ class AccountModelaccount extends JModel
 		return $this->_data;
 	}
 
+	/**
+	 * _buildQuery
+	 */
 	public function _buildQuery()
 	{
 		$app = JFactory::getApplication();
@@ -172,6 +190,9 @@ class AccountModelaccount extends JModel
 		return $query;
 	}
 
+	/**
+	 * getPagination
+	 */
 	public function getPagination()
 	{
 		$app = JFactory::getApplication();
@@ -192,6 +213,9 @@ class AccountModelaccount extends JModel
 		return $this->_pagination;
 	}
 
+	/**
+	 * getTotal
+	 */
 	public function getTotal()
 	{
 		if (empty($this->_total))
@@ -204,6 +228,9 @@ class AccountModelaccount extends JModel
 		return $this->_total;
 	}
 
+	/**
+	 * countMyTags
+	 */
 	public function countMyTags()
 	{
 		$user   = JFactory::getUser();
@@ -220,6 +247,9 @@ class AccountModelaccount extends JModel
 		return $db->loadResult();
 	}
 
+	/**
+	 * countMyWishlist
+	 */
 	public function countMyWishlist()
 	{
 		$user   = JFactory::getUser();
@@ -234,6 +264,9 @@ class AccountModelaccount extends JModel
 		return $db->loadResult();
 	}
 
+	/**
+	 * removeWishlistProduct
+	 */
 	public function removeWishlistProduct()
 	{
 		$app = JFactory::getApplication();
@@ -283,6 +316,9 @@ class AccountModelaccount extends JModel
 		$app->Redirect('index.php?option=' . $option . '&wishlist_id=' . $wishlist_id . '&view=account&layout=mywishlist&Itemid=' . $Itemid);
 	}
 
+	/**
+	 * removeTag
+	 */
 	public function removeTag()
 	{
 		$app = JFactory::getApplication();
@@ -303,6 +339,12 @@ class AccountModelaccount extends JModel
 		$app->Redirect('index.php?option=' . $option . '&view=account&layout=mytags&Itemid=' . $Itemid);
 	}
 
+	/**
+	 * removeTags
+	 *
+	 * @param $tagid
+	 *
+	 */
 	public function removeTags($tagid)
 	{
 		$user = JFactory::getUser();
@@ -342,6 +384,12 @@ class AccountModelaccount extends JModel
 		return true;
 	}
 
+	/**
+	 * getMytag
+	 *
+	 * @param $tagid
+	 *
+	 */
 	public function getMytag($tagid)
 	{
 		$db = JFactory::getDbo();
@@ -355,6 +403,12 @@ class AccountModelaccount extends JModel
 		return $list;
 	}
 
+	/**
+	 * editTag
+	 *
+	 * @param $post
+	 *
+	 */
 	public function editTag($post)
 	{
 		$db = JFactory::getDbo();
@@ -370,6 +424,9 @@ class AccountModelaccount extends JModel
 		return true;
 	}
 
+	/**
+	 * getCompare
+	 */
 	public function getCompare()
 	{
 		$user  = JFactory::getUser();
@@ -380,6 +437,9 @@ class AccountModelaccount extends JModel
 		return $this->_getList($query);
 	}
 
+	/**
+	 * removeCompare
+	 */
 	public function removeCompare()
 	{
 		$app = JFactory::getApplication();
@@ -406,6 +466,12 @@ class AccountModelaccount extends JModel
 		$app->Redirect('index.php?option=' . $option . '&view=account&layout=compare&Itemid=' . $Itemid);
 	}
 
+	/**
+	 * sendWishlist
+	 *
+	 * @param $post
+	 *
+	 */
 	public function sendWishlist($post)
 	{
 		$user        = JFactory::getUser();
@@ -575,6 +641,9 @@ class AccountModelaccount extends JModel
 		}
 	}
 
+	/**
+	 * getReserveDiscount
+	 */
 	public function getReserveDiscount()
 	{
 		$user            = JFactory::getUser();
@@ -601,6 +670,12 @@ class AccountModelaccount extends JModel
 		return $remain_discount;
 	}
 
+	/**
+	 * getdownloadproductlist
+	 *
+	 * @param $user_id
+	 *
+	 */
 	public function getdownloadproductlist($user_id)
 	{
 		$query = "SELECT pd.*,product_name FROM " . $this->_table_prefix . "product_download AS pd "
@@ -612,6 +687,13 @@ class AccountModelaccount extends JModel
 		return $this->_db->loadObjectlist();
 	}
 
+	/**
+	 * unused_coupon_amount
+	 *
+	 * @param $user_id
+	 * @param $coupone_code
+	 *
+	 */
 	public function unused_coupon_amount($user_id, $coupone_code)
 	{
 		$db = JFactory::getDbo();

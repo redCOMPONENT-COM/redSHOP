@@ -34,6 +34,13 @@ class Order_detailModelOrder_detail extends JModel
 		$this->_table_prefix = '#__redshop_';
 	}
 
+	/**
+	 * checkauthorization
+	 *
+	 * @param $oid
+	 * @param $encr
+	 *
+	 */
 	public function checkauthorization($oid, $encr)
 	{
 		$query = "SELECT count(order_id) FROM  " . $this->_table_prefix . "orders WHERE order_id = "
@@ -106,6 +113,9 @@ class Order_detailModelOrder_detail extends JModel
 		return $db->loadResult();
 	}
 
+	/**
+	 * resetcart
+	 */
 	public function resetcart()
 	{
 		$session = JFactory::getSession();
@@ -116,6 +126,13 @@ class Order_detailModelOrder_detail extends JModel
 		unset ($_SESSION ['ccdata']);
 	}
 
+	/**
+	 * update_ccdata
+	 *
+	 * @param $order_id
+	 * @param $payment_transaction_id
+	 *
+	 */
 	public function update_ccdata($order_id, $payment_transaction_id)
 	{
 		$db = JFactory::getDbo();

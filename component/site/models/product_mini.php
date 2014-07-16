@@ -28,6 +28,9 @@ class product_miniModelproduct_mini extends JModel
 
 	public $_table_prefix = null;
 
+	/**
+	 * __construct
+	 */
 	public function __construct()
 	{
 		global $context;
@@ -46,6 +49,9 @@ class product_miniModelproduct_mini extends JModel
 		$this->setState('limitstart', $limitstart);
 	}
 
+	/**
+	 * getData
+	 */
 	public function getData()
 	{
 		if (empty($this->_data))
@@ -57,6 +63,9 @@ class product_miniModelproduct_mini extends JModel
 		return $this->_data;
 	}
 
+	/**
+	 * getTotal
+	 */
 	public function getTotal()
 	{
 		global $context;
@@ -103,6 +112,9 @@ class product_miniModelproduct_mini extends JModel
 		return $this->_total;
 	}
 
+	/**
+	 * getPagination
+	 */
 	public function getPagination()
 	{
 		if (empty($this->_pagination))
@@ -113,6 +125,9 @@ class product_miniModelproduct_mini extends JModel
 		return $this->_pagination;
 	}
 
+	/**
+	 * _buildQuery
+	 */
 	public function _buildQuery()
 	{
 		global $context;
@@ -158,6 +173,9 @@ class product_miniModelproduct_mini extends JModel
 		return $query;
 	}
 
+	/**
+	 * _buildContentOrderBy
+	 */
 	public function _buildContentOrderBy()
 	{
 		$db = JFactory::getDbo();

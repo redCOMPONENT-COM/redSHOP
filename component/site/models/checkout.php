@@ -51,6 +51,9 @@ class CheckoutModelCheckout extends JModel
 
 	public $_order_functions = null;
 
+	/**
+	 * __construct
+	 */
 	public function __construct()
 	{
 		parent::__construct();
@@ -117,6 +120,12 @@ class CheckoutModelCheckout extends JModel
 		$this->_carthelper->carttodb();
 	}
 
+	/**
+	 * store
+	 *
+	 * @param $data
+	 *
+	 */
 	public function store($data)
 	{
 		$captcha = $this->_userhelper->checkCaptcha($data);
@@ -145,6 +154,9 @@ class CheckoutModelCheckout extends JModel
 		return $reduser;
 	}
 
+	/**
+	 * orderplace
+	 */
 	public function orderplace()
 	{
 		$app = JFactory::getApplication();
@@ -1397,6 +1409,12 @@ class CheckoutModelCheckout extends JModel
 		return $row;
 	}
 
+	/**
+	 * sendGiftCard
+	 *
+	 * @param $order_id
+	 *
+	 */
 	public function sendGiftCard($order_id)
 	{
 		$url               = JURI::root();
@@ -1511,6 +1529,9 @@ class CheckoutModelCheckout extends JModel
 
 	}
 
+	/**
+	 * billingaddresses
+	 */
 	public function billingaddresses()
 	{
 		$user    = JFactory::getUser();
@@ -1531,6 +1552,12 @@ class CheckoutModelCheckout extends JModel
 		return $list;
 	}
 
+	/**
+	 * shipaddress
+	 *
+	 * @param $users_info_id
+	 *
+	 */
 	public function shipaddress($users_info_id)
 	{
 		$query = 'SELECT * FROM ' . $this->_table_prefix . 'users_info '
@@ -1541,6 +1568,9 @@ class CheckoutModelCheckout extends JModel
 		return $list;
 	}
 
+	/**
+	 * shippingaddresses
+	 */
 	public function shippingaddresses()
 	{
 		$user    = JFactory::getUser();
@@ -1561,6 +1591,9 @@ class CheckoutModelCheckout extends JModel
 		return $list;
 	}
 
+	/**
+	 * getpaymentmethod
+	 */
 	public function getpaymentmethod()
 	{
 		$user          = JFactory::getUser();
@@ -1571,6 +1604,9 @@ class CheckoutModelCheckout extends JModel
 		return $this->_db->loadObjectlist();
 	}
 
+	/**
+	 * validatepaymentccinfo
+	 */
 	public function validatepaymentccinfo()
 	{
 		$session = JFactory::getSession();
@@ -1641,6 +1677,15 @@ class CheckoutModelCheckout extends JModel
 		return $validpayment;
 	}
 
+	/**
+	 * checkCreditCard
+	 *
+	 * @param $cardnumber
+	 * @param $cardname
+	 * @param $errornumber
+	 * @param $errortext
+	 *
+	 */
 	public function checkCreditCard($cardnumber, $cardname, &$errornumber, &$errortext)
 	{
 		/**
@@ -1897,6 +1942,13 @@ class CheckoutModelCheckout extends JModel
 		return true;
 	}
 
+	/**
+	 * validateCC
+	 *
+	 * @param $cc_num
+	 * @param $type
+	 *
+	 */
 	public function validateCC($cc_num, $type)
 	{
 		if ($type == "American")
@@ -2011,6 +2063,9 @@ class CheckoutModelCheckout extends JModel
 		}
 	}
 
+	/**
+	 * resetcart
+	 */
 	public function resetcart()
 	{
 		$session = JFactory::getSession();
@@ -2023,6 +2078,9 @@ class CheckoutModelCheckout extends JModel
 		$this->_carthelper->removecartfromdb($cart_id = 0, $user->id, $delCart = true);
 	}
 
+	/**
+	 * getCouponPrice
+	 */
 	public function getCouponPrice()
 	{
 		$session = JFactory::getSession();
@@ -2049,6 +2107,12 @@ class CheckoutModelCheckout extends JModel
 		return $coupon_amount;
 	}
 
+	/**
+	 * getCategoryNameByProductId
+	 *
+	 * @param $pid
+	 *
+	 */
 	public function getCategoryNameByProductId($pid)
 	{
 		$query = "SELECT c.category_name FROM " . $this->_table_prefix . "product_category_xref AS pcx "
@@ -2060,6 +2124,13 @@ class CheckoutModelCheckout extends JModel
 		return $this->_db->loadResult();
 	}
 
+	/**
+	 * voucher
+	 *
+	 * @param $cart
+	 * @param $order_id
+	 *
+	 */
 	public function voucher($cart, $order_id)
 	{
 		$session = JFactory::getSession();
@@ -2123,6 +2194,13 @@ class CheckoutModelCheckout extends JModel
 		return;
 	}
 
+	/**
+	 * coupon
+	 *
+	 * @param $cart
+	 * @param $order_id
+	 *
+	 */
 	public function coupon($cart, $order_id = 0)
 	{
 		$session = JFactory::getSession();
@@ -2188,6 +2266,12 @@ class CheckoutModelCheckout extends JModel
 		return;
 	}
 
+	/**
+	 * calculateShipping
+	 *
+	 * @param $shipping_rate_id
+	 *
+	 */
 	public function calculateShipping($shipping_rate_id)
 	{
 		$order_shipping_rate = 0;
@@ -2206,6 +2290,22 @@ class CheckoutModelCheckout extends JModel
 		return $shipArr;
 	}
 
+	/**
+	 * displayShoppingCart
+	 *
+	 * @param $template_desc
+	 * @param $users_info_id
+	 * @param $shipping_rate_id
+	 * @param $payment_method_id
+	 * @param $Itemid
+	 * @param $customer_note
+	 * @param $req_number
+	 * @param $thirdparty_email
+	 * @param $customer_message
+	 * @param $referral_code
+	 * @param $shop_id
+	 *
+	 */
 	public function displayShoppingCart($template_desc = "", $users_info_id, $shipping_rate_id = 0, $payment_method_id, $Itemid, $customer_note = "", $req_number = "", $thirdparty_email = "", $customer_message = "", $referral_code = "", $shop_id = "")
 	{
 		$session  = JFactory::getSession();
@@ -2524,11 +2624,21 @@ class CheckoutModelCheckout extends JModel
 	// End code to track duplicate order number checking by parth
 }
 
+/**
+ * MYPDF
+ *
+ * @package     RedSHOP
+ * @subpackage  Model
+ * @since       1.0
+ */
 class MYPDF extends TCPDF
 {
 	// Page header
 	public $img_file;
 
+	/**
+	 * Header
+	 */
 	public function Header()
 	{
 		// Full background image

@@ -40,6 +40,9 @@ class productModelproduct extends JModel
 
 	public $_catid = null;
 
+	/**
+	 * __construct
+	 */
 	public function __construct()
 	{
 		parent::__construct();
@@ -54,12 +57,21 @@ class productModelproduct extends JModel
 		$this->_catid = (int) JRequest::getVar('cid', 0);
 	}
 
+	/**
+	 * setId
+	 *
+	 * @param $id
+	 *
+	 */
 	public function setId($id)
 	{
 		$this->_id   = $id;
 		$this->_data = null;
 	}
 
+	/**
+	 * _buildQuery
+	 */
 	public function _buildQuery()
 	{
 		$and = "";
@@ -94,6 +106,9 @@ class productModelproduct extends JModel
 		return $query;
 	}
 
+	/**
+	 * getData
+	 */
 	public function getData()
 	{
 		$redTemplate = new Redtemplate;
@@ -111,6 +126,9 @@ class productModelproduct extends JModel
 		return $this->_data;
 	}
 
+	/**
+	 * getProductTemplate
+	 */
 	public function getProductTemplate()
 	{
 		$redTemplate = new Redtemplate;
@@ -169,6 +187,12 @@ class productModelproduct extends JModel
 		return $row;
 	}
 
+	/**
+	 * checkReview
+	 *
+	 * @param $email
+	 *
+	 */
 	public function checkReview($email)
 	{
 		$db    = JFactory::getDbo();
@@ -184,6 +208,12 @@ class productModelproduct extends JModel
 		return false;
 	}
 
+	/**
+	 * sendMailForReview
+	 *
+	 * @param $data
+	 *
+	 */
 	public function sendMailForReview($data)
 	{
 		$user           = JFactory::getUser();
@@ -284,6 +314,12 @@ class productModelproduct extends JModel
 		return $list;
 	}
 
+	/**
+	 * updateVisited
+	 *
+	 * @param $product_id
+	 *
+	 */
 	public function updateVisited($product_id)
 	{
 		$query = "UPDATE " . $this->_table_prefix . "product "
@@ -293,6 +329,12 @@ class productModelproduct extends JModel
 		$this->_db->Query();
 	}
 
+	/**
+	 * addProductTags
+	 *
+	 * @param $data
+	 *
+	 */
 	public function addProductTags($data)
 	{
 		$tags = $this->getTable('product_tags');
@@ -314,6 +356,12 @@ class productModelproduct extends JModel
 		return $tags;
 	}
 
+	/**
+	 * addtowishlist
+	 *
+	 * @param $data
+	 *
+	 */
 	public function addtowishlist($data)
 	{
 		$row = $this->getTable('wishlist');
@@ -335,6 +383,12 @@ class productModelproduct extends JModel
 		return $row;
 	}
 
+	/**
+	 * addtowishlist2session
+	 *
+	 * @param $data
+	 *
+	 */
 	public function addtowishlist2session($data)
 	{
 		ob_clean();
@@ -365,6 +419,13 @@ class productModelproduct extends JModel
 		return true;
 	}
 
+	/**
+	 * addProductTagsXref
+	 *
+	 * @param $post
+	 * @param $tags
+	 *
+	 */
 	public function addProductTagsXref($post, $tags)
 	{
 		$user  = JFactory::getUser();
@@ -376,6 +437,13 @@ class productModelproduct extends JModel
 		return true;
 	}
 
+	/**
+	 * checkProductTags
+	 *
+	 * @param $tagname
+	 * @param $productid
+	 *
+	 */
 	public function checkProductTags($tagname, $productid)
 	{
 		$user  = JFactory::getUser();
@@ -390,6 +458,12 @@ class productModelproduct extends JModel
 		return $list;
 	}
 
+	/**
+	 * checkWishlist
+	 *
+	 * @param $product_id
+	 *
+	 */
 	public function checkWishlist($product_id)
 	{
 		$user  = JFactory::getUser();
@@ -402,6 +476,12 @@ class productModelproduct extends JModel
 		return $list;
 	}
 
+	/**
+	 * checkComparelist
+	 *
+	 * @param $product_id
+	 *
+	 */
 	public function checkComparelist($product_id)
 	{
 		$session         = JFactory::getSession();
@@ -443,6 +523,12 @@ class productModelproduct extends JModel
 		return isset($compare_product['idx']) ? (int) ($compare_product['idx']) : 0;
 	}
 
+	/**
+	 * addtocompare
+	 *
+	 * @param $data
+	 *
+	 */
 	public function addtocompare($data)
 	{
 		$session         = JFactory::getSession();
@@ -474,6 +560,12 @@ class productModelproduct extends JModel
 		return true;
 	}
 
+	/**
+	 * removeCompare
+	 *
+	 * @param $product_id
+	 *
+	 */
 	public function removeCompare($product_id)
 	{
 		$session         = JFactory::getSession();
@@ -514,6 +606,12 @@ class productModelproduct extends JModel
 		return true;
 	}
 
+	/**
+	 * downloadProduct
+	 *
+	 * @param $tid
+	 *
+	 */
 	public function downloadProduct($tid)
 	{
 		$query = "SELECT * FROM " . $this->_table_prefix . "product_download AS pd "
@@ -525,6 +623,14 @@ class productModelproduct extends JModel
 		return $list;
 	}
 
+	/**
+	 * AdditionaldownloadProduct
+	 *
+	 * @param $mid
+	 * @param $id
+	 * @param $media
+	 *
+	 */
 	public function AdditionaldownloadProduct($mid = 0, $id = 0, $media = 0)
 	{
 		$where = "";
@@ -556,6 +662,12 @@ class productModelproduct extends JModel
 		return $list;
 	}
 
+	/**
+	 * setDownloadLimit
+	 *
+	 * @param $did
+	 *
+	 */
 	public function setDownloadLimit($did)
 	{
 		$query = "UPDATE " . $this->_table_prefix . "product_download "
@@ -572,6 +684,13 @@ class productModelproduct extends JModel
 		return false;
 	}
 
+	/**
+	 * getAllChildProductArrayList
+	 *
+	 * @param $childid
+	 * @param $parentid
+	 *
+	 */
 	public function getAllChildProductArrayList($childid = 0, $parentid = 0)
 	{
 		$producthelper = new producthelper;
@@ -589,6 +708,14 @@ class productModelproduct extends JModel
 		return $GLOBALS['childproductlist'];
 	}
 
+	/**
+	 * addNotifystock
+	 *
+	 * @param $product_id
+	 * @param $property_id
+	 * @param $subproperty_id
+	 *
+	 */
 	public function addNotifystock($product_id, $property_id, $subproperty_id)
 	{
 		ob_clean();

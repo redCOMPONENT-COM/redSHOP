@@ -34,6 +34,9 @@ class send_friendModelsend_friend extends JModel
 
 	public $_template = null;
 
+	/**
+	 * __construct
+	 */
 	public function __construct()
 	{
 		parent::__construct();
@@ -43,12 +46,27 @@ class send_friendModelsend_friend extends JModel
 		$this->setId((int) JRequest::getVar('pid', 0));
 	}
 
+	/**
+	 * setId
+	 *
+	 * @param $id
+	 *
+	 */
 	public function setId($id)
 	{
 		$this->_id   = $id;
 		$this->_data = null;
 	}
 
+	/**
+	 * sendProductMailToFriend
+	 *
+	 * @param $your_name
+	 * @param $friend_name
+	 * @param $product_id
+	 * @param $email
+	 *
+	 */
 	public function sendProductMailToFriend($your_name, $friend_name, $product_id, $email)
 	{
 		$producthelper = new producthelper;

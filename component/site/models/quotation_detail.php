@@ -30,12 +30,22 @@ class quotation_detailModelquotation_detail extends JModel
 
 	public $_table_prefix = null;
 
+	/**
+	 * __construct
+	 */
 	public function __construct()
 	{
 		parent::__construct();
 		$this->_table_prefix = '#__redshop_';
 	}
 
+	/**
+	 * checkAuthorization
+	 *
+	 * @param $quoid
+	 * @param $encr
+	 *
+	 */
 	public function checkAuthorization($quoid, $encr)
 	{
 		$query = "SELECT COUNT(quotation_id) FROM " . $this->_table_prefix . "quotation "
@@ -47,6 +57,12 @@ class quotation_detailModelquotation_detail extends JModel
 		return $record;
 	}
 
+	/**
+	 * addtocart
+	 *
+	 * @param $data
+	 *
+	 */
 	public function addtocart($data = array())
 	{
 		$app = JFactory::getApplication();
@@ -212,6 +228,12 @@ class quotation_detailModelquotation_detail extends JModel
 		$session->set('cart', $cart);
 	}
 
+	/**
+	 * modifyQuotation
+	 *
+	 * @param $user_id
+	 *
+	 */
 	public function modifyQuotation($user_id = 0)
 	{
 		$session    = JFactory::getSession();

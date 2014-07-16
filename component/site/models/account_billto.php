@@ -26,6 +26,9 @@ class Account_billtoModelaccount_billto extends JModel
 
 	public $_table_prefix = null;
 
+	/**
+	 * __construct
+	 */
 	public function __construct()
 	{
 		parent::__construct();
@@ -33,6 +36,9 @@ class Account_billtoModelaccount_billto extends JModel
 		$this->_table_prefix = '#__redshop_';
 	}
 
+	/**
+	 * _initData
+	 */
 	public function _initData()
 	{
 		if (empty($GLOBALS['billingaddresses']))
@@ -100,6 +106,12 @@ class Account_billtoModelaccount_billto extends JModel
 		}
 	}
 
+	/**
+	 * store
+	 *
+	 * @param $post
+	 *
+	 */
 	public function store($post)
 	{
 		$userhelper = new rsUserhelper;

@@ -22,12 +22,21 @@ class passwordModelpassword extends JModel
 {
 	public $_db = null;
 
+	/**
+	 * __construct
+	 */
 	public function __construct()
 	{
 		parent::__construct();
 		$this->_db = JFactory::getDbo();
 	}
 
+	/**
+	 * resetpassword
+	 *
+	 * @param $data
+	 *
+	 */
 	public function resetpassword($data)
 	{
 		$query = "SELECT id FROM #__users WHERE email = " . $this->_db->quote($data['email']);
@@ -58,6 +67,9 @@ class passwordModelpassword extends JModel
 		}
 	}
 
+	/**
+	 * genRandomString
+	 */
 	public function genRandomString()
 	{
 		$length     = 0;
@@ -73,6 +85,12 @@ class passwordModelpassword extends JModel
 		return $string;
 	}
 
+	/**
+	 * changepassword
+	 *
+	 * @param $token
+	 *
+	 */
 	public function changepassword($token)
 	{
 		$query = "SELECT id FROM #__users WHERE activation='" . $token . "' ";
@@ -91,6 +109,12 @@ class passwordModelpassword extends JModel
 		return true;
 	}
 
+	/**
+	 * setpassword
+	 *
+	 * @param $data
+	 *
+	 */
 	public function setpassword($data)
 	{
 		$query = 'UPDATE #__users SET password = ' . $this->_db->quote(md5($data['password'])) . ', activation = NULL '
