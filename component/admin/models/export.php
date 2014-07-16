@@ -21,22 +21,6 @@ require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
  */
 class ExportModelexport extends JModel
 {
-	public $_data = null;
-
-	public $_total = null;
-
-	public $_pagination = null;
-
-	public $_table_prefix = null;
-
-	/**
-	 * Model Export constructor
-	 */
-	public function __construct()
-	{
-		parent::__construct();
-	}
-
 	/**
 	 * Get export data
 	 *
@@ -1603,12 +1587,13 @@ class ExportModelexport extends JModel
 				$i = 0;
 
 				// Get product number from array
-				$isProductNumber = (int) $row['product_number'];
+				$isProductNumber   = (int) $row['product_number'];
+				$isAttributeNumber = (int) $row['attribute_number'];
 
 				foreach ($row as $id => $value)
 				{
-					// Only allow attribute which has product number
-					if ($isProductNumber)
+					// Only allow attribute which has product number and attribute number
+					if ($isProductNumber && $isAttributeNumber)
 					{
 						echo '"' . str_replace('"', '""', $value) . '"';
 
