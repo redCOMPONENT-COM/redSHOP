@@ -1,5 +1,13 @@
 {
+"name"       : "redCOMPONENT-COM/redSHOP",
+"description": "redSHOP 1.x",
+"license"    : "GPL-2.0+",
+"require"    : {
+    "php": ">=5.3.10"
+},
     "require-dev": {
-        "phing/phing": "2.*"
+        "phing/phing": "2.*",
+        "squizlabs/php_codesniffer": "1.*",
+        "phpmd/phpmd": "*"
     }
 }

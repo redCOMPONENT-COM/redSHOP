@@ -1,17 +1,14 @@
 language: php
-
 php:
-  - 5.3
-
+- 5.3
+- 5.4
+- 5.5
 before_script:
-  - pear install PHP_CodeSniffer
-  - pear channel-discover pear.phing.info
-  - pear install phing/phing
-  - phpenv config-add .travis.ini
-  - phpenv rehash
-
+- composer install
 script:
-  - find ./component -name '*.php' -exec php -l {} \;
-  - find ./modules -name '*.php' -exec php -l {} \;
-  - find ./plugins -name '*.php' -exec php -l {} \;
-  - phing -f .travis.xml
+- find ./component -name '*.php' -exec php -l {} \;
+- php .travis/phpcs.php
+- php .travis/phpmd.php
+notifications:
+  slack:
+    secure: XX4m+uA8suXodJS0SvLDqrWovNvx7bxiJwyebj3gA8JwSP2E3XsRJFxsAt5++GTOv1nmMCGIkXnovY44XoA8ErEVSseElCUtKOr3/sa6tCPDYl4Lz+Q4FxPxPJcz6glpwXyOc2tCMNaKWiFdWrDsHNucPjw9iN5N16+jIvYwrrQ=
