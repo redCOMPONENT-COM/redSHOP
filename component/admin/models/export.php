@@ -21,22 +21,6 @@ require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
  */
 class ExportModelexport extends JModel
 {
-	public $_data = null;
-
-	public $_total = null;
-
-	public $_pagination = null;
-
-	public $_table_prefix = null;
-
-	/**
-	 * Model Export constructor
-	 */
-	public function __construct()
-	{
-		parent::__construct();
-	}
-
 	/**
 	 * Get export data
 	 *
