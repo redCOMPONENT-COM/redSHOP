@@ -423,7 +423,7 @@ class Product_DetailViewProduct_Detail extends JView
 			'class="inputbox" size="1"  ', 'value', 'text', $detail->product_tax_id
 		);
 
-		$categories = $product_category->list_all("product_category[]", 0, $productcats, 10, true, true);
+		$categories = $product_category->list_all("product_category[]", 0, $productcats, 10, false, true);
 		$lists['categories'] = $categories;
 		$detail->first_selected_category_id = isset($productcats[0]) ? $productcats[0] : null;
 
