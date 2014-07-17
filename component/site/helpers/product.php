@@ -8910,6 +8910,12 @@ class producthelper
 			{
 				$redhelper = new redhelper;
 				$catItem   = $redhelper->getCategoryItemid($row->category_id);
+
+				if(!(boolean) $catItem)
+				{
+					$catItem = JFactory::getApplication()->input->getInt('Itemid');
+				}
+
 				$catlink   = JRoute::_('index.php?option=com_redshop&view=category&layout=detail&cid='
 					. $row->category_id . '&Itemid=' . $catItem);
 			}
