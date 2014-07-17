@@ -2167,17 +2167,17 @@ class rsCarthelper
 		$discount          = 0;
 		$user_info_id      = 0;
 		$total_discount    = 0;
+		$discountVAT       = 0;
 		$redArray          = array();
 
 		for ($i = 0; $i < $Idx; $i++)
 		{
-			$quantity = $cart[$i]['quantity'];
-			$subtotal += $quantity * $cart[$i]['product_price'];
+			$quantity          = $cart[$i]['quantity'];
+			$subtotal          += $quantity * $cart[$i]['product_price'];
 			$subtotal_excl_vat += $quantity * $cart[$i]['product_price_excl_vat'];
-			$vat += $quantity * $cart[$i]['product_vat'];
+			$vat               += $quantity * $cart[$i]['product_vat'];
 		}
 
-		$avgVAT 			= (($subtotal_excl_vat + $vat) / $subtotal_excl_vat) - 1;
 		$tmparr             = array();
 		$tmparr['subtotal'] = $subtotal;
 
@@ -2265,11 +2265,17 @@ class rsCarthelper
 
 				if (isset($vatData->tax_rate) && !empty($vatData->tax_rate))
 				{
-					$discountVAT = ($avgVAT * $total_discount) / (1 + $avgVAT);
+					$discountVAT = 0;
+
+					if ((int) $subtotal_excl_vat > 0)
+					{
+						$avgVAT      = (($subtotal_excl_vat + $vat) / $subtotal_excl_vat) - 1;
+						$discountVAT = ($avgVAT * $total_discount) / (1 + $avgVAT);
+					}
 				}
 			}
 
-			$vat         = $vat - $discountVAT;
+			$vat = $vat - $discountVAT;
 		}
 
 		$total      = $subtotal + $shipping;
@@ -4666,8 +4672,12 @@ class rsCarthelper
 			{
 				$productPriceExclVAT = $cart['product_subtotal_excl_vat'];
 				$productVAT 		 = $cart['product_subtotal'] - $cart['product_subtotal_excl_vat'];
-				$avgVAT 			 = (($productPriceExclVAT + $productVAT) / $productPriceExclVAT) - 1;
-				$Discountvat 		 = ($avgVAT * $totaldiscount) / (1 + $avgVAT);
+
+				if ((int) $productPriceExclVAT > 0)
+				{
+					$avgVAT      = (($productPriceExclVAT + $productVAT) / $productPriceExclVAT) - 1;
+					$Discountvat = ($avgVAT * $totaldiscount) / (1 + $avgVAT);
+				}
 			}
 		}
 
