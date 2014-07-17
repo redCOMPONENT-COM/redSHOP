@@ -34,7 +34,7 @@ require_once JPATH_SITE . '/components/com_redshop/helpers/redshop.js.php';
 
 JHTML::Script('common.js', 'components/com_redshop/assets/js/', false);
 // lightbox Javascript
-JHTML::Script('redBOX.js', 'components/com_redshop/assets/js/', false);
+JHTML::Script('redbox.js', 'components/com_redshop/assets/js/', false);
 JHTML::Stylesheet('fetchscript.css', 'components/com_redshop/assets/css/');
 
 echo '<ul id="mycarousel" class="jcarousel-skin-tango">';

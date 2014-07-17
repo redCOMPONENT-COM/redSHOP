@@ -85,7 +85,7 @@ class accountViewaccount extends JView
 
 			JHTML::Script('jquery.js', 'components/com_redshop/assets/js/', false);
 			JHTML::Script('jquery.colorbox-min.js', 'components/com_redshop/assets/js/', false);
-			JHTML::Script('redBOX.js', 'components/com_redshop/assets/js/', false);
+			JHTML::Script('redbox.js', 'components/com_redshop/assets/js/', false);
 			JHTML::Script('attribute.js', 'components/com_redshop/assets/js/', false);
 			JHTML::Script('common.js', 'components/com_redshop/assets/js/', false);
 			$this->setLayout('mywishlist');
