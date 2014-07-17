@@ -83,8 +83,9 @@ class JoomlaWebdriverTestCase extends PHPUnit_Framework_TestCase
 	 */
 	public function setUp()
 	{
-		$this->cfg = new SeleniumConfig();
+		$this->cfg = new SeleniumConfig;
 		$this->testUrl = $this->cfg->host . $this->cfg->path;
+
 		switch ($this->cfg->browser)
 		{
 			case '*chrome':
@@ -95,6 +96,7 @@ class JoomlaWebdriverTestCase extends PHPUnit_Framework_TestCase
 				$browser = 'chrome';
 				break;
 		}
+
 		$desiredCapabilities = new DesiredCapabilities($browser);
 		$this->driver = new WebDriver($desiredCapabilities);
 
@@ -161,7 +163,8 @@ class JoomlaWebdriverTestCase extends PHPUnit_Framework_TestCase
 
 		// We are doing checks only on english version
 		$arrayElement = $this->driver->findElements(By::xPath("//div[@id='lang_chzn']/a"));
-		if(count($arrayElement))
+
+		if (count($arrayElement))
 		{
 			$d->findElement(By::xPath("//div[@id='lang_chzn']/a"))->click();
 			$d->findElement(By::xPath("//div[@id='lang_chzn']/div/div/input"))->sendKeys($this->cfg->language);
@@ -174,6 +177,7 @@ class JoomlaWebdriverTestCase extends PHPUnit_Framework_TestCase
 			$cpPage = $loginPage->loginValidUser($this->cfg->username, $this->cfg->password);
 			$this->assertTrue(is_a($cpPage, 'GenericAdminPage'));
 		}
+
 		return $cpPage;
 	}
 
