@@ -1180,57 +1180,69 @@ class producthelper
 
 	public function getProductMinDeliveryTime($product_id = 0, $section_id = 0, $section = '', $loadDiv = 1)
 	{
-		$db = JFactory::getDbo();
-
 		$helper = new redhelper;
+
+		// Initialiase variables.
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true);
 
 		if (!$section_id && !$section)
 		{
-			$query = "SELECT  min_del_time as deltime, s.max_del_time, s.delivery_time "
-				. " FROM " . $this->_table_prefix . "product_stockroom_xref AS ps , "
-				. $this->_table_prefix . "stockroom as s "
-				. " WHERE "
-				. " ps.product_id = " . (int) $product_id . " AND ps.stockroom_id = s.stockroom_id and ps.quantity >0 ORDER BY min_del_time ASC LIMIT 0,1";
+			$query
+				->from($db->qn('#__redshop_product_stockroom_xref') . ' AS ps')
+				->where($db->qn('ps.product_id') . ' = ' . (int) $product_id);
 		}
 		else
 		{
-			$query = "SELECT  min_del_time as deltime, s.max_del_time, s.delivery_time "
-				. " FROM " . $this->_table_prefix . "product_attribute_stockroom_xref AS pas , "
-				. $this->_table_prefix . "stockroom as s "
-				. " WHERE "
-				. " pas.section_id = " . (int) $section_id . " AND pas.section = " . $db->quote($section)
-				. " AND pas.stockroom_id = s.stockroom_id and pas.quantity >0 ORDER BY min_del_time ASC LIMIT 0,1";
+			$query
+				->from($db->qn('#__redshop_product_attribute_stockroom_xref') . ' AS ps')
+				->where($db->qn('ps.section_id') . ' = ' . (int) $section_id)
+				->where($db->qn('ps.section') . ' = ' . $db->q($section));
 		}
 
-		$this->_db->setQuery($query);
-		$result = $this->_db->loadObject();
+		// Create the base select statement.
+		$query->select(
+				array(
+					'min_del_time as deltime',
+					's.max_del_time',
+					's.delivery_time'
+				)
+			)
+			->join('', $db->qn('#__redshop_stockroom') . ' AS s')
+			->where($db->qn('ps.stockroom_id') . ' = ' . $db->qn('s.stockroom_id'))
+			->where($db->qn('ps.quantity') . ' > 0 ')
+			->order($db->qn('min_del_time') . ' ASC');
+
+		// Set the query and load the result.
+		$db->setQuery($query, 0, 1);
+
+		try
+		{
+			$result = $db->loadObject();
+		}
+		catch (RuntimeException $e)
+		{
+			throw new RuntimeException($e->getMessage(), $e->getCode());
+		}
 
 		$product_delivery_time = '';
 
 		if ($result)
 		{
-			if (!$section_id && !$section)
-			{
-				$sql = "SELECT  min_del_time as deltime, s.max_del_time,s.delivery_time "
-					. " FROM " . $this->_table_prefix . "stockroom as s, "
-					. $this->_table_prefix . "product_stockroom_xref AS ps  "
-					. " WHERE "
-					. " ps.product_id = " . (int) $product_id . " AND ps.stockroom_id = s.stockroom_id AND s.min_del_time = "
-					. (int) $result->deltime . " and ps.quantity >=0 ORDER BY max_del_time ASC LIMIT 0,1";
-			}
-			else
-			{
-				$sql = "SELECT  min_del_time as deltime, s.max_del_time,s.delivery_time "
-					. " FROM " . $this->_table_prefix . "stockroom as s, "
-					. $this->_table_prefix . "product_attribute_stockroom_xref AS pas  "
-					. " WHERE "
-					. " pas.section_id = " . (int) $section_id . " AND pas.section = '" .$db->quote($section)
-					. "' AND pas.stockroom_id = s.stockroom_id AND s.min_del_time = " . (int) $result->deltime
-					. " AND pas.quantity >=0 ORDER BY max_del_time ASC LIMIT 0,1";
-			}
+			// Append where clause to get Maximum Delivery time of Minimum Delivery stockroom
+			$query->where($db->qn('s.min_del_time') . ' = ' . (int) $result->deltime);
 
-			$this->_db->setQuery($sql);
-			$row = $this->_db->loadObject();
+			// Set the query and load the row.
+			$db->setQuery($query, 0, 1);
+
+			try
+			{
+				$row = $db->loadObject();
+			}
+			catch (RuntimeException $e)
+			{
+				throw new RuntimeException($e->getMessage(), $e->getCode());
+			}
 
 			if ($row->deltime == 0 || $row->deltime == ' ')
 			{
@@ -1286,7 +1298,9 @@ class producthelper
 		}
 
 		if ($product_delivery_time && $loadDiv)
+		{
 			$product_delivery_time = '<div id="ProductAttributeMinDelivery' . $product_id . '">' . $product_delivery_time . '</div>';
+		}
 
 		return $product_delivery_time;
 	}
@@ -8896,6 +8910,12 @@ class producthelper
 			{
 				$redhelper = new redhelper;
 				$catItem   = $redhelper->getCategoryItemid($row->category_id);
+
+				if(!(boolean) $catItem)
+				{
+					$catItem = JFactory::getApplication()->input->getInt('Itemid');
+				}
+
 				$catlink   = JRoute::_('index.php?option=com_redshop&view=category&layout=detail&cid='
 					. $row->category_id . '&Itemid=' . $catItem);
 			}

@@ -28,7 +28,7 @@ class RedShopVouchersManagerPage extends AdminManagerPage
 	 *
 	 * @since    1.0
 	 */
-	protected $waitForXpath = "//h2[contains(text(),'Voucher Management')]";
+	protected $waitForXpath = "//h2[text() = 'Voucher Management']";
 
 	/**
 	 * URL used to uniquely identify this page
@@ -53,6 +53,7 @@ class RedShopVouchersManagerPage extends AdminManagerPage
 	{
 		$elementObject = $this->driver;
 		$elementObject->findElement(By::xPath("//a[@onclick=\"Joomla.submitbutton('add')\"]"))->click();
+		$this->checkNoticesForEditView(get_class($this));
 		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='voucher_code']"));
 		$voucherCodeField = $elementObject->findElement(By::xPath("//input[@id='voucher_code']"));
 		$voucherCodeField->clear();
@@ -64,7 +65,7 @@ class RedShopVouchersManagerPage extends AdminManagerPage
 		$voucherLeftField->clear();
 		$voucherLeftField->sendKeys($voucherLeft);
 		$elementObject->findElement(By::xPath("//a[@onclick=\"Joomla.submitbutton('save')\"]"))->click();
-		$elementObject->waitForElementUntilIsPresent(By::xPath("//h2[contains(text(),'Voucher Management')]"), 10);
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//h2[text() = 'Voucher Management']"), 10);
 	}
 
 	/**
@@ -81,11 +82,12 @@ class RedShopVouchersManagerPage extends AdminManagerPage
 	public function editVoucher($field, $newValue, $voucherCode)
 	{
 		$elementObject = $this->driver;
-		$elementObject->waitForElementUntilIsPresent(By::xPath("//tbody/tr/td[3]/a[contains(text(),'" . $voucherCode . "')]"), 10);
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//tbody/tr/td[3]/a[text() = '" . $voucherCode . "']"), 10);
 		$row = $this->getRowNumber($voucherCode) - 1;
 		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='cb" . $row . "']"), 10);
 		$elementObject->findElement(By::xPath("//input[@id='cb" . $row . "']"))->click();
 		$elementObject->findElement(By::xPath("//li[@id='toolbar-edit']/a"))->click();
+		$this->checkNoticesForEditView(get_class($this));
 		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='voucher_code']"), 10);
 
 		switch ($field)
@@ -108,7 +110,7 @@ class RedShopVouchersManagerPage extends AdminManagerPage
 		}
 
 		$elementObject->findElement(By::xPath("//a[@onclick=\"Joomla.submitbutton('save')\"]"))->click();
-		$elementObject->waitForElementUntilIsPresent(By::xPath("//h2[contains(text(),'Voucher Management')]"), 10);
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//h2[text() = 'Voucher Management']"), 10);
 	}
 
 	/**
@@ -121,7 +123,7 @@ class RedShopVouchersManagerPage extends AdminManagerPage
 	public function deleteVoucher($voucherCode)
 	{
 		$elementObject = $this->driver;
-		$elementObject->waitForElementUntilIsPresent(By::xPath("//tbody/tr/td[3]/a[contains(text(),'" . $voucherCode . "')]"), 10);
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//tbody/tr/td[3]/a[text() = '" . $voucherCode . "']"), 10);
 		$row = $this->getRowNumber($voucherCode) - 1;
 		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='cb" . $row . "']"), 10);
 		$elementObject->findElement(By::xPath("//input[@id='cb" . $row . "']"))->click();
@@ -186,7 +188,7 @@ class RedShopVouchersManagerPage extends AdminManagerPage
 	public function changeVoucherState($voucherCode, $state = 'published')
 	{
 		$elementObject = $this->driver;
-		$elementObject->waitForElementUntilIsPresent(By::xPath("//tbody/tr/td[3]/a[contains(text(),'" . $voucherCode . "')]"), 10);
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//tbody/tr/td[3]/a[text() = '" . $voucherCode . "']"), 10);
 		$row = $this->getRowNumber($voucherCode) - 1;
 		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='cb" . $row . "']"), 10);
 		$elementObject->findElement(By::xPath("//input[@id='cb" . $row . "']"))->click();

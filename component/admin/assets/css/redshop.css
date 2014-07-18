@@ -530,6 +530,13 @@
 }
 
 
+.icon-32-gbase {
+    background-image: url(../images/gbase.png);
+}
+
+.icon-32-print_f2 {
+    background-image: url(../images/print_f2.png);
+}
 
 /* standard style for redSHOP */
 
@@ -613,6 +620,9 @@ table.adminform td.helpMenu{
 	text-align: right;
 }
 
+table.adminform td.helpMenu {
+    text-align: right;
+}
 
 .sub_attribute{
 background:#f0f0f0;
@@ -632,6 +642,11 @@ padding-bottom:5px;
 .attribute_para td{
 padding: 0px 30px;
 
+.attribute_para {
+    background: #e7eef4;
+    border: 1px solid #9FB3BE;
+    line-height: 9px;
+    padding-bottom: 5px;
 }
 
 fieldset.adminform { border: 1px solid #ccc; margin: 0 10px 10px 10px; }
@@ -658,6 +673,23 @@ border:1px solid #ccc;
 .grey_area { border-left:1px solid #d1d1d1;  border-bottom:1px solid #d1d1d1;  border-right:1px solid #d1d1d1;  padding:7px;}
 .speac-area {padding:0px; margin:7px 0px;}
 
+.red_blue_blue {
+    font-size: 12px;
+    font-weight: bold;
+    color: #156394;
+}
+
+.grey_area {
+    border-left: 1px solid #d1d1d1;
+    border-bottom: 1px solid #d1d1d1;
+    border-right: 1px solid #d1d1d1;
+    padding: 7px;
+}
+
+.speac-area {
+    padding: 0px;
+    margin: 7px 0px;
+}
 
 table.grey_solid_area {
 	width: 100%;
@@ -685,7 +717,6 @@ table.grey_solid_area tbody th { font-weight: bold; }
 
 table.grey_solid_area tbody tr			{ background-color: #f0f0f0;  text-align: left; }
 
-
 .btn_attribute{
 
 background:url(../images/repeatbg.jpg) repeat-x top left;
@@ -708,6 +739,17 @@ border:1px solid #ccc;
 .grey_area { border-left:1px solid #d1d1d1;  border-bottom:1px solid #d1d1d1;  border-right:1px solid #d1d1d1;  padding:7px;}
 .speac-area {padding:0px; margin:7px 0px;}
 
+.grey_area {
+    border-left: 1px solid #d1d1d1;
+    border-bottom: 1px solid #d1d1d1;
+    border-right: 1px solid #d1d1d1;
+    padding: 7px;
+}
+
+.speac-area {
+    padding: 0px;
+    margin: 7px 0px;
+}
 
 table.grey_solid_area {
 	width: 100%;
@@ -824,6 +866,8 @@ table.grey_solid_area
 
 }
 
+.sub_property tr {
+    background-color: #f7f7f7 !important;
 
 
 table.grey_solid_area td, table.grey_solid_area th, table.blue_area td, table.blue_area th
@@ -883,6 +927,9 @@ div.current select, div.current input, div.current textarea, div.current select
 	background-color: #e8f6fe;
 }
 
+#attribute_table table {
+    table-layout: fixed;
+    width: 100%;
 
 
 #attribute_table td.td1
@@ -925,6 +972,9 @@ div.current select, div.current input, div.current textarea, div.current select
 	width: 45%;
 }
 
+#attribute_table td.td7 {
+    width: 35%;
+}
 
 #attribute_table td.td7
 {
@@ -1025,7 +1075,6 @@ div.current select, div.current input, div.current textarea, div.current select
 	margin: 7px 0;
 }
 
-
 @media (max-width:1500px)
 {
 
@@ -1054,6 +1103,9 @@ div.current select, div.current input, div.current textarea, div.current select
 
 	}
 
+    #attribute_table td.td2 {
+        width: 15%;
+    }
 
 	#attribute_table td.td1
 	{
@@ -1166,6 +1218,11 @@ div.current select, div.current input, div.current textarea, div.current select
 }
 
 
+    .repon {
+        position: relative;
+        margin-top: 40px;
+        margin-left: -760%;
+    }
 
 @media (max-width:1300px)
 {
@@ -1191,6 +1248,9 @@ div.current select, div.current input, div.current textarea, div.current select
 		vertical-align: middle;
 	}
 
+    #attribute_table td.td2 {
+        width: 20%;
+    }
 
 	#attribute_table td.td1
 	{
@@ -1311,4 +1371,56 @@ div.current select, div.current input, div.current textarea, div.current select
 
 }
 
+@media (max-width: 1100px) {
+    .up_image {
+        width: 67% !important;
+    }
 
+    .repon {
+        position: relative;
+        margin-top: 40px;
+        margin-left: -1085%;
+    }
+
+    .remove_attr {
+        left: 515%;
+        margin-top: -58px;
+    }
+
+    #attribute_table td.td1 {
+        width: 14%;
+    }
+
+    #attribute_table td.td2 {
+        width: 20%;
+    }
+
+    #attribute_table td.td3 {
+        width: 8%;
+    }
+
+    #attribute_table td.td4 {
+        width: 15%;
+    }
+
+    #attribute_table td.td5 {
+        width: 16%;
+    }
+
+    #attribute_table td.td6 {
+        width: 20%;
+    }
+
+    #attribute_table td.td7 {
+        width: 7%;
+    }
+
+    .input_t1 {
+        width: 78%;
+    }
+
+    .input_t2 {
+        width: 45%;
+    }
+
+}

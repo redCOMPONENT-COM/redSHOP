@@ -2167,17 +2167,17 @@ class rsCarthelper
 		$discount          = 0;
 		$user_info_id      = 0;
 		$total_discount    = 0;
+		$discountVAT       = 0;
 		$redArray          = array();
 
 		for ($i = 0; $i < $Idx; $i++)
 		{
-			$quantity = $cart[$i]['quantity'];
-			$subtotal += $quantity * $cart[$i]['product_price'];
+			$quantity          = $cart[$i]['quantity'];
+			$subtotal          += $quantity * $cart[$i]['product_price'];
 			$subtotal_excl_vat += $quantity * $cart[$i]['product_price_excl_vat'];
-			$vat += $quantity * $cart[$i]['product_vat'];
+			$vat               += $quantity * $cart[$i]['product_vat'];
 		}
 
-		$avgVAT 			= (($subtotal_excl_vat + $vat) / $subtotal_excl_vat) - 1;
 		$tmparr             = array();
 		$tmparr['subtotal'] = $subtotal;
 
@@ -2265,11 +2265,17 @@ class rsCarthelper
 
 				if (isset($vatData->tax_rate) && !empty($vatData->tax_rate))
 				{
-					$discountVAT = ($avgVAT * $total_discount) / (1 + $avgVAT);
+					$discountVAT = 0;
+
+					if ((int) $subtotal_excl_vat > 0)
+					{
+						$avgVAT      = (($subtotal_excl_vat + $vat) / $subtotal_excl_vat) - 1;
+						$discountVAT = ($avgVAT * $total_discount) / (1 + $avgVAT);
+					}
 				}
 			}
 
-			$vat         = $vat - $discountVAT;
+			$vat = $vat - $discountVAT;
 		}
 
 		$total      = $subtotal + $shipping;
@@ -3337,6 +3343,7 @@ class rsCarthelper
 		$d['ordertotal']      = $ordertotal;
 		$d['order_subtotal']  = $order_subtotal;
 		$template_desc        = str_replace("{shipping_heading}", JText::_('COM_REDSHOP_SHIPPING_METHOD'), $template_desc);
+		$extrafield_total     = "";
 
 		if (strstr($template_desc, "{shipping_method_loop_start}") && strstr($template_desc, "{shipping_method_loop_end}"))
 		{
@@ -3387,7 +3394,7 @@ class rsCarthelper
 						$rs        = $shippingmethod[$s];
 						$classname = $rs->element;
 						$rate_data .= $template_middle;
-						$rate_data = str_replace("{shipping_method_title}", $rs->name, $rate_data);
+						$rate_data = str_replace("{shipping_method_title}", JText::_($rs->name), $rate_data);
 
 						if ($template_rate_middle != "")
 						{
@@ -3474,7 +3481,7 @@ class rsCarthelper
 						$extraField         = new extraField;
 						$paymentparams_new  = new JRegistry($shippingmethod[$s]->params);
 						$extrafield_payment = $paymentparams_new->get('extrafield_shipping');
-						$extrafield_total   = "";
+
 						$extrafield_hidden  = "";
 
 						if (count($extrafield_payment) > 0)
@@ -3500,8 +3507,6 @@ class rsCarthelper
 			$template_desc = str_replace("{shipping_method_loop_end}", "", $template_desc);
 			$template_desc = str_replace($template_middle, $rate_data, $template_desc);
 		}
-
-
 
 		if ($rateExist == 0)
 		{
@@ -3651,7 +3656,7 @@ class rsCarthelper
 		return $cardinfo;
 	}
 
-	public function replacePaymentTemplate($template_desc = "", $payment_method_id = 0, $is_company = 0, $ean_number = 0)
+	public function replacePaymentTemplate($template_desc = "", $payment_method_id = 0, $is_company = 0, $eanNumber = 0)
 	{
 		$ccdata = $this->_session->get('ccdata');
 
@@ -3790,7 +3795,7 @@ class rsCarthelper
 							}
 							else
 							{
-								if ($is_company == 1 && $business == 1 && ($paymentmethod[$p]->name != 'rs_payment_eantransfer' || ($paymentmethod[$p]->name == 'rs_payment_eantransfer' && $ean_number == 1)))
+								if ($is_company == 1 && $business == 1 && ($paymentmethod[$p]->name != 'rs_payment_eantransfer' || ($paymentmethod[$p]->name == 'rs_payment_eantransfer' && $eanNumber != 0)))
 								{
 									$display_payment = $payment_radio_output;
 									$flag = true;
@@ -4667,8 +4672,12 @@ class rsCarthelper
 			{
 				$productPriceExclVAT = $cart['product_subtotal_excl_vat'];
 				$productVAT 		 = $cart['product_subtotal'] - $cart['product_subtotal_excl_vat'];
-				$avgVAT 			 = (($productPriceExclVAT + $productVAT) / $productPriceExclVAT) - 1;
-				$Discountvat 		 = ($avgVAT * $totaldiscount) / (1 + $avgVAT);
+
+				if ((int) $productPriceExclVAT > 0)
+				{
+					$avgVAT      = (($productPriceExclVAT + $productVAT) / $productPriceExclVAT) - 1;
+					$Discountvat = ($avgVAT * $totaldiscount) / (1 + $avgVAT);
+				}
 			}
 		}
 
