@@ -41,14 +41,63 @@ class orderVieworder extends JView
 		}
 		else
 		{
-			JToolBarHelper::custom('multiprint_order', 'print_f2.png', 'print_f2.png', JText::_('COM_REDSHOP_MULTI_PRINT_ORDER_LBL'), true);
+			JToolBarHelper::custom(
+				'multiprint_order',
+				'print_f2.png',
+				'print_f2.png',
+				'COM_REDSHOP_MULTI_PRINT_ORDER_LBL',
+				true
+			);
 			JToolBarHelper::title(JText::_('COM_REDSHOP_ORDER_MANAGEMENT'), 'redshop_order48');
 			JToolBarHelper::addNewX();
-			JToolBarHelper::custom('allstatus', 'save.png', 'save_f2.png', JText::_('COM_REDSHOP_CHANGE_STATUS_TO_ALL_LBL'), true);
-			JToolBarHelper::custom('export_data', 'save.png', 'save_f2.png', JText::_('COM_REDSHOP_EXPORT_DATA_LBL'), false);
-			JToolBarHelper::custom('export_fullorder_data', 'save.png', 'save_f2.png', JText::_('COM_REDSHOP_EXPORT_FULL_DATA_LBL'), false);
-			JToolBarHelper::custom('gls_export', 'save.png', 'save_f2.png', JText::_('COM_REDSHOP_EXPORT_GLS_LBL'), false);
-			JToolBarHelper::custom('business_gls_export', 'save.png', 'save_f2.png', JText::_('COM_REDSHOP_EXPORT_GLS_BUSINESS_LBL'), false);
+
+			JToolBarHelper::custom(
+				'allStatusExceptPacsoft',
+				'save.png',
+				'print_f2.png',
+				'COM_REDSHOP_CHANGE_STATUS_TO_ALL_LBL',
+				true
+			);
+
+			if (POSTDK_INTEGRATION)
+			{
+				JToolBarHelper::custom(
+					'allstatus',
+					'save.png',
+					'save_f2.png',
+					'COM_REDSHOP_CHANGE_STATUS_TO_ALL_WITH_PACSOFT_LBL',
+					true
+				);
+			}
+
+			JToolBarHelper::custom(
+				'export_data',
+				'save.png',
+				'save_f2.png',
+				'COM_REDSHOP_EXPORT_DATA_LBL',
+				false
+			);
+			JToolBarHelper::custom(
+				'export_fullorder_data',
+				'save.png',
+				'save_f2.png',
+				'COM_REDSHOP_EXPORT_FULL_DATA_LBL',
+				false
+			);
+			JToolBarHelper::custom(
+				'gls_export',
+				'save.png',
+				'save_f2.png',
+				'COM_REDSHOP_EXPORT_GLS_LBL',
+				false
+			);
+			JToolBarHelper::custom(
+				'business_gls_export',
+				'save.png',
+				'save_f2.png',
+				'COM_REDSHOP_EXPORT_GLS_BUSINESS_LBL',
+				false
+			);
 			JToolBarHelper::deleteList();
 		}
 

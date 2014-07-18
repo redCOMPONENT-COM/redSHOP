@@ -105,11 +105,28 @@ class Product_DetailModelProduct_Detail extends JModel
 		// ToDo: This is potentially unsafe because $_POST elements are not sanitized.
 		$post = $this->input->getArray($_POST);
 
-		if (empty($this->data) && empty($post))
+		$viewFrom = JFactory::getApplication()->input->getCmd('viewFrom', false);
+
+		if (empty($this->data) && ($viewFrom === 'productList' || empty($post)))
 		{
-			$query = 'SELECT * FROM ' . $this->table_prefix . 'product WHERE product_id = "' . $this->id . '" ';
-			$this->_db->setQuery($query);
-			$this->data = $this->_db->loadObject();
+			// Initialiase variables.
+			$db    = JFactory::getDbo();
+			$query = $db->getQuery(true)
+				->select('*')
+				->from($db->qn('#__redshop_product'))
+				->where($db->qn('product_id') . ' = ' . (int) $this->id);
+
+			// Set the query and load the result.
+			$db->setQuery($query);
+
+			try
+			{
+				$this->data = $db->loadObject();
+			}
+			catch (RuntimeException $e)
+			{
+				throw new RuntimeException($e->getMessage(), $e->getCode());
+			}
 
 			return (boolean) $this->data;
 		}
@@ -1548,12 +1565,13 @@ class Product_DetailModelProduct_Detail extends JModel
 					$old_img = $mediadata[$j]->media_name;
 					$new_img = strstr($old_img, '_') ? strstr($old_img, '_') : $old_img;
 					$old_media = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $mediadata[$j]->media_name;
-					$new_media = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . JPath::clean(time() . $new_img);
+					$mediaName = JPath::clean(time() . $new_img);
+					$new_media = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $mediaName;
 					copy($old_media, $new_media);
 
 					$rowmedia = $this->getTable('media_detail');
 					$data['media_id '] = 0;
-					$data['media_name'] = JPath::clean(time() . $new_img);
+					$data['media_name'] = $mediaName;
 					$data['media_alternate_text'] = $mediadata[$j]->media_alternate_text;
 					$data['media_section'] = $mediadata[$j]->media_section;
 					$data['section_id'] = $row->product_id;
