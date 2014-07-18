@@ -97,7 +97,7 @@ class JoomlaWebdriverTestCase extends PHPUnit_Framework_TestCase
 				break;
 		}
 
-		$desiredCapabilities = new DesiredCapabilities('chrome');
+		$desiredCapabilities = new DesiredCapabilities($browser);
 		$this->driver = new WebDriver($desiredCapabilities);
 
 		if (isset($this->cfg->windowSize) && is_array($this->cfg->windowSize))
