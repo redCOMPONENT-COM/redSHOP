@@ -389,9 +389,17 @@ class Cron
 				continue;
 			}
 
-			$total       = $couponeArr->total;
-			$coupon_code = $couponeArr->coupon_code;
-			$cend_date   = $couponeArr->end_date;
+			$coupon_code = '';
+			$total       = 0;
+			$cend_date   = '';
+
+			if (count($couponeArr))
+			{
+				$total       = $couponeArr->total;
+				$coupon_code = $couponeArr->coupon_code;
+				$cend_date   = $couponeArr->end_date;
+			}
+
 			$name        = "";
 			$recipient   = "";
 
