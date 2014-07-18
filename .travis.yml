@@ -25,6 +25,7 @@ before_script:
 script:
   #- find ./component -name '*.php' -exec php -l {} \;
   - ls
+  - cp * /var/www/
   - cd /var/www/
   - ls
   - cd tests/system/webdriver/tests/
