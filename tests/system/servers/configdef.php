@@ -14,19 +14,19 @@
 
 class SeleniumConfig
 {
-	// $folder is the path to the apache root folder
-	var $folder = '/usr/local/apache/htdocs'; // typical linux example
+	// $folder is used by the Extension installer test to "install from folder". Should be the path to the home of the repository where the redshom.xml manifest is localted
+	var $folder = '/home/travis/build/redCOMPONENT-COM/redSHOP/'; // typical linux example
 
 	// $host is normally 'http://localhost'
-	var $host = 'http://localhost';
+	var $host = 'http://localhost/';
 
 	// $server would be the path to your localhost
-	var $server = '/usr/local/apache/htdocs'; // typical linux example
+	var $server = '/var/www/'; // typical linux example
 
 	// $path is the rest of the URL to the Joomla! home page
 	// Example: Your full URL to Joomla! is http://localhost/joomla_16/index.php
 	// then $path would be '/joomla_16/'
-	var $path = 'tests/system/joomla-cms/';
+	var $path = '/joomla-cms/';
 
 	// $baseURI set in contructor to the full path
 	var $baseURI;
