@@ -18,7 +18,7 @@ class SeleniumConfig
 	var $folder = '/home/travis/build/redCOMPONENT-COM/redSHOP/'; // typical linux example
 
 	// $host is normally 'http://localhost'
-	var $host = 'http://localhost/';
+	var $host = 'http://localhost';
 
 	// $server would be the path to your localhost
 	var $server = '/var/www'; // typical linux example
