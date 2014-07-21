@@ -20,7 +20,7 @@ before_script:
   - "java -jar selenium-server-standalone-2.41.0.jar -Dwebdriver.chrome.driver=/usr/bin/chromedriver > /dev/null &"
   - sleep 5
   - "curl http://localhost/"
-  - "curl http://localhost/joomla-cms"
+  - "curl http://localhost/joomla-cms/installation/index.php"
 
 script:
   #- find ./component -name '*.php' -exec php -l {} \;
