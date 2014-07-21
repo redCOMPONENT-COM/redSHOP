@@ -5,6 +5,8 @@ php:
   #- 5.5
 
 before_script:
+  - phpenv config-add .travis.ini
+  - phpenv rehash
   - composer install
 
 
