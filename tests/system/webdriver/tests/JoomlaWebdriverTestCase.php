@@ -100,14 +100,14 @@ class JoomlaWebdriverTestCase extends PHPUnit_Framework_TestCase
 		$desiredCapabilities = new DesiredCapabilities($browser);
 		$this->driver = new WebDriver($desiredCapabilities);
 
-		if (isset($this->cfg->windowSize) && is_array($this->cfg->windowSize))
+		/*if (isset($this->cfg->windowSize) && is_array($this->cfg->windowSize))
 		{
 			$this->driver->setCurrentWindowSize($this->cfg->windowSize[0], $this->cfg->windowSize[1]);
 		}
 		else
 		{
 			$this->driver->setCurrentWindowSize(1280, 1024);
-		}
+		}*/
 	}
 
 	/**
