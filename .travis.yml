@@ -25,8 +25,8 @@ before_script:
 script:
   #- find ./component -name '*.php' -exec php -l {} \;
   - ls
-#  - cd tests/system/webdriver/tests/
-#  - phpunit
+  - cd tests/system/webdriver/tests/
+  - phpunit
   # - php .travis/phpcs.php
   # - php .travis/phpmd.php
 
