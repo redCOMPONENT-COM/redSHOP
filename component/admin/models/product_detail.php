@@ -215,6 +215,7 @@ class Product_DetailModelProduct_Detail extends JModel
 			$detail->minimum_per_product_total  = (isset($data['minimum_per_product_total'])) ? $data['minimum_per_product_total'] : 0;
 			$detail->attribute_set_id           = (isset($data['attribute_set_id'])) ? $data['attribute_set_id'] : 0;
 			$detail->append_to_global_seo		= (isset($data['append_to_global_seo'])) ? $data['append_to_global_seo'] : JText::_('COM_REDSHOP_APPEND_TO_GLOBAL_SEO');
+			$detail->allow_decimal_piece		= (isset($data['allow_decimal_piece'])) ? $data['allow_decimal_piece'] : 0;
 
 			$this->data                         = $detail;
 
