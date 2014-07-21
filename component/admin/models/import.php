@@ -18,19 +18,6 @@ require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
 
 class importModelimport extends JModel
 {
-	public $_data = null;
-
-	public $_total = null;
-
-	public $_pagination = null;
-
-	public $_table_prefix = null;
-
-	public function __construct()
-	{
-		parent::__construct();
-	}
-
 	public function getData()
 	{
 		ob_clean();
@@ -82,9 +69,10 @@ class importModelimport extends JModel
 	public function importdata()
 	{
 		ob_clean();
-		$thumb = new thumbnail;
+		$thumb   = new thumbnail;
 		$obj_img = new thumbnail_images;
 		$session = JFactory::getSession();
+		$db      = JFactory::getDbo();
 
 		/* Get all posted data */
 		$new_line = JRequest::getVar('new_line');
@@ -189,8 +177,8 @@ class importModelimport extends JModel
 							$category_id = $rawdata['category_id'];
 
 							$query = "SELECT COUNT(*) FROM #__redshop_category WHERE category_id = '" . $category_id . "'";
-							$this->_db->setQuery($query);
-							$cidCount = $this->_db->loadResult();
+							$db->setQuery($query);
+							$cidCount = $db->loadResult();
 
 							// Updating category
 							$row = $this->getTable('category_detail');
@@ -234,7 +222,7 @@ class importModelimport extends JModel
 							else
 							{
 								// Insert
-								$ret = $this->_db->insertObject('#__redshop_category', $row, 'category_id');
+								$ret = $db->insertObject('#__redshop_category', $row, 'category_id');
 
 								if (!$ret)
 								{
@@ -245,20 +233,20 @@ class importModelimport extends JModel
 							$query = "SELECT COUNT(*) FROM #__redshop_category_xref "
 								. "WHERE category_parent_id='" . $rawdata['category_parent_id'] . "' "
 								. "AND category_child_id='" . $row->category_id . "' ";
-							$this->_db->setQuery($query);
-							$count = $this->_db->loadResult();
+							$db->setQuery($query);
+							$count = $db->loadResult();
 
 							if ($count == 0)
 							{
 								// Remove existing
 								$query = "DELETE FROM `#__redshop_category_xref` WHERE `category_child_id` = '" . $row->category_id . "' ";
-								$this->_db->setQuery($query);
-								$this->_db->Query();
+								$db->setQuery($query);
+								$db->Query();
 
 								$query = "INSERT INTO #__redshop_category_xref VALUES('" . $rawdata['category_parent_id'] . "','"
 									. $row->category_id . "') ";
-								$this->_db->setQuery($query);
-								$this->_db->Query();
+								$db->setQuery($query);
+								$db->Query();
 							}
 
 							$correctlines++;
@@ -291,8 +279,8 @@ class importModelimport extends JModel
 							{
 								$query = "SELECT `manufacturer_id` FROM `#__redshop_manufacturer` "
 									. "WHERE `manufacturer_name` = '" . $rawdata['manufacturer_name'] . "' ";
-								$this->_db->setQuery($query);
-								$manufacturer_id = $this->_db->loadResult();
+								$db->setQuery($query);
+								$manufacturer_id = $db->loadResult();
 								$rawdata['manufacturer_id'] = $manufacturer_id;
 							}
 
@@ -340,7 +328,7 @@ class importModelimport extends JModel
 							{
 								// Insert
 								$row->product_id = (int) $rawdata['product_id'];
-								$ret = $this->_db->insertObject('#__redshop_product', $row, 'product_id');
+								$ret = $db->insertObject('#__redshop_product', $row, 'product_id');
 
 								if (!$ret)
 								{
@@ -485,8 +473,8 @@ class importModelimport extends JModel
 									. "AND `section_id`='" . $product_id . "' "
 									. "AND `media_type` LIKE 'images' "
 									. "AND `published`=1 ";
-								$this->_db->setQuery($query);
-								$count = $this->_db->loadResult();
+								$db->setQuery($query);
+								$count = $db->loadResult();
 
 								if ($count <= 0)
 								{
@@ -501,7 +489,7 @@ class importModelimport extends JModel
 
 									if (!$rows->store())
 									{
-										$this->setError($this->_db->getErrorMsg());
+										$this->setError($db->getErrorMsg());
 									}
 								}
 
@@ -550,8 +538,8 @@ class importModelimport extends JModel
 
 								// Remove all current product category
 								$query = "DELETE FROM `#__redshop_product_category_xref` WHERE `product_id` = " . $product_id;
-								$this->_db->setQuery($query);
-								$this->_db->Query();
+								$db->setQuery($query);
+								$db->Query();
 
 								for ($i = 0; $i < count($categoryArr); $i++)
 								{
@@ -559,8 +547,8 @@ class importModelimport extends JModel
 									{
 										$query = "SELECT category_id FROM `#__redshop_category` "
 											. "WHERE `category_name` = '" . $categoryArr[$i] . "' ";
-										$this->_db->setQuery($query);
-										$category_id = $this->_db->loadResult();
+										$db->setQuery($query);
+										$category_id = $db->loadResult();
 									}
 									else
 									{
@@ -570,16 +558,16 @@ class importModelimport extends JModel
 									$query = "SELECT COUNT(*) FROM #__redshop_product_category_xref "
 										. "WHERE category_id = '" . $category_id . "' "
 										. "AND product_id = '" . $product_id . "' ";
-									$this->_db->setQuery($query);
-									$count = $this->_db->loadResult();
+									$db->setQuery($query);
+									$count = $db->loadResult();
 
 									if ($count <= 0)
 									{
 										$query = "INSERT IGNORE INTO `#__redshop_product_category_xref` "
 											. "(`category_id`, `product_id`) "
 											. "VALUES ('" . $category_id . "', '" . $product_id . "')";
-										$this->_db->setQuery($query);
-										$this->_db->Query();
+										$db->setQuery($query);
+										$db->Query();
 									}
 								}
 							}
@@ -600,12 +588,12 @@ class importModelimport extends JModel
 										. 'LEFT JOIN #__redshop_product p ON p.product_id = pa.child_product_id '
 										. 'WHERE pa.`product_id`="' . $product_id . '" '
 										. 'AND p.product_number="' . $accessory_product_sku . '" ';
-									$this->_db->setQuery($query);
-									$total = $this->_db->loadresult();
+									$db->setQuery($query);
+									$total = $db->loadresult();
 
 									$query = "SELECT product_id FROM `#__redshop_product` WHERE `product_number`='" . $accessory_product_sku . "' ";
-									$this->_db->setQuery($query);
-									$child_product_id = $this->_db->loadresult();
+									$db->setQuery($query);
+									$child_product_id = $db->loadresult();
 
 									if ($total <= 0)
 									{
@@ -621,8 +609,8 @@ class importModelimport extends JModel
 											. "AND `child_product_id`='" . $child_product_id . "'";
 									}
 
-									$this->_db->setQuery($query);
-									$this->_db->Query();
+									$db->setQuery($query);
+									$db->Query();
 								}
 							}
 
@@ -630,8 +618,8 @@ class importModelimport extends JModel
 							$query = "SELECT COUNT(*) AS total FROM `#__redshop_product_stockroom_xref` "
 								. "WHERE `product_id`='" . $product_id . "' "
 								. "AND `stockroom_id`='" . DEFAULT_STOCKROOM . "'";
-							$this->_db->setQuery($query);
-							$total = $this->_db->loadresult();
+							$db->setQuery($query);
+							$total = $db->loadresult();
 
 							if ($product_stock && DEFAULT_STOCKROOM != 0)
 							{
@@ -649,8 +637,8 @@ class importModelimport extends JModel
 										. "AND `stockroom_id`='" . DEFAULT_STOCKROOM . "'";
 								}
 
-								$this->_db->setQuery($query);
-								$this->_db->Query();
+								$db->setQuery($query);
+								$db->Query();
 							}
 
 							// Import image section
@@ -683,8 +671,8 @@ class importModelimport extends JModel
 											. "AND `media_section`='product' "
 											. "AND `section_id`='" . $product_id . "' "
 											. "AND `media_type` LIKE 'images' ";
-										$this->_db->setQuery($query);
-										$count = $this->_db->loadResult();
+										$db->setQuery($query);
+										$count = $db->loadResult();
 
 										if ($count <= 0)
 										{
@@ -701,7 +689,7 @@ class importModelimport extends JModel
 
 											if (!$rows->store())
 											{
-												$this->setError($this->_db->getErrorMsg());
+												$this->setError($db->getErrorMsg());
 											}
 										}
 										else
@@ -710,8 +698,8 @@ class importModelimport extends JModel
 												. "SET `media_alternate_text` = '" . $media_alternate_text . "', "
 												. "`ordering` = '" . $ordering . "' "
 												. "WHERE `media_id`='" . $count . "' ";
-											$this->_db->setQuery($query);
-											$this->_db->Query();
+											$db->setQuery($query);
+											$db->Query();
 										}
 									}
 								}
@@ -747,8 +735,8 @@ class importModelimport extends JModel
 											. "AND `media_section`='product' "
 											. "AND `section_id` = '" . $product_id . "' "
 											. "AND `media_type`='video' ";
-										$this->_db->setQuery($query);
-										$count = $this->_db->loadResult();
+										$db->setQuery($query);
+										$count = $db->loadResult();
 
 										if ($count <= 0)
 										{
@@ -765,7 +753,7 @@ class importModelimport extends JModel
 
 											if (!$rows->store())
 											{
-												$this->setError($this->_db->getErrorMsg());
+												$this->setError($db->getErrorMsg());
 											}
 										}
 									}
@@ -803,8 +791,8 @@ class importModelimport extends JModel
 											. "AND `section_id` = '" . $product_id . "' "
 											. "AND `media_type`='document' ";
 
-										$this->_db->setQuery($query);
-										$count = $this->_db->loadResult();
+										$db->setQuery($query);
+										$count = $db->loadResult();
 
 										if ($count <= 0)
 										{
@@ -821,7 +809,7 @@ class importModelimport extends JModel
 
 											if (!$rows->store())
 											{
-												$this->setError($this->_db->getErrorMsg());
+												$this->setError($db->getErrorMsg());
 											}
 										}
 									}
@@ -858,8 +846,8 @@ class importModelimport extends JModel
 											. "AND `media_section`='product' "
 											. "AND `section_id`='" . $product_id . "' "
 											. "AND `media_type`='download' ";
-										$this->_db->setQuery($query);
-										$count = $this->_db->loadResult();
+										$db->setQuery($query);
+										$count = $db->loadResult();
 
 										if ($count <= 0)
 										{
@@ -876,7 +864,7 @@ class importModelimport extends JModel
 
 											if (!$rows->store())
 											{
-												$this->setError($this->_db->getErrorMsg());
+												$this->setError($db->getErrorMsg());
 											}
 										}
 									}
@@ -938,13 +926,13 @@ class importModelimport extends JModel
 
 								if (!$rows->store())
 								{
-									$this->setError($this->_db->getErrorMsg());
+									$this->setError($db->getErrorMsg());
 
 									return false;
 								}
 
 								$rows->set('manufacturer_id', $manufacturer_id);
-								$ret = $this->_db->insertObject('#__redshop_manufacturer', $rows, 'manufacturer_id');
+								$ret = $db->insertObject('#__redshop_manufacturer', $rows, 'manufacturer_id');
 							}
 
 							if (count($prd) > 0)
@@ -952,8 +940,8 @@ class importModelimport extends JModel
 								$query = "UPDATE `#__redshop_product` "
 									. "SET `manufacturer_id` = " . $manufacturer_id . " "
 									. "WHERE `product_id` IN(" . $prd_final . ") ";
-								$this->_db->setQuery($query);
-								$this->_db->Query();
+								$db->setQuery($query);
+								$db->Query();
 							}
 
 							$correctlines++;
@@ -976,8 +964,8 @@ class importModelimport extends JModel
 
 							$query = "SELECT `attribute_id` FROM `#__redshop_product_attribute` WHERE `product_id` = "
 								. $product_id . " AND `attribute_name` = '" . $attribute_name . "'";
-							$this->_db->setQuery($query);
-							$attribute_id = $this->_db->loadResult();
+							$db->setQuery($query);
+							$attribute_id = $db->loadResult();
 
 							// Get table Instance
 							$attrow = $this->getTable('product_attribute');
@@ -1032,8 +1020,8 @@ class importModelimport extends JModel
 									$property_main_image = @basename($rawdata['property_main_image']);
 
 									$query = "SELECT `property_id` FROM `#__redshop_product_attribute_property` WHERE `attribute_id` = " . $att_insert_id . " AND `property_name` = '" . $property_name . "'";
-									$this->_db->setQuery($query);
-									$property_id = $this->_db->loadResult();
+									$db->setQuery($query);
+									$property_id = $db->loadResult();
 
 									// Get Table Instance
 									$proprow = $this->getTable('attribute_property');
@@ -1105,32 +1093,32 @@ class importModelimport extends JModel
 													if (count($mainquaexplode) == 2)
 													{
 														$query_mainins_stockroom = "SELECT * FROM `#__redshop_stockroom` WHERE `stockroom_id` = '" . $mainquaexplode[0] . "'";
-														$this->_db->setQuery($query_mainins_stockroom);
-														$stock_id = $this->_db->loadObjectList();
+														$db->setQuery($query_mainins_stockroom);
+														$stock_id = $db->loadObjectList();
 
 														if (count($stock_id) > 0)
 														{
 															$query_mainins = "SELECT * FROM `#__redshop_product_attribute_stockroom_xref` WHERE `stockroom_id` = '"
 																. $mainquaexplode[0] . "' and section='property' and section_id='"
 																. $prop_insert_id . "'";
-															$this->_db->setQuery($query_mainins);
-															$product_id = $this->_db->loadObjectList();
+															$db->setQuery($query_mainins);
+															$product_id = $db->loadObjectList();
 
 															if (count($product_id) > 0)
 															{
 																$update_row_query = "update `#__redshop_product_attribute_stockroom_xref` set quantity='"
 																	. $mainquaexplode[1] . "' where `stockroom_id` = '" . $mainquaexplode[0]
 																	. "' and section='property' and section_id='" . $prop_insert_id . "'";
-																$this->_db->setQuery($update_row_query);
-																$this->_db->Query();
+																$db->setQuery($update_row_query);
+																$db->Query();
 															}
 															else
 															{
 																$insert_row_query = "insert into `#__redshop_product_attribute_stockroom_xref` set quantity='" . $mainquaexplode[1]
 																	. "',`stockroom_id` = '" . $mainquaexplode[0]
 																	. "',section='property',section_id='" . $prop_insert_id . "'";
-																$this->_db->setQuery($insert_row_query);
-																$this->_db->Query();
+																$db->setQuery($insert_row_query);
+																$db->Query();
 															}
 														}
 													}
@@ -1196,8 +1184,8 @@ class importModelimport extends JModel
 
 											$query = "SELECT `subattribute_color_id` FROM `#__redshop_product_subattribute_color` WHERE  `subattribute_id` = " . $prop_insert_id
 												. " AND  `subattribute_color_name` = '" . $subattribute_color_name . "'";
-											$this->_db->setQuery($query);
-											$subattribute_color_id = $this->_db->loadResult();
+											$db->setQuery($query);
+											$subattribute_color_id = $db->loadResult();
 
 											// Get Table Instance
 											$subproprow = $this->getTable('subattribute_property');
@@ -1275,16 +1263,16 @@ class importModelimport extends JModel
 															if (count($mainquaexplode) == 2)
 															{
 																$query_mainins_stockroom = "SELECT * FROM `#__redshop_stockroom` WHERE `stockroom_id` = '" . $mainquaexplode[0] . "'";
-																$this->_db->setQuery($query_mainins_stockroom);
-																$stock_id = $this->_db->loadObjectList();
+																$db->setQuery($query_mainins_stockroom);
+																$stock_id = $db->loadObjectList();
 
 																if (count($stock_id) > 0)
 																{
 																	$query_mainins = "SELECT * FROM `#__redshop_product_attribute_stockroom_xref` WHERE `stockroom_id` = '"
 																		. $mainquaexplode[0] . "' and section='subproperty' and section_id='"
 																		. $prop_insert_id_sub . "'";
-																	$this->_db->setQuery($query_mainins);
-																	$product_id = $this->_db->loadObjectList();
+																	$db->setQuery($query_mainins);
+																	$product_id = $db->loadObjectList();
 
 																	if (count($product_id) > 0)
 																	{
@@ -1292,16 +1280,16 @@ class importModelimport extends JModel
 																			. $mainquaexplode[1] . "' where `stockroom_id` = '"
 																			. $mainquaexplode[0] . "' and section='subproperty' and section_id='"
 																			. $prop_insert_id_sub . "'";
-																		$this->_db->setQuery($update_row_query);
-																		$this->_db->Query();
+																		$db->setQuery($update_row_query);
+																		$db->Query();
 																	}
 																	else
 																	{
 																		$insert_row_query = "insert into `#__redshop_product_attribute_stockroom_xref` set quantity='"
 																			. $mainquaexplode[1] . "',`stockroom_id` = '" . $mainquaexplode[0]
 																			. "',section='subproperty',section_id='" . $prop_insert_id_sub . "'";
-																		$this->_db->setQuery($insert_row_query);
-																		$this->_db->Query();
+																		$db->setQuery($insert_row_query);
+																		$db->Query();
 																	}
 																}
 															}
@@ -1377,33 +1365,33 @@ class importModelimport extends JModel
 							$field_name_value = $rawdata['field_name'];
 
 							// Get field id
-							$query = $this->_db->getQuery(true)
+							$query = $db->getQuery(true)
 										->select('field_id')
-										->from($this->_db->quoteName('#__redshop_fields'))
-										->where($this->_db->quoteName('field_id') . ' = ' . $this->_db->quote($field_id));
-							$this->_db->setQuery($query);
-							$field_id_dv = $this->_db->loadResult();
+										->from($db->quoteName('#__redshop_fields'))
+										->where($db->quoteName('field_id') . ' = ' . $db->quote($field_id));
+							$db->setQuery($query);
+							$field_id_dv = $db->loadResult();
 
 							$field_title = $rawdata['field_title'];
 							$field_name = $rawdata['field_name_field'];
 
 							// Get Data Id
-							$query = $this->_db->getQuery(true)
+							$query = $db->getQuery(true)
 										->select('data_id')
-										->from($this->_db->quoteName('#__redshop_fields_data'))
-										->where($this->_db->quoteName('fieldid') . ' = ' . $this->_db->quote($field_id))
-										->where($this->_db->quoteName('itemid') . ' = ' . $this->_db->quote($itemid));
-							$this->_db->setQuery($query);
-							$ch_data_id = $this->_db->loadResult();
+										->from($db->quoteName('#__redshop_fields_data'))
+										->where($db->quoteName('fieldid') . ' = ' . $db->quote($field_id))
+										->where($db->quoteName('itemid') . ' = ' . $db->quote($itemid));
+							$db->setQuery($query);
+							$ch_data_id = $db->loadResult();
 
 							// Get Value Id
-							$query = $this->_db->getQuery(true)
+							$query = $db->getQuery(true)
 										->select('value_id')
-										->from($this->_db->quoteName('#__redshop_fields_value'))
-										->where($this->_db->quoteName('field_id') . ' = ' . $this->_db->quote($field_id))
-										->where($this->_db->quoteName('value_id') . ' = ' . $this->_db->quote($value_id));
-							$this->_db->setQuery($query);
-							$ch_value_id = $this->_db->loadResult();
+										->from($db->quoteName('#__redshop_fields_value'))
+										->where($db->quoteName('field_id') . ' = ' . $db->quote($field_id))
+										->where($db->quoteName('value_id') . ' = ' . $db->quote($value_id));
+							$db->setQuery($query);
+							$ch_value_id = $db->loadResult();
 
 							if ($field_title != "" && $field_id_dv == '')
 							{
@@ -1437,9 +1425,9 @@ class importModelimport extends JModel
 								'" . $required . "',
 								'" . $published . "'
 								)";
-								$this->_db->setQuery($query);
-								$this->_db->Query();
-								$data_insert_id = $this->_db->insertid();
+								$db->setQuery($query);
+								$db->Query();
+								$data_insert_id = $db->insertid();
 							}
 
 							if ($data_insert_id == 0)
@@ -1456,8 +1444,8 @@ class importModelimport extends JModel
 								$query = "INSERT IGNORE INTO `#__redshop_fields_data` "
 									. "(`data_id`,`fieldid` ,`data_txt` ,`itemid`,`section`) "
 									. "VALUES ('','" . $new_field_id . "','" . $data_txt . "','" . $itemid . "','" . $section . "')";
-								$this->_db->setQuery($query);
-								$this->_db->Query();
+								$db->setQuery($query);
+								$db->Query();
 							}
 							else
 							{
@@ -1467,8 +1455,8 @@ class importModelimport extends JModel
 									. "`itemid` = '" . $itemid . "', "
 									. "`section` = '" . $section . "' "
 									. "WHERE `data_id` = '" . $ch_data_id . "' ";
-								$this->_db->setQuery($query);
-								$this->_db->Query();
+								$db->setQuery($query);
+								$db->Query();
 							}
 
 							if ($value_id != '')
@@ -1478,8 +1466,8 @@ class importModelimport extends JModel
 									$query = "INSERT IGNORE INTO `#__redshop_fields_value` "
 										. "(`value_id`, `field_id`, `field_value`, `field_name`) "
 										. "VALUES ('" . $value_id . "','" . $new_field_id . "','" . $field_value . "','" . $field_name_value . "')";
-									$this->_db->setQuery($query);
-									$this->_db->Query();
+									$db->setQuery($query);
+									$db->Query();
 								}
 								else
 								{
@@ -1487,8 +1475,8 @@ class importModelimport extends JModel
 										. "SET `field_value` = '" . $field_value . "', "
 										. "`field_name` = '" . $field_name_value . "' "
 										. "WHERE `value_id` = '" . $value_id . "' ";
-									$this->_db->setQuery($query);
-									$this->_db->Query();
+									$db->setQuery($query);
+									$db->Query();
 								}
 							}
 
@@ -1512,16 +1500,16 @@ class importModelimport extends JModel
 										. "WHERE `fieldid` = '" . $field_id . "' "
 										. "AND itemid ='" . $product_id . "' "
 										. "AND section ='1' ";
-									$this->_db->setQuery($q);
-									$fieldexist = $this->_db->loadResult();
+									$db->setQuery($q);
+									$fieldexist = $db->loadResult();
 
 									if ($fieldexist == 0)
 									{
 										$query = "INSERT IGNORE INTO `#__redshop_fields_data` "
 											. "(`fieldid`, `data_txt`, `itemid`, `section` ) "
 											. "VALUES ('" . $field_id . "', '" . $field_data_txt . "', '" . $product_id . "', '1') ";
-										$this->_db->setQuery($query);
-										$this->_db->Query();
+										$db->setQuery($query);
+										$db->Query();
 									}
 									else
 									{
@@ -1530,8 +1518,8 @@ class importModelimport extends JModel
 											 WHERE `fieldid` = '" . $field_id . "'
 		                                     AND itemid ='" . $product_id . "'
 		                                     AND 	section ='1' ";
-										$this->_db->setQuery($query);
-										$this->_db->Query();
+										$db->setQuery($query);
+										$db->Query();
 									}
 
 									$correctlines++;
@@ -1546,9 +1534,9 @@ class importModelimport extends JModel
 							$pid = $this->getProductIdByNumber($rawdata['product_sku']);
 							$query = "INSERT IGNORE INTO `#__redshop_product_related` (`related_id`, `product_id`) VALUES ('"
 								. $relpid . "', '" . $pid . "')";
-							$this->_db->setQuery($query);
+							$db->setQuery($query);
 
-							if ($this->_db->Query())
+							if ($db->Query())
 							{
 								$correctlines++;
 							}
@@ -1560,8 +1548,8 @@ class importModelimport extends JModel
 							$app = JFactory::getApplication();
 							$q = "SELECT * FROM `#__redshop_shopper_group` "
 								. "WHERE `shopper_group_name` = '" . $rawdata['shopper_group_name'] . "'";
-							$this->_db->setQuery($q);
-							$shopper_group_data = $this->_db->loadObject();
+							$db->setQuery($q);
+							$shopper_group_data = $db->loadObject();
 
 							// Insert shopper group if not available
 							if (count($shopper_group_data) <= 0)
@@ -1590,8 +1578,8 @@ class importModelimport extends JModel
 							{
 								$q = "SELECT * FROM `#__users` "
 									. "WHERE `email` = '" . trim($rawdata['email']) . "' ";
-								$this->_db->setQuery($q);
-								$joomusers = $this->_db->loadObject();
+								$db->setQuery($q);
+								$joomusers = $db->loadObject();
 
 								if (count($joomusers) == 0)
 								{
@@ -1650,25 +1638,25 @@ class importModelimport extends JModel
 									if (count($joomusers) == 0)
 									{
 										$reduser->set('users_info_id', $rawdata['users_info_id']);
-										$ret = $this->_db->insertObject('#__redshop_users_info', $reduser, 'users_info_id');
+										$ret = $db->insertObject('#__redshop_users_info', $reduser, 'users_info_id');
 									}
 									else
 									{
 										$user_id = $joomusers->id;
 										$q = "SELECT * FROM `#__redshop_users_info` "
 											. "WHERE `user_id` = '" . $user_id . "'";
-										$this->_db->setQuery($q);
-										$redusers = $this->_db->loadObject();
+										$db->setQuery($q);
+										$redusers = $db->loadObject();
 
 										if (count($redusers) > 0)
 										{
 											$reduser->set('users_info_id', $redusers->users_info_id);
-											$ret = $this->_db->updateObject('#__redshop_users_info', $reduser, 'users_info_id');
+											$ret = $db->updateObject('#__redshop_users_info', $reduser, 'users_info_id');
 										}
 										else
 										{
 											$reduser->set('users_info_id', $rawdata['users_info_id']);
-											$ret = $this->_db->insertObject('#__redshop_users_info', $reduser, 'users_info_id');
+											$ret = $db->insertObject('#__redshop_users_info', $reduser, 'users_info_id');
 										}
 									}
 
@@ -1682,9 +1670,9 @@ class importModelimport extends JModel
 							{
 								$q = "SELECT * FROM `#__redshop_users_info` "
 									. "WHERE `user_email` = '" . $rawdata['email'] . "' ";
-								$this->_db->setQuery($q);
+								$db->setQuery($q);
 
-								$redusers = $this->_db->loadObject();
+								$redusers = $db->loadObject();
 								$reduser->set('user_id', $rawdata['id']);
 								$reduser->set('user_email', trim($rawdata['email']));
 								$reduser->set('firstname', $rawdata['firstname']);
@@ -1707,12 +1695,12 @@ class importModelimport extends JModel
 								if (count($redusers) > 0)
 								{
 									$reduser->set('users_info_id', $redusers->users_info_id);
-									$ret = $this->_db->updateObject('#__redshop_users_info', $reduser, 'users_info_id');
+									$ret = $db->updateObject('#__redshop_users_info', $reduser, 'users_info_id');
 								}
 								else
 								{
 									$reduser->set('users_info_id', $rawdata['users_info_id']);
-									$ret = $this->_db->insertObject('#__redshop_users_info', $reduser, 'users_info_id');
+									$ret = $db->insertObject('#__redshop_users_info', $reduser, 'users_info_id');
 								}
 
 								if ($ret)
@@ -1729,8 +1717,8 @@ class importModelimport extends JModel
 							{
 								$q = "SELECT id FROM `#__users` "
 									. "WHERE `username` = '" . trim($rawdata['username']) . "' ";
-								$this->_db->setQuery($q);
-								$joom_user_id = $this->_db->loadResult();
+								$db->setQuery($q);
+								$joom_user_id = $db->loadResult();
 
 								if ($joom_user_id > 0)
 								{
@@ -1748,7 +1736,7 @@ class importModelimport extends JModel
 									$reduser->set('zipcode', $rawdata['zipcode']);
 									$reduser->set('phone', $rawdata['phone']);
 									$reduser->set('users_info_id', 0);
-									$ret = $this->_db->insertObject('#__redshop_users_info', $reduser, 'users_info_id');
+									$ret = $db->insertObject('#__redshop_users_info', $reduser, 'users_info_id');
 
 									if ($ret)
 									{
@@ -1798,8 +1786,8 @@ class importModelimport extends JModel
 								{
 									echo $q = "SELECT product_id FROM `#__redshop_product_stockroom_xref` where product_id ='"
 										. $product_id . "' and stockroom_id ='" . $stockroom_id . "'";
-									$this->_db->setQuery($q);
-									$stock_exists = $this->_db->loadResult();
+									$db->setQuery($q);
+									$stock_exists = $db->loadResult();
 
 									if ($stock_exists == 0)
 									{
@@ -1807,11 +1795,11 @@ class importModelimport extends JModel
 											. '(product_id,stockroom_id,quantity,preorder_stock,	ordered_preorder) '
 											. 'VALUE("' . $product_id . '","' . $stockroom_id . '","' . $product_stock . '","' . $preorder_stock
 											. '","' . $ordered_preorder . '")';
-										$this->_db->setQuery($query);
+										$db->setQuery($query);
 
-										if (!$this->_db->query())
+										if (!$db->query())
 										{
-											$this->setError($this->_db->getErrorMsg());
+											$this->setError($db->getErrorMsg());
 
 											return false;
 										}
@@ -1822,8 +1810,8 @@ class importModelimport extends JModel
 											`quantity` = '" . $product_stock . "'
 											 WHERE `product_id` = '" . $product_id . "' and stockroom_id = '" . $stockroom_id . "'";
 
-										$this->_db->setQuery($query);
-										$this->_db->Query();
+										$db->setQuery($query);
+										$db->Query();
 									}
 
 									$correctlines++;
@@ -1852,8 +1840,8 @@ class importModelimport extends JModel
 											`accountgroup_id` = '" . $product_group . "'
 											 WHERE `product_id` = '" . $product_id . "'";
 
-									$this->_db->setQuery($query);
-									$this->_db->Query();
+									$db->setQuery($query);
+									$db->Query();
 
 									$correctlines++;
 								}
@@ -2087,10 +2075,12 @@ class importModelimport extends JModel
 
 	public function check_vm()
 	{
+		$db = JFactory::getDbo();
+
 		// Check Virtual Mart Is Install or Not
 		$query_check = "SELECT extension_id FROM #__extensions WHERE `element` = 'com_virtuemart' ";
-		$this->_db->setQuery($query_check);
-		$check = $this->_db->loadResult();
+		$db->setQuery($query_check);
+		$check = $db->loadResult();
 
 		if ($check == null)
 		{
@@ -2120,12 +2110,14 @@ class importModelimport extends JModel
 
 	public function Product_sync()
 	{
+		$db = JFactory::getDbo();
+
 		// Insert VM Product into Redshop
 		$query = "SELECT vmp.*,vmp.cdate as publish_date,vmp.mdate as update_date,vmp.`product_name`,vmp.`product_tax_id`,rdp.product_number as red_product_number,rdp.product_id as rdp_product_id,rdp.product_full_image AS rdp_product_full_image,vpp.product_price
 						FROM (#__vm_product as vmp left join #__redshop_product as rdp  on vmp.product_sku = rdp.product_number)
 						left join #__vm_product_price as vpp on vpp.product_id = vmp.product_id GROUP BY vmp.product_id";
-		$this->_db->setQuery($query);
-		$data = $this->_db->loadObjectList();
+		$db->setQuery($query);
+		$data = $db->loadObjectList();
 
 		if ($data != null)
 		{
@@ -2178,7 +2170,7 @@ class importModelimport extends JModel
 
 					if (!$rows->store())
 					{
-						$this->setError($this->_db->getErrorMsg());
+						$this->setError($db->getErrorMsg());
 					}
 
 					$last_insert = $rows->product_id;
@@ -2188,11 +2180,11 @@ class importModelimport extends JModel
 						$query = "INSERT IGNORE INTO `#__redshop_product_stockroom_xref` "
 							. "(`product_id`, `stockroom_id`, `quantity`) "
 							. "VALUES ('" . $last_insert . "', '" . DEFAULT_STOCKROOM . "', '" . $product_in_stock . "') ";
-						$this->_db->setQuery($query);
+						$db->setQuery($query);
 
-						if (!$this->_db->query())
+						if (!$db->query())
 						{
-							$this->setError($this->_db->getErrorMsg());
+							$this->setError($db->getErrorMsg());
 						}
 					}
 
@@ -2209,7 +2201,7 @@ class importModelimport extends JModel
 
 						if (!$rows->store())
 						{
-							$this->setError($this->_db->getErrorMsg());
+							$this->setError($db->getErrorMsg());
 						}
 					}
 
@@ -2227,8 +2219,8 @@ class importModelimport extends JModel
 
 					// Copy additional Images
 					$moreimage = "SELECT * FROM #__vm_product_files WHERE file_product_id = '" . $product_data->product_id . "'";
-					$this->_db->setQuery($moreimage);
-					$product_more_img = $this->_db->loadObjectList();
+					$db->setQuery($moreimage);
+					$product_more_img = $db->loadObjectList();
 
 					foreach ($product_more_img as $more_img)
 					{
@@ -2253,7 +2245,7 @@ class importModelimport extends JModel
 
 						if (!$rows->store())
 						{
-							$this->setError($this->_db->getErrorMsg());
+							$this->setError($db->getErrorMsg());
 						}
 					}
 
@@ -2283,7 +2275,7 @@ class importModelimport extends JModel
 
 					if (!$rows->store())
 					{
-						$this->setError($this->_db->getErrorMsg());
+						$this->setError($db->getErrorMsg());
 					}
 
 					if ($product_full_image != $red_product_full_image)
@@ -2292,11 +2284,11 @@ class importModelimport extends JModel
 							. "SET `media_name` =  '" . $product_full_image . "' ,`published`	 = '" . $published . "' "
 							. "WHERE `media_section`='product' "
 							. "AND `section_id`='" . $red_product_id . "' ";
-						$this->_db->setQuery($query);
+						$db->setQuery($query);
 
-						if (!$this->_db->query())
+						if (!$db->query())
 						{
-							$this->setError($this->_db->getErrorMsg());
+							$this->setError($db->getErrorMsg());
 						}
 
 						// Copy product images to redshop
@@ -2329,17 +2321,17 @@ class importModelimport extends JModel
 						. "LEFT JOIN #__vm_product_price AS vpp ON vpp.product_id = vmp.product_id "
 						. "WHERE vmp.product_id = '" . $parent_id . "' ";
 
-					$this->_db->setQuery($query);
-					$redparent_id = $this->_db->loadObject();
+					$db->setQuery($query);
+					$redparent_id = $db->loadObject();
 
 					$update = "UPDATE #__redshop_product SET product_parent_id = '" . $redparent_id->rdp_product_id
 						. "' WHERE product_id = '" . $last_insert . "' ";
 
-					$this->_db->setQuery($update);
+					$db->setQuery($update);
 
-					if (!$this->_db->query())
+					if (!$db->query())
 					{
-						$this->setError($this->_db->getErrorMsg());
+						$this->setError($db->getErrorMsg());
 					}
 				}
 			}
@@ -2365,14 +2357,16 @@ class importModelimport extends JModel
 
 	public function Category_sync($product_array)
 	{
+		$db = JFactory::getDbo();
+
 		$k = 0;
 
 		// Collecting data to insert and check for duplicates
 		$query = "SELECT DISTINCT vmc.*,vmc.cdate as category_pdate ,rdc.category_name as rdc_catname,rdc.category_id as rdc_catid,
 		rdc.category_full_image as rdc_category_full_image  FROM ( #__vm_category as vmc,#__vm_product_category_xref as vmpcx) "
 			. "LEFT JOIN #__redshop_category AS rdc ON rdc.category_name = vmc.category_name ";
-		$this->_db->setQuery($query);
-		$data = $this->_db->loadObjectList();
+		$db->setQuery($query);
+		$data = $db->loadObjectList();
 		$vmcatarr = array();
 		$redcatarr = array();
 
@@ -2411,7 +2405,7 @@ class importModelimport extends JModel
 
 				if (!$rows->store())
 				{
-					$this->setError($this->_db->getErrorMsg());
+					$this->setError($db->getErrorMsg());
 				}
 
 				$k++;
@@ -2477,25 +2471,25 @@ class importModelimport extends JModel
 						$query = "SELECT * from #__vm_product_category_xref "
 							. "WHERE category_id = '" . $cat_data->category_id . "' "
 							. "AND product_id = '" . $key . "'";
-						$this->_db->setQuery($query);
-						$data_relation = $this->_db->loadObject();
+						$db->setQuery($query);
+						$data_relation = $db->loadObject();
 
 						$query_delete_rel = "DELETE FROM `#__redshop_product_category_xref` "
 							. "WHERE `category_id` = '" . $last_insert . "' "
 							. "AND `product_id` = '" . $value . "' ";
-						$this->_db->setQuery($query_delete_rel);
-						$this->_db->query();
+						$db->setQuery($query_delete_rel);
+						$db->query();
 
 						if (isset($data_relation->product_id) && $data_relation->product_id == $key)
 						{
 							$query_data_relation = "INSERT INTO  #__redshop_product_category_xref "
 								. "(`category_id`, `product_id`) "
 								. "VALUES ('" . $last_insert . "','" . $value . "') ";
-							$this->_db->setQuery($query_data_relation);
+							$db->setQuery($query_data_relation);
 
-							if (!$this->_db->query())
+							if (!$db->query())
 							{
-								$this->setError($this->_db->getErrorMsg());
+								$this->setError($db->getErrorMsg());
 							}
 						}
 					}
@@ -2507,8 +2501,8 @@ class importModelimport extends JModel
 		{
 			$query = "SELECT category_parent_id from #__vm_category_xref "
 				. "WHERE category_child_id = '" . $vmcatarr[$v] . "' ";
-			$this->_db->setQuery($query);
-			$vmparent = $this->_db->loadResult();
+			$db->setQuery($query);
+			$vmparent = $db->loadResult();
 
 			$vmparentkey = array_search($vmparent, $vmcatarr);
 
@@ -2526,8 +2520,8 @@ class importModelimport extends JModel
 			$query_check = "SELECT count(*) AS total  FROM `#__redshop_category_xref` "
 				. "WHERE `category_parent_id` = '" . $redparentvalue . "' "
 				. "AND `category_child_id` = '" . $redchildvalue . "' ";
-			$this->_db->setQuery($query_check);
-			$rowcheck = $this->_db->loadResult();
+			$db->setQuery($query_check);
+			$rowcheck = $db->loadResult();
 
 			if ($rowcheck == 0)
 			{
@@ -2537,8 +2531,8 @@ class importModelimport extends JModel
 									`category_child_id`
 								)
 								VALUES ('" . $redparentvalue . "','" . $redchildvalue . "') ";
-				$this->_db->setQuery($query_cat_relation);
-				$this->_db->query();
+				$db->setQuery($query_cat_relation);
+				$db->query();
 			}
 		}
 
@@ -2547,9 +2541,11 @@ class importModelimport extends JModel
 
 	public function Shopper_Group_Insert()
 	{
+		$db = JFactory::getDbo();
+
 		$query = "SELECT vmsg.shopper_group_id,vmsg.shopper_group_name,vmsg.shopper_group_desc,rdsg.shopper_group_name as rdsp_shopper_group_name FROM `#__vm_shopper_group` as vmsg left join #__redshop_shopper_group as rdsg on  rdsg.shopper_group_name = vmsg.shopper_group_name";
-		$this->_db->setQuery($query);
-		$data = $this->_db->loadObjectList();
+		$db->setQuery($query);
+		$data = $db->loadObjectList();
 		$k = 0;
 
 		for ($i = 0; $i <= (count($data) - 1); $i++)
@@ -2563,25 +2559,25 @@ class importModelimport extends JModel
 
 				if (!$rows->store())
 				{
-					$this->setError($this->_db->getErrorMsg());
+					$this->setError($db->getErrorMsg());
 				}
 				else
 				{
 					$k++;
-					$last_insert_shopper = $this->_db->insertid();
+					$last_insert_shopper = $db->insertid();
 
 					// Update user_info_id for shopper_group_id
 					$query = "SELECT * FROM `#__vm_shopper_vendor_xref` WHERE `shopper_group_id` = " . $data[$i]->shopper_group_id;
-					$this->_db->setQuery($query);
-					$shoppers = $this->_db->loadObjectList();
+					$db->setQuery($query);
+					$shoppers = $db->loadObjectList();
 
 					for ($s = 0; $s <= count($shoppers); $s++)
 					{
 						$queryshop = "UPDATE `#__redshop_users_info` "
 							. "SET `shopper_group_id` = '" . $last_insert_shopper . "' "
 							. "WHERE `user_id`='" . $shoppers[$s]->user_id . "' ";
-						$this->_db->setQuery($queryshop);
-						$this->_db->query();
+						$db->setQuery($queryshop);
+						$db->query();
 					}
 				}
 			}
@@ -2595,11 +2591,13 @@ class importModelimport extends JModel
 	 */
 	public function customerInformation()
 	{
+		$db = JFactory::getDbo();
+
 		$order_functions = new order_functions;
 		$query = "SELECT vmui.* , vmsvx.shopper_group_id FROM `#__vm_user_info` AS vmui "
 			. "LEFT JOIN #__vm_shopper_vendor_xref AS vmsvx ON vmui.user_id = vmsvx.user_id ";
-		$this->_db->setQuery($query);
-		$data = $this->_db->loadObjectList();
+		$db->setQuery($query);
+		$data = $db->loadObjectList();
 
 		$k = 0;
 
@@ -2685,6 +2683,8 @@ class importModelimport extends JModel
 
 	public function Orders_insert()
 	{
+		$db = JFactory::getDbo();
+
 		$producthelper = new producthelper;
 		$order_functions = new order_functions;
 
@@ -2697,8 +2697,8 @@ class importModelimport extends JModel
 				LEFT JOIN `#__redshop_users_info` AS rui ON rui.user_id = vmo.user_id AND rui.address_type ='BT'
 				)
 				ORDER BY vmo.order_id ASC";
-		$this->_db->setQuery($query);
-		$data = $this->_db->loadObjectList();
+		$db->setQuery($query);
+		$data = $db->loadObjectList();
 
 		$k = 0;
 
@@ -2732,7 +2732,7 @@ class importModelimport extends JModel
 
 				if (!$reduser->store())
 				{
-					$this->setError($this->_db->getErrorMsg());
+					$this->setError($db->getErrorMsg());
 				}
 				else
 				{
@@ -2748,8 +2748,8 @@ class importModelimport extends JModel
 					. "LEFT JOIN #__redshop_order_item AS rdoi ON rdoi.order_id = '" . $last_insert . "' "
 					. "LEFT JOIN #__redshop_product AS rdp ON rdp.product_number = vmoi.order_item_sku "
 					. "WHERE vmoi.order_id='" . $data[$i]->order_id . "' ";
-				$this->_db->setQuery($order_item);
-				$order_item = $this->_db->loadObjectList();
+				$db->setQuery($order_item);
+				$order_item = $db->loadObjectList();
 
 				for ($j = 0; $j <= (count($order_item) - 1); $j++)
 				{
@@ -2771,7 +2771,7 @@ class importModelimport extends JModel
 
 					if (!$reduser->store())
 					{
-						$this->setError($this->_db->getErrorMsg());
+						$this->setError($db->getErrorMsg());
 					}
 				}
 
@@ -2779,8 +2779,8 @@ class importModelimport extends JModel
 				$order_item = "SELECT vmop.*,rdop.payment_order_id FROM `#__vm_order_payment` AS vmop "
 					. "LEFT JOIN #__redshop_order_payment AS rdop ON rdop.order_id = '" . $last_insert . "' "
 					. "WHERE vmop.order_id = '" . $data[$i]->order_id . "' ";
-				$this->_db->setQuery($order_item);
-				$order_payment = $this->_db->loadObjectList();
+				$db->setQuery($order_item);
+				$order_payment = $db->loadObjectList();
 
 				for ($l = 0; $l <= (count($order_payment) - 1); $l++)
 				{
@@ -2799,7 +2799,7 @@ class importModelimport extends JModel
 
 						if (!$reduser->store())
 						{
-							$this->setError($this->_db->getErrorMsg());
+							$this->setError($db->getErrorMsg());
 						}
 					}
 				}
@@ -2808,8 +2808,8 @@ class importModelimport extends JModel
 				$order_item = "SELECT vmoui.*,rdoui.order_id as rdoui_order_id,rdui.users_info_id FROM (`#__vm_order_user_info` AS vmoui LEFT JOIN #__redshop_users_info AS rdui ON rdui.user_id = vmoui.user_id) "
 					. "LEFT JOIN #__redshop_order_users_info as rdoui on rdoui.order_id = '" . $last_insert . "' "
 					. "WHERE vmoui.order_id='" . $data[$i]->order_id . "' ";
-				$this->_db->setQuery($order_item);
-				$order_user_info = $this->_db->loadObjectList();
+				$db->setQuery($order_item);
+				$order_user_info = $db->loadObjectList();
 
 				for ($m = 0; $m <= (count($order_user_info) - 1); $m++)
 				{
@@ -2842,7 +2842,7 @@ class importModelimport extends JModel
 
 						if (!$reduser->store())
 						{
-							$this->setError($this->_db->getErrorMsg());
+							$this->setError($db->getErrorMsg());
 						}
 					}
 				}
@@ -2854,10 +2854,12 @@ class importModelimport extends JModel
 
 	public function Order_status_insert()
 	{
+		$db = JFactory::getDbo();
+
 		$query = "SELECT vmos.*,rdos.order_status_code as rdcode FROM `#__vm_order_status` AS vmos "
 			. "LEFT JOIN #__redshop_order_status AS rdos ON vmos.order_status_code = rdos.order_status_code ";
-		$this->_db->setQuery($query);
-		$data = $this->_db->loadObjectList();
+		$db->setQuery($query);
+		$data = $db->loadObjectList();
 
 		$k = 0;
 
@@ -2873,7 +2875,7 @@ class importModelimport extends JModel
 
 				if (!$reduser->store())
 				{
-					$this->setError($this->_db->getErrorMsg());
+					$this->setError($db->getErrorMsg());
 				}
 				else
 				{
@@ -2887,10 +2889,12 @@ class importModelimport extends JModel
 
 	public function Manufacturer_insert()
 	{
+		$db = JFactory::getDbo();
+
 		$query = "SELECT vmmf.*,vmpmf.product_id,vmp.product_sku,rdp.product_id as rdp_product_id,rdmf.manufacturer_id as rdmf_manufacturer_id,rdmf.manufacturer_name as rdmf_manufacturer_name  FROM (((`#__vm_manufacturer` as vmmf LEFT JOIN #__vm_product_mf_xref as vmpmf ON vmmf.`manufacturer_id` = vmpmf.manufacturer_id) LEFT JOIN #__vm_product as vmp ON vmpmf.product_id = vmp.product_id) LEFT JOIN #__redshop_product as rdp ON rdp.product_number = vmp.product_sku) "
 			. "LEFT JOIN #__redshop_manufacturer AS rdmf ON rdmf.manufacturer_name = vmmf.`mf_name` ";
-		$this->_db->setQuery($query);
-		$data = $this->_db->loadObjectList();
+		$db->setQuery($query);
+		$data = $db->loadObjectList();
 		$k = 0;
 		$tmp_id = 0;
 
@@ -2925,7 +2929,7 @@ class importModelimport extends JModel
 
 					if (!$reduser->store())
 					{
-						$this->setError($this->_db->getErrorMsg());
+						$this->setError($db->getErrorMsg());
 					}
 					else
 					{
@@ -2942,8 +2946,8 @@ class importModelimport extends JModel
 			$query = "UPDATE #__redshop_product "
 				. "SET `manufacturer_id` = '" . $last_insert_manufacturer . "' "
 				. "WHERE `product_id` = '" . $rdp_product_id . "'";
-			$this->_db->setQuery($query);
-			$this->_db->query();
+			$db->setQuery($query);
+			$db->query();
 		}
 
 		return $k;
@@ -2952,13 +2956,15 @@ class importModelimport extends JModel
 	// 	related product sync
 	public function related_product_sync($vmproarr, $redproarr)
 	{
+		$db = JFactory::getDbo();
+
 		// Vmproduct loop for product inter realtion
 		for ($v = 0; $v < count($vmproarr); $v++)
 		{
 			$redparent = $redproarr[$v];
 			$query = "SELECT `related_products` FROM `#__vm_product_relations` WHERE `product_id`= '" . $vmproarr[$v] . "'";
-			$this->_db->setQuery($query);
-			$vmrel = $this->_db->loadResult();
+			$db->setQuery($query);
+			$vmrel = $db->loadResult();
 
 			if ($vmrel != "")
 			{
@@ -2977,8 +2983,8 @@ class importModelimport extends JModel
 						$redrelvalue = $redproarr[$vmrelprokey];
 
 						$query = "INSERT IGNORE INTO `#__redshop_product_related` (`related_id`, `product_id`) VALUES ('" . $redrelvalue . "', '" . $redparent . "')";
-						$this->_db->setQuery($query);
-						$this->_db->query();
+						$db->setQuery($query);
+						$db->query();
 					}
 				}
 			}
@@ -2989,16 +2995,20 @@ class importModelimport extends JModel
 
 	public function getProductIdByNumber($product_number)
 	{
+		$db = JFactory::getDbo();
+
 		$q = "SELECT product_id FROM `#__redshop_product` "
 			. "WHERE `product_number`='" . $product_number . "' ";
-		$this->_db->setQuery($q);
-		$product_id = $this->_db->loadResult();
+		$db->setQuery($q);
+		$product_id = $db->loadResult();
 
 		return $product_id;
 	}
 
 	public function storePropertyStockPosition($data, $section = 'property')
 	{
+		$db = JFactory::getDbo();
+
 		JTable::addIncludePath(JPATH_ADMINISTRATOR . '/components/com_redcrm/tables');
 		$data['section_id'] = ($section == 'property') ? $data['property_id'] : $data['subattribute_color_id'];
 		$data['section'] = $section;
@@ -3008,8 +3018,8 @@ class importModelimport extends JModel
 			return;
 		}
 
-		$this->_db->setQuery("SELECT attribute_stock_placement_id FROM " . $this->_crmtable_prefix . "attribute_stock_placement WHERE section = '" . $data['section'] . "' AND section_id = '" . $data['section_id'] . "'");
-		$autoid = $this->_db->loadResult();
+		$db->setQuery("SELECT attribute_stock_placement_id FROM " . $this->_crmtable_prefix . "attribute_stock_placement WHERE section = '" . $data['section'] . "' AND section_id = '" . $data['section_id'] . "'");
+		$autoid = $db->loadResult();
 
 		$row = $this->getTable('attributestock_placement');
 		$row->load($autoid);
@@ -3018,14 +3028,14 @@ class importModelimport extends JModel
 
 		if (!$row->bind($data))
 		{
-			$this->setError($this->_db->getErrorMsg());
+			$this->setError($db->getErrorMsg());
 
 			return false;
 		}
 
 		if (!$row->store())
 		{
-			$this->setError($this->_db->getErrorMsg());
+			$this->setError($db->getErrorMsg());
 
 			return false;
 		}
@@ -3044,22 +3054,24 @@ class importModelimport extends JModel
 	 */
 	public function importProductExtrafieldData($fieldname, $rawdata, $product_id)
 	{
+		$db = JFactory::getDbo();
+
 		$value = $rawdata[$fieldname];
 
-		$this->_db->setQuery("SELECT field_id FROM  `#__redshop_fields` WHERE `field_name` LIKE '" . $fieldname . "'");
-		$field_id = $this->_db->loadResult();
+		$db->setQuery("SELECT field_id FROM  `#__redshop_fields` WHERE `field_name` LIKE '" . $fieldname . "'");
+		$field_id = $db->loadResult();
 
 		if ($field_id)
 		{
 			$query = "SELECT data_id FROM `#__redshop_fields_data` WHERE `fieldid` IN ($field_id) AND `itemid` = '" . $product_id . "' AND `section` = '1'";
-			$this->_db->setQuery($query);
-			$data_id = $this->_db->loadResult();
+			$db->setQuery($query);
+			$data_id = $db->loadResult();
 
 			if ($data_id)
 			{
 				$query = "UPDATE `#__redshop_fields_data`  SET `data_txt` = '" . $value . "' WHERE `fieldid` IN ($field_id) AND `itemid` = '" . $product_id . "' AND `section` = '1'";
-				$this->_db->setQuery($query);
-				$this->_db->Query();
+				$db->setQuery($query);
+				$db->Query();
 			}
 			else
 			{
@@ -3085,8 +3097,8 @@ class importModelimport extends JModel
 										'',
 										''
 									)";
-					$this->_db->setQuery($query);
-					$this->_db->Query();
+					$db->setQuery($query);
+					$db->Query();
 				}
 			}
 		}
