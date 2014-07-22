@@ -12,6 +12,10 @@ JHTML::_('behavior.tooltip');
 JHTML::_('behavior.modal');
 require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
 
+$document = JFactory::getDocument();
+$document->addStyleSheet('components/com_redshop/assets/css/search.css');
+$document->addScript('components/com_redshop/assets/js/search.js');
+
 $producthelper = new producthelper;
 $editor        = JFactory::getEditor();
 
@@ -49,7 +53,28 @@ $editor        = JFactory::getEditor();
 			<table class="admintable">
 				<tr>
 					<td width="100" align="right" class="key"><?php echo JText::_('COM_REDSHOP_PRODUCT_NAME'); ?>:</td>
-					<td><?php echo $this->lists['product_id']; ?></td>
+					<td>
+						<?php
+							$producthelper = new producthelper;
+							$product       = $producthelper->getProductByID($this->detail->product_id);
+
+							$productname   = "";
+
+							if (count($product) > 0)
+							{
+								$productname = $product->product_name;
+							}
+						?>
+						<input class="text_area" type="text" name="searchProduct" id="searchProduct" size="32" maxlength="250" value="<?php echo $productname; ?>"/>
+						<input class="text_area"
+							   type="hidden"
+							   name="product_id"
+							   id="product_id"
+							   size="32"
+							   maxlength="250"
+							   value="<?php echo $this->detail->product_id; ?>"
+							/>
+					</td>
 				</tr>
 				<tr>
 					<td width="100" align="right" class="key"><?php echo JText::_('COM_REDSHOP_USER_NAME'); ?>:</td>
@@ -92,7 +117,10 @@ $editor        = JFactory::getEditor();
 			</table>
 		</fieldset>
 	</div>
-
+	<?php
+		$k = 0;
+		$i = 0;
+	?>
 	<div class="col50" id='answerlists'>
 		<fieldset class="adminform">
 			<legend><?php echo JText::_('COM_REDSHOP_PREVIOUS_ANSWERS'); ?></legend>
@@ -108,35 +136,31 @@ $editor        = JFactory::getEditor();
 					<th class="title"><?php echo JText::_('COM_REDSHOP_TIME') ?></th>
 				</tr>
 				</thead>
-				<?php if (count($this->answers) > 0)
-{
-	$k = 0;
-	$i = 0;
+				<?php if (count($this->answers) > 0) : ?>
 
-	foreach ($this->answers as $answer)
-	{
-?>
-						<tr class="row<?php echo $k; ?>">
-							<td align="center"><?php echo $i + 1; ?></td>
-							<td class="order"
-							    width="5%"><?php echo JHTML::_('grid.id', $i, $answer->question_id, false, 'aid'); ?></td>
-							<td><?php echo $answer->question; ?></td>
-							<td><?php echo $answer->user_name; ?></td>
-							<td><?php echo $answer->user_email; ?></td>
-							<td align="center"><?php echo date("M d Y, h:i:s A", $answer->question_date); ?></td>
-						</tr>
-						<?php $i++;
-		$k = 1 - $k;
-	} ?>
-					<tr>
-						<td colspan="6">
-							<input type="button" name="btn_delete" id="btn_delete"
-							       value="<?php echo JText::_('COM_REDSHOP_DELETE') ?>" onclick="deleteanswer();"/>
-							<input type="button" name="btn_send" id="btn_send"
-							       value="<?php echo JText::_('COM_REDSHOP_SEND') ?>" onclick="sendanswer();"/></td>
-					</tr>
+			<?php foreach ($this->answers as $answer) : ?>
+				<tr class="row<?php echo $k; ?>">
+					<td align="center"><?php echo $i + 1; ?></td>
+					<td class="order"
+					    width="5%"><?php echo JHTML::_('grid.id', $i, $answer->question_id, false, 'aid'); ?></td>
+					<td><?php echo $answer->question; ?></td>
+					<td><?php echo $answer->user_name; ?></td>
+					<td><?php echo $answer->user_email; ?></td>
+					<td align="center"><?php echo date("M d Y, h:i:s A", $answer->question_date); ?></td>
+				</tr>
 				<?php
-} ?>
+					$i++;
+					$k = 1 - $k;
+				?>
+			<?php endforeach; ?>
+				<tr>
+					<td colspan="6">
+						<input type="button" name="btn_delete" id="btn_delete"
+						       value="<?php echo JText::_('COM_REDSHOP_DELETE') ?>" onclick="deleteanswer();"/>
+						<input type="button" name="btn_send" id="btn_send"
+						       value="<?php echo JText::_('COM_REDSHOP_SEND') ?>" onclick="sendanswer();"/></td>
+				</tr>
+			<?php endif; ?>
 			</table>
 		</fieldset>
 	</div>
@@ -159,3 +183,16 @@ $editor        = JFactory::getEditor();
 	<input type="hidden" name="task" value=""/>
 	<input type="hidden" name="view" value="question_detail"/>
 </form>
+<script>
+var options = {
+	script: "index.php?tmpl=component&option=com_redshop&view=search&json=true&",
+	varname: "input",
+	json: true,
+	shownoresults: true,
+	callback: function (obj) {
+		document.getElementById('product_id').value = obj.id;
+	}
+};
+
+new bsn.AutoSuggest('searchProduct', options);
+</script>
