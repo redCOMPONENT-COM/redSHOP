@@ -378,7 +378,15 @@ class orderController extends JController
 			echo utf8_decode($order_function->getOrderStatusTitle($data [$i]->order_status)) . " ,";
 			echo date('d-m-Y H:i', $data [$i]->cdate) . " ,";
 
-			echo str_replace(",", " ", $details[1]) . "(" . str_replace(",", " ", $details[2]) . ") ,";
+			if (empty($details))
+			{
+				echo str_replace(",", " ", $details[1]) . "(" . str_replace(",", " ", $details[2]) . ") ,";
+			}
+			else
+			{
+				echo '';
+			}
+
 			$shipping_info = $order_function->getOrderShippingUserInfo($data [$i]->order_id);
 
 			echo str_replace(",", " ", $shipping_info->firstname) . " " . str_replace(",", " ", $shipping_info->lastname) . " ,";

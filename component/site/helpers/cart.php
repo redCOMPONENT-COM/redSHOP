@@ -7319,7 +7319,10 @@ class rsCarthelper
 			$total_sheet = $finalArea / $final_product_Area;
 
 			// Returns the next highest integer value by rounding up value if necessary.
-			$total_sheet = ceil($total_sheet);
+			if (isset($data->allow_decimal_piece) && $data->allow_decimal_piece)
+			{
+				$total_sheet = ceil($total_sheet);
+			}
 
 			// If sheet is less than 0 or equal to 0 than
 			if ($total_sheet <= 0)
