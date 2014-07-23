@@ -8,6 +8,7 @@
     "require-dev": {
         "phing/phing": "2.*",
         "squizlabs/php_codesniffer": "1.*",
-        "phpmd/phpmd": "*"
+        "phpmd/phpmd": "*",
+        "codeception/codeception": "*"
     }
 }
