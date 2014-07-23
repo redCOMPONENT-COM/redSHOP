@@ -64,23 +64,39 @@ Please follow the next steps in order to release a new version of redSHOP.
 # Testing with Codeception
 
 Get composer (more info at https://getcomposer.org/download/):
+
 ```
 curl -sS https://getcomposer.org/installer | php
 ```
 
 Install dependencies:
+
 ```
 php composer.phar install
 ```
 
 Get codeception phar:
+
 ```
 wget http://codeception.com/codecept.phar .
 ```
 
-Rename tests/acceptance.suite.yml.dist to tests/acceptance.suite.yml and change the "url" parameter to your "localhost".
+Rename tests/acceptance.suite.dist.yml to tests/acceptance.suite.yml and change the "url" parameter to your "localhost".
 
 Execute the tests:
+
 ```
 php codecept.phar run
+
+; Or with --steps to see a step-by-step report on the performed actions.
+php codecept.phar run --steps
+
+; Or with --html. This command will run all tests for all suites, displaying the steps, and building HTML and XML reports. Reports will be store in tests/_output/ directory.
+php codecept.phar run --html
 ```
+
+## Firefox Addons
+To generate tests really fast you can use these firefox addons:
+
+- Selenium IDE (records your screen)
+- Selenium IDE Codeception Formatter (Export your Selenium IDE test to Codeception language)
