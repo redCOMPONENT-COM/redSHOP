@@ -35,7 +35,10 @@ vendor/*
 #/tests/system/servers/configdef.php
 /tests/system/webdriver/tests/logs/
 
+# Codeception
+tests/_output/*
+
 # Never ignore
 !.gitignore
 !index.html
-!index.php
+

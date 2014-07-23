@@ -1,0 +1,23 @@
+<?php
+$I = new WebGuy($scenario);
+$I->wantTo("install-joomla");
+$I->amOnPage("/repos/redshop1/tests/system/joomla-cms/installation/index.php");
+$I->selectOption("#jform_language", "English (United Kingdom)");
+$I->click("Next");
+$I->click("Next");
+$I->click("Next");
+$I->fillField("#jform_db_user", "root");
+$I->fillField("#jform_db_name", "test_redshop1");
+$I->fillField("#jform_db_prefix", "jos_");
+$I->click("#jform_db_old1");
+$I->click("Next");
+$I->click("Next");
+$I->fillField("#jform_site_name", "redSHOP1 test");
+$I->fillField("#jform_admin_email", "javier@redcomponent.com");
+$I->fillField("#jform_admin_password", "admin");
+$I->fillField("#jform_admin_password2", "admin");
+$I->click("Next");
+$I->click("Administrator");
+$I->fillField("#mod-login-username", "admin");
+$I->fillField("#mod-login-password", "admin");
+$I->click("Log in");

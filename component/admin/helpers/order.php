@@ -471,7 +471,7 @@ class order_functions
 				$redshopMail = new redshopMail;
 
 				// Send Order Mail After Payment
-				if (ORDER_MAIL_AFTER)
+				if (ORDER_MAIL_AFTER && $data->order_status_code == "C")
 				{
 					$redshopMail->sendOrderMail($order_id);
 				}
@@ -956,7 +956,7 @@ class order_functions
 				// Send the Order mail
 				$redshopMail = new redshopMail;
 
-				if (ORDER_MAIL_AFTER)
+				if (ORDER_MAIL_AFTER && $newstatus == 'C')
 				{
 					$redshopMail->sendOrderMail($order_id);
 				}
