@@ -60,3 +60,27 @@ Please follow the next steps in order to release a new version of redSHOP.
 > $ git push --tags
  - Check that tag has been created: https://github.com/redCOMPONENT-COM/redSHOP/tags
  - Create the release: https://github.com/redCOMPONENT-COM/redSHOP/releases
+
+# Testing with Codeception
+
+Get composer (more info at https://getcomposer.org/download/):
+```
+curl -sS https://getcomposer.org/installer | php
+```
+
+Install dependencies:
+```
+php composer.phar install
+```
+
+Get codeception phar:
+```
+wget http://codeception.com/codecept.phar .
+```
+
+Rename tests/acceptance.suite.yml.dist to tests/acceptance.suite.yml and change the "url" parameter to your "localhost".
+
+Execute the tests:
+```
+php codecept.phar run
+```
