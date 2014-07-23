@@ -13,7 +13,7 @@ use SeleniumClient\WebElement;
  */
 class AdminLoginPage extends AdminPage
 {
-	protected $waitForXpath =  "//input[@id='mod-login-username']";
+	protected $waitForXpath =  "//h1[contains(text(),'Joomla! Administration Login')]";
 	protected $url = 'administrator/index.php';
 
 	public function loginValidUser($userName, $password)
