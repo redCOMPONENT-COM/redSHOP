@@ -24,10 +24,10 @@ class AdminLoginPage extends AdminPage
 
 	private function executeLogin($userName, $password)
 	{
-		$webElement = $this->driver->findElement(By::id("mod-login-username"));
+		$webElement = $this->driver->findElement(By::xPath("//input[@id='mod-login-username']"));
 		$webElement->clear();
 		$webElement->sendKeys($this->cfg->username);
-		$webElement = $this->driver->findElement(By::id("mod-login-password"));
+		$webElement = $this->driver->findElement(By::xPath("//input[@id='mod-login-password']"));
 		$webElement->clear();
 		$webElement->sendKeys($this->cfg->password);
 		//access button
