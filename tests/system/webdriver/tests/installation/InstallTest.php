@@ -32,7 +32,7 @@ class InstallTest extends JoomlaWebdriverTestCase
 			$installPage = $this->getPageObject('InstallationPage', true, $url);
 			$installPage->install($this->cfg);
 		}
-
+		echo "Verification 1";
 		$cpPage = $this->doAdminLogin();
 		$extensionInstaller = $cpPage->clickMenu('Extension Manager', 'ExtensionManagerPage');
 		$extensionInstaller->installRedShop($this->cfg, 'Sample Data');

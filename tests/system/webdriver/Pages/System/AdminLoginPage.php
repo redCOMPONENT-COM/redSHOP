@@ -13,7 +13,7 @@ use SeleniumClient\WebElement;
  */
 class AdminLoginPage extends AdminPage
 {
-	protected $waitForXpath =  "//input[@id='mod-login-username']";
+	protected $waitForXpath =  "//h1[contains(text(),'Joomla! Administration Login')]";
 	protected $url = 'administrator/index.php';
 
 	public function loginValidUser($userName, $password)
@@ -24,10 +24,12 @@ class AdminLoginPage extends AdminPage
 
 	private function executeLogin($userName, $password)
 	{
-		$webElement = $this->driver->findElement(By::id("mod-login-username"));
+		$headerText = $this->driver->findElement(By::xPath("//a[@href='index.php']"));
+		echo $headerText->getText();
+		$webElement = $this->driver->findElement(By::xPath("//input[@id='mod-login-username']"));
 		$webElement->clear();
 		$webElement->sendKeys($this->cfg->username);
-		$webElement = $this->driver->findElement(By::id("mod-login-password"));
+		$webElement = $this->driver->findElement(By::xPath("//input[@id='mod-login-password']"));
 		$webElement->clear();
 		$webElement->sendKeys($this->cfg->password);
 		//access button

@@ -159,6 +159,7 @@ class JoomlaWebdriverTestCase extends PHPUnit_Framework_TestCase
 		$d = $this->driver;
 		$d->clearCurrentCookies();
 		$url = $this->cfg->host . $this->cfg->path . 'administrator/index.php';
+		echo $url;
 		$loginPage = $this->getPageObject('AdminLoginPage', true, $url);
 
 		// We are doing checks only on english version

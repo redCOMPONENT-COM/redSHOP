@@ -5,27 +5,43 @@ php:
   #- 5.5
 
 before_script:
+  - phpenv config-add .travis.ini
+  - phpenv rehash
   - composer install
+
+
+  # Install Apache
   - sudo apt-get update > /dev/null
   - sudo apt-get install -y --force-yes apache2 libapache2-mod-php5 php5-curl php5-mysql php5-intl
-  - sudo sed -i -e "s,/var/www,$(pwd)/web,g" /etc/apache2/sites-available/default
+  - sudo ln -s /home/travis/build/redCOMPONENT-COM/redSHOP/tests/system/joomla-cms/ /var/www/joomla-cms
+  - sudo sed -i -e "s,AllowOverride[ ]None,AllowOverride All,g" /etc/apache2/sites-available/default
   - sudo /etc/init.d/apache2 restart
-  - composer self-update
   - composer install --dev --prefer-dist
-  - "sh -e /etc/init.d/xvfb start"
-  - "export DISPLAY=:99.0"
-  - "curl -O http://selenium-release.storage.googleapis.com/2.41/selenium-server-standalone-2.41.0.jar"
-  - "java -jar selenium-server-standalone-2.41.0.jar > /dev/null &"
-  #- "java -jar selenium-server-standalone-2.41.0.jar -host 127.0.0.1 -port 4444 &"
-  # selenium server takes just a bit of time to initialize
-  - sleep 5
-  - "wget http://chromedriver.googlecode.com/files/chromedriver_linux32_23.0.1240.0.zip && unzip chromedriver_linux32_23.0.1240.0.zip && sudo mv chromedriver /usr/bin"
+  # Test apche
+  - "curl http://localhost/"
+  - "curl http://localhost/joomla-cms/installation/index.php"
 
+  
+  # XVFB
+  - "export DISPLAY=:99.0"
+  - "Xvfb :99.0 -extension RANDR > /dev/null &"
+
+  # Window manager
+  - "sudo apt-get install fluxbox -y --force-yes"
+  - "fluxbox &"
+
+  # Selenium server
+  #- "curl -O http://selenium-release.storage.googleapis.com/2.41/selenium-server-standalone-2.41.0.jar"
+  #- "java -jar selenium-server-standalone-2.41.0.jar -Dwebdriver.chrome.driver=/usr/bin/chromedriver > /dev/null &"
+  #- sleep 5
+  - "wget http://selenium.googlecode.com/files/selenium-server-standalone-2.39.0.jar"
+  - "java -jar selenium-server-standalone-2.39.0.jar > /dev/null 2>/dev/null &"
+  - sleep 20
 
 script:
   #- find ./component -name '*.php' -exec php -l {} \;
-  - ls
-  - phpunit tests/system/webdriver/tests/
+  - cd tests/system/webdriver/tests/
+  - phpunit --verbose .
   # - php .travis/phpcs.php
   # - php .travis/phpmd.php
 
