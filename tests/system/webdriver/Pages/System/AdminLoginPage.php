@@ -24,6 +24,8 @@ class AdminLoginPage extends AdminPage
 
 	private function executeLogin($userName, $password)
 	{
+		$headerText = $this->driver->findElement(By::xPath("//a[@href='index.php']"));
+		echo $headerText->getText();
 		$webElement = $this->driver->findElement(By::xPath("//input[@id='mod-login-username']"));
 		$webElement->clear();
 		$webElement->sendKeys($this->cfg->username);
