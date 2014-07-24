@@ -12,7 +12,7 @@ jimport('joomla.application.component.view');
 
 require_once 'components/com_redshop/views/configuration/view.html.php';
 
-class wizardViewwizard extends JView
+class RedshopViewWizard extends JView
 {
 	public function display($tpl = null)
 	{

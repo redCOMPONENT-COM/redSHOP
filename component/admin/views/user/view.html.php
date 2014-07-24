@@ -10,7 +10,7 @@ defined('_JEXEC') or die ('Restricted access');
 
 jimport('joomla.application.component.view');
 
-class userViewuser extends JView
+class RedshopViewUser extends JView
 {
 	public function display($tpl = null)
 	{

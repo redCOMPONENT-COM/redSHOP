@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
-class product_attribute_priceViewproduct_attribute_price extends JView
+class RedshopViewProduct_attribute_price extends JView
 {
 	public function display($tpl = null)
 	{
