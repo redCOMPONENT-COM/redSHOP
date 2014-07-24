@@ -156,10 +156,27 @@
 		}
 	}
 
-	require_once JPATH_COMPONENT . '/controllers/' . $controller . '.php';
-	$classname  = $controller . 'controller';
-	$controller = new $classname( array('default_task' => 'display') );
-	$controller->execute(JRequest::getVar('task'));
+	// Check for array format.
+	$filter = JFilterInput::getInstance();
+
+	if (is_array($task))
+	{
+		$command = $filter->clean(array_pop(array_keys($task)), 'cmd');
+	}
+	else
+	{
+		$command = $filter->clean($task, 'cmd');
+	}
+
+	// Check for a not controller.task command.
+	if (strpos($command, '.') === false && $command != '')
+	{
+		JRequest::setVar('task', $controller . '.' . $command);
+	}
+
+	// Execute the task.
+	$controller	= JControllerLegacy::getInstance('Redshop');
+	$controller->execute(JRequest::getCmd('task'));
 	$controller->redirect();
 
 	// End div here
