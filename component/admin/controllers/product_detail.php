@@ -23,7 +23,7 @@ require_once JPATH_COMPONENT . '/helpers/product.php';
  *
  * @since       1.0
  */
-class Product_DetailController extends JController
+class RedshopControllerProduct_Detail extends JController
 {
 	public $app;
 

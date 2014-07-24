@@ -14,7 +14,7 @@ jimport('joomla.application.component.controller');
 require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
 require_once JPATH_COMPONENT . '/helpers/product.php';
 
-class addquotation_detailController extends JController
+class RedshopControllerAddquotation_detail extends JController
 {
 	public function __construct($default = array())
 	{
