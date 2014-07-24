@@ -122,7 +122,8 @@ abstract class AdminPage
 		'RedSHOP_State' => 'administrator/index.php?option=com_redshop&view=state',
 		'RedSHOP_Field' => 'administrator/index.php?option=com_redshop&view=fields',
 		'RedSHOP_Product' => 'administrator/index.php?option=com_redshop&view=product',
-		'RedSHOP_Manufacturer' => 'administrator/index.php?option=com_redshop&view=manufacturer'
+		'RedSHOP_Manufacturer' => 'administrator/index.php?option=com_redshop&view=manufacturer',
+		'RedSHOP_Mail' => 'administrator/index.php?option=com_redshop&view=mail'
 	);
 
 	/**
