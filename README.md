@@ -83,6 +83,17 @@ wget http://codeception.com/codecept.phar .
 
 Rename tests/acceptance.suite.dist.yml to tests/acceptance.suite.yml and change the "url" parameter to your "localhost".
 
+Run Selenium server:
+
+```
+# Download
+curl -O http://selenium-release.storage.googleapis.com/2.41/selenium-server-standalone-2.41.0.jar
+
+# And start the Selenium Server
+java -Xms40m -Xmx256m -jar /Applications/XAMPP/xamppfiles/htdocs/selenium/selenium-server-standalone-2.41.0.jar
+```
+
+
 Execute the tests:
 
 ```
