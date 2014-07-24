@@ -13,7 +13,7 @@ jimport('joomla.application.component.model');
 
 require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/mail.php';
 
-class question_detailModelquestion_detail extends JModel
+class RedshopModelQuestion_detail extends JModel
 {
 	public $_id = null;
 

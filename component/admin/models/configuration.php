@@ -16,7 +16,7 @@ require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
 require_once JPATH_COMPONENT . '/helpers/text_library.php';
 require_once JPATH_ROOT . '/administrator/components/com_redshop/helpers/images.php';
 
-class configurationModelconfiguration extends JModel
+class RedshopModelConfiguration extends JModel
 {
 	public $_id = null;
 

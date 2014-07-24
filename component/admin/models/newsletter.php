@@ -13,7 +13,7 @@ require_once JPATH_ROOT . '/components/com_redshop/helpers/product.php';
 require_once JPATH_COMPONENT . '/helpers/text_library.php';
 require_once JPATH_ROOT . '/administrator/components/com_redshop/helpers/images.php';
 
-class newsletterModelnewsletter extends JModel
+class RedshopModelNewsletter extends JModel
 {
 	public $_data = null;
 
