@@ -45,4 +45,8 @@ script:
   - find ./plugins -name '*.php' -exec php -l {} \;
   - phing -f .travis.xml
   - cd tests/system/webdriver/tests/
-  - phpunit --verbose .
+  - phpunit .
+  
+notifications:
+  slack:
+    secure: XX4m+uA8suXodJS0SvLDqrWovNvx7bxiJwyebj3gA8JwSP2E3XsRJFxsAt5++GTOv1nmMCGIkXnovY44XoA8ErEVSseElCUtKOr3/sa6tCPDYl4Lz+Q4FxPxPJcz6glpwXyOc2tCMNaKWiFdWrDsHNucPjw9iN5N16+jIvYwrrQ=
