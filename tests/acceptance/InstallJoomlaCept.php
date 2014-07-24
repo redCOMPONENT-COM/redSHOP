@@ -1,4 +1,5 @@
-<?php 
+<?php
+$scenario->group('joomla');
 $I = new AcceptanceTester($scenario);
 $I->wantTo("install-joomla");
 $I->amOnPage("tests/system/joomla-cms/installation/index.php");
