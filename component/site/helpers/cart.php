@@ -3320,7 +3320,7 @@ class rsCarthelper
 			}
 
 			$output .= JText::_('COM_REDSHOP_PROVIDE_ZIPCODE_TO_PICKUP_PARCEL') . " : ";
-			$output .= "<input type='text' id='gls_zipcode' name='gls_zipcode' value='" . $values->zipcode . "' onblur='javascript:updateGLSLocation(this.value);' ><input type='button' id='update' value='OPDATER' name='update'><br/>";
+			$output .= "<input type='text' id='gls_zipcode' name='gls_zipcode' value='" . $values->zipcode . "' onblur='javascript:updateGLSLocation(this.value);' ><input type='button' id='update' value='" . JText::_('COM_REDSHOP_GLS_UPDATE') . "' name='update'><br/>";
 			$output .= JText::_('COM_REDSHOP_SELECT_GLS_LOCATION') . " : ";
 			$output .= "<span id='rs_locationdropdown'>";
 			$output .= $lists['shopList'] = JHTML::_('select.genericlist', $shopList, 'shop_id', 'class="inputbox" ', 'value', 'text', $selected_shop_id);
