@@ -20,7 +20,7 @@ require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/quotation.ph
 require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/mail.php';
 require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/product.php';
 
-class order_detailModelorder_detail extends JModel
+class RedshopModelOrder_detail extends JModel
 {
 	public $_id = null;
 

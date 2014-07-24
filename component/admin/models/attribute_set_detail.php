@@ -17,7 +17,7 @@ jimport('joomla.filesystem.file');
 
 require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
 
-class attribute_set_detailModelattribute_set_detail extends JModel
+class RedshopModelAttribute_set_detail extends JModel
 {
 	public $_id = null;
 
