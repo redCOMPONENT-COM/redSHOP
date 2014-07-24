@@ -34,9 +34,6 @@ before_script:
   - "fluxbox &"
 
   # Selenium server
-  #- "curl -O http://selenium-release.storage.googleapis.com/2.41/selenium-server-standalone-2.41.0.jar"
-  #- "java -jar selenium-server-standalone-2.41.0.jar -Dwebdriver.chrome.driver=/usr/bin/chromedriver > /dev/null &"
-  #- sleep 5
   - "wget http://selenium.googlecode.com/files/selenium-server-standalone-2.39.0.jar"
   - "java -jar selenium-server-standalone-2.39.0.jar > /dev/null 2>/dev/null &"
   - sleep 20
