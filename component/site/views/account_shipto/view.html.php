@@ -13,7 +13,7 @@ JLoader::import('joomla.application.component.view');
 
 require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php';
 
-class account_shiptoViewaccount_shipto extends JView
+class RedshopViewAccount_shipto extends JView
 {
 	public function display($tpl = null)
 	{

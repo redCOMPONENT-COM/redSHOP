@@ -179,17 +179,27 @@ if (!file_exists(JPATH_COMPONENT . '/controllers/' . $controller . '.php'))
 	JRequest::setVar('view', 'category');
 }
 
-require_once JPATH_COMPONENT . '/controllers/' . $controller . '.php';
+// Check for array format.
+$filter = JFilterInput::getInstance();
 
-// Set the controller page
+if (is_array($task))
+{
+	$command = $filter->clean(array_pop(array_keys($task)), 'cmd');
+}
+else
+{
+	$command = $filter->clean($task, 'cmd');
+}
 
-$classname = $controller . 'controller';
-
-// Create a new class of classname and set the default task:display
-
-$controller = new $classname(array('default_task' => 'display'));
+// Check for a not controller.task command.
+if (strpos($command, '.') === false && $command != '')
+{
+	JRequest::setVar('task', $controller . '.' . $command);
+}
 
 // Perform the Request task
+
+$controller = JControllerLegacy::getInstance('Redshop');
 
 $controller->execute(JRequest::getCmd('task'));
 
