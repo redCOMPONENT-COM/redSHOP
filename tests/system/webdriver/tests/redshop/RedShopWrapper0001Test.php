@@ -57,7 +57,7 @@ class RedShopWrapper0001Test extends JoomlaWebdriverTestCase
 		$rand = rand();
 		$wrapperName = 'RedShop Wrapper' . $rand;
 		$wrapperPrice = '100';
-		$displayPrice = '$ ' . $wrapperPrice;
+		$displayPrice = '$ ' . $wrapperPrice . ',00';
 		$this->appTestPage->addWrapper($wrapperName, $wrapperPrice);
 		$this->assertTrue($this->appTestPage->searchWrapper($wrapperName), 'Wrapper Must be Created');
 		$this->assertEquals($this->appTestPage->getPrice($wrapperName), $displayPrice, 'Both Must be Equal');
@@ -77,7 +77,7 @@ class RedShopWrapper0001Test extends JoomlaWebdriverTestCase
 		$rand = rand();
 		$wrapperName = 'RedShop Wrapper' . $rand;
 		$wrapperPrice = '100';
-		$displayPrice = '$ ' . $wrapperPrice;
+		$displayPrice = '$ ' . $wrapperPrice . ',00';
 		$wrapperNewName = 'Updated Name' . $rand;
 		$this->appTestPage->addWrapper($wrapperName, $wrapperPrice);
 		$this->assertTrue($this->appTestPage->searchWrapper($wrapperName), 'Wrapper Must be Created');
@@ -100,7 +100,7 @@ class RedShopWrapper0001Test extends JoomlaWebdriverTestCase
 		$rand = rand();
 		$wrapperName = 'RedShop Wrapper' . $rand;
 		$wrapperPrice = '100';
-		$displayPrice = '$ ' . $wrapperPrice;
+		$displayPrice = '$ ' . $wrapperPrice . ',00';
 		$this->appTestPage->addWrapper($wrapperName, $wrapperPrice);
 		$this->assertTrue($this->appTestPage->searchWrapper($wrapperName), 'Wrapper Must be Created');
 		$this->assertEquals($this->appTestPage->getPrice($wrapperName), $displayPrice, 'Must be Equal');
