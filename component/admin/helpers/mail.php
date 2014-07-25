@@ -248,7 +248,7 @@ class redshopMail
 				$mailbcc = explode(",", $mailinfo[0]->mail_bcc);
 			}
 
-			$bcc      = (trim(ADMINISTRATOR_EMAIL) != '') ? explode(",", trim(ADMINISTRATOR_EMAIL)) : null;
+			$bcc      = (trim(ADMINISTRATOR_EMAIL) != '') ? explode(",", trim(ADMINISTRATOR_EMAIL)) : array();
 			$bcc      = array_merge($bcc, $mailbcc);
 			$fullname = $billingaddresses->firstname . " " . $billingaddresses->lastname;
 
