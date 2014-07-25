@@ -40,9 +40,9 @@ before_script:
 
 
 script:
-  - find ./component -name '*.php' -exec php -l {} \; | grep "Parse error"
-  - find ./modules -name '*.php' -exec php -l {} \; | grep "Parse error"
-  - find ./plugins -name '*.php' -exec php -l {} \; | grep "Parse error"
+  - find ./component -name '*.php' -exec php -l {} \;
+  - find ./modules -name '*.php' -exec php -l {} \;
+  - find ./plugins -name '*.php' -exec php -l {} \;
   # - phing -f .travis.xml
   - mv tests/system/servers/travis.configdef.php tests/system/servers/configdef.php # Create travis system tests config file
   - cd tests/system/webdriver/tests/
