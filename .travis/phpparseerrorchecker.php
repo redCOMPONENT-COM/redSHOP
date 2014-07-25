@@ -32,7 +32,7 @@ for($i=1;$i < count($argv);$i++)
 
     if (!file_exists($folderToCheck))
     {
-        fwrite(STDOUT, "\033[32;1mFolder" . $argv[$i] . " does not exist\033[0m\n");
+        fwrite(STDOUT, "\033[32;1mFolder: " . $argv[$i] . " does not exist\033[0m\n");
         continue;
     }
 
