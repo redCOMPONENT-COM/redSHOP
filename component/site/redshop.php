@@ -192,7 +192,7 @@ else
 }
 
 // Check for a not controller.task command.
-if (strpos($command, '.') === false && $command != '')
+if (strpos($command, '.') === false)
 {
 	JRequest::setVar('task', $controller . '.' . $command);
 }
