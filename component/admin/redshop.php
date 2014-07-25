@@ -100,7 +100,7 @@
 	}
 
 	$user        = JFactory::getUser();
-	$task        = JRequest::getVar('task', '');
+	$task        = JRequest::getVar('task');
 	$layout      = JRequest::getVar('layout', '');
 	$showbuttons = JRequest::getVar('showbuttons', '0');
 	$showall     = JRequest::getVar('showall', '0');
@@ -169,7 +169,7 @@
 	}
 
 	// Check for a not controller.task command.
-	if (strpos($command, '.') === false && $command != '')
+	if (strpos($command, '.') === false)
 	{
 		JRequest::setVar('task', $controller . '.' . $command);
 	}

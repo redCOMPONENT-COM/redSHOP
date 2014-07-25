@@ -118,7 +118,7 @@ class RedshopViewCategory_detail extends JView
 		 * from helper/category.php
 		 * get select box for select category parent Id
 		 */
-		$categories          = $product_category->list_all("category_parent_id", $detail->category_id);
+		$categories          = $product_category->list_all("category_parent_id", $detail->category_id, array(), 1, true);
 		$lists['categories'] = $categories;
 
 		// Select box for ProductCompareTemplate
