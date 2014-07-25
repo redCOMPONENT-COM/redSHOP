@@ -41,9 +41,9 @@ before_script:
 
 script:
   - find ./component -name '*.php' -exec php -l {} \;
-  - find ./modules -name '*.php' -exec php -l {} \;
-  - find ./plugins -name '*.php' -exec php -l {} \;
-  - phing -f .travis.xml
+  #- find ./modules -name '*.php' -exec php -l {} \;
+  #- find ./plugins -name '*.php' -exec php -l {} \;
+  # - phing -f .travis.xml
   - cd tests/system/webdriver/tests/
   - phpunit .
   
