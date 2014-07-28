@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.view');
 require_once JPATH_COMPONENT . '/helpers/category.php';
 
-class discount_detailVIEWdiscount_detail extends JView
+class RedshopViewDiscount_detail extends JView
 {
 	/**
 	 * The request url.

@@ -20,7 +20,7 @@ require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/template.php
  * @subpackage  Controller
  * @since       1.0
  */
-class ProductController extends JController
+class RedshopControllerProduct extends JController
 {
 	/**
 	 * Display Product add price

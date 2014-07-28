@@ -19,7 +19,7 @@ require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/product.php';
 require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/mail.php';
 require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/stockroom.php';
 
-class quotation_detailModelquotation_detail extends JModel
+class RedshopModelQuotation_detail extends JModel
 {
 	public $_id = null;
 

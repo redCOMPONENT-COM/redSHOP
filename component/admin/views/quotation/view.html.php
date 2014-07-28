@@ -13,7 +13,7 @@ jimport('joomla.application.component.view');
 
 require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/quotation.php';
 
-class quotationViewquotation extends JView
+class RedshopViewQuotation extends JView
 {
 	/**
 	 * The request url.

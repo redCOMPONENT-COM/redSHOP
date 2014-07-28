@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.view');
 require_once JPATH_COMPONENT . '/helpers/category.php';
 
-class product_categoryViewproduct_category extends JView
+class RedshopViewProduct_category extends JView
 {
 	public $_product = array();
 

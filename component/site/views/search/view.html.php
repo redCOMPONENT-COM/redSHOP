@@ -13,7 +13,7 @@ JLoader::import('joomla.application.component.view');
 
 require_once JPATH_COMPONENT . '/helpers/helper.php';
 
-class searchViewsearch extends JView
+class RedshopViewSearch extends JView
 {
 	public function display($tpl = null)
 	{

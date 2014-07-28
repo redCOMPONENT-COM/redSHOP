@@ -13,7 +13,7 @@ jimport('joomla.application.component.view');
 
 require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/extra_field.php';
 
-class fields_detailVIEWfields_detail extends JView
+class RedshopViewFields_detail extends JView
 {
 	/**
 	 * The request url.
