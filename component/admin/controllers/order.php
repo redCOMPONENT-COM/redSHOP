@@ -16,7 +16,7 @@ require_once JPATH_SITE . '/components/com_redshop/helpers/helper.php';
 require_once JPATH_SITE . '/components/com_redshop/helpers/tcpdf/tcpdf.php';
 require_once JPATH_SITE . '/components/com_redshop/helpers/tcpdf/PDFMerger.php';
 
-class orderController extends JController
+class RedshopControllerOrder extends JController
 {
 	public function multiprint_order()
 	{

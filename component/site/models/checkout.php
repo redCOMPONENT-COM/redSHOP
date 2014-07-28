@@ -32,7 +32,7 @@ require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/shipping.php';
  * @subpackage  Model
  * @since       1.0
  */
-class CheckoutModelCheckout extends JModel
+class RedshopModelCheckout extends JModel
 {
 
 	public $_id = null;

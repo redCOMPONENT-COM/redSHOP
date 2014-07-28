@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 JLoader::import('joomla.application.component.view');
 
-class price_filterViewprice_filter extends JView
+class RedshopViewPrice_filter extends JView
 {
 	public function display($tpl = null)
 	{

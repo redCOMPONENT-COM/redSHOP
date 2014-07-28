@@ -19,7 +19,7 @@ require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
  *
  * @since  2.5
  */
-class ExportModelexport extends JModel
+class RedshopModelExport extends JModel
 {
 	/**
 	 * Get export data
