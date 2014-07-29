@@ -13,7 +13,7 @@ require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/mail.php';
 
 jimport('joomla.application.component.controller');
 
-class question_detailController extends JController
+class RedshopControllerQuestion_detail extends JController
 {
 	public function __construct($default = array())
 	{

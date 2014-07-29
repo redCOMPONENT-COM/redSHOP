@@ -13,7 +13,7 @@ jimport('joomla.application.component.controller');
 
 require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/template.php';
 
-class template_detailController extends JController
+class RedshopControllerTemplate_detail extends JController
 {
 	public function __construct($default = array())
 	{

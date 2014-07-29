@@ -14,7 +14,7 @@ jimport('joomla.filesystem.file');
 
 require_once JPATH_COMPONENT . '/helpers/thumbnail.php';
 
-class attribute_set_detailController extends JController
+class RedshopControllerAttribute_set_detail extends JController
 {
 	public function __construct($default = array())
 	{

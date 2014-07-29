@@ -12,7 +12,7 @@ jimport('joomla.application.component.model');
 
 require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/mail.php';
 
-class accessmanager_detailModelaccessmanager_detail extends JModel
+class RedshopModelAccessmanager_detail extends JModel
 {
 	public $_table_prefix = null;
 

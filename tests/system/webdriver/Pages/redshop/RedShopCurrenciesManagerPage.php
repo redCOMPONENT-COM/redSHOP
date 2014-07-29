@@ -50,6 +50,7 @@ class RedShopCurrenciesManagerPage extends AdminManagerPage
 	{
 		$elementObject = $this->driver;
 		$elementObject->findElement(By::xPath("//a[@onclick=\"Joomla.submitbutton('add')\"]"))->click();
+		$this->checkNoticesForEditView(get_class($this));
 		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='currency_name']"));
 		$nameField = $elementObject->findElement(By::xPath("//input[@id='currency_name']"));
 		$nameField->clear();
@@ -58,7 +59,7 @@ class RedShopCurrenciesManagerPage extends AdminManagerPage
 		$codeField->clear();
 		$codeField->sendKeys($code);
 		$elementObject->findElement(By::xPath("//a[@onclick=\"Joomla.submitbutton('save')\"]"))->click();
-		$elementObject->waitForElementUntilIsPresent(By::xPath("//li[contains(text(),'Currency Detail Saved')]"), 10);
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//li[text() = 'Currency Detail Saved']"), 10);
 	}
 
 	/**
@@ -74,11 +75,12 @@ class RedShopCurrenciesManagerPage extends AdminManagerPage
 	{
 		$elementObject = $this->driver;
 		$this->sortData();
-		$elementObject->waitForElementUntilIsPresent(By::xPath("//tbody/tr/td[3]/a[contains(text(),'" . $name . "')]"), 10);
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//tbody/tr/td[3]/a[text() = '" . $name . "']"), 10);
 		$row = $this->getRowNumber($name);
 		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='cb" . $row . "']"), 10);
 		$elementObject->findElement(By::xPath("//input[@id='cb" . $row . "']"))->click();
 		$elementObject->findElement(By::xPath("//li[@id='toolbar-edit']/a"))->click();
+		$this->checkNoticesForEditView(get_class($this));
 		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='currency_name']"));
 
 		switch ($field)
@@ -96,7 +98,7 @@ class RedShopCurrenciesManagerPage extends AdminManagerPage
 		}
 
 		$elementObject->findElement(By::xPath("//a[@onclick=\"Joomla.submitbutton('save')\"]"))->click();
-		$elementObject->waitForElementUntilIsPresent(By::xPath("//li[contains(text(),'Currency Detail Saved')]"), 10);
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//li[text() = 'Currency Detail Saved']"), 10);
 		$this->sortData();
 	}
 
@@ -108,7 +110,7 @@ class RedShopCurrenciesManagerPage extends AdminManagerPage
 	public function sortData()
 	{
 		$elementObject = $this->driver;
-		$elementObject->findElement(By::xPath("//a[contains(text(),'ID')]"))->click();
+		$elementObject->findElement(By::xPath("//a[text() = 'ID']"))->click();
 		sleep(2);
 	}
 
@@ -123,7 +125,7 @@ class RedShopCurrenciesManagerPage extends AdminManagerPage
 	{
 		$elementObject = $this->driver;
 		$this->sortData();
-		$elementObject->waitForElementUntilIsPresent(By::xPath("//tbody/tr/td[3]/a[contains(text(),'" . $name . "')]"), 10);
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//tbody/tr/td[3]/a[text() = '" . $name . "']"), 10);
 		$row = $this->getRowNumber($name) - 1;
 		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='cb" . $row . "']"), 10);
 		$elementObject->findElement(By::xPath("//input[@id='cb" . $row . "']"))->click();
@@ -150,7 +152,7 @@ class RedShopCurrenciesManagerPage extends AdminManagerPage
 			$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='cb" . $row . "']"), 10);
 		}
 
-		$arrayElement = $elementObject->findElements(By::xPath("//tbody/tr/td[3]/a[contains(text(),'" . $name . "')]"));
+		$arrayElement = $elementObject->findElements(By::xPath("//tbody/tr/td[3]/a[text() = '" . $name . "']"));
 
 		if (count($arrayElement))
 		{

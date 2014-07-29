@@ -20,7 +20,7 @@ require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php';
  * @subpackage  Model
  * @since       1.0
  */
-class split_paymentModelsplit_payment extends JModel
+class RedshopModelSplit_payment extends JModel
 {
 	public $_id = null;
 

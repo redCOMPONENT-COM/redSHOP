@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 
-class product_categoryController extends JController
+class RedshopControllerProduct_category extends JController
 {
 	public function assignCategory()
 	{

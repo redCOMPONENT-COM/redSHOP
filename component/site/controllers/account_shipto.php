@@ -18,7 +18,7 @@ JLoader::import('joomla.application.component.controller');
  * @subpackage  Controller
  * @since       1.0
  */
-class account_shiptoController extends JController
+class RedshopControllerAccount_shipto extends JController
 {
 	/**
 	 * Method to save Shipping Address

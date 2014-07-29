@@ -13,7 +13,7 @@ JLoader::import('joomla.application.component.view');
 
 require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
 
-class giftcardViewgiftcard extends JView
+class RedshopViewGiftcard extends JView
 {
 	public function display($tpl = null)
 	{
