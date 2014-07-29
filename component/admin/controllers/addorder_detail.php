@@ -17,7 +17,7 @@ require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/product.php';
 require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php';
 require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/shipping.php';
 
-class addorder_detailController extends JController
+class RedshopControllerAddorder_detail extends JController
 {
 	public function __construct($default = array())
 	{

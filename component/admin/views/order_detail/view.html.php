@@ -15,7 +15,7 @@ require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/extra_field.php';
 require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php';
 require_once JPATH_SITE . '/components/com_redshop/helpers/helper.php';
 
-class order_detailVIEWorder_detail extends JView
+class RedshopViewOrder_detail extends JView
 {
 	/**
 	 * The request url.

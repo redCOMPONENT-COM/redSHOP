@@ -20,7 +20,7 @@ require_once JPATH_SITE . '/administrator/components/com_redshop/helpers/order.p
 require_once JPATH_SITE . '/administrator/components/com_redshop/helpers/product.php';
 require_once JPATH_SITE . '/administrator/components/com_redshop/helpers/shipping.php';
 
-class addorder_detailModeladdorder_detail extends JModel
+class RedshopModelAddorder_detail extends JModel
 {
 	public $_id = null;
 

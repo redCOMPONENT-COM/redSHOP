@@ -11,7 +11,7 @@ defined('_JEXEC') or die ('Restricted access');
 
 jimport('joomla.application.component.controller');
 
-class giftcard_detailController extends JController
+class RedshopControllerGiftcard_detail extends JController
 {
 	public function __construct($default = array())
 	{

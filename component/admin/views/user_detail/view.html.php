@@ -14,7 +14,7 @@ require_once JPATH_COMPONENT_SITE . '/helpers/helper.php';
 
 jimport('joomla.application.component.view');
 
-class user_detailVIEWuser_detail extends JView
+class RedshopViewUser_detail extends JView
 {
 	/**
 	 * The request url.

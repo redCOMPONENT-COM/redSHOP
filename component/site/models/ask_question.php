@@ -21,7 +21,7 @@ require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
  * @subpackage  Controller
  * @since       1.0
  */
-class ask_questionModelask_question extends JModel
+class RedshopModelAsk_question extends JModel
 {
 	public $_id = null;
 

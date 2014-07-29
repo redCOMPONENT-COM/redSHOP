@@ -14,7 +14,7 @@ jimport('joomla.filesystem.file');
 
 require_once JPATH_COMPONENT . '/helpers/media.php';
 
-class mediaModelmedia extends JModel
+class RedshopModelMedia extends JModel
 {
 	public $_data = null;
 

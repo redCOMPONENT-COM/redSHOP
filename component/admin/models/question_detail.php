@@ -13,7 +13,7 @@ jimport('joomla.application.component.model');
 
 require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/mail.php';
 
-class question_detailModelquestion_detail extends JModel
+class RedshopModelQuestion_detail extends JModel
 {
 	public $_id = null;
 
@@ -213,7 +213,7 @@ class question_detailModelquestion_detail extends JModel
 	 */
 	public function MaxOrdering()
 	{
-		$query = "SELECT (MAX(ordering)+1) FROM #__redshop_customer_question"
+		$query = "SELECT (MAX(ordering)+1) FROM #__redshop_customer_question "
 			. "WHERE parent_id=0 ";
 		$this->_db->setQuery($query);
 

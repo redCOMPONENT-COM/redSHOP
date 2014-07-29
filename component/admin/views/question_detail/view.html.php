@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
-class question_detailVIEWquestion_detail extends JView
+class RedshopViewQuestion_detail extends JView
 {
 	public function display($tpl = null)
 	{

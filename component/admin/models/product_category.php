@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.model');
 require_once JPATH_COMPONENT . '/helpers/extra_field.php';
 
-class product_categoryModelproduct_category extends JModel
+class RedshopModelProduct_category extends JModel
 {
 	public function __construct()
 	{
