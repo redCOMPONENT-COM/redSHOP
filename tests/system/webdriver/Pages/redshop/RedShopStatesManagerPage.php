@@ -28,7 +28,7 @@ class RedShopStatesManagerPage extends AdminManagerPage
 	 *
 	 * @since    1.0
 	 */
-	protected $waitForXpath = "//h2[contains(text(),'States')]";
+	protected $waitForXpath = "//h2[text() = 'States']";
 
 	/**
 	 * URL used to uniquely identify this page
@@ -52,6 +52,7 @@ class RedShopStatesManagerPage extends AdminManagerPage
 	{
 		$elementObject = $this->driver;
 		$elementObject->findElement(By::xPath("//a[@onclick=\"Joomla.submitbutton('add')\"]"))->click();
+		$this->checkNoticesForEditView(get_class($this));
 		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='state_name']"));
 		$nameField = $elementObject->findElement(By::xPath("//input[@id='state_name']"));
 		$nameField->clear();
@@ -62,7 +63,7 @@ class RedShopStatesManagerPage extends AdminManagerPage
 		$codeTwoField = $elementObject->findElement(By::xPath("//input[@id='state_2_code']"));
 		$codeTwoField->clear();
 		$codeTwoField->sendKeys($codeTwo);
-		$elementObject->findElement(By::xPath("//option[contains(text(),'" . $countryName . "')]"))->click();
+		$elementObject->findElement(By::xPath("//option[text() = '" . $countryName . "']"))->click();
 		sleep(1);
 		$elementObject->findElement(By::xPath("//a[@onclick=\"Joomla.submitbutton('save')\"]"))->click();
 		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='country_main_filter']"), 10);
@@ -86,11 +87,12 @@ class RedShopStatesManagerPage extends AdminManagerPage
 		$searchField->sendKeys($name);
 		$elementObject->findElement(By::xPath("//input[@type='submit']"))->click();
 		sleep(2);
-		$elementObject->waitForElementUntilIsPresent(By::xPath("//tbody/tr/td[3]/a[contains(text(),'" . $name . "')]"), 10);
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//tbody/tr/td[3]/a[text() = '" . $name . "']"), 10);
 		$row = $this->getRowNumber($name) - 1;
 		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='cb" . $row . "']"), 10);
 		$elementObject->findElement(By::xPath("//input[@id='cb" . $row . "']"))->click();
 		$elementObject->findElement(By::xPath("//li[@id='toolbar-edit']/a"))->click();
+		$this->checkNoticesForEditView(get_class($this));
 		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='state_name']"), 10);
 
 		switch ($field)
@@ -111,7 +113,7 @@ class RedShopStatesManagerPage extends AdminManagerPage
 				$codeTwoField->sendKeys($newValue);
 				break;
 			case "Country":
-				$elementObject->findElement(By::xPath("//option[contains(text(),'" . $newValue . "')]"))->click();
+				$elementObject->findElement(By::xPath("//option[text() = '" . $newValue . "']"))->click();
 				sleep(1);
 				break;
 		}
@@ -169,7 +171,7 @@ class RedShopStatesManagerPage extends AdminManagerPage
 		$searchField->sendKeys($name);
 		$elementObject->findElement(By::xPath("//input[@type='submit']"))->click();
 		sleep(2);
-		$elementObject->waitForElementUntilIsPresent(By::xPath("//tbody/tr/td[3]/a[contains(text(),'" . $name . "')]"), 10);
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//tbody/tr/td[3]/a[text() = '" . $name . "']"), 10);
 		$row = $this->getRowNumber($name) - 1;
 		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='cb" . $row . "']"), 10);
 		$elementObject->findElement(By::xPath("//input[@id='cb" . $row . "']"))->click();
@@ -200,16 +202,14 @@ class RedShopStatesManagerPage extends AdminManagerPage
 			$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='cb" . $row . "']"), 10);
 		}
 
-		$arrayElement = $elementObject->findElements(By::xPath("//tbody/tr/td[3]/a[contains(text(),'" . $name . "')]"));
+		$arrayElement = $elementObject->findElements(By::xPath("//tbody/tr/td[3]/a[text() = '" . $name . "']"));
 
 		if (count($arrayElement))
 		{
 			return true;
 		}
-		else
-		{
-			return false;
-		}
+
+		return false;
 	}
 
 	/**

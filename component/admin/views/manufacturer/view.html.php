@@ -11,7 +11,7 @@ defined('_JEXEC') or die ('Restricted access');
 
 jimport('joomla.application.component.view');
 
-class manufacturerViewmanufacturer extends JView
+class RedshopViewManufacturer extends JView
 {
 	/**
 	 * The current user.

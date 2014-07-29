@@ -23,10 +23,6 @@ $product = $producthelper->getProductById($this->qdetail->product_id);?>
 
 <script language="javascript" type="text/javascript">
 	Joomla.submitbutton = function (pressbutton) {
-		submitbutton(pressbutton);
-	}
-
-	submitbutton = function (pressbutton) {
 
 		var form = document.adminForm;
 		if (pressbutton == 'cancel') {

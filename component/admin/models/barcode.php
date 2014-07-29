@@ -18,7 +18,7 @@ jimport('joomla.application.component.model');
  * @subpackage  Barcode
  * @since       1.2
  */
-class barcodeModelbarcode extends JModel
+class RedshopModelBarcode extends JModel
 {
 	public $_id = null;
 

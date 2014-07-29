@@ -16,7 +16,7 @@ jimport('joomla.client.helper');
 JClientHelper::setCredentialsFromRequest('ftp');
 jimport('joomla.filesystem.file');
 
-class mail_detailModelmail_detail extends JModel
+class RedshopModelMail_detail extends JModel
 {
 	public $_id = null;
 

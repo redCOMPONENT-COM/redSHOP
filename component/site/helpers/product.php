@@ -1877,12 +1877,13 @@ class producthelper
 				}
 
 				$cart['discount_tax'] = $discountVAT;
-				$this->_session->set('cart', $cart);
 			}
 			else
 			{
 				$discount_amount = $product_subtotal * $discount->discount_amount / 100;
 			}
+
+			$this->_session->set('cart', $cart);
 		}
 
 		return $discount_amount;
@@ -8910,6 +8911,12 @@ class producthelper
 			{
 				$redhelper = new redhelper;
 				$catItem   = $redhelper->getCategoryItemid($row->category_id);
+
+				if(!(boolean) $catItem)
+				{
+					$catItem = JFactory::getApplication()->input->getInt('Itemid');
+				}
+
 				$catlink   = JRoute::_('index.php?option=com_redshop&view=category&layout=detail&cid='
 					. $row->category_id . '&Itemid=' . $catItem);
 			}

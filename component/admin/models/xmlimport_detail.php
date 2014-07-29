@@ -13,7 +13,7 @@ jimport('joomla.application.component.model');
 
 require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/xmlhelper.php';
 
-class xmlimport_detailModelxmlimport_detail extends JModel
+class RedshopModelXmlimport_detail extends JModel
 {
 	public $_id = null;
 

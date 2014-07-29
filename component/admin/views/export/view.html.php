@@ -16,7 +16,7 @@ require_once JPATH_COMPONENT . '/helpers/category.php';
  *
  * @since  2.5
  */
-class ExportViewexport extends JView
+class RedshopViewExport extends JView
 {
 	/**
 	 * Method to display export view

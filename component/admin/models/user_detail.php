@@ -15,7 +15,7 @@ require_once JPATH_SITE . '/administrator/components/com_redshop/helpers/mail.ph
 require_once JPATH_SITE . '/components/com_redshop/helpers/extra_field.php';
 require_once JPATH_SITE . '/components/com_redshop/helpers/user.php';
 
-class user_detailModeluser_detail extends JModel
+class RedshopModelUser_detail extends JModel
 {
 	public $_id = null;
 

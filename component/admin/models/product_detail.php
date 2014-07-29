@@ -26,7 +26,7 @@ require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/extra_field.
  *
  * @since       1.0
  */
-class Product_DetailModelProduct_Detail extends JModel
+class RedshopModelProduct_Detail extends JModel
 {
 	public $id = null;
 
@@ -105,11 +105,28 @@ class Product_DetailModelProduct_Detail extends JModel
 		// ToDo: This is potentially unsafe because $_POST elements are not sanitized.
 		$post = $this->input->getArray($_POST);
 
-		if (empty($this->data) && empty($post))
+		$viewFrom = JFactory::getApplication()->input->getCmd('viewFrom', false);
+
+		if (empty($this->data) && ($viewFrom === 'productList' || empty($post)))
 		{
-			$query = 'SELECT * FROM ' . $this->table_prefix . 'product WHERE product_id = "' . $this->id . '" ';
-			$this->_db->setQuery($query);
-			$this->data = $this->_db->loadObject();
+			// Initialiase variables.
+			$db    = JFactory::getDbo();
+			$query = $db->getQuery(true)
+				->select('*')
+				->from($db->qn('#__redshop_product'))
+				->where($db->qn('product_id') . ' = ' . (int) $this->id);
+
+			// Set the query and load the result.
+			$db->setQuery($query);
+
+			try
+			{
+				$this->data = $db->loadObject();
+			}
+			catch (RuntimeException $e)
+			{
+				throw new RuntimeException($e->getMessage(), $e->getCode());
+			}
 
 			return (boolean) $this->data;
 		}
@@ -198,6 +215,7 @@ class Product_DetailModelProduct_Detail extends JModel
 			$detail->minimum_per_product_total  = (isset($data['minimum_per_product_total'])) ? $data['minimum_per_product_total'] : 0;
 			$detail->attribute_set_id           = (isset($data['attribute_set_id'])) ? $data['attribute_set_id'] : 0;
 			$detail->append_to_global_seo		= (isset($data['append_to_global_seo'])) ? $data['append_to_global_seo'] : JText::_('COM_REDSHOP_APPEND_TO_GLOBAL_SEO');
+			$detail->allow_decimal_piece		= (isset($data['allow_decimal_piece'])) ? $data['allow_decimal_piece'] : 0;
 
 			$this->data                         = $detail;
 

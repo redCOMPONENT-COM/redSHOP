@@ -19,24 +19,8 @@ require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
  *
  * @since  2.5
  */
-class ExportModelexport extends JModel
+class RedshopModelExport extends JModel
 {
-	public $_data = null;
-
-	public $_total = null;
-
-	public $_pagination = null;
-
-	public $_table_prefix = null;
-
-	/**
-	 * Model Export constructor
-	 */
-	public function __construct()
-	{
-		parent::__construct();
-	}
-
 	/**
 	 * Get export data
 	 *
@@ -117,8 +101,11 @@ class ExportModelexport extends JModel
 			case 'shipping_address':
 				$this->loadshippingaddress();
 				break;
-			case 'shopper_group_price':
-				$this->loadShoppergroupPrice();
+			case 'shopperGroupProductPrice':
+				$this->loadShopperGroupProductPrice();
+				break;
+			case 'shopperGroupAttributePrice':
+				$this->loadShopperGroupAttributePrice();
 				break;
 			case 'manufacturer':
 				$this->loadManufacturer();
@@ -314,8 +301,8 @@ class ExportModelexport extends JModel
 					$query = "SELECT pcx.category_id,c.category_name FROM #__redshop_product_category_xref as pcx"
 						. " LEFT JOIN #__redshop_category c ON c.category_id = pcx.category_id"
 						. " WHERE product_id ='" . $row['product_id'] . "' ";
-					$this->_db->setQuery($query);
-					$category = $this->_db->loadObjectList();
+					$db->setQuery($query);
+					$category = $db->loadObjectList();
 					$cats = array();
 					$cat_name = array();
 
@@ -336,8 +323,8 @@ class ExportModelexport extends JModel
 					$query = "SELECT CONCAT(`product_number`,'~',`accessory_price`) as accsdata  FROM `#__redshop_product_accessory` as pa "
 						. " LEFT JOIN #__redshop_product p ON p.product_id = pa.child_product_id"
 						. " WHERE pa.`product_id` = '" . $row['product_id'] . "' ";
-					$this->_db->setQuery($query);
-					$accessory = $this->_db->loadObjectList();
+					$db->setQuery($query);
+					$accessory = $db->loadObjectList();
 					$accessories = "";
 					$accs = array();
 
@@ -354,9 +341,9 @@ class ExportModelexport extends JModel
 				{
 					$query = 'SELECT quantity FROM `#__redshop_product_stockroom_xref` WHERE `product_id` = '
 						. $row['product_id'] . ' AND 	stockroom_id = ' . DEFAULT_STOCKROOM;
-					$this->_db->setQuery($query);
+					$db->setQuery($query);
 
-					$stock = $this->_db->loadObject();
+					$stock = $db->loadObject();
 
 					if ($stock)
 					{
@@ -833,8 +820,8 @@ class ExportModelexport extends JModel
 
 		$db = JFactory::getDbo();
 		$query = "SELECT * FROM `#__redshop_product` ORDER BY product_id asc ";
-		$this->_db->setQuery($query);
-		$cur = $this->_db->loadObjectList();
+		$db->setQuery($query);
+		$cur = $db->loadObjectList();
 
 		$ret = null;
 
@@ -897,8 +884,8 @@ class ExportModelexport extends JModel
 							$main_attribute_stock = "";
 
 							$sel_arrtibute_stock = "select * from `#__redshop_product_attribute_stockroom_xref` where section_id='" . $att_property[$prop]->property_id . "'";
-							$this->_db->setQuery($sel_arrtibute_stock);
-							$fetch_arrtibute_stock = $this->_db->loadObjectList();
+							$db->setQuery($sel_arrtibute_stock);
+							$fetch_arrtibute_stock = $db->loadObjectList();
 
 							for ($h = 0; $h < count($fetch_arrtibute_stock); $h++)
 							{
@@ -922,7 +909,7 @@ class ExportModelexport extends JModel
 								$main_attribute_stock_placement = "";
 
 								// Initialiase variables.
-								$query = $this->_db->getQuery(true);
+								$query = $db->getQuery(true);
 
 								// Prepare query.
 								$query->select('stock_placement');
@@ -931,8 +918,8 @@ class ExportModelexport extends JModel
 								$query->where('section_id = "' . $att_property[$prop]->property_id . '"');
 
 								// Inject the query and load the result.
-								$this->_db->setQuery($query);
-								$main_attribute_stock_placement = $this->_db->loadResult();
+								$db->setQuery($query);
+								$main_attribute_stock_placement = $db->loadResult();
 
 								echo ',"' . $main_attribute_stock_placement . '"';
 							}
@@ -959,8 +946,8 @@ class ExportModelexport extends JModel
 
 								$sel_arrtibute_stock_sub = "select * from `#__redshop_product_attribute_stockroom_xref` where section_id='" . $subatt_property[$subprop]->subattribute_color_id
 									. "'";
-								$this->_db->setQuery($sel_arrtibute_stock_sub);
-								$fetch_arrtibute_stock_sub = $this->_db->loadObjectList();
+								$db->setQuery($sel_arrtibute_stock_sub);
+								$fetch_arrtibute_stock_sub = $db->loadObjectList();
 
 								for ($b = 0; $b < count($fetch_arrtibute_stock_sub); $b++)
 								{
@@ -987,7 +974,7 @@ class ExportModelexport extends JModel
 									$main_attribute_stock_sub_placement = "";
 
 									// Initialiase variables.
-									$query = $this->_db->getQuery(true);
+									$query = $db->getQuery(true);
 
 									// Prepare query.
 									$query->select('stock_placement');
@@ -996,8 +983,8 @@ class ExportModelexport extends JModel
 									$query->where('section_id = "' . $subatt_property[$subprop]->subattribute_color_id . '"');
 
 									// Inject the query and load the result.
-									$this->_db->setQuery($query);
-									$main_attribute_stock_sub_placement = $this->_db->loadResult();
+									$db->setQuery($query);
+									$main_attribute_stock_sub_placement = $db->loadResult();
 
 									echo ',"' . $main_attribute_stock_sub_placement . '"';
 								}
@@ -1169,8 +1156,8 @@ class ExportModelexport extends JModel
 		$producthelper = new producthelper;
 		$db            = JFactory::getDbo();
 		$query         = "SELECT * FROM `#__redshop_fields` ORDER BY field_id asc ";
-		$this->_db->setQuery($query);
-		$cur           = $this->_db->loadObjectList();
+		$db->setQuery($query);
+		$cur           = $db->loadObjectList();
 		$ret           = null;
 
 		for ($i = 0; $i < count($cur); $i++)
@@ -1182,8 +1169,8 @@ class ExportModelexport extends JModel
 			}
 
 			$query = 'SELECT data_id,`data_txt`,`itemid`,`section` FROM `#__redshop_fields_data` WHERE `fieldid` = ' . $cur[$i]->field_id . ' and section!=""';
-			$this->_db->setQuery($query);
-			$data = $this->_db->loadObjectList();
+			$db->setQuery($query);
+			$data = $db->loadObjectList();
 			$attr = array();
 
 			$datavalue = $extra_field->getFieldValue($cur[$i]->field_id);
@@ -1359,33 +1346,61 @@ class ExportModelexport extends JModel
 	}
 
 	/**
-	 * Load the shopper group for export
+	 * Export Shopper Group based price for Product
 	 *
 	 * @return  void
 	 */
-	public function loadShoppergroupPrice()
+	public function loadShopperGroupProductPrice()
 	{
-		$db = JFactory::getDbo();
-		$query = "SELECT p.product_number, 'product' AS section, s.shopper_group_id, s.shopper_group_name, pp.product_price,
-		price_quantity_start, price_quantity_end, pp.discount_price, pp.discount_start_date, pp.discount_end_date "
-			. "FROM `#__redshop_product_price` AS pp "
-			. "LEFT JOIN `#__redshop_product` AS p ON p.product_id = pp.product_id "
-			. "LEFT JOIN `#__redshop_shopper_group` AS s ON s.shopper_group_id = pp.shopper_group_id "
-			. "WHERE p.product_number!='' ";
+		// Initialiase variables.
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true);
+
+		// Create the base select statement.
+		$query->select(
+			array(
+					$db->qn('p.product_number'),
+					$db->qn('p.product_name'),
+					$db->qn('pp.product_price'),
+					$db->qn('price_quantity_start'),
+					$db->qn('price_quantity_end'),
+					$db->qn('pp.discount_price'),
+					$db->qn('pp.discount_start_date'),
+					$db->qn('pp.discount_end_date'),
+					$db->qn('s.shopper_group_id'),
+					$db->qn('s.shopper_group_name')
+				)
+			)
+			->from($db->qn('#__redshop_product_price', 'pp'))
+			->leftjoin(
+				$db->qn('#__redshop_product', 'p')
+				. ' ON ' . $db->qn('p.product_id') . '=' . $db->qn('pp.product_id')
+			)
+			->leftjoin(
+				$db->qn('#__redshop_shopper_group', 's')
+				. ' ON ' . $db->qn('s.shopper_group_id') . '=' . $db->qn('pp.shopper_group_id')
+			)
+			->where($db->qn('p.product_number') . '!= ""');
+
+		// Set the query and load the result.
 		$db->setQuery($query);
 
-		if (!($cur = $db->LoadObjectList()))
+		try
 		{
-			return null;
+			$product = $db->loadObjectList();
+		}
+		catch (RuntimeException $e)
+		{
+			throw new RuntimeException($e->getMessage(), $e->getCode());
 		}
 
 		$i = 0;
 
-		if (count($cur) > 0)
+		if (count($product) > 0)
 		{
-			for ($e = 0; $e < count($cur); $e++)
+			for ($e = 0; $e < count($product); $e++)
 			{
-				$row = $cur[$e];
+				$row = $product[$e];
 				$row = (array) $row;
 				$fields = count($row);
 
@@ -1423,31 +1438,133 @@ class ExportModelexport extends JModel
 				echo "\r\n";
 			}
 		}
+	}
 
-		$query = "SELECT IFNULL( p.property_number, sp.subattribute_color_number ) AS product_number, ap.section,
-		s.shopper_group_id, s.shopper_group_name, ap.product_price, price_quantity_start, price_quantity_end,
-		ap.discount_price, ap.discount_start_date, ap.discount_end_date "
-			. "FROM `#__redshop_product_attribute_price` AS ap "
-			. "LEFT JOIN `#__redshop_shopper_group` AS s ON s.shopper_group_id=ap.shopper_group_id "
-			. "LEFT JOIN `#__redshop_product_attribute_property` AS p ON p.property_id=ap.section_id AND ap.section='property'
-			AND p.property_number != '' "
-			. "LEFT JOIN `#__redshop_product_subattribute_color` AS sp ON sp.subattribute_color_id=ap.section_id
-			AND ap.section='subproperty' AND sp.subattribute_color_number != '' ";
+	/**
+	 * Load the shopper group for product
+	 *
+	 * @return  void
+	 */
+	public function loadShopperGroupAttributePrice()
+	{
+		$db = JFactory::getDbo();
 
+		$query = $db->getQuery(true)
+			->select(
+				array(
+					$db->qn('ap.section'),
+					$db->qn('product.product_number'),
+					$db->qn('product.product_name'),
+					$db->qn('product.product_price'),
+					$db->qn('p.property_number', 'attribute_number'),
+					$db->qn('p.property_name', 'product_attribute'),
+					$db->qn('ap.product_price', 'attribute_price'),
+					$db->qn('ap.price_quantity_start'),
+					$db->qn('ap.price_quantity_end'),
+					$db->qn('ap.discount_price'),
+					$db->qn('ap.discount_start_date'),
+					$db->qn('ap.discount_end_date'),
+					$db->qn('s.shopper_group_id'),
+					$db->qn('s.shopper_group_name')
+				)
+			)
+			->from($db->qn('#__redshop_product_attribute_price', 'ap'))
+			->leftjoin(
+				$db->qn('#__redshop_product_attribute_property', 'p')
+				. ' ON ' . $db->qn('p.property_id') . '=' . $db->qn('ap.section_id')
+			)
+			->leftjoin(
+				$db->qn('#__redshop_shopper_group', 's')
+				. ' ON ' . $db->qn('s.shopper_group_id') . '=' . $db->qn('ap.shopper_group_id')
+			)
+			->leftjoin(
+				$db->qn('#__redshop_product_attribute', 'pa')
+				. ' ON ' . $db->qn('pa.attribute_id') . '=' . $db->qn('p.attribute_id')
+			)
+			->leftjoin(
+				$db->qn('#__redshop_product', 'product')
+				. ' ON ' . $db->qn('product.product_id') . '=' . $db->qn('pa.product_id')
+			)
+			->where($db->qn('ap.section') . '="property"');
+
+		// Set the query and load the result.
 		$db->setQuery($query);
-		$cur1 = $db->LoadObjectList();
 
-		if (!($cur1 = $db->LoadObjectList()))
+		try
 		{
-			return null;
+			$properties = $db->loadObjectList();
+		}
+		catch (RuntimeException $e)
+		{
+			throw new RuntimeException($e->getMessage(), $e->getCode());
 		}
 
-		if (count($cur1) > 0)
+		// Sub attribute query
+		$query = $db->getQuery(true)
+			->select(
+				array(
+					$db->qn('ap.section'),
+					$db->qn('product.product_number'),
+					$db->qn('product.product_name'),
+					$db->qn('product.product_price'),
+					$db->qn('sp.subattribute_color_number', 'attribute_number'),
+					$db->qn('sp.subattribute_color_name', 'product_attribute'),
+					$db->qn('ap.product_price', 'attribute_price'),
+					$db->qn('ap.price_quantity_start'),
+					$db->qn('ap.price_quantity_end'),
+					$db->qn('ap.discount_price'),
+					$db->qn('ap.discount_start_date'),
+					$db->qn('ap.discount_end_date'),
+					$db->qn('s.shopper_group_id'),
+					$db->qn('s.shopper_group_name')
+				)
+			)
+			->from($db->qn('#__redshop_product_attribute_price', 'ap'))
+			->leftjoin(
+				$db->qn('#__redshop_product_subattribute_color', 'sp')
+				. ' ON ' . $db->qn('sp.subattribute_color_id') . '=' . $db->qn('ap.section_id')
+			)
+			->leftjoin(
+				$db->qn('#__redshop_shopper_group', 's')
+				. ' ON ' . $db->qn('s.shopper_group_id') . '=' . $db->qn('ap.shopper_group_id')
+			)
+			->leftjoin(
+				$db->qn('#__redshop_product_attribute_property', 'p')
+				. ' ON ' . $db->qn('sp.subattribute_id') . '=' . $db->qn('p.property_id')
+			)
+			->leftjoin(
+				$db->qn('#__redshop_product_attribute', 'pa')
+				. ' ON ' . $db->qn('pa.attribute_id') . '=' . $db->qn('p.attribute_id')
+			)
+			->leftjoin(
+				$db->qn('#__redshop_product', 'product')
+				. ' ON ' . $db->qn('product.product_id') . '=' . $db->qn('pa.product_id')
+			)
+			->where($db->qn('ap.section') . '="subproperty"');
+
+		// Set the query and load the result.
+		$db->setQuery($query);
+
+		try
 		{
-			for ($f = 0; $f < count($cur1); $f++)
+			$subProperties = $db->loadObjectList();
+		}
+		catch (RuntimeException $e)
+		{
+			throw new RuntimeException($e->getMessage(), $e->getCode());
+		}
+
+		// Merge Property and SubProperty data
+		$attributes = array_merge($properties, $subProperties);
+
+		$i = 0;
+
+		if (count($attributes) > 0)
+		{
+			for ($f = 0; $f < count($attributes); $f++)
 			{
-				$row = $cur1[$f];
-				$row = (array) $row;
+				$row    = $attributes[$f];
+				$row    = (array) $row;
 				$fields = count($row);
 
 				if ($i == 0)
@@ -1469,19 +1586,31 @@ class ExportModelexport extends JModel
 
 				$i = 0;
 
+				// Get product number from array
+				$isProductNumber   = (int) $row['product_number'];
+				$isAttributeNumber = (int) $row['attribute_number'];
+
 				foreach ($row as $id => $value)
 				{
-					echo '"' . str_replace('"', '""', $value) . '"';
-
-					if ($i < ($fields - 1))
+					// Only allow attribute which has product number and attribute number
+					if ($isProductNumber && $isAttributeNumber)
 					{
-						echo ',';
+						echo '"' . str_replace('"', '""', $value) . '"';
+
+						if ($i < ($fields - 1))
+						{
+							echo ',';
+						}
 					}
 
 					$i++;
 				}
 
-				echo "\r\n";
+				// Only allow add new line when it has product number
+				if ($isProductNumber)
+				{
+					echo "\r\n";
+				}
 			}
 		}
 	}
@@ -1493,10 +1622,12 @@ class ExportModelexport extends JModel
 	 */
 	public function getmanufacturers()
 	{
-		$query = 'SELECT manufacturer_id as value,manufacturer_name as text FROM #__redshop_manufacturer  WHERE published=1 ORDER BY `manufacturer_name`';
-		$this->_db->setQuery($query);
+		$db = JFactory::getDbo();
 
-		return $this->_db->loadObjectlist();
+		$query = 'SELECT manufacturer_id as value,manufacturer_name as text FROM #__redshop_manufacturer  WHERE published=1 ORDER BY `manufacturer_name`';
+		$db->setQuery($query);
+
+		return $db->loadObjectlist();
 	}
 
 	/**
@@ -1506,11 +1637,13 @@ class ExportModelexport extends JModel
 	 */
 	public function getProductExtrafield()
 	{
+		$db = JFactory::getDbo();
+
 		$query = "SELECT field_id, field_name FROM #__redshop_fields "
 			. "WHERE field_section=1 "
 			. "ORDER BY ordering ";
-		$this->_db->setQuery($query);
-		$fields = $this->_db->loadObjectlist();
+		$db->setQuery($query);
+		$fields = $db->loadObjectlist();
 
 		$listfields = array();
 
@@ -1523,8 +1656,8 @@ class ExportModelexport extends JModel
 
 		$query = "SELECT fieldid, data_txt, itemid FROM #__redshop_fields_data "
 			. "WHERE section=1 ";
-		$this->_db->setQuery($query);
-		$fielddata = $this->_db->loadObjectlist();
+		$db->setQuery($query);
+		$fielddata = $db->loadObjectlist();
 
 		$fieldrowdata = array();
 

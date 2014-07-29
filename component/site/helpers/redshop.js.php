@@ -46,11 +46,20 @@ else
 	$tmpItemid = $cart_Itemid;
 }
 
-if (isset($post['product_currency']))
-	$session->set('product_currency', $post['product_currency']);
-
 $currency_symbol  = REDCURRENCY_SYMBOL;
 $currency_convert = 1;
+
+if (isset($post['product_currency']))
+{
+	$session->set('product_currency', $post['product_currency']);
+}
+
+if ($session->get('product_currency'))
+{
+	$currency_symbol  = $session->get('product_currency');
+	$convertPrice     = new CurrencyHelper;
+	$currency_convert = round($convertPrice->convert(1), 2);
+}
 
 $script = "
 		window.site_url = '" . JURI::root() . "';

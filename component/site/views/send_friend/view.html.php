@@ -13,7 +13,7 @@ JLoader::import('joomla.application.component.view');
 
 require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/category.php';
 
-class send_friendViewsend_friend extends JView
+class RedshopViewSend_friend extends JView
 {
 	public function display($tpl = null)
 	{
