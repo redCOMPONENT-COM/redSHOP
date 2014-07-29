@@ -3769,14 +3769,6 @@ class rsCarthelper
 
 					if (in_array($shopperGroupId, $shopper_groupArr) || $shopper_groupArr[0] == 0)
 					{
-						if ($flag == false)
-						{
-							if (count($paymentmethod) > 0)
-							{
-								$payment_method_id = $paymentmethod[$p]->name;
-							}
-						}
-
 						$checked = '';
 
 						if ($payment_method_id === $paymentmethod[$p]->name)
