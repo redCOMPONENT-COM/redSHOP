@@ -4442,6 +4442,16 @@ class Com_RedshopInstallerScript
 			$cfgarr["STATISTICS_ENABLE"] = 1;
 		}
 
+		if (!defined("AUTO_GENERATE_LABEL"))
+		{
+			$cfgarr["AUTO_GENERATE_LABEL"] = 1;
+		}
+
+		if (!defined("GENERATE_LABEL_ON_STATUS"))
+		{
+			$cfgarr["GENERATE_LABEL_ON_STATUS"] = "S";
+		}
+
 		$Redconfiguration->manageCFGFile($cfgarr);
 	}
 
