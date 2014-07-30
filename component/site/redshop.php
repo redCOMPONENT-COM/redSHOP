@@ -14,25 +14,27 @@ JLoader::import('joomla.html.parameter');
 
 $view   = JRequest::getCmd('view');
 
+JLoader::import('LoadHelpers', JPATH_COMPONENT);
+
 // Getting the configuration
 require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
-JLoader::import('configuration', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
-JLoader::import('template', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
-JLoader::import('stockroom', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
-JLoader::import('economic', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
-JLoader::import('images', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
+JLoader::load('RedshopAdminHelperConfiguration');
+JLoader::load('RedshopAdminHelperTemplate');
+JLoader::load('RedshopAdminHelperStockroom');
+JLoader::load('RedshopAdminHelperEconomic');
+JLoader::load('RedshopAdminHelperImages');
 
 $Redconfiguration = new Redconfiguration;
 $Redconfiguration->defineDynamicVars();
 
 JLoader::import('joomla.html.pagination');
 
-require_once JPATH_COMPONENT . '/helpers/cron.php';
-require_once JPATH_COMPONENT . '/helpers/statistic.php';
-require_once JPATH_COMPONENT . '/helpers/pagination.php';
-require_once JPATH_COMPONENT . '/helpers/helper.php';
-require_once JPATH_COMPONENT . '/helpers/product.php';
-require_once JPATH_COMPONENT . '/helpers/currency.php';
+JLoader::load('RedshopHelperCron');
+JLoader::load('RedshopHelperStatistic');
+JLoader::load('RedshopHelperPagination');
+JLoader::load('RedshopHelperHelper');
+JLoader::load('RedshopHelperProduct');
+JLoader::load('RedshopHelperCurrency');
 
 // Helper object
 $helper = new redhelper;
@@ -57,7 +59,7 @@ $Itemid = JRequest::getInt('Itemid', $Itemid);
 $Itemid = $helper->getCartItemid();
 
 // Include redshop js file.
-require_once JPATH_COMPONENT . '/helpers/redshop.js.php';
+JLoader::load('RedshopHelperRedshop.js');
 
 $controller = JRequest::getCmd('view', 'category');
 
@@ -94,7 +96,7 @@ if ($task != 'loadProducts' && $task != "downloadProduct" && $task != "discountC
 
 		if (!$isredGoogleAnalytics && GOOGLE_ANA_TRACKER_KEY != "")
 		{
-			require_once JPATH_COMPONENT . '/helpers/google_analytics.php';
+			JLoader::load('RedshopHelperGoogle_analytics');
 
 			$google_ana = new googleanalytics;
 

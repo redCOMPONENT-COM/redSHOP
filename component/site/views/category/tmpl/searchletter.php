@@ -8,7 +8,8 @@
  */
 
 defined('_JEXEC') or die;
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/text_library.php';
+
+JLoader::load('RedshopAdminHelperText_library');
 
 JHTML::_('behavior.tooltip');
 JLoader::import('joomla.application.module.helper');

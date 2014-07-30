@@ -11,10 +11,10 @@ defined('_JEXEC') or die ('Restricted access');
 
 JLoader::import('joomla.application.component.model');
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/quotation.php';
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/mail.php';
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php';
-include_once JPATH_COMPONENT_SITE . '/helpers/product.php';
+JLoader::load('RedshopAdminHelperQuotation');
+JLoader::load('RedshopAdminHelperMail');
+JLoader::load('RedshopAdminHelperOrder');
+JLoader::load('RedshopHelperProduct');
 
 /**
  * Class quotationModelquotation

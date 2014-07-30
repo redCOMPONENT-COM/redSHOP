@@ -8,7 +8,8 @@
  */
 
 defined('_JEXEC') or die;
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/mail.php';
+
+JLoader::load('RedshopAdminHelperMail');
 JLoader::import('joomla.application.component.controller');
 
 /**

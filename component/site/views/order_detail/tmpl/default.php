@@ -13,11 +13,11 @@ $url         = JURI::base();
 $redconfig   = new Redconfiguration;
 $extra_field = new extra_field;
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php';
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/shipping.php';
-require_once JPATH_COMPONENT . '/helpers/product.php';
-require_once JPATH_COMPONENT . '/helpers/helper.php';
-require_once JPATH_COMPONENT . '/helpers/cart.php';
+JLoader::load('RedshopAdminHelperOrder');
+JLoader::load('RedshopAdminHelperShipping');
+JLoader::load('RedshopHelperProduct');
+JLoader::load('RedshopHelperHelper');
+JLoader::load('RedshopHelperCart');
 
 $producthelper   = new producthelper;
 $redhelper       = new redhelper;
