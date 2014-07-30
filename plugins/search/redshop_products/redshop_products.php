@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.plugin.plugin');
-
 require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
 require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/configuration.php';
 require_once JPATH_ROOT . '/components/com_redshop/helpers/helper.php';
