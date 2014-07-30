@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 JLoader::import('joomla.application.component.view');
 
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/order.php';
+JLoader::load('RedshopAdminHelperOrder');
 
 class RedshopViewEpayrelay extends JView
 {

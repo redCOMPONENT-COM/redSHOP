@@ -9,14 +9,14 @@
 
 defined('_JEXEC') or die;
 
-JLoader::import('currency', JPATH_SITE . '/components/com_redshop/helpers');
-JLoader::import('helper', JPATH_SITE . '/components/com_redshop/helpers');
-JLoader::import('extra_field', JPATH_SITE . '/components/com_redshop/helpers');
-JLoader::import('user', JPATH_SITE . '/components/com_redshop/helpers');
-JLoader::import('order', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
-JLoader::import('quotation', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
-JLoader::import('template', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
-JLoader::import('stockroom', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
+JLoader::load('RedshopHelperCurrency');
+JLoader::load('RedshopHelperHelper');
+JLoader::load('RedshopHelperExtra_field');
+JLoader::load('RedshopHelperUser');
+JLoader::load('RedshopAdminHelperOrder');
+JLoader::load('RedshopAdminHelperQuotation');
+JLoader::load('RedshopAdminHelperTemplate');
+JLoader::load('RedshopAdminHelperStockroom');
 
 class producthelper
 {

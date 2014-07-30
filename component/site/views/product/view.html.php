@@ -10,12 +10,11 @@
 defined('_JEXEC') or die;
 
 JLoader::import('joomla.application.component.view');
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/configuration.php';
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/category.php';
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/text_library.php';
-require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
-require_once JPATH_COMPONENT_SITE . '/helpers/helper.php';
-
+JLoader::load('RedshopAdminHelperConfiguration');
+JLoader::load('RedshopAdminHelperCategory');
+JLoader::load('RedshopAdminHelperText_library');
+JLoader::load('RedshopHelperProduct');
+JLoader::load('RedshopHelperHelper');
 /**
  * Product Detail View
  *

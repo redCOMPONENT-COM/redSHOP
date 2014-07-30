@@ -22,18 +22,18 @@ if ($tmpl == 'component' && !$for)
 
 // 	Getting the configuration
 require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/configuration.php';
+JLoader::load('RedshopAdminHelperConfiguration');
 
 $Redconfiguration = new Redconfiguration;
 $Redconfiguration->defineDynamicVars();
 
-require_once JPATH_SITE . '/components/com_redshop/helpers/currency.php';
+JLoader::load('RedshopHelperCurrency');
 $session = JFactory::getSession('product_currency');
 
 $post   = JRequest::get('POST');
 $Itemid = JRequest::getVar('Itemid');
-require_once JPATH_SITE . '/components/com_redshop/helpers/helper.php';
-$redhelper   = new redhelper ();
+JLoader::load('RedshopHelperHelper');
+$redhelper   = new redhelper;
 $cart_Itemid = $redhelper->getCartItemid();
 
 if ($cart_Itemid == "" || $cart_Itemid == 0)

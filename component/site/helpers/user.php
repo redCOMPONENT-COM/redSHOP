@@ -9,10 +9,10 @@
 
 defined('_JEXEC') or die;
 
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/mail.php';
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/extra_field.php';
-require_once JPATH_SITE . '/components/com_redshop/helpers/cart.php';
-require_once JPATH_SITE . '/components/com_redshop/helpers/helper.php';
+JLoader::load('RedshopAdminHelperMail');
+JLoader::load('RedshopAdminHelperExtra_field');
+JLoader::load('RedshopHelperCart');
+JLoader::load('RedshopHelperHelper');
 
 class rsUserhelper
 {

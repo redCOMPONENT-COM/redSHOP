@@ -9,8 +9,8 @@
 
 defined('_JEXEC') or die;
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php';
-include_once JPATH_COMPONENT . '/helpers/helper.php';
+JLoader::load('RedshopAdminHelperOrder');
+JLoader::load('RedshopHelperHelper');
 
 $configobj = new Redconfiguration;
 $order_functions = new order_functions;

@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 JHTML::_('behavior.tooltip');
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php';
+JLoader::load('RedshopAdminHelperOrder');
 $order_functions = new order_functions;
 
 $url = JURI::base();

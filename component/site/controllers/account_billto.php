@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php';
+JLoader::load('RedshopAdminHelperOrder');
 
 JLoader::import('joomla.application.component.controller');
 

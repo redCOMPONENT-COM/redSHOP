@@ -9,10 +9,10 @@
 
 defined('_JEXEC') or die;
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php';
-require_once JPATH_COMPONENT . '/helpers/product.php';
-include_once JPATH_COMPONENT . '/helpers/helper.php';
-include_once JPATH_COMPONENT . '/helpers/cart.php';
+JLoader::load('RedshopAdminHelperOrder');
+JLoader::load('RedshopHelperProduct');
+JLoader::load('RedshopHelperHelper');
+JLoader::load('RedshopHelperCart');
 
 $db  = JFactory::getDbo();
 $url = JURI::base();
