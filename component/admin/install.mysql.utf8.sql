@@ -1603,6 +1603,7 @@ CREATE TABLE IF NOT EXISTS `#__redshop_product` (
   `accountgroup_id` int(11) NOT NULL,
   `canonical_url` text NOT NULL,
   `minimum_per_product_total` int(11) NOT NULL,
+  `allow_decimal_piece` int(4) NOT NULL,
   PRIMARY KEY  (`product_id`)
 ) DEFAULT CHARSET=utf8 COMMENT='redSHOP Products';
 

@@ -15,7 +15,7 @@ require_once JPATH_COMPONENT . '/helpers/product.php';
 require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php';
 require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/shipping.php';
 
-class checkoutViewcheckout extends JView
+class RedshopViewCheckout extends JView
 {
 	public function display($tpl = null)
 	{

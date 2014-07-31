@@ -21,7 +21,7 @@ require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/mail.php';
  * @subpackage  Model
  * @since       1.0
  */
-class AccountModelaccount extends JModel
+class RedshopModelAccount extends JModel
 {
 	public $_id = null;
 

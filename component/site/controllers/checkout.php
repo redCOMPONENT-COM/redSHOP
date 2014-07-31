@@ -21,7 +21,7 @@ require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/extra_field.
  * @subpackage  Controller
  * @since       1.0
  */
-class CheckoutController extends JController
+class RedshopControllerCheckout extends JController
 {
 	public $_order_functions = null;
 
@@ -654,7 +654,8 @@ class CheckoutController extends JController
 		}
 
 		$cart_total = $producthelper->getProductFormattedPrice($cart['mod_cart_total']);
-		echo "`_`" . $description . "`_`" . $cart_total;
+
+		echo eval("?>" . "`_`" . $description . "`_`" . $cart_total . "<?php ");
 		die();
 	}
 

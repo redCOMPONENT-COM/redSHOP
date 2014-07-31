@@ -22,7 +22,7 @@ include_once JPATH_COMPONENT . '/helpers/user.php';
  * @subpackage  Model
  * @since       1.0
  */
-class registrationModelregistration extends JModel
+class RedshopModelRegistration extends JModel
 {
 	public $_id = null;
 

@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 
-class rating_detailController extends JController
+class RedshopControllerRating_detail extends JController
 {
 	public function __construct($default = array())
 	{
