@@ -3528,7 +3528,7 @@ class rsCarthelper
 
 			$template_desc = "<div></div>";
 		}
-		elseif ($rateExist == 1 && $extrafield_total == "")
+		elseif ($rateExist == 1 && $extrafield_total == "" && $classname != "default_shipping_GLS")
 		{
 			$template_desc = "<div style='display:none;'>" . $template_desc . "</div>";
 		}
