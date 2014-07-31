@@ -67,7 +67,7 @@ class RedShopGiftCardsManagerPage extends AdminManagerPage
 		$validityField->clear();
 		$validityField->sendKeys($validity);
 		$elementObject->findElement(By::xPath("//a[@onclick=\"Joomla.submitbutton('save')\"]"))->click();
-		$elementObject->waitForElementUntilIsPresent(By::xPath("//li[text() = 'Gift Card Saved.']"), 10);
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//li[text() = 'Gift Card Saved.']"), 30);
 	}
 
 	/**
@@ -115,7 +115,7 @@ class RedShopGiftCardsManagerPage extends AdminManagerPage
 		}
 
 		$elementObject->findElement(By::xPath("//a[@onclick=\"Joomla.submitbutton('save')\"]"))->click();
-		$elementObject->waitForElementUntilIsPresent(By::xPath("//li[text() = 'Gift Card Saved.']"), 10);
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//li[text() = 'Gift Card Saved.']"), 30);
 	}
 
 	/**
