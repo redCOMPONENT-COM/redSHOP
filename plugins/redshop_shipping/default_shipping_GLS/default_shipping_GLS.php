@@ -23,13 +23,13 @@ class  plgredshop_shippingdefault_shipping_GLS extends JPlugin
 {
 	public $payment_code = "default_shipping_GLS";
 
-	public $classname = "default_shipping_GLS";
+	public $classname    = "default_shipping_GLS";
 
-	public $client   = '';
+	public $client       = '';
 
-	public $errorMsg = '';
+	public $errorMsg     = '';
 
-	public $error    = 0;
+	public $error        = 0;
 
 	/**
 	 * specific redform plugin parameters
@@ -92,12 +92,10 @@ class  plgredshop_shippingdefault_shipping_GLS extends JPlugin
 			)->SearchNearestParcelShopsResult;
 
 			return $this->ShopArray($Handle->parcelshops->PakkeshopData);
-
 		}
 		catch ( Exception $exception )
 		{
 			print("<p><i>error msg in GetNearstParcelShops" . $exception->getMessage() . "</i></p>");
-
 			JError::raiseWarning(21, "GetNearstParcelShops:" . $exception->getMessage());
 		}
 	}
@@ -110,17 +108,20 @@ class  plgredshop_shippingdefault_shipping_GLS extends JPlugin
 
 		for ($i = 0; $i < count($PakkeshopData); $i++)
 		{
-			$shopNUmber 			= $PakkeshopData[$i]->Number;
-			$CompanyName 			= $PakkeshopData[$i]->CompanyName;
-			$Streetname				= $PakkeshopData[$i]->Streetname;
-			$ZipCode				= $PakkeshopData[$i]->ZipCode;
-			$Telephone				= $PakkeshopData[$i]->Telephone;
-			$CountryCodeISO3166A2 	= $PakkeshopData[$i]->CountryCodeISO3166A2;
-			$CityName 	= $PakkeshopData[$i]->CityName;
+			$shopNUmber           = $PakkeshopData[$i]->Number;
+			$CompanyName          = $PakkeshopData[$i]->CompanyName;
+			$Streetname           = $PakkeshopData[$i]->Streetname;
+			$ZipCode              = $PakkeshopData[$i]->ZipCode;
+			$Telephone            = $PakkeshopData[$i]->Telephone;
+			$CountryCodeISO3166A2 = $PakkeshopData[$i]->CountryCodeISO3166A2;
+			$CityName             = $PakkeshopData[$i]->CityName;
 
-			$stropeningTime = $this->WeekdaysTime($PakkeshopData[$i]->OpeningHours->Weekday);
-
-			$shop_id = $shopNUmber . "|" . $CompanyName . "|" . $Streetname . "|" . $ZipCode . "|" . $CountryCodeISO3166A2 . "|" . $Telephone . "|" . $stropeningTime . "|" . $CityName;
+			$stropeningTime       = $this->WeekdaysTime($PakkeshopData[$i]->OpeningHours->Weekday);
+			$shop_id              = $shopNUmber . "|" . $CompanyName
+									. "|" . $Streetname . "|" . $ZipCode
+									. "|" . $CountryCodeISO3166A2
+									. "|" . $Telephone . "|" . $stropeningTime
+									. "|" . $CityName;
 
 			$returnArr[$j]->shop_id              = $shop_id;
 			$returnArr[$j]->Number               = $shopNUmber;
@@ -138,8 +139,8 @@ class  plgredshop_shippingdefault_shipping_GLS extends JPlugin
 		return  $returnArr;
 	}
 
-	function WeekdaysTime($Weekday){
-
+	function WeekdaysTime($Weekday)
+	{
 		$opningTime = Array();
 
 		for ($i = 0; $i < count($Weekday); $i++)
@@ -177,7 +178,8 @@ class  plgredshop_shippingdefault_shipping_GLS extends JPlugin
 				$day = $Weekday[$i]->day;
 			}
 
-			$opningTime[] = "<B>" . $day . '</b> ' . $Weekday[$i]->openAt->From . '-' . $Weekday[$i]->openAt->To;
+			$opningTime[] = "<B>" . $day . '</b> '
+							. $Weekday[$i]->openAt->From . '-' . $Weekday[$i]->openAt->To;
 		}
 
 		$stropeningTime = implode('  ', $opningTime);
@@ -188,25 +190,24 @@ class  plgredshop_shippingdefault_shipping_GLS extends JPlugin
 	function onListRates(&$d)
 	{
 		$shippinghelper = new shipping;
-		$shippingrate = array();
-		$rate = 0;
-		$shipping = $shippinghelper->getShippingMethodByClass($this->classname);
-
-		$ratelist = $shippinghelper->listshippingrates($shipping->element, $d['users_info_id'], $d);
-		$countRate = count($ratelist) >= 1 ? 1 : 0;
+		$shippingrate   = array();
+		$rate           = 0;
+		$shipping       = $shippinghelper->getShippingMethodByClass($this->classname);
+		$ratelist       = $shippinghelper->listshippingrates($shipping->element, $d['users_info_id'], $d);
+		$countRate      = count($ratelist) >= 1 ? 1 : 0;
 
 		for ($i = 0; $i < $countRate; $i++)
 		{
-			$rs = $ratelist[$i];
-			$shippingRate = $rs->shipping_rate_value;
-			$rs->shipping_rate_value = $shippinghelper->applyVatOnShippingRate($rs, $d['user_id']);
-			$shippingVatRate = $rs->shipping_rate_value - $shippingRate;
-			$economic_displaynumber = $rs->economic_displaynumber;
-			$shipping_rate_id = $shippinghelper->encryptShipping(__CLASS__ . "|" . $shipping->name . "|" . $rs->shipping_rate_name . "|" . number_format($rs->shipping_rate_value, 2, '.', '') . "|" . $rs->shipping_rate_id . "|single|" . $shippingVatRate . '|' . $economic_displaynumber);
-			$shippingrate[$rate]->text = $rs->shipping_rate_name;
+			$rs                         = $ratelist[$i];
+			$shippingRate               = $rs->shipping_rate_value;
+			$rs->shipping_rate_value    = $shippinghelper->applyVatOnShippingRate($rs, $d['user_id']);
+			$shippingVatRate            = $rs->shipping_rate_value - $shippingRate;
+			$economic_displaynumber     = $rs->economic_displaynumber;
+			$shipping_rate_id           = $shippinghelper->encryptShipping(__CLASS__ . "|" . $shipping->name . "|" . $rs->shipping_rate_name . "|" . number_format($rs->shipping_rate_value, 2, '.', '') . "|" . $rs->shipping_rate_id . "|single|" . $shippingVatRate . '|' . $economic_displaynumber);
+			$shippingrate[$rate]->text  = $rs->shipping_rate_name;
 			$shippingrate[$rate]->value = $shipping_rate_id;
-			$shippingrate[$rate]->rate = $rs->shipping_rate_value;
-			$shippingrate[$rate]->vat = $shippingVatRate;
+			$shippingrate[$rate]->rate  = $rs->shipping_rate_value;
+			$shippingrate[$rate]->vat   = $shippingVatRate;
 			$rate++;
 		}
 
