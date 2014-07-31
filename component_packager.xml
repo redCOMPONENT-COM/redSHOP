@@ -139,5 +139,7 @@
         </zip>
 
         <echo msg="Files copied and compressed in build directory OK!" />
+
+        <delete dir="${targetdir}" />
     </target>
 </project>
