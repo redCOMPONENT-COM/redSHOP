@@ -14,7 +14,7 @@ require_once JPATH_COMPONENT . '/helpers/category.php';
 require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/extra_field.php';
 require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/product.php';
 
-class productViewproduct extends JView
+class RedshopViewProduct extends JView
 {
 	/**
 	 * The pagination object.

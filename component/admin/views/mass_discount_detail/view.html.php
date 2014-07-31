@@ -13,7 +13,7 @@ jimport('joomla.application.component.view');
 
 require_once JPATH_COMPONENT . '/helpers/category.php';
 
-class mass_discount_detailVIEWmass_discount_detail extends JView
+class RedshopViewMass_discount_detail extends JView
 {
 	public function display($tpl = null)
 	{

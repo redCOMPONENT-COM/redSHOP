@@ -15,7 +15,7 @@ require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/stockroom.ph
 require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/shipping.php';
 require_once JPATH_SITE . '/components/com_redshop/helpers/product.php';
 
-class productModelproduct extends JModel
+class RedshopModelProduct extends JModel
 {
 	public $_data = null;
 

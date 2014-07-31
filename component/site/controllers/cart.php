@@ -21,7 +21,7 @@ include_once JPATH_COMPONENT . '/helpers/cart.php';
  * @subpackage  Controller
  * @since       1.0
  */
-class CartController extends JController
+class RedshopControllerCart extends JController
 {
 	/**
 	 * Constructor
@@ -239,7 +239,7 @@ class CartController extends JController
 
 			if ($discount_amount > 0)
 			{
-				$cart = $this->_session->get('cart');
+				$cart = $session->get('cart');
 			}
 		}
 

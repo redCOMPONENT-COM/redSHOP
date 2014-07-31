@@ -23,7 +23,7 @@ include_once JPATH_COMPONENT_SITE . '/helpers/product.php';
  * @subpackage  Model
  * @since       1.0
  */
-class quotationModelquotation extends JModel
+class RedshopModelQuotation extends JModel
 {
 	public $_id = null;
 

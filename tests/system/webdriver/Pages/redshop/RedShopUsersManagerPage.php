@@ -29,7 +29,7 @@ class RedShopUsersManagerPage extends AdminManagerPage
 	 *
 	 * @since    1.0
 	 */
-	protected $waitForXpath = "//div[@id='toolbar-box']";
+	protected $waitForXpath = "//h2[text() = 'User Management']";
 
 	// We need to change this, and update it to the header of the View
 
@@ -57,6 +57,7 @@ class RedShopUsersManagerPage extends AdminManagerPage
 	{
 		$elementObject = $this->driver;
 		$elementObject->findElement(By::xPath("//a[@onclick=\"Joomla.submitbutton('add')\"]"))->click();
+		$this->checkNoticesForEditView(get_class($this));
 		$userNameField = $elementObject->findElement(By::xPath("//input[@id='username']"));
 		$userNameField->clear();
 		$userNameField->sendKeys($userName);
@@ -69,9 +70,9 @@ class RedShopUsersManagerPage extends AdminManagerPage
 		$emailField = $elementObject->findElement(By::xPath("//input[@id='email']"));
 		$emailField->clear();
 		$emailField->sendKeys($email);
-		$elementObject->findElement(By::xPath("//select[@id='shopper_group_id']/option[contains(text(),'" . $shopperGroup . "')]"))->click();
+		$elementObject->findElement(By::xPath("//select[@id='shopper_group_id']/option[text() = '" . $shopperGroup . "']"))->click();
 		$elementObject->findElement(By::xPath("//li//input[@id='1group_1']"))->click();
-		$elementObject->findElement(By::xPath("//dl[@id='pane']/dt[2]/span[contains(text(),'Billing Information')]"))->click();
+		$elementObject->findElement(By::xPath("//dl[@id='pane']/dt[2]/span[text() = 'Billing Information']"))->click();
 		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='firstname']"), 10);
 		$firstNameField = $elementObject->findElement(By::xPath("//input[@id='firstname']"));
 		$firstNameField->clear();
@@ -80,7 +81,7 @@ class RedShopUsersManagerPage extends AdminManagerPage
 		$lastNameField->clear();
 		$lastNameField->sendKeys($lastName);
 		$elementObject->findElement(By::xPath("//a[@onclick=\"Joomla.submitbutton('save')\"]"))->click();
-		$elementObject->waitForElementUntilIsPresent(By::xPath("//li[contains(text(),'User detail saved')]"), 10);
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//li[text() = 'User detail saved']"), 10);
 	}
 
 	/**
@@ -101,25 +102,26 @@ class RedShopUsersManagerPage extends AdminManagerPage
 		$searchField = $elementObject->findElement(By::xPath("//input[@id='filter']"));
 		$searchField->sendKeys($name);
 		$elementObject->findElement(By::xPath("//button[@onclick=\"this.form.submit();\"]"))->click();
-		$elementObject->waitForElementUntilIsPresent(By::xPath("//tbody/tr/td[6][contains(text(),'" . $name . "')]"), 10);
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//tbody/tr/td[6][text() = '" . $name . "']"), 10);
 		$row = $this->getRowNumber($name) - 1;
 		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='cb" . $row . "']"), 10);
 		$elementObject->findElement(By::xPath("//input[@id='cb" . $row . "']"))->click();
 		$elementObject->findElement(By::xPath("//li[@id='toolbar-edit']/a"))->click();
-		$elementObject->findElement(By::xPath("//dl[@id='pane']/dt[1]/span[contains(text(),'General User Information')]"))->click();
+		$this->checkNoticesForEditView(get_class($this));
+		$elementObject->findElement(By::xPath("//dl[@id='pane']/dt[1]/span[text() = 'General User Information']"))->click();
 		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='username']"), 10);
 
 		switch ($field)
 		{
 			case "First Name":
-				$elementObject->findElement(By::xPath("//dl[@id='pane']/dt[2]/span[contains(text(),'Billing Information')]"))->click();
+				$elementObject->findElement(By::xPath("//dl[@id='pane']/dt[2]/span[text() = 'Billing Information']"))->click();
 				$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='firstname']"), 10);
 				$firstNameField = $elementObject->findElement(By::xPath("//input[@id='firstname']"));
 				$firstNameField->clear();
 				$firstNameField->sendKeys($newValue);
 				break;
 			case "Last Name":
-				$elementObject->findElement(By::xPath("//dl[@id='pane']/dt[2]/span[contains(text(),'Billing Information')]"))->click();
+				$elementObject->findElement(By::xPath("//dl[@id='pane']/dt[2]/span[text() = 'Billing Information']"))->click();
 				$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='firstname']"), 10);
 				$lastNameField = $elementObject->findElement(By::xPath("//input[@id='lastname']"));
 				$lastNameField->clear();
@@ -165,7 +167,7 @@ class RedShopUsersManagerPage extends AdminManagerPage
 		$searchField = $elementObject->findElement(By::xPath("//input[@id='filter']"));
 		$searchField->sendKeys($name);
 		$elementObject->findElement(By::xPath("//button[@onclick=\"this.form.submit();\"]"))->click();
-		$elementObject->waitForElementUntilIsPresent(By::xPath("//tbody/tr/td[6][contains(text(),'" . $name . "')]"), 10);
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//tbody/tr/td[6][text() = '" . $name . "']"), 10);
 		$row = $this->getRowNumber($name) - 1;
 		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='cb" . $row . "']"), 10);
 		$elementObject->findElement(By::xPath("//input[@id='cb" . $row . "']"))->click();
@@ -195,7 +197,7 @@ class RedShopUsersManagerPage extends AdminManagerPage
 			$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='cb" . $row . "']"), 10);
 		}
 
-		$arrayElement = $elementObject->findElements(By::xPath("//tbody/tr/td[6][contains(text(),'" . $name . "')]"));
+		$arrayElement = $elementObject->findElements(By::xPath("//tbody/tr/td[6][text() = '" . $name . "']"));
 
 		if (count($arrayElement))
 		{

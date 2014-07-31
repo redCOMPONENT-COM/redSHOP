@@ -24,7 +24,7 @@ require_once JPATH_COMPONENT_SITE . '/helpers/helper.php';
  *
  * @since       1.0
  */
-class ProductViewProduct extends JView
+class RedshopViewProduct extends JView
 {
 	// JApplication object
 	public $app;

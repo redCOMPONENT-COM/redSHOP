@@ -13,7 +13,7 @@ JLoader::import('joomla.application.component.view');
 
 require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/order.php';
 
-class epayrelayViewepayrelay extends JView
+class RedshopViewEpayrelay extends JView
 {
 	public function display($tpl = null)
 	{

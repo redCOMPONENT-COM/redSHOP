@@ -23,8 +23,23 @@ $url = $uri->root();
 	</tr>
 	<tr>
 		<td width="100" align="right" class="key">
+			<span
+				class="editlinktip hasTip"
+				title="<?php echo JText::_('COM_REDSHOP_STATISTICS_ENABLE_TEXT'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_STATISTICS_ENABLE'); ?>"
+			>
+				<label for="statistics_enable">
+					<?php  echo JText::_('COM_REDSHOP_STATISTICS_ENABLE_TEXT');?>
+				</label>
+			</span>
+		</td>
+		<td>
+			<?php echo JHTML::_('select.booleanlist', 'statistics_enable', 'class="inputbox" size="1"', STATISTICS_ENABLE); ?>
+		</td>
+	</tr>
+	<tr>
+		<td width="100" align="right" class="key">
 		<span class="editlinktip hasTip"
-		      title="<?php echo JText::_('COM_REDSHOP_NEWSLETTER_ENABLE_TEXT'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_NEWSLETTER_ENABLE'); ?>">
+			  title="<?php echo JText::_('COM_REDSHOP_NEWSLETTER_ENABLE_TEXT'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_NEWSLETTER_ENABLE'); ?>">
 		<label
 			for="newsletter_enable"><?php  echo JText::_('COM_REDSHOP_NEWSLETTER_ENABLE_TEXT');?>
 		</label>
@@ -40,7 +55,7 @@ $url = $uri->root();
 	<tr>
 		<td width="100" align="right" class="key">
 		<span class="editlinktip hasTip"
-		      title="<?php echo JText::_('COM_REDSHOP_MY_WISHLIST_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_MY_WISHLIST'); ?>">
+			  title="<?php echo JText::_('COM_REDSHOP_MY_WISHLIST_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_MY_WISHLIST'); ?>">
 		<label for="name">
 			<?php echo JText::_('COM_REDSHOP_MY_WISHLIST_LBL');?>
 		</label>
@@ -50,7 +65,7 @@ $url = $uri->root();
 	<tr>
 		<td width="100" align="right" class="key">
 		<span class="editlinktip hasTip"
-		      title="<?php echo JText::_('COM_REDSHOP_WISHLIST_LOGIN_REQUIRED_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_WISHLIST_LOGIN_REQUIRED'); ?>">
+			  title="<?php echo JText::_('COM_REDSHOP_WISHLIST_LOGIN_REQUIRED_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_WISHLIST_LOGIN_REQUIRED'); ?>">
 		<label for="invoice_mail_send_option"><?php echo JText::_('COM_REDSHOP_WISHLIST_LOGIN_REQUIRED_LBL');?></label></span>
 		</td>
 		<td><?php echo $this->lists ['wishlist_login_required'];?></td>
@@ -63,7 +78,7 @@ $url = $uri->root();
 	<tr>
 		<td width="100" align="right" class="key">
 		<span class="editlinktip hasTip"
-		      title="<?php echo JText::_('COM_REDSHOP_MY_TAGS_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_MY_TAGS'); ?>">
+			  title="<?php echo JText::_('COM_REDSHOP_MY_TAGS_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_MY_TAGS'); ?>">
 		<label for="name"><?php echo JText::_('COM_REDSHOP_MY_TAGS_LBL');?></label></span>
 		</td>
 		<td><?php echo $this->lists ['my_tags'];?></td>
@@ -76,21 +91,21 @@ $url = $uri->root();
 	<tr>
 		<td width="100" align="right" class="key">
 		<span class="editlinktip hasTip"
-		      title="<?php echo JText::_('COM_REDSHOP_COMPARE_PRODUCTS_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_COMPARE_PRODUCTS'); ?>">
+			  title="<?php echo JText::_('COM_REDSHOP_COMPARE_PRODUCTS_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_COMPARE_PRODUCTS'); ?>">
 		<label for="name">
 			<?php echo JText::_('COM_REDSHOP_COMPARE_PRODUCTS_LBL');?>
 		</label>
-       </span>
+	   </span>
 		</td>
 		<td><?php echo $this->lists ['compare_products'];?></td>
 	</tr>
 	<tr>
 		<td width="100" align="right" class="key">
 		<span class="editlinktip hasTip"
-		      title="<?php echo JText::_('COM_REDSHOP_COUPON_INFO_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_COUPON_INFO_LBL'); ?>">
+			  title="<?php echo JText::_('COM_REDSHOP_COUPON_INFO_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_COUPON_INFO_LBL'); ?>">
 		<label for="name"><?php echo JText::_('COM_REDSHOP_COUPON_INFO_LBL');?>
 		</label>
-        </span>
+		</span>
 		</td>
 		<td><?php echo $this->lists ['couponinfo'];?></td>
 	</tr>
@@ -102,7 +117,7 @@ $url = $uri->root();
 	<tr>
 		<td width="100" align="right" class="key">
 		<span class="editlinktip hasTip"
-		      title="<?php echo JText::_('COM_REDSHOP_DISCOUNT_ENABLE_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_DISCOUNT_ENABLE_LBL'); ?>">
+			  title="<?php echo JText::_('COM_REDSHOP_DISCOUNT_ENABLE_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_DISCOUNT_ENABLE_LBL'); ?>">
 		<label for="name"><?php echo JText::_('COM_REDSHOP_DISCOUNT_ENABLE_LBL');?></label></span>
 		</td>
 		<td><?php echo $this->lists ['discount_enable'];?></td>
@@ -115,7 +130,7 @@ $url = $uri->root();
 	<tr>
 		<td width="100" align="right" class="key">
 			<span class="editlinktip hasTip"
-			      title="<?php echo JText::_('COM_REDSHOP_USE_CONTAINER_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_USE_CONTAINER_LBL'); ?>">
+				  title="<?php echo JText::_('COM_REDSHOP_USE_CONTAINER_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_USE_CONTAINER_LBL'); ?>">
 			<label for="container"><?php echo JText::_('COM_REDSHOP_USE_CONTAINER_LBL');?></label></span>
 		</td>
 		<td><?php echo $this->lists ['use_container'];?></td>
@@ -123,7 +138,7 @@ $url = $uri->root();
 	<tr>
 		<td width="100" align="right" class="key">
 			<span class="editlinktip hasTip"
-			      title="<?php echo JText::_('COM_REDSHOP_USE_STOCKROOM_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_USE_STOCKROOM_LBL'); ?>">
+				  title="<?php echo JText::_('COM_REDSHOP_USE_STOCKROOM_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_USE_STOCKROOM_LBL'); ?>">
 			<label for="container"><?php echo JText::_('COM_REDSHOP_USE_STOCKROOM_LBL');?></label></span>
 		</td>
 		<td><?php echo $this->lists ['use_stockroom']; ?></td>
