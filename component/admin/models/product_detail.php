@@ -4163,6 +4163,11 @@ class Product_DetailModelProduct_Detail extends JModel
 
 		$subPropertyList = $producthelper->getAttibuteSubProperty(0, $subattribute_id);
 
+		if (count($subPropertyList) == 0)
+		{
+			$subproperty = array('0' => new stdClass);
+		}
+
 		if ($sp)
 		{
 			$subproperty[0]->subattribute_color_id = $sp;
@@ -4179,7 +4184,12 @@ class Product_DetailModelProduct_Detail extends JModel
 					  AND subattribute_color_id= '" . $subproperty[$j]->subattribute_color_id . "'";
 			$this->_db->setQuery($query);
 			$this->_db->query();
-			$this->delete_image($subproperty[$j]->subattribute_color_image, 'subcolor');
+
+			if (isset($subproperty[$j]->subattribute_color_image)
+				&& $subproperty[$j]->subattribute_color_image)
+			{
+				$this->delete_image($subproperty[$j]->subattribute_color_image, 'subcolor');
+			}
 		}
 
 		if (count($subPropertyList) <= 1)
