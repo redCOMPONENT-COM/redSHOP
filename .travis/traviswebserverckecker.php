@@ -34,5 +34,5 @@ if (!$foundJoomlaInstaller)
     exit(1);
 }
 
-fwrite(STDOUT, "\033[32;1mWeb server not working in Travis\033[0m\n");
+fwrite(STDOUT, "\033[32;1mWeb server is working in Travis\033[0m\n");
 exit(0);
