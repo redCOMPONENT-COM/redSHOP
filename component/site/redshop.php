@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 $app = JFactory::getApplication();
+
 JLoader::import('joomla.html.parameter');
 
 // Getting the configuration
@@ -33,10 +34,147 @@ require_once JPATH_COMPONENT . '/helpers/product.php';
 require_once JPATH_COMPONENT . '/helpers/currency.php';
 require_once JPATH_COMPONENT . '/helpers/redshop.js.php';
 
+// Helper object
+$helper = new redhelper;
+
+// Include redCRM if required
+$helper->isredCRM();
+
+$print = $app->input->getCmd('print');
+
+// Adding Redshop CSS
+$doc = JFactory::getDocument();
+
+// Use diffrent CSS for print layout
+if (!$print)
+{
+	JHTML::Stylesheet('redshop.css', 'components/com_redshop/assets/css/');
+}
+else
+{
+	JHTML::Stylesheet('print.css', 'components/com_redshop/assets/css/');
+}
+
+JHTML::Stylesheet('style.css', 'components/com_redshop/assets/css/');
+
+// Set the default view name and format from the Request.
+$vName      = $app->input->getCmd('view', 'category');
+$task       = $app->input->getCmd('task');
+$format     = $app->input->getWord('format', '');
+$layout     = $app->input->getWord('layout', '');
+$params     = $app->getParams('com_redshop');
+$categoryid = $app->input->getInt('cid', $params->get('categoryid'));
+$productid  = $app->input->getInt('pid', 0);
+$sgportal   = $helper->getShopperGroupPortal();
+$user       = JFactory::getUser();
+$portal     = 0;
+
+// Add product in cart from db
+$helper->dbtocart();
+
+if (count($sgportal) > 0)
+{
+	$portal = $sgportal->shopper_group_portal;
+}
+
+if ($task != 'loadProducts' && $task != "downloadProduct" && $task != "discountCalculator" && $task != "ajaxupload" && $task != 'getShippingrate' && $task != 'addtocompare' && $task != 'ajaxsearch' && $task != "Download" && $task != 'addtowishlist')
+{
+	echo "<div id='redshopcomponent' class='redshop'>";
+
+	if ($format != 'final' && $layout != 'receipt')
+	{
+		/*
+		 * get redSHOP Google Analytics Plugin is Enable?
+		 * If it is Disable than load Google Analytics From redSHOP
+		 */
+		$isredGoogleAnalytics = JPluginHelper::isEnabled('system', 'redgoogleanalytics');
+
+		if (!$isredGoogleAnalytics && GOOGLE_ANA_TRACKER_KEY != "")
+		{
+			require_once JPATH_COMPONENT . '/helpers/google_analytics.php';
+
+			$google_ana = new googleanalytics;
+
+			$anacode = $google_ana->placeTrans();
+		}
+	}
+}
+
+if (PORTAL_SHOP == 1)
+{
+	if ($vName == 'product' && $productid > 0 && $user->id > 0)
+	{
+		$checkcid = $helper->getShopperGroupProductCategory($productid);
+
+		if ($checkcid == true)
+		{
+			$vName = 'login';
+			JRequest::setVar('view', 'login');
+			JRequest::setVar('layout', 'portal');
+			$app->enqueuemessage(JText::_('COM_REDSHOP_AUTHENTICATIONFAIL'));
+		}
+	}
+	elseif ($vName == 'category' && $categoryid > 0 && $user->id > 0)
+	{
+		$checkcid = $helper->getShopperGroupCategory($categoryid);
+
+		if ($checkcid == "")
+		{
+			$vName = 'login';
+			JRequest::setVar('view', 'login');
+			JRequest::setVar('layout', 'portal');
+			$app->enqueuemessage(JText::_('COM_REDSHOP_AUTHENTICATIONFAIL'));
+		}
+	}
+	else
+	{
+		$vName = 'login';
+		JRequest::setVar('view', 'login');
+		JRequest::setVar('layout', 'portal');
+	}
+}
+else
+{
+	if ($vName == 'product' && $productid > 0 && $portal == 1)
+	{
+		$checkcid = $helper->getShopperGroupProductCategory($productid);
+
+		if ($checkcid == true)
+		{
+			$vName = 'login';
+			JRequest::setVar('view', 'login');
+			JRequest::setVar('layout', 'portal');
+			$app->enqueuemessage(JText::_('COM_REDSHOP_AUTHENTICATIONFAIL'));
+		}
+	}
+
+	if ($vName == 'category' && $categoryid > 0 && $portal == 1)
+	{
+		$checkcid = $helper->getShopperGroupCategory($categoryid);
+
+		if ($checkcid == "")
+		{
+			$vName = 'login';
+			JRequest::setVar('view', 'login');
+			JRequest::setVar('layout', 'portal');
+			$app->enqueuemessage(JText::_('COM_REDSHOP_AUTHENTICATIONFAIL'));
+		}
+	}
+
+	if ($vName == 'redshop')
+	{
+		$vName = 'category';
+		JRequest::setVar('view', 'category');
+	}
+	else
+	{
+		JRequest::setVar('view', $vName);
+	}
+}
+
 // Check for array format.
 $filter = JFilterInput::getInstance();
 $task   = $app->input->getCmd('task', 'display');
-$vName  = $app->input->getCmd('view', false);
 
 if (is_array($task))
 {
@@ -48,7 +186,7 @@ else
 }
 
 // Check for a not controller.task command.
-if (strpos($command, '.') === false && $vName !== false)
+if (strpos($command, '.') === false)
 {
 	JRequest::setVar('task', $vName . '.' . $command);
 }
@@ -56,5 +194,8 @@ if (strpos($command, '.') === false && $vName !== false)
 // Perform the Request task
 $controller = JControllerLegacy::getInstance('Redshop');
 $controller->execute($app->input->getCmd('task'));
+
+// End component DIV here
+echo "</div>";
 
 $controller->redirect();
