@@ -35,8 +35,8 @@ require_once JPATH_COMPONENT . '/helpers/redshop.js.php';
 
 // Check for array format.
 $filter = JFilterInput::getInstance();
-$task   = JRequest::getCmd('task', 'display');
-$vName  = JRequest::getCmd('view', false);
+$task   = $app->input->getCmd('task', 'display');
+$vName  = $app->input->getCmd('view', false);
 
 if (is_array($task))
 {
@@ -55,6 +55,6 @@ if (strpos($command, '.') === false && $vName !== false)
 
 // Perform the Request task
 $controller = JControllerLegacy::getInstance('Redshop');
-$controller->execute(JRequest::getCmd('task'));
+$controller->execute($app->input->getCmd('task'));
 
 $controller->redirect();
