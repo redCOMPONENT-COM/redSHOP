@@ -30,7 +30,7 @@ $document->addStyleSheet(JURI::base() . 'modules/mod_redshop_products/css/produc
 require_once JPATH_SITE . '/components/com_redshop/helpers/redshop.js.php';
 
 // Light-box Java-script
-JHTML::Script('redBOX.js', 'components/com_redshop/assets/js/', false);
+JHTML::Script('redbox.js', 'components/com_redshop/assets/js/', false);
 JHTML::Script('attribute.js', 'components/com_redshop/assets/js/', false);
 JHTML::Script('common.js', 'components/com_redshop/assets/js/', false);
 JHTML::Stylesheet('fetchscript.css', 'components/com_redshop/assets/css/');

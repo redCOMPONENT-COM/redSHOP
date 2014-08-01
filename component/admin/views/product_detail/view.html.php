@@ -24,7 +24,7 @@ require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
  *
  * @since       1.0
  */
-class Product_DetailViewProduct_Detail extends JView
+class RedshopViewProduct_Detail extends JView
 {
 	/**
 	 * The request url.

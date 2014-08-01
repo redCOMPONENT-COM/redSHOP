@@ -19,7 +19,7 @@ require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/mail.php';
  * @subpackage  Model
  * @since       1.0
  */
-class CatalogModelCatalog extends JModel
+class RedshopModelCatalog extends JModel
 {
 	public $_table_prefix = null;
 

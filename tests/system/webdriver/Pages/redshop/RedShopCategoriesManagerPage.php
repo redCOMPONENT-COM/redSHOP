@@ -59,7 +59,7 @@ class RedShopCategoriesManagerPage extends AdminManagerPage
 		$noOfProductsField->clear();
 		$noOfProductsField->sendKeys($noOfProducts);
 		$elementObject->findElement(By::xPath("//a[@onclick=\"Joomla.submitbutton('save')\"]"))->click();
-		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='category_main_filter']"), 10);
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='category_main_filter']"), 30);
 	}
 
 	/**
@@ -86,7 +86,7 @@ class RedShopCategoriesManagerPage extends AdminManagerPage
 		$elementObject->findElement(By::xPath("//input[@id='cb" . $row . "']"))->click();
 		$elementObject->findElement(By::xPath("//li[@id='toolbar-edit']/a"))->click();
 		$this->checkNoticesForEditView(get_class($this));
-		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='category_name']"), 10);
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='category_name']"), 30);
 
 		switch ($field)
 		{
@@ -103,7 +103,7 @@ class RedShopCategoriesManagerPage extends AdminManagerPage
 		}
 
 		$elementObject->findElement(By::xPath("//a[@onclick=\"Joomla.submitbutton('save')\"]"))->click();
-		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='category_main_filter']"), 10);
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='category_main_filter']"), 30);
 	}
 
 	/**
@@ -118,11 +118,12 @@ class RedShopCategoriesManagerPage extends AdminManagerPage
 		$elementObject = $this->driver;
 		$searchField = $elementObject->findElement(By::xPath("//input[@id='category_main_filter']"));
 		$searchField->clear();
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='category_main_filter']"), 30);
 		sleep(3);
 		$searchField = $elementObject->findElement(By::xPath("//input[@id='category_main_filter']"));
 		$searchField->sendKeys($categoryName);
 		$elementObject->findElement(By::xPath("//button[@onclick=\"document.adminForm.submit();\"]"))->click();
-		$elementObject->waitForElementUntilIsPresent(By::xPath("//tbody/tr/td[3]/a[text() = '" . $categoryName . "']"), 10);
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//tbody/tr/td[3]/a[text() = '" . $categoryName . "']"), 30);
 		$row = $this->getRowNumber($categoryName) - 1;
 		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='cb" . $row . "']"), 10);
 		$elementObject->findElement(By::xPath("//input[@id='cb" . $row . "']"))->click();
@@ -143,6 +144,7 @@ class RedShopCategoriesManagerPage extends AdminManagerPage
 		$elementObject = $this->driver;
 		$searchField = $elementObject->findElement(By::xPath("//input[@id='category_main_filter']"));
 		$searchField->clear();
+		$searchField = $elementObject->findElement(By::xPath("//input[@id='category_main_filter']"));
 		$searchField->sendKeys($categoryName);
 		$elementObject->findElement(By::xPath("//button[@onclick=\"document.adminForm.submit();\"]"))->click();
 		sleep(5);
@@ -177,6 +179,7 @@ class RedShopCategoriesManagerPage extends AdminManagerPage
 		$elementObject = $this->driver;
 		$searchField = $elementObject->findElement(By::xPath("//input[@id='category_main_filter']"));
 		$searchField->clear();
+		$searchField = $elementObject->findElement(By::xPath("//input[@id='category_main_filter']"));
 		$searchField->sendKeys($categoryName);
 		$elementObject->findElement(By::xPath("//button[@onclick=\"document.adminForm.submit();\"]"))->click();
 		sleep(5);

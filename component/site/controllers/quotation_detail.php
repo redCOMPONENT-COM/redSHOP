@@ -22,7 +22,7 @@ require_once JPATH_COMPONENT . '/helpers/helper.php';
  * @subpackage  Controller
  * @since       1.0
  */
-class Quotation_detailController extends JController
+class RedshopControllerQuotation_detail extends JController
 {
 	/**
 	 * update status function

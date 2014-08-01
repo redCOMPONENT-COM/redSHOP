@@ -80,6 +80,7 @@
             <fileset dir="${extpath}/component">
                 <include name="**" />
                 <exclude name=".*" />
+                <exclude name="**/*-uncompressed.js" />
             </fileset>
         </copy>
 
@@ -138,5 +139,7 @@
         </zip>
 
         <echo msg="Files copied and compressed in build directory OK!" />
+
+        <delete dir="${targetdir}" />
     </target>
 </project>
