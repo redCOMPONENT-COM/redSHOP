@@ -839,7 +839,7 @@ class order_functions
 				}
 
 				JModel::addIncludePath(JPATH_SITE . '/components/com_redshop/models');
-				$checkoutModelcheckout = JModel::getInstance('checkout', 'checkoutModel');
+				$checkoutModelcheckout = JModel::getInstance('Checkout', 'RedshopModel');
 				$checkoutModelcheckout->sendGiftCard($order_id);
 
 				// Send the Order mail
@@ -1051,7 +1051,7 @@ class order_functions
 			if ($paymentstatus == "Paid")
 			{
 				JModel::addIncludePath(JPATH_SITE . '/components/com_redshop/models');
-				$checkoutModelcheckout = JModel::getInstance('checkout', 'checkoutModel');
+				$checkoutModelcheckout = JModel::getInstance('Checkout', 'RedhopModel');
 				$checkoutModelcheckout->sendGiftCard($oid[0]);
 
 				// Send the Order mail

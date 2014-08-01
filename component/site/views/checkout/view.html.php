@@ -13,7 +13,7 @@ JLoader::import('joomla.application.component.view');
 require_once JPATH_COMPONENT . '/helpers/helper.php';
 require_once JPATH_COMPONENT . '/helpers/extra_field.php';
 
-class checkoutViewcheckout extends JView
+class RedshopViewCheckout extends JView
 {
 	public function display($tpl = null)
 	{
@@ -56,7 +56,7 @@ class checkoutViewcheckout extends JView
 		JHTML::Script('jquery.metadata.js', 'components/com_redshop/assets/js/', false);
 		JHTML::Script('registration.js', 'components/com_redshop/assets/js/', false);
 		JHTML::Stylesheet('validation.css', 'components/com_redshop/assets/css/');
-		JHTML::Script('redBOX.js', 'components/com_redshop/assets/js/', false);
+		JHTML::Script('redbox.js', 'components/com_redshop/assets/js/', false);
 
 		if (JPluginHelper::isEnabled('redshop_veis_registration', 'rs_veis_registration'))
 		{

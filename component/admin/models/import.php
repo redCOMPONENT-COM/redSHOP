@@ -16,7 +16,7 @@ require_once JPATH_COMPONENT . '/helpers/thumbnail.php';
 require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php';
 require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
 
-class importModelimport extends JModel
+class RedshopModelImport extends JModel
 {
 	public function getData()
 	{

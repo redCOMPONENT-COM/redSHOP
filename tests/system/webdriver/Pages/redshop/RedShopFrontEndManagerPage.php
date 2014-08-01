@@ -54,7 +54,7 @@ class RedShopFrontEndManagerPage extends AdminManagerPage
 		$checkoutUrl = 'index.php?option=com_redshop&view=checkout';
 		$elementObject = $this->driver;
 		$elementObject->findElement(By::xPath("//a[text() = '" . $category . "']"))->click();
-		$elementObject->waitForElementUntilIsPresent(By::xPath("//select[@id='order_by']//option[@value='p.product_id DESC']"), 15);
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//select[@id='order_by']//option[@value='p.product_id DESC']"), 30);
 		$elementObject->findElement(By::xPath("//select[@id='order_by']//option[@value='p.product_id DESC']"))->click();
 		sleep(2);
 		$elementObject->findElement(By::xPath("//a[text() = '" . $productName . "']"))->click();

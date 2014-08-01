@@ -59,7 +59,7 @@ class RedShopCurrenciesManagerPage extends AdminManagerPage
 		$codeField->clear();
 		$codeField->sendKeys($code);
 		$elementObject->findElement(By::xPath("//a[@onclick=\"Joomla.submitbutton('save')\"]"))->click();
-		$elementObject->waitForElementUntilIsPresent(By::xPath("//li[text() = 'Currency Detail Saved']"), 10);
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//li[text() = 'Currency Detail Saved']"), 30);
 	}
 
 	/**
@@ -98,7 +98,7 @@ class RedShopCurrenciesManagerPage extends AdminManagerPage
 		}
 
 		$elementObject->findElement(By::xPath("//a[@onclick=\"Joomla.submitbutton('save')\"]"))->click();
-		$elementObject->waitForElementUntilIsPresent(By::xPath("//li[text() = 'Currency Detail Saved']"), 10);
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//li[text() = 'Currency Detail Saved']"), 30);
 		$this->sortData();
 	}
 

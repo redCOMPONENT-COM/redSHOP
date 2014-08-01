@@ -25,6 +25,6 @@ JLoader::import('joomla.application.component.controller');
  * @subpackage  Controller
  * @since       1.0
  */
-class EpayrelayController extends JController
+class RedshopControllerEpayrelay extends JController
 {
 }

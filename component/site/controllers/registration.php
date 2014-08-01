@@ -23,7 +23,7 @@ require_once JPATH_COMPONENT_SITE . '/helpers/extra_field.php';
  * @subpackage  Controller
  * @since       1.0
  */
-class RegistrationController extends JController
+class RedshopControllerRegistration extends JController
 {
 	/**
 	 * newregistration function
