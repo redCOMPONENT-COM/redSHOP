@@ -18,7 +18,7 @@ defined('_JEXEC') or die ('Restricted access');
 class RedshopController extends JControllerLegacy
 {
 	/**
-	 * Method to show a newsfeeds view
+	 * Method to show a redSHOP Default view
 	 *
 	 * @param   boolean  $cachable   If true, the view output will be cached
 	 * @param   boolean  $urlparams  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
