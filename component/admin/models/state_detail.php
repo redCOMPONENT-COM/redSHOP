@@ -65,15 +65,17 @@ class RedshopModelState_detail extends JModel
 	{
 		if (empty($this->_data))
 		{
-			$detail = new stdClass;
+			$detail                   = new stdClass;
 
-			$detail->state_id = 0;
-			$detail->state_name = null;
-			$detail->state_3_code = null;
-			$detail->country_id = null;
-			$detail->state_2_code = null;
-			$detail->show_state = 2;
-			$this->_data = $detail;
+			$detail->state_id         = 0;
+			$detail->state_name       = null;
+			$detail->state_3_code     = null;
+			$detail->country_id       = null;
+			$detail->state_2_code     = null;
+			$detail->show_state       = 2;
+			$detail->checked_out      = 0;
+			$detail->checked_out_time = null;
+			$this->_data              = $detail;
 
 			return (boolean) $this->_data;
 		}
