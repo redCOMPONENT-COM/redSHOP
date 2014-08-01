@@ -93,9 +93,8 @@ if ($task != 'loadProducts' && $task != "downloadProduct" && $task != "discountC
 		{
 			require_once JPATH_COMPONENT . '/helpers/google_analytics.php';
 
-			$google_ana = new googleanalytics;
-
-			$anacode = $google_ana->placeTrans();
+			$ga      = new GoogleAnalytics;
+			$anacode = $ga->placeTrans();
 		}
 	}
 }
