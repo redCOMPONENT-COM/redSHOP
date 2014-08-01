@@ -20,11 +20,6 @@ before_script:
   - sudo /etc/init.d/apache2 restart
   - composer install --dev --prefer-dist
 
-  # Test apache
-  - "curl http://localhost/"
-  - "curl http://localhost/joomla-cms/installation/index.php"
-
-
   # XVFB
   - "export DISPLAY=:99.0"
   - "Xvfb :99.0 -extension RANDR > /dev/null &"
@@ -40,6 +35,7 @@ before_script:
 
 
 script:
+  - php .travis/traviswebserverckecker.php http://localhost/joomla-cms/installation/index.php # Test apache
   - php .travis/phpparseerrorchecker.php component/ modules/ plugins/
   # - phing -f .travis.xml
   - mv tests/system/servers/travis.configdef.php tests/system/servers/configdef.php # Create travis system tests config file
