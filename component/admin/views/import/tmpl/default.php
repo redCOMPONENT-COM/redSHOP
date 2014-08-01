@@ -24,26 +24,26 @@ $data = array(
 
 // Defines encoding used in import
 $characterSets = array(
-	'ISO-8859-1'  => 'Western European, Latin-1',
-	'ISO-8859-5'  => 'Little used cyrillic charset (Latin/Cyrillic)',
-	'ISO-8859-15' => 'Western European, Latin-9. Adds the Euro sign, French and Finnish letters missing in Latin-1 (ISO-8859-1).',
-	'UTF-8'       => 'ASCII compatible multi-byte 8-bit Unicode',
-	'cp866'       => 'DOS-specific Cyrillic charset',
-	'cp1251'      => 'Windows-specific Cyrillic charset',
-	'cp1252'      => 'Windows specific charset for Western European',
-	'KOI8-R'      => 'Russian',
-	'BIG5'        => 'Traditional Chinese, mainly used in Taiwan',
-	'GB2312'      => 'Simplified Chinese, national standard character set',
-	'BIG5-HKSCS'  => 'Big5 with Hong Kong extensions, Traditional Chinese',
-	'Shift_JIS'   => 'Japanese',
-	'EUC-JP'      => 'Japanese',
-	'MacRoman'    => 'Charset that was used by Mac OS'
+	'ISO-8859-1'  => 'COM_REDSHOP_IMPORT_CHARS_ISO88591',
+	'ISO-8859-5'  => 'COM_REDSHOP_IMPORT_CHARS_ISO88595',
+	'ISO-8859-15' => 'COM_REDSHOP_IMPORT_CHARS_ISO885915',
+	'UTF-8'       => 'COM_REDSHOP_IMPORT_CHARS_UTF8',
+	'cp866'       => 'COM_REDSHOP_IMPORT_CHARS_CP866',
+	'cp1251'      => 'COM_REDSHOP_IMPORT_CHARS_CP1251',
+	'cp1252'      => 'COM_REDSHOP_IMPORT_CHARS_CP1252',
+	'KOI8-R'      => 'COM_REDSHOP_IMPORT_CHARS_KOI8R',
+	'BIG5'        => 'COM_REDSHOP_IMPORT_CHARS_BIG5',
+	'GB2312'      => 'COM_REDSHOP_IMPORT_CHARS_GB2312',
+	'BIG5-HKSCS'  => 'COM_REDSHOP_IMPORT_CHARS_BIG5HKSCS',
+	'Shift_JIS'   => 'COM_REDSHOP_IMPORT_CHARS_SHIFTJIS',
+	'EUC-JP'      => 'COM_REDSHOP_IMPORT_CHARS_EUCJP',
+	'MacRoman'    => 'COM_REDSHOP_IMPORT_CHARS_MACROMAN'
 );
 
 // Creating JOption for JSelect box.
 foreach ($characterSets as $char => $name)
 {
-	$title = '(' . $char . ') ' . $name;
+	$title       = sprintf(JText::_($name), $char);
 	$encodings[] = JHTML::_('select.option', $char, $title);
 }
 
