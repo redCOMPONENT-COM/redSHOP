@@ -37,7 +37,7 @@ class RedshopController extends JControllerLegacy
 		// Include redCRM if required
 		$helper->isredCRM();
 
-		$print = JRequest::getCmd('print');
+		$print = $app->input->getCmd('print');
 
 		// Adding Redshop CSS
 		$doc = JFactory::getDocument();
@@ -55,13 +55,13 @@ class RedshopController extends JControllerLegacy
 		JHTML::Stylesheet('style.css', 'components/com_redshop/assets/css/');
 
 		// Set the default view name and format from the Request.
-		$vName      = JRequest::getCmd('view', 'category');
-		$task       = JRequest::getCmd('task');
-		$format     = JRequest::getWord('format', '');
-		$layout     = JRequest::getWord('layout', '');
+		$vName      = $app->input->getCmd('view', 'category');
+		$task       = $app->input->getCmd('task');
+		$format     = $app->input->getWord('format', '');
+		$layout     = $app->input->getWord('layout', '');
 		$params     = $app->getParams('com_redshop');
-		$categoryid = JRequest::getInt('cid', $params->get('categoryid'));
-		$productid  = JRequest::getInt('pid', 0);
+		$categoryid = $app->input->getInt('cid', $params->get('categoryid'));
+		$productid  = $app->input->getInt('pid', 0);
 		$sgportal   = $helper->getShopperGroupPortal();
 		$user       = JFactory::getUser();
 		$portal     = 0;
