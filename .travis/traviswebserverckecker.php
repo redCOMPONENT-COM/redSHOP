@@ -24,7 +24,7 @@ if (2 > count($argv))
     exit(1);
 }
 
-$joomlaUrl = $argv[$i];
+$joomlaUrl = $argv[1];
 
 $foundJoomlaInstaller = shell_exec('curl ' . $joomlaUrl . ' | grep "Joomla! 2.5.[0-9]\{2\}-dev";');
 
