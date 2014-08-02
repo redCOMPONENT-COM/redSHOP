@@ -23,7 +23,7 @@ class InstallationGroup extends \Codeception\Platform\Group
 
 		if (file_exists($joomlaConfigurationFile))
 		{
-			//chmod($joomlaConfigurationFile, 0777);
+			chmod($joomlaConfigurationFile, 0777);
 			unlink($joomlaConfigurationFile);
 		}
 	}
