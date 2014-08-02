@@ -1,6 +1,6 @@
 <?php
-$cfg = new SeleniumConfig;
-$I = new AcceptanceTester($scenario);
+$scenario->group('installation');
+$I = new AcceptanceTester\InstallSteps($scenario);
 $I->wantTo('Execute Joomla Installation');
-InstallTestPage::of($I)->install($cfg);
+$I->installJoomla($I->getConfig());
 
