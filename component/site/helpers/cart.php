@@ -1514,15 +1514,24 @@ class rsCarthelper
 				}
 				else
 				{
-					if ($product->product_full_image)
+					$product_full_image = $product->product_full_image;
+					$product_type = 'product';
+
+					if ($rowitem [$i]->is_giftcard)
 					{
-						if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $product->product_full_image))
+						$product_full_image = $giftcardData->giftcard_image;
+						$product_type = 'giftcard';
+					}
+
+					if ($product_full_image)
+					{
+						if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . $product_type . "/" . $product_full_image))
 						{
 							$attribute_image_path = RedShopHelperImages::getImagePath(
-														$product->product_full_image,
+														$product_full_image,
 														'',
 														'thumb',
-														'product',
+														$product_type,
 														CART_THUMB_WIDTH,
 														CART_THUMB_HEIGHT,
 														USE_IMAGE_SIZE_SWAPPING
@@ -3519,7 +3528,7 @@ class rsCarthelper
 
 			$template_desc = "<div></div>";
 		}
-		elseif ($rateExist == 1 && $extrafield_total == "")
+		elseif ($rateExist == 1 && $extrafield_total == "" && $classname != "default_shipping_GLS")
 		{
 			$template_desc = "<div style='display:none;'>" . $template_desc . "</div>";
 		}
@@ -3760,14 +3769,6 @@ class rsCarthelper
 
 					if (in_array($shopperGroupId, $shopper_groupArr) || $shopper_groupArr[0] == 0)
 					{
-						if ($flag == false)
-						{
-							if (count($paymentmethod) > 0)
-							{
-								$payment_method_id = $paymentmethod[$p]->name;
-							}
-						}
-
 						$checked = '';
 
 						if ($payment_method_id === $paymentmethod[$p]->name)
