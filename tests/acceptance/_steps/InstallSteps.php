@@ -1,21 +1,15 @@
 <?php
+namespace AcceptanceTester;
 
-/**
- * Class InstallTestPage
- *
- * @since  1.0
- *
- */
-class InstallTestPage
+class InstallSteps extends \AcceptanceTester
 {
 	// Include url of current page
 	public static $URL = '/installation/index.php';
 
 	/**
-	 * Declare UI map for this page here. CSS or XPath allowed.
-	 * public static $usernameField = '#username';
-	 * public static $formSubmitButton = "#mainForm input[type=submit]";
+	 * @var AcceptanceTester;
 	 */
+	protected $acceptanceTester;
 
 	/**
 	 * Basic route example for your current URL
@@ -27,33 +21,6 @@ class InstallTestPage
 	public static function route($param = "")
 	{
 		return static::$URL . $param;
-	}
-
-	/**
-	 * @var AcceptanceTester;
-	 */
-	protected $acceptanceTester;
-
-	/**
-	 * Constructor Function
-	 *
-	 * @param   AcceptanceTester  $I  Scenario Object
-	 */
-	public function __construct(AcceptanceTester $I)
-	{
-		$this->acceptanceTester = $I;
-	}
-
-	/**
-	 * Function to Return the Page Object
-	 *
-	 * @param   Object  $I  Instance for the Tester
-	 *
-	 * @return InstallTestPage
-	 */
-	public static function of(AcceptanceTester $I)
-	{
-		return new static($I);
 	}
 
 	/**
@@ -71,24 +38,24 @@ class InstallTestPage
 		$this->clickNextButton('3');
 		$this->clickNextButton('4');
 
-		$this->setDatabaseType($cfg->db_type);
-		$this->setField('Host Name', $cfg->db_host);
-		$this->setField('Username', $cfg->db_user);
-		$this->setField('Password', $cfg->db_pass);
-		$this->setField('Database Name', $cfg->db_name);
-		$this->setField('Table Prefix', $cfg->db_prefix);
+		$this->setDatabaseType($cfg['db_type']);
+		$this->setField('Host Name', $cfg['db_host']);
+		$this->setField('Username', $cfg['db_user']);
+		$this->setField('Password', $cfg['db_pass']);
+		$this->setField('Database Name', $cfg['db_name']);
+		$this->setField('Table Prefix', $cfg['db_prefix']);
 
 		$this->clickNextButton('5');
 		$this->clickNextButton('6');
-		$this->setField('Site Name', $cfg->site_name);
-		$this->setField('Your Email', $cfg->admin_email);
-		$this->setField('Admin Username', $cfg->username);
-		$this->setField('Admin Password', $cfg->password);
-		$this->setField('Confirm Admin Password', $cfg->password);
+		$this->setField('Site Name', $cfg['site_name']);
+		$this->setField('Your Email', $cfg['admin_email']);
+		$this->setField('Admin Username', $cfg['username']);
+		$this->setField('Admin Password', $cfg['password']);
+		$this->setField('Confirm Admin Password', $cfg['password']);
 
-		if ($cfg->sample_data && isset($cfg->sample_data_file))
+		if (strtolower($cfg['sample_data']) == "yes")
 		{
-			$this->setSampleData($cfg->sample_data_file);
+			$this->setSampleData($cfg['sample_data_file']);
 		}
 		else
 		{
@@ -189,5 +156,20 @@ class InstallTestPage
 	{
 		$I = $this->acceptanceTester;
 		$I->click("//label[contains(., '" . $option . "')]");
+	}
+
+
+	/**
+	 * Function to Install Joomla
+	 *
+	 * @param   Configuration  $cfg  Array Configuration
+	 *
+	 * @return void
+	 */
+	public function installJoomla($cfg)
+	{
+		$I = $this;
+		$this->acceptanceTester = $I;
+		$this->install($cfg);
 	}
 }
