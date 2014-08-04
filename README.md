@@ -60,3 +60,49 @@ Please follow the next steps in order to release a new version of redSHOP.
 > $ git push --tags
  - Check that tag has been created: https://github.com/redCOMPONENT-COM/redSHOP/tags
  - Create the release: https://github.com/redCOMPONENT-COM/redSHOP/releases
+
+
+# Testing with Codeception
+
+Get codeception phar:
+
+```
+wget http://codeception.com/codecept.phar .
+```
+
+Build codeception testers classes:
+
+```
+php ./codecept.phar build
+```
+
+Rename tests/acceptance.suite.dist.yml to tests/acceptance.suite.yml and change the "url" parameter to your "localhost".
+
+Run Selenium server:
+
+```
+# Download
+curl -O http://selenium-release.storage.googleapis.com/2.41/selenium-server-standalone-2.41.0.jar
+
+# And start the Selenium Server
+java -Xms40m -Xmx256m -jar /Applications/XAMPP/xamppfiles/htdocs/selenium/selenium-server-standalone-2.41.0.jar
+```
+
+
+Execute the tests:
+
+```
+php codecept.phar run
+
+; Or with --steps to see a step-by-step report on the performed actions.
+php codecept.phar run --steps
+
+; Or with --html. This command will run all tests for all suites, displaying the steps, and building HTML and XML reports. Reports will be store in tests/_output/ directory.
+php codecept.phar run --html
+```
+
+## Firefox Addons
+To generate tests really fast you can use these firefox addons:
+
+- Selenium IDE (records your screen)
+- Selenium IDE Codeception Formatter (Export your Selenium IDE test to Codeception language)
