@@ -9,20 +9,20 @@ class AcceptanceHelper extends \Codeception\Module
 	public function getConfig()
 	{
 		$configuration = [
-		"username" => "puneet",
-		"password" => "1234",
-		"folder" => "/home/puneet/Projects/redSHOP/",
-		"db_host" => "localhost",
-		"db_user" => "root",
-		"db_pass" => "1234",
-		"db_name" => "joomla-db-3-1",
-		"db_type" => "MySQLi",
-		"db_prefix" => "jml31_",
-		"sample_data_file" => "Default English",
-		"site_name" => "Joomla",
-		"admin_email" => "admin@mydomain.com",
-		"language" => "English (United Kingdom)",
-		"sample_data" => "yes"
+		"username" => $this->config['username'],
+		"password" => $this->config['password'],
+		"folder" => $this->config['folder'],
+		"db_host" => $this->config['db_host'],
+		"db_user" => $this->config['db_user'],
+		"db_pass" => $this->config['db_pass'],
+		"db_name" => $this->config['db_name'],
+		"db_type" => $this->config['db_type'],
+		"db_prefix" => $this->config['db_prefix'],
+		"sample_data_file" => $this->config['sample_data_file'],
+		"site_name" => $this->config['site_name'],
+		"admin_email" => $this->config['admin_email'],
+		"language" => $this->config['language'],
+		"sample_data" => $this->config['sample_data']
 		];
 
 		return $configuration;
