@@ -1,7 +1,7 @@
 <?php
 namespace AcceptanceTester;
 
-class InstallSteps extends \AcceptanceTester
+class InstallJoomla2Steps extends \AcceptanceTester
 {
 	// Include url of current page
 	public static $URL = '/installation/index.php';
@@ -28,11 +28,12 @@ class InstallSteps extends \AcceptanceTester
 	 *
 	 * @param   Configuration  $cfg  Configuration Object
 	 *
-	 * @return InstallTestPage
+	 * @return void
 	 */
-	public function install($cfg)
+	public function installJoomla2($cfg)
 	{
-		$I = $this->acceptanceTester;
+		$I = $this;
+		$this->acceptanceTester = $I;
 		$I->amOnPage($this->route());
 		$this->clickNextButton('2');
 		$this->clickNextButton('3');
@@ -72,11 +73,9 @@ class InstallSteps extends \AcceptanceTester
 	/**
 	 * Function to Click Next Button
 	 *
-	 * @param   string  $step  Step No. During the Process of Installation
-	 *
 	 * @return void
 	 */
-	public function clickNextButton($step)
+	private function clickNextButton()
 	{
 		$I = $this->acceptanceTester;
 		$I->click('Next');
@@ -90,7 +89,7 @@ class InstallSteps extends \AcceptanceTester
 	 *
 	 * @return void
 	 */
-	public function setDatabaseType($value)
+	private function setDatabaseType($value)
 	{
 		$I = $this->acceptanceTester;
 		$I->selectOption("#jform_db_type", strtolower($value));
@@ -104,7 +103,7 @@ class InstallSteps extends \AcceptanceTester
 	 *
 	 * @return void
 	 */
-	public function setField($label, $value)
+	private function setField($label, $value)
 	{
 		$I = $this->acceptanceTester;
 
@@ -152,24 +151,9 @@ class InstallSteps extends \AcceptanceTester
 	 *
 	 * @return void
 	 */
-	public function setSampleData($option = 'Default')
+	private function setSampleData($option = 'Default')
 	{
 		$I = $this->acceptanceTester;
 		$I->click("//label[contains(., '" . $option . "')]");
-	}
-
-
-	/**
-	 * Function to Install Joomla
-	 *
-	 * @param   Configuration  $cfg  Array Configuration
-	 *
-	 * @return void
-	 */
-	public function installJoomla($cfg)
-	{
-		$I = $this;
-		$this->acceptanceTester = $I;
-		$this->install($cfg);
 	}
 }
