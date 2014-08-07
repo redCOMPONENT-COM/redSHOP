@@ -14,7 +14,7 @@ jimport('joomla.application.component.controller');
 require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
 require_once JPATH_COMPONENT . '/helpers/product.php';
 
-class addquotation_detailController extends JController
+class RedshopControllerAddquotation_detail extends JController
 {
 	public function __construct($default = array())
 	{
@@ -48,7 +48,7 @@ class addquotation_detailController extends JController
 			$post['block'] = 0;
 
 			// Get Admin order detail Model Object
-			$usermodel = JModel::getInstance('user_detail', 'user_detailModel');
+			$usermodel = JModel::getInstance('User_detail', 'RedshopModel');
 
 			// Call Admin order detail Model store function for Billing
 			$user = $usermodel->storeUser($post);

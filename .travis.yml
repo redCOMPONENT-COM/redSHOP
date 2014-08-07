@@ -1,7 +1,7 @@
 language: php
 
 php:
-  - 5.3
+  - 5.4
 
 before_script:
   - pear install PHP_CodeSniffer
@@ -9,9 +9,39 @@ before_script:
   - pear install phing/phing
   - phpenv config-add .travis.ini
   - phpenv rehash
+  - composer install
+
+  # Install Apache
+  - sudo apt-get update > /dev/null
+  - sudo apt-get install -y --force-yes apache2 libapache2-mod-php5 php5-curl php5-mysql php5-intl
+  - sudo chmod 777 -R /home/travis/build/redCOMPONENT-COM/redSHOP/
+  - sudo ln -s /home/travis/build/redCOMPONENT-COM/redSHOP/tests/system/joomla-cms/ /var/www/joomla-cms
+  - sudo sed -i -e "s,AllowOverride[ ]None,AllowOverride All,g" /etc/apache2/sites-available/default
+  - sudo /etc/init.d/apache2 restart
+  - composer install --dev --prefer-dist
+
+  # XVFB
+  - "export DISPLAY=:99.0"
+  - "Xvfb :99.0 -extension RANDR > /dev/null &"
+
+  # Window manager
+  - "sudo apt-get install fluxbox -y --force-yes"
+  - "fluxbox &"
+
+  # Selenium server
+  - "wget http://selenium.googlecode.com/files/selenium-server-standalone-2.39.0.jar"
+  - "java -jar selenium-server-standalone-2.39.0.jar > /dev/null 2>/dev/null &"
+  - sleep 20
+
 
 script:
-  - find ./component -name '*.php' -exec php -l {} \;
-  - find ./modules -name '*.php' -exec php -l {} \;
-  - find ./plugins -name '*.php' -exec php -l {} \;
-  - phing -f .travis.xml
+  - php .travis/traviswebserverckecker.php http://localhost/joomla-cms/installation/index.php # Test apache
+  - php .travis/phpparseerrorchecker.php component/ modules/ plugins/
+  # - phing -f .travis.xml
+  - mv tests/system/servers/travis.configdef.php tests/system/servers/configdef.php # Create travis system tests config file
+  - cd tests/system/webdriver/tests/
+  - phpunit .
+  
+notifications:
+  slack:
+    secure: XX4m+uA8suXodJS0SvLDqrWovNvx7bxiJwyebj3gA8JwSP2E3XsRJFxsAt5++GTOv1nmMCGIkXnovY44XoA8ErEVSseElCUtKOr3/sa6tCPDYl4Lz+Q4FxPxPJcz6glpwXyOc2tCMNaKWiFdWrDsHNucPjw9iN5N16+jIvYwrrQ=

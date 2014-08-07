@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.view');
 require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
 
-class product_priceViewproduct_price extends JView
+class RedshopViewProduct_price extends JView
 {
 	public function display($tpl = null)
 	{

@@ -1756,7 +1756,9 @@ class producthelper
 					$r->product_price = $r->discount_price;
 				}
 
-				$price = $this->getProductFormattedPrice($r->product_price);
+				$tax = $this->getProductTax($product_id, $r->product_price, $userid);
+				$price = $this->getProductFormattedPrice($r->product_price + $tax);
+
 				$quantitytable .= "<tr><td>" . $r->price_quantity_start . " - " . $r->price_quantity_end
 					. "</td><td>" . $price . "</td></tr>";
 			}
@@ -4277,7 +4279,7 @@ class producthelper
 						1
 					);
 
-					if (!strstr($data_add, "{without_vat}"))
+					if (!strstr($accessory_div, "{without_vat}"))
 					{
 						$accessorypricelist = $this->getAccessoryPrice($product_id,
 							$accessory[$a]->newaccessory_price,

@@ -22,7 +22,7 @@ include_once JPATH_COMPONENT . '/helpers/cart.php';
  * @subpackage  Model
  * @since       1.0
  */
-class quotation_detailModelquotation_detail extends JModel
+class RedshopModelQuotation_detail extends JModel
 {
 	public $_id = null;
 
