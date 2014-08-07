@@ -1,4 +1,11 @@
 <?php
+/**
+ * @package     RedShop
+ * @subpackage  Step Class
+ * @copyright   Copyright (C) 2012 - 2014 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ */
+
 namespace AcceptanceTester;
 
 /**
@@ -33,15 +40,14 @@ class InstallJoomla3Steps extends \AcceptanceTester
 	/**
 	 * Function to Install Joomla3.x
 	 *
-	 * @param   Object  $cfg  Configuration
-	 *
 	 * @return void
 	 */
-	public function installJoomla3($cfg)
+	public function installJoomla3()
 	{
 		$I = $this;
 		$this->acceptanceTester = $I;
 		$I->amOnPage($this->route());
+		$cfg = $I->getConfig();
 		$this->setField('Site Name', $cfg['site_name']);
 		$this->setField('Your Email', $cfg['admin_email']);
 		$this->setField('Admin Username', $cfg['username']);

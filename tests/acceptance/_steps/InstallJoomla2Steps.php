@@ -1,6 +1,19 @@
 <?php
-namespace AcceptanceTester;
+/**
+ * @package     RedShop
+ * @subpackage  Step Class
+ * @copyright   Copyright (C) 2012 - 2014 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ */
 
+namespace AcceptanceTester;
+/**
+ * Class InstallJoomla2Steps
+ *
+ * @package  AcceptanceTester
+ *
+ * @since    1.4
+ */
 class InstallJoomla2Steps extends \AcceptanceTester
 {
 	// Include url of current page
@@ -26,15 +39,14 @@ class InstallJoomla2Steps extends \AcceptanceTester
 	/**
 	 * Function to Install Joomla
 	 *
-	 * @param   Configuration  $cfg  Configuration Object
-	 *
 	 * @return void
 	 */
-	public function installJoomla2($cfg)
+	public function installJoomla2()
 	{
 		$I = $this;
 		$this->acceptanceTester = $I;
 		$I->amOnPage($this->route());
+		$cfg = $I->getConfig();
 		$this->clickNextButton('2');
 		$this->clickNextButton('3');
 		$this->clickNextButton('4');

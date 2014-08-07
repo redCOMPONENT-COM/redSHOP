@@ -1,11 +1,29 @@
 <?php
+/**
+ * @package     RedShop
+ * @subpackage  Helper Class
+ * @copyright   Copyright (C) 2012 - 2014 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ */
 namespace Codeception\Module;
 
-// Here you can define custom actions
-// all public methods declared in helper class will be available in $I
+/* Here you can define custom actions
+ all public methods declared in helper class will be available in $I */
 
+/**
+ * Class AcceptanceHelper
+ *
+ * @package  Codeception\Module
+ *
+ * @since    1.4
+ */
 class AcceptanceHelper extends \Codeception\Module
 {
+	/**
+	 * Function to getConfiguration from the YML and return in the test
+	 *
+	 * @return array
+	 */
 	public function getConfig()
 	{
 		$configuration = [

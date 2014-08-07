@@ -12,10 +12,24 @@ use \Codeception\Event\TestEvent;
  *
  * To use this group extension, include it to "extensions" option of global Codeception config.
  */
+
+/**
+ * Class InstallationGroup
+ *
+ * @since  1.4
+ *
+ */
 class InstallationGroup extends \Codeception\Platform\Group
 {
 	public static $group = 'installation';
 
+	/**
+	 * Function to delete the Configuration File before Doing the Installation
+	 *
+	 * @param   TestEvent  $e  Name of the Test Event
+	 *
+	 * @return void
+	 */
 	public function _before(TestEvent $e)
 	{
 		// Remove Joomla-cms old configuration.php file before do a clean joomla installation
