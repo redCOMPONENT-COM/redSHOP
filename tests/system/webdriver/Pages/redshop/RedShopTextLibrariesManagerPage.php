@@ -62,7 +62,7 @@ class RedShopTextLibrariesManagerPage extends AdminManagerPage
 		$elementObject->findElement(By::xPath("//select[@id='section']//option[@value='" . $tagSection . "']"))->click();
 		sleep(5);
 		$elementObject->findElement(By::xPath("//a[@onclick=\"Joomla.submitbutton('save')\"]"))->click();
-		$elementObject->waitForElementUntilIsPresent(By::xPath("//li[text() = 'Text Library Detail Saved']"), 10);
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//li[text() = 'Text Library Detail Saved']"), 30);
 	}
 
 	/**
@@ -109,7 +109,7 @@ class RedShopTextLibrariesManagerPage extends AdminManagerPage
 		}
 
 		$elementObject->findElement(By::xPath("//a[@onclick=\"Joomla.submitbutton('save')\"]"))->click();
-		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='filter']"), 10);
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='filter']"), 30);
 	}
 
 	/**

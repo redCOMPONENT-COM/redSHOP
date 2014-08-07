@@ -18,7 +18,7 @@ JLoader::import('joomla.application.component.model');
  * @subpackage  Model
  * @since       1.0
  */
-class LoginModelLogin extends JModel
+class RedshopModelLogin extends JModel
 {
 	public function __construct()
 	{

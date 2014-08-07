@@ -21,7 +21,7 @@ require_once JPATH_SITE . '/components/com_redshop/helpers/product.php';
  * @subpackage  Model
  * @since       1.0
  */
-class searchModelsearch extends JModel
+class RedshopModelSearch extends JModel
 {
 	public $_data = null;
 

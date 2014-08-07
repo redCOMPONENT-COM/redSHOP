@@ -69,7 +69,15 @@ $extra_field = new extra_field();
 			<td valign="top" align="right" class="key"><?php echo JText::_('COM_REDSHOP_MAIL_ORDER_STATUS'); ?>:</td>
 			<td>
 				<div id="responce"></div>
-				<div id="order_state_edit"><?php echo $this->lists['order_status'];?>    </div>
+				<div id="order_state_edit">
+				<?php
+
+					if (isset($this->lists['order_status']))
+					{
+						echo $this->lists['order_status'];
+					}
+				?>
+				</div>
 			</td>
 		</tr>
 		<tr>

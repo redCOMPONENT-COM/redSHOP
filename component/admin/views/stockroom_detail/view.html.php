@@ -13,7 +13,7 @@ jimport('joomla.application.component.view');
 
 require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/extra_field.php';
 
-class stockroom_detailVIEWstockroom_detail extends JView
+class RedshopViewStockroom_detail extends JView
 {
 	public function display($tpl = null)
 	{

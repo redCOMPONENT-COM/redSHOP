@@ -28,7 +28,7 @@ JLoader::import('images', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers
 // Lightbox Javascript
 JHTML::Script('attribute.js', 'components/com_redshop/assets/js/', false);
 JHTML::Script('common.js', 'components/com_redshop/assets/js/', false);
-JHTML::Script('redBOX.js', 'components/com_redshop/assets/js/', false);
+JHTML::Script('redbox.js', 'components/com_redshop/assets/js/', false);
 JHTML::Stylesheet('fetchscript.css', 'components/com_redshop/assets/css/');
 
 

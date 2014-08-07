@@ -22,7 +22,7 @@ require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/shipping.php
  * @subpackage  Model
  * @since       1.0
  */
-class wishlistModelwishlist extends JModel
+class RedshopModelWishlist extends JModel
 {
 	public $_id = null;
 

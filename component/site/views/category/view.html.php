@@ -20,7 +20,7 @@ JLoader::import('joomla.application.component.view');
  *
  * @since       1.0
  */
-class CategoryViewCategory extends JView
+class RedshopViewCategory extends JView
 {
 	public $app;
 
@@ -77,7 +77,7 @@ class CategoryViewCategory extends JView
 		$document = JFactory::getDocument();
 
 		JHtml::Script('jquery.js', 'components/com_redshop/assets/js/', false);
-		JHtml::Script('redBOX.js', 'components/com_redshop/assets/js/', false);
+		JHtml::Script('redbox.js', 'components/com_redshop/assets/js/', false);
 
 		JHtml::Script('attribute.js', 'components/com_redshop/assets/js/', false);
 		JHtml::Script('common.js', 'components/com_redshop/assets/js/', false);

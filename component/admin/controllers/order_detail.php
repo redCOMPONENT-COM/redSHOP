@@ -15,7 +15,7 @@ require_once JPATH_ROOT . '/components/com_redshop/helpers/product.php';
 require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/mail.php';
 require_once JPATH_COMPONENT . '/helpers/product.php';
 
-class order_detailController extends JController
+class RedshopControllerOrder_detail extends JController
 {
 	public function __construct($default = array())
 	{
