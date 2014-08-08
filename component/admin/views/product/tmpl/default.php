@@ -40,18 +40,6 @@ $userId = (int) $user->id;
 		if ((pressbutton == 'assignCategory') || (pressbutton == 'removeCategory')) {
 			form.view.value = "product_category";
 		}
-		if (pressbutton == 'gbasefeed') {
-			var x = confirm("Do you want to export unpublished products?");
-
-			if (x == true) {
-				document.adminForm.unpublished_data.value = 1;
-
-			} else {
-				document.adminForm.unpublished_data.value = 0;
-			}
-
-
-		}
 
 		try {
 			form.onsubmit();
