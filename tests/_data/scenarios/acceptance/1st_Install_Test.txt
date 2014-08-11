@@ -1,0 +1,7 @@
+I WANT TO EXECUTE JOOMLA INSTALLATION
+
+I install joomla2 ""
+I do admin login ""
+I install extension ""
+I click("//input[@onclick=\"submit wizard 'content'
+I wait for element("//li[contains(text ")",'Sample Data Installed Successfully')]""," 30"

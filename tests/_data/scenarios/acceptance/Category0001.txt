@@ -1,0 +1,12 @@
+I WANT TO WANT TO TEST CATEGORY MANAGER
+
+I do admin login ""
+I add category "$name"
+I search category "$name"
+I update category "$name"," $newName"
+I search category "$newName"
+I change state "$newName"," 'unpublish'
+I get state "$newName"
+I verify state 'unpublished'," $currentState"
+I delete category "$newName"
+I search category "$newName"," 'Delete'
