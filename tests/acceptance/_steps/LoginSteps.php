@@ -50,6 +50,6 @@ class LoginSteps extends \AcceptanceTester
 		$I->fillField('username', $config['username']);
 		$I->fillField('passwd', $config['password']);
 		$I->click('Log in');
-		$I->see('Joomla');
+		$I->see('Category Manager');
 	}
 }
