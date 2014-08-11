@@ -47,9 +47,10 @@ class InstallJoomla2Steps extends \AcceptanceTester
 		$this->acceptanceTester = $I;
 		$I->amOnPage($this->route());
 		$cfg = $I->getConfig();
-		$this->clickNextButton('2');
-		$this->clickNextButton('3');
-		$this->clickNextButton('4');
+		$I->click('Next');
+		$I->click('Next');
+		$I->click('Next');
+		sleep(3);
 
 		$this->setDatabaseType($cfg['db_type']);
 		$this->setField('Host Name', $cfg['db_host']);
@@ -58,8 +59,9 @@ class InstallJoomla2Steps extends \AcceptanceTester
 		$this->setField('Database Name', $cfg['db_name']);
 		$this->setField('Table Prefix', $cfg['db_prefix']);
 
-		$this->clickNextButton('5');
-		$this->clickNextButton('6');
+		$I->click('Next');
+		$I->click('Next');
+		sleep(3);
 		$this->setField('Site Name', $cfg['site_name']);
 		$this->setField('Your Email', $cfg['admin_email']);
 		$this->setField('Admin Username', $cfg['username']);
@@ -77,21 +79,10 @@ class InstallJoomla2Steps extends \AcceptanceTester
 
 		$I->click("//input[@value='Install Sample Data']");
 		sleep(5);
-		$this->clickNextButton('7');
-
-		return $this;
-	}
-
-	/**
-	 * Function to Click Next Button
-	 *
-	 * @return void
-	 */
-	private function clickNextButton()
-	{
-		$I = $this->acceptanceTester;
 		$I->click('Next');
 		sleep(3);
+
+		return $this;
 	}
 
 	/**

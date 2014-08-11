@@ -14,7 +14,7 @@ namespace AcceptanceTester;
  *
  * @since    1.4
  */
-class InstallredSHOP1Steps extends \AcceptanceTester
+class InstallExtensionSteps extends \AcceptanceTester
 {
 	// Include url of current page
 	public static $URL = '/administrator/index.php?option=com_installer';
@@ -34,11 +34,9 @@ class InstallredSHOP1Steps extends \AcceptanceTester
 	/**
 	 * Function to Install RedShop1, inside Joomla 2.5
 	 *
-	 * @param   string  $sampleData  Sample Data Needs to be INstalled
-	 *
 	 * @return void
 	 */
-	public function installredShop1($sampleData = 'Sample Data')
+	public function installExtension()
 	{
 		$I = $this;
 		$this->acceptanceTester = $I;
@@ -47,12 +45,5 @@ class InstallredSHOP1Steps extends \AcceptanceTester
 		$I->fillField("#install_directory", $config['folder']);
 		$I->click("//input[contains(@onclick,'Joomla.submitbutton3()')]");
 		$I->waitForElement("//li[contains(text(),'Installing component was successful')]", 60);
-
-
-		if ($sampleData == 'Sample Data')
-		{
-			$I->click("//input[@onclick=\"submitWizard('content');\" and @value='install Demo Content']");
-			$I->waitForElement("//li[contains(text(),'Sample Data Installed Successfully')]", 30);
-		}
 	}
 }

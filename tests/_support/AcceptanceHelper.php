@@ -45,4 +45,17 @@ class AcceptanceHelper extends \Codeception\Module
 
 		return $configuration;
 	}
+
+	/**
+	 * Function to Verify State of an Object
+	 *
+	 * @param   String  $expected  Expected State
+	 * @param   String  $actual    Actual State
+	 *
+	 * @return void
+	 */
+	public function verifyState($expected, $actual)
+	{
+		$this->assertEquals($expected, $actual, "The State of the Object Should be Expect");
+	}
 }
