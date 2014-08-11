@@ -12,6 +12,9 @@ $I->installJoomla2();
 $I = new AcceptanceTester\LoginSteps($scenario);
 $I->wantTo('Execute Admin Login');
 $I->doAdminLogin();
-$I = new AcceptanceTester\InstallredSHOP1Steps($scenario);
+$I = new AcceptanceTester\InstallExtensionSteps($scenario);
 $I->wantTo('Install RedShop');
-$I->installredShop1();
+$I->installExtension();
+$I->click("//input[@onclick=\"submitWizard('content');\" and @value='install Demo Content']");
+$I->waitForElement("//li[contains(text(),'Sample Data Installed Successfully')]", 30);
+
