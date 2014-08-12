@@ -29,8 +29,8 @@ before_script:
   - "fluxbox &"
 
   # Selenium server
-  - "wget http://selenium.googlecode.com/files/selenium-server-standalone-2.39.0.jar"
-  - "java -jar selenium-server-standalone-2.39.0.jar > /dev/null 2>/dev/null &"
+  - "wget http://selenium-release.storage.googleapis.com/2.41/selenium-server-standalone-2.41.0.jar"
+  - "java -jar selenium-server-standalone-2.41.0.jar > /dev/null 2>/dev/null &"
   - sleep 20
 
 
