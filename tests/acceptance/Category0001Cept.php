@@ -7,17 +7,17 @@
  */
 $I = new AcceptanceTester\LoginSteps($scenario);
 $I->wantTo('Want to Test Category Manager');
-$I->doAdminLogin();
+$I->doAdminLogin("Function to Login to Admin Panel");
 $I = new AcceptanceTester\CategoryManagerSteps($scenario);
-$name = 'Testing Category ' . rand(99, 999);
-$newName = 'New ' . $name;
-$I->addCategory($name);
-$I->searchCategory($name);
-$I->updateCategory($name, $newName);
-$I->searchCategory($newName);
-$I->changeState($newName, 'unpublish');
-$currentState = $I->getState($newName);
+$randomCategoryName = 'Testing Category ' . rand(99, 999);
+$updatedCategoryName = 'New ' . $randomCategoryName;
+$I->addCategory($randomCategoryName);
+$I->verifySearch('true', $I->searchCategory($randomCategoryName));
+$I->updateCategory($randomCategoryName, $updatedCategoryName);
+$I->verifySearch('true', $I->searchCategory($updatedCategoryName));
+$I->changeState($updatedCategoryName, 'unpublish');
+$currentState = $I->getState($updatedCategoryName);
 $I->verifyState('unpublished', $currentState);
-$I->deleteCategory($newName);
-$I->searchCategory($newName, 'Delete');
+$I->deleteCategory($updatedCategoryName);
+$I->verifySearch('false', $I->searchCategory($updatedCategoryName, 'Delete'));
 

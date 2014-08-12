@@ -46,4 +46,16 @@ class InstallExtensionSteps extends \AcceptanceTester
 		$I->click("//input[contains(@onclick,'Joomla.submitbutton3()')]");
 		$I->waitForElement("//li[contains(text(),'Installing component was successful')]", 60);
 	}
+
+	/**
+	 * Function to Install Demo Data for the Extension
+	 *
+	 * @return void
+	 */
+	public function installSampleData()
+	{
+		$I = $this;
+		$I->click("//input[@onclick=\"submitWizard('content');\" and @value='install Demo Content']");
+		$I->waitForElement("//li[contains(text(),'Sample Data Installed Successfully')]", 30);
+	}
 }
