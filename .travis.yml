@@ -38,9 +38,14 @@ script:
   - php .travis/traviswebserverckecker.php http://localhost/joomla-cms/installation/index.php # Test apache
   - php .travis/phpparseerrorchecker.php component/ modules/ plugins/
   # - phing -f .travis.xml
-  - mv tests/system/servers/travis.configdef.php tests/system/servers/configdef.php # Create travis system tests config file
-  - cd tests/system/webdriver/tests/
-  - phpunit .
+  # Comment all system tests to use only Codeception
+  - mv tests/acceptance.suite.dist.yml tests/acceptance.suite.yml # Create travis system tests config file
+  - "wget http://codeception.com/codecept.phar ."
+  - php ./codecept.phar build
+  - php ./codecept.phar run acceptance
+  #- mv tests/system/servers/travis.configdef.php tests/system/servers/configdef.php # Create travis system tests config file
+  #- cd tests/system/webdriver/tests/
+  #- phpunit .
   
 notifications:
   slack:
