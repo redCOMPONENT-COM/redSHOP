@@ -56,6 +56,26 @@ class AcceptanceHelper extends \Codeception\Module
 	 */
 	public function verifyState($expected, $actual)
 	{
-		$this->assertEquals($expected, $actual, "The State of the Object Should be Expect");
+		$this->assertEquals($expected, $actual, "Assert that the Actual State is equal to the state we Expect");
+	}
+
+	/**
+	 * Function to Verify Presence of an Object
+	 *
+	 * @param   String  $expected  Expected Value
+	 * @param   String  $actual    Actual Value
+	 *
+	 * @return void
+	 */
+	public function verifySearch($expected, $actual)
+	{
+		if ($expected == 'true')
+		{
+			$this->assertTrue($actual, "Search Should Return True");
+		}
+		else
+		{
+			$this->assertFalse($actual, "Search Should Return False");
+		}
 	}
 }

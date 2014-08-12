@@ -67,7 +67,7 @@ class CategoryManagerSteps extends \AcceptanceTester
 		$I->fillField("//input[@id='category_main_filter']", $categoryName);
 		$I->click("//button[@onclick=\"document.adminForm.submit();\"]");
 		$I->see($categoryName, "//div[@id='editcell']/table/tbody/tr/td[3]");
-		$I->click("#cb0");
+		$this->selectAll($I);
 		$I->click($categoryName);
 		$I->fillField("#category_name", $updatedName);
 		$I->click("Save & Close");
@@ -89,7 +89,7 @@ class CategoryManagerSteps extends \AcceptanceTester
 		$I->fillField("//input[@id='category_main_filter']", $categoryName);
 		$I->click("//button[@onclick=\"document.adminForm.submit();\"]");
 		$I->see($categoryName, "//div[@id='editcell']/table/tbody/tr/td[3]");
-		$I->click("#cb0");
+		$this->selectAll($I);
 
 		if ($state == 'unpublish')
 		{
@@ -119,11 +119,19 @@ class CategoryManagerSteps extends \AcceptanceTester
 
 		if ($functionName == 'Search')
 		{
-			$I->see($categoryName, "//div[@id='editcell']/table/tbody/tr/td[3]");
+			$I->see($categoryName, "//div[@id='editcell']/table/tbody/tr/td[3]/a");
+			$value = $I->grabTextFrom("//div[@id='editcell']/table/tbody/tr/td[3]/a");
+
+			if ($value == $categoryName)
+			{
+				return true;
+			}
 		}
 		else
 		{
-			$I->dontSee($categoryName, "//div[@id='editcell']/table/tbody/tr/td[3]");
+			$I->dontSee($categoryName, "//div[@id='editcell']/table/tbody/tr/td[3]/a");
+
+			return false;
 		}
 	}
 
@@ -170,8 +178,20 @@ class CategoryManagerSteps extends \AcceptanceTester
 		$I->fillField("//input[@id='category_main_filter']", $categoryName);
 		$I->click("//button[@onclick=\"document.adminForm.submit();\"]");
 		$I->see($categoryName, "//div[@id='editcell']/table/tbody/tr/td[3]");
-		$I->click("#cb0");
+		$this->selectAll($I);
 		$I->click("Delete");
 		$I->acceptPopup();
+	}
+
+	/**
+	 * Function to Click on Check All
+	 *
+	 * @param   Object  $I  Current Scenario
+	 *
+	 * @return void
+	 */
+	public function selectAll($I)
+	{
+		$I->click("//input[@onclick='checkAll(1);']");
 	}
 }
