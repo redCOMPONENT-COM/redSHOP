@@ -47,7 +47,7 @@ for ($i = 0; $i < count($rows); $i++)
 {
 	$row = $rows[$i];
 
-	if ($show_stockroom_status == 1)
+	if ($showStockroomStatus == 1)
 	{
 		$isStockExists = $stockroomhelper->isStockExists($row->product_id);
 
@@ -97,7 +97,7 @@ for ($i = 0; $i < count($rows); $i++)
 
 	$link = JRoute::_('index.php?option=' . $option . '&view=product&pid=' . $row->product_id . '&cid=' . $category_id . '&Itemid=' . $Itemid);
 
-	if ($vertical_product)
+	if ($showProductVertically)
 		echo "<div class='mod_redshop_products'>";
 	else
 		echo "<div class='mod_redshop_products_horizontal'>";
@@ -110,7 +110,7 @@ for ($i = 0; $i < count($rows); $i++)
 
 		if (WATERMARK_PRODUCT_IMAGE)
 		{
-			$thum_image = $redhelper->watermark('product', $thumb, $thumbwidth, $thumbheight, WATERMARK_PRODUCT_THUMB_IMAGE, '0');
+			$thum_image = $redhelper->watermark('product', $thumb, $thumbWidth, $thumbHeight, WATERMARK_PRODUCT_THUMB_IMAGE, '0');
 			echo "<div class='mod_redshop_products_image'><img src=" . $thum_image . "></div>";
 		}
 		else
@@ -120,8 +120,8 @@ for ($i = 0; $i < count($rows); $i++)
 							'',
 							'thumb',
 							'product',
-							$thumbwidth,
-							$thumbheight,
+							$thumbWidth,
+							$thumbHeight,
 							USE_IMAGE_SIZE_SWAPPING
 						);
 			echo "<div class='mod_redshop_products_image'><a href='" . $link . "' title='$row->product_name'><img src=" . $thum_image . "></a></div>";
@@ -135,16 +135,16 @@ for ($i = 0; $i < count($rows); $i++)
 
 	echo "<div class='mod_redshop_products_title'><a href='" . $link . "' title=''>" . $row->product_name . "</a></div>";
 
-	if ($show_short_description)
+	if ($showShortDescription)
 	{
 		echo "<div class='mod_redshop_products_desc'>" . $row->product_s_desc . "</div>";
 	}
 
-	if (!$row->not_for_sale && $show_price)
+	if (!$row->not_for_sale && $showPrice)
 	{
 		$productArr = $producthelper->getProductNetPrice($row->product_id);
 
-		if ($show_vat != '0' || $show_vatprice != 0)
+		if ($showVat != '0' || $showVatprice != 0)
 		{
 			$product_price          = $productArr['product_main_price'];
 			$product_price_discount = $productArr['productPrice'] + $productArr['productVat'];
@@ -175,7 +175,7 @@ for ($i = 0; $i < count($rows); $i++)
 					$disply_text = "";
 					$s_price     = $product_price - $product_price_discount;
 
-					if ($show_discountpricelayout)
+					if ($showDiscountPriceLayout)
 					{
 						echo "<div id='mod_redoldprice' class='mod_redoldprice'><span style='text-decoration:line-through;'>" . $producthelper->getProductFormattedPrice($product_price) . "</span></div>";
 						$product_price = $product_price_discount;
@@ -194,12 +194,12 @@ for ($i = 0; $i < count($rows); $i++)
 		}
 	}
 
-	if ($show_readmore)
+	if ($showReadmore)
 	{
 		echo "<div class='mod_redshop_products_readmore'><a href='" . $link . "'>" . JText::_('COM_REDSHOP_TXT_READ_MORE') . "</a>&nbsp;</div>";
 	}
 
-	if ($show_addtocart)
+	if ($showAddToCart)
 	{
 		// Product attribute  Start
 		$attributes_set = array();
