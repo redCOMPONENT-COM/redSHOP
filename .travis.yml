@@ -13,7 +13,7 @@ before_script:
 
   # Install Apache
   - sudo apt-get update > /dev/null
-  - sudo apt-get install -y --force-yes apache2 libapache2-mod-php5 php5-curl php5-mysql php5-intl
+  - sudo apt-get install -y --force-yes apache2 libapache2-mod-php5 php5-curl php5-mysql php5-intl > /dev/null
   - sudo chmod 777 -R /home/travis/build/redCOMPONENT-COM/redSHOP/
   - sudo ln -s /home/travis/build/redCOMPONENT-COM/redSHOP/tests/system/joomla-cms/ /var/www/joomla-cms
   - sudo sed -i -e "s,AllowOverride[ ]None,AllowOverride All,g" /etc/apache2/sites-available/default
