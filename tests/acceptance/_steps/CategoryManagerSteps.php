@@ -18,21 +18,6 @@ use Codeception\Module\WebDriver;
  */
 class CategoryManagerSteps extends \AcceptanceTester
 {
-	// Include url of current page
-	public static $URL = '/administrator/index.php?option=com_redshop&view=category';
-
-	/**
-	 * Basic route example for your current URL
-	 * You can append any additional parameter to URL
-	 * and use it in tests like: EditPage::route('/123-post');
-	 *
-	 * @return  void
-	 */
-	public static function route($param = "")
-	{
-		return static::$URL . $param;
-	}
-
 	/**
 	 * Function  to Create a New Category
 	 *
@@ -43,13 +28,13 @@ class CategoryManagerSteps extends \AcceptanceTester
 	public function addCategory($categoryName)
 	{
 		$I = $this;
-		$I->amOnPage($this->route());
+		$I->amOnPage(\CategoryManagerPage::$URL);
 		$I->click("New");
-		$I->fillField("#category_name", $categoryName);
-		$I->selectOption("#compare_template_id", "compare_product");
-		$I->selectOption("#category_template", "list");
+		$I->fillField(\CategoryManagerPage::$categoryName, $categoryName);
+		$I->selectOption(\CategoryManagerPage::$categoryTemplateId, "compare_product");
+		$I->selectOption(\CategoryManagerPage::$categoryTemplate, "list");
 		$I->click("Save & Close");
-		$I->waitForElement("//input[@id='category_main_filter']", 30);
+		$I->waitForElement(\CategoryManagerPage::$categoryFilter, 30);
 	}
 
 	/**
@@ -63,15 +48,15 @@ class CategoryManagerSteps extends \AcceptanceTester
 	public function updateCategory($categoryName, $updatedName)
 	{
 		$I = $this;
-		$I->amOnPage($this->route());
-		$I->fillField("//input[@id='category_main_filter']", $categoryName);
-		$I->click("//button[@onclick=\"document.adminForm.submit();\"]");
-		$I->see($categoryName, "//div[@id='editcell']/table/tbody/tr/td[3]");
-		$this->selectAll($I);
+		$I->amOnPage(\CategoryManagerPage::$URL);
+		$I->fillField(\CategoryManagerPage::$categoryFilter, $categoryName);
+		$I->click(\CategoryManagerPage::$categorySearch);
+		$I->see($categoryName, \CategoryManagerPage::$categoryResultRow);
+		$I->click(\CategoryManagerPage::$checkAll);
 		$I->click($categoryName);
-		$I->fillField("#category_name", $updatedName);
+		$I->fillField(\CategoryManagerPage::$categoryName, $updatedName);
 		$I->click("Save & Close");
-		$I->waitForElement("//input[@id='category_main_filter']", 30);
+		$I->waitForElement(\CategoryManagerPage::$categoryFilter, 30);
 	}
 
 	/**
@@ -85,11 +70,11 @@ class CategoryManagerSteps extends \AcceptanceTester
 	public function changeState($categoryName, $state = 'unpublish')
 	{
 		$I = $this;
-		$I->amOnPage($this->route());
-		$I->fillField("//input[@id='category_main_filter']", $categoryName);
-		$I->click("//button[@onclick=\"document.adminForm.submit();\"]");
-		$I->see($categoryName, "//div[@id='editcell']/table/tbody/tr/td[3]");
-		$this->selectAll($I);
+		$I->amOnPage(\CategoryManagerPage::$URL);
+		$I->fillField(\CategoryManagerPage::$categoryFilter, $categoryName);
+		$I->click(\CategoryManagerPage::$categorySearch);
+		$I->see($categoryName, \CategoryManagerPage::$categoryResultRow);
+		$I->click(\CategoryManagerPage::$checkAll);
 
 		if ($state == 'unpublish')
 		{
@@ -113,25 +98,17 @@ class CategoryManagerSteps extends \AcceptanceTester
 	public function searchCategory($categoryName, $functionName = 'Search')
 	{
 		$I = $this;
-		$I->amOnPage($this->route());
-		$I->fillField("//input[@id='category_main_filter']", $categoryName);
-		$I->click("//button[@onclick=\"document.adminForm.submit();\"]");
+		$I->amOnPage(\CategoryManagerPage::$URL);
+		$I->fillField(\CategoryManagerPage::$categoryFilter, $categoryName);
+		$I->click(\CategoryManagerPage::$categorySearch);
 
 		if ($functionName == 'Search')
 		{
-			$I->see($categoryName, "//div[@id='editcell']/table/tbody/tr/td[3]/a");
-			$value = $I->grabTextFrom("//div[@id='editcell']/table/tbody/tr/td[3]/a");
-
-			if ($value == $categoryName)
-			{
-				return true;
-			}
+			$I->see($categoryName, \CategoryManagerPage::$categoryResultRow);
 		}
 		else
 		{
-			$I->dontSee($categoryName, "//div[@id='editcell']/table/tbody/tr/td[3]/a");
-
-			return false;
+			$I->dontSee($categoryName, \CategoryManagerPage::$categoryResultRow);
 		}
 	}
 
@@ -145,11 +122,11 @@ class CategoryManagerSteps extends \AcceptanceTester
 	public function getState($categoryName)
 	{
 		$I = $this;
-		$I->amOnPage($this->route());
-		$I->fillField("//input[@id='category_main_filter']", $categoryName);
-		$I->click("//button[@onclick=\"document.adminForm.submit();\"]");
-		$I->see($categoryName, "//div[@id='editcell']/table/tbody/tr/td[3]");
-		$text = $I->grabAttributeFrom("//tbody/tr/td[7]/a", 'onclick');
+		$I->amOnPage(\CategoryManagerPage::$URL);
+		$I->fillField(\CategoryManagerPage::$categoryFilter, $categoryName);
+		$I->click(\CategoryManagerPage::$categorySearch);
+		$I->see($categoryName, \CategoryManagerPage::$categoryResultRow);
+		$text = $I->grabAttributeFrom(\CategoryManagerPage::$categoryStatePath, 'onclick');
 
 		if (strpos($text, 'unpublish') > 0)
 		{
@@ -174,24 +151,12 @@ class CategoryManagerSteps extends \AcceptanceTester
 	public function deleteCategory($categoryName)
 	{
 		$I = $this;
-		$I->amOnPage($this->route());
-		$I->fillField("//input[@id='category_main_filter']", $categoryName);
-		$I->click("//button[@onclick=\"document.adminForm.submit();\"]");
-		$I->see($categoryName, "//div[@id='editcell']/table/tbody/tr/td[3]");
-		$this->selectAll($I);
+		$I->amOnPage(\CategoryManagerPage::$URL);
+		$I->fillField(\CategoryManagerPage::$categoryFilter, $categoryName);
+		$I->click(\CategoryManagerPage::$categorySearch);
+		$I->see($categoryName, \CategoryManagerPage::$categoryResultRow);
+		$I->click(\CategoryManagerPage::$checkAll);
 		$I->click("Delete");
 		$I->acceptPopup();
-	}
-
-	/**
-	 * Function to Click on Check All
-	 *
-	 * @param   Object  $I  Current Scenario
-	 *
-	 * @return void
-	 */
-	public function selectAll($I)
-	{
-		$I->click("//input[@onclick='checkAll(1);']");
 	}
 }

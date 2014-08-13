@@ -12,12 +12,12 @@ $I = new AcceptanceTester\CategoryManagerSteps($scenario);
 $randomCategoryName = 'Testing Category ' . rand(99, 999);
 $updatedCategoryName = 'New ' . $randomCategoryName;
 $I->addCategory($randomCategoryName);
-$I->verifySearch('true', $I->searchCategory($randomCategoryName));
+$I->searchCategory($randomCategoryName);
 $I->updateCategory($randomCategoryName, $updatedCategoryName);
-$I->verifySearch('true', $I->searchCategory($updatedCategoryName));
+$I->searchCategory($updatedCategoryName);
 $I->changeState($updatedCategoryName, 'unpublish');
 $currentState = $I->getState($updatedCategoryName);
 $I->verifyState('unpublished', $currentState);
 $I->deleteCategory($updatedCategoryName);
-$I->verifySearch('false', $I->searchCategory($updatedCategoryName, 'Delete'));
+$I->searchCategory($updatedCategoryName, 'Delete');
 

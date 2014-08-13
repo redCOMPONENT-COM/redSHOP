@@ -16,26 +16,6 @@ namespace AcceptanceTester;
  */
 class LoginSteps extends \AcceptanceTester
 {
-	// Include url of current page
-	public static $URL = '/administrator/index.php';
-
-	/**
-	 * @var AcceptanceTester;
-	 */
-	protected $acceptanceTester;
-
-	/**
-	 * Basic route example for your current URL
-	 * You can append any additional parameter to URL
-	 * and use it in tests like: EditPage::route('/123-post');
-	 *
-	 * @return  void
-	 */
-	public static function route($param = "")
-	{
-		return static::$URL . $param;
-	}
-
 	/**
 	 * Function to execute an Admin Login for Joomla2.5
 	 *
@@ -45,10 +25,10 @@ class LoginSteps extends \AcceptanceTester
 	{
 		$I = $this;
 		$this->acceptanceTester = $I;
-		$I->amOnPage($this->route());
+		$I->amOnPage(\LoginManagerPage::$URL);
 		$config = $I->getConfig();
-		$I->fillField('username', $config['username']);
-		$I->fillField('passwd', $config['password']);
+		$I->fillField(\LoginManagerPage::$userName, $config['username']);
+		$I->fillField(\LoginManagerPage::$password, $config['password']);
 		$I->click('Log in');
 		$I->see('Category Manager');
 	}
