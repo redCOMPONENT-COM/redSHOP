@@ -1139,7 +1139,7 @@ class nusoap_base
  *
  * @access   public
  */
- public function iso8601_to_timestamp($datestr)
+function iso8601_to_timestamp($datestr)
 {
 	$pattern = '/' .
 		'([0-9]{4})-' . // centuries & years CCYY-
@@ -1190,7 +1190,7 @@ class nusoap_base
  * @access   public
  * @deprecated
  */
- public function usleepWindows($usec)
+function usleepWindows($usec)
 {
 	$start = gettimeofday();
 
@@ -1201,9 +1201,6 @@ class nusoap_base
 			+ $stop['usec'] - $start['usec'];
 	} while ($timePassed < $usec);
 }
-
-?><?php
-
 
 /**
  * Contains information for a SOAP fault.
