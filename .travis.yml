@@ -12,31 +12,31 @@ before_script:
   - composer install
 
   # Install Apache
-  - echo "command:   - sudo apt-get update > /dev/null"
+  - echo "c1"
   - sudo apt-get update > /dev/null
-  - echo "command: sudo apt-get install -y --force-yes apache2 libapache2-mod-php5 php5-curl php5-mysql php5-intl > /dev/null"
+  - echo "c2"
   - sudo apt-get install -y --force-yes apache2 libapache2-mod-php5 php5-curl php5-mysql php5-intl > /dev/null
-  - echo "command: sudo chmod 777 -R /home/travis/build/redCOMPONENT-COM/redSHOP/"
+  - echo "c3"
   - sudo chmod 777 -R /home/travis/build/redCOMPONENT-COM/redSHOP/
-  - echo "command: sudo ln -s /home/travis/build/redCOMPONENT-COM/redSHOP/tests/system/joomla-cms/ /var/www/joomla-cms"
+  - echo "c4"
   - sudo ln -s /home/travis/build/redCOMPONENT-COM/redSHOP/tests/system/joomla-cms/ /var/www/joomla-cms
-  - echo "command: sudo sed -i -e "s,AllowOverride[ ]None,AllowOverride All,g" /etc/apache2/sites-available/default"
+  - echo "c5"
   - sudo sed -i -e "s,AllowOverride[ ]None,AllowOverride All,g" /etc/apache2/sites-available/default
-  - echo "command: sudo /etc/init.d/apache2 restart"
+  - echo "c6"
   - sudo /etc/init.d/apache2 restart
-  - echo "command: composer install --dev --prefer-dist"
+  - echo "c7"
   - composer install --dev --prefer-dist
 
   # XVFB
-  - echo "export DISPLAY=:99.0"
+  - echo "c8"
   - "export DISPLAY=:99.0"
-  - echo "Xvfb :99.0 -extension RANDR > /dev/null &"
+  - echo "c9"
   - "Xvfb :99.0 -extension RANDR > /dev/null &"
 
   # Window manager
-  - echo "command: sudo apt-get install fluxbox -y --force-yes"
+  - echo "c10"
   - "sudo apt-get install fluxbox -y --force-yes"
-  - echo "command: fluxbox &"
+  - echo "c11"
   - "fluxbox &"
 
   # Selenium server
