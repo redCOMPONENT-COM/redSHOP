@@ -12,20 +12,31 @@ before_script:
   - composer install
 
   # Install Apache
+  - echo "command:   - sudo apt-get update > /dev/null"
   - sudo apt-get update > /dev/null
+  - echo "command: sudo apt-get install -y --force-yes apache2 libapache2-mod-php5 php5-curl php5-mysql php5-intl > /dev/null"
   - sudo apt-get install -y --force-yes apache2 libapache2-mod-php5 php5-curl php5-mysql php5-intl > /dev/null
+  - echo "command: sudo chmod 777 -R /home/travis/build/redCOMPONENT-COM/redSHOP/"
   - sudo chmod 777 -R /home/travis/build/redCOMPONENT-COM/redSHOP/
+  - echo "command: sudo ln -s /home/travis/build/redCOMPONENT-COM/redSHOP/tests/system/joomla-cms/ /var/www/joomla-cms"
   - sudo ln -s /home/travis/build/redCOMPONENT-COM/redSHOP/tests/system/joomla-cms/ /var/www/joomla-cms
+  - echo "command: sudo sed -i -e "s,AllowOverride[ ]None,AllowOverride All,g" /etc/apache2/sites-available/default"
   - sudo sed -i -e "s,AllowOverride[ ]None,AllowOverride All,g" /etc/apache2/sites-available/default
+  - echo "command: sudo /etc/init.d/apache2 restart"
   - sudo /etc/init.d/apache2 restart
+  - echo "command: composer install --dev --prefer-dist"
   - composer install --dev --prefer-dist
 
   # XVFB
+  - echo "export DISPLAY=:99.0"
   - "export DISPLAY=:99.0"
+  - echo "Xvfb :99.0 -extension RANDR > /dev/null &"
   - "Xvfb :99.0 -extension RANDR > /dev/null &"
 
   # Window manager
+  - echo "command: sudo apt-get install fluxbox -y --force-yes"
   - "sudo apt-get install fluxbox -y --force-yes"
+  - echo "command: fluxbox &"
   - "fluxbox &"
 
   # Selenium server
@@ -36,7 +47,7 @@ before_script:
 
 script:
   - php .travis/traviswebserverckecker.php http://localhost/joomla-cms/installation/index.php # Test apache
-  - php .travis/phpparseerrorchecker.php component/ modules/ plugins/
+  #- php .travis/phpparseerrorchecker.php component/ modules/ plugins/
   # - phing -f .travis.xml
   # Comment all system tests to use only Codeception
   - mv tests/acceptance.suite.dist.yml tests/acceptance.suite.yml # Create travis system tests config file
