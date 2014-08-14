@@ -1,5 +1,4 @@
 {
     "require-dev": {
-        "phing/phing": "2.*"
     }
 }
