@@ -35,9 +35,9 @@ before_script:
 
   # Window manager
   - echo "c10"
-  - "sudo apt-get install fluxbox -y --force-yes"
+  - "sudo apt-get install fluxbox -y --force-yes > /dev/null"
   - echo "c11"
-  - "fluxbox &"
+  - "fluxbox & > /dev/null"
 
   # Selenium server
   - "wget http://selenium-release.storage.googleapis.com/2.41/selenium-server-standalone-2.41.0.jar"
