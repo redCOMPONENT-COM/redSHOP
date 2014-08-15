@@ -9,20 +9,12 @@ before_script:
 
   # Install Apache
   - sudo apt-get update -qq
-  - sudo apt-get install apache2 libapache2-mod-fastcgi
+  - sudo apt-get install -y --force-yes apache2 libapache2-mod-php5 php5-curl php5-mysql php5-intl > /dev/null
   - sudo chmod 777 -R /home/travis/build/redCOMPONENT-COM/redSHOP/
-
-   # PHP-FPM
-  - sudo cp ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf.default ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf
-  - sudo a2enmod rewrite actions fastcgi alias
-  - echo "cgi.fix_pathinfo = 1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
-  - ~/.phpenv/versions/$(phpenv version-name)/sbin/php-fpm
-
-  # configure apache virtual hosts
-  - sudo cp -f .travis.vhost.conf /etc/apache2/sites-available/default
-  - sudo sed -e "s?%TRAVIS_BUILD_DIR%?$(pwd)/web?g" --in-place /etc/apache2/sites-available/default
-  - sudo service apache2 restart
-
+  - sudo ln -s /home/travis/build/redCOMPONENT-COM/redSHOP/tests/system/joomla-cms/ /var/www/joomla-cms #Add joomla to apache htdocs
+  - sudo sed -i -e "s,AllowOverride[ ]None,AllowOverride All,g" /etc/apache2/sites-available/default
+  - sudo /etc/init.d/apache2 restart
+  - composer install --dev --prefer-dist
 
   # XVFB
   - "export DISPLAY=:99.0"
@@ -41,10 +33,7 @@ before_script:
 
 
 script:
-  - curl "http://localhost"
-  - ls -r
-  - ls -R
-  - php .travis/traviswebserverckecker.php http://localhost/tests/system/joomla-cms/installation/index.php # Test apache
+  - php .travis/traviswebserverckecker.php http://localhost/joomla-cms/installation/index.php # Test apache
   #- php .travis/phpparseerrorchecker.php component/ modules/ plugins/
   # - phing -f .travis.xml
   # Comment all system tests to use only Codeception
