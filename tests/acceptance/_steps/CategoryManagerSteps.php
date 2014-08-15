@@ -15,6 +15,8 @@ use Codeception\Module\WebDriver;
  * @package  AcceptanceTester
  *
  * @since    1.4
+ *
+ * @link     http://codeception.com/docs/07-AdvancedUsage#StepObjects
  */
 class CategoryManagerSteps extends \AcceptanceTester
 {
