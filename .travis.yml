@@ -42,6 +42,8 @@ before_script:
 
 script:
   - curl "http://localhost"
+  - ls -r
+  - ls -R
   - php .travis/traviswebserverckecker.php http://localhost/tests/system/joomla-cms/installation/index.php # Test apache
   #- php .travis/phpparseerrorchecker.php component/ modules/ plugins/
   # - phing -f .travis.xml
