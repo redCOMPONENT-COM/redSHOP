@@ -5,6 +5,7 @@
 # To run the test modify the following parameters according to your localhost details:
 #  - url
 #  - folder
+#  - db_user and db_pass
 
 # suite for acceptance tests.
 # perform tests in browser using the WebDriver or PhpBrowser.
@@ -27,9 +28,9 @@ modules:
             username: 'admin'                      # UserName for the Administrator
             password: 'admin'                      # Password for the Administrator
             db_host: 'localhost'                   # place where the Application is Hosted #server Address
-            db_user: 'root'                        # DB user ID
-            db_pass: ''                            # DB password
-            db_name: 'joomla-db-3-3'               # DB Name, at the Server
+            db_user: 'root'                        # MySQL Server user ID, usually root
+            db_pass: ''                            # MySQL Server password, usually empty
+            db_name: 'testredshop1'                # DB Name, at the Server
             db_type: 'MySQLi'                      # DB Type, Mostly MySQLi
             db_prefix: 'jos_'                      # DB Prefix for tables
             sample_data: 'yes'                     # Do you want to Download the Sample Data Along with Joomla Installation, then keep it Yes
