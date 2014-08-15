@@ -10,6 +10,8 @@
  * Class InstallJoomla2ManagerPage
  *
  * @since  1.4
+ *
+ * @link   http://codeception.com/docs/07-AdvancedUsage#PageObjects
  */
 class InstallJoomla2ManagerPage
 {

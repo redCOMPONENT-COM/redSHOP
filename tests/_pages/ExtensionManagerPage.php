@@ -10,6 +10,8 @@
  * Class ExtensionManagerPage
  *
  * @since  1.4
+ *
+ * @link   http://codeception.com/docs/07-AdvancedUsage#PageObjects
  */
 class ExtensionManagerPage
 {

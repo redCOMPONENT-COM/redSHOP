@@ -13,6 +13,8 @@ namespace AcceptanceTester;
  * @package  AcceptanceTester
  *
  * @since    1.4
+ *
+ * @link     http://codeception.com/docs/07-AdvancedUsage#StepObjects
  */
 class LoginSteps extends \AcceptanceTester
 {
