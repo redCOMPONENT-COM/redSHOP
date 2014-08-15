@@ -14,6 +14,8 @@ namespace AcceptanceTester;
  * @package  AcceptanceTester
  *
  * @since    1.4
+ *
+ * @link     http://codeception.com/docs/07-AdvancedUsage#StepObjects
  */
 class InstallJoomla3Steps extends \AcceptanceTester
 {
