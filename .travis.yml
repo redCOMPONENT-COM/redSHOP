@@ -4,40 +4,27 @@ php:
   - 5.4
 
 before_script:
-  #- pear install PHP_CodeSniffer
-  #- pear channel-discover pear.phing.info
-  #- pear install phing/phing
   - phpenv config-add .travis.ini
   - phpenv rehash
-  - composer install
 
   # Install Apache
-  - echo "c1"
-  - sudo apt-get update > /dev/null
-  - echo "c2"
+  - sudo apt-get update -qq
   - sudo apt-get install -y --force-yes apache2 libapache2-mod-php5 php5-curl php5-mysql php5-intl > /dev/null
-  - echo "c3"
   - sudo chmod 777 -R /home/travis/build/redCOMPONENT-COM/redSHOP/
-  - echo "c4"
-  - sudo ln -s /home/travis/build/redCOMPONENT-COM/redSHOP/tests/system/joomla-cms/ /var/www/joomla-cms
-  - echo "c5"
+  - sudo ln -s /home/travis/build/redCOMPONENT-COM/redSHOP/tests/system/joomla-cms/ /var/www/joomla-cms #Add joomla to apache htdocs
   - sudo sed -i -e "s,AllowOverride[ ]None,AllowOverride All,g" /etc/apache2/sites-available/default
-  - echo "c6"
   - sudo /etc/init.d/apache2 restart
-  - echo "c7"
   - composer install --dev --prefer-dist
 
   # XVFB
-  - echo "c8"
   - "export DISPLAY=:99.0"
-  - echo "c9"
   - "Xvfb :99.0 -extension RANDR > /dev/null &"
 
   # Window manager
   - echo "c10"
-  - "sudo apt-get install fluxbox -y --force-yes > /dev/null"
+  - "sudo apt-get install fluxbox -y --force-yes"
   - echo "c11"
-  - "fluxbox & > /dev/null"
+  - "fluxbox &"
 
   # Selenium server
   - "wget http://selenium-release.storage.googleapis.com/2.41/selenium-server-standalone-2.41.0.jar"
