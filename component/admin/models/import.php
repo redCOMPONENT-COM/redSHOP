@@ -263,16 +263,21 @@ class RedshopModelImport extends JModel
 								$rawdata['product_id'] = (int) $product_id;
 							}
 
+							if (isset($rawdata['product_name']) === true)
+							{
+								$rawdata['product_name'] = htmlentities($rawdata['product_name'], ENT_COMPAT, $post['encoding']);
+							}
+
 							// Product Description is optional - no need to add column in csv everytime.
 							if (isset($rawdata['product_desc']) === true)
 							{
-								$rawdata['product_desc'] = htmlentities($rawdata['product_desc'], ENT_COMPAT, 'UTF-8');
+								$rawdata['product_desc'] = htmlentities($rawdata['product_desc'], ENT_COMPAT, $post['encoding']);
 							}
 
 							// Product Short Description is also optional - no need to add column in csv everytime.
 							if (isset($rawdata['product_s_desc']) === true)
 							{
-								$rawdata['product_s_desc'] = htmlentities($rawdata['product_s_desc'], ENT_COMPAT, 'UTF-8');
+								$rawdata['product_s_desc'] = htmlentities($rawdata['product_s_desc'], ENT_COMPAT, $post['encoding']);
 							}
 
 							if (isset($rawdata['manufacturer_name']))
