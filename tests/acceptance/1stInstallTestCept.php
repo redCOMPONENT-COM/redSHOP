@@ -8,13 +8,13 @@
 $scenario->group('installation');
 $I = new AcceptanceTester\InstallJoomla2Steps($scenario);
 $I->wantTo('Execute Joomla Installation');
-$I->installJoomla2("Install Joomla 2.5.x");
+$I->installJoomla2();
 $I = new AcceptanceTester\LoginSteps($scenario);
-$I->wantTo('Execute Admin Login');
-$I->doAdminLogin("Login to the Admin Panel of Joomla");
+$I->wantTo('Execute Log in at Joomla Administrator');
+$I->doAdminLogin();
 $I = new AcceptanceTester\InstallExtensionSteps($scenario);
-$I->wantTo('Install RedShop');
-$I->installExtension("To Install the Extension");
+$I->wantTo('Install RedShop 1 extension');
+$I->installExtension('redSHOP 1.x');
 $I->wantTo('Install redSHOP1 demo data');
-$I->installSampleData("Finally Install the Demo Data");
+$I->installSampleData();
 
