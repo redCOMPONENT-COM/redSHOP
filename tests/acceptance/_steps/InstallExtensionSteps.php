@@ -13,24 +13,11 @@ namespace AcceptanceTester;
  * @package  AcceptanceTester
  *
  * @since    1.4
+ *
+ * @link     http://codeception.com/docs/07-AdvancedUsage#StepObjects
  */
 class InstallExtensionSteps extends \AcceptanceTester
 {
-	// Include url of current page
-	public static $URL = '/administrator/index.php?option=com_installer';
-
-	/**
-	 * Basic route example for your current URL
-	 * You can append any additional parameter to URL
-	 * and use it in tests like: EditPage::route('/123-post');
-	 *
-	 * @return  void
-	 */
-	public static function route($param = "")
-	{
-		return static::$URL . $param;
-	}
-
 	/**
 	 * Function to Install RedShop1, inside Joomla 2.5
 	 *
@@ -40,10 +27,22 @@ class InstallExtensionSteps extends \AcceptanceTester
 	{
 		$I = $this;
 		$this->acceptanceTester = $I;
-		$I->amOnPage($this->route());
+		$I->amOnPage(\ExtensionManagerPage::$URL);
 		$config = $I->getConfig();
-		$I->fillField("#install_directory", $config['folder']);
-		$I->click("//input[contains(@onclick,'Joomla.submitbutton3()')]");
-		$I->waitForElement("//li[contains(text(),'Installing component was successful')]", 60);
+		$I->fillField(\ExtensionManagerPage::$extensionDirectoryPath, $config['folder']);
+		$I->click(\ExtensionManagerPage::$installButton);
+		$I->waitForElement(\ExtensionManagerPage::$installSuccessMessage, 60);
+	}
+
+	/**
+	 * Function to Install Demo Data for the Extension
+	 *
+	 * @return void
+	 */
+	public function installSampleData()
+	{
+		$I = $this;
+		$I->click(\ExtensionManagerPage::$installDemoContent);
+		$I->waitForElement(\ExtensionManagerPage::$demoDataInstallSuccessMessage, 30);
 	}
 }
