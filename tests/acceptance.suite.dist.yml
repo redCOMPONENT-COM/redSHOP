@@ -38,4 +38,4 @@ modules:
             site_name: 'Joomla'                    # Name of the Site
             admin_email: 'admin@mydomain.com'      # email Id of the Admin
             language: 'English (United Kingdom)'   # Language in which you want the Application to be Installed
-            folder: '/home/user/Projects/redSHOP/' # Path to the Extension to be installed via Install from folder
+            folder: '/home/travis/build/redCOMPONENT-COM/redSHOP/' # Path to the Extension to be installed via Install from folder
