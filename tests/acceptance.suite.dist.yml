@@ -17,17 +17,17 @@ modules:
             capabilities:
               unexpectedAlertBehaviour: 'accept'
         AcceptanceHelper:
-            username: 'root' #UserName for the Administrator
-            password: '1234'   #Password for the Administrator
-            folder: '/home/user/Projects/redSHOP/'  #Path to the Extensios
-            db_host: 'localhost'  #place where the Application is Hosted #server Address
-            db_user: 'root'       #DB user ID
-            db_pass: '1234'       #DB password
-            db_name: 'joomla-db-3-3'  #DB Name, at the Server
-            db_type: 'MySQLi'         #DB Type, Mostly MySQLi
-            db_prefix: 'jml31_'       #DB Prefix for tables
-            sample_data_file: 'Default English'   #Default Sample Data
-            site_name: 'Joomla'                   #Name of the Site
-            admin_email: 'admin@mydomain.com'     #email Id of the Admin
-            language: 'English (United Kingdom)'  #Language in which you want the Application to be Installed
-            sample_data: 'yes'  #Do you want to Download the Sample Data Along with Joomla Installation, then keep it Yes
+            username: 'admin'                                       #UserName for the Administrator
+            password: 'admin'                                       #Password for the Administrator
+            folder: '/home/travis/build/redCOMPONENT-COM/redSHOP/'  #Path to the Extension for Install from folder
+            db_host: 'localhost'                                    #place where the Application is Hosted #server Address
+            db_user: 'root'                                         #DB user ID
+            db_pass: ''                                             #DB password
+            db_name: 'redshop1'                                     #DB Name, at the Server
+            db_type: 'MySQLi'                                       #DB Type, Mostly MySQLi
+            db_prefix: 'jos_'                                       #DB Prefix for tables
+            sample_data_file: 'Default English'                     #Default Sample Data
+            site_name: 'Joomla'                                     #Name of the Site
+            admin_email: 'admin@mydomain.com'                       #email Id of the Admin
+            language: 'English (United Kingdom)'                    #Language in which you want the Application to be Installed
+            sample_data: 'yes'                                      #Do you want to Download the Sample Data Along with Joomla Installation, then keep it Yes
