@@ -11,7 +11,7 @@ modules:
         - AcceptanceHelper
     config:
         WebDriver:
-            url: 'http://localhost/tests/system/joomla-cms'
+            url: 'http://localhost/joomla-cms'
             browser: 'firefox'
             window_size: 1024x768
             capabilities:
