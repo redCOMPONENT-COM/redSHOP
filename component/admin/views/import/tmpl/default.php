@@ -21,6 +21,32 @@ $data = array(
 	'shopperGroupAttributePrice' => 'COM_REDSHOP_IMPORT_SHOPPER_GROUP_ATTRIBUTE_SPECIFIC_PRICE',
 	'product_stockroom_data'     => 'COM_REDSHOP_PRODUCT_STOCKROOM_DATA'
 );
+
+// Defines encoding used in import
+$characterSets = array(
+	'ISO-8859-1'  => 'COM_REDSHOP_IMPORT_CHARS_ISO88591',
+	'ISO-8859-5'  => 'COM_REDSHOP_IMPORT_CHARS_ISO88595',
+	'ISO-8859-15' => 'COM_REDSHOP_IMPORT_CHARS_ISO885915',
+	'UTF-8'       => 'COM_REDSHOP_IMPORT_CHARS_UTF8',
+	'cp866'       => 'COM_REDSHOP_IMPORT_CHARS_CP866',
+	'cp1251'      => 'COM_REDSHOP_IMPORT_CHARS_CP1251',
+	'cp1252'      => 'COM_REDSHOP_IMPORT_CHARS_CP1252',
+	'KOI8-R'      => 'COM_REDSHOP_IMPORT_CHARS_KOI8R',
+	'BIG5'        => 'COM_REDSHOP_IMPORT_CHARS_BIG5',
+	'GB2312'      => 'COM_REDSHOP_IMPORT_CHARS_GB2312',
+	'BIG5-HKSCS'  => 'COM_REDSHOP_IMPORT_CHARS_BIG5HKSCS',
+	'Shift_JIS'   => 'COM_REDSHOP_IMPORT_CHARS_SHIFTJIS',
+	'EUC-JP'      => 'COM_REDSHOP_IMPORT_CHARS_EUCJP',
+	'MacRoman'    => 'COM_REDSHOP_IMPORT_CHARS_MACROMAN'
+);
+
+// Creating JOption for JSelect box.
+foreach ($characterSets as $char => $name)
+{
+	$title       = sprintf(JText::_($name), $char);
+	$encodings[] = JHTML::_('select.option', $char, $title);
+}
+
 ?>
 <script type="text/javascript">
 	Joomla.submitbutton = function (pressbutton) {
@@ -51,6 +77,22 @@ $data = array(
 			<td colspan="2">
 				<?php echo JText::_('COM_REDSHOP_SEPRATOR');?>
 				<input type="text" name="separator" maxlength="1" size="1" value=","/>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2">
+				<?php
+				echo JText::_('COM_REDSHOP_IMPORT_ENCODING');
+				echo JHTML::_(
+						'select.genericlist',
+						$encodings,
+						'encoding',
+						'class="inputbox"',
+						'value',
+						'text',
+						'UTF-8'
+					);
+				?>
 			</td>
 		</tr>
 		<?php foreach ($data as $value => $text): ?>
