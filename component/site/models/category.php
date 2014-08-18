@@ -74,6 +74,11 @@ class RedshopModelCategory extends JModel
 			}
 		}
 
+		if (empty($this->_context))
+		{
+			$this->_context = strtolower('com_redshop.' . $this->getName() . '.' . $Id);
+		}
+
 		$category_template = $app->getUserStateFromRequest($this->_context . 'category_template', 'category_template', 0);
 
 		$this->setState('category_template', $category_template);
