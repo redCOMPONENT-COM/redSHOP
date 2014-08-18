@@ -3303,7 +3303,7 @@ class rsCarthelper
 
 		if ($isEnabled && $classname == 'default_shipping_GLS')
 		{
-			JPluginHelper::importPlugin('rs_labels_GLS');
+			JPluginHelper::importPlugin('redshop_shipping');
 			$dispatcher = JDispatcher::getInstance();
 			$sql        = "SELECT  * FROM #__redshop_users_info WHERE users_info_id=" . (int) $users_info_id ;
 			$this->_db->setQuery($sql);
