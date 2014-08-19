@@ -56,6 +56,6 @@ class AcceptanceHelper extends \Codeception\Module
 	 */
 	public function verifyState($expected, $actual)
 	{
-		$this->assertEquals($expected, $actual, "The State of the Object Should be Expect");
+		$this->assertEquals($expected, $actual, "Assert that the Actual State is equal to the state we Expect");
 	}
 }
