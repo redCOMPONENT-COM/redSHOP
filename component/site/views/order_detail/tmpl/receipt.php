@@ -161,7 +161,7 @@ $billingaddresses = $model->billingaddresses();
 
 // Google analytics code added
 require_once JPATH_COMPONENT . '/helpers/google_analytics.php';
-$googleanalytics = new googleanalytics;
+$googleanalytics = new GoogleAnalytics;
 
 $analytics_status = $order->analytics_status;
 

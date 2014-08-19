@@ -21,7 +21,7 @@ include_once JPATH_COMPONENT . '/helpers/cart.php';
  * @subpackage  Controller
  * @since       1.0
  */
-class CartController extends JController
+class RedshopControllerCart extends JController
 {
 	/**
 	 * Constructor

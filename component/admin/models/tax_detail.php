@@ -15,7 +15,7 @@ jimport('joomla.client.helper');
 JClientHelper::setCredentialsFromRequest('ftp');
 jimport('joomla.filesystem.file');
 
-class tax_detailModeltax_detail extends JModel
+class RedshopModelTax_detail extends JModel
 {
 	public $_id = null;
 

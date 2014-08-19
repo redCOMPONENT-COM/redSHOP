@@ -14,7 +14,7 @@ jimport('joomla.application.component.controller');
 require_once JPATH_COMPONENT_SITE . '/helpers/currency.php';
 require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/extra_field.php';
 
-class configurationController extends JController
+class RedshopControllerConfiguration extends JController
 {
 	public function __construct($default = array())
 	{

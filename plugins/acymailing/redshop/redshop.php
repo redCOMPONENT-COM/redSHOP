@@ -9,29 +9,29 @@
 
 defined('_JEXEC') or die;
 
-// Including redshop product helper file and configuration file
-require_once JPATH_SITE . '/components/com_redshop/helpers/product.php';
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
+
 
 class plgAcymailingRedshop extends JPlugin
 {
 	public function plgAcymailingRedshop(&$subject, $config)
 	{
-		parent::__construct($subject, $config);
+		require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
+		require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/configuration.php';
 
-		if (!isset($this->params))
-		{
-			$plugin = JPluginHelper::getPlugin('acymailing', 'redshop');
-			$this->params = new JRegistry($plugin->params);
-		}
+		$redConfiguration = new Redconfiguration;
+		$redConfiguration->defineDynamicVars();
+
+		require_once JPATH_SITE . '/components/com_redshop/helpers/product.php';
+
+		parent::__construct($subject, $config);
 	}
 
 	public function acymailing_getPluginType()
 	{
-		$onePlugin = null;
-		$onePlugin->name = JText::_('COM_REDSHOP_redSHOP');
+		$onePlugin           = new stdClass;
+		$onePlugin->name     = JText::_('COM_REDSHOP_redSHOP');
 		$onePlugin->function = 'acymailingredSHOP_show';
-		$onePlugin->help = 'plugin-redSHOP';
+		$onePlugin->help     = 'plugin-redSHOP';
 
 		return $onePlugin;
 	}
@@ -173,10 +173,13 @@ class plgAcymailingRedshop extends JPlugin
 			$text = str_replace($attribute_tag, "", $text);
 
 			// Replace add to cart template to null
-			$cart_tag_arr = explode("form_addtocart:", $text);
-			$cart_tag_arr = explode("}", $cart_tag_arr[1]);
-			$cart_tag = "{form_addtocart:" . $cart_tag_arr[0] . "}";
-			$text = str_replace($cart_tag, "", $text);
+			if (strstr($text, 'form_addtocart:'))
+			{
+				$cart_tag_arr = explode("form_addtocart:", $text);
+				$cart_tag_arr = explode("}", $cart_tag_arr[1]);
+				$cart_tag     = "{form_addtocart:" . $cart_tag_arr[0] . "}";
+				$text         = str_replace($cart_tag, "", $text);
+			}
 		}
 		elseif(strpos($tag, 'name:') !== false)
 		{

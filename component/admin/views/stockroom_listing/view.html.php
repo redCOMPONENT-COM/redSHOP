@@ -14,7 +14,7 @@ $context = 'ddd';
 
 require_once JPATH_COMPONENT . '/helpers/category.php';
 
-class stockroom_listingViewstockroom_listing extends JView
+class RedshopViewStockroom_listing extends JView
 {
 	/**
 	 * The request url.

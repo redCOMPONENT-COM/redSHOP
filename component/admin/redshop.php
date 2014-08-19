@@ -100,7 +100,7 @@
 	}
 
 	$user        = JFactory::getUser();
-	$task        = JRequest::getVar('task', '');
+	$task        = JRequest::getVar('task');
 	$layout      = JRequest::getVar('layout', '');
 	$showbuttons = JRequest::getVar('showbuttons', '0');
 	$showall     = JRequest::getVar('showall', '0');
@@ -156,10 +156,27 @@
 		}
 	}
 
-	require_once JPATH_COMPONENT . '/controllers/' . $controller . '.php';
-	$classname  = $controller . 'controller';
-	$controller = new $classname( array('default_task' => 'display') );
-	$controller->execute(JRequest::getVar('task'));
+	// Check for array format.
+	$filter = JFilterInput::getInstance();
+
+	if (is_array($task))
+	{
+		$command = $filter->clean(array_pop(array_keys($task)), 'cmd');
+	}
+	else
+	{
+		$command = $filter->clean($task, 'cmd');
+	}
+
+	// Check for a not controller.task command.
+	if (strpos($command, '.') === false)
+	{
+		JRequest::setVar('task', $controller . '.' . $command);
+	}
+
+	// Execute the task.
+	$controller	= JControllerLegacy::getInstance('Redshop');
+	$controller->execute(JRequest::getCmd('task'));
 	$controller->redirect();
 
 	// End div here

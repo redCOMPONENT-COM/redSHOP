@@ -19,7 +19,7 @@ require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
  *
  * @since  2.5
  */
-class ExportModelexport extends JModel
+class RedshopModelExport extends JModel
 {
 	/**
 	 * Get export data
@@ -301,8 +301,8 @@ class ExportModelexport extends JModel
 					$query = "SELECT pcx.category_id,c.category_name FROM #__redshop_product_category_xref as pcx"
 						. " LEFT JOIN #__redshop_category c ON c.category_id = pcx.category_id"
 						. " WHERE product_id ='" . $row['product_id'] . "' ";
-					$this->_db->setQuery($query);
-					$category = $this->_db->loadObjectList();
+					$db->setQuery($query);
+					$category = $db->loadObjectList();
 					$cats = array();
 					$cat_name = array();
 
@@ -323,8 +323,8 @@ class ExportModelexport extends JModel
 					$query = "SELECT CONCAT(`product_number`,'~',`accessory_price`) as accsdata  FROM `#__redshop_product_accessory` as pa "
 						. " LEFT JOIN #__redshop_product p ON p.product_id = pa.child_product_id"
 						. " WHERE pa.`product_id` = '" . $row['product_id'] . "' ";
-					$this->_db->setQuery($query);
-					$accessory = $this->_db->loadObjectList();
+					$db->setQuery($query);
+					$accessory = $db->loadObjectList();
 					$accessories = "";
 					$accs = array();
 
@@ -341,9 +341,9 @@ class ExportModelexport extends JModel
 				{
 					$query = 'SELECT quantity FROM `#__redshop_product_stockroom_xref` WHERE `product_id` = '
 						. $row['product_id'] . ' AND 	stockroom_id = ' . DEFAULT_STOCKROOM;
-					$this->_db->setQuery($query);
+					$db->setQuery($query);
 
-					$stock = $this->_db->loadObject();
+					$stock = $db->loadObject();
 
 					if ($stock)
 					{
@@ -820,8 +820,8 @@ class ExportModelexport extends JModel
 
 		$db = JFactory::getDbo();
 		$query = "SELECT * FROM `#__redshop_product` ORDER BY product_id asc ";
-		$this->_db->setQuery($query);
-		$cur = $this->_db->loadObjectList();
+		$db->setQuery($query);
+		$cur = $db->loadObjectList();
 
 		$ret = null;
 
@@ -884,8 +884,8 @@ class ExportModelexport extends JModel
 							$main_attribute_stock = "";
 
 							$sel_arrtibute_stock = "select * from `#__redshop_product_attribute_stockroom_xref` where section_id='" . $att_property[$prop]->property_id . "'";
-							$this->_db->setQuery($sel_arrtibute_stock);
-							$fetch_arrtibute_stock = $this->_db->loadObjectList();
+							$db->setQuery($sel_arrtibute_stock);
+							$fetch_arrtibute_stock = $db->loadObjectList();
 
 							for ($h = 0; $h < count($fetch_arrtibute_stock); $h++)
 							{
@@ -909,7 +909,7 @@ class ExportModelexport extends JModel
 								$main_attribute_stock_placement = "";
 
 								// Initialiase variables.
-								$query = $this->_db->getQuery(true);
+								$query = $db->getQuery(true);
 
 								// Prepare query.
 								$query->select('stock_placement');
@@ -918,8 +918,8 @@ class ExportModelexport extends JModel
 								$query->where('section_id = "' . $att_property[$prop]->property_id . '"');
 
 								// Inject the query and load the result.
-								$this->_db->setQuery($query);
-								$main_attribute_stock_placement = $this->_db->loadResult();
+								$db->setQuery($query);
+								$main_attribute_stock_placement = $db->loadResult();
 
 								echo ',"' . $main_attribute_stock_placement . '"';
 							}
@@ -946,8 +946,8 @@ class ExportModelexport extends JModel
 
 								$sel_arrtibute_stock_sub = "select * from `#__redshop_product_attribute_stockroom_xref` where section_id='" . $subatt_property[$subprop]->subattribute_color_id
 									. "'";
-								$this->_db->setQuery($sel_arrtibute_stock_sub);
-								$fetch_arrtibute_stock_sub = $this->_db->loadObjectList();
+								$db->setQuery($sel_arrtibute_stock_sub);
+								$fetch_arrtibute_stock_sub = $db->loadObjectList();
 
 								for ($b = 0; $b < count($fetch_arrtibute_stock_sub); $b++)
 								{
@@ -974,7 +974,7 @@ class ExportModelexport extends JModel
 									$main_attribute_stock_sub_placement = "";
 
 									// Initialiase variables.
-									$query = $this->_db->getQuery(true);
+									$query = $db->getQuery(true);
 
 									// Prepare query.
 									$query->select('stock_placement');
@@ -983,8 +983,8 @@ class ExportModelexport extends JModel
 									$query->where('section_id = "' . $subatt_property[$subprop]->subattribute_color_id . '"');
 
 									// Inject the query and load the result.
-									$this->_db->setQuery($query);
-									$main_attribute_stock_sub_placement = $this->_db->loadResult();
+									$db->setQuery($query);
+									$main_attribute_stock_sub_placement = $db->loadResult();
 
 									echo ',"' . $main_attribute_stock_sub_placement . '"';
 								}
@@ -1156,8 +1156,8 @@ class ExportModelexport extends JModel
 		$producthelper = new producthelper;
 		$db            = JFactory::getDbo();
 		$query         = "SELECT * FROM `#__redshop_fields` ORDER BY field_id asc ";
-		$this->_db->setQuery($query);
-		$cur           = $this->_db->loadObjectList();
+		$db->setQuery($query);
+		$cur           = $db->loadObjectList();
 		$ret           = null;
 
 		for ($i = 0; $i < count($cur); $i++)
@@ -1169,8 +1169,8 @@ class ExportModelexport extends JModel
 			}
 
 			$query = 'SELECT data_id,`data_txt`,`itemid`,`section` FROM `#__redshop_fields_data` WHERE `fieldid` = ' . $cur[$i]->field_id . ' and section!=""';
-			$this->_db->setQuery($query);
-			$data = $this->_db->loadObjectList();
+			$db->setQuery($query);
+			$data = $db->loadObjectList();
 			$attr = array();
 
 			$datavalue = $extra_field->getFieldValue($cur[$i]->field_id);
@@ -1622,10 +1622,12 @@ class ExportModelexport extends JModel
 	 */
 	public function getmanufacturers()
 	{
-		$query = 'SELECT manufacturer_id as value,manufacturer_name as text FROM #__redshop_manufacturer  WHERE published=1 ORDER BY `manufacturer_name`';
-		$this->_db->setQuery($query);
+		$db = JFactory::getDbo();
 
-		return $this->_db->loadObjectlist();
+		$query = 'SELECT manufacturer_id as value,manufacturer_name as text FROM #__redshop_manufacturer  WHERE published=1 ORDER BY `manufacturer_name`';
+		$db->setQuery($query);
+
+		return $db->loadObjectlist();
 	}
 
 	/**
@@ -1635,11 +1637,13 @@ class ExportModelexport extends JModel
 	 */
 	public function getProductExtrafield()
 	{
+		$db = JFactory::getDbo();
+
 		$query = "SELECT field_id, field_name FROM #__redshop_fields "
 			. "WHERE field_section=1 "
 			. "ORDER BY ordering ";
-		$this->_db->setQuery($query);
-		$fields = $this->_db->loadObjectlist();
+		$db->setQuery($query);
+		$fields = $db->loadObjectlist();
 
 		$listfields = array();
 
@@ -1652,8 +1656,8 @@ class ExportModelexport extends JModel
 
 		$query = "SELECT fieldid, data_txt, itemid FROM #__redshop_fields_data "
 			. "WHERE section=1 ";
-		$this->_db->setQuery($query);
-		$fielddata = $this->_db->loadObjectlist();
+		$db->setQuery($query);
+		$fielddata = $db->loadObjectlist();
 
 		$fieldrowdata = array();
 

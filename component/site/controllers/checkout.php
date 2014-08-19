@@ -21,7 +21,7 @@ require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/extra_field.
  * @subpackage  Controller
  * @since       1.0
  */
-class CheckoutController extends JController
+class RedshopControllerCheckout extends JController
 {
 	public $_order_functions = null;
 
@@ -177,7 +177,7 @@ class CheckoutController extends JController
 	public function updateGLSLocation()
 	{
 		$get = JRequest::get('get');
-		JPluginHelper::importPlugin('rs_labels_GLS');
+		JPluginHelper::importPlugin('redshop_shipping');
 		$dispatcher = JDispatcher::getInstance();
 		$values = new stdClass;
 		$values->zipcode = $get['zipcode'];

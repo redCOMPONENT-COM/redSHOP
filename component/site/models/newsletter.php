@@ -18,7 +18,7 @@ JLoader::import('joomla.application.component.model');
  * @subpackage  Model
  * @since       1.0
  */
-class newsletterModelnewsletter extends JModel
+class RedshopModelNewsletter extends JModel
 {
 	public $_table_prefix = null;
 

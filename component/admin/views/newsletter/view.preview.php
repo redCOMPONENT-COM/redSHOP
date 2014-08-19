@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.view');
 require_once JPATH_COMPONENT . '/helpers/category.php';
 
-class newsletterViewnewsletter extends JView
+class RedshopViewNewsletter extends JView
 {
 	public function display($tpl = null)
 	{

@@ -26,7 +26,7 @@ require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/extra_field.
  *
  * @since       1.0
  */
-class Product_DetailModelProduct_Detail extends JModel
+class RedshopModelProduct_Detail extends JModel
 {
 	public $id = null;
 
@@ -215,6 +215,7 @@ class Product_DetailModelProduct_Detail extends JModel
 			$detail->minimum_per_product_total  = (isset($data['minimum_per_product_total'])) ? $data['minimum_per_product_total'] : 0;
 			$detail->attribute_set_id           = (isset($data['attribute_set_id'])) ? $data['attribute_set_id'] : 0;
 			$detail->append_to_global_seo		= (isset($data['append_to_global_seo'])) ? $data['append_to_global_seo'] : JText::_('COM_REDSHOP_APPEND_TO_GLOBAL_SEO');
+			$detail->allow_decimal_piece		= (isset($data['allow_decimal_piece'])) ? $data['allow_decimal_piece'] : 0;
 
 			$this->data                         = $detail;
 
@@ -4160,13 +4161,20 @@ class Product_DetailModelProduct_Detail extends JModel
 	{
 		$producthelper = new producthelper;
 
+		$subPropertyList = $producthelper->getAttibuteSubProperty(0, $subattribute_id);
+
+		if (count($subPropertyList) == 0)
+		{
+			$subproperty = array('0' => new stdClass);
+		}
+
 		if ($sp)
 		{
 			$subproperty[0]->subattribute_color_id = $sp;
 		}
 		else
 		{
-			$subproperty = $producthelper->getAttibuteSubProperty(0, $subattribute_id);
+			$subproperty = $subPropertyList;
 		}
 
 		for ($j = 0; $j < count($subproperty); $j++)
@@ -4176,7 +4184,21 @@ class Product_DetailModelProduct_Detail extends JModel
 					  AND subattribute_color_id= '" . $subproperty[$j]->subattribute_color_id . "'";
 			$this->_db->setQuery($query);
 			$this->_db->query();
-			$this->delete_image($subproperty[$j]->subattribute_color_image, 'subcolor');
+
+			if (isset($subproperty[$j]->subattribute_color_image)
+				&& $subproperty[$j]->subattribute_color_image)
+			{
+				$this->delete_image($subproperty[$j]->subattribute_color_image, 'subcolor');
+			}
+		}
+
+		if (count($subPropertyList) <= 1)
+		{
+			$query = "UPDATE #__redshop_product_attribute_property
+						SET `setrequire_selected` = '0'
+						WHERE `property_id` = " . (int) $subattribute_id;
+			$this->_db->setQuery($query);
+			$this->_db->query();
 		}
 	}
 
@@ -4192,13 +4214,15 @@ class Product_DetailModelProduct_Detail extends JModel
 	{
 		$producthelper = new producthelper;
 
+		$propertyList  = $producthelper->getAttibuteProperty(0, $attribute_id);
+
 		if ($property_id)
 		{
 			$property[0]->property_id = $property_id;
 		}
 		else
 		{
-			$property = $producthelper->getAttibuteProperty(0, $attribute_id);
+			$property = $propertyList;
 		}
 
 		for ($j = 0; $j < count($property); $j++)
@@ -4214,6 +4238,15 @@ class Product_DetailModelProduct_Detail extends JModel
 				$this->delete_image($property[$j]->property_image, 'product_attributes');
 				$this->delete_subprop(0, $property_id);
 			}
+		}
+
+		if (count($propertyList) <= 1)
+		{
+			$query = "UPDATE #__redshop_product_attribute
+						SET `attribute_required` = '0'
+						WHERE `attribute_id` = " . (int) $attribute_id;
+			$this->_db->setQuery($query);
+			$this->_db->query();
 		}
 
 		exit;
