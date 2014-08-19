@@ -13,7 +13,7 @@ jimport('joomla.application.component.controller');
 
 require_once JPATH_BASE . '/components/com_redshop/helpers/configuration.php';
 
-class wizardController extends JController
+class RedshopControllerWizard extends JController
 {
 	public $_temp_file = null;
 

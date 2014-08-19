@@ -1514,15 +1514,24 @@ class rsCarthelper
 				}
 				else
 				{
-					if ($product->product_full_image)
+					$product_full_image = $product->product_full_image;
+					$product_type = 'product';
+
+					if ($rowitem [$i]->is_giftcard)
 					{
-						if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $product->product_full_image))
+						$product_full_image = $giftcardData->giftcard_image;
+						$product_type = 'giftcard';
+					}
+
+					if ($product_full_image)
+					{
+						if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . $product_type . "/" . $product_full_image))
 						{
 							$attribute_image_path = RedShopHelperImages::getImagePath(
-														$product->product_full_image,
+														$product_full_image,
 														'',
 														'thumb',
-														'product',
+														$product_type,
 														CART_THUMB_WIDTH,
 														CART_THUMB_HEIGHT,
 														USE_IMAGE_SIZE_SWAPPING
@@ -3294,7 +3303,7 @@ class rsCarthelper
 
 		if ($isEnabled && $classname == 'default_shipping_GLS')
 		{
-			JPluginHelper::importPlugin('rs_labels_GLS');
+			JPluginHelper::importPlugin('redshop_shipping');
 			$dispatcher = JDispatcher::getInstance();
 			$sql        = "SELECT  * FROM #__redshop_users_info WHERE users_info_id=" . (int) $users_info_id ;
 			$this->_db->setQuery($sql);
@@ -3320,7 +3329,7 @@ class rsCarthelper
 			}
 
 			$output .= JText::_('COM_REDSHOP_PROVIDE_ZIPCODE_TO_PICKUP_PARCEL') . " : ";
-			$output .= "<input type='text' id='gls_zipcode' name='gls_zipcode' value='" . $values->zipcode . "' onblur='javascript:updateGLSLocation(this.value);' ><input type='button' id='update' value='OPDATER' name='update'><br/>";
+			$output .= "<input type='text' id='gls_zipcode' name='gls_zipcode' value='" . $values->zipcode . "' onblur='javascript:updateGLSLocation(this.value);' ><input type='button' id='update' value='" . JText::_('COM_REDSHOP_GLS_UPDATE') . "' name='update'><br/>";
 			$output .= JText::_('COM_REDSHOP_SELECT_GLS_LOCATION') . " : ";
 			$output .= "<span id='rs_locationdropdown'>";
 			$output .= $lists['shopList'] = JHTML::_('select.genericlist', $shopList, 'shop_id', 'class="inputbox" ', 'value', 'text', $selected_shop_id);
@@ -3519,7 +3528,7 @@ class rsCarthelper
 
 			$template_desc = "<div></div>";
 		}
-		elseif ($rateExist == 1 && $extrafield_total == "")
+		elseif ($rateExist == 1 && $extrafield_total == "" && $classname != "default_shipping_GLS")
 		{
 			$template_desc = "<div style='display:none;'>" . $template_desc . "</div>";
 		}
@@ -3760,14 +3769,6 @@ class rsCarthelper
 
 					if (in_array($shopperGroupId, $shopper_groupArr) || $shopper_groupArr[0] == 0)
 					{
-						if ($flag == false)
-						{
-							if (count($paymentmethod) > 0)
-							{
-								$payment_method_id = $paymentmethod[$p]->name;
-							}
-						}
-
 						$checked = '';
 
 						if ($payment_method_id === $paymentmethod[$p]->name)
@@ -6952,7 +6953,10 @@ class rsCarthelper
 			$total_sheet = $finalArea / $final_product_Area;
 
 			// Returns the next highest integer value by rounding up value if necessary.
-			$total_sheet = ceil($total_sheet);
+			if (isset($data->allow_decimal_piece) && $data->allow_decimal_piece)
+			{
+				$total_sheet = ceil($total_sheet);
+			}
 
 			// If sheet is less than 0 or equal to 0 than
 			if ($total_sheet <= 0)

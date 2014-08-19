@@ -13,7 +13,7 @@ jimport('joomla.application.component.controller');
 
 require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/xmlhelper.php';
 
-class xmlexport_detailController extends JController
+class RedshopControllerXmlexport_detail extends JController
 {
 	public function __construct($default = array())
 	{

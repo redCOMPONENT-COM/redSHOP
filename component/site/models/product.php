@@ -23,7 +23,7 @@ require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/extra_field.
  * @subpackage  Model
  * @since       1.0
  */
-class productModelproduct extends JModel
+class RedshopModelProduct extends JModel
 {
 	public $_id = null;
 

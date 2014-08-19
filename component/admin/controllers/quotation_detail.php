@@ -15,7 +15,7 @@ require_once JPATH_ROOT . '/components/com_redshop/helpers/product.php';
 require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/quotation.php';
 require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/product.php';
 
-class quotation_detailController extends JController
+class RedshopControllerQuotation_detail extends JController
 {
 	public function __construct($default = array())
 	{

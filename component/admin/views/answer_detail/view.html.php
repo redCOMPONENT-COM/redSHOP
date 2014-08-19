@@ -13,7 +13,7 @@ jimport( 'joomla.application.component.view' );
 
 require_once  JPATH_COMPONENT_SITE . '/helpers/product.php';
 
-class answer_detailVIEWanswer_detail extends JView
+class RedshopViewAnswer_detail extends JView
 {
 	public function display($tpl = null)
 	{

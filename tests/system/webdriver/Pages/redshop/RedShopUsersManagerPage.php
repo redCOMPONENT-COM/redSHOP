@@ -81,7 +81,7 @@ class RedShopUsersManagerPage extends AdminManagerPage
 		$lastNameField->clear();
 		$lastNameField->sendKeys($lastName);
 		$elementObject->findElement(By::xPath("//a[@onclick=\"Joomla.submitbutton('save')\"]"))->click();
-		$elementObject->waitForElementUntilIsPresent(By::xPath("//li[text() = 'User detail saved']"), 10);
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//li[text() = 'User detail saved']"), 30);
 	}
 
 	/**
@@ -148,7 +148,7 @@ class RedShopUsersManagerPage extends AdminManagerPage
 		}
 
 		$elementObject->findElement(By::xPath("//a[@onclick=\"Joomla.submitbutton('save')\"]"))->click();
-		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='filter']"), 10);
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='filter']"), 30);
 	}
 
 	/**
@@ -187,6 +187,7 @@ class RedShopUsersManagerPage extends AdminManagerPage
 		$elementObject = $this->driver;
 		$searchField = $elementObject->findElement(By::xPath("//input[@id='filter']"));
 		$searchField->clear();
+		$searchField = $elementObject->findElement(By::xPath("//input[@id='filter']"));
 		$searchField->sendKeys($name);
 		$elementObject->findElement(By::xPath("//button[@onclick=\"this.form.submit();\"]"))->click();
 		sleep(5);

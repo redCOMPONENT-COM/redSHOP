@@ -15,7 +15,7 @@ jimport('joomla.installer.installer');
 jimport('joomla.installer.helper');
 jimport('joomla.filesystem.file');
 
-class payment_detailModelpayment_detail extends JModel
+class RedshopModelPayment_detail extends JModel
 {
 	public $_id = null;
 

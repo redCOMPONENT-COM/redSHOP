@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.view');
 jimport('joomla.html.pagination');
 
-class wrapperViewwrapper extends JView
+class RedshopViewWrapper extends JView
 {
 	/**
 	 * The current user.
