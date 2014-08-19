@@ -76,7 +76,9 @@ Build codeception testers classes:
 php ./codecept.phar build
 ```
 
-Rename tests/acceptance.suite.dist.yml to tests/acceptance.suite.yml and change the "url" parameter to your "localhost".
+Rename tests/acceptance.suite.dist.yml to tests/acceptance.suite.yml
+
+Modify the configuration at tests/acceptance.suite.yml to fit your server details. Find the instructions in the same file: https://github.com/redCOMPONENT-COM/redSHOP/blob/develop/tests/acceptance.suite.dist.yml#L3
 
 Run Selenium server:
 
