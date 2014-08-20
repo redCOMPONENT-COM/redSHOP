@@ -265,7 +265,11 @@ class RedshopModelSearch extends JModel
 
 		if ($defaultSearchType == "")
 		{
-			$defaultSearchType = 'product_name';
+			$defaultSearchType = JRequest::getCmd('search_type');
+			if(empty($defaultSearchType))
+			{
+				$defaultSearchType = 'product_name';
+			}
 		}
 
 		if ($defaultSearchType == "name_number")

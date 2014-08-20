@@ -729,7 +729,8 @@ class RedshopViewSearch extends JView
 				'order_by'       => $getorderby,
 				'category_id'    => $cid,
 				'Itemid'         => $Itemid,
-				'limit'          => $limit
+				'limit'          => $limit,
+				'search_type'    => $search_type
 			);
 			$router->setVars($vars);
 			unset($vars);
