@@ -181,19 +181,18 @@ class plgAcymailingRedshop extends JPlugin
 				$text         = str_replace($cart_tag, "", $text);
 			}
 		}
-		elseif(strpos($tag, 'name:') !== false)
+		elseif (strpos($tag, 'name:') !== false)
 		{
 			return $rs->product_name;
 		}
-		elseif(strpos($tag, 'price:') !== false)
+		elseif (strpos($tag, 'price:') !== false)
 		{
 			return $price;
 		}
-		elseif(strpos($tag, 'image:') !== false)
+		elseif (strpos($tag, 'image:') !== false)
 		{
 			return $productImage;
 		}
-
 
 		return $text;
 	}
