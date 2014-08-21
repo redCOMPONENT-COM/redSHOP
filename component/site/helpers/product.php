@@ -839,6 +839,7 @@ class producthelper
 
 	public function getProductImage($product_id = 0, $link = '', $width, $height, $Product_detail_is_light = 2, $enableHover = 0, $suffixid = 0)
 	{
+		$config          = new Redconfiguration;
 		$thum_image      = '';
 		$stockroomhelper = new rsstockroomhelper;
 		$result          = $this->getProductById($product_id);
