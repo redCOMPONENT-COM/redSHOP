@@ -32,13 +32,14 @@
 		require_once $configpath;
 	}
 
-	require_once JPATH_COMPONENT . '/helpers/configuration.php';
-	require_once JPATH_COMPONENT . '/helpers/template.php';
-	require_once JPATH_COMPONENT . '/helpers/stockroom.php';
-	require_once JPATH_COMPONENT . '/helpers/economic.php';
-	require_once JPATH_COMPONENT . '/helpers/access_level.php';
-	require_once JPATH_ROOT . '/components/com_redshop/helpers/helper.php';
-	require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/images.php';
+	JLoader::import('LoadHelpers', JPATH_SITE . '/components/com_redshop');
+	JLoader::load('RedshopAdminHelperConfiguration');
+	JLoader::load('RedshopAdminHelperTemplate');
+	JLoader::load('RedshopAdminHelperStockroom');
+	JLoader::load('RedshopAdminHelperEconomic');
+	JLoader::load('RedshopAdminHelperAccess_level');
+	JLoader::load('RedshopHelperHelper');
+	JLoader::load('RedshopAdminHelperImages');
 
 	$redhelper = new redhelper;
 	$redhelper->removeShippingRate();
