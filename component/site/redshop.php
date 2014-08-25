@@ -42,7 +42,7 @@ $helper = new redhelper;
 // Include redCRM if required
 $helper->isredCRM();
 
-$print = $app->input->getCmd('print');
+$print = $app->input->getCmd('print', '');
 
 // Adding Redshop CSS
 $doc = JFactory::getDocument();

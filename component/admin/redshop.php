@@ -148,7 +148,7 @@
 			&& $controller != 'orderstatus_detail')
 		{
 			echo '<div style="float:left;width:19%; margin-right:1%;">';
-			require_once JPATH_COMPONENT . '/helpers/menu.php';
+			JLoader::load('RedshopHelperAdminMenu');
 			$menu = new leftmenu;
 			echo '</div>';
 

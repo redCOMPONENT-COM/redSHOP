@@ -37,7 +37,7 @@ class RedshopControllerShipping_rate_detail extends JController
 		$post = JRequest::get('post');
 
 		// Include extra field class
-		require_once JPATH_COMPONENT . '/helpers/extra_field.php';
+		JLoader::load('RedshopHelperAdminExtra_field');
 
 		$option = JRequest::getVar('option');
 		$post['shipping_rate_on_product'] = $post['container_product'];

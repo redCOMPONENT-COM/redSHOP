@@ -33,7 +33,8 @@ if (!defined('TABLE_PREFIX'))
 	require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
 }
 
-include_once "administrator/components/com_redshop/helpers/category.php";
+JLoader::import('LoadHelpers', JPATH_SITE . '/components/com_redshop');
+JLoader::load('RedshopHelperAdminCategory');
 $product_category = new product_category;
 
 shRemoveFromGETVarsList('option');
