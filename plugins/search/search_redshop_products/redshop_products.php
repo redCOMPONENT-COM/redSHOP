@@ -36,7 +36,7 @@ class plgSearchRedshop_products extends JPlugin
 	}
 
 	/**
-	 * Search content (redSHOP categories).
+	 * Search content (redSHOP Products).
 	 *
 	 * The SQL must return the following fields that are used in a common display
 	 * routine: href, title, section, created, text, browsernav.

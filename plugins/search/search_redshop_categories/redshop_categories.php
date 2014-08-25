@@ -3,17 +3,17 @@
  * @package     RedSHOP
  * @subpackage  Plugin
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-jimport('joomla.plugin.plugin');
+jimport('joomlplugin.plugin');
 
 require_once JPATH_ROOT . '/components/com_redshop/helpers/helper.php';
 
-class plgSearchredshop_categories extends JPlugin
+class plgSearchRedshop_categories extends JPlugin
 {
 	/**
 	 * Constructor
@@ -29,12 +29,23 @@ class plgSearchredshop_categories extends JPlugin
 		$this->loadLanguage();
 	}
 
+	/**
+	 * Search content (redSHOP Categories).
+	 *
+	 * The SQL must return the following fields that are used in a common display
+	 * routine: href, title, section, created, text, browsernav.
+	 *
+	 * @param   string  $text      Target search string.
+	 * @param   string  $phrase    Matching option (possible values: exact|any|all).  Default is "any".
+	 * @param   string  $ordering  Ordering option (possible values: newest|oldest|popular|alpha|category).  Default is "newest".
+	 * @param   mixed   $areas     An array if the search is to be restricted to areas or null to search all areas.
+	 *
+	 * @return  array  Search results.
+	 *
+	 * @since   1.6
+	 */
 	public function onContentSearch($text, $phrase = '', $ordering = '', $areas = null)
 	{
-		$db         = JFactory::getDbo();
-		$user       = JFactory::getUser();
-		$searchText = $text;
-		$limit      = $this->params->def('search_limit', 50);
 		$section    = '';
 
 		if ($this->params->get('showSection'))
@@ -49,18 +60,34 @@ class plgSearchredshop_categories extends JPlugin
 			return array();
 		}
 
-		$wheres = array();
+		// Initialiase variables.
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select(array(
+					$db->qn('category_id'),
+					$db->qn('category_name', 'title'),
+					$db->qn('category_short_description'),
+					$db->qn('category_description', 'text'),
+					'"' . $section . '" AS ' . $db->qn('section'),
+					'"" AS ' . $db->qn('created'),
+					'"2" AS ' . $db->qn('browsernav')
+				))
+			->from($db->qn('#__redshop_category'))
+			->where($db->qn('published') . ' = 1');
 
 		switch ($phrase)
 		{
 			case 'exact':
-				$text = $db->Quote('%' . $db->getEscaped($text, true) . '%', false);
-				$wheres2 = array();
-				$wheres2[] = 'a.category_name LIKE ' . $text;
-				$wheres2[] = 'a.category_short_description LIKE ' . $text;
-				$wheres2[] = 'a.category_description LIKE ' . $text;
 
-				$where = '(' . implode(') OR (', $wheres2) . ')';
+				$text = $db->q('%' . $db->getEscaped($text, true) . '%', false);
+
+				$where = array();
+				$where[] = $db->qn('category_name') . ' LIKE ' . $text;
+				$where[] = $db->qn('category_short_description') . ' LIKE ' . $text;
+				$where[] = $db->qn('category_description') . ' LIKE ' . $text;
+
+				$query->where('(' . implode(' OR ', $where) . ')');
+
 				break;
 
 			case 'all':
@@ -71,59 +98,53 @@ class plgSearchredshop_categories extends JPlugin
 
 				foreach ($words as $word)
 				{
-					$word = $db->Quote('%' . $db->getEscaped($word, true) . '%', false);
-					$wheres2 = array();
-					$wheres2[] = 'a.category_name LIKE ' . $word;
-					$wheres2[] = 'a.category_short_description LIKE ' . $word;
-					$wheres2[] = 'a.category_description LIKE ' . $word;
+					$word = $db->q('%' . $db->getEscaped($word, true) . '%', false);
 
-					$wheres[] = implode(' OR ', $wheres2);
+					$where = array();
+					$where[] = $db->qn('category_name') . ' LIKE ' . $word;
+					$where[] = $db->qn('category_short_description') . ' LIKE ' . $word;
+					$where[] = $db->qn('category_description') . ' LIKE ' . $word;
+
+					$wheres[] = implode(' OR ', $where);
 				}
 
-				$where = '(' . implode(($phrase == 'all' ? ') AND (' : ') OR ('), $wheres) . ')';
+				$query->where('(' . implode(($phrase == 'all' ? ') AND (' : ') OR ('), $wheres) . ')');
+
 				break;
 		}
 
 		switch ($ordering)
 		{
 			case 'oldest':
-				$order = 'a.category_id ASC';
+				$query->order($db->qn('category_id') . ' ASC');
 				break;
 
 			case 'newest':
-
 			default:
-				$order = 'a.category_id DESC';
+				$query->order($db->qn('category_id') . ' DESC');
 		}
 
-		$query = 'SELECT a.category_id,a.category_name AS title, a.category_short_description, a.category_description AS text,'
+		// Set the query and load the result.
+		$db->setQuery($query, 0, $this->params->def('search_limit', 50));
 
-			. ' "2" AS browsernav,"' . $section . '" as section,"" as created'
-			. ' FROM #__redshop_category AS a'
+		try
+		{
+			$rows = $db->loadObjectList();
+		}
+		catch (RuntimeException $e)
+		{
+			throw new RuntimeException($e->getMessage(), $e->getCode());
+		}
 
-			. ' WHERE (' . $where . ')'
-			. ' AND a.published = 1'
-
-			. ' ORDER BY ' . $order;
-
-		$db->setQuery($query, 0, $limit);
-		$rows = $db->loadObjectList();
 		$redhelper = new redhelper;
+		$return    = array();
 
 		foreach ($rows as $key => $row)
 		{
-			$Itemid = $redhelper->getItemid($row->category_id);
-			$rows[$key]->href = "index.php?option=com_redshop&view=category&cid=" . $row->category_id . "&Itemid=" . $Itemid;
-		}
+			$Itemid    = $redhelper->getItemid($row->category_id);
+			$row->href = "index.php?option=com_redshop&view=category&cid=" . $row->category_id . "&Itemid=" . $Itemid;
 
-		$return = array();
-
-		foreach ($rows AS $key => $weblink)
-		{
-			if (searchHelper::checkNoHTML($weblink, $searchText, array('url', 'text', 'title')))
-			{
-				$return[] = $weblink;
-			}
+			$return[]  = $row;
 		}
 
 		return $return;
