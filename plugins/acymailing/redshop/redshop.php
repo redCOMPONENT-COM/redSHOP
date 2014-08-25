@@ -9,19 +9,19 @@
 
 defined('_JEXEC') or die;
 
-
+JLoader::import('LoadHelpers', JPATH_SITE . '/components/com_redshop');
 
 class plgAcymailingRedshop extends JPlugin
 {
 	public function plgAcymailingRedshop(&$subject, $config)
 	{
 		require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
-		require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/configuration.php';
+		JLoader::load('RedshopHelperAdminConfiguration');
 
 		$redConfiguration = new Redconfiguration;
 		$redConfiguration->defineDynamicVars();
 
-		require_once JPATH_SITE . '/components/com_redshop/helpers/product.php';
+		JLoader::load('RedshopHelperProduct');
 
 		parent::__construct($subject, $config);
 	}
@@ -128,7 +128,7 @@ class plgAcymailingRedshop extends JPlugin
 	 */
 	public function getProduct($product_id)
 	{
-		require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/template.php';
+		JLoader::load('RedshopHelperAdminTemplate');
 		$redTemplate = new Redtemplate;
 
 		$prtemplate_id = trim($this->params->get('product_template', 1));

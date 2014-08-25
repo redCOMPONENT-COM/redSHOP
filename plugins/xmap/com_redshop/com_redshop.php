@@ -10,8 +10,9 @@
 defined('_JEXEC') or die;
 
 require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
-require_once JPATH_SITE . '/components/com_redshop/helpers/helper.php';
-require_once JPATH_SITE . '/components/com_redshop/helpers/product.php';
+JLoader::import('LoadHelpers', JPATH_SITE . '/components/com_redshop');
+JLoader::load('RedshopHelperHelper');
+JLoader::load('RedshopHelperProduct');
 
 /**
  * Handles redSHOP product and categories links
