@@ -15,17 +15,32 @@ require_once JPATH_ROOT . '/components/com_redshop/helpers/helper.php';
 
 class plgSearchredshop_categories extends JPlugin
 {
+	/**
+	 * Constructor
+	 *
+	 * @access      protected
+	 * @param       object  $subject The object to observe
+	 * @param       array   $config  An array that holds the plugin configuration
+	 * @since       1.5
+	 */
+	public function __construct(& $subject, $config)
+	{
+		parent::__construct($subject, $config);
+		$this->loadLanguage();
+	}
+
 	public function onContentSearch($text, $phrase = '', $ordering = '', $areas = null)
 	{
-		$db = JFactory::getDbo();
-		$user = JFactory::getUser();
-
+		$db         = JFactory::getDbo();
+		$user       = JFactory::getUser();
 		$searchText = $text;
+		$limit      = $this->params->def('search_limit', 50);
+		$section    = '';
 
-		// Load plugin params info
-		$pluginParams = $this->params;
-
-		$limit = $pluginParams->def('search_limit', 50);
+		if ($this->params->get('showSection'))
+		{
+			$section = JText::_('PLG_SEARCH_REDSHOP_CATEGORIES');
+		}
 
 		$text = trim($text);
 
@@ -33,8 +48,6 @@ class plgSearchredshop_categories extends JPlugin
 		{
 			return array();
 		}
-
-		$section = JText::_('COM_REDSHOP_Categories');
 
 		$wheres = array();
 
@@ -85,7 +98,7 @@ class plgSearchredshop_categories extends JPlugin
 
 		$query = 'SELECT a.category_id,a.category_name AS title, a.category_short_description, a.category_description AS text,'
 
-			. ' "2" AS browsernav,"Redshop Categories" as section,"" as created'
+			. ' "2" AS browsernav,"' . $section . '" as section,"" as created'
 			. ' FROM #__redshop_category AS a'
 
 			. ' WHERE (' . $where . ')'
