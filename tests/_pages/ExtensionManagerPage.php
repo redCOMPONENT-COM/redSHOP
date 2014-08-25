@@ -28,4 +28,23 @@ class ExtensionManagerPage
 
 	public static $demoDataInstallSuccessMessage = "//li[contains(text(),'Sample Data Installed Successfully')]";
 
+	public static $extensionSearch = "//input[@id='filters_search']";
+
+	public static $checkAll = "//input[@onclick='Joomla.checkAll(this)']";
+
+	public static $firstCheck = "//input[@id='cb0']";
+
+	public static $extensionNameLink = "//a[contains(text(),'Name')]";
+
+	public static $extensionTable = "//form[@id='adminForm']/table/tbody/tr[1]/td[2]//span";
+
+	public static $uninstallSuccessMessage = "//li[contains(text(),'successful')]";
+
+	public static $uninstallComponentSuccessMessage = "//li[contains(text(),'Uninstalling component was successful')]";
+
+	public static $noExtensionMessage = "//li[contains(text(),'There are no extensions installed matching your query')]";
+
+	public static $searchResultSpan = "//form[@id='adminForm']/table/tbody/tr[1]/td[2]/span";
+
+	public static $searchButton = "//button[@class='btn' and @type='submit' and contains(text(),'Search')]";
 }
