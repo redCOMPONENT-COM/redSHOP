@@ -65,7 +65,7 @@ class RedShopVouchersManagerPage extends AdminManagerPage
 		$voucherLeftField->clear();
 		$voucherLeftField->sendKeys($voucherLeft);
 		$elementObject->findElement(By::xPath("//a[@onclick=\"Joomla.submitbutton('save')\"]"))->click();
-		$elementObject->waitForElementUntilIsPresent(By::xPath("//h2[text() = 'Voucher Management']"), 10);
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//h2[text() = 'Voucher Management']"), 30);
 	}
 
 	/**
@@ -110,7 +110,7 @@ class RedShopVouchersManagerPage extends AdminManagerPage
 		}
 
 		$elementObject->findElement(By::xPath("//a[@onclick=\"Joomla.submitbutton('save')\"]"))->click();
-		$elementObject->waitForElementUntilIsPresent(By::xPath("//h2[text() = 'Voucher Management']"), 10);
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//h2[text() = 'Voucher Management']"), 30);
 	}
 
 	/**

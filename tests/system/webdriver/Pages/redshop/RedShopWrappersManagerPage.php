@@ -59,7 +59,7 @@ class RedShopWrappersManagerPage extends AdminManagerPage
 		$priceField->clear();
 		$priceField->sendKeys($wrapperPrice);
 		$elementObject->findElement(By::xPath("//a[@onclick=\"Joomla.submitbutton('save')\"]"))->click();
-		$elementObject->waitForElementUntilIsPresent(By::xPath("//li[text() = 'Wrapping detail saved']"), 10);
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//li[text() = 'Wrapping detail saved']"), 30);
 	}
 
 	/**
@@ -80,7 +80,7 @@ class RedShopWrappersManagerPage extends AdminManagerPage
 		$elementObject->findElement(By::xPath("//input[@id='cb" . $row . "']"))->click();
 		$elementObject->findElement(By::xPath("//tbody/tr/td[3]/a[text() = '" . $wrapperName . "']"))->click();
 		$this->checkNoticesForEditView(get_class($this));
-		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='wrapper_name']"), 10);
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='wrapper_name']"), 30);
 
 		switch ($field)
 		{
@@ -97,7 +97,7 @@ class RedShopWrappersManagerPage extends AdminManagerPage
 		}
 
 		$elementObject->findElement(By::xPath("//a[@onclick=\"Joomla.submitbutton('save')\"]"))->click();
-		$elementObject->waitForElementUntilIsPresent(By::xPath("//li[text() = 'Wrapping detail saved']"), 10);
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//li[text() = 'Wrapping detail saved']"), 30);
 	}
 
 	/**
