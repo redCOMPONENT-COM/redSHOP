@@ -73,7 +73,7 @@ class RedShopFieldsManagerPage extends AdminManagerPage
 		$elementObject->findElement(By::xPath("//option[text() = '" . $section . "']"))->click();
 		sleep(2);
 		$elementObject->findElement(By::xPath("//a[@onclick=\"Joomla.submitbutton('save')\"]"))->click();
-		$elementObject->waitForElementUntilIsPresent(By::xPath("//li[text() = 'Field details saved']"), 10);
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//li[text() = 'Field details saved']"), 30);
 	}
 
 	/**
@@ -102,7 +102,7 @@ class RedShopFieldsManagerPage extends AdminManagerPage
 		$elementObject->findElement(By::xPath("//input[@id='cb" . $row . "']"))->click();
 		$elementObject->findElement(By::xPath("//li[@id='toolbar-edit']/a"))->click();
 		$this->checkNoticesForEditView(get_class($this));
-		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='field_name']"), 10);
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='field_name']"), 30);
 
 		switch ($field)
 		{
