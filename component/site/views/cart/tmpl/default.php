@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 JLoader::load('RedshopHelperHelper');
 JLoader::load('RedshopHelperProduct');
 JLoader::load('RedshopHelperCart');
-JLoader::load('RedshopAdminHelperShipping');
+JLoader::load('RedshopHelperAdminShipping');
 
 JHTML::_('behavior.tooltip');
 JHTMLBehavior::modal();

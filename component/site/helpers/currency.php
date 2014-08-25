@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 JLoader::import('joomla.utilities.simplexml');
 
-JLoader::load('RedshopAdminHelperConfiguration');
+JLoader::load('RedshopHelperAdminConfiguration');
 
 /**
  * price converter

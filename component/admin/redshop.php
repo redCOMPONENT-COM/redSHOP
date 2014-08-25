@@ -33,13 +33,13 @@
 	}
 
 	JLoader::import('LoadHelpers', JPATH_SITE . '/components/com_redshop');
-	JLoader::load('RedshopAdminHelperConfiguration');
-	JLoader::load('RedshopAdminHelperTemplate');
-	JLoader::load('RedshopAdminHelperStockroom');
-	JLoader::load('RedshopAdminHelperEconomic');
-	JLoader::load('RedshopAdminHelperAccess_level');
+	JLoader::load('RedshopHelperAdminConfiguration');
+	JLoader::load('RedshopHelperAdminTemplate');
+	JLoader::load('RedshopHelperAdminStockroom');
+	JLoader::load('RedshopHelperAdminEconomic');
+	JLoader::load('RedshopHelperAdminAccess_level');
 	JLoader::load('RedshopHelperHelper');
-	JLoader::load('RedshopAdminHelperImages');
+	JLoader::load('RedshopHelperAdminImages');
 
 	$redhelper = new redhelper;
 	$redhelper->removeShippingRate();

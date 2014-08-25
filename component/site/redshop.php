@@ -13,15 +13,15 @@ $app = JFactory::getApplication();
 
 JLoader::import('joomla.html.parameter');
 
-$view   = JRequest::getCmd('view');
+JLoader::import('LoadHelpers', JPATH_COMPONENT);
 
 // Getting the configuration
 require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
-JLoader::load('RedshopAdminHelperConfiguration');
-JLoader::load('RedshopAdminHelperTemplate');
-JLoader::load('RedshopAdminHelperStockroom');
-JLoader::load('RedshopAdminHelperEconomic');
-JLoader::load('RedshopAdminHelperImages');
+JLoader::load('RedshopHelperAdminConfiguration');
+JLoader::load('RedshopHelperAdminTemplate');
+JLoader::load('RedshopHelperAdminStockroom');
+JLoader::load('RedshopHelperAdminEconomic');
+JLoader::load('RedshopHelperAdminImages');
 
 $Redconfiguration = new Redconfiguration;
 $Redconfiguration->defineDynamicVars();
@@ -61,7 +61,7 @@ JHTML::Stylesheet('style.css', 'components/com_redshop/assets/css/');
 
 // Set the default view name and format from the Request.
 $vName      = $app->input->getCmd('view', 'category');
-$task       = $app->input->getCmd('task');
+$task       = $app->input->getCmd('task', '');
 $format     = $app->input->getWord('format', '');
 $layout     = $app->input->getWord('layout', '');
 $params     = $app->getParams('com_redshop');
@@ -194,7 +194,7 @@ if (strpos($command, '.') === false)
 
 // Perform the Request task
 $controller = JControllerLegacy::getInstance('Redshop');
-$controller->execute($app->input->getCmd('task'));
+$controller->execute($app->input->getCmd('task', ''));
 
 // End component DIV here
 echo "</div>";

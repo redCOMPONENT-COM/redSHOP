@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-JLoader::load('RedshopAdminHelperOrder');
+JLoader::load('RedshopHelperAdminOrder');
 JLoader::load('RedshopHelperHelper');
 
 $configobj = new Redconfiguration;

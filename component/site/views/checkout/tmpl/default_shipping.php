@@ -8,7 +8,7 @@
  */
 
 defined('_JEXEC') or die;
-JLoader::load('RedshopAdminHelperShipping');
+JLoader::load('RedshopHelperAdminShipping');
 
 JHTML::_('behavior.tooltip');
 JHTMLBehavior::modal();

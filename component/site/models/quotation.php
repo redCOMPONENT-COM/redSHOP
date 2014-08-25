@@ -11,9 +11,9 @@ defined('_JEXEC') or die ('Restricted access');
 
 JLoader::import('joomla.application.component.model');
 
-JLoader::load('RedshopAdminHelperQuotation');
-JLoader::load('RedshopAdminHelperMail');
-JLoader::load('RedshopAdminHelperOrder');
+JLoader::load('RedshopHelperAdminQuotation');
+JLoader::load('RedshopHelperAdminMail');
+JLoader::load('RedshopHelperAdminOrder');
 JLoader::load('RedshopHelperProduct');
 
 /**

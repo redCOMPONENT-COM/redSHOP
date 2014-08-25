@@ -11,8 +11,8 @@ defined('_JEXEC') or die;
 
 JLoader::import('joomla.application.component.controller');
 
-JLoader::load('RedshopAdminHelperQuotation');
-JLoader::load('RedshopAdminHelperMail');
+JLoader::load('RedshopHelperAdminQuotation');
+JLoader::load('RedshopHelperAdminMail');
 JLoader::load('RedshopHelperHelper');
 
 /**

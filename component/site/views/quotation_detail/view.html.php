@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 JLoader::import('joomla.application.component.view');
-JLoader::load('RedshopAdminHelperQuotation');
+JLoader::load('RedshopHelperAdminQuotation');
 
 class RedshopViewQuotation_detail extends JView
 {

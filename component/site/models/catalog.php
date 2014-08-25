@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 JLoader::import('joomla.application.component.model');
-JLoader::load('RedshopAdminHelperMail');
+JLoader::load('RedshopHelperAdminMail');
 
 /**
  * Class catalogModelcatalog

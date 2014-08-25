@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-JLoader::load('RedshopAdminHelperOrder');
+JLoader::load('RedshopHelperAdminOrder');
 JLoader::load('RedshopHelperProduct');
 JLoader::load('RedshopHelperHelper');
 JLoader::load('RedshopHelperCart');
@@ -160,8 +160,8 @@ if ($issplit)
 $billingaddresses = $model->billingaddresses();
 
 // Google analytics code added
-require_once JPATH_COMPONENT . '/helpers/google_analytics.php';
-$googleanalytics = new googleanalytics;
+JLoader::load('RedshopHelperGoogle_analytics');
+$googleanalytics = new GoogleAnalytics;
 
 $analytics_status = $order->analytics_status;
 

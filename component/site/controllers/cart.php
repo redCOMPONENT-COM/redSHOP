@@ -516,7 +516,7 @@ class RedshopControllerCart extends JController
 	 */
 	public function getShippingrate()
 	{
-		JLoader::load('RedshopAdminHelperShipping');
+		JLoader::load('RedshopHelperAdminShipping');
 		$shipping = new shipping;
 		echo $shipping->getShippingrate_calc();
 		exit;

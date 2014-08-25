@@ -10,10 +10,10 @@
 defined('_JEXEC') or die;
 $url = JURI::base();
 
-JLoader::load('RedshopAdminHelperOrder');
-JLoader::load('RedshopAdminHelperQuotation');
+JLoader::load('RedshopHelperAdminOrder');
+JLoader::load('RedshopHelperAdminQuotation');
 JLoader::load('RedshopHelperProduct');
-JLoader::load('RedshopAdminHelperExtra_field');
+JLoader::load('RedshopHelperAdminExtra_field');
 JLoader::load('RedshopHelperExtra_field');
 
 $producthelper   = new producthelper;
