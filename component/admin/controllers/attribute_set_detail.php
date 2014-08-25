@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.controller');
 jimport('joomla.filesystem.file');
 
-JLoader::load('RedshopHelperThumbnail');
+JLoader::load('RedshopHelperAdminThumbnail');
 
 class RedshopControllerAttribute_set_detail extends JController
 {
