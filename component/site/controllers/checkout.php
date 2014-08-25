@@ -176,7 +176,7 @@ class RedshopControllerCheckout extends JController
 	public function updateGLSLocation()
 	{
 		$get = JRequest::get('get');
-		JPluginHelper::importPlugin('rs_labels_GLS');
+		JPluginHelper::importPlugin('redshop_shipping');
 		$dispatcher = JDispatcher::getInstance();
 		$values = new stdClass;
 		$values->zipcode = $get['zipcode'];

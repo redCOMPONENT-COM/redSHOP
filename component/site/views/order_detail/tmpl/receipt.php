@@ -160,7 +160,7 @@ if ($issplit)
 $billingaddresses = $model->billingaddresses();
 
 // Google analytics code added
-JLoader::load('RedshopHelperGoogle_analytics');
+require_once JPATH_COMPONENT . '/helpers/google_analytics.php';
 $googleanalytics = new googleanalytics;
 
 $analytics_status = $order->analytics_status;
