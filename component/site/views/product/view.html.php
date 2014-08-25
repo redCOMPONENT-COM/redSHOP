@@ -125,7 +125,7 @@ class RedshopViewProduct extends JView
 			JHtml::Script('jquery.js', 'components/com_redshop/assets/js/', false);
 		}
 
-		JHtml::Script('redBOX.js', 'components/com_redshop/assets/js/', false);
+		JHtml::Script('redbox.js', 'components/com_redshop/assets/js/', false);
 
 		JHtml::Script('json.js', 'components/com_redshop/assets/js/', false);
 		JHtml::Script('attribute.js', 'components/com_redshop/assets/js/', false);

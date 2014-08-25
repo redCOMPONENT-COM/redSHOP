@@ -41,14 +41,14 @@ class RedshopViewSearch extends JView
 
 		if (AJAX_CART_BOX == 0)
 		{
-			JHTML::Script('fetchscript.js', 'components/com_redshop/assets/js/', false);
+			JHTML::Script('redBOX.js', 'components/com_redshop/assets/js/', false);
 			JHTML::Script('attribute.js', 'components/com_redshop/assets/js/', false);
 		}
 
 		// Ajax cart javascript
 		if (AJAX_CART_BOX == 1)
 		{
-			JHTML::Script('fetchscript.js', 'components/com_redshop/assets/js/', false);
+			JHTML::Script('redBOX.js', 'components/com_redshop/assets/js/', false);
 			JHTML::Script('attribute.js', 'components/com_redshop/assets/js/', false);
 			JHTML::Stylesheet('fetchscript.css', 'components/com_redshop/assets/css/');
 		}
