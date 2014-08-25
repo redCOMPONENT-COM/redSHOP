@@ -9,8 +9,8 @@
 
 defined('_JEXEC') or die;
 
-JLoader::load('RedshopAdminHelperMail');
-JLoader::load('RedshopAdminHelperExtra_field');
+JLoader::load('RedshopHelperAdminMail');
+JLoader::load('RedshopHelperAdminExtra_field');
 JLoader::load('RedshopHelperCart');
 JLoader::load('RedshopHelperHelper');
 

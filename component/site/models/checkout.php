@@ -19,11 +19,11 @@ JLoader::load('RedshopHelperHelper');
 JLoader::load('RedshopHelperCart');
 JLoader::load('RedshopHelperUser');
 
-JLoader::load('RedshopAdminHelperQuotation');
-JLoader::load('RedshopAdminHelperMail');
-JLoader::load('RedshopAdminHelperOrder');
-JLoader::load('RedshopAdminHelperExtra_field');
-JLoader::load('RedshopAdminHelperShipping');
+JLoader::load('RedshopHelperAdminQuotation');
+JLoader::load('RedshopHelperAdminMail');
+JLoader::load('RedshopHelperAdminOrder');
+JLoader::load('RedshopHelperAdminExtra_field');
+JLoader::load('RedshopHelperAdminShipping');
 
 /**
  * Class checkoutModelcheckout

@@ -142,7 +142,7 @@ class RedshopViewSearch extends JView
 			JLoader::load('RedshopHelperProduct');
 			JLoader::load('RedshopHelperPagination');
 			JLoader::load('RedshopHelperExtra_field');
-			JLoader::load('RedshopAdminHelperText_library');
+			JLoader::load('RedshopHelperAdminText_library');
 
 			$dispatcher       = JDispatcher::getInstance();
 			$redTemplate      = new Redtemplate;

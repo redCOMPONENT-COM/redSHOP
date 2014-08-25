@@ -13,7 +13,7 @@ JHTML::_('behavior.tooltip');
 JHTMLBehavior::modal();
 $url = JURI::base();
 
-JLoader::load('RedshopAdminHelperOrder');
+JLoader::load('RedshopHelperAdminOrder');
 $order_function = new order_functions;
 $redconfig = new Redconfiguration;
 $producthelper = new producthelper;

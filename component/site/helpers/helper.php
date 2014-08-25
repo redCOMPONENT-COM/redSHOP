@@ -569,7 +569,7 @@ class redhelper
 	 */
 	public function watermark($mtype, $Imagename = '', $thumb_width = '', $thumb_height = '', $enable_watermart = WATERMARK_PRODUCT_IMAGE, $add_img = 0)
 	{
-		JLoader::load('RedshopAdminHelperImages');
+		JLoader::load('RedshopHelperAdminImages');
 
 		$url    = JURI::root();
 

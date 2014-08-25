@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 JLoader::import('joomla.application.component.model');
 
-JLoader::load('RedshopAdminHelperQuotation');
+JLoader::load('RedshopHelperAdminQuotation');
 JLoader::load('RedshopHelperExtra_field');
 JLoader::load('RedshopHelperProduct');
 JLoader::load('RedshopHelperCart');

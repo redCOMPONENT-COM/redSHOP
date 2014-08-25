@@ -13,8 +13,8 @@ $url         = JURI::base();
 $redconfig   = new Redconfiguration;
 $extra_field = new extra_field;
 
-JLoader::load('RedshopAdminHelperOrder');
-JLoader::load('RedshopAdminHelperShipping');
+JLoader::load('RedshopHelperAdminOrder');
+JLoader::load('RedshopHelperAdminShipping');
 JLoader::load('RedshopHelperProduct');
 JLoader::load('RedshopHelperHelper');
 JLoader::load('RedshopHelperCart');

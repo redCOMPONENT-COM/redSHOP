@@ -29,7 +29,7 @@ $user = JFactory::getUser();
 JHTML::_('behavior.tooltip');
 JHTMLBehavior::modal();
 
-JLoader::load('RedshopAdminHelperOrder');
+JLoader::load('RedshopHelperAdminOrder');
 
 JLoader::load('RedshopHelperProduct');
 JLoader::load('RedshopHelperCart');

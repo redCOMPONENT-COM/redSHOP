@@ -13,8 +13,8 @@ JLoader::import('joomla.application.component.model');
 
 JLoader::load('RedshopHelperProduct');
 JLoader::load('RedshopHelperExtra_field');
-JLoader::load('RedshopAdminHelperShipping');
-JLoader::load('RedshopAdminHelperExtra_field');
+JLoader::load('RedshopHelperAdminShipping');
+JLoader::load('RedshopHelperAdminExtra_field');
 
 /**
  * Class productModelproduct

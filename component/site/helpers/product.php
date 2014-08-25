@@ -13,10 +13,10 @@ JLoader::load('RedshopHelperCurrency');
 JLoader::load('RedshopHelperHelper');
 JLoader::load('RedshopHelperExtra_field');
 JLoader::load('RedshopHelperUser');
-JLoader::load('RedshopAdminHelperOrder');
-JLoader::load('RedshopAdminHelperQuotation');
-JLoader::load('RedshopAdminHelperTemplate');
-JLoader::load('RedshopAdminHelperStockroom');
+JLoader::load('RedshopHelperAdminOrder');
+JLoader::load('RedshopHelperAdminQuotation');
+JLoader::load('RedshopHelperAdminTemplate');
+JLoader::load('RedshopHelperAdminStockroom');
 
 class producthelper
 {

@@ -31,7 +31,7 @@ class LoadHelpers
 		}
 
 		JLoader::discover('RedshopHelper', JPATH_SITE . '/components/com_redshop/helpers', false);
-		JLoader::discover('RedshopAdminHelper', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers', false);
+		JLoader::discover('RedshopHelperAdmin', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers', false);
 		self::$helpersDiscovered = true;
 	}
 }

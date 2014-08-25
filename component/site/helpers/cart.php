@@ -12,9 +12,9 @@ defined('_JEXEC') or die;
 JLoader::load('RedshopHelperHelper');
 JLoader::load('RedshopHelperProduct');
 JLoader::load('RedshopHelperExtra_field');
-JLoader::load('RedshopAdminHelperOrder');
-JLoader::load('RedshopAdminHelperShipping');
-JLoader::load('RedshopAdminHelperImages');
+JLoader::load('RedshopHelperAdminOrder');
+JLoader::load('RedshopHelperAdminShipping');
+JLoader::load('RedshopHelperAdminImages');
 
 class rsCarthelper
 {

@@ -43,7 +43,7 @@ function redshopBuildRoute(&$query)
 	}
 
 	require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
-	JLoader::load('RedshopAdminHelperCategory');
+	JLoader::load('RedshopHelperAdminCategory');
 
 	$product_category = new product_category;
 	$infoid           = '';

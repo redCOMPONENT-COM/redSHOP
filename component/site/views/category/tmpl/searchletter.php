@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-JLoader::load('RedshopAdminHelperText_library');
+JLoader::load('RedshopHelperAdminText_library');
 
 JHTML::_('behavior.tooltip');
 JLoader::import('joomla.application.module.helper');
