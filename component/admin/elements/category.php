@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-require_once JPATH_SITE . '/administrator/components/com_redshop/helpers/category.php';
+JLoader::load('RedshopHelperAdminCategory');
 
 
 /**

@@ -6,8 +6,8 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/extra_field.php';
+JLoader::load('RedshopHelperProduct');
+JLoader::load('RedshopHelperAdminExtra_field');
 $app = JFactory::getApplication();
 $extra_field = new extra_field();
 JHTMLBehavior::modal();

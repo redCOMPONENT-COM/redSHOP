@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 
-require_once JPATH_BASE . '/components/com_redshop/helpers/configuration.php';
+JLoader::load('RedshopHelperAdminConfiguration');
 
 class RedshopControllerWizard extends JController
 {

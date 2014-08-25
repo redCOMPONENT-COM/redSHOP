@@ -15,7 +15,7 @@ JHTMLBehavior::modal();
 $uri = JURI::getInstance();
 $url = $uri->root();
 jimport('joomla.html.pane');
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/extra_field.php';
+JLoader::load('RedshopHelperAdminExtra_field');
 $extra_field = new extra_field();
 
 ?>
