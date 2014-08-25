@@ -133,7 +133,8 @@ class plgRedshop_paymentrs_payment_dibs extends JPlugin
 			return;
 		}
 
-		require_once JPATH_SITE . '/administrator/components/com_redshop/helpers/order.php';
+		JLoader::import('LoadHelpers', JPATH_SITE . '/components/com_redshop');
+		JLoader::load('RedshopHelperAdminOrder');
 		$objOrder = new order_functions;
 		$db = JFactory::getDbo();
 		JPlugin::loadLanguage('com_redshop');

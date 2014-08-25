@@ -9,7 +9,8 @@
 
 defined('_JEXEC') or die;
 
-require_once JPATH_BASE . '/administrator/components/com_redshop/helpers/order.php';
+JLoader::import('LoadHelpers', JPATH_SITE . '/components/com_redshop');
+JLoader::load('RedshopHelperAdminOrder');
 
 $Itemid          = JRequest::getInt('Itemid');
 $order_functions = new order_functions;

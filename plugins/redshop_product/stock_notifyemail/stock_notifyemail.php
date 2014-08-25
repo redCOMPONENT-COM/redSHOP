@@ -11,7 +11,9 @@ defined('_JEXEC') or die;
 
 // Import library dependencies
 jimport('joomla.plugin.plugin');
-require_once JPATH_SITE . '/administrator/components/com_redshop/helpers/order.php';
+JLoader::import('LoadHelpers', JPATH_SITE . '/components/com_redshop');
+JLoader::load('RedshopHelperAdminOrder');
+
 class plgredshop_productstock_notifyemail extends JPlugin
 {
 	/**

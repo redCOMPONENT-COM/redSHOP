@@ -12,9 +12,10 @@ $url = $uri->root();
 $user = JFactory::getUser();
 $db = JFactory::getDbo();
 
-require_once JPATH_BASE . '/administrator/components/com_redshop/helpers/order.php';
-require_once JPATH_COMPONENT . '/helpers/helper.php';
 require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
+JLoader::import('LoadHelpers', JPATH_SITE . '/components/com_redshop');
+JLoader::load('RedshopHelperAdminOrder');
+JLoader::load('RedshopHelperHelper');
 
 $sql = "SELECT op.*,o.order_total,o.user_id,o.order_tax,o.order_shipping FROM " . $this->_table_prefix . "order_payment AS op LEFT JOIN " . $this->_table_prefix . "orders AS o ON op.order_id = o.order_id  WHERE o.order_id='" . $data['order_id'] . "'";
 $db->setQuery($sql);

@@ -12,11 +12,10 @@ $url = $uri->root();
 $user = JFactory::getUser();
 $db = JFactory::getDbo();
 
-require_once JPATH_BASE . '/administrator/components/com_redshop/helpers/order.php';
-require_once JPATH_COMPONENT . '/helpers/helper.php';
 require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
-?>
-<?php
+JLoader::import('LoadHelpers', JPATH_SITE . '/components/com_redshop');
+JLoader::load('RedshopHelperAdminOrder');
+JLoader::load('RedshopHelperHelper');
 
 $firstname = $data['billinginfo']->firstname;
 $lastname = $data['billinginfo']->lastname;
