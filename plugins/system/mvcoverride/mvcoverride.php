@@ -213,10 +213,11 @@ class PlgSystemMVCOverride extends JPlugin
 		$files           = array();
 		$componentName = str_replace('com_', '', $option);
 		$app = JFactory::getApplication();
+		$isAdmin = '';
 
 		if ($app->isAdmin())
 		{
-			$componentName .= 'admin';
+			$isAdmin = 'admin';
 		}
 
 		// Check if default controller exists
@@ -248,7 +249,7 @@ class PlgSystemMVCOverride extends JPlugin
 
 				foreach ($listFiles as $file)
 				{
-					$newListFile[$componentName . 'helper' . JFile::stripExt(JFile::getName($file))] = $file;
+					$newListFile[$componentName . 'helper' . $isAdmin . JFile::stripExt(JFile::getName($file))] = $file;
 				}
 
 				$files = array_merge($files, $newListFile);

@@ -11,16 +11,17 @@ defined('_JEXEC') or die('Restricted access');
 
 // Getting the configuration
 require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/configuration.php';
+JLoader::import('LoadHelpers', JPATH_SITE . '/components/com_redshop');
+JLoader::load('RedshopHelperAdminConfiguration');
 $Redconfiguration = new Redconfiguration;
 $Redconfiguration->defineDynamicVars();
 
 // Getting the configuration
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/category.php';
+JLoader::load('RedshopHelperAdminCategory');
 
 // get product helper
-require_once JPATH_ROOT . '/components/com_redshop/helpers/product.php';
-JLoader::import('images', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
+JLoader::load('RedshopHelperProduct');
+JLoader::load('RedshopHelperAdminImages');
 
 /**
  * This class sets all Parameters.

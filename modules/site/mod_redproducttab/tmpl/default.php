@@ -33,7 +33,8 @@ JHTML::Stylesheet('fetchscript.css', 'components/com_redshop/assets/css/');
 $module_id = "mod_" . $module->id;
 
 // get product helper
-require_once JPATH_ROOT . '/components/com_redshop/helpers/product.php';
+JLoader::import('LoadHelpers', JPATH_SITE . '/components/com_redshop');
+JLoader::load('RedshopHelperProduct');
 $producthelper = new producthelper;
 $redhelper     = new redhelper;
 $extraField    = new extraField;

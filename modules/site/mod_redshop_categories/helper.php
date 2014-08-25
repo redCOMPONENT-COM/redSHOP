@@ -9,7 +9,8 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-require_once JPATH_SITE . '/components/com_redshop/helpers/helper.php';
+JLoader::import('LoadHelpers', JPATH_SITE . '/components/com_redshop');
+JLoader::load('RedshopHelperHelper');
 
 class modProMenuHelper
 {

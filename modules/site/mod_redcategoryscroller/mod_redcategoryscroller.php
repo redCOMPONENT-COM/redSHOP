@@ -10,24 +10,23 @@
 defined('_JEXEC') or die('Restricted access');
 
 global $my, $mosConfig_absolute_path;
-
+JLoader::import('LoadHelpers', JPATH_SITE . '/components/com_redshop');
 
 // Getting the configuration in redshop.js.php
-
-require_once JPATH_ROOT . '/components/com_redshop/helpers/redshop.js.php';
+JLoader::load('RedshopHelperRedshop.js');
 
 global $Redconfiguration;
 $Redconfiguration = new Redconfiguration;
 $Redconfiguration->defineDynamicVars();
 
 // Getting the configuration
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/category.php';
+JLoader::load('RedshopHelperAdminCategory');
 
 // Get product helper
-require_once JPATH_ROOT . '/components/com_redshop/helpers/product.php';
+JLoader::load('RedshopHelperProduct');
 
 // Get product helper
-require_once JPATH_ROOT . '/components/com_redshop/helpers/helper.php';
+JLoader::load('RedshopHelperHelper');
 
 $document = JFactory::getDocument();
 JHTML::Script('fetchscript.js', 'components/com_redshop/assets/js/', false);
