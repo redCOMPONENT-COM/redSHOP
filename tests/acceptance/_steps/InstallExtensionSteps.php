@@ -7,8 +7,9 @@
  */
 
 namespace AcceptanceTester;
+
 /**
- * Class InstallredSHOP1Steps
+ * Class InstallExtensionSteps
  *
  * @package  AcceptanceTester
  *
