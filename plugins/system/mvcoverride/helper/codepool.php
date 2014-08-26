@@ -105,15 +105,23 @@ class MVCOverrideHelperCodepool
 	/**
 	 * Add a code pool to override
 	 *
-	 * @param   string  $path  Path
+	 * @param   string  $path     Path
+	 * @param   bool    $reverse  If true - return reverse array
 	 *
 	 * @return array
 	 */
-	static public function addCodePath($path = null)
+	static public function addCodePath($path = null, $reverse = false)
 	{
 		if (is_null($path))
 		{
-			return self::$paths;
+			if ($reverse)
+			{
+				return array_reverse(self::$paths);
+			}
+			else
+			{
+				return self::$paths;
+			}
 		}
 
 		settype($path, 'array');
