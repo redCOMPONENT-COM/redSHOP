@@ -84,6 +84,8 @@
 			}
 		}
 
+		JRequest::setVar('view', 'wizard');
+
 		require_once JPATH_COMPONENT . '/helpers/wizard/wizard.php';
 		$redSHOPWizard = new redSHOPWizard;
 		$redSHOPWizard->initialize();

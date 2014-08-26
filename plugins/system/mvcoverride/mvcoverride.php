@@ -31,6 +31,8 @@ class PlgSystemMVCOverride extends JPlugin
 	 */
 	protected $autoloadLanguage = true;
 
+	protected static $option;
+
 	/**
 	 * Constructor
 	 *
@@ -71,25 +73,11 @@ class PlgSystemMVCOverride extends JPlugin
 	 */
 	public function onAfterRoute()
 	{
-		$app = JFactory::getApplication();
-		$option = $app->input->getCmd('option', '');
+		$option = $this->getOption();
 
-		if (empty($option) && $app->isSite())
+		if ($option === false)
 		{
-			$menuDefault = JFactory::getApplication()->getMenu()->getDefault();
-
-			if ($menuDefault == 0)
-			{
-				return;
-			}
-
-			$componentID = $menuDefault->componentid;
-			$db = JFactory::getDBO();
-			$query = $db->getQuery(true)
-				->select('element')
-				->from($db->qn('#__extensions'))
-				->where('id = ' . $db->quote($componentID));
-			$db->setQuery($query);
+			return;
 			$option = $db->loadResult();
 		}
 
@@ -145,7 +133,7 @@ class PlgSystemMVCOverride extends JPlugin
 		{
 			foreach ($componentOverrideFiles as $key => $componentFile)
 			{
-				if ($filePath = JPath::find(MVCOverrideHelperCodepool::addCodePath(), $componentFile))
+				if ($filePath = JPath::find(MVCOverrideHelperCodepool::addCodePath(null, true), $componentFile->newPath))
 				{
 					// Include the original code and replace class name add a Default on
 					if ($this->params->get('extendDefault', 0))
@@ -164,7 +152,7 @@ class PlgSystemMVCOverride extends JPlugin
 						}
 						else
 						{
-							$bufferContent = MVCOverrideHelperOverride::createDefaultClass(JPATH_BASE . '/components/' . $componentFile);
+							$bufferContent = MVCOverrideHelperOverride::createDefaultClass($componentFile->root . $componentFile->path);
 							$bufferContent = MVCOverrideHelperOverride::fixDefines($bufferContent);
 
 							// Change private methods to protected methods
@@ -199,6 +187,155 @@ class PlgSystemMVCOverride extends JPlugin
 	}
 
 	/**
+	 * Get file info
+	 *
+	 * @param   string  $path  Path
+	 * @param   string  $side  Side execute
+	 * @param   string  $type  Type files
+	 *
+	 * @return stdClass
+	 */
+	private function getFileInfo($path, $side = 'component', $type = '')
+	{
+		$object = new stdClass;
+		$object->path = JPath::clean($path);
+		$object->side = $side;
+		$app = JFactory::getApplication();
+
+		// Cleaning files
+		switch ($side)
+		{
+			case 'component':
+				$object->path = substr($object->path, strlen(JPATH_BASE . '/components/'));
+				$object->root = JPATH_BASE . '/components/';
+				break;
+			case 'site':
+				$object->path = substr($object->path, strlen(JPATH_SITE . '/components/'));
+				$object->root = JPATH_SITE . '/components/';
+				break;
+			case 'admin':
+				$object->path = substr($object->path, strlen(JPATH_ADMINISTRATOR . '/components/'));
+				$object->root = JPATH_ADMINISTRATOR . '/components/';
+				break;
+		}
+
+		if ((($app->isAdmin() && $side == 'component') || $side == 'admin') && $type == 'helper')
+		{
+			$object->newPath = str_replace(JFile::getName($object->path), 'admin' . JFile::getName($object->path), $object->path);
+		}
+		else
+		{
+			$object->newPath = $object->path;
+		}
+
+		return $object;
+	}
+
+	/**
+	 * Get option
+	 *
+	 * @return bool|mixed|string
+	 */
+	private function getOption()
+	{
+		if (self::$option)
+		{
+			return self::$option;
+		}
+
+		$app = JFactory::getApplication();
+		self::$option = $app->input->getCmd('option', '');
+
+		if (empty(self::$option) && $app->isSite())
+		{
+			$menuDefault = JFactory::getApplication()->getMenu()->getDefault();
+
+			if ($menuDefault == 0)
+			{
+				return false;
+			}
+
+			$componentID = $menuDefault->componentid;
+			$db = JFactory::getDBO();
+			$query = $db->getQuery(true)
+				->select('element')
+				->from($db->qn('#__extensions'))
+				->where('id = ' . $db->quote($componentID));
+			$db->setQuery($query);
+			self::$option = $db->loadResult();
+		}
+
+		return self::$option;
+	}
+
+	/**
+	 * Add new files
+	 *
+	 * @param   string  $folder  Name folder
+	 * @param   string  $type    Type files
+	 * @param   string  $side    Side execute
+	 *
+	 * @return void
+	 */
+	private function addNewFiles($folder, $type, $side = 'component')
+	{
+		if (!JFolder::exists($folder))
+		{
+			return;
+		}
+
+		$app = JFactory::getApplication();
+		$componentName = str_replace('com_', '', $this->getOption());
+
+		switch ($type)
+		{
+			case 'helper':
+				if ($listFiles = JFolder::files($folder, '.php', false, true))
+				{
+					foreach ($listFiles as $file)
+					{
+						if (($app->isAdmin() && $side == 'component') || $side == 'admin')
+						{
+							$indexName = $componentName . 'helperadmin' . JFile::stripExt(JFile::getName($file));
+						}
+						else
+						{
+							$indexName = $componentName . 'helper' . JFile::stripExt(JFile::getName($file));
+						}
+
+						$this->files[$indexName] = $this->getFileInfo($file, $side, $type);
+					}
+				}
+				break;
+			case 'view':
+				// Reading view folders
+				if ($views = JFolder::folders($folder))
+				{
+					foreach ($views as $view)
+					{
+						// Get view formats files
+						if ($listFiles = JFolder::files($folder . '/' . $view, '.php', false, true))
+						{
+							foreach ($listFiles as $file)
+							{
+								$this->files[] = $this->getFileInfo($file, $side);
+							}
+						}
+					}
+				}
+				break;
+			default:
+				if ($listFiles = JFolder::files($folder, '.php', false, true))
+				{
+					foreach ($listFiles as $file)
+					{
+						$this->files[] = $this->getFileInfo($file, $side);
+					}
+				}
+		}
+	}
+
+	/**
 	 * loadComponentFiles function.
 	 *
 	 * @param   mixed  $option  Component name
@@ -210,76 +347,19 @@ class PlgSystemMVCOverride extends JPlugin
 	private function loadComponentFiles($option)
 	{
 		$JPATH_COMPONENT = JPATH_BASE . '/components/' . $option;
-		$files           = array();
-		$componentName = str_replace('com_', '', $option);
-		$app = JFactory::getApplication();
-		$isAdmin = '';
-
-		if ($app->isAdmin())
-		{
-			$isAdmin = 'admin';
-		}
 
 		// Check if default controller exists
 		if (JFile::exists($JPATH_COMPONENT . '/controller.php'))
 		{
-			$files[] = $JPATH_COMPONENT . '/controller.php';
+			$this->files[] = $this->getFileInfo($JPATH_COMPONENT . '/controller.php');
 		}
 
-		// Check if controllers folder exists
-		if (JFolder::exists($JPATH_COMPONENT . '/controllers'))
-		{
-			$listFiles = JFolder::files($JPATH_COMPONENT . '/controllers', '.php', false, true);
-			$files = array_merge($files, $listFiles);
-		}
+		$this->addNewFiles($JPATH_COMPONENT . '/controllers', 'controller');
+		$this->addNewFiles($JPATH_COMPONENT . '/models', 'model');
+		$this->addNewFiles(JPATH_SITE . '/components/' . $option . '/helpers', 'helper', 'site');
+		$this->addNewFiles(JPATH_ADMINISTRATOR . '/components/' . $option . '/helpers', 'helper', 'admin');
+		$this->addNewFiles($JPATH_COMPONENT . '/views', 'view');
 
-		// Check if models folder exists
-		if (JFolder::exists($JPATH_COMPONENT . '/models'))
-		{
-			$listFiles = JFolder::files($JPATH_COMPONENT . '/models', '.php', false, true);
-			$files = array_merge($files, $listFiles);
-		}
-
-		// Check if models folder exists
-		if (JFolder::exists($JPATH_COMPONENT . '/helpers'))
-		{
-			if ($listFiles = JFolder::files($JPATH_COMPONENT . '/helpers', '.php', false, true))
-			{
-				$newListFile = array();
-
-				foreach ($listFiles as $file)
-				{
-					$newListFile[$componentName . 'helper' . $isAdmin . JFile::stripExt(JFile::getName($file))] = $file;
-				}
-
-				$files = array_merge($files, $newListFile);
-			}
-		}
-
-		// Check if views folder exists
-		if (JFolder::exists($JPATH_COMPONENT . '/views'))
-		{
-			// Reading view folders
-			$views = JFolder::folders($JPATH_COMPONENT . '/views');
-
-			foreach ($views as $view)
-			{
-				// Get view formats files
-				$listFiles = JFolder::files($JPATH_COMPONENT . '/views/' . $view, '.php', false, true);
-				$files = array_merge($files, $listFiles);
-			}
-		}
-
-		$return = array();
-
-		// Cleaning files
-		foreach ($files as $key => $file)
-		{
-			$file     = JPath::clean($file);
-			$file     = substr($file, strlen(JPATH_BASE . '/components/'));
-			$return[$key] = $file;
-		}
-
-		return $return;
+		return $this->files;
 	}
 }
