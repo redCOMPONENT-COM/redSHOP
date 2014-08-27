@@ -40,11 +40,11 @@ class CountryManagerSteps extends \AcceptanceTester
 		$I->fillField(\CountryManagerPage::$countryTwoCode, $twoCode);
 		$I->fillField(\CountryManagerPage::$country, $country);
 		$I->click('Save & Close');
-		$I->waitForElement(\CountryManagerPage::$countryTitle, 30);
-		$I->seeElement(\CountryManagerPage::$countrySuccessMessage);
-		$this->sortCountry($I);
+		$I->waitForText('Country Management');
+		$I->see('Country detail saved');
+		$I->click('ID');
 		$I->see($countryName, \CountryManagerPage::$countryResultRow);
-		$this->sortCountry($I);
+		$I->click('ID');
 	}
 
 	/**
@@ -60,15 +60,15 @@ class CountryManagerSteps extends \AcceptanceTester
 	{
 		$I = $this;
 		$I->amOnPage(\CountryManagerPage::$URL);
-		$this->sortCountry($I);
+		$I->click('ID');
 		$I->see($countryName, \CountryManagerPage::$countryResultRow);
 		$I->click(\CountryManagerPage::$countryCheck);
 		$I->click('Edit');
 		$I->fillField(\CountryManagerPage::$countryName, $newCountryName);
 		$I->click('Save & Close');
-		$I->waitForElement(\CountryManagerPage::$countryTitle, 30);
-		$I->seeElement(\CountryManagerPage::$countrySuccessMessage);
-		$this->sortCountry($I);
+		$I->waitForText('Country Management');
+		$I->see('Country detail saved');
+		$I->click('ID');
 	}
 
 	/**
@@ -84,7 +84,7 @@ class CountryManagerSteps extends \AcceptanceTester
 	{
 		$I = $this;
 		$I->amOnPage(\CountryManagerPage::$URL);
-		$this->sortCountry($I);
+		$I->click('ID');
 
 		if ($functionName == 'Search')
 		{
@@ -95,18 +95,6 @@ class CountryManagerSteps extends \AcceptanceTester
 			$I->dontSee($countryName, \CountryManagerPage::$countryResultRow);
 		}
 
-		$this->sortCountry($I);
-	}
-
-	/**
-	 * Function to Sort the Data of Country
-	 *
-	 * @param   Acceptance  $I  Instance of tester Class
-	 *
-	 * @return void
-	 */
-	protected function sortCountry($I)
-	{
 		$I->click('ID');
 	}
 
@@ -121,12 +109,12 @@ class CountryManagerSteps extends \AcceptanceTester
 	{
 		$I = $this;
 		$I->amOnPage(\CountryManagerPage::$URL);
-		$this->sortCountry($I);
+		$I->click('ID');
 		$I->see($countryName, \CountryManagerPage::$countryResultRow);
 		$I->click(\CountryManagerPage::$countryCheck);
 		$I->click('Delete');
-		$I->seeElement(\CountryManagerPage::$countryDeleteSuccessMessage);
+		$I->see('Country detail deleted successfully');
 		$I->dontSee($countryName, \CountryManagerPage::$countryResultRow);
-		$this->sortCountry($I);
+		$I->click('ID');
 	}
 }
