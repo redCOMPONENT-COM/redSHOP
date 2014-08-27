@@ -13,7 +13,7 @@
  * along with redSHOP; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
-JLoader::import('LoadHelpers', JPATH_SITE . '/components/com_redshop');
+JLoader::import('loadhelpers', JPATH_SITE . '/components/com_redshop');
 JLoader::load('RedshopHelperProduct');
 $producthelper = new producthelper;
 $order_functions = new order_functions;

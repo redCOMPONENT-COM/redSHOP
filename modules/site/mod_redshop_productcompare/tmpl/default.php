@@ -10,7 +10,7 @@
 defined('_JEXEC') or die ('restricted access');
 $uri = JURI::getInstance();
 $url = $uri->root();
-JLoader::import('LoadHelpers', JPATH_SITE . '/components/com_redshop');
+JLoader::import('loadhelpers', JPATH_SITE . '/components/com_redshop');
 
 // get product helper
 JLoader::load('RedshopHelperProduct');

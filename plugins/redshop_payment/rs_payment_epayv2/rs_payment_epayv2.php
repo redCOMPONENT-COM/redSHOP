@@ -47,7 +47,7 @@ class plgRedshop_paymentrs_payment_epayv2 extends JPlugin
 			$plugin = $element;
 		}
 
-		JLoader::import('LoadHelpers', JPATH_SITE . '/components/com_redshop');
+		JLoader::import('loadhelpers', JPATH_SITE . '/components/com_redshop');
 		JLoader::load('RedshopHelperProduct');
 		JLoader::load('RedshopHelperCurrency');
 

@@ -13,7 +13,7 @@ $app = JFactory::getApplication();
 
 JLoader::import('joomla.html.parameter');
 
-JLoader::import('LoadHelpers', JPATH_COMPONENT);
+JLoader::import('loadhelpers', JPATH_COMPONENT);
 
 // Getting the configuration
 require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';

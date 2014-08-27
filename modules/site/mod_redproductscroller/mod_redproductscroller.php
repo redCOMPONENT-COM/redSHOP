@@ -10,7 +10,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 // Getting the configuration in redshop.js.php
-JLoader::import('LoadHelpers', JPATH_SITE . '/components/com_redshop');
+JLoader::import('loadhelpers', JPATH_SITE . '/components/com_redshop');
 JLoader::load('RedshopHelperRedshop.js');
 
 global $Redconfiguration;

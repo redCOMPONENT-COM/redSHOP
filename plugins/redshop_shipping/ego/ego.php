@@ -18,7 +18,7 @@ jimport('joomla.plugin.plugin');
  * @subpackage     System
  */
 
-JLoader::import('LoadHelpers', JPATH_SITE . '/components/com_redshop');
+JLoader::import('loadhelpers', JPATH_SITE . '/components/com_redshop');
 JLoader::load('RedshopHelperProduct');
 JLoader::load('RedshopHelperAdminShipping');
 JLoader::load('RedshopHelperAdminConfiguration');

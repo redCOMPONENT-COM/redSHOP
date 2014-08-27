@@ -30,7 +30,7 @@ $app = JFactory::getApplication();
 // Initialize the framework
 $app->initialise();
 
-JLoader::import('LoadHelpers', JPATH_SITE . '/components/com_redshop');
+JLoader::import('loadhelpers', JPATH_SITE . '/components/com_redshop');
 JLoader::load('RedshopHelperAdminOrder');
 JLoader::load('RedshopHelperProduct');
 JLoader::load('RedshopHelperHelper');

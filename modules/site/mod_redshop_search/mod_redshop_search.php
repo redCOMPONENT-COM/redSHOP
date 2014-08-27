@@ -20,7 +20,7 @@ if (isset($cart['idx']))
 }
 
 require_once JPATH_ROOT . '/administrator/components/com_redshop/helpers/redshop.cfg.php';
-JLoader::import('LoadHelpers', JPATH_SITE . '/components/com_redshop');
+JLoader::import('loadhelpers', JPATH_SITE . '/components/com_redshop');
 JLoader::load('RedshopHelperAdminConfiguration');
 $Redconfiguration = new Redconfiguration;
 $Redconfiguration->defineDynamicVars();

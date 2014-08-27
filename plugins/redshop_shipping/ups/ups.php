@@ -22,7 +22,7 @@ jimport('joomla.plugin.plugin');
 if (!defined('_VALID_MOS') && !defined('_JEXEC')) die('Direct Access to ' . basename(__FILE__) . ' is not allowed.');
 JHTML::_('behavior.tooltip');
 
-JLoader::import('LoadHelpers', JPATH_SITE . '/components/com_redshop');
+JLoader::import('loadhelpers', JPATH_SITE . '/components/com_redshop');
 JLoader::load('RedshopHelperProduct');
 JLoader::load('RedshopHelperCurrency');
 JLoader::load('RedshopHelperAdminShipping');

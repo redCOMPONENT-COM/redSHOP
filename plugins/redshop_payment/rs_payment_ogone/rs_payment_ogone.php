@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.plugin.plugin');
 
-JLoader::import('LoadHelpers', JPATH_SITE . '/components/com_redshop');
+JLoader::import('loadhelpers', JPATH_SITE . '/components/com_redshop');
 JLoader::load('RedshopHelperAdminOrder');
 
 class plgRedshop_paymentrs_payment_ogone extends JPlugin
