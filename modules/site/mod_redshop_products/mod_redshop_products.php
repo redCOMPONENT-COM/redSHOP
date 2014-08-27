@@ -125,7 +125,7 @@ if ($category != "")
 				->from($db->qn('#__redshop_product_category_xref'))
 				->where($db->qn('category_id') . ' IN (' . $category . ')');
 
-	$query->where($db->qn('p.product_id') . ' IN (' . $subQuery->__toString() . ')');
+	$query->where($db->qn('p.product_id') . ' IN (' . $subQuery . ')');
 }
 
 switch ((int) $type)
