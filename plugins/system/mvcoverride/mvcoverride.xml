@@ -12,7 +12,8 @@
 	<files>
 		<filename plugin="mvcoverride">mvcoverride.php</filename>
 		<filename>index.html</filename>
-		<folder>module</folder>
+		<folder>core</folder>
+		<folder>helper</folder>
 	</files>
 
 	<languages folder="language">
