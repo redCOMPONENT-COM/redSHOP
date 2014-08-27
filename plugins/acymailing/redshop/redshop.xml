@@ -15,7 +15,7 @@
         <fields name="params">
             <fieldset name="basic">
                 <field type="spacer" name="myspacer"
-                       label="&lt;b&gt;Note: &lt;/b&gt;  &lt;i&gt;  Available template tags for this plugin. &lt;b&gt;&lt;br&gt;{product:N}{product_thumb_image:N} {product_name:N} {product_price:N}.&lt;/b&gt; &lt;/br&gt;No other tag will work with this plugin.&lt;/i&gt;"/>
+                       label="&lt;b&gt;Note: &lt;/b&gt;  &lt;i&gt;  Available template tags for this plugin: &lt;/i&gt; &lt;br&gt;&lt;br&gt;&lt;b&gt;{product:N} &lt;/b&gt; This tag will show the product thumbnail, its name, and its price. &lt;br&gt;&lt;b&gt;{product_thumb_image:N} &lt;/b&gt; This tag will show the product image. &lt;br&gt; &lt;b&gt;{product_name:N} &lt;/b&gt; This tag will show the product name. &lt;br&gt;&lt;b&gt;{product_price:N} &lt;/b&gt; This tag will show the product price. &lt;/br&gt; &lt;/br&gt;Where N is the product ID in every tag. &lt;/br&gt;No other tag will work with this plugin.&lt;/i&gt;"/>
                 <field name="product_template" type="sql" default="product" label="Product Template"
                        description="Select Product Template from Product Content template section"
                        query="SELECT template_id AS tm_value, template_name AS tm_title FROM #__redshop_template WHERE template_section='product_content_template'"
