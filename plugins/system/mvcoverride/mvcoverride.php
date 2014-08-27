@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.plugin.plugin');
+jimport('joomla.filesystem.folder');
 
 require_once 'helper/override.php';
 require_once 'helper/codepool.php';
@@ -33,6 +34,8 @@ class PlgSystemMVCOverride extends JPlugin
 
 	protected static $option;
 
+	protected $files = array();
+
 	/**
 	 * Constructor
 	 *
@@ -48,24 +51,6 @@ class PlgSystemMVCOverride extends JPlugin
 	}
 
 	/**
-	 * On After Initialize
-	 *
-	 * @access public
-	 * @return void
-	 */
-	public function onAfterInitialise()
-	{
-		// Override JModuleHelper library class
-		$moduleHelperContent = JFile::read(JPATH_LIBRARIES . '/joomla/application/module/helper.php');
-		$moduleHelperContent = str_replace('JModuleHelper', 'JModuleHelperLibraryDefault', $moduleHelperContent);
-		$moduleHelperContent = str_replace('<?php', '', $moduleHelperContent);
-		eval($moduleHelperContent);
-
-		jimport('joomla.application.module.helper');
-		JLoader::register('jmodulehelper', dirname(__FILE__) . '/core/module/helper.php', true);
-	}
-
-	/**
 	 * onAfterRoute function.
 	 *
 	 * @access public
@@ -78,7 +63,6 @@ class PlgSystemMVCOverride extends JPlugin
 		if ($option === false)
 		{
 			return;
-			$option = $db->loadResult();
 		}
 
 		// Get files that can be overrided
