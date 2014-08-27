@@ -27,11 +27,5 @@ class CountryManagerPage
 
 	public static $countryCheck = '#cb0';
 
-	public static $countryTitle = "//h2[contains(text(),'Country Management')]";
-
-	public static $countrySuccessMessage = "//li[contains(text(),'Country detail saved')]";
-
 	public static $countryResultRow = "//form[@id='adminForm']/table/tbody/tr[1]";
-
-	public static $countryDeleteSuccessMessage = "//li[contains(text(),'Country detail deleted successfully')]";
 }
