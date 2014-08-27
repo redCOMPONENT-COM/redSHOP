@@ -39,7 +39,7 @@ class JFormFieldRedshopcategory extends JFormField
 		if ($option != 'com_redshop')
 		{
 			require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
-			JLoader::import('LoadHelpers', JPATH_SITE . '/components/com_redshop');
+			JLoader::import('loadhelpers', JPATH_SITE . '/components/com_redshop');
 			JLoader::load('RedshopHelperAdminConfiguration');
 			$Redconfiguration = new Redconfiguration;
 			$Redconfiguration->defineDynamicVars();

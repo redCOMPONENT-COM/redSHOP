@@ -52,7 +52,7 @@ $app = JFactory::getApplication();
 $app->initialise();
 
 require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
-JLoader::import('LoadHelpers', JPATH_SITE . '/components/com_redshop');
+JLoader::import('loadhelpers', JPATH_SITE . '/components/com_redshop');
 JLoader::load('RedshopHelperAdminOrder');
 require_once JPATH_BASE . '/plugins/redshop_payment/rs_payment_payment_express/PxPay_Curl.inc.php';
 

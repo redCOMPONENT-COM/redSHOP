@@ -51,7 +51,7 @@ if (!class_exists('LofSliderGroupRedshop'))
 		{
 
 			global $mm_action_url;
-			JLoader::import('LoadHelpers', JPATH_SITE . '/components/com_redshop');
+			JLoader::import('loadhelpers', JPATH_SITE . '/components/com_redshop');
 			JLoader::load('RedshopHelperProduct');
 
 			$db                  = JFactory::getDbo();

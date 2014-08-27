@@ -63,7 +63,7 @@ $mosConfig_lang = $GLOBALS ['mosConfig_lang'] = strtolower($lang->getBackwardLan
 JPlugin::loadLanguage('com_redshop');
 
 require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
-JLoader::import('LoadHelpers', JPATH_SITE . '/components/com_redshop');
+JLoader::import('loadhelpers', JPATH_SITE . '/components/com_redshop');
 JLoader::load('RedshopHelperAdminOrder');
 
 $objOrder = new order_functions;

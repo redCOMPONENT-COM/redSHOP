@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.plugin.plugin');
 
-JLoader::import('LoadHelpers', JPATH_SITE . '/components/com_redshop');
+JLoader::import('loadhelpers', JPATH_SITE . '/components/com_redshop');
 JLoader::load('RedshopHelperAdminOrder');
 require_once JPATH_SITE . '/plugins/redshop_payment/rs_payment_payment_express/rs_payment_payment_express/PxPay_Curl.inc.php';
 

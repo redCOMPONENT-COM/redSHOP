@@ -17,7 +17,7 @@ jimport('joomla.plugin.plugin');
  * @package        Joomla
  * @subpackage     System
  */
-JLoader::import('LoadHelpers', JPATH_SITE . '/components/com_redshop');
+JLoader::import('loadhelpers', JPATH_SITE . '/components/com_redshop');
 JLoader::load('RedshopHelperAdminShipping');
 
 class  plgredshop_shippingdefault_shipping_GLS extends JPlugin

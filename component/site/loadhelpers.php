@@ -10,11 +10,11 @@
 defined('_JEXEC') or die;
 
 /**
- * Class LoadHelpers
+ * Class loadhelpers
  *
  * @since  1.4
  */
-class LoadHelpers
+class loadhelpers
 {
 	protected static $helpersDiscovered = false;
 

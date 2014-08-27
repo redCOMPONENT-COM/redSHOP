@@ -12,7 +12,7 @@ $url = $uri->root();
 $user = JFactory::getUser();
 $db = JFactory::getDbo();
 
-JLoader::import('LoadHelpers', JPATH_SITE . '/components/com_redshop');
+JLoader::import('loadhelpers', JPATH_SITE . '/components/com_redshop');
 JLoader::load('RedshopHelperAdminOrder');
 $request = JRequest::get('REQUEST');
 $task = $request['task'];
