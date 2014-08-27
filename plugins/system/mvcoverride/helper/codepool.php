@@ -47,6 +47,12 @@ class MVCOverrideHelperCodepool
 					'class_name' => 'JViewLegacy',
 					'jimport' => '',
 					'override_file' => $plugin_path . '/core/view/legacy.php'
+				),
+				array(
+					'source_file' => JPATH_LIBRARIES . '/cms/module/helper.php',
+					'class_name' => 'JModuleHelper',
+					'jimport' => '',
+					'override_file' => $plugin_path . '/core/module/helper.php'
 				)
 			);
 		}
@@ -64,6 +70,12 @@ class MVCOverrideHelperCodepool
 					'class_name' => 'JView',
 					'jimport' => 'joomla.application.component.view',
 					'override_file' => $plugin_path . '/core/view/view.php'
+				),
+				array(
+					'source_file' => JPATH_LIBRARIES . '/joomla/application/module/helper.php',
+					'class_name' => 'JModuleHelper',
+					'jimport' => 'joomla.application.module.helper',
+					'override_file' => $plugin_path . '/core/module/helper.php'
 				)
 			);
 		}
@@ -100,6 +112,7 @@ class MVCOverrideHelperCodepool
 		}
 
 		JLoader::register($class, $replacePath, true);
+		JLoader::load($class);
 	}
 
 	/**

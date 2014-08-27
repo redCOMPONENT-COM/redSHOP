@@ -73,7 +73,7 @@ abstract class MVCOverrideHelperOverride
 	 */
 	static public function createDefaultClass($componentFile, $prefix = null, $suffix = null)
 	{
-		$bufferFile = JFile::read($componentFile);
+		$bufferFile = file_get_contents($componentFile);
 
 		$originalClass = self::getOriginalClass($bufferFile);
 
