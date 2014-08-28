@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 JLoader::import('joomla.application.component.view');
 
-require_once JPATH_COMPONENT . '/helpers/helper.php';
+JLoader::load('RedshopHelperHelper');
 
 class RedshopViewSearch extends JView
 {
@@ -139,10 +139,10 @@ class RedshopViewSearch extends JView
 		{
 			$app = JFactory::getApplication();
 
-			require_once JPATH_COMPONENT . '/helpers/product.php';
-			require_once JPATH_COMPONENT . '/helpers/pagination.php';
-			require_once JPATH_COMPONENT . '/helpers/extra_field.php';
-			require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/text_library.php';
+			JLoader::load('RedshopHelperProduct');
+			JLoader::load('RedshopHelperPagination');
+			JLoader::load('RedshopHelperExtra_field');
+			JLoader::load('RedshopHelperAdminText_library');
 
 			$dispatcher       = JDispatcher::getInstance();
 			$redTemplate      = new Redtemplate;

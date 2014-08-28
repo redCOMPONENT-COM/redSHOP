@@ -9,12 +9,12 @@
 
 defined('_JEXEC') or die;
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php';
-require_once JPATH_COMPONENT . '/helpers/product.php';
-require_once JPATH_COMPONENT . '/helpers/extra_field.php';
-require_once JPATH_COMPONENT . '/helpers/helper.php';
-include_once JPATH_COMPONENT . '/helpers/cart.php';
-include_once JPATH_COMPONENT . '/helpers/user.php';
+JLoader::load('RedshopHelperAdminOrder');
+JLoader::load('RedshopHelperProduct');
+JLoader::load('RedshopHelperExtra_field');
+JLoader::load('RedshopHelperHelper');
+JLoader::load('RedshopHelperCart');
+JLoader::load('RedshopHelperUser');
 
 JLoader::import('joomla.application.component.controller');
 
@@ -170,8 +170,6 @@ class RedshopControllerOrder_detail extends JController
 	 */
 	public function notify_payment()
 	{
-		require_once JPATH_BASE . '/administrator/components/com_redshop/helpers/order.php';
-
 		$app     = JFactory::getApplication();
 		$db      = JFactory::getDbo();
 		$request = JRequest::get('request');

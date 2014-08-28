@@ -8,7 +8,7 @@
  */
 defined('_JEXEC') or die ('Restricted access');
 $quicklink_icon = explode(",", QUICKLINK_ICON);
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/images.php';
+JLoader::load('RedshopHelperAdminImages');
 $new_arr = RedShopHelperImages::geticonarray();
 
 ?>
