@@ -10,10 +10,10 @@
 defined('_JEXEC') or die;
 
 JLoader::import('joomla.application.component.view');
-require_once JPATH_COMPONENT . '/helpers/helper.php';
-require_once JPATH_COMPONENT . '/helpers/extra_field.php';
+JLoader::load('RedshopHelperHelper');
+JLoader::load('RedshopHelperExtra_field');
 
-class checkoutViewcheckout extends JView
+class RedshopViewCheckout extends JView
 {
 	public function display($tpl = null)
 	{
@@ -38,6 +38,16 @@ class checkoutViewcheckout extends JView
 			$language->load($extension, $base_dir, $language_tag, true);
 		}
 
+		// Load Shipping language file
+		$shippingPlugins = $redhelper->getPlugins("redshop_shipping");
+		$base_dir        = JPATH_ADMINISTRATOR;
+
+		for ($l = 0; $l < count($shippingPlugins); $l++)
+		{
+			$extension = 'plg_redshop_shipping_' . $shippingPlugins[$l]->element;
+			$language->load($extension, $base_dir);
+		}
+
 		JHTML::Script('joomla.javascript.js', 'includes/js/', false);
 		JHTML::Script('validate.js', 'media/system/js/', false);
 		JHTML::Script('jquery-1.4.2.min.js', 'components/com_redshop/assets/js/', false);
@@ -46,7 +56,7 @@ class checkoutViewcheckout extends JView
 		JHTML::Script('jquery.metadata.js', 'components/com_redshop/assets/js/', false);
 		JHTML::Script('registration.js', 'components/com_redshop/assets/js/', false);
 		JHTML::Stylesheet('validation.css', 'components/com_redshop/assets/css/');
-		JHTML::Script('redBOX.js', 'components/com_redshop/assets/js/', false);
+		JHTML::Script('redbox.js', 'components/com_redshop/assets/js/', false);
 
 		if (JPluginHelper::isEnabled('redshop_veis_registration', 'rs_veis_registration'))
 		{

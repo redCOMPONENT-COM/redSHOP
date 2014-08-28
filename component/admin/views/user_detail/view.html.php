@@ -9,12 +9,12 @@
 
 defined('_JEXEC') or die;
 
-require_once JPATH_COMPONENT . '/helpers/extra_field.php';
-require_once JPATH_COMPONENT_SITE . '/helpers/helper.php';
+JLoader::load('RedshopHelperAdminExtra_field');
+JLoader::load('RedshopHelperHelper');
 
 jimport('joomla.application.component.view');
 
-class user_detailVIEWuser_detail extends JView
+class RedshopViewUser_detail extends JView
 {
 	/**
 	 * The request url.

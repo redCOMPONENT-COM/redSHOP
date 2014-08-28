@@ -1835,30 +1835,35 @@ class nusoap_xmlschema extends nusoap_base  {
     * @access public
     * @deprecated
     */
-    function serializeTypeDef($type){
+    function serializeTypeDef($type)
+    {
     	//print "in sTD() for type $type<br>";
-	if($typeDef = $this->getTypeDef($type)){
-		$str .= '<'.$type;
-	    if(is_array($typeDef['attrs'])){
-		foreach($typeDef['attrs'] as $attName => $data){
-		    $str .= " $attName=\"{type = ".$data['type']."}\"";
-		}
-	    }
-	    $str .= " xmlns=\"".$this->schema['targetNamespace']."\"";
-	    if(count($typeDef['elements']) > 0){
-		$str .= ">";
-		foreach($typeDef['elements'] as $element => $eData){
-		    $str .= $this->serializeTypeDef($element);
-		}
-		$str .= "</$type>";
-	    } elseif($typeDef['typeClass'] == 'element') {
-		$str .= "></$type>";
-	    } else {
-		$str .= "/>";
-	    }
-			return $str;
-	}
-    	return false;
+        $str = '';
+
+        if($typeDef = $this->getTypeDef($type))
+        {
+            $str .= '<'.$type;
+            if(is_array($typeDef['attrs'])){
+            foreach($typeDef['attrs'] as $attName => $data){
+                $str .= " $attName=\"{type = ".$data['type']."}\"";
+            }
+            }
+            $str .= " xmlns=\"".$this->schema['targetNamespace']."\"";
+            if(count($typeDef['elements']) > 0){
+            $str .= ">";
+            foreach($typeDef['elements'] as $element => $eData){
+                $str .= $this->serializeTypeDef($element);
+            }
+            $str .= "</$type>";
+            } elseif($typeDef['typeClass'] == 'element') {
+            $str .= "></$type>";
+            } else {
+            $str .= "/>";
+            }
+
+            return $str;
+        }
+            return false;
     }
 
     /**
@@ -1873,6 +1878,8 @@ class nusoap_xmlschema extends nusoap_base  {
 	*/
 	function typeToForm($name,$type){
 		// get typedef
+        $buffer = '';
+
 		if($typeDef = $this->getTypeDef($type)){
 			// if struct
 			if($typeDef['phpType'] == 'struct'){

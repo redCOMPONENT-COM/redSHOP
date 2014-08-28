@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
-class fieldsViewfields extends JView
+class RedshopViewFields extends JView
 {
 	public function display($tpl = null)
 	{

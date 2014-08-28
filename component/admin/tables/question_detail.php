@@ -37,9 +37,7 @@ class Tablequestion_detail extends JTable
 
 	public function __construct(&$db)
 	{
-		$this->_table_prefix = '#__redshop_';
-
-		parent::__construct($this->_table_prefix . 'customer_question', 'question_id', $db);
+		parent::__construct('#__redshop_customer_question', 'question_id', $db);
 	}
 
 	public function bind($array, $ignore = '')

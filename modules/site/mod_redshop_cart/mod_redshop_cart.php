@@ -16,17 +16,19 @@ $show_shipping_line = ($params->get('show_shipping_line', 0));
 
 $document = JFactory::getDocument();
 $document->addStyleSheet("modules/mod_redshop_cart/css/cart.css");
-require_once JPATH_SITE . '/components/com_redshop/helpers/product.php';
-require_once JPATH_SITE . '/components/com_redshop/helpers/helper.php';
-require_once JPATH_SITE . '/components/com_redshop/helpers/cart.php';
 
 if ($option != 'com_redshop')
 {
 	require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
-	require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/configuration.php';
+	JLoader::import('loadhelpers', JPATH_SITE . '/components/com_redshop');
+	JLoader::load('RedshopHelperAdminConfiguration');
 	$Redconfiguration = new Redconfiguration;
 	$Redconfiguration->defineDynamicVars();
 }
+
+JLoader::load('RedshopHelperProduct');
+JLoader::load('RedshopHelperHelper');
+JLoader::load('RedshopHelperCart');
 
 $show_empty_btn = 0;
 

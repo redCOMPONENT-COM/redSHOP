@@ -18,23 +18,24 @@ JHTML::Script('jquery-1.4.2.min.js', 'components/com_redshop/assets/js/', false)
 JHTML::Script('query.jcarousel.min.js', 'modules/mod_redshop_who_bought/assets/js/', false);
 
 require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/configuration.php';
-$Redconfiguration = new Redconfiguration();
+JLoader::import('loadhelpers', JPATH_SITE . '/components/com_redshop');
+JLoader::load('RedshopHelperAdminConfiguration');
+$Redconfiguration = new Redconfiguration;
 $Redconfiguration->defineDynamicVars();
 
-$producthelper = new producthelper();
-$redhelper = new redhelper();
-$redTemplate = new Redtemplate();
-$extraField = new extraField();
+$producthelper = new producthelper;
+$redhelper = new redhelper;
+$redTemplate = new Redtemplate;
+$extraField = new extraField;
 $module_id = "mod_" . $module->id;
 
 // 	include redshop js file.
-require_once JPATH_SITE . '/components/com_redshop/helpers/redshop.js.php';
+JLoader::load('RedshopHelperRedshop.js');
 
 
 JHTML::Script('common.js', 'components/com_redshop/assets/js/', false);
 // lightbox Javascript
-JHTML::Script('redBOX.js', 'components/com_redshop/assets/js/', false);
+JHTML::Script('redbox.js', 'components/com_redshop/assets/js/', false);
 JHTML::Stylesheet('fetchscript.css', 'components/com_redshop/assets/css/');
 
 echo '<ul id="mycarousel" class="jcarousel-skin-tango">';
