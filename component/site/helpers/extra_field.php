@@ -672,6 +672,8 @@ class extraField
 
 			if (count($data_value) != 0 && $published && $field_show_in_front)
 			{
+				$displayvalue = '';
+
 				switch ($type)
 				{
 					case 1:

@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
-class accountgroup_detailVIEWaccountgroup_detail extends JView
+class RedshopViweAccountgroup_detail extends JView
 {
 	public function display($tpl = null)
 	{

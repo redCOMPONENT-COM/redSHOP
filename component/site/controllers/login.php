@@ -18,7 +18,7 @@ JLoader::import('joomla.application.component.controller');
  * @subpackage  Controller
  * @since       1.0
  */
-class LoginController extends JController
+class RedshopControllerLogin extends JController
 {
 	/**
 	 *  Setlogin function
@@ -36,7 +36,7 @@ class LoginController extends JController
 		$menu         = JFactory::getApplication()->getMenu();
 		$item         = $menu->getItem($returnitemid);
 
-		include_once JPATH_COMPONENT . '/helpers/helper.php';
+		JLoader::load('RedshopHelperHelper');
 
 		$redhelper = new redhelper;
 

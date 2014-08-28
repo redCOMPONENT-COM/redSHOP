@@ -10,13 +10,13 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
-require_once JPATH_COMPONENT . '/helpers/order.php';
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/mail.php';
-require_once JPATH_SITE . '/components/com_redshop/helpers/helper.php';
+JLoader::load('RedshopHelperAdminOrder');
+JLoader::load('RedshopHelperAdminMail');
+JLoader::load('RedshopHelperHelper');
 require_once JPATH_SITE . '/components/com_redshop/helpers/tcpdf/tcpdf.php';
 require_once JPATH_SITE . '/components/com_redshop/helpers/tcpdf/PDFMerger.php';
 
-class orderController extends JController
+class RedshopControllerOrder extends JController
 {
 	public function multiprint_order()
 	{
@@ -353,7 +353,15 @@ class orderController extends JController
 			echo utf8_decode($order_function->getOrderStatusTitle($data [$i]->order_status)) . " ,";
 			echo date('d-m-Y H:i', $data [$i]->cdate) . " ,";
 
-			echo str_replace(",", " ", $details[1]) . "(" . str_replace(",", " ", $details[2]) . ") ,";
+			if (empty($details))
+			{
+				echo str_replace(",", " ", $details[1]) . "(" . str_replace(",", " ", $details[2]) . ") ,";
+			}
+			else
+			{
+				echo '';
+			}
+
 			$shipping_info = $order_function->getOrderShippingUserInfo($data [$i]->order_id);
 
 			echo str_replace(",", " ", $shipping_info->firstname) . " " . str_replace(",", " ", $shipping_info->lastname) . " ,";

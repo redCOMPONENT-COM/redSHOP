@@ -33,21 +33,7 @@ $url = $uri->root();
 			</span>
 		</td>
 		<td>
-			<?php
-
-			if (!defined('STATISTICS_ENABLE'))
-			{
-				$defaultStatisticValue = 1;
-
-				define('STATISTICS_ENABLE', 1);
-			}
-			else
-			{
-				$defaultStatisticValue = STATISTICS_ENABLE;
-			}
-
-			?>
-			<?php echo JHTML::_('select.booleanlist', 'statistics_enable', 'class="inputbox" size="1"', $defaultStatisticValue); ?>
+			<?php echo JHTML::_('select.booleanlist', 'statistics_enable', 'class="inputbox" size="1"', STATISTICS_ENABLE); ?>
 		</td>
 	</tr>
 	<tr>

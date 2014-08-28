@@ -15,10 +15,6 @@ $redhelper = new redhelper();
 ?>
 <script language="javascript" type="text/javascript">
 	Joomla.submitbutton = function (pressbutton) {
-		submitbutton(pressbutton);
-	}
-
-	submitbutton = function (pressbutton) {
 		var form = document.adminForm;
 		if (pressbutton == 'cancel') {
 			<?php      $link = 'index.php?option=' . $option . '&view=orderstatus';

@@ -11,13 +11,13 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
-class orderVieworder extends JView
+class RedshopViewOrder extends JView
 {
 	public function display($tpl = null)
 	{
 		$context = 'order_id';
 
-		require_once JPATH_COMPONENT . '/helpers/order.php';
+		JLoader::load('RedshopHelperAdminOrder');
 
 		$order_function = new order_functions;
 
