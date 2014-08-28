@@ -152,12 +152,12 @@ class RedshopViewSearch extends JView
 			$texts            = new text_library;
 			$stockroomhelper  = new rsstockroomhelper;
 
-			$Itemid      = JRequest::getInt('Itemid');
-			$search_type = JRequest::getCmd('search_type');
-			$cid         = JRequest::getInt('category_id');
+			$Itemid         = JRequest::getInt('Itemid');
+			$search_type    = JRequest::getCmd('search_type');
+			$cid            = JRequest::getInt('category_id');
+			$manufacture_id = JRequest::getInt('manufacture_id');
 
 			$manisrch       = $this->search;
-			$manufacture_id = $manisrch[0]->manufacturer_id;
 			$templateid     = JRequest::getInt('templateid');
 
 			// Cmd removes space between to words
@@ -729,7 +729,8 @@ class RedshopViewSearch extends JView
 				'order_by'       => $getorderby,
 				'category_id'    => $cid,
 				'Itemid'         => $Itemid,
-				'limit'          => $limit
+				'limit'          => $limit,
+				'search_type'    => $search_type
 			);
 			$router->setVars($vars);
 			unset($vars);
