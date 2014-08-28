@@ -42,6 +42,7 @@ class RedShopManufacturersManagerPage extends AdminManagerPage
 	 * @param   string  $url             Manufacturer website
 	 * @param   int     $productPerPage  Description of the Card
 	 *
+	 * @return RedShopManufacturersManagerPage
 	 */
 	public function addManufacturer($name = 'Sample Manufacturer', $template = 0, $email = '', $url = '', $productPerPage = 10)
 	{
@@ -64,7 +65,7 @@ class RedShopManufacturersManagerPage extends AdminManagerPage
 		$productPerPageField->clear();
 		$productPerPageField->sendKeys($productPerPage);
 		$elementObject->findElement(By::xPath("//a[@onclick=\"Joomla.submitbutton('save')\"]"))->click();
-		$elementObject->waitForElementUntilIsPresent(By::xPath("//li[contains(text(),'Manufacturer Detail Saved')]"), 10);
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//li[contains(text(),'Manufacturer Detail Saved')]"), 30);
 	}
 
 	/**
@@ -95,7 +96,7 @@ class RedShopManufacturersManagerPage extends AdminManagerPage
 		$nameField->sendKeys($name);
 
 		$elementObject->findElement(By::xPath("//a[@onclick=\"Joomla.submitbutton('save')\"]"))->click();
-		$elementObject->waitForElementUntilIsPresent(By::xPath("//li[contains(text(),'Manufacturer Detail Saved')]"), 10);
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//li[contains(text(),'Manufacturer Detail Saved')]"), 30);
 	}
 
 	/**

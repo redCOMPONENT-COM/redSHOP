@@ -9,7 +9,8 @@
 
 defined('_JEXEC') or die;
 
-require_once JPATH_SITE . '/administrator/components/com_redshop/helpers/order.php';
+JLoader::import('loadhelpers', JPATH_SITE . '/components/com_redshop');
+JLoader::load('RedshopHelperAdminOrder');
 
 class plgRedshop_paymentrs_payment_paypalpro extends JPlugin
 {
@@ -405,7 +406,6 @@ class plgRedshop_paymentrs_payment_paypalpro extends JPlugin
 	public function onCapture_Paymentrs_payment_paypalpro($element, $data)
 	{
 		$db = JFactory::getDbo();
-		require_once JPATH_SITE . '/administrator/components/com_redshop/helpers/order.php';
 		$objOrder = new order_functions;
 
 		// Set request-specific fields.

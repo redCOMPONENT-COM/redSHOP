@@ -8,7 +8,8 @@
  */
 
 defined('_JEXEC') or die('Restricted access');
-require_once JPATH_ROOT . '/components/com_redshop/helpers/helper.php';
+JLoader::import('loadhelpers', JPATH_SITE . '/components/com_redshop');
+JLoader::load('RedshopHelperHelper');
 
 $templateid = $params->get('templateid');
 $defaultSearchType = trim($params->get('defaultSearchType', 'product_name'));

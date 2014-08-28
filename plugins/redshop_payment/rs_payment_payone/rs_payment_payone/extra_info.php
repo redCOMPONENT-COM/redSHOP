@@ -7,10 +7,11 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_BASE . '/administrator/components/com_redshop/helpers/order.php';
 require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
+JLoader::import('loadhelpers', JPATH_SITE . '/components/com_redshop');
+JLoader::load('RedshopHelperAdminOrder');
 
-$objOrder  = new order_functions;
+$objOrder = new order_functions;
 $redhelper = new redhelper;
 $db        = JFactory::getDbo();
 $user      = JFActory::getUser();

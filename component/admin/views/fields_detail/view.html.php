@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/extra_field.php';
+JLoader::load('RedshopHelperAdminExtra_field');
 
 class RedshopViewFields_detail extends JView
 {

@@ -21,7 +21,8 @@ $document = JFactory::getDocument();
 //$document->addstylesheet('components/com_redshop/assets/css/redshop_pricefilter.css');
 
 // 	include redshop js file.
-require_once JPATH_SITE . '/components/com_redshop/helpers/redshop.js.php';
+JLoader::import('loadhelpers', JPATH_SITE . '/components/com_redshop');
+JLoader::load('RedshopHelperRedshop.js');
 
 JHTML::Script('attribute.js', 'components/com_redshop/assets/js/', false);
 JHTML::Script('jquery-1.js', 'components/com_redshop/assets/js/', false);

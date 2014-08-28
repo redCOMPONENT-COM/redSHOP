@@ -10,8 +10,8 @@
 defined('_JEXEC') or die;
 
 JLoader::import('joomla.application.component.controller');
-require_once JPATH_COMPONENT . '/helpers/product.php';
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/template.php';
+JLoader::load('RedshopHelperProduct');
+JLoader::load('RedshopHelperAdminTemplate');
 
 /**
  * Product Controller.
@@ -490,7 +490,6 @@ class RedshopControllerProduct extends JController
 	public function addtocompare()
 	{
 		ob_clean();
-		require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
 
 		$producthelper = new producthelper;
 

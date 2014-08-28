@@ -7,8 +7,9 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_COMPONENT . '/helpers/helper.php';
 require_once JPATH_SITE . '/administrator/components/com_redshop/helpers/redshop.cfg.php';
+JLoader::import('loadhelpers', JPATH_SITE . '/components/com_redshop');
+JLoader::load('RedshopHelperHelper');
 
 $objOrder         = new order_functions;
 $objconfiguration = new Redconfiguration;
@@ -17,7 +18,7 @@ $shipping_address = $objOrder->getOrderShippingUserInfo($data['order_id']);
 $redhelper        = new redhelper;
 $db               = JFactory::getDbo();
 $user             = JFActory::getUser();
-$task             = JRequest::getVar('task');
+$task             = JRequest::getCmd('task');
 $app              = JFactory::getApplication();
 
 $sql = "SELECT op.*,o.order_total,o.user_id,o.order_tax,o.order_subtotal,o.order_shipping,o.order_number,o.payment_discount FROM #__redshop_order_payment AS op LEFT JOIN #__redshop_orders AS o ON op.order_id = o.order_id  WHERE o.order_id='" . $data['order_id'] . "'";

@@ -9,8 +9,9 @@
 
 defined('_JEXEC') or die;
 
-require_once JPATH_SITE . '/administrator/components/com_redshop/helpers/order.php';
-require_once JPATH_SITE . '/administrator/components/com_redshop/helpers/configuration.php';
+JLoader::import('loadhelpers', JPATH_SITE . '/components/com_redshop');
+JLoader::load('RedshopHelperAdminOrder');
+JLoader::load('RedshopHelperAdminConfiguration');
 
 class plgRedshop_paymentrs_payment_paymill extends JPlugin
 {

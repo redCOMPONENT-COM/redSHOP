@@ -13,7 +13,7 @@ jimport('joomla.application.component.model');
 
 require_once 'components/com_redshop/models/configuration.php';
 
-class RedshopModelWizard extends configurationModelconfiguration
+class RedshopModelWizard extends RedshopModelConfiguration
 {
 	public $_tax_rates = null;
 

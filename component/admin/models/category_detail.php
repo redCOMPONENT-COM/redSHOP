@@ -11,9 +11,9 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
-require_once JPATH_COMPONENT . '/helpers/extra_field.php';
-require_once JPATH_COMPONENT . '/helpers/thumbnail.php';
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/category.php';
+JLoader::load('RedshopHelperAdminExtra_field');
+JLoader::load('RedshopHelperAdminThumbnail');
+JLoader::load('RedshopHelperAdminCategory');
 jimport('joomla.client.helper');
 JClientHelper::setCredentialsFromRequest('ftp');
 jimport('joomla.filesystem.file');

@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/quotation.php';
+JLoader::load('RedshopHelperAdminQuotation');
 
 class RedshopViewQuotation_detail extends JView
 {

@@ -6,11 +6,11 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
+JLoader::import('loadhelpers', JPATH_SITE . '/components/com_redshop');
+JLoader::load('RedshopHelperAdminConfiguration');
+JLoader::load('RedshopHelperAdminOrder');
 
-require_once JPATH_SITE . '/administrator/components/com_redshop/helpers/configuration.php';
-require_once JPATH_SITE . '/administrator/components/com_redshop/helpers/order.php';
-
-$app              = JFactory::getApplication();
+$app = JFactory::getApplication();
 $Redconfiguration = new Redconfiguration;
 $order_functions  = new order_functions;
 $order_items      = $order_functions->getOrderItemDetail($data['order_id']);
