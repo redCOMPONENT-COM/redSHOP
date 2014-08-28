@@ -41,7 +41,7 @@ class plgEconomicEconomic extends JPlugin
 	public function __construct(&$subject, $config = array())
 	{
 		parent::__construct($subject, $config);
-		$isEnabled =& JPluginHelper::isEnabled('economic');
+		$isEnabled = JPluginHelper::isEnabled('economic');
 
 		if ($isEnabled)
 		{
@@ -63,14 +63,14 @@ class plgEconomicEconomic extends JPlugin
 	public function onEconomicConnection()
 	{
 		// Get plugin info
-		$plugin =& JPluginHelper::getPlugin('economic', 'economic');
+		$plugin = JPluginHelper::getPlugin('economic', 'economic');
 		$pluginParams = new JRegistry($plugin->params);
 		$this->ecoparams = $pluginParams;
 
 		// Check whether plugin has been unpublished
 		if (count($pluginParams) > 0)
 		{
-			$url = 'https://www.e-conomic.com/secure/api1/EconomicWebservice.asmx?WSDL';
+			$url = 'https://api.e-conomic.com/secure/api1/EconomicWebservice.asmx?WSDL';
 
 			try
 			{
@@ -79,7 +79,7 @@ class plgEconomicEconomic extends JPlugin
 			catch (Exception $exception)
 			{
 				$this->error = 1;
-				echo $this->errorMsg = "Unable to connect soap client";
+				echo $this->errorMsg = "Unable to connect soap client - E-conomic Plugin Failure.";
 				JError::raiseWarning(21, $exception->getMessage());
 			}
 			try
@@ -1756,7 +1756,9 @@ class plgEconomicEconomic extends JPlugin
 			$pdf = $this->Invoice_GetPdf($bookHandle);
 
 			// Cashbook entry
-			if ($d['amount'] > 0)
+			$makeCashbook = (int) $this->ecoparams->get('economicUseCashbook', 1);
+
+			if ($makeCashbook && $d['amount'] > 0)
 			{
 				$this->createCashbookEntry($d, $bookHandle);
 			}
@@ -1891,6 +1893,14 @@ class plgEconomicEconomic extends JPlugin
 	 */
 	public function createCashbookEntry($d, $bookHandle)
 	{
+		// Cashbook entry
+		$makeCashbook = (int) $this->ecoparams->get('economicUseCashbook', 1);
+
+		if (!$makeCashbook)
+		{
+			return;
+		}
+
 		if ($this->error)
 		{
 			return $this->errorMsg;

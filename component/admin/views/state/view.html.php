@@ -11,13 +11,13 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
-class stateViewstate extends JView
+class RedshopViewState extends JView
 {
 	public function display($tpl = null)
 	{
 		JLoader::import('joomla.html.pagination');
 
-		require_once JPATH_COMPONENT_SITE . '/helpers/helper.php';
+		JLoader::load('RedshopHelperHelper');
 
 		$context = 'state_id';
 

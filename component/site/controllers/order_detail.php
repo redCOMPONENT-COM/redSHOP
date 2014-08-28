@@ -9,12 +9,12 @@
 
 defined('_JEXEC') or die;
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php';
-require_once JPATH_COMPONENT . '/helpers/product.php';
-require_once JPATH_COMPONENT . '/helpers/extra_field.php';
-require_once JPATH_COMPONENT . '/helpers/helper.php';
-include_once JPATH_COMPONENT . '/helpers/cart.php';
-include_once JPATH_COMPONENT . '/helpers/user.php';
+JLoader::load('RedshopHelperAdminOrder');
+JLoader::load('RedshopHelperProduct');
+JLoader::load('RedshopHelperExtra_field');
+JLoader::load('RedshopHelperHelper');
+JLoader::load('RedshopHelperCart');
+JLoader::load('RedshopHelperUser');
 
 JLoader::import('joomla.application.component.controller');
 
@@ -25,7 +25,7 @@ JLoader::import('joomla.application.component.controller');
  * @subpackage  Controller
  * @since       1.0
  */
-class Order_detailController extends JController
+class RedshopControllerOrder_detail extends JController
 {
 	/**
 	 * Constructor
@@ -170,8 +170,6 @@ class Order_detailController extends JController
 	 */
 	public function notify_payment()
 	{
-		require_once JPATH_BASE . '/administrator/components/com_redshop/helpers/order.php';
-
 		$app     = JFactory::getApplication();
 		$db      = JFactory::getDbo();
 		$request = JRequest::get('request');
@@ -224,11 +222,18 @@ class Order_detailController extends JController
 	 */
 	public function copyorderitemtocart()
 	{
+		// Import redSHOP Product Plugin
+		JPluginHelper::importPlugin('redshop_product');
+		$dispatcher = JDispatcher::getInstance();
+
 		$app           = JFactory::getApplication();
 		$order_item_id = JRequest::getInt('order_item_id');
 
 		$orderItem = $this->_order_functions->getOrderItemDetail(0, 0, $order_item_id);
 		$row = (array) $orderItem[0];
+
+		// Event Trigger on reordering cart item
+		$dispatcher->trigger('onReorderCartItem', array(&$row));
 
 		$subscription_id = 0;
 		$row['quantity'] = $row['product_quantity'];
