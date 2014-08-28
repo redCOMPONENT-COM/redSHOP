@@ -10,7 +10,7 @@ defined('_JEXEC') or die ('Restricted access');
 
 jimport('joomla.application.component.view');
 
-class userViewuser extends JView
+class RedshopViewUser extends JView
 {
 	public function display($tpl = null)
 	{
@@ -41,6 +41,7 @@ class userViewuser extends JView
 		else
 		{
 			$this->setLayout('default');
+			JToolBarHelper::title(JText::_('COM_REDSHOP_USER_MANAGEMENT'), 'redshop_user48');
 			JToolBarHelper::addNewX();
 			JToolBarHelper::editListX();
 			JToolBarHelper::deleteList();

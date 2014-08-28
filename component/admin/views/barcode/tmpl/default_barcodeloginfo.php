@@ -8,7 +8,7 @@
  */
 JHTMLBehavior::modal();
 $option = JRequest::getVar('option');
-$url = JUri::base();
+$url = JURI::base();
 $model = $this->getModel('barcode');
 
 //print_r($this->logData);

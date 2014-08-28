@@ -10,12 +10,12 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
-require_once JPATH_COMPONENT . '/helpers/thumbnail.php';
+JLoader::load('RedshopHelperAdminThumbnail');
 jimport('joomla.client.helper');
 JClientHelper::setCredentialsFromRequest('ftp');
 jimport('joomla.filesystem.file');
 
-class tax_detailModeltax_detail extends JModel
+class RedshopModelTax_detail extends JModel
 {
 	public $_id = null;
 
@@ -99,7 +99,7 @@ class tax_detailModeltax_detail extends JModel
 
 	public function store($data)
 	{
-		$row =& $this->getTable();
+		$row = $this->getTable();
 
 		if (!$row->bind($data))
 		{

@@ -18,7 +18,7 @@ JLoader::import('joomla.application.component.model');
  * @subpackage  Model
  * @since       1.0
  */
-class Account_billtoModelaccount_billto extends JModel
+class RedshopModelAccount_billto extends JModel
 {
 	public $_id = null;
 

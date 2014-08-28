@@ -11,11 +11,11 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
-require_once JPATH_SITE . '/administrator/components/com_redshop/helpers/mail.php';
-require_once JPATH_SITE . '/components/com_redshop/helpers/extra_field.php';
-require_once JPATH_SITE . '/components/com_redshop/helpers/user.php';
+JLoader::load('RedshopHelperAdminMail');
+JLoader::load('RedshopHelperExtra_field');
+JLoader::load('RedshopHelperUser');
 
-class user_detailModeluser_detail extends JModel
+class RedshopModelUser_detail extends JModel
 {
 	public $_id = null;
 
