@@ -114,7 +114,7 @@ class xmlParser
 	public function xml2ary($vals)
 	{
 		$mnary = array();
-		$ary =& $mnary;
+		$ary = $mnary;
 
 		foreach ($vals as $r)
 		{
@@ -133,11 +133,11 @@ class xmlParser
 						$ary[$t] = array($ary[$t], array());
 					}
 
-					$cv =& $ary[$t][count($ary[$t]) - 1];
+					$cv = $ary[$t][count($ary[$t]) - 1];
 				}
 				else
 				{
-					$cv =& $ary[$t];
+					$cv = $ary[$t];
 				}
 
 				$cv = array();
@@ -150,8 +150,8 @@ class xmlParser
 					}
 				}
 
-				$cv['_p'] =& $ary;
-				$ary =& $cv;
+				$cv['_p'] = $ary;
+				$ary = $cv;
 			}
 			else if ($r['type'] == 'complete')
 			{
@@ -166,11 +166,11 @@ class xmlParser
 						$ary[$t] = array($ary[$t], array());
 					}
 
-					$cv =& $ary[$t][count($ary[$t]) - 1];
+					$cv = $ary[$t][count($ary[$t]) - 1];
 				}
 				else
 				{
-					$cv =& $ary[$t];
+					$cv = $ary[$t];
 				}
 
 				if (isset($r['attributes']))
@@ -185,7 +185,7 @@ class xmlParser
 			}
 			elseif ($r['type'] == 'close')
 			{
-				$ary =& $ary['_p'];
+				$ary = $ary['_p'];
 			}
 		}
 

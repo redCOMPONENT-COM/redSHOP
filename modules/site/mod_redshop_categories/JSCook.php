@@ -25,7 +25,7 @@ if (!class_exists('redCategoryMenu'))
 			global $urlpath, $redproduct_menu;
 			$db = JFactory::getDbo();
 			$level++;
-			$redproduct_menu = new modProMenuHelper();
+			$redproduct_menu = new modProMenuHelper;
 
 			if ($params->get('categorysorttype') == "catnameasc")
 			{
@@ -93,10 +93,6 @@ if (!class_exists('redCategoryMenu'))
 	}
 }
 
-//require_once CATEGORY_MODULE_PATH. '/helper.php';
-//$redproduct_menu = new modProMenuHelper();
-
-
 $Itemid = JRequest::getInt('Itemid');
 $TreeId = JRequest::getInt('TreeId');
 $js_src = JURI::root() . 'modules/mod_redshop_categories';
@@ -125,7 +121,7 @@ if ($jscook_type == "tree")
 	JHTML::Stylesheet('theme.css', $js_src . '/' . $jscookTree_style . '/');
 
 
-	$_jscook = new redCategoryMenu();
+	$_jscook = new redCategoryMenu;
 }
 else
 {
@@ -136,7 +132,7 @@ else
 	JHTML::Script('JSCookMenu.js', $js_src . '/JSCook/', false);
 	JHTML::Script('theme.js', $js_src . '/JSCook/', false);
 	JHTML::Stylesheet('theme.css', $js_src . '/JSCook/');
-	$_jscook = new redCategoryMenu();
+	$_jscook = new redCategoryMenu;
 }
 
 // create a unique tree identifier, in case multiple trees are used

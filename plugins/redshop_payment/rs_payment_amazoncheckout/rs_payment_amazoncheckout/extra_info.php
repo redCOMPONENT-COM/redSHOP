@@ -6,8 +6,9 @@
  * @copyright   Copyright (C) 2005 - 2014 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-require_once JPATH_BASE . '/administrator/components/com_redshop/helpers/order.php';
-require_once JPATH_COMPONENT . '/helpers/helper.php';
+JLoader::import('loadhelpers', JPATH_SITE . '/components/com_redshop');
+JLoader::load('RedshopHelperAdminOrder');
+JLoader::load('RedshopHelperHelper');
 
 $amazon_signature                = $this->params->get("amazon_signature");
 $amazon_recipientEmail           = $this->params->get("amazon_recipientEmail");

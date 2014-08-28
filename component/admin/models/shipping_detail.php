@@ -15,7 +15,7 @@ jimport('joomla.installer.installer');
 jimport('joomla.installer.helper');
 jimport('joomla.filesystem.file');
 
-class shipping_detailModelshipping_detail extends JModel
+class RedshopModelShipping_detail extends JModel
 {
 	public $_id = null;
 
@@ -107,7 +107,7 @@ class shipping_detailModelshipping_detail extends JModel
 		$app = JFactory::getApplication();
 
 		$db = JFactory::getDbo();
-		$row =& $this->getTable();
+		$row = $this->getTable();
 
 		$total = count($cid);
 		$order = JRequest::getVar('order', array(0), 'post', 'array');

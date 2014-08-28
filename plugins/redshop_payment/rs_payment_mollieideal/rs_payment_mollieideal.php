@@ -10,7 +10,8 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.plugin.plugin');
-require_once JPATH_SITE . '/administrator/components/com_redshop/helpers/order.php';
+JLoader::import('loadhelpers', JPATH_SITE . '/components/com_redshop');
+JLoader::load('RedshopHelperAdminOrder');
 
 class plgRedshop_paymentrs_payment_mollieideal extends JPlugin
 {
@@ -61,7 +62,7 @@ class plgRedshop_paymentrs_payment_mollieideal extends JPlugin
 
 		$app = JFactory::getApplication();
 		$objOrder = new order_functions;
-		$uri =& JURI::getInstance();
+		$uri = JURI::getInstance();
 		$request = JRequest::get('request');
 
 		$url = $uri->root();
@@ -88,7 +89,7 @@ class plgRedshop_paymentrs_payment_mollieideal extends JPlugin
 		$user = JFactory::getUser();
 		$order_id = $request['orderid'];
 
-		$uri =& JURI::getInstance();
+		$uri = JURI::getInstance();
 		$url = JURI::base();
 		$uid = $user->id;
 		$db = JFactory::getDbo();

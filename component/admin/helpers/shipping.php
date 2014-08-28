@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-include_once (JPATH_SITE . '/components/com_redshop/helpers/product.php');
+JLoader::load('RedshopHelperProduct');
 
 class shipping
 {

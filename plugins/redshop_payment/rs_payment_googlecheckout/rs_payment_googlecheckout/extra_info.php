@@ -7,7 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-include_once (JPATH_COMPONENT_ADMINISTRATOR . '/helpers/shipping.php');
+JLoader::import('loadhelpers', JPATH_SITE . '/components/com_redshop');
+JLoader::load('RedshopHelperAdminShipping');
 $shippinghelper = new shipping;
 
 $currencyClass = new CurrencyHelper;

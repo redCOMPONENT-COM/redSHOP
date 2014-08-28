@@ -10,12 +10,11 @@
 defined('_JEXEC') or die;
 
 JLoader::import('joomla.application.component.view');
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/configuration.php';
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/category.php';
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/text_library.php';
-require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
-require_once JPATH_COMPONENT_SITE . '/helpers/helper.php';
-
+JLoader::load('RedshopHelperAdminConfiguration');
+JLoader::load('RedshopHelperAdminCategory');
+JLoader::load('RedshopHelperAdminText_library');
+JLoader::load('RedshopHelperProduct');
+JLoader::load('RedshopHelperHelper');
 /**
  * Product Detail View
  *
@@ -24,7 +23,7 @@ require_once JPATH_COMPONENT_SITE . '/helpers/helper.php';
  *
  * @since       1.0
  */
-class ProductViewProduct extends JView
+class RedshopViewProduct extends JView
 {
 	// JApplication object
 	public $app;
@@ -126,7 +125,7 @@ class ProductViewProduct extends JView
 			JHtml::Script('jquery.js', 'components/com_redshop/assets/js/', false);
 		}
 
-		JHtml::Script('redBOX.js', 'components/com_redshop/assets/js/', false);
+		JHtml::Script('redbox.js', 'components/com_redshop/assets/js/', false);
 
 		JHtml::Script('json.js', 'components/com_redshop/assets/js/', false);
 		JHtml::Script('attribute.js', 'components/com_redshop/assets/js/', false);
@@ -296,11 +295,27 @@ class ProductViewProduct extends JView
 
 			if ($this->data->product_thumb_image && file_exists(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $this->data->product_thumb_image))
 			{
-				$this->document->setMetaData("og:image", $scheme . "://" . $host . "/components/com_redshop/assets/images/product/" . $this->data->product_thumb_image);
+				$imageLink = $scheme . "://" . $host . "/components/com_redshop/assets/images/product/" . $this->data->product_thumb_image;
+
+				list($width, $height, $type, $attr) = @getimagesize(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $this->data->product_thumb_image);
+
+				$openGraphTag = '<meta property="og:image" content="' . $imageLink . '" />' . "\n";
+				$openGraphTag .= '<meta property="og:image:type" content="image/jpeg" />' . "\n";
+				$openGraphTag .= '<meta property="og:image:width" content="' . $width . '" />' . "\n";
+				$openGraphTag .= '<meta property="og:image:height" content="' . $height . '" />' . "\n";
+				$this->document->addCustomTag($openGraphTag);
 			}
 			elseif ($this->data->product_full_image && file_exists(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $this->data->product_full_image))
 			{
-				$this->document->setMetaData("og:image", $scheme . "://" . $host . "/components/com_redshop/assets/images/product/" . $this->data->product_full_image);
+				$imageLink = $scheme . "://" . $host . "/components/com_redshop/assets/images/product/" . $this->data->product_full_image;
+
+				list($width, $height, $type, $attr) = @getimagesize(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $this->data->product_full_image);
+
+				$openGraphTag = '<meta name="og:image" property="og:image" content="' . $imageLink . '" />' . "\n";
+				$openGraphTag .= '<meta name="og:image:type" property="og:image:type" content="image/jpeg" />' . "\n";
+				$openGraphTag .= '<meta name="og:image:width" property="og:image:width" content="' . $width . '" />' . "\n";
+				$openGraphTag .= '<meta name="og:image:height" property="og:image:height" content="' . $height . '" />' . "\n";
+				$this->document->addCustomTag($openGraphTag);
 			}
 
 			$pagekeywordstag = '';

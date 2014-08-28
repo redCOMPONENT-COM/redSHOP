@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 JLoader::import('joomla.application.component.model');
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php';
+JLoader::load('RedshopHelperAdminOrder');
 
 /**
  * Class split_paymentModelsplit_payment
@@ -20,7 +20,7 @@ require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php';
  * @subpackage  Model
  * @since       1.0
  */
-class split_paymentModelsplit_payment extends JModel
+class RedshopModelSplit_payment extends JModel
 {
 	public $_id = null;
 
@@ -454,16 +454,16 @@ class split_paymentModelsplit_payment extends JModel
 
 
 		// Load an array with the valid prefixes for this card
-		$prefix = split(',', $cards [$cardType] ['prefixes']);
+		$prefix = explode(',', $cards [$cardType] ['prefixes']);
 
 		// Now see if any of them match what we have in the card number
 		$PrefixValid = false;
 
 		for ($i = 0; $i < sizeof($prefix); $i++)
 		{
-			$exp = '^' . $prefix [$i];
+			$exp = '/^' . $prefix [$i] . '/';
 
-			if (ereg($exp, $cardNo))
+			if (preg_match($exp, $cardNo))
 			{
 				$PrefixValid = true;
 				break;
@@ -481,7 +481,7 @@ class split_paymentModelsplit_payment extends JModel
 
 		// See if the length is valid for this card
 		$LengthValid = false;
-		$lengths     = split(',', $cards [$cardType] ['length']);
+		$lengths     = explode(',', $cards [$cardType] ['length']);
 
 		for ($j = 0; $j < sizeof($lengths); $j++)
 		{

@@ -202,7 +202,8 @@ class plgRedshop_paymentrs_payment_ceilo extends JPlugin
 	public function onCapture_Paymentrs_payment_ceilo($element, $data)
 	{
 		$db = JFactory::getDbo();
-		require_once JPATH_SITE . '/administrator/components/com_redshop/helpers/order.php';
+		JLoader::import('loadhelpers', JPATH_SITE . '/components/com_redshop');
+		JLoader::load('RedshopHelperAdminOrder');
 		$objOrder = new order_functions;
 
 		// Store number

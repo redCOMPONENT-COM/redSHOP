@@ -11,14 +11,14 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
-require_once JPATH_COMPONENT . '/helpers/extra_field.php';
-require_once JPATH_COMPONENT . '/helpers/thumbnail.php';
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/category.php';
+JLoader::load('RedshopHelperAdminExtra_field');
+JLoader::load('RedshopHelperAdminThumbnail');
+JLoader::load('RedshopHelperAdminCategory');
 jimport('joomla.client.helper');
 JClientHelper::setCredentialsFromRequest('ftp');
 jimport('joomla.filesystem.file');
 
-class category_detailModelcategory_detail extends JModel
+class RedshopModelCategory_detail extends JModel
 {
 	public $_id = null;
 
@@ -104,7 +104,7 @@ class category_detailModelcategory_detail extends JModel
 
 	public function store($data)
 	{
-		$row =& $this->getTable();
+		$row = $this->getTable();
 
 		if (!$row->bind($data))
 		{
@@ -286,7 +286,7 @@ class category_detailModelcategory_detail extends JModel
 
 					if ($product_id != $acc['child_product_id'])
 					{
-						$accdetail =& $this->getTable('accessory_detail');
+						$accdetail = $this->getTable('accessory_detail');
 
 						$accdetail->accessory_id = $accessory_id;
 						$accdetail->category_id = $newcatid;
@@ -402,7 +402,7 @@ class category_detailModelcategory_detail extends JModel
 
 	public function move($direction)
 	{
-		$row =& $this->getTable();
+		$row = $this->getTable();
 
 		if (!$row->load($this->_id))
 		{
@@ -423,7 +423,7 @@ class category_detailModelcategory_detail extends JModel
 
 	public function saveorder($cid = array(), $order)
 	{
-		$row =& $this->getTable();
+		$row = $this->getTable();
 		$groupings = array();
 
 		// Update ordering values

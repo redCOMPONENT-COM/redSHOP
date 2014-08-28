@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
-class stockimage_detailModelstockimage_detail extends JModel
+class RedshopModelStockimage_detail extends JModel
 {
 	public $_id = null;
 
@@ -82,7 +82,7 @@ class stockimage_detailModelstockimage_detail extends JModel
 
 	public function store($data)
 	{
-		$row =& $this->getTable('stockimage_detail');
+		$row = $this->getTable('stockimage_detail');
 		$file = JRequest::getVar('stock_amount_image', '', 'files', 'array');
 
 		if ($_FILES['stock_amount_image']['name'] != "")
