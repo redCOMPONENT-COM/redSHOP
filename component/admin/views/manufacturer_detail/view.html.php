@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
-require_once JPATH_COMPONENT . '/helpers/category.php';
+JLoader::load('RedshopHelperAdminCategory');
 
 class RedshopViewManufacturer_detail extends JView
 {
@@ -23,7 +23,7 @@ class RedshopViewManufacturer_detail extends JView
 
 	public function display($tpl = null)
 	{
-		require_once JPATH_COMPONENT . '/helpers/extra_field.php';
+		JLoader::load('RedshopHelperAdminExtra_field');
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_MANUFACTURER_MANAGEMENT_DETAIL'), 'redshop_manufact48');
 

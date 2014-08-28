@@ -7,8 +7,9 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_SITE . '/components/com_redshop/helpers/product.php';
-require_once JPATH_SITE . '/components/com_redshop/helpers/currency.php';
+require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
+JLoader::import('loadhelpers', JPATH_SITE . '/components/com_redshop');
+JLoader::load('RedshopHelperProduct');
 
 $producthelper  = new producthelper;
 $CurrencyHelper = new CurrencyHelper;
@@ -17,8 +18,6 @@ $url            = $uri->root();
 $user           = JFactory::getUser();
 $sessionid      = session_id();
 $db             = JFactory::getDbo();
-
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
 
 $sql = "SELECT op.*,o.order_total,o.user_id FROM #__redshop_order_payment AS op LEFT JOIN #__redshop_orders AS o ON op.order_id = o.order_id  WHERE o.order_id='" . $data['order_id'] . "'";
 $db->setQuery($sql);
@@ -172,25 +171,15 @@ $trans_fee = $this->params->get("transaction_fee");
 		<input type="hidden" name="declineurl"
 		       value="<?php echo $url ?>index.php?tmpl=component&option=com_redshop&view=order_detail&task=notify_payment&payment_plugin=rs_payment_epayrelay&Itemid=<?php echo $_REQUEST['Itemid'] ?>&orderid=<?php echo $data['order_id'] ?>"/>
 
-		<?php
-
-		if ($this->params->get("activate_callback") == "1")
-		{
-			?>
+		<?php if ($this->params->get("activate_callback") == "1") :	?>
 			<input type="hidden" name="callbackurl"
 			       value="<?php echo $url ?>index.php?tmpl=component&option=com_redshop&view=order_detail&task=notify_payment&payment_plugin=rs_payment_epayrelay&orderid=<?php echo $data['order_id'] ?>">
 			<input type="hidden" name="accepturl"
 			       value="<?php echo $url ?>index.php?option=com_redshop&view=order_detail&Itemid=<?php echo $_REQUEST['Itemid'] ?>&oid=<?php echo $data['order_id'] ?>">
-		<?php
-		}
-		else
-		{
-			?>
+		<?php else : ?>
 			<input type="hidden" name="accepturl"
 			       value="<?php echo $url ?>index.php?tmpl=component&option=com_redshop&view=order_detail&task=notify_payment&payment_plugin=rs_payment_epayrelay&Itemid=<?php echo $_REQUEST['Itemid'] ?>&orderid=<?php echo $data['order_id'] ?>"/>
-		<?php
-		}
-		?>
+		<?php endif; ?>
 		<tr>
 			<td>&nbsp;</td>
 			<td><input type="submit" value="<?php echo JText::_('COM_REDSHOP_PAY'); ?>" class="button"
@@ -201,4 +190,5 @@ $trans_fee = $this->params->get("transaction_fee");
 </form>
 <script
 	type="text/javascript"
-	src="https://relay.ditonlinebetalingssystem.dk/relay/v2/replace_relay_urls.js"></script>
+	src="https://relay.ditonlinebetalingssystem.dk/relay/v2/replace_relay_urls.js">
+</script>

@@ -6,8 +6,9 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-require_once JPATH_COMPONENT . '/helpers/helper.php';
 require_once JPATH_SITE . '/administrator/components/com_redshop/helpers/redshop.cfg.php';
+JLoader::import('loadhelpers', JPATH_SITE . '/components/com_redshop');
+JLoader::load('RedshopHelperHelper');
 
 $objOrder         = new order_functions;
 $objconfiguration = new Redconfiguration;

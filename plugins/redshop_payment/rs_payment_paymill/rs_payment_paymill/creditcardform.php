@@ -7,9 +7,10 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_COMPONENT . '/helpers/helper.php';
-require_once JPATH_SITE . '/components/com_redshop/helpers/cart.php';
 require_once JPATH_SITE . '/administrator/components/com_redshop/helpers/redshop.cfg.php';
+JLoader::import('loadhelpers', JPATH_SITE . '/components/com_redshop');
+JLoader::load('RedshopHelperHelper');
+JLoader::load('RedshopHelperCart');
 
 $request = JRequest::get('request');
 

@@ -10,12 +10,11 @@
 defined('_JEXEC') or die;
 
 JLoader::import('joomla.application.component.view');
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/configuration.php';
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/category.php';
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/text_library.php';
-require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
-require_once JPATH_COMPONENT_SITE . '/helpers/helper.php';
-
+JLoader::load('RedshopHelperAdminConfiguration');
+JLoader::load('RedshopHelperAdminCategory');
+JLoader::load('RedshopHelperAdminText_library');
+JLoader::load('RedshopHelperProduct');
+JLoader::load('RedshopHelperHelper');
 /**
  * Product Detail View
  *
@@ -126,7 +125,7 @@ class RedshopViewProduct extends JView
 			JHtml::Script('jquery.js', 'components/com_redshop/assets/js/', false);
 		}
 
-		JHtml::Script('redBOX.js', 'components/com_redshop/assets/js/', false);
+		JHtml::Script('redbox.js', 'components/com_redshop/assets/js/', false);
 
 		JHtml::Script('json.js', 'components/com_redshop/assets/js/', false);
 		JHtml::Script('attribute.js', 'components/com_redshop/assets/js/', false);

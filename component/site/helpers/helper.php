@@ -8,8 +8,8 @@
  */
 
 defined('_JEXEC') or die;
-require_once JPATH_SITE . '/components/com_redshop/helpers/product.php';
-require_once JPATH_SITE . '/components/com_redshop/helpers/user.php';
+JLoader::load('RedshopHelperProduct');
+JLoader::load('RedshopHelperUser');
 
 class redhelper
 {
@@ -32,7 +32,7 @@ class redhelper
 	 */
 	public function dbtocart()
 	{
-		require_once JPATH_SITE . '/components/com_redshop/helpers/cart.php';
+		JLoader::load('RedshopHelperCart');
 		$session = JFactory::getSession();
 		$cart    = $session->get('cart');
 		$user    = JFactory::getUser();
@@ -569,7 +569,7 @@ class redhelper
 	 */
 	public function watermark($mtype, $Imagename = '', $thumb_width = '', $thumb_height = '', $enable_watermart = WATERMARK_PRODUCT_IMAGE, $add_img = 0)
 	{
-		require_once JPATH_ROOT . '/administrator/components/com_redshop/helpers/images.php';
+		JLoader::load('RedshopHelperAdminImages');
 
 		$url    = JURI::root();
 

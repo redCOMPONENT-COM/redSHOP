@@ -9,7 +9,8 @@
 
 defined('_JEXEC') or die;
 
-require_once JPATH_SITE . '/administrator/components/com_redshop/helpers/order.php';
+JLoader::import('loadhelpers', JPATH_SITE . '/components/com_redshop');
+JLoader::load('RedshopHelperAdminOrder');
 
 class plgRedshop_paymentrs_payment_ogone extends JPlugin
 {
@@ -99,6 +100,7 @@ class plgRedshop_paymentrs_payment_ogone extends JPlugin
 			if ($response_hash === $hash_to_check)
 			{
 				// UPDATE THE ORDER STATUS to 'VALID'
+
 				$values->order_status_code = $verify_status;
 				$values->order_payment_status_code = 'Paid';
 				$values->log = JTEXT::_('ORDER_PLACED');

@@ -88,8 +88,6 @@ $statestyle = (isset($this->showstates) && $this->showstates == 0) ? ' style="di
 			<td><input class="text_area" type="text" name="ean_number" value="<?php echo $this->detail->ean_number; ?>"
 			           size="20" maxlength="250"/></td>
 		</tr>
-		<!-- <tr id="trReqnumber" <?php echo $allowCompany;?>><td valign="top" align="right" class="key"><?php echo JText::_('COM_REDSHOP_REQUISITION_NUMBER' ); ?>:</td>
-	<td><input class="text_area" type="text" name="requisition_number" value="<?php echo $this->detail->requisition_number; ?>" size="20" maxlength="250" /></td></tr>-->
 		<?php
 		if (USE_TAX_EXEMPT == 1)
 		{
