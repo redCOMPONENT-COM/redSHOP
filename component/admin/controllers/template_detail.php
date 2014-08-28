@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/template.php';
+JLoader::load('RedshopHelperAdminTemplate');
 
 class RedshopControllerTemplate_detail extends JController
 {

@@ -10,11 +10,11 @@
 defined('_JEXEC') or die;
 $url = JURI::base();
 
-include_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php';
-include_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/quotation.php';
-include_once JPATH_COMPONENT . '/helpers/product.php';
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/extra_field.php';
-require_once JPATH_COMPONENT . '/helpers/extra_field.php';
+JLoader::load('RedshopHelperAdminOrder');
+JLoader::load('RedshopHelperAdminQuotation');
+JLoader::load('RedshopHelperProduct');
+JLoader::load('RedshopHelperAdminExtra_field');
+JLoader::load('RedshopHelperExtra_field');
 
 $producthelper   = new producthelper;
 $quotationHelper = new quotationHelper;

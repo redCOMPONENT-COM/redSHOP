@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.controller');
 jimport('joomla.filesystem.file');
 
-require_once JPATH_COMPONENT . '/helpers/thumbnail.php';
+JLoader::load('RedshopHelperAdminThumbnail');
 
 class RedshopControllerAttribute_set_detail extends JController
 {
@@ -42,7 +42,7 @@ class RedshopControllerAttribute_set_detail extends JController
 
 		$option = JRequest::getVar('option');
 
-		require_once JPATH_COMPONENT . '/helpers/extra_field.php';
+		JLoader::load('RedshopHelperAdminExtra_field');
 
 		$model = $this->getModel('attribute_set_detail');
 

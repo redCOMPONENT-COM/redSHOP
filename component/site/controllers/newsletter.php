@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 JLoader::import('joomla.application.component.controller');
 
-include_once JPATH_COMPONENT . '/helpers/user.php';
+JLoader::load('RedshopHelperUser');
 
 /**
  * Newsletter Controller.
