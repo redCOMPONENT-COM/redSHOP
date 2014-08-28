@@ -198,7 +198,7 @@ class redSHOPWizardTemplate
 		require_once JPATH_COMPONENT . '/controllers/wizard.php';
 
 		$this->title	= '';
-		$classname  = 'wizardController';
+		$classname  = 'RedshopControllerWizard';
 	   	$this->controller = new $classname( array('default_task' => 'display') );
 	}
 

@@ -11,9 +11,9 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/xmlhelper.php';
+JLoader::load('RedshopHelperAdminXmlHelper');
 
-class xmlexport_detailModelxmlexport_detail extends JModel
+class RedshopModelXmlexport_detail extends JModel
 {
 	public $_id = null;
 
@@ -108,7 +108,7 @@ class xmlexport_detailModelxmlexport_detail extends JModel
 		$xmlhelper = new xmlHelper;
 
 		$data['xmlexport_on_category'] = @ implode(',', $data['xmlexport_on_category']);
-		$row =& $this->getTable();
+		$row = $this->getTable();
 
 		if (!$row->bind($data))
 		{

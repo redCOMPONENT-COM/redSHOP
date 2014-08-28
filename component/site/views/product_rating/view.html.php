@@ -10,9 +10,9 @@
 defined('_JEXEC') or die;
 
 JLoader::import('joomla.application.component.view');
-require_once JPATH_COMPONENT . '/helpers/product.php';
+JLoader::load('RedshopHelperProduct');
 
-class product_ratingViewproduct_rating extends JView
+class RedshopViewProduct_rating extends JView
 {
 	function display ($tpl = null)
 	{

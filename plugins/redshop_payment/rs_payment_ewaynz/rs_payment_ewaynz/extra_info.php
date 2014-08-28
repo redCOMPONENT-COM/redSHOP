@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-$uri =& JURI::getInstance();
+$uri = JURI::getInstance();
 $url = $uri->root();
 $app = JFactory::getApplication();
 

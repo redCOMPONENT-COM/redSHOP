@@ -179,7 +179,7 @@ public function onPrePayment($element, $data)
 	curl_setopt($curlSession, CURLOPT_SSL_VERIFYPEER, false);
 	curl_setopt($curlSession, CURLOPT_SSL_VERIFYHOST, 1);
 	$rawresponse = curl_exec($curlSession);
-	$response = split(chr(10), $rawresponse);
+	$response = explode(chr(10), $rawresponse);
 
 	// Tokenise the response
 	for ($i = 0; $i < count($response); $i++)

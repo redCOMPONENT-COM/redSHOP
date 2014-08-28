@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
-class manufacturerModelmanufacturer extends JModel
+class RedshopModelManufacturer extends JModel
 {
 	public $_data = null;
 
@@ -120,7 +120,7 @@ class manufacturerModelmanufacturer extends JModel
 		$app = JFactory::getApplication();
 
 		$db = JFactory::getDbo();
-		$row =& $this->getTable('manufacturer_detail');
+		$row = $this->getTable('manufacturer_detail');
 
 		$total = count($cid);
 		$order = JRequest::getVar('order', array(0), 'post', 'array');

@@ -16,7 +16,7 @@ global $VM_LANG, $ps_product;
 	        global $iceps_product;
 	        if (!$iceps_product)
 	        {
-		        $iceps_product = new ps_product();
+		        $iceps_product = new ps_product;
 	        }
 	        echo $iceps_product->show_price($row->product_id, true, false);
 	        ?>
