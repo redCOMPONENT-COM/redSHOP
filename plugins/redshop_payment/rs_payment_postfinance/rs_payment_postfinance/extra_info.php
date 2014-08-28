@@ -14,8 +14,9 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-require_once JPATH_COMPONENT . '/helpers/helper.php';
 require_once JPATH_SITE . '/administrator/components/com_redshop/helpers/redshop.cfg.php';
+JLoader::import('loadhelpers', JPATH_SITE . '/components/com_redshop');
+JLoader::load('RedshopHelperHelper');
 $objOrder = new order_functions;
 
 $objconfiguration = new Redconfiguration;
@@ -79,18 +80,20 @@ $post_variables = Array(
 
 );
 
-
-echo "<form action='$postfinanceurl' method='post' name='postfinanacefrm' id='postfinanacefrm'>";
-echo "<input type='submit' name='submit'  value='submit' />";
-
-foreach ($post_variables as $name => $value)
-{
-	echo "<input type='hidden' name='$name' value='$value' />";
-}
-
-echo "</form>";
-
-// end by me
-
 ?>
-<script type='text/javascript'>document.postfinanacefrm.submit();</script>
+<form id='postfinanacefrm' name='postfinanacefrm' action='<?php echo $postfinanceurl; ?>' method='post'>
+<input type="button" onclick="sendPostFinanace()" value="Submit">
+<?php foreach ($post_variables as $name => $value): ?>
+	<input type='hidden' name='<?php echo $name; ?>' value='<?php echo $value; ?>' />
+<?php endforeach; ?>
+</form>
+<?php
+JFactory::getDocument()->addScriptDeclaration('
+	window.onload = function(){
+		sendPostFinanace();
+	};
+
+	var sendPostFinanace = function(){
+		document.postfinanacefrm.submit();
+	};
+');

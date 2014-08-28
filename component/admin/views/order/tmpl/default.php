@@ -6,13 +6,13 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
+JLoader::load('RedshopHelperProduct');
 
 $producthelper = new producthelper;
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php';
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/shipping.php';
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/stockroom.php';
+JLoader::load('RedshopHelperAdminOrder');
+JLoader::load('RedshopHelperAdminShipping');
+JLoader::load('RedshopHelperAdminStockroom');
 
 global $context;
 
@@ -30,7 +30,11 @@ $stockroomhelper = new rsstockroomhelper;
 $dispatcher = JDispatcher::getInstance();
 JPluginHelper::importPlugin('redshop_product');
 ?>
-
+<style type="text/css">
+	div#toolbar-box div.m{
+		height: 70px;
+	}
+</style>
 <script language="javascript" type="text/javascript">
 	Joomla.submitbutton = function (pressbutton)
 	{

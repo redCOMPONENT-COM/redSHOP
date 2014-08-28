@@ -14,11 +14,12 @@ jimport('joomla.plugin.plugin');
 /**
  * Replaces textstring with link
  */
-require_once JPATH_ROOT . '/components/com_redshop/helpers/redshop.js.php';
-require_once JPATH_SITE . '/components/com_redshop/helpers/product.php';
-require_once JPATH_SITE . '/components/com_redshop/helpers/extra_field.php';
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/template.php';
-require_once JPATH_SITE . '/components/com_redshop/helpers/helper.php';
+JLoader::import('loadhelpers', JPATH_SITE . '/components/com_redshop');
+JLoader::load('RedshopHelperRedshop.js');
+JLoader::load('RedshopHelperProduct');
+JLoader::load('RedshopHelperExtra_field');
+JLoader::load('RedshopHelperAdminTemplate');
+JLoader::load('RedshopHelperHelper');
 
 class plgContentredshop_product extends JPlugin
 {
@@ -49,7 +50,7 @@ class plgContentredshop_product extends JPlugin
 
 					$document = JFactory::getDocument();
 			JHTML::Script('jquery.js', 'components/com_redshop/assets/js/', false);
-			JHTML::Script('redBOX.js', 'components/com_redshop/assets/js/', false);
+			JHTML::Script('redbox.js', 'components/com_redshop/assets/js/', false);
 			JHTML::Script('attribute.js', 'components/com_redshop/assets/js/', false);
 			JHTML::Script('common.js', 'components/com_redshop/assets/js/', false);
 			JHTML::Stylesheet('redshop.css', 'components/com_redshop/assets/css/');
@@ -91,7 +92,7 @@ class plgContentredshop_product extends JPlugin
 			// Or JPATH_ADMINISTRATOR if the template language file is only
 			$lang->load('plg_content_redshop_product', JPATH_ADMINISTRATOR);
 
-			$plugin =& JPluginHelper::getPlugin('content', 'redshop_product');
+			$plugin = JPluginHelper::getPlugin('content', 'redshop_product');
 			$red_params = new JRegistry($plugin->params);
 
 			// Get show price yes/no option

@@ -9,14 +9,14 @@
 
 defined('_JEXEC') or die;
 
-JLoader::import('currency', JPATH_SITE . '/components/com_redshop/helpers');
-JLoader::import('helper', JPATH_SITE . '/components/com_redshop/helpers');
-JLoader::import('extra_field', JPATH_SITE . '/components/com_redshop/helpers');
-JLoader::import('user', JPATH_SITE . '/components/com_redshop/helpers');
-JLoader::import('order', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
-JLoader::import('quotation', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
-JLoader::import('template', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
-JLoader::import('stockroom', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
+JLoader::load('RedshopHelperCurrency');
+JLoader::load('RedshopHelperHelper');
+JLoader::load('RedshopHelperExtra_field');
+JLoader::load('RedshopHelperUser');
+JLoader::load('RedshopHelperAdminOrder');
+JLoader::load('RedshopHelperAdminQuotation');
+JLoader::load('RedshopHelperAdminTemplate');
+JLoader::load('RedshopHelperAdminStockroom');
 
 class producthelper
 {
@@ -1180,57 +1180,69 @@ class producthelper
 
 	public function getProductMinDeliveryTime($product_id = 0, $section_id = 0, $section = '', $loadDiv = 1)
 	{
-		$db = JFactory::getDbo();
-
 		$helper = new redhelper;
+
+		// Initialiase variables.
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true);
 
 		if (!$section_id && !$section)
 		{
-			$query = "SELECT  min_del_time as deltime, s.max_del_time, s.delivery_time "
-				. " FROM " . $this->_table_prefix . "product_stockroom_xref AS ps , "
-				. $this->_table_prefix . "stockroom as s "
-				. " WHERE "
-				. " ps.product_id = " . (int) $product_id . " AND ps.stockroom_id = s.stockroom_id and ps.quantity >0 ORDER BY min_del_time ASC LIMIT 0,1";
+			$query
+				->from($db->qn('#__redshop_product_stockroom_xref') . ' AS ps')
+				->where($db->qn('ps.product_id') . ' = ' . (int) $product_id);
 		}
 		else
 		{
-			$query = "SELECT  min_del_time as deltime, s.max_del_time, s.delivery_time "
-				. " FROM " . $this->_table_prefix . "product_attribute_stockroom_xref AS pas , "
-				. $this->_table_prefix . "stockroom as s "
-				. " WHERE "
-				. " pas.section_id = " . (int) $section_id . " AND pas.section = " . $db->quote($section)
-				. " AND pas.stockroom_id = s.stockroom_id and pas.quantity >0 ORDER BY min_del_time ASC LIMIT 0,1";
+			$query
+				->from($db->qn('#__redshop_product_attribute_stockroom_xref') . ' AS ps')
+				->where($db->qn('ps.section_id') . ' = ' . (int) $section_id)
+				->where($db->qn('ps.section') . ' = ' . $db->q($section));
 		}
 
-		$this->_db->setQuery($query);
-		$result = $this->_db->loadObject();
+		// Create the base select statement.
+		$query->select(
+				array(
+					'min_del_time as deltime',
+					's.max_del_time',
+					's.delivery_time'
+				)
+			)
+			->join('', $db->qn('#__redshop_stockroom') . ' AS s')
+			->where($db->qn('ps.stockroom_id') . ' = ' . $db->qn('s.stockroom_id'))
+			->where($db->qn('ps.quantity') . ' > 0 ')
+			->order($db->qn('min_del_time') . ' ASC');
+
+		// Set the query and load the result.
+		$db->setQuery($query, 0, 1);
+
+		try
+		{
+			$result = $db->loadObject();
+		}
+		catch (RuntimeException $e)
+		{
+			throw new RuntimeException($e->getMessage(), $e->getCode());
+		}
 
 		$product_delivery_time = '';
 
 		if ($result)
 		{
-			if (!$section_id && !$section)
-			{
-				$sql = "SELECT  min_del_time as deltime, s.max_del_time,s.delivery_time "
-					. " FROM " . $this->_table_prefix . "stockroom as s, "
-					. $this->_table_prefix . "product_stockroom_xref AS ps  "
-					. " WHERE "
-					. " ps.product_id = " . (int) $product_id . " AND ps.stockroom_id = s.stockroom_id AND s.min_del_time = "
-					. (int) $result->deltime . " and ps.quantity >=0 ORDER BY max_del_time ASC LIMIT 0,1";
-			}
-			else
-			{
-				$sql = "SELECT  min_del_time as deltime, s.max_del_time,s.delivery_time "
-					. " FROM " . $this->_table_prefix . "stockroom as s, "
-					. $this->_table_prefix . "product_attribute_stockroom_xref AS pas  "
-					. " WHERE "
-					. " pas.section_id = " . (int) $section_id . " AND pas.section = '" .$db->quote($section)
-					. "' AND pas.stockroom_id = s.stockroom_id AND s.min_del_time = " . (int) $result->deltime
-					. " AND pas.quantity >=0 ORDER BY max_del_time ASC LIMIT 0,1";
-			}
+			// Append where clause to get Maximum Delivery time of Minimum Delivery stockroom
+			$query->where($db->qn('s.min_del_time') . ' = ' . (int) $result->deltime);
 
-			$this->_db->setQuery($sql);
-			$row = $this->_db->loadObject();
+			// Set the query and load the row.
+			$db->setQuery($query, 0, 1);
+
+			try
+			{
+				$row = $db->loadObject();
+			}
+			catch (RuntimeException $e)
+			{
+				throw new RuntimeException($e->getMessage(), $e->getCode());
+			}
 
 			if ($row->deltime == 0 || $row->deltime == ' ')
 			{
@@ -1286,7 +1298,9 @@ class producthelper
 		}
 
 		if ($product_delivery_time && $loadDiv)
+		{
 			$product_delivery_time = '<div id="ProductAttributeMinDelivery' . $product_id . '">' . $product_delivery_time . '</div>';
+		}
 
 		return $product_delivery_time;
 	}
@@ -1527,7 +1541,7 @@ class producthelper
 				}
 				else
 				{
-					$discount_amount = ($row->product_price * $res->discount_amount) / (100);
+					$discount_amount = ($newproductprice * $res->discount_amount) / (100);
 				}
 			}
 
@@ -1742,7 +1756,9 @@ class producthelper
 					$r->product_price = $r->discount_price;
 				}
 
-				$price = $this->getProductFormattedPrice($r->product_price);
+				$tax = $this->getProductTax($product_id, $r->product_price, $userid);
+				$price = $this->getProductFormattedPrice($r->product_price + $tax);
+
 				$quantitytable .= "<tr><td>" . $r->price_quantity_start . " - " . $r->price_quantity_end
 					. "</td><td>" . $price . "</td></tr>";
 			}
@@ -1863,12 +1879,13 @@ class producthelper
 				}
 
 				$cart['discount_tax'] = $discountVAT;
-				$this->_session->set('cart', $cart);
 			}
 			else
 			{
 				$discount_amount = $product_subtotal * $discount->discount_amount / 100;
 			}
+
+			$this->_session->set('cart', $cart);
 		}
 
 		return $discount_amount;
@@ -2395,7 +2412,7 @@ class producthelper
 
 					if (count($res) > 0 && $res->home != 1)
 					{
-						if ($res->parent)
+						if (isset($res->parent))
 						{
 							$parentres = $this->getMenuInformation($res->parent);
 
@@ -3938,7 +3955,7 @@ class producthelper
 	{
 		$user_id   = 0;
 		$url       = JURI::base();
-		$redconfig = new Redconfiguration();
+		$redconfig = new Redconfiguration;
 
 		$viewacc = JRequest::getVar('viewacc', 1);
 		$layout  = JRequest::getVar('layout');
@@ -4262,7 +4279,7 @@ class producthelper
 						1
 					);
 
-					if (!strstr($data_add, "{without_vat}"))
+					if (!strstr($accessory_div, "{without_vat}"))
 					{
 						$accessorypricelist = $this->getAccessoryPrice($product_id,
 							$accessory[$a]->newaccessory_price,
@@ -4420,8 +4437,8 @@ class producthelper
 	{
 		$user_id         = 0;
 		$url             = JURI::base();
-		$stockroomhelper = new rsstockroomhelper();
-		$redTemplate     = new Redtemplate();
+		$stockroomhelper = new rsstockroomhelper;
+		$redTemplate     = new Redtemplate;
 
 		if (count($attribute_template) <= 0)
 		{
@@ -4686,7 +4703,7 @@ class producthelper
 		$user_id         = 0;
 		$url             = JURI::base();
 		$redTemplate     = new Redtemplate ();
-		$stockroomhelper = new rsstockroomhelper();
+		$stockroomhelper = new rsstockroomhelper;
 
 		$chktagArr['chkvat'] = $chktag = $this->getApplyattributeVatOrNot($data_add);
 		$this->_session->set('chkvat', $chktagArr);
@@ -5203,8 +5220,8 @@ class producthelper
 
 	public function replaceSubPropertyData($product_id = 0, $accessory_id = 0, $relatedprd_id = 0, $attribute_id = 0, $property_id = 0, $subatthtml = "", $layout = "", $selectSubproperty = array())
 	{
-		$redTemplate     = new Redtemplate();
-		$stockroomhelper = new rsstockroomhelper();
+		$redTemplate     = new Redtemplate;
+		$stockroomhelper = new rsstockroomhelper;
 		$url             = JURI::base();
 		$attribute_table = "";
 		$subproperty     = array();
@@ -5701,7 +5718,7 @@ class producthelper
 	{
 		$user_id         = 0;
 		$url             = JURI::base();
-		$stockroomhelper = new rsstockroomhelper();
+		$stockroomhelper = new rsstockroomhelper;
 		$option          = 'com_redshop';
 		$Itemid          = JRequest::getInt('Itemid');
 
@@ -5919,9 +5936,9 @@ class producthelper
 	public function replaceCartTemplate($product_id = 0, $category_id = 0, $accessory_id = 0, $relproduct_id = 0, $data_add = "", $isChilds = false, $userfieldArr = array(), $totalatt = 0, $totalAccessory = 0, $count_no_user_field = 0, $module_id = 0, $giftcard_id = 0)
 	{
 		$user_id         = 0;
-		$redconfig       = new Redconfiguration();
-		$extraField      = new extraField();
-		$stockroomhelper = new rsstockroomhelper();
+		$redconfig       = new Redconfiguration;
+		$extraField      = new extraField;
+		$stockroomhelper = new rsstockroomhelper;
 
 		$product_quantity = JRequest::getVar('product_quantity');
 		$Itemid           = JRequest::getInt('Itemid');
@@ -5962,14 +5979,14 @@ class producthelper
 
 		if (count($cart_template) <= 0 && $data_add != "")
 		{
-			$cart_template                = new stdclass();
+			$cart_template                = new stdclass;
 			$cart_template->template_name = "";
 			$cart_template->template_desc = "";
 		}
 
 		if ($data_add == "" && count($cart_template) <= 0)
 		{
-			$cart_template                = new stdclass();
+			$cart_template                = new stdclass;
 			$cart_template->template_name = "notemplate";
 			$cart_template->template_desc = "<div>{addtocart_image_aslink}</div>";
 			$data_add                     = "{form_addtocart:$cart_template->template_name}";
@@ -7138,7 +7155,7 @@ class producthelper
 	{
 		if (empty($this->_cartTemplateData))
 		{
-			$redTemplate = new Redtemplate();
+			$redTemplate = new Redtemplate;
 
 			if (!USE_AS_CATALOG || USE_AS_CATALOG)
 				$this->_cartTemplateData = $redTemplate->getTemplate("cart");
@@ -7153,7 +7170,7 @@ class producthelper
 	{
 		$user            = JFactory::getUser();
 		$cart            = $this->_session->get('cart');
-		$stockroomhelper = new rsstockroomhelper();
+		$stockroomhelper = new rsstockroomhelper;
 		$product         = $this->getProductById($product_id);
 
 		if ($user_id == 0)
@@ -7428,7 +7445,7 @@ class producthelper
 
 	public function makeAccessoryOrder($order_item_id = 0)
 	{
-		$order_functions  = new order_functions();
+		$order_functions  = new order_functions;
 		$displayaccessory = "";
 		$orderItemdata    = $order_functions->getOrderItemAccessoryDetail($order_item_id);
 
@@ -7718,7 +7735,7 @@ class producthelper
 
 	public function makeAttributeQuotation($quotation_item_id = 0, $is_accessory = 0, $parent_section_id = 0, $quotation_status = 2, $stock = 0)
 	{
-		$quotationHelper  = new quotationHelper();
+		$quotationHelper  = new quotationHelper;
 		$displayattribute = "";
 
 		$product_attribute = "";
@@ -8634,7 +8651,7 @@ class producthelper
 			}
 		}
 
-		$stockroomhelper = new rsstockroomhelper();
+		$stockroomhelper = new rsstockroomhelper;
 		$productinstock  = $stockroomhelper->getStockAmountwithReserve($Id, $sec);
 
 		if ($productinstock == 0)
@@ -8894,13 +8911,19 @@ class producthelper
 
 			if ($displaylink)
 			{
-				$redhelper = new redhelper();
+				$redhelper = new redhelper;
 				$catItem   = $redhelper->getCategoryItemid($row->category_id);
+
+				if(!(boolean) $catItem)
+				{
+					$catItem = JFactory::getApplication()->input->getInt('Itemid');
+				}
+
 				$catlink   = JRoute::_('index.php?option=com_redshop&view=category&layout=detail&cid='
 					. $row->category_id . '&Itemid=' . $catItem);
 			}
 
-			$prodCatsObject        = new stdClass();
+			$prodCatsObject        = new stdClass;
 			$prodCatsObject->name  = $ppCat . $pspacediv . $pCat . $spacediv . $row->category_name;
 			$prodCatsObject->link  = $catlink;
 			$prodCatsObjectArray[] = $prodCatsObject;
@@ -8914,7 +8937,7 @@ class producthelper
 		$url                 = JURI::base();
 		$option              = JRequest::getVar('option');
 		$product             = $this->getProductById($product_id);
-		$redhelper           = new redhelper();
+		$redhelper           = new redhelper;
 		$aHrefImageResponse  = '';
 		$imagename           = '';
 		$aTitleImageResponse = '';
@@ -9047,10 +9070,10 @@ class producthelper
 	{
 		$redshopconfig   = new Redconfiguration ();
 		$redTemplate     = new Redtemplate ();
-		$stockroomhelper = new rsstockroomhelper();
+		$stockroomhelper = new rsstockroomhelper;
 		$url             = JURI::base();
 		$option          = JRequest::getVar('option');
-		$redhelper       = new redhelper();
+		$redhelper       = new redhelper;
 
 		if ($accessory_id != 0)
 		{
@@ -9813,7 +9836,7 @@ class producthelper
 
 	public function getProductFinderDatepickerValue($templatedata = "", $productid = 0, $fieldArray = array(), $giftcard = 0)
 	{
-		$extraField = new extraField();
+		$extraField = new extraField;
 
 		if (count($fieldArray) > 0)
 		{
@@ -9844,10 +9867,10 @@ class producthelper
 
 	public function getRelatedtemplateView($template_desc, $product_id)
 	{
-		$extra_field      = new extraField();
-		$config           = new Redconfiguration();
-		$redTemplate      = new Redtemplate();
-		$redhelper        = new redhelper();
+		$extra_field      = new extraField;
+		$config           = new Redconfiguration;
+		$redTemplate      = new Redtemplate;
+		$redhelper        = new redhelper;
 		$related_product  = $this->getRelatedProduct($product_id);
 		$related_template = $this->getRelatedProductTemplate($template_desc);
 		$option           = 'com_redshop';
@@ -10094,7 +10117,7 @@ class producthelper
 
 	public function removeOutofstockProduct($products)
 	{
-		$stockroomhelper = new rsstockroomhelper();
+		$stockroomhelper = new rsstockroomhelper;
 		$filter_products = array();
 
 		for ($s = 0; $s < count($products); $s++)
@@ -10126,7 +10149,7 @@ class producthelper
 
 	public function getproductStockStatus($product_id = 0, $totalatt = 0, $selectedpropertyId = 0, $selectedsubpropertyId = 0)
 	{
-		$stockroomhelper            = new rsstockroomhelper();
+		$stockroomhelper            = new rsstockroomhelper;
 		$producDetail               = $this->getProductById($product_id);
 		$product_preorder           = trim($producDetail->preorder);
 		$rsltdata                   = array();
@@ -10322,7 +10345,7 @@ class producthelper
 	{
 		$db = JFactory::getDbo();
 
-		$extraField = new extraField();
+		$extraField = new extraField;
 		$row_data   = $extraField->getSectionFieldList($section_id, 1);
 
 		for ($i = 0; $i < count($row_data); $i++)
@@ -10345,7 +10368,7 @@ class producthelper
 
 	public function getPaymentandShippingExtrafields($order, $section_id)
 	{
-		$extraField = new extraField();
+		$extraField = new extraField;
 		$row_data   = $extraField->getSectionFieldList($section_id, 1);
 		$resultArr  = array();
 
