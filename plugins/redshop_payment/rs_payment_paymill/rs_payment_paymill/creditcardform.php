@@ -14,9 +14,10 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-require_once JPATH_COMPONENT . '/helpers/helper.php';
-require_once JPATH_SITE . '/components/com_redshop/helpers/cart.php';
 require_once JPATH_SITE . '/administrator/components/com_redshop/helpers/redshop.cfg.php';
+JLoader::import('loadhelpers', JPATH_SITE . '/components/com_redshop');
+JLoader::load('RedshopHelperHelper');
+JLoader::load('RedshopHelperCart');
 
 
 $request = JRequest::get('request');

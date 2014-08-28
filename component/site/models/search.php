@@ -11,8 +11,8 @@ defined('_JEXEC') or die;
 
 JLoader::import('joomla.application.component.model');
 
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/category.php';
-require_once JPATH_SITE . '/components/com_redshop/helpers/product.php';
+JLoader::load('RedshopHelperAdminCategory');
+JLoader::load('RedshopHelperProduct');
 
 /**
  * Class searchModelsearch
@@ -265,7 +265,7 @@ class RedshopModelSearch extends JModel
 
 		if ($defaultSearchType == "")
 		{
-			$defaultSearchType = 'product_name';
+			$defaultSearchType = JRequest::getCmd('search_type', 'product_name');
 		}
 
 		if ($defaultSearchType == "name_number")

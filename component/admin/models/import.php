@@ -12,9 +12,9 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.model');
 jimport('joomla.filesystem.file');
 
-require_once JPATH_COMPONENT . '/helpers/thumbnail.php';
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php';
-require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
+JLoader::load('RedshopHelperAdminThumbnail');
+JLoader::load('RedshopHelperAdminOrder');
+JLoader::load('RedshopHelperProduct');
 
 class RedshopModelImport extends JModel
 {
