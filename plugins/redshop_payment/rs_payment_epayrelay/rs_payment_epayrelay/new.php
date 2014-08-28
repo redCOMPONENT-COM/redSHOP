@@ -30,11 +30,11 @@ $app = JFactory::getApplication();
 // Initialize the framework
 $app->initialise();
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php';
-require_once JPATH_COMPONENT . '/helpers/product.php';
-include_once JPATH_COMPONENT . '/helpers/helper.php';
-include_once JPATH_COMPONENT . '/helpers/cart.php';
-
+JLoader::import('loadhelpers', JPATH_SITE . '/components/com_redshop');
+JLoader::load('RedshopHelperAdminOrder');
+JLoader::load('RedshopHelperProduct');
+JLoader::load('RedshopHelperHelper');
+JLoader::load('RedshopHelperCart');
 
 $db = JFactory::getDbo();
 $url = JURI::base();

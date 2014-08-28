@@ -11,9 +11,9 @@ defined('_JEXEC') or die;
 
 JLoader::import('joomla.application.component.controller');
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/quotation.php';
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/mail.php';
-require_once JPATH_COMPONENT . '/helpers/helper.php';
+JLoader::load('RedshopHelperAdminQuotation');
+JLoader::load('RedshopHelperAdminMail');
+JLoader::load('RedshopHelperHelper');
 
 /**
  * Quotation Detail Controller.
@@ -22,7 +22,7 @@ require_once JPATH_COMPONENT . '/helpers/helper.php';
  * @subpackage  Controller
  * @since       1.0
  */
-class Quotation_detailController extends JController
+class RedshopControllerQuotation_detail extends JController
 {
 	/**
 	 * update status function

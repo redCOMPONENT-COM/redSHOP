@@ -93,10 +93,6 @@ if (!class_exists('redCategoryMenu'))
 	}
 }
 
-//require_once CATEGORY_MODULE_PATH. '/helper.php';
-//$redproduct_menu = new modProMenuHelper;
-
-
 $Itemid = JRequest::getInt('Itemid');
 $TreeId = JRequest::getInt('TreeId');
 $js_src = JURI::root() . 'modules/mod_redshop_categories';
