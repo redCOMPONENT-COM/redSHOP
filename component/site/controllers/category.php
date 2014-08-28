@@ -18,7 +18,7 @@ JLoader::import('joomla.application.component.controller');
  * @subpackage  Controller
  * @since       1.0
  */
-class CategoryController extends JController
+class RedshopControllerCategory extends JController
 {
 	/**
 	 *  Method to Export XML file
@@ -290,7 +290,7 @@ class CategoryController extends JController
 
 		if ($xmlexport_id)
 		{
-			require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/xmlhelper.php';
+			JLoader::load('RedshopHelperAdminXmlhelper');
 
 			$xmlHelper = new xmlHelper;
 			$xmlHelper->writeXMLExportFile($xmlexport_id);

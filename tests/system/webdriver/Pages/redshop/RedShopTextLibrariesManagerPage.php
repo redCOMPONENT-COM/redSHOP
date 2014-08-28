@@ -51,6 +51,7 @@ class RedShopTextLibrariesManagerPage extends AdminManagerPage
 	{
 		$elementObject = $this->driver;
 		$elementObject->findElement(By::xPath("//a[@onclick=\"Joomla.submitbutton('add')\"]"))->click();
+		$this->checkNoticesForEditView(get_class($this));
 		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='text_name']"));
 		$nameField = $elementObject->findElement(By::xPath("//input[@id='text_name']"));
 		$nameField->clear();
@@ -61,7 +62,7 @@ class RedShopTextLibrariesManagerPage extends AdminManagerPage
 		$elementObject->findElement(By::xPath("//select[@id='section']//option[@value='" . $tagSection . "']"))->click();
 		sleep(5);
 		$elementObject->findElement(By::xPath("//a[@onclick=\"Joomla.submitbutton('save')\"]"))->click();
-		$elementObject->waitForElementUntilIsPresent(By::xPath("//li[text() = 'Text Library Detail Saved']"), 10);
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//li[text() = 'Text Library Detail Saved']"), 30);
 	}
 
 	/**
@@ -86,6 +87,7 @@ class RedShopTextLibrariesManagerPage extends AdminManagerPage
 		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='cb" . $row . "']"), 10);
 		$elementObject->findElement(By::xPath("//input[@id='cb" . $row . "']"))->click();
 		$elementObject->findElement(By::xPath("//li[@id='toolbar-edit']/a"))->click();
+		$this->checkNoticesForEditView(get_class($this));
 		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='text_name']"), 10);
 
 		switch ($field)
@@ -107,7 +109,7 @@ class RedShopTextLibrariesManagerPage extends AdminManagerPage
 		}
 
 		$elementObject->findElement(By::xPath("//a[@onclick=\"Joomla.submitbutton('save')\"]"))->click();
-		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='filter']"), 10);
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='filter']"), 30);
 	}
 
 	/**

@@ -11,11 +11,11 @@ defined('_JEXEC') or die ('Restricted access');
 
 jimport('joomla.application.component.controller');
 
-require_once JPATH_ROOT . '/components/com_redshop/helpers/product.php';
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/mail.php';
-require_once JPATH_COMPONENT . '/helpers/product.php';
+JLoader::load('RedshopHelperProduct');
+JLoader::load('RedshopHelperAdminMail');
+JLoader::load('RedshopHelperAdminProduct');
 
-class order_detailController extends JController
+class RedshopControllerOrder_detail extends JController
 {
 	public function __construct($default = array())
 	{
@@ -403,8 +403,8 @@ class order_detailController extends JController
 	{
 		$app = JFactory::getApplication();
 		$session = JFactory::getSession();
-		require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/order.php';
-		require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/configuration.php';
+		JLoader::load('RedshopHelperAdminOrder');
+		JLoader::load('RedshopHelperAdminConfiguration');
 
 		$redconfig = new Redconfiguration;
 		$model = $this->getModel();
@@ -513,7 +513,7 @@ class order_detailController extends JController
 		$app = JFactory::getApplication();
 		$request = JRequest::get('request');
 
-		require_once JPATH_BASE . '/components/com_redshop/helpers/order.php';
+		JLoader::load('RedshopHelperOrder');
 		$objOrder = new order_functions;
 
 		JPluginHelper::importPlugin('redshop_payment');

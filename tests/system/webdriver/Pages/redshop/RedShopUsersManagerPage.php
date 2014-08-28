@@ -57,6 +57,7 @@ class RedShopUsersManagerPage extends AdminManagerPage
 	{
 		$elementObject = $this->driver;
 		$elementObject->findElement(By::xPath("//a[@onclick=\"Joomla.submitbutton('add')\"]"))->click();
+		$this->checkNoticesForEditView(get_class($this));
 		$userNameField = $elementObject->findElement(By::xPath("//input[@id='username']"));
 		$userNameField->clear();
 		$userNameField->sendKeys($userName);
@@ -80,7 +81,7 @@ class RedShopUsersManagerPage extends AdminManagerPage
 		$lastNameField->clear();
 		$lastNameField->sendKeys($lastName);
 		$elementObject->findElement(By::xPath("//a[@onclick=\"Joomla.submitbutton('save')\"]"))->click();
-		$elementObject->waitForElementUntilIsPresent(By::xPath("//li[text() = 'User detail saved']"), 10);
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//li[text() = 'User detail saved']"), 30);
 	}
 
 	/**
@@ -106,6 +107,7 @@ class RedShopUsersManagerPage extends AdminManagerPage
 		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='cb" . $row . "']"), 10);
 		$elementObject->findElement(By::xPath("//input[@id='cb" . $row . "']"))->click();
 		$elementObject->findElement(By::xPath("//li[@id='toolbar-edit']/a"))->click();
+		$this->checkNoticesForEditView(get_class($this));
 		$elementObject->findElement(By::xPath("//dl[@id='pane']/dt[1]/span[text() = 'General User Information']"))->click();
 		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='username']"), 10);
 
@@ -146,7 +148,7 @@ class RedShopUsersManagerPage extends AdminManagerPage
 		}
 
 		$elementObject->findElement(By::xPath("//a[@onclick=\"Joomla.submitbutton('save')\"]"))->click();
-		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='filter']"), 10);
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='filter']"), 30);
 	}
 
 	/**
@@ -185,6 +187,7 @@ class RedShopUsersManagerPage extends AdminManagerPage
 		$elementObject = $this->driver;
 		$searchField = $elementObject->findElement(By::xPath("//input[@id='filter']"));
 		$searchField->clear();
+		$searchField = $elementObject->findElement(By::xPath("//input[@id='filter']"));
 		$searchField->sendKeys($name);
 		$elementObject->findElement(By::xPath("//button[@onclick=\"this.form.submit();\"]"))->click();
 		sleep(5);
