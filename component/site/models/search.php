@@ -255,17 +255,12 @@ class RedshopModelSearch extends JModel
 
 		$keyword = $app->getUserStateFromRequest($context . 'keyword', 'keyword', '');
 
-		$defaultSearchType = '';
+		$defaultSearchType = JRequest::getCmd('search_type', 'product_name');
 
 		if (!empty($manudata['search_type']))
 		{
 			$defaultSearchType     = $manudata['search_type'];
 			$defaultSearchType_tmp = $manudata['search_type'];
-		}
-
-		if ($defaultSearchType == "")
-		{
-			$defaultSearchType = JRequest::getCmd('search_type', 'product_name');
 		}
 
 		if ($defaultSearchType == "name_number")
