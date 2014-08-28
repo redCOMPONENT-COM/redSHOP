@@ -10,11 +10,9 @@
 defined('_JEXEC') or die;
 JLoader::import('joomla.application.component.model');
 
-require_once JPATH_COMPONENT . '/helpers/helper.php';
-require_once JPATH_COMPONENT . '/helpers/helper.php';
-require_once JPATH_COMPONENT . '/helpers/helper.php';
-include_once JPATH_COMPONENT . '/helpers/cart.php';
-include_once JPATH_COMPONENT . '/helpers/user.php';
+JLoader::load('RedshopHelperHelper');
+JLoader::load('RedshopHelperCart');
+JLoader::load('RedshopHelperUser');
 
 /**
  * Class cartModelcart.
@@ -23,7 +21,7 @@ include_once JPATH_COMPONENT . '/helpers/user.php';
  * @subpackage  Model
  * @since       1.0
  */
-class CartModelCart extends JModel
+class RedshopModelCart extends JModel
 {
 	public $_id = null;
 

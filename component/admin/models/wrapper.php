@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
-class wrapperModelwrapper extends JModel
+class RedshopModelWrapper extends JModel
 {
 	public $_productid = 0;
 

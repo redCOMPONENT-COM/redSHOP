@@ -7,7 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_COMPONENT . '/helpers/helper.php';
+JLoader::import('loadhelpers', JPATH_SITE . '/components/com_redshop');
+JLoader::load('RedshopHelperSiteHelper');
 
 $redhelper = new redhelper;
 $db        = JFactory::getDbo();

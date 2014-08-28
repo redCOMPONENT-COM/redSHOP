@@ -16,7 +16,7 @@
  */
 
 $strRedirecturl = "https://test.sagepay.com/simulator/vspformgateway.asp";
-$uri =& JURI::getInstance();
+$uri = JURI::getInstance();
 $url = $uri->root();
 $user = JFactory::getUser();
 $db = JFactory::getDbo();

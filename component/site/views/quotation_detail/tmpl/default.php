@@ -12,16 +12,16 @@ defined('_JEXEC') or die;
 $url       = JURI::base();
 $redconfig = new Redconfiguration;
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/quotation.php';
+JLoader::load('RedshopHelperAdminQuotation');
 $quotationHelper = new quotationHelper;
 $extra_field     = new extra_field;
 
 $extra_field_new = new extraField;
 
-require_once JPATH_COMPONENT . '/helpers/product.php';
+JLoader::load('RedshopHelperProduct');
 $producthelper = new producthelper;
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php';
+JLoader::load('RedshopHelperAdminOrder');
 $order_functions = new order_functions;
 
 $redTemplate = new Redtemplate;

@@ -1,5 +1,5 @@
 <?php
-$uri =& JURI::getInstance();
+$uri = JURI::getInstance();
 $url = $uri->root();
 $user = JFactory::getUser();
 $sessionid = session_id();

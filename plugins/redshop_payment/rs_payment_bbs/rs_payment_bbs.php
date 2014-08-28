@@ -9,7 +9,8 @@
 
 defined('_JEXEC') or die;
 
-require_once JPATH_SITE . '/administrator/components/com_redshop/helpers/order.php';
+JLoader::import('loadhelpers', JPATH_SITE . '/components/com_redshop');
+JLoader::load('RedshopHelperAdminOrder');
 
 class plgredshop_paymentrs_payment_bbs extends JPlugin
 {
@@ -75,8 +76,6 @@ class plgredshop_paymentrs_payment_bbs extends JPlugin
 
 		$BBS_msg = isset($xml->Result->ResponseText) ? $xml->Result->ResponseText : $BBS_msg;
 
-		require_once JPATH_BASE . '/administrator/components/com_redshop/helpers/order.php';
-
 		$objOrder = new order_functions;
 
 		if (strtoupper($AUTH_Responsecode) == 'OK')
@@ -140,7 +139,6 @@ class plgredshop_paymentrs_payment_bbs extends JPlugin
 		}
 
 		$order_id = $data['order_id'];
-		require_once JPATH_SITE . '/administrator/components/com_redshop/helpers/order.php';
 		$objOrder = new order_functions;
 		$db = JFactory::getDbo();
 

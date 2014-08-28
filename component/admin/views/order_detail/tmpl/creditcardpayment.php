@@ -14,12 +14,11 @@ $request = JRequest::get();
 JHTML::_('behavior.tooltip');
 JHTMLBehavior::modal();
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php';
-
-include_once (JPATH_COMPONENT_SITE . '/helpers/product.php');
-include_once (JPATH_COMPONENT_SITE . '/helpers/cart.php');
-include_once (JPATH_COMPONENT_SITE . '/helpers/user.php');
-include_once (JPATH_COMPONENT_SITE . '/helpers/helper.php');
+JLoader::load('RedshopHelperAdminOrder');
+JLoader::load('RedshopHelperProduct');
+JLoader::load('RedshopHelperCart');
+JLoader::load('RedshopHelperUser');
+JLoader::load('RedshopHelperHelper');
 
 $carthelper = new rsCarthelper();
 $producthelper = new producthelper();
