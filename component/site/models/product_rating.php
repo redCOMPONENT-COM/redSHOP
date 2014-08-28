@@ -18,7 +18,7 @@ JLoader::import('joomla.application.component.model');
  * @subpackage  Model
  * @since       1.0
  */
-class product_ratingModelproduct_rating extends JModel
+class RedshopModelProduct_rating extends JModel
 {
 	public $_id = null;
 

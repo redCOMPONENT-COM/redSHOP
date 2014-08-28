@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
-class producttags_detailModelproducttags_detail extends JModel
+class RedshopModelProducttags_detail extends JModel
 {
 	public $_id = null;
 
@@ -83,7 +83,7 @@ class producttags_detailModelproducttags_detail extends JModel
 
 	public function store($data)
 	{
-		$row =& $this->getTable('product_tags');
+		$row = $this->getTable('product_tags');
 
 		if (!$row->bind($data))
 		{

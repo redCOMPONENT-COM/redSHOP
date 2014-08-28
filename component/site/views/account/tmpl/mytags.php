@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 $url = JURI::base();
 
 // Get product helper
-require_once JPATH_ROOT . '/components/com_redshop/helpers/product.php';
+JLoader::load('RedshopHelperProduct');
 $extra_data = new producthelper;
 
 $Itemid = JRequest::getInt('Itemid');

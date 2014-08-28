@@ -10,14 +10,14 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
-require_once JPATH_COMPONENT . '/helpers/thumbnail.php';
+JLoader::load('RedshopHelperAdminThumbnail');
 jimport('joomla.client.helper');
 JClientHelper::setCredentialsFromRequest('ftp');
 jimport('joomla.filesystem.file');
 
-require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
+JLoader::load('RedshopHelperProduct');
 
-class attribute_set_detailModelattribute_set_detail extends JModel
+class RedshopModelAttribute_set_detail extends JModel
 {
 	public $_id = null;
 
@@ -92,7 +92,7 @@ class attribute_set_detailModelattribute_set_detail extends JModel
 
 	public function store($data)
 	{
-		$row =& $this->getTable();
+		$row = $this->getTable();
 
 		if (!$row->bind($data))
 		{
@@ -413,7 +413,7 @@ class attribute_set_detailModelattribute_set_detail extends JModel
 
 	public function store_attr($data)
 	{
-		$row =& $this->getTable('product_attribute');
+		$row = $this->getTable('product_attribute');
 
 		if (!$row->bind($data))
 		{
@@ -434,7 +434,7 @@ class attribute_set_detailModelattribute_set_detail extends JModel
 
 	public function store_pro($data)
 	{
-		$row =& $this->getTable('attribute_property');
+		$row = $this->getTable('attribute_property');
 
 		if (!$row->bind($data))
 		{
@@ -458,7 +458,7 @@ class attribute_set_detailModelattribute_set_detail extends JModel
 	 */
 	public function store_sub($data)
 	{
-		$row =& $this->getTable('subattribute_property');
+		$row = $this->getTable('subattribute_property');
 
 		if (!$row->bind($data))
 		{
@@ -869,7 +869,7 @@ class attribute_set_detailModelattribute_set_detail extends JModel
 		$attribute['price_quantity_start'] = $product_attribute_price->price_quantity_start;
 		$attribute['price_quantity_end'] = $product_attribute_price->price_quantity_end;
 
-		$row =& $this->getTable('attributeprices_detail');
+		$row = $this->getTable('attributeprices_detail');
 
 		// Bind and save data into 'attributeprices_detail'
 		if (!$row->bind($attribute))
@@ -938,7 +938,7 @@ class attribute_set_detailModelattribute_set_detail extends JModel
 						$attribute['ordering'] = $product_attribute->ordering;
 						$attribute['attribute_set_id'] = $attribute_set_id;
 
-						$row =& $this->getTable('product_attribute');
+						$row = $this->getTable('product_attribute');
 
 						// Bind and save data into 'product_attribute'
 						if (!$row->bind($attribute))
@@ -1023,7 +1023,7 @@ class attribute_set_detailModelattribute_set_detail extends JModel
 								$attribute_properties['property_number'] = $product_attributes_property->property_number;
 								$attribute_properties['extra_field'] = $product_attributes_property->extra_field;
 
-								$row =& $this->getTable('attribute_property');
+								$row = $this->getTable('attribute_property');
 
 								// Bind and save data into 'product_attribute_property'
 								if (!$row->bind($attribute_properties))
@@ -1147,7 +1147,7 @@ class attribute_set_detailModelattribute_set_detail extends JModel
 										$sub_attribute_properties['subattribute_color_title'] = $product_sub_attributes_property->subattribute_color_title;
 										$sub_attribute_properties['extra_field'] = $product_sub_attributes_property->extra_field;
 										$sub_attribute_properties['subattribute_color_main_image'] = $product_sub_attributes_property->subattribute_color_main_image;
-										$row =& $this->getTable('subattribute_property');
+										$row = $this->getTable('subattribute_property');
 
 										// Bind and save data into 'subattribute_property'
 										if (!$row->bind($sub_attribute_properties))
@@ -1252,7 +1252,7 @@ class attribute_set_detailModelattribute_set_detail extends JModel
 
 	public function copyadditionalImage($data)
 	{
-		$rowmedia =& $this->getTable('media_detail');
+		$rowmedia = $this->getTable('media_detail');
 
 		$data['media_id '] = 0;
 

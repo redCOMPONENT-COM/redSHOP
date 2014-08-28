@@ -7,17 +7,17 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_SITE . '/components/com_redshop/helpers/product.php';
+require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
+JLoader::import('loadhelpers', JPATH_SITE . '/components/com_redshop');
+JLoader::load('RedshopHelperProduct');
 $producthelper = new producthelper;
 
-$uri =& JURI::getInstance();
+$uri = JURI::getInstance();
 $url = $uri->root();
 $user = JFactory::getUser();
 $sessionid = session_id();
 
 $db = JFactory::getDbo();
-
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
 
 $sql = "SELECT op.*,o.order_total,o.user_id FROM " . $this->_table_prefix . "order_payment AS op LEFT JOIN " . $this->_table_prefix . "orders AS o ON op.order_id = o.order_id  WHERE o.order_id='" . $data['order_id'] . "'";
 $db->setQuery($sql);

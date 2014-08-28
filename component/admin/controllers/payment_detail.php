@@ -14,7 +14,7 @@ jimport('joomla.application.component.controller');
 define('WARNSAME', "There is already a file called '%s'.");
 define('INSTALLEXT', 'Install %s %s');
 
-class payment_detailController extends JController
+class RedshopControllerPayment_detail extends JController
 {
 	public function __construct($default = array())
 	{

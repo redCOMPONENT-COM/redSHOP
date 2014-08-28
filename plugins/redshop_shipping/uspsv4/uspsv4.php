@@ -21,9 +21,10 @@ jimport('joomla.plugin.plugin');
 
 if (!defined('_VALID_MOS') && !defined('_JEXEC')) die('Direct Access to ' . basename(__FILE__) . ' is not allowed.');
 
-require_once JPATH_SITE . '/components/com_redshop/helpers/product.php';
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/configuration.php';
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/shipping.php';
+JLoader::import('loadhelpers', JPATH_SITE . '/components/com_redshop');
+JLoader::load('RedshopHelperProduct');
+JLoader::load('RedshopHelperAdminConfiguration');
+JLoader::load('RedshopHelperAdminShipping');
 
 class plgredshop_shippinguspsv4 extends JPlugin
 {
@@ -480,7 +481,7 @@ class plgredshop_shippinguspsv4 extends JPlugin
 		$rate = 0;
 
 		$shippingcfg = JPATH_ROOT . '/plugins/' . $shipping->folder . '/' . $shipping->element . '/' . $shipping->element . '.cfg.php';
-		include_once ($shippingcfg);
+		include_once $shippingcfg;
 
 		// conversation of weight ( ration )
 		$unitRatio = $producthelper->getUnitConversation('pounds', DEFAULT_WEIGHT_UNIT);
