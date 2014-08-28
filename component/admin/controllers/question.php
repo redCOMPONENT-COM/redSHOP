@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 
-class questionController extends JController
+class RedshopControllerQuestion extends JController
 {
 	public function cancel()
 	{
