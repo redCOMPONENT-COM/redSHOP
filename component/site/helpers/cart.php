@@ -9,12 +9,12 @@
 
 defined('_JEXEC') or die;
 
-JLoader::import('helper', JPATH_SITE . '/components/com_redshop/helpers');
-JLoader::import('product', JPATH_SITE . '/components/com_redshop/helpers');
-JLoader::import('extra_field', JPATH_SITE . '/components/com_redshop/helpers');
-JLoader::import('order', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
-JLoader::import('shipping', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
-JLoader::import('images', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
+JLoader::load('RedshopHelperHelper');
+JLoader::load('RedshopHelperProduct');
+JLoader::load('RedshopHelperExtra_field');
+JLoader::load('RedshopHelperAdminOrder');
+JLoader::load('RedshopHelperAdminShipping');
+JLoader::load('RedshopHelperAdminImages');
 
 class rsCarthelper
 {
@@ -1514,15 +1514,24 @@ class rsCarthelper
 				}
 				else
 				{
-					if ($product->product_full_image)
+					$product_full_image = $product->product_full_image;
+					$product_type = 'product';
+
+					if ($rowitem [$i]->is_giftcard)
 					{
-						if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $product->product_full_image))
+						$product_full_image = $giftcardData->giftcard_image;
+						$product_type = 'giftcard';
+					}
+
+					if ($product_full_image)
+					{
+						if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . $product_type . "/" . $product_full_image))
 						{
 							$attribute_image_path = RedShopHelperImages::getImagePath(
-														$product->product_full_image,
+														$product_full_image,
 														'',
 														'thumb',
-														'product',
+														$product_type,
 														CART_THUMB_WIDTH,
 														CART_THUMB_HEIGHT,
 														USE_IMAGE_SIZE_SWAPPING
@@ -2167,17 +2176,17 @@ class rsCarthelper
 		$discount          = 0;
 		$user_info_id      = 0;
 		$total_discount    = 0;
+		$discountVAT       = 0;
 		$redArray          = array();
 
 		for ($i = 0; $i < $Idx; $i++)
 		{
-			$quantity = $cart[$i]['quantity'];
-			$subtotal += $quantity * $cart[$i]['product_price'];
+			$quantity          = $cart[$i]['quantity'];
+			$subtotal          += $quantity * $cart[$i]['product_price'];
 			$subtotal_excl_vat += $quantity * $cart[$i]['product_price_excl_vat'];
-			$vat += $quantity * $cart[$i]['product_vat'];
+			$vat               += $quantity * $cart[$i]['product_vat'];
 		}
 
-		$avgVAT 			= (($subtotal_excl_vat + $vat) / $subtotal_excl_vat) - 1;
 		$tmparr             = array();
 		$tmparr['subtotal'] = $subtotal;
 
@@ -2265,11 +2274,17 @@ class rsCarthelper
 
 				if (isset($vatData->tax_rate) && !empty($vatData->tax_rate))
 				{
-					$discountVAT = ($avgVAT * $total_discount) / (1 + $avgVAT);
+					$discountVAT = 0;
+
+					if ((int) $subtotal_excl_vat > 0)
+					{
+						$avgVAT      = (($subtotal_excl_vat + $vat) / $subtotal_excl_vat) - 1;
+						$discountVAT = ($avgVAT * $total_discount) / (1 + $avgVAT);
+					}
 				}
 			}
 
-			$vat         = $vat - $discountVAT;
+			$vat = $vat - $discountVAT;
 		}
 
 		$total      = $subtotal + $shipping;
@@ -3288,7 +3303,7 @@ class rsCarthelper
 
 		if ($isEnabled && $classname == 'default_shipping_GLS')
 		{
-			JPluginHelper::importPlugin('rs_labels_GLS');
+			JPluginHelper::importPlugin('redshop_shipping');
 			$dispatcher = JDispatcher::getInstance();
 			$sql        = "SELECT  * FROM #__redshop_users_info WHERE users_info_id=" . (int) $users_info_id ;
 			$this->_db->setQuery($sql);
@@ -3314,7 +3329,7 @@ class rsCarthelper
 			}
 
 			$output .= JText::_('COM_REDSHOP_PROVIDE_ZIPCODE_TO_PICKUP_PARCEL') . " : ";
-			$output .= "<input type='text' id='gls_zipcode' name='gls_zipcode' value='" . $values->zipcode . "' onblur='javascript:updateGLSLocation(this.value);' ><input type='button' id='update' value='OPDATER' name='update'><br/>";
+			$output .= "<input type='text' id='gls_zipcode' name='gls_zipcode' value='" . $values->zipcode . "' onblur='javascript:updateGLSLocation(this.value);' ><input type='button' id='update' value='" . JText::_('COM_REDSHOP_GLS_UPDATE') . "' name='update'><br/>";
 			$output .= JText::_('COM_REDSHOP_SELECT_GLS_LOCATION') . " : ";
 			$output .= "<span id='rs_locationdropdown'>";
 			$output .= $lists['shopList'] = JHTML::_('select.genericlist', $shopList, 'shop_id', 'class="inputbox" ', 'value', 'text', $selected_shop_id);
@@ -3337,6 +3352,7 @@ class rsCarthelper
 		$d['ordertotal']      = $ordertotal;
 		$d['order_subtotal']  = $order_subtotal;
 		$template_desc        = str_replace("{shipping_heading}", JText::_('COM_REDSHOP_SHIPPING_METHOD'), $template_desc);
+		$extrafield_total     = "";
 
 		if (strstr($template_desc, "{shipping_method_loop_start}") && strstr($template_desc, "{shipping_method_loop_end}"))
 		{
@@ -3387,7 +3403,7 @@ class rsCarthelper
 						$rs        = $shippingmethod[$s];
 						$classname = $rs->element;
 						$rate_data .= $template_middle;
-						$rate_data = str_replace("{shipping_method_title}", $rs->name, $rate_data);
+						$rate_data = str_replace("{shipping_method_title}", JText::_($rs->name), $rate_data);
 
 						if ($template_rate_middle != "")
 						{
@@ -3474,7 +3490,7 @@ class rsCarthelper
 						$extraField         = new extraField;
 						$paymentparams_new  = new JRegistry($shippingmethod[$s]->params);
 						$extrafield_payment = $paymentparams_new->get('extrafield_shipping');
-						$extrafield_total   = "";
+
 						$extrafield_hidden  = "";
 
 						if (count($extrafield_payment) > 0)
@@ -3501,8 +3517,6 @@ class rsCarthelper
 			$template_desc = str_replace($template_middle, $rate_data, $template_desc);
 		}
 
-
-
 		if ($rateExist == 0)
 		{
 			$errorMSG = '';
@@ -3514,7 +3528,7 @@ class rsCarthelper
 
 			$template_desc = "<div></div>";
 		}
-		elseif ($rateExist == 1 && $extrafield_total == "")
+		elseif ($rateExist == 1 && $extrafield_total == "" && $classname != "default_shipping_GLS")
 		{
 			$template_desc = "<div style='display:none;'>" . $template_desc . "</div>";
 		}
@@ -3651,7 +3665,7 @@ class rsCarthelper
 		return $cardinfo;
 	}
 
-	public function replacePaymentTemplate($template_desc = "", $payment_method_id = 0, $is_company = 0, $ean_number = 0)
+	public function replacePaymentTemplate($template_desc = "", $payment_method_id = 0, $is_company = 0, $eanNumber = 0)
 	{
 		$ccdata = $this->_session->get('ccdata');
 
@@ -3755,14 +3769,6 @@ class rsCarthelper
 
 					if (in_array($shopperGroupId, $shopper_groupArr) || $shopper_groupArr[0] == 0)
 					{
-						if ($flag == false)
-						{
-							if (count($paymentmethod) > 0)
-							{
-								$payment_method_id = $paymentmethod[$p]->name;
-							}
-						}
-
 						$checked = '';
 
 						if ($payment_method_id === $paymentmethod[$p]->name)
@@ -3790,7 +3796,7 @@ class rsCarthelper
 							}
 							else
 							{
-								if ($is_company == 1 && $business == 1 && ($paymentmethod[$p]->name != 'rs_payment_eantransfer' || ($paymentmethod[$p]->name == 'rs_payment_eantransfer' && $ean_number == 1)))
+								if ($is_company == 1 && $business == 1 && ($paymentmethod[$p]->name != 'rs_payment_eantransfer' || ($paymentmethod[$p]->name == 'rs_payment_eantransfer' && $eanNumber != 0)))
 								{
 									$display_payment = $payment_radio_output;
 									$flag = true;
@@ -4667,8 +4673,12 @@ class rsCarthelper
 			{
 				$productPriceExclVAT = $cart['product_subtotal_excl_vat'];
 				$productVAT 		 = $cart['product_subtotal'] - $cart['product_subtotal_excl_vat'];
-				$avgVAT 			 = (($productPriceExclVAT + $productVAT) / $productPriceExclVAT) - 1;
-				$Discountvat 		 = ($avgVAT * $totaldiscount) / (1 + $avgVAT);
+
+				if ((int) $productPriceExclVAT > 0)
+				{
+					$avgVAT      = (($productPriceExclVAT + $productVAT) / $productPriceExclVAT) - 1;
+					$Discountvat = ($avgVAT * $totaldiscount) / (1 + $avgVAT);
+				}
 			}
 		}
 
@@ -6943,7 +6953,10 @@ class rsCarthelper
 			$total_sheet = $finalArea / $final_product_Area;
 
 			// Returns the next highest integer value by rounding up value if necessary.
-			$total_sheet = ceil($total_sheet);
+			if (isset($data->allow_decimal_piece) && $data->allow_decimal_piece)
+			{
+				$total_sheet = ceil($total_sheet);
+			}
 
 			// If sheet is less than 0 or equal to 0 than
 			if ($total_sheet <= 0)

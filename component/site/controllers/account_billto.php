@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php';
+JLoader::load('RedshopHelperAdminOrder');
 
 JLoader::import('joomla.application.component.controller');
 
@@ -20,7 +20,7 @@ JLoader::import('joomla.application.component.controller');
  * @subpackage  Controller
  * @since       1.0
  */
-class Account_billtoController extends JController
+class RedshopControllerAccount_billto extends JController
 {
 	/**
 	 * Constructor.

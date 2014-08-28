@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 JLoader::import('joomla.html.parameter');
+JLoader::import('loadhelpers', JPATH_SITE . '/components/com_redshop');
 
 /**
  *    Build URL routes for redSHOP
@@ -42,7 +43,7 @@ function redshopBuildRoute(&$query)
 	}
 
 	require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
-	require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/category.php';
+	JLoader::load('RedshopHelperAdminCategory');
 
 	$product_category = new product_category;
 	$infoid           = '';
