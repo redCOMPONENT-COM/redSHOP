@@ -14,13 +14,18 @@ JHTMLBehavior::modal();
 
 $now = JFactory::getDate();
 $model = $this->getModel('attribute_set_detail');
+
+// Product Id
+$productId = 0;
+
+if (isset($this->detail->product_id))
+{
+	$productId = $this->detail->product_id;
+}
+
 ?>
 <script language="javascript" type="text/javascript">
 	Joomla.submitbutton = function (pressbutton) {
-		submitbutton(pressbutton);
-	}
-
-	submitbutton = function (pressbutton) {
 		var form = document.adminForm;
 
 		if (pressbutton == 'cancel') {
@@ -263,7 +268,7 @@ if ($this->lists['attributes'] != '')
 							<input
 								style="cursor: pointer; float: right;" class="btn_attribute"
 								value="<?php echo JText::_('COM_REDSHOP_DELETE_ATTRIBUTE'); ?>"
-								onclick="if(ajax_delete_attribute(<?php echo $this->detail->product_id ?>,<?php echo $attribute_id; ?>,0)){deleteRow_attribute('<?php echo "attribute_table" . $attribute_id; ?>','attribute_table','property_table<?php echo $k; ?>',<?php echo $attibute_data['attribute_id']; ?>);}"
+								onclick="if(ajax_delete_attribute(<?php echo $productId; ?>,<?php echo $attribute_id; ?>,<?php echo $this->detail->attribute_set_id; ?>)){deleteRow_attribute('<?php echo "attribute_table" . $attribute_id; ?>','attribute_table','property_table<?php echo $k; ?>',<?php echo $attibute_data['attribute_id']; ?>);}"
 								type="button"/> <input type="hidden"
 							                           name="attribute[<?php echo $k; ?>][id]"
 							                           value="<?php echo $attibute_data['attribute_id']; ?>">
@@ -474,14 +479,14 @@ if ($this->lists['attributes'] != '')
 												</a> <a class="modal"
 											            rel="{handler: 'iframe', size: {x: 950, y: 500}}"
 											            title=""
-											            href="index.php?tmpl=component&option=com_redshop&amp;view=attributeprices&amp;section_id=<?php echo $property_id; ?>&amp;cid=<?php echo $this->detail->product_id; ?>&amp;section=property">
+											            href="index.php?tmpl=component&option=com_redshop&amp;view=attributeprices&amp;section_id=<?php echo $property_id; ?>&amp;cid=<?php echo $productId; ?>&amp;section=property">
 													<img
 														src="<?php echo REDSHOP_ADMIN_IMAGES_ABSPATH; ?>discountmanagmenet16.png"
 														align="absmiddle" alt="media">
 												</a> <a class="modal"
 											            rel="{handler: 'iframe', size: {x: 950, y: 500}}"
 											            title=""
-											            href="index.php?tmpl=component&option=com_redshop&amp;view=product_detail&amp;section_id=<?php echo $property_id; ?>&amp;cid=<?php echo $this->detail->product_id; ?>&amp;layout=productstockroom&amp;property=property">
+											            href="index.php?tmpl=component&option=com_redshop&amp;view=product_detail&amp;section_id=<?php echo $property_id; ?>&amp;cid=<?php echo $productId; ?>&amp;layout=productstockroom&amp;property=property">
 													<img
 														src="<?php echo REDSHOP_ADMIN_IMAGES_ABSPATH; ?>stockroom16.png"
 														align="absmiddle" alt="media">
@@ -804,14 +809,14 @@ if ($this->lists['attributes'] != '')
 															class="modal"
 															rel="{handler: 'iframe', size: {x: 950, y: 500}}"
 															title=""
-															href="index.php?tmpl=component&option=com_redshop&amp;view=attributeprices&amp;section_id=<?php echo $subvalue->subattribute_color_id; ?>&amp;cid=<?php echo $this->detail->product_id; ?>&amp;section=subproperty">
+															href="index.php?tmpl=component&option=com_redshop&amp;view=attributeprices&amp;section_id=<?php echo $subvalue->subattribute_color_id; ?>&amp;cid=<?php echo $productId; ?>&amp;section=subproperty">
 															<img
 																src="<?php echo REDSHOP_ADMIN_IMAGES_ABSPATH; ?>discountmanagmenet16.png"
 																align="absmiddle" alt="media">
 														</a> <a class="modal"
 															    rel="{handler: 'iframe', size: {x: 950, y: 500}}"
 															    title=""
-															    href="index.php?tmpl=component&option=com_redshop&amp;view=product_detail&amp;section_id=<?php echo $subvalue->subattribute_color_id; ?>&amp;cid=<?php echo $this->detail->product_id; ?>&amp;layout=productstockroom&amp;property=subproperty">
+															    href="index.php?tmpl=component&option=com_redshop&amp;view=product_detail&amp;section_id=<?php echo $subvalue->subattribute_color_id; ?>&amp;cid=<?php echo $productId; ?>&amp;layout=productstockroom&amp;property=subproperty">
 															<img
 																src="<?php echo REDSHOP_ADMIN_IMAGES_ABSPATH; ?>stockroom16.png"
 																align="absmiddle" alt="media">
@@ -1029,7 +1034,7 @@ else
 </table>
 <input type="hidden" name="cid[]" value="<?php echo $this->detail->attribute_set_id; ?>"/>
 <input type="hidden" name="attribute_set_id" value="<?php echo $this->detail->attribute_set_id; ?>"/>
-<input type="hidden" name="product_id" value="<?php echo $this->detail->product_id; ?>"/>
+<input type="hidden" name="product_id" value="<?php echo $productId; ?>"/>
 <input type="hidden" name="task" value=""/>
 <input type="hidden" name="view" value="attribute_set_detail"/>
 </form>

@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-require_once JPATH_SITE . '/components/com_redshop/helpers/user.php';
+JLoader::load('RedshopHelperUser');
 
 class Redconfiguration
 {
@@ -181,7 +181,7 @@ class Redconfiguration
 			if (count($org) > 0)
 			{
 				/* Set last param as false to ensure the last line is empty and not containing '?>' at the end of the file*/
-				$this->defineCFGVars($org, false, false);
+				$this->defineCFGVars($org, false);
 				$this->updateCFGFile();
 			}
 		}
@@ -200,6 +200,13 @@ class Redconfiguration
 		return true;
 	}
 
+	/**
+	 * Write Definition File
+	 *
+	 * @param   array  $def  Array of configuration Definition
+	 *
+	 * @return  boolean  True when file successfully saved.
+	 */
 	public function WriteDefFile($def = array())
 	{
 		if (count($def) <= 0)
@@ -235,15 +242,17 @@ class Redconfiguration
 		}
 	}
 
-	public function defineCFGVars($data, $bypass = false, $openPhpTag = true)
+	/**
+	 * Define Configuration file. We are preparing define text on this function.
+	 *
+	 * @param   array    $data    Configuration Data associative array
+	 * @param   boolean  $bypass  Don't write anything and simply bypass if it is set to true.
+	 *
+	 * @return  void
+	 */
+	public function defineCFGVars($data, $bypass = false)
 	{
 		$this->_cfgdata = "";
-
-		/*To ensure the last line is empty and not containing '?>' at the end of the file*/
-		if ($openPhpTag)
-		{
-			$this->_cfgdata .= "<?php\n\n";
-		}
 
 		foreach ($data as $key => $value)
 		{
@@ -253,16 +262,25 @@ class Redconfiguration
 			}
 		}
 
-		$this->_cfgdata .= '';
-
 		return;
 	}
 
+	/**
+	 * Write prepared data into a file.
+	 *
+	 * @return  boolean  True when file successfully saved.
+	 */
 	public function writeCFGFile()
 	{
 		if ($fp = fopen($this->_configpath, "w"))
 		{
-			fputs($fp, $this->_cfgdata, strlen($this->_cfgdata));
+			// Cleaning <?php and ?\> tag from the code
+			$this->_cfgdata = str_replace(array('<?php', '?>', "\n"), '', $this->_cfgdata);
+
+			// Now, adding <?php tag at the top of the file.
+			$this->_cfgdata = "<?php \n" . $this->_cfgdata;
+
+			fwrite($fp, $this->_cfgdata, strlen($this->_cfgdata));
 			fclose($fp);
 
 			return true;
@@ -273,6 +291,12 @@ class Redconfiguration
 		}
 	}
 
+	/**
+	 * Update Configuration file with new parameter.
+	 * This function is specially use during upgrading redSHOP and need to put new configuration params.
+	 *
+	 * @return  boolean  True when file successfully updated.
+	 */
 	public function updateCFGFile()
 	{
 		if ($fp = fopen($this->_configpath, "a"))
@@ -289,6 +313,11 @@ class Redconfiguration
 		}
 	}
 
+	/**
+	 * Backup Configuration file before running wizard.
+	 *
+	 * @return  boolean  True on successfully backed up.
+	 */
 	public function backupCFGFile()
 	{
 		if ($this->isCFGFile())
@@ -310,6 +339,11 @@ class Redconfiguration
 		return true;
 	}
 
+	/**
+	 * Try to find if temp configuration file is available. This function is for wizard.
+	 *
+	 * @return  boolean  True when file is exist.
+	 */
 	public function isTmpFile()
 	{
 		if (file_exists($this->_config_tmp_path))
@@ -329,6 +363,11 @@ class Redconfiguration
 		return false;
 	}
 
+	/**
+	 * Check if temp file is writeable or not.
+	 *
+	 * @return  boolean  True if file is writeable.
+	 */
 	public function isTMPFileWritable()
 	{
 		if (!is_writable($this->_config_tmp_path))
@@ -341,6 +380,11 @@ class Redconfiguration
 		return true;
 	}
 
+	/**
+	 * Check if definition file is available or not.
+	 *
+	 * @return  boolean  True if file is exist.
+	 */
 	public function isDEFFile()
 	{
 		if (file_exists($this->_config_def_path))
@@ -360,6 +404,11 @@ class Redconfiguration
 		return false;
 	}
 
+	/**
+	 * Check for def file is writeable or not.
+	 *
+	 * @return  boolean  True if file is writeable.
+	 */
 	public function isDEFFileWritable()
 	{
 		if (!is_writable($this->_config_def_path))
@@ -372,6 +421,11 @@ class Redconfiguration
 		return true;
 	}
 
+	/**
+	 * Restore configuration file from temp file.
+	 *
+	 * @return  boolean  True if file is restored.
+	 */
 	public function storeFromTMPFile()
 	{
 		global $temparray;
@@ -393,6 +447,14 @@ class Redconfiguration
 		return true;
 	}
 
+	/**
+	 * This function will define relation between keys and define variables.
+	 * This needs to be updated when you want new variable in configuration.
+	 *
+	 * @param   array  $d  Associative array of values. Typically a from $_POST.
+	 *
+	 * @return  array      Associative array of configuration variables which are ready to write.
+	 */
 	public function redshopCFGData($d)
 	{
 		$d['booking_order_status'] = (isset($d['booking_order_status'])) ? $d['booking_order_status'] : 0;
@@ -707,6 +769,7 @@ class Redconfiguration
 						"WEBPACK_ENABLE_SMS"                           => $d ["webpack_enable_sms"],
 						"WEBPACK_ENABLE_EMAIL_TRACK"                   => $d ["webpack_enable_email_track"],
 
+						"STATISTICS_ENABLE"                            => $d ["statistics_enable"],
 						"NEWSLETTER_ENABLE"                            => $d ["newsletter_enable"],
 						"NEWSLETTER_CONFIRMATION"                      => $d ["newsletter_confirmation"],
 						"WATERMARK_IMAGE"                              => $d ["watermark_image"],
@@ -766,6 +829,7 @@ class Redconfiguration
 						"ACCESSORY_AS_PRODUCT_IN_CART_ENABLE"          => $d ["accessory_as_product_in_cart_enable"],
 						"POSTDK_CUSTOMER_NO"                           => $d ["postdk_customer_no"],
 						"POSTDK_CUSTOMER_PASSWORD"                     => $d ["postdk_customer_password"],
+						"POSTDK_DEVELOPER_ID"						   => $d ["postdk_developer_id"],
 						"POSTDK_INTEGRATION"                           => $d ["postdk_integration"],
 						"POSTDANMARK_ADDRESS"                          => $d ["postdk_address"],
 						"POSTDANMARK_POSTALCODE"                       => $d ["postdk_postalcode"],
@@ -1311,6 +1375,11 @@ class Redconfiguration
 
 	public function getStateCode($conid, $tax_code)
 	{
+		if (empty($tax_code))
+		{
+			return null;
+		}
+
 		$db = JFactory::getDbo();
 		$query = 'SELECT  state_3_code , show_state FROM ' . $this->_table_prefix . 'state '
 		. 'WHERE state_2_code LIKE ' . $db->quote($tax_code)
@@ -1336,7 +1405,7 @@ class Redconfiguration
 
 		if (empty($this->_country_list))
 		{
-			require_once JPATH_SITE . '/components/com_redshop/helpers/helper.php';
+			JLoader::load('RedshopHelperHelper');
 			$redhelper = new redhelper;
 
 			$countries = array();

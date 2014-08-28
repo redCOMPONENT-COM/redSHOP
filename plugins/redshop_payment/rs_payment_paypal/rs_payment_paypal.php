@@ -78,7 +78,7 @@ class plgRedshop_paymentrs_payment_paypal extends JPlugin
 
 		$status = $request['payment_status'];
 		$tid = $request['txn_id'];
-		$uri =& JURI::getInstance();
+		$uri = JURI::getInstance();
 		$url = JURI::base();
 		$uid = $user->id;
 		$db = JFactory::getDbo();

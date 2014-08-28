@@ -29,10 +29,11 @@ $db             = JFactory::getDbo();
 
 // Getting the configuration
 require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/configuration.php';
-$Redconfiguration = new Redconfiguration();
+JLoader::import('loadhelpers', JPATH_SITE . '/components/com_redshop');
+JLoader::load('RedshopHelperAdminConfiguration');
+$Redconfiguration = new Redconfiguration;
 $Redconfiguration->defineDynamicVars();
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/category.php';
+JLoader::load('RedshopHelperAdminCategory');
 
 $catfld = '';
 if ($adjcat == 0)
@@ -46,7 +47,7 @@ if ($adjcat == 0)
 
 		if ($cids != 0)
 		{
-			$product_category = new product_category();
+			$product_category = new product_category;
 			$categories       = $product_category->getCategoryListArray('', $cids);
 			$catid_arr        = array();
 			for ($i = 0; $i < count($categories); $i++)
@@ -66,7 +67,7 @@ if ($adjcat == 0)
 		else
 		{
 			$cids             = 0;
-			$product_category = new product_category();
+			$product_category = new product_category;
 			$categories       = $product_category->getCategoryListArray('', $cids);
 			$catid_arr        = array();
 			for ($i = 0; $i < count($categories); $i++)
@@ -90,7 +91,7 @@ else
 	$cid = JRequest::getVar('cid');
 	if ($cid != 0)
 	{
-		$product_category = new product_category();
+		$product_category = new product_category;
 		$categories       = $product_category->getCategoryListArray('', $cid);
 		$catid_arr        = array();
 		for ($i = 0; $i < count($categories); $i++)
@@ -144,4 +145,4 @@ $sql = "SELECT DISTINCT(p.product_id), p.*, cx.category_id FROM #__redshop_produ
 $db->setQuery($sql);
 $splprdlist = $db->loadObjectList();
 
-require(JModuleHelper::getLayoutPath('mod_redproducttab'));    ?>
+require JModuleHelper::getLayoutPath('mod_redproducttab');    ?>

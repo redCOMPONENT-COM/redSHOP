@@ -11,10 +11,10 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 
-require_once JPATH_COMPONENT_SITE . '/helpers/currency.php';
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/extra_field.php';
+JLoader::load('RedshopHelperCurrency');
+JLoader::load('RedshopHelperAdminExtra_field');
 
-class configurationController extends JController
+class RedshopControllerConfiguration extends JController
 {
 	public function __construct($default = array())
 	{

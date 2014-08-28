@@ -9,11 +9,11 @@
 
 defined('_JEXEC') or die;
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/mail.php';
+JLoader::load('RedshopHelperAdminMail');
 
 jimport('joomla.application.component.controller');
 
-class question_detailController extends JController
+class RedshopControllerQuestion_detail extends JController
 {
 	public function __construct($default = array())
 	{

@@ -2,7 +2,7 @@
 header('Content-Type: text/javascript;');
 if (file_exists(dirname(__FILE__) . '/../../configuration.php'))
 {
-	require(dirname(__FILE__) . '/../../configuration.php');
+	require dirname(__FILE__) . '/../../configuration.php';
 }
 elseif (file_exists(dirname(__FILE__) . '/../../../configuration.php'))
 {
