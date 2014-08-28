@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 
-class integrationController extends JController
+class RedshopControllerIntegration extends JController
 {
 	public function gbasedownload()
 	{

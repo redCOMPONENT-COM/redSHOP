@@ -8,7 +8,8 @@
  */
 
 defined('_JEXEC') or die;
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/mail.php';
+
+JLoader::load('RedshopHelperAdminMail');
 JLoader::import('joomla.application.component.controller');
 
 /**
@@ -18,7 +19,7 @@ JLoader::import('joomla.application.component.controller');
  * @subpackage  Controller
  * @since       1.0
  */
-class PasswordController extends JController
+class RedshopControllerPassword extends JController
 {
 	/**
 	 *  Metod to reset Password
