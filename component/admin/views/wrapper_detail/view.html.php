@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
-class wrapper_detailVIEWwrapper_detail extends JView
+class RedshopViewWrapper_detail extends JView
 {
 	/**
 	 * The request url.
@@ -30,7 +30,7 @@ class wrapper_detailVIEWwrapper_detail extends JView
 		$detail = $this->get('data');
 		$model = $this->getModel('wrapper_detail');
 		$option = JRequest::getVar('option');
-		require_once JPATH_COMPONENT . '/helpers/extra_field.php';
+		JLoader::load('RedshopHelperAdminExtra_field');
 		$document = JFactory::getDocument();
 		$document->addScript('components/' . $option . '/assets/js/select_sort.js');
 		$document->addStyleSheet('components/' . $option . '/assets/css/search.css');

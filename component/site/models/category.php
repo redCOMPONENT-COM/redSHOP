@@ -18,15 +18,13 @@ JLoader::import('joomla.application.component.model');
  * @subpackage  Model
  * @since       1.0
  */
-class CategoryModelCategory extends JModel
+class RedshopModelCategory extends JModel
 {
 	public $_id = null;
 
 	public $_data = null;
 
 	public $_product = null;
-
-	public $_table_prefix = null;
 
 	public $_template = null;
 
@@ -58,7 +56,6 @@ class CategoryModelCategory extends JModel
 		$app = JFactory::getApplication();
 		parent::__construct();
 
-		$this->_table_prefix = '#__redshop_';
 		$this->producthelper = new producthelper;
 
 		$params = $app->getParams('com_redshop');
@@ -72,6 +69,11 @@ class CategoryModelCategory extends JModel
 			{
 				$Id = (int) $params->get('cid');
 			}
+		}
+
+		if (empty($this->_context))
+		{
+			$this->_context = strtolower('com_redshop.' . $this->getName() . '.' . $Id);
 		}
 
 		$category_template = $app->getUserStateFromRequest($this->_context . 'category_template', 'category_template', 0);
@@ -89,27 +91,27 @@ class CategoryModelCategory extends JModel
 
 	public function _buildQuery()
 	{
-		$app = JFactory::getApplication();
+		$app             = JFactory::getApplication();
 		$menu            = $app->getMenu();
 		$item            = $menu->getActive();
 		$manufacturer_id = (isset($item)) ? intval($item->params->get('manufacturer_id')) : 0;
-		$manufacturer_id = JRequest::getInt('manufacturer_id', $manufacturer_id, '', 'int');
+		$manufacturer_id = $app->input->getInt('manufacturer_id', $manufacturer_id, '', 'int');
 
-		$layout  = JRequest::getVar('layout');
+		$layout  = $app->input->getCmd('layout');
 		$orderby = ($layout != "categoryproduct") ? $this->_buildContentOrderBy() : "";
 		$groupby = $and = $left = "";
 
 		if ($manufacturer_id)
 		{
-			$left    = "LEFT JOIN " . $this->_table_prefix . "product_category_xref AS pcx ON pcx.category_id = c.category_id "
-				. "LEFT JOIN " . $this->_table_prefix . "product AS p ON p.product_id = pcx.product_id "
-				. "LEFT JOIN " . $this->_table_prefix . "manufacturer AS m ON m.manufacturer_id = p.manufacturer_id ";
+			$left    = "LEFT JOIN #__redshop_product_category_xref AS pcx ON pcx.category_id = c.category_id "
+				. "LEFT JOIN #__redshop_product AS p ON p.product_id = pcx.product_id "
+				. "LEFT JOIN #__redshop_manufacturer AS m ON m.manufacturer_id = p.manufacturer_id ";
 			$and     = "AND m.manufacturer_id = " . (int) $manufacturer_id . " ";
 			$groupby = "GROUP BY c.category_id ";
 		}
 
-		$query = "SELECT c.* FROM " . $this->_table_prefix . "category AS c "
-			. "LEFT JOIN " . $this->_table_prefix . "category_xref AS cx ON cx.category_child_id=c.category_id "
+		$query = "SELECT c.* FROM #__redshop_category AS c "
+			. "LEFT JOIN #__redshop_category_xref AS cx ON cx.category_child_id=c.category_id "
 			. $left
 			. "WHERE c.published = 1 "
 			. "AND cx.category_parent_id = " . (int) $this->_id . " "
@@ -199,10 +201,10 @@ class CategoryModelCategory extends JModel
 		// $order_by = $this->_buildProductOrderBy();
 		$order_by = (isset($item)) ? $item->params->get('order_by', 'p.product_name ASC') : 'p.product_name ASC';
 
-		$query = "SELECT * FROM " . $this->_table_prefix . "product AS p "
-			. "LEFT JOIN " . $this->_table_prefix . "product_category_xref AS pc ON pc.product_id=p.product_id "
-			. "LEFT JOIN " . $this->_table_prefix . "category AS c ON c.category_id=pc.category_id "
-			. "LEFT JOIN " . $this->_table_prefix . "manufacturer AS m ON m.manufacturer_id=p.manufacturer_id "
+		$query = "SELECT * FROM #__redshop_product AS p "
+			. "LEFT JOIN #__redshop_product_category_xref AS pc ON pc.product_id=p.product_id "
+			. "LEFT JOIN #__redshop_category AS c ON c.category_id=pc.category_id "
+			. "LEFT JOIN #__redshop_manufacturer AS m ON m.manufacturer_id=p.manufacturer_id "
 			. "WHERE p.published = 1 AND p.expired = 0 "
 			. "AND pc.category_id = " . (int) $category_id . " "
 			. "AND p.product_parent_id = 0  order by "
@@ -278,10 +280,10 @@ class CategoryModelCategory extends JModel
 
 		$query = JFactory::getDbo()->getQuery(true);
 		$query->select("*");
-		$query->from($this->_table_prefix . "product AS p ");
-		$query->join("LEFT", $this->_table_prefix . "product_category_xref AS pc ON pc.product_id=p.product_id ");
-		$query->join("LEFT", $this->_table_prefix . "category AS c ON c.category_id=pc.category_id ");
-		$query->join("LEFT", $this->_table_prefix . "manufacturer AS m ON m.manufacturer_id=p.manufacturer_id ");
+		$query->from("#__redshop_product AS p ");
+		$query->join("LEFT", "#__redshop_product_category_xref AS pc ON pc.product_id=p.product_id ");
+		$query->join("LEFT", "#__redshop_category AS c ON c.category_id=pc.category_id ");
+		$query->join("LEFT", "#__redshop_manufacturer AS m ON m.manufacturer_id=p.manufacturer_id ");
 		$query->where("p.published = 1 AND p.expired = 0");
 		$query->where("pc.category_id = " . (int) $this->_id);
 		$query->where("p.published = 1 AND p.expired = 0");
@@ -619,7 +621,7 @@ class CategoryModelCategory extends JModel
 			$and = " AND m.manufacturer_id = " . (int) $mid . " ";
 		}
 
-		$query = "SELECT DISTINCT(m.manufacturer_id ),m.* FROM " . $this->_table_prefix . "manufacturer AS m "
+		$query = "SELECT DISTINCT(m.manufacturer_id ),m.* FROM #__redshop_manufacturer AS m "
 			. "LEFT JOIN #__redshop_product AS p ON m.manufacturer_id  = p.manufacturer_id ";
 
 		if ($cid != 0)
@@ -672,7 +674,7 @@ class CategoryModelCategory extends JModel
 	public function _buildfletterQuery($letter, $fieldid)
 	{
 		$db = JFactory::getDbo();
-		$query = "SELECT p.*, fd.* FROM " . $this->_table_prefix . "product AS p ";
+		$query = "SELECT p.*, fd.* FROM #__redshop_product AS p ";
 		$query .= " LEFT JOIN #__redshop_fields_data AS fd ON fd.itemid = p.product_id";
 		$query .= " WHERE  fd.data_txt LIKE " . $db->quote($letter . '%') . " AND fd.fieldid = "
 			. (int) $fieldid . "  AND  fd.section=1 AND p.published =1 ORDER BY product_name ";
