@@ -8282,7 +8282,7 @@ class producthelper
 			->from($db->qn('#__redshop_product_rating', 'pr'))
 			->where($db->qn('pr.product_id') . ' = ' . (int) $product_id)
 			->where($db->qn('pr.published') . ' = 1')
-			->where($db->qn('pr.email') . ' != ""')
+			->where($db->qn('pr.email') . ' != ' . $db-->q(''))
 			->order($db->qn('pr.favoured') . ' DESC');
 
 		$query->select('ui.firstname,ui.lastname')
