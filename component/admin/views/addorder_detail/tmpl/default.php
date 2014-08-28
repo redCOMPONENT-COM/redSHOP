@@ -11,10 +11,10 @@ JHTML::_('behavior.tooltip');
 JHTML::_('behavior.modal');
 JHTML::_('behavior.calendar');
 
-require_once JPATH_COMPONENT . '/helpers/extra_field.php';
-require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
+JLoader::load('RedshopHelperAdminExtra_field');
+JLoader::load('RedshopHelperProduct');
 $producthelper = new producthelper();
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php';
+JLoader::load('RedshopHelperAdminOrder');
 $order_functions = new order_functions();
 $redconfig = new Redconfiguration();
 

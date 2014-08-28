@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 JLoader::import('joomla.application.component.model');
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php';
+JLoader::load('RedshopHelperAdminOrder');
 
 /**
  * Class split_paymentModelsplit_payment
@@ -20,7 +20,7 @@ require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php';
  * @subpackage  Model
  * @since       1.0
  */
-class split_paymentModelsplit_payment extends JModel
+class RedshopModelSplit_payment extends JModel
 {
 	public $_id = null;
 
