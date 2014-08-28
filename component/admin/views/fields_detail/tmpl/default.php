@@ -18,10 +18,6 @@ $url = $uri->root();
 
 <script language="javascript" type="text/javascript">
 	Joomla.submitbutton = function (pressbutton) {
-		submitbutton(pressbutton);
-	}
-
-	submitbutton = function (pressbutton) {
 
 		var form = document.adminForm;
 		var field_type = document.getElementById('field_type').value;

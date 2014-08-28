@@ -13,7 +13,7 @@ JHTML::_('behavior.tooltip');
 JHTMLBehavior::modal();
 
 // Get product helper
-require_once JPATH_ROOT . '/components/com_redshop/helpers/product.php';
+JLoader::load('RedshopHelperProduct');
 $producthelper = new producthelper;
 $configobj     = new Redconfiguration;
 $redTemplate   = new Redtemplate;

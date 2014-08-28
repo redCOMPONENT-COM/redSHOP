@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
-class stockroomModelstockroom extends JModel
+class RedshopModelStockroom extends JModel
 {
 	public $_data = null;
 

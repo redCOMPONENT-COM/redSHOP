@@ -11,9 +11,9 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/mail.php';
+JLoader::load('RedshopHelperAdminMail');
 
-class answer_detailModelanswer_detail extends JModel
+class RedshopModelAnswer_detail extends JModel
 {
 	public $_id = null;
 
