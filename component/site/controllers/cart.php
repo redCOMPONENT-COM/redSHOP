@@ -11,8 +11,8 @@ defined('_JEXEC') or die;
 
 JLoader::import('joomla.application.component.controller');
 
-include_once JPATH_COMPONENT . '/helpers/helper.php';
-include_once JPATH_COMPONENT . '/helpers/cart.php';
+JLoader::load('RedshopHelperHelper');
+JLoader::load('RedshopHelperCart');
 
 /**
  * Cart Controller.
@@ -516,7 +516,7 @@ class RedshopControllerCart extends JController
 	 */
 	public function getShippingrate()
 	{
-		include_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/shipping.php';
+		JLoader::load('RedshopHelperAdminShipping');
 		$shipping = new shipping;
 		echo $shipping->getShippingrate_calc();
 		exit;

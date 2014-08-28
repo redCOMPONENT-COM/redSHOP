@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 JLoader::import('joomla.application.component.view');
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/category.php';
+JLoader::load('RedshopHelperAdminCategory');
 
 class RedshopViewSend_friend extends JView
 {
