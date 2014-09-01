@@ -8,7 +8,7 @@
  */
 defined('_JEXEC') or die;
 
-require_once JPATH_ROOT . '/administrator/components/com_redshop/helpers/images.php';
+JLoader::load('RedshopHelperAdminImages');
 
 JHTML::_('behavior.tooltip');
 $editor = JFactory::getEditor();

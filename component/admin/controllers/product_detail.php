@@ -12,8 +12,8 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.controller');
 jimport('joomla.filesystem.file');
 
-require_once JPATH_COMPONENT . '/helpers/thumbnail.php';
-require_once JPATH_COMPONENT . '/helpers/product.php';
+JLoader::load('RedshopHelperAdminThumbnail');
+JLoader::load('RedshopHelperAdminProduct');
 
 /**
  * Product_Detail Controller.
@@ -138,7 +138,7 @@ class RedshopControllerProduct_Detail extends JController
 			$stockroom_id = $this->input->getInt('stockroom_id', null);
 		}
 
-		require_once JPATH_COMPONENT . '/helpers/extra_field.php';
+		JLoader::load('RedshopHelperAdminExtra_field');
 
 		$model = $this->getModel('product_detail');
 
