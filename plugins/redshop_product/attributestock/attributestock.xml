@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="2.5" type="plugin" group="redshop_product" method="upgrade">
+    <name>Check Attribute Stock Status</name>
+    <author>redCOMPONENT.com</author>
+    <version>1.0</version>
+    <creationDate>September 2014</creationDate>
+    <copyright>redCOMPONENT.com</copyright>
+    <license>GNU/GPL</license>
+    <authorEmail>email@redcomponent.com</authorEmail>
+    <authorUrl>www.redweb.dk</authorUrl>
+    <description>Disable out of stock attributes from select list</description>
+    <files>
+        <filename plugin="attributestock">attributestock.php</filename>
+    </files>
+</extension>
