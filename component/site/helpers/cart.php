@@ -3737,7 +3737,7 @@ class rsCarthelper
 			// Filter payment gateways array for shopperGroups
 			$paymentmethod = array_filter(
 				$paymentmethod,
-				function ($paymentMethod) use ($flag)
+				function ($paymentMethod) use ($shopperGroupId)
 				{
 					$paymentFilePath = JPATH_SITE
 									. '/plugins/redshop_payment/'
