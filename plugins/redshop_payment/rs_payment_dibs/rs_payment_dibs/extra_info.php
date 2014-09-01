@@ -12,7 +12,8 @@ $url = $uri->root();
 $user = JFactory::getUser();
 $db = JFactory::getDbo();
 
-require_once JPATH_BASE . '/administrator/components/com_redshop/helpers/order.php';
+JLoader::import('loadhelpers', JPATH_SITE . '/components/com_redshop');
+JLoader::load('RedshopHelperAdminOrder');
 $request = JRequest::get('REQUEST');
 $task = $request['task'];
 $Itemid = $_REQUEST['Itemid'];

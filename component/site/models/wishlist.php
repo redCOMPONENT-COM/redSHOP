@@ -11,9 +11,9 @@ defined('_JEXEC') or die ('Restricted access');
 
 JLoader::import('joomla.application.component.model');
 
-require_once JPATH_COMPONENT . '/helpers/product.php';
-require_once JPATH_COMPONENT . '/helpers/extra_field.php';
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/shipping.php';
+JLoader::load('RedshopHelperProduct');
+JLoader::load('RedshopHelperExtra_field');
+JLoader::load('RedshopHelperAdminShipping');
 
 /**
  * Class wishlistModelwishlist

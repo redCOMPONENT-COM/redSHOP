@@ -11,16 +11,16 @@ defined('_JEXEC') or die('Restricted access');
 
 $option = JRequest::getCmd('option');
 
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/shipping.php';
-
 if ($option != 'com_redshop')
 {
 	require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
-	require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/configuration.php';
+	JLoader::import('loadhelpers', JPATH_SITE . '/components/com_redshop');
+	JLoader::load('RedshopHelperAdminConfiguration');
 	$Redconfiguration = new Redconfiguration;
 	$Redconfiguration->defineDynamicVars();
 }
 
+JLoader::load('RedshopHelperAdminShipping');
 $shippinghelper = new shipping;
 $shipping_rate_id = $params->get("shipping_rate_id");
 $text = $shippinghelper->getfreeshippingRate($shipping_rate_id);

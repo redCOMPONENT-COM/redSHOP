@@ -16,7 +16,7 @@ defined('_JEXEC') or die;
  * @subpackage  Module
  * @since       11.1
  */
-abstract class JModuleHelper extends JModuleHelperLibraryDefault
+abstract class JModuleHelper extends LIB_JModuleHelperDefault
 {
 	/**
 	 * An array to hold included paths
