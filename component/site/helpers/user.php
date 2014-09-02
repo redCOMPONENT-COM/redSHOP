@@ -26,9 +26,7 @@ class rsUserhelper
 
 	public $_db = null;
 
-	public $_shopper_group_id = null;
-
-	public $_shopper_group_data = null;
+	protected static $shopperGroupData = array();
 
 	public function __construct()
 	{
@@ -134,24 +132,34 @@ class rsUserhelper
 		return $list;
 	}
 
-	public function getShopperGroupList($shopper_group_id = 0)
+	/**
+	 * Get Shopper Group List
+	 *
+	 * @param   int  $shopperGroupId  Shopper Group Id
+	 *
+	 * @return mixed
+	 */
+	public function getShopperGroupList($shopperGroupId = 0)
 	{
-		$and = '';
-
-		if ($shopper_group_id != 0)
+		if (!array_key_exists($shopperGroupId, self::$shopperGroupData))
 		{
-			$and .= 'AND shopper_group_id = ' . (int) $shopper_group_id . ' ';
+			$db = JFactory::getDbo();
+			$query = $db->getQuery(true)
+				->select(array('sh.*', $db->qn('sh.shopper_group_id', 'value'), $db->qn('sh.shopper_group_name', 'text')))
+				->from($db->qn('#__redshop_shopper_group', 'sh'))
+				->where('sh.published=1');
+
+			if ($shopperGroupId)
+			{
+				$query->where('sh.shopper_group_id = ' . (int) $shopperGroupId);
+			}
+
+			$db->setQuery($query);
+
+			self::$shopperGroupData[$shopperGroupId] = $db->loadObjectList();
 		}
 
-		$query = 'SELECT sh.*, shopper_group_id AS value, shopper_group_name AS text FROM ' . $this->_table_prefix . 'shopper_group AS sh '
-			. 'WHERE published=1 '
-			. $and;
-		$this->_db->setQuery($query);
-
-		$list                    = $this->_shopper_group_data = $this->_db->loadObjectList();
-		$this->_shopper_group_id = $shopper_group_id;
-
-		return $list;
+		return self::$shopperGroupData[$shopperGroupId];
 	}
 
 	public function createUserSession($user_id)

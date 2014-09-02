@@ -108,6 +108,7 @@ class producthelper
 		if (!array_key_exists($productId . '.' . $userId, self::$products))
 		{
 			$userArr  = $this->_session->get('rs_user');
+			$andJoin = '';
 
 			if (empty($userArr))
 			{
@@ -115,6 +116,12 @@ class producthelper
 			}
 
 			$shopperGroupId = $userArr['rs_user_shopperGroup'];
+
+			if (!$userId)
+			{
+				$andJoin = ' AND pp.shopper_group_id = ' . (int) $shopperGroupId;
+			}
+
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true)
 				->select(
@@ -130,7 +137,7 @@ class producthelper
 				->leftJoin(
 					$db->qn('#__redshop_product_price', 'pp')
 					. ' ON p.product_id = pp.product_id AND ((pp.price_quantity_start <= 1 AND pp.price_quantity_end >= 1) OR (pp.price_quantity_start = 0 AND pp.price_quantity_end = 0))'
-					. (!$userId ? 'pp.shopper_group_id = ' . (int) $shopperGroupId : '')
+					. $andJoin
 				)
 				->leftJoin($db->qn('#__redshop_product_category_xref', 'pcx') . ' ON pcx.product_id = p.product_id')
 				->leftJoin(
@@ -2774,67 +2781,113 @@ class producthelper
 		return null;
 	}
 
-	public function getMenuDetail($link = "")
+	/**
+	 * Get menu detail
+	 *
+	 * @param   string  $link  Link
+	 *
+	 * @return mixed|null
+	 */
+	public function getMenuDetail($link = '')
 	{
 		// Do not allow queries that load all the items
-		if ($link != "")
+		if ($link != '')
 		{
-			$db = JFactory::getDbo();
-
-			$query = "SELECT * FROM #__menu "
-				. "WHERE published=1 "
-				. " AND link = " . $db->quote($link) . " ";
-			$db->setQuery($query);
-
-			return $this->_db->loadObject();
+			return JFactory::getApplication()->getMenu()->getItems('link', $link, true);
 		}
 
 		return null;
 	}
 
-	public function getMenuInformation($Itemid = 0, $sectionid = 0, $sectioname = "", $menuview = "", $isRedshop = true)
+	/**
+	 * Get Menu Information
+	 *
+	 * @param   int     $Itemid       Item id
+	 * @param   int     $sectionId    Section id
+	 * @param   string  $sectionName  Section name
+	 * @param   string  $menuView     Menu view
+	 * @param   bool    $isRedshop    Is redshop
+	 *
+	 * @return mixed|null
+	 */
+	public function getMenuInformation($Itemid = 0, $sectionId = 0, $sectionName = '', $menuView = '', $isRedshop = true)
 	{
-		$and = "";
+		$menu = JFactory::getApplication()->getMenu();
+		$values = array();
 
-		if ($menuview != "")
+		if ($menuView != "")
 		{
-			$and .= " AND link LIKE '%view=$menuview%' ";
-		}
+			if ($items = explode('&', $menuView))
+			{
+				$values['view'] = $items[0];
+				unset($items[0]);
 
-		if ($sectionid != 0)
-		{
-			$sid = "=" . (int) $sectionid . "\n";
-			$not = "";
-		}
-		else
-		{
-			$sid = "";
-			$not = "NOT";
-		}
-
-		if ($sectioname != "")
-		{
-			$and .= " AND params " . $not . " LIKE '%$sectioname" . "$sid%' ";
+				if (count($items) > 0)
+				{
+					foreach ($items as $item)
+					{
+						$value = explode('=', $item);
+						$values[$value[0]] = $value[1];
+					}
+				}
+			}
 		}
 
 		if ($Itemid != 0)
 		{
-			$and .= " AND id = " . (int) $Itemid . " ";
+			return $menu->getItem($Itemid);
 		}
 
 		if ($isRedshop)
 		{
-			$and .= " AND link LIKE '%com_redshop%' ";
+			$helper = new redhelper;
+			$menuItems = $helper->getRedshopMenuItems();
+		}
+		else
+		{
+			$menuItems = $menu->getMenu();
 		}
 
-		$query = "SELECT * FROM #__menu "
-			. "WHERE published=1 "
-			. $and
-			. " ORDER BY id ";
-		$this->_db->setQuery($query);
-		$res = $this->_db->loadObject();
+		foreach ($menuItems as $oneMenuItem)
+		{
+			$test = true;
 
-		return $res;
+			foreach ($values as $key => $value)
+			{
+				if ($oneMenuItem->query[$key] != $value)
+				{
+					$test = false;
+					break;
+				}
+			}
+
+			if ($sectionName != '' && $test)
+			{
+				if ($sectionId != 0)
+				{
+					if ($oneMenuItem->params->get($sectionName) != $sectionId)
+					{
+						$test = false;
+						break;
+					}
+				}
+				else
+				{
+					if ($oneMenuItem->params->get($sectionName, false) !== false)
+					{
+						$test = false;
+						break;
+					}
+				}
+			}
+
+			if ($test)
+			{
+				return $oneMenuItem;
+			}
+		}
+
+		return null;
 	}
 
 	public function getParentCategory($id = 0)
