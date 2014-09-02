@@ -19,10 +19,27 @@ class redhelper
 
 	public $_isredCRM = null;
 
+	protected static $redshopMenuItems;
+
 	public function __construct()
 	{
 		$this->_table_prefix = '#__redshop_';
 		$this->_db           = JFactory::getDbo();
+	}
+
+	/**
+	 * Get Redshop Menu Items
+	 *
+	 * @return array
+	 */
+	public function getRedshopMenuItems()
+	{
+		if (!is_array(self::$redshopMenuItems))
+		{
+			self::$redshopMenuItems = JFactory::getApplication()->getMenu()->getItems('component', 'com_redshop');
+		}
+
+		return self::$redshopMenuItems;
 	}
 
 	/**
@@ -121,83 +138,71 @@ class redhelper
 		return $res;
 	}
 
-	public function getItemid($product_id = '', $cat_id = 0)
+	/**
+	 * Get Item Id
+	 *
+	 * @param   int  $productId   Product Id
+	 * @param   int  $categoryId  Category Id
+	 *
+	 * @return int|mixed
+	 */
+	public function getItemid($productId = 0, $categoryId = 0)
 	{
-		$producthelper = new producthelper;
-		$catDetailmenu = false;
-
-		if ($cat_id)
+		if ($categoryId)
 		{
-			$sql = "SELECT id FROM #__menu "
-				. "WHERE published=1 "
-				. "AND `link` LIKE '%com_redshop%' "
-				. "AND `link` LIKE '%view=category%' "
-				. "AND ( link LIKE '%cid=" . (int) $cat_id . "' OR link LIKE '%cid=" . (int) $cat_id . "&%' ) "
-				. "ORDER BY 'ordering'";
-			$this->_db->setQuery($sql);
-
-			if ($Itemid = $this->_db->loadResult())
+			foreach ($this->getRedshopMenuItems() as $oneMenuItem)
 			{
-				$catDetailmenu = true;
-
-				return $Itemid;
+				if ($oneMenuItem->query['option'] == 'com_redshop' && $oneMenuItem->query['view'] == 'category' && $oneMenuItem->query['cid'] == $categoryId)
+				{
+					return $oneMenuItem->id;
+				}
 			}
 		}
 
-		$sql = "SELECT category_id 	FROM " . $this->_table_prefix . "product_category_xref cx WHERE product_id = '$product_id'";
-		$this->_db->setQuery($sql);
-		$cats = $this->_db->loadObjectList();
-
-		for ($i = 0; $i < count($cats); $i++)
+		if ($productId)
 		{
-			$cat = $cats[$i];
-			$sql = "SELECT id FROM #__menu "
-				. "WHERE published=1 "
-				. "AND `link` LIKE '%com_redshop%' "
-				. "AND `link` LIKE '%view=category%' "
-				. "AND ( link LIKE '%cid=" . (int) $cat->category_id . "' OR link LIKE '%cid=" . (int) $cat->category_id . "&%' ) "
-				. "ORDER BY 'ordering'";
-			$this->_db->setQuery($sql);
+			$db = JFactory::getDbo();
+			$query = $db->getQuery(true)
+				->select('category_id')
+				->from($db->qn('#__redshop_product_category_xref', 'cx'))
+				->where('product_id = ' . (int) $productId);
+			$db->setQuery($query);
 
-			if ($Itemid = $this->_db->loadResult())
+			if ($categories = $db->loadColumn())
 			{
-				return $Itemid;
+				foreach ($this->getRedshopMenuItems() as $oneMenuItem)
+				{
+					if ($oneMenuItem->query['option'] == 'com_redshop' && $oneMenuItem->query['view'] == 'category' && in_array($oneMenuItem->query['cid'], $categories))
+					{
+						return $oneMenuItem->id;
+					}
+				}
 			}
 		}
 
-		$option = JRequest::getVar('option');
+		$input = JFactory::getApplication()->input;
+		$option = $input->getCmd('option', '');
 
 		if ($option != 'com_redshop')
 		{
-			if (!$catDetailmenu)
+			foreach ($this->getRedshopMenuItems() as $oneMenuItem)
 			{
-				$sql = "SELECT id FROM #__menu "
-					. "WHERE published=1 "
-					. "AND `link` LIKE '%com_redshop%' "
-					. "AND `link` LIKE '%view=category%' "
-					. "ORDER BY 'ordering'";
-
-				$this->_db->setQuery($sql);
-
-				if ($Itemid = $this->_db->loadResult())
+				if ($oneMenuItem->query['option'] == 'com_redshop' && $oneMenuItem->query['view'] == 'category')
 				{
-					return $Itemid;
+					return $oneMenuItem->id;
 				}
 			}
 
-			$Itemidlist = $producthelper->getMenuInformation();
-
-			if (count($Itemidlist) == 1)
+			foreach ($this->getRedshopMenuItems() as $oneMenuItem)
 			{
-				$Itemid = $Itemidlist->id;
-
-				return $Itemid;
+				if ($oneMenuItem->query['option'] == 'com_redshop')
+				{
+					return $oneMenuItem->id;
+				}
 			}
 		}
 
-		$Itemid = intval(JRequest::getVar('Itemid'));
-
-		return $Itemid;
+		return $input->getInt('Itemid', 0);
 	}
 
 	public function getCategoryItemid($category_id = 0)
