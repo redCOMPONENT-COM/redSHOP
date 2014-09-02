@@ -123,29 +123,29 @@ class producthelper
 			}
 
 			$db = JFactory::getDbo();
-			$query = $db->getQuery(true)
-				->select(
+			$query = $db->getQuery(true);
+
+			// Select product
+			$query->select(array('p.*'))
+				->from($db->qn('#__redshop_product', 'p'))
+				->where($db->qn('p.product_id') . ' = ' . (int) $productId);
+
+			// Require condition
+			$query->group('p.product_id');
+
+			// Select price
+			$query->select(
 					array(
-						'p.*', 'pcx.category_id',
 						'pp.price_id', $db->qn('pp.product_price', 'price_product_price'),
 						$db->qn('pp.product_currency', 'price_product_currency'), $db->qn('pp.discount_price', 'price_discount_price'),
-						$db->qn('pp.discount_start_date', 'price_discount_start_date'), $db->qn('pp.discount_end_date', 'price_discount_end_date'),
-						'media.media_alternate_text', 'media.media_id'
+						$db->qn('pp.discount_start_date', 'price_discount_start_date'), $db->qn('pp.discount_end_date', 'price_discount_end_date')
 					)
 				)
-				->from($db->qn('#__redshop_product', 'p'))
 				->leftJoin(
 					$db->qn('#__redshop_product_price', 'pp')
 					. ' ON p.product_id = pp.product_id AND ((pp.price_quantity_start <= 1 AND pp.price_quantity_end >= 1) OR (pp.price_quantity_start = 0 AND pp.price_quantity_end = 0))'
 					. $andJoin
 				)
-				->leftJoin($db->qn('#__redshop_product_category_xref', 'pcx') . ' ON pcx.product_id = p.product_id')
-				->leftJoin(
-					$db->qn('#__redshop_media', 'media')
-					. ' ON media.section_id = p.product_id AND media.media_section = ' . $db->q('product')
-					. ' AND media.media_type = ' . $db->q('images') . ' AND media.media_name = p.product_full_image'
-				)
-				->where($db->qn('p.product_id') . ' = ' . (int) $productId)
 				->order('pp.price_quantity_start ASC');
 
 			if ($userId)
@@ -156,11 +156,62 @@ class producthelper
 				);
 			}
 
+			// Select category
+			$query->select(array('pcx.category_id'))
+				->leftJoin($db->qn('#__redshop_product_category_xref', 'pcx') . ' ON pcx.product_id = p.product_id');
+
+			// Select media
+			$query->select(array('media.media_alternate_text', 'media.media_id'))
+				->leftJoin(
+					$db->qn('#__redshop_media', 'media')
+					. ' ON media.section_id = p.product_id AND media.media_section = ' . $db->q('product')
+					. ' AND media.media_type = ' . $db->q('images') . ' AND media.media_name = p.product_full_image'
+				);
+
+			// Select ratings
+			$subQuery = $db->getQuery(true)
+				->select('COUNT(pr1.rating_id)')
+				->from($db->qn('#__redshop_product_rating', 'pr1'))
+				->where('pr1.product_id = p.product_id')
+				->where('pr1.published = 1');
+
+			$query->select('(' . $subQuery . ') AS count_rating');
+
+			$subQuery = $db->getQuery(true)
+				->select('SUM(pr2.user_rating)')
+				->from($db->qn('#__redshop_product_rating', 'pr2'))
+				->where('pr2.product_id = p.product_id')
+				->where('pr2.published = 1');
+
+			$query->select('(' . $subQuery . ') AS sum_rating');
+
+			// Count Accessories
+			$subQuery = $db->getQuery(true)
+				->select('COUNT(pa.accessory_id)')
+				->from($db->qn('#__redshop_product_accessory', 'pa'))
+				->leftJoin($db->qn('#__redshop_product', 'parent_product') . ' ON parent_product.product_id = pa.child_product_id')
+				->where('pa.product_id = p.product_id')
+				->where('parent_product.published = 1');
+
+			$query->select('(' . $subQuery . ') AS total_accessories');
+
 			$db->setQuery($query);
 			self::$products[$productId . '.' . $userId] = $db->loadObject();
 		}
 
 		return self::$products[$productId . '.' . $userId];
+	}
+
+	/**
+	 * Set product array
+	 *
+	 * @param   array  $products  Array product/s values
+	 *
+	 * @return void
+	 */
+	public function setProduct($products)
+	{
+		self::$products = $products + self::$products;
 	}
 
 	public function country_in_eu_common_vat_zone($country)
@@ -8403,38 +8454,35 @@ class producthelper
 		return null;
 	}
 
-	public function getProductRating($product_id)
+	/**
+	 * Get Product Rating
+	 *
+	 * @param   int  $productId  Product id
+	 *
+	 * @return string
+	 */
+	public function getProductRating($productId)
 	{
-		$url        = JURI::base();
-		$avgratings = 0;
-		$query      = "SELECT pr.* FROM " . $this->_table_prefix . "product_rating AS pr "
-			. "WHERE pr.product_id = " . (int) $product_id . " AND pr.published=1";
-		$this->_db->setQuery($query);
-		$allreviews   = $this->_db->loadObjectList();
-		$totalreviews = count($allreviews);
+		$finalAvgReviewData = '';
 
-		$query = "SELECT SUM(user_rating) AS rating FROM " . $this->_table_prefix . "product_rating AS pr "
-			. "WHERE pr.product_id = " . (int) $product_id . " AND pr.published=1";
-		$this->_db->setQuery($query);
-		$totalratings = $this->_db->loadResult();
-
-		if ($totalreviews > 0)
+		if ($productData = $this->getProductById($productId))
 		{
-			$avgratings = $totalratings / $totalreviews;
+			$avgRating = 0;
+
+			if ($productData->count_rating > 0)
+			{
+				$avgRating = round($productData->sum_rating / $productData->count_rating);
+			}
+
+			if ($avgRating > 0)
+			{
+				$finalAvgReviewData = '<img src="' . REDSHOP_ADMIN_IMAGES_ABSPATH . 'star_rating/' . $avgRating . '.gif" />';
+				$finalAvgReviewData .= JText::_('COM_REDSHOP_AVG_RATINGS_1') . " " . $productData->count_rating . " "
+					. JText::_('COM_REDSHOP_AVG_RATINGS_2');
+			}
 		}
 
-		$avgratings           = round($avgratings);
-		$final_avgreview_data = "";
-
-		if ($avgratings > 0)
-		{
-			$final_avgreview_data = '<img src="' . REDSHOP_ADMIN_IMAGES_ABSPATH . 'star_rating/' . $avgratings
-				. '.gif" />';
-			$final_avgreview_data .= JText::_('COM_REDSHOP_AVG_RATINGS_1') . " " . $totalreviews . " "
-				. JText::_('COM_REDSHOP_AVG_RATINGS_2');
-		}
-
-		return $final_avgreview_data;
+		return $finalAvgReviewData;
 	}
 
 	public function getProductReviewList($product_id)
