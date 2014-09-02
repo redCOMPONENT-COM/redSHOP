@@ -218,16 +218,17 @@ class RedshopModelCategory extends JModel
 	/**
 	 * Method get Product of Category
 	 *
-	 * @param   number   $minmax    default variable is 0
-	 * @param   boolean  $isSlider  default variable is false
+	 * @param   int   $minmax    default variable is 0
+	 * @param   bool  $isSlider  default variable is false
 	 *
 	 * @return mixed
 	 */
 	public function getCategoryProduct($minmax = 0, $isSlider = false)
 	{
-		$app             = JFactory::getApplication();
-		$menu            = $app->getMenu();
-		$item            = $menu->getActive();
+		$app = JFactory::getApplication();
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true);
+		$queryCount = $db->getQuery(true);
 
 		$manufacturerId = $app->input->post->get("manufacturer_id", "");
 
@@ -247,12 +248,13 @@ class RedshopModelCategory extends JModel
 		}
 
 		$app->setUserState("manufacturer_id", $manufacturerId);
+		$user = JFactory::getUser();
 
-		$setproductfinderobj = new redhelper;
-		$orderBy            = $this->buildProductOrderBy();
+		$orderBy = $this->buildProductOrderBy();
+		$endlimit = $this->getProductPerPage();
+		$limitstart = $app->input->get('limitstart', 0, 'int');
 
 		$sort = "";
-		$and  = "";
 
 		// Shopper group - choose from manufactures Start
 		$rsUserhelper               = new rsUserhelper;
@@ -262,15 +264,17 @@ class RedshopModelCategory extends JModel
 		{
 			$shopperGroupManufactures = explode(',', $shopperGroupManufactures);
 			JArrayHelper::toInteger($shopperGroupManufactures);
-			$shopper_group_manufactures = implode(',', $shopperGroupManufactures);
-			$and .= "p.manufacturer_id IN (" . $shopperGroupManufactures . ") ";
+			$shopperGroupManufactures = implode(',', $shopperGroupManufactures);
+			$query->where('p.manufacturer_id IN (' . $shopperGroupManufactures . ')');
+			$queryCount->where('p.manufacturer_id IN (' . $shopperGroupManufactures . ')');
 		}
 
 		// Shopper group - choose from manufactures End
 
 		if ($manufacturerId && $manufacturerId > 0)
 		{
-			$and .= " p.manufacturer_id = " . (int) $manufacturerId . " ";
+			$query->where('p.manufacturer_id = ' . (int) $manufacturerId);
+			$queryCount->where('p.manufacturer_id = ' . (int) $manufacturerId);
 		}
 
 		if ($minmax && !(strstr($orderBy, "p.product_price ASC") || strstr($orderBy, "p.product_price DESC")))
@@ -278,32 +282,140 @@ class RedshopModelCategory extends JModel
 			$orderBy = "p.product_price ASC";
 		}
 
-		$query = JFactory::getDbo()->getQuery(true);
-		$query->select("*");
-		$query->from("#__redshop_product AS p ");
-		$query->join("LEFT", "#__redshop_product_category_xref AS pc ON pc.product_id=p.product_id ");
-		$query->join("LEFT", "#__redshop_category AS c ON c.category_id=pc.category_id ");
-		$query->join("LEFT", "#__redshop_manufacturer AS m ON m.manufacturer_id=p.manufacturer_id ");
-		$query->where("p.published = 1 AND p.expired = 0");
-		$query->where("pc.category_id = " . (int) $this->_id);
-		$query->where("p.published = 1 AND p.expired = 0");
-
-		if ($and != "")
-		{
-			$query->where($and);
-		}
+		$query->select(
+			array(
+				'p.*', 'pc.*', 'c.*', 'm.*', 'p.product_id',
+				'CONCAT_WS(' . $db->q('.') . ', p.product_id, ' . (int) $user->id . ') AS concat_id'
+			)
+		);
+		$query->from("#__redshop_product AS p");
+		$query->join("LEFT", "#__redshop_product_category_xref AS pc ON pc.product_id=p.product_id");
+		$query->join("LEFT", "#__redshop_category AS c ON c.category_id=pc.category_id");
+		$query->join("LEFT", "#__redshop_manufacturer AS m ON m.manufacturer_id=p.manufacturer_id");
+		$query->where(
+			array(
+				'p.published = 1', 'p.expired = 0',
+				'pc.category_id = ' . (int) $this->_id,
+				'p.product_parent_id = 0'
+			)
+		);
 
 		$finder_condition = $this->getredproductfindertags();
 
-		if ($finder_condition != "")
+		if ($finder_condition != '')
 		{
 			$finder_condition = str_replace("AND", "", $finder_condition);
 			$query->where($finder_condition);
+			$queryCount->where($finder_condition);
 		}
 
-		$query->order($orderBy);
+		$query->order($orderBy)
+			->group('p.product_id');
 
-		$this->_product = $this->_getList($query);
+		// Select price
+		$session      = JFactory::getSession();
+		$userArr  = $session->get('rs_user');
+		$andJoin = '';
+
+		if (empty($userArr))
+		{
+			$userArr = $this->_userhelper->createUserSession($user->id);
+		}
+
+		$shopperGroupId = $userArr['rs_user_shopperGroup'];
+
+		if (!$user->id)
+		{
+			$andJoin = ' AND pp.shopper_group_id = ' . (int) $shopperGroupId;
+		}
+
+		$query->select(
+			array(
+				'pp.price_id', $db->qn('pp.product_price', 'price_product_price'),
+				$db->qn('pp.product_currency', 'price_product_currency'), $db->qn('pp.discount_price', 'price_discount_price'),
+				$db->qn('pp.discount_start_date', 'price_discount_start_date'), $db->qn('pp.discount_end_date', 'price_discount_end_date')
+			)
+		)
+			->leftJoin(
+				$db->qn('#__redshop_product_price', 'pp')
+				. ' ON p.product_id = pp.product_id AND ((pp.price_quantity_start <= 1 AND pp.price_quantity_end >= 1) OR (pp.price_quantity_start = 0 AND pp.price_quantity_end = 0))'
+				. $andJoin
+			)
+			->order('pp.price_quantity_start ASC');
+
+		if ($user->id)
+		{
+			$query->leftJoin(
+				$db->qn('#__redshop_users_info', 'u')
+				. ' ON u.shopper_group_id = pp.shopper_group_id AND u.user_id = ' . (int) $user->id . ' AND u.address_type = ' . $db->q('BT')
+			);
+		}
+
+		// Select media
+		$query->select(array('media.media_alternate_text', 'media.media_id'))
+			->leftJoin(
+				$db->qn('#__redshop_media', 'media')
+				. ' ON media.section_id = p.product_id AND media.media_section = ' . $db->q('product')
+				. ' AND media.media_type = ' . $db->q('images') . ' AND media.media_name = p.product_full_image'
+			);
+
+		// Select ratings
+		$subQuery = $db->getQuery(true)
+			->select('COUNT(pr1.rating_id)')
+			->from($db->qn('#__redshop_product_rating', 'pr1'))
+			->where('pr1.product_id = p.product_id')
+			->where('pr1.published = 1');
+
+		$query->select('(' . $subQuery . ') AS count_rating');
+
+		$subQuery = $db->getQuery(true)
+			->select('SUM(pr2.user_rating)')
+			->from($db->qn('#__redshop_product_rating', 'pr2'))
+			->where('pr2.product_id = p.product_id')
+			->where('pr2.published = 1');
+
+		$query->select('(' . $subQuery . ') AS sum_rating');
+
+		// Count Accessories
+		$subQuery = $db->getQuery(true)
+			->select('COUNT(pa.accessory_id)')
+			->from($db->qn('#__redshop_product_accessory', 'pa'))
+			->leftJoin($db->qn('#__redshop_product', 'parent_product') . ' ON parent_product.product_id = pa.child_product_id')
+			->where('pa.product_id = p.product_id')
+			->where('parent_product.published = 1');
+
+		$query->select('(' . $subQuery . ') AS total_accessories');
+
+		$queryCount->select('COUNT(DISTINCT(p.product_id))')
+			->from('#__redshop_product AS p')
+			->leftJoin('#__redshop_product_category_xref AS pc ON pc.product_id = p.product_id')
+			->leftJoin('#__redshop_manufacturer AS m ON m.manufacturer_id = p.manufacturer_id')
+			->where(
+			array(
+				'p.published = 1', 'p.expired = 0',
+				'pc.category_id = ' . (int) $this->_id,
+				'p.product_parent_id = 0'
+			)
+		);
+
+		if ($minmax != 0 || $isSlider)
+		{
+			$db->setQuery($query);
+		}
+		else
+		{
+			$db->setQuery($query, $limitstart, $endlimit);
+		}
+
+		if ($this->_product = $db->loadObjectList('concat_id'))
+		{
+			$this->producthelper->setProduct($this->_product);
+			$this->_product = array_values($this->_product);
+		}
+		else
+		{
+			$this->_product = array();
+		}
 
 		$priceSort = false;
 
@@ -388,7 +500,8 @@ class RedshopModelCategory extends JModel
 		}
 		else
 		{
-			$this->_total = count($this->_product);
+			$db->setQuery($queryCount);
+			$this->_total = $db->loadResult();
 		}
 
 		return $this->_product;
@@ -741,7 +854,6 @@ class RedshopModelCategory extends JModel
 
 			$finder_where     = "";
 			$finder_query     = "";
-			$finder_condition = "";
 
 			$findercomponent      = JComponentHelper::getComponent('com_redproductfinder');
 			$productfinderconfig  = new JRegistry($findercomponent->params);
@@ -797,8 +909,6 @@ class RedshopModelCategory extends JModel
 						$finder_condition = "";
 					}
 				}
-
-				$finder_condition;
 			}
 		}
 
