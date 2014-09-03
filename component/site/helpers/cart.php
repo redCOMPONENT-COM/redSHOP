@@ -3758,10 +3758,8 @@ class rsCarthelper
 
 					JArrayHelper::toInteger($shopperGroups);
 
-					return (bool) (
-									in_array((int) $shopperGroupId, $shopperGroups)
-									|| $shopperGroups[0] == 0
-								);
+					return (bool) (in_array((int) $shopperGroupId, $shopperGroups)
+									|| 0 == $shopperGroups[0]);
 				}
 			);
 
