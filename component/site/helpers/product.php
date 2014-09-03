@@ -8504,7 +8504,7 @@ class producthelper
 					$db->qn('#__redshop_users_info', 'ui')
 					. ' ON '
 					. $db->qn('ui.user_id') . '=' . $db->qn('pr.userid')
-					. ' AND ' . $db->qn('ui.address_type') . '="BT"'
+					. ' AND ' . $db->qn('ui.address_type') . '=' . $db->q('BT')
 				);
 
 		// Set the query and load the result.
