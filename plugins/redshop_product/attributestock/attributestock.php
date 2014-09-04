@@ -76,21 +76,42 @@ class PlgRedshop_ProductAttributeStock extends JPlugin
 		{
 			$propertyId = $property[$i]->property_id;
 
-			$propertyStock[$propertyId] = $stockroomHelper->isStockExists(
+			$isPropertyStockExist = $stockroomHelper->isStockExists(
 											$propertyId,
 											"property"
 										);
+
+			$propertyStock[$propertyId] = $isPropertyStockExist;
+
+			if (!$isPropertyStockExist)
+			{
+				$propertyStock[$propertyId] = $stockroomHelper->isPreorderStockExists(
+												$propertyId,
+												"property"
+											);
+			}
 
 			$subProperty = $producthelper->getAttibuteSubProperty(0, $propertyId);
 
 			for ($j = 0; $j < count($subProperty); $j++)
 			{
-				$subPropertyId = $subProperty[$j]->subattribute_color_id;
+				$subPropertyId           = $subProperty[$j]->subattribute_color_id;
+				$subPropertyArray        = $propertyStock[$propertyId]['subProperty'][$subPropertyId];
 
-				$propertyStock[$propertyId]['subProperty'][$subPropertyId] = $stockroomHelper->isStockExists(
-																	$subPropertyId,
-																	'subproperty'
-																);
+				$isSubPropertyStockExist = $stockroomHelper->isStockExists(
+												$subPropertyId,
+												'subproperty'
+											);
+
+				$propertyStock[$propertyId]['subProperty'][$subPropertyId] = $isSubPropertyStockExist;
+
+				if (!$isSubPropertyStockExist)
+				{
+					$propertyStock[$propertyId]['subProperty'][$subPropertyId] = $stockroomHelper->isPreorderStockExists(
+																					$subPropertyId,
+																					"subproperty"
+																				);
+				}
 			}
 		}
 
