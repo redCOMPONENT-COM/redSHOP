@@ -748,7 +748,7 @@ table.grey_solid_area {
 	margin-top: 0px;
 }
 #attribute_table input, #attribute_table select {
-	float: left;
+	/*float: left;*/
 }
 #attribute_table td label {
 	display: block;
@@ -789,6 +789,7 @@ table.grey_solid_area td, table.grey_solid_area th, table.blue_area td, table.bl
 }
 div.current select, div.current input, div.current textarea, div.current select {
 	margin: 0 !important;
+	float: none !important;
 }
 .btn_attribute_remove {
 	cursor: pointer;
@@ -853,6 +854,7 @@ div.current select, div.current input, div.current textarea, div.current select 
 }
 .up_image {
 	width: 100% !important;
+	display: none;
 }
 .up_image .td1 {
 	width: 15% !important;
@@ -1133,3 +1135,11 @@ div.current select, div.current input, div.current textarea, div.current select 
 		width: 45%;
 	}
 }
+
+table.subattribute tr td input[type="checkbox"],
+table.blue_area tr td input[type="checkbox"],
+table.grey_area tr td input[type="checkbox"]
+{
+	position: relative;
+}
+ 
