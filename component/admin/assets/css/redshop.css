@@ -751,13 +751,17 @@ table.grey_solid_area {
 	/*float: left;*/
 }
 #attribute_table td label {
-	display: block;
-	float: left;
+	/*display: block;
+	float: left;*/
 	margin-top: 0;
 	min-width: 0;
 	margin-left: 5px;
 	clear: none;
 }
+div.current label, div.current span.faux-label {
+	float: none !important;
+	display: inline !important;
+	}
 #attribute_table input[type="text"] {
 	margin: 0px 0px 0px 3px !important;
 }
@@ -838,7 +842,7 @@ div.current select, div.current input, div.current textarea, div.current select 
 	width: 12%;
 }
 #attribute_table td.td5 > div {
-	width: 250px;
+	width: 57px;
 }
 #attribute_table td.td6 {
 	width: 15%;
@@ -854,22 +858,23 @@ div.current select, div.current input, div.current textarea, div.current select 
 }
 .up_image {
 	width: 100% !important;
-	display: none;
 }
 .up_image .td1 {
-	width: 15% !important;
+	width: 4% !important;
 	text-align: right !important;
 }
 .up_image .td2 {
-	width: 49% !important;
+	width: 10% !important;
 	padding-left: 10px;
 }
 .up_image .td3 {
 	width: 12% !important;
+	display: none;
 }
 .up_image .td4 {
 	width: 13% !important;
 	text-align: center !important;
+	display: none;
 }
 .up_image .td5 {
 	width: 10% !important;
@@ -894,6 +899,8 @@ div.current select, div.current input, div.current textarea, div.current select 
 }
 .remove_attr {
 	position: relative;
+	top: 5px;
+	float: right;
 }
 .sub_property td.td1 {
 	padding: 10px 0px !important;
@@ -998,8 +1005,8 @@ div.current select, div.current input, div.current textarea, div.current select 
 
 .repon {
 	position: relative;
-	margin-top: 40px;
-	margin-left: -760%;
+	margin-top: 5px;
+	/*margin-left: -760%;*/
 }
 
 @media (max-width: 1300px) {
