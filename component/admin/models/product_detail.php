@@ -3860,7 +3860,7 @@ class RedshopModelProduct_Detail extends JModel
 					$subpost['setdefault_selected'] = $subatt_property[$subprop]->setdefault_selected;
 					$subpost['subattribute_color_main_image'] = $subatt_property[$subprop]->subattribute_color_main_image;
 					$subpost['subattribute_color_number'] = "";
-					$proppost['extra_field'] = $subatt_property[$subprop]->extra_field;
+					$subpost['extra_field'] = $subatt_property[$subprop]->extra_field;
 					$subrow = $this->store_sub($subpost);
 					$subproperty_id = $subrow->subattribute_color_id;
 
