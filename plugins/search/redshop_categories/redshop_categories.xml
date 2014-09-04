@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="2.5" client="site" type="plugin" group="search" method="upgrade">
-	<name>PLG_SEARCH_REDSHOP_PRODUCTS_NAME</name>
+	<name>PLG_SEARCH_REDSHOP_CATEGORIES_NAME</name>
 	<version>1.3.3</version>
 	<creationDate>April 2013</creationDate>
 	<author>redCOMPONENT.com</author>
 	<copyright>redCOMPONENT.com</copyright>
 	<license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
-	<description>PLG_SEARCH_REDSHOP_PRODUCTS_DESC</description>
+	<description>PLG_SEARCH_REDSHOP_CATEGORIES_DESC</description>
 	<languages folder="language">
-	   <language tag="en-GB">en-GB/en-GB.plg_search_redshop_products.ini</language>
-	   <language tag="en-GB">en-GB/en-GB.plg_search_redshop_products.sys.ini</language>
+	   <language tag="en-GB">en-GB/en-GB.plg_search_redshop_categories.ini</language>
+	   <language tag="en-GB">en-GB/en-GB.plg_search_redshop_categories.sys.ini</language>
 	</languages>
 	<files>
-		<filename plugin="redshop_products">redshop_products.php</filename>
+		<filename plugin="redshop_categories">redshop_categories.php</filename>
 	</files>
 	<config>
 		<fields name="params">
@@ -22,14 +22,14 @@
 					type="text"
 					size="5"
 					default="50"
-					label="PLG_SEARCH_REDSHOP_PRODUCTS_SEARCH_LIMIT_LABEL"
-					description="PLG_SEARCH_REDSHOP_PRODUCTS_SEARCH_LIMIT_DESC"
+					label="PLG_SEARCH_REDSHOP_CATEGORIES_SEARCH_LIMIT_LABEL"
+					description="PLG_SEARCH_REDSHOP_CATEGORIES_SEARCH_LIMIT_DESC"
 				/>
 				<field name="showSection"
 					type="radio"
 					default="0"
-					description="PLG_SEARCH_REDSHOP_PRODUCTS_SHOW_SECTION_DESC"
-					label="PLG_SEARCH_REDSHOP_PRODUCTS_SHOW_SECTION_LABEL"
+					description="PLG_SEARCH_REDSHOP_CATEGORIES_SHOW_SECTION_DESC"
+					label="PLG_SEARCH_REDSHOP_CATEGORIES_SHOW_SECTION_LABEL"
 				>
 					<option value="0">JOFF</option>
 					<option value="1">JON</option>
