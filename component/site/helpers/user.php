@@ -135,9 +135,11 @@ class rsUserhelper
 					self::$userShopperGroupData[$userId] = array();
 				}
 			}
+
+			return self::$userShopperGroupData[$userId];
 		}
 
-		return self::$userShopperGroupData[$userId];
+		return array();
 	}
 
 	/**
