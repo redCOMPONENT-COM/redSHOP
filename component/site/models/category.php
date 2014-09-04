@@ -319,7 +319,7 @@ class RedshopModelCategory extends JModel
 
 		if (empty($userArr))
 		{
-			$userArr = $this->_userhelper->createUserSession($user->id);
+			$userArr = $rsUserhelper->createUserSession($user->id);
 		}
 
 		$shopperGroupId = $userArr['rs_user_shopperGroup'];
