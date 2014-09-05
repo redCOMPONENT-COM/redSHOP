@@ -2260,7 +2260,25 @@ function checkAddtocartValidation(frmCartName, product_id, relatedprd_id, giftca
             submitAjaxCartdetail(frmCartName, product_id, relatedprd_id, giftcard_id, totAttribute, totAccessory, totUserfield);
         }
         else {
-            if (ntotal > 0) {
+            var cansubmit = true;
+
+            var ret = userfieldValidation("extrafields" + product_id);
+            if (!ret) {
+                cansubmit = false;
+            }
+
+            var requiedAttribute = document.getElementById(frmCartName).requiedAttribute.value;
+            var requiedProperty = document.getElementById(frmCartName).requiedProperty.value;
+
+            if (requiedAttribute != "") {
+                cansubmit = false;
+            }
+
+            if (requiedProperty != "") {
+                cansubmit = false;
+            }
+
+            if (ntotal > 0 && cansubmit == false) {
                 displayAjaxCartdetail(frmCartName, product_id, relatedprd_id, giftcard_id, totAttribute, totAccessory, totUserfield);
             } else {
 
