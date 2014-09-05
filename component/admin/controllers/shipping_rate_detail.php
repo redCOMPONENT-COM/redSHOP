@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 
-class shipping_rate_detailController extends JController
+class RedshopControllerShipping_rate_detail extends JController
 {
 	public function __construct($default = array())
 	{
@@ -37,7 +37,7 @@ class shipping_rate_detailController extends JController
 		$post = JRequest::get('post');
 
 		// Include extra field class
-		require_once JPATH_COMPONENT . '/helpers/extra_field.php';
+		JLoader::load('RedshopHelperAdminExtra_field');
 
 		$option = JRequest::getVar('option');
 		$post['shipping_rate_on_product'] = $post['container_product'];

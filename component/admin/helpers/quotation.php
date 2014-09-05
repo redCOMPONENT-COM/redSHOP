@@ -11,9 +11,9 @@ defined('_JEXEC') or die;
 
 JHTML::_('behavior.tooltip');
 
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/extra_field.php';
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/configuration.php';
-require_once JPATH_SITE . '/components/com_redshop/helpers/helper.php';
+JLoader::load('RedshopHelperAdminExtra_field');
+JLoader::load('RedshopHelperAdminConfiguration');
+JLoader::load('RedshopHelperHelper');
 
 class quotationHelper
 {
@@ -116,13 +116,36 @@ class quotationHelper
 		return $number;
 	}
 
+	/**
+	 * Update Quotation Status
+	 *
+	 * @param   integer  $quotation_id  Quotation ID
+	 * @param   integer  $status        Quotation Change status
+	 *
+	 * @return  void
+	 */
 	public function updateQuotationStatus($quotation_id, $status = 1)
 	{
-		$query = "UPDATE " . $this->_table_prefix . "quotation "
-			. "SET quotation_status = " . (int) $status . " "
-			. "WHERE quotation_id = " . (int) $quotation_id . " ";
-		$this->_db->setQuery($query);
-		$this->_db->query();
+		// Initialize variables.
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true);
+
+		// Create the base update statement.
+		$query->update($db->quoteName('#__redshop_quotation'))
+			->set($db->quoteName('quotation_status') . ' = ' . (int) $status)
+			->where($db->quoteName('quotation_id') . ' = ' . (int) $quotation_id);
+
+		// Set the query and execute the update.
+		$db->setQuery($query);
+
+		try
+		{
+			$db->execute();
+		}
+		catch (RuntimeException $e)
+		{
+			throw new RuntimeException($e->getMessage(), $e->getCode());
+		}
 	}
 
 	public function getQuotationUserList()

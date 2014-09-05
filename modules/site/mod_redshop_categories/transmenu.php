@@ -21,7 +21,7 @@ $params->set('absPath', $absolute_module_dir . '/' . $params->get('module'));
 $params->set('LSPath', $live_module_dir . '/' . $params->get('module'));
 
 
-include_once($params->get('absPath') . '/Shop_Menu.php');
+include_once $params->get('absPath') . '/Shop_Menu.php';
 
 
 $db      = JFactory::getDbo();

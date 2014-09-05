@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 
-class tax_groupController extends JController
+class RedshopControllerTax_group extends JController
 {
 	public function cancel()
 	{

@@ -23,13 +23,14 @@ $db = JFactory::getDbo();
 
 // Getting the configuration
 require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/configuration.php';
-$Redconfiguration = new Redconfiguration();
+JLoader::import('loadhelpers', JPATH_SITE . '/components/com_redshop');
+JLoader::load('RedshopHelperAdminConfiguration');
+$Redconfiguration = new Redconfiguration;
 $Redconfiguration->defineDynamicVars();
 
 
 $rows = array();
-require_once JPATH_SITE . '/components/com_redshop/helpers/product.php';
+JLoader::load('RedshopHelperProduct');
 
 if (MY_WISHLIST)
 {
@@ -67,5 +68,5 @@ if (MY_WISHLIST)
 		$db->setQuery($sql);
 		$rows = $db->loadObjectList();
 	}
-	require(JModuleHelper::getLayoutPath('mod_redshop_wishlist'));
+	require JModuleHelper::getLayoutPath('mod_redshop_wishlist');
 }

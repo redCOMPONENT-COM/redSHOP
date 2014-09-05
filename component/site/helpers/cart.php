@@ -9,12 +9,12 @@
 
 defined('_JEXEC') or die;
 
-JLoader::import('helper', JPATH_SITE . '/components/com_redshop/helpers');
-JLoader::import('product', JPATH_SITE . '/components/com_redshop/helpers');
-JLoader::import('extra_field', JPATH_SITE . '/components/com_redshop/helpers');
-JLoader::import('order', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
-JLoader::import('shipping', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
-JLoader::import('images', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
+JLoader::load('RedshopHelperHelper');
+JLoader::load('RedshopHelperProduct');
+JLoader::load('RedshopHelperExtra_field');
+JLoader::load('RedshopHelperAdminOrder');
+JLoader::load('RedshopHelperAdminShipping');
+JLoader::load('RedshopHelperAdminImages');
 
 class rsCarthelper
 {
@@ -40,8 +40,8 @@ class rsCarthelper
 
 	public function __construct()
 	{
-		$this->_table_prefix    = '#__' . TABLE_PREFIX . '_';
-		$this->_db              = Jfactory::getDBO();
+		$this->_table_prefix    = '#__redshop_';
+		$this->_db              = JFactory::getDBO();
 		$this->_session         = JFactory::getSession();
 		$this->_order_functions = new order_functions;
 		$this->_extra_field     = new extra_field;
@@ -1143,6 +1143,9 @@ class rsCarthelper
 							$product_old_price = $cart[$i]['product_old_price_excl_vat'];
 						}
 
+						// Set Product Old Price without format
+						$productOldPriceNoFormat = $product_old_price;
+
 						$product_old_price = $this->_producthelper->getProductFormattedPrice($product_old_price, true);
 					}
 				}
@@ -1198,6 +1201,8 @@ class rsCarthelper
 
 					if ($sum_total > 0)
 					{
+						$propertyCalculatedPriceSum = $productOldPriceNoFormat;
+
 						for ($tpi = 0; $tpi < $sum_total; $tpi++)
 						{
 							$product_attribute_name        = "";
@@ -1215,19 +1220,32 @@ class rsCarthelper
 								}
 
 								$product_attribute_value_price = $temp_tpi[$tpi]['attribute_childs'][0]['property_price'];
+								$propertyOperand               = $temp_tpi[$tpi]['attribute_childs'][0]['property_oprand'];
+
+								// Show actual productive price
+								if ($product_attribute_value_price > 0)
+								{
+									$string = "$propertyCalculatedPriceSum$propertyOperand$product_attribute_value_price";
+									eval("\$productAttributeCalculatedPriceBase = $string;");
+
+									$productAttributeCalculatedPrice = $productAttributeCalculatedPriceBase - $propertyCalculatedPriceSum;
+									$propertyCalculatedPriceSum      = $productAttributeCalculatedPriceBase;
+								}
 
 								if (count($temp_tpi[$tpi]['attribute_childs'][0]['property_childs']) > 0)
 								{
 									$product_attribute_value_price = $product_attribute_value_price + $temp_tpi[$tpi]['attribute_childs'][0]['property_childs'][0]['subproperty_price'];
 								}
 
-								$product_attribute_value_price = $this->_producthelper->getProductFormattedPrice($product_attribute_value_price);
+								$product_attribute_value_price   = $this->_producthelper->getProductFormattedPrice($product_attribute_value_price);
+								$productAttributeCalculatedPrice = $this->_producthelper->getProductFormattedPrice($productAttributeCalculatedPrice);
 							}
 
 							$data_add_pro = $templateattibute_middle;
 							$data_add_pro = str_replace("{product_attribute_name}", $product_attribute_name, $data_add_pro);
 							$data_add_pro = str_replace("{product_attribute_value}", $product_attribute_value, $data_add_pro);
 							$data_add_pro = str_replace("{product_attribute_value_price}", $product_attribute_value_price, $data_add_pro);
+							$data_add_pro = str_replace("{product_attribute_calculated_price}", $productAttributeCalculatedPrice, $data_add_pro);
 							$pro_detail .= $data_add_pro;
 						}
 					}
@@ -1496,15 +1514,24 @@ class rsCarthelper
 				}
 				else
 				{
-					if ($product->product_full_image)
+					$product_full_image = $product->product_full_image;
+					$product_type = 'product';
+
+					if ($rowitem [$i]->is_giftcard)
 					{
-						if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . $product->product_full_image))
+						$product_full_image = $giftcardData->giftcard_image;
+						$product_type = 'giftcard';
+					}
+
+					if ($product_full_image)
+					{
+						if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . $product_type . "/" . $product_full_image))
 						{
 							$attribute_image_path = RedShopHelperImages::getImagePath(
-														$product->product_full_image,
+														$product_full_image,
 														'',
 														'thumb',
-														'product',
+														$product_type,
 														CART_THUMB_WIDTH,
 														CART_THUMB_HEIGHT,
 														USE_IMAGE_SIZE_SWAPPING
@@ -1752,7 +1779,7 @@ class rsCarthelper
 					$download_id  = $downloads->download_id;
 					$download_max = $downloads->download_max;
 					$end_date     = $downloads->end_date;
-					$mailtoken    = "<a href='" . JUri::root() . "index.php?option=com_redshop&view=product&layout=downloadproduct&tid=" . $download_id . "'>" . $file_name . "</a>";
+					$mailtoken    = "<a href='" . JURI::root() . "index.php?option=com_redshop&view=product&layout=downloadproduct&tid=" . $download_id . "'>" . $file_name . "</a>";
 					$dpData .= "</tr>";
 					$dpData .= "<td>(" . $g . ") " . $product_name . ": " . $mailtoken . "</td>";
 					$dpData .= "</tr>";
@@ -1801,7 +1828,7 @@ class rsCarthelper
 					$download_date = date("d-m-Y H:i:s", $download_time);
 					$ip            = $downloads->ip;
 
-					$mailtoken = "<a href='" . JUri::root() . "index.php?option=com_redshop&view=product&layout=downloadproduct&tid="
+					$mailtoken = "<a href='" . JURI::root() . "index.php?option=com_redshop&view=product&layout=downloadproduct&tid="
 						. $download_id . "'>"
 						. $file_name . "</a>";
 
@@ -2149,14 +2176,15 @@ class rsCarthelper
 		$discount          = 0;
 		$user_info_id      = 0;
 		$total_discount    = 0;
+		$discountVAT       = 0;
 		$redArray          = array();
 
 		for ($i = 0; $i < $Idx; $i++)
 		{
-			$quantity = $cart[$i]['quantity'];
-			$subtotal += $quantity * $cart[$i]['product_price'];
+			$quantity          = $cart[$i]['quantity'];
+			$subtotal          += $quantity * $cart[$i]['product_price'];
 			$subtotal_excl_vat += $quantity * $cart[$i]['product_price_excl_vat'];
-			$vat += $quantity * $cart[$i]['product_vat'];
+			$vat               += $quantity * $cart[$i]['product_vat'];
 		}
 
 		$tmparr             = array();
@@ -2246,11 +2274,17 @@ class rsCarthelper
 
 				if (isset($vatData->tax_rate) && !empty($vatData->tax_rate))
 				{
-					$discountVAT = (VAT_RATE_AFTER_DISCOUNT * $total_discount) / (1 + VAT_RATE_AFTER_DISCOUNT);
+					$discountVAT = 0;
+
+					if ((int) $subtotal_excl_vat > 0)
+					{
+						$avgVAT      = (($subtotal_excl_vat + $vat) / $subtotal_excl_vat) - 1;
+						$discountVAT = ($avgVAT * $total_discount) / (1 + $avgVAT);
+					}
 				}
 			}
 
-			$vat         = $vat - $discountVAT;
+			$vat = $vat - $discountVAT;
 		}
 
 		$total      = $subtotal + $shipping;
@@ -2676,6 +2710,9 @@ class rsCarthelper
 		$replace [] = $row->special_discount . '%';
 		$search  [] = "{special_discount_amount}";
 		$replace [] = $this->_producthelper->getProductFormattedPrice($row->special_discount_amount);
+		$search[]   = "{special_discount_lbl}";
+		$replace[]  = JText::_('COM_REDSHOP_SPECIAL_DISCOUNT');
+
 		$search[]   = "{order_detail_link}";
 		$replace[]  = "<a href='" . $orderdetailurl . "'>" . JText::_("COM_REDSHOP_ORDER_MAIL") . "</a>";
 
@@ -2692,7 +2729,7 @@ class rsCarthelper
 				$downloadfilename = substr(basename($downloadProduct->file_name), 11);
 				$downloadToken    = $downloadProduct->download_id;
 				$product_name     = $downloadProduct->product_name;
-				$mailtoken        = $product_name . ": <a href='" . JUri::root() . "index.php?option=com_redshop&view=product&layout=downloadproduct&tid=" . $downloadToken . "'>" . $downloadfilename . "</a>";
+				$mailtoken        = $product_name . ": <a href='" . JURI::root() . "index.php?option=com_redshop&view=product&layout=downloadproduct&tid=" . $downloadToken . "'>" . $downloadfilename . "</a>";
 
 				$dpData .= "</tr>";
 				$dpData .= "<td>(" . $g . ") " . $mailtoken . "</td>";
@@ -3184,6 +3221,10 @@ class rsCarthelper
 				$cartArr[$i]['product_price_excl_vat']     = $product_price_excl_vat;
 				$cartArr[$i]['product_vat']                = $product_vat;
 				$cartArr[$i]['product_price']              = $product_price;
+
+				JPluginHelper::importPlugin('redshop_product');
+				$dispatcher = JDispatcher::getInstance();
+				$dispatcher->trigger('onBeforeLoginCartSession', array(&$cartArr, $i));
 			}
 		}
 
@@ -3262,9 +3303,9 @@ class rsCarthelper
 
 		if ($isEnabled && $classname == 'default_shipping_GLS')
 		{
-			JPluginHelper::importPlugin('rs_labels_GLS');
+			JPluginHelper::importPlugin('redshop_shipping');
 			$dispatcher = JDispatcher::getInstance();
-			$sql        = "SELECT  * FROM #__" . TABLE_PREFIX . "_users_info WHERE users_info_id=" . (int) $users_info_id ;
+			$sql        = "SELECT  * FROM #__redshop_users_info WHERE users_info_id=" . (int) $users_info_id ;
 			$this->_db->setQuery($sql);
 			$values = $this->_db->loadObject();
 
@@ -3288,7 +3329,7 @@ class rsCarthelper
 			}
 
 			$output .= JText::_('COM_REDSHOP_PROVIDE_ZIPCODE_TO_PICKUP_PARCEL') . " : ";
-			$output .= "<input type='text' id='gls_zipcode' name='gls_zipcode' value='" . $values->zipcode . "' onblur='javascript:updateGLSLocation(this.value);' ><input type='button' id='update' value='OPDATER' name='update'><br/>";
+			$output .= "<input type='text' id='gls_zipcode' name='gls_zipcode' value='" . $values->zipcode . "' onblur='javascript:updateGLSLocation(this.value);' ><input type='button' id='update' value='" . JText::_('COM_REDSHOP_GLS_UPDATE') . "' name='update'><br/>";
 			$output .= JText::_('COM_REDSHOP_SELECT_GLS_LOCATION') . " : ";
 			$output .= "<span id='rs_locationdropdown'>";
 			$output .= $lists['shopList'] = JHTML::_('select.genericlist', $shopList, 'shop_id', 'class="inputbox" ', 'value', 'text', $selected_shop_id);
@@ -3305,13 +3346,13 @@ class rsCarthelper
 		$shippingmethod       = $this->_order_functions->getShippingMethodInfo();
 		$adminpath            = JPATH_ADMINISTRATOR . '/components/com_redshop';
 		$rateExist            = 0;
-		$extrafield_total     = "";
 		$d['user_id']         = $user_id;
 		$d['users_info_id']   = $users_info_id;
 		$d['shipping_box_id'] = $shipping_box_post_id;
 		$d['ordertotal']      = $ordertotal;
 		$d['order_subtotal']  = $order_subtotal;
 		$template_desc        = str_replace("{shipping_heading}", JText::_('COM_REDSHOP_SHIPPING_METHOD'), $template_desc);
+		$extrafield_total     = "";
 
 		if (strstr($template_desc, "{shipping_method_loop_start}") && strstr($template_desc, "{shipping_method_loop_end}"))
 		{
@@ -3362,7 +3403,7 @@ class rsCarthelper
 						$rs        = $shippingmethod[$s];
 						$classname = $rs->element;
 						$rate_data .= $template_middle;
-						$rate_data = str_replace("{shipping_method_title}", $rs->name, $rate_data);
+						$rate_data = str_replace("{shipping_method_title}", JText::_($rs->name), $rate_data);
 
 						if ($template_rate_middle != "")
 						{
@@ -3443,38 +3484,37 @@ class rsCarthelper
 							$rate_data = str_replace($template_rate_middle, $data, $rate_data);
 						}
 					}
+
+					if (strstr($rate_data, "{shipping_extrafields}"))
+					{
+						$extraField         = new extraField;
+						$paymentparams_new  = new JRegistry($shippingmethod[$s]->params);
+						$extrafield_payment = $paymentparams_new->get('extrafield_shipping');
+
+						$extrafield_hidden  = "";
+
+						if (count($extrafield_payment) > 0)
+						{
+							for ($ui = 0; $ui < count($extrafield_payment); $ui++)
+							{
+								$product_userfileds = $extraField->list_all_user_fields($extrafield_payment[$ui], 19, '', 0, 0, 0);
+								$extrafield_total .= $product_userfileds[0] . " " . $product_userfileds[1] . "<br>";
+								$extrafield_hidden .= "<input type='hidden' name='extrafields[]' value='" . $extrafield_payment[$ui] . "'>";
+							}
+
+							$rate_data = str_replace("{shipping_extrafields}", "<div id='extrafield_shipping'></div>", $rate_data);
+						}
+						else
+						{
+							$rate_data = str_replace("{shipping_extrafields}", "", $rate_data);
+						}
+					}
 				}
 			}
 
 			$template_desc = str_replace("{shipping_method_loop_start}", "", $template_desc);
 			$template_desc = str_replace("{shipping_method_loop_end}", "", $template_desc);
 			$template_desc = str_replace($template_middle, $rate_data, $template_desc);
-		}
-
-		$extrafield_total = '';
-
-		if (strstr($template_desc, "{shipping_extrafields}"))
-		{
-			$extraField         = new extraField;
-			$paymentparams_new  = new JRegistry($shippingmethod[0]->params);
-			$extrafield_payment = $paymentparams_new->get('extrafield_shipping');
-			$extrafield_hidden  = "";
-
-			if (count($extrafield_payment) > 0)
-			{
-				for ($ui = 0; $ui < count($extrafield_payment); $ui++)
-				{
-					$product_userfileds = $extraField->list_all_user_fields($extrafield_payment[$ui], 19, '', 0, 0, 0);
-					$extrafield_total .= $product_userfileds[0] . " " . $product_userfileds[1] . "<br>";
-					$extrafield_hidden .= "<input type='hidden' name='extrafields[]' value='" . $extrafield_payment[$ui] . "'>";
-				}
-
-				$template_desc = str_replace("{shipping_extrafields}", "<div id='extrafield_shipping'>" . $extrafield_total . $extrafield_hidden . "</div>", $template_desc);
-			}
-			else
-			{
-				$template_desc = str_replace("{shipping_extrafields}", "<div id='extrafield_shipping'></div>", $template_desc);
-			}
 		}
 
 		if ($rateExist == 0)
@@ -3488,7 +3528,7 @@ class rsCarthelper
 
 			$template_desc = "<div></div>";
 		}
-		elseif ($rateExist == 1 && $extrafield_total == "")
+		elseif ($rateExist == 1 && $extrafield_total == "" && $classname != "default_shipping_GLS")
 		{
 			$template_desc = "<div style='display:none;'>" . $template_desc . "</div>";
 		}
@@ -3625,7 +3665,7 @@ class rsCarthelper
 		return $cardinfo;
 	}
 
-	public function replacePaymentTemplate($template_desc = "", $payment_method_id = 0, $is_company = 0, $ean_number = 0)
+	public function replacePaymentTemplate($template_desc = "", $payment_method_id = 0, $is_company = 0, $eanNumber = 0)
 	{
 		$ccdata = $this->_session->get('ccdata');
 
@@ -3729,14 +3769,6 @@ class rsCarthelper
 
 					if (in_array($shopperGroupId, $shopper_groupArr) || $shopper_groupArr[0] == 0)
 					{
-						if ($flag == false)
-						{
-							if (count($paymentmethod) > 0)
-							{
-								$payment_method_id = $paymentmethod[$p]->name;
-							}
-						}
-
 						$checked = '';
 
 						if ($payment_method_id === $paymentmethod[$p]->name)
@@ -3764,7 +3796,7 @@ class rsCarthelper
 							}
 							else
 							{
-								if ($is_company == 1 && $business == 1 && ($paymentmethod[$p]->name != 'rs_payment_eantransfer' || ($paymentmethod[$p]->name == 'rs_payment_eantransfer' && $ean_number == 1)))
+								if ($is_company == 1 && $business == 1 && ($paymentmethod[$p]->name != 'rs_payment_eantransfer' || ($paymentmethod[$p]->name == 'rs_payment_eantransfer' && $eanNumber != 0)))
 								{
 									$display_payment = $payment_radio_output;
 									$flag = true;
@@ -3957,7 +3989,7 @@ class rsCarthelper
 				{
 					if ($onchange)
 					{
-						$link = " onchange='window.location.href=\"" . JUri::root() . "index.php?option=com_redshop&view=account&task=newsletterSubscribe&tmpl=component&Itemid=" . $Itemid . "\"";
+						$link = " onchange='window.location.href=\"" . JURI::root() . "index.php?option=com_redshop&view=account&task=newsletterSubscribe&tmpl=component&Itemid=" . $Itemid . "\"";
 
 					}
 
@@ -4093,7 +4125,15 @@ class rsCarthelper
 
 				if ($dis_type == 0)
 				{
-					$couponValue = $coupon->coupon_value;
+					$avgVAT = 1;
+
+					if (VAT_RATE_AFTER_DISCOUNT && !APPLY_VAT_ON_DISCOUNT)
+					{
+						$productVAT = $cart['product_subtotal'] - $cart['product_subtotal_excl_vat'];
+						$avgVAT = $cart['product_subtotal'] / $cart['product_subtotal_excl_vat'];
+					}
+
+					$couponValue = $avgVAT * $coupon->coupon_value;
 				}
 				else
 				{
@@ -4631,7 +4671,14 @@ class rsCarthelper
 
 			if (isset($vatData->tax_rate) && !empty($vatData->tax_rate))
 			{
-				$Discountvat = (VAT_RATE_AFTER_DISCOUNT * $totaldiscount) / (1 + VAT_RATE_AFTER_DISCOUNT);
+				$productPriceExclVAT = $cart['product_subtotal_excl_vat'];
+				$productVAT 		 = $cart['product_subtotal'] - $cart['product_subtotal_excl_vat'];
+
+				if ((int) $productPriceExclVAT > 0)
+				{
+					$avgVAT      = (($productPriceExclVAT + $productVAT) / $productPriceExclVAT) - 1;
+					$Discountvat = ($avgVAT * $totaldiscount) / (1 + $avgVAT);
+				}
 			}
 		}
 
@@ -4677,7 +4724,7 @@ class rsCarthelper
 
 			if ($use_cookies_value == 1)
 			{
-				setcookie("redSHOPcart", serialize($cart), time() + (60 * 60 * 24 * 365));
+				setcookie("redSHOPcart", serialize(addslashes($cart)), time() + (60 * 60 * 24 * 365));
 			}
 		}
 
@@ -5457,11 +5504,12 @@ class rsCarthelper
 	public function addProductToCart($data = array())
 	{
 		JPluginHelper::importPlugin('redshop_product');
-		$dispatcher   = JDispatcher::getInstance();
-		$rsUserhelper = new rsUserhelper;
-		$redTemplate  = new Redtemplate;
-		$user         = JFactory::getUser();
-		$cart         = $this->_session->get('cart');
+		$dispatcher       = JDispatcher::getInstance();
+		$rsUserhelper     = new rsUserhelper;
+		$redTemplate      = new Redtemplate;
+		$user             = JFactory::getUser();
+		$cart             = $this->_session->get('cart');
+		$data['quantity'] = round($data['quantity']);
 
 		if (!$cart || !array_key_exists("idx", $cart) || array_key_exists("quotation_id", $cart))
 		{
@@ -5676,9 +5724,9 @@ class rsCarthelper
 			$calc_output_array = $discountArr[1];
 
 			// Calculate price without VAT
-			$data['product_price'] += $discountArr[2] + $discountArr[3];
+			$data['product_price'] = $discountArr[2] + $discountArr[3];
 
-			$cart[$idx]['product_price_excl_vat'] += $discountArr[2];
+			$cart[$idx]['product_price_excl_vat'] = $discountArr[2];
 			$product_vat_price += $discountArr[3];
 			$cart[$idx]['discount_calc_price'] = $discountArr[2];
 		}
@@ -5874,6 +5922,13 @@ class rsCarthelper
 				$newdiff2 = array_diff($selectAtt[0], $prevSelectAtt[0]);
 
 				if (count($newdiff1) > 0 || count($newdiff2) > 0)
+				{
+					$sameProduct = false;
+				}
+
+				if (!empty($discountArr)
+					&& ($cart[$i]["discount_calc"]["calcWidth"] != $data["calcWidth"]
+					|| $cart[$i]["discount_calc"]["calcDepth"] != $data["calcDepth"]))
 				{
 					$sameProduct = false;
 				}
@@ -6898,7 +6953,10 @@ class rsCarthelper
 			$total_sheet = $finalArea / $final_product_Area;
 
 			// Returns the next highest integer value by rounding up value if necessary.
-			$total_sheet = ceil($total_sheet);
+			if (isset($data->allow_decimal_piece) && $data->allow_decimal_piece)
+			{
+				$total_sheet = ceil($total_sheet);
+			}
 
 			// If sheet is less than 0 or equal to 0 than
 			if ($total_sheet <= 0)
@@ -6906,6 +6964,9 @@ class rsCarthelper
 
 			// Product price of all sheets
 			$product_price_total = $total_sheet * $product_price;
+
+			$discount_calc_data = array();
+			$discount_calc_data[0] = new stdClass;
 
 			// Generating array
 			$discount_calc_data[0]->area_price         = $product_price;
@@ -6956,6 +7017,8 @@ class rsCarthelper
 				}
 			}
 
+			// Applying TAX
+			$chktag              = $this->_producthelper->getApplyattributeVatOrNot();
 
 			$conversation_unit = $discount_calc_data[0]->discount_calc_unit;
 
@@ -6969,8 +7032,6 @@ class rsCarthelper
 
 				$formatted_price_per_area = $this->_producthelper->getProductFormattedPrice($area_price);
 
-				// Applying TAX
-				$chktag              = $this->_producthelper->getApplyattributeVatOrNot();
 				$price_per_piece_tax = $this->_producthelper->getProductTax($product_id, $price_per_piece, 0, 1);
 
 				echo $display_final_area . "\n";
@@ -7022,41 +7083,58 @@ class rsCarthelper
 
 		$discount_cal['product_price']     = $price_per_piece;
 		$discount_cal['product_price_tax'] = $price_per_piece_tax;
-		$discount_cal['pdcextra_data']     = (count($pdcstring) > 0) ? implode("<br />", $pdcstring) : '';
-		$discount_cal['pdcextra_ids']      = (count($pdcids) > 0) ? implode(",", $pdcids) : '';
-		$discount_cal['total_piece']       = $total_sheet;
+		$discount_cal['pdcextra_data']     = "";
+
+		if (isset($pdcstring) && count($pdcstring) > 0)
+		{
+			$discount_cal['pdcextra_data'] = implode("<br />", $pdcstring);
+		}
+
+		$discount_cal['pdcextra_ids']      = '';
+
+		if (isset($pdcids) && (count($pdcids) > 0))
+		{
+			$discount_cal['pdcextra_ids'] = implode(",", $pdcids);
+		}
+
+		if (isset($total_sheet))
+		{
+			$discount_cal['total_piece']       = $total_sheet;
+		}
+
 		$discount_cal['price_per_piece']   = $area_price;
 
 		return $discount_cal;
 	}
 
 	/**
-	 * Function to get Discount calculation data
+	 * Funtion get Discount calculation data
 	 *
-	 * @param int $area
-	 * @param     $pid
-	 * @param int $areabetween
+	 * @param   number  $area         default value is 0
+	 * @param   number  $pid          default value can be null
+	 * @param   number  $areabetween  default value is 0
 	 *
-	 * @return mixed
+	 * @return object
 	 */
-	public function getDiscountCalcData($area = 0, $pid, $areabetween = 0)
+	public function getDiscountCalcData($area = 0, $pid = 0, $areabetween = 0)
 	{
-		$and = "";
+		$query = $this->_db->getQuery(true)
+			->select("*")
+			->from($this->_db->quoteName("#__redshop_product_discount_calc"))
+			->where($this->_db->quoteName("product_id") . "=" . (int) $pid)
+			->order("id ASC");
 
 		if ($areabetween)
 		{
-			$and .= "AND " . (int) $area . " BETWEEN `area_start` AND `area_end` ";
+			$query->where((floatval($area)) . " BETWEEN `area_start` AND `area_end` ");
 		}
 
 		if ($area)
 		{
-			$and .= " AND (" . (int) $area . " >=`area_start_converted` AND " . (int) $area . " <=`area_end_converted`) ";
+			$query->where($this->_db->quoteName("area_start_converted") . "<=" . floatval($area))
+				->where($this->_db->quoteName("area_end_converted") . ">=" . floatval($area));
 		}
 
-		$query = "SELECT * FROM `" . $this->_table_prefix . "product_discount_calc` "
-			. "WHERE `product_id`=" . (int) $pid . " "
-			. $and
-			. "ORDER BY id ASC ";
 		$this->_db->setQuery($query);
 		$list = $this->_db->loadObjectlist();
 

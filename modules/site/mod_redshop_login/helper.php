@@ -23,7 +23,7 @@ class modRedshopLoginHelper
 		{
 			// stay on the same page
 			$uri = JFactory::getURI();
-			$url = $uri->toString(array('path', 'query', 'fragment'));
+			$url = JFilterOutput::cleanText($uri->toString(array('path', 'query', 'fragment')));
 		}
 
 		return base64_encode($url);

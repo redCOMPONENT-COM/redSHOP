@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
-class accountgroupModelaccountgroup extends JModel
+class RedshopModelAccountgroup extends JModel
 {
 	public $_context = null;
 
@@ -30,7 +30,7 @@ class accountgroupModelaccountgroup extends JModel
 		$app = JFactory::getApplication();
 
 		$this->_context = 'accountgroup_id';
-		$this->_table_prefix = '#__' . TABLE_PREFIX . '_';
+		$this->_table_prefix = '#__redshop_';
 		$limit = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
 		$limitstart = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
 		$limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);

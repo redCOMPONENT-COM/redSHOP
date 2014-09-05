@@ -10,11 +10,11 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php';
-require_once JPATH_COMPONENT . '/helpers/extra_field.php';
-require_once JPATH_COMPONENT . '/helpers/category.php';
+JLoader::load('RedshopHelperAdminOrder');
+JLoader::load('RedshopHelperAdminExtra_field');
+JLoader::load('RedshopHelperAdminCategory');
 
-class shipping_rate_detailViewshipping_rate_detail extends JView
+class RedshopViewShipping_rate_detail extends JView
 {
 	public function display($tpl = null)
 	{
@@ -62,7 +62,7 @@ class shipping_rate_detailViewshipping_rate_detail extends JView
 			JToolBarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
 		}
 
-		$q = "SELECT  country_3_code as value,country_name as text from #__" . TABLE_PREFIX . "_country ORDER BY country_name ASC";
+		$q = "SELECT  country_3_code as value,country_name as text from #__redshop_country ORDER BY country_name ASC";
 		$db->setQuery($q);
 		$countries[] = JHTML::_('select.option', '0', '- ' . JText::_('COM_REDSHOP_SELECT_COUNTRY') . ' -', 'value', 'text');
 		$countries = array_merge($countries, $db->loadObjectList());

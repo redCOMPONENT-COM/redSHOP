@@ -9,11 +9,10 @@
 
 defined('_JEXEC') or die;
 
-include_once JPATH_COMPONENT . '/helpers/helper.php';
-include_once JPATH_COMPONENT . '/helpers/product.php';
-include_once JPATH_COMPONENT . '/helpers/cart.php';
-$adminpath = JPATH_ADMINISTRATOR . '/components/com_redshop';
-include_once $adminpath . '/helpers/shipping.php';
+JLoader::load('RedshopHelperHelper');
+JLoader::load('RedshopHelperProduct');
+JLoader::load('RedshopHelperCart');
+JLoader::load('RedshopHelperAdminShipping');
 
 JHTML::_('behavior.tooltip');
 JHTMLBehavior::modal();

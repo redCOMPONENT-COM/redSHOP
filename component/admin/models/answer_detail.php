@@ -11,9 +11,9 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/mail.php';
+JLoader::load('RedshopHelperAdminMail');
 
-class answer_detailModelanswer_detail extends JModel
+class RedshopModelAnswer_detail extends JModel
 {
 	public $_id = null;
 
@@ -101,7 +101,7 @@ class answer_detailModelanswer_detail extends JModel
 	 */
 	public function store($data)
 	{
-		$row =& $this->getTable('question_detail');
+		$row = $this->getTable('question_detail');
 
 		if (!$data['question_id'])
 		{
@@ -203,7 +203,7 @@ class answer_detailModelanswer_detail extends JModel
 	 */
 	public function saveorder($cid = array(), $order)
 	{
-		$row =& $this->getTable('question_detail');
+		$row = $this->getTable('question_detail');
 		$order = JRequest::getVar('order', array(0), 'post', 'array');
 		$groupings = array();
 		$conditions = array();
@@ -264,7 +264,7 @@ class answer_detailModelanswer_detail extends JModel
 	 */
 	public function orderup()
 	{
-		$row =& $this->getTable('question_detail');
+		$row = $this->getTable('question_detail');
 		$row->load($this->_id);
 		$row->move(-1, 'parent_id= ' . (int) $row->parent_id);
 		$row->store();
@@ -280,7 +280,7 @@ class answer_detailModelanswer_detail extends JModel
 	 */
 	public function orderdown()
 	{
-		$row =& $this->getTable('question_detail');
+		$row = $this->getTable('question_detail');
 		$row->load($this->_id);
 		$row->move(1, 'parent_id = ' . (int) $row->parent_id);
 		$row->store();

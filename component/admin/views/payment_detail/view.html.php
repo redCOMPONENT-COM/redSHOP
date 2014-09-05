@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
-class payment_detailViewpayment_detail extends JView
+class RedshopViewPayment_detail extends JView
 {
 	public function display($tpl = null)
 	{
@@ -64,7 +64,7 @@ class payment_detailViewpayment_detail extends JView
 
 			$paymentcfg = $adminpath . '/helpers/payments/' . $detail->plugin . '/' . $detail->plugin . '.cfg.php';
 
-			include_once ($paymentfile);
+			include_once $paymentfile;
 
 			$ps = new $detail->payment_class;
 
@@ -77,7 +77,7 @@ class payment_detailViewpayment_detail extends JView
 					echo "<font color='red'>" . $paymentcfg . ' is not writable</font>';
 				}
 
-				include_once ($paymentcfg);
+				include_once $paymentcfg;
 			}
 
 			$myparams = new JRegistry($detail->params, $paymentxml);
@@ -93,7 +93,7 @@ class payment_detailViewpayment_detail extends JView
 		$cc_list['diners'] = 'Diners Club';
 
 		$query = ' SELECT shopper_group_id as value, shopper_group_name as text '
-			. ' FROM  #__' . TABLE_PREFIX . '_shopper_group where  published=1';
+			. ' FROM  #__redshop_shopper_group where  published=1';
 
 		$db->setQuery($query);
 

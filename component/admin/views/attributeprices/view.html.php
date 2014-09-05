@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.view');
 jimport('joomla.html.pagination');
 
-class attributepricesViewattributeprices extends JView
+class RedshopViewAttributeprices extends JView
 {
 	public function display($tpl = null)
 	{
