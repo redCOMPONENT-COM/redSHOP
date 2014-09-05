@@ -1149,4 +1149,9 @@ table.grey_area tr td input[type="checkbox"]
 {
 	position: relative;
 }
- 
+
+@media (max-width: 1025px) {
+	.up_image .td2{
+		width: 50% !important;
+	}
+}
