@@ -287,17 +287,20 @@ class producthelper
 		{
 			if ($productData = $this->getProductById($productId, $userId))
 			{
-				$result = new stdClass;
-				$result->price_id = $productData->price_id;
-				$result->product_price = $productData->price_product_price;
-				$result->discount_price = $productData->price_discount_price;
-				$result->product_currency = $productData->price_product_currency;
-				$result->discount_start_date = $productData->price_discount_start_date;
-				$result->discount_end_date = $productData->price_discount_end_date;
+				if (isset($productData->price_id))
+				{
+					$result = new stdClass;
+					$result->price_id = $productData->price_id;
+					$result->product_price = $productData->price_product_price;
+					$result->discount_price = $productData->price_discount_price;
+					$result->product_currency = $productData->price_product_currency;
+					$result->discount_start_date = $productData->price_discount_start_date;
+					$result->discount_end_date = $productData->price_discount_end_date;
+				}
 			}
 		}
 
-		if ($result->discount_price != 0
+		if (!empty($result) && $result->discount_price != 0
 			&& $result->discount_start_date != 0 && $result->discount_end_date != 0
 			&& $result->discount_start_date <= time()
 			&& $result->discount_end_date >= time()
@@ -2865,6 +2868,7 @@ class producthelper
 	{
 		$menu = JFactory::getApplication()->getMenu();
 		$values = array();
+		$helper = new redhelper;
 
 		if ($menuView != "")
 		{
@@ -2891,7 +2895,6 @@ class producthelper
 
 		if ($isRedshop)
 		{
-			$helper = new redhelper;
 			$menuItems = $helper->getRedshopMenuItems();
 		}
 		else
@@ -2905,7 +2908,7 @@ class producthelper
 
 			foreach ($values as $key => $value)
 			{
-				if ($oneMenuItem->query[$key] != $value)
+				if (!$helper->checkMenuQuery($oneMenuItem, array($key => $value)))
 				{
 					$test = false;
 					break;
