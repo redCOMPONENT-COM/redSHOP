@@ -11,7 +11,7 @@ defined('_JEXEC') or die ('restricted access');
 JHTML::_('behavior.tooltip');
 JHTMLBehavior::modal();
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php';
+JLoader::load('RedshopHelperAdminOrder');
 $order_functions = new order_functions();
 
 $is_creditcard = 0;

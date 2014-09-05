@@ -76,7 +76,7 @@ class plgRedshop_paymentrs_payment_paypoint_redirection extends JPlugin
 		$valid = $request['valid'];
 		$auth_code = $request['auth_code'];
 
-		$uri =& JURI::getInstance();
+		$uri = JURI::getInstance();
 		$url = JURI::base();
 		$uid = $user->id;
 		$db = JFactory::getDbo();

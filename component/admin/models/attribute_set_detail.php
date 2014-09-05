@@ -10,14 +10,14 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
-require_once JPATH_COMPONENT . '/helpers/thumbnail.php';
+JLoader::load('RedshopHelperAdminThumbnail');
 jimport('joomla.client.helper');
 JClientHelper::setCredentialsFromRequest('ftp');
 jimport('joomla.filesystem.file');
 
-require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
+JLoader::load('RedshopHelperProduct');
 
-class attribute_set_detailModelattribute_set_detail extends JModel
+class RedshopModelAttribute_set_detail extends JModel
 {
 	public $_id = null;
 
@@ -92,7 +92,7 @@ class attribute_set_detailModelattribute_set_detail extends JModel
 
 	public function store($data)
 	{
-		$row =& $this->getTable();
+		$row = $this->getTable();
 
 		if (!$row->bind($data))
 		{
@@ -413,7 +413,7 @@ class attribute_set_detailModelattribute_set_detail extends JModel
 
 	public function store_attr($data)
 	{
-		$row =& $this->getTable('product_attribute');
+		$row = $this->getTable('product_attribute');
 
 		if (!$row->bind($data))
 		{
@@ -434,7 +434,7 @@ class attribute_set_detailModelattribute_set_detail extends JModel
 
 	public function store_pro($data)
 	{
-		$row =& $this->getTable('attribute_property');
+		$row = $this->getTable('attribute_property');
 
 		if (!$row->bind($data))
 		{
@@ -458,7 +458,7 @@ class attribute_set_detailModelattribute_set_detail extends JModel
 	 */
 	public function store_sub($data)
 	{
-		$row =& $this->getTable('subattribute_property');
+		$row = $this->getTable('subattribute_property');
 
 		if (!$row->bind($data))
 		{
@@ -869,7 +869,7 @@ class attribute_set_detailModelattribute_set_detail extends JModel
 		$attribute['price_quantity_start'] = $product_attribute_price->price_quantity_start;
 		$attribute['price_quantity_end'] = $product_attribute_price->price_quantity_end;
 
-		$row =& $this->getTable('attributeprices_detail');
+		$row = $this->getTable('attributeprices_detail');
 
 		// Bind and save data into 'attributeprices_detail'
 		if (!$row->bind($attribute))
@@ -917,7 +917,6 @@ class attribute_set_detailModelattribute_set_detail extends JModel
 				$post['published'] = $copydata[$i]->published;
 				$row = $this->store($post);
 
-
 				// Fetch attributes from the attribute set ID
 				$query = 'SELECT * FROM ' . $this->_table_prefix . 'product_attribute  WHERE `attribute_set_id` = '
 					. $copydata[$i]->attribute_set_id . ' ';
@@ -930,7 +929,6 @@ class attribute_set_detailModelattribute_set_detail extends JModel
 				{
 					foreach ($product_attributes as $product_attribute)
 					{
-
 						// Create $attribute array of attributes
 						$attribute['attribute_name'] = $product_attribute->attribute_name;
 						$attribute['attribute_required'] = $product_attribute->attribute_required;
@@ -940,7 +938,7 @@ class attribute_set_detailModelattribute_set_detail extends JModel
 						$attribute['ordering'] = $product_attribute->ordering;
 						$attribute['attribute_set_id'] = $attribute_set_id;
 
-						$row =& $this->getTable('product_attribute');
+						$row = $this->getTable('product_attribute');
 
 						// Bind and save data into 'product_attribute'
 						if (!$row->bind($attribute))
@@ -984,6 +982,33 @@ class attribute_set_detailModelattribute_set_detail extends JModel
 									$row->attribute_id = $loopattribute_id;
 								}
 
+								if ($product_attributes_property->property_image)
+								{
+									$image_split = $product_attributes_property->property_image;
+
+									// Make the filename unique.
+									$filename = JPath::clean(time() . '_' . $image_split);
+									$product_attributes_property->property_image = $filename;
+									$src = REDSHOP_FRONT_IMAGES_RELPATH . 'product_attributes/' . $image_split;
+									$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'product_attributes/' . $filename;
+									copy($src, $dest);
+								}
+
+								if ($product_attributes_property->property_main_image)
+								{
+									$prop_main_img = $product_attributes_property->property_main_image;
+									$image_split = $prop_main_img;
+									$image_split = explode('_', $image_split);
+									$image_split = $image_split[1];
+
+									// Make the filename unique.
+									$filename = JPath::clean(time() . '_' . $image_split);
+									$product_attributes_property->property_main_image = $filename;
+									$src = REDSHOP_FRONT_IMAGES_RELPATH . 'property/' . $prop_main_img;
+									$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'property/' . $filename;
+									copy($src, $dest);
+								}
+
 								// Create $attribute_properties array of attributes properties
 
 								$attribute_properties['attribute_id'] = $row->attribute_id;
@@ -996,8 +1021,9 @@ class attribute_set_detailModelattribute_set_detail extends JModel
 								$attribute_properties['ordering'] = $product_attributes_property->ordering;
 								$attribute_properties['setdefault_selected'] = $product_attributes_property->setdefault_selected;
 								$attribute_properties['property_number'] = $product_attributes_property->property_number;
+								$attribute_properties['extra_field'] = $product_attributes_property->extra_field;
 
-								$row =& $this->getTable('attribute_property');
+								$row = $this->getTable('attribute_property');
 
 								// Bind and save data into 'product_attribute_property'
 								if (!$row->bind($attribute_properties))
@@ -1080,6 +1106,34 @@ class attribute_set_detailModelattribute_set_detail extends JModel
 											$row->property_id = $loopproperty_id;
 										}
 
+										if ($product_sub_attributes_property->subattribute_color_image)
+										{
+											$image_split = $product_sub_attributes_property->subattribute_color_image;
+
+											// Make the filename unique.
+											$filename = JPath::clean(time() . '_' . $image_split);
+											$product_sub_attributes_property->subattribute_color_image = $filename;
+											$src = REDSHOP_FRONT_IMAGES_RELPATH . 'subcolor/' . $image_split;
+											$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'subcolor/' . $filename;
+											copy($src, $dest);
+										}
+
+										if ($product_sub_attributes_property->subattribute_color_main_image)
+										{
+											$sub_main_img = $product_sub_attributes_property->subattribute_color_main_image;
+											$image_split = $product_sub_attributes_property->subattribute_color_main_image;
+											$image_split = explode('_', $image_split);
+											$image_split = $image_split[1];
+
+											// Make the filename unique.
+											$filename = JPath::clean(time() . '_' . $image_split);
+
+											$product_sub_attributes_property->subattribute_color_main_image = $filename;
+											$src = REDSHOP_FRONT_IMAGES_RELPATH . 'subproperty/' . $sub_main_img;
+											$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'subproperty/' . $filename;
+											copy($src, $dest);
+										}
+
 										// Create $sub_attribute_properties array of subattributes properties
 										$sub_attribute_properties['subattribute_id'] = $row->property_id;
 										$loopproperty_id = $row->property_id;
@@ -1091,8 +1145,9 @@ class attribute_set_detailModelattribute_set_detail extends JModel
 										$sub_attribute_properties['setdefault_selected'] = $product_sub_attributes_property->setdefault_selected;
 										$sub_attribute_properties['subattribute_color_number'] = $product_sub_attributes_property->subattribute_color_number;
 										$sub_attribute_properties['subattribute_color_title'] = $product_sub_attributes_property->subattribute_color_title;
+										$sub_attribute_properties['extra_field'] = $product_sub_attributes_property->extra_field;
 										$sub_attribute_properties['subattribute_color_main_image'] = $product_sub_attributes_property->subattribute_color_main_image;
-										$row =& $this->getTable('subattribute_property');
+										$row = $this->getTable('subattribute_property');
 
 										// Bind and save data into 'subattribute_property'
 										if (!$row->bind($sub_attribute_properties))
@@ -1197,7 +1252,7 @@ class attribute_set_detailModelattribute_set_detail extends JModel
 
 	public function copyadditionalImage($data)
 	{
-		$rowmedia =& $this->getTable('media_detail');
+		$rowmedia = $this->getTable('media_detail');
 
 		$data['media_id '] = 0;
 

@@ -10,9 +10,9 @@
 defined('_JEXEC') or die;
 
 JLoader::import('joomla.application.component.view');
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/category.php';
+JLoader::load('RedshopHelperAdminCategory');
 
-class product_miniViewproduct_mini extends JView
+class RedshopViewProduct_mini extends JView
 {
 	public function display($tpl = null)
 	{
@@ -59,7 +59,7 @@ class product_miniViewproduct_mini extends JView
 		$this->lists = $lists;
 		$this->products = $products;
 		$this->pagination = $pagination;
-		$this->request_url = $uri->toString();
+		$this->request_url = JFilterOutput::cleanText($uri->toString());
 		parent::display($tpl);
 	}
 }

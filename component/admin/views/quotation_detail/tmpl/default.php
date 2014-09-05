@@ -10,13 +10,13 @@ defined('_JEXEC') or die;
 JHTML::_('behavior.tooltip');
 JHTML::_('behavior.modal');
 
-require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
+JLoader::load('RedshopHelperProduct');
 $producthelper   = new producthelper;
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/quotation.php';
+JLoader::load('RedshopHelperAdminQuotation');
 $quotationHelper = new quotationHelper;
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php';
+JLoader::load('RedshopHelperAdminOrder');
 $order_functions = new order_functions;
 
 $redconfig       = new Redconfiguration;
@@ -109,6 +109,12 @@ $quotation_item = $quotationHelper->getQuotationProduct($quotation->quotation_id
 				<td><?php echo JText::_('COM_REDSHOP_QUOTATION_NOTE');?></td>
 				<td><textarea cols="50" rows="5" name="quotation_note"
 				              id="quotation_note"><?php echo $quotation->quotation_note;?></textarea></td>
+			</tr>
+			<tr>
+				<td><?php echo JText::_('COM_REDSHOP_QUOTATION_CUSTOMER_NOTE');?></td>
+				<td>
+				    <?php echo $quotation->quotation_customer_note;?>
+				</td>
 			</tr>
 			<tr>
 				<td><?php echo JText::_('COM_REDSHOP_QUOTATION_STATUS'); ?></td>
