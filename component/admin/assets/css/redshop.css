@@ -1142,7 +1142,7 @@ div.current select, div.current input, div.current textarea, div.current select 
 		width: 45%;
 	}
 }
-
+/**/
 table.subattribute tr td input[type="checkbox"],
 table.blue_area tr td input[type="checkbox"],
 table.grey_area tr td input[type="checkbox"]
@@ -1170,4 +1170,40 @@ table.grey_area tr td input[type="checkbox"]
 	table.subattribute .up_image{
 		margin-top: 70px;
 	}
+	table#attribute_table td.td7 input.btn_attribute{
+		position: relative;
+		left: -50px;
+	}
+	table#attribute_table td.td7 .remove_attr{
+
+	}
+	table#attribute_table td.td1{
+		width: 17%;
+	}
+	table#attribute_value{
+		margin-left: -100px;
+	}
+	div.remove_attr{
+		margin-top: -20px;
+		left: 138% !important;
+	}
+	#attribute_table td.td2{
+		width: 17% !important;
+	}
+	#attribute_table td.td3{
+		padding-left: 5px;
+	}
+	table.attribute_parameter td.td3{
+		width: 6% !important;
+	}
+	table.attribute_parameter td.td4{
+		width: 19% !important;
+	}
+	table.attribute_parameter td.td5{
+		width: 22% !important;
+	}
+	table.attribute_parameter td.td6{
+		width: 25% !important;
+	}
+
 }
