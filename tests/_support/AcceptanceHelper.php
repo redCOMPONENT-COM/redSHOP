@@ -40,7 +40,8 @@ class AcceptanceHelper extends \Codeception\Module
 		"site_name" => $this->config['site_name'],
 		"admin_email" => $this->config['admin_email'],
 		"language" => $this->config['language'],
-		"sample_data" => $this->config['sample_data']
+		"sample_data" => $this->config['sample_data'],
+		"host" => $this->config['host']
 		];
 
 		return $configuration;
