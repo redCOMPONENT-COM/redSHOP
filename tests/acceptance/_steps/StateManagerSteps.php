@@ -8,6 +8,7 @@
 namespace AcceptanceTester;
 use Codeception\Module\WebDriver;
 
+
 /**
  * Class StateManagerSteps
  *
@@ -57,6 +58,17 @@ class StateManagerSteps extends \AcceptanceTester
 	public function updateState($stateName = 'Test State', $stateNewName = 'New State Name')
 	{
 		$I = $this;
+		$I->amOnPage(\StateManagerPage::$URL);
+		$I->executeInSelenium(
+			function(\WebDriver $webdriver)
+			{
+				$config = $this->getConfig();
+				$webdriver->get($config['host'] . \StateManagerPage::$URL);
+				$element = $webdriver->findElement(\WebDriverBy::xpath(\StateManagerPage::$searchField));
+				$element->clear();
+			}
+		);
+		$I->fillField(\StateManagerPage::$searchField, $stateName);
 		$I->click(\StateManagerPage::$searchButton);
 		$I->click(\StateManagerPage::$checkAll);
 		$I->click('Edit');
@@ -64,7 +76,18 @@ class StateManagerSteps extends \AcceptanceTester
 		$I->click("Save & Close");
 		$I->see('State detail saved');
 		$I->amOnPage(\StateManagerPage::$URL);
-		$I->dontSee($stateName, \StateManagerPage::$stateResultRow);
+		$I->executeInSelenium(
+			function(\WebDriver $webdriver)
+			{
+				$config = $this->getConfig();
+				$webdriver->get($config['host'] . \StateManagerPage::$URL);
+				$element = $webdriver->findElement(\WebDriverBy::xpath(\StateManagerPage::$searchField));
+				$element->clear();
+			}
+		);
+		$I->fillField(\StateManagerPage::$searchField, $stateNewName);
+		$I->click(\StateManagerPage::$searchButton);
+		$I->see($stateNewName, \StateManagerPage::$stateResultRow);
 	}
 
 	/**
@@ -78,6 +101,16 @@ class StateManagerSteps extends \AcceptanceTester
 	{
 		$I = $this;
 		$I->amOnPage(\StateManagerPage::$URL);
+		$I->executeInSelenium(
+			function(\WebDriver $webdriver)
+			{
+				$config = $this->getConfig();
+				$webdriver->get($config['host'] . \StateManagerPage::$URL);
+				$element = $webdriver->findElement(\WebDriverBy::xpath(\StateManagerPage::$searchField));
+				$element->clear();
+			}
+		);
+		$I->fillField(\StateManagerPage::$searchField, $stateName);
 		$I->click(\StateManagerPage::$searchButton);
 		$I->see($stateName, \StateManagerPage::$stateResultRow);
 		$I->click(\StateManagerPage::$checkAll);
