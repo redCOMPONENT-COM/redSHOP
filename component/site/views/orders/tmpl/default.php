@@ -87,8 +87,8 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 			$order_item_name[$j] = $prolist[$j]->order_item_name;
 		}
 
-		$orderpayment = $order_function->getOrderPaymentDetail($this->detail[$i]->order_id);
-		$paymentmethod = $paymentmethod[0];
+		$orderpayment  = $order_function->getOrderPaymentDetail($this->detail[$i]->order_id);
+		$paymentmethod = $orderpayment[0];
 
 		if ($paymentmethod->order_transfee > 0)
 		{
