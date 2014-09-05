@@ -2606,19 +2606,34 @@ class rsCarthelper
 		$downloadProducts     = $this->_order_functions->getDownloadProduct($order_id);
 		$paymentmethod        = $this->_order_functions->getOrderPaymentDetail($order_id);
 		$paymentmethod        = $paymentmethod[0];
+
+		// Initialize Transaction label
+		$transactionIdLabel = '';
+
+		// Check if transaction Id is set
+		if ($paymentmethod->order_payment_trans_id != null)
+		{
+			$transactionIdLabel = JText::_('COM_REDSHOP_PAYMENT_TRANSACTION_ID_LABEL');
+		}
+
+		// Replace Transaction Id and Label
+		$ReceiptTemplate      = str_replace("{transaction_id_label}", $transactionIdLabel, $ReceiptTemplate);
+		$ReceiptTemplate      = str_replace("{transaction_id}", $paymentmethod->order_payment_trans_id, $ReceiptTemplate);
+
+		// Get Payment Method information
 		$paymentmethod_detail = $this->_order_functions->getPaymentMethodInfo($paymentmethod->payment_method_class);
 		$paymentmethod_detail = $paymentmethod_detail [0];
 		$OrderStatus          = $this->_order_functions->getOrderStatusTitle($row->order_status);
 
-		$product_name      = "";
-		$product_price     = "";
-		$subtotal_excl_vat = $cartArr[1];
-		$barcode_code      = $row->barcode;
-		$img_url           = REDSHOP_FRONT_IMAGES_ABSPATH . "barcode/" . $barcode_code . ".png";
-		$bar_replace       = '<img alt="" src="' . $img_url . '">';
+		$product_name         = "";
+		$product_price        = "";
+		$subtotal_excl_vat    = $cartArr[1];
+		$barcode_code         = $row->barcode;
+		$img_url              = REDSHOP_FRONT_IMAGES_ABSPATH . "barcode/" . $barcode_code . ".png";
+		$bar_replace          = '<img alt="" src="' . $img_url . '">';
 
-		$total_excl_vat = $subtotal_excl_vat + ($row->order_shipping - $row->order_shipping_tax) - ($row->order_discount - $row->order_discount_vat);
-		$sub_total_vat  = $row->order_tax + $row->order_shipping_tax;
+		$total_excl_vat       = $subtotal_excl_vat + ($row->order_shipping - $row->order_shipping_tax) - ($row->order_discount - $row->order_discount_vat);
+		$sub_total_vat        = $row->order_tax + $row->order_shipping_tax;
 
 		if (isset($row->voucher_discount) === false)
 		{
