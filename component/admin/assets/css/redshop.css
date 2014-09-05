@@ -1149,9 +1149,25 @@ table.grey_area tr td input[type="checkbox"]
 {
 	position: relative;
 }
-
+@media (max-width: 1754px) {
+.up_image{
+	margin-left: -100px;
+}
+.up_image .td2{
+	width: 16% !important;
+	}
+}
+@media (max-width: 1500px) {
+	.up_image{
+		margin-top: 50px !important;
+		margin-left: 0;
+	}
+	}
 @media (max-width: 1025px) {
 	.up_image .td2{
 		width: 50% !important;
+	}
+	table.subattribute .up_image{
+		margin-top: 70px;
 	}
 }
