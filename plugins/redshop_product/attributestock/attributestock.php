@@ -74,25 +74,30 @@ class PlgRedshop_ProductAttributeStock extends JPlugin
 
 		for ($i = 0; $i < count($property); $i++)
 		{
-			$propertyId = $property[$i]->property_id;
+			$propertyId       = $property[$i]->property_id;
+			$subProperty      = $producthelper->getAttibuteSubProperty(0, $propertyId);
+			$totalSubProperty = count($subProperty);
 
-			$isPropertyStockExist = $stockroomHelper->isStockExists(
+			// Find Propery stock only if there no subPorpery is available
+			if ($totalSubProperty <= 0)
+			{
+				$isPropertyStockExist = $stockroomHelper->isStockExists(
 											$propertyId,
 											"property"
 										);
 
-			$propertyStock[$propertyId] = $isPropertyStockExist;
+				$propertyStock[$propertyId] = $isPropertyStockExist;
 
-			if (!$isPropertyStockExist)
-			{
-				$propertyStock[$propertyId] = $stockroomHelper->isPreorderStockExists(
-												$propertyId,
-												"property"
-											);
+				if (!$isPropertyStockExist)
+				{
+					$propertyStock[$propertyId] = $stockroomHelper->isPreorderStockExists(
+													$propertyId,
+													"property"
+												);
+				}
 			}
 
-			$subProperty = $producthelper->getAttibuteSubProperty(0, $propertyId);
-
+			// Fetch subProperty Stock
 			for ($j = 0; $j < count($subProperty); $j++)
 			{
 				$subPropertyId           = $subProperty[$j]->subattribute_color_id;
