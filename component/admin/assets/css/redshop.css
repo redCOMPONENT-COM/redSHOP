@@ -1148,6 +1148,7 @@ table.blue_area tr td input[type="checkbox"],
 table.grey_area tr td input[type="checkbox"]
 {
 	position: relative;
+	top: 3px;
 }
 @media (max-width: 1754px) {
 .up_image{
