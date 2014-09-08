@@ -5,9 +5,6 @@
  * Thanks to Gary Haran, David Mark, Corey Burns and others for contributions
  */
 (function () {
-    /* global window */
-    /* jslint browser: true, devel: true, undef: true, nomen: true, bitwise: true, regexp: true, newcap: true, immed: true */
-
     /**
      * Wrapper for FireBug's console.log
      */
@@ -24,14 +21,20 @@
      * @param type event name
      * @param fn callback This refers to the passed element
      */
-    function addEvent(el, type, fn){
-        if (el.addEventListener) {
+    function addEvent(el, type, fn)
+    {
+        if (el.addEventListener)
+        {
             el.addEventListener(type, fn, false);
-        } else if (el.attachEvent) {
+        }
+        else if (el.attachEvent)
+        {
             el.attachEvent('on' + type, function(){
                 fn.call(el);
-	        });
-	    } else {
+            });
+        }
+        else
+        {
             throw new Error('not supported or DOM not loaded');
         }
     }
@@ -49,7 +52,7 @@
     function addResizeEvent(fn){
         var timeout;
 
-	    addEvent(window, 'resize', function(){
+        addEvent(window, 'resize', function(){
             if (timeout){
                 clearTimeout(timeout);
             }
@@ -152,15 +155,15 @@
      * @param {Element} to
      */
     function copyLayout(from, to){
-	    var box = getBox(from);
+        var box = getBox(from);
 
         addStyles(to, {
-	        position: 'absolute',
-	        left : box.left + 'px',
-	        top : box.top + 'px',
-	        width : from.offsetWidth + 'px',
-	        height : from.offsetHeight + 'px'
-	    });
+            position: 'absolute',
+            left : box.left + 'px',
+            top : box.top + 'px',
+            width : from.offsetWidth + 'px',
+            height : from.offsetHeight + 'px'
+        });
     }
 
     /**
@@ -421,12 +424,12 @@
                 // has display none when user selects a file
                 if(input.parentNode)
                 {
-                	input.parentNode.style.visibility = 'hidden';
+                    input.parentNode.style.visibility = 'hidden';
                 }
 
             });
 
-	        div.appendChild(input);
+            div.appendChild(input);
             document.body.appendChild(div);
 
             this._input = input;
@@ -460,7 +463,7 @@
                 }
 
                 if ( ! self._input){
-	                self._createInput();
+                    self._createInput();
                 }
 
                 var div = self._input.parentNode;
@@ -674,3 +677,31 @@
         }
     };
 })();
+
+/**
+ * Function to remove Extra Field AJAX upload data
+ *
+ * @param   {json}  removeData  Parameter json Object
+ *
+ * @return  {void}
+ */
+function removeAjaxUpload(removeData)
+{
+    jQuery.ajax({
+        type: "POST",
+        url: removeData.action,
+        data: {fileName: removeData.name},
+        success: function(data){
+            jQuery('#uploadNameSpan' + removeData.id).remove();
+
+            jQuery('#rs_upload_' + removeData.product_id).val(
+                jQuery("#ol_" + removeData.uniqueOl + " li").map(function() {
+                    return jQuery(this).attr("name");
+                }).get().join(",")
+            );
+        },
+        fail: function() {
+            console.log("error");
+        }
+    });
+}

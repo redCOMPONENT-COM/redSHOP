@@ -787,23 +787,86 @@ class RedshopControllerProduct extends JController
 	 */
 	public function ajaxupload()
 	{
-		$uploaddir = JPATH_COMPONENT_SITE . '/assets/document/product/';
-		$name = JRequest::getVar('mname');
-		$filename = time() . '_' . basename($_FILES[$name]['name']);
-		$uploadfile = $uploaddir . $filename;
+		$app = JFactory::getApplication();
 
-		if (move_uploaded_file($_FILES[$name]['tmp_name'], $uploadfile))
+		$uploaddir  = JPATH_COMPONENT_SITE . '/assets/document/product/';
+		$name       = $app->input->getCmd('mname') . '_' . $app->input->getInt('product_id');
+
+		if (isset($_FILES[$name]))
 		{
-			echo $filename;
+			$fileExtension = JFile::getExt($_FILES[$name]['name']);
+
+			$fileOrgName = $_FILES[$name]['name'];
+			$filename    = time()
+						. '_'
+						. JFilterOutput::stringURLSafe(JFile::stripExt($fileOrgName))
+						. '.'
+						. $fileExtension;
+
+			$uploadfile = JPath::clean($uploaddir . $filename);
+
+			$legalExts = explode(",", MEDIA_ALLOWED_MIME_TYPE);
+
+			// If Extension is not legal than don't upload file
+			if (!in_array($fileExtension, $legalExts))
+			{
+				echo JText::_('COM_REDSHOP_FILE_EXTENSION_NOT_ALLOWED');
+
+				$app->close();
+			}
+
+			if (move_uploaded_file($_FILES[$name]['tmp_name'], $uploadfile))
+			{
+				$random                 = rand();
+				$sendData               = array();
+				$sendData['id']         = $random;
+				$sendData['product_id'] = $app->input->getInt('product_id');
+				$sendData['uniqueOl']   = $app->input->getString('uniqueOl');
+				$sendData['name']       = $filename;
+				$sendData['action']     = JURI::root() . 'index.php?tmpl=component&option=com_redshop&view=product&task=removeAjaxUpload';
+
+				echo "<li id='uploadNameSpan" . $random . "' name='" . $filename . "'>"
+						. "<span>" . $fileOrgName . "</span>"
+						. "<a href='javascript:removeAjaxUpload(" . json_encode($sendData) . ");'>&nbsp;Remove</a>"
+					. "</li>";
+			}
+			else
+			{
+				// WARNING! DO NOT USE "FALSE" STRING AS A RESPONSE!
+				// Otherwise onSubmit event will not be fired
+				echo "error";
+			}
 		}
 		else
 		{
-			// WARNING! DO NOT USE "FALSE" STRING AS A RESPONSE!
-			// Otherwise onSubmit event will not be fired
-			echo "error";
+			echo JText::_('COM_REDSHOP_NO_FILE_SELECTED');
 		}
 
-		exit;
+		$app->close();
+	}
+
+	/**
+	 * Function to remove Extra Field AJAX upload data
+	 *
+	 * @return  void
+	 */
+	function removeAjaxUpload()
+	{
+		$app = JFactory::getApplication();
+
+		$fileName = $app->input->getString('fileName');
+		$filePath = JPATH_SITE . '/components/com_redshop/assets/document/product/' . $fileName;
+
+		if (is_file($filePath))
+		{
+			unlink($filePath);
+		}
+		else
+		{
+			echo "No File at:" . JUri::root() . 'components/com_redshop/assets/document/product/' . $fileName;
+		}
+
+		$app->close();
 	}
 
 	/**

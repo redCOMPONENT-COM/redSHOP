@@ -840,6 +840,7 @@ class Redconfiguration
 						"DISPLAY_STATISTIC"                            => $d ['display_statistic'],
 						"EXPAND_ALL"                                   => $d ['expand_all'],
 						"AJAX_CART_DISPLAY_TIME"                       => $d ['ajax_cart_display_time'],
+						"MEDIA_ALLOWED_MIME_TYPE"                      => $d ['media_allowed_mime_type'],
 						"IMAGE_QUALITY_OUTPUT"                         => $d ['image_quality_output'],
 						"SEND_CATALOG_REMINDER_MAIL"                   => $d ['send_catalog_reminder_mail'],
 						"CATEGORY_IN_SEF_URL"                          => $d ['category_in_sef_url'],
