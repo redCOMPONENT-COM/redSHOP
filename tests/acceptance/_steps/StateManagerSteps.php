@@ -18,7 +18,7 @@ use Codeception\Module\WebDriver;
  *
  * @since    1.4
  */
-class StateManagerSteps extends \AcceptanceTester
+class StateManagerSteps extends AdminManagerSteps
 {
 	/**
 	 * Function to Add a State
@@ -35,7 +35,9 @@ class StateManagerSteps extends \AcceptanceTester
 		$I = $this;
 		$I->amOnPage(\StateManagerPage::$URL);
 		$I->see('States');
+		$I->verifyNotices(false, $this->checkForNotices(), 'States Manager Page');
 		$I->click('New');
+		$I->verifyNotices(false, $this->checkForNotices(), 'States Manager New');
 		$I->selectOption(\StateManagerPage::$countryId, $countryName);
 		$I->fillField(\StateManagerPage::$stateName, $stateName);
 		$I->fillField(\StateManagerPage::$stateTwoCode, $twoCode);
@@ -72,6 +74,7 @@ class StateManagerSteps extends \AcceptanceTester
 		$I->click(\StateManagerPage::$searchButton);
 		$I->click(\StateManagerPage::$checkAll);
 		$I->click('Edit');
+		$I->verifyNotices(false, $this->checkForNotices(), 'States Manager Edit');
 		$I->fillField(\StateManagerPage::$stateName, $stateNewName);
 		$I->click("Save & Close");
 		$I->see('State detail saved');
