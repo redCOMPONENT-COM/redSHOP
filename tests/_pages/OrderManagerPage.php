@@ -7,13 +7,13 @@
  */
 
 /**
- * Class MediaManagerPage
+ * Class OrderManagerPage
  *
  * @link   http://codeception.com/docs/07-AdvancedUsage#PageObjects
  *
  * @since  1.4
  */
-class MediaManagerPage
+class OrderManagerPage
 {
-	public static $URL = '/administrator/index.php?option=com_redshop&view=media';
+	public static $URL = '/administrator/index.php?option=com_redshop&view=order';
 }
