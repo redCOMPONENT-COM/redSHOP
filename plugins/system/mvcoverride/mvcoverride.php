@@ -15,8 +15,6 @@ jimport('joomla.filesystem.folder');
 require_once 'helper/override.php';
 require_once 'helper/codepool.php';
 
-MVCOverrideHelperCodepool::initialize();
-
 /**
  * PlgSystemMVCOverride class.
  *
@@ -58,6 +56,7 @@ class PlgSystemMVCOverride extends JPlugin
 	 */
 	public function onAfterRoute()
 	{
+		MVCOverrideHelperCodepool::initialize();
 		$option = $this->getOption();
 
 		if ($option === false)
@@ -87,7 +86,7 @@ class PlgSystemMVCOverride extends JPlugin
 
 		foreach (MVCOverrideHelperCodepool::addCodePath() as $codePool)
 		{
-			if (JVERSION > 2.5)
+			if (version_compare(JVERSION, '3.0', '>='))
 			{
 				JModelLegacy::addIncludePath($codePool . '/' . $option . '/models');
 				JViewLegacy::addViewHelperPath($codePool . '/' . $option);
