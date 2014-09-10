@@ -14,9 +14,9 @@ before_script:
   - pwd
   - cd /home/travis/build/redCOMPONENT-COM/redSHOP/tests/system/joomla-cms/
   - sudo touch test.php
-  - sudo echo '<?php trigger_error("Testing Message on Travis", E_USER_NOTICE); ?>' > test.php
+  - echo '<?php trigger_error("Testing Message on Travis", E_USER_NOTICE); ?>' > test.php
   - cat test.php
-  - cd ~
+  - cd /home/travis/build/redCOMPONENT-COM/redSHOP/
   - sudo ln -s /home/travis/build/redCOMPONENT-COM/redSHOP/tests/system/joomla-cms/ /var/www/joomla-cms #Add joomla to apache htdocs
   - sudo sed -i -e "s,AllowOverride[ ]None,AllowOverride All,g" /etc/apache2/sites-available/default
   - sudo /etc/init.d/apache2 restart
