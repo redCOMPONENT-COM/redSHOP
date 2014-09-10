@@ -33,7 +33,7 @@ before_script:
 
 
 script:
-  - curl "http://localhost/joomla-cms/test.php"
+  - curl "http://localhost/joomla-cms/administrator/index.php?option=com_redshop&view=state"
   - php .travis/traviswebserverckecker.php http://localhost/joomla-cms/installation/index.php # Test apache
   #- php .travis/phpparseerrorchecker.php component/ modules/ plugins/
   # - phing -f .travis.xml
