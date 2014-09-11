@@ -9,7 +9,7 @@
 // Load the Step Object Page
 $I = new AcceptanceTester\LoginSteps($scenario);
 
-$I->wantTo('Want to Test Supplier Manager');
+$I->wantTo('Test Supplier Manager in Administrator');
 $I->doAdminLogin();
 $I = new AcceptanceTester\SupplierManagerSteps($scenario);
 $I->addSupplier();
