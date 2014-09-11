@@ -11,15 +11,15 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
-require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
-require_once JPATH_COMPONENT_SITE . '/helpers/helper.php';
-require_once JPATH_SITE . '/components/com_redshop/helpers/cart.php';
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/mail.php';
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php';
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/product.php';
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/quotation.php';
+JLoader::load('RedshopHelperProduct');
+JLoader::load('RedshopHelperHelper');
+JLoader::load('RedshopHelperCart');
+JLoader::load('RedshopHelperAdminMail');
+JLoader::load('RedshopHelperAdminOrder');
+JLoader::load('RedshopHelperAdminProduct');
+JLoader::load('RedshopHelperAdminQuotation');
 
-class addquotation_detailModeladdquotation_detail extends JModel
+class RedshopModelAddquotation_detail extends JModel
 {
 	public $_id = null;
 

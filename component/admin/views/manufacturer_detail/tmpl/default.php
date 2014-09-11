@@ -22,10 +22,6 @@ $plg_manufacturer = $order_functions->getparameters('plg_manucaturer_excluding_c
 
 <script language="javascript" type="text/javascript">
 	Joomla.submitbutton = function (pressbutton) {
-		submitbutton(pressbutton);
-	}
-
-	submitbutton = function (pressbutton) {
 		var form = document.adminForm;
 		if (pressbutton == 'cancel') {
 			submitform(pressbutton);

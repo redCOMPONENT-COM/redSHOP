@@ -17,7 +17,7 @@ if (!isset($billing->order_info_id))
 	$billing->order_info_id = 0;
 
 $Itemid = JRequest::getVar('Itemid');
-require_once JPATH_COMPONENT . '/helpers/extra_field.php';
+JLoader::load('RedshopHelperAdminExtra_field');
 ?>
 <script type="text/javascript">
 
