@@ -9,29 +9,8 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.plugin.plugin');
-
 class plgRedshop_paymentrs_payment_payer extends JPlugin
 {
-	public $_table_prefix = null;
-
-	/**
-	 * Constructor
-	 *
-	 * For php4 compatability we must not use the __constructor as a constructor for
-	 * plugins because func_get_args ( void ) returns a copy of all passed arguments
-	 * NOT references.  This causes problems with cross-referencing necessary for the
-	 * observer design pattern.
-	 */
-	public function plgRedshop_paymentrs_payment_payer(&$subject)
-	{
-		// Load plugin parameters
-		parent::__construct($subject);
-		$this->_table_prefix = '#__redshop_';
-		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_payer');
-		$this->_params = new JRegistry($this->_plugin->params);
-	}
-
 	/**
 	 * Plugin method with the same name as the event will be called automatically.
 	 */
@@ -48,8 +27,8 @@ class plgRedshop_paymentrs_payment_payer extends JPlugin
 		}
 
 		$app = JFactory::getApplication();
-		$paymentpath = JPATH_SITE . '/plugins/redshop_payment/' . $plugin . '/' . $plugin . '/extra_info.php';
-		include $paymentpath;
+
+		include JPATH_SITE . '/plugins/redshop_payment/' . $plugin . '/' . $plugin . '/extra_info.php';
 	}
 
 	/**
@@ -64,10 +43,10 @@ class plgRedshop_paymentrs_payment_payer extends JPlugin
 			return false;
 		}
 
-		$order_id = $request['orderid'];
-		$verify_status = $this->_params->get('verify_status', '');
-		$invalid_status = $this->_params->get('invalid_status', '');
-		$values = new stdClass;
+		$order_id       = $request['orderid'];
+		$verify_status  = $this->params->get('verify_status', '');
+		$invalid_status = $this->params->get('invalid_status', '');
+		$values         = new stdClass;
 
 		// Loads Payers API.
 		include JPATH_SITE . '/plugins/redshop_payment/' . $element . '/' . $element . '/payread_post_api.php';
@@ -75,8 +54,8 @@ class plgRedshop_paymentrs_payment_payer extends JPlugin
 		// Creates an object from Payers API.
 		$postAPI = new payread_post_api;
 
-		$postAPI->setAgent($this->_params->get("agent_id"));
-		$postAPI->setKeys($this->_params->get("payer_key1"), $this->_params->get("payer_key2"));
+		$postAPI->setAgent($this->params->get("agent_id"));
+		$postAPI->setKeys($this->params->get("payer_key1"), $this->params->get("payer_key2"));
 
 		if ($postAPI->is_valid_ip())
 		{
