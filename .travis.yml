@@ -11,6 +11,12 @@ before_script:
   - sudo apt-get update -qq
   - sudo apt-get install -y --force-yes apache2 libapache2-mod-php5 php5-curl php5-mysql php5-intl > /dev/null
   - sudo chmod 777 -R /home/travis/build/redCOMPONENT-COM/redSHOP/
+  - pwd
+  - cd /home/travis/build/redCOMPONENT-COM/redSHOP/tests/system/joomla-cms/
+  - sudo touch test.php
+  - echo '<?php trigger_error("Testing Message on Travis", E_USER_NOTICE); ?>' > test.php
+  - cat test.php
+  - cd /home/travis/build/redCOMPONENT-COM/redSHOP/
   - sudo ln -s /home/travis/build/redCOMPONENT-COM/redSHOP/tests/system/joomla-cms/ /var/www/joomla-cms #Add joomla to apache htdocs
   - sudo sed -i -e "s,AllowOverride[ ]None,AllowOverride All,g" /etc/apache2/sites-available/default
   - sudo /etc/init.d/apache2 restart
@@ -33,6 +39,7 @@ before_script:
 
 
 script:
+  - curl "http://localhost/joomla-cms/test.php"
   - php .travis/traviswebserverckecker.php http://localhost/joomla-cms/installation/index.php # Test apache
   #- php .travis/phpparseerrorchecker.php component/ modules/ plugins/
   # - phing -f .travis.xml
