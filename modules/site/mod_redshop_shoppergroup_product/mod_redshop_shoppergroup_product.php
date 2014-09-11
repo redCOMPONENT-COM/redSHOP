@@ -25,18 +25,21 @@ $show_vat                 = trim($params->get('show_vat', 1));
 
 $user = JFactory::getUser();
 $db   = JFactory::getDbo();
+
 if ($option != 'com_redshop')
 {
 	// Getting the configuration
 	require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
-	require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/configuration.php';
-	$Redconfiguration = new Redconfiguration();
+	JLoader::import('loadhelpers', JPATH_SITE . '/components/com_redshop');
+	JLoader::load('RedshopHelperAdminConfiguration');
+	$Redconfiguration = new Redconfiguration;
 	$Redconfiguration->defineDynamicVars();
 }
-require_once JPATH_SITE . '/components/com_redshop/helpers/product.php';
-require_once JPATH_SITE . '/components/com_redshop/helpers/helper.php';
-require_once JPATH_SITE . '/administrator/components/com_redshop/helpers/template.php';
-require_once JPATH_SITE . '/components/com_redshop/helpers/extra_field.php';
+
+JLoader::load('RedshopHelperProduct');
+JLoader::load('RedshopHelperHelper');
+JLoader::load('RedshopHelperAdminTemplate');
+JLoader::load('RedshopHelperExtra_field');
 
 $and              = "";
 $shopper_group_id = SHOPPER_GROUP_DEFAULT_UNREGISTERED;

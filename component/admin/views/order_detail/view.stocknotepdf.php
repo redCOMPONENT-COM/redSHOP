@@ -11,11 +11,11 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/extra_field.php';
-//
+JLoader::load('RedshopHelperAdminExtra_field');
 require_once JPATH_COMPONENT_SITE . '/helpers/tcpdf/tcpdf.php';
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php';
-class order_detailVIEWorder_detail extends JView
+JLoader::load('RedshopHelperAdminOrder');
+
+class RedshopViewOrder_detail extends JView
 {
 	function display($tpl = null)
 	{

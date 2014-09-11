@@ -11,10 +11,10 @@ JHTML::_('behavior.tooltip');
 JHTML::_('behavior.modal');
 JHTML::_('behavior.calendar');
 
-require_once JPATH_COMPONENT . '/helpers/extra_field.php';
-require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
+JLoader::load('RedshopHelperAdminExtra_field');
+JLoader::load('RedshopHelperProduct');
 $producthelper = new producthelper;
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php';
+JLoader::load('RedshopHelperAdminOrder');
 $order_functions = new order_functions;
 $redconfig = new Redconfiguration;
 
@@ -477,10 +477,16 @@ function validateUserDetail() {
 								<td width="100" align="right"><?php echo JText::_('COM_REDSHOP_COUNTRY'); ?>:</td>
 								<td><?php echo $this->lists['country_code_ST']; ?></td>
 							</tr>
-							<tr>
+							<tr id="div_state_st_txt">
 								<td width="100" align="right"><?php echo JText::_('COM_REDSHOP_STATE'); ?>:</td>
 								<td><?php echo $this->lists['state_code_ST']; ?></td>
 							</tr>
+							<script type="text/javascript" language="javascript">
+								if (document.getElementById('state_code_ST').options[1] == undefined)
+								{
+									document.getElementById('div_state_st_txt').style.display = 'none';
+								}
+							</script>
 							<tr>
 								<td width="100" align="right"><?php echo JText::_('COM_REDSHOP_PHONE'); ?>:</td>
 								<td><input class="inputbox" type="text" name="phone_ST" maxlength="20"

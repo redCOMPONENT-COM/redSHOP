@@ -10,13 +10,13 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
-require_once JPATH_COMPONENT . '/helpers/order.php';
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/mail.php';
-require_once JPATH_SITE . '/components/com_redshop/helpers/helper.php';
+JLoader::load('RedshopHelperAdminOrder');
+JLoader::load('RedshopHelperAdminMail');
+JLoader::load('RedshopHelperHelper');
 require_once JPATH_SITE . '/components/com_redshop/helpers/tcpdf/tcpdf.php';
 require_once JPATH_SITE . '/components/com_redshop/helpers/tcpdf/PDFMerger.php';
 
-class orderController extends JController
+class RedshopControllerOrder extends JController
 {
 	public function multiprint_order()
 	{
@@ -65,11 +65,20 @@ class orderController extends JController
 		$model->update_status();
 	}
 
-	public function allstatus()
+	/**
+	 * Update all Order Status using AJAX
+	 *
+	 * @param   boolean  $isPacsoft  If true then Pacsoft lable will be created else not
+	 *
+	 * @return  void
+	 */
+	public function allstatus($isPacsoft = true)
 	{
 		$session = JFactory::getSession();
 		$post = JRequest::get('post');
 		$option = $post['option'];
+		$post['isPacsoft'] = $isPacsoft;
+
 		$merge_invoice_arr = array();
 
 		$session->clear('updateOrderIdPost');
@@ -81,6 +90,21 @@ class orderController extends JController
 		return;
 	}
 
+	/**
+	 * Update All Order status using AJAX without generating pacsoft label
+	 *
+	 * @return  void
+	 */
+	public function allStatusExceptPacsoft()
+	{
+		$this->allstatus(false);
+	}
+
+	/**
+	 * Update All Order status AJAX Task
+	 *
+	 * @return  html  Simply display HTML as AJAX Response
+	 */
 	public function updateOrderStatus()
 	{
 		$session = JFactory::getSession();
@@ -102,11 +126,12 @@ class orderController extends JController
 
 				for ($m = 0; $m < count($merge_invoice_arr); $m++)
 				{
-					if (file_exists(JPATH_SITE . '/components/com_redshop/assets/document'
-						. '/invoice/shipped_' . $merge_invoice_arr[$m] . '.pdf'))
+					if (file_exists(
+						JPATH_SITE . '/components/com_redshop/assets/document' . '/invoice/shipped_' . $merge_invoice_arr[$m] . '.pdf'
+						))
 					{
-						$pdf->addPDF(JPATH_SITE . '/components/com_redshop/assets/document'
-							. '/invoice/shipped_' . $merge_invoice_arr[$m] . '.pdf', 'all'
+						$pdf->addPDF(
+							JPATH_SITE . '/components/com_redshop/assets/document' . '/invoice/shipped_' . $merge_invoice_arr[$m] . '.pdf', 'all'
 						);
 					}
 				}
@@ -117,10 +142,12 @@ class orderController extends JController
 
 				for ($m = 0; $m < count($merge_invoice_arr); $m++)
 				{
-					if (file_exists(JPATH_SITE . '/components/com_redshop/assets/document'
-						. '/invoice/shipped_' . $merge_invoice_arr[$m] . '.pdf'))
+					if (file_exists(
+						JPATH_SITE . '/components/com_redshop/assets/document' . '/invoice/shipped_' . $merge_invoice_arr[$m] . '.pdf'
+						))
 					{
-						unlink(JPATH_ROOT . '/components/com_redshop/assets/document/invoice/shipped_' . $merge_invoice_arr[$m] . '.pdf'
+						unlink(
+							JPATH_ROOT . '/components/com_redshop/assets/document/invoice/shipped_' . $merge_invoice_arr[$m] . '.pdf'
 						);
 					}
 				}
@@ -173,6 +200,11 @@ class orderController extends JController
 
 			$responcemsg .= "</div>";
 		}
+
+		// Trigger when order status changed.
+		$dispatcher = JDispatcher::getInstance();
+		JPluginHelper::importPlugin('redshop_product');
+		$results = $dispatcher->trigger('onAjaxOrderStatusUpdate', array($post));
 
 		$responcemsg = "<div id='sentresponse'>" . $responcemsg . "</div>";
 		echo $responcemsg;
@@ -321,7 +353,15 @@ class orderController extends JController
 			echo utf8_decode($order_function->getOrderStatusTitle($data [$i]->order_status)) . " ,";
 			echo date('d-m-Y H:i', $data [$i]->cdate) . " ,";
 
-			echo str_replace(",", " ", $details[1]) . "(" . str_replace(",", " ", $details[2]) . ") ,";
+			if (empty($details))
+			{
+				echo str_replace(",", " ", $details[1]) . "(" . str_replace(",", " ", $details[2]) . ") ,";
+			}
+			else
+			{
+				echo '';
+			}
+
 			$shipping_info = $order_function->getOrderShippingUserInfo($data [$i]->order_id);
 
 			echo str_replace(",", " ", $shipping_info->firstname) . " " . str_replace(",", " ", $shipping_info->lastname) . " ,";

@@ -6,10 +6,10 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
-$producthelper = new producthelper;
+JLoader::load('RedshopHelperProduct');
+$producthelper = new producthelper();
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/quotation.php';
+JLoader::load('RedshopHelperAdminQuotation');
 $quotationHelper = new quotationHelper;
 
 $config = new Redconfiguration;

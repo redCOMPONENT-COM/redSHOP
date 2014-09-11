@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
-class templateViewtemplate extends JView
+class RedshopViewTemplate extends JView
 {
 	public function display($tpl = null)
 	{
@@ -57,6 +57,7 @@ class templateViewtemplate extends JView
 		$this->templates = $templates;
 		$this->pagination = $pagination;
 		$this->request_url = $uri->toString();
+		$this->state = $this->get("state");
 
 		parent::display($tpl);
 	}
