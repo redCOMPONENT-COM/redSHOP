@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 JLoader::load('RedshopHelperProduct');
-$producthelper = new producthelper();
+$producthelper = new producthelper;
 
 JLoader::load('RedshopHelperAdminQuotation');
 $quotationHelper = new quotationHelper;
