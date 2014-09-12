@@ -61,7 +61,7 @@ class RedShopMailsManagerPage extends AdminManagerPage
 		$mailSubjectField->sendKeys($mailSubject);
 		$elementObject->findElement(By::xPath("//option[text() = '" . $mailSection . "']"))->click();
 		$elementObject->findElement(By::xPath("//a[@onclick=\"Joomla.submitbutton('save')\"]"))->click();
-		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='filter']"), 10);
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='filter']"), 30);
 	}
 
 	/**
@@ -87,7 +87,7 @@ class RedShopMailsManagerPage extends AdminManagerPage
 		$elementObject->findElement(By::xPath("//input[@id='cb" . $row . "']"))->click();
 		$elementObject->findElement(By::xPath("//li[@id='toolbar-edit']/a"))->click();
 		$this->checkNoticesForEditView(get_class($this));
-		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='mail_name']"), 10);
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='mail_name']"), 30);
 
 		switch ($field)
 		{
@@ -107,7 +107,7 @@ class RedShopMailsManagerPage extends AdminManagerPage
 		}
 
 		$elementObject->findElement(By::xPath("//a[@onclick=\"Joomla.submitbutton('save')\"]"))->click();
-		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='filter']"), 10);
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='filter']"), 30);
 	}
 
 	/**

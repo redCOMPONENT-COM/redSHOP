@@ -11,7 +11,7 @@ defined( '_JEXEC' ) or die;
 
 jimport( 'joomla.application.component.view' );
 
-require_once  JPATH_COMPONENT_SITE . '/helpers/product.php';
+JLoader::load('RedshopHelperProduct');
 
 class RedshopViewAnswer_detail extends JView
 {

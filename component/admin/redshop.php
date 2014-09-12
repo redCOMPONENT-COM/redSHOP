@@ -32,13 +32,16 @@
 		require_once $configpath;
 	}
 
-	require_once JPATH_COMPONENT . '/helpers/configuration.php';
-	require_once JPATH_COMPONENT . '/helpers/template.php';
-	require_once JPATH_COMPONENT . '/helpers/stockroom.php';
-	require_once JPATH_COMPONENT . '/helpers/economic.php';
-	require_once JPATH_COMPONENT . '/helpers/access_level.php';
-	require_once JPATH_ROOT . '/components/com_redshop/helpers/helper.php';
-	require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/images.php';
+	JLoader::import('loadhelpers', JPATH_SITE . '/components/com_redshop');
+	JLoader::load('RedshopHelperAdminProduct');
+	JLoader::load('RedshopHelperAdminConfiguration');
+	JLoader::load('RedshopHelperAdminTemplate');
+	JLoader::load('RedshopHelperAdminStockroom');
+	JLoader::load('RedshopHelperAdminEconomic');
+	JLoader::load('RedshopHelperAdminAccess_level');
+	JLoader::load('RedshopHelperHelper');
+	JLoader::load('RedshopHelperAdminImages');
+	JLoader::load('RedshopHelperAdminCategory');
 
 	$redhelper = new redhelper;
 	$redhelper->removeShippingRate();
@@ -82,6 +85,8 @@
 				$redaccesslevel->checkgroup_access('wizard', '', $user->gid);
 			}
 		}
+
+		JRequest::setVar('view', 'wizard');
 
 		require_once JPATH_COMPONENT . '/helpers/wizard/wizard.php';
 		$redSHOPWizard = new redSHOPWizard;
@@ -147,7 +152,7 @@
 			&& $controller != 'orderstatus_detail')
 		{
 			echo '<div style="float:left;width:19%; margin-right:1%;">';
-			require_once JPATH_COMPONENT . '/helpers/menu.php';
+			JLoader::load('RedshopHelperAdminMenu');
 			$menu = new leftmenu;
 			echo '</div>';
 

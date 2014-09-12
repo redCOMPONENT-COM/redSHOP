@@ -9,14 +9,14 @@
 
 defined('_JEXEC') or die;
 
-JLoader::import('currency', JPATH_SITE . '/components/com_redshop/helpers');
-JLoader::import('helper', JPATH_SITE . '/components/com_redshop/helpers');
-JLoader::import('extra_field', JPATH_SITE . '/components/com_redshop/helpers');
-JLoader::import('user', JPATH_SITE . '/components/com_redshop/helpers');
-JLoader::import('order', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
-JLoader::import('quotation', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
-JLoader::import('template', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
-JLoader::import('stockroom', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
+JLoader::load('RedshopHelperCurrency');
+JLoader::load('RedshopHelperHelper');
+JLoader::load('RedshopHelperExtra_field');
+JLoader::load('RedshopHelperUser');
+JLoader::load('RedshopHelperAdminOrder');
+JLoader::load('RedshopHelperAdminQuotation');
+JLoader::load('RedshopHelperAdminTemplate');
+JLoader::load('RedshopHelperAdminStockroom');
 
 class producthelper
 {
@@ -52,9 +52,15 @@ class producthelper
 
 	public $_attributewithcart_template = null;
 
-	public $_shopper_group_id = null;
+	protected static $products = array();
 
-	public $_discount_product_data = null;
+	protected static $userShopperGroupData = array();
+
+	protected static $vatRate = array();
+
+	protected static $productSpecialIds = array();
+
+	protected static $productSpecialPrices = array();
 
 	function __construct()
 	{
@@ -83,17 +89,129 @@ class producthelper
 		return $result;
 	}
 
-	public function getProductById($product_id)
+	/**
+	 * Get product information
+	 *
+	 * @param   int  $productId  Product id
+	 * @param   int  $userId     User id
+	 *
+	 * @return mixed
+	 */
+	public function getProductById($productId, $userId = 0)
 	{
-		$query = $this->_db->getQuery(true);
+		if (!$userId)
+		{
+			$user = JFactory::getUser();
+			$userId = $user->id;
+		}
 
-		$query->select(' * ');
-		$query->from($this->_db->quoteName($this->_table_prefix . 'product'));
-		$query->where($this->_db->quoteName('product_id') . ' = ' . (int)$product_id);
+		if (!array_key_exists($productId . '.' . $userId, self::$products))
+		{
+			$userArr  = $this->_session->get('rs_user');
+			$andJoin = '';
 
-		$this->_db->setQuery($query);
+			if (empty($userArr))
+			{
+				$userArr = $this->_userhelper->createUserSession($userId);
+			}
 
-		return $this->_db->loadObject();
+			$shopperGroupId = $userArr['rs_user_shopperGroup'];
+
+			if (!$userId)
+			{
+				$andJoin = ' AND pp.shopper_group_id = ' . (int) $shopperGroupId;
+			}
+
+			$db = JFactory::getDbo();
+			$query = $db->getQuery(true);
+
+			// Select product
+			$query->select(array('p.*'))
+				->from($db->qn('#__redshop_product', 'p'))
+				->where($db->qn('p.product_id') . ' = ' . (int) $productId);
+
+			// Require condition
+			$query->group('p.product_id');
+
+			// Select price
+			$query->select(
+					array(
+						'pp.price_id', $db->qn('pp.product_price', 'price_product_price'),
+						$db->qn('pp.product_currency', 'price_product_currency'), $db->qn('pp.discount_price', 'price_discount_price'),
+						$db->qn('pp.discount_start_date', 'price_discount_start_date'), $db->qn('pp.discount_end_date', 'price_discount_end_date')
+					)
+				)
+				->leftJoin(
+					$db->qn('#__redshop_product_price', 'pp')
+					. ' ON p.product_id = pp.product_id AND ((pp.price_quantity_start <= 1 AND pp.price_quantity_end >= 1) OR (pp.price_quantity_start = 0 AND pp.price_quantity_end = 0))'
+					. $andJoin
+				)
+				->order('pp.price_quantity_start ASC');
+
+			if ($userId)
+			{
+				$query->leftJoin(
+					$db->qn('#__redshop_users_info', 'u')
+					. ' ON u.shopper_group_id = pp.shopper_group_id AND u.user_id = ' . (int) $userId . ' AND u.address_type = ' . $db->q('BT')
+				);
+			}
+
+			// Select category
+			$query->select(array('pcx.category_id'))
+				->leftJoin($db->qn('#__redshop_product_category_xref', 'pcx') . ' ON pcx.product_id = p.product_id');
+
+			// Select media
+			$query->select(array('media.media_alternate_text', 'media.media_id'))
+				->leftJoin(
+					$db->qn('#__redshop_media', 'media')
+					. ' ON media.section_id = p.product_id AND media.media_section = ' . $db->q('product')
+					. ' AND media.media_type = ' . $db->q('images') . ' AND media.media_name = p.product_full_image'
+				);
+
+			// Select ratings
+			$subQuery = $db->getQuery(true)
+				->select('COUNT(pr1.rating_id)')
+				->from($db->qn('#__redshop_product_rating', 'pr1'))
+				->where('pr1.product_id = p.product_id')
+				->where('pr1.published = 1');
+
+			$query->select('(' . $subQuery . ') AS count_rating');
+
+			$subQuery = $db->getQuery(true)
+				->select('SUM(pr2.user_rating)')
+				->from($db->qn('#__redshop_product_rating', 'pr2'))
+				->where('pr2.product_id = p.product_id')
+				->where('pr2.published = 1');
+
+			$query->select('(' . $subQuery . ') AS sum_rating');
+
+			// Count Accessories
+			$subQuery = $db->getQuery(true)
+				->select('COUNT(pa.accessory_id)')
+				->from($db->qn('#__redshop_product_accessory', 'pa'))
+				->leftJoin($db->qn('#__redshop_product', 'parent_product') . ' ON parent_product.product_id = pa.child_product_id')
+				->where('pa.product_id = p.product_id')
+				->where('parent_product.published = 1');
+
+			$query->select('(' . $subQuery . ') AS total_accessories');
+
+			$db->setQuery($query);
+			self::$products[$productId . '.' . $userId] = $db->loadObject();
+		}
+
+		return self::$products[$productId . '.' . $userId];
+	}
+
+	/**
+	 * Set product array
+	 *
+	 * @param   array  $products  Array product/s values
+	 *
+	 * @return void
+	 */
+	public function setProduct($products)
+	{
+		self::$products = $products + self::$products;
 	}
 
 	public function country_in_eu_common_vat_zone($country)
@@ -105,15 +223,24 @@ class producthelper
 		return in_array($country, $eu_countries);
 	}
 
-	public function getProductPrices($product_id, $userid, $quantity = 1)
+	/**
+	 * Get Product Prices
+	 *
+	 * @param   int  $productId  Product id
+	 * @param   int  $userId     User id
+	 * @param   int  $quantity   Quantity
+	 *
+	 * @return mixed
+	 */
+	public function getProductPrices($productId, $userId, $quantity = 1)
 	{
-		$leftjoin = "";
 		$userArr  = $this->_session->get('rs_user');
 		$helper = new redhelper;
+		$result = null;
 
 		if (empty($userArr))
 		{
-			$userArr = $this->_userhelper->createUserSession($userid);
+			$userArr = $this->_userhelper->createUserSession($userId);
 		}
 
 		$shopperGroupId = $userArr['rs_user_shopperGroup'];
@@ -123,61 +250,86 @@ class producthelper
 			if ($this->_session->get('isredcrmuser'))
 			{
 				$crmDebitorHelper = new crmDebitorHelper;
-				$debitor_id_tot   = $crmDebitorHelper->getContactPersons(0, 0, 0, $userid);
+				$debitor_id_tot   = $crmDebitorHelper->getContactPersons(0, 0, 0, $userId);
 				$debitor_id       = $debitor_id_tot[0]->section_id;
 				$details          = $crmDebitorHelper->getDebitor($debitor_id);
-				$userid           = $details[0]->user_id;
+				$userId           = $details[0]->user_id;
 			}
 		}
 
-		$query = $this->_db->getQuery(true);
-		$query->select(' p.price_id,p.product_price,p.product_currency,p.discount_price, p.discount_start_date, p.discount_end_date ');
-
-		if ($userid)
+		if ($quantity != 1)
 		{
-			$query->join('LEFT', $this->_table_prefix . 'users_info AS u ON u.shopper_group_id = p.shopper_group_id');
-			$and = " u.user_id = " . (int) $userid . " AND u.address_type='BT' ";
+			$db = JFactory::getDbo();
+			$query = $db->getQuery(true)
+				->select(array('p.price_id', 'p.product_price', 'p.product_currency', 'p.discount_price', 'p.discount_start_date', 'p.discount_end_date'))
+				->from($db->qn('#__redshop_product_price', 'p'));
+
+			if ($userId)
+			{
+				$query->leftJoin($db->qn('#__redshop_users_info', 'u') . ' ON u.shopper_group_id = p.shopper_group_id')
+					->where('u.user_id = ' . (int) $userId)
+					->where('u.address_type = ' . $db->q('BT'));
+			}
+			else
+			{
+				$query->where('p.shopper_group_id = ' . (int) $shopperGroupId);
+			}
+
+			$query->where('p.product_id = ' . (int) $productId)
+				->where('((p.price_quantity_start <= ' . (int) $quantity . ' AND p.price_quantity_end >= '
+					. (int) $quantity . ') OR (p.price_quantity_start = 0 AND p.price_quantity_end = 0))')
+				->order('p.price_quantity_start ASC');
+
+			$db->setQuery($query);
+			$result = $db->loadObject();
 		}
 		else
 		{
-			$and = " p.shopper_group_id = '" . $shopperGroupId . "' ";
+			if ($productData = $this->getProductById($productId, $userId))
+			{
+				if (isset($productData->price_id))
+				{
+					$result = new stdClass;
+					$result->price_id = $productData->price_id;
+					$result->product_price = $productData->price_product_price;
+					$result->discount_price = $productData->price_discount_price;
+					$result->product_currency = $productData->price_product_currency;
+					$result->discount_start_date = $productData->price_discount_start_date;
+					$result->discount_end_date = $productData->price_discount_end_date;
+				}
+			}
 		}
 
-		$query->from($this->_table_prefix . 'product_price AS p');
-		$query->where('p.product_id = ' . (int) $product_id);
-		$query->where($and);
-		$query->where(' (( p.price_quantity_start <= ' . (int) $quantity . ' AND p.price_quantity_end >= "'
-			. $quantity . '" ) OR (p.price_quantity_start = "0" AND p.price_quantity_end = "0"))');
-		$query->order('price_quantity_start ASC LIMIT 0,1 ');
-
-		$this->_db->setQuery($query);
-		$result = $this->_db->loadObject();
-
-		if (count($result) > 0)
+		if (!empty($result) && $result->discount_price != 0
+			&& $result->discount_start_date != 0 && $result->discount_end_date != 0
+			&& $result->discount_start_date <= time()
+			&& $result->discount_end_date >= time()
+			&& $result->discount_price < $result->product_price)
 		{
-			if ($result->discount_price != 0
-				&& $result->discount_start_date != 0 && $result->discount_end_date != 0
-				&& $result->discount_start_date <= time()
-				&& $result->discount_end_date >= time()
-				&& $result->discount_price < $result->product_price)
-			{
-				$result->product_price = $result->discount_price;
-			}
+			$result->product_price = $result->discount_price;
 		}
 
 		return $result;
 	}
 
-	public function getProductSpecialPrice($product_price, $discount_product_id, $product_id = 0)
+	/**
+	 * Get Product Special Price
+	 *
+	 * @param   float   $productPrice       Product price
+	 * @param   string  $discountStringIds  Discount ids
+	 * @param   int     $productId          Product id
+	 *
+	 * @return array|object
+	 */
+	public function getProductSpecialPrice($productPrice, $discountStringIds, $productId = 0)
 	{
 		$db = JFactory::getDbo();
-
-		$result          = array();
 		$categoryProduct = '';
+		$time = time();
 
-		if ($product_id)
+		if ($productId)
 		{
-			$categoryProduct = $this->getCategoryProduct($product_id);
+			$categoryProduct = $this->getCategoryProduct($productId);
 		}
 
 		// Get shopper group Id
@@ -192,92 +344,103 @@ class producthelper
 		// Shopper Group Id from user session
 		$shopperGroupId = $userArr['rs_user_shopperGroup'];
 
-		$query = $this->_db->getQuery(true);
-
-		// Secure discount ids
-		if ($discountIds = explode(',', $discount_product_id))
+		if (!array_key_exists($discountStringIds . '.' . $categoryProduct, self::$productSpecialPrices))
 		{
-			JArrayHelper::toInteger($discountIds);
-		}
-		else
-		{
-			$discountIds = array(0);
-		}
+			// Secure discount ids
+			if ($discountIds = explode(',', $discountStringIds))
+			{
+				JArrayHelper::toInteger($discountIds);
+			}
+			else
+			{
+				$discountIds = array(0);
+			}
 
-		// Secure category ids
-		if ($catIds = explode(',', $categoryProduct))
-		{
-			JArrayHelper::toInteger($catIds);
-		}
-		else
-		{
-			$catIds = array(0);
-		}
+			// Secure category ids
+			if ($catIds = explode(',', $categoryProduct))
+			{
+				JArrayHelper::toInteger($catIds);
+			}
+			else
+			{
+				$catIds = array(0);
+			}
 
-		// Prepare query.
-		$query->select('*');
-		$query->from('#__redshop_discount_product');
-		$query->where('published = 1');
-		$query->where('(discount_product_id IN ("' . implode(',', $discountIds) . '") OR FIND_IN_SET("' . implode(',', $catIds) . '",category_ids) )');
-		$query->where('`start_date` <= ' . $db->quote(time()));
-		$query->where('`end_date` >= ' . $db->quote(time()));
-		$query->where('`discount_product_id` IN (SELECT `discount_product_id` FROM `#__redshop_discount_product_shoppers` WHERE `shopper_group_id` = ' . (int) $shopperGroupId . ')');
-		$query->order('`amount` DESC');
+			$query = $db->getQuery(true)
+				->select('dp.*')
+				->from($db->qn('#__redshop_discount_product', 'dp'))
+				->where('dp.published = 1')
+				->where('(dp.discount_product_id IN (' . implode(',', $discountIds) . ') OR FIND_IN_SET("' . implode(',', $catIds) . '", dp.category_ids))')
+				->where('dp.start_date <= ' . $db->q($time))
+				->where('dp.end_date >= ' . $db->q($time))
+				->order('dp.amount DESC');
 
-		// Inject the query and load the result.
-		$this->_db->setQuery($query);
-		$result = $this->_db->loadObject();
+			$subQuery = $db->getQuery(true)
+				->select('dps.discount_product_id')
+				->from($db->qn('#__redshop_discount_product_shoppers', 'dps'))
+				->where('dps.shopper_group_id = ' . (int) $shopperGroupId);
 
-		// Check for a database error.
-		if ($this->_db->getErrorNum())
-		{
-			JError::raiseWarning(500, $db->getErrorMsg());
+			$query->where('dp.discount_product_id IN (' . $subQuery . ')');
 
-			return array();
+			$db->setQuery($query);
+			self::$productSpecialPrices[$discountStringIds . '.' . $categoryProduct] = $db->loadObjectList();
 		}
 
-		// Result is empty then return blank
-		if (count($result) <= 0)
+		if (self::$productSpecialPrices[$discountStringIds . '.' . $categoryProduct])
 		{
-			return array();
+			foreach (self::$productSpecialPrices[$discountStringIds . '.' . $categoryProduct] as $item)
+			{
+				switch ($item->condition)
+				{
+					case 1:
+						if ($item->amount >= $productPrice)
+						{
+							return $item;
+						}
+						break;
+					case 2:
+						if ($item->amount == $productPrice)
+						{
+							return $item;
+						}
+						break;
+					case 3:
+						if ($item->amount <= $productPrice)
+						{
+							return $item;
+						}
+						break;
+				}
+			}
 		}
 
-		switch ($result->condition)
-		{
-			case 1:
-				$query->where('`amount` >= ' . $db->quote($product_price));
-				break;
-			case 2:
-				$query->where('`amount` = ' . $db->quote($product_price));
-				break;
-			case 3:
-				$query->where('`amount` <= ' . $db->quote($product_price));
-				break;
-		}
-
-		$this->_db->setQuery($query);
-		$result = $this->_db->loadObject();
-
-		// Check for a database error.
-		if ($this->_db->getErrorNum())
-		{
-			JError::raiseWarning(500, $db->getErrorMsg());
-
-			return array();
-		}
-
-		return $result;
+		return array();
 	}
 
-	public function getProductSpecialId($userid)
+	/**
+	 * Get Product Special Id
+	 *
+	 * @param   int  $userId  User Id
+	 *
+	 * @return string
+	 */
+	public function getProductSpecialId($userId)
 	{
-		if ($userid)
+		if (array_key_exists($userId, self::$productSpecialIds))
 		{
-			$sql = "SELECT ps.discount_product_id FROM " . $this->_table_prefix . "users_info AS ui "
-				. " LEFT JOIN " . $this->_table_prefix . "discount_product_shoppers AS ps ON ui.shopper_group_id = ps.shopper_group_id "
-				. " WHERE user_id = " . (int) $userid . " AND address_type='BT'";
-			$this->_db->setQuery($sql);
-			$res = $this->_db->loadObjectList();
+			return self::$productSpecialIds[$userId];
+		}
+
+		$db = JFactory::getDbo();
+
+		if ($userId)
+		{
+			$query = $db->getQuery(true)
+				->select('ps.discount_product_id')
+				->from($db->qn('#__redshop_discount_product_shoppers', 'ps'))
+				->leftJoin($db->qn('#__redshop_users_info', 'ui') . ' ON ui.shopper_group_id = ps.shopper_group_id')
+				->where('ui.user_id = ' . (int) $userId)
+				->where('ui.address_type = ' . $db->q('BT'));
 		}
 		else
 		{
@@ -285,36 +448,26 @@ class producthelper
 
 			if (empty($userArr))
 			{
-				$userArr = $this->_userhelper->createUserSession($userid);
+				$userArr = $this->_userhelper->createUserSession($userId);
 			}
 
 			$shopperGroupId = $userArr['rs_user_shopperGroup'];
-
-			if ($this->_shopper_group_id != $shopperGroupId)
-			{
-				$query = "SELECT * FROM " . $this->_table_prefix . "discount_product_shoppers AS ps "
-					. "WHERE ps.shopper_group_id =" . (int) $shopperGroupId;
-				$this->_db->setQuery($query);
-				$this->_shopper_group_id = $shopperGroupId;
-				$res                     = $this->_discount_product_data = $this->_db->loadObjectList();
-			}
-			else
-			{
-				$res = $this->_discount_product_data;
-			}
+			$query = $db->getQuery(true)
+				->select('dps.discount_product_id')
+				->from($db->qn('#__redshop_discount_product_shoppers', 'dps'))
+				->where('dps.shopper_group_id =' . (int) $shopperGroupId);
 		}
 
-		$discount_product_id = '0';
+		$db->setQuery($query);
+		$result = $db->loadColumn();
+		self::$productSpecialIds[$userId] = '0';
 
-		for ($i = 0; $i < count($res); $i++)
+		if (count($result) > 0)
 		{
-			if ($res[$i]->discount_product_id != "" && $res[$i]->discount_product_id != 0)
-			{
-				$discount_product_id .= "," . $res[$i]->discount_product_id;
-			}
+			self::$productSpecialIds[$userId] .= ',' . implode(',', $result);
 		}
 
-		return $discount_product_id;
+		return self::$productSpecialIds[$userId];
 	}
 
 	public function getProductTax($product_id = 0, $product_price = 0, $user_id = 0, $tax_exempt = 0)
@@ -537,84 +690,87 @@ class producthelper
 		return $userdata;
 	}
 
-	public function getVatRates($product_id = 0, $user_id = 0, $vat_rate_id = 0)
+	/**
+	 * get VAT rates from product or global
+	 *
+	 * @param   int  $productId  Id current product
+	 * @param   int  $userId     Id current user
+	 *
+	 * @return  object|null  VAT rates information
+	 */
+	public function getVatRates($productId = 0, $userId = 0)
 	{
-		$db   = JFactory::getDbo();
-		$user = JFactory::getUser();
-
-		if ($user_id == 0)
+		if ($userId == 0)
 		{
-			$user_id = $user->id;
+			$user = JFactory::getUser();
+			$userId = $user->id;
 		}
 
-		$proinfo         = (object) $this->getProductById($product_id);
-		$tax_group_id    = 0;
-		$rs_user_info_id = 0;
-		$and             = 'AND tg.published= "1" ';
-		$q2              = 'LEFT JOIN ' . $this->_table_prefix . 'tax_group as tg on tg.tax_group_id=tr.tax_group_id ';
-		$userdata        = $this->getVatUserinfo($user_id);
-
-		$userArr = $this->_session->get('rs_user');
-		$chkflg  = true;
+		$productInfo = (object) $this->getProductById($productId);
+		$taxGroupId = 0;
+		$session = JFactory::getSession();
+		$userData = $this->getVatUserinfo($userId);
+		$userArr = $session->get('rs_user');
+		$taxGroup = DEFAULT_VAT_GROUP;
 
 		if (!empty($userArr))
 		{
 			if (array_key_exists('vatCountry', $userArr) && !empty($userArr['taxData']))
 			{
-				if (empty($proinfo->product_tax_group_id))
+				if (empty($productInfo->product_tax_group_id))
 				{
-					$proinfo->product_tax_group_id = DEFAULT_VAT_GROUP;
+					$productInfo->product_tax_group_id = DEFAULT_VAT_GROUP;
 				}
 
-				if ($userArr['vatCountry'] == $userdata->country_code
-					&& $userArr['vatState'] == $userdata->state_code
-					&& @$userArr['vatGroup'] == $proinfo->product_tax_group_id)
+				if ($userArr['vatCountry'] == $userData->country_code
+					&& $userArr['vatState'] == $userData->state_code
+					&& $userArr['vatGroup'] == $productInfo->product_tax_group_id)
 				{
 					return $userArr['taxData'];
 				}
 			}
 		}
 
-		if (VAT_BASED_ON == 2)
+		if (isset($productInfo->product_tax_group_id) && $productInfo->product_tax_group_id > 0)
 		{
-			$and .= ' AND tr.is_eu_country=1 ';
+			$taxGroup = $productInfo->product_tax_group_id;
 		}
 
-		if ($product_id == 0)
+		if (!array_key_exists($taxGroup . '.' . $userId, self::$vatRate))
 		{
-			$and .= 'AND tr.tax_group_id = "' . DEFAULT_VAT_GROUP . '" ';
-		}
-		elseif ($proinfo->product_tax_group_id > 0)
-		{
-			$q2 .= 'LEFT JOIN ' . $this->_table_prefix . 'product as p on tr.tax_group_id=p.product_tax_group_id ';
-			$and .= 'AND p.product_id = ' . (int) $product_id . ' ';
-		}
-		else
-		{
-			$and .= 'AND tr.tax_group_id=' . DEFAULT_VAT_GROUP . ' ';
+			$db = JFactory::getDbo();
+			$query = $db->getQuery(true)
+				->select('tr.*')
+				->from($db->qn('#__redshop_tax_rate', 'tr'))
+				->leftJoin($db->qn('#__redshop_tax_group', 'tg') . ' ON tg.tax_group_id = tr.tax_group_id')
+				->where('tg.published = 1')
+				->where('tr.tax_country = ' . $db->q($userData->country_code))
+				->where('(tr.tax_state = ' . $db->q($userData->state_code) . ' OR tr.tax_state = ' . $db->q('') . ')')
+				->where('tr.tax_group_id = ' . (int) $taxGroup)
+				->order('tax_rate');
+
+			if (VAT_BASED_ON == 2)
+			{
+				$query->where('tr.is_eu_country = 1');
+			}
+
+			$db->setQuery($query);
+			self::$vatRate[$taxGroup . '.' . $userId] = $db->loadObject();
 		}
 
-		$query = 'SELECT tr.* FROM ' . $this->_table_prefix . 'tax_rate as tr '
-			. $q2
-			. 'WHERE tr.tax_country=' . $db->quote($userdata->country_code) . ' '
-			. 'AND (tr.tax_state = ' . $db->quote($userdata->state_code) . ' OR tr.tax_state = "") '
-			. $and
-			. ' ORDER BY `tax_rate` DESC LIMIT 0,1';
-		$this->_db->setQuery($query);
-
-		$userArr['taxData']    = $this->_taxData = $this->_db->loadObject();
-		$userArr['vatCountry'] = $userdata->country_code;
-		$userArr['vatState']   = $userdata->state_code;
+		$userArr['taxData'] = self::$vatRate[$taxGroup . '.' . $userId];
+		$userArr['vatCountry'] = $userData->country_code;
+		$userArr['vatState'] = $userData->state_code;
 
 		if (!empty($userArr['taxData']))
 		{
-			$tax_group_id = $userArr['taxData']->tax_group_id;
+			$taxGroupId = $userArr['taxData']->tax_group_id;
 		}
 
-		$userArr['vatGroup'] = $tax_group_id;
-		$this->_session->set('rs_user', $userArr);
+		$userArr['vatGroup'] = $taxGroupId;
+		$session->set('rs_user', $userArr);
 
-		return $this->_taxData;
+		return self::$vatRate[$taxGroup . '.' . $userId];
 	}
 
 	// Get Vat for Googlebase xml
@@ -1756,7 +1912,9 @@ class producthelper
 					$r->product_price = $r->discount_price;
 				}
 
-				$price = $this->getProductFormattedPrice($r->product_price);
+				$tax = $this->getProductTax($product_id, $r->product_price, $userid);
+				$price = $this->getProductFormattedPrice($r->product_price + $tax);
+
 				$quantitytable .= "<tr><td>" . $r->price_quantity_start . " - " . $r->price_quantity_end
 					. "</td><td>" . $price . "</td></tr>";
 			}
@@ -1982,71 +2140,95 @@ class producthelper
 		return $list;
 	}
 
-	public function getAltText($media_section, $section_id, $media_name = '', $media_id = 0, $mediaType = "images")
+	/**
+	 * Get alternative text for media
+	 *
+	 * @param   string  $mediaSection  Media section
+	 * @param   int     $sectionId     Section i
+	 * @param   string  $mediaName     Media name
+	 * @param   int     $mediaId       Media id
+	 * @param   string  $mediaType     Media type
+	 *
+	 * @return  string  Alternative text from media
+	 */
+	public function getAltText($mediaSection, $sectionId, $mediaName = '', $mediaId = 0, $mediaType = 'images')
 	{
+		if ($mediaSection == 'product' && $mediaType = 'images')
+		{
+			if ($productData = $this->getProductById($sectionId))
+			{
+				if ($mediaName == $productData->product_full_image || $mediaId == $productData->media_id)
+				{
+					return $productData->media_alternate_text;
+				}
+			}
+		}
+
 		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select('media_alternate_text')
+			->from($db->qn('#__redshop_media'))
+			->where('media_section = ' . $db->q($mediaSection))
+			->where('section_id = ' . (int) $sectionId)
+			->where('media_type = ' . $db->q($mediaType));
 
-		$and = '';
-
-		if ($media_name != '')
+		if ($mediaName)
 		{
-			$and .= ' AND media_name = ' . $db->quote($media_name) . ' ';
+			$query->where('media_name = ' . $db->q($mediaName));
 		}
 
-		if ($media_id)
+		if ($mediaId)
 		{
-			$and .= ' AND media_id = ' . (int) $media_id . ' ';
+			$query->where('media_id = ' . (int) $mediaId);
 		}
 
-		$query = 'SELECT * FROM ' . $this->_table_prefix . 'media '
-			. 'WHERE media_section = ' . $db->quote($media_section) . ' '
-			. 'AND section_id = ' . (int) $section_id . ' '
-			. 'AND media_type = ' . $db->quote($mediaType) . ' '
-			. $and;
-		$this->_db->setQuery($query);
-		$mediadata = $this->_db->loadObject();
+		$db->setQuery($query);
 
-		if (!$mediadata)
-		{
-			return false;
-		}
-
-		return $mediadata->media_alternate_text;
+		return $db->loadResult();
 	}
 
-	public function getUserInformation($userid = 0, $address_type = 'BT', $rs_user_info_id = 0)
+	/**
+	 * Get redshop user information
+	 *
+	 * @param   int     $userId       Id joomla user
+	 * @param   string  $addressType  Type user BT or ST
+	 * @param   int     $userInfoId   Id redshop user
+	 *
+	 * @return  object  Redshop user information
+	 */
+	public function getUserInformation($userId = 0, $addressType = 'BT', $userInfoId = 0)
 	{
-		$list = array();
-		$user = JFactory::getUser();
-		$and  = '';
-
-		if (!$userid)
+		if ($userId == 0)
 		{
-			$userid = $user->id;
+			$user = JFactory::getUser();
+			$userId = $user->id;
 		}
 
-		if (empty($address_type))
+		if (!$userId)
 		{
-			$address_type = 'BT';
+			return array();
 		}
 
-		if ($rs_user_info_id && $address_type == 'ST')
+		if (!array_key_exists($userId . '.' . $addressType . '.' . $userInfoId, self::$userShopperGroupData))
 		{
-			$and = "AND u.users_info_id = " . (int) $rs_user_info_id . " ";
+			$db = JFactory::getDbo();
+			$query = $db->getQuery(true)
+				->select(array('sh.*', 'u.*'))
+				->from($db->qn('#__redshop_users_info', 'u'))
+				->leftJoin($db->qn('#__redshop_shopper_group', 'sh') . ' ON sh.shopper_group_id = u.shopper_group_id')
+				->order('u.users_info_id ASC');
+
+			if ($userInfoId && $addressType == 'ST')
+			{
+				$query->where('u.users_info_id = ' . (int) $userInfoId);
+			}
+
+			$db->setQuery($query);
+
+			self::$userShopperGroupData[$userId . '.' . $addressType . '.' . $userInfoId] = $db->loadObject();
 		}
 
-		if ($userid)
-		{
-			$query = "SELECT sh.*,u.* FROM " . $this->_table_prefix . "users_info AS u "
-				. "LEFT JOIN " . $this->_table_prefix . "shopper_group AS sh ON sh.shopper_group_id=u.shopper_group_id "
-				. "WHERE u.user_id = " . (int) $userid . " "
-				. $and
-				. "order by u.users_info_id ASC LIMIT 0,1";
-			$this->_db->setQuery($query);
-			$list = $this->_db->loadObject();
-		}
-
-		return $list;
+		return self::$userShopperGroupData[$userId . '.' . $addressType . '.' . $userInfoId];
 	}
 
 	public function getApplyVatOrNot($data_add = "", $user_id = 0)
@@ -2147,42 +2329,28 @@ class producthelper
 		return $list;
 	}
 
-	public function checkDiscountDate($productid = 0)
+	/**
+	 * Check discount date
+	 *
+	 * @param   int  $productId  Product id
+	 *
+	 * @return  int
+	 */
+	public function checkDiscountDate($productId)
 	{
-		$discountprice = 0;
-		$today         = time();
-		$list          = array();
+		$discountPrice = 0;
+		$today = time();
 
-		// Initialiase variables.
-		$query = $this->_db->getQuery(true)
-		    ->select('*')
-			->from($this->_db->quoteName('#__redshop_product'))
-			->where($this->_db->quoteName('product_id') . ' = ' . (int) $productid)
-			->where('
-				(
-				(' . $this->_db->quoteName('discount_enddate') . ' = "" AND ' . $this->_db->quoteName('discount_stratdate') . ' = "")
-				OR
-				(' . $this->_db->quoteName('discount_enddate') . ' >= ' . $this->_db->quote($today) . ' AND ' . $this->_db->quoteName('discount_stratdate') . ' <= ' . $this->_db->quote($today) . ')
-				)');
-
-		// Set the query and load the result.
-		$this->_db->setQuery($query);
-
-		try
+		if ($productData = $this->getProductById($productId))
 		{
-			$list = $this->_db->loadObjectList();
-		}
-		catch (RuntimeException $e)
-		{
-			throw new RuntimeException($e->getMessage(), $e->getCode());
+			if (($productData->discount_enddate == '' && $productData->discount_stratdate == '')
+				|| ((int) $productData->discount_enddate >= $today && (int) $productData->discount_stratdate <= $today))
+			{
+				$discountPrice = $productData->discount_price;
+			}
 		}
 
-		if (count($list) > 0)
-		{
-			$discountprice = $list[0]->discount_price;
-		}
-
-		return $discountprice;
+		return $discountPrice;
 	}
 
 	public function getPropertyPrice($section_id = '', $quantity = '', $section = '', $user_id = 0)
@@ -2667,67 +2835,113 @@ class producthelper
 		return null;
 	}
 
-	public function getMenuDetail($link = "")
+	/**
+	 * Get menu detail
+	 *
+	 * @param   string  $link  Link
+	 *
+	 * @return mixed|null
+	 */
+	public function getMenuDetail($link = '')
 	{
 		// Do not allow queries that load all the items
-		if ($link != "")
+		if ($link != '')
 		{
-			$db = JFactory::getDbo();
-
-			$query = "SELECT * FROM #__menu "
-				. "WHERE published=1 "
-				. " AND link = " . $db->quote($link) . " ";
-			$db->setQuery($query);
-
-			return $this->_db->loadObject();
+			return JFactory::getApplication()->getMenu()->getItems('link', $link, true);
 		}
 
 		return null;
 	}
 
-	public function getMenuInformation($Itemid = 0, $sectionid = 0, $sectioname = "", $menuview = "", $isRedshop = true)
+	/**
+	 * Get Menu Information
+	 *
+	 * @param   int     $Itemid       Item id
+	 * @param   int     $sectionId    Section id
+	 * @param   string  $sectionName  Section name
+	 * @param   string  $menuView     Menu view
+	 * @param   bool    $isRedshop    Is redshop
+	 *
+	 * @return mixed|null
+	 */
+	public function getMenuInformation($Itemid = 0, $sectionId = 0, $sectionName = '', $menuView = '', $isRedshop = true)
 	{
-		$and = "";
+		$menu = JFactory::getApplication()->getMenu();
+		$values = array();
+		$helper = new redhelper;
 
-		if ($menuview != "")
+		if ($menuView != "")
 		{
-			$and .= " AND link LIKE '%view=$menuview%' ";
-		}
+			if ($items = explode('&', $menuView))
+			{
+				$values['view'] = $items[0];
+				unset($items[0]);
 
-		if ($sectionid != 0)
-		{
-			$sid = "=" . (int) $sectionid . "\n";
-			$not = "";
-		}
-		else
-		{
-			$sid = "";
-			$not = "NOT";
-		}
-
-		if ($sectioname != "")
-		{
-			$and .= " AND params " . $not . " LIKE '%$sectioname" . "$sid%' ";
+				if (count($items) > 0)
+				{
+					foreach ($items as $item)
+					{
+						$value = explode('=', $item);
+						$values[$value[0]] = $value[1];
+					}
+				}
+			}
 		}
 
 		if ($Itemid != 0)
 		{
-			$and .= " AND id = " . (int) $Itemid . " ";
+			return $menu->getItem($Itemid);
 		}
 
 		if ($isRedshop)
 		{
-			$and .= " AND link LIKE '%com_redshop%' ";
+			$menuItems = $helper->getRedshopMenuItems();
+		}
+		else
+		{
+			$menuItems = $menu->getMenu();
 		}
 
-		$query = "SELECT * FROM #__menu "
-			. "WHERE published=1 "
-			. $and
-			. " ORDER BY id ";
-		$this->_db->setQuery($query);
-		$res = $this->_db->loadObject();
+		foreach ($menuItems as $oneMenuItem)
+		{
+			$test = true;
 
-		return $res;
+			foreach ($values as $key => $value)
+			{
+				if (!$helper->checkMenuQuery($oneMenuItem, array($key => $value)))
+				{
+					$test = false;
+					break;
+				}
+			}
+
+			if ($sectionName != '' && $test)
+			{
+				if ($sectionId != 0)
+				{
+					if ($oneMenuItem->params->get($sectionName) != $sectionId)
+					{
+						$test = false;
+						break;
+					}
+				}
+				else
+				{
+					if ($oneMenuItem->params->get($sectionName, false) !== false)
+					{
+						$test = false;
+						break;
+					}
+				}
+			}
+
+			if ($test)
+			{
+				return $oneMenuItem;
+			}
+		}
+
+		return null;
 	}
 
 	public function getParentCategory($id = 0)
@@ -2739,13 +2953,21 @@ class producthelper
 		return $res;
 	}
 
-	public function getCategoryProduct($id = 0)
+	/**
+	 * Get Category Product
+	 *
+	 * @param   int  $productId  Product id
+	 *
+	 * @return string
+	 */
+	public function getCategoryProduct($productId = 0)
 	{
-		$query = "SELECT category_id FROM " . $this->_table_prefix . "product_category_xref WHERE product_id = " . (int) $id . " ";
-		$this->_db->setQuery($query);
-		$res = $this->_db->loadResult();
+		if ($result = $this->getProductById($productId))
+		{
+			return $result->category_id;
+		}
 
-		return $res;
+		return '';
 	}
 
 	public function getProductCategory($id = 0)
@@ -4277,7 +4499,7 @@ class producthelper
 						1
 					);
 
-					if (!strstr($data_add, "{without_vat}"))
+					if (!strstr($accessory_div, "{without_vat}"))
 					{
 						$accessorypricelist = $this->getAccessoryPrice($product_id,
 							$accessory[$a]->newaccessory_price,
@@ -8235,49 +8457,70 @@ class producthelper
 		return null;
 	}
 
-	public function getProductRating($product_id)
+	/**
+	 * Get Product Rating
+	 *
+	 * @param   int  $productId  Product id
+	 *
+	 * @return string
+	 */
+	public function getProductRating($productId)
 	{
-		$url        = JURI::base();
-		$avgratings = 0;
-		$query      = "SELECT pr.* FROM " . $this->_table_prefix . "product_rating AS pr "
-			. "WHERE pr.product_id = " . (int) $product_id . " AND pr.published=1";
-		$this->_db->setQuery($query);
-		$allreviews   = $this->_db->loadObjectList();
-		$totalreviews = count($allreviews);
+		$finalAvgReviewData = '';
 
-		$query = "SELECT SUM(user_rating) AS rating FROM " . $this->_table_prefix . "product_rating AS pr "
-			. "WHERE pr.product_id = " . (int) $product_id . " AND pr.published=1";
-		$this->_db->setQuery($query);
-		$totalratings = $this->_db->loadResult();
-
-		if ($totalreviews > 0)
+		if ($productData = $this->getProductById($productId))
 		{
-			$avgratings = $totalratings / $totalreviews;
+			$avgRating = 0;
+
+			if ($productData->count_rating > 0)
+			{
+				$avgRating = round($productData->sum_rating / $productData->count_rating);
+			}
+
+			if ($avgRating > 0)
+			{
+				$finalAvgReviewData = '<img src="' . REDSHOP_ADMIN_IMAGES_ABSPATH . 'star_rating/' . $avgRating . '.gif" />';
+				$finalAvgReviewData .= JText::_('COM_REDSHOP_AVG_RATINGS_1') . " " . $productData->count_rating . " "
+					. JText::_('COM_REDSHOP_AVG_RATINGS_2');
+			}
 		}
 
-		$avgratings           = round($avgratings);
-		$final_avgreview_data = "";
-
-		if ($avgratings > 0)
-		{
-			$final_avgreview_data = '<img src="' . REDSHOP_ADMIN_IMAGES_ABSPATH . 'star_rating/' . $avgratings
-				. '.gif" />';
-			$final_avgreview_data .= JText::_('COM_REDSHOP_AVG_RATINGS_1') . " " . $totalreviews . " "
-				. JText::_('COM_REDSHOP_AVG_RATINGS_2');
-		}
-
-		return $final_avgreview_data;
+		return $finalAvgReviewData;
 	}
 
 	public function getProductReviewList($product_id)
 	{
-		$query = "SELECT ui.firstname,ui.lastname,pr.* FROM " . $this->_table_prefix . "product_rating AS pr "
-			. "LEFT JOIN " . $this->_table_prefix . "users_info AS ui ON ui.user_id=pr.userid "
-			. "WHERE pr.product_id = " . (int) $product_id . " "
-			. "AND pr.published = 1 AND ui.address_type LIKE 'BT' "
-			. "ORDER BY pr.favoured DESC";
-		$this->_db->setQuery($query);
-		$reviews = $this->_db->loadObjectList();
+		// Initialize variables.
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true);
+
+		// Create the base select statement.
+		$query->select('pr.*')
+			->from($db->qn('#__redshop_product_rating', 'pr'))
+			->where($db->qn('pr.product_id') . ' = ' . (int) $product_id)
+			->where($db->qn('pr.published') . ' = 1')
+			->where($db->qn('pr.email') . ' != ' . $db->q(''))
+			->order($db->qn('pr.favoured') . ' DESC');
+
+		$query->select('ui.firstname,ui.lastname')
+		      ->leftjoin(
+					$db->qn('#__redshop_users_info', 'ui')
+					. ' ON '
+					. $db->qn('ui.user_id') . '=' . $db->qn('pr.userid')
+					. ' AND ' . $db->qn('ui.address_type') . '=' . $db->q('BT')
+				);
+
+		// Set the query and load the result.
+		$db->setQuery($query);
+
+		try
+		{
+			$reviews = $db->loadObjectList();
+		}
+		catch (RuntimeException $e)
+		{
+			throw new RuntimeException($e->getMessage(), $e->getCode());
+		}
 
 		return $reviews;
 	}

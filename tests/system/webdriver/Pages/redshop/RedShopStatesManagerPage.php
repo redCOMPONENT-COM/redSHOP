@@ -66,7 +66,7 @@ class RedShopStatesManagerPage extends AdminManagerPage
 		$elementObject->findElement(By::xPath("//option[text() = '" . $countryName . "']"))->click();
 		sleep(1);
 		$elementObject->findElement(By::xPath("//a[@onclick=\"Joomla.submitbutton('save')\"]"))->click();
-		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='country_main_filter']"), 10);
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='country_main_filter']"), 30);
 	}
 
 	/**
@@ -93,7 +93,7 @@ class RedShopStatesManagerPage extends AdminManagerPage
 		$elementObject->findElement(By::xPath("//input[@id='cb" . $row . "']"))->click();
 		$elementObject->findElement(By::xPath("//li[@id='toolbar-edit']/a"))->click();
 		$this->checkNoticesForEditView(get_class($this));
-		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='state_name']"), 10);
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='state_name']"), 30);
 
 		switch ($field)
 		{
@@ -119,7 +119,7 @@ class RedShopStatesManagerPage extends AdminManagerPage
 		}
 
 		$elementObject->findElement(By::xPath("//a[@onclick=\"Joomla.submitbutton('save')\"]"))->click();
-		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='country_main_filter']"), 10);
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//input[@id='country_main_filter']"), 30);
 	}
 
 	/**

@@ -8,7 +8,8 @@
  */
 
 defined('_JEXEC') or die;
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/text_library.php';
+
+JLoader::load('RedshopHelperAdminText_library');
 
 JLoader::import('joomla.application.component.view');
 
@@ -77,7 +78,7 @@ class RedshopViewCategory extends JView
 		$document = JFactory::getDocument();
 
 		JHtml::Script('jquery.js', 'components/com_redshop/assets/js/', false);
-		JHtml::Script('redBOX.js', 'components/com_redshop/assets/js/', false);
+		JHtml::Script('redbox.js', 'components/com_redshop/assets/js/', false);
 
 		JHtml::Script('attribute.js', 'components/com_redshop/assets/js/', false);
 		JHtml::Script('common.js', 'components/com_redshop/assets/js/', false);

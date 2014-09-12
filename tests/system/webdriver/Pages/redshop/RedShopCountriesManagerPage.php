@@ -67,7 +67,7 @@ class RedShopCountriesManagerPage extends AdminManagerPage
 		$countryField->clear();
 		$countryField->sendKeys($country);
 		$elementObject->findElement(By::xPath("//a[@onclick=\"Joomla.submitbutton('save')\"]"))->click();
-		$elementObject->waitForElementUntilIsPresent(By::xPath("//li[text() = 'Country detail saved']"), 10);
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//li[text() = 'Country detail saved']"), 30);
 	}
 
 	/**
@@ -115,7 +115,7 @@ class RedShopCountriesManagerPage extends AdminManagerPage
 		}
 
 		$elementObject->findElement(By::xPath("//a[@onclick=\"Joomla.submitbutton('save')\"]"))->click();
-		$elementObject->waitForElementUntilIsPresent(By::xPath("//li[text() = 'Country detail saved']"), 10);
+		$elementObject->waitForElementUntilIsPresent(By::xPath("//li[text() = 'Country detail saved']"), 30);
 	}
 
 	/**

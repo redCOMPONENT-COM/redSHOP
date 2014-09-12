@@ -10,8 +10,8 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
-require_once JPATH_COMPONENT . '/helpers/shopper.php';
-require_once JPATH_COMPONENT . '/helpers/category.php';
+JLoader::load('RedshopHelperAdminShopper');
+JLoader::load('RedshopHelperAdminCategory');
 
 class RedshopViewShopper_group_detail extends JView
 {
