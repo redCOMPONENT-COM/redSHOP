@@ -59,7 +59,7 @@ abstract class JModuleHelper extends LIB_JModuleHelperDefault
 
 		// Get module path
 		$module->module = preg_replace('/[^A-Z0-9_\.-]/i', '', $module->module);
-		self::addIncludePath(JPATH_BASE . '/modules');
+
 		$path = JPATH_BASE . '/modules/' . $module->module . '/' . $module->module . '.php';
 
 		// Load the module
@@ -77,7 +77,10 @@ abstract class JModuleHelper extends LIB_JModuleHelperDefault
 			$content = '';
 			ob_start();
 
-			include JPath::find(self::addIncludePath(), $module->module . '/' . $module->module . '.php');
+			$paths = array(JPATH_BASE . '/modules');
+			$paths = array_merge(self::addIncludePath(), $paths);
+
+			include JPath::find($paths, $module->module . '/' . $module->module . '.php');
 
 			$module->content = ob_get_contents() . $content;
 			ob_end_clean();
@@ -165,11 +168,14 @@ abstract class JModuleHelper extends LIB_JModuleHelperDefault
 			$defaultLayout = ($temp[1]) ? $temp[1] : 'default';
 		}
 
-		// Build the template and base path for the layout
-		$templatePaths = array(
-			JPATH_THEMES . '/' . $template . '/html/' . $module,
-			JPATH_BASE . '/modules/' . $module . '/tmpl',
-		);
+		foreach (self::addIncludePath() as $onePath)
+		{
+			$templatePaths[] = $onePath . '/' . $module . '/tmpl';
+		}
+
+		$templatePaths[] = JPATH_THEMES . '/' . $template . '/html/' . $module;
+		$templatePaths[] = JPATH_BASE . '/modules/' . $module . '/tmpl';
+
 		$dPath = JPATH_BASE . '/modules/' . $module . '/tmpl/default.php';
 
 		// If the template has a layout override use it
@@ -195,19 +201,19 @@ abstract class JModuleHelper extends LIB_JModuleHelperDefault
 	 */
 	public static function addIncludePath($path = '')
 	{
-		// Force path to array
-		settype($path, 'array');
-
-		// Loop through the path directories
-		foreach ($path as $dir)
+		if ($path)
 		{
-			if (!empty($dir) && !in_array($dir, self::$includePaths))
-			{
-				jimport('joomla.filesystem.path');
-				array_unshift(self::$includePaths, JPath::clean($dir));
+			// Force path to array
+			settype($path, 'array');
+			jimport('joomla.filesystem.path');
 
-				// Fix to override include path priority
-				self::$includePaths = array_reverse(self::$includePaths);
+			// Loop through the path directories
+			foreach ($path as $dir)
+			{
+				if (!empty($dir) && !in_array(JPath::clean($dir), self::$includePaths))
+				{
+					array_unshift(self::$includePaths, JPath::clean($dir));
+				}
 			}
 		}
 
