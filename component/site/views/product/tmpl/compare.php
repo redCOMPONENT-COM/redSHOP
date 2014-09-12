@@ -11,8 +11,8 @@ defined('_JEXEC') or die;
 $url = JURI::base();
 
 // Get product helper
-require_once JPATH_ROOT . '/components/com_redshop/helpers/product.php';
-require_once JPATH_SITE . '/components/com_redshop/helpers/extra_field.php';
+JLoader::load('RedshopHelperProduct');
+JLoader::load('RedshopHelperExtra_field');
 
 $producthelper = new producthelper;
 

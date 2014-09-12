@@ -9,12 +9,12 @@
 
 defined('_JEXEC') or die;
 
-JLoader::import('helper', JPATH_SITE . '/components/com_redshop/helpers');
-JLoader::import('product', JPATH_SITE . '/components/com_redshop/helpers');
-JLoader::import('extra_field', JPATH_SITE . '/components/com_redshop/helpers');
-JLoader::import('order', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
-JLoader::import('shipping', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
-JLoader::import('images', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
+JLoader::load('RedshopHelperHelper');
+JLoader::load('RedshopHelperProduct');
+JLoader::load('RedshopHelperExtra_field');
+JLoader::load('RedshopHelperAdminOrder');
+JLoader::load('RedshopHelperAdminShipping');
+JLoader::load('RedshopHelperAdminImages');
 
 class rsCarthelper
 {
@@ -3303,7 +3303,7 @@ class rsCarthelper
 
 		if ($isEnabled && $classname == 'default_shipping_GLS')
 		{
-			JPluginHelper::importPlugin('rs_labels_GLS');
+			JPluginHelper::importPlugin('redshop_shipping');
 			$dispatcher = JDispatcher::getInstance();
 			$sql        = "SELECT  * FROM #__redshop_users_info WHERE users_info_id=" . (int) $users_info_id ;
 			$this->_db->setQuery($sql);
@@ -3528,7 +3528,7 @@ class rsCarthelper
 
 			$template_desc = "<div></div>";
 		}
-		elseif ($rateExist == 1 && $extrafield_total == "")
+		elseif ($rateExist == 1 && $extrafield_total == "" && $classname != "default_shipping_GLS")
 		{
 			$template_desc = "<div style='display:none;'>" . $template_desc . "</div>";
 		}
@@ -3769,14 +3769,6 @@ class rsCarthelper
 
 					if (in_array($shopperGroupId, $shopper_groupArr) || $shopper_groupArr[0] == 0)
 					{
-						if ($flag == false)
-						{
-							if (count($paymentmethod) > 0)
-							{
-								$payment_method_id = $paymentmethod[$p]->name;
-							}
-						}
-
 						$checked = '';
 
 						if ($payment_method_id === $paymentmethod[$p]->name)

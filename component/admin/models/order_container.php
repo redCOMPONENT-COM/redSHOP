@@ -120,7 +120,7 @@ class RedshopModelOrder_container extends JModel
 
 	public function update_status()
 	{
-		require_once JPATH_COMPONENT . '/helpers/order.php';
+		JLoader::load('RedshopHelperAdminOrder');
 		$order_function = new order_functions;
 
 		$order_function->update_status();

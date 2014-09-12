@@ -10,9 +10,8 @@
 defined('_JEXEC') or die;
 
 JLoader::import('joomla.application.component.controller');
-
-require_once JPATH_COMPONENT . '/helpers/helper.php';
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/extra_field.php';
+JLoader::load('RedshopHelperHelper');
+JLoader::load('RedshopHelperAdminExtra_field');
 
 /**
  * Checkout Controller.
@@ -177,7 +176,7 @@ class RedshopControllerCheckout extends JController
 	public function updateGLSLocation()
 	{
 		$get = JRequest::get('get');
-		JPluginHelper::importPlugin('rs_labels_GLS');
+		JPluginHelper::importPlugin('redshop_shipping');
 		$dispatcher = JDispatcher::getInstance();
 		$values = new stdClass;
 		$values->zipcode = $get['zipcode'];
@@ -689,7 +688,7 @@ class RedshopControllerCheckout extends JController
 	 */
 	public function captcha()
 	{
-		require_once JPATH_COMPONENT_SITE . '/helpers/captcha.php';
+		JLoader::load('RedshopHelperCaptcha');
 
 		// Isset($_GET['width']) ? $_GET['width'] : '120';
 		$width = JRequest::getInt('width', 120);

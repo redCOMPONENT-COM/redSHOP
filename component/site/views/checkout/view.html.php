@@ -10,8 +10,8 @@
 defined('_JEXEC') or die;
 
 JLoader::import('joomla.application.component.view');
-require_once JPATH_COMPONENT . '/helpers/helper.php';
-require_once JPATH_COMPONENT . '/helpers/extra_field.php';
+JLoader::load('RedshopHelperHelper');
+JLoader::load('RedshopHelperExtra_field');
 
 class RedshopViewCheckout extends JView
 {
@@ -56,7 +56,7 @@ class RedshopViewCheckout extends JView
 		JHTML::Script('jquery.metadata.js', 'components/com_redshop/assets/js/', false);
 		JHTML::Script('registration.js', 'components/com_redshop/assets/js/', false);
 		JHTML::Stylesheet('validation.css', 'components/com_redshop/assets/css/');
-		JHTML::Script('redBOX.js', 'components/com_redshop/assets/js/', false);
+		JHTML::Script('redbox.js', 'components/com_redshop/assets/js/', false);
 
 		if (JPluginHelper::isEnabled('redshop_veis_registration', 'rs_veis_registration'))
 		{
@@ -82,65 +82,58 @@ class RedshopViewCheckout extends JView
 
 		$lists = array();
 
-		if ($task != '')
+		if ($user->id || $auth['users_info_id'] > 0)
 		{
-			$tpl = $task;
+			$cart = $session->get('cart');
+
+			if (DEFAULT_QUOTATION_MODE == 1 && !array_key_exists("quotation_id", $cart))
+			{
+				$app->Redirect('index.php?option=com_redshop&view=quotation&Itemid=' . $Itemid);
+			}
+
+			$users_info_id     = JRequest::getInt('users_info_id');
+			$billingaddresses  = $model->billingaddresses();
+			$shippingaddresses = $model->shippingaddresses();
+
+			if (!$users_info_id)
+			{
+				if ((!isset($users_info_id) || $users_info_id == 0) && count($shippingaddresses) > 0)
+				{
+					$users_info_id = $shippingaddresses[0]->users_info_id;
+				}
+				elseif ((!isset($users_info_id) || $users_info_id == 0) && count($billingaddresses) > 0)
+				{
+					$users_info_id = $billingaddresses->users_info_id;
+				}
+				else
+				{
+					$app->Redirect("index.php?option=com_redshop&view=account_billto&Itemid=" . $Itemid);
+				}
+			}
+
+			$shipping_rate_id = JRequest::getInt('shipping_rate_id');
+			$element          = JRequest::getCmd('payment_method_id');
+			$ccinfo           = JRequest::getInt('ccinfo');
+
+			$total_discount = $cart['cart_discount'] + $cart['voucher_discount'] + $cart['coupon_discount'];
+			$subtotal       = (SHIPPING_AFTER == 'total') ? $cart['product_subtotal'] - $total_discount : $cart['product_subtotal'];
+
+			$this->users_info_id = $users_info_id;
+			$this->shipping_rate_id = $shipping_rate_id;
+			$this->element = $element;
+			$this->ccinfo = $ccinfo;
+			$this->order_subtotal = $subtotal;
+			$this->ordertotal = $cart['total'];
 		}
 		else
 		{
-			if ($user->id || $auth['users_info_id'] > 0)
-			{
-				$cart = $session->get('cart');
+			// Field_section 6 : Customer Registration
+			$lists['extra_field_user']        = $field->list_all_field(7);
 
-				if (DEFAULT_QUOTATION_MODE == 1 && !array_key_exists("quotation_id", $cart))
-				{
-					$app->Redirect('index.php?option=com_redshop&view=quotation&Itemid=' . $Itemid);
-				}
-
-				$users_info_id     = JRequest::getInt('users_info_id');
-				$billingaddresses  = $model->billingaddresses();
-				$shippingaddresses = $model->shippingaddresses();
-
-				if (!$users_info_id)
-				{
-					if ((!isset($users_info_id) || $users_info_id == 0) && count($shippingaddresses) > 0)
-					{
-						$users_info_id = $shippingaddresses[0]->users_info_id;
-					}
-					elseif ((!isset($users_info_id) || $users_info_id == 0) && count($billingaddresses) > 0)
-					{
-						$users_info_id = $billingaddresses->users_info_id;
-					}
-					else
-					{
-						$app->Redirect("index.php?option=com_redshop&view=account_billto&Itemid=" . $Itemid);
-					}
-				}
-
-				$shipping_rate_id = JRequest::getInt('shipping_rate_id');
-				$element          = JRequest::getCmd('payment_method_id');
-				$ccinfo           = JRequest::getInt('ccinfo');
-
-				$total_discount = $cart['cart_discount'] + $cart['voucher_discount'] + $cart['coupon_discount'];
-				$subtotal       = (SHIPPING_AFTER == 'total') ? $cart['product_subtotal'] - $total_discount : $cart['product_subtotal'];
-
-				$this->users_info_id = $users_info_id;
-				$this->shipping_rate_id = $shipping_rate_id;
-				$this->element = $element;
-				$this->ccinfo = $ccinfo;
-				$this->order_subtotal = $subtotal;
-				$this->ordertotal = $cart['total'];
-			}
-			else
-			{
-				// Field_section 6 : Customer Registration
-				$lists['extra_field_user']        = $field->list_all_field(7);
-
-				// Field_section 6 : Company Address
-				$lists['extra_field_company']     = $field->list_all_field(8);
-				$lists['shipping_customer_field'] = $field->list_all_field(14, 0, 'billingRequired valid');
-				$lists['shipping_company_field']  = $field->list_all_field(15, 0, 'billingRequired valid');
-			}
+			// Field_section 6 : Company Address
+			$lists['extra_field_company']     = $field->list_all_field(8);
+			$lists['shipping_customer_field'] = $field->list_all_field(14, 0, 'billingRequired valid');
+			$lists['shipping_company_field']  = $field->list_all_field(15, 0, 'billingRequired valid');
 		}
 
 		if (($user->id || $auth['users_info_id'] > 0) && ONESTEP_CHECKOUT_ENABLE)

@@ -11,8 +11,8 @@ defined('_JEXEC') or die;
 /*
  * Include required files
  */
-include_once JPATH_COMPONENT . '/helpers/product.php';
-include_once JPATH_COMPONENT . '/helpers/cart.php';
+JLoader::load('RedshopHelperProduct');
+JLoader::load('RedshopHelperCart');
 
 $producthelper = new producthelper;
 $carthelper    = new rsCarthelper;
