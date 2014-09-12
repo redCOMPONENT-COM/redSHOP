@@ -9,7 +9,7 @@
 // Load the Step Object Page
 $I = new AcceptanceTester\LoginSteps($scenario);
 
-$I->wantTo('Want to Test Order Manager');
+$I->wantTo('Test Order Manager in Administrator');
 $I->doAdminLogin();
 $I = new AcceptanceTester\OrderManagerSteps($scenario);
 $I->addOrder();

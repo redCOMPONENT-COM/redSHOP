@@ -9,7 +9,7 @@
 // Load the Step Object Page
 $I = new AcceptanceTester\LoginSteps($scenario);
 
-$I->wantTo('Want to Test State Manager');
+$I->wantTo('Test State Manager in Administrator');
 $I->doAdminLogin();
 $I = new AcceptanceTester\CountryManagerSteps($scenario);
 $randomCountryName = 'Testing Country ' . rand(99, 999);
