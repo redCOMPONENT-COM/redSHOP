@@ -1512,7 +1512,7 @@ class Redconfiguration
 		{
 			$selected_state_code = $post['state_code'];
 		}
-		else
+		elseif (isset($post['state_code_ST']))
 		{
 			$selected_state_code = $post['state_code_ST'];
 		}
