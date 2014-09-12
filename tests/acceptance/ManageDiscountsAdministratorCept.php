@@ -9,7 +9,7 @@
 // Load the Step Object Page
 $I = new AcceptanceTester\LoginSteps($scenario);
 
-$I->wantTo('Want to Test Discount Manager');
+$I->wantTo('Test Discount Manager in Administrator');
 $I->doAdminLogin();
 $I = new AcceptanceTester\DiscountManagerSteps($scenario);
 $I->addDiscount();

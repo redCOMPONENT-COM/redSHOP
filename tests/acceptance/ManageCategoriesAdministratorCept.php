@@ -9,7 +9,7 @@
 // Load the Step Object Page
 $I = new AcceptanceTester\LoginSteps($scenario);
 
-$I->wantTo('Want to Test Category Manager');
+$I->wantTo('Test Category Manager in Administrator');
 $I->doAdminLogin();
 $I = new AcceptanceTester\CategoryManagerSteps($scenario);
 $randomCategoryName = 'Testing Category ' . rand(99, 999);
