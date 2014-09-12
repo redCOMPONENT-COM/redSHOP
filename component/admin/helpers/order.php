@@ -431,7 +431,11 @@ class order_functions
 				. ", order_id = " . (int) $order_id . ", customer_note = " . $this->_db->quote($data->log);
 			$this->_db->SetQuery($query);
 			$this->_db->Query();
-			$this->changeOrderStatusMail($order_id, $data->order_status_code);
+
+			if (!ORDER_MAIL_AFTER)
+			{
+				$this->changeOrderStatusMail($order_id, $data->order_status_code);
+			}
 
 			if ($data->order_payment_status_code == "Paid")
 			{
