@@ -13,26 +13,28 @@ $app = JFactory::getApplication();
 
 JLoader::import('joomla.html.parameter');
 
+JLoader::import('loadhelpers', JPATH_COMPONENT);
+
 // Getting the configuration
 require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
-JLoader::import('configuration', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
-JLoader::import('template', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
-JLoader::import('stockroom', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
-JLoader::import('economic', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
-JLoader::import('images', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
+JLoader::load('RedshopHelperAdminConfiguration');
+JLoader::load('RedshopHelperAdminTemplate');
+JLoader::load('RedshopHelperAdminStockroom');
+JLoader::load('RedshopHelperAdminEconomic');
+JLoader::load('RedshopHelperAdminImages');
 
 $Redconfiguration = new Redconfiguration;
 $Redconfiguration->defineDynamicVars();
 
 JLoader::import('joomla.html.pagination');
 
-require_once JPATH_COMPONENT . '/helpers/cron.php';
-require_once JPATH_COMPONENT . '/helpers/statistic.php';
-require_once JPATH_COMPONENT . '/helpers/pagination.php';
-require_once JPATH_COMPONENT . '/helpers/helper.php';
-require_once JPATH_COMPONENT . '/helpers/product.php';
-require_once JPATH_COMPONENT . '/helpers/currency.php';
-require_once JPATH_COMPONENT . '/helpers/redshop.js.php';
+JLoader::load('RedshopHelperCron');
+JLoader::load('RedshopHelperStatistic');
+JLoader::load('RedshopHelperPagination');
+JLoader::load('RedshopHelperHelper');
+JLoader::load('RedshopHelperProduct');
+JLoader::load('RedshopHelperCurrency');
+JLoader::load('RedshopHelperRedshop.js');
 
 // Helper object
 $helper = new redhelper;
@@ -40,7 +42,7 @@ $helper = new redhelper;
 // Include redCRM if required
 $helper->isredCRM();
 
-$print = $app->input->getCmd('print');
+$print = $app->input->getCmd('print', '');
 
 // Adding Redshop CSS
 $doc = JFactory::getDocument();
@@ -59,7 +61,7 @@ JHTML::Stylesheet('style.css', 'components/com_redshop/assets/css/');
 
 // Set the default view name and format from the Request.
 $vName      = $app->input->getCmd('view', 'category');
-$task       = $app->input->getCmd('task');
+$task       = $app->input->getCmd('task', '');
 $format     = $app->input->getWord('format', '');
 $layout     = $app->input->getWord('layout', '');
 $params     = $app->getParams('com_redshop');
@@ -91,7 +93,7 @@ if ($task != 'loadProducts' && $task != "downloadProduct" && $task != "discountC
 
 		if (!$isredGoogleAnalytics && GOOGLE_ANA_TRACKER_KEY != "")
 		{
-			require_once JPATH_COMPONENT . '/helpers/google_analytics.php';
+			JLoader::load('RedshopHelperGoogle_analytics');
 
 			$ga      = new GoogleAnalytics;
 			$anacode = $ga->placeTrans();
@@ -192,7 +194,7 @@ if (strpos($command, '.') === false)
 
 // Perform the Request task
 $controller = JControllerLegacy::getInstance('Redshop');
-$controller->execute($app->input->getCmd('task'));
+$controller->execute($app->input->getCmd('task', ''));
 
 // End component DIV here
 echo "</div>";

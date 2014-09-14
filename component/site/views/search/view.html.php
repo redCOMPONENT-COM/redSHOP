@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 JLoader::import('joomla.application.component.view');
 
-require_once JPATH_COMPONENT . '/helpers/helper.php';
+JLoader::load('RedshopHelperHelper');
 
 class RedshopViewSearch extends JView
 {
@@ -41,14 +41,14 @@ class RedshopViewSearch extends JView
 
 		if (AJAX_CART_BOX == 0)
 		{
-			JHTML::Script('fetchscript.js', 'components/com_redshop/assets/js/', false);
+			JHTML::Script('redBOX.js', 'components/com_redshop/assets/js/', false);
 			JHTML::Script('attribute.js', 'components/com_redshop/assets/js/', false);
 		}
 
 		// Ajax cart javascript
 		if (AJAX_CART_BOX == 1)
 		{
-			JHTML::Script('fetchscript.js', 'components/com_redshop/assets/js/', false);
+			JHTML::Script('redBOX.js', 'components/com_redshop/assets/js/', false);
 			JHTML::Script('attribute.js', 'components/com_redshop/assets/js/', false);
 			JHTML::Stylesheet('fetchscript.css', 'components/com_redshop/assets/css/');
 		}
@@ -139,10 +139,10 @@ class RedshopViewSearch extends JView
 		{
 			$app = JFactory::getApplication();
 
-			require_once JPATH_COMPONENT . '/helpers/product.php';
-			require_once JPATH_COMPONENT . '/helpers/pagination.php';
-			require_once JPATH_COMPONENT . '/helpers/extra_field.php';
-			require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/text_library.php';
+			JLoader::load('RedshopHelperProduct');
+			JLoader::load('RedshopHelperPagination');
+			JLoader::load('RedshopHelperExtra_field');
+			JLoader::load('RedshopHelperAdminText_library');
 
 			$dispatcher       = JDispatcher::getInstance();
 			$redTemplate      = new Redtemplate;
@@ -152,12 +152,12 @@ class RedshopViewSearch extends JView
 			$texts            = new text_library;
 			$stockroomhelper  = new rsstockroomhelper;
 
-			$Itemid      = JRequest::getInt('Itemid');
-			$search_type = JRequest::getCmd('search_type');
-			$cid         = JRequest::getInt('category_id');
+			$Itemid         = JRequest::getInt('Itemid');
+			$search_type    = JRequest::getCmd('search_type');
+			$cid            = JRequest::getInt('category_id');
+			$manufacture_id = JRequest::getInt('manufacture_id');
 
 			$manisrch       = $this->search;
-			$manufacture_id = $manisrch[0]->manufacturer_id;
 			$templateid     = JRequest::getInt('templateid');
 
 			// Cmd removes space between to words
@@ -729,7 +729,8 @@ class RedshopViewSearch extends JView
 				'order_by'       => $getorderby,
 				'category_id'    => $cid,
 				'Itemid'         => $Itemid,
-				'limit'          => $limit
+				'limit'          => $limit,
+				'search_type'    => $search_type
 			);
 			$router->setVars($vars);
 			unset($vars);

@@ -9,16 +9,16 @@
 
 defined('_JEXEC') or die;
 
-JLoader::import('helper', JPATH_SITE . '/components/com_redshop/helpers');
-JLoader::import('cart', JPATH_SITE . '/components/com_redshop/helpers');
-JLoader::import('product', JPATH_SITE . '/components/com_redshop/helpers');
-JLoader::import('extra_field', JPATH_SITE . '/components/com_redshop/helpers');
+JLoader::load('RedshopHelperHelper');
+JLoader::load('RedshopHelperCart');
+JLoader::load('RedshopHelperProduct');
+JLoader::load('RedshopHelperExtra_field');
 
-JLoader::import('extra_field', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
-JLoader::import('configuration', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
-JLoader::import('order', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
-JLoader::import('quotation', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
-JLoader::import('images', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
+JLoader::load('RedshopHelperAdminExtra_field');
+JLoader::load('RedshopHelperAdminConfiguration');
+JLoader::load('RedshopHelperAdminOrder');
+JLoader::load('RedshopHelperAdminQuotation');
+JLoader::load('RedshopHelperAdminImages');
 
 class redshopMail
 {

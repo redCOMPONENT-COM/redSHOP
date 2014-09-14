@@ -13,29 +13,11 @@ namespace AcceptanceTester;
  * @package  AcceptanceTester
  *
  * @since    1.4
+ *
+ * @link     http://codeception.com/docs/07-AdvancedUsage#StepObjects
  */
 class InstallJoomla2Steps extends \AcceptanceTester
 {
-	// Include url of current page
-	public static $URL = '/installation/index.php';
-
-	/**
-	 * @var AcceptanceTester;
-	 */
-	protected $acceptanceTester;
-
-	/**
-	 * Basic route example for your current URL
-	 * You can append any additional parameter to URL
-	 * and use it in tests like: EditPage::route('/123-post');
-	 *
-	 * @return  void
-	 */
-	public static function route($param = "")
-	{
-		return static::$URL . $param;
-	}
-
 	/**
 	 * Function to Install Joomla
 	 *
@@ -45,7 +27,7 @@ class InstallJoomla2Steps extends \AcceptanceTester
 	{
 		$I = $this;
 		$this->acceptanceTester = $I;
-		$I->amOnPage($this->route());
+		$I->amOnPage(\InstallJoomla2ManagerPage::$URL);
 		$cfg = $I->getConfig();
 		$I->click('Next');
 		$I->click('Next');
@@ -77,7 +59,7 @@ class InstallJoomla2Steps extends \AcceptanceTester
 			$this->setSampleData('Default English');
 		}
 
-		$I->click("//input[@value='Install Sample Data']");
+		$I->click(\InstallJoomla2ManagerPage::$installSampleData);
 		sleep(5);
 		$I->click('Next');
 		sleep(3);
@@ -95,7 +77,7 @@ class InstallJoomla2Steps extends \AcceptanceTester
 	private function setDatabaseType($value)
 	{
 		$I = $this->acceptanceTester;
-		$I->selectOption("#jform_db_type", strtolower($value));
+		$I->selectOption(\InstallJoomla2ManagerPage::$dbType, strtolower($value));
 	}
 
 	/**
@@ -113,38 +95,38 @@ class InstallJoomla2Steps extends \AcceptanceTester
 		switch ($label)
 		{
 			case 'Host Name':
-				$id = 'jform_db_host';
+				$id = \InstallJoomla2ManagerPage::$dbHost;
 				break;
 			case 'Username':
-				$id = 'jform_db_user';
+				$id = \InstallJoomla2ManagerPage::$dbUsername;
 				break;
 			case 'Password':
-				$id = 'jform_db_pass';
+				$id = \InstallJoomla2ManagerPage::$dbPassword;
 				break;
 			case 'Database Name':
-				$id = 'jform_db_name';
+				$id = \InstallJoomla2ManagerPage::$dbName;
 				break;
 			case 'Table Prefix':
-				$id = 'jform_db_prefix';
+				$id = \InstallJoomla2ManagerPage::$dbPrefix;
 				break;
 			case 'Site Name':
-				$id = 'jform_site_name';
+				$id = \InstallJoomla2ManagerPage::$siteName;
 				break;
 			case 'Your Email':
-				$id = 'jform_admin_email';
+				$id = \InstallJoomla2ManagerPage::$adminEmail;
 				break;
 			case 'Admin Username':
-				$id = 'jform_admin_user';
+				$id = \InstallJoomla2ManagerPage::$adminUser;
 				break;
 			case 'Admin Password':
-				$id = 'jform_admin_password';
+				$id = \InstallJoomla2ManagerPage::$adminPassword;
 				break;
 			case 'Confirm Admin Password':
-				$id = 'jform_admin_password2';
+				$id = \InstallJoomla2ManagerPage::$adminPasswordConfirm;
 				break;
 		}
 
-		$I->fillField("#" . $id . "", $value);
+		$I->fillField($id, $value);
 	}
 
 	/**
