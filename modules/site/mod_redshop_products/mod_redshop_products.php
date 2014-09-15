@@ -75,14 +75,15 @@ $isUrlCategoryId         = trim($params->get('urlCategoryId', 0));
 
 // Getting the configuration
 require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/configuration.php';
+JLoader::import('loadhelpers', JPATH_SITE . '/components/com_redshop');
+JLoader::load('RedshopHelperAdminConfiguration');
 $redConfiguration = new Redconfiguration;
 $redConfiguration->defineDynamicVars();
 
-require_once JPATH_SITE . '/components/com_redshop/helpers/product.php';
-require_once JPATH_SITE . '/components/com_redshop/helpers/helper.php';
-require_once JPATH_SITE . '/administrator/components/com_redshop/helpers/template.php';
-require_once JPATH_SITE . '/components/com_redshop/helpers/extra_field.php';
+JLoader::load('RedshopHelperProduct');
+JLoader::load('RedshopHelperHelper');
+JLoader::load('RedshopHelperAdminTemplate');
+JLoader::load('RedshopHelperAdminExtra_field');
 
 $query = $db->getQuery(true);
 
