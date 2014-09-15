@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
-class shipping_boxModelshipping_box extends JModel
+class RedshopModelShipping_box extends JModel
 {
 	public $_data = null;
 

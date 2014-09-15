@@ -11,9 +11,9 @@ defined('_JEXEC') or die;
 
 JLoader::import('joomla.application.component.view');
 
-require_once JPATH_COMPONENT . '/helpers/extra_field.php';
+JLoader::load('RedshopHelperExtra_field');
 
-class Account_billtoViewaccount_billto extends JView
+class RedshopViewAccount_billto extends JView
 {
 	/**
 	 * Execute and display a template script.

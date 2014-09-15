@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="2.5" type="plugin" group="system" method="upgrade">
+	<name>PLG_SYSTEM_MVC_OVERRIDE</name>
+	<author>redCOMPONENT</author>
+	<creationDate>July 2014</creationDate>
+	<copyright>Copyright (C) 2012 - 2014 redCOMPONENT.com. All rights reserved.</copyright>
+	<authorEmail>email@redcomponent.com</authorEmail>
+	<authorUrl>www.redcomponent.com</authorUrl>
+	<version>0.0.1</version>
+	<description>PLG_SYSTEM_MVC_OVERRIDE_DESCRIPTION</description>
+
+	<files>
+		<filename plugin="mvcoverride">mvcoverride.php</filename>
+		<filename>index.html</filename>
+		<folder>core</folder>
+		<folder>helper</folder>
+	</files>
+
+	<languages folder="language">
+		<language tag="en-GB">en-GB/en-GB.plg_system_mvcoverride.ini</language>
+		<language tag="en-GB">en-GB/en-GB.plg_system_mvcoverride.sys.ini</language>
+	</languages>
+
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field name="extendDefault" type="list" default="0" label="PLG_SYSTEM_MVC_OVERRIDE_MAKE_EXTENDABLE" description="PLG_SYSTEM_MVC_OVERRIDE_MAKE_EXTENDABLE_DESC">
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+				<field name="changePrivate" type="list" default="0" label="PLG_SYSTEM_MVC_OVERRIDE_CHANGE_FUNCTIONS" description="PLG_SYSTEM_MVC_OVERRIDE_CHANGE_FUNCTIONS_DESC">
+					<option value="0">JNO</option>
+					<option value="1">JYES</option>
+				</field>
+			</fieldset>
+		</fields>
+	</config>
+</extension>
