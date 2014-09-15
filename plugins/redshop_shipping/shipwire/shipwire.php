@@ -18,9 +18,10 @@ jimport('joomla.plugin.plugin');
  */
 if (!defined('_VALID_MOS') && !defined('_JEXEC')) die('Direct Access to ' . basename(__FILE__) . ' is not allowed.');
 
-require_once JPATH_SITE . '/components/com_redshop/helpers/product.php';
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/configuration.php';
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/shipping.php';
+JLoader::import('loadhelpers', JPATH_SITE . '/components/com_redshop');
+JLoader::load('RedshopHelperProduct');
+JLoader::load('RedshopHelperAdminConfiguration');
+JLoader::load('RedshopHelperAdminShipping');
 
 class plgredshop_shippingshipwire extends JPlugin
 {
@@ -93,7 +94,7 @@ class plgredshop_shippingshipwire extends JPlugin
 
 	function onListRates(&$d)
 	{
-		include_once (JPATH_ROOT . '/plugins/redshop_shipping/' . $this->classname . '.cfg.php');
+		include_once JPATH_ROOT . '/plugins/redshop_shipping/' . $this->classname . '.cfg.php';
 		$shippinghelper = new shipping;
 		$producthelper = new producthelper;
 

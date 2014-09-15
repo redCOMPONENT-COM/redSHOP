@@ -11,9 +11,9 @@ defined('_JEXEC') or die;
 
 JLoader::import('joomla.application.component.view');
 
-require_once JPATH_COMPONENT . '/helpers/helper.php';
+JLoader::load('RedshopHelperHelper');
 
-class searchViewsearch extends JView
+class RedshopViewSearch extends JView
 {
 	public function display($tpl = null)
 	{
@@ -41,14 +41,14 @@ class searchViewsearch extends JView
 
 		if (AJAX_CART_BOX == 0)
 		{
-			JHTML::Script('fetchscript.js', 'components/com_redshop/assets/js/', false);
+			JHTML::Script('redBOX.js', 'components/com_redshop/assets/js/', false);
 			JHTML::Script('attribute.js', 'components/com_redshop/assets/js/', false);
 		}
 
 		// Ajax cart javascript
 		if (AJAX_CART_BOX == 1)
 		{
-			JHTML::Script('fetchscript.js', 'components/com_redshop/assets/js/', false);
+			JHTML::Script('redBOX.js', 'components/com_redshop/assets/js/', false);
 			JHTML::Script('attribute.js', 'components/com_redshop/assets/js/', false);
 			JHTML::Stylesheet('fetchscript.css', 'components/com_redshop/assets/css/');
 		}
@@ -139,10 +139,10 @@ class searchViewsearch extends JView
 		{
 			$app = JFactory::getApplication();
 
-			require_once JPATH_COMPONENT . '/helpers/product.php';
-			require_once JPATH_COMPONENT . '/helpers/pagination.php';
-			require_once JPATH_COMPONENT . '/helpers/extra_field.php';
-			require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/text_library.php';
+			JLoader::load('RedshopHelperProduct');
+			JLoader::load('RedshopHelperPagination');
+			JLoader::load('RedshopHelperExtra_field');
+			JLoader::load('RedshopHelperAdminText_library');
 
 			$dispatcher       = JDispatcher::getInstance();
 			$redTemplate      = new Redtemplate;
@@ -152,12 +152,12 @@ class searchViewsearch extends JView
 			$texts            = new text_library;
 			$stockroomhelper  = new rsstockroomhelper;
 
-			$Itemid      = JRequest::getInt('Itemid');
-			$search_type = JRequest::getCmd('search_type');
-			$cid         = JRequest::getInt('category_id');
+			$Itemid         = JRequest::getInt('Itemid');
+			$search_type    = JRequest::getCmd('search_type');
+			$cid            = JRequest::getInt('category_id');
+			$manufacture_id = JRequest::getInt('manufacture_id');
 
 			$manisrch       = $this->search;
-			$manufacture_id = $manisrch[0]->manufacturer_id;
 			$templateid     = JRequest::getInt('templateid');
 
 			// Cmd removes space between to words
@@ -280,6 +280,8 @@ class searchViewsearch extends JView
 			$template_org = str_replace("{redproductfinderfilter_formstart}", '', $template_org);
 			$template_org = str_replace("{redproductfinderfilter:rp_myfilter}", '', $template_org);
 			$template_org = str_replace("{redproductfinderfilter_formend}", '', $template_org);
+			$template_org = str_replace("{total_product}", $total, $template_org);
+			$template_org = str_replace("{total_product_lbl}", JText::_('COM_REDSHOP_TOTAL_PRODUCT'), $template_org);
 
 			// Replace redproductfilder filter tag
 			if (strstr($template_org, "{redproductfinderfilter:"))
@@ -461,7 +463,7 @@ class searchViewsearch extends JView
 
 					if (count($related_product) > 0)
 					{
-						$linktortln = JUri::root() . "index.php?option=com_redshop&view=product&pid=" . $this->search[$i]->product_id . "&tmpl=component&template=" . $rtln . "&for=rtln";
+						$linktortln = JURI::root() . "index.php?option=com_redshop&view=product&pid=" . $this->search[$i]->product_id . "&tmpl=component&template=" . $rtln . "&for=rtln";
 						$rtlna      = '<a class="modal" href="' . $linktortln . '" rel="{handler:\'iframe\',size:{x:' . $rtlnfwidth . ',y:' . $rtlnfheight . '}}" >' . JText::_('COM_REDSHOP_RELATED_PRODUCT_LIST_IN_LIGHTBOX') . '</a>';
 					}
 					else
@@ -530,7 +532,7 @@ class searchViewsearch extends JView
 
 						if (is_file(REDSHOP_FRONT_DOCUMENT_RELPATH . "product/" . $media_documents[$m]->media_name))
 						{
-							$downlink = JUri::root() . 'index.php?tmpl=component&option=com_redshop&view=product&pid=' . $this->search[$i]->product_id . '&task=downloadDocument&fname=' . $media_documents[$m]->media_name . '&Itemid=' . $Itemid;
+							$downlink = JURI::root() . 'index.php?tmpl=component&option=com_redshop&view=product&pid=' . $this->search[$i]->product_id . '&task=downloadDocument&fname=' . $media_documents[$m]->media_name . '&Itemid=' . $Itemid;
 							$more_doc .= "<div><a href='" . $downlink . "' title='" . $alttext . "'>";
 							$more_doc .= $alttext;
 							$more_doc .= "</a></div>";
@@ -727,7 +729,8 @@ class searchViewsearch extends JView
 				'order_by'       => $getorderby,
 				'category_id'    => $cid,
 				'Itemid'         => $Itemid,
-				'limit'          => $limit
+				'limit'          => $limit,
+				'search_type'    => $search_type
 			);
 			$router->setVars($vars);
 			unset($vars);

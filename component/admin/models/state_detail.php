@@ -10,7 +10,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
-class state_detailModelstate_detail extends JModel
+class RedshopModelState_detail extends JModel
 {
 	public $_id = null;
 
@@ -65,15 +65,17 @@ class state_detailModelstate_detail extends JModel
 	{
 		if (empty($this->_data))
 		{
-			$detail = new stdClass;
+			$detail                   = new stdClass;
 
-			$detail->state_id = 0;
-			$detail->state_name = null;
-			$detail->state_3_code = null;
-			$detail->country_id = null;
-			$detail->state_2_code = null;
-			$detail->show_state = 2;
-			$this->_data = $detail;
+			$detail->state_id         = 0;
+			$detail->state_name       = null;
+			$detail->state_3_code     = null;
+			$detail->country_id       = null;
+			$detail->state_2_code     = null;
+			$detail->show_state       = 2;
+			$detail->checked_out      = 0;
+			$detail->checked_out_time = null;
+			$this->_data              = $detail;
 
 			return (boolean) $this->_data;
 		}
@@ -84,7 +86,7 @@ class state_detailModelstate_detail extends JModel
 	public function store($data)
 	{
 
-		$row =& $this->getTable('state_detail');
+		$row = $this->getTable('state_detail');
 
 		if (!$row->bind($data))
 		{
@@ -132,7 +134,7 @@ class state_detailModelstate_detail extends JModel
 
 	public function getcountry()
 	{
-		require_once JPATH_COMPONENT_SITE . '/helpers/helper.php';
+		JLoader::load('RedshopHelperHelper');
 		$redhelper = new redhelper;
 		$q = "SELECT  country_3_code as value,country_name as text,country_jtext from #__redshop_country ORDER BY 					    	country_name ASC";
 		$this->_db->setQuery($q);

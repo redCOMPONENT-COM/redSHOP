@@ -19,7 +19,7 @@ jimport('joomla.filesystem.archive');
  * @package  RedSHOP
  * @since    2.5
  */
-class Media_DetailController extends JController
+class RedshopControllerMedia_Detail extends JController
 {
 	/**
 	 * Media Detail Constructor
