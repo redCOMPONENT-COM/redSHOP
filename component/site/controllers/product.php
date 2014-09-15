@@ -10,8 +10,8 @@
 defined('_JEXEC') or die;
 
 JLoader::import('joomla.application.component.controller');
-require_once JPATH_COMPONENT . '/helpers/product.php';
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/template.php';
+JLoader::load('RedshopHelperProduct');
+JLoader::load('RedshopHelperAdminTemplate');
 
 /**
  * Product Controller.
@@ -421,7 +421,7 @@ class RedshopControllerProduct extends JController
 
 		$model = $this->getModel('product');
 
-		$tagnames = preg_split(" ", $tagnames);
+		$tagnames = explode(" ", $tagnames);
 
 		for ($i = 0; $i < count($tagnames); $i++)
 		{
@@ -490,7 +490,6 @@ class RedshopControllerProduct extends JController
 	public function addtocompare()
 	{
 		ob_clean();
-		require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
 
 		$producthelper = new producthelper;
 
@@ -788,14 +787,20 @@ class RedshopControllerProduct extends JController
 	 */
 	public function ajaxupload()
 	{
-		$uploaddir = JPATH_COMPONENT_SITE . '/assets/document/product/';
+		$uploadDir = JPATH_COMPONENT_SITE . '/assets/document/product/';
 		$name = JRequest::getVar('mname');
-		$filename = time() . '_' . basename($_FILES[$name]['name']);
-		$uploadfile = $uploaddir . $filename;
 
-		if (move_uploaded_file($_FILES[$name]['tmp_name'], $uploadfile))
+		$ext = JFile::getExt($_FILES[$name]['name']);
+
+		$fileName = JFile::makeSafe(JFile::stripExt($_FILES[$name]['name']));
+
+		$destFileName = time() . '_' . $fileName . "." . $ext;
+
+		$uploadFile = $uploadDir . $destFileName;
+
+		if (move_uploaded_file($_FILES[$name]['tmp_name'], $uploadFile))
 		{
-			echo $filename;
+			echo $destFileName;
 		}
 		else
 		{

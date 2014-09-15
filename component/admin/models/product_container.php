@@ -178,7 +178,7 @@ class RedshopModelProduct_container extends JModel
 
 	public function product_template($template_id, $product_id, $section)
 	{
-		require_once JPATH_COMPONENT . '/helpers/extra_field.php';
+		JLoader::load('RedshopHelperAdminExtra_field');
 		$query = 'SELECT template_desc FROM ' . $this->_table_prefix . 'template  WHERE template_id =' . $template_id;
 
 		if ($section == 1)

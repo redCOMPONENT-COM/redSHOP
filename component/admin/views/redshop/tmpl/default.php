@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die ('restricted access');
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/images.php';
+JLoader::load('RedshopHelperAdminImages');
 
 $expand_all = EXPAND_ALL;
 $uri = JURI::getInstance();

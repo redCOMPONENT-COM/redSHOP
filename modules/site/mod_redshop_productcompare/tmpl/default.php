@@ -10,13 +10,14 @@
 defined('_JEXEC') or die ('restricted access');
 $uri = JURI::getInstance();
 $url = $uri->root();
+JLoader::import('loadhelpers', JPATH_SITE . '/components/com_redshop');
 
 // get product helper
-require_once JPATH_ROOT . '/components/com_redshop/helpers/product.php';
+JLoader::load('RedshopHelperProduct');
 $producthelper = new producthelper;
 
-require_once JPATH_ROOT . '/components/com_redshop/helpers/helper.php';
-require_once JPATH_ROOT . '/components/com_redshop/helpers/redshop.js.php';
+JLoader::load('RedshopHelperHelper');
+JLoader::load('RedshopHelperRedshop.js');
 $redhelper = new redhelper;
 
 $option = JRequest::getCmd('option');

@@ -12,8 +12,8 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.controller');
 jimport('joomla.filesystem.file');
 
-require_once JPATH_COMPONENT . '/helpers/thumbnail.php';
-require_once JPATH_COMPONENT . '/helpers/product.php';
+JLoader::load('RedshopHelperAdminThumbnail');
+JLoader::load('RedshopHelperAdminProduct');
 
 /**
  * Product_Detail Controller.
@@ -138,7 +138,7 @@ class RedshopControllerProduct_Detail extends JController
 			$stockroom_id = $this->input->getInt('stockroom_id', null);
 		}
 
-		require_once JPATH_COMPONENT . '/helpers/extra_field.php';
+		JLoader::load('RedshopHelperAdminExtra_field');
 
 		$model = $this->getModel('product_detail');
 
@@ -374,7 +374,7 @@ class RedshopControllerProduct_Detail extends JController
 			$attribute_save['attribute_id'] = $attribute[$a]['id'];
 			$tmpordering = ($attribute[$a]['tmpordering']) ? $attribute[$a]['tmpordering'] : $a;
 			$attribute_save['product_id'] = $row->product_id;
-			$attribute_save['attribute_name'] = urldecode($attribute[$a]['name']);
+			$attribute_save['attribute_name'] = htmlspecialchars($attribute[$a]['name']);
 			$attribute_save['ordering'] = $attribute[$a]['ordering'];
 			$attribute_save['attribute_published'] = ($attribute[$a]['published'] == 'on' || $attribute[$a]['published'] == '1') ? '1' : '0';
 			$attribute_save['attribute_required'] = ($attribute[$a]['required'] == 'on' || $attribute[$a]['required'] == '1') ? '1' : '0';
@@ -393,7 +393,7 @@ class RedshopControllerProduct_Detail extends JController
 			{
 				$property_save['property_id'] = $property[$p]['property_id'];
 				$property_save['attribute_id'] = $attribute_array->attribute_id;
-				$property_save['property_name'] = urldecode($property[$p]['name']);
+				$property_save['property_name'] = htmlspecialchars($property[$p]['name']);
 				$property_save['property_price'] = $property[$p]['price'];
 				$property_save['oprand'] = $property[$p]['oprand'];
 				$property_save['property_number'] = $property[$p]['number'];

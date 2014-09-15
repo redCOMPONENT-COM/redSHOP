@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php';
+JLoader::load('RedshopHelperAdminOrder');
 
 JLoader::import('joomla.application.component.controller');
 
@@ -32,6 +32,7 @@ class RedshopControllerAccount_billto extends JController
 		parent::__construct($default);
 		$this->registerTask('add', 'edit');
 		$this->registerTask('', 'edit');
+		$this->registerTask('display', 'edit');
 	}
 
 	/**

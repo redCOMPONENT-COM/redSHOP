@@ -17,7 +17,7 @@ class RedshopViewState extends JView
 	{
 		JLoader::import('joomla.html.pagination');
 
-		require_once JPATH_COMPONENT_SITE . '/helpers/helper.php';
+		JLoader::load('RedshopHelperHelper');
 
 		$context = 'state_id';
 

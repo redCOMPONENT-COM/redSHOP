@@ -9,7 +9,7 @@
 // Load the Step Object Page
 $I = new AcceptanceTester\LoginSteps($scenario);
 
-$I->wantTo('Want to Test Products Manager');
+$I->wantTo('Test Products Manager in Administrator');
 $I->doAdminLogin();
 $I = new AcceptanceTester\ProductManagerSteps($scenario);
 $I->addProduct();

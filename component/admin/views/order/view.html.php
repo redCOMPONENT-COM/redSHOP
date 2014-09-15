@@ -17,7 +17,7 @@ class RedshopViewOrder extends JView
 	{
 		$context = 'order_id';
 
-		require_once JPATH_COMPONENT . '/helpers/order.php';
+		JLoader::load('RedshopHelperAdminOrder');
 
 		$order_function = new order_functions;
 

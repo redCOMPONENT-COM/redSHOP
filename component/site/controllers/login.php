@@ -36,7 +36,7 @@ class RedshopControllerLogin extends JController
 		$menu         = JFactory::getApplication()->getMenu();
 		$item         = $menu->getItem($returnitemid);
 
-		include_once JPATH_COMPONENT . '/helpers/helper.php';
+		JLoader::load('RedshopHelperHelper');
 
 		$redhelper = new redhelper;
 
