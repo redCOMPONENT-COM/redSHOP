@@ -156,7 +156,7 @@ else
 	$orderPaymentStatus = $OrdersDetail->order_payment_status;
 }
 
-$replace[] = $statustext . " - " . $orderPaymentStatus . $split_amounttext . "    " . $payremaininglink . $frm;
+$replace[] = $statustext . " - " . $orderPaymentStatus . $split_amounttext . "    " . $payremaininglink;
 
 if (strstr($orderslist_template, "{order_status_order_only}"))
 {
