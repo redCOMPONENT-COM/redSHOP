@@ -18,6 +18,7 @@ if (!defined('MOD_REDSHOP_PRODUCTS'))
 	 */
 	function getDefaultModuleCategories()
 	{
+
 		$db = JFactory::getDbo();
 
 		$query = $db->getQuery(true)

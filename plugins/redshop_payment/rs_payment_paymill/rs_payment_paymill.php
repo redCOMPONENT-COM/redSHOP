@@ -9,32 +9,12 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.plugin.plugin');
-
-require_once JPATH_SITE . '/administrator/components/com_redshop/helpers/order.php';
-require_once JPATH_SITE . '/administrator/components/com_redshop/helpers/configuration.php';
+JLoader::import('loadhelpers', JPATH_SITE . '/components/com_redshop');
+JLoader::load('RedshopHelperAdminOrder');
+JLoader::load('RedshopHelperAdminConfiguration');
 
 class plgRedshop_paymentrs_payment_paymill extends JPlugin
 {
-	var $_table_prefix = null;
-
-	/**
-	 * Constructor
-	 *
-	 * For php4 compatability we must not use the __constructor as a constructor for
-	 * plugins because func_get_args ( void ) returns a copy of all passed arguments
-	 * NOT references.  This causes problems with cross-referencing necessary for the
-	 * observer design pattern.
-	 */
-	public function plgRedshop_paymentrs_payment_paymill(&$subject)
-	{
-		// Load plugin parameters
-		parent::__construct($subject);
-		$this->_table_prefix = '#__redshop_';
-		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_paymill');
-		$this->_params = new JRegistry($this->_plugin->params);
-	}
-
 	function onPrePayment($element, $data)
 	{
 		if ($element != 'rs_payment_paymill')
@@ -58,8 +38,8 @@ class plgRedshop_paymentrs_payment_paymill extends JPlugin
 		$user = JFactory::getUser();
 		$user_id = $user->id;
 		$Itemid = JRequest::getInt('Itemid');
-		$paymill_public_key = $this->_params->get('paymill_public_key', '0');
-		$paymill_private_key = $this->_params->get('paymill_private_key', '0');
+		$paymill_public_key = $this->params->get('paymill_public_key', '0');
+		$paymill_private_key = $this->params->get('paymill_private_key', '0');
 		$cart_data = '<script type="text/javascript">
 					var PAYMILL_PUBLIC_KEY = "<?php echo $paymill_public_key;?>";
 			     </script>
@@ -170,8 +150,8 @@ class plgRedshop_paymentrs_payment_paymill extends JPlugin
 			return;
 		}
 
-		$paymill_public_key = $this->_params->get('paymill_public_key', '0');
-		$paymill_private_key = $this->_params->get('paymill_private_key', '0');
+		$paymill_public_key = $this->params->get('paymill_public_key', '0');
+		$paymill_private_key = $this->params->get('paymill_private_key', '0');
 
 		$order_functions = new order_functions;
 		$orderDetails = $order_functions->getOrderDetails($data['order_id']);
@@ -223,11 +203,11 @@ class plgRedshop_paymentrs_payment_paymill extends JPlugin
 		$tid = $paymillresult['id'];
 
 		$paymentparams = new JRegistry($paymentinfo->params);
-		$verify_status = $this->_params->get('verify_status');
-		$invalid_status = $this->_params->get('invalid_status');
-		$cancel_status = $this->_params->get('cancel_status');
+		$verify_status = $this->params->get('verify_status');
+		$invalid_status = $this->params->get('invalid_status');
+		$cancel_status = $this->params->get('cancel_status');
 
-		if ($paymillresult['error']!="")
+		if ($paymillresult['error'] != '')
 		{
 			$error_message = $paymillresult['error'];
 			$values->order_status_code = $invalid_status;

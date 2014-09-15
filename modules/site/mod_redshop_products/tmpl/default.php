@@ -23,7 +23,8 @@ $document->addStyleSheet('modules/mod_redshop_products/css/products.css');
 
 // Include redshop js file.
 require_once JPATH_SITE . '/components/com_redshop/helpers/redshop.js.php';
-JLoader::import('images', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
+JLoader::import('loadhelpers', JPATH_SITE . '/components/com_redshop');
+JLoader::load('RedshopHelperAdminImages');
 
 // Lightbox Javascript
 JHTML::Script('attribute.js', 'components/com_redshop/assets/js/', false);

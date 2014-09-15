@@ -18,7 +18,7 @@ use Codeception\Module\WebDriver;
  *
  * @link     http://codeception.com/docs/07-AdvancedUsage#StepObjects
  */
-class CategoryManagerSteps extends \AcceptanceTester
+class CategoryManagerSteps extends AdminManagerSteps
 {
 	/**
 	 * Function  to Create a New Category
@@ -31,7 +31,9 @@ class CategoryManagerSteps extends \AcceptanceTester
 	{
 		$I = $this;
 		$I->amOnPage(\CategoryManagerPage::$URL);
+		$I->verifyNotices(false, $this->checkForNotices(), 'Category Manager Page');
 		$I->click("New");
+		$I->verifyNotices(false, $this->checkForNotices(), 'Category Manager Page New');
 		$I->fillField(\CategoryManagerPage::$categoryName, $categoryName);
 		$I->selectOption(\CategoryManagerPage::$categoryTemplateId, "compare_product");
 		$I->selectOption(\CategoryManagerPage::$categoryTemplate, "list");
@@ -56,6 +58,7 @@ class CategoryManagerSteps extends \AcceptanceTester
 		$I->see($categoryName, \CategoryManagerPage::$categoryResultRow);
 		$I->click(\CategoryManagerPage::$checkAll);
 		$I->click($categoryName);
+		$I->verifyNotices(false, $this->checkForNotices(), 'Category Manager Edit');
 		$I->fillField(\CategoryManagerPage::$categoryName, $updatedName);
 		$I->click("Save & Close");
 		$I->waitForElement(\CategoryManagerPage::$categoryFilter, 30);
