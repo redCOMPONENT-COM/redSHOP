@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
-class shippingViewshipping extends JView
+class RedshopViewShipping extends JView
 {
 	/**
 	 * The request url.
@@ -27,6 +27,16 @@ class shippingViewshipping extends JView
 		$uri      = JFactory::getURI();
 		$app      = JFactory::getApplication();
 		$document = JFactory::getDocument();
+		$language = JFactory::getLanguage();
+
+		// Load language files
+		$shippingPlugins = JPluginHelper::getPlugin("redshop_shipping");
+
+		for ($l = 0; $l < count($shippingPlugins); $l++)
+		{
+			$extension = 'plg_redshop_shipping_' . strtolower($shippingPlugins[$l]->name);
+			$language->load($extension, JPATH_ADMINISTRATOR);
+		}
 
 		$document->setTitle(JText::_('COM_REDSHOP_SHIPPING'));
 
@@ -42,9 +52,9 @@ class shippingViewshipping extends JView
 		$total      = $this->get('Total');
 		$pagination = $this->get('Pagination');
 
-		$this->lists = $lists;
-		$this->shippings = $shippings;
-		$this->pagination = $pagination;
+		$this->lists       = $lists;
+		$this->shippings   = $shippings;
+		$this->pagination  = $pagination;
 		$this->request_url = $uri->toString();
 
 		parent::display($tpl);
