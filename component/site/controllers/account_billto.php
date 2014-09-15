@@ -32,6 +32,7 @@ class RedshopControllerAccount_billto extends JController
 		parent::__construct($default);
 		$this->registerTask('add', 'edit');
 		$this->registerTask('', 'edit');
+		$this->registerTask('display', 'edit');
 	}
 
 	/**

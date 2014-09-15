@@ -431,7 +431,11 @@ class order_functions
 				. ", order_id = " . (int) $order_id . ", customer_note = " . $this->_db->quote($data->log);
 			$this->_db->SetQuery($query);
 			$this->_db->Query();
-			$this->changeOrderStatusMail($order_id, $data->order_status_code);
+
+			if (!ORDER_MAIL_AFTER)
+			{
+				$this->changeOrderStatusMail($order_id, $data->order_status_code);
+			}
 
 			if ($data->order_payment_status_code == "Paid")
 			{
@@ -2340,13 +2344,36 @@ class order_functions
 		return $invoice;
 	}
 
+	/**
+	 * Create PacSoft Label from Order Status Change functions
+	 *
+	 * @param   integer  $order_id           Order Information ID
+	 * @param   string   $specifiedSendDate  Label Create Date
+	 * @param   string   $order_status       Order Status Code
+	 * @param   string   $paymentstatus      Order Payment Status Code
+	 *
+	 * @return  void
+	 */
 	public function createWebPacklabel($order_id, $specifiedSendDate, $order_status, $paymentstatus)
 	{
-		if (POSTDK_INTEGRATION && ($order_status == "S" && $paymentstatus == "Paid"))
+		// If PacSoft is not enable then return
+		if (!POSTDK_INTEGRATION)
+		{
+			return;
+		}
+
+		// If auto generation is disable then return
+		if (!AUTO_GENERATE_LABEL)
+		{
+			return;
+		}
+
+		// Only Execute this function for selected status match
+		if ($order_status == GENERATE_LABEL_ON_STATUS && $paymentstatus == "Paid")
 		{
 			$shippinghelper = new shipping;
-			$order_details = $this->getOrderDetails($order_id);
-			$details = explode("|", $shippinghelper->decryptShipping(str_replace(" ", "+", $order_details->ship_method_id)));
+			$order_details  = $this->getOrderDetails($order_id);
+			$details        = explode("|", $shippinghelper->decryptShipping(str_replace(" ", "+", $order_details->ship_method_id)));
 
 			if ($details[0] === 'plgredshop_shippingdefault_shipping' && !$order_details->order_label_create)
 			{
