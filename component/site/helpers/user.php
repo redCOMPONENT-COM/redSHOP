@@ -135,9 +135,11 @@ class rsUserhelper
 					self::$userShopperGroupData[$userId] = array();
 				}
 			}
+
+			return self::$userShopperGroupData[$userId];
 		}
 
-		return self::$userShopperGroupData[$userId];
+		return array();
 	}
 
 	/**
@@ -1026,10 +1028,10 @@ class rsUserhelper
 			$template_pd_sdata = explode('{account_creation_start}', $template_desc);
 			$template_pd_edata = explode('{account_creation_end}', $template_pd_sdata [1]);
 			$template_middle   = "";
+			$checkbox_style  = '';
 
 			if (REGISTER_METHOD != 1 && REGISTER_METHOD != 3)
 			{
-				$checkbox_style  = '';
 				$template_middle = $template_pd_edata[0];
 
 				if (REGISTER_METHOD == 2)

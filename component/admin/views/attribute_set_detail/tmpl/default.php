@@ -240,7 +240,7 @@ if ($this->lists['attributes'] != '')
 						<td align="right" class="td2">
 							<input type="text" class="text_area input_t1" size="22"
 							       name="attribute[<?php echo $k; ?>][name]"
-							       value="<?php echo htmlspecialchars(urldecode($attibute_data['attribute_name'])); ?>">
+							       value="<?php echo htmlspecialchars($attibute_data['attribute_name']); ?>">
 						</td>
 
 						<td align="right" nowrap="nowrap" class="td3">
@@ -379,7 +379,7 @@ if ($this->lists['attributes'] != '')
 								<input type="text"
 								       class="text_area input_t1" size="22"
 								       name="attribute[<?php echo $k; ?>][property][<?php echo $g; ?>][name]"
-								       value="<?php echo htmlspecialchars(urldecode($property->property_name)); ?>">
+								       value="<?php echo htmlspecialchars($property->property_name); ?>">
 							</td>
 							<td align="right" nowrap="nowrap" class="td3">
 								<span> <?php echo JText::_('COM_REDSHOP_ORDERING'); ?>:&nbsp;</span>
