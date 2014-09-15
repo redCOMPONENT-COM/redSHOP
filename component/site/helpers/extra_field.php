@@ -607,6 +607,8 @@ class extraField
 
 			if (count($data_value) != 0 && $published && $field_show_in_front)
 			{
+				$displayvalue = '';
+
 				switch ($type)
 				{
 					case 1:
@@ -747,13 +749,13 @@ class extraField
 								if ($str_image_link)
 								{
 									$displayvalue .= "<a href='" . $str_image_link
-										. "' class='imgtooltip' ><img src='" . $link . "' /><span><div class='spnheader'>"
+										. "' class='imgtooltip' ><img src='" . $link . "' alt='" . $document_value[$c]->field_value . "' /><span><div class='spnheader'>"
 										. $row_data[$i]->field_title . "</div><div class='spnalttext'>"
 										. $image_hover[$document_value[$c]->value_id] . "</div></span></a>";
 								}
 								else
 								{
-									$displayvalue .= "<a class='imgtooltip'><img src='" . $link . "' /><span><div class='spnheader'>"
+									$displayvalue .= "<a class='imgtooltip'><img src='" . $link . "' alt='" . $document_value[$c]->field_value . "' /><span><div class='spnheader'>"
 										. $row_data[$i]->field_title . "</div><div class='spnalttext'>"
 										. $image_hover[$document_value[$c]->value_id] . "</div></span></a>";
 								}

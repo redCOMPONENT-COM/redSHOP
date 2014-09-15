@@ -12,7 +12,6 @@
 
     <files>
         <filename plugin="rs_payment_epayv2">rs_payment_epayv2.php</filename>
-        <folder>rs_payment_epayv2</folder>
     </files>
     <languages>
         <language tag="en-GB">language/en-GB/en-GB.plg_redshop_payment_rs_payment_epayv2.ini</language>

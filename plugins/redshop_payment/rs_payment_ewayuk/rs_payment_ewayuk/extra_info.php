@@ -7,20 +7,20 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-$uri =& JURI::getInstance();
-$url = $uri->root();
-$user = JFactory::getUser();
-$app = JFactory::getApplication();
+$uri                 = JURI::getInstance();
+$url                 = $uri->root();
+$user                = JFactory::getUser();
+$app                 = JFactory::getApplication();
 
-$eWAYcustomer_id = $this->_params->get("customer_id");
-$eWAYusername = $this->_params->get("username");
-$eWAYpagetitle = $this->_params->get("pagetitle");
-$eWAYpagedescription = $this->_params->get("pagedescription");
-$eWAYpagefooter = $this->_params->get("pagefooter");
-$eWAYlanguage = $this->_params->get("ewayuk_language");
-$eWAYcompanylogo = $this->_params->get("companylogo");
-$eWAYpagebanner = $this->_params->get("pagebanner");
-$eWay_companyname = $this->_params->get("merchant_companyname");
+$eWAYcustomer_id     = $this->params->get("customer_id");
+$eWAYusername        = $this->params->get("username");
+$eWAYpagetitle       = $this->params->get("pagetitle");
+$eWAYpagedescription = $this->params->get("pagedescription");
+$eWAYpagefooter      = $this->params->get("pagefooter");
+$eWAYlanguage        = $this->params->get("ewayuk_language");
+$eWAYcompanylogo     = $this->params->get("companylogo");
+$eWAYpagebanner      = $this->params->get("pagebanner");
+$eWay_companyname    = $this->params->get("merchant_companyname");
 
 $currencyClass = new CurrencyHelper;
 $item_price = $currencyClass->convert($data['carttotal'], '', 'GBP');
@@ -57,14 +57,7 @@ $ewayurl .= "&ReturnUrl=" . JURI::base() . "plugins/redshop_payment/rs_payment_e
 $ewayurl .= "&CancelURL=" . JURI::base() . "plugins/redshop_payment/rs_payment_ewayuk/rs_payment_ewayuk/eway_response.php";
 $spacereplace = str_replace(" ", "%20", $ewayurl);
 $posturl = "https://payment.ewaygateway.com/Request/$spacereplace";
-/*$posturl="https://payment.ewaygateway.com/Request/?CustomerID=".$eWAYcustomer_id."&UserName=".$eWAYusername."&Amount=".$item_price."&Currency=GBP&PageTitle=".$eWAYpagetitle."&PageDescription=Customised%20PageDescription%20-%20Add%20a%20unique%20custom%20message%20for%20the%20customer%20here.&PageFooter=CustomisedPage%20Footer%20-%20Add%20a%20unique%20footer%20useful%20for%20contactinformation.&Language=EN&
-   CompanyName=Merchant%20CompanyName&CustomerFirstName=John&CustomerLastName=Doe&CustomerAddress=123%20ABCStreet
-   &CustomerCity=London&CustomerState=London&CustomerPostCode=W1B3HH&CustomerCountry=England&CustomerEmail=sample@eway.co.uk
-   &CustomerPhone=0800007%203550&InvoiceDescription=Individual%20InvoiceDescription
-   &CancelURL=".$cancelurl."&ReturnUrl=".$returnurl."
-   &MerchantReference=513456&MerchantInvoice=Inv21540&MerchantOption1=Option1&MerchantOption2=Option2&MerchantOption3=Option3
-   &ModifiableCustomerDetails=false";
-*/
+
 $ch = curl_init();
 curl_setopt($ch, CURLOPT_URL, $posturl);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -91,6 +84,3 @@ else
 {
 	$app->redirect(JURI::base() . "index.php?option=com_redshop&view=order_detail&oid=" . $data['order_id']);
 }
-
-
-?>

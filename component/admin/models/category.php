@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
-class categoryModelcategory extends JModel
+class RedshopModelCategory extends JModel
 {
 	public $_data = null;
 
@@ -177,7 +177,7 @@ class categoryModelcategory extends JModel
 
 	public function saveorder($cid = array(), $order)
 	{
-		$row =& $this->getTable('category_detail');
+		$row = $this->getTable('category_detail');
 		$groupings = array();
 
 		// Update ordering values

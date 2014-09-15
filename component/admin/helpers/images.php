@@ -244,7 +244,6 @@ class RedShopHelperImages extends JObject
 				return false;
 		}
 
-
 		// This is the resizing/resampling/transparency-preserving magic
 		$image_resized = imagecreatetruecolor($final_width, $final_height);
 
@@ -252,20 +251,20 @@ class RedShopHelperImages extends JObject
 		{
 			$transparency = imagecolortransparent($image);
 
-			if ($transparency >= 0)
-			{
-				$trnprt_color = imagecolorsforindex($image, $transparency);
-				$transparency = imagecolorallocate($image_resized, $trnprt_color['red'], $trnprt_color['green'], $trnprt_color['blue']);
-				imagefill($image_resized, 0, 0, $transparency);
-				imagecolortransparent($image_resized, $transparency);
-			}
-
-			elseif ($info[2] == IMAGETYPE_PNG)
+			if ($info[2] == IMAGETYPE_PNG)
 			{
 				imagealphablending($image_resized, false);
 				$color = imagecolorallocatealpha($image_resized, 0, 0, 0, 127);
 				imagefill($image_resized, 0, 0, $color);
 				imagesavealpha($image_resized, true);
+			}
+
+			elseif ($transparency >= 0)
+			{
+				$trnprt_color = imagecolorsforindex($image, $transparency);
+				$transparency = imagecolorallocate($image_resized, $trnprt_color['red'], $trnprt_color['green'], $trnprt_color['blue']);
+				imagefill($image_resized, 0, 0, $transparency);
+				imagecolortransparent($image_resized, $transparency);
 			}
 		}
 

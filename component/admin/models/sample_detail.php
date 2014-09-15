@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
-class sample_detailModelsample_detail extends JModel
+class RedshopModelSample_detail extends JModel
 {
 	public $_id = null;
 
@@ -80,7 +80,7 @@ class sample_detailModelsample_detail extends JModel
 
 	public function store($data)
 	{
-		$row =& $this->getTable();
+		$row = $this->getTable();
 
 		if (!$row->bind($data))
 		{

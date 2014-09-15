@@ -1,32 +1,26 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license   GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- *            Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     RedSHOP
+ * @subpackage  Plugin
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2005 - 2014 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
-require_once JPATH_BASE . '/administrator/components/com_redshop/helpers/order.php';
-require_once JPATH_COMPONENT . '/helpers/helper.php';
+JLoader::import('loadhelpers', JPATH_SITE . '/components/com_redshop');
+JLoader::load('RedshopHelperAdminOrder');
+JLoader::load('RedshopHelperHelper');
 
-$amazon_signature = $this->_params->get("amazon_signature");
-$amazon_recipientEmail = $this->_params->get("amazon_recipientEmail");
-$amazon_payment_method = $this->_params->get("amazon_payment_method");
-$amazonPaymentsAccountId = $this->_params->get("amazonPaymentsAccountId");
-$amazon_accessKey = $this->_params->get("amazon_accessKey");
-$amazon_signature_method = $this->_params->get("amazon_signature_method");
+$amazon_signature                = $this->params->get("amazon_signature");
+$amazon_recipientEmail           = $this->params->get("amazon_recipientEmail");
+$amazon_payment_method           = $this->params->get("amazon_payment_method");
+$amazonPaymentsAccountId         = $this->params->get("amazonPaymentsAccountId");
+$amazon_accessKey                = $this->params->get("amazon_accessKey");
+$amazon_signature_method         = $this->params->get("amazon_signature_method");
 
-$amazon_variable_marketplace_fee = $this->_params->get("amazon_variable_marketplace_fee");
-$amazon_fixed_marketplace_fee = $this->_params->get("amazon_fixed_marketplace_fee");
-$amazon_is_test = $this->_params->get("amazon_is_test");
-$amazon_caller_reference = $this->_params->get("amazon_caller_reference");
+$amazon_variable_marketplace_fee = $this->params->get("amazon_variable_marketplace_fee");
+$amazon_fixed_marketplace_fee    = $this->params->get("amazon_fixed_marketplace_fee");
+$amazon_is_test                  = $this->params->get("amazon_is_test");
+$amazon_caller_reference         = $this->params->get("amazon_caller_reference");
 
 if ($amazon_is_test == 1)
 {
@@ -46,11 +40,10 @@ else
 	<input type="hidden" name="signatureMethod" value="<?php echo $amazon_signature_method ?>">
 	<input type="hidden" name="accessKey" value="<?php echo $amazon_accessKey ?>">
 	<input type="hidden" name="recipientEmail" value="<?php echo $amazon_recipientEmail ?>">
-	<?php if ($amazon_payment_method == 'MARKETPLACE')
-	{ ?>
+	<?php if ($amazon_payment_method == 'MARKETPLACE') : ?>
 		<input type="hidden" name="variableMarketplaceFee" value="<?php echo $amazon_variable_marketplace_fee ?>">
 		<input type="hidden" name="fixedMarketplaceFee" value="<?php echo $amazon_fixed_marketplace_fee ?>">
-	<?php } ?>
+	<?php endif; ?>
 	<input type="hidden" name="referenceId"
 	       value="<?php echo JText::_('COM_REDSHOP_MY_TRANSACTION') ?>-<?php echo $data['order_id']; ?>">
 	<input type="hidden" name="amount" value="<?php echo $data['carttotal']; ?>">
@@ -71,8 +64,7 @@ else
 </form>
 
 <!--  MarketPlace Payment -->
-<?php if ($amazon_payment_method == 'MARKETPLACE')
-{ ?>
+<?php if ($amazon_payment_method == 'MARKETPLACE'): ?>
 	<form action="<?php echo $amazon_url ?>" method="get" id="amazoncheckout">
 		<input type="hidden" name="maxVariableFee" value="<?php echo $amazon_variable_marketplace_fee ?>">
 		<input type="hidden" name="signature" value="<?php echo $amazon_signature ?>">
@@ -89,7 +81,7 @@ else
 		<input type="hidden" name="pipelineName" value="Recipient">
 		<input type="image" src="http://g-ecx.images-amazon.com/images/G/01/asp/MarketPlaceFeeWithLogo.gif" border="0">
 	</form>
-<?php } ?>
+<?php endif; ?>
 <script>
 	document.getElementById("amazoncheckout").submit();
 </script>
