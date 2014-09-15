@@ -73,7 +73,7 @@ else
 }
 
 // Replace Reorder Button
-$this->replaceReorderButton(&$orderslist_template);
+$this->replaceReorderButton($orderslist_template);
 
 if ($print)
 {

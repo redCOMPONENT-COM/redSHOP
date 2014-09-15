@@ -92,11 +92,11 @@ class RedshopViewOrder_detail extends JView
 	/**
 	 * Replace Reorder Button
 	 *
-	 * @param   string  $template  Template Data
+	 * @param   string  &$template  Template Data
 	 *
 	 * @return  void
 	 */
-	public function replaceReorderButton($template)
+	public function replaceReorderButton(&$template)
 	{
 		$app     = JFactory::getApplication();
 		$order   = $this->OrdersDetail;
