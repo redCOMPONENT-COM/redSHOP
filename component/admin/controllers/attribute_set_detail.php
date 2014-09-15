@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.controller');
 jimport('joomla.filesystem.file');
 
-require_once JPATH_COMPONENT . '/helpers/thumbnail.php';
+JLoader::load('RedshopHelperAdminThumbnail');
 
 class RedshopControllerAttribute_set_detail extends JController
 {
@@ -42,7 +42,7 @@ class RedshopControllerAttribute_set_detail extends JController
 
 		$option = JRequest::getVar('option');
 
-		require_once JPATH_COMPONENT . '/helpers/extra_field.php';
+		JLoader::load('RedshopHelperAdminExtra_field');
 
 		$model = $this->getModel('attribute_set_detail');
 
@@ -159,7 +159,7 @@ class RedshopControllerAttribute_set_detail extends JController
 		{
 			$attribute_save['attribute_id'] = $attribute[$a]['id'];
 			$attribute_save['attribute_set_id'] = $row->attribute_set_id;
-			$attribute_save['attribute_name'] = urldecode($attribute[$a]['name']);
+			$attribute_save['attribute_name'] = htmlspecialchars($attribute[$a]['name']);
 			$attribute_save['ordering'] = $attribute[$a]['ordering'];
 			$attribute_save['attribute_required'] = ($attribute[$a]['required'] == 'on' || $attribute[$a]['required'] == '1') ? '1' : '0';
 			$attribute_save['allow_multiple_selection'] = ($attribute[$a]['allow_multiple_selection'] == 'on'
@@ -178,7 +178,7 @@ class RedshopControllerAttribute_set_detail extends JController
 			{
 				$property_save['property_id'] = $property[$p]['property_id'];
 				$property_save['attribute_id'] = $attribute_array->attribute_id;
-				$property_save['property_name'] = urldecode($property[$p]['name']);
+				$property_save['property_name'] = htmlspecialchars($property[$p]['name']);
 				$property_save['property_price'] = $property[$p]['price'];
 				$property_save['oprand'] = $property[$p]['oprand'];
 				$property_save['property_number'] = $property[$p]['number'];

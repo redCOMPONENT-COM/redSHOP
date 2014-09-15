@@ -14,11 +14,12 @@ jimport('joomla.plugin.plugin');
 /**
  * Replaces textstring with link
  */
-require_once JPATH_ROOT . '/components/com_redshop/helpers/redshop.js.php';
-require_once JPATH_SITE . '/components/com_redshop/helpers/product.php';
-require_once JPATH_SITE . '/components/com_redshop/helpers/extra_field.php';
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/template.php';
-require_once JPATH_SITE . '/components/com_redshop/helpers/helper.php';
+JLoader::import('loadhelpers', JPATH_SITE . '/components/com_redshop');
+JLoader::load('RedshopHelperRedshop.js');
+JLoader::load('RedshopHelperProduct');
+JLoader::load('RedshopHelperExtra_field');
+JLoader::load('RedshopHelperAdminTemplate');
+JLoader::load('RedshopHelperHelper');
 
 class plgContentredshop_product extends JPlugin
 {

@@ -11,8 +11,8 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 
-require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
-require_once JPATH_COMPONENT . '/helpers/product.php';
+JLoader::load('RedshopHelperProduct');
+JLoader::load('RedshopHelperAdminProduct');
 
 class RedshopControllerAddquotation_detail extends JController
 {
