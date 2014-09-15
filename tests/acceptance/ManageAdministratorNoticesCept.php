@@ -9,7 +9,7 @@
 // Load the Step Object Page
 $I = new AcceptanceTester\LoginSteps($scenario);
 
-$I->wantTo('Want to Test Presence of Notices, Warnings on Administrator Modules');
+$I->wantTo('Test Presence of Notices, Warnings on Administrator Modules');
 $I->doAdminLogin();
 $I = new AcceptanceTester\AdminManagerSteps($scenario);
 $I->CheckAllLinks();
