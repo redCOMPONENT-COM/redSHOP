@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 JHTMLBehavior::modal();
 JLoader::import('joomla.filesystem.file');
 
-$tid    = $this->input->getcwd('tid', null);
+$tid    = $this->input->getCmd('tid', null);
 $model  = $this->getModel();
 ?>
 
