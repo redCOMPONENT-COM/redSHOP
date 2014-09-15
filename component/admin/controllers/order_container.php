@@ -26,7 +26,7 @@ class RedshopControllerOrder_container extends JController
 
 	public function export_data()
 	{
-		require_once JPATH_COMPONENT . '/helpers/order.php';
+		JLoader::load('RedshopHelperAdminOrder');
 
 		$order_function = new order_functions;
 

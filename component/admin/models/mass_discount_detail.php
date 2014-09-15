@@ -8,7 +8,7 @@
  */
 
 defined('_JEXEC') or die;
-require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
+JLoader::load('RedshopHelperProduct');
 
 jimport('joomla.application.component.model');
 

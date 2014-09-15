@@ -11,10 +11,10 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
-require_once JPATH_COMPONENT . '/helpers/extra_field.php';
-require_once JPATH_COMPONENT . '/helpers/category.php';
-require_once JPATH_COMPONENT . '/helpers/shopper.php';
-require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
+JLoader::load('RedshopHelperAdminExtra_field');
+JLoader::load('RedshopHelperAdminCategory');
+JLoader::load('RedshopHelperAdminShopper');
+JLoader::load('RedshopHelperProduct');
 
 /**
  * Product Detail View

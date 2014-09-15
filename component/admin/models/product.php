@@ -10,10 +10,10 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
-require_once JPATH_COMPONENT . '/helpers/extra_field.php';
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/stockroom.php';
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/shipping.php';
-require_once JPATH_SITE . '/components/com_redshop/helpers/product.php';
+JLoader::load('RedshopHelperAdminExtra_field');
+JLoader::load('RedshopHelperAdminStockroom');
+JLoader::load('RedshopHelperAdminShipping');
+JLoader::load('RedshopHelperProduct');
 
 class RedshopModelProduct extends JModel
 {

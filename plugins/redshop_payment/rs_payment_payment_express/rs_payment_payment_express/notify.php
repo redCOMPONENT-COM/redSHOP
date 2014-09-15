@@ -36,14 +36,14 @@ $app = JFactory::getApplication();
  *
  * NOTE :
  */
-// set the language
+// Set the language
 $app->initialise();
 $request = JRequest::get('request');
 
-$txid = $request['tx'];
+$txid      = $request['tx'];
 $tx_status = $request['st'];
-$order_id = $request['oid'];
-$Itemid = $request["Itemid"];
+$order_id  = $request['oid'];
+$Itemid    = $request["Itemid"];
 
 if (isset($txid) && $tx_status == 'Completed')
 {
@@ -51,18 +51,16 @@ if (isset($txid) && $tx_status == 'Completed')
 
 	if (orderPaymentNotYetUpdated($db, $order_id, $txid))
 	{
-		$query = "UPDATE #__redshop_orders set order_status = 'C' where order_id = " . $order_id;
+		$query = "UPDATE `#__redshop_orders` set order_status = 'C' where order_id = " . $order_id;
 		$db->setQuery($query);
 		$db->Query();
 	}
-
 }
-
 
 function orderPaymentNotYetUpdated($dbConn, $order_id, $tid)
 {
-	$db = JFactory::getDbo();
-	$res = false;
+	$db    = JFactory::getDbo();
+	$res   = false;
 	$query = "SELECT COUNT(*) `qty` FROM `#__redshop_order_payment` WHERE `order_id` = '" . $db->getEscaped($order_id) . "' and order_payment_trans_id = '" . $db->getEscaped($txid) . "'";
 	$db->setQuery($query);
 	$order_payment = $db->loadResult();
@@ -74,6 +72,3 @@ function orderPaymentNotYetUpdated($dbConn, $order_id, $tid)
 
 	return $res;
 }
-
-
-?>
