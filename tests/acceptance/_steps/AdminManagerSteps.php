@@ -35,4 +35,23 @@ class AdminManagerSteps extends \AcceptanceTester
 
 		return $result;
 	}
+
+	/**
+	 * Function to Check for Presence of Notices and Warnings on all the Modules of Extension
+	 *
+	 * @return void
+	 */
+	public function CheckAllLinks()
+	{
+		$I = $this;
+
+		for ($i = 0; $i < count(\AdminManagerPage::$allLinks); $i++)
+		{
+			$I->amOnPage(\AdminManagerPage::$allLinks[$i][1]);
+			$I->verifyNotices(false, $this->checkForNotices(), \AdminManagerPage::$allLinks[$i][0]);
+			$I->click('New');
+			$I->verifyNotices(false, $this->checkForNotices(), \AdminManagerPage::$allLinks[$i][0] . ' New');
+			$I->click('Cancel');
+		}
+	}
 }
