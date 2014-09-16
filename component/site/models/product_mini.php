@@ -18,7 +18,7 @@ JLoader::import('joomla.application.component.model');
  * @subpackage  Model
  * @since       1.0
  */
-class product_miniModelproduct_mini extends JModel
+class RedshopModelProduct_mini extends JModel
 {
 	public $_data = null;
 

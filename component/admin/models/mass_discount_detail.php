@@ -8,11 +8,11 @@
  */
 
 defined('_JEXEC') or die;
-require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
+JLoader::load('RedshopHelperProduct');
 
 jimport('joomla.application.component.model');
 
-class mass_discount_detailModelmass_discount_detail extends JModel
+class RedshopModelMass_discount_detail extends JModel
 {
 	public $_id = null;
 

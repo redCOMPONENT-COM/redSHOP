@@ -11,11 +11,11 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
-require_once JPATH_SITE . '/administrator/components/com_redshop/helpers/mail.php';
-require_once JPATH_SITE . '/components/com_redshop/helpers/extra_field.php';
-require_once JPATH_SITE . '/components/com_redshop/helpers/user.php';
+JLoader::load('RedshopHelperAdminMail');
+JLoader::load('RedshopHelperExtra_field');
+JLoader::load('RedshopHelperUser');
 
-class user_detailModeluser_detail extends JModel
+class RedshopModelUser_detail extends JModel
 {
 	public $_id = null;
 
@@ -100,40 +100,41 @@ class user_detailModeluser_detail extends JModel
 		{
 			$detail = new stdClass;
 
-			$detail->users_info_id = 0;
-			$detail->user_id = 0;
-			$detail->id = 0;
-			$detail->gid = null;
-			$detail->name = null;
-			$detail->username = null;
-			$detail->email = null;
-			$detail->password = null;
-			$detail->usertype = null;
-			$detail->block = null;
-			$detail->sendEmail = null;
-			$detail->registerDate = null;
-			$detail->lastvisitDate = null;
-			$detail->activation = null;
-			$detail->is_company = null;
-			$detail->firstname = null;
-			$detail->lastname = null;
-			$detail->contact_info = null;
-			$detail->address_type = null;
-			$detail->company_name = null;
-			$detail->vat_number = null;
-			$detail->tax_exempt = 0;
-			$detail->country_code = null;
-			$detail->state_code = null;
-			$detail->shopper_group_id = null;
-			$detail->published = 1;
-			$detail->address = null;
-			$detail->city = null;
-			$detail->zipcode = null;
-			$detail->phone = null;
+			$detail->users_info_id         = 0;
+			$detail->user_id               = 0;
+			$detail->id                    = 0;
+			$detail->gid                   = null;
+			$detail->name                  = null;
+			$detail->username              = null;
+			$detail->email                 = null;
+			$detail->password              = null;
+			$detail->usertype              = null;
+			$detail->block                 = null;
+			$detail->sendEmail             = null;
+			$detail->registerDate          = null;
+			$detail->lastvisitDate         = null;
+			$detail->activation            = null;
+			$detail->is_company            = null;
+			$detail->firstname             = null;
+			$detail->lastname              = null;
+			$detail->contact_info          = null;
+			$detail->address_type          = null;
+			$detail->company_name          = null;
+			$detail->vat_number            = null;
+			$detail->tax_exempt            = 0;
+			$detail->country_code          = null;
+			$detail->state_code            = null;
+			$detail->shopper_group_id      = null;
+			$detail->published             = 1;
+			$detail->address               = null;
+			$detail->city                  = null;
+			$detail->zipcode               = null;
+			$detail->phone                 = null;
 			$detail->requesting_tax_exempt = 0;
-			$detail->tax_exempt_approved = 0;
-			$detail->approved = 1;
-			$detail->ean_number = null;
+			$detail->tax_exempt_approved   = 0;
+			$detail->approved              = 1;
+			$detail->ean_number            = null;
+			$detail->state_code_ST         = null;
 
 			$info_id = JRequest::getVar('info_id', 0);
 			$shipping = JRequest::getVar('shipping', 0);
