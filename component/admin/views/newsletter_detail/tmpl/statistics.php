@@ -58,10 +58,6 @@ $data .= "[$rowdata]";
 		chart.draw(data, {width: 800, height: 640, is3D: true, title: '<?php echo $title;?>'});
 	}
 	Joomla.submitbutton = function (pressbutton) {
-		submitbutton(pressbutton);
-	}
-
-	submitbutton = function (pressbutton) {
 		var form = document.adminForm;
 		if (pressbutton == 'cancel') {
 			submitform(pressbutton);

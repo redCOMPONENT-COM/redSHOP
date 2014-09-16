@@ -15,17 +15,13 @@ JHTMLBehavior::modal();
 $uri = JURI::getInstance();
 $url = $uri->root();
 jimport('joomla.html.pane');
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/extra_field.php';
+JLoader::load('RedshopHelperAdminExtra_field');
 $extra_field = new extra_field();
 
 ?>
 
 <script language="javascript" type="text/javascript">
 	Joomla.submitbutton = function (pressbutton) {
-		submitbutton(pressbutton);
-	}
-
-	submitbutton = function (pressbutton) {
 		var form = document.adminForm;
 		if (pressbutton == 'cancel') {
 			submitform(pressbutton);
@@ -73,7 +69,15 @@ $extra_field = new extra_field();
 			<td valign="top" align="right" class="key"><?php echo JText::_('COM_REDSHOP_MAIL_ORDER_STATUS'); ?>:</td>
 			<td>
 				<div id="responce"></div>
-				<div id="order_state_edit"><?php echo $this->lists['order_status'];?>    </div>
+				<div id="order_state_edit">
+				<?php
+
+					if (isset($this->lists['order_status']))
+					{
+						echo $this->lists['order_status'];
+					}
+				?>
+				</div>
 			</td>
 		</tr>
 		<tr>

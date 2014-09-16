@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
-class templateViewtemplate extends JView
+class RedshopViewTemplate extends JView
 {
 	public function display($tpl = null)
 	{
