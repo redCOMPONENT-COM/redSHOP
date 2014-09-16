@@ -45,13 +45,11 @@ class AdminManagerSteps extends \AcceptanceTester
 	{
 		$I = $this;
 
-		for ($i = 0; $i < count(\AdminManagerPage::$allLinks); $i++)
+		foreach (\AdminManagerPage::$allExtensionPages as $page => $url)
 		{
-			$I->amOnPage(\AdminManagerPage::$allLinks[$i][1]);
-			$I->verifyNotices(false, $this->checkForNotices(), \AdminManagerPage::$allLinks[$i][0]);
-			$I->click('New');
-			$I->verifyNotices(false, $this->checkForNotices(), \AdminManagerPage::$allLinks[$i][0] . ' New');
-			$I->click('Cancel');
+			$I->amOnPage($url);
+			$I->verifyNotices(false, $this->checkForNotices(), $page);
 		}
+
 	}
 }
