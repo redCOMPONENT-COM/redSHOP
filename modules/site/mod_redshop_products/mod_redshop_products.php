@@ -22,27 +22,20 @@ if (!defined('MOD_REDSHOP_PRODUCTS'))
 		$sql = "SELECT category_id FROM #__redshop_category WHERE published=1 ORDER BY category_id ASC";
 		$db->setQuery($sql);
 		$cats = $db->loadObjectList();
-
 		$category = array();
-
 
 		for ($i = 0; $i < count($cats); $i++)
 		{
 			$category[] = $cats[$i]->category_id;
 		}
 
-
 		if (count($category) > 0)
-		{
 		{
 			$cids = implode(",", $category);
 		}
-		}
 		else
 		{
-		{
 			$cids = 0;
-		}
 		}
 
 		return $cids;
@@ -77,7 +70,6 @@ if ($featuredProduct)
 }
 
 // If enable, option will show price
-
 $showPrice  = trim($params->get('show_price', 0));
 
 // Get show image thumbwidth size
@@ -102,7 +94,7 @@ $showChildProducts = trim($params->get('show_childproducts', 1));
 
 if ($showChildProducts == 1)
 {
-	$mainChild = "";
+	$mainChild = '';
 }
 else
 {
@@ -134,10 +126,14 @@ switch ($type)
 {
 	case '0':
 
-		if ($category == "")
+		if ($category == '')
+		{
 			$sql = "SELECT DISTINCT(p.product_id),p.* FROM #__redshop_product p WHERE p.published=1 " . $whereFeatured . " " . $mainChild . " ORDER BY product_id desc LIMIT 0,$count";
+		}
 		else
+		{
 			$sql = "SELECT DISTINCT(p.product_id),p.* FROM #__redshop_product p left outer join #__redshop_product_category_xref cx on cx.product_id = p.product_id WHERE  p.published=1 " . $whereFeatured . " " . $mainChild . " AND cx.category_id IN ($category) ORDER BY product_id desc LIMIT 0,$count";
+		}
 
 		break;
 

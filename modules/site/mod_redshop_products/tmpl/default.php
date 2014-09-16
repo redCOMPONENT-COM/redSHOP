@@ -230,8 +230,8 @@ for ($i = 0; $i < count($rows); $i++)
 		 * collecting extra fields
 		 */
 		$countNoUserField = 0;
-		$hidden_userfield    = "";
-		$userfieldArr        = array();
+		$hiddenUserField = '';
+		$userfieldArr = array();
 
 		if (AJAX_CART_BOX)
 		{
@@ -275,7 +275,7 @@ for ($i = 0; $i < count($rows); $i++)
 		// End
 
 		$addtocart = $producthelper->replaceCartTemplate($row->product_id, $categoryId, 0, 0, "", false, $userfieldArr, $totalatt, $totalAccessory, $countNoUserField, $moduleId);
-		echo "<div class='mod_redshop_products_addtocart'>" . $addtocart . $hiddenUserfield . "</div>";
+		echo "<div class='mod_redshop_products_addtocart'>" . $addtocart . $hiddenUserField . "</div>";
 	}
 
 	echo "</div>";
