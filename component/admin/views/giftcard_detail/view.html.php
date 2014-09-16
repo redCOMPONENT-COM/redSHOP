@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
-class giftcard_detailVIEWgiftcard_detail extends JView
+class RedshopViewGiftcard_detail extends JView
 {
 	/**
 	 * The request url.

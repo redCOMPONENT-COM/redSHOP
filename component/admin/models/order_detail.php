@@ -11,16 +11,16 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
-require_once JPATH_ROOT . '/components/com_redshop/helpers/product.php';
-require_once JPATH_SITE . '/components/com_redshop/helpers/cart.php';
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/extra_field.php';
-require_once JPATH_SITE . '/components/com_redshop/helpers/helper.php';
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/order.php';
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/quotation.php';
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/mail.php';
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/product.php';
+JLoader::load('RedshopHelperProduct');
+JLoader::load('RedshopHelperCart');
+JLoader::load('RedshopHelperAdminExtra_field');
+JLoader::load('RedshopHelperHelper');
+JLoader::load('RedshopHelperAdminOrder');
+JLoader::load('RedshopHelperAdminQuotation');
+JLoader::load('RedshopHelperAdminMail');
+JLoader::load('RedshopHelperAdminProduct');
 
-class order_detailModelorder_detail extends JModel
+class RedshopModelOrder_detail extends JModel
 {
 	public $_id = null;
 
@@ -959,6 +959,8 @@ class order_detailModelorder_detail extends JModel
 		}
 
 		$orderdata->order_total = $order_total;
+		$orderdata->order_tax = $orderdata->order_tax + $orderdata->order_discount_vat - $Discountvat;
+		$orderdata->order_discount_vat = $Discountvat;
 		$orderdata->order_discount = $update_discount;
 		$orderdata->mdate = time();
 

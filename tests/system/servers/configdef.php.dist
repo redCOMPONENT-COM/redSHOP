@@ -14,12 +14,15 @@
 
 class SeleniumConfig
 {
-	// $folder is the path to the apache root folder
+	// $folder is the path to the component root folder
 	var $folder = 'C:/wamp/www'; // typical windows example with XAMPP
 //	var $folder = '/usr/local/apache/htdocs'; // typical linux example
 
 	// $host is normally 'http://localhost'
 	var $host = 'http://localhost';
+
+	// $server would be the path to your localhost
+	var $server = 'C:/wamp/www';  //typical windows Path with Wamp
 
 	// $path is the rest of the URL to the Joomla! home page
 	// Example: Your full URL to Joomla! is http://localhost/joomla_16/index.php
@@ -49,7 +52,7 @@ class SeleniumConfig
 	// optional setting to select sample data
 	// Set to partial text of sample data label on installation screen
 	// Note: This must be 'Learn Joomla' for the standard tests to work!
-	var $sample_data_file = 'Learn Joomla';
+	var $sample_data_file = 'Default English';
 
 	// set the site name (keep to less than 14 characters)
 	var $site_name = 'Joomla';

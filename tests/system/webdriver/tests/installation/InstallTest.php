@@ -1,16 +1,16 @@
 <?php
 /**
- * @package    RedCore
- * @subpackage Model
- * @copyright  Copyright (C) 2012 - 2014 redCOMPONENT.com. All rights reserved.
- * @license    GNU General Public License version 2 or later; see LICENSE.txt
+ * @package     RedCore
+ * @subpackage  Model
+ * @copyright   Copyright (C) 2012 - 2014 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 require_once 'JoomlaWebdriverTestCase.php';
 
 /**
  * This class is to Install Joomla.
  *
- * @package     RedShop2.Test
+ * @package     RedShop.Test
  * @subpackage  Webdriver
  * @since       2.0
  */
@@ -32,17 +32,14 @@ class InstallTest extends JoomlaWebdriverTestCase
 			$installPage = $this->getPageObject('InstallationPage', true, $url);
 			$installPage->install($this->cfg);
 		}
+
 		$cpPage = $this->doAdminLogin();
-		$cpPage->clearInstallMessages();
-		$gcPage = $cpPage->clickMenu('Global Configuration', 'GlobalConfigurationPage');
-		$gcPage->setFieldValue('Cache', 'OFF');
-		$gcPage->setFieldValue('Error Reporting', 'Development');
-		$gcPage->saveAndClose('ControlPanelPage');
 		$extensionInstaller = $cpPage->clickMenu('Extension Manager', 'ExtensionManagerPage');
-		$extensionInstaller->installRedCore($this->cfg);
-		$extensionInstaller->installRedShop2($this->cfg);
+		$extensionInstaller->installRedShop($this->cfg, 'Sample Data');
+		$this->driver->get($this->cfg->host . $this->cfg->path . 'administrator/');
+		$cpPage = $this->getPageObject('GenericAdminPage');
 		$extensionInstaller = $cpPage->clickMenu('Extension Manager', 'ExtensionManagerPage');
-		$this->assertTrue($extensionInstaller->verifyInstallation('RedSHOP2'), 'Extension Must be Installed');
+		$this->assertTrue($extensionInstaller->verifyInstallation($this->cfg, 'redSHOP'), 'Extension Must be Installed');
 		$this->doAdminLogout();
 	}
 
@@ -53,7 +50,8 @@ class InstallTest extends JoomlaWebdriverTestCase
 	 */
 	protected function deleteConfigurationFile()
 	{
-		$configFile = $this->cfg->folder . $this->cfg->path . "configuration.php";
+		$configFile = $this->cfg->server . $this->cfg->path . "configuration.php";
+
 		if (file_exists($configFile))
 		{
 			chmod($configFile, 0777);

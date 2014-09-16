@@ -47,8 +47,11 @@ abstract class AdminManagerPage extends AdminPage
 	/**
 	 * Returns an array of field values from an edit screen.
 	 *
+	 * @param string  $className   class of form element
 	 * @param string  $itemName    Name of item (user name, article title, and so on)
 	 * @param array   $fieldNames  Array of field labels to get values of.
+	 *
+	 * @return array
 	 */
 	public function getFieldValues($className, $itemName, $fieldNames)
 	{
@@ -100,22 +103,51 @@ abstract class AdminManagerPage extends AdminPage
 	public function getRowNumber($name)
 	{
 		$result = false;
-		$tableElements = $this->driver->findElements(By::xPath("//tbody"));
-		if (isset($tableElements[0]))
+		$tableElements = $this->driver->findElements(By::xPath("//div[@id='editcell']/table/tbody"));
+		$noOfElements = count($tableElements);
+
+		if ($noOfElements == 1)
 		{
-			$rowElements = $this->driver->findElement(By::xPath("//tbody"))->findElements(By::tagName('tr'));
-			$count = count($rowElements);
-			for ($i = 0; $i < $count; $i ++)
+			if (isset($tableElements[0]))
 			{
-				$rowText = $rowElements[$i]->getText();
-				if (strpos(strtolower($rowText), strtolower($name)) !== false)
+				$rowElements = $this->driver->findElement(By::xPath("//div[@id='editcell']/table/tbody"))->findElements(By::tagName('tr'));
+				$count = count($rowElements);
+
+				for ($i = 0; $i < $count; $i ++)
 				{
-					$result = $i + 1;
-					break;
+					$rowText = $rowElements[$i]->getText();
+
+					if (strpos(strtolower($rowText), strtolower($name)) !== false)
+					{
+						$result = $i + 1;
+						break;
+					}
 				}
 			}
+
+			return $result;
 		}
-		return $result;
+		else
+		{
+			if (isset($tableElements[0]))
+			{
+				$rowElements = $this->driver->findElement(By::xPath("//div[@id='editcell']/table[2]/tbody"))->findElements(By::tagName('tr'));
+				$count = count($rowElements);
+
+				for ($i = 0; $i < $count; $i ++)
+				{
+					$rowText = $rowElements[$i]->getText();
+
+					if (strpos(strtolower($rowText), strtolower($name)) !== false)
+					{
+						$result = $i + 1;
+						break;
+					}
+				}
+			}
+
+			return $result;
+		}
 	}
 
 	public function getRowText($name)

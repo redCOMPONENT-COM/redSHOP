@@ -1,5 +1,10 @@
 <?php
-
+/**
+ * @package     RedSHOP
+ * @subpackage  Page
+ * @copyright   Copyright (C) 2012 - 2014 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ */
 use SeleniumClient\By;
 use SeleniumClient\SelectElement;
 use SeleniumClient\WebDriver;
@@ -10,6 +15,8 @@ use SeleniumClient\WebElement;
 /**
  * Class for the back-end control panel screen.
  *
+ * @since  1.4
+ *
  */
 class InstallationPage extends AdminPage
 {
@@ -18,7 +25,7 @@ class InstallationPage extends AdminPage
 	 *
 	 * @var string
 	 */
-	protected $waitForXpath = "//div[@id='container-installation']";
+	protected $waitForXpath = "//h1[contains(.,'Installation')]";
 
 	/**
 	 * URL for Installation Page
@@ -28,35 +35,53 @@ class InstallationPage extends AdminPage
 	protected $url = 'installation/';
 
 	/**
-	 * Function to Click on Next Button
+	 * Function to Click Next Button
 	 *
-	 * @param $step
+	 * @param   string  $step  Step No. During the Process of Installation
+	 *
+	 * @return void
 	 */
 	public function clickNextButton($step)
 	{
+		sleep(2);
 		$this->driver->findElement(By::linkText('Next'))->click();
-		$this->waitForStepNumber($step);
+		sleep(3);
 	}
 
+	/**
+	 * Function to set Old Database
+	 *
+	 * @param   string  $option  Option Value
+	 *
+	 * @return void
+	 */
 	public function setOldDatabaseProcess($option = 'Backup')
 	{
 		$this->driver->findElement(By::xPath("//input[@value = '" . strtolower($option) . "']"))->click();
 	}
 
+	/**
+	 * Function to Install Sample Data
+	 *
+	 * @return void
+	 */
 	public function installSampleData()
 	{
 		$this->driver->findElement(By::xPath("//label[contains(., '" . $this->cfg->sample_data_file . "')]"))->click();
 	}
 
+	/**
+	 * Function to do the Installation
+	 *
+	 * @param   Configuration  $cfg  Object for Configuration
+	 *
+	 * @return void
+	 */
 	public function install($cfg)
 	{
-		$this->setField('Site Name', $cfg->site_name);
-		$this->setField('Your Email', $cfg->admin_email);
-		$this->setField('Admin Username', $cfg->username);
-		$this->setField('Admin Password', $cfg->password);
-		$this->setField('Confirm Admin Password', $cfg->password);
-		$this->driver->findElement(By::xPath("//li[@id='database']/a"))->click();
-		$this->driver->waitForElementUntilIsPresent(By::xPath("//li[@id='database'][@class='step active']"));
+		$this->clickNextButton('2');
+		$this->clickNextButton('3');
+		$this->clickNextButton('4');
 
 		$this->setDatabaseType($cfg->db_type);
 		$this->setField('Host Name', $cfg->db_host);
@@ -65,11 +90,13 @@ class InstallationPage extends AdminPage
 		$this->setField('Database Name', $cfg->db_name);
 		$this->setField('Table Prefix', $cfg->db_prefix);
 
-		$this->driver->findElement(By::xPath("//label[@for='jform_db_old1']"))->click();
-
-		$this->driver->findElement(By::xPath("//li[@id='summary']/a"))->click();
-		$this->driver->waitForElementUntilIsPresent(By::xPath("//li[@id='summary'][@class='step active']"));
-
+		$this->clickNextButton('5');
+		$this->clickNextButton('6');
+		$this->setField('Site Name', $cfg->site_name);
+		$this->setField('Your Email', $cfg->admin_email);
+		$this->setField('Admin Username', $cfg->username);
+		$this->setField('Admin Password', $cfg->password);
+		$this->setField('Confirm Admin Password', $cfg->password);
 
 		if ($cfg->sample_data && isset($cfg->sample_data_file))
 		{
@@ -77,16 +104,22 @@ class InstallationPage extends AdminPage
 		}
 		else
 		{
-			$this->setSampleData('None');
+			$this->setSampleData('Default English');
 		}
 
-		$this->driver->findElement(By::xPath("//a[@title='Install']"))->click();
-		$this->driver->waitForElementUntilIsPresent(By::xPath("//input[contains(@onclick, 'Install.removeFolder')]"), 60);
-		$this->driver->findElement(By::xPath("//input[contains(@onclick, 'Install.removeFolder')]"))->click();
-		sleep(10);
-		$this->driver->waitForElementUntilIsPresent(By::xPath("//input[contains(@onclick, '') and @class='btn btn-warning']"), 50);
+		$this->driver->findElement(By::xPath("//input[@value='Install Sample Data']"))->click();
+		sleep(5);
+		$this->clickNextButton('7');
 	}
 
+	/**
+	 * Function to set Field Values
+	 *
+	 * @param   string  $label  Label of the Field
+	 * @param   string  $value  Value for the Field
+	 *
+	 * @return void
+	 */
 	public function setField($label, $value)
 	{
 		switch ($label)
@@ -122,20 +155,31 @@ class InstallationPage extends AdminPage
 				$id = 'jform_admin_password2';
 				break;
 		}
+
 		$this->driver->findElement(By::id($id))->clear();
 		$this->driver->findElement(By::id($id))->sendKeys($value);
 	}
 
+	/**
+	 * Function to set DB Type
+	 *
+	 * @param   string  $value  Value of the DB
+	 *
+	 * @return void
+	 */
 	public function setDatabaseType($value)
 	{
-		$this->driver->findElement(By::xPath("//div[@id='jform_db_type_chzn']/a/div/b"))->click();
-		$this->driver->findElement(By::xPath("//div[@id='jform_db_type_chzn']//ul[@class='chzn-results']/li[contains(translate(.,'" . strtoupper($value) . "', '" . strtolower($value) . "'), '" . strtolower($value) . "')]"))->click();
-// 		$select = new SelectElement($this->driver->findElement(By::Id('jform_db_type')));
-// 		$element = $select->getElement();
-// 		$options = $element->findElements(By::tagName('option'));
-// 		$select->selectByValue(strtolower($value));
+		$this->driver->findElement(By::xPath("//select[@id='jform_db_type']"))->click();
+		$this->driver->findElement(By::xPath("//select[@id='jform_db_type']//option[@value='" . strtolower($value) . "']"))->click();
 	}
 
+	/**
+	 * Function to set Installation Data
+	 *
+	 * @param   string  $option  Option for Sample Data
+	 *
+	 * @return void
+	 */
 	public function setSampleData($option = 'Default')
 	{
 		$this->driver->findElement(By::xPath("//label[contains(., '" . $option . "')]"))->click();
@@ -144,34 +188,38 @@ class InstallationPage extends AdminPage
 	/**
 	 * Function to wait for installation
 	 *
-	 * @param $stepNumber
+	 * @param   string  $stepNumber  Step Number being Passed
+	 *
+	 * @return void
 	 */
 	protected function waitForStepNumber($stepNumber)
 	{
 		$xPath = $this->waitForXpath;
+
 		switch ($stepNumber)
 		{
 			case 2:
-				$xPath = "//div[@id='preinstall'][@class='step active']";
+				$xPath = "//h2[Contains(text(),'Pre-Installation Check')]";
 				break;
 			case 3:
-				$xPath = "//div[@id='license'][@class='step active']";
+				$xPath = "//h2[Contains(text(),'License')]";
 				break;
 			case 4:
-				$xPath = "//div[@id='database'][@class='step active']";
+				$xPath = "//h2[Contains(text(),'Database Configuration')]";
 				break;
 			case 5:
-				$xPath = "//div[@id='filesystem'][@class='step active']";
+				$xPath = "//h2[Contains(text(),'FTP Configuration')]";
 				break;
 			case 6:
-				$xPath = "//div[@id='site'][@class='step active']";
+				$xPath = "//h2[Contains(text(),'Main Configuration')]";
 				break;
 			case 7:
-				$xPath = "//div[@id='complete'][@class='step active']";
+				$xPath = "//h2[Contains(text(),'Finish')]";
 				break;
 			default:
 				break;
 		}
+
 		$this->driver->waitForElementUntilIsPresent(By::xPath($xPath));
 	}
 }
