@@ -210,7 +210,7 @@ JHtmlBehavior::modal();
 																   size="22"
 																   id="attribute[<?php echo $k; ?>][name]"
 																   name="attribute[<?php echo $k; ?>][name]"
-																   value="<?php echo htmlspecialchars(urldecode($attibute_data['attribute_name'])); ?>"
+																   value="<?php echo htmlspecialchars($attibute_data['attribute_name']); ?>"
 																/>
 														</td>
 														<td class="td3">
@@ -400,7 +400,7 @@ JHtmlBehavior::modal();
 																							   size="22"
 																							   id="attribute[<?php echo $k ?>][property][<?php echo $g; ?>][name]"
 																							   name="attribute[<?php echo $k ?>][property][<?php echo $g; ?>][name]"
-																							   value="<?php echo htmlspecialchars(urldecode($property->property_name)); ?>"
+																							   value="<?php echo htmlspecialchars($property->property_name); ?>"
 																							/>
 																					</td>
 																					<td class="td3">

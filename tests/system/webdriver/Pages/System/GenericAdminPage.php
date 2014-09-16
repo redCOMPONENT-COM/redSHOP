@@ -1,5 +1,10 @@
 <?php
-
+/**
+ * @package     RedSHOP
+ * @subpackage  Page
+ * @copyright   Copyright (C) 2012 - 2014 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE.txt
+ */
 use SeleniumClient\By;
 use SeleniumClient\SelectElement;
 use SeleniumClient\WebDriver;
@@ -8,11 +13,13 @@ use SeleniumClient\DesiredCapabilities;
 use SeleniumClient\WebElement;
 
 /**
- * Class for the back-end control panel screen.
+ * Page class for the back-end Control Panel Screen.
  *
+ * @package     RedShop.Test
+ * @subpackage  Webdriver
+ * @since       1.0
  */
 class GenericAdminPage extends AdminPage
 {
-	protected $waitForXpath =  "//button[contains(@onclick, 'option=com_help&keyref=Help')]";
-
+	protected $waitForXpath = "//div[@class='cpanel']";
 }

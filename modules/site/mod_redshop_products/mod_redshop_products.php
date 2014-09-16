@@ -14,6 +14,7 @@ if (!defined('MOD_REDSHOP_PRODUCTS'))
 {
 	// Get all category to set as default
 
+
 	function getDefaultModuleCategories()
 	{
 		$db = JFactory::getDbo();
@@ -23,18 +24,24 @@ if (!defined('MOD_REDSHOP_PRODUCTS'))
 
 		$category = array();
 
+
 		for ($i = 0; $i < count($cats); $i++)
 		{
 			$category[] = $cats[$i]->category_id;
 		}
 
+
 		if (count($category) > 0)
+		{
 		{
 			$cids = implode(",", $category);
 		}
+		}
 		else
 		{
+		{
 			$cids = 0;
+		}
 		}
 
 		return $cids;
@@ -47,14 +54,17 @@ $type = trim($params->get('type', 0));
 
 // Set all published category as default
 
+
 $cids     = getDefaultModuleCategories();
 $category = trim($params->get('category', ''));
 
 // Set product output limit
 
+
 $count = trim($params->get('count', 5));
 
 // Get show image yes/no option
+
 
 $image = trim($params->get('image', 0));
 
@@ -101,6 +111,7 @@ else
 	$mainChild = " AND p.product_parent_id=0";
 }
 
+
 $showStockroomStatus = trim($params->get('show_stockroom_status', 1));
 if ($category == "")
 {
@@ -112,17 +123,18 @@ $db = JFactory::getDbo();
 // Getting the configuration
 
 require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/configuration.php';
-$Redconfiguration = new Redconfiguration();
+JLoader::import('loadhelpers', JPATH_SITE . '/components/com_redshop');
+JLoader::load('RedshopHelperAdminConfiguration');
+$Redconfiguration = new Redconfiguration;
 $Redconfiguration->defineDynamicVars();
 
-require_once JPATH_SITE . '/components/com_redshop/helpers/product.php';
+JLoader::load('RedshopHelperProduct');
 
-require_once JPATH_SITE . '/components/com_redshop/helpers/helper.php';
+JLoader::load('RedshopHelperHelper');
 
-require_once JPATH_SITE . '/administrator/components/com_redshop/helpers/template.php';
+JLoader::load('RedshopHelperAdminTemplate');
 
-require_once JPATH_SITE . '/components/com_redshop/helpers/extra_field.php';
+JLoader::load('RedshopHelperAdminExtra_field');
 
 
 switch ($type)

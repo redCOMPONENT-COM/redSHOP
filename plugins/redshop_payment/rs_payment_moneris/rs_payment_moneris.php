@@ -9,35 +9,14 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.plugin.plugin');
-
 class plgRedshop_paymentrs_payment_moneris extends JPlugin
 {
-	public $_table_prefix = null;
-
-	/**
-	 * Constructor
-	 *
-	 * For php4 compatability we must not use the __constructor as a constructor for
-	 * plugins because func_get_args ( void ) returns a copy of all passed arguments
-	 * NOT references.  This causes problems with cross-referencing necessary for the
-	 * observer design pattern.
-	 */
-	public function plgRedshop_paymentrs_payment_moneris(&$subject)
-	{
-		// Load plugin parameters
-		parent::__construct($subject);
-		$this->_table_prefix = '#__redshop_';
-		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_moneris');
-		$this->_params = new JRegistry($this->_plugin->params);
-	}
-
 	/**
 	 * Plugin method with the same name as the event will be called automatically.
 	 */
 	public function onPrePayment_rs_payment_moneris($element, $data)
 	{
-		$config = new Redconfiguration;
+		$config        = new Redconfiguration;
 		$currencyClass = new CurrencyHelper;
 
 		// Get user billing information
@@ -53,18 +32,13 @@ class plgRedshop_paymentrs_payment_moneris extends JPlugin
 			$plugin = $element;
 		}
 
-		// Get params from plugin
-		$chase_parameters = $this->getparameters('rs_payment_moneris');
-		$paymentinfo = $chase_parameters[0];
-		$paymentparams = new JRegistry($paymentinfo->params);
-
-		$moneris_store_id = $paymentparams->get('moneris_store_id', '');
-		$moneris_test_store_id = $paymentparams->get('moneris_test_store_id', '');
-		$moneris_api_token = $paymentparams->get('moneris_api_token', '');
-		$moneris_test_api_token = $paymentparams->get('moneris_test_api_token', '');
-		$moneris_check_creditcard_code = $paymentparams->get('moneris_check_creditcard_code', '');
-		$moneris_check_avs = $paymentparams->get('moneris_check_avs', '');
-		$moneris_test_status = $paymentparams->get('moneris_test_status', '');
+		$moneris_store_id              = $this->params->get('moneris_store_id', '');
+		$moneris_test_store_id         = $this->params->get('moneris_test_store_id', '');
+		$moneris_api_token             = $this->params->get('moneris_api_token', '');
+		$moneris_test_api_token        = $this->params->get('moneris_test_api_token', '');
+		$moneris_check_creditcard_code = $this->params->get('moneris_check_creditcard_code', '');
+		$moneris_check_avs             = $this->params->get('moneris_check_avs', '');
+		$moneris_test_status           = $this->params->get('moneris_test_status', '');
 
 		if ($moneris_test_status == 1)
 		{
@@ -75,39 +49,36 @@ class plgRedshop_paymentrs_payment_moneris extends JPlugin
 			$moneris_api_host = "www3.moneris.com";
 		}
 
-		$session = JFactory::getSession();
-		$ccdata = $session->get('ccdata');
+		$session    = JFactory::getSession();
+		$ccdata     = $session->get('ccdata');
 
 		// Additional Customer Data
-		$user_id = $data['billinginfo']->user_id;
+		$user_id    = $data['billinginfo']->user_id;
 		$remote_add = $_SERVER["REMOTE_ADDR"];
 
 		// Email Settings
 		$user_email = $data['billinginfo']->user_email;
 
 		// Get Credit card Information
-		$order_payment_name = substr($ccdata['order_payment_name'], 0, 50);
-		$creditcard_code = ucfirst(strtolower($ccdata['creditcard_code']));
-		$order_payment_number = substr($ccdata['order_payment_number'], 0, 20);
-		$credit_card_code = substr($ccdata['credit_card_code'], 0, 4);
+		$order_payment_name        = substr($ccdata['order_payment_name'], 0, 50);
+		$creditcard_code           = ucfirst(strtolower($ccdata['creditcard_code']));
+		$order_payment_number      = substr($ccdata['order_payment_number'], 0, 20);
+		$credit_card_code          = substr($ccdata['credit_card_code'], 0, 4);
 		$order_payment_expire_year = substr($ccdata['order_payment_expire_year'], -2);
 		$order_payment_expire_year .= substr($ccdata['order_payment_expire_month'], 0, 2);
 
-		$crypt = 7;
-
+		$crypt         = 7;
 		$cvd_indicator = 0;
+		$tax_exempt    = false;
 
-		$tax_exempt = false;
-
-		$paymentpath = JPATH_SITE . '/plugins/redshop_payment/rs_payment_moneris/rs_payment_moneris/moneris.helper.php';
-		include $paymentpath;
+		include JPATH_SITE . '/plugins/redshop_payment/rs_payment_moneris/rs_payment_moneris/moneris.helper.php';
 
 		if ($moneris_test_status == 1)
 		{
-			$storeid = $moneris_test_store_id;
+			$storeid  = $moneris_test_store_id;
 			$apitoken = $moneris_test_api_token;
-			$ptoken = rand(1, 10);
-			$ptoken = number_format($ptoken, 0, "", "");
+			$ptoken   = rand(1, 10);
+			$ptoken   = number_format($ptoken, 0, "", "");
 
 			if (($ptoken % 2) == 0)
 			{
@@ -120,16 +91,15 @@ class plgRedshop_paymentrs_payment_moneris extends JPlugin
 		}
 		else
 		{
-			$storeid = $moneris_store_id;
-			$apitoken = $moneris_api_token;
+			$storeid    = $moneris_store_id;
+			$apitoken   = $moneris_api_token;
 			$tot_amount = $order_total = $data['order_total'];
-			$amount = $currencyClass->convert($tot_amount, '', 'USD');
+			$amount     = $currencyClass->convert($tot_amount, '', 'USD');
 		}
 
 		$avs_street_number = substr($data['billinginfo']->address, 0, 60);
-
-		$avs_zipcode = substr($data['billinginfo']->zipcode, 0, 20);
-		$order_number = $data['order_number'] . time();
+		$avs_zipcode       = substr($data['billinginfo']->zipcode, 0, 20);
+		$order_number      = $data['order_number'] . time();
 
 		$txnArray = array(
 			'type'       => 'purchase',
@@ -151,7 +121,7 @@ class plgRedshop_paymentrs_payment_moneris extends JPlugin
 		$mpgAvsInfo = new mpgAvsInfo($avsTemplate);
 		$mpgCvdInfo = new mpgCvdInfo($cvdTemplate);
 
-		$mpgTxn = new mpgTransaction($txnArray);
+		$mpgTxn     = new mpgTransaction($txnArray);
 
 		if ($moneris_check_avs == 1)
 		{
@@ -219,15 +189,5 @@ class plgRedshop_paymentrs_payment_moneris extends JPlugin
 		$values->message = $message;
 
 		return $values;
-	}
-
-	public function getparameters($payment)
-	{
-		$db = JFactory::getDbo();
-		$sql = "SELECT * FROM #__extensions WHERE `element`='" . $payment . "'";
-		$db->setQuery($sql);
-		$params = $db->loadObjectList();
-
-		return $params;
 	}
 }

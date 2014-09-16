@@ -10,10 +10,10 @@
 defined('_JEXEC') or die;
 JLoader::import('joomla.application.component.model');
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/quotation.php';
-require_once JPATH_COMPONENT . '/helpers/extra_field.php';
-require_once JPATH_COMPONENT . '/helpers/product.php';
-include_once JPATH_COMPONENT . '/helpers/cart.php';
+JLoader::load('RedshopHelperAdminQuotation');
+JLoader::load('RedshopHelperExtra_field');
+JLoader::load('RedshopHelperProduct');
+JLoader::load('RedshopHelperCart');
 
 /**
  * Class quotation_detailModelquotation_detail
@@ -22,7 +22,7 @@ include_once JPATH_COMPONENT . '/helpers/cart.php';
  * @subpackage  Model
  * @since       1.0
  */
-class quotation_detailModelquotation_detail extends JModel
+class RedshopModelQuotation_detail extends JModel
 {
 	public $_id = null;
 
