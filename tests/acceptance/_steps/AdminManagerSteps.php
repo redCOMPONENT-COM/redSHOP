@@ -49,6 +49,9 @@ class AdminManagerSteps extends \AcceptanceTester
 		{
 			$I->amOnPage($url);
 			$I->verifyNotices(false, $this->checkForNotices(), $page);
+			$I->click('New');
+			$I->verifyNotices(false, $this->checkForNotices(), $page . ' New');
+			$I->click('Cancel');
 		}
 
 	}
