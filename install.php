@@ -3902,7 +3902,7 @@ class Com_RedshopInstallerScript
 			$db->query();
 		}
 
-		$index_to = array("#__redshop_product" => "product_number", "#__redshop_orders" => "vm_order_number", "#__redshop_users_info" => "user_id");
+		$index_to = array("#__redshop_orders" => "vm_order_number", "#__redshop_users_info" => "user_id");
 
 		foreach ($index_to as $key => $val)
 		{

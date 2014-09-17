@@ -574,8 +574,7 @@ CREATE TABLE IF NOT EXISTS `#__redshop_country` (
   `country_3_code` char(3) default NULL,
   `country_2_code` char(2) default NULL,
   `country_jtext` VARCHAR( 255 ) NOT NULL,
-  PRIMARY KEY  (`country_id`),
-  KEY `idx_country_name` (`country_name`)
+  PRIMARY KEY  (`country_id`)
 )   DEFAULT CHARSET=utf8 COMMENT='Country records' ;
 
 
@@ -886,8 +885,7 @@ CREATE TABLE IF NOT EXISTS `#__redshop_currency` (
   `currency_id` int(11) NOT NULL auto_increment,
   `currency_name` varchar(64) default NULL,
   `currency_code` char(3) default NULL,
-  PRIMARY KEY  (`currency_id`),
-  KEY `idx_currency_name` (`currency_name`)
+  PRIMARY KEY  (`currency_id`)
 )   DEFAULT CHARSET=utf8 COMMENT='redSHOP Currency Detail'   ;
 
 
@@ -1261,22 +1259,6 @@ CREATE TABLE IF NOT EXISTS `#__redshop_newsletter_subscription` (
   `published` int(11) NOT NULL,
   PRIMARY KEY  (`subscription_id`)
 )   DEFAULT CHARSET=utf8 COMMENT='redSHOP Newsletter subscribers'  ;
-
---
--- Table structure for table `#__redshop_newsletter_tracker`
---
-
-
-CREATE TABLE IF NOT EXISTS `#__redshop_newsletter_tracker` (
-  `tracker_id` int(11) NOT NULL auto_increment,
-  `newsletter_id` int(11) NOT NULL,
-  `subscription_id` int(11) NOT NULL,
-  `subscriber_name` varchar(255) NOT NULL,
-  `user_id` int(11) NOT NULL,
-  `read` tinyint(4) NOT NULL,
-  `date` double NOT NULL,
-  PRIMARY KEY  (`tracker_id`)
-) DEFAULT CHARSET=utf8 COMMENT='redSHOP Newsletter Tracker'  ;
 
 -- --------------------------------------------------------
 --
