@@ -301,7 +301,7 @@ for ($i = 0, $n = count($this->products); $i < $n; $i++)
 			$field_value = '';
 			if (count($field_arr) > 0)
 			{
-				$field_value = $field_arr->data_txt;
+				$field_value = stripslashes($field_arr->data_txt);
 			}    ?>
 			<td><?php echo $field_value;  ?></td>
 		<?php }    ?>
