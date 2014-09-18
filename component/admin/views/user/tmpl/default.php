@@ -143,7 +143,6 @@ $model = $this->getModel('user');    ?>
 			</tfoot>
 		</table>
 	</div>
-	<!--<input type="hidden" name="shipping" value="<?php echo $this->lists ['shipping'];	?>"  />-->
 	<input type="hidden" name="view" value="user"/>
 	<input type="hidden" name="task" value=""/>
 	<input type="hidden" name="boxchecked" value="0"/>
