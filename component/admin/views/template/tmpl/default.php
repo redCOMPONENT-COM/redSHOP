@@ -111,7 +111,7 @@ $redtemplate = new Redtemplate;
 					</td>
 					<td>
 						<?php if (!$canCheckin) : ?>
-							echo $row->template_name;
+							<?php echo $row->template_name; ?>
 						<?php else : ?>
 							<a href="<?php echo $link; ?>"
 							   title="<?php echo JText::_('COM_REDSHOP_EDIT_TEMPLATES'); ?>"><?php echo $row->template_name; ?></a>
