@@ -13,7 +13,7 @@ jimport('joomla.application.component.controller');
 
 JLoader::load('RedshopHelperAdminTemplate');
 
-class RedshopontrollerShipping_box_detail extends JController
+class RedshopControllerShipping_box_detail extends JController
 {
 	public function __construct($default = array())
 	{
