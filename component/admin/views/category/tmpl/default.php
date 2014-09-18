@@ -14,10 +14,7 @@ $category_main_filter = JRequest::getVar('category_main_filter');
 $ordering = ($this->lists['order'] == 'c.ordering');
 ?>
 <script language="javascript" type="text/javascript">
-	Joomla.submitbutton = function (pressbutton) {
-		submitbutton(pressbutton);
-	}
-	submitbutton = function (pressbutton) {
+	Joomla.submitbutton = submitbutton = function (pressbutton) {
 		var form = document.adminForm;
 		if (pressbutton) {
 			form.task.value = pressbutton;
