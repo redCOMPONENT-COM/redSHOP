@@ -833,6 +833,8 @@ class Redconfiguration
 						"POSTDK_INTEGRATION"                           => $d ["postdk_integration"],
 						"POSTDANMARK_ADDRESS"                          => $d ["postdk_address"],
 						"POSTDANMARK_POSTALCODE"                       => $d ["postdk_postalcode"],
+						"AUTO_GENERATE_LABEL"                          => $d ["auto_generate_label"],
+						"GENERATE_LABEL_ON_STATUS"                     => $d ["generate_label_on_status"],
 
 						"QUICKLINK_ICON"                               => $d ["quicklink_icon"],
 						"DISPLAY_NEW_ORDERS"                           => $d ["display_new_orders"],
@@ -1512,7 +1514,7 @@ class Redconfiguration
 		{
 			$selected_state_code = $post['state_code'];
 		}
-		else
+		elseif (isset($post['state_code_ST']))
 		{
 			$selected_state_code = $post['state_code_ST'];
 		}

@@ -995,6 +995,7 @@ class producthelper
 
 	public function getProductImage($product_id = 0, $link = '', $width, $height, $Product_detail_is_light = 2, $enableHover = 0, $suffixid = 0)
 	{
+		$config          = new Redconfiguration;
 		$thum_image      = '';
 		$stockroomhelper = new rsstockroomhelper;
 		$result          = $this->getProductById($product_id);
@@ -7534,7 +7535,9 @@ class producthelper
 						$selectedProperty[$selP++] = $propArr[$k]['property_id'];
 					}
 
-					if ($subpropArr[$l]['subproperty_price'] > 0)
+					if ($subpropArr[$l]['subproperty_price'] > 0
+						&& $subpropArr[$l]['subproperty_oprand'] != '*'
+						&&  $subpropArr[$l]['subproperty_oprand'] != '/')
 					{
 						$att_vat = $this->getProducttax($product_id, $subpropArr[$l]['subproperty_price'], $user_id);
 					}
