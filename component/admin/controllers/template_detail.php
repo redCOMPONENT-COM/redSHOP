@@ -159,7 +159,15 @@ class RedshopControllerTemplate_detail extends JController
 
 		if ($model->copy($cid))
 		{
-			$msg = JText::_('COM_REDSHOP_TEMPLATE_COPIED');
+			$msg = array();
+
+			foreach($model->names As $names)
+			{
+				$msg[] = JText::sprintf('COM_REDSHOP_TEMPLATE_COPIED', $names[0], $names[1]);
+			}
+
+			$msg = implode('<br />',$msg);
+
 		}
 		else
 		{
