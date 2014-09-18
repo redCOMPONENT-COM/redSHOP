@@ -79,7 +79,8 @@ class RedshopViewAccount_shipto extends JView
 		$this->lists = $lists;
 		$this->shippingaddresses = $shippingaddresses;
 		$this->billingaddresses = $billingaddresses;
-		$this->request_url = JFilterOutput::cleanText($uri->toString());
+		$this->request_url = $uri->toString();
+		JFilterOutput::cleanText($this->request_url);
 		$this->params = $params;
 
 		parent::display($tpl);

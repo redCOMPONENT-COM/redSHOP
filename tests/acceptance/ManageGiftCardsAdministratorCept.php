@@ -9,7 +9,7 @@
 // Load the Step Object Page
 $I = new AcceptanceTester\LoginSteps($scenario);
 
-$I->wantTo('Want to Test Gift Cards Manager');
+$I->wantTo('Test Gift Cards Manager in Administrator');
 $I->doAdminLogin();
 $I = new AcceptanceTester\GiftCardManagerSteps($scenario);
 $I->addCard();
