@@ -78,8 +78,9 @@ class PlgRedshop_UserRegistration_Acymailing extends JPlugin
 						case 'All':
 							break;
 						default:
-							$list = '(' . $list . ')';
-							$query->where($db->qn('listid') . ' IN ' . $list);
+							$list = explode(',', $list);
+							JArrayHelper::toInteger($list);
+							$query->where($db->qn('listid') . ' IN (' . implode(',', $list) . ')');
 							break;
 					}
 
