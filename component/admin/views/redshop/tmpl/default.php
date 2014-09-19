@@ -36,6 +36,11 @@ $filteroption = JRequest::getVar('filteroption');
 			var link = 'index.php?option=com_redshop&view=statistic';
 			window.location.href = link;
 		}
+
+		if (pressbutton == 'update') {
+			var link = 'index.php?option=com_redshop&view=update';
+			window.location.href = link;
+		}
 	}
 
 	window.addEvent('domready', function () {

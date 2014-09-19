@@ -143,6 +143,15 @@ class Com_RedshopInstallerScript
 		$installer  = $parent->getParent();
 		$source     = $installer->getPath('source');
 		$pluginPath = $source . '/plugins';
+
+		if ($type == 'update')
+		{
+			$lang = JFactory::getLanguage();
+			$lang->load('com_redshop', JPATH_ADMINISTRATOR);
+			JModel::addIncludePath(JPATH_SITE . '/administrator/components/com_redshop/models');
+			$model = JModelLegacy::getInstance('Update', 'RedshopModel');
+			$model->checkUpdateStatus();
+		}
 	}
 
 	/**
@@ -3902,24 +3911,6 @@ class Com_RedshopInstallerScript
 			$db->query();
 		}
 
-		$index_to = array("#__redshop_orders" => "vm_order_number", "#__redshop_users_info" => "user_id");
-
-		foreach ($index_to as $key => $val)
-		{
-			$db->setQuery('SHOW INDEXES FROM ' . $key . ' where Column_name="' . $val . '"');
-
-			if ($redshop_users_info             = $db->query())
-			{
-				$redshop_users_info_index_count = $db->getNumRows($redshop_users_info);
-
-				if ($redshop_users_info_index_count == 0)
-				{
-					$db->setQuery('ALTER TABLE ' . $key . ' ADD INDEX(' . $val . ')');
-					$db->query();
-				}
-			}
-		}
-
 		?>
 		<center>
 			<table cellpadding="4" cellspacing="0" border="0" width="100%" class="adminlist">
@@ -3951,6 +3942,8 @@ class Com_RedshopInstallerScript
 							       onclick="submitWizard('save');"/>
 							<input type="button" name="content" value="install Demo Content"
 							       onclick="submitWizard('content');"/>
+							<input type="button" name="update" value="Optimize RedSHOP tables"
+								   onclick="submitWizard('update');"/>
 							<input type="button" name="cancel" value="Cancel" onclick="submitWizard('cancel');"/>
 							<input type="hidden" name="option" value="com_redshop">
 							<input type="hidden" name="task" value="">
@@ -3981,6 +3974,11 @@ class Com_RedshopInstallerScript
 								if (task == 'content') {
 									document.installDemoContent.wizard.value = 0;
 									document.installDemoContent.task.value = 'demoContentInsert';
+								}
+
+								if (task == 'update') {
+									document.installDemoContent.wizard.value = 0;
+									document.installDemoContent.task.value = 'update.refresh';
 								}
 
 								if (task == 'cancel') {
