@@ -12,7 +12,7 @@
  *
  * remind to modify the following two variables if you want to use it in other projects
  */
-$slackChannel = 'C029D9ZQL';
+$slackChannel = 'C02L0SE5E'; // reports to #travis-errors slack channel
 $slackToken= 'xoxp-2309442657-2309442659-2680880772-1a436d';
 
 // Only run on the CLI SAPI
@@ -45,7 +45,7 @@ if ($handler = opendir($codeceptionOutputFolder)) {
         $command = 'curl -F file=@' . $codeceptionOutputFolder . '/' . $errorSnapshot . ' -F '
             . 'channels='. $slackChannel  . ' -F '
             . 'title=Codeception_error -F '
-            . 'initial_comment="error found by travis" -F'
+            . 'initial_comment="error found by travis in redSHOP1" -F'
             . 'token=' . $slackToken . ' '
             . 'https://slack.com/api/files.upload';
         //fwrite(STDOUT, $command);
