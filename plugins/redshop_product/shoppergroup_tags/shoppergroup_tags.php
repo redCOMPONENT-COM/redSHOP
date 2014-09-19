@@ -9,7 +9,8 @@
 
 defined('_JEXEC') or die;
 
-require_once JPATH_SITE . '/components/com_redshop/helpers/user.php';
+JLoader::import('loadhelpers', JPATH_SITE . '/components/com_redshop');
+JLoader::load('RedshopHelperUser');
 
 /**
  * Plugin will manage product template and description view

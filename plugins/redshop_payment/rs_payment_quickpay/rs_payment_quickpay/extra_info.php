@@ -12,20 +12,21 @@ $url  = $uri->root();
 $user = JFactory::getUser();
 $db   = JFactory::getDbo();
 
-require_once JPATH_BASE . '/administrator/components/com_redshop/helpers/order.php';
-require_once JPATH_COMPONENT . '/helpers/helper.php';
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
+require_once JPATH_SITE . '/administrator/components/com_redshop/helpers/redshop.cfg.php';
+JLoader::import('loadhelpers', JPATH_SITE . '/components/com_redshop');
+JLoader::load('RedshopHelperAdminOrder');
+JLoader::load('RedshopHelperHelper');
 
-$sql = "SELECT op.*,o.order_total,o.user_id,o.order_tax,o.order_shipping, o.order_number FROM " . $this->_table_prefix . "order_payment AS op LEFT JOIN " . $this->_table_prefix . "orders AS o ON op.order_id = o.order_id  WHERE o.order_id='" . $data['order_id'] . "'";
+$sql = "SELECT op.*,o.order_total,o.user_id,o.order_tax,o.order_shipping, o.order_number FROM #__redshop_order_payment AS op LEFT JOIN #__redshop_orders AS o ON op.order_id = o.order_id  WHERE o.order_id='" . $data['order_id'] . "'";
 $db->setQuery($sql);
 $order_details = $db->loadObjectList();
 
-$cart_type = $this->_params->get("cardtypes", array());
+$cart_type = $this->params->get("cardtypes", array());
 
 if (count($cart_type) > 0 && count($cart_type) < 2)
 {
 	$cart_type    = array();
-	$cart_type[0] = $this->_params->get("cardtypes");
+	$cart_type[0] = $this->params->get("cardtypes");
 }
 
 $oricart_type = array();
@@ -133,10 +134,10 @@ if (count($oricart_type) > 0)
 $Itemid			   = JFactory::getApplication()->input->getInt('Itemid');
 $protocol          = '6';
 $msgtype           = 'authorize';
-$merchant_id       = $this->_params->get("quickpay_customer_id");
-$testmode          = $this->_params->get("is_test");
-$md5word           = $this->_params->get("quickpay_paymentkey");
-$quickpay_language = $this->_params->get("language");
+$merchant_id       = $this->params->get("quickpay_customer_id");
+$testmode          = $this->params->get("is_test");
+$md5word           = $this->params->get("quickpay_paymentkey");
+$quickpay_language = $this->params->get("language");
 
 $qp_order_id       = $order_details[0]->order_number;
 $order_amount      = round($order_details[0]->order_total, 2);
@@ -148,7 +149,7 @@ $result_page       = JURI::base() . "index.php?tmpl=component&option=com_redshop
 
 $cardtypelock      = $cart_type;
 $description       = 'test';
-$autocapture       = $this->_params->get("autocapture");
+$autocapture       = $this->params->get("autocapture");
 $ipaddress         = $_SERVER['REMOTE_ADDR'];
 $md5check          = md5($protocol . $msgtype . $merchant_id . $quickpay_language . $qp_order_id . $order_amount . $currency_code . $ok_page . $error_page . $result_page . $autocapture . $cardtypelock . $description . $testmode . $md5word);
 

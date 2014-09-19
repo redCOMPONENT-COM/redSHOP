@@ -15,7 +15,7 @@ jimport('joomla.installer.installer');
 jimport('joomla.installer.helper');
 jimport('joomla.filesystem.file');
 
-class shipping_detailModelshipping_detail extends JModel
+class RedshopModelShipping_detail extends JModel
 {
 	public $_id = null;
 

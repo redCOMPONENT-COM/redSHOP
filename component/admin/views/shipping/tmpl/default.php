@@ -91,10 +91,7 @@ $ordering = ($this->lists['order'] == 'ordering');
 				$paymentxml = $adminpath . '/' . $row->folder . '/' . $row->element . '.xml';
 
 				$xml = JFactory::getXMLParser('Simple');
-
-//	    $xml = JFactory::getXMLParser('Simple');
 				$xml->loadFile($paymentxml);
-
 
 				?>
 				<tr class="<?php echo "row$k"; ?>">
@@ -106,7 +103,9 @@ $ordering = ($this->lists['order'] == 'ordering');
 					</td>
 					<td width="50%">
 						<a href="<?php echo $link; ?>"
-						   title="<?php echo JText::_('COM_REDSHOP_EDIT_SHIPPING'); ?>"><?php echo $row->name; ?></a>
+						   title="<?php echo JText::_('COM_REDSHOP_EDIT_SHIPPING'); ?>">
+						   <?php echo JText::_($row->name); ?>
+						</a>
 					</td>
 
 					<td align="center">

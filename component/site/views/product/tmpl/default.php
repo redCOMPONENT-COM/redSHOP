@@ -349,7 +349,7 @@ if (strstr($template_desc, "{zoom_image}"))
 if (strstr($template_desc, "{product_category_list}"))
 {
 	$pcats    = "";
-	$prodCats = $producthelper->getProductCaterories($this->data->product_id);
+	$prodCats = $producthelper->getProductCaterories($this->data->product_id, 1);
 
 	foreach ($prodCats as $prodCat)
 	{
@@ -1900,6 +1900,20 @@ $template_desc = str_replace("{without_vat}", "", $template_desc);
 
 $template_desc = str_replace("{attribute_price_with_vat}", "", $template_desc);
 $template_desc = str_replace("{attribute_price_without_vat}", "", $template_desc);
+
+// Replace Minimum quantity per order
+$minOrderProductQuantity = '';
+
+if ((int) $this->data->min_order_product_quantity > 0)
+{
+	$minOrderProductQuantity = $this->data->min_order_product_quantity;
+}
+
+$template_desc = str_replace(
+	'{min_order_product_quantity}',
+	$minOrderProductQuantity,
+	$template_desc
+);
 
 $template_desc = $this->redTemplate->parseredSHOPplugin($template_desc);
 
