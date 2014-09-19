@@ -230,8 +230,7 @@ class plgredshop_shippingbring extends JPlugin
 		$redconfig = new Redconfiguration;
 
 		$shipping = $shippinghelper->getShippingMethodByClass($this->classname);
-		$shippingcfg = JPATH_ROOT . '/plugins/' . $d['plugin'] . '/' . $this->classname . '/' . $this->classname . '.cfg.php';
-		include_once ($shippingcfg);
+		include_once JPATH_ROOT . '/plugins/' . $d['plugin'] . '/' . $this->classname . '/' . $this->classname . '.cfg.php';
 
 		$shippingrate = array();
 		$rate = 0;
