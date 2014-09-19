@@ -62,7 +62,7 @@ if ($handler = opendir($codeceptionOutputFolder)) {
 
         $error = true;
     }
-    closedir($handle);
+    closedir($handler);
 }
 
 // Make travis fail warning that there are Errors to fix
