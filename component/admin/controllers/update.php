@@ -33,6 +33,8 @@ class RedshopControllerUpdate extends JControllerLegacy
 	 */
 	public function update()
 	{
+		// Set 300 seconds for execute script if tables very huge
+		ini_set('max_execution_time', 300);
 		$app = JFactory::getApplication();
 		$model = $this->getModel('Update');
 
