@@ -961,17 +961,23 @@ class rsCarthelper
 				$cart_mdata     = str_replace("{if product_on_sale}", '', $cart_mdata);
 				$cart_mdata     = str_replace("{product_on_sale end if}", '', $cart_mdata);
 
-				$thumbUrl = RedShopHelperImages::getImagePath(
-								$giftcardData->giftcard_image,
-								'',
-								'thumb',
-								'giftcard',
-								CART_THUMB_WIDTH,
-								CART_THUMB_HEIGHT,
-								USE_IMAGE_SIZE_SWAPPING
-							);
+				$thumbUrl = "";
 
-				$giftcard_image = "<div  class='giftcard_image'><img src='" . $thumbUrl. "'></div>";
+				$thumbUrl = RedShopHelperImages::getImagePath(
+					$giftcardData->giftcard_image,
+					'',
+					'thumb',
+					'giftcard',
+					CART_THUMB_WIDTH,
+					CART_THUMB_HEIGHT,
+					USE_IMAGE_SIZE_SWAPPING
+				);
+
+				$giftcard_image = "&nbsp;";
+				if($thumbUrl)
+				{
+					$giftcard_image = "<div  class='giftcard_image'><img src='" . $thumbUrl. "'></div>";
+				}
 				$cart_mdata     = str_replace("{product_thumb_image}", $giftcard_image, $cart_mdata);
 				$user_fields    = $this->_producthelper->GetProdcutUserfield($i, 13);
 				$cart_mdata     = str_replace("{product_userfields}", $user_fields, $cart_mdata);
@@ -983,7 +989,7 @@ class rsCarthelper
 				$cart_mdata     = str_replace("{product_tax}", "", $cart_mdata);
 
 				// ProductFinderDatepicker Extra Field
-				$cart_mdata = $this->_producthelper->getProductFinderDatepickerValue($cart_mdata, $product_id, $fieldArray, $giftcard = 1);
+				$cart_mdata = $this->_producthelper->getProductFinderDatepickerValue($cart_mdata, $giftcard_id, $fieldArray, $giftcard = 1);
 
 				$remove_product = '<form style="" class="rs_hiddenupdatecart" name="delete_cart' . $i . '" method="POST" >
 				<input type="hidden" name="giftcard_id" value="' . $cart[$i]['giftcard_id'] . '">

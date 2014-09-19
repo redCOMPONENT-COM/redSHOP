@@ -605,7 +605,7 @@ class redhelper
 		 * IF watermark is not enable
 		 * return thumb image
 		 */
-		if ($enable_watermart <= 0)
+		if ($enable_watermart <= 0 && $Imagename)
 		{
 			if (($thumb_width != '' || $thumb_width != 0) && ($thumb_height != '' || $thumb_width != 0))
 			{
@@ -772,6 +772,10 @@ class redhelper
 			else
 			{
 				$filename = REDSHOP_FRONT_IMAGES_ABSPATH . $mtype . "/" . $Imagename;
+			}
+			if(!is_file($filename))
+			{
+				$filename = REDSHOP_FRONT_IMAGES_ABSPATH . 'noimage.jpg';
 			}
 
 			return $filename;

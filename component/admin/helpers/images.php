@@ -46,6 +46,11 @@ class RedShopHelperImages extends JObject
 			return REDSHOP_FRONT_IMAGES_ABSPATH . 'noimage.jpg';
 		}
 
+		if (!$imageName)
+		{
+			return REDSHOP_FRONT_IMAGES_ABSPATH . 'noimage.jpg';
+		}
+
 		// Set Default Width
 		if ((int) $width <= 0)
 		{

@@ -6245,6 +6245,8 @@ class producthelper
 		$totrequiredatt  = "";
 		$totrequiredprop = '';
 
+		$isPreorderStockExists = '';
+
 		if ($giftcard_id != 0)
 		{
 			$product_price       = $product->giftcard_price;
@@ -6298,7 +6300,6 @@ class producthelper
 			// Get stock for Product
 
 			$isStockExists         = $stockroomhelper->isStockExists($product_id);
-			$isPreorderStockExists = '';
 
 			if ($totalatt > 0 && !$isStockExists)
 			{
@@ -6354,6 +6355,7 @@ class producthelper
 
 			$max_quantity = $product->max_order_product_quantity;
 			$min_quantity = $product->min_order_product_quantity;
+
 		}
 
 		$stockdisplay        = false;
@@ -6361,11 +6363,15 @@ class producthelper
 		$cartdisplay         = false;
 
 		$display_text = JText::_('COM_REDSHOP_PRODUCT_OUTOFSTOCK_MESSAGE');
+		$product_preorder = "";
+		if(isset($product->preorder))
+		{
+			$product_preorder = $product->preorder;
+		}
 
 		if (!$isStockExists)
 		{
 			// Check if preorder is set to yes than add pre order button
-			$product_preorder = $product->preorder;
 
 			if (($product_preorder == "global"
 				&& ALLOW_PRE_ORDER)
@@ -6612,7 +6618,7 @@ class producthelper
 		        <input type='hidden' name='product_stock' id='product_stock" . $product_id . "' value='" .
 				$isStockExists . "'>
 				<input type='hidden' name='product_preorder' id='product_preorder" . $product_id . "' value='" .
-				$product->preorder . "'>
+				$product_preorder . "'>
 				<input type='hidden' name='product_id' id='product_id' value='" . $product_id . "'>
 				<input type='hidden' name='category_id' value='" . $category_id . "'>
 				<input type='hidden' name='view' value='cart'>
