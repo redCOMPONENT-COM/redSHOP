@@ -15,7 +15,7 @@ jimport('joomla.installer.installer');
 jimport('joomla.installer.helper');
 jimport('joomla.filesystem.file');
 
-class payment_detailModelpayment_detail extends JModel
+class RedshopModelPayment_detail extends JModel
 {
 	public $_id = null;
 
@@ -97,7 +97,7 @@ class payment_detailModelpayment_detail extends JModel
 
 	public function store($data)
 	{
-		$row =& $this->getTable();
+		$row = $this->getTable();
 
 		if (!$row->bind($data))
 		{
@@ -122,7 +122,7 @@ class payment_detailModelpayment_detail extends JModel
 
 		$paymentcfg = $adminpath . '/helpers/payments/' . $row->plugin . '/' . $row->plugin . '.cfg.php';
 
-		include_once ($paymentfile);
+		include_once $paymentfile;
 
 		$ps = new $row->payment_class;
 
@@ -344,7 +344,7 @@ class payment_detailModelpayment_detail extends JModel
 	{
 		$app = JFactory::getApplication();
 		$db = JFactory::getDbo();
-		$row =& $this->getTable();
+		$row = $this->getTable();
 
 		$total = count($cid);
 		$order = JRequest::getVar('order', array(0), 'post', 'array');
@@ -590,9 +590,9 @@ class JInstaller extends JObject
 				return false;
 			}
 			$adapter = new $class($this);
-			$adapter->parent =& $this;
+			$adapter->parent = $this;
 		}
-		$this->_adapters[$name] =& $adapter;
+		$this->_adapters[$name] = $adapter;
 
 		return true;
 	}
@@ -696,7 +696,7 @@ class JInstaller extends JObject
 		}
 
 
-		$root =& $this->_manifest->document;
+		$root = $this->_manifest->document;
 		$version = $root->attributes('version');
 		$rootName = $root->name();
 		$config = JFactory::getConfig();
@@ -745,7 +745,7 @@ class JInstaller extends JObject
 		/*
 		 * LEGACY CHECK
 		 */
-		$root =& $this->_manifest->document;
+		$root = $this->_manifest->document;
 		$version = $root->attributes('version');
 		$rootName = $root->name();
 		$config = JFactory::getConfig();
@@ -810,7 +810,7 @@ class JInstaller extends JObject
 		}
 
 		// Load the adapter(s) for the install manifest
-		$root =& $this->_manifest->document;
+		$root = $this->_manifest->document;
 		$type = $root->attributes('type');
 
 
@@ -992,7 +992,7 @@ class JInstaller extends JObject
 
 		// Get the client info
 		jimport('joomla.application.helper');
-		$client =& JApplicationHelper::getClientInfo($cid);
+		$client = JApplicationHelper::getClientInfo($cid);
 
 		if (!is_a($element, 'JSimpleXMLElement') || !count($element->children()))
 		{
@@ -1068,7 +1068,7 @@ class JInstaller extends JObject
 		$root = & $this->_manifest->document;
 
 		// Get the element of the tag names
-		$element =& $root->getElementByPath('params');
+		$element = $root->getElementByPath('params');
 
 		if (!is_a($element, 'JSimpleXMLElement') || !count($element->children()))
 		{
@@ -1324,7 +1324,7 @@ class JInstaller extends JObject
 				{
 
 					// If the root method attribute is set to upgrade, allow file overwrite
-					$root =& $manifest->document;
+					$root = $manifest->document;
 
 					if ($root->attributes('method') == 'upgrade')
 					{
@@ -1332,7 +1332,7 @@ class JInstaller extends JObject
 					}
 
 					// Set the manifest object and path
-					$this->_manifest =& $manifest;
+					$this->_manifest = $manifest;
 					$this->setPath('manifest', $file);
 
 					// Set the installation source path to that of the manifest file
@@ -1372,7 +1372,7 @@ class JInstaller extends JObject
 		}
 
 
-		$root =& $xml->document;
+		$root = $xml->document;
 
 		if (!is_object($root) || ($root->name() != 'install' && $root->name() != 'mosinstall'))
 		{

@@ -6,16 +6,21 @@
         </message>
     </layout>
 
-    <fields name="params" addfieldpath="/administrator/components/com_redshop/elements">
-        <fieldset name="basic">
+    <fields name="request" addfieldpath="/administrator/components/com_redshop/elements">
+        <fieldset name="request">
             <field name="cid" type="category" label="Select Category" required="true"
                        description="Displays the selected category product"/>
+            <field name="manufacturer_id" type="manufacturer" default="0" label="COM_REDSHOP_SELECT_MANUFACTURER"
+                       description="COM_REDSHOP_DISPLAYS_THE_SELECTED_MANUFACTURER_DETAIL_PAGE"/>
+        </fieldset>
+    </fields>
+
+    <fields name="params" addfieldpath="/administrator/components/com_redshop/elements">
+        <fieldset name="basic">
             <field name="order_by" type='orderbyproduct' label="Product Sorting"
                        description="Select Product Sorting"/>
             <field name="maxproduct" type="text" size="4" default="0" label="COM_RESHOP_HOW_MANY_PRODUCTS"
                        description="COM_RESHOP_HOW_MANY_PRODUCTS_DESCRIPTION"/>
-            <field name="manufacturer_id" type="manufacturer" default="0" label="COM_REDSHOP_Select_Manufacturer"
-                       description="COM_REDSHOP_Displays_the_selected_manufacturer_detail_page"/>
         </fieldset>
     </fields>
 </metadata>

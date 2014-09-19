@@ -41,13 +41,13 @@ class JFormFieldK2category extends JFormField
 			}
 			$list                 = JHTML::_('menu.treerecurse', 0, '', array(), $children, 9999, 0, 0);
 			$categories           = array();
-			$categories[0]        = new stdClass();
+			$categories[0]        = new stdClass;
 			$categories[0]->value = '';
 			$categories[0]->text  = JText::_('-- ' . JText::_('All Categories'));
 
 			foreach ($list as $item)
 			{
-				$tmp          = new stdClass();
+				$tmp          = new stdClass;
 				$tmp->value   = $item->id;
 				$tmp->text    = JText::_('---| ' . $item->treename);
 				$categories[] = $tmp;

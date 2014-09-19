@@ -11,16 +11,22 @@ defined('_JEXEC') or die ('Restricted access');
 JHTML::_('behavior.tooltip');
 
 JHTMLBehavior::modal();
+$url = JURI::getInstance()->root();
 
 $now = JFactory::getDate();
 $model = $this->getModel('attribute_set_detail');
+
+// Product Id
+$productId = 0;
+
+if (isset($this->detail->product_id))
+{
+	$productId = $this->detail->product_id;
+}
+
 ?>
 <script language="javascript" type="text/javascript">
 	Joomla.submitbutton = function (pressbutton) {
-		submitbutton(pressbutton);
-	}
-
-	submitbutton = function (pressbutton) {
 		var form = document.adminForm;
 
 		if (pressbutton == 'cancel') {
@@ -41,12 +47,64 @@ $model = $this->getModel('attribute_set_detail');
 	}
 	function oprand_check(s) {
 		var oprand = s.value;
-		if (oprand != '+' && oprand != '-' && oprand != '=') {
+		if (oprand != '+' && oprand != '-' && oprand != '=' && oprand != '*' && oprand != "/") {
 			alert("<?php
 		echo JText::_('COM_REDSHOP_WRONG_OPRAND', true );
 		?>");
 
 			s.value = "+";
+		}
+	}
+	function jimage_insert(main_path, fid, fsec) {
+
+		var path_url = "<?php echo $url;?>";
+		var propimg;
+
+		if (!fid && !fsec) {
+
+			if (main_path) {
+				document.getElementById("image_display").style.display = "block";
+				document.getElementById("product_image").value = main_path;
+				document.getElementById("image_display").src = path_url + main_path;
+			}
+			else {
+				document.getElementById("product_image").value = "";
+				document.getElementById("image_display").src = "";
+			}
+		} else {
+
+			if (fsec == 'property') {
+				if (main_path) {
+					propimg = 'propertyImage' + fid;
+					document.getElementById(propimg).style.display = "block";
+					document.getElementById(propimg).width = "60";
+					document.getElementById(propimg).heidth = "60";
+					document.getElementById("propmainImage" + fid).value = main_path;
+					document.getElementById(propimg).src = path_url + main_path;
+
+
+				}
+				else {
+					document.getElementById("propmainImage" + fid).value = "";
+					document.getElementById("propimg" + fid).src = "";
+				}
+			} else {
+				if (main_path) {
+
+					propimg = 'subpropertyImage' + fid;
+					document.getElementById(propimg).style.display = "block";
+					document.getElementById(propimg).width = "60";
+					document.getElementById(propimg).heidth = "60";
+					document.getElementById("subpropmainImage" + fid).value = main_path;
+					document.getElementById(propimg).src = path_url + main_path;
+
+
+				}
+				else {
+					document.getElementById("subpropmainImage" + fid).value = "";
+					document.getElementById("propimg" + fid).src = "";
+				}
+			}
 		}
 	}
 </script>
@@ -235,7 +293,7 @@ if ($this->lists['attributes'] != '')
 						<td align="right" class="td2">
 							<input type="text" class="text_area input_t1" size="22"
 							       name="attribute[<?php echo $k; ?>][name]"
-							       value="<?php echo htmlspecialchars(urldecode($attibute_data['attribute_name'])); ?>">
+							       value="<?php echo htmlspecialchars($attibute_data['attribute_name']); ?>">
 						</td>
 
 						<td align="right" nowrap="nowrap" class="td3">
@@ -263,7 +321,7 @@ if ($this->lists['attributes'] != '')
 							<input
 								style="cursor: pointer; float: right;" class="btn_attribute"
 								value="<?php echo JText::_('COM_REDSHOP_DELETE_ATTRIBUTE'); ?>"
-								onclick="if(ajax_delete_attribute(<?php echo $this->detail->product_id ?>,<?php echo $attribute_id; ?>,0)){deleteRow_attribute('<?php echo "attribute_table" . $attribute_id; ?>','attribute_table','property_table<?php echo $k; ?>',<?php echo $attibute_data['attribute_id']; ?>);}"
+								onclick="if(ajax_delete_attribute(<?php echo $productId; ?>,<?php echo $attribute_id; ?>,<?php echo $this->detail->attribute_set_id; ?>)){deleteRow_attribute('<?php echo "attribute_table" . $attribute_id; ?>','attribute_table','property_table<?php echo $k; ?>',<?php echo $attibute_data['attribute_id']; ?>);}"
 								type="button"/> <input type="hidden"
 							                           name="attribute[<?php echo $k; ?>][id]"
 							                           value="<?php echo $attibute_data['attribute_id']; ?>">
@@ -374,7 +432,7 @@ if ($this->lists['attributes'] != '')
 								<input type="text"
 								       class="text_area input_t1" size="22"
 								       name="attribute[<?php echo $k; ?>][property][<?php echo $g; ?>][name]"
-								       value="<?php echo htmlspecialchars(urldecode($property->property_name)); ?>">
+								       value="<?php echo htmlspecialchars($property->property_name); ?>">
 							</td>
 							<td align="right" nowrap="nowrap" class="td3">
 								<span> <?php echo JText::_('COM_REDSHOP_ORDERING'); ?>:&nbsp;</span>
@@ -474,14 +532,14 @@ if ($this->lists['attributes'] != '')
 												</a> <a class="modal"
 											            rel="{handler: 'iframe', size: {x: 950, y: 500}}"
 											            title=""
-											            href="index.php?tmpl=component&option=com_redshop&amp;view=attributeprices&amp;section_id=<?php echo $property_id; ?>&amp;cid=<?php echo $this->detail->product_id; ?>&amp;section=property">
+											            href="index.php?tmpl=component&option=com_redshop&amp;view=attributeprices&amp;section_id=<?php echo $property_id; ?>&amp;cid=<?php echo $productId; ?>&amp;section=property">
 													<img
 														src="<?php echo REDSHOP_ADMIN_IMAGES_ABSPATH; ?>discountmanagmenet16.png"
 														align="absmiddle" alt="media">
 												</a> <a class="modal"
 											            rel="{handler: 'iframe', size: {x: 950, y: 500}}"
 											            title=""
-											            href="index.php?tmpl=component&option=com_redshop&amp;view=product_detail&amp;section_id=<?php echo $property_id; ?>&amp;cid=<?php echo $this->detail->product_id; ?>&amp;layout=productstockroom&amp;property=property">
+											            href="index.php?tmpl=component&option=com_redshop&amp;view=product_detail&amp;section_id=<?php echo $property_id; ?>&amp;cid=<?php echo $productId; ?>&amp;layout=productstockroom&amp;property=property">
 													<img
 														src="<?php echo REDSHOP_ADMIN_IMAGES_ABSPATH; ?>stockroom16.png"
 														align="absmiddle" alt="media">
@@ -804,14 +862,14 @@ if ($this->lists['attributes'] != '')
 															class="modal"
 															rel="{handler: 'iframe', size: {x: 950, y: 500}}"
 															title=""
-															href="index.php?tmpl=component&option=com_redshop&amp;view=attributeprices&amp;section_id=<?php echo $subvalue->subattribute_color_id; ?>&amp;cid=<?php echo $this->detail->product_id; ?>&amp;section=subproperty">
+															href="index.php?tmpl=component&option=com_redshop&amp;view=attributeprices&amp;section_id=<?php echo $subvalue->subattribute_color_id; ?>&amp;cid=<?php echo $productId; ?>&amp;section=subproperty">
 															<img
 																src="<?php echo REDSHOP_ADMIN_IMAGES_ABSPATH; ?>discountmanagmenet16.png"
 																align="absmiddle" alt="media">
 														</a> <a class="modal"
 															    rel="{handler: 'iframe', size: {x: 950, y: 500}}"
 															    title=""
-															    href="index.php?tmpl=component&option=com_redshop&amp;view=product_detail&amp;section_id=<?php echo $subvalue->subattribute_color_id; ?>&amp;cid=<?php echo $this->detail->product_id; ?>&amp;layout=productstockroom&amp;property=subproperty">
+															    href="index.php?tmpl=component&option=com_redshop&amp;view=product_detail&amp;section_id=<?php echo $subvalue->subattribute_color_id; ?>&amp;cid=<?php echo $productId; ?>&amp;layout=productstockroom&amp;property=subproperty">
 															<img
 																src="<?php echo REDSHOP_ADMIN_IMAGES_ABSPATH; ?>stockroom16.png"
 																align="absmiddle" alt="media">
@@ -1029,7 +1087,7 @@ else
 </table>
 <input type="hidden" name="cid[]" value="<?php echo $this->detail->attribute_set_id; ?>"/>
 <input type="hidden" name="attribute_set_id" value="<?php echo $this->detail->attribute_set_id; ?>"/>
-<input type="hidden" name="product_id" value="<?php echo $this->detail->product_id; ?>"/>
+<input type="hidden" name="product_id" value="<?php echo $productId; ?>"/>
 <input type="hidden" name="task" value=""/>
 <input type="hidden" name="view" value="attribute_set_detail"/>
 </form>

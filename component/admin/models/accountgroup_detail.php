@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
-class accountgroup_detailModelaccountgroup_detail extends JModel
+class RedshopModelAccountgroup_detail extends JModel
 {
 	public $_id = null;
 
@@ -23,7 +23,7 @@ class accountgroup_detailModelaccountgroup_detail extends JModel
 	{
 		parent::__construct();
 
-		$this->_table_prefix = '#__' . TABLE_PREFIX . '_';
+		$this->_table_prefix = '#__redshop_';
 
 		$array = JRequest::getVar('cid', 0, '', 'array');
 		$this->setId((int) $array[0]);
@@ -90,7 +90,7 @@ class accountgroup_detailModelaccountgroup_detail extends JModel
 
 	public function store($data)
 	{
-		$row =& $this->getTable();
+		$row = $this->getTable();
 
 		if (!$row->bind($data))
 		{

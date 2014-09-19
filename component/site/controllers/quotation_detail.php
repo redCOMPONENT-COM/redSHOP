@@ -11,9 +11,9 @@ defined('_JEXEC') or die;
 
 JLoader::import('joomla.application.component.controller');
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/quotation.php';
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/mail.php';
-require_once JPATH_COMPONENT . '/helpers/helper.php';
+JLoader::load('RedshopHelperAdminQuotation');
+JLoader::load('RedshopHelperAdminMail');
+JLoader::load('RedshopHelperHelper');
 
 /**
  * Quotation Detail Controller.
@@ -22,7 +22,7 @@ require_once JPATH_COMPONENT . '/helpers/helper.php';
  * @subpackage  Controller
  * @since       1.0
  */
-class Quotation_detailController extends JController
+class RedshopControllerQuotation_detail extends JController
 {
 	/**
 	 * update status function
@@ -36,16 +36,22 @@ class Quotation_detailController extends JController
 		$option = JRequest::getVar('option');
 		$Itemid = JRequest::getVar('Itemid');
 		$encr   = JRequest::getVar('encr');
+		$model = $this->getModel();
 
 		$quotationHelper = new quotationHelper;
 		$redshopMail     = new redshopMail;
+
+		// Update Status
 		$quotationHelper->updateQuotationStatus($post['quotation_id'], $post['quotation_status']);
+
+		// Add Customer Note
+		$model->addQuotationCustomerNote($post);
 
 		$mailbool = $redshopMail->sendQuotationMail($post['quotation_id'], $post['quotation_status']);
 
 		$msg = JText::_('COM_REDSHOP_QUOTATION_STATUS_UPDATED_SUCCESSFULLY');
 
-		$this->setRedirect('index.php?option=' . $option . '&view=quotation_detail&quoid=' . $post['quotation_id'] . '&encr=' . $encr . '&Itemid=' . $Itemid, $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=quotation_detail&quoid=' . $post['quotation_id'] . '&encr=' . $encr . '&Itemid=' . $Itemid, $msg);
 	}
 
 	/**

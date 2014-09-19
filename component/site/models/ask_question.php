@@ -11,8 +11,8 @@ defined('_JEXEC') or die;
 
 JLoader::import('joomla.application.component.model');
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/mail.php';
-require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
+JLoader::load('RedshopHelperAdminMail');
+JLoader::load('RedshopHelperProduct');
 
 /**
  * Class ask_questionModelask_question
@@ -21,7 +21,7 @@ require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
  * @subpackage  Controller
  * @since       1.0
  */
-class ask_questionModelask_question extends JModel
+class RedshopModelAsk_question extends JModel
 {
 	public $_id = null;
 
