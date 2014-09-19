@@ -26,7 +26,7 @@ $userId = (int) $user->id;
 <script language="javascript" type="text/javascript">
 
 
-	Joomla.submitbutton = function (pressbutton) {
+	Joomla.submitbutton = submitbutton = function (pressbutton) {
 		var form = document.adminForm;
 
 		if (pressbutton) {
