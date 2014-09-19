@@ -12,7 +12,7 @@
  *
  * remind to modify the following two variables if you want to use it in other projects
  */
-$slackChannel = 'C029D9ZQL';
+$slackChannel = 'C02L0SE5E'; // reports to #travis-errors slack channel
 $slackToken= 'xoxp-2309442657-2309442659-2680880772-1a436d';
 
 // Only run on the CLI SAPI
