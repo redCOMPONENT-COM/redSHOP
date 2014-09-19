@@ -9,29 +9,29 @@
 
 defined('_JEXEC') or die;
 
-// Including redshop product helper file and configuration file
-require_once JPATH_SITE . '/components/com_redshop/helpers/product.php';
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
+JLoader::import('loadhelpers', JPATH_SITE . '/components/com_redshop');
 
 class plgAcymailingRedshop extends JPlugin
 {
 	public function plgAcymailingRedshop(&$subject, $config)
 	{
-		parent::__construct($subject, $config);
+		require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
+		JLoader::load('RedshopHelperAdminConfiguration');
 
-		if (!isset($this->params))
-		{
-			$plugin = JPluginHelper::getPlugin('acymailing', 'redshop');
-			$this->params = new JRegistry($plugin->params);
-		}
+		$redConfiguration = new Redconfiguration;
+		$redConfiguration->defineDynamicVars();
+
+		JLoader::load('RedshopHelperProduct');
+
+		parent::__construct($subject, $config);
 	}
 
 	public function acymailing_getPluginType()
 	{
-		$onePlugin = null;
-		$onePlugin->name = JText::_('COM_REDSHOP_redSHOP');
+		$onePlugin           = new stdClass;
+		$onePlugin->name     = JText::_('COM_REDSHOP_redSHOP');
 		$onePlugin->function = 'acymailingredSHOP_show';
-		$onePlugin->help = 'plugin-redSHOP';
+		$onePlugin->help     = 'plugin-redSHOP';
 
 		return $onePlugin;
 	}
@@ -70,7 +70,7 @@ class plgAcymailingRedshop extends JPlugin
 
 	public function acymailing_replaceusertags(&$email)
 	{
-		$match = '#{product:?([^:]*)}#Ui';
+		$match = '#{product(?:_name|_price|_thumb_image|):?([^:]*)}#Ui';
 		$variables = array('subject', 'body', 'altbody');
 		$found = false;
 		$results = array();
@@ -108,7 +108,7 @@ class plgAcymailingRedshop extends JPlugin
 
 				if (is_numeric($allresults[1][$i]))
 				{
-					$tags[$oneTag] = $this->getProduct($allresults[1][$i]);
+					$tags[$oneTag] = $this->getProduct($allresults[1][$i], $oneTag);
 				}
 			}
 		}
@@ -126,9 +126,9 @@ class plgAcymailingRedshop extends JPlugin
 	 *
 	 * @return mixed  Product Main Image,Product Name,Product Formatted Price
 	 */
-	public function getProduct($product_id)
+	public function getProduct($product_id, $tag)
 	{
-		require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/template.php';
+		JLoader::load('RedshopHelperAdminTemplate');
 		$redTemplate = new Redtemplate;
 
 		$prtemplate_id = trim($this->params->get('product_template', 1));
@@ -155,7 +155,7 @@ class plgAcymailingRedshop extends JPlugin
 
 		$text = "<div>" . $productImage . "</div><div>" . $rs->product_name . "</div><div>" . $price . "</div>";
 
-		if ($prtemplate[0]->template_desc)
+		if ($prtemplate[0]->template_desc && strpos($tag, 'product:') !== false)
 		{
 			$text = $prtemplate[0]->template_desc;
 
@@ -173,10 +173,25 @@ class plgAcymailingRedshop extends JPlugin
 			$text = str_replace($attribute_tag, "", $text);
 
 			// Replace add to cart template to null
-			$cart_tag_arr = explode("form_addtocart:", $text);
-			$cart_tag_arr = explode("}", $cart_tag_arr[1]);
-			$cart_tag = "{form_addtocart:" . $cart_tag_arr[0] . "}";
-			$text = str_replace($cart_tag, "", $text);
+			if (strstr($text, 'form_addtocart:'))
+			{
+				$cart_tag_arr = explode("form_addtocart:", $text);
+				$cart_tag_arr = explode("}", $cart_tag_arr[1]);
+				$cart_tag     = "{form_addtocart:" . $cart_tag_arr[0] . "}";
+				$text         = str_replace($cart_tag, "", $text);
+			}
+		}
+		elseif (strpos($tag, 'name:') !== false)
+		{
+			return $rs->product_name;
+		}
+		elseif (strpos($tag, 'price:') !== false)
+		{
+			return $price;
+		}
+		elseif (strpos($tag, 'image:') !== false)
+		{
+			return $productImage;
 		}
 
 		return $text;

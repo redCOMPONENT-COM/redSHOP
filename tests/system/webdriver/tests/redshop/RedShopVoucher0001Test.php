@@ -1,7 +1,7 @@
 <?php
 /**
- * @package     RedCore
- * @subpackage  Model
+ * @package     RedShop
+ * @subpackage  Test
  * @copyright   Copyright (C) 2012 - 2014 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
@@ -70,7 +70,7 @@ class RedShopVoucher0001Test extends JoomlaWebdriverTestCase
 		$rand = rand();
 		$voucherCode = 'RedShop Code' . $rand;
 		$voucherAmount = '100';
-		$voucherVerifyingAmount = '$ ' . $voucherAmount;
+		$voucherVerifyingAmount = '$ ' . $voucherAmount . ',00';
 		$voucherLeft = '10';
 		$this->appTestPage->addVoucher($voucherCode, $voucherAmount, $voucherLeft);
 		$this->assertTrue($this->appTestPage->searchVoucher($voucherCode), 'Voucher Must be Created');
@@ -93,7 +93,7 @@ class RedShopVoucher0001Test extends JoomlaWebdriverTestCase
 		$voucherCode = 'RedShop Code' . $rand;
 		$voucherNewCode = 'Updated Code' . $rand;
 		$voucherAmount = '100';
-		$verifyVoucherAmount = '$ ' . $voucherAmount;
+		$verifyVoucherAmount = '$ ' . $voucherAmount . ',00';
 		$voucherLeft = '10';
 		$this->appTestPage->addVoucher($voucherCode, $voucherAmount, $voucherLeft);
 		$this->assertTrue($this->appTestPage->searchVoucher($voucherCode), 'Voucher Must be Created');
@@ -117,7 +117,7 @@ class RedShopVoucher0001Test extends JoomlaWebdriverTestCase
 		$rand = rand();
 		$voucherCode = 'RedShop Code' . $rand;
 		$voucherAmount = '100';
-		$voucherVerifyingAmount = '$ ' . $voucherAmount;
+		$voucherVerifyingAmount = '$ ' . $voucherAmount . ',00';
 		$voucherLeft = '10';
 		$this->appTestPage->addVoucher($voucherCode, $voucherAmount, $voucherLeft);
 		$this->assertTrue($this->appTestPage->searchVoucher($voucherCode), 'Voucher Must be Created');

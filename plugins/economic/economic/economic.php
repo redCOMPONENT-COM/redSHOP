@@ -70,7 +70,7 @@ class plgEconomicEconomic extends JPlugin
 		// Check whether plugin has been unpublished
 		if (count($pluginParams) > 0)
 		{
-			$url = 'https://www.e-conomic.com/secure/api1/EconomicWebservice.asmx?WSDL';
+			$url = 'https://api.e-conomic.com/secure/api1/EconomicWebservice.asmx?WSDL';
 
 			try
 			{
@@ -79,7 +79,7 @@ class plgEconomicEconomic extends JPlugin
 			catch (Exception $exception)
 			{
 				$this->error = 1;
-				echo $this->errorMsg = "Unable to connect soap client";
+				echo $this->errorMsg = "Unable to connect soap client - E-conomic Plugin Failure.";
 				JError::raiseWarning(21, $exception->getMessage());
 			}
 			try

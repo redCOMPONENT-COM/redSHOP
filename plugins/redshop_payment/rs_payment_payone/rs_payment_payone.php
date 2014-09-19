@@ -9,29 +9,8 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.plugin.plugin');
-
 class plgRedshop_paymentrs_payment_payone extends JPlugin
 {
-	public $_table_prefix = null;
-
-	/**
-	 * Constructor
-	 *
-	 * For php4 compatability we must not use the __constructor as a constructor for
-	 * plugins because func_get_args ( void ) returns a copy of all passed arguments
-	 * NOT references.  This causes problems with cross-referencing necessary for the
-	 * observer design pattern.
-	 */
-	public function plgRedshop_paymentrs_payment_payone(&$subject)
-	{
-		// Load plugin parameters
-		parent::__construct($subject);
-		$this->_table_prefix = '#__redshop_';
-		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_payone');
-		$this->_params = new JRegistry($this->_plugin->params);
-	}
-
 	/**
 	 * Plugin method with the same name as the event will be called automatically.
 	 */
@@ -48,8 +27,8 @@ class plgRedshop_paymentrs_payment_payone extends JPlugin
 		}
 
 		$app = JFactory::getApplication();
-		$paymentpath = JPATH_SITE . '/plugins/redshop_payment/' . $plugin . '/' . $plugin . '/extra_info.php';
-		include $paymentpath;
+
+		include JPATH_SITE . '/plugins/redshop_payment/' . $plugin . '/' . $plugin . '/extra_info.php';
 	}
 
 	/*
@@ -62,30 +41,26 @@ class plgRedshop_paymentrs_payment_payone extends JPlugin
 			return false;
 		}
 
-		$db = JFactory::getDbo();
-		$request = JRequest::get('request');
-		$accept = $request["accept"];
-		$tid = $request["tid"];
-		$order_id = $request["orderid"];
-		$Itemid = $request["Itemid"];
-		$order_amount = $request["amount"];
-		@$order_ekey = $request["eKey"];
-		@$error = $request["error"];
+		$db             = JFactory::getDbo();
+		$request        = JRequest::get('request');
+		$accept         = $request["accept"];
+		$tid            = $request["tid"];
+		$order_id       = $request["orderid"];
+		$Itemid         = $request["Itemid"];
+		$order_amount   = $request["amount"];
+		$order_ekey     = $request["eKey"];
+		$error          = $request["error"];
 		$order_currency = $request["cur"];
 
 		JPlugin::loadLanguage('com_redshop');
-		$amazon_parameters = $this->getparameters('rs_payment_epay');
-		$paymentinfo = $amazon_parameters[0];
-		$paymentparams = new JRegistry($paymentinfo->params);
 
-		$verify_status = $paymentparams->get('verify_status', '');
-		$invalid_status = $paymentparams->get('invalid_status', '');
-		$auth_type = $paymentparams->get('auth_type', '');
+		$verify_status  = $this->params->get('verify_status', '');
+		$invalid_status = $this->params->get('invalid_status', '');
+		$auth_type      = $this->params->get('auth_type', '');
+		$values         = new stdClass;
 
-		$values = new stdClass;
-
-		// Now validat on the MD5 stamping. If the MD5 key is valid or if MD5 is disabled
-		if ((@$order_ekey == md5($order_amount . $order_id . $tid . $epay_paymentkey)) || $epay_md5 == 0)
+		// Now validate on the MD5 stamping. If the MD5 key is valid or if MD5 is disabled
+		if (($order_ekey == md5($order_amount . $order_id . $tid . $epay_paymentkey)) || $epay_md5 == 0)
 		{
 			// Find the corresponding order in the database
 
@@ -132,7 +107,7 @@ class plgRedshop_paymentrs_payment_payone extends JPlugin
 					}
 
 					// Payment fraud control
-					if (@$request["fraud"])
+					if ($request["fraud"])
 					{
 						$msg = JText::_('COM_REDSHOP_EPAY_FRAUD');
 					}
@@ -254,16 +229,6 @@ class plgRedshop_paymentrs_payment_payone extends JPlugin
 		$values->order_id = $order_id;
 
 		return $values;
-	}
-
-	public function getparameters($payment)
-	{
-		$db = JFactory::getDbo();
-		$sql = "SELECT * FROM #__extensions WHERE `element`='" . $payment . "'";
-		$db->setQuery($sql);
-		$params = $db->loadObjectList();
-
-		return $params;
 	}
 
 	public function orderPaymentNotYetUpdated($dbConn, $order_id, $tid)

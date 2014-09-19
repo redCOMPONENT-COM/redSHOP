@@ -114,6 +114,16 @@ abstract class AdminPage
 		'RedSHOP_Category' => 'administrator/index.php?option=com_redshop&view=category',
 		'RedSHOP_Voucher'  => 'administrator/index.php?option=com_redshop&view=voucher',
 		'RedSHOP_Country'  => 'administrator/index.php?option=com_redshop&view=country',
+		'RedSHOP_Wrapper'  => 'administrator/index.php?option=com_redshop&view=wrapper',
+		'RedSHOP_GiftCard' => 'administrator/index.php?option=com_redshop&view=giftcard',
+		'RedSHOP_TextLibrary' => 'administrator/index.php?option=com_redshop&view=textlibrary',
+		'RedSHOP_User' => 'administrator/index.php?option=com_redshop&view=user',
+		'RedSHOP_Currency' => 'administrator/index.php?option=com_redshop&view=currency',
+		'RedSHOP_State' => 'administrator/index.php?option=com_redshop&view=state',
+		'RedSHOP_Field' => 'administrator/index.php?option=com_redshop&view=fields',
+		'RedSHOP_Product' => 'administrator/index.php?option=com_redshop&view=product',
+		'RedSHOP_Manufacturer' => 'administrator/index.php?option=com_redshop&view=manufacturer',
+		'RedSHOP_Mail' => 'administrator/index.php?option=com_redshop&view=mail'
 	);
 
 	/**
@@ -198,7 +208,20 @@ abstract class AdminPage
 	public function checkForNotices()
 	{
 		$haystack = strip_tags($this->driver->pageSource());
-		return (bool) (stripos($haystack, "( ! ) Notice") || stripos($haystack, "( ! ) Warning"));
+
+		return (bool) (stripos($haystack, "Notice:") || stripos($haystack, "Warning:"));
+	}
+
+	/**
+	 * Function to Verify Notices in Edit View of a MVC
+	 *
+	 * @param   Object  $pageType  Type of Page for which this is getting called
+	 *
+	 * @return void
+	 */
+	public function checkNoticesForEditView($pageType)
+	{
+		$this->test->assertFalse($this->checkForNotices(), 'PHP Notice found on Edit View  of the following page Type ' . $pageType);
 	}
 
 	/**

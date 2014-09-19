@@ -10,12 +10,12 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
-require_once JPATH_COMPONENT . '/helpers/thumbnail.php';
+JLoader::load('RedshopHelperAdminThumbnail');
 jimport('joomla.client.helper');
 JClientHelper::setCredentialsFromRequest('ftp');
 jimport('joomla.filesystem.file');
 
-class shopper_group_detailModelshopper_group_detail extends JModel
+class RedshopModelShopper_group_detail extends JModel
 {
 	public $_id = null;
 
