@@ -45,7 +45,7 @@ if ($handler = opendir($codeceptionOutputFolder)) {
         $command = 'curl -F file=@' . $codeceptionOutputFolder . '/' . $errorSnapshot . ' -F '
             . 'channels='. $slackChannel  . ' -F '
             . 'title=Codeception_error -F '
-            . 'initial_comment="error found by travis" -F'
+            . 'initial_comment="error found by travis in redSHOP1" -F'
             . 'token=' . $slackToken . ' '
             . 'https://slack.com/api/files.upload';
         //fwrite(STDOUT, $command);
