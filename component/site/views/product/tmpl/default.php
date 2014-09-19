@@ -349,7 +349,7 @@ if (strstr($template_desc, "{zoom_image}"))
 if (strstr($template_desc, "{product_category_list}"))
 {
 	$pcats    = "";
-	$prodCats = $producthelper->getProductCaterories($this->data->product_id);
+	$prodCats = $producthelper->getProductCaterories($this->data->product_id, 1);
 
 	foreach ($prodCats as $prodCat)
 	{
@@ -471,14 +471,14 @@ if (strstr($template_desc, "{product_delivery_time}"))
 if (strstr($template_desc, "{facebook_like_button}"))
 {
 	$uri           = JFactory::getURI();
-	$facebook_link = urlencode($uri->toString());
+	$facebook_link = urlencode(JFilterOutput::cleanText($uri->toString()));
 	$facebook_like = '<iframe src="' . $Scheme . '://www.facebook.com/plugins/like.php?href=' . $facebook_link . '&amp;layout=standard&amp;show_faces=true&amp;width=450&amp;action=like&amp;font&amp;colorscheme=light&amp;height=80" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:450px; height:80px;" allowTransparency="true"></iframe>';
 	$template_desc = str_replace("{facebook_like_button}", $facebook_like, $template_desc);
 
 	$jconfig  = JFactory::getConfig();
 	$sitename = $jconfig->getValue('config.sitename');
 
-	$this->document->setMetaData("og:url", $uri->toString());
+	$this->document->setMetaData("og:url", JFilterOutput::cleanText($uri->toString()));
 	$this->document->setMetaData("og:type", "product");
 	$this->document->setMetaData("og:site_name", $sitename);
 }
@@ -1155,7 +1155,7 @@ if (strstr($template_desc, "{more_documents}"))
 
 		if (is_file(REDSHOP_FRONT_DOCUMENT_RELPATH . "product/" . $media_documents[$m]->media_name))
 		{
-			$downlink = JUri::root() . 'index.php?tmpl=component&option=com_redshop&view=product&pid=' . $this->data->product_id .
+			$downlink = JURI::root() . 'index.php?tmpl=component&option=com_redshop&view=product&pid=' . $this->data->product_id .
 										'&task=downloadDocument&fname=' . $media_documents[$m]->media_name .
 										'&Itemid=' . $this->itemId;
 			$more_doc .= "<div><a href='" . $downlink . "' title='" . $alttext . "'>";
@@ -1900,6 +1900,20 @@ $template_desc = str_replace("{without_vat}", "", $template_desc);
 
 $template_desc = str_replace("{attribute_price_with_vat}", "", $template_desc);
 $template_desc = str_replace("{attribute_price_without_vat}", "", $template_desc);
+
+// Replace Minimum quantity per order
+$minOrderProductQuantity = '';
+
+if ((int) $this->data->min_order_product_quantity > 0)
+{
+	$minOrderProductQuantity = $this->data->min_order_product_quantity;
+}
+
+$template_desc = str_replace(
+	'{min_order_product_quantity}',
+	$minOrderProductQuantity,
+	$template_desc
+);
 
 $template_desc = $this->redTemplate->parseredSHOPplugin($template_desc);
 

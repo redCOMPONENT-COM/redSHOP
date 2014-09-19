@@ -11,9 +11,9 @@ defined('_JEXEC') or die;
 
 JLoader::import('joomla.application.component.view');
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php';
+JLoader::load('RedshopHelperAdminOrder');
 
-class account_shiptoViewaccount_shipto extends JView
+class RedshopViewAccount_shipto extends JView
 {
 	public function display($tpl = null)
 	{
@@ -80,6 +80,7 @@ class account_shiptoViewaccount_shipto extends JView
 		$this->shippingaddresses = $shippingaddresses;
 		$this->billingaddresses = $billingaddresses;
 		$this->request_url = $uri->toString();
+		JFilterOutput::cleanText($this->request_url);
 		$this->params = $params;
 
 		parent::display($tpl);

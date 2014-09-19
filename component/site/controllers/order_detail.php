@@ -9,12 +9,12 @@
 
 defined('_JEXEC') or die;
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php';
-require_once JPATH_COMPONENT . '/helpers/product.php';
-require_once JPATH_COMPONENT . '/helpers/extra_field.php';
-require_once JPATH_COMPONENT . '/helpers/helper.php';
-include_once JPATH_COMPONENT . '/helpers/cart.php';
-include_once JPATH_COMPONENT . '/helpers/user.php';
+JLoader::load('RedshopHelperAdminOrder');
+JLoader::load('RedshopHelperProduct');
+JLoader::load('RedshopHelperExtra_field');
+JLoader::load('RedshopHelperHelper');
+JLoader::load('RedshopHelperCart');
+JLoader::load('RedshopHelperUser');
 
 JLoader::import('joomla.application.component.controller');
 
@@ -25,7 +25,7 @@ JLoader::import('joomla.application.component.controller');
  * @subpackage  Controller
  * @since       1.0
  */
-class Order_detailController extends JController
+class RedshopControllerOrder_detail extends JController
 {
 	/**
 	 * Constructor
@@ -79,7 +79,7 @@ class Order_detailController extends JController
 		$shippingaddresses    = $this->_order_functions->getOrderShippingUserInfo($order->order_id);
 		$d['shippingaddress'] = $shippingaddresses;
 
-		$Itemid               = JRequest::getVar('Itemid');
+		$Itemid               = JRequest::getInt('Itemid');
 
 		if (isset($billingaddresses))
 		{
@@ -170,12 +170,10 @@ class Order_detailController extends JController
 	 */
 	public function notify_payment()
 	{
-		require_once JPATH_BASE . '/administrator/components/com_redshop/helpers/order.php';
-
 		$app     = JFactory::getApplication();
 		$db      = JFactory::getDbo();
 		$request = JRequest::get('request');
-		$Itemid  = JRequest::getVar('Itemid');
+		$Itemid  = JRequest::getInt('Itemid');
 		$objOrder = new order_functions;
 
 		JPluginHelper::importPlugin('redshop_payment');
@@ -224,11 +222,18 @@ class Order_detailController extends JController
 	 */
 	public function copyorderitemtocart()
 	{
+		// Import redSHOP Product Plugin
+		JPluginHelper::importPlugin('redshop_product');
+		$dispatcher = JDispatcher::getInstance();
+
 		$app           = JFactory::getApplication();
 		$order_item_id = JRequest::getInt('order_item_id');
 
 		$orderItem = $this->_order_functions->getOrderItemDetail(0, 0, $order_item_id);
 		$row = (array) $orderItem[0];
+
+		// Event Trigger on reordering cart item
+		$dispatcher->trigger('onReorderCartItem', array(&$row));
 
 		$subscription_id = 0;
 		$row['quantity'] = $row['product_quantity'];
@@ -265,7 +270,6 @@ class Order_detailController extends JController
 
 		if (is_bool($result) && $result)
 		{
-			$Itemid = JRequest::getVar('Itemid');
 			$Itemid = $this->_redhelper->getCartItemid();
 			$this->_carthelper->cartFinalCalculation();
 			$app->redirect('index.php?option=com_redshop&view=cart&Itemid=' . $Itemid);
@@ -303,12 +307,15 @@ class Order_detailController extends JController
 	 */
 	public function reorder()
 	{
-		$app      = JFactory::getApplication();
-		$session  = JFactory::getSession();
-		$post     = JRequest::get('post');
-		$order_id = (isset($post['order_id'])) ? $post['order_id'] : JRequest::getInt('order_id');
-		$Itemid   = JRequest::getVar('Itemid');
-		$Itemid   = $this->_redhelper->getCartItemid();
+		// Import redSHOP Product Plug-in
+		JPluginHelper::importPlugin('redshop_product');
+
+		$dispatcher = JDispatcher::getInstance();
+		$app        = JFactory::getApplication();
+		$session    = JFactory::getSession();
+		$post       = JRequest::get('post');
+		$order_id   = (isset($post['order_id'])) ? $post['order_id'] : JRequest::getInt('order_id');
+		$Itemid     = $this->_redhelper->getCartItemid();
 
 		$returnmsg = "";
 
@@ -323,6 +330,10 @@ class Order_detailController extends JController
 			for ($i = 0; $i < count($orderItem); $i++)
 			{
 				$row = (array) $orderItem[$i];
+
+				// Event Trigger on reordering cart item
+				$dispatcher->trigger('onReorderCartItem', array(&$row));
+
 				$subscription_id = 0;
 				$row['quantity'] = $row['product_quantity'];
 
@@ -423,9 +434,8 @@ class Order_detailController extends JController
 	{
 		$app       = JFactory::getApplication();
 		$redconfig = new Redconfiguration;
-		$Itemid    = JRequest::getVar('Itemid');
+		$Itemid    = JRequest::getInt('Itemid');
 		$order_id  = JRequest::getInt('order_id');
-		$option    = JRequest::getVar('option');
 
 		$order       = $this->_order_functions->getOrderDetails($order_id);
 		$paymentInfo = $this->_order_functions->getOrderPaymentDetail($order_id);

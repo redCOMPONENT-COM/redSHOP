@@ -10,10 +10,10 @@
 defined('_JEXEC') or die;
 JLoader::import('joomla.application.component.model');
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/quotation.php';
-require_once JPATH_COMPONENT . '/helpers/extra_field.php';
-require_once JPATH_COMPONENT . '/helpers/product.php';
-include_once JPATH_COMPONENT . '/helpers/cart.php';
+JLoader::load('RedshopHelperAdminQuotation');
+JLoader::load('RedshopHelperExtra_field');
+JLoader::load('RedshopHelperProduct');
+JLoader::load('RedshopHelperCart');
 
 /**
  * Class quotation_detailModelquotation_detail
@@ -22,7 +22,7 @@ include_once JPATH_COMPONENT . '/helpers/cart.php';
  * @subpackage  Model
  * @since       1.0
  */
-class quotation_detailModelquotation_detail extends JModel
+class RedshopModelQuotation_detail extends JModel
 {
 	public $_id = null;
 
@@ -222,5 +222,36 @@ class quotation_detailModelquotation_detail extends JModel
 
 		$session->set('cart', $cart);
 		$carthelper->cartFinalCalculation(false);
+	}
+
+	/**
+	 * Add Quotation Detail Customer note
+	 *
+	 * @param   array  $data  Quotation Detail Post Data
+	 *
+	 * @return  void
+	 */
+	public function addQuotationCustomerNote($data)
+	{
+		// Initialize variables.
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true);
+
+		// Create the base update statement.
+		$query->update($db->quoteName('#__redshop_quotation'))
+			->set($db->quoteName('quotation_customer_note') . ' = ' . $db->quote($data['quotation_customer_note']))
+			->where($db->quoteName('quotation_id') . ' = ' . (int) $data['quotation_id']);
+
+		// Set the query and execute the update.
+		$db->setQuery($query);
+
+		try
+		{
+			$db->execute();
+		}
+		catch (RuntimeException $e)
+		{
+			throw new RuntimeException($e->getMessage(), $e->getCode());
+		}
 	}
 }

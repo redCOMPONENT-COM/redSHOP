@@ -10,12 +10,12 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
-require_once JPATH_COMPONENT . '/helpers/extra_field.php';
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/stockroom.php';
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/shipping.php';
-require_once JPATH_SITE . '/components/com_redshop/helpers/product.php';
+JLoader::load('RedshopHelperAdminExtra_field');
+JLoader::load('RedshopHelperAdminStockroom');
+JLoader::load('RedshopHelperAdminShipping');
+JLoader::load('RedshopHelperProduct');
 
-class productModelproduct extends JModel
+class RedshopModelProduct extends JModel
 {
 	public $_data = null;
 
@@ -187,7 +187,7 @@ class productModelproduct extends JModel
 
 		if (trim($keyword) != '')
 		{
-			$arr_keyword = explode(' ', $keyword);
+			$arr_keyword = preg_split("/[\s-]+/", $keyword);
 		}
 
 		if ($search_field != 'pa.property_number')
@@ -486,7 +486,7 @@ class productModelproduct extends JModel
 				number_format($default_shipping, PRICE_DECIMAL, PRICE_SEPERATOR, THOUSAND_SEPERATOR);
 			$default_shipping_country = DEFAULT_SHIPPING_COUNTRY;
 
-			$xml_code = '<?xml version="1.0" encoding="UTF-8" ';
+			$xml_code = '<?xml version="1.0" encoding="UTF-8" ?>';
 			$xml_code .= '<rss version ="2.0" xmlns:g="http://base.google.com/ns/1.0" xmlns:c="http://base.google.com/cns/1.0">';
 			$xml_code .= "<channel>";
 

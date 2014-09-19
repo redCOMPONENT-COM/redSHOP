@@ -9,10 +9,10 @@
 
 defined('_JEXEC') or die;
 
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/mail.php';
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/extra_field.php';
-require_once JPATH_SITE . '/components/com_redshop/helpers/cart.php';
-require_once JPATH_SITE . '/components/com_redshop/helpers/helper.php';
+JLoader::load('RedshopHelperAdminMail');
+JLoader::load('RedshopHelperAdminExtra_field');
+JLoader::load('RedshopHelperCart');
+JLoader::load('RedshopHelperHelper');
 
 class rsUserhelper
 {
@@ -22,17 +22,15 @@ class rsUserhelper
 
 	public $_userId = null;
 
-	public $_shopperGroupData = null;
-
 	public $_db = null;
 
-	public $_shopper_group_id = null;
+	protected static $shopperGroupData = array();
 
-	public $_shopper_group_data = null;
+	protected static $userShopperGroupData = array();
 
 	public function __construct()
 	{
-		$this->_table_prefix = '#__' . TABLE_PREFIX . '_';
+		$this->_table_prefix = '#__redshop_';
 		$this->_session      = JFactory::getSession();
 		$this->_db           = JFactory::getDbo();
 	}
@@ -103,55 +101,75 @@ class rsUserhelper
 		}
 	}
 
-	public function getShoppergroupData($user_id = 0)
+	/**
+	 * Get Shopper Group Data
+	 *
+	 * @param   int  $userId  User id
+	 *
+	 * @return mixed
+	 */
+	public function getShoppergroupData($userId = 0)
 	{
-		$list = array();
-		$user = JFactory::getUser();
-
-		if ($user_id == 0)
+		if ($userId == 0)
 		{
-			$user_id = $user->id;
+			$user = JFactory::getUser();
+			$userId = $user->id;
 		}
 
-		if ($user_id != 0)
+		if ($userId != 0)
 		{
-			if (!$this->_shopperGroupData && $this->_userId != $user_id)
+			if (!array_key_exists($userId, self::$userShopperGroupData))
 			{
-				$query = "SELECT sg.* FROM " . $this->_table_prefix . "shopper_group AS sg "
-					. "LEFT JOIN " . $this->_table_prefix . "users_info AS ui ON ui.shopper_group_id=sg.shopper_group_id "
-					. "WHERE ui.user_id = " . (int) $user_id . " AND ui.address_type='BT' ORDER BY shopper_group_id DESC  LIMIT 0,1";
-				$this->_db->setQuery($query);
-				$list = $this->_shopperGroupData = $this->_db->loadObject();
-			}
-			else
-			{
-				$list = $this->_shopperGroupData;
+				$db = JFactory::getDbo();
+				$query = $db->getQuery(true)
+					->select('sg.*')
+					->from($db->qn('#__redshop_shopper_group', 'sg'))
+					->leftJoin($db->qn('#__redshop_users_info', 'ui') . ' ON ui.shopper_group_id = sg.shopper_group_id')
+					->where('ui.user_id = ' . (int) $userId)
+					->where('ui.address_type = ' . $db->q('BT'));
+				$db->setQuery($query);
+				self::$userShopperGroupData[$userId] = $db->loadObject();
+
+				if (!self::$userShopperGroupData[$userId])
+				{
+					self::$userShopperGroupData[$userId] = array();
+				}
 			}
 
-			$this->_userId = $user_id;
+			return self::$userShopperGroupData[$userId];
 		}
 
-		return $list;
+		return array();
 	}
 
-	public function getShopperGroupList($shopper_group_id = 0)
+	/**
+	 * Get Shopper Group List
+	 *
+	 * @param   int  $shopperGroupId  Shopper Group Id
+	 *
+	 * @return mixed
+	 */
+	public function getShopperGroupList($shopperGroupId = 0)
 	{
-		$and = '';
-
-		if ($shopper_group_id != 0)
+		if (!array_key_exists($shopperGroupId, self::$shopperGroupData))
 		{
-			$and .= 'AND shopper_group_id = ' . (int) $shopper_group_id . ' ';
+			$db = JFactory::getDbo();
+			$query = $db->getQuery(true)
+				->select(array('sh.*', $db->qn('sh.shopper_group_id', 'value'), $db->qn('sh.shopper_group_name', 'text')))
+				->from($db->qn('#__redshop_shopper_group', 'sh'))
+				->where('sh.published = 1');
+
+			if ($shopperGroupId)
+			{
+				$query->where('sh.shopper_group_id = ' . (int) $shopperGroupId);
+			}
+
+			$db->setQuery($query);
+
+			self::$shopperGroupData[$shopperGroupId] = $db->loadObjectList();
 		}
 
-		$query = 'SELECT sh.*, shopper_group_id AS value, shopper_group_name AS text FROM ' . $this->_table_prefix . 'shopper_group AS sh '
-			. 'WHERE published=1 '
-			. $and;
-		$this->_db->setQuery($query);
-
-		$list                    = $this->_shopper_group_data = $this->_db->loadObjectList();
-		$this->_shopper_group_id = $shopper_group_id;
-
-		return $list;
+		return self::$shopperGroupData[$shopperGroupId];
 	}
 
 	public function createUserSession($user_id)
@@ -1010,10 +1028,10 @@ class rsUserhelper
 			$template_pd_sdata = explode('{account_creation_start}', $template_desc);
 			$template_pd_edata = explode('{account_creation_end}', $template_pd_sdata [1]);
 			$template_middle   = "";
+			$checkbox_style  = '';
 
 			if (REGISTER_METHOD != 1 && REGISTER_METHOD != 3)
 			{
-				$checkbox_style  = '';
 				$template_middle = $template_pd_edata[0];
 
 				if (REGISTER_METHOD == 2)

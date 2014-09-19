@@ -252,23 +252,27 @@ CREATE TABLE IF NOT EXISTS `#__redshop_quotation_fields_data` (
 --
 
 CREATE TABLE IF NOT EXISTS `#__redshop_quotation` (
-	`quotation_id` INT( 11 ) NOT NULL auto_increment,
-	`quotation_number` VARCHAR( 50 ) NOT NULL ,
-	`user_id` INT( 11 ) NOT NULL ,
-	`user_info_id` INT( 11 ) NOT NULL ,
-	`order_id` INT( 11 ) NOT NULL,
-	`quotation_total` DECIMAL( 15, 2 ) NOT NULL ,
-	`quotation_subtotal` DECIMAL( 15, 2 ) NOT NULL ,
-	`quotation_tax` DECIMAL( 15, 2 ) NOT NULL,
-	`quotation_discount` DECIMAL( 15, 4 ) NOT NULL,
-	`quotation_status` INT( 11 ) NOT NULL ,
-	`quotation_cdate` INT( 11 ) NOT NULL ,
-	`quotation_mdate` INT( 11 ) NOT NULL ,
-	`quotation_note` TEXT NOT NULL,
-	`quotation_ipaddress` VARCHAR( 20 ) NOT NULL,
-	`quotation_encrkey` VARCHAR( 255 ) NOT NULL,
-	PRIMARY KEY  (`quotation_id`)
-)  DEFAULT CHARSET=utf8 COMMENT='redSHOP Quotation';
+  `quotation_id` int(11) NOT NULL AUTO_INCREMENT,
+  `quotation_number` varchar(50) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `user_info_id` int(11) NOT NULL,
+  `order_id` int(11) NOT NULL,
+  `quotation_total` decimal(15,2) NOT NULL,
+  `quotation_subtotal` decimal(15,2) NOT NULL,
+  `quotation_tax` decimal(15,2) NOT NULL,
+  `quotation_discount` decimal(15,4) NOT NULL,
+  `quotation_status` int(11) NOT NULL,
+  `quotation_cdate` int(11) NOT NULL,
+  `quotation_mdate` int(11) NOT NULL,
+  `quotation_note` text NOT NULL,
+  `quotation_customer_note` text NOT NULL,
+  `quotation_ipaddress` varchar(20) NOT NULL,
+  `quotation_encrkey` varchar(255) NOT NULL,
+  `user_email` varchar(255) NOT NULL,
+  `quotation_special_discount` decimal(15,4) NOT NULL,
+  PRIMARY KEY (`quotation_id`)
+) DEFAULT CHARSET=utf8 COMMENT='redSHOP Quotation';
+
 -- --------------------------------------------------------
 
 --
@@ -1599,6 +1603,7 @@ CREATE TABLE IF NOT EXISTS `#__redshop_product` (
   `accountgroup_id` int(11) NOT NULL,
   `canonical_url` text NOT NULL,
   `minimum_per_product_total` int(11) NOT NULL,
+  `allow_decimal_piece` int(4) NOT NULL,
   PRIMARY KEY  (`product_id`)
 ) DEFAULT CHARSET=utf8 COMMENT='redSHOP Products';
 

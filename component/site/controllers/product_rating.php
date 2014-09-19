@@ -18,7 +18,7 @@ JLoader::import('joomla.application.component.controller');
  * @subpackage  Controller
  * @since       1.0
  */
-class Product_ratingController extends JController
+class RedshopControllerProduct_rating extends JController
 {
 	/**
 	 * save function

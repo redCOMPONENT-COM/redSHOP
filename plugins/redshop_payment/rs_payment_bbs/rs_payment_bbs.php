@@ -9,31 +9,11 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.plugin.plugin');
-
-require_once JPATH_SITE . '/administrator/components/com_redshop/helpers/order.php';
+JLoader::import('loadhelpers', JPATH_SITE . '/components/com_redshop');
+JLoader::load('RedshopHelperAdminOrder');
 
 class plgredshop_paymentrs_payment_bbs extends JPlugin
 {
-	public $_table_prefix = null;
-
-	/**
-	 * Constructor
-	 *
-	 * For php4 compatability we must not use the __constructor as a constructor for
-	 * plugins because func_get_args ( void ) returns a copy of all passed arguments
-	 * NOT references.  This causes problems with cross-referencing necessary for the
-	 * observer design pattern.
-	 */
-	public function plgredshop_paymentrs_payment_bbs(&$subject)
-	{
-		// Load plugin parameters
-		parent::__construct($subject);
-		$this->_table_prefix = '#__redshop_';
-		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_bbs');
-		$this->_params = new JRegistry($this->_plugin->params);
-	}
-
 	/**
 	 * Plugin method with the same name as the event will be called automatically.
 	 */
@@ -61,21 +41,18 @@ class plgredshop_paymentrs_payment_bbs extends JPlugin
 			return;
 		}
 
-		$db = JFactory::getDbo();
-		$request = JRequest::get('request');
-		$order_id = $request['orderid'];
+		$db                = JFactory::getDbo();
+		$request           = JRequest::get('request');
+		$order_id          = $request['orderid'];
+
 		JPlugin::loadLanguage('com_redshop');
 
-		$amazon_parameters = $this->getparameters('rs_payment_bbs');
-		$paymentinfo = $amazon_parameters[0];
-		$paymentparams = new JRegistry($paymentinfo->params);
-
-		$access_id = $paymentparams->get('access_id', '');
-		$token_id = $paymentparams->get('token_id', '');
-		$is_test = $paymentparams->get('is_test', '');
-		$verify_status = $paymentparams->get('verify_status', '');
-		$invalid_status = $paymentparams->get('invalid_status', '');
-		$auth_type = $paymentparams->get('auth_type', '');
+		$access_id         = $this->params->get('access_id', '');
+		$token_id          = $this->params->get('token_id', '');
+		$is_test           = $this->params->get('is_test', '');
+		$verify_status     = $this->params->get('verify_status', '');
+		$invalid_status    = $this->params->get('invalid_status', '');
+		$auth_type         = $this->params->get('auth_type', '');
 
 		if ($is_test == "TRUE")
 		{
@@ -98,8 +75,6 @@ class plgredshop_paymentrs_payment_bbs extends JPlugin
 		$AUTH_Responsecode = isset($xml->ResponseCode) ? $xml->ResponseCode : $xml->Result->ResponseCode;
 
 		$BBS_msg = isset($xml->Result->ResponseText) ? $xml->Result->ResponseText : $BBS_msg;
-
-		require_once JPATH_BASE . '/administrator/components/com_redshop/helpers/order.php';
 
 		$objOrder = new order_functions;
 
@@ -144,7 +119,7 @@ class plgredshop_paymentrs_payment_bbs extends JPlugin
 	{
 		$db = JFactory::getDbo();
 		$res = false;
-		$query = "SELECT COUNT(*) `qty` FROM " . $this->_table_prefix . "order_payment WHERE `order_id` = '" . $db->getEscaped($order_id) . "' and order_payment_trans_id = '" . $db->getEscaped($tid) . "'";
+		$query = "SELECT COUNT(*) `qty` FROM `#__redshop_order_payment` WHERE `order_id` = '" . $db->getEscaped($order_id) . "' and order_payment_trans_id = '" . $db->getEscaped($tid) . "'";
 		$db->setQuery($query);
 		$order_payment = $db->loadResult();
 
@@ -164,11 +139,10 @@ class plgredshop_paymentrs_payment_bbs extends JPlugin
 		}
 
 		$order_id = $data['order_id'];
-		require_once JPATH_SITE . '/administrator/components/com_redshop/helpers/order.php';
 		$objOrder = new order_functions;
 		$db = JFactory::getDbo();
 
-		if ($this->_params->get("is_test") == "TRUE")
+		if ($this->params->get("is_test") == "TRUE")
 		{
 			$bbsurl = "https://epayment-test.bbs.no/Netaxept/Process.aspx?";
 			$bbsQueryurl = "https://epayment-test.bbs.no/Netaxept/Query.aspx?";
@@ -179,7 +153,7 @@ class plgredshop_paymentrs_payment_bbs extends JPlugin
 			$bbsQueryurl = "https://epayment.bbs.no/Netaxept/Query.aspx?";
 		}
 
-		$bbsQueryurl .= "merchantId=" . urlencode($this->_params->get("access_id")) . "&token=" . urlencode($this->_params->get("token_id")) . "&transactionId=" . $data['order_transactionid'];
+		$bbsQueryurl .= "merchantId=" . urlencode($this->params->get("access_id")) . "&token=" . urlencode($this->params->get("token_id")) . "&transactionId=" . $data['order_transactionid'];
 
 		// 	Create a curl handle to a non-existing location
 		$ch = curl_init($bbsQueryurl);
@@ -190,7 +164,7 @@ class plgredshop_paymentrs_payment_bbs extends JPlugin
 
 		$Query_data = new SimpleXMLElement($Query_data);
 
-		$data = $bbsurl . "merchantId=" . urlencode($this->_params->get("access_id")) . "&token=" . urlencode($this->_params->get("token_id")) . "&transactionId=" . $data['order_transactionid'] . "&transactionAmount=" . $Query_data->OrderInformation->Total . "&operation=CAPTURE";
+		$data = $bbsurl . "merchantId=" . urlencode($this->params->get("access_id")) . "&token=" . urlencode($this->params->get("token_id")) . "&transactionId=" . $data['order_transactionid'] . "&transactionAmount=" . $Query_data->OrderInformation->Total . "&operation=CAPTURE";
 
 		// 	Create a curl handle to a non-existing location
 		$ch = curl_init($data);
