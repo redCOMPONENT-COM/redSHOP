@@ -9913,7 +9913,7 @@ class producthelper
 			}
 		}
 
-		// Stockroom status code->Ushma
+		// Stockroom status code
 		if (strstr($template_desc, "{stock_status")
 			|| strstr($template_desc, "{stock_notify_flag}")
 			|| strstr($template_desc, "{product_availability_date}"))
