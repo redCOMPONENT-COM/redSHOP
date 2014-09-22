@@ -671,9 +671,11 @@ function collectAttributes(product_id, accessory_id, relatedprd_id)
                     for (var sp = 0; sp < subpropArr.length; sp++)
                     {
                         var stockElementId = 'subproperty_id_' + subcommonid + '_stock' + subpropArr[sp];
+                        var preorderStockElementId = 'subproperty_id_' + subcommonid + '_preOrderStock' + subpropArr[sp];
+
                         if (USE_STOCKROOM == 1 && document.getElementById(stockElementId) && accessory_id == 0)
                         {
-                            isStock = checkProductStockRoom(document.getElementById(stockElementId).value, commonstockid, preorder, preorder_stock);
+                            isStock = checkProductStockRoom(document.getElementById(stockElementId).value, commonstockid, preorder, document.getElementById(preorderStockElementId).value);
                         }
                     }
 
