@@ -96,6 +96,10 @@ $document->addScript(JURI::root() . 'administrator/components/com_redshop/assets
 	<div id="progressUpdate" class="progress progress-striped">
 		<div class="bar bar-success" style="width: 0%"></div>
 	</div>
-	<h4><?php echo JText::_('COM_REDSHOP_UPDATE_PROGRESS_LOG') ?></h4>
+	<h4><?php echo JText::_('COM_REDSHOP_UPDATE_NOTICE') ?></h4>
 	<div class="progress-log" id="progress-log"></div>
+	<form action="index.php?option=com_redshop" method="post">
+		<input type="submit" name="submit" value="<?php echo JText::_('COM_REDSHOP_UPDATE_BACK_TO_REDSHOP'); ?>">
+		<input type="hidden" name="task" value="redshop.display" />
+	</form>
 </div>

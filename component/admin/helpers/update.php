@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -16,6 +16,11 @@ defined('_JEXEC') or die;
  */
 class RedshopUpdate
 {
+	/**
+	 * Array check engines and indexes for performance improvements in redSHOP tables
+	 *
+	 * @var array
+	 */
 	public static $tablesRelates = array(
 		'#__redshop_economic_accountgroup' => array(
 			'engine' => 'InnoDB',
