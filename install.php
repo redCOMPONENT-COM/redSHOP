@@ -175,7 +175,7 @@ class Com_RedshopInstallerScript
 	/**
 	 * Main redSHOP installer Events
 	 *
-	 * @param   object  $type  type of change (install, update or discover_install)
+	 * @param   string  $type  type of change (install, update or discover_install)
 	 *
 	 * @return  void
 	 */
