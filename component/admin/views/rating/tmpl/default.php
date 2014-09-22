@@ -6,7 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php';
+JLoader::load('RedshopHelperAdminOrder');
 
 $option = JRequest::getVar('option');
 $model = $this->getModel('rating');

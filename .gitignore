@@ -26,6 +26,17 @@ Desktop.ini
 # Phing build script
 build.properties
 
+# composer
+composer.lock
+composer.phar
+vendor/*
+
+# Test related files
+/tests/system/servers/configdef.php
+/tests/system/webdriver/tests/logs/
+/tests/acceptance.suite.yml
+codecept.phar
+
 # Never ignore
 !.gitignore
 !index.html

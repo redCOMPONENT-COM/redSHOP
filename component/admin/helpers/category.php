@@ -20,7 +20,7 @@ class product_category
 		$this->_table_prefix = '#__redshop_';
 	}
 
-	public function list_all($name, $category_id, $selected_categories = Array(), $size = 1, $toplevel = true, $multiple = false, $disabledFields = array(), $width = 250)
+	public function list_all($name, $category_id, $selected_categories = Array(), $size = 1, $toplevel = false, $multiple = false, $disabledFields = array(), $width = 250)
 	{
 		$db = JFactory::getDbo();
 		$html = '';

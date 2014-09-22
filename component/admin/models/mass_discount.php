@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
-class mass_discountModelmass_discount extends JModel
+class RedshopModelMass_discount extends JModel
 {
 	public $_data = null;
 

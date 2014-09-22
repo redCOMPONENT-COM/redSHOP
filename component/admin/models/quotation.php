@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
-class quotationModelquotation extends JModel
+class RedshopModelQuotation extends JModel
 {
 	public $_data = null;
 

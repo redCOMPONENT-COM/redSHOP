@@ -8,68 +8,97 @@
  */
 defined('_JEXEC') or die;
 
-$option = JRequest::getVar('option', '', 'request', 'string');
+$data = array(
+	'categories'                 => 'COM_REDSHOP_EXPORT_CATEGORIES',
+	'products'                   => 'COM_REDSHOP_EXPORT_PRODUCTS',
+	'attributes'                 => 'COM_REDSHOP_EXPORT_ATTRIBUTES',
+	'related_product'            => 'COM_REDSHOP_EXPORT_RELATED_PRODUCTS',
+	'fields'                     => 'COM_REDSHOP_EXPORT_FIELDS',
+	'users'                      => 'COM_REDSHOP_EXPORT_USERS',
+	'shipping_address'           => 'COM_REDSHOP_EXPORT_SHIPPING_ADDRESS',
+	'shopperGroupProductPrice'   => 'COM_REDSHOP_EXPORT_SHOPPER_GROUP_PRODUCT_SPECIFIC_PRICE',
+	'shopperGroupAttributePrice' => 'COM_REDSHOP_EXPORT_SHOPPER_GROUP_ATTRIBUTE_SPECIFIC_PRICE',
+	'manufacturer'               => 'COM_REDSHOP_EXPORT_MANUFACTURER'
+);
 ?>
 <h1><?php echo JText::_('COM_REDSHOP_DATA_EXPORT'); ?></h1>
+<form
+	action="<?php echo 'index.php?option=com_redshop'; ?>"
+	method="post"
+	name="adminForm"
+	id="adminForm"
+>
+	<!-- Render Export list -->
+	<?php foreach ($data as $value => $text): ?>
 
-<form action="<?php echo 'index.php?option=' . $option; ?>" method="post" name="adminForm" id="adminForm">
-	<input type="radio" name="export" value="categories"
-	       onclick="return product_export(this.value)"><?php echo JText::_('COM_REDSHOP_EXPORT_CATEGORIES'); ?></input>
-	<br/>
-	<input type="radio" name="export" value="products"
-	       onclick="return product_export(this.value)"><?php echo JText::_('COM_REDSHOP_EXPORT_PRODUCTS'); ?></input>
-	<br/>
-<span id="product_export" style="display: none;">
-<br/>
-<strong><?php echo JText::_('COM_REDSHOP_EXPORT_PRODUCT_EXTRAFIELD');?></strong><input type="radio"
-                                                                                       name="export_product_extra_field"
-                                                                                       value="1"><?php echo JText::_('COM_REDSHOP_YES');?>
-	<input type="radio" name="export_product_extra_field" value="0"
-	       checked="checked"><?php echo JText::_('COM_REDSHOP_NO');?>
-	<br/>
-<b><?php echo JText::_('COM_REDSHOP_PRODUCT_CATEGORY'); ?></b>
-<br/>
-	<?php echo $this->lists['categories']; ?>
-	<br/>
-<br/>
-<b><?php echo JText::_('COM_REDSHOP_PRODUCT_MANUFACTURER'); ?></b>
-<br/>
-	<?php echo $this->lists['manufacturers']; ?>
-	<br/>
-<br/>
-</span>
-	<input type="radio" name="export" value="attributes"
-	       onclick="return product_export(this.value)"><?php echo JText::_('COM_REDSHOP_EXPORT_ATTRIBUTES'); ?></input>
-	<br/>
-	<input type="radio" name="export" value="related_product"
-	       onclick="return product_export(this.value)"><?php echo JText::_('COM_REDSHOP_EXPORT_RELATED_PRODUCTS'); ?></input>
-	<br/>
-	<input type="radio" name="export" value="fields"
-	       onclick="return product_export(this.value)"><?php echo JText::_('COM_REDSHOP_EXPORT_FIELDS'); ?></input>
-	<br/>
-	<input type="radio" name="export" value="users"
-	       onclick="return product_export(this.value)"><?php echo JText::_('COM_REDSHOP_EXPORT_USERS'); ?></input>
-	<br/>
-	<input type="radio" name="export" value="shipping_address"
-	       onclick="return product_export(this.value)"><?php echo JText::_('COM_REDSHOP_EXPORT_SHIPPING_ADDRESS'); ?></input>
-	<br/>
-	<input type="radio" name="export" value="shopper_group_price"
-	       onclick="return product_export(this.value)"><?php echo JText::_('COM_REDSHOP_EXPORT_SHOPPER_GROUP_SPECIFIC_PRICE'); ?></input>
-	<br/>
-	<input type="radio" name="export" value="manufacturer"
-	       onclick="return product_export(this.value)"><?php echo JText::_('COM_REDSHOP_EXPORT_MANUFACTURER'); ?></input>
-	<br/>
+		<!-- Shopper Group Attribute Price Hint -->
+		<?php if ($value == 'shopperGroupAttributePrice') : ?>
+			<dl id="system-message">
+				<dt class="message">Message</dt>
+				<dd class="message message">
+					<ul>
+						<li><?php echo JText::_('COM_REDSHOP_EXPORT_SHOPPER_GROUP_ATTRIBUTE_SPECIFIC_PRICE_HINT'); ?></li>
+					</ul>
+				</dd>
+			</dl>
+		<?php endif; ?>
+
+		<p>
+			<input
+				type="radio"
+				onclick="return product_export(this.value)"
+				value="<?php echo $value; ?>"
+				id="export<?php echo $value; ?>"
+				name="export"
+			>
+			<label
+				class="radiobtn"
+				id="export<?php echo $value; ?>-lbl"
+				for="export<?php echo $value; ?>"
+			>
+			<?php echo JText::_($text); ?>
+			</label>
+		</p>
+
+		<!-- Display Product Export options -->
+		<?php if ($value == 'products') : ?>
+			<span id="product_export" style="display: none;">
+				<p>
+					<b><?php echo JText::_('COM_REDSHOP_EXPORT_PRODUCT_EXTRAFIELD');?></b>
+					<?php echo JHtml::_('select.booleanlist', 'export_product_extra_field'); ?>
+				</p>
+				<p>
+					<div><b><?php echo JText::_('COM_REDSHOP_PRODUCT_CATEGORY'); ?></b></div>
+					<div>
+						<?php echo $this->lists['categories']; ?>
+					</div>
+				</p>
+				<p>
+					<div><b><?php echo JText::_('COM_REDSHOP_PRODUCT_MANUFACTURER'); ?></b></div>
+					<div>
+						<?php echo $this->lists['manufacturers']; ?>
+					</div>
+				</p>
+			</span>
+		<?php endif; ?>
+	<?php endforeach; ?>
+
+	<!-- Hidden field -->
 	<input type="hidden" name="view" value="export"/>
 	<input type="hidden" name="task" value=""/>
 	<input type="hidden" name="boxchecked" value="0"/>
 </form>
 
 <script type=" text/javascript">
-	function product_export(val) {
-		if (val == "products") {
-			document.getElementById('product_export').style.display = "";
-		} else {
-			document.getElementById('product_export').style.display = "none";
-		}
+function product_export(val)
+{
+	if (val == "products")
+	{
+		document.getElementById('product_export').style.display = "";
 	}
+	else
+	{
+		document.getElementById('product_export').style.display = "none";
+	}
+}
 </script>
