@@ -45,7 +45,7 @@ class Com_RedshopInstallerScript
 		require_once JPATH_SITE . '/components/com_redshop/loadhelpers.php';
 		JLoader::load('RedshopHelperAdminTemplate');
 
-		$this->com_install();
+		$this->com_install('install');
 
 		$this->handleCSSFile();
 	}
@@ -78,7 +78,7 @@ class Com_RedshopInstallerScript
 
 		require_once JPATH_SITE . '/components/com_redshop/loadhelpers.php';
 		JLoader::load('RedshopHelperAdminTemplate');
-		$this->com_install();
+		$this->com_install('update');
 
 		// Install extensions
 		$this->installLibraries($parent);
@@ -175,9 +175,11 @@ class Com_RedshopInstallerScript
 	/**
 	 * Main redSHOP installer Events
 	 *
+	 * @param   object  $type  type of change (install, update or discover_install)
+	 *
 	 * @return  void
 	 */
-	private function com_install()
+	private function com_install($type)
 	{
 		$db = JFactory::getDbo();
 
@@ -434,13 +436,16 @@ class Com_RedshopInstallerScript
 				<tr>
 					<td colspan="2">
 						<form action="index.php" method="post" name="installDemoContent">
+							<?php if ($type != 'update'): ?>
 							<input type="button" name="save" id="installDemoContentsave" value="Configuration Wizard"
 							       onclick="submitWizard('save');"/>
 							<input type="button" name="content" value="install Demo Content"
 							       onclick="submitWizard('content');"/>
+							<input type="button" name="cancel" value="Cancel" onclick="submitWizard('cancel');"/>
+							<?php else: ?>
 							<input type="button" name="update" value="Optimize RedSHOP tables"
 								   onclick="submitWizard('update');"/>
-							<input type="button" name="cancel" value="Cancel" onclick="submitWizard('cancel');"/>
+							<?php endif; ?>
 							<input type="hidden" name="option" value="com_redshop">
 							<input type="hidden" name="task" value="">
 							<input type="hidden" name="wizard" value="1">
