@@ -1,0 +1,57 @@
+#sog_loader, #showMap_input {
+    margin-left: 15px;
+}
+#TB_ajaxContent {
+    overflow: visible;
+}
+#pickupLocations {
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+ul#mapAddress {
+    list-style: none;
+    padding-left: 0px;
+}
+ul#mapAddress li {
+    float: left;
+    margin-left: 30px;
+    width: 160px;
+    margin-bottom: 15px;
+    cursor: pointer;
+}
+ul#mapAddress li input[name="postnord_pickupLocation"]{
+    margin-right: 5px;
+}
+#sp_address {
+    font-weight: normal;
+}
+.buttons-container {
+    height: 20px;
+}
+#mapSeachBox {
+    position: absolute;
+    top: 50px;
+    left: 40%;
+    background-color: #fff;
+    padding: 5px;
+    border: 1px solid #999;
+    z-index: 10000;
+}
+#mapMessage {
+    color: red;
+}
+#mapButtons {
+    height: 22px;
+}
+#transportContainer {
+    margin: 5px 10px 5px 3px;
+    padding-left: 200px;
+}
+#transportTypeLabel {
+    font-weight: bold;
+}
+#transportContainer span {
+    margin: 5px 10px 5px 3px;
+    position: relative;
+    top: -2px;
+}
