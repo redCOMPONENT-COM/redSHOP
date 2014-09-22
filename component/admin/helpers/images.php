@@ -41,12 +41,7 @@ class RedShopHelperImages extends JObject
 	public static function getImagePath($imageName, $dest, $command = 'upload', $type = 'product', $width = 50, $height = 50, $proportional = 1)
 	{
 		// Set Default Type
-		if ($type === '')
-		{
-			return REDSHOP_FRONT_IMAGES_ABSPATH . 'noimage.jpg';
-		}
-
-		if (!$imageName)
+		if ($type === '' || !$imageName)
 		{
 			return REDSHOP_FRONT_IMAGES_ABSPATH . 'noimage.jpg';
 		}

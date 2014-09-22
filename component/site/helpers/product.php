@@ -6164,6 +6164,7 @@ class producthelper
 		$product_quantity = JRequest::getVar('product_quantity');
 		$Itemid           = JRequest::getInt('Itemid');
 		$user             = JFactory::getUser();
+		$product_preorder = "";
 
 		JPluginHelper::importPlugin('redshop_product');
 		$dispatcher = JDispatcher::getInstance();
@@ -6192,6 +6193,11 @@ class producthelper
 		else
 		{
 			$product = $this->getProductById($product_id);
+
+			if(isset($product->preorder))
+			{
+				$product_preorder = $product->preorder;
+			}
 		}
 
 		$taxexempt_addtocart = $this->taxexempt_addtocart($user_id, 1);
@@ -6363,15 +6369,9 @@ class producthelper
 		$cartdisplay         = false;
 
 		$display_text = JText::_('COM_REDSHOP_PRODUCT_OUTOFSTOCK_MESSAGE');
-		$product_preorder = "";
-		if(isset($product->preorder))
-		{
-			$product_preorder = $product->preorder;
-		}
 
 		if (!$isStockExists)
 		{
-			// Check if preorder is set to yes than add pre order button
 
 			if (($product_preorder == "global"
 				&& ALLOW_PRE_ORDER)

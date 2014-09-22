@@ -961,8 +961,6 @@ class rsCarthelper
 				$cart_mdata     = str_replace("{if product_on_sale}", '', $cart_mdata);
 				$cart_mdata     = str_replace("{product_on_sale end if}", '', $cart_mdata);
 
-				$thumbUrl = "";
-
 				$thumbUrl = RedShopHelperImages::getImagePath(
 					$giftcardData->giftcard_image,
 					'',
@@ -974,10 +972,12 @@ class rsCarthelper
 				);
 
 				$giftcard_image = "&nbsp;";
+
 				if($thumbUrl)
 				{
 					$giftcard_image = "<div  class='giftcard_image'><img src='" . $thumbUrl. "'></div>";
 				}
+
 				$cart_mdata     = str_replace("{product_thumb_image}", $giftcard_image, $cart_mdata);
 				$user_fields    = $this->_producthelper->GetProdcutUserfield($i, 13);
 				$cart_mdata     = str_replace("{product_userfields}", $user_fields, $cart_mdata);
