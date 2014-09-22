@@ -96,6 +96,6 @@ $document->addScript(JURI::root() . 'administrator/components/com_redshop/assets
 	<div id="progressUpdate" class="progress progress-striped">
 		<div class="bar bar-success" style="width: 0%"></div>
 	</div>
-	<h4><?php echo JText::_('COM_REDSHOP_UPDATE_PROGRESS_LOG') ?></h4>
+	<h4><?php echo JText::_('COM_REDSHOP_UPDATE_NOTICE') ?></h4>
 	<div class="progress-log" id="progress-log"></div>
 </div>
