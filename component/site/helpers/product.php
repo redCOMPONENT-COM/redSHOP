@@ -107,21 +107,7 @@ class producthelper
 
 		if (!array_key_exists($productId . '.' . $userId, self::$products))
 		{
-			$userArr  = $this->_session->get('rs_user');
-			$andJoin = '';
-
-			if (empty($userArr))
-			{
-				$userArr = $this->_userhelper->createUserSession($userId);
-			}
-
-			$shopperGroupId = $userArr['rs_user_shopperGroup'];
-
-			if (!$userId)
-			{
-				$andJoin = ' AND pp.shopper_group_id = ' . (int) $shopperGroupId;
-			}
-
+			$shopperGroupId = $this->_userhelper->getShopperGroup($userId);
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true);
 
@@ -143,18 +129,9 @@ class producthelper
 				)
 				->leftJoin(
 					$db->qn('#__redshop_product_price', 'pp')
-					. ' ON p.product_id = pp.product_id AND ((pp.price_quantity_start <= 1 AND pp.price_quantity_end >= 1) OR (pp.price_quantity_start = 0 AND pp.price_quantity_end = 0))'
-					. $andJoin
+					. ' ON p.product_id = pp.product_id AND ((pp.price_quantity_start <= 1 AND pp.price_quantity_end >= 1) OR (pp.price_quantity_start = 0 AND pp.price_quantity_end = 0)) AND pp.shopper_group_id = ' . (int) $shopperGroupId
 				)
 				->order('pp.price_quantity_start ASC');
-
-			if ($userId)
-			{
-				$query->leftJoin(
-					$db->qn('#__redshop_users_info', 'u')
-					. ' ON u.shopper_group_id = pp.shopper_group_id AND u.user_id = ' . (int) $userId . ' AND u.address_type = ' . $db->q('BT')
-				);
-			}
 
 			// Select category
 			$query->select(array('pcx.category_id'))
