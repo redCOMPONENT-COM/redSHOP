@@ -42,7 +42,8 @@ class Com_RedshopInstallerScript
 
 		// $parent is the class calling this method
 
-		require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/template.php';
+		require_once JPATH_SITE . '/components/com_redshop/loadhelpers.php';
+		JLoader::load('RedshopHelperAdminTemplate');
 
 		$this->com_install();
 
@@ -75,7 +76,8 @@ class Com_RedshopInstallerScript
 	{
 		// $parent is the class calling this method
 
-		require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/template.php';
+		require_once JPATH_SITE . '/components/com_redshop/loadhelpers.php';
+		JLoader::load('RedshopHelperAdminTemplate');
 		$this->com_install();
 
 		// Install extensions
@@ -4030,7 +4032,8 @@ class Com_RedshopInstallerScript
 	private function userSynchronization()
 	{
 		require_once JPATH_SITE . "/administrator/components/com_redshop/helpers/redshop.cfg.php";
-		require_once JPATH_SITE . '/components/com_redshop/helpers/user.php';
+		require_once JPATH_SITE . '/components/com_redshop/loadhelpers.php';
+		JLoader::load('RedshopHelperUser');
 
 		JTable::addIncludePath(JPATH_SITE . '/administrator/components/com_redshop/tables');
 
@@ -4045,7 +4048,8 @@ class Com_RedshopInstallerScript
 	 */
 	private function redshopHandleCFGFile()
 	{
-		require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/configuration.php';
+		require_once JPATH_SITE . '/components/com_redshop/loadhelpers.php';
+		JLoader::load('RedshopHelperAdminConfiguration');
 
 		// Include redshop.cfg.php file for cfg variables
 		$cfgfile = JPATH_SITE . "/administrator/components/com_redshop/helpers/redshop.cfg.php";
@@ -4437,9 +4441,22 @@ class Com_RedshopInstallerScript
 			$cfgarr["ORDER_MAIL_AFTER"] = 0;
 		}
 
-		$Redconfiguration->manageCFGFile($cfgarr);
+		if (!defined("STATISTICS_ENABLE"))
+		{
+			$cfgarr["STATISTICS_ENABLE"] = 1;
+		}
 
-		// End
+		if (!defined("AUTO_GENERATE_LABEL"))
+		{
+			$cfgarr["AUTO_GENERATE_LABEL"] = 1;
+		}
+
+		if (!defined("GENERATE_LABEL_ON_STATUS"))
+		{
+			$cfgarr["GENERATE_LABEL_ON_STATUS"] = "S";
+		}
+
+		$Redconfiguration->manageCFGFile($cfgarr);
 	}
 
 	/**

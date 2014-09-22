@@ -18,7 +18,7 @@ JLoader::import('joomla.application.component.model');
  * @subpackage  Model
  * @since       1.0
  */
-class passwordModelpassword extends JModel
+class RedshopModelPassword extends JModel
 {
 	public $_db = null;
 
