@@ -634,7 +634,7 @@ function collectAttributes(product_id, accessory_id, relatedprd_id)
                 var stockElementId = 'property_id_' + commonid + '_stock' + property_id;
                 var preOrderstockElementId = 'property_id_' + commonid + '_preorderstock' + property_id;
 
-                // removing " USE_STOCKROOM==1 && " from below condition - Gunjan
+                // removing " USE_STOCKROOM==1 && " from below condition
                 if (document.getElementById(stockElementId) && document.getElementById(preOrderstockElementId) && isStock && accessory_id == 0)
                 {
                     isStock = checkProductStockRoom(document.getElementById(stockElementId).value, commonstockid, preorder, document.getElementById(preOrderstockElementId).value);
