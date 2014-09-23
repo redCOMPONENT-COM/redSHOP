@@ -4221,7 +4221,7 @@ class rsCarthelper
 					case 4:
 						if ($valueExist)
 						{
-							$return = true;
+							$return = false;
 						}
 						break;
 
@@ -4405,7 +4405,7 @@ class rsCarthelper
 					case 4:
 						if ($valueExist)
 						{
-							$return = true;
+							$return = false;
 						}
 						break;
 					case 3:
