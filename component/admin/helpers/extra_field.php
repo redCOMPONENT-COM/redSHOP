@@ -800,7 +800,7 @@ class extra_field
 						if (count($list) > 0)
 						{
 							$sql = "UPDATE " . $this->_table_prefix . "fields_data "
-								. "SET data_txt = " . $this->_db->quote(addslashes($data_txt)) . " "
+								. "SET data_txt = " . $this->_db->quote($data_txt) . " "
 								. "WHERE itemid = " . (int) $section_id . " "
 								. "AND section = " . (int) $sect[$h] . " "
 								. "AND user_email = " . $this->_db->quote($user_email) . " "
@@ -811,7 +811,7 @@ class extra_field
 							$sql = "INSERT INTO " . $this->_table_prefix . "fields_data "
 								. "(fieldid, data_txt, itemid, section, user_email) "
 								. "VALUE "
-								. "(" . (int) $row_data[$i]->field_id . "," . $this->_db->quote(addslashes($data_txt))
+								. "(" . (int) $row_data[$i]->field_id . "," . $this->_db->quote($data_txt)
 								. "," . (int) $section_id . "," . (int) $sect[$h] . ", " . $this->_db->quote($user_email) . ")";
 						}
 
