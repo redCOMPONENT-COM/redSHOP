@@ -7,8 +7,9 @@
  */
 defined('_JEXEC') or die;
 
-JLoader::import('product', JPATH_SITE . '/components/com_redshop/helpers/');
-JLoader::import('images', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
+JLoader::import('loadhelpers', JPATH_SITE . '/components/com_redshop');
+JLoader::load('RedshopHelperProduct');
+JLoader::load('RedshopHelperAdminImages');
 
 /**
  * Create Color image plugin

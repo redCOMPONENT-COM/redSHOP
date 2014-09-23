@@ -11,7 +11,7 @@ defined('_JEXEC') or die ('Restricted access');
 
 jimport('joomla.application.component.view');
 
-class mediaViewmedia extends JView
+class RedshopViewMedia extends JView
 {
 	public $images;
 

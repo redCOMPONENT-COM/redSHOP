@@ -13,17 +13,17 @@ JLoader::import('joomla.application.component.model');
 
 require_once JPATH_COMPONENT_SITE . '/helpers/tcpdf/config/lang/eng.php';
 require_once JPATH_COMPONENT_SITE . '/helpers/tcpdf/tcpdf.php';
-require_once JPATH_COMPONENT_SITE . '/helpers/extra_field.php';
-require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
-require_once JPATH_COMPONENT_SITE . '/helpers/helper.php';
-require_once JPATH_COMPONENT_SITE . '/helpers/cart.php';
-require_once JPATH_COMPONENT_SITE . '/helpers/user.php';
+JLoader::load('RedshopHelperProduct');
+JLoader::load('RedshopHelperExtra_field');
+JLoader::load('RedshopHelperHelper');
+JLoader::load('RedshopHelperCart');
+JLoader::load('RedshopHelperUser');
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/quotation.php';
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/mail.php';
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php';
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/extra_field.php';
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/shipping.php';
+JLoader::load('RedshopHelperAdminQuotation');
+JLoader::load('RedshopHelperAdminMail');
+JLoader::load('RedshopHelperAdminOrder');
+JLoader::load('RedshopHelperAdminExtra_field');
+JLoader::load('RedshopHelperAdminShipping');
 
 /**
  * Class checkoutModelcheckout
@@ -32,7 +32,7 @@ require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/shipping.php';
  * @subpackage  Model
  * @since       1.0
  */
-class CheckoutModelCheckout extends JModel
+class RedshopModelCheckout extends JModel
 {
 
 	public $_id = null;
@@ -288,10 +288,8 @@ class CheckoutModelCheckout extends JModel
 		$order_status      = 'P';
 		$order_status_full = $this->_order_functions->getOrderStatusTitle('P');
 
-		// Start code to track duplicate order number checking by parth
+		// Start code to track duplicate order number checking
 		$order_number = $this->getOrdernumber();
-
-		// End code to track duplicate order number checking by parth
 
 		$order_subtotal = $cart ['product_subtotal'];
 		$cdiscount      = $cart ['coupon_discount'];
@@ -520,20 +518,16 @@ class CheckoutModelCheckout extends JModel
 		{
 			$this->setError($this->_db->getErrorMsg());
 
-			// Start code to track duplicate order number checking by parth
+			// Start code to track duplicate order number checking
 			$this->deleteOrdernumberTrack();
 
-			// End code to track duplicate order number checking by parth
 			return false;
 		}
 
-		// Start code to track duplicate order number checking by parth
+		// Start code to track duplicate order number checking
 		$this->deleteOrdernumberTrack();
 
-		// End code to track duplicate order number checking by parth
-
 		$order_id = $row->order_id;
-
 
 		$this->coupon($cart, $order_id);
 		$this->voucher($cart, $order_id);
@@ -747,7 +741,7 @@ class CheckoutModelCheckout extends JModel
 			{
 				$rowitem->attribute_image = $order_id . $cart[$i]['attributeImage'];
 				$old_media                = JPATH_ROOT . '/components/com_redshop/assets/images/mergeImages/' . $cart[$i]['attributeImage'];
-				$new_media                = JPATH_ROOT . '/components/com_redshop/assets/images/orderMergeImages' . $rowitem->attribute_image;
+				$new_media                = JPATH_ROOT . '/components/com_redshop/assets/images/orderMergeImages/' . $rowitem->attribute_image;
 				copy($old_media, $new_media);
 			}
 			elseif (!empty($vals[1]))
@@ -2520,8 +2514,6 @@ class CheckoutModelCheckout extends JModel
 			return $this->getOrdernumber();
 		}
 	}
-
-	// End code to track duplicate order number checking by parth
 }
 
 class MYPDF extends TCPDF

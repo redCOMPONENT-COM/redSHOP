@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
-class giftcard_detailModelgiftcard_detail extends JModel
+class RedshopModelGiftcard_detail extends JModel
 {
 	public $_id = null;
 

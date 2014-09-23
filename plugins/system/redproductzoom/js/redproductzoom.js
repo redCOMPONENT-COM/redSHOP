@@ -53,6 +53,8 @@ function preloadSlimbox(parameters)
 				ez.closeAll();
 				ez.refresh();
 
+				$('.zoomContainer').remove();
+
 				//Create the image swap from the gallery
 				$('#'+ez.options.gallery + ' a').click( function(e) {
 
@@ -87,7 +89,7 @@ function preloadSlimbox(parameters)
 
 	});
 
-	if (parameters.isenable) 
+	if (parameters.isenable)
 	{
         var imgoptions = {handler: 'image'};
         redBOX.initialize({});

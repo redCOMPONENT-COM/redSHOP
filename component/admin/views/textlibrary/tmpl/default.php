@@ -85,6 +85,7 @@ $filter = JRequest::getVar('filter');
 			</thead>
 			<?php
 			$k = 0;
+
 			for ($i = 0, $n = count($this->textlibrarys); $i < $n; $i++)
 			{
 				$row = & $this->textlibrarys[$i];
@@ -105,9 +106,7 @@ $filter = JRequest::getVar('filter');
 						<a href="<?php echo $link; ?>"
 						   title="<?php echo JText::_('COM_REDSHOP_EDIT_TAG'); ?>">{<?php echo $row->text_name; ?>}</a>
 					</td>
-					<td>
-						<?php echo $row->text_desc; ?>
-					</td>
+					<td><?php echo $row->text_desc; ?></td>
 					<td>
 						<?php echo $row->section; ?>
 					</td>
