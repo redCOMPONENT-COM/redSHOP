@@ -1,4 +1,4 @@
-<?php
+k<?php
 /**
  * @package     RedSHOP.Frontend
  * @subpackage  Model
@@ -34,6 +34,14 @@ class RedshopModelOrder_detail extends JModel
 		$this->_table_prefix = '#__redshop_';
 	}
 
+	/**
+	 * Check Order Information Access Token
+	 *
+	 * @param   integer  $oid   Order Id
+	 * @param   string   $encr  Encryped String - Token
+	 *
+	 * @return  integer  User Info id - redSHOP User Id if validate.
+	 */
 	public function checkauthorization($oid, $encr)
 	{
 		// Initialize variables.
@@ -41,32 +49,32 @@ class RedshopModelOrder_detail extends JModel
 		$query = $db->getQuery(true);
 
 		// Create the base select statement.
-		$query->select('count(order_id) as count, user_info_id')
+		$query->select('user_info_id')
 			->from($db->qn('#__redshop_orders'))
 			->where($db->qn('order_id') . ' = ' . (int) $oid)
-			->where($db->qn('encr_key') . ' LIKE ' . $db->q($encr));
+			->where($db->qn('encr_key') . ' = ' . $db->q($encr));
 
 		// Set the query and load the result.
 		$db->setQuery($query);
 
 		try
 		{
-			$encKeyInfo = $db->loadObject();
+			$userInfoIdEncr = $db->loadResult();
 		}
 		catch (RuntimeException $e)
 		{
 			throw new RuntimeException($e->getMessage(), $e->getCode());
 		}
 
-		if ($encKeyInfo->count)
+		if ($userInfoIdEncr)
 		{
 			$session               = JFactory::getSession();
-			$auth['users_info_id'] = $encKeyInfo->user_info_id;
+			$auth['users_info_id'] = $userInfoIdEncr;
 
 			$session->set('auth', $auth);
 		}
 
-		return $encKeyInfo->count;
+		return $userInfoIdEncr;
 	}
 
 	/**
