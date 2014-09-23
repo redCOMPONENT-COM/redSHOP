@@ -432,6 +432,7 @@ class order_functions
 			$this->_db->SetQuery($query);
 			$this->_db->Query();
 
+			// Send status change email only if config is set to Before order mail or Order is not confirmed.
 			if (!ORDER_MAIL_AFTER
 				|| (ORDER_MAIL_AFTER && $data->order_status_code != "C"))
 			{
