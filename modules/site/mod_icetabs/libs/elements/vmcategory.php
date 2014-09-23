@@ -46,7 +46,7 @@ class JFormFieldVmcategory extends JFormField
 		}
 
 		require_once CLASSPATH . 'ps_product_category.php';
-		$ps_product_category = new ps_product_category();
+		$ps_product_category = new ps_product_category;
 		ob_start();
 		$output = $ps_product_category->list_all('' . $this->name . '[]', '', ($this->value), 10, true, true);
 		$output = ob_get_contents();

@@ -8,7 +8,8 @@
  */
 
 defined('_JEXEC') or die;
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/text_library.php';
+
+JLoader::load('RedshopHelperAdminText_library');
 
 JLoader::import('joomla.application.component.view');
 
@@ -20,7 +21,7 @@ JLoader::import('joomla.application.component.view');
  *
  * @since       1.0
  */
-class CategoryViewCategory extends JView
+class RedshopViewCategory extends JView
 {
 	public $app;
 
@@ -77,7 +78,7 @@ class CategoryViewCategory extends JView
 		$document = JFactory::getDocument();
 
 		JHtml::Script('jquery.js', 'components/com_redshop/assets/js/', false);
-		JHtml::Script('redBOX.js', 'components/com_redshop/assets/js/', false);
+		JHtml::Script('redbox.js', 'components/com_redshop/assets/js/', false);
 
 		JHtml::Script('attribute.js', 'components/com_redshop/assets/js/', false);
 		JHtml::Script('common.js', 'components/com_redshop/assets/js/', false);
@@ -366,7 +367,12 @@ class CategoryViewCategory extends JView
 		}
 
 		$categoryTemplateId = $this->app->getUserStateFromRequest($context . 'category_template', 'category_template', $selected_template);
-		$manufacturerId      = $this->input->getInt('manufacturer_id', 0);
+		$manufacturerId = JFactory::getApplication()->getUserState("manufacturer_id");
+
+		if ($manufacturerId === "")
+		{
+			$manufacturerId      = $this->input->get('manufacturer_id', 0);
+		}
 
 		$lists['category_template'] = "";
 		$lists['manufacturer']      = "";

@@ -10,13 +10,13 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
-require_once JPATH_COMPONENT . '/helpers/category.php';
+JLoader::load('RedshopHelperAdminCategory');
 /**
  * Export view class
  *
  * @since  2.5
  */
-class ExportViewexport extends JView
+class RedshopViewExport extends JView
 {
 	/**
 	 * Method to display export view

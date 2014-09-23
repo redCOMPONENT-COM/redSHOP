@@ -11,9 +11,9 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 jimport('joomla.filesystem.file');
-require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
+JLoader::load('RedshopHelperProduct');
 
-class wrapper_detailModelwrapper_detail extends JModel
+class RedshopModelWrapper_detail extends JModel
 {
 	public $_id = null;
 
