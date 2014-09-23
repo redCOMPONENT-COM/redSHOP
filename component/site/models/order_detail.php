@@ -1,4 +1,4 @@
-k<?php
+<?php
 /**
  * @package     RedSHOP.Frontend
  * @subpackage  Model
