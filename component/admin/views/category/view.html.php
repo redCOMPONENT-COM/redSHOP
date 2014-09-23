@@ -11,9 +11,9 @@ defined('_JEXEC') or die;
 
 jimport('joomla.html.pagination');
 jimport('joomla.application.component.view');
-require_once JPATH_COMPONENT . '/helpers/category.php';
+JLoader::load('RedshopHelperAdminCategory');
 
-class categoryViewcategory extends JView
+class RedshopViewCategory extends JView
 {
 	/**
 	 * The current user.

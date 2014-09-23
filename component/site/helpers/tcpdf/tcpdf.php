@@ -1759,7 +1759,7 @@ class TCPDF {
 		require dirname(__FILE__).'/htmlcolors.php';
 		$this->webcolor = $webcolor;
 		require_once dirname(__FILE__).'/unicode_data.php';
-		$this->unicode = new TCPDF_UNICODE_DATA();
+		$this->unicode = new TCPDF_UNICODE_DATA;
 		$this->font_obj_ids = array();
 		$this->page_obj_id = array();
 		$this->form_obj_id = array();
@@ -7181,7 +7181,7 @@ class TCPDF {
 					}
 				} elseif (extension_loaded('imagick')) {
 					// ImageMagick library
-					$img = new Imagick();
+					$img = new Imagick;
 					if ($type == 'SVG') {
 						// get SVG file content
 						$svgimg = file_get_contents($file);
@@ -7602,7 +7602,7 @@ class TCPDF {
 		$tempfile_alpha = tempnam(K_PATH_CACHE, 'mska_');
 		if (extension_loaded('imagick')) { // ImageMagick
 			// ImageMagick library
-			$img = new Imagick();
+			$img = new Imagick;
 			$img->readImage($file);
 			// clone image object
 			$imga = $img->clone();

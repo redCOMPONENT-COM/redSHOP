@@ -17,7 +17,7 @@ JLoader::import('joomla.application.component.model');
  * @subpackage  Model
  * @since       1.0
  */
-class Order_detailModelOrder_detail extends JModel
+class RedshopModelOrder_detail extends JModel
 {
 	public $_id = null;
 

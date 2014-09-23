@@ -11,48 +11,113 @@ defined('_JEXEC') or die;
 
 jimport('joomla.plugin.plugin');
 
-//JPlugin::loadLanguage( 'plg_search_redshop_products' );
 require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/configuration.php';
-require_once JPATH_ROOT . '/components/com_redshop/helpers/helper.php';
-require_once JPATH_ROOT . '/components/com_redshop/helpers/user.php';
+JLoader::import('loadhelpers', JPATH_SITE . '/components/com_redshop');
+JLoader::load('RedshopHelperAdminConfiguration');
+JLoader::load('RedshopHelperHelper');
+JLoader::load('RedshopHelperUser');
+
 $Redconfiguration = new Redconfiguration;
 $Redconfiguration->defineDynamicVars();
 
-class plgSearchredshop_products extends JPlugin
+class plgSearchRedshop_products extends JPlugin
 {
+	/**
+	 * Constructor
+	 *
+	 * @access      protected
+	 * @param       object  $subject The object to observe
+	 * @param       array   $config  An array that holds the plugin configuration
+	 * @since       1.5
+	 */
+	public function __construct(& $subject, $config)
+	{
+		parent::__construct($subject, $config);
+		$this->loadLanguage();
+	}
+
+	/**
+	 * Search content (redSHOP Products).
+	 *
+	 * The SQL must return the following fields that are used in a common display
+	 * routine: href, title, section, created, text, browsernav.
+	 *
+	 * @param   string  $text      Target search string.
+	 * @param   string  $phrase    Matching option (possible values: exact|any|all).  Default is "any".
+	 * @param   string  $ordering  Ordering option (possible values: newest|oldest|popular|alpha|category).  Default is "newest".
+	 * @param   mixed   $areas     An array if the search is to be restricted to areas or null to search all areas.
+	 *
+	 * @return  array  Search results.
+	 *
+	 * @since   1.6
+	 */
 	public function onContentSearch($text, $phrase = '', $ordering = '', $areas = null)
 	{
 		$db = JFactory::getDbo();
-		$user = JFactory::getUser();
-
-		$searchText = $text;
 
 		// Load plugin params info
 		$pluginParams = $this->params;
 
 		$limit = $pluginParams->def('search_limit', 50);
 
-		$text = trim($text);
+		$text  = trim($text);
 
 		if ($text == '')
 		{
 			return array();
 		}
 
-		$section = JText::_('COM_REDSHOP_Products');
+		$section    = '';
+
+		if ($this->params->get('showSection'))
+		{
+			$section = JText::_('PLG_SEARCH_REDSHOP_PRODUCTS');
+		}
+
+		// Prepare Extra Field Query.
+		$extraQuery = $db->getQuery(true)
+						->select('DISTINCT(' . $db->qn('itemid') . ')')
+						->from($db->qn('#__redshop_fields_data'))
+						->where($db->qn('section') . ' = 1');
+
+		// Create the base select statement.
+		$query = $db->getQuery(true)
+				->select(
+					array(
+						$db->qn('product_id'),
+						$db->qn('product_name', 'title'),
+						$db->qn('product_number', 'number'),
+						$db->qn('product_s_desc', 'text'),
+						'"' . $section . '" AS ' . $db->qn('section'),
+						'"" AS ' . $db->qn('created'),
+						'"2" AS ' . $db->qn('browsernav')
+					)
+				)
+				->from($db->qn('#__redshop_product'));
 
 		$wheres = array();
 
+		// Building Where clause
 		switch ($phrase)
 		{
 			case 'exact':
 				$text = $db->Quote('%' . $db->getEscaped($text, true) . '%', false);
-				$wheres2 = array();
-				$wheres2[] = 'a.product_name LIKE ' . $text;
-				$wheres2[] = 'a.product_number LIKE ' . $text;
-				$wheres2[] = 'c.data_txt LIKE ' . $text;
-				$where = '(' . implode(') OR (', $wheres2) . ')';
+
+				// Also search in Extra Field Data
+				$extraQuery->where($db->qn('data_txt') . ' LIKE ' . $text);
+				$whereAppend = ' OR ' . $db->qn('product_id') . ' IN (' . $extraQuery->__toString() . ')';
+
+				$wheres = array();
+				$wheres[] = $db->qn('product_name') . ' LIKE ' . $text;
+				$wheres[] = $db->qn('product_number') . ' LIKE ' . $text;
+
+				$where = '('
+					. implode(' OR ', $wheres)
+					. $whereAppend
+					. ')';
+
+				$query->where($where);
+
 				break;
 
 			case 'all':
@@ -60,74 +125,86 @@ class plgSearchredshop_products extends JPlugin
 			default:
 				$words = explode(' ', $text);
 				$wheres = array();
+				$orsField = array();
 
 				foreach ($words as $word)
 				{
 					$word = $db->Quote('%' . $db->getEscaped($word, true) . '%', false);
-					$wheres2 = array();
-					$wheres2[] = 'a.product_name LIKE ' . $word;
-					$wheres2[] = 'a.product_number LIKE ' . $word;
-					$wheres2[] = 'c.data_txt LIKE ' . $word;
-					$wheres[] = implode(' OR ', $wheres2);
+
+					$ors = array();
+					$ors[] = $db->qn('product_name') . ' LIKE ' . $word;
+					$ors[] = $db->qn('product_number') . ' LIKE ' . $word;
+
+					$wheres[] = implode(' OR ', $ors);
+
+					// Prepare extra field info where clause
+					$orsField[] = $db->qn('data_txt') . ' LIKE ' . $word;
 				}
 
-				$where = '(' . implode(($phrase == 'all' ? ') AND (' : ') OR ('), $wheres) . ')';
+				// Also search in Extra Field Data
+				$extraQuery->where('(' . implode(' OR ', $orsField) . ')');
+				$whereAppend = ' OR ' . $db->qn('product_id') . ' IN (' . $extraQuery->__toString() . ')';
+
+				$where = '('
+						. implode(($phrase == 'all' ? ') AND (' : ') OR ('), $wheres)
+						. $whereAppend
+						. ')';
+
+				$query->where($where);
+
 				break;
 		}
 
+		// Bulding Ordering
 		switch ($ordering)
 		{
 			case 'oldest':
-				$order = 'a.product_id ASC';
+				$query->order($db->qn('product_id') . ' ASC');
+
 				break;
 
 			case 'newest':
-
 			default:
-				$order = 'a.product_id DESC';
+				$query->order($db->qn('product_id') . ' DESC');
+
+				break;
 		}
 
 		// Shopper group - choose from manufactures Start
-
-		$rsUserhelper = new rsUserhelper;
+		$rsUserhelper               = new rsUserhelper;
 		$shopper_group_manufactures = $rsUserhelper->getShopperGroupManufacturers();
 
 		$whereaclProduct = "";
 
 		if ($shopper_group_manufactures != "")
 		{
-			$whereaclProduct = " AND a.manufacturer_id IN (" . $shopper_group_manufactures . ") ";
+			$query->where($db->qn('manufacturer_id') . ' IN (' . $shopper_group_manufactures . ')');
 		}
 
-		// Shopper group - choose from manufactures End
+		// Only published products
+		$query->where($db->qn('published') . ' = 1');
 
-		$query = 'SELECT c.data_txt as customtxt,a.product_id,a.product_name AS title,a.product_number as number,a.product_s_desc AS text,'
-
-			. ' "2" AS browsernav,"Redshop product" as section,"" as created'
-			. ' FROM #__redshop_product AS a LEFT join #__redshop_fields_data As c on c.itemid = a.product_id'
-
-			. ' WHERE (' . $where . ') ' . $whereaclProduct . ''
-			. ' AND a.published = 1'
-
-			. ' ORDER BY ' . $order;
+		// Set the query and load the result.
 		$db->setQuery($query, 0, $limit);
-		$rows = $db->loadObjectList();
+
+		try
+		{
+			$rows = $db->loadObjectList();
+		}
+		catch (RuntimeException $e)
+		{
+			throw new RuntimeException($e->getMessage(), $e->getCode());
+		}
+
 		$redhelper = new redhelper;
+		$return    = array();
 
 		foreach ($rows as $key => $row)
 		{
-			$Itemid = $redhelper->getItemid($row->product_id);
-			$rows[$key]->href = "index.php?option=com_redshop&view=product&pid=" . $row->product_id . "&Itemid=" . $Itemid;
-		}
+			$Itemid    = $redhelper->getItemid($row->product_id);
+			$row->href = "index.php?option=com_redshop&view=product&pid=" . $row->product_id . "&Itemid=" . $Itemid;
 
-		$return = array();
-
-		foreach ($rows AS $key => $weblink)
-		{
-			if (searchHelper::checkNoHTML($weblink, $searchText, array('url', 'text', 'title', 'number', 'customtxt')))
-			{
-				$return[] = $weblink;
-			}
+			$return[]  = $row;
 		}
 
 		return $return;
