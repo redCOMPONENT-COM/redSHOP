@@ -93,9 +93,6 @@ class Plgredshop_ProductCreateColorImage extends JPlugin
 						$imageProperty = new Imagick($imagePath . "/product/" . $productImage);
 						$width = $imageProperty->getImageWidth();
 						$height = $imageProperty->getImageHeight();
-
-						$cmd = "convert $imagePath/product/$productImage +level-colors '" . $extra_field . "', " . JPATH_COMPONENT . "/assets/images/product_attributes/$ImageName";
-						exec($cmd);
 						$cmd = "convert " . JPATH_SITE . "/$bgImage -resize " . $width . "x" . $height . " "
 							. JPATH_COMPONENT . "/assets/images/product_attributes/" . $ImageName
 							. " -gravity center -composite -mosaic " . JPATH_COMPONENT
