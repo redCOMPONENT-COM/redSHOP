@@ -96,7 +96,7 @@ $(document).ready(function() {
             jQuery(this).val('').attr('disabled', 'disabled');
 
             jQuery.post(
-                window.site_url + 'index.php?option=com_redshop&view=checkout&tmpl=component&postdanmark=1&ajax=1&task=ajaxsearch', {
+                window.site_url + 'index.php?option=com_redshop&view=checkout&tmpl=component&postdanmark=1&ajax=1', {
                     'zipcode': postcode,
                     'countryCode': 'DK'
                 },
@@ -154,7 +154,7 @@ function getShippingZipcodeAjax() {
 
 function getZipcodeAjax(postcode) {
     jQuery.post(
-        window.site_url + 'index.php?option=com_redshop&view=checkout&tmpl=component&postdanmark=1&ajax=1&task=ajaxsearch',
+        window.site_url + 'index.php?option=com_redshop&view=checkout&tmpl=component&postdanmark=1&ajax=1',
         {
             zipcode: postcode,
             countryCode: 'DK'
