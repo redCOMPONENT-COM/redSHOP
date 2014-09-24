@@ -1,4 +1,11 @@
 <?php
+/**
+ * @package     RedSHOP
+ * @subpackage  Plugin
+ *
+ * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
+ */
 
 class EwayPayment
 {
@@ -6,6 +13,8 @@ class EwayPayment
 	var $myCustomerID;
 	var $myTransactionData = array();
 	var $myCurlPreferences = array();
+
+	public $params = null;
 
 	/***********************************************************************
 	 *** SET values to send to eWAY                                      ***
@@ -156,15 +165,13 @@ class EwayPayment
 	//Class Constructor
 	function EwayPayment($customerID = '', $method = '', $liveGateway = '')
 	{
-		$eway_parameters = $this->getparameters('rs_payment_eway');
-		$paymentinfo = $eway_parameters[0];
-		$paymentparams = new JRegistry($paymentinfo->params);
+		$plugin           = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_eway');
+		$this->params     = new JRegistry($plugin->params);
 
-		$eway_customer_id = $paymentparams->get('eway_customer_id', '');
-
-		$method = $paymentparams->get('eway_method_type');
-		$liveGateway = $paymentparams->get('eway_live_gateway');
-		$debug_mode = $paymentparams->get('debug_mode');
+		$eway_customer_id = $this->params->get('eway_customer_id', '');
+		$method           = $this->params->get('eway_method_type');
+		$liveGateway      = $this->params->get('eway_live_gateway');
+		$debug_mode       = $this->params->get('debug_mode');
 
 		$this->myCustomerID = $eway_customer_id;
 
@@ -173,38 +180,34 @@ class EwayPayment
 			case 'REAL-TIME';
 
 				if ($liveGateway)
-					$this->myGatewayURL = $paymentparams->get('eway_live_url');
+					$this->myGatewayURL = $this->params->get('eway_live_url');
 				else
-					$this->myGatewayURL = $paymentparams->get('eway_testing_url');
+					$this->myGatewayURL = $this->params->get('eway_testing_url');
 				break;
 			case 'REAL-TIME-CVN';
 
 				if ($liveGateway)
-					$this->myGatewayURL = $paymentparams->get('eway_cvn_live_url');
+					$this->myGatewayURL = $this->params->get('eway_cvn_live_url');
 				else
-					$this->myGatewayURL = $paymentparams->get('eway_cvn_testing_url');
+					$this->myGatewayURL = $this->params->get('eway_cvn_testing_url');
 				break;
 			case 'GEO-IP-ANTI-FRAUD';
 
 				if ($liveGateway)
-					$this->myGatewayURL = $paymentparams->get('eway_antifraud_live_url');
+					$this->myGatewayURL = $this->params->get('eway_antifraud_live_url');
 				else
-					//in testing mode process with REAL-TIME
-					$this->myGatewayURL = $paymentparams->get('eway_antifraud_testing_url');
+					// In testing mode process with REAL-TIME
+					$this->myGatewayURL = $this->params->get('eway_antifraud_testing_url');
 				break;
 		}
 
 	}
 
-	//Payment Function
+	// Payment Function
 	function doPayment($order_id)
 	{
 		$app = JFactory::getApplication();
-
-		$eway_parameters = $this->getparameters('rs_payment_eway');
-		$paymentinfo = $eway_parameters[0];
-		$paymentparams = new JRegistry($paymentinfo->params);
-		$debug_mode = $paymentparams->get('debug_mode');
+		$debug_mode = $this->params->get('debug_mode');
 
 		$xmlRequest = "<ewaygateway>" .
 			"<ewayCustomerID>" . htmlentities($this->myCustomerID) . "</ewayCustomerID>" .
@@ -251,11 +254,10 @@ class EwayPayment
 				$message = JText::_('COM_REDSHOP_ORDER_PLACED');
 			}
 
-			$transaction_id = isset($xml->ewayTrxnNumber) ? $xml->ewayTrxnNumber : '';
-			$node = $xml->children();
-			//$message 					= $xml->ewayTrxnError;
-			$transaction_id = $node->ewayTrxnNumber;
-			$tid = strip_tags($transaction_id[0]);
+			$transaction_id         = isset($xml->ewayTrxnNumber) ? $xml->ewayTrxnNumber : '';
+			$node                   = $xml->children();
+			$transaction_id         = $node->ewayTrxnNumber;
+			$tid                    = strip_tags($transaction_id[0]);
 			$values->responsestatus = 'Success';
 		}
 		else
@@ -269,7 +271,6 @@ class EwayPayment
 				$message = JText::_('COM_REDSHOP_ORDER_NOT_PLACED');
 			}
 
-			//$message					= isset($xml->ewayTrxnError) ? $xml->ewayTrxnError : $xml->Result->ewayTrxnError;
 			$tid = 0;
 			$values->responsestatus = 'Fail';
 		}
@@ -280,7 +281,7 @@ class EwayPayment
 		return $values;
 	}
 
-	//Send XML Transaction Data and receive XML response
+	// Send XML Transaction Data and receive XML response
 	function sendTransactionToEway($xmlRequest)
 	{
 		$ch = curl_init($this->myGatewayURL);
@@ -297,7 +298,7 @@ class EwayPayment
 			return $xmlResponse;
 	}
 
-	//Parse XML response from eway and place them into an array
+	// Parse XML response from eway and place them into an array
 	function parseResponse($xmlResponse)
 	{
 		$xml_parser = xml_parser_create();
@@ -311,23 +312,21 @@ class EwayPayment
 		return $responseFields;
 	}
 
-	//Set Transaction Data
-	//Possible fields: "TotalAmount", "CustomerFirstName", "CustomerLastName", "CustomerEmail", "CustomerAddress", "CustomerPostcode", "CustomerInvoiceDescription", "CustomerInvoiceRef",
-	//"CardHoldersName", "CardNumber", "CardExpiryMonth", "CardExpiryYear", "TrxnNumber", "Option1", "Option2", "Option3", "CVN", "CustomerIPAddress", "CustomerBillingCountry"
+	// Set Transaction Data
+	// Possible fields: "TotalAmount", "CustomerFirstName", "CustomerLastName", "CustomerEmail", "CustomerAddress", "CustomerPostcode", "CustomerInvoiceDescription", "CustomerInvoiceRef",
+	// "CardHoldersName", "CardNumber", "CardExpiryMonth", "CardExpiryYear", "TrxnNumber", "Option1", "Option2", "Option3", "CVN", "CustomerIPAddress", "CustomerBillingCountry"
 	function setTransactionData($field, $value)
 	{
-		//if($field=="TotalAmount")
-		//	$value = round($value*100);
 		$this->myTransactionData["eway" . $field] = htmlentities(trim($value));
 	}
 
-	//receive special preferences for Curl
+	// Receive special preferences for Curl
 	function setCurlPreferences($field, $value)
 	{
 		$this->myCurlPreferences[$field] = $value;
 	}
 
-	//obtain visitor IP even if is under a proxy
+	// Obtain visitor IP even if is under a proxy
 	function getVisitorIP()
 	{
 		$ip = $_SERVER["REMOTE_ADDR"];
@@ -354,17 +353,4 @@ class EwayPayment
 
 		return $res;
 	}
-
-	function getparameters($payment)
-	{
-		$db = JFactory::getDbo();
-		$sql = "SELECT * FROM #__extensions WHERE `element`='" . $payment . "'";
-		$db->setQuery($sql);
-		$params = $db->loadObjectList();
-
-		return $params;
-	}
-
 }
-
-?>

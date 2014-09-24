@@ -131,7 +131,16 @@ $stockrooms = $model->StockRoomList();
 							<?php echo $this->lists['discount_calc_method'];?>
 						</td>
 					</tr>
-
+					<tr>
+						<td class="key">
+							<label for="allow_decimal_piece">
+								<?php echo JText::_('COM_REDSHOP_ALLOW_DECIMAL_PIECE');?>
+							</label>
+						</td>
+						<td>
+							<?php echo $this->lists['allow_decimal_piece'];?>
+						</td>
+					</tr>
 					<tr>
 						<td class="key">
 							<label for="use_range">

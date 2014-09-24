@@ -9,9 +9,9 @@
 
 defined('_JEXEC') or die;
 
-require_once(JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php');
+JLoader::load('RedshopHelperAdminOrder');
 
-class orderModelorder extends JModel
+class RedshopModelOrder extends JModel
 {
 	public $_data = null;
 

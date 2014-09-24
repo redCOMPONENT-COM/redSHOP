@@ -12,9 +12,9 @@ defined('_JEXEC') or die;
 JHTML::_('behavior.tooltip');
 JHTML::_('behavior.modal');
 
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/category.php';
-require_once JPATH_ROOT . '/components/com_redshop/helpers/product.php';
-require_once JPATH_ROOT . '/components/com_redshop/helpers/helper.php';
+JLoader::load('RedshopHelperAdminCategory');
+JLoader::load('RedshopHelperProduct');
+JLoader::load('RedshopHelperHelper');
 
 $config = new Redconfiguration;
 $producthelper = new producthelper;

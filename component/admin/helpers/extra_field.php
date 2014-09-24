@@ -74,22 +74,31 @@ class extra_field
 
 	public function list_all_field($field_section = "", $section_id = 0, $field_name = "", $table = "", $template_desc = "")
 	{
+		$db     = JFactory::getDbo();
 		$option = JRequest::getVar('option');
-		$uri = JURI::getInstance();
-		$url = $uri->root();
-		$q = "SELECT * FROM " . $this->_table_prefix . "fields WHERE field_section = " . (int) $field_section . " AND published=1 ";
+		$uri    = JURI::getInstance();
+		$url    = $uri->root();
+		$q      = "SELECT * FROM " . $this->_table_prefix . "fields WHERE field_section = " . (int) $field_section . " AND published=1 ";
 
 		if ($field_name != "")
 		{
 			$field_name = explode(',', $field_name);
-			JArrayHelper::toInteger($field_name);
-			$field_name = implode(',', $field_name);
+
+			$field_name = array_map(
+				function ($value) use ($db) {
+					return $db->quote($value);
+				},
+				(array) $field_name
+			);
+
+			$field_name = implode(",'", $field_name);
+
 			$q .= "AND field_name IN ($field_name) ";
 		}
 
 		$q .= " ORDER BY ordering";
-		$this->_db->setQuery($q);
-		$row_data = $this->_db->loadObjectlist();
+		$db->setQuery($q);
+		$row_data = $db->loadObjectlist();
 		$ex_field = '';
 
 		if (count($row_data) > 0 && $table == "")
@@ -209,8 +218,8 @@ class extra_field
 				// 7 :-Select Country box
 				case 7:
 					$q = "SELECT * FROM " . $this->_table_prefix . "country";
-					$this->_db->setQuery($q);
-					$field_chk = $this->_db->loadObjectlist();
+					$db->setQuery($q);
+					$field_chk = $db->loadObjectlist();
 					$chk_data = @explode(",", $data_value->data_txt);
 
 					$ex_field .= '<td valign="top" width="100" align="right" class="key">' . $extra_field_label . '</td>';
@@ -358,12 +367,10 @@ class extra_field
 								if ($media_type == 'jpg' || $media_type == 'jpeg' || $media_type == 'png' || $media_type == 'gif')
 								{
 									$extra_field_value .= '<div id="docdiv' . $index . '"><img width="100"  src="' . $media_image . '" border="0" />&nbsp;<a href="#123"   onclick="delimg(\'' . $text_area_value . '\', \'div_' . $row_data[$i]->field_name . $index . '\',\'' . $destination_prefix_del . '\', \'' . $data_value->data_id . ':document\');"> Remove Media</a>&nbsp;<input class="' . $row_data[$i]->field_class . '"  name="' . $row_data[$i]->field_name . '[]"  id="' . $row_data[$i]->field_name . '" value="' . $text_area_value . '" type="hidden"  /><div>';
-
 								}
 								else
 								{
 									$extra_field_value .= '<div id="docdiv' . $index . '"><a href="' . $media_image . '" target="_blank">' . $text_area_value . '</a>&nbsp;<a href="#123"   onclick="delimg(\'' . $text_area_value . '\', \'div_' . $row_data[$i]->field_name . $index . '\',\'' . $destination_prefix_del . '\', \'' . $data_value->data_id . ':document\');"> Remove Media</a>&nbsp;<input class="' . $row_data[$i]->field_class . '"  name="' . $row_data[$i]->field_name . '[]"  id="' . $row_data[$i]->field_name . '" value="' . $text_area_value . '" type="hidden"  /></div>';
-
 								}
 							}
 							else

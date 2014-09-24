@@ -9,13 +9,12 @@
 
 defined('_JEXEC') or die;
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php';
-require_once JPATH_COMPONENT . '/helpers/product.php';
-require_once JPATH_COMPONENT . '/helpers/extra_field.php';
-require_once JPATH_COMPONENT . '/helpers/helper.php';
-include_once JPATH_COMPONENT . '/helpers/cart.php';
-include_once JPATH_COMPONENT . '/helpers/user.php';
-
+JLoader::load('RedshopHelperAdminOrder');
+JLoader::load('RedshopHelperProduct');
+JLoader::load('RedshopHelperExtra_field');
+JLoader::load('RedshopHelperHelper');
+JLoader::load('RedshopHelperCart');
+JLoader::load('RedshopHelperUser');
 JLoader::import('joomla.application.component.controller');
 
 /**
@@ -25,6 +24,6 @@ JLoader::import('joomla.application.component.controller');
  * @subpackage  Controller
  * @since       1.0
  */
-class EpayrelayController extends JController
+class RedshopControllerEpayrelay extends JController
 {
 }
