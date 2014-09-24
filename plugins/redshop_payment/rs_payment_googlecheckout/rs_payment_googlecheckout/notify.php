@@ -169,9 +169,5 @@ foreach ($values as $key => $val)
 	$maildata .= "\n";
 }
 
-//mail("gunjan@redweb.dk","googlecheckout",$maildata);
-
 // change order status
 $objOrder->changeorderstatus($values);
-
-?>

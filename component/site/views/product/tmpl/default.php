@@ -85,7 +85,6 @@ echo $this->data->event->beforeDisplayProduct;
 
 /*
  * Replace Discount Calculator Tag
- * update by Gunjan
  */
 $discount_calculator = "";
 
@@ -306,7 +305,7 @@ $print_tag .= "<img src='" . JSYSTEM_IMAGES_PATH . "printButton.png'
 					title='" . JText::_('COM_REDSHOP_PRINT_LBL') . "' />";
 $print_tag .= "</a>";
 
-// Associate_tag display update nayan panchal start
+// Associate_tag display update
 $ass_tag = '';
 
 if ($this->redHelper->isredProductfinder())
@@ -322,7 +321,6 @@ if ($this->redHelper->isredProductfinder())
 	}
 }
 
-// Associate_tag display update nayan panchal end
 $template_desc = $producthelper->replaceVatinfo($template_desc);
 $template_desc = str_replace("{associate_tag}", $ass_tag, $template_desc);
 $template_desc = str_replace("{print}", $print_tag, $template_desc);
