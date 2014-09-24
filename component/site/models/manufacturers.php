@@ -19,7 +19,7 @@ JLoader::import('joomla.html.pagination');
  * @subpackage  Model
  * @since       1.0
  */
-class manufacturersModelmanufacturers extends JModel
+class RedshopModelManufacturers extends JModel
 {
 	public $_id = null;
 

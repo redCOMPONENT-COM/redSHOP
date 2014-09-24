@@ -10,6 +10,8 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.plugin.plugin');
+JLoader::import('loadhelpers', JPATH_SITE . '/components/com_redshop');
+JLoader::load('RedshopHelperAdminShipping');
 
 /**
  * Joomla! System Logging Plugin
@@ -17,7 +19,6 @@ jimport('joomla.plugin.plugin');
  * @package        Joomla
  * @subpackage     System
  */
-include_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/shipping.php';
 class plgredshop_shippingshipper extends JPlugin
 {
 	var $payment_code = "shipper";

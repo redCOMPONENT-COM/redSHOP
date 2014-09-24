@@ -11,9 +11,9 @@ defined('_JEXEC') or die;
 
 JLoader::import('joomla.application.component.view');
 
-require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
+JLoader::load('RedshopHelperProduct');
 
-class giftcardViewgiftcard extends JView
+class RedshopViewGiftcard extends JView
 {
 	public function display($tpl = null)
 	{
@@ -22,7 +22,7 @@ class giftcardViewgiftcard extends JView
 		// Request variables
 		$params   = $app->getParams('com_redshop');
 		$document = JFactory::getDocument();
-		JHTML::Script('redBOX.js', 'components/com_redshop/assets/js/', false);
+		JHTML::Script('redbox.js', 'components/com_redshop/assets/js/', false);
 		JHTML::Script('common.js', 'components/com_redshop/assets/js/', false);
 		JHTML::Script('attribute.js', 'components/com_redshop/assets/js/', false);
 		JHTML::Stylesheet('fetchscript.css', 'components/com_redshop/assets/css/');

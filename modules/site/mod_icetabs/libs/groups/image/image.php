@@ -58,7 +58,7 @@ if (!class_exists('LofSliderGroupImage'))
 				$data = array();
 				foreach ($tmp as $key => $file)
 				{
-					$item       = new stdClass();
+					$item       = new stdClass;
 					$item->link = '';
 					if (isset($content[preg_replace("/\.(\w{3})$/", '', strtolower(trim($file)))]))
 					{
