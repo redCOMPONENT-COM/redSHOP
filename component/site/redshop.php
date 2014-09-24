@@ -79,7 +79,8 @@ if (count($sgportal) > 0)
 	$portal = $sgportal->shopper_group_portal;
 }
 
-if ($task != 'loadProducts' && $task != "downloadProduct" && $task != "discountCalculator" && $task != "ajaxupload" && $task != 'getShippingrate' && $task != 'addtocompare' && $task != 'ajaxsearch' && $task != "Download" && $task != 'addtowishlist')
+// Don't create div for AJAX call and GA code.
+if ('component' !== $app->input->getCmd('tmpl'))
 {
 	echo "<div id='redshopcomponent' class='redshop'>";
 
