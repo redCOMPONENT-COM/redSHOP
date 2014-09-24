@@ -107,9 +107,10 @@ class plgRedshop_paymentrs_payment_sagepay_vps extends JPlugin
 		$strPost = $strPost . "&ClientIPAddress=" . $_SERVER['REMOTE_ADDR'];
 		$strPost = $strPost . "&Description=" . $order_desc;
 
-		/* Billing Details
-		* This section is optional in its entirety but if one field of the address is provided then all non-optional fields must be provided
-		* If AVS/CV2 is ON for your account, or, if paypal cardtype is specified and its not via PayPal Express then this section is compulsory
+		/*
+		Billing Details
+		This section is optional in its entirety but if one field of the address is provided then all non-optional fields must be provided
+		If AVS/CV2 is ON for your account, or, if paypal cardtype is specified and its not via PayPal Express then this section is compulsory
 		*/
 		$strPost = $strPost . "&BillingFirstnames=" . urlencode($data['billinginfo']->firstname);
 		$strPost = $strPost . "&BillingSurname=" . urlencode($data['billinginfo']->lastname);
@@ -118,9 +119,9 @@ class plgRedshop_paymentrs_payment_sagepay_vps extends JPlugin
 		$strPost = $strPost . "&BillingPostCode=" . urlencode($data['billinginfo']->zipcode);
 		$strPost = $strPost . "&BillingCountry=" . urlencode($data['billinginfo']->country_2_code);
 
-		/* Delivery Details
-	    * This section is optional in its entirety but if one field of the address is provided then all non-optional fields must be provided
-	    * If paypal cardtype is specified then this section is compulsory 
+		/*Delivery Details
+		This section is optional in its entirety but if one field of the address is provided then all non-optional fields must be provided
+		If paypal cardtype is specified then this section is compulsory
 		*/
 		$strPost = $strPost . "&DeliveryFirstnames=" . urlencode($data['shippinginfo']->firstname);
 		$strPost = $strPost . "&DeliverySurname=" . urlencode($data['shippinginfo']->lastname);
@@ -185,8 +186,10 @@ class plgRedshop_paymentrs_payment_sagepay_vps extends JPlugin
 
 		if ($strStatus == "3DAUTH")
 		{
-			/* This is a 3D-Secure transaction, so we need to redirect the customer to their bank
-			** for authentication.  First get the pertinent information from the response */
+			/*
+			This is a 3D-Secure transaction, so we need to redirect the customer to their bank
+			for authentication.  First get the pertinent information from the response
+			*/
 			$strMD = $output["MD"];
 			$strACSURL = $output["ACSURL"];
 			$strPAReq = $output["PAReq"];
@@ -282,10 +285,5 @@ class plgRedshop_paymentrs_payment_sagepay_vps extends JPlugin
 		$values->log = $message;
 
 		return $values;
-	}
-
-	function onCapture_Paymentrs_payment_sagepay_vps($element, $data)
-	{
-		return true;
 	}
 }
