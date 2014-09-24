@@ -51,7 +51,7 @@ class RedshopControllerCoupon_detail extends JController
 
 		if ($post ['end_date'])
 		{
-			$post ['end_date'] = strtotime($post ['end_date']) + (23 * 59 * 59);
+			$post ['end_date'] = strtotime($post ['end_date']) + (24 * 60 * 60) - 1;
 		}
 
 		$model = $this->getModel('coupon_detail');

@@ -18,7 +18,6 @@ if (!defined('MOD_REDSHOP_PRODUCTS'))
 	 */
 	function getDefaultModuleCategories()
 	{
-
 		$db = JFactory::getDbo();
 
 		$query = $db->getQuery(true)
@@ -27,10 +26,8 @@ if (!defined('MOD_REDSHOP_PRODUCTS'))
 			->where($db->qn('published') . ' = 1')
 			->order($db->qn('category_id') . ' ASC');
 
-		// Set the query and load the result.
-		$db->setQuery($query);
-
-		try
+		$category = array();
+		for ($i = 0; $i < count($cats); $i++)
 		{
 			$categoryIds = $db->loadResultArray();
 		}
