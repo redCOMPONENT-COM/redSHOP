@@ -133,23 +133,19 @@ class plgredshop_shippingshipwire extends JPlugin
 		}
 
 		$xmlPost = '<RateRequest>';
-		$xmlPost = $xmlPost . '<EmailAddress>' . SHIPWIRE_EMAIL . '</EmailAddress>'; //vipula@redweb.dk
-		$xmlPost = $xmlPost . '<Password>' . SHIPWIRE_PASSWORD . '</Password>'; //vipula123
+		$xmlPost = $xmlPost . '<EmailAddress>' . SHIPWIRE_EMAIL . '</EmailAddress>';
+		$xmlPost = $xmlPost . '<Password>' . SHIPWIRE_PASSWORD . '</Password>';
 		$xmlPost .= '<Order>';
 		$xmlPost = $xmlPost . '<Warehouse>0</Warehouse>';
 		$xmlPost = $xmlPost . '<AddressInfo type="ship">';
-		$xmlPost = $xmlPost . '<Address1>' . $shippinginfo->zipcode . '</Address1>'; //2301 East Lamar Blvd
+		$xmlPost = $xmlPost . '<Address1>' . $shippinginfo->zipcode . '</Address1>';
 		$xmlPost = $xmlPost . '<Address2></Address2>';
-		$xmlPost = $xmlPost . '<City>' . $shippinginfo->city . '</City>'; //Arlington
-		$xmlPost = $xmlPost . '<Country>' . $shippinginfo->country_code . '</Country>'; //UK
-		$xmlPost = $xmlPost . '<State>' . $shippinginfo->state_code . '</State>'; //CA
-		$xmlPost = $xmlPost . '<Zip>' . $shippinginfo->zipcode . '</Zip>'; //TX 76006
+		$xmlPost = $xmlPost . '<City>' . $shippinginfo->city . '</City>';
+		$xmlPost = $xmlPost . '<Country>' . $shippinginfo->country_code . '</Country>';
+		$xmlPost = $xmlPost . '<State>' . $shippinginfo->state_code . '</State>';
+		$xmlPost = $xmlPost . '<Zip>' . $shippinginfo->zipcode . '</Zip>';
 		$xmlPost = $xmlPost . '</AddressInfo>';
 		$xmlPost .= $Item;
-		/*'<Item num="0">';
-		$xmlPost = $xmlPost . '<Code>VIPULA-1</Code>';//VIPULA-1
-		$xmlPost = $xmlPost . '<Quantity>1</Quantity>';//1
-		$xmlPost .=    '</Item>';*/
 
 		$xmlPost .= '</Order>';
 		$xmlPost .= '</RateRequest>';
@@ -159,7 +155,7 @@ class plgredshop_shippingshipwire extends JPlugin
 		if (function_exists('curl_init'))
 		{
 			$CR = curl_init();
-			curl_setopt($CR, CURLOPT_URL, $shipwireURL); //"?API=RateV2&XML=".$xmlPost);
+			curl_setopt($CR, CURLOPT_URL, $shipwireURL);
 			curl_setopt($CR, CURLOPT_POST, 1);
 			curl_setopt($CR, CURLOPT_FAILONERROR, true);
 			curl_setopt($CR, CURLOPT_POSTFIELDS, $xmlPost);
@@ -194,7 +190,10 @@ class plgredshop_shippingshipwire extends JPlugin
 					{
 						$content[$parent][$i][$keys[$z]] = $XMLvals[$i]['attributes'][$keys[$z]];
 
-						if (isset($content[$parent][$i]['VALUE'])) $content[$parent][$i]['VALUE'] = $XMLvals[$i]['value'];
+						if (isset($content[$parent][$i]['VALUE']))
+						{
+							$content[$parent][$i]['VALUE'] = $XMLvals[$i]['value'];
+						}
 					}
 				}
 			}

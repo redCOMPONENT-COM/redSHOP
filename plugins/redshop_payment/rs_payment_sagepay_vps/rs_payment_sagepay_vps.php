@@ -108,8 +108,9 @@ class plgRedshop_paymentrs_payment_sagepay_vps extends JPlugin
 		$strPost = $strPost . "&Description=" . $order_desc;
 
 		/* Billing Details
-		** This section is optional in its entirety but if one field of the address is provided then all non-optional fields must be provided
-		** If AVS/CV2 is ON for your account, or, if paypal cardtype is specified and its not via PayPal Express then this section is compulsory */
+		* This section is optional in its entirety but if one field of the address is provided then all non-optional fields must be provided
+		* If AVS/CV2 is ON for your account, or, if paypal cardtype is specified and its not via PayPal Express then this section is compulsory
+		*/
 		$strPost = $strPost . "&BillingFirstnames=" . urlencode($data['billinginfo']->firstname);
 		$strPost = $strPost . "&BillingSurname=" . urlencode($data['billinginfo']->lastname);
 		$strPost = $strPost . "&BillingAddress1=" . urlencode($data['billinginfo']->address);
@@ -118,8 +119,9 @@ class plgRedshop_paymentrs_payment_sagepay_vps extends JPlugin
 		$strPost = $strPost . "&BillingCountry=" . urlencode($data['billinginfo']->country_2_code);
 
 		/* Delivery Details
-	    ** This section is optional in its entirety but if one field of the address is provided then all non-optional fields must be provided
-	    ** If paypal cardtype is specified then this section is compulsory */
+	    * This section is optional in its entirety but if one field of the address is provided then all non-optional fields must be provided
+	    * If paypal cardtype is specified then this section is compulsory 
+		*/
 		$strPost = $strPost . "&DeliveryFirstnames=" . urlencode($data['shippinginfo']->firstname);
 		$strPost = $strPost . "&DeliverySurname=" . urlencode($data['shippinginfo']->lastname);
 		$strPost = $strPost . "&DeliveryAddress1=" . urlencode($data['shippinginfo']->address);
@@ -166,7 +168,7 @@ class plgRedshop_paymentrs_payment_sagepay_vps extends JPlugin
 		curl_setopt($curlSession, CURLOPT_SSL_VERIFYPEER, false);
 		curl_setopt($curlSession, CURLOPT_SSL_VERIFYHOST, 1);
 		$rawresponse = curl_exec($curlSession);
-		$response    = split(chr(10), $rawresponse);
+		$response = explode(chr(10), $rawresponse);
 
 		// Tokenise the response
 		for ($i = 0; $i < count($response); $i++)

@@ -143,6 +143,7 @@ class RedshopViewAddorder_detail extends JView
 		$shipping['country_code_ST'] = $shippinginfo[$key]->country_code;
 		$countryarray = $Redconfiguration->getCountryList((array) $shipping, "country_code_ST", "ST");
 		$shipping['country_code_ST'] = $shippinginfo[$key]->country_code = $countryarray['country_code_ST'];
+		$shipping['state_code_ST'] = $shippinginfo[$key]->state_code;
 		$lists['country_code_ST'] = $countryarray['country_dropdown'];
 		$statearray = $Redconfiguration->getStateList((array) $shipping, "state_code_ST", "country_code_ST", "ST", 1);
 		$lists['state_code_ST'] = $statearray['state_dropdown'];

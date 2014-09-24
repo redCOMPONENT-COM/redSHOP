@@ -33,6 +33,7 @@
 	}
 
 	JLoader::import('loadhelpers', JPATH_SITE . '/components/com_redshop');
+	JLoader::load('RedshopHelperAdminProduct');
 	JLoader::load('RedshopHelperAdminConfiguration');
 	JLoader::load('RedshopHelperAdminTemplate');
 	JLoader::load('RedshopHelperAdminStockroom');
@@ -40,6 +41,7 @@
 	JLoader::load('RedshopHelperAdminAccess_level');
 	JLoader::load('RedshopHelperHelper');
 	JLoader::load('RedshopHelperAdminImages');
+	JLoader::load('RedshopHelperAdminCategory');
 
 	$redhelper = new redhelper;
 	$redhelper->removeShippingRate();
