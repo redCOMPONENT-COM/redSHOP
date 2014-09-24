@@ -1109,7 +1109,7 @@ div.attribute_multiselect_single {
 	min-height:20px;
 	clear:left;
 }
-/* - Gunjan - */
+
 .gd_navigation{
 	margin-bottom: 10px;
 	padding-bottom: 25px;
@@ -1130,8 +1130,6 @@ div.attribute_multiselect_single {
 .gd_nav_left a:hover {
 	background: none repeat scroll 0 0 #798088 !important;
 }
-
-
 
 .category_product_container {
 	float: left;
