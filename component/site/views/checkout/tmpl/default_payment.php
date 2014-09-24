@@ -30,12 +30,9 @@ else
 $billingaddresses = $model->billingaddresses();
 $is_company       = $billingaddresses->is_company;
 
-if ((int) $billingaddresses->ean_number == 0)
-{
-	$ean_number = 1;
-}
+$eanNumber 	  = (int) $billingaddresses->ean_number;
 
-$template_desc = $carthelper->replacePaymentTemplate($template_desc, $this->element, $is_company, $ean_number);
+$template_desc = $carthelper->replacePaymentTemplate($template_desc, $this->element, $is_company, $eanNumber);
 
 $template_desc = $redTemplate->parseredSHOPplugin($template_desc);
 echo eval("?>" . $template_desc . "<?php ");

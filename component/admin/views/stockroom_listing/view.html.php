@@ -12,9 +12,9 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.view');
 $context = 'ddd';
 
-require_once JPATH_COMPONENT . '/helpers/category.php';
+JLoader::load('RedshopHelperAdminCategory');
 
-class stockroom_listingViewstockroom_listing extends JView
+class RedshopViewStockroom_listing extends JView
 {
 	/**
 	 * The request url.

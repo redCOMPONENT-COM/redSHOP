@@ -1,34 +1,25 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license   GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- *            Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     RedSHOP
+ * @subpackage  Plugin
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-$uri =& JURI::getInstance();
-$url = $uri->root();
-$user = JFactory::getUser();
-$app = JFactory::getApplication();
-
-$session = JFactory::getSession();
-$ccdata = $session->get('redirect_ccdata');
-
+$uri             = JURI::getInstance();
+$url             = $uri->root();
+$user            = JFactory::getUser();
+$app             = JFactory::getApplication();
+$session         = JFactory::getSession();
+$ccdata          = $session->get('redirect_ccdata');
 $eWAYcustomer_id = $this->_params->get("customer_id");
-$eWAYusername = $this->_params->get("username");
-$eWAYpassword = $this->_params->get("password");
+$eWAYusername    = $this->_params->get("username");
+$eWAYpassword    = $this->_params->get("password");
 
-$currencyClass = new CurrencyHelper;
-$currency_main = "GBP";
-$order_subtotal = $currencyClass->convert($data['order']->order_total, '', $currency_main);
+$currencyClass   = new CurrencyHelper;
+$currency_main   = "GBP";
+$order_subtotal  = $currencyClass->convert($data['order']->order_total, '', $currency_main);
 
 $request = array(
 	'Authentication' => array(
@@ -46,8 +37,7 @@ $request = array(
 		'Country'     => $data['billinginfo']->country_code,
 		'CompanyName' => $data['billinginfo']->company_name,
 		'Email'       => $data['billinginfo']->zipcode,
-		'Phone'       => $data['billinginfo']->phone,
-
+		'Phone'       => $data['billinginfo']->phone
 	),
 
 	'Payment'        => array(
@@ -59,20 +49,21 @@ $request = array(
 	'ResponseMode'   => 'Redirect',
 );
 
-
 try
 {
-	$client = new SoapClient("https://uk.ewaypayments.com/hotpotato/soap.asmx?WSDL", array(
-		'trace'      => false,
-		'exceptions' => true,
-	));
+	$client = new SoapClient(
+		"https://uk.ewaypayments.com/hotpotato/soap.asmx?WSDL",
+		array(
+			'trace'      => false,
+			'exceptions' => true,
+		)
+	);
 	$result = $client->CreateAccessCode(array('request' => $request));
 }
 catch (Exception $e)
 {
 	$lblError = $e->getMessage();
 }
-
 ?>
 <form method="POST" action="https://uk.ewaypayments.com/hotpotato/payment" id="ewayfrm" name="ewayfrm">
 	<input type="hidden" name="EWAY_ACCESSCODE" value="<?php echo $result->CreateAccessCodeResult->AccessCode ?>"/>
@@ -81,12 +72,5 @@ catch (Exception $e)
 	<input type="hidden" name="EWAY_CARDMONTH" value="<?php echo $ccdata['order_payment_expire_month'] ?>"/>
 	<input type="hidden" name="EWAY_CARDYEAR" value="<?php echo $ccdata['order_payment_expire_year'] ?>"/>
 	<input type="hidden" name="EWAY_CARDCVN" value="<?php echo $ccdata['credit_card_code'] ?>"/>
-
-	<!--<input type="submit" value="ProcessPayment" text="Process Payment" />-->
 </form>
 <script type='text/javascript'>document.ewayfrm.submit();</script>
-
-
-
-
-

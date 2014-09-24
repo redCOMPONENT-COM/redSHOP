@@ -10,14 +10,15 @@
 defined('_JEXEC') or die ('restricted access');
 $uri = JURI::getInstance();
 $url = $uri->root();
+JLoader::import('loadhelpers', JPATH_SITE . '/components/com_redshop');
 
 // get product helper
-require_once JPATH_ROOT . '/components/com_redshop/helpers/product.php';
-$producthelper = new producthelper();
+JLoader::load('RedshopHelperProduct');
+$producthelper = new producthelper;
 
-require_once JPATH_ROOT . '/components/com_redshop/helpers/helper.php';
-require_once JPATH_ROOT . '/components/com_redshop/helpers/redshop.js.php';
-$redhelper = new redhelper();
+JLoader::load('RedshopHelperHelper');
+JLoader::load('RedshopHelperRedshop.js');
+$redhelper = new redhelper;
 
 $option = JRequest::getCmd('option');
 $Itemid = JRequest::getInt('Itemid');
@@ -34,18 +35,22 @@ if (COMARE_PRODUCTS == 1)
 			<?php
 			$i = 0;
 			$cnt = 0;
-			if ($compare['idx'] > 0)
+
+			if (isset($compare['idx']) && $compare['idx'] > 0)
 			{
 				for ($i = 0; $i < $compare['idx']; $i++)
 				{
 					$row = $producthelper->getProductById($compare[$i]["product_id"]);
 
 					$catid = $compare[$i]["category_id"];
+
 					if (!$cid)
 					{
 						$cid = $producthelper->getCategoryProduct($row->product_id);
 					}
+
 					$ItemData = $producthelper->getMenuInformation(0, 0, '', 'product&pid=' . $row->product_id);
+
 					if (count($ItemData) > 0)
 					{
 						$Itemid = $ItemData->id;
@@ -54,12 +59,13 @@ if (COMARE_PRODUCTS == 1)
 					{
 						$Itemid = $redhelper->getItemid($row->product_id);
 					}
+
 					$link = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $row->product_id . '&cid=' . $cid . '&Itemid=' . $Itemid);
+
 					if (PRODUCT_COMPARISON_TYPE == "category")
 					{
 						if ($cid == $catid)
 						{
-
 							?>
 							<tr valign="top">
 								<td width="95%">
@@ -92,6 +98,7 @@ if (COMARE_PRODUCTS == 1)
 					}
 				}
 			}
+
 			if (PRODUCT_COMPARISON_TYPE == "category")
 			{
 				if ($cnt == 0)
@@ -101,11 +108,12 @@ if (COMARE_PRODUCTS == 1)
 			}
 			else
 			{
-				if ($catid == "")
+				if (!empty($catid))
 				{
 					echo "<tr><td colspan='2'>" . JText::_('COM_REDSHOP_NO_PRODUCTS_TO_COMPARE') . "</td></tr>";
 				}
 			}
+
 			if ($cid != "")
 			{
 				$cid_main = "&cid=" . $cid;

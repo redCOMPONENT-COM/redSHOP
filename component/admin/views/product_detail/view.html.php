@@ -11,10 +11,10 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
-require_once JPATH_COMPONENT . '/helpers/extra_field.php';
-require_once JPATH_COMPONENT . '/helpers/category.php';
-require_once JPATH_COMPONENT . '/helpers/shopper.php';
-require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
+JLoader::load('RedshopHelperAdminExtra_field');
+JLoader::load('RedshopHelperAdminCategory');
+JLoader::load('RedshopHelperAdminShopper');
+JLoader::load('RedshopHelperProduct');
 
 /**
  * Product Detail View
@@ -24,7 +24,7 @@ require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
  *
  * @since       1.0
  */
-class Product_DetailViewProduct_Detail extends JView
+class RedshopViewProduct_Detail extends JView
 {
 	/**
 	 * The request url.
@@ -423,7 +423,7 @@ class Product_DetailViewProduct_Detail extends JView
 			'class="inputbox" size="1"  ', 'value', 'text', $detail->product_tax_id
 		);
 
-		$categories = $product_category->list_all("product_category[]", 0, $productcats, 10, true, true);
+		$categories = $product_category->list_all("product_category[]", 0, $productcats, 10, false, true);
 		$lists['categories'] = $categories;
 		$detail->first_selected_category_id = isset($productcats[0]) ? $productcats[0] : null;
 
@@ -439,6 +439,7 @@ class Product_DetailViewProduct_Detail extends JView
 		$lists['product_download'] = JHtml::_('select.booleanlist', 'product_download', 'class="inputbox"', $detail->product_download);
 		$lists['not_for_sale'] = JHtml::_('select.booleanlist', 'not_for_sale', 'class="inputbox"', $detail->not_for_sale);
 		$lists['expired'] = JHtml::_('select.booleanlist', 'expired', 'class="inputbox"', $detail->expired);
+		$lists['allow_decimal_piece'] = JHtml::_('select.booleanlist', 'allow_decimal_piece', 'class="inputbox"', $detail->allow_decimal_piece);
 
 		// For individual pre-order
 		$preorder_data = $redhelper->getPreOrderByList();

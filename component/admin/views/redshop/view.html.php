@@ -11,16 +11,19 @@ defined('_JEXEC') or die ('restricted access');
 
 jimport('joomla.application.component.view');
 
-class redshopViewredshop extends JView
+class RedshopViewRedshop extends JView
 {
 	public function display($tpl = null)
 	{
 		$layout = JRequest::getCmd('layout');
 
-		JToolBarHelper::title('&nbsp;', 'redshop_261-x-88');
+		JToolBarHelper::title('', 'redshop_261-x-88');
 
 		if ($layout != "noconfig")
 		{
+			JToolBarHelper::custom('update', 'redshop_importexport32', JText::_('COM_REDSHOP_UPDATE_TITLE'),
+				JText::_('COM_REDSHOP_UPDATE_TITLE'), false, false
+			);
 			JToolBarHelper::custom('statistic', 'redshop_statistic32', JText::_('COM_REDSHOP_STATISTIC'),
 				JText::_('COM_REDSHOP_STATISTIC'), false, false
 			);
@@ -52,7 +55,7 @@ class redshopViewredshop extends JView
 			$filteroption = 4;
 		}
 
-		$statsticmodel = JModel::getInstance('statistic', 'statisticModel');
+		$statsticmodel = JModel::getInstance('Statistic', 'RedshopModel');
 		$this->turnover = $statsticmodel->getTotalTurnover();
 
 		$document = JFactory::getDocument();
@@ -69,7 +72,7 @@ class redshopViewredshop extends JView
 			'class="inputbox" size="1" onchange="document.chartform.submit();"', 'value', 'text', $filteroption
 		);
 
-		$configmodel = JModel::getInstance('configuration', 'configurationModel');
+		$configmodel = JModel::getInstance('Configuration', 'RedshopModel');
 
 		$this->redshopversion = $configmodel->getcurrentversion();
 

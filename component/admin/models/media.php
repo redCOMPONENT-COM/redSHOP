@@ -12,9 +12,9 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.model');
 jimport('joomla.filesystem.file');
 
-require_once JPATH_COMPONENT . '/helpers/media.php';
+JLoader::load('RedshopHelperAdminMedia');
 
-class mediaModelmedia extends JModel
+class RedshopModelMedia extends JModel
 {
 	public $_data = null;
 
@@ -349,7 +349,7 @@ class mediaModelmedia extends JModel
 
 	public function store($data)
 	{
-		$row =& $this->getTable('media_download');
+		$row = $this->getTable('media_download');
 
 		if (!$row->bind($data))
 		{
@@ -404,7 +404,7 @@ class mediaModelmedia extends JModel
 
 	public function saveorder($cid = array(), $order)
 	{
-		$row =& $this->getTable('media_detail');
+		$row = $this->getTable('media_detail');
 		$order = JRequest::getVar('order', array(0), 'post', 'array');
 		$conditions = array();
 

@@ -10,26 +10,25 @@
 defined('_JEXEC') or die;
 
 JHTMLBehavior::modal();
+JLoader::import('loadhelpers', JPATH_SITE . '/components/com_redshop');
 
 // Getting the configuration in redshop.js.php
-require_once  JPATH_ROOT . '/components/com_redshop/helpers/redshop.js.php';
-
-require_once  JPATH_ROOT . '/components/com_redshop/helpers/redshop.js.php';
+JLoader::load('RedshopHelperRedshop.js');
 
 global $Redconfiguration;
 $Redconfiguration = new Redconfiguration;
 $Redconfiguration->defineDynamicVars();
 
 // Getting the configuration
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/category.php';
+JLoader::load('RedshopHelperAdminCategory');
 
 // Get product helper
-require_once  JPATH_ROOT . '/components/com_redshop/helpers/product.php';
+JLoader::load('RedshopHelperProduct');
 
 // Get default helper
-require_once  JPATH_ROOT . '/components/com_redshop/helpers/helper.php';
+JLoader::load('RedshopHelperHelper');
 
-JLoader::import('images', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
+JLoader::load('RedshopHelperAdminImages');
 
 /**
 * This class sets all Parameters.
@@ -89,7 +88,7 @@ if (!class_exists('redFeatureproduct'))
 		function displayredFeature (&$rows)
 		{
 			global $Redconfiguration;
-			$uri           = JUri::getInstance();
+			$uri           = JURI::getInstance();
 			$url           = $uri->root();
 			$user          = JFactory::getUser();
 			$producthelper = new producthelper;

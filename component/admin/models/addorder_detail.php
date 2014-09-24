@@ -10,17 +10,17 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
-require_once JPATH_SITE . '/components/com_redshop/helpers/product.php';
-require_once JPATH_SITE . '/components/com_redshop/helpers/helper.php';
-require_once JPATH_SITE . '/components/com_redshop/helpers/user.php';
-require_once JPATH_SITE . '/components/com_redshop/helpers/cart.php';
-require_once JPATH_SITE . '/administrator/components/com_redshop/helpers/extra_field.php';
-require_once JPATH_SITE . '/administrator/components/com_redshop/helpers/mail.php';
-require_once JPATH_SITE . '/administrator/components/com_redshop/helpers/order.php';
-require_once JPATH_SITE . '/administrator/components/com_redshop/helpers/product.php';
-require_once JPATH_SITE . '/administrator/components/com_redshop/helpers/shipping.php';
+JLoader::load('RedshopHelperProduct');
+JLoader::load('RedshopHelperHelper');
+JLoader::load('RedshopHelperUser');
+JLoader::load('RedshopHelperCart');
+JLoader::load('RedshopHelperAdminExtra_field');
+JLoader::load('RedshopHelperAdminMail');
+JLoader::load('RedshopHelperAdminOrder');
+JLoader::load('RedshopHelperAdminProduct');
+JLoader::load('RedshopHelperAdminShipping');
 
-class addorder_detailModeladdorder_detail extends JModel
+class RedshopModelAddorder_detail extends JModel
 {
 	public $_id = null;
 
@@ -747,7 +747,7 @@ class addorder_detailModeladdorder_detail extends JModel
 					// RMA transation log
 					if (isset($item[$i]->reason))
 					{
-						$rmaTrans =& $this->getTable('rma_transaction');
+						$rmaTrans = $this->getTable('rma_transaction');
 						$rmaTrans->rma_transaction_id = 0;
 						$rmaTrans->rma_number = $postdata['rma_number'];
 						$rmaTrans->order_item_return_id = $rowitem->order_item_id;
