@@ -10,9 +10,8 @@
 defined('_JEXEC') or die;
 
 JLoader::import('joomla.application.component.controller');
-
-require_once JPATH_COMPONENT . '/helpers/helper.php';
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/extra_field.php';
+JLoader::load('RedshopHelperHelper');
+JLoader::load('RedshopHelperAdminExtra_field');
 
 /**
  * Checkout Controller.
@@ -21,7 +20,7 @@ require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/extra_field.
  * @subpackage  Controller
  * @since       1.0
  */
-class CheckoutController extends JController
+class RedshopControllerCheckout extends JController
 {
 	public $_order_functions = null;
 
@@ -59,8 +58,9 @@ class CheckoutController extends JController
 		}
 		else
 		{
-			$link = JRoute::_('index.php?option=' . $option . '&view=checkout&Itemid=' . $Itemid, false);
-			$this->setRedirect($link);
+			JRequest::setVar('view', 'checkout');
+			JRequest::setVar('task', '');
+			parent::display('default');
 		}
 	}
 
@@ -177,7 +177,7 @@ class CheckoutController extends JController
 	public function updateGLSLocation()
 	{
 		$get = JRequest::get('get');
-		JPluginHelper::importPlugin('rs_labels_GLS');
+		JPluginHelper::importPlugin('redshop_shipping');
 		$dispatcher = JDispatcher::getInstance();
 		$values = new stdClass;
 		$values->zipcode = $get['zipcode'];
@@ -654,7 +654,8 @@ class CheckoutController extends JController
 		}
 
 		$cart_total = $producthelper->getProductFormattedPrice($cart['mod_cart_total']);
-		echo "`_`" . $description . "`_`" . $cart_total;
+
+		echo eval("?>" . "`_`" . $description . "`_`" . $cart_total . "<?php ");
 		die();
 	}
 
@@ -688,7 +689,7 @@ class CheckoutController extends JController
 	 */
 	public function captcha()
 	{
-		require_once JPATH_COMPONENT_SITE . '/helpers/captcha.php';
+		JLoader::load('RedshopHelperCaptcha');
 
 		// Isset($_GET['width']) ? $_GET['width'] : '120';
 		$width = JRequest::getInt('width', 120);

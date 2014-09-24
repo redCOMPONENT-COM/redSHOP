@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 
-class zip_importController extends JController
+class RedshopControllerZip_import extends JController
 {
 	public function cancel()
 	{

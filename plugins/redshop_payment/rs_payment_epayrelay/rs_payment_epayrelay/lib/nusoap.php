@@ -217,7 +217,7 @@ class nusoap_base
 	 * @see    expandEntities
 	 */
 	var $xmlEntities = array('quot' => '"', 'amp' => '&',
-	                         'lt'   => '<', 'gt' => '>', 'apos' => "'");
+							 'lt'   => '<', 'gt' => '>', 'apos' => "'");
 
 	/**
 	 * constructor
@@ -1139,7 +1139,7 @@ class nusoap_base
  *
  * @access   public
  */
- public function iso8601_to_timestamp($datestr)
+function iso8601_to_timestamp($datestr)
 {
 	$pattern = '/' .
 		'([0-9]{4})-' . // centuries & years CCYY-
@@ -1190,7 +1190,7 @@ class nusoap_base
  * @access   public
  * @deprecated
  */
- public function usleepWindows($usec)
+function usleepWindows($usec)
 {
 	$start = gettimeofday();
 
@@ -1201,9 +1201,6 @@ class nusoap_base
 			+ $stop['usec'] - $start['usec'];
 	} while ($timePassed < $usec);
 }
-
-?><?php
-
 
 /**
  * Contains information for a SOAP fault.
@@ -4233,11 +4230,11 @@ class soap_transport_http extends nusoap_base
 			$name = substr($value_str, 0, $sep_pos);
 			$value = substr($value_str, $sep_pos + 1);
 			$cookie = array('name'    => $name,
-			                'value'   => $value,
-			                'domain'  => $domain,
-			                'path'    => $path,
-			                'expires' => $expires,
-			                'secure'  => $secure
+							'value'   => $value,
+							'domain'  => $domain,
+							'path'    => $path,
+							'expires' => $expires,
+							'secure'  => $secure
 			);
 
 			return $cookie;
@@ -6685,73 +6682,73 @@ class wsdl extends nusoap_base
 		$b = '
 		<html><head><title>NuSOAP: ' . $this->serviceName . '</title>
 		<style type="text/css">
-		    body    { font-family: arial; color: #000000; background-color: #ffffff; margin: 0px 0px 0px 0px; }
-		    p       { font-family: arial; color: #000000; margin-top: 0px; margin-bottom: 12px; }
-		    pre { background-color: silver; padding: 5px; font-family: Courier New; font-size: x-small; color: #000000;}
-		    ul      { margin-top: 10px; margin-left: 20px; }
-		    li      { list-style-type: none; margin-top: 10px; color: #000000; }
-		    .content{
+			body    { font-family: arial; color: #000000; background-color: #ffffff; margin: 0px 0px 0px 0px; }
+			p       { font-family: arial; color: #000000; margin-top: 0px; margin-bottom: 12px; }
+			pre { background-color: silver; padding: 5px; font-family: Courier New; font-size: x-small; color: #000000;}
+			ul      { margin-top: 10px; margin-left: 20px; }
+			li      { list-style-type: none; margin-top: 10px; color: #000000; }
+			.content{
 			margin-left: 0px; padding-bottom: 2em; }
-		    .nav {
+			.nav {
 			padding-top: 10px; padding-bottom: 10px; padding-left: 15px; font-size: .70em;
 			margin-top: 10px; margin-left: 0px; color: #000000;
 			background-color: #ccccff; width: 20%; margin-left: 20px; margin-top: 20px; }
-		    .title {
+			.title {
 			font-family: arial; font-size: 26px; color: #ffffff;
 			background-color: #999999; width: 105%; margin-left: 0px;
 			padding-top: 10px; padding-bottom: 10px; padding-left: 15px;}
-		    .hidden {
+			.hidden {
 			position: absolute; visibility: hidden; z-index: 200; left: 250px; top: 100px;
 			font-family: arial; overflow: hidden; width: 600;
 			padding: 20px; font-size: 10px; background-color: #999999;
 			layer-background-color:#FFFFFF; }
-		    a,a:active  { color: charcoal; font-weight: bold; }
-		    a:visited   { color: #666666; font-weight: bold; }
-		    a:hover     { color: cc3300; font-weight: bold; }
+			a,a:active  { color: charcoal; font-weight: bold; }
+			a:visited   { color: #666666; font-weight: bold; }
+			a:hover     { color: cc3300; font-weight: bold; }
 		</style>
 		<script language="JavaScript" type="text/javascript">
 		<!--
 		// POP-UP CAPTIONS...
 		function lib_bwcheck(){ //Browsercheck (needed)
-		    this.ver=navigator.appVersion
-		    this.agent=navigator.userAgent
-		    this.dom=document.getElementById?1:0
-		    this.opera5=this.agent.indexOf("Opera 5")>-1
-		    this.ie5=(this.ver.indexOf("MSIE 5")>-1 && this.dom && !this.opera5)?1:0;
-		    this.ie6=(this.ver.indexOf("MSIE 6")>-1 && this.dom && !this.opera5)?1:0;
-		    this.ie4=(document.all && !this.dom && !this.opera5)?1:0;
-		    this.ie=this.ie4||this.ie5||this.ie6
-		    this.mac=this.agent.indexOf("Mac")>-1
-		    this.ns6=(this.dom && parseInt(this.ver) >= 5) ?1:0;
-		    this.ns4=(document.layers && !this.dom)?1:0;
-		    this.bw=(this.ie6 || this.ie5 || this.ie4 || this.ns4 || this.ns6 || this.opera5)
-		    return this
+			this.ver=navigator.appVersion
+			this.agent=navigator.userAgent
+			this.dom=document.getElementById?1:0
+			this.opera5=this.agent.indexOf("Opera 5")>-1
+			this.ie5=(this.ver.indexOf("MSIE 5")>-1 && this.dom && !this.opera5)?1:0;
+			this.ie6=(this.ver.indexOf("MSIE 6")>-1 && this.dom && !this.opera5)?1:0;
+			this.ie4=(document.all && !this.dom && !this.opera5)?1:0;
+			this.ie=this.ie4||this.ie5||this.ie6
+			this.mac=this.agent.indexOf("Mac")>-1
+			this.ns6=(this.dom && parseInt(this.ver) >= 5) ?1:0;
+			this.ns4=(document.layers && !this.dom)?1:0;
+			this.bw=(this.ie6 || this.ie5 || this.ie4 || this.ns4 || this.ns6 || this.opera5)
+			return this
 		}
 		var bw = new lib_bwcheck()
 		//Makes crossbrowser object.
 		function makeObj(obj){
-		    this.evnt=bw.dom? document.getElementById(obj):bw.ie4?document.all[obj]:bw.ns4?document.layers[obj]:0;
-		    if(!this.evnt) return false
-		    this.css=bw.dom||bw.ie4?this.evnt.style:bw.ns4?this.evnt:0;
-		    this.wref=bw.dom||bw.ie4?this.evnt:bw.ns4?this.css.document:0;
-		    this.writeIt=b_writeIt;
-		    return this
+			this.evnt=bw.dom? document.getElementById(obj):bw.ie4?document.all[obj]:bw.ns4?document.layers[obj]:0;
+			if(!this.evnt) return false
+			this.css=bw.dom||bw.ie4?this.evnt.style:bw.ns4?this.evnt:0;
+			this.wref=bw.dom||bw.ie4?this.evnt:bw.ns4?this.css.document:0;
+			this.writeIt=b_writeIt;
+			return this
 		}
 		// A unit of measure that will be added when setting the position of a layer.
 		//var px = bw.ns4||window.opera?"":"px";
 		function b_writeIt(text){
-		    if (bw.ns4){this.wref.write(text);this.wref.close()}
-		    else this.wref.innerHTML = text
+			if (bw.ns4){this.wref.write(text);this.wref.close()}
+			else this.wref.innerHTML = text
 		}
 		//Shows the messages
 		var oDesc;
 		function popup(divid){
-		    if(oDesc = new makeObj(divid)){
+			if(oDesc = new makeObj(divid)){
 			oDesc.css.visibility = "visible"
-		    }
+			}
 		}
 		function popout(){ // Hides message
-		    if(oDesc) oDesc.css.visibility = "hidden"
+			if(oDesc) oDesc.css.visibility = "hidden"
 		}
 		//-->
 		</script>
@@ -6770,7 +6767,7 @@ class wsdl extends nusoap_base
 			$b .= "<li><a href='#' onclick=\"popout();popup('$op')\">$op</a></li>";
 			// create hidden div
 			$b .= "<div id='$op' class='hidden'>
-				    <a href='#' onclick='popout()'><font color='#ffffff'>Close</font></a><br><br>";
+					<a href='#' onclick='popout()'><font color='#ffffff'>Close</font></a><br><br>";
 
 			foreach ($data as $donnie => $marie)
 			{ // loop through opdata
@@ -8704,7 +8701,7 @@ class nusoap_parser extends nusoap_base
 				// add placeholder to href array
 				$this->multirefs[$id][$pos] = 'placeholder';
 				// add set a reference to it as the result value
-				$this->message[$pos]['result'] =& $this->multirefs[$id][$pos];
+				$this->message[$pos]['result'] = $this->multirefs[$id][$pos];
 				// build complexType values
 			}
 			elseif ($this->message[$pos]['children'] != '')
@@ -9605,7 +9602,7 @@ class nusoap_client extends nusoap_base
 	public function loadWSDL()
 	{
 		$this->debug('instantiating wsdl class with doc: ' . $this->wsdlFile);
-		$this->wsdl =& new wsdl('', $this->proxyhost, $this->proxyport, $this->proxyusername, $this->proxypassword, $this->timeout, $this->response_timeout, $this->curl_options, $this->use_curl);
+		$this->wsdl = new wsdl('', $this->proxyhost, $this->proxyport, $this->proxyusername, $this->proxypassword, $this->timeout, $this->response_timeout, $this->curl_options, $this->use_curl);
 		$this->wsdl->setCredentials($this->username, $this->password, $this->authtype, $this->certRequest);
 		$this->wsdl->fetchWSDL($this->wsdlFile);
 		$this->checkWSDL();
@@ -9664,7 +9661,7 @@ class nusoap_client extends nusoap_base
 
 				if ($this->persistentConnection == true && is_object($this->persistentConnection))
 				{
-					$http =& $this->persistentConnection;
+					$http = $this->persistentConnection;
 				}
 				else
 				{
@@ -10190,10 +10187,10 @@ class nusoap_client extends nusoap_base
 
 	/*
 	* whether or not parser should decode utf8 element content
-    *
-    * @return   always returns true
-    * @access   public
-    */
+	*
+	* @return   always returns true
+	* @access   public
+	*/
 	public function decodeUTF8($bool)
 	{
 		$this->decode_utf8 = $bool;

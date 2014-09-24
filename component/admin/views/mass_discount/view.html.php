@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
-class mass_discountViewmass_discount extends JView
+class RedshopViewMass_discount extends JView
 {
 	public function display($tpl = null)
 	{

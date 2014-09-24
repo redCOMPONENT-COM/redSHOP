@@ -275,6 +275,7 @@ class leftmenu
 				break;
 
 			case "configuration":
+			case 'update':
 				$selected = $counter + $acocnt + $ecocnt + 4;
 				break;
 
@@ -1475,6 +1476,13 @@ class leftmenu
 				$link = 'index.php?option=com_redshop&view=configuration&layout=resettemplate';
 				echo '<a href="' . $link . '" title="' . JText::_('COM_REDSHOP_RESET_TEMPLATE_LBL') . '">'
 					. JText::_('COM_REDSHOP_RESET_TEMPLATE_LBL') . '</a>'; ?>
+			</td>
+		</tr>
+		<tr>
+			<td><?php
+				$link = 'index.php?option=com_redshop&view=update';
+				echo '<a href="' . $link . '" title="' . JText::_('COM_REDSHOP_UPDATE_TITLE') . '">'
+					. JText::_('COM_REDSHOP_UPDATE_TITLE') . '</a>'; ?>
 			</td>
 		</tr>
 		</table><?php

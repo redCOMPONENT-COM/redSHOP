@@ -144,6 +144,8 @@ class Tableproduct_detail extends JTable
 	 */
 	public $checked_out_time = 0;
 
+	public $allow_decimal_piece = 0;
+
 	public function __construct(&$db)
 	{
 		$this->_table_prefix = '#__redshop_';
