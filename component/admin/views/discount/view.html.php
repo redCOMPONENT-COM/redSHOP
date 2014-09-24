@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
-class discountViewdiscount extends JView
+class RedshopViewDiscount extends JView
 {
 	/**
 	 * The current user.

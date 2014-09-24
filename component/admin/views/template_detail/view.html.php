@@ -9,9 +9,9 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/order.php';
+JLoader::load('RedshopHelperAdminOrder');
 
-class template_detailVIEWtemplate_detail extends JView
+class RedshopViewTemplate_detail extends JView
 {
 	public function display($tpl = null)
 	{

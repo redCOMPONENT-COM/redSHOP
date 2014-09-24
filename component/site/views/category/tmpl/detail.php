@@ -22,6 +22,13 @@ $redTemplate = new Redtemplate;
 $texts = new text_library;
 
 $start = $this->input->getInt('limitstart', 0);
+
+// check limitstart
+if (count($this->product) < $start)
+{
+	$start = 0;
+}
+
 $slide = $this->input->getInt('ajaxslide', null);
 $filter_by = $this->input->getInt('manufacturer_id', $this->params->get('manufacturer_id'));
 $category_template = $this->input->getInt('category_template', 0);
@@ -55,8 +62,6 @@ else
 	$template_desc .= "</div>\r\n</div>\r\n</div>\r\n{product_loop_end}\r\n<div class=\"category_product_bottom\" style=\"clear: both;\"></div>\r\n";
 	$template_desc .= "</div>\r\n<div class=\"category_pagination\">{pagination}</div>";
 }
-
-$endlimit = count($this->product);
 
 if (!strstr($template_desc, "{show_all_products_in_category}") && strstr($template_desc, "{pagination}"))
 {
@@ -154,7 +159,7 @@ if (!$slide)
 	$print_tag .= "</a>";
 
 	$template_desc = str_replace("{print}", $print_tag, $template_desc);
-	$template_desc = str_replace("{total_product}", count($this->product), $template_desc);
+	$template_desc = str_replace("{total_product}", $model->_total, $template_desc);
 	$template_desc = str_replace("{total_product_lbl}", JText::_('COM_REDSHOP_TOTAL_PRODUCT'), $template_desc);
 
 	if (strstr($template_desc, '{returntocategory_link}') || strstr($template_desc, '{returntocategory_name}') || strstr($template_desc, '{returntocategory}'))
@@ -494,37 +499,12 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 	$extraFieldName = $extraField->getSectionFieldNameArray(1, 1, 1);
 	$product_data   = '';
 
-	// For all products
-	if ($endlimit == 0)
-	{
-		$final_endlimit = count($this->product);
-	}
-	else
-	{
-		$final_endlimit = $endlimit;
-	}
-
-	for ($i = $start; $i < ($start + $final_endlimit); $i++)
+	foreach ($this->product as $product)
 	{
 		// ToDo: This is wrong way to generate tmpl file. And model function to load $this->product is wrong way also. Fix it.
 		// ToDo: Echo a message when no records is returned by selection of empty category or wrong manufacturer in menu item params.
-		$product = null;
-
-		if ((!empty($this->product)) && (isset($this->product[$i])))
-		{
-			$product = $this->product[$i];
-		}
-
-		if (!is_object($product))
-		{
-			break;
-		}
 
 		$count_no_user_field = 0;
-
-		// Counting accessory
-		$accessorylist = $producthelper->getProductAccessory(0, $product->product_id);
-		$totacc        = count($accessorylist);
 
 		$data_add = $template_product;
 
@@ -573,7 +553,7 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 
 				if (is_file(REDSHOP_FRONT_DOCUMENT_RELPATH . 'product/' . $media_documents[$m]->media_name))
 				{
-					$downlink = JUri::root() .
+					$downlink = JURI::root() .
 								'index.php?tmpl=component&option=' . $this->option .
 								'&view=product&pid=' . $this->data->product_id .
 								'&task=downloadDocument&fname=' . $media_documents[$m]->media_name .
@@ -767,7 +747,7 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 
 			if (count($related_product) > 0)
 			{
-				$linktortln = JUri::root() .
+				$linktortln = JURI::root() .
 								"index.php?option=com_redshop&view=product&pid=" . $product->product_id .
 								"&tmpl=component&template=" . $rtln . "&for=rtln";
 				$rtlna      = '<a class="redcolorproductimg" href="' . $linktortln . '"  >' . JText::_('COM_REDSHOP_RELATED_PRODUCT_LIST_IN_LIGHTBOX') . '</a>';
@@ -1046,7 +1026,7 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 															$isChilds,
 															$userfieldArr,
 															$totalatt,
-															$totacc,
+															$product->total_accessories,
 															$count_no_user_field
 														);
 

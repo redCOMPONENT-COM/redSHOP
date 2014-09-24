@@ -11,10 +11,9 @@ defined('_JEXEC') or die;
 
 JLoader::import('joomla.application.component.controller');
 
-require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/mail.php';
-require_once JPATH_COMPONENT_SITE . '/helpers/extra_field.php';
-
+JLoader::load('RedshopHelperProduct');
+JLoader::load('RedshopHelperAdminMail');
+JLoader::load('RedshopHelperExtra_field');
 
 /**
  * registration Controller.
@@ -23,7 +22,7 @@ require_once JPATH_COMPONENT_SITE . '/helpers/extra_field.php';
  * @subpackage  Controller
  * @since       1.0
  */
-class RegistrationController extends JController
+class RedshopControllerRegistration extends JController
 {
 	/**
 	 * newregistration function
@@ -89,7 +88,7 @@ class RegistrationController extends JController
 	 */
 	public function captcha()
 	{
-		require_once JPATH_COMPONENT_SITE . '/helpers/captcha.php';
+		JLoader::load('RedshopHelperCaptcha');
 
 		$width       = JRequest::getInt('width', 120);
 		$height      = JRequest::getInt('height', 40);

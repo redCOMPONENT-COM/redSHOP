@@ -11,8 +11,8 @@ defined('_JEXEC') or die;
 $url = JURI::base();
 
 // Get product helper
-require_once JPATH_ROOT . '/components/com_redshop/helpers/product.php';
-require_once JPATH_SITE . '/components/com_redshop/helpers/extra_field.php';
+JLoader::load('RedshopHelperProduct');
+JLoader::load('RedshopHelperExtra_field');
 
 $producthelper = new producthelper;
 
@@ -194,7 +194,8 @@ elseif (isset($compare['idx']) && $compare['idx'] > 1)
 
 			if (SHOW_PRICE && !USE_AS_CATALOG && (!DEFAULT_QUOTATION_MODE || (DEFAULT_QUOTATION_MODE && SHOW_QUOTATION_PRICE)))
 			{
-				$price = $producthelper->getProductFormattedPrice($product->product_price);
+				$productPrices = $producthelper->getProductNetPrice($product->product_id);
+				$price = $producthelper->getProductFormattedPrice($productPrices['product_price']);
 			}
 
 			$template = str_replace('{product_price}', $exp_div . $price . $div_end . $td_end . $td_start . "{product_price}", $template);

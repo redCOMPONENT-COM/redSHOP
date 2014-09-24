@@ -9,11 +9,11 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
-require_once JPATH_ROOT . '/components/com_redshop/helpers/product.php';
-require_once JPATH_COMPONENT . '/helpers/text_library.php';
-require_once JPATH_ROOT . '/administrator/components/com_redshop/helpers/images.php';
+JLoader::load('RedshopHelperProduct');
+JLoader::load('RedshopHelperAdminText_library');
+JLoader::load('RedshopHelperAdminImages');
 
-class newsletterModelnewsletter extends JModel
+class RedshopModelNewsletter extends JModel
 {
 	public $_data = null;
 

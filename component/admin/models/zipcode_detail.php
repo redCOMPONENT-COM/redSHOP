@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
-class zipcode_detailModelzipcode_detail extends JModel
+class RedshopModelZipcode_detail extends JModel
 {
 	public $_id = null;
 
@@ -84,7 +84,7 @@ class zipcode_detailModelzipcode_detail extends JModel
 
 	public function store($data)
 	{
-		$row =& $this->getTable();
+		$row = $this->getTable();
 
 		if (!$row->bind($data))
 		{
@@ -132,7 +132,7 @@ class zipcode_detailModelzipcode_detail extends JModel
 
 	public function getcountry()
 	{
-		require_once JPATH_COMPONENT_SITE . '/helpers/helper.php';
+		JLoader::load('RedshopHelperHelper');
 		$redhelper = new redhelper;
 		$q = "SELECT  country_3_code as value,country_name as text,country_jtext from #__redshop_country ORDER BY country_name ASC";
 		$this->_db->setQuery($q);

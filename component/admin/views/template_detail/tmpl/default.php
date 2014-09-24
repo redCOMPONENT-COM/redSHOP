@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/extra_field.php';
+JLoader::load('RedshopHelperAdminExtra_field');
 $extra_field = new extra_field();
 JHTML::_('behavior.tooltip');
 $editor = JFactory::getEditor();
@@ -25,10 +25,6 @@ $showbuttons = JRequest::getVar('showbuttons');
 		}
 	}
 	Joomla.submitbutton = function (pressbutton) {
-		submitbutton(pressbutton);
-	}
-
-	submitbutton = function (pressbutton) {
 		var form = document.adminForm;
 		if (pressbutton == 'cancel') {
 			submitform(pressbutton);
