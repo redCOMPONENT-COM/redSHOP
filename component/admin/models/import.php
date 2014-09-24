@@ -265,19 +265,19 @@ class RedshopModelImport extends JModel
 
 							if (isset($rawdata['product_name']) === true)
 							{
-								$rawdata['product_name'] = htmlentities($rawdata['product_name'], ENT_COMPAT, $post['encoding']);
+								$rawdata['product_name'] = mb_convert_encoding($rawdata['product_name'], 'UTF-8', $post['encoding']);
 							}
 
 							// Product Description is optional - no need to add column in csv everytime.
 							if (isset($rawdata['product_desc']) === true)
 							{
-								$rawdata['product_desc'] = htmlentities($rawdata['product_desc'], ENT_COMPAT, $post['encoding']);
+								$rawdata['product_desc'] = mb_convert_encoding($rawdata['product_desc'], 'UTF-8', $post['encoding']);
 							}
 
 							// Product Short Description is also optional - no need to add column in csv everytime.
 							if (isset($rawdata['product_s_desc']) === true)
 							{
-								$rawdata['product_s_desc'] = htmlentities($rawdata['product_s_desc'], ENT_COMPAT, $post['encoding']);
+								$rawdata['product_s_desc'] = mb_convert_encoding($rawdata['product_s_desc'], 'UTF-8', $post['encoding']);
 							}
 
 							if (isset($rawdata['manufacturer_name']))
@@ -959,13 +959,12 @@ class RedshopModelImport extends JModel
 
 							// Insert product attributes
 							$attribute_id = "";
-							$attribute_name = $rawdata['attribute_name'];
-							$attribute_ordering = $rawdata['attribute_ordering'];
+							$attribute_name           = mb_convert_encoding($rawdata['attribute_name'], 'UTF-8', $post['encoding']);
+							$attribute_ordering       = $rawdata['attribute_ordering'];
 							$allow_multiple_selection = $rawdata['allow_multiple_selection'];
-							$hide_attribute_price = $rawdata['hide_attribute_price'];
-							$attribute_display_type = $rawdata['display_type'];
-
-							$attribute_required = $rawdata['attribute_required'];
+							$hide_attribute_price     = $rawdata['hide_attribute_price'];
+							$attribute_display_type   = $rawdata['display_type'];
+							$attribute_required       = $rawdata['attribute_required'];
 
 							$query = "SELECT `attribute_id` FROM `#__redshop_product_attribute` WHERE `product_id` = "
 								. $product_id . " AND `attribute_name` = '" . $attribute_name . "'";
@@ -1010,7 +1009,7 @@ class RedshopModelImport extends JModel
 
 								// Insert product attributes property
 								$property_id = 0;
-								$property_name = $rawdata['property_name'];
+								$property_name = mb_convert_encoding($rawdata['property_name'], 'UTF-8', $post['encoding']);
 
 								if ($property_name != "")
 								{
@@ -1175,17 +1174,17 @@ class RedshopModelImport extends JModel
 
 										// Redshop product attribute subproperty
 										$subattribute_color_id = "";
-										$subattribute_color_name = $rawdata['subattribute_color_name'];
+										$subattribute_color_name = mb_convert_encoding($rawdata['subattribute_color_name'], 'UTF-8', $post['encoding']);
 
 										if ($subattribute_color_name != "")
 										{
-											$subattribute_color_ordering = $rawdata['subattribute_color_ordering'];
+											$subattribute_color_ordering      = $rawdata['subattribute_color_ordering'];
 											$subattribute_setdefault_selected = $rawdata['subattribute_setdefault_selected'];
-											$subattribute_color_title = $rawdata['subattribute_color_title'];
-											$subattribute_color_number = $rawdata['subattribute_virtual_number'];
-											$subattribute_color_price = $rawdata['subattribute_color_price'];
-											$oprand = $rawdata['subattribute_color_oprand'];
-											$subattribute_color_image = @basename($rawdata['subattribute_color_image']);
+											$subattribute_color_title         = mb_convert_encoding($rawdata['subattribute_color_title'], 'UTF-8', $post['encoding']);
+											$subattribute_color_number        = $rawdata['subattribute_virtual_number'];
+											$subattribute_color_price         = $rawdata['subattribute_color_price'];
+											$oprand                           = $rawdata['subattribute_color_oprand'];
+											$subattribute_color_image         = basename($rawdata['subattribute_color_image']);
 
 											$query = "SELECT `subattribute_color_id` FROM `#__redshop_product_subattribute_color` WHERE  `subattribute_id` = " . $prop_insert_id
 												. " AND  `subattribute_color_name` = '" . $subattribute_color_name . "'";

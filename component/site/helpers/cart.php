@@ -2606,19 +2606,34 @@ class rsCarthelper
 		$downloadProducts     = $this->_order_functions->getDownloadProduct($order_id);
 		$paymentmethod        = $this->_order_functions->getOrderPaymentDetail($order_id);
 		$paymentmethod        = $paymentmethod[0];
+
+		// Initialize Transaction label
+		$transactionIdLabel = '';
+
+		// Check if transaction Id is set
+		if ($paymentmethod->order_payment_trans_id != null)
+		{
+			$transactionIdLabel = JText::_('COM_REDSHOP_PAYMENT_TRANSACTION_ID_LABEL');
+		}
+
+		// Replace Transaction Id and Label
+		$ReceiptTemplate      = str_replace("{transaction_id_label}", $transactionIdLabel, $ReceiptTemplate);
+		$ReceiptTemplate      = str_replace("{transaction_id}", $paymentmethod->order_payment_trans_id, $ReceiptTemplate);
+
+		// Get Payment Method information
 		$paymentmethod_detail = $this->_order_functions->getPaymentMethodInfo($paymentmethod->payment_method_class);
 		$paymentmethod_detail = $paymentmethod_detail [0];
 		$OrderStatus          = $this->_order_functions->getOrderStatusTitle($row->order_status);
 
-		$product_name      = "";
-		$product_price     = "";
-		$subtotal_excl_vat = $cartArr[1];
-		$barcode_code      = $row->barcode;
-		$img_url           = REDSHOP_FRONT_IMAGES_ABSPATH . "barcode/" . $barcode_code . ".png";
-		$bar_replace       = '<img alt="" src="' . $img_url . '">';
+		$product_name         = "";
+		$product_price        = "";
+		$subtotal_excl_vat    = $cartArr[1];
+		$barcode_code         = $row->barcode;
+		$img_url              = REDSHOP_FRONT_IMAGES_ABSPATH . "barcode/" . $barcode_code . ".png";
+		$bar_replace          = '<img alt="" src="' . $img_url . '">';
 
-		$total_excl_vat = $subtotal_excl_vat + ($row->order_shipping - $row->order_shipping_tax) - ($row->order_discount - $row->order_discount_vat);
-		$sub_total_vat  = $row->order_tax + $row->order_shipping_tax;
+		$total_excl_vat       = $subtotal_excl_vat + ($row->order_shipping - $row->order_shipping_tax) - ($row->order_discount - $row->order_discount_vat);
+		$sub_total_vat        = $row->order_tax + $row->order_shipping_tax;
 
 		if (isset($row->voucher_discount) === false)
 		{
@@ -3734,104 +3749,114 @@ class rsCarthelper
 			$payment_display = "";
 			$flag            = false;
 
-			for ($p = 0; $p < count($paymentmethod); $p++)
+			// Filter payment gateways array for shopperGroups
+			$paymentmethod = array_filter(
+				$paymentmethod,
+				function ($paymentMethod) use ($shopperGroupId)
+				{
+					$paymentFilePath = JPATH_SITE
+									. '/plugins/redshop_payment/'
+									. $paymentMethod->name . '/' . $paymentMethod->name . '.php';
+
+					if (!file_exists($paymentFilePath))
+					{
+						return false;
+					}
+
+					$paymentparams  = new JRegistry($paymentMethod->params);
+					$shopperGroups  = $paymentparams->get('shopper_group_id', array());
+
+					if (!is_array($shopperGroups))
+					{
+						$shopperGroups = array($shopperGroups);
+					}
+
+					JArrayHelper::toInteger($shopperGroups);
+
+					if (in_array((int) $shopperGroupId, $shopperGroups)
+						|| 0 == $shopperGroups[0])
+					{
+						return true;
+					}
+
+					return false;
+				}
+			);
+
+			// Reset Index
+			sort($paymentmethod);
+
+			$totalPaymentMethod = count($paymentmethod);
+
+			for ($p = 0; $p < $totalPaymentMethod; $p++)
 			{
 				$cardinfo        = "";
 				$display_payment = "";
-				$paymentFilePath = JPATH_SITE . '/plugins/redshop_payment/' . $paymentmethod[$p]->name . '/' . $paymentmethod[$p]->name . '.php';
+				$paymentpath = JPATH_SITE . '/plugins/redshop_payment/' . $paymentmethod[$p]->name . '/' . $paymentmethod[$p]->name . '.php';
 
-				if (file_exists($paymentFilePath))
+				include_once $paymentpath;
+
+				$paymentparams  = new JRegistry($paymentmethod[$p]->params);
+				$private_person = $paymentparams->get('private_person', '');
+				$business       = $paymentparams->get('business', '');
+				$is_creditcard  = $paymentparams->get('is_creditcard', 0);
+
+				$checked = '';
+				$payment_chcked_class = '';
+
+				if ($payment_method_id === $paymentmethod[$p]->name || $totalPaymentMethod <= 1)
 				{
-					$paymentpath = JPATH_SITE . '/plugins/redshop_payment/' . $paymentmethod[$p]->name . '/' . $paymentmethod[$p]->name . '.php';
+					$checked = "checked";
+					$payment_chcked_class = "paymentgtwchecked";
+				}
 
-					include_once $paymentpath;
+				$payment_radio_output = '<div id="' . $paymentmethod[$p]->name . '" class="' . $payment_chcked_class . '"><input  type="radio" name="payment_method_id" id="' . $paymentmethod[$p]->name . $p . '" value="' . $paymentmethod[$p]->name . '" ' . $checked . ' onclick="javascript:onestepCheckoutProcess(this.name,\'\');" /><label for="' . $paymentmethod[$p]->name . $p . '">' . JText::_('PLG_' . strtoupper($paymentmethod[$p]->name)) . '</label></div>';
 
-					$paymentparams  = new JRegistry($paymentmethod[$p]->params);
-					$private_person = $paymentparams->get('private_person', '');
-					$business       = $paymentparams->get('business', '');
-					$is_creditcard  = $paymentparams->get('is_creditcard', 0);
-					$shopper_group  = $paymentparams->get('shopper_group_id');
+				$is_subscription = false;
 
-					if (!is_array($shopper_group))
+				if ($paymentmethod[$p]->name == 'rs_payment_eantransfer' || $paymentmethod[$p]->name == 'rs_payment_cashtransfer' || $paymentmethod[$p]->name == 'rs_payment_banktransfer' || $paymentmethod[$p]->name == "rs_payment_banktransfer2" || $paymentmethod[$p]->name == "rs_payment_banktransfer3" || $paymentmethod[$p]->name == "rs_payment_banktransfer4" || $paymentmethod[$p]->name == "rs_payment_banktransfer5")
+				{
+					if ($is_company == 0 && $private_person == 1)
 					{
-						$shopper_groupArr    = array();
-						$shopper_groupArr[0] = $shopper_group;
-
-						if ($shopper_group == '')
-						{
-							$shopper_groupArr[0] = 0;
-						}
+						$display_payment = $payment_radio_output;
+						$flag = true;
 					}
 					else
 					{
-						$shopper_groupArr = $shopper_group;
-					}
-
-					if (in_array($shopperGroupId, $shopper_groupArr) || $shopper_groupArr[0] == 0)
-					{
-						$checked = '';
-
-						if ($payment_method_id === $paymentmethod[$p]->name)
-						{
-							$checked = "checked";
-						}
-
-						$payment_chcked_class = '';
-
-						if ($payment_method_id == $paymentmethod[$p]->name)
-						{
-							$payment_chcked_class = "paymentgtwchecked";
-						}
-
-						$payment_radio_output = '<div id="' . $paymentmethod[$p]->name . '" class="' . $payment_chcked_class . '"><input  type="radio" name="payment_method_id" id="' . $paymentmethod[$p]->name . $p . '" value="' . $paymentmethod[$p]->name . '" ' . $checked . ' onclick="javascript:onestepCheckoutProcess(this.name,\'\');" /><label for="' . $paymentmethod[$p]->name . $p . '">' . JText::_('PLG_' . strtoupper($paymentmethod[$p]->name)) . '</label></div>';
-
-						$is_subscription = false;
-
-						if ($paymentmethod[$p]->name == 'rs_payment_eantransfer' || $paymentmethod[$p]->name == 'rs_payment_cashtransfer' || $paymentmethod[$p]->name == 'rs_payment_banktransfer' || $paymentmethod[$p]->name == "rs_payment_banktransfer2" || $paymentmethod[$p]->name == "rs_payment_banktransfer3" || $paymentmethod[$p]->name == "rs_payment_banktransfer4" || $paymentmethod[$p]->name == "rs_payment_banktransfer5")
-						{
-							if ($is_company == 0 && $private_person == 1)
-							{
-								$display_payment = $payment_radio_output;
-								$flag = true;
-							}
-							else
-							{
-								if ($is_company == 1 && $business == 1 && ($paymentmethod[$p]->name != 'rs_payment_eantransfer' || ($paymentmethod[$p]->name == 'rs_payment_eantransfer' && $eanNumber != 0)))
-								{
-									$display_payment = $payment_radio_output;
-									$flag = true;
-								}
-							}
-						}
-						elseif ($is_subscription)
-						{
-							$display_payment = '<input id="' . $paymentmethod[$p]->name . $p . '" type="radio" name="payment_method_id" value="'
-								. $paymentmethod[$p]->name . '" '
-								. $checked . ' onclick="javascript:onestepCheckoutProcess(this.name);" />'
-								. '<label for="' . $paymentmethod[$p]->name . $p . '">' . JText::_($paymentmethod[$p]->name) . '</label><br>';
-							$display_payment .= '<table><tr><td>'
-								. JText::_('COM_REDSHOP_SUBSCRIPTION_PLAN')
-								. '</td><td>' . $this->getSubscriptionPlans()
-								. '<td></tr><table>';
-						}
-						else
+						if ($is_company == 1 && $business == 1 && ($paymentmethod[$p]->name != 'rs_payment_eantransfer' || ($paymentmethod[$p]->name == 'rs_payment_eantransfer' && $eanNumber != 0)))
 						{
 							$display_payment = $payment_radio_output;
 							$flag = true;
 						}
-
-						if ($is_creditcard)
-						{
-							$cardinfo = '<div id="divcardinfo_' . $paymentmethod[$p]->name . '">';
-
-							if ($checked != "" && ONESTEP_CHECKOUT_ENABLE)
-							{
-								$cardinfo .= $this->replaceCreditCardInformation($paymentmethod[$p]->name);
-							}
-
-							$cardinfo .= '</div>';
-						}
 					}
+				}
+				elseif ($is_subscription)
+				{
+					$display_payment = '<input id="' . $paymentmethod[$p]->name . $p . '" type="radio" name="payment_method_id" value="'
+						. $paymentmethod[$p]->name . '" '
+						. $checked . ' onclick="javascript:onestepCheckoutProcess(this.name);" />'
+						. '<label for="' . $paymentmethod[$p]->name . $p . '">' . JText::_($paymentmethod[$p]->name) . '</label><br>';
+					$display_payment .= '<table><tr><td>'
+						. JText::_('COM_REDSHOP_SUBSCRIPTION_PLAN')
+						. '</td><td>' . $this->getSubscriptionPlans()
+						. '<td></tr><table>';
+				}
+				else
+				{
+					$display_payment = $payment_radio_output;
+					$flag = true;
+				}
+
+				if ($is_creditcard)
+				{
+					$cardinfo = '<div id="divcardinfo_' . $paymentmethod[$p]->name . '">';
+
+					if ($checked != "" && ONESTEP_CHECKOUT_ENABLE)
+					{
+						$cardinfo .= $this->replaceCreditCardInformation($paymentmethod[$p]->name);
+					}
+
+					$cardinfo .= '</div>';
 				}
 
 				$payment_display .= $template_middle;
@@ -4072,6 +4097,20 @@ class rsCarthelper
 				$userid      = $coupon->userid;
 				$userType    = false;
 				$return      = true;
+				$counter     = 0;
+
+				foreach ($cart['coupon'] as $key => $val)
+				{
+					if ($val['coupon_code'] == $coupon_code)
+					{
+						$counter++;
+					}
+				}
+
+				if ($coupon->coupon_left <= $counter)
+				{
+					return false;
+				}
 
 				if ($coupon_type == 1)
 				{
@@ -4273,6 +4312,20 @@ class rsCarthelper
 				$return     = true;
 				$type       = $voucher->voucher_type;
 				$voucher_id = $voucher->voucher_id;
+				$counter    = 0;
+
+				foreach ($cart['voucher'] as $key => $val)
+				{
+					if ($val['voucher_code'] == $voucher_code)
+					{
+						$counter++;
+					}
+				}
+
+				if($voucher->voucher_left <= $counter)
+				{
+					return false;
+				}
 
 				if ($type == 'Percentage')
 				{
@@ -4551,7 +4604,7 @@ class rsCarthelper
 		return $voucher;
 	}
 
-	public function getcouponData($coupon_code)
+	public function getcouponData($coupon_code, $subtotal = 0)
 	{
 		$db = JFactory::getDbo();
 
@@ -4844,7 +4897,12 @@ class rsCarthelper
 
 			for ($k = 0; $k < count($propArr); $k++)
 			{
-				if (USE_STOCKROOM == 1)
+				// Get subproperties from add to cart tray.
+				$subpropArr       = $propArr[$k]['property_childs'];
+				$totalSubProperty = count($subpropArr);
+
+				// Get Property stock only when SubProperty is not in cart
+				if (USE_STOCKROOM == 1 && $totalSubProperty <= 0)
 				{
 					if (($product_preorder == "global" && !ALLOW_PRE_ORDER) || ($product_preorder == "no") || ($product_preorder == "" && !ALLOW_PRE_ORDER))
 					{
@@ -4873,9 +4931,8 @@ class rsCarthelper
 					}
 				}
 
-				$subpropArr = $propArr[$k]['property_childs'];
-
-				for ($l = 0; $l < count($subpropArr); $l++)
+				// Get SubProperty Stock here.
+				for ($l = 0; $l < $totalSubProperty; $l++)
 				{
 					if (USE_STOCKROOM == 1)
 					{

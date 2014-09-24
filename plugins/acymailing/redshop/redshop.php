@@ -70,7 +70,7 @@ class plgAcymailingRedshop extends JPlugin
 
 	public function acymailing_replaceusertags(&$email)
 	{
-		$match = '#{product:?([^:]*)}#Ui';
+		$match = '#{product(?:_name|_price|_thumb_image|):?([^:]*)}#Ui';
 		$variables = array('subject', 'body', 'altbody');
 		$found = false;
 		$results = array();
@@ -108,7 +108,7 @@ class plgAcymailingRedshop extends JPlugin
 
 				if (is_numeric($allresults[1][$i]))
 				{
-					$tags[$oneTag] = $this->getProduct($allresults[1][$i]);
+					$tags[$oneTag] = $this->getProduct($allresults[1][$i], $oneTag);
 				}
 			}
 		}
@@ -126,7 +126,7 @@ class plgAcymailingRedshop extends JPlugin
 	 *
 	 * @return mixed  Product Main Image,Product Name,Product Formatted Price
 	 */
-	public function getProduct($product_id)
+	public function getProduct($product_id, $tag)
 	{
 		JLoader::load('RedshopHelperAdminTemplate');
 		$redTemplate = new Redtemplate;
@@ -155,7 +155,7 @@ class plgAcymailingRedshop extends JPlugin
 
 		$text = "<div>" . $productImage . "</div><div>" . $rs->product_name . "</div><div>" . $price . "</div>";
 
-		if ($prtemplate[0]->template_desc)
+		if ($prtemplate[0]->template_desc && strpos($tag, 'product:') !== false)
 		{
 			$text = $prtemplate[0]->template_desc;
 
@@ -180,6 +180,18 @@ class plgAcymailingRedshop extends JPlugin
 				$cart_tag     = "{form_addtocart:" . $cart_tag_arr[0] . "}";
 				$text         = str_replace($cart_tag, "", $text);
 			}
+		}
+		elseif (strpos($tag, 'name:') !== false)
+		{
+			return $rs->product_name;
+		}
+		elseif (strpos($tag, 'price:') !== false)
+		{
+			return $price;
+		}
+		elseif (strpos($tag, 'image:') !== false)
+		{
+			return $productImage;
 		}
 
 		return $text;
