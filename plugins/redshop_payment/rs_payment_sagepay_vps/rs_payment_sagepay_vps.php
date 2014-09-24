@@ -32,6 +32,7 @@ class plgRedshop_paymentrs_payment_sagepay_vps extends JPlugin
 			$plugin = $element;
 		}
 
+		// Get params from plugin
 		$sagepay_vps_vendorname       = $this->params->get('sagepay_vendorname', '');
 		$payment_method               = $this->params->get('payment_method', '');
 		$sagepay_vps_transaction_type = $this->params->get('sagepay_vps_transaction_type', 'PAYMENT');
@@ -52,36 +53,36 @@ class plgRedshop_paymentrs_payment_sagepay_vps extends JPlugin
 			$currency_main = "USD";
 		}
 
-		$session = JFactory::getSession();
+		$session         = JFactory::getSession();
 		$redirect_ccdata = $session->get('redirect_ccdata');
 
 		// Additional Customer Data
-		$user_id = $data['billinginfo']->user_id;
+		$user_id    = $data['billinginfo']->user_id;
 		$remote_add = $_SERVER["REMOTE_ADDR"];
 
 		// Email Settings
-		$user_email = $data['billinginfo']->user_email;
+		$user_email   = $data['billinginfo']->user_email;
 		$order_number = substr($data['order_number'], 0, 16);
-		$tax_exempt = false;
+		$tax_exempt   = false;
 
 		// Get Credit card Information
-		$strCardType = $redirect_ccdata['creditcard_code'];
+		$strCardType   = $redirect_ccdata['creditcard_code'];
 		$strCardHolder = substr($redirect_ccdata['order_payment_name'], 0, 100);
 		$strCardNumber = substr($redirect_ccdata['order_payment_number'], 0, 20);
 		$strExpiryDate = substr($redirect_ccdata['order_payment_expire_month'], 0, 2) . substr($redirect_ccdata['order_payment_expire_year'], -2);
-		$strCV2 = substr($redirect_ccdata['credit_card_code'], 0, 4);
+		$strCV2        = substr($redirect_ccdata['credit_card_code'], 0, 4);
 
-		$strTimeStamp = date("y-m-d-H-i-s", time());
-		$intRandNum = rand(0, 32000) * rand(0, 32000);
+		$strTimeStamp    = date("y-m-d-H-i-s", time());
+		$intRandNum      = rand(0, 32000) * rand(0, 32000);
 		$strVendorTxCode = $strVendorName . "-" . $strTimeStamp . "-" . $intRandNum;
 
-		$strCurrency = $currency_main;
+		$strCurrency              = $currency_main;
 		$_SESSION["VendorTxCode"] = $strVendorTxCode;
 
 		// Assign Amount
 		$tot_amount = $order_total = $data['order']->order_total;
-		$amount = $currencyClass->convert($tot_amount, '', $strCurrency);
-		$amount = number_format($amount, 2, '.', '');
+		$amount     = $currencyClass->convert($tot_amount, '', $strCurrency);
+		$amount     = number_format($amount, 2, '.', '');
 
 		$strPost = "VPSProtocol=2.23";
 
@@ -106,10 +107,11 @@ class plgRedshop_paymentrs_payment_sagepay_vps extends JPlugin
 		$strPost = $strPost . "&ClientIPAddress=" . $_SERVER['REMOTE_ADDR'];
 		$strPost = $strPost . "&Description=" . $order_desc;
 
-		/* Billing Details
-		** This section is optional in its entirety but if one field of the address is provided then all non-optional fields must be provided
-		** If AVS/CV2 is ON for your account, or, if paypal cardtype is specified and its not via PayPal Express then this section is compulsory
-		**/
+		/*
+		Billing Details
+		This section is optional in its entirety but if one field of the address is provided then all non-optional fields must be provided
+		If AVS/CV2 is ON for your account, or, if paypal cardtype is specified and its not via PayPal Express then this section is compulsory
+		*/
 		$strPost = $strPost . "&BillingFirstnames=" . urlencode($data['billinginfo']->firstname);
 		$strPost = $strPost . "&BillingSurname=" . urlencode($data['billinginfo']->lastname);
 		$strPost = $strPost . "&BillingAddress1=" . urlencode($data['billinginfo']->address);
@@ -117,9 +119,10 @@ class plgRedshop_paymentrs_payment_sagepay_vps extends JPlugin
 		$strPost = $strPost . "&BillingPostCode=" . urlencode($data['billinginfo']->zipcode);
 		$strPost = $strPost . "&BillingCountry=" . urlencode($data['billinginfo']->country_2_code);
 
-		/* Delivery Details
-			   ** This section is optional in its entirety but if one field of the address is provided then all non-optional fields must be provided
-			   ** If paypal cardtype is specified then this section is compulsory */
+		/*Delivery Details
+		This section is optional in its entirety but if one field of the address is provided then all non-optional fields must be provided
+		If paypal cardtype is specified then this section is compulsory
+		*/
 		$strPost = $strPost . "&DeliveryFirstnames=" . urlencode($data['shippinginfo']->firstname);
 		$strPost = $strPost . "&DeliverySurname=" . urlencode($data['shippinginfo']->lastname);
 		$strPost = $strPost . "&DeliveryAddress1=" . urlencode($data['shippinginfo']->address);
@@ -178,13 +181,15 @@ class plgRedshop_paymentrs_payment_sagepay_vps extends JPlugin
 			$output[trim(substr($response[$i], 0, $splitAt))] = trim(substr($response[$i], ($splitAt + 1)));
 		}
 
-		$strStatus = $output["Status"];
+		$strStatus       = $output["Status"];
 		$strStatusDetail = $output["StatusDetail"];
 
 		if ($strStatus == "3DAUTH")
 		{
-			/* This is a 3D-Secure transaction, so we need to redirect the customer to their bank
-			** for authentication.  First get the pertinent information from the response */
+			/*
+			This is a 3D-Secure transaction, so we need to redirect the customer to their bank
+			for authentication.  First get the pertinent information from the response
+			*/
 			$strMD = $output["MD"];
 			$strACSURL = $output["ACSURL"];
 			$strPAReq = $output["PAReq"];
@@ -247,7 +252,6 @@ class plgRedshop_paymentrs_payment_sagepay_vps extends JPlugin
 				document.getElementById("secureform").submit();
 			</script>
 		<?php
-
 		}
 	}
 
@@ -260,9 +264,7 @@ class plgRedshop_paymentrs_payment_sagepay_vps extends JPlugin
 
 		$verify_status  = $this->params->get("verify_status");
 		$invalid_status = $this->params->get("invalid_status");
-
 		$order_id       = $request['orderid'];
-
 		$transresult    = $request['responsestatus'];
 		$message        = $request['responsemessage'];
 
@@ -283,10 +285,5 @@ class plgRedshop_paymentrs_payment_sagepay_vps extends JPlugin
 		$values->log = $message;
 
 		return $values;
-	}
-
-	function onCapture_Paymentrs_payment_sagepay_vps($element, $data)
-	{
-		return true;
 	}
 }
