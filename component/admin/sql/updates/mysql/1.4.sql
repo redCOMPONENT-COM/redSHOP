@@ -9,3 +9,4 @@ ALTER TABLE `#__redshop_currency`
 	DROP INDEX `currency_name`;
 ALTER TABLE `#__redshop_product`
 	DROP INDEX `product_number`;
+DROP TABLE IF EXISTS `#__redshop_payment_method`;
