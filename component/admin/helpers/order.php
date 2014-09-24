@@ -432,7 +432,8 @@ class order_functions
 			$this->_db->SetQuery($query);
 			$this->_db->Query();
 
-			if (!ORDER_MAIL_AFTER)
+			if (!ORDER_MAIL_AFTER
+				|| (ORDER_MAIL_AFTER && $data->order_status_code != "C"))
 			{
 				$this->changeOrderStatusMail($order_id, $data->order_status_code);
 			}

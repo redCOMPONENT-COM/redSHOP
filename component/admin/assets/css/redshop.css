@@ -9,7 +9,12 @@
 /* Icon files 48px */
 
 /* redshop menu */
-
+.icon-48-importexport48 {
+	background-image: url(../images/importexport48.png);
+}
+.icon-32-redshop_importexport32 {
+	background-image: url(../images/importexport32.png);
+}
 .icon-48-redshop_redshopcart48 {
 	background-image: url(../images/redshopcart48.png);
 }
