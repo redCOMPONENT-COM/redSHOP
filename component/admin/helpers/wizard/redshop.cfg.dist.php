@@ -123,7 +123,7 @@ define('NEWS_FROM_NAME', 'Webshop');
 define('DEFAULT_NEWSLETTER', '1');
 define('SHOP_COUNTRY', 'USA');
 define('DEFAULT_SHIPPING_COUNTRY', 'USA');
-define('REDCURRENCY_SYMBOL', '$ ');
+define('REDCURRENCY_SYMBOL', '€ ');
 define('PRICE_SEPERATOR', ',');
 define('THOUSAND_SEPERATOR', '.');
 define('CURRENCY_SYMBOL_POSITION', ' ');
