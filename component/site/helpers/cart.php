@@ -3779,8 +3779,7 @@ class rsCarthelper
 
 					JArrayHelper::toInteger($shopperGroups);
 
-					if (in_array((int) $shopperGroupId, $shopperGroups)
-						|| 0 == $shopperGroups[0])
+					if (in_array((int) $shopperGroupId, $shopperGroups) || (!isset($shopperGroups[0]) || 0 == $shopperGroups[0]))
 					{
 						return true;
 					}
