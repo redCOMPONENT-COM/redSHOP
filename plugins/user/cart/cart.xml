@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="2.5" type="plugin" group="user" method="upgrade">
+	<name>plg_user_cart</name>
+	<author>redCOMPONENT.com</author>
+	<version>1.0</version>
+	<creationDate>September 2014</creationDate>
+	<copyright>redCOMPONENT.com</copyright>
+	<license>GNU/GPL</license>
+	<authorEmail>email@redcomponent.com</authorEmail>
+	<authorUrl>www.redweb.dk</authorUrl>
+	<description>PLG_USER_CART_XML_DESCRIPTION</description>
+	<files>
+		<filename plugin="cart">cart.php</filename>
+	</files>
+	<languages>
+		<language tag="en-GB">language/en-GB/en-GB.plg_user_cart.ini</language>
+		<language tag="en-GB">language/en-GB/en-GB.plg_user_cart.sys.ini</language>
+	</languages>
+	<config>
+		<fields name="params">
+			<fieldset name="basic">
+				<field
+					name="sgId"
+					type="sql"
+					default="10"
+					label="PLG_USER_CART_SHOPPER_GROUP_ID_LBL"
+					key_field="shopper_group_id"
+					value_field="shopper_group_name"
+					multiple="multiple"
+					required="true"
+					query="SELECT `shopper_group_id`, `shopper_group_name` FROM `#__redshop_shopper_group`"
+				/>
+			</fieldset>
+		</fields>
+	</config>
+</extension>
