@@ -865,7 +865,7 @@ class RedshopControllerProduct_Detail extends JController
 	{
 		$pid = $this->input->get->getInt('pid', null);
 
-		$model = $this->getModel();
+		$model = $this->getModel('product_detail');
 
 		if ($model->removepropertyImage($pid))
 		{
@@ -882,7 +882,7 @@ class RedshopControllerProduct_Detail extends JController
 	{
 		$pid = $this->input->get->getInt('pid', null);
 
-		$model = $this->getModel();
+		$model = $this->getModel('product_detail');
 
 		if ($model->removesubpropertyImage($pid))
 		{
@@ -900,7 +900,7 @@ class RedshopControllerProduct_Detail extends JController
 		// ToDo: This is potentially unsafe because $_POST elements are not sanitized.
 		$post = $this->input->getArray($_POST);
 
-		$model = $this->getModel();
+		$model = $this->getModel('product_detail');
 
 		if ($model->SaveAttributeStockroom($post))
 		{
