@@ -131,13 +131,6 @@ class RedshopControllerProduct_Detail extends JController
 			$post["product_parent_id"] = 0;
 		}
 
-		$container_id = $this->input->getInt('container_id', null);
-
-		if (USE_CONTAINER == 1)
-		{
-			$stockroom_id = $this->input->getInt('stockroom_id', null);
-		}
-
 		JLoader::load('RedshopHelperAdminExtra_field');
 
 		$model = $this->getModel('product_detail');
@@ -170,28 +163,6 @@ class RedshopControllerProduct_Detail extends JController
 			// Extra Field Data Saved
 			$msg = JText::_('COM_REDSHOP_PRODUCT_DETAIL_SAVED');
 			$link = '';
-
-			if ($container_id != '' || $stockroom_id != '')
-			{
-				// ToDo: Fix this horror below!
-				?>
-            <script language="javascript" type="text/javascript">
-					<?php
-					if ($container_id)
-					{
-						$link = 'index.php?option=' . $this->option . '&view=container_detail&task=edit&cid[]=' . $container_id;
-					}
-
-					if ($stockroom_id && USE_CONTAINER == 1)
-					{
-						$link = 'index.php?option=' . $this->option . '&view=stockroom_detail&task=edit&cid[]=' . $stockroom_id;
-					}
-					?>
-                window.parent.document.location = '<?php echo $link; ?>';
-            </script>
-			<?php
-				exit;
-			}
 
 			if ($apply == 2)
 			{

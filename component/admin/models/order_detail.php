@@ -640,10 +640,6 @@ class RedshopModelOrder_detail extends JModel
 					}
 				}
 			}
-			if (USE_CONTAINER)
-			{
-				$producthelper->updateContainerStock($product_id, $quantity, $orderitemdata->container_id);
-			}
 
 			// Store userfields
 			$userfields = $item[$i]->extrafieldname;

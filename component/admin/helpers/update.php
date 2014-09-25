@@ -221,15 +221,6 @@ class RedshopUpdate
 				'idx_time' => 'time'
 			)
 		),
-		'#__redshop_container' => array(
-			'engine' => 'InnoDB',
-			'index' => array(
-				'idx_published' => 'published'
-			)
-		),
-		'#__redshop_container_product_xref' => array(
-			'engine' => 'InnoDB'
-		),
 		'#__redshop_country' => array(
 			'engine' => 'InnoDB',
 			'index' => array(
@@ -398,7 +389,6 @@ class RedshopUpdate
 				'idx_product_id' => 'product_id',
 				'idx_order_status' => 'order_status',
 				'idx_cdate' => 'cdate',
-				'idx_container_id' => 'container_id',
 				'idx_is_giftcard' => 'is_giftcard'
 			)
 		),
@@ -613,13 +603,6 @@ class RedshopUpdate
 			'index' => array(
 				'idx_published' => 'published',
 				'idx_min_del_time' => 'min_del_time'
-			)
-		),
-		'#__redshop_stockroom_container_xref' => array(
-			'engine' => 'InnoDB',
-			'index' => array(
-				'idx_common' => array('container_id', 'stockroom_id'),
-				'idx_stockroom_id' => 'stockroom_id'
 			)
 		),
 		'#__redshop_tax_rate' => array(

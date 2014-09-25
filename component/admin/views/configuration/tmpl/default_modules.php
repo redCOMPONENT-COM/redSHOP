@@ -130,14 +130,6 @@ $url = $uri->root();
 	<tr>
 		<td width="100" align="right" class="key">
 			<span class="editlinktip hasTip"
-				  title="<?php echo JText::_('COM_REDSHOP_USE_CONTAINER_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_USE_CONTAINER_LBL'); ?>">
-			<label for="container"><?php echo JText::_('COM_REDSHOP_USE_CONTAINER_LBL');?></label></span>
-		</td>
-		<td><?php echo $this->lists ['use_container'];?></td>
-	</tr>
-	<tr>
-		<td width="100" align="right" class="key">
-			<span class="editlinktip hasTip"
 				  title="<?php echo JText::_('COM_REDSHOP_USE_STOCKROOM_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_USE_STOCKROOM_LBL'); ?>">
 			<label for="container"><?php echo JText::_('COM_REDSHOP_USE_STOCKROOM_LBL');?></label></span>
 		</td>

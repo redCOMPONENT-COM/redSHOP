@@ -240,7 +240,6 @@ class RedshopViewConfiguration extends JView
 			'discoupon_percent_or_total', 'class="inputbox" size="1"',
 			'value', 'text', DISCOUPON_PERCENT_OR_TOTAL
 		);
-		$lists['use_container']              = JHTML::_('select.booleanlist', 'use_container', 'class="inputbox" size="1"', USE_CONTAINER);
 		$lists['use_stockroom']              = JHTML::_('select.booleanlist', 'use_stockroom', 'class="inputbox" size="1"', USE_STOCKROOM);
 		$lists['use_blank_as_infinite']      = JHTML::_('select.booleanlist', 'use_blank_as_infinite', 'class="inputbox" size="1"', USE_BLANK_AS_INFINITE);
 
