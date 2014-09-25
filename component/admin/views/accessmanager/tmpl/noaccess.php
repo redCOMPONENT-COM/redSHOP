@@ -64,11 +64,6 @@ $option = JRequest::getVar('option');
 			<a href="<?php echo JURI::base() ?>index.php?option=<?php echo $option ?>&amp;view=accessmanager_detail&section=user"><?php echo JText::_('COM_REDSHOP_USER')?></a>
 		</td>
 	</tr>
-	<tr class="row0">
-		<td>
-			<a href="<?php echo JURI::base() ?>index.php?option=<?php echo $option ?>&amp;view=accessmanager_detail&section=container"><?php echo JText::_('COM_REDSHOP_CONTAINER')?></a>
-		</td>
-	</tr>
 	<tr class="row1">
 		<td>
 			<a href="<?php echo JURI::base() ?>index.php?option=<?php echo $option ?>&amp;view=accessmanager_detail&section=stockroom"><?php echo JText::_('COM_REDSHOP_STOCKROOM')?></a>

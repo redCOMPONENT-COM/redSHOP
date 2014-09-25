@@ -10,3 +10,7 @@ ALTER TABLE `#__redshop_currency`
 ALTER TABLE `#__redshop_product`
 	DROP INDEX `product_number`;
 DROP TABLE IF EXISTS `#__redshop_payment_method`;
+DROP TABLE IF EXISTS `#__redshop_container`;
+DROP TABLE IF EXISTS `#__redshop_container_product_xref`;
+DROP TABLE IF EXISTS `#__redshop_stockroom_container_xref`;
+ALTER TABLE `#__redshop_order_item` DROP `container_id`;

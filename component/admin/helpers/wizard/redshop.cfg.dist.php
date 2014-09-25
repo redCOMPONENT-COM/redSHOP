@@ -75,7 +75,6 @@ define('DAYS_MAIL3', '0');
 define('DISCOUPON_DURATION', '10');
 define('DISCOUPON_PERCENT_OR_TOTAL', '0');
 define('DISCOUPON_VALUE', '10');
-define('USE_CONTAINER', '0');
 define('USE_STOCKROOM', '0');
 define('ALLOW_PRE_ORDER', '0');
 define('ALLOW_PRE_ORDER_MESSAGE', 'Product Will Be available on {availability_date}');

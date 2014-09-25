@@ -710,12 +710,6 @@ switch ($view)
 
 		break;
 
-	case 'container':
-
-		$title[] = $sh_LANG[$shLangIso]['_REDSHOP_CONTAINER'];
-		shRemoveFromGETVarsList('view');
-
-		break;
 	case 'order_listing':
 
 		$title[] = $sh_LANG[$shLangIso]['_REDSHOP_ORDER_LISTING'];

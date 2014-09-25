@@ -723,13 +723,6 @@ class RedshopModelAddorder_detail extends JModel
 				}
 			}
 
-//			$producthelper->insertProdcutUserfield($i,$item,$rowitem->order_item_id,12);
-
-			if (USE_CONTAINER)
-			{
-				$producthelper->updateContainerStock($product_id, $quantity, $rowitem->container_id);
-			}
-
 			// Store userfields
 			$userfields = $item[$i]->extrafieldname;
 			$userfields_id = $item[$i]->extrafieldId;

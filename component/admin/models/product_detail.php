@@ -181,7 +181,6 @@ class RedshopModelProduct_Detail extends JModel
 			$detail->sef_url                    = (isset($data['sef_url'])) ? $data['sef_url'] : null;
 			$detail->cat_in_sefurl              = (isset($data['cat_in_sefurl'])) ? $data['cat_in_sefurl'] : null;
 			$detail->manufacturer_id            = (isset($data['manufacturer_id'])) ? $data['manufacturer_id'] : null;
-			$detail->container_id               = (isset($data['container_id'])) ? $data['container_id'] : null;
 			$detail->supplier_id                = (isset($data['supplier_id'])) ? $data['supplier_id'] : null;
 			$detail->product_on_sale            = (isset($data['product_on_sale'])) ? $data['product_on_sale'] : null;
 			$detail->product_special            = (isset($data['product_special'])) ? $data['product_special'] : 0;
@@ -577,15 +576,6 @@ class RedshopModelProduct_Detail extends JModel
 		}
 
 		$product_id = $row->product_id;
-		$container_id = $data['container_id'];
-
-		if ($container_id != "")
-		{
-			$sql = "INSERT INTO " . $this->table_prefix . "container_product_xref (container_id,product_id)
-					VALUES ('" . $container_id . "','" . $product_id . "')";
-			$this->_db->setQuery($sql);
-			$this->_db->query();
-		}
 
 		if (!$data['product_id'])
 		{
