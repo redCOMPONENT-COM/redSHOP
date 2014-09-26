@@ -253,24 +253,4 @@ class RedshopModelUpdate extends JModelLegacy
 			return array('success' => true);
 		}
 	}
-
-	/**
-	 * Quote an array of values.
-	 *
-	 * @param   array   $values     The values.
-	 * @param   string  $nameQuote  Name quote
-	 *
-	 * @return  array  The quoted values
-	 */
-	public static function quote(array $values, $nameQuote = 'q')
-	{
-		$db = JFactory::getDbo();
-
-		return array_map(
-			function ($value) use ($db, $nameQuote) {
-				return $db->$nameQuote($value);
-			},
-			$values
-		);
-	}
 }
