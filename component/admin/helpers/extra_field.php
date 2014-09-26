@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 JHTML::_('behavior.tooltip');
 jimport('joomla.filesystem.file');
+JLoader::load('RedshopHelperHelper');
 
 class extra_field
 {
@@ -80,20 +81,10 @@ class extra_field
 		$url    = $uri->root();
 		$q      = "SELECT * FROM " . $this->_table_prefix . "fields WHERE field_section = " . (int) $field_section . " AND published=1 ";
 
-		if ($field_name != "")
+		if ($field_name != '')
 		{
-			$field_name = explode(',', $field_name);
-
-			$field_name = array_map(
-				function ($value) use ($db) {
-					return $db->quote($value);
-				},
-				(array) $field_name
-			);
-
-			$field_name = implode(",'", $field_name);
-
-			$q .= "AND field_name IN ($field_name) ";
+			$field_name = redhelper::quote(explode(',', $field_name));
+			$q .= 'AND field_name IN (' . implode(',', $field_name) . ') ';
 		}
 
 		$q .= " ORDER BY ordering";
