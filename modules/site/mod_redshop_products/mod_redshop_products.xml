@@ -38,6 +38,16 @@
                 </field>
                 <field name="category" type="text" size="40" label="COM_REDSHOP_CATEGORY"
                        description="COM_REDSHOP_ENTER_CATEGORY"/>
+                <field
+                    name="urlCategoryId"
+                    type="radio"
+                    default="0"
+                    label="MOD_REDSHOP_PRODUCTS_GET_CATEGORY_FROM_URL"
+                    description="MOD_REDSHOP_PRODUCTS_GET_CATEGORY_FROM_URL_DESC"
+                >
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
                 <field name="count" type="text" default="5" size="10" label="COM_REDSHOP_NUMBER_OF_PRODUCT"
                        description="COM_REDSHOP_NUMBER_OF_PRODUCT_DESC"/>
 

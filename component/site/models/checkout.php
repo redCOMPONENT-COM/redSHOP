@@ -288,10 +288,8 @@ class RedshopModelCheckout extends JModel
 		$order_status      = 'P';
 		$order_status_full = $this->_order_functions->getOrderStatusTitle('P');
 
-		// Start code to track duplicate order number checking by parth
+		// Start code to track duplicate order number checking
 		$order_number = $this->getOrdernumber();
-
-		// End code to track duplicate order number checking by parth
 
 		$order_subtotal = $cart ['product_subtotal'];
 		$cdiscount      = $cart ['coupon_discount'];
@@ -520,20 +518,16 @@ class RedshopModelCheckout extends JModel
 		{
 			$this->setError($this->_db->getErrorMsg());
 
-			// Start code to track duplicate order number checking by parth
+			// Start code to track duplicate order number checking
 			$this->deleteOrdernumberTrack();
 
-			// End code to track duplicate order number checking by parth
 			return false;
 		}
 
-		// Start code to track duplicate order number checking by parth
+		// Start code to track duplicate order number checking
 		$this->deleteOrdernumberTrack();
 
-		// End code to track duplicate order number checking by parth
-
 		$order_id = $row->order_id;
-
 
 		$this->coupon($cart, $order_id);
 		$this->voucher($cart, $order_id);
@@ -2520,8 +2514,6 @@ class RedshopModelCheckout extends JModel
 			return $this->getOrdernumber();
 		}
 	}
-
-	// End code to track duplicate order number checking by parth
 }
 
 class MYPDF extends TCPDF
