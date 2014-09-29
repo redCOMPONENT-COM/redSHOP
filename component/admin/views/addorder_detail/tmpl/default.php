@@ -781,6 +781,9 @@ if(!JRequest::getvar('ajaxtask')) {    ?>
 		callback: function (obj) {
 			document.getElementById('user_id').value = obj.id;
 			showUserDetail();
+			if (obj.id){
+				document.getElementById('trCreateAccount').style.display = 'none';
+			}
 		}
 	};
 	var as_json = new bsn.AutoSuggest('searchusername', options);
