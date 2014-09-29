@@ -89,9 +89,8 @@ Joomla.submitbutton = function (pressbutton)
 	{
 		if (form.user_id.value == 0)
 		{
-			if (validateUserDetail())
+			if (validateUserDetail() == false)
 			{
-				alert("<?php echo JText::_('COM_REDSHOP_SELECT_USER');?>");
 				return;
 			}
 		}
