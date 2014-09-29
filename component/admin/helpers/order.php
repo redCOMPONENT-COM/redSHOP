@@ -545,31 +545,42 @@ class order_functions
 		}
 	}
 
-	public function updateOrderItemStatus($order_id = 0, $product_id = 0, $newstatus = "", $comment = "", $order_item_id = 0)
+	/**
+	 * Update Order Item Status
+	 *
+	 * @param   int     $orderId      Order id
+	 * @param   int     $productId    Product id
+	 * @param   string  $newStatus    New status
+	 * @param   string  $comment      Comment
+	 * @param   int     $orderItemId  Order item id
+	 *
+	 * @return  void
+	 */
+	public function updateOrderItemStatus($orderId = 0, $productId = 0, $newStatus = '', $comment = '', $orderItemId = 0)
 	{
-		$and = "";
-		$field = "";
-		$and_order_item = "";
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->update($db->qn('#__redshop_order_item'))
+			->set('order_status = ' . $db->q($newStatus))
+			->where('order_id = ' . (int) $orderId);
 
-		if ($product_id != 0)
+		if ($productId != 0)
 		{
-			$and = " AND product_id = " . (int) $product_id . " ";
+			$query->set('customer_note = ' . $db->q($comment))
+				->where('product_id = ' . (int) $productId);
 		}
 
-		if ($order_item_id != 0)
+		if ($orderItemId != 0)
 		{
-			$and_order_item = " AND order_item_id = " . (int) $order_item_id . " ";
+			$query->where('order_item_id = ' . (int) $orderItemId);
 		}
 
-		if ($product_id != 0)
-		{
-			$field = ", customer_note = " . $this->_db->quote($comment) . " ";
-		}
+		$db->setQuery($query);
 
-		$query = "UPDATE " . $this->_table_prefix . "order_item " . "SET order_status='" . $this->_db->quote($newstatus) . "' " . $field
-			. "WHERE order_id = " . (int) $order_id . " " . $and . $and_order_item;
-		$this->_db->setQuery($query);
-		$this->_db->query();
+		if (!$db->query())
+		{
+			JFactory::getApplication()->enqueueMessage($db->getErrorMsg(), 'error');
+		}
 	}
 
 	public function manageContainerStock($product_id, $quantity, $container_id)
