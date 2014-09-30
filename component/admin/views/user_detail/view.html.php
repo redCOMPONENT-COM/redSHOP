@@ -11,41 +11,29 @@ defined('_JEXEC') or die;
 
 JLoader::load('RedshopHelperAdminExtra_field');
 JLoader::load('RedshopHelperHelper');
+JLoader::load('RedshopHelperShopper');
 
 jimport('joomla.application.component.view');
 
 class RedshopViewUser_detail extends JView
 {
-	/**
-	 * The request url.
-	 *
-	 * @var  string
-	 */
-	public $request_url;
-
 	public function display($tpl = null)
 	{
 		$Redconfiguration = new Redconfiguration;
-		$userhelper = new rsUserhelper;
-		$extra_field = new extra_field;
+		$userhelper       = new rsUserhelper;
+		$extra_field      = new extra_field;
+		$shoppergroup     = new shoppergroup;
 
-		$shipping = JRequest::getVar('shipping', '', 'request', 'string');
-		$option = JRequest::getVar('option', '', 'request', 'string');
-
-		$document = JFactory::getDocument();
-		$document->addScript('components/' . $option . '/assets/js/json.js');
-		$document->addScript('components/' . $option . '/assets/js/validation.js');
-
-		$uri = JFactory::getURI();
+		$document         = JFactory::getDocument();
+		$document->addScript('components/com_redshop/assets/js/json.js');
+		$document->addScript('components/com_redshop/assets/js/validation.js');
 
 		$this->setLayout('default');
 
-		$lists = array();
-		$detail = $this->get('data');
-		$isNew = ($detail->users_info_id < 1);
-		$text = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
+		$this->lists      = array();
+		$this->detail     = $this->get('data');
 
-		if ($shipping)
+		if (JFactory::getApplication()->input->getString('shipping'))
 		{
 			JToolBarHelper::title(
 				JText::_('COM_REDSHOP_USER_SHIPPING_DETAIL') . ': <small><small>[ '
@@ -62,56 +50,53 @@ class RedshopViewUser_detail extends JView
 		JToolBarHelper::apply();
 		JToolBarHelper::save();
 
-		if ($isNew)
+		if ($this->detail->users_info_id < 1)
 		{
+			$text = JText::_('COM_REDSHOP_NEW');
+
 			JToolBarHelper::cancel();
 		}
 		else
 		{
+			$text = JText::_('COM_REDSHOP_EDIT');
+
 			JToolBarHelper::customX('order', 'redshop_order32', '', JText::_('COM_REDSHOP_PLACE_ORDER'), false);
 			JToolBarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
 		}
 
-		$pagination = $this->get('Pagination');
+		$this->pagination                       = $this->get('Pagination');
+		$this->detail->user_groups              = $userhelper->getUserGroupList($this->detail->users_info_id);
+		$this->lists['shopper_group']           = $shoppergroup->list_all("shopper_group_id", 0, array((int) $this->detail->shopper_group_id));
 
-		$user_groups = $userhelper->getUserGroupList($detail->users_info_id);
-		$detail->user_groups = $user_groups;
+		$this->lists['tax_exempt']              = JHTML::_('select.booleanlist', 'tax_exempt', 'class="inputbox"', $this->detail->tax_exempt);
+		$this->lists['block']                   = JHTML::_('select.booleanlist', 'block', 'class="inputbox"', $this->detail->block);
+		$this->lists['tax_exempt_approved']     = JHTML::_('select.booleanlist', 'tax_exempt_approved', 'class="inputbox"', $this->detail->tax_exempt_approved);
 
-		$shopper_detail = $userhelper->getShopperGroupList();
+		$this->lists['requesting_tax_exempt']   = JHTML::_('select.booleanlist', 'requesting_tax_exempt', 'class="inputbox"', $this->detail->requesting_tax_exempt);
+		$this->lists['is_company']              = JHTML::_(
+													'select.booleanlist',
+													'is_company',
+													'class="inputbox" onchange="showOfflineCompanyOrCustomer(this.value);" ',
+													$this->detail->is_company,
+													JText::_('COM_REDSHOP_USER_COMPANY'),
+													JText::_('COM_REDSHOP_USER_CUSTOMER')
+												);
 
-		$temps = array();
-		$temps[0] = new stdClass;
-		$temps[0]->value = 0;
-		$temps[0]->text = JText::_('COM_REDSHOP_SELECT');
-		$shopper_detail = array_merge($temps, $shopper_detail);
-		$lists['shopper_group'] = JHTML::_('select.genericlist', $shopper_detail, 'shopper_group_id', '', 'value', 'text', $detail->shopper_group_id);
-		$lists['tax_exempt'] = JHTML::_('select.booleanlist', 'tax_exempt', 'class="inputbox"', $detail->tax_exempt);
-		$lists['block'] = JHTML::_('select.booleanlist', 'block', 'class="inputbox"', $detail->block);
-		$lists['tax_exempt_approved'] = JHTML::_('select.booleanlist', 'tax_exempt_approved', 'class="inputbox"', $detail->tax_exempt_approved);
+		$this->lists['sendEmail']               = JHTML::_('select.booleanlist', 'sendEmail', 'class="inputbox"', $this->detail->sendEmail);
+		$this->lists['extra_field']             = $extra_field->list_all_field(6, $this->detail->users_info_id);
+		$this->lists['customer_field']          = $extra_field->list_all_field(7, $this->detail->users_info_id);
+		$this->lists['company_field']           = $extra_field->list_all_field(8, $this->detail->users_info_id);
+		$this->lists['shipping_customer_field'] = $extra_field->list_all_field(14, $this->detail->users_info_id);
+		$this->lists['shipping_company_field']  = $extra_field->list_all_field(15, $this->detail->users_info_id);
 
-		$lists['requesting_tax_exempt'] = JHTML::_('select.booleanlist', 'requesting_tax_exempt', 'class="inputbox"', $detail->requesting_tax_exempt);
-		$lists['is_company'] = JHTML::_('select.booleanlist', 'is_company',
-			'class="inputbox" onchange="showOfflineCompanyOrCustomer(this.value);" ',
-			$detail->is_company, JText::_('COM_REDSHOP_USER_COMPANY'), JText::_('COM_REDSHOP_USER_CUSTOMER')
-		);
+		$countryarray                           = $Redconfiguration->getCountryList((array) $this->detail);
+		$this->detail->country_code             = $countryarray['country_code'];
+		$this->lists['country_code']            = $countryarray['country_dropdown'];
 
-		$lists['sendEmail'] = JHTML::_('select.booleanlist', 'sendEmail', 'class="inputbox"', $detail->sendEmail);
-		$lists['extra_field'] = $extra_field->list_all_field(6, $detail->users_info_id);
-		$lists['customer_field'] = $extra_field->list_all_field(7, $detail->users_info_id);
-		$lists['company_field'] = $extra_field->list_all_field(8, $detail->users_info_id);
-		$lists['shipping_customer_field'] = $extra_field->list_all_field(14, $detail->users_info_id);
-		$lists['shipping_company_field'] = $extra_field->list_all_field(15, $detail->users_info_id);
+		$statearray                             = $Redconfiguration->getStateList((array) $this->detail);
+		$this->lists['state_code']              = $statearray['state_dropdown'];
 
-		$countryarray = $Redconfiguration->getCountryList((array) $detail);
-		$detail->country_code = $countryarray['country_code'];
-		$lists['country_code'] = $countryarray['country_dropdown'];
-		$statearray = $Redconfiguration->getStateList((array) $detail);
-		$lists['state_code'] = $statearray['state_dropdown'];
-
-		$this->lists = $lists;
-		$this->detail = $detail;
-		$this->request_url = $uri->toString();
-		$this->pagination = $pagination;
+		$this->request_url                      = JFactory::getURI()->toString();
 
 		parent::display($tpl);
 	}
