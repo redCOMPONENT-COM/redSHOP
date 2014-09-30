@@ -5,10 +5,6 @@
  *
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
- *
- * http://doc.quickpay.dk/api/specificationsandfeatures.html#index1h2
- * http://doc.quickpay.dk/api/messagetypes.html#index1h2
- * http://doc.quickpay.dk/paymentwindow/technicalspecification.html#index1h3
  */
 
 
@@ -24,7 +20,7 @@ JLoader::import('loadhelpers', JPATH_SITE . '/components/com_redshop');
 JLoader::load('RedshopHelperAdminOrder');
 JLoader::load('RedshopHelperHelper');
 
-$sql = "SELECT op.*,o.order_total,o.user_id,o.order_tax,o.order_shipping, o.order_number FROM #__redshop_order_payment AS op LEFT JOIN #__redshop_orders AS o ON op.order_id = o.order_id  WHERE o.order_id='" . $data['order_id'] . "'";
+$sql = "SELECT op.*,o.order_total,o.user_id,o.order_tax,o.order_shipping, o.order_number, o.order_id FROM #__redshop_order_payment AS op LEFT JOIN #__redshop_orders AS o ON op.order_id = o.order_id  WHERE o.order_id='" . $data['order_id'] . "'";
 $db->setQuery($sql);
 $order_details = $db->loadObjectList();
 
@@ -148,11 +144,11 @@ $form->protocol		= '7';
 $form->msgtype		= 'authorize';
 $form->merchant		= $this->params->get("quickpay_customer_id");
 $form->language		= $this->params->get("language");
-$form->ordernumber 	= $order_details[0]->order_number;
+$form->ordernumber 	= $order_details[0]->order_id;
 $form->amount		= ($order_details[0]->order_total * 100);
 $form->currency		= 'DKK';
 
-$form->continueurl	= JURI::base() . "index.php?option=com_redshop&view=order_detail&layout=receipt&Itemid=$Itemid&oid=" . $data['order_id'];;
+$form->continueurl	= JURI::base() . "index.php?option=com_redshop&view=order_detail&layout=receipt&Itemid=".$Itemid."&oid=" . $data['order_id'];
 $form->cancelurl	= JURI::base() . "index.php?tmpl=component&option=com_redshop&view=order_detail&controller=order_detail&Itemid=" . $Itemid . "&task=notify_payment&payment_plugin=rs_payment_quickpay&orderid=" . $data['order_id'];
 $form->callbackurl	= JURI::base() . "index.php?tmpl=component&option=com_redshop&view=order_detail&controller=order_detail&Itemid=" . $Itemid . "&task=notify_payment&payment_plugin=rs_payment_quickpay&orderid=" . $data['order_id'];
 
