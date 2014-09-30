@@ -48,8 +48,8 @@ if ($handler = opendir($codeceptionOutputFolder)) {
             . 'initial_comment="error found by travis in redSHOP1 on build:"' . getenv('TRAVIS_BUILD_NUMBER') . ' -F'
             . 'token=' . $slackToken . ' '
             . 'https://slack.com/api/files.upload';
-        //fwrite(STDOUT, $command);
-        $response = shell_exec($command);
+
+        $response = json_decode(shell_exec($command));
 
         if($response->ok)
         {
