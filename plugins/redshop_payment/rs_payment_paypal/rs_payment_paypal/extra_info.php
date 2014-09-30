@@ -19,7 +19,7 @@ $app              = JFactory::getApplication();
 $task             = $app->input->getCmd('task');
 $layout           = $app->input->getCmd('layout');
 $Itemid           = $app->input->getInt('Itemid');
-$currency_main    = $this->params->get("currency", CURRENCY_CODE);
+$paymentCurrency  = $this->params->get("currency", CURRENCY_CODE);
 
 if ('1' == $this->params->get("sandbox"))
 {
@@ -29,8 +29,6 @@ else
 {
 	$paypalurl = "https://www.paypal.com/cgi-bin/webscr";
 }
-
-$order->order_subtotal = $currencyClass->convert($data['order']->order_total, '', $currency_main);
 
 $returnUrl = JURI::base() . "index.php?tmpl=component&option=com_redshop&view=order_detail&controller=order_detail&task=notify_payment&payment_plugin=rs_payment_paypal&Itemid=$Itemid&orderid=" . $data['order_id'];
 
@@ -55,7 +53,7 @@ $paypalPostData = Array(
 	"rm"                 => '2',
 	"item_number"        => $data['order_id'],
 	"invoice"            => $data['order']->order_number,
-	"amount"             => $order->order_subtotal,
+	"amount"             => $currencyClass->convert($data['order']->order_total, '', $paymentCurrency),
 	"return"             => $returnUrl,
 	"notify_url"         => JURI::base() . "index.php?tmpl=component&option=com_redshop&view=order_detail&controller=order_detail&task=notify_payment&payment_plugin=rs_payment_paypal&Itemid=$Itemid&orderid=" . $data['order_id'],
 	"night_phone_b"      => substr($data['billinginfo']->phone, 0, 25),
@@ -66,7 +64,7 @@ $paypalPostData = Array(
 	"no_shipping"        => "0",
 	"no_note"            => "1",
 	"tax_cart"           => $data['order']->order_tax,
-	"currency_code"      => $currency_main
+	"currency_code"      => $paymentCurrency
 
 );
 
@@ -83,20 +81,20 @@ if (SHIPPING_METHOD_ENABLE)
 	);
 }
 
-$paypalPostData['discount_amount_cart'] = round($currencyClass->convert($data['odiscount'], '', $currency_main), 2);
-$paypalPostData['discount_amount_cart'] += round($currencyClass->convert($data['special_discount'], '', $currency_main), 2);
+$paypalPostData['discount_amount_cart'] = round($currencyClass->convert($data['odiscount'], '', $paymentCurrency), 2);
+$paypalPostData['discount_amount_cart'] += round($currencyClass->convert($data['special_discount'], '', $paymentCurrency), 2);
 
 if ($this->params->get("payment_oprand") == '-')
 {
 	// @TODO  This variable is not used anywhere but keep this as still don't know why it's not used.
 	$discount_payment_price = $this->params->get("payment_price");
-	$paypalPostData['discount_amount_cart'] += round($currencyClass->convert($data['order']->payment_discount, '', $currency_main), 2);
+	$paypalPostData['discount_amount_cart'] += round($currencyClass->convert($data['order']->payment_discount, '', $paymentCurrency), 2);
 }
 else
 {
 	// @TODO  This variable is not used anywhere but keep this as still don't know why it's not used.
 	$discount_payment_price          = $this->params->get("payment_price");
-	$paypalPostData['handling_cart'] = round($currencyClass->convert($data['order']->payment_discount, '', $currency_main), 2);
+	$paypalPostData['handling_cart'] = round($currencyClass->convert($data['order']->payment_discount, '', $paymentCurrency), 2);
 }
 
 $items         = $objOrder->getOrderItemDetail($data['order_id']);
@@ -123,7 +121,7 @@ for ($i = 0; $i < count($items); $i++)
 												$currencyClass->convert(
 													$item->product_item_price_excl_vat,
 													'',
-													$currency_main
+													$paymentCurrency
 												),
 												2
 											);
@@ -131,7 +129,7 @@ for ($i = 0; $i < count($items); $i++)
 												$currencyClass->convert(
 													$item->product_quantity * $shipping,
 													'',
-													$currency_main
+													$paymentCurrency
 												),
 												2
 											);
