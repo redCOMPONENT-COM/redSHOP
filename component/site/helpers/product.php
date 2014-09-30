@@ -1765,10 +1765,13 @@ class producthelper
 				{
 					$product_price_saving = $product_price_exluding_vat - $dicount_price_exluding_vat;
 
+					// Only apply VAT if set to apply in config or tag
 					if (intval($applytax) && $product_price_saving)
 					{
 						$dis_save_tax_amount  = $this->getProductTax($product_id, $product_price_saving, $user_id);
-						$product_price_saving = $product_price_saving;
+
+						// Adding VAT in saving price
+						$product_price_saving += $dis_save_tax_amount;
 					}
 
 					$product_price_incl_vat     = $product_discount_price_tmp + $tax_amount;
