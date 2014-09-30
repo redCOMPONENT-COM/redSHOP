@@ -202,6 +202,7 @@ class RedshopViewSearch extends JView
 				echo $pagetitle;
 				echo '</h1>';
 			}
+
 			echo '<div style="clear:both"></div>';
 			$category_tmpl = "";
 
@@ -248,6 +249,26 @@ class RedshopViewSearch extends JView
 			{
 				$print_url = $url . "index.php?option=com_redshop&view=search&print=1&tmpl=component";
 				$print_tag = "<a href='#' onclick='window.open(\"$print_url\",\"mywindow\",\"scrollbars=1\",\"location=1\")' title='" . JText::_('COM_REDSHOP_PRINT_LBL') . "' ><img src=" . JSYSTEM_IMAGES_PATH . "printButton.png  alt='" . JText::_('COM_REDSHOP_PRINT_LBL') . "' title='" . JText::_('COM_REDSHOP_PRINT_LBL') . "' /></a>";
+			}
+
+			$template_org = str_replace("{total_product}", count($this->search), $template_org);
+			$template_org = str_replace("{total_product_lbl}", JText::_('COM_REDSHOP_TOTAL_PRODUCT'), $template_org);
+
+			if (strstr($template_org, "{compare_product_div}"))
+			{
+				$compare_product_div = "";
+
+				if (PRODUCT_COMPARISON_TYPE != "")
+				{
+					$comparediv           = $producthelper->makeCompareProductDiv();
+					$compareUrl           = JRoute::_('index.php?option=com_redshop&view=product&layout=compare&Itemid=' . $Itemid);
+					$compare_product_div  = "<form name='frmCompare' method='post' action='" . $compareUrl . "' >";
+					$compare_product_div .= "<a href='javascript:compare();' >" . JText::_('COM_REDSHOP_COMPARE') . "</a>";
+					$compare_product_div .= "<div id='divCompareProduct'>" . $comparediv . "</div>";
+					$compare_product_div .= "</form>";
+				}
+
+				$template_org = str_replace("{compare_product_div}", $compare_product_div, $template_org);
 			}
 
 			// Skip html if nosubcategory
