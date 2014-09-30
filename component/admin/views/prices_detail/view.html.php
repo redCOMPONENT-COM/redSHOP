@@ -27,7 +27,7 @@ class RedshopViewPrices_detail extends JView
 		JToolBarHelper::title(JText::_('COM_REDSHOP_PRICE') . ': <small><small>[ ' . $text . ' ]</small></small>', 'redshop_vatrates48');
 		JToolBarHelper::save();
 
-		if ($this->detail->price_id < 1)
+		if ($isNew)
 		{
 			JToolBarHelper::cancel();
 		}
