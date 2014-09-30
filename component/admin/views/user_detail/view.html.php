@@ -33,6 +33,9 @@ class RedshopViewUser_detail extends JView
 		$this->lists      = array();
 		$this->detail     = $this->get('data');
 
+		$isNew = ($detail->users_info_id < 1);
+		$text  = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
+
 		if (JFactory::getApplication()->input->getString('shipping'))
 		{
 			JToolBarHelper::title(
@@ -50,16 +53,12 @@ class RedshopViewUser_detail extends JView
 		JToolBarHelper::apply();
 		JToolBarHelper::save();
 
-		if ($this->detail->users_info_id < 1)
+		if ($isNew < 1)
 		{
-			$text = JText::_('COM_REDSHOP_NEW');
-
 			JToolBarHelper::cancel();
 		}
 		else
 		{
-			$text = JText::_('COM_REDSHOP_EDIT');
-
 			JToolBarHelper::customX('order', 'redshop_order32', '', JText::_('COM_REDSHOP_PLACE_ORDER'), false);
 			JToolBarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
 		}
