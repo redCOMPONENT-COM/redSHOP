@@ -2187,6 +2187,11 @@ class producthelper
 			return array();
 		}
 
+		if ($addressType == '')
+		{
+			$addressType = 'BT';
+		}
+
 		if (!array_key_exists($userId . '.' . $addressType . '.' . $userInfoId, self::$userShopperGroupData))
 		{
 			$db = JFactory::getDbo();
@@ -2194,7 +2199,8 @@ class producthelper
 				->select(array('sh.*', 'u.*'))
 				->from($db->qn('#__redshop_users_info', 'u'))
 				->leftJoin($db->qn('#__redshop_shopper_group', 'sh') . ' ON sh.shopper_group_id = u.shopper_group_id')
-				->order('u.users_info_id ASC');
+				->where('u.user_id = ' . (int) $userId)
+				->where('u.address_type = ' . $db->q($addressType));
 
 			if ($userInfoId && $addressType == 'ST')
 			{

@@ -490,8 +490,11 @@ class rsUserhelper
 			$credentials['username'] = $data['username'];
 			$credentials['password'] = $data['password2'];
 
-			//preform the login action
-			$app->login($credentials);
+			// Perform the login action
+			if (!JFactory::getUser()->id)
+			{
+				$app->login($credentials);
+			}
 
 			return $user;
 		}
