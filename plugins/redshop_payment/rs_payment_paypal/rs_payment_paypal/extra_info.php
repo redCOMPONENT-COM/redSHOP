@@ -37,7 +37,7 @@ else
 	$currency_main = "USD";
 }
 
-$sql = "SELECT op.*,o.order_total,o.user_id,o.order_tax,o.order_subtotal,o.order_shipping,o.order_number,o.payment_discount FROM $this->paramsorder_payment AS op LEFT JOIN $this->paramsorders AS o ON op.order_id = o.order_id  WHERE o.order_id='" . $data['order_id'] . "'";
+$sql = "SELECT op.*,o.order_total,o.user_id,o.order_tax,o.order_subtotal,o.order_shipping,o.order_number,o.payment_discount FROM #__redshop_order_payment AS op LEFT JOIN #__redshop_orders AS o ON op.order_id = o.order_id  WHERE o.order_id='" . $data['order_id'] . "'";
 $db->setQuery($sql);
 $order_details = $db->loadObjectList();
 
@@ -52,7 +52,7 @@ else
 
 $currencyClass = new CurrencyHelper;
 
-$order->order_subtotal = $currencyClass->convert($order_details[0]->order_total, '', $currency_main);
+$order_details[0]->order_subtotal = $currencyClass->convert($order_details[0]->order_total, '', $currency_main);
 
 $returnUrl = JURI::base() . "index.php?tmpl=component&option=com_redshop&view=order_detail&controller=order_detail&task=notify_payment&payment_plugin=rs_payment_paypal&Itemid=$Itemid&orderid=" . $data['order_id'];
 
@@ -75,7 +75,7 @@ $post_variables = Array(
 	"rm"                 => '2',
 	"item_number"        => $data['order_id'],
 	"invoice"            => $order_details[0]->order_number,
-	"amount"             => $order->order_subtotal,
+	"amount"             => $order_details[0]->order_subtotal,
 	"return"             => $returnUrl,
 	"notify_url"         => JURI::base() . "index.php?tmpl=component&option=com_redshop&view=order_detail&controller=order_detail&task=notify_payment&payment_plugin=rs_payment_paypal&Itemid=$Itemid&orderid=" . $data['order_id'],
 	"night_phone_b"      => substr($data['billinginfo']->phone, 0, 25),
@@ -95,7 +95,7 @@ if (SHIPPING_METHOD_ENABLE)
 	$shipping_variables = Array(
 		"address1"   => $shipping_address->address,
 		"city"       => $shipping_address->city,
-		"country"    => $CountryCode2,
+		"country"    => $shipping_address->country_code,
 		"first_name" => $shipping_address->firstname,
 		"last_name"  => $shipping_address->lastname,
 		"state"      => $shipping_address->state_code,
@@ -106,7 +106,11 @@ if (SHIPPING_METHOD_ENABLE)
 $payment_price = $this->params->get("payment_price");
 
 $post_variables['discount_amount_cart'] = round($currencyClass->convert($data['odiscount'], '', $currency_main), 2);
-$post_variables['discount_amount_cart'] += round($currencyClass->convert($data['special_discount'], '', $currency_main), 2);
+
+if(isset($data['special_discount']))
+{
+	$post_variables['discount_amount_cart'] += round($currencyClass->convert($data['special_discount'], '', $currency_main), 2);
+}
 
 if ($this->params->get("payment_oprand") == '-')
 {
@@ -121,13 +125,13 @@ else
 
 
 $db = JFactory::getDbo();
-$q_oi = "SELECT * FROM $this->paramsorder_item ";
-$q_oi .= "WHERE $this->paramsorder_item.order_id='" . $data['order_id'] . "'";
+$q_oi = "SELECT * FROM #__redshop_order_item ";
+$q_oi .= "WHERE order_id='" . $data['order_id'] . "'";
 $db->setQuery($q_oi);
 $items = $db->loadObjectList();
 
-$q_oi = "SELECT sum(product_quantity) FROM $this->paramsorder_item ";
-$q_oi .= "WHERE $this->paramsorder_item.order_id='" . $data['order_id'] . "'";
+$q_oi = "SELECT sum(product_quantity) FROM #__redshop_order_item ";
+$q_oi .= "WHERE order_id='" . $data['order_id'] . "'";
 $db->setQuery($q_oi);
 $totalq = $db->loadResult();
 
