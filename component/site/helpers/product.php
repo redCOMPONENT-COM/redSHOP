@@ -554,6 +554,14 @@ class producthelper
 		return $data_add;
 	}
 
+	/**
+	 * Check user for Tax Exemption approved
+	 *
+	 * @param   integer  $user_id              User Information Id - Login user id
+	 * @param   integer  $btn_show_addto_cart  Display Add to cart button for tax exemption user
+	 *
+	 * @return  boolean  true if VAT applied else false
+	 */
 	public function taxexempt_addtocart($user_id = 0, $btn_show_addto_cart = 0)
 	{
 		$user = JFactory::getUser();
