@@ -21,7 +21,7 @@ $layout           = $app->input->getCmd('layout');
 $Itemid           = $app->input->getInt('Itemid');
 $paymentCurrency  = $this->params->get("currency", CURRENCY_CODE);
 
-if ('1' == $this->params->get("sandbox"))
+if (1 == (int) $this->params->get("sandbox"))
 {
 	$paypalurl = "https://www.sandbox.paypal.com/cgi-bin/webscr";
 }
@@ -32,7 +32,7 @@ else
 
 $returnUrl = JURI::base() . "index.php?tmpl=component&option=com_redshop&view=order_detail&controller=order_detail&task=notify_payment&payment_plugin=rs_payment_paypal&Itemid=$Itemid&orderid=" . $data['order_id'];
 
-if ('1' == $this->params->get("auto_return"))
+if (1 == (int) $this->params->get("auto_return"))
 {
 	$returnUrl = $this->params->get("auto_return_url");
 }
