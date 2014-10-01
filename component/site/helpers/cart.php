@@ -5124,6 +5124,7 @@ class rsCarthelper
 		{
 			$rowAtt = JTable::getInstance('usercart_attribute_item', 'Table');
 
+			$rowAtt->cart_item_id		= $cart_item_id;
 			$rowAtt->section_id        = $attribute[$j]['attribute_id'];
 			$rowAtt->section           = 'attribute';
 			$rowAtt->parent_section_id = $product_id;
@@ -5140,6 +5141,7 @@ class rsCarthelper
 			{
 				$rowProp = JTable::getInstance('usercart_attribute_item', 'Table');
 
+				$rowProp->cart_item_id		= $cart_item_id;
 				$rowProp->section_id        = $attribute_childs[$k]['property_id'];
 				$rowProp->section           = 'property';
 				$rowProp->parent_section_id = $attribute[$j]['attribute_id'];
@@ -5441,9 +5443,10 @@ class rsCarthelper
 
 		for ($i = 0; $i < count($cart_itemsAttdata); $i++)
 		{
+			$attribute										= $this->_producthelper->getProductAttribute(0, 0, $cart_itemsAttdata[$i]->section_id);
 			$accPropertyCart                             = array();
 			$generateAttributeCart[$i]['attribute_id']   = $cart_itemsAttdata[$i]->section_id;
-			$generateAttributeCart[$i]['attribute_name'] = $cart_itemsAttdata[$i]->section_name;
+			$generateAttributeCart[$i]['attribute_name'] = $attribute[0]->text;
 
 			$cartPropdata = $this->getCartItemAttributeDetail($cart_item_id, $is_accessory, "property", $cart_itemsAttdata[$i]->section_id);
 

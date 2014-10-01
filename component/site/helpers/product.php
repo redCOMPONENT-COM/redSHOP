@@ -554,6 +554,14 @@ class producthelper
 		return $data_add;
 	}
 
+	/**
+	 * Check user for Tax Exemption approved
+	 *
+	 * @param   integer  $user_id              User Information Id - Login user id
+	 * @param   integer  $btn_show_addto_cart  Display Add to cart button for tax exemption user
+	 *
+	 * @return  boolean  true if VAT applied else false
+	 */
 	public function taxexempt_addtocart($user_id = 0, $btn_show_addto_cart = 0)
 	{
 		$user = JFactory::getUser();
@@ -1765,10 +1773,13 @@ class producthelper
 				{
 					$product_price_saving = $product_price_exluding_vat - $dicount_price_exluding_vat;
 
+					// Only apply VAT if set to apply in config or tag
 					if (intval($applytax) && $product_price_saving)
 					{
 						$dis_save_tax_amount  = $this->getProductTax($product_id, $product_price_saving, $user_id);
-						$product_price_saving = $product_price_saving;
+
+						// Adding VAT in saving price
+						$product_price_saving += $dis_save_tax_amount;
 					}
 
 					$product_price_incl_vat     = $product_discount_price_tmp + $tax_amount;
@@ -2187,6 +2198,11 @@ class producthelper
 			return array();
 		}
 
+		if ($addressType == '')
+		{
+			$addressType = 'BT';
+		}
+
 		if (!array_key_exists($userId . '.' . $addressType . '.' . $userInfoId, self::$userShopperGroupData))
 		{
 			$db = JFactory::getDbo();
@@ -2194,7 +2210,8 @@ class producthelper
 				->select(array('sh.*', 'u.*'))
 				->from($db->qn('#__redshop_users_info', 'u'))
 				->leftJoin($db->qn('#__redshop_shopper_group', 'sh') . ' ON sh.shopper_group_id = u.shopper_group_id')
-				->order('u.users_info_id ASC');
+				->where('u.user_id = ' . (int) $userId)
+				->where('u.address_type = ' . $db->q($addressType));
 
 			if ($userInfoId && $addressType == 'ST')
 			{
