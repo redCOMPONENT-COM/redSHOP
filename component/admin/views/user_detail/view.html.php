@@ -53,7 +53,7 @@ class RedshopViewUser_detail extends JView
 		JToolBarHelper::apply();
 		JToolBarHelper::save();
 
-		if ($isNew < 1)
+		if ($isNew)
 		{
 			JToolBarHelper::cancel();
 		}
