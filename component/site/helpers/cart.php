@@ -6198,17 +6198,17 @@ class rsCarthelper
 			}
 		}
 
-		if (!$cart['discount_type'])
+		if (!isset($cart['discount_type']) || !$cart['discount_type'])
 		{
 			$cart['discount_type'] = 0;
 		}
 
-		if (!$cart['discount'])
+		if (!isset($cart['discount']) || !$cart['discount'])
 		{
 			$cart['discount'] = 0;
 		}
 
-		if (!$cart['cart_discount'])
+		if (!isset($cart['cart_discount']) || !$cart['cart_discount'])
 		{
 			$cart['cart_discount'] = 0;
 		}
@@ -6232,6 +6232,10 @@ class rsCarthelper
 		$user    = JFactory::getUser();
 
 		$cartElement = $data['cart_index'];
+
+		$wrapper_price = 0;
+		$wrapper_vat = 0;
+		$calculator_price = 0;
 
 		$newQuantity = intval(abs($data['quantity']) > 0 ? $data['quantity'] : 1);
 		$oldQuantity = intval($cart[$cartElement]['quantity']);
