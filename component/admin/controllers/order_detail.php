@@ -407,7 +407,7 @@ class RedshopControllerOrder_detail extends JController
 		JLoader::load('RedshopHelperAdminConfiguration');
 
 		$redconfig = new Redconfiguration;
-		$model = $this->getModel();
+		$model = $this->getModel('order_detail');
 		$order_functions = new order_functions;
 
 		$request = JRequest::get('request');

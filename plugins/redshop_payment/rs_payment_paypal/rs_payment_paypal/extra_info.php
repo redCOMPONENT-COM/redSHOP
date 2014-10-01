@@ -81,8 +81,8 @@ if (SHIPPING_METHOD_ENABLE)
 	);
 }
 
-$paypalPostData['discount_amount_cart'] = round($currencyClass->convert($data['odiscount'], '', $paymentCurrency), 2);
-$paypalPostData['discount_amount_cart'] += round($currencyClass->convert($data['special_discount'], '', $paymentCurrency), 2);
+$paypalPostData['discount_amount_cart'] = round($currencyClass->convert($data['order']->order_discount, '', $paymentCurrency), 2);
+$paypalPostData['discount_amount_cart'] += round($currencyClass->convert($data['order']->special_discount, '', $paymentCurrency), 2);
 
 if ($this->params->get("payment_oprand") == '-')
 {

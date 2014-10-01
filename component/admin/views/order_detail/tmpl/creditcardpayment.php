@@ -36,8 +36,8 @@ if ($Itemid == 0)
 	$Itemid = JRequest::getVar('Itemid');
 
 $option = JRequest::getVar('option');
-$model = $this->getModel('checkout');
-
+JModel::addIncludePath(JPATH_SITE . '/components/com_redshop/models');
+$model = JModelLegacy::getInstance('Checkout', 'RedshopModel');
 
 $ccinfo = JRequest::getVar('ccinfo');
 
@@ -46,8 +46,8 @@ $ccinfo = JRequest::getVar('ccinfo');
 $paymentinfo = $paymentinfo[0];
 */
 
+$cart = $session->get('cart');
 
-//$cart 		 = $this->cart;
 $getparameters = $order_functions->getparameters($request['plugin']);
 $order = $order_functions->getOrderDetails($request['order_id']);
 
@@ -68,8 +68,6 @@ $paymentinfo->is_creditcard = $is_creditcard;
 $paymentinfo->payment_oprand = $payment_oprand;
 $paymentinfo->payment_discount_is_percent = $payment_discount_is_percent;
 $paymentinfo->accepted_credict_card = $accepted_credict_card;
-
-$order_shipping_rate = $cart['shipping'];
 
 $shopperGroupId = $userhelper->getShopperGroup($user_id);
 
