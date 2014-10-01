@@ -3321,6 +3321,8 @@ class rsCarthelper
 		$sql    = "SELECT  enabled FROM #__extensions WHERE element ='default_shipping_GLS'";
 		$this->_db->setQuery($sql);
 		$isEnabled = $this->_db->loadResult();
+		$selected_shop_id = null;
+		$ShopRespons = array();
 
 		if ($isEnabled && $classname == 'default_shipping_GLS')
 		{
@@ -3331,7 +3333,11 @@ class rsCarthelper
 			$values = $this->_db->loadObject();
 
 			$ShopResponses = $dispatcher->trigger('GetNearstParcelShops', array($values));
-			$ShopRespons   = $ShopResponses[0];
+
+			if(isset($ShopResponses[0]))
+			{
+				$ShopRespons = $ShopResponses[0];
+			}
 
 			$shopList = array();
 
