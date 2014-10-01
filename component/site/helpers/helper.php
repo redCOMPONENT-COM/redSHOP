@@ -601,11 +601,16 @@ class redhelper
 
 		$url    = JURI::root();
 
+		if(!$Imagename)
+		{
+			return REDSHOP_FRONT_IMAGES_ABSPATH . 'noimage.jpg';
+		}
+
 		/*
 		 * IF watermark is not enable
 		 * return thumb image
 		 */
-		if ($enable_watermart <= 0 && $Imagename)
+		if ($enable_watermart <= 0)
 		{
 			if (($thumb_width != '' || $thumb_width != 0) && ($thumb_height != '' || $thumb_width != 0))
 			{
@@ -622,8 +627,7 @@ class redhelper
 			return $filename;
 		}
 
-		if ($Imagename
-			&& file_exists(REDSHOP_FRONT_IMAGES_RELPATH . $mtype . "/" . $Imagename)
+		if (file_exists(REDSHOP_FRONT_IMAGES_RELPATH . $mtype . "/" . $Imagename)
 			&& (WATERMARK_IMAGE
 			&& file_exists(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . WATERMARK_IMAGE)))
 		{
@@ -772,10 +776,6 @@ class redhelper
 			else
 			{
 				$filename = REDSHOP_FRONT_IMAGES_ABSPATH . $mtype . "/" . $Imagename;
-			}
-			if(!is_file($filename))
-			{
-				$filename = REDSHOP_FRONT_IMAGES_ABSPATH . 'noimage.jpg';
 			}
 
 			return $filename;
