@@ -26,6 +26,42 @@ class RedShopHelperImages extends JObject
 	}
 
 	/**
+	 * Function cleanFileName.
+	 *
+	 * @param   string  $fileName  File name
+	 * @param   int     $id        ID current item
+	 *
+	 * @return string
+	 */
+	public static function cleanFileName($fileName, $id = null)
+	{
+		$fileExt = strtolower(JFile::getExt($fileName));
+		$fileNameNoExt = JFile::stripExt(basename($fileName));
+		$fileNameNoExt = preg_replace("/[&'#]/", '', $fileNameNoExt);
+		$fileNameNoExt = JApplication::stringURLSafe($fileNameNoExt);
+		$fileName = JPath::clean($fileName);
+		$segments = explode(DIRECTORY_SEPARATOR, $fileName);
+
+		if (strlen($fileNameNoExt) == 0)
+		{
+			$fileNameNoExt = $id;
+		}
+
+		$fileName = time() . '_' . $fileNameNoExt . '.' . $fileExt;
+
+		if (count($segments) > 1)
+		{
+			$segments[count($segments) - 1] = $fileName;
+
+			return implode(DIRECTORY_SEPARATOR, $segments);
+		}
+		else
+		{
+			return $fileName;
+		}
+	}
+
+	/**
 	 * Get redSHOP images live thumbnail path
 	 *
 	 * @param   string   $imageName     Image Name

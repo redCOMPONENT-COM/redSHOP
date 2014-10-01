@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+jimport('joomla.filesystem.file');
 JLoader::load('RedshopHelperCurrency');
 JLoader::load('RedshopHelperHelper');
 JLoader::load('RedshopHelperExtra_field');
@@ -9257,6 +9258,8 @@ class producthelper
 
 		if (!empty($imagename) && !empty($type))
 		{
+			$imagename = JFile::makeSafe($imagename);
+
 			if ((WATERMARK_PRODUCT_THUMB_IMAGE) && $type == 'product')
 			{
 				$productmainimg = $redhelper->watermark('product', $imagename, $pw_thumb, $ph_thumb, WATERMARK_PRODUCT_THUMB_IMAGE, '0');

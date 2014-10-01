@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 JHTML::_('behavior.tooltip');
 jimport('joomla.filesystem.file');
+JLoader::load('RedshopHelperAdminImages');
 
 class extra_field
 {
@@ -660,7 +661,7 @@ class extra_field
 
 				if ($_FILES[$row_data[$i]->field_name]['name'] != "")
 				{
-					$data_txt = time() . $_FILES[$row_data[$i]->field_name]["name"];
+					$data_txt = RedShopHelperImages::cleanFileName($_FILES[$row_data[$i]->field_name]["name"]);
 
 					$src = $_FILES[$row_data[$i]->field_name]['tmp_name'];
 					$destination = $destination_prefix . $data_txt;
@@ -699,7 +700,7 @@ class extra_field
 
 						if ($file != "")
 						{
-							$name = time() . $file;
+							$name = RedShopHelperImages::cleanFileName($file);
 
 							$src = $_FILES[$row_data[$i]->field_name]['tmp_name'][$ij];
 							$destination = REDSHOP_FRONT_DOCUMENT_RELPATH . 'extrafields/' . $name;
