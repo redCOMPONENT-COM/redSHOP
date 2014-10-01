@@ -5038,6 +5038,8 @@ class rsCarthelper
 		$idx  = $cart['idx'];
 		$user = JFactory::getUser();
 
+		$cart_accessory = array();
+
 		// If user is not logged in don't save in db
 		if ($user->id <= 0)
 			return false;
@@ -5076,6 +5078,11 @@ class rsCarthelper
 				$cart[$i]['giftcard_id'] = 0;
 			}
 
+			if(isset($cart[$i]['wrapper_id']) === false)
+			{
+				$cart[$i]['wrapper_id'] = 0;
+			}
+
 			$rowItem->giftcard_id             = $cart[$i]['giftcard_id'];
 			$rowItem->product_quantity        = $cart[$i]['quantity'];
 			$rowItem->product_wrapper_id      = $cart[$i]['wrapper_id'];
@@ -5094,11 +5101,20 @@ class rsCarthelper
 
 			$cart_item_id = $rowItem->cart_item_id;
 
-			$cart_attribute = $cart[$i]['cart_attribute'];
+			$cart_attribute = array();
+
+			if(isset($cart[$i]['cart_attribute']))
+			{
+				$cart_attribute = $cart[$i]['cart_attribute'];
+			}
+
 			/* store attribute in db */
 			$this->attributetodb($cart_attribute, $cart_item_id, $rowItem->product_id);
 
-			$cart_accessory = $cart[$i]['cart_accessory'];
+			if(isset($cart[$i]['cart_accessory']))
+			{
+				$cart_accessory = $cart[$i]['cart_accessory'];
+			}
 
 			for ($j = 0; $j < count($cart_accessory); $j++)
 			{
@@ -5599,7 +5615,12 @@ class rsCarthelper
 		{
 			$cart[$idx]['reciver_email']   = $data['reciver_email'];
 			$cart[$idx]['reciver_name']    = $data['reciver_name'];
-			$cart[$idx]['customer_amount'] = $data['customer_amount'];
+			$cart[$idx]['customer_amount'] = "";
+
+			if(isset($data['customer_amount']))
+			{
+				$cart[$idx]['customer_amount'] = $data['customer_amount'];
+			}
 
 			for ($g = 0; $g < count($idx); $g++)
 			{
@@ -5629,12 +5650,12 @@ class rsCarthelper
 			$cart[$idx]['product_vat']            = 0;
 			$cart[$idx]['product_id']             = '';
 
-			if (!$cart['discount_type'])
+			if (!isset($cart['discount_type']) || !$cart['discount_type'])
 			{
 				$cart['discount_type'] = 0;
 			}
 
-			if (!$cart['discount'])
+			if (!isset($cart['discount']) || !$cart['discount'])
 			{
 				$cart['discount'] = 0;
 			}
