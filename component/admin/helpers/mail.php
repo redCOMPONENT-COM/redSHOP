@@ -472,9 +472,8 @@ class redshopMail
 
 		for ($o = 0; $o < count($oid); $o++)
 		{
-			$message       = "";
-			$order_id      = $oid[$o];
-
+			$message              = "";
+			$order_id             = $oid[$o];
 			$OrdersDetail  		  = $order_functions->getOrderDetails($order_id);
 			$order_print_template = $redTemplate->getTemplate("order_print");
 
