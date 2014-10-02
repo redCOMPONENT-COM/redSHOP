@@ -108,3 +108,6 @@ To generate tests really fast you can use these firefox addons:
 
 - Selenium IDE (records your screen)
 - Selenium IDE Codeception Formatter (Export your Selenium IDE test to Codeception language)
+
+1
+end
