@@ -503,8 +503,8 @@ if (!$discount_type)
 							<td width="20%"><?php echo JText::_('COM_REDSHOP_PRODUCT_NAME'); ?></td>
 							<td width="15%"><?php echo JText::_('COM_REDSHOP_ORDER_PRODUCT_NOTE'); ?></td>
 							<td width="10%"><?php echo JText::_('COM_REDSHOP_PRODUCT_PRICE_WITHOUT_VAT'); ?></td>
-							<td width="5%" align="right"><?php echo JText::_('COM_REDSHOP_TAX'); ?></td>
-							<td width="10%" align="right"><?php echo JText::_('COM_REDSHOP_PRODUCT_PRICE'); ?></td>
+							<td width="5%"><?php echo JText::_('COM_REDSHOP_TAX'); ?></td>
+							<td width="10%"><?php echo JText::_('COM_REDSHOP_PRODUCT_PRICE'); ?></td>
 							<td width="5%"><?php echo JText::_('COM_REDSHOP_PRODUCT_QTY'); ?></td>
 							<td width="10%" align="right"><?php echo JText::_('COM_REDSHOP_TOTAL_PRICE'); ?></td>
 							<td width="20%"><?php echo JText::_('COM_REDSHOP_STATUS'); ?></td>
