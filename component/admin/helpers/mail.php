@@ -658,7 +658,7 @@ class redshopMail
 		$mailbcc           = null;
 		$arr_discount_type = array();
 
-		$mailinfo          = $this->getMailtemplate(0, "invoice_mail");
+		$mailinfo          = $this->getMailtemplate(0, "invoicefile_mail");
 
 		if (count($mailinfo) > 0)
 		{
