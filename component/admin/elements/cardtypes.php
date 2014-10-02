@@ -55,6 +55,7 @@ class JFormFieldcardtypes extends JFormField
                 document.getElementById("DB").checked = true;
                 document.getElementById("IKANO").checked = true;
                 document.getElementById("MASTERCARDDEBETCARD").checked = true;
+				document.getElementById("PAII").checked = true;
             } else {
                 document.getElementById("DANKORT").checked = false;
                 document.getElementById("VD").checked = false;
@@ -78,6 +79,7 @@ class JFormFieldcardtypes extends JFormField
                 document.getElementById("DB").checked = false;
                 document.getElementById("IKANO").checked = false;
                 document.getElementById("MASTERCARDDEBETCARD").checked = false;
+				document.getElementById("PAII").checked = false;
 
             }
 
@@ -112,6 +114,7 @@ class JFormFieldcardtypes extends JFormField
 		$cc_list['DB'] = 'DANSKE BANK';
 		$cc_list['IKANO'] = 'IKANO';
 		$cc_list['MASTERCARDDEBETCARD'] = 'MASTERCARD DEBET CARD';
+		$cc_list['PAII'] = "Mobilbetaling (PAII)";
 
 		$html = '';
 		foreach ($cc_list as $key => $valuechk)
