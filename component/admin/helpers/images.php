@@ -155,12 +155,12 @@ class RedShopHelperImages extends JObject
 					$src = $file_path;
 					$src_path_info = pathinfo($src);
 					$dest = $src_path_info['dirname'] . '/thumb/' . $src_path_info['filename'] . '_w'
-						. $width . '_h' . $height . '_dope' . '.' . $src_path_info['extension'];
+						. $width . '_h' . $height . '.' . $src_path_info['extension'];
 					$alt_dest = '';
 
 					if (!JFile::exists($dest))
 					{
-						$ret = RedShopHelperImages::writeImage($src, $dest, $alt_dest, $width, $height, $proportional);
+						$ret = self::writeImage($src, $dest, $alt_dest, $width, $height, $proportional);
 					}
 
 					else
