@@ -87,6 +87,20 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 			$order_item_name[$j] = $prolist[$j]->order_item_name;
 		}
 
+		$orderpayment  = $order_function->getOrderPaymentDetail($this->detail[$i]->order_id);
+		$paymentmethod = $orderpayment[0];
+
+		if ($paymentmethod->order_transfee > 0)
+		{
+			$orderTransFee = $producthelper->getProductFormattedPrice(
+				$paymentmethod->order_transfee
+			);
+		}
+
+		$orderTotalInclTraferfee = $producthelper->getProductFormattedPrice(
+				$paymentmethod->order_transfee + $this->detail[$i]->order_total
+			);
+
 		$orderdetailurl = JRoute::_('index.php?option=com_redshop&view=order_detail&oid=' . $this->detail[$i]->order_id);
 
 		$reorderurl = JURI::root() . 'index.php?option=com_redshop&view=order_detail&order_id=' . $this->detail[$i]->order_id . '&task=reorder&tmpl=component';
@@ -100,6 +114,10 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 		$order_total = "<div class='order_total'>" . $producthelper->getProductFormattedPrice($this->detail[$i]->order_total) . "</div>";
 
 		$order_date = "<div class='order_date'>" . $redconfig->convertDateFormat($this->detail[$i]->cdate) . "</div>";
+
+		$cart_mdata = str_replace("{order_transfee}", $orderTransFee, $cart_mdata);
+
+		$cart_mdata = str_replace("{order_total_incl_transfee}", $orderTotalInclTraferfee, $cart_mdata);
 
 		$order_status = "<div class='order_status'>" . $statusname . "</div>";
 

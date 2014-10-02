@@ -2905,6 +2905,27 @@ class rsCarthelper
 		$search  [] = "{payment_extrainfo}";
 		$replace [] = $txtextra_info;
 
+		// Set order transaction fee tag
+		$orderTransFeeLabel = '';
+		$orderTransFee      = '';
+
+		if ($paymentmethod->order_transfee > 0)
+		{
+			$orderTransFeeLabel = JText::_('COM_REDSHOP_ORDER_TRANSACTION_FEE_LABEL');
+			$orderTransFee      = $this->_producthelper->getProductFormattedPrice($paymentmethod->order_transfee);
+		}
+
+		$search [] = "{order_transfee_label}";
+		$replace[] = $orderTransFeeLabel;
+
+		$search [] = "{order_transfee}";
+		$replace[] = $orderTransFee;
+
+		$search [] = "{order_total_incl_transfee}";
+		$replace[] = $this->_producthelper->getProductFormattedPrice(
+			$paymentmethod->order_transfee + $row->order_total
+		);
+
 		if (JRequest::getVar('order_delivery'))
 		{
 			$search  [] = "{delivery_time_lbl}";
