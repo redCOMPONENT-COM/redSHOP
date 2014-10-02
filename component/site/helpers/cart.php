@@ -6100,7 +6100,7 @@ class rsCarthelper
 
 					if ($newcartquantity != $cart[$i]['quantity'])
 					{
-						$cart[$i]['quantity'] = $newcartquantity;
+						$cart[$i]['quantity'] = $quantity;
 
 						/*
 						 * trigger the event of redSHOP product plugin support on Same product is going to add into cart
@@ -6112,7 +6112,9 @@ class rsCarthelper
 						$this->_session->set('cart', $cart);
 						$data['cart_index'] = $i;
 						$data['quantity']   = $newcartquantity;
-						$this->update($data);
+
+						$cartModel = JModel::getInstance('cart', 'RedshopModel');
+						$cartModel->update($data);
 
 						return true;
 					}
@@ -6233,79 +6235,6 @@ class rsCarthelper
 		$this->_session->set('cart', $cart);
 
 		return true;
-	}
-
-	public function update($data)
-	{
-		$session = JFactory::getSession();
-		$cart    = $session->get('cart');
-		$user    = JFactory::getUser();
-
-		$cartElement = $data['cart_index'];
-
-		$newQuantity = intval(abs($data['quantity']) > 0 ? $data['quantity'] : 1);
-		$oldQuantity = intval($cart[$cartElement]['quantity']);
-
-		if ($newQuantity <= 0)
-		{
-			$newQuantity = 1;
-		}
-
-		// Discount calculator
-		if (!empty($cart[$cartElement]['discount_calc']))
-		{
-			$calcdata               = $cart[$cartElement]['discount_calc'];
-			$calcdata['product_id'] = $cart[$cartElement]['product_id'];
-
-			$discount_cal = $this->discountCalculator($calcdata);
-
-			$calculator_price  = $discount_cal['product_price'];
-			$product_price_tax = $discount_cal['product_price_tax'];
-		}
-
-		// Attribute price
-		$retAttArr                  = $this->_producthelper->makeAttributeCart($cart[$cartElement]['cart_attribute'], $cart[$cartElement]['product_id'], $user->id, $calculator_price, $cart[$cartElement]['quantity']);
-		$product_price              = $retAttArr[1];
-		$product_vat_price          = $retAttArr[2];
-		$product_old_price          = $retAttArr[5] + $retAttArr[6];
-		$product_old_price_excl_vat = $retAttArr[5];
-
-		// Accessory price
-		$retAccArr             = $this->_producthelper->makeAccessoryCart($cart[$cartElement]['cart_accessory'], $cart[$cartElement]['product_id']);
-		$accessory_total_price = $retAccArr[1];
-		$accessory_vat_price   = $retAccArr[2];
-
-
-		if ($cart[$cartElement]['wrapper_id'])
-		{
-			$wrapperArr    = $this->getWrapperPriceArr(array('product_id' => $cart[$cartElement]['product_id'], 'wrapper_id' => $cart[$cartElement]['wrapper_id']));
-			$wrapper_vat   = $wrapperArr['wrapper_vat'];
-			$wrapper_price = $wrapperArr['wrapper_price'];
-		}
-
-		if (isset($cart[$cartElement]['subscription_id']) && $cart[$cartElement]['subscription_id'] != "")
-		{
-			$subscription_vat    = 0;
-			$subscription_detail = $this->_producthelper->getProductSubscriptionDetail($product_id, $cart[$cartElement]['subscription_id']);
-			$subscription_price  = $subscription_detail->subscription_price;
-
-			if ($subscription_price)
-			{
-				$subscription_vat = $this->_producthelper->getProductTax($product_id, $subscription_price);
-			}
-
-			$product_vat_price += $subscription_vat;
-			$product_price = $product_price + $subscription_price;
-			$product_old_price_excl_vat += $subscription_price;
-		}
-
-		$cart[$cartElement]['product_price']              = $product_price + $product_vat_price + $accessory_total_price + $accessory_vat_price + $wrapper_price + $wrapper_vat;
-		$cart[$cartElement]['product_old_price']          = $product_old_price + $accessory_total_price + $accessory_vat_price + $wrapper_price + $wrapper_vat;
-		$cart[$cartElement]['product_old_price_excl_vat'] = $product_old_price_excl_vat + $accessory_total_price + $wrapper_price;
-		$cart[$cartElement]['product_price_excl_vat']     = $product_price + $accessory_total_price + $wrapper_price;
-		$cart[$cartElement]['product_vat']                = $product_vat_price + $accessory_vat_price + $wrapper_vat;
-
-		$session->set('cart', $cart);
 	}
 
 	public function userfieldValidation($data, $data_add, $section = 12)
