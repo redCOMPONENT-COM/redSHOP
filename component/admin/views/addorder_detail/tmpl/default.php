@@ -13,14 +13,14 @@ JHTML::_('behavior.calendar');
 
 JLoader::load('RedshopHelperAdminExtra_field');
 JLoader::load('RedshopHelperProduct');
-$producthelper = new producthelper();
+$producthelper = new producthelper;
 JLoader::load('RedshopHelperAdminOrder');
-$order_functions = new order_functions();
-$redconfig = new Redconfiguration();
+$order_functions = new order_functions;
+$redconfig = new Redconfiguration;
 
 $option = JRequest::getVar('option');
 $model = $this->getModel('addorder_detail');
-$redhelper = new redhelper();
+$redhelper = new redhelper;
 
 $billing = $this->billing;
 $shipping = $this->shipping;

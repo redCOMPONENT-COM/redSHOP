@@ -20,11 +20,11 @@ JLoader::load('RedshopHelperCart');
 JLoader::load('RedshopHelperUser');
 JLoader::load('RedshopHelperHelper');
 
-$carthelper = new rsCarthelper();
-$producthelper = new producthelper();
-$order_functions = new order_functions();
-$redhelper = new redhelper();
-$userhelper = new rsUserhelper();
+$carthelper = new rsCarthelper;
+$producthelper = new producthelper;
+$order_functions = new order_functions;
+$redhelper = new redhelper;
+$userhelper = new rsUserhelper;
 $user = JFactory::getUser();
 $session = JFactory::getSession();
 $user_id = $user->id;

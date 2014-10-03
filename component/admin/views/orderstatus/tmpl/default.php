@@ -9,7 +9,7 @@
 defined('_JEXEC') or die;
 
 $option = JRequest::getVar('option', '', 'request', 'string');
-$redhelper = new redhelper();
+$redhelper = new redhelper;
 ?>
 <script language="javascript" type="text/javascript">
 
