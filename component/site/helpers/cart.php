@@ -4597,14 +4597,13 @@ class rsCarthelper
 
 	public function globalvoucher($voucher_code)
 	{
-		$db = JFactory::getDbo();
 
 		$current_time = time();
 		$query        = "SELECT product_id,v.* from " . $this->_table_prefix . "product_voucher_xref as pv  "
 			. "left join " . $this->_table_prefix . "product_voucher as v on v.voucher_id = pv.voucher_id "
 			. " \nWHERE v.published = 1"
-			. " AND v.voucher_code=" . $db->quote($voucher_code)
-			. " AND ((v.start_date<=" . $db->quote($current_time) . " AND v.end_date>=" . $db->quote($current_time) . ")"
+			. " AND v.voucher_code=" . $this->_db->quote($voucher_code)
+			. " AND ((v.start_date<=" . $this->_db->quote($current_time) . " AND v.end_date>=" . $this->_db->quote($current_time) . ")"
 			. " OR ( v.start_date =0 AND v.end_date = 0) ) AND v.voucher_left>0 limit 0,1";
 		$this->_db->setQuery($query);
 		$voucher = $this->_db->loadObject();
@@ -4614,8 +4613,8 @@ class rsCarthelper
 			$this->_globalvoucher = 1;
 			$query                = "SELECT v.*,v.amount as total from " . $this->_table_prefix . "product_voucher as v "
 				. "WHERE v.published = 1 "
-				. "AND v.voucher_code=" . $db->quote($voucher_code)
-				. "AND ((v.start_date<=" . $db->quote($current_time) . " AND v.end_date>=" . $db->quote($current_time) . ")"
+				. "AND v.voucher_code=" . $this->_db->quote($voucher_code)
+				. "AND ((v.start_date<=" . $this->_db->quote($current_time) . " AND v.end_date>=" . $this->_db->quote($current_time) . ")"
 				. " OR ( v.start_date =0 AND v.end_date = 0) ) "
 				. "AND v.voucher_left>0 LIMIT 0,1 ";
 			$this->_db->setQuery($query);
