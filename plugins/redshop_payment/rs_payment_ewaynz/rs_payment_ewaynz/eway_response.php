@@ -26,7 +26,8 @@ elseif (file_exists($my_path . "/configuration.php"))
 }
 else
 {
-	die ("Joomla Configuration File not found!");
+	echo "Joomla Configuration File not found!";
+	exit;
 }
 
 $absolute_path = realpath($absolute_path);
