@@ -10,11 +10,11 @@ defined('_JEXEC') or die;
 JHTML::_('behavior.tooltip');
 JHTML::_('behavior.modal');
 
-require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
-require_once JPATH_COMPONENT_SITE . '/helpers/helper.php';
-require_once JPATH_COMPONENT_SITE . '/helpers/cart.php';
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php';
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/shipping.php';
+JLoader::load('RedshopHelperProduct');
+JLoader::load('RedshopHelperHelper');
+JLoader::load('RedshopHelperCart');
+JLoader::load('RedshopHelperAdminOrder');
+JLoader::load('RedshopHelperAdminShipping');
 
 $producthelper = new producthelper;
 $carthelper = new rsCarthelper;
@@ -85,30 +85,57 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 				<tbody>
 				<tr>
 					<th align="right" colspan="2">
-						<?php if(isset($order_id)) {     ?>
-						<a href="<?php echo JRoute::_('index.php?option=' . $option . '&view=order_detail&task=createpdfstocknote&cid[]=' . $order_id); ?>"><?php echo JText::_('COM_REDSHOP_CREATE_STOCKNOTE'); ?></a>
-						&nbsp;
-						<a href="javascript:openPrintOrder();" title="<?php echo JText::_('COM_REDSHOP_PRINT'); ?>">
-							<img src="<?php echo JSYSTEM_IMAGES_PATH . 'printButton.png'; ?>"
-							     alt="<?php echo JText::_('COM_REDSHOP_PRINT'); ?>"
-							     title="<?php echo JText::_('COM_REDSHOP_PRINT'); ?>"/></a>
+						<?php if(isset($order_id)) : ?>
+							<a href="<?php echo JRoute::_('index.php?option=com_redshop&view=order_detail&task=createpdfstocknote&cid[]=' . $order_id); ?>">
+								<?php echo JText::_('COM_REDSHOP_CREATE_STOCKNOTE'); ?>
+							</a>
+							&nbsp;|&nbsp;
+							<a
+								href="<?php echo JRoute::_('index.php?option=com_redshop&view=order_detail&task=createpdf&cid[]=' . $order_id); ?>">
+								<?php echo JText::_('COM_REDSHOP_CREATE_SHIPPING_LABEL'); ?>
+							</a>
+							&nbsp;|&nbsp;
 
-						<a href="<?php echo JRoute::_('index.php?option=' . $option . '&view=order_detail&task=createpdf&cid[]=' . $order_id); ?>"><?php echo JText::_('COM_REDSHOP_CREATE_SHIPPING_LABEL'); ?></a>
-						&nbsp;<?php if($tmpl){ ?><a
-							href="<?php echo JRoute::_('index.php?option=' . $option . '&view=order_detail&task=send_downloadmail&cid[]=' . $order_id); ?>&tmpl=<?php echo $tmpl; ?>"><?php } else { ?>
-							<a href="<?php echo JRoute::_('index.php?option=' . $option . '&view=order_detail&task=send_downloadmail&cid[]=' . $order_id); ?>"><?php }  echo JText::_('COM_REDSHOP_SEND_DOWNLOEADMAIL'); ?></a>
-							&nbsp;<?php if($tmpl){ ?><a
-								href="<?php echo JRoute::_('index.php?option=' . $option . '&view=order_detail&task=send_invoicemail&cid[]=' . $order_id); ?>&tmpl=<?php echo $tmpl; ?>"><?php } else { ?>
-								<a href="<?php echo JRoute::_('index.php?option=' . $option . '&view=order_detail&task=send_invoicemail&cid[]=' . $order_id); ?>"><?php }  echo JText::_('COM_REDSHOP_SEND_INVOICEMAIL'); ?></a>
-								&nbsp;
-								<?php }    ?>
+							<?php
 
-								<?php if (!$tmpl)
-								{ ?>
+							$appendTmpl = '';
 
-									<a href="<?php echo JRoute::_('index.php?option=' . $option . '&view=order'); ?>"><?php echo JText::_('COM_REDSHOP_BACK'); ?></a>
-								<?php } ?>
+							if($tmpl)
+							{
+								$appendTmpl = '&tmpl=component';
+							}
 
+							?>
+							<a href="<?php echo JRoute::_('index.php?option=com_redshop&view=order_detail&task=send_downloadmail&cid[]=' . $order_id . $appendTmpl); ?>">
+								<?php echo JText::_('COM_REDSHOP_SEND_DOWNLOEADMAIL'); ?>
+							</a>
+
+							&nbsp;|&nbsp;
+
+							<a href="<?php echo JRoute::_('index.php?option=com_redshop&view=order_detail&task=resendOrderMail&orderid=' . $order_id . $appendTmpl); ?>">
+								<?php echo JText::_('COM_REDSHOP_RESEND_ORDER_MAIL'); ?>
+							</a>
+
+							&nbsp;|&nbsp;
+
+							<a href="<?php echo JRoute::_('index.php?option=com_redshop&view=order_detail&task=send_invoicemail&cid[]=' . $order_id . $appendTmpl); ?>">
+								<?php echo JText::_('COM_REDSHOP_SEND_INVOICEMAIL'); ?>
+							</a>
+
+							<?php if($tmpl) : ?>
+							&nbsp;|&nbsp;
+							<a href="<?php echo JRoute::_('index.php?option=com_redshop&view=order&tmpl=component'); ?>">
+								<?php echo JText::_('COM_REDSHOP_BACK'); ?>
+							</a>
+							<?php endif; ?>
+
+							<a href="javascript:openPrintOrder();" title="<?php echo JText::_('COM_REDSHOP_PRINT'); ?>">
+								<img src="<?php echo JSYSTEM_IMAGES_PATH . 'printButton.png'; ?>"
+								     alt="<?php echo JText::_('COM_REDSHOP_PRINT'); ?>"
+								     title="<?php echo JText::_('COM_REDSHOP_PRINT'); ?>"
+								/>
+							</a>
+						<?php endif; ?>
 					</th>
 				</tr>
 				<tr>
@@ -775,14 +802,18 @@ $session->set('cart', $cart); ?>
 				$special_discount_amount = $this->detail->special_discount_amount;
 				$vatOnDiscount           = false;
 
-				if ((int) APPLY_VAT_ON_DISCOUNT == 0 && VAT_RATE_AFTER_DISCOUNT && (int) $this->detail->order_discount != 0 && $order_tax && !empty($this->detail->order_discount))
+				if ((int) APPLY_VAT_ON_DISCOUNT == 0 && VAT_RATE_AFTER_DISCOUNT
+					&& (int) $this->detail->order_discount != 0 && (int) $order_tax
+					&& !empty($this->detail->order_discount))
 				{
 					$vatOnDiscount = true;
 					$Discountvat   = (VAT_RATE_AFTER_DISCOUNT * $totaldiscount) / (1 + VAT_RATE_AFTER_DISCOUNT);
 					$totaldiscount = $totaldiscount - $Discountvat;
 				}
 
-				if ((int) APPLY_VAT_ON_DISCOUNT == 0 && VAT_RATE_AFTER_DISCOUNT && (int) $this->detail->special_discount_amount != 0 && $order_tax && !empty($this->detail->special_discount_amount))
+				if ((int) APPLY_VAT_ON_DISCOUNT == 0 && VAT_RATE_AFTER_DISCOUNT
+					&& (int) $this->detail->special_discount_amount != 0 && (int) $order_tax
+					&& !empty($this->detail->special_discount_amount))
 				{
 					$vatOnDiscount           = true;
 					$Discountvat             = (VAT_RATE_AFTER_DISCOUNT * $special_discount_amount) / (1 + VAT_RATE_AFTER_DISCOUNT);

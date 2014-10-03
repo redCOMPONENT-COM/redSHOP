@@ -19,7 +19,7 @@ if (!isset($shipping->order_info_id))
 	$shipping->order_info_id = 0;
 
 $Itemid = JRequest::getVar('Itemid');
-require_once JPATH_COMPONENT . '/helpers/extra_field.php';
+JLoader::load('RedshopHelperAdminExtra_field');
 ?>
 <script type="text/javascript">
 
@@ -155,7 +155,7 @@ require_once JPATH_COMPONENT . '/helpers/extra_field.php';
 				</tr>
 				<tr>
 					<?php
-					$field = new extra_field();
+					$field = new extra_field;
 					if ($shipping->is_company == 1)
 					{
 						echo $extrafields = $field->list_all_field(15, $shipping->users_info_id);

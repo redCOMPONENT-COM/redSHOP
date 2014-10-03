@@ -11,14 +11,10 @@ defined('_JEXEC') or die;
 JHTML::_('behavior.tooltip');
 
 $orderstatusArr = array('P', 'C', 'X', 'R', 'S', 'RD', 'RD1', 'RD2', 'ACCP', 'APP', 'ABT', 'PR', 'RC', 'PS', 'RT', 'PRT', 'PRC');
-$redhelper = new redhelper();
+$redhelper = new redhelper;
 ?>
 <script language="javascript" type="text/javascript">
 	Joomla.submitbutton = function (pressbutton) {
-		submitbutton(pressbutton);
-	}
-
-	submitbutton = function (pressbutton) {
 		var form = document.adminForm;
 		if (pressbutton == 'cancel') {
 			<?php      $link = 'index.php?option=' . $option . '&view=orderstatus';

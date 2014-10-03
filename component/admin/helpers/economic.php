@@ -9,11 +9,11 @@
 
 jimport('joomla.filesystem.file');
 
-require_once JPATH_ROOT . '/components/com_redshop/helpers/product.php';
-require_once JPATH_ROOT . '/components/com_redshop/helpers/helper.php';
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/order.php';
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/shipping.php';
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/stockroom.php';
+JLoader::load('RedshopHelperProduct');
+JLoader::load('RedshopHelperHelper');
+JLoader::load('RedshopHelperAdminOrder');
+JLoader::load('RedshopHelperAdminShipping');
+JLoader::load('RedshopHelperAdminStockroom');
 
 class economic
 {
@@ -34,7 +34,7 @@ class economic
 	public function economic()
 	{
 		$db                     = JFactory::getDbo();
-		$this->_table_prefix    = '#__' . TABLE_PREFIX . '_';
+		$this->_table_prefix    = '#__redshop_';
 		$this->_db              = $db;
 		$this->_producthelper   = new producthelper;
 		$this->_shippinghelper  = new shipping;
@@ -42,7 +42,7 @@ class economic
 		$this->_order_functions = new order_functions;
 		$this->_stockroomhelper = new rsstockroomhelper;
 
-		JPluginHelper::importPlugin('economic', 'economic');
+		JPluginHelper::importPlugin('economic');
 		$this->_dispatcher = JDispatcher::getInstance();
 	}
 

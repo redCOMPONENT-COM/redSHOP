@@ -11,11 +11,11 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/template.php';
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/extra_field.php';
-require_once JPATH_COMPONENT_SITE . '/helpers/helper.php';
+JLoader::load('RedshopHelperAdminTemplate');
+JLoader::load('RedshopHelperAdminExtra_field');
+JLoader::load('RedshopHelperHelper');
 
-class configurationViewconfiguration extends JView
+class RedshopViewConfiguration extends JView
 {
 	/**
 	 * The request url.
@@ -154,12 +154,12 @@ class configurationViewconfiguration extends JView
 		defined('AJAX_BOX_WIDTH') ? AJAX_BOX_WIDTH : define('AJAX_BOX_WIDTH', '500');
 		defined('AJAX_BOX_HEIGHT') ? AJAX_BOX_HEIGHT : define('AJAX_BOX_HEIGHT', '150');
 
-		$q = "SELECT  country_3_code as value,country_name as text,country_jtext from #__" . TABLE_PREFIX . "_country ORDER BY country_name ASC";
+		$q = "SELECT  country_3_code as value,country_name as text,country_jtext from #__redshop_country ORDER BY country_name ASC";
 		$db->setQuery($q);
 		$countries = $db->loadObjectList();
 		$countries = $redhelper->convertLanguageString($countries);
 
-		$q = "SELECT  stockroom_id as value,stockroom_name as text from #__" . TABLE_PREFIX . "_stockroom ORDER BY stockroom_name ASC";
+		$q = "SELECT  stockroom_id as value,stockroom_name as text from #__redshop_stockroom ORDER BY stockroom_name ASC";
 		$db->setQuery($q);
 		$stockroom = $db->loadObjectList();
 
@@ -291,7 +291,7 @@ class configurationViewconfiguration extends JView
 		);
 		$lists['portalshop']                    = JHTML::_('select.booleanlist', 'portal_shop', 'class="inputbox" size="1"', PORTAL_SHOP);
 		$lists['use_image_size_swapping']       = JHTML::_('select.booleanlist', 'use_image_size_swapping', 'class="inputbox" size="1"', USE_IMAGE_SIZE_SWAPPING);
-		$lists['apply_vat_on_discount']         = JHTML::_('select.booleanlist', 'apply_vat_on_discount', 'class="inputbox" size="1"', APPLY_VAT_ON_DISCOUNT);
+		$lists['apply_vat_on_discount']         = JHTML::_('select.booleanlist', 'apply_vat_on_discount', 'class="inputbox" size="1"', APPLY_VAT_ON_DISCOUNT, $yes = JText::_('COM_REDSHOP_BEFORE_DISCOUNT'), $no = JText::_('COM_REDSHOP_AFTER_DISCOUNT'));
 		$lists['auto_scroll_wrapper']           = JHTML::_('select.booleanlist', 'auto_scroll_wrapper', 'class="inputbox" size="1"', AUTO_SCROLL_WRAPPER);
 		$lists['allow_multiple_discount']       = JHTML::_('select.booleanlist', 'allow_multiple_discount', 'class="inputbox" size="1"', ALLOW_MULTIPLE_DISCOUNT);
 		defined('SHOW_PRODUCT_DETAIL') ? SHOW_PRODUCT_DETAIL : define('SHOW_PRODUCT_DETAIL', '1');
@@ -469,8 +469,8 @@ class configurationViewconfiguration extends JView
 		}
 
 		$db->setQuery("SELECT c.country_id, c.country_3_code, s.state_name, s.state_2_code
-						FROM #__" . TABLE_PREFIX . "_country c
-						LEFT JOIN #__" . TABLE_PREFIX . "_state s
+						FROM #__redshop_country c
+						LEFT JOIN #__redshop_state s
 						ON c.country_id=s.country_id OR s.country_id IS NULL
 						ORDER BY c.country_id, s.state_name");
 		$states = $db->loadObjectList();
@@ -805,6 +805,14 @@ class configurationViewconfiguration extends JView
 		$option[5]        = new stdClass;
 		$option[5]->value = 'm';
 		$option[5]->text  = JText::_('COM_REDSHOP_METER');
+
+		$option[5]        = new stdClass;
+		$option[5]->value = 'l';
+		$option[5]->text  = JText::_('COM_REDSHOP_LITER');
+
+		$option[5]        = new stdClass;
+		$option[5]->value = 'ml';
+		$option[5]->text  = JText::_('COM_REDSHOP_MILLILITER');
 
 		$lists['default_volume_unit'] = JHTML::_('select.genericlist', $option, 'default_volume_unit',
 			'class="inputbox" ', 'value', 'text', DEFAULT_VOLUME_UNIT

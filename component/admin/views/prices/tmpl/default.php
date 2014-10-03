@@ -6,8 +6,8 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
-$producthelper = new producthelper();
+JLoader::load('RedshopHelperProduct');
+$producthelper = new producthelper;
 $option = JRequest::getVar('option', '', 'request', 'string');?>
 <script language="javascript" type="text/javascript">
 	Joomla.submitbutton = function (pressbutton) {

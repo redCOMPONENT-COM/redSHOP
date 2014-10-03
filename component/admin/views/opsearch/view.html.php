@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
-class opsearchViewopsearch extends JView
+class RedshopViewOpsearch extends JView
 {
 	/**
 	 * The request url.

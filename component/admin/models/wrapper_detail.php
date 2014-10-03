@@ -11,9 +11,9 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 jimport('joomla.filesystem.file');
-require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
+JLoader::load('RedshopHelperProduct');
 
-class wrapper_detailModelwrapper_detail extends JModel
+class RedshopModelWrapper_detail extends JModel
 {
 	public $_id = null;
 
@@ -26,7 +26,7 @@ class wrapper_detailModelwrapper_detail extends JModel
 	public function __construct()
 	{
 		parent::__construct();
-		$this->_table_prefix = '#__' . TABLE_PREFIX . '_';
+		$this->_table_prefix = '#__redshop_';
 
 		$array = JRequest::getVar('cid', 0, '', 'array');
 		$this->_sectionid = JRequest::getVar('product_id', 0, '', 'int');
@@ -189,7 +189,7 @@ class wrapper_detailModelwrapper_detail extends JModel
 
 	public function store($data)
 	{
-		$row =& $this->getTable();
+		$row = $this->getTable();
 
 		if (!$row->bind($data))
 		{

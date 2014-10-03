@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-include_once (JPATH_SITE . '/components/com_redshop/helpers/product.php');
+JLoader::load('RedshopHelperProduct');
 
 class shipping
 {
@@ -19,7 +19,7 @@ class shipping
 	{
 		$this->_db = JFactory::getDbo();
 
-		$this->_table_prefix = '#__' . TABLE_PREFIX . '_';
+		$this->_table_prefix = '#__redshop_';
 		$this->producthelper = new producthelper;
 	}
 
@@ -410,9 +410,9 @@ class shipping
 				if ($shippingrate->apply_vat == 1)
 				{
 					$result = $this->getShippingVatRates($shippingrate->shipping_tax_group_id, $user_id);
-					$chk    = $this->producthelper->taxexempt_addtocart($user_id);
+					$addVat = $this->producthelper->taxexempt_addtocart($user_id);
 
-					if (!empty($result) && !empty($chk))
+					if (!empty($result) && $addVat)
 					{
 						if ($result->tax_rate > 0)
 						{
@@ -613,9 +613,9 @@ class shipping
 				if ($shippingrate->apply_vat == 1)
 				{
 					$result = $this->getShippingVatRates($shippingrate->shipping_tax_group_id, $user_id);
-					$chk    = $this->producthelper->taxexempt_addtocart($user_id);
+					$addVat = $this->producthelper->taxexempt_addtocart($user_id);
 
-					if (!empty($result) && !empty($chk))
+					if (!empty($result) && $addVat)
 					{
 						if ($result->tax_rate > 0)
 						{
@@ -965,9 +965,9 @@ class shipping
 		if ($shippingrate->apply_vat == 1)
 		{
 			$result = $this->getShippingVatRates($shippingrate->shipping_tax_group_id, $user_id);
-			$chk = $this->producthelper->taxexempt_addtocart($user_id);
+			$addVat = $this->producthelper->taxexempt_addtocart($user_id);
 
-			if (!empty($result) && !empty($chk))
+			if (!empty($result) && $addVat)
 			{
 				if ($result->tax_rate > 0)
 				{

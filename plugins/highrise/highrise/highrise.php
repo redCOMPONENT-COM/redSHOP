@@ -25,7 +25,7 @@ class plghighrisehighrise extends JPlugin
 	 */
 	public function oncreateHighriseUser($data)
 	{
-		$plugin =& JPluginHelper::getPlugin('highrise', 'highrise');
+		$plugin = JPluginHelper::getPlugin('highrise', 'highrise');
 		$pluginParams = new JRegistry($plugin->params);
 		$this->highrise_url = $pluginParams->get('highrise_url', '');
 		$this->api_token = $pluginParams->get('api_token', '');

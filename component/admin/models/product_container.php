@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
-class product_containerModelproduct_container extends JModel
+class RedshopModelProduct_container extends JModel
 {
 	public $_data = null;
 
@@ -178,7 +178,7 @@ class product_containerModelproduct_container extends JModel
 
 	public function product_template($template_id, $product_id, $section)
 	{
-		require_once JPATH_COMPONENT . '/helpers/extra_field.php';
+		JLoader::load('RedshopHelperAdminExtra_field');
 		$query = 'SELECT template_desc FROM ' . $this->_table_prefix . 'template  WHERE template_id =' . $template_id;
 
 		if ($section == 1)

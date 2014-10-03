@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 JHTML::_('behavior.tooltip');
 
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/configuration.php';
+JLoader::load('RedshopHelperAdminConfiguration');
 
 class xmlHelper
 {
@@ -704,14 +704,7 @@ class xmlHelper
 							}
 						}
 
-						if ($prop == "link")
-						{
-							$xml_document .= "<$prop><![CDATA[$val]]></$prop>";
-						}
-						else
-						{
-							$xml_document .= "<$prop>$val</$prop>";
-						}
+						$xml_document .= "<$prop><![CDATA[$val]]></$prop>";
 					}
 				}
 

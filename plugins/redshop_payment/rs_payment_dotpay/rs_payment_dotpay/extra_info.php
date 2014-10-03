@@ -7,42 +7,43 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-$uri =& JURI::getInstance();
-$url = $uri->root();
+$uri  = JURI::getInstance();
+$url  = $uri->root();
 $user = JFactory::getUser();
-$db = JFactory::getDbo();
+$db   = JFactory::getDbo();
 
-require_once JPATH_BASE . '/administrator/components/com_redshop/helpers/order.php';
-require_once JPATH_COMPONENT . '/helpers/helper.php';
 require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
-?>
-<?php
+JLoader::import('loadhelpers', JPATH_SITE . '/components/com_redshop');
+JLoader::load('RedshopHelperAdminOrder');
+JLoader::load('RedshopHelperHelper');
 
-$firstname = $data['billinginfo']->firstname;
-$lastname = $data['billinginfo']->lastname;
+$firstname    = $data['billinginfo']->firstname;
+$lastname     = $data['billinginfo']->lastname;
 $country_code = $data['billinginfo']->country_code;
-$zipcode = $data['billinginfo']->zipcode;
-$city = $data['billinginfo']->city;
-$state_code = $data['billinginfo']->state_code;
-$address = $data['billinginfo']->address;
-$phone = $data['billinginfo']->phone;
+$zipcode      = $data['billinginfo']->zipcode;
+$city         = $data['billinginfo']->city;
+$state_code   = $data['billinginfo']->state_code;
+$address      = $data['billinginfo']->address;
+$phone        = $data['billinginfo']->phone;
 ?>
 
 <?php
 if (isset($_GET["status"]) && ($_GET["status"] == "OK"))
+{
 	echo "<span style=\"font-weight: bold\">Dziękujemy za dokonanie wpłaty przy użyciu serwisu Dotpay</span><br /><br />";
+}
 else
 {
 	?>
 
 	<strong>To make a payment, click on the image below:</strong>
-	<form action="https://ssl.dotpay.pl" method="post" id="dotpay">
+	<form action="https://ssl.dotpay.pl/pay.php" method="post"id="dotpay">
 		<div style="text-align: center; margin-top: 25px; margin-bottom: 25px;">
 			<input type="image" name="submit"
 			       src="<?php echo JURI::base() ?>plugins/redshop_payment/rs_payment_dotpay/dotpay.jpg" border="0"
 			       alt="Zapłać przez Dotpay">
 		</div>
-		<input type="hidden" name="id" value="<?php echo $this->_params->get("dotpay_customer_id"); ?>"/>
+		<input type="hidden" name="id" value="<?php echo $this->params->get("dotpay_customer_id"); ?>"/>
 		<input type="hidden" name="amount" value="<?php echo $data['carttotal']; ?>"/>
 		<input type="hidden" name="currency" value="<?php echo CURRENCY_CODE; ?>"/>
 		<input type="hidden" name="description" value="Order payment - id: <?php echo $data['order_id']; ?>"/>
@@ -67,4 +68,3 @@ else
 	</script>
 <?php
 }
-?>

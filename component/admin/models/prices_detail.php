@@ -10,12 +10,12 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
-require_once JPATH_COMPONENT . '/helpers/thumbnail.php';
+JLoader::load('RedshopHelperAdminThumbnail');
 jimport('joomla.client.helper');
 JClientHelper::setCredentialsFromRequest('ftp');
 jimport('joomla.filesystem.file');
 
-class prices_detailModelprices_detail extends JModel
+class RedshopModelPrices_detail extends JModel
 {
 	public $_id = null;
 
@@ -30,7 +30,7 @@ class prices_detailModelprices_detail extends JModel
 	public function __construct()
 	{
 		parent::__construct();
-		$this->_table_prefix = '#__' . TABLE_PREFIX . '_';
+		$this->_table_prefix = '#__redshop_';
 
 		$array = JRequest::getVar('cid', 0, '', 'array');
 		$this->_prodid = JRequest::getVar('product_id', 0, '', 'int');
@@ -113,7 +113,7 @@ class prices_detailModelprices_detail extends JModel
 
 	public function store($data)
 	{
-		$row =& $this->getTable();
+		$row = $this->getTable();
 
 		if (!$row->bind($data))
 		{

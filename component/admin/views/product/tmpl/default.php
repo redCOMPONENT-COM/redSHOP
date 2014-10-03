@@ -6,12 +6,12 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/extra_field.php';
+JLoader::load('RedshopHelperProduct');
+JLoader::load('RedshopHelperAdminExtra_field');
 $app = JFactory::getApplication();
-$extra_field = new extra_field();
+$extra_field = new extra_field;
 JHTMLBehavior::modal();
-$producthelper = new producthelper();
+$producthelper = new producthelper;
 $option = JRequest::getVar('option', '', 'request', 'string');
 
 $model = $this->getModel('product');
@@ -26,11 +26,7 @@ $userId = (int) $user->id;
 <script language="javascript" type="text/javascript">
 
 
-	Joomla.submitbutton = function (pressbutton) {
-		submitbutton(pressbutton);
-	}
-
-	submitbutton = function (pressbutton) {
+	Joomla.submitbutton = submitbutton = function (pressbutton) {
 		var form = document.adminForm;
 
 		if (pressbutton) {
@@ -381,6 +377,7 @@ for ($i = 0, $n = count($this->products); $i < $n; $i++)
 
 <input type="hidden" name="view" value="product"/>
 <input type="hidden" name="task" value=""/>
+<input type="hidden" name="viewFrom" value="productList"/>
 <input type="hidden" name="boxchecked" value="0"/>
 <input type="hidden" name="product_template" value=""/>
 <input type="hidden" name="filter_order" value="<?php echo $this->lists['order']; ?>"/>

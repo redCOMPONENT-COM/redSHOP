@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
-class prices_detailVIEWprices_detail extends JView
+class RedshopViewPrices_detail extends JView
 {
 	public function display($tpl = null)
 	{
@@ -46,7 +46,7 @@ class prices_detailVIEWprices_detail extends JView
 		$lists['product_name'] = $detail->product_name;
 
 		$q = 'SELECT shopper_group_id AS value,shopper_group_name AS text '
-			. 'FROM #__' . TABLE_PREFIX . '_shopper_group';
+			. 'FROM #__redshop_shopper_group';
 		$db->setQuery($q);
 		$shoppergroup = $db->loadObjectList();
 

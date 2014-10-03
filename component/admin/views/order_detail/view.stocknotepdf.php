@@ -11,24 +11,24 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/extra_field.php';
-//
+JLoader::load('RedshopHelperAdminExtra_field');
 require_once JPATH_COMPONENT_SITE . '/helpers/tcpdf/tcpdf.php';
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php';
-class order_detailVIEWorder_detail extends JView
+JLoader::load('RedshopHelperAdminOrder');
+
+class RedshopViewOrder_detail extends JView
 {
 	function display($tpl = null)
 	{
 
-		$config = new Redconfiguration();
-		$redTemplate = new Redtemplate();
-		$order_functions = new order_functions();
-		$producthelper = new producthelper();
+		$config = new Redconfiguration;
+		$redTemplate = new Redtemplate;
+		$order_functions = new order_functions;
+		$producthelper = new producthelper;
 		$model = $this->getModel();
-		$redTemplate = new Redtemplate();
+		$redTemplate = new Redtemplate;
 		$detail = $this->get('data');
-		$carthelper = new rsCarthelper();
-		$shippinghelper = new shipping();
+		$carthelper = new rsCarthelper;
+		$shippinghelper = new shipping;
 		$products = $order_functions->getOrderItemDetail($detail->order_id);
 		$template = $model->getStockNoteTemplate();
 		if (count($template) > 0 && $template->template_desc != "")

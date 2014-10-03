@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
-class attributeprices_detailModelattributeprices_detail extends JModel
+class RedshopModelAttributeprices_detail extends JModel
 {
 	public $_id = null;
 
@@ -26,7 +26,7 @@ class attributeprices_detailModelattributeprices_detail extends JModel
 	public function __construct()
 	{
 		parent::__construct();
-		$this->_table_prefix = '#__' . TABLE_PREFIX . '_';
+		$this->_table_prefix = '#__redshop_';
 
 		$array = JRequest::getVar('cid', 0, '', 'array');
 		$this->_sectionid = JRequest::getVar('section_id', 0, '', 'int');
@@ -142,7 +142,7 @@ class attributeprices_detailModelattributeprices_detail extends JModel
 
 	public function store($data)
 	{
-		$row =& $this->getTable();
+		$row = $this->getTable();
 
 		if (!$row->bind($data))
 		{

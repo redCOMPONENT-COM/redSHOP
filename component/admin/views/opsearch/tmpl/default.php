@@ -11,9 +11,9 @@ JHTMLBehavior::modal();
 
 $option = JRequest::getVar('option', '', 'request', 'string');
 
-$order_function = new order_functions();
-$config = new Redconfiguration();
-$redhelper = new redhelper();
+$order_function = new order_functions;
+$config = new Redconfiguration;
+$redhelper = new redhelper;
 
 $filter_product = JRequest::getVar('filter_product', 0);
 $parent = JRequest::getVar('parent');

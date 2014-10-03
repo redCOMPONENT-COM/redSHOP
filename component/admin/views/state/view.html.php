@@ -11,13 +11,13 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
-class stateViewstate extends JView
+class RedshopViewState extends JView
 {
 	public function display($tpl = null)
 	{
 		JLoader::import('joomla.html.pagination');
 
-		require_once JPATH_COMPONENT_SITE . '/helpers/helper.php';
+		JLoader::load('RedshopHelperHelper');
 
 		$context = 'state_id';
 
@@ -43,7 +43,7 @@ class stateViewstate extends JView
 		JToolBarHelper::title(JText::_('COM_REDSHOP_STATES'), 'redshop_region_48');
 
 		$redhelper       = new redhelper;
-		$q               = "SELECT  country_id as value,country_name as text,country_jtext from #__" . TABLE_PREFIX . "_country ORDER BY country_name ASC";
+		$q               = "SELECT  country_id as value,country_name as text,country_jtext from #__redshop_country ORDER BY country_name ASC";
 		$db->setQuery($q);
 		$countries       = $db->loadObjectList();
 
