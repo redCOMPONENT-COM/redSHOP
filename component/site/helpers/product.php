@@ -5172,6 +5172,7 @@ class producthelper
 							}
 
 							$attributes_property_withoutvat = $property [$i]->property_price;
+
 							/*
 							 * changes for {without_vat} tag output parsing
 							 * only for display purpose
@@ -5180,7 +5181,10 @@ class producthelper
 
 							if (!empty($chktag))
 							{
-								$attributes_property_vat_show = $this->getProducttax($product_id, $property [$i]->property_price, $user_id);
+								if ($property [$i]->oprand != '*' && $property [$i]->oprand != '/')
+								{
+									$attributes_property_vat_show = $this->getProducttax($product_id, $property [$i]->property_price, $user_id);
+								}
 							}
 
 							$attributes_property_vat_show += $property [$i]->property_price;
@@ -7476,7 +7480,10 @@ class producthelper
 
 				if (!empty($chktag))
 				{
-					$property_price = $property_price + $att_vat;
+					if ($propArr[$k]['property_oprand'] != '*' && $propArr[$k]['property_oprand'] != '/')
+					{
+						$property_price = $property_price + $att_vat;
+					}
 				}
 
 				$displayPrice = " (" . $propArr[$k]['property_oprand'] . " " . $this->getProductFormattedPrice($property_price) . ")";
