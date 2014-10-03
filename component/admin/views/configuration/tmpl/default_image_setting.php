@@ -16,8 +16,8 @@ defined('_JEXEC') or die;
 	<tr>
 		<td width="100" align="right" class="key">
 		<span class="editlinktip hasTip"
-		      title="<?php echo JText::_('COM_REDSHOP_TOOLTIP_USE_IMAGE_SIZE_SWAPPING_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_USE_IMAGE_SIZE_SWAPPING'); ?>">
-		<label for="name"><?php echo JText::_('COM_REDSHOP_USE_IMAGE_SIZE_SWAPPING_LBL');?></label></span>
+		      title="<?php echo JText::_('COM_REDSHOP_CONFIG_IMAGE_PROCESSING_METHOD_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_IMAGE_PROCESSING_METHOD_DESC'); ?>">
+		<label for="name"><?php echo JText::_('COM_REDSHOP_CONFIG_IMAGE_PROCESSING_METHOD_LBL');?></label></span>
 		</td>
 		<td><?php echo $this->lists ['use_image_size_swapping'];?></td>
 	</tr>
