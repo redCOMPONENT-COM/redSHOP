@@ -11,9 +11,9 @@ defined('_JEXEC') or die;
 JHTML::_('behavior.tooltip');
 jimport('joomla.html.pane');
 
-$this->producthelper = new producthelper();
-$this->order_functions = new order_functions();
-$this->config = new Redconfiguration();
+$this->producthelper = new producthelper;
+$this->order_functions = new order_functions;
+$this->config = new Redconfiguration;
 
 $this->model = $this->getModel('user_detail');
 $this->flag = JRequest::getVar('flag', '', 'request', 'string');
