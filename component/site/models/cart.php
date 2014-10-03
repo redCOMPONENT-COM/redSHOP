@@ -225,6 +225,10 @@ class RedshopModelCart extends JModel
 		$newQuantity = intval(abs($data['quantity']) > 0 ? $data['quantity'] : 1);
 		$oldQuantity = intval($cart[$cartElement]['quantity']);
 
+		$calculator_price = 0;
+		$wrapper_price = 0;
+		$wrapper_vat = 0;
+
 		if ($newQuantity <= 0)
 		{
 			$newQuantity = 1;
