@@ -290,7 +290,16 @@ class RedshopViewConfiguration extends JView
 			'class="inputbox" size="1" ', 'value', 'text', DEFAULT_STOCKROOM
 		);
 		$lists['portalshop']                    = JHTML::_('select.booleanlist', 'portal_shop', 'class="inputbox" size="1"', PORTAL_SHOP);
-		$lists['use_image_size_swapping']       = JHTML::_('select.booleanlist', 'use_image_size_swapping', 'class="inputbox" size="1"', USE_IMAGE_SIZE_SWAPPING);
+
+		$imageSizeSwapping = array();
+		$imageSizeSwapping[] = JHTML::_('select.option', 0, JText::_('COM_REDSHOP_CONFIG_NO_PROPORTIONAL_RESIZED'));
+		$imageSizeSwapping[] = JHTML::_('select.option', 1, JText::_('COM_REDSHOP_CONFIG_PROPORTIONAL_RESIZED'));
+		$imageSizeSwapping[] = JHTML::_('select.option', 2, JText::_('COM_REDSHOP_CONFIG_PROPORTIONAL_RESIZED_AND_CROP'));
+		$lists['use_image_size_swapping'] = JHTML::_('select.genericlist', $imageSizeSwapping,
+			'use_image_size_swapping', 'class="inputbox" size="1" ',
+			'value', 'text', USE_IMAGE_SIZE_SWAPPING
+		);
+
 		$lists['apply_vat_on_discount']         = JHTML::_('select.booleanlist', 'apply_vat_on_discount', 'class="inputbox" size="1"', APPLY_VAT_ON_DISCOUNT, $yes = JText::_('COM_REDSHOP_BEFORE_DISCOUNT'), $no = JText::_('COM_REDSHOP_AFTER_DISCOUNT'));
 		$lists['auto_scroll_wrapper']           = JHTML::_('select.booleanlist', 'auto_scroll_wrapper', 'class="inputbox" size="1"', AUTO_SCROLL_WRAPPER);
 		$lists['allow_multiple_discount']       = JHTML::_('select.booleanlist', 'allow_multiple_discount', 'class="inputbox" size="1"', ALLOW_MULTIPLE_DISCOUNT);
