@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die ('Restricted access');
+defined('_JEXEC') or die;
 
 JLoader::import('joomla.application.component.model');
 
@@ -313,21 +313,7 @@ class RedshopModelCategory extends JModel
 			->group('p.product_id');
 
 		// Select price
-		$session      = JFactory::getSession();
-		$userArr  = $session->get('rs_user');
-		$andJoin = '';
-
-		if (empty($userArr))
-		{
-			$userArr = $rsUserhelper->createUserSession($user->id);
-		}
-
-		$shopperGroupId = $userArr['rs_user_shopperGroup'];
-
-		if (!$user->id)
-		{
-			$andJoin = ' AND pp.shopper_group_id = ' . (int) $shopperGroupId;
-		}
+		$shopperGroupId = $rsUserhelper->getShopperGroup($user->id);
 
 		$query->select(
 			array(
@@ -338,18 +324,9 @@ class RedshopModelCategory extends JModel
 		)
 			->leftJoin(
 				$db->qn('#__redshop_product_price', 'pp')
-				. ' ON p.product_id = pp.product_id AND ((pp.price_quantity_start <= 1 AND pp.price_quantity_end >= 1) OR (pp.price_quantity_start = 0 AND pp.price_quantity_end = 0))'
-				. $andJoin
+				. ' ON p.product_id = pp.product_id AND ((pp.price_quantity_start <= 1 AND pp.price_quantity_end >= 1) OR (pp.price_quantity_start = 0 AND pp.price_quantity_end = 0)) AND pp.shopper_group_id = ' . (int) $shopperGroupId
 			)
 			->order('pp.price_quantity_start ASC');
-
-		if ($user->id)
-		{
-			$query->leftJoin(
-				$db->qn('#__redshop_users_info', 'u')
-				. ' ON u.shopper_group_id = pp.shopper_group_id AND u.user_id = ' . (int) $user->id . ' AND u.address_type = ' . $db->q('BT')
-			);
-		}
 
 		// Select media
 		$query->select(array('media.media_alternate_text', 'media.media_id'))

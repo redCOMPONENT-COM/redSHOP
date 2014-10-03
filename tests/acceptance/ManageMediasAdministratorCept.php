@@ -9,7 +9,7 @@
 // Load the Step Object Page
 $I = new AcceptanceTester\LoginSteps($scenario);
 
-$I->wantTo('Want to Test Media Manager');
+$I->wantTo('Test Media Manager in Administrator');
 $I->doAdminLogin();
 $I = new AcceptanceTester\MediaManagerSteps($scenario);
 $I->addMedia();

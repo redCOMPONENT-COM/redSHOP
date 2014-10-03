@@ -9,7 +9,7 @@
 // Load the Step Object Page
 $I = new AcceptanceTester\LoginSteps($scenario);
 
-$I->wantTo('Want to Test Quotation Manager');
+$I->wantTo('Test Quotation Manager in Administrator');
 $I->doAdminLogin();
 $I = new AcceptanceTester\QuotationManagerSteps($scenario);
 $I->addQuotation();
