@@ -6,7 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined('_JEXEC') or die ('Restricted access');
+defined('_JEXEC') or die;
 
 JHTML::_('behavior.tooltip');
 
@@ -848,11 +848,11 @@ if ($this->lists['attributes'] != '')
 												<tr valign="top">
 
 													<td rowspan="3" align="right" nowrap="nowrap" class="td1"
-													    style="padding-right: 10px;"><?php if ($subvalue->subattribute_color_id != 0)
-														{
+													    style="padding-right: 10px;">
+													    <?php if ($subvalue->subattribute_color_id != 0) :
+
 															$medialink = JRoute::_('index.php?tmpl=component&option=com_redshop&view=media&section_id=' . $subvalue->subattribute_color_id . '&showbuttons=1&media_section=subproperty');
-															/*index3.php?option=com_redshop&amp;view=product_detail&amp;fsec=subproperty&amp;section_id=<?php echo $subvalue->subattribute_color_id;?>&amp;cid=<?php echo $this->detail->product_id; ?>&amp;layout=property_images&amp;showbuttons=1*/
-															?>
+														?>
 															<a class="modal"
 															   href="<?php echo $medialink; ?>"
 															   rel="{handler: 'iframe', size: {x: 950, y: 500}}"
@@ -873,7 +873,8 @@ if ($this->lists['attributes'] != '')
 															<img
 																src="<?php echo REDSHOP_ADMIN_IMAGES_ABSPATH; ?>stockroom16.png"
 																align="absmiddle" alt="media">
-														</a> <?php } ?>
+														</a>
+														<?php endif; ?>
 													</td>
 
 													<td class="td2"><span>

@@ -91,10 +91,12 @@ class RedshopControllerProduct_Detail extends JController
 	public function save($apply = 0)
 	{
 		// ToDo: This is potentially unsafe because $_POST elements are not sanitized.
-		$post                = $this->input->getArray($_POST);
-		$cid                 = $this->input->post->get('cid', array(), 'array');
-		$post ['product_id'] = $cid[0];
-		$stockroom_id        = '';
+		$post                 = $this->input->getArray($_POST);
+		$cid                  = $this->input->post->get('cid', array(), 'array');
+		$post ['product_id']  = $cid[0];
+		$stockroom_id         = '';
+
+		$post['product_name'] = $this->input->post->get('product_name', null, 'string');
 
 		if (is_array($post['product_category']) && !in_array($post['cat_in_sefurl'], $post['product_category']))
 		{
