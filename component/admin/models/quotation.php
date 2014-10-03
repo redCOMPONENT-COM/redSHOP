@@ -115,4 +115,24 @@ class RedshopModelQuotation extends JModel
 
 		return $orderby;
 	}
+
+	public function export_data($cid)
+	{
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true);
+
+		$query->select('q.*,uf.*')
+				->from('#__redshop_quotation AS q')
+				->leftjoin('#__redshop_users_info AS uf ON q.user_info_id=uf.users_info_id')
+				->where('uf.address_type LIKE "BT"')
+				->order('q.quotation_id DESC');
+
+		if ($cid[0] != 0)
+		{
+			$quotation_id = implode(',', $cid);
+			$query->where("q.quotation_id IN (" . $quotation_id . ")");
+		}
+
+		return $this->_getList($query);
+	}
 }

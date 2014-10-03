@@ -37,6 +37,7 @@ class RedshopViewQuotation extends JView
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_QUOTATION_MANAGEMENT'), 'redshop_quotation48');
 		JToolBarHelper::addNewX();
+		JToolBarHelper::custom('export_data', 'save.png', 'save_f2.png', JText::_('COM_REDSHOP_EXPORT_DATA_LBL'), false);
 		JToolBarHelper::editListX();
 		JToolBarHelper::deleteList();
 
