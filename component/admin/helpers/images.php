@@ -378,7 +378,9 @@ class RedShopHelperImages extends JObject
 				imagejpeg($image_resized, $output, IMAGE_QUALITY_OUTPUT);
 				break;
 			case IMAGETYPE_PNG:
-				imagepng($image_resized, $output);
+				$pngQuality = (IMAGE_QUALITY_OUTPUT - 100) / 11.111111;
+				$pngQuality = round(abs($pngQuality));
+				imagepng($image_resized, $output, $pngQuality);
 				break;
 			default:
 				@ImageDestroy($image_resized);
