@@ -418,7 +418,8 @@ class Redtemplate
 			'request_tax_exempt_mail'           => JText::_('COM_REDSHOP_REQUEST_TAX_EXEMPT_MAIL'),
 			'subscription_renewal_mail'         => JText::_('COM_REDSHOP_SUBSCRIPTION_RENEWAL_MAIL'),
 			'review_mail'                       => JText::_('COM_REDSHOP_REVIEW_MAIL'),
-			'notify_stock_mail'                 => JText::_('COM_REDSHOP_NOTIFY_STOCK')
+			'notify_stock_mail'                 => JText::_('COM_REDSHOP_NOTIFY_STOCK'),
+			'invoicefile_mail'                  => JText::_('COM_REDSHOP_INVOICE_FILE_MAIL')
 		);
 
 		return $this->prepareSectionOptions($options, $sectionValue);

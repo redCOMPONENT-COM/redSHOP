@@ -46,7 +46,6 @@ DROP TABLE IF EXISTS `#__redshop_order_status_log`;
 DROP TABLE IF EXISTS `#__redshop_order_users_info`;
 DROP TABLE IF EXISTS `#__redshop_pageviewer`;
 DROP TABLE IF EXISTS `#__redshop_payment_method`;
-DROP TABLE IF EXISTS `#__redshop_payment_method`;
 DROP TABLE IF EXISTS `#__redshop_product`;
 DROP TABLE IF EXISTS `#__redshop_product_accessory`;
 DROP TABLE IF EXISTS `#__redshop_product_attribute`;
@@ -108,5 +107,6 @@ DROP TABLE IF EXISTS `#__redshop_xml_export_log`;
 DROP TABLE IF EXISTS `#__redshop_xml_import`;
 DROP TABLE IF EXISTS `#__redshop_xml_import_log`;
 DROP TABLE IF EXISTS `#__redshop_zipcode`;
+DROP TABLE IF EXISTS `#__redshop_notifystock_users`;
 
 SET FOREIGN_KEY_CHECKS=1;

@@ -6,7 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined('_JEXEC') or die ('restricted access');
+defined('_JEXEC') or die;
 JLoader::load('RedshopHelperAdminImages');
 
 $expand_all = EXPAND_ALL;
@@ -34,6 +34,11 @@ $filteroption = JRequest::getVar('filteroption');
 
 		if (pressbutton == 'statistic') {
 			var link = 'index.php?option=com_redshop&view=statistic';
+			window.location.href = link;
+		}
+
+		if (pressbutton == 'update') {
+			var link = 'index.php?option=com_redshop&view=update';
 			window.location.href = link;
 		}
 	}
