@@ -8,7 +8,7 @@
  */
 defined('_JEXEC') or die;
 
-$adminproducthelper = new adminproducthelper();
+$adminproducthelper = new adminproducthelper;
 $session = JFactory::getSession();
 
 $shipp_users_info_id = $session->get('shipp_users_info_id');
