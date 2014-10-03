@@ -100,40 +100,41 @@ class RedshopModelUser_detail extends JModel
 		{
 			$detail = new stdClass;
 
-			$detail->users_info_id = 0;
-			$detail->user_id = 0;
-			$detail->id = 0;
-			$detail->gid = null;
-			$detail->name = null;
-			$detail->username = null;
-			$detail->email = null;
-			$detail->password = null;
-			$detail->usertype = null;
-			$detail->block = null;
-			$detail->sendEmail = null;
-			$detail->registerDate = null;
-			$detail->lastvisitDate = null;
-			$detail->activation = null;
-			$detail->is_company = null;
-			$detail->firstname = null;
-			$detail->lastname = null;
-			$detail->contact_info = null;
-			$detail->address_type = null;
-			$detail->company_name = null;
-			$detail->vat_number = null;
-			$detail->tax_exempt = 0;
-			$detail->country_code = null;
-			$detail->state_code = null;
-			$detail->shopper_group_id = null;
-			$detail->published = 1;
-			$detail->address = null;
-			$detail->city = null;
-			$detail->zipcode = null;
-			$detail->phone = null;
+			$detail->users_info_id         = 0;
+			$detail->user_id               = 0;
+			$detail->id                    = 0;
+			$detail->gid                   = null;
+			$detail->name                  = null;
+			$detail->username              = null;
+			$detail->email                 = null;
+			$detail->password              = null;
+			$detail->usertype              = null;
+			$detail->block                 = null;
+			$detail->sendEmail             = null;
+			$detail->registerDate          = null;
+			$detail->lastvisitDate         = null;
+			$detail->activation            = null;
+			$detail->is_company            = null;
+			$detail->firstname             = null;
+			$detail->lastname              = null;
+			$detail->contact_info          = null;
+			$detail->address_type          = null;
+			$detail->company_name          = null;
+			$detail->vat_number            = null;
+			$detail->tax_exempt            = 0;
+			$detail->country_code          = null;
+			$detail->state_code            = null;
+			$detail->shopper_group_id      = null;
+			$detail->published             = 1;
+			$detail->address               = null;
+			$detail->city                  = null;
+			$detail->zipcode               = null;
+			$detail->phone                 = null;
 			$detail->requesting_tax_exempt = 0;
-			$detail->tax_exempt_approved = 0;
-			$detail->approved = 1;
-			$detail->ean_number = null;
+			$detail->tax_exempt_approved   = 0;
+			$detail->approved              = 1;
+			$detail->ean_number            = null;
+			$detail->state_code_ST         = null;
 
 			$info_id = JRequest::getVar('info_id', 0);
 			$shipping = JRequest::getVar('shipping', 0);
@@ -162,151 +163,8 @@ class RedshopModelUser_detail extends JModel
 
 			return (boolean) $this->_data;
 		}
+
 		return true;
-	}
-
-	/*
-	 * joomla user table entry
-	 *
-	 * @ specially developed !!! do not delete
-	 * @ it canbe use in redSHOP with diffrent purpose
-	 * @ author: gunjan
-	 */
-	public function storeUser_bk($post)
-	{
-
-		$app = JFactory::getApplication();
-		$redshopMail = new redshopMail;
-
-		// Start data into user table
-		// Initialize some variables
-		$db = JFactory::getDbo();
-		$me = JFactory::getUser();
-		$acl = JFactory::getACL();
-
-		// Create a new JUser object
-		$user = new JUser($post['id']);
-		$original_gid = $user->get('gid');
-
-		$post['name'] = (isset($post['name'])) ? $post['name'] : $post['username'];
-
-		// Changed for shipping code moved out of condition
-		if (!$user->bind($post))
-		{
-			$app->enqueueMessage(JText::_('COM_REDSHOP_CANNOT_SAVE_THE_USER_INFORMATION'), 'message');
-			$app->enqueueMessage($user->getError(), 'error');
-
-			return false;
-		}
-
-		$objectID = $acl->get_object_id('users', $user->get('id'), 'ARO');
-		$groups = $acl->get_object_groups($objectID, 'ARO');
-		$this_group = strtolower($acl->get_group_name($groups[0], 'ARO'));
-
-		if ($user->get('id') == $me->get('id') && $user->get('block') == 1)
-		{
-			$msg = JText::_('COM_REDSHOP_YOU_CANNOT_BLOCK_YOURSELF');
-			$app->enqueueMessage($msg, 'message');
-
-			return false;
-		}
-		elseif (($this_group == 'super administrator') && $user->get('block') == 1)
-		{
-			$msg = JText::_('COM_REDSHOP_YOU_CANNOT_BLOCK_A_SUPER_ADMINISTRATOR');
-			$app->enqueueMessage($msg, 'message');
-
-			return false;
-		}
-		elseif (($this_group == 'administrator') && ($me->get('gid') == 24) && $user->get('block') == 1)
-		{
-			$msg = JText::_('COM_REDSHOP_WARNBLOCK');
-			$app->enqueueMessage($msg, 'message');
-
-			return false;
-		}
-		elseif (($this_group == 'super administrator') && ($me->get('gid') != 25))
-		{
-			$msg = JText::_('COM_REDSHOP_YOU_CANNOT_EDIT_A_SUPER_ADMINISTRATOR_ACCOUNT');
-			$app->enqueueMessage($msg, 'message');
-
-			return false;
-		}
-
-		// Are we dealing with a new user which we need to create?
-		$isNew = ($user->get('id') < 1);
-
-		if (!$isNew)
-		{
-			// If group has been changed and where original group was a Super Admin
-			if ($user->get('gid') != $original_gid && $original_gid == 25)
-			{
-				// Count number of active super admins
-				$query = 'SELECT COUNT( id )'
-					. ' FROM #__users'
-					. ' WHERE gid = 25'
-					. ' AND block = 0';
-				$db->setQuery($query);
-				$count = $db->loadResult();
-
-				if ($count <= 1)
-				{
-					// Disallow change if only one Super Admin exists
-					$this->setRedirect('index.php?option=' . $option . '&view=user', JText::_('COM_REDSHOP_WARN_ONLY_SUPER'));
-
-					return false;
-				}
-			}
-		}
-
-		/*
-	 	 * Lets save the JUser object
-	 	 */
-		if (!$user->save())
-		{
-			$app->enqueueMessage(JText::_('COM_REDSHOP_CANNOT_SAVE_THE_USER_INFORMATION'), 'message');
-			$app->enqueueMessage($user->getError(), 'error');
-
-			return false;
-		}
-
-		/*
-	 	 * Time for the email magic so get ready to sprinkle the magic dust...
-	 	 */
-		if ($isNew)
-		{
-			$redshopMail->sendRegistrationMail($post);
-		}
-
-		// If updating self, load the new user object into the session
-		if ($user->get('id') == $me->get('id'))
-		{
-			// Get an ACL object
-			$acl = JFactory::getACL();
-
-			// Get the user group from the ACL
-			$grp = $acl->getAroGroup($user->get('id'));
-
-			// Mark the user as logged in
-			$user->set('guest', 0);
-			$user->set('aid', 1);
-
-			// Fudge Authors, Editors, Publishers and Super Administrators into the special access group
-			if ($acl->is_group_child_of($grp->name, 'Registered')
-				|| $acl->is_group_child_of($grp->name, 'Public Backend')
-			)
-			{
-				$user->set('aid', 2);
-			}
-
-			// Set the usertype based on the ACL group name
-			$user->set('usertype', $grp->name);
-
-			$session = JFactory::getSession();
-			$session->set('user', $user);
-		}
-
-		// End data into user table
-		return $user;
 	}
 
 	public function storeUser($post)

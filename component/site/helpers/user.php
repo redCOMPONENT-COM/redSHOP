@@ -490,8 +490,11 @@ class rsUserhelper
 			$credentials['username'] = $data['username'];
 			$credentials['password'] = $data['password2'];
 
-			//preform the login action
-			$app->login($credentials);
+			// Perform the login action
+			if (!JFactory::getUser()->id)
+			{
+				$app->login($credentials);
+			}
 
 			return $user;
 		}
@@ -683,6 +686,10 @@ class rsUserhelper
 		if (isset($data['newsletter_signup']) && $data['newsletter_signup'] == 1)
 		{
 			$this->newsletterSubscribe($row->user_id, $data);
+
+			JPluginHelper::importPlugin('redshop_user');
+			$dispatcher = JDispatcher::getInstance();
+			$hResponses = $dispatcher->trigger('addNewsLetterSubscription', array($isNew, $data));
 		}
 
 		$billisship = 1;
@@ -1028,10 +1035,10 @@ class rsUserhelper
 			$template_pd_sdata = explode('{account_creation_start}', $template_desc);
 			$template_pd_edata = explode('{account_creation_end}', $template_pd_sdata [1]);
 			$template_middle   = "";
+			$checkbox_style  = '';
 
 			if (REGISTER_METHOD != 1 && REGISTER_METHOD != 3)
 			{
-				$checkbox_style  = '';
 				$template_middle = $template_pd_edata[0];
 
 				if (REGISTER_METHOD == 2)

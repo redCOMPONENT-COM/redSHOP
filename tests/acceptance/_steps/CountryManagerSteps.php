@@ -15,7 +15,7 @@ namespace AcceptanceTester;
  *
  * @since    1.4
  */
-class CountryManagerSteps extends \AcceptanceTester
+class CountryManagerSteps extends AdminManagerSteps
 {
 	/**
 	 * Function to Add a New Country
@@ -34,7 +34,9 @@ class CountryManagerSteps extends \AcceptanceTester
 	{
 		$I = $this;
 		$I->amOnPage(\CountryManagerPage::$URL);
+		$I->verifyNotices(false, $this->checkForNotices(), 'Country Manager Page');
 		$I->click('New');
+		$I->verifyNotices(false, $this->checkForNotices(), 'Country Manager New');
 		$I->fillField(\CountryManagerPage::$countryName, $countryName);
 		$I->fillField(\CountryManagerPage::$countryThreeCode, $threeCode);
 		$I->fillField(\CountryManagerPage::$countryTwoCode, $twoCode);
@@ -64,6 +66,7 @@ class CountryManagerSteps extends \AcceptanceTester
 		$I->see($countryName, \CountryManagerPage::$countryResultRow);
 		$I->click(\CountryManagerPage::$countryCheck);
 		$I->click('Edit');
+		$I->verifyNotices(false, $this->checkForNotices(), 'Country Manager Edit View');
 		$I->fillField(\CountryManagerPage::$countryName, $newCountryName);
 		$I->click('Save & Close');
 		$I->waitForText('Country Management');

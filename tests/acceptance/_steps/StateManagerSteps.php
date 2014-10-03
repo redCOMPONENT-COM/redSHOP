@@ -8,6 +8,7 @@
 namespace AcceptanceTester;
 use Codeception\Module\WebDriver;
 
+
 /**
  * Class StateManagerSteps
  *
@@ -17,7 +18,7 @@ use Codeception\Module\WebDriver;
  *
  * @since    1.4
  */
-class StateManagerSteps extends \AcceptanceTester
+class StateManagerSteps extends AdminManagerSteps
 {
 	/**
 	 * Function to Add a State
@@ -34,7 +35,9 @@ class StateManagerSteps extends \AcceptanceTester
 		$I = $this;
 		$I->amOnPage(\StateManagerPage::$URL);
 		$I->see('States');
+		$I->verifyNotices(false, $this->checkForNotices(), 'States Manager Page');
 		$I->click('New');
+		$I->verifyNotices(false, $this->checkForNotices(), 'States Manager New');
 		$I->selectOption(\StateManagerPage::$countryId, $countryName);
 		$I->fillField(\StateManagerPage::$stateName, $stateName);
 		$I->fillField(\StateManagerPage::$stateTwoCode, $twoCode);
@@ -57,14 +60,37 @@ class StateManagerSteps extends \AcceptanceTester
 	public function updateState($stateName = 'Test State', $stateNewName = 'New State Name')
 	{
 		$I = $this;
+		$I->amOnPage(\StateManagerPage::$URL);
+		$I->executeInSelenium(
+			function(\WebDriver $webdriver)
+			{
+				$config = $this->getConfig();
+				$webdriver->get($config['host'] . \StateManagerPage::$URL);
+				$element = $webdriver->findElement(\WebDriverBy::xpath(\StateManagerPage::$searchField));
+				$element->clear();
+			}
+		);
+		$I->fillField(\StateManagerPage::$searchField, $stateName);
 		$I->click(\StateManagerPage::$searchButton);
 		$I->click(\StateManagerPage::$checkAll);
 		$I->click('Edit');
+		$I->verifyNotices(false, $this->checkForNotices(), 'States Manager Edit');
 		$I->fillField(\StateManagerPage::$stateName, $stateNewName);
 		$I->click("Save & Close");
 		$I->see('State detail saved');
 		$I->amOnPage(\StateManagerPage::$URL);
-		$I->dontSee($stateName, \StateManagerPage::$stateResultRow);
+		$I->executeInSelenium(
+			function(\WebDriver $webdriver)
+			{
+				$config = $this->getConfig();
+				$webdriver->get($config['host'] . \StateManagerPage::$URL);
+				$element = $webdriver->findElement(\WebDriverBy::xpath(\StateManagerPage::$searchField));
+				$element->clear();
+			}
+		);
+		$I->fillField(\StateManagerPage::$searchField, $stateNewName);
+		$I->click(\StateManagerPage::$searchButton);
+		$I->see($stateNewName, \StateManagerPage::$stateResultRow);
 	}
 
 	/**
@@ -78,6 +104,16 @@ class StateManagerSteps extends \AcceptanceTester
 	{
 		$I = $this;
 		$I->amOnPage(\StateManagerPage::$URL);
+		$I->executeInSelenium(
+			function(\WebDriver $webdriver)
+			{
+				$config = $this->getConfig();
+				$webdriver->get($config['host'] . \StateManagerPage::$URL);
+				$element = $webdriver->findElement(\WebDriverBy::xpath(\StateManagerPage::$searchField));
+				$element->clear();
+			}
+		);
+		$I->fillField(\StateManagerPage::$searchField, $stateName);
 		$I->click(\StateManagerPage::$searchButton);
 		$I->see($stateName, \StateManagerPage::$stateResultRow);
 		$I->click(\StateManagerPage::$checkAll);
