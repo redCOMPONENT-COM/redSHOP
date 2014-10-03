@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+JLoader::import('joomla.html.pagination');
+
 class redPagination extends JPagination
 {
 	public function getPagesLinks()

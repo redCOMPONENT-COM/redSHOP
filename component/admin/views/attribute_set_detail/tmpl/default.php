@@ -6,11 +6,12 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined('_JEXEC') or die ('Restricted access');
+defined('_JEXEC') or die;
 
 JHTML::_('behavior.tooltip');
 
 JHTMLBehavior::modal();
+$url = JURI::getInstance()->root();
 
 $now = JFactory::getDate();
 $model = $this->getModel('attribute_set_detail');
@@ -52,6 +53,58 @@ if (isset($this->detail->product_id))
 		?>");
 
 			s.value = "+";
+		}
+	}
+	function jimage_insert(main_path, fid, fsec) {
+
+		var path_url = "<?php echo $url;?>";
+		var propimg;
+
+		if (!fid && !fsec) {
+
+			if (main_path) {
+				document.getElementById("image_display").style.display = "block";
+				document.getElementById("product_image").value = main_path;
+				document.getElementById("image_display").src = path_url + main_path;
+			}
+			else {
+				document.getElementById("product_image").value = "";
+				document.getElementById("image_display").src = "";
+			}
+		} else {
+
+			if (fsec == 'property') {
+				if (main_path) {
+					propimg = 'propertyImage' + fid;
+					document.getElementById(propimg).style.display = "block";
+					document.getElementById(propimg).width = "60";
+					document.getElementById(propimg).heidth = "60";
+					document.getElementById("propmainImage" + fid).value = main_path;
+					document.getElementById(propimg).src = path_url + main_path;
+
+
+				}
+				else {
+					document.getElementById("propmainImage" + fid).value = "";
+					document.getElementById("propimg" + fid).src = "";
+				}
+			} else {
+				if (main_path) {
+
+					propimg = 'subpropertyImage' + fid;
+					document.getElementById(propimg).style.display = "block";
+					document.getElementById(propimg).width = "60";
+					document.getElementById(propimg).heidth = "60";
+					document.getElementById("subpropmainImage" + fid).value = main_path;
+					document.getElementById(propimg).src = path_url + main_path;
+
+
+				}
+				else {
+					document.getElementById("subpropmainImage" + fid).value = "";
+					document.getElementById("propimg" + fid).src = "";
+				}
+			}
 		}
 	}
 </script>
@@ -240,7 +293,7 @@ if ($this->lists['attributes'] != '')
 						<td align="right" class="td2">
 							<input type="text" class="text_area input_t1" size="22"
 							       name="attribute[<?php echo $k; ?>][name]"
-							       value="<?php echo htmlspecialchars(urldecode($attibute_data['attribute_name'])); ?>">
+							       value="<?php echo htmlspecialchars($attibute_data['attribute_name']); ?>">
 						</td>
 
 						<td align="right" nowrap="nowrap" class="td3">
@@ -386,7 +439,7 @@ if ($this->lists['attributes'] != '')
 								<input type="text"
 								       class="text_area input_t1" size="22"
 								       name="attribute[<?php echo $k; ?>][property][<?php echo $g; ?>][name]"
-								       value="<?php echo htmlspecialchars(urldecode($property->property_name)); ?>">
+								       value="<?php echo htmlspecialchars($property->property_name); ?>">
 							</td>
 							<td align="right" nowrap="nowrap" class="td3">
 								<span> <?php echo JText::_('COM_REDSHOP_ORDERING'); ?>:&nbsp;</span>
@@ -831,11 +884,11 @@ if ($this->lists['attributes'] != '')
 												<tr valign="top">
 
 													<td rowspan="3" align="right" nowrap="nowrap" class="td1"
-													    style="padding-right: 10px;"><?php if ($subvalue->subattribute_color_id != 0)
-														{
+													    style="padding-right: 10px;">
+													    <?php if ($subvalue->subattribute_color_id != 0) :
+
 															$medialink = JRoute::_('index.php?tmpl=component&option=com_redshop&view=media&section_id=' . $subvalue->subattribute_color_id . '&showbuttons=1&media_section=subproperty');
-															/*index3.php?option=com_redshop&amp;view=product_detail&amp;fsec=subproperty&amp;section_id=<?php echo $subvalue->subattribute_color_id;?>&amp;cid=<?php echo $this->detail->product_id; ?>&amp;layout=property_images&amp;showbuttons=1*/
-															?>
+														?>
 															<a class="modal"
 															   href="<?php echo $medialink; ?>"
 															   rel="{handler: 'iframe', size: {x: 950, y: 500}}"
@@ -856,7 +909,8 @@ if ($this->lists['attributes'] != '')
 															<img
 																src="<?php echo REDSHOP_ADMIN_IMAGES_ABSPATH; ?>stockroom16.png"
 																align="absmiddle" alt="media">
-														</a> <?php } ?>
+														</a>
+														<?php endif; ?>
 													</td>
 
 													<td class="td2">

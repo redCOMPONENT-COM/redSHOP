@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die ('restricted access');
+defined('_JEXEC') or die;
 $uri = JURI::getInstance();
 $url = $uri->root();
 JLoader::import('loadhelpers', JPATH_SITE . '/components/com_redshop');

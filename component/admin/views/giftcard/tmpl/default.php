@@ -6,7 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined('_JEXEC') or die ('Restricted access');
+defined('_JEXEC') or die;
 
 JHTMLBehavior::modal();
 $producthelper = new producthelper();
@@ -49,7 +49,7 @@ echo 'index.php?option=' . $option;
 		<td valign="top" align="left" class="key">
 			<?php echo JText::_('COM_REDSHOP_USER_FILTER' ); ?>:
 				<input type="text" name="filter" id="filter" value="<?php echo $filter; ?>" onchange="document.adminForm.submit();">
-			<button onclick="this.form.submit();"><?php echo JText::_('COM_REDSHOP_GO' ); ?></button>				
+			<button onclick="this.form.submit();"><?php echo JText::_('COM_REDSHOP_GO' ); ?></button>
 			<button onclick="document.getElementById('filter').value='';this.form.submit();"><?php echo JText::_('COM_REDSHOP_RESET' ); ?></button>
 		</td>
 	</tr>

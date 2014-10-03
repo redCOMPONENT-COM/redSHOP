@@ -3,37 +3,35 @@
  * @package     RedSHOP
  * @subpackage  Plugin
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2014 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-jimport('joomla.plugin.plugin');
-
-class plgRedshop_paymentrs_payment_epayv2 extends JPlugin
+/**
+ * Epay Payment gateway for redSHOP Payments
+ *
+ * @since  1.4
+ */
+class PlgRedshop_Paymentrs_Payment_Epayv2 extends JPlugin
 {
-	public $_table_prefix = null;
-
 	/**
-	 * Constructor
+	 * Epay SOAP Client Object
 	 *
-	 * For php4 compatability we must not use the __constructor as a constructor for
-	 * plugins because func_get_args ( void ) returns a copy of all passed arguments
-	 * NOT references.  This causes problems with cross-referencing necessary for the
-	 * observer design pattern.
+	 * @var  object
+	 *
+	 * @since  1.4
 	 */
-	public function plgRedshop_paymentrs_payment_epayv2(&$subject)
-	{
-		// Load plugin parameters
-		parent::__construct($subject);
-		$this->_table_prefix = '#__redshop_';
-		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_epayv2');
-		$this->_params = new JRegistry($this->_plugin->params);
-	}
+	private $_epaySoapClient;
 
 	/**
-	 * Plugin method with the same name as the event will be called automatically.
+	 * Prepare payment data to send Epay
+	 *
+	 * @param   string  $element  Plugin Name
+	 * @param   array   $data     Order Information
+	 *
+	 * @return  void    Set HTML on fly
 	 */
 	public function onPrePayment($element, $data)
 	{
@@ -58,23 +56,21 @@ class plgRedshop_paymentrs_payment_epayv2 extends JPlugin
 		$user           = JFactory::getUser();
 
 		$formdata = array(
-			'merchantnumber'  => $this->_params->get("merchant_id"),
+			'merchantnumber'  => $this->params->get("merchant_id"),
 			'amount'          => number_format($data['carttotal'], 2, '.', '') * 100,
 			'currency'        => $CurrencyHelper->get_iso_code(CURRENCY_CODE),
 			'orderid'         => $data['order_id'],
-			'group'           => $this->_params->get("payment_group"),
-			'instantcapture'  => $this->_params->get("auth_type"),
+			'group'           => $this->params->get("payment_group"),
+			'instantcapture'  => $this->params->get("auth_type"),
 			'instantcallback' => 1,
-			'language'        => $this->_params->get("language"),
-			'windowstate'     => $this->_params->get("epay_window_state"),
-			'windowid'        => $this->_params->get("windowid"),
-			'ownreceipt'      => $this->_params->get("ownreceipt"),
-			'use3D'           => $this->_params->get("epay_3dsecure"),
-			'addfee'          => $this->_params->get("transaction_fee"),
-			'subscription'    => $this->_params->get("epay_subscription")
+			'language'        => $this->params->get("language"),
+			'windowstate'     => $this->params->get("epay_window_state"),
+			'windowid'        => $this->params->get("windowid"),
+			'ownreceipt'      => $this->params->get("ownreceipt"),
+			'subscription'    => $this->params->get("epay_subscription")
 		);
 
-		if ((int) $this->_params->get('activate_callback', 0) == 1)
+		if ((int) $this->params->get('activate_callback', 0) == 1)
 		{
 			$formdata['cancelurl']   = JURI::base() . 'index.php?tmpl=component&option=com_redshop&view=order_detail&controller=order_detail&task=notify_payment&payment_plugin=rs_payment_epayv2&accept=0';
 			$formdata['callbackurl'] = JURI::base() . 'index.php?tmpl=component&option=com_redshop&view=order_detail&controller=order_detail&task=notify_payment&payment_plugin=rs_payment_epayv2&accept=1';
@@ -87,7 +83,7 @@ class plgRedshop_paymentrs_payment_epayv2 extends JPlugin
 		}
 
 		// Create hash value to post
-		$formdata['hash'] = md5(implode($formdata, "") . $this->_params->get("epay_paymentkey"));
+		$formdata['hash'] = md5(implode("", array_values($formdata)) . $this->params->get("epay_paymentkey"));
 
 		// New Code
 		$json_pass_string = json_encode($formdata);
@@ -101,11 +97,17 @@ class plgRedshop_paymentrs_payment_epayv2 extends JPlugin
 			$html .= 'paymentwindow.open();';
 		$html .= '</script>';
 		$html .= '<input onclick="javascript: paymentwindow.open()" type="button" value="Go to payment">';
+
 		echo $html;
 	}
 
-	/*
-	 *  Plugin onNotifyPayment method with the same name as the event will be called automatically.
+	/**
+	 * Handle Payment notification from Epay
+	 *
+	 * @param   string  $element  Plugin Name
+	 * @param   array   $request  Request data sent from Epay
+	 *
+	 * @return  object  Status Object
 	 */
 	public function onNotifyPaymentrs_payment_epayv2($element, $request)
 	{
@@ -114,32 +116,28 @@ class plgRedshop_paymentrs_payment_epayv2 extends JPlugin
 			return false;
 		}
 
-		$db = JFactory::getDbo();
-		$request = JRequest::get('request');
+		$db             = JFactory::getDbo();
+		$request        = JRequest::get('request');
+		$values          = new stdClass;
 
-		$accept = $request["accept"];
-		$tid = $request["txnid"];
-		$order_id = $request["orderid"];
-		$Itemid = $request["Itemid"];
-		$order_amount = $request["amount"];
-		@$order_ekey = $request["hash"];
-		@$error = $request["error"];
+		$accept         = $request["accept"];
+		$tid            = $request["txnid"];
+		$order_id       = $request["orderid"];
+		$Itemid         = $request["Itemid"];
+		$order_amount   = $request["amount"];
+		$order_ekey     = $request["hash"];
+		$error          = $request["error"];
 		$order_currency = $request["currency"];
-		$transfee = $request["txnfee"];
-		$transfee = $transfee / 100;
+		$transfee       = $request["txnfee"];
+		$transfee       = $transfee / 100;
 
 		JPlugin::loadLanguage('com_redshop');
-		$amazon_parameters = $this->getparameters('rs_payment_epayv2');
-		$paymentinfo = $amazon_parameters[0];
-		$paymentparams = new JRegistry($paymentinfo->params);
 
-		$verify_status = $paymentparams->get('verify_status', '');
-		$invalid_status = $paymentparams->get('invalid_status', '');
-		$auth_type = $paymentparams->get('auth_type', '');
-
-		$values = new stdClass;
-		$epay_paymentkey = $paymentparams->get('epay_paymentkey', '');
-		$epay_md5 = $paymentparams->get('epay_md5', '');
+		$verify_status   = $this->params->get('verify_status', '');
+		$invalid_status  = $this->params->get('invalid_status', '');
+		$auth_type       = $this->params->get('auth_type', '');
+		$epay_paymentkey = $this->params->get('epay_paymentkey', '');
+		$epay_md5        = $this->params->get('epay_md5', '');
 
 		$var = "";
 
@@ -156,7 +154,7 @@ class plgRedshop_paymentrs_payment_epayv2 extends JPlugin
 
 		// Now validat on the MD5 stamping. If the MD5 key is valid or if MD5 is disabled
 
-		if ((@$order_ekey == $genstamp) || $epay_md5 == 0)
+		if (($order_ekey == $genstamp) || $epay_md5 == 0)
 		{
 			// Switch on the order accept code
 			// accept = 1 (standard redirect) accept = 2 (callback)
@@ -164,15 +162,14 @@ class plgRedshop_paymentrs_payment_epayv2 extends JPlugin
 			if (empty($request['errorcode']) && ($accept == "1" || $accept == "2"))
 			{
 				// Only update the order information once
-
-				if ($this->orderPaymentNotYetUpdated($db, $order_id, $tid))
+				if ($this->orderPaymentNotYetUpdated($order_id, $tid))
 				{
 					// UPDATE THE ORDER STATUS to 'VALID'
-					$transaction_id = $tid;
-					$values->order_status_code = $verify_status;
+					$transaction_id                    = $tid;
+					$values->order_status_code         = $verify_status;
 					$values->order_payment_status_code = 'Paid';
-					$values->log = JText::_('COM_REDSHOP_ORDER_PLACED');
-					$values->msg = JText::_('COM_REDSHOP_ORDER_PLACED');
+					$values->log                       = JText::_('COM_REDSHOP_ORDER_PLACED');
+					$values->msg                       = JText::_('COM_REDSHOP_ORDER_PLACED');
 
 					// Add history callback info
 					if ($accept == "2")
@@ -287,56 +284,72 @@ class plgRedshop_paymentrs_payment_epayv2 extends JPlugin
 			}
 			elseif ($accept == "0")
 			{
-				$values->order_status_code = $invalid_status;
+				$values->order_status_code         = $invalid_status;
 				$values->order_payment_status_code = 'Unpaid';
-				$values->log = JText::_('COM_REDSHOP_ORDER_NOT_PLACED');
-				$values->msg = JText::_('COM_REDSHOP_ORDER_NOT_PLACED');
-				$msg = JText::_('COM_REDSHOP_EPAY_PAYMENT_ERROR');
+				$values->log                       = JText::_('COM_REDSHOP_ORDER_NOT_PLACED');
+				$values->msg                       = JText::_('COM_REDSHOP_ORDER_NOT_PLACED');
+				$msg                               = JText::_('COM_REDSHOP_EPAY_PAYMENT_ERROR');
 			}
 			else
 			{
-				$values->order_status_code = $invalid_status;
+				$values->order_status_code         = $invalid_status;
 				$values->order_payment_status_code = 'Unpaid';
-				$values->log = JText::_('COM_REDSHOP_ORDER_NOT_PLACED.');
-				$values->msg = JText::_('COM_REDSHOP_ORDER_NOT_PLACED');
-				$msg = JText::_('COM_REDSHOP_PHPSHOP_PAYMENT_ERROR');
+				$values->log                       = JText::_('COM_REDSHOP_ORDER_NOT_PLACED.');
+				$values->msg                       = JText::_('COM_REDSHOP_ORDER_NOT_PLACED');
+				$msg                               = JText::_('COM_REDSHOP_PHPSHOP_PAYMENT_ERROR');
 			}
 		}
 		else
 		{
-			$values->order_status_code = $invalid_status;
+			$values->order_status_code         = $invalid_status;
 			$values->order_payment_status_code = 'Unpaid';
-			$values->log = JText::_('COM_REDSHOP_ORDER_NOT_PLACED');
-			$values->msg = JText::_('COM_REDSHOP_ORDER_NOT_PLACED');
-			$msg = JText::_('COM_REDSHOP_PHPSHOP_PAYMENT_ERROR');
+			$values->log                       = JText::_('COM_REDSHOP_ORDER_NOT_PLACED');
+			$values->msg                       = JText::_('COM_REDSHOP_ORDER_NOT_PLACED');
+			$msg                               = JText::_('COM_REDSHOP_PHPSHOP_PAYMENT_ERROR');
 		}
 
 		$values->transaction_id = $tid;
-		$values->order_id = $order_id;
-		$values->transfee = $transfee;
+		$values->order_id       = $order_id;
+		$values->transfee       = $transfee;
 
 		return $values;
 	}
 
-	public function getparameters($payment)
+	/**
+	 * Check Order payment is set for specific transaction Id
+	 *
+	 * @param   integer  $orderId  Order Id
+	 * @param   string   $tid      Payment Transaction Id from payment gateway
+	 *
+	 * @return  boolean  True is not found any order with passed transaction id.
+	 */
+	public function orderPaymentNotYetUpdated($orderId, $tid)
 	{
-		$db = JFactory::getDbo();
-		$sql = "SELECT * FROM #__extensions WHERE `element`='" . $payment . "'";
-		$db->setQuery($sql);
-		$params = $db->loadObjectList();
+		// Initialiase variables.
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true);
 
-		return $params;
-	}
+		// Create the base select statement.
+		$query->select($db->qn('COUNT(*)'))
+			->from($db->qn('#__redshop_order_payment'))
+			->where($db->qn('order_id') . ' = ' . (int) $orderId)
+			->where($db->qn('order_payment_trans_id') . ' = ' . $db->q($tid));
 
-	public function orderPaymentNotYetUpdated($dbConn, $order_id, $tid)
-	{
-		$db = JFactory::getDbo();
-		$res = false;
-		$query = "SELECT COUNT(*) `qty` FROM " . $this->_table_prefix . "order_payment WHERE `order_id` = '" . $db->getEscaped($order_id) . "' and order_payment_trans_id = '" . $db->getEscaped($tid) . "'";
+		// Set the query and load the result.
 		$db->setQuery($query);
-		$order_payment = $db->loadResult();
 
-		if ($order_payment == 0)
+		try
+		{
+			$orderPayment = $db->loadResult();
+		}
+		catch (RuntimeException $e)
+		{
+			throw new RuntimeException($e->getMessage(), $e->getCode());
+		}
+
+		$res = false;
+
+		if ($orderPayment == 0)
 		{
 			$res = true;
 		}
@@ -344,139 +357,286 @@ class plgRedshop_paymentrs_payment_epayv2 extends JPlugin
 		return $res;
 	}
 
+	/**
+	 * Capture Confirmed payment
+	 *
+	 * @param   string  $element  Plugin name
+	 * @param   array   $data     Order Information
+	 *
+	 * @return  object  Status information object.
+	 *                  'message' and 'responsestatus' as a key.
+	 *                  'type' = 'error' or 'message'.
+	 */
 	public function onCapture_Paymentrs_payment_epayv2($element, $data)
 	{
-		$epay_parameters = $this->getparameters('rs_payment_epayv2');
-		$paymentinfo = $epay_parameters[0];
-		$paymentparams = new JRegistry($paymentinfo->params);
+		// Capture Paramteres
+		$captureParams = array(
+			'merchantnumber' => (int) $this->params->get('merchant_id'),
+			'transactionid'  => $data['order_transactionid'],
+			'amount'         => (int) round($data['order_amount'] * 100, 2),
+			'epayresponse'   => -1,
+			'pbsResponse'    => -1
+		);
 
-		// Get the class
-		$paymentpath = JPATH_SITE . '/plugins/redshop_payment/' . $element . '/' . $element . '/epaysoap.php';
-		include $paymentpath;
+		if ($paymentGroup = $this->params->get('payment_group', false))
+		{
+			$captureParams['group'] = $paymentGroup;
+		}
 
-		// Access the webservice
-		$epay = new EpaySoap;
-		$merchantnumber = $paymentparams->get('merchant_id');
+		// Capturing payment
+		$captureResult = $this->_getEpaySoapClient()->capture($captureParams);
 
-		$order_id = $data['order_id'];
-		$tid = $data['order_transactionid'];
+		$app    = JFactory::getApplication();
+		$values = new stdClass;
 
-		$order_amount = round($data['order_amount'] * 100, 2);
-
-		$response = $epay->capture($merchantnumber, $tid, $order_amount);
-
-		if ($response['captureResult'] == 'true')
+		if ($captureResult->captureResult == true)
 		{
 			$values->responsestatus = 'Success';
-			$message = JText::_('COM_REDSHOP_ORDER_CAPTURED');
+			$values->type           = 'message';
+			$values->message        = JText::_('COM_REDSHOP_ORDER_CAPTURED');
 		}
 		else
 		{
-			$message = JText::_('COM_REDSHOP_ORDER_NOT_CAPTURED');
 			$values->responsestatus = 'Fail';
+			$values->type           = 'error';
+			$values->message        = JText::_('COM_REDSHOP_ORDER_NOT_CAPTURED')
+									. '<br />' . $this->_getEpayError($captureResult->epayresponse)
+									. '<br />' . $this->_getPbsError($captureResult->pbsResponse);
 		}
 
-		$values->message = $message;
+		$app->enqueueMessage($values->message, $values->type);
 
 		return $values;
 	}
 
+	/**
+	 * Method triggers on status change from shop
+	 *
+	 * @param   string  $element  Plugin name
+	 * @param   array   $data     Order Information
+	 *
+	 * @return  object  Status information object.
+	 *                  'message' and 'responsestatus' as a key.
+	 *                  'type' = 'error' or 'message'.
+	 */
 	public function onStatus_Paymentrs_payment_epayv2($element, $data)
 	{
-		$epay_parameters = $this->getparameters('rs_payment_epayv2');
-		$paymentinfo = $epay_parameters[0];
-		$paymentparams = new JRegistry($paymentinfo->params);
+		$app             = JFactory::getApplication();
+		$values          = new stdClass;
+		$transactionInfo = $this->_getEpaySoapClient()
+								->gettransaction(
+									array(
+										'merchantnumber' => (int) $this->params->get('merchant_id'),
+										'transactionid'  => $data['order_transactionid'],
+										'epayresponse'   => -1,
+										'pbsresponse'    => -1
+									)
+								);
 
-		// Get the class
-		$paymentpath = JPATH_SITE . '/plugins/redshop_payment/' . $element . '/' . $element . '/epaysoap.php';
-		include $paymentpath;
-
-		// Access the webservice
-		$epay = new EpaySoap;
-		$merchantnumber = $paymentparams->get('merchant_id');
-
-		$order_id = $data['order_id'];
-		$tid = $data['order_transactionid'];
-
-		$order_amount = round($data['order_amount'] * 100, 2);
-
-		$response = $epay->gettransactionInformation($merchantnumber, $tid);
-
-		if ($response['status'] == "PAYMENT_NEW")
+		if (1 == $transactionInfo->gettransactionResult)
 		{
-			$data_refund = $this->onCancel_Paymentrs_payment_epayv2($element, $data);
+			if ("PAYMENT_NEW" == $transactionInfo->transactionInformation->status)
+			{
+				$values = $this->onCancel_Paymentrs_payment_epayv2($element, $data);
+			}
+			elseif ("PAYMENT_CAPTURED" == $transactionInfo->transactionInformation->status)
+			{
+				$values = $this->onRefund_Paymentrs_payment_epayv2($element, $data);
+			}
 		}
-		elseif ($response['status'] == "PAYMENT_CAPTURED")
+		else
 		{
-			$data_refund = $this->onRefund_Paymentrs_payment_epayv2($element, $data);
+			$values->responsestatus = 'Fail';
+			$values->type           = 'error';
+			$values->message        = JText::_('COM_REDSHOP_ORDER_NOT_REFUND')
+									. '<br />' . $this->_getEpayError($transactionInfo->epayresponse);
 		}
 
-		return $data_refund;
+		$app->enqueueMessage($values->message, $values->type);
+
+		return $values;
 	}
 
+	/**
+	 * On Cancel Payment status Remove Epay Order to maintain duplicate order issue
+	 *
+	 * @param   string  $element  Plugin name
+	 * @param   array   $data     Order Information
+	 *
+	 * @return  object  Status information object.
+	 *                  'message' and 'responsestatus' as a key.
+	 *                  'type' = 'error' or 'message'.
+	 */
 	public function onCancel_Paymentrs_payment_epayv2($element, $data)
 	{
-		$epay_parameters = $this->getparameters('rs_payment_epayv2');
-		$paymentinfo = $epay_parameters[0];
-		$paymentparams = new JRegistry($paymentinfo->params);
+		$deleteResponse = $this->_getEpaySoapClient()
+								->delete(
+									array(
+										'merchantnumber' => (int) $this->params->get('merchant_id'),
+										'transactionid'  => $data['order_transactionid'],
+										'epayresponse'   => -1,
+										'pbsresponse'    => -1
+									)
+								);
 
-		// Access the webservice
-		$epay = new EpaySoap;
-		$merchantnumber = $paymentparams->get('merchant_id');
+		$values = new stdClass;
 
-		$order_id = $data['order_id'];
-		$tid = $data['order_transactionid'];
-
-		$order_amount = round($data['order_amount'] * 100, 2);
-
-		$response = $epay->delete($merchantnumber, $tid);
-
-		if ($response['deleteResult'] == 1)
+		if ($deleteResponse->deleteResult)
 		{
 			$values->responsestatus = 'Success';
-			$message = JText::_('COM_REDSHOP_ORDER_REFUND');
+			$values->type           = 'message';
+			$values->message = JText::_('COM_REDSHOP_ORDER_REFUND');
 		}
 		else
 		{
-			$message = JText::_('COM_REDSHOP_ORDER_NOT_REFUND');
 			$values->responsestatus = 'Fail';
+			$values->type           = 'error';
+			$values->message        = JText::_('COM_REDSHOP_ORDER_NOT_REFUND')
+									. '<br />' . $this->_getEpayError($deleteResponse->epayresponse);
 		}
-
-		$values->message = $message;
 
 		return $values;
 	}
 
+	/**
+	 * Refund money to customer if payment set as a refund in shop
+	 *
+	 * @param   string  $element  Plugin name
+	 * @param   array   $data     Order Information
+	 *
+	 * @return  object  Status information object.
+	 *                  'message' and 'responsestatus' as a key.
+	 *                  'type' = 'error' or 'message'.
+	 */
 	public function onRefund_Paymentrs_payment_epayv2($element, $data)
 	{
-		$epay_parameters = $this->getparameters('rs_payment_epayv2');
-		$paymentinfo = $epay_parameters[0];
-		$paymentparams = new JRegistry($paymentinfo->params);
+		$creditResponse = $this->_getEpaySoapClient()
+								->credit(
+									array(
+										'merchantnumber' => (int) $this->params->get('merchant_id'),
+										'transactionid'  => $data['order_transactionid'],
+										'amount'         => round($data['order_amount'] * 100, 2),
+										'epayresponse'   => -1,
+										'pbsresponse'    => -1
+									)
+								);
 
-		// Access the webservice
-		$epay = new EpaySoap;
-		$merchantnumber = $paymentparams->get('merchant_id');
+		$values = new stdClass;
 
-		$order_id = $data['order_id'];
-		$tid = $data['order_transactionid'];
-
-		$order_amount = round($data['order_amount'] * 100, 2);
-
-		$response = $epay->credit($merchantnumber, $tid, $order_amount);
-
-		if ($response['creditResult'] == 1)
+		if ($creditResponse->creditResult)
 		{
 			$values->responsestatus = 'Success';
-			$message = JText::_('COM_REDSHOP_ORDER_REFUND');
+			$values->type           = 'message';
+			$values->message = JText::_('COM_REDSHOP_ORDER_REFUND');
 		}
 		else
 		{
-			$message = JText::_('COM_REDSHOP_ORDER_NOT_REFUND');
 			$values->responsestatus = 'Fail';
+			$values->type           = 'error';
+			$values->message        = JText::_('COM_REDSHOP_ORDER_NOT_REFUND')
+									. '<br />' . $this->_getEpayError($creditResponse->epayresponse)
+									. '<br />' . $this->_getPbsError($creditResponse->pbsResponse);
 		}
 
-		$values->message = $message;
-
 		return $values;
+	}
+
+	/**
+	 * Epay Soal Client setup
+	 *
+	 * @param   integer  $trace  Trace
+	 *
+	 * @return  SoapObject   Soap Client Information Object
+	 */
+	private function _getEpaySoapClient($trace = 0)
+	{
+		if (!$this->_epaySoapClient)
+		{
+			try
+			{
+				$this->_epaySoapClient = new SoapClient(
+					'https://ssl.ditonlinebetalingssystem.dk/remote/payment.asmx?WSDL',
+					array(
+						'trace' => $trace
+					)
+				);
+			}
+			catch (RuntimeException $e)
+			{
+				throw new RuntimeException($e->getMessage(), $e->getCode());
+			}
+		}
+
+		return $this->_epaySoapClient;
+	}
+
+	/**
+	 * Get Epay Error in Human Readable format
+	 *
+	 * @param   integer  $epayResponse  Epay Response Code
+	 *
+	 * @return  string   Epay Response Error Message
+	 */
+	private function _getEpayError($epayResponse)
+	{
+		$language = 1;
+
+		if ('en-GB' == JFactory::getLanguage()->get('tag'))
+		{
+			$language = 2;
+		}
+
+		$response = $this->_getEpaySoapClient()
+					->getEpayError(
+						array(
+							'merchantnumber'   => (int) $this->params->get('merchant_id'),
+							'language'         => $language,
+							'epayresponsecode' => $epayResponse,
+							'epayresponse'     => -1,
+							'pbsresponse'      => -1
+						)
+					);
+
+		if ($response->getEpayErrorResult)
+		{
+			return $response->epayresponsestring;
+		}
+
+		return $epayResponse;
+	}
+
+	/**
+	 * Get PBS Error in Human Readable format
+	 *
+	 * @param   integer  $pbsResponse  PBS Response Code
+	 *
+	 * @return  string   PBS Response Error Message
+	 */
+	private function _getPbsError($pbsResponse)
+	{
+		$language = 1;
+
+		if ('en-GB' == JFactory::getLanguage()->get('tag'))
+		{
+			$language = 2;
+		}
+
+		$response = $this->_getEpaySoapClient()
+					->getPbsError(
+						array(
+							'merchantnumber'  => (int) $this->params->get('merchant_id'),
+							'language'        => $language,
+							'pbsresponsecode' => (int) $pbsResponse,
+							'epayresponse'    => -1,
+							'pbsresponse'     => -1
+						)
+					);
+
+		if ($response->getPbsErrorResult)
+		{
+			return $response->pbsResponseString;
+		}
+
+		return $pbsResponse;
 	}
 }

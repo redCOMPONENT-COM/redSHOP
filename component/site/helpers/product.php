@@ -107,21 +107,7 @@ class producthelper
 
 		if (!array_key_exists($productId . '.' . $userId, self::$products))
 		{
-			$userArr  = $this->_session->get('rs_user');
-			$andJoin = '';
-
-			if (empty($userArr))
-			{
-				$userArr = $this->_userhelper->createUserSession($userId);
-			}
-
-			$shopperGroupId = $userArr['rs_user_shopperGroup'];
-
-			if (!$userId)
-			{
-				$andJoin = ' AND pp.shopper_group_id = ' . (int) $shopperGroupId;
-			}
-
+			$shopperGroupId = $this->_userhelper->getShopperGroup($userId);
 			$db = JFactory::getDbo();
 			$query = $db->getQuery(true);
 
@@ -143,18 +129,9 @@ class producthelper
 				)
 				->leftJoin(
 					$db->qn('#__redshop_product_price', 'pp')
-					. ' ON p.product_id = pp.product_id AND ((pp.price_quantity_start <= 1 AND pp.price_quantity_end >= 1) OR (pp.price_quantity_start = 0 AND pp.price_quantity_end = 0))'
-					. $andJoin
+					. ' ON p.product_id = pp.product_id AND ((pp.price_quantity_start <= 1 AND pp.price_quantity_end >= 1) OR (pp.price_quantity_start = 0 AND pp.price_quantity_end = 0)) AND pp.shopper_group_id = ' . (int) $shopperGroupId
 				)
 				->order('pp.price_quantity_start ASC');
-
-			if ($userId)
-			{
-				$query->leftJoin(
-					$db->qn('#__redshop_users_info', 'u')
-					. ' ON u.shopper_group_id = pp.shopper_group_id AND u.user_id = ' . (int) $userId . ' AND u.address_type = ' . $db->q('BT')
-				);
-			}
 
 			// Select category
 			$query->select(array('pcx.category_id'))
@@ -287,17 +264,20 @@ class producthelper
 		{
 			if ($productData = $this->getProductById($productId, $userId))
 			{
-				$result = new stdClass;
-				$result->price_id = $productData->price_id;
-				$result->product_price = $productData->price_product_price;
-				$result->discount_price = $productData->price_discount_price;
-				$result->product_currency = $productData->price_product_currency;
-				$result->discount_start_date = $productData->price_discount_start_date;
-				$result->discount_end_date = $productData->price_discount_end_date;
+				if (isset($productData->price_id))
+				{
+					$result = new stdClass;
+					$result->price_id = $productData->price_id;
+					$result->product_price = $productData->price_product_price;
+					$result->discount_price = $productData->price_discount_price;
+					$result->product_currency = $productData->price_product_currency;
+					$result->discount_start_date = $productData->price_discount_start_date;
+					$result->discount_end_date = $productData->price_discount_end_date;
+				}
 			}
 		}
 
-		if ($result->discount_price != 0
+		if (!empty($result) && $result->discount_price != 0
 			&& $result->discount_start_date != 0 && $result->discount_end_date != 0
 			&& $result->discount_start_date <= time()
 			&& $result->discount_end_date >= time()
@@ -574,6 +554,14 @@ class producthelper
 		return $data_add;
 	}
 
+	/**
+	 * Check user for Tax Exemption approved
+	 *
+	 * @param   integer  $user_id              User Information Id - Login user id
+	 * @param   integer  $btn_show_addto_cart  Display Add to cart button for tax exemption user
+	 *
+	 * @return  boolean  true if VAT applied else false
+	 */
 	public function taxexempt_addtocart($user_id = 0, $btn_show_addto_cart = 0)
 	{
 		$user = JFactory::getUser();
@@ -992,6 +980,7 @@ class producthelper
 
 	public function getProductImage($product_id = 0, $link = '', $width, $height, $Product_detail_is_light = 2, $enableHover = 0, $suffixid = 0)
 	{
+		$config          = new Redconfiguration;
 		$thum_image      = '';
 		$stockroomhelper = new rsstockroomhelper;
 		$result          = $this->getProductById($product_id);
@@ -1784,10 +1773,13 @@ class producthelper
 				{
 					$product_price_saving = $product_price_exluding_vat - $dicount_price_exluding_vat;
 
+					// Only apply VAT if set to apply in config or tag
 					if (intval($applytax) && $product_price_saving)
 					{
 						$dis_save_tax_amount  = $this->getProductTax($product_id, $product_price_saving, $user_id);
-						$product_price_saving = $product_price_saving;
+
+						// Adding VAT in saving price
+						$product_price_saving += $dis_save_tax_amount;
 					}
 
 					$product_price_incl_vat     = $product_discount_price_tmp + $tax_amount;
@@ -2206,6 +2198,11 @@ class producthelper
 			return array();
 		}
 
+		if ($addressType == '')
+		{
+			$addressType = 'BT';
+		}
+
 		if (!array_key_exists($userId . '.' . $addressType . '.' . $userInfoId, self::$userShopperGroupData))
 		{
 			$db = JFactory::getDbo();
@@ -2213,7 +2210,8 @@ class producthelper
 				->select(array('sh.*', 'u.*'))
 				->from($db->qn('#__redshop_users_info', 'u'))
 				->leftJoin($db->qn('#__redshop_shopper_group', 'sh') . ' ON sh.shopper_group_id = u.shopper_group_id')
-				->order('u.users_info_id ASC');
+				->where('u.user_id = ' . (int) $userId)
+				->where('u.address_type = ' . $db->q($addressType));
 
 			if ($userInfoId && $addressType == 'ST')
 			{
@@ -2341,7 +2339,8 @@ class producthelper
 		if ($productData = $this->getProductById($productId))
 		{
 			if (($productData->discount_enddate == '' && $productData->discount_stratdate == '')
-				|| ((int) $productData->discount_enddate >= $today && (int) $productData->discount_stratdate <= $today))
+				|| ((int) $productData->discount_enddate >= $today && (int) $productData->discount_stratdate <= $today)
+				|| ($productData->discount_enddate == '' && (int) $productData->discount_stratdate <= $today))
 			{
 				$discountPrice = $productData->discount_price;
 			}
@@ -2865,6 +2864,7 @@ class producthelper
 	{
 		$menu = JFactory::getApplication()->getMenu();
 		$values = array();
+		$helper = new redhelper;
 
 		if ($menuView != "")
 		{
@@ -2891,7 +2891,6 @@ class producthelper
 
 		if ($isRedshop)
 		{
-			$helper = new redhelper;
 			$menuItems = $helper->getRedshopMenuItems();
 		}
 		else
@@ -2905,7 +2904,7 @@ class producthelper
 
 			foreach ($values as $key => $value)
 			{
-				if ($oneMenuItem->query[$key] != $value)
+				if (!$helper->checkMenuQuery($oneMenuItem, array($key => $value)))
 				{
 					$test = false;
 					break;
@@ -5173,6 +5172,7 @@ class producthelper
 							}
 
 							$attributes_property_withoutvat = $property [$i]->property_price;
+
 							/*
 							 * changes for {without_vat} tag output parsing
 							 * only for display purpose
@@ -5181,7 +5181,10 @@ class producthelper
 
 							if (!empty($chktag))
 							{
-								$attributes_property_vat_show = $this->getProducttax($product_id, $property [$i]->property_price, $user_id);
+								if ($property [$i]->oprand != '*' && $property [$i]->oprand != '/')
+								{
+									$attributes_property_vat_show = $this->getProducttax($product_id, $property [$i]->property_price, $user_id);
+								}
 							}
 
 							$attributes_property_vat_show += $property [$i]->property_price;
@@ -5571,8 +5574,6 @@ class producthelper
 						}
 					}
 
-					$stock = $stockroomhelper->getStockAmountwithReserve($subproperty[$i]->value, "subproperty");
-
 					if ($subproperty[$i]->subattribute_color_image)
 					{
 						if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "subcolor/" . $subproperty[$i]->subattribute_color_image))
@@ -5648,7 +5649,8 @@ class producthelper
 					$attribute_table .= '<input type="hidden" id="' . $subpropertyid . '_oprand' . $subproperty [$i]->value . '" value="' . $subproperty [$i]->oprand . '" />';
 					$attribute_table .= '<input type="hidden" id="' . $subpropertyid . '_proprice' . $subproperty [$i]->value . '" value="' . $attributes_subproperty_vat_show . '" />';
 					$attribute_table .= '<input type="hidden" id="' . $subpropertyid . '_proprice_withoutvat' . $subproperty [$i]->value . '" value="' . $attributes_subproperty_withoutvat . '" />';
-					$attribute_table .= '<input type="hidden" id="' . $subpropertyid . '_stock' . $subproperty [$i]->value . '" value="' . $stock . '" />';
+					$attribute_table .= '<input type="hidden" id="' . $subpropertyid . '_stock' . $subproperty [$i]->value . '" value="' . $stockroomhelper->getStockAmountwithReserve($subproperty[$i]->value, "subproperty") . '" />';
+					$attribute_table .= '<input type="hidden" id="' . $subpropertyid . '_preOrderStock' . $subproperty [$i]->value . '" value="' . $stockroomhelper->getPreorderStockAmountwithReserve($subproperty[$i]->value, "subproperty") . '" />';
 				}
 
 				if (!$mph_thumb)
@@ -7478,7 +7480,10 @@ class producthelper
 
 				if (!empty($chktag))
 				{
-					$property_price = $property_price + $att_vat;
+					if ($propArr[$k]['property_oprand'] != '*' && $propArr[$k]['property_oprand'] != '/')
+					{
+						$property_price = $property_price + $att_vat;
+					}
 				}
 
 				$displayPrice = " (" . $propArr[$k]['property_oprand'] . " " . $this->getProductFormattedPrice($property_price) . ")";
@@ -7531,7 +7536,9 @@ class producthelper
 						$selectedProperty[$selP++] = $propArr[$k]['property_id'];
 					}
 
-					if ($subpropArr[$l]['subproperty_price'] > 0)
+					if ($subpropArr[$l]['subproperty_price'] > 0
+						&& $subpropArr[$l]['subproperty_oprand'] != '*'
+						&&  $subpropArr[$l]['subproperty_oprand'] != '/')
 					{
 						$att_vat = $this->getProducttax($product_id, $subpropArr[$l]['subproperty_price'], $user_id);
 					}
@@ -8487,13 +8494,37 @@ class producthelper
 
 	public function getProductReviewList($product_id)
 	{
-		$query = "SELECT ui.firstname,ui.lastname,pr.* FROM " . $this->_table_prefix . "product_rating AS pr "
-			. "LEFT JOIN " . $this->_table_prefix . "users_info AS ui ON ui.user_id=pr.userid "
-			. "WHERE pr.product_id = " . (int) $product_id . " "
-			. "AND pr.published = 1 AND ui.address_type LIKE 'BT' "
-			. "ORDER BY pr.favoured DESC";
-		$this->_db->setQuery($query);
-		$reviews = $this->_db->loadObjectList();
+		// Initialize variables.
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true);
+
+		// Create the base select statement.
+		$query->select('pr.*')
+			->from($db->qn('#__redshop_product_rating', 'pr'))
+			->where($db->qn('pr.product_id') . ' = ' . (int) $product_id)
+			->where($db->qn('pr.published') . ' = 1')
+			->where($db->qn('pr.email') . ' != ' . $db->q(''))
+			->order($db->qn('pr.favoured') . ' DESC');
+
+		$query->select('ui.firstname,ui.lastname')
+		      ->leftjoin(
+					$db->qn('#__redshop_users_info', 'ui')
+					. ' ON '
+					. $db->qn('ui.user_id') . '=' . $db->qn('pr.userid')
+					. ' AND ' . $db->qn('ui.address_type') . '=' . $db->q('BT')
+				);
+
+		// Set the query and load the result.
+		$db->setQuery($query);
+
+		try
+		{
+			$reviews = $db->loadObjectList();
+		}
+		catch (RuntimeException $e)
+		{
+			throw new RuntimeException($e->getMessage(), $e->getCode());
+		}
 
 		return $reviews;
 	}
@@ -9883,7 +9914,7 @@ class producthelper
 			}
 		}
 
-		// Stockroom status code->Ushma
+		// Stockroom status code
 		if (strstr($template_desc, "{stock_status")
 			|| strstr($template_desc, "{stock_notify_flag}")
 			|| strstr($template_desc, "{product_availability_date}"))

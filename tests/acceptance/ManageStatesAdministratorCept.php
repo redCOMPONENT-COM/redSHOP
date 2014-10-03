@@ -9,7 +9,7 @@
 // Load the Step Object Page
 $I = new AcceptanceTester\LoginSteps($scenario);
 
-$I->wantTo('Want to Test State Manager');
+$I->wantTo('Test State Manager in Administrator');
 $I->doAdminLogin();
 $I = new AcceptanceTester\CountryManagerSteps($scenario);
 $randomCountryName = 'Testing Country ' . rand(99, 999);
@@ -23,11 +23,10 @@ $I->searchCountry($randomCountryName);
 $I = new AcceptanceTester\StateManagerSteps($scenario);
 $I->wantTo('Add a new State');
 $I->addState($randomCountry, $randomStateName, $randomTwoCode, $randomThreeCode);
-/* This needs to be Handled Later On */
-/* $I->wantTo('Update the new State');
- $I->updateState($randomStateName, $updatedRandomStateName);*/
+$I->wantTo('Update the new State');
+$I->updateState($randomStateName, $updatedRandomStateName);
 $I->wantTo('Delete the New State');
-$I->deleteState($randomStateName);
+$I->deleteState($updatedRandomStateName);
 $I = new AcceptanceTester\CountryManagerSteps($scenario);
 $I->deleteCountry($randomCountryName);
 $I->searchCountry($randomCountryName, 'Delete');

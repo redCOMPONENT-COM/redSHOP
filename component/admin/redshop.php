@@ -14,7 +14,7 @@
  * @copyright  Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
-	defined('_JEXEC') or die ('Restricted access');
+	defined('_JEXEC') or die;
 
 	$app = JFactory::getApplication();
 
@@ -33,6 +33,7 @@
 	}
 
 	JLoader::import('loadhelpers', JPATH_SITE . '/components/com_redshop');
+	JLoader::load('RedshopHelperAdminProduct');
 	JLoader::load('RedshopHelperAdminConfiguration');
 	JLoader::load('RedshopHelperAdminTemplate');
 	JLoader::load('RedshopHelperAdminStockroom');
@@ -40,6 +41,7 @@
 	JLoader::load('RedshopHelperAdminAccess_level');
 	JLoader::load('RedshopHelperHelper');
 	JLoader::load('RedshopHelperAdminImages');
+	JLoader::load('RedshopHelperAdminCategory');
 
 	$redhelper = new redhelper;
 	$redhelper->removeShippingRate();
