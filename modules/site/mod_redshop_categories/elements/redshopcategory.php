@@ -10,7 +10,7 @@
  * @license        GNU General Public License version 2
  */
 // no direct access
-defined('_JEXEC') or die ('Restricted access');
+defined('_JEXEC') or die;
 
 class JFormFieldRedshopcategory extends JFormField
 {
@@ -50,7 +50,7 @@ class JFormFieldRedshopcategory extends JFormField
 			. " ,#__redshop_category_xref AS cx "
 			. "WHERE c.category_id=cx.category_child_id "
 			. $and
-			. "ORDER BY c.category_name ASC";
+			. " ORDER BY c.category_name ASC";
 
 		$db->setQuery($q);
 		$cats = $db->loadObjectList();

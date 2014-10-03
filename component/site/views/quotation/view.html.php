@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 JLoader::import('joomla.application.component.view');
 
-class quotationViewquotation extends JView
+class RedshopViewQuotation extends JView
 {
 	public function display($tpl = null)
 	{
@@ -40,7 +40,7 @@ class quotationViewquotation extends JView
 		$detail = $model->getData();
 
 		$this->detail = $detail;
-		$this->request_url = $uri->toString();
+		$this->request_url = JFilterOutput::cleanText($uri->toString());
 
 		parent::display($tpl);
 	}

@@ -7,8 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 JHTMLBehavior::modal();
-require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
-$producthelper = new producthelper();
+JLoader::load('RedshopHelperProduct');
+$producthelper = new producthelper;
 
 $showall = JRequest::getVar('showall', '0');
 $page = "";

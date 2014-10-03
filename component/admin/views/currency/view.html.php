@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
-class currencyViewcurrency extends JView
+class RedshopViewCurrency extends JView
 {
 	public function display($tpl = null)
 	{

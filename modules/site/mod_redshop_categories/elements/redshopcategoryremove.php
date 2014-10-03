@@ -10,7 +10,7 @@
  * @license        GNU General Public License version 2
  */
 // no direct access
-defined('_JEXEC') or die ('Restricted access');
+defined('_JEXEC') or die;
 
 class JFormFieldRedshopcategoryremove extends JFormField
 {
@@ -26,7 +26,7 @@ class JFormFieldRedshopcategoryremove extends JFormField
 		if (!is_dir(JPATH_ADMINISTRATOR . '/components/com_redshop')) return JText::_('COM_REDSHOP_REDSHOP_IS_NOT_INSTALLED');
 		if (!is_array($this->value))
 		{
-			$this->value = array('' . $valueElement . '' => '1');
+			$this->value  = array('' => '1');
 		}
 		else
 		{
@@ -39,13 +39,14 @@ class JFormFieldRedshopcategoryremove extends JFormField
 		if ($option != 'com_redshop')
 		{
 			require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
-			require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/configuration.php';
-			$Redconfiguration = new Redconfiguration();
+			JLoader::import('loadhelpers', JPATH_SITE . '/components/com_redshop');
+			JLoader::load('RedshopHelperAdminConfiguration');
+			$Redconfiguration = new Redconfiguration;
 			$Redconfiguration->defineDynamicVars();
 		}
 
-		require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/category.php';
-		$product_category = new product_category();
+		JLoader::load('RedshopHelperAdminCategory');
+		$product_category = new product_category;
 		ob_start();
 		$output = $product_category->list_all('' . $this->name . '[]', '', ($this->value), 10, true, true);
 		ob_end_clean();

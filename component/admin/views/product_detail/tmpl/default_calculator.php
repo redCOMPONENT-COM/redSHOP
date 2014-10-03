@@ -6,7 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined('_JEXEC') or die ('Restricted access');
+defined('_JEXEC') or die;
 
 $remove_format = JHtml::$formatOptions;
 
@@ -131,7 +131,16 @@ $stockrooms = $model->StockRoomList();
 							<?php echo $this->lists['discount_calc_method'];?>
 						</td>
 					</tr>
-
+					<tr>
+						<td class="key">
+							<label for="allow_decimal_piece">
+								<?php echo JText::_('COM_REDSHOP_ALLOW_DECIMAL_PIECE');?>
+							</label>
+						</td>
+						<td>
+							<?php echo $this->lists['allow_decimal_piece'];?>
+						</td>
+					</tr>
 					<tr>
 						<td class="key">
 							<label for="use_range">

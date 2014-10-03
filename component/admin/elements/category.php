@@ -9,8 +9,8 @@
 
 defined('_JEXEC') or die;
 
-require_once JPATH_SITE . '/administrator/components/com_redshop/helpers/category.php';
-
+JLoader::import('loadhelpers', JPATH_SITE . '/components/com_redshop');
+JLoader::load('RedshopHelperAdminCategory');
 
 /**
  * element for default product layout

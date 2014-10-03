@@ -11,9 +11,9 @@ defined('_JEXEC') or die;
 
 JLoader::import('joomla.application.component.view');
 
-require_once JPATH_COMPONENT . '/helpers/extra_field.php';
+JLoader::load('RedshopHelperExtra_field');
 
-class Account_billtoViewaccount_billto extends JView
+class RedshopViewAccount_billto extends JView
 {
 	/**
 	 * Execute and display a template script.
@@ -68,9 +68,11 @@ class Account_billtoViewaccount_billto extends JView
 		$lists['extra_field_user']      = $extra_field->list_all_field(7, @$billingaddresses->users_info_id);
 		$lists['extra_field_company']   = $extra_field->list_all_field(8, @$billingaddresses->users_info_id);
 
+		$requestUrl = $uri->toString();
+
 		$this->lists            = $lists;
 		$this->billingaddresses = $billingaddresses;
-		$this->request_url      = $uri->toString();
+		$this->request_url      = JFilterOutput::cleanText($requestUrl);
 		$this->params           = $params;
 
 		parent::display($tpl);

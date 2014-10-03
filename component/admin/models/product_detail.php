@@ -9,14 +9,14 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/thumbnail.php';
+JLoader::load('RedshopHelperAdminThumbnail');
 jimport('joomla.client.helper');
 JClientHelper::setCredentialsFromRequest('ftp');
 jimport('joomla.filesystem.file');
 
-require_once JPATH_SITE . '/components/com_redshop/helpers/product.php';
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/category.php';
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/extra_field.php';
+JLoader::load('RedshopHelperProduct');
+JLoader::load('RedshopHelperAdminCategory');
+JLoader::load('RedshopHelperAdminExtra_field');
 
 /**
  * Product_Detail Model.
@@ -26,7 +26,7 @@ require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/extra_field.
  *
  * @since       1.0
  */
-class Product_DetailModelProduct_Detail extends JModel
+class RedshopModelProduct_Detail extends JModel
 {
 	public $id = null;
 
@@ -50,9 +50,10 @@ class Product_DetailModelProduct_Detail extends JModel
 		parent::__construct();
 
 		$this->table_prefix = '#__redshop_';
-		$this->app = JFactory::getApplication();
-		$this->input = $this->app->input;
-		$array = $this->input->get('cid', array(), 'array');
+		$this->app          = JFactory::getApplication();
+		$this->input        = $this->app->input;
+		$array              = $this->input->get('cid', array(0), 'array');
+
 		$this->setId((int) $array[0]);
 	}
 
@@ -104,11 +105,28 @@ class Product_DetailModelProduct_Detail extends JModel
 		// ToDo: This is potentially unsafe because $_POST elements are not sanitized.
 		$post = $this->input->getArray($_POST);
 
-		if (empty($this->data) && empty($post))
+		$viewFrom = JFactory::getApplication()->input->getCmd('viewFrom', false);
+
+		if (empty($this->data) && ($viewFrom === 'productList' || empty($post)))
 		{
-			$query = 'SELECT * FROM ' . $this->table_prefix . 'product WHERE product_id = "' . $this->id . '" ';
-			$this->_db->setQuery($query);
-			$this->data = $this->_db->loadObject();
+			// Initialiase variables.
+			$db    = JFactory::getDbo();
+			$query = $db->getQuery(true)
+				->select('*')
+				->from($db->qn('#__redshop_product'))
+				->where($db->qn('product_id') . ' = ' . (int) $this->id);
+
+			// Set the query and load the result.
+			$db->setQuery($query);
+
+			try
+			{
+				$this->data = $db->loadObject();
+			}
+			catch (RuntimeException $e)
+			{
+				throw new RuntimeException($e->getMessage(), $e->getCode());
+			}
 
 			return (boolean) $this->data;
 		}
@@ -128,72 +146,78 @@ class Product_DetailModelProduct_Detail extends JModel
 			$detail = new stdClass;
 
 			// ToDo: This is potentially unsafe because $_POST elements are not sanitized.
-			$data = $this->input->getArray($_POST);
-			$data['product_desc'] = $this->input->get('product_desc', '', 'SAFE_HTML');
-			$data['product_s_desc'] = $this->input->get('product_s_desc', '', 'SAFE_HTML');
-			$detail->product_id = (isset($data['product_id'])) ? $data['product_id'] : 0;
-			$detail->product_parent_id = (isset($data['product_parent_id'])) ? $data['product_parent_id'] : 0;
-			$detail->product_number = (isset($data['product_number'])) ? $data['product_number'] : null;
-			$detail->product_price = (isset($data['product_price'])) ? $data['product_price'] : 0;
-			$detail->discount_price = (isset($data['discount_price'])) ? $data['discount_price'] : null;
-			$detail->discount_stratdate = (isset($data['discount_stratdate'])) ? $data['discount_stratdate'] : time();
-			$detail->discount_enddate = (isset($data['discount_enddate'])) ? $data['discount_enddate'] : time();
-			$detail->product_volume = (isset($data['product_volume'])) ? $data['product_volume'] : 0;
-			$detail->product_type = (isset($data['product_type'])) ? $data['product_type'] : null;
-			$detail->product_name = (isset($data['product_name'])) ? $data['product_name'] : null;
-			$detail->product_s_desc = (isset($data['product_s_desc'])) ? $data['product_s_desc'] : null;
-			$detail->product_desc = (isset($data['product_desc'])) ? $data['product_desc'] : null;
-			$detail->product_template = (isset($data['product_template'])) ? $data['product_template'] : 0;
-			$detail->product_full_image = (isset($data['old_image'])) ? $this->cleanFileName($data['old_image']) : null;
-			$detail->product_thumb_image = (isset($data['old_thumb_image'])) ? $this->cleanFileName($data['old_thumb_image']) : null;
-			$detail->product_back_full_image = (isset($data['product_back_full_image'])) ? $this->cleanFileName($data['product_back_full_image']) : null;
-			$detail->product_back_thumb_image = (isset($data['product_back_thumb_image'])) ? $this->cleanFileName($data['product_back_thumb_image']) : null;
-			$detail->product_preview_image = (isset($data['product_preview_image'])) ? $this->cleanFileName($data['product_preview_image']) : null;
+			$data                               = $this->input->getArray($_POST);
+			$data['product_desc']               = $this->input->get('product_desc', '', 'SAFE_HTML');
+			$data['product_s_desc']             = $this->input->get('product_s_desc', '', 'SAFE_HTML');
+			$detail->product_id                 = (isset($data['product_id'])) ? $data['product_id'] : 0;
+			$detail->product_parent_id          = (isset($data['product_parent_id'])) ? $data['product_parent_id'] : 0;
+			$detail->product_number             = (isset($data['product_number'])) ? $data['product_number'] : null;
+			$detail->product_price              = (isset($data['product_price'])) ? $data['product_price'] : 0;
+			$detail->discount_price             = (isset($data['discount_price'])) ? $data['discount_price'] : null;
+			$detail->discount_stratdate         = (isset($data['discount_stratdate'])) ? $data['discount_stratdate'] : time();
+			$detail->discount_enddate           = (isset($data['discount_enddate'])) ? $data['discount_enddate'] : time();
+			$detail->product_volume             = (isset($data['product_volume'])) ? $data['product_volume'] : 0;
+			$detail->product_type               = (isset($data['product_type'])) ? $data['product_type'] : null;
+			$detail->product_name               = (isset($data['product_name'])) ? $data['product_name'] : null;
+			$detail->product_s_desc             = (isset($data['product_s_desc'])) ? $data['product_s_desc'] : null;
+			$detail->product_desc               = (isset($data['product_desc'])) ? $data['product_desc'] : null;
+			$detail->product_template           = (isset($data['product_template'])) ? $data['product_template'] : 0;
+			$detail->product_full_image         = (isset($data['old_image'])) ? $this->cleanFileName($data['old_image']) : null;
+			$detail->product_thumb_image        = (isset($data['old_thumb_image'])) ? $this->cleanFileName($data['old_thumb_image']) : null;
+			$detail->product_back_full_image    = (isset($data['product_back_full_image'])) ? $this->cleanFileName($data['product_back_full_image']) : null;
+			$detail->product_back_thumb_image   = (isset($data['product_back_thumb_image'])) ? $this->cleanFileName($data['product_back_thumb_image']) : null;
+			$detail->product_preview_image      = (isset($data['product_preview_image'])) ? $this->cleanFileName($data['product_preview_image']) : null;
 			$detail->product_preview_back_image = (isset($data['product_preview_back_image'])) ?
-				$this->cleanFileName($data['product_preview_back_image']) : null;
-			$detail->visited = (isset($data['visited'])) ? $data['visited'] : 0;
-			$detail->metakey = (isset($data['metakey'])) ? $data['metakey'] : null;
-			$detail->metadesc = (isset($data['metadesc'])) ? $data['metadesc'] : null;
-			$detail->metalanguage_setting = (isset($data['metalanguage_setting'])) ? $data['metalanguage_setting'] : null;
-			$detail->metarobot_info = (isset($data['metarobot_info'])) ? $data['metarobot_info'] : null;
-			$detail->pagetitle = (isset($data['pagetitle'])) ? $data['pagetitle'] : null;
-			$detail->pageheading = (isset($data['pageheading'])) ? $data['pageheading'] : null;
-			$detail->sef_url = (isset($data['sef_url'])) ? $data['sef_url'] : null;
-			$detail->cat_in_sefurl = (isset($data['cat_in_sefurl'])) ? $data['cat_in_sefurl'] : null;
-			$detail->manufacturer_id = (isset($data['manufacturer_id'])) ? $data['manufacturer_id'] : null;
-			$detail->container_id = (isset($data['container_id'])) ? $data['container_id'] : null;
-			$detail->supplier_id = (isset($data['supplier_id'])) ? $data['supplier_id'] : null;
-			$detail->product_on_sale = (isset($data['product_on_sale'])) ? $data['product_on_sale'] : null;
-			$detail->product_special = (isset($data['product_special'])) ? $data['product_special'] : 0;
-			$detail->product_download = (isset($data['product_download'])) ? $data['product_download'] : 0;
-			$detail->not_for_sale = (isset($data['not_for_sale'])) ? $data['not_for_sale'] : 0;
-			$detail->published = (isset($data['published'])) ? $data['published'] : 1;
-			$detail->product_tax_id = (isset($data['product_tax_id'])) ? $data['product_tax_id'] : null;
-			$detail->product_tax_group_id = (isset($data['product_tax_group_id'])) ? $data['product_tax_group_id'] : null;
-			$detail->weight = (isset($data['weight'])) ? $data['weight'] : 0;
-			$detail->expired = (isset($data['expired'])) ? $data['expired'] : 0;
-			$detail->use_discount_calc = (isset($data['use_discount_calc'])) ? $data['use_discount_calc'] : 0;
-			$detail->discount_calc_method = (isset($data['discount_calc_method'])) ? $data['discount_calc_method'] : null;
-			$detail->min_order_product_quantity = (isset($data['min_order_product_quantity'])) ? $data['min_order_product_quantity'] : 0;
-			$detail->product_length = (isset($data['product_length'])) ? $data['product_length'] : 0;
-			$detail->product_width = (isset($data['product_width'])) ? $data['product_width'] : 0;
-			$detail->product_height = (isset($data['product_height'])) ? $data['product_height'] : 0;
-			$detail->product_diameter = (isset($data['product_diameter'])) ? $data['product_diameter'] : 0;
-			$detail->use_range = (isset($data['use_range'])) ? $data['use_range'] : 0;
-			$detail->product_availability_date = (isset($data['product_availability_date'])) ? $data['product_availability_date'] : 0;
-			$detail->product_download_days = (isset($data['product_download_days'])) ? $data['product_download_days'] : 0;
-			$detail->product_download_limit = (isset($data['product_download_limit'])) ? $data['product_download_limit'] : 0;
-			$detail->product_download_clock = (isset($data['product_download_clock'])) ? $data['product_download_clock'] : 0;
-			$detail->product_download_clock_min = (isset($data['product_download_clock_min'])) ? $data['product_download_clock_min'] : 0;
-			$detail->product_download_infinite = (isset($data['product_download_infinite'])) ? $data['product_download_infinite'] : 0;
 
-			$detail->checked_out = (isset($data['checked_out'])) ? $data['checked_out'] : 0;
-			$detail->checked_out_time = (isset($data['checked_out_time'])) ? $data['checked_out_time'] : 0;
-			$detail->accountgroup_id = (isset($data['accountgroup_id'])) ? $data['accountgroup_id'] : 0;
-			$detail->quantity_selectbox_value = (isset($data['quantity_selectbox_value'])) ? $data['quantity_selectbox_value'] : null;
-			$detail->preorder = (isset($data['preorder'])) ? $data['preorder'] : 'global';
-			$detail->minimum_per_product_total = (isset($data['minimum_per_product_total'])) ? $data['minimum_per_product_total'] : 0;
-			$this->data = $detail;
+			$this->cleanFileName($data['product_preview_back_image']) : null;
+
+			$detail->visited                    = (isset($data['visited'])) ? $data['visited'] : 0;
+			$detail->metakey                    = (isset($data['metakey'])) ? $data['metakey'] : null;
+			$detail->metadesc                   = (isset($data['metadesc'])) ? $data['metadesc'] : null;
+			$detail->metalanguage_setting       = (isset($data['metalanguage_setting'])) ? $data['metalanguage_setting'] : null;
+			$detail->metarobot_info             = (isset($data['metarobot_info'])) ? $data['metarobot_info'] : null;
+			$detail->pagetitle                  = (isset($data['pagetitle'])) ? $data['pagetitle'] : null;
+			$detail->pageheading                = (isset($data['pageheading'])) ? $data['pageheading'] : null;
+			$detail->sef_url                    = (isset($data['sef_url'])) ? $data['sef_url'] : null;
+			$detail->cat_in_sefurl              = (isset($data['cat_in_sefurl'])) ? $data['cat_in_sefurl'] : null;
+			$detail->manufacturer_id            = (isset($data['manufacturer_id'])) ? $data['manufacturer_id'] : null;
+			$detail->container_id               = (isset($data['container_id'])) ? $data['container_id'] : null;
+			$detail->supplier_id                = (isset($data['supplier_id'])) ? $data['supplier_id'] : null;
+			$detail->product_on_sale            = (isset($data['product_on_sale'])) ? $data['product_on_sale'] : null;
+			$detail->product_special            = (isset($data['product_special'])) ? $data['product_special'] : 0;
+			$detail->product_download           = (isset($data['product_download'])) ? $data['product_download'] : 0;
+			$detail->not_for_sale               = (isset($data['not_for_sale'])) ? $data['not_for_sale'] : 0;
+			$detail->published                  = (isset($data['published'])) ? $data['published'] : 1;
+			$detail->product_tax_id             = (isset($data['product_tax_id'])) ? $data['product_tax_id'] : null;
+			$detail->product_tax_group_id       = (isset($data['product_tax_group_id'])) ? $data['product_tax_group_id'] : null;
+			$detail->weight                     = (isset($data['weight'])) ? $data['weight'] : 0;
+			$detail->expired                    = (isset($data['expired'])) ? $data['expired'] : 0;
+			$detail->use_discount_calc          = (isset($data['use_discount_calc'])) ? $data['use_discount_calc'] : 0;
+			$detail->discount_calc_method       = (isset($data['discount_calc_method'])) ? $data['discount_calc_method'] : null;
+			$detail->min_order_product_quantity = (isset($data['min_order_product_quantity'])) ? $data['min_order_product_quantity'] : 0;
+			$detail->product_length             = (isset($data['product_length'])) ? $data['product_length'] : 0;
+			$detail->product_width              = (isset($data['product_width'])) ? $data['product_width'] : 0;
+			$detail->product_height             = (isset($data['product_height'])) ? $data['product_height'] : 0;
+			$detail->product_diameter           = (isset($data['product_diameter'])) ? $data['product_diameter'] : 0;
+			$detail->use_range                  = (isset($data['use_range'])) ? $data['use_range'] : 0;
+			$detail->product_availability_date  = (isset($data['product_availability_date'])) ? $data['product_availability_date'] : 0;
+			$detail->product_download_days      = (isset($data['product_download_days'])) ? $data['product_download_days'] : 0;
+			$detail->product_download_limit     = (isset($data['product_download_limit'])) ? $data['product_download_limit'] : 0;
+			$detail->product_download_clock     = (isset($data['product_download_clock'])) ? $data['product_download_clock'] : 0;
+			$detail->product_download_clock_min = (isset($data['product_download_clock_min'])) ? $data['product_download_clock_min'] : 0;
+			$detail->product_download_infinite  = (isset($data['product_download_infinite'])) ? $data['product_download_infinite'] : 0;
+
+			$detail->checked_out                = (isset($data['checked_out'])) ? $data['checked_out'] : 0;
+			$detail->checked_out_time           = (isset($data['checked_out_time'])) ? $data['checked_out_time'] : 0;
+			$detail->accountgroup_id            = (isset($data['accountgroup_id'])) ? $data['accountgroup_id'] : 0;
+			$detail->quantity_selectbox_value   = (isset($data['quantity_selectbox_value'])) ? $data['quantity_selectbox_value'] : null;
+			$detail->preorder                   = (isset($data['preorder'])) ? $data['preorder'] : 'global';
+			$detail->minimum_per_product_total  = (isset($data['minimum_per_product_total'])) ? $data['minimum_per_product_total'] : 0;
+			$detail->attribute_set_id           = (isset($data['attribute_set_id'])) ? $data['attribute_set_id'] : 0;
+			$detail->append_to_global_seo		= (isset($data['append_to_global_seo'])) ? $data['append_to_global_seo'] : JText::_('COM_REDSHOP_APPEND_TO_GLOBAL_SEO');
+			$detail->allow_decimal_piece		= (isset($data['allow_decimal_piece'])) ? $data['allow_decimal_piece'] : 0;
+
+			$this->data                         = $detail;
 
 			return (boolean) $this->data;
 		}
@@ -703,7 +727,7 @@ class Product_DetailModelProduct_Detail extends JModel
 			for ($a = 0; $a < count($data['product_accessory']); $a++)
 			{
 				$acc = $data['product_accessory'][$a];
-				$accdetail =& $this->getTable('accessory_detail');
+				$accdetail = $this->getTable('accessory_detail');
 
 				if ($data['copy_product'] != 1)
 				{
@@ -733,7 +757,7 @@ class Product_DetailModelProduct_Detail extends JModel
 			for ($a = 0; $a < count($data['product_navigator']); $a++)
 			{
 				$acc = $data['product_navigator'][$a];
-				$accdetail =& $this->getTable('navigator_detail');
+				$accdetail = $this->getTable('navigator_detail');
 
 				if ($data['copy_product'] != 1)
 				{
@@ -922,7 +946,7 @@ class Product_DetailModelProduct_Detail extends JModel
 		{
 			for ($sub = 0; $sub < count($data['subscription_period']); $sub++)
 			{
-				$sub_row =& $this->getTable('product_subscription');
+				$sub_row = $this->getTable('product_subscription');
 				$sub_row->subscription_id = $data['subscription_id'][$sub];
 				$sub_row->subscription_period = $data['subscription_period'][$sub];
 				$sub_row->period_type = $data['period_type'][$sub];
@@ -966,7 +990,7 @@ class Product_DetailModelProduct_Detail extends JModel
 					{
 						if ($csv_row[0] != "")
 						{
-							$product_serial =& $this->getTable('product_serial_number');
+							$product_serial = $this->getTable('product_serial_number');
 							$product_serial->serial_number = $csv_row[0];
 							$product_serial->product_id = $row->product_id;
 
@@ -1513,7 +1537,7 @@ class Product_DetailModelProduct_Detail extends JModel
 
 				for ($i = 0; $i < count($productpricedata); $i++)
 				{
-					$rowprices_detail =& $this->getTable('prices_detail');
+					$rowprices_detail = $this->getTable('prices_detail');
 					$data['price_id '] = 0;
 					$data['product_id'] = $row->product_id;
 					$data['product_price'] = $productpricedata[$i]->product_price;
@@ -1542,12 +1566,13 @@ class Product_DetailModelProduct_Detail extends JModel
 					$old_img = $mediadata[$j]->media_name;
 					$new_img = strstr($old_img, '_') ? strstr($old_img, '_') : $old_img;
 					$old_media = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $mediadata[$j]->media_name;
-					$new_media = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . JPath::clean(time() . $new_img);
+					$mediaName = JPath::clean(time() . $new_img);
+					$new_media = REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . $mediaName;
 					copy($old_media, $new_media);
 
-					$rowmedia =& $this->getTable('media_detail');
+					$rowmedia = $this->getTable('media_detail');
 					$data['media_id '] = 0;
-					$data['media_name'] = JPath::clean(time() . $new_img);
+					$data['media_name'] = $mediaName;
 					$data['media_alternate_text'] = $mediadata[$j]->media_alternate_text;
 					$data['media_section'] = $mediadata[$j]->media_section;
 					$data['section_id'] = $row->product_id;
@@ -3621,7 +3646,7 @@ class Product_DetailModelProduct_Detail extends JModel
 		$old_imgname = strstr($data['media_name'], '_') ? strstr($data['media_name'], '_') : $data['media_name'];
 		$new_imgname = JPath::clean(time() . $old_imgname);
 		$data['media_name'] = $new_imgname;
-		$rowmedia =& $this->getTable('media_detail');
+		$rowmedia = $this->getTable('media_detail');
 		$data['media_id '] = 0;
 
 		if (!$rowmedia->bind($data))
@@ -4136,13 +4161,20 @@ class Product_DetailModelProduct_Detail extends JModel
 	{
 		$producthelper = new producthelper;
 
+		$subPropertyList = $producthelper->getAttibuteSubProperty(0, $subattribute_id);
+
+		if (count($subPropertyList) == 0)
+		{
+			$subproperty = array('0' => new stdClass);
+		}
+
 		if ($sp)
 		{
-			$subproperty = $producthelper->getAttibuteSubProperty($sp, $subattribute_id);
+			$subproperty[0]->subattribute_color_id = $sp;
 		}
 		else
 		{
-			$subproperty = $producthelper->getAttibuteSubProperty(0, $subattribute_id);
+			$subproperty = $subPropertyList;
 		}
 
 		for ($j = 0; $j < count($subproperty); $j++)
@@ -4152,7 +4184,21 @@ class Product_DetailModelProduct_Detail extends JModel
 					  AND subattribute_color_id= '" . $subproperty[$j]->subattribute_color_id . "'";
 			$this->_db->setQuery($query);
 			$this->_db->query();
-			$this->delete_image($subproperty[$j]->subattribute_color_image, 'subcolor');
+
+			if (isset($subproperty[$j]->subattribute_color_image)
+				&& $subproperty[$j]->subattribute_color_image)
+			{
+				$this->delete_image($subproperty[$j]->subattribute_color_image, 'subcolor');
+			}
+		}
+
+		if (count($subPropertyList) <= 1)
+		{
+			$query = "UPDATE #__redshop_product_attribute_property
+						SET `setrequire_selected` = '0'
+						WHERE `property_id` = " . (int) $subattribute_id;
+			$this->_db->setQuery($query);
+			$this->_db->query();
 		}
 	}
 
@@ -4168,13 +4214,15 @@ class Product_DetailModelProduct_Detail extends JModel
 	{
 		$producthelper = new producthelper;
 
+		$propertyList  = $producthelper->getAttibuteProperty(0, $attribute_id);
+
 		if ($property_id)
 		{
-			$property = $producthelper->getAttibuteProperty($property_id, $attribute_id);
+			$property[0]->property_id = $property_id;
 		}
 		else
 		{
-			$property = $producthelper->getAttibuteProperty(0, $attribute_id);
+			$property = $propertyList;
 		}
 
 		for ($j = 0; $j < count($property); $j++)
@@ -4190,6 +4238,15 @@ class Product_DetailModelProduct_Detail extends JModel
 				$this->delete_image($property[$j]->property_image, 'product_attributes');
 				$this->delete_subprop(0, $property_id);
 			}
+		}
+
+		if (count($propertyList) <= 1)
+		{
+			$query = "UPDATE #__redshop_product_attribute
+						SET `attribute_required` = '0'
+						WHERE `attribute_id` = " . (int) $attribute_id;
+			$this->_db->setQuery($query);
+			$this->_db->query();
 		}
 
 		exit;
@@ -4605,7 +4662,7 @@ class Product_DetailModelProduct_Detail extends JModel
 
 			// End
 
-			$calcrow =& $this->getTable('product_discount_calc');
+			$calcrow = $this->getTable('product_discount_calc');
 			$calcrow->load();
 			$calcrow->discount_calc_unit = $discount_calc_unit;
 			$calcrow->area_start = $new_area_start;
@@ -4639,7 +4696,7 @@ class Product_DetailModelProduct_Detail extends JModel
 
 			if (trim($pdc_option_name) != "")
 			{
-				$pdcextrarow =& $this->getTable('product_discount_calc_extra');
+				$pdcextrarow = $this->getTable('product_discount_calc_extra');
 				$pdcextrarow->load();
 				$pdcextrarow->pdcextra_id = 0;
 				$pdcextrarow->option_name = $pdc_option_name;

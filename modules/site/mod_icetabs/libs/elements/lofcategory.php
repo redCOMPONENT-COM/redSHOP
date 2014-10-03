@@ -31,7 +31,7 @@ class JFormFieldLofCategory extends JFormField
 		$db                   = JFactory::getDbo();
 		$data                 = JHtml::_('category.options', 'com_content');
 		$categories           = array();
-		$categories[0]        = new stdClass();
+		$categories[0]        = new stdClass;
 		$categories[0]->value = '';
 		$categories[0]->text  = JText::_("---------- Select All ----------");
 		$data                 = array_merge($categories, $data);

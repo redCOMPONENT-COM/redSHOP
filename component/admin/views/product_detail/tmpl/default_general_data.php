@@ -15,7 +15,7 @@ $calendarFormat = '%d-%m-%Y';
 <table class="admintable" border="0">
 
 	<tr>
-		<td class="width-50 fltlft">
+		<td width="50%">
 
 			<table>
 
@@ -305,7 +305,7 @@ $calendarFormat = '%d-%m-%Y';
 			</table>
 		</td>
 
-		<td class="width-50 fltlft">
+		<td width="50%" valign="top">
 
 			<table>
 

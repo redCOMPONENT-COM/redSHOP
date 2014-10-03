@@ -9,11 +9,9 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
+JLoader::load('RedshopHelperAdminOrder');
 
-require_once(JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php');
-
-class orderModelorder extends JModel
+class RedshopModelOrder extends JModel
 {
 	public $_data = null;
 
@@ -113,15 +111,15 @@ class orderModelorder extends JModel
 			{
 				$where[] = "(o.order_id like '%" . $filter . "%')";
 			}
-			else if ($filter_by == 'ordernumber')
+			elseif ($filter_by == 'ordernumber')
 			{
 				$where[] = "(o.order_number like '%" . $filter . "%')";
 			}
-			else if ($filter_by == 'fullname')
+			elseif ($filter_by == 'fullname')
 			{
 				$where[] = "(REPLACE(CONCAT(uf.firstname, uf.lastname), ' ', '') like '%" . $filter . "%')";
 			}
-			else if ($filter_by == 'useremail')
+			elseif ($filter_by == 'useremail')
 			{
 				$where[] = "(uf.user_email like '%" . $filter . "%')";
 			}
@@ -145,6 +143,7 @@ class orderModelorder extends JModel
 		{
 			$where = " order_label_create=1 ";
 		}
+
 		$query = 'SELECT o.*,uf.lastname, uf.firstname, uf.user_email, uf.is_company, uf.company_name,uf.ean_number FROM ' . $this->_table_prefix . 'orders AS o '
 			. 'LEFT JOIN ' . $this->_table_prefix . 'order_users_info AS uf ON o.user_id=uf.user_id '
 			. 'WHERE uf.address_type LIKE "BT" '
@@ -193,6 +192,7 @@ class orderModelorder extends JModel
 		{
 			$where[] = " o.order_id IN (" . $order_id . ")";
 		}
+
 		$where = count($where) ? '  ' . implode(' AND ', $where) : '';
 		$orderby = " order by o.order_id DESC";
 
@@ -252,10 +252,11 @@ class orderModelorder extends JModel
 		{
 			$UserBrowser = '';
 		}
+
 		$mime_type = ($UserBrowser == 'IE' || $UserBrowser == 'Opera') ? 'application/octetstream' : 'application/octet-stream';
 
 		/* Clean the buffer */
-		while (@ob_end_clean()) ;
+		while (ob_end_clean());
 
 		header('Content-Type: ' . $mime_type);
 		header('Content-Encoding: UTF-8');
@@ -307,7 +308,6 @@ class orderModelorder extends JModel
 					$db->setQuery($sql);
 					$weight = $db->loadResult();
 					$totalWeight += ($weight * $orderproducts [$c]->product_quantity);
-
 				}
 
 				if (empty($totalWeight))
@@ -322,7 +322,6 @@ class orderModelorder extends JModel
 
 				$shopDetails_temparr = explode("###", $shopDetails_arr[7]);
 				$shopDetails_arr[7] = $shopDetails_temparr[0];
-
 
 				$shopDetails_arr[2] = str_replace(',', '-', $shopDetails_arr[2]);
 				$userDetail = "";
@@ -339,6 +338,7 @@ class orderModelorder extends JModel
 						. $gls_arr[$i]->customer_note . '","36515","' . $billingDetails->user_email . '"';
 					$userDetail .= ',"' . $userphoneArr[1];
 				}
+
 				$shipmenttype = 'Z';
 				echo '"' . $gls_arr[$i]->order_number . '","' . $shopDetails_arr[1] . '","' . $shopDetails_arr[2] . '","Pakkeshop: '
 					. $shopDetails_arr[0] . '","' . $shopDetails_arr[3] . '","' . $shopDetails_arr[7] . '","008","'
@@ -347,6 +347,7 @@ class orderModelorder extends JModel
 				echo "\r\n";
 			}
 		}
+
 		exit;
 	}
 
@@ -358,20 +359,19 @@ class orderModelorder extends JModel
 		$redhelper = new redhelper;
 		$order_helper = new order_functions;
 		$shipping = new shipping;
+		$extraField = new extraField;
 
 		$exportfilename = 'redshop_gls_order_export.csv';
 		/* Start output to the browser */
 
-		if (ereg('Opera(/| )([0-9].[0-9]{1,2})', $_SERVER['HTTP_USER_AGENT']))
+		if (preg_match('/Opera(/| )([0-9].[0-9]{1,2})/', $_SERVER['HTTP_USER_AGENT']))
 		{
 			$UserBrowser = "Opera";
 		}
-
-		elseif (ereg('MSIE ([0-9].[0-9]{1,2})', $_SERVER['HTTP_USER_AGENT']))
+		elseif (preg_match('/MSIE ([0-9].[0-9]{1,2})/', $_SERVER['HTTP_USER_AGENT']))
 		{
 			$UserBrowser = "IE";
 		}
-
 		else
 		{
 			$UserBrowser = '';
@@ -380,7 +380,7 @@ class orderModelorder extends JModel
 		$mime_type = ($UserBrowser == 'IE' || $UserBrowser == 'Opera') ? 'application/octetstream' : 'application/octet-stream';
 
 		/* Clean the buffer */
-		while (@ob_end_clean()) ;
+		while (@ob_end_clean());
 
 		header('Content-Type: ' . $mime_type);
 		header('Content-Encoding: UTF-8');
@@ -397,10 +397,12 @@ class orderModelorder extends JModel
 			header('Content-Disposition: attachment; filename="' . $exportfilename . '"');
 			header('Pragma: no-cache');
 		}
+
 		if ($cid[0] != 0)
 		{
 			$where = " WHERE order_id IN (" . $oids . ")";
 		}
+
 		$db = JFactory::getDbo();
 		$q = "SELECT * FROM #__redshop_orders " . $where . " ORDER BY order_id asc";
 		$db->setQuery($q);
@@ -413,34 +415,45 @@ class orderModelorder extends JModel
 		{
 			$details = explode("|", $shipping->decryptShipping(str_replace(" ", "+", $gls_arr[$i]->ship_method_id)));
 
-			if ($details[0] == 'shipper')
+			if ($details[0] == 'plgredshop_shippingdefault_shipping_GLSBusiness')
 			{
 				$orderproducts = $order_helper->getOrderItemDetail($gls_arr[$i]->order_id);
 				$shippingDetails = $order_helper->getOrderShippingUserInfo($gls_arr[$i]->order_id);
 				$billingDetails = $order_helper->getOrderBillingUserInfo($gls_arr[$i]->order_id);
 
+				$row_data   = $extraField->getSectionFieldList(19, 1);
+				$resultArr  = array();
+
+				for ($j = 0; $j < count($row_data); $j++)
+				{
+					$main_result = $extraField->getSectionFieldDataList($row_data[$j]->field_id, 19, $gls_arr[$i]->order_id);
+
+					if ($main_result->data_txt != "" && $row_data[$j]->field_show_in_front == 1)
+					{
+						$resultArr[] = $main_result->data_txt;
+					}
+				}
+
 				$totalWeight = "";
-				$qty = "";
 
 				for ($c = 0; $c < count($orderproducts); $c++)
 				{
 					$product_id[] = $orderproducts [$c]->product_id;
-					$qty += $orderproducts [$c]->product_quantity;
 					$content_products[] = $orderproducts[$c]->order_item_name;
 
 					$sql = "SELECT weight FROM #__redshop_product WHERE product_id ='" . $orderproducts [$c]->product_id . "'";
 					$db->setQuery($sql);
 					$weight = $db->loadResult();
 					$totalWeight += ($weight * $orderproducts [$c]->product_quantity);
-
 				}
 
-				$userDetail = ',"' . $shippingDetails->firstname . ' ' . $shippingDetails->lastname . '","' . $gls_arr[$i]->customer_note;
+				$att = $billingDetails->firstname . ' ' . $billingDetails->lastname;
+				$userDetail = ',' . implode(',', $resultArr) . ',' . '8' . ',' . date("d-m-Y", $gls_arr[$i]->cdate);
 
-				echo '"' . $gls_arr[$i]->order_number . '","' . $qty . '","' . date("d-m-Y", $gls_arr[$i]->cdate) . '","'
-					. $totalWeight . '","' . $userDetail . '"';
+				echo $gls_arr[$i]->order_number . $userDetail . ',' . $totalWeight;
+				echo ',1,' . ',,' . 'A' . ',' . 'A' . ',"' . $att . '",' . $shippingDetails->customer_note;
+				echo ',,' . $gls_arr[$i]->phone;
 				echo "\r\n";
-
 			}
 		}
 

@@ -9,8 +9,8 @@
 
 defined('_JEXEC') or die;
 
-require_once JPATH_SITE . '/components/com_redshop/helpers/extra_field.php';
-require_once JPATH_SITE . '/components/com_redshop/helpers/product.php';
+JLoader::load('RedshopHelperExtra_field');
+JLoader::load('RedshopHelperProduct');
 
 class adminproducthelper
 {
@@ -22,7 +22,7 @@ class adminproducthelper
 
 	public function __construct()
 	{
-		$this->_table_prefix = '#__' . TABLE_PREFIX . '_';
+		$this->_table_prefix = '#__redshop_';
 	}
 
 	public function replaceAccessoryData($product_id = 0, $accessory = array(), $user_id = 0, $uniqueid = "")

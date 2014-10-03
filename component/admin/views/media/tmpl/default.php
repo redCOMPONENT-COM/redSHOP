@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die ('Restricted access');
+defined('_JEXEC') or die;
 
 JHTMLBehavior::modal();
 jimport('joomla.filesystem.file');
@@ -238,7 +238,7 @@ else
 						{
 							$additionalfiles = $model->getAdditionalFiles($row->id);
 					?>
-							<a href="index3.php?option=com_redshop&view=media&layout=additionalfile&media_id=<?php echo $row->id; ?>&showbuttons=1"
+							<a href="index.php?tmpl=component&option=com_redshop&view=media&layout=additionalfile&media_id=<?php echo $row->id; ?>&showbuttons=1"
 								   class="modal" rel="{handler: 'iframe', size: {x: 1000, y: 400}}"
 								   title="<?php echo JText::_('COM_REDSHOP_ADDITIONAL_DOWNLOAD_FILES') . '&nbsp;(' . count($additionalfiles) . ')'; ?>">
 									<?php echo JText::_('COM_REDSHOP_ADDITIONAL_DOWNLOAD_FILES') . '&nbsp;(' . count($additionalfiles) . ')'; ?>

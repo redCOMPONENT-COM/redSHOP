@@ -6,13 +6,13 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
-$producthelper = new producthelper();
+JLoader::load('RedshopHelperProduct');
+$producthelper = new producthelper;
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/quotation.php';
-$quotationHelper = new quotationHelper();
+JLoader::load('RedshopHelperAdminQuotation');
+$quotationHelper = new quotationHelper;
 
-$config = new Redconfiguration();
+$config = new Redconfiguration;
 
 $option = JRequest::getVar('option');
 $filter = JRequest::getVar('filter');
@@ -21,9 +21,6 @@ $model = $this->getModel('quotation');
 ?>
 <script language="javascript" type="text/javascript">
 	Joomla.submitbutton = function (pressbutton) {
-		submitbutton(pressbutton);
-	}
-	submitbutton = function (pressbutton) {
 		var form = document.adminForm;
 		if (pressbutton) {
 			form.task.value = pressbutton;

@@ -11,11 +11,11 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/extra_field.php';
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php';
-require_once JPATH_SITE . '/components/com_redshop/helpers/helper.php';
+JLoader::load('RedshopHelperAdminExtra_field');
+JLoader::load('RedshopHelperAdminOrder');
+JLoader::load('RedshopHelperHelper');
 
-class addorder_detailVIEWaddorder_detail extends JView
+class RedshopViewAddorder_detail extends JView
 {
 	/**
 	 * The request url.
@@ -132,6 +132,7 @@ class addorder_detailVIEWaddorder_detail extends JView
 			JToolBarHelper::save();
 		}
 
+		JToolBarHelper::custom('validateUserDetail', 'apply.png', 'apply_f2.png', JText::_('COM_REDSHOP_SAVE_USER_INFORMATION'), false);
 		JToolBarHelper::cancel();
 
 		$countryarray = $Redconfiguration->getCountryList((array) $billing, "country_code", "BT");
@@ -143,6 +144,7 @@ class addorder_detailVIEWaddorder_detail extends JView
 		$shipping['country_code_ST'] = $shippinginfo[$key]->country_code;
 		$countryarray = $Redconfiguration->getCountryList((array) $shipping, "country_code_ST", "ST");
 		$shipping['country_code_ST'] = $shippinginfo[$key]->country_code = $countryarray['country_code_ST'];
+		$shipping['state_code_ST'] = $shippinginfo[$key]->state_code;
 		$lists['country_code_ST'] = $countryarray['country_dropdown'];
 		$statearray = $Redconfiguration->getStateList((array) $shipping, "state_code_ST", "country_code_ST", "ST", 1);
 		$lists['state_code_ST'] = $statearray['state_dropdown'];

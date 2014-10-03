@@ -31,7 +31,7 @@ define('CATEGORY_MODULE_PATH', $mod_dir);
 $js_src = $urlpath . '/modules/mod_redshop_categories';
 
 require_once CATEGORY_MODULE_PATH . '/helper.php';
-$redproduct_menu = new modProMenuHelper();
+$redproduct_menu = new modProMenuHelper;
 
 /* Get module parameters */
 $show_noofproducts = $params->get('show_noofproducts', 'yes');
@@ -79,30 +79,30 @@ if ($menutype == 'links')
 elseif ($menutype == "transmenu")
 {
 	/* TransMenu script to display a DHTML Drop-Down Menu */
-	include_once($mod_dir . '/transmenu.php');
+	include_once $mod_dir . '/transmenu.php';
 
 }
 elseif ($menutype == "dtree")
 {
 	/* dTree script to display structured categories */
-	include_once($mod_dir . '/dtree.php');
+	include_once $mod_dir . '/dtree.php';
 
 }
 elseif ($menutype == "jscook")
 {
 	/* JSCook Script to display structured categories */
-	include_once($mod_dir . '/JSCook.php');
+	include_once $mod_dir . '/JSCook.php';
 
 }
 elseif ($menutype == "tigratree")
 {
 	/* TigraTree script to display structured categories */
-	include_once($mod_dir . '/tigratree.php');
+	include_once $mod_dir . '/tigratree.php';
 }
 elseif ($menutype == "accordion")
 {
 	/* accordion script to display structured categories */
-	include_once($mod_dir . '/accordion.php');
+	include_once $mod_dir . '/accordion.php';
 }
 
 

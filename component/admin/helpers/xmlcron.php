@@ -34,7 +34,7 @@ $app = JFactory::getApplication();
 $app->initialise();
 /*** END of Joomla config ***/
 
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/xmlhelper.php';
+JLoader::load('RedshopHelperAdminXmlHelper');
 
 class xmlcron
 {

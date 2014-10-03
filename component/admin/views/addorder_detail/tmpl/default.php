@@ -11,16 +11,16 @@ JHTML::_('behavior.tooltip');
 JHTML::_('behavior.modal');
 JHTML::_('behavior.calendar');
 
-require_once JPATH_COMPONENT . '/helpers/extra_field.php';
-require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
-$producthelper = new producthelper();
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php';
-$order_functions = new order_functions();
-$redconfig = new Redconfiguration();
+JLoader::load('RedshopHelperAdminExtra_field');
+JLoader::load('RedshopHelperProduct');
+$producthelper = new producthelper;
+JLoader::load('RedshopHelperAdminOrder');
+$order_functions = new order_functions;
+$redconfig = new Redconfiguration;
 
 $option = JRequest::getVar('option');
 $model = $this->getModel('addorder_detail');
-$redhelper = new redhelper();
+$redhelper = new redhelper;
 
 $billing = $this->billing;
 $shipping = $this->shipping;
@@ -150,6 +150,11 @@ submitbutton = function (pressbutton) {
 		if (validateExtrafield(form) == false) {
 			return false;
 		}
+	}
+	if (pressbutton == 'validateUserDetail')
+	{
+		validateUserDetail();
+		return false;
 	}
 	submitform(pressbutton);
 }
@@ -292,12 +297,11 @@ function validateUserDetail() {
 		<table border="0" cellspacing="0" cellpadding="0" class="adminlist">
 			<tbody>
 			<tr>
-				<td width="100" align="right"><?php echo JText::_('COM_REDSHOP_SELECT_USER'); ?>:</td>
+				<td width="100" align="right"><?php echo JText::_('COM_REDSHOP_SELECT_USER_OR_ADD_NEW_USER_IN_BOTTOM_FIELDS'); ?>:</td>
 				<td><input type="text" name="searchusername" id="searchusername"
 				           value="<?php $this->detail->user_id != 0 ? $uname = $order_functions->getUserFullname($this->detail->user_id) : $uname = $billing->firstname;echo $uname; ?>"
 				           size="30"/>
 					<input type="hidden" name="user_id" id="user_id" value="<?php echo $this->detail->user_id; ?>"/>
-					<a href="<?php echo JRoute::_('index.php?option=' . $option . '&view=addorder_detail&user_id=0&uid=add'); ?>"><?php echo JText::_('COM_REDSHOP_ADD_USER');?></a>
 				</td>
 			</tr>
 			<tr>
@@ -477,10 +481,16 @@ function validateUserDetail() {
 								<td width="100" align="right"><?php echo JText::_('COM_REDSHOP_COUNTRY'); ?>:</td>
 								<td><?php echo $this->lists['country_code_ST']; ?></td>
 							</tr>
-							<tr>
+							<tr id="div_state_st_txt">
 								<td width="100" align="right"><?php echo JText::_('COM_REDSHOP_STATE'); ?>:</td>
 								<td><?php echo $this->lists['state_code_ST']; ?></td>
 							</tr>
+							<script type="text/javascript" language="javascript">
+								if (document.getElementById('state_code_ST').options[1] == undefined)
+								{
+									document.getElementById('div_state_st_txt').style.display = 'none';
+								}
+							</script>
 							<tr>
 								<td width="100" align="right"><?php echo JText::_('COM_REDSHOP_PHONE'); ?>:</td>
 								<td><input class="inputbox" type="text" name="phone_ST" maxlength="20"
@@ -528,10 +538,6 @@ function validateUserDetail() {
 			die();
 		}    ?>
 	</td>
-</tr>
-<tr>
-	<td align="right"><input type="button" value="<?php echo JText::_('COM_REDSHOP_SAVE_USER_INFORMATION'); ?>"
-	                         name="next" id="next" onclick="validateUserDetail();"/></td>
 </tr>
 <?php if ($err == "" && array_key_exists("users_info_id", $billing) && $billing->users_info_id)
 { ?>
@@ -775,6 +781,9 @@ if(!JRequest::getvar('ajaxtask')) {    ?>
 		callback: function (obj) {
 			document.getElementById('user_id').value = obj.id;
 			showUserDetail();
+			if (obj.id){
+				document.getElementById('trCreateAccount').style.display = 'none';
+			}
 		}
 	};
 	var as_json = new bsn.AutoSuggest('searchusername', options);

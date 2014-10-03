@@ -9,29 +9,8 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.plugin.plugin');
-
 class plgRedshop_paymentrs_payment_epayrelay extends JPlugin
 {
-	public $_table_prefix = null;
-
-	/**
-	 * Constructor
-	 *
-	 * For php4 compatability we must not use the __constructor as a constructor for
-	 * plugins because func_get_args ( void ) returns a copy of all passed arguments
-	 * NOT references.  This causes problems with cross-referencing necessary for the
-	 * observer design pattern.
-	 */
-	public function plgRedshop_paymentrs_payment_epayrelay(&$subject)
-	{
-		// Load plugin parameters
-		parent::__construct($subject);
-		$this->_table_prefix = '#__redshop_';
-		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_epayrelay');
-		$this->_params = new JRegistry($this->_plugin->params);
-	}
-
 	/**
 	 * Plugin method with the same name as the event will be called automatically.
 	 */
@@ -48,8 +27,8 @@ class plgRedshop_paymentrs_payment_epayrelay extends JPlugin
 		}
 
 		$app = JFactory::getApplication();
-		$paymentpath = JPATH_SITE . '/plugins/redshop_payment/' . $plugin . '/' . $plugin . '/extra_info.php';
-		include $paymentpath;
+
+		include JPATH_SITE . '/plugins/redshop_payment/' . $plugin . '/' . $plugin . '/extra_info.php';
 	}
 
 	/*
@@ -62,44 +41,35 @@ class plgRedshop_paymentrs_payment_epayrelay extends JPlugin
 			return false;
 		}
 
-		$db = JFactory::getDbo();
-		$tid = $request["tid"];
-
-		$order_id = $request["orderid"];
-
-		$order_amount = $request["amount"];
-
-		@$order_ekey = $request["eKey"];
+		$db             = JFactory::getDbo();
+		$tid            = $request["tid"];
+		$order_id       = $request["orderid"];
+		$order_amount   = $request["amount"];
+		$order_ekey     = $request["eKey"];
 		$order_currency = $request["cur"];
 
 		JPlugin::loadLanguage('com_redshop');
-		$amazon_parameters = $this->getparameters('rs_payment_epayrelay');
-		$paymentinfo = $amazon_parameters[0];
-		$paymentparams = new JRegistry($paymentinfo->params);
 
-		// Get the class
-		$paymentpath = JPATH_SITE . '/plugins/redshop_payment/' . $element . '/' . $element . '/epaysoap.php';
-		include $paymentpath;
+		include JPATH_SITE . '/plugins/redshop_payment/' . $element . '/' . $element . '/epaysoap.php';
 
-		// Access the webservice
-		$epay = new EpaySoap;
-		$merchantnumber = $paymentparams->get('merchant_id');
-		$verify_status = $paymentparams->get('verify_status', '');
-		$verify_status = $paymentparams->get('verify_status', '');
-		$invalid_status = $paymentparams->get('invalid_status', '');
-		$auth_type = $paymentparams->get('auth_type', '');
-		$debug_mode = $paymentparams->get('debug_mode', 0);
-		$values = new stdClass;
-		$epay_paymentkey = $paymentparams->get('epay_paymentkey', '');
-		$epay_md5 = $paymentparams->get('epay_md5', '');
+		// Access the web-service
+		$epay            = new EpaySoap;
+		$merchantnumber  = $this->params->get('merchant_id');
+		$verify_status   = $this->params->get('verify_status', '');
+		$verify_status   = $this->params->get('verify_status', '');
+		$invalid_status  = $this->params->get('invalid_status', '');
+		$auth_type       = $this->params->get('auth_type', '');
+		$debug_mode      = $this->params->get('debug_mode', 0);
+		$values          = new stdClass;
+		$epay_paymentkey = $this->params->get('epay_paymentkey', '');
+		$epay_md5        = $this->params->get('epay_md5', '');
+		$transaction     = $epay->gettransaction($merchantnumber, $tid);
 
-		$transaction = $epay->gettransaction($merchantnumber, $tid);
-
-		// Now validat on the MD5 stamping. If the MD5 key is valid or if MD5 is disabled
-		if ((@$order_ekey == md5($order_amount . $order_id . $tid . $epay_paymentkey)) || $epay_md5 == 0)
+		// Now validate on the MD5 stamping. If the MD5 key is valid or if MD5 is disabled
+		if (($order_ekey == md5($order_amount . $order_id . $tid . $epay_paymentkey)) || $epay_md5 == 0)
 		{
 			$db = JFactory::getDbo();
-			$qv = "SELECT order_id, order_number FROM " . $this->_table_prefix . "orders WHERE order_id='" . $order_id . "'";
+			$qv = "SELECT order_id, order_number FROM #__redshop_orders WHERE order_id='" . $order_id . "'";
 			$db->setQuery($qv);
 			$orders = $db->LoadObjectList();
 
@@ -110,7 +80,6 @@ class plgRedshop_paymentrs_payment_epayrelay extends JPlugin
 
 			// Switch on the order accept code
 			// accept = 1 (standard redirect) accept = 2 (callback)
-
 			if ($transaction['gettransactionResult'] == 'true')
 			{
 				if ($this->orderPaymentNotYetUpdated($db, $order_id, $tid))
@@ -159,24 +128,15 @@ class plgRedshop_paymentrs_payment_epayrelay extends JPlugin
 
 	public function onCapture_Paymentrs_payment_epayrelay($element, $data)
 	{
-		$amazon_parameters = $this->getparameters('rs_payment_epayrelay');
-		$paymentinfo = $amazon_parameters[0];
-		$paymentparams = new JRegistry($paymentinfo->params);
-
-		// Get the class
-		$paymentpath = JPATH_SITE . '/plugins/redshop_payment/' . $element . '/' . $element . '/epaysoap.php';
-		include $paymentpath;
+		include JPATH_SITE . '/plugins/redshop_payment/' . $element . '/' . $element . '/epaysoap.php';
 
 		// Access the webservice
-		$epay = new EpaySoap;
-		$merchantnumber = $paymentparams->get('merchant_id');
-
-		$order_id = $data['order_id'];
-		$tid = $data['order_transactionid'];
-
-		$order_amount = round($data['order_amount'] * 100, 2);
-
-		$response = $epay->capture($merchantnumber, $tid, $order_amount);
+		$epay           = new EpaySoap;
+		$merchantnumber = $this->params->get('merchant_id');
+		$order_id       = $data['order_id'];
+		$tid            = $data['order_transactionid'];
+		$order_amount   = round($data['order_amount'] * 100, 2);
+		$response       = $epay->capture($merchantnumber, $tid, $order_amount);
 
 		if ($response['captureResult'] == 'true')
 		{
@@ -194,21 +154,11 @@ class plgRedshop_paymentrs_payment_epayrelay extends JPlugin
 		return $values;
 	}
 
-	public function getparameters($payment)
-	{
-		$db = JFactory::getDbo();
-		$sql = "SELECT * FROM #__extensions WHERE `element`='" . $payment . "'";
-		$db->setQuery($sql);
-		$params = $db->loadObjectList();
-
-		return $params;
-	}
-
 	public function orderPaymentNotYetUpdated($dbConn, $order_id, $tid)
 	{
 		$db = JFactory::getDbo();
 		$res = false;
-		$query = "SELECT COUNT(*) `qty` FROM " . $this->_table_prefix . "order_payment WHERE `order_id` = '"
+		$query = "SELECT COUNT(*) `qty` FROM #__redshop_order_payment WHERE `order_id` = '"
 			. $db->getEscaped($order_id) . "' and order_payment_trans_id = '" . $db->getEscaped($tid) . "'";
 		$db->setQuery($query);
 		$order_payment = $db->loadResult();

@@ -6,7 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined('_JEXEC') or die ('restricted access');
+defined('_JEXEC') or die;
 
 $url = JURI::base();
 $user = JFactory::getUser();
@@ -14,18 +14,17 @@ $request = JRequest::get();
 JHTML::_('behavior.tooltip');
 JHTMLBehavior::modal();
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php';
+JLoader::load('RedshopHelperAdminOrder');
+JLoader::load('RedshopHelperProduct');
+JLoader::load('RedshopHelperCart');
+JLoader::load('RedshopHelperUser');
+JLoader::load('RedshopHelperHelper');
 
-include_once (JPATH_COMPONENT_SITE . '/helpers/product.php');
-include_once (JPATH_COMPONENT_SITE . '/helpers/cart.php');
-include_once (JPATH_COMPONENT_SITE . '/helpers/user.php');
-include_once (JPATH_COMPONENT_SITE . '/helpers/helper.php');
-
-$carthelper = new rsCarthelper();
-$producthelper = new producthelper();
-$order_functions = new order_functions();
-$redhelper = new redhelper();
-$userhelper = new rsUserhelper();
+$carthelper = new rsCarthelper;
+$producthelper = new producthelper;
+$order_functions = new order_functions;
+$redhelper = new redhelper;
+$userhelper = new rsUserhelper;
 $user = JFactory::getUser();
 $session = JFactory::getSession();
 $user_id = $user->id;

@@ -7,14 +7,14 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die ('Restricted access');
+defined('_JEXEC') or die;
 
 JLoader::import('joomla.application.component.model');
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/quotation.php';
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/mail.php';
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php';
-include_once JPATH_COMPONENT_SITE . '/helpers/product.php';
+JLoader::load('RedshopHelperAdminQuotation');
+JLoader::load('RedshopHelperAdminMail');
+JLoader::load('RedshopHelperAdminOrder');
+JLoader::load('RedshopHelperProduct');
 
 /**
  * Class quotationModelquotation
@@ -23,7 +23,7 @@ include_once JPATH_COMPONENT_SITE . '/helpers/product.php';
  * @subpackage  Model
  * @since       1.0
  */
-class quotationModelquotation extends JModel
+class RedshopModelQuotation extends JModel
 {
 	public $_id = null;
 

@@ -12,14 +12,10 @@ JHTML::_('behavior.tooltip');
 $editor = JFactory::getEditor();
 $model = $this->getModel('giftcard_detail');
 $showbuttons = JRequest::getVar('showbuttons');
-$producthelper = new producthelper();
+$producthelper = new producthelper;
 ?>
 <script language="javascript" type="text/javascript">
 	Joomla.submitbutton = function (pressbutton) {
-		submitbutton(pressbutton);
-	}
-
-	submitbutton = function (pressbutton) {
 		var form = document.adminForm;
 		if (pressbutton == 'cancel') {
 			submitform(pressbutton);

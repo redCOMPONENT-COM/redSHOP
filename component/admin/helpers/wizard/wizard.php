@@ -21,8 +21,8 @@ class redSHOPWizard{
 
 		$step 		= JRequest::getVar('step', '');
 
-		$helper = new redSHOPWizardHelper();
-		$template = new redSHOPWizardTemplate();
+		$helper = new redSHOPWizardHelper;
+		$template = new redSHOPWizardTemplate;
 
 		if(!empty($step))
 		{
@@ -79,7 +79,7 @@ class redSHOPWizardHelper
 				$status = $this->finish(0);
 				break;
 			default:
-				$status 			= new stdClass();
+				$status 			= new stdClass;
 				$status->message	= $this->getErrorMessage(0, '0a');
 				$status->step 		= '-99';
 				$status->title 		= JText::_('COM_REDSHOP_REDSHOP_CONFIGURATION_WIZARD');
@@ -91,14 +91,14 @@ class redSHOPWizardHelper
 
 	function general( $step )
 	{
-		$template = new redSHOPWizardTemplate();
+		$template = new redSHOPWizardTemplate;
 
 		$status				= true;
 
-		$params = new stdClass();
+		$params = new stdClass;
 		$params->step = $step;
 
-		$drawdata 			= new stdClass();
+		$drawdata 			= new stdClass;
 		$drawdata->message	= $template->getHTML('general',$params);
 		$drawdata->status 	= $status;
 		$drawdata->step 	= $step;
@@ -110,15 +110,15 @@ class redSHOPWizardHelper
 
 	function terms($step){
 
-		$template = new redSHOPWizardTemplate();
+		$template = new redSHOPWizardTemplate;
 
 		$status				= true;
 		$this->pageTitle 	= JText::_('COM_REDSHOP_REDSHOP_CONFIGURATION_WIZARD');
 
-		$params = new stdClass();
+		$params = new stdClass;
 		$params->step = $step;
 
-		$drawdata 			= new stdClass();
+		$drawdata 			= new stdClass;
 		$drawdata->message	= $template->getHTML('terms',$params);
 		$drawdata->status 	= $status;
 		$drawdata->step 	= $step;
@@ -130,15 +130,15 @@ class redSHOPWizardHelper
 
 	function user($step){
 
-		$template = new redSHOPWizardTemplate();
+		$template = new redSHOPWizardTemplate;
 
 		$status				= true;
 		$this->pageTitle 	= JText::_('COM_REDSHOP_REDSHOP_CONFIGURATION_WIZARD');
 
-		$params = new stdClass();
+		$params = new stdClass;
 		$params->step = $step;
 
-		$drawdata 			= new stdClass();
+		$drawdata 			= new stdClass;
 		$drawdata->message	= $template->getHTML('user',$params);
 		$drawdata->status 	= $status;
 		$drawdata->step 	= $step;
@@ -150,14 +150,14 @@ class redSHOPWizardHelper
 
 	function price($step){
 
-		$template = new redSHOPWizardTemplate();
+		$template = new redSHOPWizardTemplate;
 
 		$status				= true;
 
-		$params = new stdClass();
+		$params = new stdClass;
 		$params->step = $step;
 
-		$drawdata 			= new stdClass();
+		$drawdata 			= new stdClass;
 		$drawdata->message	= $template->getHTML('price',$params);
 		$drawdata->status 	= $status;
 		$drawdata->step 	= $step;
@@ -169,14 +169,14 @@ class redSHOPWizardHelper
 
 	function finish($step){
 
-		$template = new redSHOPWizardTemplate();
+		$template = new redSHOPWizardTemplate;
 
 		$status				= true;
 
-		$params = new stdClass();
+		$params = new stdClass;
 		$params->step = '';
 
-		$drawdata 			= new stdClass();
+		$drawdata 			= new stdClass;
 		$drawdata->message	= $template->getHTML('finish',$params);
 		$drawdata->status 	= $status;
 		$drawdata->step 	= $step;
@@ -198,7 +198,7 @@ class redSHOPWizardTemplate
 		require_once JPATH_COMPONENT . '/controllers/wizard.php';
 
 		$this->title	= '';
-		$classname  = 'wizardController';
+		$classname  = 'RedshopControllerWizard';
 	   	$this->controller = new $classname( array('default_task' => 'display') );
 	}
 

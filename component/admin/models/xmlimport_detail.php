@@ -11,9 +11,9 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/xmlhelper.php';
+JLoader::load('RedshopHelperAdminXmlHelper');
 
-class xmlimport_detailModelxmlimport_detail extends JModel
+class RedshopModelXmlimport_detail extends JModel
 {
 	public $_id = null;
 
@@ -317,7 +317,7 @@ class xmlimport_detailModelxmlimport_detail extends JModel
 			$data['add_prefix_for_existing'] = "xml_";
 		}
 
-		$row =& $this->getTable();
+		$row = $this->getTable();
 
 		if (!$row->bind($data))
 		{

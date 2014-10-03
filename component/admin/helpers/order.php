@@ -10,11 +10,11 @@
 defined('_JEXEC') or die;
 
 JHTML::_('behavior.tooltip');
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/mail.php';
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/configuration.php';
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/economic.php';
-require_once JPATH_SITE . '/components/com_redshop/helpers/helper.php';
-require_once JPATH_SITE . '/components/com_redshop/helpers/cart.php';
+JLoader::load('RedshopHelperAdminMail');
+JLoader::load('RedshopHelperAdminConfiguration');
+JLoader::load('RedshopHelperAdminEconomic');
+JLoader::load('RedshopHelperHelper');
+JLoader::load('RedshopHelperCart');
 
 class order_functions
 {
@@ -299,9 +299,9 @@ class order_functions
 		}
 
 		$xmlnew = '<?xml version="1.0" encoding="ISO-8859-1"?>
-				<pacsoftonline>
+				<unifaunonline>
 				<meta>
-				<val n="printer">1</val>
+				<val n="doorcode">"' . date('Y-m-d H:i') . '"</val>
 				</meta>
 				<receiver rcvid="' . $shippingInfo->users_info_id . '">
 				<val n="name"><![CDATA[' . $full_name . ']]></val>
@@ -330,9 +330,13 @@ class order_functions
 				<val n="packagecode">PC</val>
 				</container>
 				</shipment>
-				</pacsoftonline>';
+				</unifaunonline>';
 
-		$postURL = "https://www.pacsoftonline.com/ufoweb/order?session=po_DK&user=" . POSTDK_CUSTOMER_NO . "&pin=" . POSTDK_CUSTOMER_PASSWORD . "&type=xml";
+		$postURL = "https://www.pacsoftonline.com/ufoweb/order?session=po_DK"
+					. "&user=" . POSTDK_CUSTOMER_NO
+					. "&pin=" . POSTDK_CUSTOMER_PASSWORD
+					. "&developerid=000000075"
+					. "&type=xml";
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_URL, $postURL);
 		curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: text/xml'));
@@ -341,13 +345,15 @@ class order_functions
 		curl_setopt($ch, CURLOPT_VERBOSE, true);
 		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
 		curl_setopt($ch, CURLOPT_POSTFIELDS, $xmlnew);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 		$response = curl_exec($ch);
 		$error = curl_error($ch);
 		curl_close($ch);
 
-		$oXML = new SimpleXMLElement($response);
+		$oXML = JFactory::getXMLParser('Simple');
+		$oXML->loadString($response, false, true);
 
-		if ($oXML->val[1] == "201" && $oXML->val[2] == "Created")
+		if ($oXML->document->_children[1]->_data == "201" && $oXML->document->_children[2]->_data == "Created")
 		{
 			$query = 'UPDATE ' . $this->_table_prefix . 'orders SET `order_label_create` = 1 WHERE order_id = ' . (int) $order_id;
 			$this->_db->setQuery($query);
@@ -357,7 +363,10 @@ class order_functions
 		}
 		else
 		{
-			JError::raiseWarning(21, $oXML->val[1] . "-" . $oXML->val[2]);
+			JError::raiseWarning(
+				21,
+				$oXML->document->_children[1]->_data . "-" . $oXML->document->_children[2]->_data
+			);
 		}
 	}
 
@@ -422,20 +431,25 @@ class order_functions
 				. ", order_id = " . (int) $order_id . ", customer_note = " . $this->_db->quote($data->log);
 			$this->_db->SetQuery($query);
 			$this->_db->Query();
-			$this->changeOrderStatusMail($order_id, $data->order_status_code);
+
+			// Send status change email only if config is set to Before order mail or Order is not confirmed.
+			if (!ORDER_MAIL_AFTER
+				|| (ORDER_MAIL_AFTER && $data->order_status_code != "C"))
+			{
+				$this->changeOrderStatusMail($order_id, $data->order_status_code);
+			}
 
 			if ($data->order_payment_status_code == "Paid")
 			{
-				require_once JPATH_SITE . '/components/com_redshop/models/checkout.php';
-
-				$checkoutModelcheckout = new checkoutModelcheckout;
+				JModel::addIncludePath(JPATH_SITE . '/components/com_redshop/models');
+				$checkoutModelcheckout = JModel::getInstance('Checkout', 'RedshopModel');
 				$checkoutModelcheckout->sendGiftCard($order_id);
 
 				// Send the Order mail
 				$redshopMail = new redshopMail;
 
 				// Send Order Mail After Payment
-				if (ORDER_MAIL_AFTER)
+				if (ORDER_MAIL_AFTER && $data->order_status_code == "C")
 				{
 					$redshopMail->sendOrderMail($order_id);
 				}
@@ -531,31 +545,42 @@ class order_functions
 		}
 	}
 
-	public function updateOrderItemStatus($order_id = 0, $product_id = 0, $newstatus = "", $comment = "", $order_item_id = 0)
+	/**
+	 * Update Order Item Status
+	 *
+	 * @param   int     $orderId      Order id
+	 * @param   int     $productId    Product id
+	 * @param   string  $newStatus    New status
+	 * @param   string  $comment      Comment
+	 * @param   int     $orderItemId  Order item id
+	 *
+	 * @return  void
+	 */
+	public function updateOrderItemStatus($orderId = 0, $productId = 0, $newStatus = '', $comment = '', $orderItemId = 0)
 	{
-		$and = "";
-		$field = "";
-		$and_order_item = "";
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->update($db->qn('#__redshop_order_item'))
+			->set('order_status = ' . $db->q($newStatus))
+			->where('order_id = ' . (int) $orderId);
 
-		if ($product_id != 0)
+		if ($productId != 0)
 		{
-			$and = " AND product_id = " . (int) $product_id . " ";
+			$query->set('customer_note = ' . $db->q($comment))
+				->where('product_id = ' . (int) $productId);
 		}
 
-		if ($order_item_id != 0)
+		if ($orderItemId != 0)
 		{
-			$and_order_item = " AND order_item_id = " . (int) $order_item_id . " ";
+			$query->where('order_item_id = ' . (int) $orderItemId);
 		}
 
-		if ($product_id != 0)
-		{
-			$field = ", customer_note = " . $this->_db->quote($comment) . " ";
-		}
+		$db->setQuery($query);
 
-		$query = "UPDATE " . $this->_table_prefix . "order_item " . "SET order_status='" . $this->_db->quote($newstatus) . "' " . $field
-			. "WHERE order_id = " . (int) $order_id . " " . $and . $and_order_item;
-		$this->_db->setQuery($query);
-		$this->_db->query();
+		if (!$db->query())
+		{
+			JFactory::getApplication()->enqueueMessage($db->getErrorMsg(), 'error');
+		}
 	}
 
 	public function manageContainerStock($product_id, $quantity, $container_id)
@@ -830,13 +855,13 @@ class order_functions
 				}
 
 				JModel::addIncludePath(JPATH_SITE . '/components/com_redshop/models');
-				$checkoutModelcheckout = JModel::getInstance('checkout', 'checkoutModel');
+				$checkoutModelcheckout = JModel::getInstance('Checkout', 'RedshopModel');
 				$checkoutModelcheckout->sendGiftCard($order_id);
 
 				// Send the Order mail
 				$redshopMail = new redshopMail;
 
-				if (ORDER_MAIL_AFTER)
+				if (ORDER_MAIL_AFTER && $newstatus == 'C')
 				{
 					$redshopMail->sendOrderMail($order_id);
 				}
@@ -1042,7 +1067,7 @@ class order_functions
 			if ($paymentstatus == "Paid")
 			{
 				JModel::addIncludePath(JPATH_SITE . '/components/com_redshop/models');
-				$checkoutModelcheckout = JModel::getInstance('checkout', 'checkoutModel');
+				$checkoutModelcheckout = JModel::getInstance('Checkout', 'RedhopModel');
 				$checkoutModelcheckout->sendGiftCard($oid[0]);
 
 				// Send the Order mail
@@ -1891,7 +1916,7 @@ class order_functions
 				$downloadfilename = "";
 				$downloadfilename = substr(basename($row->file_name), 11);
 
-				$mailtoken = "<a href='" . JUri::root() . "index.php?option=com_redshop&view=product&layout=downloadproduct&tid="
+				$mailtoken = "<a href='" . JURI::root() . "index.php?option=com_redshop&view=product&layout=downloadproduct&tid="
 					. $row->download_id . "'>" . $downloadfilename . "</a>";
 
 				$datamessage = str_replace("{product_serial_number}", $row->product_serial_number, $datamessage);
@@ -1954,7 +1979,7 @@ class order_functions
 	public function getpaymentinformation($row, $post)
 	{
 		$app = JFactory::getApplication();
-		require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/configuration.php';
+		JLoader::load('RedshopHelperAdminConfiguration');
 		$redconfig = new Redconfiguration;
 
 		$plugin_parameters = $this->getparameters($post['payment_method_class']);
@@ -2057,7 +2082,7 @@ class order_functions
 
 			if (function_exists("curl_init"))
 			{
-				$url = JUri::root() . 'administrator/components/com_redshop/helpers/barcode/barcode.php?code='
+				$url = JURI::root() . 'administrator/components/com_redshop/helpers/barcode/barcode.php?code='
 					. $rand_barcode . '&encoding=EAN&scale=2&mode=png';
 
 				$ch = curl_init();
@@ -2332,13 +2357,36 @@ class order_functions
 		return $invoice;
 	}
 
+	/**
+	 * Create PacSoft Label from Order Status Change functions
+	 *
+	 * @param   integer  $order_id           Order Information ID
+	 * @param   string   $specifiedSendDate  Label Create Date
+	 * @param   string   $order_status       Order Status Code
+	 * @param   string   $paymentstatus      Order Payment Status Code
+	 *
+	 * @return  void
+	 */
 	public function createWebPacklabel($order_id, $specifiedSendDate, $order_status, $paymentstatus)
 	{
-		if (POSTDK_INTEGRATION && ($order_status == "S" && $paymentstatus == "Paid"))
+		// If PacSoft is not enable then return
+		if (!POSTDK_INTEGRATION)
+		{
+			return;
+		}
+
+		// If auto generation is disable then return
+		if (!AUTO_GENERATE_LABEL)
+		{
+			return;
+		}
+
+		// Only Execute this function for selected status match
+		if ($order_status == GENERATE_LABEL_ON_STATUS && $paymentstatus == "Paid")
 		{
 			$shippinghelper = new shipping;
-			$order_details = $this->getOrderDetails($order_id);
-			$details = explode("|", $shippinghelper->decryptShipping(str_replace(" ", "+", $order_details->ship_method_id)));
+			$order_details  = $this->getOrderDetails($order_id);
+			$details        = explode("|", $shippinghelper->decryptShipping(str_replace(" ", "+", $order_details->ship_method_id)));
 
 			if ($details[0] === 'plgredshop_shippingdefault_shipping' && !$order_details->order_label_create)
 			{
@@ -2476,8 +2524,11 @@ class order_functions
 		$dispatcher = JDispatcher::getInstance();
 		$results = $dispatcher->trigger('onChangeStatusToShipped', array($order_id, $newstatus, $paymentstatus));
 
-		// For Webpack Postdk Label Generation
-		$this->createWebPacklabel($order_id, "", $newstatus, $paymentstatus);
+		if ($post['isPacsoft'])
+		{
+			// For Webpack Postdk Label Generation
+			$this->createWebPacklabel($order_id, "", $newstatus, $paymentstatus);
+		}
 
 		if (CLICKATELL_ENABLE)
 		{

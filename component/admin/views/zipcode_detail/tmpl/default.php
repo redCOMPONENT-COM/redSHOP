@@ -14,10 +14,6 @@ $url = $uri->root();
 
 <script language="javascript" type="text/javascript">
 	Joomla.submitbutton = function (pressbutton) {
-		submitbutton(pressbutton);
-	}
-
-	submitbutton = function (pressbutton) {
 		var form = document.adminForm;
 
 		if (pressbutton == 'cancel') {
@@ -27,7 +23,7 @@ $url = $uri->root();
 
 		if (form.country_code.value == 0) {
 			alert("<?php echo JText::_('COM_REDSHOP_COUNTRY_MUST_BE_SELECTED', true ); ?>");
-		} else if (form.state_code.value == "") {
+		} else if (form.state_code.value == ""  && document.getElementById('state_code').length>0) {
 			alert("<?php echo JText::_('COM_REDSHOP_STATE_MUST_BE_SELECTED', true ); ?>");
 		} else if (form.city_name.value == "") {
 			alert("<?php echo JText::_('COM_REDSHOP_CITY_MUST_HAVE_A_NAME', true ); ?>");

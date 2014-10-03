@@ -12,7 +12,7 @@ jimport('joomla.application.component.view');
 
 require_once 'components/com_redshop/views/configuration/view.html.php';
 
-class wizardViewwizard extends JView
+class RedshopViewWizard extends JView
 {
 	public function display($tpl = null)
 	{
@@ -57,7 +57,7 @@ class wizardViewwizard extends JView
 		$document->addScript('components/com_redshop/assets/js/search.js');
 
 		// Shop country
-		$q = "SELECT  country_3_code as value,country_name as text,country_jtext from #__" . TABLE_PREFIX . "_country ORDER BY country_name ASC";
+		$q = "SELECT  country_3_code as value,country_name as text,country_jtext from #__redshop_country ORDER BY country_name ASC";
 		$db->setQuery($q);
 		$countries = $db->loadObjectList();
 		$countries = $redhelper->convertLanguageString($countries);
@@ -187,8 +187,8 @@ class wizardViewwizard extends JView
 		}
 
 		$db->setQuery("SELECT c.country_id, c.country_3_code, s.state_name, s.state_2_code
-						FROM #__" . TABLE_PREFIX . "_country c
-						LEFT JOIN #__" . TABLE_PREFIX . "_state s
+						FROM #__redshop_country c
+						LEFT JOIN #__redshop_state s
 						ON c.country_id=s.country_id OR s.country_id IS NULL
 						ORDER BY c.country_id, s.state_name");
 

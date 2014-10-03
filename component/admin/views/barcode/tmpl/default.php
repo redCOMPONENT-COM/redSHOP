@@ -8,7 +8,7 @@
  */
 JHTMLBehavior::modal();
 $option = JRequest::getVar('option');
-$url = JUri::base();
+$url = JURI::base();
 
 $order_id = JRequest::getInt('order_id', 0);
 $log = JRequest::getVar('log');
@@ -64,7 +64,7 @@ $log = JRequest::getVar('log');
 	</div>
 <?php } ?>
 	<div id="framediv">
-		<?php $link = JUri::base() . 'index.php?option=com_redshop&view=order_detail&task=edit&cid[]=' . $order_id . '&tmpl=component';?>
+		<?php $link = JURI::base() . 'index.php?option=com_redshop&view=order_detail&task=edit&cid[]=' . $order_id . '&tmpl=component';?>
 
 		<iframe src="<?php echo $link; ?>" width="900" height="800" style="border: 0px;"></iframe>
 	</div>

@@ -11,15 +11,13 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/mail.php';
+JLoader::load('RedshopHelperAdminMail');
 
-class question_detailModelquestion_detail extends JModel
+class RedshopModelQuestion_detail extends JModel
 {
 	public $_id = null;
 
 	public $_data = null;
-
-	public $_table_prefix = null;
 
 	public $_answers = null;
 
@@ -27,7 +25,6 @@ class question_detailModelquestion_detail extends JModel
 	{
 		parent::__construct();
 
-		$this->_table_prefix = '#__redshop_';
 		$array = JRequest::getVar('cid', 0, '', 'array');
 		$this->setId((int) $array[0]);
 	}
@@ -50,7 +47,7 @@ class question_detailModelquestion_detail extends JModel
 	{
 		if ($this->_id > 0)
 		{
-			$query = "SELECT q.* FROM " . $this->_table_prefix . "customer_question AS q "
+			$query = "SELECT q.* FROM #__redshop_customer_question AS q "
 				. "WHERE q.parent_id=" . $this->_id;
 			$this->_db->setQuery($query);
 			$this->_answers = $this->_db->loadObjectList();
@@ -75,7 +72,7 @@ class question_detailModelquestion_detail extends JModel
 
 	public function _loadData()
 	{
-		$query = "SELECT q.* FROM " . $this->_table_prefix . "customer_question AS q "
+		$query = "SELECT q.* FROM #__redshop_customer_question AS q "
 			. "WHERE q.question_id=" . $this->_id;
 		$this->_db->setQuery($query);
 		$this->_data = $this->_db->loadObject();
@@ -96,7 +93,7 @@ class question_detailModelquestion_detail extends JModel
 
 	public function _buildQuery()
 	{
-		$query = "SELECT q.* FROM " . $this->_table_prefix . "customer_question AS q "
+		$query = "SELECT q.* FROM #__redshop_customer_question AS q "
 			. "WHERE q.parent_id=" . $this->_id;
 
 		return $query;
@@ -115,7 +112,7 @@ class question_detailModelquestion_detail extends JModel
 
 	public function getProduct()
 	{
-		$query = "SELECT * FROM " . $this->_table_prefix . "product ";
+		$query = "SELECT * FROM #__redshop_product ";
 		$list = $this->_data = $this->_getList($query);
 
 		return $list;
@@ -149,8 +146,8 @@ class question_detailModelquestion_detail extends JModel
 	public function store($data)
 	{
 		$user = JFactory::getUser();
-		$db = JFactory::getDbo();
-		$row =& $this->getTable();
+		$db   = JFactory::getDbo();
+		$row  = $this->getTable();
 
 		if (!$data['question_id'])
 		{
@@ -171,18 +168,38 @@ class question_detailModelquestion_detail extends JModel
 			return false;
 		}
 
-		$time = time();
 		$data['ordering'] = $this->MaxOrdering();
 
-		if (isset($data['answer']))
+		// Store Answer
+		if (isset($data['answer']) && trim($data['answer']) != '')
 		{
-			$query = "INSERT INTO " . $this->_table_prefix . "customer_question (`parent_id`,`product_id`,`question`,`user_id`,`user_name`,
-			`user_email`,`published`,`question_date`,`ordering`)";
-			$query .= " VALUES ('" . $data['question_id'] . "' , '" . $data['product_id'] . "','" . $data['answer'] . "','" . $user->id . "', ";
-			$query .= "'" . $user->username . "', '" . $user->email . "',1, '" . $time . "', '" . $data['ordering'] . "')";
-			$db->setQuery($query);
-			$db->Query();
-			$row->question_id = $db->insertid();
+			if (!(int) $data['question_id'])
+			{
+				$data['question_id'] = $db->insertid();
+			}
+
+			// Prepare Answer table
+			$answers = $this->getTable();
+
+			$answers->question_id   = 0;
+
+			// Question Id for which we are adding answer
+			$answers->parent_id     = $data['question_id'];
+			$answers->product_id    = $data['product_id'];
+			$answers->question      = $data['answer'];
+			$answers->user_id       = $user->id;
+			$answers->user_name     = $user->username;
+			$answers->user_email    = $user->email;
+			$answers->published     = 1;
+			$answers->question_date = time();
+			$answers->ordering      = $data['ordering'];
+
+			if (!$answers->store())
+			{
+				$this->setError($this->_db->getErrorMsg());
+
+				return false;
+			}
 		}
 
 		return $row;
@@ -196,7 +213,7 @@ class question_detailModelquestion_detail extends JModel
 	 */
 	public function MaxOrdering()
 	{
-		$query = "SELECT (MAX(ordering)+1) FROM " . $this->_table_prefix . "customer_question "
+		$query = "SELECT (MAX(ordering)+1) FROM #__redshop_customer_question "
 			. "WHERE parent_id=0 ";
 		$this->_db->setQuery($query);
 
@@ -215,7 +232,7 @@ class question_detailModelquestion_detail extends JModel
 		{
 			$cids = implode(',', $cid);
 
-			$query = 'DELETE FROM ' . $this->_table_prefix . 'customer_question '
+			$query = 'DELETE FROM #__redshop_customer_question '
 				. 'WHERE parent_id IN (' . $cids . ')';
 			$this->_db->setQuery($query);
 
@@ -226,7 +243,7 @@ class question_detailModelquestion_detail extends JModel
 				return false;
 			}
 
-			$query = 'DELETE FROM ' . $this->_table_prefix . 'customer_question '
+			$query = 'DELETE FROM #__redshop_customer_question '
 				. 'WHERE question_id IN (' . $cids . ')';
 			$this->_db->setQuery($query);
 
@@ -253,7 +270,7 @@ class question_detailModelquestion_detail extends JModel
 		{
 			$cids = implode(',', $cid);
 
-			$query = 'UPDATE ' . $this->_table_prefix . 'customer_question '
+			$query = 'UPDATE #__redshop_customer_question '
 				. ' SET published = ' . intval($publish)
 				. ' WHERE question_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
@@ -265,6 +282,7 @@ class question_detailModelquestion_detail extends JModel
 				return false;
 			}
 		}
+
 		return true;
 	}
 
@@ -276,7 +294,7 @@ class question_detailModelquestion_detail extends JModel
 	 */
 	public function saveorder($cid = array(), $order)
 	{
-		$row =& $this->getTable();
+		$row = $this->getTable();
 		$order = JRequest::getVar('order', array(0), 'post', 'array');
 		$groupings = array();
 
@@ -320,7 +338,7 @@ class question_detailModelquestion_detail extends JModel
 	 */
 	public function orderup()
 	{
-		$row =& $this->getTable();
+		$row = $this->getTable();
 		$row->load($this->_id);
 		$row->move(-1);
 		$row->store();
@@ -336,7 +354,7 @@ class question_detailModelquestion_detail extends JModel
 	 */
 	public function orderdown()
 	{
-		$row =& $this->getTable();
+		$row = $this->getTable();
 		$row->load($this->_id);
 		$row->move(1);
 		$row->store();
