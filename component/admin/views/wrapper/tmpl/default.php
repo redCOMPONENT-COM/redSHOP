@@ -8,7 +8,7 @@
  */
 JHTMLBehavior::modal();
 JLoader::load('RedshopHelperProduct');
-$producthelper = new producthelper();
+$producthelper = new producthelper;
 
 $showall = JRequest::getVar('showall', '0');
 $page = "";

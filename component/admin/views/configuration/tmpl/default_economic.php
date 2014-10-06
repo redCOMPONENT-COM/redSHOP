@@ -8,7 +8,7 @@
  */
 defined('_JEXEC') or die;
 
-$order_functions = new order_functions();
+$order_functions = new order_functions;
 $style = "none";
 if (ECONOMIC_INVOICE_DRAFT == 2)
 {

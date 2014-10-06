@@ -10,7 +10,7 @@ defined('_JEXEC') or die;
 JLoader::load('RedshopHelperProduct');
 JHTMLBehavior::modal();
 $app = JFactory::getApplication();
-$productobj = new producthelper();
+$productobj = new producthelper;
 $option = JRequest::getVar('option', '', 'request', 'string');
 
 $model = $this->getModel('product');
