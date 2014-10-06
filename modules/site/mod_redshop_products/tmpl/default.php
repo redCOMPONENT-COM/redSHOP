@@ -98,7 +98,7 @@ for ($i = 0; $i < count($rows); $i++)
 
 	$link = JRoute::_('index.php?option=' . $option . '&view=product&pid=' . $row->product_id . '&cid=' . $categoryId . '&Itemid=' . $Itemid);
 
-	if ($verticalProduct)
+	if (isset($verticalProduct) && $verticalProduct)
 		echo "<div class='mod_redshop_products'>";
 	else
 		echo "<div class='mod_redshop_products_horizontal'>";
@@ -202,7 +202,7 @@ for ($i = 0; $i < count($rows); $i++)
 		echo "<div class='mod_redshop_products_readmore'><a href='" . $link . "'>" . JText::_('COM_REDSHOP_TXT_READ_MORE') . "</a>&nbsp;</div>";
 	}
 
-	if ($showAddtocart)
+	if (isset($showAddtocart) && $showAddtocart)
 	{
 		// Product attribute  Start
 		$attributesSet = array();
