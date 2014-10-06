@@ -39,7 +39,7 @@ class RedshopViewPrices_detail extends JView
 		$this->lists['product_id']   = $this->detail->product_id;
 		$this->lists['product_name'] = $this->detail->product_name;
 
-		JLoader::load('RedshopHelperShopper');
+		JLoader::load('RedshopHelperAdminShopper');
 		$shoppergroup = new shoppergroup;
 		$this->lists['shopper_group_name'] = $shoppergroup->list_all("shopper_group_id", 0, array((int) $this->detail->shopper_group_id));
 
