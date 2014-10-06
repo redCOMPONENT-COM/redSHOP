@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 JLoader::load('RedshopHelperAdminExtra_field');
 JLoader::load('RedshopHelperHelper');
-JLoader::load('RedshopHelperShopper');
+JLoader::load('RedshopHelperAdminShopper');
 
 jimport('joomla.application.component.view');
 
