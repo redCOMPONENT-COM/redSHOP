@@ -2596,6 +2596,9 @@ class rsCarthelper
 		$session   = JFactory::getSession();
 		$orderitem = $this->_order_functions->getOrderItemDetail($order_id);
 
+		$search    = array();
+		$replace   = array();
+
 		if (strstr($ReceiptTemplate, "{product_loop_start}") && strstr($ReceiptTemplate, "{product_loop_end}"))
 		{
 			$template_sdata  = explode('{product_loop_start}', $ReceiptTemplate);
