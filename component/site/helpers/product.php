@@ -6162,6 +6162,7 @@ class producthelper
 		$product_quantity = JRequest::getVar('product_quantity');
 		$Itemid           = JRequest::getInt('Itemid');
 		$user             = JFactory::getUser();
+		$product_preorder = "";
 
 		JPluginHelper::importPlugin('redshop_product');
 		$dispatcher = JDispatcher::getInstance();
@@ -6190,6 +6191,11 @@ class producthelper
 		else
 		{
 			$product = $this->getProductById($product_id);
+
+			if(isset($product->preorder))
+			{
+				$product_preorder = $product->preorder;
+			}
 		}
 
 		$taxexempt_addtocart = $this->taxexempt_addtocart($user_id, 1);
@@ -6242,6 +6248,8 @@ class producthelper
 
 		$totrequiredatt  = "";
 		$totrequiredprop = '';
+
+		$isPreorderStockExists = '';
 
 		if ($giftcard_id != 0)
 		{
@@ -6296,7 +6304,6 @@ class producthelper
 			// Get stock for Product
 
 			$isStockExists         = $stockroomhelper->isStockExists($product_id);
-			$isPreorderStockExists = '';
 
 			if ($totalatt > 0 && !$isStockExists)
 			{
@@ -6352,6 +6359,7 @@ class producthelper
 
 			$max_quantity = $product->max_order_product_quantity;
 			$min_quantity = $product->min_order_product_quantity;
+
 		}
 
 		$stockdisplay        = false;
@@ -6362,8 +6370,6 @@ class producthelper
 
 		if (!$isStockExists)
 		{
-			// Check if preorder is set to yes than add pre order button
-			$product_preorder = $product->preorder;
 
 			if (($product_preorder == "global"
 				&& ALLOW_PRE_ORDER)
@@ -6610,7 +6616,7 @@ class producthelper
 		        <input type='hidden' name='product_stock' id='product_stock" . $product_id . "' value='" .
 				$isStockExists . "'>
 				<input type='hidden' name='product_preorder' id='product_preorder" . $product_id . "' value='" .
-				$product->preorder . "'>
+				$product_preorder . "'>
 				<input type='hidden' name='product_id' id='product_id' value='" . $product_id . "'>
 				<input type='hidden' name='category_id' value='" . $category_id . "'>
 				<input type='hidden' name='view' value='cart'>

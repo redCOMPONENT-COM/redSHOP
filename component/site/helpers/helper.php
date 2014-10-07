@@ -601,6 +601,11 @@ class redhelper
 
 		$url    = JURI::root();
 
+		if(!$Imagename)
+		{
+			return REDSHOP_FRONT_IMAGES_ABSPATH . 'noimage.jpg';
+		}
+
 		/*
 		 * IF watermark is not enable
 		 * return thumb image
@@ -622,8 +627,7 @@ class redhelper
 			return $filename;
 		}
 
-		if ($Imagename
-			&& file_exists(REDSHOP_FRONT_IMAGES_RELPATH . $mtype . "/" . $Imagename)
+		if (file_exists(REDSHOP_FRONT_IMAGES_RELPATH . $mtype . "/" . $Imagename)
 			&& (WATERMARK_IMAGE
 			&& file_exists(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . WATERMARK_IMAGE)))
 		{
