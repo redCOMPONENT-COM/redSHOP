@@ -250,6 +250,23 @@ class RedshopViewSearch extends JView
 				$print_tag = "<a href='#' onclick='window.open(\"$print_url\",\"mywindow\",\"scrollbars=1\",\"location=1\")' title='" . JText::_('COM_REDSHOP_PRINT_LBL') . "' ><img src=" . JSYSTEM_IMAGES_PATH . "printButton.png  alt='" . JText::_('COM_REDSHOP_PRINT_LBL') . "' title='" . JText::_('COM_REDSHOP_PRINT_LBL') . "' /></a>";
 			}
 
+			if (strstr($template_org, '{compare_product_div}'))
+			{
+				$compareProductDiv = '';
+
+				if (PRODUCT_COMPARISON_TYPE != '')
+				{
+					$compareDiv = $producthelper->makeCompareProductDiv();
+					$compareUrl = JRoute::_('index.php?option=com_redshop&view=product&layout=compare&Itemid=' . $Itemid);
+					$compareProductDiv = '<form name="frmCompare" method="post" action="' . $compareUrl . '" >';
+					$compareProductDiv .= '<a href="javascript:compare();" >' . JText::_('COM_REDSHOP_COMPARE') . '</a>';
+					$compareProductDiv .= '<div id="divCompareProduct">' . $compareDiv . '</div>';
+					$compareProductDiv .= '</form>';
+				}
+
+				$template_org = str_replace('{compare_product_div}', $compareProductDiv, $template_org);
+			}
+
 			// Skip html if nosubcategory
 			if (strstr($template_org, "{if subcats}"))
 			{

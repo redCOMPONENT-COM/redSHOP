@@ -54,7 +54,7 @@ class plgredshop_shippingego extends JPlugin
 	{
 		if ($d['element'] == $this->classname)
 		{
-			$maincfgfile = JPATH_ROOT . '/plugins/' . $d['plugin'] . '/' . $this->classname . '.cfg.php';
+			$maincfgfile = JPATH_ROOT . '/plugins/' . $d['plugin'] . '/' . $this->classname . '/' . $this->classname . '.cfg.php';
 
 			$my_config_array = array(
 				"EGO_PICKUPZIPCODE" => $d['EGO_PICKUPZIPCODE']
@@ -86,7 +86,7 @@ class plgredshop_shippingego extends JPlugin
 
 	public function onListRates(&$d)
 	{
-		include_once JPATH_ROOT . '/plugins/redshop_shipping/' . $this->classname . '.cfg.php';
+		include_once JPATH_ROOT . '/plugins/' . $d['plugin'] . '/' . $this->classname . '/' . $this->classname . '.cfg.php';
 		$shippinghelper = new shipping;
 		$producthelper = new producthelper;
 		$redconfig = new Redconfiguration;

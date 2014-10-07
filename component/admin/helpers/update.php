@@ -432,9 +432,6 @@ class RedshopUpdate
 				'idx_address_type' => 'address_type'
 			)
 		),
-		'#__redshop_payment_method' => array(
-			'engine' => 'InnoDB'
-		),
 		'#__redshop_product' => array(
 			'engine' => 'InnoDB',
 			'index' => array(
