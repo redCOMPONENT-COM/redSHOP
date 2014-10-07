@@ -962,16 +962,22 @@ class rsCarthelper
 				$cart_mdata     = str_replace("{product_on_sale end if}", '', $cart_mdata);
 
 				$thumbUrl = RedShopHelperImages::getImagePath(
-								$giftcardData->giftcard_image,
-								'',
-								'thumb',
-								'giftcard',
-								CART_THUMB_WIDTH,
-								CART_THUMB_HEIGHT,
-								USE_IMAGE_SIZE_SWAPPING
-							);
+					$giftcardData->giftcard_image,
+					'',
+					'thumb',
+					'giftcard',
+					CART_THUMB_WIDTH,
+					CART_THUMB_HEIGHT,
+					USE_IMAGE_SIZE_SWAPPING
+				);
 
-				$giftcard_image = "<div  class='giftcard_image'><img src='" . $thumbUrl. "'></div>";
+				$giftcard_image = "&nbsp;";
+
+				if($thumbUrl)
+				{
+					$giftcard_image = "<div  class='giftcard_image'><img src='" . $thumbUrl. "'></div>";
+				}
+
 				$cart_mdata     = str_replace("{product_thumb_image}", $giftcard_image, $cart_mdata);
 				$user_fields    = $this->_producthelper->GetProdcutUserfield($i, 13);
 				$cart_mdata     = str_replace("{product_userfields}", $user_fields, $cart_mdata);
@@ -983,7 +989,7 @@ class rsCarthelper
 				$cart_mdata     = str_replace("{product_tax}", "", $cart_mdata);
 
 				// ProductFinderDatepicker Extra Field
-				$cart_mdata = $this->_producthelper->getProductFinderDatepickerValue($cart_mdata, $product_id, $fieldArray, $giftcard = 1);
+				$cart_mdata = $this->_producthelper->getProductFinderDatepickerValue($cart_mdata, $giftcard_id, $fieldArray, $giftcard = 1);
 
 				$remove_product = '<form style="" class="rs_hiddenupdatecart" name="delete_cart' . $i . '" method="POST" >
 				<input type="hidden" name="giftcard_id" value="' . $cart[$i]['giftcard_id'] . '">
@@ -2590,6 +2596,9 @@ class rsCarthelper
 		$session   = JFactory::getSession();
 		$orderitem = $this->_order_functions->getOrderItemDetail($order_id);
 
+		$search    = array();
+		$replace   = array();
+
 		if (strstr($ReceiptTemplate, "{product_loop_start}") && strstr($ReceiptTemplate, "{product_loop_end}"))
 		{
 			$template_sdata  = explode('{product_loop_start}', $ReceiptTemplate);
@@ -3336,6 +3345,8 @@ class rsCarthelper
 		$sql    = "SELECT  enabled FROM #__extensions WHERE element ='default_shipping_GLS'";
 		$this->_db->setQuery($sql);
 		$isEnabled = $this->_db->loadResult();
+		$selected_shop_id = null;
+		$ShopRespons = array();
 
 		if ($isEnabled && $classname == 'default_shipping_GLS')
 		{
@@ -3346,7 +3357,11 @@ class rsCarthelper
 			$values = $this->_db->loadObject();
 
 			$ShopResponses = $dispatcher->trigger('GetNearstParcelShops', array($values));
-			$ShopRespons   = $ShopResponses[0];
+
+			if(isset($ShopResponses[0]))
+			{
+				$ShopRespons = $ShopResponses[0];
+			}
 
 			$shopList = array();
 
@@ -3794,8 +3809,7 @@ class rsCarthelper
 
 					JArrayHelper::toInteger($shopperGroups);
 
-					if (in_array((int) $shopperGroupId, $shopperGroups)
-						|| 0 == $shopperGroups[0])
+					if (in_array((int) $shopperGroupId, $shopperGroups) || (!isset($shopperGroups[0]) || 0 == $shopperGroups[0]))
 					{
 						return true;
 					}
@@ -5048,6 +5062,8 @@ class rsCarthelper
 		$idx  = $cart['idx'];
 		$user = JFactory::getUser();
 
+		$cart_accessory = array();
+
 		// If user is not logged in don't save in db
 		if ($user->id <= 0)
 			return false;
@@ -5086,6 +5102,11 @@ class rsCarthelper
 				$cart[$i]['giftcard_id'] = 0;
 			}
 
+			if(isset($cart[$i]['wrapper_id']) === false)
+			{
+				$cart[$i]['wrapper_id'] = 0;
+			}
+
 			$rowItem->giftcard_id             = $cart[$i]['giftcard_id'];
 			$rowItem->product_quantity        = $cart[$i]['quantity'];
 			$rowItem->product_wrapper_id      = $cart[$i]['wrapper_id'];
@@ -5104,11 +5125,20 @@ class rsCarthelper
 
 			$cart_item_id = $rowItem->cart_item_id;
 
-			$cart_attribute = $cart[$i]['cart_attribute'];
+			$cart_attribute = array();
+
+			if(isset($cart[$i]['cart_attribute']))
+			{
+				$cart_attribute = $cart[$i]['cart_attribute'];
+			}
+
 			/* store attribute in db */
 			$this->attributetodb($cart_attribute, $cart_item_id, $rowItem->product_id);
 
-			$cart_accessory = $cart[$i]['cart_accessory'];
+			if(isset($cart[$i]['cart_accessory']))
+			{
+				$cart_accessory = $cart[$i]['cart_accessory'];
+			}
 
 			for ($j = 0; $j < count($cart_accessory); $j++)
 			{
@@ -5609,7 +5639,12 @@ class rsCarthelper
 		{
 			$cart[$idx]['reciver_email']   = $data['reciver_email'];
 			$cart[$idx]['reciver_name']    = $data['reciver_name'];
-			$cart[$idx]['customer_amount'] = $data['customer_amount'];
+			$cart[$idx]['customer_amount'] = "";
+
+			if(isset($data['customer_amount']))
+			{
+				$cart[$idx]['customer_amount'] = $data['customer_amount'];
+			}
 
 			for ($g = 0; $g < count($idx); $g++)
 			{
@@ -5639,12 +5674,12 @@ class rsCarthelper
 			$cart[$idx]['product_vat']            = 0;
 			$cart[$idx]['product_id']             = '';
 
-			if (!$cart['discount_type'])
+			if (!isset($cart['discount_type']) || !$cart['discount_type'])
 			{
 				$cart['discount_type'] = 0;
 			}
 
-			if (!$cart['discount'])
+			if (!isset($cart['discount']) || !$cart['discount'])
 			{
 				$cart['discount'] = 0;
 			}
@@ -6210,17 +6245,17 @@ class rsCarthelper
 			}
 		}
 
-		if (!$cart['discount_type'])
+		if (!isset($cart['discount_type']) || !$cart['discount_type'])
 		{
 			$cart['discount_type'] = 0;
 		}
 
-		if (!$cart['discount'])
+		if (!isset($cart['discount']) || !$cart['discount'])
 		{
 			$cart['discount'] = 0;
 		}
 
-		if (!$cart['cart_discount'])
+		if (!isset($cart['cart_discount']) || !$cart['cart_discount'])
 		{
 			$cart['cart_discount'] = 0;
 		}
