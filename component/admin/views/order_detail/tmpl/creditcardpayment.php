@@ -6,7 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined('_JEXEC') or die ('restricted access');
+defined('_JEXEC') or die;
 
 $url = JURI::base();
 $user = JFactory::getUser();
@@ -20,11 +20,11 @@ JLoader::load('RedshopHelperCart');
 JLoader::load('RedshopHelperUser');
 JLoader::load('RedshopHelperHelper');
 
-$carthelper = new rsCarthelper();
-$producthelper = new producthelper();
-$order_functions = new order_functions();
-$redhelper = new redhelper();
-$userhelper = new rsUserhelper();
+$carthelper = new rsCarthelper;
+$producthelper = new producthelper;
+$order_functions = new order_functions;
+$redhelper = new redhelper;
+$userhelper = new rsUserhelper;
 $user = JFactory::getUser();
 $session = JFactory::getSession();
 $user_id = $user->id;
