@@ -16,7 +16,7 @@
 		<folder>toolbar</folder>
 		<folder>view</folder>
 		<filename>index.html</filename>
-		<filename>redshop.php</filename>
+		<filename>library.php</filename>
 		<filename>redshop.xml</filename>
 	</files>
 </extension>
