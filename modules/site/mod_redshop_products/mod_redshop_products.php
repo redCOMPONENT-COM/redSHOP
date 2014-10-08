@@ -27,11 +27,11 @@ if (!defined('MOD_REDSHOP_PRODUCTS'))
 			->order($db->qn('category_id') . ' ASC');
 
 		$category = array();
-		for ($i = 0; $i < count($cats); $i++)
+		try
 		{
 			$categoryIds = $db->loadResultArray();
 		}
-		catch (RuntimeException $e)
+		catch (Exception $e)
 		{
 			throw new RuntimeException($e->getMessage(), $e->getCode());
 		}
