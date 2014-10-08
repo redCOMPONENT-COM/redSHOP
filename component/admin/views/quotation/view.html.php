@@ -9,11 +9,11 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
+jimport('joomla.application.component.viewlegacy');
 
 JLoader::load('RedshopHelperAdminQuotation');
 
-class RedshopViewQuotation extends JView
+class RedshopViewQuotation extends JViewLegacy
 {
 	/**
 	 * The request url.
@@ -33,12 +33,11 @@ class RedshopViewQuotation extends JView
 		$document = JFactory::getDocument();
 
 		$document->setTitle(JText::_('COM_REDSHOP_quotation'));
-		$model = $this->getModel('quotation');
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_QUOTATION_MANAGEMENT'), 'redshop_quotation48');
-		JToolBarHelper::addNewX();
-		JToolBarHelper::custom('export_data', 'save.png', 'save_f2.png', JText::_('COM_REDSHOP_EXPORT_DATA_LBL'), false);
-		JToolBarHelper::editListX();
+		JToolBarHelper::addNew();
+		RedshopToolbarHelper::link('index.php?option=com_redshop&view=quotation&format=csv', 'save', JText::_('COM_REDSHOP_EXPORT_DATA_LBL'));
+		JToolBarHelper::editList();
 		JToolBarHelper::deleteList();
 
 		$filter_order     = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'quotation_cdate');

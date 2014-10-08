@@ -43,7 +43,8 @@ class RedshopViewConfiguration extends JView
 		$document->addStyleSheet('components/' . $option . '/assets/css/search.css');
 		$document->addScript('components/' . $option . '/assets/js/search.js');
 
-		$currency_data = JRequest::getVar('currency_data');
+		$model = $this->getModel('configuration');
+		$currency_data = $model->getCurrency();
 
 		$redhelper   = new redhelper;
 		$config      = new Redconfiguration;
@@ -88,7 +89,6 @@ class RedshopViewConfiguration extends JView
 		$uri = JFactory::getURI();
 		$this->setLayout('default');
 
-		$model       = $this->getModel('configuration');
 		$newsletters = $model->getnewsletters();
 
 		$templatesel                   = array();
