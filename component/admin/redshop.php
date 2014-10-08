@@ -18,7 +18,8 @@
 
 	$app = JFactory::getApplication();
 
-	require_once JPATH_LIBRARIES . '/redshop/redshop.php';
+	// Load redSHOP Library
+	JLoader::import('redshop.library');
 
 	$configpath = JPATH_COMPONENT . '/helpers/redshop.cfg.php';
 
