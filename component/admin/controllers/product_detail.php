@@ -587,48 +587,79 @@ class RedshopControllerProduct_Detail extends JController
 		$url = $uri->root();
 
 		$folder_path = $this->input->getString('path', '');
-		$dirpath = $this->input->getString('dirpath', '');
 
-		if (!$folder_path)
+		if(!$folder_path)
 		{
-			$path = REDSHOP_FRONT_IMAGES_RELPATH;
-			$dir_path = "components/com_redshop/assets/images";
-		}
-		else
-		{
-			$path = $folder_path;
-			$dir_path = $dirpath;
+			$folder_path = REDSHOP_FRONT_IMAGES_RELPATH;
 		}
 
-		$files = JFolder::listFolderTree($path, '.', 1);
 		$tbl = '';
 		$tbl .= "<table cellspacing='7' cellpdding='2' width='100%' border='0'>";
 		$tbl .= "<tr>";
 
-		if ($folder_path)
+		$data = glob($folder_path.DIRECTORY_SEPARATOR."*",GLOB_MARK);
+		$run = array();
+
+		$run = array();
+		$run['back'] = array();
+		$run['directories'] = array();
+		$run['files'] = array();
+
+		foreach($data As $file)
 		{
-			$t = preg_split('/', $folder_path);
-			$na = count($t) - 1;
-			$n = count($t) - 2;
-
-			if ($t[$n] != 'assets')
+			if(is_file($file) && (preg_match("/(.jpg|.png|.gif|.jpeg)/", $file)))
 			{
-				if ($t[$n] == 'images')
-				{
-					$path_bk = REDSHOP_FRONT_IMAGES_RELPATH;
-					$dir_path = "components/com_redshop/assets/images/" . $t[$na];
-				}
-				else
-				{
-					$path_bk = REDSHOP_FRONT_IMAGES_RELPATH . $t[$n];
-					$dir_path = "components/com_redshop/assets/images/" . $t[$n] . "/" . $t[$na];
-				}
+				$run['files'][] = $file;
+			}
+			elseif(is_dir($file))
+			{
+				$run['directories'][] = $file;
+			}
+		}
 
-				$folder_img_bk = "components/com_redshop/assets/images/folderup_32.png";
+		if(dirname($folder_path) != dirname(REDSHOP_FRONT_IMAGES_RELPATH))
+		{
+			$run['back'][] = dirname($folder_path);
+		}
+
+		$j = 1;
+
+		foreach($run As $type=>$glob)
+		{
+
+
+
+			foreach($glob As $location)
+			{
+
+				$file_location = str_replace(JPATH_SITE,"",$location);
+				$file_location = str_replace(array("\\","//"),"/",$file_location);
+				$label = basename($location);
+
+				switch($type)
+				{
+					case 'directories':
+						$img = "components/com_redshop/assets/images/folder.png";
+						$link = "index.php?tmpl=component&option=com_redshop&view=product_detail&task=media_bank&folder=1&path=".($location);
+						break;
+
+					case 'back':
+						$img = "components/com_redshop/assets/images/folderup_32.png";
+						$link = "index.php?tmpl=component&option=com_redshop&view=product_detail&task=media_bank&path=" . dirname($folder_path);
+						$label = "up";
+						$j = 4;
+						break;
+
+					default:
+						$link = "javascript:window.parent.jimage_insert('".$file_location."');window.parent.SqueezeBox.close();";
+						$img = $url . $file_location;
+						break;
+
+				}
 
 				$width = 0;
 				$height = 0;
-				$info = getimagesize($folder_img_bk);
+				$info = getimagesize($img);
 
 				if ($info)
 				{
@@ -649,116 +680,21 @@ class RedshopControllerProduct_Detail extends JController
 					$height_60 = $height;
 				}
 
-				$link_bk = "index.php?tmpl=component&option=com_redshop&view=product_detail&task=media_bank&path=" . $path_bk
-					. "&dirpath=" . $dir_path;
-				$tbl .= "<td width='25%'><table width='120' height='70' style='background-color:#C0C0C0;' cellspacing='1'
-				cellpdding='1'><tr><td align='center' style='background-color:#FFFFFF;'><a href='" . $link_bk . "'>
-				<img src='" . $folder_img_bk . "' width='" . $width_60 . "' height='" . $height_60 . "'></a></td></tr><
-				tr height='15'><td style='background-color:#F7F7F7;' align='center'><label>Up</label></td></tr></table></td></tr><tr>";
-			}
-			else
-			{
-				$dir_path = "components/com_redshop/assets/images";
-			}
-		}
-
-		if ($handle = opendir($path))
-		{
-			$folder_img = "components/com_redshop/assets/images/folder.png";
-
-			$width = 0;
-			$height = 0;
-			$info = getimagesize($folder_img);
-
-			if ($info)
-			{
-				$width = $info[0];
-				$height = $info[1];
-			}
-
-			if (($info[0] > 50) || ($info[1] > 50))
-			{
-				$dimensions = $this->_imageResize($info[0], $info[1], 50);
-
-				$width_60 = $dimensions[0];
-				$height_60 = $dimensions[1];
-			}
-			else
-			{
-				$width_60 = $width;
-				$height_60 = $height;
-			}
-
-			$j = 1;
-
-			for ($f = 0; $f < count($files); $f++)
-			{
-				$link = "index.php?tmpl=component&option=com_redshop&view=product_detail&task=media_bank&folder=1&path="
-					. $files[$f]['fullname'] . "&dirpath=" . $files[$f]['relname'];
 				$tbl .= "<td width='25%'><table width='120' height='70' style='background-color:#C0C0C0;' cellspacing='1' cellpdding='1'><tr>
-				<td align='center' style='background-color:#FFFFFF;'><a href='" . $link . "'><img src='" . $folder_img . "' width='"
+				<td align='center' style='background-color:#FFFFFF;'><a href=\"" . $link . "\"'><img src='" . $img . "' width='"
 					. $width_60 . "' height='" . $height_60 . "'></a></tr><tr height='15'><td style='background-color:#F7F7F7;' align='center'>
-					<label>" . $files[$f]['name'] . "</label></td></tr></table></td>";
+					<label>" . $label . "</label></td></tr></table></td>";
 
-				if ($j % 4 == 0)
+				if($j % 4 == 0)
 				{
 					$tbl .= "</tr><tr>";
 				}
-
 				$j++;
 			}
 
-			$i = $j;
-
-			while (false !== ($filename = readdir($handle)))
-			{
-				if (preg_match("/.jpg/", $filename) || preg_match("/.gif/", $filename) || preg_match("/.png/", $filename))
-				{
-					$live_path = $url . $dir_path . '/' . $filename;
-
-					$width = 0;
-					$height = 0;
-					$info = getimagesize($live_path);
-
-					if ($info)
-					{
-						$width = $info[0];
-						$height = $info[1];
-					}
-
-					if (($info[0] > 50) || ($info[1] > 50))
-					{
-						$dimensions = $this->_imageResize($info[0], $info[1], 50);
-
-						$width_60 = $dimensions[0];
-						$height_60 = $dimensions[1];
-					}
-					else
-					{
-						$width_60 = $width;
-						$height_60 = $height;
-					}
-
-					$tbl .= "<td width='25%'><table width='120' height='70' style='background-color:#C0C0C0;' cellspacing='1' cellpdding='1'>
-					<tr><td align='center' style='background-color:#FFFFFF;'>
-					<a href=\"javascript:window.parent.jimage_insert('" . $dir_path . '/' . $filename . "');window.parent.SqueezeBox.close();\">
-					<img width='" . $width_60 . "' height='" . $height_60 . "' alt='" . $filename . "' src='" . $live_path . "'></a></td>
-					</tr><tr height='15'><td style='background-color:#F7F7F7;' align='center'><label>" . substr($filename, 0, 10) . "</label>
-					</td></tr></table></td>";
-
-					if ($i % 4 == 0)
-					{
-						$tbl .= "</tr><tr>";
-					}
-
-					$i++;
-				}
-			}
-
-			$tbl .= '</tr></table>';
-			echo $tbl;
-			closedir($handle);
 		}
+		$tbl .= '</tr></table>';
+		echo $tbl;
 	}
 
 	/**
