@@ -705,14 +705,7 @@ class xmlHelper
 							}
 						}
 
-						if ($prop == "link")
-						{
-							$xml_document .= "<$prop><![CDATA[$val]]></$prop>";
-						}
-						else
-						{
-							$xml_document .= "<$prop>$val</$prop>";
-						}
+						$xml_document .= "<$prop><![CDATA[$val]]></$prop>";
 					}
 				}
 

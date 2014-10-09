@@ -472,9 +472,8 @@ class redshopMail
 
 		for ($o = 0; $o < count($oid); $o++)
 		{
-			$message       = "";
-			$order_id      = $oid[$o];
-
+			$message              = "";
+			$order_id             = $oid[$o];
 			$OrdersDetail  		  = $order_functions->getOrderDetails($order_id);
 			$order_print_template = $redTemplate->getTemplate("order_print");
 
@@ -658,7 +657,7 @@ class redshopMail
 		$mailbcc           = null;
 		$arr_discount_type = array();
 
-		$mailinfo          = $this->getMailtemplate(0, "invoice_mail");
+		$mailinfo          = $this->getMailtemplate(0, "invoicefile_mail");
 
 		if (count($mailinfo) > 0)
 		{
