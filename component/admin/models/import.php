@@ -1888,7 +1888,7 @@ class RedshopModelImport extends JModel
 		$query = $db->getQuery(true)
 			->select('shopper_group_id')
 			->from($db->qn('#__redshop_shopper_group'))
-			->where($db->qn('shopper_group_id') . ' = ' . (int) trim($rawdata['shopper_group_id']));
+			->where($db->qn('shopper_group_id') . ' = ' . (int) trim($shopperGroupInputId));
 
 		// Set the query and load the result.
 		$db->setQuery($query);
@@ -1998,7 +1998,8 @@ class RedshopModelImport extends JModel
 		}
 
 		// Initialiase variables.
-		$db = JFactory::getDbo();
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true);
 
 		if ($rawdata['section'] == "property")
 		{
