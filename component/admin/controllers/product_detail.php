@@ -588,7 +588,7 @@ class RedshopControllerProduct_Detail extends JController
 
 		$folder_path = $this->input->getString('path', '');
 
-		if(!$folder_path)
+		if (!$folder_path)
 		{
 			$folder_path = REDSHOP_FRONT_IMAGES_RELPATH;
 		}
@@ -597,63 +597,62 @@ class RedshopControllerProduct_Detail extends JController
 		$tbl .= "<table cellspacing='7' cellpdding='2' width='100%' border='0'>";
 		$tbl .= "<tr>";
 
-		$data = glob($folder_path.DIRECTORY_SEPARATOR."*",GLOB_MARK);
+		$data = glob($folder_path . DIRECTORY_SEPARATOR . "*", GLOB_MARK);
 
 		$run = array();
 		$run['back'] = array();
 		$run['directories'] = array();
 		$run['files'] = array();
 
-		foreach($data As $file)
+		foreach ($data As $file)
 		{
-
-			if(is_file($file) && (preg_match("/(.jpg|.png|.gif|.jpeg)/", $file)))
+			if (is_file($file) && ( preg_match("/(.jpg|.png|.gif|.jpeg)/", $file) ))
 			{
 				$run['files'][] = $file;
 			}
-			elseif(is_dir($file))
+			elseif (is_dir($file))
 			{
 				$run['directories'][] = $file;
 			}
-
 		}
 
-		if(dirname($folder_path) != dirname(REDSHOP_FRONT_IMAGES_RELPATH))
+		if (dirname($folder_path) != dirname(REDSHOP_FRONT_IMAGES_RELPATH))
 		{
 			$run['back'][] = dirname($folder_path);
 		}
 
 		$j = 1;
 
-		foreach($run As $type=>$glob)
+		foreach ($run As $type => $glob)
 		{
-
-			foreach($glob As $location)
+			foreach ($glob As $location)
 			{
-
-				$file_location = str_replace(JPATH_SITE,"",$location);
-				$file_location = str_replace(array("\\","//"),"/",$file_location);
+				$file_location = str_replace(JPATH_SITE, "", $location);
+				$file_location = str_replace(array("\\","//"), "/", $file_location);
 				$label = basename($location);
 
-				switch($type)
+				switch ($type)
 				{
 					case 'directories':
+
 						$img = "components/com_redshop/assets/images/folder.png";
-						$link = "index.php?tmpl=component&option=com_redshop&view=product_detail&task=media_bank&folder=1&path=".($location);
+						$link = "index.php?tmpl=component&option=com_redshop&view=product_detail&task=media_bank&folder=1&path=" . ($location);
 						break;
 
 					case 'back':
+
 						$img = "components/com_redshop/assets/images/folderup_32.png";
 						$link = "index.php?tmpl=component&option=com_redshop&view=product_detail&task=media_bank&path=" . dirname($folder_path);
 						$label = "up";
 						$j = 4;
-						break;
 
+						break;
 					default:
-						$link = "javascript:window.parent.jimage_insert('".$file_location."');window.parent.SqueezeBox.close();";
-						$img = $url . $file_location;
-						break;
 
+						$link = "javascript:window.parent.jimage_insert('" . $file_location . "');window.parent.SqueezeBox.close();";
+						$img = $url . $file_location;
+
+						break;
 				}
 
 				$width = 0;
@@ -680,23 +679,21 @@ class RedshopControllerProduct_Detail extends JController
 				}
 
 				$tbl .= "<td width='25%'><table width='120' height='70' style='background-color:#C0C0C0;' cellspacing='1' cellpdding='1'><tr>
-				<td align='center' style='background-color:#FFFFFF;'><a href=\"" . $link . "\"'><img src='" . $img . "' width='"
+				<td align='center' style='background-color:#FFFFFF;'><a href=\"" . $link . "\"><img src='" . $img . "' width='"
 					. $width_60 . "' height='" . $height_60 . "'></a></tr><tr height='15'><td style='background-color:#F7F7F7;' align='center'>
 					<label>" . $label . "</label></td></tr></table></td>";
 
-				if($j % 4 == 0)
+				if ($j % 4 == 0)
 				{
 					$tbl .= "</tr><tr>";
 				}
 
 				$j++;
 			}
-
 		}
 
 		$tbl .= '</tr></table>';
 		echo $tbl;
-
 	}
 
 	/**
