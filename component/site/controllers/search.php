@@ -42,7 +42,7 @@ class RedshopControllerSearch extends JController
 		$get = JRequest::get('get');
 		$taskid = $get['taskid'];
 
-		$model = $this->getModel();
+		$model = $this->getModel('search');
 
 		$brands = $model->loadCatProductsManufacturer($taskid);
 
