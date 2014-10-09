@@ -598,7 +598,6 @@ class RedshopControllerProduct_Detail extends JController
 		$tbl .= "<tr>";
 
 		$data = glob($folder_path.DIRECTORY_SEPARATOR."*",GLOB_MARK);
-		$run = array();
 
 		$run = array();
 		$run['back'] = array();
@@ -607,6 +606,7 @@ class RedshopControllerProduct_Detail extends JController
 
 		foreach($data As $file)
 		{
+
 			if(is_file($file) && (preg_match("/(.jpg|.png|.gif|.jpeg)/", $file)))
 			{
 				$run['files'][] = $file;
@@ -615,6 +615,7 @@ class RedshopControllerProduct_Detail extends JController
 			{
 				$run['directories'][] = $file;
 			}
+
 		}
 
 		if(dirname($folder_path) != dirname(REDSHOP_FRONT_IMAGES_RELPATH))
@@ -626,8 +627,6 @@ class RedshopControllerProduct_Detail extends JController
 
 		foreach($run As $type=>$glob)
 		{
-
-
 
 			foreach($glob As $location)
 			{
@@ -689,12 +688,15 @@ class RedshopControllerProduct_Detail extends JController
 				{
 					$tbl .= "</tr><tr>";
 				}
+
 				$j++;
 			}
 
 		}
+
 		$tbl .= '</tr></table>';
 		echo $tbl;
+
 	}
 
 	/**
