@@ -24,11 +24,6 @@
         <fields name="params">
 
             <fieldset name="basic">
-
-                <field name="payment_oprand" type="text" size="10" default="-"
-                       label="Payment operand" description="Payment Operand"/>
-                <field name="payment_price" type="text" size="30" default=""
-                       label="Payment price" description="Payment price"/>
                 <field name="debug_mode" type="radio" default="1" label="Debug Mode: "
                        description="Debug Mode">
                     <option value="1">Yes</option>

@@ -91,20 +91,6 @@ if (SHIPPING_METHOD_ENABLE)
 $paypalPostData['discount_amount_cart'] = round($currencyClass->convert($data['odiscount'], '', $paymentCurrency), 2);
 $paypalPostData['discount_amount_cart'] += round($currencyClass->convert($data['special_discount'], '', $paymentCurrency), 2);
 
-// @TODO  This variable is not used anywhere but keep this as still don't know why it's not used.
-$discount_payment_price = $this->params->get("payment_price");
-
-switch ($this->params->get("payment_oprand"))
-{
-	case '-':
-		$paypalPostData['discount_amount_cart'] += round($currencyClass->convert($data['order']->payment_discount, '', $paymentCurrency), 2);
-		break;
-
-	case '+':
-		$paypalPostData['handling_cart'] = round($currencyClass->convert($data['order']->payment_discount, '', $paymentCurrency), 2);
-		break;
-}
-
 $items         = $objOrder->getOrderItemDetail($data['order_id']);
 $totalQuantity = 0;
 
