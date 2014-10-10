@@ -95,8 +95,8 @@ if ($task != 'loadProducts' && $task != "downloadProduct" && $task != "discountC
 		{
 			JLoader::load('RedshopHelperGoogle_analytics');
 
-			$ga      = new GoogleAnalytics;
-			$anacode = $ga->placeTrans();
+			$ga = new GoogleAnalytics;
+			$ga->placeTrans();
 		}
 	}
 }
