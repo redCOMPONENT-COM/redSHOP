@@ -30,32 +30,35 @@ if ($modsearchitemid != "")
 }
 
 ?>
-<form action="<?php echo JRoute::_('index.php?option=com_redshop&view=search&Itemid=' . $Itemid); ?>" method="post"
+<form action="<?php echo JRoute::_('index.php'); ?>" method="get"
       name="redSHOPSEARCH">
+    <input type="hidden" name="option" value="com_redshop"/>
+	<input type="hidden" name="view" value="search"/>
+	<input type="hidden" name="layout" value="default"/>
 	<div class="product_search">
-		<?php if ($showProductsearchtitle == 'yes'): ?>
+		<?php if ($showProductsearchtitle): ?>
 			<div class="product_search_title">
 				<?php echo JText::_('COM_REDSHOP_PRODUCT_SEARCH'); ?>
 			</div>
 		<?php endif; ?>
 
-		<?php if ($showSearchTypeField == 'yes'): ?>
+		<?php if ($showSearchTypeField): ?>
 			<div class="product_search_type"><?php echo $lists['searchtypedata'];?></div>
 		<?php endif; ?>
 
-		<?php if ($showCategory == 'yes'):	?>
+		<?php if ($showCategory):	?>
 			<div class="product_search_catdata">
 				<?php echo JText::_('COM_REDSHOP_SELECT_CATEGORIES');?><br>
 				<div class="product_search_catdata_category"><?php echo $lists['catdata'];?></div>
 
-				<?php if ($showManufacturer == 'yes'): ?>
+				<?php if ($showManufacturer): ?>
 					<div class="product_search_catdata_product" id="product_search_catdata_product"
 					     style="display: none;"></div>
 				<?php endif; ?>
 			</div>
 		<?php endif; ?>
 
-		<?php if ($showManufacturer == 'yes' && $showCategory == 'no'): ?>
+		<?php if ($showManufacturer && !$showCategory): ?>
 			<div class="product_search_manufacturedata">
 				<?php echo JText::_('COM_REDSHOP_SELECT_MANUFACTURE');?><br>
 				<div class="product_search_manufacturedata_manufacture">
@@ -64,14 +67,14 @@ if ($modsearchitemid != "")
 			</div>
 		<?php endif; ?>
 
-		<?php if ($showSearchField == 'yes'): ?>
-			<?php if ($showKeywordtitle == 'yes'): ?>
+		<?php if ($showSearchField): ?>
+			<?php if ($showKeywordtitle): ?>
 				<div class="product_search_input">
 					<?php echo JText::_('COM_REDSHOP_KEYWORD'); ?>
 				<?php endif; ?>
 				<br>
 					<input type="text" name="keyword" id="keyword" value="<?php echo $keyword; ?>" onclick="this.value=''"/>
-			<?php if ($showKeywordtitle == 'yes'): ?>
+			<?php if ($showKeywordtitle): ?>
 				</div>
 			<?php endif; ?>
 		<?php endif; ?>
@@ -82,14 +85,11 @@ if ($modsearchitemid != "")
 			</div>
 		<?php endif; ?>
 	</div>
-	<input type="hidden" name="option" value="com_redshop"/>
-	<input type="hidden" name="view" value="search"/>
-	<input type="hidden" name="layout" value="default"/>
 	<input type="hidden" name="templateid" value="<?php echo $templateid; ?>"/>
 	<input type="hidden" name="perpageproduct" value="<?php echo $perpageproduct; ?>"/>
 	<input type="hidden" name="Itemid" id="Itemid" value="<?php echo $Itemid; ?>"/>
 
-	<?php if ($showSearchTypeField == 'yes'): ?>
+	<?php if ($showSearchTypeField): ?>
 		<input type="hidden" name="search_type1" id="search_type1" value="<?php echo $search_type; ?>"/>
 	<?php else: ?>
 		<input type="hidden" name="search_type" id="search_type" value="<?php echo $search_type; ?>"/>
@@ -142,7 +142,7 @@ if ($enableAjaxsearch)
 			urlArgstring = urlArg.join('&');
 
 			new bsn.AutoSuggest('keyword', {
-				script: 'index.php?tmpl=component&option=com_redshop&view=search&json=1&task=ajaxsearch&' + urlArgstring + '&',
+				script: base_url + 'index.php?tmpl=component&option=com_redshop&view=search&json=1&task=ajaxsearch&' + urlArgstring + '&',
 				varname: 'input',
 				json: true,
 				cache: false,

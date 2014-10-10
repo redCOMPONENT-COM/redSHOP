@@ -105,7 +105,7 @@ class RedshopViewSearch extends JView
 			}
 		}
 
-		$redHelper = new redhelper;
+		$redHelper             = new redhelper;
 		$order_data            = $redHelper->getOrderByList();
 		$getorderby            = JRequest::getString('order_by', DEFAULT_PRODUCT_ORDERING_METHOD);
 		$lists['order_select'] = JHTML::_('select.genericlist', $order_data, 'order_by', 'class="inputbox" size="1" onchange="document.orderby_form.submit();" ', 'value', 'text', $getorderby);
@@ -117,28 +117,29 @@ class RedshopViewSearch extends JView
 			$templatedata[$i]->template_desc = $redTemplate->readtemplateFile($templatedata[$i]->template_section, $templatedata[$i]->template_name);
 		}
 
-		$search     = $this->get('Data');
-		$pagination = $this->get('Pagination');
-
-		$this->params = $params;
-		$this->limit = $model->getState('limit');
-		$this->lists = $lists;
+		$this->params       = $params;
+		$this->limit        = $model->getState('limit');
+		$this->lists        = $lists;
 		$this->templatedata = $templatedata;
-		$this->search = $search;
-		$this->pagination = $pagination;
-		$this->request_url = $uri->toString();
+		$this->search       = $this->get('Items');
+		$this->pagination   = $this->get('Pagination');
+		$this->state        = $this->get('State');
+		$this->request_url  = $uri->toString();
 		JFilterOutput::cleanText($this->request_url);
 		parent::display($tpl);
 	}
 
 	/**
 	 * Generate product search output
+	 *
+	 * @return	void
 	 */
 	public function onRSProductSearch()
 	{
 		if (count($this->search) > 0)
 		{
-			$app = JFactory::getApplication();
+			$app    = JFactory::getApplication();
+			$jinput = $app->input;
 
 			JLoader::load('RedshopHelperProduct');
 			JLoader::load('RedshopHelperPagination');
@@ -153,36 +154,32 @@ class RedshopViewSearch extends JView
 			$texts            = new text_library;
 			$stockroomhelper  = new rsstockroomhelper;
 
-			$Itemid         = JRequest::getInt('Itemid');
-			$search_type    = JRequest::getCmd('search_type');
-			$cid            = JRequest::getInt('category_id');
-			$manufacture_id = JRequest::getInt('manufacture_id');
+			$Itemid         = $jinput->getInt('Itemid', 0);
+			$search_type    = $jinput->getString('search_type', '');
+			$cid            = $jinput->getInt('category_id');
+			$manufacture_id = $jinput->getInt('manufacture_id');
 
-			$manisrch       = $this->search;
-			$templateid     = JRequest::getInt('templateid');
+			$templateid     = $jinput->getInt('templateid');
 
 			// Cmd removes space between to words
-			$keyword        = JRequest::getString('keyword');
-			$layout         = JRequest::getCmd('layout', 'default');
-
-			$db    = JFactory::getDbo();
-			$query = 'SELECT category_name'
-				. ' FROM #__redshop_category  '
-				. 'WHERE category_id=' . JRequest::getInt('cid');
-			$db->setQuery($query);
-
-			$cat_name = null;
-
-			if ($catname_array = $db->loadObjectList())
-			{
-				$cat_name = $catname_array[0]->category_name;
-			}
+			$keyword        = $jinput->getString('keyword');
+			$layout         = $jinput->getString('layout', 'default');
 
 			$session    = JFactory::getSession();
 			$model      = $this->getModel('search');
 			$limit      = $this->limit;
 			$limitstart = JRequest::getInt('limitstart', 0);
-			$total      = $model->_total;
+			$total      = $model->getTotal();
+
+			$categoryDetail = $model->getTable('category_detail');
+			$categoryDetail->load($cid);
+
+			$cat_name = "";
+
+			if ($categoryDetail)
+			{
+				$cat_name = $categoryDetail->category_name;
+			}
 
 			JHTML::_('behavior.tooltip');
 			JHTMLBehavior::modal();
@@ -203,6 +200,7 @@ class RedshopViewSearch extends JView
 				echo $pagetitle;
 				echo '</h1>';
 			}
+
 			echo '<div style="clear:both"></div>';
 			$category_tmpl = "";
 
@@ -305,6 +303,7 @@ class RedshopViewSearch extends JView
 			if (strstr($template_org, "{redproductfinderfilter:"))
 			{
 				$redProductFinerHelper = JPATH_SITE . "/components/com_redproductfinder/helpers/redproductfinder_helper.php";
+
 				if (file_exists($redProductFinerHelper))
 				{
 					include_once $redProductFinerHelper;
@@ -349,7 +348,7 @@ class RedshopViewSearch extends JView
 			$extraFieldName     = $extraField->getSectionFieldNameArray(1, 1, 1);
 			$attribute_template = $producthelper->getAttributeTemplate($template_desc);
 
-			$total_product = $model->_total;
+			$total_product = $total;
 			$endlimit      = $this->limit;
 			$start         = JRequest::getInt('limitstart', 0, '', 'int');
 

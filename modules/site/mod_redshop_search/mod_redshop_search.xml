@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="module" version="1.6.0" client="site" method="upgrade">
-    <name>mod_redshop_search</name>
+    <name>MOD_REDSHOP_SEARCH</name>
     <version>1.3.2</version>
     <creationDate>April 2013</creationDate>
     <author>redCOMPONENT.com</author>
@@ -37,8 +37,8 @@
                        description="COM_REDSHOP_PRODUCT_PER_PAGE_DESC"/>
                 <field name="enableAjaxsearch" type="radio" default="0" label="COM_REDSHOP_ENABLE_AJAX_SEACRH_LBL"
                        description="COM_REDSHOP_ENABLE_AJAX_SEACRH_DESC">
-                    <option value="1">Yes</option>
-                    <option value="0">No</option>
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
                 </field>
                 <field name="modsearchitemid" type="text" default="" label="COM_REDSHOP_ENTER_ITEMID_LBL"
                        description="COM_REDSHOP_ENTER_ITEMID_LBL"/>
@@ -50,35 +50,35 @@
                 <field name="showSearchTypeField" type="radio" default="yes"
                        label="COM_REDSHOP_SHOW_SEARCH_TYPE_FIELD_LBL"
                        description="COM_REDSHOP_SHOW_SEARCH_TYPE_FIELD_DESC">
-                    <option value="yes">Yes</option>
-                    <option value="no">No</option>
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
                 </field>
                 <field name="showSearchField" type="radio" default="yes" label="COM_REDSHOP_SHOW_SEARCH_FIELD_LBL"
                        description="COM_REDSHOP_SHOW_SEARCH_FIELD_DESC">
-                    <option value="yes">Yes</option>
-                    <option value="no">No</option>
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
                 </field>
                 <field name="showCategory" type="radio" default="yes" label="COM_REDSHOP_SHOW_CATEGORY_FIELD_LBL"
                        description="COM_REDSHOP_SHOW_CATEGORY_FIELD_DESC">
-                    <option value="yes">Yes</option>
-                    <option value="no">No</option>
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
                 </field>
                 <field name="showManufacturer" type="radio" default="yes"
                        label="COM_REDSHOP_SHOW_MANUFACTURER_FIELD_LBL"
                        description="COM_REDSHOP_SHOW_MANUFACTURER_FIELD_DESC">
-                    <option value="yes">Yes</option>
-                    <option value="no">No</option>
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
                 </field>
                 <field name="showProductsearchtitle" type="radio" default="yes"
                        label="COM_REDSHOP_SHOW_PRODUCT_SEARCH_TITLE_LBL"
                        description="COM_REDSHOP_SHOW_PRODUCT_SEARCH_TITLE_DESC">
-                    <option value="yes">Yes</option>
-                    <option value="no">No</option>
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
                 </field>
                 <field name="showKeywordtitle" type="radio" default="yes" label="COM_REDSHOP_SHOW_KEYWORD_TITLE_LBL"
                        description="COM_REDSHOP_SHOW_KEYWORD_TITLE_LBL">
-                    <option value="yes">Yes</option>
-                    <option value="no">No</option>
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
                 </field>
                 <field name="stdsearchtext" type="text" default="" label="COM_REDSHOP_STANDARD_SEARCH_TEXT_LBL"
                        description="COM_REDSHOP_STANDARD_SEARCH_TEXT_LBL"/>
