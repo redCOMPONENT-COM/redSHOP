@@ -130,7 +130,7 @@ for ($i = 0; $i < count($items); $i++)
 											);
 }
 
-echo '<form action="' . $paypalurl . '" method="post" name="paypalfrm" id="paypalfrm"">';
+echo '<form action="' . $paypalurl . '" method="post" name="paypalfrm" id="paypalfrm">';
 echo "<h3>" . JText::_('COM_REDSHOP_PAYPAL_WAIT_MESSAGE') . "</h3>";
 
 foreach ($paypalPostData as $name => $value)
