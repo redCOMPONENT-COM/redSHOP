@@ -2061,7 +2061,7 @@ class RedshopModelImport extends JModel
 			$price_id = 0;
 		}
 
-		$reduser->set('product_price', trim($rawdata['product_price']));
+		$reduser->set('product_price', trim($rawdata['attribute_price']));
 		$reduser->set('product_currency', CURRENCY_CODE);
 		$reduser->set('cdate', time());
 		$reduser->set('shopper_group_id', trim($rawdata['shopper_group_id']));
