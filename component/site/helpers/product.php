@@ -2451,9 +2451,9 @@ class producthelper
 
 		if ($productData = $this->getProductById($productId))
 		{
-			if (($productData->discount_enddate == '' && $productData->discount_stratdate == '')
+			if (($productData->discount_enddate == '0' && $productData->discount_stratdate == '0')
 				|| ((int) $productData->discount_enddate >= $today && (int) $productData->discount_stratdate <= $today)
-				|| ($productData->discount_enddate == '' && (int) $productData->discount_stratdate <= $today))
+				|| ($productData->discount_enddate == '0' && (int) $productData->discount_stratdate <= $today))
 			{
 				$discountPrice = $productData->discount_price;
 			}
