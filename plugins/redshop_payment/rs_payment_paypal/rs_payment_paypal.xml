@@ -34,11 +34,6 @@
                     <option value="1">Yes</option>
                     <option value="0">No</option>
                 </field>
-                <field name="payment_discount_is_percent" type="radio" default="1"
-                       label="Discount Type: " description="Discount Type">
-                    <option value="1">Percentage</option>
-                    <option value="0">Total</option>
-                </field>
                 <field name="merchant_email" type="text" size="30" default=""
                        label="Paypal Business Account Email" description="Paypal Business Account Email Desc"/>
 
