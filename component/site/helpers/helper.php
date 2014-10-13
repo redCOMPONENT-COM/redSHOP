@@ -624,7 +624,7 @@ class redhelper
 
 		if (!$ImageName || !is_file($fileName))
 		{
-			return REDSHOP_FRONT_IMAGES_ABSPATH . "noimage.jpg";
+			return REDSHOP_FRONT_IMAGES_ABSPATH . 'noimage.jpg';
 		}
 
 		if ($enable_watermart != 0 && (WATERMARK_IMAGE && file_exists($watermark)))
@@ -669,7 +669,7 @@ class redhelper
 
 			$gnImageName .= basename($fileName);
 
-			$DestinationFile 	= $img_dir . "/watermarked/" . $gnImageName;
+			$DestinationFile 	= $img_dir . '/watermarked/' . $gnImageName;
 			$link               = str_replace(REDSHOP_FRONT_IMAGES_RELPATH, REDSHOP_FRONT_IMAGES_ABSPATH, $DestinationFile);
 			$fileType           = JFile::getExt($watermark);
 
@@ -678,14 +678,14 @@ class redhelper
 				return $link;
 			}
 
-			if (!is_dir($img_dir . "/watermarked/"))
+			if (!is_dir($img_dir . '/watermarked/'))
 			{
-				mkdir($img_dir . "/watermarked/", 777, true);
+				mkdir($img_dir . '/watermarked/', 777, true);
 			}
 
 			switch ($fileType)
 			{
-				case "gif":
+				case 'gif':
 					$dest = imagecreatefromjpeg($fileName);
 					$src  = imagecreatefromgif($watermark);
 
@@ -700,21 +700,21 @@ class redhelper
 
 					return $link;
 
-				case "png":
+				case 'png':
 					$im    = imagecreatefrompng($watermark);
 					$exten = JFile::getExt($fileName);
 
 					$extARRAY = @ explode('&', $exten);
 					$ext      = $extARRAY[0];
 
-					if (strtolower($ext) == "gif")
+					if (strtolower($ext) == 'gif')
 					{
 						if (!$im2 = imagecreatefromgif($fileName))
 						{
 							echo "Error opening $fileName!";
 						}
 					}
-					elseif (strtolower($ext) == "jpg" || strtolower($ext) == "jpeg")
+					elseif (strtolower($ext) == 'jpg' || strtolower($ext) == 'jpeg')
 					{
 						if (!$im2 = imagecreatefromjpeg($fileName))
 						{
@@ -722,7 +722,7 @@ class redhelper
 							exit;
 						}
 					}
-					elseif (strtolower($ext) == "png")
+					elseif (strtolower($ext) == 'png')
 					{
 						if (!$im2 = imagecreatefrompng($fileName))
 						{
