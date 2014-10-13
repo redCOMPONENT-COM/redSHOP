@@ -227,7 +227,17 @@ class RedshopModelCategory extends JModel
 	{
 		$app = JFactory::getApplication();
 		$db = JFactory::getDbo();
-		$query = $db->getQuery(true);
+		$user = JFactory::getUser();
+		$orderBy = $this->buildProductOrderBy();
+
+		if ($minmax && !(strstr($orderBy, "p.product_price ASC") || strstr($orderBy, "p.product_price DESC")))
+		{
+			$orderBy = "p.product_price ASC";
+		}
+
+		$query = $db->getQuery(true)
+			->order($orderBy);
+		$query = $this->producthelper->getMainProductQuery($query, $user->id);
 		$queryCount = $db->getQuery(true);
 
 		$manufacturerId = $app->input->post->get("manufacturer_id", "");
@@ -248,12 +258,8 @@ class RedshopModelCategory extends JModel
 		}
 
 		$app->setUserState("manufacturer_id", $manufacturerId);
-		$user = JFactory::getUser();
-
-		$orderBy = $this->buildProductOrderBy();
 		$endlimit = $this->getProductPerPage();
 		$limitstart = $app->input->get('limitstart', 0, 'int');
-
 		$sort = "";
 
 		// Shopper group - choose from manufactures Start
@@ -277,19 +283,12 @@ class RedshopModelCategory extends JModel
 			$queryCount->where('p.manufacturer_id = ' . (int) $manufacturerId);
 		}
 
-		if ($minmax && !(strstr($orderBy, "p.product_price ASC") || strstr($orderBy, "p.product_price DESC")))
-		{
-			$orderBy = "p.product_price ASC";
-		}
-
 		$query->select(
 			array(
-				'p.*', 'pc.*', 'c.*', 'm.*', 'p.product_id',
+				'pc.*', 'c.*', 'm.*',
 				'CONCAT_WS(' . $db->q('.') . ', p.product_id, ' . (int) $user->id . ') AS concat_id'
 			)
 		);
-		$query->from("#__redshop_product AS p");
-		$query->join("LEFT", "#__redshop_product_category_xref AS pc ON pc.product_id=p.product_id");
 		$query->join("LEFT", "#__redshop_category AS c ON c.category_id=pc.category_id");
 		$query->join("LEFT", "#__redshop_manufacturer AS m ON m.manufacturer_id=p.manufacturer_id");
 		$query->where(
@@ -308,60 +307,6 @@ class RedshopModelCategory extends JModel
 			$query->where($finder_condition);
 			$queryCount->where($finder_condition);
 		}
-
-		$query->order($orderBy)
-			->group('p.product_id');
-
-		// Select price
-		$shopperGroupId = $rsUserhelper->getShopperGroup($user->id);
-
-		$query->select(
-			array(
-				'pp.price_id', $db->qn('pp.product_price', 'price_product_price'),
-				$db->qn('pp.product_currency', 'price_product_currency'), $db->qn('pp.discount_price', 'price_discount_price'),
-				$db->qn('pp.discount_start_date', 'price_discount_start_date'), $db->qn('pp.discount_end_date', 'price_discount_end_date')
-			)
-		)
-			->leftJoin(
-				$db->qn('#__redshop_product_price', 'pp')
-				. ' ON p.product_id = pp.product_id AND ((pp.price_quantity_start <= 1 AND pp.price_quantity_end >= 1) OR (pp.price_quantity_start = 0 AND pp.price_quantity_end = 0)) AND pp.shopper_group_id = ' . (int) $shopperGroupId
-			)
-			->order('pp.price_quantity_start ASC');
-
-		// Select media
-		$query->select(array('media.media_alternate_text', 'media.media_id'))
-			->leftJoin(
-				$db->qn('#__redshop_media', 'media')
-				. ' ON media.section_id = p.product_id AND media.media_section = ' . $db->q('product')
-				. ' AND media.media_type = ' . $db->q('images') . ' AND media.media_name = p.product_full_image'
-			);
-
-		// Select ratings
-		$subQuery = $db->getQuery(true)
-			->select('COUNT(pr1.rating_id)')
-			->from($db->qn('#__redshop_product_rating', 'pr1'))
-			->where('pr1.product_id = p.product_id')
-			->where('pr1.published = 1');
-
-		$query->select('(' . $subQuery . ') AS count_rating');
-
-		$subQuery = $db->getQuery(true)
-			->select('SUM(pr2.user_rating)')
-			->from($db->qn('#__redshop_product_rating', 'pr2'))
-			->where('pr2.product_id = p.product_id')
-			->where('pr2.published = 1');
-
-		$query->select('(' . $subQuery . ') AS sum_rating');
-
-		// Count Accessories
-		$subQuery = $db->getQuery(true)
-			->select('COUNT(pa.accessory_id)')
-			->from($db->qn('#__redshop_product_accessory', 'pa'))
-			->leftJoin($db->qn('#__redshop_product', 'parent_product') . ' ON parent_product.product_id = pa.child_product_id')
-			->where('pa.product_id = p.product_id')
-			->where('parent_product.published = 1');
-
-		$query->select('(' . $subQuery . ') AS total_accessories');
 
 		$queryCount->select('COUNT(DISTINCT(p.product_id))')
 			->from('#__redshop_product AS p')

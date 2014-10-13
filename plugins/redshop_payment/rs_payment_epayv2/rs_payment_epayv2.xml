@@ -22,41 +22,48 @@
     <config addfieldpath="/administrator/components/com_redshop/elements">
         <fields name="params">
             <fieldset name="basic">
-                <field name="payment_oprand" type="text" size="10" default="-" label="Payment operand"
-                       description="Payment Operand"/>
-                <field name="payment_price" type="text" size="30" default="" label="Payment price"
-                       description="Payment price"/>
-                <field name="debug_mode" type="radio" default="1" label="Debug Mode: " description="Debug Mode">
-                    <option value="1">Yes</option>
-                    <option value="0">No</option>
+                <field name="payment_oprand" type="text" size="10" default="-"
+                      label="PLG_RS_PAYMENT_EPAYV2_PAYMENT_OPERAND"
+                      description="PLG_RS_PAYMENT_EPAYV2_PAYMENT_OPERAND_DESC"/>
+                <field name="payment_price" type="text" size="30" default=""
+                      label="PLG_RS_PAYMENT_EPAYV2_PAYMENT_PRICE"
+                      description="PLG_RS_PAYMENT_EPAYV2_PAYMENT_PRICE_DESC"/>
+                <field name="debug_mode" type="radio" default="1"
+                      label="PLG_RS_PAYMENT_EPAYV2_DEBUG_MODE"
+                      description="PLG_RS_PAYMENT_EPAYV2_DEBUG_MODE_DESC">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
                 </field>
-                <field name="payment_discount_is_percent" type="radio" default="1" label="Discount Type: "
-                       description="Discount Type">
-                    <option value="1">Percentage</option>
-                    <option value="0">Total</option>
+                <field name="payment_discount_is_percent" type="radio" default="1"
+                      label="PLG_RS_PAYMENT_EPAYV2_DISCOUNT_TYPE"
+                      description="PLG_RS_PAYMENT_EPAYV2_DISCOUNT_TYPE_DESC">
+                    <option value="1">PLG_RS_PAYMENT_EPAYV2_PERCENTAGE</option>
+                    <option value="0">PLG_RS_PAYMENT_EPAYV2_TOTAL</option>
                 </field>
-                <field name="merchant_id" type="text" default="" label="PBS Merchant ID"
-                       description=" The Merchant ID you have received from PBS. For testing purpose a test Merchant ID can be obtained by contacting ePay (sales@epay.dk)"/>
-                <field name="windowid" type="text" default="1" label="PBS WindowID"
-                       description="Window Id from PBS Merchant Account"/>
+                <field name="merchant_id" type="text" default="" label="PLG_RS_PAYMENT_EPAYV2_PBS_MERCHANT_ID"
+                       description="PLG_RS_PAYMENT_EPAYV2_PBS_MERCHANT_ID_DESC"/>
+                <field name="windowid" type="text" default="1" label="PLG_RS_PAYMENT_EPAYV2_WINDOW_ID"
+                       description="PLG_RS_PAYMENT_EPAYV2_WINDOW_ID_DESC"/>
                 <field name="verify_status" type="sql"
                        query="SELECT order_status_code AS st_value, order_status_name AS st_title FROM #__redshop_order_status"
                        key_field="st_value" value_field="st_title" default="C"
-                       label="Order Status for successful transactions"
-                       description="Select the order status to which the actual order is set, if the payment transaction was successful.">
+                       label="PLG_RS_PAYMENT_EPAYV2_ORDER_STATUS"
+                       description="PLG_RS_PAYMENT_EPAYV2_ORDER_STATUS_DESC">
                 </field>
                 <field name="invalid_status" type="sql"
                        query="SELECT order_status_code AS st_value, order_status_name AS st_title FROM #__redshop_order_status"
                        key_field="st_value" value_field="st_title" default="P"
-                       label="Order Status for failed transactions"
-                       description="Select an order status for failed payment transactions.">
+                       label="PLG_RS_PAYMENT_EPAYV2_ORDER_STATUS_FAIL"
+                       description="PLG_RS_PAYMENT_EPAYV2_ORDER_STATUS_FAIL_DESC">
                 </field>
                 <field name="capture_status" type="sql"
                        query="SELECT order_status_code AS st_value, order_status_name AS st_title FROM #__redshop_order_status"
-                       key_field="st_value" value_field="st_title" default="S" label="Capture Payment Status"
-                       description="Select an capture status for capturing payment."></field>
-                <field name="language" type="list" default="1" label="Language: "
-                       description="Select language for Payment Window">
+                       key_field="st_value" value_field="st_title" default="S"
+                       label="PLG_RS_PAYMENT_EPAYV2_CAPTURE_PAYMENT_STATUS"
+                       description="PLG_RS_PAYMENT_EPAYV2_CAPTURE_PAYMENT_STATUS_DESC"></field>
+                <field name="language" type="list" default="1"
+                      label="PLG_RS_PAYMENT_EPAYV2_LANGUAGE"
+                      description="PLG_RS_PAYMENT_EPAYV2_LANGUAGE_DESC">
                     <option value="1">Danish</option>
                     <option value="2">English</option>
                     <option value="3">Swedish</option>
@@ -65,18 +72,18 @@
                     <option value="6">Icelandic</option>
                     <option value="7">German</option>
                 </field>
-                <field name="auth_type" type="list" default="0" label="Instant capture"
-                       description="To capture Payment Immediate. ">
+                <field name="auth_type" type="list" default="0" label="PLG_RS_PAYMENT_EPAYV2_INSTANT_CAPTURE"
+                       description="PLG_RS_PAYMENT_EPAYV2_INSTANT_CAPTURE_DESC">
                     <option value="1">Enabled</option>
                     <option value="0">Disabled</option>
                 </field>
-                <field name="refund" type="radio" default="1" label="Refund When Cancel or Return Order"
-                       description="Refund Payment When Cancel or Return Order">
+                <field name="refund" type="radio" default="1" label="PLG_RS_PAYMENT_EPAYV2_REFUND"
+                       description="PLG_RS_PAYMENT_EPAYV2_REFUND_DESC">
                     <option value="1">Yes</option>
                     <option value="0">No</option>
                 </field>
-                <field name="payment_group" type="text" size="10" default="" label="Group"
-                       description="To move the payment to a specified group. If not leave this field empty"/>
+                <field name="payment_group" type="text" size="10" default="" label="PLG_RS_PAYMENT_EPAYV2_GROUP"
+                       description="PLG_RS_PAYMENT_EPAYV2_GROUP_DESC"/>
                 <field name="epay_md5" type="list" default="0" label="MD5"
                        description="The type of MD5 usage. 0 disables MD5. 1 uses MD5 on the accept page on this shop. 2 creates a MD5 stamp, which is send to ePay with transaction data. If this stamp does not match ePay will decline the payment. ">
                     <option value="0">DISABLED</option>
@@ -106,15 +113,10 @@
                     <option value="2">Only payments by use of 3D secure is allowed</option>
                     <option value="3">3D secure payments are disabled</option>
                 </field>
-                <field name="activate_callback" type="list" default="0" label="Activate callback" description="Callback is used to avoid missing update of the shopping system if	the user closes the browser before redirect to the shop from ePay is made.(It is recommended that callback is enabled to update the
-	shop even if the customer during the payment process closes the browser)">
+                <field name="activate_callback" type="list" default="0" label="Activate callback" description="Callback is used to avoid missing update of the shopping system if the user closes the browser before redirect to the shop from ePay is made.(It is recommended that callback is enabled to update the
+  shop even if the customer during the payment process closes the browser)">
                     <option value="0">Callback is disabled</option>
                     <option value="1">Enable callback</option>
-                </field>
-                <field name="transaction_fee" type="list" default="0" label="Transaction Fee"
-                       description="Often it is necessary to present the transaction fee to the customer ePay will calculate the fee and put it on the payment before the payment is made">
-                    <option value="0">Customer does not pay the transaction fee</option>
-                    <option value="1">The customer pays the transaction fee</option>
                 </field>
                 <field name="epay_subscription" type="list" default="0" label="Subscription"
                        description="Subscriptions are used for creating payments that can be authorized more than once (recurrent payments)">

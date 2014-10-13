@@ -12,7 +12,7 @@ JHTML::_('behavior.tooltip');
 JHTMLBehavior::modal();
 
 JLoader::load('RedshopHelperAdminOrder');
-$order_functions = new order_functions();
+$order_functions = new order_functions;
 
 $is_creditcard = 0;
 $paymentmethod = $order_functions->getPaymentMethodInfo();
