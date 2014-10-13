@@ -80,6 +80,14 @@ class RedshopModelCart extends JModel
 
 		$user = JFactory::getUser();
 
+		$options = array(
+			'defaultgroup' => 'desktop',
+			'cachebase' => JPATH_SITE . '/cache'
+		);
+
+		$cache = JCache::getInstance('callback', $options);
+		$cache->clean();
+
 		$session = JFactory::getSession();
 		$cart    = $session->get('cart');
 		$task    = JRequest::getVar('task');
