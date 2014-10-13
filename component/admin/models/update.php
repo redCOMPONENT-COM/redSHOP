@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 JLoader::load('RedshopHelperAdminUpdate');
+JLoader::load('RedshopHelperHelper');
 
 /**
  * Class RedshopModelUpdate
@@ -170,7 +171,7 @@ class RedshopModelUpdate extends JModelLegacy
 						{
 							if (!$this->checkIndex($tableName, $key))
 							{
-								$indexFields = implode(',', self::quote((array) $oneIndex, 'qn'));
+								$indexFields = implode(',', redhelper::quote((array) $oneIndex, 'qn'));
 								$db->setQuery('ALTER TABLE ' . $db->qn($tableName) . ' ADD INDEX ' . $db->qn($key) . ' (' . $indexFields . ')');
 
 								if (!$db->execute())
@@ -200,7 +201,7 @@ class RedshopModelUpdate extends JModelLegacy
 						{
 							if (!$this->checkIndex($tableName, $key))
 							{
-								$indexFields = implode(',', self::quote((array) $oneIndex, 'qn'));
+								$indexFields = implode(',', redhelper::quote((array) $oneIndex, 'qn'));
 								$db->setQuery('ALTER TABLE ' . $db->qn($tableName) . ' ADD UNIQUE ' . $db->qn($key) . ' (' . $indexFields . ')');
 
 								if (!$db->execute())
@@ -251,25 +252,5 @@ class RedshopModelUpdate extends JModelLegacy
 
 			return array('success' => true);
 		}
-	}
-
-	/**
-	 * Quote an array of values.
-	 *
-	 * @param   array   $values     The values.
-	 * @param   string  $nameQuote  Name quote
-	 *
-	 * @return  array  The quoted values
-	 */
-	public static function quote(array $values, $nameQuote = 'q')
-	{
-		$db = JFactory::getDbo();
-
-		return array_map(
-			function ($value) use ($db, $nameQuote) {
-				return $db->$nameQuote($value);
-			},
-			$values
-		);
 	}
 }

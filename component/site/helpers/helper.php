@@ -28,6 +28,26 @@ class redhelper
 	}
 
 	/**
+	 * Quote an array of values.
+	 *
+	 * @param   array   $values     The values.
+	 * @param   string  $nameQuote  Name quote, can be possible q, quote, qn, quoteName
+	 *
+	 * @return  array  The quoted values
+	 */
+	public static function quote(array $values, $nameQuote = 'q')
+	{
+		$db = JFactory::getDbo();
+
+		return array_map(
+			function ($value) use ($db, $nameQuote) {
+				return $db->$nameQuote($value);
+			},
+			$values
+		);
+	}
+
+	/**
 	 * Get Redshop Menu Items
 	 *
 	 * @return array
