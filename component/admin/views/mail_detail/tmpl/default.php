@@ -16,6 +16,7 @@ $uri = JURI::getInstance();
 $url = $uri->root();
 jimport('joomla.html.pane');
 JLoader::load('RedshopHelperAdminExtra_field');
+JLoader::load('RedshopHelperAdminTemplate');
 $extra_field = new extra_field;
 
 ?>
@@ -114,7 +115,7 @@ echo $this->pane->startPane('stat-pane');
 echo $this->pane->startPanel($title, 'events');?>
 <table class="adminlist">
 	<tr>
-		<td><?php echo JText::_("COM_REDSHOP_STATUS_OF_RESET_PASSWORD_HINT");?></td>
+		<td><?php echo Redtemplate::getTemplateValues('COM_REDSHOP_STATUS_OF_RESET_PASSWORD_HINT'); ?></td>
 	</tr>
 </table>
 <?php    echo $this->pane->endPanel();
@@ -123,7 +124,7 @@ $title = JText::_('COM_REDSHOP_REGISTRATION_MAIL');
 echo $this->pane->startPanel($title, 'registrationmail');    ?>
 <table class="adminlist">
 	<tr>
-		<td><?php echo JText::_('COM_REDSHOP_REGISTRATION_MAIL_HINT'); ?></td>
+		<td><?php echo Redtemplate::getTemplateValues('COM_REDSHOP_REGISTRATION_MAIL_HINT'); ?></td>
 	</tr>
 </table>
 <?php    echo $this->pane->endPanel();
@@ -160,7 +161,7 @@ $newshippingtag = '{shipping_address_start}
 echo $this->pane->startPanel($title, 'ordermail');    ?>
 <table class="adminlist">
 	<tr>
-		<td><?php echo JText::_('COM_REDSHOP_ORDER_MAIL_HINT'); ?></td>
+		<td><?php echo Redtemplate::getTemplateValues('COM_REDSHOP_ORDER_MAIL_HINT'); ?></td>
 	</tr>
 	<tr>
 		<td>
@@ -194,7 +195,7 @@ $title = JText::_('COM_REDSHOP_INVOICE_MAIL');
 echo $this->pane->startPanel($title, 'invoicemail');    ?>
 <table class="adminlist">
 	<tr>
-		<td><?php echo JText::_('COM_REDSHOP_INVOICE_MAIL_HINT'); ?></td>
+		<td><?php echo Redtemplate::getTemplateValues('COM_REDSHOP_INVOICE_MAIL_HINT'); ?></td>
 	</tr>
 	<tr>
 		<td>
@@ -228,7 +229,7 @@ $title = JText::_('COM_REDSHOP_ORDER_STATUS_MAIL');
 echo $this->pane->startPanel($title, 'orderstatusmail');    ?>
 <table class="adminlist">
 	<tr>
-		<td><?php echo JText::_('COM_REDSHOP_ORDER_STATUS_MAIL_HINT'); ?></td>
+		<td><?php echo Redtemplate::getTemplateValues('COM_REDSHOP_ORDER_STATUS_MAIL_HINT'); ?></td>
 	</tr>
 </table>
 <?php    echo $this->pane->endPanel();
@@ -237,7 +238,7 @@ $title = JText::_('COM_REDSHOP_CATALOG_SEND_MAIL');
 echo $this->pane->startPanel($title, 'catalogmail');    ?>
 <table class="adminlist">
 	<tr>
-		<td><?php echo JText::_('COM_REDSHOP_CATALOG_SEND_MAIL_HINT'); ?></td>
+		<td><?php echo Redtemplate::getTemplateValues('COM_REDSHOP_CATALOG_SEND_MAIL_HINT'); ?></td>
 	</tr>
 </table>
 <?php    echo $this->pane->endPanel();

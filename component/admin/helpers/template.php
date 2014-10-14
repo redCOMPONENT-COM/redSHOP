@@ -38,6 +38,77 @@ class Redtemplate
 	}
 
 	/**
+	 * Get Template Values
+	 *
+	 * @param   string  $jTextValue            JText value
+	 * @param   string  $descriptionSeparator  Description separator
+	 * @param   string  $lineSeparator         Line separator
+	 *
+	 * @return array|string
+	 */
+	public static function getTemplateValues($jTextValue = '', $descriptionSeparator = '-', $lineSeparator = '<br />')
+	{
+		$result = JText::_($jTextValue);
+		$lang = JFactory::getLanguage();
+
+		if ($matches = explode('{', $result))
+		{
+			foreach ($matches as $key => $match)
+			{
+				$str = strpos($match, '}');
+
+				if ($str !== false)
+				{
+					$matches[$key] = substr($match, 0, $str);
+				}
+				else
+				{
+					unset($matches[$key]);
+				}
+			}
+
+			if (count($matches) > 0)
+			{
+				$countItems = 0;
+
+				foreach ($matches as $match)
+				{
+					$replace = '';
+					$matchFix = strtoupper(str_replace(' ', '_', $match));
+
+					if ($lang->hasKey($jTextValue . '_' . $matchFix))
+					{
+						$replace = $jTextValue . '_' . $matchFix;
+					}
+					elseif ($lang->hasKey('COM_REDSHOP_HINT_' . $matchFix))
+					{
+						$replace = 'COM_REDSHOP_HINT_' . $matchFix;
+					}
+
+					if ($replace)
+					{
+						$result = str_replace(
+							'{' . $match . '}',
+							str_replace(array('{', '}'), array('_AA_', '_BB_'), JText::sprintf($replace, $descriptionSeparator)) . $lineSeparator,
+							$result
+						);
+						$countItems++;
+					}
+				}
+
+				$result = str_replace(array('_AA_', '_BB_'), array('{', '}'), $result);
+			}
+		}
+
+		if ($lang->hasKey($jTextValue . '_DESC'))
+		{
+			$result = '<b>' . JText::sprintf($jTextValue . '_DESC') . '</b> <br /><br />' . $result;
+		}
+
+		return $result;
+	}
+
+	/**
 	 * Method to get Template
 	 *
 	 * @param   string   $section  Set section Template
