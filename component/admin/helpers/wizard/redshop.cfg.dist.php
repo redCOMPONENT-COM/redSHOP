@@ -365,3 +365,4 @@ define('ORDER_MAIL_AFTER', '0');
 define('STATISTICS_ENABLE', 1);
 define('AUTO_GENERATE_LABEL', 1);
 define('GENERATE_LABEL_ON_STATUS', "S");
+define('POSTDK_DEVELOPER_ID', '');
