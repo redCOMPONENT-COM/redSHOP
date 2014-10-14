@@ -15,7 +15,7 @@ class RedshopViewRedshop extends JView
 {
 	public function display($tpl = null)
 	{
-		$layout = JRequest::getCmd('layout');
+		$layout = JRequest::getCmd('layout', 'default');
 
 		JToolBarHelper::title('', 'redshop_261-x-88');
 
