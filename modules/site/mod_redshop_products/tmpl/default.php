@@ -111,7 +111,7 @@ for ($i = 0; $i < count($rows); $i++)
 
 		if (WATERMARK_PRODUCT_IMAGE)
 		{
-			$thumImage = $redhelper->watermark('product', $thumb, $thumbwidth, $thumbheight, WATERMARK_PRODUCT_THUMB_IMAGE, '0');
+			$thumImage = $redhelper->watermark('product', $thumb, $thumbWidth, $thumbHeight, WATERMARK_PRODUCT_THUMB_IMAGE, '0');
 			echo "<div class='mod_redshop_products_image'><img src=" . $thumImage . "></div>";
 		}
 		else
@@ -121,8 +121,8 @@ for ($i = 0; $i < count($rows); $i++)
 							'',
 							'thumb',
 							'product',
-							$thumbwidth,
-							$thumbheight,
+							$thumbWidth,
+							$thumbHeight,
 							USE_IMAGE_SIZE_SWAPPING
 						);
 			echo "<div class='mod_redshop_products_image'><a href='" . $link . "' title='$row->product_name'><img src=" . $thumImage . "></a></div>";
