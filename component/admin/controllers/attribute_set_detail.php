@@ -188,6 +188,8 @@ class RedshopControllerAttribute_set_detail extends JController
 				$property_save['setmulti_selected'] = ($property[$p]['multi_sub_att'] == 'on' || $property[$p]['multi_sub_att'] == '1') ? '1' : '0';
 				$property_save['setdefault_selected'] = ($property[$p]['default_sel'] == 'on' || $property[$p]['default_sel'] == '1') ? '1' : '0';
 				$property_save['setdisplay_type'] = $property[$p]['setdisplay_type'];
+				$property_save['property_published'] = ($property[$p]['published'] == 'on' || $property[$p]['published'] == '1') ? '1' : '0';
+				$property_save['extra_field'] = $property[$p]['extra_field'];
 				$property_array = $model->store_pro($property_save);
 				$property_image = $files['attribute_' . $a . '_property_' . $tmpproptyimagename[$p] . '_image'];
 
@@ -227,6 +229,9 @@ class RedshopControllerAttribute_set_detail extends JController
 					$subproperty_save['subattribute_color_number'] = $subproperty[$sp]['number'];
 					$subproperty_save['setdefault_selected'] = ($subproperty[$sp]['chk_propdselected'] == 'on'
 						|| $subproperty[$sp]['chk_propdselected'] == '1') ? '1' : '0';
+					$subproperty_save['subattribute_published'] = ($subproperty[$sp]['published'] == 'on'
+						|| $subproperty[$sp]['published'] == '1') ? '1' : '0';
+					$subproperty_save['extra_field'] = $subproperty[$sp]['extra_field'];
 					$subproperty_array = $model->store_sub($subproperty_save);
 					$subproperty_image = $files['attribute_' . $a . '_property_' . $p . '_subproperty_' . $tmpimagename[$sp] . '_image'];
 

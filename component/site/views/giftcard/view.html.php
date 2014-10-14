@@ -34,7 +34,6 @@ class RedshopViewGiftcard extends JView
 		$detail            = $this->get('data');
 
 		$this->detail = $detail;
-		$this->lists = $lists;
 		$this->template = $giftcard_template;
 		$this->pageheadingtag = $pageheadingtag;
 		$this->params = $params;
