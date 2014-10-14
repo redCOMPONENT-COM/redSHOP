@@ -297,7 +297,7 @@ define('PRE_USE_AS_CATALOG', '0');
 define('SHOW_SHIPPING_IN_CART', '1');
 define('MANUFACTURER_MAIL_ENABLE', '0');
 define('SUPPLIER_MAIL_ENABLE', '0');
-define('PRODUCT_COMPARISON_TYPE', '');
+define('PRODUCT_COMPARISON_TYPE', 'category');
 define('COMPARE_TEMPLATE_ID', '320');
 define('SSL_ENABLE_IN_CHECKOUT', '0');
 define('PAGINATION', '1');
