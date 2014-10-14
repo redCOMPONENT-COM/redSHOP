@@ -6,6 +6,7 @@
     <author>redCOMPONENT.com</author>
     <copyright>redCOMPONENT.com</copyright>
     <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+    <description>This plugin enables standard Norwegian Posten shipping</description>
     <shipping_class>bring</shipping_class>
     <shipping_method_code>bring</shipping_method_code>
     <files>

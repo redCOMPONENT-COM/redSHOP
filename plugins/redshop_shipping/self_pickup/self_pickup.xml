@@ -7,7 +7,6 @@
     <copyright>redCOMPONENT.com</copyright>
     <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
     <description>This plugin enables standard Shipping</description>
-
     <files>
         <filename plugin="self_pickup">self_pickup.php</filename>
     </files>

@@ -8,8 +8,8 @@
     <authorUrl>http://www.redcomponent.com</authorUrl>
     <copyright>redCOMPONENT.com</copyright>
     <license>GNU General Public License v2</license>
-    <description>This plugin enables standard Shipping</description>
-
+    <description>This plugin enables standard Shipper shipping</description>
+    <description>This plugin enables standard Shipper shipping</description>
     <files>
         <filename plugin="shipper">shipper.php</filename>
 

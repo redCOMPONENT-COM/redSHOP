@@ -8,6 +8,7 @@
     <authorUrl>http://www.redcomponent.com</authorUrl>
     <copyright>redCOMPONENT.com</copyright>
     <license>GNU General Public License v2</license>
+    <description>This plugin enables standard USPS shipping</description>
     <shipping_class>usps</shipping_class>
     <shipping_method_code>usps</shipping_method_code>
     <files>

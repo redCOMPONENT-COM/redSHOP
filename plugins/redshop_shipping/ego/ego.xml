@@ -6,6 +6,7 @@
     <author>MageData</author>
     <copyright>magedata.com.au</copyright>
     <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+    <description>This plugin enables standard E-GO shipping</description>
     <shipping_class>ego</shipping_class>
     <shipping_method_code>ego</shipping_method_code>
     <files>

@@ -6,6 +6,7 @@
     <author>redCOMPONENT.com</author>
     <copyright>redCOMPONENT.com</copyright>
     <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+    <description>This plugin enables standard Shipwire shipping</description>
     <shipping_class>shipwire</shipping_class>
     <shipping_method_code>shipwire</shipping_method_code>
     <files>

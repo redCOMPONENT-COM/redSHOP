@@ -6,6 +6,7 @@
     <author>redCOMPONENT.com</author>
     <copyright>redCOMPONENT.com</copyright>
     <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+    <description>This plugin enables standard Australiapost shipping</description>
     <shipping_class>australiapost</shipping_class>
     <shipping_method_code>australiapost</shipping_method_code>
     <files>
