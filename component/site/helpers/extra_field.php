@@ -67,7 +67,7 @@ class extraField
 
 			$data_value = $this->getSectionFieldDataList($row_data[$i]->field_id, $field_section, $section_id);
 
-			if (count($data_value) <= 0)
+			if (!empty($data_value) && count($data_value) <= 0)
 			{
 				$data_value->data_txt = '';
 			}
@@ -749,13 +749,13 @@ class extraField
 								if ($str_image_link)
 								{
 									$displayvalue .= "<a href='" . $str_image_link
-										. "' class='imgtooltip' ><img src='" . $link . "' alt='" . $document_value[$c]->field_value . "' /><span><div class='spnheader'>"
+										. "' class='imgtooltip' ><img src='" . $link . "' title='" . $document_value[$c]->field_value . "' alt='" . $document_value[$c]->field_value . "' /><span><div class='spnheader'>"
 										. $row_data[$i]->field_title . "</div><div class='spnalttext'>"
 										. $image_hover[$document_value[$c]->value_id] . "</div></span></a>";
 								}
 								else
 								{
-									$displayvalue .= "<a class='imgtooltip'><img src='" . $link . "' alt='" . $document_value[$c]->field_value . "' /><span><div class='spnheader'>"
+									$displayvalue .= "<a class='imgtooltip'><img src='" . $link . "' title='" . $document_value[$c]->field_value . "' alt='" . $document_value[$c]->field_value . "' /><span><div class='spnheader'>"
 										. $row_data[$i]->field_title . "</div><div class='spnalttext'>"
 										. $image_hover[$document_value[$c]->value_id] . "</div></span></a>";
 								}

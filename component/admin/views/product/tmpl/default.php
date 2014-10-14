@@ -9,9 +9,9 @@
 JLoader::load('RedshopHelperProduct');
 JLoader::load('RedshopHelperAdminExtra_field');
 $app = JFactory::getApplication();
-$extra_field = new extra_field();
+$extra_field = new extra_field;
 JHTMLBehavior::modal();
-$producthelper = new producthelper();
+$producthelper = new producthelper;
 $option = JRequest::getVar('option', '', 'request', 'string');
 
 $model = $this->getModel('product');
