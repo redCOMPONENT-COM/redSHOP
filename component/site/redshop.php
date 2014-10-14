@@ -127,12 +127,6 @@ if (PORTAL_SHOP == 1)
 			$app->enqueuemessage(JText::_('COM_REDSHOP_AUTHENTICATIONFAIL'));
 		}
 	}
-	else
-	{
-		$vName = 'login';
-		JRequest::setVar('view', 'login');
-		JRequest::setVar('layout', 'portal');
-	}
 }
 else
 {
