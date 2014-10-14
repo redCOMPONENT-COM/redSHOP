@@ -47,7 +47,11 @@ class rsUserhelper
 		if (0 == $userId)
 		{
 			$auth = JFactory::getSession()->get('auth');
-			$userId -= $auth['users_info_id'];
+
+			if (array_key_exists('users_info_id', $auth))
+			{
+				$userId -= $auth['users_info_id'];
+			}
 		}
 
 		// Get redCRM Contact person session array
