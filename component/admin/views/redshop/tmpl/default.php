@@ -73,7 +73,7 @@ $filteroption = JRequest::getVar('filteroption');
 		for (name in callList) {
 			$(name).addEvent('click', function (event) {
 
-				callList[name].toggle();
+				callList[(this.id)].toggle();
 
 			});
 		}
