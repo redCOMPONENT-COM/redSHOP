@@ -115,7 +115,7 @@ echo $this->pane->startPane('stat-pane');
 echo $this->pane->startPanel($title, 'events');?>
 <table class="adminlist">
 	<tr>
-		<td><?php echo Redtemplate::getTemplateValues('COM_REDSHOP_STATUS_OF_RESET_PASSWORD_HINT'); ?></td>
+		<td><?php echo Redtemplate::getTemplateValues('mail_template_tag.status_of_reset_password'); ?></td>
 	</tr>
 </table>
 <?php    echo $this->pane->endPanel();
@@ -124,7 +124,7 @@ $title = JText::_('COM_REDSHOP_REGISTRATION_MAIL');
 echo $this->pane->startPanel($title, 'registrationmail');    ?>
 <table class="adminlist">
 	<tr>
-		<td><?php echo Redtemplate::getTemplateValues('COM_REDSHOP_REGISTRATION_MAIL_HINT'); ?></td>
+		<td><?php echo Redtemplate::getTemplateValues('mail_template_tag.registration'); ?></td>
 	</tr>
 </table>
 <?php    echo $this->pane->endPanel();
@@ -161,7 +161,7 @@ $newshippingtag = '{shipping_address_start}
 echo $this->pane->startPanel($title, 'ordermail');    ?>
 <table class="adminlist">
 	<tr>
-		<td><?php echo Redtemplate::getTemplateValues('COM_REDSHOP_ORDER_MAIL_HINT'); ?></td>
+		<td><?php echo Redtemplate::getTemplateValues('mail_template_tag.order'); ?></td>
 	</tr>
 	<tr>
 		<td>
@@ -195,7 +195,7 @@ $title = JText::_('COM_REDSHOP_INVOICE_MAIL');
 echo $this->pane->startPanel($title, 'invoicemail');    ?>
 <table class="adminlist">
 	<tr>
-		<td><?php echo Redtemplate::getTemplateValues('COM_REDSHOP_INVOICE_MAIL_HINT'); ?></td>
+		<td><?php echo Redtemplate::getTemplateValues('mail_template_tag.invoice'); ?></td>
 	</tr>
 	<tr>
 		<td>
@@ -229,7 +229,7 @@ $title = JText::_('COM_REDSHOP_ORDER_STATUS_MAIL');
 echo $this->pane->startPanel($title, 'orderstatusmail');    ?>
 <table class="adminlist">
 	<tr>
-		<td><?php echo Redtemplate::getTemplateValues('COM_REDSHOP_ORDER_STATUS_MAIL_HINT'); ?></td>
+		<td><?php echo Redtemplate::getTemplateValues('mail_template_tag.order_status'); ?></td>
 	</tr>
 </table>
 <?php    echo $this->pane->endPanel();
@@ -238,7 +238,7 @@ $title = JText::_('COM_REDSHOP_CATALOG_SEND_MAIL');
 echo $this->pane->startPanel($title, 'catalogmail');    ?>
 <table class="adminlist">
 	<tr>
-		<td><?php echo Redtemplate::getTemplateValues('COM_REDSHOP_CATALOG_SEND_MAIL_HINT'); ?></td>
+		<td><?php echo Redtemplate::getTemplateValues('mail_template_tag.catalog_send'); ?></td>
 	</tr>
 </table>
 <?php    echo $this->pane->endPanel();
@@ -247,7 +247,7 @@ $title = JText::_('COM_REDSHOP_CATALOG_FIRST_REMINDER');
 echo $this->pane->startPanel($title, 'catalogfirstreminder');    ?>
 <table class="adminlist">
 	<tr>
-		<td><?php echo JText::_('COM_REDSHOP_CATALOG_FIRST_REMINDER_HINT'); ?></td>
+		<td><?php echo Redtemplate::getTemplateValues('mail_template_tag.catalog_first_reminder'); ?></td>
 	</tr>
 </table>
 <?php    echo $this->pane->endPanel();
@@ -256,7 +256,7 @@ $title = JText::_('COM_REDSHOP_CATALOG_SECOND_REMINDER');
 echo $this->pane->startPanel($title, 'catalogsecreminder');    ?>
 <table class="adminlist">
 	<tr>
-		<td><?php echo JText::_('COM_REDSHOP_CATALOG_SECOND_REMINDER_HINT'); ?></td>
+		<td><?php echo Redtemplate::getTemplateValues('mail_template_tag.catalog_second_reminder'); ?></td>
 	</tr>
 </table>
 <?php    echo $this->pane->endPanel();
@@ -265,7 +265,7 @@ $title = JText::_('COM_REDSHOP_CATALOG_COUPON_REMINDER');
 echo $this->pane->startPanel($title, 'catalogcouponreminder');    ?>
 <table class="adminlist">
 	<tr>
-		<td><?php echo JText::_('COM_REDSHOP_CATALOG_COUPON_REMINDER_HINT'); ?></td>
+		<td><?php echo Redtemplate::getTemplateValues('mail_template_tag.catalog_coupon_reminder'); ?></td>
 	</tr>
 </table>
 <?php    echo $this->pane->endPanel();
@@ -274,7 +274,7 @@ $title = JText::_('COM_REDSHOP_CATALOG_SAMPLE_FIRST_REMINDER');
 echo $this->pane->startPanel($title, 'catalogsamplefirstreminder');    ?>
 <table class="adminlist">
 	<tr>
-		<td><?php echo JText::_('COM_REDSHOP_CATALOG_SAMPLE_FIRST_REMINDER_HINT'); ?></td>
+		<td><?php echo Redtemplate::getTemplateValues('mail_template_tag.catalog_sample_first_reminder'); ?></td>
 	</tr>
 </table>
 <?php    echo $this->pane->endPanel();
@@ -283,7 +283,7 @@ $title = JText::_('COM_REDSHOP_CATALOG_SAMPLE_SECOND_REMINDER');
 echo $this->pane->startPanel($title, 'catalogsamplesecreminder');    ?>
 <table class="adminlist">
 	<tr>
-		<td><?php echo JText::_('COM_REDSHOP_CATALOG_SAMPLE_SECOND_REMINDER_HINT'); ?></td>
+		<td><?php echo Redtemplate::getTemplateValues('mail_template_tag.catalog_sample_second_reminder'); ?></td>
 	</tr>
 </table>
 <?php    echo $this->pane->endPanel();
@@ -292,7 +292,7 @@ $title = JText::_('COM_REDSHOP_CATALOG_SAMPLE_THIRD_REMINDER');
 echo $this->pane->startPanel($title, 'catalogsamplethirdreminder');    ?>
 <table class="adminlist">
 	<tr>
-		<td><?php echo JText::_('COM_REDSHOP_CATALOG_SAMPLE_THIRD_REMINDER_HINT'); ?></td>
+		<td><?php echo Redtemplate::getTemplateValues('mail_template_tag.catalog_sample_third_reminder'); ?></td>
 	</tr>
 </table>
 <?php    echo $this->pane->endPanel();
@@ -301,7 +301,7 @@ $title = JText::_('COM_REDSHOP_CATALOG_SAMPLE_COUPON_REMINDER');
 echo $this->pane->startPanel($title, 'catalogsamplecouponreminder');    ?>
 <table class="adminlist">
 	<tr>
-		<td><?php echo JText::_('COM_REDSHOP_CATALOG_SAMPLE_COUPON_REMINDER_HINT'); ?></td>
+		<td><?php echo Redtemplate::getTemplateValues('mail_template_tag.catalog_sample_coupon_reminder'); ?></td>
 	</tr>
 </table>
 <?php    echo $this->pane->endPanel();
@@ -310,7 +310,7 @@ $title = JText::_('COM_REDSHOP_ECONOMIC_INVOICE');
 echo $this->pane->startPanel($title, 'economicbookinvoice');    ?>
 <table class="adminlist">
 	<tr>
-		<td><?php echo JText::_('COM_REDSHOP_ECONOMIC_INVOICE_HINT'); ?></td>
+		<td><?php echo Redtemplate::getTemplateValues('mail_template_tag.economic_invoice'); ?></td>
 	</tr>
 </table>
 <?php    echo $this->pane->endPanel();
@@ -319,7 +319,7 @@ $title = JText::_('COM_REDSHOP_ASK_QUESTION_MAIL');
 echo $this->pane->startPanel($title, 'askquestion');    ?>
 <table class="adminlist">
 	<tr>
-		<td><?php echo JText::_('COM_REDSHOP_ASK_QUESTION_MAIL_HINT'); ?></td>
+		<td><?php echo Redtemplate::getTemplateValues('mail_template_tag.ask_question'); ?></td>
 	</tr>
 </table>
 <?php    echo $this->pane->endPanel();
@@ -328,7 +328,7 @@ $title = JText::_('COM_REDSHOP_QUOTATION_MAIL');
 echo $this->pane->startPanel($title, 'quotationmail');    ?>
 <table class="adminlist">
 	<tr>
-		<td><?php echo JText::_('COM_REDSHOP_QUOTATION_MAIL_HINT'); ?></td>
+		<td><?php echo Redtemplate::getTemplateValues('mail_template_tag.quotation'); ?></td>
 	</tr>
 </table>
 <?php    echo $this->pane->endPanel();
@@ -337,7 +337,7 @@ $title = JText::_('COM_REDSHOP_DOWNLOADABLE_PRODUCT_MAIL');
 echo $this->pane->startPanel($title, 'downloadableproductmail');    ?>
 <table class="adminlist">
 	<tr>
-		<td><?php echo JText::_('COM_REDSHOP_DOWNLOADABLE_PRODUCT_MAIL_HINT'); ?></td>
+		<td><?php echo Redtemplate::getTemplateValues('mail_template_tag.downloable_product'); ?></td>
 	</tr>
 </table>
 <?php    echo $this->pane->endPanel();
@@ -346,7 +346,7 @@ $title = JText::_('COM_REDSHOP_REVIEW_MAIL');
 echo $this->pane->startPanel($title, 'reviewmail');    ?>
 <table class="adminlist">
 	<tr>
-		<td><?php echo JText::_('COM_REDSHOP_REVIEW_PRODUCT_MAIL_HINT'); ?></td>
+		<td><?php echo Redtemplate::getTemplateValues('mail_template_tag.review_product'); ?></td>
 	</tr>
 </table>
 <?php    echo $this->pane->endPanel();
@@ -355,7 +355,7 @@ $title = JText::_('COM_REDSHOP_FIRST_MAIL_AFTER_ORDER_PURCHASED');
 echo $this->pane->startPanel($title, 'orderpurchase');    ?>
 <table class="adminlist">
 	<tr>
-		<td><?php echo JText::_('COM_REDSHOP_FIRST_MAIL_AFTER_ORDER_PURCHASED_HINT'); ?></td>
+		<td><?php echo Redtemplate::getTemplateValues('mail_template_tag.first_after_order_purchased'); ?></td>
 	</tr>
 </table>
 <?php    echo $this->pane->endPanel();
@@ -363,7 +363,7 @@ $title = JText::_('COM_REDSHOP_GIFTCARD_MAIL');
 echo $this->pane->startPanel($title, 'giftcard');    ?>
 <table class="adminlist">
 	<tr>
-		<td><?php echo JText::_('COM_REDSHOP_GIFTCARD_MAIL_HINT'); ?></td>
+		<td><?php echo Redtemplate::getTemplateValues('mail_template_tag.giftcard'); ?></td>
 	</tr>
 </table>
 <?php    echo $this->pane->endPanel();
@@ -371,7 +371,7 @@ $title = JText::_('COM_REDSHOP_WISHLIST_MAIL');
 echo $this->pane->startPanel($title, 'wishlist');    ?>
 <table class="adminlist">
 	<tr>
-		<td><?php echo JText::_('COM_REDSHOP_WISHLIST_MAIL_HINT'); ?></td>
+		<td><?php echo Redtemplate::getTemplateValues('mail_template_tag.wishlist'); ?></td>
 	</tr>
 </table>
 <?php    echo $this->pane->endPanel();
@@ -379,7 +379,7 @@ $title = JText::_('COM_REDSHOP_NEWSLETTER_CONFIRMATION');
 echo $this->pane->startPanel($title, 'newsletter_confirmation');    ?>
 <table class="adminlist">
 	<tr>
-		<td><?php echo JText::_('COM_REDSHOP_NEWSLETTER_CONFIRMATION_HINT'); ?></td>
+		<td><?php echo Redtemplate::getTemplateValues('mail_template_tag.newsletter_confirmation'); ?></td>
 	</tr>
 </table>
 <?php    echo $this->pane->endPanel();
@@ -387,7 +387,7 @@ $title = JText::_('COM_REDSHOP_SEND_FRIEND');
 echo $this->pane->startPanel($title, 'newsletter_confirmation');    ?>
 <table class="adminlist">
 	<tr>
-		<td><?php echo JText::_('COM_REDSHOP_SEND_FRIEND_HINT'); ?></td>
+		<td><?php echo Redtemplate::getTemplateValues('mail_template_tag.send_friend'); ?></td>
 	</tr>
 </table>
 <?php    echo $this->pane->endPanel();
@@ -395,7 +395,7 @@ $title = JText::_('COM_REDSHOP_QUOTATION_REGISTRATION_MAIL');
 echo $this->pane->startPanel($title, 'quotation_reg');    ?>
 <table class="adminlist">
 	<tr>
-		<td><?php echo JText::_('COM_REDSHOP_QUOTATION_REGISTRATION_MAIL_HINT'); ?></td>
+		<td><?php echo Redtemplate::getTemplateValues('mail_template_tag.quotation_registration'); ?></td>
 	</tr>
 </table>
 <?php    echo $this->pane->endPanel();
@@ -403,7 +403,7 @@ $title = JText::_('COM_REDSHOP_REQUEST_TAX_EXEMPT_MAIL');
 echo $this->pane->startPanel($title, 'tax_exempt');    ?>
 <table class="adminlist">
 	<tr>
-		<td><?php echo JText::_('COM_REDSHOP_REQUEST_TAX_EXEMPT_MAIL_HINT'); ?></td>
+		<td><?php echo Redtemplate::getTemplateValues('mail_template_tag.request_tax_exempt'); ?></td>
 	</tr>
 </table>
 <?php    echo $this->pane->endPanel();
@@ -411,7 +411,7 @@ $title = JText::_('COM_REDSHOP_PRODUCT_SUBSCRIPTION_MAIL');
 echo $this->pane->startPanel($title, 'subscription');    ?>
 <table class="adminlist">
 	<tr>
-		<td><?php echo JText::_('COM_REDSHOP_PRODUCT_SUBSCRIPTION_MAIL_HINT'); ?></td>
+		<td><?php echo Redtemplate::getTemplateValues('mail_template_tag.product_subscription'); ?></td>
 	</tr>
 </table>
 <?php    echo $this->pane->endPanel();
@@ -419,7 +419,7 @@ $title = JText::_('COM_REDSHOP_TAX_EXEMPT_APPROVAL_DISAPPROVAL_MAIL');
 echo $this->pane->startPanel($title, 'tax_exempt');    ?>
 <table class="adminlist">
 	<tr>
-		<td><?php echo JText::_('COM_REDSHOP_TAX_EXEMPT_APPROVAL_DISAPPROVAL_MAIL_HINT'); ?></td>
+		<td><?php echo Redtemplate::getTemplateValues('mail_template_tag.tax_exempt_approval_disapproval'); ?></td>
 	</tr>
 </table>
 <?php    echo $this->pane->endPanel();
@@ -427,7 +427,7 @@ $title = JText::_('COM_REDSHOP_CATALOG_ORDER_MAIL');
 echo $this->pane->startPanel($title, 'catalog_order');    ?>
 <table class="adminlist">
 	<tr>
-		<td><?php echo JText::_('COM_REDSHOP_CATALOG_ORDER_MAIL_HINT'); ?></td>
+		<td><?php echo Redtemplate::getTemplateValues('mail_template_tag.catalog_order'); ?></td>
 	</tr>
 </table>
 <?php    echo $this->pane->endPanel();
