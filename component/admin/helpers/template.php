@@ -40,16 +40,17 @@ class Redtemplate
 	/**
 	 * Get Template Values
 	 *
-	 * @param   string  $jTextValue            JText value
+	 * @param   string  $path                  Path to file, dotted separator use
 	 * @param   string  $descriptionSeparator  Description separator
 	 * @param   string  $lineSeparator         Line separator
 	 *
 	 * @return array|string
 	 */
-	public static function getTemplateValues($jTextValue = '', $descriptionSeparator = '-', $lineSeparator = '<br />')
+	public static function getTemplateValues($path, $descriptionSeparator = '-', $lineSeparator = '<br />')
 	{
-		$result = JText::_($jTextValue);
 		$lang = JFactory::getLanguage();
+		$result = RedshopLayoutHelper::render($path);
+		$jTextPrefix = 'COM_REDSHOP_' . strtoupper(str_replace('.', '_', $path)) . '_';
 
 		if ($matches = explode('{', $result))
 		{
@@ -74,15 +75,15 @@ class Redtemplate
 				foreach ($matches as $match)
 				{
 					$replace = '';
-					$matchFix = strtoupper(str_replace(' ', '_', $match));
+					$matchFix = strtoupper(str_replace(array(' ', ':'), '_', $match));
 
-					if ($lang->hasKey($jTextValue . '_' . $matchFix))
+					if ($lang->hasKey($jTextPrefix . $matchFix))
 					{
-						$replace = $jTextValue . '_' . $matchFix;
+						$replace = $jTextPrefix . $matchFix;
 					}
-					elseif ($lang->hasKey('COM_REDSHOP_HINT_' . $matchFix))
+					elseif ($lang->hasKey('COM_REDSHOP_TEMPLATE_TAG_' . $matchFix))
 					{
-						$replace = 'COM_REDSHOP_HINT_' . $matchFix;
+						$replace = 'COM_REDSHOP_TEMPLATE_TAG_' . $matchFix;
 					}
 
 					if ($replace)
@@ -98,11 +99,6 @@ class Redtemplate
 
 				$result = str_replace(array('_AA_', '_BB_'), array('{', '}'), $result);
 			}
-		}
-
-		if ($lang->hasKey($jTextValue . '_DESC'))
-		{
-			$result = '<b>' . JText::sprintf($jTextValue . '_DESC') . '</b> <br /><br />' . $result;
 		}
 
 		return $result;
