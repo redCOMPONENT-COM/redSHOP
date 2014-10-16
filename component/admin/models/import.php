@@ -285,7 +285,7 @@ class RedshopModelImport extends JModel
 								$query = $db->getQuery(true)
 									->select("manufacturer_id")
 									->from($db->quoteName('#__redshop_manufacturer'))
-									->where($db->quoteName('manufacturer_name') .' = '. $db->quote($rawdata['manufacturer_name']));
+									->where($db->quoteName('manufacturer_name') . ' = ' . $db->quote($rawdata['manufacturer_name']));
 
 								$db->setQuery($query);
 								$manufacturer_id = $db->loadResult();
@@ -992,7 +992,7 @@ class RedshopModelImport extends JModel
 								$query = $db->getQuery(true)
 									->update($db->quoteName('#__redshop_product'))
 									->set($db->quoteName('manufacturer_id') . ' = ' . $db->quote($manufacturer_id))
-									->where($db->quoteName('product_id') . ' IN(' . $prd_final .')');
+									->where($db->quoteName('product_id') . ' IN(' . $prd_final . ')');
 
 								$db->setQuery($query);
 								$db->query();
