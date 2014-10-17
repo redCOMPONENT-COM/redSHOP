@@ -443,7 +443,7 @@ if ($this->detail->template_section == "checkout")
 	echo $this->pane->startPanel($title, 'checkout');        ?>
 	<table class="adminlist">
 		<tr>
-			<td><?php echo JText::_('COM_REDSHOP_CHECKOUT_TEMPLATE_HINT'); ?></td>
+			<td><?php echo Redtemplate::getTemplateValues('template_tag.checkout'); ?></td>
 		</tr>
 	</table>
 	<?php    echo $this->pane->endPanel();
@@ -471,7 +471,7 @@ if ($this->detail->template_section == "catalogue_cart")
 	echo $this->pane->startPanel($title, 'catalog_cart');        ?>
 	<table class="adminlist">
 		<tr>
-			<td><?php echo JText::_('COM_REDSHOP_CATALOG_CART_TEMPLATE_HINT'); ?></td>
+			<td><?php echo Redtemplate::getTemplateValues('template_tag.catalogue_cart'); ?></td>
 		</tr>
 	</table>
 	<?php    echo $this->pane->endPanel();
@@ -498,7 +498,7 @@ if ($this->detail->template_section == "catalogue_order_detail")
 	echo $this->pane->startPanel($title, 'catalog_order_detail');        ?>
 	<table class="adminlist">
 		<tr>
-			<td><?php echo JText::_('COM_REDSHOP_CATALOG_ORDER_DETAIL_HINT'); ?></td>
+			<td><?php echo Redtemplate::getTemplateValues('template_tag.catalogue_order_detail'); ?></td>
 		</tr>
 	</table>
 	<?php    echo $this->pane->endPanel();
@@ -526,7 +526,7 @@ if ($this->detail->template_section == "catalogue_order_receipt")
 	echo $this->pane->startPanel($title, 'catalog_order_receipt');        ?>
 	<table class="adminlist">
 		<tr>
-			<td><?php echo JText::_('COM_REDSHOP_CATALOG_ORDER_RECEIPT_HINT'); ?></td>
+			<td><?php echo Redtemplate::getTemplateValues('template_tag.catalogue_order_receipt'); ?></td>
 		</tr>
 	</table>
 	<?php    echo $this->pane->endPanel();
@@ -553,7 +553,7 @@ if ($this->detail->template_section == "categoryproduct")
 	echo $this->pane->startPanel($title, 'category_product_template');        ?>
 	<table class="adminlist">
 		<tr>
-			<td><?php echo JText::_('COM_REDSHOP_CATEGORY_PRODUCT_TEMPLATE_HINT'); ?></td>
+			<td><?php echo Redtemplate::getTemplateValues('template_tag.category_product'); ?></td>
 		</tr>
 	</table>
 	<?php    echo $this->pane->endPanel();
@@ -582,7 +582,7 @@ if ($this->detail->template_section == "clicktell_sms_message")
 	echo $this->pane->startPanel($title, 'clicktell_sms_template');        ?>
 	<table class="adminlist">
 		<tr>
-			<td><?php echo JText::_('COM_REDSHOP_CLICKTELL_SMS_MESSAGE_TEMPLATE_HINT'); ?></td>
+			<td><?php echo Redtemplate::getTemplateValues('template_tag.clicktell_sms_message'); ?></td>
 		</tr>
 	</table>
 	<?php    echo $this->pane->endPanel();
@@ -629,7 +629,7 @@ if ($this->detail->template_section == "frontpage_category")
 	echo $this->pane->startPanel($title, 'frontpage_category_detail');    ?>
 	<table class="adminlist">
 		<tr>
-			<td><?php echo JText::_('COM_REDSHOP_FRONTPAGE_CATEGORY_TEMPLATE_HINT'); ?></td>
+			<td><?php echo Redtemplate::getTemplateValues('template_tag.frontpage_category');?></td>
 		</tr>
 	</table>
 	<?php    echo $this->pane->endPanel();
@@ -656,7 +656,7 @@ if ($this->detail->template_section == "giftcard_list")
 	echo $this->pane->startPanel($title, 'manufacturer detail');    ?>
 	<table class="adminlist">
 		<tr>
-			<td><?php echo JText::_('COM_REDSHOP_GIFTCARD_LIST_TEMPLATE_HINT'); ?></td>
+			<td><?php echo Redtemplate::getTemplateValues('template_tag.giftcard_list'); ?></td>
 		</tr>
 	</table>
 	<?php    echo $this->pane->endPanel();
@@ -860,7 +860,7 @@ if ($this->detail->template_section == "quotation_detail")
 	echo $this->pane->startPanel($title, 'Quotation_detail_template');    ?>
 	<table class="adminlist">
 	<tr>
-		<td><?php echo JText::_('COM_REDSHOP_QUOTATION_DETAIL_TEMPLATE_HINTS'); ?></td>
+		<td><?php echo Redtemplate::getTemplateValues('template_tag.quotation_detail'); ?></td>
 	</tr>
 	</table><?php
 	echo $this->pane->endPanel();
@@ -887,7 +887,7 @@ if ($this->detail->template_section == "quotation_request")
 	echo $this->pane->startPanel($title, 'Quotation_template');    ?>
 	<table class="adminlist">
 	<tr>
-		<td><?php echo JText::_('COM_REDSHOP_QUOTATION_TEMPLATE_HINTS'); ?></td>
+		<td><?php echo Redtemplate::getTemplateValues('template_tag.quotation_request'); ?></td>
 	</tr>
 	</table><?php
 	echo $this->pane->endPanel();
@@ -977,7 +977,7 @@ if ($this->detail->template_section == "order_list")
 	echo $this->pane->startPanel($title, 'orderlist_template');    ?>
 	<table class="adminlist">
 		<tr>
-			<td><?php echo JText::_('COM_REDSHOP_ORDERLIST_TEMPLATE_HINT'); ?></td>
+			<td><?php echo Redtemplate::getTemplateValues('template_tag.orderlist'); ?></td>
 		</tr>
 	</table>
 	<?php    echo $this->pane->endPanel();
@@ -1844,7 +1844,7 @@ if ($this->detail->template_section == "product_content_template")
 	echo $this->pane->startPanel($title, 'product_content');    ?>
 	<table class="adminlist">
 		<tr>
-			<td><?php echo JText::_('COM_REDSHOP_PRODUCT_CONTENT_TEMPLATE_HINT'); ?></td>
+			<td><?php echo Redtemplate::getTemplateValues('template_tag.product_content'); ?></td>
 		</tr>
 	</table>
 	<?php    echo $this->pane->endPanel();
