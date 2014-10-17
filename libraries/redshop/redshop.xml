@@ -12,6 +12,7 @@
 	<description>Redshop library</description>
 	<files>
 		<folder>form</folder>
+		<folder>layout</folder>
 		<folder>model</folder>
 		<folder>toolbar</folder>
 		<folder>view</folder>
