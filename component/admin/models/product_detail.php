@@ -4115,7 +4115,7 @@ class RedshopModelProduct_Detail extends JModel
 	{
 		if ($this->id)
 		{
-			$product_detail = & $this->getTable('product_detail');
+			$product_detail = $this->getTable('product_detail');
 
 			if (!$product_detail->checkin($this->id))
 			{
