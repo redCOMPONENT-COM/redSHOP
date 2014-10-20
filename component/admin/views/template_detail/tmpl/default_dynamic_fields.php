@@ -79,7 +79,7 @@ if ($this->detail->template_section == "category")
 			</td>
 		</tr>
 		<tr>
-			<td><?php echo Redtemplate::getTemplateValues('template_tag.category'); ?></td>
+			<td><?php echo Redtemplate::getTemplateValues('category'); ?></td>
 		</tr>
 		<tr>
 			<td>
@@ -155,7 +155,7 @@ if ($this->detail->template_section == "giftcard")
 		</tr>
 		<tr>
 			<td>
-				<?php    echo Redtemplate::getTemplateValues('template_tag.giftcard');?>
+				<?php    echo Redtemplate::getTemplateValues('giftcard');?>
 			</td>
 		</tr>
 	</table>
@@ -213,7 +213,7 @@ if ($this->detail->template_section == "product")
 			</td>
 		</tr>
 		<tr>
-			<td><?php echo Redtemplate::getTemplateValues('template_tag.product'); ?></td>
+			<td><?php echo Redtemplate::getTemplateValues('product'); ?></td>
 		</tr>
 		<tr>
 			<td>
@@ -308,7 +308,7 @@ if ($this->detail->template_section == "product_sample")
 			</td>
 		</tr>
 		<tr>
-			<td><?php echo Redtemplate::getTemplateValues('template_tag.product_sample'); ?></td>
+			<td><?php echo Redtemplate::getTemplateValues('product_sample'); ?></td>
 		</tr>
 	</table>
 	<?php    echo $this->pane->endPanel();
@@ -350,7 +350,7 @@ if ($this->detail->template_section == "manufacturer")
 			</td>
 		</tr>
 		<tr>
-			<td><?php echo Redtemplate::getTemplateValues('template_tag.manufacturer') ?></td>
+			<td><?php echo Redtemplate::getTemplateValues('manufacturer') ?></td>
 		</tr>
 	</table>
 	<?php    echo $this->pane->endPanel();
@@ -377,7 +377,7 @@ if ($this->detail->template_section == "manufacturer_products")
 	echo $this->pane->startPanel($title, 'events');    ?>
 	<table class="adminlist">
 		<tr>
-			<td><?php echo Redtemplate::getTemplateValues('template_tag.manufacturer_products'); ?></td>
+			<td><?php echo Redtemplate::getTemplateValues('manufacturer_products'); ?></td>
 		</tr>
 	</table>
 	<?php    echo $this->pane->endPanel();
@@ -416,7 +416,7 @@ if ($this->detail->template_section == "cart")
 	echo $this->pane->startPanel($title, 'cart');        ?>
 	<table class="adminlist">
 		<tr>
-			<td><?php echo Redtemplate::getTemplateValues('template_tag.cart'); ?></td>
+			<td><?php echo Redtemplate::getTemplateValues('cart'); ?></td>
 		</tr>
 	</table>
 	<?php    echo $this->pane->endPanel();
@@ -443,7 +443,7 @@ if ($this->detail->template_section == "checkout")
 	echo $this->pane->startPanel($title, 'checkout');        ?>
 	<table class="adminlist">
 		<tr>
-			<td><?php echo Redtemplate::getTemplateValues('template_tag.checkout'); ?></td>
+			<td><?php echo Redtemplate::getTemplateValues('checkout'); ?></td>
 		</tr>
 	</table>
 	<?php    echo $this->pane->endPanel();
@@ -471,7 +471,7 @@ if ($this->detail->template_section == "catalogue_cart")
 	echo $this->pane->startPanel($title, 'catalog_cart');        ?>
 	<table class="adminlist">
 		<tr>
-			<td><?php echo Redtemplate::getTemplateValues('template_tag.catalogue_cart'); ?></td>
+			<td><?php echo Redtemplate::getTemplateValues('catalogue_cart'); ?></td>
 		</tr>
 	</table>
 	<?php    echo $this->pane->endPanel();
@@ -498,7 +498,7 @@ if ($this->detail->template_section == "catalogue_order_detail")
 	echo $this->pane->startPanel($title, 'catalog_order_detail');        ?>
 	<table class="adminlist">
 		<tr>
-			<td><?php echo Redtemplate::getTemplateValues('template_tag.catalogue_order_detail'); ?></td>
+			<td><?php echo Redtemplate::getTemplateValues('catalogue_order_detail'); ?></td>
 		</tr>
 	</table>
 	<?php    echo $this->pane->endPanel();
@@ -526,7 +526,7 @@ if ($this->detail->template_section == "catalogue_order_receipt")
 	echo $this->pane->startPanel($title, 'catalog_order_receipt');        ?>
 	<table class="adminlist">
 		<tr>
-			<td><?php echo Redtemplate::getTemplateValues('template_tag.catalogue_order_receipt'); ?></td>
+			<td><?php echo Redtemplate::getTemplateValues('catalogue_order_receipt'); ?></td>
 		</tr>
 	</table>
 	<?php    echo $this->pane->endPanel();
@@ -553,7 +553,7 @@ if ($this->detail->template_section == "categoryproduct")
 	echo $this->pane->startPanel($title, 'category_product_template');        ?>
 	<table class="adminlist">
 		<tr>
-			<td><?php echo Redtemplate::getTemplateValues('template_tag.category_product'); ?></td>
+			<td><?php echo Redtemplate::getTemplateValues('category_product'); ?></td>
 		</tr>
 	</table>
 	<?php    echo $this->pane->endPanel();
@@ -582,7 +582,7 @@ if ($this->detail->template_section == "clicktell_sms_message")
 	echo $this->pane->startPanel($title, 'clicktell_sms_template');        ?>
 	<table class="adminlist">
 		<tr>
-			<td><?php echo Redtemplate::getTemplateValues('template_tag.clicktell_sms_message'); ?></td>
+			<td><?php echo Redtemplate::getTemplateValues('clicktell_sms_message'); ?></td>
 		</tr>
 	</table>
 	<?php    echo $this->pane->endPanel();
@@ -629,7 +629,7 @@ if ($this->detail->template_section == "frontpage_category")
 	echo $this->pane->startPanel($title, 'frontpage_category_detail');    ?>
 	<table class="adminlist">
 		<tr>
-			<td><?php echo Redtemplate::getTemplateValues('template_tag.frontpage_category');?></td>
+			<td><?php echo Redtemplate::getTemplateValues('frontpage_category');?></td>
 		</tr>
 	</table>
 	<?php    echo $this->pane->endPanel();
@@ -656,7 +656,7 @@ if ($this->detail->template_section == "giftcard_list")
 	echo $this->pane->startPanel($title, 'manufacturer detail');    ?>
 	<table class="adminlist">
 		<tr>
-			<td><?php echo Redtemplate::getTemplateValues('template_tag.giftcard_list'); ?></td>
+			<td><?php echo Redtemplate::getTemplateValues('giftcard_list'); ?></td>
 		</tr>
 	</table>
 	<?php    echo $this->pane->endPanel();
@@ -684,7 +684,7 @@ if ($this->detail->template_section == "manufacturer_detail")
 	echo $this->pane->startPanel($title, 'manufacturer detail');    ?>
 	<table class="adminlist">
 		<tr>
-			<td><?php echo Redtemplate::getTemplateValues('template_tag.manufacturer_detail'); ?></td>
+			<td><?php echo Redtemplate::getTemplateValues('manufacturer_detail'); ?></td>
 		</tr>
 	</table>
 	<?php    echo $this->pane->endPanel();
@@ -711,7 +711,7 @@ if ($this->detail->template_section == "catalog")
 	echo $this->pane->startPanel($title, 'catalog');    ?>
 	<table class="adminlist">
 		<tr>
-			<td><?php echo Redtemplate::getTemplateValues('template_tag.catalogue'); ?></td>
+			<td><?php echo Redtemplate::getTemplateValues('catalogue'); ?></td>
 		</tr>
 	</table>
 	<?php    echo $this->pane->endPanel();
@@ -739,7 +739,7 @@ if ($this->detail->template_section == "order_detail")
 	echo $this->pane->startPanel($title, 'order_template');    ?>
 	<table class="adminlist">
 		<tr>
-			<td><?php echo Redtemplate::getTemplateValues('template_tag.order_detail'); ?></td>
+			<td><?php echo Redtemplate::getTemplateValues('order_detail'); ?></td>
 		</tr>
 		<tr>
 			<td>
@@ -799,7 +799,7 @@ if ($this->detail->template_section == "order_receipt")
 	echo $this->pane->startPanel($title, 'order_template');    ?>
 	<table class="adminlist">
 		<tr>
-			<td><?php echo Redtemplate::getTemplateValues('template_tag.order_receipt'); ?></td>
+			<td><?php echo Redtemplate::getTemplateValues('order_receipt'); ?></td>
 		</tr>
 		<tr>
 			<td>
@@ -860,7 +860,7 @@ if ($this->detail->template_section == "quotation_detail")
 	echo $this->pane->startPanel($title, 'Quotation_detail_template');    ?>
 	<table class="adminlist">
 	<tr>
-		<td><?php echo Redtemplate::getTemplateValues('template_tag.quotation_detail'); ?></td>
+		<td><?php echo Redtemplate::getTemplateValues('quotation_detail'); ?></td>
 	</tr>
 	</table><?php
 	echo $this->pane->endPanel();
@@ -887,7 +887,7 @@ if ($this->detail->template_section == "quotation_request")
 	echo $this->pane->startPanel($title, 'Quotation_template');    ?>
 	<table class="adminlist">
 	<tr>
-		<td><?php echo Redtemplate::getTemplateValues('template_tag.quotation_request'); ?></td>
+		<td><?php echo Redtemplate::getTemplateValues('quotation_request'); ?></td>
 	</tr>
 	</table><?php
 	echo $this->pane->endPanel();
@@ -947,7 +947,7 @@ if ($this->detail->template_section == "order_print")
 			</td>
 		</tr>
 		<tr>
-			<td><?php echo Redtemplate::getTemplateValues('template_tag.order_print'); ?></td>
+			<td><?php echo Redtemplate::getTemplateValues('order_print'); ?></td>
 		</tr>
 		<tr>
 			<td><?php echo htmlentities($newbillingtag) . "<br><br>" . htmlentities($newshippingtag); ?></td>
@@ -977,7 +977,7 @@ if ($this->detail->template_section == "order_list")
 	echo $this->pane->startPanel($title, 'orderlist_template');    ?>
 	<table class="adminlist">
 		<tr>
-			<td><?php echo Redtemplate::getTemplateValues('template_tag.orderlist'); ?></td>
+			<td><?php echo Redtemplate::getTemplateValues('orderlist'); ?></td>
 		</tr>
 	</table>
 	<?php    echo $this->pane->endPanel();
@@ -1004,7 +1004,7 @@ if ($this->detail->template_section == "newsletter")
 	echo $this->pane->startPanel($title, 'catalog');    ?>
 	<table class="adminlist">
 		<tr>
-			<td><?php echo Redtemplate::getTemplateValues('template_tag.newsletter'); ?></td>
+			<td><?php echo Redtemplate::getTemplateValues('newsletter'); ?></td>
 		</tr>
 	</table>
 	<?php    echo $this->pane->endPanel();
@@ -1032,7 +1032,7 @@ if ($this->detail->template_section == "newsletter_product")
 	echo $this->pane->startPanel($title, 'catalog');    ?>
 	<table class="adminlist">
 		<tr>
-			<td><?php echo Redtemplate::getTemplateValues('template_tag.newsletter_product'); ?></td>
+			<td><?php echo Redtemplate::getTemplateValues('newsletter_product'); ?></td>
 		</tr>
 	</table>
 	<?php    echo $this->pane->endPanel();
@@ -1060,7 +1060,7 @@ if ($this->detail->template_section == "related_product")
 	echo $this->pane->startPanel($title, 'catalog');    ?>
 	<table class="adminlist">
 		<tr>
-			<td><?php echo Redtemplate::getTemplateValues('template_tag.related_product'); ?></td>
+			<td><?php echo Redtemplate::getTemplateValues('related_product'); ?></td>
 		</tr>
 	</table>
 	<?php    echo $this->pane->endPanel();
@@ -1088,7 +1088,7 @@ if ($this->detail->template_section == "add_to_cart")
 	echo $this->pane->startPanel($title, 'catalog');    ?>
 	<table class="adminlist">
 		<tr>
-			<td><?php echo Redtemplate::getTemplateValues('template_tag.add_to_cart'); ?></td>
+			<td><?php echo Redtemplate::getTemplateValues('add_to_cart'); ?></td>
 		</tr>
 	</table>
 	<?php    echo $this->pane->endPanel();
@@ -1117,7 +1117,7 @@ if ($this->detail->template_section == "review")
 	echo $this->pane->startPanel($title, 'review');    ?>
 	<table class="adminlist">
 		<tr>
-			<td><?php echo Redtemplate::getTemplateValues('template_tag.review'); ?></td>
+			<td><?php echo Redtemplate::getTemplateValues('review'); ?></td>
 		</tr>
 	</table>
 	<?php    echo $this->pane->endPanel();
@@ -1145,7 +1145,7 @@ if ($this->detail->template_section == "attribute_template")
 	echo $this->pane->startPanel($title, 'catalog');    ?>
 	<table class="adminlist">
 		<tr>
-			<td><?php echo Redtemplate::getTemplateValues('template_tag.attribute'); ?></td>
+			<td><?php echo Redtemplate::getTemplateValues('attribute'); ?></td>
 		</tr>
 	</table>
 	<?php    echo $this->pane->endPanel();
@@ -1173,7 +1173,7 @@ if ($this->detail->template_section == "attributewithcart_template")
 	echo $this->pane->startPanel($title, 'attributewithcart');    ?>
 	<table class="adminlist">
 		<tr>
-			<td><?php echo Redtemplate::getTemplateValues('template_tag.attribute_with_cart'); ?></td>
+			<td><?php echo Redtemplate::getTemplateValues('attribute_with_cart'); ?></td>
 		</tr>
 		<tr>
 			<td>
@@ -1210,7 +1210,7 @@ if ($this->detail->template_section == "accessory_template")
 	echo $this->pane->startPanel($title, 'catalog');    ?>
 	<table class="adminlist">
 		<tr>
-			<td><?php echo Redtemplate::getTemplateValues('template_tag.accessory'); ?></td>
+			<td><?php echo Redtemplate::getTemplateValues('accessory'); ?></td>
 		</tr>
 	</table>
 	<?php        echo $this->pane->endPanel();
@@ -1238,7 +1238,7 @@ if ($this->detail->template_section == "wrapper_template")
 	echo $this->pane->startPanel($title, 'wrapper');    ?>
 	<table class="adminlist">
 		<tr>
-			<td><?php echo Redtemplate::getTemplateValues('template_tag.wrapper'); ?></td>
+			<td><?php echo Redtemplate::getTemplateValues('wrapper'); ?></td>
 		</tr>
 	</table>
 	<?php    echo $this->pane->endPanel();
@@ -1265,7 +1265,7 @@ if ($this->detail->template_section == "wishlist_template")
 	echo $this->pane->startPanel($title, 'wishlist');    ?>
 	<table class="adminlist">
 		<tr>
-			<td><?php echo Redtemplate::getTemplateValues('template_tag.wishlist'); ?></td>
+			<td><?php echo Redtemplate::getTemplateValues('wishlist'); ?></td>
 		</tr>
 	</table>
 	<?php    echo $this->pane->endPanel();
@@ -1293,7 +1293,7 @@ if ($this->detail->template_section == "wishlist_mail_template")
 	echo $this->pane->startPanel($title, 'wishlist');    ?>
 	<table class="adminlist">
 		<tr>
-			<td><?php echo Redtemplate::getTemplateValues('template_tag.wishlist_mail'); ?></td>
+			<td><?php echo Redtemplate::getTemplateValues('wishlist_mail'); ?></td>
 		</tr>
 	</table>
 	<?php    echo $this->pane->endPanel();
@@ -1320,7 +1320,7 @@ if ($this->detail->template_section == "shipping_pdf")
 	echo $this->pane->startPanel($title, 'shipping');?>
 	<table class="adminlist">
 		<tr>
-			<td><?php echo Redtemplate::getTemplateValues('template_tag.shipping_pdf'); ?></td>
+			<td><?php echo Redtemplate::getTemplateValues('shipping_pdf'); ?></td>
 		</tr>
 	</table>
 	<?php    echo $this->pane->endPanel();
@@ -1348,7 +1348,7 @@ if ($this->detail->template_section == "ask_question_template")
 	echo $this->pane->startPanel($title, 'askquestion');    ?>
 	<table class="adminlist">
 		<tr>
-			<td><?php echo Redtemplate::getTemplateValues('template_tag.ask_question'); ?></td>
+			<td><?php echo Redtemplate::getTemplateValues('ask_question'); ?></td>
 		</tr>
 	</table>
 	<?php    echo $this->pane->endPanel();
@@ -1376,7 +1376,7 @@ if ($this->detail->template_section == "ajax_cart_box")
 	echo $this->pane->startPanel($title, 'wrapper');    ?>
 	<table class="adminlist">
 		<tr>
-			<td><?php echo Redtemplate::getTemplateValues('template_tag.ajax_cart_box'); ?></td>
+			<td><?php echo Redtemplate::getTemplateValues('ajax_cart_box'); ?></td>
 		</tr>
 	</table>
 	<?php    echo $this->pane->endPanel();
@@ -1417,7 +1417,7 @@ if ($this->detail->template_section == "ajax_cart_detail_box")
 			</td>
 		</tr>
 		<tr>
-			<td><?php echo Redtemplate::getTemplateValues('template_tag.ajax_product'); ?></td>
+			<td><?php echo Redtemplate::getTemplateValues('ajax_product'); ?></td>
 		</tr>
 		<tr>
 			<td>
@@ -1482,7 +1482,7 @@ if ($this->detail->template_section == "redproductfinder")
 	echo $this->pane->startPanel($title, 'redPRODUCTFINDER');    ?>
 	<table class="adminlist">
 		<tr>
-			<td><?php echo Redtemplate::getTemplateValues('template_tag.redproductfinder'); ?></td>
+			<td><?php echo Redtemplate::getTemplateValues('redproductfinder'); ?></td>
 		</tr>
 		<tr>
 			<td>
@@ -1520,7 +1520,7 @@ if ($this->detail->template_section == "account_template")
 	echo $this->pane->startPanel($title, 'account_detail');    ?>
 	<table class="adminlist">
 		<tr>
-			<td><?php echo Redtemplate::getTemplateValues('template_tag.account'); ?></td>
+			<td><?php echo Redtemplate::getTemplateValues('account'); ?></td>
 		</tr>
 	</table>
 	<?php    echo $this->pane->endPanel();
@@ -1548,7 +1548,7 @@ if ($this->detail->template_section == "compare_product")
 	echo $this->pane->startPanel($title, 'compare_product');    ?>
 	<table class="adminlist">
 		<tr>
-			<td><?php echo Redtemplate::getTemplateValues('template_tag.compare_product'); ?></td>
+			<td><?php echo Redtemplate::getTemplateValues('compare_product'); ?></td>
 		</tr>
 	</table>
 	<?php    echo $this->pane->endPanel();
@@ -1575,7 +1575,7 @@ if ($this->detail->template_section == "redshop_payment")
 	echo $this->pane->startPanel($title, 'redshop_payment');    ?>
 	<table class="adminlist">
 		<tr>
-			<td><?php echo Redtemplate::getTemplateValues('template_tag.redshop_payment'); ?></td>
+			<td><?php echo Redtemplate::getTemplateValues('redshop_payment'); ?></td>
 		</tr>
 	</table>
 	<?php    echo $this->pane->endPanel();
@@ -1603,7 +1603,7 @@ if ($this->detail->template_section == "redshop_shipping")
 	echo $this->pane->startPanel($title, 'redshop_shipping');    ?>
 	<table class="adminlist">
 		<tr>
-			<td><?php echo Redtemplate::getTemplateValues('template_tag.redshop_shipping'); ?></td>
+			<td><?php echo Redtemplate::getTemplateValues('redshop_shipping'); ?></td>
 		</tr>
 	</table>
 	<?php    echo $this->pane->endPanel();
@@ -1631,7 +1631,7 @@ if ($this->detail->template_section == "shippingbox")
 	echo $this->pane->startPanel($title, 'shippingbox');    ?>
 	<table class="adminlist">
 		<tr>
-			<td><?php echo Redtemplate::getTemplateValues('template_tag.shipping_box'); ?></td>
+			<td><?php echo Redtemplate::getTemplateValues('shipping_box'); ?></td>
 		</tr>
 	</table>
 	<?php    echo $this->pane->endPanel();
@@ -1659,7 +1659,7 @@ if ($this->detail->template_section == "onestep_checkout")
 	echo $this->pane->startPanel($title, '1stepcheckout');    ?>
 	<table class="adminlist">
 		<tr>
-			<td><?php echo Redtemplate::getTemplateValues('template_tag.onestep_checkout'); ?></td>
+			<td><?php echo Redtemplate::getTemplateValues('onestep_checkout'); ?></td>
 		</tr>
 		<tr>
 			<td><?php echo htmlentities($newbillingtag);?></td>
@@ -1729,7 +1729,7 @@ if ($this->detail->template_section == "change_cart_attribute")
 	echo $this->pane->startPanel($title, 'cartattribute');    ?>
 	<table class="adminlist">
 		<tr>
-			<td><?php echo Redtemplate::getTemplateValues('template_tag.change_cart_attribute'); ?></td>
+			<td><?php echo Redtemplate::getTemplateValues('change_cart_attribute'); ?></td>
 		</tr>
 		<tr>
 			<td>
@@ -1792,7 +1792,7 @@ if ($this->detail->template_section == "searchletter")
 			</td>
 		</tr>
 		<tr>
-			<td><?php echo Redtemplate::getTemplateValues('template_tag.letter_search'); ?></td>
+			<td><?php echo Redtemplate::getTemplateValues('letter_search'); ?></td>
 		</tr>
 	</table>
 	<?php    echo $this->pane->endPanel();
@@ -1820,7 +1820,7 @@ if ($this->detail->template_section == "product_content_template")
 	echo $this->pane->startPanel($title, 'product_content');    ?>
 	<table class="adminlist">
 		<tr>
-			<td><?php echo Redtemplate::getTemplateValues('template_tag.product_content'); ?></td>
+			<td><?php echo Redtemplate::getTemplateValues('product_content'); ?></td>
 		</tr>
 	</table>
 	<?php    echo $this->pane->endPanel();
@@ -1848,7 +1848,7 @@ if ($this->detail->template_section == "quotation_cart")
 	echo $this->pane->startPanel($title, 'product_content');    ?>
 	<table class="adminlist">
 		<tr>
-			<td><?php echo Redtemplate::getTemplateValues('template_tag.quotation_cart'); ?></td>
+			<td><?php echo Redtemplate::getTemplateValues('quotation_cart'); ?></td>
 		</tr>
 	</table>
 	<?php    echo $this->pane->endPanel();
@@ -1876,7 +1876,7 @@ if ($this->detail->template_section == "billing_template")
 	echo $this->pane->startPanel($title, 'billing_template');    ?>
 	<table class="adminlist">
 		<tr>
-			<td><?php echo Redtemplate::getTemplateValues('template_tag.billing') ?></td>
+			<td><?php echo Redtemplate::getTemplateValues('billing') ?></td>
 		</tr>
 		<tr>
 			<td>
@@ -1924,7 +1924,7 @@ if ($this->detail->template_section == "private_billing_template")
 	echo $this->pane->startPanel($title, 'private_billing_template');    ?>
 	<table class="adminlist">
 		<tr>
-			<td><?php echo Redtemplate::getTemplateValues('template_tag.private_billing'); ?></td>
+			<td><?php echo Redtemplate::getTemplateValues('private_billing'); ?></td>
 		</tr>
 	</table>
 	<?php    echo $this->pane->endPanel();
@@ -1949,7 +1949,7 @@ if ($this->detail->template_section == "company_billing_template")
 	echo $this->pane->startPanel($title, 'company_billing_template');    ?>
 	<table class="adminlist">
 		<tr>
-			<td><?php echo Redtemplate::getTemplateValues('template_tag.company_billing'); ?></td>
+			<td><?php echo Redtemplate::getTemplateValues('company_billing'); ?></td>
 		</tr>
 	</table>
 	<?php    echo $this->pane->endPanel();
@@ -1974,7 +1974,7 @@ if ($this->detail->template_section == "shipping_template")
 	echo $this->pane->startPanel($title, 'shipping_template');    ?>
 	<table class="adminlist">
 		<tr>
-			<td><?php echo Redtemplate::getTemplateValues('template_tag.shipping') ?></td>
+			<td><?php echo Redtemplate::getTemplateValues('shipping') ?></td>
 		</tr>
 	</table>
 	<?php    echo $this->pane->endPanel();
@@ -2001,7 +2001,7 @@ if ($this->detail->template_section == "stock_note")
 	echo $this->pane->startPanel($title, 'stock_note');    ?>
 	<table class="adminlist">
 		<tr>
-			<td><?php echo Redtemplate::getTemplateValues('template_tag.stock_note'); ?></td>
+			<td><?php echo Redtemplate::getTemplateValues('stock_note'); ?></td>
 		</tr>
 		<tr>
 			<td><?php echo htmlentities($newbillingtag) . "<br><br>" . htmlentities($newshippingtag); ?></td>
@@ -2031,7 +2031,7 @@ if ($this->detail->template_section == "shippment_invoice_template")
 	echo $this->pane->startPanel($title, 'shippment_invoice_template');    ?>
 	<table class="adminlist">
 		<tr>
-			<td><?php echo Redtemplate::getTemplateValues('template_tag.shipment_invoice'); ?></td>
+			<td><?php echo Redtemplate::getTemplateValues('shipment_invoice'); ?></td>
 		</tr>
 	</table>
 	<?php    echo $this->pane->endPanel();

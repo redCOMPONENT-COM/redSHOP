@@ -40,17 +40,25 @@ class Redtemplate
 	/**
 	 * Get Template Values
 	 *
-	 * @param   string  $path                  Path to file, dotted separator use
+	 * @param   string  $name                  Name template hint
+	 * @param   string  $templateSection       Template section
 	 * @param   string  $descriptionSeparator  Description separator
 	 * @param   string  $lineSeparator         Line separator
 	 *
 	 * @return array|string
 	 */
-	public static function getTemplateValues($path, $descriptionSeparator = '-', $lineSeparator = '<br />')
+	public static function getTemplateValues($name, $templateSection = '', $descriptionSeparator = '-', $lineSeparator = '<br />')
 	{
 		$lang = JFactory::getLanguage();
-		$result = RedshopLayoutHelper::render($path);
-		$jTextPrefix = 'COM_REDSHOP_' . strtoupper(str_replace('.', '_', $path)) . '_';
+		$path = 'template_tag';
+
+		if ($templateSection == 'mail')
+		{
+			$path = 'mail_template_tag';
+		}
+
+		$result = RedshopLayoutHelper::render('templates.' . $path, array('name' => $name));
+		$jTextPrefix = 'COM_REDSHOP_' . strtoupper($path) . '_' . strtoupper($name) . '_';
 
 		if ($matches = explode('{', $result))
 		{
