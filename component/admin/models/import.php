@@ -480,8 +480,8 @@ class RedshopModelImport extends JModel
 									->where($db->quoteName('media_name') . ' LIKE ' . $db->quote($product_full_image))
 									->where($db->quoteName('media_section') . ' LIKE ' . $db->quote('product'))
 									->where($db->quoteName('section_id') . ' = ' . $db->quote($product_id))
-									->where($db->quoteName('media_type') . ' LIKE ' . $db->quote('images'))
-									->where($db->quoteName('published') . ' LIKE ' . $db->quote('1'));
+									->where($db->quoteName('media_type') . ' = ' . $db->quote('images'))
+									->where($db->quoteName('published') . ' = ' . $db->quote('1'));
 
 								$db->setQuery($query);
 								$count = $db->loadResult();
@@ -712,7 +712,7 @@ class RedshopModelImport extends JModel
 											->where($db->quoteName('media_name') . ' LIKE ' . $db->quote($section_images[$s]))
 											->where($db->quoteName('media_section') . ' = ' . $db->quote('product'))
 											->where($db->quoteName('section_id') . ' = ' . $db->quote($product_id))
-											->where($db->quoteName('media_type') . ' LIKE ' . $db->quote('images'));
+											->where($db->quoteName('media_type') . ' = ' . $db->quote('images'));
 
 										$db->setQuery($query);
 										$count = $db->loadResult();
