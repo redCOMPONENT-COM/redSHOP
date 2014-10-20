@@ -6,8 +6,7 @@
     <author>redCOMPONENT.com</author>
     <copyright>redCOMPONENT.com</copyright>
     <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
-    <description>This plugin enables standard Shipping</description>
-
+    <description>This plugin enables standard GLS shipping</description>
     <files>
         <filename plugin="default_shipping_GLS">default_shipping_GLS.php</filename>
     </files>
