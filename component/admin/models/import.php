@@ -549,7 +549,7 @@ class RedshopModelImport extends JModel
 								// Remove all current product category
 								$query = $db->getQuery(true)
 									->delete($db->quoteName('#__redshop_product_category_xref'))
-									->where($db->quoteName('product_id') . ' =' . $db->quote($product_id));
+									->where($db->quoteName('product_id') . ' = ' . $db->quote($product_id));
 
 								$db->setQuery($query);
 								$db->query();
