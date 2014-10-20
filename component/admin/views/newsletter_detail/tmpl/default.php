@@ -108,7 +108,7 @@ $option = JRequest::getVar('option');
 			<legend><?php echo JText::_('COM_REDSHOP_NEWSLETTER_FIXED_TAGS'); ?></legend>
 			<table class="admintable">
 				<tr>
-					<td><?php echo Redtemplate::getTemplateValues('mail_template_tag.newsletter'); ?></td>
+					<td><?php echo Redtemplate::getTemplateValues('newsletter', 'mail'); ?></td>
 				</tr>
 			</table>
 		</fieldset>
