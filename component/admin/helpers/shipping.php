@@ -1121,7 +1121,7 @@ class shipping
 
 		if (!$shippingrate)
 		{
-			$numbers = array("1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z","A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", " ");
+			$numbers = array_merge(range('1', '9'), array(0), range('a', 'z'), range('A', 'Z'), array(" "));
 
 			$zipCond = "";
 			$zip     = trim($zip);
@@ -1273,6 +1273,7 @@ class shipping
 		{
 			$auth                   = $session->get('auth');
 			$users_info_id          = $auth['users_info_id'];
+			$userdata               = new stdClass;
 			$userdata->country_code = DEFAULT_VAT_COUNTRY;
 			$userdata->state_code   = DEFAULT_VAT_STATE;
 
