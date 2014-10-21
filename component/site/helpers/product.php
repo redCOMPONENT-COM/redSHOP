@@ -544,7 +544,7 @@ class producthelper
 				$userArr = $this->_userhelper->createUserSession($userId);
 			}
 
-			$shopperGroupId = $userArr['rs_user_shopperGroup'];
+			$shopperGroupId = isset($userArr['rs_user_shopperGroup']) ? $userArr['rs_user_shopperGroup'] : '';
 			$query = $db->getQuery(true)
 				->select('dps.discount_product_id')
 				->from($db->qn('#__redshop_discount_product_shoppers', 'dps'))
@@ -733,7 +733,7 @@ class producthelper
 		if ($user_id)
 		{
 			$userArr         = $this->_session->get('rs_user');
-			$rs_user_info_id = (isset($userArr['rs_user_info_id'])) ? $userArr['rs_user_info_id'] : 0;
+			$rs_user_info_id = isset($userArr['rs_user_info_id']) ? $userArr['rs_user_info_id'] : 0;
 			$userdata        = $this->getUserInformation($user_id, CALCULATE_VAT_ON, $rs_user_info_id);
 
 			if (count($userdata) > 0)
@@ -10227,9 +10227,9 @@ class producthelper
 			if (strstr($template_desc, "{stock_notify_flag}"))
 			{
 				$userArr       = $this->_session->get('rs_user');
-				$is_login      = $userArr['rs_is_user_login'];
-				$users_info_id = $userArr['rs_user_info_id'];
-				$user_id       = $userArr['rs_userid'];
+				$is_login      = isset($userArr['rs_is_user_login']) ? $userArr['rs_is_user_login'] : '';
+				$users_info_id = isset($userArr['rs_user_info_id']) ? $userArr['rs_user_info_id'] : 0;
+				$user_id       = isset($userArr['rs_userid']) ? $userArr['rs_userid'] : '';
 				$is_notified   = $this->isAlreadyNotifiedUser(
 					$user_id,
 					$product->product_id,
@@ -10741,9 +10741,10 @@ class producthelper
 		if (strstr($data_add, "{stock_notify_flag}"))
 		{
 			$userArr       = $this->_session->get('rs_user');
-			$user_id       = $userArr['rs_userid'];
-			$is_login      = $userArr['rs_is_user_login'];
-			$users_info_id = $userArr['rs_user_info_id'];
+			$user_id       = isset($userArr['rs_userid']) ? $userArr['rs_userid'] : '';
+			$is_login      = isset($userArr['rs_is_user_login']) ? $userArr['rs_is_user_login'] : '';
+			$users_info_id = isset($userArr['rs_user_info_id']) ? $userArr['rs_user_info_id'] : 0;
+
 			$is_notified   = $this->isAlreadyNotifiedUser($user_id, $product_id, $property_id, $subproperty_id);
 
 			if (!$stockStatusArray['regular_stock'] && $is_login && $users_info_id && $user_id)
