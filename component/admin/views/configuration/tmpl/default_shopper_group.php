@@ -153,16 +153,4 @@ $shopperlogo_path = "components/com_redshop/assets/images/shopperlogo";
 
 			?></td>
 	</tr>
-	<!--<tr>
-		<td width="100" align="right" class="key">
-		<?php
-		echo JText::_ ( 'SHOPPER_GROUP_DEFAULT_TAX_EXEMPT_LBL' );
-		?></td>
-		<td><?php
-		echo $this->lists ['shopper_group_default_tax_exempt'];
-
-		?></td>
-	</tr>
-	-->
-
 </table>

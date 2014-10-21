@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
-$producthelper = new producthelper();
+$producthelper = new producthelper;
 $option = JRequest::getVar('option');
 $model = $this->getModel('redshop');
 ?>
