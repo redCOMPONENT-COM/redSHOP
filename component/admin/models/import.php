@@ -499,8 +499,7 @@ class RedshopModelImport extends JModel
 								}
 
 								// Product Extra Field Import
-								$newkeys = array();
-								array_walk($rawdata, 'checkkeys', $newkeys);
+								$newkeys = $this->getExtraFieldNames($rawdata);
 
 								if (count($newkeys) > 0)
 								{
@@ -3147,21 +3146,31 @@ class RedshopModelImport extends JModel
 
 		return $retun;
 	}
-}
 
-/**
- * External function to collect matched keys
- *
- * @param array $item
- * @param array $keyproduct
- * @param array $newkeys - reference variable
- */
-function checkkeys($item, $keyproduct, &$newkeys)
-{
-	$pattern = '/rs_/';
-
-	if (preg_match($pattern, $keyproduct))
+	/**
+	 * Get Extra Field Names
+	 *
+	 * @param   array  $keyProducts  Array key products
+	 *
+	 * @return  array
+	 */
+	public function getExtraFieldNames($keyProducts)
 	{
-		$newkeys[] = $keyproduct;
+		$extraFieldNames = array();
+
+		if (is_array($keyProducts))
+		{
+			$pattern = '/rs_/';
+
+			foreach ($keyProducts as $key => $value)
+			{
+				if (preg_match($pattern, $key))
+				{
+					$extraFieldNames[] = $key;
+				}
+			}
+		}
+
+		return $extraFieldNames;
 	}
 }
