@@ -4574,15 +4574,26 @@ class rsCarthelper
 		{
 			if ($user->id)
 			{
-				$query = "SELECT vt.transaction_voucher_id,vt.amount as total,vt.product_id from " . $this->_table_prefix . "product_voucher_xref as pv "
-					. " LEFT JOIN " . $this->_table_prefix . "product_voucher as v on v.voucher_id = pv.voucher_id"
-					. " WHERE voucher_code=" . $db->quote($voucher_code) . " ) as nproduct , v.* FROM " . $this->_table_prefix . "product_voucher as v "
-					. " LEFT JOIN " . $this->_table_prefix . "product_voucher_transaction as vt on vt.voucher_id = v.voucher_id "
-					. "\nWHERE vt.amount > 0 AND v.voucher_type = 'Total' AND v.published = 1 and vt.voucher_code=" . $db->quote($voucher_code)
-					. " AND ((start_date<=" . $db->quote($current_time) . " and end_date>=" . $db->quote($current_time) . ")"
-					. " OR ( start_date =0 AND end_date = 0) ) AND vt.user_id=" . (int) $user->id . " ORDER BY transaction_voucher_id DESC limit 0,1";
-				$this->_db->setQuery($query);
-				$voucher = $this->_db->loadObject();
+				$subQuery = $this->_db->getQuery(true)
+					->select('GROUP_CONCAT(DISTINCT pv.product_id SEPARATOR ' . $db->quote(', ') . ') AS product_id')
+					->from($db->qn('#__redshop_product_voucher_xref', 'pv'))
+					->where('v.voucher_id = pv.voucher_id');
+
+				$query = $this->_db->getQuery(true)
+					->select(
+						array('vt.transaction_voucher_id', 'vt.amount AS total', 'vt.product_id', 'v.*', '(' . $subQuery . ') AS nproduct')
+					)
+					->from($db->qn('#__redshop_product_voucher', 'v'))
+					->leftJoin($db->qn('#__redshop_product_voucher_transaction', 'vt') . ' ON vt.voucher_id = v.voucher_id')
+					->where('vt.voucher_code = ' . $db->quote($voucher_code))
+					->where('vt.amount > 0')
+					->where('v.voucher_type = ' . $db->quote('Total'))
+					->where('v.published = 1')
+					->where('((start_date <= ' . $db->quote($current_time) . ' AND end_date >= ' . $db->quote($current_time) . ') OR (start_date = 0 AND end_date = 0))')
+					->where('vt.user_id = ' . (int) $user->id)
+					->order('transaction_voucher_id DESC');
+				$db->setQuery($query);
+				$voucher = $db->loadObject();
 
 				if (count($voucher) > 0)
 					$this->_r_voucher = 1;
@@ -4590,15 +4601,24 @@ class rsCarthelper
 
 			if ((count($voucher)) <= 0)
 			{
-				$query = "SELECT (select GROUP_CONCAT(DISTINCT CAST(product_id AS CHAR)  SEPARATOR ', ') as product_id from " . $this->_table_prefix . "product_voucher_xref as pv "
-					. " LEFT JOIN " . $this->_table_prefix . "product_voucher as v on v.voucher_id = pv.voucher_id"
-					. " WHERE voucher_code=" . $db->quote($voucher_code) . ") as nproduct,"
-					. " amount as total ,voucher_type,free_shipping,voucher_id,voucher_code,voucher_left  FROM " . $this->_table_prefix . "product_voucher as v  "
-					. "\nWHERE published = 1 and voucher_code=" . $db->quote($voucher_code)
-					. " AND ((start_date<=" . $db->quote($current_time) . " AND end_date>=" . $db->quote($current_time) . ")"
-					. " OR ( start_date =0 AND end_date = 0) ) and voucher_left>0 limit 0,1";
-				$this->_db->setQuery($query);
-				$voucher = $this->_db->loadObject();
+				$subQuery = $this->_db->getQuery(true)
+					->select('GROUP_CONCAT(DISTINCT pv.product_id SEPARATOR ' . $db->quote(', ') . ') AS product_id')
+					->from($db->qn('#__redshop_product_voucher_xref', 'pv'))
+					->where('v.voucher_id = pv.voucher_id');
+
+				$query = $this->_db->getQuery(true)
+					->select(
+						array(
+							'(' . $subQuery . ') AS nproduct', 'v.amount AS total', 'v.voucher_type',
+							'v.free_shipping', 'v.voucher_id', 'v.voucher_code', 'v.voucher_left')
+					)
+					->from($db->qn('#__redshop_product_voucher', 'v'))
+					->where('v.published = 1')
+					->where('v.voucher_code = ' . $db->quote($voucher_code))
+					->where('((v.start_date <= ' . $db->quote($current_time) . ' AND v.end_date >= ' . $db->quote($current_time) . ') OR (v.start_date = 0 AND v.end_date = 0))')
+					->where('v.voucher_left > 0');
+				$db->setQuery($query);
+				$voucher = $db->loadObject();
 			}
 		}
 		else
