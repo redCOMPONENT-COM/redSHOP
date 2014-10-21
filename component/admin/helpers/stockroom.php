@@ -205,51 +205,78 @@ class rsstockroomhelper
 		return $quantity;
 	}
 
-	public function getStockAmountwithReserve($section_id = 0, $section = "product", $stockroom_id = 0)
+	/**
+	 * Get Stock Amount with Reserve
+	 *
+	 * @param   int     $sectionId    Section id
+	 * @param   string  $section      Section
+	 * @param   int     $stockroomId  Stockroom id
+	 *
+	 * @return int|mixed
+	 */
+	public function getStockAmountwithReserve($sectionId = 0, $section = 'product', $stockroomId = 0)
 	{
 		$quantity = 1;
+		$productHelper = new producthelper;
 
 		if (USE_STOCKROOM == 1)
 		{
-			$and = "";
-			$table = "product";
-			$db = JFactory::getDbo();
-
-			if ($section != "product")
+			if ($section == 'product' && $stockroomId == 0 && $sectionId)
 			{
-				$table = "product_attribute";
-			}
+				$sectionId = explode(',', $sectionId);
+				JArrayHelper::toInteger($sectionId);
+				$quantity = 0;
 
-			if ($section_id != 0)
-			{
-				// Sanitize ids
-				$section_id = explode(',', $section_id);
-				JArrayHelper::toInteger($section_id);
+				foreach ($sectionId as $item)
+				{
+					$productData = $productHelper->getProductById($item);
 
-				if ($section != "product")
-				{
-					$and = "AND x.section = " . $db->quote($section) . " AND x.section_id IN (" . implode(',', $section_id) . ") ";
-				}
-				else
-				{
-					$and = "AND x.product_id IN (" . implode(',', $section_id) . ") ";
+					if (isset($productData->sum_quanity))
+					{
+						$quantity += $productData->sum_quanity;
+					}
 				}
 			}
-
-			if ($stockroom_id != 0)
+			else
 			{
-				$and .= "AND x.stockroom_id = " . (int) $stockroom_id . " ";
+				$table = 'product';
+				$db = JFactory::getDbo();
+
+				if ($section != 'product')
+				{
+					$table = 'product_attribute';
+				}
+
+				$query = $db->getQuery(true)
+					->select('SUM(x.quantity)')
+					->from($db->qn('#__redshop_' . $table . '_stockroom_xref', 'x'))
+					->leftJoin($db->qn('#__redshop_stockroom', 's') . ' ON s.stockroom_id = x.stockroom_id')
+					->where('x.quantity >= 0');
+
+				if ($sectionId != 0)
+				{
+					$sectionId = explode(',', $sectionId);
+					JArrayHelper::toInteger($sectionId);
+
+					if ($section != 'product')
+					{
+						$query->where('x.section = ' . $db->quote($section))
+							->where('x.section_id IN (' . implode(',', $sectionId) . ')');
+					}
+					else
+					{
+						$query->where('x.product_id IN (' . implode(',', $sectionId) . ')');
+					}
+				}
+
+				if ($stockroomId != 0)
+				{
+					$query->where('x.stockroom_id = ' . (int) $stockroomId);
+				}
+
+				$db->setQuery($query);
+				$quantity = $db->loadResult();
 			}
-
-			$query = "SELECT SUM(x.quantity)  FROM " . $this->_table_prefix . $table . "_stockroom_xref AS x "
-				. ", " . $this->_table_prefix . "stockroom AS s "
-				. "WHERE s.stockroom_id=x.stockroom_id "
-				. "AND x.quantity>=0 "
-				. $and
-				. "ORDER BY s.min_del_time ";
-
-			$db->setQuery($query);
-			$quantity = $db->loadResult();
 
 			if ($quantity < 0)
 			{
@@ -264,9 +291,6 @@ class rsstockroomhelper
 			{
 				if (ENABLE_ITEM_TRACKING_SYSTEM && !ENABLE_ONE_STOCKROOM_MANAGEMENT)
 				{
-					// Include redSHOP product helper
-					$producthelper = new producthelper;
-
 					// Supplier order helper object
 					$crmSupplierOrderHelper = new crmSupplierOrderHelper;
 
@@ -275,32 +299,32 @@ class rsstockroomhelper
 					$getstockdata->property_id = 0;
 					$getstockdata->subproperty_id = 0;
 
-					if ($section == "product")
+					if ($section == 'product')
 					{
-						$getstockdata->product_id = $section_id;
+						$getstockdata->product_id = $sectionId;
 					}
 					elseif ($section == "property")
 					{
-						$property = $producthelper->getAttibuteProperty($section_id);
+						$property = $productHelper->getAttibuteProperty($sectionId);
 						$attribute_id = $property[0]->attribute_id;
-						$attribute = $producthelper->getProductAttribute(0, 0, $attribute_id);
+						$attribute = $productHelper->getProductAttribute(0, 0, $attribute_id);
 						$product_id = $attribute[0]->product_id;
 
 						$getstockdata->product_id = $product_id;
-						$getstockdata->property_id = $section_id;
+						$getstockdata->property_id = $sectionId;
 					}
 					elseif ($section == "subproperty")
 					{
-						$subproperty = $producthelper->getAttibuteSubProperty($section_id);
+						$subproperty = $productHelper->getAttibuteSubProperty($sectionId);
 						$property_id = $subproperty[0]->subattribute_id;
-						$property = $producthelper->getAttibuteProperty($property_id);
+						$property = $productHelper->getAttibuteProperty($property_id);
 						$attribute_id = $property[0]->attribute_id;
-						$attribute = $producthelper->getProductAttribute(0, 0, $attribute_id);
+						$attribute = $productHelper->getProductAttribute(0, 0, $attribute_id);
 						$product_id = $attribute[0]->product_id;
 
 						$getstockdata->product_id = $product_id;
 						$getstockdata->property_id = $property_id;
-						$getstockdata->subproperty_id = $section_id;
+						$getstockdata->subproperty_id = $sectionId;
 					}
 
 					$quantity = $crmSupplierOrderHelper->getSupplierStock($getstockdata);
@@ -725,19 +749,22 @@ class rsstockroomhelper
 
 	public function replaceStockroomAmountDetail($template_desc = "", $section_id = 0, $section = "product")
 	{
-		$productinstock = "";
-
-		if (USE_STOCKROOM == 1)
+		if (strstr($template_desc, '{stockroom_detail}'))
 		{
-			$list = $this->getStockroomAmountDetailList($section_id, $section);
+			$productinstock = "";
 
-			for ($i = 0; $i < count($list); $i++)
+			if (USE_STOCKROOM == 1)
 			{
-				$productinstock .= "<div><span>" . $list[$i]->stockroom_name . "</span>:<span>" . $list[$i]->quantity . "</span></div>";
-			}
-		}
+				$list = $this->getStockroomAmountDetailList($section_id, $section);
 
-		$template_desc = str_replace('{stockroom_detail}', $productinstock, $template_desc);
+				for ($i = 0; $i < count($list); $i++)
+				{
+					$productinstock .= "<div><span>" . $list[$i]->stockroom_name . "</span>:<span>" . $list[$i]->quantity . "</span></div>";
+				}
+			}
+
+			$template_desc = str_replace('{stockroom_detail}', $productinstock, $template_desc);
+		}
 
 		return $template_desc;
 	}

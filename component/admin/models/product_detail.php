@@ -3771,6 +3771,9 @@ class RedshopModelProduct_Detail extends JModel
 				$proppost['setdefault_selected'] = $att_property[$prop]->setdefault_selected;
 				$proppost['setrequire_selected'] = $att_property[$prop]->setrequire_selected;
 				$proppost['setdisplay_type'] = $att_property[$prop]->setdisplay_type;
+				$proppost['extra_field'] = $att_property[$prop]->extra_field;
+				$proppost['property_published'] = $att_property[$prop]->property_published;
+				$proppost['property_number'] = $att_property[$prop]->property_number;
 				$proprow = $this->store_pro($proppost);
 				$property_id = $proprow->property_id;
 
@@ -3858,7 +3861,9 @@ class RedshopModelProduct_Detail extends JModel
 					$subpost['subattribute_id'] = $property_id;
 					$subpost['setdefault_selected'] = $subatt_property[$subprop]->setdefault_selected;
 					$subpost['subattribute_color_main_image'] = $subatt_property[$subprop]->subattribute_color_main_image;
-					$subpost['subattribute_color_number'] = "";
+					$subpost['subattribute_color_number'] = $subatt_property[$subprop]->subattribute_color_number;
+					$subpost['extra_field'] = $subatt_property[$subprop]->extra_field;
+					$subpost['subattribute_published'] = $subatt_property[$subprop]->subattribute_published;
 					$subrow = $this->store_sub($subpost);
 					$subproperty_id = $subrow->subattribute_color_id;
 
@@ -4110,7 +4115,7 @@ class RedshopModelProduct_Detail extends JModel
 	{
 		if ($this->id)
 		{
-			$product_detail = & $this->getTable('product_detail');
+			$product_detail = $this->getTable('product_detail');
 
 			if (!$product_detail->checkin($this->id))
 			{

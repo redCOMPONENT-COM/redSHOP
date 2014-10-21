@@ -18,6 +18,9 @@
 
 	$app = JFactory::getApplication();
 
+	// Load redSHOP Library
+	JLoader::import('redshop.library');
+
 	$configpath = JPATH_COMPONENT . '/helpers/redshop.cfg.php';
 
 	if (!file_exists($configpath))
@@ -125,13 +128,14 @@
 	");
 
 	$document->addStyleSheet(JURI::root() . 'administrator/components/com_redshop/assets/css/redshop.css');
+	$format = $app->input->get('format', 'html');
 
 	if ($controller != "search" && $controller != "order_detail" && $controller != "wizard" && $task != "getcurrencylist"
 		&& $layout != "thumbs" && $controller != "catalog_detail" && $task != "clearsef" && $task != "removesubpropertyImage"
 		&& $task != "removepropertyImage" && $controller != "product_price" && $task != "template" && $json_var == ''
 		&& $task != 'gbasedownload' && $task != "export_data" && $showbuttons != "1" && $showall != 1
 		&& $controller != "product_attribute_price" && $task != "ins_product" && $controller != "shipping_rate_detail"
-		&& $controller != "accountgroup_detail" && $layout != "labellisting" && $task != "checkVirtualNumber")
+		&& $controller != "accountgroup_detail" && $layout != "labellisting" && $task != "checkVirtualNumber" && $format == 'html')
 	{
 		if ($controller != "redshop" && $controller != "configuration" && $controller != "product_detail"
 			&& $controller != "country_detail" && $controller != "state_detail" && $controller != "category_detail"
@@ -174,7 +178,7 @@
 	}
 
 	// Check for a not controller.task command.
-	if (strpos($command, '.') === false)
+	if ($command != '' && strpos($command, '.') === false)
 	{
 		JRequest::setVar('task', $controller . '.' . $command);
 	}
