@@ -4574,12 +4574,12 @@ class rsCarthelper
 		{
 			if ($user->id)
 			{
-				$subQuery = $this->_db->getQuery(true)
+				$subQuery = $db->getQuery(true)
 					->select('GROUP_CONCAT(DISTINCT pv.product_id SEPARATOR ' . $db->quote(', ') . ') AS product_id')
 					->from($db->qn('#__redshop_product_voucher_xref', 'pv'))
 					->where('v.voucher_id = pv.voucher_id');
 
-				$query = $this->_db->getQuery(true)
+				$query = $db->getQuery(true)
 					->select(
 						array('vt.transaction_voucher_id', 'vt.amount AS total', 'vt.product_id', 'v.*', '(' . $subQuery . ') AS nproduct')
 					)
@@ -4601,12 +4601,12 @@ class rsCarthelper
 
 			if ((count($voucher)) <= 0)
 			{
-				$subQuery = $this->_db->getQuery(true)
+				$subQuery = $db->getQuery(true)
 					->select('GROUP_CONCAT(DISTINCT pv.product_id SEPARATOR ' . $db->quote(', ') . ') AS product_id')
 					->from($db->qn('#__redshop_product_voucher_xref', 'pv'))
 					->where('v.voucher_id = pv.voucher_id');
 
-				$query = $this->_db->getQuery(true)
+				$query = $db->getQuery(true)
 					->select(
 						array(
 							'(' . $subQuery . ') AS nproduct', 'v.amount AS total', 'v.voucher_type',
