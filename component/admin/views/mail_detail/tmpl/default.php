@@ -16,7 +16,7 @@ $uri = JURI::getInstance();
 $url = $uri->root();
 jimport('joomla.html.pane');
 JLoader::load('RedshopHelperAdminExtra_field');
-$extra_field = new extra_field();
+$extra_field = new extra_field;
 
 ?>
 

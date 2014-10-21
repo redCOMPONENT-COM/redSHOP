@@ -59,4 +59,18 @@ class AcceptanceHelper extends \Codeception\Module
 	{
 		$this->assertEquals($expected, $actual, "Assert that the Actual State is equal to the state we Expect");
 	}
+
+	/**
+	 * Function to VerifyNotices
+	 *
+	 * @param   string  $expected  Expected Value
+	 * @param   string  $actual    Actual Value
+	 * @param   string  $page      Page for which we are Verifying
+	 *
+	 * @return void
+	 */
+	public function verifyNotices($expected, $actual, $page)
+	{
+		$this->assertEquals($expected, $actual, "Page " . $page . " Contains PHP Notices and Warnings");
+	}
 }

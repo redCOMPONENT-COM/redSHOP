@@ -154,7 +154,7 @@ else
 	$values->order_id = $order_id;
 	$values->transaction_id = $DpsTxnRef;
 }
-//$redhelper->changeorderstatus('TRANSACTION ID' , 'RESPONSE CODE' , 'ORDER ID' );
+
 $objOrder->changeorderstatus($values);
 $uri = JURI::getInstance();
 $url = JURI::base();
@@ -172,5 +172,3 @@ function getparameters($payment)
 
 	return $params;
 }
-
-?>

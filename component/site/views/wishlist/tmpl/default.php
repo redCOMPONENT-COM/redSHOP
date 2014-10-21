@@ -13,6 +13,7 @@ $wishlist = $this->wishlist;
 $product_id = JRequest::getInt('product_id');
 $flage = ($product_id && count($wishlist) > 0) ? true : false;
 $Itemid = JRequest::getInt('Itemid');
+JHtml::_('behavior.framework');
 ?>
 <?php if ($flage) : ?>
 	<input type="checkbox" name="chkNewwishlist" id="chkNewwishlist"

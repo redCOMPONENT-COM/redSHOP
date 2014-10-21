@@ -28,6 +28,26 @@ class redhelper
 	}
 
 	/**
+	 * Quote an array of values.
+	 *
+	 * @param   array   $values     The values.
+	 * @param   string  $nameQuote  Name quote, can be possible q, quote, qn, quoteName
+	 *
+	 * @return  array  The quoted values
+	 */
+	public static function quote(array $values, $nameQuote = 'q')
+	{
+		$db = JFactory::getDbo();
+
+		return array_map(
+			function ($value) use ($db, $nameQuote) {
+				return $db->$nameQuote($value);
+			},
+			$values
+		);
+	}
+
+	/**
 	 * Get Redshop Menu Items
 	 *
 	 * @return array
@@ -139,6 +159,29 @@ class redhelper
 	}
 
 	/**
+	 * Check Menu Query
+	 *
+	 * @param   object  $oneMenuItem  Values current menu item
+	 * @param   array   $queryItems   Name query check
+	 *
+	 * @return bool
+	 */
+	public function checkMenuQuery($oneMenuItem, $queryItems)
+	{
+		foreach ($queryItems as $key => $value)
+		{
+			if (!isset($oneMenuItem->query[$key])
+				|| (is_array($value) && !in_array($oneMenuItem->query[$key], $value))
+				|| $oneMenuItem->query[$key] != $value)
+			{
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	/**
 	 * Get Item Id
 	 *
 	 * @param   int  $productId   Product Id
@@ -152,7 +195,7 @@ class redhelper
 		{
 			foreach ($this->getRedshopMenuItems() as $oneMenuItem)
 			{
-				if ($oneMenuItem->query['option'] == 'com_redshop' && $oneMenuItem->query['view'] == 'category' && $oneMenuItem->query['cid'] == $categoryId)
+				if ($this->checkMenuQuery($oneMenuItem, array('option' => 'com_redshop', 'view' => 'category', 'cid' => $categoryId)))
 				{
 					return $oneMenuItem->id;
 				}
@@ -172,7 +215,7 @@ class redhelper
 			{
 				foreach ($this->getRedshopMenuItems() as $oneMenuItem)
 				{
-					if ($oneMenuItem->query['option'] == 'com_redshop' && $oneMenuItem->query['view'] == 'category' && in_array($oneMenuItem->query['cid'], $categories))
+					if ($this->checkMenuQuery($oneMenuItem, array('option' => 'com_redshop', 'view' => 'category', 'cid' => $categories)))
 					{
 						return $oneMenuItem->id;
 					}
@@ -187,7 +230,7 @@ class redhelper
 		{
 			foreach ($this->getRedshopMenuItems() as $oneMenuItem)
 			{
-				if ($oneMenuItem->query['option'] == 'com_redshop' && $oneMenuItem->query['view'] == 'category')
+				if ($this->checkMenuQuery($oneMenuItem, array('option' => 'com_redshop', 'view' => 'category')))
 				{
 					return $oneMenuItem->id;
 				}
@@ -195,7 +238,7 @@ class redhelper
 
 			foreach ($this->getRedshopMenuItems() as $oneMenuItem)
 			{
-				if ($oneMenuItem->query['option'] == 'com_redshop')
+				if ($this->checkMenuQuery($oneMenuItem, array('option' => 'com_redshop')))
 				{
 					return $oneMenuItem->id;
 				}
@@ -578,6 +621,11 @@ class redhelper
 
 		$url    = JURI::root();
 
+		if(!$Imagename)
+		{
+			return REDSHOP_FRONT_IMAGES_ABSPATH . 'noimage.jpg';
+		}
+
 		/*
 		 * IF watermark is not enable
 		 * return thumb image
@@ -599,8 +647,7 @@ class redhelper
 			return $filename;
 		}
 
-		if ($Imagename
-			&& file_exists(REDSHOP_FRONT_IMAGES_RELPATH . $mtype . "/" . $Imagename)
+		if (file_exists(REDSHOP_FRONT_IMAGES_RELPATH . $mtype . "/" . $Imagename)
 			&& (WATERMARK_IMAGE
 			&& file_exists(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . WATERMARK_IMAGE)))
 		{
