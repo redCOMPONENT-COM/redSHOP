@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension version="2.5.0" client="site" type="plugin" group="redshop_shipping" method="upgrade">
-    <name>USPSv4</name>
+    <name>PLG_REDSHOP_SHIPPING_USPSV4</name>
     <version>1.3.3</version>
     <creationDate>August 2013</creationDate>
     <author>redCOMPONENT.com</author>
     <copyright>redCOMPONENT.com</copyright>
     <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
-    <description>This plugin enables standard USPSv4 shipping</description>
+    <description>PLG_REDSHOP_SHIPPING_USPSV4_DESC</description>
     <shipping_class>uspsv4</shipping_class>
     <shipping_method_code>uspsv4</shipping_method_code>
     <files>
