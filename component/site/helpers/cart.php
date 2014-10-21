@@ -3595,12 +3595,19 @@ class rsCarthelper
 
 		$url                      = JURI::base(true);
 		$cc_list                  = array();
+		$cc_list['VISA']          = new stdClass;
 		$cc_list['VISA']->img     = 'visa.jpg';
+		$cc_list['MC']            = new stdClass;
 		$cc_list['MC']->img       = 'master.jpg';
+		$cc_list['amex']          = new stdClass;
 		$cc_list['amex']->img     = 'blue.jpg';
+		$cc_list['maestro']       = new stdClass;
 		$cc_list['maestro']->img  = 'mastero.jpg';
+		$cc_list['jcb']           = new stdClass;
 		$cc_list['jcb']->img      = 'jcb.jpg';
+		$cc_list['diners']        = new stdClass;
 		$cc_list['diners']->img   = 'dinnersclub.jpg';
+		$cc_list['discover']      = new stdClass;
 		$cc_list['discover']->img = 'discover.jpg';
 
 		$montharr   = array();
