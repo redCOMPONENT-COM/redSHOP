@@ -2293,9 +2293,31 @@ class order_functions
 			$mailbody = str_replace($search, $replace, $maildata);
 			$mailsubject = str_replace($search, $replace, $mailsubject);
 
-			if ($userdetail->user_email != '' && $mailbody)
+			if ('' != $userdetail->thirdparty_email && $mailbody)
 			{
-				JUtility::sendMail($MailFrom, $FromName, $userdetail->user_email, $mailsubject, $mailbody, 1, null, $mailbcc);
+				JUtility::sendMail(
+					$MailFrom,
+					$FromName,
+					$userdetail->thirdparty_email,
+					$mailsubject,
+					$mailbody,
+					1,
+					null
+				);
+			}
+
+			if ('' != $userdetail->user_email && $mailbody)
+			{
+				JUtility::sendMail(
+					$MailFrom,
+					$FromName,
+					$userdetail->user_email,
+					$mailsubject,
+					$mailbody,
+					1,
+					null,
+					$mailbcc
+				);
 			}
 		}
 	}
