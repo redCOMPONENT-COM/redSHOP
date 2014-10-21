@@ -102,6 +102,7 @@ class RedshopModelShipping_rate_detail extends JModel
 			$detail->shipping_rate_on_shopper_group = null;
 			$detail->economic_displaynumber = null;
 			$detail->deliver_type = null;
+			$detail->consignor_carrier_code = null;
 			$this->_data = $detail;
 
 			return (boolean) $this->_data;

@@ -91,10 +91,12 @@ class RedshopControllerProduct_Detail extends JController
 	public function save($apply = 0)
 	{
 		// ToDo: This is potentially unsafe because $_POST elements are not sanitized.
-		$post                = $this->input->getArray($_POST);
-		$cid                 = $this->input->post->get('cid', array(), 'array');
-		$post ['product_id'] = $cid[0];
-		$stockroom_id        = '';
+		$post                 = $this->input->getArray($_POST);
+		$cid                  = $this->input->post->get('cid', array(), 'array');
+		$post ['product_id']  = $cid[0];
+		$stockroom_id         = '';
+
+		$post['product_name'] = $this->input->post->get('product_name', null, 'string');
 
 		if (is_array($post['product_category']) && !in_array($post['cat_in_sefurl'], $post['product_category']))
 		{
@@ -374,7 +376,7 @@ class RedshopControllerProduct_Detail extends JController
 			$attribute_save['attribute_id'] = $attribute[$a]['id'];
 			$tmpordering = ($attribute[$a]['tmpordering']) ? $attribute[$a]['tmpordering'] : $a;
 			$attribute_save['product_id'] = $row->product_id;
-			$attribute_save['attribute_name'] = urldecode($attribute[$a]['name']);
+			$attribute_save['attribute_name'] = htmlspecialchars($attribute[$a]['name']);
 			$attribute_save['ordering'] = $attribute[$a]['ordering'];
 			$attribute_save['attribute_published'] = ($attribute[$a]['published'] == 'on' || $attribute[$a]['published'] == '1') ? '1' : '0';
 			$attribute_save['attribute_required'] = ($attribute[$a]['required'] == 'on' || $attribute[$a]['required'] == '1') ? '1' : '0';
@@ -393,7 +395,7 @@ class RedshopControllerProduct_Detail extends JController
 			{
 				$property_save['property_id'] = $property[$p]['property_id'];
 				$property_save['attribute_id'] = $attribute_array->attribute_id;
-				$property_save['property_name'] = urldecode($property[$p]['name']);
+				$property_save['property_name'] = htmlspecialchars($property[$p]['name']);
 				$property_save['property_price'] = $property[$p]['price'];
 				$property_save['oprand'] = $property[$p]['oprand'];
 				$property_save['property_number'] = $property[$p]['number'];
@@ -865,7 +867,7 @@ class RedshopControllerProduct_Detail extends JController
 	{
 		$pid = $this->input->get->getInt('pid', null);
 
-		$model = $this->getModel();
+		$model = $this->getModel('product_detail');
 
 		if ($model->removepropertyImage($pid))
 		{
@@ -882,7 +884,7 @@ class RedshopControllerProduct_Detail extends JController
 	{
 		$pid = $this->input->get->getInt('pid', null);
 
-		$model = $this->getModel();
+		$model = $this->getModel('product_detail');
 
 		if ($model->removesubpropertyImage($pid))
 		{
@@ -900,7 +902,7 @@ class RedshopControllerProduct_Detail extends JController
 		// ToDo: This is potentially unsafe because $_POST elements are not sanitized.
 		$post = $this->input->getArray($_POST);
 
-		$model = $this->getModel();
+		$model = $this->getModel('product_detail');
 
 		if ($model->SaveAttributeStockroom($post))
 		{

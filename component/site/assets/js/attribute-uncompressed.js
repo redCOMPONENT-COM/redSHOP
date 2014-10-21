@@ -634,7 +634,7 @@ function collectAttributes(product_id, accessory_id, relatedprd_id)
                 var stockElementId = 'property_id_' + commonid + '_stock' + property_id;
                 var preOrderstockElementId = 'property_id_' + commonid + '_preorderstock' + property_id;
 
-                // removing " USE_STOCKROOM==1 && " from below condition - Gunjan
+                // removing " USE_STOCKROOM==1 && " from below condition
                 if (document.getElementById(stockElementId) && document.getElementById(preOrderstockElementId) && isStock && accessory_id == 0)
                 {
                     isStock = checkProductStockRoom(document.getElementById(stockElementId).value, commonstockid, preorder, document.getElementById(preOrderstockElementId).value);
@@ -671,9 +671,11 @@ function collectAttributes(product_id, accessory_id, relatedprd_id)
                     for (var sp = 0; sp < subpropArr.length; sp++)
                     {
                         var stockElementId = 'subproperty_id_' + subcommonid + '_stock' + subpropArr[sp];
+                        var preorderStockElementId = 'subproperty_id_' + subcommonid + '_preOrderStock' + subpropArr[sp];
+
                         if (USE_STOCKROOM == 1 && document.getElementById(stockElementId) && accessory_id == 0)
                         {
-                            isStock = checkProductStockRoom(document.getElementById(stockElementId).value, commonstockid, preorder, preorder_stock);
+                            isStock = checkProductStockRoom(document.getElementById(stockElementId).value, commonstockid, preorder, document.getElementById(preorderStockElementId).value);
                         }
                     }
 
@@ -1682,13 +1684,6 @@ function setWrapperComboBox() {
  */
 function discountCalculation(proid) {
     var calHeight = 0, calWidth = 0, calDepth = 0, calRadius = 0, calUnit = 'cm', globalcalUnit = 'cm', total_area = '', price_per_area = 0, price_per_piece = 0, output = "", price_total = 0;
-
-    /*if(document.getElementById('product_id')){
-     proid = document.getElementById('product_id').value;
-     }else{
-     alert("No Add to cart Available");
-     return false;
-     }*/
 
     if (document.getElementById('calc_height')) {
         calHeight = document.getElementById('calc_height').value;
