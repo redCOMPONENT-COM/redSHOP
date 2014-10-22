@@ -162,14 +162,12 @@ class RedshopModelProduct_Detail extends JModel
 			$detail->product_s_desc             = (isset($data['product_s_desc'])) ? $data['product_s_desc'] : null;
 			$detail->product_desc               = (isset($data['product_desc'])) ? $data['product_desc'] : null;
 			$detail->product_template           = (isset($data['product_template'])) ? $data['product_template'] : 0;
-			$detail->product_full_image         = (isset($data['old_image'])) ? $this->cleanFileName($data['old_image']) : null;
-			$detail->product_thumb_image        = (isset($data['old_thumb_image'])) ? $this->cleanFileName($data['old_thumb_image']) : null;
-			$detail->product_back_full_image    = (isset($data['product_back_full_image'])) ? $this->cleanFileName($data['product_back_full_image']) : null;
-			$detail->product_back_thumb_image   = (isset($data['product_back_thumb_image'])) ? $this->cleanFileName($data['product_back_thumb_image']) : null;
-			$detail->product_preview_image      = (isset($data['product_preview_image'])) ? $this->cleanFileName($data['product_preview_image']) : null;
-			$detail->product_preview_back_image = (isset($data['product_preview_back_image'])) ?
-
-			$this->cleanFileName($data['product_preview_back_image']) : null;
+			$detail->product_full_image         = (isset($data['old_image'])) ? $data['old_image'] : null;
+			$detail->product_thumb_image        = (isset($data['old_thumb_image'])) ? $data['old_thumb_image'] : null;
+			$detail->product_back_full_image    = (isset($data['product_back_full_image'])) ? $data['product_back_full_image'] : null;
+			$detail->product_back_thumb_image   = (isset($data['product_back_thumb_image'])) ? $data['product_back_thumb_image'] : null;
+			$detail->product_preview_image      = (isset($data['product_preview_image'])) ? $data['product_preview_image'] : null;
+			$detail->product_preview_back_image = (isset($data['product_preview_back_image'])) ? $data['product_preview_back_image'] : null;
 
 			$detail->visited                    = (isset($data['visited'])) ? $data['visited'] : 0;
 			$detail->metakey                    = (isset($data['metakey'])) ? $data['metakey'] : null;
