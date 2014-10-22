@@ -100,8 +100,8 @@ class RedshopModelQuotation extends RedshopModelList
 			$query->where('q.quotation_status = ' . $db->q($filterStatus));
 		}
 
-		$filterOrder = $app->getUserState($this->_context . 'filter_order', 'filter_order', 'quotation_cdate');
-		$filterOrderDir = $app->getUserState($this->_context . 'filter_order_Dir', 'filter_order_Dir', 'DESC');
+		$filterOrder = $app->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'quotation_cdate');
+		$filterOrderDir = $app->getUserStateFromRequest($this->_context . 'filter_order_Dir', 'filter_order_Dir', 'DESC');
 
 		$query->order($db->qn($db->escape($filterOrder)) . ' ' . $db->escape($filterOrderDir));
 
