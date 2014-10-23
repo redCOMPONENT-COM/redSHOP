@@ -201,7 +201,7 @@ $url = $uri->root();    ?>
 					<tr>
 						<td><input type="file" name="shopper_group_logo" id="shopper_group_logo" size="77"/></td>
 						<td><?php
-							$ilink           = JRoute::_('index.php?tmpl=component&option=com_redshop&view=product_detail&task=media_bank&e_name=text');
+							$ilink           = JRoute::_('index.php?tmpl=component&option=com_redshop&view=media&layout=thumbs');
 							$image_path      = REDSHOP_FRONT_IMAGES_ABSPATH . 'shopperlogo/' . $this->detail->shopper_group_logo;
 							$imagethumb_path = RedShopHelperImages::getImagePath(
 													$this->detail->shopper_group_logo,
@@ -223,10 +223,16 @@ $url = $uri->root();    ?>
 							       value="<?php echo $this->detail->shopper_group_logo; ?>"/></td>
 					</tr>
 				</table>
-				<div><a href="<?php echo $image_path; ?>" id="image_display_href" class="modal"
-				        rel="{handler: 'image', size: {x: 570, y: 400}}"><img src="<?php echo $imagethumb_path; ?>"
-				                                                              id="image_display" border="0"
-				                                                              width="200"/></a></div>
+				<div>
+					<?php if(!empty($this->detail->shopper_group_logo)): ?>
+						<a href="<?php echo $image_path; ?>" id="image_display_href" class="modal"
+							rel="{handler: 'image', size: {x: 570, y: 400}}">
+					<?php endif; ?>
+							<img src="<?php echo $imagethumb_path; ?>" id="image_display" border="0" width="200"/>
+					<?php if(!empty($this->detail->shopper_group_logo)): ?>
+						</a>
+					<?php endif; ?>
+				</div>
 			</fieldset>
 		</div>
 		<div class="col50">
