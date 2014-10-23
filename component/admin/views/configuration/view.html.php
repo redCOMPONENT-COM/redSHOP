@@ -43,7 +43,8 @@ class RedshopViewConfiguration extends JView
 		$document->addStyleSheet('components/' . $option . '/assets/css/search.css');
 		$document->addScript('components/' . $option . '/assets/js/search.js');
 
-		$currency_data = JRequest::getVar('currency_data');
+		$model = $this->getModel('configuration');
+		$currency_data = $model->getCurrency();
 
 		$redhelper   = new redhelper;
 		$config      = new Redconfiguration;
@@ -88,7 +89,6 @@ class RedshopViewConfiguration extends JView
 		$uri = JFactory::getURI();
 		$this->setLayout('default');
 
-		$model       = $this->getModel('configuration');
 		$newsletters = $model->getnewsletters();
 
 		$templatesel                   = array();
@@ -153,6 +153,9 @@ class RedshopViewConfiguration extends JView
 		defined('AJAX_DETAIL_BOX_HEIGHT') ? AJAX_DETAIL_BOX_HEIGHT : define('AJAX_DETAIL_BOX_HEIGHT', '600');
 		defined('AJAX_BOX_WIDTH') ? AJAX_BOX_WIDTH : define('AJAX_BOX_WIDTH', '500');
 		defined('AJAX_BOX_HEIGHT') ? AJAX_BOX_HEIGHT : define('AJAX_BOX_HEIGHT', '150');
+		defined('GENERATE_LABEL_ON_STATUS') ? GENERATE_LABEL_ON_STATUS : define('GENERATE_LABEL_ON_STATUS', 'S');
+		defined('AUTO_GENERATE_LABEL') ? AUTO_GENERATE_LABEL : define('AUTO_GENERATE_LABEL', 1);
+		defined('POSTDK_DEVELOPER_ID') ? POSTDK_DEVELOPER_ID : define('POSTDK_DEVELOPER_ID', '');
 
 		$q = "SELECT  country_3_code as value,country_name as text,country_jtext from #__redshop_country ORDER BY country_name ASC";
 		$db->setQuery($q);
