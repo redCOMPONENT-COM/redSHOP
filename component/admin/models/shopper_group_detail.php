@@ -145,7 +145,7 @@ class RedshopModelShopper_group_detail extends JModel
 		{
 			if ($data['shopper_group_logo_tmp'] != null)
 			{
-				$image_split = preg_split('/', $data['shopper_group_logo_tmp']);
+				$image_split = explode('/', $data['shopper_group_logo_tmp']);
 				$logoname = JPath::clean(time() . '_' . $image_split[count($image_split) - 1]);
 				$data['shopper_group_logo'] = $logoname;
 
