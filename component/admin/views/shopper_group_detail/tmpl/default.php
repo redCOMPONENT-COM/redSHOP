@@ -201,7 +201,7 @@ $url = $uri->root();    ?>
 					<tr>
 						<td><input type="file" name="shopper_group_logo" id="shopper_group_logo" size="77"/></td>
 						<td><?php
-							$ilink           = JRoute::_('index.php?tmpl=component&option=com_redshop&view=product_detail&task=media_bank&e_name=text');
+							$ilink           = JRoute::_('index.php?tmpl=component&option=com_redshop&view=media&layout=thumbs');
 							$image_path      = REDSHOP_FRONT_IMAGES_ABSPATH . 'shopperlogo/' . $this->detail->shopper_group_logo;
 							$imagethumb_path = RedShopHelperImages::getImagePath(
 													$this->detail->shopper_group_logo,
