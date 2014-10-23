@@ -2242,23 +2242,7 @@ class rsCarthelper
 			}
 			else
 			{
-				$total_discount = 0;
-
-				if (array_key_exists('cart_discount', $cart))
-				{
-					$total_discount += $cart['cart_discount'];
-				}
-
-				if (array_key_exists('voucher_discount', $cart))
-				{
-					$total_discount += $cart['cart_discount'];
-				}
-
-				if (array_key_exists('coupon_discount', $cart))
-				{
-					$total_discount += $cart['cart_discount'];
-				}
-
+				$total_discount      = $cart['cart_discount'] + $cart['voucher_discount'] + $cart['coupon_discount'];
 				$d['order_subtotal'] = (SHIPPING_AFTER == 'total') ? $subtotal - $total_discount : $subtotal;
 				$d['users_info_id']  = $user_info_id;
 				$shippingArr         = $this->_shippinghelper->getDefaultShipping($d);
@@ -3206,36 +3190,24 @@ class rsCarthelper
 					$price = $cartArr[$i]['discount_calc_price'];
 				}
 
-				$getproprice = 0;
-				$getprotax = 0;
-				$product_old_price_excl_vat = 0;
-				$getaccprice = 0;
-				$getacctax = 0;
+				$retAttArr = $this->_producthelper->makeAttributeCart($cartArr [$i] ['cart_attribute'], $product->product_id, $user_id, $price, $quantity);
 
-				if (array_key_exists('cart_attribute', $cartArr[$i]))
-				{
-					$retAttArr = $this->_producthelper->makeAttributeCart($cartArr [$i] ['cart_attribute'], $product->product_id, $user_id, $price, $quantity);
+				// Product + attribute (price)
+				$getproprice = $retAttArr[1];
 
-					// Product + attribute (price)
-					$getproprice = $retAttArr[1];
-
-					// Product + attribute (VAT)
-					$getprotax                 += $retAttArr[2];
-					$product_old_price_excl_vat = $retAttArr[5];
-				}
+				// Product + attribute (VAT)
+				$getprotax                  = $retAttArr[2];
+				$product_old_price_excl_vat = $retAttArr[5];
 
 				// Accessory calculation
-				if (array_key_exists('cart_accessory', $cartArr[$i]))
-				{
-					$retAccArr = $this->_producthelper->makeAccessoryCart($cartArr [$i] ['cart_accessory'], $product->product_id, $user_id);
+				$retAccArr = $this->_producthelper->makeAccessoryCart($cartArr [$i] ['cart_accessory'], $product->product_id, $user_id);
 
-					// Accessory + attribute (price)
-					$getaccprice = $retAccArr[1];
+				// Accessory + attribute (price)
+				$getaccprice = $retAccArr[1];
 
-					// Accessory + attribute (VAT)
-					$getacctax = $retAccArr[2];
-					$product_old_price_excl_vat += $retAccArr[1];
-				}
+				// Accessory + attribute (VAT)
+				$getacctax = $retAccArr[2];
+				$product_old_price_excl_vat += $retAccArr[1];
 
 				// ADD WRAPPER PRICE
 				$wrapper_vat   = 0;
@@ -5137,7 +5109,7 @@ class rsCarthelper
 
 			$rowItem->giftcard_id             = $cart[$i]['giftcard_id'];
 			$rowItem->product_quantity        = $cart[$i]['quantity'];
-			$rowItem->product_wrapper_id      = array_key_exists('wrapper_id', $cart[$i]) ? $cart[$i]['wrapper_id'] : null;
+			$rowItem->product_wrapper_id      = $cart[$i]['wrapper_id'];
 
 			if (isset($cart[$i]['subscription_id']) === false)
 			{
@@ -5161,10 +5133,7 @@ class rsCarthelper
 			}
 
 			/* store attribute in db */
-			if (array_key_exists('cart_attribute', $cart[$i]))
-			{
-				$this->attributetodb($cart[$i]['cart_attribute'], $cart_item_id, $rowItem->product_id);
-			}
+			$this->attributetodb($cart_attribute, $cart_item_id, $rowItem->product_id);
 
 			if(isset($cart[$i]['cart_accessory']))
 			{
@@ -5172,26 +5141,20 @@ class rsCarthelper
 			}
 
 			for ($j = 0; $j < count($cart_accessory); $j++)
-			if (array_key_exists('cart_accessory', $cart[$i]))
 			{
-				$cart_accessory = $cart[$i]['cart_accessory'];
+				$rowAcc               = JTable::getInstance('usercart_accessory_item', 'Table');
+				$rowAcc->accessory_id = $cart_accessory[$j]['accessory_id'];
 
-				for ($j = 0; $j < count($cart_accessory); $j++)
+				// Store product quantity as accessory quantity.
+				$rowAcc->accessory_quantity = $cart[$i]['quantity'];
+
+				if (!$rowAcc->store())
 				{
-					$rowAcc = JTable::getInstance('usercart_accessory_item', 'Table');
-					$rowAcc->accessory_id = $cart_accessory[$j]['accessory_id'];
-
-					// Store product quantity as accessory quantity.
-					$rowAcc->accessory_quantity = $cart[$i]['quantity'];
-
-					if (!$rowAcc->store())
-					{
-						return JError::raiseWarning('', $rowAcc->getError());
-					}
-
-					$accessory_childs = $cart_accessory[$j]['accessory_childs'];
-					$this->attributetodb($accessory_childs, $cart_item_id, $rowAcc->accessory_id, true);
+					return JError::raiseWarning('', $rowAcc->getError());
 				}
+
+				$accessory_childs = $cart_accessory[$j]['accessory_childs'];
+				$this->attributetodb($accessory_childs, $cart_item_id, $rowAcc->accessory_id, true);
 			}
 		}
 	}
