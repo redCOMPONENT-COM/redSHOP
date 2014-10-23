@@ -79,7 +79,7 @@
 
     <!-- Libraries to install with the component -->
     <libraries>
-        <!--library name="redshop" /-->
+		<library name="redshop"/>
     </libraries>
 
     <!-- Modules to install with the component -->
