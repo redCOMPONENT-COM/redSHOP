@@ -6896,13 +6896,14 @@ class rsCarthelper
 	 */
 	public function discountCalculator($get)
 	{
+		$app = JFactory::getApplication();
 		$product_id = $get['product_id'];
 
 		$discount_cal = array();
 
 		$productprice = $this->_producthelper->getProductNetPrice($product_id);
-
 		$product_price = $productprice['product_price_novat'];
+		$product_price = $app->input->getFloat('productPrice', $product_price);
 
 		$data = $this->_producthelper->getProductById($product_id);
 
@@ -6935,8 +6936,13 @@ class rsCarthelper
 		$calcWidth *= $unit;
 		$calcLength *= $unit;
 		$calcRadius *= $unit;
-
+		$product_height = 0;
+		$product_width = 0;
+		$product_length = 0;
+		$product_area = 0;
 		$product_unit = 1;
+		$product_diameter = 0;
+		$total_sheet = 0;
 
 		if (!$use_range)
 		{
@@ -7031,6 +7037,7 @@ class rsCarthelper
 			// Discount calculator extra price enhancement
 			$pdcextraid = $get['pdcextraid'];
 			$pdcstring  = $pdcids = array();
+			$extraPrice = 0;
 
 			if (trim($pdcextraid) != "")
 			{
@@ -7050,16 +7057,18 @@ class rsCarthelper
 					switch ($pdcoprand)
 					{
 						case "+":
-							$area_price += $pdcprice;
+							$extraPrice += $pdcprice;
 							break;
 						case "-":
-							$area_price -= $pdcprice;
+							$extraPrice -= $pdcprice;
 							break;
 						case "%":
-							$area_price *= 1 + ($pdcprice / 100);
+							$extraPrice += ($area_price * $pdcprice) / 100;
 							break;
 					}
 				}
+
+				$area_price += $extraPrice;
 			}
 
 			// Applying TAX
@@ -7098,7 +7107,7 @@ class rsCarthelper
 			}
 			else
 			{
-				$price_per_piece = $discount_calc_data[0]->price_per_piece;
+				$price_per_piece = $discount_calc_data[0]->price_per_piece + $extraPrice;
 
 				$price_per_piece_tax = $this->_producthelper->getProductTax($product_id, $price_per_piece, 0, 1);
 
