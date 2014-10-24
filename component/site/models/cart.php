@@ -378,6 +378,9 @@ class RedshopModelCart extends JModel
 				$accessory_total_price = $retAccArr[1];
 				$accessory_vat_price   = $retAccArr[2];
 
+				$wrapper_price         = 0;
+				$wrapper_vat           = 0;
+
 				if ($cart[$i]['wrapper_id'])
 				{
 					$wrapperArr    = $this->_carthelper->getWrapperPriceArr(array('product_id' => $cart[$i]['product_id'], 'wrapper_id' => $cart[$i]['wrapper_id']));

@@ -96,7 +96,6 @@ class redshopMail
 		$fromname = $config->getValue('fromname');
 		$user = JFactory::getUser();
 
-
 		if (USE_AS_CATALOG)
 		{
 			$mailinfo = $this->getMailtemplate(0, "catalogue_order");
@@ -520,7 +519,7 @@ class redshopMail
 			$message = str_replace("{order_mail_intro_text_title}", JText::_('COM_REDSHOP_ORDER_MAIL_INTRO_TEXT_TITLE'), $message);
 			$message = str_replace("{order_mail_intro_text}", JText::_('COM_REDSHOP_ORDER_MAIL_INTRO_TEXT'), $message);
 
-			$message = $this->_carthelper->replaceOrderTemplate($OrdersDetail[0], $message);
+			$message = $this->_carthelper->replaceOrderTemplate($OrdersDetail, $message);
 
 			$pdfObj->AddPage();
 			$pdfObj->WriteHTML($message, true, false, true, false, '');
@@ -684,11 +683,16 @@ class redshopMail
 			if ($arr_discount[$d])
 			{
 				$arr_discount_type = explode(':', $arr_discount[$d]);
+
 				if ($arr_discount_type[0] == 'c')
+				{
 					$discount_type .= JText::_('COM_REDSHOP_COUPON_CODE') . ' : ' . $arr_discount_type[1] . '<br>';
+				}
 
 				if ($arr_discount_type[0] == 'v')
+				{
 					$discount_type .= JText::_('COM_REDSHOP_VOUCHER_CODE') . ' : ' . $arr_discount_type[1] . '<br>';
+				}
 			}
 		}
 
@@ -1138,12 +1142,18 @@ class redshopMail
 		{
 			$product_id                   = $rowitem[$i]->product_id;
 			$product                      = $producthelper->getProductById($product_id);
-			$product_name                 = "<div class='product_name'>" . $rowitem[$i]->product_name . "</div>";
-			$product_total_price          = "<div class='product_price'>" . $producthelper->getProductFormattedPrice(($rowitem[$i]->product_price * $rowitem[$i]->product_quantity)) . "</div>";
-			$product_price                = "<div class='product_price'>" . $producthelper->getProductFormattedPrice($rowitem[$i]->product_price) . "</div>";
-			$product_price_excl_vat       = "<div class='product_price'>" . $producthelper->getProductFormattedPrice($rowitem[$i]->product_excl_price) . "</div>";
-			$product_quantity             = '<div class="update_cart">' . $rowitem[$i]->product_quantity . '</div>';
-			$product_total_price_excl_vat = "<div class='product_price'>" . $producthelper->getProductFormattedPrice(($rowitem[$i]->product_excl_price * $rowitem[$i]->product_quantity)) . "</div>";
+			$product_name                 = "<div class='product_name'>" .
+				$rowitem[$i]->product_name . "</div>";
+			$product_total_price          = "<div class='product_price'>" .
+				$producthelper->getProductFormattedPrice(($rowitem[$i]->product_price * $rowitem[$i]->product_quantity)) . "</div>";
+			$product_price                = "<div class='product_price'>" .
+				$producthelper->getProductFormattedPrice($rowitem[$i]->product_price) . "</div>";
+			$product_price_excl_vat       = "<div class='product_price'>" .
+				$producthelper->getProductFormattedPrice($rowitem[$i]->product_excl_price) . "</div>";
+			$product_quantity             = '<div class="update_cart">' .
+				$rowitem[$i]->product_quantity . '</div>';
+			$product_total_price_excl_vat = "<div class='product_price'>" .
+				$producthelper->getProductFormattedPrice(($rowitem[$i]->product_excl_price * $rowitem[$i]->product_quantity)) . "</div>";
 			$cart_mdata                   = $template_middle;
 			$wrapper_name                 = "";
 
@@ -1212,8 +1222,24 @@ class redshopMail
 			$cart_mdata = str_replace("{product_userfields}", $product_userfields, $cart_mdata);
 			$cart_mdata = str_replace("{product_number_lbl}", JText::_('COM_REDSHOP_PRODUCT_NUMBER'), $cart_mdata);
 			$cart_mdata = str_replace("{product_number}", $product->product_number, $cart_mdata);
-			$cart_mdata = str_replace("{product_attribute}", $producthelper->makeAttributeQuotation($rowitem[$i]->quotation_item_id, 0, $rowitem[$i]->product_id, $row->quotation_status), $cart_mdata);
-			$cart_mdata = str_replace("{product_accessory}", $producthelper->makeAccessoryQuotation($rowitem[$i]->quotation_item_id, $row->quotation_status), $cart_mdata);
+			$cart_mdata = str_replace(
+				"{product_attribute}",
+				$producthelper->makeAttributeQuotation(
+					$rowitem[$i]->quotation_item_id,
+					0,
+					$rowitem[$i]->product_id,
+					$row->quotation_status
+				),
+				$cart_mdata
+			);
+			$cart_mdata = str_replace(
+				"{product_accessory}",
+				$producthelper->makeAccessoryQuotation(
+					$rowitem[$i]->quotation_item_id,
+					$row->quotation_status
+				),
+				$cart_mdata
+			);
 
 			// ProductFinderDatepicker Extra Field Start
 			$cart_mdata = $producthelper->getProductFinderDatepickerValue($cart_mdata, $product_id, $fieldArray);
@@ -1431,7 +1457,8 @@ class redshopMail
 
 			$list      = $this->_db->loadObject();
 
-			$link      = '<a href="' . $url . 'index.php?option=' . $option . '&view=newsletter&sid=' . $subscription_id . '">' . JText::_('COM_REDSHOP_CLICK_HERE') . '</a>';
+			$link      = '<a href="' . $url . 'index.php?option=' . $option . '&view=newsletter&sid=' . $subscription_id . '">' .
+				JText::_('COM_REDSHOP_CLICK_HERE') . '</a>';
 
 			$search[]  = "{shopname}";
 
