@@ -110,7 +110,7 @@ class RedshopViewSearch extends JView
 		$getorderby            = JRequest::getString('order_by', DEFAULT_PRODUCT_ORDERING_METHOD);
 		$lists['order_select'] = JHTML::_('select.genericlist', $order_data, 'order_by', 'class="inputbox" size="1" onchange="document.orderby_form.submit();" ', 'value', 'text', $getorderby);
 
-		$templatedata = $model->getCategoryTemplet();
+		$templatedata = $model->getCategoryTemplate();
 
 		for ($i = 0; $i < 1; $i++)
 		{
@@ -118,7 +118,8 @@ class RedshopViewSearch extends JView
 		}
 
 		$this->params       = $params;
-		$this->limit        = $model->getState('limit');
+		$this->limit        = $model->getState('list.limit');
+		$this->limitstart   = $model->getState('list.start');
 		$this->lists        = $lists;
 		$this->templatedata = $templatedata;
 		$this->search       = $this->get('Items');
@@ -168,7 +169,7 @@ class RedshopViewSearch extends JView
 			$session    = JFactory::getSession();
 			$model      = $this->getModel('search');
 			$limit      = $this->limit;
-			$limitstart = JRequest::getInt('limitstart', 0);
+			$limitstart = $this->limitstart;
 			$total      = $model->getTotal();
 
 			$categoryDetail = $model->getTable('category_detail');
@@ -211,12 +212,6 @@ class RedshopViewSearch extends JView
 			else
 			{
 				$template_desc = "<div class=\"category_print\">{print}</div>\r\n<div style=\"clear: both;\"></div>\r\n<div class=\"category_main_description\">{category_main_description}</div>\r\n<p>{if subcats} {category_loop_start}</p>\r\n<div id=\"categories\">\r\n<div style=\"float: left; width: 200px;\">\r\n<div class=\"category_image\">{category_thumb_image}</div>\r\n<div class=\"category_description\">\r\n<h2 class=\"category_title\">{category_name}</h2>\r\n{category_description}</div>\r\n</div>\r\n</div>\r\n<p>{category_loop_end} {subcats end if}</p>\r\n<div style=\"clear: both;\"></div>\r\n<div id=\"category_header\">\r\n<div class=\"category_order_by\">{order_by}</div>\r\n</div>\r\n<div class=\"category_box_wrapper\">{product_loop_start}\r\n<div class=\"category_box_outside\">\r\n<div class=\"category_box_inside\">\r\n<div class=\"category_product_image\">{product_thumb_image}</div>\r\n<div class=\"category_product_title\">\r\n<h3>{product_name}</h3>\r\n</div>\r\n<div class=\"category_product_price\">{product_price}</div>\r\n<div class=\"category_product_readmore\">{read_more}</div>\r\n<div>{product_rating_summary}</div>\r\n<div class=\"category_product_addtocart\">{form_addtocart:add_to_cart1}</div>\r\n</div>\r\n</div>\r\n{product_loop_end}\r\n<div class=\"category_product_bottom\" style=\"clear: both;\"></div>\r\n</div>\r\n<div class=\"category_pagination\">{pagination}</div>";
-			}
-
-			if (strstr($template_desc, "{product_display_limit}"))
-			{
-				$endlimit = $model->getProductPerPage();
-				$limit    = JRequest::getInt('limit', $endlimit, '', 'int');
 			}
 
 			$template_org = $template_desc;
@@ -347,31 +342,6 @@ class RedshopViewSearch extends JView
 
 			$extraFieldName     = $extraField->getSectionFieldNameArray(1, 1, 1);
 			$attribute_template = $producthelper->getAttributeTemplate($template_desc);
-
-			$total_product = $total;
-			$endlimit      = $this->limit;
-			$start         = JRequest::getInt('limitstart', 0, '', 'int');
-
-			if (strstr($template_org, "{pagination}"))
-			{
-				if (strstr($template_org, "{product_display_limit}"))
-				{
-					$endlimit = JRequest::getInt('limit', $endlimit, '', 'int');
-				}
-			}
-			else
-			{
-				$endlimit = $model->getData();
-			}
-
-			if ($endlimit == 0)
-			{
-				$final_endlimit = $total_product;
-			}
-			else
-			{
-				$final_endlimit = $endlimit;
-			}
 
 			$tagarray            = $texts->getTextLibraryTagArray();
 			$data                = "";
@@ -726,7 +696,10 @@ class RedshopViewSearch extends JView
 			$app    = JFactory::getApplication();
 			$router = $app->getRouter();
 
-			$getorderby = JRequest::getVar('order_by', DEFAULT_PRODUCT_ORDERING_METHOD);
+			$orderCol	= $model->getState('list.ordering', 'p.product_id');
+			$orderDirn	= $model->getState('list.direction', 'asc');
+
+			$getorderby = $orderCol . ' ' . $orderDirn;
 
 			$vars = array(
 				'option'         => 'com_redshop',
@@ -745,7 +718,7 @@ class RedshopViewSearch extends JView
 
 			if (strstr($template_org, "{pagination}"))
 			{
-				$pagination = new redPagination($total_product, $start, $endlimit);
+				$pagination = new redPagination($total, $limitstart, $limit);
 				$slidertag  = $pagination->getPagesLinks();
 
 				if (strstr($template_org, "{product_display_limit}"))

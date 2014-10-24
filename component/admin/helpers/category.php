@@ -275,7 +275,12 @@ class product_category
 			$this->getCategoryTree($parent_id);
 		}
 
-		return $GLOBALS['catlist'];
+		if (isset($GLOBALS['catlist']))
+		{
+			return $GLOBALS['catlist'];
+		}
+
+		return null;
 	}
 
 	public function getCategoryProductList($cid)

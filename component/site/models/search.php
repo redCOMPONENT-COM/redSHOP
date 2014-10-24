@@ -35,11 +35,10 @@ class RedshopModelSearch extends JModelList
 		if (empty($config['filter_fields']))
 		{
 			$config['filter_fields'] = array(
-				'product_id', 'p.product_id',
-				'product_name', 'p.product_name',
-				'product_price', 'p.product_price',
-				'product_number', 'p.product_number',
-				'ordering ASC', 'pc.ordering'
+				'p.product_id',
+				'p.product_name',
+				'p.product_price',
+				'p.product_number'
 			);
 		}
 
@@ -47,35 +46,91 @@ class RedshopModelSearch extends JModelList
 	}
 
 	/**
-	 * Method to auto-populate the model state.
+	 * [populateState description]
 	 *
-	 * Note. Calling getState in this method will result in recursion.
+	 * @param   [type]  $ordering   [description]
+	 * @param   [type]  $direction  [description]
 	 *
-	 * @return	void
+	 * @return  [type]              [description]
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
-		// List state information.
-		parent::populateState('p.product_name', 'asc');
-	}
+		$app       = JFactory::getApplication();
+		$jinput    = $app->input;
+		$ordering  = 'p.product_id';
+		$direction = 'ASC';
+		$limit     = 5;
 
-	/**
-	 * Method to get a store id based on model configuration state.
-	 *
-	 * This is necessary because the model is used by the component and
-	 * different modules that might need different sets of data or different
-	 * ordering requirements.
-	 *
-	 * @param   string  $id  A prefix for the store id.
-	 *
-	 * @return	string  A store id.
-	 */
-	protected function getStoreId($id = '')
-	{
-		// Compile the store id.
-		$id	.= ':' . $this->getState('filter.product_name');
+		$redconfig  = $app->getParams();
+		$orderBy = $jinput->getString('order_by', '');
 
-		return parent::getStoreId($id);
+		if (empty($orderBy))
+		{
+			$orderBy = $redconfig->get('order_by', DEFAULT_PRODUCT_ORDERING_METHOD);
+		}
+
+		if (!empty($orderBy))
+		{
+			$orders = explode(' ', $orderBy);
+
+			if (in_array($orders[0], $this->filter_fields))
+			{
+				$ordering = $orders[0];
+				$direction = $orders[1];
+			}
+		}
+
+		$this->setState('list.ordering', $ordering);
+		$this->setState('list.direction', $direction);
+
+		if (!empty($jinput->getInt('limit')))
+		{
+			$limit = $jinput->getInt('limit');
+		}
+		else
+		{
+			// Get limit in tempalate
+			$redTemplate = new Redtemplate;
+			$template = $this->getCategoryTemplate();
+
+			for ($i = 0; $i < count($template); $i++)
+			{
+				$template[$i]->template_desc = $redTemplate->readtemplateFile($template[$i]->template_section, $template[$i]->template_name);
+			}
+
+			if (count($template) > 0)
+			{
+				if (strstr($template[0]->template_desc, "{show_all_products_in_category}"))
+				{
+					$limit = 0;
+				}
+				elseif (strstr($template[0]->template_desc, "{pagination}"))
+				{
+					if (strstr($template[0]->template_desc, "perpagelimit:"))
+					{
+						$perpage = explode('{perpagelimit:', $template[0]->template_desc);
+						$perpage = explode('}', $perpage[1]);
+						$limit   = intval($perpage[0]);
+					}
+				}
+			}
+
+			// Get limit in menu item
+			$menuItem = $app->getMenu()->getActive();
+
+			if (isset($menuItem->query['productlimit']))
+			{
+				$limit = $menuItem->query['productlimit'];
+			}
+			elseif ($module = JModuleHelper::getModule('redshop_search'))
+			{
+				$module_params  = new JRegistry($module->params);
+				$limit = $module_params->get('productperpage', $limit);
+			}
+		}
+
+		$this->setState('list.limit', $limit);
+		$this->setState('list.start', $jinput->getInt('limitstart', 0));
 	}
 
 	/**
@@ -85,23 +140,431 @@ class RedshopModelSearch extends JModelList
 	 */
 	protected function getListQuery()
 	{
-		$db		= $this->getDbo();
-		$query	= $db->getQuery(true);
+		$app             = JFactory::getApplication();
+		$jinput          = $app->input;
+		$menuItem        = $app->getMenu()->getActive();
+		$layout          = $jinput->getString('layout', 'default');
+		$db              = $this->getDbo();
+		$user            = JFactory::getUser();
+		$productHelper   = new producthelper;
+		$category_helper = new product_category;
 
-		// Select the required fields from the table.
-		$query->select(
-			$this->getState(
-				'list.select',
-				'*'
-			)
-		);
+		$query = $db->getQuery(true);
+		$query = $productHelper->getMainProductQuery($query, $user->id)
+				->select(
+					array(
+						'm.*',
+						'CONCAT_WS(' . $db->q('.') . ', p.product_id, ' . (int) $user->id . ') AS concat_id, 0 AS is_category'
+					)
+				)
+				->leftJoin($db->qn('#__redshop_manufacturer', 'm') . ' ON m.manufacturer_id = p.manufacturer_id');
 
-		$query->from('#__redshop_product AS p');
+		$query->where('p.published = 1 AND p.expired = 0');
+
+		// Shopper group - choose from manufactures Start
+		$rsUserhelper               = new rsUserhelper;
+		$shopper_group_manufactures = $rsUserhelper->getShopperGroupManufacturers();
+
+		if ($shopper_group_manufactures != "")
+		{
+			// Sanitize ids
+			$manufacturerIds = explode(',', $shopper_group_manufactures);
+			JArrayHelper::toInteger($manufacturerIds);
+
+			$query->where('p.manufacturer_id IN (' . implode(',', $manufacturerIds) . ')');
+		}
+		// Shopper group - choose from manufactures End
+
+		$aclProducts = $productHelper->loadAclProducts();
+
+		if ($aclProducts != "")
+		{
+			// Sanitize ids
+			$productIds = explode(',', $aclProducts);
+			JArrayHelper::toInteger($productIds);
+
+			$query->where('p.product_id IN (' . implode(',', $productIds) . ')');
+		}
+
+		$manufacture_id = $jinput->getInt('manufacture_id', 0);
+		$category_id    = $jinput->getInt('category_id', 0);
+
+		if ($category_id != 0)
+		{
+			$cat       = $category_helper->getCategoryListArray(0, $category_id);
+			$cat_group = array();
+
+			for ($j = 0; $j < count($cat); $j++)
+			{
+				$cat_group[$j] = $cat[$j]->category_id;
+
+				if ($j == count($cat) - 1)
+				{
+					$cat_group[$j + 1] = $category_id;
+				}
+			}
+
+			JArrayHelper::toInteger($cat_group);
+
+			if ($cat_group)
+			{
+				$cat_group = join(',', $cat_group);
+			}
+			else
+			{
+				$cat_group = $category_id;
+			}
+
+			// Sanitize ids
+			$catIds = explode(',', $cat_group);
+			JArrayHelper::toInteger($catIds);
+
+			$query->where('pc.category_id IN (' . $cat_group . ')');
+		}
+
+		$categorytemplate = $menuItem->params->get('categorytemplate');
+
+		if ($categorytemplate)
+		{
+			$cat_main       = $category_helper->getCategoryTree($categorytemplate);
+			$cat_group_main = array();
+
+			for ($j = 0; $j < count($cat_main); $j++)
+			{
+				$cat_group_main[$j] = $cat_main[$j]->category_id;
+			}
+
+			$cat_group_main[] = $categorytemplate;
+			JArrayHelper::toInteger($cat_group_main);
+
+			$query->where('pc.category_id IN (' . implode(',', $cat_group_main) . ')');
+		}
+
+		if ($manufacture_id != 0)
+		{
+			$query->where('p.manufacturer_id = ' . (int) $manufacture_id);
+		}
+
+		if ($layout == 'productonsale')
+		{
+			$query->where(
+				array(
+					'p.product_on_sale = 1',
+					'p.product_parent_id = 0'
+				)
+			);
+		}
+		elseif ($layout == 'featuredproduct')
+		{
+			$query->where('p.product_special = 1');
+		}
+		elseif ($layout == 'newproduct')
+		{
+			$days        = isset($menuItem->query['newproduct']) ? $menuItem->query['newproduct'] : 0;
+			$today       = date('Y-m-d H:i:s', time());
+			$days_before = date('Y-m-d H:i:s', time() - ($days * 60 * 60 * 24));
+
+			$query->where('p.publish_date BETWEEN ' . $db->quote($days_before) . ' AND ' . $db->quote($today))
+				->where('p.product_parent_id = 0');
+		}
+		elseif ($layout == 'redfilter')
+		{
+			// Get products for filtering
+			if ($products = $this->getRedFilterProduct())
+			{
+				// Sanitize ids
+				$productIds = explode(',', $products);
+				JArrayHelper::toInteger($productIds);
+
+				$query->where('p.product_id IN ( ' . implode(',', $productIds) . ')');
+			}
+		}
+		else
+		{
+			$keyword = $jinput->getString('keyword', '');
+			$defaultSearchType = $jinput->getString('search_type', '');
+
+			if ($defaultSearchType == "name_number")
+			{
+				$query->where($this->getSearchCondition(array('p.product_name', 'p.product_number', 'p.product_s_desc'), $keyword));
+			}
+			elseif ($defaultSearchType == "name_desc")
+			{
+				$query->where($this->getSearchCondition(array('p.product_name', 'p.product_desc', 'p.product_s_desc'), $keyword));
+			}
+			elseif ($defaultSearchType == "virtual_product_num")
+			{
+				$query->where($this->getSearchCondition(array('pap.property_number', 'ps.subattribute_color_number'), $keyword));
+			}
+			elseif ($defaultSearchType == "name_number_desc")
+			{
+				$query->where(
+					$this->getSearchCondition(
+						array('p.product_name', 'p.product_number', 'p.product_desc', 'p.product_s_desc', 'pap.property_number', 'ps.subattribute_color_number'),
+						$keyword
+					)
+				);
+			}
+			elseif ($defaultSearchType == "product_desc")
+			{
+				$query->where($this->getSearchCondition('p.' . $defaultSearchType, $keyword));
+			}
+			elseif ($defaultSearchType == "product_name")
+			{
+				$mainSpName = explode(' ', $keyword);
+
+				if (count($mainSpName) > 0)
+				{
+					$query->where($this->getSearchCondition('p.product_name', explode(' ', $keyword), 'AND'));
+				}
+			}
+			elseif ($defaultSearchType == "product_number")
+			{
+				$query->where($this->getSearchCondition(array('p.product_number'), $keyword));
+			}
+
+			if ($manufacture_id == 0)
+			{
+				if (!empty($manudata['manufacturer_id']))
+				{
+					$manufacture_id = $manudata['manufacturer_id'];
+				}
+			}
+
+			if ($defaultSearchType == "name_number_desc" || $defaultSearchType == "virtual_product_num")
+			{
+				$query->leftJoin($db->qn('#__redshop_product_attribute', 'a') . ' ON a.product_id = p.product_id')
+					->leftJoin($db->qn('#__redshop_product_attribute_property', 'pap') . ' ON pap.attribute_id = a.attribute_id')
+					->leftJoin($db->qn('#__redshop_product_subattribute_color', 'ps') . ' ON ps.subattribute_id = pap.property_id');
+			}
+		}
+
+		$orderCol	= $this->state->get('list.ordering', 'p.product_id');
+		$orderDirn	= $this->state->get('list.direction', 'asc');
+
+		$query->order($db->escape($orderCol . ' ' . $orderDirn));
+
+		echo $query->dump();
 
 		return $query;
 	}
 
-	public function getCategoryTemplet()
+	/**
+	 * Method to get an array of data items.
+	 *
+	 * @return  mixed  An array of data items on success, false on failure.
+	 *
+	 * @since   11.1
+	 */
+	public function getItems()
+	{
+		$app           = JFactory::getApplication();
+		$layout        = $app->input->getString('layout', 'default');
+		$producthelper = new producthelper;
+
+		// Get a storage key.
+		$store = $this->getStoreId();
+
+		// Try to load the data from internal storage.
+		if (isset($this->cache[$store]))
+		{
+			return $this->cache[$store];
+		}
+
+		// Load the list items.
+		$query = $this->_getListQuery();
+
+		// Only sort when ordering and layout are default
+		if ($this->getState('list.ordering') == 'p.product_id' && $layout == 'default')
+		{
+			$items = $this->_getList($query);
+
+			if (($items) > 0)
+			{
+				$categories = array();
+				$products = array();
+
+				foreach ($items as $row)
+				{
+					if ($row->is_category)
+					{
+						$categories[] = $row;
+					}
+					else
+					{
+						$row->category_name = $producthelper->getCategoryNameByProductId($row->product_id);
+						$products[] = $row;
+					}
+				}
+
+				if ($this->getState('list.ordering') == 'p.product_id')
+				{
+					usort($products, array($this, "sortProducts"));
+				}
+
+				$items = array_merge($categories, $products);
+				$items = array_slice($items, $this->getStart(), $this->getState('list.limit'));
+			}
+		}
+		else
+		{
+			$items = $this->_getList($query, $this->getStart(), $this->getState('list.limit'));
+		}
+
+		// Check for a database error.
+		if ($this->_db->getErrorNum())
+		{
+			$this->setError($this->_db->getErrorMsg());
+
+			return false;
+		}
+
+		// Add the items to the internal cache.
+		$this->cache[$store] = $items;
+
+		return $this->cache[$store];
+	}
+
+	/**
+	 * [sortProducts description]
+	 *
+	 * @param   [type]  $a  [description]
+	 * @param   [type]  $b  [description]
+	 *
+	 * @return  [type]      [description]
+	 */
+	private function sortProducts($a, $b)
+	{
+		$app     = JFactory::getApplication();
+		$context = 'search';
+		$keyword = $app->input->getString('keyword');
+		$keyword = strtolower($keyword);
+
+		$charsA = preg_split('/ /', $a->product_name);
+		$charsB = preg_split('/ /', $b->product_name);
+
+		$strACname = strpos(strtolower($a->category_name), $keyword);
+		$strBCname = strpos(strtolower($b->category_name), $keyword);
+
+		$strAPname = strpos(strtolower($a->product_name), $keyword);
+		$strBPname = strpos(strtolower($b->product_name), $keyword);
+
+		// Compare product name
+		if ($strAPname !== false && $strBPname === false)
+		{
+			return -1;
+		}
+		elseif ($strAPname === false && $strBPname !== false)
+		{
+			return 1;
+		}
+
+		// On keyword
+		foreach ($charsA as $charA)
+		{
+			$charA = strtolower($charA);
+
+			foreach ($charsB as $charB)
+			{
+				$charB = strtolower($charB);
+
+				if ($charA == $keyword && $charB != $keyword)
+				{
+					return -1;
+				}
+				elseif ($charA != $keyword && $charB == $keyword)
+				{
+					return 1;
+				}
+			}
+		}
+
+		// Extract keyword
+		$keywords = preg_split('/ /', $keyword);
+
+		$nA = 0;
+		$nB = 0;
+
+		$intA = -1;
+		$intB = -1;
+
+		if (count($keywords) > 0)
+		{
+			foreach ($keywords as $i => $key)
+			{
+				foreach ($charsA as $charA)
+				{
+					$charA = strtolower($charA);
+
+					foreach ($charsB as $charB)
+					{
+						$charB = strtolower($charB);
+
+						if ($charA == $key && $charB != $key)
+						{
+							return -1;
+						}
+						elseif ($charA != $key && $charB == $key)
+						{
+							return 1;
+						}
+					}
+				}
+			}
+		}
+
+		// No in product name - Compoare in category
+		if ($strACname !== false && $strBCname !== false)
+		{
+			return strcasecmp($a->product_name, $b->product_name);
+		}
+		else
+		{
+			if ($strACname !== false && $strBCname === false)
+			{
+				return -1;
+			}
+			elseif ($strACname === false && $strBCname !== false)
+			{
+				return 1;
+			}
+		}
+
+
+		return strcasecmp($a->product_name, $b->product_name);
+	}
+
+	/**
+	 * Get Search Condition
+	 *
+	 * @param   array|string  $fields      Fields
+	 * @param   array|string  $conditions  Conditions
+	 * @param   string        $glue        Glue
+	 *
+	 * @return  string
+	 */
+	public function getSearchCondition($fields, $conditions, $glue = 'OR')
+	{
+		$where = array();
+		$db = JFactory::getDbo();
+
+		foreach ((array) $fields as $field)
+		{
+			foreach ((array) $conditions as $condition)
+			{
+				$where[] = $db->qn($field) . ' LIKE ' . $db->quote('%' . $condition . '%');
+			}
+		}
+
+		return '(' . implode(' ' . $glue . ' ', $where) . ')';
+	}
+
+	/**
+	 * [getCategoryTemplate description]
+	 *
+	 * @return  [type]  [description]
+	 */
+	public function getCategoryTemplate()
 	{
 		$app = JFactory::getApplication();
 		$context = 'search';
@@ -173,6 +636,10 @@ class RedshopModelSearch extends JModelList
 
 	/**
 	 * Red Product Filter
+	 *
+	 * @param   bool  $remove  Is remove.
+	 *
+	 * @return array
 	 */
 	public function getRedFilterProduct($remove = 0)
 	{
@@ -275,6 +742,13 @@ class RedshopModelSearch extends JModelList
 		return $products;
 	}
 
+	/**
+	 * [mod_redProductfilter description]
+	 *
+	 * @param   [type]  $Itemid  [description]
+	 *
+	 * @return  [type]           [description]
+	 */
 	public function mod_redProductfilter($Itemid)
 	{
 		$db = JFactory::getDbo();
@@ -364,6 +838,7 @@ class RedshopModelSearch extends JModelList
 
 					$q .= " AND ra.product_id  IN ( " . implode(',', $productIds) . " ) ";
 				}
+
 				$q .= " GROUP BY t.id ORDER BY t.ordering  ";
 
 				$tags = $this->_getList($q);
@@ -528,6 +1003,14 @@ class RedshopModelSearch extends JModelList
 		}
 	}
 
+	/**
+	 * [getTagsDetail description]
+	 *
+	 * @param   [type]   $id   [description]
+	 * @param   integer  $all  [description]
+	 *
+	 * @return  [type]         [description]
+	 */
 	public function getTagsDetail($id, $all = 1)
 	{
 		// For session
@@ -598,6 +1081,10 @@ class RedshopModelSearch extends JModelList
 
 	/**
 	 * Get Category products selected in search Module
+	 *
+	 * @param   int  $cid  Category Id.
+	 *
+	 * @return array
 	 */
 	public function loadCatProductsManufacturer($cid)
 	{
@@ -622,8 +1109,7 @@ class RedshopModelSearch extends JModelList
 		// Sanitize ids
 		JArrayHelper::toInteger($mids);
 
-		$query = "SELECT manufacturer_id AS value,manufacturer_name AS text FROM #__redshop_manufacturer "
-			. "WHERE manufacturer_id IN ('" . implode(",", $mids). "')";
+		$query = "SELECT manufacturer_id AS value,manufacturer_name AS text FROM #__redshop_manufacturer " . "WHERE manufacturer_id IN ('" . implode(",", $mids) . "')";
 		$db->setQuery($query);
 
 		return $db->loadObjectList();
