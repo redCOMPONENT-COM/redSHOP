@@ -5808,6 +5808,19 @@ class rsCarthelper
 		$product_preorder     = $product_data->preorder;
 		$isPreorderStock      = $retAttArr[7];
 
+		// Check for the required attributes if selected
+		if ($handleMessage = $this->handleRequiredSelectedAttributeCartMessage(
+								$data,
+								$data_add,
+								$selectedAttrId,
+								$selectedPropId,
+								$notselectedSubpropId
+							))
+		{
+			return $handleMessage;
+		}
+
+		// Check for product or attribute in stock
 		if (!$isStock)
 		{
 			if (($product_preorder == "global" && !ALLOW_PRE_ORDER) || ($product_preorder == "no") || ($product_preorder == "" && !ALLOW_PRE_ORDER))
@@ -5823,8 +5836,6 @@ class rsCarthelper
 				return $msg;
 			}
 		}
-
-		// Attribute End
 
 		// Discount calculator procedure start
 		$discountArr = array();
@@ -5915,77 +5926,6 @@ class rsCarthelper
 		$data['product_old_price'] += $accessory_total_price + $accessory_vat_price;
 		$data['product_old_price_excl_vat'] += $accessory_total_price;
 		$cart[$idx]['product_vat'] = $product_vat_price + $accessory_vat_price;
-
-		if (!INDIVIDUAL_ADD_TO_CART_ENABLE)
-		{
-			/*
-			 * Check if required attribute is filled or not ...
-			 */
-			$attribute_template = $this->_producthelper->getAttributeTemplate($data_add);
-
-			if (count($attribute_template) > 0)
-			{
-				$selectedAttributId = 0;
-
-				if (count($selectedAttrId) > 0)
-				{
-					$selectedAttributId = implode(",", $selectedAttrId);
-				}
-
-				$req_attribute = $this->_producthelper->getProductAttribute($data['product_id'], 0, 0, 0, 1, $selectedAttributId);
-
-				if (count($req_attribute) > 0)
-				{
-					$requied_attributeArr = array();
-
-					for ($re = 0; $re < count($req_attribute); $re++)
-					{
-						$requied_attributeArr[$re] = urldecode($req_attribute[$re]->attribute_name);
-					}
-
-					$requied_attribute_name = implode(", ", $requied_attributeArr);
-
-					// Throw an error as first attribute is required
-					$msg = urldecode($requied_attribute_name) . " " . JText::_('COM_REDSHOP_IS_REQUIRED');
-
-					return $msg;
-				}
-
-				$selectedPropertyId = 0;
-
-				if (count($selectedPropId) > 0)
-				{
-					$selectedPropertyId = implode(",", $selectedPropId);
-				}
-
-				$notselectedSubpropertyId = 0;
-
-				if (count($notselectedSubpropId) > 0)
-				{
-					$notselectedSubpropertyId = implode(",", $notselectedSubpropId);
-				}
-
-				$req_property = $this->_producthelper->getAttibuteProperty($selectedPropertyId, $selectedAttributId, $data['product_id'], 0, 1, $notselectedSubpropertyId);
-
-				if (count($req_property) > 0)
-				{
-					$requied_subattributeArr = array();
-
-					for ($re1 = 0; $re1 < count($req_property); $re1++)
-					{
-						$requied_subattributeArr[$re1] = urldecode($req_property[$re1]->property_name);
-					}
-
-					$requied_subattribute_name = implode(",", $requied_subattributeArr);
-
-					// Give error as second attribute is required
-					$msg = urldecode($requied_subattribute_name) . " " . JText::_('COM_REDSHOP_SUBATTRIBUTE_IS_REQUIRED');
-
-					if ($data['reorder'] != 1)
-						return $msg;
-				}
-			}
-		}
 
 		// ADD WRAPPER PRICE
 		$wrapper_price = 0;
@@ -7222,5 +7162,104 @@ class rsCarthelper
 		$list = $this->_db->loadObjectlist();
 
 		return $list;
+	}
+
+	/**
+	 * Handle required attribute before add in to cart messages
+	 *
+	 * @param   array   $data                  cart data
+	 * @param   array   $data_add              Attribute added data
+	 * @param   array   $selectedAttrId        Selected attribute id for add to cart
+	 * @param   array   $selectedPropId        Selected Property Id for Add to cart
+	 * @param   array   $notselectedSubpropId  Not selected subproperty ids during add to cart
+	 *
+	 * @return  string  Error Message if found otherwise return null.
+	 */
+	public function handleRequiredSelectedAttributeCartMessage($data, $data_add, $selectedAttrId, $selectedPropId, $notselectedSubpropId)
+	{
+		if (INDIVIDUAL_ADD_TO_CART_ENABLE)
+		{
+			return;
+		}
+
+		// Check if required attribute is filled or not ...
+		$attribute_template = $this->_producthelper->getAttributeTemplate($data_add);
+
+		if (count($attribute_template) > 0)
+		{
+			$selectedAttributId = 0;
+
+			if (count($selectedAttrId) > 0)
+			{
+				$selectedAttributId = implode(",", $selectedAttrId);
+			}
+
+			$req_attribute = $this->_producthelper->getProductAttribute(
+								$data['product_id'],
+								0,
+								0,
+								0,
+								1,
+								$selectedAttributId
+							);
+
+			if (count($req_attribute) > 0)
+			{
+				$requied_attributeArr = array();
+
+				for ($re = 0; $re < count($req_attribute); $re++)
+				{
+					$requied_attributeArr[$re] = urldecode($req_attribute[$re]->attribute_name);
+				}
+
+				$requied_attribute_name = implode(", ", $requied_attributeArr);
+
+				// Error message if first attribute is required
+				return $requied_attribute_name . " " . JText::_('COM_REDSHOP_IS_REQUIRED');
+			}
+
+			$selectedPropertyId = 0;
+
+			if (count($selectedPropId) > 0)
+			{
+				$selectedPropertyId = implode(",", $selectedPropId);
+			}
+
+			$notselectedSubpropertyId = 0;
+
+			if (count($notselectedSubpropId) > 0)
+			{
+				$notselectedSubpropertyId = implode(",", $notselectedSubpropId);
+			}
+
+			$req_property = $this->_producthelper->getAttibuteProperty(
+								$selectedPropertyId,
+								$selectedAttributId,
+								$data['product_id'],
+								0,
+								1,
+								$notselectedSubpropertyId
+							);
+
+			if (count($req_property) > 0)
+			{
+				$requied_subattributeArr = array();
+
+				for ($re1 = 0; $re1 < count($req_property); $re1++)
+				{
+					$requied_subattributeArr[$re1] = urldecode($req_property[$re1]->property_name);
+				}
+
+				$requied_subattribute_name = implode(",", $requied_subattributeArr);
+
+				// Give error as second attribute is required
+				if ($data['reorder'] != 1)
+				{
+					return $requied_subattribute_name . " " . JText::_('COM_REDSHOP_SUBATTRIBUTE_IS_REQUIRED');
+				}
+			}
+		}
+
+		return;
 	}
 }
