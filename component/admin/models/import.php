@@ -255,13 +255,10 @@ class RedshopModelImport extends JModel
 						// Import products
 						if ($post['import'] == 'products' && isset($rawdata['product_number']))
 						{
-							$rawdata['product_price'] = '' . str_replace(',', '.', $rawdata['product_price']) . '';
-							$product_id = $this->getProductIdByNumber($rawdata['product_number']);
+							$rawdata['product_id'] = $product_id = isset($rawdata['product_id']) && $rawdata['product_id'] != '' ?
+								$rawdata['product_id'] : $this->getProductIdByNumber($rawdata['product_number']);
 
-							if ((int) $product_id > 0)
-							{
-								$rawdata['product_id'] = (int) $product_id;
-							}
+							$rawdata['product_price'] = '' . str_replace(',', '.', $rawdata['product_price']) . '';
 
 							if (isset($rawdata['product_name']) === true)
 							{
@@ -294,7 +291,7 @@ class RedshopModelImport extends JModel
 
 							// Updating/inserting product
 							$row = $this->getTable('product_detail');
-							$row->load($rawdata['product_id']);
+							$row->load($product_id);
 
 							// Do not update with blank imagecategory_id
 							if ($rawdata['product_thumb_image'] == "")
@@ -317,40 +314,37 @@ class RedshopModelImport extends JModel
 								unset($rawdata['product_preview_back_image']);
 							}
 
+							$isInsert = $row->product_id == 0;
+
 							$row->bind($rawdata);
 
 							// Set boolean for Error
 							$isError = false;
 
-							if ((int) $product_id > 0)
+							if (!$isInsert)
 							{
 								// Update
 								if (!$row->store())
 								{
-									$isError = true;
-
 									return JText::_('COM_REDSHOP_ERROR_DURING_IMPORT');
 								}
 							}
 							else
 							{
 								// Insert
-								$row->product_id = (int) $rawdata['product_id'];
+								$row->product_id = $product_id;
 								$ret = $db->insertObject('#__redshop_product', $row, 'product_id');
 
 								if (!$ret)
 								{
-									$isError = true;
-
 									return JText::_('COM_REDSHOP_ERROR_DURING_IMPORT');
 								}
 							}
 
+							$product_id = $row->product_id;
+
 							if (!$isError)
 							{
-								// Last inserted product id
-								$product_id = $row->product_id;
-
 								// Product Full Image
 								$product_full_image = trim($rawdata['product_full_image']);
 
@@ -643,8 +637,6 @@ class RedshopModelImport extends JModel
 										$db->setQuery($query);
 										$db->query();
 									}
-
-
 								}
 							}
 
@@ -653,7 +645,7 @@ class RedshopModelImport extends JModel
 								->select('COUNT(*) AS total')
 								->from($db->quoteName('#__redshop_product_stockroom_xref'))
 								->where($db->quoteName('product_id') . ' = ' . $db->quote($product_id))
-								->where($db->quoteName('stockroom_id') . ' = ' . $db->quote(DEFAULT_STOCKROOM))
+								->where($db->quoteName('stockroom_id') . ' = ' . $db->quote(DEFAULT_STOCKROOM));
 
 							$db->setQuery($query);
 							$total = $db->loadresult();
