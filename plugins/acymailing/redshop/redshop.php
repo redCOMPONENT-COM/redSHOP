@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-JLoader::import('loadhelpers', JPATH_SITE . '/components/com_redshop');
+JLoader::import('redshop.library');
 
 class plgAcymailingRedshop extends JPlugin
 {

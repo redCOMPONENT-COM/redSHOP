@@ -11,9 +11,10 @@ defined('_JEXEC') or die;
 
 $app = JFactory::getApplication();
 
-JLoader::import('joomla.html.parameter');
+// Load redSHOP Library
+JLoader::import('redshop.library');
 
-JLoader::import('loadhelpers', JPATH_COMPONENT);
+JLoader::import('joomla.html.parameter');
 
 // Getting the configuration
 require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';

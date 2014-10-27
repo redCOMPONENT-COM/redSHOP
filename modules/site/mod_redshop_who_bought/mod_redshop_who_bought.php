@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+JLoader::import('redshop.library');
 $category               = trim($params->get('category', ''));
 $number_of_items        = trim($params->get('number_of_items', 5));
 $thumbwidth             = trim($params->get('thumbwidth', 100));
@@ -38,7 +39,6 @@ $db->setQuery($sql);
 $productlists = $db->loadObjectList();
 
 require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
-JLoader::import('loadhelpers', JPATH_SITE . '/components/com_redshop');
 JLoader::load('RedshopHelperAdminConfiguration');
 
 $Redconfiguration = new Redconfiguration;

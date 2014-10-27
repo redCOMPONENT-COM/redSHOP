@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+JLoader::import('redshop.library');
+
 if (!defined('MOD_REDSHOP_PRODUCTS'))
 {
 	/**
@@ -72,7 +74,6 @@ $isUrlCategoryId         = trim($params->get('urlCategoryId', 0));
 
 // Getting the configuration
 require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
-JLoader::import('loadhelpers', JPATH_SITE . '/components/com_redshop');
 JLoader::load('RedshopHelperAdminConfiguration');
 $redConfiguration = new Redconfiguration;
 $redConfiguration->defineDynamicVars();

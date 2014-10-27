@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+JLoader::import('redshop.library');
 $app  = JFactory::getApplication();
 $user = JFactory::getUser();
 

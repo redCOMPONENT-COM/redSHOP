@@ -42,7 +42,7 @@ class Com_RedshopInstallerScript
 
 		// $parent is the class calling this method
 
-		require_once JPATH_SITE . '/components/com_redshop/loadhelpers.php';
+		JLoader::import('redshop.library');
 		JLoader::load('RedshopHelperAdminTemplate');
 
 		$this->com_install('install');
@@ -76,7 +76,7 @@ class Com_RedshopInstallerScript
 	{
 		// $parent is the class calling this method
 
-		require_once JPATH_SITE . '/components/com_redshop/loadhelpers.php';
+		JLoader::import('redshop.library');
 		JLoader::load('RedshopHelperAdminTemplate');
 		$this->com_install('update');
 
@@ -475,7 +475,7 @@ class Com_RedshopInstallerScript
 	private function userSynchronization()
 	{
 		require_once JPATH_SITE . "/administrator/components/com_redshop/helpers/redshop.cfg.php";
-		require_once JPATH_SITE . '/components/com_redshop/loadhelpers.php';
+		JLoader::import('redshop.library');
 		JLoader::load('RedshopHelperUser');
 
 		JTable::addIncludePath(JPATH_SITE . '/administrator/components/com_redshop/tables');
@@ -491,7 +491,7 @@ class Com_RedshopInstallerScript
 	 */
 	private function redshopHandleCFGFile()
 	{
-		require_once JPATH_SITE . '/components/com_redshop/loadhelpers.php';
+		JLoader::import('redshop.library');
 		JLoader::load('RedshopHelperAdminConfiguration');
 
 		// Include redshop.cfg.php file for cfg variables

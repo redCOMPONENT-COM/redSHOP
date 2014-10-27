@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+JLoader::import('redshop.library');
 require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
 
 class plgRedshop_paymentrs_payment_dibspaymentmethod extends JPlugin
@@ -110,7 +111,6 @@ class plgRedshop_paymentrs_payment_dibspaymentmethod extends JPlugin
 			return;
 		}
 
-		JLoader::import('loadhelpers', JPATH_SITE . '/components/com_redshop');
 		JLoader::load('RedshopHelperAdminOrder');
 
 		$objOrder   = new order_functions;

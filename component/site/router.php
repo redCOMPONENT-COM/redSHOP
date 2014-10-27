@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 JLoader::import('joomla.html.parameter');
-JLoader::import('loadhelpers', JPATH_SITE . '/components/com_redshop');
+JLoader::import('redshop.library');
 
 /**
  *    Build URL routes for redSHOP

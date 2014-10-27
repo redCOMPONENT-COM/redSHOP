@@ -35,7 +35,6 @@
 		require_once $configpath;
 	}
 
-	JLoader::import('loadhelpers', JPATH_SITE . '/components/com_redshop');
 	JLoader::load('RedshopHelperAdminProduct');
 	JLoader::load('RedshopHelperAdminConfiguration');
 	JLoader::load('RedshopHelperAdminTemplate');

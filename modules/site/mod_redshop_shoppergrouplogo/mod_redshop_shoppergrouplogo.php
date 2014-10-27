@@ -9,13 +9,13 @@
 
 defined('_JEXEC') or die('Restricted access');
 
+JLoader::import('redshop.library');
 $thumbwidth  = trim($params->get('thumbwidth', 100));
 $thumbheight = trim($params->get('thumbheight', 100));
 
 $db = JFactory::getDbo();
 // Getting the configuration
 require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
-JLoader::import('loadhelpers', JPATH_SITE . '/components/com_redshop');
 JLoader::load('RedshopHelperAdminConfiguration');
 $Redconfiguration = new Redconfiguration;
 $Redconfiguration->defineDynamicVars();
