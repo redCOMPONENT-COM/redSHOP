@@ -7167,11 +7167,11 @@ class rsCarthelper
 	/**
 	 * Handle required attribute before add in to cart messages
 	 *
-	 * @param   array    $data                  cart data
-	 * @param   string   $attributeTemplate     Attribute added data
-	 * @param   array    $selectedAttrId        Selected attribute id for add to cart
-	 * @param   array    $selectedPropId        Selected Property Id for Add to cart
-	 * @param   array    $notselectedSubpropId  Not selected subproperty ids during add to cart
+	 * @param   array   $data                  cart data
+	 * @param   string  $attributeTemplate     Attribute added data
+	 * @param   array   $selectedAttrId        Selected attribute id for add to cart
+	 * @param   array   $selectedPropId        Selected Property Id for Add to cart
+	 * @param   array   $notselectedSubpropId  Not selected subproperty ids during add to cart
 	 *
 	 * @return  string  Error Message if found otherwise return null.
 	 */
