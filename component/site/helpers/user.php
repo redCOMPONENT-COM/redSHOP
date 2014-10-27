@@ -48,7 +48,7 @@ class rsUserhelper
 		{
 			$auth = JFactory::getSession()->get('auth');
 
-			if (array_key_exists('users_info_id', $auth))
+			if (is_array($auth) && array_key_exists('users_info_id', $auth))
 			{
 				$userId -= $auth['users_info_id'];
 			}
