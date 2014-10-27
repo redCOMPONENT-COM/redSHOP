@@ -10,6 +10,8 @@
 // No direct access
 defined('_JEXEC') or die;
 
+JLoader::import('redshop.library');
+
 /**
  * Cart User plugin for redSHOP
  *
@@ -54,7 +56,6 @@ class PlgUserCart extends JPlugin
 	 */
 	protected function _removeRedshopCart()
 	{
-		JLoader::import('loadhelpers', JPATH_SITE . '/components/com_redshop');
 		JLoader::load('RedshopHelperAdminConfiguration');
 		JLoader::load('RedshopHelperCart');
 

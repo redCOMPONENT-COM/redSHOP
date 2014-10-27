@@ -23,4 +23,8 @@ if (!defined('JPATH_REDSHOP_LIBRARY'))
 
 	// Make available the redSHOP form rules
 	JFormHelper::addRulePath(JPATH_REDSHOP_LIBRARY . '/form/rules');
+
+	// Load helpers pathes in JLoader
+	JLoader::discover('RedshopHelper', JPATH_SITE . '/components/com_redshop/helpers', false);
+	JLoader::discover('RedshopHelperAdmin', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers', false);
 }
