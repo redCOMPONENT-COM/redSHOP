@@ -250,7 +250,7 @@ class RedshopModelWrapper_detail extends JModel
 
 		$row->category_id = $categoryid;
 
-		$productid = $data['product_id'];
+		$productid = $data['container_product'];
 
 		if (count($productid) > 0)
 		{
