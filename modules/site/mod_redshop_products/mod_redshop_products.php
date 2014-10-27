@@ -11,46 +11,6 @@ defined('_JEXEC') or die;
 
 JLoader::import('redshop.library');
 
-if (!defined('MOD_REDSHOP_PRODUCTS'))
-{
-	/**
-	 * Get all category to set as default
-	 *
-	 * @return  array  Category ids in array
-	 */
-	function getDefaultModuleCategories()
-	{
-		$db = JFactory::getDbo();
-
-		$query = $db->getQuery(true)
-			->select('category_id')
-			->from($db->qn('#__redshop_category'))
-			->where($db->qn('published') . ' = 1')
-			->order($db->qn('category_id') . ' ASC');
-
-		$category = array();
-		try
-		{
-			$categoryIds = $db->loadResultArray();
-		}
-		catch (Exception $e)
-		{
-			throw new RuntimeException($e->getMessage(), $e->getCode());
-		}
-
-		$cids = '';
-
-		if (count($categoryIds) > 0)
-		{
-			$cids = implode(",", $categoryIds);
-		}
-
-		return $cids;
-	}
-
-	define('MOD_REDSHOP_PRODUCTS', 1);
-}
-
 // Initialize variables.
 $app                     = JFactory::getApplication();
 $db                      = JFactory::getDbo();
