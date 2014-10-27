@@ -46,12 +46,12 @@ class RedshopModelSearch extends JModelList
 	}
 
 	/**
-	 * [populateState description]
+	 * Method to auto-populate the model state.
 	 *
-	 * @param   [type]  $ordering   [description]
-	 * @param   [type]  $direction  [description]
+	 * @param   string  $ordering   Ordering of sorting
+	 * @param   string  $direction  Direction of sorting
 	 *
-	 * @return  [type]              [description]
+	 * @return  void
 	 */
 	protected function populateState($ordering = null, $direction = null)
 	{
@@ -323,14 +323,6 @@ class RedshopModelSearch extends JModelList
 				$query->where($this->getSearchCondition(array('p.product_number'), $keyword));
 			}
 
-			if ($manufacture_id == 0)
-			{
-				if (!empty($manudata['manufacturer_id']))
-				{
-					$manufacture_id = $manudata['manufacturer_id'];
-				}
-			}
-
 			if ($defaultSearchType == "name_number_desc" || $defaultSearchType == "virtual_product_num")
 			{
 				$query->leftJoin($db->qn('#__redshop_product_attribute', 'a') . ' ON a.product_id = p.product_id')
@@ -344,8 +336,6 @@ class RedshopModelSearch extends JModelList
 
 		$query->order($db->escape($orderCol . ' ' . $orderDirn));
 
-		echo $query->dump();
-
 		return $query;
 	}
 
@@ -353,8 +343,6 @@ class RedshopModelSearch extends JModelList
 	 * Method to get an array of data items.
 	 *
 	 * @return  mixed  An array of data items on success, false on failure.
-	 *
-	 * @since   11.1
 	 */
 	public function getItems()
 	{
@@ -426,12 +414,12 @@ class RedshopModelSearch extends JModelList
 	}
 
 	/**
-	 * [sortProducts description]
+	 * Sort product function with prioritized search
 	 *
-	 * @param   [type]  $a  [description]
-	 * @param   [type]  $b  [description]
+	 * @param   object  $a  first product
+	 * @param   object  $b  second product
 	 *
-	 * @return  [type]      [description]
+	 * @return  int
 	 */
 	private function sortProducts($a, $b)
 	{
@@ -530,8 +518,54 @@ class RedshopModelSearch extends JModelList
 			}
 		}
 
-
 		return strcasecmp($a->product_name, $b->product_name);
+	}
+
+	/**
+	 * Get category result
+	 *
+	 * @return  array
+	 */
+	public function getCategories()
+	{
+		$module        = JModuleHelper::getModule('redshop_search');
+		$module_params = new JRegistry($module->params);
+
+		if ($module_params->get('searchCategory'))
+		{
+			$app            = JFactory::getApplication();
+			$jinput         = $app->input;
+			$db             = $this->getDbo();
+			$keyword        = $jinput->getString('keyword', '');
+			$manufacture_id = $jinput->getInt('manufacture_id', 0);
+			$category_id    = $jinput->getInt('category_id', 0);
+
+			$query = $db->getQuery(true);
+			$query->select('c.*')->from($db->qn('#__redshop_category', 'c'));
+
+			if ($manufacture_id)
+			{
+				$query->leftJoin($db->qn('#__redshop_product_category_xref', 'pcx') . ' ON pcx.category_id = c.category_id')
+					->leftJoin($db->qn('#__redshop_product', 'p') . ' ON p.product_id = pcx.product_id')
+					->leftJoin($db->qn('#__redshop_manufacturer', 'm') . ' ON m.manufacturer_id = p.manufacturer_id')
+					->where('m.manufacturer_id = ' . (int) $manufacture_id)
+					->group('c.category_id');
+			}
+
+			if ($category_id)
+			{
+				$query->leftJoin($db->qn('#__redshop_category_xref', 'cx') . ' ON cx.category_child_id = c.category_id')
+					->where('cx.category_parent_id = ' . (int) $category_id);
+			}
+
+			$query->where($this->getSearchCondition(array('c.category_name', 'c.category_short_description', 'c.category_description'), $keyword));
+
+			$db->setQuery($query);
+
+			return $db->loadObjectList();
+		}
+
+		return null;
 	}
 
 	/**
@@ -560,9 +594,9 @@ class RedshopModelSearch extends JModelList
 	}
 
 	/**
-	 * [getCategoryTemplate description]
+	 * Method to get Category Template
 	 *
-	 * @return  [type]  [description]
+	 * @return  mixed
 	 */
 	public function getCategoryTemplate()
 	{

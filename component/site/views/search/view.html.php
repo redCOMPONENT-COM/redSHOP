@@ -126,6 +126,7 @@ class RedshopViewSearch extends JView
 		$this->pagination   = $this->get('Pagination');
 		$this->state        = $this->get('State');
 		$this->request_url  = $uri->toString();
+		$this->categories   = $this->get('Categories');
 		JFilterOutput::cleanText($this->request_url);
 		parent::display($tpl);
 	}
@@ -148,6 +149,7 @@ class RedshopViewSearch extends JView
 			JLoader::load('RedshopHelperAdminText_library');
 
 			$dispatcher       = JDispatcher::getInstance();
+			$objhelper        = new redhelper;
 			$redTemplate      = new Redtemplate;
 			$Redconfiguration = new Redconfiguration;
 			$producthelper    = new producthelper;
@@ -157,8 +159,8 @@ class RedshopViewSearch extends JView
 
 			$Itemid         = $jinput->getInt('Itemid', 0);
 			$search_type    = $jinput->getString('search_type', '');
-			$cid            = $jinput->getInt('category_id');
-			$manufacture_id = $jinput->getInt('manufacture_id');
+			$cid            = $jinput->getInt('category_id', 0);
+			$manufacture_id = $jinput->getInt('manufacture_id', 0);
 
 			$templateid     = $jinput->getInt('templateid');
 
@@ -171,15 +173,16 @@ class RedshopViewSearch extends JView
 			$limit      = $this->limit;
 			$limitstart = $this->limitstart;
 			$total      = $model->getTotal();
+			$tagarray   = $texts->getTextLibraryTagArray();
 
 			$categoryDetail = $model->getTable('category_detail');
 			$categoryDetail->load($cid);
 
-			$cat_name = "";
+			$catmain_name = "";
 
 			if ($categoryDetail)
 			{
-				$cat_name = $categoryDetail->category_name;
+				$catmain_name = $categoryDetail->category_name;
 			}
 
 			JHTML::_('behavior.tooltip');
@@ -215,21 +218,171 @@ class RedshopViewSearch extends JView
 			}
 
 			$template_org = $template_desc;
-			$template_d1  = explode("{category_loop_start}", $template_org);
 
-			if (count($template_d1) > 1)
+			if (strstr($template_org, "{category_loop_start}") && strstr($template_org, "{category_loop_end}") && count($this->categories) > 0)
 			{
-				$template_d2 = explode("{category_loop_end}", $template_d1[1]);
+				$template_d1     = explode("{category_loop_start}", $template_org);
+				$template_d2     = explode("{category_loop_end}", $template_d1 [1]);
+				$subcat_template = $template_d2 [0];
 
-				if (count($template_d2) > 0)
+				if (strstr($subcat_template, '{category_thumb_image_2}'))
 				{
-					$category_tmpl = $template_d2[0];
+					$tag     = '{category_thumb_image_2}';
+					$h_thumb = THUMB_HEIGHT_2;
+					$w_thumb = THUMB_WIDTH_2;
 				}
+				elseif (strstr($subcat_template, '{category_thumb_image_3}'))
+				{
+					$tag     = '{category_thumb_image_3}';
+					$h_thumb = THUMB_HEIGHT_3;
+					$w_thumb = THUMB_WIDTH_3;
+				}
+				elseif (strstr($subcat_template, '{category_thumb_image_1}'))
+				{
+					$tag     = '{category_thumb_image_1}';
+					$h_thumb = THUMB_HEIGHT;
+					$w_thumb = THUMB_WIDTH;
+				}
+				else
+				{
+					$tag     = '{category_thumb_image}';
+					$h_thumb = THUMB_HEIGHT;
+					$w_thumb = THUMB_WIDTH;
+				}
+
+				$cat_detail = "";
+
+				for ($i = 0; $i < count($this->categories); $i++)
+				{
+					$row = $this->categories[$i];
+
+					$data_add = $subcat_template;
+
+					$cItemid = $objhelper->getCategoryItemid($row->category_id);
+
+					if ($cItemid != "")
+					{
+						$tmpItemid = $cItemid;
+					}
+					else
+					{
+						$tmpItemid = $Itemid;
+					}
+
+					$link = JRoute::_('index.php?option=com_redshop&view=category&cid=' . $row->category_id . '&manufacturer_id=' . $manufacture_id . '&layout=detail&Itemid=' . $tmpItemid);
+
+					$middlepath  = REDSHOP_FRONT_IMAGES_RELPATH . 'category/';
+					$title       = " title='" . $row->category_name . "' ";
+					$alt         = " alt='" . $row->category_name . "' ";
+					$product_img = REDSHOP_FRONT_IMAGES_ABSPATH . "noimage.jpg";
+					$linkimage   = $product_img;
+
+					if ($row->category_full_image && file_exists($middlepath . $row->category_full_image))
+					{
+						$product_img = $objhelper->watermark('category', $row->category_full_image, $w_thumb, $h_thumb, WATERMARK_CATEGORY_THUMB_IMAGE, '0');
+						$linkimage   = $objhelper->watermark('category', $row->category_full_image, '', '', WATERMARK_CATEGORY_IMAGE, '0');
+					}
+					elseif (CATEGORY_DEFAULT_IMAGE && file_exists($middlepath . CATEGORY_DEFAULT_IMAGE))
+					{
+						$product_img = $objhelper->watermark('category', CATEGORY_DEFAULT_IMAGE, $w_thumb, $h_thumb, WATERMARK_CATEGORY_THUMB_IMAGE, '0');
+						$linkimage   = $objhelper->watermark('category', CATEGORY_DEFAULT_IMAGE, '', '', WATERMARK_CATEGORY_IMAGE, '0');
+					}
+
+					if (CAT_IS_LIGHTBOX)
+					{
+						$cat_thumb = "<a class='modal' href='" . REDSHOP_FRONT_IMAGES_ABSPATH . $row->category_full_image . "' rel=\"{handler: 'image', size: {}}\" " . $title . ">";
+					}
+					else
+					{
+						$cat_thumb = "<a href='" . $link . "' " . $title . ">";
+					}
+
+					$cat_thumb .= "<img src='" . $product_img . "' " . $alt . $title . ">";
+					$cat_thumb .= "</a>";
+					$data_add = str_replace($tag, $cat_thumb, $data_add);
+
+					$cat_name = $Redconfiguration->maxchar($row->category_short_description, CATEGORY_TITLE_MAX_CHARS, CATEGORY_TITLE_END_SUFFIX);
+					$cat_s_desc = $Redconfiguration->maxchar($row->category_short_description, CATEGORY_SHORT_DESC_MAX_CHARS, CATEGORY_SHORT_DESC_END_SUFFIX);
+					$cat_desc = $Redconfiguration->maxchar($row->category_description, CATEGORY_SHORT_DESC_MAX_CHARS, CATEGORY_SHORT_DESC_END_SUFFIX);
+
+					if (!in_array($keyword, $tagarray))
+					{
+						$cat_name      = str_ireplace($keyword, "<b class='search_hightlight'>" . $keyword . "</b>", $row->category_name);
+						$cat_s_desc = str_ireplace($keyword, "<b class='search_hightlight'>" . $keyword . "</b>", $row->category_description);
+						$cat_desc   = str_ireplace($keyword, "<b class='search_hightlight'>" . $keyword . "</b>", $row->category_description);
+					}
+
+					if (strstr($data_add, '{category_name}'))
+					{
+						$cat_name = '<a href="' . $link . '" ' . $title . '>' . $cat_name . '</a>';
+						$data_add = str_replace("{category_name}", $cat_name, $data_add);
+					}
+
+					if (strstr($data_add, '{category_readmore}'))
+					{
+						$cat_readmore = '<a href="' . $link . '" ' . $title . '>' . JText::_('COM_REDSHOP_READ_MORE') . '</a>';
+						$data_add = str_replace("{category_readmore}", $cat_readmore, $data_add);
+					}
+
+					if (strstr($data_add, '{category_description}'))
+					{
+						$data_add = str_replace("{category_description}", $cat_desc, $data_add);
+					}
+
+					if (strstr($data_add, '{category_short_desc}'))
+					{
+						$data_add   = str_replace("{category_short_desc}", $cat_s_desc, $data_add);
+					}
+
+					if (strstr($data_add, '{category_total_product}'))
+					{
+						$totalprd = $producthelper->getProductCategory($row->category_id);
+						$data_add = str_replace("{category_total_product}", count($totalprd), $data_add);
+						$data_add = str_replace("{category_total_product_lbl}", JText::_('COM_REDSHOP_TOTAL_PRODUCT'), $data_add);
+					}
+
+					/*
+					 * category template extra field
+					 * "2" argument is set for category
+					 */
+					$extraFieldName = $extraField->getSectionFieldNameArray(2, 1, 1);
+					$data_add = $producthelper->getExtraSectionTag($extraFieldName, $row->category_id, "2", $data_add);
+
+					// Shopper group category ACL
+					$checkcid = $objhelper->getShopperGroupCategory($row->category_id);
+					$sgportal = $objhelper->getShopperGroupPortal();
+					$portal   = 0;
+
+					if (count($sgportal) > 0)
+					{
+						$portal = $sgportal->shopper_group_portal;
+					}
+
+					if (PORTAL_SHOP == 1)
+					{
+						if ($checkcid != "")
+						{
+							$cat_detail .= $data_add;
+						}
+					}
+					else
+					{
+						if ($portal == 1 && $checkcid != "")
+						{
+							$cat_detail .= $data_add;
+						}
+						elseif ($portal == 0)
+						{
+							$cat_detail .= $data_add;
+						}
+					}
+				}
+
+				$template_org = str_replace("{category_loop_start}", "", $template_org);
+				$template_org = str_replace("{category_loop_end}", "", $template_org);
+				$template_org = str_replace($subcat_template, $cat_detail, $template_org);
 			}
 
-			$template_org = str_replace($category_tmpl, "", $template_org);
-			$template_org = str_replace("{category_loop_start}", "", $template_org);
-			$template_org = str_replace("{category_loop_end}", "", $template_org);
 			$print        = JRequest::getInt('print');
 			$p_url        = @ explode('?', $_SERVER['REQUEST_URI']);
 			$print_tag    = '';
@@ -261,11 +414,10 @@ class RedshopViewSearch extends JView
 				$template_org = str_replace('{compare_product_div}', $compareProductDiv, $template_org);
 			}
 
-			// Skip html if nosubcategory
-			if (strstr($template_org, "{if subcats}"))
+			if (strstr($template_org, "{category_loop_start}"))
 			{
-				$template_d1  = explode("{if subcats}", $template_org);
-				$template_d2  = explode("{subcats end if}", $template_d1[1]);
+				$template_d1  = explode("{category_loop_start}", $template_org);
+				$template_d2  = explode("{category_loop_end}", $template_d1[1]);
 				$template_org = $template_d1[0] . $template_d2[1];
 			}
 
@@ -276,10 +428,7 @@ class RedshopViewSearch extends JView
 			$template_org = str_replace("{template_selector_category_lbl}", '', $template_org);
 			$template_org = str_replace("{template_selector_category}", '', $template_org);
 			$template_org = str_replace("{category_main_description}", '', $template_org);
-			$template_org = str_replace("{category_main_name}", $cat_name, $template_org);
-			$template_org = str_replace("{category_description}", '', $template_org);
-			$template_org = str_replace("{category_short_desc}", '', $template_org);
-			$template_org = str_replace("{category_name}", '', $template_org);
+			$template_org = str_replace("{category_main_name}", $catmain_name, $template_org);
 			$template_org = str_replace("{if subcats}", '', $template_org);
 			$template_org = str_replace("{subcats end if}", '', $template_org);
 			$template_org = str_replace("{category_main_thumb_image_3}", '', $template_org);
@@ -343,7 +492,6 @@ class RedshopViewSearch extends JView
 			$extraFieldName     = $extraField->getSectionFieldNameArray(1, 1, 1);
 			$attribute_template = $producthelper->getAttributeTemplate($template_desc);
 
-			$tagarray            = $texts->getTextLibraryTagArray();
 			$data                = "";
 			$count_no_user_field = 0;
 			$fieldArray = $extraField->getSectionFieldList(17, 0, 0);
@@ -754,6 +902,7 @@ class RedshopViewSearch extends JView
 
 			$template_org = str_replace("{with_vat}", "", $template_org);
 			$template_org = str_replace("{without_vat}", "", $template_org);
+			$template_org = str_replace("{show_all_products_in_category}", '', $template_org);
 
 			$template_org = $redTemplate->parseredSHOPplugin($template_org);
 			$template_org = $texts->replace_texts($template_org);

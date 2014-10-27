@@ -82,6 +82,11 @@
                 </field>
                 <field name="stdsearchtext" type="text" default="" label="COM_REDSHOP_STANDARD_SEARCH_TEXT_LBL"
                        description="COM_REDSHOP_STANDARD_SEARCH_TEXT_LBL"/>
+                <field name="searchCategory" type="radio" default="" label="COM_REDSHOP_SEARCH_CATEGORY_LBL"
+                       description="COM_REDSHOP_SEARCH_CATEGORY_DESC">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
+                </field>
             </fieldset>
         </fields>
     </config>
