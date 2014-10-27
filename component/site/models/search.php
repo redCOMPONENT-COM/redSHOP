@@ -222,22 +222,25 @@ class RedshopModelSearch extends JModelList
 			$query->where('pc.category_id IN (' . $cat_group . ')');
 		}
 
-		$categorytemplate = $menuItem->params->get('categorytemplate');
-
-		if ($categorytemplate)
+		if ($menuItem)
 		{
-			$cat_main       = $category_helper->getCategoryTree($categorytemplate);
-			$cat_group_main = array();
+			$categorytemplate = $menuItem->params->get('categorytemplate');
 
-			for ($j = 0; $j < count($cat_main); $j++)
+			if ($categorytemplate)
 			{
-				$cat_group_main[$j] = $cat_main[$j]->category_id;
+				$cat_main       = $category_helper->getCategoryTree($categorytemplate);
+				$cat_group_main = array();
+
+				for ($j = 0; $j < count($cat_main); $j++)
+				{
+					$cat_group_main[$j] = $cat_main[$j]->category_id;
+				}
+
+				$cat_group_main[] = $categorytemplate;
+				JArrayHelper::toInteger($cat_group_main);
+
+				$query->where('pc.category_id IN (' . implode(',', $cat_group_main) . ')');
 			}
-
-			$cat_group_main[] = $categorytemplate;
-			JArrayHelper::toInteger($cat_group_main);
-
-			$query->where('pc.category_id IN (' . implode(',', $cat_group_main) . ')');
 		}
 
 		if ($manufacture_id != 0)
@@ -1147,6 +1150,37 @@ class RedshopModelSearch extends JModelList
 		$db->setQuery($query);
 
 		return $db->loadObjectList();
+	}
+
+	/**
+	 * Method to get list from ajax
+	 *
+	 * @return  mixed
+	 */
+	public function getajaxData()
+	{
+		$app = JFactory::getApplication();
+		$input = $app->input->getString('input', '');
+		$db = JFactory::getDbo();
+
+		$app->input->set('keyword', $input);
+		$app->input->set('layout', 'default');
+		$app->input->set('order_by', 'p.product_id ASC');
+
+		$products = $this->getItems();
+
+		if (count($products) > 0)
+		{
+			foreach ($products as &$product)
+			{
+				$product->id = $product->product_id;
+				$product->value = $product->product_name;
+			}
+
+			return $products;
+		}
+
+		return array();
 	}
 }
 

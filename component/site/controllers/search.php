@@ -80,7 +80,7 @@ class RedshopControllerSearch extends JController
 	 */
 	public function ajaxsearch()
 	{
-		$model  = $this->getModel();
+		$model  = $this->getModel('search');
 		$detail = $model->getajaxData();
 
 		$encoded = json_encode($detail);
