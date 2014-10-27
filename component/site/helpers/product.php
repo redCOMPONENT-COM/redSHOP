@@ -738,7 +738,7 @@ class producthelper
 
 			if (count($userdata) > 0)
 			{
-				$userArr['rs_user_info_id'] = $userdata->users_info_id;
+				$userArr['rs_user_info_id'] = isset($userdata->users_info_id) ? $userdata->users_info_id : 0;
 				$userArr                    = $this->_session->set('rs_user', $userArr);
 
 				if (!$userdata->country_code)
@@ -10201,7 +10201,7 @@ class producthelper
 					$pre_order_class = $sts_array[3];
 				}
 
-				if (!$productStockStatus['regular_stock'])
+				if ((!isset($productStockStatus['regular_stock']) || !$productStockStatus['regular_stock']))
 				{
 					if (($productStockStatus['preorder']
 						&& !$productStockStatus['preorder_stock'])
@@ -10237,7 +10237,7 @@ class producthelper
 					$subproperty_id
 				);
 
-				if (!$productStockStatus['regular_stock'] && $is_login && $users_info_id)
+				if ((!isset($productStockStatus['regular_stock']) || !$productStockStatus['regular_stock']) && $is_login && $users_info_id)
 				{
 					if (($productStockStatus['preorder']
 						&& !$productStockStatus['preorder_stock'])
@@ -10273,7 +10273,7 @@ class producthelper
 
 			if (strstr($template_desc, "{product_availability_date}"))
 			{
-				if (!$productStockStatus['regular_stock'] && $productStockStatus['preorder'])
+				if ((!isset($productStockStatus['regular_stock']) || !$productStockStatus['regular_stock']) && $productStockStatus['preorder'])
 				{
 					if ($product->product_availability_date != "")
 					{
@@ -10715,7 +10715,7 @@ class producthelper
 				$pre_order_class = $sts_array[3];
 			}
 
-			if (!$stockStatusArray['regular_stock'])
+			if ((!isset($stockStatusArray['regular_stock']) || !$stockStatusArray['regular_stock']))
 			{
 				if (($stockStatusArray['preorder'] && !$stockStatusArray['preorder_stock']) || !$stockStatusArray['preorder'])
 				{
@@ -10747,7 +10747,7 @@ class producthelper
 
 			$is_notified   = $this->isAlreadyNotifiedUser($user_id, $product_id, $property_id, $subproperty_id);
 
-			if (!$stockStatusArray['regular_stock'] && $is_login && $users_info_id && $user_id)
+			if ((!isset($stockStatusArray['regular_stock']) || !$stockStatusArray['regular_stock']) && $is_login && $users_info_id && $user_id)
 			{
 				if (($stockStatusArray['preorder'] && !$stockStatusArray['preorder_stock']) || !$stockStatusArray['preorder'])
 				{
@@ -10784,7 +10784,7 @@ class producthelper
 			$redshopconfig = new Redconfiguration ();
 			$product       = $this->getProductById($product_id);
 
-			if (!$stockStatusArray['regular_stock'] && $stockStatusArray['preorder'])
+			if ((!isset($stockStatusArray['regular_stock']) || !$stockStatusArray['regular_stock']) && $stockStatusArray['preorder'])
 			{
 				if ($product->product_availability_date)
 				{
