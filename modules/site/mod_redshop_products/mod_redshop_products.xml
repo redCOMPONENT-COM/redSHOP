@@ -53,12 +53,6 @@
                 <field name="count" type="text" default="5" size="10" label="COM_REDSHOP_NUMBER_OF_PRODUCT"
                        description="COM_REDSHOP_NUMBER_OF_PRODUCT_DESC"/>
 
-                <field name="vertical_product" type="radio" default="0" label="COM_REDSHOP_VERTICAL_PRODUCT"
-                       description="COM_REDSHOP_VERTICAL_PRODUCT_DESC">
-                    <option value="1">JYES</option>
-                    <option value="0">JNO</option>
-                </field>
-
                 <field name="featured_product" type="radio" default="0" label="COM_REDSHOP_FEATURED_PRODUCT"
                        description="COM_REDSHOP_FEATURED_PRODUCT_DESC">
                     <option value="1">JYES</option>

@@ -15,7 +15,6 @@ $db                      = JFactory::getDbo();
 $type                    = trim($params->get('type', 0));
 $count                   = trim($params->get('count', 5));
 $image                   = trim($params->get('image', 0));
-$showProductVertically   = trim($params->get('vertical_product', 0));
 $showFeaturedProduct     = trim($params->get('featured_product', 0));
 $showPrice               = trim($params->get('show_price', 0));
 $thumbWidth              = trim($params->get('thumbwidth', 100));

@@ -202,7 +202,7 @@ for ($i = 0; $i < count($rows); $i++)
 		echo "<div class='mod_redshop_products_readmore'><a href='" . $link . "'>" . JText::_('COM_REDSHOP_TXT_READ_MORE') . "</a>&nbsp;</div>";
 	}
 
-	if (isset($showAddtocart) && $showAddtocart)
+	if (isset($showAddToCart) && $showAddToCart)
 	{
 		// Product attribute  Start
 		$attributesSet = array();
