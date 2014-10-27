@@ -215,7 +215,8 @@ class RedshopModelProduct_Detail extends JModel
 			$detail->preorder                   = (isset($data['preorder'])) ? $data['preorder'] : 'global';
 			$detail->minimum_per_product_total  = (isset($data['minimum_per_product_total'])) ? $data['minimum_per_product_total'] : 0;
 			$detail->attribute_set_id           = (isset($data['attribute_set_id'])) ? $data['attribute_set_id'] : 0;
-			$detail->append_to_global_seo		= (isset($data['append_to_global_seo'])) ? $data['append_to_global_seo'] : JText::_('COM_REDSHOP_APPEND_TO_GLOBAL_SEO');
+			$detail->append_to_global_seo		= ((isset($data['append_to_global_seo']))
+													? $data['append_to_global_seo'] : JText::_('COM_REDSHOP_APPEND_TO_GLOBAL_SEO'));
 			$detail->allow_decimal_piece		= (isset($data['allow_decimal_piece'])) ? $data['allow_decimal_piece'] : 0;
 
 			$this->data                         = $detail;
@@ -498,7 +499,7 @@ class RedshopModelProduct_Detail extends JModel
 			}
 		}
 
-		if ($data['copy_product'] != 1)
+		if (isset( $data['copy_product'] ) && $data['copy_product'] != 1)
 		{
 			if ($row->product_full_image != "")
 			{
@@ -642,7 +643,7 @@ class RedshopModelProduct_Detail extends JModel
 		}
 
 		// Save Stcok and Preorder stock for Product
-		if ($data['quantity'] || $data['preorder_stock'])
+		if ((isset($data['quantity']) && $data['quantity']) || (isset($data['preorder_stock']) && $data['preorder_stock']))
 		{
 			$product_id = $row->product_id;
 
@@ -689,7 +690,7 @@ class RedshopModelProduct_Detail extends JModel
 				$acc = $data['product_accessory'][$a];
 				$accdetail = $this->getTable('accessory_detail');
 
-				if ($data['copy_product'] != 1)
+				if (isset($data['copy_product']) && $data['copy_product'] != 1)
 				{
 					$accdetail->accessory_id = $acc['accessory_id'];
 				}
@@ -710,7 +711,7 @@ class RedshopModelProduct_Detail extends JModel
 			}
 		}
 
-		if (count($data['product_navigator']) > 0 && is_array($data['product_navigator']))
+		if (isset($data['product_navigator']) && count($data['product_navigator']) > 0 && is_array($data['product_navigator']))
 		{
 			$data['product_navigator'] = array_merge(array(), $data['product_navigator']);
 
@@ -752,9 +753,9 @@ class RedshopModelProduct_Detail extends JModel
 
 		if (count($data['related_product']) > 0)
 		{
-			foreach ($data['related_product'] as $related_data)
+			foreach ($data['related_product'] as $related_data )
 			{
-				$ordering_related = $ordering_related + 1;
+				$ordering_related++;
 				$related_id = $related_data;
 				$product_id = $row->product_id;
 				$query_related = 'INSERT INTO ' . $this->table_prefix . 'product_related(related_id,product_id,ordering)
@@ -889,7 +890,7 @@ class RedshopModelProduct_Detail extends JModel
 		}
 
 		// Product subscription start
-		if (is_array($data['subscription_id']))
+		if (isset($data['subscription_id']) && is_array($data['subscription_id']))
 		{
 			$sub_cond = " AND subscription_id NOT IN(" . implode(",", $data['subscription_id']) . ")";
 		}
@@ -924,9 +925,19 @@ class RedshopModelProduct_Detail extends JModel
 
 		// Subscription renewal
 		$sub_renewal = $this->getTable('product_subscription_renewal');
-		$sub_renewal->renewal_id = $data['renewal_id'];
-		$sub_renewal->before_no_days = $data['before_no_days'];
+		$sub_renewal->renewal_id = "";
+		$sub_renewal->before_no_days = "";
 		$sub_renewal->product_id = $row->product_id;
+
+		if (isset($data['renewal_id']))
+		{
+			$sub_renewal->renewal_id = $data['renewal_id'];
+		}
+
+		if (isset($data['before_no_days']))
+		{
+			$sub_renewal->before_no_days = $data['before_no_days'];
+		}
 
 		if (!$sub_renewal->store())
 		{
@@ -937,10 +948,14 @@ class RedshopModelProduct_Detail extends JModel
 
 		// If product_type = file and csv file uploaded than do this
 		$productCSVfile = $this->input->files->get('serialcsvFile', array(), 'array');
+		$ext = "";
 
-		$ext = strtolower(JFile::getExt($productCSVfile['name']));
+		if (isset($productCSVfile['name']))
+		{
+			$ext = strtolower(JFile::getExt($productCSVfile['name']));
+		}
 
-		if ($productCSVfile['tmp_name'] != "")
+		if (isset($productCSVfile['tmp_name']) && $productCSVfile['tmp_name'] != "")
 		{
 			if ($ext == 'csv')
 			{
@@ -3996,7 +4011,8 @@ class RedshopModelProduct_Detail extends JModel
 	 *
 	 * @return bool
 	 */
-	public function InsertAttributeprice($section_id, $name, $product_price, $product_currency, $shopper_group_id, $price_quantity_start, $price_quantity_end, $discount_price, $discount_start_date, $discount_end_date)
+	public function InsertAttributeprice($section_id, $name, $product_price, $product_currency, $shopper_group_id,
+		$price_quantity_start, $price_quantity_end, $discount_price, $discount_start_date, $discount_end_date)
 	{
 		$row = $this->getTable('product_attribute_price_detail');
 		$post = array();
@@ -4180,9 +4196,11 @@ class RedshopModelProduct_Detail extends JModel
 		$producthelper = new producthelper;
 
 		$propertyList  = $producthelper->getAttibuteProperty(0, $attribute_id);
+		$property = array();
 
 		if ($property_id)
 		{
+			$property[0] = new stdClass;
 			$property[0]->property_id = $property_id;
 		}
 		else
