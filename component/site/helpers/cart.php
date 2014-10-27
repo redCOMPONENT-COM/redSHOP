@@ -7167,15 +7167,15 @@ class rsCarthelper
 	/**
 	 * Handle required attribute before add in to cart messages
 	 *
-	 * @param   array   $data                  cart data
-	 * @param   array   $data_add              Attribute added data
-	 * @param   array   $selectedAttrId        Selected attribute id for add to cart
-	 * @param   array   $selectedPropId        Selected Property Id for Add to cart
-	 * @param   array   $notselectedSubpropId  Not selected subproperty ids during add to cart
+	 * @param   array    $data                  cart data
+	 * @param   string   $attributeTemplate     Attribute added data
+	 * @param   array    $selectedAttrId        Selected attribute id for add to cart
+	 * @param   array    $selectedPropId        Selected Property Id for Add to cart
+	 * @param   array    $notselectedSubpropId  Not selected subproperty ids during add to cart
 	 *
 	 * @return  string  Error Message if found otherwise return null.
 	 */
-	public function handleRequiredSelectedAttributeCartMessage($data, $data_add, $selectedAttrId, $selectedPropId, $notselectedSubpropId)
+	public function handleRequiredSelectedAttributeCartMessage($data, $attributeTemplate, $selectedAttrId, $selectedPropId, $notselectedSubpropId)
 	{
 		if (INDIVIDUAL_ADD_TO_CART_ENABLE)
 		{
@@ -7183,7 +7183,7 @@ class rsCarthelper
 		}
 
 		// Check if required attribute is filled or not ...
-		$attribute_template = $this->_producthelper->getAttributeTemplate($data_add);
+		$attribute_template = $this->_producthelper->getAttributeTemplate($attributeTemplate);
 
 		if (count($attribute_template) > 0)
 		{
