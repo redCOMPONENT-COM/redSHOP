@@ -750,7 +750,11 @@ class RedshopViewConfiguration extends JView
 
 		$order_mail_after[1]        = new stdClass;
 		$order_mail_after[1]->value = 1;
-		$order_mail_after[1]->text  = JText::_('COM_REDSHOP_ORDER_MAIL_AFTER_PAYMENT');
+		$order_mail_after[1]->text  = JText::_('COM_REDSHOP_ORDER_MAIL_AFTER_PAYMENT_BUT_SEND_BEFORE_ADMINISTRATOR');
+
+		$order_mail_after[2]        = new stdClass;
+		$order_mail_after[2]->value = 2;
+		$order_mail_after[2]->text  = JText::_('COM_REDSHOP_ORDER_MAIL_AFTER_PAYMENT');
 
 		$lists['order_mail_after'] = JHTML::_('select.genericlist', $order_mail_after, 'order_mail_after',
 			'class="inputbox" ', 'value', 'text', ORDER_MAIL_AFTER

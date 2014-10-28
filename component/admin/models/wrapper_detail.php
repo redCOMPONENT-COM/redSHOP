@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.model');
 jimport('joomla.filesystem.file');
 JLoader::load('RedshopHelperProduct');
+JLoader::load('RedshopHelperAdminImages');
 
 class RedshopModelWrapper_detail extends JModel
 {
@@ -203,7 +204,7 @@ class RedshopModelWrapper_detail extends JModel
 
 		if ($wrapperfile['name'] != "")
 		{
-			$wrapperimg = JPath::clean(time() . '_' . $wrapperfile['name']);
+			$wrapperimg = RedShopHelperImages::cleanFileName($wrapperfile['name']);
 
 			$src = $wrapperfile['tmp_name'];
 			$dest = REDSHOP_FRONT_IMAGES_RELPATH . '/wrapper/' . $wrapperimg;
