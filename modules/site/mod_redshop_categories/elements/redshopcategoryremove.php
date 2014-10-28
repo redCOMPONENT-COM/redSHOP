@@ -12,6 +12,8 @@
 // no direct access
 defined('_JEXEC') or die;
 
+JLoader::import('redshop.library');
+
 class JFormFieldRedshopcategoryremove extends JFormField
 {
 
@@ -39,7 +41,6 @@ class JFormFieldRedshopcategoryremove extends JFormField
 		if ($option != 'com_redshop')
 		{
 			require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
-			JLoader::import('loadhelpers', JPATH_SITE . '/components/com_redshop');
 			JLoader::load('RedshopHelperAdminConfiguration');
 			$Redconfiguration = new Redconfiguration;
 			$Redconfiguration->defineDynamicVars();

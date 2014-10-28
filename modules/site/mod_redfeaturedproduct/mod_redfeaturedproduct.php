@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 JHTMLBehavior::modal();
-JLoader::import('loadhelpers', JPATH_SITE . '/components/com_redshop');
+JLoader::import('redshop.library');
 
 // Getting the configuration in redshop.js.php
 JLoader::load('RedshopHelperRedshop.js');

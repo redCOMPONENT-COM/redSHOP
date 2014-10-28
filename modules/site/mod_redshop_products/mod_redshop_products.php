@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+JLoader::import('redshop.library');
+
 // Initialize variables.
 $app                     = JFactory::getApplication();
 $db                      = JFactory::getDbo();
@@ -31,7 +33,6 @@ $isUrlCategoryId         = trim($params->get('urlCategoryId', 0));
 
 // Getting the configuration
 require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
-JLoader::import('loadhelpers', JPATH_SITE . '/components/com_redshop');
 JLoader::load('RedshopHelperAdminConfiguration');
 $redConfiguration = new Redconfiguration;
 $redConfiguration->defineDynamicVars();
