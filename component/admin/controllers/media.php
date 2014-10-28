@@ -11,6 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 jimport('joomla.filesystem.file');
+JLoader::load('RedshopHelperAdminImages');
 
 class RedshopControllerMedia extends JController
 {
@@ -40,8 +41,7 @@ class RedshopControllerMedia extends JController
 
 			if ($post['hdn_download_file_path'] != $download_path)
 			{
-				$filename = time() . '_' . $post['hdn_download_file'];
-				$post['name'] = $product_download_root . str_replace(" ", "_", $filename);
+				$post['name'] = RedShopHelperImages::cleanFileName($post['hdn_download_file']);
 				$down_src = $download_path;
 				$down_dest = $post['name'];
 				copy($down_src, $down_dest);
@@ -63,13 +63,13 @@ class RedshopControllerMedia extends JController
 
 			if (!$errors)
 			{
-				$filename = time() . "_" . $file['name'][$i];
-				$fileExt = strtolower(JFile::getExt($filename));
+				$filename = RedShopHelperImages::cleanFileName($file['name'][$i]);
+				$fileExt = JFile::getExt($filename);
 
 				if ($fileExt)
 				{
 					$src = $file['tmp_name'][$i];
-					$dest = $product_download_root . str_replace(" ", "_", $filename);
+					$dest = $product_download_root . $filename;
 					$file_upload = JFile::upload($src, $dest);
 
 					if ($file_upload != 1)

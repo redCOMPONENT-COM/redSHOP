@@ -95,8 +95,8 @@ if ($task != 'loadProducts' && $task != "downloadProduct" && $task != "discountC
 		{
 			JLoader::load('RedshopHelperGoogle_analytics');
 
-			$ga      = new GoogleAnalytics;
-			$anacode = $ga->placeTrans();
+			$ga = new GoogleAnalytics;
+			$ga->placeTrans();
 		}
 	}
 }
@@ -126,12 +126,6 @@ if (PORTAL_SHOP == 1)
 			JRequest::setVar('layout', 'portal');
 			$app->enqueuemessage(JText::_('COM_REDSHOP_AUTHENTICATIONFAIL'));
 		}
-	}
-	else
-	{
-		$vName = 'login';
-		JRequest::setVar('view', 'login');
-		JRequest::setVar('layout', 'portal');
 	}
 }
 else

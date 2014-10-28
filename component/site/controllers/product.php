@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 JLoader::import('joomla.application.component.controller');
 JLoader::load('RedshopHelperProduct');
 JLoader::load('RedshopHelperAdminTemplate');
+JLoader::load('RedshopHelperAdminImages');
 
 /**
  * Product Controller.
@@ -789,12 +790,7 @@ class RedshopControllerProduct extends JController
 	{
 		$uploadDir = JPATH_COMPONENT_SITE . '/assets/document/product/';
 		$name = JRequest::getVar('mname');
-
-		$ext = JFile::getExt($_FILES[$name]['name']);
-
-		$fileName = JFile::makeSafe(JFile::stripExt($_FILES[$name]['name']));
-
-		$destFileName = time() . '_' . $fileName . "." . $ext;
+		$destFileName = RedShopHelperImages::cleanFileName($_FILES[$name]['name']);
 
 		$uploadFile = $uploadDir . $destFileName;
 

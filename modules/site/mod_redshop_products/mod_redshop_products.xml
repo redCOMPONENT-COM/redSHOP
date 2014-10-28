@@ -10,6 +10,7 @@
     <description>Product Module for redSHOP</description>
     <files>
         <filename module="mod_redshop_products">mod_redshop_products.php</filename>
+        <filename>index.html</filename>
         <folder>tmpl</folder>
         <folder>css</folder>
         <folder>images</folder>
@@ -35,6 +36,7 @@
                     <option value="2">COM_REDSHOP_SOLD</option>
                     <option value="3">COM_REDSHOP_RANDOM</option>
                     <option value="4">COM_REDSHOP_PRODUCT_ON_SALE</option>
+                    <option value="5">COM_REDSHOP_PRODUCT_ON_SALE_AND_DATE_TIME_CHECK</option>
                 </field>
                 <field name="category" type="text" size="40" label="COM_REDSHOP_CATEGORY"
                        description="COM_REDSHOP_ENTER_CATEGORY"/>
@@ -50,12 +52,6 @@
                 </field>
                 <field name="count" type="text" default="5" size="10" label="COM_REDSHOP_NUMBER_OF_PRODUCT"
                        description="COM_REDSHOP_NUMBER_OF_PRODUCT_DESC"/>
-
-                <field name="vertical_product" type="radio" default="0" label="COM_REDSHOP_VERTICAL_PRODUCT"
-                       description="COM_REDSHOP_VERTICAL_PRODUCT_DESC">
-                    <option value="1">JYES</option>
-                    <option value="0">JNO</option>
-                </field>
 
                 <field name="featured_product" type="radio" default="0" label="COM_REDSHOP_FEATURED_PRODUCT"
                        description="COM_REDSHOP_FEATURED_PRODUCT_DESC">
@@ -112,8 +108,8 @@
                 </field>
                 <field name="show_stockroom_status" type="radio" default="1" label="COM_REDSHOP_SHOW_STOCKROOM_STATUS"
                        description="COM_REDSHOP_SHOW_STOCKROOM_STATUS">
-                    <option value="1">YES</option>
-                    <option value="0">NO</option>
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
                 </field>
 
             </fieldset>

@@ -153,6 +153,9 @@ class RedshopViewConfiguration extends JView
 		defined('AJAX_DETAIL_BOX_HEIGHT') ? AJAX_DETAIL_BOX_HEIGHT : define('AJAX_DETAIL_BOX_HEIGHT', '600');
 		defined('AJAX_BOX_WIDTH') ? AJAX_BOX_WIDTH : define('AJAX_BOX_WIDTH', '500');
 		defined('AJAX_BOX_HEIGHT') ? AJAX_BOX_HEIGHT : define('AJAX_BOX_HEIGHT', '150');
+		defined('GENERATE_LABEL_ON_STATUS') ? GENERATE_LABEL_ON_STATUS : define('GENERATE_LABEL_ON_STATUS', 'S');
+		defined('AUTO_GENERATE_LABEL') ? AUTO_GENERATE_LABEL : define('AUTO_GENERATE_LABEL', 1);
+		defined('POSTDK_DEVELOPER_ID') ? POSTDK_DEVELOPER_ID : define('POSTDK_DEVELOPER_ID', '');
 
 		$q = "SELECT  country_3_code as value,country_name as text,country_jtext from #__redshop_country ORDER BY country_name ASC";
 		$db->setQuery($q);
@@ -290,7 +293,16 @@ class RedshopViewConfiguration extends JView
 			'class="inputbox" size="1" ', 'value', 'text', DEFAULT_STOCKROOM
 		);
 		$lists['portalshop']                    = JHTML::_('select.booleanlist', 'portal_shop', 'class="inputbox" size="1"', PORTAL_SHOP);
-		$lists['use_image_size_swapping']       = JHTML::_('select.booleanlist', 'use_image_size_swapping', 'class="inputbox" size="1"', USE_IMAGE_SIZE_SWAPPING);
+
+		$imageSizeSwapping = array();
+		$imageSizeSwapping[] = JHTML::_('select.option', 0, JText::_('COM_REDSHOP_CONFIG_NO_PROPORTIONAL_RESIZED'));
+		$imageSizeSwapping[] = JHTML::_('select.option', 1, JText::_('COM_REDSHOP_CONFIG_PROPORTIONAL_RESIZED'));
+		$imageSizeSwapping[] = JHTML::_('select.option', 2, JText::_('COM_REDSHOP_CONFIG_PROPORTIONAL_RESIZED_AND_CROP'));
+		$lists['use_image_size_swapping'] = JHTML::_('select.genericlist', $imageSizeSwapping,
+			'use_image_size_swapping', 'class="inputbox" size="1" ',
+			'value', 'text', USE_IMAGE_SIZE_SWAPPING
+		);
+
 		$lists['apply_vat_on_discount']         = JHTML::_('select.booleanlist', 'apply_vat_on_discount', 'class="inputbox" size="1"', APPLY_VAT_ON_DISCOUNT, $yes = JText::_('COM_REDSHOP_BEFORE_DISCOUNT'), $no = JText::_('COM_REDSHOP_AFTER_DISCOUNT'));
 		$lists['auto_scroll_wrapper']           = JHTML::_('select.booleanlist', 'auto_scroll_wrapper', 'class="inputbox" size="1"', AUTO_SCROLL_WRAPPER);
 		$lists['allow_multiple_discount']       = JHTML::_('select.booleanlist', 'allow_multiple_discount', 'class="inputbox" size="1"', ALLOW_MULTIPLE_DISCOUNT);
@@ -747,7 +759,11 @@ class RedshopViewConfiguration extends JView
 
 		$order_mail_after[1]        = new stdClass;
 		$order_mail_after[1]->value = 1;
-		$order_mail_after[1]->text  = JText::_('COM_REDSHOP_ORDER_MAIL_AFTER_PAYMENT');
+		$order_mail_after[1]->text  = JText::_('COM_REDSHOP_ORDER_MAIL_AFTER_PAYMENT_BUT_SEND_BEFORE_ADMINISTRATOR');
+
+		$order_mail_after[2]        = new stdClass;
+		$order_mail_after[2]->value = 2;
+		$order_mail_after[2]->text  = JText::_('COM_REDSHOP_ORDER_MAIL_AFTER_PAYMENT');
 
 		$lists['order_mail_after'] = JHTML::_('select.genericlist', $order_mail_after, 'order_mail_after',
 			'class="inputbox" ', 'value', 'text', ORDER_MAIL_AFTER

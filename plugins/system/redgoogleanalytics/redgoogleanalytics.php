@@ -27,26 +27,23 @@ class PlgSystemRedGoogleAnalytics extends JPlugin
 	public function onAfterRoute()
 	{
 		$configFile = JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
-		$googleFile = JPATH_SITE . '/components/com_redshop/helpers/google_analytics.php';
+		$app        = JFactory::getApplication();
 
-		$uri            = JFactory::getURI();
-		$requesturlBase = $uri->base();
-		$view           = JRequest::getVar('view');
-		$format         = JRequest::getWord('format', '');
-		$layout         = JRequest::getWord('layout', '');
-
-		if (!strstr($requesturlBase, "administrator") && file_exists($configFile))
+		if ($app->isSite() && file_exists($configFile))
 		{
+			$googleFile = JPATH_SITE . '/components/com_redshop/helpers/google_analytics.php';
 			require_once $configFile;
 
 			if (file_exists($googleFile))
 			{
-				if (GOOGLE_ANA_TRACKER_KEY != "" && $format != 'final' && $layout != 'receipt')
+				if ("" != GOOGLE_ANA_TRACKER_KEY
+					&& 'final' != $app->input->getWord('format', '')
+					&& 'receipt' != $app->input->getWord('layout', ''))
 				{
 					require_once $googleFile;
 
-					$googleAnalytics = new GoogleAnalytics;
-					$code            = $googleAnalytics->placeTrans();
+					$ga = new GoogleAnalytics;
+					$ga->placeTrans();
 				}
 			}
 		}
