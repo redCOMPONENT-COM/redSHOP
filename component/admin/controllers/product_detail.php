@@ -379,12 +379,17 @@ class RedshopControllerProduct_Detail extends JController
 			$attribute_save['attribute_name'] = htmlspecialchars($attribute[$a]['name']);
 			$attribute_save['ordering'] = $attribute[$a]['ordering'];
 			$attribute_save['attribute_published'] = ($attribute[$a]['published'] == 'on' || $attribute[$a]['published'] == '1') ? '1' : '0';
-			$attribute_save['attribute_required'] = ($attribute[$a]['required'] == 'on' || $attribute[$a]['required'] == '1') ? '1' : '0';
-			$attribute_save['allow_multiple_selection'] = ($attribute[$a]['allow_multiple_selection'] == 'on'
+
+			$attribute_save['attribute_required'] = isset($attribute_save['attribute_required'])
+				&& ($attribute[$a]['required'] == 'on' || $attribute[$a]['required'] == '1') ? '1' : '0';
+			$attribute_save['allow_multiple_selection'] = isset($attribute[$a]['allow_multiple_selection'])
+				&& ($attribute[$a]['allow_multiple_selection'] == 'on'
 				|| $attribute[$a]['allow_multiple_selection'] == '1') ? '1' : '0';
-			$attribute_save['hide_attribute_price'] = ($attribute[$a]['hide_attribute_price'] == 'on'
+			$attribute_save['hide_attribute_price'] = isset($attribute_save['hide_attribute_price'])
+				&& ($attribute[$a]['hide_attribute_price'] == 'on'
 				|| $attribute[$a]['hide_attribute_price'] == '1') ? '1' : '0';
 			$attribute_save['display_type'] = $attribute[$a]['display_type'];
+
 			$attribute_array = $model->store_attr($attribute_save);
 			$property = array_merge(array(), $attribute[$a]['property']);
 
@@ -398,11 +403,13 @@ class RedshopControllerProduct_Detail extends JController
 				$property_save['property_name'] = htmlspecialchars($property[$p]['name']);
 				$property_save['property_price'] = $property[$p]['price'];
 				$property_save['oprand'] = $property[$p]['oprand'];
-				$property_save['property_number'] = $property[$p]['number'];
-				$property_save['property_image'] = $property[$p]['image'];
+				$property_save['property_number'] = isset($property[$p]['number']) ? $property[$p]['number'] : '';
+				$property_save['property_image'] = isset($property[$p]['image']) ? $property[$p]['image'] : '';
 				$property_save['ordering'] = $property[$p]['order'];
-				$property_save['setrequire_selected'] = ($property[$p]['req_sub_att'] == 'on' || $property[$p]['req_sub_att'] == '1') ? '1' : '0';
-				$property_save['setmulti_selected'] = ($property[$p]['multi_sub_att'] == 'on' || $property[$p]['multi_sub_att'] == '1') ? '1' : '0';
+				$property_save['setrequire_selected'] = isset($property[$p]['req_sub_att'])
+					&& ($property[$p]['req_sub_att'] == 'on' || $property[$p]['req_sub_att'] == '1') ? '1' : '0';
+				$property_save['setmulti_selected'] = isset($property[$p]['multi_sub_att'])
+					&& ($property[$p]['multi_sub_att'] == 'on' || $property[$p]['multi_sub_att'] == '1') ? '1' : '0';
 				$property_save['setdefault_selected'] = ($property[$p]['default_sel'] == 'on' || $property[$p]['default_sel'] == '1') ? '1' : '0';
 				$property_save['setdisplay_type'] = $property[$p]['setdisplay_type'];
 				$property_save['property_published'] = ($property[$p]['published'] == 'on' || $property[$p]['published'] == '1') ? '1' : '0';
@@ -574,191 +581,6 @@ class RedshopControllerProduct_Detail extends JController
 		}
 
 		return array($width, $height);
-	}
-
-	/**
-	 * Function media_bank.
-	 *
-	 * @return void
-	 */
-	public function media_bank()
-	{
-		$uri = JURI::getInstance();
-		$url = $uri->root();
-
-		$folder_path = $this->input->getString('path', '');
-		$dirpath = $this->input->getString('dirpath', '');
-
-		if (!$folder_path)
-		{
-			$path = REDSHOP_FRONT_IMAGES_RELPATH;
-			$dir_path = "components/com_redshop/assets/images";
-		}
-		else
-		{
-			$path = $folder_path;
-			$dir_path = $dirpath;
-		}
-
-		$files = JFolder::listFolderTree($path, '.', 1);
-		$tbl = '';
-		$tbl .= "<table cellspacing='7' cellpdding='2' width='100%' border='0'>";
-		$tbl .= "<tr>";
-
-		if ($folder_path)
-		{
-			$t = preg_split('/', $folder_path);
-			$na = count($t) - 1;
-			$n = count($t) - 2;
-
-			if ($t[$n] != 'assets')
-			{
-				if ($t[$n] == 'images')
-				{
-					$path_bk = REDSHOP_FRONT_IMAGES_RELPATH;
-					$dir_path = "components/com_redshop/assets/images/" . $t[$na];
-				}
-				else
-				{
-					$path_bk = REDSHOP_FRONT_IMAGES_RELPATH . $t[$n];
-					$dir_path = "components/com_redshop/assets/images/" . $t[$n] . "/" . $t[$na];
-				}
-
-				$folder_img_bk = "components/com_redshop/assets/images/folderup_32.png";
-
-				$width = 0;
-				$height = 0;
-				$info = getimagesize($folder_img_bk);
-
-				if ($info)
-				{
-					$width = $info[0];
-					$height = $info[1];
-				}
-
-				if (($info[0] > 50) || ($info[1] > 50))
-				{
-					$dimensions = $this->_imageResize($info[0], $info[1], 50);
-
-					$width_60 = $dimensions[0];
-					$height_60 = $dimensions[1];
-				}
-				else
-				{
-					$width_60 = $width;
-					$height_60 = $height;
-				}
-
-				$link_bk = "index.php?tmpl=component&option=com_redshop&view=product_detail&task=media_bank&path=" . $path_bk
-					. "&dirpath=" . $dir_path;
-				$tbl .= "<td width='25%'><table width='120' height='70' style='background-color:#C0C0C0;' cellspacing='1'
-				cellpdding='1'><tr><td align='center' style='background-color:#FFFFFF;'><a href='" . $link_bk . "'>
-				<img src='" . $folder_img_bk . "' width='" . $width_60 . "' height='" . $height_60 . "'></a></td></tr><
-				tr height='15'><td style='background-color:#F7F7F7;' align='center'><label>Up</label></td></tr></table></td></tr><tr>";
-			}
-			else
-			{
-				$dir_path = "components/com_redshop/assets/images";
-			}
-		}
-
-		if ($handle = opendir($path))
-		{
-			$folder_img = "components/com_redshop/assets/images/folder.png";
-
-			$width = 0;
-			$height = 0;
-			$info = getimagesize($folder_img);
-
-			if ($info)
-			{
-				$width = $info[0];
-				$height = $info[1];
-			}
-
-			if (($info[0] > 50) || ($info[1] > 50))
-			{
-				$dimensions = $this->_imageResize($info[0], $info[1], 50);
-
-				$width_60 = $dimensions[0];
-				$height_60 = $dimensions[1];
-			}
-			else
-			{
-				$width_60 = $width;
-				$height_60 = $height;
-			}
-
-			$j = 1;
-
-			for ($f = 0; $f < count($files); $f++)
-			{
-				$link = "index.php?tmpl=component&option=com_redshop&view=product_detail&task=media_bank&folder=1&path="
-					. $files[$f]['fullname'] . "&dirpath=" . $files[$f]['relname'];
-				$tbl .= "<td width='25%'><table width='120' height='70' style='background-color:#C0C0C0;' cellspacing='1' cellpdding='1'><tr>
-				<td align='center' style='background-color:#FFFFFF;'><a href='" . $link . "'><img src='" . $folder_img . "' width='"
-					. $width_60 . "' height='" . $height_60 . "'></a></tr><tr height='15'><td style='background-color:#F7F7F7;' align='center'>
-					<label>" . $files[$f]['name'] . "</label></td></tr></table></td>";
-
-				if ($j % 4 == 0)
-				{
-					$tbl .= "</tr><tr>";
-				}
-
-				$j++;
-			}
-
-			$i = $j;
-
-			while (false !== ($filename = readdir($handle)))
-			{
-				if (preg_match("/.jpg/", $filename) || preg_match("/.gif/", $filename) || preg_match("/.png/", $filename))
-				{
-					$live_path = $url . $dir_path . '/' . $filename;
-
-					$width = 0;
-					$height = 0;
-					$info = getimagesize($live_path);
-
-					if ($info)
-					{
-						$width = $info[0];
-						$height = $info[1];
-					}
-
-					if (($info[0] > 50) || ($info[1] > 50))
-					{
-						$dimensions = $this->_imageResize($info[0], $info[1], 50);
-
-						$width_60 = $dimensions[0];
-						$height_60 = $dimensions[1];
-					}
-					else
-					{
-						$width_60 = $width;
-						$height_60 = $height;
-					}
-
-					$tbl .= "<td width='25%'><table width='120' height='70' style='background-color:#C0C0C0;' cellspacing='1' cellpdding='1'>
-					<tr><td align='center' style='background-color:#FFFFFF;'>
-					<a href=\"javascript:window.parent.jimage_insert('" . $dir_path . '/' . $filename . "');window.parent.SqueezeBox.close();\">
-					<img width='" . $width_60 . "' height='" . $height_60 . "' alt='" . $filename . "' src='" . $live_path . "'></a></td>
-					</tr><tr height='15'><td style='background-color:#F7F7F7;' align='center'><label>" . substr($filename, 0, 10) . "</label>
-					</td></tr></table></td>";
-
-					if ($i % 4 == 0)
-					{
-						$tbl .= "</tr><tr>";
-					}
-
-					$i++;
-				}
-			}
-
-			$tbl .= '</tr></table>';
-			echo $tbl;
-			closedir($handle);
-		}
 	}
 
 	/**

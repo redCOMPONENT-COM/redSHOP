@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
+JLoader::load('RedshopHelperAdminImages');
 
 class RedshopModelGiftcard_detail extends JModel
 {
@@ -106,8 +107,7 @@ class RedshopModelGiftcard_detail extends JModel
 
 		if ($giftcardfile['name'] != "")
 		{
-			$giftcardfile['name'] = str_replace(" ", "_", $giftcardfile['name']);
-			$giftcardimg = JPath::clean(time() . '_' . $giftcardfile['name']);
+			$giftcardimg = RedShopHelperImages::cleanFileName($giftcardfile['name']);
 
 			$src = $giftcardfile['tmp_name'];
 			$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'giftcard/' . $giftcardimg;
@@ -121,8 +121,7 @@ class RedshopModelGiftcard_detail extends JModel
 
 		if ($giftcardbgfile['name'] != "")
 		{
-			$giftcardbgfile['name'] = str_replace(" ", "_", $giftcardbgfile['name']);
-			$giftcardbgimg = JPath::clean(time() . '_' . $giftcardbgfile['name']);
+			$giftcardbgimg = RedShopHelperImages::cleanFileName($giftcardbgfile['name']);
 			$src = $giftcardbgfile['tmp_name'];
 			$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'giftcard/' . $giftcardbgimg;
 

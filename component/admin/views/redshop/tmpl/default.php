@@ -45,67 +45,35 @@ $filteroption = JRequest::getVar('filteroption');
 
 	window.addEvent('domready', function () {
 
-		var myPopularIcon = new Fx.Slide('popularicons_content');
-		var myquickicons = new Fx.Slide('quickicons_content');
+		var callList = {};
+		var expand_all = <?php echo $expand_all; ?>;
 
-		if (document.getElementById('newcustomericons')) var mynewcustomericons = new Fx.Slide('newcustomericons_content');
-		if (document.getElementById('newestordericons')) var mynewestordericons = new Fx.Slide('newestordericons_content');
-		if (document.getElementById('charticons')) var mycharticons = new Fx.Slide('charticons_content');
+		if (document.getElementById('newcustomericons')) callList.newcustomericons = new Fx.Slide('newcustomericons_content');
+		if (document.getElementById('newestordericons')) callList.newestordericons = new Fx.Slide('newestordericons_content');
+		if (document.getElementById('charticons')) callList.charticons =  new Fx.Slide('charticons_content');
 
+		callList.quickicons = new Fx.Slide('quickicons_content');
 
-		<?php if($expand_all==1) {?>
+		for (name in callList) {
 
-		myPopularIcon.show();
-		myquickicons.show();
-		if (document.getElementById('newcustomericons')) mynewcustomericons.show();
-		if (document.getElementById('newestordericons')) mynewestordericons.show();
-		if (document.getElementById('charticons')) mycharticons.show();
+			if(expand_all) {
 
+				callList[name].show();
 
-		<?php } else {?>
+			} else {
 
-		myPopularIcon.hide();
-		myquickicons.hide();
-		if (document.getElementById('newcustomericons')) mynewcustomericons.hide();
-		if (document.getElementById('newestordericons')) mynewestordericons.hide();
-		if (document.getElementById('charticons')) mycharticons.hide();
+				callList[name].hide();
 
-		<?php } ?>
+			}
 
-
-		$('popularicons').addEvent('click', function (event) {
-
-			myPopularIcon.toggle();
-
-		});
-
-
-		$('quickicons').addEvent('click', function (event) {
-
-			myquickicons.toggle();
-
-		});
-
-		if (document.getElementById('newcustomericons')) {
-			$('newcustomericons').addEvent('click', function (event) {
-
-				mynewcustomericons.toggle();
-
-			});
 		}
 
-		if (document.getElementById('newestordericons')) {
-			$('newestordericons').addEvent('click', function (event) {
+		callList.popularicons = new Fx.Slide('popularicons_content');
 
-				mynewestordericons.toggle();
+		for (name in callList) {
+			$(name).addEvent('click', function (event) {
 
-			});
-		}
-
-		if (document.getElementById('charticons')) {
-			$('charticons').addEvent('click', function (event) {
-
-				mycharticons.toggle();
+				callList[(this.id)].toggle();
 
 			});
 		}

@@ -16,6 +16,7 @@ JClientHelper::setCredentialsFromRequest('ftp');
 jimport('joomla.filesystem.file');
 
 JLoader::load('RedshopHelperProduct');
+JLoader::load('RedshopHelperAdminImages');
 
 class RedshopModelAttribute_set_detail extends JModel
 {
@@ -519,7 +520,7 @@ class RedshopModelAttribute_set_detail extends JModel
 			}
 			else
 			{
-				$main_name = time() . "_" . $main_img['name'];
+				$main_name = RedShopHelperImages::cleanFileName($main_img['name']);
 				$main_src = $main_img['tmp_name'];
 
 				// Specific path of the file
@@ -554,7 +555,7 @@ class RedshopModelAttribute_set_detail extends JModel
 				}
 				else
 				{
-					$sub_name = time() . "_" . $sub_img['name'][$i];
+					$sub_name = RedShopHelperImages::cleanFileName($sub_img['name'][$i]);
 
 					$sub_src = $sub_img['tmp_name'][$i];
 
@@ -631,7 +632,7 @@ class RedshopModelAttribute_set_detail extends JModel
 				}
 				else
 				{
-					$sub_name = time() . "_" . $sub_img['name'][$i];
+					$sub_name = RedShopHelperImages::cleanFileName($sub_img['name'][$i]);
 
 					$sub_src = $sub_img['tmp_name'][$i];
 
@@ -1017,7 +1018,7 @@ class RedshopModelAttribute_set_detail extends JModel
 									$image_split = $product_attributes_property->property_image;
 
 									// Make the filename unique.
-									$filename = JPath::clean(time() . '_' . $image_split);
+									$filename = RedShopHelperImages::cleanFileName($image_split);
 									$product_attributes_property->property_image = $filename;
 									$src = REDSHOP_FRONT_IMAGES_RELPATH . 'product_attributes/' . $image_split;
 									$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'product_attributes/' . $filename;
@@ -1032,7 +1033,7 @@ class RedshopModelAttribute_set_detail extends JModel
 									$image_split = $image_split[1];
 
 									// Make the filename unique.
-									$filename = JPath::clean(time() . '_' . $image_split);
+									$filename = RedShopHelperImages::cleanFileName($image_split);
 									$product_attributes_property->property_main_image = $filename;
 									$src = REDSHOP_FRONT_IMAGES_RELPATH . 'property/' . $prop_main_img;
 									$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'property/' . $filename;
@@ -1141,7 +1142,7 @@ class RedshopModelAttribute_set_detail extends JModel
 											$image_split = $product_sub_attributes_property->subattribute_color_image;
 
 											// Make the filename unique.
-											$filename = JPath::clean(time() . '_' . $image_split);
+											$filename = RedShopHelperImages::cleanFileName($image_split);
 											$product_sub_attributes_property->subattribute_color_image = $filename;
 											$src = REDSHOP_FRONT_IMAGES_RELPATH . 'subcolor/' . $image_split;
 											$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'subcolor/' . $filename;
@@ -1156,7 +1157,7 @@ class RedshopModelAttribute_set_detail extends JModel
 											$image_split = $image_split[1];
 
 											// Make the filename unique.
-											$filename = JPath::clean(time() . '_' . $image_split);
+											$filename = RedShopHelperImages::cleanFileName($image_split);
 
 											$product_sub_attributes_property->subattribute_color_main_image = $filename;
 											$src = REDSHOP_FRONT_IMAGES_RELPATH . 'subproperty/' . $sub_main_img;
@@ -1311,7 +1312,7 @@ class RedshopModelAttribute_set_detail extends JModel
 
 		$imgname = basename($imagePath);
 
-		$property_image = time() . '_' . $imgname;
+		$property_image = RedShopHelperImages::cleanFileName($imgname);
 
 		$dest = REDSHOP_FRONT_IMAGES_RELPATH . $section . '/' . $property_image;
 
