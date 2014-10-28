@@ -7,7 +7,7 @@
  */
 defined('_JEXEC') or die;
 
-JLoader::import('loadhelpers', JPATH_SITE . '/components/com_redshop');
+JLoader::import('redshop.library');
 JLoader::load('RedshopHelperProduct');
 JLoader::load('RedshopHelperAdminImages');
 

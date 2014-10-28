@@ -14,7 +14,7 @@ jimport('joomla.plugin.plugin');
 /**
  * Replaces textstring with link
  */
-JLoader::import('loadhelpers', JPATH_SITE . '/components/com_redshop');
+JLoader::import('redshop.library');
 JLoader::load('RedshopHelperRedshop.js');
 JLoader::load('RedshopHelperProduct');
 JLoader::load('RedshopHelperExtra_field');
