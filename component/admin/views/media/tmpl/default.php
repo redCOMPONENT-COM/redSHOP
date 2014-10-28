@@ -33,8 +33,8 @@ if ($showbuttons == 1)
 	{
 		case "product";
 			$sectionadata           = $producthelper->getProductById($section_id);
-			$section_name           = $sectionadata->product_name;
-			$sectiona_primary_image = $sectionadata->product_full_image;
+			$section_name           = isset($sectionadata->product_name) ? $sectionadata->product_name : '';
+			$sectiona_primary_image = isset($sectionadata->product_full_image) ? $sectionadata->product_full_image : '';
 			$directory              = $media_section;
 			break;
 		case "property";

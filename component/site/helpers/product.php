@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+jimport('joomla.filesystem.file');
 JLoader::load('RedshopHelperCurrency');
 JLoader::load('RedshopHelperHelper');
 JLoader::load('RedshopHelperExtra_field');
@@ -2451,9 +2452,9 @@ class producthelper
 
 		if ($productData = $this->getProductById($productId))
 		{
-			if (($productData->discount_enddate == '' && $productData->discount_stratdate == '')
+			if (($productData->discount_enddate == '0' && $productData->discount_stratdate == '0')
 				|| ((int) $productData->discount_enddate >= $today && (int) $productData->discount_stratdate <= $today)
-				|| ($productData->discount_enddate == '' && (int) $productData->discount_stratdate <= $today))
+				|| ($productData->discount_enddate == '0' && (int) $productData->discount_stratdate <= $today))
 			{
 				$discountPrice = $productData->discount_price;
 			}
@@ -9503,6 +9504,8 @@ class producthelper
 
 		if (!empty($imagename) && !empty($type))
 		{
+			$imagename = JFile::makeSafe($imagename);
+
 			if ((WATERMARK_PRODUCT_THUMB_IMAGE) && $type == 'product')
 			{
 				$productmainimg = $redhelper->watermark('product', $imagename, $pw_thumb, $ph_thumb, WATERMARK_PRODUCT_THUMB_IMAGE, '0');
