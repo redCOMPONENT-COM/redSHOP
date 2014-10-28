@@ -74,16 +74,13 @@ class Com_RedshopInstallerScript
 	 */
 	public function update($parent)
 	{
-		// $parent is the class calling this method
+		$this->installLibraries($parent);
+		$this->installModules($parent);
+		$this->installPlugins($parent);
 
 		JLoader::import('redshop.library');
 		JLoader::load('RedshopHelperAdminTemplate');
 		$this->com_install('update');
-
-		// Install extensions
-		$this->installLibraries($parent);
-		$this->installModules($parent);
-		$this->installPlugins($parent);
 
 		$this->handleCSSFile();
 	}

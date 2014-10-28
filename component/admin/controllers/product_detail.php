@@ -379,12 +379,17 @@ class RedshopControllerProduct_Detail extends JController
 			$attribute_save['attribute_name'] = htmlspecialchars($attribute[$a]['name']);
 			$attribute_save['ordering'] = $attribute[$a]['ordering'];
 			$attribute_save['attribute_published'] = ($attribute[$a]['published'] == 'on' || $attribute[$a]['published'] == '1') ? '1' : '0';
-			$attribute_save['attribute_required'] = ($attribute[$a]['required'] == 'on' || $attribute[$a]['required'] == '1') ? '1' : '0';
-			$attribute_save['allow_multiple_selection'] = ($attribute[$a]['allow_multiple_selection'] == 'on'
+
+			$attribute_save['attribute_required'] = isset($attribute_save['attribute_required'])
+				&& ($attribute[$a]['required'] == 'on' || $attribute[$a]['required'] == '1') ? '1' : '0';
+			$attribute_save['allow_multiple_selection'] = isset($attribute[$a]['allow_multiple_selection'])
+				&& ($attribute[$a]['allow_multiple_selection'] == 'on'
 				|| $attribute[$a]['allow_multiple_selection'] == '1') ? '1' : '0';
-			$attribute_save['hide_attribute_price'] = ($attribute[$a]['hide_attribute_price'] == 'on'
+			$attribute_save['hide_attribute_price'] = isset($attribute_save['hide_attribute_price'])
+				&& ($attribute[$a]['hide_attribute_price'] == 'on'
 				|| $attribute[$a]['hide_attribute_price'] == '1') ? '1' : '0';
 			$attribute_save['display_type'] = $attribute[$a]['display_type'];
+
 			$attribute_array = $model->store_attr($attribute_save);
 			$property = array_merge(array(), $attribute[$a]['property']);
 
@@ -398,11 +403,13 @@ class RedshopControllerProduct_Detail extends JController
 				$property_save['property_name'] = htmlspecialchars($property[$p]['name']);
 				$property_save['property_price'] = $property[$p]['price'];
 				$property_save['oprand'] = $property[$p]['oprand'];
-				$property_save['property_number'] = $property[$p]['number'];
-				$property_save['property_image'] = $property[$p]['image'];
+				$property_save['property_number'] = isset($property[$p]['number']) ? $property[$p]['number'] : '';
+				$property_save['property_image'] = isset($property[$p]['image']) ? $property[$p]['image'] : '';
 				$property_save['ordering'] = $property[$p]['order'];
-				$property_save['setrequire_selected'] = ($property[$p]['req_sub_att'] == 'on' || $property[$p]['req_sub_att'] == '1') ? '1' : '0';
-				$property_save['setmulti_selected'] = ($property[$p]['multi_sub_att'] == 'on' || $property[$p]['multi_sub_att'] == '1') ? '1' : '0';
+				$property_save['setrequire_selected'] = isset($property[$p]['req_sub_att'])
+					&& ($property[$p]['req_sub_att'] == 'on' || $property[$p]['req_sub_att'] == '1') ? '1' : '0';
+				$property_save['setmulti_selected'] = isset($property[$p]['multi_sub_att'])
+					&& ($property[$p]['multi_sub_att'] == 'on' || $property[$p]['multi_sub_att'] == '1') ? '1' : '0';
 				$property_save['setdefault_selected'] = ($property[$p]['default_sel'] == 'on' || $property[$p]['default_sel'] == '1') ? '1' : '0';
 				$property_save['setdisplay_type'] = $property[$p]['setdisplay_type'];
 				$property_save['property_published'] = ($property[$p]['published'] == 'on' || $property[$p]['published'] == '1') ? '1' : '0';
