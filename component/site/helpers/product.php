@@ -63,6 +63,8 @@ class producthelper
 
 	protected static $productSpecialPrices = array();
 
+	protected static $productDateRange = array();
+
 	function __construct()
 	{
 		$this->_db           = JFactory::getDbo();
@@ -9251,11 +9253,19 @@ class producthelper
 			return $isEnable;
 		}
 
-		$query = "select field_name,field_id from " . $this->_table_prefix . "fields where field_type=15";
-		$this->_db->setQuery($query);
-		$fieldData = $this->_db->loadObject();
+		if (!array_key_exists('15', self::$productDateRange))
+		{
+			$query = $this->_db->getQuery(true)
+				->select('field_name, field_id')
+				->from($this->_db->qn('#__redshop_fields'))
+				->where('field_type = 15');
+			$this->_db->setQuery($query);
+			self::$productDateRange['15'] = $this->_db->loadObject();
+		}
 
-		if (count($fieldData) == 0)
+		$fieldData = self::$productDateRange['15'];
+
+		if (!$fieldData)
 		{
 			$isEnable = false;
 
