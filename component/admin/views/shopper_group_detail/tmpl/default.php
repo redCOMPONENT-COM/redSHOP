@@ -206,11 +206,11 @@ $url = $uri->root();    ?>
 							?>
 							<div class="button2-left">
 								<div class="image"><a class="modal" title="Image" href="<?php echo $ilink; ?>"
-													  rel="{handler: 'iframe', size: {x: 570, y: 400}}">Image</a></div>
+								                      rel="{handler: 'iframe', size: {x: 570, y: 400}}">Image</a></div>
 							</div>
 							<input type="hidden" name="shopper_group_logo_tmp" id="shopper_group_logo_tmp"/>
 							<input type="hidden" name="shopper_group_logo" id="shopper_group_logo"
-								   value="<?php echo $this->detail->shopper_group_logo; ?>"/></td>
+							       value="<?php echo $this->detail->shopper_group_logo; ?>"/></td>
 					</tr>
 				</table>
 				<?php if (null != $this->detail->shopper_group_logo) : ?>

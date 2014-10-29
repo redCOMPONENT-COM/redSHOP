@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 $uri = JURI::getInstance();
 $url = $uri->root();
-JLoader::import('loadhelpers', JPATH_SITE . '/components/com_redshop');
 
 // get product helper
 JLoader::load('RedshopHelperProduct');

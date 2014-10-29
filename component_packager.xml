@@ -92,6 +92,13 @@
             </fileset>
         </copy>
 
+		<echo message="Copying libraries..."/>
+		<copy todir="${targetdir}/libraries" overwrite="true">
+			<fileset dir="${extpath}/libraries">
+				<include name="**"/>
+			</fileset>
+		</copy>
+
         <echo msg="Copying main MODULES folder to build directory..." />
         <echo msg="Copying redSHOP Cart module" />
         <copy todir="${targetdir}/modules/site/mod_redshop_cart">
