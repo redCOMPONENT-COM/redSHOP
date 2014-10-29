@@ -249,6 +249,7 @@ class RedshopModelAccessmanager_detail extends JModel
 		{
 			foreach ($groups as $groupValue => $groupName)
 			{
+				$row = new stdClass();
 				$row->gid = $groupValue;
 				$row->section_name = $data['section'];
 				$row->view = $data['groupaccess_' . $groupValue]['view'];

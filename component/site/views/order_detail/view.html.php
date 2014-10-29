@@ -40,9 +40,10 @@ class RedshopViewOrder_detail extends JView
 		$user     = JFactory::getUser();
 		$session  = JFactory::getSession();
 		$order_id = $session->get('order_id');
+		$auth   = $session->get('auth');
 
 		$oid    = JRequest::getInt('oid', $order_id);
-		$encr   = JRequest::getString('encr');
+		$encr   = JRequest::getString('encr', null);
 		$layout = JRequest::getCmd('layout');
 
 		$model = $this->getModel('order_detail');
@@ -60,7 +61,7 @@ class RedshopViewOrder_detail extends JView
 		}
 		else
 		{
-			if (isset($encr))
+			if ($encr)
 			{
 				$authorization = $model->checkauthorization($oid, $encr);
 
@@ -74,7 +75,7 @@ class RedshopViewOrder_detail extends JView
 			}
 
 			// Preform security checks
-			elseif (!$user->id)
+			elseif (!$user->id && !isset($auth['users_info_id']))
 			{
 				$app->Redirect('index.php?option=com_redshop&view=login&Itemid=' . JRequest::getInt('Itemid'));
 

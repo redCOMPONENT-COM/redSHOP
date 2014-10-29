@@ -11,6 +11,8 @@ defined('_JEXEC') or die;
 
 JHTML::_('behavior.tooltip');
 jimport('joomla.filesystem.file');
+JLoader::load('RedshopHelperHelper');
+JLoader::load('RedshopHelperAdminImages');
 
 class extra_field
 {
@@ -80,20 +82,10 @@ class extra_field
 		$url    = $uri->root();
 		$q      = "SELECT * FROM " . $this->_table_prefix . "fields WHERE field_section = " . (int) $field_section . " AND published=1 ";
 
-		if ($field_name != "")
+		if ($field_name != '')
 		{
-			$field_name = explode(',', $field_name);
-
-			$field_name = array_map(
-				function ($value) use ($db) {
-					return $db->quote($value);
-				},
-				(array) $field_name
-			);
-
-			$field_name = implode(",'", $field_name);
-
-			$q .= "AND field_name IN ($field_name) ";
+			$field_name = redhelper::quote(explode(',', $field_name));
+			$q .= 'AND field_name IN (' . implode(',', $field_name) . ') ';
 		}
 
 		$q .= " ORDER BY ordering";
@@ -660,7 +652,7 @@ class extra_field
 
 				if ($_FILES[$row_data[$i]->field_name]['name'] != "")
 				{
-					$data_txt = time() . $_FILES[$row_data[$i]->field_name]["name"];
+					$data_txt = RedShopHelperImages::cleanFileName($_FILES[$row_data[$i]->field_name]["name"]);
 
 					$src = $_FILES[$row_data[$i]->field_name]['tmp_name'];
 					$destination = $destination_prefix . $data_txt;
@@ -699,7 +691,7 @@ class extra_field
 
 						if ($file != "")
 						{
-							$name = time() . $file;
+							$name = RedShopHelperImages::cleanFileName($file);
 
 							$src = $_FILES[$row_data[$i]->field_name]['tmp_name'][$ij];
 							$destination = REDSHOP_FRONT_DOCUMENT_RELPATH . 'extrafields/' . $name;
