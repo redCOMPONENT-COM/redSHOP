@@ -33,7 +33,7 @@ class RedshopViewUser_detail extends JView
 		$this->lists      = array();
 		$this->detail     = $this->get('data');
 
-		$isNew = ($detail->users_info_id < 1);
+		$isNew = ($this->detail->users_info_id < 1);
 		$text  = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
 
 		if (JFactory::getApplication()->input->getString('shipping'))
