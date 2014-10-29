@@ -45,19 +45,19 @@
                 <field name="windowid" type="text" default="1" label="PLG_RS_PAYMENT_EPAYV2_WINDOW_ID"
                        description="PLG_RS_PAYMENT_EPAYV2_WINDOW_ID_DESC"/>
                 <field name="verify_status" type="sql"
-                       query="SELECT order_status_code AS st_value, order_status_name AS st_title FROM #__redshop_order_status"
+                       query="SELECT order_status_code AS st_value, order_status_name AS st_title FROM #__redshop_order_status WHERE published=1"
                        key_field="st_value" value_field="st_title" default="C"
                        label="PLG_RS_PAYMENT_EPAYV2_ORDER_STATUS"
                        description="PLG_RS_PAYMENT_EPAYV2_ORDER_STATUS_DESC">
                 </field>
                 <field name="invalid_status" type="sql"
-                       query="SELECT order_status_code AS st_value, order_status_name AS st_title FROM #__redshop_order_status"
+                       query="SELECT order_status_code AS st_value, order_status_name AS st_title FROM #__redshop_order_status WHERE published=1"
                        key_field="st_value" value_field="st_title" default="P"
                        label="PLG_RS_PAYMENT_EPAYV2_ORDER_STATUS_FAIL"
                        description="PLG_RS_PAYMENT_EPAYV2_ORDER_STATUS_FAIL_DESC">
                 </field>
                 <field name="capture_status" type="sql"
-                       query="SELECT order_status_code AS st_value, order_status_name AS st_title FROM #__redshop_order_status"
+                       query="SELECT order_status_code AS st_value, order_status_name AS st_title FROM #__redshop_order_status WHERE published=1"
                        key_field="st_value" value_field="st_title" default="S"
                        label="PLG_RS_PAYMENT_EPAYV2_CAPTURE_PAYMENT_STATUS"
                        description="PLG_RS_PAYMENT_EPAYV2_CAPTURE_PAYMENT_STATUS_DESC"></field>
