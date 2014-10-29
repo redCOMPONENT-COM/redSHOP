@@ -16,7 +16,7 @@ $config = JFactory::getConfig();
 $Itemid = JFactory::getApplication()->input->getInt('Itemid');
 
 require_once JPATH_SITE . '/administrator/components/com_redshop/helpers/redshop.cfg.php';
-JLoader::import('loadhelpers', JPATH_SITE . '/components/com_redshop');
+JLoader::import('redshop.library');
 JLoader::load('RedshopHelperAdminOrder');
 JLoader::load('RedshopHelperHelper');
 

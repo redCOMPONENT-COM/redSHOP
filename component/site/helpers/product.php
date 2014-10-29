@@ -63,6 +63,8 @@ class producthelper
 
 	protected static $productSpecialPrices = array();
 
+	protected static $productDateRange = array();
+
 	function __construct()
 	{
 		$this->_db           = JFactory::getDbo();
@@ -2452,9 +2454,9 @@ class producthelper
 
 		if ($productData = $this->getProductById($productId))
 		{
-			if (($productData->discount_enddate == '' && $productData->discount_stratdate == '')
+			if (($productData->discount_enddate == '0' && $productData->discount_stratdate == '0')
 				|| ((int) $productData->discount_enddate >= $today && (int) $productData->discount_stratdate <= $today)
-				|| ($productData->discount_enddate == '' && (int) $productData->discount_stratdate <= $today))
+				|| ($productData->discount_enddate == '0' && (int) $productData->discount_stratdate <= $today))
 			{
 				$discountPrice = $productData->discount_price;
 			}
@@ -9251,11 +9253,19 @@ class producthelper
 			return $isEnable;
 		}
 
-		$query = "select field_name,field_id from " . $this->_table_prefix . "fields where field_type=15";
-		$this->_db->setQuery($query);
-		$fieldData = $this->_db->loadObject();
+		if (!array_key_exists('15', self::$productDateRange))
+		{
+			$query = $this->_db->getQuery(true)
+				->select('field_name, field_id')
+				->from($this->_db->qn('#__redshop_fields'))
+				->where('field_type = 15');
+			$this->_db->setQuery($query);
+			self::$productDateRange['15'] = $this->_db->loadObject();
+		}
 
-		if (count($fieldData) == 0)
+		$fieldData = self::$productDateRange['15'];
+
+		if (!$fieldData)
 		{
 			$isEnable = false;
 

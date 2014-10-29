@@ -31,7 +31,7 @@ $dosef = shInitializePlugin( $lang='', $shLangName, $shLangIso, $option);
 
 if(!defined('TABLE_PREFIX'))
 {
-	JLoader::import('loadhelpers', JPATH_SITE . '/components/com_redshop');
+	JLoader::import('redshop.library');
 	JLoader::load('RedshopHelperAdminConfiguration');
 	$config = new Redconfiguration;
 	$config->config();

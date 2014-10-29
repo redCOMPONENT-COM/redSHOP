@@ -21,7 +21,6 @@ $Itemid    = $redhelper->getItemid();
 // get product helper
 // Getting the configuration
 require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
-JLoader::import('loadhelpers', JPATH_SITE . '/components/com_redshop');
 JLoader::load('RedshopHelperAdminConfiguration');
 $Redconfiguration = new Redconfiguration;
 $Redconfiguration->defineDynamicVars();
