@@ -1990,33 +1990,21 @@ class order_functions
 
 		$order = $this->getOrderDetails($row->order_id);
 
-		$adminpath = JPATH_ADMINISTRATOR . '/components/com_redshop';
-		$invalid_elements = $paymentparams->get('invalid_elements', '');
-
-		// Send the order_id and orderpayment_id to the payment plugin so it knows which DB record to update upon successful payment
-		$objorder = new order_functions;
-		$user = JFactory::getUser();
-
-		$userbillinginfo = $this->getOrderBillingUserInfo($row->order_id);
-
-		$users_info_id = JRequest::getInt('users_info_id');
+		if ($userbillinginfo = $this->getOrderBillingUserInfo($row->order_id))
+		{
+			$userbillinginfo->country_2_code = $redconfig->getCountryCode2($userbillinginfo->country_code);
+			$userbillinginfo->state_2_code = $redconfig->getCountryCode2($userbillinginfo->state_code);
+		}
 
 		$task = JRequest::getVar('task');
 
-		$shippingaddresses = $this->getOrderShippingUserInfo($row->order_id);
-
-		$shippingaddress = array();
-
-		if (isset($shippingaddresses))
+		if ($shippingaddress = $this->getOrderShippingUserInfo($row->order_id))
 		{
-			$shippingaddress = $shippingaddresses;
-
 			$shippingaddress->country_2_code = $redconfig->getCountryCode2($shippingaddress->country_code);
-
 			$shippingaddress->state_2_code = $redconfig->getCountryCode2($shippingaddress->state_code);
-
 		}
 
+		$values = array();
 		$values['shippinginfo'] = $shippingaddress;
 		$values['billinginfo'] = $userbillinginfo;
 		$values['carttotal'] = $order->order_total;
@@ -2034,8 +2022,7 @@ class order_functions
 			}
 
 			JPluginHelper::importPlugin('redshop_payment');
-			$dispatcher = JDispatcher::getInstance();
-			$results = $dispatcher->trigger('onPrePayment', array($values['payment_plugin'], $values));
+			JDispatcher::getInstance()->trigger('onPrePayment', array($values['payment_plugin'], $values));
 
 		}
 		else
