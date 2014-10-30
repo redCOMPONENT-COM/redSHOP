@@ -8,7 +8,6 @@
  */
 
 defined('_JEXEC') or die('Restricted access');
-JLoader::import('loadhelpers', JPATH_SITE . '/components/com_redshop');
 JLoader::load('RedshopHelperHelper');
 
 $templateid = $params->get('templateid');

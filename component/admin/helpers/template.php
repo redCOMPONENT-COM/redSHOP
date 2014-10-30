@@ -22,6 +22,8 @@ class Redtemplate
 {
 	public $redshop_template_path;
 
+	protected static $templatesArray = array();
+
 	/**
 	 * load initial files
 	 */
@@ -48,27 +50,35 @@ class Redtemplate
 	 */
 	public function getTemplate($section = '', $tid = 0, $name = "")
 	{
-		$db = JFactory::getDbo();
-		$and = "";
-
-		if ($tid != 0)
+		if (!array_key_exists($section . '_' . $tid . '_' . $name, self::$templatesArray))
 		{
-			// Sanitize ids
-			$tid = explode(',', $tid);
-			JArrayHelper::toInteger($tid);
+			$db = JFactory::getDbo();
+			$query = $db->getQuery(true)
+				->select('*')
+				->from($db->qn('#__redshop_template'))
+				->where('template_section = ' . $db->quote($section))
+				->where('published = 1')
+				->order('template_id ASC');
 
-			$and = "AND template_id IN (" . implode(',', $tid) . ") ";
+			if ($tid != 0)
+			{
+				// Sanitize ids
+				$arrayTid = explode(',', $tid);
+				JArrayHelper::toInteger($arrayTid);
+
+				$query->where('template_id IN (' . implode(',', $arrayTid) . ')');
+			}
+
+			if ($name != '')
+			{
+				$query->where('template_name = ' . $db->quote($name));
+			}
+
+			$db->setQuery($query);
+			self::$templatesArray[$section . '_' . $tid . '_' . $name] = $db->loadObjectList();
 		}
 
-		$and .= ($name != "") ? " AND template_name = " . $db->quote($name) . " " : "";
-
-		$query = "SELECT * "
-			. "FROM #__redshop_template "
-			. "WHERE template_section = " . $db->quote($section) . " AND published = 1 "
-			. $and
-			. "ORDER BY template_id ASC ";
-		$db->setQuery($query);
-		$re = $db->loadObjectList();
+		$re = self::$templatesArray[$section . '_' . $tid . '_' . $name];
 
 		for ($i = 0; $i < count($re); $i++)
 		{
@@ -418,7 +428,8 @@ class Redtemplate
 			'request_tax_exempt_mail'           => JText::_('COM_REDSHOP_REQUEST_TAX_EXEMPT_MAIL'),
 			'subscription_renewal_mail'         => JText::_('COM_REDSHOP_SUBSCRIPTION_RENEWAL_MAIL'),
 			'review_mail'                       => JText::_('COM_REDSHOP_REVIEW_MAIL'),
-			'notify_stock_mail'                 => JText::_('COM_REDSHOP_NOTIFY_STOCK')
+			'notify_stock_mail'                 => JText::_('COM_REDSHOP_NOTIFY_STOCK'),
+			'invoicefile_mail'                  => JText::_('COM_REDSHOP_INVOICE_FILE_MAIL')
 		);
 
 		return $this->prepareSectionOptions($options, $sectionValue);

@@ -225,6 +225,10 @@ class RedshopModelCart extends JModel
 		$newQuantity = intval(abs($data['quantity']) > 0 ? $data['quantity'] : 1);
 		$oldQuantity = intval($cart[$cartElement]['quantity']);
 
+		$calculator_price = 0;
+		$wrapper_price = 0;
+		$wrapper_vat = 0;
+
 		if ($newQuantity <= 0)
 		{
 			$newQuantity = 1;
@@ -373,6 +377,9 @@ class RedshopModelCart extends JModel
 				$retAccArr             = $this->_producthelper->makeAccessoryCart($cart[$i]['cart_accessory'], $cart[$i]['product_id']);
 				$accessory_total_price = $retAccArr[1];
 				$accessory_vat_price   = $retAccArr[2];
+
+				$wrapper_price         = 0;
+				$wrapper_vat           = 0;
 
 				if ($cart[$i]['wrapper_id'])
 				{

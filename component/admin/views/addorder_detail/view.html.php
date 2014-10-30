@@ -132,6 +132,7 @@ class RedshopViewAddorder_detail extends JView
 			JToolBarHelper::save();
 		}
 
+		JToolBarHelper::custom('validateUserDetail', 'apply.png', 'apply_f2.png', JText::_('COM_REDSHOP_SAVE_USER_INFORMATION'), false);
 		JToolBarHelper::cancel();
 
 		$countryarray = $Redconfiguration->getCountryList((array) $billing, "country_code", "BT");

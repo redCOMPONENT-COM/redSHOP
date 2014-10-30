@@ -38,7 +38,6 @@
         <filename>index.html</filename>
         <filename>redshop.php</filename>
         <filename>router.php</filename>
-        <filename>loadhelpers.php</filename>
     </files>
 
     <languages folder="component/site/language">
@@ -79,7 +78,7 @@
 
     <!-- Libraries to install with the component -->
     <libraries>
-        <!--library name="redshop" /-->
+		<library name="redshop"/>
     </libraries>
 
     <!-- Modules to install with the component -->
