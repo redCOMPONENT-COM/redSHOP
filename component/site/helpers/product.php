@@ -7990,6 +7990,9 @@ class producthelper
 
 				$orderPropdata = $order_functions->getOrderItemAttributeDetail($order_item_id, $is_accessory, "property", $orderItemAttdata[$i]->section_id);
 
+				// Initialize attribute calculated price
+				$propertyCalculatedPriceSum = $orderItemdata[0]->product_item_old_price;
+
 				for ($p = 0; $p < count($orderPropdata); $p++)
 				{
 					$property_price = $orderPropdata[$p]->section_price;
@@ -8023,6 +8026,18 @@ class producthelper
 						if (!$hide_attribute_price)
 						{
 							$disPrice = " (" . $orderPropdata[$p]->section_oprand . $this->getProductFormattedPrice($property_price) . ")";
+						}
+
+						$propertyOperand = $orderPropdata[$p]->section_oprand;
+
+						// Show actual productive price
+						if ($property_price > 0)
+						{
+							$string = "$propertyCalculatedPriceSum$propertyOperand$property_price";
+							eval("\$productAttributeCalculatedPriceBase = $string;");
+
+							$productAttributeCalculatedPrice = $productAttributeCalculatedPriceBase - $propertyCalculatedPriceSum;
+							$propertyCalculatedPriceSum      = $productAttributeCalculatedPriceBase;
 						}
 
 						if (!strstr($data, '{product_attribute_price}'))
@@ -8082,6 +8097,18 @@ class producthelper
 								$disPrice = " (" . $orderSubpropdata[$sp]->section_oprand . $this->getProductFormattedPrice($subproperty_price) . ")";
 							}
 
+							$subPropertyOperand = $orderSubpropdata[$sp]->section_oprand;
+
+							// Show actual productive price
+							if ($subproperty_price > 0)
+							{
+								$string = "$propertyCalculatedPriceSum$subPropertyOperand$subproperty_price";
+								eval("\$productAttributeCalculatedPriceBase = $string;");
+
+								$productAttributeCalculatedPrice = $productAttributeCalculatedPriceBase - $propertyCalculatedPriceSum;
+								$propertyCalculatedPriceSum      = $productAttributeCalculatedPriceBase;
+							}
+
 							if (!strstr($data, '{product_attribute_price}'))
 							{
 								$disPrice = '';
@@ -8100,6 +8127,20 @@ class producthelper
 
 						$displayattribute .= "<div class='checkout_subattribute_wrapper'><div class='checkout_subattribute_price'>" . urldecode($orderSubpropdata[$sp]->section_name) . $disPrice . "</div>" . $virtualNumber . "</div>";
 					}
+
+					// Format Calculated price using Language variable
+					$productAttributeCalculatedPrice = $this->getProductFormattedPrice(
+						$productAttributeCalculatedPrice
+					);
+					$productAttributeCalculatedPrice = sprintf(
+						JText::_('COM_REDSHOP_CART_PRODUCT_ATTRIBUTE_CALCULATED_PRICE'),
+						$productAttributeCalculatedPrice
+					);
+					$tmp_attribute_middle_template   = str_replace(
+						"{product_attribute_calculated_price}",
+						$productAttributeCalculatedPrice,
+						$tmp_attribute_middle_template
+					);
 				}
 			}
 		}
