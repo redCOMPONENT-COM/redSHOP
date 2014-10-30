@@ -1568,19 +1568,11 @@ function displayAdditionalImage(product_id, accessory_id, relatedprd_id, selecte
                 //	else
                 //	document.getElementById('a_main_image'+product_id).src=arrResponse[4];
                 //}
-                if (arrResponse[4] != "") {
-                    document.getElementById('a_main_image' + product_id).src = arrResponse[4];
-                }
-            }
-            else {
-
-                if (arrResponse[4] != "") {
-                    if (document.getElementById('main_image' + product_id) && arrResponse[4] != "") {
-                        document.getElementById('main_image' + product_id).src = arrResponse[4];
-                    }
-                }
             }
 
+            if (arrResponse[4] != '' && document.getElementById('main_image' + product_id)) {
+                document.getElementById('main_image' + product_id).src = arrResponse[4];
+            }
             if (document.getElementById('additional_images' + product_id) && arrResponse[1] != "") {
                 document.getElementById('additional_images' + product_id).innerHTML = arrResponse[1];
             }
