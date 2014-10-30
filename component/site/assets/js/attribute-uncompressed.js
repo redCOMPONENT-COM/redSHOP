@@ -414,15 +414,19 @@ function display_image_out(imgs, product_id, gethover)
 
 function display_image_add(img, product_id)
 {
-    document.getElementById('main_image' + product_id).src = img;
+	if (document.getElementById('main_image' + product_id)) {
+		document.getElementById('main_image' + product_id).src = img;
+	}
 }
 
 function display_image_add_out(img, product_id)
 {
-    if (subproperty_main_image != "")
-        document.getElementById('main_image' + product_id).src = subproperty_main_image;
-    else
-        document.getElementById('main_image' + product_id).src = img;
+	if (document.getElementById('main_image' + product_id)) {
+		if (subproperty_main_image != "")
+			document.getElementById('main_image' + product_id).src = subproperty_main_image;
+		else
+			document.getElementById('main_image' + product_id).src = img;
+	}
 }
 
 function collectAttributes(product_id, accessory_id, relatedprd_id)
@@ -1565,7 +1569,7 @@ function displayAdditionalImage(product_id, accessory_id, relatedprd_id, selecte
                 //	document.getElementById('a_main_image'+product_id).src=arrResponse[4];
                 //}
                 if (arrResponse[4] != "") {
-                    document.getElementById('a_main_image' + product_id).innerHTML = arrResponse[4];
+                    document.getElementById('a_main_image' + product_id).src = arrResponse[4];
                 }
             }
             else {
@@ -1856,7 +1860,7 @@ function discountCalculation(proid) {
                         }
 
                         formatted_price_total = number_format(product_total, PRICE_DECIMAL, PRICE_SEPERATOR, THOUSAND_SEPERATOR);
-                        formatted_product_price_excl_vat = number_format(product_price_excl_vat, PRICE_DECIMAL, PRICE_SEPERATOR, THOUSAND_SEPERATOR);
+                        var formatted_product_price_excl_vat = number_format(product_price_excl_vat, PRICE_DECIMAL, PRICE_SEPERATOR, THOUSAND_SEPERATOR);
                         if (document.getElementById('produkt_kasse_hoejre_pris_indre' + proid)) {
                             document.getElementById('produkt_kasse_hoejre_pris_indre' + proid).innerHTML = formatted_product_price_excl_vat;
                             if (document.getElementById('display_product_price_no_vat' + proid))
