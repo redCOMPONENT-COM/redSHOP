@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die ('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 
@@ -293,7 +293,7 @@ class RedshopControllerOrder_detail extends JController
 
 		$post['order_id'] = $cid[0];
 
-		$model = $this->getModel();
+		$model = $this->getModel('order_detail');
 
 		if ($model->updateShippingAdd($post))
 		{
@@ -323,7 +323,7 @@ class RedshopControllerOrder_detail extends JController
 
 		$post['order_id'] = $cid[0];
 
-		$model = $this->getModel();
+		$model = $this->getModel('order_detail');
 
 		if ($model->updateBillingAdd($post))
 		{
@@ -362,7 +362,7 @@ class RedshopControllerOrder_detail extends JController
 		$option = JRequest::getVar('option', '', 'request', 'string');
 		$cid = JRequest::getVar('cid', array(0), 'get', 'array');
 		$tmpl = JRequest::getVar('tmpl', '', 'request', 'string');
-		$model = $this->getModel();
+		$model = $this->getModel('order_detail');
 
 		if ($model->send_downloadmail($cid[0]))
 		{
@@ -407,7 +407,7 @@ class RedshopControllerOrder_detail extends JController
 		JLoader::load('RedshopHelperAdminConfiguration');
 
 		$redconfig = new Redconfiguration;
-		$model = $this->getModel();
+		$model = $this->getModel('order_detail');
 		$order_functions = new order_functions;
 
 		$request = JRequest::get('request');

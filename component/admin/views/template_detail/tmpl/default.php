@@ -8,12 +8,11 @@
  */
 defined('_JEXEC') or die;
 JLoader::load('RedshopHelperAdminExtra_field');
-$extra_field = new extra_field();
+$extra_field = new extra_field;
 JHTML::_('behavior.tooltip');
 $editor = JFactory::getEditor();
 $model = $this->getModel('template_detail');
 $showbuttons = JRequest::getVar('showbuttons');
-//echo $this->detail->template_section;
 ?>
 <script language="javascript" type="text/javascript">
 

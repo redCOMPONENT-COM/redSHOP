@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+JLoader::import('redshop.library');
+
 /**
  * Renders a Productfinder Form
  *
@@ -28,7 +30,6 @@ class JFormFieldcurrency extends JFormField
 
 	protected function getInput()
 	{
-		JLoader::import('loadhelpers', JPATH_SITE . '/components/com_redshop');
 		JLoader::load('RedshopHelperCurrency');
 
 		// This might get a conflict with the dynamic translation - TODO: search for better solution

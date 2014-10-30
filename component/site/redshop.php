@@ -11,9 +11,10 @@ defined('_JEXEC') or die;
 
 $app = JFactory::getApplication();
 
-JLoader::import('joomla.html.parameter');
+// Load redSHOP Library
+JLoader::import('redshop.library');
 
-JLoader::import('loadhelpers', JPATH_COMPONENT);
+JLoader::import('joomla.html.parameter');
 
 // Getting the configuration
 require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
@@ -96,8 +97,8 @@ if ('component' !== $app->input->getCmd('tmpl'))
 		{
 			JLoader::load('RedshopHelperGoogle_analytics');
 
-			$ga      = new GoogleAnalytics;
-			$anacode = $ga->placeTrans();
+			$ga = new GoogleAnalytics;
+			$ga->placeTrans();
 		}
 	}
 }
@@ -127,12 +128,6 @@ if (PORTAL_SHOP == 1)
 			JRequest::setVar('layout', 'portal');
 			$app->enqueuemessage(JText::_('COM_REDSHOP_AUTHENTICATIONFAIL'));
 		}
-	}
-	else
-	{
-		$vName = 'login';
-		JRequest::setVar('view', 'login');
-		JRequest::setVar('layout', 'portal');
 	}
 }
 else

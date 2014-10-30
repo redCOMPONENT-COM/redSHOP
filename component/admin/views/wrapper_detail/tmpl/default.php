@@ -8,7 +8,7 @@
  */
 JHTML::_('behavior.tooltip');
 $showall = JRequest::getVar('showall', '0');
-$producthelper = new producthelper();
+$producthelper = new producthelper;
 ?>
 <script language="javascript" type="text/javascript">
 	Joomla.submitbutton = function (pressbutton) {
@@ -43,7 +43,7 @@ $producthelper = new producthelper();
 	</fieldset>
 <?php } ?>
 <form action="<?php echo JRoute::_($this->request_url) ?>" method="post" name="adminForm" id="adminForm"
-      enctype="multipart/form-data">
+      enctype="multipart/form-data" onSubmit="return selectAll(this.elements['container_product[]'],this);">
 	<div class="col50">
 		<fieldset class="adminform">
 			<legend><?php echo JText::_('COM_REDSHOP_DETAILS'); ?></legend>

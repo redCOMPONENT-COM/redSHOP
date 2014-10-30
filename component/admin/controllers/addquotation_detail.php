@@ -20,7 +20,9 @@ class RedshopControllerAddquotation_detail extends JController
 	{
 		parent::__construct($default);
 		JRequest::setVar('hidemainmenu', 1);
-	}
+        $this->_db = JFactory::getDbo();
+
+    }
 
 	public function save($send = 0)
 	{
@@ -39,7 +41,7 @@ class RedshopControllerAddquotation_detail extends JController
 			$post['email'] = $post['user_email'];
 			$post['username'] = JRequest::getVar('username', '', 'post', 'username');
 			$post['name'] = $name;
-			JRequest::getVar('password1', $post['password']);
+			JRequest::setVar('password1', $post['password']);
 
 			$post['groups'] = array(0 => 2);
 
@@ -55,7 +57,9 @@ class RedshopControllerAddquotation_detail extends JController
 
 			if (!$user)
 			{
-				$this->setError($this->_db->getErrorMsg());
+                $errorMsg = $this->_db->getErrorMsg();
+                $link = JRoute::_('index.php?option=com_redshop&view=addquotation_detail', false);
+                $this->setRedirect($link, $errorMsg);
 
 				return false;
 			}

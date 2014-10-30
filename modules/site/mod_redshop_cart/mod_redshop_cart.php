@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die('Restricted access');
 $option = JRequest::getCmd('option');
+JLoader::import('redshop.library');
 
 $show_with_vat = trim($params->get('show_with_vat', 0));
 $button_text = trim($params->get('button_text', ''));
@@ -20,7 +21,6 @@ $document->addStyleSheet("modules/mod_redshop_cart/css/cart.css");
 if ($option != 'com_redshop')
 {
 	require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
-	JLoader::import('loadhelpers', JPATH_SITE . '/components/com_redshop');
 	JLoader::load('RedshopHelperAdminConfiguration');
 	$Redconfiguration = new Redconfiguration;
 	$Redconfiguration->defineDynamicVars();
