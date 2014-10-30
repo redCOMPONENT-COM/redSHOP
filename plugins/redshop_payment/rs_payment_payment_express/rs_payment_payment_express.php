@@ -15,6 +15,89 @@ require_once JPATH_SITE . '/plugins/redshop_payment/rs_payment_payment_express/r
 
 class plgRedshop_paymentrs_payment_payment_express extends JPlugin
 {
+	/**
+	 * onNotify Payment rs_payment_payment_express
+	 *
+	 * @param   string  $element  Element
+	 * @param   string  $request  Request
+	 *
+	 * @return  array|null
+	 */
+	public function onNotifyPaymentrs_payment_payment_express($element, $request)
+	{
+		if ($element != 'rs_payment_payment_express')
+		{
+			return;
+		}
+
+		$enc_hex = $request["result"];
+
+		$verify_status = $this->params->get('verify_status', '');
+		$px_post_username = $this->params->get('px_post_username', '');
+		$px_post_label_key = $this->params->get('px_post_label_key', '');
+		$invalid_status = $this->params->get('invalid_status', '');
+		$debug_mode = $this->params->get('debug_mode', 0);
+
+		// GetResponse method in PxPay object returns PxPayResponse object
+		$PxPay_Url = "https://sec2.paymentexpress.com/pxpay/pxaccess.aspx";
+		$pxpay = new PxPay_Curl($PxPay_Url, $px_post_username, $px_post_label_key);
+
+		// Which encapsulates all the response data
+		$rsp = $pxpay->getResponse($enc_hex);
+
+		// The following are the fields available in the PxPayResponse object
+		$BillingId = $rsp->getBillingId();
+		$DpsTxnRef = $rsp->getDpsTxnRef();
+		$ResponseText = $rsp->getResponseText();
+
+		$order_id = $BillingId;
+		$values = new stdClass;
+
+		// Update the order status to 'CONFIRMED'
+		if ($rsp->getSuccess() == "1")
+		{
+			// Success: update the order status to 'CONFIRMED'
+			$values->order_status_code = $verify_status;
+			$values->order_payment_status_code = 'Paid';
+
+			if ($debug_mode == 1)
+			{
+				$values->log = $ResponseText;
+				$values->msg = $ResponseText;
+			}
+			else
+			{
+				$values->log = JText::_('COM_REDSHOP_ORDER_PLACED');
+				$values->msg = JText::_('COM_REDSHOP_ORDER_PLACED');
+			}
+
+			$values->order_id = $order_id;
+			$values->transaction_id = $DpsTxnRef;
+		}
+		else
+		{
+			// Failed: update the order status to 'PENDING'
+			$values->order_status_code = $invalid_status;
+			$values->order_payment_status_code = 'Unpaid';
+
+			if ($debug_mode == 1)
+			{
+				$values->log = $ResponseText;
+				$values->msg = $ResponseText;
+			}
+			else
+			{
+				$values->log = JText::_('COM_REDSHOP_ORDER_NOT_PLACED');
+				$values->msg = JText::_('COM_REDSHOP_ORDER_NOT_PLACED');
+			}
+
+			$values->order_id = $order_id;
+			$values->transaction_id = $DpsTxnRef;
+		}
+
+		return array($values);
+	}
+
 	public function onPrePayment($element, $data)
 	{
 		if ($element != 'rs_payment_payment_express')
@@ -26,8 +109,6 @@ class plgRedshop_paymentrs_payment_payment_express extends JPlugin
 		{
 			$plugin = $element;
 		}
-
-		$app = JFactory::getApplication();
 
 		include JPATH_SITE . '/plugins/redshop_payment/' . $plugin . '/' . $plugin . '/extra_info.php';
 	}
