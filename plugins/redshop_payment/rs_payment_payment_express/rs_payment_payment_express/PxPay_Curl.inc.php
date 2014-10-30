@@ -14,6 +14,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
+defined('_JEXEC') or die;
+
 #******************************************************************************
 #* Name          : PxPay_Curl.inc.php
 #* Description   : Classes used interact with the PxPay interface using PHP with the cURL extension installed
