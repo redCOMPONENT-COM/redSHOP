@@ -9,28 +9,8 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.plugin.plugin');
-
 class plgRedshop_paymentrs_payment_cashsale extends JPlugin
 {
-	/**
-	 * Constructor
-	 *
-	 * For php4 compatability we must not use the __constructor as a constructor for
-	 * plugins because func_get_args ( void ) returns a copy of all passed arguments
-	 * NOT references.  This causes problems with cross-referencing necessary for the
-	 * observer design pattern.
-	 */
-	public function plgRedshop_paymentrs_payment_cashsale(&$subject)
-	{
-		// Load plugin parameters
-		parent::__construct($subject);
-
-		JPluginHelper::getPlugin('redshop_payment', 'onPrePayment');
-		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_cashsale');
-		$this->_params = new JRegistry($this->_plugin->params);
-	}
-
 	/**
 	 * Plugin method with the same name as the event will be called automatically.
 	 */
@@ -44,6 +24,14 @@ class plgRedshop_paymentrs_payment_cashsale extends JPlugin
 		if (empty($plugin))
 		{
 			$plugin = $element;
+		}
+
+		// Send the Order mail
+		if (ORDER_MAIL_AFTER)
+		{
+			JLoader::load('RedshopHelperAdminMail');
+			$redshopMail = new redshopMail;
+			$redshopMail->sendOrderMail($data['order_id']);
 		}
 
 		return true;

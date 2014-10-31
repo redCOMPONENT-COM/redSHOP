@@ -26,9 +26,7 @@ class plgRedshop_paymentrs_payment_webmoney extends JPlugin
 			$plugin = $element;
 		}
 
-		$app = JFactory::getApplication();
-		$paymentpath = JPATH_SITE . '/plugins/redshop_payment/' . $plugin . '/' . $plugin . '/extra_info.php';
-		include $paymentpath;
+		include JPATH_SITE . '/plugins/redshop_payment/' . $plugin . '/' . $plugin . '/extra_info.php';
 	}
 
 	/*
@@ -168,8 +166,8 @@ class plgRedshop_paymentrs_payment_webmoney extends JPlugin
 		else
 		{
 			$sql = "SELECT *
-							FROM #__redshop_orders
-							WHERE `order_id`='" . $invoice . "'";
+					FROM #__redshop_orders
+					WHERE `order_id`='" . $invoice . "'";
 
 			$query = $db->setQuery($sql);
 			$order = $db->loadObject();
@@ -205,32 +203,6 @@ class plgRedshop_paymentrs_payment_webmoney extends JPlugin
 		}
 
 		return $values;
-	}
-
-	function getparameters($payment)
-	{
-		$db = JFactory::getDbo();
-		$sql = "SELECT * FROM #__extensions WHERE `element`='" . $payment . "'";
-		$db->setQuery($sql);
-		$params = $db->loadObjectList();
-
-		return $params;
-	}
-
-	function orderPaymentNotYetUpdated($dbConn, $order_id, $tid)
-	{
-		$db = JFactory::getDbo();
-		$res = false;
-		$query = "SELECT COUNT(*) `qty` FROM #__redshop_order_payment WHERE `order_id` = '" . $db->getEscaped($order_id) . "' and order_payment_trans_id = '" . $db->getEscaped($tid) . "'";
-		$db->setQuery($query);
-		$order_payment = $db->loadResult();
-
-		if ($order_payment == 0)
-		{
-			$res = true;
-		}
-
-		return $res;
 	}
 
 	function onCapture_Paymentrs_payment_webmoney($element, $data)

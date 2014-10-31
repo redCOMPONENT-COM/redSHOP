@@ -1,25 +1,17 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license   GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- *            Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     RedSHOP
+ * @subpackage  Plugin
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-$order_number = $data['order_id'];
-$total_sum_to_pay = $data['carttotal'];
-
-$webmoneyurl = "https://merchant.webmoney.ru/lmi/payment.asp";
-$payee_purse = $this->_params->get("purse_prodovtsa");
-$payment_description = $this->_params->get("payment_description");
+$order_number        = $data['order_id'];
+$total_sum_to_pay    = $data['carttotal'];
+$webmoneyurl         = "https://merchant.webmoney.ru/lmi/payment.asp";
+$payee_purse         = $this->params->get("purse_prodovtsa");
+$payment_description = $this->params->get("payment_description");
 
 $post_variables = Array(
 
@@ -42,5 +34,5 @@ foreach ($post_variables as $name => $value)
 {
 	echo '<input type="hidden" name="' . $name . '" value="' . htmlspecialchars($value) . '" />';
 }
+
 echo '</form>';
-?>

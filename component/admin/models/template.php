@@ -34,7 +34,7 @@ class RedshopModelTemplate extends JModel
 		$limit = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
 		$limitstart = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
 		$template_section = $app->getUserStateFromRequest($this->_context . 'template_section', 'template_section', 0);
-		$filter = $app->getUserStateFromRequest($this->_context . 'filter', 'filter', 0);
+		$filter = $app->getUserStateFromRequest($this->_context . 'filter', 'filter', '');
 
 		$this->setState('filter', $filter);
 		$this->setState('limit', $limit);
@@ -91,7 +91,7 @@ class RedshopModelTemplate extends JModel
 			->from($db->qn('#__redshop_template', 't'))
 			->order($orderby);
 
-		if ($filter)
+		if (!empty($filter))
 		{
 			$query->where($db->qn('t.template_name') . 'LIKE ' . $db->q($filter . '%'));
 		}
