@@ -20,7 +20,7 @@ JLoader::import('joomla.application.component.controller');
  * @subpackage  Controller
  * @since       1.0
  */
-class RedshopControllerAccount_billto extends JController
+class RedshopControllerAccount_billto extends RedshopController
 {
 	/**
 	 * Constructor.

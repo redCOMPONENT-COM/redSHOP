@@ -20,7 +20,7 @@ JLoader::load('RedshopHelperUser');
  * @subpackage  Controller
  * @since       1.0
  */
-class RedshopControllerNewsletter extends JController
+class RedshopControllerNewsletter extends RedshopController
 {
 	/**
 	 *  Method to subscribe newsletter

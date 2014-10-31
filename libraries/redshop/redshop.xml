@@ -11,6 +11,7 @@
 	<version>1.4</version>
 	<description>Redshop library</description>
 	<files>
+		<folder>controller</folder>
 		<folder>form</folder>
 		<folder>layout</folder>
 		<folder>model</folder>

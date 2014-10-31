@@ -21,7 +21,7 @@ JLoader::load('RedshopHelperCart');
  * @subpackage  Controller
  * @since       1.0
  */
-class RedshopControllerCart extends JController
+class RedshopControllerCart extends RedshopController
 {
 	/**
 	 * Constructor

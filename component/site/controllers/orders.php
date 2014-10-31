@@ -18,6 +18,6 @@ JLoader::import('joomla.application.component.controller');
  * @subpackage  Controller
  * @since       1.0
  */
-class RedshopControllerOrders extends JController
+class RedshopControllerOrders extends RedshopController
 {
 }

@@ -9,11 +9,10 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.controller');
 jimport('joomla.filesystem.file');
 JLoader::load('RedshopHelperAdminImages');
 
-class RedshopControllerMedia extends JController
+class RedshopControllerMedia extends RedshopController
 {
 	public function cancel()
 	{

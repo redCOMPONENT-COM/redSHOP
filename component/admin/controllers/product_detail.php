@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.controller');
 jimport('joomla.filesystem.file');
 
 JLoader::load('RedshopHelperAdminThumbnail');
@@ -23,7 +22,7 @@ JLoader::load('RedshopHelperAdminProduct');
  *
  * @since       1.0
  */
-class RedshopControllerProduct_Detail extends JController
+class RedshopControllerProduct_Detail extends RedshopController
 {
 	public $app;
 

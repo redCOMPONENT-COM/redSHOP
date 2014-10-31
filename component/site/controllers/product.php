@@ -21,7 +21,7 @@ JLoader::load('RedshopHelperAdminImages');
  * @subpackage  Controller
  * @since       1.0
  */
-class RedshopControllerProduct extends JController
+class RedshopControllerProduct extends RedshopController
 {
 	/**
 	 * Display Product add price
