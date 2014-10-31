@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die('Restricted access');
 
+JLoader::import('redshop.library');
 $document = JFactory::getDocument();
 $document->addStyleSheet("modules/mod_redshop_discount/css/discount.css");
 

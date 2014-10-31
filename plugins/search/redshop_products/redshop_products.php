@@ -9,8 +9,10 @@
 
 defined('_JEXEC') or die;
 
+jimport('joomla.plugin.plugin');
+
 require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
-JLoader::import('loadhelpers', JPATH_SITE . '/components/com_redshop');
+JLoader::import('redshop.library');
 JLoader::load('RedshopHelperAdminConfiguration');
 JLoader::load('RedshopHelperHelper');
 JLoader::load('RedshopHelperUser');
@@ -18,26 +20,36 @@ JLoader::load('RedshopHelperUser');
 $Redconfiguration = new Redconfiguration;
 $Redconfiguration->defineDynamicVars();
 
-/**
- * Product Search plugin
- *
- * @package     Joomla.Plugin
- * @subpackage  Search.RedshopProduct
- * @since       1.6
- */
-class PlgSearchRedshop_Products extends JPlugin
+class plgSearchRedshop_products extends JPlugin
 {
 	/**
-	 * Content Search method
-	 * The sql must return the following fields that are used in a common display
-	 * routine: href, title, section, created, text, browsernav
+	 * Constructor
 	 *
-	 * @param   string  $text      Target search string
-	 * @param   string  $phrase    mathcing option, exact|any|all
-	 * @param   string  $ordering  ordering option, newest|oldest|popular|alpha|category
-	 * @param   mixed   $areas     An array if the search it to be restricted to areas, null if search all
+	 * @access      protected
+	 * @param       object  $subject The object to observe
+	 * @param       array   $config  An array that holds the plugin configuration
+	 * @since       1.5
+	 */
+	public function __construct(& $subject, $config)
+	{
+		parent::__construct($subject, $config);
+		$this->loadLanguage();
+	}
+
+	/**
+	 * Search content (redSHOP Products).
 	 *
-	 * @return  array   Search Result array
+	 * The SQL must return the following fields that are used in a common display
+	 * routine: href, title, section, created, text, browsernav.
+	 *
+	 * @param   string  $text      Target search string.
+	 * @param   string  $phrase    Matching option (possible values: exact|any|all).  Default is "any".
+	 * @param   string  $ordering  Ordering option (possible values: newest|oldest|popular|alpha|category).  Default is "newest".
+	 * @param   mixed   $areas     An array if the search is to be restricted to areas or null to search all areas.
+	 *
+	 * @return  array  Search results.
+	 *
+	 * @since   1.6
 	 */
 	public function onContentSearch($text, $phrase = '', $ordering = '', $areas = null)
 	{
@@ -48,14 +60,19 @@ class PlgSearchRedshop_Products extends JPlugin
 
 		$limit = $pluginParams->def('search_limit', 50);
 
-		$text = trim($text);
+		$text  = trim($text);
 
 		if ($text == '')
 		{
 			return array();
 		}
 
-		$section = JText::_('COM_REDSHOP_PRODUCTS');
+		$section    = '';
+
+		if ($this->params->get('showSection'))
+		{
+			$section = JText::_('PLG_SEARCH_REDSHOP_PRODUCTS');
+		}
 
 		// Prepare Extra Field Query.
 		$extraQuery = $db->getQuery(true)
@@ -71,9 +88,9 @@ class PlgSearchRedshop_Products extends JPlugin
 						$db->qn('product_name', 'title'),
 						$db->qn('product_number', 'number'),
 						$db->qn('product_s_desc', 'text'),
-						'"2" AS ' . $db->qn('browsernav'),
-						'"Redshop Products" AS ' . $db->qn('section'),
-						'"" AS ' . $db->qn('created')
+						'"' . $section . '" AS ' . $db->qn('section'),
+						'"" AS ' . $db->qn('created'),
+						'"2" AS ' . $db->qn('browsernav')
 					)
 				)
 				->from($db->qn('#__redshop_product'));

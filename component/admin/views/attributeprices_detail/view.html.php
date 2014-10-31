@@ -10,28 +10,27 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
+JLoader::load('RedshopHelperAdminShopper');
 
 class RedshopViewAttributeprices_detail extends JView
 {
 	public function display($tpl = null)
 	{
-		$uri = JFactory::getURI();
+		$this->lists       = array();
+		$this->detail      = $this->get('data');
+		$model             = $this->getModel('attributeprices_detail');
+		$this->property    = $model->getPropertyName();
+		$this->request_url = JFactory::getURI()->toString();
 
-		$lists = array();
-		$detail = $this->get('data');
-
-		$model = $this->getModel('attributeprices_detail');
-		$property = $model->getPropertyName();
-		$shoppergroup = $model->getShopperGroup();
-
-		$lists['shopper_group_name'] = JHTML::_('select.genericlist', $shoppergroup, 'shopper_group_id',
-			'class="inputbox" size="1"', 'value', 'text', $detail->shopper_group_id
-		);
-
-		$this->lists = $lists;
-		$this->detail = $detail;
-		$this->property = $property;
-		$this->request_url = $uri->toString();
+		$shoppergroup   = new shoppergroup;
+		$this->lists['shopper_group_name'] = $shoppergroup->list_all(
+										"shopper_group_id",
+										0,
+										array($this->detail->shopper_group_id),
+										1,
+										true,
+										false
+									);
 
 		parent::display($tpl);
 	}

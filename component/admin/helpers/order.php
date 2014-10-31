@@ -431,7 +431,13 @@ class order_functions
 				. ", order_id = " . (int) $order_id . ", customer_note = " . $this->_db->quote($data->log);
 			$this->_db->SetQuery($query);
 			$this->_db->Query();
-			$this->changeOrderStatusMail($order_id, $data->order_status_code);
+
+			// Send status change email only if config is set to Before order mail or Order is not confirmed.
+			if (!ORDER_MAIL_AFTER
+				|| (ORDER_MAIL_AFTER && $data->order_status_code != "C"))
+			{
+				$this->changeOrderStatusMail($order_id, $data->order_status_code);
+			}
 
 			if ($data->order_payment_status_code == "Paid")
 			{
@@ -539,31 +545,42 @@ class order_functions
 		}
 	}
 
-	public function updateOrderItemStatus($order_id = 0, $product_id = 0, $newstatus = "", $comment = "", $order_item_id = 0)
+	/**
+	 * Update Order Item Status
+	 *
+	 * @param   int     $orderId      Order id
+	 * @param   int     $productId    Product id
+	 * @param   string  $newStatus    New status
+	 * @param   string  $comment      Comment
+	 * @param   int     $orderItemId  Order item id
+	 *
+	 * @return  void
+	 */
+	public function updateOrderItemStatus($orderId = 0, $productId = 0, $newStatus = '', $comment = '', $orderItemId = 0)
 	{
-		$and = "";
-		$field = "";
-		$and_order_item = "";
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->update($db->qn('#__redshop_order_item'))
+			->set('order_status = ' . $db->q($newStatus))
+			->where('order_id = ' . (int) $orderId);
 
-		if ($product_id != 0)
+		if ($productId != 0)
 		{
-			$and = " AND product_id = " . (int) $product_id . " ";
+			$query->set('customer_note = ' . $db->q($comment))
+				->where('product_id = ' . (int) $productId);
 		}
 
-		if ($order_item_id != 0)
+		if ($orderItemId != 0)
 		{
-			$and_order_item = " AND order_item_id = " . (int) $order_item_id . " ";
+			$query->where('order_item_id = ' . (int) $orderItemId);
 		}
 
-		if ($product_id != 0)
-		{
-			$field = ", customer_note = " . $this->_db->quote($comment) . " ";
-		}
+		$db->setQuery($query);
 
-		$query = "UPDATE " . $this->_table_prefix . "order_item " . "SET order_status='" . $this->_db->quote($newstatus) . "' " . $field
-			. "WHERE order_id = " . (int) $order_id . " " . $and . $and_order_item;
-		$this->_db->setQuery($query);
-		$this->_db->query();
+		if (!$db->query())
+		{
+			JFactory::getApplication()->enqueueMessage($db->getErrorMsg(), 'error');
+		}
 	}
 
 	public function manageContainerStock($product_id, $quantity, $container_id)
@@ -1973,33 +1990,21 @@ class order_functions
 
 		$order = $this->getOrderDetails($row->order_id);
 
-		$adminpath = JPATH_ADMINISTRATOR . '/components/com_redshop';
-		$invalid_elements = $paymentparams->get('invalid_elements', '');
-
-		// Send the order_id and orderpayment_id to the payment plugin so it knows which DB record to update upon successful payment
-		$objorder = new order_functions;
-		$user = JFactory::getUser();
-
-		$userbillinginfo = $this->getOrderBillingUserInfo($row->order_id);
-
-		$users_info_id = JRequest::getInt('users_info_id');
+		if ($userbillinginfo = $this->getOrderBillingUserInfo($row->order_id))
+		{
+			$userbillinginfo->country_2_code = $redconfig->getCountryCode2($userbillinginfo->country_code);
+			$userbillinginfo->state_2_code = $redconfig->getCountryCode2($userbillinginfo->state_code);
+		}
 
 		$task = JRequest::getVar('task');
 
-		$shippingaddresses = $this->getOrderShippingUserInfo($row->order_id);
-
-		$shippingaddress = array();
-
-		if (isset($shippingaddresses))
+		if ($shippingaddress = $this->getOrderShippingUserInfo($row->order_id))
 		{
-			$shippingaddress = $shippingaddresses;
-
 			$shippingaddress->country_2_code = $redconfig->getCountryCode2($shippingaddress->country_code);
-
 			$shippingaddress->state_2_code = $redconfig->getCountryCode2($shippingaddress->state_code);
-
 		}
 
+		$values = array();
 		$values['shippinginfo'] = $shippingaddress;
 		$values['billinginfo'] = $userbillinginfo;
 		$values['carttotal'] = $order->order_total;
@@ -2017,8 +2022,7 @@ class order_functions
 			}
 
 			JPluginHelper::importPlugin('redshop_payment');
-			$dispatcher = JDispatcher::getInstance();
-			$results = $dispatcher->trigger('onPrePayment', array($values['payment_plugin'], $values));
+			JDispatcher::getInstance()->trigger('onPrePayment', array($values['payment_plugin'], $values));
 
 		}
 		else
@@ -2276,9 +2280,31 @@ class order_functions
 			$mailbody = str_replace($search, $replace, $maildata);
 			$mailsubject = str_replace($search, $replace, $mailsubject);
 
-			if ($userdetail->user_email != '' && $mailbody)
+			if ('' != $userdetail->thirdparty_email && $mailbody)
 			{
-				JUtility::sendMail($MailFrom, $FromName, $userdetail->user_email, $mailsubject, $mailbody, 1, null, $mailbcc);
+				JUtility::sendMail(
+					$MailFrom,
+					$FromName,
+					$userdetail->thirdparty_email,
+					$mailsubject,
+					$mailbody,
+					1,
+					null
+				);
+			}
+
+			if ('' != $userdetail->user_email && $mailbody)
+			{
+				JUtility::sendMail(
+					$MailFrom,
+					$FromName,
+					$userdetail->user_email,
+					$mailsubject,
+					$mailbody,
+					1,
+					null,
+					$mailbcc
+				);
 			}
 		}
 	}
@@ -2340,13 +2366,36 @@ class order_functions
 		return $invoice;
 	}
 
+	/**
+	 * Create PacSoft Label from Order Status Change functions
+	 *
+	 * @param   integer  $order_id           Order Information ID
+	 * @param   string   $specifiedSendDate  Label Create Date
+	 * @param   string   $order_status       Order Status Code
+	 * @param   string   $paymentstatus      Order Payment Status Code
+	 *
+	 * @return  void
+	 */
 	public function createWebPacklabel($order_id, $specifiedSendDate, $order_status, $paymentstatus)
 	{
-		if (POSTDK_INTEGRATION && ($order_status == "S" && $paymentstatus == "Paid"))
+		// If PacSoft is not enable then return
+		if (!POSTDK_INTEGRATION)
+		{
+			return;
+		}
+
+		// If auto generation is disable then return
+		if (!AUTO_GENERATE_LABEL)
+		{
+			return;
+		}
+
+		// Only Execute this function for selected status match
+		if ($order_status == GENERATE_LABEL_ON_STATUS && $paymentstatus == "Paid")
 		{
 			$shippinghelper = new shipping;
-			$order_details = $this->getOrderDetails($order_id);
-			$details = explode("|", $shippinghelper->decryptShipping(str_replace(" ", "+", $order_details->ship_method_id)));
+			$order_details  = $this->getOrderDetails($order_id);
+			$details        = explode("|", $shippinghelper->decryptShipping(str_replace(" ", "+", $order_details->ship_method_id)));
 
 			if ($details[0] === 'plgredshop_shippingdefault_shipping' && !$order_details->order_label_create)
 			{
