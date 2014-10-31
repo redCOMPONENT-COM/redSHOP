@@ -132,7 +132,7 @@ class extra_field
 											. $errormsg
 											. ' name="' . $row_data[$i]->field_name . '"
 											id="' . $row_data[$i]->field_name . '"
-											value="' . htmlspecialchars(stripslashes($text_value)) . '"
+											value="' . htmlspecialchars($text_value) . '"
 											size="' . $size . '"
 										/>';
 					$ex_field .= '<td valign="top" width="100" align="right" class="key">' . $extra_field_label . '</td>';
@@ -245,7 +245,7 @@ class extra_field
 					$document = JFactory::getDocument();
 					$ex_field .= '<td valign="top" width="100" align="right" class="key">' . $extra_field_label . '</td>';
 					$textarea_value = ($data_value && $data_value->data_txt) ? $data_value->data_txt : '';
-					$extra_field_value = $editor->display($row_data[$i]->field_name, stripslashes($textarea_value), '200', '50', '100', '20');
+					$extra_field_value = $editor->display($row_data[$i]->field_name, $textarea_value, '200', '50', '100', '20');
 					$ex_field .= '<td>' . $extra_field_value;
 					break;
 
@@ -308,8 +308,8 @@ class extra_field
 					$document->addScriptDeclaration('
 						$(function(){
 							var remove_a = null;
-							var fieldNameAdd = "add_' . $row_data[$i]->field_name . '";
-							$("#" + fieldNameAdd).click(function(){
+							$(\'a#add_' . $row_data[$i]->field_name . '\').on(\'click\', function(e){
+								e.preventDefault();
 								var extra_field_name = $(this).attr(\'title\'), extra_field_doc_html = "";
 								var html_acceptor = $(\'#html_\'+extra_field_name);
 								var total_elm = html_acceptor.children(\'div\').length;
@@ -317,16 +317,16 @@ class extra_field
 								extra_field_doc_html = \'<div id="div_\'+extra_field_name+total_elm+\'" class="ui-helper-clearfix">\';
 									extra_field_doc_html += \'<input type="text" value="" id="text_\'+extra_field_name+total_elm+\'" errormsg="" reqlbl="" name="text_\'+extra_field_name+\'[]">\';
 									extra_field_doc_html += \'<input type="file" id="file_\'+extra_field_name+total_elm+\'" name="\'+extra_field_name+\'[]" class="">\';
-									extra_field_doc_html += \'<a href="#" style="float:left;" title="\'+extra_field_name+\'" id="remove_\'+extra_field_name+total_elm+\'">Remove</a>\';
+									extra_field_doc_html += \'<a href="#" class="rsDocumentDelete" style="float:left;" title="\'+extra_field_name+\'" id="remove_\'+extra_field_name+total_elm+\'">' . JText::_('COM_REDSHOP_DELETE') . '</a>\';
 								extra_field_doc_html += \'</div>\';
 
 								html_acceptor.append(extra_field_doc_html);
 								$(\'#div_\'+extra_field_name+total_elm).effect( \'highlight\');
-
- 								$("a[id^=\'remove_rs_\']").click(function(){
-									$(this).parent(\'div\').effect(\'highlight\',{},500,function(){
-										$(this).remove();
-									});
+							});
+							$(\'#html_' . $row_data[$i]->field_name . '\').on(\'click\', \'a.rsDocumentDelete\', function(e){
+								e.preventDefault();
+								$(this).parent(\'div\').effect(\'highlight\',{},500,function(){
+									$(this).remove();
 								});
 							});
 						});
@@ -343,7 +343,7 @@ class extra_field
 						else
 						{
 							// Support for multiple file upload using JSON for better string handling
-							$data_txt = json_decode(stripslashes($data_value->data_txt));
+							$data_txt = json_decode($data_value->data_txt);
 						}
 					}
 
@@ -370,7 +370,7 @@ class extra_field
 
 								if ($media_type == 'jpg' || $media_type == 'jpeg' || $media_type == 'png' || $media_type == 'gif')
 								{
-									$extra_field_value .= '<div id="docdiv' . $index . '"><img width="100"  src="' . $media_image . '" border="0" />&nbsp;<a href="#123"   onclick="delimg(\'' . $text_area_value . '\', \'div_' . $row_data[$i]->field_name . $index . '\',\'' . $destination_prefix_del . '\', \'' . $data_value->data_id . ':document\');"> Remove Media</a>&nbsp;<input class="' . $row_data[$i]->field_class . '"  name="' . $row_data[$i]->field_name . '[]"  id="' . $row_data[$i]->field_name . '" value="' . $text_area_value . '" type="hidden"  /><div>';
+									$extra_field_value .= '<div id="docdiv' . $index . '"><img width="100"  src="' . $media_image . '" border="0" />&nbsp;<a href="#123"   onclick="delimg(\'' . $text_area_value . '\', \'div_' . $row_data[$i]->field_name . $index . '\',\'' . $destination_prefix_del . '\', \'' . $data_value->data_id . ':document\');"> Remove Media</a>&nbsp;<input class="' . $row_data[$i]->field_class . '"  name="' . $row_data[$i]->field_name . '[]"  id="' . $row_data[$i]->field_name . '" value="' . $text_area_value . '" type="hidden"  /></div>';
 								}
 								else
 								{
@@ -389,7 +389,7 @@ class extra_field
 					}
 
 					$ex_field .= '<td width="100" align="right" class="key">' . $extra_field_label . '</td>';
-					$ex_field .= '<td><a href="#" title="' . $row_data[$i]->field_name . '" id="add_' . $row_data[$i]->field_name . '">Add</a><div id="html_' . $row_data[$i]->field_name . '">' . $extra_field_value . '</div>';
+					$ex_field .= '<td><a href="#" title="' . $row_data[$i]->field_name . '" id="add_' . $row_data[$i]->field_name . '">' . JText::_('COM_REDSHOP_ADD') . '</a><div id="html_' . $row_data[$i]->field_name . '">' . $extra_field_value . '</div>';
 					break;
 
 				// 11 :- Image select
