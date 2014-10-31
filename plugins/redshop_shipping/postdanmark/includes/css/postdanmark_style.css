@@ -44,7 +44,7 @@ table#mapAddress {
 }
 
 .point_table {
-    border: none;
+    border: none !important;
     margin-bottom: 0px;
 }
 
