@@ -25,8 +25,8 @@ class RedshopViewRating extends RedshopView
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_RATING_MANAGEMENT'), 'redshop_rating48');
 
-		JToolBarHelper::addNewX();
-		JToolBarHelper::editListX();
+		JToolbarHelper::addNew();
+		JToolbarHelper::EditList();
 		JToolBarHelper::deleteList();
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();

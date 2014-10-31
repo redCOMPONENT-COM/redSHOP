@@ -28,8 +28,8 @@ class RedshopViewShopper_group extends RedshopView
 		jimport('joomla.html.pagination');
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_SHOPPER_GROUP_MANAGEMENT'), 'redshop_manufact48');
-		JToolBarHelper::addNewX();
-		JToolBarHelper::editListX();
+		JToolbarHelper::addNew();
+		JToolbarHelper::EditList();
 		JToolBarHelper::deleteList();
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();

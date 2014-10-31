@@ -106,6 +106,13 @@
 		JRequest::setVar('view', 'redshop');
 	}
 
+	JHtml::_('behavior.framework');
+
+	if (version_compare(JVERSION, '3.0', '>='))
+	{
+		JHtml::_('formbehavior.chosen', 'select');
+	}
+
 	$user        = JFactory::getUser();
 	$task        = JRequest::getVar('task');
 	$layout      = JRequest::getVar('layout', '');

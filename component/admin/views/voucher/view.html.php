@@ -36,8 +36,8 @@ class RedshopViewVoucher extends RedshopView
 		$document->setTitle(JText::_('COM_REDSHOP_VOUCHER'));
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_VOUCHER_MANAGEMENT'), 'redshop_voucher48');
-		JToolBarHelper::addNewX();
-		JToolBarHelper::editListX();
+		JToolbarHelper::addNew();
+		JToolbarHelper::EditList();
 		JToolBarHelper::deleteList();
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();

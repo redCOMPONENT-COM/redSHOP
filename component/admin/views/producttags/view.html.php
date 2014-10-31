@@ -23,7 +23,7 @@ class RedshopViewProducttags extends RedshopView
 		$document->setTitle(JText::_('COM_REDSHOP_TAGS'));
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_TAGS_MANAGEMENT'), 'redshop_textlibrary48');
-		JToolBarHelper::editListX();
+		JToolbarHelper::EditList();
 		JToolBarHelper::deleteList();
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();

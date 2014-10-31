@@ -24,8 +24,8 @@ class RedshopViewXmlexport extends RedshopView
 		$model = $this->getModel('xmlexport');
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_XML_EXPORT_MANAGEMENT'), 'redshop_export48');
-		JToolBarHelper::addNewX();
-		JToolBarHelper::editListX();
+		JToolbarHelper::addNew();
+		JToolbarHelper::EditList();
 		JToolBarHelper::deleteList();
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();

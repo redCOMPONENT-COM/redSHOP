@@ -24,8 +24,8 @@ class RedshopViewQuestion extends RedshopView
 		$model = $this->getModel('question');
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_QUESTION_MANAGEMENT'), 'redshop_question48');
-		JToolBarHelper::addNewX();
-		JToolBarHelper::editListX();
+		JToolbarHelper::addNew();
+		JToolbarHelper::EditList();
 		JToolBarHelper::deleteList();
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();

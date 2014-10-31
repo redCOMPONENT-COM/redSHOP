@@ -48,7 +48,7 @@ class RedshopViewOrder extends RedshopView
 				true
 			);
 			JToolBarHelper::title(JText::_('COM_REDSHOP_ORDER_MANAGEMENT'), 'redshop_order48');
-			JToolBarHelper::addNewX();
+			JToolbarHelper::addNew();
 
 			JToolBarHelper::custom(
 				'allStatusExceptPacsoft',

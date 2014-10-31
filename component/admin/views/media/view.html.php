@@ -46,8 +46,8 @@ class RedshopViewMedia extends RedshopView
 		$document->addStyleSheet(JURI::root() . 'administrator/components/com_redshop/assets/css/medialist-thumbs.css');
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_MEDIA_MANAGEMENT'), 'redshop_media48');
-		JToolBarHelper::addNewX();
-		JToolBarHelper::editListX();
+		JToolbarHelper::addNew();
+		JToolbarHelper::EditList();
 		JToolBarHelper::deleteList();
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();

@@ -47,9 +47,9 @@ class RedshopViewNewsletter extends RedshopView
 		else
 		{
 			JToolBarHelper::custom('send_newsletter_preview', 'send.png', 'send.png', JText::_('COM_REDSHOP_SEND_NEWSLETTER'), true, false);
-			JToolBarHelper::customX('copy', 'copy.png', 'copy_f2.png', JText::_('COM_REDSHOP_TOOLBAR_COPY'), true);
-			JToolBarHelper::addNewX();
-			JToolBarHelper::editListX();
+			JToolBarHelper::custom('copy', 'copy.png', 'copy_f2.png', JText::_('COM_REDSHOP_TOOLBAR_COPY'), true);
+			JToolbarHelper::addNew();
+			JToolbarHelper::EditList();
 			JToolBarHelper::deleteList();
 			JToolBarHelper::publishList();
 			JToolBarHelper::unpublishList();

@@ -23,8 +23,8 @@ class RedshopViewStockimage extends RedshopView
 		$document->setTitle(JText::_('COM_REDSHOP_STOCKIMAGE'));
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_STOCKIMAGE_MANAGEMENT'), 'redshop_stockroom48');
-		JToolBarHelper::addNewX();
-		JToolBarHelper::editListX();
+		JToolbarHelper::addNew();
+		JToolbarHelper::EditList();
 		JToolBarHelper::deleteList();
 
 		$filter_order     = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'stock_amount_id');
