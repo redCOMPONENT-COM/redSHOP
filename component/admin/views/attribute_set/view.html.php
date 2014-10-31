@@ -23,9 +23,9 @@ class RedshopViewAttribute_set extends RedshopView
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_ATTRIBUTE_SET'), 'redshop_attribute_bank48');
 
-		JToolBarHelper::addNewX();
-		JToolBarHelper::editListX();
-		JToolBarHelper::customX('copy', 'copy.png', 'copy_f2.png', JText::_('COM_REDSHOP_TOOLBAR_COPY'), true);
+		JToolbarHelper::addNew();
+		JToolbarHelper::EditList();
+		JToolBarHelper::custom('copy', 'copy.png', 'copy_f2.png', JText::_('COM_REDSHOP_TOOLBAR_COPY'), true);
 		JToolBarHelper::deleteList();
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();

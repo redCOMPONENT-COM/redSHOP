@@ -25,8 +25,8 @@ class RedshopViewCurrency extends RedshopView
 		$document->setTitle(JText::_('COM_REDSHOP_CURRENCY'));
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_CURRENCY_MANAGEMENT'), 'redshop_currencies_48');
-		JToolbarHelper::addNewX();
-		JToolbarHelper::EditListX();
+		JToolbarHelper::addNew();
+		JToolbarHelper::EditList();
 		JToolbarHelper::deleteList();
 
 		$filter_order       = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'currency_id');

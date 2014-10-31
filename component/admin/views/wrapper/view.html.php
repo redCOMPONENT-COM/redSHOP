@@ -42,7 +42,7 @@ class RedshopViewWrapper extends RedshopView
 		$pagination = $this->get('Pagination');
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_WRAPPER'), 'redshop_wrapper48');
-		JToolBarHelper::addNewX();
+		JToolbarHelper::addNew();
 		JToolBarHelper::deleteList();
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();

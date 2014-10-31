@@ -25,8 +25,8 @@ class RedshopViewCountry extends RedshopView
 		$document->setTitle(JText::_('COM_REDSHOP_COUNTRY'));
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_COUNTRY_MANAGEMENT'), 'redshop_country_48');
-		JToolbarHelper::addNewX();
-		JToolbarHelper::EditListX();
+		JToolbarHelper::addNew();
+		JToolbarHelper::EditList();
 		JToolbarHelper::deleteList();
 
 		$filter_order     = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'country_id');

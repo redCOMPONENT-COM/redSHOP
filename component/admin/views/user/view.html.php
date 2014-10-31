@@ -41,8 +41,8 @@ class RedshopViewUser extends RedshopView
 		{
 			$this->setLayout('default');
 			JToolBarHelper::title(JText::_('COM_REDSHOP_USER_MANAGEMENT'), 'redshop_user48');
-			JToolBarHelper::addNewX();
-			JToolBarHelper::editListX();
+			JToolbarHelper::addNew();
+			JToolbarHelper::EditList();
 			JToolBarHelper::deleteList();
 		}
 

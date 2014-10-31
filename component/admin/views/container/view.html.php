@@ -24,8 +24,8 @@ class RedshopViewContainer extends RedshopView
 		JToolBarHelper::title(JText::_('COM_REDSHOP_CONTAINER_MANAGEMENT'), 'redshop_container48');
 		JToolBarHelper::custom('export_data', 'save.png', 'save_f2.png', 'Export Data', false);
 		JToolBarHelper::custom('print_da', 'save.png', 'save_f2.png', 'Print Data', false);
-		JToolBarHelper::addNewX();
-		JToolBarHelper::editListX();
+		JToolbarHelper::addNew();
+		JToolbarHelper::EditList();
 		JToolBarHelper::deleteList();
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();
