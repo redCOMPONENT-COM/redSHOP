@@ -18,7 +18,7 @@ JLoader::import('joomla.application.component.controller');
  * @subpackage  Controller
  * @since       1.0
  */
-class RedshopControllerCatalog extends JController
+class RedshopControllerCatalog extends RedshopController
 {
 	/**
 	 * Method to send catalog

@@ -22,7 +22,7 @@ JLoader::load('RedshopHelperExtra_field');
  * @subpackage  Controller
  * @since       1.0
  */
-class RedshopControllerRegistration extends JController
+class RedshopControllerRegistration extends RedshopController
 {
 	/**
 	 * newregistration function

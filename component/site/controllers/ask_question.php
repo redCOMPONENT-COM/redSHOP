@@ -18,7 +18,7 @@ JLoader::import('joomla.application.component.controller');
  * @subpackage  Controller
  * @since       1.0
  */
-class RedshopControllerAsk_question extends JController
+class RedshopControllerAsk_question extends RedshopController
 {
 	/**
 	 * Method to send Ask Question Mail.

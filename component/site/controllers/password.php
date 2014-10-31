@@ -19,7 +19,7 @@ JLoader::import('joomla.application.component.controller');
  * @subpackage  Controller
  * @since       1.0
  */
-class RedshopControllerPassword extends JController
+class RedshopControllerPassword extends RedshopController
 {
 	/**
 	 *  Metod to reset Password

@@ -17,7 +17,7 @@ JLoader::import('joomla.application.component.controller');
  * @subpackage  Controller
  * @since       1.0
  */
-class RedshopControllerPrice_filter extends JController
+class RedshopControllerPrice_filter extends RedshopController
 {
 	/**
 	 * logic for display

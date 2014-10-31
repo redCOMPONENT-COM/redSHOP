@@ -9,14 +9,13 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.controller');
 JLoader::load('RedshopHelperAdminOrder');
 JLoader::load('RedshopHelperAdminMail');
 JLoader::load('RedshopHelperHelper');
 require_once JPATH_SITE . '/components/com_redshop/helpers/tcpdf/tcpdf.php';
 require_once JPATH_SITE . '/components/com_redshop/helpers/tcpdf/PDFMerger.php';
 
-class RedshopControllerOrder extends JController
+class RedshopControllerOrder extends RedshopController
 {
 	public function multiprint_order()
 	{

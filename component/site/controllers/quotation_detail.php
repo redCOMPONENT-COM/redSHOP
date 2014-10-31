@@ -22,7 +22,7 @@ JLoader::load('RedshopHelperHelper');
  * @subpackage  Controller
  * @since       1.0
  */
-class RedshopControllerQuotation_detail extends JController
+class RedshopControllerQuotation_detail extends RedshopController
 {
 	/**
 	 * update status function

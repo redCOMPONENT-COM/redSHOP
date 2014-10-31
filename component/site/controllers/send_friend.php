@@ -18,7 +18,7 @@ JLoader::import('joomla.application.component.controller');
  * @subpackage  Controller
  * @since       1.0
  */
-class RedshopControllerSend_friend extends JController
+class RedshopControllerSend_friend extends RedshopController
 {
 	/**
 	 * sendmail function

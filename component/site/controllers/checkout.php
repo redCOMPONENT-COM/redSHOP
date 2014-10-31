@@ -20,7 +20,7 @@ JLoader::load('RedshopHelperAdminExtra_field');
  * @subpackage  Controller
  * @since       1.0
  */
-class RedshopControllerCheckout extends JController
+class RedshopControllerCheckout extends RedshopController
 {
 	public $_order_functions = null;
 
