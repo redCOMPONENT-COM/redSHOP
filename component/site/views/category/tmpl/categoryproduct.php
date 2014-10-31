@@ -485,10 +485,7 @@ if (strstr($template_desc, "{category_loop_start}") && strstr($template_desc, "{
 				// Replace compare product button.
 				$prddata_add = $producthelper->replaceCompareProductsButton($product->product_id, $this->catid, $prddata_add);
 
-				if (strstr($prddata_add, "{stockroom_detail}"))
-				{
-					$prddata_add = $stockroomhelper->replaceStockroomAmountDetail($prddata_add, $product->product_id);
-				}
+				$prddata_add = $stockroomhelper->replaceStockroomAmountDetail($prddata_add, $product->product_id);
 
 				// Checking for child products.
 				$childproduct = $producthelper->getChildProduct($product->product_id);

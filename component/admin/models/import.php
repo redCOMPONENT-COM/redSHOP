@@ -499,8 +499,7 @@ class RedshopModelImport extends JModel
 								}
 
 								// Product Extra Field Import
-								$newkeys = array();
-								array_walk($rawdata, 'checkkeys', $newkeys);
+								$newkeys = $this->getExtraFieldNames($rawdata);
 
 								if (count($newkeys) > 0)
 								{
@@ -1888,7 +1887,7 @@ class RedshopModelImport extends JModel
 		$query = $db->getQuery(true)
 			->select('shopper_group_id')
 			->from($db->qn('#__redshop_shopper_group'))
-			->where($db->qn('shopper_group_id') . ' = ' . (int) trim($rawdata['shopper_group_id']));
+			->where($db->qn('shopper_group_id') . ' = ' . (int) trim($shopperGroupInputId));
 
 		// Set the query and load the result.
 		$db->setQuery($query);
@@ -1998,7 +1997,8 @@ class RedshopModelImport extends JModel
 		}
 
 		// Initialiase variables.
-		$db = JFactory::getDbo();
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true);
 
 		if ($rawdata['section'] == "property")
 		{
@@ -2060,7 +2060,7 @@ class RedshopModelImport extends JModel
 			$price_id = 0;
 		}
 
-		$reduser->set('product_price', trim($rawdata['product_price']));
+		$reduser->set('product_price', trim($rawdata['attribute_price']));
 		$reduser->set('product_currency', CURRENCY_CODE);
 		$reduser->set('cdate', time());
 		$reduser->set('shopper_group_id', trim($rawdata['shopper_group_id']));
@@ -3146,21 +3146,31 @@ class RedshopModelImport extends JModel
 
 		return $retun;
 	}
-}
 
-/**
- * External function to collect matched keys
- *
- * @param array $item
- * @param array $keyproduct
- * @param array $newkeys - reference variable
- */
-function checkkeys($item, $keyproduct, &$newkeys)
-{
-	$pattern = '/rs_/';
-
-	if (preg_match($pattern, $keyproduct))
+	/**
+	 * Get Extra Field Names
+	 *
+	 * @param   array  $keyProducts  Array key products
+	 *
+	 * @return  array
+	 */
+	public function getExtraFieldNames($keyProducts)
 	{
-		$newkeys[] = $keyproduct;
+		$extraFieldNames = array();
+
+		if (is_array($keyProducts))
+		{
+			$pattern = '/rs_/';
+
+			foreach ($keyProducts as $key => $value)
+			{
+				if (preg_match($pattern, $key))
+				{
+					$extraFieldNames[] = $key;
+				}
+			}
+		}
+
+		return $extraFieldNames;
 	}
 }

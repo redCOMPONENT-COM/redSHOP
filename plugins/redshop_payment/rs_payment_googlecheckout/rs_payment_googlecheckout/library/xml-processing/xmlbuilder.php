@@ -98,9 +98,13 @@ class XmlBuilder
 	function GetXML()
 	{
 		if (count($this->stack) != 0)
-			die ('XML Error: No matching closing tag found for " ' . array_pop($this->stack) . '"');
+		{
+			echo 'XML Error: No matching closing tag found for " ' . array_pop($this->stack) . '"';
+			die;
+		}
 		else
+		{
 			return $this->xml;
+		}
 	}
 }
-?>

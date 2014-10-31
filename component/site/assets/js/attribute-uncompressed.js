@@ -1685,13 +1685,6 @@ function setWrapperComboBox() {
 function discountCalculation(proid) {
     var calHeight = 0, calWidth = 0, calDepth = 0, calRadius = 0, calUnit = 'cm', globalcalUnit = 'cm', total_area = '', price_per_area = 0, price_per_piece = 0, output = "", price_total = 0;
 
-    /*if(document.getElementById('product_id')){
-     proid = document.getElementById('product_id').value;
-     }else{
-     alert("No Add to cart Available");
-     return false;
-     }*/
-
     if (document.getElementById('calc_height')) {
         calHeight = document.getElementById('calc_height').value;
         if (calHeight == "") {
@@ -2262,7 +2255,25 @@ function checkAddtocartValidation(frmCartName, product_id, relatedprd_id, giftca
             submitAjaxCartdetail(frmCartName, product_id, relatedprd_id, giftcard_id, totAttribute, totAccessory, totUserfield);
         }
         else {
-            if (ntotal > 0) {
+            var cansubmit = true;
+
+            var ret = userfieldValidation("extrafields" + product_id);
+            if (!ret) {
+                cansubmit = false;
+            }
+
+            var requiedAttribute = document.getElementById(frmCartName).requiedAttribute.value;
+            var requiedProperty = document.getElementById(frmCartName).requiedProperty.value;
+
+            if (requiedAttribute != "") {
+                cansubmit = false;
+            }
+
+            if (requiedProperty != "") {
+                cansubmit = false;
+            }
+
+            if (ntotal > 0 && cansubmit == false) {
                 displayAjaxCartdetail(frmCartName, product_id, relatedprd_id, giftcard_id, totAttribute, totAccessory, totUserfield);
             } else {
 

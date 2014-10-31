@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.model');
 
 JLoader::load('RedshopHelperAdminExtra_field');
+JLoader::load('RedshopHelperAdminImages');
 
 class RedshopModelFields_detail extends JModel
 {
@@ -176,7 +177,7 @@ class RedshopModelFields_detail extends JModel
 			{
 				if ($extra_value[$j] != "" && $extra_name['name'][$j] != "")
 				{
-					$filename = time() . "_" . $extra_name['name'][$j];
+					$filename = RedShopHelperImages::cleanFileName($extra_name['name'][$j]);
 
 					$src = $extra_name['tmp_name'][$j];
 					$dest = REDSHOP_FRONT_IMAGES_RELPATH . 'extrafield/' . $filename;

@@ -17,8 +17,8 @@ $uri = JURI::getInstance();
 $url = $uri->root();
 JHTML::_('behavior.calendar');
 jimport('joomla.html.pane');
-$objhelper = new redhelper();
-$producthelper = new producthelper();
+$objhelper = new redhelper;
+$producthelper = new producthelper;
 
 ?>
 <script language="javascript" type="text/javascript">

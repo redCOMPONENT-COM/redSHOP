@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 JHTML::_('behavior.tooltip');
 
 JLoader::load('RedshopHelperAdminConfiguration');
+JLoader::load('RedshopHelperAdminImages');
 
 class xmlHelper
 {
@@ -468,8 +469,8 @@ class xmlHelper
 			}
 		}
 
-		$filetmpname = str_replace(" ", "_", strtolower($xmlexportdata->display_filename));
-		$filename = JPath::clean(time() . '_' . $filetmpname . '.xml'); //Make the filename unique
+		//Make the filename unique
+		$filename = RedShopHelperImages::cleanFileName($xmlexportdata->display_filename . '.xml');
 
 		$xml_document = "<?xml version='1.0' encoding='utf-8'?>";
 
@@ -704,14 +705,7 @@ class xmlHelper
 							}
 						}
 
-						if ($prop == "link")
-						{
-							$xml_document .= "<$prop><![CDATA[$val]]></$prop>";
-						}
-						else
-						{
-							$xml_document .= "<$prop>$val</$prop>";
-						}
+						$xml_document .= "<$prop><![CDATA[$val]]></$prop>";
 					}
 				}
 
@@ -769,8 +763,8 @@ class xmlHelper
 			return false; //no data In imported xmlfile.So no need to write import file.
 		}
 
-		$filetmpname = str_replace(" ", "_", strtolower($xmlimportdata->display_filename));
-		$filename = JPath::clean(time() . "_" . $filetmpname . ".xml"); //Make the filename unique
+		//Make the filename unique
+		$filename = RedShopHelperImages::cleanFileName($xmlimportdata->display_filename . ".xml");
 
 		$xml_document = "<?xml version='1.0' encoding='utf-8'?>";
 		$xml_document .= "<" . $xmlimportdata->element_name . "s>";
