@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 $option = JRequest::getVar('option', '', 'request', 'string');
-$producthelper = new producthelper();
+$producthelper = new producthelper;
 ?>
 <script language="javascript" type="text/javascript">
 

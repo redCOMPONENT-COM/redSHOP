@@ -11,15 +11,15 @@ $uri = JURI::getInstance();
 $url = $uri->root();
 $app = JFactory::getApplication();
 
-$eWAYcustomer_id = $this->_params->get("customer_id");
-$eWAYusername = $this->_params->get("username");
-$eWAYpagetitle = $this->_params->get("pagetitle");
-$eWAYpagedescription = $this->_params->get("pagedescription");
-$eWAYpagefooter = $this->_params->get("pagefooter");
-$eWAYlanguage = $this->_params->get("ewaynz_language");
-$eWAYcompanylogo = $this->_params->get("companylogo");
-$eWAYpagebanner = $this->_params->get("pagebanner");
-$eWay_companyname = $this->_params->get("merchant_companyname");
+$eWAYcustomer_id     = $this->params->get("customer_id");
+$eWAYusername        = $this->params->get("username");
+$eWAYpagetitle       = $this->params->get("pagetitle");
+$eWAYpagedescription = $this->params->get("pagedescription");
+$eWAYpagefooter      = $this->params->get("pagefooter");
+$eWAYlanguage        = $this->params->get("ewaynz_language");
+$eWAYcompanylogo     = $this->params->get("companylogo");
+$eWAYpagebanner      = $this->params->get("pagebanner");
+$eWay_companyname    = $this->params->get("merchant_companyname");
 
 $currencyClass = new CurrencyHelper;
 $item_price = $currencyClass->convert($data['carttotal'], '', 'NZD');
@@ -52,8 +52,6 @@ $ewayurl .= "&MerchantOption1=Option1";
 $ewayurl .= "&MerchantOption2=Option2";
 $ewayurl .= "&MerchantOption3=Option2";
 $ewayurl .= "&ModifiableCustomerDetails=false";
-//$ewayurl.="&ReturnUrl=".JURI::base()."plugins/redshop_payment/rs_payment_ewayuk/eway_response.php";
-//$ewayurl.="&CancelURL=".JURI::base()."plugins/redshop_payment/rs_payment_ewayuk/eway_response.php";
 
 $returnurl = JURI::base() . "plugins/redshop_payment/rs_payment_ewaynz/rs_payment_ewaynz/eway_response.php";
 $cancelurl = JURI::base() . "plugins/redshop_payment/rs_payment_ewaynz/rs_payment_ewaynz/eway_response.php";
@@ -62,7 +60,6 @@ $ewayurl = "CustomerID=" . $eWAYcustomer_id . "&UserName=" . $eWAYusername . "&A
 $spacereplace = str_replace(" ", "%20", $ewayurl);
 
 $posturl = "https://nz.ewaygateway.com/Request/?$spacereplace";
-
 
 $ch = curl_init();
 curl_setopt($ch, CURLOPT_URL, $posturl);
@@ -91,6 +88,3 @@ else
 {
 	$app->redirect(JURI::base() . "index.php?option=com_redshop&view=order_detail&oid=" . $data['order_id']);
 }
-
-
-?>

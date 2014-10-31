@@ -11,7 +11,7 @@
 // Load the Step Object Page
 $I = new AcceptanceTester\LoginSteps($scenario);
 
-$I->wantTo('Want to Uninstall Extension');
+$I->wantTo('Uninstall Extension');
 $I->doAdminLogin("Function to Login to Admin Panel");
 
 $I = new AcceptanceTester\UninstallExtensionSteps($scenario);

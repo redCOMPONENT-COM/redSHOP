@@ -6,11 +6,12 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined('_JEXEC') or die ('Restricted access');
+defined('_JEXEC') or die;
 
 JHTML::_('behavior.tooltip');
 
 JHTMLBehavior::modal();
+$url = JURI::getInstance()->root();
 
 $now = JFactory::getDate();
 $model = $this->getModel('attribute_set_detail');
@@ -52,6 +53,58 @@ if (isset($this->detail->product_id))
 		?>");
 
 			s.value = "+";
+		}
+	}
+	function jimage_insert(main_path, fid, fsec) {
+
+		var path_url = "<?php echo $url;?>";
+		var propimg;
+
+		if (!fid && !fsec) {
+
+			if (main_path) {
+				document.getElementById("image_display").style.display = "block";
+				document.getElementById("product_image").value = main_path;
+				document.getElementById("image_display").src = path_url + main_path;
+			}
+			else {
+				document.getElementById("product_image").value = "";
+				document.getElementById("image_display").src = "";
+			}
+		} else {
+
+			if (fsec == 'property') {
+				if (main_path) {
+					propimg = 'propertyImage' + fid;
+					document.getElementById(propimg).style.display = "block";
+					document.getElementById(propimg).width = "60";
+					document.getElementById(propimg).heidth = "60";
+					document.getElementById("propmainImage" + fid).value = main_path;
+					document.getElementById(propimg).src = path_url + main_path;
+
+
+				}
+				else {
+					document.getElementById("propmainImage" + fid).value = "";
+					document.getElementById("propimg" + fid).src = "";
+				}
+			} else {
+				if (main_path) {
+
+					propimg = 'subpropertyImage' + fid;
+					document.getElementById(propimg).style.display = "block";
+					document.getElementById(propimg).width = "60";
+					document.getElementById(propimg).heidth = "60";
+					document.getElementById("subpropmainImage" + fid).value = main_path;
+					document.getElementById(propimg).src = path_url + main_path;
+
+
+				}
+				else {
+					document.getElementById("subpropmainImage" + fid).value = "";
+					document.getElementById("propimg" + fid).src = "";
+				}
+			}
 		}
 	}
 </script>
@@ -240,7 +293,7 @@ if ($this->lists['attributes'] != '')
 						<td align="right" class="td2">
 							<input type="text" class="text_area input_t1" size="22"
 							       name="attribute[<?php echo $k; ?>][name]"
-							       value="<?php echo htmlspecialchars(urldecode($attibute_data['attribute_name'])); ?>">
+							       value="<?php echo htmlspecialchars($attibute_data['attribute_name']); ?>">
 						</td>
 
 						<td align="right" nowrap="nowrap" class="td3">
@@ -360,6 +413,13 @@ if ($this->lists['attributes'] != '')
 				$style = 'style="display:none;"';
 			}
 
+			$property_published = "";
+
+			if ($property->property_published)
+			{
+				$property_published = "checked='checked'";
+			}
+
 			?>
 
 
@@ -379,7 +439,7 @@ if ($this->lists['attributes'] != '')
 								<input type="text"
 								       class="text_area input_t1" size="22"
 								       name="attribute[<?php echo $k; ?>][property][<?php echo $g; ?>][name]"
-								       value="<?php echo htmlspecialchars(urldecode($property->property_name)); ?>">
+								       value="<?php echo htmlspecialchars($property->property_name); ?>">
 							</td>
 							<td align="right" nowrap="nowrap" class="td3">
 								<span> <?php echo JText::_('COM_REDSHOP_ORDERING'); ?>:&nbsp;</span>
@@ -565,6 +625,29 @@ if ($this->lists['attributes'] != '')
 
 
 											<td align="right" class="td5" style="padding-right: 10px;">
+
+												<div>
+													<label for="attribute[<?php echo $k ?>][property][<?php echo $g ?>][published]">
+														<?php echo JText::_('COM_REDSHOP_PUBLISHED'); ?>&nbsp;
+													</label>
+													<input type="checkbox"
+															class="text_area"
+															size="55"
+															id="attribute[<?php echo $k ?>][property][<?php echo $g ?>][published]"
+															name="attribute[<?php echo $k ?>][property][<?php echo $g ?>][published]"
+															<?php echo $property_published; ?>
+															value="1" />
+													<label for="attribute[<?php echo $k ?>][property][<?php echo $g; ?>][extra_field]">
+														<?php echo JText::_('COM_REDSHOP_ATTRIBUTE_EXTRAFIELD'); ?>&nbsp;
+													</label>
+													<input type="text"
+															class="text_area"
+															size="8"
+															id="attribute[<?php echo $k ?>][property][<?php echo $g; ?>][extra_field]"
+															name="attribute[<?php echo $k ?>][property][<?php echo $g; ?>][extra_field]"
+															value="<?php echo $property->extra_field; ?>" />
+												</div>
+
 												<div class="remove_attr">
 													<input value="Delete"
 													       class="btn_attribute_remove" type='button'
@@ -572,6 +655,8 @@ if ($this->lists['attributes'] != '')
 													       onclick="if(ajax_delete_property(<?php echo $attribute_id; ?>,<?php echo $property_id; ?>)){deleteRow_property('<?php echo 'property_table' . $property->property_id; ?>','property_table<?php echo $k; ?>','sub_attribute_table<?php echo $k . $g; ?>','<?php echo $k . $g; ?>');}"/>
 
 												</div>
+
+
 											</td>
 
 										</tr>
@@ -706,8 +791,12 @@ if ($this->lists['attributes'] != '')
 					$impathphy = REDSHOP_FRONT_IMAGES_RELPATH . 'subcolor/' . $subvalue->subattribute_color_image;
 					$ilink = JRoute::_('index.php?tmpl=component&option=com_redshop&view=media&fsec=subproperty&fid=' . $k . $z . '&layout=thumbs');
 
+					$subattribute_published = "";
 
-
+					if ($subvalue->subattribute_published)
+					{
+						$subattribute_published = "checked='checked'";
+					}
 					?>
 					<tr>
 						<td style="padding:0px;">
@@ -795,11 +884,11 @@ if ($this->lists['attributes'] != '')
 												<tr valign="top">
 
 													<td rowspan="3" align="right" nowrap="nowrap" class="td1"
-													    style="padding-right: 10px;"><?php if ($subvalue->subattribute_color_id != 0)
-														{
+													    style="padding-right: 10px;">
+													    <?php if ($subvalue->subattribute_color_id != 0) :
+
 															$medialink = JRoute::_('index.php?tmpl=component&option=com_redshop&view=media&section_id=' . $subvalue->subattribute_color_id . '&showbuttons=1&media_section=subproperty');
-															/*index3.php?option=com_redshop&amp;view=product_detail&amp;fsec=subproperty&amp;section_id=<?php echo $subvalue->subattribute_color_id;?>&amp;cid=<?php echo $this->detail->product_id; ?>&amp;layout=property_images&amp;showbuttons=1*/
-															?>
+														?>
 															<a class="modal"
 															   href="<?php echo $medialink; ?>"
 															   rel="{handler: 'iframe', size: {x: 950, y: 500}}"
@@ -820,21 +909,21 @@ if ($this->lists['attributes'] != '')
 															<img
 																src="<?php echo REDSHOP_ADMIN_IMAGES_ABSPATH; ?>stockroom16.png"
 																align="absmiddle" alt="media">
-														</a> <?php } ?>
+														</a>
+														<?php endif; ?>
 													</td>
 
-													<td class="td2"><span>
-																														<div
-																															class="button2-left">
-																															<div
-																																class="image">
-																																<a class="modal"
-																																   title="Image"
-																																   href="<?php echo $ilink; ?>"
-																																   rel="{handler: 'iframe', size: {x: 900, y: 500}}"></a>
-																															</div>
-																														</div>
-																												</span>
+													<td class="td2">
+														<span>
+															<div class="button2-left">
+																<div class="image">
+																	<a class="modal"
+																		title="Image"
+																		href="<?php echo $ilink; ?>"
+																		rel="{handler: 'iframe', size: {x: 900, y: 500}}"></a>
+																</div>
+															</div>
+														</span>
 														<input type="file"
 														       name="attribute_<?php echo $k; ?>_property_<?php echo $g; ?>_subproperty_<?php echo $sp; ?>_image"
 														       value="<?php echo $subvalue->subattribute_color_image; ?>">
@@ -889,6 +978,28 @@ if ($this->lists['attributes'] != '')
 
 
 													<td align="right" class="td5" style="padding-right: 10px;">
+
+														<div>
+															<label for="attribute[<?php echo $k ?>][property][<?php echo $g ?>][subproperty][<?php echo $sp ?>][published]">
+																<?php echo JText::_('COM_REDSHOP_PUBLISHED'); ?>&nbsp;
+															</label>
+															<input type="checkbox"
+																	class="text_area"
+																	size="55"
+																	id="attribute[<?php echo $k ?>][property][<?php echo $g ?>][subproperty][<?php echo $sp ?>][published]"
+																	name="attribute[<?php echo $k ?>][property][<?php echo $g ?>][subproperty][<?php echo $sp ?>][published]"
+																<?php echo $subattribute_published; ?>
+																	value="1" />
+															<label for="attribute[<?php echo $k ?>][property][<?php echo $g ?>][subproperty][<?php echo $sp ?>][extra_field]">
+																<?php echo JText::_('COM_REDSHOP_ATTRIBUTE_EXTRAFIELD'); ?>&nbsp;
+															</label>
+															<input type="text"
+																	class="text_area"
+																	size="8"
+																	id="attribute[<?php echo $k ?>][property][<?php echo $g ?>][subproperty][<?php echo $sp ?>][extra_field]"
+																	name="attribute[<?php echo $k ?>][property][<?php echo $g ?>][subproperty][<?php echo $sp ?>][extra_field]"
+																	value="<?php echo $subvalue->extra_field; ?>" />
+														</div>
 														<div class="remove_attr">
 															<input
 																value="Delete" class="btn_attribute_remove"

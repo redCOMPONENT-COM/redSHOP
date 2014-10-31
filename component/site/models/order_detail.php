@@ -34,18 +34,51 @@ class RedshopModelOrder_detail extends JModel
 		$this->_table_prefix = '#__redshop_';
 	}
 
+	/**
+	 * Check Order Information Access Token
+	 *
+	 * @param   integer  $oid   Order Id
+	 * @param   string   $encr  Encryped String - Token
+	 *
+	 * @return  integer  User Info id - redSHOP User Id if validate.
+	 */
 	public function checkauthorization($oid, $encr)
 	{
-		$query = "SELECT count(order_id) FROM  " . $this->_table_prefix . "orders WHERE order_id = "
-			. (int) $oid . " AND encr_key like " . $this->_db->quote($encr);
-		$this->_db->setQuery($query);
-		$order_detail = $this->_db->loadResult();
+		// Initialize variables.
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true);
 
-		return $order_detail;
+		// Create the base select statement.
+		$query->select('user_info_id')
+			->from($db->qn('#__redshop_orders'))
+			->where($db->qn('order_id') . ' = ' . (int) $oid)
+			->where($db->qn('encr_key') . ' = ' . $db->q($encr));
+
+		// Set the query and load the result.
+		$db->setQuery($query);
+
+		try
+		{
+			$userInfoIdEncr = $db->loadResult();
+		}
+		catch (RuntimeException $e)
+		{
+			throw new RuntimeException($e->getMessage(), $e->getCode());
+		}
+
+		if ($userInfoIdEncr)
+		{
+			$session               = JFactory::getSession();
+			$auth['users_info_id'] = $userInfoIdEncr;
+
+			$session->set('auth', $auth);
+		}
+
+		return $userInfoIdEncr;
 	}
 
 	/**
-	 * Update analytics status
+	 * Update analytic status
 	 *
 	 * @return  boolean
 	 */

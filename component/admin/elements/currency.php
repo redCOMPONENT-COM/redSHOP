@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+JLoader::import('redshop.library');
 
 /**
  * Renders a Productfinder Form
@@ -27,14 +28,12 @@ class JFormFieldcurrency extends JFormField
 	 */
 	public $type = 'currency';
 
-
 	protected function getInput()
 	{
-
 		JLoader::load('RedshopHelperCurrency');
 
 		// This might get a conflict with the dynamic translation - TODO: search for better solution
-		$CurrencyHelper = new CurrencyHelper();
+		$CurrencyHelper = new CurrencyHelper;
 
 		$CurrencyHelper->init();
 
@@ -55,10 +54,12 @@ class JFormFieldcurrency extends JFormField
 
 		// Construct the various argument calls that are supported.
 		$attribs = ' ';
+
 		if ($v = $this->element['size'])
 		{
 			$attribs .= 'size="' . $v . '"';
 		}
+
 		if ($v = $this->element['class'])
 		{
 			$attribs .= 'class="' . $v . '"';
@@ -67,15 +68,13 @@ class JFormFieldcurrency extends JFormField
 		{
 			$attribs .= 'class="inputbox"';
 		}
+
 		if ($m = $this->element['multiple'])
 		{
 			$attribs .= ' multiple="multiple"';
-			//$ctrl .= '[]';
 		}
 
-
 		return JHTML::_('select.genericlist', $shop_currency, $ctrl, $attribs, 'value', 'text', $this->value, $this->id);
-
 	}
 
 	/*
@@ -92,13 +91,15 @@ class JFormFieldcurrency extends JFormField
 		$db = JFactory::getDbo();
 
 		$where = "";
+
 		if ($currency)
 		{
 			$where = " WHERE currency_code IN ('" . $currency . "')";
 		}
+
 		$query = 'SELECT currency_code as value, currency_name as text FROM #__redshop_currency' . $where . ' ORDER BY currency_name ASC';
 		$db->setQuery($query);
+
 		return $db->loadObjectlist();
 	}
 }
-

@@ -21,6 +21,8 @@ class RedshopModelTemplate_detail extends JModel
 
 	public $_copydata = null;
 
+	public $names = array();
+
 	public function __construct()
 	{
 		parent::__construct();
@@ -229,6 +231,11 @@ class RedshopModelTemplate_detail extends JModel
 			$this->_copydata = $this->_db->loadObjectList();
 		}
 
+		if(is_null($this->_copydata))
+		{
+			return false;
+		}
+
 		foreach ($this->_copydata as $cdata)
 		{
 			$post['template_id'] = 0;
@@ -241,6 +248,7 @@ class RedshopModelTemplate_detail extends JModel
 			$post['shipping_methods'] = $cdata->shipping_methods;
 
 			$this->store($post);
+			$this->names[] = array($cdata->template_name,$post['template_name']);
 		}
 
 		return true;

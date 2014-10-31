@@ -9,30 +9,8 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.plugin.plugin');
-//$app = JFactory::getApplication();
-//$app->registerEvent( 'onPrePayment', 'plgRedshoprs_payment_bbs' );
 class plgRedshop_paymentrs_payment_sagepay extends JPlugin
 {
-	var $_table_prefix = null;
-
-	/**
-	 * Constructor
-	 *
-	 * For php4 compatability we must not use the __constructor as a constructor for
-	 * plugins because func_get_args ( void ) returns a copy of all passed arguments
-	 * NOT references.  This causes problems with cross-referencing necessary for the
-	 * observer design pattern.
-	 */
-	public function plgRedshop_paymentrs_payment_sagepay(&$subject)
-	{
-		// Load plugin parameters
-		parent::__construct($subject);
-		$this->_table_prefix = '#__redshop_';
-		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_sagepay');
-		$this->_params = new JRegistry($this->_plugin->params);
-	}
-
 	/**
 	 * Plugin method with the same name as the event will be called automatically.
 	 */
@@ -67,60 +45,77 @@ class plgRedshop_paymentrs_payment_sagepay extends JPlugin
 			ob_end_flush();
 		}
 		// Now decode the Crypt field and extract the results
-		$strDecoded = $this->simpleXor($this->Base64Decode($strCrypt), $this->_params->get("sagepay_encryptpass"));
+		$strDecoded     = $this->simpleXor($this->Base64Decode($strCrypt), $this->params->get("sagepay_encryptpass"));
 		$responsevalues = $this->getToken($strDecoded);
 
-		$debug_mode = $this->_params->get("debug_mode");
-		$verify_status = $this->_params->get("verify_status");
-		$invalid_status = $this->_params->get("invalid_status");
+		$debug_mode     = $this->params->get("debug_mode");
+		$verify_status  = $this->params->get("verify_status");
+		$invalid_status = $this->params->get("invalid_status");
 
 		// Split out the useful information into variables we can use
-		$strStatus = $responsevalues['Status'];
-		$strStatusDetail = $responsevalues['StatusDetail'];
-		$strVendorTxCode = $responsevalues["VendorTxCode"];
-		$strVPSTxId = str_replace("{", "", $responsevalues["VPSTxId"]);
-		$strVPSTxId = str_replace("}", "", $strVPSTxId);
-		$strTxAuthNo = $responsevalues["TxAuthNo"];
-		$strAmount = $responsevalues["Amount"];
-		$strAVSCV2 = $responsevalues["AVSCV2"];
-		$strAddressResult = $responsevalues["AddressResult"];
+		$strStatus         = $responsevalues['Status'];
+		$strStatusDetail   = $responsevalues['StatusDetail'];
+		$strVendorTxCode   = $responsevalues["VendorTxCode"];
+		$strVPSTxId        = str_replace("{", "", $responsevalues["VPSTxId"]);
+		$strVPSTxId        = str_replace("}", "", $strVPSTxId);
+		$strTxAuthNo       = $responsevalues["TxAuthNo"];
+		$strAmount         = $responsevalues["Amount"];
+		$strAVSCV2         = $responsevalues["AVSCV2"];
+		$strAddressResult  = $responsevalues["AddressResult"];
 		$strPostCodeResult = $responsevalues["PostCodeResult"];
-		$strCV2Result = $responsevalues["CV2Result"];
-		$strGiftAid = $responsevalues["GiftAid"];
+		$strCV2Result      = $responsevalues["CV2Result"];
+		$strGiftAid        = $responsevalues["GiftAid"];
 		$str3DSecureStatus = $responsevalues["3DSecureStatus"];
-		$strCAVV = $responsevalues["CAVV"];
-		$strCardType = $responsevalues["CardType"];
-		$strLast4Digits = $responsevalues["Last4Digits"];
-		//$strAddressStatus=$responsevalues["AddressStatus"]; // PayPal transactions only
-		//$strPayerStatus=$responsevalues["PayerStatus"];     // PayPal transactions only
+		$strCAVV           = $responsevalues["CAVV"];
+		$strCardType       = $responsevalues["CardType"];
+		$strLast4Digits    = $responsevalues["Last4Digits"];
 
 		// Update the database and redirect the user appropriately
 		if ($strStatus == "OK")
-			$strDBStatus = JText::_("COM_REDSHOP_SAGEPAY_AUTHORISED"); //"AUTHORISED - The transaction was successfully authorised with the bank.";
+		{
+			// "AUTHORISED - The transaction was successfully authorised with the bank.";
+			$strDBStatus = JText::_("COM_REDSHOP_SAGEPAY_AUTHORISED");
+		}
+		// "MALFORMED - The StatusDetail was:" . mysql_real_escape_string(substr($strStatusDetail,0,255));
 		elseif ($strStatus == "MALFORMED")
+		{
 			$strDBStatus = JText::_("COM_REDSHOP_SAGEPAY_MALFORMED") . mysql_real_escape_string(substr($strStatusDetail, 0, 255));
-		//"MALFORMED - The StatusDetail was:" . mysql_real_escape_string(substr($strStatusDetail,0,255));
+		}
+		// "INVALID - The StatusDetail was:" . mysql_real_escape_string(substr($strStatusDetail,0,255));
 		elseif ($strStatus == "INVALID")
+		{
 			$strDBStatus = JText::_("COM_REDSHOP_SAGEPAY_INVALID") . mysql_real_escape_string(substr($strStatusDetail, 0, 255));
-		//"INVALID - The StatusDetail was:" . mysql_real_escape_string(substr($strStatusDetail,0,255));
+		}
+		// "DECLINED - The transaction was not authorised by the bank.";
 		elseif ($strStatus == "NOTAUTHED")
+		{
 			$strDBStatus = JText::_("COM_REDSHOP_SAGEPAY_DECLINED");
-		//"DECLINED - The transaction was not authorised by the bank.";
+		}
+		// "REJECTED - The transaction was failed by your 3D-Secure or AVS/CV2 rule-bases.";
 		elseif ($strStatus == "REJECTED")
+		{
 			$strDBStatus = JText::_("COM_REDSHOP_SAGEPAY_REJECTED");
-		//"REJECTED - The transaction was failed by your 3D-Secure or AVS/CV2 rule-bases.";
+		}
+		// "AUTHENTICATED - The transaction was successfully 3D-Secure Authenticated and can now be Authorised.";
 		elseif ($strStatus == "AUTHENTICATED")
+		{
 			$strDBStatus = JText::_("COM_REDSHOP_SAGEPAY_AUTHENTICATED");
-		//"AUTHENTICATED - The transaction was successfully 3D-Secure Authenticated and can now be Authorised.";
+		}
+		// "REGISTERED - The transaction was could not be 3D-Secure Authenticated, but has been registered to be Authorised.";
 		elseif ($strStatus == "REGISTERED")
+		{
 			$strDBStatus = JText::_("COM_REDSHOP_SAGEPAY_REGISTERED");
-		//"REGISTERED - The transaction was could not be 3D-Secure Authenticated, but has been registered to be Authorised.";
+		}
+		// "ERROR - There was an error during the payment process.  The error details are: " . mysql_real_escape_string($strStatusDetail);
 		elseif ($strStatus == "ERROR")
+		{
 			$strDBStatus = JText::_("COM_REDSHOP_SAGEPAY_ERROR") . mysql_real_escape_string($strStatusDetail);
-		//"ERROR - There was an error during the payment process.  The error details are: " . mysql_real_escape_string($strStatusDetail);
+		}
+		// "UNKNOWN - An unknown status was returned from Sage Pay.  The Status was: " . mysql_real_escape_string($strStatus) . ", with StatusDetail:" . mysql_real_escape_string($strStatusDetail);
 		else
+		{
 			$strDBStatus = JText::_("COM_REDSHOP_SAGEPAY_UNKNOWN") . mysql_real_escape_string($strStatus) . ", with StatusDetail:" . mysql_real_escape_string($strStatusDetail);
-		//"UNKNOWN - An unknown status was returned from Sage Pay.  The Status was: " . mysql_real_escape_string($strStatus) . ", with StatusDetail:" . mysql_real_escape_string($strStatusDetail);
+		}
 
 		// UPDATE THE ORDER STATUS to 'CONFIRMED'
 		if (($strStatus == "OK") || ($strStatus == "AUTHENTICATED") || ($strStatus == "REGISTERED"))
@@ -133,11 +128,12 @@ class plgRedshop_paymentrs_payment_sagepay extends JPlugin
 			{
 				$payment_message = JText::_('COM_REDSHOP_ORDER_PLACED');
 			}
+
 			// SUCCESS: UPDATE THE ORDER STATUS to 'CONFIRMED'
-			$values->order_status_code = $verify_status;
+			$values->order_status_code         = $verify_status;
 			$values->order_payment_status_code = 'Paid';
-			$values->transaction_id = $strVPSTxId;
-			$values->order_id = $request['orderid'];
+			$values->transaction_id            = $strVPSTxId;
+			$values->order_id                  = $request['orderid'];
 		}
 		else
 		{
@@ -149,10 +145,11 @@ class plgRedshop_paymentrs_payment_sagepay extends JPlugin
 			{
 				$payment_message = JText::_('COM_REDSHOP_ORDER_NOT_PLACED');
 			}
+
 			// FAILED: UPDATE THE ORDER STATUS to 'PENDING'
-			$values->order_status_code = $invalid_status;
+			$values->order_status_code         = $invalid_status;
 			$values->order_payment_status_code = 'Unpaid';
-			$values->order_id = $request['orderid'];
+			$values->order_id                  = $request['orderid'];
 		}
 
 		$values->log = $payment_message;
@@ -170,6 +167,7 @@ class plgRedshop_paymentrs_payment_sagepay extends JPlugin
 	{
 		ob_clean();
 		ob_get_clean();
+
 		// Set a one-minute timeout for this script
 		set_time_limit(60);
 
@@ -181,32 +179,36 @@ class plgRedshop_paymentrs_payment_sagepay extends JPlugin
 
 		// Set the URL
 		curl_setopt($curlSession, CURLOPT_URL, $url);
+
 		// No headers, please
 		curl_setopt($curlSession, CURLOPT_HEADER, 0);
+
 		// It's a POST request
 		curl_setopt($curlSession, CURLOPT_POST, 1);
+
 		// Set the fields for the POST
 		curl_setopt($curlSession, CURLOPT_POSTFIELDS, $data);
+
 		// Return it direct, don't print it out
 		curl_setopt($curlSession, CURLOPT_RETURNTRANSFER, 1);
+
 		// This connection will timeout in 30 seconds
 		curl_setopt($curlSession, CURLOPT_TIMEOUT, 30);
-		//The next two lines must be present for the kit to work with newer version of cURL
-		//You should remove them if you have any problems in earlier versions of cURL
+
+		// The next two lines must be present for the kit to work with newer version of cURL
+		// You should remove them if you have any problems in earlier versions of cURL
 		curl_setopt($curlSession, CURLOPT_SSL_VERIFYPEER, false);
 		curl_setopt($curlSession, CURLOPT_SSL_VERIFYHOST, 1);
 
-		//Send the request and store the result in an array
-
+		// Send the request and store the result in an array
 		$rawresponse = curl_exec($curlSession);
-		//Store the raw response for later as it's useful to see for integration and understanding
+
+		// Store the raw response for later as it's useful to see for integration and understanding
 		$_SESSION["rawresponse"] = $rawresponse;
-		//Split response into name=value pairs
+
+		// Split response into name=value pairs
 		$response = preg_split(chr(10), $rawresponse);
 
-		echo "<pre>";
-		print_r($response);
-		exit;
 		// Check that a connection was made
 		if (curl_error($curlSession))
 		{
@@ -218,18 +220,19 @@ class plgRedshop_paymentrs_payment_sagepay extends JPlugin
 		// Close the cURL session
 		curl_close($curlSession);
 
-		// Tokenise the response
+		// Tokenized the response
 		for ($i = 0; $i < count($response); $i++)
 		{
 			// Find position of first "=" character
 			$splitAt = strpos($response[$i], "=");
+
 			// Create an associative (hash) array with key/value pairs ('trim' strips excess whitespace)
 			$output[trim(substr($response[$i], 0, $splitAt))] = trim(substr($response[$i], ($splitAt + 1)));
-		} // END for ($i=0; $i<count($response); $i++)
+		}
 
 		// Return the output
 		return $output;
-	} // END function requestPost()
+	}
 
 	function getToken($thisString)
 	{
@@ -253,7 +256,7 @@ class plgRedshop_paymentrs_payment_sagepay extends JPlugin
 			"Last4Digits",
 			"PayerStatus", "CardType");
 
-		// Initialise arrays
+		// Initialize arrays
 		$output = array();
 		$resultArray = array();
 
@@ -262,6 +265,7 @@ class plgRedshop_paymentrs_payment_sagepay extends JPlugin
 		{
 			// Find the position in the string
 			$start = strpos($thisString, $Tokens[$i]);
+
 			// If it's present
 			if ($start !== false)
 			{
@@ -273,11 +277,13 @@ class plgRedshop_paymentrs_payment_sagepay extends JPlugin
 
 		// Sort in order of position
 		sort($resultArray);
+
 		// Go through the result array, getting the token values
 		for ($i = 0; $i < count($resultArray); $i++)
 		{
 			// Get the start point of the value
 			$valueStart = $resultArray[$i]->start + strlen($resultArray[$i]->token) + 1;
+
 			// Get the length of the value
 			if ($i == (count($resultArray) - 1))
 			{
@@ -288,7 +294,6 @@ class plgRedshop_paymentrs_payment_sagepay extends JPlugin
 				$valueLength = $resultArray[$i + 1]->start - $resultArray[$i]->start - strlen($resultArray[$i]->token) - 2;
 				$output[$resultArray[$i]->token] = substr($thisString, $valueStart, $valueLength);
 			}
-
 		}
 
 		// Return the ouput array
@@ -324,9 +329,10 @@ class plgRedshop_paymentrs_payment_sagepay extends JPlugin
 
 	function simpleXor($InString, $Key)
 	{
-		// Initialise key array
+		// Initialize key array
 		$KeyList = array();
-		// Initialise out variable
+
+		// Initialize out variable
 		$output = "";
 
 		// Convert $Key into array of ASCII values
@@ -346,5 +352,4 @@ class plgRedshop_paymentrs_payment_sagepay extends JPlugin
 		// Return the result
 		return $output;
 	}
-
 }

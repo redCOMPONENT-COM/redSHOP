@@ -40,7 +40,8 @@ class AcceptanceHelper extends \Codeception\Module
 		"site_name" => $this->config['site_name'],
 		"admin_email" => $this->config['admin_email'],
 		"language" => $this->config['language'],
-		"sample_data" => $this->config['sample_data']
+		"sample_data" => $this->config['sample_data'],
+		"host" => $this->config['host']
 		];
 
 		return $configuration;
@@ -57,5 +58,19 @@ class AcceptanceHelper extends \Codeception\Module
 	public function verifyState($expected, $actual)
 	{
 		$this->assertEquals($expected, $actual, "Assert that the Actual State is equal to the state we Expect");
+	}
+
+	/**
+	 * Function to VerifyNotices
+	 *
+	 * @param   string  $expected  Expected Value
+	 * @param   string  $actual    Actual Value
+	 * @param   string  $page      Page for which we are Verifying
+	 *
+	 * @return void
+	 */
+	public function verifyNotices($expected, $actual, $page)
+	{
+		$this->assertEquals($expected, $actual, "Page " . $page . " Contains PHP Notices and Warnings");
 	}
 }
