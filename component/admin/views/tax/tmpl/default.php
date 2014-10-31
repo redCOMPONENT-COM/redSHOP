@@ -8,8 +8,8 @@
  */
 defined('_JEXEC') or die;
 JLoader::load('RedshopHelperProduct');
-$producthelper = new producthelper();
-$redconfig = new Redconfiguration();
+$producthelper = new producthelper;
+$redconfig = new Redconfiguration;
 
 
 $option = JRequest::getVar('option', '', 'request', 'string');

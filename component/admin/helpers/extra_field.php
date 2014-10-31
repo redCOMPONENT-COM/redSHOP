@@ -11,6 +11,8 @@ defined('_JEXEC') or die;
 
 JHTML::_('behavior.tooltip');
 jimport('joomla.filesystem.file');
+JLoader::load('RedshopHelperHelper');
+JLoader::load('RedshopHelperAdminImages');
 
 class extra_field
 {
@@ -80,20 +82,10 @@ class extra_field
 		$url    = $uri->root();
 		$q      = "SELECT * FROM " . $this->_table_prefix . "fields WHERE field_section = " . (int) $field_section . " AND published=1 ";
 
-		if ($field_name != "")
+		if ($field_name != '')
 		{
-			$field_name = explode(',', $field_name);
-
-			$field_name = array_map(
-				function ($value) use ($db) {
-					return $db->quote($value);
-				},
-				(array) $field_name
-			);
-
-			$field_name = implode(",'", $field_name);
-
-			$q .= "AND field_name IN ($field_name) ";
+			$field_name = redhelper::quote(explode(',', $field_name));
+			$q .= 'AND field_name IN (' . implode(',', $field_name) . ') ';
 		}
 
 		$q .= " ORDER BY ordering";
@@ -672,7 +664,7 @@ class extra_field
 
 				if ($_FILES[$row_data[$i]->field_name]['name'] != "")
 				{
-					$data_txt = time() . $_FILES[$row_data[$i]->field_name]["name"];
+					$data_txt = RedShopHelperImages::cleanFileName($_FILES[$row_data[$i]->field_name]["name"]);
 
 					$src = $_FILES[$row_data[$i]->field_name]['tmp_name'];
 					$destination = $destination_prefix . $data_txt;
@@ -718,7 +710,7 @@ class extra_field
 
 						if ($file != "")
 						{
-							$name = time() . $file;
+							$name = RedShopHelperImages::cleanFileName($file);
 
 							$src = $_FILES[$row_data[$i]->field_name]['tmp_name'][$ij];
 							$destination = REDSHOP_FRONT_DOCUMENT_RELPATH . 'extrafields/' . $name;
@@ -827,7 +819,7 @@ class extra_field
 						if (count($list) > 0)
 						{
 							$sql = "UPDATE " . $this->_table_prefix . "fields_data "
-								. "SET data_txt = " . $this->_db->quote(addslashes($data_txt)) . " "
+								. "SET data_txt = " . $this->_db->quote($data_txt) . " "
 								. "WHERE itemid = " . (int) $section_id . " "
 								. "AND section = " . (int) $sect[$h] . " "
 								. "AND user_email = " . $this->_db->quote($user_email) . " "
@@ -838,7 +830,7 @@ class extra_field
 							$sql = "INSERT INTO " . $this->_table_prefix . "fields_data "
 								. "(fieldid, data_txt, itemid, section, user_email) "
 								. "VALUE "
-								. "(" . (int) $row_data[$i]->field_id . "," . $this->_db->quote(addslashes($data_txt))
+								. "(" . (int) $row_data[$i]->field_id . "," . $this->_db->quote($data_txt)
 								. "," . (int) $section_id . "," . (int) $sect[$h] . ", " . $this->_db->quote($user_email) . ")";
 						}
 

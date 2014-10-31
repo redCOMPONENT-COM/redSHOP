@@ -9,7 +9,7 @@
  * @license        GNU General Public License version 2
  */
 // no direct access
-defined('_JEXEC') or die ('Restricted access');
+defined('_JEXEC') or die;
 
 class JFormFieldK2category extends JFormField
 {

@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die('Restricted access');
 
+JLoader::import('redshop.library');
 $cid = JRequest::getInt('cid', 0);
 
 $NumberOfProducts  = trim($params->get('NumberOfProducts', 5));

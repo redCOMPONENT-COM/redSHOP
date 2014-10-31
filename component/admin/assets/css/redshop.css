@@ -9,7 +9,12 @@
 /* Icon files 48px */
 
 /* redshop menu */
-
+.icon-48-importexport48 {
+	background-image: url(../images/importexport48.png);
+}
+.icon-32-redshop_importexport32 {
+	background-image: url(../images/importexport32.png);
+}
 .icon-48-redshop_redshopcart48 {
 	background-image: url(../images/redshopcart48.png);
 }
@@ -748,16 +753,20 @@ table.grey_solid_area {
 	margin-top: 0px;
 }
 #attribute_table input, #attribute_table select {
-	float: left;
+	/*float: left;*/
 }
 #attribute_table td label {
-	display: block;
-	float: left;
+	/*display: block;
+	float: left;*/
 	margin-top: 0;
 	min-width: 0;
 	margin-left: 5px;
 	clear: none;
 }
+div.current label, div.current span.faux-label {
+	float: none !important;
+	display: inline !important;
+	}
 #attribute_table input[type="text"] {
 	margin: 0px 0px 0px 3px !important;
 }
@@ -789,6 +798,7 @@ table.grey_solid_area td, table.grey_solid_area th, table.blue_area td, table.bl
 }
 div.current select, div.current input, div.current textarea, div.current select {
 	margin: 0 !important;
+	float: none !important;
 }
 .btn_attribute_remove {
 	cursor: pointer;
@@ -837,7 +847,7 @@ div.current select, div.current input, div.current textarea, div.current select 
 	width: 12%;
 }
 #attribute_table td.td5 > div {
-	width: 250px;
+	width: 57px;
 }
 #attribute_table td.td6 {
 	width: 15%;
@@ -855,19 +865,21 @@ div.current select, div.current input, div.current textarea, div.current select 
 	width: 100% !important;
 }
 .up_image .td1 {
-	width: 15% !important;
+	width: 4% !important;
 	text-align: right !important;
 }
 .up_image .td2 {
-	width: 49% !important;
+	width: 10% !important;
 	padding-left: 10px;
 }
 .up_image .td3 {
 	width: 12% !important;
+	display: none;
 }
 .up_image .td4 {
 	width: 13% !important;
 	text-align: center !important;
+	display: none;
 }
 .up_image .td5 {
 	width: 10% !important;
@@ -892,6 +904,8 @@ div.current select, div.current input, div.current textarea, div.current select 
 }
 .remove_attr {
 	position: relative;
+	top: 5px;
+	float: right;
 }
 .sub_property td.td1 {
 	padding: 10px 0px !important;
@@ -996,8 +1010,8 @@ div.current select, div.current input, div.current textarea, div.current select 
 
 .repon {
 	position: relative;
-	margin-top: 40px;
-	margin-left: -760%;
+	margin-top: 5px;
+	/*margin-left: -760%;*/
 }
 
 @media (max-width: 1300px) {
@@ -1132,4 +1146,70 @@ div.current select, div.current input, div.current textarea, div.current select 
 	.input_t2 {
 		width: 45%;
 	}
+}
+/**/
+table.subattribute tr td input[type="checkbox"],
+table.blue_area tr td input[type="checkbox"],
+table.grey_area tr td input[type="checkbox"]
+{
+	position: relative;
+	top: 3px;
+}
+@media (max-width: 1754px) {
+.up_image{
+	margin-left: -100px;
+}
+.up_image .td2{
+	width: 16% !important;
+	}
+}
+@media (max-width: 1500px) {
+	.up_image{
+		margin-top: 50px !important;
+		margin-left: 0;
+	}
+	}
+@media (max-width: 1025px) {
+	.up_image .td2{
+		width: 50% !important;
+	}
+	table.subattribute .up_image{
+		margin-top: 70px;
+	}
+	table#attribute_table td.td7 input.btn_attribute{
+		position: relative;
+		left: -50px;
+	}
+	table#attribute_table td.td7 .remove_attr{
+
+	}
+	table#attribute_table td.td1{
+		width: 17%;
+	}
+	table#attribute_value{
+		margin-left: -100px;
+	}
+	div.remove_attr{
+		margin-top: -20px;
+		left: 138% !important;
+	}
+	#attribute_table td.td2{
+		width: 17% !important;
+	}
+	#attribute_table td.td3{
+		padding-left: 5px;
+	}
+	table.attribute_parameter td.td3{
+		width: 6% !important;
+	}
+	table.attribute_parameter td.td4{
+		width: 19% !important;
+	}
+	table.attribute_parameter td.td5{
+		width: 22% !important;
+	}
+	table.attribute_parameter td.td6{
+		width: 25% !important;
+	}
+
 }

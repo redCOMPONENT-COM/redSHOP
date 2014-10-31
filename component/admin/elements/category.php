@@ -9,8 +9,8 @@
 
 defined('_JEXEC') or die;
 
+JLoader::import('redshop.library');
 JLoader::load('RedshopHelperAdminCategory');
-
 
 /**
  * element for default product layout

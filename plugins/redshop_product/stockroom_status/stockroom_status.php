@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 // Import library dependencies
 jimport('joomla.plugin.plugin');
-JLoader::import('loadhelpers', JPATH_SITE . '/components/com_redshop');
+JLoader::import('redshop.library');
 JLoader::load('RedshopHelperAdminOrder');
 
 class plgredshop_productstockroom_status extends JPlugin

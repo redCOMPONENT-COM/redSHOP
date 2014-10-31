@@ -6,8 +6,8 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined('_JEXEC') or die ('restricted access');
-$producthelper = new producthelper();
+defined('_JEXEC') or die;
+$producthelper = new producthelper;
 $option = JRequest::getVar('option');
 ?>
 <form action="<?php echo 'index.php?option=' . $option; ?>" method="post" name="adminForm" id="adminForm">

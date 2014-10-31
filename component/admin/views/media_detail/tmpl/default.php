@@ -338,7 +338,7 @@ if ($showbuttons)
 						if ($showbuttons)
 						{
 							?>
-							<input type="text" name="section_name" id="section_name"
+							<input type="text" name="section_name_disabled" id="section_name_disabled"
 							       value="<?php echo $section_name; ?>" disabled="disabled" size="75"/><input
 							type="hidden" name="section_id" id="section_id" value="<?php echo $section_id; ?>"/><input
 							type="hidden" name="section_name" id="section_name" value="<?php echo $section_name; ?>"

@@ -18,7 +18,6 @@ JHTML::Script('jquery-1.4.2.min.js', 'components/com_redshop/assets/js/', false)
 JHTML::Script('query.jcarousel.min.js', 'modules/mod_redshop_who_bought/assets/js/', false);
 
 require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
-JLoader::import('loadhelpers', JPATH_SITE . '/components/com_redshop');
 JLoader::load('RedshopHelperAdminConfiguration');
 $Redconfiguration = new Redconfiguration;
 $Redconfiguration->defineDynamicVars();
@@ -103,23 +102,41 @@ if (count($productlists))
 
 
 		echo " <li>";
+
 		if ($show_product_image)
 		{
 			echo "<div style='height:" . $thumbheight . ";  text-align:center;'><img  height='" . $thumbheight . " width='" . $thumbwidth . " src='" . REDSHOP_FRONT_IMAGES_ABSPATH . "product/" . $product->product_full_image . "' /></div>";
 		}
+
 		if ($show_addtocart_button)
 		{
 			echo "<div>&nbsp;</div>";
 			$addtocart = $producthelper->replaceCartTemplate($product->product_id, $category_id, 0, 0, "", false, $userfieldArr, $totalatt, $totalAccessory, $count_no_user_field, $module_id);
 			echo "<div class='mod_redshop_products_addtocart'>" . $addtocart . $hidden_userfield . "</div>";
-
 		}
 
 
 		if ($show_product_name)
 		{
+			$pItemid = $redhelper->getItemid($product->product_id);
+			$link = JRoute::_(
+					'index.php?option=com_redshop&view=product&pid=' . $product->product_id . '&Itemid=' . $pItemid
+			);
+
 			echo "<div>&nbsp;</div>";
-			echo "<div style='text-align:center;'>" . $product->product_name . "</div>";
+
+			if ($product_title_linkable)
+			{
+				echo "<div style='text-align:center;'>";
+					echo "<a href='" . $link . "'>";
+						echo $product->product_name;
+					echo "</a>";
+				echo "</div>";
+			}
+			else
+			{
+				echo "<div style='text-align:center;'>" . $product->product_name . "</div>";
+			}
 		}
 
 		if ($show_product_price)
@@ -127,8 +144,10 @@ if (count($productlists))
 			echo "<div style='text-align:center;'>" . $product->product_price . "&nbsp;" . CURRENCY_CODE . "</div>";
 		}
 	}
+
 	echo "</li>";
 }
+
 echo "</ul>"
 
 

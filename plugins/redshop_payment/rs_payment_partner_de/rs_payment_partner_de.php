@@ -9,32 +9,11 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.plugin.plugin');
-
-JLoader::import('loadhelpers', JPATH_SITE . '/components/com_redshop');
+JLoader::import('redshop.library');
 JLoader::load('RedshopHelperAdminOrder');
 
 class plgRedshop_paymentrs_payment_partner_de extends JPlugin
 {
-	public $_table_prefix = null;
-
-	/**
-	 * Constructor
-	 *
-	 * For php4 compatability we must not use the __constructor as a constructor for
-	 * plugins because func_get_args ( void ) returns a copy of all passed arguments
-	 * NOT references.  This causes problems with cross-referencing necessary for the
-	 * observer design pattern.
-	 */
-	public function plgRedshop_paymentrs_payment_partner_de(&$subject)
-	{
-		// Load plugin parameters
-		parent::__construct($subject);
-		$this->_table_prefix = '#__redshop_';
-		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_partner_de');
-		$this->_params = new JRegistry($this->_plugin->params);
-	}
-
 	/**
 	 * Plugin method with the same name as the event will be called automatically.
 	 */
@@ -50,58 +29,58 @@ class plgRedshop_paymentrs_payment_partner_de extends JPlugin
 			$plugin = $element;
 		}
 
-		$session = JFactory::getSession();
-		$ccdata = $session->get('ccdata');
+		$session                    = JFactory::getSession();
+		$ccdata                     = $session->get('ccdata');
 
 		// Get merchant Information
-		$merchant_server = $this->_params->get("merchant_server");
-		$merchant_path = $this->_params->get("merchant_path");
-		$merchant_name = $this->_params->get("merchant_name");
-		$merchant_sender = $this->_params->get("merchant_sender");
-		$merchant_channel = $this->_params->get("merchant_channel");
-		$merchant_user_login = $this->_params->get("merchant_userlogin");
-		$merchant_user_pwd = $this->_params->get("merchant_userpassword");
-		$transaction_mode = $this->_params->get("transaction_mode");
-		$transaction_response = $this->_params->get("transaction_response");
+		$merchant_server            = $this->params->get("merchant_server");
+		$merchant_path              = $this->params->get("merchant_path");
+		$merchant_name              = $this->params->get("merchant_name");
+		$merchant_sender            = $this->params->get("merchant_sender");
+		$merchant_channel           = $this->params->get("merchant_channel");
+		$merchant_user_login        = $this->params->get("merchant_userlogin");
+		$merchant_user_pwd          = $this->params->get("merchant_userpassword");
+		$transaction_mode           = $this->params->get("transaction_mode");
+		$transaction_response       = $this->params->get("transaction_response");
 
 		// Collecting user Information ( Billing Information )
-		$firstname_bill = substr($data['billinginfo']->firstname, 0, 50);
-		$lastname_bill = substr($data['billinginfo']->lastname, 0, 50);
+		$firstname_bill             = substr($data['billinginfo']->firstname, 0, 50);
+		$lastname_bill              = substr($data['billinginfo']->lastname, 0, 50);
 
-		$address_bill = substr($data['billinginfo']->address, 0, 60);
-		$city_bill = substr($data['billinginfo']->city, 0, 40);
-		$state_code_bill = substr($data['billinginfo']->state_code, 0, 40);
-		$zipcode_bill = substr($data['billinginfo']->zipcode, 0, 20);
-		$country_code_bill = substr($data['billinginfo']->country_code, 0, 60);
-		$Redconfiguration = new Redconfiguration;
-		$country_2code_bill = $Redconfiguration->getCountryCode2($country_code_bill);
-		$phone_bill = substr($data['billinginfo']->phone, 0, 25);
+		$address_bill               = substr($data['billinginfo']->address, 0, 60);
+		$city_bill                  = substr($data['billinginfo']->city, 0, 40);
+		$state_code_bill            = substr($data['billinginfo']->state_code, 0, 40);
+		$zipcode_bill               = substr($data['billinginfo']->zipcode, 0, 20);
+		$country_code_bill          = substr($data['billinginfo']->country_code, 0, 60);
+		$Redconfiguration           = new Redconfiguration;
+		$country_2code_bill         = $Redconfiguration->getCountryCode2($country_code_bill);
+		$phone_bill                 = substr($data['billinginfo']->phone, 0, 25);
 
 		// Collecting user Information ( Shipping Information )
-		$firstname_shipp = substr($data['shippinginfo']->firstname, 0, 50);
-		$lastname_shipp = substr($data['shippinginfo']->lastname, 0, 50);
-		$address_shipp = substr($data['shippinginfo']->address, 0, 60);
-		$city_shipp = substr($data['shippinginfo']->city, 0, 40);
-		$state_code_shipp = substr($data['shippinginfo']->state_code, 0, 40);
-		$zipcode_shipp = substr($data['shippinginfo']->zipcode, 0, 20);
-		$country_code_shipp = substr($data['shippinginfo']->country_code, 0, 60);
+		$firstname_shipp            = substr($data['shippinginfo']->firstname, 0, 50);
+		$lastname_shipp             = substr($data['shippinginfo']->lastname, 0, 50);
+		$address_shipp              = substr($data['shippinginfo']->address, 0, 60);
+		$city_shipp                 = substr($data['shippinginfo']->city, 0, 40);
+		$state_code_shipp           = substr($data['shippinginfo']->state_code, 0, 40);
+		$zipcode_shipp              = substr($data['shippinginfo']->zipcode, 0, 20);
+		$country_code_shipp         = substr($data['shippinginfo']->country_code, 0, 60);
 
 		// Additional Customer Data
-		$user_id = $data['billinginfo']->user_id;
-		$remote_add = $_SERVER["REMOTE_ADDR"];
+		$user_id                    = $data['billinginfo']->user_id;
+		$remote_add                 = $_SERVER["REMOTE_ADDR"];
 
 		// Email Settings
-		$user_email = $data['billinginfo']->user_email;
+		$user_email                 = $data['billinginfo']->user_email;
 
 		// Get Credit card Information
-		$order_payment_name = $ccdata['order_payment_name'];
-		$creditcard_code = strtoupper($ccdata['creditcard_code']);
-		$order_payment_number = $ccdata['order_payment_number'];
-		$credit_card_code = $ccdata['credit_card_code'];
+		$order_payment_name         = $ccdata['order_payment_name'];
+		$creditcard_code            = strtoupper($ccdata['creditcard_code']);
+		$order_payment_number       = $ccdata['order_payment_number'];
+		$credit_card_code           = $ccdata['credit_card_code'];
 		$order_payment_expire_month = $ccdata['order_payment_expire_month'];
-		$order_payment_expire_year = $ccdata['order_payment_expire_year'];
-		$tax_exempt = false;
-		$order_total = $data['order_total'];
+		$order_payment_expire_year  = $ccdata['order_payment_expire_year'];
+		$tax_exempt                 = false;
+		$order_total                = $data['order_total'];
 
 		// Include Integrator file
 		include JPATH_SITE . "/plugins/redshop_payment/rs_payment_partner_de/ppDE.integrator.php";
@@ -162,7 +141,7 @@ class plgRedshop_paymentrs_payment_partner_de extends JPlugin
 		}
 
 		$values->transaction_id = $TransactionID;
-		$values->message = $message;
+		$values->message        = $message;
 
 		return $values;
 	}

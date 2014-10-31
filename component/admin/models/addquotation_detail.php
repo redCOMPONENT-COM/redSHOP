@@ -589,6 +589,7 @@ class RedshopModelAddquotation_detail extends JModel
 			}
 
 			$tmp_array = array();
+			$tmp_array[0] = new stdClass;
 			$tmp_array[0]->value = 0;
 			$tmp_array[0]->text = JText::_('COM_REDSHOP_SELECT') . "&nbsp;" . urldecode($subproperty[0]->property_name);
 

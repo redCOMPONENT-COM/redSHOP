@@ -9,29 +9,8 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.plugin.plugin');
-
 class plgRedshop_paymentrs_payment_quickpay extends JPlugin
 {
-	var $_table_prefix = null;
-
-	/**
-	 * Constructor
-	 *
-	 * For php4 compatability we must not use the __constructor as a constructor for
-	 * plugins because func_get_args ( void ) returns a copy of all passed arguments
-	 * NOT references.  This causes problems with cross-referencing necessary for the
-	 * observer design pattern.
-	 */
-	public function plgRedshop_paymentrs_payment_quickpay(&$subject)
-	{
-		// Load plugin parameters
-		parent::__construct($subject);
-		$this->_table_prefix = '#__redshop_';
-		$this->_plugin       = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_quickpay');
-		$this->_params       = new JRegistry($this->_plugin->params);
-	}
-
 	/**
 	 * Plugin method with the same name as the event will be called automatically.
 	 */
@@ -48,8 +27,8 @@ class plgRedshop_paymentrs_payment_quickpay extends JPlugin
 		}
 
 		$app         = JFactory::getApplication();
-		$paymentpath = JPATH_SITE . '/plugins/redshop_payment/' . $plugin . '/' . $plugin . '/extra_info.php';
-		include $paymentpath;
+
+		include JPATH_SITE . '/plugins/redshop_payment/' . $plugin . '/' . $plugin . '/extra_info.php';
 	}
 
 	function onNotifyPaymentrs_payment_quickpay($element, $request)
@@ -78,12 +57,8 @@ class plgRedshop_paymentrs_payment_quickpay extends JPlugin
 		$md5word = $request["md5word"];
 		$ok_page = $request["callback"];
 
-		$quickpay_parameters = $this->getparameters('rs_payment_quickpay');
-		$paymentinfo         = $quickpay_parameters[0];
-		$paymentparams       = new JRegistry($paymentinfo->params);
-
-		$verify_status  = $paymentparams->get('verify_status', '');
-		$invalid_status = $paymentparams->get('invalid_status', '');
+		$verify_status  = $this->params->get('verify_status', '');
+		$invalid_status = $this->params->get('invalid_status', '');
 
 		/*
 		 * Switch on the order accept code
@@ -125,32 +100,6 @@ class plgRedshop_paymentrs_payment_quickpay extends JPlugin
 		return $values;
 	}
 
-	function getparameters($payment)
-	{
-		$db  = JFactory::getDbo();
-		$sql = "SELECT * FROM #__extensions WHERE `element`='" . $payment . "'";
-		$db->setQuery($sql);
-		$params = $db->loadObjectList();
-
-		return $params;
-	}
-
-	function orderPaymentNotYetUpdated($dbConn, $order_id, $tid)
-	{
-		$db    = JFactory::getDbo();
-		$res   = false;
-		$query = "SELECT COUNT(*), `qty` FROM `#__redshop_order_payment` WHERE `order_id` = '" . $db->getEscaped($order_id) . "' and order_payment_trans_id = '" . $db->getEscaped($tid) . "'";
-		$db->setQuery($query);
-		$order_payment = $db->loadResult();
-
-		if ($order_payment == 0)
-		{
-			$res = true;
-		}
-
-		return $res;
-	}
-
 	/**
 	 * Send Information on QuickPay using CURL
 	 *
@@ -161,13 +110,13 @@ class plgRedshop_paymentrs_payment_quickpay extends JPlugin
 	 */
 	private function sendQuickpayRequest($data, $type)
 	{
-		$protocol     = '3';
+		$protocol     = 7;
 		$msgtype      = $type;
 		$finalize     = 1;
-		$merchant_id  = $this->_params->get("quickpay_customer_id");
+		$merchant_id  = $this->params->get("quickpay_customer_id");
 		$order_amount = ($data['order_amount'] * 100);
 		$transaction  = $data['order_transactionid'];
-		$md5word      = $this->_params->get("quickpay_paymentkey");
+		$md5word      = $this->params->get("quickpay_paymentkey");
 		$md5check     = md5($protocol . $msgtype . $merchant_id . $order_amount . $finalize . $transaction . $md5word);
 
 		$message = array(
