@@ -497,7 +497,7 @@ class RedshopModelProduct_Detail extends JModel
 			}
 		}
 
-		if (isset( $data['copy_product'] ) && $data['copy_product'] != 1)
+		if (!isset($data['copy_product']) || $data['copy_product'] != 1)
 		{
 			if ($row->product_full_image != "")
 			{
@@ -688,7 +688,7 @@ class RedshopModelProduct_Detail extends JModel
 				$acc = $data['product_accessory'][$a];
 				$accdetail = $this->getTable('accessory_detail');
 
-				if (isset($data['copy_product']) && $data['copy_product'] != 1)
+				if (!isset($data['copy_product']) || $data['copy_product'] != 1)
 				{
 					$accdetail->accessory_id = $acc['accessory_id'];
 				}
@@ -718,7 +718,7 @@ class RedshopModelProduct_Detail extends JModel
 				$acc = $data['product_navigator'][$a];
 				$accdetail = $this->getTable('navigator_detail');
 
-				if ($data['copy_product'] != 1)
+				if (!isset($data['copy_product']) || $data['copy_product'] != 1)
 				{
 					$accdetail->navigator_id = $acc['navigator_id'];
 				}
