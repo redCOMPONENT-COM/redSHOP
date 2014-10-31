@@ -107,18 +107,25 @@
 	}
 
 	JHtml::_('behavior.framework');
+	$document = JFactory::getDocument();
 
 	if (version_compare(JVERSION, '3.0', '>='))
 	{
 		JHtml::_('formbehavior.chosen', 'select');
 	}
+	else
+	{
+		$document->addScript(JURI::root() . 'administrator/components/com_redshop/assets/js/jquery-1.11.0.min.js');
+	}
+
+	$document->addScript(JURI::root() . 'administrator/components/com_redshop/assets/js/jquery-ui-1.8.24.custom.min.js');
+	$document->addScript(JURI::root() . 'administrator/components/com_redshop/assets/js/redshop.js');
 
 	$user        = JFactory::getUser();
 	$task        = JRequest::getVar('task');
 	$layout      = JRequest::getVar('layout', '');
 	$showbuttons = JRequest::getVar('showbuttons', '0');
 	$showall     = JRequest::getVar('showall', '0');
-	$document    = JFactory::getDocument();
 
 	$document->addStyleDeclaration('fieldset.adminform textarea {margin: 0px 0px 10px 0px !important;width: 100% !important;}');
 
@@ -191,7 +198,17 @@
 
 	// Execute the task.
 	$controller	= JControllerLegacy::getInstance('Redshop');
-	$controller->execute(JRequest::getCmd('task'));
+
+	if (version_compare(JVERSION, '3.0', '<'))
+	{
+		$task = JRequest::getCmd('task');
+	}
+	else
+	{
+		$task = $app->input->get('task', '');
+	}
+
+	$controller->execute($task);
 	$controller->redirect();
 
 	// End div here
