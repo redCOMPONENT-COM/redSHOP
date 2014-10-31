@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-JLoader::import('joomla.application.component.model');
 
 require_once JPATH_COMPONENT_SITE . '/helpers/tcpdf/config/lang/eng.php';
 require_once JPATH_COMPONENT_SITE . '/helpers/tcpdf/tcpdf.php';
@@ -32,7 +31,7 @@ JLoader::load('RedshopHelperAdminShipping');
  * @subpackage  Model
  * @since       1.0
  */
-class RedshopModelCheckout extends JModel
+class RedshopModelCheckout extends RedshopModel
 {
 
 	public $_id = null;

@@ -6115,7 +6115,7 @@ class rsCarthelper
 						$data['cart_index'] = $i;
 						$data['quantity']   = $newcartquantity;
 
-						$cartModel = JModel::getInstance('cart', 'RedshopModel');
+						$cartModel = RedshopModel::getInstance('cart', 'RedshopModel');
 						$cartModel->update($data);
 
 						return true;

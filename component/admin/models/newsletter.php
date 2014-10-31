@@ -8,12 +8,11 @@
  */
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
 JLoader::load('RedshopHelperProduct');
 JLoader::load('RedshopHelperAdminText_library');
 JLoader::load('RedshopHelperAdminImages');
 
-class RedshopModelNewsletter extends JModel
+class RedshopModelNewsletter extends RedshopModel
 {
 	public $_data = null;
 

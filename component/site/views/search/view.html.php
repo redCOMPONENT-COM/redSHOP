@@ -13,7 +13,7 @@ JLoader::import('joomla.application.component.view');
 
 JLoader::load('RedshopHelperHelper');
 
-class RedshopViewSearch extends JView
+class RedshopViewSearch extends RedshopView
 {
 	public function display($tpl = null)
 	{

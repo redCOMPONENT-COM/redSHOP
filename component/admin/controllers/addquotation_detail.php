@@ -50,7 +50,7 @@ class RedshopControllerAddquotation_detail extends JController
 			$post['block'] = 0;
 
 			// Get Admin order detail Model Object
-			$usermodel = JModel::getInstance('User_detail', 'RedshopModel');
+			$usermodel = RedshopModel::getInstance('User_detail', 'RedshopModel');
 
 			// Call Admin order detail Model store function for Billing
 			$user = $usermodel->storeUser($post);

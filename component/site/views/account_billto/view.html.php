@@ -13,7 +13,7 @@ JLoader::import('joomla.application.component.view');
 
 JLoader::load('RedshopHelperExtra_field');
 
-class RedshopViewAccount_billto extends JView
+class RedshopViewAccount_billto extends RedshopView
 {
 	/**
 	 * Execute and display a template script.

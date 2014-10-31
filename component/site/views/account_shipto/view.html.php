@@ -13,7 +13,7 @@ JLoader::import('joomla.application.component.view');
 
 JLoader::load('RedshopHelperAdminOrder');
 
-class RedshopViewAccount_shipto extends JView
+class RedshopViewAccount_shipto extends RedshopView
 {
 	public function display($tpl = null)
 	{

@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-JLoader::import('joomla.application.component.model');
 
 JLoader::load('RedshopHelperAdminCategory');
 JLoader::load('RedshopHelperProduct');
@@ -21,7 +20,7 @@ JLoader::load('RedshopHelperProduct');
  * @subpackage  Model
  * @since       1.0
  */
-class RedshopModelSearch extends JModel
+class RedshopModelSearch extends RedshopModel
 {
 	public $_data = null;
 
@@ -31,7 +30,7 @@ class RedshopModelSearch extends JModel
 
 	public $_table_prefix = null;
 
-	// @ToDo In feature, when class Search extends JModelList, replace filter_fields in constructor
+	// @ToDo In feature, when class Search extends RedshopModelList, replace filter_fields in constructor
 	public $filter_fields = array(
 		'p.product_name ASC', 'product_name ASC',
 		'p.product_price ASC', 'product_price ASC',

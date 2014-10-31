@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 JLoader::import('joomla.application.component.view');
 
-class RedshopViewRatings extends JView
+class RedshopViewRatings extends RedshopView
 {
 	public function display($tpl = null)
 	{

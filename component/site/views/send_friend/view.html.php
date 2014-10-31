@@ -13,7 +13,7 @@ JLoader::import('joomla.application.component.view');
 
 JLoader::load('RedshopHelperAdminCategory');
 
-class RedshopViewSend_friend extends JView
+class RedshopViewSend_friend extends RedshopView
 {
 	public function display($tpl = null)
 	{

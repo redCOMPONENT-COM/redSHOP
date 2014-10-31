@@ -9,9 +9,8 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
 
-class RedshopViewGiftcard_detail extends JView
+class RedshopViewGiftcard_detail extends RedshopView
 {
 	/**
 	 * The request url.

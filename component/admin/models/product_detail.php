@@ -8,7 +8,6 @@
  */
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
 JLoader::load('RedshopHelperAdminThumbnail');
 jimport('joomla.client.helper');
 JClientHelper::setCredentialsFromRequest('ftp');
@@ -27,7 +26,7 @@ JLoader::load('RedshopHelperAdminImages');
  *
  * @since       1.0
  */
-class RedshopModelProduct_Detail extends JModel
+class RedshopModelProduct_Detail extends RedshopModel
 {
 	public $id = null;
 

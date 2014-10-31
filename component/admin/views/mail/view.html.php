@@ -9,9 +9,8 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
 
-class RedshopViewMail extends JView
+class RedshopViewMail extends RedshopView
 {
 	/**
 	 * The current user.

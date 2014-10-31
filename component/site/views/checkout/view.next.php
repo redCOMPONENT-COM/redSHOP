@@ -15,7 +15,7 @@ JLoader::load('RedshopHelperProduct');
 JLoader::load('RedshopHelperAdminOrder');
 JLoader::load('RedshopHelperAdminShipping');
 
-class RedshopViewCheckout extends JView
+class RedshopViewCheckout extends RedshopView
 {
 	public function display($tpl = null)
 	{
