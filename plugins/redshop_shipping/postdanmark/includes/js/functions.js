@@ -1,48 +1,48 @@
 var google, service_points;
 
-$(document).ready(function() {
-    var postdanmark_input = $('input[value="postdanmark_postdanmark"]');
+jQuery(document).ready(function() {
+    var postdanmark_input = jQuery('input[value="postdanmark_postdanmark"]');
     if (postdanmark_input.attr('checked') === 'checked' || postdanmark_input.attr('type') == 'hidden') {
-        inject_button($('input[value="postdanmark_postdanmark"]').parent().parent());
+        inject_button(jQuery('input[value="postdanmark_postdanmark"]').parent().parent());
     }
 
-    $('input[type="radio"]').each(function(i, item) {
-        if (checkPDinput($(item)) && $(item).attr('checked') && $('#showMap_input').length === 0) {
-            inject_button($(item));
+    jQuery('input[type="radio"]').each(function(i, item) {
+        if (checkPDinput(jQuery(item)) && jQuery(item).attr('checked') && jQuery('#showMap_input').length === 0) {
+            inject_button(jQuery(item));
         }
     });
 
-    $('input[type="radio"]').click(function() {
-        if (checkPDinput($(this))) {
-            inject_button($(this));
+    jQuery('input[type="radio"]').click(function() {
+        if (checkPDinput(jQuery(this))) {
+            inject_button(jQuery(this));
         } else {
-            $('#showMap_input, #sp_info, #sp_inputs, #showMap').remove();
+            jQuery('#showMap_input, #sp_info, #sp_inputs, #showMap').remove();
         }
     });
 
-    $('.moduleRowSelected').live('click', function(e) {
-        if ($('input[value="postdanmark_postdanmark"]', $(this)).length > 0) {
-            if ($('#showMap_input').length === 0) {
-                inject_button($(this));
+    jQuery('.moduleRowSelected').live('click', function(e) {
+        if (jQuery('input[value="postdanmark_postdanmark"]', jQuery(this)).length > 0) {
+            if (jQuery('#showMap_input').length === 0) {
+                inject_button(jQuery(this));
             }
         } else {
-            $('#showMap_input, #sp_info, #showMap, #sp_inputs, #thickbox-css, .pn_error').remove();
+            jQuery('#showMap_input, #sp_info, #showMap, #sp_inputs, #thickbox-css, .pn_error').remove();
         }
     });
 
-    $('input[name="checkoutnext"]').click(function(e) {
-        $('.pn_error').remove();
+    jQuery('input[name="checkoutnext"]').click(function(e) {
+        jQuery('.pn_error').remove();
         if (validate_postdanmark()) {
-            $('form#adminForm').submit();
+            jQuery('form#adminForm').submit();
         } else {
             e.preventDefault();
-            $('#sp_info').after('<div class="pn_error" style="color: red; font-weight: normal; ">' + decodeURIComponent('Tryk venligst p%C3%A5 %22V%C3%A6lg udleveringssted%22 knappen for at v%C3%A6lge et afhentningssted.') + '</div>')
+            jQuery('#sp_info').after('<div class="pn_error" style="color: red; font-weight: normal; ">' + decodeURIComponent('Tryk venligst p%C3%A5 %22V%C3%A6lg udleveringssted%22 knappen for at v%C3%A6lge et afhentningssted.') + '</div>')
         }
     });
 
     jQuery('.map-button-save').live('click', function() {
 
-        $('.pn_error').remove();
+        jQuery('.pn_error').remove();
 
         if (!jQuery('input[name="postdanmark_pickupLocation"]').is(':checked')) {
             if (jQuery('#error_checked_radio').length === 0) {
@@ -54,7 +54,7 @@ $(document).ready(function() {
                 jQuery('#error_checked_radio').remove();
             }
 
-            id_element = jQuery('input[name="postdanmark_pickupLocation"]:checked').val();
+            var id_element = jQuery('input[name="postdanmark_pickupLocation"]:checked').val();
             var parent = jQuery('input[id="' + id_element + '"]').parent().parent();
             var name = jQuery('.point_info > strong', parent).html();
 
@@ -96,7 +96,7 @@ $(document).ready(function() {
             jQuery(this).val('').attr('disabled', 'disabled');
 
             jQuery.post(
-                window.site_url + 'index.php?option=com_redshop&view=checkout&tmpl=component&postdanmark=1&ajax=1', {
+                window.site_url + 'index.php?option=com_redshop&view=checkout&task=getShippingInformation&tmpl=component&plugin=PostDanmark', {
                     'zipcode': postcode,
                     'countryCode': 'DK'
                 },
@@ -127,10 +127,10 @@ $(document).ready(function() {
 
 
 function inject_button(el) {
-    if (0 == $('#sp_info').length) {
+    if (0 == jQuery('#sp_info').length) {
         map_contents = get_map_contents();
 
-        $(el).next().after('<input type="button" onclick="showForm(\'showMap\')" value="' + decodeURIComponent('V%C3%A6lg udleveringssted') + '"  alt="#TB_inline?width=790&amp;inlineId=showMap" id="showMap_input" />' + '<input type="hidden" name="shop_id" id="shop_id_pacsoft" value="" />' + '<div id="sp_info">' + '<span id="sp_name"></span>' + '<span id="sp_address"></span>' + '</div>' + '<div id="sp_inputs">' + '<input type="hidden" name="service_point_id" value="" />' + '<input type="hidden" name="service_point_id_name" value="" />' + '<input type="hidden" name="service_point_id_address" value="" />' + '<input type="hidden" name="service_point_id_city" value="" />' + '<input type="hidden" name="service_point_id_postcode" value="" />' + '</div>' + map_contents);
+        jQuery(el).next().after('<input type="button" onclick="showForm(\'showMap\')" value="' + decodeURIComponent('V%C3%A6lg udleveringssted') + '"  alt="#TB_inline?width=790&amp;inlineId=showMap" id="showMap_input" />' + '<input type="hidden" name="shop_id" id="shop_id_pacsoft" value="" />' + '<div id="sp_info">' + '<span id="sp_name"></span>' + '<span id="sp_address"></span>' + '</div>' + '<div id="sp_inputs">' + '<input type="hidden" name="service_point_id" value="" />' + '<input type="hidden" name="service_point_id_name" value="" />' + '<input type="hidden" name="service_point_id_address" value="" />' + '<input type="hidden" name="service_point_id_city" value="" />' + '<input type="hidden" name="service_point_id_postcode" value="" />' + '</div>' + map_contents);
 
         getShippingZipcodeAjax();
     }
@@ -154,7 +154,7 @@ function getShippingZipcodeAjax() {
 
 function getZipcodeAjax(postcode) {
     jQuery.post(
-        window.site_url + 'index.php?option=com_redshop&view=checkout&tmpl=component&postdanmark=1&ajax=1',
+        window.site_url + 'index.php?option=com_redshop&view=checkout&task=getShippingInformation&tmpl=component&plugin=PostDanmark',
         {
             zipcode: postcode,
             countryCode: 'DK'
@@ -234,8 +234,8 @@ function get_map_contents() {
 }
 
 function validate_postdanmark() {
-    if (typeof $('input[name="service_point_id"]').val() != 'undefined') {
-        if ($('input[name="service_point_id"]').val() == '') {
+    if (typeof jQuery('input[name="service_point_id"]').val() != 'undefined') {
+        if (jQuery('input[name="service_point_id"]').val() == '') {
             return false;
         }
     }
@@ -265,7 +265,7 @@ function showForm(id) {
 }
 
 function checkPDinput(el) {
-    var oncl = $(el).get(0).getAttribute('onclick');
+    var oncl = jQuery(el).get(0).getAttribute('onclick');
 
     if (oncl.length > 1 && oncl.match(/'postdanmark'/) != null) {
         return true;

@@ -31,16 +31,6 @@ class Plgredshop_ShippingPostdanmark extends JPlugin
 	 */
 	public function onListRates(&$d)
 	{
-		$input = JFactory::getApplication()->input;
-
-		// Handle AJAX Request
-		if ($input->getInt('postdanmark', false)
-			&& $input->getInt('ajax', false)
-			&& $input->getCmd('tmpl', false))
-		{
-			$this->onPostDanmarkAjaxRequest();
-		}
-
 		$shippinghelper = new shipping;
 		$shippingrate   = array();
 		$rate           = 0;
@@ -94,12 +84,12 @@ class Plgredshop_ShippingPostdanmark extends JPlugin
 	 *
 	 * @return  void
 	 */
-	protected function onPostDanmarkAjaxRequest()
+	public function onPostDanmarkAjaxRequest()
 	{
 		$app = JFactory::getApplication();
 
-		$zipcode     = $app->input->post->getInt('zipcode');
-		$countryCode = $app->input->post->getCmd('countryCode');
+		$zipcode     = $app->input->getInt('zipcode', '');
+		$countryCode = $app->input->getCmd('countryCode', '');
 
 		if (strlen((int) $zipcode) == 4)
 		{
@@ -121,7 +111,7 @@ class Plgredshop_ShippingPostdanmark extends JPlugin
 
 			if ($data)
 			{
-				$post_addresses['radio_html'] = $this->getPickupLocationsResult($zipcode, $data);
+				$post_addresses['radio_html'] = $this->getPickupLocationsResult($data);
 				$points                       = $data->servicePointInformationResponse->servicePoints;
 				$addresses                    = array();
 				$name                         = array();
@@ -183,7 +173,11 @@ class Plgredshop_ShippingPostdanmark extends JPlugin
 				$post_addresses['close_sat']      = $close_sat;
 				$post_addresses['lat']            = $lat;
 				$post_addresses['lng']            = $lng;
-				$post_addresses['servicePointId'] = $servicePointId;
+
+				if (isset($servicePointId))
+				{
+					$post_addresses['servicePointId'] = $servicePointId;
+				}
 
 				echo json_encode($post_addresses);
 
@@ -201,12 +195,11 @@ class Plgredshop_ShippingPostdanmark extends JPlugin
 	/**
 	 * Get shipping location restult based on give data
 	 *
-	 * @param   integer  $zip   Zipcode
-	 * @param   object   $data  JSON Object of curl data from postdanmark
+	 * @param   object  $data  JSON Object of curl data from postdanmark
 	 *
-	 * @return  void
+	 * @return  string
 	 */
-	protected function getPickupLocationsResult($zip, $data)
+	protected function getPickupLocationsResult($data)
 	{
 		$response = '';
 		$shops    = $data->servicePointInformationResponse->servicePoints;
@@ -220,23 +213,20 @@ class Plgredshop_ShippingPostdanmark extends JPlugin
 		{
 			$response .= '<div class="postdanmark-choose"><strong>Vælg et udleveringssted:</strong></div>';
 			$response .= '<table id="mapAddress"><tr>';
-			$checked  = ' CHECKED';
 
 			if (sizeof($shops) == 1)
 			{
-				$response .= $this->createShop($shops[0], $checked);
+				$response .= $this->createShop($shops[0], 0, 1);
 			}
 			else
 			{
-				$checked = ' CHECKED';
 				$cnt     = 0;
 				$count   = count($shops);
 
 				foreach ($shops as $key => $shop)
 				{
-					$response .= $this->createShop($shop, $checked, $cnt, $count);
+					$response .= $this->createShop($shop, $cnt, $count);
 					$cnt++;
-					$checked  = '';
 				}
 			}
 
@@ -253,7 +243,7 @@ class Plgredshop_ShippingPostdanmark extends JPlugin
 	 * @param   integer  $key    Count key id
 	 * @param   integer  $count  Total Count
 	 *
-	 * @return  html     Shop HTML
+	 * @return  string  Shop HTML
 	 */
 	protected function createShop($shop, $key, $count)
 	{
