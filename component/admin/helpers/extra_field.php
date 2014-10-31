@@ -123,7 +123,18 @@ class extra_field
 				case 1:
 					$text_value = ($data_value && $data_value->data_txt) ? $data_value->data_txt : '';
 					$size = ($row_data[$i]->field_size > 0) ? $row_data[$i]->field_size : 20;
-					$extra_field_value = '<input class="' . $row_data[$i]->field_class . '" type="text" maxlength="' . $row_data[$i]->field_maxlength . '" ' . $required . $reqlbl . $errormsg . ' name="' . $row_data[$i]->field_name . '"  id="' . $row_data[$i]->field_name . '" value="' . htmlspecialchars($text_value) . '" size="' . $size . '" />';
+					$extra_field_value = '<input
+											class="' . $row_data[$i]->field_class . '"
+											type="text"
+											maxlength="' . $row_data[$i]->field_maxlength . '" '
+											. $required
+											. $reqlbl
+											. $errormsg
+											. ' name="' . $row_data[$i]->field_name . '"
+											id="' . $row_data[$i]->field_name . '"
+											value="' . htmlspecialchars(stripslashes($text_value)) . '"
+											size="' . $size . '"
+										/>';
 					$ex_field .= '<td valign="top" width="100" align="right" class="key">' . $extra_field_label . '</td>';
 					$ex_field .= '<td>' . $extra_field_value;
 					break;
@@ -297,7 +308,8 @@ class extra_field
 					$document->addScriptDeclaration('
 						$(function(){
 							var remove_a = null;
-							$("a[id^=add_rs_]").click(function(){
+							var fieldNameAdd = "add_' . $row_data[$i]->field_name . '";
+							$("#" + fieldNameAdd).click(function(){
 								var extra_field_name = $(this).attr(\'title\'), extra_field_doc_html = "";
 								var html_acceptor = $(\'#html_\'+extra_field_name);
 								var total_elm = html_acceptor.children(\'div\').length;
@@ -331,7 +343,7 @@ class extra_field
 						else
 						{
 							// Support for multiple file upload using JSON for better string handling
-							$data_txt = json_decode($data_value->data_txt);
+							$data_txt = json_decode(stripslashes($data_value->data_txt));
 						}
 					}
 
@@ -686,7 +698,14 @@ class extra_field
 						// Editing uploaded file
 						if (isset($documents_value[$ij]) && $documents_value[$ij] != "")
 						{
-							$documents[trim($texts[$ij])] = $documents_value[$ij];
+							if (trim($texts[$ij]) != '')
+							{
+								$documents[trim($texts[$ij])] = $documents_value[$ij];
+							}
+							else
+							{
+								$documents[$ij] = $documents_value[$ij];
+							}
 						}
 
 						if ($file != "")
@@ -697,7 +716,15 @@ class extra_field
 							$destination = REDSHOP_FRONT_DOCUMENT_RELPATH . 'extrafields/' . $name;
 
 							JFile::upload($src, $destination);
-							$documents[trim($texts[$ij])] = $name;
+
+							if (trim($texts[$ij]) != '')
+							{
+								$documents[trim($texts[$ij])] = $name;
+							}
+							else
+							{
+								$documents[$ij] = $name;
+							}
 						}
 					}
 
