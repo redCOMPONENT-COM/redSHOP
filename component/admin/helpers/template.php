@@ -40,6 +40,81 @@ class Redtemplate
 	}
 
 	/**
+	 * Get Template Values
+	 *
+	 * @param   string  $name                  Name template hint
+	 * @param   string  $templateSection       Template section
+	 * @param   string  $descriptionSeparator  Description separator
+	 * @param   string  $lineSeparator         Line separator
+	 *
+	 * @return array|string
+	 */
+	public static function getTemplateValues($name, $templateSection = '', $descriptionSeparator = '-', $lineSeparator = '<br />')
+	{
+		$lang = JFactory::getLanguage();
+		$path = 'template_tag';
+
+		if ($templateSection == 'mail')
+		{
+			$path = 'mail_template_tag';
+		}
+
+		$result = RedshopLayoutHelper::render('templates.' . $path, array('name' => $name));
+		$jTextPrefix = 'COM_REDSHOP_' . strtoupper($path) . '_' . strtoupper($name) . '_';
+
+		if ($matches = explode('{', $result))
+		{
+			foreach ($matches as $key => $match)
+			{
+				$str = strpos($match, '}');
+
+				if ($str !== false)
+				{
+					$matches[$key] = substr($match, 0, $str);
+				}
+				else
+				{
+					unset($matches[$key]);
+				}
+			}
+
+			if (count($matches) > 0)
+			{
+				$countItems = 0;
+
+				foreach ($matches as $match)
+				{
+					$replace = '';
+					$matchFix = strtoupper(str_replace(array(' ', ':'), '_', $match));
+
+					if ($lang->hasKey($jTextPrefix . $matchFix))
+					{
+						$replace = $jTextPrefix . $matchFix;
+					}
+					elseif ($lang->hasKey('COM_REDSHOP_TEMPLATE_TAG_' . $matchFix))
+					{
+						$replace = 'COM_REDSHOP_TEMPLATE_TAG_' . $matchFix;
+					}
+
+					if ($replace)
+					{
+						$result = str_replace(
+							'{' . $match . '}',
+							str_replace(array('{', '}'), array('_AA_', '_BB_'), JText::sprintf($replace, $descriptionSeparator)) . $lineSeparator,
+							$result
+						);
+						$countItems++;
+					}
+				}
+
+				$result = str_replace(array('_AA_', '_BB_'), array('{', '}'), $result);
+			}
+		}
+
+		return $result;
+	}
+
+	/**
 	 * Method to get Template
 	 *
 	 * @param   string   $section  Set section Template
