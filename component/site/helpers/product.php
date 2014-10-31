@@ -8033,8 +8033,7 @@ class producthelper
 						// Show actual productive price
 						if ($property_price > 0)
 						{
-							$string = "$propertyCalculatedPriceSum$propertyOperand$property_price";
-							eval("\$productAttributeCalculatedPriceBase = $string;");
+							$productAttributeCalculatedPriceBase = redhelper::setOperandForValues($propertyCalculatedPriceSum, $propertyOperand, $property_price);
 
 							$productAttributeCalculatedPrice = $productAttributeCalculatedPriceBase - $propertyCalculatedPriceSum;
 							$propertyCalculatedPriceSum      = $productAttributeCalculatedPriceBase;
@@ -8102,8 +8101,7 @@ class producthelper
 							// Show actual productive price
 							if ($subproperty_price > 0)
 							{
-								$string = "$propertyCalculatedPriceSum$subPropertyOperand$subproperty_price";
-								eval("\$productAttributeCalculatedPriceBase = $string;");
+								$productAttributeCalculatedPriceBase = redhelper::setOperandForValues($propertyCalculatedPriceSum, $subPropertyOperand, $subproperty_price);
 
 								$productAttributeCalculatedPrice = $productAttributeCalculatedPriceBase - $propertyCalculatedPriceSum;
 								$propertyCalculatedPriceSum      = $productAttributeCalculatedPriceBase;

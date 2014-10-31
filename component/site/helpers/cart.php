@@ -1237,13 +1237,13 @@ class rsCarthelper
 								// Show actual productive price
 								if ($product_attribute_value_price > 0)
 								{
-									$string = "$propertyCalculatedPriceSum$propertyOperand$product_attribute_value_price";
-									eval("\$productAttributeCalculatedPriceBase = $string;");
+									$productAttributeCalculatedPriceBase = redhelper::setOperandForValues($propertyCalculatedPriceSum, $propertyOperand, $product_attribute_value_price);
 
 									$productAttributeCalculatedPrice = $productAttributeCalculatedPriceBase - $propertyCalculatedPriceSum;
 									$propertyCalculatedPriceSum      = $productAttributeCalculatedPriceBase;
 								}
 
+								$product_attribute_value_price = $this->_producthelper->getProductFormattedPrice($product_attribute_value_price);
 							}
 
 							$productAttributeCalculatedPrice = $this->_producthelper->getProductFormattedPrice(
