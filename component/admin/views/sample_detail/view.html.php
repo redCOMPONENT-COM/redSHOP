@@ -23,7 +23,12 @@ class RedshopViewSample_detail extends RedshopView
 		$document->addStyleSheet('components/' . $option . '/assets/css/colorpicker.css');
 		$document->addStyleSheet('components/' . $option . '/assets/css/layout.css');
 		$document->addScript('components/' . $option . '/assets/js/validation.js');
-		$document->addScript('components/' . $option . '/assets/js/jquery.js');
+
+		if (version_compare(JVERSION, '3.0', '<'))
+		{
+			$document->addScript('components/' . $option . '/assets/js/jquery.js');
+		}
+
 		$document->addScript('components/' . $option . '/assets/js/colorpicker.js');
 		$document->addScript('components/' . $option . '/assets/js/eye.js');
 		$document->addScript('components/' . $option . '/assets/js/utils.js');

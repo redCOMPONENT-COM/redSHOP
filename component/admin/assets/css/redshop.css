@@ -1213,3 +1213,19 @@ table.grey_area tr td input[type="checkbox"]
 	}
 
 }
+
+/* Admin - Item - Accordion */
+h3.ui-accordion-header {border:1px solid #ccc; margin:4px 0 0 0; padding:2px; cursor:pointer; clear:both; background-color:#F6F6F6; font-size:13px; font-weight:bold;}
+h3.ui-accordion-header:first-child {margin-top:0;}
+#redshopAccordion .ui-state-active,
+#redshopAccordion .ui-state-active a {color:#666; background-color:#F6F6F6;}
+h3.ui-accordion-header a,
+h3.ui-accordion-header a:link,
+h3.ui-accordion-header a:hover {text-decoration:none; color:#666;}
+h3.ui-accordion-header,
+h3.ui-accordion-header a {outline:0;}
+h3.ui-accordion-header a:hover,
+h3.ui-accordion-header:hover {background-color:#F6F6F6}
+h3.ui-accordion-header span.ui-icon {display:block;width:16px;height:16px;float:left;background:#F6F6F6 url(../images/ui-icons_228ef1_256x240.png) no-repeat -32px -16px;}
+h3.ui-state-active span.ui-icon {display:block;width:16px;height:16px;float:left;background:#F6F6F6 url(../images/ui-icons_228ef1_256x240.png) no-repeat -64px -16px;}
+.ui-accordion-content {background-color:#fff; border:1px solid #ccc; border-top:none;}
