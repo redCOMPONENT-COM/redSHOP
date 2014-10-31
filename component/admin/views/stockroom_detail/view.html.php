@@ -9,11 +9,10 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
 
 JLoader::load('RedshopHelperAdminExtra_field');
 
-class RedshopViewStockroom_detail extends JView
+class RedshopViewStockroom_detail extends RedshopView
 {
 	public function display($tpl = null)
 	{

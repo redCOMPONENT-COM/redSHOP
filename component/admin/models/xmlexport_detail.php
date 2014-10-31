@@ -9,11 +9,10 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
 
 JLoader::load('RedshopHelperAdminXmlHelper');
 
-class RedshopModelXmlexport_detail extends JModel
+class RedshopModelXmlexport_detail extends RedshopModel
 {
 	public $_id = null;
 

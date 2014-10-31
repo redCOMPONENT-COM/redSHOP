@@ -441,8 +441,8 @@ class order_functions
 
 			if ($data->order_payment_status_code == "Paid")
 			{
-				JModel::addIncludePath(JPATH_SITE . '/components/com_redshop/models');
-				$checkoutModelcheckout = JModel::getInstance('Checkout', 'RedshopModel');
+				RedshopModel::addIncludePath(JPATH_SITE . '/components/com_redshop/models');
+				$checkoutModelcheckout = RedshopModel::getInstance('Checkout', 'RedshopModel');
 				$checkoutModelcheckout->sendGiftCard($order_id);
 
 				// Send the Order mail
@@ -854,8 +854,8 @@ class order_functions
 					$dispatcher->trigger('exportOrder', array ($xml_order));
 				}
 
-				JModel::addIncludePath(JPATH_SITE . '/components/com_redshop/models');
-				$checkoutModelcheckout = JModel::getInstance('Checkout', 'RedshopModel');
+				RedshopModel::addIncludePath(JPATH_SITE . '/components/com_redshop/models');
+				$checkoutModelcheckout = RedshopModel::getInstance('Checkout', 'RedshopModel');
 				$checkoutModelcheckout->sendGiftCard($order_id);
 
 				// Send the Order mail
@@ -1066,8 +1066,8 @@ class order_functions
 
 			if ($paymentstatus == "Paid")
 			{
-				JModel::addIncludePath(JPATH_SITE . '/components/com_redshop/models');
-				$checkoutModelcheckout = JModel::getInstance('Checkout', 'RedhopModel');
+				RedshopModel::addIncludePath(JPATH_SITE . '/components/com_redshop/models');
+				$checkoutModelcheckout = RedshopModel::getInstance('Checkout', 'RedhopModel');
 				$checkoutModelcheckout->sendGiftCard($oid[0]);
 
 				// Send the Order mail

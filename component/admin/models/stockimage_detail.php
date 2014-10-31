@@ -9,10 +9,9 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
 JLoader::load('RedshopHelperAdminImages');
 
-class RedshopModelStockimage_detail extends JModel
+class RedshopModelStockimage_detail extends RedshopModel
 {
 	public $_id = null;
 

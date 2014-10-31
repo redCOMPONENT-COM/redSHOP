@@ -11,6 +11,6 @@ defined('_JEXEC') or die;
 
 JLoader::import('joomla.application.component.view');
 
-class RedshopViewAsk_question extends JView
+class RedshopViewAsk_question extends RedshopView
 {
 }

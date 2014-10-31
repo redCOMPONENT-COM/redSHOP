@@ -23,7 +23,7 @@ JLoader::load('RedshopHelperHelper');
  *
  * @since       1.0
  */
-class RedshopViewProduct extends JView
+class RedshopViewProduct extends RedshopView
 {
 	// JApplication object
 	public $app;

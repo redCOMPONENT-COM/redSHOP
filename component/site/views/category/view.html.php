@@ -21,7 +21,7 @@ JLoader::import('joomla.application.component.view');
  *
  * @since       1.0
  */
-class RedshopViewCategory extends JView
+class RedshopViewCategory extends RedshopView
 {
 	public $app;
 

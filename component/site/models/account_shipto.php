@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-JLoader::import('joomla.application.component.model');
 
 /**
  * Class account_shiptoModelaccount_shipto
@@ -18,7 +17,7 @@ JLoader::import('joomla.application.component.model');
  * @subpackage  Model
  * @since       1.0
  */
-class RedshopModelAccount_shipto extends JModel
+class RedshopModelAccount_shipto extends RedshopModel
 {
 	public $_id = null;
 

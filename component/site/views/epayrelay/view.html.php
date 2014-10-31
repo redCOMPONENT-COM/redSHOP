@@ -13,7 +13,7 @@ JLoader::import('joomla.application.component.view');
 
 JLoader::load('RedshopHelperAdminOrder');
 
-class RedshopViewEpayrelay extends JView
+class RedshopViewEpayrelay extends RedshopView
 {
 	public function display($tpl = null)
 	{

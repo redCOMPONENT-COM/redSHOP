@@ -13,7 +13,7 @@ JLoader::import('joomla.application.component.view');
 
 JLoader::load('RedshopHelperProduct');
 
-class RedshopViewGiftcard extends JView
+class RedshopViewGiftcard extends RedshopView
 {
 	public function display($tpl = null)
 	{

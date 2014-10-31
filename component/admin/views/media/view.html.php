@@ -9,9 +9,8 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
 
-class RedshopViewMedia extends JView
+class RedshopViewMedia extends RedshopView
 {
 	public $images;
 

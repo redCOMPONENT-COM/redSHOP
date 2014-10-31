@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 JLoader::load('RedshopHelperAdminOrder');
 
-class RedshopModelOrder extends JModel
+class RedshopModelOrder extends RedshopModel
 {
 	public $_data = null;
 

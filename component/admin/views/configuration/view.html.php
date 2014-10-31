@@ -9,13 +9,12 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
 
 JLoader::load('RedshopHelperAdminTemplate');
 JLoader::load('RedshopHelperAdminExtra_field');
 JLoader::load('RedshopHelperHelper');
 
-class RedshopViewConfiguration extends JView
+class RedshopViewConfiguration extends RedshopView
 {
 	/**
 	 * The request url.

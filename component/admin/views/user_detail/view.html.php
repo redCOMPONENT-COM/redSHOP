@@ -13,9 +13,8 @@ JLoader::load('RedshopHelperAdminExtra_field');
 JLoader::load('RedshopHelperHelper');
 JLoader::load('RedshopHelperAdminShopper');
 
-jimport('joomla.application.component.view');
 
-class RedshopViewUser_detail extends JView
+class RedshopViewUser_detail extends RedshopView
 {
 	public function display($tpl = null)
 	{

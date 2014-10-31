@@ -10,10 +10,9 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.html.pagination');
-jimport('joomla.application.component.view');
 JLoader::load('RedshopHelperAdminCategory');
 
-class RedshopViewCategory extends JView
+class RedshopViewCategory extends RedshopView
 {
 	/**
 	 * The current user.

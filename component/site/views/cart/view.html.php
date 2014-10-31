@@ -10,7 +10,7 @@
 JLoader::import('joomla.application.component.view');
 JLoader::load('RedshopHelperProduct');
 
-class RedshopViewCart extends JView
+class RedshopViewCart extends RedshopView
 {
 	public function display($tpl = null)
 	{

@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 JLoader::import('joomla.application.component.view');
 
-class RedshopViewSplit_payment extends JView
+class RedshopViewSplit_payment extends RedshopView
 {
 	public function display($tpl = null)
 	{

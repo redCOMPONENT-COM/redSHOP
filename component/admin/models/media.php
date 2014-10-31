@@ -9,12 +9,11 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
 jimport('joomla.filesystem.file');
 
 JLoader::load('RedshopHelperAdminMedia');
 
-class RedshopModelMedia extends JModel
+class RedshopModelMedia extends RedshopModel
 {
 	public $_data = null;
 

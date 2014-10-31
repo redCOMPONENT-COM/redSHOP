@@ -145,7 +145,7 @@ class Com_RedshopInstallerScript
 		{
 			$lang = JFactory::getLanguage();
 			$lang->load('com_redshop', JPATH_ADMINISTRATOR);
-			JModel::addIncludePath(JPATH_SITE . '/administrator/components/com_redshop/models');
+			JModelLegacy::addIncludePath(JPATH_SITE . '/administrator/components/com_redshop/models');
 			$model = JModelLegacy::getInstance('Update', 'RedshopModel');
 			$model->checkUpdateStatus();
 		}

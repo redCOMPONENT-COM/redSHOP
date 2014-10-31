@@ -15,7 +15,7 @@ JLoader::load('RedshopHelperAdminExtra_field');
 JLoader::load('RedshopHelperAdminCategory');
 JLoader::load('RedshopHelperProduct');
 
-class RedshopViewCategory_detail extends JView
+class RedshopViewCategory_detail extends RedshopView
 {
 	/**
 	 * The request url.

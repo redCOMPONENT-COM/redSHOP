@@ -9,12 +9,11 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
 JLoader::load('RedshopHelperAdminCategory');
 JLoader::load('RedshopHelperAdminExtra_field');
 JLoader::load('RedshopHelperAdminProduct');
 
-class RedshopViewProduct extends JView
+class RedshopViewProduct extends RedshopView
 {
 	/**
 	 * The pagination object.
