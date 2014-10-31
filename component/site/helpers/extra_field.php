@@ -626,7 +626,7 @@ class extraField
 					case 5:
 						// 5 :-Select Box (Single select)
 
-						$displayvalue = stripslashes($data_value->data_txt);
+						$displayvalue = $data_value->data_txt;
 						break;
 					case 2:
 						// 2 :- Text Area
@@ -692,7 +692,7 @@ class extraField
 						else
 						{
 							// Support for multiple file upload using JSON for better string handling
-							$document_value = json_decode(stripslashes($data_value->data_txt));
+							$document_value = json_decode($data_value->data_txt);
 						}
 
 						if (count($document_value) > 0)
