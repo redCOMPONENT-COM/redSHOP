@@ -12,6 +12,20 @@ defined('_JEXEC') or die;
 class plgRedshop_paymentrs_payment_paypal extends JPlugin
 {
 	/**
+	 * Constructor
+	 *
+	 * @param   object  &$subject  The object to observe
+	 * @param   array   $config    An optional associative array of configuration settings.
+	 *                             Recognized key values include 'name', 'group', 'params', 'language'
+	 *                             (this list is not meant to be comprehensive).
+	 */
+	public function __construct(&$subject, $config = array())
+	{
+		JPlugin::loadLanguage('plg_redshop_payment_rs_payment_paypal');
+		parent::__construct($subject, $config);
+	}
+
+	/**
 	 * Plugin method with the same name as the event will be called automatically.
 	 */
 	public function onPrePayment($element, $data)

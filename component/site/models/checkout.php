@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die ('Restricted access');
+defined('_JEXEC') or die;
 
 JLoader::import('joomla.application.component.model');
 
@@ -1360,7 +1360,7 @@ class RedshopModelCheckout extends JModel
 		{
 			$this->_redshopMail->sendOrderMail($row->order_id);
 		}
-		else
+		elseif (ORDER_MAIL_AFTER == 1)
 		{
 			// If Order mail set to send after payment then send mail to administrator only.
 			$this->_redshopMail->sendOrderMail($row->order_id, true);

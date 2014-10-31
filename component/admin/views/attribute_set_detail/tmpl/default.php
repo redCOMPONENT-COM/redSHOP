@@ -6,7 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined('_JEXEC') or die ('Restricted access');
+defined('_JEXEC') or die;
 
 JHTML::_('behavior.tooltip');
 
@@ -413,6 +413,13 @@ if ($this->lists['attributes'] != '')
 				$style = 'style="display:none;"';
 			}
 
+			$property_published = "";
+
+			if ($property->property_published)
+			{
+				$property_published = "checked='checked'";
+			}
+
 			?>
 
 
@@ -618,6 +625,29 @@ if ($this->lists['attributes'] != '')
 
 
 											<td align="right" class="td5" style="padding-right: 10px;">
+
+												<div>
+													<label for="attribute[<?php echo $k ?>][property][<?php echo $g ?>][published]">
+														<?php echo JText::_('COM_REDSHOP_PUBLISHED'); ?>&nbsp;
+													</label>
+													<input type="checkbox"
+															class="text_area"
+															size="55"
+															id="attribute[<?php echo $k ?>][property][<?php echo $g ?>][published]"
+															name="attribute[<?php echo $k ?>][property][<?php echo $g ?>][published]"
+															<?php echo $property_published; ?>
+															value="1" />
+													<label for="attribute[<?php echo $k ?>][property][<?php echo $g; ?>][extra_field]">
+														<?php echo JText::_('COM_REDSHOP_ATTRIBUTE_EXTRAFIELD'); ?>&nbsp;
+													</label>
+													<input type="text"
+															class="text_area"
+															size="8"
+															id="attribute[<?php echo $k ?>][property][<?php echo $g; ?>][extra_field]"
+															name="attribute[<?php echo $k ?>][property][<?php echo $g; ?>][extra_field]"
+															value="<?php echo $property->extra_field; ?>" />
+												</div>
+
 												<div class="remove_attr">
 													<input value="Delete"
 													       class="btn_attribute_remove" type='button'
@@ -625,6 +655,8 @@ if ($this->lists['attributes'] != '')
 													       onclick="if(ajax_delete_property(<?php echo $attribute_id; ?>,<?php echo $property_id; ?>)){deleteRow_property('<?php echo 'property_table' . $property->property_id; ?>','property_table<?php echo $k; ?>','sub_attribute_table<?php echo $k . $g; ?>','<?php echo $k . $g; ?>');}"/>
 
 												</div>
+
+
 											</td>
 
 										</tr>
@@ -759,8 +791,12 @@ if ($this->lists['attributes'] != '')
 					$impathphy = REDSHOP_FRONT_IMAGES_RELPATH . 'subcolor/' . $subvalue->subattribute_color_image;
 					$ilink = JRoute::_('index.php?tmpl=component&option=com_redshop&view=media&fsec=subproperty&fid=' . $k . $z . '&layout=thumbs');
 
+					$subattribute_published = "";
 
-
+					if ($subvalue->subattribute_published)
+					{
+						$subattribute_published = "checked='checked'";
+					}
 					?>
 					<tr>
 						<td style="padding:0px;">
@@ -877,18 +913,17 @@ if ($this->lists['attributes'] != '')
 														<?php endif; ?>
 													</td>
 
-													<td class="td2"><span>
-																														<div
-																															class="button2-left">
-																															<div
-																																class="image">
-																																<a class="modal"
-																																   title="Image"
-																																   href="<?php echo $ilink; ?>"
-																																   rel="{handler: 'iframe', size: {x: 900, y: 500}}"></a>
-																															</div>
-																														</div>
-																												</span>
+													<td class="td2">
+														<span>
+															<div class="button2-left">
+																<div class="image">
+																	<a class="modal"
+																		title="Image"
+																		href="<?php echo $ilink; ?>"
+																		rel="{handler: 'iframe', size: {x: 900, y: 500}}"></a>
+																</div>
+															</div>
+														</span>
 														<input type="file"
 														       name="attribute_<?php echo $k; ?>_property_<?php echo $g; ?>_subproperty_<?php echo $sp; ?>_image"
 														       value="<?php echo $subvalue->subattribute_color_image; ?>">
@@ -943,6 +978,28 @@ if ($this->lists['attributes'] != '')
 
 
 													<td align="right" class="td5" style="padding-right: 10px;">
+
+														<div>
+															<label for="attribute[<?php echo $k ?>][property][<?php echo $g ?>][subproperty][<?php echo $sp ?>][published]">
+																<?php echo JText::_('COM_REDSHOP_PUBLISHED'); ?>&nbsp;
+															</label>
+															<input type="checkbox"
+																	class="text_area"
+																	size="55"
+																	id="attribute[<?php echo $k ?>][property][<?php echo $g ?>][subproperty][<?php echo $sp ?>][published]"
+																	name="attribute[<?php echo $k ?>][property][<?php echo $g ?>][subproperty][<?php echo $sp ?>][published]"
+																<?php echo $subattribute_published; ?>
+																	value="1" />
+															<label for="attribute[<?php echo $k ?>][property][<?php echo $g ?>][subproperty][<?php echo $sp ?>][extra_field]">
+																<?php echo JText::_('COM_REDSHOP_ATTRIBUTE_EXTRAFIELD'); ?>&nbsp;
+															</label>
+															<input type="text"
+																	class="text_area"
+																	size="8"
+																	id="attribute[<?php echo $k ?>][property][<?php echo $g ?>][subproperty][<?php echo $sp ?>][extra_field]"
+																	name="attribute[<?php echo $k ?>][property][<?php echo $g ?>][subproperty][<?php echo $sp ?>][extra_field]"
+																	value="<?php echo $subvalue->extra_field; ?>" />
+														</div>
 														<div class="remove_attr">
 															<input
 																value="Delete" class="btn_attribute_remove"

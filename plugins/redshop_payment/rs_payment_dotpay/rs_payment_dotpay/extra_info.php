@@ -13,7 +13,7 @@ $user = JFactory::getUser();
 $db   = JFactory::getDbo();
 
 require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
-JLoader::import('loadhelpers', JPATH_SITE . '/components/com_redshop');
+JLoader::import('redshop.library');
 JLoader::load('RedshopHelperAdminOrder');
 JLoader::load('RedshopHelperHelper');
 
@@ -37,7 +37,7 @@ else
 	?>
 
 	<strong>To make a payment, click on the image below:</strong>
-	<form action="https://ssl.dotpay.pl" method="post" id="dotpay">
+	<form action="https://ssl.dotpay.pl/pay.php" method="post"id="dotpay">
 		<div style="text-align: center; margin-top: 25px; margin-bottom: 25px;">
 			<input type="image" name="submit"
 			       src="<?php echo JURI::base() ?>plugins/redshop_payment/rs_payment_dotpay/dotpay.jpg" border="0"

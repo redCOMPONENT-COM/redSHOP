@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die ('restricted access');
+defined('_JEXEC') or die;
 JHTML::_('behavior.tooltip');
 JHTML::_('behavior.modal');
 jimport('joomla.html.pane');
@@ -33,7 +33,6 @@ JHTML::Stylesheet('fetchscript.css', 'components/com_redshop/assets/css/');
 $module_id = "mod_" . $module->id;
 
 // get product helper
-JLoader::import('loadhelpers', JPATH_SITE . '/components/com_redshop');
 JLoader::load('RedshopHelperProduct');
 $producthelper = new producthelper;
 $redhelper     = new redhelper;

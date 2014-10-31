@@ -47,6 +47,8 @@ class extraField
 
 	public $_db           = null;
 
+	protected static $userFields = array();
+
 	public function __construct()
 	{
 		$this->_db = JFactory::getDbo();
@@ -67,7 +69,7 @@ class extraField
 
 			$data_value = $this->getSectionFieldDataList($row_data[$i]->field_id, $field_section, $section_id);
 
-			if (count($data_value) <= 0)
+			if (!empty($data_value) && count($data_value) <= 0)
 			{
 				$data_value->data_txt = '';
 			}
@@ -282,15 +284,21 @@ class extraField
 		$document = JFactory::getDocument();
 		JHTML::Script('attribute.js', 'components/com_redshop/assets/js/', false);
 
-		$q = "SELECT * FROM " . $this->_table_prefix . "fields "
-			. "WHERE field_section = " . $db->quote($section_id) . " "
-			. "AND field_name = " . $db->quote($field_section) . " "
-			. "AND published = 1 "
-			. "AND field_show_in_front = 1 "
-			. "ORDER BY ordering ";
-		$this->_db->setQuery($q);
+		if (!array_key_exists($section_id . '_' . $field_section, self::$userFields))
+		{
+			$query = $db->getQuery(true)
+				->select('*')
+				->from($db->qn('#__redshop_fields'))
+				->where('field_section = ' . $db->quote($section_id))
+				->where('field_name = ' . $db->quote($field_section))
+				->where('published = 1')
+				->where('field_show_in_front = 1')
+				->order('ordering');
+			$db->setQuery($query);
+			self::$userFields[$section_id . '_' . $field_section] = $db->loadObjectlist();
+		}
 
-		$row_data       = $this->_db->loadObjectlist();
+		$row_data       = self::$userFields[$section_id . '_' . $field_section];
 		$ex_field       = '';
 		$ex_field_title = '';
 
@@ -303,8 +311,6 @@ class extraField
 			{
 				$ex_field_title .= '<div class="userfield_label">' . $asterisk . $row_data[$i]->field_title . '</div>';
 			}
-
-			$data_value = $this->getSectionFieldDataList($row_data[$i]->field_id, $field_section, $section_id);
 
 			$text_value = '';
 
@@ -749,13 +755,13 @@ class extraField
 								if ($str_image_link)
 								{
 									$displayvalue .= "<a href='" . $str_image_link
-										. "' class='imgtooltip' ><img src='" . $link . "' alt='" . $document_value[$c]->field_value . "' /><span><div class='spnheader'>"
+										. "' class='imgtooltip' ><img src='" . $link . "' title='" . $document_value[$c]->field_value . "' alt='" . $document_value[$c]->field_value . "' /><span><div class='spnheader'>"
 										. $row_data[$i]->field_title . "</div><div class='spnalttext'>"
 										. $image_hover[$document_value[$c]->value_id] . "</div></span></a>";
 								}
 								else
 								{
-									$displayvalue .= "<a class='imgtooltip'><img src='" . $link . "' alt='" . $document_value[$c]->field_value . "' /><span><div class='spnheader'>"
+									$displayvalue .= "<a class='imgtooltip'><img src='" . $link . "' title='" . $document_value[$c]->field_value . "' alt='" . $document_value[$c]->field_value . "' /><span><div class='spnheader'>"
 										. $row_data[$i]->field_title . "</div><div class='spnalttext'>"
 										. $image_hover[$document_value[$c]->value_id] . "</div></span></a>";
 								}

@@ -341,26 +341,6 @@ class RedshopControllerConfiguration extends JController
 		$this->setRedirect('index.php?option=' . $option);
 	}
 
-	/**
-	 * Typical view method for MVC based architecture
-	 *
-	 * This function is provide as a default implementation, in most cases
-	 * you will need to override it in your own controllers.
-	 *
-	 * @param   boolean  $cachable   If true, the view output will be cached
-	 * @param   array    $urlparams  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
-	 *
-	 * @return  JController  A JController object to support chaining.
-	 */
-	public function display($cachable = false, $urlparams = false)
-	{
-		$model = $this->getModel('configuration');
-		$currency_data = $model->getCurrency();
-		JRequest::setVar('currency_data', $currency_data);
-
-		parent::display($cachable, $urlparams);
-	}
-
 	public function clearsef()
 	{
 		$model = $this->getModel('configuration');

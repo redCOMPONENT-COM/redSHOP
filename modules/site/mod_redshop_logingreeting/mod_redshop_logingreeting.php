@@ -8,7 +8,7 @@
  */
 
 defined('_JEXEC') or die('Restricted access');
-JLoader::import('loadhelpers', JPATH_SITE . '/components/com_redshop');
+JLoader::import('redshop.library');
 JLoader::load('RedshopHelperAdminOrder');
 $order_function = new order_functions;
 $user = JFactory::getUser();
