@@ -214,9 +214,9 @@ class shipping
 				if ($shippingrate->apply_vat == 1)
 				{
 					$result = $this->getShippingVatRates($shippingrate->shipping_tax_group_id, $user_id);
-					$chk    = $this->producthelper->taxexempt_addtocart($user_id);
+					$addVat = $this->producthelper->taxexempt_addtocart($user_id);
 
-					if (!empty($result) && !empty($chk))
+					if (!empty($result) && $addVat)
 					{
 						if ($result->tax_rate > 0)
 						{
@@ -417,9 +417,9 @@ class shipping
 				if ($shippingrate->apply_vat == 1)
 				{
 					$result = $this->getShippingVatRates($shippingrate->shipping_tax_group_id, $user_id);
-					$chk    = $this->producthelper->taxexempt_addtocart($user_id);
+					$addVat = $this->producthelper->taxexempt_addtocart($user_id);
 
-					if (!empty($result) && !empty($chk))
+					if (!empty($result) && $addVat)
 					{
 						if ($result->tax_rate > 0)
 						{
@@ -769,9 +769,9 @@ class shipping
 		if ($shippingrate->apply_vat == 1)
 		{
 			$result = $this->getShippingVatRates($shippingrate->shipping_tax_group_id, $user_id);
-			$chk = $this->producthelper->taxexempt_addtocart($user_id);
+			$addVat = $this->producthelper->taxexempt_addtocart($user_id);
 
-			if (!empty($result) && !empty($chk))
+			if (!empty($result) && $addVat)
 			{
 				if ($result->tax_rate > 0)
 				{
@@ -1077,6 +1077,7 @@ class shipping
 		{
 			$auth                   = $session->get('auth');
 			$users_info_id          = $auth['users_info_id'];
+			$userdata               = new stdClass;
 			$userdata->country_code = DEFAULT_VAT_COUNTRY;
 			$userdata->state_code   = DEFAULT_VAT_STATE;
 

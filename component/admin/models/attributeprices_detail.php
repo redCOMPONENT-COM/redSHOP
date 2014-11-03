@@ -107,16 +107,6 @@ class RedshopModelAttributeprices_detail extends JModel
 		return true;
 	}
 
-	public function getShopperGroup()
-	{
-		$q = 'SELECT shopper_group_id AS value,shopper_group_name AS text '
-			. 'FROM ' . $this->_table_prefix . 'shopper_group';
-		$this->_db->setQuery($q);
-		$shoppergroup = $this->_db->loadObjectList();
-
-		return $shoppergroup;
-	}
-
 	public function getPropertyName()
 	{
 		$propertyid = $this->_sectionid;

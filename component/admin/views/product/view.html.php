@@ -37,8 +37,6 @@ class RedshopViewProduct extends JView
 	 */
 	public $user;
 
-	public $_product = array();
-
 	public function display($tpl = null)
 	{
 		global $context;
@@ -62,7 +60,6 @@ class RedshopViewProduct extends JView
 
 		if ($layout != 'importproduct' && $layout != 'importattribute' && $layout != 'listing' && $layout != 'ins_product')
 		{
-			JToolBarHelper::customX('gbasefeed', 'gbase.png', 'gbase.png', JText::_('COM_REDSHOP_GOOGLEBASE'), true);
 			JToolBarHelper::custom('assignCategory', 'save.png', 'save_f2.png', JText::_('COM_REDSHOP_ASSIGN_CATEGORY'), true);
 			JToolBarHelper::custom('removeCategory', 'delete.png', 'delete_f2.png', JText::_('COM_REDSHOP_REMOVE_CATEGORY'), true);
 			JToolBarHelper::addNewX();

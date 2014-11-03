@@ -41,7 +41,6 @@ class RedshopViewAttributeprices extends JView
 		$pagination = new JPagination($total, $limitstart, $limit);
 
 		$this->user = JFactory::getUser();
-		$this->lists = $lists;
 		$this->data = $data;
 		$this->section_id = $section_id;
 		$this->section = $section;

@@ -775,7 +775,13 @@ class RedshopModelOrder_detail extends JModel
 		}
 
 		$customer_note = $data['customer_note'];
-		$product_tax = $producthelper->getProductTax($product_id, $productPrice, $user_id);
+
+		$product_tax = 0;
+
+		if ($productPrice > 0)
+		{
+			$product_tax = $producthelper->getProductTax($product_id, $productPrice, $user_id);
+		}
 
 		if ($productPrice_new < 0)
 		{

@@ -126,7 +126,8 @@ class RedshopViewSearch extends JView
 		$this->templatedata = $templatedata;
 		$this->search = $search;
 		$this->pagination = $pagination;
-		$this->request_url = JFilterOutput::cleanText($uri->toString());
+		$this->request_url = $uri->toString();
+		JFilterOutput::cleanText($this->request_url);
 		parent::display($tpl);
 	}
 
@@ -250,6 +251,23 @@ class RedshopViewSearch extends JView
 				$print_tag = "<a href='#' onclick='window.open(\"$print_url\",\"mywindow\",\"scrollbars=1\",\"location=1\")' title='" . JText::_('COM_REDSHOP_PRINT_LBL') . "' ><img src=" . JSYSTEM_IMAGES_PATH . "printButton.png  alt='" . JText::_('COM_REDSHOP_PRINT_LBL') . "' title='" . JText::_('COM_REDSHOP_PRINT_LBL') . "' /></a>";
 			}
 
+			if (strstr($template_org, '{compare_product_div}'))
+			{
+				$compareProductDiv = '';
+
+				if (PRODUCT_COMPARISON_TYPE != '')
+				{
+					$compareDiv = $producthelper->makeCompareProductDiv();
+					$compareUrl = JRoute::_('index.php?option=com_redshop&view=product&layout=compare&Itemid=' . $Itemid);
+					$compareProductDiv = '<form name="frmCompare" method="post" action="' . $compareUrl . '" >';
+					$compareProductDiv .= '<a href="javascript:compare();" >' . JText::_('COM_REDSHOP_COMPARE') . '</a>';
+					$compareProductDiv .= '<div id="divCompareProduct">' . $compareDiv . '</div>';
+					$compareProductDiv .= '</form>';
+				}
+
+				$template_org = str_replace('{compare_product_div}', $compareProductDiv, $template_org);
+			}
+
 			// Skip html if nosubcategory
 			if (strstr($template_org, "{if subcats}"))
 			{
@@ -359,6 +377,7 @@ class RedshopViewSearch extends JView
 			$tagarray            = $texts->getTextLibraryTagArray();
 			$data                = "";
 			$count_no_user_field = 0;
+			$fieldArray = $extraField->getSectionFieldList(17, 0, 0);
 
 			for ($i = 0; $i < count($this->search); $i++)
 			{
@@ -627,7 +646,6 @@ class RedshopViewSearch extends JView
 
 				// ProductFinderDatepicker Extra Field Start
 
-				$fieldArray = $extraField->getSectionFieldList(17, 0, 0);
 				$data_add   = $producthelper->getProductFinderDatepickerValue($data_add, $this->search[$i]->product_id, $fieldArray);
 
 				// ProductFinderDatepicker Extra Field End
@@ -639,15 +657,8 @@ class RedshopViewSearch extends JView
 
 				if ($manufacturer_id != 0)
 				{
-					$manufacturer_data      = $producthelper->getSection("manufacturer", $manufacturer_id);
 					$manufacturer_link_href = JRoute::_('index.php?option=com_redshop&view=manufacturers&layout=detail&mid=' . $manufacturer_id . '&Itemid=' . $Itemid);
-					$manufacturer_name      = "";
-
-					if (count($manufacturer_data) > 0)
-					{
-						$manufacturer_name = $manufacturer_data->manufacturer_name;
-					}
-
+					$manufacturer_name = $this->search[$i]->manufacturer_name;
 					$manufacturer_link = '<a href="' . $manufacturer_link_href . '" title="' . $manufacturer_name . '">' . $manufacturer_name . '</a>';
 
 					if (strstr($data_add, "{manufacturer_link}"))
@@ -676,9 +687,7 @@ class RedshopViewSearch extends JView
 				$data_add = $producthelper->replaceCompareProductsButton($this->search[$i]->product_id, 0, $data_add);
 
 				// Checking for child products
-				$childproduct = $producthelper->getChildProduct($this->search[$i]->product_id);
-
-				if (count($childproduct) > 0)
+				if ($this->search[$i]->count_child_products > 0)
 				{
 					$isChilds   = true;
 					$attributes = array();
