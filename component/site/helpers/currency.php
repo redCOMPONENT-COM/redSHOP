@@ -168,7 +168,7 @@ class CurrencyHelper
 	{
 		$config = new Redconfiguration;
 
-		$session = JFactory::getSession('product_currency');
+		$session = JFactory::getSession();
 
 		// Global $vendor_currency is DEFAULT!
 		if (!$currA)

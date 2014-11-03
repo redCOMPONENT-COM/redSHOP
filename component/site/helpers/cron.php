@@ -166,7 +166,7 @@ class Cron
 	{
 		$date        = JFactory::getDate();
 		$redshopMail = new redshopMail;
-		$fdate       = $date->toFormat('%Y-%m-%d');
+		$fdate       = $date->format('%Y-%m-%d');
 
 		$db = $db = JFactory::getDbo();
 
@@ -349,7 +349,7 @@ class Cron
 		$stockroomhelper = new rsstockroomhelper;
 		$db              = JFactory::getDbo();
 		$date            = JFactory::getDate();
-		$fdate           = $date->toFormat('%Y-%m-%d');
+		$fdate           = $date->format('%Y-%m-%d');
 
 		$query = "SELECT * FROM #__redshop_orders where order_payment_status ='Paid' and order_status = 'C'";
 		$db->setQuery($query);
@@ -540,7 +540,7 @@ class Cron
 		$redshopMail = new redshopMail;
 		$today       = time();
 
-		$fdate = $date->toFormat('%Y-%m-%d');
+		$fdate = $date->format('%Y-%m-%d');
 
 		$db = $db = JFactory::getDbo();
 
