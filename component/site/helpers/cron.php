@@ -200,14 +200,14 @@ class Cron
 					}
 
 					$config    = JFactory::getConfig();
-					$from      = $config->getValue('mailfrom');
-					$fromname  = $config->getValue('fromname');
+					$from      = $config->get('mailfrom');
+					$fromname  = $config->get('fromname');
 					$recipient = $catalog_detail->email;
 
 					$body = str_replace("{name}", $catalog_detail->name, $bodytmp);
 					$body = str_replace("{discount}", DISCOUNT_PERCENTAGE, $body);
 
-					$sent = JUtility::sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc);
+					$sent = JMail::getInstance()->sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc);
 
 					if ($sent == 1)
 					{
@@ -250,8 +250,8 @@ class Cron
 					}
 
 					$config    = JFactory::getConfig();
-					$from      = $config->getValue('mailfrom');
-					$fromname  = $config->getValue('fromname');
+					$from      = $config->get('mailfrom');
+					$fromname  = $config->get('fromname');
 					$recipient = $catalog_detail->email;
 
 					$body = str_replace("{name}", $catalog_detail->name, $bodytmp);
@@ -259,7 +259,7 @@ class Cron
 					$body = str_replace("{discount}", DISCOUNT_PERCENTAGE, $body);
 					$body = str_replace("{coupon_code}", $token, $body);
 
-					$sent = JUtility::sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc);
+					$sent = JMail::getInstance()->sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc);
 
 					$sql = "select id FROM #__users where email = " . $db->quote($recipient);
 					$db->setQuery($sql);
@@ -315,15 +315,15 @@ class Cron
 						}
 
 						$config    = JFactory::getConfig();
-						$from      = $config->getValue('mailfrom');
-						$fromname  = $config->getValue('fromname');
+						$from      = $config->get('mailfrom');
+						$fromname  = $config->get('fromname');
 						$recipient = $catalog_detail->email;
 
 						$body = str_replace("{name}", $catalog_detail->name, $bodytmp);
 						$body = str_replace("{discount}", DISCOUNT_PERCENTAGE, $body);
 						$body = str_replace("{coupon_code}", $coupon_code, $body);
 
-						$sent = JUtility::sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc);
+						$sent = JMail::getInstance()->sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc);
 
 						if ($sent == 1)
 						{
@@ -364,8 +364,8 @@ class Cron
 			$order_id        = $mail_detail->order_id;
 			$mailbcc         = null;
 			$config          = JFactory::getConfig();
-			$from            = $config->getValue('mailfrom');
-			$fromname        = $config->getValue('fromname');
+			$from            = $config->get('mailfrom');
+			$fromname        = $config->get('fromname');
 			$start_date      = mktime(0, 0, 0, date("m"), date("d"), date("Y"));
 			$end_date        = $start_date + (DISCOUPON_DURATION * 23 * 59 * 59);
 			$valid_end_date  = $redconfig->convertDateFormat($end_date);
@@ -436,7 +436,7 @@ class Cron
 					$token        = substr($better_token, 0, 10);
 					$body         = str_replace("{coupon_code}", $token, $body);
 					$body         = str_replace("{coupon_duration}", $valid_end_date, $body);
-					$sent         = JUtility::sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc);
+					$sent         = JMail::getInstance()->sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc);
 
 					if ($sent == 1)
 					{
@@ -486,7 +486,7 @@ class Cron
 					$valid_end_date = $redconfig->convertDateFormat($cend_date);
 					$body           = str_replace("{coupon_code}", $coupon_code, $body);
 					$body           = str_replace("{coupon_duration}", $valid_end_date, $body);
-					$sent           = JUtility::sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc);
+					$sent           = JMail::getInstance()->sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc);
 					$q_update       = "UPDATE #__redshop_orders SET mail2_status = 1 WHERE order_id = " . $order_id;
 					$db->setQuery($q_update);
 					$db->query();
@@ -520,7 +520,7 @@ class Cron
 					$valid_end_date = $redconfig->convertDateFormat($cend_date);
 					$body           = str_replace("{coupon_code}", $coupon_code, $body);
 					$body           = str_replace("{coupon_duration}", $valid_end_date, $body);
-					$sent           = JUtility::sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc);
+					$sent           = JMail::getInstance()->sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc);
 					$q_update       = "UPDATE #__redshop_orders SET mail3_status = 1 WHERE order_id = " . $order_id;
 					$db->setQuery($q_update);
 					$db->query();
@@ -574,13 +574,13 @@ class Cron
 					}
 
 					$config    = JFactory::getConfig();
-					$from      = $config->getValue('mailfrom');
-					$fromname  = $config->getValue('fromname');
+					$from      = $config->get('mailfrom');
+					$fromname  = $config->get('fromname');
 					$recipient = $color_detail->email;
 
 					$body = str_replace("{name}", $color_detail->name, $bodytmp);
 
-					$sent = JUtility::sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc);
+					$sent = JMail::getInstance()->sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc);
 
 					if ($sent == 1)
 					{
@@ -615,13 +615,13 @@ class Cron
 					}
 
 					$config    = JFactory::getConfig();
-					$from      = $config->getValue('mailfrom');
-					$fromname  = $config->getValue('fromname');
+					$from      = $config->get('mailfrom');
+					$fromname  = $config->get('fromname');
 					$recipient = $color_detail->email;
 
 					$body = str_replace("{name}", $color_detail->name, $bodytmp);
 
-					$sent = JUtility::sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc);
+					$sent = JMail::getInstance()->sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc);
 
 					if ($sent == 1)
 					{
@@ -664,8 +664,8 @@ class Cron
 					}
 
 					$config    = JFactory::getConfig();
-					$from      = $config->getValue('mailfrom');
-					$fromname  = $config->getValue('fromname');
+					$from      = $config->get('mailfrom');
+					$fromname  = $config->get('fromname');
 					$recipient = $color_detail->email;
 
 					$body = str_replace("{name}", $color_detail->name, $bodytmp);
@@ -673,7 +673,7 @@ class Cron
 					$body = str_replace("{discount}", COLOUR_DISCOUNT_PERCENTAGE, $body);
 					$body = str_replace("{coupon_code}", $token, $body);
 
-					$sent = JUtility::sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc);
+					$sent = JMail::getInstance()->sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc);
 
 					$sql = "select id FROM #__users where email = " . $db->quote($recipient);
 					$db->setQuery($sql);
@@ -729,8 +729,8 @@ class Cron
 						}
 
 						$config    = JFactory::getConfig();
-						$from      = $config->getValue('mailfrom');
-						$fromname  = $config->getValue('fromname');
+						$from      = $config->get('mailfrom');
+						$fromname  = $config->get('fromname');
 						$recipient = $color_detail->email;
 
 						$body = str_replace("{name}", $color_detail->name, $bodytmp);
@@ -738,7 +738,7 @@ class Cron
 						$body = str_replace("{discount}", COLOUR_DISCOUNT_PERCENTAGE, $body);
 						$body = str_replace("{coupon_code}", $coupon_code, $body);
 
-						$sent = JUtility::sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc);
+						$sent = JMail::getInstance()->sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc);
 
 						if ($sent == 1)
 						{

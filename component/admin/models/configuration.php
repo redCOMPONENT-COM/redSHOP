@@ -775,7 +775,7 @@ class RedshopModelConfiguration extends RedshopModel
 		$content .= str_replace("{username}", $name[0], $data1);
 		$content = str_replace("{email}", $to, $content);
 
-		if (JUtility::sendMail($mailfrom, $mailfromname, $to, $subject, $content, 1))
+		if (JMail::getInstance()->sendMail($mailfrom, $mailfromname, $to, $subject, $content, 1))
 		{
 			return true;
 		}

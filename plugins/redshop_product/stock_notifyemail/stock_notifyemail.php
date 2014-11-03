@@ -76,7 +76,7 @@ class plgredshop_productstock_notifyemail extends JPlugin
 
 					if ($userData[$u]->user_email)
 					{
-						JUtility::sendMail(SHOP_NAME, SHOP_NAME, $userData[$u]->user_email, $mail_subject, $message, 1);
+						JMail::getInstance()->sendMail(SHOP_NAME, SHOP_NAME, $userData[$u]->user_email, $mail_subject, $message, 1);
 					}
 
 					$this->deleteNotifiedUsers($userData[$u]);

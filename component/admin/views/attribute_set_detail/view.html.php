@@ -19,7 +19,7 @@ class RedshopViewAttribute_set_detail extends RedshopView
 		$option = JRequest::getVar('option');
 		$db = JFactory::getDbo();
 		$cfg = JFactory::getConfig();
-		$dbPrefix = $cfg->getValue('config.dbprefix');
+		$dbPrefix = $cfg->get('dbprefix');
 		$lists = array();
 
 		$model = $this->getModel('attribute_set_detail');

@@ -474,7 +474,7 @@ if (strstr($template_desc, "{facebook_like_button}"))
 	$template_desc = str_replace("{facebook_like_button}", $facebook_like, $template_desc);
 
 	$jconfig  = JFactory::getConfig();
-	$sitename = $jconfig->getValue('config.sitename');
+	$sitename = $jconfig->get('sitename');
 
 	$this->document->setMetaData("og:url", JFilterOutput::cleanText($uri->toString()));
 	$this->document->setMetaData("og:type", "product");
