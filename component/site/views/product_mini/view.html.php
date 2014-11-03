@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-JLoader::import('joomla.application.component.view');
 JLoader::load('RedshopHelperAdminCategory');
 
 class RedshopViewProduct_mini extends RedshopView
