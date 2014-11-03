@@ -11,9 +11,9 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/template.php';
+JLoader::load('RedshopHelperAdminTemplate');
 
-class template_detailController extends JController
+class RedshopControllerTemplate_detail extends JController
 {
 	public function __construct($default = array())
 	{
@@ -159,7 +159,15 @@ class template_detailController extends JController
 
 		if ($model->copy($cid))
 		{
-			$msg = JText::_('COM_REDSHOP_TEMPLATE_COPIED');
+			$msg = array();
+
+			foreach($model->names As $names)
+			{
+				$msg[] = JText::sprintf('COM_REDSHOP_TEMPLATE_COPIED', $names[0], $names[1]);
+			}
+
+			$msg = implode('<br />',$msg);
+
 		}
 		else
 		{

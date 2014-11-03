@@ -7,41 +7,36 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_COMPONENT . '/helpers/helper.php';
+JLoader::import('redshop.library');
+JLoader::load('RedshopHelperHelper');
 require_once JPATH_SITE . '/administrator/components/com_redshop/helpers/redshop.cfg.php';
-$objOrder = new order_functions;
-
+$objOrder         = new order_functions;
 $objconfiguration = new Redconfiguration;
+$user             = JFactory::getUser();
+$redhelper        = new redhelper;
+$db               = JFactory::getDbo();
+$user             = JFActory::getUser();
+$task             = JRequest::getVar('task');
+$app              = JFactory::getApplication();
 
-$user = JFactory::getUser();
-
-
-$redhelper = new redhelper;
-$db = JFactory::getDbo();
-$user = JFActory::getUser();
-$task = JRequest::getVar('task');
-$app = JFactory::getApplication();
-
-$sql = "SELECT op.*,o.order_total,o.user_id,o.order_tax,o.order_subtotal,o.order_shipping,o.order_number,o.payment_discount FROM " . $this->_table_prefix . "order_payment AS op LEFT JOIN " . $this->_table_prefix . "orders AS o ON op.order_id = o.order_id  WHERE o.order_id='" . $data['order_id'] . "'";
+$sql = "SELECT op.*,o.order_total,o.user_id,o.order_tax,o.order_subtotal,o.order_shipping,o.order_number,o.payment_discount
+		FROM #__redshop_order_payment AS op
+		LEFT JOIN #__redshop_orders AS o ON op.order_id = o.order_id
+		WHERE o.order_id='" . $data['order_id'] . "'";
 $db->setQuery($sql);
 $order_details = $db->loadObjectList();
 
-// buyer details
-
-$buyeremail = $data['billinginfo']->user_email;
+// Buyer details
+$buyeremail     = $data['billinginfo']->user_email;
 $buyerfirstname = $data['billinginfo']->firstname;
-$buyerlastname = $data['billinginfo']->lastname;
-
-$cartId = $data['order_id'];
-// End
+$buyerlastname  = $data['billinginfo']->lastname;
+$cartId         = $data['order_id'];
 
 // Get ccdtata session
 $session = JFactory::getSession();
-$ccdata = $session->get('ccdata');
+$ccdata  = $session->get('ccdata');
 
-//End
-
-if ($this->_params->get("is_test") == '1')
+if ($this->params->get("is_test") == '1')
 {
 	$braintreeurl = Braintree_TransparentRedirect::url();
 }
@@ -49,8 +44,6 @@ else
 {
 	$braintreeurl = Braintree_TransparentRedirect::url();
 }
-
-// End
 
 if ($data['new_user'])
 {
@@ -85,8 +78,6 @@ foreach ($post_variables as $name => $value)
 }
 
 echo "</form>";
-
-// end by me
 
 ?>
 <script type='text/javascript'>

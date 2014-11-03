@@ -9,31 +9,11 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.plugin.plugin');
-
-require_once JPATH_SITE . '/administrator/components/com_redshop/helpers/order.php';
+JLoader::import('redshop.library');
+JLoader::load('RedshopHelperAdminOrder');
 
 class plgRedshop_paymentrs_payment_beanstream extends JPlugin
 {
-	public $_table_prefix = null;
-
-	/**
-	 * Constructor
-	 *
-	 * For php4 compatability we must not use the __constructor as a constructor for
-	 * plugins because func_get_args ( void ) returns a copy of all passed arguments
-	 * NOT references.  This causes problems with cross-referencing necessary for the
-	 * observer design pattern.
-	 */
-	public function plgRedshop_paymentrs_payment_beanstream(&$subject)
-	{
-		// Load plugin parameters
-		parent::__construct($subject);
-		$this->_table_prefix = '#__redshop_';
-		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_beanstream');
-		$this->_params = new JRegistry($this->_plugin->params);
-	}
-
 	/**
 	 * Plugin method with the same name as the event will be called automatically.
 	 */
@@ -49,13 +29,11 @@ class plgRedshop_paymentrs_payment_beanstream extends JPlugin
 			$plugin = $element;
 		}
 
-		$app = JFactory::getApplication();
-		$db = JFactory::getDbo();
-		$user = JFActory::getUser();
+		$user    = JFActory::getUser();
 		$session = JFactory::getSession();
-		$ccdata = $session->get('ccdata');
-		$cart = $session->get('cart');
-		$config = new Redconfiguration;
+		$ccdata  = $session->get('ccdata');
+		$cart    = $session->get('cart');
+		$config  = new Redconfiguration;
 
 		// For total amount
 		$cal_no = 2;
@@ -65,20 +43,18 @@ class plgRedshop_paymentrs_payment_beanstream extends JPlugin
 			$cal_no = PRICE_DECIMAL;
 		}
 
-		$order_total = round($data['order_total'], $cal_no);
+		$order_total               = round($data['order_total'], $cal_no);
 		$order_payment_expire_year = substr($ccdata['order_payment_expire_year'], -2);
-		$order_payment_name = substr($ccdata['order_payment_name'], 0, 50);
-		$CountryCode = $config->getCountryCode2($data['billinginfo']->country_code);
+		$order_payment_name        = substr($ccdata['order_payment_name'], 0, 50);
+		$CountryCode               = $config->getCountryCode2($data['billinginfo']->country_code);
 
 		// Get params from plugin
+		$merchant_id       = $this->params->get("merchant_id");
+		$api_username      = $this->params->get("api_username");
+		$api_password      = $this->params->get("api_password");
+		$view_table_format = $this->params->get("view_table_format");
 
-		$merchant_id = $this->_params->get("merchant_id");
-		$api_username = $this->_params->get("api_username");
-		$api_password = $this->_params->get("api_password");
-		$view_table_format = $this->_params->get("view_table_format");
-
-		// Authnet vars to send
-
+		// Authenticate vars to send
 		$formdata = array(
 			'requestType'     => 'BACKEND',
 			'merchant_id'     => $merchant_id,

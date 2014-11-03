@@ -6,52 +6,50 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined('_JEXEC') or die ('restricted access');
+defined('_JEXEC') or die;
 
 $url = JURI::base();
 $user = JFactory::getUser();
-$request = JRequest::get();
+$app = JFactory::getApplication();
 JHTML::_('behavior.tooltip');
 JHTMLBehavior::modal();
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php';
+JLoader::load('RedshopHelperAdminOrder');
+JLoader::load('RedshopHelperProduct');
+JLoader::load('RedshopHelperCart');
+JLoader::load('RedshopHelperUser');
+JLoader::load('RedshopHelperHelper');
 
-include_once JPATH_COMPONENT_SITE . '/helpers/product.php';
-include_once JPATH_COMPONENT_SITE . '/helpers/cart.php';
-include_once JPATH_COMPONENT_SITE . '/helpers/user.php';
-include_once JPATH_COMPONENT_SITE . '/helpers/helper.php';
-
-$carthelper = new rsCarthelper();
-$producthelper = new producthelper();
-$order_functions = new order_functions();
-$redhelper = new redhelper();
-$userhelper = new rsUserhelper();
+$carthelper = new rsCarthelper;
+$producthelper = new producthelper;
+$order_functions = new order_functions;
+$redhelper = new redhelper;
+$userhelper = new rsUserhelper;
 $user = JFactory::getUser();
 $session = JFactory::getSession();
 $user_id = $user->id;
-// get redshop helper
 
 $Itemid = $redhelper->getCheckoutItemid();
+$cart = $session->get('cart');
 
-if ($Itemid == 0)
-	$Itemid = JRequest::getVar('Itemid');
-
-$option = JRequest::getVar('option');
-$model = $this->getModel('checkout');
-
-
-$ccinfo = JRequest::getVar('ccinfo');
-
-
-/*$paymentinfo = $order_functions->getPaymentMethodInfo($this->payment_method_id);
+$payment_method_id = $app->input->getCmd('payment_method_id', '');
+$paymentinfo = $order_functions->getPaymentMethodInfo($payment_method_id);
 $paymentinfo = $paymentinfo[0];
-*/
 
+$order_id = $app->input->getInt('order_id', 0);
 
-//$cart 		 = $this->cart;
-$getparameters = $order_functions->getparameters($request['plugin']);
-$order = $order_functions->getOrderDetails($request['order_id']);
+JPluginHelper::importPlugin('redshop_product');
+$dispatcher = JDispatcher::getInstance();
+$dispatcher->trigger('getStockroomStatus', array($order_id));
 
+$order = $order_functions->getOrderDetails($order_id);
+
+// Add Plugin support
+$dispatcher->trigger('afterOrderPlace', array($cart, $order));
+
+$plugin = $app->input->getCmd('plugin', '');
+
+$getparameters = $order_functions->getparameters($plugin);
 
 $paymentinfo = $getparameters[0];
 
@@ -70,51 +68,45 @@ $paymentinfo->payment_oprand = $payment_oprand;
 $paymentinfo->payment_discount_is_percent = $payment_discount_is_percent;
 $paymentinfo->accepted_credict_card = $accepted_credict_card;
 
-$order_shipping_rate = $cart['shipping'];
-
 $shopperGroupId = $userhelper->getShopperGroup($user_id);
 
 if (PAYMENT_CALCULATION_ON == 'subtotal')
 {
-	$paymentAmount = $cart ['product_subtotal'];
+	$paymentAmount = $order->order_subtotal;
 }
 else
 {
-	$paymentAmount = $cart ['total'];
+	$paymentAmount = $order->order_total;
 }
-$paymentArray = $carthelper->calculatePayment($paymentAmount, $paymentinfo, $paymentAmount);
+
+$paymentArray = $carthelper->calculatePayment($paymentAmount, $paymentinfo, $order->order_total);
 $total = $paymentArray[0];
 $payment_amount = $paymentArray[1];
 
-?>
-	<!-- <hr/>
-<table width="100%" border="0" cellspacing="2" cellpadding="2" >
-<tr><td width="33%" class="checkout-bar-1"><?php echo JText::_('COM_REDSHOP_ORDER_INFORMATION' ); ?></td>
-	<td width="33%" class="checkout-bar-2-active"><?php echo JText::_('COM_REDSHOP_PAYMENT' ); ?></td>
-	<td width="33%" class="checkout-bar-3"><?php echo JText::_('COM_REDSHOP_RECEIPT' ); ?></td></tr>
-</table>
-<hr/>
---><?php
-
-
-if ($is_creditcard == 1 && $ccinfo != '1')
+if ($is_creditcard == 1 && $app->input->getCmd('ccinfo', '') != '1')
 {
-
 	$accepted_cc_list = array();
 	$accepted_cc_list = $accepted_credict_card;
 	if ($accepted_credict_card != "")
 		$cc_list = array();
 
+	$cc_list['VISA'] = new stdClass;
 	$cc_list['VISA']->img = 'visa.jpg';
+	$cc_list['MC'] = new stdClass;
 	$cc_list['MC']->img = 'master.jpg';
+	$cc_list['amex'] = new stdClass;
 	$cc_list['amex']->img = 'blue.jpg';
+	$cc_list['maestro'] = new stdClass;
 	$cc_list['maestro']->img = 'mastero.jpg';
+	$cc_list['jcb'] = new stdClass;
 	$cc_list['jcb']->img = 'jcb.jpg';
+	$cc_list['diners'] = new stdClass;
 	$cc_list['diners']->img = 'dinnersclub.jpg';
+	$cc_list['discover'] = new stdClass;
 	$cc_list['discover']->img = 'discover.jpg';
 	?>
 
-	<form action="<?php echo JRoute::_('index.php?option=' . $option . '&view=checkout') ?>" method="post"
+	<form action="<?php echo JRoute::_('index.php?option=com_redshop&view=checkout') ?>" method="post"
 	      name="adminForm" id="adminForm" enctype="multipart/form-data" onsubmit="return CheckCardNumber(this);">
 
 		<fieldset class="adminform">
@@ -321,11 +313,11 @@ if ($is_creditcard == 1 && $ccinfo != '1')
 				</tr>
 			</table>
 		</fieldset>
-		<div style="float: right;">
-			<input type="hidden" name="option" value="<?php echo $option; ?>"/>
+		<div style="text-align: right;">
+			<input type="hidden" name="option" value="com_redshop"/>
 			<input type="hidden" name="task" value="checkoutnext"/>
-			<input type="hidden" name="payment_plugin" value="<?php echo $request['plugin'] ?>"/>
-			<input type="hidden" name="order_id" value="<?php echo $request['order_id'] ?>"/>
+			<input type="hidden" name="payment_plugin" value="<?php echo $plugin ?>"/>
+			<input type="hidden" name="order_id" value="<?php echo $order_id ?>"/>
 			<input type="hidden" name="view" value="order_detail"/>
 			<input type="submit" name="submit" class="greenbutton"
 			       value="<?php echo JText::_('COM_REDSHOP_BTN_CHECKOUTNEXT'); ?>"/>
@@ -338,23 +330,18 @@ if ($is_creditcard == 1 && $ccinfo != '1')
 }
 else
 {
-
 	$values = array();
 	JPluginHelper::importPlugin('redshop_payment');
 	$dispatcher = JDispatcher::getInstance();
-	$results = $dispatcher->trigger('onPrePayment', array($request['plugin'], $values));
+	$results = $dispatcher->trigger('onPrePayment', array($plugin, $values));
 	$paymentResponse = $results[0];
-
-
-
-
 	?>
 	<form>
-		<div style="float: right;">
-			<input type="hidden" name="option" value="<?php echo $option; ?>"/>
+		<div style="text-align: right;">
+			<input type="hidden" name="option" value="com_redshop"/>
 			<input type="hidden" name="task" value="checkoutnext"/>
-			<input type="hidden" name="payment_plugin" value="<?php echo $request['plugin'] ?>"/>
-			<input type="hidden" name="order_id" value="<?php echo $request['order_id'] ?>"/>
+			<input type="hidden" name="payment_plugin" value="<?php echo $plugin ?>"/>
+			<input type="hidden" name="order_id" value="<?php echo $order_id ?>"/>
 			<input type="hidden" name="view" value="order_detail"/>
 			<input type="submit" name="submit" class="greenbutton"
 			       value="<?php echo JText::_('COM_REDSHOP_BTN_CHECKOUTNEXT'); ?>"/>
@@ -362,4 +349,5 @@ else
 			<input type="hidden" name="users_info_id" value="<?php echo $order->user_info_id; ?>"/>
 		</div>
 	</form>
-<?php } ?>
+<?php
+}

@@ -11,23 +11,18 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
-class prices_detailVIEWprices_detail extends JView
+class RedshopViewPrices_detail extends JView
 {
 	public function display($tpl = null)
 	{
-		$db = JFactory::getDbo();
 		JToolBarHelper::title(JText::_('COM_REDSHOP_PRICE_MANAGEMENT_DETAIL'), 'redshop_vatrates48');
-		$option = JRequest::getVar('option', '', 'request', 'string');
-		$document = JFactory::getDocument();
-		$uri = JFactory::getURI();
 
 		$this->setLayout('default');
 
-		$lists = array();
-		$detail = $this->get('data');
-
-		$isNew = ($detail->price_id < 1);
-		$text = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
+		$this->lists  = array();
+		$this->detail = $this->get('data');
+		$isNew        = ($this->detail->price_id < 1);
+		$text         = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_PRICE') . ': <small><small>[ ' . $text . ' ]</small></small>', 'redshop_vatrates48');
 		JToolBarHelper::save();
@@ -41,22 +36,14 @@ class prices_detailVIEWprices_detail extends JView
 			JToolBarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
 		}
 
-		$model = $this->getModel('prices_detail');
-		$lists['product_id'] = $detail->product_id;
-		$lists['product_name'] = $detail->product_name;
+		$this->lists['product_id']   = $this->detail->product_id;
+		$this->lists['product_name'] = $this->detail->product_name;
 
-		$q = 'SELECT shopper_group_id AS value,shopper_group_name AS text '
-			. 'FROM #__redshop_shopper_group';
-		$db->setQuery($q);
-		$shoppergroup = $db->loadObjectList();
+		JLoader::load('RedshopHelperAdminShopper');
+		$shoppergroup = new shoppergroup;
+		$this->lists['shopper_group_name'] = $shoppergroup->list_all("shopper_group_id", 0, array((int) $this->detail->shopper_group_id));
 
-		$lists['shopper_group_name'] = JHTML::_('select.genericlist', $shoppergroup, 'shopper_group_id',
-			'class="inputbox" size="1"', 'value', 'text', $detail->shopper_group_id
-		);
-
-		$this->lists = $lists;
-		$this->detail = $detail;
-		$this->request_url = $uri->toString();
+		$this->request_url = JFactory::getURI()->toString();
 
 		parent::display($tpl);
 	}

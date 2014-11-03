@@ -10,11 +10,11 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
-require_once JPATH_COMPONENT . '/helpers/category.php';
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/extra_field.php';
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/product.php';
+JLoader::load('RedshopHelperAdminCategory');
+JLoader::load('RedshopHelperAdminExtra_field');
+JLoader::load('RedshopHelperAdminProduct');
 
-class productViewproduct extends JView
+class RedshopViewProduct extends JView
 {
 	/**
 	 * The pagination object.
@@ -36,8 +36,6 @@ class productViewproduct extends JView
 	 * @var  JUser
 	 */
 	public $user;
-
-	public $_product = array();
 
 	public function display($tpl = null)
 	{
@@ -62,7 +60,6 @@ class productViewproduct extends JView
 
 		if ($layout != 'importproduct' && $layout != 'importattribute' && $layout != 'listing' && $layout != 'ins_product')
 		{
-			JToolBarHelper::customX('gbasefeed', 'gbase.png', 'gbase.png', JText::_('COM_REDSHOP_GOOGLEBASE'), true);
 			JToolBarHelper::custom('assignCategory', 'save.png', 'save_f2.png', JText::_('COM_REDSHOP_ASSIGN_CATEGORY'), true);
 			JToolBarHelper::custom('removeCategory', 'delete.png', 'delete_f2.png', JText::_('COM_REDSHOP_REMOVE_CATEGORY'), true);
 			JToolBarHelper::addNewX();

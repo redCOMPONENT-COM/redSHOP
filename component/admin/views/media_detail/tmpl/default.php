@@ -47,35 +47,42 @@ if ($showbuttons)
 ?>
 
 	<script language="javascript" type="text/javascript">
-		function goback() {
+		function goback()
+		{
 			history.go(-1);
 		}
 
 		Joomla.submitbutton = function (pressbutton) {
-			submitbutton(pressbutton);
-		}
-
-		submitbutton = function (pressbutton) {
 
 			var form = document.adminForm;
-			if (pressbutton == 'cancel') {
+
+			if (pressbutton == 'cancel')
+			{
 				submitform(pressbutton);
 				return;
 			}
 
-			if (form.bulk.value == 0) {
+			if (form.bulk.value == 0)
+			{
 				alert("<?php echo JText::_('COM_REDSHOP_PLEASE_SELECT_BULK_OPTION', true ); ?>");
-			} else if (form.media_type.value == 0) {
+			}
+			else if (form.media_type.value == 0)
+			{
 				alert("<?php echo JText::_('COM_REDSHOP_PLEASE_SELECT_MEDIA_TYPE', true ); ?>");
-			} else if (form.media_section.value == 0) {
+			}
+			else if (form.media_section.value == 0)
+			{
 				alert("<?php echo JText::_('COM_REDSHOP_SELECT_MEDIA_SECTION_FIRST', true ); ?>");
-			} else if (form.section_name.value == '' && form.media_section.value != 'media') {
+			}
+			else if (form.section_name.value == '' && form.media_section.value != 'media')
+			{
 
 				alert("<?php echo JText::_('COM_REDSHOP_TYPE_SECTION_NAME', true ); ?>");
-			} else {
+			}
+			else
+			{
 				submitform(pressbutton);
 			}
-
 		}
 	</script>
 
@@ -331,7 +338,7 @@ if ($showbuttons)
 						if ($showbuttons)
 						{
 							?>
-							<input type="text" name="section_name" id="section_name"
+							<input type="text" name="section_name_disabled" id="section_name_disabled"
 							       value="<?php echo $section_name; ?>" disabled="disabled" size="75"/><input
 							type="hidden" name="section_id" id="section_id" value="<?php echo $section_id; ?>"/><input
 							type="hidden" name="section_name" id="section_name" value="<?php echo $section_name; ?>"

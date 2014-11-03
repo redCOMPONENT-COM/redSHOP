@@ -11,16 +11,18 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 
-require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
-require_once JPATH_COMPONENT . '/helpers/product.php';
+JLoader::load('RedshopHelperProduct');
+JLoader::load('RedshopHelperAdminProduct');
 
-class addquotation_detailController extends JController
+class RedshopControllerAddquotation_detail extends JController
 {
 	public function __construct($default = array())
 	{
 		parent::__construct($default);
 		JRequest::setVar('hidemainmenu', 1);
-	}
+        $this->_db = JFactory::getDbo();
+
+    }
 
 	public function save($send = 0)
 	{
@@ -39,7 +41,7 @@ class addquotation_detailController extends JController
 			$post['email'] = $post['user_email'];
 			$post['username'] = JRequest::getVar('username', '', 'post', 'username');
 			$post['name'] = $name;
-			JRequest::getVar('password1', $post['password']);
+			JRequest::setVar('password1', $post['password']);
 
 			$post['groups'] = array(0 => 2);
 
@@ -48,14 +50,16 @@ class addquotation_detailController extends JController
 			$post['block'] = 0;
 
 			// Get Admin order detail Model Object
-			$usermodel = JModel::getInstance('user_detail', 'user_detailModel');
+			$usermodel = JModel::getInstance('User_detail', 'RedshopModel');
 
 			// Call Admin order detail Model store function for Billing
 			$user = $usermodel->storeUser($post);
 
 			if (!$user)
 			{
-				$this->setError($this->_db->getErrorMsg());
+                $errorMsg = $this->_db->getErrorMsg();
+                $link = JRoute::_('index.php?option=com_redshop&view=addquotation_detail', false);
+                $this->setRedirect($link, $errorMsg);
 
 				return false;
 			}

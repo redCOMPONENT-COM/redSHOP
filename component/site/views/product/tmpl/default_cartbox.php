@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-require_once JPATH_COMPONENT . '/helpers/helper.php';
+JLoader::load('RedshopHelperHelper');
 
 $Itemid = $this->redHelper->getCartItemid();
 

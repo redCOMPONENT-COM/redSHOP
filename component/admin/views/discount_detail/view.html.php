@@ -10,9 +10,10 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
-require_once JPATH_COMPONENT . '/helpers/category.php';
+JLoader::load('RedshopHelperAdminCategory');
+JLoader::load('RedshopHelperAdminShopper');
 
-class discount_detailVIEWdiscount_detail extends JView
+class RedshopViewDiscount_detail extends JView
 {
 	/**
 	 * The request url.
@@ -61,15 +62,10 @@ class discount_detailVIEWdiscount_detail extends JView
 			JToolBarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
 		}
 
-		$model = $this->getModel('discount_detail');
-
-		$selectedShoppers = $model->selectedShoppers();
-
-		$shoppers = $this->get('shoppers');
-
-		$lists['shopper_group_id'] = JHTML::_('select.genericlist', $shoppers, 'shopper_group_id[]',
-			'class="inputbox" multiple="multiple" size="10"', 'value', 'text', $selectedShoppers
-		);
+		$model                     = $this->getModel('discount_detail');
+		$selectedShoppers          = $model->selectedShoppers();
+		$shoppergroup              = new shoppergroup;
+		$lists['shopper_group_id'] = $shoppergroup->list_all("shopper_group_id[]", 0, $selectedShoppers, 10, true, true);
 
 		$discount_type = array(JHTML::_('select.option', 'no', JText::_('COM_REDSHOP_SELECT')),
 			JHTML::_('select.option', 0, JText::_('COM_REDSHOP_TOTAL')),

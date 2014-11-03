@@ -11,9 +11,9 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/xmlhelper.php';
+JLoader::load('RedshopHelperAdminXmlHelper');
 
-class xmlexport_detailController extends JController
+class RedshopControllerXmlexport_detail extends JController
 {
 	public function __construct($default = array())
 	{
@@ -126,7 +126,7 @@ function setChildElement()
 {
 	JHTMLBehavior::modal();
 
-	$xmlhelper = new xmlHelper();
+	$xmlhelper = new xmlHelper;
 	$post = JRequest::get('post');
 	$session = JFactory::getSession();
 	$childelement = $session->get('childelement');

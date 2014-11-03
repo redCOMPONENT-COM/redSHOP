@@ -10,12 +10,13 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
-require_once JPATH_COMPONENT . '/helpers/thumbnail.php';
+JLoader::load('RedshopHelperAdminThumbnail');
+JLoader::load('RedshopHelperAdminImages');
 jimport('joomla.client.helper');
 JClientHelper::setCredentialsFromRequest('ftp');
 jimport('joomla.filesystem.file');
 
-class shopper_group_detailModelshopper_group_detail extends JModel
+class RedshopModelShopper_group_detail extends JModel
 {
 	public $_id = null;
 
@@ -127,7 +128,7 @@ class shopper_group_detailModelshopper_group_detail extends JModel
 
 		if ($logo['name'] != "")
 		{
-			$logoname = JPath::clean(time() . '_' . $logo['name']);
+			$logoname = RedShopHelperImages::cleanFileName($logo['name']);
 
 			// Image Upload
 			$logotype = JFile::getExt($logo['name']);
@@ -145,8 +146,8 @@ class shopper_group_detailModelshopper_group_detail extends JModel
 		{
 			if ($data['shopper_group_logo_tmp'] != null)
 			{
-				$image_split = preg_split('/', $data['shopper_group_logo_tmp']);
-				$logoname = JPath::clean(time() . '_' . $image_split[count($image_split) - 1]);
+				$image_split = explode('/', $data['shopper_group_logo_tmp']);
+				$logoname = RedShopHelperImages::cleanFileName($image_split[count($image_split) - 1]);
 				$data['shopper_group_logo'] = $logoname;
 
 				// Image copy

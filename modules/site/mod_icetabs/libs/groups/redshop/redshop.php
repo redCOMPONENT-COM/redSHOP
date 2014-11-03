@@ -9,6 +9,9 @@
  * @website    htt://landofcoder.com
  * @license        GNU General Public License version 2
  */
+
+JLoader::import('redshop.library');
+
 if (!class_exists('LofSliderGroupRedshop'))
 {
 	class LofSliderGroupRedshop extends LofSliderGroupBase
@@ -51,7 +54,7 @@ if (!class_exists('LofSliderGroupRedshop'))
 		{
 
 			global $mm_action_url;
-			require_once JPATH_SITE . '/components/com_redshop/helpers/product.php';
+			JLoader::load('RedshopHelperProduct');
 
 			$db                  = JFactory::getDbo();
 			$producthelper       = new producthelper;

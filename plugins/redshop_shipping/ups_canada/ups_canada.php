@@ -22,10 +22,11 @@ jimport('joomla.plugin.plugin');
 if (!defined('_VALID_MOS') && !defined('_JEXEC')) die('Direct Access to ' . basename(__FILE__) . ' is not allowed.');
 JHTML::_('behavior.tooltip');
 
-require_once JPATH_SITE . '/components/com_redshop/helpers/product.php';
-require_once JPATH_SITE . '/components/com_redshop/helpers/currency.php';
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/configuration.php';
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/shipping.php';
+JLoader::import('redshop.library');
+JLoader::load('RedshopHelperProduct');
+JLoader::load('RedshopHelperCurrency');
+JLoader::load('RedshopHelperAdminConfiguration');
+JLoader::load('RedshopHelperAdminShipping');
 
 class plgredshop_shippingups_canada extends JPlugin
 {
@@ -761,7 +762,7 @@ class plgredshop_shippingups_canada extends JPlugin
 		}
 
 		/* require_once  JPATH_SITE."/includes/domit/xml_domit_lite_include.php" ;
-			$xmlDoc =& new DOMIT_Lite_Document;
+			$xmlDoc = new DOMIT_Lite_Document;
 			 if( !$xmlResult)
 			 {
 				$error = true;
@@ -795,7 +796,7 @@ class plgredshop_shippingups_canada extends JPlugin
 				echo "Cart Contents: ".$order_weight. "<br><br>\n";
 			}
 			// retrieve the list of all "RatedShipment" Elements
-			$rate_list =& $xmlDoc->getElementsByTagName( "RatedShipment" );
+			$rate_list = $xmlDoc->getElementsByTagName( "RatedShipment" );
 			$allservicecodes = array(
 						"UPS_Canada_Express",
 						"UPS_Canada_Expedited",
@@ -822,7 +823,7 @@ class plgredshop_shippingups_canada extends JPlugin
 			// Loop through the rate List
 			for ($i = 0; $i < $rate_list->getLength(); $i++)
 			{
-				$currNode =& $rate_list->item($i);
+				$currNode = $rate_list->item($i);
 
 				if ( in_array($currNode->childNodes[0]->getText(),$myservicecodes) )
 				{

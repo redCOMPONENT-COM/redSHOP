@@ -21,7 +21,7 @@ if (!in_array('MagicMagnifyPlusModuleCoreClass', get_declared_classes()))
 
 		function MagicMagnifyPlusModuleCoreClass()
 		{
-			$this->params = new MagicToolboxParams();
+			$this->params = new MagicToolboxParams;
 			$this->_paramDefaults();
 		}
 

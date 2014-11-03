@@ -18,7 +18,7 @@ JLoader::import('joomla.application.component.model');
  * @subpackage  Model
  * @since       1.0
  */
-class price_filterModelprice_filter extends JModel
+class RedshopModelPrice_filter extends JModel
 {
 	public $_id = null;
 

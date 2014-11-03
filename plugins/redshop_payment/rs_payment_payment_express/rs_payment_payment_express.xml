@@ -14,6 +14,7 @@
 
     <files>
         <filename plugin="rs_payment_payment_express">rs_payment_payment_express.php</filename>
+        <filename>index.html</filename>
         <folder>rs_payment_payment_express</folder>
     </files>
     <languages>

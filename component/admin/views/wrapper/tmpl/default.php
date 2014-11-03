@@ -7,11 +7,11 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 JHTMLBehavior::modal();
-require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
-$producthelper = new producthelper();
+JLoader::load('RedshopHelperProduct');
+$producthelper = new producthelper;
 
 $showall = JRequest::getVar('showall', '0');
-$page = "";
+$tmpl = '';
 $option = JRequest::getVar('option', '', 'request', 'string');
 $uri = JURI::getInstance();
 $url = $uri->root();?>
@@ -37,7 +37,7 @@ $url = $uri->root();?>
 </script>
 <?php if ($showall)
 {
-	$page = "3";?>
+	$tmpl = '&tmpl=component';?>
 	<fieldset>
 		<div style="float: right">
 			<button type="button" onclick="Joomla.submitbutton('add');">
@@ -56,7 +56,7 @@ $url = $uri->root();?>
 		<div class="configuration"><?php echo JText::_('COM_REDSHOP_ADD_WRAPPER'); ?></div>
 	</fieldset>
 <?php } ?>
-<form action="<?php echo 'index' . $page . '.php?option=' . $option; ?>" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo 'index.php?option=com_redshop' . $tmpl; ?>" method="post" name="adminForm" id="adminForm">
 	<div id="editcell">
 		<table class="adminlist" width="100%">
 			<thead>
@@ -81,7 +81,7 @@ $url = $uri->root();?>
 				$row->published = $row->wrapper_use_to_all;
 				$enable_default = JHTML::_('grid.published', $row, $i, 'tick.png', 'publish_x.png', 'enable_default');
 
-				$link = JRoute::_('index' . $page . '.php?option=' . $option . '&view=wrapper_detail&task=edit&product_id=' . $this->product_id . '&cid[]=' . $row->wrapper_id . '&showall=' . $showall);?>
+				$link = JRoute::_('index.php?option=com_redshop&view=wrapper_detail&task=edit&product_id=' . $this->product_id . '&cid[]=' . $row->wrapper_id . $tmpl . '&showall=' . $showall);?>
 				<tr class="<?php echo "row$k"; ?>">
 					<td align="center"><?php echo $this->pagination->getRowOffset($i); ?></td>
 					<td align="center"><?php echo JHTML::_('grid.id', $i, $row->id);?></td>

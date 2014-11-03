@@ -18,7 +18,7 @@ JLoader::import('joomla.application.component.controller');
  * @subpackage  Controller
  * @since       1.0
  */
-class SearchController extends JController
+class RedshopControllerSearch extends JController
 {
 	/**
 	 * cancel function
@@ -42,7 +42,7 @@ class SearchController extends JController
 		$get = JRequest::get('get');
 		$taskid = $get['taskid'];
 
-		$model = $this->getModel();
+		$model = $this->getModel('search');
 
 		$brands = $model->loadCatProductsManufacturer($taskid);
 

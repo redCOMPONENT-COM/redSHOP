@@ -9,8 +9,8 @@
 defined('_JEXEC') or die;
 JHTML::_('behavior.tooltip');
 
-require_once JPATH_COMPONENT_SITE . '/helpers/product.php';
-$producthelper = new producthelper();
+JLoader::load('RedshopHelperProduct');
+$producthelper = new producthelper;
 $session = JFactory::getSession();
 
 $post = JRequest::get('get');

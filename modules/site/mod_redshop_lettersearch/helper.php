@@ -9,7 +9,8 @@
 
 defined('_JEXEC') or die('Restricted access');
 
-require_once JPATH_SITE . '/components/com_redshop/helpers/helper.php';
+JLoader::import('redshop.library');
+JLoader::load('RedshopHelperHelper');
 
 class modlettersearchHelper
 {

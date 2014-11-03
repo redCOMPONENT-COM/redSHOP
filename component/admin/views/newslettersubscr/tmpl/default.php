@@ -7,12 +7,12 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/order.php';
-$order_function = new order_functions();
+JLoader::load('RedshopHelperAdminOrder');
+$order_function = new order_functions;
 
 $option = JRequest::getVar('option');
 $filter = JRequest::getVar('filter');
-$config = new Redconfiguration();
+$config = new Redconfiguration;
 $model = $this->getModel('newslettersubscr');
 ?>
 <script language="javascript" type="text/javascript">

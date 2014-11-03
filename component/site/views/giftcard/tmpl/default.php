@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 JHTML::_('behavior.tooltip');
 JHTMLBehavior::modal();
 
-require_once JPATH_COMPONENT . '/helpers/extra_field.php';
+JLoader::load('RedshopHelperExtra_field');
 
 $producthelper = new producthelper;
 $objhelper     = new redhelper;
@@ -82,10 +82,10 @@ if ($gid != 0)
 	{
 		$product_img = $objhelper->watermark('giftcard', $detail->giftcard_image, GIFTCARD_THUMB_WIDTH, GIFTCARD_THUMB_HEIGHT, WATERMARK_GIFTCART_THUMB_IMAGE, '0');
 		$linkimage   = $objhelper->watermark('giftcard', $detail->giftcard_image, '', '', WATERMARK_GIFTCART_IMAGE, '0');
-
 		$thum_image = "<a class=\"modal\" href='" . $linkimage . "' title='" . $detail->giftcard_name . "' rel=\"{handler: 'image', size: {}}\">";
 		$thum_image .= "<img src='" . $product_img . "' title='" . $detail->giftcard_name . "' alt='" . $detail->giftcard_name . "'>";
 		$thum_image .= "</a>";
+
 		$template = str_replace("{giftcard_image}", $thum_image, $template);
 	}
 

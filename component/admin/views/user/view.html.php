@@ -6,11 +6,11 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined('_JEXEC') or die ('Restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
-class userViewuser extends JView
+class RedshopViewUser extends JView
 {
 	public function display($tpl = null)
 	{
@@ -41,6 +41,7 @@ class userViewuser extends JView
 		else
 		{
 			$this->setLayout('default');
+			JToolBarHelper::title(JText::_('COM_REDSHOP_USER_MANAGEMENT'), 'redshop_user48');
 			JToolBarHelper::addNewX();
 			JToolBarHelper::editListX();
 			JToolBarHelper::deleteList();

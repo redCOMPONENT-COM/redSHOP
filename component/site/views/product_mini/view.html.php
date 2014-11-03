@@ -10,9 +10,9 @@
 defined('_JEXEC') or die;
 
 JLoader::import('joomla.application.component.view');
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/category.php';
+JLoader::load('RedshopHelperAdminCategory');
 
-class product_miniViewproduct_mini extends JView
+class RedshopViewProduct_mini extends JView
 {
 	public function display($tpl = null)
 	{

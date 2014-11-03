@@ -10,11 +10,9 @@
 defined('_JEXEC') or die;
 JLoader::import('joomla.application.component.model');
 
-require_once JPATH_COMPONENT . '/helpers/helper.php';
-require_once JPATH_COMPONENT . '/helpers/helper.php';
-require_once JPATH_COMPONENT . '/helpers/helper.php';
-include_once JPATH_COMPONENT . '/helpers/cart.php';
-include_once JPATH_COMPONENT . '/helpers/user.php';
+JLoader::load('RedshopHelperHelper');
+JLoader::load('RedshopHelperCart');
+JLoader::load('RedshopHelperUser');
 
 /**
  * Class cartModelcart.
@@ -23,7 +21,7 @@ include_once JPATH_COMPONENT . '/helpers/user.php';
  * @subpackage  Model
  * @since       1.0
  */
-class CartModelCart extends JModel
+class RedshopModelCart extends JModel
 {
 	public $_id = null;
 
@@ -227,6 +225,10 @@ class CartModelCart extends JModel
 		$newQuantity = intval(abs($data['quantity']) > 0 ? $data['quantity'] : 1);
 		$oldQuantity = intval($cart[$cartElement]['quantity']);
 
+		$calculator_price = 0;
+		$wrapper_price = 0;
+		$wrapper_vat = 0;
+
 		if ($newQuantity <= 0)
 		{
 			$newQuantity = 1;
@@ -375,6 +377,9 @@ class CartModelCart extends JModel
 				$retAccArr             = $this->_producthelper->makeAccessoryCart($cart[$i]['cart_accessory'], $cart[$i]['product_id']);
 				$accessory_total_price = $retAccArr[1];
 				$accessory_vat_price   = $retAccArr[2];
+
+				$wrapper_price         = 0;
+				$wrapper_vat           = 0;
 
 				if ($cart[$i]['wrapper_id'])
 				{

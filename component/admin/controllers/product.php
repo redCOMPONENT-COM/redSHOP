@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 
-class productController extends JController
+class RedshopControllerProduct extends JController
 {
 	public function cancel()
 	{
@@ -284,23 +284,6 @@ class productController extends JController
 		else
 		{
 			$msg = JText::_('COM_REDSHOP_ERROR_ASSIGNING_TEMPLATE');
-		}
-
-		$this->setRedirect('index.php?option=com_redshop&view=product', $msg);
-	}
-
-	public function gbasefeed()
-	{
-		$post = JRequest::get('post');
-		$model = $this->getModel('product');
-
-		if ($model->gbasefeed($post))
-		{
-			$msg = JText::_('COM_REDSHOP_GBASE_XML_IS_GENERATED_SUCCESSFULLY');
-		}
-		else
-		{
-			$msg = JText::_('COM_REDSHOP_ERROR_IN_GENERATING_GBASE_XML');
 		}
 
 		$this->setRedirect('index.php?option=com_redshop&view=product', $msg);

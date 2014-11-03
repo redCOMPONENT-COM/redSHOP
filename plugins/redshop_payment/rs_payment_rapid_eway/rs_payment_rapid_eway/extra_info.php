@@ -1,28 +1,24 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license   GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- *            Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     RedSHOP
+ * @subpackage  Plugin
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
-require_once JPATH_SITE . '/administrator/components/com_redshop/helpers/configuration.php';
-require_once JPATH_SITE . '/administrator/components/com_redshop/helpers/order.php';
+JLoader::import('redshop.library');
+JLoader::load('RedshopHelperAdminConfiguration');
+JLoader::load('RedshopHelperAdminOrder');
+
 $app = JFactory::getApplication();
 $Redconfiguration = new Redconfiguration;
-$order_functions = new order_functions;
-$order_items = $order_functions->getOrderItemDetail($data['order_id']);
-$session = JFactory::getSession();
-$ccdata = $session->get('redirect_ccdata');
-$api_path = JPATH_SITE . '/plugins/redshop_payment/' . $plugin . '/' . $plugin . '/Rapid.php';
-include $api_path;
+$order_functions  = new order_functions;
+$order_items      = $order_functions->getOrderItemDetail($data['order_id']);
+$session          = JFactory::getSession();
+$ccdata           = $session->get('redirect_ccdata');
+
+include JPATH_SITE . '/plugins/redshop_payment/' . $plugin . '/' . $plugin . '/Rapid.php';
+
 // GetCountryCode2
 $data['billinginfo']->country_code = $Redconfiguration->getCountryCode2($data['billinginfo']->country_code);
 
@@ -30,11 +26,11 @@ if ($data['billinginfo']->country_code == "GB")
 {
 	$currency_main = "GBP";
 }
-else if ($data['billinginfo']->country_code == "NZ")
+elseif ($data['billinginfo']->country_code == "NZ")
 {
 	$currency_main = "NZD";
 }
-else if ($data['billinginfo']->country_code == "AU")
+elseif ($data['billinginfo']->country_code == "AU")
 {
 	$currency_main = "AUD";
 }
@@ -43,19 +39,20 @@ else
 	$currency_main = "USD";
 }
 // Get Payment Plugin Params
-$eWAYcustomer_id = $this->_params->get("customer_id");
-$eWAYusername = $this->_params->get("username");
-$eWAYpassword = $this->_params->get("password");
-$test_mode = $this->_params->get("test_mode");
+$eWAYcustomer_id = $this->params->get("customer_id");
+$eWAYusername    = $this->params->get("username");
+$eWAYpassword    = $this->params->get("password");
+$test_mode       = $this->params->get("test_mode");
 
-$currencyClass = new CurrencyHelper;
+$currencyClass  = new CurrencyHelper;
 $order_subtotal = $currencyClass->convert($data['order']->order_total, '', $currency_main);
 
-//Create RapidAPI Service
+// Create RapidAPI Service
 $service = new RapidAPI;
 $service->setTestMode($test_mode);
 $service->getAuthorizeData($eWAYusername, $eWAYpassword);
-//Create AccessCode Request Object
+
+// Create AccessCode Request Object
 $request = new CreateAccessCodeRequest;
 $request->Customer->Title = "Mr.";
 $request->Customer->FirstName = $data['billinginfo']->firstname;
@@ -73,25 +70,28 @@ if (count($order_items) > 0)
 {
 	for ($p = 0; $p < count($order_items); $p++)
 	{
-		//Populate values for LineItems
+		// Populate values for LineItems
 		$item = new LineItem;
 		$item->SKU = $order_items[$p + 1]->order_item_sku;
 		$item->Description = $order_items[$p + 1]->order_item_name;
 		$request->Items->LineItem[$p + 1] = $item;
 	}
 }
-//Populate values for Payment Object
+
+// Populate values for Payment Object
 $request->Payment->TotalAmount = $order_subtotal;
 $request->Payment->InvoiceNumber = $data['order']->order_number;
 $request->Payment->CurrencyCode = $currency_main;
-//Url to the page for getting the result with an AccessCode
+
+// Url to the page for getting the result with an AccessCode
 $request->RedirectUrl = JURI::base() . "index.php?tmpl=component&option=com_redshop&view=order_detail&controller=order_detail&task=notify_payment&payment_plugin=rs_payment_rapid_eway&orderid=" . $data['order_id'];
 $request->Method = "ProcessPayment";
 $result = $service->CreateAccessCode($request);
-//Check if any error returns
+
+// Check if any error returns
 if (isset($result->Errors))
 {
-	//Get Error Messages from Error Code. Error Code Mappings are in the Config.ini file
+	// Get Error Messages from Error Code. Error Code Mappings are in the Config.ini file
 	$ErrorArray = explode(",", $result->Errors);
 	$lblError = "";
 
