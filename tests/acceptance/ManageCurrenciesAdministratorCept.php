@@ -21,3 +21,4 @@ $I->editCurrency($randomCurrencyName, $updatedCurrencyName);
 $I->searchCurrency($updatedCurrencyName);
 $I->deleteCurrency($updatedCurrencyName);
 $I->searchCurrency($updatedCurrencyName, 'Delete');
+
