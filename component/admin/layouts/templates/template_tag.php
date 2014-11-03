@@ -90,9 +90,9 @@ switch ($name)
 		break;
 	case 'cart':
 		?>
-		<b><?php echo JText::_('COM_REDSHOP_TEMPLATE_TAG_MANUFACTURER_PRODUCTS_HINT'); ?></b><br /><br />
+		<b><?php echo JText::_('COM_REDSHOP_TEMPLATE_TAG_CART_HINT'); ?></b><br /><br />
 		{cart_lbl} {product_price} {product_loop_start} {product_total_price} {product_name} {product_number} <br />
-		{product_attribute} {product_attribute_loop_start} {product_attribute_name} {product_attribute_value} {product_attribute_value_price} {product_attribute_loop_end} {attribute_label} {attribute_change} {product_accessory} {product_old_price} {product_customfields_lbl} {product_customfields} {product_subscription_lbl} {product_subscription} {product_wrapper} {discount_rule} <br />
+		{product_attribute} {product_attribute_loop_start} {product_attribute_name} {product_attribute_value} {product_attribute_value_price} {product_attribute_calculated_price} {product_attribute_loop_end} {attribute_label} {attribute_change} {product_accessory} {product_old_price} {product_customfields_lbl} {product_customfields} {product_subscription_lbl} {product_subscription} {product_wrapper} {discount_rule} <br />
 		{update} {discount_form_lbl} {discount_form} {product_userfields} {coupon_code_lbl} {shipping_lbl} {total_lbl} {product_name_lbl} {price_lbl} {quantity_lbl} {total_price_lbl} {print} {product_thumb_image} {product_price_excl_vat} {product_total_price_excl_vat} {product_loop_end} {attribute_price_with_vat} {attribute_price_without_vat} {shipping} <br />
 		{vat_info} {vat_shipping} {shipping_lbl} {product_subtotal} {shipping_excl_vat} {sub_total_vat} {discount_excl_vat} {total_excl_vat} {denotation_label} {discount_denotation} {discount_excl_vat} <br />
 		{shipping_denotation} {shipping_excl_vat} {product_subtotal_lbl} {product_subtotal_excl_vat_lbl} {shipping_with_vat_lbl} {shipping_excl_vat_lbl} {product_price_excl_lbl} {product_name_nolink} {product_attribute_number} {tax_with_shipping_lbl} {product_subtotal} {product_subtotal_excl_vat} {total} <br />
@@ -254,10 +254,10 @@ switch ($name)
 		break;
 	case 'order_detail':
 		?>
-		<b><?php echo JText::_('COM_REDSHOP_TEMPLATE_TAG_CATEGORY_HINT'); ?></b><br /><br />
+		<b><?php echo JText::_('COM_REDSHOP_TEMPLATE_TAG_ORDER_DETAIL_HINT'); ?></b><br /><br />
 		{order_id} {order_number} {order_date} {order_status} {order_status_order_only_lbl} {order_status_payment_only_lbl} {order_status_order_only} {order_status_payment_only} <br />
 		{billing_address} {shipping_address} {product_name} {product_number} {product_wrapper} <br />
-		{product_price} {product_attribute_loop_start} {product_attribute_name} {product_attribute_value} {product_attribute_value_price} {product_attribute_loop_end} {attribute_label} {product_quantity} {product_total_price} {order_subtotal} {order_total} <br />
+		{product_price} {product_attribute_loop_start} {product_attribute_name} {product_attribute_value} {product_attribute_value_price} {product_attribute_calculated_price} {product_attribute_loop_end} {attribute_label} {product_quantity} {product_total_price} {order_subtotal} {order_total} <br />
 		{order_information_lbl} {order_id_lbl} {order_number_lbl} {order_date_lbl} {order_status_lbl} <br />
 		{billing_address_information_lbl} {shipping_address_information_lbl} {order_detail_lbl} {product_name_lbl} {note_lbl} {price_lbl} <br />
 		{quantity_lbl} {total_price_lbl} {order_subtotal_lbl} {if discount} {discount_lbl} {order_discount} {discount_in_percentage} {discount end if} {if vat} {vat_lbl} <br />
@@ -289,7 +289,7 @@ switch ($name)
 		?>
 		<b><?php echo JText::_('COM_REDSHOP_TEMPLATE_TAG_ORDER_RECEIPT_HINT'); ?></b><br /><br />
 		{product_loop_start} {product_loop_end} {product_name} {product_number} <br />
-		{product_attribute_loop_start} {product_attribute_name} {product_attribute_value} {product_attribute_value_price} {product_attribute_loop_end} {attribute_label} {product_wrapper} {product_price} {product_quantity} {product_total_price} {order_subtotal} <br />
+		{product_attribute_loop_start} {product_attribute_name} {product_attribute_value} {product_attribute_value_price} {product_attribute_calculated_price} {product_attribute_loop_end} {attribute_label} {product_wrapper} {product_price} {product_quantity} {product_total_price} {order_subtotal} <br />
 		{order_shipping} {order_total} {delivery_time} {payment_status} {print}{delivery_time_lbl}  <br />
 		{if discount} {discount_lbl} {order_discount} {discount_in_percentage} {discount end if} {if vat} {vat_lbl} {order_tax} {vat end if} {shipping_lbl} {shipping_method_lbl} {shipping_method} <br />
 		{if payment_discount} {payment_discount_lbl} {payment_order_discount} {payment_discount end if} <br />

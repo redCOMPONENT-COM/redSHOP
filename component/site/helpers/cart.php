@@ -1228,30 +1228,38 @@ class rsCarthelper
 								$product_attribute_value_price = $temp_tpi[$tpi]['attribute_childs'][0]['property_price'];
 								$propertyOperand               = $temp_tpi[$tpi]['attribute_childs'][0]['property_oprand'];
 
+								if (count($temp_tpi[$tpi]['attribute_childs'][0]['property_childs']) > 0)
+								{
+									$product_attribute_value_price = $product_attribute_value_price + $temp_tpi[$tpi]['attribute_childs'][0]['property_childs'][0]['subproperty_price'];
+									$propertyOperand               = $temp_tpi[$tpi]['attribute_childs'][0]['property_childs'][0]['subproperty_oprand'];
+								}
+
 								// Show actual productive price
 								if ($product_attribute_value_price > 0)
 								{
-									$string = "$propertyCalculatedPriceSum$propertyOperand$product_attribute_value_price";
-									eval("\$productAttributeCalculatedPriceBase = $string;");
+									$productAttributeCalculatedPriceBase = redhelper::setOperandForValues($propertyCalculatedPriceSum, $propertyOperand, $product_attribute_value_price);
 
 									$productAttributeCalculatedPrice = $productAttributeCalculatedPriceBase - $propertyCalculatedPriceSum;
 									$propertyCalculatedPriceSum      = $productAttributeCalculatedPriceBase;
 								}
 
-								if (count($temp_tpi[$tpi]['attribute_childs'][0]['property_childs']) > 0)
-								{
-									$product_attribute_value_price = $product_attribute_value_price + $temp_tpi[$tpi]['attribute_childs'][0]['property_childs'][0]['subproperty_price'];
-								}
-
-								$product_attribute_value_price   = $this->_producthelper->getProductFormattedPrice($product_attribute_value_price);
-								$productAttributeCalculatedPrice = $this->_producthelper->getProductFormattedPrice($productAttributeCalculatedPrice);
+								$product_attribute_value_price = $this->_producthelper->getProductFormattedPrice($product_attribute_value_price);
 							}
+
+							$productAttributeCalculatedPrice = $this->_producthelper->getProductFormattedPrice(
+								$productAttributeCalculatedPrice
+							);
+							$productAttributeCalculatedPrice = JText::sprintf('COM_REDSHOP_CART_PRODUCT_ATTRIBUTE_CALCULATED_PRICE', $productAttributeCalculatedPrice);
 
 							$data_add_pro = $templateattibute_middle;
 							$data_add_pro = str_replace("{product_attribute_name}", $product_attribute_name, $data_add_pro);
 							$data_add_pro = str_replace("{product_attribute_value}", $product_attribute_value, $data_add_pro);
 							$data_add_pro = str_replace("{product_attribute_value_price}", $product_attribute_value_price, $data_add_pro);
-							$data_add_pro = str_replace("{product_attribute_calculated_price}", $productAttributeCalculatedPrice, $data_add_pro);
+							$data_add_pro = str_replace(
+								"{product_attribute_calculated_price}",
+								$productAttributeCalculatedPrice,
+								$data_add_pro
+							);
 							$pro_detail .= $data_add_pro;
 						}
 					}
