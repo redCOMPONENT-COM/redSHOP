@@ -50,7 +50,7 @@ defined('_JEXEC') or die;
 			{
 				$ilink = JRoute::_(
 					'index.php?tmpl=component&option=com_redshop&view=media&section_id=' .
-					$this->next_product .
+					$this->model->getProductNextAutoIncrementId() .
 					'&showbuttons=1&media_section=product'
 				);
 			}
