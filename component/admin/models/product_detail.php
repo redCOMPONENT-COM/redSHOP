@@ -102,12 +102,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 	 */
 	public function _loadData()
 	{
-		// ToDo: This is potentially unsafe because $_POST elements are not sanitized.
-		$post = $this->input->getArray($_POST);
-
-		$viewFrom = JFactory::getApplication()->input->getCmd('viewFrom', false);
-
-		if (empty($this->data) && ($viewFrom === 'productList' || empty($post)))
+		if (empty($this->data))
 		{
 			// Initialiase variables.
 			$db    = JFactory::getDbo();
