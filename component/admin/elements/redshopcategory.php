@@ -19,7 +19,7 @@ JLoader::load('RedshopHelperAdminCategory');
  * @subpackage     redshop
  * @since          1.5
  */
-class JFormFieldcategory extends JFormField
+class JFormFieldRedshopcategory extends JFormField
 {
 	/**
 	 * Element name
@@ -27,7 +27,7 @@ class JFormFieldcategory extends JFormField
 	 * @access    protected
 	 * @var        string
 	 */
-	public $type = 'category';
+	public $type = 'redshopcategory';
 
 	protected function getInput()
 	{
