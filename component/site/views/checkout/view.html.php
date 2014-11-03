@@ -55,7 +55,7 @@ class RedshopViewCheckout extends RedshopView
 		JHtml::script('com_redshop/common.js', false, true);
 		JHTML::Script('jquery.metadata.js', 'components/com_redshop/assets/js/', false);
 		JHTML::Script('registration.js', 'components/com_redshop/assets/js/', false);
-		JHTML::Stylesheet('validation.css', 'components/com_redshop/assets/css/');
+		JHtml::stylesheet('com_redshop/validation.css', array(), true);
 		JHtml::script('com_redshop/redbox.js', false, true);
 
 		if (JPluginHelper::isEnabled('redshop_veis_registration', 'rs_veis_registration'))

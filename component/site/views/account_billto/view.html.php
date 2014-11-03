@@ -53,7 +53,7 @@ class RedshopViewAccount_billto extends RedshopView
 		JHTML::Script('jquery.validate.js', 'components/com_redshop/assets/js/', false);
 		JHtml::script('com_redshop/common.js', false, true);
 		JHTML::Script('registration.js', 'components/com_redshop/assets/js/', false);
-		JHTML::Stylesheet('validation.css', 'components/com_redshop/assets/css/');
+		JHtml::stylesheet('com_redshop/validation.css', array(), true);
 
 		// Preform security checks
 		if ($user->id == 0 && $auth['users_info_id'] == 0)
