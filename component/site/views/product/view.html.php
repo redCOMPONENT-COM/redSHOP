@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-JLoader::import('joomla.application.component.view');
 JLoader::load('RedshopHelperAdminConfiguration');
 JLoader::load('RedshopHelperAdminCategory');
 JLoader::load('RedshopHelperAdminText_library');

@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 JLoader::load('RedshopHelperAdminMail');
-JLoader::import('joomla.application.component.controller');
 
 /**
  * Password Controller.

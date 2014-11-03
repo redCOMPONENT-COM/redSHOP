@@ -7,7 +7,6 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-JLoader::import('joomla.application.component.view');
 JLoader::load('RedshopHelperProduct');
 
 class RedshopViewCart extends RedshopView

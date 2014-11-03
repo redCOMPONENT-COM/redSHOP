@@ -16,7 +16,6 @@ JLoader::load('RedshopHelperHelper');
 JLoader::load('RedshopHelperCart');
 JLoader::load('RedshopHelperUser');
 
-JLoader::import('joomla.application.component.controller');
 
 /**
  * Order Detail Controller.
