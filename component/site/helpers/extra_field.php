@@ -456,7 +456,7 @@ class extraField
 					case 10 :
 						// File Upload
 						JHTML::Script('jquery-1.js', 'components/com_redshop/assets/js/', false);
-						JHTML::Script('ajaxupload.js', 'components/com_redshop/assets/js/', false);
+						JHtml::script('com_redshop/ajaxupload.js', false, true);
 						$ajax = "";
 
 						if (AJAX_CART_BOX)
