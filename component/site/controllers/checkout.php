@@ -197,6 +197,23 @@ class RedshopControllerCheckout extends RedshopController
 	}
 
 	/**
+	 * Get Shipping Information
+	 *
+	 * @return  void
+	 */
+	public function getShippingInformation()
+	{
+		$app = JFactory::getApplication();
+		$jInput = $app->input;
+		$plugin = $jInput->getCmd('plugin', '');
+		JPluginHelper::importPlugin('redshop_shipping');
+		$dispatcher = JDispatcher::getInstance();
+		$dispatcher->trigger('on' . $plugin . 'AjaxRequest');
+
+		$app->close();
+	}
+
+	/**
 	 * Check validation
 	 *
 	 * @param   string  $users_info_id  not used
