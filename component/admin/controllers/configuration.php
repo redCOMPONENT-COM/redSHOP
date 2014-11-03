@@ -11,10 +11,10 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 
-require_once JPATH_COMPONENT_SITE . '/helpers/currency.php';
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/extra_field.php';
+JLoader::load('RedshopHelperCurrency');
+JLoader::load('RedshopHelperAdminExtra_field');
 
-class configurationController extends JController
+class RedshopControllerConfiguration extends JController
 {
 	public function __construct($default = array())
 	{
@@ -339,26 +339,6 @@ class configurationController extends JController
 	{
 		$option = JRequest::getVar('option');
 		$this->setRedirect('index.php?option=' . $option);
-	}
-
-	/**
-	 * Typical view method for MVC based architecture
-	 *
-	 * This function is provide as a default implementation, in most cases
-	 * you will need to override it in your own controllers.
-	 *
-	 * @param   boolean  $cachable   If true, the view output will be cached
-	 * @param   array    $urlparams  An array of safe url parameters and their variable types, for valid values see {@link JFilterInput::clean()}.
-	 *
-	 * @return  JController  A JController object to support chaining.
-	 */
-	public function display($cachable = false, $urlparams = false)
-	{
-		$model = $this->getModel('configuration');
-		$currency_data = $model->getCurrency();
-		JRequest::setVar('currency_data', $currency_data);
-
-		parent::display($cachable, $urlparams);
 	}
 
 	public function clearsef()

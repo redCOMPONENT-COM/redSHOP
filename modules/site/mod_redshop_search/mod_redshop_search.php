@@ -10,6 +10,7 @@
 defined('_JEXEC') or die('Restricted access');
 
 $option = JRequest::getCmd('option');
+JLoader::import('redshop.library');
 
 $session = JFactory::getSession();
 $cart    = $session->get('cart');
@@ -20,8 +21,8 @@ if (isset($cart['idx']))
 }
 
 require_once JPATH_ROOT . '/administrator/components/com_redshop/helpers/redshop.cfg.php';
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/configuration.php';
-$Redconfiguration = new Redconfiguration();
+JLoader::load('RedshopHelperAdminConfiguration');
+$Redconfiguration = new Redconfiguration;
 $Redconfiguration->defineDynamicVars();
 
 $user = JFactory::getUser();

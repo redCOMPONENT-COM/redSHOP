@@ -10,9 +10,9 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/xmlhelper.php';
+JLoader::load('RedshopHelperAdminXmlHelper');
 
-class xmlimport_detailVIEWxmlimport_detail extends JView
+class RedshopViewXmlimport_detail extends JView
 {
 	public function display($tpl = null)
 	{
@@ -23,7 +23,9 @@ class xmlimport_detailVIEWxmlimport_detail extends JView
 		$document->addScript('components/' . $option . '/assets/js/xmlfunc.js');
 
 		$uri                   = JFactory::getURI();
+		$columns               = array();
 		$lists                 = array();
+		$updateshippingtag     = array();
 		$resultarray           = array();
 		$xmlfiletag            = array();
 		$xmlbillingtag         = array();
@@ -96,11 +98,13 @@ class xmlimport_detailVIEWxmlimport_detail extends JView
 
 			for ($i = 0; $i < count($columns); $i++)
 			{
+				$cols[$i] = new stdClass();
 				$cols[$i]->value = $columns[$i]->Field;
 				$cols[$i]->text  = $columns[$i]->Field;
 			}
 
 			$op           = array();
+			$op[0]        = new stdClass();
 			$op[0]->value = '';
 			$op[0]->text  = JText::_('COM_REDSHOP_SELECT');
 			$columns      = array_merge($op, $cols);
@@ -119,6 +123,7 @@ class xmlimport_detailVIEWxmlimport_detail extends JView
 
 				for ($i = 0; $i < count($columns); $i++)
 				{
+					$cols[$i] = new stdClass();
 					$cols[$i]->value = $columns[$i]->Field;
 					$cols[$i]->text  = $columns[$i]->Field;
 				}
@@ -142,6 +147,7 @@ class xmlimport_detailVIEWxmlimport_detail extends JView
 
 				for ($i = 0; $i < count($columns); $i++)
 				{
+					$cols[$i] = new stdClass();
 					$cols[$i]->value = $columns[$i]->Field;
 					$cols[$i]->text  = $columns[$i]->Field;
 				}
@@ -165,6 +171,7 @@ class xmlimport_detailVIEWxmlimport_detail extends JView
 
 				for ($i = 0; $i < count($columns); $i++)
 				{
+					$cols[$i] = new stdClass();
 					$cols[$i]->value = $columns[$i]->Field;
 					$cols[$i]->text  = $columns[$i]->Field;
 				}

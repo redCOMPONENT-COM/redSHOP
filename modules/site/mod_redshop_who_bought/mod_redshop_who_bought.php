@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die;
 
+JLoader::import('redshop.library');
 $category               = trim($params->get('category', ''));
 $number_of_items        = trim($params->get('number_of_items', 5));
 $thumbwidth             = trim($params->get('thumbwidth', 100));
@@ -38,17 +39,17 @@ $db->setQuery($sql);
 $productlists = $db->loadObjectList();
 
 require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/configuration.php';
+JLoader::load('RedshopHelperAdminConfiguration');
 
 $Redconfiguration = new Redconfiguration;
 $Redconfiguration->defineDynamicVars();
 
-require_once JPATH_SITE . '/components/com_redshop/helpers/product.php';
+JLoader::load('RedshopHelperProduct');
 
-require_once JPATH_SITE . '/components/com_redshop/helpers/helper.php';
+JLoader::load('RedshopHelperHelper');
 
-require_once JPATH_SITE . '/administrator/components/com_redshop/helpers/template.php';
+JLoader::load('RedshopHelperAdminTemplate');
 
-require_once JPATH_SITE . '/components/com_redshop/helpers/extra_field.php';
+JLoader::load('RedshopHelperExtra_field');
 
 require JModuleHelper::getLayoutPath('mod_redshop_who_bought');

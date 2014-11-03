@@ -9,14 +9,15 @@
 
 defined('_JEXEC') or die;
 
-JLoader::import('currency', JPATH_SITE . '/components/com_redshop/helpers');
-JLoader::import('helper', JPATH_SITE . '/components/com_redshop/helpers');
-JLoader::import('extra_field', JPATH_SITE . '/components/com_redshop/helpers');
-JLoader::import('user', JPATH_SITE . '/components/com_redshop/helpers');
-JLoader::import('order', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
-JLoader::import('quotation', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
-JLoader::import('template', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
-JLoader::import('stockroom', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
+jimport('joomla.filesystem.file');
+JLoader::load('RedshopHelperCurrency');
+JLoader::load('RedshopHelperHelper');
+JLoader::load('RedshopHelperExtra_field');
+JLoader::load('RedshopHelperUser');
+JLoader::load('RedshopHelperAdminOrder');
+JLoader::load('RedshopHelperAdminQuotation');
+JLoader::load('RedshopHelperAdminTemplate');
+JLoader::load('RedshopHelperAdminStockroom');
 
 class producthelper
 {
@@ -52,9 +53,17 @@ class producthelper
 
 	public $_attributewithcart_template = null;
 
-	public $_shopper_group_id = null;
+	protected static $products = array();
 
-	public $_discount_product_data = null;
+	protected static $userShopperGroupData = array();
+
+	protected static $vatRate = array();
+
+	protected static $productSpecialIds = array();
+
+	protected static $productSpecialPrices = array();
+
+	protected static $productDateRange = array();
 
 	function __construct()
 	{
@@ -83,17 +92,222 @@ class producthelper
 		return $result;
 	}
 
-	public function getProductById($product_id)
+	/**
+	 * Get Main Product Query
+	 *
+	 * @param   bool|JDatabaseQuery  $query   Get query or false
+	 * @param   int                  $userId  User id
+	 *
+	 * @return JDatabaseQuery
+	 */
+	public function getMainProductQuery($query = false, $userId = 0)
 	{
-		$query = $this->_db->getQuery(true);
+		$shopperGroupId = $this->_userhelper->getShopperGroup($userId);
+		$db = JFactory::getDbo();
 
-		$query->select(' * ');
-		$query->from($this->_db->quoteName($this->_table_prefix . 'product'));
-		$query->where($this->_db->quoteName('product_id') . ' = ' . (int)$product_id);
+		if (!$query)
+		{
+			$query = $db->getQuery(true);
+		}
 
-		$this->_db->setQuery($query);
+		$query->select(array('p.*', 'p.product_id'))
+			->from($db->qn('#__redshop_product', 'p'));
 
-		return $this->_db->loadObject();
+		// Require condition
+		$query->group('p.product_id');
+
+		// Select price
+		$query->select(
+			array(
+				'pp.price_id', $db->qn('pp.product_price', 'price_product_price'),
+				$db->qn('pp.product_currency', 'price_product_currency'), $db->qn('pp.discount_price', 'price_discount_price'),
+				$db->qn('pp.discount_start_date', 'price_discount_start_date'), $db->qn('pp.discount_end_date', 'price_discount_end_date')
+			)
+		)
+			->leftJoin(
+				$db->qn('#__redshop_product_price', 'pp')
+				. ' ON p.product_id = pp.product_id AND ((pp.price_quantity_start <= 1 AND pp.price_quantity_end >= 1) OR (pp.price_quantity_start = 0 AND pp.price_quantity_end = 0)) AND pp.shopper_group_id = ' . (int) $shopperGroupId
+			)
+			->order('pp.price_quantity_start ASC');
+
+		// Select category
+		$query->select(array('pc.category_id'))
+			->leftJoin($db->qn('#__redshop_product_category_xref', 'pc') . ' ON pc.product_id = p.product_id');
+
+		// Select media
+		$query->select(array('media.media_alternate_text', 'media.media_id'))
+			->leftJoin(
+				$db->qn('#__redshop_media', 'media')
+				. ' ON media.section_id = p.product_id AND media.media_section = ' . $db->q('product')
+				. ' AND media.media_type = ' . $db->q('images') . ' AND media.media_name = p.product_full_image'
+			);
+
+		// Select ratings
+		$subQuery = $db->getQuery(true)
+			->select('COUNT(pr1.rating_id)')
+			->from($db->qn('#__redshop_product_rating', 'pr1'))
+			->where('pr1.product_id = p.product_id')
+			->where('pr1.published = 1');
+
+		$query->select('(' . $subQuery . ') AS count_rating');
+
+		$subQuery = $db->getQuery(true)
+			->select('SUM(pr2.user_rating)')
+			->from($db->qn('#__redshop_product_rating', 'pr2'))
+			->where('pr2.product_id = p.product_id')
+			->where('pr2.published = 1');
+
+		$query->select('(' . $subQuery . ') AS sum_rating');
+
+		// Count Accessories
+		$subQuery = $db->getQuery(true)
+			->select('COUNT(pa.accessory_id)')
+			->from($db->qn('#__redshop_product_accessory', 'pa'))
+			->leftJoin($db->qn('#__redshop_product', 'parent_product') . ' ON parent_product.product_id = pa.child_product_id')
+			->where('pa.product_id = p.product_id')
+			->where('parent_product.published = 1');
+
+		$query->select('(' . $subQuery . ') AS total_accessories');
+
+		// Count child products
+		$subQuery = $db->getQuery(true)
+			->select('COUNT(child.product_id)')
+			->from($db->qn('#__redshop_product', 'child'))
+			->where('child.product_parent_id = p.product_id')
+			->where('child.published = 1');
+
+		$query->select('(' . $subQuery . ') AS count_child_products');
+
+		// Sum quantity
+		if (USE_STOCKROOM == 1)
+		{
+			$subQuery = $db->getQuery(true)
+				->select('SUM(psx.quantity)')
+				->from($db->qn('#__redshop_product_stockroom_xref', 'psx'))
+				->where('psx.product_id = p.product_id')
+				->where('psx.quantity >= 0');
+
+			$query->select('(' . $subQuery . ') AS sum_quanity');
+		}
+
+		return $query;
+	}
+
+	/**
+	 * Get product information
+	 *
+	 * @param   int  $productId  Product id
+	 * @param   int  $userId     User id
+	 *
+	 * @return mixed
+	 */
+	public function getProductById($productId, $userId = 0)
+	{
+		if (!$userId)
+		{
+			$user = JFactory::getUser();
+			$userId = $user->id;
+		}
+
+		if (!array_key_exists($productId . '.' . $userId, self::$products))
+		{
+			$db = JFactory::getDbo();
+			$query = $this->getMainProductQuery(false, $userId);
+
+			// Select product
+			$query->where($db->qn('p.product_id') . ' = ' . (int) $productId);
+
+			$db->setQuery($query);
+
+			if (self::$products[$productId . '.' . $userId] = $db->loadObject())
+			{
+				$this->setAttributes(array($productId . '.' . $userId => self::$products[$productId . '.' . $userId]), $userId);
+			}
+		}
+
+		return self::$products[$productId . '.' . $userId];
+	}
+
+	/**
+	 * Set product array
+	 *
+	 * @param   array  $products  Array product/s values
+	 *
+	 * @return void
+	 */
+	public function setProduct($products)
+	{
+		self::$products = $products + self::$products;
+		$this->setAttributes($products);
+	}
+
+	/**
+	 * Set Attributes and properties
+	 *
+	 * @param   array  $products  Products
+	 * @param   int    $userId    User id
+	 *
+	 * @return  void
+	 */
+	public function setAttributes($products, $userId = 0)
+	{
+		if (!$userId)
+		{
+			$user = JFactory::getUser();
+			$userId = $user->id;
+		}
+
+		$keys = array();
+
+		foreach ((array) $products  as $product)
+		{
+			$keys[] = $product->product_id;
+			self::$products[$product->product_id . '.' . $userId]->attributes = array();
+		}
+
+		if (count($keys) > 0)
+		{
+			$db = JFactory::getDbo();
+			$query = $db->getQuery(true)
+				->select(array('a.attribute_id AS value', 'a.attribute_name AS text', 'a.*', 'ast.attribute_set_name', 'ast.published AS attribute_set_published'))
+				->from($db->qn('#__redshop_product_attribute', 'a'))
+				->leftJoin($db->qn('#__redshop_attribute_set', 'ast') . ' ON ast.attribute_set_id = a.attribute_set_id')
+				->where('a.attribute_name != ' . $db->q(''))
+				->where('a.attribute_published = 1')
+				->where('a.product_id IN (' . implode(',', $keys) . ')')
+				->order('a.ordering ASC');
+			$db->setQuery($query);
+
+			if ($results = $db->loadObjectList())
+			{
+				foreach ($results as $result)
+				{
+					self::$products[$result->product_id . '.' . $userId]->attributes[$result->attribute_id] = $result;
+					self::$products[$result->product_id . '.' . $userId]->attributes[$result->attribute_id]->properties = array();
+				}
+
+				$query->clear()
+					->select(
+						array('ap.property_id AS value', 'ap.property_name AS text', 'ap.*', 'a.attribute_name', 'a.attribute_id', 'a.product_id', 'a.attribute_set_id')
+					)
+					->from($db->qn('#__redshop_product_attribute_property', 'ap'))
+					->leftJoin($db->qn('#__redshop_product_attribute', 'a') . ' ON a.attribute_id = ap.attribute_id')
+					->where('a.product_id IN (' . implode(',', $keys) . ')')
+					->where('ap.property_published = 1')
+					->where('a.attribute_published = 1')
+					->where('a.attribute_name != ' . $db->q(''))
+					->order('ap.ordering ASC');
+				$db->setQuery($query);
+
+				if ($results = $db->loadObjectList())
+				{
+					foreach ($results as $result)
+					{
+						self::$products[$result->product_id . '.' . $userId]->attributes[$result->attribute_id]->properties[$result->property_id] = $result;
+					}
+				}
+			}
+		}
 	}
 
 	public function country_in_eu_common_vat_zone($country)
@@ -105,15 +319,24 @@ class producthelper
 		return in_array($country, $eu_countries);
 	}
 
-	public function getProductPrices($product_id, $userid, $quantity = 1)
+	/**
+	 * Get Product Prices
+	 *
+	 * @param   int  $productId  Product id
+	 * @param   int  $userId     User id
+	 * @param   int  $quantity   Quantity
+	 *
+	 * @return mixed
+	 */
+	public function getProductPrices($productId, $userId, $quantity = 1)
 	{
-		$leftjoin = "";
 		$userArr  = $this->_session->get('rs_user');
 		$helper = new redhelper;
+		$result = null;
 
 		if (empty($userArr))
 		{
-			$userArr = $this->_userhelper->createUserSession($userid);
+			$userArr = $this->_userhelper->createUserSession($userId);
 		}
 
 		$shopperGroupId = $userArr['rs_user_shopperGroup'];
@@ -123,61 +346,86 @@ class producthelper
 			if ($this->_session->get('isredcrmuser'))
 			{
 				$crmDebitorHelper = new crmDebitorHelper;
-				$debitor_id_tot   = $crmDebitorHelper->getContactPersons(0, 0, 0, $userid);
+				$debitor_id_tot   = $crmDebitorHelper->getContactPersons(0, 0, 0, $userId);
 				$debitor_id       = $debitor_id_tot[0]->section_id;
 				$details          = $crmDebitorHelper->getDebitor($debitor_id);
-				$userid           = $details[0]->user_id;
+				$userId           = $details[0]->user_id;
 			}
 		}
 
-		$query = $this->_db->getQuery(true);
-		$query->select(' p.price_id,p.product_price,p.product_currency,p.discount_price, p.discount_start_date, p.discount_end_date ');
-
-		if ($userid)
+		if ($quantity != 1)
 		{
-			$query->join('LEFT', $this->_table_prefix . 'users_info AS u ON u.shopper_group_id = p.shopper_group_id');
-			$and = " u.user_id = " . (int) $userid . " AND u.address_type='BT' ";
+			$db = JFactory::getDbo();
+			$query = $db->getQuery(true)
+				->select(array('p.price_id', 'p.product_price', 'p.product_currency', 'p.discount_price', 'p.discount_start_date', 'p.discount_end_date'))
+				->from($db->qn('#__redshop_product_price', 'p'));
+
+			if ($userId)
+			{
+				$query->leftJoin($db->qn('#__redshop_users_info', 'u') . ' ON u.shopper_group_id = p.shopper_group_id')
+					->where('u.user_id = ' . (int) $userId)
+					->where('u.address_type = ' . $db->q('BT'));
+			}
+			else
+			{
+				$query->where('p.shopper_group_id = ' . (int) $shopperGroupId);
+			}
+
+			$query->where('p.product_id = ' . (int) $productId)
+				->where('((p.price_quantity_start <= ' . (int) $quantity . ' AND p.price_quantity_end >= '
+					. (int) $quantity . ') OR (p.price_quantity_start = 0 AND p.price_quantity_end = 0))')
+				->order('p.price_quantity_start ASC');
+
+			$db->setQuery($query);
+			$result = $db->loadObject();
 		}
 		else
 		{
-			$and = " p.shopper_group_id = '" . $shopperGroupId . "' ";
+			if ($productData = $this->getProductById($productId, $userId))
+			{
+				if (isset($productData->price_id))
+				{
+					$result = new stdClass;
+					$result->price_id = $productData->price_id;
+					$result->product_price = $productData->price_product_price;
+					$result->discount_price = $productData->price_discount_price;
+					$result->product_currency = $productData->price_product_currency;
+					$result->discount_start_date = $productData->price_discount_start_date;
+					$result->discount_end_date = $productData->price_discount_end_date;
+				}
+			}
 		}
 
-		$query->from($this->_table_prefix . 'product_price AS p');
-		$query->where('p.product_id = ' . (int) $product_id);
-		$query->where($and);
-		$query->where(' (( p.price_quantity_start <= ' . (int) $quantity . ' AND p.price_quantity_end >= "'
-			. $quantity . '" ) OR (p.price_quantity_start = "0" AND p.price_quantity_end = "0"))');
-		$query->order('price_quantity_start ASC LIMIT 0,1 ');
-
-		$this->_db->setQuery($query);
-		$result = $this->_db->loadObject();
-
-		if (count($result) > 0)
+		if (!empty($result) && $result->discount_price != 0
+			&& $result->discount_start_date != 0 && $result->discount_end_date != 0
+			&& $result->discount_start_date <= time()
+			&& $result->discount_end_date >= time()
+			&& $result->discount_price < $result->product_price)
 		{
-			if ($result->discount_price != 0
-				&& $result->discount_start_date != 0 && $result->discount_end_date != 0
-				&& $result->discount_start_date <= time()
-				&& $result->discount_end_date >= time()
-				&& $result->discount_price < $result->product_price)
-			{
-				$result->product_price = $result->discount_price;
-			}
+			$result->product_price = $result->discount_price;
 		}
 
 		return $result;
 	}
 
-	public function getProductSpecialPrice($product_price, $discount_product_id, $product_id = 0)
+	/**
+	 * Get Product Special Price
+	 *
+	 * @param   float   $productPrice       Product price
+	 * @param   string  $discountStringIds  Discount ids
+	 * @param   int     $productId          Product id
+	 *
+	 * @return array|object
+	 */
+	public function getProductSpecialPrice($productPrice, $discountStringIds, $productId = 0)
 	{
 		$db = JFactory::getDbo();
-
-		$result          = array();
 		$categoryProduct = '';
+		$time = time();
 
-		if ($product_id)
+		if ($productId)
 		{
-			$categoryProduct = $this->getCategoryProduct($product_id);
+			$categoryProduct = $this->getCategoryProduct($productId);
 		}
 
 		// Get shopper group Id
@@ -192,92 +440,103 @@ class producthelper
 		// Shopper Group Id from user session
 		$shopperGroupId = $userArr['rs_user_shopperGroup'];
 
-		$query = $this->_db->getQuery(true);
-
-		// Secure discount ids
-		if ($discountIds = explode(',', $discount_product_id))
+		if (!array_key_exists($discountStringIds . '.' . $categoryProduct, self::$productSpecialPrices))
 		{
-			JArrayHelper::toInteger($discountIds);
-		}
-		else
-		{
-			$discountIds = array(0);
-		}
+			// Secure discount ids
+			if ($discountIds = explode(',', $discountStringIds))
+			{
+				JArrayHelper::toInteger($discountIds);
+			}
+			else
+			{
+				$discountIds = array(0);
+			}
 
-		// Secure category ids
-		if ($catIds = explode(',', $categoryProduct))
-		{
-			JArrayHelper::toInteger($catIds);
-		}
-		else
-		{
-			$catIds = array(0);
-		}
+			// Secure category ids
+			if ($catIds = explode(',', $categoryProduct))
+			{
+				JArrayHelper::toInteger($catIds);
+			}
+			else
+			{
+				$catIds = array(0);
+			}
 
-		// Prepare query.
-		$query->select('*');
-		$query->from('#__redshop_discount_product');
-		$query->where('published = 1');
-		$query->where('(discount_product_id IN ("' . implode(',', $discountIds) . '") OR FIND_IN_SET("' . implode(',', $catIds) . '",category_ids) )');
-		$query->where('`start_date` <= ' . $db->quote(time()));
-		$query->where('`end_date` >= ' . $db->quote(time()));
-		$query->where('`discount_product_id` IN (SELECT `discount_product_id` FROM `#__redshop_discount_product_shoppers` WHERE `shopper_group_id` = ' . (int) $shopperGroupId . ')');
-		$query->order('`amount` DESC');
+			$query = $db->getQuery(true)
+				->select('dp.*')
+				->from($db->qn('#__redshop_discount_product', 'dp'))
+				->where('dp.published = 1')
+				->where('(dp.discount_product_id IN (' . implode(',', $discountIds) . ') OR FIND_IN_SET("' . implode(',', $catIds) . '", dp.category_ids))')
+				->where('dp.start_date <= ' . $db->q($time))
+				->where('dp.end_date >= ' . $db->q($time))
+				->order('dp.amount DESC');
 
-		// Inject the query and load the result.
-		$this->_db->setQuery($query);
-		$result = $this->_db->loadObject();
+			$subQuery = $db->getQuery(true)
+				->select('dps.discount_product_id')
+				->from($db->qn('#__redshop_discount_product_shoppers', 'dps'))
+				->where('dps.shopper_group_id = ' . (int) $shopperGroupId);
 
-		// Check for a database error.
-		if ($this->_db->getErrorNum())
-		{
-			JError::raiseWarning(500, $db->getErrorMsg());
+			$query->where('dp.discount_product_id IN (' . $subQuery . ')');
 
-			return array();
+			$db->setQuery($query);
+			self::$productSpecialPrices[$discountStringIds . '.' . $categoryProduct] = $db->loadObjectList();
 		}
 
-		// Result is empty then return blank
-		if (count($result) <= 0)
+		if (self::$productSpecialPrices[$discountStringIds . '.' . $categoryProduct])
 		{
-			return array();
+			foreach (self::$productSpecialPrices[$discountStringIds . '.' . $categoryProduct] as $item)
+			{
+				switch ($item->condition)
+				{
+					case 1:
+						if ($item->amount >= $productPrice)
+						{
+							return $item;
+						}
+						break;
+					case 2:
+						if ($item->amount == $productPrice)
+						{
+							return $item;
+						}
+						break;
+					case 3:
+						if ($item->amount <= $productPrice)
+						{
+							return $item;
+						}
+						break;
+				}
+			}
 		}
 
-		switch ($result->condition)
-		{
-			case 1:
-				$query->where('`amount` >= ' . $db->quote($product_price));
-				break;
-			case 2:
-				$query->where('`amount` = ' . $db->quote($product_price));
-				break;
-			case 3:
-				$query->where('`amount` <= ' . $db->quote($product_price));
-				break;
-		}
-
-		$this->_db->setQuery($query);
-		$result = $this->_db->loadObject();
-
-		// Check for a database error.
-		if ($this->_db->getErrorNum())
-		{
-			JError::raiseWarning(500, $db->getErrorMsg());
-
-			return array();
-		}
-
-		return $result;
+		return array();
 	}
 
-	public function getProductSpecialId($userid)
+	/**
+	 * Get Product Special Id
+	 *
+	 * @param   int  $userId  User Id
+	 *
+	 * @return string
+	 */
+	public function getProductSpecialId($userId)
 	{
-		if ($userid)
+		if (array_key_exists($userId, self::$productSpecialIds))
 		{
-			$sql = "SELECT ps.discount_product_id FROM " . $this->_table_prefix . "users_info AS ui "
-				. " LEFT JOIN " . $this->_table_prefix . "discount_product_shoppers AS ps ON ui.shopper_group_id = ps.shopper_group_id "
-				. " WHERE user_id = " . (int) $userid . " AND address_type='BT'";
-			$this->_db->setQuery($sql);
-			$res = $this->_db->loadObjectList();
+			return self::$productSpecialIds[$userId];
+		}
+
+		$db = JFactory::getDbo();
+
+		if ($userId)
+		{
+			$query = $db->getQuery(true)
+				->select('ps.discount_product_id')
+				->from($db->qn('#__redshop_discount_product_shoppers', 'ps'))
+				->leftJoin($db->qn('#__redshop_users_info', 'ui') . ' ON ui.shopper_group_id = ps.shopper_group_id')
+				->where('ui.user_id = ' . (int) $userId)
+				->where('ui.address_type = ' . $db->q('BT'));
 		}
 		else
 		{
@@ -285,36 +544,26 @@ class producthelper
 
 			if (empty($userArr))
 			{
-				$userArr = $this->_userhelper->createUserSession($userid);
+				$userArr = $this->_userhelper->createUserSession($userId);
 			}
 
 			$shopperGroupId = $userArr['rs_user_shopperGroup'];
-
-			if ($this->_shopper_group_id != $shopperGroupId)
-			{
-				$query = "SELECT * FROM " . $this->_table_prefix . "discount_product_shoppers AS ps "
-					. "WHERE ps.shopper_group_id =" . (int) $shopperGroupId;
-				$this->_db->setQuery($query);
-				$this->_shopper_group_id = $shopperGroupId;
-				$res                     = $this->_discount_product_data = $this->_db->loadObjectList();
-			}
-			else
-			{
-				$res = $this->_discount_product_data;
-			}
+			$query = $db->getQuery(true)
+				->select('dps.discount_product_id')
+				->from($db->qn('#__redshop_discount_product_shoppers', 'dps'))
+				->where('dps.shopper_group_id =' . (int) $shopperGroupId);
 		}
 
-		$discount_product_id = '0';
+		$db->setQuery($query);
+		$result = $db->loadColumn();
+		self::$productSpecialIds[$userId] = '0';
 
-		for ($i = 0; $i < count($res); $i++)
+		if (count($result) > 0)
 		{
-			if ($res[$i]->discount_product_id != "" && $res[$i]->discount_product_id != 0)
-			{
-				$discount_product_id .= "," . $res[$i]->discount_product_id;
-			}
+			self::$productSpecialIds[$userId] .= ',' . implode(',', $result);
 		}
 
-		return $discount_product_id;
+		return self::$productSpecialIds[$userId];
 	}
 
 	public function getProductTax($product_id = 0, $product_price = 0, $user_id = 0, $tax_exempt = 0)
@@ -424,6 +673,14 @@ class producthelper
 		return $data_add;
 	}
 
+	/**
+	 * Check user for Tax Exemption approved
+	 *
+	 * @param   integer  $user_id              User Information Id - Login user id
+	 * @param   integer  $btn_show_addto_cart  Display Add to cart button for tax exemption user
+	 *
+	 * @return  boolean  true if VAT applied else false
+	 */
 	public function taxexempt_addtocart($user_id = 0, $btn_show_addto_cart = 0)
 	{
 		$user = JFactory::getUser();
@@ -537,84 +794,87 @@ class producthelper
 		return $userdata;
 	}
 
-	public function getVatRates($product_id = 0, $user_id = 0, $vat_rate_id = 0)
+	/**
+	 * get VAT rates from product or global
+	 *
+	 * @param   int  $productId  Id current product
+	 * @param   int  $userId     Id current user
+	 *
+	 * @return  object|null  VAT rates information
+	 */
+	public function getVatRates($productId = 0, $userId = 0)
 	{
-		$db   = JFactory::getDbo();
-		$user = JFactory::getUser();
-
-		if ($user_id == 0)
+		if ($userId == 0)
 		{
-			$user_id = $user->id;
+			$user = JFactory::getUser();
+			$userId = $user->id;
 		}
 
-		$proinfo         = (object) $this->getProductById($product_id);
-		$tax_group_id    = 0;
-		$rs_user_info_id = 0;
-		$and             = 'AND tg.published= "1" ';
-		$q2              = 'LEFT JOIN ' . $this->_table_prefix . 'tax_group as tg on tg.tax_group_id=tr.tax_group_id ';
-		$userdata        = $this->getVatUserinfo($user_id);
-
-		$userArr = $this->_session->get('rs_user');
-		$chkflg  = true;
+		$productInfo = (object) $this->getProductById($productId);
+		$taxGroupId = 0;
+		$session = JFactory::getSession();
+		$userData = $this->getVatUserinfo($userId);
+		$userArr = $session->get('rs_user');
+		$taxGroup = DEFAULT_VAT_GROUP;
 
 		if (!empty($userArr))
 		{
 			if (array_key_exists('vatCountry', $userArr) && !empty($userArr['taxData']))
 			{
-				if (empty($proinfo->product_tax_group_id))
+				if (empty($productInfo->product_tax_group_id))
 				{
-					$proinfo->product_tax_group_id = DEFAULT_VAT_GROUP;
+					$productInfo->product_tax_group_id = DEFAULT_VAT_GROUP;
 				}
 
-				if ($userArr['vatCountry'] == $userdata->country_code
-					&& $userArr['vatState'] == $userdata->state_code
-					&& @$userArr['vatGroup'] == $proinfo->product_tax_group_id)
+				if ($userArr['vatCountry'] == $userData->country_code
+					&& $userArr['vatState'] == $userData->state_code
+					&& $userArr['vatGroup'] == $productInfo->product_tax_group_id)
 				{
 					return $userArr['taxData'];
 				}
 			}
 		}
 
-		if (VAT_BASED_ON == 2)
+		if (isset($productInfo->product_tax_group_id) && $productInfo->product_tax_group_id > 0)
 		{
-			$and .= ' AND tr.is_eu_country=1 ';
+			$taxGroup = $productInfo->product_tax_group_id;
 		}
 
-		if ($product_id == 0)
+		if (!array_key_exists($taxGroup . '.' . $userId, self::$vatRate))
 		{
-			$and .= 'AND tr.tax_group_id = "' . DEFAULT_VAT_GROUP . '" ';
-		}
-		elseif ($proinfo->product_tax_group_id > 0)
-		{
-			$q2 .= 'LEFT JOIN ' . $this->_table_prefix . 'product as p on tr.tax_group_id=p.product_tax_group_id ';
-			$and .= 'AND p.product_id = ' . (int) $product_id . ' ';
-		}
-		else
-		{
-			$and .= 'AND tr.tax_group_id=' . DEFAULT_VAT_GROUP . ' ';
+			$db = JFactory::getDbo();
+			$query = $db->getQuery(true)
+				->select('tr.*')
+				->from($db->qn('#__redshop_tax_rate', 'tr'))
+				->leftJoin($db->qn('#__redshop_tax_group', 'tg') . ' ON tg.tax_group_id = tr.tax_group_id')
+				->where('tg.published = 1')
+				->where('tr.tax_country = ' . $db->q($userData->country_code))
+				->where('(tr.tax_state = ' . $db->q($userData->state_code) . ' OR tr.tax_state = ' . $db->q('') . ')')
+				->where('tr.tax_group_id = ' . (int) $taxGroup)
+				->order('tax_rate');
+
+			if (VAT_BASED_ON == 2)
+			{
+				$query->where('tr.is_eu_country = 1');
+			}
+
+			$db->setQuery($query);
+			self::$vatRate[$taxGroup . '.' . $userId] = $db->loadObject();
 		}
 
-		$query = 'SELECT tr.* FROM ' . $this->_table_prefix . 'tax_rate as tr '
-			. $q2
-			. 'WHERE tr.tax_country=' . $db->quote($userdata->country_code) . ' '
-			. 'AND (tr.tax_state = ' . $db->quote($userdata->state_code) . ' OR tr.tax_state = "") '
-			. $and
-			. ' ORDER BY `tax_rate` DESC LIMIT 0,1';
-		$this->_db->setQuery($query);
-
-		$userArr['taxData']    = $this->_taxData = $this->_db->loadObject();
-		$userArr['vatCountry'] = $userdata->country_code;
-		$userArr['vatState']   = $userdata->state_code;
+		$userArr['taxData'] = self::$vatRate[$taxGroup . '.' . $userId];
+		$userArr['vatCountry'] = $userData->country_code;
+		$userArr['vatState'] = $userData->state_code;
 
 		if (!empty($userArr['taxData']))
 		{
-			$tax_group_id = $userArr['taxData']->tax_group_id;
+			$taxGroupId = $userArr['taxData']->tax_group_id;
 		}
 
-		$userArr['vatGroup'] = $tax_group_id;
-		$this->_session->set('rs_user', $userArr);
+		$userArr['vatGroup'] = $taxGroupId;
+		$session->set('rs_user', $userArr);
 
-		return $this->_taxData;
+		return self::$vatRate[$taxGroup . '.' . $userId];
 	}
 
 	// Get Vat for Googlebase xml
@@ -713,14 +973,11 @@ class producthelper
 			}
 		}
 
-		$dbname = "";
-
 		if (count($str) > 0)
 		{
-			$dbname = "'" . implode("','", $str) . "'";
+			$dbname = implode(',', redhelper::quote($str));
+			$template_data = $extraField->extra_field_display($section, $product_id, $dbname, $template_data, $categorypage);
 		}
-
-		$template_data = $extraField->extra_field_display($section, $product_id, $dbname, $template_data, $categorypage);
 
 		return $template_data;
 	}
@@ -839,6 +1096,7 @@ class producthelper
 
 	public function getProductImage($product_id = 0, $link = '', $width, $height, $Product_detail_is_light = 2, $enableHover = 0, $suffixid = 0)
 	{
+		$config          = new Redconfiguration;
 		$thum_image      = '';
 		$stockroomhelper = new rsstockroomhelper;
 		$result          = $this->getProductById($product_id);
@@ -1180,57 +1438,69 @@ class producthelper
 
 	public function getProductMinDeliveryTime($product_id = 0, $section_id = 0, $section = '', $loadDiv = 1)
 	{
-		$db = JFactory::getDbo();
-
 		$helper = new redhelper;
+
+		// Initialiase variables.
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true);
 
 		if (!$section_id && !$section)
 		{
-			$query = "SELECT  min_del_time as deltime, s.max_del_time, s.delivery_time "
-				. " FROM " . $this->_table_prefix . "product_stockroom_xref AS ps , "
-				. $this->_table_prefix . "stockroom as s "
-				. " WHERE "
-				. " ps.product_id = " . (int) $product_id . " AND ps.stockroom_id = s.stockroom_id and ps.quantity >0 ORDER BY min_del_time ASC LIMIT 0,1";
+			$query
+				->from($db->qn('#__redshop_product_stockroom_xref') . ' AS ps')
+				->where($db->qn('ps.product_id') . ' = ' . (int) $product_id);
 		}
 		else
 		{
-			$query = "SELECT  min_del_time as deltime, s.max_del_time, s.delivery_time "
-				. " FROM " . $this->_table_prefix . "product_attribute_stockroom_xref AS pas , "
-				. $this->_table_prefix . "stockroom as s "
-				. " WHERE "
-				. " pas.section_id = " . (int) $section_id . " AND pas.section = " . $db->quote($section)
-				. " AND pas.stockroom_id = s.stockroom_id and pas.quantity >0 ORDER BY min_del_time ASC LIMIT 0,1";
+			$query
+				->from($db->qn('#__redshop_product_attribute_stockroom_xref') . ' AS ps')
+				->where($db->qn('ps.section_id') . ' = ' . (int) $section_id)
+				->where($db->qn('ps.section') . ' = ' . $db->q($section));
 		}
 
-		$this->_db->setQuery($query);
-		$result = $this->_db->loadObject();
+		// Create the base select statement.
+		$query->select(
+				array(
+					'min_del_time as deltime',
+					's.max_del_time',
+					's.delivery_time'
+				)
+			)
+			->join('', $db->qn('#__redshop_stockroom') . ' AS s')
+			->where($db->qn('ps.stockroom_id') . ' = ' . $db->qn('s.stockroom_id'))
+			->where($db->qn('ps.quantity') . ' > 0 ')
+			->order($db->qn('min_del_time') . ' ASC');
+
+		// Set the query and load the result.
+		$db->setQuery($query, 0, 1);
+
+		try
+		{
+			$result = $db->loadObject();
+		}
+		catch (RuntimeException $e)
+		{
+			throw new RuntimeException($e->getMessage(), $e->getCode());
+		}
 
 		$product_delivery_time = '';
 
 		if ($result)
 		{
-			if (!$section_id && !$section)
-			{
-				$sql = "SELECT  min_del_time as deltime, s.max_del_time,s.delivery_time "
-					. " FROM " . $this->_table_prefix . "stockroom as s, "
-					. $this->_table_prefix . "product_stockroom_xref AS ps  "
-					. " WHERE "
-					. " ps.product_id = " . (int) $product_id . " AND ps.stockroom_id = s.stockroom_id AND s.min_del_time = "
-					. (int) $result->deltime . " and ps.quantity >=0 ORDER BY max_del_time ASC LIMIT 0,1";
-			}
-			else
-			{
-				$sql = "SELECT  min_del_time as deltime, s.max_del_time,s.delivery_time "
-					. " FROM " . $this->_table_prefix . "stockroom as s, "
-					. $this->_table_prefix . "product_attribute_stockroom_xref AS pas  "
-					. " WHERE "
-					. " pas.section_id = " . (int) $section_id . " AND pas.section = '" .$db->quote($section)
-					. "' AND pas.stockroom_id = s.stockroom_id AND s.min_del_time = " . (int) $result->deltime
-					. " AND pas.quantity >=0 ORDER BY max_del_time ASC LIMIT 0,1";
-			}
+			// Append where clause to get Maximum Delivery time of Minimum Delivery stockroom
+			$query->where($db->qn('s.min_del_time') . ' = ' . (int) $result->deltime);
 
-			$this->_db->setQuery($sql);
-			$row = $this->_db->loadObject();
+			// Set the query and load the row.
+			$db->setQuery($query, 0, 1);
+
+			try
+			{
+				$row = $db->loadObject();
+			}
+			catch (RuntimeException $e)
+			{
+				throw new RuntimeException($e->getMessage(), $e->getCode());
+			}
 
 			if ($row->deltime == 0 || $row->deltime == ' ')
 			{
@@ -1286,7 +1556,9 @@ class producthelper
 		}
 
 		if ($product_delivery_time && $loadDiv)
+		{
 			$product_delivery_time = '<div id="ProductAttributeMinDelivery' . $product_id . '">' . $product_delivery_time . '</div>';
+		}
 
 		return $product_delivery_time;
 	}
@@ -1527,7 +1799,7 @@ class producthelper
 				}
 				else
 				{
-					$discount_amount = ($row->product_price * $res->discount_amount) / (100);
+					$discount_amount = ($newproductprice * $res->discount_amount) / (100);
 				}
 			}
 
@@ -1617,10 +1889,13 @@ class producthelper
 				{
 					$product_price_saving = $product_price_exluding_vat - $dicount_price_exluding_vat;
 
+					// Only apply VAT if set to apply in config or tag
 					if (intval($applytax) && $product_price_saving)
 					{
 						$dis_save_tax_amount  = $this->getProductTax($product_id, $product_price_saving, $user_id);
-						$product_price_saving = $product_price_saving;
+
+						// Adding VAT in saving price
+						$product_price_saving += $dis_save_tax_amount;
 					}
 
 					$product_price_incl_vat     = $product_discount_price_tmp + $tax_amount;
@@ -1742,7 +2017,9 @@ class producthelper
 					$r->product_price = $r->discount_price;
 				}
 
-				$price = $this->getProductFormattedPrice($r->product_price);
+				$tax = $this->getProductTax($product_id, $r->product_price, $userid);
+				$price = $this->getProductFormattedPrice($r->product_price + $tax);
+
 				$quantitytable .= "<tr><td>" . $r->price_quantity_start . " - " . $r->price_quantity_end
 					. "</td><td>" . $price . "</td></tr>";
 			}
@@ -1863,12 +2140,13 @@ class producthelper
 				}
 
 				$cart['discount_tax'] = $discountVAT;
-				$this->_session->set('cart', $cart);
 			}
 			else
 			{
 				$discount_amount = $product_subtotal * $discount->discount_amount / 100;
 			}
+
+			$this->_session->set('cart', $cart);
 		}
 
 		return $discount_amount;
@@ -1967,71 +2245,101 @@ class producthelper
 		return $list;
 	}
 
-	public function getAltText($media_section, $section_id, $media_name = '', $media_id = 0, $mediaType = "images")
+	/**
+	 * Get alternative text for media
+	 *
+	 * @param   string  $mediaSection  Media section
+	 * @param   int     $sectionId     Section i
+	 * @param   string  $mediaName     Media name
+	 * @param   int     $mediaId       Media id
+	 * @param   string  $mediaType     Media type
+	 *
+	 * @return  string  Alternative text from media
+	 */
+	public function getAltText($mediaSection, $sectionId, $mediaName = '', $mediaId = 0, $mediaType = 'images')
 	{
+		if ($mediaSection == 'product' && $mediaType = 'images')
+		{
+			if ($productData = $this->getProductById($sectionId))
+			{
+				if ($mediaName == $productData->product_full_image || $mediaId == $productData->media_id)
+				{
+					return $productData->media_alternate_text;
+				}
+			}
+		}
+
 		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select('media_alternate_text')
+			->from($db->qn('#__redshop_media'))
+			->where('media_section = ' . $db->q($mediaSection))
+			->where('section_id = ' . (int) $sectionId)
+			->where('media_type = ' . $db->q($mediaType));
 
-		$and = '';
-
-		if ($media_name != '')
+		if ($mediaName)
 		{
-			$and .= ' AND media_name = ' . $db->quote($media_name) . ' ';
+			$query->where('media_name = ' . $db->q($mediaName));
 		}
 
-		if ($media_id)
+		if ($mediaId)
 		{
-			$and .= ' AND media_id = ' . (int) $media_id . ' ';
+			$query->where('media_id = ' . (int) $mediaId);
 		}
 
-		$query = 'SELECT * FROM ' . $this->_table_prefix . 'media '
-			. 'WHERE media_section = ' . $db->quote($media_section) . ' '
-			. 'AND section_id = ' . (int) $section_id . ' '
-			. 'AND media_type = ' . $db->quote($mediaType) . ' '
-			. $and;
-		$this->_db->setQuery($query);
-		$mediadata = $this->_db->loadObject();
+		$db->setQuery($query);
 
-		if (!$mediadata)
-		{
-			return false;
-		}
-
-		return $mediadata->media_alternate_text;
+		return $db->loadResult();
 	}
 
-	public function getUserInformation($userid = 0, $address_type = 'BT', $rs_user_info_id = 0)
+	/**
+	 * Get redshop user information
+	 *
+	 * @param   int     $userId       Id joomla user
+	 * @param   string  $addressType  Type user BT or ST
+	 * @param   int     $userInfoId   Id redshop user
+	 *
+	 * @return  object  Redshop user information
+	 */
+	public function getUserInformation($userId = 0, $addressType = 'BT', $userInfoId = 0)
 	{
-		$list = array();
-		$user = JFactory::getUser();
-		$and  = '';
-
-		if (!$userid)
+		if ($userId == 0)
 		{
-			$userid = $user->id;
+			$user = JFactory::getUser();
+			$userId = $user->id;
 		}
 
-		if (empty($address_type))
+		if (!$userId)
 		{
-			$address_type = 'BT';
+			return array();
 		}
 
-		if ($rs_user_info_id && $address_type == 'ST')
+		if ($addressType == '')
 		{
-			$and = "AND u.users_info_id = " . (int) $rs_user_info_id . " ";
+			$addressType = 'BT';
 		}
 
-		if ($userid)
+		if (!array_key_exists($userId . '.' . $addressType . '.' . $userInfoId, self::$userShopperGroupData))
 		{
-			$query = "SELECT sh.*,u.* FROM " . $this->_table_prefix . "users_info AS u "
-				. "LEFT JOIN " . $this->_table_prefix . "shopper_group AS sh ON sh.shopper_group_id=u.shopper_group_id "
-				. "WHERE u.user_id = " . (int) $userid . " "
-				. $and
-				. "order by u.users_info_id ASC LIMIT 0,1";
-			$this->_db->setQuery($query);
-			$list = $this->_db->loadObject();
+			$db = JFactory::getDbo();
+			$query = $db->getQuery(true)
+				->select(array('sh.*', 'u.*'))
+				->from($db->qn('#__redshop_users_info', 'u'))
+				->leftJoin($db->qn('#__redshop_shopper_group', 'sh') . ' ON sh.shopper_group_id = u.shopper_group_id')
+				->where('u.user_id = ' . (int) $userId)
+				->where('u.address_type = ' . $db->q($addressType));
+
+			if ($userInfoId && $addressType == 'ST')
+			{
+				$query->where('u.users_info_id = ' . (int) $userInfoId);
+			}
+
+			$db->setQuery($query);
+
+			self::$userShopperGroupData[$userId . '.' . $addressType . '.' . $userInfoId] = $db->loadObject();
 		}
 
-		return $list;
+		return self::$userShopperGroupData[$userId . '.' . $addressType . '.' . $userInfoId];
 	}
 
 	public function getApplyVatOrNot($data_add = "", $user_id = 0)
@@ -2132,42 +2440,29 @@ class producthelper
 		return $list;
 	}
 
-	public function checkDiscountDate($productid = 0)
+	/**
+	 * Check discount date
+	 *
+	 * @param   int  $productId  Product id
+	 *
+	 * @return  int
+	 */
+	public function checkDiscountDate($productId)
 	{
-		$discountprice = 0;
-		$today         = time();
-		$list          = array();
+		$discountPrice = 0;
+		$today = time();
 
-		// Initialiase variables.
-		$query = $this->_db->getQuery(true)
-		    ->select('*')
-			->from($this->_db->quoteName('#__redshop_product'))
-			->where($this->_db->quoteName('product_id') . ' = ' . (int) $productid)
-			->where('
-				(
-				(' . $this->_db->quoteName('discount_enddate') . ' = "" AND ' . $this->_db->quoteName('discount_stratdate') . ' = "")
-				OR
-				(' . $this->_db->quoteName('discount_enddate') . ' >= ' . $this->_db->quote($today) . ' AND ' . $this->_db->quoteName('discount_stratdate') . ' <= ' . $this->_db->quote($today) . ')
-				)');
-
-		// Set the query and load the result.
-		$this->_db->setQuery($query);
-
-		try
+		if ($productData = $this->getProductById($productId))
 		{
-			$list = $this->_db->loadObjectList();
-		}
-		catch (RuntimeException $e)
-		{
-			throw new RuntimeException($e->getMessage(), $e->getCode());
+			if (($productData->discount_enddate == '0' && $productData->discount_stratdate == '0')
+				|| ((int) $productData->discount_enddate >= $today && (int) $productData->discount_stratdate <= $today)
+				|| ($productData->discount_enddate == '0' && (int) $productData->discount_stratdate <= $today))
+			{
+				$discountPrice = $productData->discount_price;
+			}
 		}
 
-		if (count($list) > 0)
-		{
-			$discountprice = $list[0]->discount_price;
-		}
-
-		return $discountprice;
+		return $discountPrice;
 	}
 
 	public function getPropertyPrice($section_id = '', $quantity = '', $section = '', $user_id = 0)
@@ -2652,67 +2947,113 @@ class producthelper
 		return null;
 	}
 
-	public function getMenuDetail($link = "")
+	/**
+	 * Get menu detail
+	 *
+	 * @param   string  $link  Link
+	 *
+	 * @return mixed|null
+	 */
+	public function getMenuDetail($link = '')
 	{
 		// Do not allow queries that load all the items
-		if ($link != "")
+		if ($link != '')
 		{
-			$db = JFactory::getDbo();
-
-			$query = "SELECT * FROM #__menu "
-				. "WHERE published=1 "
-				. " AND link = " . $db->quote($link) . " ";
-			$db->setQuery($query);
-
-			return $this->_db->loadObject();
+			return JFactory::getApplication()->getMenu()->getItems('link', $link, true);
 		}
 
 		return null;
 	}
 
-	public function getMenuInformation($Itemid = 0, $sectionid = 0, $sectioname = "", $menuview = "", $isRedshop = true)
+	/**
+	 * Get Menu Information
+	 *
+	 * @param   int     $Itemid       Item id
+	 * @param   int     $sectionId    Section id
+	 * @param   string  $sectionName  Section name
+	 * @param   string  $menuView     Menu view
+	 * @param   bool    $isRedshop    Is redshop
+	 *
+	 * @return mixed|null
+	 */
+	public function getMenuInformation($Itemid = 0, $sectionId = 0, $sectionName = '', $menuView = '', $isRedshop = true)
 	{
-		$and = "";
+		$menu = JFactory::getApplication()->getMenu();
+		$values = array();
+		$helper = new redhelper;
 
-		if ($menuview != "")
+		if ($menuView != "")
 		{
-			$and .= " AND link LIKE '%view=$menuview%' ";
-		}
+			if ($items = explode('&', $menuView))
+			{
+				$values['view'] = $items[0];
+				unset($items[0]);
 
-		if ($sectionid != 0)
-		{
-			$sid = "=" . (int) $sectionid . "\n";
-			$not = "";
-		}
-		else
-		{
-			$sid = "";
-			$not = "NOT";
-		}
-
-		if ($sectioname != "")
-		{
-			$and .= " AND params " . $not . " LIKE '%$sectioname" . "$sid%' ";
+				if (count($items) > 0)
+				{
+					foreach ($items as $item)
+					{
+						$value = explode('=', $item);
+						$values[$value[0]] = $value[1];
+					}
+				}
+			}
 		}
 
 		if ($Itemid != 0)
 		{
-			$and .= " AND id = " . (int) $Itemid . " ";
+			return $menu->getItem($Itemid);
 		}
 
 		if ($isRedshop)
 		{
-			$and .= " AND link LIKE '%com_redshop%' ";
+			$menuItems = $helper->getRedshopMenuItems();
+		}
+		else
+		{
+			$menuItems = $menu->getMenu();
 		}
 
-		$query = "SELECT * FROM #__menu "
-			. "WHERE published=1 "
-			. $and
-			. " ORDER BY id ";
-		$this->_db->setQuery($query);
-		$res = $this->_db->loadObject();
+		foreach ($menuItems as $oneMenuItem)
+		{
+			$test = true;
 
-		return $res;
+			foreach ($values as $key => $value)
+			{
+				if (!$helper->checkMenuQuery($oneMenuItem, array($key => $value)))
+				{
+					$test = false;
+					break;
+				}
+			}
+
+			if ($sectionName != '' && $test)
+			{
+				if ($sectionId != 0)
+				{
+					if ($oneMenuItem->params->get($sectionName) != $sectionId)
+					{
+						$test = false;
+						break;
+					}
+				}
+				else
+				{
+					if ($oneMenuItem->params->get($sectionName, false) !== false)
+					{
+						$test = false;
+						break;
+					}
+				}
+			}
+
+			if ($test)
+			{
+				return $oneMenuItem;
+			}
+		}
+
+		return null;
 	}
 
 	public function getParentCategory($id = 0)
@@ -2724,13 +3065,21 @@ class producthelper
 		return $res;
 	}
 
-	public function getCategoryProduct($id = 0)
+	/**
+	 * Get Category Product
+	 *
+	 * @param   int  $productId  Product id
+	 *
+	 * @return string
+	 */
+	public function getCategoryProduct($productId = 0)
 	{
-		$query = "SELECT category_id FROM " . $this->_table_prefix . "product_category_xref WHERE product_id = " . (int) $id . " ";
-		$this->_db->setQuery($query);
-		$res = $this->_db->loadResult();
+		if ($result = $this->getProductById($productId))
+		{
+			return $result->category_id;
+		}
 
-		return $res;
+		return '';
 	}
 
 	public function getProductCategory($id = 0)
@@ -3188,122 +3537,241 @@ class producthelper
 		return;
 	}
 
-	public function getProductAttribute($product_id = 0, $attribute_set_id = 0, $attribute_id = 0, $published = 0, $attribute_required = 0, $notAttributeId = 0)
+	/**
+	 * Get Product Attribute
+	 *
+	 * @param   int  $productId          Product id
+	 * @param   int  $attributeSetId     Attribute set id
+	 * @param   int  $attributeId        Attribute id
+	 * @param   int  $published          Published attribute set
+	 * @param   int  $attributeRequired  Attribute required
+	 * @param   int  $notAttributeId     Not attribute id
+	 *
+	 * @return mixed
+	 */
+	public function getProductAttribute($productId = 0, $attributeSetId = 0, $attributeId = 0, $published = 0, $attributeRequired = 0, $notAttributeId = 0)
 	{
-		$and          = "";
-		$astpublished = "";
-
-		if ($product_id != 0)
+		if ($productId)
 		{
-			$and .= "AND a.product_id IN (" . (int) $product_id . ") ";
-		}
+			$selectedAttributes = array();
+			$productData = $this->getProductById($productId);
 
-		if ($attribute_set_id != 0)
+			if ($productData && isset($productData->attributes))
+			{
+				foreach ($productData->attributes as $attribute)
+				{
+					if (($attributeSetId && $attributeSetId != $attribute->attribute_set_id)
+						|| ($attributeId && $attributeId != $attribute->attribute_id)
+						|| ($published && $published != $attribute->attribute_set_published)
+						|| ($attributeRequired && $attributeRequired != $attribute->attribute_required))
+					{
+						continue;
+					}
+
+					if ($notAttributeId)
+					{
+						$notAttributeIds = explode(',', $notAttributeId);
+						JArrayHelper::toInteger($notAttributeIds);
+
+						if (in_array($attribute->attribute_id, $notAttributeIds))
+						{
+							continue;
+						}
+					}
+
+					$selectedAttributes[] = $attribute;
+				}
+			}
+
+			return $selectedAttributes;
+		}
+		else
 		{
-			$and .= "AND a.attribute_set_id = " . (int) $attribute_set_id . " ";
+			$db = JFactory::getDbo();
+			$query = $db->getQuery(true)
+				->select(array('a.attribute_id AS value', 'a.attribute_name AS text', 'a.*', 'ast.attribute_set_name'))
+				->from($db->qn('#__redshop_product_attribute', 'a'))
+				->leftJoin($db->qn('#__redshop_attribute_set', 'ast') . ' ON ast.attribute_set_id = a.attribute_set_id')
+				->where('a.attribute_name != ' . $db->q(''))
+				->where('a.attribute_published = 1')
+				->order('a.ordering ASC');
+
+			if ($attributeSetId != 0)
+			{
+				$query->where('a.attribute_set_id = ' . (int) $attributeSetId);
+			}
+
+			if ($attributeId != 0)
+			{
+				$query->where('a.attribute_id = ' . (int) $attributeId);
+			}
+
+			if ($published != 0)
+			{
+				$query->where('ast.published = ' . (int) $published);
+			}
+
+			if ($attributeRequired != 0)
+			{
+				$query->where('a.attribute_required = ' . (int) $attributeRequired);
+			}
+
+			if ($notAttributeId != 0)
+			{
+				// Sanitize ids
+				$notAttributeIds = explode(',', $notAttributeId);
+				JArrayHelper::toInteger($notAttributeIds);
+
+				$query->where('a.attribute_id NOT IN (' . implode(',', $notAttributeIds) . ')');
+			}
+
+			$db->setQuery($query);
+
+			return $db->loadObjectlist();
 		}
-
-		if ($attribute_id != 0)
-		{
-			$and .= "AND a.attribute_id = " . (int) $attribute_id . " ";
-		}
-
-		if ($published != 0)
-		{
-			$astpublished = " AND ast.published = " . (int) $published . " ";
-		}
-
-		if ($attribute_required != 0)
-		{
-			$and .= "AND a.attribute_required = " . (int) $attribute_required . " ";
-		}
-
-		if ($notAttributeId != 0)
-		{
-			// Sanitize ids
-			$notAttributeIds = explode(',', $notAttributeId);
-			JArrayHelper::toInteger($notAttributeIds);
-
-			$and .= "AND a.attribute_id NOT IN (" . implode(',', $notAttributeIds) . ") ";
-		}
-
-		$query = "SELECT a.attribute_id AS value,a.attribute_name AS text,a.*,ast.attribute_set_name "
-			. "FROM " . $this->_table_prefix . "product_attribute AS a "
-			. "LEFT JOIN " . $this->_table_prefix . "attribute_set AS ast ON ast.attribute_set_id=a.attribute_set_id "
-			. $astpublished
-			. "WHERE a.attribute_name!='' "
-			. $and
-			. " and attribute_published=1 ORDER BY a.ordering ASC ";
-		$this->_db->setQuery($query);
-		$list = $this->_db->loadObjectlist();
-
-		return $list;
 	}
 
-	public function getAttibuteProperty($property_id = 0, $attribute_id = 0, $product_id = 0, $attribute_set_id = 0, $required = 0, $notPropertyId = 0)
+	/**
+	 * Get Attribute Property
+	 *
+	 * @param   int  $propertyId      Property id
+	 * @param   int  $attributeId     Attribute id
+	 * @param   int  $productId       Product id
+	 * @param   int  $attributeSetId  Attribute set id
+	 * @param   int  $required        Required
+	 * @param   int  $notPropertyId   Not property id
+	 *
+	 * @return  mixed
+	 */
+	public function getAttibuteProperty($propertyId = 0, $attributeId = 0, $productId = 0, $attributeSetId = 0, $required = 0, $notPropertyId = 0)
 	{
-		$and = "";
-
-		if ($attribute_id != 0)
+		if ($productId)
 		{
-			// Sanitize ids
-			$attributeIds = explode(',', $attribute_id);
-			JArrayHelper::toInteger($attributeIds);
+			$selectedProperties = array();
+			$productId = explode(',', $productId);
+			JArrayHelper::toInteger($productId);
 
-			$and .= "AND ap.attribute_id IN (" . implode(',', $attributeIds) . ") ";
+			if ($attributeId)
+			{
+				$attributeId = explode(',', $attributeId);
+				JArrayHelper::toInteger($attributeId);
+			}
+
+			foreach ($productId as $item)
+			{
+				if ($productData = $this->getProductById($item))
+				{
+					foreach ($productData->attributes as $attribute)
+					{
+						if ($attributeId && !in_array($attribute->attribute_id, $attributeId))
+						{
+							continue;
+						}
+
+						foreach ($attribute->properties as $property)
+						{
+							if ($propertyId)
+							{
+								$propertyIds = explode(',', $propertyId);
+								JArrayHelper::toInteger($propertyIds);
+
+								if (!in_array($property->property_id, $propertyIds))
+								{
+									continue;
+								}
+							}
+
+							if ($attributeSetId)
+							{
+								$attributeSetIds = explode(',', $attributeSetId);
+								JArrayHelper::toInteger($attributeSetIds);
+
+								if (!in_array($property->attribute_set_id, $attributeSetIds))
+								{
+									continue;
+								}
+							}
+
+							if ($required && $required != $property->setrequire_selected)
+							{
+								continue;
+							}
+
+							if ($notPropertyId)
+							{
+								$notPropertyIds = explode(',', $notPropertyId);
+								JArrayHelper::toInteger($notPropertyIds);
+
+								if (in_array($property->property_id, $notPropertyIds))
+								{
+									continue;
+								}
+							}
+
+							$selectedProperties[] = $property;
+						}
+					}
+				}
+			}
+
+			return $selectedProperties;
 		}
-
-		if ($attribute_set_id != 0)
+		else
 		{
-			// Sanitize ids
-			$attributeSetIds = explode(',', $attribute_set_id);
-			JArrayHelper::toInteger($attributeSetIds);
+			$db = JFactory::getDbo();
+			$query = $db->getQuery(true)
+				->select(array('ap.property_id AS value', 'ap.property_name AS text', 'ap.*', 'a.attribute_name'))
+				->from($db->qn('#__redshop_product_attribute_property', 'ap'))
+				->leftJoin($db->qn('#__redshop_product_attribute', 'a') . ' ON a.attribute_id = ap.attribute_id')
+				->where('ap.property_published = 1')
+				->order('ap.ordering ASC');
 
-			$and .= "AND a.attribute_set_id IN (" . implode(',', $attributeSetIds) . ") ";
+			if ($attributeId != 0)
+			{
+				// Sanitize ids
+				$attributeIds = explode(',', $attributeId);
+				JArrayHelper::toInteger($attributeIds);
+
+				$query->where('ap.attribute_id IN (' . implode(',', $attributeIds) . ')');
+			}
+
+			if ($attributeSetId != 0)
+			{
+				// Sanitize ids
+				$attributeSetIds = explode(',', $attributeSetId);
+				JArrayHelper::toInteger($attributeSetIds);
+
+				$query->where('a.attribute_set_id IN (' . implode(',', $attributeSetIds) . ')');
+			}
+
+			if ($propertyId != 0)
+			{
+				// Sanitize ids
+				$propertyIds = explode(',', $propertyId);
+				JArrayHelper::toInteger($propertyIds);
+
+				$query->where('ap.property_id IN (' . implode(',', $propertyIds) . ')');
+			}
+
+			if ($required != 0)
+			{
+				$query->where('ap.setrequire_selected = ' . (int) $required);
+			}
+
+			if ($notPropertyId != 0)
+			{
+				// Sanitize ids
+				$notPropertyIds = explode(',', $notPropertyId);
+				JArrayHelper::toInteger($notPropertyIds);
+
+				$query->where('ap.property_id NOT IN (' . implode(',', $notPropertyIds) . ')');
+			}
+
+			$db->setQuery($query);
+			$list = $db->loadObjectlist();
+
+			return $list;
 		}
-
-		if ($property_id != 0)
-		{
-			// Sanitize ids
-			$propertyIds = explode(',', $property_id);
-			JArrayHelper::toInteger($propertyIds);
-
-			$and .= "AND ap.property_id IN (" . implode(',', $propertyIds) . ") ";
-		}
-
-		if ($product_id != 0)
-		{
-			// Sanitize ids
-			$productIds = explode(',', $product_id);
-			JArrayHelper::toInteger($productIds);
-
-			$and .= "AND a.product_id IN (" . implode(',', $productIds) . ") ";
-		}
-
-		if ($required != 0)
-		{
-			$and .= "AND ap.setrequire_selected = " . (int) $required . " ";
-		}
-
-		if ($notPropertyId != 0)
-		{
-			// Sanitize ids
-			$notPropertyIds = explode(',', $notPropertyId);
-			JArrayHelper::toInteger($notPropertyIds);
-
-			$and .= "AND ap.property_id NOT IN (" . implode(',', $notPropertyIds) . ") ";
-		}
-
-		$query = "SELECT ap.property_id AS value,ap.property_name AS text,ap.*, a.attribute_name "
-			. "FROM " . $this->_table_prefix . "product_attribute_property AS ap "
-			. "LEFT JOIN " . $this->_table_prefix . "product_attribute AS a ON a.attribute_id = ap.attribute_id "
-			. "WHERE ap.property_published = 1 "
-			. $and
-			. "ORDER BY ap.ordering ASC ";
-		$this->_db->setQuery($query);
-		$list = $this->_db->loadObjectlist();
-
-		return $list;
 	}
 
 	public function getAttibutePropertyWithStock($property)
@@ -3938,7 +4406,7 @@ class producthelper
 	{
 		$user_id   = 0;
 		$url       = JURI::base();
-		$redconfig = new Redconfiguration();
+		$redconfig = new Redconfiguration;
 
 		$viewacc = JRequest::getVar('viewacc', 1);
 		$layout  = JRequest::getVar('layout');
@@ -4262,7 +4730,7 @@ class producthelper
 						1
 					);
 
-					if (!strstr($data_add, "{without_vat}"))
+					if (!strstr($accessory_div, "{without_vat}"))
 					{
 						$accessorypricelist = $this->getAccessoryPrice($product_id,
 							$accessory[$a]->newaccessory_price,
@@ -4420,8 +4888,8 @@ class producthelper
 	{
 		$user_id         = 0;
 		$url             = JURI::base();
-		$stockroomhelper = new rsstockroomhelper();
-		$redTemplate     = new Redtemplate();
+		$stockroomhelper = new rsstockroomhelper;
+		$redTemplate     = new Redtemplate;
 
 		if (count($attribute_template) <= 0)
 		{
@@ -4686,7 +5154,7 @@ class producthelper
 		$user_id         = 0;
 		$url             = JURI::base();
 		$redTemplate     = new Redtemplate ();
-		$stockroomhelper = new rsstockroomhelper();
+		$stockroomhelper = new rsstockroomhelper;
 
 		$chktagArr['chkvat'] = $chktag = $this->getApplyattributeVatOrNot($data_add);
 		$this->_session->set('chkvat', $chktagArr);
@@ -4939,6 +5407,7 @@ class producthelper
 							}
 
 							$attributes_property_withoutvat = $property [$i]->property_price;
+
 							/*
 							 * changes for {without_vat} tag output parsing
 							 * only for display purpose
@@ -4947,7 +5416,10 @@ class producthelper
 
 							if (!empty($chktag))
 							{
-								$attributes_property_vat_show = $this->getProducttax($product_id, $property [$i]->property_price, $user_id);
+								if ($property [$i]->oprand != '*' && $property [$i]->oprand != '/')
+								{
+									$attributes_property_vat_show = $this->getProducttax($product_id, $property [$i]->property_price, $user_id);
+								}
 							}
 
 							$attributes_property_vat_show += $property [$i]->property_price;
@@ -5203,8 +5675,8 @@ class producthelper
 
 	public function replaceSubPropertyData($product_id = 0, $accessory_id = 0, $relatedprd_id = 0, $attribute_id = 0, $property_id = 0, $subatthtml = "", $layout = "", $selectSubproperty = array())
 	{
-		$redTemplate     = new Redtemplate();
-		$stockroomhelper = new rsstockroomhelper();
+		$redTemplate     = new Redtemplate;
+		$stockroomhelper = new rsstockroomhelper;
 		$url             = JURI::base();
 		$attribute_table = "";
 		$subproperty     = array();
@@ -5337,8 +5809,6 @@ class producthelper
 						}
 					}
 
-					$stock = $stockroomhelper->getStockAmountwithReserve($subproperty[$i]->value, "subproperty");
-
 					if ($subproperty[$i]->subattribute_color_image)
 					{
 						if (is_file(REDSHOP_FRONT_IMAGES_RELPATH . "subcolor/" . $subproperty[$i]->subattribute_color_image))
@@ -5414,7 +5884,8 @@ class producthelper
 					$attribute_table .= '<input type="hidden" id="' . $subpropertyid . '_oprand' . $subproperty [$i]->value . '" value="' . $subproperty [$i]->oprand . '" />';
 					$attribute_table .= '<input type="hidden" id="' . $subpropertyid . '_proprice' . $subproperty [$i]->value . '" value="' . $attributes_subproperty_vat_show . '" />';
 					$attribute_table .= '<input type="hidden" id="' . $subpropertyid . '_proprice_withoutvat' . $subproperty [$i]->value . '" value="' . $attributes_subproperty_withoutvat . '" />';
-					$attribute_table .= '<input type="hidden" id="' . $subpropertyid . '_stock' . $subproperty [$i]->value . '" value="' . $stock . '" />';
+					$attribute_table .= '<input type="hidden" id="' . $subpropertyid . '_stock' . $subproperty [$i]->value . '" value="' . $stockroomhelper->getStockAmountwithReserve($subproperty[$i]->value, "subproperty") . '" />';
+					$attribute_table .= '<input type="hidden" id="' . $subpropertyid . '_preOrderStock' . $subproperty [$i]->value . '" value="' . $stockroomhelper->getPreorderStockAmountwithReserve($subproperty[$i]->value, "subproperty") . '" />';
 				}
 
 				if (!$mph_thumb)
@@ -5701,7 +6172,7 @@ class producthelper
 	{
 		$user_id         = 0;
 		$url             = JURI::base();
-		$stockroomhelper = new rsstockroomhelper();
+		$stockroomhelper = new rsstockroomhelper;
 		$option          = 'com_redshop';
 		$Itemid          = JRequest::getInt('Itemid');
 
@@ -5919,13 +6390,14 @@ class producthelper
 	public function replaceCartTemplate($product_id = 0, $category_id = 0, $accessory_id = 0, $relproduct_id = 0, $data_add = "", $isChilds = false, $userfieldArr = array(), $totalatt = 0, $totalAccessory = 0, $count_no_user_field = 0, $module_id = 0, $giftcard_id = 0)
 	{
 		$user_id         = 0;
-		$redconfig       = new Redconfiguration();
-		$extraField      = new extraField();
-		$stockroomhelper = new rsstockroomhelper();
+		$redconfig       = new Redconfiguration;
+		$extraField      = new extraField;
+		$stockroomhelper = new rsstockroomhelper;
 
 		$product_quantity = JRequest::getVar('product_quantity');
 		$Itemid           = JRequest::getInt('Itemid');
 		$user             = JFactory::getUser();
+		$product_preorder = "";
 
 		JPluginHelper::importPlugin('redshop_product');
 		$dispatcher = JDispatcher::getInstance();
@@ -5954,6 +6426,11 @@ class producthelper
 		else
 		{
 			$product = $this->getProductById($product_id);
+
+			if(isset($product->preorder))
+			{
+				$product_preorder = $product->preorder;
+			}
 		}
 
 		$taxexempt_addtocart = $this->taxexempt_addtocart($user_id, 1);
@@ -5962,14 +6439,14 @@ class producthelper
 
 		if (count($cart_template) <= 0 && $data_add != "")
 		{
-			$cart_template                = new stdclass();
+			$cart_template                = new stdclass;
 			$cart_template->template_name = "";
 			$cart_template->template_desc = "";
 		}
 
 		if ($data_add == "" && count($cart_template) <= 0)
 		{
-			$cart_template                = new stdclass();
+			$cart_template                = new stdclass;
 			$cart_template->template_name = "notemplate";
 			$cart_template->template_desc = "<div>{addtocart_image_aslink}</div>";
 			$data_add                     = "{form_addtocart:$cart_template->template_name}";
@@ -6006,6 +6483,8 @@ class producthelper
 
 		$totrequiredatt  = "";
 		$totrequiredprop = '';
+
+		$isPreorderStockExists = '';
 
 		if ($giftcard_id != 0)
 		{
@@ -6060,7 +6539,6 @@ class producthelper
 			// Get stock for Product
 
 			$isStockExists         = $stockroomhelper->isStockExists($product_id);
-			$isPreorderStockExists = '';
 
 			if ($totalatt > 0 && !$isStockExists)
 			{
@@ -6116,6 +6594,7 @@ class producthelper
 
 			$max_quantity = $product->max_order_product_quantity;
 			$min_quantity = $product->min_order_product_quantity;
+
 		}
 
 		$stockdisplay        = false;
@@ -6126,8 +6605,6 @@ class producthelper
 
 		if (!$isStockExists)
 		{
-			// Check if preorder is set to yes than add pre order button
-			$product_preorder = $product->preorder;
 
 			if (($product_preorder == "global"
 				&& ALLOW_PRE_ORDER)
@@ -6326,7 +6803,7 @@ class producthelper
 				for ($a = 0; $a < count($attributes); $a++)
 				{
 					$selectedId = array();
-					$property   = $this->getAttibuteProperty(0, $attributes[$a]->attribute_id);
+					$property   = $this->getAttibuteProperty(0, $attributes[$a]->attribute_id, $product_id);
 
 					if ($attributes[$a]->text != "" && count($property) > 0)
 					{
@@ -6374,7 +6851,7 @@ class producthelper
 		        <input type='hidden' name='product_stock' id='product_stock" . $product_id . "' value='" .
 				$isStockExists . "'>
 				<input type='hidden' name='product_preorder' id='product_preorder" . $product_id . "' value='" .
-				$product->preorder . "'>
+				$product_preorder . "'>
 				<input type='hidden' name='product_id' id='product_id' value='" . $product_id . "'>
 				<input type='hidden' name='category_id' value='" . $category_id . "'>
 				<input type='hidden' name='view' value='cart'>
@@ -7138,7 +7615,7 @@ class producthelper
 	{
 		if (empty($this->_cartTemplateData))
 		{
-			$redTemplate = new Redtemplate();
+			$redTemplate = new Redtemplate;
 
 			if (!USE_AS_CATALOG || USE_AS_CATALOG)
 				$this->_cartTemplateData = $redTemplate->getTemplate("cart");
@@ -7153,7 +7630,7 @@ class producthelper
 	{
 		$user            = JFactory::getUser();
 		$cart            = $this->_session->get('cart');
-		$stockroomhelper = new rsstockroomhelper();
+		$stockroomhelper = new rsstockroomhelper;
 		$product         = $this->getProductById($product_id);
 
 		if ($user_id == 0)
@@ -7244,7 +7721,10 @@ class producthelper
 
 				if (!empty($chktag))
 				{
-					$property_price = $property_price + $att_vat;
+					if ($propArr[$k]['property_oprand'] != '*' && $propArr[$k]['property_oprand'] != '/')
+					{
+						$property_price = $property_price + $att_vat;
+					}
 				}
 
 				$displayPrice = " (" . $propArr[$k]['property_oprand'] . " " . $this->getProductFormattedPrice($property_price) . ")";
@@ -7297,7 +7777,9 @@ class producthelper
 						$selectedProperty[$selP++] = $propArr[$k]['property_id'];
 					}
 
-					if ($subpropArr[$l]['subproperty_price'] > 0)
+					if ($subpropArr[$l]['subproperty_price'] > 0
+						&& $subpropArr[$l]['subproperty_oprand'] != '*'
+						&&  $subpropArr[$l]['subproperty_oprand'] != '/')
 					{
 						$att_vat = $this->getProducttax($product_id, $subpropArr[$l]['subproperty_price'], $user_id);
 					}
@@ -7428,7 +7910,7 @@ class producthelper
 
 	public function makeAccessoryOrder($order_item_id = 0)
 	{
-		$order_functions  = new order_functions();
+		$order_functions  = new order_functions;
 		$displayaccessory = "";
 		$orderItemdata    = $order_functions->getOrderItemAccessoryDetail($order_item_id);
 
@@ -7508,6 +7990,9 @@ class producthelper
 
 				$orderPropdata = $order_functions->getOrderItemAttributeDetail($order_item_id, $is_accessory, "property", $orderItemAttdata[$i]->section_id);
 
+				// Initialize attribute calculated price
+				$propertyCalculatedPriceSum = $orderItemdata[0]->product_item_old_price;
+
 				for ($p = 0; $p < count($orderPropdata); $p++)
 				{
 					$property_price = $orderPropdata[$p]->section_price;
@@ -7541,6 +8026,17 @@ class producthelper
 						if (!$hide_attribute_price)
 						{
 							$disPrice = " (" . $orderPropdata[$p]->section_oprand . $this->getProductFormattedPrice($property_price) . ")";
+						}
+
+						$propertyOperand = $orderPropdata[$p]->section_oprand;
+
+						// Show actual productive price
+						if ($property_price > 0)
+						{
+							$productAttributeCalculatedPriceBase = redhelper::setOperandForValues($propertyCalculatedPriceSum, $propertyOperand, $property_price);
+
+							$productAttributeCalculatedPrice = $productAttributeCalculatedPriceBase - $propertyCalculatedPriceSum;
+							$propertyCalculatedPriceSum      = $productAttributeCalculatedPriceBase;
 						}
 
 						if (!strstr($data, '{product_attribute_price}'))
@@ -7600,6 +8096,17 @@ class producthelper
 								$disPrice = " (" . $orderSubpropdata[$sp]->section_oprand . $this->getProductFormattedPrice($subproperty_price) . ")";
 							}
 
+							$subPropertyOperand = $orderSubpropdata[$sp]->section_oprand;
+
+							// Show actual productive price
+							if ($subproperty_price > 0)
+							{
+								$productAttributeCalculatedPriceBase = redhelper::setOperandForValues($propertyCalculatedPriceSum, $subPropertyOperand, $subproperty_price);
+
+								$productAttributeCalculatedPrice = $productAttributeCalculatedPriceBase - $propertyCalculatedPriceSum;
+								$propertyCalculatedPriceSum      = $productAttributeCalculatedPriceBase;
+							}
+
 							if (!strstr($data, '{product_attribute_price}'))
 							{
 								$disPrice = '';
@@ -7618,6 +8125,17 @@ class producthelper
 
 						$displayattribute .= "<div class='checkout_subattribute_wrapper'><div class='checkout_subattribute_price'>" . urldecode($orderSubpropdata[$sp]->section_name) . $disPrice . "</div>" . $virtualNumber . "</div>";
 					}
+
+					// Format Calculated price using Language variable
+					$productAttributeCalculatedPrice = $this->getProductFormattedPrice(
+						$productAttributeCalculatedPrice
+					);
+					$productAttributeCalculatedPrice = JText::sprintf('COM_REDSHOP_CART_PRODUCT_ATTRIBUTE_CALCULATED_PRICE', $productAttributeCalculatedPrice);
+					$tmp_attribute_middle_template   = str_replace(
+						"{product_attribute_calculated_price}",
+						$productAttributeCalculatedPrice,
+						$tmp_attribute_middle_template
+					);
 				}
 			}
 		}
@@ -7718,7 +8236,7 @@ class producthelper
 
 	public function makeAttributeQuotation($quotation_item_id = 0, $is_accessory = 0, $parent_section_id = 0, $quotation_status = 2, $stock = 0)
 	{
-		$quotationHelper  = new quotationHelper();
+		$quotationHelper  = new quotationHelper;
 		$displayattribute = "";
 
 		$product_attribute = "";
@@ -8220,49 +8738,70 @@ class producthelper
 		return null;
 	}
 
-	public function getProductRating($product_id)
+	/**
+	 * Get Product Rating
+	 *
+	 * @param   int  $productId  Product id
+	 *
+	 * @return string
+	 */
+	public function getProductRating($productId)
 	{
-		$url        = JURI::base();
-		$avgratings = 0;
-		$query      = "SELECT pr.* FROM " . $this->_table_prefix . "product_rating AS pr "
-			. "WHERE pr.product_id = " . (int) $product_id . " AND pr.published=1";
-		$this->_db->setQuery($query);
-		$allreviews   = $this->_db->loadObjectList();
-		$totalreviews = count($allreviews);
+		$finalAvgReviewData = '';
 
-		$query = "SELECT SUM(user_rating) AS rating FROM " . $this->_table_prefix . "product_rating AS pr "
-			. "WHERE pr.product_id = " . (int) $product_id . " AND pr.published=1";
-		$this->_db->setQuery($query);
-		$totalratings = $this->_db->loadResult();
-
-		if ($totalreviews > 0)
+		if ($productData = $this->getProductById($productId))
 		{
-			$avgratings = $totalratings / $totalreviews;
+			$avgRating = 0;
+
+			if ($productData->count_rating > 0)
+			{
+				$avgRating = round($productData->sum_rating / $productData->count_rating);
+			}
+
+			if ($avgRating > 0)
+			{
+				$finalAvgReviewData = '<img src="' . REDSHOP_ADMIN_IMAGES_ABSPATH . 'star_rating/' . $avgRating . '.gif" />';
+				$finalAvgReviewData .= JText::_('COM_REDSHOP_AVG_RATINGS_1') . " " . $productData->count_rating . " "
+					. JText::_('COM_REDSHOP_AVG_RATINGS_2');
+			}
 		}
 
-		$avgratings           = round($avgratings);
-		$final_avgreview_data = "";
-
-		if ($avgratings > 0)
-		{
-			$final_avgreview_data = '<img src="' . REDSHOP_ADMIN_IMAGES_ABSPATH . 'star_rating/' . $avgratings
-				. '.gif" />';
-			$final_avgreview_data .= JText::_('COM_REDSHOP_AVG_RATINGS_1') . " " . $totalreviews . " "
-				. JText::_('COM_REDSHOP_AVG_RATINGS_2');
-		}
-
-		return $final_avgreview_data;
+		return $finalAvgReviewData;
 	}
 
 	public function getProductReviewList($product_id)
 	{
-		$query = "SELECT ui.firstname,ui.lastname,pr.* FROM " . $this->_table_prefix . "product_rating AS pr "
-			. "LEFT JOIN " . $this->_table_prefix . "users_info AS ui ON ui.user_id=pr.userid "
-			. "WHERE pr.product_id = " . (int) $product_id . " "
-			. "AND pr.published = 1 AND ui.address_type LIKE 'BT' "
-			. "ORDER BY pr.favoured DESC";
-		$this->_db->setQuery($query);
-		$reviews = $this->_db->loadObjectList();
+		// Initialize variables.
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true);
+
+		// Create the base select statement.
+		$query->select('pr.*')
+			->from($db->qn('#__redshop_product_rating', 'pr'))
+			->where($db->qn('pr.product_id') . ' = ' . (int) $product_id)
+			->where($db->qn('pr.published') . ' = 1')
+			->where($db->qn('pr.email') . ' != ' . $db->q(''))
+			->order($db->qn('pr.favoured') . ' DESC');
+
+		$query->select('ui.firstname,ui.lastname')
+		      ->leftjoin(
+					$db->qn('#__redshop_users_info', 'ui')
+					. ' ON '
+					. $db->qn('ui.user_id') . '=' . $db->qn('pr.userid')
+					. ' AND ' . $db->qn('ui.address_type') . '=' . $db->q('BT')
+				);
+
+		// Set the query and load the result.
+		$db->setQuery($query);
+
+		try
+		{
+			$reviews = $db->loadObjectList();
+		}
+		catch (RuntimeException $e)
+		{
+			throw new RuntimeException($e->getMessage(), $e->getCode());
+		}
 
 		return $reviews;
 	}
@@ -8634,7 +9173,7 @@ class producthelper
 			}
 		}
 
-		$stockroomhelper = new rsstockroomhelper();
+		$stockroomhelper = new rsstockroomhelper;
 		$productinstock  = $stockroomhelper->getStockAmountwithReserve($Id, $sec);
 
 		if ($productinstock == 0)
@@ -8750,11 +9289,19 @@ class producthelper
 			return $isEnable;
 		}
 
-		$query = "select field_name,field_id from " . $this->_table_prefix . "fields where field_type=15";
-		$this->_db->setQuery($query);
-		$fieldData = $this->_db->loadObject();
+		if (!array_key_exists('15', self::$productDateRange))
+		{
+			$query = $this->_db->getQuery(true)
+				->select('field_name, field_id')
+				->from($this->_db->qn('#__redshop_fields'))
+				->where('field_type = 15');
+			$this->_db->setQuery($query);
+			self::$productDateRange['15'] = $this->_db->loadObject();
+		}
 
-		if (count($fieldData) == 0)
+		$fieldData = self::$productDateRange['15'];
+
+		if (!$fieldData)
 		{
 			$isEnable = false;
 
@@ -8894,13 +9441,19 @@ class producthelper
 
 			if ($displaylink)
 			{
-				$redhelper = new redhelper();
+				$redhelper = new redhelper;
 				$catItem   = $redhelper->getCategoryItemid($row->category_id);
+
+				if(!(boolean) $catItem)
+				{
+					$catItem = JFactory::getApplication()->input->getInt('Itemid');
+				}
+
 				$catlink   = JRoute::_('index.php?option=com_redshop&view=category&layout=detail&cid='
 					. $row->category_id . '&Itemid=' . $catItem);
 			}
 
-			$prodCatsObject        = new stdClass();
+			$prodCatsObject        = new stdClass;
 			$prodCatsObject->name  = $ppCat . $pspacediv . $pCat . $spacediv . $row->category_name;
 			$prodCatsObject->link  = $catlink;
 			$prodCatsObjectArray[] = $prodCatsObject;
@@ -8914,7 +9467,7 @@ class producthelper
 		$url                 = JURI::base();
 		$option              = JRequest::getVar('option');
 		$product             = $this->getProductById($product_id);
-		$redhelper           = new redhelper();
+		$redhelper           = new redhelper;
 		$aHrefImageResponse  = '';
 		$imagename           = '';
 		$aTitleImageResponse = '';
@@ -8997,6 +9550,8 @@ class producthelper
 
 		if (!empty($imagename) && !empty($type))
 		{
+			$imagename = JFile::makeSafe($imagename);
+
 			if ((WATERMARK_PRODUCT_THUMB_IMAGE) && $type == 'product')
 			{
 				$productmainimg = $redhelper->watermark('product', $imagename, $pw_thumb, $ph_thumb, WATERMARK_PRODUCT_THUMB_IMAGE, '0');
@@ -9047,10 +9602,10 @@ class producthelper
 	{
 		$redshopconfig   = new Redconfiguration ();
 		$redTemplate     = new Redtemplate ();
-		$stockroomhelper = new rsstockroomhelper();
+		$stockroomhelper = new rsstockroomhelper;
 		$url             = JURI::base();
 		$option          = JRequest::getVar('option');
-		$redhelper       = new redhelper();
+		$redhelper       = new redhelper;
 
 		if ($accessory_id != 0)
 		{
@@ -9646,7 +10201,7 @@ class producthelper
 			}
 		}
 
-		// Stockroom status code->Ushma
+		// Stockroom status code
 		if (strstr($template_desc, "{stock_status")
 			|| strstr($template_desc, "{stock_notify_flag}")
 			|| strstr($template_desc, "{product_availability_date}"))
@@ -9813,7 +10368,7 @@ class producthelper
 
 	public function getProductFinderDatepickerValue($templatedata = "", $productid = 0, $fieldArray = array(), $giftcard = 0)
 	{
-		$extraField = new extraField();
+		$extraField = new extraField;
 
 		if (count($fieldArray) > 0)
 		{
@@ -9844,10 +10399,10 @@ class producthelper
 
 	public function getRelatedtemplateView($template_desc, $product_id)
 	{
-		$extra_field      = new extraField();
-		$config           = new Redconfiguration();
-		$redTemplate      = new Redtemplate();
-		$redhelper        = new redhelper();
+		$extra_field      = new extraField;
+		$config           = new Redconfiguration;
+		$redTemplate      = new Redtemplate;
+		$redhelper        = new redhelper;
 		$related_product  = $this->getRelatedProduct($product_id);
 		$related_template = $this->getRelatedProductTemplate($template_desc);
 		$option           = 'com_redshop';
@@ -10094,7 +10649,7 @@ class producthelper
 
 	public function removeOutofstockProduct($products)
 	{
-		$stockroomhelper = new rsstockroomhelper();
+		$stockroomhelper = new rsstockroomhelper;
 		$filter_products = array();
 
 		for ($s = 0; $s < count($products); $s++)
@@ -10126,7 +10681,7 @@ class producthelper
 
 	public function getproductStockStatus($product_id = 0, $totalatt = 0, $selectedpropertyId = 0, $selectedsubpropertyId = 0)
 	{
-		$stockroomhelper            = new rsstockroomhelper();
+		$stockroomhelper            = new rsstockroomhelper;
 		$producDetail               = $this->getProductById($product_id);
 		$product_preorder           = trim($producDetail->preorder);
 		$rsltdata                   = array();
@@ -10322,7 +10877,7 @@ class producthelper
 	{
 		$db = JFactory::getDbo();
 
-		$extraField = new extraField();
+		$extraField = new extraField;
 		$row_data   = $extraField->getSectionFieldList($section_id, 1);
 
 		for ($i = 0; $i < count($row_data); $i++)
@@ -10345,7 +10900,7 @@ class producthelper
 
 	public function getPaymentandShippingExtrafields($order, $section_id)
 	{
-		$extraField = new extraField();
+		$extraField = new extraField;
 		$row_data   = $extraField->getSectionFieldList($section_id, 1);
 		$resultArr  = array();
 

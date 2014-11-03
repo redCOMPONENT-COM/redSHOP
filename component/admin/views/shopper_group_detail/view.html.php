@@ -10,10 +10,10 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
-require_once JPATH_COMPONENT . '/helpers/shopper.php';
-require_once JPATH_COMPONENT . '/helpers/category.php';
+JLoader::load('RedshopHelperAdminShopper');
+JLoader::load('RedshopHelperAdminCategory');
 
-class shopper_group_detailVIEWshopper_group_detail extends JView
+class RedshopViewShopper_group_detail extends JView
 {
 	/**
 	 * The request url.
@@ -118,6 +118,31 @@ class shopper_group_detailVIEWshopper_group_detail extends JView
 		$lists['tax_group_id'] = JHTML::_('select.genericlist', $vatgroup, 'tax_group_id',
 			'class="inputbox" size="1"', 'value', 'text', $detail->tax_group_id
 		);
+
+		if(!isset($lists['apply_vat']))
+		{
+			$lists['apply_vat'] = "";
+		}
+
+		if(!isset($lists['is_logged_in']))
+		{
+			$lists['is_logged_in'] = "";
+		}
+
+		if(!isset($lists['apply_product_price_vat']))
+		{
+			$lists['apply_product_price_vat'] = "";
+		}
+
+		if(!isset($lists['tax_exempt']))
+		{
+			$lists['tax_exempt'] = "";
+		}
+
+		if(!isset($lists['tax_exempt_on_shipping']))
+		{
+			$lists['tax_exempt_on_shipping'] = "";
+		}
 
 		$this->lists = $lists;
 		$this->detail = $detail;

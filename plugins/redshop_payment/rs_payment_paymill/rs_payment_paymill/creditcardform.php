@@ -1,23 +1,16 @@
 <?php
 /**
- * @copyright Copyright (C) 2010 redCOMPONENT.com. All rights reserved.
- * @license   GNU/GPL, see license.txt or http://www.gnu.org/copyleft/gpl.html
- *            Developed by email@recomponent.com - redCOMPONENT.com
+ * @package     RedSHOP
+ * @subpackage  Plugin
  *
- * redSHOP can be downloaded from www.redcomponent.com
- * redSHOP is free software; you can redistribute it and/or
- * modify it under the terms of the GNU General Public License 2
- * as published by the Free Software Foundation.
- *
- * You should have received a copy of the GNU General Public License
- * along with redSHOP; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_COMPONENT . '/helpers/helper.php';
-require_once JPATH_SITE . '/components/com_redshop/helpers/cart.php';
 require_once JPATH_SITE . '/administrator/components/com_redshop/helpers/redshop.cfg.php';
-
+JLoader::import('redshop.library');
+JLoader::load('RedshopHelperHelper');
+JLoader::load('RedshopHelperCart');
 
 $request = JRequest::get('request');
 
@@ -33,9 +26,6 @@ else
 {
 	$this->getCredicardForm("rs_payment_paymill", $data);
 }
-// end by me
-
 ?>
-
 <script type="text/javascript"
-        src="<?php echo JURI::base() ?>plugins/redshop_payment/rs_payment_paymill/rs_payment_paymill/js/paymill.js"></script>
+    src="<?php echo JURI::base() ?>plugins/redshop_payment/rs_payment_paymill/rs_payment_paymill/js/paymill.js"></script>

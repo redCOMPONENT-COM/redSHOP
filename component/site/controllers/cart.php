@@ -11,8 +11,8 @@ defined('_JEXEC') or die;
 
 JLoader::import('joomla.application.component.controller');
 
-include_once JPATH_COMPONENT . '/helpers/helper.php';
-include_once JPATH_COMPONENT . '/helpers/cart.php';
+JLoader::load('RedshopHelperHelper');
+JLoader::load('RedshopHelperCart');
 
 /**
  * Cart Controller.
@@ -21,7 +21,7 @@ include_once JPATH_COMPONENT . '/helpers/cart.php';
  * @subpackage  Controller
  * @since       1.0
  */
-class CartController extends JController
+class RedshopControllerCart extends JController
 {
 	/**
 	 * Constructor
@@ -203,8 +203,9 @@ class CartController extends JController
 				else
 				{
 					$link = JRoute::_($_SERVER['HTTP_REFERER'], false);
+					$msg = "";
 
-					if ($cart['notice_message'] != "")
+					if (isset($cart['notice_message']) && $cart['notice_message'] != "")
 					{
 						$msg = $cart['notice_message'] . "<br>";
 					}
@@ -239,7 +240,7 @@ class CartController extends JController
 
 			if ($discount_amount > 0)
 			{
-				$cart = $this->_session->get('cart');
+				$cart = $session->get('cart');
 			}
 		}
 
@@ -516,7 +517,7 @@ class CartController extends JController
 	 */
 	public function getShippingrate()
 	{
-		include_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/shipping.php';
+		JLoader::load('RedshopHelperAdminShipping');
 		$shipping = new shipping;
 		echo $shipping->getShippingrate_calc();
 		exit;

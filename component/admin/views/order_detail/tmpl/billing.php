@@ -11,13 +11,13 @@ defined('_JEXEC') or die;
 
 $billing = $this->billing;
 $is_company = $billing->is_company;
-$extra_field = new extra_field();
+$extra_field = new extra_field;
 
 if (!isset($billing->order_info_id))
 	$billing->order_info_id = 0;
 
 $Itemid = JRequest::getVar('Itemid');
-require_once JPATH_COMPONENT . '/helpers/extra_field.php';
+JLoader::load('RedshopHelperAdminExtra_field');
 ?>
 <script type="text/javascript">
 

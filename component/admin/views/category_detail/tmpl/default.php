@@ -8,7 +8,7 @@
  */
 defined('_JEXEC') or die;
 
-require_once JPATH_ROOT . '/administrator/components/com_redshop/helpers/images.php';
+JLoader::load('RedshopHelperAdminImages');
 
 JHTML::_('behavior.tooltip');
 $editor = JFactory::getEditor();
@@ -17,16 +17,12 @@ $uri = JURI::getInstance();
 $url = $uri->root();
 JHTML::_('behavior.calendar');
 jimport('joomla.html.pane');
-$objhelper = new redhelper();
-$producthelper = new producthelper();
+$objhelper = new redhelper;
+$producthelper = new producthelper;
 
 ?>
 <script language="javascript" type="text/javascript">
 	Joomla.submitbutton = function (pressbutton) {
-		submitbutton(pressbutton);
-	}
-
-	submitbutton = function (pressbutton) {
 		var form = document.adminForm;
 		if (pressbutton == 'cancel') {
 			submitform(pressbutton);

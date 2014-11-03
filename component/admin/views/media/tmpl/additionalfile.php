@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die ('Restricted access');
+defined('_JEXEC') or die;
 
 JHTMLBehavior::modal();
 
@@ -25,10 +25,6 @@ $media_id = JRequest::getInt('media_id');
 ?>
 <script language="javascript" type="text/javascript">
 	Joomla.submitbutton = function (pressbutton) {
-		submitbutton(pressbutton);
-	}
-
-	submitbutton = function (pressbutton) {
 		var form = document.additionaladminForm;
 
 		if (pressbutton == 'save') {

@@ -7,14 +7,14 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die ('Restricted access');
+defined('_JEXEC') or die;
 
 JLoader::import('joomla.application.component.model');
 
-require_once JPATH_COMPONENT . '/helpers/product.php';
-require_once JPATH_COMPONENT . '/helpers/extra_field.php';
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/shipping.php';
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/extra_field.php';
+JLoader::load('RedshopHelperProduct');
+JLoader::load('RedshopHelperExtra_field');
+JLoader::load('RedshopHelperAdminShipping');
+JLoader::load('RedshopHelperAdminExtra_field');
 
 /**
  * Class productModelproduct
@@ -23,7 +23,7 @@ require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/extra_field.
  * @subpackage  Model
  * @since       1.0
  */
-class productModelproduct extends JModel
+class RedshopModelProduct extends JModel
 {
 	public $_id = null;
 
@@ -96,6 +96,7 @@ class productModelproduct extends JModel
 
 	public function getData()
 	{
+
 		$redTemplate = new Redtemplate;
 
 		if (empty ($this->_data))
@@ -105,8 +106,8 @@ class productModelproduct extends JModel
 			$this->_data = $this->_db->loadObject();
 		}
 
-		$this->_data->product_s_desc = $redTemplate->parseredSHOPplugin($this->_data->product_s_desc);
-		$this->_data->product_desc   = $redTemplate->parseredSHOPplugin($this->_data->product_desc);
+		$this->_data->product_s_desc = isset($this->_data->product_s_desc) ? $redTemplate->parseredSHOPplugin($this->_data->product_s_desc) : '';
+		$this->_data->product_desc   = isset($this->_data->product_desc) ? $redTemplate->parseredSHOPplugin($this->_data->product_desc) : '';
 
 		return $this->_data;
 	}

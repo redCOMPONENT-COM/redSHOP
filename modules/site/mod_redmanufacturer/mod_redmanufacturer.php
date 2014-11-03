@@ -11,16 +11,17 @@ defined('_JEXEC') or die('Restricted access');
 
 // Getting the configuration
 require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/configuration.php';
+JLoader::import('redshop.library');
+JLoader::load('RedshopHelperAdminConfiguration');
 $Redconfiguration = new Redconfiguration;
 $Redconfiguration->defineDynamicVars();
 
 // Getting the configuration
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/category.php';
+JLoader::load('RedshopHelperAdminCategory');
 
 // get product helper
-require_once JPATH_ROOT . '/components/com_redshop/helpers/product.php';
-JLoader::import('images', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
+JLoader::load('RedshopHelperProduct');
+JLoader::load('RedshopHelperAdminImages');
 
 /**
  * This class sets all Parameters.
@@ -111,11 +112,11 @@ class redManufacturer
 	 */
 function displayredManufacturer($limit = 0)
 {
-	$uri        = JUri::getInstance();
+	$uri        = JURI::getInstance();
 	$url        = $uri->root();
 	$database   = JFactory::getDbo();
 	$Itemid     = JRequest::getInt('Itemid', 0);
-	$extra_data = new producthelper();
+	$extra_data = new producthelper;
 
 	$document = JFactory::getDocument();
 	JHTML::Script('jquery-1.js', 'modules/mod_redmanufacturer/js/', false);

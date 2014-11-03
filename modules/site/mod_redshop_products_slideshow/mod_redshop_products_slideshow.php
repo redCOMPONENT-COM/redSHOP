@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+JLoader::import('redshop.library');
+
 if (!defined('CLASS_DG'))
 {
 	class DgIparamsPG
@@ -373,7 +375,7 @@ if (!defined('CLASS_DG'))
 
 	function write_prodgallery_xml_data($cat_arr, $params)
 	{
-		JLoader::import('images', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
+		JLoader::load('RedshopHelperAdminImages');
 
 		$catid_arr = array();
 
@@ -530,13 +532,13 @@ $id              = intval($params->get('category_id', 0));
 
 // Include redshop config file.
 require_once JPATH_SITE . '/administrator/components/com_redshop/helpers/redshop.cfg.php';
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/configuration.php';
+JLoader::load('RedshopHelperAdminConfiguration');
 
 $Redconfiguration = new Redconfiguration;
 $Redconfiguration->defineDynamicVars();
 
-require_once JPATH_ROOT . '/components/com_redshop/helpers/product.php';
-require_once JPATH_ROOT . '/components/com_redshop/helpers/helper.php';
+JLoader::load('RedshopHelperProduct');
+JLoader::load('RedshopHelperHelper');
 
 create_smart_xml_files($params);
 

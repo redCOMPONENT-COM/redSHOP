@@ -9,8 +9,8 @@
 
 defined('_JEXEC') or die;
 
-require_once JPATH_SITE . '/components/com_redshop/helpers/extra_field.php';
-require_once JPATH_SITE . '/components/com_redshop/helpers/product.php';
+JLoader::load('RedshopHelperExtra_field');
+JLoader::load('RedshopHelperProduct');
 
 class adminproducthelper
 {
@@ -389,12 +389,19 @@ class adminproducthelper
 	public function redesignProductItem($post = array())
 	{
 		$orderItem = array();
-		$i = 0;
+		$i = -1;
 
 		foreach ($post as $key => $value)
 		{
 			if (!strcmp("product", substr($key, 0, 7)) && strlen($key) < 10)
 			{
+				$i++;
+
+				if (!isset($orderItem[$i]))
+				{
+					$orderItem[$i] = new stdClass;
+				}
+
 				$orderItem[$i]->product_id = $value;
 			}
 
@@ -471,7 +478,6 @@ class adminproducthelper
 			if (!strcmp("requiedAttributeproduct", substr($key, 0, 23)))
 			{
 				$orderItem[$i]->requiedAttributeproduct = $value;
-				$i++;
 			}
 		}
 

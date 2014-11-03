@@ -9,16 +9,12 @@
 defined('_JEXEC') or die;
 
 JHTML::_('behavior.tooltip');
-$producthelper = new producthelper();
+$producthelper = new producthelper;
 $now = JFactory::getDate();
 
 ?>
 <script language="javascript" type="text/javascript">
 	Joomla.submitbutton = function (pressbutton) {
-		submitbutton(pressbutton);
-	}
-
-	submitbutton = function (pressbutton) {
 		var form = document.adminForm;
 		if (pressbutton == 'cancel') {
 			submitform(pressbutton);

@@ -7,27 +7,32 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-require_once JPATH_COMPONENT . '/helpers/helper.php';
+JLoader::import('redshop.library');
+JLoader::load('RedshopHelperSiteHelper');
+
 $redhelper = new redhelper;
-$db = JFactory::getDbo();
-$user = JFActory::getUser();
-$task = JRequest::getVar('task');
-$app = JFactory::getApplication();
-$Itemid = $_REQUEST['Itemid'];
-//Authnet vars to send
+$db        = JFactory::getDbo();
+$user      = JFActory::getUser();
+$task      = JRequest::getVar('task');
+$app       = JFactory::getApplication();
+$Itemid    = $_REQUEST['Itemid'];
+
+// Authenticate vars to send
 $formdata = array(
-	'merchant'  => $this->_params->get("access_id"),
-	'token'     => $this->_params->get("token_id"),
+	'merchant'  => $this->params->get("access_id"),
+	'token'     => $this->params->get("token_id"),
 	'orderid'   => $data['order_id'],
 	'accepturl' => JURI::base() . "index.php?option=com_redshop&view=order_detail&controller=order_detail&Itemid=$Itemid&task=notify_payment&payment_plugin=rs_payment_bbs&orderid=" . $data['order_id']);
 
 /* extra info */
-if ($this->_params->get("is_test") == "TRUE")
+if ($this->params->get("is_test") == "TRUE")
+{
 	$formdata['test'] = "yes";
+}
 
 $version = "2";
 
-if ($this->_params->get("is_test") == "TRUE")
+if ($this->params->get("is_test") == "TRUE")
 {
 	$bbsurl = "https://epayment-test.bbs.no/Netaxept/Register.aspx?";
 }
@@ -36,10 +41,9 @@ else
 	$bbsurl = "https://epayment.bbs.no/Netaxept/Register.aspx?";
 }
 
-$currency = new CurrencyHelper;
+$currency          = new CurrencyHelper;
 $data['carttotal'] *= 100;
-$amount = $currency->convert($data['carttotal'], '', 'NOK');
-//$amount = $currency->convert(number_format($order->order_total,PRICE_DECIMAL,PRICE_SEPERATOR,THOUSAND_SEPERATOR),'','NOK');
+$amount            = $currency->convert($data['carttotal'], '', 'NOK');
 
 $bbsurl .= "merchantId=" . urlencode($formdata['merchant']) . "&token=" . urlencode($formdata['token']) . "&orderNumber=" . $formdata['orderid'] . "&amount=" . urlencode(intval($amount)) . "&currencyCode=NOK&redirectUrl=" . urlencode($formdata['accepturl']) . "";
 $data = $bbsurl;
@@ -51,7 +55,7 @@ $ch = curl_init($data);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 $data = curl_exec($ch);
 
-if ($this->_params->get("is_test") == "TRUE")
+if ($this->params->get("is_test") == "TRUE")
 {
 	$bbsurl = "https://epayment-test.bbs.no/Terminal/default.aspx?";
 }
@@ -60,11 +64,9 @@ else
 	$bbsurl = "https://epayment.bbs.no/Terminal/default.aspx?";
 }
 
-$xml = new SimpleXMLElement($data);
+$xml           = new SimpleXMLElement($data);
 $TransactionId = $xml->TransactionId;
-$bbsurl .= "merchantId=" . urlencode($formdata['merchant']);
-$bbsurl .= "&transactionId=" . $TransactionId;
+$bbsurl        .= "merchantId=" . urlencode($formdata['merchant']);
+$bbsurl        .= "&transactionId=" . $TransactionId;
 
 $app->redirect($bbsurl);
-
-?>

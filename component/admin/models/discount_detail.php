@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
-class discount_detailModeldiscount_detail extends JModel
+class RedshopModelDiscount_detail extends JModel
 {
 	public $_id = null;
 
@@ -103,7 +103,7 @@ class discount_detailModeldiscount_detail extends JModel
 
 	public function store($data)
 	{
-		$row =& $this->getTable('discount_detail');
+		$row = $this->getTable('discount_detail');
 
 		if (!$row->bind($data))
 		{
@@ -208,26 +208,39 @@ class discount_detailModeldiscount_detail extends JModel
 
 	public function selectedShoppers()
 	{
-		$layout = JRequest::getVar('layout');
+		$fieldName = 'discount_id';
+		$tableName = 'discount_shoppers';
 
-		if (isset($layout) && $layout == 'product')
+		if ('product' == JFactory::getApplication()->input->getCmd('layout'))
 		{
-			$query = "SELECT s.shopper_group_id as value,s.shopper_group_name as text "
-				. " FROM " . $this->_table_prefix . "discount_product_shoppers as ds "
-				. " left join " . $this->_table_prefix . "shopper_group as s on s.shopper_group_id = ds.shopper_group_id "
-				. " WHERE ds.discount_product_id = " . $this->_id;
-		}
-		else
-		{
-			$query = "SELECT s.shopper_group_id as value,s.shopper_group_name as text "
-				. " FROM " . $this->_table_prefix . "discount_shoppers as ds "
-				. " left join " . $this->_table_prefix . "shopper_group as s on s.shopper_group_id = ds.shopper_group_id "
-				. " WHERE ds.discount_id = " . $this->_id;
+			$fieldName = 'discount_product_id';
+			$tableName = 'discount_product_shoppers';
 		}
 
-		$this->_db->setQuery($query);
+		// Initialiase variables.
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true)
+					->select('s.shopper_group_id')
+					->from($db->qn('#__redshop_' . $tableName, 'ds'))
+					->leftjoin(
+							$db->qn('#__redshop_shopper_group', 's')
+							. ' ON ' . $db->qn('s.shopper_group_id') . ' = ' . $db->qn('ds.shopper_group_id')
+						)
+					->where($db->qn('ds.' . $fieldName) . ' = ' . (int) $this->_id);
 
-		return $this->_db->loadObjectList();
+		// Set the query and load the result.
+		$db->setQuery($query);
+
+		try
+		{
+			$result = $db->loadResultArray();
+		}
+		catch (RuntimeException $e)
+		{
+			throw new RuntimeException($e->getMessage(), $e->getCode());
+		}
+
+		return $result;
 	}
 
 	public function saveShoppers($did, $sids)
@@ -258,7 +271,7 @@ class discount_detailModeldiscount_detail extends JModel
 
 	public function storeDiscountProduct($data)
 	{
-		$dprow =& $this->getTable('discount_product');
+		$dprow = $this->getTable('discount_product');
 
 		if (!$dprow->bind($data))
 		{

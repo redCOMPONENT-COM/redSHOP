@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
-class questionModelquestion extends JModel
+class RedshopModelQuestion extends JModel
 {
 	public $_data = null;
 
@@ -127,7 +127,7 @@ class questionModelquestion extends JModel
 
 	public function saveorder($cid = array(), $order)
 	{
-		$row =& $this->getTable('question_detail');
+		$row = $this->getTable('question_detail');
 		$order = JRequest::getVar('order', array(0), 'post', 'array');
 		$groupings = array();
 

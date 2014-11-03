@@ -9,35 +9,16 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.plugin.plugin');
+JLoader::import('redshop.library');
 
 class plgRedshop_paymentrs_payment_chase extends JPlugin
 {
-	public $_table_prefix = null;
-
-	/**
-	 * Constructor
-	 *
-	 * For php4 compatability we must not use the __constructor as a constructor for
-	 * plugins because func_get_args ( void ) returns a copy of all passed arguments
-	 * NOT references.  This causes problems with cross-referencing necessary for the
-	 * observer design pattern.
-	 */
-	public function plgRedshop_paymentrs_payment_chase(&$subject)
-	{
-		// Load plugin parameters
-		parent::__construct($subject);
-		$this->_table_prefix = '#__redshop_';
-		$this->_plugin = JPluginHelper::getPlugin('redshop_payment', 'rs_payment_chase');
-		$this->_params = new JRegistry($this->_plugin->params);
-	}
-
 	/**
 	 * Plugin method with the same name as the event will be called automatically.
 	 */
 	public function onPrePayment_rs_payment_chase($element, $data)
 	{
-		$config = new Redconfiguration;
+		$config        = new Redconfiguration;
 		$currencyClass = new CurrencyHelper;
 
 		// Get user billing information
@@ -54,38 +35,38 @@ class plgRedshop_paymentrs_payment_chase extends JPlugin
 		}
 
 		// Get params from plugin
-		$chase_parameters = $this->getparameters('rs_payment_chase');
-		$paymentinfo = $chase_parameters[0];
-		$paymentparams = new JRegistry($paymentinfo->params);
+		$chase_parameters       = $this->getparameters('rs_payment_chase');
+		$paymentinfo            = $chase_parameters[0];
+		$this->params          = new JRegistry($paymentinfo->params);
 
-		$chase_terminal_id = $paymentparams->get('chase_terminal_id', '');
-		$chase_merchant_id = $paymentparams->get('chase_merchant_id', '');
-		$chase_conn_username = $paymentparams->get('chase_conn_username', '');
-		$chase_conn_password = $paymentparams->get('chase_conn_password', '');
-		$chase_test_status = $paymentparams->get('chase_test_status', '');
-		$chase_transaction_type = $paymentparams->get('chase_transaction_type', '');
-		$debug_mode = $paymentparams->get('debug_mode', 0);
+		$chase_terminal_id      = $this->params->get('chase_terminal_id', '');
+		$chase_merchant_id      = $this->params->get('chase_merchant_id', '');
+		$chase_conn_username    = $this->params->get('chase_conn_username', '');
+		$chase_conn_password    = $this->params->get('chase_conn_password', '');
+		$chase_test_status      = $this->params->get('chase_test_status', '');
+		$chase_transaction_type = $this->params->get('chase_transaction_type', '');
+		$debug_mode             = $this->params->get('debug_mode', 0);
 
 		$session = JFactory::getSession();
-		$ccdata = $session->get('ccdata');
+		$ccdata  = $session->get('ccdata');
 
 		// Additional Customer Data
-		$user_id = $data['billinginfo']->user_id;
+		$user_id    = $data['billinginfo']->user_id;
 		$remote_add = $_SERVER["REMOTE_ADDR"];
 
 		// Email Settings
 		$user_email = $data['billinginfo']->user_email;
 
 		// Get Credit card Information
-		$order_payment_name = substr($ccdata['order_payment_name'], 0, 50);
-		$creditcard_code = ucfirst(strtolower($ccdata['creditcard_code']));
-		$order_payment_number = substr($ccdata['order_payment_number'], 0, 20);
-		$credit_card_code = substr($ccdata['credit_card_code'], 0, 4);
+		$order_payment_name         = substr($ccdata['order_payment_name'], 0, 50);
+		$creditcard_code            = ucfirst(strtolower($ccdata['creditcard_code']));
+		$order_payment_number       = substr($ccdata['order_payment_number'], 0, 20);
+		$credit_card_code           = substr($ccdata['credit_card_code'], 0, 4);
 		$order_payment_expire_month = substr($ccdata['order_payment_expire_month'], 0, 2);
-		$order_payment_expire_year = substr($ccdata['order_payment_expire_year'], -2);
+		$order_payment_expire_year  = substr($ccdata['order_payment_expire_year'], -2);
 
-		$order_number = substr($data['order_number'], 0, 16);
-		$tax_exempt = false;
+		$order_number               = substr($data['order_number'], 0, 16);
+		$tax_exempt                 = false;
 
 		$paymentpath = JPATH_SITE . '/plugins/redshop_payment/rs_payment_chase/rs_payment_chase/class.Chase.php';
 		include $paymentpath;
@@ -105,38 +86,38 @@ class plgRedshop_paymentrs_payment_chase extends JPlugin
 		// Assign merchant info
 		$obj_chase->OrbitalConnectionUsername = $chase_conn_username;
 		$obj_chase->OrbitalConnectionPassword = $chase_conn_password;
-		$obj_chase->IndustryType = 'EC';
-		$obj_chase->MessageType = $chase_transaction_type;
-		$obj_chase->BIN = '000002';
-		$obj_chase->MerchantID = $chase_merchant_id;
-		$obj_chase->TerminalID = $chase_terminal_id;
-		$obj_chase->OrderID = $data['order_number'];
+		$obj_chase->IndustryType              = 'EC';
+		$obj_chase->MessageType               = $chase_transaction_type;
+		$obj_chase->BIN                       = '000002';
+		$obj_chase->MerchantID                = $chase_merchant_id;
+		$obj_chase->TerminalID                = $chase_terminal_id;
+		$obj_chase->OrderID                   = $data['order_number'];
 
 		// Assign Credit Card Information
 		$obj_chase->AccountNum = $order_payment_number;
-		$card_expire_str = str_pad($order_payment_expire_month, 2, "0", STR_PAD_LEFT) . $order_payment_expire_year;
-		$obj_chase->Exp = $card_expire_str;
+		$card_expire_str       = str_pad($order_payment_expire_month, 2, "0", STR_PAD_LEFT) . $order_payment_expire_year;
+		$obj_chase->Exp        = $card_expire_str;
 		$obj_chase->CardSecVal = $credit_card_code;
-		$obj_chase->CCtype = $creditcard_code;
+		$obj_chase->CCtype     = $creditcard_code;
 
 		// Assign AVS Information
-		$obj_chase->AVSname = $order_payment_name;
-		$obj_chase->AVSzip = $data['billinginfo']->zipcode;
+		$obj_chase->AVSname     = $order_payment_name;
+		$obj_chase->AVSzip      = $data['billinginfo']->zipcode;
 		$obj_chase->AVSaddress1 = $data['billinginfo']->address;
 		$obj_chase->AVSaddress2 = "";
-		$obj_chase->AVScity = $data['billinginfo']->city;
-		$obj_chase->AVSstate = $data['billinginfo']->state_code;
+		$obj_chase->AVScity     = $data['billinginfo']->city;
+		$obj_chase->AVSstate    = $data['billinginfo']->state_code;
 		$obj_chase->AVSphoneNum = $data['billinginfo']->phone;
 
 		// Assign Other information
-		$obj_chase->Email = $uname;
-		$obj_chase->Phone = $phone;
+		$obj_chase->Email    = $uname;
+		$obj_chase->Phone    = $phone;
 		$obj_chase->Comments = 'Email - ' . $uname . ' | Phone - ' . $phone;
 
 		// Assign Amount
-		$tot_amount = $order_total = $data['order_total'];
-		$amount = $currencyClass->convert($tot_amount, '', 'USD');
-		$amount = number_format($amount, 2, '.', '') * 100;
+		$tot_amount        = $order_total = $data['order_total'];
+		$amount            = $currencyClass->convert($tot_amount, '', 'USD');
+		$amount            = number_format($amount, 2, '.', '') * 100;
 		$obj_chase->Amount = $amount;
 
 		$response = $obj_chase->post_an_order();
@@ -190,21 +171,15 @@ class plgRedshop_paymentrs_payment_chase extends JPlugin
 	public function onCapture_Paymentrs_payment_chase($element, $data)
 	{
 		$db = JFactory::getDbo();
-		require_once JPATH_SITE . '/administrator/components/com_redshop/helpers'
-			. '/order.php';
+		JLoader::load('RedshopHelperAdminOrder');
 		$objOrder = new order_functions;
 
-		// Get params from plugin
-		$chase_parameters = $this->getparameters('rs_payment_chase');
-		$paymentinfo = $chase_parameters[0];
-		$paymentparams = new JRegistry($paymentinfo->params);
-
-		$chase_terminal_id = $paymentparams->get('chase_terminal_id', '');
-		$chase_merchant_id = $paymentparams->get('chase_merchant_id', '');
-		$chase_conn_username = $paymentparams->get('chase_conn_username', '');
-		$chase_conn_password = $paymentparams->get('chase_conn_password', '');
-		$chase_test_status = $paymentparams->get('chase_test_status', '');
-		$chase_transaction_type = $paymentparams->get('chase_transaction_type', '');
+		$chase_terminal_id      = $this->params->get('chase_terminal_id', '');
+		$chase_merchant_id      = $this->params->get('chase_merchant_id', '');
+		$chase_conn_username    = $this->params->get('chase_conn_username', '');
+		$chase_conn_password    = $this->params->get('chase_conn_password', '');
+		$chase_test_status      = $this->params->get('chase_test_status', '');
+		$chase_transaction_type = $this->params->get('chase_transaction_type', '');
 
 		// Add request-specific fields to the request string.
 
@@ -228,14 +203,14 @@ class plgRedshop_paymentrs_payment_chase extends JPlugin
 		// Assign merchant info
 		$obj_chase->OrbitalConnectionUsername = $chase_conn_username;
 		$obj_chase->OrbitalConnectionPassword = $chase_conn_password;
-		$obj_chase->IndustryType = 'EC';
-		$obj_chase->MessageType = $chase_transaction_type;
-		$obj_chase->BIN = '000002';
-		$obj_chase->MerchantID = $chase_merchant_id;
-		$obj_chase->TerminalID = $chase_terminal_id;
-		$obj_chase->OrderID = $data['order_number'];
-		$obj_chase->Amount = $amount;
-		$obj_chase->TxRefNum = $data['order_transactionid'];
+		$obj_chase->IndustryType              = 'EC';
+		$obj_chase->MessageType               = $chase_transaction_type;
+		$obj_chase->BIN                       = '000002';
+		$obj_chase->MerchantID                = $chase_merchant_id;
+		$obj_chase->TerminalID                = $chase_terminal_id;
+		$obj_chase->OrderID                   = $data['order_number'];
+		$obj_chase->Amount                    = $amount;
+		$obj_chase->TxRefNum                  = $data['order_transactionid'];
 
 		// Call function to post an order ------
 
@@ -243,12 +218,12 @@ class plgRedshop_paymentrs_payment_chase extends JPlugin
 
 		if ($response['ProcStatus'] == 1)
 		{
-			$message = $response->StatusMsg;
+			$message                = $response->StatusMsg;
 			$values->responsestatus = 'Success';
 		}
 		else
 		{
-			$message = $response->StatusMsg;
+			$message                = $response->StatusMsg;
 			$values->responsestatus = 'Fail';
 		}
 

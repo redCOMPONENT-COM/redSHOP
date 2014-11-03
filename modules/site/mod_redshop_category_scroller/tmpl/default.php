@@ -10,11 +10,11 @@
 defined('_JEXEC') or die('Restricted access');
 JHTML::_('behavior.tooltip');
 JHTML::_('behavior.modal');
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/configuration.php';
 require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
-require_once JPATH_SITE . '/components/com_redshop/helpers/product.php';
-require_once JPATH_SITE . '/components/com_redshop/helpers/helper.php';
-JLoader::import('images', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
+JLoader::load('RedshopHelperAdminConfiguration');
+JLoader::load('RedshopHelperProduct');
+JLoader::load('RedshopHelperHelper');
+JLoader::load('RedshopHelperAdminImages');
 
 $uri = JURI::getInstance();
 $url = $uri->root();
@@ -27,10 +27,10 @@ $document = JFactory::getDocument();
 $document->addStyleSheet(JURI::base() . 'modules/mod_redshop_products/css/products.css');
 
 // 	include redshop js file.
-require_once JPATH_SITE . '/components/com_redshop/helpers/redshop.js.php';
+JLoader::load('RedshopHelperRedshop.js');
 
 // Light-box Java-script
-JHTML::Script('redBOX.js', 'components/com_redshop/assets/js/', false);
+JHTML::Script('redbox.js', 'components/com_redshop/assets/js/', false);
 JHTML::Script('attribute.js', 'components/com_redshop/assets/js/', false);
 JHTML::Script('common.js', 'components/com_redshop/assets/js/', false);
 JHTML::Stylesheet('fetchscript.css', 'components/com_redshop/assets/css/');

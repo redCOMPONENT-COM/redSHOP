@@ -11,14 +11,15 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
 
-require_once JPATH_COMPONENT . '/helpers/extra_field.php';
-require_once JPATH_COMPONENT . '/helpers/thumbnail.php';
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/category.php';
+JLoader::load('RedshopHelperAdminExtra_field');
+JLoader::load('RedshopHelperAdminThumbnail');
+JLoader::load('RedshopHelperAdminCategory');
+JLoader::load('RedshopHelperAdminImages');
 jimport('joomla.client.helper');
 JClientHelper::setCredentialsFromRequest('ftp');
 jimport('joomla.filesystem.file');
 
-class category_detailModelcategory_detail extends JModel
+class RedshopModelCategory_detail extends JModel
 {
 	public $_id = null;
 
@@ -104,7 +105,7 @@ class category_detailModelcategory_detail extends JModel
 
 	public function store($data)
 	{
-		$row =& $this->getTable();
+		$row = $this->getTable();
 
 		if (!$row->bind($data))
 		{
@@ -124,8 +125,7 @@ class category_detailModelcategory_detail extends JModel
 		if (count($file) > 0)
 		{
 			// Make the filename unique
-			$filename = JPath::clean(time() . '_' . $file['name']);
-			$filename = str_replace(" ", "_", $filename);
+			$filename = RedShopHelperImages::cleanFileName($file['name']);
 		}
 
 		if (isset($data['image_delete']))
@@ -165,7 +165,7 @@ class category_detailModelcategory_detail extends JModel
 				$image_split = explode('/', $data['category_image']);
 
 				// Make the filename unique
-				$filename = JPath::clean(time() . '_' . $image_split[count($image_split) - 1]);
+				$filename = RedShopHelperImages::cleanFileName($image_split[count($image_split) - 1]);
 				$row->category_full_image = $filename;
 				$row->category_thumb_image = $filename;
 
@@ -196,7 +196,7 @@ class category_detailModelcategory_detail extends JModel
 		if (count($backfile) > 0 && $backfile['name'] != "")
 		{
 			// Make the filename unique
-			$filename = JPath::clean(time() . '_' . $backfile['name']);
+			$filename = RedShopHelperImages::cleanFileName($backfile['name']);
 			$row->category_back_full_image = $filename;
 
 			// Get extension of the file
@@ -286,7 +286,7 @@ class category_detailModelcategory_detail extends JModel
 
 					if ($product_id != $acc['child_product_id'])
 					{
-						$accdetail =& $this->getTable('accessory_detail');
+						$accdetail = $this->getTable('accessory_detail');
 
 						$accdetail->accessory_id = $accessory_id;
 						$accdetail->category_id = $newcatid;
@@ -402,7 +402,7 @@ class category_detailModelcategory_detail extends JModel
 
 	public function move($direction)
 	{
-		$row =& $this->getTable();
+		$row = $this->getTable();
 
 		if (!$row->load($this->_id))
 		{
@@ -423,7 +423,7 @@ class category_detailModelcategory_detail extends JModel
 
 	public function saveorder($cid = array(), $order)
 	{
-		$row =& $this->getTable();
+		$row = $this->getTable();
 		$groupings = array();
 
 		// Update ordering values

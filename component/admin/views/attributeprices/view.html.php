@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.view');
 jimport('joomla.html.pagination');
 
-class attributepricesViewattributeprices extends JView
+class RedshopViewAttributeprices extends JView
 {
 	public function display($tpl = null)
 	{
@@ -41,7 +41,6 @@ class attributepricesViewattributeprices extends JView
 		$pagination = new JPagination($total, $limitstart, $limit);
 
 		$this->user = JFactory::getUser();
-		$this->lists = $lists;
 		$this->data = $data;
 		$this->section_id = $section_id;
 		$this->section = $section;

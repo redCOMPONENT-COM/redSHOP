@@ -17,10 +17,6 @@ $option = JRequest::getVar('option');
 ?>
 <script language="javascript" type="text/javascript">
 	Joomla.submitbutton = function (pressbutton) {
-		submitbutton(pressbutton);
-	}
-
-	submitbutton = function (pressbutton) {
 		var form = document.adminForm;
 		if (pressbutton == 'cancel') {
 			submitform(pressbutton);
@@ -112,7 +108,7 @@ $option = JRequest::getVar('option');
 			<legend><?php echo JText::_('COM_REDSHOP_NEWSLETTER_FIXED_TAGS'); ?></legend>
 			<table class="admintable">
 				<tr>
-					<td><?php echo JText::_('COM_REDSHOP_NEWSLETTER_FIXED_TAGS_HINT'); ?></td>
+					<td><?php echo Redtemplate::getTemplateValues('newsletter', 'mail'); ?></td>
 				</tr>
 			</table>
 		</fieldset>

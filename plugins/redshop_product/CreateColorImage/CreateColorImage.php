@@ -7,8 +7,9 @@
  */
 defined('_JEXEC') or die;
 
-JLoader::import('product', JPATH_SITE . '/components/com_redshop/helpers/');
-JLoader::import('images', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
+JLoader::import('redshop.library');
+JLoader::load('RedshopHelperProduct');
+JLoader::load('RedshopHelperAdminImages');
 
 /**
  * Create Color image plugin
@@ -33,8 +34,13 @@ class Plgredshop_ProductCreateColorImage extends JPlugin
 	 *
 	 * @return  array               Image Information array
 	 */
-	function onBeforeImageLoad($productArr)
+	public function onBeforeImageLoad($productArr)
 	{
+		if (!extension_loaded('imagick'))
+		{
+			return false;
+		}
+
 		$producthelper     = new producthelper;
 		$product_id        = $productArr['product_id'];
 		$main_imgwidth     = $productArr['main_imgwidth'];
@@ -57,6 +63,8 @@ class Plgredshop_ProductCreateColorImage extends JPlugin
 		$checkReverse = false;
 		$ImageName    = $productImage;
 		$section      = 'product';
+		$colorToBeReplaced = $this->params->get('colorToBeReplaced');
+		$bgImage = $this->params->get('bgImage');
 
 		for ($i = 0;$i < count($arrproperty_id);$i++)
 		{
@@ -69,7 +77,7 @@ class Plgredshop_ProductCreateColorImage extends JPlugin
 				{
 					$checkflg        = true;
 					$ext             = JFile::getExt($productImage);
-					$ImageName       = $property_id . '_' . str_replace('#', '', $extra_field) . "." . $ext;
+					$ImageName       = $product_id . '_' . $property_id . '_' . str_replace('#', '', $extra_field) . "." . $ext;
 					$this->ImageName = $ImageName;
 					$section         = "product_attributes";
 
@@ -80,8 +88,23 @@ class Plgredshop_ProductCreateColorImage extends JPlugin
 					$propertyItem->bind($propertyItem);
 					$propertyItem->store($propertyItem);
 
-					$cmd = "convert $imagePath/product/$productImage +level-colors '" . $extra_field . "', " . JPATH_COMPONENT . "/assets/images/product_attributes/$ImageName";
-					exec($cmd);
+					if ($extra_field == $colorToBeReplaced)
+					{
+						$imageProperty = new Imagick($imagePath . "/product/" . $productImage);
+						$width = $imageProperty->getImageWidth();
+						$height = $imageProperty->getImageHeight();
+						$cmd = "convert " . JPATH_SITE . "/$bgImage -resize " . $width . "x" . $height . " "
+							. JPATH_COMPONENT . "/assets/images/product_attributes/" . $ImageName
+							. " -gravity center -composite -mosaic " . JPATH_COMPONENT
+							. "/assets/images/product_attributes/$ImageName";
+						exec($cmd);
+					}
+					else
+					{
+						$cmd = "convert $imagePath/product/$productImage +level-colors '" . $extra_field . "', " . JPATH_COMPONENT . "/assets/images/product_attributes/$ImageName";
+						exec($cmd);
+					}
+
 					$property_id = $arrproperty_id[$i];
 					$fileName    = $property_id . '_' . str_replace('#', '', $extra_field);
 				}

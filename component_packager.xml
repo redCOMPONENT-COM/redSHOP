@@ -80,6 +80,7 @@
             <fileset dir="${extpath}/component">
                 <include name="**" />
                 <exclude name=".*" />
+                <exclude name="**/*-uncompressed.js" />
             </fileset>
         </copy>
 
@@ -90,6 +91,13 @@
                 <exclude name=".*" />
             </fileset>
         </copy>
+
+		<echo message="Copying libraries..."/>
+		<copy todir="${targetdir}/libraries" overwrite="true">
+			<fileset dir="${extpath}/libraries">
+				<include name="**"/>
+			</fileset>
+		</copy>
 
         <echo msg="Copying main MODULES folder to build directory..." />
         <echo msg="Copying redSHOP Cart module" />
@@ -138,5 +146,7 @@
         </zip>
 
         <echo msg="Files copied and compressed in build directory OK!" />
+
+        <delete dir="${targetdir}" />
     </target>
 </project>

@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomla.application.component.controller');
 
-class wrapper_detailController extends JController
+class RedshopControllerWrapper_detail extends JController
 {
 	public function __construct($default = array())
 	{
@@ -31,16 +31,15 @@ class wrapper_detailController extends JController
 	public function save()
 	{
 		$showall = JRequest::getVar('showall', '0');
-		$page = "";
+		$tmpl = '';
 
 		if ($showall)
 		{
-			$page = "3";
+			$tmpl = '&tmpl=component';
 		}
 
 		$post = JRequest::get('post');
 		$post['product_id'] = (isset($post['container_product'])) ? $post['container_product'] : 0;
-		$option = JRequest::getVar('option');
 		$product_id = JRequest::getInt('product_id', 0);
 
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
@@ -57,20 +56,19 @@ class wrapper_detailController extends JController
 			$msg = JText::_('COM_REDSHOP_ERROR_SAVING_WRAPPER_DETAIL');
 		}
 
-		$this->setRedirect('index' . $page . '.php?option=' . $option . '&view=wrapper&showall=' . $showall . '&product_id=' . $product_id, $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=wrapper&showall=' . $showall . $tmpl . '&product_id=' . $product_id, $msg);
 	}
 
 	public function remove()
 	{
 		$showall = JRequest::getVar('showall', '0');
-		$page = "";
+		$tmpl = '';
 
 		if ($showall)
 		{
-			$page = "3";
+			$tmpl = '&tmpl=component';
 		}
 
-		$option = JRequest::getVar('option');
 		$product_id = JRequest::getVar('product_id');
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 
@@ -87,24 +85,23 @@ class wrapper_detailController extends JController
 		}
 
 		$msg = JText::_('COM_REDSHOP_WRAPPER_DETAIL_DELETED_SUCCESSFULLY');
-		$this->setRedirect('index' . $page . '.php?option=' . $option . '&view=wrapper&showall=' . $showall . '&product_id=' . $product_id, $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=wrapper&showall=' . $showall . $tmpl . '&product_id=' . $product_id, $msg);
 	}
 
 	public function cancel()
 	{
 		$showall = JRequest::getVar('showall', '0');
-		$page = "";
+		$tmpl = '';
 
 		if ($showall)
 		{
-			$page = "3";
+			$tmpl = '&tmpl=component';
 		}
 
-		$option = JRequest::getVar('option');
 		$product_id = JRequest::getVar('product_id');
 
 		$msg = JText::_('COM_REDSHOP_WRAPPER_DETAIL_EDITING_CANCELLED');
-		$this->setRedirect('index' . $page . '.php?option=' . $option . '&view=wrapper&showall=' . $showall . '&product_id=' . $product_id, $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=wrapper&showall=' . $showall . $tmpl . '&product_id=' . $product_id, $msg);
 	}
 
 	/**
@@ -116,14 +113,13 @@ class wrapper_detailController extends JController
 	public function publish()
 	{
 		$showall = JRequest::getVar('showall', '0');
-		$page = "";
+		$tmpl = '';
 
 		if ($showall)
 		{
-			$page = "3";
+			$tmpl = '&tmpl=component';
 		}
 
-		$option = JRequest::getVar('option');
 		$product_id = JRequest::getVar('product_id');
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 
@@ -140,7 +136,7 @@ class wrapper_detailController extends JController
 		}
 
 		$msg = JText::_('COM_REDSHOP_WRAPPER_PUBLISHED_SUCCESSFULLY');
-		$this->setRedirect('index' . $page . '.php?option=' . $option . '&view=wrapper&showall=' . $showall . '&product_id=' . $product_id, $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=wrapper&showall=' . $showall . $tmpl . '&product_id=' . $product_id, $msg);
 	}
 
 	/**
@@ -152,14 +148,13 @@ class wrapper_detailController extends JController
 	public function unpublish()
 	{
 		$showall = JRequest::getVar('showall', '0');
-		$page = "";
+		$tmpl = '';
 
 		if ($showall)
 		{
-			$page = "3";
+			$tmpl = '&tmpl=component';
 		}
 
-		$option = JRequest::getVar('option');
 		$product_id = JRequest::getVar('product_id');
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 
@@ -176,20 +171,19 @@ class wrapper_detailController extends JController
 		}
 
 		$msg = JText::_('COM_REDSHOP_WRAPPER_UNPUBLISHED_SUCCESSFULLY');
-		$this->setRedirect('index' . $page . '.php?option=' . $option . '&view=wrapper&showall=' . $showall . '&product_id=' . $product_id, $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=wrapper&showall=' . $showall . $tmpl . '&product_id=' . $product_id, $msg);
 	}
 
 	public function enable_defaultpublish()
 	{
 		$showall = JRequest::getVar('showall', '0');
-		$page = "";
+		$tmpl = '';
 
 		if ($showall)
 		{
-			$page = "3";
+			$tmpl = '&tmpl=component';
 		}
 
-		$option = JRequest::getVar('option');
 		$product_id = JRequest::getVar('product_id');
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 
@@ -206,20 +200,19 @@ class wrapper_detailController extends JController
 		}
 
 		$msg = JText::_('COM_REDSHOP_USE_TO_ALL_ENABLE_SUCCESSFULLY');
-		$this->setRedirect('index' . $page . '.php?option=' . $option . '&view=wrapper&showall=' . $showall . '&product_id=' . $product_id, $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=wrapper&showall=' . $showall . $tmpl . '&product_id=' . $product_id, $msg);
 	}
 
 	public function enable_defaultunpublish()
 	{
 		$showall = JRequest::getVar('showall', '0');
-		$page = "";
+		$tmpl = '';
 
 		if ($showall)
 		{
-			$page = "3";
+			$tmpl = '&tmpl=component';
 		}
 
-		$option = JRequest::getVar('option');
 		$product_id = JRequest::getVar('product_id');
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 
@@ -236,6 +229,6 @@ class wrapper_detailController extends JController
 		}
 
 		$msg = JText::_('COM_REDSHOP_USE_TO_ALL_DISABLE_SUCCESSFULLY');
-		$this->setRedirect('index' . $page . '.php?option=' . $option . '&view=wrapper&showall=' . $showall . '&product_id=' . $product_id, $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=wrapper&showall=' . $showall . $tmpl . '&product_id=' . $product_id, $msg);
 	}
 }

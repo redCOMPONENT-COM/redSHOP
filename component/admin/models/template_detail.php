@@ -9,10 +9,9 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
-//Import filesystem libraries. Perhaps not necessary, but does not hurt
 jimport('joomla.filesystem.file');
 
-class template_detailModeltemplate_detail extends JModel
+class RedshopModelTemplate_detail extends JModel
 {
 	public $_id = null;
 
@@ -21,6 +20,8 @@ class template_detailModeltemplate_detail extends JModel
 	public $_table_prefix = null;
 
 	public $_copydata = null;
+
+	public $names = array();
 
 	public function __construct()
 	{
@@ -108,7 +109,7 @@ class template_detailModeltemplate_detail extends JModel
 	{
 		$red_template = new Redtemplate;
 
-		$row =& $this->getTable();
+		$row = $this->getTable();
 
 		if (isset($data['payment_methods']) && count($data['payment_methods']) > 0)
 		{
@@ -230,6 +231,11 @@ class template_detailModeltemplate_detail extends JModel
 			$this->_copydata = $this->_db->loadObjectList();
 		}
 
+		if(is_null($this->_copydata))
+		{
+			return false;
+		}
+
 		foreach ($this->_copydata as $cdata)
 		{
 			$post['template_id'] = 0;
@@ -242,6 +248,7 @@ class template_detailModeltemplate_detail extends JModel
 			$post['shipping_methods'] = $cdata->shipping_methods;
 
 			$this->store($post);
+			$this->names[] = array($cdata->template_name,$post['template_name']);
 		}
 
 		return true;
@@ -286,8 +293,7 @@ class template_detailModeltemplate_detail extends JModel
 			}
 
 			// Lets get to it and checkout the thing...
-			$template_detail = & $this->getTable('template_detail');
-
+			$template_detail = $this->getTable('template_detail');
 
 			if (!$template_detail->checkout($uid, $this->_id))
 			{

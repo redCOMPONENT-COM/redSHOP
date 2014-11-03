@@ -7,17 +7,17 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die ('restricted access');
+defined('_JEXEC') or die;
 $uri = JURI::getInstance();
 $url = $uri->root();
 
 // get product helper
-require_once JPATH_ROOT . '/components/com_redshop/helpers/product.php';
-$producthelper = new producthelper();
+JLoader::load('RedshopHelperProduct');
+$producthelper = new producthelper;
 
-require_once JPATH_ROOT . '/components/com_redshop/helpers/helper.php';
-require_once JPATH_ROOT . '/components/com_redshop/helpers/redshop.js.php';
-$redhelper = new redhelper();
+JLoader::load('RedshopHelperHelper');
+JLoader::load('RedshopHelperRedshop.js');
+$redhelper = new redhelper;
 
 $option = JRequest::getCmd('option');
 $Itemid = JRequest::getInt('Itemid');

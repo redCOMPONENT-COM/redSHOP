@@ -11,8 +11,10 @@ defined('_JEXEC') or die;
 
 jimport('joomla.plugin.plugin');
 
-require_once JPATH_SITE . '/administrator/components/com_redshop/helpers/order.php';
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/shipping.php';
+JLoader::import('redshop.library');
+JLoader::load('RedshopHelperAdminOrder');
+JLoader::load('RedshopHelperAdminShipping');
+
 class plgRedshop_shippinglabelrs_shippinglabel_consignor extends JPlugin
 {
 	var $_table_prefix = null;

@@ -6,8 +6,8 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-require_once JPATH_COMPONENT_ADMINISTRATOR . '/helpers/shipping.php';
-$shippinghelper = new shipping();
+JLoader::load('RedshopHelperAdminShipping');
+$shippinghelper = new shipping;
 $option = JRequest::getVar('option');
 $download = JRequest::getVar('download');
 if ($download)

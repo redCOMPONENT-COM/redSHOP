@@ -14,9 +14,12 @@
  * @copyright  Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
-	defined('_JEXEC') or die ('Restricted access');
+	defined('_JEXEC') or die;
 
 	$app = JFactory::getApplication();
+
+	// Load redSHOP Library
+	JLoader::import('redshop.library');
 
 	$configpath = JPATH_COMPONENT . '/helpers/redshop.cfg.php';
 
@@ -32,13 +35,15 @@
 		require_once $configpath;
 	}
 
-	require_once JPATH_COMPONENT . '/helpers/configuration.php';
-	require_once JPATH_COMPONENT . '/helpers/template.php';
-	require_once JPATH_COMPONENT . '/helpers/stockroom.php';
-	require_once JPATH_COMPONENT . '/helpers/economic.php';
-	require_once JPATH_COMPONENT . '/helpers/access_level.php';
-	require_once JPATH_ROOT . '/components/com_redshop/helpers/helper.php';
-	require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/images.php';
+	JLoader::load('RedshopHelperAdminProduct');
+	JLoader::load('RedshopHelperAdminConfiguration');
+	JLoader::load('RedshopHelperAdminTemplate');
+	JLoader::load('RedshopHelperAdminStockroom');
+	JLoader::load('RedshopHelperAdminEconomic');
+	JLoader::load('RedshopHelperAdminAccess_level');
+	JLoader::load('RedshopHelperHelper');
+	JLoader::load('RedshopHelperAdminImages');
+	JLoader::load('RedshopHelperAdminCategory');
 
 	$redhelper = new redhelper;
 	$redhelper->removeShippingRate();
@@ -83,6 +88,8 @@
 			}
 		}
 
+		JRequest::setVar('view', 'wizard');
+
 		require_once JPATH_COMPONENT . '/helpers/wizard/wizard.php';
 		$redSHOPWizard = new redSHOPWizard;
 		$redSHOPWizard->initialize();
@@ -100,7 +107,7 @@
 	}
 
 	$user        = JFactory::getUser();
-	$task        = JRequest::getVar('task', '');
+	$task        = JRequest::getVar('task');
 	$layout      = JRequest::getVar('layout', '');
 	$showbuttons = JRequest::getVar('showbuttons', '0');
 	$showall     = JRequest::getVar('showall', '0');
@@ -120,13 +127,14 @@
 	");
 
 	$document->addStyleSheet(JURI::root() . 'administrator/components/com_redshop/assets/css/redshop.css');
+	$format = $app->input->get('format', 'html');
 
 	if ($controller != "search" && $controller != "order_detail" && $controller != "wizard" && $task != "getcurrencylist"
 		&& $layout != "thumbs" && $controller != "catalog_detail" && $task != "clearsef" && $task != "removesubpropertyImage"
 		&& $task != "removepropertyImage" && $controller != "product_price" && $task != "template" && $json_var == ''
 		&& $task != 'gbasedownload' && $task != "export_data" && $showbuttons != "1" && $showall != 1
 		&& $controller != "product_attribute_price" && $task != "ins_product" && $controller != "shipping_rate_detail"
-		&& $controller != "accountgroup_detail" && $layout != "labellisting" && $task != "checkVirtualNumber")
+		&& $controller != "accountgroup_detail" && $layout != "labellisting" && $task != "checkVirtualNumber" && $format == 'html')
 	{
 		if ($controller != "redshop" && $controller != "configuration" && $controller != "product_detail"
 			&& $controller != "country_detail" && $controller != "state_detail" && $controller != "category_detail"
@@ -147,7 +155,7 @@
 			&& $controller != 'orderstatus_detail')
 		{
 			echo '<div style="float:left;width:19%; margin-right:1%;">';
-			require_once JPATH_COMPONENT . '/helpers/menu.php';
+			JLoader::load('RedshopHelperAdminMenu');
 			$menu = new leftmenu;
 			echo '</div>';
 
@@ -156,10 +164,27 @@
 		}
 	}
 
-	require_once JPATH_COMPONENT . '/controllers/' . $controller . '.php';
-	$classname  = $controller . 'controller';
-	$controller = new $classname( array('default_task' => 'display') );
-	$controller->execute(JRequest::getVar('task'));
+	// Check for array format.
+	$filter = JFilterInput::getInstance();
+
+	if (is_array($task))
+	{
+		$command = $filter->clean(array_pop(array_keys($task)), 'cmd');
+	}
+	else
+	{
+		$command = $filter->clean($task, 'cmd');
+	}
+
+	// Check for a not controller.task command.
+	if ($command != '' && strpos($command, '.') === false)
+	{
+		JRequest::setVar('task', $controller . '.' . $command);
+	}
+
+	// Execute the task.
+	$controller	= JControllerLegacy::getInstance('Redshop');
+	$controller->execute(JRequest::getCmd('task'));
 	$controller->redirect();
 
 	// End div here
