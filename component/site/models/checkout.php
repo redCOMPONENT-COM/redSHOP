@@ -2394,6 +2394,7 @@ class RedshopModelCheckout extends RedshopModel
 
 		if (!ONESTEP_CHECKOUT_ENABLE)
 		{
+			$checkout .= '<input type="hidden" name="shop_id" value="' . $shop_id . '" />';
 			$checkout .= '<input type="hidden" name="shipping_rate_id" value="' . $shipping_rate_id . '" />';
 			$checkout .= '<input type="hidden" name="payment_method_id" value="' . $payment_method_id . '" />';
 		}

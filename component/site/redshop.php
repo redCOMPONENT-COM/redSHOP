@@ -63,7 +63,7 @@ JHtml::stylesheet('com_redshop/style.css', array(), true);
 // Set the default view name and format from the Request.
 $vName      = $app->input->getCmd('view', 'category');
 $task       = $app->input->getCmd('task', '');
-$format     = $app->input->getWord('format', '');
+$format     = $app->input->getWord('format', 'html');
 $layout     = $app->input->getWord('layout', '');
 $params     = $app->getParams('com_redshop');
 $categoryid = $app->input->getInt('cid', $params->get('categoryid'));
@@ -80,7 +80,8 @@ if (count($sgportal) > 0)
 	$portal = $sgportal->shopper_group_portal;
 }
 
-if ($task != 'loadProducts' && $task != "downloadProduct" && $task != "discountCalculator" && $task != "ajaxupload" && $task != 'getShippingrate' && $task != 'addtocompare' && $task != 'ajaxsearch' && $task != "Download" && $task != 'addtowishlist')
+// Don't create div for AJAX call and GA code.
+if ('component' !== $app->input->getCmd('tmpl') && 'html' == $format)
 {
 	echo "<div id='redshopcomponent' class='redshop'>";
 
