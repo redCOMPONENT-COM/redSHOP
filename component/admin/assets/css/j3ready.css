@@ -1,8 +1,9 @@
 /* -- PANE SLIDER STYLES ----------------------------- */
 .pane-sliders {
 	margin: 18px 0 0 0;
-	position:relative;
+	position: relative;
 }
+
 .pane-sliders .title {
 	margin: 0;
 	padding: 2px 2px 2px 5px;
@@ -16,7 +17,7 @@
 
 .pane-sliders .panel {
 	margin-bottom: 3px;
-	border:solid 1px #ccc;
+	border: solid 1px #ccc;
 }
 
 .pane-sliders .panel h3 {
@@ -39,12 +40,12 @@
 }
 
 .pane-toggler span {
-	background: transparent url(../images/j_arrow.png) 5px 50% no-repeat;
+	background: transparent url(../images/j3ready/j_arrow.png) 5px 50% no-repeat;
 	padding-left: 20px;
 }
 
 .pane-toggler-down span {
-	background: transparent url(../images/j_arrow_down.png) 5px 50% no-repeat;
+	background: transparent url(../images/j3ready/j_arrow_down.png) 5px 50% no-repeat;
 	padding-left: 20px;
 }
 
@@ -214,6 +215,7 @@ dl.tabs dt h3 {
 	margin-bottom: 15px;
 
 }
+
 .cpanel div.icon a, #cpanel div.icon a {
 	background-color: #fff;
 	background-position: -30px;
@@ -229,12 +231,10 @@ dl.tabs dt h3 {
 	-webkit-border-radius: 5px;
 	-moz-border-radius: 5px;
 	border-radius: 5px;
-	-webkit-transition-property:
-	background-position,
+	-webkit-transition-property: background-position,
 	-webkit-border-bottom-left-radius,
 	-webkit-box-shadow;
-	-moz-transition-property:
-	background-position,
+	-moz-transition-property: background-position,
 	-moz-border-radius-bottomleft,
 	-moz-box-shadow;
 	-webkit-transition-duration: 0.8s;
@@ -278,4 +278,176 @@ div.cpanel-left {
 div.cpanel-right {
 	width: 45%;
 	float: right;
+}
+
+/* -- BUTTON STYLES ----------------------------- */
+
+/* Pagination on backend */
+.button1,
+.button1 div {
+	height: 1%;
+	float: right;
+}
+
+.button2-left,
+.button2-right,
+.button2-left div,
+.button2-right div {
+	float: left;
+}
+
+.button1 {
+	background: url(../images/j3ready/j_button1_left.png) no-repeat;
+	white-space: nowrap;
+	padding-left: 10px;
+	margin-left: 5px;
+}
+
+.button1 .next {
+	background: url(../images/j3ready/j_button1_next.png) 100% 0 no-repeat;
+}
+
+.button1 a {
+	display: block;
+	height: 26px;
+	float: left;
+	line-height: 26px;
+	font-size: 1.091em;
+	font-weight: bold;
+	color: #333;
+	cursor: pointer;
+	padding: 0 35px 0 6px;
+}
+
+.button1 a:hover {
+	text-decoration: none;
+	color: #0B55C4;
+}
+
+.button2-left a,
+.button2-right a,
+.button2-left button,
+.button2-right button,
+.button2-left span,
+.button2-right span {
+	display: block;
+	height: 22px;
+	float: left;
+	line-height: 22px;
+	font-size: 1em;
+	color: #333;
+	cursor: pointer;
+}
+
+.button2-left span, .button2-right span {
+	cursor: default;
+	color: #999;
+}
+
+.button2-left .page a,
+.button2-right .page a,
+.button2-left .page span,
+.button2-right .page span,
+.button2-left .blank a,
+.button2-right .blank a,
+.button2-left .blank span,
+.button2-right .blank span,
+.button2-left .blank button,
+.button2-right .blank button {
+	padding: 0 6px;
+}
+
+.page span, .blank span {
+	color: #000;
+	font-weight: bold;
+}
+
+.button2-left a:hover,
+.button2-right a:hover,
+.button2-left button:hover,
+.button2-left button:hover {
+	text-decoration: none;
+	color: #0B55C4;
+}
+
+.button2-left a,
+.button2-left span,
+.button2-left button {
+	padding: 0 24px 0 6px;
+}
+
+.button2-right a,
+.button2-right span,
+.button2-right button {
+	padding: 0 6px 0 24px;
+}
+
+.button2-left {
+	background: url(../images/j3ready/j_button2_left.png) no-repeat;
+	float: left;
+	margin-right: 10px;
+}
+
+.button2-right {
+	background: url(../images/j3ready/j_button2_right.png) 100% 0 no-repeat;
+	float: left;
+	margin-left: 5px;
+	margin-right: 10px;
+}
+
+.button2-right .prev {
+	background: url(../images/j3ready/j_button2_prev.png) no-repeat;
+}
+
+.button2-right.off .prev {
+	background: url(../images/j3ready/j_button2_prev_off.png) no-repeat;
+}
+
+.button2-right .start {
+	background: url(../images/j3ready/j_button2_first.png) no-repeat;
+}
+
+.button2-right.off .start {
+	background: url(../images/j3ready/j_button2_first_off.png) no-repeat;
+}
+
+.button2-left .page,
+.button2-left .blank {
+	background: url(../images/j3ready/j_button2_right_cap.png) 100% 0 no-repeat;
+}
+
+.button2-left .next {
+	background: url(../images/j3ready/j_button2_next.png) 100% 0 no-repeat;
+}
+
+.button2-left.off .next {
+	background: url(../images/j3ready/j_button2_next_off.png) 100% 0 no-repeat;
+}
+
+.button2-left .end {
+	background: url(../images/j3ready/j_button2_last.png) 100% 0 no-repeat;
+}
+
+.button2-left.off .end {
+	background: url(../images/j3ready/j_button2_last_off.png) 100% 0 no-repeat;
+}
+
+.button2-left .image {
+	background: url(../images/j3ready/j_button2_image.png) 100% 0 no-repeat;
+}
+
+.button2-left .readmore {
+	background: url(../images/j3ready/j_button2_readmore.png) 100% 0 no-repeat;
+}
+
+.button2-left .pagebreak {
+	background: url(../images/j3ready/j_button2_pagebreak.png) 100% 0 no-repeat;
+}
+
+.button2-left .blank {
+	background: url(../images/j3ready/j_button2_blank.png) 100% 0 no-repeat;
+}
+
+.button2-left .article {
+	background: url(../images/j3ready/j_button2_readmore.png) 100% 0 no-repeat;
 }
