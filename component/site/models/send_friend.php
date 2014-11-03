@@ -89,8 +89,8 @@ class RedshopModelSend_friend extends RedshopModel
 		$data_add    = str_replace("{product_url}", $product_url, $data_add);
 
 		$config   = JFactory::getConfig();
-		$from     = $config->getValue('mailfrom');
-		$fromname = $config->getValue('fromname');
+		$from     = $config->get('mailfrom');
+		$fromname = $config->get('fromname');
 
 		$subject = str_replace("{product_name}", $product->product_name, $subject);
 		$subject = str_replace("{shopname}", SHOP_NAME, $subject);

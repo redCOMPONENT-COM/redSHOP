@@ -1495,11 +1495,11 @@ class RedshopModelCheckout extends RedshopModel
 			$g_pdfName = time();
 			$pdf->Output(JPATH_SITE . '/components/com_redshop/assets/orders/' . $g_pdfName . ".pdf", "F");
 			$config              = JFactory::getConfig();
-			$from                = $config->getValue('mailfrom');
-			$fromname            = $config->getValue('fromname');
+			$from                = $config->get('mailfrom');
+			$fromname            = $config->get('fromname');
 			$giftcard_attachment = JPATH_SITE . '/components/com_redshop/assets/orders/' . $g_pdfName . ".pdf";
 
-			JUtility::sendMail($from, $fromname, $eachorders->giftcard_user_email, $giftcardmailsub, $giftcardmail_body, 1, '', '', $giftcard_attachment);
+			JMail::getInstance()->sendMail($from, $fromname, $eachorders->giftcard_user_email, $giftcardmailsub, $giftcardmail_body, 1, '', '', $giftcard_attachment);
 		}
 
 	}

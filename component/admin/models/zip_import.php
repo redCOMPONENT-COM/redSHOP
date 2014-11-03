@@ -158,7 +158,7 @@ class RedshopModelZip_import extends RedshopModel
 		if (!is_file($package['packagefile']))
 		{
 			$config = JFactory::getConfig();
-			$package['packagefile'] = $config->getValue('config.tmp_path') . '/' . $package['packagefile'];
+			$package['packagefile'] = $config->get('tmp_path') . '/' . $package['packagefile'];
 		}
 
 		JInstallerHelper::cleanupInstall($package['packagefile'], $package['extractdir']);
@@ -217,7 +217,7 @@ class RedshopModelZip_import extends RedshopModel
 		}
 
 		$config = JFactory::getConfig();
-		$tmp_dest = $config->getValue('config.tmp_path');
+		$tmp_dest = $config->get('tmp_path');
 
 		// Unpack the downloaded package file
 		$package = JInstallerHelper::unpack($tmp_dest . '/' . $p_file);

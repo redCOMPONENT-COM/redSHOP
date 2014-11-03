@@ -92,8 +92,8 @@ class redshopMail
 		$config = JFactory::getConfig();
 
 		// Set the e-mail parameters
-		$from = $config->getValue('mailfrom');
-		$fromname = $config->getValue('fromname');
+		$from = $config->get('mailfrom');
+		$fromname = $config->get('fromname');
 		$user = JFactory::getUser();
 
 		if (USE_AS_CATALOG)
@@ -275,13 +275,13 @@ class redshopMail
 
 			if ($thirdpartyemail != '')
 			{
-				if (!JUtility::sendMail($from, $fromname, $thirdpartyemail, $subject, $body, 1, null, $bcc))
+				if (!JMail::getInstance()->sendMail($from, $fromname, $thirdpartyemail, $subject, $body, 1, null, $bcc))
 				{
 					$this->setError(JText::_('COM_REDSHOP_ERROR_SENDING_CONFIRMATION_MAIL'));
 				}
 			}
 
-			if (!JUtility::sendMail($from, $fromname, $email, $subject, $body, 1, null, $bcc))
+			if (!JMail::getInstance()->sendMail($from, $fromname, $email, $subject, $body, 1, null, $bcc))
 			{
 				$this->setError(JText::_('COM_REDSHOP_ERROR_SENDING_CONFIRMATION_MAIL'));
 			}
@@ -299,7 +299,7 @@ class redshopMail
 
 			for ($man = 0; $man < count($manufacturer_email); $man++)
 			{
-				if (!JUtility::sendMail($from, $fromname, $manufacturer_email[$man], $subject, $body, 1))
+				if (!JMail::getInstance()->sendMail($from, $fromname, $manufacturer_email[$man], $subject, $body, 1))
 				{
 					$this->setError(JText::_('COM_REDSHOP_ERROR_SENDING_CONFIRMATION_MAIL'));
 				}
@@ -312,7 +312,7 @@ class redshopMail
 
 			for ($sup = 0; $sup < count($supplier_email); $sup++)
 			{
-				if (!JUtility::sendMail($from, $fromname, $supplier_email[$sup], $subject, $body, 1))
+				if (!JMail::getInstance()->sendMail($from, $fromname, $supplier_email[$sup], $subject, $body, 1))
 				{
 					$this->setError(JText::_('COM_REDSHOP_ERROR_SENDING_CONFIRMATION_MAIL'));
 				}
@@ -399,8 +399,8 @@ class redshopMail
 		$message  = $this->imginmail($message);
 
 		$email    = $billingaddresses->user_email;
-		$from     = $config->getValue('mailfrom');
-		$fromname = $config->getValue('fromname');
+		$from     = $config->get('mailfrom');
+		$fromname = $config->get('fromname');
 		$body     = $message;
 		$subject  = str_replace($search, $replace, $subject);
 
@@ -417,7 +417,7 @@ class redshopMail
 
 			if (SPECIAL_DISCOUNT_MAIL_SEND == '1')
 			{
-				if (!JUtility::sendMail($from, $fromname, $email, $subject, $body, 1, null, $bcc))
+				if (!JMail::getInstance()->sendMail($from, $fromname, $email, $subject, $body, 1, null, $bcc))
 				{
 					$this->setError(JText::_('COM_REDSHOP_ERROR_SENDING_CONFIRMATION_MAIL'));
 				}
@@ -430,7 +430,7 @@ class redshopMail
 
 			for ($man = 0; $man < count($manufacturer_email); $man++)
 			{
-				if (!JUtility::sendMail($from, $fromname, $manufacturer_email[$man], $subject, $body, 1))
+				if (!JMail::getInstance()->sendMail($from, $fromname, $manufacturer_email[$man], $subject, $body, 1))
 				{
 					$this->setError(JText::_('COM_REDSHOP_ERROR_SENDING_CONFIRMATION_MAIL'));
 				}
@@ -725,8 +725,8 @@ class redshopMail
 		$subject          = str_replace($search_sub, $replace_sub, $subject);
 
 		// Set the e-mail parameters
-		$from             = $config->getValue('mailfrom');
-		$fromname         = $config->getValue('fromname');
+		$from             = $config->get('mailfrom');
+		$fromname         = $config->get('fromname');
 		$message          = $this->_carthelper->replaceOrderTemplate($row, $message);
 		$message          = str_replace("{firstname}", $billingaddresses->firstname, $message);
 		$message          = str_replace("{lastname}", $billingaddresses->lastname, $message);
@@ -770,7 +770,7 @@ class redshopMail
 
 		if ((INVOICE_MAIL_SEND_OPTION == 2 || INVOICE_MAIL_SEND_OPTION == 3) && $email != "")
 		{
-			if (!JUtility::sendMail($from, $fromname, $email, $subject, $body1, 1, null, $mailbcc, $invoice_attachment))
+			if (!JMail::getInstance()->sendMail($from, $fromname, $email, $subject, $body1, 1, null, $mailbcc, $invoice_attachment))
 			{
 				$this->setError(JText::_('COM_REDSHOP_ERROR_SENDING_CONFIRMATION_MAIL'));
 
@@ -782,7 +782,7 @@ class redshopMail
 		{
 			$sendto = explode(",", trim(ADMINISTRATOR_EMAIL));
 
-			if (!JUtility::sendMail($from, $fromname, $sendto, $subject, $body1, 1, null, $mailbcc, $invoice_attachment))
+			if (!JMail::getInstance()->sendMail($from, $fromname, $sendto, $subject, $body1, 1, null, $mailbcc, $invoice_attachment))
 			{
 				$this->setError(JText::_('COM_REDSHOP_ERROR_SENDING_CONFIRMATION_MAIL'));
 
@@ -871,7 +871,7 @@ class redshopMail
 			}
 
 			$bcc = array_merge($bcc, $mailbcc);
-			JUtility::sendMail($MailFrom, $FromName, $data['email'], $mailsubject, $mailbody, 1, null, $bcc);
+			JMail::getInstance()->sendMail($MailFrom, $FromName, $data['email'], $mailsubject, $mailbody, 1, null, $bcc);
 		}
 
 		// Tax exempt waiting approval mail
@@ -942,7 +942,7 @@ class redshopMail
 
 			if ($email != "")
 			{
-				JUtility::sendMail($MailFrom, $FromName, $email, $mailsubject, $maildata, 1, null, $mailbcc);
+				JMail::getInstance()->sendMail($MailFrom, $FromName, $email, $mailsubject, $maildata, 1, null, $mailbcc);
 			}
 		}
 
@@ -1025,7 +1025,7 @@ class redshopMail
 
 		if ($user_email != "")
 		{
-			JUtility::sendMail($MailFrom, $FromName, $user_email, $mailsubject, $maildata, 1, null, $mailbcc);
+			JMail::getInstance()->sendMail($MailFrom, $FromName, $user_email, $mailsubject, $maildata, 1, null, $mailbcc);
 		}
 
 		return true;
@@ -1390,8 +1390,8 @@ class redshopMail
 		$email = $row->quotation_email;
 
 		// Set the e-mail parameters
-		$from = $config->getValue('mailfrom');
-		$fromname = $config->getValue('fromname');
+		$from = $config->get('mailfrom');
+		$fromname = $config->get('fromname');
 
 		$body = $message;
 
@@ -1410,7 +1410,7 @@ class redshopMail
 
 			$bcc = array_merge($bcc, $mailbcc);
 
-			if (!JUtility::sendMail($from, $fromname, $email, $subject, $body, 1, null, $bcc))
+			if (!JMail::getInstance()->sendMail($from, $fromname, $email, $subject, $body, 1, null, $bcc))
 			{
 				$this->setError('ERROR_SENDING_QUOTATION_MAIL');
 			}
@@ -1478,14 +1478,14 @@ class redshopMail
 
 			$message   = str_replace($search, $replace, $message);
 
-			$from      = $config->getValue('mailfrom');
+			$from      = $config->get('mailfrom');
 
-			$fromname  = $config->getValue('fromname');
+			$fromname  = $config->get('fromname');
 
 			// Send the e-mail
 			if ($email != "")
 			{
-				if (!JUtility::sendMail($from, $fromname, $email, $subject, $message, 1, null, $mailbcc))
+				if (!JMail::getInstance()->sendMail($from, $fromname, $email, $subject, $message, 1, null, $mailbcc))
 				{
 					$this->setError(JText::_('COM_REDSHOP_ERROR_SENDING_CONFIRMATION_MAIL'));
 				}
@@ -1524,14 +1524,14 @@ class redshopMail
 
 		$message   = str_replace($search, $replace, $message);
 
-		$from      = $config->getValue('mailfrom');
+		$from      = $config->get('mailfrom');
 
-		$fromname  = $config->getValue('fromname');
+		$fromname  = $config->get('fromname');
 
 		// Send the e-mail
 		if ($email != "")
 		{
-			JUtility::sendMail($from, $fromname, $email, $subject, $message, 1, null, $mailbcc);
+			JMail::getInstance()->sendMail($from, $fromname, $email, $subject, $message, 1, null, $mailbcc);
 		}
 
 		return true;
@@ -1577,8 +1577,8 @@ class redshopMail
 				if (count($qdetail) > 0)
 				{
 					$config     = JFactory::getConfig();
-					$from       = $config->getValue('mailfrom');
-					$fromname   = $config->getValue('fromname');
+					$from       = $config->get('mailfrom');
+					$fromname   = $config->get('fromname');
 
 					$qdetail    = $qdetail[0];
 					$question   = $qdetail->question;
@@ -1607,7 +1607,7 @@ class redshopMail
 
 			if ($email)
 			{
-				if (JUtility::sendMail($from, $fromname, $email, $subject, $data_add, $mode = 1, null, $mailbcc))
+				if (JMail::getInstance()->sendMail($from, $fromname, $email, $subject, $data_add, $mode = 1, null, $mailbcc))
 				{
 					return true;
 				}
@@ -1627,8 +1627,8 @@ class redshopMail
 		$redconfig = new Redconfiguration;
 
 		$config    = JFactory::getConfig();
-		$from      = $config->getValue('mailfrom');
-		$fromname  = $config->getValue('fromname');
+		$from      = $config->get('mailfrom');
+		$fromname  = $config->get('fromname');
 
 		$mailinfo  = $this->getMailtemplate(0, "economic_inoice");
 		$data_add  = "economic inoice";
@@ -1675,13 +1675,13 @@ class redshopMail
 
 		if ($user_billinginfo->user_email != "")
 		{
-			JUtility::sendMail($from, $fromname, $user_billinginfo->user_email, $subject, $data_add, 1, null, $mailbcc, $attachment);
+			JMail::getInstance()->sendMail($from, $fromname, $user_billinginfo->user_email, $subject, $data_add, 1, null, $mailbcc, $attachment);
 		}
 
 		if (ADMINISTRATOR_EMAIL != '')
 		{
 			$sendto = explode(",", trim(ADMINISTRATOR_EMAIL));
-			JUtility::sendMail($from, $fromname, $sendto, $subject, $data_add, 1, null, $mailbcc, $attachment);
+			JMail::getInstance()->sendMail($from, $fromname, $sendto, $subject, $data_add, 1, null, $mailbcc, $attachment);
 		}
 
 		return true;
@@ -1708,8 +1708,8 @@ class redshopMail
 			}
 
 			$config = JFactory::getConfig();
-			$from = $config->getValue('mailfrom');
-			$fromname = $config->getValue('fromname');
+			$from = $config->get('mailfrom');
+			$fromname = $config->get('fromname');
 
 			$state_name = $this->_order_functions->getStateName($data->state_code);
 			$country_name = $this->_order_functions->getCountryName($data->country_code);
@@ -1725,7 +1725,7 @@ class redshopMail
 			$data_add = str_replace("{city}", $data->city, $data_add);
 
 			$sendto = explode(",", trim(ADMINISTRATOR_EMAIL));
-			JUtility::sendMail($from, $fromname, $sendto, $subject, $data_add, 1, null, $mailbcc);
+			JMail::getInstance()->sendMail($from, $fromname, $sendto, $subject, $data_add, 1, null, $mailbcc);
 		}
 	}
 
@@ -1748,8 +1748,8 @@ class redshopMail
 		}
 
 		$config = JFactory::getConfig();
-		$from = $config->getValue('mailfrom');
-		$fromname = $config->getValue('fromname');
+		$from = $config->get('mailfrom');
+		$fromname = $config->get('fromname');
 
 		$query = "SELECT * FROM  " . $this->_table_prefix . "media "
 			. "WHERE media_section='catalog' "
@@ -1768,7 +1768,7 @@ class redshopMail
 
 		$data_add = str_replace("{name}", $catalog->name, $data_add);
 
-		if (JUtility::sendMail($from, $fromname, $catalog->email, $subject, $data_add, 1, null, $mailbcc, $attachment))
+		if (JMail::getInstance()->sendMail($from, $fromname, $catalog->email, $subject, $data_add, 1, null, $mailbcc, $attachment))
 		{
 			return true;
 		}
@@ -1782,8 +1782,8 @@ class redshopMail
 	public function sendResetPasswordMail($email)
 	{
 		$config = JFactory::getConfig();
-		$from = $config->getValue('mailfrom');
-		$fromname = $config->getValue('fromname');
+		$from = $config->get('mailfrom');
+		$fromname = $config->get('fromname');
 
 		$query = "SELECT u.* , ru.* FROM #__users AS u "
 			. "LEFT JOIN " . $this->_table_prefix . "users_info AS ru ON u.id = ru.user_id "
@@ -1828,7 +1828,7 @@ class redshopMail
 		// Send the e-mail
 		if ($email != "")
 		{
-			if (JUtility::sendMail($from, $fromname, $email, $subject, $message, 1, null, $mailbcc))
+			if (JMail::getInstance()->sendMail($from, $fromname, $email, $subject, $message, 1, null, $mailbcc))
 			{
 				return true;
 			}
