@@ -27,6 +27,7 @@ $showbuttons = JRequest::getVar('showbuttons');
 $section_id = JRequest::getVar('section_id');
 $section_name = JRequest::getVar('section_name');
 $media_section = JRequest::getVar('media_section');
+$k = 0;
 
 if ($showbuttons)
 {
