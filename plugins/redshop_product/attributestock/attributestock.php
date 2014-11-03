@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/order.php';
+
 /**
  * Check Attribute stock status and disable options
  *
@@ -30,7 +32,7 @@ class PlgRedshop_ProductAttributeStock extends JPlugin
 		JFactory::getDocument()->addScriptDeclaration('
 
 			var jsonStockStatus = ' . json_encode(
-					$this->isAttributeStockExists($product->product_id)
+					$this->isAttributeStockExists($product)
 				) . ';
 
 			var onchangePropertyDropdown = function(allarg){
@@ -38,7 +40,7 @@ class PlgRedshop_ProductAttributeStock extends JPlugin
 					if (!jsonStockStatus[allarg[4]].subProperty[option.value] && option.value != 0)
 					{
 						option.disabled = true;
-						option.text += " (udsolgt)";
+						option.text += "' . JText::_('PLG_REDSHOP_PRODUCT_ATTRIBUTESTOCK_OPTION_TEXT') . '";
 						option.style = "font-style: italic;";
 					}
 				});
@@ -50,7 +52,7 @@ class PlgRedshop_ProductAttributeStock extends JPlugin
 					if (!jsonStockStatus[option.value] && option.value != 0)
 					{
 						option.disabled = true;
-						option.text += " (udsolgt)";
+						option.text += "' . JText::_('PLG_REDSHOP_PRODUCT_ATTRIBUTESTOCK_OPTION_TEXT') . '";
 						option.style = "font-style: italic;";
 					}
 				});
@@ -61,15 +63,18 @@ class PlgRedshop_ProductAttributeStock extends JPlugin
 	/**
 	 * Get Attribute Stock for Property and Subproperty
 	 *
-	 * @param   integer  $productId  Product Information Id
+	 * @param   integer  $product  Product Information Id
 	 *
 	 * @return  array    Stock Information Array
 	 */
-	private function isAttributeStockExists($productId)
+	private function isAttributeStockExists($product)
 	{
+		JLoader::load('RedshopHelperAdminStockroom');
+
 		$stockroomHelper = new rsstockroomhelper;
 		$producthelper   = new producthelper;
 		$propertyStock   = array();
+		$productId       = $product->product_id;
 		$property        = $producthelper->getAttibuteProperty(0, 0, $productId);
 
 		for ($i = 0; $i < count($property); $i++)
@@ -88,7 +93,10 @@ class PlgRedshop_ProductAttributeStock extends JPlugin
 
 				$propertyStock[$propertyId] = $isPropertyStockExist;
 
-				if (!$isPropertyStockExist)
+				if (!$isPropertyStockExist
+					&& ($product->preorder == "global" && ALLOW_PRE_ORDER)
+					|| ($product->preorder == "yes")
+					|| ($product->preorder == "" && ALLOW_PRE_ORDER))
 				{
 					$propertyStock[$propertyId] = $stockroomHelper->isPreorderStockExists(
 													$propertyId,
@@ -110,7 +118,10 @@ class PlgRedshop_ProductAttributeStock extends JPlugin
 
 				$propertyStock[$propertyId]['subProperty'][$subPropertyId] = $isSubPropertyStockExist;
 
-				if (!$isSubPropertyStockExist)
+				if (!$isSubPropertyStockExist
+					&& ($product->preorder == "global" && ALLOW_PRE_ORDER)
+					|| ($product->preorder == "yes")
+					|| ($product->preorder == "" && ALLOW_PRE_ORDER))
 				{
 					$propertyStock[$propertyId]['subProperty'][$subPropertyId] = $stockroomHelper->isPreorderStockExists(
 																					$subPropertyId,
