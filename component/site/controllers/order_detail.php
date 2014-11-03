@@ -289,13 +289,13 @@ class RedshopControllerOrder_detail extends JController
 
 		$result = $this->_carthelper->addProductToCart($row);
 
-		if (!$redirect)
-		{
-			return $result;
-		}
-
 		if (is_bool($result) && $result)
 		{
+			if (!$redirect)
+			{
+				return $result;
+			}
+
 			$this->_carthelper->cartFinalCalculation();
 			$Itemid = $this->_redhelper->getCartItemid();
 			$app->redirect('index.php?option=com_redshop&view=cart&Itemid=' . $Itemid);
