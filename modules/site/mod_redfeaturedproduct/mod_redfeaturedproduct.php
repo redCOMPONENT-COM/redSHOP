@@ -115,7 +115,11 @@ if (!class_exists('redFeatureproduct'))
 				JHTML::Script('jquery.tools.min.js', 'components/com_redshop/assets/js/', false);
 			}
 
-			JHTML::Script('jquery.js', 'modules/mod_redfeaturedproduct/js/', false);
+			if (version_compare(JVERSION, '3.0', '<'))
+			{
+				JHtml::script('com_redshop/jquery.js', false, true);
+			}
+
 			JHTML::Script('recreativo.js', 'modules/mod_redfeaturedproduct/js/', false);
 
 			echo $this->params->get('pretext', "");

@@ -83,7 +83,11 @@ class RedshopViewAccount extends RedshopView
 			JLoader::import('joomla.html.pagination');
 			JHTML::Stylesheet('colorbox.css', 'components/com_redshop/assets/css/');
 
-			JHTML::Script('jquery.js', 'components/com_redshop/assets/js/', false);
+			if (version_compare(JVERSION, '3.0', '<'))
+			{
+				JHtml::script('com_redshop/jquery.js', false, true);
+			}
+
 			JHTML::Script('jquery.colorbox-min.js', 'components/com_redshop/assets/js/', false);
 			JHTML::Script('redbox.js', 'components/com_redshop/assets/js/', false);
 			JHTML::Script('attribute.js', 'components/com_redshop/assets/js/', false);
