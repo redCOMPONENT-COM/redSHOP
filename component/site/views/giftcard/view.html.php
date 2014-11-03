@@ -21,10 +21,9 @@ class RedshopViewGiftcard extends RedshopView
 
 		// Request variables
 		$params   = $app->getParams('com_redshop');
-		$document = JFactory::getDocument();
-		JHTML::Script('redbox.js', 'components/com_redshop/assets/js/', false);
-		JHTML::Script('common.js', 'components/com_redshop/assets/js/', false);
-		JHTML::Script('attribute.js', 'components/com_redshop/assets/js/', false);
+		JHtml::script('com_redshop/redbox.js', false, true);
+		JHtml::script('com_redshop/common.js', false, true);
+		JHtml::script('com_redshop/attribute.js', false, true);
 		JHTML::Stylesheet('fetchscript.css', 'components/com_redshop/assets/css/');
 
 		$pageheadingtag = JText::_('COM_REDSHOP_REDSHOP');

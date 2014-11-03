@@ -32,9 +32,9 @@ $module_id = "mod_" . $module->id;
 JLoader::load('RedshopHelperRedshop.js');
 
 
-JHTML::Script('common.js', 'components/com_redshop/assets/js/', false);
+JHtml::script('com_redshop/common.js', false, true);
 // lightbox Javascript
-JHTML::Script('redbox.js', 'components/com_redshop/assets/js/', false);
+JHtml::script('com_redshop/redbox.js', false, true);
 JHTML::Stylesheet('fetchscript.css', 'components/com_redshop/assets/css/');
 
 echo '<ul id="mycarousel" class="jcarousel-skin-tango">';

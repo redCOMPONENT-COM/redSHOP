@@ -23,7 +23,7 @@ $document = JFactory::getDocument();
 // 	include redshop js file.
 JLoader::load('RedshopHelperRedshop.js');
 
-JHTML::Script('attribute.js', 'components/com_redshop/assets/js/', false);
+JHtml::script('com_redshop/attribute.js', false, true);
 JHTML::Script('jquery-1.js', 'components/com_redshop/assets/js/', false);
 JHTML::Script('jquery-ui-1.js', 'components/com_redshop/assets/js/', false);
 JHTML::Stylesheet('priceslider.css', 'components/com_redshop/assets/css/');

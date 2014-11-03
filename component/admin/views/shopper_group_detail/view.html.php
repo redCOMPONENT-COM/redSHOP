@@ -31,7 +31,7 @@ class RedshopViewShopper_group_detail extends RedshopView
 		$option = JRequest::getVar('option', '', 'request', 'string');
 
 		$document = JFactory::getDocument();
-		$document->addScript('components/' . $option . '/assets/js/json.js');
+		JHtml::script('com_redshop/json.js', false, true);
 		$document->addScript('components/' . $option . '/assets/js/validation.js');
 
 		$uri = JFactory::getURI();

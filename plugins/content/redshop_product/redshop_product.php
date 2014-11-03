@@ -55,9 +55,9 @@ class plgContentredshop_product extends JPlugin
 				JHtml::script('com_redshop/jquery.js', false, true);
 			}
 
-			JHTML::Script('redbox.js', 'components/com_redshop/assets/js/', false);
-			JHTML::Script('attribute.js', 'components/com_redshop/assets/js/', false);
-			JHTML::Script('common.js', 'components/com_redshop/assets/js/', false);
+			JHtml::script('com_redshop/redbox.js', false, true);
+			JHtml::script('com_redshop/attribute.js', false, true);
+			JHtml::script('com_redshop/common.js', false, true);
 			JHTML::Stylesheet('redshop.css', 'components/com_redshop/assets/css/');
 			JHTML::Stylesheet('fetchscript.css', 'components/com_redshop/assets/css/');
 			JHTML::Stylesheet('style.css', 'components/com_redshop/assets/css/');

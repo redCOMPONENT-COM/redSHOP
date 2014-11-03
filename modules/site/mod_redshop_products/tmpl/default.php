@@ -26,9 +26,9 @@ JLoader::load('RedshopHelperRedshop.js');
 JLoader::load('RedshopHelperAdminImages');
 
 // Lightbox Javascript
-JHTML::Script('attribute.js', 'components/com_redshop/assets/js/', false);
-JHTML::Script('common.js', 'components/com_redshop/assets/js/', false);
-JHTML::Script('redbox.js', 'components/com_redshop/assets/js/', false);
+JHtml::script('com_redshop/attribute.js', false, true);
+JHtml::script('com_redshop/common.js', false, true);
+JHtml::script('com_redshop/redbox.js', false, true);
 JHTML::Stylesheet('fetchscript.css', 'components/com_redshop/assets/css/');
 
 

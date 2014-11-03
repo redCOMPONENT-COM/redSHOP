@@ -298,7 +298,7 @@ class RedshopViewProduct_Detail extends RedshopView
 		}
 
 		$document->addScript('components/' . $this->option . '/assets/js/select_sort.js');
-		$document->addScript('components/' . $this->option . '/assets/js/json.js');
+		JHtml::script('com_redshop/json.js', false, true);
 		$document->addScript('components/' . $this->option . '/assets/js/validation.js');
 		$document->addStyleSheet('components/com_redshop/assets/css/search.css');
 

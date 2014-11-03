@@ -36,7 +36,7 @@ class RedshopViewCart extends RedshopView
 			$app->Redirect('index.php?option=com_redshop&view=cart&Itemid=' . $Itemid, JRequest::getString('quotemsg'));
 		}
 
-		JHTML::Script('common.js', 'components/com_redshop/assets/js/', false);
+		JHtml::script('com_redshop/common.js', false, true);
 
 		if (!array_key_exists("idx", $cart) || (array_key_exists("idx", $cart) && $cart['idx'] < 1))
 		{

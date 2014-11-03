@@ -110,8 +110,8 @@ if (!class_exists('redFeatureproduct'))
 			else
 			{
 				JHTML::Script('fetchscript.js', 'components/com_redshop/assets/js/', false);
-				JHTML::Script('attribute.js', 'components/com_redshop/assets/js/', false);
-				JHTML::Script('common.js', 'components/com_redshop/assets/js/', false);
+				JHtml::script('com_redshop/attribute.js', false, true);
+				JHtml::script('com_redshop/common.js', false, true);
 				JHTML::Script('jquery.tools.min.js', 'components/com_redshop/assets/js/', false);
 			}
 
