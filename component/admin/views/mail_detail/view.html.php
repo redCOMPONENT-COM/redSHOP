@@ -9,7 +9,7 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.html.pane');
+jimport('redshop.html.pane');
 
 class RedshopViewMail_detail extends RedshopView
 {
@@ -79,7 +79,7 @@ class RedshopViewMail_detail extends RedshopView
 
 		$lists['published'] = JHTML::_('select.booleanlist', 'published', 'class="inputbox"', $detail->published);
 
-		$pane = JPane::getInstance('sliders');
+		$pane = RedshopPane::getInstance('sliders');
 
 		$this->pane = $pane;
 		$this->lists = $lists;

@@ -14,7 +14,7 @@ $editor = JFactory::getEditor();
 JHTMLBehavior::modal();
 $uri = JURI::getInstance();
 $url = $uri->root();
-jimport('joomla.html.pane');
+jimport('redshop.html.pane');
 
 $tmpl = JRequest::getVar('tmpl');
 

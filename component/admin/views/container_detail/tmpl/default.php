@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 $editor = JFactory::getEditor();
 
 JHTML::_('behavior.tooltip');
-jimport('joomla.html.pane');
+jimport('redshop.html.pane');
 JHTMLBehavior::modal();
 
 $stockroom_id = JRequest::getVar('stockroom_id', '', 'request', 'string');
@@ -74,7 +74,7 @@ if ($this->detail->container_id)
 }
 
 //Get JPaneTabs instance
-$myTabs = JPane::getInstance('tabs', array('startOffset' => 0));
+$myTabs = RedshopPane::getInstance('tabs', array('startOffset' => 0));
 $output = '';
 
 //Create Pane

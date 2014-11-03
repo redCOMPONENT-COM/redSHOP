@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 JHTML::_('behavior.tooltip');
-jimport('joomla.html.pane');
+jimport('redshop.html.pane');
 
 $editor = JFactory::getEditor();
 $productHelper = new producthelper;
@@ -72,7 +72,7 @@ if ($this->shipper_location)
 else
 {
 	// Get JPaneTabs instance
-	$myTabs = JPane::getInstance('tabs', array('startOffset' => 0));
+	$myTabs = RedshopPane::getInstance('tabs', array('startOffset' => 0));
 	$output = '';
 
 	// Create Pane

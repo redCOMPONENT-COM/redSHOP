@@ -121,7 +121,7 @@ $userId = (int) $user->id;
 <form action="<?php echo 'index.php?option=' . $option; ?>" method="post" name="adminForm" id="adminForm">
 <div id="editcell">
 <input type="hidden" name="unpublished_data" value="">
-<table class="adminlist">
+<table class="adminlist table">
 <thead>
 <tr>
 	<th width="5">
