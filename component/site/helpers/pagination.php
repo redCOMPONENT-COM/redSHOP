@@ -190,7 +190,7 @@ class redPagination extends JPagination
 
 	}
 
-	public function _item_active(&$item)
+	public function _item_active(JPaginationObject $item)
 	{
 		if (PAGINATION == 0)
 		{
@@ -203,7 +203,7 @@ class redPagination extends JPagination
 
 	}
 
-	public function _item_inactive(&$item)
+	public function _item_inactive(JPaginationObject $item)
 	{
 		if (PAGINATION == 0)
 		{

@@ -189,7 +189,17 @@ if (strpos($command, '.') === false)
 
 // Perform the Request task
 $controller = JControllerLegacy::getInstance('Redshop');
-$controller->execute($app->input->getCmd('task', ''));
+
+if (version_compare(JVERSION, '3.0', '<'))
+{
+	$task = JRequest::getCmd('task');
+}
+else
+{
+	$task = $app->input->get('task', '');
+}
+
+$controller->execute($task);
 
 // End component DIV here
 echo "</div>";
