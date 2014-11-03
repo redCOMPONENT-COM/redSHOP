@@ -28,7 +28,7 @@ class RedshopViewContainer_detail extends RedshopView
 		$document->addScript('components/com_redshop/assets/js/search.js');
 		$document->addScript('components/' . $option . '/assets/js/fields.js');
 		$document->addScript('components/' . $option . '/assets/js/validation.js');
-		$document->addScript('components/' . $option . '/assets/js/json.js');
+		JHtml::script('com_redshop/json.js', false, true);
 
 		$uri = JFactory::getURI();
 

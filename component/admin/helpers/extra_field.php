@@ -1009,7 +1009,7 @@ class extra_field
 		$url = JURI::base();
 
 		$document = JFactory::getDocument();
-		$document->addScript('components/com_redshop/assets/js/attribute.js');
+		JHtml::script('com_redshop/attribute.js', false, true);
 
 		$q = "SELECT * FROM " . $this->_table_prefix . "fields "
 			. "WHERE field_section = " . (int) $section_id . " "

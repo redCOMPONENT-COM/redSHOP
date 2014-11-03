@@ -30,10 +30,10 @@ class RedshopViewAddquotation_detail extends RedshopView
 		$document = JFactory::getDocument();
 		$document->setTitle(JText::_('COM_REDSHOP_QUOTATION_MANAGEMENT'));
 
-		$document->addScript('components/' . $option . '/assets/js/json.js');
+		JHtml::script('com_redshop/json.js', false, true);
 		$document->addScript('components/' . $option . '/assets/js/validation.js');
 		$document->addScript('components/' . $option . '/assets/js/order.js');
-		$document->addScript('components/' . $option . '/assets/js/common.js');
+		JHtml::script('com_redshop/common.js', false, true);
 		$document->addScript('components/' . $option . '/assets/js/select_sort.js');
 		$document->addStyleSheet('components/' . $option . '/assets/css/search.css');
 		$document->addScript('components/' . $option . '/assets/js/search.js');

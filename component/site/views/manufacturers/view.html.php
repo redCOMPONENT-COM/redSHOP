@@ -44,9 +44,9 @@ class RedshopViewManufacturers extends RedshopView
 			$disabled = "disabled";
 		}
 
-		JHTML::Script('redBOX.js', 'components/com_redshop/assets/js/', false);
-		JHTML::Script('attribute.js', 'components/com_redshop/assets/js/', false);
-		JHTML::Script('common.js', 'components/com_redshop/assets/js/', false);
+		JHtml::script('com_redshop/redbox.js', false, true);
+		JHtml::script('com_redshop/attribute.js', false, true);
+		JHtml::script('com_redshop/common.js', false, true);
 		JHTML::Stylesheet('fetchscript.css', 'components/com_redshop/assets/css/');
 
 		if ($layout != 'default')

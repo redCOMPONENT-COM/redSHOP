@@ -82,10 +82,10 @@ class RedshopViewCategory extends RedshopView
 			JHtml::script('com_redshop/jquery.js', false, true);
 		}
 
-		JHtml::Script('redbox.js', 'components/com_redshop/assets/js/', false);
+		JHtml::script('com_redshop/redbox.js', false, true);
 
-		JHtml::Script('attribute.js', 'components/com_redshop/assets/js/', false);
-		JHtml::Script('common.js', 'components/com_redshop/assets/js/', false);
+		JHtml::script('com_redshop/attribute.js', false, true);
+		JHtml::script('com_redshop/common.js', false, true);
 
 		JHtml::Stylesheet('priceslider.css', 'components/com_redshop/assets/css/');
 

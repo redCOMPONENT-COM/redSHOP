@@ -36,20 +36,19 @@ class RedshopViewSearch extends RedshopView
 			$document->setTitle($pagetitle);
 		}
 
-		$document = JFactory::getDocument();
-		JHTML::Script('common.js', 'components/com_redshop/assets/js/', false);
+		JHtml::script('com_redshop/common.js', false, true);
 
 		if (AJAX_CART_BOX == 0)
 		{
-			JHTML::Script('redBOX.js', 'components/com_redshop/assets/js/', false);
-			JHTML::Script('attribute.js', 'components/com_redshop/assets/js/', false);
+			JHtml::script('com_redshop/redbox.js', false, true);
+			JHtml::script('com_redshop/attribute.js', false, true);
 		}
 
 		// Ajax cart javascript
 		if (AJAX_CART_BOX == 1)
 		{
-			JHTML::Script('redBOX.js', 'components/com_redshop/assets/js/', false);
-			JHTML::Script('attribute.js', 'components/com_redshop/assets/js/', false);
+			JHtml::script('com_redshop/redbox.js', false, true);
+			JHtml::script('com_redshop/attribute.js', false, true);
 			JHTML::Stylesheet('fetchscript.css', 'components/com_redshop/assets/css/');
 		}
 
