@@ -42,7 +42,7 @@ class Com_RedshopInstallerScript
 
 		// $parent is the class calling this method
 
-		require_once JPATH_SITE . '/components/com_redshop/loadhelpers.php';
+		JLoader::import('redshop.library');
 		JLoader::load('RedshopHelperAdminTemplate');
 
 		$this->com_install('install');
@@ -74,16 +74,13 @@ class Com_RedshopInstallerScript
 	 */
 	public function update($parent)
 	{
-		// $parent is the class calling this method
-
-		require_once JPATH_SITE . '/components/com_redshop/loadhelpers.php';
-		JLoader::load('RedshopHelperAdminTemplate');
-		$this->com_install('update');
-
-		// Install extensions
 		$this->installLibraries($parent);
 		$this->installModules($parent);
 		$this->installPlugins($parent);
+
+		JLoader::import('redshop.library');
+		JLoader::load('RedshopHelperAdminTemplate');
+		$this->com_install('update');
 
 		$this->handleCSSFile();
 	}
@@ -329,62 +326,6 @@ class Com_RedshopInstallerScript
 			}
 		}
 
-		$q = "select * from `#__redshop_mail` where mail_section = 'invoice_mail' or mail_section = 'order'";
-		$db->setQuery($q);
-		$list = $db->loadObjectList();
-
-		for ($i = 0; $i < count($list); $i++)
-		{
-			$data      = & $list[$i];
-			$mail_body = $data->mail_body;
-
-			if (!strstr($mail_body, '{product_subtotal}') && !strstr($mail_body, '{product_subtotal_excl_vat}'))
-			{
-				if (strstr($mail_body, '{subtotal}') || strstr($mail_body, '{order_subtotal}'))
-				{
-					$mail_body = str_replace("{subtotal}", "{product_subtotal}", $mail_body);
-					$mail_body = str_replace("{order_subtotal}", "{product_subtotal}", $mail_body);
-				}
-
-				if (strstr($mail_body, '{subtotal_excl_vat}') || strstr($mail_body, '{order_subtotal_excl_vat}'))
-				{
-					$mail_body = str_replace("{subtotal_excl_vat}", "{product_subtotal_excl_vat}", $mail_body);
-					$mail_body = str_replace("{order_subtotal_excl_vat}", "{product_subtotal_excl_vat}", $mail_body);
-				}
-
-				// $mail_body = addslashes($mail_body);
-				$uquery = "UPDATE `#__redshop_mail` SET mail_body ='$mail_body' "
-					. "WHERE mail_section='" . $data->mail_section . "' AND mail_id='" . $data->mail_id . "'";
-				$db->setQuery($uquery);
-				$db->query();
-			}
-
-			if (!strstr($mail_body, '{shipping_excl_vat}'))
-			{
-				if (strstr($mail_body, '{shipping}') || strstr($mail_body, '{order_shipping}'))
-				{
-					$mail_body = str_replace("{shipping}", "{shipping_excl_vat}", $mail_body);
-				}
-
-				if (strstr($mail_body, '{order_shipping}'))
-				{
-					$mail_body = str_replace("{order_shipping}", "{shipping_excl_vat}", $mail_body);
-				}
-
-				if (strstr($mail_body, '{shipping_with_vat}'))
-				{
-					$mail_body = str_replace("{shipping_with_vat}", "{shipping}", $mail_body);
-				}
-
-				$mail_body = addslashes($mail_body);
-				$uquery    = "UPDATE `#__redshop_mail` SET mail_body ='$mail_body' "
-					. "WHERE mail_section='" . $data->mail_section . "' AND mail_id='" . $data->mail_id . "'";
-				$db->setQuery($uquery);
-				$db->query();
-
-			}
-		}
-
 		// TEMPLATE MOVE DB TO  FILE END
 
 		// For Blank component id in menu table-admin menu error solution
@@ -531,7 +472,7 @@ class Com_RedshopInstallerScript
 	private function userSynchronization()
 	{
 		require_once JPATH_SITE . "/administrator/components/com_redshop/helpers/redshop.cfg.php";
-		require_once JPATH_SITE . '/components/com_redshop/loadhelpers.php';
+		JLoader::import('redshop.library');
 		JLoader::load('RedshopHelperUser');
 
 		JTable::addIncludePath(JPATH_SITE . '/administrator/components/com_redshop/tables');
@@ -547,7 +488,7 @@ class Com_RedshopInstallerScript
 	 */
 	private function redshopHandleCFGFile()
 	{
-		require_once JPATH_SITE . '/components/com_redshop/loadhelpers.php';
+		JLoader::import('redshop.library');
 		JLoader::load('RedshopHelperAdminConfiguration');
 
 		// Include redshop.cfg.php file for cfg variables

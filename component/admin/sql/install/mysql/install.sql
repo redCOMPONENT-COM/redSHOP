@@ -853,29 +853,6 @@ CREATE TABLE IF NOT EXISTS `#__redshop_pageviewer` (
 	DEFAULT CHARSET =utf8
 	COMMENT ='redSHOP Page Viewer';
 
-CREATE TABLE IF NOT EXISTS `#__redshop_payment_method` (
-	`payment_method_id`           INT(11)      NOT NULL AUTO_INCREMENT,
-	`plugin`                      VARCHAR(100) NOT NULL,
-	`payment_method_name`         VARCHAR(255)          DEFAULT NULL,
-	`payment_class`               VARCHAR(50)  NOT NULL DEFAULT '',
-	`payment_method_code`         VARCHAR(8)            DEFAULT NULL,
-	`published`                   TINYINT(1)            DEFAULT NULL,
-	`is_creditcard`               TINYINT(1)   NOT NULL DEFAULT '0',
-	`payment_discount_is_percent` TINYINT(4)   NOT NULL,
-	`payment_price`               FLOAT(10, 2) NOT NULL,
-	`payment_extrainfo`           TEXT         NOT NULL,
-	`payment_passkey`             BLOB         NOT NULL,
-	`params`                      TEXT         NOT NULL,
-	`ordering`                    INT(11)      NOT NULL,
-	`shopper_group`               VARCHAR(250) NOT NULL,
-	`accepted_credict_card`       VARCHAR(255) NOT NULL,
-	`payment_oprand`              VARCHAR(50)  NOT NULL,
-	PRIMARY KEY (`payment_method_id`)
-)
-	ENGINE =InnoDB
-	DEFAULT CHARSET =utf8
-	COMMENT ='redSHOP Payment Method';
-
 CREATE TABLE IF NOT EXISTS `#__redshop_product` (
 	`product_id`                 INT(11)                              NOT NULL AUTO_INCREMENT,
 	`product_parent_id`          INT(11)                              NOT NULL,

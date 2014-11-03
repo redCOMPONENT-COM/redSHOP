@@ -26,7 +26,8 @@ elseif (file_exists($my_path . "/configuration.php"))
 }
 else
 {
-	die ("Joomla Configuration File not found!");
+	echo "Joomla Configuration File not found!";
+	die;
 }
 
 $absolute_path = realpath($absolute_path);
@@ -63,7 +64,7 @@ $mosConfig_lang = $GLOBALS ['mosConfig_lang'] = strtolower($lang->getBackwardLan
 JPlugin::loadLanguage('com_redshop');
 
 require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
-JLoader::import('loadhelpers', JPATH_SITE . '/components/com_redshop');
+JLoader::import('redshop.library');
 JLoader::load('RedshopHelperAdminOrder');
 
 $objOrder = new order_functions;

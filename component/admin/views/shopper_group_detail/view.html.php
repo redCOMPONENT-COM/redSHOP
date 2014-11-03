@@ -119,6 +119,31 @@ class RedshopViewShopper_group_detail extends JView
 			'class="inputbox" size="1"', 'value', 'text', $detail->tax_group_id
 		);
 
+		if(!isset($lists['apply_vat']))
+		{
+			$lists['apply_vat'] = "";
+		}
+
+		if(!isset($lists['is_logged_in']))
+		{
+			$lists['is_logged_in'] = "";
+		}
+
+		if(!isset($lists['apply_product_price_vat']))
+		{
+			$lists['apply_product_price_vat'] = "";
+		}
+
+		if(!isset($lists['tax_exempt']))
+		{
+			$lists['tax_exempt'] = "";
+		}
+
+		if(!isset($lists['tax_exempt_on_shipping']))
+		{
+			$lists['tax_exempt_on_shipping'] = "";
+		}
+
 		$this->lists = $lists;
 		$this->detail = $detail;
 		$this->request_url = $uri->toString();

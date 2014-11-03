@@ -28,6 +28,14 @@ class plgRedshop_paymentrs_payment_banktransfer extends JPlugin
 			$plugin = $element;
 		}
 
+		// Send the Order mail
+		if (ORDER_MAIL_AFTER)
+		{
+			JLoader::load('RedshopHelperAdminMail');
+			$redshopMail = new redshopMail;
+			$redshopMail->sendOrderMail($data['order_id']);
+		}
+
 		return true;
 	}
 }

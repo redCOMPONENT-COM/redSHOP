@@ -16,7 +16,7 @@ $I->wantTo('Execute Joomla Installation');
 $I->installJoomla2();
 $I = new AcceptanceTester\LoginSteps($scenario);
 
-$I->wantTo('Execute Log in at Joomla Administrator');
+$I->wantTo('Login in Joomla Administrator');
 $I->doAdminLogin();
 $I = new AcceptanceTester\InstallExtensionSteps($scenario);
 

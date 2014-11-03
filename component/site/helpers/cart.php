@@ -962,16 +962,22 @@ class rsCarthelper
 				$cart_mdata     = str_replace("{product_on_sale end if}", '', $cart_mdata);
 
 				$thumbUrl = RedShopHelperImages::getImagePath(
-								$giftcardData->giftcard_image,
-								'',
-								'thumb',
-								'giftcard',
-								CART_THUMB_WIDTH,
-								CART_THUMB_HEIGHT,
-								USE_IMAGE_SIZE_SWAPPING
-							);
+					$giftcardData->giftcard_image,
+					'',
+					'thumb',
+					'giftcard',
+					CART_THUMB_WIDTH,
+					CART_THUMB_HEIGHT,
+					USE_IMAGE_SIZE_SWAPPING
+				);
 
-				$giftcard_image = "<div  class='giftcard_image'><img src='" . $thumbUrl. "'></div>";
+				$giftcard_image = "&nbsp;";
+
+				if($thumbUrl)
+				{
+					$giftcard_image = "<div  class='giftcard_image'><img src='" . $thumbUrl. "'></div>";
+				}
+
 				$cart_mdata     = str_replace("{product_thumb_image}", $giftcard_image, $cart_mdata);
 				$user_fields    = $this->_producthelper->GetProdcutUserfield($i, 13);
 				$cart_mdata     = str_replace("{product_userfields}", $user_fields, $cart_mdata);
@@ -983,7 +989,7 @@ class rsCarthelper
 				$cart_mdata     = str_replace("{product_tax}", "", $cart_mdata);
 
 				// ProductFinderDatepicker Extra Field
-				$cart_mdata = $this->_producthelper->getProductFinderDatepickerValue($cart_mdata, $product_id, $fieldArray, $giftcard = 1);
+				$cart_mdata = $this->_producthelper->getProductFinderDatepickerValue($cart_mdata, $giftcard_id, $fieldArray, $giftcard = 1);
 
 				$remove_product = '<form style="" class="rs_hiddenupdatecart" name="delete_cart' . $i . '" method="POST" >
 				<input type="hidden" name="giftcard_id" value="' . $cart[$i]['giftcard_id'] . '">
@@ -1222,30 +1228,38 @@ class rsCarthelper
 								$product_attribute_value_price = $temp_tpi[$tpi]['attribute_childs'][0]['property_price'];
 								$propertyOperand               = $temp_tpi[$tpi]['attribute_childs'][0]['property_oprand'];
 
+								if (count($temp_tpi[$tpi]['attribute_childs'][0]['property_childs']) > 0)
+								{
+									$product_attribute_value_price = $product_attribute_value_price + $temp_tpi[$tpi]['attribute_childs'][0]['property_childs'][0]['subproperty_price'];
+									$propertyOperand               = $temp_tpi[$tpi]['attribute_childs'][0]['property_childs'][0]['subproperty_oprand'];
+								}
+
 								// Show actual productive price
 								if ($product_attribute_value_price > 0)
 								{
-									$string = "$propertyCalculatedPriceSum$propertyOperand$product_attribute_value_price";
-									eval("\$productAttributeCalculatedPriceBase = $string;");
+									$productAttributeCalculatedPriceBase = redhelper::setOperandForValues($propertyCalculatedPriceSum, $propertyOperand, $product_attribute_value_price);
 
 									$productAttributeCalculatedPrice = $productAttributeCalculatedPriceBase - $propertyCalculatedPriceSum;
 									$propertyCalculatedPriceSum      = $productAttributeCalculatedPriceBase;
 								}
 
-								if (count($temp_tpi[$tpi]['attribute_childs'][0]['property_childs']) > 0)
-								{
-									$product_attribute_value_price = $product_attribute_value_price + $temp_tpi[$tpi]['attribute_childs'][0]['property_childs'][0]['subproperty_price'];
-								}
-
-								$product_attribute_value_price   = $this->_producthelper->getProductFormattedPrice($product_attribute_value_price);
-								$productAttributeCalculatedPrice = $this->_producthelper->getProductFormattedPrice($productAttributeCalculatedPrice);
+								$product_attribute_value_price = $this->_producthelper->getProductFormattedPrice($product_attribute_value_price);
 							}
+
+							$productAttributeCalculatedPrice = $this->_producthelper->getProductFormattedPrice(
+								$productAttributeCalculatedPrice
+							);
+							$productAttributeCalculatedPrice = JText::sprintf('COM_REDSHOP_CART_PRODUCT_ATTRIBUTE_CALCULATED_PRICE', $productAttributeCalculatedPrice);
 
 							$data_add_pro = $templateattibute_middle;
 							$data_add_pro = str_replace("{product_attribute_name}", $product_attribute_name, $data_add_pro);
 							$data_add_pro = str_replace("{product_attribute_value}", $product_attribute_value, $data_add_pro);
 							$data_add_pro = str_replace("{product_attribute_value_price}", $product_attribute_value_price, $data_add_pro);
-							$data_add_pro = str_replace("{product_attribute_calculated_price}", $productAttributeCalculatedPrice, $data_add_pro);
+							$data_add_pro = str_replace(
+								"{product_attribute_calculated_price}",
+								$productAttributeCalculatedPrice,
+								$data_add_pro
+							);
 							$pro_detail .= $data_add_pro;
 						}
 					}
@@ -1495,7 +1509,7 @@ class rsCarthelper
 											CART_THUMB_HEIGHT,
 											USE_IMAGE_SIZE_SWAPPING
 										);
-				$attrib_img = "<img src='" . $attribute_image_path . "'>";
+				$attrib_img = '<img src="' . $attribute_image_path . '">';
 			}
 			else
 			{
@@ -1510,7 +1524,7 @@ class rsCarthelper
 												CART_THUMB_HEIGHT,
 												USE_IMAGE_SIZE_SWAPPING
 											);
-					$attrib_img = "<img src='" . $attribute_image_path . "'>";
+					$attrib_img = '<img src="' . $attribute_image_path . '">';
 				}
 				else
 				{
@@ -1536,7 +1550,7 @@ class rsCarthelper
 														CART_THUMB_HEIGHT,
 														USE_IMAGE_SIZE_SWAPPING
 													);
-							$attrib_img = "<img src='" . $attribute_image_path . "'>";
+							$attrib_img = '<img src="' . $attribute_image_path . '">';
 						}
 						else
 						{
@@ -1551,7 +1565,7 @@ class rsCarthelper
 															CART_THUMB_HEIGHT,
 															USE_IMAGE_SIZE_SWAPPING
 														);
-								$attrib_img = "<img src='" . $attribute_image_path . "'>";
+								$attrib_img = '<img src="' . $attribute_image_path . '">';
 							}
 						}
 					}
@@ -1568,7 +1582,7 @@ class rsCarthelper
 														CART_THUMB_HEIGHT,
 														USE_IMAGE_SIZE_SWAPPING
 													);
-							$attrib_img = "<img src='" . $attribute_image_path . "'>";
+							$attrib_img = '<img src="' . $attribute_image_path . '">';
 						}
 					}
 				}
@@ -2590,6 +2604,9 @@ class rsCarthelper
 		$session   = JFactory::getSession();
 		$orderitem = $this->_order_functions->getOrderItemDetail($order_id);
 
+		$search    = array();
+		$replace   = array();
+
 		if (strstr($ReceiptTemplate, "{product_loop_start}") && strstr($ReceiptTemplate, "{product_loop_end}"))
 		{
 			$template_sdata  = explode('{product_loop_start}', $ReceiptTemplate);
@@ -2904,6 +2921,27 @@ class rsCarthelper
 
 		$search  [] = "{payment_extrainfo}";
 		$replace [] = $txtextra_info;
+
+		// Set order transaction fee tag
+		$orderTransFeeLabel = '';
+		$orderTransFee      = '';
+
+		if ($paymentmethod->order_transfee > 0)
+		{
+			$orderTransFeeLabel = JText::_('COM_REDSHOP_ORDER_TRANSACTION_FEE_LABEL');
+			$orderTransFee      = $this->_producthelper->getProductFormattedPrice($paymentmethod->order_transfee);
+		}
+
+		$search [] = "{order_transfee_label}";
+		$replace[] = $orderTransFeeLabel;
+
+		$search [] = "{order_transfee}";
+		$replace[] = $orderTransFee;
+
+		$search [] = "{order_total_incl_transfee}";
+		$replace[] = $this->_producthelper->getProductFormattedPrice(
+			$paymentmethod->order_transfee + $row->order_total
+		);
 
 		if (JRequest::getVar('order_delivery'))
 		{
@@ -3315,6 +3353,8 @@ class rsCarthelper
 		$sql    = "SELECT  enabled FROM #__extensions WHERE element ='default_shipping_GLS'";
 		$this->_db->setQuery($sql);
 		$isEnabled = $this->_db->loadResult();
+		$selected_shop_id = null;
+		$ShopRespons = array();
 
 		if ($isEnabled && $classname == 'default_shipping_GLS')
 		{
@@ -3325,7 +3365,11 @@ class rsCarthelper
 			$values = $this->_db->loadObject();
 
 			$ShopResponses = $dispatcher->trigger('GetNearstParcelShops', array($values));
-			$ShopRespons   = $ShopResponses[0];
+
+			if(isset($ShopResponses[0]))
+			{
+				$ShopRespons = $ShopResponses[0];
+			}
 
 			$shopList = array();
 
@@ -3559,12 +3603,19 @@ class rsCarthelper
 
 		$url                      = JURI::base(true);
 		$cc_list                  = array();
+		$cc_list['VISA']          = new stdClass;
 		$cc_list['VISA']->img     = 'visa.jpg';
+		$cc_list['MC']            = new stdClass;
 		$cc_list['MC']->img       = 'master.jpg';
+		$cc_list['amex']          = new stdClass;
 		$cc_list['amex']->img     = 'blue.jpg';
+		$cc_list['maestro']       = new stdClass;
 		$cc_list['maestro']->img  = 'mastero.jpg';
+		$cc_list['jcb']           = new stdClass;
 		$cc_list['jcb']->img      = 'jcb.jpg';
+		$cc_list['diners']        = new stdClass;
 		$cc_list['diners']->img   = 'dinnersclub.jpg';
+		$cc_list['discover']      = new stdClass;
 		$cc_list['discover']->img = 'discover.jpg';
 
 		$montharr   = array();
@@ -3773,8 +3824,7 @@ class rsCarthelper
 
 					JArrayHelper::toInteger($shopperGroups);
 
-					if (in_array((int) $shopperGroupId, $shopperGroups)
-						|| 0 == $shopperGroups[0])
+					if (in_array((int) $shopperGroupId, $shopperGroups) || (!isset($shopperGroups[0]) || 0 == $shopperGroups[0]))
 					{
 						return true;
 					}
@@ -4539,15 +4589,26 @@ class rsCarthelper
 		{
 			if ($user->id)
 			{
-				$query = "SELECT vt.transaction_voucher_id,vt.amount as total,vt.product_id from " . $this->_table_prefix . "product_voucher_xref as pv "
-					. " LEFT JOIN " . $this->_table_prefix . "product_voucher as v on v.voucher_id = pv.voucher_id"
-					. " WHERE voucher_code=" . $db->quote($voucher_code) . " ) as nproduct , v.* FROM " . $this->_table_prefix . "product_voucher as v "
-					. " LEFT JOIN " . $this->_table_prefix . "product_voucher_transaction as vt on vt.voucher_id = v.voucher_id "
-					. "\nWHERE vt.amount > 0 AND v.voucher_type = 'Total' AND v.published = 1 and vt.voucher_code=" . $db->quote($voucher_code)
-					. " AND ((start_date<=" . $db->quote($current_time) . " and end_date>=" . $db->quote($current_time) . ")"
-					. " OR ( start_date =0 AND end_date = 0) ) AND vt.user_id=" . (int) $user->id . " ORDER BY transaction_voucher_id DESC limit 0,1";
-				$this->_db->setQuery($query);
-				$voucher = $this->_db->loadObject();
+				$subQuery = $db->getQuery(true)
+					->select('GROUP_CONCAT(DISTINCT pv.product_id SEPARATOR ' . $db->quote(', ') . ') AS product_id')
+					->from($db->qn('#__redshop_product_voucher_xref', 'pv'))
+					->where('v.voucher_id = pv.voucher_id');
+
+				$query = $db->getQuery(true)
+					->select(
+						array('vt.transaction_voucher_id', 'vt.amount AS total', 'vt.product_id', 'v.*', '(' . $subQuery . ') AS nproduct')
+					)
+					->from($db->qn('#__redshop_product_voucher', 'v'))
+					->leftJoin($db->qn('#__redshop_product_voucher_transaction', 'vt') . ' ON vt.voucher_id = v.voucher_id')
+					->where('vt.voucher_code = ' . $db->quote($voucher_code))
+					->where('vt.amount > 0')
+					->where('v.voucher_type = ' . $db->quote('Total'))
+					->where('v.published = 1')
+					->where('((start_date <= ' . $db->quote($current_time) . ' AND end_date >= ' . $db->quote($current_time) . ') OR (start_date = 0 AND end_date = 0))')
+					->where('vt.user_id = ' . (int) $user->id)
+					->order('transaction_voucher_id DESC');
+				$db->setQuery($query);
+				$voucher = $db->loadObject();
 
 				if (count($voucher) > 0)
 					$this->_r_voucher = 1;
@@ -4555,15 +4616,24 @@ class rsCarthelper
 
 			if ((count($voucher)) <= 0)
 			{
-				$query = "SELECT (select GROUP_CONCAT(DISTINCT CAST(product_id AS CHAR)  SEPARATOR ', ') as product_id from " . $this->_table_prefix . "product_voucher_xref as pv "
-					. " LEFT JOIN " . $this->_table_prefix . "product_voucher as v on v.voucher_id = pv.voucher_id"
-					. " WHERE voucher_code=" . $db->quote($voucher_code) . ") as nproduct,"
-					. " amount as total ,voucher_type,free_shipping,voucher_id,voucher_code,voucher_left  FROM " . $this->_table_prefix . "product_voucher as v  "
-					. "\nWHERE published = 1 and voucher_code=" . $db->quote($voucher_code)
-					. " AND ((start_date<=" . $db->quote($current_time) . " AND end_date>=" . $db->quote($current_time) . ")"
-					. " OR ( start_date =0 AND end_date = 0) ) and voucher_left>0 limit 0,1";
-				$this->_db->setQuery($query);
-				$voucher = $this->_db->loadObject();
+				$subQuery = $db->getQuery(true)
+					->select('GROUP_CONCAT(DISTINCT pv.product_id SEPARATOR ' . $db->quote(', ') . ') AS product_id')
+					->from($db->qn('#__redshop_product_voucher_xref', 'pv'))
+					->where('v.voucher_id = pv.voucher_id');
+
+				$query = $db->getQuery(true)
+					->select(
+						array(
+							'(' . $subQuery . ') AS nproduct', 'v.amount AS total', 'v.voucher_type',
+							'v.free_shipping', 'v.voucher_id', 'v.voucher_code', 'v.voucher_left')
+					)
+					->from($db->qn('#__redshop_product_voucher', 'v'))
+					->where('v.published = 1')
+					->where('v.voucher_code = ' . $db->quote($voucher_code))
+					->where('((v.start_date <= ' . $db->quote($current_time) . ' AND v.end_date >= ' . $db->quote($current_time) . ') OR (v.start_date = 0 AND v.end_date = 0))')
+					->where('v.voucher_left > 0');
+				$db->setQuery($query);
+				$voucher = $db->loadObject();
 			}
 		}
 		else
@@ -5027,6 +5097,8 @@ class rsCarthelper
 		$idx  = $cart['idx'];
 		$user = JFactory::getUser();
 
+		$cart_accessory = array();
+
 		// If user is not logged in don't save in db
 		if ($user->id <= 0)
 			return false;
@@ -5065,6 +5137,11 @@ class rsCarthelper
 				$cart[$i]['giftcard_id'] = 0;
 			}
 
+			if(isset($cart[$i]['wrapper_id']) === false)
+			{
+				$cart[$i]['wrapper_id'] = 0;
+			}
+
 			$rowItem->giftcard_id             = $cart[$i]['giftcard_id'];
 			$rowItem->product_quantity        = $cart[$i]['quantity'];
 			$rowItem->product_wrapper_id      = $cart[$i]['wrapper_id'];
@@ -5083,11 +5160,20 @@ class rsCarthelper
 
 			$cart_item_id = $rowItem->cart_item_id;
 
-			$cart_attribute = $cart[$i]['cart_attribute'];
+			$cart_attribute = array();
+
+			if(isset($cart[$i]['cart_attribute']))
+			{
+				$cart_attribute = $cart[$i]['cart_attribute'];
+			}
+
 			/* store attribute in db */
 			$this->attributetodb($cart_attribute, $cart_item_id, $rowItem->product_id);
 
-			$cart_accessory = $cart[$i]['cart_accessory'];
+			if(isset($cart[$i]['cart_accessory']))
+			{
+				$cart_accessory = $cart[$i]['cart_accessory'];
+			}
 
 			for ($j = 0; $j < count($cart_accessory); $j++)
 			{
@@ -5119,6 +5205,7 @@ class rsCarthelper
 		{
 			$rowAtt = JTable::getInstance('usercart_attribute_item', 'Table');
 
+			$rowAtt->cart_item_id		= $cart_item_id;
 			$rowAtt->section_id        = $attribute[$j]['attribute_id'];
 			$rowAtt->section           = 'attribute';
 			$rowAtt->parent_section_id = $product_id;
@@ -5135,6 +5222,7 @@ class rsCarthelper
 			{
 				$rowProp = JTable::getInstance('usercart_attribute_item', 'Table');
 
+				$rowProp->cart_item_id		= $cart_item_id;
 				$rowProp->section_id        = $attribute_childs[$k]['property_id'];
 				$rowProp->section           = 'property';
 				$rowProp->parent_section_id = $attribute[$j]['attribute_id'];
@@ -5436,9 +5524,10 @@ class rsCarthelper
 
 		for ($i = 0; $i < count($cart_itemsAttdata); $i++)
 		{
+			$attribute										= $this->_producthelper->getProductAttribute(0, 0, $cart_itemsAttdata[$i]->section_id);
 			$accPropertyCart                             = array();
 			$generateAttributeCart[$i]['attribute_id']   = $cart_itemsAttdata[$i]->section_id;
-			$generateAttributeCart[$i]['attribute_name'] = $cart_itemsAttdata[$i]->section_name;
+			$generateAttributeCart[$i]['attribute_name'] = $attribute[0]->text;
 
 			$cartPropdata = $this->getCartItemAttributeDetail($cart_item_id, $is_accessory, "property", $cart_itemsAttdata[$i]->section_id);
 
@@ -5585,7 +5674,12 @@ class rsCarthelper
 		{
 			$cart[$idx]['reciver_email']   = $data['reciver_email'];
 			$cart[$idx]['reciver_name']    = $data['reciver_name'];
-			$cart[$idx]['customer_amount'] = $data['customer_amount'];
+			$cart[$idx]['customer_amount'] = "";
+
+			if(isset($data['customer_amount']))
+			{
+				$cart[$idx]['customer_amount'] = $data['customer_amount'];
+			}
 
 			for ($g = 0; $g < count($idx); $g++)
 			{
@@ -5615,12 +5709,12 @@ class rsCarthelper
 			$cart[$idx]['product_vat']            = 0;
 			$cart[$idx]['product_id']             = '';
 
-			if (!$cart['discount_type'])
+			if (!isset($cart['discount_type']) || !$cart['discount_type'])
 			{
 				$cart['discount_type'] = 0;
 			}
 
-			if (!$cart['discount'])
+			if (!isset($cart['discount']) || !$cart['discount'])
 			{
 				$cart['discount'] = 0;
 			}
@@ -5749,6 +5843,19 @@ class rsCarthelper
 		$product_preorder     = $product_data->preorder;
 		$isPreorderStock      = $retAttArr[7];
 
+		// Check for the required attributes if selected
+		if ($handleMessage = $this->handleRequiredSelectedAttributeCartMessage(
+								$data,
+								$data_add,
+								$selectedAttrId,
+								$selectedPropId,
+								$notselectedSubpropId
+							))
+		{
+			return $handleMessage;
+		}
+
+		// Check for product or attribute in stock
 		if (!$isStock)
 		{
 			if (($product_preorder == "global" && !ALLOW_PRE_ORDER) || ($product_preorder == "no") || ($product_preorder == "" && !ALLOW_PRE_ORDER))
@@ -5764,8 +5871,6 @@ class rsCarthelper
 				return $msg;
 			}
 		}
-
-		// Attribute End
 
 		// Discount calculator procedure start
 		$discountArr = array();
@@ -5856,77 +5961,6 @@ class rsCarthelper
 		$data['product_old_price'] += $accessory_total_price + $accessory_vat_price;
 		$data['product_old_price_excl_vat'] += $accessory_total_price;
 		$cart[$idx]['product_vat'] = $product_vat_price + $accessory_vat_price;
-
-		if (!INDIVIDUAL_ADD_TO_CART_ENABLE)
-		{
-			/*
-			 * Check if required attribute is filled or not ...
-			 */
-			$attribute_template = $this->_producthelper->getAttributeTemplate($data_add);
-
-			if (count($attribute_template) > 0)
-			{
-				$selectedAttributId = 0;
-
-				if (count($selectedAttrId) > 0)
-				{
-					$selectedAttributId = implode(",", $selectedAttrId);
-				}
-
-				$req_attribute = $this->_producthelper->getProductAttribute($data['product_id'], 0, 0, 0, 1, $selectedAttributId);
-
-				if (count($req_attribute) > 0)
-				{
-					$requied_attributeArr = array();
-
-					for ($re = 0; $re < count($req_attribute); $re++)
-					{
-						$requied_attributeArr[$re] = urldecode($req_attribute[$re]->attribute_name);
-					}
-
-					$requied_attribute_name = implode(", ", $requied_attributeArr);
-
-					// Throw an error as first attribute is required
-					$msg = urldecode($requied_attribute_name) . " " . JText::_('COM_REDSHOP_IS_REQUIRED');
-
-					return $msg;
-				}
-
-				$selectedPropertyId = 0;
-
-				if (count($selectedPropId) > 0)
-				{
-					$selectedPropertyId = implode(",", $selectedPropId);
-				}
-
-				$notselectedSubpropertyId = 0;
-
-				if (count($notselectedSubpropId) > 0)
-				{
-					$notselectedSubpropertyId = implode(",", $notselectedSubpropId);
-				}
-
-				$req_property = $this->_producthelper->getAttibuteProperty($selectedPropertyId, $selectedAttributId, $data['product_id'], 0, 1, $notselectedSubpropertyId);
-
-				if (count($req_property) > 0)
-				{
-					$requied_subattributeArr = array();
-
-					for ($re1 = 0; $re1 < count($req_property); $re1++)
-					{
-						$requied_subattributeArr[$re1] = urldecode($req_property[$re1]->property_name);
-					}
-
-					$requied_subattribute_name = implode(",", $requied_subattributeArr);
-
-					// Give error as second attribute is required
-					$msg = urldecode($requied_subattribute_name) . " " . JText::_('COM_REDSHOP_SUBATTRIBUTE_IS_REQUIRED');
-
-					if ($data['reorder'] != 1)
-						return $msg;
-				}
-			}
-		}
 
 		// ADD WRAPPER PRICE
 		$wrapper_price = 0;
@@ -6076,7 +6110,7 @@ class rsCarthelper
 
 					if ($newcartquantity != $cart[$i]['quantity'])
 					{
-						$cart[$i]['quantity'] = $newcartquantity;
+						$cart[$i]['quantity'] = $quantity;
 
 						/*
 						 * trigger the event of redSHOP product plugin support on Same product is going to add into cart
@@ -6088,7 +6122,9 @@ class rsCarthelper
 						$this->_session->set('cart', $cart);
 						$data['cart_index'] = $i;
 						$data['quantity']   = $newcartquantity;
-						$this->update($data);
+
+						$cartModel = JModel::getInstance('cart', 'RedshopModel');
+						$cartModel->update($data);
 
 						return true;
 					}
@@ -6184,17 +6220,17 @@ class rsCarthelper
 			}
 		}
 
-		if (!$cart['discount_type'])
+		if (!isset($cart['discount_type']) || !$cart['discount_type'])
 		{
 			$cart['discount_type'] = 0;
 		}
 
-		if (!$cart['discount'])
+		if (!isset($cart['discount']) || !$cart['discount'])
 		{
 			$cart['discount'] = 0;
 		}
 
-		if (!$cart['cart_discount'])
+		if (!isset($cart['cart_discount']) || !$cart['cart_discount'])
 		{
 			$cart['cart_discount'] = 0;
 		}
@@ -6209,79 +6245,6 @@ class rsCarthelper
 		$this->_session->set('cart', $cart);
 
 		return true;
-	}
-
-	public function update($data)
-	{
-		$session = JFactory::getSession();
-		$cart    = $session->get('cart');
-		$user    = JFactory::getUser();
-
-		$cartElement = $data['cart_index'];
-
-		$newQuantity = intval(abs($data['quantity']) > 0 ? $data['quantity'] : 1);
-		$oldQuantity = intval($cart[$cartElement]['quantity']);
-
-		if ($newQuantity <= 0)
-		{
-			$newQuantity = 1;
-		}
-
-		// Discount calculator
-		if (!empty($cart[$cartElement]['discount_calc']))
-		{
-			$calcdata               = $cart[$cartElement]['discount_calc'];
-			$calcdata['product_id'] = $cart[$cartElement]['product_id'];
-
-			$discount_cal = $this->discountCalculator($calcdata);
-
-			$calculator_price  = $discount_cal['product_price'];
-			$product_price_tax = $discount_cal['product_price_tax'];
-		}
-
-		// Attribute price
-		$retAttArr                  = $this->_producthelper->makeAttributeCart($cart[$cartElement]['cart_attribute'], $cart[$cartElement]['product_id'], $user->id, $calculator_price, $cart[$cartElement]['quantity']);
-		$product_price              = $retAttArr[1];
-		$product_vat_price          = $retAttArr[2];
-		$product_old_price          = $retAttArr[5] + $retAttArr[6];
-		$product_old_price_excl_vat = $retAttArr[5];
-
-		// Accessory price
-		$retAccArr             = $this->_producthelper->makeAccessoryCart($cart[$cartElement]['cart_accessory'], $cart[$cartElement]['product_id']);
-		$accessory_total_price = $retAccArr[1];
-		$accessory_vat_price   = $retAccArr[2];
-
-
-		if ($cart[$cartElement]['wrapper_id'])
-		{
-			$wrapperArr    = $this->getWrapperPriceArr(array('product_id' => $cart[$cartElement]['product_id'], 'wrapper_id' => $cart[$cartElement]['wrapper_id']));
-			$wrapper_vat   = $wrapperArr['wrapper_vat'];
-			$wrapper_price = $wrapperArr['wrapper_price'];
-		}
-
-		if (isset($cart[$cartElement]['subscription_id']) && $cart[$cartElement]['subscription_id'] != "")
-		{
-			$subscription_vat    = 0;
-			$subscription_detail = $this->_producthelper->getProductSubscriptionDetail($product_id, $cart[$cartElement]['subscription_id']);
-			$subscription_price  = $subscription_detail->subscription_price;
-
-			if ($subscription_price)
-			{
-				$subscription_vat = $this->_producthelper->getProductTax($product_id, $subscription_price);
-			}
-
-			$product_vat_price += $subscription_vat;
-			$product_price = $product_price + $subscription_price;
-			$product_old_price_excl_vat += $subscription_price;
-		}
-
-		$cart[$cartElement]['product_price']              = $product_price + $product_vat_price + $accessory_total_price + $accessory_vat_price + $wrapper_price + $wrapper_vat;
-		$cart[$cartElement]['product_old_price']          = $product_old_price + $accessory_total_price + $accessory_vat_price + $wrapper_price + $wrapper_vat;
-		$cart[$cartElement]['product_old_price_excl_vat'] = $product_old_price_excl_vat + $accessory_total_price + $wrapper_price;
-		$cart[$cartElement]['product_price_excl_vat']     = $product_price + $accessory_total_price + $wrapper_price;
-		$cart[$cartElement]['product_vat']                = $product_vat_price + $accessory_vat_price + $wrapper_vat;
-
-		$session->set('cart', $cart);
 	}
 
 	public function userfieldValidation($data, $data_add, $section = 12)
@@ -7234,5 +7197,104 @@ class rsCarthelper
 		$list = $this->_db->loadObjectlist();
 
 		return $list;
+	}
+
+	/**
+	 * Handle required attribute before add in to cart messages
+	 *
+	 * @param   array   $data                  cart data
+	 * @param   string  $attributeTemplate     Attribute added data
+	 * @param   array   $selectedAttrId        Selected attribute id for add to cart
+	 * @param   array   $selectedPropId        Selected Property Id for Add to cart
+	 * @param   array   $notselectedSubpropId  Not selected subproperty ids during add to cart
+	 *
+	 * @return  string  Error Message if found otherwise return null.
+	 */
+	public function handleRequiredSelectedAttributeCartMessage($data, $attributeTemplate, $selectedAttrId, $selectedPropId, $notselectedSubpropId)
+	{
+		if (INDIVIDUAL_ADD_TO_CART_ENABLE)
+		{
+			return;
+		}
+
+		// Check if required attribute is filled or not ...
+		$attribute_template = $this->_producthelper->getAttributeTemplate($attributeTemplate);
+
+		if (count($attribute_template) > 0)
+		{
+			$selectedAttributId = 0;
+
+			if (count($selectedAttrId) > 0)
+			{
+				$selectedAttributId = implode(",", $selectedAttrId);
+			}
+
+			$req_attribute = $this->_producthelper->getProductAttribute(
+								$data['product_id'],
+								0,
+								0,
+								0,
+								1,
+								$selectedAttributId
+							);
+
+			if (count($req_attribute) > 0)
+			{
+				$requied_attributeArr = array();
+
+				for ($re = 0; $re < count($req_attribute); $re++)
+				{
+					$requied_attributeArr[$re] = urldecode($req_attribute[$re]->attribute_name);
+				}
+
+				$requied_attribute_name = implode(", ", $requied_attributeArr);
+
+				// Error message if first attribute is required
+				return $requied_attribute_name . " " . JText::_('COM_REDSHOP_IS_REQUIRED');
+			}
+
+			$selectedPropertyId = 0;
+
+			if (count($selectedPropId) > 0)
+			{
+				$selectedPropertyId = implode(",", $selectedPropId);
+			}
+
+			$notselectedSubpropertyId = 0;
+
+			if (count($notselectedSubpropId) > 0)
+			{
+				$notselectedSubpropertyId = implode(",", $notselectedSubpropId);
+			}
+
+			$req_property = $this->_producthelper->getAttibuteProperty(
+								$selectedPropertyId,
+								$selectedAttributId,
+								$data['product_id'],
+								0,
+								1,
+								$notselectedSubpropertyId
+							);
+
+			if (count($req_property) > 0)
+			{
+				$requied_subattributeArr = array();
+
+				for ($re1 = 0; $re1 < count($req_property); $re1++)
+				{
+					$requied_subattributeArr[$re1] = urldecode($req_property[$re1]->property_name);
+				}
+
+				$requied_subattribute_name = implode(",", $requied_subattributeArr);
+
+				// Give error as second attribute is required
+				if ($data['reorder'] != 1)
+				{
+					return $requied_subattribute_name . " " . JText::_('COM_REDSHOP_SUBATTRIBUTE_IS_REQUIRED');
+				}
+			}
+		}
+
+		return;
 	}
 }

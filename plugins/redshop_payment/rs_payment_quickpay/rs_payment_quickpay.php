@@ -110,7 +110,7 @@ class plgRedshop_paymentrs_payment_quickpay extends JPlugin
 	 */
 	private function sendQuickpayRequest($data, $type)
 	{
-		$protocol     = '3';
+		$protocol     = 7;
 		$msgtype      = $type;
 		$finalize     = 1;
 		$merchant_id  = $this->params->get("quickpay_customer_id");
