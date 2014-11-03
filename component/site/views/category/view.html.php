@@ -77,7 +77,11 @@ class RedshopViewCategory extends RedshopView
 
 		$document = JFactory::getDocument();
 
-		JHtml::Script('jquery.js', 'components/com_redshop/assets/js/', false);
+		if (version_compare(JVERSION, '3.0', '<'))
+		{
+			JHtml::script('com_redshop/jquery.js', false, true);
+		}
+
 		JHtml::Script('redbox.js', 'components/com_redshop/assets/js/', false);
 
 		JHtml::Script('attribute.js', 'components/com_redshop/assets/js/', false);
