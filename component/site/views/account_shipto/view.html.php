@@ -54,7 +54,7 @@ class RedshopViewAccount_shipto extends RedshopView
 			JHTML::Script('jquery-1.4.2.min.js', 'components/com_redshop/assets/js/', false);
 			JHTML::Script('jquery.validate.js', 'components/com_redshop/assets/js/', false);
 			JHtml::script('com_redshop/common.js', false, true);
-			JHTML::Script('registration.js', 'components/com_redshop/assets/js/', false);
+			JHtml::script('com_redshop/registration.js', false, true);
 			JHtml::stylesheet('com_redshop/validation.css', array(), true);
 
 			$shippingaddresses = $this->get('Data');

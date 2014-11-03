@@ -460,7 +460,7 @@ class RedshopViewCategory extends RedshopView
 					$document->addScript('//ajax.googleapis.com/ajax/libs/jqueryui/1.8.15/jquery-ui.min.js');
 
 					// End Code for fixes IE9 issue
-					require_once JPATH_COMPONENT_SITE . '/assets/js/catprice_filter.php';
+					require_once JPATH_ROOT . 'media/com_redshop/js/catprice_filter.php';
 				}
 				else
 				{
