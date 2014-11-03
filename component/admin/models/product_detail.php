@@ -4694,4 +4694,29 @@ class RedshopModelProduct_Detail extends JModel
 
 		return true;
 	}
+
+	/**
+	 * Auto incrememnt id of next product
+	 *
+	 * @return  integer  Next Product id
+	 */
+	public function getProductNextAutoIncrementId()
+	{
+		$query = 'SHOW TABLE STATUS LIKE '
+				. $this->_db->q(
+					JFactory::getApplication()->getCfg('dbprefix') . 'redshop_product'
+				);
+		$this->_db->setQuery($query);
+
+		try
+		{
+			$result = $this->_db->loadObject();
+		}
+		catch (RuntimeException $e)
+		{
+			throw new RuntimeException($e->getMessage(), $e->getCode());
+		}
+
+		return $result->Auto_increment;
+	}
 }
