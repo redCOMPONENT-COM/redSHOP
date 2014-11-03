@@ -63,7 +63,7 @@ JHTML::Stylesheet('style.css', 'components/com_redshop/assets/css/');
 // Set the default view name and format from the Request.
 $vName      = $app->input->getCmd('view', 'category');
 $task       = $app->input->getCmd('task', '');
-$format     = $app->input->getWord('format', '');
+$format     = $app->input->getWord('format', 'html');
 $layout     = $app->input->getWord('layout', '');
 $params     = $app->getParams('com_redshop');
 $categoryid = $app->input->getInt('cid', $params->get('categoryid'));
@@ -81,7 +81,7 @@ if (count($sgportal) > 0)
 }
 
 // Don't create div for AJAX call and GA code.
-if ('component' !== $app->input->getCmd('tmpl'))
+if ('component' !== $app->input->getCmd('tmpl') && 'html' == $format)
 {
 	echo "<div id='redshopcomponent' class='redshop'>";
 
