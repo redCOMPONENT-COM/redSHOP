@@ -14,9 +14,12 @@
  * @copyright  Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license    GNU General Public License version 2 or later; see LICENSE
  */
-	defined('_JEXEC') or die ('Restricted access');
+	defined('_JEXEC') or die;
 
 	$app = JFactory::getApplication();
+
+	// Load redSHOP Library
+	JLoader::import('redshop.library');
 
 	$configpath = JPATH_COMPONENT . '/helpers/redshop.cfg.php';
 
@@ -32,7 +35,7 @@
 		require_once $configpath;
 	}
 
-	JLoader::import('loadhelpers', JPATH_SITE . '/components/com_redshop');
+	JLoader::load('RedshopHelperAdminProduct');
 	JLoader::load('RedshopHelperAdminConfiguration');
 	JLoader::load('RedshopHelperAdminTemplate');
 	JLoader::load('RedshopHelperAdminStockroom');
@@ -40,6 +43,7 @@
 	JLoader::load('RedshopHelperAdminAccess_level');
 	JLoader::load('RedshopHelperHelper');
 	JLoader::load('RedshopHelperAdminImages');
+	JLoader::load('RedshopHelperAdminCategory');
 
 	$redhelper = new redhelper;
 	$redhelper->removeShippingRate();
@@ -123,13 +127,14 @@
 	");
 
 	$document->addStyleSheet(JURI::root() . 'administrator/components/com_redshop/assets/css/redshop.css');
+	$format = $app->input->get('format', 'html');
 
 	if ($controller != "search" && $controller != "order_detail" && $controller != "wizard" && $task != "getcurrencylist"
 		&& $layout != "thumbs" && $controller != "catalog_detail" && $task != "clearsef" && $task != "removesubpropertyImage"
 		&& $task != "removepropertyImage" && $controller != "product_price" && $task != "template" && $json_var == ''
 		&& $task != 'gbasedownload' && $task != "export_data" && $showbuttons != "1" && $showall != 1
 		&& $controller != "product_attribute_price" && $task != "ins_product" && $controller != "shipping_rate_detail"
-		&& $controller != "accountgroup_detail" && $layout != "labellisting" && $task != "checkVirtualNumber")
+		&& $controller != "accountgroup_detail" && $layout != "labellisting" && $task != "checkVirtualNumber" && $format == 'html')
 	{
 		if ($controller != "redshop" && $controller != "configuration" && $controller != "product_detail"
 			&& $controller != "country_detail" && $controller != "state_detail" && $controller != "category_detail"
@@ -172,7 +177,7 @@
 	}
 
 	// Check for a not controller.task command.
-	if (strpos($command, '.') === false)
+	if ($command != '' && strpos($command, '.') === false)
 	{
 		JRequest::setVar('task', $controller . '.' . $command);
 	}

@@ -38,26 +38,36 @@ class rsUserhelper
 	/**
 	 * Replace Conditional tag from Redshop tax
 	 *
-	 * @param   integer  $user_id  User identifier
+	 * @param   integer  $userId  User identifier
 	 *
 	 * @return  integer            User group
 	 */
-	public function getShopperGroup($user_id = 0)
+	public function getShopperGroup($userId = 0)
 	{
+		if (0 == $userId)
+		{
+			$auth = JFactory::getSession()->get('auth');
+
+			if (is_array($auth) && array_key_exists('users_info_id', $auth))
+			{
+				$userId -= $auth['users_info_id'];
+			}
+		}
+
 		// Get redCRM Contact person session array
 		$isredcrmuser = $this->_session->get('isredcrmuser', false);
 
 		if ($isredcrmuser)
 		{
-			$this->_db->setQuery("SELECT user_id FROM  " . $this->_table_prefix . "users_info WHERE users_info_id IN (SELECT users_info_id FROM #__redcrm_contact_persons WHERE cp_user_id = " . (int) $user_id . ") and address_type='BT'");
-			$user_id = $this->_db->loadResult();
+			$this->_db->setQuery("SELECT user_id FROM  " . $this->_table_prefix . "users_info WHERE users_info_id IN (SELECT users_info_id FROM #__redcrm_contact_persons WHERE cp_user_id = " . (int) $userId . ") and address_type='BT'");
+			$userId = $this->_db->loadResult();
 		}
 
 		$shopperGroupId = SHOPPER_GROUP_DEFAULT_UNREGISTERED;
 
-		if ($user_id)
+		if ($userId)
 		{
-			$shopperGroupData = $this->getShoppergroupData($user_id);
+			$shopperGroupData = $this->getShoppergroupData($userId);
 
 			if (count($shopperGroupData) > 0)
 			{
@@ -65,7 +75,7 @@ class rsUserhelper
 			}
 		}
 
-		$this->_userId = $user_id;
+		$this->_userId = $userId;
 
 		return $shopperGroupId;
 	}
@@ -490,8 +500,11 @@ class rsUserhelper
 			$credentials['username'] = $data['username'];
 			$credentials['password'] = $data['password2'];
 
-			//preform the login action
-			$app->login($credentials);
+			// Perform the login action
+			if (!JFactory::getUser()->id)
+			{
+				$app->login($credentials);
+			}
 
 			return $user;
 		}
@@ -683,6 +696,10 @@ class rsUserhelper
 		if (isset($data['newsletter_signup']) && $data['newsletter_signup'] == 1)
 		{
 			$this->newsletterSubscribe($row->user_id, $data);
+
+			JPluginHelper::importPlugin('redshop_user');
+			$dispatcher = JDispatcher::getInstance();
+			$hResponses = $dispatcher->trigger('addNewsLetterSubscription', array($isNew, $data));
 		}
 
 		$billisship = 1;
@@ -1028,10 +1045,10 @@ class rsUserhelper
 			$template_pd_sdata = explode('{account_creation_start}', $template_desc);
 			$template_pd_edata = explode('{account_creation_end}', $template_pd_sdata [1]);
 			$template_middle   = "";
+			$checkbox_style  = '';
 
 			if (REGISTER_METHOD != 1 && REGISTER_METHOD != 3)
 			{
-				$checkbox_style  = '';
 				$template_middle = $template_pd_edata[0];
 
 				if (REGISTER_METHOD == 2)

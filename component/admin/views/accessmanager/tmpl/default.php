@@ -7,9 +7,9 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 JLoader::load('RedshopHelperProduct');
-$producthelper = new producthelper();
+$producthelper = new producthelper;
 
-$config = new Redconfiguration();
+$config = new Redconfiguration;
 
 $option = JRequest::getVar('option');
 

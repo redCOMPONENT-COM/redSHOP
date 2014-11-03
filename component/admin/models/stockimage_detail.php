@@ -10,6 +10,7 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.application.component.model');
+JLoader::load('RedshopHelperAdminImages');
 
 class RedshopModelStockimage_detail extends JModel
 {
@@ -90,7 +91,7 @@ class RedshopModelStockimage_detail extends JModel
 			$ext = explode(".", $file['name']);
 			$filetmpname = substr($file['name'], 0, strlen($file['name']) - strlen($ext[count($ext) - 1]));
 
-			$filename = JPath::clean(time() . '_' . $filetmpname . "jpg");
+			$filename = RedShopHelperImages::cleanFileName($filetmpname . 'jpg');
 			$row->stock_amount_image = $filename;
 
 			$src = $file['tmp_name'];

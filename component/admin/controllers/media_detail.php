@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 jimport('joomla.application.component.controller');
 jimport('joomla.filesystem.file');
 jimport('joomla.filesystem.archive');
+JLoader::load('RedshopHelperAdminImages');
 
 /**
  * Class to Manage PayPal Payment Subscription
@@ -82,7 +83,7 @@ class RedshopControllerMedia_Detail extends JController
 						. '/' . $post['media_section'] . '/thumb/' . $post['media_name'];
 
 					$new_path = JPATH_COMPONENT_SITE . '/assets/' . $post['media_type']
-						. '/' . $post['media_section'] . '/' . time() . '_' . $post['media_name'];
+						. '/' . $post['media_section'] . '/' . RedShopHelperImages::cleanFileName($post['media_name']);
 
 					copy($old_path, $new_path);
 
@@ -149,7 +150,7 @@ class RedshopControllerMedia_Detail extends JController
 				$image_split = explode('/', $post['media_bank_image']);
 
 				// Make the filename unique
-				$filename = JPath::clean(time() . '_' . $image_split[count($image_split) - 1]);
+				$filename = RedShopHelperImages::cleanFileName($image_split[count($image_split) - 1]);
 
 				// Download product changes
 				if ($post['media_type'] == 'download')
@@ -218,11 +219,11 @@ class RedshopControllerMedia_Detail extends JController
 				if ($post['hdn_download_file_path'] != $download_path)
 				{
 					// Make the filename unique
-					$filename = time() . '_' . $post['hdn_download_file'];
+					$filename = RedShopHelperImages::cleanFileName($post['hdn_download_file']);
 
 					if ($post['media_type'] == 'download')
 					{
-						$post['media_name'] = $product_download_root . str_replace(" ", "_", $filename);
+						$post['media_name'] = $product_download_root . $filename;
 
 						$down_src = $download_path;
 
@@ -274,7 +275,7 @@ class RedshopControllerMedia_Detail extends JController
 				$image_split = explode('/', $post['media_bank_image']);
 
 				// Make the filename unique
-				$filename = JPath::clean(time() . '_' . $image_split[count($image_split) - 1]);
+				$filename = RedShopHelperImages::cleanFileName($image_split[count($image_split) - 1]);
 
 				// Download product changes
 				if ($post['media_type'] == 'download')
@@ -356,12 +357,12 @@ class RedshopControllerMedia_Detail extends JController
 							{
 								$filenewtype = strtolower(JFile::getExt($newscan[$j]));
 								$btsrc = $target . '/' . $scan[$i] . '/' . $newscan[$j];
-								$post['media_name'] = time() . "_" . $newscan[$j];
+								$post['media_name'] = RedShopHelperImages::cleanFileName($newscan[$j]);
 								$post['media_mimetype'] = $filenewtype;
 
 								if ($post['media_type'] == 'download')
 								{
-									$post['media_name'] = $product_download_root . time() . "_" . str_replace(" ", "_", $newscan[$j]);
+									$post['media_name'] = $product_download_root . RedShopHelperImages::cleanFileName($newscan[$j]);
 
 									if ($row = $model->store($post))
 									{
@@ -414,7 +415,7 @@ class RedshopControllerMedia_Detail extends JController
 										if ($row = $model->store($post))
 										{
 											$originaldir = JPATH_ROOT . '/components/' . $option . '/assets/' . $row->media_type . '/'
-												. $row->media_section . '/' . time() . '_' . $newscan[$j];
+												. $row->media_section . '/' . RedShopHelperImages::cleanFileName($newscan[$j]);
 
 											copy($btsrc, $originaldir);
 											unlink($btsrc);
@@ -464,12 +465,12 @@ class RedshopControllerMedia_Detail extends JController
 						{
 							$filenewtype = strtolower(JFile::getExt($scan[$i]));
 							$btsrc = $target . '/' . $scan[$i];
-							$post['media_name'] = time() . "_" . $scan[$i];
+							$post['media_name'] = RedShopHelperImages::cleanFileName($scan[$i]);
 							$post['media_mimetype'] = $filenewtype;
 
 							if ($post['media_type'] == 'download')
 							{
-								$post['media_name'] = $product_download_root . time() . "_" . str_replace(" ", "_", $scan[$i]);
+								$post['media_name'] = $product_download_root . RedShopHelperImages::cleanFileName($scan[$i]);
 
 								if ($row = $model->store($post))
 								{
@@ -523,7 +524,7 @@ class RedshopControllerMedia_Detail extends JController
 									{
 										// Set First Image as product Main Imaged
 										$originaldir = JPATH_ROOT . '/components/' . $option . '/assets/' . $row->media_type . '/'
-											. $row->media_section . '/' . time() . '_' . $scan[$i];
+											. $row->media_section . '/' . RedShopHelperImages::cleanFileName($scan[$i]);
 
 										copy($btsrc, $originaldir);
 
@@ -704,14 +705,14 @@ class RedshopControllerMedia_Detail extends JController
 						// Download product changes
 						if ($post['media_type'] == 'download')
 						{
-							$post['media_name'] = $product_download_root . time() . "_" . str_replace(" ", "_", $file['name'][$i]);
+							$post['media_name'] = $product_download_root . RedShopHelperImages::cleanFileName($file['name'][$i]);
 							$dest = $post['media_name'];
 						}
 						else
 						{
-							$post['media_name'] = time() . "_" . $file['name'][$i];
+							$post['media_name'] = RedShopHelperImages::cleanFileName($file['name'][$i]);
 							$dest = JPATH_ROOT . '/components/' . $option . '/assets/' . $post['media_type'] . '/'
-								. $post['media_section'] . '/' . time() . '_' . $file['name'][$i];
+								. $post['media_section'] . '/' . RedShopHelperImages::cleanFileName($file['name'][$i]);
 						}
 
 						$post['media_mimetype'] = $file['type'][$i];

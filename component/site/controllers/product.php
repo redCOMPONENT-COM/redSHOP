@@ -12,6 +12,7 @@ defined('_JEXEC') or die;
 JLoader::import('joomla.application.component.controller');
 JLoader::load('RedshopHelperProduct');
 JLoader::load('RedshopHelperAdminTemplate');
+JLoader::load('RedshopHelperAdminImages');
 
 /**
  * Product Controller.
@@ -421,7 +422,7 @@ class RedshopControllerProduct extends JController
 
 		$model = $this->getModel('product');
 
-		$tagnames = preg_split(" ", $tagnames);
+		$tagnames = explode(" ", $tagnames);
 
 		for ($i = 0; $i < count($tagnames); $i++)
 		{
@@ -787,14 +788,15 @@ class RedshopControllerProduct extends JController
 	 */
 	public function ajaxupload()
 	{
-		$uploaddir = JPATH_COMPONENT_SITE . '/assets/document/product/';
+		$uploadDir = JPATH_COMPONENT_SITE . '/assets/document/product/';
 		$name = JRequest::getVar('mname');
-		$filename = time() . '_' . basename($_FILES[$name]['name']);
-		$uploadfile = $uploaddir . $filename;
+		$destFileName = RedShopHelperImages::cleanFileName($_FILES[$name]['name']);
 
-		if (move_uploaded_file($_FILES[$name]['tmp_name'], $uploadfile))
+		$uploadFile = $uploadDir . $destFileName;
+
+		if (move_uploaded_file($_FILES[$name]['tmp_name'], $uploadFile))
 		{
-			echo $filename;
+			echo $destFileName;
 		}
 		else
 		{
