@@ -87,7 +87,7 @@ class RedshopViewCategory extends RedshopView
 		JHtml::script('com_redshop/attribute.js', false, true);
 		JHtml::script('com_redshop/common.js', false, true);
 
-		JHtml::Stylesheet('priceslider.css', 'components/com_redshop/assets/css/');
+		JHtml::stylesheet('com_redshop/priceslider.css', array(), true);
 
 		// Add jQueryUI because of IE9 issue
 		$document->addStyleSheet('http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/base/jquery-ui.css');

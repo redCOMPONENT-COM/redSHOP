@@ -2044,7 +2044,7 @@ class producthelper
 
 		if (empty($userArr))
 		{
-			$userArr = $this->_userhelper->createUserSession($userid);
+			$userArr = $this->_userhelper->createUserSession($user_id);
 		}
 
 		$shopperGroupId = $userArr['rs_user_shopperGroup'];
@@ -2053,9 +2053,11 @@ class producthelper
 			. " WHERE ds.shopper_group_id = " . (int) $shopperGroupId;
 
 		$this->_db->setQuery($sql);
-		$list       = $this->_db->loadResultArray();
-		$list       = array_merge(array(0 => '0'), $list);
 
+		if ($list = $this->_db->loadResultArray())
+		{
+			$list = array_merge(array(0 => '0'), $list);
+		}
 
 		if (!empty($list))
 		{

@@ -35,7 +35,7 @@ class RedshopViewRegistration extends RedshopView
 		JHtml::script('com_redshop/common.js', false, true);
 		JHTML::Script('jquery.metadata.js', 'components/com_redshop/assets/js/', false);
 		JHTML::Script('registration.js', 'components/com_redshop/assets/js/', false);
-		JHTML::Stylesheet('validation.css', 'components/com_redshop/assets/css/');
+		JHtml::stylesheet('com_redshop/validation.css', array(), true);
 
 		$field                        = new extraField;
 

@@ -51,7 +51,7 @@ class RedshopViewWizard extends RedshopView
 		$document->addScript('components/com_redshop/assets/js/validation.js');
 		$document->addScript('components/com_redshop/assets/js/select_sort.js');
 		$document->addStyleSheet('components/com_redshop/assets/css/search.css');
-		$document->addStyleSheet('components/com_redshop/assets/css/redshop.css');
+		JHtml::stylesheet('com_redshop/redshop.css', array(), true);
 		$document->addStyleSheet('components/com_redshop/assets/css/wizard.css');
 		$document->addScript('components/com_redshop/assets/js/search.js');
 

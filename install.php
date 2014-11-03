@@ -162,8 +162,8 @@ class Com_RedshopInstallerScript
 
 		if (file_exists($categoryTemplate))
 		{
-			$demoCSS    = JPATH_SITE . '/components/com_redshop/assets/css/redshop-update.css';
-			$redSHOPCSS = JPATH_SITE . '/components/com_redshop/assets/css/redshop.css';
+			$demoCSS    = JPATH_SITE . '/media/com_redshop/css/redshop-update.css';
+			$redSHOPCSS = JPATH_SITE . '/media/com_redshop/css/redshop.css';
 			unlink($redSHOPCSS);
 			rename($demoCSS, $redSHOPCSS);
 		}

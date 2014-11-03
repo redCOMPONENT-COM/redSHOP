@@ -29,7 +29,7 @@ JHtml::script('com_redshop/attribute.js', false, true);
 JHtml::script('com_redshop/common.js', false, true);
 // lightbox Javascript
 JHTML::Script('fetchscript.js', 'components/com_redshop/assets/js/', false);
-JHTML::Stylesheet('fetchscript.css', 'components/com_redshop/assets/css/');
+JHtml::stylesheet('com_redshop/fetchscript.css', array(), true);
 $module_id = "mod_" . $module->id;
 
 // get product helper

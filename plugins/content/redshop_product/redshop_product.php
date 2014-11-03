@@ -58,10 +58,10 @@ class plgContentredshop_product extends JPlugin
 			JHtml::script('com_redshop/redbox.js', false, true);
 			JHtml::script('com_redshop/attribute.js', false, true);
 			JHtml::script('com_redshop/common.js', false, true);
-			JHTML::Stylesheet('redshop.css', 'components/com_redshop/assets/css/');
-			JHTML::Stylesheet('fetchscript.css', 'components/com_redshop/assets/css/');
-			JHTML::Stylesheet('style.css', 'components/com_redshop/assets/css/');
-			JHTML::Stylesheet('scrollable-navig.css', 'components/com_redshop/assets/css/');
+			JHtml::stylesheet('com_redshop/redshop.css', array(), true);
+			JHtml::stylesheet('com_redshop/fetchscript.css', array(), true);
+			JHtml::stylesheet('com_redshop/style.css', array(), true);
+			JHtml::stylesheet('com_redshop/scrollable-navig.css', array(), true);
 			$document->addScriptDeclaration("
 		                var site_url = '" . JURI::root() . "';
 		                var AJAX_CART_BOX = " . AJAX_CART_BOX . ";

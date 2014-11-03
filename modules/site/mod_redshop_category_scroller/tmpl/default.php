@@ -33,7 +33,7 @@ JLoader::load('RedshopHelperRedshop.js');
 JHtml::script('com_redshop/redbox.js', false, true);
 JHtml::script('com_redshop/attribute.js', false, true);
 JHtml::script('com_redshop/common.js', false, true);
-JHTML::Stylesheet('fetchscript.css', 'components/com_redshop/assets/css/');
+JHtml::stylesheet('com_redshop/fetchscript.css', array(), true);
 
 $config = new Redconfiguration;
 $config->defineDynamicVars();

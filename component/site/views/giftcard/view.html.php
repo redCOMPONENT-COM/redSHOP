@@ -24,7 +24,7 @@ class RedshopViewGiftcard extends RedshopView
 		JHtml::script('com_redshop/redbox.js', false, true);
 		JHtml::script('com_redshop/common.js', false, true);
 		JHtml::script('com_redshop/attribute.js', false, true);
-		JHTML::Stylesheet('fetchscript.css', 'components/com_redshop/assets/css/');
+		JHtml::stylesheet('com_redshop/fetchscript.css', array(), true);
 
 		$pageheadingtag = JText::_('COM_REDSHOP_REDSHOP');
 

@@ -134,7 +134,7 @@
 		var VAT_RATE_AFTER_DISCOUNT = '" . VAT_RATE_AFTER_DISCOUNT . "';
 	");
 
-	$document->addStyleSheet(JURI::root() . 'administrator/components/com_redshop/assets/css/redshop.css');
+	JHtml::stylesheet('com_redshop/redshop.css', array(), true);
 	$format = $app->input->get('format', 'html');
 
 	if ($controller != "search" && $controller != "order_detail" && $controller != "wizard" && $task != "getcurrencylist"

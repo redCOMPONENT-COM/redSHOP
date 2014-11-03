@@ -29,7 +29,7 @@ JLoader::load('RedshopHelperAdminImages');
 JHtml::script('com_redshop/attribute.js', false, true);
 JHtml::script('com_redshop/common.js', false, true);
 JHtml::script('com_redshop/redbox.js', false, true);
-JHTML::Stylesheet('fetchscript.css', 'components/com_redshop/assets/css/');
+JHtml::stylesheet('com_redshop/fetchscript.css', array(), true);
 
 
 $producthelper   = new producthelper;

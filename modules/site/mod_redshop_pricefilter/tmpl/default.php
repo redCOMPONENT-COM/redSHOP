@@ -18,7 +18,6 @@ $option = JRequest::getCmd('option');
 
 
 $document = JFactory::getDocument();
-//$document->addstylesheet('components/com_redshop/assets/css/redshop_pricefilter.css');
 
 // 	include redshop js file.
 JLoader::load('RedshopHelperRedshop.js');
@@ -26,8 +25,8 @@ JLoader::load('RedshopHelperRedshop.js');
 JHtml::script('com_redshop/attribute.js', false, true);
 JHTML::Script('jquery-1.js', 'components/com_redshop/assets/js/', false);
 JHTML::Script('jquery-ui-1.js', 'components/com_redshop/assets/js/', false);
-JHTML::Stylesheet('priceslider.css', 'components/com_redshop/assets/css/');
-JHTML::Stylesheet('jquery-ui-1.css', 'components/com_redshop/assets/css/');
+JHtml::stylesheet('com_redshop/priceslider.css', array(), true);
+JHtml::stylesheet('com_redshop/jquery-ui-1.css', array(), true);
 ?>
 <script type="text/javascript">
 	var dom = {};
