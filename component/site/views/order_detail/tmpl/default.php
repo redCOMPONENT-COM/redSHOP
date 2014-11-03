@@ -37,25 +37,14 @@ $force_ssl = $config->getValue('force_ssl');
 if ($getshm == 'https' && $force_ssl > 2)
 {
 	$uri->setScheme('http');
-}?>
-	<script type="text/javascript">
-		function submitReorder() {
-			if (!confirm("<?php echo JText::_('COM_REDSHOP_CONFIRM_CART_EMPTY');?>")) {
-				return false;
-			}
-			return true;
-		}
-	</script>
-<?php
-if ($this->params->get('show_page_heading', 1))
-{
-	?>
-	<div class="componentheading<?php echo $this->params->get('pageclass_sfx') ?>">
-		<?php echo $this->escape(JText::_('COM_REDSHOP_ORDER_DETAILS'));?></div>
-<?php
 }
-?>
-	<div><?php echo ORDER_DETAIL_INTROTEXT;?></div>
+
+if ($this->params->get('show_page_heading', 1)) : ?>
+	<div class="componentheading<?php echo $this->params->get('pageclass_sfx') ?>">
+		<?php echo $this->escape(JText::_('COM_REDSHOP_ORDER_DETAILS'));?>
+	</div>
+<?php endif; ?>
+<div><?php echo ORDER_DETAIL_INTROTEXT;?></div>
 <?php
 $model          = $this->getModel('order_detail');
 $OrdersDetail   = $this->OrdersDetail;
@@ -82,6 +71,9 @@ else
 		$orderslist_template = '<div class="product_print">{print}</div><table style="width: 100%;" border="0" cellspacing="0" cellpadding="5"><tbody><tr><td colspan="2"><table style="width: 100%;" border="0" cellspacing="0" cellpadding="2"><tbody><tr style="background-color: #cccccc"><th align="left">{discount_type_lbl}</th></tr><tr><td>{discount_type}</td></tr><tr style="background-color: #cccccc;"><th align="left">{order_information_lbl}</th></tr><tr></tr><tr><td>{order_id_lbl} : {order_id}</td></tr><tr><td>{order_number_lbl} : {order_number}</td></tr><tr><td>{order_date_lbl} : {order_date}</td></tr><tr><td>{order_status_lbl} : {order_status}</td></tr></tbody></table></td></tr><tr><td colspan="2"><table style="width: 100%;" border="0" cellspacing="0" cellpadding="2"><tbody><tr style="background-color: #cccccc;"><th align="left">{billing_address_information_lbl}</th></tr><tr></tr><tr><td>{billing_address}</td></tr></tbody></table></td></tr><tr><td colspan="2"><table style="width: 100%;" border="0" cellspacing="0" cellpadding="2"><tbody><tr style="background-color: #cccccc;"><th align="left">{shipping_address_information_lbl}</th></tr><tr></tr><tr><td>{shipping_address}</td></tr></tbody></table></td></tr><tr><td colspan="2"><table style="width: 100%;" border="0" cellspacing="0" cellpadding="2"><tbody><tr style="background-color: #cccccc;"><th align="left">{order_detail_lbl}</th></tr><tr></tr><tr><td><table style="width: 100%;" border="0" cellspacing="2" cellpadding="2"><tbody><tr><td>{copy_orderitem_lbl}</td><td>{product_name_lbl}</td><td>{note_lbl}</td><td>{price_lbl}</td><td>{quantity_lbl}</td><td align="right">{total_price_lbl}</td></tr>{product_loop_start}<tr><td>{copy_orderitem}</td><td>{product_name}<br />{product_attribute}{product_accessory}{product_userfields}</td><td>{product_wrapper}</td><td>{product_price}</td><td>{product_quantity}</td><td align="right">{product_total_price}</td></tr>{product_loop_end}</tbody></table></td></tr><tr><td>{customer_note_lbl}: {customer_note}</td></tr><tr><td>{requisition_number_lbl}: {requisition_number}</td></tr><tr><td><table class="cart_calculations" border="1"><tbody><tr class="tdborder"><td><b>Product Subtotal:</b></td><td width="100">{product_subtotal}</td><td><b>Product Subtotal excl vat:</b></td><td width="100">{product_subtotal_excl_vat}</td></tr><tr><td><b>Shipping with vat:</b></td><td width="100">{shipping}</td><td><b>Shipping excl vat:</b></td><td width="100">{shipping_excl_vat}</td></tr>{if discount}<tr class="tdborder"><td>{discount_lbl}</td><td width="100">{discount}</td><td>{discount_lbl}</td><td width="100">{discount_excl_vat}</td></tr>{discount end if}<tr><td><b>{totalpurchase_lbl}:</b></td><td width="100">{order_subtotal}</td><td><b>{subtotal_excl_vat_lbl} :</b></td><td width="100">{order_subtotal_excl_vat}</td></tr>{if vat}<tr class="tdborder"><td>{vat_lbl}</td><td width="100">{tax}</td><td>{vat_lbl}</td><td width="100">{sub_total_vat}</td></tr>{vat end if}   {if payment_discount}<tr><td>{payment_discount_lbl}</td><td width="100">{payment_order_discount}</td></tr>{payment_discount end if}<tr class="tdborder"><td><b>{tax_with_shipping_lbl}</b></td><td width="100">{shipping}</td><td><b>{shipping_lbl}</b></td><td width="100">{shipping_excl_vat}</td></tr><tr><td><div class="singleline"><strong>{total_lbl}:</strong></div></td><td width="100"><div class="singleline">{order_total}</div></td><td><div class="singleline"><b>{total_lbl}:</b></div></td><td width="100"><div class="singleline">{total_excl_vat}</div></td></tr></tbody></table></td></tr><tr><td align="left">{reorder_button}</td></tr></tbody></table></td></tr></tbody></table>';
 	}
 }
+
+// Replace Reorder Button
+$this->replaceReorderButton($orderslist_template);
 
 if ($print)
 {
@@ -145,29 +137,6 @@ if ($issplit && ($split_amount > 0))
 	$payremaininglink = "<br />" . JText::_('COM_REDSHOP_REMAINING_AMOUNT_TOBE_PAID_BEFORE_DEL') . ": " . $producthelper->getProductFormattedPrice($split_amount) . "<a href='" . JRoute::_('index.php?option=com_redshop&view=split_payment&oid=' . $oid . '&Itemid=' . $Itemid) . "'>" . JText::_('COM_REDSHOP_PAY_REMAINING') . "</a>";
 }
 
-$frm     = '';
-$reorder = '';
-
-if ($OrdersDetail->order_status != 'C' && $OrdersDetail->order_status != 'S' && $OrdersDetail->order_status != 'PR' && $OrdersDetail->order_status != 'APP' && $print != 1 && $OrdersDetail->order_payment_status != 'Paid')
-{
-	$frm = "<form method='post'>
-	<input type='hidden' name='order_id' value='$oid'>
-	<input type='hidden' name='option' value='com_redshop'>
-	<input type='hidden' name='view' value='order_detail'>
-	<input type='hidden' name='task' value='payment'>
-	<input type='submit' name='payment' value='" . JText::_("COM_REDSHOP_PAY") . "'>
-	</form>";
-}
-else
-{
-	$reorder = "<form method='post' name='frmreorder' id='frmreorder'>";
-	$reorder .= "<input type='submit' name='reorder' id='reorder' value='" . JText::_('COM_REDSHOP_REORDER') . "' onclick='return submitReorder();' />";
-	$reorder .= "<input type='hidden' name='order_id' value='" . $oid . "'>";
-	$reorder .= "<input type='hidden' name='option' value='com_redshop'>";
-	$reorder .= "<input type='hidden' name='view' value='order_detail'>";
-	$reorder .= "<input type='hidden' name='task' value='reorder'></form>";
-}
-
 $search [] = "{order_status}";
 
 if (trim($OrdersDetail->order_payment_status) == 'Paid')
@@ -187,7 +156,7 @@ else
 	$orderPaymentStatus = $OrdersDetail->order_payment_status;
 }
 
-$replace[] = $statustext . " - " . $orderPaymentStatus . $split_amounttext . "    " . $payremaininglink . $frm;
+$replace[] = $statustext . " - " . $orderPaymentStatus . $split_amounttext . "    " . $payremaininglink;
 
 if (strstr($orderslist_template, "{order_status_order_only}"))
 {
@@ -200,9 +169,6 @@ if (strstr($orderslist_template, "{order_status_payment_only}"))
 	$search []  = "{order_status_payment_only}";
 	$replace [] = $orderPaymentStatus;
 }
-
-$search []  = "{reorder_button}";
-$replace [] = $reorder;
 
 $message = str_replace($search, $replace, $orderslist_template);
 

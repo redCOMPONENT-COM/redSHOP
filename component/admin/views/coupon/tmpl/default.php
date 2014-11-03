@@ -7,10 +7,10 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 JLoader::load('RedshopHelperProduct');
-$producthelper = new producthelper();
+$producthelper = new producthelper;
 
 JLoader::load('RedshopHelperAdminOrder');
-$order_functions = new order_functions();
+$order_functions = new order_functions;
 
 $option = JRequest::getVar('option');
 $model = $this->getModel('coupon');

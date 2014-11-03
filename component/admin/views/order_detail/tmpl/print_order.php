@@ -8,10 +8,10 @@
  */
 defined('_JEXEC') or die;
 
-$carthelper = new rsCarthelper();
+$carthelper = new rsCarthelper;
 $uri = JURI::getInstance();
 $url = $uri->root();
-$redTemplate = new Redtemplate();
+$redTemplate = new Redtemplate;
 $OrdersDetail = $this->detail;
 $order_print_template = $redTemplate->getTemplate("order_print");
 

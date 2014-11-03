@@ -23,6 +23,9 @@ Desktop.ini
 *~.nib
 *~
 
+# Ignore mergetool files
+*.orig
+
 # Phing build script
 build.properties
 

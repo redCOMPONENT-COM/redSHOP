@@ -12,8 +12,16 @@ $request           = JRequest::get('request');
 $Itemid            = $request["Itemid"];
 $task              = $request['task'];
 $PxPay_Url         = "https://sec2.paymentexpress.com/pxpay/pxaccess.aspx";
-$pxpay_success_url = JURI::base() . "plugins/redshop_payment/rs_payment_payment_express/rs_pxpost_notify.php";
-$pxpay_fail_url    = JURI::base() . "plugins/redshop_payment/rs_payment_payment_express/rs_pxpost_notify.php";
+$pxpay_success_url = JURI::base() . 'index.php?tmpl=component&option=com_redshop&view=order_detail
+    &controller=order_detail
+    &task=notify_payment
+    &payment_plugin=rs_payment_payment_express
+    &Itemid=' . $Itemid . '&orderid=' . $data['order_id'];
+$pxpay_fail_url = JURI::base() . 'index.php?tmpl=component&option=com_redshop&view=order_detail
+    &controller=order_detail
+    &task=notify_payment
+    &payment_plugin=rs_payment_payment_express
+    &Itemid=' . $Itemid . '&orderid=' . $data['order_id'];
 $pxpay             = new PxPay_Curl($PxPay_Url, $this->params->get("px_pay_username"), $this->params->get("px_post_label_key"));
 $request           = new PxPayRequest;
 $http_host         = getenv("HTTP_HOST");

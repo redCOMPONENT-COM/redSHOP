@@ -14,6 +14,7 @@ jimport('joomla.application.component.model');
 JLoader::load('RedshopHelperAdminExtra_field');
 JLoader::load('RedshopHelperAdminThumbnail');
 JLoader::load('RedshopHelperAdminCategory');
+JLoader::load('RedshopHelperAdminImages');
 jimport('joomla.client.helper');
 JClientHelper::setCredentialsFromRequest('ftp');
 jimport('joomla.filesystem.file');
@@ -124,8 +125,7 @@ class RedshopModelCategory_detail extends JModel
 		if (count($file) > 0)
 		{
 			// Make the filename unique
-			$filename = JPath::clean(time() . '_' . $file['name']);
-			$filename = str_replace(" ", "_", $filename);
+			$filename = RedShopHelperImages::cleanFileName($file['name']);
 		}
 
 		if (isset($data['image_delete']))
@@ -165,7 +165,7 @@ class RedshopModelCategory_detail extends JModel
 				$image_split = explode('/', $data['category_image']);
 
 				// Make the filename unique
-				$filename = JPath::clean(time() . '_' . $image_split[count($image_split) - 1]);
+				$filename = RedShopHelperImages::cleanFileName($image_split[count($image_split) - 1]);
 				$row->category_full_image = $filename;
 				$row->category_thumb_image = $filename;
 
@@ -196,7 +196,7 @@ class RedshopModelCategory_detail extends JModel
 		if (count($backfile) > 0 && $backfile['name'] != "")
 		{
 			// Make the filename unique
-			$filename = JPath::clean(time() . '_' . $backfile['name']);
+			$filename = RedShopHelperImages::cleanFileName($backfile['name']);
 			$row->category_back_full_image = $filename;
 
 			// Get extension of the file
