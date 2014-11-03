@@ -9,6 +9,8 @@
 
 defined('_JEXEC') or die;
 
+JLoader::import('redshop.library');
+
 /**
  * Epay Payment gateway for redSHOP Payments
  *
@@ -45,7 +47,6 @@ class PlgRedshop_Paymentrs_Payment_Epayv2 extends JPlugin
 			$plugin = $element;
 		}
 
-		JLoader::import('loadhelpers', JPATH_SITE . '/components/com_redshop');
 		JLoader::load('RedshopHelperProduct');
 		JLoader::load('RedshopHelperCurrency');
 

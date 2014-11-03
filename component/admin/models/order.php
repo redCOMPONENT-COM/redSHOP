@@ -27,16 +27,16 @@ class RedshopModelOrder extends JModel
 	{
 		parent::__construct();
 
-		$app = JFactory::getApplication();
-		$this->_context = 'order_id';
-		$this->_table_prefix = '#__redshop_';
-		$limit = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
-		$limitstart = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
-		$filter_status = $app->getUserStateFromRequest($this->_context . 'filter_status', 'filter_status', '', 'string');
+		$app                   = JFactory::getApplication();
+		$this->_context        = 'order_id';
+		$this->_table_prefix   = '#__redshop_';
+		$limit                 = $app->getUserStateFromRequest($this->_context . 'limit', 'limit', $app->getCfg('list_limit'), 0);
+		$limitstart            = $app->getUserStateFromRequest($this->_context . 'limitstart', 'limitstart', 0);
+		$filter_status         = $app->getUserStateFromRequest($this->_context . 'filter_status', 'filter_status', '', 'string');
 		$filter_payment_status = $app->getUserStateFromRequest($this->_context . 'filter_payment_status', 'filter_payment_status', '', '');
-		$filter = $app->getUserStateFromRequest($this->_context . 'filter', 'filter', 0);
-		$filter_by = $app->getUserStateFromRequest($this->_context . 'filter_by', 'filter_by', '', '');
-		$limitstart = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
+		$filter                = $app->getUserStateFromRequest($this->_context . 'filter', 'filter', 0);
+		$filter_by             = $app->getUserStateFromRequest($this->_context . 'filter_by', 'filter_by', '', '');
+		$limitstart            = ($limit != 0 ? (floor($limitstart / $limit) * $limit) : 0);
 		$this->setState('limit', $limit);
 		$this->setState('limitstart', $limitstart);
 		$this->setState('filter', $filter);
@@ -80,27 +80,23 @@ class RedshopModelOrder extends JModel
 
 	public function _buildQuery()
 	{
-		$where = "";
-		$order_id = array();
+		$app                   = JFactory::getApplication();
+		$db                    = JFactory::getDbo();
+		$query                 = $db->getQuery(true);
 
-		$filter = $this->getState('filter');
-		$filter_by = $this->getState('filter_by');
-		$filter_status = $this->getState('filter_status');
+		$filter                = $this->getState('filter');
+		$filter_by             = $this->getState('filter_by');
+		$filter_status         = $this->getState('filter_status');
 		$filter_payment_status = $this->getState('filter_payment_status');
-		$cid = JRequest::getVar('cid', array(0), 'method', 'array');
-		$order_id = implode(',', $cid);
-		$layout = JRequest::getVar('layout');
-
-		$where[] = "1=1";
 
 		if ($filter_status)
 		{
-			$where[] = "o.order_status ='" . $filter_status . "'";
+			$query->where($db->qn('o.order_status') . '=' . $db->q($filter_status));
 		}
 
 		if ($filter_payment_status)
 		{
-			$where[] = "o.order_payment_status = '" . $filter_payment_status . "'";
+			$query->where($db->qn('o.order_payment_status') . '=' . $db->q($filter_payment_status));
 		}
 
 		if ($filter)
@@ -109,62 +105,88 @@ class RedshopModelOrder extends JModel
 
 			if ($filter_by == 'orderid')
 			{
-				$where[] = "(o.order_id like '%" . $filter . "%')";
+				$query->where($db->qn('o.order_id') . ' LIKE ' . $db->q('%' . $filter . '%'));
 			}
 			elseif ($filter_by == 'ordernumber')
 			{
-				$where[] = "(o.order_number like '%" . $filter . "%')";
+				$query->where($db->qn('o.order_number') . ' LIKE ' . $db->q('%' . $filter . '%'));
 			}
 			elseif ($filter_by == 'fullname')
 			{
-				$where[] = "(REPLACE(CONCAT(uf.firstname, uf.lastname), ' ', '') like '%" . $filter . "%')";
+				$query->where("REPLACE(CONCAT(" . $db->qn('uf.firstname') . ", " . $db->qn('uf.lastname') . "), ' ', '') LIKE " . $db->q('%' . $filter . '%'));
 			}
 			elseif ($filter_by == 'useremail')
 			{
-				$where[] = "(uf.user_email like '%" . $filter . "%')";
+				$query->where($db->qn('uf.user_email') . ' LIKE ' . $db->q('%' . $filter . '%'));
 			}
-			else // $filter_by == 'all'
+			// $filter_by == 'all'
+			else
 			{
-				$where[] = "(REPLACE(CONCAT(uf.firstname, uf.lastname), ' ', '') like '%" . $filter . "%' OR o.order_id like '%"
-					. $filter . "%' OR o.order_number like '%" . $filter . "%' OR o.referral_code like '%" . $filter . "%'  OR uf.user_email like '%"
-					. $filter . "%')";
+				$query->where("(REPLACE(CONCAT(" . $db->qn('uf.firstname') . ", " . $db->qn('uf.lastname') . "), ' ', '') LIKE " . $db->q('%' . $filter . '%')
+						. " OR " . $db->qn('o.order_id') . " LIKE " . $db->q('%' . $filter . '%')
+						. " OR " . $db->qn('o.order_number') . " LIKE " . $db->q('%' . $filter . '%')
+						. " OR " . $db->qn('o.referral_code') . " LIKE " . $db->q('%' . $filter . '%')
+						. " OR " . $db->qn('uf.user_email') . " LIKE " . $db->q('%' . $filter . '%')
+					. ")"
+				);
 			}
 		}
+
+		$cid = $app->input->get('cid', array(0), 'request', 'array');
 
 		if ($cid[0] != 0)
 		{
-			$where[] = " o.order_id IN (" . $order_id . ")";
+			$order_id = array();
+			$order_id = implode(',', $cid);
+
+			$query->where($db->qn('o.order_id') . ' IN (' . $order_id . ')');
 		}
 
-		$where = count($where) ? '  ' . implode(' AND ', $where) : '';
-		$orderby = $this->_buildContentOrderBy();
-
-		if ($layout == 'labellisting')
+		if ('labellisting' == $app->input->getCmd('layout'))
 		{
-			$where = " order_label_create=1 ";
+			$query->where($db->qn('o.order_label_create') . '=1');
 		}
 
-		$query = 'SELECT o.*,uf.lastname, uf.firstname, uf.user_email, uf.is_company, uf.company_name,uf.ean_number FROM ' . $this->_table_prefix . 'orders AS o '
-			. 'LEFT JOIN ' . $this->_table_prefix . 'order_users_info AS uf ON o.user_id=uf.user_id '
-			. 'WHERE uf.address_type LIKE "BT" '
-			. 'AND ' . $where . ' '
-			. 'group by o.order_id '
-			. $orderby;
+		$query->select(
+				array(
+					'o.*',
+					$db->qn('uf.lastname'),
+					$db->qn('uf.firstname'),
+					$db->qn('uf.user_email'),
+					$db->qn('uf.is_company'),
+					$db->qn('uf.company_name'),
+					$db->qn('uf.ean_number')
+				)
+			)
+			->from($db->qn('#__redshop_orders', 'o'))
+			->leftjoin(
+				$db->qn('#__redshop_order_users_info', 'uf')
+				. ' ON ' . $db->qn('o.order_id') . ' = ' . $db->qn('uf.order_id')
+			)
+			->where($db->qn('uf.address_type') . '=' . $db->q('BT'))
+			->group($db->qn('o.order_id'))
+			->order($this->_buildContentOrderBy());
 
 		return $query;
 	}
 
 	public function _buildContentOrderBy()
 	{
-		$db  = JFactory::getDbo();
-		$app = JFactory::getApplication();
+		$db               = JFactory::getDbo();
+		$app              = JFactory::getApplication();
 
-		$filter_order = $app->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', ' o.order_id');
-		$filter_order_Dir = $app->getUserStateFromRequest($this->_context . 'filter_order_Dir', 'filter_order_Dir', ' DESC ');
+		$filter_order     = $app->getUserStateFromRequest(
+								$this->_context . 'filter_order',
+								'filter_order',
+								'o.order_id'
+							);
+		$filter_order_Dir = $app->getUserStateFromRequest(
+								$this->_context . 'filter_order_Dir',
+								'filter_order_Dir',
+								'DESC'
+							);
 
-		$orderby = ' ORDER BY ' . $db->escape($filter_order . ' ' . $filter_order_Dir);
-
-		return $orderby;
+		return $db->qn($filter_order) . ' ' . strtoupper($filter_order_Dir);
 	}
 
 	public function update_status()

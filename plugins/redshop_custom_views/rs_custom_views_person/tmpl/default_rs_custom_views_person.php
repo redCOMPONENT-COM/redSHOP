@@ -305,7 +305,7 @@ else
 	<script>
 
 		var useroptions = {
-			script: "index3.php?&option=com_redshop&view=search&plgcustomview=1&iscompany=0&json=true&",
+			script: "index.php?&option=com_redshop&view=search&tmpl=component&plgcustomview=1&iscompany=0&json=true&",
 			varname: "input",
 			json: true,
 			shownoresults: true,

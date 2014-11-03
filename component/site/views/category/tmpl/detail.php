@@ -958,15 +958,10 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 		// Replace compare product button
 		$data_add = $producthelper->replaceCompareProductsButton($product->product_id, $this->catid, $data_add);
 
-		if (strstr($data_add, "{stockroom_detail}"))
-		{
-			$data_add = $stockroomhelper->replaceStockroomAmountDetail($data_add, $product->product_id);
-		}
+		$data_add = $stockroomhelper->replaceStockroomAmountDetail($data_add, $product->product_id);
 
 		// Checking for child products
-		$childproduct = $producthelper->getChildProduct($product->product_id);
-
-		if (count($childproduct) > 0)
+		if ($product->count_child_products > 0)
 		{
 			if (PURCHASE_PARENT_WITH_CHILD == 1)
 			{

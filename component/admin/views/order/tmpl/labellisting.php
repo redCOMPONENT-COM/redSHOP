@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 JLoader::load('RedshopHelperAdminShipping');
-$shippinghelper = new shipping();
+$shippinghelper = new shipping;
 $option = JRequest::getVar('option');
 $download = JRequest::getVar('download');
 if ($download)
