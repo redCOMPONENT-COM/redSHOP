@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 JHTMLBehavior::modal();
 
 $option = JRequest::getVar('option');
-jimport('joomla.html.pane');
+jimport('redshop.html.pane');
 
 $uri = JURI::getInstance();
 $url = $uri->root();

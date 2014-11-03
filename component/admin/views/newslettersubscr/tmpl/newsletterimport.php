@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 $editor = JFactory::getEditor();
 
 JHTML::_('behavior.tooltip');
-jimport('joomla.html.pane');
+jimport('redshop.html.pane');
 JHTMLBehavior::modal();
 
 ?>

@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 JHTML::_('behavior.tooltip');
-jimport('joomla.html.pane');
+jimport('redshop.html.pane');
 ?>
 <script language="javascript" type="text/javascript">
 	Joomla.submitbutton = function (pressbutton) {
@@ -33,7 +33,7 @@ jimport('joomla.html.pane');
 <form action="<?php echo JRoute::_($this->request_url) ?>" method="post" name="adminForm" id="adminForm">
 	<?php
 	//Get JPaneTabs instance
-	$myTabs = JPane::getInstance('tabs', array('startOffset' => 0));
+	$myTabs = RedshopPane::getInstance('tabs', array('startOffset' => 0));
 	$output = $myTabs->startPane('pane');
 	//Create 1st Tab
 	echo $output .= $myTabs->startPanel(JText::_('COM_REDSHOP_DETAILS'), 'tab1');

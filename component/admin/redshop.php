@@ -112,14 +112,8 @@
 	if (version_compare(JVERSION, '3.0', '>='))
 	{
 		JHtml::_('formbehavior.chosen', 'select');
+		$document->addStyleSheet(JURI::root() . 'administrator/components/com_redshop/assets/css/j3ready.css');
 	}
-	else
-	{
-		$document->addScript(JURI::root() . 'administrator/components/com_redshop/assets/js/jquery-1.11.0.min.js');
-	}
-
-	$document->addScript(JURI::root() . 'administrator/components/com_redshop/assets/js/jquery-ui-1.8.24.custom.min.js');
-	$document->addScript(JURI::root() . 'administrator/components/com_redshop/assets/js/redshop.js');
 
 	$user        = JFactory::getUser();
 	$task        = JRequest::getVar('task');

@@ -25,8 +25,8 @@ class RedshopViewGiftcard_detail extends RedshopView
 
 		$uri = JFactory::getURI();
 
-		jimport('joomla.html.pane');
-		$pane = JPane::getInstance('sliders');
+		jimport('redshop.html.pane');
+		$pane = RedshopPane::getInstance('sliders');
 		$this->pane = $pane;
 
 		$this->setLayout('default');

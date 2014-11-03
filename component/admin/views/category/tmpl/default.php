@@ -90,7 +90,7 @@ $ordering = ($this->lists['order'] == 'c.ordering');
 		</tr>
 	</table>
 	<div id="editcell">
-		<table class="adminlist">
+		<table class="adminlist table">
 			<thead>
 			<tr>
 				<th width="5"><?php echo JText::_('COM_REDSHOP_NUM'); ?></th>

@@ -9,7 +9,7 @@
 defined('_JEXEC') or die;
 
 JHTML::_('behavior.tooltip');
-jimport('joomla.html.pane');
+jimport('redshop.html.pane');
 
 $this->producthelper   = new producthelper;
 $this->order_functions = new order_functions;
@@ -142,7 +142,7 @@ if ($this->pagination->limitstart > 0)
 
 <form action="<?php echo JRoute::_($this->request_url) ?>" method="post" name="adminForm" id="adminForm">
 <?php
-	$myTabs = JPane::getInstance('tabs', array('startOffset' => $tab));
+	$myTabs = RedshopPane::getInstance('tabs', array('startOffset' => $tab));
 
 	// Create Pane
 	echo $myTabs->startPane('pane');

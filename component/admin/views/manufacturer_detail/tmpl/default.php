@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 JHTML::_('behavior.tooltip');
 
-jimport('joomla.html.pane');
+jimport('redshop.html.pane');
 
 JHTMLBehavior::modal();
 
@@ -45,7 +45,7 @@ $plg_manufacturer = $order_functions->getparameters('plg_manucaturer_excluding_c
 <form action="<?php echo JRoute::_($this->request_url) ?>" method="post" name="adminForm" id="adminForm">
 <?php
 //Get JPaneTabs instance
-$myTabs = JPane::getInstance('tabs', array('startOffset' => 0));
+$myTabs = RedshopPane::getInstance('tabs', array('startOffset' => 0));
 
 $output = '';
 

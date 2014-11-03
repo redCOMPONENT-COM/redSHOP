@@ -13,7 +13,9 @@ class leftmenu
 {
 	public function  __construct()
 	{
-		$view      = JFactory::getApplication()->get('view', '');
+		jimport('redshop.html.pane');
+
+		$view      = JRequest::getVar('view');
 		$redhelper = new redhelper;
 		$stk       = 0;
 		$cnt       = 6;
@@ -286,89 +288,47 @@ class leftmenu
 				break;
 		}
 
-		//$pane = @JPane::getInstance('sliders', array('startOffset' => $selected));
-		//echo $pane->startPane('stat-pane');
+		$pane = RedshopPane::getInstance('sliders', array('startOffset' => $selected, 'startTransition' => false));
+		echo $pane->startPane('stat-pane');
 		?>
-
-
-
-
-		<div id="redshopAccordion">
-		<?php echo JText::_('COM_REDSHOP_PRODUCT_MANAGEMENT'); ?>
-			<h3><a href="#"><?php echo JText::_('COM_REDSHOP_PRODUCTS'); ?></a></h3>
-			<div>
-				<ul>
-					<li><?php
-						$link = 'index.php?option=com_redshop&view=product';
-						echo '<a href="' . $link . '" title="' . JText::_('COM_REDSHOP_PRODUCT_LISTING') . '">' . JText::_('COM_REDSHOP_PRODUCT_LISTING') . '</a>'; ?></li>
-					<li><?php
-						$link = 'index.php?option=com_redshop&view=product&task=listing';
-						echo '<a href="' . $link . '" title="' . JText::_('COM_REDSHOP_PRODUCT_PRICE_VIEW') . '">' . JText::_('COM_REDSHOP_PRODUCT_PRICE_VIEW') . '</a>'; ?></li>
-					<li><?php
-						$link = 'index.php?option=com_redshop&view=product_detail';
-						echo '<a href="' . $link . '" title="' . JText::_('COM_REDSHOP_ADD_PRODUCT') . '">' . JText::_('COM_REDSHOP_ADD_PRODUCT') . '</a>'; ?></li>
-					<li><?php
-						$link = 'index.php?option=com_redshop&view=mass_discount_detail';
-						echo '<a href="' . $link . '" title="' . JText::_('COM_REDSHOP_ADD_MASS_DISCOUNT') . '">' . JText::_('COM_REDSHOP_ADD_MASS_DISCOUNT') . '</a>'; ?></li>
-				</ul>
-			</div>
-			<h3><a href="#"><?php echo JText::_('K2_CATEGORY_VIEW_OPTIONS'); ?></a></h3>
-			<div>
-
-			</div>
-			<h3><a href="#"><?php echo JText::_('K2_ITEM_IMAGE_OPTIONS'); ?></a></h3>
-			<div>
-
-			</div>
-			<h3><a href="#"><?php echo JText::_('K2_ITEM_VIEW_OPTIONS_IN_CATEGORY_LISTINGS'); ?></a></h3>
-			<div>
-
-			</div>
-			<h3><a href="#"><?php echo JText::_('K2_ITEM_VIEW_OPTIONS'); ?></a></h3>
-			<div>
-
-			</div>
-			<h3><a href="#"><?php echo JText::_('K2_METADATA_INFORMATION'); ?></a></h3>
-			<div>
-
-			</div>
-
-
-
-
-
-
-
-
-
 		<table>
 		<tr>
 			<td class="distitle"><?php echo JText::_('COM_REDSHOP_PRODUCT_MANAGEMENT'); ?></td>
 		</tr>
 		</table><?php
-		/*$title = JText::_('COM_REDSHOP_PRODUCTS');
+		$title = JText::_('COM_REDSHOP_PRODUCTS');
 		echo $pane->startPanel($title, 'COM_REDSHOP_NEW PRODUCT');    ?>
 		<table class="adminlist">
 			<tr>
-				<td>
+				<td><?php
+					$link = 'index.php?option=com_redshop&view=product';
+					echo '<a href="' . $link . '" title="' . JText::_('COM_REDSHOP_PRODUCT_LISTING') . '">' . JText::_('COM_REDSHOP_PRODUCT_LISTING') . '</a>'; ?>
 				</td>
 			</tr>
 			<tr>
-				<td>
+				<td><?php
+					$link = 'index.php?option=com_redshop&view=product&task=listing';
+					echo '<a href="' . $link . '" title="' . JText::_('COM_REDSHOP_PRODUCT_PRICE_VIEW') . '">' . JText::_('COM_REDSHOP_PRODUCT_PRICE_VIEW') . '</a>'; ?>
 				</td>
 			</tr>
 			<tr>
-				<td>
+				<td><?php
+					$link = 'index.php?option=com_redshop&view=product_detail';
+					echo '<a href="' . $link . '" title="' . JText::_('COM_REDSHOP_ADD_PRODUCT') . '">' . JText::_('COM_REDSHOP_ADD_PRODUCT') . '</a>'; ?>
 				</td>
 			</tr>
 
 
 			<tr>
-				<td>
+				<td><?php
+					$link = 'index.php?option=com_redshop&view=mass_discount_detail';
+					echo '<a href="' . $link . '" title="' . JText::_('COM_REDSHOP_ADD_MASS_DISCOUNT') . '">' . JText::_('COM_REDSHOP_ADD_MASS_DISCOUNT') . '</a>'; ?>
 				</td>
 			</tr>
 			<tr>
-				<td>
+				<td><?php
+					$link = 'index.php?option=com_redshop&view=mass_discount';
+					echo '<a href="' . $link . '" title="' . JText::_('COM_REDSHOP_MASS_DISCOUNT') . '">' . JText::_('COM_REDSHOP_MASS_DISCOUNT') . '</a>'; ?>
 				</td>
 			</tr>
 			<?php
@@ -1564,9 +1524,8 @@ class leftmenu
 			</table>
 			<?php
 			echo $pane->endPanel();
-		}*/
-?>
-		</div>
-<?php
+		}
+
+		echo '</div>';
 	}
 }

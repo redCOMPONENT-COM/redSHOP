@@ -16,7 +16,7 @@ JHTMLBehavior::modal();
 $uri = JURI::getInstance();
 $url = $uri->root();
 JHTML::_('behavior.calendar');
-jimport('joomla.html.pane');
+jimport('redshop.html.pane');
 $objhelper = new redhelper;
 $producthelper = new producthelper;
 
@@ -44,7 +44,7 @@ $producthelper = new producthelper;
       enctype="multipart/form-data">
 <?php
 //Get JPaneTabs instance
-$myTabs = JPane::getInstance('tabs', array('startOffset' => 0));
+$myTabs = RedshopPane::getInstance('tabs', array('startOffset' => 0));
 $output = '';
 
 //Create Pane

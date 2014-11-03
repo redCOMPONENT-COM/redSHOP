@@ -12,7 +12,7 @@ defined('_JEXEC') or die;
 JHTMLBehavior::modal();
 
 $option = JRequest::getVar('option');
-jimport('joomla.html.pane');
+jimport('redshop.html.pane');
 
 $uri = JURI::getInstance();
 $url = $uri->root();
@@ -93,12 +93,12 @@ $url = $uri->root();
 	$dashboard = JRequest::getVar('dashboard');
 	if ($dashboard == 1)
 	{
-		$myTabs = JPane::getInstance('tabs', array('startOffset' => 9));
+		$myTabs = RedshopPane::getInstance('tabs', array('startOffset' => 9));
 
 	}
 	else
 	{
-		$myTabs = JPane::getInstance('tabs', array('startOffset' => 0));
+		$myTabs = RedshopPane::getInstance('tabs', array('startOffset' => 0));
 	}
 	$output = '';
 

@@ -10,8 +10,8 @@
 defined('_JEXEC') or die;
 
 JHTML::_('behavior.tooltip');
-jimport('joomla.html.pane');
-$pane = @JPane::getInstance('sliders', array('startOffset' => '-1'));
+jimport('redshop.html.pane');
+$pane = RedshopPane::getInstance('sliders', array('startOffset' => '-1'));
 
 echo $pane->startPane('stat-pane');
 

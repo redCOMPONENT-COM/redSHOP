@@ -1022,7 +1022,7 @@ class producthelper
 	public function getProductFormattedPrice($product_price, $convert = true, $currency_symbol = REDCURRENCY_SYMBOL)
 	{
 		// Get Current Currency of SHOP
-		$session = JFactory::getSession('product_currency');
+		$session = JFactory::getSession();
 		/*
 		 * if convert set true than use conversation
 		 */

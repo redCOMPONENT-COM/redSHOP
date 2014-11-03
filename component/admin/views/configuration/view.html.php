@@ -81,8 +81,8 @@ class RedshopViewConfiguration extends RedshopView
 
 		JToolBarHelper::cancel();
 
-		jimport('joomla.html.pane');
-		$pane = JPane::getInstance('sliders');
+		jimport('redshop.html.pane');
+		$pane = RedshopPane::getInstance('sliders');
 		$this->pane = $pane;
 
 		$uri = JFactory::getURI();
@@ -395,7 +395,7 @@ class RedshopViewConfiguration extends RedshopView
 		$q                  = "SELECT m.id,m.title AS name,mt.title FROM #__menu AS m "
 			. "LEFT JOIN #__menu_types AS mt ON mt.menutype=m.menutype "
 			. "WHERE m.published=1 "
-			. "ORDER BY m.menutype,m.ordering";
+			. "ORDER BY m.menutype";
 		$db->setQuery($q);
 		$menuitemlist = $db->loadObjectList();
 
