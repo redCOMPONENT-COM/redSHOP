@@ -626,7 +626,7 @@ class extraField
 					case 5:
 						// 5 :-Select Box (Single select)
 
-						$displayvalue = stripslashes($data_value->data_txt);
+						$displayvalue = $data_value->data_txt;
 						break;
 					case 2:
 						// 2 :- Text Area
