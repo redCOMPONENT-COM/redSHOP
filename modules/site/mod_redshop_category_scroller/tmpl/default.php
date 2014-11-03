@@ -53,12 +53,12 @@ if ($view == 'category')
 {
 	if (!$GLOBALS['product_price_slider'])
 	{
-		JHTML::Script('jquery.tools.min.js', 'components/com_redshop/assets/js/', false);
+		JHtml::script('com_redshop/jquery.tools.min.js', false, true);
 	}
 }
 else
 {
-	JHTML::Script('jquery.tools.min.js', 'components/com_redshop/assets/js/', false);
+	JHtml::script('com_redshop/jquery.tools.min.js', false, true);
 }
 
 JHTML::Script('jquery.js', 'modules/mod_redshop_category_scroller/js/', false);

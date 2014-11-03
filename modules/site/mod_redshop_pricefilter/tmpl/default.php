@@ -23,8 +23,8 @@ $document = JFactory::getDocument();
 JLoader::load('RedshopHelperRedshop.js');
 
 JHtml::script('com_redshop/attribute.js', false, true);
-JHTML::Script('jquery-1.js', 'components/com_redshop/assets/js/', false);
-JHTML::Script('jquery-ui-1.js', 'components/com_redshop/assets/js/', false);
+JHtml::script('com_redshop/jquery-1.js', false, true);
+JHtml::script('com_redshop/jquery-ui-1.js', false, true);
 JHtml::stylesheet('com_redshop/priceslider.css', array(), true);
 JHtml::stylesheet('com_redshop/jquery-ui-1.css', array(), true);
 ?>

@@ -104,7 +104,7 @@ if (!class_exists('redFeatureproduct'))
 			{
 				if (!$GLOBALS['product_price_slider'])
 				{
-					JHTML::Script('jquery.tools.min.js', 'components/com_redshop/assets/js/', false);
+					JHtml::script('com_redshop/jquery.tools.min.js', false, true);
 				}
 			}
 			else
@@ -112,7 +112,7 @@ if (!class_exists('redFeatureproduct'))
 				JHTML::Script('fetchscript.js', 'components/com_redshop/assets/js/', false);
 				JHtml::script('com_redshop/attribute.js', false, true);
 				JHtml::script('com_redshop/common.js', false, true);
-				JHTML::Script('jquery.tools.min.js', 'components/com_redshop/assets/js/', false);
+				JHtml::script('com_redshop/jquery.tools.min.js', false, true);
 			}
 
 			if (version_compare(JVERSION, '3.0', '<'))

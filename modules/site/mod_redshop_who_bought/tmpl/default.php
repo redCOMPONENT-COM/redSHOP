@@ -14,7 +14,7 @@ $user = JFactory::getUser();
 
 $document = JFactory::getDocument();
 include_once "modules/mod_redshop_who_bought/assets/css/skin.css.php";
-JHTML::Script('jquery-1.4.2.min.js', 'components/com_redshop/assets/js/', false);
+JHtml::script('com_redshop/jquery-1.4.2.min.js', false, true);
 JHTML::Script('query.jcarousel.min.js', 'modules/mod_redshop_who_bought/assets/js/', false);
 
 require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
