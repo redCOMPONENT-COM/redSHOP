@@ -5197,7 +5197,7 @@ class producthelper
 		}
 
 		$document = JFactory::getDocument();
-		JHTML::Script('thumbscroller.js', 'components/com_redshop/assets/js/', false);
+		JHtml::script('com_redshop/thumbscroller.js', false, true);
 		$layout = JRequest::getVar('layout');
 
 		$preprefix = "";
@@ -5684,7 +5684,7 @@ class producthelper
 		$subproperty     = array();
 		$document        = JFactory::getDocument();
 
-		JHTML::Script('thumbscroller.js', 'components/com_redshop/assets/js/', false);
+		JHtml::script('com_redshop/thumbscroller.js', false, true);
 		$chkvatArr = $this->_session->get('chkvat');
 		$chktag    = $chkvatArr['chkvat'];
 

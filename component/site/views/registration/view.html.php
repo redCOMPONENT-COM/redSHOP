@@ -30,8 +30,8 @@ class RedshopViewRegistration extends RedshopView
 
 		$params = $app->getParams('com_redshop');
 		JHTML::Script('joomla.javascript.js', 'includes/js/', false);
-		JHTML::Script('jquery-1.4.2.min.js', 'components/com_redshop/assets/js/', false);
-		JHTML::Script('jquery.validate.js', 'components/com_redshop/assets/js/', false);
+		JHtml::script('com_redshop/jquery-1.4.2.min.js', false, true);
+		JHtml::script('com_redshop/jquery.validate.js', false, true);
 		JHtml::script('com_redshop/common.js', false, true);
 		JHtml::script('com_redshop/jquery.metadata.js', false, true);
 		JHtml::script('com_redshop/registration.js', false, true);
