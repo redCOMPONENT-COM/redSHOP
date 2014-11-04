@@ -36,31 +36,16 @@ $date = JFactory::getDate();
 
 </script>
 <form action="<?php echo JRoute::_($this->request_url) ?>" method="post" name="adminForm"
-      id="adminForm" <?php if (USE_CONTAINER != 0)
-{ ?> onSubmit="return selectAll(this.elements['container_product[]']);" <?php }?>>
+      id="adminForm">
 	<?php
-	if ($this->detail->stockroom_id)
-	{
-		?>
-		<div style="width:100%; text-align:right; font-weight:bold; font-size:14px;">
-			<?php if (USE_CONTAINER != 0)
-			{ ?>
-				<a class="modal"
-				   href="index.php?tmpl=component&option=com_redshop&amp;view=container_detail&amp;task=edit&showbuttons=1&stockroom_id=<?php echo $this->detail->stockroom_id; ?>"
-				   rel="{handler: 'iframe', size: {x: 900, y: 500}}">
-					<?php echo JText::_('COM_REDSHOP_ADD_CONTAINER'); ?>
-				</a>
-			<?php } ?>
-		</div>
-	<?php
-	}
-	//Get JPaneTabs instance
+
+	// Get JPaneTabs instance
 	$myTabs = RedshopPane::getInstance('tabs', array('startOffset' => 0));
 	$output = '';
 
-	//Create Pane
+	// Create Pane
 	$output .= $myTabs->startPane('pane');
-	//Create 1st Tab
+	// Create 1st Tab
 	echo $output .= $myTabs->startPanel(JText::_('COM_REDSHOP_STOCKROOM_INFO'), 'tab1');
 	?>
 	<div class="col50">
@@ -89,21 +74,6 @@ $date = JFactory::getDate();
 					<td>
 						<input class="text_area" type="text" name="min_stock_amount" id="min_stock_amount" size="32"
 						       maxlength="250" value="<?php echo $this->detail->min_stock_amount; ?>"/>
-					</td>
-				</tr>
-				<tr>
-					<td valign="top" align="right" class="key">
-						<label for="deliverytime">
-							<?php echo JText::_('COM_REDSHOP_CONTAINER_START_DATE'); ?>:
-						</label>
-					</td>
-					<td>
-						<?php
-						if ($this->detail->creation_date)
-							$datee = date("d-m-Y", $this->detail->creation_date);
-						else
-							$datee = date("d-m-Y");
-						echo JHTML::_('calendar', $datee, 'creation_date', 'creation_date', $format = '%d-%m-%Y', array('class' => 'inputbox', 'size' => '32', 'maxlength' => '19')); ?>
 					</td>
 				</tr>
 				<tr>
@@ -189,45 +159,7 @@ $date = JFactory::getDate();
 	</div>
 	<?php
 	echo $myTabs->endPanel();
-	//Create 2nd Tab
-	if (USE_CONTAINER != 0)
-	{
-		echo  $myTabs->startPanel(JText::_('COM_REDSHOP_STOCKROOM_CONTAINER_PRODUCT'), 'tab2');
-		?>
-		<div class="col50">
 
-			<table class="admintable">
-				<tr>
-					<td VALIGN="TOP" class="key" align="center">
-						<?php echo JText::_('COM_REDSHOP_CONTAINER_SOURCE'); ?> <br/><br/>
-
-						<input style="width: 200px" type="text" id="input" value=""/>
-
-						<div style="display:none">
-							<?php
-							echo $this->lists['product_all'];
-							?> </div>
-					</td>
-					<TD align="center">
-						<input type="button" value="-&gt;" onClick="moveRight(10);" title="MoveRight">
-						<BR><BR>
-						<input type="button" value="&lt;-" onClick="moveLeft();" title="MoveLeft">
-					</TD>
-					<TD VALIGN="TOP" align="center" class="key">
-						<?php echo JText::_('COM_REDSHOP_STOCKROOM_CONTAINER_PRODUCT'); ?><br/><br/>
-						<?php
-						echo $this->lists['stockroom_product'];
-						?>
-
-					</td>
-				</tr>
-			</table>
-
-		</div>
-		<?php
-		echo  $myTabs->endPanel();
-//End Pane
-	}
 	echo $myTabs->endPane();
 	?>
 	<div class="clr"></div>

@@ -639,10 +639,6 @@ class RedshopModelOrder_detail extends RedshopModel
 					}
 				}
 			}
-			if (USE_CONTAINER)
-			{
-				$producthelper->updateContainerStock($product_id, $quantity, $orderitemdata->container_id);
-			}
 
 			// Store userfields
 			$userfields = $item[$i]->extrafieldname;

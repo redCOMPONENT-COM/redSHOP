@@ -583,26 +583,6 @@ class order_functions
 		}
 	}
 
-	public function manageContainerStock($product_id, $quantity, $container_id)
-	{
-		// Adding the products from the container. means decreasing stock
-
-		$db = JFactory::getDbo();
-		$query = "SELECT quantity FROM " . $this->_table_prefix . "container_product_xref " . "WHERE container_id = "
-			. (int) $container_id . " AND product_id = " . (int) $product_id;
-		$db->setQuery($query);
-		$con_product_qun = $db->loadResult();
-		$con_product_qun = $con_product_qun + $quantity;
-
-		if ($con_product_qun > 0)
-		{
-			$query = 'UPDATE ' . $this->_table_prefix . 'container_product_xref ' . 'SET quantity = ' . (int) $con_product_qun
-				. ' ' . ' WHERE container_id = ' . (int) $container_id . ' AND product_id = ' . (int) $product_id;
-			$db->setQuery($query);
-			$db->query();
-		}
-	}
-
 	public function getOrderStatus()
 	{
 		$query = "SELECT order_status_code AS value, order_status_name AS text " . "FROM " . $this->_table_prefix
@@ -882,64 +862,34 @@ class order_functions
 		{
 			case "X";
 
-				// If order is cancelled then, putting stock in the container from where it was dedcuted
 				$orderproducts = $this->getOrderItemDetail($order_id);
 
 				for ($i = 0; $i < count($orderproducts); $i++)
 				{
-					$conid = $orderproducts[$i]->container_id;
 					$prodid = $orderproducts[$i]->product_id;
 					$prodqty = $orderproducts[$i]->stockroom_quantity;
 
 					// When the order is set to "cancelled",product will return to stock
 					$stockroomhelper->manageStockAmount($prodid, $prodqty, $orderproducts[$i]->stockroom_id);
 					$producthelper->makeAttributeOrder($orderproducts[$i]->order_item_id, 0, $prodid, 1);
-
-					// If order is cancelled then, putting stock in the container from where it was dedcuted end
-					if (USE_CONTAINER)
-					{
-						$this->manageContainerStock($prodid, $prodqty, $conid);
-					}
 				}
 				break;
 
 			case "RT":
+
 				if ($isproduct)
 				{
-					if (USE_CONTAINER)
-					{
-						$orderproductdetail = $this->getOrderItemDetail($order_id, $product_id);
-						$conid = $orderproductdetail[0]->container_id;
-						$prodqty = $orderproductdetail[0]->product_quantity;
-
-						$this->manageContainerStock($product_id, $prodqty, $conid);
-					}
-
 					// Changing the status of the order item to Returned
 					$this->updateOrderItemStatus($order_id, $product_id, "RT", $customer_note, $order_item_id);
 
 					// Changing the status of the order to Partially Returned
 					$this->updateOrderStatus($order_id, "PRT");
 				}
-				else
-				{
-					$orderproducts = $this->getOrderItemDetail($order_id);
 
-					for ($i = 0; $i < count($orderproducts); $i++)
-					{
-						$conid = $orderproducts[$i]->container_id;
-						$prodid = $orderproducts[$i]->product_id;
-						$prodqty = $orderproducts[$i]->product_quantity;
-
-						if (USE_CONTAINER)
-						{
-							$this->manageContainerStock($prodid, $prodqty, $conid);
-						}
-					}
-				}
 				break;
 
 			case "RC":
+
 				if ($isproduct)
 				{
 					// Changing the status of the order item to Reclamation
@@ -948,25 +898,11 @@ class order_functions
 					// Changing the status of the order to Partially Reclamation
 					$this->updateOrderStatus($order_id, "PRC");
 				}
-				else
-				{
-					$orderproducts = $this->getOrderItemDetail($order_id);
 
-					for ($i = 0; $i < count($orderproducts); $i++)
-					{
-						$conid = $orderproducts[$i]->container_id;
-						$prodid = $orderproducts[$i]->product_id;
-						$prodqty = $orderproducts[$i]->product_quantity;
-
-						if (USE_CONTAINER)
-						{
-							$this->manageContainerStock($prodid, $prodqty, $conid);
-						}
-					}
-				}
 				break;
 
 			case "S":
+
 				if ($isproduct)
 				{
 					// Changing the status of the order item to Reclamation
@@ -975,6 +911,7 @@ class order_functions
 					// Changing the status of the order to Partially Reclamation
 					$this->updateOrderStatus($order_id, "PS");
 				}
+
 				break;
 
 			case "C":
@@ -1108,26 +1045,19 @@ class order_functions
 				$this->updateOrderItemStatus($oid[0], 0, $newstatus);
 			}
 
-			// If order is cancelled then, putting stock in the container from where it was dedcuted
+			// If order is cancelled
 			if ($newstatus == 'X')
 			{
 				$orderproducts = $this->getOrderItemDetail($oid[0]);
 
 				for ($j = 0; $j < count($orderproducts); $j++)
 				{
-					$conid = $orderproducts[$j]->container_id;
 					$prodid = $orderproducts[$j]->product_id;
 					$prodqty = $orderproducts[$j]->stockroom_quantity;
 
 					// When the order is set to "cancelled",product will return to stock
 					$stockroomhelper->manageStockAmount($prodid, $prodqty, $orderproducts[$j]->stockroom_id);
 					$producthelper->makeAttributeOrder($orderproducts[$j]->order_item_id, 0, $prodid, 1);
-
-					// If order is cancelled then, putting stock in the container from where it was dedcuted end
-					if (USE_CONTAINER)
-					{
-						$this->manageContainerStock($prodid, $prodqty, $conid);
-					}
 				}
 			}
 
@@ -1137,40 +1067,15 @@ class order_functions
 			{
 				if ($isproduct)
 				{
-					$pid = JRequest::getVar('product_id');
-
+					$pid                = JRequest::getVar('product_id');
 					$orderproductdetail = $this->getOrderItemDetail($oid[0], $pid);
-
-					$conid = $orderproductdetail[0]->container_id;
-					$prodid = $orderproductdetail[0]->product_id;
-					$prodqty = $orderproductdetail[0]->product_quantity;
-
-					if (USE_CONTAINER)
-					{
-						$this->manageContainerStock($prodid, $prodqty, $conid);
-					}
+					$prodid             = $orderproductdetail[0]->product_id;
 
 					// Changing the status of the order item to Returned
 					$this->updateOrderItemStatus($oid[0], $prodid, "RT");
 
 					// Changing the status of the order to Partially Returned
 					$this->updateOrderStatus($oid[0], "PRT");
-				}
-				else
-				{
-					$orderproducts = $this->getOrderItemDetail($oid[0]);
-
-					for ($k = 0; $k < count($orderproducts); $k++)
-					{
-						$conid = $orderproducts[$k]->container_id;
-						$prodid = $orderproducts[$k]->product_id;
-						$prodqty = $orderproducts[$k]->product_quantity;
-
-						if (USE_CONTAINER)
-						{
-							$this->manageContainerStock($prodid, $prodqty, $conid);
-						}
-					}
 				}
 			}
 
@@ -1187,22 +1092,6 @@ class order_functions
 
 					// Changing the status of the order to Partially Reclamation
 					$this->updateOrderStatus($oid[0], "PRC");
-				}
-				else
-				{
-					$orderproducts = $this->getOrderItemDetail($oid[0]);
-
-					for ($l = 0; $l < count($orderproducts); $l++)
-					{
-						$conid = $orderproducts[$l]->container_id;
-						$prodid = $orderproducts[$l]->product_id;
-						$prodqty = $orderproducts[$l]->product_quantity;
-
-						if (USE_CONTAINER)
-						{
-							$this->manageContainerStock($prodid, $prodqty, $conid);
-						}
-					}
 				}
 			}
 
@@ -2551,25 +2440,19 @@ class order_functions
 			$this->updateOrderItemStatus($order_id, 0, $newstatus);
 		}
 
-		// If order is cancelled then, putting stock in the container from where it was dedcuted
+		// If order is cancelled then
 		if ($newstatus == 'X')
 		{
 			$orderproducts = $this->getOrderItemDetail($order_id);
 
 			for ($j = 0; $j < count($orderproducts); $j++)
 			{
-				$conid = $orderproducts[$j]->container_id;
 				$prodid = $orderproducts[$j]->product_id;
 				$prodqty = $orderproducts[$j]->stockroom_quantity;
 
 				// When the order is set to "cancelled",product will return to stock
 				$stockroomhelper->manageStockAmount($prodid, $prodqty, $orderproducts[$j]->stockroom_id);
 				$producthelper->makeAttributeOrder($orderproducts[$j]->order_item_id, 0, $prodid, 1);
-
-				if (USE_CONTAINER)
-				{
-					$this->manageContainerStock($prodid, $prodqty, $conid);
-				}
 			}
 		}
 		elseif ($newstatus == 'RT')
@@ -2579,37 +2462,13 @@ class order_functions
 			if ($isproduct)
 			{
 				$orderproductdetail = $this->getOrderItemDetail($order_id, $product_id);
-
-				$conid = $orderproductdetail[0]->container_id;
-				$prodid = $orderproductdetail[0]->product_id;
-				$prodqty = $orderproductdetail[0]->product_quantity;
-
-				if (USE_CONTAINER)
-				{
-					$this->manageContainerStock($prodid, $prodqty, $conid);
-				}
+				$prodid             = $orderproductdetail[0]->product_id;
 
 				// Changing the status of the order item to Returned
 				$this->updateOrderItemStatus($order_id, $prodid, "RT");
 
 				// Changing the status of the order to Partially Returned
 				$this->updateOrderStatus($order_id, "PRT");
-			}
-			else
-			{
-				$orderproducts = $this->getOrderItemDetail($order_id);
-
-				for ($k = 0; $k < count($orderproducts); $k++)
-				{
-					$conid = $orderproducts[$k]->container_id;
-					$prodid = $orderproducts[$k]->product_id;
-					$prodqty = $orderproducts[$k]->product_quantity;
-
-					if (USE_CONTAINER)
-					{
-						$this->manageContainerStock($prodid, $prodqty, $conid);
-					}
-				}
 			}
 		}
 		elseif ($newstatus == 'RC')
@@ -2623,22 +2482,6 @@ class order_functions
 
 				// Changing the status of the order to Partially Reclamation
 				$this->updateOrderStatus($order_id, "PRC");
-			}
-			else
-			{
-				$orderproducts = $this->getOrderItemDetail($order_id);
-
-				for ($l = 0; $l < count($orderproducts); $l++)
-				{
-					$conid = $orderproducts[$l]->container_id;
-					$prodid = $orderproducts[$l]->product_id;
-					$prodqty = $orderproducts[$l]->product_quantity;
-
-					if (USE_CONTAINER)
-					{
-						$this->manageContainerStock($prodid, $prodqty, $conid);
-					}
-				}
 			}
 		}
 		elseif ($newstatus == 'S')

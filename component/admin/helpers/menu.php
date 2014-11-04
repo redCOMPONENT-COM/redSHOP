@@ -20,29 +20,14 @@ class leftmenu
 		$stk       = 0;
 		$cnt       = 6;
 
-		if (USE_CONTAINER)
+		if (USE_STOCKROOM)
 		{
-			if (USE_STOCKROOM)
-			{
-				$stk     = $cnt + 1;
-				$counter = $cnt + 2;
-			}
-			else
-			{
-				$counter = $cnt + 1;
-			}
+			$stk     = $cnt;
+			$counter = $cnt + 1;
 		}
 		else
 		{
-			if (USE_STOCKROOM)
-			{
-				$stk     = $cnt;
-				$counter = $cnt + 1;
-			}
-			else
-			{
-				$counter = $cnt;
-			}
+			$counter = $cnt;
 		}
 
 		$acocnt = 11;
@@ -110,11 +95,6 @@ class leftmenu
 			case "stockroom_listing":
 			case "stockimage":
 				$selected = $cnt;
-				break;
-
-			case "container":
-			case "product_container":
-				$selected = $stk;
 				break;
 
 			case "delivery":
@@ -568,45 +548,6 @@ class leftmenu
 			?>
 			</table>
 			<?php
-			echo $pane->endPanel();
-		}
-
-		if (USE_CONTAINER != 0)
-		{
-			$title = JText::_('COM_REDSHOP_CONTAINER');
-			echo $pane->startPanel($title, 'COM_REDSHOP_CONTAINER');?>
-			<table class="adminlist">
-				<tr>
-					<td><?php
-						$link = 'index.php?option=com_redshop&view=container';
-						echo '<a href="' . $link . '" title="' . JText::_('COM_REDSHOP_CONTAINER_LISTING') . '">'
-							. JText::_('COM_REDSHOP_CONTAINER_LISTING') . '</a>'; ?>
-					</td>
-				</tr>
-				<tr>
-					<td><?php
-						$link = 'index.php?option=com_redshop&view=container_detail';
-						echo '<a href="' . $link . '" title="' . JText::_('COM_REDSHOP_ADD_CONTAINER') . '">'
-							. JText::_('COM_REDSHOP_ADD_CONTAINER') . '</a>'; ?>
-					</td>
-				</tr>
-				<tr>
-					<td><?php
-						$link = 'index.php?option=com_redshop&view=product_container';
-						echo '<a href="' . $link . '" title="' . JText::_('COM_REDSHOP_CONTAINER_PRE_ORDER') . '">'
-							. JText::_('COM_REDSHOP_CONTAINER_PRE_ORDER') . '</a>'; ?>
-					</td>
-				</tr>
-				<tr>
-					<td><?php
-						$link = 'index.php?option=com_redshop&view=product_container&container=1';
-						echo '<a href="' . $link . '" title="' . JText::_('COM_REDSHOP_CONTAINER_ORDER_PRODUCTS') . '">'
-							. JText::_('COM_REDSHOP_CONTAINER_ORDER_PRODUCTS') . '</a>'; ?>
-					</td>
-				</tr>
-			</table>
-			<?php
-
 			echo $pane->endPanel();
 		}
 
