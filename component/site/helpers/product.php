@@ -3145,27 +3145,6 @@ class producthelper
 		return $res;
 	}
 
-	public function updateContainerStock($product_id, $quantity, $container_id)
-	{
-		// Subtracting the products from the container. means decreasing stock
-		$query = "SELECT quantity FROM " . $this->_table_prefix . "container_product_xref "
-			. "WHERE container_id = " . (int) $container_id . " AND product_id = " . (int) $product_id;
-		$this->_db->setQuery($query);
-		$con_product_qun = $this->_db->loadResult();
-		$con_product_qun = $con_product_qun - $quantity;
-
-		if ($con_product_qun > 0)
-		{
-			$query = 'UPDATE ' . $this->_table_prefix . 'container_product_xref '
-				. 'SET quantity = ' . $con_product_qun
-				. ' WHERE container_id=' . (int) $container_id . ' AND product_id = ' . (int) $product_id;
-			$this->_db->setQuery($query);
-			$this->_db->query();
-		}
-
-		// Subtracting the products from the container. means decreasing stock end
-	}
-
 	public function getGiftcardData($gid)
 	{
 		$query = "SELECT * FROM " . $this->_table_prefix . "giftcard "

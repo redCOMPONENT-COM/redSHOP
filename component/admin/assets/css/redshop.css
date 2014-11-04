@@ -67,11 +67,6 @@
 .icon-48-redshop_icon-48-currencies {
 	background-image: url(../images/currencies_48.png);
 }
-/* container management */
-
-.icon-48-redshop_container48 {
-	background-image: url(../images/container48.png);
-}
 /* question management */
 
 .icon-48-redshop_question48 {
@@ -258,11 +253,6 @@
 
 .icon-32-redshop_categories32 {
 	background-image: url(../images/categories32.png);
-}
-/* container management */
-
-.icon-32-redshop_container32 {
-	background-image: url(../images/container32.png);
 }
 /* coupon management */
 

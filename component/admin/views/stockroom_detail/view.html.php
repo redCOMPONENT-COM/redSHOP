@@ -18,13 +18,6 @@ class RedshopViewStockroom_detail extends RedshopView
 	{
 		$layout = JRequest::getVar('layout', '');
 
-		if ($layout == 'default_product')
-		{
-			$this->display_product();
-
-			return false;
-		}
-
 		$lists = array();
 		$uri = JFactory::getURI();
 		$option = JRequest::getVar('option', '', 'request', 'string');
@@ -73,24 +66,6 @@ class RedshopViewStockroom_detail extends RedshopView
 			// Get data from the model
 			$model = $this->getModel('stockroom_detail');
 
-			// Get stockroom container product data from the model
-			$stock_product_data = $model->stock_product_data($detail->stockroom_id);
-
-			if (count($stock_product_data) > 0)
-			{
-				$result_stock = $stock_product_data;
-			}
-			else
-			{
-				$result_stock = array();
-			}
-
-			// Get stockroom product
-			$lists['stockroom_product'] = JHTML::_('select.genericlist', $result_stock, 'container_product[]',
-				'class="inputbox" onmousewheel="mousewheel(this);" ondblclick="selectnone(this);" multiple="multiple"  size="15" style="width:200px;" ',
-				'value', 'text', 0
-			);
-
 			$result = array();
 
 			// Get all product
@@ -117,26 +92,6 @@ class RedshopViewStockroom_detail extends RedshopView
 		}
 
 		$this->lists       = $lists;
-		$this->request_url = $uri->toString();
-
-		parent::display($tpl);
-	}
-
-	public function display_product($tpl = null)
-	{
-		$id = JRequest::getVar('id', '');
-
-		// Get data from the model
-		$model = $this->getModel('stockroom_detail');
-		$container = $model->stock_container($id);
-
-		// Assign stock room product template
-		$this->setLayout('default_product');
-
-		$uri = JFactory::getURI();
-
-		// Assign data to template
-		$this->lists       = $container;
 		$this->request_url = $uri->toString();
 
 		parent::display($tpl);

@@ -162,35 +162,11 @@ $option = JRequest::getCmd('option');
 
 			for ($i = 0; $i < count($new_arr['orders']); $i++)
 			{
-
 				switch ($new_arr['orders'][$i])
 				{
-
-					case "container":
-						if (USE_CONTAINER != 0)
-						{
-
-							if ($user->gid != 8 && ENABLE_BACKENDACCESS != 0)
-							{
-								if (in_array($new_arr['orders'][$i], $this->access_rslt))
-								{
-									$link = 'index.php?option=' . $option . '&amp;view=' . $new_arr['orders'][$i];
-									redshopViewredshop::quickiconButton($link, $new_arr['orderimages'][$i], JText::_("COM_REDSHOP_" . $new_arr['ordertxt'][$i]));
-									$cnt_ord = 1;
-								}
-							}
-							else
-							{
-								$link = 'index.php?option=' . $option . '&amp;view=' . $new_arr['orders'][$i];
-								redshopViewredshop::quickiconButton($link, $new_arr['orderimages'][$i], JText::_("COM_REDSHOP_" . $new_arr['ordertxt'][$i]));
-								$cnt_ord = 1;
-							}
-						}
-						break;
 					case "stockroom":
 						if (USE_STOCKROOM != 0)
 						{
-
 							if ($user->gid != 8 && ENABLE_BACKENDACCESS != 0)
 							{
 								if (in_array($new_arr['orders'][$i], $this->access_rslt))
@@ -728,35 +704,9 @@ $title = JText::_('COM_REDSHOP_POPULAR');
 
 		switch ($new_arr['orders'][$i])
 		{
-
-			case "container":
-				if (USE_CONTAINER != 0)
-				{
-
-					if ($user->gid != 8 && ENABLE_BACKENDACCESS != 0)
-					{
-						if (in_array($new_arr['orders'][$i], $this->access_rslt) && in_array($new_arr['orders'][$i], $quicklink_icon))
-						{
-							$link = 'index.php?option=' . $option . '&amp;view=' . $new_arr['orders'][$i];
-							redshopViewredshop::quickiconButton($link, $new_arr['orderimages'][$i], JText::_("COM_REDSHOP_" . $new_arr['ordertxt'][$i]));
-							$cnt_ord = 1;
-						}
-					}
-					else
-					{
-						if (in_array($new_arr['orders'][$i], $quicklink_icon))
-						{
-							$link = 'index.php?option=' . $option . '&amp;view=' . $new_arr['orders'][$i];
-							redshopViewredshop::quickiconButton($link, $new_arr['orderimages'][$i], JText::_("COM_REDSHOP_" . $new_arr['ordertxt'][$i]));
-							$cnt_ord = 1;
-						}
-					}
-				}
-				break;
 			case "stockroom":
 				if (USE_STOCKROOM != 0)
 				{
-
 					if ($user->gid != 8 && ENABLE_BACKENDACCESS != 0)
 					{
 						if (in_array($new_arr['orders'][$i], $this->access_rslt) && in_array($new_arr['orders'][$i], $quicklink_icon))
