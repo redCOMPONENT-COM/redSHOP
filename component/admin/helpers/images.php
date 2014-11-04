@@ -403,7 +403,7 @@ class RedShopHelperImages extends JObject
 	public static function geticonarray()
 	{
 		$icon_array = array("products" => array('product', 'category', 'manufacturer', 'media'),
-							"orders" => array('order', 'quotation', 'stockroom', 'container'),
+							"orders" => array('order', 'quotation', 'stockroom'),
 							"discounts" => array('discount', 'giftcard', 'voucher', 'coupon'),
 							"communications" => array('mail', 'newsletter'),
 							"shippings" => array('shipping', 'shipping_box', 'shipping_detail', 'wrapper'),
@@ -415,7 +415,7 @@ class RedShopHelperImages extends JObject
 							"accountings" => array('accountgroup'),
 							"popular" => array(),
 							"prodimages" => array('products48.png', 'categories48.png', 'manufact48.png', 'media48.png'),
-							"orderimages" => array('order48.png', 'quotation_48.jpg', 'stockroom48.png', 'container48.png'),
+							"orderimages" => array('order48.png', 'quotation_48.jpg', 'stockroom48.png'),
 							"discountimages" => array('discountmanagmenet48.png', 'giftcard_48.png', 'voucher48.png', 'coupon48.png'),
 							"commimages" => array('mailcenter48.png', 'newsletter48.png'),
 							"shippingimages" => array('shipping48.png', 'shipping_boxes48.png', 'shipping48.png', 'wrapper48.png'),
@@ -427,7 +427,7 @@ class RedShopHelperImages extends JObject
 							"accimages" => array('accounting_group48.png'),
 							"popularimages" => array(),
 							"prodtxt" => array('PRODUCTS', 'CATEGORIES', 'MANUFACTURERS', 'MEDIA'),
-							"ordertxt" => array('ORDER', 'QUOTATION', 'STOCKROOM', 'CONTAINER'),
+							"ordertxt" => array('ORDER', 'QUOTATION', 'STOCKROOM'),
 							"discounttxt" => array('DISCOUNT_MANAGEMENT', 'GIFTCARD', 'VOUCHER', 'COUPON_MANAGEMENT'),
 							"commtxt" => array('MAIL_CENTER', 'NEWSLETTER'),
 							"shippingtxt" => array('SHIPPING', 'SHIPPING_BOX', 'SHIPPING_DETAIL', 'WRAPPER'),
