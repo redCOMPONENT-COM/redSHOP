@@ -9,7 +9,9 @@
 
 defined('_JEXEC') or die;
 
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/order.php';
+// Load redSHOP Library
+JLoader::import('redshop.library');
+JLoader::load('RedshopHelperAdminOrder');
 
 /**
  * Check Attribute stock status and disable options
