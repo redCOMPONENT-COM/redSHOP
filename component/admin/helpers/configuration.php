@@ -546,7 +546,6 @@ class Redconfiguration
 						"DISCOUPON_DURATION"                           => $d ["discoupon_duration"],
 						"DISCOUPON_PERCENT_OR_TOTAL"                   => $d ["discoupon_percent_or_total"],
 						"DISCOUPON_VALUE"                              => $d ["discoupon_value"],
-						"USE_CONTAINER"                                => $d ["use_container"],
 						"USE_STOCKROOM"                                => $d ["use_stockroom"],
 						"ALLOW_PRE_ORDER"                              => $d ["allow_pre_order"],
 						"ALLOW_PRE_ORDER_MESSAGE"                      => $d ["allow_pre_order_message"],

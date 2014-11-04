@@ -30,7 +30,6 @@
   $sh_LANG['en']['_REDSHOP_SEARCH'] = 'search';
   $sh_LANG['en']['_REDSHOP_SHIPPING_RATE'] = 'shipping rate';
   $sh_LANG['en']['_REDSHOP_SHIPPING_RATE_DETAIL'] = 'shipping rate detail';
-  $sh_LANG['en']['_REDSHOP_CONTAINER'] = 'container';
   $sh_LANG['en']['_REDSHOP_ORDER_LISTING'] = 'order listing';
   $sh_LANG['en']['_REDSHOP_MANUFACTURERS'] = 'manufacturers';
   $sh_LANG['en']['_REDSHOP_NEWSLETTER'] = 'newsletter';
@@ -73,7 +72,6 @@
   $sh_LANG['da']['_REDSHOP_SEARCH'] = 'search';
   $sh_LANG['da']['_REDSHOP_SHIPPING_RATE'] = 'shipping rate';
   $sh_LANG['da']['_REDSHOP_SHIPPING_RATE_DETAIL'] = 'shipping rate detail';
-  $sh_LANG['da']['_REDSHOP_CONTAINER'] = 'container';
   $sh_LANG['da']['_REDSHOP_ORDER_LISTING'] = 'order listing';
   $sh_LANG['da']['_REDSHOP_MANUFACTURERS'] = 'manufacturers';
   $sh_LANG['da']['_REDSHOP_NEWSLETTER'] = 'newsletter';

@@ -33,12 +33,12 @@ class Cron
 			cron::after_purchased_order_mail();
 		}
 
-		// Move Container to Stockroom start
+		// Move to Stockroom start
 		$fdate = date('Y-m-d', $today);
 
 		$db = JFactory::getDbo();
 
-		// Calculation for move Container once in day
+		// Calculation to run once in day
 		$query = "SELECT count(id) FROM #__redshop_cron WHERE date = " . $db->quote($fdate);
 		$db->setQuery($query);
 		$data = $db->loadResult();
@@ -59,102 +59,7 @@ class Cron
 
 			// Send subscription renewal mail.
 			cron::subscription_renewal_mail();
-
-			// End mail center
-			if (USE_CONTAINER)
-			{
-				$query = "SELECT * FROM #__redshop_container";
-				$db->setQuery($query);
-				$data = $db->loadObjectList();
-
-				foreach ($data as $cont_data)
-				{
-					$date_diff = $today - $cont_data->creation_date;
-
-					$diff_day = $date_diff / (60 * 60 * 24);
-
-					// Calculation of Days For moving
-					$remain_day = ($cont_data->max_del_time * 7) - floor($diff_day);
-
-					if ($remain_day >= 0 && $remain_day <= 7)
-					{
-						$container_id = $cont_data->container_id;
-						$stockroom_id = $cont_data->stockroom_id;
-
-						// Move Container into stockroom
-						$move         = cron::move($container_id, $stockroom_id);
-
-						if ($move)
-						{
-							// Call Order Status Change
-							cron::order_status($container_id);
-						}
-					}
-				}
-			}
 		}
-	}
-
-	/**
-	 * Move function
-	 *
-	 * @param   int  $container_id  container id
-	 * @param   int  $stockroom_id  stockroom id
-	 *
-	 * @return bool
-	 */
-	public function move($container_id, $stockroom_id)
-	{
-		// Move Container To Stockroom
-		$db = $db = JFactory::getDbo();
-
-		$q_insert = "INSERT INTO #__redshop_stockroom_container_xref (stockroom_id ,container_id) VALUES ("
-			. (int) $stockroom_id . ", " . (int) $container_id . ")";
-		$db->setQuery($q_insert);
-
-		if ($db->query())
-		{
-			return true;
-		}
-	}
-
-	/**
-	 * Order_status function update status to Payment Recieve
-	 *
-	 * @param   int  $container_id  container id
-	 *
-	 * @return bool
-	 */
-	public function order_status($container_id)
-	{
-		// Change Order Status
-		$db = $db = JFactory::getDbo();
-
-		$select_order = "SELECT  order_item_id, order_id,order_status,delivery_time,container_id,product_id,is_split "
-			. " FROM #__redshop_order_item where container_id = " . (int) $container_id;
-		$db->setQuery($select_order);
-		$data = $db->loadObjectList();
-
-		foreach ($data as $newdata)
-		{
-			if ($newdata->order_status == 'PR')
-			{
-				// Payment Is recieved then Status will change
-				if ($newdata->is_split != 0)
-				{
-					$query = "update #__redshop_order_item set order_status = 'RD' where order_item_id = " . (int) $newdata->order_item_id;
-				}
-				else
-				{
-					$query = "update #__redshop_order_item set order_status = 'RD1' where order_item_id = " . (int) $newdata->order_item_id;
-				}
-
-				$db->setQuery($query);
-				$db->query();
-			}
-		}
-
-		return true;
 	}
 
 	/**
