@@ -170,7 +170,7 @@ switch ($name)
 	case 'registration':
 		?>
 		<b><?php echo JText::_('COM_REDSHOP_MAIL_TEMPLATE_TAG_REGISTRATION_HINT'); ?></b><br /><br />
-		{shopname} {fullname} {firstname} {lastname} {name} {username} {password} {email}
+		{shopname} {fullname} {firstname} {lastname} {name} {username} {password} {email} {account_link}
 		<?php
 		break;
 	case 'request_tax_exempt':
