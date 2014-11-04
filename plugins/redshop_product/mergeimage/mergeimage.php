@@ -7,8 +7,10 @@
  */
 defined('_JEXEC') or die;
 
-JLoader::import('product', JPATH_SITE . '/components/com_redshop/helpers');
-JLoader::import('images', JPATH_ADMINISTRATOR . '/components/com_redshop/helpers');
+// Load redSHOP Library
+JLoader::import('redshop.library');
+JLoader::load('RedshopHelperProduct');
+JLoader::load('RedshopHelperAdminImages');
 
 /**
  * Merge Products Images with Attribute Images
