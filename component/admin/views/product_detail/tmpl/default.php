@@ -13,7 +13,6 @@ jimport('joomla.html.html.tabs');
 JHTMLBehavior::modal();
 $url = JURI::getInstance()->root();
 
-$container_id = $this->input->getInt('container_id', null);
 $stockroom_id = $this->input->getInt('stockroom_id', null);
 $now = JFactory::getDate();
 $model = $this->getModel('product_detail');
@@ -294,14 +293,8 @@ echo JHtml::_('tabs.end');
 
 <div class="clr"></div>
 
-<?php if ($stockroom_id && USE_CONTAINER == 1) : ?>
+<?php if ($stockroom_id) : ?>
 	<input type="hidden" name="stockroom_id" value="<?php echo $stockroom_id; ?>"/>
-<?php endif; ?>
-
-<?php if ($container_id) : ?>
-	<input type="hidden" name="container_id" value="<?php echo $container_id; ?>"/>
-<?php else : ?>
-	<input type="hidden" name="container_id" value="" />
 <?php endif; ?>
 
 <input type="hidden" name="cid[]" value="<?php echo $this->detail->product_id; ?>"/>
