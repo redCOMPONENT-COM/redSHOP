@@ -217,7 +217,7 @@ if (!defined('CLASS_DG'))
 
 		if ($load_curr == 1)
 		{
-			$curr_uri = & JFactory::getURI();
+			$curr_uri = JFactory::getURI();
 			$curr_uri_query = $curr_uri->getQuery(true);
 
 			if (isset($curr_uri_query['option']) && $curr_uri_query['option'] == 'com_redshop')
@@ -267,8 +267,9 @@ if (!defined('CLASS_DG'))
 		}
 		else
 		{
-			$query = "SELECT pc.category_name, pc.published, pc.ordering,pc.ordering, pc.category_id
+			$query = "SELECT pc.category_name, pc.published, pc.ordering,pc.ordering, pc.category_id, cx.category_parent_id
 					FROM #__redshop_category pc
+					LEFT JOIN #__redshop_category_xref AS cx ON cx.category_child_id = pc.category_id
 					WHERE pc.published = 1
 					ORDER BY pc.category_id";
 			$database->setQuery($query);
@@ -283,6 +284,7 @@ if (!defined('CLASS_DG'))
 				$cgr_info[$ci]->prev          = null;
 				$cgr_info[$ci]->par           = null;
 				$cgr_info[$ci]->firstc        = null;
+				$cgr_info[$ci]->params        = new stdClass;
 				$cgr_info[$ci]->params->id    = $databaserecord[$ci]->category_id;
 				$cgr_info[$ci]->params->ref   = $databaserecord[$ci]->category_parent_id;
 				$cgr_info[$ci]->params->order = $databaserecord[$ci]->ordering;
@@ -492,7 +494,7 @@ if (!defined('CLASS_DG'))
 			$curr_link = JRoute::_('index.php?option=com_redshop&amp;view=product&amp;pid=' . $rows[$k]->product_id . '&amp;Itemid=' . $Itemid, true);
 
 			$imgpath = RedShopHelperImages::getImagePath(
-										$rows[$i]->product_full_image,
+										$rows[$k]->product_full_image,
 										'',
 										'thumb',
 										'product',
