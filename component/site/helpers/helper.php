@@ -48,6 +48,36 @@ class redhelper
 	}
 
 	/**
+	 * Set Operand For Values
+	 *
+	 * @param   float   $leftValue   Left value
+	 * @param   string  $operand     Operand
+	 * @param   float   $rightValue  Right value
+	 *
+	 * @return float
+	 */
+	public static function setOperandForValues($leftValue, $operand, $rightValue)
+	{
+		switch ($operand)
+		{
+			case '+':
+				$leftValue += $rightValue;
+				break;
+			case '-':
+				$leftValue -= $rightValue;
+				break;
+			case '*':
+				$leftValue *= $rightValue;
+				break;
+			case '/':
+				$leftValue /= $rightValue;
+				break;
+		}
+
+		return $leftValue;
+	}
+
+	/**
 	 * Get Redshop Menu Items
 	 *
 	 * @return array
