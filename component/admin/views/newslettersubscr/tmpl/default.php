@@ -18,9 +18,6 @@ $model = $this->getModel('newslettersubscr');
 <script language="javascript" type="text/javascript">
 
 	Joomla.submitbutton = function (pressbutton) {
-		submitbutton(pressbutton);
-	}
-	submitbutton = function (pressbutton) {
 
 		var form = document.adminForm;
 
