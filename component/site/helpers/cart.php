@@ -6002,7 +6002,7 @@ class rsCarthelper
 					$sameProduct = false;
 				}
 
-				if ($cart[$i]['wrapper_id'] != $data['sel_wrapper_id'])
+				if (isset($data['sel_wrapper_id']) && $cart[$i]['wrapper_id'] != $data['sel_wrapper_id'])
 				{
 					$sameProduct = false;
 				}
@@ -6194,7 +6194,7 @@ class rsCarthelper
 			}
 
 			$cart[$idx]['category_id']   = $data['category_id'];
-			$cart[$idx]['wrapper_id']    = $data['sel_wrapper_id'];
+			$cart[$idx]['wrapper_id']    = isset($data['sel_wrapper_id']) ? $data['sel_wrapper_id'] : null;
 			$cart[$idx]['wrapper_price'] = $wrapper_price + $wrapper_vat;
 
 			/**
@@ -6891,17 +6891,41 @@ class rsCarthelper
 		// Use range or not
 		$use_range = $data->use_range;
 
-		$calcHeight = $get['calcHeight'];
-		$calcWidth  = $get['calcWidth'];
-		$calcLength = $get['calcDepth'];
-		$calcRadius = $get['calcRadius'];
-		$calcUnit   = trim($get['calcUnit']);
+		$calcHeight = 0;
+		$calcWidth  = 0;
+		$calcLength = 0;
+		$calcRadius = 0;
+		$calcUnit   = 0;
 
-		$calcHeight = str_replace(",", ".", $calcHeight);
-		$calcWidth  = str_replace(",", ".", $calcWidth);
-		$calcLength = str_replace(",", ".", $calcLength);
-		$calcRadius = $cart_mdata = str_replace(",", ".", $calcRadius);
-		$calcUnit   = $cart_mdata = str_replace(",", ".", $calcUnit);
+		if (isset($get['calcHeight']))
+		{
+			$calcHeight = $get['calcHeight'];
+			$calcHeight = str_replace(',', '.', $calcHeight);
+		}
+
+		if (isset($get['calcWidth']))
+		{
+			$calcWidth = $get['calcWidth'];
+			$calcWidth  = str_replace(',', '.', $calcWidth);
+		}
+
+		if (isset($get['calcDepth']))
+		{
+			$calcLength = $get['calcDepth'];
+			$calcLength = str_replace(',', '.', $calcLength);
+		}
+
+		if (isset($get['calcRadius']))
+		{
+			$calcRadius = $get['calcRadius'];
+			$calcRadius = str_replace(',', '.', $calcRadius);
+		}
+
+		if (isset($get['calcUnit']))
+		{
+			$calcUnit = trim($get['calcUnit']);
+			$calcUnit = str_replace(',', '.', $calcUnit);
+		}
 
 		// Convert unit using helper function
 		$unit = 1;

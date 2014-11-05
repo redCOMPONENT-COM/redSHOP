@@ -2038,14 +2038,19 @@ function displayAddtocartForm(frmCartName, product_id, relatedprd_id, giftcard_i
     if (document.getElementById(frmCartName) && document.getElementById('requiedProperty')) {
         document.getElementById('requiedProperty').value = document.getElementById(frmCartName).requiedProperty.getAttribute('reproperty');
     }
-    if (giftcard_id == 0) {
-        //get selected attribute,property,subproperty data and total price
-        calculateTotalPrice(product_id, relatedprd_id);
-    }
 
     //set selected attribute,property,subproperty data and total price to Add to cart form
     if (!setAddtocartForm(frmCartName, product_id))
         return false;
+
+	if (document.getElementById('discount_cal_final_price'))
+	{
+		discountCalculation(product_id);
+	}
+	else if (giftcard_id == 0) {
+		//get selected attribute,property,subproperty data and total price
+		calculateTotalPrice(product_id, relatedprd_id);
+	}
 
     return true;
 }
