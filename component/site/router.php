@@ -10,7 +10,7 @@
 defined('_JEXEC') or die;
 
 JLoader::import('joomla.html.parameter');
-JLoader::import('loadhelpers', JPATH_SITE . '/components/com_redshop');
+JLoader::import('redshop.library');
 
 /**
  *    Build URL routes for redSHOP
@@ -1008,7 +1008,7 @@ function redshopParseRoute($segments)
 						if (isset($segments[0]) && $segments[0] == 'compare')
 						{
 							$vars['layout'] = $segments[0];
-							$vars['task']   = $segments[2];
+							$vars['task']   = isset($segments[2]) ? $segments[2] : '';
 						}
 						else
 						{

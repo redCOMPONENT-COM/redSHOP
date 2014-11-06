@@ -8,8 +8,8 @@
  */
 defined('_JEXEC') or die;
 JLoader::load('RedshopHelperProduct');
-$producthelper = new producthelper();
-$redconfig = new Redconfiguration();
+$producthelper = new producthelper;
+$redconfig = new Redconfiguration;
 
 
 $option = JRequest::getVar('option', '', 'request', 'string');
@@ -19,9 +19,6 @@ $tax_group_id = JRequest::getVar('tax_group_id', '', 'request', 'string');
 <script language="javascript" type="text/javascript">
 
 	Joomla.submitbutton = function (pressbutton) {
-		submitbutton(pressbutton);
-	}
-	submitbutton = function (pressbutton) {
 		var form = document.adminForm;
 		if (pressbutton) {
 			form.task.value = pressbutton;

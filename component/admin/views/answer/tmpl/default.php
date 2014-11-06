@@ -7,9 +7,9 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 JLoader::load('RedshopHelperProduct');
-$producthelper = new producthelper();
 
-$config = new Redconfiguration();
+$producthelper = new producthelper;
+$config = new Redconfiguration;
 
 $option = JRequest::getVar('option');
 $filter = JRequest::getVar('filter');
@@ -20,9 +20,6 @@ $ordering = ($this->lists['order'] == 'ordering');
 ?>
 <script language="javascript" type="text/javascript">
 	Joomla.submitbutton = function (pressbutton) {
-		submitbutton(pressbutton);
-	}
-	submitbutton = function (pressbutton) {
 		var form = document.adminForm;
 		if (pressbutton) {
 			form.task.value = pressbutton;

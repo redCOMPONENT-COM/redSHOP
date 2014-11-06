@@ -10,7 +10,7 @@ defined('_JEXEC') or die;
 JLoader::load('RedshopHelperProduct');
 JHTMLBehavior::modal();
 $app = JFactory::getApplication();
-$productobj = new producthelper();
+$productobj = new producthelper;
 $option = JRequest::getVar('option', '', 'request', 'string');
 
 $model = $this->getModel('product');
@@ -21,9 +21,6 @@ $category_id = $app->getUserStateFromRequest('category_id', 'category_id', 0);
 <script language="javascript" type="text/javascript">
 
 	Joomla.submitbutton = function (pressbutton) {
-		submitbutton(pressbutton);
-	}
-	submitbutton = function (pressbutton) {
 		var form = document.adminForm;
 		if (pressbutton) {
 			form.task.value = pressbutton;

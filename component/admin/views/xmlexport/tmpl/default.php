@@ -6,15 +6,12 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-$config = new Redconfiguration();
+$config = new Redconfiguration;
 
 $option = JRequest::getVar('option');
 $lists = $this->lists;?>
 <script language="javascript" type="text/javascript">
 	Joomla.submitbutton = function (pressbutton) {
-		submitbutton(pressbutton);
-	}
-	submitbutton = function (pressbutton) {
 		var form = document.adminForm;
 		if (pressbutton) {
 			form.task.value = pressbutton;

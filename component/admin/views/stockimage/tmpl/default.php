@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die ('Restricted access');
+defined('_JEXEC') or die;
 
 $option = JRequest::getVar('option', '', 'request', 'string');
 $filter = JRequest::getVar('filter');
@@ -17,9 +17,6 @@ $model = $this->getModel('stockimage');
 <script language="javascript" type="text/javascript">
 
 	Joomla.submitbutton = function (pressbutton) {
-		submitbutton(pressbutton);
-	}
-	submitbutton = function (pressbutton) {
 		var form = document.adminForm;
 		if (pressbutton) {
 			form.task.value = pressbutton;

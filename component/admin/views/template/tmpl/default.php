@@ -10,8 +10,7 @@ $filter      = JRequest::getVar('filter');
 $redtemplate = new Redtemplate;
 ?>
 <script language="javascript" type="text/javascript">
-
-	Joomla.submitbutton = function (pressbutton)
+	Joomla.submitbutton = submitbutton = function (pressbutton)
 	{
 		var form = document.adminForm;
 		if (pressbutton) {
@@ -30,6 +29,7 @@ $redtemplate = new Redtemplate;
 
 		form.submit();
 	}
+
 
 </script>
 <form action="index.php?option=com_redshop" method="post" name="adminForm" id="adminForm">
@@ -111,7 +111,7 @@ $redtemplate = new Redtemplate;
 					</td>
 					<td>
 						<?php if (!$canCheckin) : ?>
-							echo $row->template_name;
+							<?php echo $row->template_name; ?>
 						<?php else : ?>
 							<a href="<?php echo $link; ?>"
 							   title="<?php echo JText::_('COM_REDSHOP_EDIT_TEMPLATES'); ?>"><?php echo $row->template_name; ?></a>

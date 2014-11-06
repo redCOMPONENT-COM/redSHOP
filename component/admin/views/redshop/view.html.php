@@ -7,20 +7,25 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die ('restricted access');
+defined('_JEXEC') or die;
 
 jimport('joomla.application.component.view');
 
 class RedshopViewRedshop extends JView
 {
+	public $layout;
+
 	public function display($tpl = null)
 	{
-		$layout = JRequest::getCmd('layout');
+		$this->layout = JRequest::getCmd('layout', 'default');
 
 		JToolBarHelper::title('', 'redshop_261-x-88');
 
-		if ($layout != "noconfig")
+		if ($this->layout != "noconfig")
 		{
+			JToolBarHelper::custom('update', 'redshop_importexport32', JText::_('COM_REDSHOP_UPDATE_TITLE'),
+				JText::_('COM_REDSHOP_UPDATE_TITLE'), false, false
+			);
 			JToolBarHelper::custom('statistic', 'redshop_statistic32', JText::_('COM_REDSHOP_STATISTIC'),
 				JText::_('COM_REDSHOP_STATISTIC'), false, false
 			);
@@ -86,7 +91,6 @@ class RedshopViewRedshop extends JView
 		}
 
 		$this->lists  = $lists;
-		$this->layout = $layout;
 
 		parent::display($tpl);
 	}

@@ -6,7 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined('_JEXEC') or die ('Restricted access');
+defined('_JEXEC') or die;
 $producthelper = new producthelper;
 $redhelper = new redhelper;
 $userhelper = new rsUserhelper;
@@ -16,9 +16,6 @@ $filter = JRequest::getVar('filter');
 $model = $this->getModel('user');    ?>
 <script language="javascript" type="text/javascript">
 	Joomla.submitbutton = function (pressbutton) {
-		submitbutton(pressbutton);
-	}
-	submitbutton = function (pressbutton) {
 		var form = document.adminForm;
 		if (pressbutton) {
 			form.task.value = pressbutton;
@@ -143,7 +140,6 @@ $model = $this->getModel('user');    ?>
 			</tfoot>
 		</table>
 	</div>
-	<!--<input type="hidden" name="shipping" value="<?php echo $this->lists ['shipping'];	?>"  />-->
 	<input type="hidden" name="view" value="user"/>
 	<input type="hidden" name="task" value=""/>
 	<input type="hidden" name="boxchecked" value="0"/>

@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die ('Restricted access');
+defined('_JEXEC') or die;
 
 JLoader::import('joomla.application.component.model');
 
@@ -218,16 +218,27 @@ class RedshopModelCategory extends JModel
 	/**
 	 * Method get Product of Category
 	 *
-	 * @param   number   $minmax    default variable is 0
-	 * @param   boolean  $isSlider  default variable is false
+	 * @param   int   $minmax    default variable is 0
+	 * @param   bool  $isSlider  default variable is false
 	 *
 	 * @return mixed
 	 */
 	public function getCategoryProduct($minmax = 0, $isSlider = false)
 	{
-		$app             = JFactory::getApplication();
-		$menu            = $app->getMenu();
-		$item            = $menu->getActive();
+		$app = JFactory::getApplication();
+		$db = JFactory::getDbo();
+		$user = JFactory::getUser();
+		$orderBy = $this->buildProductOrderBy();
+
+		if ($minmax && !(strstr($orderBy, "p.product_price ASC") || strstr($orderBy, "p.product_price DESC")))
+		{
+			$orderBy = "p.product_price ASC";
+		}
+
+		$query = $db->getQuery(true)
+			->order($orderBy);
+		$query = $this->producthelper->getMainProductQuery($query, $user->id);
+		$queryCount = $db->getQuery(true);
 
 		$manufacturerId = $app->input->post->get("manufacturer_id", "");
 
@@ -247,12 +258,9 @@ class RedshopModelCategory extends JModel
 		}
 
 		$app->setUserState("manufacturer_id", $manufacturerId);
-
-		$setproductfinderobj = new redhelper;
-		$orderBy            = $this->buildProductOrderBy();
-
+		$endlimit = $this->getProductPerPage();
+		$limitstart = $app->input->get('limitstart', 0, 'int');
 		$sort = "";
-		$and  = "";
 
 		// Shopper group - choose from manufactures Start
 		$rsUserhelper               = new rsUserhelper;
@@ -262,48 +270,74 @@ class RedshopModelCategory extends JModel
 		{
 			$shopperGroupManufactures = explode(',', $shopperGroupManufactures);
 			JArrayHelper::toInteger($shopperGroupManufactures);
-			$shopper_group_manufactures = implode(',', $shopperGroupManufactures);
-			$and .= "p.manufacturer_id IN (" . $shopperGroupManufactures . ") ";
+			$shopperGroupManufactures = implode(',', $shopperGroupManufactures);
+			$query->where('p.manufacturer_id IN (' . $shopperGroupManufactures . ')');
+			$queryCount->where('p.manufacturer_id IN (' . $shopperGroupManufactures . ')');
 		}
 
 		// Shopper group - choose from manufactures End
 
 		if ($manufacturerId && $manufacturerId > 0)
 		{
-			$and .= " p.manufacturer_id = " . (int) $manufacturerId . " ";
+			$query->where('p.manufacturer_id = ' . (int) $manufacturerId);
+			$queryCount->where('p.manufacturer_id = ' . (int) $manufacturerId);
 		}
 
-		if ($minmax && !(strstr($orderBy, "p.product_price ASC") || strstr($orderBy, "p.product_price DESC")))
-		{
-			$orderBy = "p.product_price ASC";
-		}
-
-		$query = JFactory::getDbo()->getQuery(true);
-		$query->select("*");
-		$query->from("#__redshop_product AS p ");
-		$query->join("LEFT", "#__redshop_product_category_xref AS pc ON pc.product_id=p.product_id ");
-		$query->join("LEFT", "#__redshop_category AS c ON c.category_id=pc.category_id ");
-		$query->join("LEFT", "#__redshop_manufacturer AS m ON m.manufacturer_id=p.manufacturer_id ");
-		$query->where("p.published = 1 AND p.expired = 0");
-		$query->where("pc.category_id = " . (int) $this->_id);
-		$query->where("p.published = 1 AND p.expired = 0");
-
-		if ($and != "")
-		{
-			$query->where($and);
-		}
+		$query->select(
+			array(
+				'pc.*', 'c.*', 'm.*',
+				'CONCAT_WS(' . $db->q('.') . ', p.product_id, ' . (int) $user->id . ') AS concat_id'
+			)
+		);
+		$query->join("LEFT", "#__redshop_category AS c ON c.category_id=pc.category_id");
+		$query->join("LEFT", "#__redshop_manufacturer AS m ON m.manufacturer_id=p.manufacturer_id");
+		$query->where(
+			array(
+				'p.published = 1', 'p.expired = 0',
+				'pc.category_id = ' . (int) $this->_id,
+				'p.product_parent_id = 0'
+			)
+		);
 
 		$finder_condition = $this->getredproductfindertags();
 
-		if ($finder_condition != "")
+		if ($finder_condition != '')
 		{
 			$finder_condition = str_replace("AND", "", $finder_condition);
 			$query->where($finder_condition);
+			$queryCount->where($finder_condition);
 		}
 
-		$query->order($orderBy);
+		$queryCount->select('COUNT(DISTINCT(p.product_id))')
+			->from('#__redshop_product AS p')
+			->leftJoin('#__redshop_product_category_xref AS pc ON pc.product_id = p.product_id')
+			->leftJoin('#__redshop_manufacturer AS m ON m.manufacturer_id = p.manufacturer_id')
+			->where(
+			array(
+				'p.published = 1', 'p.expired = 0',
+				'pc.category_id = ' . (int) $this->_id,
+				'p.product_parent_id = 0'
+			)
+		);
 
-		$this->_product = $this->_getList($query);
+		if ($minmax != 0 || $isSlider)
+		{
+			$db->setQuery($query);
+		}
+		else
+		{
+			$db->setQuery($query, $limitstart, $endlimit);
+		}
+
+		if ($this->_product = $db->loadObjectList('concat_id'))
+		{
+			$this->producthelper->setProduct($this->_product);
+			$this->_product = array_values($this->_product);
+		}
+		else
+		{
+			$this->_product = array();
+		}
 
 		$priceSort = false;
 
@@ -388,7 +422,8 @@ class RedshopModelCategory extends JModel
 		}
 		else
 		{
-			$this->_total = count($this->_product);
+			$db->setQuery($queryCount);
+			$this->_total = $db->loadResult();
 		}
 
 		return $this->_product;
@@ -741,7 +776,6 @@ class RedshopModelCategory extends JModel
 
 			$finder_where     = "";
 			$finder_query     = "";
-			$finder_condition = "";
 
 			$findercomponent      = JComponentHelper::getComponent('com_redproductfinder');
 			$productfinderconfig  = new JRegistry($findercomponent->params);
@@ -797,8 +831,6 @@ class RedshopModelCategory extends JModel
 						$finder_condition = "";
 					}
 				}
-
-				$finder_condition;
 			}
 		}
 

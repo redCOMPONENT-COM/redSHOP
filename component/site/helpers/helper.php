@@ -19,10 +19,77 @@ class redhelper
 
 	public $_isredCRM = null;
 
+	protected static $redshopMenuItems;
+
 	public function __construct()
 	{
 		$this->_table_prefix = '#__redshop_';
 		$this->_db           = JFactory::getDbo();
+	}
+
+	/**
+	 * Quote an array of values.
+	 *
+	 * @param   array   $values     The values.
+	 * @param   string  $nameQuote  Name quote, can be possible q, quote, qn, quoteName
+	 *
+	 * @return  array  The quoted values
+	 */
+	public static function quote(array $values, $nameQuote = 'q')
+	{
+		$db = JFactory::getDbo();
+
+		return array_map(
+			function ($value) use ($db, $nameQuote) {
+				return $db->$nameQuote($value);
+			},
+			$values
+		);
+	}
+
+	/**
+	 * Set Operand For Values
+	 *
+	 * @param   float   $leftValue   Left value
+	 * @param   string  $operand     Operand
+	 * @param   float   $rightValue  Right value
+	 *
+	 * @return float
+	 */
+	public static function setOperandForValues($leftValue, $operand, $rightValue)
+	{
+		switch ($operand)
+		{
+			case '+':
+				$leftValue += $rightValue;
+				break;
+			case '-':
+				$leftValue -= $rightValue;
+				break;
+			case '*':
+				$leftValue *= $rightValue;
+				break;
+			case '/':
+				$leftValue /= $rightValue;
+				break;
+		}
+
+		return $leftValue;
+	}
+
+	/**
+	 * Get Redshop Menu Items
+	 *
+	 * @return array
+	 */
+	public function getRedshopMenuItems()
+	{
+		if (!is_array(self::$redshopMenuItems))
+		{
+			self::$redshopMenuItems = JFactory::getApplication()->getMenu()->getItems('component', 'com_redshop');
+		}
+
+		return self::$redshopMenuItems;
 	}
 
 	/**
@@ -121,83 +188,94 @@ class redhelper
 		return $res;
 	}
 
-	public function getItemid($product_id = '', $cat_id = 0)
+	/**
+	 * Check Menu Query
+	 *
+	 * @param   object  $oneMenuItem  Values current menu item
+	 * @param   array   $queryItems   Name query check
+	 *
+	 * @return bool
+	 */
+	public function checkMenuQuery($oneMenuItem, $queryItems)
 	{
-		$producthelper = new producthelper;
-		$catDetailmenu = false;
-
-		if ($cat_id)
+		foreach ($queryItems as $key => $value)
 		{
-			$sql = "SELECT id FROM #__menu "
-				. "WHERE published=1 "
-				. "AND `link` LIKE '%com_redshop%' "
-				. "AND `link` LIKE '%view=category%' "
-				. "AND ( link LIKE '%cid=" . (int) $cat_id . "' OR link LIKE '%cid=" . (int) $cat_id . "&%' ) "
-				. "ORDER BY 'ordering'";
-			$this->_db->setQuery($sql);
-
-			if ($Itemid = $this->_db->loadResult())
+			if (!isset($oneMenuItem->query[$key])
+				|| (is_array($value) && !in_array($oneMenuItem->query[$key], $value))
+				|| $oneMenuItem->query[$key] != $value)
 			{
-				$catDetailmenu = true;
-
-				return $Itemid;
+				return false;
 			}
 		}
 
-		$sql = "SELECT category_id 	FROM " . $this->_table_prefix . "product_category_xref cx WHERE product_id = '$product_id'";
-		$this->_db->setQuery($sql);
-		$cats = $this->_db->loadObjectList();
+		return true;
+	}
 
-		for ($i = 0; $i < count($cats); $i++)
+	/**
+	 * Get Item Id
+	 *
+	 * @param   int  $productId   Product Id
+	 * @param   int  $categoryId  Category Id
+	 *
+	 * @return int|mixed
+	 */
+	public function getItemid($productId = 0, $categoryId = 0)
+	{
+		if ($categoryId)
 		{
-			$cat = $cats[$i];
-			$sql = "SELECT id FROM #__menu "
-				. "WHERE published=1 "
-				. "AND `link` LIKE '%com_redshop%' "
-				. "AND `link` LIKE '%view=category%' "
-				. "AND ( link LIKE '%cid=" . (int) $cat->category_id . "' OR link LIKE '%cid=" . (int) $cat->category_id . "&%' ) "
-				. "ORDER BY 'ordering'";
-			$this->_db->setQuery($sql);
-
-			if ($Itemid = $this->_db->loadResult())
+			foreach ($this->getRedshopMenuItems() as $oneMenuItem)
 			{
-				return $Itemid;
+				if ($this->checkMenuQuery($oneMenuItem, array('option' => 'com_redshop', 'view' => 'category', 'cid' => $categoryId)))
+				{
+					return $oneMenuItem->id;
+				}
 			}
 		}
 
-		$option = JRequest::getVar('option');
+		if ($productId)
+		{
+			$db = JFactory::getDbo();
+			$query = $db->getQuery(true)
+				->select('category_id')
+				->from($db->qn('#__redshop_product_category_xref', 'cx'))
+				->where('product_id = ' . (int) $productId);
+			$db->setQuery($query);
+
+			if ($categories = $db->loadColumn())
+			{
+				foreach ($this->getRedshopMenuItems() as $oneMenuItem)
+				{
+					if ($this->checkMenuQuery($oneMenuItem, array('option' => 'com_redshop', 'view' => 'category', 'cid' => $categories)))
+					{
+						return $oneMenuItem->id;
+					}
+				}
+			}
+		}
+
+		$input = JFactory::getApplication()->input;
+		$option = $input->getCmd('option', '');
 
 		if ($option != 'com_redshop')
 		{
-			if (!$catDetailmenu)
+			foreach ($this->getRedshopMenuItems() as $oneMenuItem)
 			{
-				$sql = "SELECT id FROM #__menu "
-					. "WHERE published=1 "
-					. "AND `link` LIKE '%com_redshop%' "
-					. "AND `link` LIKE '%view=category%' "
-					. "ORDER BY 'ordering'";
-
-				$this->_db->setQuery($sql);
-
-				if ($Itemid = $this->_db->loadResult())
+				if ($this->checkMenuQuery($oneMenuItem, array('option' => 'com_redshop', 'view' => 'category')))
 				{
-					return $Itemid;
+					return $oneMenuItem->id;
 				}
 			}
 
-			$Itemidlist = $producthelper->getMenuInformation();
-
-			if (count($Itemidlist) == 1)
+			foreach ($this->getRedshopMenuItems() as $oneMenuItem)
 			{
-				$Itemid = $Itemidlist->id;
-
-				return $Itemid;
+				if ($this->checkMenuQuery($oneMenuItem, array('option' => 'com_redshop')))
+				{
+					return $oneMenuItem->id;
+				}
 			}
 		}
 
-		$Itemid = intval(JRequest::getVar('Itemid'));
-
-		return $Itemid;
+		return $input->getInt('Itemid', 0);
 	}
 
 	public function getCategoryItemid($category_id = 0)
@@ -556,194 +634,138 @@ class redhelper
 	}
 
 	/**
-	 * Water mark image.
+	 *  Generate thumb image
 	 *
-	 *  @param   string  $mtype             Comment.
-	 *  @param   string  $Imagename         Comment.
-	 *  @param   string  $thumb_width       Comment.
-	 *  @param   string  $thumb_height      Comment.
-	 *  @param   string  $enable_watermart  Comment.
-	 *  @param   int     $add_img           Comment.
+	 *  @param   string  $section          Image section
+	 *  @param   string  $ImageName        Image name
+	 *  @param   string  $thumbWidth       Thumb width
+	 *  @param   string  $thumbHeight      Thumb height
+	 *  @param   string  $enableWatermark  Enable watermark
 	 *
-	 * @return string
+	 * @return  string
 	 */
-	public function watermark($mtype, $Imagename = '', $thumb_width = '', $thumb_height = '', $enable_watermart = WATERMARK_PRODUCT_IMAGE, $add_img = 0)
+	public function watermark($section, $ImageName = '', $thumbWidth = '', $thumbHeight = '', $enableWatermark = WATERMARK_PRODUCT_IMAGE)
 	{
 		JLoader::load('RedshopHelperAdminImages');
+		$pathMainImage = $section . '/' . $ImageName;
 
-		$url    = JURI::root();
-
-		/*
-		 * IF watermark is not enable
-		 * return thumb image
-		 */
-		if ($enable_watermart <= 0)
+		try
 		{
-			if (($thumb_width != '' || $thumb_width != 0) && ($thumb_height != '' || $thumb_width != 0))
+			// If main image not exists - display noimage
+			if (!file_exists(REDSHOP_FRONT_IMAGES_RELPATH . $pathMainImage))
 			{
-				$file_path          = JPATH_SITE . '/components/com_redshop/assets/images/' . $mtype . '/' . $Imagename;
-				$filename           = RedShopHelperImages::generateImages($file_path, '', 'thumb', $mtype, $thumb_width, $thumb_height, USE_IMAGE_SIZE_SWAPPING);
-				$filename_path_info = pathinfo($filename);
-				$filename           = REDSHOP_FRONT_IMAGES_ABSPATH . $mtype . '/thumb/' . $filename_path_info['basename'];
-			}
-			else
-			{
-				$filename = REDSHOP_FRONT_IMAGES_ABSPATH . $mtype . "/" . $Imagename;
+				$pathMainImage = 'noimage.jpg';
+				throw new Exception;
 			}
 
-			return $filename;
-		}
-
-		if ($Imagename
-			&& file_exists(REDSHOP_FRONT_IMAGES_RELPATH . $mtype . "/" . $Imagename)
-			&& (WATERMARK_IMAGE
-			&& file_exists(REDSHOP_FRONT_IMAGES_RELPATH . "product/" . WATERMARK_IMAGE)))
-		{
-			if ($thumb_width != '' && $thumb_height != '')
+			// If watermark not exists or disable - display simple thumb
+			if ($enableWatermark <= 0
+				|| !file_exists(REDSHOP_FRONT_IMAGES_RELPATH . 'product/' . WATERMARK_IMAGE))
 			{
-				$file_path    = JPATH_SITE . '/components/com_redshop/assets/images/product/' . WATERMARK_IMAGE;
-				$filename     = RedShopHelperImages::generateImages($file_path, '', 'thumb', 'product', $thumb_width, $thumb_height, USE_IMAGE_SIZE_SWAPPING);
-				$filename_path_info = pathinfo($filename);
-				$watermark          = REDSHOP_FRONT_IMAGES_ABSPATH . 'product/thumb/' . $filename_path_info['basename'];
-
-				$file_path          = JPATH_SITE . '/components/com_redshop/assets/images/' . $mtype . '/' . $Imagename;
-				$filename           = RedShopHelperImages::generateImages($file_path, '', 'thumb', $mtype, $thumb_width, $thumb_height, USE_IMAGE_SIZE_SWAPPING);
-				$filename_path_info = pathinfo($filename);
-				$filename           = REDSHOP_FRONT_IMAGES_ABSPATH . $mtype . '/thumb/' . $filename_path_info['basename'];
-
-				if ($add_img == 2)
-				{
-					$gnImagename = 'hover' . $Imagename;
-				}
-				elseif ($add_img == 1)
-				{
-					$gnImagename = 'add' . $Imagename;
-				}
-				else
-				{
-					$gnImagename = $Imagename;
-				}
-			}
-			else
-			{
-				$watermark   = REDSHOP_FRONT_IMAGES_RELPATH . "product/" . WATERMARK_IMAGE;
-				$filename    = REDSHOP_FRONT_IMAGES_RELPATH . $mtype . "/" . $Imagename;
-				$gnImagename = 'main' . $Imagename;
-
-				if (file_exists(REDSHOP_FRONT_IMAGES_RELPATH . "watermarked/" . $gnImagename))
-				{
-					return $DestinationFile = REDSHOP_FRONT_IMAGES_ABSPATH . "watermarked/" . $gnImagename;
-				}
+				throw new Exception;
 			}
 
-			$DestinationFile = REDSHOP_FRONT_IMAGES_RELPATH . "watermarked/" . $gnImagename;
-			$filetype        = JFile::getExt(WATERMARK_IMAGE);
-
-			switch ($filetype)
+			// If width and height not set - use with and height original image
+			if ((int) $thumbWidth == 0 && (int) $thumbHeight == 0)
 			{
-				case "gif":
-					$dest = @imagecreatefromjpeg($filename);
-					$src  = @imagecreatefromgif($watermark);
+				list($thumbWidth, $thumbHeight) = getimagesize(REDSHOP_FRONT_IMAGES_RELPATH . $pathMainImage);
+			}
 
-					list($width, $height, $type, $attr) = @getimagesize($filename);
+			$imageNameWithPrefix = JFile::stripExt($ImageName) . '_w' . (int) $thumbWidth . '_h' . (int) $thumbHeight . '_i'
+				. JFile::stripExt(basename(WATERMARK_IMAGE)) . '.' . JFile::getExt($ImageName);
+			$destinationFile = REDSHOP_FRONT_IMAGES_RELPATH . $section . '/thumb/' . $imageNameWithPrefix;
 
-					list($markwidth, $markheight, $type1, $attr1) = @getimagesize($watermark);
+			if (JFile::exists($destinationFile))
+			{
+				return REDSHOP_FRONT_IMAGES_ABSPATH . $section . '/thumb/' . $imageNameWithPrefix;
+			}
 
-					@imagecopymerge($dest, $src, ($width - $markwidth) >> 1, ($height - $markheight) >> 1, 0, 0, $markwidth, $markheight, 50);
+			$file_path = JPATH_SITE . '/components/com_redshop/assets/images/product/' . WATERMARK_IMAGE;
+			$filename = RedShopHelperImages::generateImages($file_path, '', 'thumb', 'product', $thumbWidth, $thumbHeight, 1);
+			$filename_path_info = pathinfo($filename);
+			$watermark = REDSHOP_FRONT_IMAGES_RELPATH . 'product/thumb/' . $filename_path_info['basename'];
+			ob_start();
+			RedShopHelperImages::resizeImage(
+				REDSHOP_FRONT_IMAGES_RELPATH . $pathMainImage, $thumbWidth, $thumbHeight, USE_IMAGE_SIZE_SWAPPING, 'browser', false
+			);
+			$contents = ob_get_contents();
+			ob_end_clean();
 
-					// Save the image to a file
-					@imagejpeg($dest, $DestinationFile);
+			if (!JFile::write($destinationFile, $contents))
+			{
+				return REDSHOP_FRONT_IMAGES_ABSPATH . $section . "/" . $ImageName;
+			}
 
-					$DestinationFile = REDSHOP_FRONT_IMAGES_ABSPATH . "watermarked/" . $gnImagename;
+			switch (JFile::getExt(WATERMARK_IMAGE))
+			{
+				case 'gif':
+					$dest = imagecreatefromjpeg($destinationFile);
+					$src = imagecreatefromgif($watermark);
+					list($width, $height) = getimagesize($destinationFile);
+					list($markwidth, $markheight) = getimagesize($watermark);
+					imagecopymerge($dest, $src, ($width - $markwidth) >> 1, ($height - $markheight) >> 1, 0, 0, $markwidth, $markheight, 50);
+					imagejpeg($dest, $destinationFile);
+					break;
+				case 'png':
+					$im = imagecreatefrompng($watermark);
 
-					return $DestinationFile;
-
-				case "png":
-					$im    = imagecreatefrompng($watermark);
-					$exten = JFile::getExt($filename);
-
-					$extARRAY = @ explode('&', $exten);
-					$ext      = $extARRAY[0];
-
-					if (strtolower($ext) == "gif")
+					switch (JFile::getExt($destinationFile))
 					{
-						if (!$im2 = imagecreatefromgif($filename))
-						{
-							echo "Error opening $filename!";
-						}
-					}
-					elseif (strtolower($ext) == "jpg")
-					{
-						if (!$im2 = imagecreatefromjpeg($filename))
-						{
-							echo "Error opening $filename!";
-							exit;
-						}
-					}
-					elseif (strtolower($ext) == "png")
-					{
-						if (!$im2 = imagecreatefrompng($filename))
-						{
-							echo "Error opening $filename!";
-							exit;
-						}
-					}
-					else
-					{
-						die;
+						case 'gif':
+							$im2 = imagecreatefromgif($destinationFile);
+							break;
+						case 'jpg':
+							$im2 = imagecreatefromjpeg($destinationFile);
+							break;
+						case 'png':
+							$im2 = imagecreatefrompng($destinationFile);
+							break;
+						default:
+							throw new Exception;
 					}
 
 					imagecopy($im2, $im, (imagesx($im2) / 2) - (imagesx($im) / 2), (imagesy($im2) / 2) - (imagesy($im) / 2), 0, 0, imagesx($im), imagesy($im));
 					$waterless = imagesx($im2) - imagesx($im);
-					$rest      = ceil($waterless / imagesx($im) / 2);
+					$rest = ceil($waterless / imagesx($im) / 2);
 
 					for ($n = 1; $n <= $rest; $n++)
 					{
 						imagecopy(
-							$im2,
-							$im,
-							((imagesx($im2) / 2) - (imagesx($im) / 2)) - (imagesx($im) * $n),
-							(imagesy($im2) / 2) - (imagesy($im) / 2),
-							0,
-							0,
-							imagesx($im),
-							imagesy($im)
+							$im2, $im, ((imagesx($im2) / 2) - (imagesx($im) / 2)) - (imagesx($im) * $n),
+							(imagesy($im2) / 2) - (imagesy($im) / 2), 0, 0, imagesx($im), imagesy($im)
 						);
 
 						imagecopy(
-							$im2,
-							$im,
-							((imagesx($im2) / 2) - (imagesx($im) / 2)) + (imagesx($im) * $n),
-							(imagesy($im2) / 2) - (imagesy($im) / 2),
-							0,
-							0,
-							imagesx($im), imagesy($im)
+							$im2, $im, ((imagesx($im2) / 2) - (imagesx($im) / 2)) + (imagesx($im) * $n),
+							(imagesy($im2) / 2) - (imagesy($im) / 2), 0, 0, imagesx($im), imagesy($im)
 						);
 					}
 
-					imagejpeg($im2, $DestinationFile);
-					$DestinationFile = REDSHOP_FRONT_IMAGES_ABSPATH . "watermarked/" . $gnImagename;
-
-					return $DestinationFile;
+					imagejpeg($im2, $destinationFile);
+					break;
+				default:
+					throw new Exception;
 			}
+
+			return REDSHOP_FRONT_IMAGES_ABSPATH . $section . '/thumb/' . $imageNameWithPrefix;
 		}
-		else
+		catch (Exception $e)
 		{
-			if (($thumb_width != '' || $thumb_width != 0) && ($thumb_height != '' || $thumb_width != 0))
+			if ($e->getMessage())
 			{
-				$filename = RedShopHelperImages::getImagePath(
-								$Imagename,
-								'',
-								'thumb',
-								$mtype,
-								$thumb_width,
-								$thumb_height,
-								USE_IMAGE_SIZE_SWAPPING
-							);
+				JFactory::getApplication()->enqueueMessage($e->getMessage(), 'warning');
+			}
+
+			if ((int) $thumbWidth == 0 && (int) $thumbHeight == 0)
+			{
+				$filename = REDSHOP_FRONT_IMAGES_ABSPATH . $pathMainImage;
 			}
 			else
 			{
-				$filename = REDSHOP_FRONT_IMAGES_ABSPATH . $mtype . "/" . $Imagename;
+				$file_path = JPATH_SITE . '/components/com_redshop/assets/images/' . $pathMainImage;
+				$filename = RedShopHelperImages::generateImages($file_path, '', 'thumb', $section, $thumbWidth, $thumbHeight, USE_IMAGE_SIZE_SWAPPING);
+				$filename_path_info = pathinfo($filename);
+				$filename = REDSHOP_FRONT_IMAGES_ABSPATH . $section . '/thumb/' . $filename_path_info['basename'];
 			}
 
 			return $filename;
