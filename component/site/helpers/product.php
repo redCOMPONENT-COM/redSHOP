@@ -544,7 +544,7 @@ class producthelper
 				$userArr = $this->_userhelper->createUserSession($userId);
 			}
 
-			$shopperGroupId = isset($userArr['rs_user_shopperGroup']) ? $userArr['rs_user_shopperGroup'] : '';
+			$shopperGroupId = isset($userArr['rs_user_shopperGroup']) ? $userArr['rs_user_shopperGroup'] : 0;
 			$query = $db->getQuery(true)
 				->select('dps.discount_product_id')
 				->from($db->qn('#__redshop_discount_product_shoppers', 'dps'))
