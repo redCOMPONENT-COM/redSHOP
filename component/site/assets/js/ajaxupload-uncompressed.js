@@ -700,7 +700,7 @@ function removeAjaxUpload(removeData)
 				return jQuery(this).find("span").text();
 			}).get().join(",");
 
-			jQuery("#" + removeData.uniqueOl).val(uploadFiles);
+			jQuery("#" + removeData.ajaxFlag + removeData.uniqueOl).val(uploadFiles);
 			jQuery("#" + removeData.fieldName).val(uploadFiles);
         }
     });
