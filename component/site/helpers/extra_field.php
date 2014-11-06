@@ -265,6 +265,50 @@ class extraField
 		return $ex_field;
 	}
 
+	/**
+	 * Display User Documents
+	 *
+	 * @param   int     $productId         Product id
+	 * @param   object  $extraFieldValues  Extra field name
+	 * @param   string  $ajaxFlag          Ajax flag
+	 *
+	 * @return  string
+	 */
+	public function displayUserDocuments($productId, $extraFieldValues, $ajaxFlag = '')
+	{
+		$session = JFactory::getSession();
+		$userDocuments = $session->get('userDocument', array());
+		$html = array('<ol id="ol_' . $extraFieldValues->field_name . '_' . $productId . '">');
+		$fileNames = array();
+
+		if (isset($userDocuments[$productId]))
+		{
+			foreach ($userDocuments[$productId] as $id => $userDocument)
+			{
+				$fileNames[] = $userDocument['fileName'];
+				$sendData = array(
+					'id' => $id,
+					'product_id' => $productId,
+					'uniqueOl' => $ajaxFlag . $extraFieldValues->field_name . '_' . $productId,
+					'fieldName' => $extraFieldValues->field_name,
+					'ajaxFlag' => $ajaxFlag,
+					'fileName' => $userDocument['fileName'],
+					'action' => JURI::root() . 'index.php?tmpl=component&option=com_redshop&view=product&task=removeAjaxUpload'
+				);
+
+				$html[] = '<li id="uploadNameSpan' . $id . '"><span>' . $userDocument['fileName'] . '</span>&nbsp;<a href="javascript:removeAjaxUpload('
+					. htmlspecialchars(json_encode($sendData)) . ');">' . JText::_('COM_REDSHOP_DELETE') . '</a></li>';
+			}
+		}
+
+		$html[] = '</ol>';
+		$html[] = '<input type="hidden" name="extrafields' . $productId . '[]" id="' . $ajaxFlag . $extraFieldValues->field_name . '_' . $productId . '" '
+			. ($extraFieldValues->required ? ' required="required"' : '') . ' userfieldlbl="' . $extraFieldValues->field_title
+			. '" value="' . implode(',', $fileNames) . '" />';
+
+		return implode('', $html);
+	}
+
 	public function list_all_user_fields($field_section = "", $section_id = 12, $field_type = '', $idx = 'NULL', $isatt = 0, $product_id, $mywish = "", $addwish = 0)
 	{
 		$db      = JFactory::getDbo();
@@ -333,7 +377,25 @@ class extraField
 
 			if ($field_type == 'hidden')
 			{
-				$ex_field .= '<input type="hidden" name="' . $row_data[$i]->field_name . '"  id="' . $row_data[$i]->field_name . '" value=""/>';
+				$value = '';
+
+				if ($type == 10)
+				{
+					$userDocuments = $session->get('userDocument', array());
+					$fileNames = array();
+
+					if (isset($userDocuments[$product_id]))
+					{
+						foreach ($userDocuments[$product_id] as $id => $userDocument)
+						{
+							$fileNames[] = $userDocument['fileName'];
+						}
+
+						$value = implode(',', $fileNames);
+					}
+				}
+
+				$ex_field .= '<input type="hidden" name="' . $row_data[$i]->field_name . '"  id="' . $row_data[$i]->field_name . '" value="' . $value . '"/>';
 			}
 			else
 			{
@@ -458,99 +520,50 @@ class extraField
 						// File Upload
 						JHTML::Script('jquery-1.js', 'components/com_redshop/assets/js/', false);
 						JHTML::Script('ajaxupload.js', 'components/com_redshop/assets/js/', false);
-						$ajax = "";
+						$ajax = '';
+						$unique = $row_data[$i]->field_name . '_' . $product_id;
 
-						$unique = $ajax . $row_data[$i]->field_name . '_' . $product_id;
-
-						if (AJAX_CART_BOX)
+						if ($isatt > 0)
 						{
-							$ex_field .= '<script>jQuery.noConflict();</script>';
-
-							if ($isatt > 0)
-							{
-								$ajax = "ajax";
-								$unique = $ajax . $row_data[$i]->field_name . '_' . $product_id;
-
-								$ex_field .= '<div class="userfield_input"><input type="button" class="' . $row_data[$i]->field_class . '" value="' . JText::_('COM_REDSHOP_UPLOAD') . '" id="file' . $ajax . $row_data[$i]->field_name . '" onClick=\'javascript:new AjaxUpload("file' . $ajax . $row_data[$i]->field_name . '",{action:"' . JURI::root() . 'index.php?tmpl=component&option=com_redshop&view=product&task=ajaxupload",data :{mname:"file' . $ajax . $row_data[$i]->field_name . '"}, name:"file' . $ajax . $row_data[$i]->field_name . '",onSubmit : function(file , ext){jQuery("file' . $ajax . $row_data[$i]->field_name . '").text("' . JText::_('COM_REDSHOP_UPLOADING') . '" + file);this.disable();}, onComplete :function(file,response){jQuery("<li></li>").appendTo(jQuery("#ol_' . $unique . '")).text(response);var uploadfiles = jQuery("#ol_' . $unique . ' li").map(function() {return jQuery(this).text();}).get().join(",");jQuery("#' . $ajax . $row_data[$i]->field_name . '_' . $product_id . '").val(uploadfiles);this.enable();jQuery("#' . $row_data[$i]->field_name . '").val(uploadfiles);}});\' />';
-							}
-							else
-							{
-								$ex_field .= '<div class="userfield_input"><input type="button" class="' . $row_data[$i]->field_class . '" value="' . JText::_('COM_REDSHOP_UPLOAD') . '" id="file' . $ajax . $row_data[$i]->field_name . '" />';
-								$ex_field .= '<script>
-									new AjaxUpload(
-										"file' . $ajax . $row_data[$i]->field_name . '"
-										,
-										{
-											action:"' . JURI::root() . 'index.php?tmpl=component&option=com_redshop&view=product&task=ajaxupload"
-											,data :{mname:"file' . $ajax . $row_data[$i]->field_name . '",product_id:"' . $product_id . '",uniqueOl:"' . $unique .'"}
-											,name:"file' . $ajax . $row_data[$i]->field_name . '"
-											,onSubmit : function(file , ext){
-												jQuery("file' . $ajax . $row_data[$i]->field_name . '").text("' . JText::_('COM_REDSHOP_UPLOADING') . '" + file);
-												this.disable();
-											}
-											,onComplete :function(file,response){
-
-												jQuery("#ol_' . $unique . '").append(response);
-
-												var uploadfiles = jQuery("#ol_' . $unique . ' li").map(function() {
-													return jQuery(this).attr("name");
-												}).get().join(",");
-
-												this.enable();
-												jQuery("#' . $unique . '").val(uploadfiles);
-											}
-										}
-									);
-								</script>';
-							}
-
-							$ex_field .= '<p>' . JText::_('COM_REDSHOP_UPLOADED_FILE') . ':<ol id="ol_' . $unique . '"></ol></p></div>';
-							$ex_field .= '<input type="hidden" name="extrafields' . $product_id . '[]" id="' . $ajax . $row_data[$i]->field_name . '_' . $product_id . '" ' . $req . ' userfieldlbl="' . $row_data[$i]->field_title . '" />';
+							$ajax = 'ajax';
+							$unique = $row_data[$i]->field_name;
 						}
-						else
-						{
-							$ex_field .= '<div class="userfield_input">';
-							$ex_field .= '<input class="' . $row_data[$i]->field_class . '" type="button" value="'
-											. JText::_('COM_REDSHOP_UPLOAD') . '" name="file' . $row_data[$i]->field_name
-											. '_' . $product_id . '"  id="file' . $row_data[$i]->field_name . '_'
-											. $product_id . '" ' . $req . ' userfieldlbl="' . $row_data[$i]->field_title
-											. '" size="' . $row_data[$i]->field_size . '" />'
-											. '<p>' . JText::_('COM_REDSHOP_UPLOADED_FILE')
-											. ':<ol id="ol_' . $unique . '"></ol>'
-											. '</p>';
-							$ex_field .= '</div>';
-							$ex_field .= '<input type="hidden" name="extrafields' . $product_id . '[]" '
-											.'id="' . $row_data[$i]->field_name . '_' . $product_id . '" '
-											. $req
-											. ' userfieldlbl="' . $row_data[$i]->field_title . '"  />';
-							$ex_field .= '
-										<script>
-											jQuery.noConflict();
-											new AjaxUpload(
-												"file' . $row_data[$i]->field_name . '_' . $product_id . '"
-												,{
-													action:"' . JURI::root() . 'index.php?tmpl=component&option=com_redshop&view=product&task=ajaxupload"
-													,data :{mname:"file' . $row_data[$i]->field_name . '",product_id:"' . $product_id . '",uniqueOl:"' . $unique .'"}
-													,name:"file' . $row_data[$i]->field_name . '_' . $product_id . '"
-													,onSubmit : function(file , ext)
-													{
-														jQuery("' . $row_data[$i]->field_name . '").text("' . JText::_('COM_REDSHOP_UPLOADING') . '" + file);
-														this.disable();
-													}
-													,onComplete :function(file,response){
-														jQuery("#ol_' . $unique . '").html(response);
 
-														var uploadfiles = jQuery("#ol_' . $unique . ' li").map(function(){
-															return jQuery(this).text();
-														}).get().join(",");
+						$ex_field .= '<div class="userfield_input">'
+							. '<input type="button" class="' . $row_data[$i]->field_class . '" value="' . JText::_('COM_REDSHOP_UPLOAD') . '" id="file'
+							. $ajax . $unique . '" />';
+						$ex_field .= '<script>
+							new AjaxUpload(
+								"file' . $ajax . $unique . '",
+								{
+									action:"' . JURI::root() . 'index.php?tmpl=component&option=com_redshop&view=product&task=ajaxupload",
+									data :{
+										mname:"file' . $ajax . $row_data[$i]->field_name . '",
+										product_id:"' . $product_id . '",
+										uniqueOl:"' . $unique . '",
+										fieldName: "' . $row_data[$i]->field_name . '",
+										ajaxFlag: "' . $ajax . '"
+									},
+									name:"file' . $ajax . $unique . '",
+									onSubmit : function(file , ext){
+										jQuery("file' . $ajax . $unique . '").text("' . JText::_('COM_REDSHOP_UPLOADING') . '" + file);
+										this.disable();
+									},
+									onComplete :function(file,response){
+										jQuery("#ol_' . $unique . '").append(response);
+										var uploadfiles = jQuery("#ol_' . $unique . ' li").map(function() {
+											return jQuery(this).find("span").text();
+										}).get().join(",");
+										this.enable();
+										jQuery("#' . $ajax . $unique . '").val(uploadfiles);
+										jQuery("#' . $row_data[$i]->field_name . '").val(uploadfiles);
+									}
+								}
+							);
+						</script>';
 
-														jQuery("#' . $row_data[$i]->field_name . '_' . $product_id . '").val(uploadfiles);
-														jQuery("#' . $row_data[$i]->field_name . '").val(uploadfiles);this.enable();
-													}
-												}
-											);
-										</script>';
-						}
+						$ex_field .= '<p>' . JText::_('COM_REDSHOP_UPLOADED_FILE') . ':</p>'
+							. $this->displayUserDocuments($product_id, $row_data[$i], $ajax) . '</div>';
 
 						break;
 
