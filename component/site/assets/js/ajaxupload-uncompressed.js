@@ -690,18 +690,18 @@ function removeAjaxUpload(removeData)
     jQuery.ajax({
         type: "POST",
         url: removeData.action,
-        data: {fileName: removeData.name},
+        data: {
+			id: removeData.id,
+			product_id: removeData.product_id
+		},
         success: function(data){
             jQuery('#uploadNameSpan' + removeData.id).remove();
+			var uploadFiles = jQuery("#ol_" + removeData.uniqueOl + " li").map(function() {
+				return jQuery(this).find("span").text();
+			}).get().join(",");
 
-            jQuery('#rs_upload_' + removeData.product_id).val(
-                jQuery("#ol_" + removeData.uniqueOl + " li").map(function() {
-                    return jQuery(this).attr("name");
-                }).get().join(",")
-            );
-        },
-        fail: function() {
-            console.log("error");
+			jQuery("#" + removeData.uniqueOl).val(uploadFiles);
+			jQuery("#" + removeData.fieldName).val(uploadFiles);
         }
     });
 }

@@ -790,19 +790,18 @@ class RedshopControllerProduct extends JController
 	{
 		$app = JFactory::getApplication();
 
-		$uploaddir  = JPATH_COMPONENT_SITE . '/assets/document/product/';
-		$name       = $app->input->getCmd('mname', '') . '_' . $app->input->getInt('product_id', 0);
+		$uploadDir  = JPATH_COMPONENT_SITE . '/assets/document/product/';
+		$productId = $app->input->getInt('product_id', 0);
+		$name       = $app->input->getCmd('mname', '') . '_' . $productId;
 
-		if (isset($_FILES[$name]))
+		if ($uploadFileData = $app->input->files->get($name))
 		{
-			$fileExtension = JFile::getExt($_FILES[$name]['name']);
+			$fileExtension = JFile::getExt($uploadFileData['name']);
+			$fileName = RedShopHelperImages::cleanFileName($uploadFileData['name']);
 
-			$fileOrgName = $_FILES[$name]['name'];
-			$filename = RedShopHelperImages::cleanFileName($_FILES[$name]['name']);
+			$uploadFilePath = JPath::clean($uploadDir . $fileName);
 
-			$uploadfile = JPath::clean($uploaddir . $filename);
-
-			$legalExts = explode(",", MEDIA_ALLOWED_MIME_TYPE);
+			$legalExts = explode(',', MEDIA_ALLOWED_MIME_TYPE);
 
 			// If Extension is not legal than don't upload file
 			if (!in_array(strtolower($fileExtension), $legalExts))
@@ -812,19 +811,31 @@ class RedshopControllerProduct extends JController
 				$app->close();
 			}
 
-			if (move_uploaded_file($_FILES[$name]['tmp_name'], $uploadfile))
+			if (JFile::move($uploadFileData['tmp_name'], $uploadFilePath))
 			{
-				$random                 = rand();
+				$id                     = JFile::stripExt(JFile::getName($fileName));
 				$sendData               = array();
-				$sendData['id']         = $random;
-				$sendData['product_id'] = $app->input->getInt('product_id', 0);
+				$sendData['id']         = $id;
+				$sendData['product_id'] = $productId;
 				$sendData['uniqueOl']   = $app->input->getString('uniqueOl', '');
-				$sendData['name']       = $filename;
+				$sendData['fieldName']  = $app->input->getString('fieldName', '');
+				$sendData['ajaxFlag']   = $app->input->getString('ajaxFlag', '');
+				$sendData['fileName']   = $fileName;
 				$sendData['action']     = JURI::root() . 'index.php?tmpl=component&option=com_redshop&view=product&task=removeAjaxUpload';
+				$session = JFactory::getSession();
+				$userDocuments = $session->get('userDocument', array());
 
-				echo "<li id='uploadNameSpan" . $random . "' name='" . $filename . "'>"
-						. "<span>" . $fileOrgName . "</span>"
-						. "<a href='javascript:removeAjaxUpload(" . json_encode($sendData) . ");'>&nbsp;Remove</a>"
+				if (!isset($userDocuments[$productId]))
+				{
+					$userDocuments[$productId] = array();
+				}
+
+				$userDocuments[$productId][$id] = $sendData;
+				$session->set('userDocument', $userDocuments);
+
+				echo "<li id='uploadNameSpan" . $id . "' name='" . $fileName . "'>"
+						. "<span>" . $fileName . "</span>"
+						. "<a href='javascript:removeAjaxUpload(" . json_encode($sendData) . ");'>&nbsp;" . JText::_('COM_REDSHOP_DELETE') . "</a>"
 					. "</li>";
 			}
 			else
@@ -847,20 +858,46 @@ class RedshopControllerProduct extends JController
 	 *
 	 * @return  void
 	 */
-	function removeAjaxUpload()
+	public function removeAjaxUpload()
 	{
 		$app = JFactory::getApplication();
+		$id = $app->input->getString('id', '');
+		$productId = $app->input->getInt('product_id', 0);
+		$session = JFactory::getSession();
+		$userDocuments = $session->get('userDocument', array());
+		$deleteFile = true;
 
-		$fileName = $app->input->getString('fileName', '');
-		$filePath = JPATH_SITE . '/components/com_redshop/assets/document/product/' . $fileName;
+		if (isset($userDocuments[$productId]) && array_key_exists($id, $userDocuments[$productId]))
+		{
+			if ($cart = $session->get('cart'))
+			{
+				for ($i = 0; $i < $cart['idx']; $i++)
+				{
+					$fieldName = $userDocuments[$productId][$id]['fieldName'];
+					$fileName = $userDocuments[$productId][$id]['fileName'];
 
-		if (is_file($filePath))
-		{
-			unlink($filePath);
-		}
-		else
-		{
-			echo "No File at:" . JUri::root() . 'components/com_redshop/assets/document/product/' . $fileName;
+					if (isset($cart[$i][$fieldName]))
+					{
+						$documents = explode(',', $cart[$i][$fieldName]);
+
+						// File exists in cart, not delete then
+						if (in_array($fileName, $documents))
+						{
+							$deleteFile = false;
+							break;
+						}
+					}
+				}
+			}
+
+			$filePath = JPATH_SITE . '/components/com_redshop/assets/document/product/' . $userDocuments[$productId][$id]['fileName'];
+			unset($userDocuments[$productId][$id]);
+			$session->set('userDocument', $userDocuments);
+
+			if ($deleteFile && is_file($filePath))
+			{
+				unlink($filePath);
+			}
 		}
 
 		$app->close();
