@@ -18,6 +18,20 @@ JLoader::load('RedshopHelperProduct');
 
 class RedshopModelImport extends JModel
 {
+	/**
+	 * Shopper Groups information array
+	 *
+	 * @var  array
+	 */
+	private $shopperGroups = null;
+
+	/**
+	 * Users information array - email as a key
+	 *
+	 * @var  array
+	 */
+	private $usersInfo = null;
+
 	public function getData()
 	{
 		ob_clean();
@@ -1370,8 +1384,8 @@ class RedshopModelImport extends JModel
 							// Get field id
 							$query = $db->getQuery(true)
 										->select('field_id')
-										->from($db->quoteName('#__redshop_fields'))
-										->where($db->quoteName('field_id') . ' = ' . $db->quote($field_id));
+										->from($db->qn('#__redshop_fields'))
+										->where($db->qn('field_id') . ' = ' . $db->quote($field_id));
 							$db->setQuery($query);
 							$field_id_dv = $db->loadResult();
 
@@ -1381,18 +1395,18 @@ class RedshopModelImport extends JModel
 							// Get Data Id
 							$query = $db->getQuery(true)
 										->select('data_id')
-										->from($db->quoteName('#__redshop_fields_data'))
-										->where($db->quoteName('fieldid') . ' = ' . $db->quote($field_id))
-										->where($db->quoteName('itemid') . ' = ' . $db->quote($itemid));
+										->from($db->qn('#__redshop_fields_data'))
+										->where($db->qn('fieldid') . ' = ' . $db->quote($field_id))
+										->where($db->qn('itemid') . ' = ' . $db->quote($itemid));
 							$db->setQuery($query);
 							$ch_data_id = $db->loadResult();
 
 							// Get Value Id
 							$query = $db->getQuery(true)
 										->select('value_id')
-										->from($db->quoteName('#__redshop_fields_value'))
-										->where($db->quoteName('field_id') . ' = ' . $db->quote($field_id))
-										->where($db->quoteName('value_id') . ' = ' . $db->quote($value_id));
+										->from($db->qn('#__redshop_fields_value'))
+										->where($db->qn('field_id') . ' = ' . $db->quote($field_id))
+										->where($db->qn('value_id') . ' = ' . $db->quote($value_id));
 							$db->setQuery($query);
 							$ch_value_id = $db->loadResult();
 
@@ -1549,167 +1563,150 @@ class RedshopModelImport extends JModel
 						if ($post['import'] == 'users')
 						{
 							$app = JFactory::getApplication();
-							$q = "SELECT * FROM `#__redshop_shopper_group` "
-								. "WHERE `shopper_group_name` = '" . $rawdata['shopper_group_name'] . "'";
-							$db->setQuery($q);
-							$shopper_group_data = $db->loadObject();
 
-							// Insert shopper group if not available
-							if (count($shopper_group_data) <= 0)
+							// Get all shopper group information
+							$this->getShopperGroupInfo();
+
+							// Shopper Group Exist
+							if (array_key_exists(trim($rawdata['shopper_group_name']), $this->shopperGroups->name))
+							{
+								$shopperGroupId = $this->shopperGroups->name[trim($rawdata['shopper_group_name'])]
+																->shopper_group_id;
+							}
+							// Create new shopper group
+							else
 							{
 								$shopper = $this->getTable('shopper_group_detail');
 								$shopper->load();
-								$shopper->shopper_group_name = $rawdata['shopper_group_name'];
+								$shopper->shopper_group_name          = trim($rawdata['shopper_group_name']);
 								$shopper->shopper_group_customer_type = 1;
-								$shopper->shopper_group_portal = 0;
+								$shopper->shopper_group_portal        = 0;
 								$shopper->store();
 
-								// Get last shopper group id
-								$shopper_group_id = $shopper->shopper_group_id;
-							}
-							else
-							{
-								// Get shopper group id
-								$shopper_group_id = $shopper_group_data->shopper_group_id;
+								// Get inserted shopper group id
+								$shopperGroupId = $shopper->shopper_group_id;
 							}
 
 							// Get redshop user info table
 							$reduser = $this->getTable('user_detail');
 
-							// Check for user available
-							if ($rawdata['id'] > 0)
+							// Get all users information
+							$this->getUsersInfoByEmail();
+
+							$csvUserId = 0;
+
+							if (isset($rawdata['id']))
 							{
-								$q = "SELECT * FROM `#__users` "
-									. "WHERE `email` = '" . trim($rawdata['email']) . "' ";
-								$db->setQuery($q);
-								$joomusers = $db->loadObject();
+								$csvUserId = (int) trim($rawdata['id']);
+							}
 
-								if (count($joomusers) == 0)
+							$csvRSUserId = 0;
+
+							if (isset($rawdata['users_info_id']))
+							{
+								$csvRSUserId = (int) trim($rawdata['users_info_id']);
+							}
+
+							// Setting default for new users
+							$jUserId   = 0;
+							$newRedUser = true;
+							$redUserId = $csvRSUserId;
+
+							// Using email to map users as unique
+							if (isset($this->usersInfo[trim($rawdata['email'])]))
+							{
+								$usersInfo = $this->usersInfo[trim($rawdata['email'])];
+
+								// Joomla User
+								$jUserId = $usersInfo->id;
+
+								$redUserId = (int) $usersInfo->users_info_id;
+
+								// Redshop User
+								// @todo: review this condition 0 != $csvRSUserId && $csvRSUserId == $usersInfo->users_info_id
+								if ($redUserId)
 								{
-									$user_id = 0;
+									$newRedUser = false;
 								}
-								else
-								{
-									$user_id = $joomusers->id;
-								}
+							}
 
-								// Initialize some variables
-								$db = JFactory::getDbo();
-								$me = JFactory::getUser();
-								$acl = JFactory::getACL();
-								$MailFrom = $app->getCfg('mailfrom');
-								$FromName = $app->getCfg('fromname');
-								$SiteName = $app->getCfg('sitename');
+							// Update/Create Joomla User
+							$user = JUser::getInstance($jUserId);
 
-								// Create a new JUser object
-								$user = new JUser($user_id);
-								$user->set('username', trim($rawdata['username']));
-								$user->set('name', $rawdata['name']);
-								$user->set('email', trim($rawdata['email']));
-								$user->set('password', $rawdata['password']);
-								$user->set('password_clear', $rawdata['password']);
-								$user->set('block', $rawdata['block']);
-								$user->set('sendEmail', $rawdata['sendEmail']);
+							$jUserInfo = array(
+								'username'     => trim($rawdata['username']),
+								'name'         => trim($rawdata['name']),
+								'email'        => trim($rawdata['email']),
+								'groups'       => explode(',', trim($rawdata['usertype'])),
+								'registerDate' => JFactory::getDate()->toMySQL()
+							);
 
-								// Set some initial user values
-								$user->set('usertype', $rawdata['usertype']);
-								$user->set('gid', $rawdata['gid']);
-								$date = JFactory::getDate();
-								$user->set('registerDate', $date->toMySQL());
+							if (isset($rawdata['block']))
+							{
+								$jUserInfo['block'] = (int) $rawdata['block'];
+							}
 
-								if ($user->save())
-								{
-									$reduser->set('user_id', $user->id);
-									$reduser->set('user_email', trim($rawdata['email']));
-									$reduser->set('firstname', $rawdata['firstname']);
-									$reduser->set('address_type', 'BT');
-									$reduser->set('lastname', $rawdata['lastname']);
-									$reduser->set('company_name', $rawdata['company_name']);
-									$reduser->set('vat_number', $rawdata['vat_number']);
-									$reduser->set('tax_exempt', $rawdata['tax_exempt']);
-									$reduser->set('shopper_group_id', $shopper_group_id);
-									$reduser->set('is_company', $rawdata['is_company']);
-									$reduser->set('address', $rawdata['address']);
-									$reduser->set('city', $rawdata['city']);
-									$reduser->set('country_code', $rawdata['country_code']);
-									$reduser->set('state_code', $rawdata['state_code']);
-									$reduser->set('zipcode', $rawdata['zipcode']);
-									$reduser->set('phone', $rawdata['phone']);
-									$reduser->set('tax_exempt_approved', $rawdata['tax_exempt_approved']);
-									$reduser->set('approved', $rawdata['approved']);
+							if (isset($rawdata['sendEmail']))
+							{
+								$jUserInfo['sendEmail'] = (int) $rawdata['sendEmail'];
+							}
 
-									if (count($joomusers) == 0)
-									{
-										$reduser->set('users_info_id', $rawdata['users_info_id']);
-										$ret = $db->insertObject('#__redshop_users_info', $reduser, 'users_info_id');
-									}
-									else
-									{
-										$user_id = $joomusers->id;
-										$q = "SELECT * FROM `#__redshop_users_info` "
-											. "WHERE `user_id` = '" . $user_id . "'";
-										$db->setQuery($q);
-										$redusers = $db->loadObject();
+							if (isset($rawdata['password']) && '' != trim($rawdata['password']))
+							{
+								$jUserInfo['password'] = trim($rawdata['password']);
+								$jUserInfo['password2'] = trim($rawdata['password']);
+							}
 
-										if (count($redusers) > 0)
-										{
-											$reduser->set('users_info_id', $redusers->users_info_id);
-											$ret = $db->updateObject('#__redshop_users_info', $reduser, 'users_info_id');
-										}
-										else
-										{
-											$reduser->set('users_info_id', $rawdata['users_info_id']);
-											$ret = $db->insertObject('#__redshop_users_info', $reduser, 'users_info_id');
-										}
-									}
+							// Bind the data.
+							if (!$user->bind($jUserInfo))
+							{
+								$this->setError($user->getError());
 
-									if ($ret)
-									{
-										$correctlines++;
-									}
-								}
+								return false;
+							}
+
+							// Save user information
+							if ($user->save())
+							{
+								// Assign user id from table
+								$jUserId = $user->id;
+							}
+
+							// Seeting users info id
+							$reduser->set('users_info_id', $redUserId);
+
+							// Setting Joomla user id
+							$reduser->set('user_id', $jUserId);
+							$reduser->set('user_email', trim($rawdata['email']));
+							$reduser->set('firstname', $rawdata['firstname']);
+							$reduser->set('address_type', 'BT');
+							$reduser->set('lastname', $rawdata['lastname']);
+							$reduser->set('company_name', $rawdata['company_name']);
+							$reduser->set('vat_number', $rawdata['vat_number']);
+							$reduser->set('tax_exempt', $rawdata['tax_exempt']);
+							$reduser->set('shopper_group_id', $shopperGroupId);
+							$reduser->set('is_company', $rawdata['is_company']);
+							$reduser->set('address', $rawdata['address']);
+							$reduser->set('city', $rawdata['city']);
+							$reduser->set('country_code', $rawdata['country_code']);
+							$reduser->set('state_code', $rawdata['state_code']);
+							$reduser->set('zipcode', $rawdata['zipcode']);
+							$reduser->set('phone', $rawdata['phone']);
+							$reduser->set('tax_exempt_approved', $rawdata['tax_exempt_approved']);
+							$reduser->set('approved', $rawdata['approved']);
+
+							if ($newRedUser)
+							{
+								$ret = $db->insertObject('#__redshop_users_info', $reduser, 'users_info_id');
 							}
 							else
 							{
-								$q = "SELECT * FROM `#__redshop_users_info` "
-									. "WHERE `user_email` = '" . $rawdata['email'] . "' ";
-								$db->setQuery($q);
+								$ret = $db->updateObject('#__redshop_users_info', $reduser, 'users_info_id');
+							}
 
-								$redusers = $db->loadObject();
-								$reduser->set('user_id', $rawdata['id']);
-								$reduser->set('user_email', trim($rawdata['email']));
-								$reduser->set('firstname', $rawdata['firstname']);
-								$reduser->set('address_type', 'BT');
-								$reduser->set('lastname', $rawdata['lastname']);
-								$reduser->set('company_name', $rawdata['company_name']);
-								$reduser->set('vat_number', $rawdata['vat_number']);
-								$reduser->set('tax_exempt', $rawdata['tax_exempt']);
-								$reduser->set('shopper_group_id', $shopper_group_id);
-								$reduser->set('is_company', $rawdata['is_company']);
-								$reduser->set('address', $rawdata['address']);
-								$reduser->set('city', $rawdata['city']);
-								$reduser->set('country_code', $rawdata['country_code']);
-								$reduser->set('state_code', $rawdata['state_code']);
-								$reduser->set('zipcode', $rawdata['zipcode']);
-								$reduser->set('phone', $rawdata['phone']);
-								$reduser->set('tax_exempt_approved', $rawdata['tax_exempt_approved']);
-								$reduser->set('approved', $rawdata['approved']);
-
-								if (count($redusers) > 0)
-								{
-									$reduser->set('users_info_id', $redusers->users_info_id);
-									$ret = $db->updateObject('#__redshop_users_info', $reduser, 'users_info_id');
-								}
-								else
-								{
-									$reduser->set('users_info_id', $rawdata['users_info_id']);
-									$ret = $db->insertObject('#__redshop_users_info', $reduser, 'users_info_id');
-								}
-
-								if ($ret)
-								{
-									$correctlines++;
-								}
+							if ($ret)
+							{
+								$correctlines++;
 							}
 						}
 
@@ -1874,6 +1871,46 @@ class RedshopModelImport extends JModel
 	}
 
 	/**
+	 * Get all users information
+	 *
+	 * @return  array  User email id as a key of an array
+	 */
+	private function getUsersInfoByEmail()
+	{
+		// Return loaded info if available
+		if (null != $this->usersInfo)
+		{
+			return $this->usersInfo;
+		}
+
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true);
+
+		// Create the base select statement.
+		$query->select('*')
+			->from($db->qn('#__users', 'u'))
+			->leftjoin(
+				$db->qn('#__redshop_users_info', 'ui')
+				. ' ON ' . $db->qn('u.email') . ' = ' . $db->qn('ui.user_email')
+				. ' AND ' . $db->qn('ui.address_type') . '=' . $db->q('BT')
+			);
+
+		// Set the query and load the result.
+		$db->setQuery($query);
+
+		try
+		{
+			$this->usersInfo = $db->loadObjectList('email');
+		}
+		catch (RuntimeException $e)
+		{
+			throw new RuntimeException($e->getMessage(), $e->getCode());
+		}
+
+		return $this->usersInfo;
+	}
+
+	/**
 	 * Get Shopper Group Id from input
 	 *
 	 * @param   integer  $shopperGroupInputId  Shopper Group Id from CSV File
@@ -1902,6 +1939,41 @@ class RedshopModelImport extends JModel
 		}
 
 		return $shopperGroupId;
+	}
+
+	/**
+	 * Get Shopper Group Id from input
+	 *
+	 * @param   integer  $shopperGroupInputId  Shopper Group Id from CSV File
+	 *
+	 * @return  integer  Shopper Group Id
+	 */
+	public function getShopperGroupInfo()
+	{
+		if (null == $this->shopperGroups)
+		{
+			// Initialiase variables.
+			$db    = JFactory::getDbo();
+			$query = $db->getQuery(true)
+				->select('*')
+				->from($db->qn('#__redshop_shopper_group'));
+
+			// Set the query and load the result.
+			$db->setQuery($query);
+
+			try
+			{
+				$this->shopperGroups        = new stdClass;
+				$this->shopperGroups->index = $db->loadObjectList();
+				$this->shopperGroups->name  = $db->loadObjectList('shopper_group_name');
+			}
+			catch (RuntimeException $e)
+			{
+				throw new RuntimeException($e->getMessage(), $e->getCode());
+			}
+		}
+
+		return $this->shopperGroups;
 	}
 
 	/**
