@@ -33,7 +33,7 @@ class MVCOverrideHelperCodepool
 	{
 		$plugin_path = dirname(dirname(__FILE__));
 
-		if (JVERSION > 2.5)
+		if (version_compare(JVERSION, '3.0', '>='))
 		{
 			$overrideClasses = array(
 				array(
@@ -142,8 +142,6 @@ class MVCOverrideHelperCodepool
 		foreach ($path as $codePool)
 		{
 			$codePool = JPath::clean($codePool);
-			JModuleHelper::addIncludePath($codePool);
-
 			array_push(self::$paths, $codePool);
 		}
 

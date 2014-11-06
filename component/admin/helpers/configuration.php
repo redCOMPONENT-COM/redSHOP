@@ -546,7 +546,6 @@ class Redconfiguration
 						"DISCOUPON_DURATION"                           => $d ["discoupon_duration"],
 						"DISCOUPON_PERCENT_OR_TOTAL"                   => $d ["discoupon_percent_or_total"],
 						"DISCOUPON_VALUE"                              => $d ["discoupon_value"],
-						"USE_CONTAINER"                                => $d ["use_container"],
 						"USE_STOCKROOM"                                => $d ["use_stockroom"],
 						"ALLOW_PRE_ORDER"                              => $d ["allow_pre_order"],
 						"ALLOW_PRE_ORDER_MESSAGE"                      => $d ["allow_pre_order_message"],
@@ -833,6 +832,8 @@ class Redconfiguration
 						"POSTDK_INTEGRATION"                           => $d ["postdk_integration"],
 						"POSTDANMARK_ADDRESS"                          => $d ["postdk_address"],
 						"POSTDANMARK_POSTALCODE"                       => $d ["postdk_postalcode"],
+						"AUTO_GENERATE_LABEL"                          => $d ["auto_generate_label"],
+						"GENERATE_LABEL_ON_STATUS"                     => $d ["generate_label_on_status"],
 
 						"QUICKLINK_ICON"                               => $d ["quicklink_icon"],
 						"DISPLAY_NEW_ORDERS"                           => $d ["display_new_orders"],
@@ -1480,12 +1481,43 @@ class Redconfiguration
 		return $return;
 	}
 
+	/**
+	 * This function will get state list from country code and return HTML of state (both billing and shipping)
+	 *
+	 * @param   array   $post              $post get from $_POST request
+	 * @param   string  $state_codename    State Code from billing or Shipping
+	 * @param   string  $country_codename  Country code from billing or shipping
+	 * @param   string  $address_type      Distinguish billing or shipping
+	 * @param   number  $isAdmin           It will determine is admin or site front end
+	 * @param   string  $state_class       Class of state of selected field
+	 *
+	 * @return array
+	 */
 	public function getStateList($post = array(), $state_codename = "state_code", $country_codename = "country_code", $address_type = "BT", $isAdmin = 0, $state_class = "inputbox")
 	{
 		$db = JFactory::getDbo();
 
-		$selected_country_code = ($address_type == "ST") ? @$post['country_code_ST'] : @$post['country_code'];
-		$selected_state_code   = ($address_type == "ST") ? @$post['state_code_ST'] : @$post['state_code'];
+		$selected_country_code = "";
+
+		if (isset($post['country_code']))
+		{
+			$selected_country_code = $post['country_code'];
+		}
+		else
+		{
+			$selected_country_code = $post['country_code_ST'];
+		}
+
+		$selected_state_code = "";
+
+		if (isset($post['state_code']))
+		{
+			$selected_state_code = $post['state_code'];
+		}
+		elseif (isset($post['state_code_ST']))
+		{
+			$selected_state_code = $post['state_code_ST'];
+		}
 
 		if (empty($selected_state_code))
 		{
@@ -1493,7 +1525,11 @@ class Redconfiguration
 		}
 		else
 		{
-			$selected_state_code = "'" . $selected_state_code . "'";
+			// If it is edit, don't quote variable
+			if (!$isAdmin)
+			{
+				$selected_state_code = "'" . $selected_state_code . "'";
+			}
 		}
 
 		$varState = array();

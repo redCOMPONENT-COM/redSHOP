@@ -7,14 +7,11 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 $option = JRequest::getVar('option');
-$producthelper = new producthelper();
+$producthelper = new producthelper;
 ?>
 <script language="javascript" type="text/javascript">
 
 	Joomla.submitbutton = function (pressbutton) {
-		submitbutton(pressbutton);
-	}
-	submitbutton = function (pressbutton) {
 		var form = document.adminForm;
 		if (pressbutton) {
 			form.task.value = pressbutton;

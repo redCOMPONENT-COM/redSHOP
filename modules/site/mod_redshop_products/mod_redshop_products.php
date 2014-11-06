@@ -7,151 +7,168 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
+JLoader::import('redshop.library');
 
-if (!defined('MOD_REDSHOP_PRODUCTS'))
+// Initialize variables.
+$app                     = JFactory::getApplication();
+$db                      = JFactory::getDbo();
+$type                    = trim($params->get('type', 0));
+$count                   = trim($params->get('count', 5));
+$image                   = trim($params->get('image', 0));
+$showFeaturedProduct     = trim($params->get('featured_product', 0));
+$showPrice               = trim($params->get('show_price', 0));
+$thumbWidth              = trim($params->get('thumbwidth', 100));
+$thumbHeight             = trim($params->get('thumbheight', 100));
+$showShortDescription    = trim($params->get('show_short_description', 1));
+$showReadmore            = trim($params->get('show_readmore', 1));
+$showAddToCart           = trim($params->get('show_addtocart', 1));
+$showDiscountPriceLayout = trim($params->get('show_discountpricelayout', 1));
+$showDescription         = trim($params->get('show_desc', 1));
+$showVat                 = trim($params->get('show_vat', 1));
+$showStockroomStatus     = trim($params->get('show_stockroom_status', 1));
+$showChildProducts       = trim($params->get('show_childproducts', 1));
+$isUrlCategoryId         = trim($params->get('urlCategoryId', 0));
+
+// Getting the configuration
+require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
+JLoader::load('RedshopHelperAdminConfiguration');
+$redConfiguration = new Redconfiguration;
+$redConfiguration->defineDynamicVars();
+$user = JFactory::getUser();
+
+JLoader::load('RedshopHelperProduct');
+JLoader::load('RedshopHelperHelper');
+JLoader::load('RedshopHelperAdminTemplate');
+JLoader::load('RedshopHelperAdminExtra_field');
+
+$query = $db->getQuery(true)
+	->select('CONCAT_WS(' . $db->q('.') . ', p.product_id, ' . (int) $user->id . ') AS concat_id')
+	->where($db->qn('p.published') . ' = 1');
+
+switch ((int) $type)
 {
-	// get all category to set as default
-	function getDefaultModuleCategories()
+	// Newest Product
+	case 0:
+		$query->order($db->qn('p.product_id') . ' DESC');
+	break;
+
+	// Latest Product
+	case 1:
+
+		$query->leftjoin(
+					$db->qn('#__redshop_product_attribute', 'a')
+					. ' ON ' . $db->qn('a.product_id') . ' = ' . $db->qn('p.product_id')
+				)
+			->leftjoin(
+					$db->qn('#__redshop_product_attribute_property', 'ap')
+					. ' ON ' . $db->qn('a.attribute_id') . ' = ' . $db->qn('ap.attribute_id')
+				)
+			->order($db->qn('ap.property_id') . ' DESC')
+			->order($db->qn('p.product_id') . ' DESC');
+
+	break;
+
+	// Most Sold Product
+	case 2:
+
+		$subQuery = $db->getQuery(true)
+			->select('SUM(' . $db->qn('oi.product_quantity') . ')')
+			->from($db->qn('#__redshop_order_item', 'oi'))
+			->where($db->qn('oi.product_id') . ' = ' . $db->qn('p.product_id'));
+		$query->select('(' . $subQuery . ') AS qty')
+			->order($db->qn('qty') . ' DESC');
+
+		break;
+
+	// Random Product
+	case 3:
+
+		$query->order('rand()');
+
+		break;
+
+	// Product On Sale
+	case 4:
+
+		$query->where($db->qn('p.product_on_sale') . '=1')
+			->order($db->qn('p.product_name'));
+
+		break;
+
+	// Product On Sale and discount date check
+	case 5:
+		$time = time();
+		$query->where($db->qn('p.product_on_sale') . ' = 1')
+			->where('((p.discount_stratdate = 0 AND p.discount_enddate = 0) OR (p.discount_stratdate <= '
+				. $time . ' AND p.discount_enddate >= ' . $time . ') OR (p.discount_stratdate <= '
+				. $time . ' AND p.discount_enddate = 0))')
+			->order($db->qn('p.product_name'));
+		break;
+}
+
+// Only Display Feature Product
+if ($showFeaturedProduct)
+{
+	$query->where($db->qn('p.product_special') . '=1');
+}
+
+// Show Child Products or Parent Products
+if ($showChildProducts != 1)
+{
+	$query->where($db->qn('p.product_parent_id') . '=0');
+}
+
+$productHelper = new producthelper;
+$query = $productHelper->getMainProductQuery($query, $user->id);
+
+$category = trim($params->get('category', false));
+
+if ($isUrlCategoryId)
+{
+	// Get Category id from menu params if not found in URL
+	$urlCategoryId = (int) $app->input->getInt('cid', $app->getParams('com_redshop')->get('cid', ''));
+
+	if ($category)
 	{
+		$categoryArray = explode(",", $category);
+		array_push($categoryArray, $urlCategoryId);
+		JArrayHelper::toInteger($categoryArray);
 
-		$db = JFactory::getDbo();
-
-		$sql = "SELECT category_id FROM #__redshop_category WHERE published=1 ORDER BY category_id ASC";
-		$db->setQuery($sql);
-		$cats = $db->loadObjectList();
-
-		$category = array();
-		for ($i = 0; $i < count($cats); $i++)
-		{
-
-			$category[] = $cats[$i]->category_id;
-		}
-		if (count($category) > 0)
-			$cids = implode(",", $category);
-		else
-			$cids = 0;
-
-		return $cids;
+		$category = implode(",", $categoryArray);
 	}
-
-	define('MOD_REDSHOP_PRODUCTS', 1);
+	else
+	{
+		$category = $urlCategoryId;
+	}
 }
 
-$type = trim($params->get('type', 0));
-
-// set all published category as default
-$cids     = getDefaultModuleCategories();
-$category = trim($params->get('category', ''));
-
-// set product output limit
-$count = trim($params->get('count', 5));
-
-// get show image yes/no option
-$image = trim($params->get('image', 0));
-
-$vertical_product = trim($params->get('vertical_product', 0)); // get Vertical product yes/no option for horizontal and vertical product display
-
-$featured_product = trim($params->get('featured_product', 0)); // get featured product yes/no option
-$where_featured   = "";
-if ($featured_product)
+// If category is found
+if ($category)
 {
-	$where_featured = " AND p.product_special = 1 ";
-}
-
-$show_price  = trim($params->get('show_price', 0)); // get show price yes/no option
-$thumbwidth  = trim($params->get('thumbwidth', 100)); // get show image thumbwidth size
-$thumbheight = trim($params->get('thumbheight', 100)); // get show image thumbheight size
-
-$show_short_description = trim($params->get('show_short_description', 1));
-
-$show_readmore = trim($params->get('show_readmore', 1));
-
-$show_addtocart = trim($params->get('show_addtocart', 1));
-
-$show_discountpricelayout = trim($params->get('show_discountpricelayout', 1));
-
-$show_desc = trim($params->get('show_desc', 1));
-
-$show_vat = trim($params->get('show_vat', 1));
-
-$show_childproducts = trim($params->get('show_childproducts', 1));
-
-if ($show_childproducts == 1)
-{
-	$main_child = "";
+	$query->where($db->qn('pc.category_id') . ' IN (' . $category . ')');
 }
 else
 {
-	$main_child = " AND p.product_parent_id=0";
+	$query->leftJoin($db->qn('#__redshop_category', 'c') . ' ON c.category_id = pc.category_id')
+		->where($db->qn('c.published') . ' = 1');
 }
-$show_stockroom_status = trim($params->get('show_stockroom_status', 1));
-if ($category == "")
+
+// Set the query and load the result.
+$db->setQuery($query, 0, $count);
+
+try
 {
-	$category = $cids;
+	if ($rows = $db->loadObjectList('concat_id'))
+	{
+		$productHelper->setProduct($rows);
+		$rows = array_values($rows);
+	}
 }
-
-$db = JFactory::getDbo();
-
-// Getting the configuration
-
-require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
-JLoader::import('loadhelpers', JPATH_SITE . '/components/com_redshop');
-JLoader::load('RedshopHelperAdminConfiguration');
-$Redconfiguration = new Redconfiguration;
-$Redconfiguration->defineDynamicVars();
-
-JLoader::load('RedshopHelperProduct');
-
-JLoader::load('RedshopHelperHelper');
-
-JLoader::load('RedshopHelperAdminTemplate');
-
-JLoader::load('RedshopHelperAdminExtra_field');
-
-
-switch ($type)
+catch (RuntimeException $e)
 {
-
-	case '0':
-
-		if ($category == "")
-			$sql = "SELECT DISTINCT(p.product_id),p.* FROM #__redshop_product p WHERE p.published=1 " . $where_featured . " " . $main_child . " ORDER BY product_id desc LIMIT 0,$count";
-		else
-			$sql = "SELECT DISTINCT(p.product_id),p.* FROM #__redshop_product p left outer join #__redshop_product_category_xref cx on cx.product_id = p.product_id WHERE  p.published=1 " . $where_featured . " " . $main_child . " AND cx.category_id IN ($category) ORDER BY product_id desc LIMIT 0,$count";
-
-		break;
-
-	case '1':
-
-		$sql = "SELECT DISTINCT(p.product_id),p.*  FROM #__redshop_product p left outer join #__redshop_product_category_xref cx on cx.product_id = p.product_id left outer join #__redshop_product_attribute a on a.product_id = p.product_id left outer join  #__redshop_product_attribute_property ap on  a.attribute_id = ap.attribute_id WHERE  p.published=1 " . $where_featured . " " . $main_child . " AND cx.category_id IN ($category) ORDER BY property_id desc LIMIT 0,$count";
-
-		break;
-
-	case '2':
-
-		$sql = "SELECT  DISTINCT(p.product_id),p.*,count(product_quantity) as qty FROM #__redshop_product p left outer join #__redshop_product_category_xref cx on cx.product_id = p.product_id left outer join  #__redshop_order_item oi on oi.product_id = p.product_id  WHERE p.published=1 " . $where_featured . " " . $main_child . " AND cx.category_id IN ($category) group by(oi.product_id)  ORDER BY qty desc LIMIT 0,$count";
-
-		break;
-
-	case '3':
-
-		$sql = "SELECT DISTINCT(p.product_id),p.*  FROM #__redshop_product p left outer join #__redshop_product_category_xref cx on cx.product_id = p.product_id  WHERE p.published=1 " . $where_featured . " " . $main_child . " AND cx.category_id IN ($category) ORDER BY rand() LIMIT 0,$count";
-
-		break;
-
-	case '4':
-
-		$sql = "SELECT DISTINCT(p.product_id),p.*  FROM #__redshop_product p left outer join #__redshop_product_category_xref cx on cx.product_id = p.product_id  WHERE p.published=1 AND p.product_on_sale = 1 " . $where_featured . " " . $main_child . " AND cx.category_id IN ($category) ORDER BY rand() LIMIT 0,$count";
-
-		break;
-
+	throw new RuntimeException($e->getMessage(), $e->getCode());
 }
-
-$db->setQuery($sql);
-
-$rows = $db->loadObjectList();
-
 
 require JModuleHelper::getLayoutPath('mod_redshop_products');

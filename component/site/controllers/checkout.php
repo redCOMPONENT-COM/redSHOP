@@ -58,8 +58,9 @@ class RedshopControllerCheckout extends JController
 		}
 		else
 		{
-			$link = JRoute::_('index.php?option=' . $option . '&view=checkout&Itemid=' . $Itemid, false);
-			$this->setRedirect($link);
+			JRequest::setVar('view', 'checkout');
+			JRequest::setVar('task', '');
+			parent::display('default');
 		}
 	}
 
@@ -193,6 +194,23 @@ class RedshopControllerCheckout extends JController
 
 		echo $lists['shopList'] = JHTML::_('select.genericlist', $shopList, 'shop_id', 'class="inputbox" ', 'value', 'text', $ShopRespons[0]->shop_id);
 		exit;
+	}
+
+	/**
+	 * Get Shipping Information
+	 *
+	 * @return  void
+	 */
+	public function getShippingInformation()
+	{
+		$app = JFactory::getApplication();
+		$jInput = $app->input;
+		$plugin = $jInput->getCmd('plugin', '');
+		JPluginHelper::importPlugin('redshop_shipping');
+		$dispatcher = JDispatcher::getInstance();
+		$dispatcher->trigger('on' . $plugin . 'AjaxRequest');
+
+		$app->close();
 	}
 
 	/**

@@ -208,46 +208,6 @@ class RedshopControllerStockroom_detail extends JController
 		$this->setRedirect('index.php?option=' . $option . '&view=stockroom', $msg);
 	}
 
-	public function export_data()
-	{
-		$model = $this->getModel('stockroom_detail');
-
-		header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
-		header("Content-type: text/x-csv");
-		header("Content-type: text/csv");
-		header("Content-type: application/csv");
-		header('Content-Disposition: attachment; filename=StockroomProduct.csv');
-
-		echo "Stockroom,Container,Product SKU,Product Name,Product Volume,Quantity\n\n";
-
-		$data = $model->stock_container(0);
-
-		for ($i = 0; $i < count($data); $i++)
-		{
-			$product = $model->stock_product($data[$i]->container_id);
-
-			echo $data[$i]->stockroom_name . ",";
-			echo $data[$i]->container_name . ",";
-
-			for ($p = 0; $p < count($product); $p++)
-			{
-				if ($p > 0)
-				{
-					echo ",,";
-				}
-
-				echo $product[$p]->product_number . ",";
-				echo $product[$p]->product_name . ",";
-				echo $product[$p]->product_volume . ",";
-				echo $product[$p]->quantity . "\n";
-			}
-
-			echo "\n";
-		}
-
-		exit;
-	}
-
 	public function importStockFromEconomic()
 	{
 		// Add product stock from economic

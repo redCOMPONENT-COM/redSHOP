@@ -82,6 +82,9 @@ else
 
 $orderitem = $order_functions->getOrderItemDetail($order_id);
 
+// Replace Reorder Button
+$this->replaceReorderButton($ReceiptTemplate);
+
 $print = JRequest::getInt('print');
 
 if ($print)

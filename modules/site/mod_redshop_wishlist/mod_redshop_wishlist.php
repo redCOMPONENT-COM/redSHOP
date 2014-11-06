@@ -9,6 +9,7 @@
 
 defined('_JEXEC') or die('Restricted access');
 
+JLoader::import('redshop.library');
 $user           = JFactory::getUser();
 $count          = trim($params->get('count', 1));
 $image          = trim($params->get('image', 0));
@@ -23,7 +24,6 @@ $db = JFactory::getDbo();
 
 // Getting the configuration
 require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
-JLoader::import('loadhelpers', JPATH_SITE . '/components/com_redshop');
 JLoader::load('RedshopHelperAdminConfiguration');
 $Redconfiguration = new Redconfiguration;
 $Redconfiguration->defineDynamicVars();

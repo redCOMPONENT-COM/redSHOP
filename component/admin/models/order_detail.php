@@ -640,10 +640,6 @@ class RedshopModelOrder_detail extends JModel
 					}
 				}
 			}
-			if (USE_CONTAINER)
-			{
-				$producthelper->updateContainerStock($product_id, $quantity, $orderitemdata->container_id);
-			}
 
 			// Store userfields
 			$userfields = $item[$i]->extrafieldname;
@@ -779,7 +775,13 @@ class RedshopModelOrder_detail extends JModel
 		}
 
 		$customer_note = $data['customer_note'];
-		$product_tax = $producthelper->getProductTax($product_id, $productPrice, $user_id);
+
+		$product_tax = 0;
+
+		if ($productPrice > 0)
+		{
+			$product_tax = $producthelper->getProductTax($product_id, $productPrice, $user_id);
+		}
 
 		if ($productPrice_new < 0)
 		{
@@ -959,6 +961,8 @@ class RedshopModelOrder_detail extends JModel
 		}
 
 		$orderdata->order_total = $order_total;
+		$orderdata->order_tax = $orderdata->order_tax + $orderdata->order_discount_vat - $Discountvat;
+		$orderdata->order_discount_vat = $Discountvat;
 		$orderdata->order_discount = $update_discount;
 		$orderdata->mdate = time();
 

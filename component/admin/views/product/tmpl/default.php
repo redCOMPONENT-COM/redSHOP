@@ -9,9 +9,9 @@
 JLoader::load('RedshopHelperProduct');
 JLoader::load('RedshopHelperAdminExtra_field');
 $app = JFactory::getApplication();
-$extra_field = new extra_field();
+$extra_field = new extra_field;
 JHTMLBehavior::modal();
-$producthelper = new producthelper();
+$producthelper = new producthelper;
 $option = JRequest::getVar('option', '', 'request', 'string');
 
 $model = $this->getModel('product');
@@ -26,7 +26,7 @@ $userId = (int) $user->id;
 <script language="javascript" type="text/javascript">
 
 
-	Joomla.submitbutton = function (pressbutton) {
+	Joomla.submitbutton = submitbutton = function (pressbutton) {
 		var form = document.adminForm;
 
 		if (pressbutton) {
@@ -39,18 +39,6 @@ $userId = (int) $user->id;
 		}
 		if ((pressbutton == 'assignCategory') || (pressbutton == 'removeCategory')) {
 			form.view.value = "product_category";
-		}
-		if (pressbutton == 'gbasefeed') {
-			var x = confirm("Do you want to export unpublished products?");
-
-			if (x == true) {
-				document.adminForm.unpublished_data.value = 1;
-
-			} else {
-				document.adminForm.unpublished_data.value = 0;
-			}
-
-
 		}
 
 		try {
