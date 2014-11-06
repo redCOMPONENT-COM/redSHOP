@@ -791,10 +791,13 @@ class RedshopControllerProduct extends JController
 		$app = JFactory::getApplication();
 
 		$uploaddir  = JPATH_COMPONENT_SITE . '/assets/document/product/';
-		$name       = $app->input->getCmd('mname') . '_' . $app->input->getInt('product_id');
+		$name       = $app->input->getCmd('mname', '') . '_' . $app->input->getInt('product_id', 0);
 
 		if (isset($_FILES[$name]))
 		{
+			$fileExtension = JFile::getExt($_FILES[$name]['name']);
+
+			$fileOrgName = $_FILES[$name]['name'];
 			$filename = RedShopHelperImages::cleanFileName($_FILES[$name]['name']);
 
 			$uploadfile = JPath::clean($uploaddir . $filename);
@@ -802,7 +805,7 @@ class RedshopControllerProduct extends JController
 			$legalExts = explode(",", MEDIA_ALLOWED_MIME_TYPE);
 
 			// If Extension is not legal than don't upload file
-			if (!in_array($fileExtension, $legalExts))
+			if (!in_array(strtolower($fileExtension), $legalExts))
 			{
 				echo JText::_('COM_REDSHOP_FILE_EXTENSION_NOT_ALLOWED');
 
@@ -814,8 +817,8 @@ class RedshopControllerProduct extends JController
 				$random                 = rand();
 				$sendData               = array();
 				$sendData['id']         = $random;
-				$sendData['product_id'] = $app->input->getInt('product_id');
-				$sendData['uniqueOl']   = $app->input->getString('uniqueOl');
+				$sendData['product_id'] = $app->input->getInt('product_id', 0);
+				$sendData['uniqueOl']   = $app->input->getString('uniqueOl', '');
 				$sendData['name']       = $filename;
 				$sendData['action']     = JURI::root() . 'index.php?tmpl=component&option=com_redshop&view=product&task=removeAjaxUpload';
 
@@ -848,7 +851,7 @@ class RedshopControllerProduct extends JController
 	{
 		$app = JFactory::getApplication();
 
-		$fileName = $app->input->getString('fileName');
+		$fileName = $app->input->getString('fileName', '');
 		$filePath = JPATH_SITE . '/components/com_redshop/assets/document/product/' . $fileName;
 
 		if (is_file($filePath))
