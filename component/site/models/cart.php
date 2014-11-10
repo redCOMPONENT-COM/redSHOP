@@ -236,7 +236,14 @@ class RedshopModelCart extends JModel
 
 		if ($newQuantity != $oldQuantity)
 		{
-			$cart[$cartElement]['quantity'] = $this->_carthelper->checkQuantityInStock($cart[$cartElement], $newQuantity);
+			if (array_key_exists('checkQuantity', $data))
+			{
+				$cart[$cartElement]['quantity'] = $data['checkQuantity'];
+			}
+			else
+			{
+				$cart[$cartElement]['quantity'] = $this->_carthelper->checkQuantityInStock($cart[$cartElement], $newQuantity);
+			}
 
 			if ($newQuantity > $cart[$cartElement]['quantity'])
 			{
@@ -284,12 +291,12 @@ class RedshopModelCart extends JModel
 			if (isset($cart[$cartElement]['subscription_id']) && $cart[$cartElement]['subscription_id'] != "")
 			{
 				$subscription_vat    = 0;
-				$subscription_detail = $this->_producthelper->getProductSubscriptionDetail($product_id, $cart[$cartElement]['subscription_id']);
+				$subscription_detail = $this->_producthelper->getProductSubscriptionDetail($cart[$cartElement]['product_id'], $cart[$cartElement]['subscription_id']);
 				$subscription_price  = $subscription_detail->subscription_price;
 
 				if ($subscription_price)
 				{
-					$subscription_vat = $this->_producthelper->getProductTax($product_id, $subscription_price);
+					$subscription_vat = $this->_producthelper->getProductTax($cart[$cartElement]['product_id'], $subscription_price);
 				}
 
 				$product_vat_price += $subscription_vat;

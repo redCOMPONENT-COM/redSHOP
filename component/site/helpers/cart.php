@@ -4927,6 +4927,15 @@ class rsCarthelper
 					$newProductQuantity = $productStock + $ownProductReserveStock;
 				}
 
+				if (array_key_exists('quantity', $data))
+				{
+					$quantityProductReserved = $ownProductReserveStock + $newProductQuantity - $data['quantity'];
+				}
+				else
+				{
+					$quantityProductReserved = $newProductQuantity;
+				}
+
 				if ($newProductQuantity == 0)
 				{
 					$newProductQuantity = $main_quantity;
@@ -4940,7 +4949,7 @@ class rsCarthelper
 					$newProductQuantity = $productData->max_order_product_quantity;
 				}
 
-				$stockroomhelper->addReservedStock($data['product_id'], $newProductQuantity);
+				$stockroomhelper->addReservedStock($data['product_id'], $quantityProductReserved);
 			}
 			else
 			{
@@ -6144,6 +6153,7 @@ class rsCarthelper
 						$this->_session->set('cart', $cart);
 						$data['cart_index'] = $i;
 						$data['quantity']   = $newcartquantity;
+						$data['checkQuantity'] = $newcartquantity;
 
 						$cartModel = JModel::getInstance('cart', 'RedshopModel');
 						$cartModel->update($data);
