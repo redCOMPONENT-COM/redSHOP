@@ -16,9 +16,12 @@ $objconfiguration = new Redconfiguration;
 $redhelper        = new redhelper;
 $currencyClass    = new CurrencyHelper;
 $app              = JFactory::getApplication();
-$task             = $app->input->getCmd('task');
-$layout           = $app->input->getCmd('layout');
-$Itemid           = $app->input->getInt('Itemid');
+$input            = $app->input;
+
+$task             = $input->getCmd('task');
+$layout           = $input->getCmd('layout');
+$Itemid           = $input->getInt('Itemid');
+
 $paymentCurrency  = $this->params->get("currency", CURRENCY_CODE);
 
 if (1 == (int) $this->params->get("sandbox"))
@@ -30,7 +33,9 @@ else
 	$paypalurl = "https://www.paypal.com/cgi-bin/webscr";
 }
 
-$returnUrl = JURI::base() . "index.php?tmpl=component&option=com_redshop&view=order_detail&controller=order_detail&task=notify_payment&payment_plugin=rs_payment_paypal&Itemid=$Itemid&orderid=" . $data['order_id'];
+$returnUrl = JURI::base() . "index.php?tmpl=component&option=com_redshop&view=order_detail&"
+			. "controller=order_detail&task=notify_payment&payment_plugin=rs_payment_paypal&Itemid=$Itemid&orderid="
+			. $data['order_id'];
 
 if (1 == (int) $this->params->get("auto_return"))
 {
@@ -55,9 +60,11 @@ $paypalPostData = Array(
 	"invoice"            => $data['order']->order_number,
 	"amount"             => $currencyClass->convert($data['order']->order_total, '', $paymentCurrency),
 	"return"             => $returnUrl,
-	"notify_url"         => JURI::base() . "index.php?tmpl=component&option=com_redshop&view=order_detail&controller=order_detail&task=notify_payment&payment_plugin=rs_payment_paypal&Itemid=$Itemid&orderid=" . $data['order_id'],
+	"notify_url"         => JURI::base() . "index.php?tmpl=component&option=com_redshop&view=order_detail&controller=order_detail&"
+							. "task=notify_payment&payment_plugin=rs_payment_paypal&Itemid=$Itemid&orderid=" . $data['order_id'],
 	"night_phone_b"      => substr($data['billinginfo']->phone, 0, 25),
-	"cancel_return"      => JURI::base() . "index.php?tmpl=component&option=com_redshop&view=order_detail&controller=order_detail&task=notify_payment&payment_plugin=rs_payment_paypal&Itemid=$Itemid&orderid=" . $data['order_id'],
+	"cancel_return"      => JURI::base() . "index.php?tmpl=component&option=com_redshop&view=order_detail&controller=order_detail&"
+							. "task=notify_payment&payment_plugin=rs_payment_paypal&Itemid=$Itemid&orderid=" . $data['order_id'],
 	"undefined_quantity" => "0",
 	"test_ipn"           => $this->params->get("is_test"),
 	"pal"                => "NRUBJXESJTY24",
@@ -84,17 +91,15 @@ if (SHIPPING_METHOD_ENABLE)
 $paypalPostData['discount_amount_cart'] = round($currencyClass->convert($data['order']->order_discount, '', $paymentCurrency), 2);
 $paypalPostData['discount_amount_cart'] += round($currencyClass->convert($data['order']->special_discount, '', $paymentCurrency), 2);
 
-if ($this->params->get("payment_oprand") == '-')
+switch ($this->params->get("payment_oprand"))
 {
-	// @TODO  This variable is not used anywhere but keep this as still don't know why it's not used.
-	$discount_payment_price = $this->params->get("payment_price");
-	$paypalPostData['discount_amount_cart'] += round($currencyClass->convert($data['order']->payment_discount, '', $paymentCurrency), 2);
-}
-else
-{
-	// @TODO  This variable is not used anywhere but keep this as still don't know why it's not used.
-	$discount_payment_price          = $this->params->get("payment_price");
-	$paypalPostData['handling_cart'] = round($currencyClass->convert($data['order']->payment_discount, '', $paymentCurrency), 2);
+	case '-':
+		$paypalPostData['discount_amount_cart'] += round($currencyClass->convert($data['order']->payment_discount, '', $paymentCurrency), 2);
+		break;
+
+	case '+':
+		$paypalPostData['handling_cart'] = round($currencyClass->convert($data['order']->payment_discount, '', $paymentCurrency), 2);
+		break;
 }
 
 $items         = $objOrder->getOrderItemDetail($data['order_id']);
@@ -108,6 +113,7 @@ foreach ($items as $item)
 
 // Calculate Total Shipping
 $shipping = $data['order']->order_shipping / $totalQuantity;
+$paypalCartItems = array();
 
 for ($i = 0; $i < count($items); $i++)
 {
@@ -135,7 +141,7 @@ for ($i = 0; $i < count($items); $i++)
 											);
 }
 
-echo "<form action='$paypalurl' method='post' name='paypalfrm' id='paypalfrm'>";
+echo '<form action="' . $paypalurl . '" method="post" name="paypalfrm" id="paypalfrm">';
 echo "<h3>" . JText::_('COM_REDSHOP_PAYPAL_WAIT_MESSAGE') . "</h3>";
 
 foreach ($paypalPostData as $name => $value)
@@ -165,4 +171,6 @@ if (SHIPPING_METHOD_ENABLE)
 echo '<input type="hidden" name="charset" value="utf-8">';
 echo "</form>";
 ?>
-<script type='text/javascript'>document.paypalfrm.submit();</script>
+<script type='text/javascript'>
+	document.getElementById('paypalfrm').submit();
+</script>
