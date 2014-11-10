@@ -119,7 +119,7 @@ class RedshopModelCart extends JModel
 
 	public function emptyExpiredCartProducts()
 	{
-		if (IS_PRODUCT_RESERVE)
+		if (IS_PRODUCT_RESERVE && USE_STOCKROOM)
 		{
 			$stockroomhelper = new rsstockroomhelper;
 			$session         = JFactory::getSession();
@@ -432,7 +432,29 @@ class RedshopModelCart extends JModel
 
 		if (array_key_exists($cartElement, $cart))
 		{
-			$stockroomhelper->deleteCartAfterEmpty($cart[$cartElement]['product_id']);
+			if (array_key_exists('cart_attribute', $cart[$cartElement]))
+			{
+				foreach ($cart[$cartElement]['cart_attribute'] as $cartAttribute)
+				{
+					if (array_key_exists('attribute_childs', $cartAttribute))
+					{
+						foreach ($cartAttribute['attribute_childs'] as $attributeChilds)
+						{
+							if (array_key_exists('property_childs', $attributeChilds))
+							{
+								foreach ($attributeChilds['property_childs'] as $propertyChilds)
+								{
+									$stockroomhelper->deleteCartAfterEmpty($propertyChilds['subproperty_id'], 'subproperty', $cart[$cartElement]['quantity']);
+								}
+							}
+
+							$stockroomhelper->deleteCartAfterEmpty($attributeChilds['property_id'], 'property', $cart[$cartElement]['quantity']);
+						}
+					}
+				}
+			}
+
+			$stockroomhelper->deleteCartAfterEmpty($cart[$cartElement]['product_id'], 'product', $cart[$cartElement]['quantity']);
 			unset($cart[$cartElement]);
 			$cart = array_merge(array(), $cart);
 
