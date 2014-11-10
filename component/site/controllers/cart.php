@@ -397,6 +397,11 @@ class RedshopControllerCart extends JController
 		$Itemid    = $redhelper->getCartItemid();
 		$model     = $this->getModel('cart');
 
+		if (isset($post['checkQuantity']))
+		{
+			unset($post['checkQuantity']);
+		}
+
 		// Call update method of model to update product info of cart
 		$model->update($post);
 		$this->_carthelper->cartFinalCalculation();
