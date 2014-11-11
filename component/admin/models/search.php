@@ -15,8 +15,6 @@ class RedshopModelSearch extends JModel
 {
 	public $_id = null;
 
-	public $_container_id = null;
-
 	public $_stockroom_id = null;
 
 	public $_data = null;
@@ -46,8 +44,6 @@ class RedshopModelSearch extends JModel
 		$related = JRequest::getVar('related', '');
 
 		$navigator = JRequest::getVar('navigator', '');
-
-		$container_id = JRequest::getVar('container_id', '');
 
 		$voucher_id = JRequest::getVar('voucher_id', '');
 
@@ -90,8 +86,6 @@ class RedshopModelSearch extends JModel
 		$this->_related = ((int) $related);
 
 		$this->_navigator = ((int) $navigator);
-
-		$this->_container_id = ((int) $container_id);
 
 		$this->_voucher_id = ((int) $voucher_id);
 
@@ -148,38 +142,6 @@ class RedshopModelSearch extends JModel
 					$this->_search . "%' AND published = 1";
 			}
 		}
-
-		elseif ($this->_alert == 'container')
-		{
-			$query = "SELECT cp.product_id as value,p.product_name as text FROM " . $this->_table_prefix . "product as p , " .
-				$this->_table_prefix . "container_product_xref as cp  WHERE cp.container_id=" . $this->_container_id . "
-				and cp.product_id=p.product_id  ";
-			$this->_db->setQuery($query);
-			$this->_productdata = $this->_db->loadObjectList();
-
-			if (count($this->_productdata) > 0)
-			{
-				foreach ($this->_productdata as $rc)
-				{
-					$pid[] = $rc->value;
-				}
-			}
-
-			if ($this->_productdata)
-			{
-				$pid = @implode(",", $pid);
-				$where = " and p.product_id not in (" . $pid . ") and p.product_name like '%" . $this->_search . "%'";
-			}
-			else
-			{
-				$where = " and p.product_name like '%" . $this->_search . "%'";
-			}
-
-			$query = "SELECT distinct concat(p.product_id,'`',p.supplier_id) as id,p.product_name as value,p.product_volume as volume  FROM " .
-				$this->_table_prefix . "product as p left join   " . $this->_table_prefix . "container_product_xref as cp on
-				cp.product_id=p.product_id WHERE 1=1  " . $where;
-
-		}
 		elseif ($this->_alert == 'voucher')
 		{
 			$query = "SELECT cp.product_id as value,p.product_name as text FROM " . $this->_table_prefix . "product as p , "
@@ -208,49 +170,6 @@ class RedshopModelSearch extends JModel
 
 			$query = "SELECT distinct p.product_id as id,p.product_name as value FROM " . $this->_table_prefix . "product as p left join   "
 				. $this->_table_prefix . "product_voucher_xref as cp on cp.product_id=p.product_id WHERE 1=1 " . $where;
-
-		}
-		elseif ($this->_alert == 'stoockroom')
-		{
-			$q = "SELECT cp.container_id as value,p.container_name as text FROM " . $this->_table_prefix . "container as p , "
-				. $this->_table_prefix . "stockroom_container_xref as cp  WHERE cp.stockroom_id=" . $this->_stockroom_id
-				. " and cp.container_id=p.container_id ";
-			$this->_db->setQuery($q);
-			$this->_productdata = $this->_db->loadObjectList();
-
-			if (count($this->_productdata) > 0)
-			{
-				$result_stock = $this->_productdata;
-			}
-
-			else
-			{
-				$result_stock = array();
-			}
-
-			if (count($result_stock) > 0)
-			{
-				foreach ($result_stock as $rc)
-				{
-					$pid[] = $rc->value;
-				}
-			}
-
-			if ($result_stock)
-			{
-				$pid = @implode(",", $pid);
-				$where = " and p.container_id not in ($pid)";
-			}
-			else
-			{
-				$where = '';
-			}
-
-			$where .= " and p.container_id NOT IN ( SELECT container_id FROM " . $this->_table_prefix . "stockroom_container_xref )
-			and p.container_name like '" . $this->_search . "%'";
-
-			$query = "SELECT p.container_id as id,p.container_name as value FROM " . $this->_table_prefix . "container as p left join   " .
-				$this->_table_prefix . "stockroom_container_xref as cp on cp.container_id=p.container_id WHERE 1=1 " . $where;
 
 		}
 		elseif ($this->_alert == 'termsarticle')

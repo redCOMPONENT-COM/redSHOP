@@ -136,35 +136,6 @@ CREATE TABLE IF NOT EXISTS `#__redshop_category_xref` (
 	DEFAULT CHARSET =utf8
 	COMMENT ='redSHOP Category relation';
 
-CREATE TABLE IF NOT EXISTS `#__redshop_container` (
-	`container_id`     INT(11)      NOT NULL AUTO_INCREMENT,
-	`container_name`   VARCHAR(250) NOT NULL,
-	`manufacture_id`   INT(11)      NOT NULL,
-	`supplier_id`      INT(11)      NOT NULL,
-	`container_desc`   LONGTEXT     NOT NULL,
-	`creation_date`    DOUBLE       NOT NULL,
-	`min_del_time`     INT(11)      NOT NULL,
-	`max_del_time`     INT(11)      NOT NULL,
-	`container_volume` DOUBLE       NOT NULL,
-	`stockroom_id`     INT(11)      NOT NULL,
-	`published`        INT(11)      NOT NULL,
-	PRIMARY KEY (`container_id`),
-	KEY `idx_published` (`published`)
-)
-	ENGINE =InnoDB
-	DEFAULT CHARSET =utf8
-	COMMENT ='redSHOP Container';
-
-CREATE TABLE IF NOT EXISTS `#__redshop_container_product_xref` (
-	`container_id` INT(11) NOT NULL,
-	`product_id`   INT(11) NOT NULL,
-	`quantity`     INT(11) NOT NULL,
-	UNIQUE KEY `container_id` (`container_id`, `product_id`)
-)
-	ENGINE =InnoDB
-	DEFAULT CHARSET =utf8
-	COMMENT ='redSHOP Container Product Relation';
-
 CREATE TABLE IF NOT EXISTS `#__redshop_country` (
 	`country_id`     INT(11)      NOT NULL AUTO_INCREMENT,
 	`country_name`   VARCHAR(64) DEFAULT NULL,
@@ -725,7 +696,6 @@ CREATE TABLE IF NOT EXISTS `#__redshop_order_item` (
 	`product_attribute`           TEXT,
 	`product_accessory`           TEXT           NOT NULL,
 	`delivery_time`               INT(11)        NOT NULL,
-	`container_id`                INT(11)        NOT NULL,
 	`stockroom_id`                VARCHAR(255)   NOT NULL,
 	`stockroom_quantity`          VARCHAR(255)   NOT NULL,
 	`is_split`                    TINYINT(1)     NOT NULL,
@@ -744,7 +714,6 @@ CREATE TABLE IF NOT EXISTS `#__redshop_order_item` (
 	KEY `idx_product_id` (`product_id`),
 	KEY `idx_order_status` (`order_status`),
 	KEY `idx_cdate` (`cdate`),
-	KEY `idx_container_id` (`container_id`),
 	KEY `idx_is_giftcard` (`is_giftcard`)
 )
 	ENGINE =InnoDB
@@ -1611,16 +1580,6 @@ CREATE TABLE IF NOT EXISTS `#__redshop_stockroom_amount_image` (
 	ENGINE =InnoDB
 	DEFAULT CHARSET =utf8
 	COMMENT ='redSHOP stockroom amount image';
-
-CREATE TABLE IF NOT EXISTS `#__redshop_stockroom_container_xref` (
-	`stockroom_id` INT(11) NOT NULL,
-	`container_id` INT(11) NOT NULL,
-	KEY `idx_common` (`container_id`, `stockroom_id`),
-	KEY `idx_stockroom_id` (`stockroom_id`)
-)
-	ENGINE =InnoDB
-	DEFAULT CHARSET =utf8
-	COMMENT ='redSHOP Stockroom Container Relation';
 
 CREATE TABLE IF NOT EXISTS `#__redshop_subscription_renewal` (
 	`renewal_id`     INT(11) NOT NULL AUTO_INCREMENT,

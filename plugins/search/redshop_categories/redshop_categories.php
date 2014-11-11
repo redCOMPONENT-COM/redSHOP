@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 jimport('joomlplugin.plugin');
 
-JLoader::import('loadhelpers', JPATH_SITE . '/components/com_redshop');
+JLoader::import('redshop.library');
 JLoader::load('RedshopHelperHelper');
 
 

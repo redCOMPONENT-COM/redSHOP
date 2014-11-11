@@ -6,7 +6,7 @@
  * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
-defined('_JEXEC') or die ('Restricted access');
+defined('_JEXEC') or die;
 
 //JHTML::_ ( 'behavior.tooltip' );
 JHTMLBehavior::modal();
@@ -126,14 +126,6 @@ $url = $uri->root();
 		<td colspan="2">
 			<hr/>
 		</td>
-	</tr>
-	<tr>
-		<td width="100" align="right" class="key">
-			<span class="editlinktip hasTip"
-				  title="<?php echo JText::_('COM_REDSHOP_USE_CONTAINER_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_USE_CONTAINER_LBL'); ?>">
-			<label for="container"><?php echo JText::_('COM_REDSHOP_USE_CONTAINER_LBL');?></label></span>
-		</td>
-		<td><?php echo $this->lists ['use_container'];?></td>
 	</tr>
 	<tr>
 		<td width="100" align="right" class="key">

@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 $option = JRequest::getVar('option', '', 'request', 'string');
 $filter = JRequest::getVar('filter');
 
-$redtemplate = new Redtemplate();
+$redtemplate = new Redtemplate;
 
 ?>
 <script language="javascript" type="text/javascript">

@@ -119,7 +119,6 @@ $defaultarray["quantity_text_display"] = QUANTITY_TEXT_DISPLAY;
 $defaultarray["default_quantity"] = DEFAULT_QUANTITY;
 $defaultarray["default_quantity_selectbox_value"] = DEFAULT_QUANTITY_SELECTBOX_VALUE;
 $defaultarray["ajax_cart_display_time"] = AJAX_CART_DISPLAY_TIME;
-$defaultarray["use_container"] = USE_CONTAINER;
 $defaultarray["use_stockroom"] = USE_STOCKROOM;
 $defaultarray["onestep_checkout_enable"] = ONESTEP_CHECKOUT_ENABLE;
 $defaultarray["individual_add_to_cart_enable"] = INDIVIDUAL_ADD_TO_CART_ENABLE;

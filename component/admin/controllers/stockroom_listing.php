@@ -104,18 +104,6 @@ class RedshopControllerStockroom_listing extends JController
 			}
 		}
 
-		$data = $model->getcontainerproducts($product_ids);
-
-		for ($i = 0; $i < count($data); $i++)
-		{
-			echo $data[$i]->stockroom_id . ",";
-			echo $data[$i]->stockroom_name . ",";
-			echo $data[$i]->product_number . ",";
-			echo $data[$i]->product_name . ",";
-			echo $data[$i]->quantity . ",";
-			echo $data[$i]->quantity * $data[$i]->product_volume . "\n";
-		}
-
 		exit;
 	}
 

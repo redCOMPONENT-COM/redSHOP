@@ -16,4 +16,16 @@
 class VoucherManagerPage
 {
 	public static $URL = '/administrator/index.php?option=com_redshop&view=voucher';
+
+	public static $voucherCode = "#voucher_code";
+
+	public static $voucherAmount = "#amount";
+
+	public static $voucherLeft = "#voucher_left";
+
+	public static $voucherCheck = "#cb0";
+
+	public static $voucherResultRow = "//div[@id='editcell']/table/tbody/tr[1]";
+
+	public static $voucherStatePath = "//div[@id='editcell']/table/tbody/tr[1]//td[9]//a";
 }

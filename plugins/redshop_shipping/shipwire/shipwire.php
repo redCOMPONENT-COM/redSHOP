@@ -18,7 +18,7 @@ jimport('joomla.plugin.plugin');
  */
 if (!defined('_VALID_MOS') && !defined('_JEXEC')) die('Direct Access to ' . basename(__FILE__) . ' is not allowed.');
 
-JLoader::import('loadhelpers', JPATH_SITE . '/components/com_redshop');
+JLoader::import('redshop.library');
 JLoader::load('RedshopHelperProduct');
 JLoader::load('RedshopHelperAdminConfiguration');
 JLoader::load('RedshopHelperAdminShipping');
@@ -60,7 +60,7 @@ class plgredshop_shippingshipwire extends JPlugin
 	{
 		if ($d['element'] == $this->classname)
 		{
-			$maincfgfile = JPATH_ROOT . "/plugins/redshop_shipping/$this->classname/$this->classname.cfg.php";
+			$maincfgfile = JPATH_ROOT . '/plugins/' . $d['plugin'] . '/' . $this->classname . '/' . $this->classname . '.cfg.php';
 
 			$my_config_array = array(
 				"SHIPWIRE_EMAIL"    => $d['SHIPWIRE_EMAIL'],
@@ -94,7 +94,7 @@ class plgredshop_shippingshipwire extends JPlugin
 
 	function onListRates(&$d)
 	{
-		include_once JPATH_ROOT . '/plugins/redshop_shipping/' . $this->classname . '.cfg.php';
+		include_once JPATH_ROOT . '/plugins/' . $d['plugin'] . '/' . $this->classname . '/' . $this->classname . '.cfg.php';
 		$shippinghelper = new shipping;
 		$producthelper = new producthelper;
 
