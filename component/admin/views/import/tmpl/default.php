@@ -72,7 +72,7 @@ foreach ($characterSets as $char => $name)
 	id="adminForm"
     enctype="multipart/form-data"
 >
-	<table class="adminList">
+	<table class="adminlist">
 		<tr>
 			<td colspan="2">
 				<?php echo JText::_('COM_REDSHOP_SEPRATOR');?>
@@ -95,9 +95,10 @@ foreach ($characterSets as $char => $name)
 				?>
 			</td>
 		</tr>
+		<?php $i = 0; ?>
 		<?php foreach ($data as $value => $text): ?>
-		<tr>
-			<td>
+		<tr class="row<?php echo $i % 2; ?>">
+			<td width="30%">
 				<input
 					type="radio"
 					value="<?php echo $value; ?>"
@@ -116,6 +117,7 @@ foreach ($characterSets as $char => $name)
 				<input type="file" name="importfile<?php echo $value; ?>" size="75"/>
 			</td>
 		</tr>
+		<?php $i++; ?>
 		<?php endforeach; ?>
 	</table>
 	<input type="hidden" name="view" value="import"/>
