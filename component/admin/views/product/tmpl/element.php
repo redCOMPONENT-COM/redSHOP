@@ -21,9 +21,6 @@ $category_id = $app->getUserStateFromRequest('category_id', 'category_id', 0);
 <script language="javascript" type="text/javascript">
 
 	Joomla.submitbutton = function (pressbutton) {
-		submitbutton(pressbutton);
-	}
-	submitbutton = function (pressbutton) {
 		var form = document.adminForm;
 		if (pressbutton) {
 			form.task.value = pressbutton;

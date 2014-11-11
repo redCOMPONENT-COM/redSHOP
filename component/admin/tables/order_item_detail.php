@@ -53,8 +53,6 @@ class Tableorder_item_detail extends JTable
 
 	public $delivery_time = null;
 
-	public $container_id = null;
-
 	public $stockroom_id = null;
 
 	public $stockroom_quantity = null;
