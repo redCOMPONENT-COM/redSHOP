@@ -95,6 +95,27 @@ class RedshopViewOrder_detail extends JView
 			$showcountry = (count($countryarray['countrylist']) == 1 && count($statearray['statelist']) == 0) ? 0 : 1;
 			$showstate = ($statearray['is_states'] <= 0) ? 0 : 1;
 
+			$isCompany = array();
+			$isCompany[0] = new stdClass;
+			$isCompany[0]->value = 0;
+			$isCompany[0]->text = JText::_('COM_REDSHOP_USER_CUSTOMER');
+			$isCompany[1] = new stdClass;
+			$isCompany[1]->value = 1;
+			$isCompany[1]->text = JText::_('COM_REDSHOP_USER_COMPANY');
+			$lists['is_company'] = JHTML::_(
+				'select.genericlist',
+				$isCompany,
+				'is_company',
+				'class="inputbox" onchange="showOfflineCompanyOrCustomer(this.value);" ',
+				'value',
+				'text',
+				$billing->is_company
+			);
+
+			$lists['tax_exempt'] = JHTML::_('select.booleanlist', 'tax_exempt', 'class="inputbox"', $billing->tax_exempt);
+			$lists['tax_exempt_approved']     = JHTML::_('select.booleanlist', 'tax_exempt_approved', 'class="inputbox"', $billing->tax_exempt_approved);
+			$lists['requesting_tax_exempt']   = JHTML::_('select.booleanlist', 'requesting_tax_exempt', 'class="inputbox"', $billing->requesting_tax_exempt);
+
 			$this->showcountry = $showcountry;
 			$this->showstate = $showstate;
 		}
