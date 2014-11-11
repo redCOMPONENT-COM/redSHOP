@@ -305,7 +305,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 							<td width="100" align="right"><?php echo JText::_('COM_REDSHOP_LASTNAME'); ?>:</td>
 							<td><?php echo $billing->lastname; ?></td>
 						</tr>
-						<?php if ($billing->company_name)
+						<?php if ($is_company)
 						{ ?>
 							<tr>
 								<td width="100" align="right"><?php echo JText::_('COM_REDSHOP_COMPANY'); ?>:</td>
