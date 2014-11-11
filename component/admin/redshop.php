@@ -138,7 +138,7 @@
 	{
 		if ($controller != "redshop" && $controller != "configuration" && $controller != "product_detail"
 			&& $controller != "country_detail" && $controller != "state_detail" && $controller != "category_detail"
-			&& $controller != "fields_detail" && $controller != "container_detail" && $controller != "stockroom_detail"
+			&& $controller != "fields_detail" && $controller != "stockroom_detail"
 			&& $controller != "shipping_detail" && $controller != "user_detail" && $controller != "template_detail"
 			&& $controller != "voucher_detail" && $controller != "textlibrary_detail" && $controller != "manufacturer_detail"
 			&& $controller != "rating_detail" && $controller != "newslettersubscr_detail" && $controller != "discount_detail"
