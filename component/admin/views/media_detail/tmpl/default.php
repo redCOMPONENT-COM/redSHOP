@@ -52,7 +52,7 @@ if ($showbuttons)
 			history.go(-1);
 		}
 
-		Joomla.submitbutton = function (pressbutton) {
+		Joomla.submitbutton =  submitbutton = function (pressbutton) {
 
 			var form = document.adminForm;
 
@@ -74,9 +74,8 @@ if ($showbuttons)
 			{
 				alert("<?php echo JText::_('COM_REDSHOP_SELECT_MEDIA_SECTION_FIRST', true ); ?>");
 			}
-			else if (form.section_name.value == '' && form.media_section.value != 'media')
+			else if (form.section_name[0].value == '' && form.media_section.value != 'media')
 			{
-
 				alert("<?php echo JText::_('COM_REDSHOP_TYPE_SECTION_NAME', true ); ?>");
 			}
 			else
