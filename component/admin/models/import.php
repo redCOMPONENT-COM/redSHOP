@@ -255,13 +255,10 @@ class RedshopModelImport extends JModel
 						// Import products
 						if ($post['import'] == 'products' && isset($rawdata['product_number']))
 						{
-							$rawdata['product_price'] = '' . str_replace(',', '.', $rawdata['product_price']) . '';
-							$product_id = $this->getProductIdByNumber($rawdata['product_number']);
+							$rawdata['product_id'] = $product_id = isset($rawdata['product_id']) && $rawdata['product_id'] != '' ?
+								$rawdata['product_id'] : $this->getProductIdByNumber($rawdata['product_number']);
 
-							if ((int) $product_id > 0)
-							{
-								$rawdata['product_id'] = (int) $product_id;
-							}
+							$rawdata['product_price'] = '' . str_replace(',', '.', $rawdata['product_price']) . '';
 
 							if (isset($rawdata['product_name']) === true)
 							{
@@ -282,8 +279,11 @@ class RedshopModelImport extends JModel
 
 							if (isset($rawdata['manufacturer_name']))
 							{
-								$query = "SELECT `manufacturer_id` FROM `#__redshop_manufacturer` "
-									. "WHERE `manufacturer_name` = '" . $rawdata['manufacturer_name'] . "' ";
+								$query = $db->getQuery(true)
+									->select("manufacturer_id")
+									->from($db->quoteName('#__redshop_manufacturer'))
+									->where($db->quoteName('manufacturer_name') . ' = ' . $db->quote($rawdata['manufacturer_name']));
+
 								$db->setQuery($query);
 								$manufacturer_id = $db->loadResult();
 								$rawdata['manufacturer_id'] = $manufacturer_id;
@@ -291,7 +291,7 @@ class RedshopModelImport extends JModel
 
 							// Updating/inserting product
 							$row = $this->getTable('product_detail');
-							$row->load($rawdata['product_id']);
+							$row->load($product_id);
 
 							// Do not update with blank imagecategory_id
 							if ($rawdata['product_thumb_image'] == "")
@@ -314,40 +314,37 @@ class RedshopModelImport extends JModel
 								unset($rawdata['product_preview_back_image']);
 							}
 
+							$isInsert = $row->product_id == 0;
+
 							$row->bind($rawdata);
 
 							// Set boolean for Error
 							$isError = false;
 
-							if ((int) $product_id > 0)
+							if (!$isInsert)
 							{
 								// Update
 								if (!$row->store())
 								{
-									$isError = true;
-
 									return JText::_('COM_REDSHOP_ERROR_DURING_IMPORT');
 								}
 							}
 							else
 							{
 								// Insert
-								$row->product_id = (int) $rawdata['product_id'];
+								$row->product_id = $product_id;
 								$ret = $db->insertObject('#__redshop_product', $row, 'product_id');
 
 								if (!$ret)
 								{
-									$isError = true;
-
 									return JText::_('COM_REDSHOP_ERROR_DURING_IMPORT');
 								}
 							}
 
+							$product_id = $row->product_id;
+
 							if (!$isError)
 							{
-								// Last inserted product id
-								$product_id = $row->product_id;
-
 								// Product Full Image
 								$product_full_image = trim($rawdata['product_full_image']);
 
@@ -471,13 +468,15 @@ class RedshopModelImport extends JModel
 								$section_download_alternattext = $rawdata['download_alternattext'];
 								$category_id = $rawdata['category_id'];
 
-								// Insert into media
-								$query = "SELECT count(*) FROM `#__redshop_media` "
-									. "WHERE `media_name` LIKE '" . $product_full_image . "' "
-									. "AND `media_section` LIKE 'product' "
-									. "AND `section_id`='" . $product_id . "' "
-									. "AND `media_type` LIKE 'images' "
-									. "AND `published`=1 ";
+								$query = $db->getQuery(true)
+									->select("count(*)")
+									->from($db->quoteName('#__redshop_media'))
+									->where($db->quoteName('media_name') . ' LIKE ' . $db->quote($product_full_image))
+									->where($db->quoteName('media_section') . ' LIKE ' . $db->quote('product'))
+									->where($db->quoteName('section_id') . ' = ' . $db->quote($product_id))
+									->where($db->quoteName('media_type') . ' = ' . $db->quote('images'))
+									->where($db->quoteName('published') . ' = ' . $db->quote('1'));
+
 								$db->setQuery($query);
 								$count = $db->loadResult();
 
@@ -541,16 +540,22 @@ class RedshopModelImport extends JModel
 								}
 
 								// Remove all current product category
-								$query = "DELETE FROM `#__redshop_product_category_xref` WHERE `product_id` = " . $product_id;
+								$query = $db->getQuery(true)
+									->delete($db->quoteName('#__redshop_product_category_xref'))
+									->where($db->quoteName('product_id') . ' = ' . $db->quote($product_id));
+
 								$db->setQuery($query);
-								$db->Query();
+								$db->query();
 
 								for ($i = 0; $i < count($categoryArr); $i++)
 								{
 									if ($category)
 									{
-										$query = "SELECT category_id FROM `#__redshop_category` "
-											. "WHERE `category_name` = '" . $categoryArr[$i] . "' ";
+										$query = $db->getQuery(true)
+											->select($db->quoteName('category_id'))
+											->from($db->quoteName('#__redshop_category'))
+											->where($db->quoteName('category_name') . ' = ' . $db->quote($categoryArr[$i]));
+
 										$db->setQuery($query);
 										$category_id = $db->loadResult();
 									}
@@ -559,19 +564,21 @@ class RedshopModelImport extends JModel
 										$category_id = $categoryArr[$i];
 									}
 
-									$query = "SELECT COUNT(*) FROM #__redshop_product_category_xref "
-										. "WHERE category_id = '" . $category_id . "' "
-										. "AND product_id = '" . $product_id . "' ";
+									$query = $db->getQuery(true)
+										->select("count(*)")
+										->from($db->quoteName('#__redshop_product_category_xref'))
+										->where($db->quoteName('category_id') . ' = ' . $db->quote($category_id))
+										->where($db->quoteName('product_id') . ' = ' . $db->quote($product_id));
+
 									$db->setQuery($query);
 									$count = $db->loadResult();
 
 									if ($count <= 0)
 									{
-										$query = "INSERT IGNORE INTO `#__redshop_product_category_xref` "
-											. "(`category_id`, `product_id`) "
-											. "VALUES ('" . $category_id . "', '" . $product_id . "')";
-										$db->setQuery($query);
-										$db->Query();
+										$insert = new stdClass;
+										$insert->category_id = $category_id;
+										$insert->product_id = $product_id;
+										$db->insertObject('#__redshop_product_category_xref', $insert);
 									}
 								}
 							}
@@ -588,40 +595,57 @@ class RedshopModelImport extends JModel
 									$accids = explode("~", $accessory_products[$i]);
 									$accessory_product_sku = $accids[0];
 									$accessory_price = $accids[1];
-									$query = 'SELECT COUNT(*) AS total FROM `#__redshop_product_accessory` AS pa '
-										. 'LEFT JOIN #__redshop_product p ON p.product_id = pa.child_product_id '
-										. 'WHERE pa.`product_id`="' . $product_id . '" '
-										. 'AND p.product_number="' . $accessory_product_sku . '" ';
+
+									$query = $db->getQuery(true)
+										->select('COUNT(*) AS total')
+										->from($db->quoteName('#__redshop_product_accessory', 'pa'))
+										->leftJoin($db->quoteName('#__redshop_product', 'p') . ' ON p.product_id = pa.child_product_id')
+										->where($db->quoteName('pa.product_id') . ' = ' . $db->quote($product_id))
+										->where($db->quoteName('p.product_number') . ' = ' . $db->quote($accessory_product_sku));
+
 									$db->setQuery($query);
+
 									$total = $db->loadresult();
 
-									$query = "SELECT product_id FROM `#__redshop_product` WHERE `product_number`='" . $accessory_product_sku . "' ";
+									$query = $db->getQuery(true)
+										->select($db->quoteName('product_id'))
+										->from($db->quoteName('#__redshop_product'))
+										->where($db->quoteName('product_number') . ' = ' . $db->quote($accessory_product_sku));
+
 									$db->setQuery($query);
 									$child_product_id = $db->loadresult();
 
 									if ($total <= 0)
 									{
-										$query = "INSERT IGNORE INTO `#__redshop_product_accessory` "
-											. "(`accessory_id`, `product_id`, `child_product_id`, `accessory_price`) "
-											. "VALUES ('', '" . $product_id . "', '" . $child_product_id . "', '" . $accessory_price . "')";
+										$insert = new stdClass;
+										$insert->accessory_id = '';
+										$insert->product_id = $product_id;
+										$insert->child_product_id = $child_product_id;
+										$insert->accessory_price = $accessory_price;
+
+										$db->insertObject('#__redshop_product_accessory', $insert);
 									}
 									else
 									{
-										$query = "UPDATE `#__redshop_product_accessory` "
-											. "SET `accessory_price`='" . $accessory_price . "' "
-											. "WHERE `product_id`='" . $product_id . "' "
-											. "AND `child_product_id`='" . $child_product_id . "'";
-									}
+										$query = $db->getQuery(true)
+											->update($db->quoteName('#__redshop_product_accessory'))
+											->set($db->quoteName('accessory_price') . ' = ' . $db->quote($accessory_price))
+											->where($db->quoteName('product_id') . ' = ' . $db->quote($product_id))
+											->where($db->quoteName('child_product_id') . ' = ' . $db->quote($child_product_id));
 
-									$db->setQuery($query);
-									$db->Query();
+										$db->setQuery($query);
+										$db->query();
+									}
 								}
 							}
 
 							$product_stock = $rawdata['product_stock'];
-							$query = "SELECT COUNT(*) AS total FROM `#__redshop_product_stockroom_xref` "
-								. "WHERE `product_id`='" . $product_id . "' "
-								. "AND `stockroom_id`='" . DEFAULT_STOCKROOM . "'";
+							$query = $db->getQuery(true)
+								->select('COUNT(*) AS total')
+								->from($db->quoteName('#__redshop_product_stockroom_xref'))
+								->where($db->quoteName('product_id') . ' = ' . $db->quote($product_id))
+								->where($db->quoteName('stockroom_id') . ' = ' . $db->quote(DEFAULT_STOCKROOM));
+
 							$db->setQuery($query);
 							$total = $db->loadresult();
 
@@ -629,20 +653,23 @@ class RedshopModelImport extends JModel
 							{
 								if ($total <= 0)
 								{
-									$query = "INSERT INTO `#__redshop_product_stockroom_xref` "
-										. "(`product_id`, `stockroom_id`, `quantity`) "
-										. "VALUES ('" . $product_id . "', '" . DEFAULT_STOCKROOM . "', '" . $product_stock . "') ";
+									$insert = new stdClass;
+									$insert->product_id = $product_id;
+									$insert->stockroom_id = DEFAULT_STOCKROOM;
+									$insert->quantity = $product_stock;
+									$db->insertObject("#__redshop_product_stockroom_xref", $insert);
 								}
 								else
 								{
-									$query = "UPDATE `#__redshop_product_stockroom_xref` "
-										. "SET `quantity`='" . $product_stock . "' "
-										. "WHERE `product_id`='" . $product_id . "' "
-										. "AND `stockroom_id`='" . DEFAULT_STOCKROOM . "'";
-								}
+									$query = $db->getQuery(true)
+										->update($db->quoteName('#__redshop_product_stockroom_xref'))
+										->set($db->quoteName('quantity') . ' = ' . $db->quote($product_stock))
+										->where($db->quoteName('product_id') . ' = ' . $db->quote($product_id))
+										->where($db->quoteName('stockroom_id') . ' = ' . $db->quote(DEFAULT_STOCKROOM));
 
-								$db->setQuery($query);
-								$db->Query();
+									$db->setQuery($query);
+									$db->query();
+								}
 							}
 
 							// Import image section
@@ -670,11 +697,14 @@ class RedshopModelImport extends JModel
 											$media_alternate_text = $section_images_alternattext[$s];
 										}
 
-										$query = "SELECT media_id FROM `#__redshop_media` "
-											. "WHERE `media_name` LIKE '" . $section_images[$s] . "' "
-											. "AND `media_section`='product' "
-											. "AND `section_id`='" . $product_id . "' "
-											. "AND `media_type` LIKE 'images' ";
+										$query = $db->getQuery(true)
+											->select('media_id')
+											->from($db->quoteName('#__redshop_media'))
+											->where($db->quoteName('media_name') . ' LIKE ' . $db->quote($section_images[$s]))
+											->where($db->quoteName('media_section') . ' = ' . $db->quote('product'))
+											->where($db->quoteName('section_id') . ' = ' . $db->quote($product_id))
+											->where($db->quoteName('media_type') . ' = ' . $db->quote('images'));
+
 										$db->setQuery($query);
 										$count = $db->loadResult();
 
@@ -698,12 +728,13 @@ class RedshopModelImport extends JModel
 										}
 										else
 										{
-											$query = "UPDATE `#__redshop_media` "
-												. "SET `media_alternate_text` = '" . $media_alternate_text . "', "
-												. "`ordering` = '" . $ordering . "' "
-												. "WHERE `media_id`='" . $count . "' ";
+											$query = $db->getQuery(true)
+												->update($db->quoteName('#__redshop_media'))
+												->set($db->quoteName('media_alternate_text') . ' = '. $db->quote($media_alternate_text))
+												->set($db->quoteName('ordering') . ' = '. $db->quote($ordering))
+												->where($db->quoteName('media_id') . ' = '. $db->quote($count));
 											$db->setQuery($query);
-											$db->Query();
+											$db->query();
 										}
 									}
 								}
@@ -734,11 +765,14 @@ class RedshopModelImport extends JModel
 											$media_alternate_text = $section_video_alternattext[$s];
 										}
 
-										$query = "SELECT count(*) FROM `#__redshop_media` "
-											. "WHERE `media_name` LIKE '" . $section_video[$s] . "' "
-											. "AND `media_section`='product' "
-											. "AND `section_id` = '" . $product_id . "' "
-											. "AND `media_type`='video' ";
+										$query = $db->getQuery(true)
+											->select('count(*)')
+											->from($db->quoteName('#__redshop_media'))
+											->where($db->quoteName('media_name') . ' LIKE ' . $db->quote($section_video[$s]))
+											->where($db->quoteName('media_section') . ' = ' . $db->quote('product'))
+											->where($db->quoteName('section_id') . ' = ' . $db->quote($product_id))
+											->where($db->quoteName('media_type') . ' = ' . $db->quote('video'));
+
 										$db->setQuery($query);
 										$count = $db->loadResult();
 
@@ -789,11 +823,13 @@ class RedshopModelImport extends JModel
 											$media_alternate_text = $section_document_alternattext[$s];
 										}
 
-										$query = "SELECT count(*) FROM `#__redshop_media` "
-											. "WHERE `media_name` LIKE '" . $section_document[$s] . "' "
-											. "AND `media_section`='product' "
-											. "AND `section_id` = '" . $product_id . "' "
-											. "AND `media_type`='document' ";
+										$query = $db->getQuery(true)
+											->select('count(*)')
+											->from($db->quoteName('#__redshop_media'))
+											->where($db->quoteName('media_name') . ' LIKE ' . $db->quote($section_document[$s]))
+											->where($db->quoteName('media_section') . ' = ' . $db->quote('product'))
+											->where($db->quoteName('section_id') . ' = ' . $db->quote($product_id))
+											->where($db->quoteName('media_type') . ' = ' . $db->quote('document'));
 
 										$db->setQuery($query);
 										$count = $db->loadResult();
@@ -845,11 +881,14 @@ class RedshopModelImport extends JModel
 											$media_alternate_text = $section_download_alternattext[$s];
 										}
 
-										$query = "SELECT count(*) FROM `#__redshop_media` "
-											. "WHERE `media_name` LIKE '" . $section_download[$s] . "' "
-											. "AND `media_section`='product' "
-											. "AND `section_id`='" . $product_id . "' "
-											. "AND `media_type`='download' ";
+										$query = $db->getQuery(true)
+											->select('count(*)')
+											->from($db->quoteName('#__redshop_media'))
+											->where($db->quoteName('media_name') . ' LIKE ' . $db->quote($section_download[$s]))
+											->where($db->quoteName('media_section') . ' = ' . $db->quote('product'))
+											->where($db->quoteName('section_id') . ' = ' . $db->quote($product_id))
+											->where($db->quoteName('media_type') . ' = ' . $db->quote('download'));
+
 										$db->setQuery($query);
 										$count = $db->loadResult();
 
@@ -936,16 +975,18 @@ class RedshopModelImport extends JModel
 								}
 
 								$rows->set('manufacturer_id', $manufacturer_id);
-								$ret = $db->insertObject('#__redshop_manufacturer', $rows, 'manufacturer_id');
+								$db->insertObject('#__redshop_manufacturer', $rows, 'manufacturer_id');
 							}
 
 							if (count($prd) > 0)
 							{
-								$query = "UPDATE `#__redshop_product` "
-									. "SET `manufacturer_id` = " . $manufacturer_id . " "
-									. "WHERE `product_id` IN(" . $prd_final . ") ";
+								$query = $db->getQuery(true)
+									->update($db->quoteName('#__redshop_product'))
+									->set($db->quoteName('manufacturer_id') . ' = ' . $db->quote($manufacturer_id))
+									->where($db->quoteName('product_id') . ' IN(' . $prd_final . ')');
+
 								$db->setQuery($query);
-								$db->Query();
+								$db->query();
 							}
 
 							$correctlines++;
