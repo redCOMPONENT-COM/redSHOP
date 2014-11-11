@@ -56,26 +56,26 @@ class RedshopViewProduct_Detail extends RedshopView
 	{
 		JHtml::_('behavior.tooltip');
 
-		$app = JFactory::getApplication();
-		$this->input = $app->input;
-		$user = JFactory::getUser();
+		$app                 = JFactory::getApplication();
+		$this->input         = $app->input;
+		$user                = JFactory::getUser();
 
 		JPluginHelper::importPlugin('redshop_product_type');
-		$this->dispatcher = JDispatcher::getInstance();
+		$this->dispatcher    = JDispatcher::getInstance();
 
-		$redTemplate = new Redtemplate;
-		$redhelper = new redhelper;
+		$redTemplate         = new Redtemplate;
+		$redhelper           = new redhelper;
 		$this->producthelper = new producthelper;
 
-		$this->option = $this->input->getString('option', 'com_redshop');
-		$db = JFactory::getDBO();
-		$dbPrefix = $app->getCfg('dbprefix');
-		$lists = array();
+		$this->option        = $this->input->getString('option', 'com_redshop');
+		$db                  = JFactory::getDBO();
+		$dbPrefix            = $app->getCfg('dbprefix');
+		$lists               = array();
 
-		$model = $this->getModel('product_detail');
-		$detail = $this->get('data');
+		$model               = $this->getModel('product_detail');
+		$detail              = $this->get('data');
 
-		$isNew = ($detail->product_id < 1);
+		$isNew               = ($detail->product_id < 1);
 
 		// Load new product default values
 		if ($isNew)
@@ -92,20 +92,14 @@ class RedshopViewProduct_Detail extends RedshopView
 		}
 
 		// Check redproductfinder is installed
-		$CheckRedProductFinder = $model->CheckRedProductFinder();
+		$CheckRedProductFinder       = $model->CheckRedProductFinder();
 		$this->CheckRedProductFinder = $CheckRedProductFinder;
 
 		// Get association id
-		$getAssociation = $model->getAssociation();
-		$this->getassociation = $getAssociation;
+		$getAssociation              = $model->getAssociation();
+		$this->getassociation        = $getAssociation;
 
-		// ToDo: Move SQL from here. SQL shouldn't be in view files!
-		$sql = "SHOW TABLE STATUS LIKE '" . $dbPrefix . "redshop_product'";
-		$db->setQuery($sql);
-		$row = $db->loadObject();
-		$next_product = $row->Auto_increment;
-
-		/* Get the tag names */
+		// Get the tag names
 		$tags = $model->Tags();
 		$associationtags = array();
 
@@ -337,6 +331,26 @@ class RedshopViewProduct_Detail extends RedshopView
 
 		if ($detail->product_id > 0)
 		{
+			$ItemData = $this->producthelper->getMenuInformation(0, 0, '', 'product&pid=' . $detail->product_id);
+			$catidmain = $detail->cat_in_sefurl;
+
+			if (count($ItemData) > 0)
+			{
+				$pItemid = $ItemData->id;
+			}
+			else
+			{
+				$objhelper = new redhelper;
+				$pItemid = $objhelper->getItemid($detail->product_id, $catidmain);
+			}
+
+			$link  = JURI::root();
+			$link .= 'index.php?option=com_redshop';
+			$link .= '&view=product&pid=' . $detail->product_id;
+			$link .= '&cid=' . $catidmain;
+			$link .= '&Itemid=' . $pItemid;
+
+			JToolBarHelper::preview($link, true);
 			JToolBarHelper::addNew('prices', JText::_('COM_REDSHOP_ADD_PRICE_LBL'));
 		}
 
@@ -579,7 +593,6 @@ class RedshopViewProduct_Detail extends RedshopView
 		$this->lists = $lists;
 		$this->detail = $detail;
 		$this->productSerialDetail = $productSerialDetail;
-		$this->next_product = $next_product;
 		$this->request_url = $uri->toString();
 
 		parent::display($tpl);
