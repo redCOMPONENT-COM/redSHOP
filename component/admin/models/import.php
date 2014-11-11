@@ -1679,7 +1679,7 @@ class RedshopModelImport extends JModel
 								'name'         => trim($rawdata['name']),
 								'email'        => trim($rawdata['email']),
 								'groups'       => explode(',', trim($rawdata['usertype'])),
-								'registerDate' => JFactory::getDate()->toMySQL()
+								'registerDate' => JFactory::getDate()->toSql()
 							);
 
 							if (isset($rawdata['block']))

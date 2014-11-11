@@ -497,7 +497,7 @@ class RedshopModelQuotation extends JModel
 		$user->set('gid', $authorize->get_group_id('', $newUsertype, 'ARO'));
 
 		$date = JFactory::getDate();
-		$user->set('registerDate', $date->toMySQL());
+		$user->set('registerDate', $date->toSql());
 
 		$useractivation = $usersConfig->get('useractivation');
 
