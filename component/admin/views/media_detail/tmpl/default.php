@@ -74,7 +74,7 @@ if ($showbuttons)
 			{
 				alert("<?php echo JText::_('COM_REDSHOP_SELECT_MEDIA_SECTION_FIRST', true ); ?>");
 			}
-			else if (form.section_name[0].value == '' && form.media_section.value != 'media')
+			else if (form.section_name.value == '' && form.media_section.value != 'media')
 			{
 				alert("<?php echo JText::_('COM_REDSHOP_TYPE_SECTION_NAME', true ); ?>");
 			}
@@ -250,7 +250,7 @@ if ($showbuttons)
 	</div>
 
 	<div class="clr"></div>
-	<input type="hidden" value="<?php echo $k; ?>" name="total_extra" id="total_extra">
+	<input type="hidden" value="<?php echo isset($k) ? $k : ''; ?>" name="total_extra" id="total_extra">
 	<input type="hidden" name="cid[]" value="<?php echo $this->detail->media_id; ?>"/>
 	<input type="hidden" name="task" value=""/>
 	<input type="hidden" name="view" value="media_detail"/>
