@@ -474,7 +474,7 @@ class rsUserhelper
 
 			$date = JFactory::getDate();
 			$user->set('id', 0);
-			$user->set('registerDate', $date->toMySQL());
+			$user->set('registerDate', $date->toSql());
 
 			// If user activation is turned on, we need to set the activation information
 			$useractivation = $usersConfig->get('useractivation');
@@ -687,7 +687,7 @@ class rsUserhelper
 			$u->set('email', $row->user_email);
 			$u->set('usertype', 'Registered');
 			$date = JFactory::getDate();
-			$u->set('registerDate', $date->toMySQL());
+			$u->set('registerDate', $date->toSql());
 			$data['user_id']  = $row->user_id;
 			$data['username'] = $row->user_email;
 			$data['email']    = $row->user_email;
