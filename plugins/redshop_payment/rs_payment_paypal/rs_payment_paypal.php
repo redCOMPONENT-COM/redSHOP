@@ -71,6 +71,8 @@ class plgRedshop_paymentrs_payment_paypal extends JPlugin
 		$url            = JURI::base();
 		$uid            = $user->id;
 
+		$values         = new stdClass;
+
 		if ($status == 'Completed')
 		{
 			$values->order_status_code = $verify_status;
