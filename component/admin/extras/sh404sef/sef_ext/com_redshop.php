@@ -33,7 +33,7 @@ if (!defined('TABLE_PREFIX'))
 	require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
 }
 
-JLoader::import('loadhelpers', JPATH_SITE . '/components/com_redshop');
+JLoader::import('redshop.library');
 JLoader::load('RedshopHelperAdminCategory');
 $product_category = new product_category;
 
@@ -710,12 +710,6 @@ switch ($view)
 
 		break;
 
-	case 'container':
-
-		$title[] = $sh_LANG[$shLangIso]['_REDSHOP_CONTAINER'];
-		shRemoveFromGETVarsList('view');
-
-		break;
 	case 'order_listing':
 
 		$title[] = $sh_LANG[$shLangIso]['_REDSHOP_ORDER_LISTING'];

@@ -23,202 +23,6 @@ class shipping
 		$this->producthelper = new producthelper;
 	}
 
-	public function getDeliveryTimeOfProduct($product_id)
-	{
-		$sql = "SELECT max_del_time FROM " . $this->_table_prefix . "container c," . $this->_table_prefix . "container_product_xref cx
-	     		WHERE  cx.container_id = c.container_id AND cx.product_id = " . (int) $product_id . " order by max_del_time desc";
-		$this->_db->setQuery($sql);
-		$delivery = $this->_db->loadResult();
-
-		if (!$delivery)
-		{
-			$delivery = 13;
-		}
-
-		return $delivery;
-	}
-
-	public function getProductContainerId($product_id)
-	{
-		$sql = "SELECT c.container_id FROM " . $this->_table_prefix . "container c," . $this->_table_prefix . "container_product_xref cx
-	     		WHERE  cx.container_id = c.container_id AND cx.product_id = " . (int) $product_id . " order by max_del_time desc";
-		$this->_db->setQuery($sql);
-
-		return $this->_db->loadResult();
-	}
-
-	function getRegularDelivery()
-	{
-		$session = JFactory::getSession();
-		$cart    = $session->get('cart');
-
-		if (!$cart)
-		{
-			$cart         = array();
-			$cart ['idx'] = 0;
-			$session->set('cart', $cart);
-			$cart = $session->get('cart');
-		}
-
-		$idx    = (int) ($cart ['idx']);
-
-		$delarr = array();
-
-		for ($i = 0; $i < $idx; $i++)
-		{
-			$product_id           = $cart [$i] ['product_id'];
-
-			$deliveryTime         = $this->getDeliveryTimeOfProduct($product_id);
-
-			$delarr [$product_id] = $deliveryTime;
-		}
-
-		@asort($delarr);
-
-		$first = $delarr [key($delarr)];
-
-		$end   = end($delarr);
-
-		$diff  = $end - $first;
-
-		if ($diff > DELIVERY_RULE)
-		{
-			$deliveryTime = DELIVERY_RULE;
-		}
-		else
-		{
-			$deliveryTime = $end;
-		}
-
-		for ($i = 0; $i < $idx; $i++)
-		{
-			$product_id           = $cart [$i] ['product_id'];
-
-			$delarr [$product_id] = $deliveryTime;
-		}
-
-		return $delarr;
-	}
-
-	function getSplitDelivery()
-	{
-		$session = JFactory::getSession();
-		$cart    = $session->get('cart');
-
-		if (!$cart)
-		{
-			$cart         = array();
-			$cart ['idx'] = 0;
-
-			$session->set('cart', $cart);
-			$cart = $session->get('cart');
-		}
-
-		$idx    = (int) ($cart ['idx']);
-		$delarr = array();
-		$isDiff = 0;
-
-		for ($i = 0; $i < $idx; $i++)
-		{
-			$product_id           = $cart [$i] ['product_id'];
-			$deliveryTime         = $this->getDeliveryTimeOfProduct($product_id);
-			$delarr [$product_id] = $deliveryTime;
-		}
-
-		@asort($delarr);
-
-		$diffarr = array();
-
-		$result = array_unique($delarr);
-
-		if (count($result) == 1)
-		{
-			$split [0] = $this->getRegularDelivery();
-
-			return $split;
-		}
-
-		$tmp = 0;
-
-		for ($i = 0; $i < count($delarr); $i++)
-		{
-			$value = current($delarr);
-			$key   = key($delarr);
-
-			if ($nextval = next($delarr))
-			{
-				$diffarr [$key] = $nextval - $value;
-				$tmp            = $nextval - $value;
-			}
-		}
-
-		@arsort($diffarr);
-
-		reset($diffarr);
-
-		$splittokey = key($diffarr);
-		$split1     = array();
-		$split2     = array();
-		$s          = 0;
-
-		reset($delarr);
-
-		for ($i = 0; $i < count($delarr); $i++)
-		{
-			$value = current($delarr);
-			$key   = key($delarr);
-
-			if ($s == 0)
-			{
-				$split1 [$key] = $value;
-			}
-			else
-			{
-				$split2 [$key] = $value;
-			}
-
-			if ($key == $splittokey)
-			{
-				$s = 1;
-			}
-
-			next($delarr);
-		}
-
-		$return    = array();
-		$return[0] = $split1;
-
-		if (count($split2) > 0)
-		{
-			$return [1] = $split2;
-		}
-
-		return ($return);
-	}
-
-	public function getProductDeliveryArray($shipping_rate_id)
-	{
-		if (strstr($shipping_rate_id, "regular"))
-		{
-			$deliveryArray = $this->getRegularDelivery();
-		}
-		else
-		{
-			$splitArray = $this->getSplitDelivery();
-
-			if (count($splitArray) > 1)
-			{
-				$deliveryArray = $splitArray [0] + $splitArray [1];
-			}
-			else
-			{
-				$deliveryArray = $splitArray [0];
-			}
-		}
-
-		return ($deliveryArray);
-	}
-
 	/**
 	 *  function ******** To get Shipping rate for cart
 	 */
@@ -410,9 +214,9 @@ class shipping
 				if ($shippingrate->apply_vat == 1)
 				{
 					$result = $this->getShippingVatRates($shippingrate->shipping_tax_group_id, $user_id);
-					$chk    = $this->producthelper->taxexempt_addtocart($user_id);
+					$addVat = $this->producthelper->taxexempt_addtocart($user_id);
 
-					if (!empty($result) && !empty($chk))
+					if (!empty($result) && $addVat)
 					{
 						if ($result->tax_rate > 0)
 						{
@@ -613,9 +417,9 @@ class shipping
 				if ($shippingrate->apply_vat == 1)
 				{
 					$result = $this->getShippingVatRates($shippingrate->shipping_tax_group_id, $user_id);
-					$chk    = $this->producthelper->taxexempt_addtocart($user_id);
+					$addVat = $this->producthelper->taxexempt_addtocart($user_id);
 
-					if (!empty($result) && !empty($chk))
+					if (!empty($result) && $addVat)
 					{
 						if ($result->tax_rate > 0)
 						{
@@ -965,9 +769,9 @@ class shipping
 		if ($shippingrate->apply_vat == 1)
 		{
 			$result = $this->getShippingVatRates($shippingrate->shipping_tax_group_id, $user_id);
-			$chk = $this->producthelper->taxexempt_addtocart($user_id);
+			$addVat = $this->producthelper->taxexempt_addtocart($user_id);
 
-			if (!empty($result) && !empty($chk))
+			if (!empty($result) && $addVat)
 			{
 				if ($result->tax_rate > 0)
 				{
@@ -1273,6 +1077,7 @@ class shipping
 		{
 			$auth                   = $session->get('auth');
 			$users_info_id          = $auth['users_info_id'];
+			$userdata               = new stdClass;
 			$userdata->country_code = DEFAULT_VAT_COUNTRY;
 			$userdata->state_code   = DEFAULT_VAT_STATE;
 

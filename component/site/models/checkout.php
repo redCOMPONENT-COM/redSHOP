@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die ('Restricted access');
+defined('_JEXEC') or die;
 
 JLoader::import('joomla.application.component.model');
 
@@ -574,58 +574,8 @@ class RedshopModelCheckout extends JModel
 			$order_shipping [5] = "";
 		}
 
-		if ($order_shipping [5] == 'regular')
-		{
-			$regDel = $objshipping->getRegularDelivery();
-			JRequest::setVar('order_delivery', "Delivered in one instance � DELIVERY TIME: " . current($regDel) . " weeks</td>");
-		}
-		elseif ($order_shipping [5] == 'split')
-		{
-			$delArray = $objshipping->getProductDeliveryArray($shipping_rate_id);
-			$splitdel = $objshipping->getSplitDelivery();
-
-			if (count($splitdel) > 1)
-			{
-				$split1 = $splitdel [0];
-				$split2 = $splitdel [1];
-				$prods1 = '';
-				$prods2 = '';
-
-				for ($i = 0; $i < count($split1); $i++)
-				{
-					$value    = current($split1);
-					$deltime1 = $value;
-					$key      = key($split1);
-					$product  = $this->_producthelper->getProductById($key, "product_name");
-					$prods1 .= $product->product_name . ',';
-					next($split1);
-				}
-
-				for ($i = 0; $i < count($split2); $i++)
-				{
-					$value    = current($split2);
-					$deltime2 = $value;
-					$key      = key($split2);
-					$product  = $this->_producthelper->getProductById($key, "product_name");
-					$prods2 .= $product->product_name . ',';
-					next($split2);
-				}
-
-				$prods1 = trim($prods1, ",");
-				$prods2 = trim($prods2, ",");
-			}
-			JRequest::setVar('order_delivery', "Delivered over two instances for " . SPLIT_DELIVERY_COST . "kr extra    DELIVERY TIME: " . $deltime1 . " Weeks for " . $prods1 . "   AND   " . $deltime2 . " Weeks for " . $prods2 . " ");
-		}
-		else
-		{
-			$delArray = $objshipping->getProductDeliveryArray($shipping_rate_id);
-			$splitdel = $objshipping->getSplitDelivery();
-			$split1   = $splitdel [0];
-			$value    = current($split1);
-
-			$product_delivery_time = $this->_producthelper->getProductMinDeliveryTime($cart[0]['product_id']);
-			JRequest::setVar('order_delivery', $product_delivery_time);
-		}
+		$product_delivery_time = $this->_producthelper->getProductMinDeliveryTime($cart[0]['product_id']);
+		JRequest::setVar('order_delivery', $product_delivery_time);
 
 		$idx                 = $cart ['idx'];
 		$product_name        = "";
@@ -705,18 +655,7 @@ class RedshopModelCheckout extends JModel
 				return false;
 			}
 
-			if ($order_shipping [5] == 'regular')
-			{
-				$rowitem->delivery_time = $regDel;
-			}
-			elseif ($order_shipping [5] == 'split')
-			{
-				$rowitem->delivery_time = $delArray [$product_id];
-			}
-			else
-			{
-				$rowitem->delivery_time = '';
-			}
+			$rowitem->delivery_time = '';
 
 			if (isset($cart [$i] ['giftcard_id']) && $cart [$i] ['giftcard_id'])
 			{
@@ -801,7 +740,6 @@ class RedshopModelCheckout extends JModel
 			$rowitem->product_attribute   = $cart_attribute;
 			$rowitem->discount_calc_data  = $cart_calc_data;
 			$rowitem->product_accessory   = $cart_accessory;
-			$rowitem->container_id        = $objshipping->getProductContainerId($cart[$i]['product_id']);
 			$rowitem->wrapper_price       = $wrapper_price;
 
 			if (!empty($cart[$i]['wrapper_id']))
@@ -1162,14 +1100,6 @@ class RedshopModelCheckout extends JModel
 				}
 			}
 
-			// Subtracting the products from the container. means decreasing stock
-			if (USE_CONTAINER)
-			{
-				$this->_producthelper->updateContainerStock($product_id, $cart [$i] ['quantity'], $rowitem->container_id);
-			}
-
-			// Subtracting the products from the container. means decreasing stock end
-
 			// Store user product subscription detail
 			if ($product->product_type == 'subscription')
 			{
@@ -1360,7 +1290,7 @@ class RedshopModelCheckout extends JModel
 		{
 			$this->_redshopMail->sendOrderMail($row->order_id);
 		}
-		else
+		elseif (ORDER_MAIL_AFTER == 1)
 		{
 			// If Order mail set to send after payment then send mail to administrator only.
 			$this->_redshopMail->sendOrderMail($row->order_id, true);
@@ -2395,6 +2325,7 @@ class RedshopModelCheckout extends JModel
 
 		if (!ONESTEP_CHECKOUT_ENABLE)
 		{
+			$checkout .= '<input type="hidden" name="shop_id" value="' . $shop_id . '" />';
 			$checkout .= '<input type="hidden" name="shipping_rate_id" value="' . $shipping_rate_id . '" />';
 			$checkout .= '<input type="hidden" name="payment_method_id" value="' . $payment_method_id . '" />';
 		}

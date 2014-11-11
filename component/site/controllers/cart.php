@@ -203,8 +203,9 @@ class RedshopControllerCart extends JController
 				else
 				{
 					$link = JRoute::_($_SERVER['HTTP_REFERER'], false);
+					$msg = "";
 
-					if ($cart['notice_message'] != "")
+					if (isset($cart['notice_message']) && $cart['notice_message'] != "")
 					{
 						$msg = $cart['notice_message'] . "<br>";
 					}
