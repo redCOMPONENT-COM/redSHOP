@@ -18,7 +18,7 @@ if (!class_exists('LofSliderGroupK2'))
 		/**
 		 * @var string $__name
 		 *
-		 * @access private;
+		 * @access private
 		 */
 		var $__name = 'k2';
 		var $regex = "#<img.+src\s*=\s*\"([^\"]*)\"[^\>]*\>#iU";
@@ -78,7 +78,7 @@ if (!class_exists('LofSliderGroupK2'))
 			$extraURL       = $params->get('open_target') != 'modalbox' ? '' : '&tmpl=component';
 			$db             = JFactory::getDbo();
 			$date           = JFactory::getDate();
-			$now            = $date->toMySQL();
+			$now            = $date->toSql();
 
 			require_once JPath::clean(JPATH_SITE . '/components/com_k2/helpers/route.php');
 			$query = "SELECT a.*, cr.rating_sum/cr.rating_count as rating, c.name as categoryname,

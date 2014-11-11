@@ -864,11 +864,14 @@ class RedshopControllerMedia_Detail extends JController
 	 */
 	public function defaultmedia()
 	{
+		$app = JFactory::getApplication();
 		$post = JRequest::get('post');
 		$option = JRequest::getVar('option');
 		$section_id = JRequest::getVar('section_id');
 		$media_section = JRequest::getVar('media_section');
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+
+		$msg = JText::_('COM_REDSHOP_MEDIA_DETAIL_SAVED');
 
 		if (!is_array($cid) || count($cid) < 1)
 		{
@@ -881,11 +884,9 @@ class RedshopControllerMedia_Detail extends JController
 		{
 			if (!$model->defaultmedia($cid[0], $section_id, $media_section))
 			{
-				echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
+				$msg = $model->getError();
 			}
 		}
-
-		$msg = JText::_('COM_REDSHOP_MEDIA_DETAIL_SAVED');
 
 		if (isset($section_id))
 		{
@@ -895,6 +896,7 @@ class RedshopControllerMedia_Detail extends JController
 		}
 		elseif (isset($post['set']) && $post['media_section'] == 'manufacturer')
 		{
+			$app->enqueueMessage($msg);
 			$link = 'index.php?option=' . $option . '&view=manufacturer';    ?>
 			<script language="javascript" type="text/javascript">
 				window.parent.document.location = '<?php echo $link; ?>';
