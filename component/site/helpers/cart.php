@@ -4949,7 +4949,7 @@ class rsCarthelper
 					$newProductQuantity = $productData->max_order_product_quantity;
 				}
 
-				$stockroomhelper->addReservedStock($data['product_id'], $quantityProductReserved);
+				$stockroomhelper->addReservedStock($data['product_id'], $quantityProductReserved, 'product');
 			}
 			else
 			{
@@ -5011,7 +5011,7 @@ class rsCarthelper
 							$stockroomhelper->addReservedStock($propArr[$k]['property_id'], $newquantity, "property");
 
 							$newProductQuantity = $ownProductReserveStock + ($newquantity - $ownReservePropertyStock);
-							$stockroomhelper->addReservedStock($data['product_id'], $newProductQuantity);
+							$stockroomhelper->addReservedStock($data['product_id'], $newProductQuantity, 'product');
 						}
 						else
 						{
@@ -5080,7 +5080,7 @@ class rsCarthelper
 								$stockroomhelper->addReservedStock($propArr[$k]['property_id'], $newPropertyQuantity, "property");
 
 								$newProductQuantity = $ownProductReserveStock + ($newquantity - $ownSubPropReserveStock);
-								$stockroomhelper->addReservedStock($data['product_id'], $newProductQuantity);
+								$stockroomhelper->addReservedStock($data['product_id'], $newProductQuantity, 'product');
 							}
 						}
 					}
@@ -5088,7 +5088,7 @@ class rsCarthelper
 			}
 		}
 
-		return $newProductQuantity;
+		return $newquantity;
 	}
 
 	public function cartFinalCalculation($callmodify = true)
