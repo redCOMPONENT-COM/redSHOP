@@ -27,9 +27,6 @@ if ($showbuttons == 1)
 		form.submit();
 	}
 	Joomla.submitbutton = function (pressbutton) {
-		submitbutton(pressbutton);
-	}
-	submitbutton = function (pressbutton) {
 
 		if (pressbutton == "print_data") {
 			window.open("<?php echo $print_link;?>", "<?php echo JText::_('COM_REDSHOP_STOCKROOM_LISTING' );?>", "scrollbars=1", "location=1");
