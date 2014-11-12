@@ -2231,7 +2231,7 @@ class rsCarthelper
 			{
 				$cart['free_shipping'] = 1;
 			}
-			elseif (isset($cart['free_shipping']) && $cart['free_shipping'] != 1)
+			elseif (!isset($cart['free_shipping']) || $cart['free_shipping'] != 1)
 			{
 				$cart['free_shipping'] = 0;
 			}
