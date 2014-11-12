@@ -247,7 +247,9 @@ class RedshopControllerOrder_detail extends JController
 
 		if ($row['is_giftcard'] == 1)
 		{
-			$row['giftcard_id'] = $row['product_id'];
+			$row['giftcard_id']   = $row['product_id'];
+			$row['reciver_name']  = $row['giftcard_user_name'];
+			$row['reciver_email'] = $row['giftcard_user_email'];
 		}
 		else
 		{
@@ -291,14 +293,13 @@ class RedshopControllerOrder_detail extends JController
 
 		if (is_bool($result) && $result)
 		{
-			if (!$redirect)
+			if ($redirect)
 			{
-				return $result;
-			}
+				// Do final cart calculations
+				$this->_carthelper->cartFinalCalculation();
 
-			$this->_carthelper->cartFinalCalculation();
-			$Itemid = $this->_redhelper->getCartItemid();
-			$app->redirect('index.php?option=com_redshop&view=cart&Itemid=' . $Itemid);
+				$app->redirect('index.php?option=com_redshop&view=cart&Itemid=' . $this->_redhelper->getCartItemid());
+			}
 		}
 		else
 		{
@@ -313,16 +314,17 @@ class RedshopControllerOrder_detail extends JController
 				$Itemid = $this->_redhelper->getItemid($row['product_id']);
 			}
 
-			$errmsg = ($result) ? $result : JText::_("COM_REDSHOP_PRODUCT_NOT_ADDED_TO_CART");
+			$errorMessage = ($result) ? $result : JText::_("COM_REDSHOP_PRODUCT_NOT_ADDED_TO_CART");
 
 			if (JError::isError(JError::getError()))
 			{
-				$error  = JError::getError();
-				$errmsg = $error->message;
+				$errorMessage = JError::getError()->message;
 			}
 
-			$returnlink = "index.php?option=com_redshop&view=product&pid=" . $row["product_id"] . "&Itemid=" . $Itemid;
-			$app->redirect($returnlink, $errmsg);
+			$app->redirect(
+				'index.php?option=com_redshop&view=product&pid=' . $row['product_id'] . '&Itemid=' . $Itemid,
+				$errorMessage
+			);
 		}
 	}
 
@@ -331,26 +333,18 @@ class RedshopControllerOrder_detail extends JController
 	 *
 	 * @return  void
 	 */
-	public function Reorder()
+	public function reorder()
 	{
-		// Import redSHOP Product Plug-in
-		JPluginHelper::importPlugin('redshop_product');
+		$app     = JFactory::getApplication();
+		$orderId = $app->input->getInt('order_id');
 
-		$dispatcher = JDispatcher::getInstance();
-		$app        = JFactory::getApplication();
-		$session    = JFactory::getSession();
-		$order_id   = $app->input->getInt('order_id');
-		$Itemid     = $this->_redhelper->getCartItemid();
-
-		$returnmsg = "";
-
-		if ($order_id)
+		if ($orderId)
 		{
 			// First Empty Cart and then oder it again
 			$cart['idx'] = 0;
-			$session->set('cart', $cart);
+			JFactory::getSession()->set('cart', $cart);
 
-			$orderItem = $this->_order_functions->getOrderItemDetail($order_id);
+			$orderItem = $this->_order_functions->getOrderItemDetail($orderId);
 
 			for ($i = 0; $i < count($orderItem); $i++)
 			{
@@ -363,10 +357,7 @@ class RedshopControllerOrder_detail extends JController
 			$this->_carthelper->cartFinalCalculation();
 		}
 
-		$cart = $session->get('cart');
-
-		$Itemid = $this->_redhelper->getCartItemid();
-		$app->redirect('index.php?option=com_redshop&view=cart&Itemid=' . $Itemid);
+		$app->redirect('index.php?option=com_redshop&view=cart&Itemid=' . $this->_redhelper->getCartItemid());
 	}
 
 	/**
