@@ -34,10 +34,10 @@ if ($showbuttons)
 	?>
 	<fieldset>
 		<div style="float: right">
-			<button type="button" onclick="submitbutton('save');">
+			<button type="button" class="btn btn-small" onclick="submitbutton('save');">
 				<?php echo JText::_('COM_REDSHOP_SAVE'); ?>
 			</button>
-			<button type="button" onclick="goback();">
+			<button type="button" class="btn btn-small" onclick="goback();">
 				<?php echo JText::_('COM_REDSHOP_CANCEL'); ?>
 			</button>
 		</div>

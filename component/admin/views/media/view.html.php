@@ -42,10 +42,9 @@ class RedshopViewMedia extends RedshopView
 		$app      = JFactory::getApplication();
 		$document = JFactory::getDocument();
 
-		$document->setTitle(JText::_('COM_REDSHOP_MEDIA'));
 		$document->addStyleSheet(JURI::root() . 'administrator/components/com_redshop/assets/css/medialist-thumbs.css');
 
-		JToolBarHelper::title(JText::_('COM_REDSHOP_MEDIA_MANAGEMENT'), 'redshop_media48');
+		JToolBarHelper::title(JText::_('COM_REDSHOP_MEDIA_MANAGEMENT'), 'camera redshop_media48');
 		JToolbarHelper::addNew();
 		JToolbarHelper::EditList();
 		JToolBarHelper::deleteList();

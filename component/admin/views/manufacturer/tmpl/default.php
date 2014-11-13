@@ -46,15 +46,17 @@ echo 'index.php?option=' . $option;
 			<tr>
 				<td valign="top" align="left" class="key">
 					<?php echo JText::_('COM_REDSHOP_USER_FILTER'); ?>:
+					<div class="btn-wrapper input-append">
 					<input type="text" name="filter" id="filter" value="<?php echo $filter; ?>"
 					       onchange="document.adminForm.submit();">
-					<button onclick="this.form.submit();"><?php echo JText::_('COM_REDSHOP_GO'); ?></button>
-					<button
+					<button class="btn" onclick="this.form.submit();"><?php echo JText::_('COM_REDSHOP_GO'); ?></button>
+					<button class="btn"
 						onclick="document.getElementById('filter').value='';this.form.submit();"><?php echo JText::_('COM_REDSHOP_RESET'); ?></button>
+					</div>
 				</td>
 			</tr>
 		</table>
-		<table class="adminlist">
+		<table class="adminlist table table-striped">
 			<thead>
 			<tr>
 				<th width="5">
@@ -144,7 +146,7 @@ echo 'index.php?option=' . $option;
 						<span><?php echo $this->pagination->orderDownIcon($i, $n, true, 'orderdown', JText::_('JLIB_HTML_MOVE_DOWN'), $ordering); ?></span>
 						<?php $disabled = $ordering ? '' : 'disabled="disabled"'; ?>
 						<input type="text" name="order[]" size="5"
-						       value="<?php echo $row->ordering; ?>" <?php echo $disabled ?> class="text_area"
+						       value="<?php echo $row->ordering; ?>" <?php echo $disabled ?> class="text_area input-small"
 						       style="text-align: center"/>
 					</td>
 					<td align="center" width="5%">

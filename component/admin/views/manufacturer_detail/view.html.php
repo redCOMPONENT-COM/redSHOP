@@ -24,8 +24,6 @@ class RedshopViewManufacturer_detail extends RedshopView
 	{
 		JLoader::load('RedshopHelperAdminExtra_field');
 
-		JToolBarHelper::title(JText::_('COM_REDSHOP_MANUFACTURER_MANAGEMENT_DETAIL'), 'redshop_manufact48');
-
 		$uri = JFactory::getURI();
 		$document = JFactory::getDocument();
 		$option = JRequest::getVar('option');
@@ -44,7 +42,7 @@ class RedshopViewManufacturer_detail extends RedshopView
 
 		$text = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
 
-		JToolBarHelper::title(JText::_('COM_REDSHOP_MANUFACTURER') . ': <small><small>[ ' . $text . ' ]</small></small>', 'redshop_manufact48');
+		JToolBarHelper::title(JText::_('COM_REDSHOP_MANUFACTURER') . ': <small><small>[ ' . $text . ' ]</small></small>', 'flag redshop_manufact48');
 		JToolBarHelper::apply();
 		JToolBarHelper::save();
 
