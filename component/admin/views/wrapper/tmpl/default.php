@@ -59,8 +59,7 @@ $url = $uri->root();?>
 			<thead>
 			<tr>
 				<th width="5%"><?php echo JText::_('COM_REDSHOP_NUM'); ?></th>
-				<th width="5%"><input type="checkbox" name="toggle"
-				                      onclick="checkAll(<?php echo count($this->data); ?>);"/></th>
+				<th width="5%"><?php echo JHtml::_('redshopgrid.checkall'); ?>/th>
 				<th width="20%"><?php echo JText::_('COM_REDSHOP_WRAPPER_NAME'); ?></th>
 				<th width="10%"><?php echo JText::_('COM_REDSHOP_WRAPPER_IMAGE'); ?></th>
 				<th width="10%"><?php echo JText::_('COM_REDSHOP_WRAPPER_PRICE'); ?></th>

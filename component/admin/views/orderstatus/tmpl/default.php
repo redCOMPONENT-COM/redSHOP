@@ -48,8 +48,7 @@ $redhelper = new redhelper;
 					<?php echo JText::_('COM_REDSHOP_NUM'); ?>
 				</th>
 				<th width="5%">
-					<input type="checkbox" name="toggle" value=""
-					       onclick="checkAll(<?php echo count($this->orderstatus); ?>);"/>
+					<?php echo JHtml::_('redshopgrid.checkall'); ?>
 				</th>
 				<th width="35%">
 					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_ORDERSTATUS_CODE', 'order_status_code', $this->lists['order_Dir'], $this->lists['order']); ?>

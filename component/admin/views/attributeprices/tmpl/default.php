@@ -50,8 +50,7 @@ $producthelper = new producthelper;
 			<thead>
 			<tr>
 				<th width="5%"><?php echo JText::_('COM_REDSHOP_NUM'); ?></th>
-				<th width="5%"><input type="checkbox" name="toggle"
-				                      onclick="checkAll(<?php echo count($this->data); ?>);"/></th>
+				<th width="5%"><?php echo JHtml::_('redshopgrid.checkall'); ?></th>
 				<th class="title" align="left" width="15%"><?php echo JText::_('COM_REDSHOP_PROPERTY'); ?></th>
 				<th width="10%"><?php echo JText::_('COM_REDSHOP_SHOPPER_GROUP'); ?></th>
 				<th width="10%"><?php echo JText::_('COM_REDSHOP_QUANTITY_START_LBL'); ?></th>

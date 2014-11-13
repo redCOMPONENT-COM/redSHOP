@@ -56,8 +56,7 @@ echo 'index.php?option=' . $option;
 			<thead>
 			<tr>
 				<th width="5%"><?php echo JText::_('COM_REDSHOP_NUM');?></th>
-				<th width="5%"><input type="checkbox" name="toggle"
-				                      onclick="checkAll(<?php echo count($this->newsletters); ?>);"/></th>
+				<th width="5%"><?php echo JHtml::_('redshopgrid.checkall'); ?></th>
 				<th width="25%"><?php echo JHTML::_('grid.sort', 'COM_REDSHOP_NEWSLETTER_NAME', 'name', $this->lists ['order_Dir'], $this->lists ['order']);?></th>
 				<th><?php echo JText::_('COM_REDSHOP_NEWSLETTER_SUB');?></th>
 				<th width="10%"><?php echo JText::_('COM_REDSHOP_NO_SUBSCRIBERS');?></th>

@@ -40,8 +40,7 @@ $model = $this->getModel('stockimage');
 			<thead>
 			<tr>
 				<th><?php echo JText::_('COM_REDSHOP_NUM'); ?></th>
-				<th><input type="checkbox" name="toggle" value=""
-				           onclick="checkAll(<?php echo count($this->data); ?>);"/></th>
+				<th><?php echo JHtml::_('redshopgrid.checkall'); ?></th>
 				<th><?php echo JHTML::_('grid.sort', 'COM_REDSHOP_STOCK_AMOUNT_IMAGE_TOOLTIP_LBL', 'stock_amount_image_tooltip', $this->lists ['order_Dir'], $this->lists ['order']);?></th>
 				<th><?php echo JHTML::_('grid.sort', 'COM_REDSHOP_STOCK_AMOUNT_QUANTITY_LBL', 'stock_quantity', $this->lists ['order_Dir'], $this->lists ['order']);?></th>
 				<th><?php echo JHTML::_('grid.sort', 'COM_REDSHOP_STOCK_AMOUNT_OPTION_LBL', 'stock_option', $this->lists ['order_Dir'], $this->lists ['order']);?></th>

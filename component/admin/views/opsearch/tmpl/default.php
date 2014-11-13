@@ -45,7 +45,6 @@ $showbuttons = JRequest::getVar('showbuttons', '', 'request', 0);    ?>
 			<thead>
 			<tr>
 				<th width="5%"><?php echo JText::_('COM_REDSHOP_NUM'); ?></th>
-				<!--<th style="display:none;"><input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $this->products ); ?>);" /></th>-->
 				<th width="25%"><?php echo JHTML::_('grid.sort', 'COM_REDSHOP_PRODUCT_NAME', 'op.order_item_name', $this->lists['order_Dir'], $this->lists['order']); ?></th>
 				<th width="10%"><?php echo JHTML::_('grid.sort', 'COM_REDSHOP_PRODUCT_NUMBER', 'op.order_item_sku', $this->lists['order_Dir'], $this->lists['order']); ?></th>
 				<th width="10%"><?php echo JHTML::_('grid.sort', 'COM_REDSHOP_ORDER_ID', 'op.order_id', $this->lists['order_Dir'], $this->lists['order']); ?></th>

@@ -40,8 +40,7 @@ $producthelper = new producthelper;
 					<?php echo JText::_('COM_REDSHOP_NUM'); ?>
 				</th>
 				<th width="20">
-					<input type="checkbox" name="toggle" value=""
-					       onclick="checkAll(<?php echo count($this->shipping_box); ?>);"/>
+					<?php echo JHtml::_('redshopgrid.checkall'); ?>
 				</th>
 				<th class="title">
 					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_BOX_NAME', 'shipping_box_name', $this->lists['order_Dir'], $this->lists['order']); ?>

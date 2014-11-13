@@ -37,8 +37,8 @@ $filter = JRequest::getVar('filter');
 		<thead>
 		<tr>
 			<th width="5"><?php echo JText::_('COM_REDSHOP_NUM'); ?></th>
-			<th width="10"><input type="checkbox" name="toggle" value=""
-			                      onclick="checkAll(<?php echo count($this->fields); ?>)"? />
+			<th width="10">
+				<?php echo JHtml::_('redshopgrid.checkall'); ?>
 			</th>
 			<th><?php echo JHTML::_('grid.sort', JText::_('COM_REDSHOP_CURRENCY_NAME'), 'currency_name', $this->lists['order_Dir'], $this->lists['order']);?></th>
 			<th><?php echo JHTML::_('grid.sort', JText::_('COM_REDSHOP_CURRENCY_CODE_LBL'), 'currency_code', $this->lists['order_Dir'], $this->lists['order']);?></th>

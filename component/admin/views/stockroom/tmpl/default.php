@@ -47,8 +47,7 @@ $filter = JRequest::getVar('filter');
 			<thead>
 			<tr>
 				<th width="5%"><?php echo JText::_('COM_REDSHOP_NUM');?></th>
-				<th width="5%"><input type="checkbox" name="toggle" value=""
-				                      onclick="checkAll(<?php echo count($this->stockroom); ?>);"/></th>
+				<th width="5%"><?php echo JHtml::_('redshopgrid.checkall'); ?></th>
 				<th class="title"><?php echo JHTML::_('grid.sort', 'COM_REDSHOP_STOCKROOM_NAME', 'stockroom_name', $this->lists ['order_Dir'], $this->lists ['order']);?></th>
 				<th width="10%"><?php echo JHTML::_('grid.sort', 'COM_REDSHOP_MINIMUM_DELIVERY_TIME', 'min_del_time', $this->lists ['order_Dir'], $this->lists ['order']);?></th>
 				<th width="10%"><?php echo JHTML::_('grid.sort', 'COM_REDSHOP_MAXIMUM_DELIVERY_TIME', 'max_del_time', $this->lists ['order_Dir'], $this->lists ['order']);?></th>
