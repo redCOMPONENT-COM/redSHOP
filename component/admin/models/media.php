@@ -209,7 +209,7 @@ class RedshopModelMedia extends RedshopModel
 				$basePath = REDSHOP_FRONT_IMAGES_RELPATH;
 			}
 
-			$mediaBase = str_replace(DS, '/', REDSHOP_FRONT_IMAGES_RELPATH);
+			$mediaBase = str_replace(DIRECTORY_SEPARATOR, '/', REDSHOP_FRONT_IMAGES_RELPATH);
 		}
 		else
 		{
@@ -222,7 +222,7 @@ class RedshopModelMedia extends RedshopModel
 				$basePath = PRODUCT_DOWNLOAD_ROOT;
 			}
 
-			$mediaBase = str_replace(DS, '/', PRODUCT_DOWNLOAD_ROOT . '/');
+			$mediaBase = str_replace(DIRECTORY_SEPARATOR, '/', PRODUCT_DOWNLOAD_ROOT . '/');
 		}
 
 		$images = array();
@@ -242,7 +242,7 @@ class RedshopModelMedia extends RedshopModel
 				{
 					$tmp = new JObject;
 					$tmp->name = $file;
-					$tmp->path = str_replace(DS, '/', JPath::clean($basePath . '/' . $file));
+					$tmp->path = str_replace(DIRECTORY_SEPARATOR, '/', JPath::clean($basePath . '/' . $file));
 					$tmp->path_relative = str_replace($mediaBase, '', $tmp->path);
 					$tmp->size = filesize($tmp->path);
 
@@ -331,7 +331,7 @@ class RedshopModelMedia extends RedshopModel
 			{
 				$tmp = new JObject;
 				$tmp->name = basename($folder);
-				$tmp->path = str_replace(DS, '/', JPath::clean($basePath . '/' . $folder));
+				$tmp->path = str_replace(DIRECTORY_SEPARATOR, '/', JPath::clean($basePath . '/' . $folder));
 				$tmp->path_relative = str_replace($mediaBase, '', $tmp->path);
 				$count = $mediaHelper->countFiles($tmp->path);
 				$tmp->files = $count[0];
