@@ -59,7 +59,7 @@ class RedshopControllerMedia_Detail extends RedshopController
 
 		$product_download_root = PRODUCT_DOWNLOAD_ROOT;
 
-		if (substr(PRODUCT_DOWNLOAD_ROOT, -1) != DS)
+		if (substr(PRODUCT_DOWNLOAD_ROOT, -1) != DIRECTORY_SEPARATOR)
 		{
 			$product_download_root = PRODUCT_DOWNLOAD_ROOT . '/';
 		}
