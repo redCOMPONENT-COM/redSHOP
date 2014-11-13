@@ -23,6 +23,10 @@ Please follow the next steps in order to release a new version of redSHOP.
 
 > $ git log --oneline --after={2013-04-18} --no-merges --name-only | grep 'plugins\/.*' | cut -d/ -f2,3 | sort | uniq
 
+_Or Compare across versions_
+
+> git log --oneline 1.4/dev19...develop --no-merges --name-only | grep 'plugins\/.*' | cut -d/ -f2,3 | sort | uniq > /var/www/packages/plugins.log
+
 - if plungins have been modified:
  - Update the release number in their manifest .xml file with the same release number as the component. For example if we are releasing redSHOP 1.3 and plugin plg_default_shipping has been updated during 1.2 - 1.3 period, then you should set the plugin version to 1.3 here: https://github.com/redCOMPONENT-COM/redSHOP-1.2/blob/master/plugins/redshop_shipping/default_shipping/default_shipping.xml#L4 or leave it as it is if it has not been touch.
  - execute the plugins_packager.xml PHING file and upload the new release to redCOMPONENT.com
@@ -31,6 +35,10 @@ Please follow the next steps in order to release a new version of redSHOP.
 - Check if any module has been changed in this last release:
 
 > $ git log --oneline --after={2013-04-18} --no-merges --name-only | grep 'modules\/.*' | cut -d/ -f2,3  | sort | uniq
+
+_Or Compare across versions_
+
+> git log --oneline 1.4/dev19...develop --no-merges --name-only | grep 'modules\/.*' | cut -d/ -f2,3 | sort | uniq > /var/www/packages/modules.log
 
 - if modules have been modified:
  - Update the release number in their manifest .xml file in the same way you have done it with plugins https://github.com/redCOMPONENT-COM/redSHOP-1.2#plugins
@@ -46,6 +54,10 @@ Please follow the next steps in order to release a new version of redSHOP.
 - Create the Changelog list of commits:
 
 > $ git log --oneline --after={2013-04-18} --no-merges --format="* %s ( %h )"
+
+_Or Compare across versions_
+
+> git log --oneline 1.4/dev19...develop --no-merges --format="* %s ( %h )" > /var/www/packages/changelog2.log
 
 - Upload the list to http://wiki.redcomponent.com/index.php?title=redSHOP:Changelog
 
