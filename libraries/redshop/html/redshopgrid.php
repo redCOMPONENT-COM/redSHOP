@@ -31,8 +31,15 @@ abstract class JHtmlRedshopGrid
 	 */
 	public static function checkall($name = 'checkall-toggle', $tip = 'JGLOBAL_CHECK_ALL', $action = 'Joomla.checkAll(this)')
 	{
-		JHtml::_('bootstrap.tooltip');
+		if (version_compare(JVERSION, '3.0', '>='))
+		{
+			JHtml::_('bootstrap.tooltip');
 
-		return '<input type="checkbox" name="' . $name . '" value="" class="hasTooltip" title="' . JHtml::tooltipText($tip) . '" onclick="' . $action . '" />';
+			return '<input type="checkbox" name="' . $name . '" value="" class="hasTooltip" title="' . JHtml::tooltipText($tip) . '" onclick="' . $action . '" />';
+		}
+		else
+		{
+			return '<input type="checkbox" name="' . $name . '" value="" title="' . JText::_($tip) . '" onclick="' . $action . '" />';
+		}
 	}
 }
