@@ -350,8 +350,7 @@ class order_functions
 		$error = curl_error($ch);
 		curl_close($ch);
 
-		$oXML = JFactory::getXMLParser('Simple');
-		$oXML->loadString($response, false, true);
+		$oXML = JFactory::getXML($response);
 
 		if ($oXML->document->_children[1]->_data == "201" && $oXML->document->_children[2]->_data == "Created")
 		{

@@ -573,8 +573,7 @@ class plgredshop_shippingups extends JPlugin
 		curl_setopt($CR, CURLOPT_RETURNTRANSFER, 1);
 		curl_setopt($CR, CURLOPT_SSL_VERIFYPEER, false);
 		$xmlResult = curl_exec($CR);
-
-		$xmlDoc = JFactory::getXMLParser('Simple');
+		$matchedchild = array();
 
 		if (!$xmlResult)
 		{
@@ -583,7 +582,8 @@ class plgredshop_shippingups extends JPlugin
 		else
 		{
 			/* XML Parsing */
-			$xmlDoc->loadString($xmlResult, false, true);
+			$xmlDoc = JFactory::getXML($xmlResult);
+			$matchedchild = $xmlDoc->document->_children;
 			/* Let's check wether the response from UPS is Success or Failure ! */
 			if (strstr($xmlResult, "Failure"))
 			{
@@ -605,7 +605,6 @@ class plgredshop_shippingups extends JPlugin
 		}
 		// retrieve the list of all "RatedShipment" Elements
 
-		$matchedchild = $xmlDoc->document->_children;
 		$allservicecodes = array(
 			"UPS_Next_Day_Air",
 			"UPS_2nd_Day_Air",

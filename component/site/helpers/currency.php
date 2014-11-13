@@ -128,8 +128,7 @@ class CurrencyHelper
 				}
 
 				/* XML Parsing */
-				$xml = JFactory::getXMLParser('Simple');
-				@$xml->loadFile($archivefile_name);
+				$xml = JFactory::getXML($archivefile_name);
 
 				// Access a given node's CDATA
 				$currency_list = $xml->document->Cube[0]->_children;
