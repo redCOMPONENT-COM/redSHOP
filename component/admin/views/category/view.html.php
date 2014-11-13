@@ -35,11 +35,8 @@ class RedshopViewCategory extends RedshopView
 		$context = 'category_id';
 
 		$redTemplate = new Redtemplate;
-		$product_category = new product_category;
-		$document = JFactory::getDocument();
-		$document->setTitle(JText::_('COM_REDSHOP_CATEGORY'));
 
-		JToolBarHelper::title(JText::_('COM_REDSHOP_CATEGORY_MANAGEMENT'), 'redshop_categories48');
+		JToolBarHelper::title(JText::_('COM_REDSHOP_CATEGORY_MANAGEMENT'), 'folder redshop_categories48');
 		JToolbarHelper::addNew();
 		JToolbarHelper::EditList();
 		JToolBarHelper::custom('copy', 'copy.png', 'copy_f2.png', JText::_('COM_REDSHOP_TOOLBAR_COPY'), true);

@@ -57,29 +57,29 @@ if ($showbuttons == 1)
 ?>
 	<fieldset>
 	<div style="float: right">
-		<button type="button" onclick="Joomla.submitbutton('add');">
+		<button type="button" class="btn btn-small" onclick="Joomla.submitbutton('add');">
 			<?php echo JText::_('COM_REDSHOP_ADD'); ?>
 		</button>
-		<button type="button" onclick="Joomla.submitbutton('edit');">
+		<button type="button" class="btn btn-small" onclick="Joomla.submitbutton('edit');">
 			<?php echo JText::_('COM_REDSHOP_EDIT'); ?>
 		</button><?php
 		if ($media_section == 'product' || $media_section == 'property' || $media_section == 'subproperty')
 		{
 			?>
-			<button type="button" onclick="Joomla.submitbutton('defaultmedia');">
+			<button type="button" class="btn btn-small" onclick="Joomla.submitbutton('defaultmedia');">
 			<?php echo JText::_('COM_REDSHOP_DEFAULT_MEDIA'); ?>
 			</button><?php
 		}    ?>
-		<button type="button" onclick="Joomla.submitbutton('remove');">
+		<button type="button" class="btn btn-small" onclick="Joomla.submitbutton('remove');">
 			<?php echo JText::_('COM_REDSHOP_DELETE'); ?>
 		</button>
-		<button type="button" onclick="Joomla.submitbutton('publish');">
+		<button type="button" class="btn btn-small" onclick="Joomla.submitbutton('publish');">
 			<?php echo JText::_('COM_REDSHOP_PUBLISH'); ?>
 		</button>
-		<button type="button" onclick="Joomla.submitbutton('unpublish');">
+		<button type="button" class="btn btn-small" onclick="Joomla.submitbutton('unpublish');">
 			<?php echo JText::_('COM_REDSHOP_UNPUBLISH'); ?>
 		</button>
-		<button type="button" onclick="window.parent.location.reload();">
+		<button type="button" class="btn btn-small" onclick="window.parent.location.reload();">
 			<?php echo JText::_('COM_REDSHOP_CANCEL'); ?>
 		</button>
 	</div>
@@ -108,14 +108,14 @@ else
 						<?php
 							echo JText::_('COM_REDSHOP_MEDIA_TYPE') . ':' . $this->lists['type'] . "&nbsp;" . JText::_('COM_REDSHOP_MEDIA_SECTION') . ':' . $this->lists['section'] . "&nbsp;";
 						?>
-						<button onclick="this.form.getElementById('media_type').value='0';this.form.getElementById('media_section').value='0';this.form.submit();"><?php echo JText::_('COM_REDSHOP_RESET'); ?></button>
+						<button class="btn btn-small" onclick="this.form.getElementById('media_type').value='0';this.form.getElementById('media_section').value='0';this.form.submit();"><?php echo JText::_('COM_REDSHOP_RESET'); ?></button>
 					</td>
 				</tr>
 			</table>
 	<?php
 		}
 	?>
-		<table class="adminlist">
+		<table class="adminlist table table-striped">
 			<thead>
 			<tr>
 				<th width="5%"><?php echo JText::_('COM_REDSHOP_NUM'); ?></th>
@@ -264,7 +264,7 @@ else
 						<td align="center"><?php  echo $this->pagination->orderUpIcon($i, true, 'orderup', JText::_('JLIB_HTML_MOVE_UP'), $row->ordering);
 							echo $this->pagination->orderDownIcon($i, $n, true, 'orderdown', JText::_('JLIB_HTML_MOVE_DOWN'), $row->ordering);?>
 							<input type="text" name="order[]" size="5" value="<?php echo $row->ordering; ?>"
-							       class="text_area" style="text-align: center"/></td>
+							       class="text_area input-small" style="text-align: center"/></td>
 					<?php
 					}
 					?>

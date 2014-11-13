@@ -306,6 +306,11 @@ class RedshopModelProduct extends RedshopModel
 		else
 		{
 			$filter_order = $app->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'p.product_id');
+
+			if ($filter_order == 'x.ordering')
+			{
+				$filter_order = 'p.product_id';
+			}
 		}
 
 		$orderby = " ORDER BY " . $db->escape($filter_order . ' ' . $filter_order_Dir);

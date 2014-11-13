@@ -23,8 +23,6 @@ class RedshopViewMedia_detail extends RedshopView
 	{
 		$option = JRequest::getVar('option', '', 'request', 'string');
 
-		JToolBarHelper::title(JText::_('COM_REDSHOP_MEDIAS_MANAGEMENT_DETAIL'), 'redshop_media48');
-
 		$document = JFactory::getDocument();
 
 		$document->addScript('components/' . $option . '/assets/js/media.js');
@@ -44,7 +42,7 @@ class RedshopViewMedia_detail extends RedshopView
 
 		$text = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
 
-		JToolBarHelper::title(JText::_('COM_REDSHOP_MEDIAS') . ': <small><small>[ ' . $text . ' ]</small></small>', 'redshop_media48');
+		JToolBarHelper::title(JText::_('COM_REDSHOP_MEDIAS') . ': <small><small>[ ' . $text . ' ]</small></small>', 'camera redshop_media48');
 
 		JToolBarHelper::save();
 
