@@ -60,8 +60,7 @@ $comment = JRequest::getVar('comment_filter');
 					<?php echo JText::_('COM_REDSHOP_NUM'); ?>
 				</th>
 				<th>
-					<input type="checkbox" name="toggle" value=""
-					       onclick="checkAll(<?php echo count($this->ratings); ?>);"/>
+					<?php echo JHtml::_('redshopgrid.checkall'); ?>
 				</th>
 				<th>
 					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_PRODUCT_NAME', 'product_name', $this->lists['order_Dir'], $this->lists['order']); ?>

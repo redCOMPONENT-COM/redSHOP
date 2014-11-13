@@ -49,8 +49,7 @@ if ($this->shipper_location)
 					<?php echo JText::_('COM_REDSHOP_NUM'); ?>
 				</th>
 				<th width="5%">
-					<input type="checkbox" name="toggle" value=""
-					       onclick="checkAll(<?php echo count($this->shipping_rates); ?>);"/>
+					<?php echo JHtml::_('redshopgrid.checkall'); ?>
 				</th>
 				<th class="title">
 					<?php echo JHTML::_('grid.sort', $shippname, 'shipping_rate_name ', $this->lists['order_Dir'], $this->lists['order']); ?>

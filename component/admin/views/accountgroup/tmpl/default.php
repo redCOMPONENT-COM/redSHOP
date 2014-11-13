@@ -33,8 +33,8 @@ $option = JRequest::getVar('option', '', 'request', 'string');
 		<thead>
 		<tr>
 			<th width="5%"><?php echo JText::_('COM_REDSHOP_NUM'); ?></th>
-			<th width="5%"><input type="checkbox" name="toggle" value=""
-			                      onclick="checkAll(<?php echo count($this->detail); ?>)"? />
+			<th width="5%">
+				<?php echo JHtml::_('redshopgrid.checkall'); ?>
 			</th>
 			<th width="20%"><?php echo JHTML::_('grid.sort', 'COM_REDSHOP_ACCOUNTGROUP_NAME', 'accountgroup_name', $this->lists['order_Dir'], $this->lists['order']);?></th>
 			<th width="10%"><?php echo JHTML::_('grid.sort', 'COM_REDSHOP_ECONOMIC_VAT_ACCOUNT_NUMBER', 'economic_vat_account', $this->lists['order_Dir'], $this->lists['order']);?></th>

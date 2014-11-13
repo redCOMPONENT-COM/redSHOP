@@ -70,7 +70,7 @@ $model = $this->getModel('user');    ?>
 			<thead>
 			<tr>
 				<th width="5%"><?php echo JText::_('COM_REDSHOP_NUM');?></th>
-				<th width="5%"><input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count($this->user); ?>);"/></th>
+				<th width="5%"><?php echo JHtml::_('redshopgrid.checkall'); ?></th>
 				<th class="title"><?php echo JHTML::_('grid.sort', 'COM_REDSHOP_FIRST_NAME', 'firstname', $this->lists ['order_Dir'], $this->lists ['order']);?></th>
 				<th class="title"><?php echo JHTML::_('grid.sort', 'COM_REDSHOP_LAST_NAME', 'lastname', $this->lists ['order_Dir'], $this->lists ['order']);?></th>
 				<!--<th class="title"><?php echo JHTML::_ ( 'grid.sort', 'COM_REDSHOP_CONTACT_PERSON', 'firstname', $this->lists ['order_Dir'], $this->lists ['order'] );?></th>-->

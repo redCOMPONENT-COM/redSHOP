@@ -48,8 +48,7 @@ $model = $this->getModel('catalog');
 					<?php echo JText::_('COM_REDSHOP_NUM'); ?>
 				</th>
 				<th width="5%">
-					<input type="checkbox" name="toggle" value=""
-					       onclick="checkAll(<?php echo count($this->catalog); ?>);"/>
+					<?php echo JHtml::_('redshopgrid.checkall'); ?>
 				</th>
 				<th>
 					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_CATALOG_NAME', 'catalog_name', $this->lists['order_Dir'], $this->lists['order']); ?>

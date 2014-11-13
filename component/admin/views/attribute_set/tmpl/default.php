@@ -36,8 +36,7 @@ $option = JRequest::getVar('option', '', 'request', 'string');?>
 					<?php echo JText::_('COM_REDSHOP_NUM'); ?>
 				</th>
 				<th width="5%">
-					<input type="checkbox" name="toggle" value=""
-					       onclick="checkAll(<?php echo count($this->products); ?>);"/>
+					<?php echo JHtml::_('redshopgrid.checkall'); ?>
 				</th>
 				<th class="title" width="75%">
 					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_ATTRIBUTE_SET_NAME', 'attribute_set_name', $this->lists['order_Dir'], $this->lists['order']); ?>

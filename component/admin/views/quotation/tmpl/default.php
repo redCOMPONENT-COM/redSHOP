@@ -63,8 +63,8 @@ $model = $this->getModel('quotation');
 			<tr>
 				<th width="5%"><?php echo JText::_('COM_REDSHOP_NUM'); ?></th>
 				<th width="5%" class="title">
-					<input type="checkbox" name="toggle" value=""
-					       onclick="checkAll(<?php echo count($this->quotation); ?>);"/></th>
+					<?php echo JHtml::_('redshopgrid.checkall'); ?>
+				</th>
 				<th class="title" width="5%">
 					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_QUOTATION_ID', 'quotation_id', $this->lists['order_Dir'], $this->lists['order']); ?></th>
 				<th class="title" width="5%">
