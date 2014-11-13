@@ -451,3 +451,8 @@ div.cpanel-right {
 .button2-left .article {
 	background: url(../images/j3ready/j_button2_readmore.png) 100% 0 no-repeat;
 }
+
+.redsShopLimitBox {
+	float: left;
+	margin: 0 10px 0 0;
+}

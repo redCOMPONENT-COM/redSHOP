@@ -262,7 +262,7 @@ class RedshopViewProduct_Detail extends RedshopView
 			$supplier = array_merge($supps, $supplier);
 		}
 
-		JToolBarHelper::title(JText::_('COM_REDSHOP_PRODUCT_MANAGEMENT_DETAIL'), 'redshop_products48');
+		JToolBarHelper::title(JText::_('COM_REDSHOP_PRODUCT_MANAGEMENT_DETAIL'), 'pencil-2 redshop_products48');
 
 		$document = JFactory::getDocument();
 
@@ -327,7 +327,7 @@ class RedshopViewProduct_Detail extends RedshopView
 
 		$text = $isNew ? JText::_('COM_REDSHOP_NEW') : $detail->product_name . " - " . JText::_('COM_REDSHOP_EDIT');
 
-		JToolBarHelper::title(JText::_('COM_REDSHOP_PRODUCT') . ': <small><small>[ ' . $text . ' ]</small></small>', 'redshop_products48');
+		JToolBarHelper::title(JText::_('COM_REDSHOP_PRODUCT') . ': <small><small>[ ' . $text . ' ]</small></small>', 'pencil-2 redshop_products48');
 
 		if ($detail->product_id > 0)
 		{

@@ -387,6 +387,11 @@ for ($i = 0, $n = count($this->orders); $i < $n; $i++)
 ?>
 <tfoot>
 <td colspan="13">
+	<?php if (version_compare(JVERSION, '3.0', '>=')): ?>
+		<div class="redShopLimitBox">
+			<?php echo $this->pagination->getLimitBox(); ?>
+		</div>
+	<?php endif; ?>
 	<?php  echo $this->pagination->getListFooter(); ?>
 </td>
 </tfoot>

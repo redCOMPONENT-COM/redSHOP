@@ -43,15 +43,17 @@ $redtemplate = new Redtemplate;
 				<td valign="top" align="left" class="key">
 					<?php echo JText::_('COM_REDSHOP_MAIL_SECTION') . ": " . $this->lists['mailsection']; ?>
 					<?php echo JText::_('COM_REDSHOP_MAIL_NAME'); ?>:
+					<div class="btn-wrapper input-append">
 					<input type="text" name="filter" id="filter" value="<?php echo $filter; ?>"
 					       onchange="document.adminForm.submit();">
-					<button onclick="this.form.submit();"><?php echo JText::_('COM_REDSHOP_GO'); ?></button>
-					<button
+					<button onclick="this.form.submit();" class="btn"><?php echo JText::_('COM_REDSHOP_GO'); ?></button>
+					<button class="btn"
 						onclick="document.getElementById('filter').value='';document.getElementById('filter_section').value=0;this.form.submit();"><?php echo JText::_('COM_REDSHOP_RESET'); ?></button>
+					</div>
 				</td>
 			</tr>
 		</table>
-		<table class="adminlist">
+		<table class="adminlist table">
 			<thead>
 			<tr>
 				<th width="5%">
@@ -110,6 +112,11 @@ $redtemplate = new Redtemplate;
 
 			<tfoot>
 			<td colspan="9">
+				<?php if (version_compare(JVERSION, '3.0', '>=')): ?>
+					<div class="redShopLimitBox">
+						<?php echo $this->pagination->getLimitBox(); ?>
+					</div>
+				<?php endif; ?>
 				<?php echo $this->pagination->getListFooter(); ?>
 			</td>
 			</tfoot>

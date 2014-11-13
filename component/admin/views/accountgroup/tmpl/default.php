@@ -76,7 +76,13 @@ $option = JRequest::getVar('option', '', 'request', 'string');
 			$k = 1 - $k;
 		}?>
 		<tfoot>
-		<td colspan="12"><?php echo $this->pagination->getListFooter(); ?></td>
+		<td colspan="12">
+			<?php if (version_compare(JVERSION, '3.0', '>=')): ?>
+				<div class="redShopLimitBox">
+					<?php echo $this->pagination->getLimitBox(); ?>
+				</div>
+			<?php endif; ?>
+			<?php echo $this->pagination->getListFooter(); ?></td>
 		</tfoot>
 	</table>
 	<input type="hidden" name="view" value="accountgroup"/>

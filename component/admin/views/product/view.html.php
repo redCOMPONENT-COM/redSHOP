@@ -51,11 +51,9 @@ class RedshopViewProduct extends RedshopView
 
 		$uri      = JFactory::getURI();
 		$app      = JFactory::getApplication();
-		$document = JFactory::getDocument();
 
-		$document->setTitle(JText::_('COM_REDSHOP_PRODUCT'));
 		$layout = JRequest::getVar('layout');
-		JToolBarHelper::title(JText::_('COM_REDSHOP_PRODUCT_MANAGEMENT'), 'redshop_products48');
+		JToolBarHelper::title(JText::_('COM_REDSHOP_PRODUCT_MANAGEMENT'), 'stack redshop_products48');
 
 		if ($layout != 'importproduct' && $layout != 'importattribute' && $layout != 'listing' && $layout != 'ins_product')
 		{
