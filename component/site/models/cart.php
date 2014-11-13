@@ -136,12 +136,6 @@ class RedshopModelCart extends JModel
 			$db->setQuery($sql);
 			$deletedrs = $db->loadResultArray();
 
-			$sql = "SELECT product_id FROM " . $this->_table_prefix . "cart "
-				. "WHERE session_id = " . $db->quote($session_id) . " "
-				. "AND section='product' ";
-			$db->setQuery($sql);
-			$includedrs = $db->loadResultArray();
-
 			$cart = $session->get('cart');
 
 			if ($cart)
@@ -151,11 +145,6 @@ class RedshopModelCart extends JModel
 				for ($j = 0; $j < $idx; $j++)
 				{
 					if (count($deletedrs) > 0 && in_array($cart[$j]['product_id'], $deletedrs))
-					{
-						$this->delete($j);
-					}
-
-					if (count($includedrs) > 0 && !in_array($cart[$j]['product_id'], $includedrs))
 					{
 						$this->delete($j);
 					}
