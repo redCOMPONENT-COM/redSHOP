@@ -283,9 +283,18 @@ else
 			<?php
 			if ($showbuttons != 1)
 			{
-				echo '<tfoot>'
-				. '<td colspan="9">' . $this->pagination->getListFooter() . '</td>'
-				. '</tfoot>';
+			?>
+			<tfoot>
+				<td colspan="9">
+					<?php if (version_compare(JVERSION, '3.0', '>=')): ?>
+						<div class="redShopLimitBox">
+							<?php echo $this->pagination->getLimitBox(); ?>
+						</div>
+					<?php endif; ?>
+				 <?php echo $this->pagination->getListFooter(); ?>
+				</td>
+			</tfoot>
+			<?php
 			}
 			?>
 		</table>

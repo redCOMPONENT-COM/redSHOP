@@ -120,7 +120,13 @@ $model = $this->getModel('quotation');
 				<?php    $k = 1 - $k;
 			}    ?>
 			<tr>
-				<td colspan="8"><?php echo $this->pagination->getListFooter(); ?></td>
+				<td colspan="8">
+					<?php if (version_compare(JVERSION, '3.0', '>=')): ?>
+						<div class="redShopLimitBox">
+							<?php echo $this->pagination->getLimitBox(); ?>
+						</div>
+					<?php endif; ?>
+					<?php echo $this->pagination->getListFooter(); ?></td>
 		</table>
 	</div>
 

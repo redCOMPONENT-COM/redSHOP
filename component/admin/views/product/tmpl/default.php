@@ -88,9 +88,10 @@ $userId = (int) $user->id;
 		<td>
 			<form action="<?php echo 'index.php?option=com_redshop&view=product'; ?>" method="post" name="adminForm2"
 			      id="adminForm2">
-
-				<input type="text" name="keyword" value="<?php echo $this->keyword; ?>"> <input type="submit"
-				                                                                                value="<?php echo JText::_("COM_REDSHOP_SEARCH") ?>">
+				<div class="btn-wrapper input-append">
+					<input type="text" name="keyword" value="<?php echo $this->keyword; ?>">
+					<input type="submit" class="btn" value="<?php echo JText::_("COM_REDSHOP_SEARCH") ?>">
+				</div>
 				<select name="search_field" onchange="javascript:document.adminForm2.submit();">
 					<option
 						value="p.product_name" <?php if ($this->search_field == 'p.product_name') echo "selected='selected'";?>>
@@ -121,14 +122,14 @@ $userId = (int) $user->id;
 <form action="<?php echo 'index.php?option=' . $option; ?>" method="post" name="adminForm" id="adminForm">
 <div id="editcell">
 <input type="hidden" name="unpublished_data" value="">
-<table class="adminlist table">
+<table class="adminlist table table-striped">
 <thead>
 <tr>
 	<th width="5">
 		<?php echo JText::_('COM_REDSHOP_NUM'); ?>
 	</th>
 	<th width="20">
-		<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count($this->products); ?>);"/>
+		<?php echo JHtml::_('redshopgrid.checkall'); ?>
 	</th>
 	<th class="title">
 		<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_PRODUCT_NAME', 'p.product_name', $this->lists['order_Dir'], $this->lists['order']); ?>
@@ -346,7 +347,7 @@ for ($i = 0, $n = count($this->products); $i < $n; $i++)
 				<span><?php
 					echo $this->pagination->orderDownIcon($i, $n, ($row->category_id == @$this->products[$i + 1]->category_id), 'orderdown', JText::_('JLIB_HTML_MOVE_DOWN'), $ordering); ?></span>
 				<input type="text" name="order[]" size="5" <?php echo $disabled; ?>
-				       value="<?php echo $row->ordering; ?>" class="text_area" style="text-align: center"/>
+				       value="<?php echo $row->ordering; ?>" class="text_area input-small" style="text-align: center"/>
 				</td>
 		<?php } ?>
 	</tr>
@@ -357,6 +358,11 @@ for ($i = 0, $n = count($this->products); $i < $n; $i++)
 
 <tfoot>
 <td colspan="14">
+	<?php if (version_compare(JVERSION, '3.0', '>=')): ?>
+		<div class="redShopLimitBox">
+			<?php echo $this->pagination->getLimitBox(); ?>
+		</div>
+	<?php endif; ?>
 	<?php echo $this->pagination->getListFooter(); ?>
 </td>
 </tfoot>

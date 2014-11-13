@@ -87,7 +87,13 @@ $showbuttons = JRequest::getVar('showbuttons', '', 'request', 0);    ?>
 			<?php if ($showbuttons != 1)
 			{ ?>
 				<tfoot>
-				<td colspan="8"><?php echo $this->pagination->getListFooter(); ?></td>
+				<td colspan="8">
+					<?php if (version_compare(JVERSION, '3.0', '>=')): ?>
+						<div class="redShopLimitBox">
+							<?php echo $this->pagination->getLimitBox(); ?>
+						</div>
+					<?php endif; ?>
+					<?php echo $this->pagination->getListFooter(); ?></td>
 				</tfoot>
 			<?php } ?>
 		</table>
