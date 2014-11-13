@@ -86,8 +86,7 @@ $ordering = ($this->lists['order'] == 'ordering');
 
 				$paymentxml = $adminpath . '/' . $row->folder . '/' . $row->element . '.xml';
 
-				$xml = JFactory::getXMLParser('Simple');
-				$xml->loadFile($paymentxml);
+				$xml = JFactory::getXML($paymentxml);
 
 				?>
 				<tr class="<?php echo "row$k"; ?>">
