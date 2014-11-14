@@ -45,16 +45,6 @@ defined('_JEXEC') or die;
 	<tr>
 		<td class="key">
 			<span class="editlinktip hasTip"
-			      title="<?php echo JText::_('COM_REDSHOP_POST_DK_DEVELOPER_ID_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_POST_DK_DEVELOPER_ID_LBL'); ?>">
-				<?php echo JText::_('COM_REDSHOP_POST_DK_DEVELOPER_ID_LBL');?>
-			</span>
-		</td>
-		<td><input type="text" name="postdk_developer_id" id="postdk_developer_id"
-		           value="<?php echo POSTDK_DEVELOPER_ID; ?>"></td>
-	</tr>
-	<tr>
-		<td class="key">
-			<span class="editlinktip hasTip"
 			      title="<?php echo JText::_('COM_REDSHOP_POSTDANMARK_ADDRESS_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_POSTDANMARK_ADDRESS_LBL'); ?>">
 				<?php echo JText::_('COM_REDSHOP_POSTDANMARK_ADDRESS_LBL');?>
 			</span>
