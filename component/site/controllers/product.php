@@ -787,24 +787,119 @@ class RedshopControllerProduct extends RedshopController
 	 */
 	public function ajaxupload()
 	{
-		$uploadDir = JPATH_COMPONENT_SITE . '/assets/document/product/';
-		$name = JRequest::getVar('mname');
-		$destFileName = RedShopHelperImages::cleanFileName($_FILES[$name]['name']);
+		$app = JFactory::getApplication();
 
-		$uploadFile = $uploadDir . $destFileName;
+		$uploadDir  = JPATH_COMPONENT_SITE . '/assets/document/product/';
+		$productId = $app->input->getInt('product_id', 0);
+		$name       = $app->input->getCmd('mname', '') . '_' . $productId;
 
-		if (move_uploaded_file($_FILES[$name]['tmp_name'], $uploadFile))
+		if ($uploadFileData = $app->input->files->get($name))
 		{
-			echo $destFileName;
+			$fileExtension = JFile::getExt($uploadFileData['name']);
+			$fileName = RedShopHelperImages::cleanFileName($uploadFileData['name']);
+
+			$uploadFilePath = JPath::clean($uploadDir . $fileName);
+
+			$legalExts = explode(',', MEDIA_ALLOWED_MIME_TYPE);
+
+			// If Extension is not legal than don't upload file
+			if (!in_array(strtolower($fileExtension), $legalExts))
+			{
+				echo JText::_('COM_REDSHOP_FILE_EXTENSION_NOT_ALLOWED');
+
+				$app->close();
+			}
+
+			if (JFile::move($uploadFileData['tmp_name'], $uploadFilePath))
+			{
+				$id                     = JFile::stripExt(JFile::getName($fileName));
+				$sendData               = array();
+				$sendData['id']         = $id;
+				$sendData['product_id'] = $productId;
+				$sendData['uniqueOl']   = $app->input->getString('uniqueOl', '');
+				$sendData['fieldName']  = $app->input->getString('fieldName', '');
+				$sendData['ajaxFlag']   = $app->input->getString('ajaxFlag', '');
+				$sendData['fileName']   = $fileName;
+				$sendData['action']     = JURI::root() . 'index.php?tmpl=component&option=com_redshop&view=product&task=removeAjaxUpload';
+				$session = JFactory::getSession();
+				$userDocuments = $session->get('userDocument', array());
+
+				if (!isset($userDocuments[$productId]))
+				{
+					$userDocuments[$productId] = array();
+				}
+
+				$userDocuments[$productId][$id] = $sendData;
+				$session->set('userDocument', $userDocuments);
+
+				echo "<li id='uploadNameSpan" . $id . "' name='" . $fileName . "'>"
+						. "<span>" . $fileName . "</span>"
+						. "<a href='javascript:removeAjaxUpload(" . json_encode($sendData) . ");'>&nbsp;" . JText::_('COM_REDSHOP_DELETE') . "</a>"
+					. "</li>";
+			}
+			else
+			{
+				// WARNING! DO NOT USE "FALSE" STRING AS A RESPONSE!
+				// Otherwise onSubmit event will not be fired
+				echo "error";
+			}
 		}
 		else
 		{
-			// WARNING! DO NOT USE "FALSE" STRING AS A RESPONSE!
-			// Otherwise onSubmit event will not be fired
-			echo "error";
+			echo JText::_('COM_REDSHOP_NO_FILE_SELECTED');
 		}
 
-		exit;
+		$app->close();
+	}
+
+	/**
+	 * Function to remove Extra Field AJAX upload data
+	 *
+	 * @return  void
+	 */
+	public function removeAjaxUpload()
+	{
+		$app = JFactory::getApplication();
+		$id = $app->input->getString('id', '');
+		$productId = $app->input->getInt('product_id', 0);
+		$session = JFactory::getSession();
+		$userDocuments = $session->get('userDocument', array());
+		$deleteFile = true;
+
+		if (isset($userDocuments[$productId]) && array_key_exists($id, $userDocuments[$productId]))
+		{
+			if ($cart = $session->get('cart'))
+			{
+				for ($i = 0; $i < $cart['idx']; $i++)
+				{
+					$fieldName = $userDocuments[$productId][$id]['fieldName'];
+					$fileName = $userDocuments[$productId][$id]['fileName'];
+
+					if (isset($cart[$i][$fieldName]))
+					{
+						$documents = explode(',', $cart[$i][$fieldName]);
+
+						// File exists in cart, not delete then
+						if (in_array($fileName, $documents))
+						{
+							$deleteFile = false;
+							break;
+						}
+					}
+				}
+			}
+
+			$filePath = JPATH_SITE . '/components/com_redshop/assets/document/product/' . $userDocuments[$productId][$id]['fileName'];
+			unset($userDocuments[$productId][$id]);
+			$session->set('userDocument', $userDocuments);
+
+			if ($deleteFile && is_file($filePath))
+			{
+				unlink($filePath);
+			}
+		}
+
+		$app->close();
 	}
 
 	/**

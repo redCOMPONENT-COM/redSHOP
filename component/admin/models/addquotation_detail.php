@@ -594,12 +594,23 @@ class RedshopModelAddquotation_detail extends RedshopModel
 
 			$new_subproperty = array_merge($tmp_array, $subproperty);
 			$chklist = "";
+			$display_type = 'radio';
 
-			if ($attributes->allow_multiple_selection)
+			if (isset($subproperty[0]->setdisplay_type))
+			{
+				$display_type = $subproperty[0]->setdisplay_type;
+			}
+
+			if ($subproperty[0]->setmulti_selected)
+			{
+				$display_type = 'checkbox';
+			}
+
+			if ($display_type == 'checkbox' || $display_type == 'radio')
 			{
 				for ($chk = 0; $chk < count($subproperty); $chk++)
 				{
-					$chklist .= "<br /><input type='checkbox' value='" . $subproperty[$chk]->value
+					$chklist .= "<br /><input type='" . $display_type . "' value='" . $subproperty[$chk]->value
 						. "' name='" . $subpropertyid . "[]'  id='" . $subpropertyid
 						. "' class='inputbox' onchange='javascript:calculateOfflineTotalPrice(\""
 						. $uniqueid . "\");' />&nbsp;" . $subproperty[$chk]->text;
