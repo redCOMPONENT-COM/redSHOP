@@ -38,5 +38,5 @@ modules:
             site_name: 'Joomla'                    # Name of the Site
             admin_email: 'admin@mydomain.com'      # email Id of the Admin
             language: 'English (United Kingdom)'   # Language in which you want the Application to be Installed
-            folder: '/home/travis/build/redCOMPONENT-COM/redSHOP/' # Path to the Extension to be installed via Install from folder
+            folder: $TRAVIS_BUILD_DIR              # Path to the Extension to be installed via Install from folder
             host: 'http://localhost/joomla-cms'    # Host Path for Joomla-CMS
