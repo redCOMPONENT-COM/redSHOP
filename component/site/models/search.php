@@ -291,7 +291,7 @@ class RedshopModelSearch extends RedshopModel
 		$user = JFactory::getUser();
 		$productHelper   = new producthelper;
 		$redconfig  = $app->getParams();
-		$getorderby = urldecode(JRequest::getCmd('order_by', ''));
+		$getorderby = urldecode($app->input->getString('order_by', ''));
 
 		if (in_array($getorderby, $this->filter_fields))
 		{

@@ -154,7 +154,6 @@ class RedshopViewConfiguration extends RedshopView
 		defined('AJAX_BOX_HEIGHT') ? AJAX_BOX_HEIGHT : define('AJAX_BOX_HEIGHT', '150');
 		defined('GENERATE_LABEL_ON_STATUS') ? GENERATE_LABEL_ON_STATUS : define('GENERATE_LABEL_ON_STATUS', 'S');
 		defined('AUTO_GENERATE_LABEL') ? AUTO_GENERATE_LABEL : define('AUTO_GENERATE_LABEL', 1);
-		defined('POSTDK_DEVELOPER_ID') ? POSTDK_DEVELOPER_ID : define('POSTDK_DEVELOPER_ID', '');
 
 		$q = "SELECT  country_3_code as value,country_name as text,country_jtext from #__redshop_country ORDER BY country_name ASC";
 		$db->setQuery($q);

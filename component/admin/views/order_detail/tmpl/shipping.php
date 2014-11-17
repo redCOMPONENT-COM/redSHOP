@@ -132,7 +132,7 @@ JLoader::load('RedshopHelperAdminExtra_field');
 						<?php echo $this->lists['country_code'];?>
 					</td>
 				</tr>
-				<tr <?php if ($this->showcountry == 0) echo " style='display:none;'";?> >
+				<tr id="div_state_txt" <?php if ($this->showstate == 0) echo " style='display:none;'";?> >
 					<td width="100" align="right" class="key">
 						<label for="address">
 							<?php echo JText::_('COM_REDSHOP_STATE'); ?>:

@@ -24,4 +24,3 @@ $I->searchCountry($updatedRandomCountryName);
 $I->deleteCountry($updatedRandomCountryName);
 $I->searchCountry($updatedRandomCountryName, 'Delete');
 
-
