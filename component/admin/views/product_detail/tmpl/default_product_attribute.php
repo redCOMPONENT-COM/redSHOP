@@ -740,11 +740,11 @@ JHtmlBehavior::modal();
 																										$selected_1 = '';
 																										$selected_2 = '';
 
-																										if ($display_type == "dropdown")
+																										if ($property->setdisplay_type == "dropdown")
 																										{
 																											$selected_1 = 'selected';
 																										}
-																										elseif ($display_type == "radio")
+																										elseif ($property->setdisplay_type == "radio")
 																										{
 																											$selected_2 = 'selected';
 																										}
