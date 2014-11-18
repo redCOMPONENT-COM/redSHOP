@@ -8,6 +8,7 @@
     <authorUrl>http://www.redcomponent.com</authorUrl>
     <copyright>redCOMPONENT.com</copyright>
     <license>GNU General Public License v2</license>
+    <description>PLG_REDSHOP_SHIPPING_UPS_CANADA_DESC</description>
     <shipping_class>ups_canada</shipping_class>
     <shipping_method_code>ups_canada</shipping_method_code>
     <files>
