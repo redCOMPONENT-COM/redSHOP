@@ -293,6 +293,9 @@ class RedshopControllerOrder_detail extends JController
 
 		if (is_bool($result) && $result)
 		{
+			// Set success message for product line
+			$app->enqueueMessage($row['order_item_name'] . ": " . JText::_("COM_REDSHOP_PRODUCT_ADDED_TO_CART"));
+
 			if ($redirect)
 			{
 				// Do final cart calculations
