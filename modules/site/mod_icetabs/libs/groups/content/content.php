@@ -206,7 +206,7 @@ if (!class_exists('LofSliderGroupContent'))
 			$extraURL       = $params->get('open_target') != 'modalbox' ? '' : '&tmpl=component';
 			$db             = JFactory::getDbo();
 			$date           = JFactory::getDate();
-			$now            = $date->toMySQL();
+			$now            = $date->toSql();
 			$cparam         = JComponentHelper::getParams('com_content');
 			// make sql query
 			$query = 'SELECT a.*,cc.description as catdesc, cc.title as category_title, cc.title as cattitle,s.description as secdesc, s.title as sectitle,'

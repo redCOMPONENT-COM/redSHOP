@@ -1203,74 +1203,129 @@ class RedshopModelExport extends JModel
 	private function loadUsers()
 	{
 		$db = JFactory::getDbo();
-		$query = "SELECT ui.`users_info_id` , sg.shopper_group_name, IFNULL( u.id, ui.user_id ) as id ,
-		IFNULL( u.email, ui.user_email ) as email , u.username,u.name, u.password, u.usertype, u.block, u.sendEmail, ui.company_name,
-		ui.firstname, ui.lastname, ui.vat_number, ui.tax_exempt, ui.shopper_group_id, ui.country_code, ui.address, ui.city,
-		ui.state_code, ui.zipcode, ui.tax_exempt_approved, ui.approved, ui.is_company, ui.phone
-			FROM (
-			`#__redshop_users_info` AS ui
-			LEFT JOIN #__users AS u ON u.id = ui.user_id
-			)
-			LEFT JOIN #__redshop_shopper_group AS sg ON sg.`shopper_group_id` = ui.`shopper_group_id`
-			WHERE ui.`address_type` = 'BT'";
+		$query = $db->getQuery(true);
 
+		// Create the base select statement.
+		$query->select(
+				array(
+					$db->qn('ui.users_info_id'),
+					$db->qn('sg.shopper_group_name'),
+					'IFNULL( u.id,ui.user_id) as id',
+					'IFNULL( u.email,ui.user_email) as email',
+					$db->qn('u.username'),
+					$db->qn('u.name'),
+					'"" as password',
+					'"" as usertype',
+					$db->qn('u.block'),
+					$db->qn('u.sendEmail'),
+					$db->qn('ui.company_name'),
+					$db->qn('ui.firstname'),
+					$db->qn('ui.lastname'),
+					$db->qn('ui.vat_number'),
+					$db->qn('ui.tax_exempt'),
+					$db->qn('ui.shopper_group_id'),
+					$db->qn('ui.country_code'),
+					$db->qn('ui.address'),
+					$db->qn('ui.city'),
+					$db->qn('ui.state_code'),
+					$db->qn('ui.zipcode'),
+					$db->qn('ui.tax_exempt_approved'),
+					$db->qn('ui.approved'),
+					$db->qn('ui.is_company'),
+					$db->qn('ui.phone')
+				)
+			)
+			->from($db->qn('#__redshop_users_info', 'ui'))
+			->where($db->qn('ui.address_type') . ' = ' . $db->q('BT'))
+			->leftjoin(
+				$db->qn('#__users', 'u') . ' ON ' . $db->qn('u.id') . ' = ' . $db->qn('ui.user_id')
+			)
+			->leftjoin(
+				$db->qn('#__redshop_shopper_group', 'sg') . ' ON ' . $db->qn('sg.shopper_group_id') . ' = ' . $db->qn('ui.shopper_group_id')
+			);
+
+		// Set the query and load the result.
 		$db->setQuery($query);
 
-		if (!($cur = $db->LoadObjectList()))
+		try
 		{
-			return null;
+			$usersInfo = $db->loadObjectList('id');
+		}
+		catch (RuntimeException $e)
+		{
+			throw new RuntimeException($e->getMessage(), $e->getCode());
 		}
 
-		$ret = null;
-		$i = 0;
+		$groupIds = $this->getJGroupIds(array_keys($usersInfo));
 
-		if (count($cur) > 0)
+		if (count($usersInfo) > 0)
 		{
-			for ($u = 0; $u < count($cur); $u++)
+			// Start the ouput
+			$output = fopen('php://output', 'w');
+
+			$i = 0;
+
+			$headings = array();
+
+			// Then loop through the rows
+			foreach($usersInfo as $userId => $user)
 			{
-				$row = $cur[$u];
-				$row = (array) $row;
-				$fields = count($row);
+				$user = (array) $user;
+				$user['usertype'] = implode(',', $groupIds[$userId]);
 
 				if ($i == 0)
 				{
-					foreach ($row as $id => $value)
-					{
-						echo '"' . str_replace('"', '""', $id) . '"';
+					$headings = array_keys($user);
 
-						if ($i < ($fields - 1))
-						{
-							echo ',';
-						}
-
-						$i++;
-					}
-
-					echo "\r\n";
+					// Create the headers
+					fputcsv($output, $headings, ',', '"');
 				}
 
-				$i = 0;
+				// Add the rows to the body
+				fputcsv($output, $user);
 
-				foreach ($row as $id => $value)
-				{
-					echo '"' . str_replace('"', '""', $value) . '"';
-
-					if ($i < ($fields - 1))
-					{
-						echo ',';
-					}
-
-					$i++;
-				}
-
-				echo "\r\n";
+				$i++;
 			}
 
-			if (is_resource($cur))
+			JFactory::getApplication()->close();
+		}
+	}
+
+	/**
+	 * Get Joomla User and Group relation
+	 *
+	 * @param   array  $userIds  Joomla Userids
+	 *
+	 * @return  array  UserId index array for group ids
+	 */
+	private function getJGroupIds($userIds)
+	{
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->select('*')
+			->from($db->qn('#__user_usergroup_map'))
+			->where($db->qn('user_id') . ' IN (' . implode(',', $userIds) . ')');
+
+		// Set the query and load the result.
+		$db->setQuery($query);
+
+		try
+		{
+			$result   = $db->loadObjectList();
+			$groupIds = array();
+
+			// Arrange groupids in user id collection
+			foreach ($result as $value)
 			{
-				mysql_free_result($cur);
+				$groupIds[$value->user_id][] = $value->group_id;
 			}
 		}
+		catch (RuntimeException $e)
+		{
+			throw new RuntimeException($e->getMessage(), $e->getCode());
+		}
+
+		return $groupIds;
 	}
 
 	/**
