@@ -182,14 +182,16 @@ class RedshopModelState_detail extends JModel
 	 * Method to checkin/unlock the state_detail
 	 *
 	 * @access    public
+	 *
 	 * @return    boolean    True on success
+	 *
 	 * @since    1.5
 	 */
 	public function checkin()
 	{
 		if ($this->_id)
 		{
-			$state_detail = & $this->getTable('state_detail');
+			$state_detail = $this->getTable('state_detail');
 
 			if (!$state_detail->checkin($this->_id))
 			{
