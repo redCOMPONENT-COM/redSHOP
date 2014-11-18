@@ -31,6 +31,9 @@ class PlgRedshop_ProductMergeImage extends JPlugin
 	 */
 	public function onBeforeImageLoad($productArr, &$arrReturn)
 	{
+		// Load plugin language file
+		$this->loadLanguage();
+
 		$producthelper         = new producthelper;
 
 		$product_id            = $productArr['product_id'];
@@ -109,12 +112,20 @@ class PlgRedshop_ProductMergeImage extends JPlugin
 	 *
 	 * @return  string   Merged Image name
 	 */
-	function mergeImage($arrImage=array(), $main_imgwidth, $main_imgheight, $newImagename)
+	public function mergeImage($arrImage=array(), $main_imgwidth, $main_imgheight, $newImagename)
 	{
 		$url             = JURI::root();
-
 		$DestinationFile = JPATH_BASE . '/components/com_redshop/assets/images/mergeImages/' . $newImagename;
 		$productImage    = JPATH_BASE . '/components/com_redshop/assets/images/product/' . $arrImage['product'][0];
+
+		// Only support png files for merge
+		if ('png' != JFile::getExt($productImage))
+		{
+			JFactory::getApplication()->enqueueMessage(JText::_('PLG_REDSHOP_PRODUCT_MERGEIMAGE_INVALID_EXTENSION'), 'error');
+
+			return;
+		}
+
 		$final_img       = imagecreatefrompng($productImage);
 
 		$arrproperty    = array();
