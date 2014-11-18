@@ -28,9 +28,9 @@ class PlgRedshop_ProductMergeImage extends JPlugin
 	 *
 	 * @return  array  Product Image Merge information
 	 */
-	function onBeforeImageLoad($productArr)
+	public function onBeforeImageLoad($productArr, &$arrReturn)
 	{
-		$producthelper 	= new producthelper;
+		$producthelper         = new producthelper;
 
 		$product_id            = $productArr['product_id'];
 		$main_imgwidth         = $productArr['main_imgwidth'];
@@ -45,6 +45,7 @@ class PlgRedshop_ProductMergeImage extends JPlugin
 		$arrproperty_id        = explode('##', $property_data);
 		$arrsubproperty_id     = explode('##', $subproperty_data);
 		$arrId[]               = $product_id;
+		$imageTitle            = '';
 
 		for ($i = 0;$i < count($arrproperty_id); $i++)
 		{
@@ -56,7 +57,11 @@ class PlgRedshop_ProductMergeImage extends JPlugin
 				{
 					$pr_number           = $Arrresult['pr_number'];
 					$aTitleImageResponse = $Arrresult['aTitleImageResponse'];
-					$imageTitle          = $Arrresult['imageTitle'];
+
+					if (isset($Arrresult['imageTitle']))
+					{
+						$imageTitle          = $Arrresult['imageTitle'];
+					}
 				}
 
 				$arrImage['property'][] = $Arrresult['imagename'];
@@ -110,8 +115,19 @@ class PlgRedshop_ProductMergeImage extends JPlugin
 		$DestinationFile = JPATH_BASE . '/components/com_redshop/assets/images/mergeImages/' . $newImagename;
 		$productImage    = JPATH_BASE . '/components/com_redshop/assets/images/product/' . $arrImage['product'][0];
 		$final_img       = imagecreatefrompng($productImage);
-		$arrproperty     = $arrImage['property'];
-		$arrsubproperty  = $arrImage['subproperty'];
+
+		$arrproperty    = array();
+		$arrsubproperty = array();
+
+		if (isset($arrImage['property']))
+		{
+			$arrproperty     = $arrImage['property'];
+		}
+
+		if (isset($arrImage['subproperty']))
+		{
+			$arrsubproperty  = $arrImage['subproperty'];
+		}
 
 		for ($i = 0; $i < count($arrproperty); $i++)
 		{
