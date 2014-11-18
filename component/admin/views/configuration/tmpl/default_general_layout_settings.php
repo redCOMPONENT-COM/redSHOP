@@ -77,6 +77,16 @@ $url = $uri->root();
 	<tr>
 		<td width="100" align="right" class="key">
 		<span class="editlinktip hasTip"
+		      title="<?php echo JText::_('COM_REDSHOP_DEFAULT_ALLOWED_EXTENSION_TYPE_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_DEFAULT_ALLOWED_EXTENSION_TYPE_TOOLTIP'); ?>">
+		<label for="name"><?php echo JText::_('COM_REDSHOP_DEFAULT_ALLOWED_EXTENSION_TYPE_LBL');?></label></span>
+		</td>
+		<td>
+			<textarea name="media_allowed_mime_type" cols="5" rows="5"><?php echo MEDIA_ALLOWED_MIME_TYPE; ?></textarea>
+		</td>
+	</tr>
+	<tr>
+		<td width="100" align="right" class="key">
+		<span class="editlinktip hasTip"
 		      title="<?php echo JText::_('COM_REDSHOP_DEFAULT_IMAGE_QUALITY_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_TOOLTIP_IMAGE_QUALITY_LBL'); ?>">
 		<label for="name"><?php echo JText::_('COM_REDSHOP_IMAGE_QUALITY_LBL');?></label></span>
 		</td>

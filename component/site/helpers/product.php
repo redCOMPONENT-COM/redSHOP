@@ -3804,7 +3804,7 @@ class producthelper
 		}
 
 		$query = "SELECT sp.subattribute_color_id AS value, sp.subattribute_color_name AS text"
-			. ",sp.*,p.property_name,p.setrequire_selected,p.setmulti_selected FROM " . $this->_table_prefix
+			. ",sp.*,p.property_name,p.setrequire_selected,p.setmulti_selected,p.setdisplay_type FROM " . $this->_table_prefix
 			. "product_subattribute_color AS sp "
 			. "LEFT JOIN " . $this->_table_prefix . "product_attribute_property AS p ON p.property_id=sp.subattribute_id "
 			. "WHERE sp.subattribute_published = 1 "
@@ -5949,11 +5949,11 @@ class producthelper
 
 				$new_subproperty = array_merge($tmp_array, $subproperty);
 				$chklist         = '';
-				$display_type	 = '';
+				$display_type = 'radio';
 
-				if (isset($subproperty[0]->setdisplay_type) === true)
+				if (isset($subproperty[0]->setdisplay_type))
 				{
-					$display_type    = $subproperty[0]->setdisplay_type;
+					$display_type = $subproperty[0]->setdisplay_type;
 				}
 
 				if ($subproperty[0]->setmulti_selected)
