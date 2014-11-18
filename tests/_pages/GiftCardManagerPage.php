@@ -16,4 +16,18 @@
 class GiftCardManagerPage
 {
 	public static $URL = '/administrator/index.php?option=com_redshop&view=giftcard';
+
+	public static $giftCardName = "//input[@id='giftcard_name']";
+
+	public static $giftCardPrice = "//input[@id='giftcard_price']";
+
+	public static $giftCardValue = "//input[@id='giftcard_value']";
+
+	public static $giftCardValidity = "//input[@id='giftcard_validity']";
+
+	public static $giftCardResultRow = "//div[@id='editcell']/table/tbody/tr[1]";
+
+	public static $firstResult = "//input[@id='cb0']";
+
+	public static $giftCardState = "//div[@id='editcell']/table/tbody/tr[1]//td[9]//a";
 }
