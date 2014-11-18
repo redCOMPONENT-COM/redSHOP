@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="2.5" client="site" type="plugin" group="redshop_shipping" method="upgrade">
+    <name>PLG_REDSHOP_SHIPPING_DEFAULT_SHIPPING_GLS</name>
+    <version>1.2</version>
+    <creationDate>April 2013</creationDate>
+    <author>redCOMPONENT.com</author>
+    <copyright>redCOMPONENT.com</copyright>
+    <license>http://www.gnu.org/licenses/gpl-2.0.html GNU/GPL</license>
+    <description>PLG_REDSHOP_SHIPPING_DEFAULT_SHIPPING_GLS_DESC</description>
+    <files>
+        <filename plugin="default_shipping_gls">default_shipping_gls.php</filename>
+    </files>
+    <config addfieldpath="/administrator/components/com_redshop/elements">
+        <fields name="params">
+            <fieldset name="basic">
+                <field name="is_shipper" type="hidden" default="1" value="1"/>
+                <field name="extrafield_shipping" type="extrafieldshipping" label="Select Extra Field"
+                       description="Displays on checkout"/>
+            </fieldset>
+        </fields>
+    </config>
+</extension>
