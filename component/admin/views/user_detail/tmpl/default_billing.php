@@ -58,13 +58,13 @@ $statestyle = (isset($this->showstates) && $this->showstates == 0) ? ' style="di
 			</td>
 		</tr>
 		<tr <?php echo $countrystyle;?>>
-			<td valign="top" align="right" class="key"><?php echo JText::_('COM_REDSHOP_Country'); ?>:</td>
+			<td valign="top" align="right" class="key"><?php echo JText::_('COM_REDSHOP_COUNTRY'); ?>:</td>
 			<td><?php echo $this->lists['country_code'];?>
 				<?php echo JHTML::tooltip(JText::_('COM_REDSHOP_TOOLTIP_COUNTRY'), JText::_('COM_REDSHOP_Country'), 'tooltip.png', '', '', false); ?></td>
 		</tr>
 		<tr <?php echo $countrystyle;?>>
 			<td valign="top" align="right" class="key">
-				<div id="div_state_lbl" <?php echo $statestyle;?>><?php echo JText::_('COM_REDSHOP_State'); ?>:</div>
+				<div id="div_state_lbl" <?php echo $statestyle;?>><?php echo JText::_('COM_REDSHOP_STATE'); ?>:</div>
 			</td>
 			<td>
 				<div id="div_state_txt" <?php echo $statestyle;?>><?php echo $this->lists['state_code'];?>
