@@ -25,6 +25,7 @@ class PlgRedshop_ProductMergeImage extends JPlugin
 	 * Method will trigger Before redSHOP Image load
 	 *
 	 * @param   array  $productArr  Product Image information
+	 * @param   array  &$arrReturn  Returning information array
 	 *
 	 * @return  array  Product Image Merge information
 	 */
