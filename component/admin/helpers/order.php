@@ -172,6 +172,7 @@ class order_functions
 
 	public function generateParcel($order_id, $specifiedSendDate)
 	{
+		$db                        = JFactory::getDbo();
 		$order_details             = $this->getOrderDetails($order_id);
 		$producthelper             = new producthelper;
 		$orderproducts             = $this->getOrderItemDetail($order_id);
@@ -337,36 +338,48 @@ class order_functions
 					. "&pin=" . POSTDK_CUSTOMER_PASSWORD
 					. "&developerid=000000075"
 					. "&type=xml";
-		$ch = curl_init();
-		curl_setopt($ch, CURLOPT_URL, $postURL);
-		curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: text/xml'));
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($ch, CURLOPT_POST, true);
-		curl_setopt($ch, CURLOPT_VERBOSE, true);
-		curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-		curl_setopt($ch, CURLOPT_POSTFIELDS, $xmlnew);
-		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-		$response = curl_exec($ch);
-		$error = curl_error($ch);
-		curl_close($ch);
-
-		$oXML = JFactory::getXMLParser('Simple');
-		$oXML->loadString($response, false, true);
-
-		if ($oXML->document->_children[1]->_data == "201" && $oXML->document->_children[2]->_data == "Created")
+		try
 		{
-			$query = 'UPDATE ' . $this->_table_prefix . 'orders SET `order_label_create` = 1 WHERE order_id = ' . (int) $order_id;
-			$this->_db->setQuery($query);
-			$this->_db->query();
-
-			return "success";
-		}
-		else
-		{
-			JError::raiseWarning(
-				21,
-				$oXML->document->_children[1]->_data . "-" . $oXML->document->_children[2]->_data
+			// Set up Curl Headers
+			$headers = array(
+				'Content-Type' => 'text/xml'
 			);
+
+			$curl     = new JHttpTransportCurl(new JRegistry);
+			$response = $curl->request(
+							'POST',
+							JUri::getInstance($postURL),
+							$xmlnew,
+							$headers
+						);
+
+			$xmlResponse = JFactory::getXML($response->body, false)->val;
+
+			if ('201' == $xmlResponse[1] && 'Created' == $xmlResponse[2])
+			{
+				// Update current order success entry.
+				$query = $db->getQuery(true)
+							->update($db->qn('#__redshop_orders'))
+							->set($db->qn('order_label_create') . ' = 1')
+							->where($db->qn('order_id') . ' = ' . (int) $order_id);
+
+				// Set the query and execute the update.
+				$db->setQuery($query);
+				$db->execute();
+
+				return "success";
+			}
+			else
+			{
+				JError::raiseWarning(
+					21,
+					$xmlResponse[1] . "-" . $xmlResponse[2] . "-" . $xmlResponse[0]
+				);
+			}
+		}
+		catch (Exception $e)
+		{
+			JError::raiseWarning(21, $e->getMessage());
 		}
 	}
 
