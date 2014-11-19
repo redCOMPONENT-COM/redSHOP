@@ -6,7 +6,6 @@
 <!--    Change the following variables in build.properties file          -->
 <!--            (copy variables from build.properties.dist )             -->
 <!--    - change the version in variable comp.version                    -->
-<!--    - change the source folder path in variable repo.dir             -->
 <!--    - change the package folder path in variable package.dir         -->
 <!--    - execute this PHING build file                                  -->
 <!-- ==================================================================  -->
@@ -27,7 +26,7 @@
     <!-- Folder where the redSHOP repository is located  -->
     <property
             name="extpath"
-            value="${repo.dir}"
+            value="${project.basedir}"
             override="true" />
 
     <!-- Target dir where packages will be created  -->
@@ -47,8 +46,9 @@
     <!-- ============================================  -->
     <target name="prepare">
         <!-- Check if the target folder exists. If not, create it -->
+        <available file="${targetdir}" type="dir" property="target_dir_exist" value="true" />
         <if>
-            <available file="${targetdir}" type="dir" />
+            <equals arg1="${target_dir_exist}" arg2="true" />
             <then>
                 <echo msg="Removing old ${targetdir}" />
                 <delete dir="${targetdir}" />
