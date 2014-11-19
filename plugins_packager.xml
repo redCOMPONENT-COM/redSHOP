@@ -71,13 +71,16 @@
         <mkdir dir="${targetdir}/${group_name}/${plugin_name}" />
 
         <zip
-                destfile="${targetdir}/${group_name}/${plugin_name}/${plugin_name}_${version}_j${joomla_version}.zip"
+                destfile="${targetdir}/${group_name}/${plugin_name}_${version}_j${joomla_version}.zip"
                 basedir="${extpath}/${group_name}/${plugin_name}">
             <fileset dir="${extpath}/${group_name}/${plugin_name}">
                 <include name="**" />
                 <exclude name=".*" />
             </fileset>
         </zip>
+
+        <!-- Remove temp source directory after creating zip -->
+        <delete dir="${targetdir}/${group_name}/${plugin_name}" />
     </target>
 
 </project>
