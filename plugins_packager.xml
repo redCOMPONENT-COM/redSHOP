@@ -25,7 +25,7 @@
 	<!-- Folder where the redSHOP repository PLUGINS are located  -->
 	<property
 			name="extpath"
-			value="${repo.dir}/plugins"
+			value="${project.basedir}/plugins"
 			override="true" />
 
 	<!-- Target dir where module packages will be created  -->
