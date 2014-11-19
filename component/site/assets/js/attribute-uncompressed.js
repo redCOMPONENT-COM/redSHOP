@@ -1,3 +1,5 @@
+var redSHOP = {};
+
 // open modal box
 window.addEvent('domready', function () {
 
@@ -781,130 +783,124 @@ function collectAttributes(product_id, accessory_id, relatedprd_id)
     }
 }
 
-/*
-//Arguments
- stockAmount= normal stock amount
- commonstockid = Id
- preorder  = Preorder is Enable or not
- preorder_stock = prorder stock amount
+/**
+ * Function to update Stock Status on view
+ *
+ * @param   {string}  stockStatus    Stock Status: 'instock' or 'outofstock' or 'preorder'
+ * @param   {string}  commonstockid  Common id for element
+ *
+ * @return  {void}
  */
-function checkProductStockRoom(stockAmount, commonstockid, preorder, preorder_stock)
-{
-    var isStock = true;
+redSHOP.updateStockStatusMessage = function(stockStatus, commonstockid){
+
+    var showAddToCart     = 'block',
+        showOutOfStock    = 'block',
+        showPreOrder      = 'block',
+        showStockQuantity = 'block',
+        statusMessage     = '';
+
+    if ('instock' == stockStatus)
+    {
+        showAddToCart     = 'block';
+        showStockQuantity = 'block';
+        showOutOfStock    = 'none';
+        showPreOrder      = 'none';
+        statusMessage     = COM_REDSHOP_AVAILABLE_STOCK;
+    }
+    // When status is outofstock and preorder
+    else
+    {
+        showAddToCart     = 'none';
+        showStockQuantity = 'none';
+
+        if ('preorder' == stockStatus)
+        {
+            showOutOfStock = 'none';
+            showPreOrder   = 'block';
+            statusMessage  = COM_REDSHOP_PREORDER_PRODUCT_OUTOFSTOCK_MESSAGE;
+        }
+        // When outofstock
+        else
+        {
+            showOutOfStock = 'block';
+            showPreOrder   = 'none';
+            statusMessage  = COM_REDSHOP_PRODUCT_OUTOFSTOCK_MESSAGE;
+        }
+    }
+
+    // Add to cart Button for instock
+    if (document.getElementById('pdaddtocart' + commonstockid)) {
+        document.getElementById('pdaddtocart' + commonstockid).style.display = showAddToCart;
+    }
+
+    // Out Of Stock enable / disable
+    if (document.getElementById('stockaddtocart' + commonstockid)) {
+        document.getElementById('stockaddtocart' + commonstockid).style.display = showOutOfStock;
+    }
+
+    // Out Of Stock text handle
+    if (document.getElementById('stockaddtocart' + commonstockid)) {
+        document.getElementById('stockaddtocart' + commonstockid).innerHTML = statusMessage;
+    }
+
+    // Pre Order handle
+    if (document.getElementById('preordercart' + commonstockid)) {
+        document.getElementById('preordercart' + commonstockid).style.display = showPreOrder;
+    }
+
+    if (document.getElementById('stockQuantity' + commonstockid))
+    {
+        document.getElementById('stockQuantity' + commonstockid).style.display = showStockQuantity;
+    }
+};
+
+/**
+ * Check Product Stockroom status
+ *
+ * @param   {integer}  stockAmount     Stock Amount
+ * @param   {string}   commonstockid   Common id for element
+ * @param   {string}   preorder        PreOrder type
+ * @param   {integer}  preorder_stock  PreOrder stock amount
+ *
+ * @return  {boolean}   True if stock found otherwise false
+ */
+function checkProductStockRoom(stockAmount, commonstockid, preorder, preorder_stock) {
+
+    var stockStatus = 'instock';
 
     if (stockAmount > 0)
     {
-        if (document.getElementById('pdaddtocart' + commonstockid))
+        stockStatus = (1 == USE_AS_CATALOG) ? 'outofstock' : 'instock';
+    }
+    else
+    {
+        if (stockAmount == 0)
         {
-            document.getElementById('pdaddtocart' + commonstockid).style.display = '';
-        }
-
-        if (USE_AS_CATALOG == 1)
-        {
-            if (document.getElementById('pdaddtocart' + commonstockid)) {
-                document.getElementById('pdaddtocart' + commonstockid).style.display = 'none';
+            if (
+                (preorder == 'global' && ALLOW_PRE_ORDER != 1)
+                || (preorder == '' && ALLOW_PRE_ORDER != 1)
+                || (preorder == 'no')
+            ){
+                stockStatus = (1 == USE_AS_CATALOG) ? 'instock' : 'outofstock';
+            }
+            else
+            {
+                if (preorder_stock == 0)
+                {
+                    stockStatus = (1 == USE_AS_CATALOG) ? 'preorder' : 'outofstock';
+                }
+                else
+                {
+                    stockStatus = (1 == USE_AS_CATALOG) ? 'outofstock' : 'preorder';
+                }
             }
         }
-        if (document.getElementById('preordercart' + commonstockid)) {
-            document.getElementById('preordercart' + commonstockid).style.display = 'none';
-        }
-        if (document.getElementById('stockaddtocart' + commonstockid)) {
-            document.getElementById('stockaddtocart' + commonstockid).style.display = 'none';
-        }
-
-        isStock = true;
-    } else {
-
-        if (stockAmount == 0) {
-            if ((preorder == 'global' && ALLOW_PRE_ORDER != 1) || (preorder == '' && ALLOW_PRE_ORDER != 1) || (preorder == 'no')) {
-
-
-
-                //isPreorderProductStock
-                if (document.getElementById('stockaddtocart' + commonstockid)) {
-                    document.getElementById('stockaddtocart' + commonstockid).style.display = '';
-                }
-                if (document.getElementById('stockaddtocart' + commonstockid)) {
-                    document.getElementById('stockaddtocart' + commonstockid).innerHTML = COM_REDSHOP_PRODUCT_OUTOFSTOCK_MESSAGE;
-                }
-
-                if (USE_AS_CATALOG == 1) {
-                    if (document.getElementById('stockaddtocart' + commonstockid)) {
-                        document.getElementById('stockaddtocart' + commonstockid).style.display = 'none';
-                    }
-                }
-                if (document.getElementById('preordercart' + commonstockid)) {
-                    document.getElementById('preordercart' + commonstockid).style.display = 'none';
-                }
-                if (document.getElementById('pdaddtocart' + commonstockid)) {
-                    document.getElementById('pdaddtocart' + commonstockid).style.display = 'none';
-                }
-
-
-            } else {
-
-                if (preorder_stock == 0) {
-
-                    if (document.getElementById('stockaddtocart' + commonstockid)) {
-                        document.getElementById('stockaddtocart' + commonstockid).style.display = '';
-                    }
-                    if (document.getElementById('stockaddtocart' + commonstockid)) {
-                        document.getElementById('stockaddtocart' + commonstockid).innerHTML = COM_REDSHOP_PREORDER_PRODUCT_OUTOFSTOCK_MESSAGE;
-                    }
-
-                    if (USE_AS_CATALOG == 1) {
-                        if (document.getElementById('stockaddtocart' + commonstockid)) {
-                            document.getElementById('stockaddtocart' + commonstockid).style.display = 'none';
-                        }
-                    }
-                    if (document.getElementById('preordercart' + commonstockid)) {
-                        document.getElementById('preordercart' + commonstockid).style.display = 'none';
-                    }
-                    if (document.getElementById('pdaddtocart' + commonstockid)) {
-                        document.getElementById('pdaddtocart' + commonstockid).style.display = 'none';
-                    }
-
-
-                } else {
-
-
-                    if (document.getElementById('stockaddtocart' + commonstockid)) {
-                        document.getElementById('stockaddtocart' + commonstockid).style.display = 'none';
-                    }
-                    if (document.getElementById('stockaddtocart' + commonstockid)) {
-                        document.getElementById('stockaddtocart' + commonstockid).innerHTML = "";
-                    }
-                    if (document.getElementById('pdaddtocart' + commonstockid)) {
-                        document.getElementById('pdaddtocart' + commonstockid).style.display = 'none';
-                    }
-                    if (document.getElementById('preordercart' + commonstockid)) {
-                        document.getElementById('preordercart' + commonstockid).style.display = '';
-                    }
-
-                    if (USE_AS_CATALOG == 1) {
-                        if (document.getElementById('preordercart' + commonstockid)) {
-                            document.getElementById('preordercart' + commonstockid).style.display = 'none';
-                        }
-                    }
-
-
-                }
-
-
-            }
-        }
-
-
-        //isStock = false;
     }
-    if (document.getElementById('stockQuantity' + commonstockid)) {
-        if (stockAmount > 0 || preorder_stock > 0) {
-            document.getElementById('stockQuantity' + commonstockid).style.display = '';
-        } else {
-            document.getElementById('stockQuantity' + commonstockid).style.display = 'none';
-        }
-    }
-    return isStock;
+
+    redSHOP.updateStockStatusMessage(stockStatus, commonstockid);
+
+    // Setting return type to boolean
+    return ('instock' == stockStatus);
 }
 
 /**
@@ -1500,25 +1496,31 @@ function displayAdditionalImage(product_id, accessory_id, relatedprd_id, selecte
     if (document.getElementById('a_main_image' + product_id) || document.getElementById('main_image' + product_id)) {
         if (document.getElementById('a_main_image' + product_id)) {
             var tmphref = document.getElementById('a_main_image' + product_id).href;
-            tmphref = tmphref.split("");
-            var newhref = tmphref.reverse();
-            newhref = newhref.join("");
-            tmphref = newhref.split(".");
-            tmphref = tmphref[0].split("");
-            newhref = tmphref.reverse();
-            newhref = newhref.join("");
+            if ('undefined' !== typeof tmphref)
+            {
+                tmphref = tmphref.split("");
+                var newhref = tmphref.reverse();
+                newhref = newhref.join("");
+                tmphref = newhref.split(".");
+                tmphref = tmphref[0].split("");
+                newhref = tmphref.reverse();
+                newhref = newhref.join("");
+            }
         }
         else {
             var tmphref = document.getElementById('main_image' + product_id).src;
-            tmphref = tmphref.split("");
-            var newhref = tmphref.reverse();
-            newhref = newhref.join("");
-            tmphref = newhref.split(".");
-            tmphref = tmphref[0].split("");
-            newhref = tmphref.reverse();
-            newhref = newhref.join("");
-            newhref = newhref.split("&");
-            newhref = newhref[0];
+            if ('undefined' !== typeof tmphref)
+            {
+                tmphref = tmphref.split("");
+                var newhref = tmphref.reverse();
+                newhref = newhref.join("");
+                tmphref = newhref.split(".");
+                tmphref = tmphref[0].split("");
+                newhref = tmphref.reverse();
+                newhref = newhref.join("");
+                newhref = newhref.split("&");
+                newhref = newhref[0];
+            }
         }
 
 
