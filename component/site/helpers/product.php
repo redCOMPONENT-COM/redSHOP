@@ -733,8 +733,7 @@ class producthelper
 		if ($user_id)
 		{
 			$userArr         = $this->_session->get('rs_user');
-			$rs_user_info_id = isset($userArr['rs_user_info_id']) ? $userArr['rs_user_info_id'] : 0;
-			$userdata        = $this->getUserInformation($user_id, CALCULATE_VAT_ON, $rs_user_info_id);
+			$userdata        = $this->getUserInformation($user_id);
 
 			if (count($userdata) > 0)
 			{
@@ -10227,9 +10226,28 @@ class producthelper
 			if (strstr($template_desc, "{stock_notify_flag}"))
 			{
 				$userArr       = $this->_session->get('rs_user');
-				$is_login      = isset($userArr['rs_is_user_login']) ? $userArr['rs_is_user_login'] : '';
-				$users_info_id = isset($userArr['rs_user_info_id']) ? $userArr['rs_user_info_id'] : 0;
-				$user_id       = isset($userArr['rs_userid']) ? $userArr['rs_userid'] : '';
+				$user = JFactory::getUser();
+
+				if (empty($userArr))
+				{
+					$userArr = $this->_userhelper->createUserSession($user->id);
+				}
+
+				if (!isset($userArr['rs_user_info_id']))
+				{
+					$UserInformation = $this->getUserInformation($user->id);
+					$userArr['rs_user_info_id'] = isset($UserInformation->users_info_id) ? $UserInformation->users_info_id : 0;
+
+					if (isset($UserInformation->users_info_id))
+					{
+						$userArr = $this->_session->set('rs_user', $userArr);
+					}
+				}
+
+				$is_login      = $userArr['rs_is_user_login'];
+				$users_info_id = $userArr['rs_user_info_id'];
+				$user_id       = $userArr['rs_userid'];
+
 				$is_notified   = $this->isAlreadyNotifiedUser(
 					$user_id,
 					$product->product_id,
