@@ -1,4 +1,11 @@
 {
+    "name"       : "redCOMPONENT-COM/redSHOP",
+    "description": "a Joomla e-commerce solution",
+    "license"    : "GPL-2.0+",
+    "require"    : {
+        "php": ">=5.3.10"
+    },
     "require-dev": {
+    	"codeception/codeception": "*"
     }
 }
