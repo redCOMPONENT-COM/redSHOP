@@ -2239,7 +2239,7 @@ class rsCarthelper
 			{
 				$cart['free_shipping'] = 1;
 			}
-			elseif ($cart['free_shipping'] != 1)
+			elseif (!isset($cart['free_shipping']) || $cart['free_shipping'] != 1)
 			{
 				$cart['free_shipping'] = 0;
 			}
@@ -2250,7 +2250,7 @@ class rsCarthelper
 			}
 			else
 			{
-				$total_discount      = $cart['cart_discount'] + $cart['voucher_discount'] + $cart['coupon_discount'];
+				$total_discount      = $cart['cart_discount'] + (isset($cart['voucher_discount']) ? $cart['voucher_discount'] : 0) + $cart['coupon_discount'];
 				$d['order_subtotal'] = (SHIPPING_AFTER == 'total') ? $subtotal - $total_discount : $subtotal;
 				$d['users_info_id']  = $user_info_id;
 				$shippingArr         = $this->_shippinghelper->getDefaultShipping($d);
