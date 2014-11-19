@@ -95,6 +95,35 @@ $url = $uri->root();
 		}
 	}
 
+	function removeMessage(){
+		var myNode = document.getElementById("system-message-container");
+		var fc = myNode.firstChild;
+
+		while( fc ) {
+		    myNode.removeChild( fc );
+		    fc = myNode.firstChild;
+		}
+	};
+
+	window.onload = function (){
+		var fieldType = document.getElementById("field_type");
+
+		fieldType.onchange = function ( e ){
+			// console.log ( e.target.selected );
+			var type = e.target.selectedOptions[0].value;
+
+			// 9 is type of media
+			if ( type === "9" )
+			{
+				var jmsgs = ["<?php echo JText::_("COM_REDSHOP_FIELDS_DETAIL_DESCRIPTED"); ?>"];  // You can stack multiple messages of the same type
+				Joomla.renderMessages({'notice': jmsgs });
+			}
+			else
+			{
+				removeMessage();
+			}
+		};
+	}
 
 </script>
 <form action="<?php echo JRoute::_($this->request_url) ?>" method="post" name="adminForm" id="adminForm"
