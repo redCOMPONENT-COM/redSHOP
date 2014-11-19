@@ -1871,7 +1871,7 @@ class RedshopModelProduct_Detail extends JModel
 
 			$this->_db->setQuery($query);
 			$attr = $this->_db->loadObjectlist();
-			$attribute_data = '';
+			$attribute_data = array();
 
 			for ($i = 0; $i < count($attr); $i++)
 			{
@@ -1901,7 +1901,8 @@ class RedshopModelProduct_Detail extends JModel
 				$attribute_data[] = array('attribute_id' => $attribute_id, 'attribute_name' => $attribute_name,
 					'attribute_required' => $attribute_required, 'ordering' => $ordering, 'property' => $prop,
 					'allow_multiple_selection' => $allow_multiple_selection, 'hide_attribute_price' => $hide_attribute_price,
-					'attribute_published' => $attribute_published, 'display_type' => $display_type);
+					'attribute_published' => $attribute_published, 'display_type' => $display_type,
+					'attribute_set_id' => $attr[$i]->attribute_set_id);
 			}
 
 			return $attribute_data;
@@ -4132,14 +4133,9 @@ class RedshopModelProduct_Detail extends JModel
 
 		$subPropertyList = $producthelper->getAttibuteSubProperty(0, $subattribute_id);
 
-		if (count($subPropertyList) == 0)
-		{
-			$subproperty = array('0' => new stdClass);
-		}
-
 		if ($sp)
 		{
-			$subproperty[0]->subattribute_color_id = $sp;
+			$subproperty = $producthelper->getAttibuteSubProperty($sp);
 		}
 		else
 		{
@@ -4184,12 +4180,10 @@ class RedshopModelProduct_Detail extends JModel
 		$producthelper = new producthelper;
 
 		$propertyList  = $producthelper->getAttibuteProperty(0, $attribute_id);
-		$property = array();
 
 		if ($property_id)
 		{
-			$property[0] = new stdClass;
-			$property[0]->property_id = $property_id;
+			$property = $producthelper->getAttibuteProperty($property_id);
 		}
 		else
 		{
@@ -4206,7 +4200,11 @@ class RedshopModelProduct_Detail extends JModel
 
 			if ($this->_db->query())
 			{
-				$this->delete_image($property[$j]->property_image, 'product_attributes');
+				if (isset($property[$j]->property_image) && $property[$j]->property_image)
+				{
+					$this->delete_image($property[$j]->property_image, 'product_attributes');
+				}
+
 				$this->delete_subprop(0, $property_id);
 			}
 		}
@@ -4324,19 +4322,17 @@ class RedshopModelProduct_Detail extends JModel
 	/**
 	 * Function copy_image_from_path.
 	 *
-	 * @param   string  $imagePath  imagePath
-	 * @param   int     $section    section
+	 * @param   string  $imagePath   imagePath
+	 * @param   int     $section     section
+	 * @param   int     $section_id  section_id
 	 *
 	 * @return  string
 	 */
-	public function copy_image_from_path($imagePath, $section)
+	public function copy_image_from_path($imagePath, $section, $section_id = 0)
 	{
 		$src = JPATH_ROOT . '/' . $imagePath;
-
 		$imgname = RedShopHelperImages::cleanFileName($imagePath);
-
-		$property_image = end(explode("/", $imgname));
-
+		$property_image = $section_id . '_' . JFile::getName($imgname);
 		$dest = REDSHOP_FRONT_IMAGES_RELPATH . $section . '/' . $property_image;
 		copy($src, $dest);
 

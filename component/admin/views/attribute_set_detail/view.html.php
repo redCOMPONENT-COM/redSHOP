@@ -35,6 +35,14 @@ class RedshopViewAttribute_set_detail extends JView
 			var WANT_TO_DELETE = '" . JText::_('COM_REDSHOP_DO_WANT_TO_DELETE') . "';
 		");
 
+		if (version_compare(JVERSION, '3.0', '<'))
+		{
+			$document->addStyleSheet(JURI::root() . 'administrator/components/com_redshop/assets/css/update.css');
+			$document->addScript(JURI::root() . 'media/com_redshop/js/jquery.js');
+		}
+
+		$document->addScript(JURI::root() . 'administrator/components/com_redshop/assets/js/attribute_manipulation.js');
+
 		$document->addScript('components/' . $option . '/assets/js/fields.js');
 		$document->addScript('components/' . $option . '/assets/js/select_sort.js');
 		$document->addScript('components/' . $option . '/assets/js/validation.js');

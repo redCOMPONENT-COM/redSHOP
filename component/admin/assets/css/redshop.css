@@ -765,10 +765,6 @@ div.current label, div.current span.faux-label {
 	border: 1px solid #CCCACA;
 	width: 100%;
 }
-.attribute_parameter_tr, .attribute_parameter tr {
-	border-top: 0px;
-	background-color: #f7f7f7 !important;
-}
 .attribute_parameter tr, .attribute_parameter_tr tr {
 	background-color: #f7f7f7 !important;
 }
@@ -1202,4 +1198,51 @@ table.grey_area tr td input[type="checkbox"]
 		width: 25% !important;
 	}
 
+}
+
+.input-xmini
+{
+	width: 30px;
+}
+.attr_tbody
+{
+	border-top: 1px solid #080808;
+	padding: 5px 0 0 0;
+}
+.showhidearrow{
+	display: block;
+}
+.attribute_table{
+	margin: 0 0 15px 0 !important;
+}
+.oneAttribute{
+	padding: 10px 5px;
+	background: #E7EEF4;
+	border: 1px solid #ccc;
+	margin-left: 0 !important;
+}
+.attribute_table_pro{
+	padding: 5px;
+	margin-left: 0 !important;
+	background: #eee;
+	border: 1px solid #ccc;
+}
+.attribute_parameter_tr{
+	border: 1px solid #ccc;
+	background: #a9dba9;
+	padding: 5px;
+	margin-left: 0 !important;
+}
+.showsubproperty{
+	padding: 5px 0;
+}
+.sub_attribute_table{
+	padding: 10px 0;
+	border-top: 1px solid #3a87ad;
+}
+.subAttrMedia{
+	margin: 5px 0 0 0 !important;
+}
+.attrSecondRow{
+	padding: 0 0 5px 0;
 }

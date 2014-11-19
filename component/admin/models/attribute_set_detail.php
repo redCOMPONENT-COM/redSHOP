@@ -190,12 +190,17 @@ class RedshopModelAttribute_set_detail extends JModel
 
 	public function getattributes()
 	{
-		$producthelper = new producthelper;
 		$attr = array();
 
 		if ($this->_id != 0)
 		{
-			$attr = $producthelper->getProductAttribute(0, $this->_id);
+			$query = $this->_db->getQuery(true)
+				->select('*')
+				->from($this->_db->qn('#__redshop_product_attribute'))
+				->where('attribute_set_id = ' . (int) $this->_id)
+				->order('ordering');
+			$this->_db->setQuery($query);
+			$attr = $this->_db->loadObjectlist();
 		}
 
 		$attribute_data = '';
@@ -1253,13 +1258,9 @@ class RedshopModelAttribute_set_detail extends JModel
 	public function copy_image($imageArray, $section, $section_id)
 	{
 		$src = $imageArray['tmp_name'];
-
-		$imgname = basename($imageArray['name']);
-
+		$imgname = RedShopHelperImages::cleanFileName($imageArray['name']);
 		$property_image = $section_id . '_' . $imgname;
-
 		$dest = REDSHOP_FRONT_IMAGES_RELPATH . $section . '/' . $property_image;
-
 		copy($src, $dest);
 
 		return $property_image;
@@ -1269,13 +1270,9 @@ class RedshopModelAttribute_set_detail extends JModel
 	public function copy_image_from_path($imagePath, $section, $section_id)
 	{
 		$src = JPATH_ROOT . '/' . $imagePath;
-
-		$imgname = basename($imagePath);
-
-		$property_image = $section_id . '_' . $imgname;
-
+		$imgname = RedShopHelperImages::cleanFileName($imagePath);
+		$property_image = $section_id . '_' . JFile::getName($imgname);
 		$dest = REDSHOP_FRONT_IMAGES_RELPATH . $section . '/' . $property_image;
-
 		copy($src, $dest);
 
 		return $property_image;
