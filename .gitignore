@@ -28,8 +28,9 @@ Desktop.ini
 
 # Phing build script
 build.properties
+phing-latest.phar
 
-# composer
+# Composer
 composer.lock
 composer.phar
 vendor/*
