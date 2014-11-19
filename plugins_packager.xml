@@ -6,7 +6,6 @@
 <!--    Change the following variables in build.properties file          -->
 <!--            (copy variables from build.properties.dist )             -->
 <!--    - change the version in variable comp.version                    -->
-<!--    - change the source folder path in variable repo.dir             -->
 <!--    - change the package folder path in variable package.dir         -->
 <!--    - execute this PHING build file                                  -->
 <!-- ==================================================================  -->

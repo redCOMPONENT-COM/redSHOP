@@ -6,7 +6,6 @@
 <!--    Change the following variables in build.properties file          -->
 <!--            (copy variables from build.properties.dist )             -->
 <!--    - change the version in variable comp.version                    -->
-<!--    - change the source folder path in variable repo.dir             -->
 <!--    - change the package folder path in variable package.dir         -->
 <!--    - execute this PHING build file                                  -->
 <!-- ==================================================================  -->
@@ -19,7 +18,7 @@
 	<!-- Folder where the redSHOP repository modules are located  -->
 	<property
 			name="extpath"
-			value="${repo.dir}/modules/"
+			value="${project.basedir}/modules/"
 			override="true" />
 
 	 <!-- Version of the redSHOP for witch the module is intended to  -->
