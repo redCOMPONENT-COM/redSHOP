@@ -842,6 +842,7 @@ class redshopMail
 		$search[]  = "{username}";
 		$search[]  = "{password}";
 		$search[]  = "{email}";
+		$search[]  = '{account_link}';
 
 		$replace[] = SHOP_NAME;
 		$replace[] = $data['firstname'];
@@ -851,6 +852,8 @@ class redshopMail
 		$replace[] = $data['username'];
 		$replace[] = $mainpassword;
 		$replace[] = $data['email'];
+		$replace[] = '<a href="' . JURI::root() . 'index.php?option=com_redshop&view=account'
+			. '" target="_blank">' . JText::_('COM_REDSHOP_ACCOUNT_LINK') . '</a>';
 
 		$mailbody    = str_replace($search, $replace, $maildata);
 		$mailsubject = str_replace($search, $replace, $mailsubject);
