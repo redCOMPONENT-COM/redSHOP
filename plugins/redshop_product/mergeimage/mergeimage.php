@@ -25,12 +25,16 @@ class PlgRedshop_ProductMergeImage extends JPlugin
 	 * Method will trigger Before redSHOP Image load
 	 *
 	 * @param   array  $productArr  Product Image information
+	 * @param   array  &$arrReturn  Returning information array
 	 *
 	 * @return  array  Product Image Merge information
 	 */
-	function onBeforeImageLoad($productArr)
+	public function onBeforeImageLoad($productArr, &$arrReturn)
 	{
-		$producthelper 	= new producthelper;
+		// Load plugin language file
+		$this->loadLanguage();
+
+		$producthelper         = new producthelper;
 
 		$product_id            = $productArr['product_id'];
 		$main_imgwidth         = $productArr['main_imgwidth'];
@@ -45,6 +49,7 @@ class PlgRedshop_ProductMergeImage extends JPlugin
 		$arrproperty_id        = explode('##', $property_data);
 		$arrsubproperty_id     = explode('##', $subproperty_data);
 		$arrId[]               = $product_id;
+		$imageTitle            = '';
 
 		for ($i = 0;$i < count($arrproperty_id); $i++)
 		{
@@ -56,7 +61,11 @@ class PlgRedshop_ProductMergeImage extends JPlugin
 				{
 					$pr_number           = $Arrresult['pr_number'];
 					$aTitleImageResponse = $Arrresult['aTitleImageResponse'];
-					$imageTitle          = $Arrresult['imageTitle'];
+
+					if (isset($Arrresult['imageTitle']))
+					{
+						$imageTitle          = $Arrresult['imageTitle'];
+					}
 				}
 
 				$arrImage['property'][] = $Arrresult['imagename'];
@@ -103,15 +112,34 @@ class PlgRedshop_ProductMergeImage extends JPlugin
 	 *
 	 * @return  string   Merged Image name
 	 */
-	function mergeImage($arrImage=array(), $main_imgwidth, $main_imgheight, $newImagename)
+	public function mergeImage($arrImage=array(), $main_imgwidth, $main_imgheight, $newImagename)
 	{
 		$url             = JURI::root();
-
 		$DestinationFile = JPATH_BASE . '/components/com_redshop/assets/images/mergeImages/' . $newImagename;
 		$productImage    = JPATH_BASE . '/components/com_redshop/assets/images/product/' . $arrImage['product'][0];
+
+		// Only support png files for merge
+		if ('png' != JFile::getExt($productImage))
+		{
+			JFactory::getApplication()->enqueueMessage(JText::_('PLG_REDSHOP_PRODUCT_MERGEIMAGE_INVALID_EXTENSION'), 'error');
+
+			return;
+		}
+
 		$final_img       = imagecreatefrompng($productImage);
-		$arrproperty     = $arrImage['property'];
-		$arrsubproperty  = $arrImage['subproperty'];
+
+		$arrproperty    = array();
+		$arrsubproperty = array();
+
+		if (isset($arrImage['property']))
+		{
+			$arrproperty     = $arrImage['property'];
+		}
+
+		if (isset($arrImage['subproperty']))
+		{
+			$arrsubproperty  = $arrImage['subproperty'];
+		}
 
 		for ($i = 0; $i < count($arrproperty); $i++)
 		{

@@ -920,8 +920,10 @@ if (count($attributes) > 0 && count($attribute_template) > 0)
 	$get['subproperty_data'] = $subproperty_data;
 	$get['property_id']      = $selectedpropertyId;
 	$get['subproperty_id']   = $selectedsubpropertyId;
+	$pluginResults           = array();
 
-	$pluginResults = $this->dispatcher->trigger('onBeforeImageLoad', array ($get));
+	// Trigger plugin to get merge images.
+	$this->dispatcher->trigger('onBeforeImageLoad', array ($get, &$pluginResults));
 
 	$preselectedresult = $producthelper->displayAdditionalImage(
 		$this->data->product_id,

@@ -142,7 +142,7 @@ function collectOfflineAttributes(product_id, accessory_id, unique_id) {
             var propArr = new Array();
             /******Collect property start*******/
             for (var p = 0; p < propName.length; p++) {
-                if (propName[p].type == 'checkbox') {
+                if (propName[p].type == 'checkbox' || propName[p].type == 'radio') {
                     if (propName[p].checked && propName[p].value != 0) {
                         propArr[seli++] = propName[p].value;
                     }
@@ -187,7 +187,7 @@ function collectOfflineAttributes(product_id, accessory_id, unique_id) {
                     seli = 0;
                     var subpropArr = new Array();
                     for (var sp = 0; sp < subpropName.length; sp++) {
-                        if (subpropName[sp].type == 'checkbox') {
+                        if (subpropName[sp].type == 'checkbox' || subpropName[sp].type == 'radio') {
                             if (subpropName[sp].checked && subpropName[sp].value) {
                                 subpropArr[seli++] = subpropName[sp].value;
                             }
