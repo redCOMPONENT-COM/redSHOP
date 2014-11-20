@@ -195,7 +195,7 @@ class RedshopViewProduct extends JView
 			{
 				if (JURI::isInternal($canonical_url))
 				{
-					$$canonical_url = JURI::root() . $canonical_url;
+					$canonical_url = JURI::root() . $canonical_url;
 				}
 
 				$canonical = '<link rel="canonical" href="' . $canonical_url . '" />';
