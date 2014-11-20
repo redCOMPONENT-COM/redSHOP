@@ -319,7 +319,7 @@ class RedshopModelTemplate_detail extends JModel
 	{
 		if ($this->_id)
 		{
-			$template_detail = & $this->getTable('template_detail');
+			$template_detail = $this->getTable('template_detail');
 
 			if (!$template_detail->checkin($this->_id))
 			{

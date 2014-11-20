@@ -90,7 +90,7 @@ $ordering      = ($this->lists['order'] == 'ordering');
 
 			for ($i = 0, $n = count($this->question); $i < $n; $i++)
 			{
-				$row       = & $this->question[$i];
+				$row       = $this->question[$i];
 				$row->id   = $row->question_id;
 				$link      = JRoute::_('index.php?option=com_redshop&view=question_detail&task=edit&cid[]=' . $row->id);
 				$anslink   = JRoute::_('index.php?option=com_redshop&view=question_detail&task=edit&cid[]=' . $row->id . '#answerlists');

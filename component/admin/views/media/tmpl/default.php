@@ -201,7 +201,7 @@ else
 
 			for ($i = 0, $n = count($this->media); $i < $n; $i++)
 			{
-				$row       = & $this->media[$i];
+				$row       = $this->media[$i];
 				$row->id   = $row->media_id;
 				$published = JHTML::_('grid.published', $row, $i);    ?>
 

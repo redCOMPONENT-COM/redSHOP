@@ -20,7 +20,7 @@ defined( '_JEXEC' ) or die( 'Direct Access to this location is not allowed.' );
 
 global $sh_LANG, $sefConfig;
 
-$sefConfig = & shRouter::shGetConfig();
+$sefConfig = shRouter::shGetConfig();
 
 $db = JFactory::getDbo();
 $shLangName = '';
