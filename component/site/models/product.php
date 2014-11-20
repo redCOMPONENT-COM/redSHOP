@@ -408,7 +408,7 @@ class RedshopModelProduct extends JModel
 		$session         = JFactory::getSession();
 		$compare_product = $session->get('compare_product');
 		$cid             = JRequest::getInt('cid');
-		$catid           = $compare_product[0]['category_id'];
+		$catid           = isset($compare_product[0]['category_id']) ? $compare_product[0]['category_id'] : 0;
 
 		if (PRODUCT_COMPARISON_TYPE == 'category' && $catid != $cid)
 		{
@@ -418,7 +418,7 @@ class RedshopModelProduct extends JModel
 
 		if ($product_id != 0)
 		{
-			if (!$compare_product)
+			if (!isset($compare_product) || !$compare_product)
 			{
 				// Return true to store product in compare product cart.
 				return true;
@@ -460,7 +460,7 @@ class RedshopModelProduct extends JModel
 
 		$idx = (int) ($compare_product['idx']);
 
-		if (PRODUCT_COMPARISON_TYPE == 'category' && $compare_product[0]["category_id"] != $data["cid"])
+		if (PRODUCT_COMPARISON_TYPE == 'category' && (!isset($compare_product[0]["category_id"]) || $compare_product[0]["category_id"] != $data["cid"]))
 		{
 			unset($compare_product);
 			$idx = 0;
