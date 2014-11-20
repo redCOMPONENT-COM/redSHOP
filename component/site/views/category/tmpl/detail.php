@@ -23,12 +23,6 @@ $texts = new text_library;
 
 $start = $this->input->getInt('limitstart', 0);
 
-// check limitstart
-if (count($this->product) < $start)
-{
-	$start = 0;
-}
-
 $slide = $this->input->getInt('ajaxslide', null);
 $filter_by = $this->input->getInt('manufacturer_id', $this->params->get('manufacturer_id'));
 $category_template = $this->input->getInt('category_template', 0);
@@ -1090,6 +1084,7 @@ if (!$slide)
 		$filterby_form .= "<input type='hidden' name='texpricemin' id='manuf_texpricemin' value='" . $texpricemin . "' />";
 		$filterby_form .= "<input type='hidden' name='texpricemax' id='manuf_texpricemax' value='" . $texpricemax . "' />";
 		$filterby_form .= "<input type='hidden' name='order_by' id='order_by' value='" . $this->order_by_select . "' />";
+		$filterby_form .= '<input type="hidden" name="limitstart" value="0" />';
 		$filterby_form .= "<input type='hidden' name='category_template' id='category_template' value='" . $this->category_template_id . "' />";
 		$filterby_form .= "</form>";
 

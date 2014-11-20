@@ -302,8 +302,9 @@ class RedshopModelNewsletter extends JModel
 
 	public function order_user($uid)
 	{
-		$number_order = JRequest::getVar('number_order');
-		$oprand = JRequest::getVar('oprand', 'select');
+		$jInput = JFactory::getApplication()->input;
+		$number_order = $jInput->getInt('number_order', 0);
+		$oprand = $jInput->getCmd('oprand', 'select');
 
 		$start = JRequest::getVar('total_start', '');
 		$end = JRequest::getVar('total_end', '');
@@ -313,14 +314,24 @@ class RedshopModelNewsletter extends JModel
 		{
 			$order_total = " or order_total between " . $start . " and " . $end;
 		}
-		if ($oprand != 'select')
+
+		switch ($oprand)
 		{
-			$cond = $oprand . $number_order;
+			case 'more':
+				$cond = '>=' . $number_order;
+				break;
+			case 'less':
+				$cond = '<=' . $number_order;
+				break;
+			case 'select':
+				$cond = "=" . $this->_db->quote('');
+				break;
+			case 'equally':
+			default:
+				$cond = '=' . $number_order;
+				break;
 		}
-		else
-		{
-			$cond = "=" . "''";
-		}
+
 		$query = "SELECT COUNT(*) AS total,order_total FROM " . $this->_table_prefix . "orders "
 			. "GROUP BY user_id "
 			. "HAVING total " . $cond . $order_total . " AND user_id =" . $uid;
