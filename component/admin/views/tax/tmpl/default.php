@@ -66,7 +66,7 @@ $tax_group_id = JRequest::getVar('tax_group_id', '', 'request', 'string');
 			$k = 0;
 			for ($i = 0; $i < count($this->media); $i++)
 			{
-				$row = & $this->media[$i];
+				$row = $this->media[$i];
 				$country_id = $redconfig->getCountryId($row->tax_country);
 				$state_code = $redconfig->getStateCode($country_id, $row->tax_state);
 

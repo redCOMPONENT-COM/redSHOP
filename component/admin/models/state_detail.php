@@ -189,7 +189,7 @@ class RedshopModelState_detail extends JModel
 	{
 		if ($this->_id)
 		{
-			$state_detail = & $this->getTable('state_detail');
+			$state_detail = $this->getTable('state_detail');
 
 			if (!$state_detail->checkin($this->_id))
 			{

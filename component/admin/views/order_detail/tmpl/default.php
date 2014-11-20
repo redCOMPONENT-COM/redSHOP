@@ -1123,7 +1123,7 @@ $session->set('cart', $cart); ?>
 						</tr>
 						<?php
 						for ($log = 0; $log < count($log_rec); $log++):
-							$log_row = & $log_rec[$log];
+							$log_row = $log_rec[$log];
 							?>
 							<tr>
 								<td width="5%" align="center"><?php echo ($log + 1); ?></td>

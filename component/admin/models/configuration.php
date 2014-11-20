@@ -895,7 +895,7 @@ class RedshopModelConfiguration extends JModel
 
 		for ($i = 0; $i < count($list); $i++)
 		{
-			$data = & $list[$i];
+			$data = $list[$i];
 
 			$red_template = new Redtemplate;
 			$tname = $data->template_name;
