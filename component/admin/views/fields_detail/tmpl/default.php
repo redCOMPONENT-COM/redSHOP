@@ -105,6 +105,26 @@ $url = $uri->root();
 		}
 	};
 
+	function hideButton( arrBtn )
+	{
+		for ( var i in arrBtn )
+		{
+			if ( isNaN( i ) ) continue;
+
+			document.getElementById(arrBtn[i]).style.display = "none";
+		};
+	};
+
+	function showButton( arrBtn )
+	{
+		for ( var i in arrBtn )
+		{
+			if ( isNaN( i ) ) continue;
+
+			document.getElementById(arrBtn[i]).style.display = "block";
+		};
+	};
+
 	function showMessage( type )
 	{
 		// 9 is type of media
@@ -112,10 +132,16 @@ $url = $uri->root();
 		{
 			var jmsgs = ["<?php echo JText::_("COM_REDSHOP_FIELDS_DETAIL_DESCRIPTED"); ?>"];  // You can stack multiple messages of the same type
 			Joomla.renderMessages({'notice': jmsgs });
+
+			// Hide button
+			hideButton(["toolbar-apply", "toolbar-save"]);
 		}
 		else
 		{
 			removeMessage();
+
+			// Show button
+			showButton(["toolbar-apply", "toolbar-save"]);
 		}
 	};
 
