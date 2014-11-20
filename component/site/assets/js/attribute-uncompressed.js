@@ -414,6 +414,18 @@ function onchangePropertyDropdown(orgarg)
     return true;
 }
 
+function display_image(imgs, product_id, gethover)
+{
+    if (!PRODUCT_DETAIL_IS_LIGHTBOX)
+        document.getElementById('a_main_image' + product_id).href = gethover;
+    document.getElementById('main_image' + product_id).src = imgs;
+}
+
+function display_image_out(imgs, product_id, gethover)
+{
+    document.getElementById('main_image' + product_id).src = gethover;
+}
+
 function display_image_add(img, product_id)
 {
 	if (document.getElementById('main_image' + product_id)) {
@@ -428,19 +440,6 @@ function display_image_add_out(img, product_id)
 		else
 			document.getElementById('main_image' + product_id).src = img;
 	}
-}
-
-function display_image_add(img, product_id)
-{
-    document.getElementById('main_image' + product_id).src = img;
-}
-
-function display_image_add_out(img, product_id)
-{
-    if (subproperty_main_image != "")
-        document.getElementById('main_image' + product_id).src = subproperty_main_image;
-    else
-        document.getElementById('main_image' + product_id).src = img;
 }
 
 function collectAttributes(product_id, accessory_id, relatedprd_id)
