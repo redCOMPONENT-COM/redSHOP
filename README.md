@@ -80,6 +80,8 @@ _Or Compare across versions_
 
 # Testing with Codeception
 
+## Using codecept.phar
+
 Get codeception phar:
 
 ```
@@ -91,6 +93,21 @@ Build codeception testers classes:
 ```
 php ./codecept.phar build
 ```
+
+## using composer to get Codeception
+
+Execute
+```
+# You need to have Composer in your system, if not download it from here: https://getcomposer.org/
+composer update
+```
+After that you will be able to run Codeception doing:
+
+```
+php vendor/codeception/codeception/codecept build
+```
+
+## Running the tests
 
 Rename tests/acceptance.suite.dist.yml to tests/acceptance.suite.yml
 
@@ -111,12 +128,15 @@ Execute the tests:
 
 ```
 php codecept.phar run
+# Or php vendor/codeception/codeception/codecept run
 
 ; Or with --steps to see a step-by-step report on the performed actions.
 php codecept.phar run --steps
+# Or php vendor/codeception/codeception/codecept run --steps
 
 ; Or with --html. This command will run all tests for all suites, displaying the steps, and building HTML and XML reports. Reports will be store in tests/_output/ directory.
 php codecept.phar run --html
+# Or php vendor/codeception/codeception/codecept run --html
 ```
 
 ## Firefox Addons
