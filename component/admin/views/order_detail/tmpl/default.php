@@ -1064,7 +1064,7 @@ $session->set('cart', $cart); ?>
 						$details = explode("|", $row->ship_method_id);
 					}
 					$disp_style = '';
-					if ($details[0] != 'plgredshop_shippingdefault_shipping_GLS')
+					if ($details[0] != 'plgredshop_shippingdefault_shipping_gls')
 					{
 						$disp_style = "style=display:none";
 					} ?>
@@ -1073,7 +1073,7 @@ $session->set('cart', $cart); ?>
 							<div
 								id="rs_glslocationId" <?php echo $disp_style?>><?php //echo JText::_('COM_REDSHOP_SHIPPING_MODE') ?>
 								<?php
-								echo $carthelper->getGLSLocation($billing->users_info_id, 'default_shipping_GLS', $this->detail->shop_id); ?>
+								echo $carthelper->getGLSLocation($billing->users_info_id, 'default_shipping_gls', $this->detail->shop_id); ?>
 							</div>
 						</td>
 					</tr>

@@ -310,7 +310,7 @@ class RedshopModelOrder extends JModel
 		{
 			$details = explode("|", $shipping->decryptShipping(str_replace(" ", "+", $gls_arr[$i]->ship_method_id)));
 
-			if (($details[0] == 'plgredshop_shippingdefault_shipping_GLS') && $gls_arr[$i]->shop_id != "")
+			if (($details[0] == 'plgredshop_shippingdefault_shipping_gls') && $gls_arr[$i]->shop_id != "")
 			{
 				$orderproducts = $order_helper->getOrderItemDetail($gls_arr[$i]->order_id);
 				$shippingDetails = $order_helper->getOrderShippingUserInfo($gls_arr[$i]->order_id);
@@ -437,7 +437,7 @@ class RedshopModelOrder extends JModel
 		{
 			$details = explode("|", $shipping->decryptShipping(str_replace(" ", "+", $gls_arr[$i]->ship_method_id)));
 
-			if ($details[0] == 'plgredshop_shippingdefault_shipping_GLSBusiness')
+			if ($details[0] == 'plgredshop_shippingdefault_shipping_glsBusiness')
 			{
 				$orderproducts = $order_helper->getOrderItemDetail($gls_arr[$i]->order_id);
 				$shippingDetails = $order_helper->getOrderShippingUserInfo($gls_arr[$i]->order_id);
