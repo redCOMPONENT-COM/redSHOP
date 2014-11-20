@@ -105,23 +105,32 @@ $url = $uri->root();
 		}
 	};
 
+	function showMessage( type )
+	{
+		// 9 is type of media
+		if ( type === "9" )
+		{
+			var jmsgs = ["<?php echo JText::_("COM_REDSHOP_FIELDS_DETAIL_DESCRIPTED"); ?>"];  // You can stack multiple messages of the same type
+			Joomla.renderMessages({'notice': jmsgs });
+		}
+		else
+		{
+			removeMessage();
+		}
+	};
+
 	window.onload = function (){
 		var fieldType = document.getElementById("field_type");
 
-		fieldType.onchange = function ( e ){
-			// console.log ( e.target.selected );
-			var type = e.target.selectedOptions[0].value;
+		// Check onload
+		var fType = fieldType.selectedOptions[0].value;
 
-			// 9 is type of media
-			if ( type === "9" )
-			{
-				var jmsgs = ["<?php echo JText::_("COM_REDSHOP_FIELDS_DETAIL_DESCRIPTED"); ?>"];  // You can stack multiple messages of the same type
-				Joomla.renderMessages({'notice': jmsgs });
-			}
-			else
-			{
-				removeMessage();
-			}
+		showMessage( fType );
+
+		fieldType.onchange = function ( e )
+		{
+			var type = e.target.selectedOptions[0].value;
+			showMessage( type );
 		};
 	}
 
