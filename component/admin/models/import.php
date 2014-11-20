@@ -18,6 +18,20 @@ JLoader::load('RedshopHelperProduct');
 
 class RedshopModelImport extends JModel
 {
+	/**
+	 * Shopper Groups information array
+	 *
+	 * @var  array
+	 */
+	private $shopperGroups = null;
+
+	/**
+	 * Users information array - email as a key
+	 *
+	 * @var  array
+	 */
+	private $usersInfo = null;
+
 	public function getData()
 	{
 		ob_clean();
@@ -130,8 +144,8 @@ class RedshopModelImport extends JModel
 				{
 					foreach ($data as $key => $name)
 					{
-						/* Set the column headers */
-						$headers[$key] = $name;
+						/* Set the column headers and remove any non-ASCII characters from a string */
+						$headers[$key] = preg_replace ('/[^(\x20-\x7F)]*/', '', $name);
 					}
 				}
 				else
@@ -1000,15 +1014,20 @@ class RedshopModelImport extends JModel
 							// Insert product attributes
 							$attribute_id = "";
 							$attribute_name           = mb_convert_encoding($rawdata['attribute_name'], 'UTF-8', $post['encoding']);
-							$attribute_ordering       = $rawdata['attribute_ordering'];
-							$allow_multiple_selection = $rawdata['allow_multiple_selection'];
-							$hide_attribute_price     = $rawdata['hide_attribute_price'];
-							$attribute_display_type   = $rawdata['display_type'];
-							$attribute_required       = $rawdata['attribute_required'];
+							$attribute_ordering       = isset($rawdata['attribute_ordering']) ? $rawdata['attribute_ordering'] : '';
+							$allow_multiple_selection = isset($rawdata['allow_multiple_selection']) ? $rawdata['allow_multiple_selection'] : '';
+							$hide_attribute_price     = isset($rawdata['hide_attribute_price']) ? $rawdata['hide_attribute_price'] : '';
+							$attribute_display_type   = isset($rawdata['display_type']) ? $rawdata['display_type'] : '';
+							$attribute_required       = isset($rawdata['attribute_required']) ? $rawdata['attribute_required'] : '';
 
-							$query = "SELECT `attribute_id` FROM `#__redshop_product_attribute` WHERE `product_id` = "
-								. $product_id . " AND `attribute_name` = '" . $attribute_name . "'";
+							$query = $db->getQuery(true)
+								->select($db->quoteName('attribute_id'))
+								->from($db->quoteName('#__redshop_product_attribute'))
+								->where($db->quoteName('product_id') . ' = ' . $db->quote($product_id))
+								->where($db->quoteName('attribute_name') . ' = ' . $db->quote($attribute_name));
+
 							$db->setQuery($query);
+
 							$attribute_id = $db->loadResult();
 
 							// Get table Instance
@@ -1049,21 +1068,26 @@ class RedshopModelImport extends JModel
 
 								// Insert product attributes property
 								$property_id = 0;
-								$property_name = mb_convert_encoding($rawdata['property_name'], 'UTF-8', $post['encoding']);
+								$property_name = isset($rawdata['property_name']) ? mb_convert_encoding($rawdata['property_name'], 'UTF-8', $post['encoding']) : '';
 
 								if ($property_name != "")
 								{
-									$property_ordering = $rawdata['property_ordering'];
-									$property_price = $rawdata['property_price'];
-									$property_number = $rawdata['property_virtual_number'];
-									$setdefault_selected = $rawdata['setdefault_selected'];
-									$setdisplay_type = $rawdata['setdisplay_type'];
-									$setrequire_selected = $rawdata['required_sub_attribute'];
-									$oprand = $rawdata['oprand'];
-									$property_image = @basename($rawdata['property_image']);
-									$property_main_image = @basename($rawdata['property_main_image']);
+									$property_ordering      = isset($rawdata['property_ordering']) ? $rawdata['property_ordering'] : '';
+									$property_price         = isset($rawdata['property_price']) ? $rawdata['property_price'] : '';
+									$property_number        = isset($rawdata['property_virtual_number']) ? $rawdata['property_virtual_number'] : '';
+									$setdefault_selected    = isset($rawdata['setdefault_selected']) ? $rawdata['setdefault_selected'] : '';
+									$setdisplay_type        = isset($rawdata['setdisplay_type']) ? $rawdata['setdisplay_type'] : '';
+									$setrequire_selected    = isset($rawdata['required_sub_attribute']) ? $rawdata['required_sub_attribute'] : '';
+									$oprand                 = isset($rawdata['oprand']) ? $rawdata['oprand'] : '';
+									$property_image         = basename(isset($rawdata['property_image']) ? $rawdata['property_image'] : '');
+									$property_main_image    = basename(isset($rawdata['property_main_image']) ? $rawdata['property_main_image'] : '');
 
-									$query = "SELECT `property_id` FROM `#__redshop_product_attribute_property` WHERE `attribute_id` = " . $att_insert_id . " AND `property_name` = '" . $property_name . "'";
+									$query = $db->getQuery(true)
+										->select($db->quoteName('property_id'))
+										->from($db->quoteName('#__redshop_product_attribute_property'))
+										->where($db->quoteName('attribute_id') . ' = ' . $db->quote($att_insert_id))
+										->where($db->quoteName('property_name') . ' = ' . $db->quote($property_name));
+
 									$db->setQuery($query);
 									$property_id = $db->loadResult();
 
@@ -1122,7 +1146,7 @@ class RedshopModelImport extends JModel
 									{
 										$prop_insert_id = $proprow->property_id;
 
-										$mainstock = $rawdata['property_stock'];
+										$mainstock = isset($rawdata['property_stock']) ? $rawdata['property_stock'] : '';
 
 										if ($mainstock != "")
 										{
@@ -1136,33 +1160,47 @@ class RedshopModelImport extends JModel
 
 													if (count($mainquaexplode) == 2)
 													{
-														$query_mainins_stockroom = "SELECT * FROM `#__redshop_stockroom` WHERE `stockroom_id` = '" . $mainquaexplode[0] . "'";
+														$query_mainins_stockroom = $db->getQuery(true)
+															->select("*")
+															->from($db->quoteName('#__redshop_stockroom'))
+															->where($db->quoteName('stockroom_id') . ' = ' . $db->quote($mainquaexplode[0]));
+
 														$db->setQuery($query_mainins_stockroom);
 														$stock_id = $db->loadObjectList();
 
 														if (count($stock_id) > 0)
 														{
-															$query_mainins = "SELECT * FROM `#__redshop_product_attribute_stockroom_xref` WHERE `stockroom_id` = '"
-																. $mainquaexplode[0] . "' and section='property' and section_id='"
-																. $prop_insert_id . "'";
+															$query_mainins = $db->getQuery(true)
+																->select("*")
+																->from($db->quoteName('#__redshop_product_attribute_stockroom_xref'))
+																->where($db->quoteName('stockroom_id') . ' = ' . $db->quote($mainquaexplode[0]))
+																->where($db->quoteName('section') . ' = ' . $db->quote('property'))
+																->where($db->quoteName('section_id') . ' = ' . $db->quote($prop_insert_id));
+
 															$db->setQuery($query_mainins);
 															$product_id = $db->loadObjectList();
 
 															if (count($product_id) > 0)
 															{
-																$update_row_query = "update `#__redshop_product_attribute_stockroom_xref` set quantity='"
-																	. $mainquaexplode[1] . "' where `stockroom_id` = '" . $mainquaexplode[0]
-																	. "' and section='property' and section_id='" . $prop_insert_id . "'";
+																$update_row_query = $db->getQuery(true)
+																	->update($db->quoteName('#__redshop_product_attribute_stockroom_xref'))
+																	->set($db->quoteName('quantity') . ' = ' . $db->quote($mainquaexplode[1]) )
+																	->where($db->quoteName('stockroom_id') . ' = ' . $db->quote($mainquaexplode[0]))
+																	->where($db->quoteName('section') . ' = ' . $db->quote('property'))
+																	->where($db->quoteName('section_id') . ' = ' . $db->quote($prop_insert_id));
+
 																$db->setQuery($update_row_query);
-																$db->Query();
+																$db->query();
 															}
 															else
 															{
-																$insert_row_query = "insert into `#__redshop_product_attribute_stockroom_xref` set quantity='" . $mainquaexplode[1]
-																	. "',`stockroom_id` = '" . $mainquaexplode[0]
-																	. "',section='property',section_id='" . $prop_insert_id . "'";
-																$db->setQuery($insert_row_query);
-																$db->Query();
+																$insert_row_query = new stdClass();
+																$insert_row_query->quantity = $mainquaexplode[1];
+																$insert_row_query->stockroom_id = $mainquaexplode[0];
+																$insert_row_query->section = 'property';
+																$insert_row_query->section_id = $prop_insert_id;
+																$db->insertObject('#__redshop_product_attribute_stockroom_xref', $insert_row_query);
+
 															}
 														}
 													}
@@ -1218,16 +1256,20 @@ class RedshopModelImport extends JModel
 
 										if ($subattribute_color_name != "")
 										{
-											$subattribute_color_ordering      = $rawdata['subattribute_color_ordering'];
-											$subattribute_setdefault_selected = $rawdata['subattribute_setdefault_selected'];
-											$subattribute_color_title         = mb_convert_encoding($rawdata['subattribute_color_title'], 'UTF-8', $post['encoding']);
-											$subattribute_color_number        = $rawdata['subattribute_virtual_number'];
-											$subattribute_color_price         = $rawdata['subattribute_color_price'];
-											$oprand                           = $rawdata['subattribute_color_oprand'];
-											$subattribute_color_image         = basename($rawdata['subattribute_color_image']);
+											$subattribute_color_ordering      = isset($rawdata['subattribute_color_ordering']) ? $rawdata['subattribute_color_ordering'] : '';
+											$subattribute_setdefault_selected = isset($rawdata['subattribute_setdefault_selected']) ? $rawdata['subattribute_setdefault_selected'] : '';
+											$subattribute_color_title         = isset($rawdata['subattribute_color_title']) ? mb_convert_encoding($rawdata['subattribute_color_title'], 'UTF-8', $post['encoding']) : '';
+											$subattribute_color_number        = isset($rawdata['subattribute_virtual_number']) ? $rawdata['subattribute_virtual_number'] : '';
+											$subattribute_color_price         = isset($rawdata['subattribute_color_price']) ? $rawdata['subattribute_color_price'] : '';
+											$oprand                           = isset($rawdata['subattribute_color_oprand']) ? $rawdata['subattribute_color_oprand'] : '';
+											$subattribute_color_image         = basename( isset($rawdata['subattribute_color_image']) ? $rawdata['subattribute_color_image'] : '' );
 
-											$query = "SELECT `subattribute_color_id` FROM `#__redshop_product_subattribute_color` WHERE  `subattribute_id` = " . $prop_insert_id
-												. " AND  `subattribute_color_name` = '" . $subattribute_color_name . "'";
+											$query = $db->getQuery(true)
+												->select(array('subattribute_color_id'))
+												->from($db->quoteName('#__redshop_product_subattribute_color'))
+												->where($db->quoteName('subattribute_id') . ' = ' . $db->quote($prop_insert_id))
+												->where($db->quoteName('subattribute_color_name') . ' = ' . $db->quote($subattribute_color_name));
+
 											$db->setQuery($query);
 											$subattribute_color_id = $db->loadResult();
 
@@ -1273,21 +1315,6 @@ class RedshopModelImport extends JModel
 
 											$subproprow->subattribute_id = $prop_insert_id;
 
-											$query = "INSERT IGNORE INTO `#__redshop_product_subattribute_color` (
-																`subattribute_color_id` ,
-																`subattribute_color_name` ,
-																`subattribute_color_price` ,
-																`oprand` ,
-																`subattribute_color_image` ,
-																`subattribute_id`,
-																`ordering`,
-																`setdefault_selected`,
-																`subattribute_color_title`
-																)
-																VALUES (
-																'" . $subattribute_color_id . "', '" . $subattribute_color_name . "', '" . $subattribute_color_price . "', '" . $oprand . "', '" . $subattribute_color_image . "', '" . $prop_insert_id . "', '" . $subattribute_color_ordering . "', '" . $subattribute_setdefault_selected . "', '" . $subattribute_color_title . "'
-																)";
-
 											if ($subproprow->store())
 											{
 												$prop_insert_id_sub = $subproprow->subattribute_color_id;
@@ -1306,34 +1333,44 @@ class RedshopModelImport extends JModel
 
 															if (count($mainquaexplode) == 2)
 															{
-																$query_mainins_stockroom = "SELECT * FROM `#__redshop_stockroom` WHERE `stockroom_id` = '" . $mainquaexplode[0] . "'";
+																$query_mainins_stockroom = $db->getQuery(true)
+																	->select("*")
+																	->from($db->quoteName('#__redshop_stockroom'))
+																	->where($db->quoteName('stockroom_id') . ' = ' . $db->quote($mainquaexplode[0]));
 																$db->setQuery($query_mainins_stockroom);
 																$stock_id = $db->loadObjectList();
 
 																if (count($stock_id) > 0)
 																{
-																	$query_mainins = "SELECT * FROM `#__redshop_product_attribute_stockroom_xref` WHERE `stockroom_id` = '"
-																		. $mainquaexplode[0] . "' and section='subproperty' and section_id='"
-																		. $prop_insert_id_sub . "'";
+																	$query_mainins = $db->getQuery(true)
+																		->select("*")
+																		->from('#__redshop_product_attribute_stockroom_xref')
+																		->where($db->quoteName('stockroom_id') . ' = ' . $db->quote($mainquaexplode[0]))
+																		->where($db->quoteName('section') . ' = ' . $db->quote('subproperty'))
+																		->where($db->quoteName('section_id') . ' = ' . $db->quote($prop_insert_id_sub));
+
 																	$db->setQuery($query_mainins);
 																	$product_id = $db->loadObjectList();
 
 																	if (count($product_id) > 0)
 																	{
-																		$update_row_query = "update `#__redshop_product_attribute_stockroom_xref` set quantity='"
-																			. $mainquaexplode[1] . "' where `stockroom_id` = '"
-																			. $mainquaexplode[0] . "' and section='subproperty' and section_id='"
-																			. $prop_insert_id_sub . "'";
+																		$update_row_query = $db->getQuery(true)
+																			->update($db->quoteName('#__redshop_product_attribute_stockroom_xref'))
+																			->set($db->quoteName('quantity') . ' = ' . $db->quote($mainquaexplode[1]))
+																			->where($db->quoteName('stockroom_id') . ' = ' . $db->quote($mainquaexplode[0]))
+																			->where($db->quoteName('section') . ' = ' . $db->quote('subproperty'))
+																			->where($db->quoteName('section_id') . ' = ' . $db->quote($prop_insert_id_sub));
 																		$db->setQuery($update_row_query);
-																		$db->Query();
+																		$db->query();
 																	}
 																	else
 																	{
-																		$insert_row_query = "insert into `#__redshop_product_attribute_stockroom_xref` set quantity='"
-																			. $mainquaexplode[1] . "',`stockroom_id` = '" . $mainquaexplode[0]
-																			. "',section='subproperty',section_id='" . $prop_insert_id_sub . "'";
-																		$db->setQuery($insert_row_query);
-																		$db->Query();
+																		$insert_row_query = new stdClass;
+																		$insert_row_query->quantity = $mainquaexplode[1];
+																		$insert_row_query->stockroom_id = $mainquaexplode[0];
+																		$insert_row_query->section_id = $prop_insert_id_sub;
+																		$insert_row_query->section = 'subproperty';
+																		$db->insertObject('#__redshop_product_attribute_stockroom_xref', $insert_row_query);
 																	}
 																}
 															}
@@ -1411,8 +1448,8 @@ class RedshopModelImport extends JModel
 							// Get field id
 							$query = $db->getQuery(true)
 										->select('field_id')
-										->from($db->quoteName('#__redshop_fields'))
-										->where($db->quoteName('field_id') . ' = ' . $db->quote($field_id));
+										->from($db->qn('#__redshop_fields'))
+										->where($db->qn('field_id') . ' = ' . $db->quote($field_id));
 							$db->setQuery($query);
 							$field_id_dv = $db->loadResult();
 
@@ -1422,18 +1459,18 @@ class RedshopModelImport extends JModel
 							// Get Data Id
 							$query = $db->getQuery(true)
 										->select('data_id')
-										->from($db->quoteName('#__redshop_fields_data'))
-										->where($db->quoteName('fieldid') . ' = ' . $db->quote($field_id))
-										->where($db->quoteName('itemid') . ' = ' . $db->quote($itemid));
+										->from($db->qn('#__redshop_fields_data'))
+										->where($db->qn('fieldid') . ' = ' . $db->quote($field_id))
+										->where($db->qn('itemid') . ' = ' . $db->quote($itemid));
 							$db->setQuery($query);
 							$ch_data_id = $db->loadResult();
 
 							// Get Value Id
 							$query = $db->getQuery(true)
 										->select('value_id')
-										->from($db->quoteName('#__redshop_fields_value'))
-										->where($db->quoteName('field_id') . ' = ' . $db->quote($field_id))
-										->where($db->quoteName('value_id') . ' = ' . $db->quote($value_id));
+										->from($db->qn('#__redshop_fields_value'))
+										->where($db->qn('field_id') . ' = ' . $db->quote($field_id))
+										->where($db->qn('value_id') . ' = ' . $db->quote($value_id));
 							$db->setQuery($query);
 							$ch_value_id = $db->loadResult();
 
@@ -1590,167 +1627,150 @@ class RedshopModelImport extends JModel
 						if ($post['import'] == 'users')
 						{
 							$app = JFactory::getApplication();
-							$q = "SELECT * FROM `#__redshop_shopper_group` "
-								. "WHERE `shopper_group_name` = '" . $rawdata['shopper_group_name'] . "'";
-							$db->setQuery($q);
-							$shopper_group_data = $db->loadObject();
 
-							// Insert shopper group if not available
-							if (count($shopper_group_data) <= 0)
+							// Get all shopper group information
+							$this->getShopperGroupInfo();
+
+							// Shopper Group Exist
+							if (array_key_exists(trim($rawdata['shopper_group_name']), $this->shopperGroups->name))
+							{
+								$shopperGroupId = $this->shopperGroups->name[trim($rawdata['shopper_group_name'])]
+																->shopper_group_id;
+							}
+							// Create new shopper group
+							else
 							{
 								$shopper = $this->getTable('shopper_group_detail');
 								$shopper->load();
-								$shopper->shopper_group_name = $rawdata['shopper_group_name'];
+								$shopper->shopper_group_name          = trim($rawdata['shopper_group_name']);
 								$shopper->shopper_group_customer_type = 1;
-								$shopper->shopper_group_portal = 0;
+								$shopper->shopper_group_portal        = 0;
 								$shopper->store();
 
-								// Get last shopper group id
-								$shopper_group_id = $shopper->shopper_group_id;
-							}
-							else
-							{
-								// Get shopper group id
-								$shopper_group_id = $shopper_group_data->shopper_group_id;
+								// Get inserted shopper group id
+								$shopperGroupId = $shopper->shopper_group_id;
 							}
 
 							// Get redshop user info table
 							$reduser = $this->getTable('user_detail');
 
-							// Check for user available
-							if ($rawdata['id'] > 0)
+							// Get all users information
+							$this->getUsersInfoByEmail();
+
+							$csvUserId = 0;
+
+							if (isset($rawdata['id']))
 							{
-								$q = "SELECT * FROM `#__users` "
-									. "WHERE `email` = '" . trim($rawdata['email']) . "' ";
-								$db->setQuery($q);
-								$joomusers = $db->loadObject();
+								$csvUserId = (int) trim($rawdata['id']);
+							}
 
-								if (count($joomusers) == 0)
+							$csvRSUserId = 0;
+
+							if (isset($rawdata['users_info_id']))
+							{
+								$csvRSUserId = (int) trim($rawdata['users_info_id']);
+							}
+
+							// Setting default for new users
+							$jUserId   = 0;
+							$newRedUser = true;
+							$redUserId = $csvRSUserId;
+
+							// Using email to map users as unique
+							if (isset($this->usersInfo[trim($rawdata['email'])]))
+							{
+								$usersInfo = $this->usersInfo[trim($rawdata['email'])];
+
+								// Joomla User
+								$jUserId = $usersInfo->id;
+
+								$redUserId = (int) $usersInfo->users_info_id;
+
+								// Redshop User
+								// @todo: review this condition 0 != $csvRSUserId && $csvRSUserId == $usersInfo->users_info_id
+								if ($redUserId)
 								{
-									$user_id = 0;
+									$newRedUser = false;
 								}
-								else
-								{
-									$user_id = $joomusers->id;
-								}
+							}
 
-								// Initialize some variables
-								$db = JFactory::getDbo();
-								$me = JFactory::getUser();
-								$acl = JFactory::getACL();
-								$MailFrom = $app->getCfg('mailfrom');
-								$FromName = $app->getCfg('fromname');
-								$SiteName = $app->getCfg('sitename');
+							// Update/Create Joomla User
+							$user = JUser::getInstance($jUserId);
 
-								// Create a new JUser object
-								$user = new JUser($user_id);
-								$user->set('username', trim($rawdata['username']));
-								$user->set('name', $rawdata['name']);
-								$user->set('email', trim($rawdata['email']));
-								$user->set('password', $rawdata['password']);
-								$user->set('password_clear', $rawdata['password']);
-								$user->set('block', $rawdata['block']);
-								$user->set('sendEmail', $rawdata['sendEmail']);
+							$jUserInfo = array(
+								'username'     => trim($rawdata['username']),
+								'name'         => trim($rawdata['name']),
+								'email'        => trim($rawdata['email']),
+								'groups'       => explode(',', trim($rawdata['usertype'])),
+								'registerDate' => JFactory::getDate()->toSql()
+							);
 
-								// Set some initial user values
-								$user->set('usertype', $rawdata['usertype']);
-								$user->set('gid', $rawdata['gid']);
-								$date = JFactory::getDate();
-								$user->set('registerDate', $date->toMySQL());
+							if (isset($rawdata['block']))
+							{
+								$jUserInfo['block'] = (int) $rawdata['block'];
+							}
 
-								if ($user->save())
-								{
-									$reduser->set('user_id', $user->id);
-									$reduser->set('user_email', trim($rawdata['email']));
-									$reduser->set('firstname', $rawdata['firstname']);
-									$reduser->set('address_type', 'BT');
-									$reduser->set('lastname', $rawdata['lastname']);
-									$reduser->set('company_name', $rawdata['company_name']);
-									$reduser->set('vat_number', $rawdata['vat_number']);
-									$reduser->set('tax_exempt', $rawdata['tax_exempt']);
-									$reduser->set('shopper_group_id', $shopper_group_id);
-									$reduser->set('is_company', $rawdata['is_company']);
-									$reduser->set('address', $rawdata['address']);
-									$reduser->set('city', $rawdata['city']);
-									$reduser->set('country_code', $rawdata['country_code']);
-									$reduser->set('state_code', $rawdata['state_code']);
-									$reduser->set('zipcode', $rawdata['zipcode']);
-									$reduser->set('phone', $rawdata['phone']);
-									$reduser->set('tax_exempt_approved', $rawdata['tax_exempt_approved']);
-									$reduser->set('approved', $rawdata['approved']);
+							if (isset($rawdata['sendEmail']))
+							{
+								$jUserInfo['sendEmail'] = (int) $rawdata['sendEmail'];
+							}
 
-									if (count($joomusers) == 0)
-									{
-										$reduser->set('users_info_id', $rawdata['users_info_id']);
-										$ret = $db->insertObject('#__redshop_users_info', $reduser, 'users_info_id');
-									}
-									else
-									{
-										$user_id = $joomusers->id;
-										$q = "SELECT * FROM `#__redshop_users_info` "
-											. "WHERE `user_id` = '" . $user_id . "'";
-										$db->setQuery($q);
-										$redusers = $db->loadObject();
+							if (isset($rawdata['password']) && '' != trim($rawdata['password']))
+							{
+								$jUserInfo['password'] = trim($rawdata['password']);
+								$jUserInfo['password2'] = trim($rawdata['password']);
+							}
 
-										if (count($redusers) > 0)
-										{
-											$reduser->set('users_info_id', $redusers->users_info_id);
-											$ret = $db->updateObject('#__redshop_users_info', $reduser, 'users_info_id');
-										}
-										else
-										{
-											$reduser->set('users_info_id', $rawdata['users_info_id']);
-											$ret = $db->insertObject('#__redshop_users_info', $reduser, 'users_info_id');
-										}
-									}
+							// Bind the data.
+							if (!$user->bind($jUserInfo))
+							{
+								$this->setError($user->getError());
 
-									if ($ret)
-									{
-										$correctlines++;
-									}
-								}
+								return false;
+							}
+
+							// Save user information
+							if ($user->save())
+							{
+								// Assign user id from table
+								$jUserId = $user->id;
+							}
+
+							// Seeting users info id
+							$reduser->set('users_info_id', $redUserId);
+
+							// Setting Joomla user id
+							$reduser->set('user_id', $jUserId);
+							$reduser->set('user_email', trim($rawdata['email']));
+							$reduser->set('firstname', $rawdata['firstname']);
+							$reduser->set('address_type', 'BT');
+							$reduser->set('lastname', $rawdata['lastname']);
+							$reduser->set('company_name', $rawdata['company_name']);
+							$reduser->set('vat_number', $rawdata['vat_number']);
+							$reduser->set('tax_exempt', $rawdata['tax_exempt']);
+							$reduser->set('shopper_group_id', $shopperGroupId);
+							$reduser->set('is_company', $rawdata['is_company']);
+							$reduser->set('address', $rawdata['address']);
+							$reduser->set('city', $rawdata['city']);
+							$reduser->set('country_code', $rawdata['country_code']);
+							$reduser->set('state_code', $rawdata['state_code']);
+							$reduser->set('zipcode', $rawdata['zipcode']);
+							$reduser->set('phone', $rawdata['phone']);
+							$reduser->set('tax_exempt_approved', $rawdata['tax_exempt_approved']);
+							$reduser->set('approved', $rawdata['approved']);
+
+							if ($newRedUser)
+							{
+								$ret = $db->insertObject('#__redshop_users_info', $reduser, 'users_info_id');
 							}
 							else
 							{
-								$q = "SELECT * FROM `#__redshop_users_info` "
-									. "WHERE `user_email` = '" . $rawdata['email'] . "' ";
-								$db->setQuery($q);
+								$ret = $db->updateObject('#__redshop_users_info', $reduser, 'users_info_id');
+							}
 
-								$redusers = $db->loadObject();
-								$reduser->set('user_id', $rawdata['id']);
-								$reduser->set('user_email', trim($rawdata['email']));
-								$reduser->set('firstname', $rawdata['firstname']);
-								$reduser->set('address_type', 'BT');
-								$reduser->set('lastname', $rawdata['lastname']);
-								$reduser->set('company_name', $rawdata['company_name']);
-								$reduser->set('vat_number', $rawdata['vat_number']);
-								$reduser->set('tax_exempt', $rawdata['tax_exempt']);
-								$reduser->set('shopper_group_id', $shopper_group_id);
-								$reduser->set('is_company', $rawdata['is_company']);
-								$reduser->set('address', $rawdata['address']);
-								$reduser->set('city', $rawdata['city']);
-								$reduser->set('country_code', $rawdata['country_code']);
-								$reduser->set('state_code', $rawdata['state_code']);
-								$reduser->set('zipcode', $rawdata['zipcode']);
-								$reduser->set('phone', $rawdata['phone']);
-								$reduser->set('tax_exempt_approved', $rawdata['tax_exempt_approved']);
-								$reduser->set('approved', $rawdata['approved']);
-
-								if (count($redusers) > 0)
-								{
-									$reduser->set('users_info_id', $redusers->users_info_id);
-									$ret = $db->updateObject('#__redshop_users_info', $reduser, 'users_info_id');
-								}
-								else
-								{
-									$reduser->set('users_info_id', $rawdata['users_info_id']);
-									$ret = $db->insertObject('#__redshop_users_info', $reduser, 'users_info_id');
-								}
-
-								if ($ret)
-								{
-									$correctlines++;
-								}
+							if ($ret)
+							{
+								$correctlines++;
 							}
 						}
 
@@ -1915,6 +1935,46 @@ class RedshopModelImport extends JModel
 	}
 
 	/**
+	 * Get all users information
+	 *
+	 * @return  array  User email id as a key of an array
+	 */
+	private function getUsersInfoByEmail()
+	{
+		// Return loaded info if available
+		if (null != $this->usersInfo)
+		{
+			return $this->usersInfo;
+		}
+
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true);
+
+		// Create the base select statement.
+		$query->select('*')
+			->from($db->qn('#__users', 'u'))
+			->leftjoin(
+				$db->qn('#__redshop_users_info', 'ui')
+				. ' ON ' . $db->qn('u.email') . ' = ' . $db->qn('ui.user_email')
+				. ' AND ' . $db->qn('ui.address_type') . '=' . $db->q('BT')
+			);
+
+		// Set the query and load the result.
+		$db->setQuery($query);
+
+		try
+		{
+			$this->usersInfo = $db->loadObjectList('email');
+		}
+		catch (RuntimeException $e)
+		{
+			throw new RuntimeException($e->getMessage(), $e->getCode());
+		}
+
+		return $this->usersInfo;
+	}
+
+	/**
 	 * Get Shopper Group Id from input
 	 *
 	 * @param   integer  $shopperGroupInputId  Shopper Group Id from CSV File
@@ -1943,6 +2003,41 @@ class RedshopModelImport extends JModel
 		}
 
 		return $shopperGroupId;
+	}
+
+	/**
+	 * Get Shopper Group Id from input
+	 *
+	 * @param   integer  $shopperGroupInputId  Shopper Group Id from CSV File
+	 *
+	 * @return  integer  Shopper Group Id
+	 */
+	public function getShopperGroupInfo()
+	{
+		if (null == $this->shopperGroups)
+		{
+			// Initialiase variables.
+			$db    = JFactory::getDbo();
+			$query = $db->getQuery(true)
+				->select('*')
+				->from($db->qn('#__redshop_shopper_group'));
+
+			// Set the query and load the result.
+			$db->setQuery($query);
+
+			try
+			{
+				$this->shopperGroups        = new stdClass;
+				$this->shopperGroups->index = $db->loadObjectList();
+				$this->shopperGroups->name  = $db->loadObjectList('shopper_group_name');
+			}
+			catch (RuntimeException $e)
+			{
+				throw new RuntimeException($e->getMessage(), $e->getCode());
+			}
+		}
+
+		return $this->shopperGroups;
 	}
 
 	/**
@@ -3040,11 +3135,16 @@ class RedshopModelImport extends JModel
 
 	public function getProductIdByNumber($product_number)
 	{
+
 		$db = JFactory::getDbo();
 
-		$q = "SELECT product_id FROM `#__redshop_product` "
-			. "WHERE `product_number`='" . $product_number . "' ";
-		$db->setQuery($q);
+		$query = $db->getQuery(true)
+			->select($db->quoteName(array('product_id')))
+			->from($db->quoteName('#__redshop_product'))
+			->where($db->quoteName('product_number') . ' = ' . $db->quote($product_number));
+
+		$db->setQuery($query);
+
 		$product_id = $db->loadResult();
 
 		return $product_id;

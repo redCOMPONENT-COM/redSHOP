@@ -876,6 +876,11 @@ class Com_RedshopInstallerScript
 			$cfgarr["AJAX_BOX_HEIGHT"] = 150;
 		}
 
+		if (!defined("MEDIA_ALLOWED_MIME_TYPE"))
+		{
+			$cfgarr["MEDIA_ALLOWED_MIME_TYPE"] = 'bmp,csv,doc,gif,ico,jpg,jpeg,odg,odp,ods,odt,pdf,png,ppt,swf,txt,xcf,xls';
+		}
+
 		if (!defined("ORDER_MAIL_AFTER"))
 		{
 			$cfgarr["ORDER_MAIL_AFTER"] = 0;

@@ -46,7 +46,7 @@ class RedshopControllerAddquotation_detail extends JController
 			$post['groups'] = array(0 => 2);
 
 			$date = JFactory::getDate();
-			$post['registerDate'] = $date->toMySQL();
+			$post['registerDate'] = $date->toSql();
 			$post['block'] = 0;
 
 			// Get Admin order detail Model Object

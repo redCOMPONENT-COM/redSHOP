@@ -201,54 +201,62 @@ class RedshopModelMedia_detail extends JModel
 			$query = "SELECT * FROM " . $this->_table_prefix . "media "
 				. "WHERE `section_id`='" . $section_id . "' "
 				. "AND `media_section` = '" . $media_section . "' "
-				. "AND `media_id` = '" . $media_id . "' "
-				. "AND `media_type` = 'images' ";
+				. "AND `media_id` = '" . $media_id . "'";
 			$this->_db->setQuery($query);
 			$rs = $this->_db->loadObject();
 
 			if (count($rs) > 0)
 			{
-				switch ($media_section)
+				if ($rs->media_type == "images")
 				{
-					case "product":
-						$query = "UPDATE `" . $this->_table_prefix . "product` "
-							. "SET `product_thumb_image` = '', `product_full_image` = '" . $rs->media_name . "' "
-							. "WHERE `product_id`='" . $section_id . "' ";
-						$this->_db->setQuery($query);
+					switch ($media_section)
+					{
+						case "product":
+							$query = "UPDATE `" . $this->_table_prefix . "product` "
+								. "SET `product_thumb_image` = '', `product_full_image` = '" . $rs->media_name . "' "
+								. "WHERE `product_id`='" . $section_id . "' ";
+							$this->_db->setQuery($query);
 
-						if (!$this->_db->query())
-						{
-							$this->setError($this->_db->getErrorMsg());
+							if (!$this->_db->query())
+							{
+								$this->setError($this->_db->getErrorMsg());
 
-							return false;
-						}
-						break;
-					case "property":
-						$query = "UPDATE `" . $this->_table_prefix . "product_attribute_property` "
-							. "SET `property_main_image` = '" . $rs->media_name . "' "
-							. "WHERE `property_id`='" . $section_id . "' ";
-						$this->_db->setQuery($query);
+								return false;
+							}
+							break;
+						case "property":
+							$query = "UPDATE `" . $this->_table_prefix . "product_attribute_property` "
+								. "SET `property_main_image` = '" . $rs->media_name . "' "
+								. "WHERE `property_id`='" . $section_id . "' ";
+							$this->_db->setQuery($query);
 
-						if (!$this->_db->query())
-						{
-							$this->setError($this->_db->getErrorMsg());
+							if (!$this->_db->query())
+							{
+								$this->setError($this->_db->getErrorMsg());
 
-							return false;
-						}
-						break;
-					case "subproperty":
-						$query = "UPDATE `" . $this->_table_prefix . "product_subattribute_color` "
-							. "SET `subattribute_color_main_image` = '" . $rs->media_name . "' "
-							. "WHERE `subattribute_color_id`='" . $section_id . "' ";
-						$this->_db->setQuery($query);
+								return false;
+							}
+							break;
+						case "subproperty":
+							$query = "UPDATE `" . $this->_table_prefix . "product_subattribute_color` "
+								. "SET `subattribute_color_main_image` = '" . $rs->media_name . "' "
+								. "WHERE `subattribute_color_id`='" . $section_id . "' ";
+							$this->_db->setQuery($query);
 
-						if (!$this->_db->query())
-						{
-							$this->setError($this->_db->getErrorMsg());
+							if (!$this->_db->query())
+							{
+								$this->setError($this->_db->getErrorMsg());
 
-							return false;
-						}
-						break;
+								return false;
+							}
+							break;
+					}
+				}
+				else
+				{
+					$this->setError(JText::sprintf('COM_REDSHOP_ERROR_SET_DEFAULT_MEDIA', $rs->media_type));
+
+					return false;
 				}
 			}
 		}
