@@ -36,7 +36,7 @@ class RedshopViewAccount extends JView
 		if (!count($userdata) && $layout != 'mywishlist')
 		{
 			$msg = JText::_('COM_REDSHOP_LOGIN_USER_IS_NOT_REDSHOP_USER');
-			$app->Redirect("index.php?option=com_redshop&view=account_billto&Itemid=" . $Itemid, $msg);
+			$app->redirect("index.php?option=com_redshop&view=account_billto&Itemid=" . $Itemid, $msg);
 		}
 
 		$layout = JRequest::getCmd('layout', 'default');
@@ -45,7 +45,7 @@ class RedshopViewAccount extends JView
 		// Preform security checks
 		if (($user->id == 0 && $layout != 'mywishlist') || ($user->id == 0 && $layout == 'mywishlist' && !isset($mail))) // Give permission to send wishlist while not logged in )
 		{
-			$app->Redirect('index.php?option=com_redshop&view=login&Itemid=' . JRequest::getInt('Itemid'));
+			$app->redirect('index.php?option=com_redshop&view=login&Itemid=' . JRequest::getInt('Itemid'));
 
 			return;
 		}
@@ -77,7 +77,7 @@ class RedshopViewAccount extends JView
 			// If wishlist Id is not set then redirect to it's main page
 			if ($wishlist_id == 0)
 			{
-				$app->Redirect("index.php?option=com_redshop&view=wishlist&layout=viewwishlist&Itemid=" . $Itemid);
+				$app->redirect("index.php?option=com_redshop&view=wishlist&layout=viewwishlist&Itemid=" . $Itemid);
 			}
 
 			JLoader::import('joomla.html.pagination');

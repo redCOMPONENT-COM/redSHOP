@@ -22,7 +22,7 @@ class RedshopViewOrders extends JView
 		// Preform security checks
 		if ($user->id == 0)
 		{
-			$app->Redirect('index.php?option=com_redshop&view=login&Itemid=' . JRequest::getInt('Itemid'));
+			$app->redirect('index.php?option=com_redshop&view=login&Itemid=' . JRequest::getInt('Itemid'));
 			exit;
 		}
 

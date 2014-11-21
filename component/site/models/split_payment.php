@@ -124,7 +124,7 @@ class RedshopModelSplit_payment extends JModel
 					. '&ccinfo=' . $ccinfo
 					. '&payment_method_id=' . $payment_method_id
 					. '&oid=' . $oid;
-				$app->Redirect($link, $msg);
+				$app->redirect($link, $msg);
 			}
 
 
@@ -141,7 +141,7 @@ class RedshopModelSplit_payment extends JModel
 			{
 				$msg  = "Payment Failure" . $d ["order_payment_log"];
 				$link = 'index.php?option=' . $option . '&view=split_payment&Itemid=' . $Itemid . '&ccinfo=' . $ccinfo . '&payment_method_id=' . $payment_method_id . '&oid=' . $oid;
-				$app->Redirect($link, $msg);
+				$app->redirect($link, $msg);
 				JRequest::setVar('payment_status_log', '-' . $d ["order_payment_log"]);
 			}
 			else
@@ -203,7 +203,7 @@ class RedshopModelSplit_payment extends JModel
 			}
 		}
 
-		$app->Redirect($return, $msg);
+		$app->redirect($return, $msg);
 	}
 
 	public function validatepaymentccinfo()

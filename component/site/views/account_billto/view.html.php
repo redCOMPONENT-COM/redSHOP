@@ -58,7 +58,7 @@ class RedshopViewAccount_billto extends JView
 		// Preform security checks
 		if ($user->id == 0 && $auth['users_info_id'] == 0)
 		{
-			$app->Redirect('index.php?option=com_redshop&view=login&Itemid=' . JRequest::getInt('Itemid'));
+			$app->redirect('index.php?option=com_redshop&view=login&Itemid=' . JRequest::getInt('Itemid'));
 			exit;
 		}
 

@@ -29,7 +29,7 @@ class RedshopViewQuotation extends JView
 		{
 			if ($cart['idx'] < 1)
 			{
-				$app->Redirect('index.php?option=com_redshop&view=cart&Itemid=' . $Itemid);
+				$app->redirect('index.php?option=com_redshop&view=cart&Itemid=' . $Itemid);
 			}
 		}
 

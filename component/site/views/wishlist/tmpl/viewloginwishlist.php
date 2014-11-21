@@ -49,7 +49,7 @@ $auth = $session->get('auth');
 	if ($user->id || (isset($auth['users_info_id']) && $auth['users_info_id'] > 0))
 	{
 		$wishreturn = JRoute::_('index.php?loginwishlist=1&option=com_redshop&view=wishlist&Itemid=' . $Itemid, false);
-		$app->Redirect($wishreturn);
+		$app->redirect($wishreturn);
 	}
 	else
 	{
