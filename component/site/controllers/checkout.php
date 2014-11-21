@@ -158,7 +158,7 @@ class RedshopControllerCheckout extends JController
 
 		if ($errormsg != "")
 		{
-			$app->Redirect('index.php?option=com_redshop&view=checkout&Itemid=' . $Itemid, $errormsg);
+			$app->redirect('index.php?option=com_redshop&view=checkout&Itemid=' . $Itemid, $errormsg);
 		}
 		else
 		{
