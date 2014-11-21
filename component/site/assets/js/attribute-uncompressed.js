@@ -1824,8 +1824,6 @@ function discountCalculation(proid) {
                 if (document.getElementById('main_price' + proid)) {
                     var product_main_price = document.getElementById('main_price' + proid).value;
 
-                    calculateTotalPrice(proid, 0);
-
                     if (SHOW_PRICE == '1' && ( DEFAULT_QUOTATION_MODE != '1' || (DEFAULT_QUOTATION_MODE && SHOW_QUOTATION_PRICE))) {
 
 
@@ -1854,6 +1852,8 @@ function discountCalculation(proid) {
                         // set product main price as price total for dynamic price change
                         document.getElementById('main_price' + proid).value = product_price_excl_vat;
                     }
+
+                    calculateTotalPrice(proid, 0);
                 }
             }
         }
