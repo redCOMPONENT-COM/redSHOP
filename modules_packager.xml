@@ -6,96 +6,95 @@
 <!--    Change the following variables in build.properties file          -->
 <!--            (copy variables from build.properties.dist )             -->
 <!--    - change the version in variable comp.version                    -->
-<!--    - change the source folder path in variable repo.dir             -->
 <!--    - change the package folder path in variable package.dir         -->
 <!--    - execute this PHING build file                                  -->
 <!-- ==================================================================  -->
 
 <project name="modules packager" basedir="." default="main">
 
-    <!-- Do initialization stuff -->
-    <property file="build.properties" override="true"/>
+	<!-- Do initialization stuff -->
+	<property file="build.properties" override="true"/>
 
-    <!-- Folder where the redSHOP repository modules are located  -->
-    <property
-            name="extpath"
-            value="${repo.dir}/modules/"
-            override="true" />
+	<!-- Folder where the redSHOP repository modules are located  -->
+	<property
+			name="extpath"
+			value="${project.basedir}/modules/"
+			override="true" />
 
-    <!-- Target dir where module packages will be created  -->
-    <property
-            name="targetdir"
-            value="${package.dir}/redCOMPONENT-modules/"
-            override="true" />
+	 <!-- Version of the redSHOP for witch the module is intended to  -->
+	<property
+			name="version"
+			value="${comp.version}"
+			override="true" />
 
-    <!-- Version of the redSHOP for witch the module is intended to  -->
-    <property
-            name="version"
-            value="${comp.version}"
-            override="true" />
+	<!-- Target dir where module packages will be created  -->
+	<property
+			name="targetdir"
+			value="${package.dir}/redSHOP-${version}-modules/"
+			override="true" />
 
-    <!-- Version of the redSHOP for witch the module is intended to  -->
-    <property
-            name="joomla_version"
-            value="25"
-            override="true" />
+	<!-- Version of the redSHOP for witch the module is intended to  -->
+	<property
+			name="joomla_version"
+			value="${joomla.version}"
+			override="true" />
 
-    <!-- MAIN -->
-    <target name="main" description="Loops through folders creating module packages">
+	<!-- MAIN -->
+	<target name="main" description="Loops through folders creating module packages">
 
-        <!-- Cleanup build area -->
-        <delete dir="${targetdir}" />
-        <mkdir dir="${targetdir}" />
+		<!-- Cleanup build area -->
+		<delete dir="${targetdir}" />
+		<mkdir dir="${targetdir}" />
 
-        <!-- Generate site modules packages -->
-        <foreach param="dirname" absparam="absname" target="site_modules">
-            <fileset dir="${extpath}/site/">
-                <type type="dir" />
-                <depth max="0" min="0" />
-            </fileset>
-        </foreach>
+		<!-- Generate site modules packages -->
+		<foreach param="dirname" target="site_modules">
+			<fileset dir="${extpath}/site/">
+				<type type="dir" />
+				<depth max="0" min="0" />
+			</fileset>
+		</foreach>
 
-        <!-- Generate site modules packages -->
-        <foreach param="dirname" absparam="absname" target="admin_modules">
-            <fileset dir="${extpath}/admin/">
-                <type type="dir" />
-                <depth max="0" min="0" />
-            </fileset>
-        </foreach>
+		<!-- Generate site modules packages -->
+		<foreach param="dirname" target="admin_modules">
+			<fileset dir="${extpath}/admin/">
+				<type type="dir" />
+				<depth max="0" min="0" />
+			</fileset>
+		</foreach>
 
-    </target>
+	</target>
 
-    <target name="subtask">
-        <echo msg="${dirname} ${absname}" />
-    </target>
+	<target name="site_modules" description="Packages the extension for delivery">
 
+		<mkdir dir="${targetdir}/site/${dirname}" />
 
-    <target name="site_modules" description="Packages the extension for delivery">
+		<zip
+				destfile="${targetdir}/site/${dirname}_${version}_${joomla_version}j.zip"
+				basedir="${extpath}/site/${dirname}">
+			<fileset dir="${extpath}/site/${dirname}">
+				<include name="**" />
+				<exclude name=".*" />
+			</fileset>
+		</zip>
 
-        <mkdir dir="${targetdir}/site/${dirname}" />
+		<!-- Remove temp source directory after creating zip -->
+		<delete dir="${targetdir}/site/${dirname}" />
+	</target>
 
-        <zip
-                destfile="${targetdir}/site/${dirname}/${dirname}_${version}_${joomla_version}j.zip"
-                basedir="${extpath}/site/${dirname}">
-            <fileset dir="${extpath}/site/${dirname}">
-                <include name="**" />
-                <exclude name=".*" />
-            </fileset>
-        </zip>
-    </target>
+	<target name="admin_modules" description="Packages the extension for delivery">
 
-    <target name="admin_modules" description="Packages the extension for delivery">
+		<mkdir dir="${targetdir}/admin/${dirname}" />
 
-        <mkdir dir="${targetdir}/admin/${dirname}" />
+		<zip
+				destfile="${targetdir}/admin/${dirname}_${version}_${joomla_version}j.zip"
+				basedir="${extpath}/admin/${dirname}">
+			<fileset dir="${extpath}/admin/${dirname}">
+				<include name="**" />
+				<exclude name=".*" />
+			</fileset>
+		</zip>
 
-        <zip
-                destfile="${targetdir}/admin/${dirname}/${dirname}_${version}_${joomla_version}j.zip"
-                basedir="${extpath}/admin/${dirname}">
-            <fileset dir="${extpath}/admin/${dirname}">
-                <include name="**" />
-                <exclude name=".*" />
-            </fileset>
-        </zip>
-    </target>
-
+		<!-- Remove temp source directory after creating zip -->
+		<delete dir="${targetdir}/admin/${dirname}" />
+	</target>
 </project>

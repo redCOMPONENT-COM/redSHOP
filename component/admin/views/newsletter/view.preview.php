@@ -47,13 +47,13 @@ class RedshopViewNewsletter extends RedshopView
 		$total = $this->get('Total');
 		$pagination = $this->get('Pagination');
 
-		$oprand = JRequest::getVar('oprand', '>');
+		$oprand = JFactory::getApplication()->input->getCmd('oprand', 'select');
 
 		$optionoprand = array();
 		$optionoprand[] = JHTML::_('select.option', 'select', JText::_('COM_REDSHOP_SELECT'));
-		$optionoprand[] = JHTML::_('select.option', '>=', JText::_('COM_REDSHOP_GTOREQUEL'));
-		$optionoprand[] = JHTML::_('select.option', '<=', JText::_('COM_REDSHOP_LTOREQUEL'));
-		$optionoprand[] = JHTML::_('select.option', '=', JText::_('COM_REDSHOP_EQUAL_SIGN'));
+		$optionoprand[] = JHTML::_('select.option', 'more', JText::_('COM_REDSHOP_GTOREQUEL'));
+		$optionoprand[] = JHTML::_('select.option', 'less', JText::_('COM_REDSHOP_LTOREQUEL'));
+		$optionoprand[] = JHTML::_('select.option', 'equally', JText::_('COM_REDSHOP_EQUAL_SIGN'));
 		$lists['oprand'] = JHTML::_('select.genericlist', $optionoprand, 'oprand', 'class="inputbox" size="1" ', 'value', 'text', $oprand);
 
 		$country_option = array();
