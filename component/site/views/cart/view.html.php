@@ -33,7 +33,7 @@ class RedshopViewCart extends JView
 
 		if (JRequest::getString('quotemsg') != "")
 		{
-			$app->Redirect('index.php?option=com_redshop&view=cart&Itemid=' . $Itemid, JRequest::getString('quotemsg'));
+			$app->redirect('index.php?option=com_redshop&view=cart&Itemid=' . $Itemid, JRequest::getString('quotemsg'));
 		}
 
 		JHTML::Script('common.js', 'components/com_redshop/assets/js/', false);

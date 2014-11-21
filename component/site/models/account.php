@@ -280,7 +280,7 @@ class RedshopModelAccount extends JModel
 			$app->enqueueMessage(JText::_('COM_REDSHOP_YOU_DONT_HAVE_ACCESS_TO_DELETE_THIS_PRODUCT'));
 		}
 
-		$app->Redirect('index.php?option=' . $option . '&wishlist_id=' . $wishlist_id . '&view=account&layout=mywishlist&Itemid=' . $Itemid);
+		$app->redirect('index.php?option=' . $option . '&wishlist_id=' . $wishlist_id . '&view=account&layout=mywishlist&Itemid=' . $Itemid);
 	}
 
 	public function removeTag()
@@ -300,7 +300,7 @@ class RedshopModelAccount extends JModel
 			$app->enqueueMessage(JText::_('COM_REDSHOP_ERROR_DELETING_TAG'));
 		}
 
-		$app->Redirect('index.php?option=' . $option . '&view=account&layout=mytags&Itemid=' . $Itemid);
+		$app->redirect('index.php?option=' . $option . '&view=account&layout=mytags&Itemid=' . $Itemid);
 	}
 
 	public function removeTags($tagid)
@@ -403,7 +403,7 @@ class RedshopModelAccount extends JModel
 			$app->enqueueMessage(JText::_('COM_REDSHOP_ERROR_DELETING_PRODUCT_FROM_COMPARE'));
 		}
 
-		$app->Redirect('index.php?option=' . $option . '&view=account&layout=compare&Itemid=' . $Itemid);
+		$app->redirect('index.php?option=' . $option . '&view=account&layout=compare&Itemid=' . $Itemid);
 	}
 
 	public function sendWishlist($post)

@@ -101,7 +101,7 @@ class RedshopViewSearch extends JView
 			{
 				$mypid = JRequest::getInt('pid', 0);
 
-				$app->Redirect('index.php?option=com_redshop&view=product&pid=' . $mypid . '&Itemid=' . $Itemid);
+				$app->redirect('index.php?option=com_redshop&view=product&pid=' . $mypid . '&Itemid=' . $Itemid);
 			}
 		}
 

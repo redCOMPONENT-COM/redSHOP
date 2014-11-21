@@ -61,7 +61,7 @@ class RedshopControllerCoupon_detail extends JController
 			if ($model->checkduplicate($post['coupon_code']))
 			{
 				$msg = JText::_('COM_REDSHOP_CODE_IS_ALREADY_IN_USE');
-				$app->Redirect('index.php?option=' . $option . '&view=coupon_detail&task=edit&cid=' . $post ['coupon_id'], $msg);
+				$app->redirect('index.php?option=' . $option . '&view=coupon_detail&task=edit&cid=' . $post ['coupon_id'], $msg);
 			}
 		}
 
