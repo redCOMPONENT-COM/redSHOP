@@ -29,8 +29,23 @@ class InstallExtensionSteps extends \AcceptanceTester
 		$I = $this;
 		$this->acceptanceTester = $I;
 		$I->amOnPage(\ExtensionManagerPage::$URL);
+		$handle = fopen("extensionpath.txt", "r");
+
+		if($handle)
+		{
+			while(($line = fgets($handle)) !== false)
+			{
+				$extensionPath = $line;
+			}
+		}
+		else
+		{
+			// error opening the file.
+		}
+
+		fclose($handle);
 		$config = $I->getConfig();
-		$I->fillField(\ExtensionManagerPage::$extensionDirectoryPath, $config['folder']);
+		$I->fillField(\ExtensionManagerPage::$extensionDirectoryPath, $extensionPath);
 		$I->click(\ExtensionManagerPage::$installButton);
 		$I->waitForElement(\ExtensionManagerPage::$installSuccessMessage, 60);
 	}
