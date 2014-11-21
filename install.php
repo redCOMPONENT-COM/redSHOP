@@ -382,7 +382,7 @@ class Com_RedshopInstallerScript
 							       onclick="submitWizard('save');"/>
 							<input type="button" name="content" value="<?php echo JText::_('COM_REDSHOP_INSTALL_DEMO_CONTENT');?>"
 							       onclick="submitWizard('content');"/>
-							<input type="button" name="cancel" value="<?php echo JText::_('COM_REDSHOP_INSTALL_CANCEL');?>" onclick="submitWizard('cancel');"/>
+							<input type="button" name="cancel" value="<?php echo JText::_('JCANCEL');?>" onclick="submitWizard('cancel');"/>
 							<?php else: ?>
 							<input type="button" name="update" value="<?php echo JText::_('COM_REDSHOP_OPTIMIZE_TABLES'); ?>" onclick="submitWizard('update');"/>
 							<?php endif; ?>
