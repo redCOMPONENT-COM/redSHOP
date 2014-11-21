@@ -414,15 +414,19 @@ function display_image_out(imgs, product_id, gethover)
 
 function display_image_add(img, product_id)
 {
-    document.getElementById('main_image' + product_id).src = img;
+	if (document.getElementById('main_image' + product_id)) {
+		document.getElementById('main_image' + product_id).src = img;
+	}
 }
 
 function display_image_add_out(img, product_id)
 {
-    if (subproperty_main_image != "")
-        document.getElementById('main_image' + product_id).src = subproperty_main_image;
-    else
-        document.getElementById('main_image' + product_id).src = img;
+	if (document.getElementById('main_image' + product_id)) {
+		if (subproperty_main_image != "")
+			document.getElementById('main_image' + product_id).src = subproperty_main_image;
+		else
+			document.getElementById('main_image' + product_id).src = img;
+	}
 }
 
 function collectAttributes(product_id, accessory_id, relatedprd_id)
@@ -1036,28 +1040,28 @@ function calculateTotalPrice(product_id, relatedprd_id) {
         wrapper_price_withoutvat = document.getElementById("wrapper_price_withoutvat").value;
     }
 
-    final_price_f = parseFloat(mainprice) + parseFloat(accfinalprice) + parseFloat(wprice);
+    var final_price_f = parseFloat(mainprice) + parseFloat(accfinalprice) + parseFloat(wprice);
 
-    product_price_without_vat = parseFloat(price_without_vat) + parseFloat(accfinalprice_withoutvat) + parseFloat(wrapper_price_withoutvat);
+    var product_price_without_vat = parseFloat(price_without_vat) + parseFloat(accfinalprice_withoutvat) + parseFloat(wrapper_price_withoutvat);
 
     product_old_price = parseFloat(old_price) + parseFloat(accfinalprice) + parseFloat(wprice);
 
-    savingprice = parseFloat(product_old_price) - parseFloat(final_price_f);
+    var savingprice = parseFloat(product_old_price) - parseFloat(final_price_f);
 
     if (SHOW_PRICE == '1')
     {
         if (!final_price_f || (DEFAULT_QUOTATION_MODE == '1' && SHOW_QUOTATION_PRICE != '1'))
         {
-            final_price = getPriceReplacement(final_price_f);
+            var final_price = getPriceReplacement(final_price_f);
         }
         else
         {
-            final_price = number_format(final_price_f, PRICE_DECIMAL, PRICE_SEPERATOR, THOUSAND_SEPERATOR);
+            var final_price = number_format(final_price_f, PRICE_DECIMAL, PRICE_SEPERATOR, THOUSAND_SEPERATOR);
         }
     }
     else
     {
-        final_price = getPriceReplacement(final_price_f);
+        var final_price = getPriceReplacement(final_price_f);
     }
 
     if (SHOW_PRICE == '1' && ( DEFAULT_QUOTATION_MODE != '1' || (DEFAULT_QUOTATION_MODE && SHOW_QUOTATION_PRICE)))
@@ -1564,19 +1568,11 @@ function displayAdditionalImage(product_id, accessory_id, relatedprd_id, selecte
                 //	else
                 //	document.getElementById('a_main_image'+product_id).src=arrResponse[4];
                 //}
-                if (arrResponse[4] != "") {
-                    document.getElementById('a_main_image' + product_id).innerHTML = arrResponse[4];
-                }
-            }
-            else {
-
-                if (arrResponse[4] != "") {
-                    if (document.getElementById('main_image' + product_id) && arrResponse[4] != "") {
-                        document.getElementById('main_image' + product_id).src = arrResponse[4];
-                    }
-                }
             }
 
+            if (arrResponse[4] != '' && document.getElementById('main_image' + product_id)) {
+                document.getElementById('main_image' + product_id).src = arrResponse[4];
+            }
             if (document.getElementById('additional_images' + product_id) && arrResponse[1] != "") {
                 document.getElementById('additional_images' + product_id).innerHTML = arrResponse[1];
             }
@@ -1683,7 +1679,7 @@ function setWrapperComboBox() {
  * ajax function for calculatin of discount
  */
 function discountCalculation(proid) {
-    var calHeight = 0, calWidth = 0, calDepth = 0, calRadius = 0, calUnit = 'cm', globalcalUnit = 'cm', total_area = '', price_per_area = 0, price_per_piece = 0, output = "", price_total = 0;
+    var calHeight = 0, calWidth = 0, calDepth = 0, calRadius = 0, calUnit = 'cm', globalcalUnit = 'cm', total_area = '', price_per_area = 0, price_per_piece = 0, output = "", price_total = 0, price_excl_vat = 0;
 
     if (document.getElementById('calc_height')) {
         calHeight = document.getElementById('calc_height').value;
@@ -1756,6 +1752,26 @@ function discountCalculation(proid) {
 
     //alert("calHeight"+calHeight+"calWidth"+calWidth+"calDepth"+calDepth+"calRadius"+calRadius);
 
+	var mainprice = 0;
+	var accfinalprice = collectAccessory(proid, 0);
+	var wprice = 0;
+	collectAttributes(proid, 0, 0);
+	setWrapperComboBox();
+
+	if (document.getElementById("wrapper_price")) {
+		wprice = document.getElementById("wrapper_price").value;
+	}
+
+	if (document.getElementById('tmp_product_price')) {
+		mainprice = parseFloat(document.getElementById('tmp_product_price').value);
+	}
+
+	if (document.getElementById('hidden_subscription_prize')) {
+		mainprice = parseFloat(mainprice) + parseFloat(document.getElementById('hidden_subscription_prize').value);
+	}
+
+	var final_price_f = parseFloat(mainprice) + parseFloat(accfinalprice) + parseFloat(wprice);
+
     http.onreadystatechange = function () {
         if (http.readyState == 4) {
 
@@ -1824,8 +1840,6 @@ function discountCalculation(proid) {
                 if (document.getElementById('main_price' + proid)) {
                     var product_main_price = document.getElementById('main_price' + proid).value;
 
-                    calculateTotalPrice(proid, 0);
-
                     if (SHOW_PRICE == '1' && ( DEFAULT_QUOTATION_MODE != '1' || (DEFAULT_QUOTATION_MODE && SHOW_QUOTATION_PRICE))) {
 
 
@@ -1838,7 +1852,7 @@ function discountCalculation(proid) {
                         }
 
                         formatted_price_total = number_format(product_total, PRICE_DECIMAL, PRICE_SEPERATOR, THOUSAND_SEPERATOR);
-                        formatted_product_price_excl_vat = number_format(product_price_excl_vat, PRICE_DECIMAL, PRICE_SEPERATOR, THOUSAND_SEPERATOR);
+                        var formatted_product_price_excl_vat = number_format(product_price_excl_vat, PRICE_DECIMAL, PRICE_SEPERATOR, THOUSAND_SEPERATOR);
                         if (document.getElementById('produkt_kasse_hoejre_pris_indre' + proid)) {
                             document.getElementById('produkt_kasse_hoejre_pris_indre' + proid).innerHTML = formatted_product_price_excl_vat;
                             if (document.getElementById('display_product_price_no_vat' + proid))
@@ -1850,16 +1864,13 @@ function discountCalculation(proid) {
                         if (document.getElementById('product_price_incl_vat' + proid)) {
                             document.getElementById('product_price_incl_vat' + proid).innerHTML = formatted_product_price_excl_vat;
                         }
-
-                        // set product main price as price total for dynamic price change
-                        document.getElementById('main_price' + proid).value = product_price_excl_vat;
                     }
                 }
             }
         }
     };
 
-    http.open("GET", site_url + "index.php?option=com_redshop&view=cart&task=discountCalculator&product_id=" + proid + "&calcHeight=" + calHeight + "&calcWidth=" + calWidth + "&calcDepth=" + calDepth + "&calcRadius=" + calRadius + "&calcUnit=" + calUnit + "&pdcextraid=" + pdcoptionid + "&tmpl=component", true);
+    http.open('POST', site_url + "index.php?option=com_redshop&view=cart&task=discountCalculator&product_id=" + proid + "&calcHeight=" + calHeight + "&calcWidth=" + calWidth + "&calcDepth=" + calDepth + "&calcRadius=" + calRadius + "&calcUnit=" + calUnit + "&pdcextraid=" + pdcoptionid + "&tmpl=component&productPrice=" + final_price_f, true);
     http.send(null);
 }
 
@@ -2027,14 +2038,19 @@ function displayAddtocartForm(frmCartName, product_id, relatedprd_id, giftcard_i
     if (document.getElementById(frmCartName) && document.getElementById('requiedProperty')) {
         document.getElementById('requiedProperty').value = document.getElementById(frmCartName).requiedProperty.getAttribute('reproperty');
     }
-    if (giftcard_id == 0) {
-        //get selected attribute,property,subproperty data and total price
-        calculateTotalPrice(product_id, relatedprd_id);
-    }
 
     //set selected attribute,property,subproperty data and total price to Add to cart form
     if (!setAddtocartForm(frmCartName, product_id))
         return false;
+
+	if (document.getElementById('discount_cal_final_price'))
+	{
+		discountCalculation(product_id);
+	}
+	else if (giftcard_id == 0) {
+		//get selected attribute,property,subproperty data and total price
+		calculateTotalPrice(product_id, relatedprd_id);
+	}
 
     return true;
 }

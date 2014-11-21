@@ -219,7 +219,7 @@ class RedshopControllerProduct extends JController
 			. "`_`" . $stockamountSrc
 			. "`_`" . $stockamountTooltip
 			. "`_`" . $ProductAttributeDelivery
-			. "`_`" . $product_img
+			. "`_`"// . $product_img
 			. "`_`" . $pr_number
 			. "`_`" . $productinstock
 			. "`_`" . $stock_status

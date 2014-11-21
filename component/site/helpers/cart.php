@@ -6002,7 +6002,7 @@ class rsCarthelper
 					$sameProduct = false;
 				}
 
-				if ($cart[$i]['wrapper_id'] != $data['sel_wrapper_id'])
+				if (isset($data['sel_wrapper_id']) && $cart[$i]['wrapper_id'] != $data['sel_wrapper_id'])
 				{
 					$sameProduct = false;
 				}
@@ -6194,7 +6194,7 @@ class rsCarthelper
 			}
 
 			$cart[$idx]['category_id']   = $data['category_id'];
-			$cart[$idx]['wrapper_id']    = $data['sel_wrapper_id'];
+			$cart[$idx]['wrapper_id']    = isset($data['sel_wrapper_id']) ? $data['sel_wrapper_id'] : null;
 			$cart[$idx]['wrapper_price'] = $wrapper_price + $wrapper_vat;
 
 			/**
@@ -6871,13 +6871,14 @@ class rsCarthelper
 	 */
 	public function discountCalculator($get)
 	{
+		$app = JFactory::getApplication();
 		$product_id = $get['product_id'];
 
 		$discount_cal = array();
 
 		$productprice = $this->_producthelper->getProductNetPrice($product_id);
-
 		$product_price = $productprice['product_price_novat'];
+		$product_price = $app->input->getFloat('productPrice', $product_price);
 
 		$data = $this->_producthelper->getProductById($product_id);
 
@@ -6890,17 +6891,41 @@ class rsCarthelper
 		// Use range or not
 		$use_range = $data->use_range;
 
-		$calcHeight = $get['calcHeight'];
-		$calcWidth  = $get['calcWidth'];
-		$calcLength = $get['calcDepth'];
-		$calcRadius = $get['calcRadius'];
-		$calcUnit   = trim($get['calcUnit']);
+		$calcHeight = 0;
+		$calcWidth  = 0;
+		$calcLength = 0;
+		$calcRadius = 0;
+		$calcUnit   = 0;
 
-		$calcHeight = str_replace(",", ".", $calcHeight);
-		$calcWidth  = str_replace(",", ".", $calcWidth);
-		$calcLength = str_replace(",", ".", $calcLength);
-		$calcRadius = $cart_mdata = str_replace(",", ".", $calcRadius);
-		$calcUnit   = $cart_mdata = str_replace(",", ".", $calcUnit);
+		if (isset($get['calcHeight']))
+		{
+			$calcHeight = $get['calcHeight'];
+			$calcHeight = str_replace(',', '.', $calcHeight);
+		}
+
+		if (isset($get['calcWidth']))
+		{
+			$calcWidth = $get['calcWidth'];
+			$calcWidth  = str_replace(',', '.', $calcWidth);
+		}
+
+		if (isset($get['calcDepth']))
+		{
+			$calcLength = $get['calcDepth'];
+			$calcLength = str_replace(',', '.', $calcLength);
+		}
+
+		if (isset($get['calcRadius']))
+		{
+			$calcRadius = $get['calcRadius'];
+			$calcRadius = str_replace(',', '.', $calcRadius);
+		}
+
+		if (isset($get['calcUnit']))
+		{
+			$calcUnit = trim($get['calcUnit']);
+			$calcUnit = str_replace(',', '.', $calcUnit);
+		}
 
 		// Convert unit using helper function
 		$unit = 1;
@@ -6910,8 +6935,13 @@ class rsCarthelper
 		$calcWidth *= $unit;
 		$calcLength *= $unit;
 		$calcRadius *= $unit;
-
+		$product_height = 0;
+		$product_width = 0;
+		$product_length = 0;
+		$product_area = 0;
 		$product_unit = 1;
+		$product_diameter = 0;
+		$total_sheet = 0;
 
 		if (!$use_range)
 		{
@@ -7006,6 +7036,7 @@ class rsCarthelper
 			// Discount calculator extra price enhancement
 			$pdcextraid = $get['pdcextraid'];
 			$pdcstring  = $pdcids = array();
+			$extraPrice = 0;
 
 			if (trim($pdcextraid) != "")
 			{
@@ -7025,16 +7056,18 @@ class rsCarthelper
 					switch ($pdcoprand)
 					{
 						case "+":
-							$area_price += $pdcprice;
+							$extraPrice += $pdcprice;
 							break;
 						case "-":
-							$area_price -= $pdcprice;
+							$extraPrice -= $pdcprice;
 							break;
 						case "%":
-							$area_price *= 1 + ($pdcprice / 100);
+							$extraPrice += ($area_price * $pdcprice) / 100;
 							break;
 					}
 				}
+
+				$area_price += $extraPrice;
 			}
 
 			// Applying TAX
@@ -7073,7 +7106,7 @@ class rsCarthelper
 			}
 			else
 			{
-				$price_per_piece = $discount_calc_data[0]->price_per_piece;
+				$price_per_piece = $discount_calc_data[0]->price_per_piece + $extraPrice;
 
 				$price_per_piece_tax = $this->_producthelper->getProductTax($product_id, $price_per_piece, 0, 1);
 
