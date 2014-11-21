@@ -90,6 +90,8 @@ if (strstr($template_desc, "{product_loop_start}") && strstr($template_desc, "{p
 		$orderpayment  = $order_function->getOrderPaymentDetail($this->detail[$i]->order_id);
 		$paymentmethod = $orderpayment[0];
 
+		$orderTransFee = '';
+
 		if ($paymentmethod->order_transfee > 0)
 		{
 			$orderTransFee = $producthelper->getProductFormattedPrice(

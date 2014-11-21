@@ -96,7 +96,6 @@ class RedshopModelProduct extends JModel
 
 	public function getData()
 	{
-
 		$redTemplate = new Redtemplate;
 
 		if (empty ($this->_data))
@@ -106,8 +105,11 @@ class RedshopModelProduct extends JModel
 			$this->_data = $this->_db->loadObject();
 		}
 
-		$this->_data->product_s_desc = isset($this->_data->product_s_desc) ? $redTemplate->parseredSHOPplugin($this->_data->product_s_desc) : '';
-		$this->_data->product_desc   = isset($this->_data->product_desc) ? $redTemplate->parseredSHOPplugin($this->_data->product_desc) : '';
+		if (is_object($this->_data))
+		{
+			$this->_data->product_s_desc = $redTemplate->parseredSHOPplugin($this->_data->product_s_desc);
+			$this->_data->product_desc   = $redTemplate->parseredSHOPplugin($this->_data->product_desc);
+		}
 
 		return $this->_data;
 	}
