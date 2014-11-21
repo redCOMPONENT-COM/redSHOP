@@ -5786,6 +5786,27 @@ class rsCarthelper
 		// Get product price
 		$data['product_price'] = 0;
 
+		// Discount calculator procedure start
+		$discountArr = array();
+		$discountArr = $this->discountCalculatorData($product_data, $data);
+
+		$calc_output       = "";
+		$calc_output_array = array();
+		$product_price_tax = 0;
+
+		if (!empty($discountArr))
+		{
+			$calc_output       = $discountArr[0];
+			$calc_output_array = $discountArr[1];
+
+			// Calculate price without VAT
+			$data['product_price'] = $discountArr[2] + $discountArr[3];
+
+			$cart[$idx]['product_price_excl_vat'] = $discountArr[2];
+			$product_vat_price += $discountArr[3];
+			$cart[$idx]['discount_calc_price'] = $discountArr[2];
+		}
+
 		// Attribute price added
 		$generateAttributeCart = isset($data['cart_attribute']) ? $data['cart_attribute'] : $this->generateAttributeArray($data);
 
@@ -5870,27 +5891,6 @@ class rsCarthelper
 
 				return $msg;
 			}
-		}
-
-		// Discount calculator procedure start
-		$discountArr = array();
-		$discountArr = $this->discountCalculatorData($product_data, $data);
-
-		$calc_output       = "";
-		$calc_output_array = array();
-		$product_price_tax = 0;
-
-		if (!empty($discountArr))
-		{
-			$calc_output       = $discountArr[0];
-			$calc_output_array = $discountArr[1];
-
-			// Calculate price without VAT
-			$data['product_price'] = $discountArr[2] + $discountArr[3];
-
-			$cart[$idx]['product_price_excl_vat'] = $discountArr[2];
-			$product_vat_price += $discountArr[3];
-			$cart[$idx]['discount_calc_price'] = $discountArr[2];
 		}
 
 		$cart[$idx]['subscription_id'] = 0;
