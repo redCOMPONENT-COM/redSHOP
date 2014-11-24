@@ -429,6 +429,13 @@ class RedshopViewConfiguration extends JView
 			'default_customer_register_type', 'class="inputbox" ', 'value', 'text', DEFAULT_CUSTOMER_REGISTER_TYPE
 		);
 
+		$checkoutLoginRegisterSwitcher          = array();
+		$checkoutLoginRegisterSwitcher[]        = JHTML::_('select.option', 'tabs', JText::_('COM_REDSHOP_CONFIG_TABS'));
+		$checkoutLoginRegisterSwitcher[]        = JHTML::_('select.option', 'sliders', JText::_('COM_REDSHOP_CONFIG_SLIDERS'));
+		$lists['checkout_login_register_switcher'] = JHTML::_('select.genericlist', $checkoutLoginRegisterSwitcher,
+			'checkout_login_register_switcher', 'class="inputbox" ', 'value', 'text', CHECKOUT_LOGIN_REGISTER_SWITCHER
+		);
+
 		$addtocart_behaviour          = array();
 		$addtocart_behaviour[]        = JHTML::_('select.option', '0', JText::_('COM_REDSHOP_SELECT'));
 		$addtocart_behaviour[]        = JHTML::_('select.option', '1', JText::_('COM_REDSHOP_DIRECT_TO_CART'));
