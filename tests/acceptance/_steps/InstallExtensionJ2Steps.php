@@ -43,7 +43,12 @@ class InstallExtensionJ2Steps extends \AcceptanceTester
 	public function installSampleData()
 	{
 		$I = $this;
-		$I->click(\ExtensionManagerPage::$installDemoContent);
-		$I->waitForElement(\ExtensionManagerPage::$demoDataInstallSuccessMessage, 30);
+		$config = $I->getConfig();
+
+		if ($config['demo_data'] == 'yes')
+		{
+			$I->click(\ExtensionManagerPage::$installDemoContent);
+			$I->waitForElement(\ExtensionManagerPage::$demoDataInstallSuccessMessage, 30);
+		}
 	}
 }
