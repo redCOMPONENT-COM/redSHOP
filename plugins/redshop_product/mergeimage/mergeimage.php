@@ -55,21 +55,21 @@ class PlgRedshop_ProductMergeImage extends JPlugin
 		{
 			if (!empty($arrproperty_id[$i]))
 			{
-				$Arrresult = $producthelper->getdisplaymainImage($product_id, $arrproperty_id[$i]);
+				$arrResult = $producthelper->getdisplaymainImage($product_id, $arrproperty_id[$i]);
 
 				if ($property_id == $arrproperty_id[$i])
 				{
-					$pr_number           = $Arrresult['pr_number'];
-					$aTitleImageResponse = $Arrresult['aTitleImageResponse'];
+					$pr_number           = $arrResult['pr_number'];
+					$aTitleImageResponse = $arrResult['aTitleImageResponse'];
 
-					if (isset($Arrresult['imageTitle']))
+					if (isset($arrResult['imageTitle']))
 					{
-						$imageTitle          = $Arrresult['imageTitle'];
+						$imageTitle          = $arrResult['imageTitle'];
 					}
 				}
 
-				$arrImage['property'][] = $Arrresult['imagename'];
-				$arrId[]                = 'p' . $arrproperty_id[$i];
+				$arrImage['property'][] = $arrResult['imagename'];
+				$arrId[]                = 'p' . $arrResult['imagename'];
 			}
 		}
 
@@ -77,27 +77,25 @@ class PlgRedshop_ProductMergeImage extends JPlugin
 		{
 			if (!empty($arrsubproperty_id[$i]))
 			{
-				$Arrresult = $producthelper->getdisplaymainImage($product_id, 0, $arrsubproperty_id[$i]);
+				$arrResult = $producthelper->getdisplaymainImage($product_id, 0, $arrsubproperty_id[$i]);
 
 				if ($subproperty_id == $arrsubproperty_id[$i])
 				{
-					$pr_number           = $Arrresult['pr_number'];
-					$aTitleImageResponse = $Arrresult['aTitleImageResponse'];
-					$imageTitle          = $Arrresult['imageTitle'];
+					$pr_number           = $arrResult['pr_number'];
+					$aTitleImageResponse = $arrResult['aTitleImageResponse'];
+					$imageTitle          = $arrResult['imageTitle'];
 				}
 
-				$arrImage['subproperty'][] = $Arrresult['imagename'];
-				$arrId[]                   = 'sp' . $arrsubproperty_id[$i];
+				$arrImage['subproperty'][] = $arrResult['imagename'];
+				$arrId[]                   = 'sp' . $arrResult['imagename'];
 			}
 		}
 
 		$newImagename                   = implode('_', $arrId) . '.png';
-		$url                            = JURI::base();
-
 		$mainImageResponse              = $this->mergeImage($arrImage, $main_imgwidth, $main_imgheight, $newImagename);
 		$arrReturn['mainImageResponse'] = $mainImageResponse;
 		$arrReturn['imageTitle']        = $imageTitle;
-		$arrReturn['ImageName']         = $url . 'components/com_redshop/assets/images/mergeImages/' . $newImagename;
+		$arrReturn['ImageName']         = JURI::base() . 'components/com_redshop/assets/images/mergeImages/' . $newImagename;
 
 		return $arrReturn;
 	}
@@ -114,8 +112,7 @@ class PlgRedshop_ProductMergeImage extends JPlugin
 	 */
 	public function mergeImage($arrImage=array(), $main_imgwidth, $main_imgheight, $newImagename)
 	{
-		$url             = JURI::root();
-		$DestinationFile = JPATH_BASE . '/components/com_redshop/assets/images/mergeImages/' . $newImagename;
+		$destinationFile = JPATH_BASE . '/components/com_redshop/assets/images/mergeImages/' . $newImagename;
 		$productImage    = JPATH_BASE . '/components/com_redshop/assets/images/product/' . $arrImage['product'][0];
 
 		// Only support png files for merge
@@ -175,9 +172,9 @@ class PlgRedshop_ProductMergeImage extends JPlugin
 
 		imagealphablending($final_img, true);
 		imagesavealpha($final_img, true);
-		imagepng($final_img, $DestinationFile);
+		imagepng($final_img, $destinationFile);
 
-		$DestinationFile = RedShopHelperImages::getImagePath(
+		$destinationFile = RedShopHelperImages::getImagePath(
 			$newImagename,
 			'',
 			'thumb',
@@ -187,6 +184,6 @@ class PlgRedshop_ProductMergeImage extends JPlugin
 			0
 		);
 
-		return $DestinationFile;
+		return $destinationFile;
 	}
 }
