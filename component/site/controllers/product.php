@@ -179,20 +179,41 @@ class RedshopControllerProduct extends RedshopController
 		$main_imgheight = $get['main_imgheight'];
 		$redview        = $get['redview'];
 		$redlayout      = $get['redlayout'];
+		$pluginResults  = array();
 
 		$dispatcher = JDispatcher::getInstance();
 		JPluginHelper::importPlugin('redshop_product');
-		$pluginResults = $dispatcher->trigger('onBeforeImageLoad', array($get));
+		$dispatcher->trigger('onBeforeImageLoad', array($get, &$pluginResults));
 
 		if (!empty($pluginResults))
 		{
-			$mainImageResponse = $pluginResults[0]['mainImageResponse'];
-			$result            = $producthelper->displayAdditionalImage($product_id, $accessory_id, $relatedprd_id, $property_id, $subproperty_id);
-			$result['attrbimg'] = $pluginResults[0]['attrbimg'];
+			$mainImageResponse = $pluginResults['mainImageResponse'];
+			$result            = $producthelper->displayAdditionalImage(
+									$product_id,
+									$accessory_id,
+									$relatedprd_id,
+									$property_id,
+									$subproperty_id
+								);
+
+			if (isset($pluginResults['attrbimg']))
+			{
+				$result['attrbimg'] = $pluginResults['attrbimg'];
+			}
 		}
 		else
 		{
-			$result            = $producthelper->displayAdditionalImage($product_id, $accessory_id, $relatedprd_id, $property_id, $subproperty_id, $main_imgwidth, $main_imgheight, $redview, $redlayout);
+			$result            = $producthelper->displayAdditionalImage(
+									$product_id,
+									$accessory_id,
+									$relatedprd_id,
+									$property_id,
+									$subproperty_id,
+									$main_imgwidth,
+									$main_imgheight,
+									$redview,
+									$redlayout
+								);
 			$mainImageResponse = $result['mainImageResponse'];
 		}
 
@@ -218,7 +239,7 @@ class RedshopControllerProduct extends RedshopController
 			. "`_`" . $stockamountSrc
 			. "`_`" . $stockamountTooltip
 			. "`_`" . $ProductAttributeDelivery
-			. "`_`" . $product_img
+			. "`_`" . ''
 			. "`_`" . $pr_number
 			. "`_`" . $productinstock
 			. "`_`" . $stock_status

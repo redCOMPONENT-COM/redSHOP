@@ -996,3 +996,19 @@ div.attribute_multiselect_single
 {
 	color: #FF0000;
 }
+
+a.leftButton,
+a.leftButton:hover{
+  background-image: url("../images/leftarrow.jpg");
+  display: block;
+  width: 19px;
+  height: 20px;
+}
+
+a.rightButton,
+a.rightButton:hover{
+  background-image: url("../images/rightarrow.jpg");
+  display: block;
+  width: 19px;
+  height: 20px;
+}

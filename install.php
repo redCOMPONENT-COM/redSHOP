@@ -378,14 +378,13 @@ class Com_RedshopInstallerScript
 					<td colspan="2">
 						<form action="index.php" method="post" name="installDemoContent">
 							<?php if ($type != 'update'): ?>
-							<input type="button" name="save" id="installDemoContentsave" value="Configuration Wizard"
+							<input type="button" name="save" id="installDemoContentsave" value="<?php echo JText::_('COM_REDSHOP_WIZARD');?>"
 							       onclick="submitWizard('save');"/>
-							<input type="button" name="content" value="install Demo Content"
+							<input type="button" name="content" value="<?php echo JText::_('COM_REDSHOP_INSTALL_DEMO_CONTENT');?>"
 							       onclick="submitWizard('content');"/>
-							<input type="button" name="cancel" value="Cancel" onclick="submitWizard('cancel');"/>
+							<input type="button" name="cancel" value="<?php echo JText::_('JCANCEL');?>" onclick="submitWizard('cancel');"/>
 							<?php else: ?>
-							<input type="button" name="update" value="Optimize RedSHOP tables"
-								   onclick="submitWizard('update');"/>
+							<input type="button" name="update" value="<?php echo JText::_('COM_REDSHOP_OPTIMIZE_TABLES'); ?>" onclick="submitWizard('update');"/>
 							<?php endif; ?>
 							<input type="hidden" name="option" value="com_redshop">
 							<input type="hidden" name="task" value="">
