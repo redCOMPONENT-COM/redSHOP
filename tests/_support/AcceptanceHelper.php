@@ -43,7 +43,7 @@ class AcceptanceHelper extends \Codeception\Module
 		"sample_data" => $this->config['sample_data'],
 		"host" => $this->config['host'],
 		"extension_name" => $this->config['extension_name'],
-		"demo_data" => $this->config['demo_data']
+		"install_extension_demo_data" => $this->config['install_extension_demo_data']
 		];
 
 		return $configuration;
