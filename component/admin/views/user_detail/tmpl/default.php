@@ -9,7 +9,6 @@
 defined('_JEXEC') or die;
 
 JHTML::_('behavior.tooltip');
-jimport('redshop.html.pane');
 
 $this->producthelper   = new producthelper;
 $this->order_functions = new order_functions;
@@ -142,45 +141,37 @@ if ($this->pagination->limitstart > 0)
 
 <form action="<?php echo JRoute::_($this->request_url) ?>" method="post" name="adminForm" id="adminForm">
 <?php
-	$myTabs = RedshopPane::getInstance('tabs', array('startOffset' => $tab));
-
-	// Create Pane
-	echo $myTabs->startPane('pane');
+	echo JHtml::_('tabs.start', 'user-pane', array('startOffset' => $tab));
 
 	if (!$this->shipping)
 	{
 		// Create 1st Tab
-		echo $myTabs->startPanel(JText::_('COM_REDSHOP_GENERAL_USER_INFO'), 'tab1');
+		echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_GENERAL_USER_INFO'), 'tab1');
 		echo $this->loadTemplate('user');
-		echo $myTabs->endPanel();
 	}
 
 	$title = ($this->shipping == 1) ? JText::_('COM_REDSHOP_SHIPPING_INFORMATION') : JText::_('COM_REDSHOP_BILLING_INFORMATION');
-	echo $myTabs->startPanel($title, 'tab2');
+	echo JHtml::_('tabs.panel', $title, 'tab2');
 	echo $this->loadTemplate('billing');
-	echo $myTabs->endPanel();
 
 	if (!$this->shipping && $this->detail->user_id != 0 || $cancel == 1)
 	{
-		echo $myTabs->startPanel(JText::_('COM_REDSHOP_SHIPPING_INFORMATION'), 'tab3');
+		echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_SHIPPING_INFORMATION'), 'tab3');
 		echo $this->loadTemplate('shipping');
-		echo $myTabs->endPanel();
 	}
 
 	$this->userorders = $this->model->userOrders();
 
 	if ($this->detail->user_id && count($this->userorders) > 0)
 	{
-		echo $myTabs->startPanel(JText::_('COM_REDSHOP_ORDER_INFORMATION'), 'tab4');
+		echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_ORDER_INFORMATION'), 'tab4');
 		echo $this->loadTemplate('order');
-		echo $myTabs->endPanel();
 	}
 
 	if ($this->lists['extra_field'] != "")
 	{
-		echo $myTabs->startPanel(JText::_('COM_REDSHOP_EXTRA_FIELD'), 'tab5');    ?>
+		echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_EXTRA_FIELD'), 'tab5');    ?>
 		<div class="col50"><?php echo $this->lists ['extra_field']; ?></div><?php
-		echo $myTabs->endPanel();
 	}
 	else
 	{
@@ -188,7 +179,7 @@ if ($this->pagination->limitstart > 0)
 		echo '<input type="hidden" name="tab5" value="tab5">';
 	}
 
-	echo $myTabs->endPane();
+	echo JHtml::_('tabs.end');
 
 	if ($this->shipping)
 	{

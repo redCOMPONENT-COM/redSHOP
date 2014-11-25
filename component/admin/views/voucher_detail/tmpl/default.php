@@ -9,7 +9,6 @@
 defined('_JEXEC') or die;
 
 JHTML::_('behavior.tooltip');
-jimport('redshop.html.pane');
 JHTMLBehavior::modal();
 JLoader::load('RedshopHelperProduct');
 $producthelper = new producthelper;
@@ -35,14 +34,8 @@ $now = JFactory::getDate();
 <form action="<?php echo JRoute::_($this->request_url) ?>" method="post" name="adminForm" id="adminForm"
       enctype="multipart/form-data" onSubmit="return selectAll(this.elements['container_product[]']);">
 	<?php
-	//Get JPaneTabs instance
-	$myTabs = RedshopPane::getInstance('tabs', array('startOffset' => 0));
-	$output = '';
-
-	//Create Pane
-	$output .= $myTabs->startPane('pane');
-	//Create 1st Tab
-	echo $output .= $myTabs->startPanel(JText::_('COM_REDSHOP_DETAILS'), 'tab1');
+	echo JHtml::_('tabs.start', 'voucher-pane', array('startOffset' => 0));
+	echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_DETAILS'), 'tab1');
 	?>
 	<div class="col50">
 		<fieldset class="adminform">
@@ -143,11 +136,7 @@ $now = JFactory::getDate();
 			</table>
 		</fieldset>
 	</div>
-	<?php
-	echo $myTabs->endPanel();
-	//Create 2nd Tab
-	echo  $myTabs->startPanel(JText::_('COM_REDSHOP_VOUCHER_PRODUCT'), 'tab2');
-	?>
+	<?php echo  JHtml::_('tabs.panel', JText::_('COM_REDSHOP_VOUCHER_PRODUCT'), 'tab2'); ?>
 	<div class="col50">
 
 		<table class="admintable">
@@ -175,11 +164,7 @@ $now = JFactory::getDate();
 		</table>
 
 	</div>
-	<?php
-	echo  $myTabs->endPanel();
-	//End Pane
-	echo $myTabs->endPane();
-	?>
+	<?php echo JHtml::_('tabs.end'); ?>
 	<div class="clr"></div>
 	<input type="hidden" name="cid[]" value="<?php echo $this->detail->voucher_id; ?>"/>
 	<input type="hidden" name="old_voucher_code" value="<?php echo $this->detail->voucher_code; ?>"/>

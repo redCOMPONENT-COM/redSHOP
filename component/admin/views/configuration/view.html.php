@@ -81,10 +81,6 @@ class RedshopViewConfiguration extends RedshopView
 
 		JToolBarHelper::cancel();
 
-		jimport('redshop.html.pane');
-		$pane = RedshopPane::getInstance('sliders');
-		$this->pane = $pane;
-
 		$uri = JFactory::getURI();
 		$this->setLayout('default');
 
