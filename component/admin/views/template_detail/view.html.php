@@ -20,10 +20,6 @@ class RedshopViewTemplate_detail extends RedshopView
 
 		$uri = JFactory::getURI();
 
-		jimport('redshop.html.pane');
-		$pane = RedshopPane::getInstance('sliders');
-		$this->pane = $pane;
-
 		$model = $this->getModel('template_detail');
 		$user = JFactory::getUser();
 		$redtemplate = new Redtemplate;

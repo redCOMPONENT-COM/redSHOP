@@ -10,7 +10,6 @@
 defined('_JEXEC') or die;
 
 JHTML::_('behavior.tooltip');
-jimport('redshop.html.pane');
 JHTMLBehavior::modal();
 $editor = JFactory::getEditor();
 
@@ -37,17 +36,6 @@ $date = JFactory::getDate();
 </script>
 <form action="<?php echo JRoute::_($this->request_url) ?>" method="post" name="adminForm"
       id="adminForm">
-	<?php
-
-	// Get JPaneTabs instance
-	$myTabs = RedshopPane::getInstance('tabs', array('startOffset' => 0));
-	$output = '';
-
-	// Create Pane
-	$output .= $myTabs->startPane('pane');
-	// Create 1st Tab
-	echo $output .= $myTabs->startPanel(JText::_('COM_REDSHOP_STOCKROOM_INFO'), 'tab1');
-	?>
 	<div class="col50">
 		<fieldset class="adminform">
 			<legend><?php echo JText::_('COM_REDSHOP_DETAILS'); ?></legend>
@@ -157,11 +145,6 @@ $date = JFactory::getDate();
 			</table>
 		</fieldset>
 	</div>
-	<?php
-	echo $myTabs->endPanel();
-
-	echo $myTabs->endPane();
-	?>
 	<div class="clr"></div>
 
 	<input type="hidden" name="cid[]" value="<?php echo $this->detail->stockroom_id; ?>"/>

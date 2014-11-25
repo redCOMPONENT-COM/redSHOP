@@ -16,7 +16,6 @@ JHTMLBehavior::modal();
 $uri = JURI::getInstance();
 $url = $uri->root();
 JHTML::_('behavior.calendar');
-jimport('redshop.html.pane');
 $objhelper = new redhelper;
 $producthelper = new producthelper;
 
@@ -43,14 +42,11 @@ $producthelper = new producthelper;
 <form action="<?php echo JRoute::_($this->request_url) ?>" method="post" name="adminForm" id="adminForm"
       enctype="multipart/form-data">
 <?php
-//Get JPaneTabs instance
-$myTabs = RedshopPane::getInstance('tabs', array('startOffset' => 0));
+echo JHtml::_('tabs.start', 'pane', array('startOffset' => 0));
 $output = '';
 
-//Create Pane
-$output .= $myTabs->startPane('pane');
-//Create 1st Tab
-echo $output .= $myTabs->startPanel(JText::_('COM_REDSHOP_CATEGORY_INFORMATION'), 'tab1');?>
+// Create 1st Tab
+echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_CATEGORY_INFORMATION'), 'tab1');?>
 <div class="col50">
 	<fieldset class="adminform">
 		<legend><?php echo JText::_('COM_REDSHOP_DETAILS'); ?></legend>
@@ -148,9 +144,8 @@ echo $output .= $myTabs->startPanel(JText::_('COM_REDSHOP_CATEGORY_INFORMATION')
 	</div>
 </div>
 <?php
-echo $myTabs->endPanel();
-//Create 2nd Tab
-echo  $myTabs->startPanel(JText::_('COM_REDSHOP_CATEGORY_IMAGES'), 'tab2');
+// Create 2nd Tab
+echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_CATEGORY_IMAGES'), 'tab2');
 ?>
 <div class="col50"></div>
 <table class="adminform">
@@ -260,9 +255,8 @@ echo  $myTabs->startPanel(JText::_('COM_REDSHOP_CATEGORY_IMAGES'), 'tab2');
 	} ?>
 </table>
 <?php
-echo $myTabs->endPanel();
-//Create 3rd Tab
-echo  $myTabs->startPanel(JText::_('COM_REDSHOP_META_DATA_TAB'), 'tab3');
+// Create 3rd Tab
+echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_META_DATA_TAB'), 'tab3');
 ?>
 <table>
 	<tr>
@@ -354,25 +348,7 @@ echo  $myTabs->startPanel(JText::_('COM_REDSHOP_META_DATA_TAB'), 'tab3');
 		</td>
 	</tr>
 </table>
-<?php
-echo $myTabs->endPanel();
-/*
-if($this->lists['extra_field']!="")
-{
-	echo  $myTabs->startPanel(JText::_('COM_REDSHOP_EXTRA_FIELD'), 'tab4' );
-?>
-<div class="col50">
-<?php
-	echo $this->lists['extra_field'];
-?>
-</div>
-<?php
-}*/
-
-
-echo  $myTabs->startPanel(JText::_('COM_REDSHOP_FIELDS'), 'tab4');
-
-?>
+<?php echo  JHtml::_('tabs.panel', JText::_('COM_REDSHOP_FIELDS'), 'tab4'); ?>
 <table class="admintable">
 	<tr>
 		<td colspan="2">
@@ -381,9 +357,8 @@ echo  $myTabs->startPanel(JText::_('COM_REDSHOP_FIELDS'), 'tab4');
 	</tr>
 </table>
 <?php
-echo $myTabs->endPanel();
-//Create 6th Tab
-echo  $myTabs->startPanel(JText::_('COM_REDSHOP_ACCESSORY_PRODUCT'), 'tab5');
+// Create 6th Tab
+echo  JHtml::_('tabs.panel', JText::_('COM_REDSHOP_ACCESSORY_PRODUCT'), 'tab5');
 ?>
 <div class="col50">
 	<table class="admintable">
@@ -447,10 +422,7 @@ echo  $myTabs->startPanel(JText::_('COM_REDSHOP_ACCESSORY_PRODUCT'), 'tab5');
 		</tr>
 	</table>
 </div>
-<?php
-
-echo $myTabs->endPanel();
-echo $myTabs->endPane(); ?>
+<?php JHtml::_('tabs.end'); ?>
 <div class="clr"></div>
 <input type="hidden" name="cid[]" value="<?php echo $this->detail->category_id; ?>"/>
 <input type="hidden" name="old_image" id="old_image" value="<?php echo $this->detail->category_full_image ?>">
