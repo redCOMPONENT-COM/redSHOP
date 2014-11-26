@@ -79,14 +79,6 @@ class RedshopModelRedshop extends JModel
 		$query = "INSERT IGNORE INTO `#__redshop_media`
 			(`media_id`, `media_name`, `media_section`, `section_id`, `media_type`, `media_mimetype`, `published`, `media_alternate_text`)
 			VALUES (18, '1262876640_redFORM-box.jpg', 'product', 3, 'images', 'image/jpeg', 1, ''),
-			(5, '1262693813_11872.jpg', 'product', 0, 'images', 'jpg', 1, ''),
-			(6, '1262693813_11873.jpg', 'product', 0, 'images', 'jpg', 1, ''),
-			(7, '1262693813_11879.jpg', 'product', 0, 'images', 'jpg', 1, ''),
-			(8, '1262693813_11887.jpg', 'product', 0, 'images', 'jpg', 1, ''),
-			(9, '1262693813_11920.jpg', 'product', 0, 'images', 'jpg', 1, ''),
-			(10, '1262693813_11928.jpg', 'product', 0, 'images', 'jpg', 1, ''),
-			(11, '1262693813_11935.jpg', 'product', 0, 'images', 'jpg', 1, ''),
-			(12, '1262693813_11936.jpg', 'product', 0, 'images', 'jpg', 1, ''),
 			(17, '1262876620_redEVENT-box.jpg', 'product', 2, 'images', 'image/jpeg', 1, ''),
 			(16, '1262876429_redEVENT-box.jpg', 'product', 1, 'images', 'image/jpeg', 1, ''),
 			(33, '1274444752_redweb-logo.jpg', 'manufacturer', 1, 'images', '', 1, 'redweb.dk'),
@@ -102,9 +94,8 @@ class RedshopModelRedshop extends JModel
 			(26, '1262876810_redPLUGINS-box.jpg', 'product', 11, 'images', 'image/jpeg', 1, ''),
 			(27, '1262876827_redPLUGINS-box.jpg', 'product', 12, 'images', 'image/jpeg', 1, ''),
 			(28, '1262876844_redPLUGINS-box.jpg', 'product', 13, 'images', 'image/jpeg', 1, ''),
-			(29, '1262876869_redCOMPONENTS.jpg', 'product', 14, 'images', 'image/jpeg', 1, ''),
-			(31, '', 'product', 2, 'images', 'image/jpeg', 1, ''),
-			(32, '', 'product', 2, 'images', 'image/jpeg', 1, '')";
+			(29, '1262876869_redCOMPONENTS.jpg', 'product', 14, 'images', 'image/jpeg', 1, '')
+			";
 		$db->setQuery($query);
 		$db->query();
 
