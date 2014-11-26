@@ -627,6 +627,8 @@ class plgEconomicEconomic extends JPlugin
 	/**
 	 * Get Extra field value for Debtor Reference
 	 *
+	 * @param   array  $d  User information array
+	 *
 	 * @return  mixed  User input if found else false
 	 */
 	protected function getExtraFieldForDebtorRef($d)
@@ -679,6 +681,8 @@ class plgEconomicEconomic extends JPlugin
 
 	/**
 	 * Get Employee By Number
+	 *
+	 * @param   array  $d  User information array
 	 *
 	 * @return  boolean|object  StdClass Object on success, false on fail.
 	 */
