@@ -29,7 +29,7 @@ $stockroomhelper = new rsstockroomhelper;
 if (PRODUCT_COMPARISON_TYPE == 'category')
 {
 	$compare_product = $this->session->get('compare_product');
-	$catid           = $compare_product[0]['category_id'];
+	$catid           = isset($compare_product[0]['category_id']) ? $compare_product[0]['category_id'] : 0;
 	$cid             = $this->input->getInt('cid', null);
 
 	$template_id = $producthelper->getCategoryCompareTemplate($catid);
