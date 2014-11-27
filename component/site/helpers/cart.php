@@ -4131,6 +4131,7 @@ class rsCarthelper
 		$coupon_code = JRequest::getVar('discount_code', '');
 		$view        = JRequest::getVar('view', '');
 		$user        = JFactory::getUser();
+		$db          = JFactory::getDbo();
 		$return      = false;
 
 		$cart = (count($c_data) <= 0) ? $this->_session->get('cart') : $c_data;
@@ -4166,11 +4167,15 @@ class rsCarthelper
 				{
 					if ($user->id)
 					{
-						$sel = "SELECT SUM(coupon_value) AS usertotal FROM " . $this->_table_prefix . "coupons_transaction "
-							. "WHERE userid=" . (int) $user->id
-							. "GROUP BY userid ";
-						$this->_db->setQuery($sel);
-						$userData = $this->_db->loadResult();
+						$query = $db->getQuery(true)
+									->select('SUM(' . $db->qn('coupon_value') . ') AS usertotal')
+									->from($db->qn('#__redshop_coupons_transaction'))
+									->where($db->qn('userid') . ' = ' . (int) $user->id)
+									->group($db->qn('userid'));
+
+						// Set the query and load the result.
+						$db->setQuery($query);
+						$userData = $db->loadResult();
 
 						if (!empty($userData))
 						{
@@ -4202,7 +4207,9 @@ class rsCarthelper
 				}
 
 				if (!$userType)
+				{
 					$return = true;
+				}
 
 				$pSubtotal   = $cart['product_subtotal'];
 				$tmpsubtotal = $pSubtotal;
