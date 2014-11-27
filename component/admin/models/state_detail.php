@@ -182,7 +182,9 @@ class RedshopModelState_detail extends JModel
 	 * Method to checkin/unlock the state_detail
 	 *
 	 * @access    public
+	 *
 	 * @return    boolean    True on success
+	 *
 	 * @since    1.5
 	 */
 	public function checkin()
