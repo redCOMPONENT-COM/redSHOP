@@ -26,7 +26,7 @@ $option = JRequest::getVar('option');
 			$k = 0;
 			for ($i = 0, $n = count($this->neworders); $i < $n; $i++)
 			{
-				$row = & $this->neworders[$i];
+				$row = $this->neworders[$i];
 				$row->id = $row->order_id;
 				$link = "index.php?option=com_redshop&view=order_detail&task=edit&cid[]=" . $row->id;        ?>
 				<tr class="<?php echo "row$k"; ?>" onclick="window.location.href='<?php echo $link; ?>'">

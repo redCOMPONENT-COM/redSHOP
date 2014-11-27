@@ -29,7 +29,7 @@ $addlink = JRoute::_('index.php?option=com_redshop&view=user_detail&task=edit&sh
 		$x = 0;
 		for ($j = 0, $n = count($shipping_data); $j < $n; $j++)
 		{
-			$row = & $shipping_data[$j];
+			$row = $shipping_data[$j];
 			$link = JRoute::_('index.php?option=' . $option . '&view=user_detail&task=edit&shipping=1&info_id=' . $this->detail->users_info_id . '&cid[]=' . $row->users_info_id);
 			$link_delete = JRoute::_('index.php?option=' . $option . '&view=user_detail&task=remove&shipping=1&info_id=' . $this->detail->users_info_id . '&cid[]=' . $row->users_info_id);    ?>
 			<tr class="<?php echo "row$x"; ?>">

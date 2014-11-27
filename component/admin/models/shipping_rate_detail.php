@@ -240,7 +240,7 @@ class RedshopModelShipping_rate_detail extends JModel
 		{
 			$row = $this->getTable();
 
-			$pdata = & $copydata[$i];
+			$pdata = $copydata[$i];
 
 			$post = array();
 			$post['shipping_rate_id'] = 0;

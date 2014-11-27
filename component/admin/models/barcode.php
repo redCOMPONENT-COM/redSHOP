@@ -38,7 +38,7 @@ class RedshopModelBarcode extends JModel
 
 	public function save($data)
 	{
-		$row = & $this->getTable('barcode');
+		$row = $this->getTable('barcode');
 
 		if (!$row->bind($data))
 		{

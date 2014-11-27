@@ -261,7 +261,7 @@ class Com_RedshopInstallerScript
 
 		for ($i = 0; $i < count($list); $i++)
 		{
-			$data = & $list[$i];
+			$data = $list[$i];
 
 			$red_template        = new Redtemplate;
 			$tname               = $data->template_name;
@@ -333,7 +333,7 @@ class Com_RedshopInstallerScript
 		$q_ext = "select * from `#__extensions` where name = 'redshop' and element = 'com_redshop' and type='component'";
 		$db->setQuery($q_ext);
 		$list_ext = $db->loadObjectList();
-		$data     = & $list_ext[0];
+		$data     = $list_ext[0];
 
 		if (count($data) > 0)
 		{

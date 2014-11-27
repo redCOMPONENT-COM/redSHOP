@@ -70,7 +70,7 @@ if ($this->shipper_location)
 			$k = 0;
 			for ($i = 0, $n = count($this->shipping_rates); $i < $n; $i++)
 			{
-				$row = & $this->shipping_rates[$i];
+				$row = $this->shipping_rates[$i];
 //	$row->id = $row->shipping_rate_id;
 				$link = JRoute::_('index.php?option=' . $option . '&view=shipping_rate_detail&task=edit&cid[]=' . $row->shipping_rate_id . '&id=' . $this->shipping->id);    ?>
 				<tr class="<?php echo "row$k"; ?>">
