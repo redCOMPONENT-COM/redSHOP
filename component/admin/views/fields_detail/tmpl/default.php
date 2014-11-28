@@ -130,7 +130,7 @@ $url = $uri->root();
 		// 9 is type of media
 		if ( type === "9" )
 		{
-			var jmsgs = ["<?php echo JText::_("COM_REDSHOP_FIELDS_DETAIL_DESCRIPTED"); ?>"];  // You can stack multiple messages of the same type
+			var jmsgs = ['<?php echo JText::_("COM_REDSHOP_FIELDS_MEDIA_DEPRECATED"); ?>'];  // You can stack multiple messages of the same type
 			Joomla.renderMessages({'notice': jmsgs });
 
 			// Hide button
