@@ -249,55 +249,6 @@ class extra_field
 					$ex_field .= '<td>' . $extra_field_value;
 					break;
 
-				// 9 :- Media
-				case 9:
-					$ex_field .= '<td valign="top" width="100" align="right" class="key">' . $extra_field_label . '</td>';
-					$extra_field_value = '<input class="' . $row_data[$i]->field_class . '"  name="' . $row_data[$i]->field_name
-						. '" ' . $required . $reqlbl . $errormsg . ' id="' . $row_data[$i]->field_name . '" type="file" />';
-
-					$textarea_value = '';
-
-					if ($data_value && $data_value->data_txt)
-					{
-						$dest_prefix = REDSHOP_FRONT_IMAGES_ABSPATH . 'media/';
-						$dest_prefix_phy = REDSHOP_FRONT_IMAGES_RELPATH . 'media/';
-						$dest_prefix_del = '/components/' . $option . '/assets/images/media/';
-						$media_image = $dest_prefix_phy . $data_value->data_txt;
-
-						if (is_file($media_image))
-						{
-							$media_image = $dest_prefix . $data_value->data_txt;
-							$media_type = strtolower(JFile::getExt($data_value->data_txt));
-							$textarea_value = $data_value->data_txt;
-
-							if ($media_type == 'jpg' || $media_type == 'jpeg' || $media_type == 'png' || $media_type == 'gif')
-							{
-								$extra_field_value .= '<div id ="mediadiv' . $i . '"><img width="100"  src="'
-									. $media_image . '" border="0" />&nbsp;<a href="#123"   onclick="delimg(\''
-									. $data_value->data_txt . '\', \'mediadiv' . $i . '\',\'' . $dest_prefix_del . '\', \''
-									. $data_value->data_id . '\');"> Remove Media</a><input class="' . $row_data[$i]->field_class
-									. '" name="' . $row_data[$i]->field_name . '"  id="' . $row_data[$i]->field_name . '" value="'
-									. $data_value->data_txt . '" type="hidden" /></div>';
-							}
-							else
-							{
-								$extra_field_value .= '<div id ="mediadiv' . $i . '"><a href="' . $media_image . '">'
-									. $data_value->data_txt . '</a>&nbsp;<a href="#123"   onclick="delimg(\'' . $data_value->data_txt
-									. '\', \'mediadiv' . $i . '\',\'' . $dest_prefix_del . '\', \'' . $data_value->data_id
-									. '\');"> Remove Media</a><input class="' . $row_data[$i]->field_class . '" name="'
-									. $row_data[$i]->field_name . '"  id="' . $row_data[$i]->field_name . '" value="'
-									. $data_value->data_txt . '" type="hidden" /></div>';
-							}
-						}
-						else
-						{
-							$extra_field_value .= JText::_('COM_REDSHOP_FILE_NOT_EXIST');
-						}
-					}
-
-					$ex_field .= '<td>' . $extra_field_value;
-					break;
-
 				// 10 :- Documents
 				case 10:
 
@@ -655,20 +606,6 @@ class extra_field
 				else
 				{
 					$data_txt = $data[$row_data[$i]->field_name];
-				}
-			}
-
-			if ($row_data[$i]->field_type == 9)
-			{
-				$destination_prefix = REDSHOP_FRONT_IMAGES_RELPATH . 'media/';
-
-				if ($_FILES[$row_data[$i]->field_name]['name'] != "")
-				{
-					$data_txt = RedShopHelperImages::cleanFileName($_FILES[$row_data[$i]->field_name]["name"]);
-
-					$src = $_FILES[$row_data[$i]->field_name]['tmp_name'];
-					$destination = $destination_prefix . $data_txt;
-					JFile::upload($src, $destination);
 				}
 			}
 
