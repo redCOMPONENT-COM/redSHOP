@@ -350,15 +350,15 @@ class Com_RedshopInstallerScript
 		$db->setQuery($query);
 		$menutItem = $db->loadObject();
 
-		$update = true;
+		$isUpdate = true;
 
 		// If component Entry found and component_id is same as extension id - no need to update menu item
 		if ($menutItem && $menutItem->component_id == $extensionId)
 		{
-			$update = false;
+			$isUpdate = false;
 		}
 
-		if ($update)
+		if ($isUpdate)
 		{
 			$query = $db->getQuery(true)
 				->update($db->qn('#__menu'))
