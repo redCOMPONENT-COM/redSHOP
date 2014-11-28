@@ -362,7 +362,7 @@ class Com_RedshopInstallerScript
 		{
 			$query = $db->getQuery(true)
 				->update($db->qn('#__menu'))
-				->set($db->qn('component_id') . ' = 9' . (int) $extensionId)
+				->set($db->qn('component_id') . ' = ' . (int) $extensionId)
 				->where($db->qn('menutype') . ' = ' . $db->q('main'))
 				->where($db->qn('path') . ' LIKE ' . $db->q('%redshop'))
 				->where($db->qn('type') . ' = ' . $db->q('component'));
