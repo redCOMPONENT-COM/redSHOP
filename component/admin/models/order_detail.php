@@ -1102,12 +1102,12 @@ class RedshopModelOrder_detail extends JModel
 
 		if ($row->store())
 		{
-			// Field_section 7 :Customer Address Section
+			// Field_section 14 :Customer Address Section
 			$fieldSection = 14;
 
 			if ($row->is_company == 1)
 			{
-				// Field_section 8 :Company Address Section
+				// Field_section 15 :Company Address Section
 				$fieldSection = 15;
 			}
 
