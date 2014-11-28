@@ -328,11 +328,11 @@ class Com_RedshopInstallerScript
 
 		// For Blank component id in menu table-admin menu error solution - Get redSHOP extension id from the table
 		$query = $db->getQuery(true)
-						->select('extension_id')
-						->from($db->qn('#__extensions'))
-						->where($db->qn('name') . ' LIKE ' . $db->q('%redshop'))
-						->where($db->qn('element') . ' = ' . $db->q('com_redshop'))
-						->where($db->qn('type') . ' = ' . $db->q('component'));
+					->select('extension_id')
+					->from($db->qn('#__extensions'))
+					->where($db->qn('name') . ' LIKE ' . $db->q('%redshop'))
+					->where($db->qn('element') . ' = ' . $db->q('com_redshop'))
+					->where($db->qn('type') . ' = ' . $db->q('component'));
 
 		// Set the query and load the result.
 		$db->setQuery($query);
