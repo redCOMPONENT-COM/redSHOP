@@ -1102,24 +1102,17 @@ class RedshopModelOrder_detail extends JModel
 
 		if ($row->store())
 		{
+			// Field_section 7 :Customer Address Section
+			$fieldSection = 14;
 
 			if ($row->is_company == 1)
 			{
-				// Saving users extra fields information
-				$field = new extra_field;
-
 				// Field_section 8 :Company Address Section
-				$list_field = $field->extra_field_save($data, 15, $row->users_info_id);
+				$fieldSection = 15;
 			}
 
-			else
-			{
-				// Saving users extra fields information
-				$field = new extra_field;
-
-				// Field_section 7 :Customer Address Section
-				$list_field = @$field->extra_field_save($data, 14, $row->users_info_id);
-			}
+			$field = new extra_field;
+			$field->extra_field_save($data, $fieldSection, $row->users_info_id);
 
 			return true;
 		}
@@ -1138,22 +1131,18 @@ class RedshopModelOrder_detail extends JModel
 
 		if ($row->store())
 		{
+			$field = new extra_field;
+
+			// Field_section 7 :Customer Address Section
+			$fieldSection = 7;
+
 			if ($row->is_company == 1)
 			{
-				// Saving users extra fields information
-				$field = new extra_field;
-
 				// Field_section 8 :Company Address Section
-				$list_field = $field->extra_field_save($data, 8, $row->users_info_id);
+				$fieldSection = 8;
 			}
-			else
-			{
-				// Saving users extra fields information
-				$field = new extra_field;
 
-				// Field_section 7 :Customer Address Section
-				$list_field = @$field->extra_field_save($data, 7, $row->users_info_id);
-			}
+			$field->extra_field_save($data, $fieldSection, $row->users_info_id);
 
 			return true;
 		}
