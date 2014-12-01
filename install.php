@@ -326,28 +326,49 @@ class Com_RedshopInstallerScript
 			}
 		}
 
-		// TEMPLATE MOVE DB TO  FILE END
+		// For Blank component id in menu table-admin menu error solution - Get redSHOP extension id from the table
+		$query = $db->getQuery(true)
+					->select('extension_id')
+					->from($db->qn('#__extensions'))
+					->where($db->qn('name') . ' LIKE ' . $db->q('%redshop'))
+					->where($db->qn('element') . ' = ' . $db->q('com_redshop'))
+					->where($db->qn('type') . ' = ' . $db->q('component'));
 
-		// For Blank component id in menu table-admin menu error solution
+		// Set the query and load the result.
+		$db->setQuery($query);
+		$extensionId = $db->loadResult();
 
-		$q_ext = "select * from `#__extensions` where name = 'redshop' and element = 'com_redshop' and type='component'";
-		$db->setQuery($q_ext);
-		$list_ext = $db->loadObjectList();
-		$data     = $list_ext[0];
+		// Check for component menu item entry
+		$query = $db->getQuery(true)
+				->select('id,component_id')
+				->from($db->qn('#__menu'))
+				->where($db->qn('menutype') . ' = ' . $db->q('main'))
+				->where($db->qn('path') . ' LIKE ' . $db->q('%redshop'))
+				->where($db->qn('type') . ' = ' . $db->q('component'));
 
-		if (count($data) > 0)
+		// Set the query and load the result.
+		$db->setQuery($query);
+		$menutItem = $db->loadObject();
+
+		$isUpdate = true;
+
+		// If component Entry found and component_id is same as extension id - no need to update menu item
+		if ($menutItem && $menutItem->component_id == $extensionId)
 		{
-			$extension_id = $data->extension_id;
+			$isUpdate = false;
+		}
 
-			if ($extension_id == "")
-			{
-				$extension_id = "1";
-			}
+		if ($isUpdate)
+		{
+			$query = $db->getQuery(true)
+				->update($db->qn('#__menu'))
+				->set($db->qn('component_id') . ' = ' . (int) $extensionId)
+				->where($db->qn('menutype') . ' = ' . $db->q('main'))
+				->where($db->qn('path') . ' LIKE ' . $db->q('%redshop'))
+				->where($db->qn('type') . ' = ' . $db->q('component'));
 
-			$uquery_ext = "UPDATE `#__menu` SET component_id ='.$extension_id.' "
-				. " WHERE  menutype = 'main' and path = 'redshop' and type='component'";
-			$db->setQuery($uquery_ext);
-			$db->execute();
+			// Set the query and execute the update.
+			$db->setQuery($query)->execute();
 		}
 
 		?>
