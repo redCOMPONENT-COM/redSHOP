@@ -293,7 +293,7 @@ class RedshopModelProduct extends JModel
 			. "SET visited=visited + 1 "
 			. "WHERE product_id = " . (int) $product_id;
 		$this->_db->setQuery($query);
-		$this->_db->Query();
+		$this->_db->execute();
 	}
 
 	public function addProductTags($data)
@@ -374,7 +374,7 @@ class RedshopModelProduct extends JModel
 		$query = "INSERT INTO " . $this->_table_prefix . "product_tags_xref "
 			. "VALUES('" . (int) $tags->tags_id . "','" . (int) $post['product_id'] . "','" . (int) $user->id . "')";
 		$this->_db->setQuery($query);
-		$this->_db->Query();
+		$this->_db->execute();
 
 		return true;
 	}
@@ -565,7 +565,7 @@ class RedshopModelProduct extends JModel
 			. "SET download_max=(download_max - 1) "
 			. "WHERE download_id = " . (int) $did;
 		$this->_db->setQuery($query);
-		$ret = $this->_db->Query();
+		$ret = $this->_db->execute();
 
 		if ($ret)
 		{
