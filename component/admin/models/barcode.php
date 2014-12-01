@@ -100,6 +100,6 @@ class RedshopModelBarcode extends JModel
 		$update_query = "UPDATE " . $this->_table_prefix . "orders SET order_status = 'S' where barcode='"
 			. $barcode . "' and order_id ='" . $order_id . "'";
 		$this->_db->setQuery($update_query);
-		$this->_db->query();
+		$this->_db->execute();
 	}
 }

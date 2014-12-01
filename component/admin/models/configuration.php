@@ -583,7 +583,7 @@ class RedshopModelConfiguration extends JModel
 
 		$sql = "delete from #__redirection where id in ('" . $redirect . "') ";
 		$this->_db->setQuery($sql);
-		$this->_db->query();
+		$this->_db->execute();
 
 		return (count($result1));
 	}
@@ -770,7 +770,7 @@ class RedshopModelConfiguration extends JModel
 			. "(`tracker_id`, `newsletter_id`, `subscription_id`, `subscriber_name`, `user_id` , `read`, `date`)  "
 			. "VALUES ('', '" . $newsletter_id . "', '0', '" . $name . "', '0',0, '" . $today . "')";
 		$db->setQuery($query);
-		$db->query();
+		$db->execute();
 
 		$content = '<img  src="' . $url . 'components/com_redshop/helpers/newsletteropener.php?tracker_id=' . $db->insertid() . '" />';
 		$content .= str_replace("{username}", $name[0], $data1);

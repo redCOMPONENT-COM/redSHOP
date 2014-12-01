@@ -228,7 +228,7 @@ class RedshopModelQuotation_detail extends JModel
 					. 'WHERE quotation_item_id = ' . $items[$i]->quotation_item_id . ' ';
 				$this->_db->setQuery($query);
 
-				if (!$this->_db->query())
+				if (!$this->_db->execute())
 				{
 					$this->setError($this->_db->getErrorMsg());
 
@@ -239,7 +239,7 @@ class RedshopModelQuotation_detail extends JModel
 					. 'WHERE quotation_item_id = ' . $items[$i]->quotation_item_id . ' ';
 				$this->_db->setQuery($query);
 
-				if (!$this->_db->query())
+				if (!$this->_db->execute())
 				{
 					$this->setError($this->_db->getErrorMsg());
 
@@ -250,7 +250,7 @@ class RedshopModelQuotation_detail extends JModel
 					. 'WHERE quotation_item_id = ' . $items[$i]->quotation_item_id . ' ';
 				$this->_db->setQuery($query);
 
-				if (!$this->_db->query())
+				if (!$this->_db->execute())
 				{
 					$this->setError($this->_db->getErrorMsg());
 
@@ -262,7 +262,7 @@ class RedshopModelQuotation_detail extends JModel
 				. 'WHERE quotation_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 
@@ -272,7 +272,7 @@ class RedshopModelQuotation_detail extends JModel
 			$query = 'DELETE FROM ' . $this->_table_prefix . 'quotation WHERE quotation_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 
@@ -291,7 +291,7 @@ class RedshopModelQuotation_detail extends JModel
 			. 'WHERE quotation_item_id IN ( ' . $cids . ' ) ';
 		$this->_db->setQuery($query);
 
-		if (!$this->_db->query())
+		if (!$this->_db->execute())
 		{
 			$this->setError($this->_db->getErrorMsg());
 
@@ -302,7 +302,7 @@ class RedshopModelQuotation_detail extends JModel
 			. 'WHERE quotation_item_id IN ( ' . $cids . ' )';
 		$this->_db->setQuery($query);
 
-		if (!$this->_db->query())
+		if (!$this->_db->execute())
 		{
 			$this->setError($this->_db->getErrorMsg());
 
@@ -313,7 +313,7 @@ class RedshopModelQuotation_detail extends JModel
 			. 'WHERE quotation_item_id IN ( ' . $cids . ' )';
 		$this->_db->setQuery($query);
 
-		if (!$this->_db->query())
+		if (!$this->_db->execute())
 		{
 			$this->setError($this->_db->getErrorMsg());
 
@@ -324,7 +324,7 @@ class RedshopModelQuotation_detail extends JModel
 			. 'WHERE quotation_item_id IN ( ' . $cids . ' )';
 		$this->_db->setQuery($query);
 
-		if (!$this->_db->query())
+		if (!$this->_db->execute())
 		{
 			$this->setError($this->_db->getErrorMsg());
 

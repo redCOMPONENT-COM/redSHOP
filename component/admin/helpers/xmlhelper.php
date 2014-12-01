@@ -296,7 +296,7 @@ class xmlHelper
 			. "VALUES "
 			. "(" . (int) $xmlexport_id . ", " . $this->_db->quote($filename) . "," . $this->_db->quote(time()) . ") ";
 		$this->_db->setQuery($query);
-		$this->_db->query();
+		$this->_db->execute();
 	}
 
 	public function updateXMLExportFilename($xmlexport_id = 0, $filename = "")
@@ -305,7 +305,7 @@ class xmlHelper
 			. "SET filename=" . $this->_db->quote($filename) . " "
 			. "WHERE xmlexport_id=" . (int) $xmlexport_id;
 		$this->_db->setQuery($query);
-		$this->_db->query();
+		$this->_db->execute();
 	}
 
 	public function getXMLImportInfo($xmlimport_id = 0)
@@ -325,7 +325,7 @@ class xmlHelper
 			. "VALUES "
 			. "(" . (int) $xmlexport_id . ", " . $this->_db->quote($filename) . "," . (int) time() . ") ";
 		$this->_db->setQuery($query);
-		$this->_db->query();
+		$this->_db->execute();
 	}
 
 	public function updateXMLImportFilename($xmlimport_id = 0, $filename = "")
@@ -334,7 +334,7 @@ class xmlHelper
 			. "SET filename=" . $this->_db->quote($filename) . " "
 			. "WHERE xmlimport_id=" . (int) $xmlimport_id;
 		$this->_db->setQuery($query);
-		$this->_db->query();
+		$this->_db->execute();
 	}
 
 	public function writeXMLExportFile($xmlexport_id = 0)
@@ -1171,7 +1171,7 @@ class xmlHelper
 													. "AND p.product_number=" . $this->_db->quote($oldproduct_number) . " "
 													. "AND s.stockroom_name=" . $this->_db->quote($value[$j]['stockroom_name']) . " ";
 												$this->_db->setQuery($query);
-												$this->_db->Query();
+												$this->_db->execute();
 												$affected_rows = $this->_db->getAffectedRows();
 
 												if (!$affected_rows)
@@ -1186,14 +1186,14 @@ class xmlHelper
 														$query = "INSERT IGNORE INTO " . $this->_table_prefix . "stockroom "
 															. "(stockroom_name) VALUES (" . $this->_db->quote($value[$j]['stockroom_name']) . ")";
 														$this->_db->setQuery($query);
-														$this->_db->Query();
+														$this->_db->execute();
 														$stockroom_id = $this->_db->insertid();
 													}
 
 													$query = "INSERT IGNORE INTO " . $this->_table_prefix . "product_stockroom_xref "
 														. "(stockroom_id,product_id,quantity) VALUES (" . (int) $stockroom_id . "," . (int) $product_id . ",0)";
 													$this->_db->setQuery($query);
-													$this->_db->Query();
+													$this->_db->execute();
 
 													$query = "UPDATE " . $this->_table_prefix . "stockroom AS s "
 														. ", " . $this->_table_prefix . "product_stockroom_xref AS sx "
@@ -1204,7 +1204,7 @@ class xmlHelper
 														. "AND p.product_number=" . $this->_db->quote($oldproduct_number) . " "
 														. "AND s.stockroom_name=" . $this->_db->quote($value[$j]['stockroom_name']) . " ";
 													$this->_db->setQuery($query);
-													$this->_db->Query();
+													$this->_db->execute();
 												}
 											}
 										}
@@ -1232,7 +1232,7 @@ class xmlHelper
 													. "AND fa.fieldid=" . (int) $value[$j]['fieldid'] . " "
 													. "AND p.product_number=" . $this->_db->quote($oldproduct_number);
 												$this->_db->setQuery($query);
-												$this->_db->Query();
+												$this->_db->execute();
 												$affected_rows = $this->_db->getAffectedRows();
 
 												if (!$affected_rows)
@@ -1240,7 +1240,7 @@ class xmlHelper
 													$query = "INSERT IGNORE INTO " . $this->_table_prefix . "fields_data "
 														. "(fieldid,itemid,section) VALUES (" . $this->_db->quote($value[$j]['fieldid']) . "," . (int) $product_id . ",1)";
 													$this->_db->setQuery($query);
-													$this->_db->Query();
+													$this->_db->execute();
 
 													$query = "UPDATE " . $this->_table_prefix . "fields_data AS fa "
 														. ", " . $this->_table_prefix . "product AS p "
@@ -1250,7 +1250,7 @@ class xmlHelper
 														. "AND fa.fieldid=" . $this->_db->quote($value[$j]['fieldid']) . " "
 														. "AND p.product_number=" . $this->_db->quote($oldproduct_number) . " ";
 													$this->_db->setQuery($query);
-													$this->_db->Query();
+													$this->_db->execute();
 												}
 											}
 										}
@@ -1266,7 +1266,7 @@ class xmlHelper
 								. "SET $upstring "
 								. "WHERE product_number=" . $this->_db->quote($oldproduct_number) . " ";
 							$this->_db->setQuery($query);
-							$this->_db->Query();
+							$this->_db->execute();
 						}
 
 						if (count($catarray) > 0)
@@ -1291,14 +1291,14 @@ class xmlHelper
 								$query = "INSERT IGNORE INTO " . $this->_table_prefix . "category "
 									. "(category_name) VALUES (" . $this->_db->quote($catarray['category_name']) . ")";
 								$this->_db->setQuery($query);
-								$this->_db->Query();
+								$this->_db->execute();
 								$category_id = $this->_db->insertid();
 
 								$query = "INSERT IGNORE INTO " . $this->_table_prefix . "category_xref "
 									. "(category_parent_id,category_child_id) "
 									. "VALUES ('0', " . (int) $category_id . ")";
 								$this->_db->setQuery($query);
-								$this->_db->Query();
+								$this->_db->execute();
 							}
 
 							if ($category_id != 0)
@@ -1307,13 +1307,13 @@ class xmlHelper
 									. "WHERE product_id=" . (int) $product_id . " "
 									. "AND category_id=" . (int) $category_id . " ";
 								$this->_db->setQuery($query);
-								$this->_db->Query();
+								$this->_db->execute();
 
 								$query = "INSERT IGNORE INTO " . $this->_table_prefix . "product_category_xref "
 									. "(category_id,product_id) "
 									. "VALUES (" . (int) $category_id . ", " . (int) $product_id . ")";
 								$this->_db->setQuery($query);
-								$this->_db->Query();
+								$this->_db->execute();
 							}
 						}
 					}
@@ -1349,7 +1349,7 @@ class xmlHelper
 								$query = "INSERT IGNORE INTO " . $this->_table_prefix . "product "
 									. "($fieldstring) VALUES ($valuestring)";
 								$this->_db->setQuery($query);
-								$this->_db->Query();
+								$this->_db->execute();
 								$product_id = $this->_db->insertid();
 
 								foreach ($datalist[$i] AS $key => $value)
@@ -1390,7 +1390,7 @@ class xmlHelper
 															$query = "INSERT IGNORE INTO " . $this->_table_prefix . "stockroom "
 																. "(stockroom_name) VALUES (" . $this->_db->quote($value[$j]['stockroom_name']) . ")";
 															$this->_db->setQuery($query);
-															$this->_db->Query();
+															$this->_db->execute();
 															$stockroom_id = $this->_db->insertid();
 														}
 
@@ -1402,7 +1402,7 @@ class xmlHelper
 															$query = "INSERT IGNORE INTO " . $this->_table_prefix . "product_stockroom_xref "
 																. "($fieldstring) VALUES ($valuestring)";
 															$this->_db->setQuery($query);
-															$this->_db->Query();
+															$this->_db->execute();
 														}
 													}
 												}
@@ -1434,7 +1434,7 @@ class xmlHelper
 														$query = "INSERT IGNORE INTO " . $this->_table_prefix . "fields_data "
 															. "($fieldstring) VALUES ($valuestring)";
 														$this->_db->setQuery($query);
-														$this->_db->Query();
+														$this->_db->execute();
 													}
 												}
 											}
@@ -1464,14 +1464,14 @@ class xmlHelper
 										$query = "INSERT IGNORE INTO " . $this->_table_prefix . "category "
 											. "(category_name) VALUES (" . $this->_db->quote($catarray['category_name']) . ")";
 										$this->_db->setQuery($query);
-										$this->_db->Query();
+										$this->_db->execute();
 										$category_id = $this->_db->insertid();
 
 										$query = "INSERT IGNORE INTO " . $this->_table_prefix . "category_xref "
 											. "(category_parent_id,category_child_id) "
 											. "VALUES ('0', " . (int) $category_id . ")";
 										$this->_db->setQuery($query);
-										$this->_db->Query();
+										$this->_db->execute();
 									}
 
 									if ($category_id != 0)
@@ -1480,13 +1480,13 @@ class xmlHelper
 											. "WHERE product_id=" . (int) $product_id . " "
 											. "AND category_id=" . (int) $category_id . " ";
 										$this->_db->setQuery($query);
-										$this->_db->Query();
+										$this->_db->execute();
 
 										$query = "INSERT IGNORE INTO " . $this->_table_prefix . "product_category_xref "
 											. "(category_id,product_id) "
 											. "VALUES (" . (int) $category_id . ", " . (int) $product_id . ")";
 										$this->_db->setQuery($query);
-										$this->_db->Query();
+										$this->_db->execute();
 									}
 								}
 							}
@@ -1548,7 +1548,7 @@ class xmlHelper
 													. "AND o.order_number=" . $this->_db->quote($oldorder_number) . " "
 													. "AND oi.order_item_sku=" . $this->_db->quote($value[$j]['order_item_sku']) . " ";
 												$this->_db->setQuery($query);
-												$this->_db->Query();
+												$this->_db->execute();
 											}
 										}
 									}
@@ -1573,7 +1573,7 @@ class xmlHelper
 											. "AND o.order_number=" . $this->_db->quote($oldorder_number) . " "
 											. "AND ou.address_type='BT' ";
 										$this->_db->setQuery($query);
-										$this->_db->Query();
+										$this->_db->execute();
 									}
 								}
 								elseif ($key == $xmlimportdata->shipping_element_name)
@@ -1596,7 +1596,7 @@ class xmlHelper
 											. "AND o.order_number=" . $this->_db->quote($oldorder_number) . " "
 											. "AND ou.address_type='ST' ";
 										$this->_db->setQuery($query);
-										$this->_db->Query();
+										$this->_db->execute();
 									}
 								}
 							}
@@ -1609,7 +1609,7 @@ class xmlHelper
 								. "SET $upstring "
 								. "WHERE order_number=" . $this->_db->quote($oldorder_number) . " ";
 							$this->_db->setQuery($query);
-							$this->_db->Query();
+							$this->_db->execute();
 						}
 					}
 					else
@@ -1636,7 +1636,7 @@ class xmlHelper
 								$query = "INSERT IGNORE INTO " . $this->_table_prefix . "orders "
 									. "($fieldstring) VALUES ($valuestring)";
 								$this->_db->setQuery($query);
-								$this->_db->Query();
+								$this->_db->execute();
 								$order_id = $this->_db->insertid();
 
 								foreach ($datalist[$i] AS $key => $value)
@@ -1673,7 +1673,7 @@ class xmlHelper
 														$query = "INSERT IGNORE INTO " . $this->_table_prefix . "order_item "
 															. "($fieldstring) VALUES ($valuestring)";
 														$this->_db->setQuery($query);
-														$this->_db->Query();
+														$this->_db->execute();
 													}
 												}
 											}
@@ -1704,7 +1704,7 @@ class xmlHelper
 												$query = "INSERT IGNORE INTO " . $this->_table_prefix . "order_users_info "
 													. "($fieldstring) VALUES ($valuestring)";
 												$this->_db->setQuery($query);
-												$this->_db->Query();
+												$this->_db->execute();
 											}
 										}
 										elseif ($key == $xmlimportdata->shipping_element_name)
@@ -1733,7 +1733,7 @@ class xmlHelper
 												$query = "INSERT IGNORE INTO " . $this->_table_prefix . "order_users_info "
 													. "($fieldstring) VALUES ($valuestring)";
 												$this->_db->setQuery($query);
-												$this->_db->Query();
+												$this->_db->execute();
 											}
 										}
 									}
