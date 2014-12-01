@@ -535,7 +535,7 @@ class RedshopModelCheckout extends JModel
 
 		$query = "UPDATE `#__redshop_orders` SET discount_type = " . $db->quote($this->discount_type) . " where order_id = " . (int) $order_id;
 		$db->setQuery($query);
-		$db->query();
+		$db->execute();
 
 		if (SHOW_TERMS_AND_CONDITIONS == 1 && isset($post['termscondition']) && $post['termscondition'] == 1)
 		{
@@ -2005,7 +2005,7 @@ class RedshopModelCheckout extends JModel
 				$sql                    = "UPDATE " . $this->_table_prefix . "product_voucher SET voucher_left = voucher_left - " . (int) $voucher_volume . " "
 					. "WHERE voucher_id  = " . (int) $voucher_id;
 				$this->_db->setQuery($sql);
-				$this->_db->Query();
+				$this->_db->execute();
 
 				if ($cart['voucher'][$i]['remaining_voucher_discount'] > 0)
 				{
@@ -2072,7 +2072,7 @@ class RedshopModelCheckout extends JModel
 				$sql             = "UPDATE " . $this->_table_prefix . "coupons SET coupon_left = coupon_left - " . (int) $coupon_volume . " "
 					. "WHERE coupon_id  = " . (int) $coupon_id;
 				$this->_db->setQuery($sql);
-				$this->_db->Query();
+				$this->_db->execute();
 
 				if ($cart['coupon'][$i]['remaining_coupon_discount'] > 0)
 				{
@@ -2370,7 +2370,7 @@ class RedshopModelCheckout extends JModel
 
 		$this->_db->setQuery($query);
 
-		if (!$this->_db->query())
+		if (!$this->_db->execute())
 		{
 			$this->setError($this->_db->getErrorMsg());
 
@@ -2401,7 +2401,7 @@ class RedshopModelCheckout extends JModel
 		$query_in = "INSERT INTO " . $this->_table_prefix . "ordernumber_track SET trackdatetime=now()";
 		$this->_db->setQuery($query_in);
 
-		if (!$this->_db->query())
+		if (!$this->_db->execute())
 		{
 			$this->setError($this->_db->getErrorMsg());
 

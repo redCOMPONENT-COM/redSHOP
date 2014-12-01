@@ -5298,21 +5298,21 @@ class rsCarthelper
 
 		$query = "DELETE FROM " . $this->_table_prefix . "usercart_accessory_item WHERE cart_item_id=" . (int) $cart_item_id;
 		$this->_db->setQuery($query);
-		$this->_db->Query();
+		$this->_db->execute();
 
 		$query = "DELETE FROM " . $this->_table_prefix . "usercart_attribute_item WHERE cart_item_id=" . (int) $cart_item_id;
 		$this->_db->setQuery($query);
-		$this->_db->Query();
+		$this->_db->execute();
 
 		$query = "DELETE FROM " . $this->_table_prefix . "usercart_item WHERE cart_id=" . (int) $cart_id;
 		$this->_db->setQuery($query);
-		$this->_db->Query();
+		$this->_db->execute();
 
 		if ($delCart)
 		{
 			$query = "DELETE FROM " . $this->_table_prefix . "usercart WHERE cart_id=" . (int) $cart_id;
 			$this->_db->setQuery($query);
-			$this->_db->Query();
+			$this->_db->execute();
 		}
 
 		return true;

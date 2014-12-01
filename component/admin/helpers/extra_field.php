@@ -719,7 +719,7 @@ class extra_field
 						. "AND user_email = " . $this->_db->quote($user_email) . " "
 						. "AND fieldid = " . (int) $row_data[$i]->field_id . " ";
 					$this->_db->setQuery($sql);
-					$this->_db->query();
+					$this->_db->execute();
 				}
 
 				if (count($list) > 0)
@@ -743,7 +743,7 @@ class extra_field
 				}
 
 				$this->_db->setQuery($sql);
-				$this->_db->query();
+				$this->_db->execute();
 			}
 			else
 			{
@@ -772,7 +772,7 @@ class extra_field
 						}
 
 						$this->_db->setQuery($sql);
-						$this->_db->query();
+						$this->_db->execute();
 					}
 				}
 			}
@@ -1208,7 +1208,7 @@ class extra_field
 				. "," . $this->_db->quote($list[$i]->image_link) . ", " . $this->_db->quote($list[$i]->user_email) . ")";
 
 			$this->_db->setQuery($sql);
-			$this->_db->query();
+			$this->_db->execute();
 		}
 	}
 
@@ -1217,7 +1217,7 @@ class extra_field
 		$query = "DELETE FROM " . $this->_table_prefix . "fields_data "
 			. "WHERE data_id = " . (int) $data_id . " ";
 		$this->_db->setQuery($query);
-		$this->_db->query();
+		$this->_db->execute();
 	}
 }
 

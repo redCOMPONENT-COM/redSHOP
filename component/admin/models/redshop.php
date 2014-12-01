@@ -32,7 +32,7 @@ class RedshopModelRedshop extends JModel
 							(2, 'redMODULES', '', '', 5, '0', 4, '', '', '', '', '', '', '', '', '', 1, '2009-06-26 04:16:31', 2, '', '0', 'append'),
 							(3, 'redPLUGINS', '', '', 5, '0', 4, '', '', '', '', '', '', '', '', '', 1, '2009-06-26 04:17:08', 3, '', '0', 'append')";
 		$db->setQuery($query);
-		$db->query();
+		$db->execute();
 
 
 		/* Get the current columns for redshop category_xref */
@@ -50,7 +50,7 @@ class RedshopModelRedshop extends JModel
 								`category_child_id`
 								)";
 				$db->setQuery($q);
-				$db->query();
+				$db->execute();
 			}
 		}
 
@@ -58,7 +58,7 @@ class RedshopModelRedshop extends JModel
 					(`category_parent_id`, `category_child_id`)
 					VALUES (0, 3),(0, 2),(0, 1)";
 		$db->setQuery($query);
-		$db->query();
+		$db->execute();
 
 
 		$query = "INSERT IGNORE INTO `#__redshop_fields`
@@ -66,7 +66,7 @@ class RedshopModelRedshop extends JModel
 					VALUES
 					(1, 'Userfield Test', 'userfield-test', '1', '', '', '12', '20', '0', '0', '20', '1', '1', '0')";
 		$db->setQuery($query);
-		$db->query();
+		$db->execute();
 
 
 		$query = "INSERT IGNORE INTO `#__redshop_manufacturer` (`manufacturer_id`, `manufacturer_name`, `manufacturer_desc`, `manufacturer_email`, `product_per_page`, `template_id`, `metakey`, `metadesc`, `metalanguage_setting`, `metarobot_info`, `pagetitle`, `pageheading`, `sef_url`, `published`, `ordering`, `manufacturer_url`) VALUES
@@ -74,7 +74,7 @@ class RedshopModelRedshop extends JModel
 						(2, 'redhost.dk', '<p>http://redhost.dk</p>', '', 0, 14, '', '', '', '', '', '', '', 1, 2, ''),
 						(3, 'redcomponent.com', '<p>http://redcomponent.com</p>', '', 0, 14, '', '', '', '', '', '', '', 1, 3, '')";
 		$db->setQuery($query);
-		$db->query();
+		$db->execute();
 
 		$query = "INSERT IGNORE INTO `#__redshop_media`
 			(`media_id`, `media_name`, `media_section`, `section_id`, `media_type`, `media_mimetype`, `published`, `media_alternate_text`)
@@ -97,7 +97,7 @@ class RedshopModelRedshop extends JModel
 			(29, '1262876869_redCOMPONENTS.jpg', 'product', 14, 'images', 'image/jpeg', 1, '')
 			";
 		$db->setQuery($query);
-		$db->query();
+		$db->execute();
 
 		$published_date = date("Y-m-d H:i:s");
 
@@ -117,7 +117,7 @@ class RedshopModelRedshop extends JModel
 					(2, 0, 2, 2, 0, 0, 0, 9, 'redEVENT2', 69, 0, 0, 0, '2', '', '<p>Today we are announcing the first public release of redEVENT v2.0b1, redFORM v2.0b1, Latest Calendar Module v2.0b1 and Minicalendar Module v2.0b1.</p>', '<p>Today we are announcing the first public release of redEVENT v2.0b1, redFORM v2.0b1, Latest Calendar Module v2.0b1 and Minicalendar Module v2.0b1.</p>\r\n<p> </p>\r\n<p>The release is&nbsp;introduce drastic changes to redEVENT.</p>\r\n<p> </p>\r\n<p>The new features list include:</p>\r\n<ul>\r\n<li>Endless amount of repeating events on different time and space - No more&nbsp;attachtment of an event to a single venue!</li>\r\n<li>JomSocial integration</li>\r\n<li>3 New views (Upcoming, Upcoming per venue, Calendar)</li>\r\n<li>Multiple registrations through contactperson</li>\r\n<li>Dynamic limits for contact persons per event</li>\r\n<li>5 different signup forms (Webform, Email, Formal Email, Phone, External)</li>\r\n<li>PDF Generation for email signup</li>\r\n<li>New confirmation screens</li>\r\n<li>Complete control over the graphical view of _ALL_ Submission, Confirmation screens</li>\r\n<li>Complete control over all emails</li>\r\n<li>All new tagging systems that allow dynamical use of tags on all levels</li>\r\n<li>Improved attendee control (Add or edit attendees)</li>\r\n<li>Multiple Categories</li>\r\n<li>Venue Categories</li>\r\n<li>Parent/Child Categories</li>\r\n<li>Parent/Child Venue Categories</li>\r\n<li>Library text templating system</li>\r\n<li>+ All the old features from <a href=\"http://redcomponent.com/redevent\">version 1</a>!</li>\r\n<li>And much more!</li>\r\n</ul>\r\n<p>Eventhandling in Joomla will never be the same!!!</p>', 0, 0, 1, '', '1262876620_redEVENT-box.jpg', '" . $published_date . "', '2012-04-05 10:56:16', 24, '                                                                                                                                                                                ', '                                                                                                                                                                                ', '                                                                                                                                                                                ', '                                                                                                                                                                                ', '', '', '', 1, 0.000, 0, 0, 0, '', 0, 0, '0.00', '0.00', '0.00', '0.00', 0, 0, 0, 0, 0, 0, 0, 0, '', 0, '0000-00-00 00:00:00', 0, 0, '', '', '', '', '', 'append'),
 					(1, 0, 2, 0, 0, 0, 0, 9, 'redEVENT', 69, 0, 0, 0, '1', 'product', '<p>redEVENT is a Joomla 2.5 native MVC event component. Build over the popular but yet limited event component eventlist, the redEVENT fork along with its 100% integration to redFORM has taken the ease and flexibility of creating and managing event</p>', '<p><a href=\"http://redcomponent.com/redevent\">redEVENT</a> is a Joomla 2.5 native MVC event component. Build over the popular but yet limited event component <a href=\"http://www.schlu.net/\">eventlist</a>, the <a href=\"http://redcomponent.com/redevent\">redEVENT</a> fork along with its 100% integration to <a href=\"http://redcomponent.com/redform\">redFORM</a> has taken the ease and flexibility of creating and managing events and bookings to a whole new level.</p>\r\n<p align=\"justify\">Super dynamical with the simple yet powerfull and customizable input forms from <a href=\"http://redcomponent.com/redform\">redFORM</a>, you can make small simple signup forms or you can go all the way and do full registration formulars for the attendees to your events. Along with the new options of newsletter integration and dynamical waitinglists along with the ability to manually alter and cuztomize the frontend list of attendees on each event, there never has been more flexibility in Event handling in Joomla then now!</p>\r\n<p align=\"justify\"><a href=\"http://redcomponent.com/redevent\">redEVENT</a> takes it basis on the component <a href=\"http://www.schlu.net/\">Eventlist</a> and the work of Christoph Lukes from <a href=\"http://www.schlu.net/\">Schlu.net</a> and as such we here from <a href=\"http://redcomponent.com/\">redCOMPONENT</a> give credits to Christoph for his work - However as we where met with requirements for a much higher level of functionality and flexibility from our customers and with a vision to integrate the event form handling into <a href=\"http://redcomponent.com/redform\">redFORM</a> we decided to do a full fork of <a href=\"http://www.schlu.net/\">Eventlist</a> and <a href=\"http://redcomponent.com/redevent\">redEVENT</a> was born. <a href=\"http://redcomponent.com/redevent\">redEVENT</a> is developed upon the basis of <a href=\"http://www.schlu.net/\">Eventlist 1.0b</a> however due to the extensive changes made in the component it will not be possible to update the event component along the paths of <a href=\"http://www.schlu.net/\">Eventlist</a> in the future and instead <a href=\"http://redcomponent.com/redevent\">redEVENT</a> will take its own path and live in the wonderful world of <a href=\"http://redcomponent.com/\">Joomla Extensions</a>.</p>\r\n<p><a href=\"http://redcomponent.com/redevent\">redEVENT</a> is released and is in a stable state. The list of abilities in <a href=\"http://redcomponent.com/redevent\">redEVENT</a> that makes it unique compared to its predecessor <a href=\"http://www.schlu.net/\">Eventlist</a>, is included in the following:</p>\r\n<ul>\r\n<li>Unlimited amount of events</li>\r\n<li>Allow registration with or without Joomla User creation</li>\r\n<li>Allow registration and cancelation using Joomla User creation</li>\r\n<li>Waitinglist on individual events - Set waitinglist per event!</li>\r\n<li>Individual confirmation- and registrationemails</li>\r\n<li>Confirmation trough email confirmation link</li>\r\n<li>Unlimited amount of Forms, Fields and Inputs by integration to <a href=\"http://redcomponent.com/redform\">redFORM</a></li>\r\n<li>Dynamical options for input type (Radio, Checkbox, Textfield, Textarea, Email, Username, Fullname)</li>\r\n<li>Dynamical frontend attendee lists using the fields you made in the form (you made in redFORM) used by the event</li>\r\n<li>Admin notification and option to send on formular data to the admin</li>\r\n<li>Integration with the open source mailinglist project <a href=\"http://www.phplist.com/\" target=\"_blank\"><span style=\"color: #a10f15;\">PHPlist</span></a> and the Joomla 1.5 native components <a href=\"http://extensions.chillcreations.com/ccnewsletter/ccnewsletter-spsnewsletter-newsletters-joomla-15.html\" target=\"_blank\">ccNewsletter</a> and <a href=\"http://www.acajoom.com/\" target=\"_blank\">Acajoom</a>.</li>\r\n<li>Add custom styles to input fields trough backend and style in template css</li>\r\n<li>English and Danish languages (looking for more - <a href=\"http://redcomponent.com/contact\"><span style=\"color: #a10f15;\">contact me</span></a> if you are interested in translating to your native langauge).</li>\r\n<li>and much more...</li>\r\n</ul>', 0, 0, 1, '', '1262876429_redEVENT-box.jpg', '" . $published_date . "', '" . $published_date . "', 22, '', '', '', '', '', '', '', 1, 0.000, 0, 0, 0, '0', 0, 0, '0.00', '0.00', '0.00', '0.00', 0, 0, 0, 0, 0, 0, 0, 0, '', 0, '0000-00-00 00:00:00', 0, 0, '', '', '', '', 'global', 'append')";
 		$db->setQuery($query);
-		$db->query();
+		$db->execute();
 
 
 		$query = "INSERT IGNORE INTO `#__redshop_product_accessory` (`accessory_id`, `product_id`, `child_product_id`, `accessory_price`, `oprand`, `setdefault_selected`, `ordering`, `category_id`) VALUES
@@ -125,13 +125,13 @@ class RedshopModelRedshop extends JModel
 						(21, 1, 12, 10, '-', 0, 0, 0),
 						(20, 1, 3, 10, '-', 0, 0, 0)";
 		$db->setQuery($query);
-		$db->query();
+		$db->execute();
 
 		$query = "INSERT IGNORE INTO `#__redshop_product_attribute` (`attribute_id`, `attribute_name`, `attribute_required`, `allow_multiple_selection`, `hide_attribute_price`, `product_id`, `ordering`, `attribute_set_id`, `display_type`, `attribute_published`) VALUES
 						(3, 'Subscription', 0, 0, 0, 2, 0, 0, '', 1),
 						(4, 'Subscription', 1, 0, 0, 1, 0, 0, 'dropdown', 1)";
 		$db->setQuery($query);
-		$db->query();
+		$db->execute();
 
 		$query = "INSERT IGNORE INTO `#__redshop_product_attribute_property` (`property_id`, `attribute_id`, `property_name`, `property_price`, `oprand`, `property_image`, `property_main_image`, `ordering`, `setdefault_selected`, `setrequire_selected`, `setmulti_selected`, `setdisplay_type`, `property_number`) VALUES
 						(3, 3, '1 Year', 100, '+', '3_globus.gif', '', 0, 0, 0, 0, '', ''),
@@ -140,7 +140,7 @@ class RedshopModelRedshop extends JModel
 						(6, 4, '1 Year', 125, '+', '6_11408.jpg', '', 0, 0, 0, 0, 'dropdown', ''),
 						(8, 4, '2 Year', 175, '+', '', '', 1, 0, 0, 0, 'dropdown', '')";
 		$db->setQuery($query);
-		$db->query();
+		$db->execute();
 
 		/* Get the current columns for redshop category_xref */
 		$q = "SHOW INDEX FROM #__redshop_product_category_xref";
@@ -157,7 +157,7 @@ class RedshopModelRedshop extends JModel
 							`product_id`
 							)";
 				$db->setQuery($q);
-				$db->query();
+				$db->execute();
 			}
 		}
 
@@ -177,14 +177,14 @@ class RedshopModelRedshop extends JModel
 						(2, 8, 0),
 						(1, 1, 1)";
 		$db->setQuery($query);
-		$db->query();
+		$db->execute();
 
 
 		$query = "INSERT IGNORE INTO `#__redshop_product_rating`
 					(`rating_id`, `product_id`, `title`, `comment`, `userid`, `time`, `user_rating`, `favoured`, `published`)
 					VALUES (1, 1, 'super', 'Flot flot flot...', 64, 1262695786, 4, 1, 1)";
 		$db->setQuery($query);
-		$db->query();
+		$db->execute();
 
 
 		/* Get the current columns for redshop product related */
@@ -202,7 +202,7 @@ class RedshopModelRedshop extends JModel
 								`product_id`
 								)";
 				$db->setQuery($q);
-				$db->query();
+				$db->execute();
 			}
 		}
 
@@ -210,7 +210,7 @@ class RedshopModelRedshop extends JModel
 					(`related_id`, `product_id`) VALUES
 					(1, 2),(3, 2),(2, 1),(3, 1)";
 		$db->setQuery($query);
-		$db->query();
+		$db->execute();
 
 		/* Get the current columns for redshop product stockroom  */
 		$q = "SHOW INDEX FROM #__redshop_product_stockroom_xref";
@@ -227,7 +227,7 @@ class RedshopModelRedshop extends JModel
 								`stockroom_id`
 								)";
 				$db->setQuery($q);
-				$db->query();
+				$db->execute();
 			}
 		}
 
@@ -235,7 +235,7 @@ class RedshopModelRedshop extends JModel
 					(`product_id`, `stockroom_id`, `quantity`) VALUES
 					(2, 1, 100)";
 		$db->setQuery($query);
-		$db->query();
+		$db->execute();
 
 		return true;
 		/*********************************************************/
