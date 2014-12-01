@@ -40,3 +40,5 @@ modules:
             language: 'English (United Kingdom)'   # Language in which you want the Application to be Installed
             folder: '/home/travis/build/redCOMPONENT-COM/redSHOP/' # Path to the Extension to be installed via Install from folder
             host: 'http://localhost/joomla-cms'    # Host Path for Joomla-CMS
+            extension_name: 'redSHOP'              # Name of the extension which is to be installed
+            install_extension_demo_data: 'yes'     # Demo Data to be installed for Extension
