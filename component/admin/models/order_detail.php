@@ -168,19 +168,19 @@ class RedshopModelOrder_detail extends JModel
 				$query = "DELETE FROM `" . $this->_table_prefix . "order_attribute_item` "
 					. "WHERE `order_item_id` = " . $order_item[$i]->order_item_id;
 				$this->_db->setQuery($query);
-				$this->_db->query();
+				$this->_db->execute();
 
 
 				$query = "DELETE FROM `" . $this->_table_prefix . "order_acc_item` "
 					. "WHERE `order_item_id` = " . $order_item[$i]->order_item_id;
 				$this->_db->setQuery($query);
-				$this->_db->query();
+				$this->_db->execute();
 			}
 
 			$query = 'DELETE FROM ' . $this->_table_prefix . 'orders WHERE order_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 
@@ -190,7 +190,7 @@ class RedshopModelOrder_detail extends JModel
 			$query = 'DELETE FROM ' . $this->_table_prefix . 'order_item WHERE order_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 
@@ -199,7 +199,7 @@ class RedshopModelOrder_detail extends JModel
 			$query = 'DELETE FROM ' . $this->_table_prefix . 'order_payment WHERE order_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 
@@ -209,7 +209,7 @@ class RedshopModelOrder_detail extends JModel
 			$query = 'DELETE FROM ' . $this->_table_prefix . 'order_users_info WHERE order_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 
@@ -228,7 +228,7 @@ class RedshopModelOrder_detail extends JModel
 						. 'WHERE quotation_item_id=' . $quotation_item[$j]->quotation_item_id;
 					$this->_db->setQuery($query);
 
-					if (!$this->_db->query())
+					if (!$this->_db->execute())
 					{
 						$this->setError($this->_db->getErrorMsg());
 
@@ -240,7 +240,7 @@ class RedshopModelOrder_detail extends JModel
 					. 'WHERE quotation_id=' . $quotation[$q]->quotation_id;
 				$this->_db->setQuery($query);
 
-				if (!$this->_db->query())
+				if (!$this->_db->execute())
 				{
 					$this->setError($this->_db->getErrorMsg());
 
@@ -251,7 +251,7 @@ class RedshopModelOrder_detail extends JModel
 			$query = 'DELETE FROM ' . $this->_table_prefix . 'quotation WHERE order_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 
@@ -368,7 +368,7 @@ class RedshopModelOrder_detail extends JModel
 						. "'" . (time() + (PRODUCT_DOWNLOAD_DAYS * 23 * 59 * 59)) . "', '" . PRODUCT_DOWNLOAD_LIMIT . "', "
 						. "'" . md5(uniqid(mt_rand(), true)) . "', '" . $medianame[$j]->media_name . "')";
 					$this->_db->setQuery($sql);
-					$this->_db->query();
+					$this->_db->execute();
 				}
 			}
 
@@ -711,7 +711,7 @@ class RedshopModelOrder_detail extends JModel
 		$query = "DELETE FROM `" . $this->_table_prefix . "order_item` WHERE `order_item_id` = " . $order_item_id;
 		$this->_db->setQuery($query);
 
-		if (!$this->_db->query())
+		if (!$this->_db->execute())
 		{
 			$this->setError($this->_db->getErrorMsg());
 
@@ -725,12 +725,12 @@ class RedshopModelOrder_detail extends JModel
 			$query = "DELETE FROM `" . $this->_table_prefix . "order_attribute_item` "
 				. "WHERE `order_item_id` = " . $order_item_id;
 			$this->_db->setQuery($query);
-			$this->_db->query();
+			$this->_db->execute();
 
 			$query = "DELETE FROM `" . $this->_table_prefix . "order_acc_item` "
 				. "WHERE `order_item_id` = " . $order_item_id;
 			$this->_db->setQuery($query);
-			$this->_db->query();
+			$this->_db->execute();
 
 			$tmpArr['special_discount'] = $orderdata->special_discount;
 			$this->special_discount($tmpArr, true);
@@ -1276,7 +1276,7 @@ class RedshopModelOrder_detail extends JModel
 
 		$db->setQuery($payment_update);
 
-		if (!$db->Query())
+		if (!$db->execute())
 		{
 			return false;
 		}

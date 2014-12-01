@@ -167,7 +167,7 @@ class RedshopModelWishlist extends JModel
 					. ", cdate = " . $db->quote(time());
 				$db->setQuery($ins_query);
 
-				if ($db->Query())
+				if ($db->execute())
 				{
 					return true;
 				}
@@ -198,7 +198,7 @@ class RedshopModelWishlist extends JModel
 								. ", userfielddata = " . $db->quote($myuserdata);
 
 							$db->setQuery($ins_query);
-							$db->Query();
+							$db->execute();
 						}
 					}
 
@@ -207,7 +207,7 @@ class RedshopModelWishlist extends JModel
 						. ", product_id = " . (int) $_SESSION['wish_' . $si]->product_id
 						. ", cdate = " . $db->quote($_SESSION['wish_' . $si]->cdate);
 					$db->setQuery($ins_query);
-					$db->Query();
+					$db->execute();
 					unset($_SESSION['wish_' . $si]);
 				}
 
@@ -241,7 +241,7 @@ class RedshopModelWishlist extends JModel
 				. ", cdate = " . $db->quote(time());
 			$db->setQuery($ins_query);
 
-			if ($db->query())
+			if ($db->execute())
 			{
 				continue;
 			}
@@ -280,18 +280,18 @@ class RedshopModelWishlist extends JModel
 			. " WHERE wishlist_id=" . (int) $wishlist_id;
 		$db->setQuery($query);
 
-		$db->Query();
+		$db->execute();
 		$query = "DELETE FROM " . $this->_table_prefix . "wishlist_userfielddata "
 			. " WHERE wishlist_id=" . (int) $wishlist_id;
 		$db->setQuery($query);
 
-		if ($db->Query())
+		if ($db->execute())
 		{
 			$query = "DELETE FROM " . $this->_table_prefix . "wishlist "
 				. " WHERE wishlist_id=" . (int) $wishlist_id . " AND user_id=" . (int) $userid;
 			$db->setQuery($query);
 
-			if ($db->Query())
+			if ($db->execute())
 			{
 				return true;
 			}
