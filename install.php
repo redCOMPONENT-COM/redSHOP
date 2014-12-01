@@ -121,7 +121,7 @@ class Com_RedshopInstallerScript
 			{
 				$insert_schema = "insert into #__schemas set extension_id='" . $component_Id . "',version_id='1.1.10'";
 				$db->setQuery($insert_schema);
-				$db->query();
+				$db->execute();
 			}
 		}
 	}
@@ -250,7 +250,7 @@ class Com_RedshopInstallerScript
 					(461, 'company_billing_template', 'company_billing_template', '" . $redtemplate->getInstallSectionTemplate('company_billing_template') . "',1),
 	                (550, 'stock_note', 'stock_note', '" . $redtemplate->getInstallSectionTemplate('stock_note') . "',1)";
 		$db->setQuery($q);
-		$db->query();
+		$db->execute();
 
 		// TEMPLATE MOVE DB TO  FILE
 
@@ -321,7 +321,7 @@ class Com_RedshopInstallerScript
 					$uquery = "UPDATE `#__redshop_template` SET template_name ='" . $data->template_name . "' "
 						. "WHERE template_id='" . $data->template_id . "'";
 					$db->setQuery($uquery);
-					$db->query();
+					$db->execute();
 				}
 			}
 		}
@@ -370,6 +370,7 @@ class Com_RedshopInstallerScript
 			// Set the query and execute the update.
 			$db->setQuery($query)->execute();
 		}
+
 		?>
 		<center>
 			<table cellpadding="4" cellspacing="0" border="0" width="100%" class="adminlist">
@@ -945,7 +946,7 @@ class Com_RedshopInstallerScript
 			$query = "UPDATE #__extensions SET position='icon', ordering=9, enabled=1 WHERE element=" . $db->Quote($module);
 			$db    = JFactory::getDbo();
 			$db->setQuery($query);
-			$db->query();
+			$db->execute();
 		}
 		else
 		{
@@ -1078,7 +1079,7 @@ class Com_RedshopInstallerScript
 					$query->where("element=" . $db->quote($extName));
 					$query->where("folder=" . $db->quote($extGroup));
 					$db->setQuery($query);
-					$db->query();
+					$db->execute();
 				}
 			}
 		}

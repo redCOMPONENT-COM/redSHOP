@@ -95,6 +95,70 @@ $url = $uri->root();
 		}
 	}
 
+	function removeMessage(){
+		var myNode = document.getElementById("system-message-container");
+		var fc = myNode.firstChild;
+
+		while( fc ) {
+		    myNode.removeChild( fc );
+		    fc = myNode.firstChild;
+		}
+	};
+
+	function hideButton( arrBtn )
+	{
+		for ( var i in arrBtn )
+		{
+			if ( isNaN( i ) ) continue;
+
+			document.getElementById(arrBtn[i]).style.display = "none";
+		};
+	};
+
+	function showButton( arrBtn )
+	{
+		for ( var i in arrBtn )
+		{
+			if ( isNaN( i ) ) continue;
+
+			document.getElementById(arrBtn[i]).style.display = "block";
+		};
+	};
+
+	function showMessage( type )
+	{
+		// 9 is type of media
+		if ( type === "9" )
+		{
+			var jmsgs = ['<?php echo JText::_("COM_REDSHOP_FIELDS_MEDIA_DEPRECATED"); ?>'];  // You can stack multiple messages of the same type
+			Joomla.renderMessages({'notice': jmsgs });
+
+			// Hide button
+			hideButton(["toolbar-apply", "toolbar-save"]);
+		}
+		else
+		{
+			removeMessage();
+
+			// Show button
+			showButton(["toolbar-apply", "toolbar-save"]);
+		}
+	};
+
+	window.onload = function (){
+		var fieldType = document.getElementById("field_type");
+
+		// Check onload
+		var fType = fieldType.selectedOptions[0].value;
+
+		showMessage( fType );
+
+		fieldType.onchange = function ( e )
+		{
+			var type = e.target.selectedOptions[0].value;
+			showMessage( type );
+		};
+	}
 
 </script>
 <form action="<?php echo JRoute::_($this->request_url) ?>" method="post" name="adminForm" id="adminForm"

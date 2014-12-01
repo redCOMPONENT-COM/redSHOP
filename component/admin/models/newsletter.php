@@ -542,7 +542,7 @@ class RedshopModelNewsletter extends JModel
 					. "(`tracker_id`, `newsletter_id`, `subscription_id`, `subscriber_name`, `user_id` , `read`, `date`)  "
 					. "VALUES ('', '" . $newsletter_id . "', '" . $cid[$j] . "', '" . $username[$j] . "', '" . $userid[$j] . "',0, '" . $today . "')";
 				$db->setQuery($query);
-				$db->query();
+				$db->execute();
 				$content = '<img  src="' . $url . 'components/com_redshop/helpers/newsletteropener.php?tracker_id='
 					. $db->insertid() . '" style="display:none;" />';
 
