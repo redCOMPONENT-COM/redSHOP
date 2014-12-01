@@ -212,7 +212,7 @@ class quotationHelper
 			. "(fieldid,data_txt,quotation_item_id,section) "
 			. "VALUE (" . (int) $field_id . "," . $db->quote($value) . "," . (int) $quotation_item_id . "," . $db->quote($section_id) . ")";
 		$db->setQuery($sql);
-		$db->query();
+		$db->execute();
 	}
 
 	public function getQuotationUserfield($quotation_item_id)
@@ -292,7 +292,7 @@ class quotationHelper
 			. 'SET order_id = ' . (int) $order_id . ' '
 			. 'WHERE quotation_id = ' . (int) $quotation_id;
 		$this->_db->setQuery($query);
-		$this->_db->query();
+		$this->_db->execute();
 		$this->updateQuotationStatus($quotation_id, 5);
 
 		return true;

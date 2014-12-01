@@ -3508,7 +3508,7 @@ class producthelper
 						. "value (" . (int) $row_data[$i]->field_id . "," . $db->quote(addslashes($user_fields)) . ","
 						. (int) $order_item_id . "," . $db->quote($section_id) . ")";
 					$this->_db->setQuery($sql);
-					$this->_db->query();
+					$this->_db->execute();
 				}
 			}
 		}
@@ -8614,7 +8614,7 @@ class producthelper
 			. (int) $endtime . ", " . (int) $product_download_limit . ", "
 			. $db->quote($token) . ", " . $db->quote($media_name) . "," . $db->quote($serial_number) . ")";
 		$this->_db->setQuery($sql);
-		$this->_db->query();
+		$this->_db->execute();
 
 		return true;
 	}
@@ -8653,7 +8653,7 @@ class producthelper
 		$update_query = "UPDATE " . $this->_table_prefix . "product_serial_number "
 			. " SET is_used='1' WHERE serial_id = " . (int) $serial_id;
 		$this->_db->setQuery($update_query);
-		$this->_db->Query();
+		$this->_db->execute();
 	}
 
 	public function getSubscription($product_id = 0)
@@ -10860,7 +10860,7 @@ class producthelper
 					. "value ('" . (int) $row_data[$i]->field_id . "'," . $db->quote(addslashes($user_fields)) . "," . (int) $order_id
 					. "," . $db->quote($section_id) . ")";
 				$this->_db->setQuery($sql);
-				$this->_db->query();
+				$this->_db->execute();
 			}
 		}
 

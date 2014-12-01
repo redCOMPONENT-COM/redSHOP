@@ -144,7 +144,7 @@ class RedshopModelStockimage_detail extends JModel
 				. 'WHERE stock_amount_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 
