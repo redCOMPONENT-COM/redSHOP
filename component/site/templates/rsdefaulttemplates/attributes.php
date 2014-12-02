@@ -1,8 +1,8 @@
 <div class="attributes_box clearfix">
 	<div class="attribute_wrapper">
-		<lable>{attribute_title}</lable>
+		<label>{attribute_title}</label>
 		{property_dropdown}<br/>{subproperty_start}
-		<lable>{property_title}</lable>
+		<label>{property_title}</label>
 		{subproperty_dropdown}{subproperty_end}</p>
 	</div>
 </div>

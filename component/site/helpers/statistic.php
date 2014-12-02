@@ -47,7 +47,7 @@ class statistic
 				. "VALUES (" . $db->quote($sid) . ", " . (int) $user->id . "," . (int) $date . ")";
 			$this->_db->setQuery($query);
 
-			if ($this->_db->query())
+			if ($this->_db->execute())
 			{
 				return true;
 			}
@@ -97,7 +97,7 @@ class statistic
 					. "VALUES (" . $db->quote($sid) . "," . (int) $user->id . "," . $db->quote($view) . "," . (int) $sectionid . "," . (int) $date . ")";
 				$this->_db->setQuery($query);
 
-				if ($this->_db->query())
+				if ($this->_db->execute())
 				{
 					return true;
 				}

@@ -45,7 +45,7 @@ class RedshopModelPassword extends JModel
 			$this->_db->setQuery($query);
 
 			// Save the token
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				return false;
 			}
@@ -99,7 +99,7 @@ class RedshopModelPassword extends JModel
 		$this->_db->setQuery($query);
 
 		// Saving new password
-		if (!$this->_db->query())
+		if (!$this->_db->execute())
 		{
 			return false;
 		}

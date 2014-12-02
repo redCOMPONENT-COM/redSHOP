@@ -42,7 +42,7 @@ class JFormFieldshippingmethod extends JFormField
 		//$value	= $this->value;
 		for ($i = 0, $n = count($options); $i < $n; $i++)
 		{
-			$row = & $options[$i];
+			$row = $options[$i];
 
 
 			$html .= "&nbsp;<input type='hidden' id='" . $row->id . "' name='" . $name . "'  value='" . $row->element . "'   /><br/>";

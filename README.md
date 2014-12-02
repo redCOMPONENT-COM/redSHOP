@@ -1,10 +1,10 @@
 redSHOP 1.x
 ==========
 
-# Travis Status
+## Travis Status
 Develop: [![Build Status](https://magnum.travis-ci.com/redCOMPONENT-COM/redSHOP.svg?token=vxVVpxnq2ZPuMp3yebRz&branch=develop)](https://magnum.travis-ci.com/redCOMPONENT-COM/redSHOP)
 
-Documentation
+## Documentation
 
 https://github.com/redCOMPONENT-COM/documentation
 
@@ -53,17 +53,14 @@ _Or Compare across versions_
 ### Update Changelog
 - Create the Changelog list of commits:
 
-> $ git log --oneline --after={2013-04-18} --no-merges --format="* %s ( %h )"
-
-_Or Compare across versions_
-
-> git log --oneline 1.4/dev19...develop --no-merges --format="* %s ( %h )" > /var/www/packages/changelog2.log
+> git log --oneline 1.4/dev25...develop --no-merges --format="* %s ( %h )" > /var/www/packages/changelog2.log
 
 - Upload the list to http://wiki.redcomponent.com/index.php?title=redSHOP:Changelog
 
+
 ### Prepare software for next release
-- Update component version number with next release number at https://github.com/redCOMPONENT-COM/redSHOP-1.2/blob/master/redshop.xml#L10
-- Create an empty update .sql file at: https://github.com/redCOMPONENT-COM/redSHOP-1.2/tree/master/component/admin/sql/updates/mysql
+- Update component version number with next release number at https://github.com/redCOMPONENT-COM/redSHOP/blob/master/redshop.xml#L10
+- Create an empty update .sql file at: https://github.com/redCOMPONENT-COM/redSHOP/tree/master/component/admin/sql/updates/mysql
 - Merge development branch into Master (see successful git-branching model: http://nvie.com/posts/a-successful-git-branching-model/ )
 - Create a release git TAG
  - create the tag in local:
@@ -76,9 +73,12 @@ _Or Compare across versions_
 
  - Check that tag has been created: https://github.com/redCOMPONENT-COM/redSHOP/tags
  - Create the release: https://github.com/redCOMPONENT-COM/redSHOP/releases
+ - Add a description to the release with the changelog information that you generated in the previous step
 
 
 # Testing with Codeception
+
+## Using codecept.phar
 
 Get codeception phar:
 
@@ -91,6 +91,21 @@ Build codeception testers classes:
 ```
 php ./codecept.phar build
 ```
+
+## using composer to get Codeception
+
+Execute
+```
+# You need to have Composer in your system, if not download it from here: https://getcomposer.org/
+composer update
+```
+After that you will be able to run Codeception doing:
+
+```
+php vendor/codeception/codeception/codecept build
+```
+
+## Running the tests
 
 Rename tests/acceptance.suite.dist.yml to tests/acceptance.suite.yml
 
@@ -111,12 +126,15 @@ Execute the tests:
 
 ```
 php codecept.phar run
+# Or php vendor/codeception/codeception/codecept run
 
 ; Or with --steps to see a step-by-step report on the performed actions.
 php codecept.phar run --steps
+# Or php vendor/codeception/codeception/codecept run --steps
 
 ; Or with --html. This command will run all tests for all suites, displaying the steps, and building HTML and XML reports. Reports will be store in tests/_output/ directory.
 php codecept.phar run --html
+# Or php vendor/codeception/codeception/codecept run --html
 ```
 
 ## Firefox Addons

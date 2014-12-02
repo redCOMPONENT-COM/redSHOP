@@ -107,7 +107,7 @@ class rsUserhelper
 				. " SET accept_terms_conditions = " . (int) $isSet
 				. " WHERE users_info_id = " . (int) $users_info_id;
 			$this->_db->setQuery($query);
-			$this->_db->Query();
+			$this->_db->execute();
 		}
 	}
 
@@ -656,7 +656,7 @@ class rsUserhelper
 							. "SET users_info_id = " . (int) $nextId . " "
 							. "WHERE users_info_id = " . (int) $row->users_info_id;
 						$this->_db->setQuery($sql);
-						$this->_db->Query();
+						$this->_db->execute();
 						$row->users_info_id = $nextId;
 					}
 				}
@@ -936,7 +936,7 @@ class rsUserhelper
 				. "WHERE email = " . $db->quote($email) . " "
 				. $and;
 			$this->_db->setQuery($query);
-			$this->_db->query();
+			$this->_db->execute();
 			$redshopMail = new redshopMail;
 			$redshopMail->sendNewsletterCancellationMail($email);
 		}

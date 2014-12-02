@@ -52,7 +52,7 @@ $product = $this->products;
 			<th><?php echo JText::_('COM_REDSHOP_CATEGORY_NAME');?></th>
 		</tr>
 		<?php
-		$row = & $product[0];
+		$row = $product[0];
 		echo "<tr>";
 		echo "<td>" . $row->product_name . "</td>";
 		echo "<td rowspan='" . count($product) . "'>" . $this->lists["category"] . "</td>";
@@ -61,7 +61,7 @@ $product = $this->products;
 
 		for ($i = 1; $i < count($product); $i++)
 		{
-			$row = & $product[$i];
+			$row = $product[$i];
 			echo "<tr>";
 			echo "<td>" . $row->product_name;
 			echo "<input type='hidden' name='cid[]' value='" . $row->product_id . "'>";
