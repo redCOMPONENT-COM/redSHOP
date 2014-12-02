@@ -13,11 +13,25 @@ jimport('joomla.application.component.controller');
 
 class RedshopControllerRating extends JController
 {
+	/**
+	 * Method to cancel item edit
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
+	 */
 	public function cancel()
 	{
 		$this->setRedirect('index.php');
 	}
 
+	/**
+	 * Method to publish a list of items
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
+	 */
 	public function publish()
 	{
 		$option = JRequest::getVar('option');
@@ -40,6 +54,13 @@ class RedshopControllerRating extends JController
 		$this->setRedirect('index.php?option=' . $option . '&view=rating', $msg);
 	}
 
+	/**
+	 * Method to unpublish a list of items
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
+	 */
 	public function unpublish()
 	{
 		$option = JRequest::getVar('option');
@@ -62,6 +83,13 @@ class RedshopControllerRating extends JController
 		$this->setRedirect('index.php?option=' . $option . '&view=rating', $msg);
 	}
 
+	/**
+	 * Method to favour a list of rating items
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
+	 */
 	public function fv_publish()
 	{
 		$option = JRequest::getVar('option');
@@ -84,6 +112,13 @@ class RedshopControllerRating extends JController
 		$this->setRedirect('index.php?option=' . $option . '&view=rating', $msg);
 	}
 
+	/**
+	 * Method to disfavour a list of rating items
+	 *
+	 * @return  void
+	 *
+	 * @since   11.1
+	 */
 	public function fv_unpublish()
 	{
 		$option = JRequest::getVar('option');
