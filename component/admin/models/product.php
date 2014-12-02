@@ -427,7 +427,7 @@ class RedshopModelProduct extends JModel
 				. intval($product_template) . '" ' . ' WHERE product_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 
@@ -539,7 +539,7 @@ class RedshopModelProduct extends JModel
 					$query = 'UPDATE ' . $this->_table_prefix . 'product_category_xref' . ' SET ordering = ' . (int) $i
 						. ' WHERE product_id=' . $productid . ' AND category_id = ' . $category_id_my;
 					$this->_db->setQuery($query);
-					$this->_db->query();
+					$this->_db->execute();
 				}
 
 				$i++;

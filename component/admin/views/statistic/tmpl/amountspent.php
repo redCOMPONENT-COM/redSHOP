@@ -39,7 +39,7 @@ $end = $this->pagination->limit;
 			<?php    $disdate = "";
 			for ($i = $start, $j = 0; $i < ($start + $end); $i++, $j++)
 			{
-				$row = & $this->amountspentintotal[$i];
+				$row = $this->amountspentintotal[$i];
 				if (!is_object($row))
 				{
 					break;

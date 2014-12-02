@@ -168,19 +168,19 @@ class RedshopModelOrder_detail extends JModel
 				$query = "DELETE FROM `" . $this->_table_prefix . "order_attribute_item` "
 					. "WHERE `order_item_id` = " . $order_item[$i]->order_item_id;
 				$this->_db->setQuery($query);
-				$this->_db->query();
+				$this->_db->execute();
 
 
 				$query = "DELETE FROM `" . $this->_table_prefix . "order_acc_item` "
 					. "WHERE `order_item_id` = " . $order_item[$i]->order_item_id;
 				$this->_db->setQuery($query);
-				$this->_db->query();
+				$this->_db->execute();
 			}
 
 			$query = 'DELETE FROM ' . $this->_table_prefix . 'orders WHERE order_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 
@@ -190,7 +190,7 @@ class RedshopModelOrder_detail extends JModel
 			$query = 'DELETE FROM ' . $this->_table_prefix . 'order_item WHERE order_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 
@@ -199,7 +199,7 @@ class RedshopModelOrder_detail extends JModel
 			$query = 'DELETE FROM ' . $this->_table_prefix . 'order_payment WHERE order_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 
@@ -209,7 +209,7 @@ class RedshopModelOrder_detail extends JModel
 			$query = 'DELETE FROM ' . $this->_table_prefix . 'order_users_info WHERE order_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 
@@ -228,7 +228,7 @@ class RedshopModelOrder_detail extends JModel
 						. 'WHERE quotation_item_id=' . $quotation_item[$j]->quotation_item_id;
 					$this->_db->setQuery($query);
 
-					if (!$this->_db->query())
+					if (!$this->_db->execute())
 					{
 						$this->setError($this->_db->getErrorMsg());
 
@@ -240,7 +240,7 @@ class RedshopModelOrder_detail extends JModel
 					. 'WHERE quotation_id=' . $quotation[$q]->quotation_id;
 				$this->_db->setQuery($query);
 
-				if (!$this->_db->query())
+				if (!$this->_db->execute())
 				{
 					$this->setError($this->_db->getErrorMsg());
 
@@ -251,7 +251,7 @@ class RedshopModelOrder_detail extends JModel
 			$query = 'DELETE FROM ' . $this->_table_prefix . 'quotation WHERE order_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 
@@ -368,7 +368,7 @@ class RedshopModelOrder_detail extends JModel
 						. "'" . (time() + (PRODUCT_DOWNLOAD_DAYS * 23 * 59 * 59)) . "', '" . PRODUCT_DOWNLOAD_LIMIT . "', "
 						. "'" . md5(uniqid(mt_rand(), true)) . "', '" . $medianame[$j]->media_name . "')";
 					$this->_db->setQuery($sql);
-					$this->_db->query();
+					$this->_db->execute();
 				}
 			}
 
@@ -405,7 +405,7 @@ class RedshopModelOrder_detail extends JModel
 						$attribute_id = $attchildArr[$j]['attribute_id'];
 						$accessory_attribute .= urldecode($attchildArr[$j]['attribute_name']) . ":<br/>";
 
-						$rowattitem = & $this->getTable('order_attribute_item');
+						$rowattitem = $this->getTable('order_attribute_item');
 						$rowattitem->order_att_item_id = 0;
 						$rowattitem->order_item_id = $orderitemdata->order_item_id;
 						$rowattitem->section_id = $attribute_id;
@@ -440,7 +440,7 @@ class RedshopModelOrder_detail extends JModel
 								. $producthelper->getProductFormattedPrice($propArr[$k]['property_price'] + $section_vat) . ")<br/>";
 							$subpropArr = $propArr[$k]['property_childs'];
 
-							$rowattitem = & $this->getTable('order_attribute_item');
+							$rowattitem = $this->getTable('order_attribute_item');
 							$rowattitem->order_att_item_id = 0;
 							$rowattitem->order_item_id = $orderitemdata->order_item_id;
 							$rowattitem->section_id = $property_id;
@@ -477,7 +477,7 @@ class RedshopModelOrder_detail extends JModel
 									. $producthelper->getProductFormattedPrice($subpropArr[$l]['subproperty_price'] + $section_vat)
 									. ")<br/>";
 
-								$rowattitem = & $this->getTable('order_attribute_item');
+								$rowattitem = $this->getTable('order_attribute_item');
 								$rowattitem->order_att_item_id = 0;
 								$rowattitem->order_item_id = $orderitemdata->order_item_id;
 								$rowattitem->section_id = $subproperty_id;
@@ -502,7 +502,7 @@ class RedshopModelOrder_detail extends JModel
 						}
 					}
 
-					$accdata = & $this->getTable('accessory_detail');
+					$accdata = $this->getTable('accessory_detail');
 
 					if ($accessory_id > 0)
 					{
@@ -510,7 +510,7 @@ class RedshopModelOrder_detail extends JModel
 					}
 
 					$accessoryproduct = $producthelper->getProductById($accdata->child_product_id);
-					$rowaccitem = & $this->getTable('order_acc_item');
+					$rowaccitem = $this->getTable('order_acc_item');
 					$rowaccitem->order_item_acc_id = 0;
 					$rowaccitem->order_item_id = $orderitemdata->order_item_id;
 					$rowaccitem->product_id = $accessory_id;
@@ -544,7 +544,7 @@ class RedshopModelOrder_detail extends JModel
 				{
 					$attribute_id = $attArr[$j]['attribute_id'];
 
-					$rowattitem = & $this->getTable('order_attribute_item');
+					$rowattitem = $this->getTable('order_attribute_item');
 					$rowattitem->order_att_item_id = 0;
 					$rowattitem->order_item_id = $orderitemdata->order_item_id;
 					$rowattitem->section_id = $attribute_id;
@@ -578,7 +578,7 @@ class RedshopModelOrder_detail extends JModel
 						/** product property STOCKROOM update start */
 						$updatestock = $stockroomhelper->updateStockroomQuantity($property_id, $quantity, "property");
 
-						$rowattitem = & $this->getTable('order_attribute_item');
+						$rowattitem = $this->getTable('order_attribute_item');
 						$rowattitem->order_att_item_id = 0;
 						$rowattitem->order_item_id = $orderitemdata->order_item_id;
 						$rowattitem->section_id = $property_id;
@@ -615,7 +615,7 @@ class RedshopModelOrder_detail extends JModel
 							/** product subproperty STOCKROOM update start */
 							$updatestock = $stockroomhelper->updateStockroomQuantity($subproperty_id, $quantity, "subproperty");
 
-							$rowattitem = & $this->getTable('order_attribute_item');
+							$rowattitem = $this->getTable('order_attribute_item');
 							$rowattitem->order_att_item_id = 0;
 							$rowattitem->order_item_id = $orderitemdata->order_item_id;
 							$rowattitem->section_id = $subproperty_id;
@@ -711,7 +711,7 @@ class RedshopModelOrder_detail extends JModel
 		$query = "DELETE FROM `" . $this->_table_prefix . "order_item` WHERE `order_item_id` = " . $order_item_id;
 		$this->_db->setQuery($query);
 
-		if (!$this->_db->query())
+		if (!$this->_db->execute())
 		{
 			$this->setError($this->_db->getErrorMsg());
 
@@ -725,12 +725,12 @@ class RedshopModelOrder_detail extends JModel
 			$query = "DELETE FROM `" . $this->_table_prefix . "order_attribute_item` "
 				. "WHERE `order_item_id` = " . $order_item_id;
 			$this->_db->setQuery($query);
-			$this->_db->query();
+			$this->_db->execute();
 
 			$query = "DELETE FROM `" . $this->_table_prefix . "order_acc_item` "
 				. "WHERE `order_item_id` = " . $order_item_id;
 			$this->_db->setQuery($query);
-			$this->_db->query();
+			$this->_db->execute();
 
 			$tmpArr['special_discount'] = $orderdata->special_discount;
 			$this->special_discount($tmpArr, true);
@@ -1276,7 +1276,7 @@ class RedshopModelOrder_detail extends JModel
 
 		$db->setQuery($payment_update);
 
-		if (!$db->Query())
+		if (!$db->execute())
 		{
 			return false;
 		}
