@@ -43,7 +43,7 @@ class JFormFieldconsignornumber extends JFormField
 
 		for ($i = 0, $n = count($options); $i < $n; $i++)
 		{
-			$row = & $options[$i];
+			$row = $options[$i];
 
 
 			$html .= "<tr><td>" . $row->name . "</td><td><input type='text' id='" . $row->id . "' name='" . $name . "[]'  value='" . $value[$i] . "'   /></td></tr>";

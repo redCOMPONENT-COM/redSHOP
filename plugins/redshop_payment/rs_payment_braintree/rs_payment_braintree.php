@@ -583,6 +583,6 @@ class plgRedshop_paymentrs_payment_braintree extends JPlugin
 				SET `braintree_vault_number` = " . $user_vault_ref . "
 				WHERE `user_id` =" . $user_id . " AND address_type = 'BT'";
 		$db->setQuery($query);
-		$db->query();
+		$db->execute();
 	}
 }

@@ -15,4 +15,5 @@ $I->wantTo('Uninstall Extension');
 $I->doAdminLogin("Function to Login to Admin Panel");
 
 $I = new AcceptanceTester\UninstallExtensionSteps($scenario);
-$I->uninstallExtension('redSHOP');
+$config = $I->getConfig();
+$I->uninstallExtension($config['extension_name']);

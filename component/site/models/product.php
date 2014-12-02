@@ -96,7 +96,6 @@ class RedshopModelProduct extends JModel
 
 	public function getData()
 	{
-
 		$redTemplate = new Redtemplate;
 
 		if (empty ($this->_data))
@@ -106,8 +105,11 @@ class RedshopModelProduct extends JModel
 			$this->_data = $this->_db->loadObject();
 		}
 
-		$this->_data->product_s_desc = isset($this->_data->product_s_desc) ? $redTemplate->parseredSHOPplugin($this->_data->product_s_desc) : '';
-		$this->_data->product_desc   = isset($this->_data->product_desc) ? $redTemplate->parseredSHOPplugin($this->_data->product_desc) : '';
+		if (is_object($this->_data))
+		{
+			$this->_data->product_s_desc = $redTemplate->parseredSHOPplugin($this->_data->product_s_desc);
+			$this->_data->product_desc   = $redTemplate->parseredSHOPplugin($this->_data->product_desc);
+		}
 
 		return $this->_data;
 	}
@@ -291,7 +293,7 @@ class RedshopModelProduct extends JModel
 			. "SET visited=visited + 1 "
 			. "WHERE product_id = " . (int) $product_id;
 		$this->_db->setQuery($query);
-		$this->_db->Query();
+		$this->_db->execute();
 	}
 
 	public function addProductTags($data)
@@ -372,7 +374,7 @@ class RedshopModelProduct extends JModel
 		$query = "INSERT INTO " . $this->_table_prefix . "product_tags_xref "
 			. "VALUES('" . (int) $tags->tags_id . "','" . (int) $post['product_id'] . "','" . (int) $user->id . "')";
 		$this->_db->setQuery($query);
-		$this->_db->Query();
+		$this->_db->execute();
 
 		return true;
 	}
@@ -408,7 +410,7 @@ class RedshopModelProduct extends JModel
 		$session         = JFactory::getSession();
 		$compare_product = $session->get('compare_product');
 		$cid             = JRequest::getInt('cid');
-		$catid           = $compare_product[0]['category_id'];
+		$catid           = isset($compare_product[0]['category_id']) ? $compare_product[0]['category_id'] : 0;
 
 		if (PRODUCT_COMPARISON_TYPE == 'category' && $catid != $cid)
 		{
@@ -418,7 +420,7 @@ class RedshopModelProduct extends JModel
 
 		if ($product_id != 0)
 		{
-			if (!$compare_product)
+			if (!isset($compare_product) || !$compare_product)
 			{
 				// Return true to store product in compare product cart.
 				return true;
@@ -460,7 +462,7 @@ class RedshopModelProduct extends JModel
 
 		$idx = (int) ($compare_product['idx']);
 
-		if (PRODUCT_COMPARISON_TYPE == 'category' && $compare_product[0]["category_id"] != $data["cid"])
+		if (PRODUCT_COMPARISON_TYPE == 'category' && (!isset($compare_product[0]["category_id"]) || $compare_product[0]["category_id"] != $data["cid"]))
 		{
 			unset($compare_product);
 			$idx = 0;
@@ -563,7 +565,7 @@ class RedshopModelProduct extends JModel
 			. "SET download_max=(download_max - 1) "
 			. "WHERE download_id = " . (int) $did;
 		$this->_db->setQuery($query);
-		$ret = $this->_db->Query();
+		$ret = $this->_db->execute();
 
 		if ($ret)
 		{

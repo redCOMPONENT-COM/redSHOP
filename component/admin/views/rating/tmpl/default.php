@@ -93,7 +93,7 @@ $comment = JRequest::getVar('comment_filter');
 			$k = 0;
 			for ($i = 0, $n = count($this->ratings); $i < $n; $i++)
 			{
-				$row = & $this->ratings[$i];
+				$row = $this->ratings[$i];
 				$row->id = $row->rating_id;
 				$link = JRoute::_('index.php?option=' . $option . '&view=rating_detail&task=edit&cid[]=' . $row->rating_id);
 				$prodlink = JRoute::_('index.php?option=' . $option . '&view=product_detail&task=edit&cid[]=' . $row->product_id);
