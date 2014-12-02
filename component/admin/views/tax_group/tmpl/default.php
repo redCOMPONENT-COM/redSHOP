@@ -60,7 +60,7 @@ $option = JRequest::getVar('option', '', 'request', 'string');
 			$k = 0;
 			for ($i = 0; $i < count($this->media); $i++)
 			{
-				$row = & $this->media[$i];
+				$row = $this->media[$i];
 
 				$row->id = $row->tax_group_id;
 

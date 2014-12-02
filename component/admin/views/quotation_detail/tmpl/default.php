@@ -244,7 +244,7 @@ $quotation_item = $quotationHelper->getQuotationProduct($quotation->quotation_id
 
 			for ($i = 0; $i < count($quotation_item); $i++)
 			{
-				$quo = & $quotation_item[$i];
+				$quo = $quotation_item[$i];
 
 				if ($quo->is_giftcard == 1)
 				{

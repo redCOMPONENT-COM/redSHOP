@@ -48,7 +48,7 @@ class Cron
 			// Default $data != 1
 			$q_update = "UPDATE #__redshop_cron SET date = " . $db->quote($fdate) . " WHERE id = 1";
 			$db->setQuery($q_update);
-			$db->query();
+			$db->execute();
 
 			if (SEND_CATALOG_REMINDER_MAIL)
 			{
@@ -118,7 +118,7 @@ class Cron
 					{
 						$q_update = "UPDATE #__redshop_catalog_request SET reminder_1 = 1 WHERE catalog_user_id = " . (int) $catalog_detail->catalog_user_id;
 						$db->setQuery($q_update);
-						$db->query();
+						$db->execute();
 					}
 				}
 			}
@@ -175,13 +175,13 @@ class Cron
 						. ", " . $db->quote($end_date) . ", '1', " . (int) $uid . ", '1')";
 
 					$db->setQuery($sql);
-					$db->query();
+					$db->execute();
 
 					if ($sent == 1)
 					{
 						$q_update = "UPDATE #__redshop_catalog_request SET reminder_2 = 1 WHERE catalog_user_id = " . $catalog_detail->catalog_user_id;
 						$db->setQuery($q_update);
-						$db->query();
+						$db->execute();
 					}
 				}
 			}
@@ -234,7 +234,7 @@ class Cron
 						{
 							$q_update = "UPDATE #__redshop_catalog_request SET reminder_3 = 1 WHERE catalog_user_id = " . (int) $catalog_detail->catalog_user_id;
 							$db->setQuery($q_update);
-							$db->query();
+							$db->execute();
 						}
 					}
 				}
@@ -360,7 +360,7 @@ class Cron
 
 						$q_update = "UPDATE #__redshop_orders SET mail1_status = 1 WHERE order_id = " . $order_id;
 						$db->setQuery($q_update);
-						$db->query();
+						$db->execute();
 					}
 				}
 			}
@@ -394,7 +394,7 @@ class Cron
 					$sent           = JUtility::sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc);
 					$q_update       = "UPDATE #__redshop_orders SET mail2_status = 1 WHERE order_id = " . $order_id;
 					$db->setQuery($q_update);
-					$db->query();
+					$db->execute();
 				}
 			}
 			elseif ($mail_detail->mail3_status == 0 && (DAYS_MAIL3 != 0 || DAYS_MAIL3 != '') && $total != 0)
@@ -428,7 +428,7 @@ class Cron
 					$sent           = JUtility::sendMail($from, $fromname, $recipient, $subject, $body, $mode = 1, null, $mailbcc);
 					$q_update       = "UPDATE #__redshop_orders SET mail3_status = 1 WHERE order_id = " . $order_id;
 					$db->setQuery($q_update);
-					$db->query();
+					$db->execute();
 				}
 			}
 		}
@@ -491,7 +491,7 @@ class Cron
 					{
 						$q_update = "UPDATE #__redshop_sample_request SET reminder_1 = 1 WHERE request_id  = " . (int) $color_detail->request_id;
 						$db->setQuery($q_update);
-						$db->query();
+						$db->execute();
 					}
 				}
 			}
@@ -532,7 +532,7 @@ class Cron
 					{
 						$q_update = "UPDATE #__redshop_sample_request SET reminder_2 = 1 WHERE request_id  = " . (int) $color_detail->request_id;
 						$db->setQuery($q_update);
-						$db->query();
+						$db->execute();
 					}
 				}
 			}
@@ -589,14 +589,14 @@ class Cron
 										VALUES (" . $db->quote($token) . ", '1', '" . DISCOUNT_PERCENTAGE . "', " . $db->quote($start_date) . ", " . $db->quote($end_date) . ", '1', '" . (int) $uid . "', '1')";
 
 						$db->setQuery($sql);
-						$db->query();
+						$db->execute();
 					}
 
 					if ($sent == 1)
 					{
 						$q_update = "UPDATE #__redshop_sample_request SET reminder_3 = 1 WHERE request_id  = " . (int) $color_detail->request_id;
 						$db->setQuery($q_update);
-						$db->query();
+						$db->execute();
 					}
 				}
 			}
@@ -649,7 +649,7 @@ class Cron
 						{
 							$q_update = "UPDATE #__redshop_sample_request SET reminder_coupon = 1 WHERE request_id  = " . (int) $color_detail->request_id;
 							$db->setQuery($q_update);
-							$db->query();
+							$db->execute();
 						}
 					}
 				}
@@ -683,7 +683,7 @@ class Cron
 				. "SET renewal_reminder = 0 "
 				. "WHERE product_subscribe_id=" . (int) $data[$i]->product_subscribe_id;
 			$db->setQuery($update_query);
-			$db->Query();
+			$db->execute();
 		}
 	}
 }

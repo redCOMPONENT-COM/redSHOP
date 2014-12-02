@@ -45,7 +45,7 @@ $tracker_id = @basename(urldecode($_REQUEST['tracker_id']));
 $db         = JFactory::getDbo();
 $query      = "UPDATE `#__redshop_newsletter_tracker` SET `read` = '1' WHERE tracker_id = " . (int) $tracker_id;
 $db->setQuery($query);
-$db->query();
+$db->execute();
 
 $uri        = JURI::getInstance();
 $requesturl = JFilterOutput::cleanText($uri->toString());

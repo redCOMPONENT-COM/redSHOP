@@ -92,7 +92,7 @@ $redtemplate = new Redtemplate;
 			$k = 0;
 			for ($i = 0, $n = count($this->fields); $i < $n; $i++)
 			{
-				$row = & $this->fields[$i];
+				$row = $this->fields[$i];
 				$row->id = $row->field_id;
 				$link = JRoute::_('index.php?option=com_redshop&view=fields_detail&task=edit&cid[]=' . $row->field_id);
 

@@ -73,7 +73,7 @@ $producthelper = new producthelper;
 			$k = 0;
 			for ($i = 0, $n = count($this->shipping_box); $i < $n; $i++)
 			{
-				$row = & $this->shipping_box[$i];
+				$row = $this->shipping_box[$i];
 				$row->id = $row->shipping_box_id;
 				$link = JRoute::_('index.php?option=' . $option . '&view=shipping_box_detail&task=edit&cid[]=' . $row->shipping_box_id);
 
