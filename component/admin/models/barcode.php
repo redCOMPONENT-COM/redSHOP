@@ -37,7 +37,7 @@ class RedshopModelBarcode extends RedshopModel
 
 	public function save($data)
 	{
-		$row = & $this->getTable('barcode');
+		$row = $this->getTable('barcode');
 
 		if (!$row->bind($data))
 		{
@@ -99,6 +99,6 @@ class RedshopModelBarcode extends RedshopModel
 		$update_query = "UPDATE " . $this->_table_prefix . "orders SET order_status = 'S' where barcode='"
 			. $barcode . "' and order_id ='" . $order_id . "'";
 		$this->_db->setQuery($update_query);
-		$this->_db->query();
+		$this->_db->execute();
 	}
 }

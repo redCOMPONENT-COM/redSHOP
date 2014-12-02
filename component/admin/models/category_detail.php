@@ -135,7 +135,7 @@ class RedshopModelCategory_detail extends RedshopModel
 			$query = "UPDATE " . $this->_table_prefix . "category set category_thumb_image = '',category_full_image = ''  where category_id ="
 				. $row->category_id;
 			$this->_db->setQuery($query);
-			$this->_db->query();
+			$this->_db->execute();
 		}
 
 		if (count($_FILES) > 0 && $_FILES['category_full_image']['name'] != "")
@@ -189,7 +189,7 @@ class RedshopModelCategory_detail extends RedshopModel
 
 			$query = "UPDATE " . $this->_table_prefix . "category set category_back_full_image = ''  where category_id =" . $row->category_id;
 			$this->_db->setQuery($query);
-			$this->_db->query();
+			$this->_db->execute();
 		}
 
 		if (count($backfile) > 0 && $backfile['name'] != "")
@@ -233,7 +233,7 @@ class RedshopModelCategory_detail extends RedshopModel
 			$query = 'INSERT INTO ' . $this->_table_prefix . 'category_xref(category_parent_id,category_child_id) VALUES ("'
 				. $parentcat . '","' . $newcatid . '");';
 			$this->_db->setQuery($query);
-			$this->_db->query();
+			$this->_db->execute();
 		}
 		else
 		{
@@ -251,7 +251,7 @@ class RedshopModelCategory_detail extends RedshopModel
 			$query = 'UPDATE ' . $this->_table_prefix . 'category_xref SET category_parent_id= "' . $parentcat
 				. '"  WHERE category_child_id = "' . $newcatid . '" ';
 			$this->_db->setQuery($query);
-			$this->_db->query();
+			$this->_db->execute();
 
 			// Sheking for the image at the updation time
 			if ($_FILES['category_full_image']['name'] != "")
@@ -354,15 +354,15 @@ class RedshopModelCategory_detail extends RedshopModel
 
 			$q_product = 'DELETE FROM ' . $this->_table_prefix . 'product_category_xref WHERE category_id = "' . $cid[$i] . '" ';
 			$this->_db->setQuery($q_product);
-			$this->_db->query();
+			$this->_db->execute();
 
 			$q_child = 'DELETE FROM ' . $this->_table_prefix . 'category_xref WHERE category_child_id = "' . $cid[$i] . '" ';
 			$this->_db->setQuery($q_child);
-			$this->_db->query();
+			$this->_db->execute();
 
 			$query = 'DELETE FROM ' . $this->_table_prefix . 'category WHERE category_id = "' . $cid[$i] . '" ';
 			$this->_db->setQuery($query);
-			$this->_db->query();
+			$this->_db->execute();
 
 		}
 
@@ -380,7 +380,7 @@ class RedshopModelCategory_detail extends RedshopModel
 				. ' WHERE category_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 
@@ -460,7 +460,7 @@ class RedshopModelCategory_detail extends RedshopModel
 		}
 
 		$this->_db->setQuery($q);
-		$this->_db->query();
+		$this->_db->execute();
 	}
 
 	public function orderup()
@@ -492,13 +492,13 @@ class RedshopModelCategory_detail extends RedshopModel
 			$q .= "SET ordering=ordering-1 ";
 			$q .= "WHERE category_id='" . $cid . "'";
 			$this->_db->setQuery($q);
-			$this->_db->query();
+			$this->_db->execute();
 
 			$q = "UPDATE " . $this->_table_prefix . "category ";
 			$q .= "SET ordering=ordering+1 ";
 			$q .= "WHERE category_id='" . $pred . "' ";
 			$this->_db->setQuery($q);
-			$this->_db->query();
+			$this->_db->execute();
 		}
 	}
 
@@ -532,13 +532,13 @@ class RedshopModelCategory_detail extends RedshopModel
 			$q .= "SET ordering=ordering+1 ";
 			$q .= "WHERE category_id='" . $cid . "' ";
 			$this->_db->setQuery($q);
-			$this->_db->query();
+			$this->_db->execute();
 
 			$q = "UPDATE " . $this->_table_prefix . "category ";
 			$q .= "SET ordering=ordering-1 ";
 			$q .= "WHERE category_id='" . $succ . "'";
 			$this->_db->setQuery($q);
-			$this->_db->query();
+			$this->_db->execute();
 		}
 	}
 

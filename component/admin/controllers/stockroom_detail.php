@@ -240,7 +240,7 @@ class RedshopControllerStockroom_detail extends RedshopController
 						. "WHERE product_id='" . $prd[$i]->product_id . "' "
 						. "AND stockroom_id='" . $stockroom_id . "' ";
 					$db->setQuery($query);
-					$db->Query();
+					$db->execute();
 					$responcemsg .= "<span style='color: #00ff00'>" . JText::_('COM_REDSHOP_IMPORT_STOCK_FROM_ECONOMIC_SUCCESS') . "</span>";
 				}
 				else

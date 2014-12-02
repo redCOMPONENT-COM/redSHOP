@@ -373,7 +373,7 @@ class RedshopModelXmlimport_detail extends RedshopModel
 				. 'WHERE xmlimport_id IN (' . $cids . ')';
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 
@@ -384,7 +384,7 @@ class RedshopModelXmlimport_detail extends RedshopModel
 				. 'WHERE xmlimport_id IN (' . $cids . ')';
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 
@@ -406,7 +406,7 @@ class RedshopModelXmlimport_detail extends RedshopModel
 				. ' WHERE xmlimport_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 
@@ -434,7 +434,7 @@ class RedshopModelXmlimport_detail extends RedshopModel
 				. ' WHERE xmlimport_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 

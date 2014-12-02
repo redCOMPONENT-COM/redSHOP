@@ -119,7 +119,7 @@ if ($showbuttons == 1)
 			{
 				$quntotal[$i] = array(0);
 				$preorder_stocktotal[$i] = array(0);
-				$row = & $this->resultlisting [$i];
+				$row = $this->resultlisting [$i];
 				$link1 = JRoute::_('index.php?option=' . $option . '&view=product_detail&task=edit&cid[]=' . $row->product_id);    ?>
 				<tr class="<?php echo "row$k"; ?>">
 					<td><?php echo $this->pagination->getRowOffset($i); ?></td>

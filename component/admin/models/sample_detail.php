@@ -101,7 +101,7 @@ class RedshopModelSample_detail extends RedshopModel
 			$sql = "DELETE FROM " . $this->_table_prefix . "catalog_colour "
 				. "WHERE sample_id='" . $row->sample_id . "' ";
 			$this->_db->setQuery($sql);
-			$this->_db->query();
+			$this->_db->execute();
 
 			if ($total_loop > 0)
 			{
@@ -113,7 +113,7 @@ class RedshopModelSample_detail extends RedshopModel
 						. "(sample_id,code_image,is_image) "
 						. "VALUE ('" . $row->sample_id . "','" . $data["code_image"][$h] . "','" . $data["is_image"][$h] . "') ";
 					$this->_db->setQuery($sql);
-					$this->_db->query();
+					$this->_db->execute();
 					$h++;
 				}
 			}
@@ -130,7 +130,7 @@ class RedshopModelSample_detail extends RedshopModel
 			$query = 'DELETE FROM ' . $this->_table_prefix . 'catalog_sample WHERE sample_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 
@@ -151,7 +151,7 @@ class RedshopModelSample_detail extends RedshopModel
 				. ' WHERE sample_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 

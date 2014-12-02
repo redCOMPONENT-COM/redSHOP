@@ -145,7 +145,7 @@ class RedshopModelManufacturer_detail extends RedshopModel
 			$query = 'DELETE FROM ' . $this->_table_prefix . 'manufacturer WHERE manufacturer_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 
@@ -165,7 +165,7 @@ class RedshopModelManufacturer_detail extends RedshopModel
 				. ' WHERE manufacturer_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 

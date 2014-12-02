@@ -137,13 +137,13 @@ class RedshopModelMedia_detail extends RedshopModel
 				{
 					$query = 'DELETE FROM ' . $this->_table_prefix . 'media WHERE section_id IN ( ' . $mediadata->section_id . ' )';
 					$this->_db->setQuery($query);
-					$this->_db->query();
+					$this->_db->execute();
 				}
 
 				$query = 'DELETE FROM ' . $this->_table_prefix . 'media WHERE media_id IN ( ' . $mediadata->media_id . ' )';
 				$this->_db->setQuery($query);
 
-				if (!$this->_db->query())
+				if (!$this->_db->execute())
 				{
 					$this->setError($this->_db->getErrorMsg());
 
@@ -166,7 +166,7 @@ class RedshopModelMedia_detail extends RedshopModel
 				. ' WHERE media_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 
@@ -216,7 +216,7 @@ class RedshopModelMedia_detail extends RedshopModel
 								. "WHERE `product_id`='" . $section_id . "' ";
 							$this->_db->setQuery($query);
 
-							if (!$this->_db->query())
+							if (!$this->_db->execute())
 							{
 								$this->setError($this->_db->getErrorMsg());
 
@@ -229,7 +229,7 @@ class RedshopModelMedia_detail extends RedshopModel
 								. "WHERE `property_id`='" . $section_id . "' ";
 							$this->_db->setQuery($query);
 
-							if (!$this->_db->query())
+							if (!$this->_db->execute())
 							{
 								$this->setError($this->_db->getErrorMsg());
 
@@ -242,7 +242,7 @@ class RedshopModelMedia_detail extends RedshopModel
 								. "WHERE `subattribute_color_id`='" . $section_id . "' ";
 							$this->_db->setQuery($query);
 
-							if (!$this->_db->query())
+							if (!$this->_db->execute())
 							{
 								$this->setError($this->_db->getErrorMsg());
 

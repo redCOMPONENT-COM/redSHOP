@@ -62,12 +62,12 @@ $option = JRequest::getVar('option', '', 'request', 'string');
 			$k = 0;
 			for ($i = $this->pagination->limitstart, $j = 0, $n = count($this->media); $i < ($this->pagination->limitstart + $this->pagination->limit); $i++, $j++)
 			{
-				$row = & $this->media[$i];
+				$row = $this->media[$i];
 				if (!is_object($row))
 				{
 					break;
 				}
-				$row = & $this->media[$i];
+				$row = $this->media[$i];
 
 				$row->id = $row->shopper_group_id;
 

@@ -83,7 +83,7 @@ $model = $this->getModel('quotation');
 			$k = 0;
 			for ($i = 0, $n = count($this->quotation); $i < $n; $i++)
 			{
-				$row = & $this->quotation[$i];
+				$row = $this->quotation[$i];
 				$row->id = $row->quotation_id;
 				$display = $row->user_email;
 				if ($row->user_id)

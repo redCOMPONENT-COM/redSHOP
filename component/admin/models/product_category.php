@@ -45,7 +45,7 @@ class RedshopModelProduct_category extends RedshopModel
 						. "(`category_id`,`product_id`) VALUES ('" . $cat_id[$j] . "','" . $pid[$i] . "')";
 					$this->_db->setQuery($query);
 
-					if (!$this->_db->Query())
+					if (!$this->_db->execute())
 					{
 						return false;
 					}
@@ -68,7 +68,7 @@ class RedshopModelProduct_category extends RedshopModel
 				. " WHERE product_id=" . $pid[$i] . " AND category_id IN (" . $cat_ids . ")";
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->Query())
+			if (!$this->_db->execute())
 			{
 				return false;
 			}

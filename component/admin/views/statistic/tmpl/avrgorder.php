@@ -40,7 +40,7 @@ $end = $this->pagination->limit;
 			</thead>
 			<?php        for ($i = $start, $j = 0; $i < ($start + $end); $i++, $j++)
 			{
-				$row = & $this->avgorderamount[$i];
+				$row = $this->avgorderamount[$i];
 				if (!is_object($row))
 				{
 					break;

@@ -108,7 +108,7 @@ class RedshopModelNewsletter_detail extends RedshopModel
 			$query = 'DELETE FROM ' . $this->_table_prefix . 'newsletter WHERE newsletter_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 
@@ -130,7 +130,7 @@ class RedshopModelNewsletter_detail extends RedshopModel
 				. ' WHERE newsletter_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 
@@ -174,7 +174,7 @@ class RedshopModelNewsletter_detail extends RedshopModel
 
 			for ($j = 0; $j < count($subscriberdata); $j++)
 			{
-				$rowsubscr = & $this->getTable('newslettersubscr_detail');
+				$rowsubscr = $this->getTable('newslettersubscr_detail');
 				$rowsubscr->subscription_id = 0;
 				$rowsubscr->user_id = $subscriberdata[$j]->user_id;
 				$rowsubscr->date = time();

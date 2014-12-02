@@ -120,7 +120,7 @@ class RedshopModelAccountgroup_detail extends RedshopModel
 				. 'WHERE accountgroup_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 
@@ -144,7 +144,7 @@ class RedshopModelAccountgroup_detail extends RedshopModel
 				. ' WHERE accountgroup_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 

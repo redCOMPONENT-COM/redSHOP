@@ -139,7 +139,7 @@ class RedshopModelMass_discount_detail extends RedshopModel
 
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 
@@ -178,7 +178,7 @@ class RedshopModelMass_discount_detail extends RedshopModel
 					. $data['discount_enddate'] . '" WHERE product_id="' . $arr_diff[$i] . '" ';
 				$this->_db->setQuery($query);
 
-				if (!$this->_db->query())
+				if (!$this->_db->execute())
 				{
 					$this->setError($this->_db->getErrorMsg());
 
@@ -217,7 +217,7 @@ class RedshopModelMass_discount_detail extends RedshopModel
 
 				$this->_db->setQuery($query);
 
-				if (!$this->_db->query())
+				if (!$this->_db->execute())
 				{
 					$this->setError($this->_db->getErrorMsg());
 
@@ -262,7 +262,7 @@ class RedshopModelMass_discount_detail extends RedshopModel
 
 					$this->_db->setQuery($query);
 
-					if (!$this->_db->query())
+					if (!$this->_db->execute())
 					{
 						$this->setError($this->_db->getErrorMsg());
 
@@ -304,7 +304,7 @@ class RedshopModelMass_discount_detail extends RedshopModel
 					$query = 'UPDATE ' . $this->_table_prefix . 'product SET product_on_sale="0" WHERE product_id="' . $product_Ids[$p]->product_id . '" ';
 					$this->_db->setQuery($query);
 
-					if (!$this->_db->query())
+					if (!$this->_db->execute())
 					{
 						$this->setError($this->_db->getErrorMsg());
 
@@ -351,7 +351,7 @@ class RedshopModelMass_discount_detail extends RedshopModel
 							. $data['discount_enddate'] . '" WHERE product_id="' . $product_Ids[$p]->product_id . '" ';
 						$this->_db->setQuery($query);
 
-						if (!$this->_db->query())
+						if (!$this->_db->execute())
 						{
 							$this->setError($this->_db->getErrorMsg());
 
@@ -419,7 +419,7 @@ class RedshopModelMass_discount_detail extends RedshopModel
 			$query = 'DELETE FROM ' . $this->_table_prefix . 'mass_discount WHERE mass_discount_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 
@@ -447,7 +447,7 @@ class RedshopModelMass_discount_detail extends RedshopModel
 		$query = 'UPDATE ' . $this->_table_prefix . 'product SET product_on_sale="0" where product_id in (' . $productId . ')';
 		$this->_db->setQuery($query);
 
-		if (!$this->_db->query())
+		if (!$this->_db->execute())
 		{
 			$this->setError($this->_db->getErrorMsg());
 

@@ -114,7 +114,7 @@ class RedshopModelSupplier_detail extends RedshopModel
 			$query = 'DELETE FROM ' . $this->_table_prefix . 'supplier WHERE supplier_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 
@@ -136,7 +136,7 @@ class RedshopModelSupplier_detail extends RedshopModel
 				. ' WHERE supplier_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 

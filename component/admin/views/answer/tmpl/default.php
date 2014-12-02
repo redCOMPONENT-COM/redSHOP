@@ -83,7 +83,7 @@ $ordering = ($this->lists['order'] == 'ordering');
 			$k = 0;
 			for ($i = 0, $n = count($this->question); $i < $n; $i++)
 			{
-				$row = & $this->question[$i];
+				$row = $this->question[$i];
 				$row->id = $row->question_id;
 				$link = JRoute::_('index.php?option=' . $option . '&view=answer_detail&task=edit&cid[]=' . $row->id);
 

@@ -64,7 +64,7 @@ $option = JRequest::getVar('option', '', 'request', 'string');
 			$k = 0;
 			for ($i = 0, $n = count($this->discounts); $i < $n; $i++)
 			{
-				$row = & $this->discounts[$i];
+				$row = $this->discounts[$i];
 				$row->id = $row->mass_discount_id;
 				$link = JRoute::_('index.php?option=' . $option . '&view=mass_discount_detail&task=edit&cid[]=' . $row->mass_discount_id);
 				?>

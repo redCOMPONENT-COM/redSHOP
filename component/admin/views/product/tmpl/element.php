@@ -41,7 +41,7 @@ $tmpCats = array();
 $n = count($this->products);
 for ($i = $this->pagination->limitstart, $j = 0; $i < ($this->pagination->limitstart + $this->pagination->limit); $i++, $j++)
 {
-	$row = & $this->products[$j];
+	$row = $this->products[$j];
 	if (!is_object($row))
 	{
 		break;
@@ -118,7 +118,7 @@ if ($this->pagination->limit > 0)
 
 			for ($i = 0, $n = count($this->products); $i < $n; $i++)
 			{
-				$row = & $this->products[$i];
+				$row = $this->products[$i];
 				$row->id = $row->product_id;
 				$link = JRoute::_('index.php?option=' . $option . '&view=product_detail&task=edit&cid[]=' . $row->product_id);
 

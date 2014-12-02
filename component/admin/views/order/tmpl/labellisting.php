@@ -66,7 +66,7 @@ if ($download)
 			$k = 0;
 			for ($i = 0, $n = count($this->orders); $i < $n; $i++)
 			{
-				$row = & $this->orders[$i];
+				$row = $this->orders[$i];
 				$row->id = $row->order_id;
 				$link = JRoute::_('index.php?option=' . $option . '&view=order_detail&task=edit&cid[]=' . $row->order_id);
 				$dlink = JRoute::_('index.php?option=' . $option . '&view=order&layout=labellisting&download=1&oid=' . $row->order_id);

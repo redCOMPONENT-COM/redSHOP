@@ -78,7 +78,7 @@ JHTMLBehavior::modal();
 			$k = 0;
 			for ($i = 0, $n = count($this->catalog); $i < $n; $i++)
 			{
-				$row = & $this->catalog[$i];
+				$row = $this->catalog[$i];
 				$row->id = $row->request_id;
 				$row->published = $row->block;
 				$published = JHtml::_('jgrid.published', $row->published, $i, '', 1);

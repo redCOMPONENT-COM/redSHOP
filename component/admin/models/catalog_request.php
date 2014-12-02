@@ -106,7 +106,7 @@ class RedshopModelCatalog_request extends RedshopModel
 			$query = 'DELETE FROM ' . $this->_table_prefix . 'catalog_request WHERE catalog_user_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 
@@ -129,7 +129,7 @@ class RedshopModelCatalog_request extends RedshopModel
 				. ' WHERE catalog_user_id 	 IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 
