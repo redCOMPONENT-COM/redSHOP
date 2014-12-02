@@ -1,10 +1,10 @@
 redSHOP 1.x
 ==========
 
-# Travis Status
+## Travis Status
 Develop: [![Build Status](https://magnum.travis-ci.com/redCOMPONENT-COM/redSHOP.svg?token=vxVVpxnq2ZPuMp3yebRz&branch=develop)](https://magnum.travis-ci.com/redCOMPONENT-COM/redSHOP)
 
-Documentation
+## Documentation
 
 https://github.com/redCOMPONENT-COM/documentation
 
@@ -53,17 +53,14 @@ _Or Compare across versions_
 ### Update Changelog
 - Create the Changelog list of commits:
 
-> $ git log --oneline --after={2013-04-18} --no-merges --format="* %s ( %h )"
-
-_Or Compare across versions_
-
-> git log --oneline 1.4/dev19...develop --no-merges --format="* %s ( %h )" > /var/www/packages/changelog2.log
+> git log --oneline 1.4/dev25...develop --no-merges --format="* %s ( %h )" > /var/www/packages/changelog2.log
 
 - Upload the list to http://wiki.redcomponent.com/index.php?title=redSHOP:Changelog
 
+
 ### Prepare software for next release
-- Update component version number with next release number at https://github.com/redCOMPONENT-COM/redSHOP-1.2/blob/master/redshop.xml#L10
-- Create an empty update .sql file at: https://github.com/redCOMPONENT-COM/redSHOP-1.2/tree/master/component/admin/sql/updates/mysql
+- Update component version number with next release number at https://github.com/redCOMPONENT-COM/redSHOP/blob/master/redshop.xml#L10
+- Create an empty update .sql file at: https://github.com/redCOMPONENT-COM/redSHOP/tree/master/component/admin/sql/updates/mysql
 - Merge development branch into Master (see successful git-branching model: http://nvie.com/posts/a-successful-git-branching-model/ )
 - Create a release git TAG
  - create the tag in local:
@@ -76,6 +73,7 @@ _Or Compare across versions_
 
  - Check that tag has been created: https://github.com/redCOMPONENT-COM/redSHOP/tags
  - Create the release: https://github.com/redCOMPONENT-COM/redSHOP/releases
+ - Add a description to the release with the changelog information that you generated in the previous step
 
 
 # Testing with Codeception
