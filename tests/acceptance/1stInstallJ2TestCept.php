@@ -23,10 +23,4 @@ $I = new AcceptanceTester\LoginSteps($scenario);
 
 $I->wantTo('Login in Joomla Administrator');
 $I->doAdminLogin();
-$I = new AcceptanceTester\InstallExtensionJ2Steps($scenario);
-
-$I->wantTo('Install RedShop 1 extension');
-$I->installExtension('redSHOP 1.x');
-$I->wantTo('Install redSHOP1 demo data');
-$I->installSampleData();
 
