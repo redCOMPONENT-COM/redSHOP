@@ -156,7 +156,7 @@ class RedshopModelAnswer_detail extends JModel
 				. 'WHERE question_id IN (' . $cids . ')';
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 
@@ -184,7 +184,7 @@ class RedshopModelAnswer_detail extends JModel
 				. ' WHERE question_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 

@@ -234,7 +234,7 @@ class RedshopModelOrder extends JModel
 			. " WHERE download_id = '" . $did . "'";
 		$this->_db->setQuery($query);
 
-		if (!$this->_db->Query())
+		if (!$this->_db->execute())
 		{
 			return false;
 		}

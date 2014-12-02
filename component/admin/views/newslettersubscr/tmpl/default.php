@@ -94,7 +94,7 @@ $model = $this->getModel('newslettersubscr');
 			$k = 0;
 			for ($i = 0, $n = count($this->newslettersubscrs); $i < $n; $i++)
 			{
-				$row = & $this->newslettersubscrs[$i];
+				$row = $this->newslettersubscrs[$i];
 				$row->id = $row->subscription_id;
 
 				$link = JRoute::_('index.php?option=' . $option . '&view=newslettersubscr_detail&task=edit&cid[]=' . $row->subscription_id);

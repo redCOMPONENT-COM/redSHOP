@@ -87,7 +87,7 @@ class RedshopModelOrder_detail extends JModel
 		$query = "UPDATE  " . $this->_table_prefix . "orders SET `analytics_status` = 1 WHERE order_id = " . (int) $oid;
 		$this->_db->setQuery($query);
 
-		if (!$this->_db->Query())
+		if (!$this->_db->execute())
 		{
 			return false;
 		}
@@ -176,7 +176,7 @@ class RedshopModelOrder_detail extends JModel
 
 		$db->setQuery($payment_update);
 
-		if (!$db->Query())
+		if (!$db->execute())
 		{
 			return false;
 		}

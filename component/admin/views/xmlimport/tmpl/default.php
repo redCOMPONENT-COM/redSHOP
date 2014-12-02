@@ -58,7 +58,7 @@ $lists = $this->lists;?>
 			$k = 0;
 			for ($i = 0, $n = count($this->data); $i < $n; $i++)
 			{
-				$row = & $this->data[$i];
+				$row = $this->data[$i];
 				$row->id = $row->xmlimport_id;
 				$link = JRoute::_('index.php?option=' . $option . '&view=xmlimport_detail&task=edit&cid[]=' . $row->id);
 
