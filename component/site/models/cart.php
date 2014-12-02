@@ -145,7 +145,7 @@ class RedshopModelCart extends RedshopModel
 
 			if ($cart)
 			{
-				$idx = (int) ($cart['idx']);
+				$idx = (int) ( isset($cart['idx']) ? $cart['idx'] : 0);
 
 				for ($j = 0; $j < $idx; $j++)
 				{

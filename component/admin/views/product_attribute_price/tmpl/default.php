@@ -34,7 +34,7 @@ $option = JRequest::getVar('option', '', 'request', 'string');?>
 			<?php    $k = 0;
 			for ($i = 0; $i < count($this->prices); $i++)
 			{
-				$row = & $this->prices[$i];
+				$row = $this->prices[$i];
 				$row->id = $row->price_id;
 				//$product_id = $row->product_id;
 				?>

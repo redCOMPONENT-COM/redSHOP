@@ -171,7 +171,7 @@ class RedshopModelShipping_rate_detail extends RedshopModel
 			$query = 'DELETE FROM ' . $this->_table_prefix . 'shipping_rate WHERE shipping_rate_id  IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 
@@ -239,7 +239,7 @@ class RedshopModelShipping_rate_detail extends RedshopModel
 		{
 			$row = $this->getTable();
 
-			$pdata = & $copydata[$i];
+			$pdata = $copydata[$i];
 
 			$post = array();
 			$post['shipping_rate_id'] = 0;

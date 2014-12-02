@@ -83,7 +83,7 @@ class RedshopModelAddquotation_detail extends RedshopModel
 
 		$data['address_type'] = 'ST';
 
-		$rowsh = & $this->getTable('user_detail');
+		$rowsh = $this->getTable('user_detail');
 
 		if (!$rowsh->bind($data))
 		{
@@ -186,7 +186,7 @@ class RedshopModelAddquotation_detail extends RedshopModel
 				$wrapper_price = $wrapper[0]->wrapper_price + $wrapper_vat;
 			}
 
-			$rowitem = & $this->getTable('quotation_item_detail');
+			$rowitem = $this->getTable('quotation_item_detail');
 
 			$product = $producthelper->getProductById($product_id);
 
@@ -253,7 +253,7 @@ class RedshopModelAddquotation_detail extends RedshopModel
 						$attribute_id = $attchildArr[$j]['attribute_id'];
 						$accessory_attribute .= urldecode($attchildArr[$j]['attribute_name']) . ":<br/>";
 
-						$rowattitem = & $this->getTable('quotation_attribute_item');
+						$rowattitem = $this->getTable('quotation_attribute_item');
 						$rowattitem->quotation_att_item_id = 0;
 						$rowattitem->quotation_item_id = $rowitem->quotation_item_id;
 						$rowattitem->section_id = $attribute_id;
@@ -289,7 +289,7 @@ class RedshopModelAddquotation_detail extends RedshopModel
 								. $producthelper->getProductFormattedPrice($propArr[$k]['property_price'] + $section_vat) . ")<br/>";
 							$subpropArr = $propArr[$k]['property_childs'];
 
-							$rowattitem = & $this->getTable('quotation_attribute_item');
+							$rowattitem = $this->getTable('quotation_attribute_item');
 							$rowattitem->quotation_att_item_id = 0;
 							$rowattitem->quotation_item_id = $rowitem->quotation_item_id;
 							$rowattitem->section_id = $property_id;
@@ -325,7 +325,7 @@ class RedshopModelAddquotation_detail extends RedshopModel
 									. " (" . $subpropArr[$l]['subproperty_oprand']
 									. $producthelper->getProductFormattedPrice($subpropArr[$l]['subproperty_price'] + $section_vat) . ")<br/>";
 
-								$rowattitem = & $this->getTable('quotation_attribute_item');
+								$rowattitem = $this->getTable('quotation_attribute_item');
 								$rowattitem->quotation_att_item_id = 0;
 								$rowattitem->quotation_item_id = $rowitem->quotation_item_id;
 								$rowattitem->section_id = $subproperty_id;
@@ -350,7 +350,7 @@ class RedshopModelAddquotation_detail extends RedshopModel
 						}
 					}
 
-					$accdata = & $this->getTable('accessory_detail');
+					$accdata = $this->getTable('accessory_detail');
 
 					if ($accessory_id > 0)
 					{
@@ -358,7 +358,7 @@ class RedshopModelAddquotation_detail extends RedshopModel
 					}
 
 					$accProductinfo = $producthelper->getProductById($accdata->child_product_id);
-					$rowaccitem = & $this->getTable('quotation_accessory_item');
+					$rowaccitem = $this->getTable('quotation_accessory_item');
 					$rowaccitem->quotation_item_acc_id = 0;
 					$rowaccitem->quotation_item_id = $rowitem->quotation_item_id;
 					$rowaccitem->accessory_id = $accessory_id;
@@ -392,7 +392,7 @@ class RedshopModelAddquotation_detail extends RedshopModel
 				{
 					$attribute_id = $attArr[$j]['attribute_id'];
 
-					$rowattitem = & $this->getTable('quotation_attribute_item');
+					$rowattitem = $this->getTable('quotation_attribute_item');
 					$rowattitem->quotation_att_item_id = 0;
 					$rowattitem->quotation_item_id = $rowitem->quotation_item_id;
 					$rowattitem->section_id = $attribute_id;
@@ -427,7 +427,7 @@ class RedshopModelAddquotation_detail extends RedshopModel
 						/** product property STOCKROOM update start */
 						$stockroomhelper->updateStockroomQuantity($property_id, $rowitem->product_quantity, "property");
 
-						$rowattitem = & $this->getTable('quotation_attribute_item');
+						$rowattitem = $this->getTable('quotation_attribute_item');
 						$rowattitem->quotation_att_item_id = 0;
 						$rowattitem->quotation_item_id = $rowitem->quotation_item_id;
 						$rowattitem->section_id = $property_id;

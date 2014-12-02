@@ -652,7 +652,7 @@ class rsstockroomhelper
 					. 'AND quantity > 0 '
 					. $and;
 				$db->setQuery($query);
-				$db->query();
+				$db->execute();
 			}
 		}
 
@@ -689,7 +689,7 @@ class rsstockroomhelper
 					. 'WHERE stockroom_id = ' . (int) $stockroom_id . ' '
 					. $and;
 				$db->setQuery($query);
-				$db->query();
+				$db->execute();
 			}
 		}
 
@@ -733,7 +733,7 @@ class rsstockroomhelper
 						. 'WHERE stockroom_id = ' . (int) $stockId[$i] . ' '
 						. $and;
 					$db->setQuery($query);
-					$db->query();
+					$db->execute();
 					$affected_row = $db->getAffectedRows();
 
 					if ($affected_row > 0)
@@ -858,7 +858,7 @@ class rsstockroomhelper
 			$query = "DELETE FROM " . $this->_table_prefix . "cart "
 				. "WHERE time < " . $db->quote($time);
 			$db->setQuery($query);
-			$db->query();
+			$db->execute();
 		}
 
 		return true;
@@ -881,7 +881,7 @@ class rsstockroomhelper
 				. "WHERE session_id = " . $db->quote($session_id) . " "
 				. $and;
 			$db->setQuery($query);
-			$db->query();
+			$db->execute();
 		}
 
 		return true;
@@ -921,7 +921,7 @@ class rsstockroomhelper
 			}
 
 			$db->setQuery($query);
-			$db->query();
+			$db->execute();
 		}
 
 		return true;

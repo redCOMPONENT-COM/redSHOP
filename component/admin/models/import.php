@@ -254,12 +254,12 @@ class RedshopModelImport extends RedshopModel
 								// Remove existing
 								$query = "DELETE FROM `#__redshop_category_xref` WHERE `category_child_id` = '" . $row->category_id . "' ";
 								$db->setQuery($query);
-								$db->Query();
+								$db->execute();
 
 								$query = "INSERT INTO #__redshop_category_xref VALUES('" . $rawdata['category_parent_id'] . "','"
 									. $row->category_id . "') ";
 								$db->setQuery($query);
-								$db->Query();
+								$db->execute();
 							}
 
 							$correctlines++;
@@ -558,7 +558,7 @@ class RedshopModelImport extends RedshopModel
 									->where($db->quoteName('product_id') . ' = ' . $db->quote($product_id));
 
 								$db->setQuery($query);
-								$db->query();
+								$db->execute();
 
 								for ($i = 0; $i < count($categoryArr); $i++)
 								{
@@ -647,7 +647,7 @@ class RedshopModelImport extends RedshopModel
 											->where($db->quoteName('child_product_id') . ' = ' . $db->quote($child_product_id));
 
 										$db->setQuery($query);
-										$db->query();
+										$db->execute();
 									}
 								}
 							}
@@ -681,7 +681,7 @@ class RedshopModelImport extends RedshopModel
 										->where($db->quoteName('stockroom_id') . ' = ' . $db->quote(DEFAULT_STOCKROOM));
 
 									$db->setQuery($query);
-									$db->query();
+									$db->execute();
 								}
 							}
 
@@ -747,7 +747,7 @@ class RedshopModelImport extends RedshopModel
 												->set($db->quoteName('ordering') . ' = '. $db->quote($ordering))
 												->where($db->quoteName('media_id') . ' = '. $db->quote($count));
 											$db->setQuery($query);
-											$db->query();
+											$db->execute();
 										}
 									}
 								}
@@ -999,7 +999,7 @@ class RedshopModelImport extends RedshopModel
 									->where($db->quoteName('product_id') . ' IN(' . $prd_final . ')');
 
 								$db->setQuery($query);
-								$db->query();
+								$db->execute();
 							}
 
 							$correctlines++;
@@ -1189,7 +1189,7 @@ class RedshopModelImport extends RedshopModel
 																	->where($db->quoteName('section_id') . ' = ' . $db->quote($prop_insert_id));
 
 																$db->setQuery($update_row_query);
-																$db->query();
+																$db->execute();
 															}
 															else
 															{
@@ -1360,7 +1360,7 @@ class RedshopModelImport extends RedshopModel
 																			->where($db->quoteName('section') . ' = ' . $db->quote('subproperty'))
 																			->where($db->quoteName('section_id') . ' = ' . $db->quote($prop_insert_id_sub));
 																		$db->setQuery($update_row_query);
-																		$db->query();
+																		$db->execute();
 																	}
 																	else
 																	{
@@ -1506,7 +1506,7 @@ class RedshopModelImport extends RedshopModel
 								'" . $published . "'
 								)";
 								$db->setQuery($query);
-								$db->Query();
+								$db->execute();
 								$data_insert_id = $db->insertid();
 							}
 
@@ -1525,7 +1525,7 @@ class RedshopModelImport extends RedshopModel
 									. "(`data_id`,`fieldid` ,`data_txt` ,`itemid`,`section`) "
 									. "VALUES ('','" . $new_field_id . "','" . $data_txt . "','" . $itemid . "','" . $section . "')";
 								$db->setQuery($query);
-								$db->Query();
+								$db->execute();
 							}
 							else
 							{
@@ -1536,7 +1536,7 @@ class RedshopModelImport extends RedshopModel
 									. "`section` = '" . $section . "' "
 									. "WHERE `data_id` = '" . $ch_data_id . "' ";
 								$db->setQuery($query);
-								$db->Query();
+								$db->execute();
 							}
 
 							if ($value_id != '')
@@ -1547,7 +1547,7 @@ class RedshopModelImport extends RedshopModel
 										. "(`value_id`, `field_id`, `field_value`, `field_name`) "
 										. "VALUES ('" . $value_id . "','" . $new_field_id . "','" . $field_value . "','" . $field_name_value . "')";
 									$db->setQuery($query);
-									$db->Query();
+									$db->execute();
 								}
 								else
 								{
@@ -1556,7 +1556,7 @@ class RedshopModelImport extends RedshopModel
 										. "`field_name` = '" . $field_name_value . "' "
 										. "WHERE `value_id` = '" . $value_id . "' ";
 									$db->setQuery($query);
-									$db->Query();
+									$db->execute();
 								}
 							}
 
@@ -1589,7 +1589,7 @@ class RedshopModelImport extends RedshopModel
 											. "(`fieldid`, `data_txt`, `itemid`, `section` ) "
 											. "VALUES ('" . $field_id . "', '" . $field_data_txt . "', '" . $product_id . "', '1') ";
 										$db->setQuery($query);
-										$db->Query();
+										$db->execute();
 									}
 									else
 									{
@@ -1599,7 +1599,7 @@ class RedshopModelImport extends RedshopModel
 		                                     AND itemid ='" . $product_id . "'
 		                                     AND 	section ='1' ";
 										$db->setQuery($query);
-										$db->Query();
+										$db->execute();
 									}
 
 									$correctlines++;
@@ -1616,7 +1616,7 @@ class RedshopModelImport extends RedshopModel
 								. $relpid . "', '" . $pid . "')";
 							$db->setQuery($query);
 
-							if ($db->Query())
+							if ($db->execute())
 							{
 								$correctlines++;
 							}
@@ -1860,7 +1860,7 @@ class RedshopModelImport extends RedshopModel
 											. '","' . $ordered_preorder . '")';
 										$db->setQuery($query);
 
-										if (!$db->query())
+										if (!$db->execute())
 										{
 											$this->setError($db->getErrorMsg());
 
@@ -1874,7 +1874,7 @@ class RedshopModelImport extends RedshopModel
 											 WHERE `product_id` = '" . $product_id . "' and stockroom_id = '" . $stockroom_id . "'";
 
 										$db->setQuery($query);
-										$db->Query();
+										$db->execute();
 									}
 
 									$correctlines++;
@@ -1904,7 +1904,7 @@ class RedshopModelImport extends RedshopModel
 											 WHERE `product_id` = '" . $product_id . "'";
 
 									$db->setQuery($query);
-									$db->Query();
+									$db->execute();
 
 									$correctlines++;
 								}
@@ -2321,7 +2321,7 @@ class RedshopModelImport extends RedshopModel
 							. "VALUES ('" . $last_insert . "', '" . DEFAULT_STOCKROOM . "', '" . $product_in_stock . "') ";
 						$db->setQuery($query);
 
-						if (!$db->query())
+						if (!$db->execute())
 						{
 							$this->setError($db->getErrorMsg());
 						}
@@ -2425,7 +2425,7 @@ class RedshopModelImport extends RedshopModel
 							. "AND `section_id`='" . $red_product_id . "' ";
 						$db->setQuery($query);
 
-						if (!$db->query())
+						if (!$db->execute())
 						{
 							$this->setError($db->getErrorMsg());
 						}
@@ -2468,7 +2468,7 @@ class RedshopModelImport extends RedshopModel
 
 					$db->setQuery($update);
 
-					if (!$db->query())
+					if (!$db->execute())
 					{
 						$this->setError($db->getErrorMsg());
 					}
@@ -2617,7 +2617,7 @@ class RedshopModelImport extends RedshopModel
 							. "WHERE `category_id` = '" . $last_insert . "' "
 							. "AND `product_id` = '" . $value . "' ";
 						$db->setQuery($query_delete_rel);
-						$db->query();
+						$db->execute();
 
 						if (isset($data_relation->product_id) && $data_relation->product_id == $key)
 						{
@@ -2626,7 +2626,7 @@ class RedshopModelImport extends RedshopModel
 								. "VALUES ('" . $last_insert . "','" . $value . "') ";
 							$db->setQuery($query_data_relation);
 
-							if (!$db->query())
+							if (!$db->execute())
 							{
 								$this->setError($db->getErrorMsg());
 							}
@@ -2671,7 +2671,7 @@ class RedshopModelImport extends RedshopModel
 								)
 								VALUES ('" . $redparentvalue . "','" . $redchildvalue . "') ";
 				$db->setQuery($query_cat_relation);
-				$db->query();
+				$db->execute();
 			}
 		}
 
@@ -2716,7 +2716,7 @@ class RedshopModelImport extends RedshopModel
 							. "SET `shopper_group_id` = '" . $last_insert_shopper . "' "
 							. "WHERE `user_id`='" . $shoppers[$s]->user_id . "' ";
 						$db->setQuery($queryshop);
-						$db->query();
+						$db->execute();
 					}
 				}
 			}
@@ -3086,7 +3086,7 @@ class RedshopModelImport extends RedshopModel
 				. "SET `manufacturer_id` = '" . $last_insert_manufacturer . "' "
 				. "WHERE `product_id` = '" . $rdp_product_id . "'";
 			$db->setQuery($query);
-			$db->query();
+			$db->execute();
 		}
 
 		return $k;
@@ -3123,7 +3123,7 @@ class RedshopModelImport extends RedshopModel
 
 						$query = "INSERT IGNORE INTO `#__redshop_product_related` (`related_id`, `product_id`) VALUES ('" . $redrelvalue . "', '" . $redparent . "')";
 						$db->setQuery($query);
-						$db->query();
+						$db->execute();
 					}
 				}
 			}
@@ -3215,7 +3215,7 @@ class RedshopModelImport extends RedshopModel
 			{
 				$query = "UPDATE `#__redshop_fields_data`  SET `data_txt` = '" . $value . "' WHERE `fieldid` IN ($field_id) AND `itemid` = '" . $product_id . "' AND `section` = '1'";
 				$db->setQuery($query);
-				$db->Query();
+				$db->execute();
 			}
 			else
 			{
@@ -3242,7 +3242,7 @@ class RedshopModelImport extends RedshopModel
 										''
 									)";
 					$db->setQuery($query);
-					$db->Query();
+					$db->execute();
 				}
 			}
 		}

@@ -119,7 +119,7 @@ class RedshopModelStockroom_detail extends RedshopModel
 			$query_product = 'DELETE FROM ' . $this->_table_prefix . 'product_stockroom_xref WHERE stockroom_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query_product);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 
@@ -130,7 +130,7 @@ class RedshopModelStockroom_detail extends RedshopModel
 			$query_product_attr = 'DELETE FROM ' . $this->_table_prefix . 'product_attribute_stockroom_xref WHERE stockroom_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query_product_attr);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 
@@ -141,7 +141,7 @@ class RedshopModelStockroom_detail extends RedshopModel
 			$query = 'DELETE FROM ' . $this->_table_prefix . 'stockroom WHERE stockroom_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 
@@ -163,7 +163,7 @@ class RedshopModelStockroom_detail extends RedshopModel
 				. ' WHERE stockroom_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 
@@ -185,7 +185,7 @@ class RedshopModelStockroom_detail extends RedshopModel
 				. ' WHERE stockroom_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 

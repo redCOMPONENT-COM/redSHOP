@@ -140,7 +140,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 				$attr_delete = 'DELETE FROM ' . $this->_table_prefix . 'product_attribute WHERE attribute_id =' . $imagename->attribute_id;
 				$this->_db->setQuery($attr_delete);
 
-				if (!$this->_db->query())
+				if (!$this->_db->execute())
 				{
 					$this->setError($this->_db->getErrorMsg());
 				}
@@ -148,7 +148,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 				$prop_delete = 'DELETE FROM ' . $this->_table_prefix . 'product_attribute_property WHERE attribute_id =' . $imagename->attribute_id;
 				$this->_db->setQuery($prop_delete);
 
-				if (!$this->_db->query())
+				if (!$this->_db->execute())
 				{
 					$this->setError($this->_db->getErrorMsg());
 				}
@@ -157,7 +157,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 			$query = 'DELETE FROM ' . $this->_table_prefix . 'attribute_set WHERE attribute_set_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 			}
@@ -176,7 +176,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 				. ' WHERE attribute_set_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 
@@ -320,7 +320,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 
@@ -331,7 +331,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 
@@ -368,7 +368,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 			$query = 'DELETE FROM ' . $this->_table_prefix . 'product_attribute_property WHERE property_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 
@@ -379,7 +379,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 				$query = 'DELETE FROM ' . $this->_table_prefix . 'product_subattribute_color  WHERE subattribute_id IN (' . $cids . ' )';
 				$this->_db->setQuery($query);
 
-				if (!$this->_db->query())
+				if (!$this->_db->execute())
 				{
 					$this->setError($this->_db->getErrorMsg());
 
@@ -420,7 +420,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 
@@ -531,7 +531,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 					. $main_name . "' WHERE property_id ='" . $post['section_id'] . "' ";
 				$this->_db->setQuery($query);
 
-				if (!$this->_db->query())
+				if (!$this->_db->execute())
 				{
 					$this->setError($this->_db->getErrorMsg());
 
@@ -570,7 +570,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 								VALUES ('','" . $sub_name . "','property','" . $post['section_id'] . "','images','" . $sub_type . "','1') ";
 					$this->_db->setQuery($query);
 
-					if (!$this->_db->query())
+					if (!$this->_db->execute())
 					{
 						$this->setError($this->_db->getErrorMsg());
 
@@ -605,7 +605,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 
 		$this->_db->setQuery($query);
 
-		if (!$this->_db->query())
+		if (!$this->_db->execute())
 		{
 			$this->setError($this->_db->getErrorMsg());
 
@@ -671,7 +671,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 
 					$this->_db->setQuery($query);
 
-					if (!$this->_db->query())
+					if (!$this->_db->execute())
 					{
 						$this->setError($this->_db->getErrorMsg());
 
@@ -690,7 +690,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 
 					$this->_db->setQuery($query);
 
-					if (!$this->_db->query())
+					if (!$this->_db->execute())
 					{
 						$this->setError($this->_db->getErrorMsg());
 
@@ -734,7 +734,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 				. $diff->subattribute_color_id . '"';
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 
@@ -759,7 +759,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 				$query = "DELETE FROM `" . $this->_table_prefix . "product_attribute` WHERE `attribute_id` = " . $attributes[$i]->attribute_id;
 				$database->setQuery($query);
 
-				if ($database->query())
+				if ($database->execute())
 				{
 					$property = $producthelper->getAttibuteProperty(0, $attributes[$i]->attribute_id);
 
@@ -769,12 +769,12 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 							. $property[$j]->property_id;
 						$database->setQuery($query);
 
-						if ($database->query())
+						if ($database->execute())
 						{
 							$query = "DELETE FROM `" . $this->_table_prefix . "product_subattribute_color` WHERE `subattribute_id` = "
 								. $property[$j]->property_id;
 							$database->setQuery($query);
-							$database->query();
+							$database->execute();
 						}
 					}
 				}
@@ -810,7 +810,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 		$query = "UPDATE `" . $this->_table_prefix . "product_attribute_property` SET `property_image` = '' WHERE `property_id` = " . $pid;
 		$this->_db->setQuery($query);
 
-		if (!$this->_db->Query())
+		if (!$this->_db->execute())
 		{
 			return false;
 		}
@@ -842,7 +842,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 		WHERE `subattribute_color_id` = " . $pid;
 		$this->_db->setQuery($query);
 
-		if (!$this->_db->Query())
+		if (!$this->_db->execute())
 		{
 			return false;
 		}
@@ -865,7 +865,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 
 		$database->setQuery($query);
 
-		$database->query();
+		$database->execute();
 
 		for ($i = 0; $i < count($post['quantity']); $i++)
 		{
@@ -877,7 +877,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 
 				$database->setQuery($q);
 
-				if (!$database->query())
+				if (!$database->execute())
 				{
 					return false;
 				}
@@ -925,7 +925,7 @@ class RedshopModelAttribute_set_detail extends RedshopModel
 		VALUES ('" . $product_attribute_stocks->section_id . "','" . $section . "','" . $product_attribute_stocks->stockroom_id . "','"
 			. $product_attribute_stocks->quantity . "' )";
 		$db->setQuery($sql);
-		$db->Query();
+		$db->execute();
 	}
 
 	public function copy($cid = array())

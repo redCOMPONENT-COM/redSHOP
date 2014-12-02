@@ -152,7 +152,7 @@ class RedshopModelXmlexport_detail extends RedshopModel
 				}
 
 				$this->_db->setQuery($query);
-				$this->_db->query();
+				$this->_db->execute();
 			}
 		}
 
@@ -193,7 +193,7 @@ class RedshopModelXmlexport_detail extends RedshopModel
 				. 'WHERE xmlexport_id IN (' . $cids . ')';
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 
@@ -204,7 +204,7 @@ class RedshopModelXmlexport_detail extends RedshopModel
 				. 'WHERE xmlexport_id IN (' . $cids . ')';
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 
@@ -215,7 +215,7 @@ class RedshopModelXmlexport_detail extends RedshopModel
 				. 'WHERE xmlexport_id IN (' . $cids . ')';
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 
@@ -232,7 +232,7 @@ class RedshopModelXmlexport_detail extends RedshopModel
 			. 'WHERE xmlexport_ip_id IN (' . $xmlexport_ip_id . ')';
 		$this->_db->setQuery($query);
 
-		if (!$this->_db->query())
+		if (!$this->_db->execute())
 		{
 			$this->setError($this->_db->getErrorMsg());
 
@@ -253,7 +253,7 @@ class RedshopModelXmlexport_detail extends RedshopModel
 				. ' WHERE xmlexport_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 
@@ -275,7 +275,7 @@ class RedshopModelXmlexport_detail extends RedshopModel
 				. ' WHERE xmlexport_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 
@@ -303,7 +303,7 @@ class RedshopModelXmlexport_detail extends RedshopModel
 				. ' WHERE xmlexport_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 

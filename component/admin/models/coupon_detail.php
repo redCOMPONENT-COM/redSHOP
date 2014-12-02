@@ -116,7 +116,7 @@ class RedshopModelCoupon_detail extends RedshopModel
 			$query = 'DELETE FROM ' . $this->_table_prefix . 'coupons WHERE coupon_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 
@@ -146,7 +146,7 @@ class RedshopModelCoupon_detail extends RedshopModel
 				. ' WHERE coupon_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 

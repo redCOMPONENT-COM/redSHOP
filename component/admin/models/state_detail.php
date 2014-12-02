@@ -120,7 +120,7 @@ class RedshopModelState_detail extends RedshopModel
 			$query = 'DELETE FROM ' . $this->_table_prefix . 'state WHERE state_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 

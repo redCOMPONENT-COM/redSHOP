@@ -279,7 +279,7 @@ class RedshopModelStockroom_listing extends RedshopModel
 		if ($query != "")
 		{
 			$this->_db->setQuery($query);
-			$this->_db->Query();
+			$this->_db->execute();
 
 			// For stockroom Notify Email
 
@@ -326,7 +326,7 @@ class RedshopModelStockroom_listing extends RedshopModel
 		if ($query != "")
 		{
 			$this->_db->setQuery($query);
-			$this->_db->Query();
+			$this->_db->execute();
 		}
 	}
 }

@@ -81,7 +81,7 @@ $option = JRequest::getVar('option', '', 'request', 'string');
 
 			for ($i = 0, $n = count($this->vouchers); $i < $n; $i++)
 			{
-				$row = & $this->vouchers[$i];
+				$row = $this->vouchers[$i];
 				$row->id = $row->voucher_id;
 				$link = JRoute::_('index.php?option=' . $option . '&view=voucher_detail&task=edit&cid[]=' . $row->voucher_id);
 

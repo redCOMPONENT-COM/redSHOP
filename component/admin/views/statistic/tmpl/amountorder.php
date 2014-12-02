@@ -35,7 +35,7 @@ $end = $this->pagination->limit;
 			<?php    $disdate = "";
 			for ($i = $start, $j = 0; $i < ($start + $end); $i++, $j++)
 			{
-				$row = & $this->amountorder[$i];
+				$row = $this->amountorder[$i];
 				if (!is_object($row))
 				{
 					break;

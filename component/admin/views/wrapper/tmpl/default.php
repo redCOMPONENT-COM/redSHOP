@@ -71,7 +71,7 @@ $url = $uri->root();?>
 			<?php    $k = 0;
 			for ($i = 0; $i < count($this->data); $i++)
 			{
-				$row = & $this->data[$i];
+				$row = $this->data[$i];
 				$row->id = $row->wrapper_id;
 				$published = JHtml::_('jgrid.published', $row->published, $i, '', 1);
 				$row->published = $row->wrapper_use_to_all;

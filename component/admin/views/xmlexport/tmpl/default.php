@@ -57,7 +57,7 @@ $lists = $this->lists;?>
 			$k = 0;
 			for ($i = 0, $n = count($this->data); $i < $n; $i++)
 			{
-				$row = & $this->data[$i];
+				$row = $this->data[$i];
 				$row->id = $row->xmlexport_id;
 				$link = JRoute::_('index.php?option=' . $option . '&view=xmlexport_detail&task=edit&cid[]=' . $row->id);
 

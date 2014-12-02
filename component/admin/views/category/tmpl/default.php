@@ -121,7 +121,7 @@ $ordering = ($this->lists['order'] == 'c.ordering');
 			$k = 0;
 			for ($i = 0, $n = count($this->categories); $i < $n; $i++)
 			{
-				$row = & $this->categories[$i];
+				$row = $this->categories[$i];
 				if (!is_object($row))
 				{
 					break;

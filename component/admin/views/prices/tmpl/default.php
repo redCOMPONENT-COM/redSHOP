@@ -45,7 +45,7 @@ $option = JRequest::getVar('option', '', 'request', 'string');?>
 			<?php    $k = 0;
 			for ($i = 0; $i < count($this->media); $i++)
 			{
-				$row = & $this->media[$i];
+				$row = $this->media[$i];
 				$row->id = $row->price_id;
 				//$product_id = $row->product_id;
 				$link = JRoute::_('index.php?option=' . $option . '&view=prices_detail&task=edit&product_id=' . $row->product_id . '&cid[]=' . $row->price_id);?>

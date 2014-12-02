@@ -72,7 +72,7 @@ $option = JRequest::getVar('option', '', 'request', 'string');
 			$k = 0;
 			for ($i = 0, $n = count($this->tags); $i < $n; $i++)
 			{
-				$row = & $this->tags[$i];
+				$row = $this->tags[$i];
 				$row->id = $row->tags_id;
 				$link = JRoute::_('index.php?option=' . $option . '&view=producttags_detail&task=edit&cid[]=' . $row->tags_id);
 

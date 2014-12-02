@@ -265,7 +265,7 @@ class RedshopModelAccount extends RedshopModel
 
 			$db->setQuery($query);
 
-			if ($db->Query())
+			if ($db->execute())
 			{
 				$app->enqueueMessage(JText::_('COM_REDSHOP_WISHLIST_PRODUCT_DELETED_SUCCESSFULLY'));
 			}
@@ -312,7 +312,7 @@ class RedshopModelAccount extends RedshopModel
 			->where('users_id = ' . (int) $user->id);
 		$db->setQuery($query);
 
-		if ($db->Query())
+		if ($db->execute())
 		{
 			$query->clear()
 				->select('COUNT(tags_id)')
@@ -327,7 +327,7 @@ class RedshopModelAccount extends RedshopModel
 					->where('tags_id = ' . (int) $tagid);
 				$db->setQuery($query);
 
-				if (!$db->Query())
+				if (!$db->execute())
 				{
 					return false;
 				}
@@ -361,7 +361,7 @@ class RedshopModelAccount extends RedshopModel
 			. $db->quote($post['tags_name']) . ' WHERE tags_id = ' . (int) $post['tags_id'];
 		$db->setQuery($query);
 
-		if (!$db->Query())
+		if (!$db->execute())
 		{
 			return false;
 		}
@@ -393,7 +393,7 @@ class RedshopModelAccount extends RedshopModel
 			. "WHERE product_id = " . (int) $product_id . " AND user_id = " . (int) $user->id;
 		$this->_db->setQuery($query);
 
-		if ($this->_db->Query())
+		if ($this->_db->execute())
 		{
 			$app->enqueueMessage(JText::_('COM_REDSHOP_PRODUCT_DELETED_FROM_COMPARE_SUCCESSFULLY'));
 		}

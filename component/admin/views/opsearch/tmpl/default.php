@@ -59,7 +59,7 @@ $showbuttons = JRequest::getVar('showbuttons', '', 'request', 0);    ?>
 			$totvolume = 0;
 			for ($i = 0, $n = count($this->products); $i < $n; $i++)
 			{
-				$row = & $this->products[$i];
+				$row = $this->products[$i];
 
 				$link = JRoute::_('index.php?option=' . $option . '&view=product_detail&task=edit&cid[]=' . $row->product_id);
 				$link_order = 'index.php?option=' . $option . '&view=order_detail&task=edit&cid[]=' . $row->order_id;

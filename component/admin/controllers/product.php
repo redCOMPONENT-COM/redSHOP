@@ -222,7 +222,7 @@ class RedshopControllerProduct extends RedshopController
 			$sql = "UPDATE #__redshop_product  SET product_price='" . $price[$i] . "' WHERE product_id='" . $pid[$i] . "'  ";
 
 			$db->setQuery($sql);
-			$db->Query();
+			$db->execute();
 		}
 
 		$this->setRedirect('index.php?option=com_redshop&view=product&task=listing');
@@ -239,7 +239,7 @@ class RedshopControllerProduct extends RedshopController
 			$sql = "UPDATE #__redshop_product  SET discount_price='" . $discount_price[$i] . "' WHERE product_id='" . $pid[$i] . "'  ";
 
 			$db->setQuery($sql);
-			$db->Query();
+			$db->execute();
 		}
 
 		$this->setRedirect('index.php?option=com_redshop&view=product&task=listing');

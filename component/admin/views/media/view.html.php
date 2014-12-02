@@ -106,7 +106,7 @@ class RedshopViewMedia extends RedshopView
 	{
 		if (isset($this->folders[$index]))
 		{
-			$this->_tmp_folder = & $this->folders[$index];
+			$this->_tmp_folder = $this->folders[$index];
 		}
 		else
 		{
@@ -118,7 +118,7 @@ class RedshopViewMedia extends RedshopView
 	{
 		if (isset($this->images[$index]))
 		{
-			$this->_tmp_img = & $this->images[$index];
+			$this->_tmp_img = $this->images[$index];
 		}
 		else
 		{
@@ -130,7 +130,7 @@ class RedshopViewMedia extends RedshopView
 	{
 		if (isset($this->documents[$index]))
 		{
-			$this->_tmp_doc = & $this->documents[$index];
+			$this->_tmp_doc = $this->documents[$index];
 		}
 		else
 		{

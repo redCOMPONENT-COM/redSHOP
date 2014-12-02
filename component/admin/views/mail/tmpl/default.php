@@ -84,7 +84,7 @@ $redtemplate = new Redtemplate;
 			$k = 0;
 			for ($i = 0; $i < count($this->media); $i++)
 			{
-				$row = & $this->media[$i];
+				$row = $this->media[$i];
 
 				$row->id = $row->mail_id;
 
