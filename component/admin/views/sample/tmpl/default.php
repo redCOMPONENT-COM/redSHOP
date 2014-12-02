@@ -50,7 +50,7 @@ $option = JRequest::getVar('option');
 			$k = 0;
 			for ($i = 0, $n = count($this->catalog); $i < $n; $i++)
 			{
-				$row = & $this->catalog[$i];
+				$row = $this->catalog[$i];
 				$row->id = $row->sample_id;
 				$link = JRoute::_('index.php?option=' . $option . '&view=sample_detail&task=edit&cid[]=' . $row->sample_id);
 

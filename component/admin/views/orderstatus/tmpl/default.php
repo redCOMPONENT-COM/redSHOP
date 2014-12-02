@@ -71,7 +71,7 @@ $redhelper = new redhelper;
 			$k = 0;
 			for ($i = 0, $n = count($this->orderstatus); $i < $n; $i++)
 			{
-				$row = & $this->orderstatus[$i];
+				$row = $this->orderstatus[$i];
 				$row->id = $row->order_status_id;
 				$link = 'index.php?option=' . $option . '&view=orderstatus_detail&task=edit&cid[]=' . $row->order_status_id;
 				$link = $redhelper->sslLink($link);

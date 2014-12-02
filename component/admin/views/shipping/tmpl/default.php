@@ -77,7 +77,7 @@ $ordering = ($this->lists['order'] == 'ordering');
 			$k = 0;
 			for ($i = 0, $n = count($this->shippings); $i < $n; $i++)
 			{
-				$row = & $this->shippings[$i];
+				$row = $this->shippings[$i];
 				$link = JRoute::_('index.php?option=' . $option . '&view=shipping_detail&task=edit&cid[]=' . $row->extension_id);
 
 				$published = JHtml::_('jgrid.published', $row->enabled, $i, '', 1);

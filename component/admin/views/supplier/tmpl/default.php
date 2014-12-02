@@ -76,7 +76,7 @@ $option = JRequest::getVar('option', '', 'request', 'string');
 			for ($i = 0, $n = count($this->supplier); $i < $n; $i++)
 			{
 
-				$row = & $this->supplier[$i];
+				$row = $this->supplier[$i];
 
 				$row->id = $row->supplier_id;
 
