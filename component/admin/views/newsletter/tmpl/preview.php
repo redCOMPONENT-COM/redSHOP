@@ -156,7 +156,7 @@ else
 				$k = 0;
 				for ($i = 0, $n = count($this->subscribers); $i < $n; $i++)
 				{
-					$row = & $this->subscribers[$i];
+					$row = $this->subscribers[$i];
 
 					$row->id = $row->subscription_id;
 

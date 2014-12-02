@@ -320,6 +320,12 @@ function changePropertyDropdown(product_id, accessory_id, relatedprd_id, attribu
             document.getElementById('property_responce' + commonid).style.display = 'none';
         }
 
+        if(request.readyState != 4 )
+        {
+            if(document.getElementById('rs_image_loader'))
+            document.getElementById('rs_image_loader').style.display = 'block';
+        }
+
         if (request.readyState == 4)
         {
             var property_id = 0;
@@ -345,12 +351,20 @@ function changePropertyDropdown(product_id, accessory_id, relatedprd_id, attribu
                             var subpropertycommonid = 'subproperty_id_' + scrollercommonid;
                             var subinfo = '';
 
-                            for (i = 0; i < imgs.length; i++)
-                            {
-                                subinfo = imgs[i].split('`_`');
-                                var subproperty_id = subinfo[1];
-                                unique.addThumbnail(subinfo[0], "javascript:isFlowers" + scrollercommonid + ".scrollImageCenter('" + i + "');setSubpropImage('" + product_id + "','" + subpropertycommonid + "','" + subproperty_id + "');calculateTotalPrice('" + product_id + "','" + relatedprd_id + "');displayAdditionalImage('" + product_id + "','" + accessory_id + "','" + relatedprd_id + "','" + property_id + "','" + subproperty_id + "');", "", "", subpropertycommonid + "_subpropimg_" + subproperty_id, "");
-                            }
+							for (i = 0; i < imgs.length; i++)
+							{
+								subinfo = imgs[i].match(/\d+/g);
+								var subproperty_id = subinfo[0];
+								var subname = document.getElementById(subpropertycommonid + "_name" + subproperty_id).value;
+								unique.addThumbnail(
+									imgs[i],
+									"javascript:isFlowers" + scrollercommonid + ".scrollImageCenter('" + i + "');setSubpropImage('" + product_id + "','" + subpropertycommonid + "','" + subproperty_id + "');calculateTotalPrice('" + product_id + "','" + relatedprd_id + "');displayAdditionalImage('" + product_id + "','" + accessory_id + "','" + relatedprd_id + "','" + property_id + "','" + subproperty_id + "');",
+									subname,
+									"",
+									subpropertycommonid + "_subpropimg_" + subproperty_id,
+									""
+								);
+							}
 
                             var rs_size = 50;
 
@@ -414,15 +428,18 @@ function display_image_out(imgs, product_id, gethover)
 
 function display_image_add(img, product_id)
 {
-    document.getElementById('main_image' + product_id).src = img;
+	if (document.getElementById('main_image' + product_id)) {
+		document.getElementById('main_image' + product_id).src = img;
+	}
 }
-
 function display_image_add_out(img, product_id)
 {
-    if (subproperty_main_image != "")
-        document.getElementById('main_image' + product_id).src = subproperty_main_image;
-    else
-        document.getElementById('main_image' + product_id).src = img;
+	if (document.getElementById('main_image' + product_id)) {
+		if (subproperty_main_image != "")
+			document.getElementById('main_image' + product_id).src = subproperty_main_image;
+		else
+			document.getElementById('main_image' + product_id).src = img;
+	}
 }
 
 function collectAttributes(product_id, accessory_id, relatedprd_id)
@@ -1564,18 +1581,11 @@ function displayAdditionalImage(product_id, accessory_id, relatedprd_id, selecte
                 //	else
                 //	document.getElementById('a_main_image'+product_id).src=arrResponse[4];
                 //}
-                if (arrResponse[4] != "") {
-                    document.getElementById('a_main_image' + product_id).innerHTML = arrResponse[4];
-                }
             }
-            else {
 
-                if (arrResponse[4] != "") {
-                    if (document.getElementById('main_image' + product_id) && arrResponse[4] != "") {
-                        document.getElementById('main_image' + product_id).src = arrResponse[4];
-                    }
-                }
-            }
+			if (arrResponse[4] != '' && document.getElementById('main_image' + product_id)) {
+				document.getElementById('main_image' + product_id).src = arrResponse[4];
+			}
 
             if (document.getElementById('additional_images' + product_id) && arrResponse[1] != "") {
                 document.getElementById('additional_images' + product_id).innerHTML = arrResponse[1];

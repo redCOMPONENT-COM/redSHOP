@@ -16,4 +16,18 @@
 class CouponManagerPage
 {
 	public static $URL = '/administrator/index.php?option=com_redshop&view=coupon';
+
+	public static $couponCode = "//input[@id='coupon_code']";
+
+	public static $couponValue = "//input[@id='coupon_value']";
+
+	public static $couponLeft = "//input[@id='coupon_left']";
+
+	public static $couponValueIn = "//select[@id='percent_or_total']";
+
+	public static $couponType = "//select[@id='coupon_type']";
+
+	public static $selectFirst = "//input[@id='cb0']";
+
+	public static $firstResultRow = "//div[@id='editcell']//table[@class='adminlist']//tbody/tr[1]";
 }

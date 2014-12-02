@@ -36,7 +36,7 @@ $end = $this->pagination->limit;
 			<?php    $disdate = "";
 			for ($i = $start, $j = 0; $i < ($start + $end); $i++, $j++)
 			{
-				$row = & $this->pageviewer[$i];
+				$row = $this->pageviewer[$i];
 				if (!is_object($row))
 				{
 					break;

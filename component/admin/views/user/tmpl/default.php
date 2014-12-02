@@ -86,7 +86,7 @@ $model = $this->getModel('user');    ?>
 			$k = 0;
 			for ($i = 0, $n = count($this->user); $i < $n; $i++)
 			{
-				$row = & $this->user [$i];
+				$row = $this->user [$i];
 				$row->id = $row->user_id;
 //		$row->published = $row->approved;
 //		if($this->lists ['shipping'])

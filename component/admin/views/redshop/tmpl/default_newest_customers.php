@@ -29,7 +29,7 @@ $model = $this->getModel('redshop');
 			$k = 0;
 			for ($i = 0, $n = count($this->newcustomers); $i < $n; $i++)
 			{
-				$row = & $this->newcustomers[$i];
+				$row = $this->newcustomers[$i];
 				$row->id = $row->users_info_id;
 
 				$order = $model->gettotalOrder($row->id);

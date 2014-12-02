@@ -123,7 +123,7 @@ class RedshopModelDiscount_detail extends JModel
 		$sdel = "DELETE FROM " . $this->_table_prefix . "discount_shoppers WHERE discount_id = " . $row->discount_id;
 		$this->_db->setQuery($sdel);
 
-		if (!$this->_db->query())
+		if (!$this->_db->execute())
 		{
 			$this->setError($this->_db->getErrorMsg());
 
@@ -152,7 +152,7 @@ class RedshopModelDiscount_detail extends JModel
 
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 
@@ -186,7 +186,7 @@ class RedshopModelDiscount_detail extends JModel
 
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 
@@ -260,7 +260,7 @@ class RedshopModelDiscount_detail extends JModel
 
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->Query())
+			if (!$this->_db->execute())
 			{
 				return false;
 			}
@@ -291,7 +291,7 @@ class RedshopModelDiscount_detail extends JModel
 		$del = "DELETE FROM " . $this->_table_prefix . "discount_product_shoppers WHERE discount_product_id = " . $dprow->discount_product_id;
 		$this->_db->setQuery($del);
 
-		if (!$this->_db->query())
+		if (!$this->_db->execute())
 		{
 			$this->setError($this->_db->getErrorMsg());
 

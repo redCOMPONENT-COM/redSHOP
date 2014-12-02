@@ -745,19 +745,6 @@ class extraField
 							$displayvalue = $field_chk->country_name;
 						}
 						break;
-					case 9 :
-						// Media
-						$ftype = explode(".", $data_value->data_txt);
-
-						$link         = REDSHOP_FRONT_IMAGES_ABSPATH . "media/" . $data_value->data_txt;
-						$link_phy     = REDSHOP_FRONT_IMAGES_RELPATH . "media/" . $data_value->data_txt;
-						$displayvalue = "";
-
-						if (is_file($link_phy))
-						{
-							$displayvalue = "{" . $ftype[count($ftype) - 1] . "remote}" . $link . "{/" . $ftype[count($ftype) - 1] . "remote}";
-						}
-						break;
 					case 10 :
 						// Document
 
