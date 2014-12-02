@@ -19,64 +19,15 @@ namespace AcceptanceTester;
 class InstallJoomla2Steps extends \AcceptanceTester
 {
 	/**
-	 * Function to Install Joomla
-	 *
-	 * @return void
-	 */
-	public function installJoomla2()
-	{
-		$I = $this;
-		$this->acceptanceTester = $I;
-		$I->amOnPage(\InstallJoomla2ManagerPage::$URL);
-		$cfg = $I->getConfig();
-		$I->click('Next');
-		$I->click('Next');
-		$I->click('Next');
-		sleep(3);
-
-		$this->setDatabaseType($cfg['db_type']);
-		$this->setField('Host Name', $cfg['db_host']);
-		$this->setField('Username', $cfg['db_user']);
-		$this->setField('Password', $cfg['db_pass']);
-		$this->setField('Database Name', $cfg['db_name']);
-		$this->setField('Table Prefix', $cfg['db_prefix']);
-
-		$I->click('Next');
-		$I->click('Next');
-		sleep(3);
-		$this->setField('Site Name', $cfg['site_name']);
-		$this->setField('Your Email', $cfg['admin_email']);
-		$this->setField('Admin Username', $cfg['username']);
-		$this->setField('Admin Password', $cfg['password']);
-		$this->setField('Confirm Admin Password', $cfg['password']);
-
-		if (strtolower($cfg['sample_data']) == "yes")
-		{
-			$this->setSampleData($cfg['sample_data_file']);
-		}
-		else
-		{
-			$this->setSampleData('Default English');
-		}
-
-		$I->click(\InstallJoomla2ManagerPage::$installSampleData);
-		sleep(5);
-		$I->click('Next');
-		sleep(3);
-
-		return $this;
-	}
-
-	/**
 	 * Function to Select DB Type
 	 *
 	 * @param   String  $value  Value of the DB Type
 	 *
 	 * @return void
 	 */
-	private function setDatabaseType($value)
+	public function setDatabaseType($value)
 	{
-		$I = $this->acceptanceTester;
+		$I = $this;
 		$I->selectOption(\InstallJoomla2ManagerPage::$dbType, strtolower($value));
 	}
 
@@ -88,9 +39,9 @@ class InstallJoomla2Steps extends \AcceptanceTester
 	 *
 	 * @return void
 	 */
-	private function setField($label, $value)
+	public function setField($label, $value)
 	{
-		$I = $this->acceptanceTester;
+		$I = $this;
 
 		switch ($label)
 		{
@@ -136,9 +87,9 @@ class InstallJoomla2Steps extends \AcceptanceTester
 	 *
 	 * @return void
 	 */
-	private function setSampleData($option = 'Default')
+	public function setSampleData($option = 'Default')
 	{
-		$I = $this->acceptanceTester;
-		$I->click("//label[contains(., '" . $option . "')]");
+		$I = $this;
+		$I->selectOption(\InstallJoomla2ManagerPage::$sampleFile, $option);
 	}
 }
