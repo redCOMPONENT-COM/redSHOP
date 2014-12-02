@@ -131,7 +131,7 @@ $total_serial = count($productSerialDetail);
 
 					for ($si = 0; $si < $total_serial; $si++)
 					{
-						$serial_row = & $productSerialDetail[$si];  ?>
+						$serial_row = $productSerialDetail[$si];  ?>
 						<tr>
 							<td>
 								<a href='index.php?option=com_redshop&view=product_detail&task=deleteProdcutSerialNumbers&serial_id=<?php echo $serial_row->serial_id ?>&product_id=<?php echo $this->detail->product_id; ?>'><img

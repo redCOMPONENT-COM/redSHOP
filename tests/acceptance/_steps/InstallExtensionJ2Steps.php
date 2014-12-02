@@ -9,7 +9,7 @@
 namespace AcceptanceTester;
 
 /**
- * Class InstallExtensionSteps
+ * Class InstallExtensionJ2Steps
  *
  * @package  AcceptanceTester
  *
@@ -17,7 +17,7 @@ namespace AcceptanceTester;
  *
  * @link     http://codeception.com/docs/07-AdvancedUsage#StepObjects
  */
-class InstallExtensionSteps extends \AcceptanceTester
+class InstallExtensionJ2Steps extends \AcceptanceTester
 {
 	/**
 	 * Function to Install RedShop1, inside Joomla 2.5
@@ -43,7 +43,12 @@ class InstallExtensionSteps extends \AcceptanceTester
 	public function installSampleData()
 	{
 		$I = $this;
-		$I->click(\ExtensionManagerPage::$installDemoContent);
-		$I->waitForElement(\ExtensionManagerPage::$demoDataInstallSuccessMessage, 30);
+		$config = $I->getConfig();
+
+		if ($config['install_extension_demo_data'] == 'yes')
+		{
+			$I->click(\ExtensionManagerPage::$installDemoContent);
+			$I->waitForElement(\ExtensionManagerPage::$demoDataInstallSuccessMessage, 30);
+		}
 	}
 }

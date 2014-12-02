@@ -121,7 +121,7 @@ class RedshopModelState_detail extends JModel
 			$query = 'DELETE FROM ' . $this->_table_prefix . 'state WHERE state_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 
@@ -182,14 +182,16 @@ class RedshopModelState_detail extends JModel
 	 * Method to checkin/unlock the state_detail
 	 *
 	 * @access    public
+	 *
 	 * @return    boolean    True on success
+	 *
 	 * @since    1.5
 	 */
 	public function checkin()
 	{
 		if ($this->_id)
 		{
-			$state_detail = & $this->getTable('state_detail');
+			$state_detail = $this->getTable('state_detail');
 
 			if (!$state_detail->checkin($this->_id))
 			{
