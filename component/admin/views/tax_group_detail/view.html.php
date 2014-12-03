@@ -9,9 +9,8 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
 
-class RedshopViewTax_group_detail extends JView
+class RedshopViewTax_group_detail extends RedshopView
 {
 	/**
 	 * The request url.

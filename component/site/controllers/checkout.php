@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-JLoader::import('joomla.application.component.controller');
 JLoader::load('RedshopHelperHelper');
 JLoader::load('RedshopHelperAdminExtra_field');
 
@@ -20,7 +19,7 @@ JLoader::load('RedshopHelperAdminExtra_field');
  * @subpackage  Controller
  * @since       1.0
  */
-class RedshopControllerCheckout extends JController
+class RedshopControllerCheckout extends RedshopController
 {
 	public $_order_functions = null;
 

@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-JLoader::import('joomla.application.component.controller');
 
 JLoader::load('RedshopHelperAdminQuotation');
 JLoader::load('RedshopHelperAdminMail');
@@ -22,7 +21,7 @@ JLoader::load('RedshopHelperHelper');
  * @subpackage  Controller
  * @since       1.0
  */
-class RedshopControllerQuotation_detail extends JController
+class RedshopControllerQuotation_detail extends RedshopController
 {
 	/**
 	 * update status function

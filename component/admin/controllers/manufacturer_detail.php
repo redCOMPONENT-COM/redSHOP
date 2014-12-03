@@ -9,11 +9,10 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.controller');
 
 JLoader::load('RedshopHelperAdminExtra_field');
 
-class RedshopControllerManufacturer_detail extends JController
+class RedshopControllerManufacturer_detail extends RedshopController
 {
 	public function __construct($default = array())
 	{

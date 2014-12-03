@@ -9,11 +9,10 @@
 
 defined('_JEXEC') or die;
 
-JLoader::import('joomla.application.component.view');
 JLoader::load('RedshopHelperHelper');
 JLoader::load('RedshopHelperExtra_field');
 
-class RedshopViewCheckout extends JView
+class RedshopViewCheckout extends RedshopView
 {
 	public function display($tpl = null)
 	{
@@ -50,13 +49,13 @@ class RedshopViewCheckout extends JView
 
 		JHTML::Script('joomla.javascript.js', 'includes/js/', false);
 		JHTML::Script('validate.js', 'media/system/js/', false);
-		JHTML::Script('jquery-1.4.2.min.js', 'components/com_redshop/assets/js/', false);
-		JHTML::Script('jquery.validate.js', 'components/com_redshop/assets/js/', false);
-		JHTML::Script('common.js', 'components/com_redshop/assets/js/', false);
-		JHTML::Script('jquery.metadata.js', 'components/com_redshop/assets/js/', false);
-		JHTML::Script('registration.js', 'components/com_redshop/assets/js/', false);
-		JHTML::Stylesheet('validation.css', 'components/com_redshop/assets/css/');
-		JHTML::Script('redbox.js', 'components/com_redshop/assets/js/', false);
+		JHtml::script('com_redshop/jquery-1.4.2.min.js', false, true);
+		JHtml::script('com_redshop/jquery.validate.js', false, true);
+		JHtml::script('com_redshop/common.js', false, true);
+		JHtml::script('com_redshop/jquery.metadata.js', false, true);
+		JHtml::script('com_redshop/registration.js', false, true);
+		JHtml::stylesheet('com_redshop/validation.css', array(), true);
+		JHtml::script('com_redshop/redbox.js', false, true);
 
 		if (JPluginHelper::isEnabled('redshop_veis_registration', 'rs_veis_registration'))
 		{

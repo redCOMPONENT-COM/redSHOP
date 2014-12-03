@@ -8,7 +8,7 @@
 
     <fields name="request" addfieldpath="/administrator/components/com_redshop/elements">
         <fieldset name="request">
-            <field name="cid" type="category" label="Select Category" required="true"
+            <field name="cid" type="redshopcategory" label="Select Category" required="true"
                        description="Displays the selected category product"/>
             <field name="manufacturer_id" type="manufacturer" default="0" label="COM_REDSHOP_SELECT_MANUFACTURER"
                        description="COM_REDSHOP_DISPLAYS_THE_SELECTED_MANUFACTURER_DETAIL_PAGE"/>

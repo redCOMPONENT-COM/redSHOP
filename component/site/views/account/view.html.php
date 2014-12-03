@@ -9,9 +9,8 @@
 
 defined('_JEXEC') or die;
 
-JLoader::import('joomla.application.component.view');
 
-class RedshopViewAccount extends JView
+class RedshopViewAccount extends RedshopView
 {
 	public function display($tpl = null)
 	{
@@ -81,13 +80,17 @@ class RedshopViewAccount extends JView
 			}
 
 			JLoader::import('joomla.html.pagination');
-			JHTML::Stylesheet('colorbox.css', 'components/com_redshop/assets/css/');
+			JHtml::script('com_redshop/colorbox.js', false, true);
 
-			JHTML::Script('jquery.js', 'components/com_redshop/assets/js/', false);
+			if (version_compare(JVERSION, '3.0', '<'))
+			{
+				JHtml::script('com_redshop/jquery.js', false, true);
+			}
+
 			JHTML::Script('jquery.colorbox-min.js', 'components/com_redshop/assets/js/', false);
-			JHTML::Script('redbox.js', 'components/com_redshop/assets/js/', false);
-			JHTML::Script('attribute.js', 'components/com_redshop/assets/js/', false);
-			JHTML::Script('common.js', 'components/com_redshop/assets/js/', false);
+			JHtml::script('com_redshop/redbox.js', false, true);
+			JHtml::script('com_redshop/attribute.js', false, true);
+			JHtml::script('com_redshop/common.js', false, true);
 			$this->setLayout('mywishlist');
 
 			$remove = JRequest::getInt('remove', 0);

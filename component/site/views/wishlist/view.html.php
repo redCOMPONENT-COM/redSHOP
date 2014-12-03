@@ -9,9 +9,8 @@
 
 defined('_JEXEC') or die;
 
-JLoader::import('joomla.application.component.view');
 
-class RedshopViewWishlist extends JView
+class RedshopViewWishlist extends RedshopView
 {
 	public function display($tpl = null)
 	{
@@ -31,15 +30,18 @@ class RedshopViewWishlist extends JView
 		$pageheadingtag = '';
 
 		$params   = $app->getParams('com_redshop');
-		$document = JFactory::getDocument();
-		JHTML::Stylesheet('colorbox.css', 'components/com_redshop/assets/css/');
+		JHtml::script('com_redshop/colorbox.js', false, true);
 
-		JHTML::Script('jquery.js', 'components/com_redshop/assets/js/', false);
+		if (version_compare(JVERSION, '3.0', '<'))
+		{
+			JHtml::script('com_redshop/jquery.js', false, true);
+		}
+
 		JHTML::Script('jquery.colorbox-min.js', 'components/com_redshop/assets/js/', false);
 
-		JHTML::Script('attribute.js', 'components/com_redshop/assets/js/', false);
-		JHTML::Script('common.js', 'components/com_redshop/assets/js/', false);
-		JHTML::Script('redbox.js', 'components/com_redshop/assets/js/', false);
+		JHtml::script('com_redshop/attribute.js', false, true);
+		JHtml::script('com_redshop/common.js', false, true);
+		JHtml::script('com_redshop/redbox.js', false, true);
 		$model = $this->getModel("wishlist");
 
 		$wishlist          = $model->getUserWishlist();

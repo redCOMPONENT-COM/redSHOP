@@ -9,11 +9,9 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.viewlegacy');
-
 JLoader::load('RedshopHelperAdminQuotation');
 
-class RedshopViewQuotation extends JViewLegacy
+class RedshopViewQuotation extends RedshopView
 {
 	/**
 	 * The request url.

@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-JLoader::import('joomla.application.component.controller');
 
 /**
  * Quotation Controller.
@@ -18,7 +17,7 @@ JLoader::import('joomla.application.component.controller');
  * @subpackage  Controller
  * @since       1.0
  */
-class RedshopControllerQuotation extends JController
+class RedshopControllerQuotation extends RedshopController
 {
 	/**
 	 * add quotation function
