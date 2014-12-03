@@ -205,11 +205,11 @@ if (!class_exists('LofSliderGroupK2'))
 			if ($isThumb)
 			{
 				$path       = str_replace(JURI::base(), '', $path);
-				$imagSource = JPATH_SITE . '/' . str_replace('/', DS, $path);
+				$imagSource = JPATH_SITE . '/' . str_replace('/', DIRECTORY_SEPARATOR, $path);
 				if (file_exists($imagSource))
 				{
 					$path      = $width . "x" . $height . '/' . $path;
-					$thumbPath = JPATH_SITE . '/images/icethumbs/' . str_replace('/', DS, $path);
+					$thumbPath = JPATH_SITE . '/images/icethumbs/' . str_replace('/', DIRECTORY_SEPARATOR, $path);
 					if (!file_exists($thumbPath))
 					{
 						$thumb = PhpThumbFactory::create($imagSource);

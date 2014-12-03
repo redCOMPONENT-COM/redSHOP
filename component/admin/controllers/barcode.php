@@ -9,9 +9,8 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.controller');
 
-class RedshopControllerBarcode extends JController
+class RedshopControllerBarcode extends RedshopController
 {
 	public function getsearch()
 	{

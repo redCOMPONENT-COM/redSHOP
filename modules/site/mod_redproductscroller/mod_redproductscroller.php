@@ -30,8 +30,8 @@ JLoader::load('RedshopHelperAdminImages');
 
 $document = JFactory::getDocument();
 JHTML::Script('fetchscript.js', 'components/com_redshop/assets/js/', false);
-JHTML::Script('attribute.js', 'components/com_redshop/assets/js/', false);
-JHTML::Script('common.js', 'components/com_redshop/assets/js/', false);
+JHtml::script('com_redshop/attribute.js', false, true);
+JHtml::script('com_redshop/common.js', false, true);
 /**
  * This class sets all Parameters.
  * Must first call the MOS function, something like:

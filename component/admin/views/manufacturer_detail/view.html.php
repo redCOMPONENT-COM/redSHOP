@@ -9,10 +9,9 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
 JLoader::load('RedshopHelperAdminCategory');
 
-class RedshopViewManufacturer_detail extends JView
+class RedshopViewManufacturer_detail extends RedshopView
 {
 	/**
 	 * The request url.
@@ -24,8 +23,6 @@ class RedshopViewManufacturer_detail extends JView
 	public function display($tpl = null)
 	{
 		JLoader::load('RedshopHelperAdminExtra_field');
-
-		JToolBarHelper::title(JText::_('COM_REDSHOP_MANUFACTURER_MANAGEMENT_DETAIL'), 'redshop_manufact48');
 
 		$uri = JFactory::getURI();
 		$document = JFactory::getDocument();
@@ -45,7 +42,7 @@ class RedshopViewManufacturer_detail extends JView
 
 		$text = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
 
-		JToolBarHelper::title(JText::_('COM_REDSHOP_MANUFACTURER') . ': <small><small>[ ' . $text . ' ]</small></small>', 'redshop_manufact48');
+		JToolBarHelper::title(JText::_('COM_REDSHOP_MANUFACTURER') . ': <small><small>[ ' . $text . ' ]</small></small>', 'flag redshop_manufact48');
 		JToolBarHelper::apply();
 		JToolBarHelper::save();
 

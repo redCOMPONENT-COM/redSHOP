@@ -9,11 +9,10 @@
 
 defined('_JEXEC') or die;
 
-JLoader::import('joomla.application.component.view');
 
 JLoader::load('RedshopHelperAdminCategory');
 
-class RedshopViewSend_friend extends JView
+class RedshopViewSend_friend extends RedshopView
 {
 	public function display($tpl = null)
 	{
@@ -27,14 +26,13 @@ class RedshopViewSend_friend extends JView
 		$params = $app->getParams('com_redshop');
 
 		$pathway  = $app->getPathway();
-		$document = JFactory::getDocument();
 
 		// Include Javascript
 
-		JHTML::Script('attribute.js', 'components/com_redshop/assets/js/', false);
-		JHTML::Script('json.js', 'components/com_redshop/assets/js/', false);
+		JHtml::script('com_redshop/attribute.js', false, true);
+		JHtml::script('com_redshop/json.js', false, true);
 
-		JHTML::Stylesheet('scrollable-navig.css', 'components/com_redshop/assets/css/');
+		JHtml::stylesheet('com_redshop/scrollable-navig.css', array(), true);
 		$data = $this->get('data');
 
 		$template = $this->get('template');

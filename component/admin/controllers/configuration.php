@@ -9,12 +9,11 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.controller');
 
 JLoader::load('RedshopHelperCurrency');
 JLoader::load('RedshopHelperAdminExtra_field');
 
-class RedshopControllerConfiguration extends JController
+class RedshopControllerConfiguration extends RedshopController
 {
 	public function __construct($default = array())
 	{

@@ -145,7 +145,7 @@ class Com_RedshopInstallerScript
 		{
 			$lang = JFactory::getLanguage();
 			$lang->load('com_redshop', JPATH_ADMINISTRATOR);
-			JModel::addIncludePath(JPATH_SITE . '/administrator/components/com_redshop/models');
+			JModelLegacy::addIncludePath(JPATH_SITE . '/administrator/components/com_redshop/models');
 			$model = JModelLegacy::getInstance('Update', 'RedshopModel');
 			$model->checkUpdateStatus();
 		}
@@ -162,8 +162,8 @@ class Com_RedshopInstallerScript
 
 		if (file_exists($categoryTemplate))
 		{
-			$demoCSS    = JPATH_SITE . '/components/com_redshop/assets/css/redshop-update.css';
-			$redSHOPCSS = JPATH_SITE . '/components/com_redshop/assets/css/redshop.css';
+			$demoCSS    = JPATH_SITE . '/media/com_redshop/css/redshop-update.css';
+			$redSHOPCSS = JPATH_SITE . '/media/com_redshop/css/redshop.css';
 			unlink($redSHOPCSS);
 			rename($demoCSS, $redSHOPCSS);
 		}

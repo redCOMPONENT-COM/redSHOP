@@ -9,13 +9,12 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
 JLoader::load('RedshopHelperAdminExtra_field');
 JLoader::load('RedshopHelperAdminStockroom');
 JLoader::load('RedshopHelperAdminShipping');
 JLoader::load('RedshopHelperProduct');
 
-class RedshopModelProduct extends JModel
+class RedshopModelProduct extends RedshopModel
 {
 	public $_data = null;
 
@@ -307,6 +306,11 @@ class RedshopModelProduct extends JModel
 		else
 		{
 			$filter_order = $app->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'p.product_id');
+
+			if ($filter_order == 'x.ordering')
+			{
+				$filter_order = 'p.product_id';
+			}
 		}
 
 		$orderby = " ORDER BY " . $db->escape($filter_order . ' ' . $filter_order_Dir);

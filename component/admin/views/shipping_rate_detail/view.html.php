@@ -9,12 +9,11 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
 JLoader::load('RedshopHelperAdminOrder');
 JLoader::load('RedshopHelperAdminExtra_field');
 JLoader::load('RedshopHelperAdminCategory');
 
-class RedshopViewShipping_rate_detail extends JView
+class RedshopViewShipping_rate_detail extends RedshopView
 {
 	public function display($tpl = null)
 	{
@@ -35,7 +34,7 @@ class RedshopViewShipping_rate_detail extends JView
 		$document->addScript('components/' . $option . '/assets/js/select_sort.js');
 		$document->addStyleSheet('components/' . $option . '/assets/css/search.css');
 		$document->addScript('components/' . $option . '/assets/js/search.js');
-		$document->addScript('components/' . $option . '/assets/js/common.js');
+		JHtml::script('com_redshop/common.js', false, true);
 
 		$shippingpath = JPATH_ROOT . '/plugins/' . $shipping->folder . '/' . $shipping->element . '.xml';
 		$myparams = new JRegistry($shipping->params, $shippingpath);

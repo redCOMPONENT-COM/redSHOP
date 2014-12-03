@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-JLoader::import('joomla.application.component.controller');
 
 JLoader::load('RedshopHelperProduct');
 JLoader::load('RedshopHelperAdminMail');
@@ -22,7 +21,7 @@ JLoader::load('RedshopHelperExtra_field');
  * @subpackage  Controller
  * @since       1.0
  */
-class RedshopControllerRegistration extends JController
+class RedshopControllerRegistration extends RedshopController
 {
 	/**
 	 * newregistration function

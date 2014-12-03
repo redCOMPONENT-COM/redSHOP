@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-JLoader::import('joomla.application.component.model');
 
 JLoader::load('RedshopHelperAdminMail');
 JLoader::load('RedshopHelperProduct');
@@ -21,7 +20,7 @@ JLoader::load('RedshopHelperProduct');
  * @subpackage  Controller
  * @since       1.0
  */
-class RedshopModelAsk_question extends JModel
+class RedshopModelAsk_question extends RedshopModel
 {
 	public $_id = null;
 

@@ -42,8 +42,7 @@ $ordering = ($this->lists['order'] == 'ordering');
 					<?php echo JText::_('COM_REDSHOP_NUM'); ?>
 				</th>
 				<th width="5%">
-					<input type="checkbox" name="toggle" value=""
-					       onclick="checkAll(<?php echo count($this->shippings); ?>);"/>
+					<?php echo JHtml::_('redshopgrid.checkall'); ?>
 				</th>
 				<th class="title">
 					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_SHIPPING_NAME', 'name ', $this->lists['order_Dir'], $this->lists['order']); ?>
@@ -87,8 +86,7 @@ $ordering = ($this->lists['order'] == 'ordering');
 
 				$paymentxml = $adminpath . '/' . $row->folder . '/' . $row->element . '.xml';
 
-				$xml = JFactory::getXMLParser('Simple');
-				$xml->loadFile($paymentxml);
+				$xml = JFactory::getXML($paymentxml);
 
 				?>
 				<tr class="<?php echo "row$k"; ?>">
@@ -136,6 +134,11 @@ $ordering = ($this->lists['order'] == 'ordering');
 
 			<tfoot>
 			<td colspan="9">
+				<?php if (version_compare(JVERSION, '3.0', '>=')): ?>
+					<div class="redShopLimitBox">
+						<?php echo $this->pagination->getLimitBox(); ?>
+					</div>
+				<?php endif; ?>
 				<?php  echo $this->pagination->getListFooter(); ?>
 			</td>
 			</tfoot>

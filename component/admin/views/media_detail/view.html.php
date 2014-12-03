@@ -9,9 +9,8 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
 
-class RedshopViewMedia_detail extends JView
+class RedshopViewMedia_detail extends RedshopView
 {
 	/**
 	 * The request url.
@@ -23,8 +22,6 @@ class RedshopViewMedia_detail extends JView
 	public function display($tpl = null)
 	{
 		$option = JRequest::getVar('option', '', 'request', 'string');
-
-		JToolBarHelper::title(JText::_('COM_REDSHOP_MEDIAS_MANAGEMENT_DETAIL'), 'redshop_media48');
 
 		$document = JFactory::getDocument();
 
@@ -45,7 +42,7 @@ class RedshopViewMedia_detail extends JView
 
 		$text = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
 
-		JToolBarHelper::title(JText::_('COM_REDSHOP_MEDIAS') . ': <small><small>[ ' . $text . ' ]</small></small>', 'redshop_media48');
+		JToolBarHelper::title(JText::_('COM_REDSHOP_MEDIAS') . ': <small><small>[ ' . $text . ' ]</small></small>', 'camera redshop_media48');
 
 		JToolBarHelper::save();
 
