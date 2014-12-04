@@ -126,19 +126,22 @@ class RedshopModelFields extends JModel
 		return $orderby;
 	}
 
-	public function saveorder($cid = array(), $order)
+	/**
+	 * Save Custom Field order
+	 *
+	 * @param   array  $cid    List Index Id
+	 * @param   array  $order  Order Number
+	 *
+	 * @return  boolean
+	 */
+	public function saveorder($cid = array(), $order = array())
 	{
 		$row = $this->getTable('fields_detail');
-		$groupings = array();
-		$conditions = array();
 
 		// Update ordering values
 		for ($i = 0; $i < count($cid); $i++)
 		{
 			$row->load((int) $cid[$i]);
-
-			// Track categories
-			$groupings[] = $row->field_id;
 
 			if ($row->ordering != $order[$i])
 			{
@@ -150,32 +153,7 @@ class RedshopModelFields extends JModel
 
 					return false;
 				}
-
-				// Remember to updateOrder this group
-				$condition = 'field_section = ' . (int) $row->field_section;
-				$found = false;
-
-				foreach ($conditions as $cond)
-				{
-					if ($cond[1] == $condition)
-					{
-						$found = true;
-						break;
-					}
-				}
-
-				if (!$found)
-				{
-					$conditions[] = array($row->field_id, $condition);
-				}
 			}
-		}
-
-		// Execute updateOrder for each group
-		foreach ($conditions as $cond)
-		{
-			$row->load($cond[0]);
-			$row->reorder($cond[1]);
 		}
 
 		return true;

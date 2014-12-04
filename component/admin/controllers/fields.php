@@ -13,26 +13,22 @@ jimport('joomla.application.component.controller');
 
 class RedshopControllerFields extends JController
 {
-	public function cancel()
-	{
-		$this->setRedirect('index.php');
-	}
-
+	/**
+	 * Save custom field ordering
+	 *
+	 * @return  void
+	 */
 	public function saveorder()
 	{
-		$option = JRequest::getVar('option');
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid   = JRequest::getVar('cid', array(), 'post', 'array');
+		$order = JRequest::getVar('order', array(), 'post', 'array');
+		JArrayHelper::toInteger($cid);
+		JArrayHelper::toInteger($order);
+
 		$model = $this->getModel('fields');
+		$model->saveorder($cid, $order);
 
-		if ($model->saveorder($cid))
-		{
-			$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
-		}
-		else
-		{
-			$msg = JText::_('COM_REDSHOP_NEW_ORDERING_ERROR');
-		}
-
-		$this->setRedirect('index.php?option=' . $option . '&view=fields', $msg);
+		$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
+		$this->setRedirect('index.php?option=com_redshop&view=fields', $msg);
 	}
 }

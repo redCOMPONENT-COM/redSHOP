@@ -283,61 +283,6 @@ class RedshopModelFields_detail extends JModel
 		return true;
 	}
 
-	public function saveorder($cid = array(), $order)
-	{
-		$row = $this->getTable();
-		$groupings = array();
-		$conditions = array();
-
-		// Update ordering values
-		for ($i = 0; $i < count($cid); $i++)
-		{
-			$row->load((int) $cid[$i]);
-
-			// Track categories
-			$groupings[] = $row->field_id;
-
-			if ($row->ordering != $order[$i])
-			{
-				$row->ordering = $order[$i];
-
-				if (!$row->store())
-				{
-					$this->setError($this->_db->getErrorMsg());
-
-					return false;
-				}
-
-				// Remember to updateOrder this group
-				$condition = 'field_section = ' . (int) $row->field_section;
-				$found = false;
-
-				foreach ($conditions as $cond)
-				{
-					if ($cond[1] == $condition)
-					{
-						$found = true;
-						break;
-					}
-				}
-
-				if (!$found)
-				{
-					$conditions[] = array($row->field_id, $condition);
-				}
-			}
-		}
-
-		// Execute updateOrder for each group
-		foreach ($conditions as $cond)
-		{
-			$row->load($cond[0]);
-			$row->reorder($cond[1]);
-		}
-
-		return true;
-	}
-
 	public function MaxOrdering()
 	{
 		$query = "SELECT (count(*)+1) FROM " . $this->_table_prefix . "fields";
