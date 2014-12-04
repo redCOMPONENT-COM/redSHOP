@@ -16,7 +16,7 @@
 define('REPO_BASE', dirname(__DIR__));
 
 // Welcome message
-fwrite(STDOUT, "\033[32;1mChecking Apache working and Joomla is ready to install in the Travis webserver.\033[0m\n");
+fwrite(STDOUT, "\033[33;1mChecking Apache working and if Joomla is ready to install in the Travis webserver.\033[0m\n");
 
 if (2 > count($argv))
 {
