@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-JLoader::import('joomla.application.component.model');
 
 JLoader::load('RedshopHelperAdminOrder');
 
@@ -20,7 +19,7 @@ JLoader::load('RedshopHelperAdminOrder');
  * @subpackage  Model
  * @since       1.0
  */
-class RedshopModelSplit_payment extends JModel
+class RedshopModelSplit_payment extends RedshopModel
 {
 	public $_id = null;
 
@@ -106,7 +105,7 @@ class RedshopModelSplit_payment extends JModel
 				. "orders set order_payment_status = '" . $order_paymentstatus
 				. "', split_payment=0  where order_id = " . (int) $oid;
 			$this->_db->setQuery($query);
-			$this->_db->query();
+			$this->_db->execute();
 			$return = JRoute::_('index.php?option=' . $option . '&view=order_detail&oid=' . $oid . '&Itemid=' . $Itemid);
 		}
 
@@ -187,7 +186,7 @@ class RedshopModelSplit_payment extends JModel
 						. "orders set order_payment_status = " . $this->_db->quote($order_paymentstatus)
 						. ", split_payment = 0  where order_id = " . (int) $oid;
 					$this->_db->setQuery($query);
-					$this->_db->query();
+					$this->_db->execute();
 
 					$userinfo = $this->getuseraccountinfo($user->id);
 

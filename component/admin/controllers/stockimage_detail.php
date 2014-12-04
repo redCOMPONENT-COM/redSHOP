@@ -9,9 +9,8 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.controller');
 
-class RedshopControllerStockimage_detail extends JController
+class RedshopControllerStockimage_detail extends RedshopController
 {
 	public function __construct($default = array())
 	{

@@ -9,9 +9,8 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
 
-class RedshopViewCatalog_detail extends JView
+class RedshopViewCatalog_detail extends RedshopView
 {
 	/**
 	 * The request url.
@@ -32,7 +31,11 @@ class RedshopViewCatalog_detail extends JView
 		$document->addStyleSheet('components/' . $option . '/assets/css/layout.css');
 		$document->addScript('components/' . $option . '/assets/js/validation.js');
 
-		$document->addScript('components/' . $option . '/assets/js/jquery.js');
+		if (version_compare(JVERSION, '3.0', '<'))
+		{
+			$document->addScript('components/' . $option . '/assets/js/jquery.js');
+		}
+
 		$document->addScript('components/' . $option . '/assets/js/colorpicker.js');
 
 		$document->addScript('components/' . $option . '/assets/js/eye.js');

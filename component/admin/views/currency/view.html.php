@@ -9,9 +9,8 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
 
-class RedshopViewCurrency extends JView
+class RedshopViewCurrency extends RedshopView
 {
 	public function display($tpl = null)
 	{
@@ -26,8 +25,8 @@ class RedshopViewCurrency extends JView
 		$document->setTitle(JText::_('COM_REDSHOP_CURRENCY'));
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_CURRENCY_MANAGEMENT'), 'redshop_currencies_48');
-		JToolbarHelper::addNewX();
-		JToolbarHelper::EditListX();
+		JToolbarHelper::addNew();
+		JToolbarHelper::EditList();
 		JToolbarHelper::deleteList();
 
 		$filter_order       = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'currency_id');

@@ -8,7 +8,6 @@
  */
 
 defined('_JEXEC') or die;
-JLoader::import('joomla.application.component.model');
 
 /**
  * Class Order_detailModelOrder_detail
@@ -17,7 +16,7 @@ JLoader::import('joomla.application.component.model');
  * @subpackage  Model
  * @since       1.0
  */
-class RedshopModelOrder_detail extends JModel
+class RedshopModelOrder_detail extends RedshopModel
 {
 	public $_id = null;
 
@@ -87,7 +86,7 @@ class RedshopModelOrder_detail extends JModel
 		$query = "UPDATE  " . $this->_table_prefix . "orders SET `analytics_status` = 1 WHERE order_id = " . (int) $oid;
 		$this->_db->setQuery($query);
 
-		if (!$this->_db->Query())
+		if (!$this->_db->execute())
 		{
 			return false;
 		}
@@ -176,7 +175,7 @@ class RedshopModelOrder_detail extends JModel
 
 		$db->setQuery($payment_update);
 
-		if (!$db->Query())
+		if (!$db->execute())
 		{
 			return false;
 		}

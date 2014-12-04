@@ -429,6 +429,6 @@ class plgRedshop_paymentrs_payment_authorize extends JPlugin
 		$query = "UPDATE `#__redshop_order_payment` SET  authorize_status = '"
 			. $authorize_status . "' where order_id = '" . $order_id . "'";
 		$db->setQuery($query);
-		$db->Query();
+		$db->execute();
 	}
 }

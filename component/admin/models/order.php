@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 
 JLoader::load('RedshopHelperAdminOrder');
 
-class RedshopModelOrder extends JModel
+class RedshopModelOrder extends RedshopModel
 {
 	public $_data = null;
 
@@ -234,7 +234,7 @@ class RedshopModelOrder extends JModel
 			. " WHERE download_id = '" . $did . "'";
 		$this->_db->setQuery($query);
 
-		if (!$this->_db->Query())
+		if (!$this->_db->execute())
 		{
 			return false;
 		}
