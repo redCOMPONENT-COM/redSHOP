@@ -121,7 +121,7 @@ class Com_RedshopInstallerScript
 			{
 				$insert_schema = "insert into #__schemas set extension_id='" . $component_Id . "',version_id='1.1.10'";
 				$db->setQuery($insert_schema);
-				$db->query();
+				$db->execute();
 			}
 		}
 	}
@@ -145,7 +145,7 @@ class Com_RedshopInstallerScript
 		{
 			$lang = JFactory::getLanguage();
 			$lang->load('com_redshop', JPATH_ADMINISTRATOR);
-			JModel::addIncludePath(JPATH_SITE . '/administrator/components/com_redshop/models');
+			JModelLegacy::addIncludePath(JPATH_SITE . '/administrator/components/com_redshop/models');
 			$model = JModelLegacy::getInstance('Update', 'RedshopModel');
 			$model->checkUpdateStatus();
 		}
@@ -162,8 +162,8 @@ class Com_RedshopInstallerScript
 
 		if (file_exists($categoryTemplate))
 		{
-			$demoCSS    = JPATH_SITE . '/components/com_redshop/assets/css/redshop-update.css';
-			$redSHOPCSS = JPATH_SITE . '/components/com_redshop/assets/css/redshop.css';
+			$demoCSS    = JPATH_SITE . '/media/com_redshop/css/redshop-update.css';
+			$redSHOPCSS = JPATH_SITE . '/media/com_redshop/css/redshop.css';
 			unlink($redSHOPCSS);
 			rename($demoCSS, $redSHOPCSS);
 		}
@@ -250,7 +250,7 @@ class Com_RedshopInstallerScript
 					(461, 'company_billing_template', 'company_billing_template', '" . $redtemplate->getInstallSectionTemplate('company_billing_template') . "',1),
 	                (550, 'stock_note', 'stock_note', '" . $redtemplate->getInstallSectionTemplate('stock_note') . "',1)";
 		$db->setQuery($q);
-		$db->query();
+		$db->execute();
 
 		// TEMPLATE MOVE DB TO  FILE
 
@@ -321,7 +321,7 @@ class Com_RedshopInstallerScript
 					$uquery = "UPDATE `#__redshop_template` SET template_name ='" . $data->template_name . "' "
 						. "WHERE template_id='" . $data->template_id . "'";
 					$db->setQuery($uquery);
-					$db->query();
+					$db->execute();
 				}
 			}
 		}
@@ -370,6 +370,7 @@ class Com_RedshopInstallerScript
 			// Set the query and execute the update.
 			$db->setQuery($query)->execute();
 		}
+
 		?>
 		<center>
 			<table cellpadding="4" cellspacing="0" border="0" width="100%" class="adminlist">
@@ -396,59 +397,17 @@ class Com_RedshopInstallerScript
 				</tr>
 				<tr>
 					<td colspan="2">
-						<form action="index.php" method="post" name="installDemoContent">
-							<?php if ($type != 'update'): ?>
-							<input type="button" name="save" id="installDemoContentsave" value="<?php echo JText::_('COM_REDSHOP_WIZARD');?>"
-							       onclick="submitWizard('save');"/>
-							<input type="button" name="content" value="<?php echo JText::_('COM_REDSHOP_INSTALL_DEMO_CONTENT');?>"
-							       onclick="submitWizard('content');"/>
-							<input type="button" name="cancel" value="<?php echo JText::_('JCANCEL');?>" onclick="submitWizard('cancel');"/>
-							<?php else: ?>
-							<input type="button" name="update" value="<?php echo JText::_('COM_REDSHOP_OPTIMIZE_TABLES'); ?>" onclick="submitWizard('update');"/>
-							<?php endif; ?>
-							<input type="hidden" name="option" value="com_redshop">
-							<input type="hidden" name="task" value="">
-							<input type="hidden" name="wizard" value="1">
-						</form>
-						<script type="text/javascript">
-
-							var ind = new Number(1);
-
-							//window.onload = gotoconfigwizard();
-
-							function gotoconfigwizard() {
-								if (ind == 5) {
-									submitWizard('save');
-								} else {
-									setTimeout("gotoconfigwizard()", 1000);
-								}
-
-								document.getElementById('installDemoContentsave').value = "Configuration Wizard " + ind++;
-
-							}
-
-							function submitWizard(task) {
-								if (task == 'save') {
-									document.installDemoContent.wizard.value = 1;
-								}
-
-								if (task == 'content') {
-									document.installDemoContent.wizard.value = 0;
-									document.installDemoContent.task.value = 'demoContentInsert';
-								}
-
-								if (task == 'update') {
-									document.installDemoContent.wizard.value = 0;
-									document.installDemoContent.task.value = 'update.refresh';
-								}
-
-								if (task == 'cancel') {
-									document.installDemoContent.wizard.value = 0;
-								}
-
-								document.installDemoContent.submit();
-							}
-						</script>
+						<?php if ($type != 'update'): ?>
+						<input type="button" class="btn btn-mini btn-primary" name="save" value="<?php echo JText::_('COM_REDSHOP_WIZARD');?>"
+							   onclick="location.href='index.php?option=com_redshop&wizard=1'"/>
+						<input type="button" class="btn btn-mini btn-info" name="content" value="<?php echo JText::_('COM_REDSHOP_INSTALL_DEMO_CONTENT');?>"
+							   onclick="location.href='index.php?option=com_redshop&wizard=0&task=demoContentInsert'"/>
+						<input type="button" class="btn btn-mini" name="cancel" value="<?php echo JText::_('JCANCEL');?>"
+							   onclick="location.href='index.php?option=com_redshop&wizard=0'"/>
+						<?php else: ?>
+						<input type="button" class="btn btn-mini btn-info" name="update" value="<?php echo JText::_('COM_REDSHOP_OPTIMIZE_TABLES'); ?>"
+							   onclick="location.href='index.php?option=com_redshop&wizard=0&task=update.refresh'"/>
+						<?php endif; ?>
 					</td>
 				</tr>
 			</table>
@@ -945,7 +904,7 @@ class Com_RedshopInstallerScript
 			$query = "UPDATE #__extensions SET position='icon', ordering=9, enabled=1 WHERE element=" . $db->Quote($module);
 			$db    = JFactory::getDbo();
 			$db->setQuery($query);
-			$db->query();
+			$db->execute();
 		}
 		else
 		{
@@ -1078,7 +1037,7 @@ class Com_RedshopInstallerScript
 					$query->where("element=" . $db->quote($extName));
 					$query->where("folder=" . $db->quote($extGroup));
 					$db->setQuery($query);
-					$db->query();
+					$db->execute();
 				}
 			}
 		}

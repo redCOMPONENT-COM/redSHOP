@@ -547,7 +547,7 @@ class producthelper
 				$userArr = $this->_userhelper->createUserSession($userId);
 			}
 
-			$shopperGroupId = $userArr['rs_user_shopperGroup'];
+			$shopperGroupId = isset($userArr['rs_user_shopperGroup']) ? $userArr['rs_user_shopperGroup'] : $this->_userhelper->getShopperGroup($userId);
 			$query = $db->getQuery(true)
 				->select('dps.discount_product_id')
 				->from($db->qn('#__redshop_discount_product_shoppers', 'dps'))
@@ -736,12 +736,11 @@ class producthelper
 		if ($user_id)
 		{
 			$userArr         = $this->_session->get('rs_user');
-			$rs_user_info_id = (isset($userArr['rs_user_info_id'])) ? $userArr['rs_user_info_id'] : 0;
-			$userdata        = $this->getUserInformation($user_id, CALCULATE_VAT_ON, $rs_user_info_id);
+			$userdata        = $this->getUserInformation($user_id);
 
 			if (count($userdata) > 0)
 			{
-				$userArr['rs_user_info_id'] = $userdata->users_info_id;
+				$userArr['rs_user_info_id'] = isset($userdata->users_info_id) ? $userdata->users_info_id : 0;
 				$userArr                    = $this->_session->set('rs_user', $userArr);
 
 				if (!$userdata->country_code)
@@ -1022,7 +1021,7 @@ class producthelper
 	public function getProductFormattedPrice($product_price, $convert = true, $currency_symbol = REDCURRENCY_SYMBOL)
 	{
 		// Get Current Currency of SHOP
-		$session = JFactory::getSession('product_currency');
+		$session = JFactory::getSession();
 		/*
 		 * if convert set true than use conversation
 		 */
@@ -2044,7 +2043,7 @@ class producthelper
 
 		if (empty($userArr))
 		{
-			$userArr = $this->_userhelper->createUserSession($userid);
+			$userArr = $this->_userhelper->createUserSession($user_id);
 		}
 
 		$shopperGroupId = $userArr['rs_user_shopperGroup'];
@@ -2053,9 +2052,11 @@ class producthelper
 			. " WHERE ds.shopper_group_id = " . (int) $shopperGroupId;
 
 		$this->_db->setQuery($sql);
-		$list       = $this->_db->loadResultArray();
-		$list       = array_merge(array(0 => '0'), $list);
 
+		if ($list = $this->_db->loadResultArray())
+		{
+			$list = array_merge(array(0 => '0'), $list);
+		}
 
 		if (!empty($list))
 		{
@@ -3508,7 +3509,7 @@ class producthelper
 						. "value (" . (int) $row_data[$i]->field_id . "," . $db->quote(addslashes($user_fields)) . ","
 						. (int) $order_item_id . "," . $db->quote($section_id) . ")";
 					$this->_db->setQuery($sql);
-					$this->_db->query();
+					$this->_db->execute();
 				}
 			}
 		}
@@ -5174,7 +5175,7 @@ class producthelper
 		}
 
 		$document = JFactory::getDocument();
-		JHTML::Script('thumbscroller.js', 'components/com_redshop/assets/js/', false);
+		JHtml::script('com_redshop/thumbscroller.js', false, true);
 		$layout = JRequest::getVar('layout');
 
 		$preprefix = "";
@@ -5656,7 +5657,7 @@ class producthelper
 		$subproperty     = array();
 		$document        = JFactory::getDocument();
 
-		JHTML::Script('thumbscroller.js', 'components/com_redshop/assets/js/', false);
+		JHtml::script('com_redshop/thumbscroller.js', false, true);
 		$chkvatArr = $this->_session->get('chkvat');
 		$chktag    = $chkvatArr['chkvat'];
 
@@ -8614,7 +8615,7 @@ class producthelper
 			. (int) $endtime . ", " . (int) $product_download_limit . ", "
 			. $db->quote($token) . ", " . $db->quote($media_name) . "," . $db->quote($serial_number) . ")";
 		$this->_db->setQuery($sql);
-		$this->_db->query();
+		$this->_db->execute();
 
 		return true;
 	}
@@ -8653,7 +8654,7 @@ class producthelper
 		$update_query = "UPDATE " . $this->_table_prefix . "product_serial_number "
 			. " SET is_used='1' WHERE serial_id = " . (int) $serial_id;
 		$this->_db->setQuery($update_query);
-		$this->_db->Query();
+		$this->_db->execute();
 	}
 
 	public function getSubscription($product_id = 0)
@@ -10219,7 +10220,7 @@ class producthelper
 					$pre_order_class = $sts_array[3];
 				}
 
-				if (!$productStockStatus['regular_stock'])
+				if ((!isset($productStockStatus['regular_stock']) || !$productStockStatus['regular_stock']))
 				{
 					if (($productStockStatus['preorder']
 						&& !$productStockStatus['preorder_stock'])
@@ -10245,9 +10246,28 @@ class producthelper
 			if (strstr($template_desc, "{stock_notify_flag}"))
 			{
 				$userArr       = $this->_session->get('rs_user');
+				$user = JFactory::getUser();
+
+				if (empty($userArr))
+				{
+					$userArr = $this->_userhelper->createUserSession($user->id);
+				}
+
+				if (!isset($userArr['rs_user_info_id']))
+				{
+					$UserInformation = $this->getUserInformation($user->id);
+					$userArr['rs_user_info_id'] = isset($UserInformation->users_info_id) ? $UserInformation->users_info_id : 0;
+
+					if (isset($UserInformation->users_info_id))
+					{
+						$userArr = $this->_session->set('rs_user', $userArr);
+					}
+				}
+
 				$is_login      = $userArr['rs_is_user_login'];
 				$users_info_id = $userArr['rs_user_info_id'];
 				$user_id       = $userArr['rs_userid'];
+
 				$is_notified   = $this->isAlreadyNotifiedUser(
 					$user_id,
 					$product->product_id,
@@ -10255,7 +10275,7 @@ class producthelper
 					$subproperty_id
 				);
 
-				if (!$productStockStatus['regular_stock'] && $is_login && $users_info_id)
+				if ((!isset($productStockStatus['regular_stock']) || !$productStockStatus['regular_stock']) && $is_login && $users_info_id)
 				{
 					if (($productStockStatus['preorder']
 						&& !$productStockStatus['preorder_stock'])
@@ -10291,7 +10311,7 @@ class producthelper
 
 			if (strstr($template_desc, "{product_availability_date}"))
 			{
-				if (!$productStockStatus['regular_stock'] && $productStockStatus['preorder'])
+				if ((!isset($productStockStatus['regular_stock']) || !$productStockStatus['regular_stock']) && $productStockStatus['preorder'])
 				{
 					if ($product->product_availability_date != "")
 					{
@@ -10733,7 +10753,7 @@ class producthelper
 				$pre_order_class = $sts_array[3];
 			}
 
-			if (!$stockStatusArray['regular_stock'])
+			if ((!isset($stockStatusArray['regular_stock']) || !$stockStatusArray['regular_stock']))
 			{
 				if (($stockStatusArray['preorder'] && !$stockStatusArray['preorder_stock']) || !$stockStatusArray['preorder'])
 				{
@@ -10759,12 +10779,13 @@ class producthelper
 		if (strstr($data_add, "{stock_notify_flag}"))
 		{
 			$userArr       = $this->_session->get('rs_user');
-			$user_id       = $userArr['rs_userid'];
-			$is_login      = $userArr['rs_is_user_login'];
-			$users_info_id = $userArr['rs_user_info_id'];
+			$user_id       = isset($userArr['rs_userid']) ? $userArr['rs_userid'] : '';
+			$is_login      = isset($userArr['rs_is_user_login']) ? $userArr['rs_is_user_login'] : '';
+			$users_info_id = isset($userArr['rs_user_info_id']) ? $userArr['rs_user_info_id'] : 0;
+
 			$is_notified   = $this->isAlreadyNotifiedUser($user_id, $product_id, $property_id, $subproperty_id);
 
-			if (!$stockStatusArray['regular_stock'] && $is_login && $users_info_id && $user_id)
+			if ((!isset($stockStatusArray['regular_stock']) || !$stockStatusArray['regular_stock']) && $is_login && $users_info_id && $user_id)
 			{
 				if (($stockStatusArray['preorder'] && !$stockStatusArray['preorder_stock']) || !$stockStatusArray['preorder'])
 				{
@@ -10801,7 +10822,7 @@ class producthelper
 			$redshopconfig = new Redconfiguration ();
 			$product       = $this->getProductById($product_id);
 
-			if (!$stockStatusArray['regular_stock'] && $stockStatusArray['preorder'])
+			if ((!isset($stockStatusArray['regular_stock']) || !$stockStatusArray['regular_stock']) && $stockStatusArray['preorder'])
 			{
 				if ($product->product_availability_date)
 				{
@@ -10860,7 +10881,7 @@ class producthelper
 					. "value ('" . (int) $row_data[$i]->field_id . "'," . $db->quote(addslashes($user_fields)) . "," . (int) $order_id
 					. "," . $db->quote($section_id) . ")";
 				$this->_db->setQuery($sql);
-				$this->_db->query();
+				$this->_db->execute();
 			}
 		}
 

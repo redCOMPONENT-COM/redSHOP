@@ -9,9 +9,8 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
 
-class RedshopModelCategory extends JModel
+class RedshopModelCategory extends RedshopModel
 {
 	public $_data = null;
 
@@ -164,7 +163,7 @@ class RedshopModelCategory extends JModel
 				. ' WHERE category_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 

@@ -9,9 +9,8 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
 
-class RedshopModelCatalog_request extends JModel
+class RedshopModelCatalog_request extends RedshopModel
 {
 	public $_data = null;
 
@@ -107,7 +106,7 @@ class RedshopModelCatalog_request extends JModel
 			$query = 'DELETE FROM ' . $this->_table_prefix . 'catalog_request WHERE catalog_user_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 
@@ -130,7 +129,7 @@ class RedshopModelCatalog_request extends JModel
 				. ' WHERE catalog_user_id 	 IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 

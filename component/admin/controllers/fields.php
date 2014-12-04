@@ -9,9 +9,8 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.controller');
 
-class RedshopControllerFields extends JController
+class RedshopControllerFields extends RedshopController
 {
 	/**
 	 * Save custom field ordering

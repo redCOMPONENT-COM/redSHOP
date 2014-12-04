@@ -80,7 +80,7 @@ class JFormFieldLofgroupfolder extends JFormField
 		if (!defined('ADD_MEDIA_CONTROL'))
 		{
 			define('ADD_MEDIA_CONTROL', 1);
-			$uri = str_replace(DS, "/", str_replace(JPATH_SITE, JURI::base(), dirname(__FILE__)));
+			$uri = str_replace(DIRECTORY_SEPARATOR, "/", str_replace(JPATH_SITE, JURI::base(), dirname(__FILE__)));
 			$uri = str_replace("/administrator", "", $uri);
 
 			JHTML::stylesheet($uri . "/media/style.css");

@@ -9,11 +9,10 @@
 
 defined('_JEXEC') or die;
 
-JLoader::import('joomla.application.component.view');
 
 JLoader::load('RedshopHelperProduct');
 
-class RedshopViewGiftcard extends JView
+class RedshopViewGiftcard extends RedshopView
 {
 	public function display($tpl = null)
 	{
@@ -21,11 +20,10 @@ class RedshopViewGiftcard extends JView
 
 		// Request variables
 		$params   = $app->getParams('com_redshop');
-		$document = JFactory::getDocument();
-		JHTML::Script('redbox.js', 'components/com_redshop/assets/js/', false);
-		JHTML::Script('common.js', 'components/com_redshop/assets/js/', false);
-		JHTML::Script('attribute.js', 'components/com_redshop/assets/js/', false);
-		JHTML::Stylesheet('fetchscript.css', 'components/com_redshop/assets/css/');
+		JHtml::script('com_redshop/redbox.js', false, true);
+		JHtml::script('com_redshop/common.js', false, true);
+		JHtml::script('com_redshop/attribute.js', false, true);
+		JHtml::stylesheet('com_redshop/fetchscript.css', array(), true);
 
 		$pageheadingtag = JText::_('COM_REDSHOP_REDSHOP');
 
