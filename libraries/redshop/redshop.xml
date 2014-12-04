@@ -16,6 +16,7 @@
 		<folder>model</folder>
 		<folder>toolbar</folder>
 		<folder>view</folder>
+		<folder>helper</folder>
 		<filename>index.html</filename>
 		<filename>library.php</filename>
 		<filename>redshop.xml</filename>
