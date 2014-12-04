@@ -40,7 +40,7 @@ script:
   - "wget http://codeception.com/codecept.phar"
   - php vendor/bin/codecept build
   #- php codecept.phar run acceptance -g Joomla2 --env joomla2
-  - php codecept.phar run acceptance -g Joomla3 --env joomla3
+  #- php codecept.phar run acceptance -g Joomla3 --env joomla3
   - php .travis/codeceptionerror2slack.php # Send found errors into redSHOP slackchat
 
   
