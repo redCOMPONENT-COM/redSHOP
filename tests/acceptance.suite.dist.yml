@@ -41,6 +41,7 @@ env:
                     admin_email: 'admin@mydomain.com'      # email Id of the Admin
                     language: 'English (United Kingdom)'   # Language in which you want the Application to be Installed
                     folder: '/home/travis/build/redCOMPONENT-COM/redSHOP/' # Path to the Extension to be installed via Install from folder
+                    host: 'http://localhost/joomla-cms2'   # Host Address of the Application
                     extension_name: 'redSHOP'              # Name of the extension which is to be installed
                     install_extension_demo_data: 'yes'     # Demo Data to be installed for Extension
     joomla3:
@@ -70,6 +71,7 @@ env:
                     admin_email: 'admin@mydomain.com'      # email Id of the Admin
                     language: 'English (United Kingdom)'   # Language in which you want the Application to be Installed
                     folder: '/home/travis/build/redCOMPONENT-COM/redSHOP/' # Path to the Extension to be installed via Install from folder
+                    host: 'http://localhost/joomla-cms3'   # Host Address of the Application
                     extension_name: 'redSHOP'              # Name of the extension which is to be installed
                     install_extension_demo_data: 'yes'     # Demo Data to be installed for Extension
 error_level: "E_ALL & ~E_STRICT & ~E_DEPRECATED"
