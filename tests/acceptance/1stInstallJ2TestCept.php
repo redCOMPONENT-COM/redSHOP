@@ -7,7 +7,8 @@
  */
 
 // Before executing this tests configuration.php is removed at tests/_groups/InstallationGroup.php
-$scenario->group('installation');
+$scenario->group('installationJ2');
+$scenario->group('Joomla2');
 
 // Load the Step Object Page
 // Load the Step Object Page
