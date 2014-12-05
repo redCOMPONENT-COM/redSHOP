@@ -80,12 +80,12 @@ if ($data->lists['attributes'])
 			</div>
 			<div class="span2">
 				<input type="text"
-					   class="input-medium"
+					   class="input-small"
 					   name="<?php echo $attrPref; ?>[name]"
 					   value="<?php echo $attributeData['attribute_name']; ?>"/>
 			</div>
 			<div class="span2">
-				<?php echo JText::_('COM_REDSHOP_ORDERING'); ?>:
+				<?php echo JText::_('COM_REDSHOP_ORDERING'); ?>
 				<input class="text-center input-xmini" type="text" name="<?php echo $attrPref; ?>[ordering]"
 					   value="<?php echo $attributeData['ordering']; ?>"/>
 			</div>
@@ -122,21 +122,21 @@ if ($data->lists['attributes'])
 					+ <?php echo JText::_('COM_REDSHOP_ADD_SUB_ATTRIBUTE'); ?>
 				</a>
 			</div>
-			<div class="span2">
+			<div class="span3">
 				<label class="checkbox inline"><?php echo JText::_('COM_REDSHOP_ALLOW_MULTIPLE_PROPERTY_SELECTION'); ?>
 					<input type="checkbox" value="1"
 						   name="<?php echo $attrPref; ?>[allow_multiple_selection]"
 						<?php echo $multipleSelection; ?> /></label>
 			</div>
-			<div class="span2 offset3">
-				<label class="checkbox inline"><?php echo JText::_('COM_REDSHOP_HIDE_ATTRIBUTE_PRICE'); ?>:
+			<div class="span3">
+				<label class="checkbox inline"><?php echo JText::_('COM_REDSHOP_HIDE_ATTRIBUTE_PRICE'); ?>
 					<input type="checkbox" value="1"
 						   name="<?php echo $attrPref; ?>[hide_attribute_price]"
 						<?php echo $hideAttributePrice; ?> />
 				</label>
 			</div>
 			<div class="span3">
-				<?php echo JText::_('COM_REDSHOP_DISPLAY_ATTRIBUTE_TYPE'); ?>:
+				<?php echo JText::_('COM_REDSHOP_DISPLAY_ATTRIBUTE_TYPE'); ?>
 				<select
 					name="<?php echo $attrPref; ?>[display_type]" class="input-medium">
 					<option value="dropdown"
@@ -177,7 +177,7 @@ if ($data->lists['attributes'])
 				</div>
 				<div class="span2">
 					<input type="text"
-						   class="input-medium"
+						   class="input-small"
 						   name="<?php echo $propPref; ?>[name]"
 						   value="<?php echo $property->property_name; ?>"/>
 					<input type="hidden" name="<?php echo $propPref; ?>[property_id]"
@@ -191,7 +191,7 @@ if ($data->lists['attributes'])
 						/>
 				</div>
 				<div class="span2">
-					<?php echo JText::_('COM_REDSHOP_ORDERING'); ?>:
+					<?php echo JText::_('COM_REDSHOP_ORDERING'); ?>
 					<input type="text" class="text-center input-xmini"
 						   name="<?php echo $propPref; ?>[order]"
 						   value="<?php echo $property->ordering; ?>"/>
@@ -204,7 +204,7 @@ if ($data->lists['attributes'])
 					</label>
 				</div>
 				<div class="span2">
-					<?php echo JText::_('COM_REDSHOP_PRICE'); ?>:
+					<?php echo JText::_('COM_REDSHOP_PRICE'); ?>
 					<input
 						type="text" class="text-center input-xmini"
 						value="<?php echo $property->oprand; ?>"
@@ -216,7 +216,7 @@ if ($data->lists['attributes'])
 						name="<?php echo $propPref; ?>[price]"/>
 				</div>
 				<div class="span3">
-					<?php echo JText::_('COM_REDSHOP_PROPERTY_NUMBER'); ?>:
+					<?php echo JText::_('COM_REDSHOP_PROPERTY_NUMBER'); ?>
 					<input type="text" class="vpnrequired input-mini"
 						   value="<?php echo $property->property_number; ?>"
 						   name="<?php echo $propPref; ?>[number]"/>
@@ -336,11 +336,11 @@ if ($data->lists['attributes'])
 							<?php echo JText::_('COM_REDSHOP_TITLE'); ?>
 						</div>
 						<div class="span2">
-							<input class="input-medium" type="text"
+							<input class="input-small" type="text"
 								   name="<?php echo $propPref; ?>[subproperty][title]"
 								   value="<?php echo (isset($property->subvalue) && count($property->subvalue) > 0) ? $property->subvalue[0]->subattribute_color_title : ''; ?>">
 						</div>
-						<div class="span2">
+						<div class="span3">
 							<label class="checkbox inline"><?php echo JText::_('COM_REDSHOP_SUBATTRIBUTE_REQUIRED'); ?>
 								<input type="checkbox" value="1"
 									   name="<?php echo $propPref; ?>[req_sub_att]"
@@ -357,7 +357,7 @@ if ($data->lists['attributes'])
 							</label>
 						</div>
 						<div class="span3">
-							<?php echo JText::_('COM_REDSHOP_DISPLAY_ATTRIBUTE_TYPE'); ?>:
+							<?php echo JText::_('COM_REDSHOP_DISPLAY_ATTRIBUTE_TYPE'); ?>
 							<select
 								name="<?php echo $propPref; ?>[setdisplay_type]" class="input-medium">
 								<option value="dropdown"
@@ -391,7 +391,7 @@ if ($data->lists['attributes'])
 												?>
 												<div class="row-fluid sub_attribute_table">
 													<div class="span2">
-														<?php echo JText::_('COM_REDSHOP_PARAMETER'); ?>:
+														<?php echo JText::_('COM_REDSHOP_PARAMETER'); ?>
 														<input type="text" class="input-small"
 															   name="<?php echo $subPropPref; ?>[name]"
 															   value="<?php echo $subProperty->subattribute_color_name; ?>">
@@ -409,7 +409,7 @@ if ($data->lists['attributes'])
 															/>
 													</div>
 													<div class="span2">
-														<?php echo JText::_('COM_REDSHOP_ORDERING'); ?>:
+														<?php echo JText::_('COM_REDSHOP_ORDERING'); ?>
 														<input
 															class="text-center input-xmini" type="text"
 															name="<?php echo $subPropPref; ?>[order]"
@@ -418,7 +418,6 @@ if ($data->lists['attributes'])
 													<div class="span2">
 														<label
 															class="inline checkbox"><?php echo JText::_('COM_REDSHOP_DEFAULT_SELECTED'); ?>
-															:
 															<input
 																type="checkbox" value="1"
 																name="<?php echo $subPropPref; ?>[chk_propdselected]"
@@ -426,7 +425,7 @@ if ($data->lists['attributes'])
 														</label>
 													</div>
 													<div class="span3">
-														<?php echo JText::_('COM_REDSHOP_PRICE'); ?>:
+														<?php echo JText::_('COM_REDSHOP_PRICE'); ?>
 														<input type="text" class="input-xmini text-center"
 															   name="<?php echo $subPropPref; ?>[oprand]"
 															   value="<?php echo $subProperty->oprand; ?>"
@@ -436,7 +435,7 @@ if ($data->lists['attributes'])
 															   value="<?php echo $subProperty->subattribute_color_price; ?>"/>
 													</div>
 													<div class="span3">
-														<?php echo JText::_('COM_REDSHOP_SUBPROPERTY_NUMBER'); ?>:
+														<?php echo JText::_('COM_REDSHOP_SUBPROPERTY_NUMBER'); ?>
 														<input type="text" size="14" class="vpnrequired input-mini"
 															   value="<?php echo $subProperty->subattribute_color_number; ?>"
 															   name="<?php echo $subPropPref; ?>[number]"/>
