@@ -29,6 +29,7 @@ if (version_compare(JVERSION, '3.0', '<'))
 					progressUpdate.find('div.bar').css('width', '0%');
 					progressUpdate.find('div.bar-success').css('width', persent+'%');
 					progressUpdate.addClass('active');
+					$('#toolbar-cancel').css({'display':'none'});
 				}
 			}).always(function(data, textStatus){
 				var haveErrors = false;
@@ -70,6 +71,7 @@ if (version_compare(JVERSION, '3.0', '<'))
 						progressUpdate.find('div.bar-success').css('width', '100%');
 					}
 					progressUpdate.removeClass('active');
+					$('#toolbar-cancel').css({'display':'inline-block'});
 				}
 			});
 		}
