@@ -9,9 +9,8 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
 
-class RedshopModelShipping_box_detail extends JModel
+class RedshopModelShipping_box_detail extends RedshopModel
 {
 	public $_id = null;
 
@@ -119,7 +118,7 @@ class RedshopModelShipping_box_detail extends JModel
 			$query = 'DELETE FROM ' . $this->_table_prefix . 'shipping_boxes WHERE shipping_box_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 
@@ -140,7 +139,7 @@ class RedshopModelShipping_box_detail extends JModel
 				. ' WHERE shipping_box_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 

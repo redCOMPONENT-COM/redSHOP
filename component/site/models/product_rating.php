@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-JLoader::import('joomla.application.component.model');
 
 /**
  * Class product_ratingModelproduct_rating
@@ -18,7 +17,7 @@ JLoader::import('joomla.application.component.model');
  * @subpackage  Model
  * @since       1.0
  */
-class RedshopModelProduct_rating extends JModel
+class RedshopModelProduct_rating extends RedshopModel
 {
 	public $_id = null;
 

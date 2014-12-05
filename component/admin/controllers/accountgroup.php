@@ -9,8 +9,7 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.controller');
 
-class RedshopControllerAccountgroup extends JController
+class RedshopControllerAccountgroup extends RedshopController
 {
 }

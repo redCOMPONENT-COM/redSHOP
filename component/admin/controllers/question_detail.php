@@ -11,9 +11,8 @@ defined('_JEXEC') or die;
 
 JLoader::load('RedshopHelperAdminMail');
 
-jimport('joomla.application.component.controller');
 
-class RedshopControllerQuestion_detail extends JController
+class RedshopControllerQuestion_detail extends RedshopController
 {
 	public function __construct($default = array())
 	{

@@ -9,13 +9,12 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
 
 JLoader::load('RedshopHelperAdminExtra_field');
 JLoader::load('RedshopHelperAdminOrder');
 JLoader::load('RedshopHelperHelper');
 
-class RedshopViewOrder_detail extends JView
+class RedshopViewOrder_detail extends RedshopView
 {
 	/**
 	 * The request url.
@@ -49,12 +48,12 @@ class RedshopViewOrder_detail extends JView
 
 		$layout = JRequest::getVar('layout');
 		$document->addScript('components/' . $option . '/assets/js/order.js');
-		$document->addScript('components/' . $option . '/assets/js/common.js');
+		JHtml::script('com_redshop/common.js', false, true);
 		$document->addScript('components/' . $option . '/assets/js/validation.js');
 		$document->addScript(JURI::base() . 'components/' . $option . '/assets/js/select_sort.js');
 		$document->addStyleSheet(JURI::base() . 'components/' . $option . '/assets/css/search.css');
 		$document->addScript(JURI::base() . 'components/' . $option . '/assets/js/search.js');
-		$document->addScript(JURI::base() . 'components/' . $option . '/assets/js/json.js');
+		JHtml::script('com_redshop/json.js', false, true);
 
 		$lists = array();
 

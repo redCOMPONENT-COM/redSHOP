@@ -107,7 +107,7 @@ class plgredshop_productstockroom_status extends JPlugin
 
 		if (ADMINISTRATOR_EMAIL != "" && $stock_flag == 1)
 		{
-			JUtility::sendMail(SHOP_NAME, SHOP_NAME, ADMINISTRATOR_EMAIL, "Stockroom Status Mail", $message, 1);
+			JMail::getInstance()->sendMail(SHOP_NAME, SHOP_NAME, ADMINISTRATOR_EMAIL, "Stockroom Status Mail", $message, 1);
 		}
 
 	}

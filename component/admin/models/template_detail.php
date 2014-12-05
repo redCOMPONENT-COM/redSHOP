@@ -8,10 +8,9 @@
  */
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
 jimport('joomla.filesystem.file');
 
-class RedshopModelTemplate_detail extends JModel
+class RedshopModelTemplate_detail extends RedshopModel
 {
 	public $_id = null;
 
@@ -188,7 +187,7 @@ class RedshopModelTemplate_detail extends JModel
 			$query = 'DELETE FROM ' . $this->_table_prefix . 'template WHERE template_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 
@@ -209,7 +208,7 @@ class RedshopModelTemplate_detail extends JModel
 				. ' WHERE template_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 
@@ -319,7 +318,7 @@ class RedshopModelTemplate_detail extends JModel
 	{
 		if ($this->_id)
 		{
-			$template_detail = & $this->getTable('template_detail');
+			$template_detail = $this->getTable('template_detail');
 
 			if (!$template_detail->checkin($this->_id))
 			{

@@ -8,7 +8,6 @@
  */
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
 
 JLoader::load('RedshopHelperAdminThumbnail');
 JLoader::load('RedshopHelperAdminImages');
@@ -16,7 +15,7 @@ jimport('joomla.client.helper');
 JClientHelper::setCredentialsFromRequest('ftp');
 jimport('joomla.filesystem.file');
 
-class RedshopModelShopper_group_detail extends JModel
+class RedshopModelShopper_group_detail extends RedshopModel
 {
 	public $_id = null;
 
@@ -271,7 +270,7 @@ class RedshopModelShopper_group_detail extends JModel
 			$query = 'DELETE FROM ' . $this->_table_prefix . 'product_price WHERE shopper_group_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 
@@ -281,7 +280,7 @@ class RedshopModelShopper_group_detail extends JModel
 			$query = 'DELETE FROM ' . $this->_table_prefix . 'product_attribute_price WHERE shopper_group_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 
@@ -291,7 +290,7 @@ class RedshopModelShopper_group_detail extends JModel
 			$query = 'DELETE FROM ' . $this->_table_prefix . 'shopper_group WHERE shopper_group_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 
@@ -312,7 +311,7 @@ class RedshopModelShopper_group_detail extends JModel
 				. ' WHERE shopper_group_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 

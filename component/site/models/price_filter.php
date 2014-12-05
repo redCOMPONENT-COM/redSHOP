@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-JLoader::import('joomla.application.component.model');
 
 /**
  * Class price_filterModelprice_filter
@@ -18,7 +17,7 @@ JLoader::import('joomla.application.component.model');
  * @subpackage  Model
  * @since       1.0
  */
-class RedshopModelPrice_filter extends JModel
+class RedshopModelPrice_filter extends RedshopModel
 {
 	public $_id = null;
 

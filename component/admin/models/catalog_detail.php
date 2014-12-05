@@ -9,9 +9,8 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
 
-class RedshopModelCatalog_detail extends JModel
+class RedshopModelCatalog_detail extends RedshopModel
 {
 	public $_id = null;
 
@@ -120,7 +119,7 @@ class RedshopModelCatalog_detail extends JModel
 
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 
@@ -146,7 +145,7 @@ class RedshopModelCatalog_detail extends JModel
 
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 

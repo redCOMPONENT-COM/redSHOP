@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
 
 JLoader::load('RedshopHelperAdminExtra_field');
 JLoader::load('RedshopHelperProduct');
@@ -19,7 +18,7 @@ JLoader::load('RedshopHelperProduct');
  *
  * @since  2.5
  */
-class RedshopModelExport extends JModel
+class RedshopModelExport extends RedshopModel
 {
 	/**
 	 * Get export data
