@@ -14,14 +14,12 @@
 		<folder>cache</folder>
 		<folder>config</folder>
 		<folder>fonts</folder>
-		<folder>tpdf</folder>
-		<folder>tpdi</folder>
+		<folder>fpdf</folder>
+		<folder>fpdi</folder>
 		<filename>htmlcolors.php</filename>
 		<filename>LICENSE.TXT</filename>
 		<filename>PDFMerger.php</filename>
 		<filename>README.TXT</filename>
-		<filename>graph.php</filename>
-		<filename>LICENSE.txt</filename>
 		<filename>tcpdf.php</filename>
 		<filename>tcpdf.xml</filename>
 		<filename>unicode_data.php</filename>
