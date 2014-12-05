@@ -12,7 +12,7 @@ if (version_compare(JVERSION, '3.0', '<'))
 {
 	$document = JFactory::getDocument();
 	$document->addStyleSheet(JURI::root() . 'administrator/components/com_redshop/assets/css/update.css');
-	$document->addScript(JURI::root() . 'administrator/components/com_redshop/assets/js/jquery.js');
+	$document->addScript(JURI::root() . 'media/com_redshop/js/jquery.js');
 }
 
 ?>
