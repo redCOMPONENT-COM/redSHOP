@@ -121,7 +121,7 @@ $url = $uri->root();
 		{
 			if ( isNaN( i ) ) continue;
 
-			document.getElementById(arrBtn[i]).style.display = "block";
+			document.getElementById(arrBtn[i]).style.display = "inline-block";
 		};
 	};
 
