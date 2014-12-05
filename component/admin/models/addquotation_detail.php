@@ -120,7 +120,7 @@ class RedshopModelAddquotation_detail extends RedshopModel
 
 		$row = $this->getTable('quotation_detail');
 
-		if ($data['quotation_discount'] > 0)
+		if (isset($data['quotation_discount']) && $data['quotation_discount'] > 0)
 		{
 			$data['order_total'] = $data['order_total'] - $data['quotation_discount'] - (($data['order_total'] * $data['quotation_special_discount']) / 100);
 		}
