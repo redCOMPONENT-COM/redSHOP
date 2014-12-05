@@ -9,9 +9,8 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
 
-class RedshopViewProducttags extends JView
+class RedshopViewProducttags extends RedshopView
 {
 	public function display($tpl = null)
 	{
@@ -24,7 +23,7 @@ class RedshopViewProducttags extends JView
 		$document->setTitle(JText::_('COM_REDSHOP_TAGS'));
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_TAGS_MANAGEMENT'), 'redshop_textlibrary48');
-		JToolBarHelper::editListX();
+		JToolbarHelper::EditList();
 		JToolBarHelper::deleteList();
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();

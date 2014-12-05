@@ -1,6 +1,9 @@
 [submodule ".travis/phpcs/Joomla"]
 	path = .travis/phpcs/Joomla
 	url = https://github.com/joomla/coding-standards
-[submodule "tests/system/joomla-cms"]
-	path = tests/system/joomla-cms
-	url = git@github.com:joomla/joomla-cms.git
+[submodule "tests/system/joomla-cms2"]
+	path = tests/system/joomla-cms2
+	url = https://github.com/joomla/joomla-cms.git
+[submodule "tests/system/joomla-cms3"]
+	path = tests/system/joomla-cms3
+	url = https://github.com/joomla/joomla-cms.git

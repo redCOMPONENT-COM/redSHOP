@@ -32,8 +32,10 @@ $model = $this->getModel('product');
 </script>
 
 <form action="<?php echo 'index.php?option=' . $option; ?>" method="post" name="adminForm" id="adminForm">
-	<input type="text" name="keyword" value="<?php echo $this->keyword; ?>"> <input type="submit"
-	                                                                                value="<?php echo JText::_("COM_REDSHOP_SEARCH") ?>">
+	<div class="btn-wrapper input-append">
+		<input type="text" name="keyword" value="<?php echo $this->keyword; ?>">
+		<input type="submit" class="btn" value="<?php echo JText::_("COM_REDSHOP_SEARCH") ?>">
+	</div>
 	<select name="search_field" onchange="javascript:document.adminForm.submit();">
 		<option
 			value="p.product_name" <?php if ($this->search_field == 'p.product_name') echo "selected='selected'";?>><?php echo JText::_("COM_REDSHOP_PRODUCT_NAME")?></option>
@@ -44,15 +46,14 @@ $model = $this->getModel('product');
 	</select>
 
 	<div id="editcell">
-		<table class="adminlist">
+		<table class="adminlist table table-striped">
 			<thead>
 			<tr>
 				<th width="5">
 					<?php echo JText::_('COM_REDSHOP_NUM'); ?>
 				</th>
 				<th width="20">
-					<input type="checkbox" name="toggle" value=""
-					       onclick="checkAll(<?php echo count($this->products); ?>);"/>
+					<?php echo JHtml::_('redshopgrid.checkall'); ?>
 				</th>
 				<th class="title" width="500">
 					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_PRODUCT_NAME', 'product_name', $this->lists['order_Dir'], $this->lists['order']); ?>
@@ -98,11 +99,11 @@ $model = $this->getModel('product');
 					</td>
 					<td width="20%"><input type="hidden" name='pid[]' value="<?php echo $row->product_id ?>"> <input
 							type="text" value="<?php echo $producthelper->redpriceDecimal($row->product_price); ?>"
-							name="price[]" size=4>
+							name="price[]" class="input-small" size=4>
 						<a class='modal' rel="{handler: 'iframe', size: {x: 750, y: 400}}"
 						   href="index.php?tmpl=component&option=com_redshop&view=product_price&pid=<?php echo $row->product_id ?>">+</a>
 					</td>
-					<td width="20%"><input type="text"
+					<td width="20%"><input type="text" class="input-small"
 					                       value="<?php echo $producthelper->redpriceDecimal($row->discount_price); ?>"
 					                       name="discount_price[]" size=4>
 					</td>
@@ -114,6 +115,11 @@ $model = $this->getModel('product');
 
 			<tfoot>
 			<td colspan="6">
+				<?php if (version_compare(JVERSION, '3.0', '>=')): ?>
+					<div class="redShopLimitBox">
+						<?php echo $this->pagination->getLimitBox(); ?>
+					</div>
+				<?php endif; ?>
 				<?php echo $this->pagination->getListFooter(); ?>
 			</td>
 			</tfoot>

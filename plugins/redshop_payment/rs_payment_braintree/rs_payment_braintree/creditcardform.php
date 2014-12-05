@@ -29,5 +29,5 @@ else
 ?>
 <script
 	type="text/javascript"
-	src="<?php echo JURI::base() ?>components/com_redshop/assets/js/credit_card.js">
+	src="<?php echo JURI::base() ?>media/com_redshop/js/credit_card.js">
 </script>

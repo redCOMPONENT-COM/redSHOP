@@ -104,18 +104,22 @@ if (!class_exists('redFeatureproduct'))
 			{
 				if (!$GLOBALS['product_price_slider'])
 				{
-					JHTML::Script('jquery.tools.min.js', 'components/com_redshop/assets/js/', false);
+					JHtml::script('com_redshop/jquery.tools.min.js', false, true);
 				}
 			}
 			else
 			{
 				JHTML::Script('fetchscript.js', 'components/com_redshop/assets/js/', false);
-				JHTML::Script('attribute.js', 'components/com_redshop/assets/js/', false);
-				JHTML::Script('common.js', 'components/com_redshop/assets/js/', false);
-				JHTML::Script('jquery.tools.min.js', 'components/com_redshop/assets/js/', false);
+				JHtml::script('com_redshop/attribute.js', false, true);
+				JHtml::script('com_redshop/common.js', false, true);
+				JHtml::script('com_redshop/jquery.tools.min.js', false, true);
 			}
 
-			JHTML::Script('jquery.js', 'modules/mod_redfeaturedproduct/js/', false);
+			if (version_compare(JVERSION, '3.0', '<'))
+			{
+				JHtml::script('com_redshop/jquery.js', false, true);
+			}
+
 			JHTML::Script('recreativo.js', 'modules/mod_redfeaturedproduct/js/', false);
 
 			echo $this->params->get('pretext', "");

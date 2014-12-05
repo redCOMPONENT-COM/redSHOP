@@ -9,9 +9,8 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
 
-class RedshopViewOrder extends JView
+class RedshopViewOrder extends RedshopView
 {
 	public function display($tpl = null)
 	{
@@ -49,7 +48,7 @@ class RedshopViewOrder extends JView
 				true
 			);
 			JToolBarHelper::title(JText::_('COM_REDSHOP_ORDER_MANAGEMENT'), 'redshop_order48');
-			JToolBarHelper::addNewX();
+			JToolbarHelper::addNew();
 
 			JToolBarHelper::custom(
 				'allStatusExceptPacsoft',

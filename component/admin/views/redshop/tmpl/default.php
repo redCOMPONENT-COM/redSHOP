@@ -90,7 +90,6 @@ $filteroption = JRequest::getVar('filteroption');
 	}
 </script>
 <?php
-jimport('joomla.html.pane');
 $user = JFactory::getUser();
 $usertype = array_keys($user->groups);
 $user->usertype = $usertype[0];
@@ -603,10 +602,8 @@ else
 {
 	$selected = 0;
 }
-//  $pane = @JPane::getInstance('sliders',array('startOffset'=>$selected));
-//	echo $pane->startPane( 'stat-pane' );
+
 $title = JText::_('COM_REDSHOP_POPULAR');
-//echo $pane->startPanel( $title, 'POPULAR' );
 ?>
 <table class="adminlist" id="popularicons" style="cursor: pointer;">
 	<thead>

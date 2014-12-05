@@ -8,12 +8,11 @@
  */
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
 JLoader::load('RedshopHelperProduct');
 JLoader::load('RedshopHelperAdminText_library');
 JLoader::load('RedshopHelperAdminImages');
 
-class RedshopModelNewsletter extends JModel
+class RedshopModelNewsletter extends RedshopModel
 {
 	public $_data = null;
 
@@ -557,7 +556,7 @@ class RedshopModelNewsletter extends JModel
 
 				if ($subscribe_email != "")
 				{
-					if (JUtility::sendMail($mailfrom, $fromname, $subscribe_email, $subject, $message, 1))
+					if (JMail::getInstance()->sendMail($mailfrom, $fromname, $subscribe_email, $subject, $message, 1))
 					{
 						$retsubscriberid[$j] = 1;
 					}
