@@ -9,11 +9,10 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
 
 JLoader::load('RedshopHelperAdminQuotation');
 
-class RedshopViewQuotation_detail extends JView
+class RedshopViewQuotation_detail extends RedshopView
 {
 	public function display($tpl = null)
 	{
@@ -25,10 +24,10 @@ class RedshopViewQuotation_detail extends JView
 		$document->setTitle(JText::_('COM_REDSHOP_QUOTATION'));
 
 		$document->addScript(JURI::base() . 'components/' . $option . '/assets/js/order.js');
-		$document->addScript(JURI::base() . 'components/' . $option . '/assets/js/common.js');
+		JHtml::script('com_redshop/common.js', false, true);
 		$document->addStyleSheet(JURI::base() . 'components/' . $option . '/assets/css/search.css');
 		$document->addScript(JURI::base() . 'components/' . $option . '/assets/js/search.js');
-		$document->addScript(JURI::base() . 'components/' . $option . '/assets/js/json.js');
+		JHtml::script('com_redshop/json.js', false, true);
 
 		$uri = JFactory::getURI();
 		$lists = array();

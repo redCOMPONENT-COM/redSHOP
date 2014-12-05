@@ -9,9 +9,8 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
 
-class RedshopViewGiftcard extends JView
+class RedshopViewGiftcard extends RedshopView
 {
 	/**
 	 * The current user.
@@ -38,9 +37,9 @@ class RedshopViewGiftcard extends JView
 		$document->setTitle(JText::_('COM_REDSHOP_GIFTCARD'));
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_GIFTCARD_MANAGEMENT'), 'redshop_giftcard_48');
-		JToolBarHelper::addNewX();
-		JToolBarHelper::editListX();
-		JToolBarHelper::customX('copy', 'copy.png', 'copy_f2.png', JText::_('COM_REDSHOP_TOOLBAR_COPY'), true);
+		JToolbarHelper::addNew();
+		JToolbarHelper::EditList();
+		JToolBarHelper::custom('copy', 'copy.png', 'copy_f2.png', JText::_('COM_REDSHOP_TOOLBAR_COPY'), true);
 		JToolBarHelper::deleteList();
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();

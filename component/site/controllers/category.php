@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-JLoader::import('joomla.application.component.controller');
 
 /**
  * Category Controller.
@@ -18,7 +17,7 @@ JLoader::import('joomla.application.component.controller');
  * @subpackage  Controller
  * @since       1.0
  */
-class RedshopControllerCategory extends JController
+class RedshopControllerCategory extends RedshopController
 {
 	/**
 	 *  Method to Export XML file

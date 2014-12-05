@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-JLoader::import('joomla.application.component.view');
 JLoader::load('RedshopHelperAdminConfiguration');
 JLoader::load('RedshopHelperAdminCategory');
 JLoader::load('RedshopHelperAdminText_library');
@@ -23,7 +22,7 @@ JLoader::load('RedshopHelperHelper');
  *
  * @since       1.0
  */
-class RedshopViewProduct extends JView
+class RedshopViewProduct extends RedshopView
 {
 	// JApplication object
 	public $app;
@@ -120,20 +119,20 @@ class RedshopViewProduct extends JView
 			$stopJQuery = false;
 		}
 
-		if (!$stopJQuery)
+		if (!$stopJQuery && version_compare(JVERSION, '3.0', '<'))
 		{
-			JHtml::Script('jquery.js', 'components/com_redshop/assets/js/', false);
+			JHtml::script('com_redshop/jquery.js', false, true);
 		}
 
-		JHtml::Script('redbox.js', 'components/com_redshop/assets/js/', false);
-
-		JHtml::Script('json.js', 'components/com_redshop/assets/js/', false);
-		JHtml::Script('attribute.js', 'components/com_redshop/assets/js/', false);
-		JHtml::Script('common.js', 'components/com_redshop/assets/js/', false);
+		JHtml::script('com_redshop/redbox.js', false, true);
+		JHtml::script('com_redshop/json.js', false, true);
+		JHtml::script('com_redshop/attribute.js', false, true);
+		JHtml::script('com_redshop/common.js', false, true);
 
 		// Lightbox Javascript
-		JHtml::Stylesheet('style.css', 'components/com_redshop/assets/css/');
-		JHtml::Stylesheet('scrollable-navig.css', 'components/com_redshop/assets/css/');
+		JHtml::stylesheet('com_redshop/style.css', array(), true);
+
+		JHtml::stylesheet('com_redshop/scrollable-navig.css', array(), true);
 
 		if ($layout == "downloadproduct")
 		{

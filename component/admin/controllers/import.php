@@ -9,9 +9,8 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.controller');
 
-class RedshopControllerImport extends JController
+class RedshopControllerImport extends RedshopController
 {
 	public function cancel()
 	{

@@ -43,10 +43,7 @@ $option = JRequest::getVar('option', '', 'request', 'string');
 					echo JText::_('COM_REDSHOP_NUM');
 					?>
 				</th>
-				<th width="5%"><input type="checkbox" name="toggle" value=""
-				                      onclick="checkAll(<?php
-				                      echo count($this->supplier);
-				                      ?>);"/></th>
+				<th width="5%"><?php echo JHtml::_('redshopgrid.checkall'); ?></th>
 				<th class="title">
 					<?php
 					echo JHTML::_('grid.sort', 'COM_REDSHOP_SUPPLIER_NAME', 'supplier_name', $this->lists ['order_Dir'], $this->lists ['order']);
@@ -129,6 +126,11 @@ $option = JRequest::getVar('option', '', 'request', 'string');
 
 			<tfoot>
 			<td colspan="9">
+				<?php if (version_compare(JVERSION, '3.0', '>=')): ?>
+					<div class="redShopLimitBox">
+						<?php echo $this->pagination->getLimitBox(); ?>
+					</div>
+				<?php endif; ?>
 				<?php
 				echo $this->pagination->getListFooter();
 				?>

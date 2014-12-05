@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.controller');
 jimport('joomla.filesystem.file');
 jimport('joomla.filesystem.archive');
 JLoader::load('RedshopHelperAdminImages');
@@ -20,7 +19,7 @@ JLoader::load('RedshopHelperAdminImages');
  * @package  RedSHOP
  * @since    2.5
  */
-class RedshopControllerMedia_Detail extends JController
+class RedshopControllerMedia_Detail extends RedshopController
 {
 	/**
 	 * Media Detail Constructor
@@ -60,7 +59,7 @@ class RedshopControllerMedia_Detail extends JController
 
 		$product_download_root = PRODUCT_DOWNLOAD_ROOT;
 
-		if (substr(PRODUCT_DOWNLOAD_ROOT, -1) != DS)
+		if (substr(PRODUCT_DOWNLOAD_ROOT, -1) != DIRECTORY_SEPARATOR)
 		{
 			$product_download_root = PRODUCT_DOWNLOAD_ROOT . '/';
 		}

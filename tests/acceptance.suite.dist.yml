@@ -13,32 +13,63 @@
 
 
 class_name: AcceptanceTester
-modules:
-    enabled:
-        - WebDriver
-        - AcceptanceHelper
-    config:
-        WebDriver:
-            url: 'http://localhost/joomla-cms'     # the url that points to the joomla installation at /tests/system/joomla-cms
-            browser: 'firefox'
-            window_size: 1024x768
-            capabilities:
-              unexpectedAlertBehaviour: 'accept'
-        AcceptanceHelper:
-            username: 'admin'                      # UserName for the Administrator
-            password: 'admin'                      # Password for the Administrator
-            db_host: 'localhost'                   # place where the Application is Hosted #server Address
-            db_user: 'root'                        # MySQL Server user ID, usually root
-            db_pass: ''                            # MySQL Server password, usually empty
-            db_name: 'testredshop1'                # DB Name, at the Server
-            db_type: 'MySQLi'                      # DB Type, Mostly MySQLi
-            db_prefix: 'jos_'                      # DB Prefix for tables
-            sample_data: 'yes'                     # Do you want to Download the Sample Data Along with Joomla Installation, then keep it Yes
-            sample_data_file: 'Default English'    # Default Sample Data
-            site_name: 'Joomla'                    # Name of the Site
-            admin_email: 'admin@mydomain.com'      # email Id of the Admin
-            language: 'English (United Kingdom)'   # Language in which you want the Application to be Installed
-            folder: '/home/travis/build/redCOMPONENT-COM/redSHOP/' # Path to the Extension to be installed via Install from folder
-            host: 'http://localhost/joomla-cms'    # Host Path for Joomla-CMS
-            extension_name: 'redSHOP'              # Name of the extension which is to be installed
-            install_extension_demo_data: 'yes'     # Demo Data to be installed for Extension
+env:
+    joomla2:
+        modules:
+            enabled:
+                - WebDriver
+                - AcceptanceHelper
+            config:
+                WebDriver:
+                    url: 'http://localhost/joomla-cms2'     # the url that points to the joomla installation at /tests/system/joomla-cms
+                    browser: 'firefox'
+                    window_size: 1024x768
+                    capabilities:
+                      unexpectedAlertBehaviour: 'accept'
+                AcceptanceHelper:
+                    username: 'admin'                      # UserName for the Administrator
+                    password: 'admin'                      # Password for the Administrator
+                    db_host: 'localhost'                   # place where the Application is Hosted #server Address
+                    db_user: 'root'                        # MySQL Server user ID, usually root
+                    db_pass: ''                            # MySQL Server password, usually empty
+                    db_name: 'testredshop1j2'              # DB Name, at the Server
+                    db_type: 'MySQLi'                      # DB Type, Mostly MySQLi
+                    db_prefix: 'jos_'                      # DB Prefix for tables
+                    sample_data: 'yes'                     # Do you want to Download the Sample Data Along with Joomla Installation, then keep it Yes
+                    sample_data_file: 'Default English'    # Default Sample Data
+                    site_name: 'Joomla'                    # Name of the Site
+                    admin_email: 'admin@mydomain.com'      # email Id of the Admin
+                    language: 'English (United Kingdom)'   # Language in which you want the Application to be Installed
+                    folder: '/home/travis/build/redCOMPONENT-COM/redSHOP/' # Path to the Extension to be installed via Install from folder
+                    extension_name: 'redSHOP'              # Name of the extension which is to be installed
+                    install_extension_demo_data: 'yes'     # Demo Data to be installed for Extension
+    joomla3:
+        modules:
+            enabled:
+                - WebDriver
+                - AcceptanceHelper
+            config:
+                WebDriver:
+                    url: 'http://localhost/joomla-cms3'     # the url that points to the joomla installation at /tests/system/joomla-cms
+                    browser: 'firefox'
+                    window_size: 1024x768
+                    capabilities:
+                      unexpectedAlertBehaviour: 'accept'
+                AcceptanceHelper:
+                    username: 'admin'                      # UserName for the Administrator
+                    password: 'admin'                      # Password for the Administrator
+                    db_host: 'localhost'                   # place where the Application is Hosted #server Address
+                    db_user: 'root'                        # MySQL Server user ID, usually root
+                    db_pass: ''                            # MySQL Server password, usually empty
+                    db_name: 'testredshop1j3'              # DB Name, at the Server
+                    db_type: 'MySQLi'                      # DB Type, Mostly MySQLi
+                    db_prefix: 'jos_'                      # DB Prefix for tables
+                    sample_data: 'yes'                     # Do you want to Download the Sample Data Along with Joomla Installation, then keep it Yes
+                    sample_data_file: 'Default English'    # Default Sample Data
+                    site_name: 'Joomla'                    # Name of the Site
+                    admin_email: 'admin@mydomain.com'      # email Id of the Admin
+                    language: 'English (United Kingdom)'   # Language in which you want the Application to be Installed
+                    folder: '/home/travis/build/redCOMPONENT-COM/redSHOP/' # Path to the Extension to be installed via Install from folder
+                    extension_name: 'redSHOP'              # Name of the extension which is to be installed
+                    install_extension_demo_data: 'yes'     # Demo Data to be installed for Extension
+error_level: "E_ALL & ~E_STRICT & ~E_DEPRECATED"

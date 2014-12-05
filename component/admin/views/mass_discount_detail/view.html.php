@@ -9,11 +9,10 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
 
 JLoader::load('RedshopHelperAdminCategory');
 
-class RedshopViewMass_discount_detail extends JView
+class RedshopViewMass_discount_detail extends RedshopView
 {
 	public function display($tpl = null)
 	{

@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-JLoader::import('joomla.application.component.model');
 
 JLoader::load('RedshopHelperProduct');
 JLoader::load('RedshopHelperExtra_field');
@@ -23,7 +22,7 @@ JLoader::load('RedshopHelperAdminExtra_field');
  * @subpackage  Model
  * @since       1.0
  */
-class RedshopModelProduct extends JModel
+class RedshopModelProduct extends RedshopModel
 {
 	public $_id = null;
 

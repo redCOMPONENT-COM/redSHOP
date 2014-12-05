@@ -350,8 +350,7 @@ class order_functions
 		$error = curl_error($ch);
 		curl_close($ch);
 
-		$oXML = JFactory::getXMLParser('Simple');
-		$oXML->loadString($response, false, true);
+		$oXML = JFactory::getXML($response);
 
 		if ($oXML->document->_children[1]->_data == "201" && $oXML->document->_children[2]->_data == "Created")
 		{
@@ -441,8 +440,8 @@ class order_functions
 
 			if ($data->order_payment_status_code == "Paid")
 			{
-				JModel::addIncludePath(JPATH_SITE . '/components/com_redshop/models');
-				$checkoutModelcheckout = JModel::getInstance('Checkout', 'RedshopModel');
+				RedshopModel::addIncludePath(JPATH_SITE . '/components/com_redshop/models');
+				$checkoutModelcheckout = RedshopModel::getInstance('Checkout', 'RedshopModel');
 				$checkoutModelcheckout->sendGiftCard($order_id);
 
 				// Send the Order mail
@@ -834,8 +833,8 @@ class order_functions
 					$dispatcher->trigger('exportOrder', array ($xml_order));
 				}
 
-				JModel::addIncludePath(JPATH_SITE . '/components/com_redshop/models');
-				$checkoutModelcheckout = JModel::getInstance('Checkout', 'RedshopModel');
+				RedshopModel::addIncludePath(JPATH_SITE . '/components/com_redshop/models');
+				$checkoutModelcheckout = RedshopModel::getInstance('Checkout', 'RedshopModel');
 				$checkoutModelcheckout->sendGiftCard($order_id);
 
 				// Send the Order mail
@@ -1003,8 +1002,8 @@ class order_functions
 
 			if ($paymentstatus == "Paid")
 			{
-				JModel::addIncludePath(JPATH_SITE . '/components/com_redshop/models');
-				$checkoutModelcheckout = JModel::getInstance('Checkout', 'RedhopModel');
+				RedshopModel::addIncludePath(JPATH_SITE . '/components/com_redshop/models');
+				$checkoutModelcheckout = RedshopModel::getInstance('Checkout', 'RedhopModel');
 				$checkoutModelcheckout->sendGiftCard($oid[0]);
 
 				// Send the Order mail
@@ -1822,7 +1821,7 @@ class order_functions
 
 			if ($mailbody && $useremail != "")
 			{
-				JUtility::sendMail($MailFrom, $FromName, $useremail, $mailsubject, $mailbody, 1, null, $mailbcc);
+				JMail::getInstance()->sendMail($MailFrom, $FromName, $useremail, $mailsubject, $mailbody, 1, null, $mailbcc);
 			}
 		}
 
@@ -2171,7 +2170,7 @@ class order_functions
 
 			if ('' != $userdetail->thirdparty_email && $mailbody)
 			{
-				JUtility::sendMail(
+				JMail::getInstance()->sendMail(
 					$MailFrom,
 					$FromName,
 					$userdetail->thirdparty_email,
@@ -2184,7 +2183,7 @@ class order_functions
 
 			if ('' != $userdetail->user_email && $mailbody)
 			{
-				JUtility::sendMail(
+				JMail::getInstance()->sendMail(
 					$MailFrom,
 					$FromName,
 					$userdetail->user_email,

@@ -46,15 +46,17 @@ echo 'index.php?option=' . $option;
 			<tr>
 				<td valign="top" align="left" class="key">
 					<?php echo JText::_('COM_REDSHOP_USER_FILTER'); ?>:
+					<div class="btn-wrapper input-append">
 					<input type="text" name="filter" id="filter" value="<?php echo $filter; ?>"
 					       onchange="document.adminForm.submit();">
-					<button onclick="this.form.submit();"><?php echo JText::_('COM_REDSHOP_GO'); ?></button>
-					<button
+					<button class="btn" onclick="this.form.submit();"><?php echo JText::_('COM_REDSHOP_GO'); ?></button>
+					<button class="btn"
 						onclick="document.getElementById('filter').value='';this.form.submit();"><?php echo JText::_('COM_REDSHOP_RESET'); ?></button>
+					</div>
 				</td>
 			</tr>
 		</table>
-		<table class="adminlist">
+		<table class="adminlist table table-striped">
 			<thead>
 			<tr>
 				<th width="5">
@@ -62,10 +64,7 @@ echo 'index.php?option=' . $option;
 					echo JText::_('COM_REDSHOP_NUM');
 					?>
 				</th>
-				<th width="20"><input type="checkbox" name="toggle" value=""
-				                      onclick="checkAll(<?php
-				                      echo count($this->manufacturer);
-				                      ?>);"/></th>
+				<th width="20"><?php echo JHtml::_('redshopgrid.checkall'); ?></th>
 				<th class="title">
 					<?php
 					echo JHTML::_('grid.sort', 'COM_REDSHOP_MANUFACTURER_NAME', 'manufacturer_name', $this->lists ['order_Dir'], $this->lists ['order']);
@@ -147,7 +146,7 @@ echo 'index.php?option=' . $option;
 						<span><?php echo $this->pagination->orderDownIcon($i, $n, true, 'orderdown', JText::_('JLIB_HTML_MOVE_DOWN'), $ordering); ?></span>
 						<?php $disabled = $ordering ? '' : 'disabled="disabled"'; ?>
 						<input type="text" name="order[]" size="5"
-						       value="<?php echo $row->ordering; ?>" <?php echo $disabled ?> class="text_area"
+						       value="<?php echo $row->ordering; ?>" <?php echo $disabled ?> class="text_area input-small"
 						       style="text-align: center"/>
 					</td>
 					<td align="center" width="5%">
@@ -168,6 +167,11 @@ echo 'index.php?option=' . $option;
 
 			<tfoot>
 			<td colspan="9">
+				<?php if (version_compare(JVERSION, '3.0', '>=')): ?>
+					<div class="redShopLimitBox">
+						<?php echo $this->pagination->getLimitBox(); ?>
+					</div>
+				<?php endif; ?>
 				<?php
 				echo $this->pagination->getListFooter();
 				?>
