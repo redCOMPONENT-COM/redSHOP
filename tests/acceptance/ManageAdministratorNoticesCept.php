@@ -7,6 +7,7 @@
  */
 
 $scenario->group('Joomla2');
+$scenario->group('Joomla3');
 // Load the Step Object Page
 $I = new AcceptanceTester\LoginSteps($scenario);
 
