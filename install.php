@@ -376,7 +376,7 @@ class Com_RedshopInstallerScript
 			<table cellpadding="4" cellspacing="0" border="0" width="100%" class="adminlist">
 				<tr>
 					<td valign="top">
-						<img src="<?php echo 'components/com_redshop/assets/images/261-x-88.png'; ?>" alt="redSHOP Logo"
+						<img src="<?php echo JURI::root(); ?>administrator/components/com_redshop/assets/images/261-x-88.png" width="261" height="88" alt="redSHOP Logo"
 						     align="left">
 					</td>
 					<td valign="top" width="100%">
