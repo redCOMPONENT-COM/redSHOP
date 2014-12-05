@@ -27,7 +27,7 @@
 	<table cellpadding="4" cellspacing="0" border="0" width="100%" class="adminlist">
 		<tr>
 			<td valign="top">
-				<img src="<?php echo REDSHOP_ADMIN_IMAGES_ABSPATH; ?>261-x-88.png" alt="redSHOP Logo" align="left">
+				<img src="<?php echo REDSHOP_ADMIN_IMAGES_ABSPATH; ?>261-x-88.png" width="261" height="88" alt="redSHOP Logo" align="left">
 			</td>
 			<td valign="top" width="100%">
 				<strong>redSHOP</strong><br/>
@@ -38,7 +38,9 @@
 				</font>
 
 				<p>Remember to check for updates on:
-					<img src="http://images.redcomponent.com/redcomponent.jpg" alt="">
+					<a href="http://redcomponent.com/" target="_new">
+						<img src="http://images.redcomponent.com/redcomponent.jpg" alt="">
+					</a>
 				</p>
 			</td>
 		</tr>
