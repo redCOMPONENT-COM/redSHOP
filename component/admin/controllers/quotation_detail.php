@@ -58,6 +58,11 @@ class RedshopControllerQuotation_detail extends RedshopController
 
 		foreach ($post as $key => $value)
 		{
+			if (!isset($quotation_item[$i]))
+			{
+				$quotation_item[$i] = new stdClass;
+			}
+
 			if (!strcmp("quotation_item_id", substr($key, 0, 17)))
 			{
 				$quotation_item[$i]->quotation_item_id = $value;
