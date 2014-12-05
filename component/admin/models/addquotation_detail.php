@@ -190,6 +190,7 @@ class RedshopModelAddquotation_detail extends RedshopModel
 
 			$product = $producthelper->getProductById($product_id);
 
+			$quotation_item[$i] = new stdClass;
 			$quotation_item[$i]->quotation_id = $row->quotation_id;
 			$quotation_item[$i]->product_id = $product_id;
 			$quotation_item[$i]->is_giftcard = 0;
