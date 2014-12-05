@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-JLoader::import('joomla.application.component.model');
 
 JLoader::load('RedshopHelperProduct');
 JLoader::load('RedshopHelperAdminMail');
@@ -21,7 +20,7 @@ JLoader::load('RedshopHelperAdminMail');
  * @subpackage  Model
  * @since       1.0
  */
-class RedshopModelSend_friend extends JModel
+class RedshopModelSend_friend extends RedshopModel
 {
 	public $_id = null;
 
@@ -90,8 +89,8 @@ class RedshopModelSend_friend extends JModel
 		$data_add    = str_replace("{product_url}", $product_url, $data_add);
 
 		$config   = JFactory::getConfig();
-		$from     = $config->getValue('mailfrom');
-		$fromname = $config->getValue('fromname');
+		$from     = $config->get('mailfrom');
+		$fromname = $config->get('fromname');
 
 		$subject = str_replace("{product_name}", $product->product_name, $subject);
 		$subject = str_replace("{shopname}", SHOP_NAME, $subject);

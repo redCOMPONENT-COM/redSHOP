@@ -119,7 +119,7 @@ if ($showbuttons == 1)
 			{
 				$quntotal[$i] = array(0);
 				$preorder_stocktotal[$i] = array(0);
-				$row = & $this->resultlisting [$i];
+				$row = $this->resultlisting [$i];
 				$link1 = JRoute::_('index.php?option=' . $option . '&view=product_detail&task=edit&cid[]=' . $row->product_id);    ?>
 				<tr class="<?php echo "row$k"; ?>">
 					<td><?php echo $this->pagination->getRowOffset($i); ?></td>
@@ -233,6 +233,11 @@ if ($showbuttons == 1)
 				?>
 				<tfoot>
 				<td colspan="<?php echo $colspan + (2 * count($this->stockroom)); ?>">
+					<?php if (version_compare(JVERSION, '3.0', '>=')): ?>
+						<div class="redShopLimitBox">
+							<?php echo $this->pagination->getLimitBox(); ?>
+						</div>
+					<?php endif; ?>
 					<?php echo $this->pagination->getListFooter(); ?>
 				</td>
 				</tfoot>

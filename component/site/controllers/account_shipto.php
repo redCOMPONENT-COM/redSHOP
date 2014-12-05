@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-JLoader::import('joomla.application.component.controller');
 
 /**
  * Account shipping Address Controller.
@@ -18,7 +17,7 @@ JLoader::import('joomla.application.component.controller');
  * @subpackage  Controller
  * @since       1.0
  */
-class RedshopControllerAccount_shipto extends JController
+class RedshopControllerAccount_shipto extends RedshopController
 {
 	/**
 	 * Method to save Shipping Address

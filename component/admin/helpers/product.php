@@ -518,7 +518,7 @@ class adminproducthelper
 			. "(fieldid,data_txt,itemid,section) "
 			. "value ('" . $field_id . "','" . $value . "','" . $order_item_id . "','" . $section_id . "')";
 		$db->setQuery($sql);
-		$db->query();
+		$db->execute();
 	}
 
 	public function getProductrBySortedList()

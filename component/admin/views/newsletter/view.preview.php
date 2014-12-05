@@ -9,10 +9,9 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
 JLoader::load('RedshopHelperAdminCategory');
 
-class RedshopViewNewsletter extends JView
+class RedshopViewNewsletter extends RedshopView
 {
 	public function display($tpl = null)
 	{

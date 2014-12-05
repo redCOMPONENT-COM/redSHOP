@@ -14,7 +14,6 @@ $editor = JFactory::getEditor();
 JHTMLBehavior::modal();
 $uri = JURI::getInstance();
 $url = $uri->root();
-jimport('joomla.html.pane');
 JLoader::load('RedshopHelperAdminExtra_field');
 JLoader::load('RedshopHelperAdminTemplate');
 $extra_field = new extra_field;
@@ -110,26 +109,21 @@ $extra_field = new extra_field;
 <div class="col50">
 <fieldset class="adminform">
 <legend><?php echo JText::_('COM_REDSHOP_MAIL_CENTER_HELPFUL_HINT'); ?></legend>
-<?php    $title = JText::_('COM_REDSHOP_STSTUS_OF_PASSWORD_RESET');
-echo $this->pane->startPane('stat-pane');
-echo $this->pane->startPanel($title, 'events');?>
+<?php
+echo JHtml::_('sliders.start', 'mail-pane');
+echo JHtml::_('sliders.panel', JText::_('COM_REDSHOP_STSTUS_OF_PASSWORD_RESET'), 'pass-reset'); ?>
 <table class="adminlist">
 	<tr>
 		<td><?php echo Redtemplate::getTemplateValues('status_of_reset_password', 'mail'); ?></td>
 	</tr>
 </table>
-<?php    echo $this->pane->endPanel();
-
-$title = JText::_('COM_REDSHOP_REGISTRATION_MAIL');
-echo $this->pane->startPanel($title, 'registrationmail');    ?>
+<?php echo JHtml::_('sliders.panel', JText::_('COM_REDSHOP_REGISTRATION_MAIL'), 'registrationmail'); ?>
 <table class="adminlist">
 	<tr>
 		<td><?php echo Redtemplate::getTemplateValues('registration', 'mail'); ?></td>
 	</tr>
 </table>
-<?php    echo $this->pane->endPanel();
-
-$title = JText::_('COM_REDSHOP_ORDER_MAIL');
+<?php
 $newbillingtag = '{billing_address_start}
 			<table border="0"><tbody>
 			<tr><td>{companyname_lbl}</td><td>{companyname}</td></tr>
@@ -158,7 +152,7 @@ $newshippingtag = '{shipping_address_start}
 			<tr><td>{state_lbl}</td><td>{state}</td></tr>
 			<tr><td>{phone_lbl}</td><td>{phone}</td></tr>{shipping_extrafield}
 			</tbody></table> {shipping_address_end}';
-echo $this->pane->startPanel($title, 'ordermail');    ?>
+echo JHtml::_('sliders.panel', JText::_('COM_REDSHOP_ORDER_MAIL'), 'ordermail'); ?>
 <table class="adminlist">
 	<tr>
 		<td><?php echo Redtemplate::getTemplateValues('order', 'mail'); ?></td>
@@ -189,10 +183,7 @@ echo $this->pane->startPanel($title, 'ordermail');    ?>
 		<td><?php echo htmlentities($newbillingtag) . "<br><br>" . htmlentities($newshippingtag); ?></td>
 	</tr>
 </table>
-<?php    echo $this->pane->endPanel();
-
-$title = JText::_('COM_REDSHOP_INVOICE_MAIL');
-echo $this->pane->startPanel($title, 'invoicemail');    ?>
+<?php echo JHtml::_('sliders.panel', JText::_('COM_REDSHOP_INVOICE_MAIL'), 'invoicemail'); ?>
 <table class="adminlist">
 	<tr>
 		<td><?php echo Redtemplate::getTemplateValues('invoice', 'mail'); ?></td>
@@ -223,216 +214,151 @@ echo $this->pane->startPanel($title, 'invoicemail');    ?>
 		<td><?php echo htmlentities($newbillingtag) . "<br><br>" . htmlentities($newshippingtag); ?></td>
 	</tr>
 </table>
-<?php    echo $this->pane->endPanel();
-
-$title = JText::_('COM_REDSHOP_ORDER_STATUS_MAIL');
-echo $this->pane->startPanel($title, 'orderstatusmail');    ?>
+<?php echo JHtml::_('sliders.panel', JText::_('COM_REDSHOP_ORDER_STATUS_MAIL'), 'orderstatusmail'); ?>
 <table class="adminlist">
 	<tr>
 		<td><?php echo Redtemplate::getTemplateValues('order_status', 'mail'); ?></td>
 	</tr>
 </table>
-<?php    echo $this->pane->endPanel();
-
-$title = JText::_('COM_REDSHOP_CATALOG_SEND_MAIL');
-echo $this->pane->startPanel($title, 'catalogmail');    ?>
+<?php echo JHtml::_('sliders.panel', JText::_('COM_REDSHOP_CATALOG_SEND_MAIL'), 'catalogmail'); ?>
 <table class="adminlist">
 	<tr>
 		<td><?php echo Redtemplate::getTemplateValues('catalog_send', 'mail'); ?></td>
 	</tr>
 </table>
-<?php    echo $this->pane->endPanel();
-
-$title = JText::_('COM_REDSHOP_CATALOG_FIRST_REMINDER');
-echo $this->pane->startPanel($title, 'catalogfirstreminder');    ?>
+<?php echo JHtml::_('sliders.panel', JText::_('COM_REDSHOP_CATALOG_FIRST_REMINDER'), 'catalogfirstreminder'); ?>
 <table class="adminlist">
 	<tr>
 		<td><?php echo Redtemplate::getTemplateValues('catalog_first_reminder', 'mail'); ?></td>
 	</tr>
 </table>
-<?php    echo $this->pane->endPanel();
-
-$title = JText::_('COM_REDSHOP_CATALOG_SECOND_REMINDER');
-echo $this->pane->startPanel($title, 'catalogsecreminder');    ?>
+<?php echo JHtml::_('sliders.panel', JText::_('COM_REDSHOP_CATALOG_SECOND_REMINDER'), 'catalogsecreminder'); ?>
 <table class="adminlist">
 	<tr>
 		<td><?php echo Redtemplate::getTemplateValues('catalog_second_reminder', 'mail'); ?></td>
 	</tr>
 </table>
-<?php    echo $this->pane->endPanel();
-
-$title = JText::_('COM_REDSHOP_CATALOG_COUPON_REMINDER');
-echo $this->pane->startPanel($title, 'catalogcouponreminder');    ?>
+<?php echo JHtml::_('sliders.panel', JText::_('COM_REDSHOP_CATALOG_COUPON_REMINDER'), 'catalogcouponreminder'); ?>
 <table class="adminlist">
 	<tr>
 		<td><?php echo Redtemplate::getTemplateValues('catalog_coupon_reminder', 'mail'); ?></td>
 	</tr>
 </table>
-<?php    echo $this->pane->endPanel();
-
-$title = JText::_('COM_REDSHOP_CATALOG_SAMPLE_FIRST_REMINDER');
-echo $this->pane->startPanel($title, 'catalogsamplefirstreminder');    ?>
+<?php echo JHtml::_('sliders.panel', JText::_('COM_REDSHOP_CATALOG_SAMPLE_FIRST_REMINDER'), 'catalogsamplefirstreminder'); ?>
 <table class="adminlist">
 	<tr>
 		<td><?php echo Redtemplate::getTemplateValues('catalog_sample_first_reminder', 'mail'); ?></td>
 	</tr>
 </table>
-<?php    echo $this->pane->endPanel();
-
-$title = JText::_('COM_REDSHOP_CATALOG_SAMPLE_SECOND_REMINDER');
-echo $this->pane->startPanel($title, 'catalogsamplesecreminder');    ?>
+<?php echo JHtml::_('sliders.panel', JText::_('COM_REDSHOP_CATALOG_SAMPLE_SECOND_REMINDER'), 'catalogsamplesecreminder'); ?>
 <table class="adminlist">
 	<tr>
 		<td><?php echo Redtemplate::getTemplateValues('catalog_sample_second_reminder', 'mail'); ?></td>
 	</tr>
 </table>
-<?php    echo $this->pane->endPanel();
-
-$title = JText::_('COM_REDSHOP_CATALOG_SAMPLE_THIRD_REMINDER');
-echo $this->pane->startPanel($title, 'catalogsamplethirdreminder');    ?>
+<?php echo JHtml::_('sliders.panel', JText::_('COM_REDSHOP_CATALOG_SAMPLE_THIRD_REMINDER'), 'catalogsamplethirdreminder'); ?>
 <table class="adminlist">
 	<tr>
 		<td><?php echo Redtemplate::getTemplateValues('catalog_sample_third_reminder', 'mail'); ?></td>
 	</tr>
 </table>
-<?php    echo $this->pane->endPanel();
-
-$title = JText::_('COM_REDSHOP_CATALOG_SAMPLE_COUPON_REMINDER');
-echo $this->pane->startPanel($title, 'catalogsamplecouponreminder');    ?>
+<?php echo JHtml::_('sliders.panel', JText::_('COM_REDSHOP_CATALOG_SAMPLE_COUPON_REMINDER'), 'catalogsamplecouponreminder'); ?>
 <table class="adminlist">
 	<tr>
 		<td><?php echo Redtemplate::getTemplateValues('catalog_sample_coupon_reminder', 'mail'); ?></td>
 	</tr>
 </table>
-<?php    echo $this->pane->endPanel();
-
-$title = JText::_('COM_REDSHOP_ECONOMIC_INVOICE');
-echo $this->pane->startPanel($title, 'economicbookinvoice');    ?>
+<?php echo JHtml::_('sliders.panel', JText::_('COM_REDSHOP_ECONOMIC_INVOICE'), 'economicbookinvoice'); ?>
 <table class="adminlist">
 	<tr>
 		<td><?php echo Redtemplate::getTemplateValues('economic_invoice', 'mail'); ?></td>
 	</tr>
 </table>
-<?php    echo $this->pane->endPanel();
-
-$title = JText::_('COM_REDSHOP_ASK_QUESTION_MAIL');
-echo $this->pane->startPanel($title, 'askquestion');    ?>
+<?php echo JHtml::_('sliders.panel', JText::_('COM_REDSHOP_ASK_QUESTION_MAIL'), 'askquestion'); ?>
 <table class="adminlist">
 	<tr>
 		<td><?php echo Redtemplate::getTemplateValues('ask_question', 'mail'); ?></td>
 	</tr>
 </table>
-<?php    echo $this->pane->endPanel();
-
-$title = JText::_('COM_REDSHOP_QUOTATION_MAIL');
-echo $this->pane->startPanel($title, 'quotationmail');    ?>
+<?php echo JHtml::_('sliders.panel', JText::_('COM_REDSHOP_QUOTATION_MAIL'), 'quotationmail'); ?>
 <table class="adminlist">
 	<tr>
 		<td><?php echo Redtemplate::getTemplateValues('quotation', 'mail'); ?></td>
 	</tr>
 </table>
-<?php    echo $this->pane->endPanel();
-
-$title = JText::_('COM_REDSHOP_DOWNLOADABLE_PRODUCT_MAIL');
-echo $this->pane->startPanel($title, 'downloadableproductmail');    ?>
+<?php echo JHtml::_('sliders.panel', JText::_('COM_REDSHOP_DOWNLOADABLE_PRODUCT_MAIL'), 'downloadableproductmail'); ?>
 <table class="adminlist">
 	<tr>
 		<td><?php echo Redtemplate::getTemplateValues('downloable_product', 'mail'); ?></td>
 	</tr>
 </table>
-<?php    echo $this->pane->endPanel();
-
-$title = JText::_('COM_REDSHOP_REVIEW_MAIL');
-echo $this->pane->startPanel($title, 'reviewmail');    ?>
+<?php echo JHtml::_('sliders.panel', JText::_('COM_REDSHOP_REVIEW_MAIL'), 'reviewmail'); ?>
 <table class="adminlist">
 	<tr>
 		<td><?php echo Redtemplate::getTemplateValues('review_product', 'mail'); ?></td>
 	</tr>
 </table>
-<?php    echo $this->pane->endPanel();
-
-$title = JText::_('COM_REDSHOP_FIRST_MAIL_AFTER_ORDER_PURCHASED');
-echo $this->pane->startPanel($title, 'orderpurchase');    ?>
+<?php echo JHtml::_('sliders.panel', JText::_('COM_REDSHOP_FIRST_MAIL_AFTER_ORDER_PURCHASED'), 'orderpurchase');  ?>
 <table class="adminlist">
 	<tr>
 		<td><?php echo Redtemplate::getTemplateValues('first_after_order_purchased', 'mail'); ?></td>
 	</tr>
 </table>
-<?php    echo $this->pane->endPanel();
-$title = JText::_('COM_REDSHOP_GIFTCARD_MAIL');
-echo $this->pane->startPanel($title, 'giftcard');    ?>
+<?php echo JHtml::_('sliders.panel', JText::_('COM_REDSHOP_GIFTCARD_MAIL'), 'giftcard'); ?>
 <table class="adminlist">
 	<tr>
 		<td><?php echo Redtemplate::getTemplateValues('giftcard', 'mail'); ?></td>
 	</tr>
 </table>
-<?php    echo $this->pane->endPanel();
-$title = JText::_('COM_REDSHOP_WISHLIST_MAIL');
-echo $this->pane->startPanel($title, 'wishlist');    ?>
+<?php echo JHtml::_('sliders.panel', JText::_('COM_REDSHOP_WISHLIST_MAIL'), 'wishlist'); ?>
 <table class="adminlist">
 	<tr>
 		<td><?php echo Redtemplate::getTemplateValues('wishlist', 'mail'); ?></td>
 	</tr>
 </table>
-<?php    echo $this->pane->endPanel();
-$title = JText::_('COM_REDSHOP_NEWSLETTER_CONFIRMATION');
-echo $this->pane->startPanel($title, 'newsletter_confirmation');    ?>
+<?php echo JHtml::_('sliders.panel', JText::_('COM_REDSHOP_NEWSLETTER_CONFIRMATION'), 'newsletter_confirmation'); ?>
 <table class="adminlist">
 	<tr>
 		<td><?php echo Redtemplate::getTemplateValues('newsletter_confirmation', 'mail'); ?></td>
 	</tr>
 </table>
-<?php    echo $this->pane->endPanel();
-$title = JText::_('COM_REDSHOP_SEND_FRIEND');
-echo $this->pane->startPanel($title, 'newsletter_confirmation');    ?>
+<?php echo JHtml::_('sliders.panel', JText::_('COM_REDSHOP_SEND_FRIEND'), 'newsletter_confirmation'); ?>
 <table class="adminlist">
 	<tr>
 		<td><?php echo Redtemplate::getTemplateValues('send_friend', 'mail'); ?></td>
 	</tr>
 </table>
-<?php    echo $this->pane->endPanel();
-$title = JText::_('COM_REDSHOP_QUOTATION_REGISTRATION_MAIL');
-echo $this->pane->startPanel($title, 'quotation_reg');    ?>
+<?php echo JHtml::_('sliders.panel', JText::_('COM_REDSHOP_QUOTATION_REGISTRATION_MAIL'), 'quotation_reg'); ?>
 <table class="adminlist">
 	<tr>
 		<td><?php echo Redtemplate::getTemplateValues('quotation_registration', 'mail'); ?></td>
 	</tr>
 </table>
-<?php    echo $this->pane->endPanel();
-$title = JText::_('COM_REDSHOP_REQUEST_TAX_EXEMPT_MAIL');
-echo $this->pane->startPanel($title, 'tax_exempt');    ?>
+<?php echo JHtml::_('sliders.panel', JText::_('COM_REDSHOP_REQUEST_TAX_EXEMPT_MAIL'), 'tax_exempt'); ?>
 <table class="adminlist">
 	<tr>
 		<td><?php echo Redtemplate::getTemplateValues('request_tax_exempt', 'mail'); ?></td>
 	</tr>
 </table>
-<?php    echo $this->pane->endPanel();
-$title = JText::_('COM_REDSHOP_PRODUCT_SUBSCRIPTION_MAIL');
-echo $this->pane->startPanel($title, 'subscription');    ?>
+<?php echo JHtml::_('sliders.panel',  JText::_('COM_REDSHOP_PRODUCT_SUBSCRIPTION_MAIL'), 'subscription'); ?>
 <table class="adminlist">
 	<tr>
 		<td><?php echo Redtemplate::getTemplateValues('product_subscription', 'mail'); ?></td>
 	</tr>
 </table>
-<?php    echo $this->pane->endPanel();
-$title = JText::_('COM_REDSHOP_TAX_EXEMPT_APPROVAL_DISAPPROVAL_MAIL');
-echo $this->pane->startPanel($title, 'tax_exempt');    ?>
+<?php echo JHtml::_('sliders.panel', JText::_('COM_REDSHOP_TAX_EXEMPT_APPROVAL_DISAPPROVAL_MAIL'), 'tax_exempt'); ?>
 <table class="adminlist">
 	<tr>
 		<td><?php echo Redtemplate::getTemplateValues('tax_exempt_approval_disapproval', 'mail'); ?></td>
 	</tr>
 </table>
-<?php    echo $this->pane->endPanel();
-$title = JText::_('COM_REDSHOP_CATALOG_ORDER_MAIL');
-echo $this->pane->startPanel($title, 'catalog_order');    ?>
+<?php echo JHtml::_('sliders.panel', JText::_('COM_REDSHOP_CATALOG_ORDER_MAIL'), 'catalog_order'); ?>
 <table class="adminlist">
 	<tr>
 		<td><?php echo Redtemplate::getTemplateValues('catalog_order', 'mail'); ?></td>
 	</tr>
 </table>
-<?php    echo $this->pane->endPanel();
-
-echo $this->pane->endPane();    ?>
+<?php echo JHtml::_('sliders.end'); ?>
 </fieldset>
 </div>
 

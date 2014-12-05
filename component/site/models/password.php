@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-JLoader::import('joomla.application.component.model');
 
 /**
  * Class passwordModelpassword
@@ -18,7 +17,7 @@ JLoader::import('joomla.application.component.model');
  * @subpackage  Model
  * @since       1.0
  */
-class RedshopModelPassword extends JModel
+class RedshopModelPassword extends RedshopModel
 {
 	public $_db = null;
 
@@ -45,7 +44,7 @@ class RedshopModelPassword extends JModel
 			$this->_db->setQuery($query);
 
 			// Save the token
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				return false;
 			}
@@ -99,7 +98,7 @@ class RedshopModelPassword extends JModel
 		$this->_db->setQuery($query);
 
 		// Saving new password
-		if (!$this->_db->query())
+		if (!$this->_db->execute())
 		{
 			return false;
 		}

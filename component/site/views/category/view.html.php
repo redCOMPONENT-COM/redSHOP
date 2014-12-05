@@ -11,7 +11,6 @@ defined('_JEXEC') or die;
 
 JLoader::load('RedshopHelperAdminText_library');
 
-JLoader::import('joomla.application.component.view');
 
 /**
  * Category Detail View
@@ -21,7 +20,7 @@ JLoader::import('joomla.application.component.view');
  *
  * @since       1.0
  */
-class RedshopViewCategory extends JView
+class RedshopViewCategory extends RedshopView
 {
 	public $app;
 
@@ -77,13 +76,17 @@ class RedshopViewCategory extends JView
 
 		$document = JFactory::getDocument();
 
-		JHtml::Script('jquery.js', 'components/com_redshop/assets/js/', false);
-		JHtml::Script('redbox.js', 'components/com_redshop/assets/js/', false);
+		if (version_compare(JVERSION, '3.0', '<'))
+		{
+			JHtml::script('com_redshop/jquery.js', false, true);
+		}
 
-		JHtml::Script('attribute.js', 'components/com_redshop/assets/js/', false);
-		JHtml::Script('common.js', 'components/com_redshop/assets/js/', false);
+		JHtml::script('com_redshop/redbox.js', false, true);
 
-		JHtml::Stylesheet('priceslider.css', 'components/com_redshop/assets/css/');
+		JHtml::script('com_redshop/attribute.js', false, true);
+		JHtml::script('com_redshop/common.js', false, true);
+
+		JHtml::stylesheet('com_redshop/priceslider.css', array(), true);
 
 		// Add jQueryUI because of IE9 issue
 		$document->addStyleSheet('http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/base/jquery-ui.css');
@@ -456,7 +459,7 @@ class RedshopViewCategory extends JView
 					$document->addScript('//ajax.googleapis.com/ajax/libs/jqueryui/1.8.15/jquery-ui.min.js');
 
 					// End Code for fixes IE9 issue
-					require_once JPATH_COMPONENT_SITE . '/assets/js/catprice_filter.php';
+					require_once JPATH_ROOT . 'media/com_redshop/js/catprice_filter.php';
 				}
 				else
 				{

@@ -24,7 +24,7 @@ class ExtensionManagerPage
 
 	public static $installSuccessMessage = "//li[contains(text(),'Installing component was successful')]";
 
-	public static $installDemoContent = "//input[@onclick=\"submitWizard('content');\" and @value='install Demo Content']";
+	public static $installDemoContent = "//input[@onclick=\"submitWizard('content');\" and @value='Install Demo Content']";
 
 	public static $demoDataInstallSuccessMessage = "//li[contains(text(),'Sample Data Installed Successfully')]";
 

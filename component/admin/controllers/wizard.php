@@ -9,11 +9,10 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.controller');
 
 JLoader::load('RedshopHelperAdminConfiguration');
 
-class RedshopControllerWizard extends JController
+class RedshopControllerWizard extends RedshopController
 {
 	public $_temp_file = null;
 

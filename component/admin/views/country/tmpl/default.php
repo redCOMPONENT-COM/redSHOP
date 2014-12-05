@@ -37,8 +37,8 @@ $filter = JRequest::getVar('filter');
 		<thead>
 		<tr>
 			<th width="5"><?php echo JText::_('COM_REDSHOP_NUM'); ?></th>
-			<th width="10"><input type="checkbox" name="toggle" value=""
-			                      onclick="checkAll(<?php echo count($this->fields); ?>)"? />
+			<th width="10">
+				<?php echo JHtml::_('redshopgrid.checkall'); ?>
 			</th>
 			<th><?php echo JHTML::_('grid.sort', JText::_('COM_REDSHOP_COUNTRY_NAME'), 'country_name', $this->lists['order_Dir'], $this->lists['order']);?></th>
 			<th><?php echo JHTML::_('grid.sort', JText::_('COM_REDSHOP_COUNTRY_3_CODE'), 'country_3_code', $this->lists['order_Dir'], $this->lists['order']);?></th>
@@ -77,6 +77,11 @@ $filter = JRequest::getVar('filter');
 
 		<tfoot>
 		<td colspan="9">
+			<?php if (version_compare(JVERSION, '3.0', '>=')): ?>
+				<div class="redShopLimitBox">
+					<?php echo $this->pagination->getLimitBox(); ?>
+				</div>
+			<?php endif; ?>
 			<?php echo $this->pagination->getListFooter(); ?>
 		</td>
 		</tfoot>

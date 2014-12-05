@@ -9,9 +9,8 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.controller');
 
-class RedshopControllerProduct_price extends JController
+class RedshopControllerProduct_price extends RedshopController
 {
 	public function cancel()
 	{
@@ -77,7 +76,7 @@ class RedshopControllerProduct_price extends JController
 			}
 
 			$db->setQuery($sql);
-			$db->Query();
+			$db->execute();
 		}
 
 		$this->setRedirect('index.php?tmpl=component&option=com_redshop&view=product_price&pid=' . $product_id);

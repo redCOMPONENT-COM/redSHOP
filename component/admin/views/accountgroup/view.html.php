@@ -10,9 +10,8 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.html.pagination');
-jimport('joomla.application.component.view');
 
-class RedshopViewAccountgroup extends JView
+class RedshopViewAccountgroup extends RedshopView
 {
 	public function display($tpl = null)
 	{
@@ -24,8 +23,8 @@ class RedshopViewAccountgroup extends JView
 		$document->setTitle(JText::_('COM_REDSHOP_ECONOMIC_ACCOUNT_GROUP'));
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_ECONOMIC_ACCOUNT_GROUP'), 'redshop_accountgroup48');
-		JToolbarHelper::addNewX();
-		JToolbarHelper::EditListX();
+		JToolbarHelper::addNew();
+		JToolbarHelper::EditList();
 		JToolbarHelper::deleteList();
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();

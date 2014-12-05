@@ -10,8 +10,6 @@
 defined('_JEXEC') or die;
 
 JHTML::_('behavior.tooltip');
-jimport('joomla.html.pane');
-
 $editor = JFactory::getEditor();
 $productHelper = new producthelper;
 ?>
@@ -71,15 +69,8 @@ if ($this->shipper_location)
 }
 else
 {
-	// Get JPaneTabs instance
-	$myTabs = JPane::getInstance('tabs', array('startOffset' => 0));
-	$output = '';
-
-	// Create Pane
-	$output .= $myTabs->startPane('pane');
-
-	// Create 1st Tab
-	echo $output .= $myTabs->startPanel(JText::_('COM_REDSHOP_DETAILS'), 'tab1');    ?>
+	echo JHtml::_('tabs.start', 'shipping-rate-pane', array('startOffset' => 0));
+	echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_DETAILS'), 'tab1'); ?>
 	<div class="col50">
 	<fieldset class="adminform">
 	<legend><?php echo JText::_('COM_REDSHOP_DETAILS'); ?></legend>
@@ -438,14 +429,9 @@ else
 	</fieldset>
 	</div>
 	<?php
-
-	echo $myTabs->endPanel();
-
-// Create 2nd Tab
-
 	if ($this->lists['extra_field'] != "")
 	{
-		echo $myTabs->startPanel(JText::_('COM_REDSHOP_EXTRA_FIELD'), 'tab2');
+		echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_EXTRA_FIELD'), 'tab2');
 		?>
 		<div class="col50">
 		<?php
@@ -458,8 +444,7 @@ else
 		echo '<input type="hidden" name="noextra_field" value="1">';
 	}
 
-// End Pane
-	echo $myTabs->endPane();
+	echo JHtml::_('tabs.end');
 }    ?>
 <div class="clr"></div>
 </form>
