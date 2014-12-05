@@ -6,6 +6,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
+$scenario->group('Joomla2');
 // Load the Step Object Page
 $I = new AcceptanceTester\LoginSteps($scenario);
 
