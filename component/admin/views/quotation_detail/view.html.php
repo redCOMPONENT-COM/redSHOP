@@ -24,6 +24,7 @@ class RedshopViewQuotation_detail extends RedshopView
 		$document->setTitle(JText::_('COM_REDSHOP_QUOTATION'));
 
 		$document->addScript(JURI::base() . 'components/' . $option . '/assets/js/order.js');
+		$document->addScript(JURI::base() . 'components/' . $option . '/assets/js/common.js');
 		JHtml::script('com_redshop/common.js', false, true);
 		$document->addStyleSheet(JURI::base() . 'components/' . $option . '/assets/css/search.css');
 		$document->addScript(JURI::base() . 'components/' . $option . '/assets/js/search.js');
@@ -37,6 +38,7 @@ class RedshopViewQuotation_detail extends RedshopView
 		{
 			$this->setLayout($layout);
 		}
+
 		$detail = $this->get('data');
 		$redconfig = new Redconfiguration;
 
