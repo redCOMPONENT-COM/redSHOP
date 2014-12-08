@@ -19,9 +19,9 @@ use \Codeception\Event\TestEvent;
  * @since  1.4
  *
  */
-class InstallationGroup extends \Codeception\Platform\Group
+class InstallationJ2Group extends \Codeception\Platform\Group
 {
-	public static $group = 'installation';
+	public static $group = 'installationJ2';
 
 	/**
 	 * Function to delete the Configuration File before Doing the Installation
@@ -32,13 +32,13 @@ class InstallationGroup extends \Codeception\Platform\Group
 	 */
 	public function _before(TestEvent $e)
 	{
-		// Remove Joomla-cms old configuration.php file before do a clean joomla installation
-		$joomlaConfigurationFile = 'tests/system/joomla-cms/configuration.php';
+		// Remove Joomla2 CMS old configuration.php file before do a clean joomla installation
+		$joomla2ConfigurationFile = 'tests/system/joomla-cms2/configuration.php';
 
-		if (file_exists($joomlaConfigurationFile))
+		if (file_exists($joomla2ConfigurationFile))
 		{
-			chmod($joomlaConfigurationFile, 0777);
-			unlink($joomlaConfigurationFile);
+			chmod($joomla2ConfigurationFile, 0777);
+			unlink($joomla2ConfigurationFile);
 		}
 	}
 }
