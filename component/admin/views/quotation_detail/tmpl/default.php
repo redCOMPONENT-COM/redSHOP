@@ -35,7 +35,7 @@ $quotation_item = $quotationHelper->getQuotationProduct($quotation->quotation_id
 	var rowCount = 1;
 	var qrowCount = <?php echo count($quotation_item);?>;
 
-	Joomla.submitbutton = function (pressbutton)
+	Joomla.submitbutton = submitbutton = function (pressbutton)
 	{
 		var form = document.adminForm;
 		if (pressbutton == 'cancel') {
