@@ -9,4 +9,7 @@ settings:
     colors: true
     memory_limit: 1024M
 extensions:
-    enabled: [InstallationGroup]
+    enabled: [InstallationJ2Group]
+    enabled: [Joomla2Group]
+    enabled: [Joomla3Group]
+    enabled: [InstallationJ3Group]

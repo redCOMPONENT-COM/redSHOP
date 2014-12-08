@@ -5,11 +5,13 @@
  * @copyright   Copyright (C) 2012 - 2014 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
-$scenario->group('Joomla2');
-// Load the Step Object Page
+$scenario->group('Joomla3');
 $I = new AcceptanceTester\LoginSteps($scenario);
 
-$I->wantTo('Test Supplier Manager in Administrator');
+$I->wantTo('Install Extension');
 $I->doAdminLogin();
-$I = new AcceptanceTester\SupplierManagerSteps($scenario);
-$I->addSupplier();
+$I = new AcceptanceTester\InstallExtensionJ3Steps($scenario);
+
+$I->installExtension('redSHOP 1.x');
+$I->wantTo('Install redSHOP1 demo data');
+$I->installSampleData();
