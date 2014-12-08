@@ -1287,7 +1287,7 @@ class RedshopModelOrder_detail extends RedshopModel
 
 		if (empty ($this->_template))
 		{
-			$this->_template = $redTemplate->getTemplate("stock_note", $this->_data->product_template);
+			$this->_template = $redTemplate->getTemplate("stock_note");
 			$this->_template = $this->_template[0];
 		}
 

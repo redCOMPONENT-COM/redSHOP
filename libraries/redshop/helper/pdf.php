@@ -58,8 +58,9 @@ class RedshopHelperPdf
 			}
 
 			$pdfObj = new $className($options['orientation'], $options['unit'], $options['format']);
-			$pdfObj->SetFont('freeserif', '', 12);
-			$pdfObj->setHeaderFont(array('freeserif', '', 10));
+			$pdfObj->setFontSubsetting(true);
+			$pdfObj->SetFont('times', '', 12);
+			$pdfObj->setHeaderFont(array('times', '', 10));
 			$pdfObj->SetAuthor(JText::_('LIB_REDSHOP_PDF_CREATOR'));
 			$pdfObj->SetCreator(JText::_('LIB_REDSHOP_PDF_CREATOR'));
 			$pdfObj->setImageScale(PDF_IMAGE_SCALE_RATIO);

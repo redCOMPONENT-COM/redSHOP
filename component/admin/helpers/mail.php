@@ -454,7 +454,7 @@ class redshopMail
 		$pdfObj->SetTitle('Shipped');
 
 		// Changed font to support Unicode Characters - Specially Polish Characters
-		$font = 'freeserif';
+		$font = 'times';
 		$pdfObj->setImageScale(PDF_IMAGE_SCALE_RATIO);
 		$pdfObj->setHeaderFont(array($font, '', 8));
 
@@ -539,7 +539,7 @@ class redshopMail
 		$pdfObj = RedshopHelperPdf::getInstance();
 		$pdfObj->SetTitle('Shipped');
 		$pdfObj->SetMargins(8, 8, 8);
-		$font = 'freeserif';
+		$font = 'times';
 		$pdfObj->setImageScale(PDF_IMAGE_SCALE_RATIO);
 		$pdfObj->setHeaderFont(array($font, '', 8));
 		$pdfObj->SetFont($font, "", 6);
@@ -737,7 +737,7 @@ class redshopMail
 		$pdfObj = RedshopHelperPdf::getInstance();
 		$pdfObj->SetTitle(JText::_('COM_REDSHOP_INVOICE') . $row->order_id);
 		$pdfObj->SetMargins(15, 15, 15);
-		$pdfObj->setHeaderFont(array('freeserif', '', 10));
+		$pdfObj->setHeaderFont(array('times', '', 10));
 		$pdfObj->AddPage();
 		$pdfObj->WriteHTML($body, true, false, true, false, '');
 

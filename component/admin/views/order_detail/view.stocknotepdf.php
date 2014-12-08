@@ -97,7 +97,7 @@ class RedshopViewOrder_detail extends RedshopView
 		$pdfObj->SetTitle("Order StockNote: " . $detail->order_id);
 		$pdfObj->SetMargins(15, 15, 15);
 
-		$font = 'freeserif';
+		$font = 'times';
 
 		$pdfObj->SetHeaderData('', '', '', "Order " . $detail->order_id);
 		$pdfObj->setHeaderFont(array($font, '', 10));

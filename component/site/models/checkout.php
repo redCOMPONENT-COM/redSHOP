@@ -1409,7 +1409,7 @@ class RedshopModelCheckout extends RedshopModel
 			$pdf->setPrintFooter(false);
 			$pdf->SetAutoPageBreak(true, PDF_MARGIN_BOTTOM);
 			$pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
-			$pdf->SetFont('freeserif', '', 18);
+			$pdf->SetFont('times', '', 18);
 			$pdf->AddPage();
 			$pdfImage = "";
 
