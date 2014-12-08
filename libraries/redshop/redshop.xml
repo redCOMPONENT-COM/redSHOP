@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="library" method="upgrade" version="2.5">
-	<name>redSHOP - Libraries</name>
+	<name>redSHOP - Library</name>
 	<libraryname>redshop</libraryname>
 	<creationDate>October 2014</creationDate>
 	<author>redCOMPONENT</author>
@@ -8,8 +8,12 @@
 	<authorUrl>www.redcomponent.com</authorUrl>
 	<copyright>Copyright (C) 2012 - 2014 redCOMPONENT.com. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later, see LICENSE.</license>
-	<version>1.4</version>
-	<description>Redshop library</description>
+	<version>1.5</version>
+	<description>LIB_REDSHOP_LIBRARY_DESC</description>
+	<languages folder="language">
+		<language tag="en-GB">en-GB/en-GB.lib_redshop.ini</language>
+		<language tag="en-GB">en-GB/en-GB.lib_redshop.sys.ini</language>
+	</languages>
 	<files>
 		<folder>controller</folder>
 		<folder>html</folder>
