@@ -27,7 +27,7 @@
 	<table cellpadding="4" cellspacing="0" border="0" width="100%" class="adminlist">
 		<tr>
 			<td valign="top">
-				<img src="<?php echo REDSHOP_ADMIN_IMAGES_ABSPATH; ?>261-x-88.png" alt="redSHOP Logo" align="left">
+				<img src="<?php echo REDSHOP_ADMIN_IMAGES_ABSPATH; ?>redshop.png" alt="redSHOP Logo" align="left">
 			</td>
 			<td valign="top" width="100%">
 				<strong>redSHOP</strong><br/>
