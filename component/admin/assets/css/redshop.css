@@ -24,11 +24,17 @@
 .icon-48-redshop_statistic48 {
 	background-image: url(../images/statistic48.png);
 }
+
 .icon-48-redshop_261-x-88,
 .page-title .icon-redshop_261-x-88 {
-	background: url("../images/261-x-88.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+	background-image: url("../images/261-x-88.png");
 	height: 45px;
 	width: 261px;
+}
+
+.page-title .icon-redshop_261-x-88{
+	background-repeat: no-repeat;
+	background-color: #fff;
 }
 
 /* catalog management */
