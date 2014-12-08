@@ -83,12 +83,12 @@ class RedshopViewOrder_detail extends RedshopView
 		$pdfObj->SetTitle("Order :" . $detail->order_id);
 		$pdfObj->SetMargins(15, 15, 15);
 
-		$font = 'freeserif';
+		$font = 'times';
 
 		$pdfObj->SetHeaderData('', '', '', "Order " . $detail->order_id);
 		$pdfObj->setHeaderFont(array($font, '', 10));
 		//$pdfObj->setFooterFont(array($font, '', 8));
-		$pdfObj->SetFont($font, "", 12);
+		$pdfObj->SetFont($font, '', 12);
 
 
 		//$pdfObj->AliasNbPages();

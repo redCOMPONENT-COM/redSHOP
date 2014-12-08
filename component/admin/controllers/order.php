@@ -161,7 +161,7 @@ class RedshopControllerOrder extends RedshopController
 			{
 				$pdfObj = RedshopHelperPdf::getInstance();
 				$pdfObj->SetTitle('Shipped');
-				$font = 'freeserif';
+				$font = 'times';
 				$pdfObj->setHeaderFont(array($font, '', 8));
 				$pdfObj->SetFont($font, "", 6);
 

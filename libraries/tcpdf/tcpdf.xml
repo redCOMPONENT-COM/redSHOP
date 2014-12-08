@@ -15,18 +15,22 @@
 		<language tag="en-GB">en-GB/en-GB.lib_tcpdf.sys.ini</language>
 	</languages>
 	<files>
-		<folder>cache</folder>
 		<folder>config</folder>
 		<folder>fonts</folder>
 		<folder>fpdf</folder>
 		<folder>fpdi</folder>
-		<filename>htmlcolors.php</filename>
-		<filename>index.html</filename>
+		<folder>include</folder>
+		<folder>tools</folder>
+		<filename>library.php</filename>
 		<filename>LICENSE.TXT</filename>
 		<filename>PDFMerger.php</filename>
 		<filename>README.TXT</filename>
 		<filename>tcpdf.php</filename>
 		<filename>tcpdf.xml</filename>
-		<filename>unicode_data.php</filename>
+		<filename>tcpdf_autoconfig.php</filename>
+		<filename>tcpdf_barcodes_1d.php</filename>
+		<filename>tcpdf_barcodes_2d.php</filename>
+		<filename>tcpdf_import.php</filename>
+		<filename>tcpdf_parser.php</filename>
 	</files>
 </extension>
