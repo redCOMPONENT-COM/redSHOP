@@ -280,7 +280,7 @@ for ($i = 0, $n = count($this->products); $i < $n; $i++)
 		<td>
 			<?php echo $row->product_number;?>
 		</td>
-		<td>
+		<td class="nowrap">
 			<?php echo $producthelper->getProductFormattedPrice($row->product_price);?>
 		</td>
 
