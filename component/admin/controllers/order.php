@@ -12,8 +12,6 @@ defined('_JEXEC') or die;
 JLoader::load('RedshopHelperAdminOrder');
 JLoader::load('RedshopHelperAdminMail');
 JLoader::load('RedshopHelperHelper');
-require_once JPATH_SITE . '/components/com_redshop/helpers/tcpdf/tcpdf.php';
-require_once JPATH_SITE . '/components/com_redshop/helpers/tcpdf/PDFMerger.php';
 
 class RedshopControllerOrder extends RedshopController
 {
@@ -161,13 +159,9 @@ class RedshopControllerOrder extends RedshopController
 			// For shipped pdf generation
 			if ($post['order_status_all'] == "S" && $post['order_paymentstatus' . $order_id[$i]] == "Paid")
 			{
-				$pdfObj = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, 'A5', true, 'UTF-8', false);
+				$pdfObj = RedshopHelperPdf::getInstance();
 				$pdfObj->SetTitle('Shipped');
-				$pdfObj->SetAuthor('redSHOP');
-				$pdfObj->SetCreator('redSHOP');
-				$pdfObj->SetMargins(8, 8, 8);
-				$font = 'times';
-				$pdfObj->setImageScale(PDF_IMAGE_SCALE_RATIO);
+				$font = 'freeserif';
 				$pdfObj->setHeaderFont(array($font, '', 8));
 				$pdfObj->SetFont($font, "", 6);
 

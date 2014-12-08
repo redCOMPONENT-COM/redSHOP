@@ -10,7 +10,6 @@ defined('_JEXEC') or die;
 
 
 JLoader::load('RedshopHelperAdminExtra_field');
-require_once JPATH_COMPONENT_SITE . '/helpers/tcpdf/tcpdf.php';
 JLoader::load('RedshopHelperAdminOrder');
 
 class RedshopViewOrder_detail extends RedshopView
@@ -80,13 +79,11 @@ class RedshopViewOrder_detail extends RedshopView
 			$html_template = str_replace("{company_name_lbl}", "", $html_template);
 		}
 
-		$pdfObj = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, 'A5', true, 'UTF-8', false);
+		$pdfObj = RedshopHelperPdf::getInstance();
 		$pdfObj->SetTitle("Order :" . $detail->order_id);
-		$pdfObj->SetAuthor('redSHOP');
-		$pdfObj->SetCreator('redSHOP');
 		$pdfObj->SetMargins(15, 15, 15);
 
-		$font = 'times';
+		$font = 'freeserif';
 
 		$pdfObj->SetHeaderData('', '', '', "Order " . $detail->order_id);
 		$pdfObj->setHeaderFont(array($font, '', 10));

@@ -9,9 +9,6 @@
 
 defined('_JEXEC') or die;
 
-
-require_once JPATH_COMPONENT_SITE . '/helpers/tcpdf/config/lang/eng.php';
-require_once JPATH_COMPONENT_SITE . '/helpers/tcpdf/tcpdf.php';
 JLoader::load('RedshopHelperProduct');
 JLoader::load('RedshopHelperExtra_field');
 JLoader::load('RedshopHelperHelper');
@@ -23,6 +20,7 @@ JLoader::load('RedshopHelperAdminMail');
 JLoader::load('RedshopHelperAdminOrder');
 JLoader::load('RedshopHelperAdminExtra_field');
 JLoader::load('RedshopHelperAdminShipping');
+RedshopHelperPdf::getInstance();
 
 /**
  * Class checkoutModelcheckout
@@ -1411,7 +1409,7 @@ class RedshopModelCheckout extends RedshopModel
 			$pdf->setPrintFooter(false);
 			$pdf->SetAutoPageBreak(true, PDF_MARGIN_BOTTOM);
 			$pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
-			$pdf->SetFont('times', '', 18);
+			$pdf->SetFont('freeserif', '', 18);
 			$pdf->AddPage();
 			$pdfImage = "";
 
