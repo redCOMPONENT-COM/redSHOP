@@ -25,7 +25,6 @@ class RedshopViewQuotation_detail extends RedshopView
 
 		$document->addScript(JURI::base() . 'components/' . $option . '/assets/js/order.js');
 		$document->addScript(JURI::base() . 'components/' . $option . '/assets/js/common.js');
-		JHtml::script('com_redshop/common.js', false, true);
 		$document->addStyleSheet(JURI::base() . 'components/' . $option . '/assets/css/search.css');
 		$document->addScript(JURI::base() . 'components/' . $option . '/assets/js/search.js');
 		JHtml::script('com_redshop/json.js', false, true);
