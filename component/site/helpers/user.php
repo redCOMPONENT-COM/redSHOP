@@ -481,7 +481,16 @@ class rsUserhelper
 
 			if ($useractivation == '1')
 			{
-				$user->set('activation', JApplicationHelper::getHash(JUserHelper::genRandomPassword()));
+				if (version_compare(JVERSION, '3.0', '<'))
+				{
+					$hash = JApplication::getHash(JUserHelper::genRandomPassword());
+				}
+				else
+				{
+					$hash = JApplicationHelper::getHash(JUserHelper::genRandomPassword());
+				}
+
+				$user->set('activation', $hash);
 				$user->set('block', '0');
 			}
 
