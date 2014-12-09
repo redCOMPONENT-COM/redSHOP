@@ -32,7 +32,7 @@ $document->addScriptDeclaration("
 		var base_url = '" . JURI::root() . "';
 	");
 
-JHTML::Script('search.js', 'modules/mod_redshop_search/js/', false);
+JHTML::script('modules/mod_redshop_search/js/search.js');
 
 $enableAjaxsearch = trim($params->get('enableAjaxsearch', '0'));
 

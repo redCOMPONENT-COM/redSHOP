@@ -101,7 +101,6 @@ class RedshopViewCheckout extends RedshopView
 
 		if (@$is_creditcard == 1)
 		{
-			$document = JFactory::getDocument();
 			JHtml::script('com_redshop/credit_card.js', false, true);
 		}
 
