@@ -1404,7 +1404,7 @@ class redshopMail
 
 		if ($email != "")
 		{
-			$bcc = null;
+			$bcc = array();
 
 			if (trim(ADMINISTRATOR_EMAIL) != '')
 			{
