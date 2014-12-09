@@ -1360,9 +1360,9 @@ class rsUserhelper
 
 		if (DEBITOR_NUMBER_AUTO_GENERATE == 1 && $row->users_info_id <= 0)
 		{
-			RedshopModel::addIncludePath(REDCRM_ADMIN . '/models');
+			JModelLegacy::addIncludePath(REDCRM_ADMIN . '/models');
 
-			$crmmodel = RedshopModel::getInstance('debitor', 'redCRMModel');
+			$crmmodel = JModelLegacy::getInstance('debitor', 'redCRMModel');
 
 			$maxdebtor_id = $crmmodel->getMaxdebtor();
 
