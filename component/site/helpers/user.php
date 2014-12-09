@@ -481,7 +481,7 @@ class rsUserhelper
 
 			if ($useractivation == '1')
 			{
-				$user->set('activation', JUtility::getHash(JUserHelper::genRandomPassword()));
+				$user->set('activation', JApplicationHelper::getHash(JUserHelper::genRandomPassword()));
 				$user->set('block', '0');
 			}
 
