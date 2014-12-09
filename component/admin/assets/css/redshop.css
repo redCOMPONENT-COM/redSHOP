@@ -25,16 +25,19 @@
 	background-image: url(../images/statistic48.png);
 }
 
-.icon-48-redshop_261-x-88,
-.page-title .icon-redshop_261-x-88 {
-	background-image: url("../images/redshop.png");
-	height: 45px;
-	width: 199px;
+.page-title .icon-redshop_261-x-88{
+	background-image: url("../images/redshop_white.png");
 }
 
-.page-title .icon-redshop_261-x-88{
+.icon-48-redshop_261-x-88{
+	background-image: url("../images/redshop.png");
+}
+
+.icon-48-redshop_261-x-88,
+.page-title .icon-redshop_261-x-88 {
+	height: 45px;
+	width: 199px;
 	background-repeat: no-repeat;
-	background-color: #fff;
 }
 
 /* catalog management */
