@@ -21,7 +21,7 @@ $view      = JRequest::getCmd('view');
 $getoption = JRequest::getCmd('option');
 
 $document = JFactory::getDocument();
-JHTML::Stylesheet('products.css', 'modules/mod_redshop_shoppergroup_product/css/');
+JHTML::stylesheet('modules/mod_redshop_shoppergroup_product/css/products.css');
 // 	include redshop js file.
 JLoader::load('RedshopHelperRedshop.js');
 

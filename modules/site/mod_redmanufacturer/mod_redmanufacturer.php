@@ -120,7 +120,7 @@ function displayredManufacturer($limit = 0)
 
 	JHTML::script('modules/mod_redmanufacturer/js/jquery-1.js');
 	JHTML::script('modules/mod_redmanufacturer/js/jquery.js');
-	JHTML::Stylesheet('modules/mod_redmanufacturer/css/jquery.css');
+	JHTML::stylesheet('modules/mod_redmanufacturer/css/jquery.css');
 
 	echo $this->params->get('pretext', "");
 	$qlimit = "";

@@ -21,7 +21,7 @@ $user   = JFactory::getUser();
 $option = 'com_redshop';
 
 $document = JFactory::getDocument();
-JHTML::Stylesheet('products.css', 'modules/mod_redshop_products/css/');
+JHTML::stylesheet('modules/mod_redshop_products/css/products.css');
 // 	include redshop js file.
 require_once JPATH_SITE . '/components/com_redshop/helpers/redshop.js.php';
 
