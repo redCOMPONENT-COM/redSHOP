@@ -70,7 +70,7 @@ $model = $this->getModel('user');    ?>
 			<thead>
 			<tr>
 				<th width="5%"><?php echo JText::_('COM_REDSHOP_NUM');?></th>
-				<th width="5%"><input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count($this->user); ?>);"/></th>
+				<th width="5%"><?php echo JHtml::_('redshopgrid.checkall'); ?></th>
 				<th class="title"><?php echo JHTML::_('grid.sort', 'COM_REDSHOP_FIRST_NAME', 'firstname', $this->lists ['order_Dir'], $this->lists ['order']);?></th>
 				<th class="title"><?php echo JHTML::_('grid.sort', 'COM_REDSHOP_LAST_NAME', 'lastname', $this->lists ['order_Dir'], $this->lists ['order']);?></th>
 				<!--<th class="title"><?php echo JHTML::_ ( 'grid.sort', 'COM_REDSHOP_CONTACT_PERSON', 'firstname', $this->lists ['order_Dir'], $this->lists ['order'] );?></th>-->
@@ -86,7 +86,7 @@ $model = $this->getModel('user');    ?>
 			$k = 0;
 			for ($i = 0, $n = count($this->user); $i < $n; $i++)
 			{
-				$row = & $this->user [$i];
+				$row = $this->user [$i];
 				$row->id = $row->user_id;
 //		$row->published = $row->approved;
 //		if($this->lists ['shipping'])
@@ -136,7 +136,13 @@ $model = $this->getModel('user');    ?>
 				$k = 1 - $k;
 			}    ?>
 			<tfoot>
-			<td colspan="11"><?php echo $this->pagination->getListFooter(); ?></td>
+			<td colspan="11">
+				<?php if (version_compare(JVERSION, '3.0', '>=')): ?>
+					<div class="redShopLimitBox">
+						<?php echo $this->pagination->getLimitBox(); ?>
+					</div>
+				<?php endif; ?>
+				<?php echo $this->pagination->getListFooter(); ?></td>
 			</tfoot>
 		</table>
 	</div>

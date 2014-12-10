@@ -9,11 +9,10 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
 
 JLoader::load('RedshopHelperAdminMail');
 
-class RedshopModelQuestion_detail extends JModel
+class RedshopModelQuestion_detail extends RedshopModel
 {
 	public $_id = null;
 
@@ -236,7 +235,7 @@ class RedshopModelQuestion_detail extends JModel
 				. 'WHERE parent_id IN (' . $cids . ')';
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 
@@ -247,7 +246,7 @@ class RedshopModelQuestion_detail extends JModel
 				. 'WHERE question_id IN (' . $cids . ')';
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 
@@ -275,7 +274,7 @@ class RedshopModelQuestion_detail extends JModel
 				. ' WHERE question_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 

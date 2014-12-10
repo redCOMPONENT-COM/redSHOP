@@ -9,12 +9,11 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.controller');
 
 JLoader::load('RedshopHelperProduct');
 JLoader::load('RedshopHelperAdminProduct');
 
-class RedshopControllerAddquotation_detail extends JController
+class RedshopControllerAddquotation_detail extends RedshopController
 {
 	public function __construct($default = array())
 	{
@@ -50,7 +49,7 @@ class RedshopControllerAddquotation_detail extends JController
 			$post['block'] = 0;
 
 			// Get Admin order detail Model Object
-			$usermodel = JModel::getInstance('User_detail', 'RedshopModel');
+			$usermodel = RedshopModel::getInstance('User_detail', 'RedshopModel');
 
 			// Call Admin order detail Model store function for Billing
 			$user = $usermodel->storeUser($post);

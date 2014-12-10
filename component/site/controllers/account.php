@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-JLoader::import('joomla.application.component.controller');
 
 /**
  * Account Controller.
@@ -18,7 +17,7 @@ JLoader::import('joomla.application.component.controller');
  * @subpackage  Controller
  * @since       1.0
  */
-class RedshopControllerAccount extends JController
+class RedshopControllerAccount extends RedshopController
 {
 	/**
 	 * Method to edit created Tag

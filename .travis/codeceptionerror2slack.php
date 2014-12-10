@@ -22,7 +22,7 @@ $slackToken= 'xoxp-2309442657-2309442659-2680880772-1a436d';
 define('REPO_BASE', dirname(__DIR__));
 
 // Welcome message
-fwrite(STDOUT, "\033[32;1mCheck if there is Codeception snapshots and sending them to Slack.\033[0m\n");
+fwrite(STDOUT, "\033[33;1mCheck if there is Codeception snapshots and sending them to Slack.\033[0m\n");
 
 $codeceptionOutputFolder = REPO_BASE . '/tests/_output';
 

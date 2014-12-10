@@ -155,7 +155,7 @@ class SubInstaller extends JObject
 					$e->name . '" AND client_id = ' . $e->client;
 				$this->_mainDb->setQuery($query);
 
-				if (!$this->_mainDb->query())
+				if (!$this->_mainDb->execute())
 				{
 					$this->_abort('Database query failed!');
 
@@ -213,7 +213,7 @@ class SubInstaller extends JObject
 		{
 			$this->_mainDb->setQuery($query);
 
-			if (!$this->_mainDb->query())
+			if (!$this->_mainDb->execute())
 			{
 				$this->_abort('Database query failed!');
 
@@ -244,7 +244,7 @@ class SubInstaller extends JObject
 		{
 			$this->_mainDb->setQuery($query);
 
-			if (!$this->_mainDb->query())
+			if (!$this->_mainDb->execute())
 			{
 				return $this->_abort('Database query failed!');
 			}
@@ -285,7 +285,7 @@ class SubInstaller extends JObject
 		{
 			$this->_mainDb->setQuery($query);
 
-			if (!$this->_mainDb->query())
+			if (!$this->_mainDb->execute())
 			{
 				if ($lock == 0)
 				{

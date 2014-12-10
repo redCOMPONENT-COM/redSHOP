@@ -354,7 +354,7 @@ class adminproducthelper
 					{
 						$displayrate = ($rate[$i]->rate > 0) ? " (" . $producthelper->getProductFormattedPrice($rate[$i]->rate) . " )" : "";
 						$ratearr[$r] = new stdClass;
-						$ratearr[$r]->text = $rs->name . " - " . $rate[$i]->text . $displayrate;
+						$ratearr[$r]->text = JText::_($rs->name) . " - " . $rate[$i]->text . $displayrate;
 						$ratearr[$r]->value = $rate[$i]->value;
 						$r++;
 					}
@@ -518,7 +518,7 @@ class adminproducthelper
 			. "(fieldid,data_txt,itemid,section) "
 			. "value ('" . $field_id . "','" . $value . "','" . $order_item_id . "','" . $section_id . "')";
 		$db->setQuery($sql);
-		$db->query();
+		$db->execute();
 	}
 
 	public function getProductrBySortedList()

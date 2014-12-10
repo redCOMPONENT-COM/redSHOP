@@ -10,10 +10,9 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.html.pagination');
-jimport('joomla.application.component.view');
 JLoader::load('RedshopHelperAdminCategory');
 
-class RedshopViewCategory extends JView
+class RedshopViewCategory extends RedshopView
 {
 	/**
 	 * The current user.
@@ -36,14 +35,11 @@ class RedshopViewCategory extends JView
 		$context = 'category_id';
 
 		$redTemplate = new Redtemplate;
-		$product_category = new product_category;
-		$document = JFactory::getDocument();
-		$document->setTitle(JText::_('COM_REDSHOP_CATEGORY'));
 
-		JToolBarHelper::title(JText::_('COM_REDSHOP_CATEGORY_MANAGEMENT'), 'redshop_categories48');
-		JToolBarHelper::addNewX();
-		JToolBarHelper::editListX();
-		JToolBarHelper::customX('copy', 'copy.png', 'copy_f2.png', JText::_('COM_REDSHOP_TOOLBAR_COPY'), true);
+		JToolBarHelper::title(JText::_('COM_REDSHOP_CATEGORY_MANAGEMENT'), 'folder redshop_categories48');
+		JToolbarHelper::addNew();
+		JToolbarHelper::EditList();
+		JToolBarHelper::custom('copy', 'copy.png', 'copy_f2.png', JText::_('COM_REDSHOP_TOOLBAR_COPY'), true);
 		JToolBarHelper::deleteList();
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();

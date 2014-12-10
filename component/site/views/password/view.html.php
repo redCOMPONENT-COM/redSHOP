@@ -9,9 +9,8 @@
 
 defined('_JEXEC') or die;
 
-JLoader::import('joomla.application.component.view');
 
-class RedshopViewPassword extends JView
+class RedshopViewPassword extends RedshopView
 {
 	public function display($tpl = null)
 	{

@@ -9,10 +9,9 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
 JLoader::load('RedshopHelperAdminExtra_field');
 
-class RedshopModelProduct_category extends JModel
+class RedshopModelProduct_category extends RedshopModel
 {
 	public function __construct()
 	{
@@ -46,7 +45,7 @@ class RedshopModelProduct_category extends JModel
 						. "(`category_id`,`product_id`) VALUES ('" . $cat_id[$j] . "','" . $pid[$i] . "')";
 					$this->_db->setQuery($query);
 
-					if (!$this->_db->Query())
+					if (!$this->_db->execute())
 					{
 						return false;
 					}
@@ -69,7 +68,7 @@ class RedshopModelProduct_category extends JModel
 				. " WHERE product_id=" . $pid[$i] . " AND category_id IN (" . $cat_ids . ")";
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->Query())
+			if (!$this->_db->execute())
 			{
 				return false;
 			}

@@ -325,8 +325,7 @@ class extraField
 
 		$addtocartFormName = 'addtocart_' . $preprefix . 'prd_' . $product_id;
 
-		$document = JFactory::getDocument();
-		JHTML::Script('attribute.js', 'components/com_redshop/assets/js/', false);
+		JHtml::script('com_redshop/attribute.js', false, true);
 
 		if (!array_key_exists($section_id . '_' . $field_section, self::$userFields))
 		{
@@ -518,8 +517,9 @@ class extraField
 
 					case 10 :
 						// File Upload
-						JHTML::Script('jquery-1.js', 'components/com_redshop/assets/js/', false);
-						JHTML::Script('ajaxupload.js', 'components/com_redshop/assets/js/', false);
+						JHtml::script('com_redshop/jquery-1.js', false, true);
+						JHtml::script('com_redshop/ajaxupload.js', false, true);
+
 						$ajax = '';
 						$unique = $row_data[$i]->field_name . '_' . $product_id;
 
@@ -743,19 +743,6 @@ class extraField
 							$this->_db->setQuery($q);
 							$field_chk    = $this->_db->loadObject();
 							$displayvalue = $field_chk->country_name;
-						}
-						break;
-					case 9 :
-						// Media
-						$ftype = explode(".", $data_value->data_txt);
-
-						$link         = REDSHOP_FRONT_IMAGES_ABSPATH . "media/" . $data_value->data_txt;
-						$link_phy     = REDSHOP_FRONT_IMAGES_RELPATH . "media/" . $data_value->data_txt;
-						$displayvalue = "";
-
-						if (is_file($link_phy))
-						{
-							$displayvalue = "{" . $ftype[count($ftype) - 1] . "remote}" . $link . "{/" . $ftype[count($ftype) - 1] . "remote}";
 						}
 						break;
 					case 10 :

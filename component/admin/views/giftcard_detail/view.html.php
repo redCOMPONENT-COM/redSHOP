@@ -9,9 +9,8 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
 
-class RedshopViewGiftcard_detail extends JView
+class RedshopViewGiftcard_detail extends RedshopView
 {
 	/**
 	 * The request url.
@@ -25,10 +24,6 @@ class RedshopViewGiftcard_detail extends JView
 		JToolBarHelper::title(JText::_('COM_REDSHOP_GIFTCARD_MANAGEMENT'), 'redshop_giftcard_48');
 
 		$uri = JFactory::getURI();
-
-		jimport('joomla.html.pane');
-		$pane = JPane::getInstance('sliders');
-		$this->pane = $pane;
 
 		$this->setLayout('default');
 

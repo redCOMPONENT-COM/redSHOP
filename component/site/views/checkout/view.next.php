@@ -9,13 +9,12 @@
 
 defined('_JEXEC') or die;
 
-JLoader::import('joomla.application.component.view');
 
 JLoader::load('RedshopHelperProduct');
 JLoader::load('RedshopHelperAdminOrder');
 JLoader::load('RedshopHelperAdminShipping');
 
-class RedshopViewCheckout extends JView
+class RedshopViewCheckout extends RedshopView
 {
 	public function display($tpl = null)
 	{
@@ -103,7 +102,7 @@ class RedshopViewCheckout extends JView
 		if (@$is_creditcard == 1)
 		{
 			$document = JFactory::getDocument();
-			JHTML::Script('credit_card.js', 'components/com_redshop/assets/js/', false);
+			JHtml::script('com_redshop/credit_card.js', false, true);
 		}
 
 		if ($is_subscription)

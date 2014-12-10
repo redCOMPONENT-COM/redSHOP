@@ -128,8 +128,7 @@ class CurrencyHelper
 				}
 
 				/* XML Parsing */
-				$xml = JFactory::getXMLParser('Simple');
-				@$xml->loadFile($archivefile_name);
+				$xml = JFactory::getXML($archivefile_name);
 
 				// Access a given node's CDATA
 				$currency_list = $xml->document->Cube[0]->_children;
@@ -168,7 +167,7 @@ class CurrencyHelper
 	{
 		$config = new Redconfiguration;
 
-		$session = JFactory::getSession('product_currency');
+		$session = JFactory::getSession();
 
 		// Global $vendor_currency is DEFAULT!
 		if (!$currA)

@@ -9,11 +9,10 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
 JLoader::load('RedshopHelperAdminShopper');
 JLoader::load('RedshopHelperAdminCategory');
 
-class RedshopViewShopper_group_detail extends JView
+class RedshopViewShopper_group_detail extends RedshopView
 {
 	/**
 	 * The request url.
@@ -32,7 +31,7 @@ class RedshopViewShopper_group_detail extends JView
 		$option = JRequest::getVar('option', '', 'request', 'string');
 
 		$document = JFactory::getDocument();
-		$document->addScript('components/' . $option . '/assets/js/json.js');
+		JHtml::script('com_redshop/json.js', false, true);
 		$document->addScript('components/' . $option . '/assets/js/validation.js');
 
 		$uri = JFactory::getURI();
