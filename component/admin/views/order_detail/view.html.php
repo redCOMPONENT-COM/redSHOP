@@ -33,7 +33,7 @@ class RedshopViewOrder_detail extends RedshopView
 
 		$uri = JFactory::getURI();
 
-		// Load language file
+		// Load payment plugin language file
 		$payment_lang_list = $redhelper->getPlugins("redshop_payment");
 
 		$language = JFactory::getLanguage();
@@ -44,6 +44,15 @@ class RedshopViewOrder_detail extends RedshopView
 		{
 			$extension = 'plg_redshop_payment_' . $payment_lang_list[$l]->element;
 			$language->load($extension, $base_dir, $language_tag, true);
+		}
+
+		// Load Shipping plugin language files
+		$shippingPlugins = JPluginHelper::getPlugin("redshop_shipping");
+
+		for ($l = 0; $l < count($shippingPlugins); $l++)
+		{
+			$extension = 'plg_redshop_shipping_' . strtolower($shippingPlugins[$l]->name);
+			$language->load($extension, $base_dir);
 		}
 
 		$layout = JRequest::getVar('layout');
