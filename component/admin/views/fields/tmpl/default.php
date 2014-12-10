@@ -121,7 +121,7 @@ $redtemplate = new Redtemplate;
 
 						<?php $disabled = @$ordering ? '' : 'disabled="disabled"'; ?>
 						<input type="text" name="order[]" size="5"
-						       value="<?php echo $row->ordering; ?>" <?php echo $disabled ?> class="text_area"
+						       value="<?php echo $row->ordering; ?>" <?php echo $disabled ?> class="text_area input-small"
 						       style="text-align: center"/>
 					</td>
 
