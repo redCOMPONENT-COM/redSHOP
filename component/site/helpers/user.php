@@ -93,7 +93,7 @@ class rsUserhelper
 			. 'LEFT JOIN #__user_usergroup_map as u on u.user_id = uf.user_id '
 			. 'WHERE users_info_id = ' . (int) $user_id;
 		$this->_db->setQuery($query);
-		$usergroups = $this->_db->loadResultArray();
+		$usergroups = $this->_db->loadColumn();
 
 		return $usergroups;
 	}
