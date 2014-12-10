@@ -53,7 +53,7 @@ $ordering      = ($this->lists['order'] == 'ordering');
 				</td>
 			</tr>
 		</table>
-		<table class="adminlist">
+		<table class="adminlist table table-striped">
 			<thead>
 			<tr>
 				<th width="5%"><?php echo JText::_('COM_REDSHOP_NUM'); ?></th>
@@ -130,7 +130,7 @@ $ordering      = ($this->lists['order'] == 'ordering');
 				</tr>
 				<?php    $k = 1 - $k;
 			}    ?>
-			<tr>
+			<tfoot>
 				<td colspan="10">
 					<?php if (version_compare(JVERSION, '3.0', '>=')): ?>
 						<div class="redShopLimitBox">
@@ -138,6 +138,7 @@ $ordering      = ($this->lists['order'] == 'ordering');
 						</div>
 					<?php endif; ?>
 					<?php echo $this->pagination->getListFooter(); ?></td>
+			</tfoot>
 		</table>
 	</div>
 

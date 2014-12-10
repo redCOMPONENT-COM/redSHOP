@@ -44,6 +44,7 @@ $data = array(
 		<?php endif; ?>
 
 		<p>
+			<label class="radio">
 			<input
 				type="radio"
 				onclick="return product_export(this.value)"
@@ -51,12 +52,7 @@ $data = array(
 				id="export<?php echo $value; ?>"
 				name="export"
 			>
-			<label
-				class="radiobtn"
-				id="export<?php echo $value; ?>-lbl"
-				for="export<?php echo $value; ?>"
-			>
-			<?php echo JText::_($text); ?>
+				<?php echo JText::_($text); ?>
 			</label>
 		</p>
 
