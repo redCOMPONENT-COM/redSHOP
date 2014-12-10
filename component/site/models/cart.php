@@ -133,13 +133,13 @@ class RedshopModelCart extends RedshopModel
 				. "AND section='product' "
 				. "AND time < $time ";
 			$db->setQuery($sql);
-			$deletedrs = $db->loadResultArray();
+			$deletedrs = $db->loadColumn();
 
 			$sql = "SELECT product_id FROM " . $this->_table_prefix . "cart "
 				. "WHERE session_id = " . $db->quote($session_id) . " "
 				. "AND section='product' ";
 			$db->setQuery($sql);
-			$includedrs = $db->loadResultArray();
+			$includedrs = $db->loadColumn();
 
 			$cart = $session->get('cart');
 
