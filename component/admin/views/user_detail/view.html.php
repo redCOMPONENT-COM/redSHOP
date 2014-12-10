@@ -24,7 +24,7 @@ class RedshopViewUser_detail extends RedshopView
 		$shoppergroup     = new shoppergroup;
 
 		$document         = JFactory::getDocument();
-		JHtml::script('com_redshop/json.js', false, true);
+		$document->addScript('components/com_redshop/assets/js/json.js');
 		$document->addScript('components/com_redshop/assets/js/validation.js');
 
 		$this->setLayout('default');
