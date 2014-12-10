@@ -12,7 +12,7 @@ JHTML::_('behavior.tooltip');
 $url = JURI::root();
 $xml_path = $url . "components/com_redshop/assets/document/gbase/product.xml";
 ?>
-<table class="adminlist">
+<table class="adminlist table table-striped">
 	<tr>
 		<th><?php echo JText::_('COM_REDSHOP_GBASE_SITE_XML_PATH'); ?> :
 			<?php echo JHTML::tooltip(JText::_('COM_REDSHOP_TOOLTIP_GBASE_SITE_XML_PATH'), JText::_('COM_REDSHOP_GBASE_SITE_XML_PATH'), 'tooltip.png', '', '', false); ?>
