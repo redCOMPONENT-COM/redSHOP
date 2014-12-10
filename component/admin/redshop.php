@@ -142,7 +142,8 @@
 		&& $task != "removepropertyImage" && $controller != "product_price" && $task != "template" && $json_var == ''
 		&& $task != 'gbasedownload' && $task != "export_data" && $showbuttons != "1" && $showall != 1
 		&& $controller != "product_attribute_price" && $task != "ins_product" && $controller != "shipping_rate_detail"
-		&& $controller != "accountgroup_detail" && $layout != "labellisting" && $task != "checkVirtualNumber" && $format == 'html')
+		&& $controller != "accountgroup_detail" && $layout != "labellisting" && $task != "checkVirtualNumber" && $controller != "update"
+		&& $format == 'html')
 	{
 		if ($controller != "redshop" && $controller != "configuration" && $controller != "product_detail"
 			&& $controller != "country_detail" && $controller != "state_detail" && $controller != "category_detail"

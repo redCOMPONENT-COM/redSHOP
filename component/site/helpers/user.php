@@ -481,7 +481,16 @@ class rsUserhelper
 
 			if ($useractivation == '1')
 			{
-				$user->set('activation', JUtility::getHash(JUserHelper::genRandomPassword()));
+				if (version_compare(JVERSION, '3.0', '<'))
+				{
+					$hash = JApplication::getHash(JUserHelper::genRandomPassword());
+				}
+				else
+				{
+					$hash = JApplicationHelper::getHash(JUserHelper::genRandomPassword());
+				}
+
+				$user->set('activation', $hash);
 				$user->set('block', '0');
 			}
 
@@ -1360,9 +1369,9 @@ class rsUserhelper
 
 		if (DEBITOR_NUMBER_AUTO_GENERATE == 1 && $row->users_info_id <= 0)
 		{
-			RedshopModel::addIncludePath(REDCRM_ADMIN . '/models');
+			JModelLegacy::addIncludePath(REDCRM_ADMIN . '/models');
 
-			$crmmodel = RedshopModel::getInstance('debitor', 'redCRMModel');
+			$crmmodel = JModelLegacy::getInstance('debitor', 'redCRMModel');
 
 			$maxdebtor_id = $crmmodel->getMaxdebtor();
 
