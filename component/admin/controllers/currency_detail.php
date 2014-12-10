@@ -57,11 +57,11 @@ class RedshopControllerCurrency_detail extends RedshopController
 
 		if ($apply == 1)
 		{
-			$this->setRedirect('index.php?option=' . $option . '&view=currency_detail&task=edit&cid[]=' . $row->currency_id, $msg);
+			$this->setRedirect('index.php?option=com_redshop&view=currency_detail&task=edit&cid[]=' . $row->currency_id, $msg);
 		}
 		else
 		{
-			$this->setRedirect('index.php?option=' . $option . '&view=currency', $msg);
+			$this->setRedirect('index.php?option=com_redshop&view=currency', $msg);
 		}
 	}
 
@@ -69,7 +69,7 @@ class RedshopControllerCurrency_detail extends RedshopController
 	{
 		$option = JRequest::getVar('option');
 		$msg = JText::_('COM_REDSHOP_CURRENCY_DETAIL_EDITING_CANCELLED');
-		$this->setRedirect('index.php?option=' . $option . '&view=currency', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=currency', $msg);
 	}
 
 	public function remove()
@@ -91,6 +91,6 @@ class RedshopControllerCurrency_detail extends RedshopController
 		}
 
 		$msg = JText::_('COM_REDSHOP_CURRENCY_DETAIL_DELETED_SUCCESSFULLY');
-		$this->setRedirect('index.php?option=' . $option . '&view=currency', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=currency', $msg);
 	}
 }

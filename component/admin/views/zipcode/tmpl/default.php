@@ -57,7 +57,7 @@ $filter = JRequest::getVar('filter');
 			$row = $this->fields[$i];
 			$row->id = $row->zipcode_id;
 
-			$link = JRoute::_('index.php?option=' . $option . '&view=zipcode_detail&task=edit&cid[]=' . $row->zipcode_id);
+			$link = JRoute::_('index.php?option=com_redshop&view=zipcode_detail&task=edit&cid[]=' . $row->zipcode_id);
 
 			?>
 			<tr class="<?php echo "row$k"; ?>">

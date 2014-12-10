@@ -81,7 +81,7 @@ class RedshopControllerLogin extends RedshopController
 			}
 			else
 			{
-				$link = 'index.php?option=' . $option . '&Itemid=' . $returnitemid;
+				$link = 'index.php?option=com_redshop&Itemid=' . $returnitemid;
 			}
 
 			if (!empty($return))

@@ -41,7 +41,7 @@ class RedshopControllerAccount extends RedshopController
 			$app->enqueueMessage(JText::_('COM_REDSHOP_ERROR_EDITING_TAG'));
 		}
 
-		$this->setRedirect('index.php?option=' . $option . '&view=account&layout=mytags&Itemid=' . $Itemid);
+		$this->setRedirect('index.php?option=com_redshop&view=account&layout=mytags&Itemid=' . $Itemid);
 	}
 
 	/**

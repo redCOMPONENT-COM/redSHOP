@@ -67,11 +67,11 @@ class RedshopControllerZipcode_detail extends RedshopController
 
 		if ($apply == 1)
 		{
-			$this->setRedirect('index.php?option=' . $option . '&view=zipcode_detail&task=edit&cid[]=' . $row->zipcode_id, $msg);
+			$this->setRedirect('index.php?option=com_redshop&view=zipcode_detail&task=edit&cid[]=' . $row->zipcode_id, $msg);
 		}
 		else
 		{
-			$this->setRedirect('index.php?option=' . $option . '&view=zipcode', $msg);
+			$this->setRedirect('index.php?option=com_redshop&view=zipcode', $msg);
 		}
 	}
 
@@ -79,7 +79,7 @@ class RedshopControllerZipcode_detail extends RedshopController
 	{
 		$option = JRequest::getVar('option');
 		$msg = JText::_('COM_REDSHOP_ZIPCODE_DETAIL_EDITING_CANCELLED');
-		$this->setRedirect('index.php?option=' . $option . '&view=zipcode', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=zipcode', $msg);
 	}
 
 	public function remove()
@@ -101,6 +101,6 @@ class RedshopControllerZipcode_detail extends RedshopController
 		}
 
 		$msg = JText::_('COM_REDSHOP_ZIPCODE_DETAIL_DELETED_SUCCESSFULLY');
-		$this->setRedirect('index.php?option=' . $option . '&view=zipcode', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=zipcode', $msg);
 	}
 }

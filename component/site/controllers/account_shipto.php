@@ -53,7 +53,7 @@ class RedshopControllerAccount_shipto extends RedshopController
 
 		if ($return != "")
 		{
-			$link = JRoute::_('index.php?option=' . $option . '&view=' . $return . '&users_info_id=' . $post['users_info_id'] . '&Itemid=' . $Itemid, false);
+			$link = JRoute::_('index.php?option=com_redshop&view=' . $return . '&users_info_id=' . $post['users_info_id'] . '&Itemid=' . $Itemid, false);
 
 			if (!isset($setexit) || $setexit != 0)
 			{
@@ -68,7 +68,7 @@ class RedshopControllerAccount_shipto extends RedshopController
 		}
 		else
 		{
-			$link = JRoute::_('index.php?option=' . $option . '&view=account_shipto&Itemid=' . $Itemid, false);
+			$link = JRoute::_('index.php?option=com_redshop&view=account_shipto&Itemid=' . $Itemid, false);
 		}
 
 		$this->setRedirect($link, $msg);
@@ -102,11 +102,11 @@ class RedshopControllerAccount_shipto extends RedshopController
 
 		if ($return != "")
 		{
-			$link = JRoute::_('index.php?option=' . $option . '&view=' . $return . '&Itemid=' . $Itemid, false);
+			$link = JRoute::_('index.php?option=com_redshop&view=' . $return . '&Itemid=' . $Itemid, false);
 		}
 		else
 		{
-			$link = JRoute::_('index.php?option=' . $option . '&view=account_shipto&Itemid=' . $Itemid, false);
+			$link = JRoute::_('index.php?option=com_redshop&view=account_shipto&Itemid=' . $Itemid, false);
 		}
 
 		$this->setRedirect($link, $msg);
@@ -132,7 +132,7 @@ class RedshopControllerAccount_shipto extends RedshopController
 
 		if ($return != "")
 		{
-			$link = JRoute::_('index.php?option=' . $option . '&view=' . $return . '&users_info_id=' . $post['users_info_id'] . '&Itemid=' . $Itemid . '', false);
+			$link = JRoute::_('index.php?option=com_redshop&view=' . $return . '&users_info_id=' . $post['users_info_id'] . '&Itemid=' . $Itemid . '', false);
 
 			if (!isset($setexit) || $setexit != 0)
 			{
@@ -146,7 +146,7 @@ class RedshopControllerAccount_shipto extends RedshopController
 		}
 		else
 		{
-			$link = 'index.php?option=' . $option . '&view=account_shipto&Itemid=' . $Itemid;
+			$link = 'index.php?option=com_redshop&view=account_shipto&Itemid=' . $Itemid;
 		}
 
 		$this->setRedirect($link, $msg);

@@ -51,7 +51,7 @@ JPluginHelper::importPlugin('redshop_product');
 
 		if (pressbutton == 'add')
 		{
-			<?php      $link = 'index.php?option=' . $option . '&view=addorder_detail';
+			<?php      $link = 'index.php?option=com_redshop&view=addorder_detail';
 				$link = $redhelper->sslLink($link);
 		?>
 			window.location = '<?php echo $link;?>';
@@ -92,7 +92,7 @@ JPluginHelper::importPlugin('redshop_product');
 	}
 </script>
 
-<form action="<?php echo JRoute::_('index.php?option=' . $option . '&view=order'); ?>" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo JRoute::_('index.php?option=com_redshop&view=order'); ?>" method="post" name="adminForm" id="adminForm">
 <div id="editcell">
 <table class="adminlist" width="100%">
 	<tr>
@@ -225,7 +225,7 @@ for ($i = 0, $n = count($this->orders); $i < $n; $i++)
 				<tr>
 					<td>
 						<?php
-						$linkupdate = JRoute::_('index.php?option=' . $option . '&view=order&task=update_status&return=order&order_id[]=' . $row->order_id);
+						$linkupdate = JRoute::_('index.php?option=com_redshop&view=order&task=update_status&return=order&order_id[]=' . $row->order_id);
 						echo $order_function->getstatuslist('order_status' . $row->order_id, $row->order_status, "class=\"inputbox\" size=\"1\" ");
 						echo "&nbsp";
 						echo $order_function->getpaymentstatuslist('order_paymentstatus' . $row->order_id, $row->order_payment_status, "class=\"inputbox\" size=\"1\" ");

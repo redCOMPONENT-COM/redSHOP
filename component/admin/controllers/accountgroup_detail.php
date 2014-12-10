@@ -51,11 +51,11 @@ class RedshopControllerAccountgroup_detail extends RedshopController
 
 		if ($apply == 1)
 		{
-			$this->setRedirect('index.php?option=' . $option . '&view=accountgroup_detail&task=edit&cid[]=' . $row->accountgroup_id, $msg);
+			$this->setRedirect('index.php?option=com_redshop&view=accountgroup_detail&task=edit&cid[]=' . $row->accountgroup_id, $msg);
 		}
 		else
 		{
-			$this->setRedirect('index.php?option=' . $option . '&view=accountgroup', $msg);
+			$this->setRedirect('index.php?option=com_redshop&view=accountgroup', $msg);
 		}
 	}
 
@@ -63,7 +63,7 @@ class RedshopControllerAccountgroup_detail extends RedshopController
 	{
 		$option = JRequest::getVar('option');
 		$msg = JText::_('COM_REDSHOP_ACCOUNTGROUP_DETAIL_EDITING_CANCELLED');
-		$this->setRedirect('index.php?option=' . $option . '&view=accountgroup', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=accountgroup', $msg);
 	}
 
 	public function remove()
@@ -84,7 +84,7 @@ class RedshopControllerAccountgroup_detail extends RedshopController
 		}
 
 		$msg = JText::_('COM_REDSHOP_ACCOUNTGROUP_DETAIL_DELETED_SUCCESSFULLY');
-		$this->setRedirect('index.php?option=' . $option . '&view=accountgroup', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=accountgroup', $msg);
 	}
 
 	public function publish()
@@ -106,7 +106,7 @@ class RedshopControllerAccountgroup_detail extends RedshopController
 		}
 
 		$msg = JText::_('COM_REDSHOP_ACCOUNTGROUP_DETAIL_PUBLISHED_SUCCESSFULLY');
-		$this->setRedirect('index.php?option=' . $option . '&view=accountgroup', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=accountgroup', $msg);
 	}
 
 	public function unpublish()
@@ -127,6 +127,6 @@ class RedshopControllerAccountgroup_detail extends RedshopController
 		}
 
 		$msg = JText::_('COM_REDSHOP_ACCOUNTGROUP_DETAIL_UNPUBLISHED_SUCCESSFULLY');
-		$this->setRedirect('index.php?option=' . $option . '&view=accountgroup', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=accountgroup', $msg);
 	}
 }

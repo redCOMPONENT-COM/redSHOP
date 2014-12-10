@@ -115,7 +115,7 @@ for ($i = 0; $i < count($rows); $i++)
 		$Itemid = $redhelper->getItemid($row->product_id);
 	}
 
-	$link       = JRoute::_('index.php?option=' . $option . '&view=product&pid=' . $row->product_id . '&Itemid=' . $Itemid);
+	$link       = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $row->product_id . '&Itemid=' . $Itemid);
 	$thum_image = $producthelper->getProductImage($row->product_id, $link, $thumbwidth, $thumbheight);
 
 	echo "<div class='mod_redshop_shoppergroup_product'>";

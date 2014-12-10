@@ -1460,7 +1460,7 @@ class redshopMail
 
 			$list      = $this->_db->loadObject();
 
-			$link      = '<a href="' . $url . 'index.php?option=' . $option . '&view=newsletter&sid=' . $subscription_id . '">' .
+			$link      = '<a href="' . $url . 'index.php?option=com_redshop&view=newsletter&sid=' . $subscription_id . '">' .
 				JText::_('COM_REDSHOP_CLICK_HERE') . '</a>';
 
 			$search[]  = "{shopname}";

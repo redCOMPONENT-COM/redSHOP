@@ -72,7 +72,7 @@ echo 'index.php?option=' . $option;
 			{
 				$row = $this->newsletters [$i];
 				$row->id = $row->newsletter_id;
-				$link = JRoute::_('index.php?option=' . $option . '&view=newsletter_detail&task=edit&cid[]=' . $row->newsletter_id);
+				$link = JRoute::_('index.php?option=com_redshop&view=newsletter_detail&task=edit&cid[]=' . $row->newsletter_id);
 				$published = JHTML::_('grid.published', $row, $i);    ?>
 				<tr class="<?php echo "row$k"; ?>">
 					<td align="center"><?php echo $this->pagination->getRowOffset($i);?></td>

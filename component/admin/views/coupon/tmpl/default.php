@@ -96,7 +96,7 @@ $comment = JRequest::getVar('filter');
 			{
 				$row = $this->coupons[$i];
 				$row->id = $row->coupon_id;
-				$link = JRoute::_('index.php?option=' . $option . '&view=coupon_detail&task=edit&cid[]=' . $row->coupon_id);
+				$link = JRoute::_('index.php?option=com_redshop&view=coupon_detail&task=edit&cid[]=' . $row->coupon_id);
 
 				$published = JHtml::_('jgrid.published', $row->published, $i, '', 1);
 
