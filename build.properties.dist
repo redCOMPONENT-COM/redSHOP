@@ -1,5 +1,5 @@
 comp.name=redshop
-www.dir=/var/www/redSHOP-1.2
-comp.version=1.4dev24
-joomla.version=2.5
-package.dir=/wamp/www/github
+www.dir=
+comp.version=1.5
+joomla.version=3
+package.dir=

@@ -71,13 +71,13 @@ $ordering = ($this->lists['order'] == 'c.ordering');
 <form action="<?php echo 'index.php?option=' . $option; ?>" method="post" name="adminForm" id="adminForm">
 	<table width="100%" cellpadding="1" cellspacing="1" border="0">
 		<tr>
-			<td valign="top" align="left" class="key" width="30%">
+			<td colspan="2" valign="top" align="left" class="key" width="30%">
 				<?php echo JText::_('COM_REDSHOP_CATEGORY_FILTER'); ?>:
-				<input type="text" name="category_main_filter" id="category_main_filter"
-				       value="<?php echo $category_main_filter; ?>" onchange="document.adminForm.submit();">
-			</td>
-			<td width="">
-				<button onclick="document.adminForm.submit();"><?php echo JText::_('COM_REDSHOP_SEARCH'); ?></button>
+				<div class="btn-wrapper input-append">
+					<input type="text" name="category_main_filter" id="category_main_filter"
+						   value="<?php echo $category_main_filter; ?>" onchange="document.adminForm.submit();">
+					<button class="btn" onclick="document.adminForm.submit();"><?php echo JText::_('COM_REDSHOP_SEARCH'); ?></button>
+				</div>
 			</td>
 			<td align="right">
 				<?php echo JText::_('COM_REDSHOP_ASSIGN_TEMPLATE'); ?>:
@@ -90,13 +90,12 @@ $ordering = ($this->lists['order'] == 'c.ordering');
 		</tr>
 	</table>
 	<div id="editcell">
-		<table class="adminlist">
+		<table class="adminlist table table-striped">
 			<thead>
 			<tr>
 				<th width="5"><?php echo JText::_('COM_REDSHOP_NUM'); ?></th>
 				<th width="20">
-					<input type="checkbox" name="toggle" value=""
-					       onclick="checkAll(<?php echo count($this->categories); ?>);"/>
+					<?php echo JHtml::_('redshopgrid.checkall'); ?>
 				</th>
 				<th class="title">
 					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_CATEGORY_NAME', 'category_name', $this->lists['order_Dir'], $this->lists['order']); ?>
@@ -122,7 +121,7 @@ $ordering = ($this->lists['order'] == 'c.ordering');
 			$k = 0;
 			for ($i = 0, $n = count($this->categories); $i < $n; $i++)
 			{
-				$row = & $this->categories[$i];
+				$row = $this->categories[$i];
 				if (!is_object($row))
 				{
 					break;
@@ -159,7 +158,7 @@ $ordering = ($this->lists['order'] == 'c.ordering');
 						<span><?php echo $row->orderdown = $this->pagination->orderDownIcon($i, $n, ($row->category_parent_id == @$this->categories[$i + 1]->category_parent_id), 'orderdown', JText::_('JLIB_HTML_MOVE_DOWN'), 1); ?></span>
 						<?php $ordering ? $disable = '' : $disable = 'disabled="disabled"';    ?>
 						<input type="text" name="order[]" size="5"
-						       value="<?php echo $row->ordering; ?>"  <?php echo $disable;?> class="text_area"
+						       value="<?php echo $row->ordering; ?>"  <?php echo $disable;?> class="text_area input-small"
 						       style="text-align: center"/>
 					</td>
 					<td align="center" width="8%"><?php echo $published;?></td>
@@ -168,7 +167,13 @@ $ordering = ($this->lists['order'] == 'c.ordering');
 				<?php    $k = 1 - $k;
 			}    ?>
 			<tfoot>
-			<td colspan="9"><?php echo $this->pagination->getListFooter(); ?></td>
+			<td colspan="9">
+				<?php if (version_compare(JVERSION, '3.0', '>=')): ?>
+					<div class="redShopLimitBox">
+						<?php echo $this->pagination->getLimitBox(); ?>
+					</div>
+				<?php endif; ?>
+				<?php echo $this->pagination->getListFooter(); ?></td>
 			</tfoot>
 		</table>
 	</div>

@@ -15,7 +15,6 @@ JLoader::load('RedshopHelperExtra_field');
 JLoader::load('RedshopHelperHelper');
 JLoader::load('RedshopHelperCart');
 JLoader::load('RedshopHelperUser');
-JLoader::import('joomla.application.component.controller');
 
 /**
  * Order Detail Controller.
@@ -24,6 +23,6 @@ JLoader::import('joomla.application.component.controller');
  * @subpackage  Controller
  * @since       1.0
  */
-class RedshopControllerEpayrelay extends JController
+class RedshopControllerEpayrelay extends RedshopController
 {
 }

@@ -42,31 +42,31 @@ class order_functions
 	{
 		$query = 'TRUNCATE TABLE `' . $this->_table_prefix . 'orders`';
 		$this->_db->setQuery($query);
-		$this->_db->query();
+		$this->_db->execute();
 
 		$query = 'TRUNCATE TABLE `' . $this->_table_prefix . 'order_item`';
 		$this->_db->setQuery($query);
-		$this->_db->query();
+		$this->_db->execute();
 
 		$query = 'TRUNCATE TABLE `' . $this->_table_prefix . 'order_users_info`';
 		$this->_db->setQuery($query);
-		$this->_db->query();
+		$this->_db->execute();
 
 		$query = 'TRUNCATE TABLE `' . $this->_table_prefix . 'order_status_log`';
 		$this->_db->setQuery($query);
-		$this->_db->query();
+		$this->_db->execute();
 
 		$query = 'TRUNCATE TABLE `' . $this->_table_prefix . 'order_acc_item`';
 		$this->_db->setQuery($query);
-		$this->_db->query();
+		$this->_db->execute();
 
 		$query = 'TRUNCATE TABLE `' . $this->_table_prefix . 'order_attribute_item`';
 		$this->_db->setQuery($query);
-		$this->_db->query();
+		$this->_db->execute();
 
 		$query = 'TRUNCATE TABLE `' . $this->_table_prefix . 'order_payment`';
 		$this->_db->setQuery($query);
-		$this->_db->query();
+		$this->_db->execute();
 	}
 
 	/*
@@ -90,7 +90,7 @@ class order_functions
 		$query = 'UPDATE ' . $this->_table_prefix . 'orders ' . 'SET order_status = ' . $this->_db->quote($newstatus) . ', mdate = ' . (int) time()
 			. ' WHERE order_id = ' . (int) $order_id;
 		$this->_db->setQuery($query);
-		$this->_db->query();
+		$this->_db->execute();
 
 		$query = "SELECT p.element,op.order_transfee,op.order_payment_trans_id,op.order_payment_amount FROM #__extensions AS p " . "LEFT JOIN "
 			. $this->_table_prefix . "order_payment AS op ON op.payment_method_class=p.element " . "WHERE op.order_id = "
@@ -350,14 +350,13 @@ class order_functions
 		$error = curl_error($ch);
 		curl_close($ch);
 
-		$oXML = JFactory::getXMLParser('Simple');
-		$oXML->loadString($response, false, true);
+		$oXML = JFactory::getXML($response);
 
 		if ($oXML->document->_children[1]->_data == "201" && $oXML->document->_children[2]->_data == "Created")
 		{
 			$query = 'UPDATE ' . $this->_table_prefix . 'orders SET `order_label_create` = 1 WHERE order_id = ' . (int) $order_id;
 			$this->_db->setQuery($query);
-			$this->_db->query();
+			$this->_db->execute();
 
 			return "success";
 		}
@@ -418,19 +417,19 @@ class order_functions
 			$query = "UPDATE " . $this->_table_prefix . "orders set order_status = " . $this->_db->quote($data->order_status_code)
 				. ", order_payment_status = " . $this->_db->quote($data->order_payment_status_code) . " where order_id = " . (int) $order_id;
 			$this->_db->SetQuery($query);
-			$this->_db->Query();
+			$this->_db->execute();
 
 			$query = "UPDATE " . $this->_table_prefix . "order_payment SET order_transfee = " . $this->_db->quote($data->transfee)
 				. ", order_payment_trans_id = " . $this->_db->quote($data->transaction_id) . " where order_id = '" . (int) $order_id . "'";
 			$this->_db->SetQuery($query);
-			$this->_db->Query();
+			$this->_db->execute();
 
 			$statusmsg = $data->msg;
 			$query = "INSERT INTO  " . $this->_table_prefix . "order_status_log set order_status = " . $this->_db->quote($data->order_status_code)
 				. ", order_payment_status = " . $this->_db->quote($data->order_payment_status_code) . ", date_changed = " . (int) time()
 				. ", order_id = " . (int) $order_id . ", customer_note = " . $this->_db->quote($data->log);
 			$this->_db->SetQuery($query);
-			$this->_db->Query();
+			$this->_db->execute();
 
 			// Send status change email only if config is set to Before order mail or Order is not confirmed.
 			if (!ORDER_MAIL_AFTER
@@ -441,8 +440,8 @@ class order_functions
 
 			if ($data->order_payment_status_code == "Paid")
 			{
-				JModel::addIncludePath(JPATH_SITE . '/components/com_redshop/models');
-				$checkoutModelcheckout = JModel::getInstance('Checkout', 'RedshopModel');
+				JModelLegacy::addIncludePath(JPATH_SITE . '/components/com_redshop/models');
+				$checkoutModelcheckout = JModelLegacy::getInstance('Checkout', 'RedshopModel');
 				$checkoutModelcheckout->sendGiftCard($order_id);
 
 				// Send the Order mail
@@ -506,7 +505,7 @@ class order_functions
 		$query = 'UPDATE ' . $this->_table_prefix . 'orders ' . 'SET order_payment_status = ' . $this->_db->quote($newstatus) . ', mdate = '
 			. $this->_db->quote(time()) . ' WHERE order_id = ' . (int) $order_id;
 		$this->_db->setQuery($query);
-		$this->_db->query();
+		$this->_db->execute();
 	}
 
 	public function updateOrderComment($order_id, $comment = '')
@@ -514,7 +513,7 @@ class order_functions
 		$query = 'UPDATE ' . $this->_table_prefix . 'orders ' . 'SET customer_note = ' . $this->_db->quote($comment) . ' '
 			. 'WHERE order_id = ' . (int) $order_id;
 		$this->_db->setQuery($query);
-		$this->_db->query();
+		$this->_db->execute();
 	}
 
 	public function updateOrderRequisitionNumber($order_id, $requisition_number = '')
@@ -522,7 +521,7 @@ class order_functions
 		$query = 'UPDATE ' . $this->_table_prefix . 'orders ' . 'SET requisition_number = ' . $this->_db->quote($requisition_number) . ' '
 			. 'WHERE order_id = ' . (int) $order_id;
 		$this->_db->setQuery($query);
-		$this->_db->query();
+		$this->_db->execute();
 		$affected_rows = $this->_db->getAffectedRows();
 
 		if ($affected_rows)
@@ -577,7 +576,7 @@ class order_functions
 
 		$db->setQuery($query);
 
-		if (!$db->query())
+		if (!$db->execute())
 		{
 			JFactory::getApplication()->enqueueMessage($db->getErrorMsg(), 'error');
 		}
@@ -834,8 +833,8 @@ class order_functions
 					$dispatcher->trigger('exportOrder', array ($xml_order));
 				}
 
-				JModel::addIncludePath(JPATH_SITE . '/components/com_redshop/models');
-				$checkoutModelcheckout = JModel::getInstance('Checkout', 'RedshopModel');
+				JModelLegacy::addIncludePath(JPATH_SITE . '/components/com_redshop/models');
+				$checkoutModelcheckout = JModelLegacy::getInstance('Checkout', 'RedshopModel');
 				$checkoutModelcheckout->sendGiftCard($order_id);
 
 				// Send the Order mail
@@ -1003,8 +1002,8 @@ class order_functions
 
 			if ($paymentstatus == "Paid")
 			{
-				JModel::addIncludePath(JPATH_SITE . '/components/com_redshop/models');
-				$checkoutModelcheckout = JModel::getInstance('Checkout', 'RedhopModel');
+				JModelLegacy::addIncludePath(JPATH_SITE . '/components/com_redshop/models');
+				$checkoutModelcheckout = JModelLegacy::getInstance('Checkout', 'RedhopModel');
 				$checkoutModelcheckout->sendGiftCard($oid[0]);
 
 				// Send the Order mail
@@ -1822,7 +1821,7 @@ class order_functions
 
 			if ($mailbody && $useremail != "")
 			{
-				JUtility::sendMail($MailFrom, $FromName, $useremail, $mailsubject, $mailbody, 1, null, $mailbcc);
+				JMail::getInstance()->sendMail($MailFrom, $FromName, $useremail, $mailsubject, $mailbody, 1, null, $mailbcc);
 			}
 		}
 
@@ -1988,7 +1987,7 @@ class order_functions
 		$db = JFactory::getDbo();
 		$barcodequery = 'UPDATE ' . $this->_table_prefix . 'orders SET barcode = ' . $db->quote($barcode) . ' WHERE order_id = ' . (int) $oid;
 		$db->setQuery($barcodequery);
-		$db->query();
+		$db->execute();
 	}
 
 	public function checkupdateordersts($data)
@@ -2171,7 +2170,7 @@ class order_functions
 
 			if ('' != $userdetail->thirdparty_email && $mailbody)
 			{
-				JUtility::sendMail(
+				JMail::getInstance()->sendMail(
 					$MailFrom,
 					$FromName,
 					$userdetail->thirdparty_email,
@@ -2184,7 +2183,7 @@ class order_functions
 
 			if ('' != $userdetail->user_email && $mailbody)
 			{
-				JUtility::sendMail(
+				JMail::getInstance()->sendMail(
 					$MailFrom,
 					$FromName,
 					$userdetail->user_email,

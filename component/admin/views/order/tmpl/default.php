@@ -122,7 +122,7 @@ JPluginHelper::importPlugin('redshop_product');
 		<?php echo JText::_('COM_REDSHOP_NUM'); ?>
 	</th>
 	<th width="5%" class="title">
-		<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count($this->orders); ?>);"/>
+		<?php echo JHtml::_('redshopgrid.checkall'); ?>
 	</th>
 	<th class="title" width="5%">
 		<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_ORDER_ID', 'order_id', $this->lists['order_Dir'], $this->lists['order']); ?>
@@ -179,7 +179,7 @@ $k = 0;
 
 for ($i = 0, $n = count($this->orders); $i < $n; $i++)
 {
-	$row = & $this->orders[$i];
+	$row = $this->orders[$i];
 	$row->id = $row->order_id;
 	$link = 'index.php?option=com_redshop&view=order_detail&task=edit&cid[]=' . $row->order_id;
 	$link = $redhelper->sslLink($link);
@@ -387,6 +387,11 @@ for ($i = 0, $n = count($this->orders); $i < $n; $i++)
 ?>
 <tfoot>
 <td colspan="13">
+	<?php if (version_compare(JVERSION, '3.0', '>=')): ?>
+		<div class="redShopLimitBox">
+			<?php echo $this->pagination->getLimitBox(); ?>
+		</div>
+	<?php endif; ?>
 	<?php  echo $this->pagination->getListFooter(); ?>
 </td>
 </tfoot>

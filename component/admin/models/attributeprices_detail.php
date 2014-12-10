@@ -9,9 +9,8 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
 
-class RedshopModelAttributeprices_detail extends JModel
+class RedshopModelAttributeprices_detail extends RedshopModel
 {
 	public $_id = null;
 
@@ -167,7 +166,7 @@ class RedshopModelAttributeprices_detail extends JModel
 				. 'WHERE price_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 

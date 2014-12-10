@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-JLoader::import('joomla.application.component.controller');
 
 JLoader::load('RedshopHelperAdminQuotation');
 JLoader::load('RedshopHelperAdminMail');
@@ -22,7 +21,7 @@ JLoader::load('RedshopHelperHelper');
  * @subpackage  Controller
  * @since       1.0
  */
-class RedshopControllerQuotation_detail extends JController
+class RedshopControllerQuotation_detail extends RedshopController
 {
 	/**
 	 * update status function
@@ -36,7 +35,7 @@ class RedshopControllerQuotation_detail extends JController
 		$option = JRequest::getVar('option');
 		$Itemid = JRequest::getVar('Itemid');
 		$encr   = JRequest::getVar('encr');
-		$model = $this->getModel();
+		$model = $this->getModel('quotation_detail');
 
 		$quotationHelper = new quotationHelper;
 		$redshopMail     = new redshopMail;
@@ -68,7 +67,7 @@ class RedshopControllerQuotation_detail extends JController
 		$encr   = JRequest::getVar('encr');
 
 		$quotationHelper = new quotationHelper;
-		$model           = $this->getmodel();
+		$model           = $this->getModel('quotation_detail');
 		$session         = JFactory::getSession();
 		$redhelper       = new redhelper;
 

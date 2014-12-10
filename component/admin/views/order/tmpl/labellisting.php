@@ -66,7 +66,7 @@ if ($download)
 			$k = 0;
 			for ($i = 0, $n = count($this->orders); $i < $n; $i++)
 			{
-				$row = & $this->orders[$i];
+				$row = $this->orders[$i];
 				$row->id = $row->order_id;
 				$link = JRoute::_('index.php?option=' . $option . '&view=order_detail&task=edit&cid[]=' . $row->order_id);
 				$dlink = JRoute::_('index.php?option=' . $option . '&view=order&layout=labellisting&download=1&oid=' . $row->order_id);
@@ -100,6 +100,11 @@ if ($download)
 			}?>
 			<tfoot>
 			<td colspan="9">
+				<?php if (version_compare(JVERSION, '3.0', '>=')): ?>
+					<div class="redShopLimitBox">
+						<?php echo $this->pagination->getLimitBox(); ?>
+					</div>
+				<?php endif; ?>
 				<?php  echo $this->pagination->getListFooter(); ?>
 			</td>
 			</tfoot>

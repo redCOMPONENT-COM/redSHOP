@@ -45,7 +45,6 @@ $showbuttons = JRequest::getVar('showbuttons', '', 'request', 0);    ?>
 			<thead>
 			<tr>
 				<th width="5%"><?php echo JText::_('COM_REDSHOP_NUM'); ?></th>
-				<!--<th style="display:none;"><input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count( $this->products ); ?>);" /></th>-->
 				<th width="25%"><?php echo JHTML::_('grid.sort', 'COM_REDSHOP_PRODUCT_NAME', 'op.order_item_name', $this->lists['order_Dir'], $this->lists['order']); ?></th>
 				<th width="10%"><?php echo JHTML::_('grid.sort', 'COM_REDSHOP_PRODUCT_NUMBER', 'op.order_item_sku', $this->lists['order_Dir'], $this->lists['order']); ?></th>
 				<th width="10%"><?php echo JHTML::_('grid.sort', 'COM_REDSHOP_ORDER_ID', 'op.order_id', $this->lists['order_Dir'], $this->lists['order']); ?></th>
@@ -60,7 +59,7 @@ $showbuttons = JRequest::getVar('showbuttons', '', 'request', 0);    ?>
 			$totvolume = 0;
 			for ($i = 0, $n = count($this->products); $i < $n; $i++)
 			{
-				$row = & $this->products[$i];
+				$row = $this->products[$i];
 
 				$link = JRoute::_('index.php?option=' . $option . '&view=product_detail&task=edit&cid[]=' . $row->product_id);
 				$link_order = 'index.php?option=' . $option . '&view=order_detail&task=edit&cid[]=' . $row->order_id;
@@ -87,7 +86,13 @@ $showbuttons = JRequest::getVar('showbuttons', '', 'request', 0);    ?>
 			<?php if ($showbuttons != 1)
 			{ ?>
 				<tfoot>
-				<td colspan="8"><?php echo $this->pagination->getListFooter(); ?></td>
+				<td colspan="8">
+					<?php if (version_compare(JVERSION, '3.0', '>=')): ?>
+						<div class="redShopLimitBox">
+							<?php echo $this->pagination->getLimitBox(); ?>
+						</div>
+					<?php endif; ?>
+					<?php echo $this->pagination->getListFooter(); ?></td>
 				</tfoot>
 			<?php } ?>
 		</table>

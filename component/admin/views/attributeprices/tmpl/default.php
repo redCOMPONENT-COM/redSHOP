@@ -50,8 +50,7 @@ $producthelper = new producthelper;
 			<thead>
 			<tr>
 				<th width="5%"><?php echo JText::_('COM_REDSHOP_NUM'); ?></th>
-				<th width="5%"><input type="checkbox" name="toggle"
-				                      onclick="checkAll(<?php echo count($this->data); ?>);"/></th>
+				<th width="5%"><?php echo JHtml::_('redshopgrid.checkall'); ?></th>
 				<th class="title" align="left" width="15%"><?php echo JText::_('COM_REDSHOP_PROPERTY'); ?></th>
 				<th width="10%"><?php echo JText::_('COM_REDSHOP_SHOPPER_GROUP'); ?></th>
 				<th width="10%"><?php echo JText::_('COM_REDSHOP_QUANTITY_START_LBL'); ?></th>
@@ -63,7 +62,7 @@ $producthelper = new producthelper;
 			<?php    $k = 0;
 			for ($i = 0; $i < count($this->data); $i++)
 			{
-				$row = & $this->data[$i];
+				$row = $this->data[$i];
 				$row->id = $row->price_id;
 				$link = JRoute::_('index.php?tmpl=component&option=' . $option . '&view=attributeprices_detail&task=edit&section=' . $this->section . '&section_id=' . $row->section_id . '&cid[]=' . $row->price_id);?>
 				<tr class="<?php echo "row$k"; ?>">
@@ -83,7 +82,13 @@ $producthelper = new producthelper;
 				<?php        $k = 1 - $k;
 			}    ?>
 			<tfoot>
-			<td colspan="8"><?php echo $this->pagination->getListFooter(); ?></td>
+			<td colspan="8">
+				<?php if (version_compare(JVERSION, '3.0', '>=')): ?>
+					<div class="redShopLimitBox">
+						<?php echo $this->pagination->getLimitBox(); ?>
+					</div>
+				<?php endif; ?>
+				<?php echo $this->pagination->getListFooter(); ?></td>
 			</tfoot>
 		</table>
 	</div>
