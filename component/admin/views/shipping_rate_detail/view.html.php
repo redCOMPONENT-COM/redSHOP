@@ -34,7 +34,7 @@ class RedshopViewShipping_rate_detail extends RedshopView
 		$document->addScript('components/' . $option . '/assets/js/select_sort.js');
 		$document->addStyleSheet('components/' . $option . '/assets/css/search.css');
 		$document->addScript('components/' . $option . '/assets/js/search.js');
-		JHtml::script('com_redshop/common.js', false, true);
+		$document->addScript('components/com_redshop/assets/js/common.js');
 
 		$shippingpath = JPATH_ROOT . '/plugins/' . $shipping->folder . '/' . $shipping->element . '.xml';
 		$myparams = new JRegistry($shipping->params, $shippingpath);
