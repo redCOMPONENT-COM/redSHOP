@@ -32,17 +32,11 @@ $data = array(
 	<?php foreach ($data as $value => $text): ?>
 
 		<!-- Shopper Group Attribute Price Hint -->
-		<?php if ($value == 'shopperGroupAttributePrice') : ?>
-			<dl id="system-message">
-				<dt class="message">Message</dt>
-				<dd class="message message">
-					<ul>
-						<li><?php echo JText::_('COM_REDSHOP_EXPORT_SHOPPER_GROUP_ATTRIBUTE_SPECIFIC_PRICE_HINT'); ?></li>
-					</ul>
-				</dd>
-			</dl>
-		<?php endif; ?>
-
+		<?php if ($value == 'shopperGroupAttributePrice')
+		{
+			$msgList = array('msgList' => array('message' => array(JText::_('COM_REDSHOP_EXPORT_SHOPPER_GROUP_ATTRIBUTE_SPECIFIC_PRICE_HINT'))));
+			echo RedshopLayoutHelper::render('system.message', $msgList);
+		} ?>
 		<p>
 			<label class="radio">
 			<input
