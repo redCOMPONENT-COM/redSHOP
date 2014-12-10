@@ -299,7 +299,7 @@ class RedshopModelStockroom_listing extends RedshopModel
 		$query = "SELECT product_id FROM " . $this->_table_prefix . "product_category_xref "
 			. "WHERE category_id= " . $cid;
 		$this->_db->setQuery($query);
-		$this->_data = $this->_db->loadColumn();
+		$this->_data = $this->_db->loadResultArray();
 
 		return $this->_data;
 	}

@@ -1052,7 +1052,7 @@ class RedshopModelExport extends RedshopModel
 					. "FROM `#__redshop_product` AS p "
 					. "WHERE p.manufacturer_id=" . $manufacturers[$e]->manufacturer_id;
 				$db->setQuery($query);
-				$pids = $db->loadColumn();
+				$pids = $db->LoadResultArray();
 				$pids = implode("|", $pids);
 
 				foreach ($row as $id => $value)

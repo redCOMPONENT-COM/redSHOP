@@ -285,7 +285,7 @@ class RedshopModelProduct extends RedshopModel
 			$product_id = implode(',', $product);
 			$query_prd = "SELECT DISTINCT(p.product_id) FROM " . $this->_table_prefix . "product AS p WHERE p.product_id NOT IN(" . $product_id . ")";
 			$this->_db->setQuery($query_prd);
-			$final_products = $this->_db->loadColumn();
+			$final_products = $this->_db->loadResultArray();
 
 			return $final_products;
 		}
