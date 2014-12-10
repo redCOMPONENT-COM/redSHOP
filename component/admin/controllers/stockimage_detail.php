@@ -44,7 +44,7 @@ class RedshopControllerStockimage_detail extends RedshopController
 			$msg = JText::_('COM_REDSHOP_ERROR_SAVING_STOCKIMAGE_DETAIL');
 		}
 
-		$this->setRedirect('index.php?option=' . $option . '&view=stockimage', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=stockimage', $msg);
 	}
 
 	public function remove()
@@ -65,13 +65,13 @@ class RedshopControllerStockimage_detail extends RedshopController
 		}
 
 		$msg = JText::_('COM_REDSHOP_STOCKIMAGE_DETAIL_DELETED_SUCCESSFULLY');
-		$this->setRedirect('index.php?option=' . $option . '&view=stockimage', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=stockimage', $msg);
 	}
 
 	public function cancel()
 	{
 		$option = JRequest::getVar('option');
 		$msg = JText::_('COM_REDSHOP_STOCKIMAGE_DETAIL_EDITING_CANCELLED');
-		$this->setRedirect('index.php?option=' . $option . '&view=stockimage', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=stockimage', $msg);
 	}
 }

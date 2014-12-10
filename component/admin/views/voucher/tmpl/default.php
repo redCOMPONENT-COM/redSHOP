@@ -83,7 +83,7 @@ $option = JRequest::getVar('option', '', 'request', 'string');
 			{
 				$row = $this->vouchers[$i];
 				$row->id = $row->voucher_id;
-				$link = JRoute::_('index.php?option=' . $option . '&view=voucher_detail&task=edit&cid[]=' . $row->voucher_id);
+				$link = JRoute::_('index.php?option=com_redshop&view=voucher_detail&task=edit&cid[]=' . $row->voucher_id);
 
 				$published = JHtml::_('jgrid.published', $row->published, $i, '', 1);
 				?>

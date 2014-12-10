@@ -55,7 +55,7 @@ class RedshopControllerOrder extends RedshopController
 	public function cancel()
 	{
 		$option = JRequest::getVar('option');
-		$this->setRedirect('index.php?option=' . $option . '&view=order');
+		$this->setRedirect('index.php?option=com_redshop&view=order');
 	}
 
 	public function update_status()
@@ -84,7 +84,7 @@ class RedshopControllerOrder extends RedshopController
 		$session->set('updateOrderIdPost', $post);
 		$session->set('merge_invoice_arr', $merge_invoice_arr);
 
-		$this->setRedirect('index.php?option=' . $option . '&view=order&layout=previewlog');
+		$this->setRedirect('index.php?option=com_redshop&view=order&layout=previewlog');
 
 		return;
 	}
