@@ -58,7 +58,7 @@ if ($user->id)
 $query = "SELECT user_id FROM #__redshop_users_info AS ui "
 	. "WHERE ui.shopper_group_id='" . $shopper_group_id . "' ";
 $db->setQuery($query);
-$user_id_arr = $db->loadColumn();
+$user_id_arr = $db->loadResultArray();
 
 $user_id_str = '';
 if (count($user_id_arr) > 0)
@@ -68,7 +68,7 @@ if (count($user_id_arr) > 0)
 $query = "SELECT o.order_id FROM #__redshop_orders AS o "
 	. "WHERE o.user_id IN (" . $user_id_str . ") ";
 $db->setQuery($query);
-$order_id_arr = $db->loadColumn();
+$order_id_arr = $db->loadResultArray();
 $order_id_str = '';
 if (count($order_id_arr) > 0)
 {

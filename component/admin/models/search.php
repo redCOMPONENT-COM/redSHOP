@@ -268,7 +268,7 @@ class RedshopModelSearch extends RedshopModel
 					. "FROM " . $this->_table_prefix . "product_related "
 					. "WHERE product_id='" . $this->_product_id . "' ";
 				$this->_db->setQuery($query);
-				$related = $this->_db->loadColumn();
+				$related = $this->_db->loadResultArray();
 				$related[count($related)] = $this->_product_id;
 				$relatedid = implode(", ", $related);
 
