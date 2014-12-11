@@ -43,6 +43,8 @@ script:
   #- php .travis/phpparseerrorchecker.php component/ modules/ plugins/
   - mv tests/acceptance.suite.dist.yml tests/acceptance.suite.yml # Create travis system tests config file
   - "wget http://codeception.com/codecept.phar"
+  - echo $GROUP
+  - echo $ENV
   - php vendor/bin/codecept build
   - php codecept.phar run acceptance -g $GROUP --env $ENV
   #- php codecept.phar run acceptance -g Joomla3 --env joomla3
