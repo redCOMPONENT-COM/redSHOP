@@ -9,14 +9,13 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
 jimport('joomla.filesystem.file');
 
 JLoader::load('RedshopHelperAdminThumbnail');
 JLoader::load('RedshopHelperAdminOrder');
 JLoader::load('RedshopHelperProduct');
 
-class RedshopModelImport extends JModel
+class RedshopModelImport extends RedshopModel
 {
 	/**
 	 * Shopper Groups information array

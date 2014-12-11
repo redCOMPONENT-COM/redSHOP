@@ -8,11 +8,10 @@
  */
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
 
 JLoader::load('RedshopHelperAdminMail');
 
-class RedshopModelAccessmanager_detail extends JModel
+class RedshopModelAccessmanager_detail extends RedshopModel
 {
 	public $_table_prefix = null;
 

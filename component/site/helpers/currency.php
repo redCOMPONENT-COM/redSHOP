@@ -128,17 +128,16 @@ class CurrencyHelper
 				}
 
 				/* XML Parsing */
-				$xml = JFactory::getXMLParser('Simple');
-				@$xml->loadFile($archivefile_name);
+				$xml = JFactory::getXML($archivefile_name);
 
 				// Access a given node's CDATA
-				$currency_list = $xml->document->Cube[0]->_children;
+				$currencies = $xml->Cube->Cube->Cube;
 
 				// Loop through the Currency List
-				for ($i = 0; $i < count($currency_list); $i++)
+				for ($i = 0; $i < count($currencies); $i++)
 				{
-					$currNode                        = $currency_list[$i]->_attributes;
-					$currency[$currNode['currency']] = $currNode['rate'];
+					$currNode = $currencies[$i]->attributes();
+					$currency[(string) $currNode->currency] = (string) $currNode->rate;
 					unset($currNode);
 				}
 
@@ -168,7 +167,7 @@ class CurrencyHelper
 	{
 		$config = new Redconfiguration;
 
-		$session = JFactory::getSession('product_currency');
+		$session = JFactory::getSession();
 
 		// Global $vendor_currency is DEFAULT!
 		if (!$currA)

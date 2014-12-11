@@ -106,12 +106,20 @@
 		JRequest::setVar('view', 'redshop');
 	}
 
+	JHtml::_('behavior.framework');
+	$document = JFactory::getDocument();
+
+	if (version_compare(JVERSION, '3.0', '>='))
+	{
+		JHtml::_('formbehavior.chosen', 'select');
+		$document->addStyleSheet(JURI::root() . 'administrator/components/com_redshop/assets/css/j3ready.css');
+	}
+
 	$user        = JFactory::getUser();
 	$task        = JRequest::getVar('task');
 	$layout      = JRequest::getVar('layout', '');
 	$showbuttons = JRequest::getVar('showbuttons', '0');
 	$showall     = JRequest::getVar('showall', '0');
-	$document    = JFactory::getDocument();
 
 	$document->addStyleDeclaration('fieldset.adminform textarea {margin: 0px 0px 10px 0px !important;width: 100% !important;}');
 
@@ -134,7 +142,8 @@
 		&& $task != "removepropertyImage" && $controller != "product_price" && $task != "template" && $json_var == ''
 		&& $task != 'gbasedownload' && $task != "export_data" && $showbuttons != "1" && $showall != 1
 		&& $controller != "product_attribute_price" && $task != "ins_product" && $controller != "shipping_rate_detail"
-		&& $controller != "accountgroup_detail" && $layout != "labellisting" && $task != "checkVirtualNumber" && $format == 'html')
+		&& $controller != "accountgroup_detail" && $layout != "labellisting" && $task != "checkVirtualNumber" && $controller != "update"
+		&& $format == 'html')
 	{
 		if ($controller != "redshop" && $controller != "configuration" && $controller != "product_detail"
 			&& $controller != "country_detail" && $controller != "state_detail" && $controller != "category_detail"
@@ -184,7 +193,17 @@
 
 	// Execute the task.
 	$controller	= JControllerLegacy::getInstance('Redshop');
-	$controller->execute(JRequest::getCmd('task'));
+
+	if (version_compare(JVERSION, '3.0', '<'))
+	{
+		$task = JRequest::getCmd('task');
+	}
+	else
+	{
+		$task = $app->input->get('task', '');
+	}
+
+	$controller->execute($task);
 	$controller->redirect();
 
 	// End div here

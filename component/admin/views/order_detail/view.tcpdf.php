@@ -8,13 +8,12 @@
  */
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
 
 JLoader::load('RedshopHelperAdminExtra_field');
 require_once JPATH_COMPONENT_SITE . '/helpers/tcpdf/tcpdf.php';
 JLoader::load('RedshopHelperAdminOrder');
 
-class RedshopViewOrder_detail extends JView
+class RedshopViewOrder_detail extends RedshopView
 {
 	function display($tpl = null)
 	{

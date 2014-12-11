@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-JLoader::import('joomla.application.component.model');
 
 JLoader::load('RedshopHelperProduct');
 JLoader::load('RedshopHelperAdminMail');
@@ -21,7 +20,7 @@ JLoader::load('RedshopHelperAdminMail');
  * @subpackage  Model
  * @since       1.0
  */
-class RedshopModelAccount extends JModel
+class RedshopModelAccount extends RedshopModel
 {
 	public $_id = null;
 
@@ -280,7 +279,7 @@ class RedshopModelAccount extends JModel
 			$app->enqueueMessage(JText::_('COM_REDSHOP_YOU_DONT_HAVE_ACCESS_TO_DELETE_THIS_PRODUCT'));
 		}
 
-		$app->Redirect('index.php?option=' . $option . '&wishlist_id=' . $wishlist_id . '&view=account&layout=mywishlist&Itemid=' . $Itemid);
+		$app->Redirect('index.php?option=com_redshop&wishlist_id=' . $wishlist_id . '&view=account&layout=mywishlist&Itemid=' . $Itemid);
 	}
 
 	public function removeTag()
@@ -300,7 +299,7 @@ class RedshopModelAccount extends JModel
 			$app->enqueueMessage(JText::_('COM_REDSHOP_ERROR_DELETING_TAG'));
 		}
 
-		$app->Redirect('index.php?option=' . $option . '&view=account&layout=mytags&Itemid=' . $Itemid);
+		$app->Redirect('index.php?option=com_redshop&view=account&layout=mytags&Itemid=' . $Itemid);
 	}
 
 	public function removeTags($tagid)
@@ -403,7 +402,7 @@ class RedshopModelAccount extends JModel
 			$app->enqueueMessage(JText::_('COM_REDSHOP_ERROR_DELETING_PRODUCT_FROM_COMPARE'));
 		}
 
-		$app->Redirect('index.php?option=' . $option . '&view=account&layout=compare&Itemid=' . $Itemid);
+		$app->Redirect('index.php?option=com_redshop&view=account&layout=compare&Itemid=' . $Itemid);
 	}
 
 	public function sendWishlist($post)

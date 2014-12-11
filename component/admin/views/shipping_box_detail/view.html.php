@@ -9,9 +9,8 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
 
-class RedshopViewShipping_box_detail extends JView
+class RedshopViewShipping_box_detail extends RedshopView
 {
 	/**
 	 * The request url.
@@ -25,10 +24,6 @@ class RedshopViewShipping_box_detail extends JView
 		JToolBarHelper::title(JText::_('COM_REDSHOP_SHIPPING_BOX'), 'redshop_templates48');
 
 		$uri = JFactory::getURI();
-
-		jimport('joomla.html.pane');
-		$pane = JPane::getInstance('sliders');
-		$this->pane = $pane;
 
 		$this->setLayout('default');
 

@@ -9,9 +9,8 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
 
-class RedshopViewRating_detail extends JView
+class RedshopViewRating_detail extends RedshopView
 {
 	public function display($tpl = null)
 	{
@@ -22,9 +21,9 @@ class RedshopViewRating_detail extends JView
 
 		$document = JFactory::getDocument();
 
-		$document->addStyleSheet('components/' . $option . '/assets/css/search.css');
+		$document->addStyleSheet('components/com_redshop/assets/css/search.css');
 
-		$document->addScript('components/' . $option . '/assets/js/search.js');
+		$document->addScript('components/com_redshop/assets/js/search.js');
 
 		$uri = JFactory::getURI();
 

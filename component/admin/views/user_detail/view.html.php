@@ -13,9 +13,8 @@ JLoader::load('RedshopHelperAdminExtra_field');
 JLoader::load('RedshopHelperHelper');
 JLoader::load('RedshopHelperAdminShopper');
 
-jimport('joomla.application.component.view');
 
-class RedshopViewUser_detail extends JView
+class RedshopViewUser_detail extends RedshopView
 {
 	public function display($tpl = null)
 	{
@@ -59,7 +58,7 @@ class RedshopViewUser_detail extends JView
 		}
 		else
 		{
-			JToolBarHelper::customX('order', 'redshop_order32', '', JText::_('COM_REDSHOP_PLACE_ORDER'), false);
+			JToolBarHelper::custom('order', 'redshop_order32', '', JText::_('COM_REDSHOP_PLACE_ORDER'), false);
 			JToolBarHelper::cancel('cancel', JText::_('JTOOLBAR_CLOSE'));
 		}
 

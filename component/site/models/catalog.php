@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-JLoader::import('joomla.application.component.model');
 JLoader::load('RedshopHelperAdminMail');
 
 /**
@@ -19,7 +18,7 @@ JLoader::load('RedshopHelperAdminMail');
  * @subpackage  Model
  * @since       1.0
  */
-class RedshopModelCatalog extends JModel
+class RedshopModelCatalog extends RedshopModel
 {
 	public $_table_prefix = null;
 

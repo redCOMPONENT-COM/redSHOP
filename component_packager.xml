@@ -38,7 +38,7 @@
     <!-- Version of the redSHOP for witch the module is intended to  -->
     <property
             name="joomla_version"
-            value="25"
+            value="${joomla.version}"
             override="true" />
 
     <!-- ============================================  -->
