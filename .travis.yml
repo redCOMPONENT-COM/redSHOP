@@ -3,6 +3,10 @@ language: php
 php:
   - 5.4
 
+env:
+ - GROUP=Joomla2 ENV=joomla2
+ - GROUP=Joomla3 ENV=joomla3
+
 before_script:
   - phpenv config-add .travis.ini
   - phpenv rehash
@@ -40,8 +44,8 @@ script:
   - mv tests/acceptance.suite.dist.yml tests/acceptance.suite.yml # Create travis system tests config file
   - "wget http://codeception.com/codecept.phar"
   - php vendor/bin/codecept build
-  - php codecept.phar run acceptance -g Joomla2 --env joomla2
-  - php codecept.phar run acceptance -g Joomla3 --env joomla3
+  - php codecept.phar run acceptance -g $GROUP --env $ENV
+  #- php codecept.phar run acceptance -g Joomla3 --env joomla3
   - php .travis/codeceptionerror2slack.php # Send found errors into redSHOP slackchat
 
 
