@@ -1021,7 +1021,7 @@ class producthelper
 	public function getProductFormattedPrice($product_price, $convert = true, $currency_symbol = REDCURRENCY_SYMBOL)
 	{
 		// Get Current Currency of SHOP
-		$session = JFactory::getSession('product_currency');
+		$session = JFactory::getSession();
 		/*
 		 * if convert set true than use conversation
 		 */
@@ -2043,7 +2043,7 @@ class producthelper
 
 		if (empty($userArr))
 		{
-			$userArr = $this->_userhelper->createUserSession($userid);
+			$userArr = $this->_userhelper->createUserSession($user_id);
 		}
 
 		$shopperGroupId = $userArr['rs_user_shopperGroup'];
@@ -2052,9 +2052,11 @@ class producthelper
 			. " WHERE ds.shopper_group_id = " . (int) $shopperGroupId;
 
 		$this->_db->setQuery($sql);
-		$list       = $this->_db->loadResultArray();
-		$list       = array_merge(array(0 => '0'), $list);
 
+		if ($list = $this->_db->loadResultArray())
+		{
+			$list = array_merge(array(0 => '0'), $list);
+		}
 
 		if (!empty($list))
 		{
@@ -5173,7 +5175,7 @@ class producthelper
 		}
 
 		$document = JFactory::getDocument();
-		JHTML::Script('thumbscroller.js', 'components/com_redshop/assets/js/', false);
+		JHtml::script('com_redshop/thumbscroller.js', false, true);
 		$layout = JRequest::getVar('layout');
 
 		$preprefix = "";
@@ -5655,7 +5657,7 @@ class producthelper
 		$subproperty     = array();
 		$document        = JFactory::getDocument();
 
-		JHTML::Script('thumbscroller.js', 'components/com_redshop/assets/js/', false);
+		JHtml::script('com_redshop/thumbscroller.js', false, true);
 		$chkvatArr = $this->_session->get('chkvat');
 		$chktag    = $chkvatArr['chkvat'];
 
@@ -10500,7 +10502,7 @@ class producthelper
 
 						if (count($manufacturer) > 0)
 						{
-							$man_url               = JRoute::_('index.php?option=' . $option . '&view=manufacturers&layout=products&mid=' . $related_product[$r]->manufacturer_id . '&Itemid=' . $pItemid);
+							$man_url               = JRoute::_('index.php?option=com_redshop&view=manufacturers&layout=products&mid=' . $related_product[$r]->manufacturer_id . '&Itemid=' . $pItemid);
 							$manufacturerLink      = "<a href='" . $man_url . "'>" . JText::_("COM_REDSHOP_VIEW_ALL_MANUFACTURER_PRODUCTS") . "</a>";
 							$related_template_data = str_replace("{manufacturer_name}", $manufacturer->manufacturer_name, $related_template_data);
 							$related_template_data = str_replace("{manufacturer_link}", $manufacturerLink, $related_template_data);
@@ -10512,7 +10514,7 @@ class producthelper
 						}
 					}
 
-					$relmorelink           = JRoute::_('index.php?option=' . $option . '&view=product&pid='
+					$relmorelink           = JRoute::_('index.php?option=com_redshop&view=product&pid='
 						. $related_product [$r]->product_id . '&cid=' . $related_product[$r]->cat_in_sefurl . '&Itemid='
 						. $pItemid);
 					$rmore                 = "<a href='" . $relmorelink . "' title='" . $related_product [$r]->product_name

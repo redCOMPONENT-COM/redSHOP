@@ -9,9 +9,8 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.controller');
 
-class RedshopControllerRating_detail extends JController
+class RedshopControllerRating_detail extends RedshopController
 {
 	public function __construct($default = array())
 	{
@@ -58,7 +57,7 @@ class RedshopControllerRating_detail extends JController
 			$msg = JText::_('COM_REDSHOP_ERROR_SAVING_RATING_DETAIL');
 		}
 
-		$this->setRedirect('index.php?option=' . $option . '&view=rating', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=rating', $msg);
 	}
 
 	public function remove()
@@ -80,7 +79,7 @@ class RedshopControllerRating_detail extends JController
 		}
 
 		$msg = JText::_('COM_REDSHOP_RATING_DETAIL_DELETED_SUCCESSFULLY');
-		$this->setRedirect('index.php?option=' . $option . '&view=rating', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=rating', $msg);
 	}
 
 	public function publish()
@@ -102,7 +101,7 @@ class RedshopControllerRating_detail extends JController
 		}
 
 		$msg = JText::_('COM_REDSHOP_RATING_DETAIL_PUBLISHED_SUCCESFULLY');
-		$this->setRedirect('index.php?option=' . $option . '&view=rating', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=rating', $msg);
 	}
 
 	public function unpublish()
@@ -124,7 +123,7 @@ class RedshopControllerRating_detail extends JController
 		}
 
 		$msg = JText::_('COM_REDSHOP_RATING_DETAIL_UNPUBLISHED_SUCCESFULLY');
-		$this->setRedirect('index.php?option=' . $option . '&view=rating', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=rating', $msg);
 	}
 
 	public function fv_publish()
@@ -146,7 +145,7 @@ class RedshopControllerRating_detail extends JController
 		}
 
 		$msg = JText::_('COM_REDSHOP_RATING_DETAIL_PUBLISHED_SUCCESFULLY');
-		$this->setRedirect('index.php?option=' . $option . '&view=rating', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=rating', $msg);
 	}
 
 	public function fv_unpublish()
@@ -168,13 +167,13 @@ class RedshopControllerRating_detail extends JController
 		}
 
 		$msg = JText::_('COM_REDSHOP_RATING_DETAIL_UNPUBLISHED_SUCCESFULLY');
-		$this->setRedirect('index.php?option=' . $option . '&view=rating', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=rating', $msg);
 	}
 
 	public function cancel()
 	{
 		$option = JRequest::getVar('option');
 		$msg = JText::_('COM_REDSHOP_RATING_DETAIL_EDITING_CANCELLED');
-		$this->setRedirect('index.php?option=' . $option . '&view=rating', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=rating', $msg);
 	}
 }

@@ -41,7 +41,7 @@ if ($download)
 	exit;
 }
 ?>
-<form action="<?php echo JRoute::_('index.php?option=' . $option . '&view=order'); ?>" method="post" name="adminForm"
+<form action="<?php echo JRoute::_('index.php?option=com_redshop&view=order'); ?>" method="post" name="adminForm"
       id="adminForm">
 	<div id="editcell">
 		<table class="adminlist">
@@ -68,8 +68,8 @@ if ($download)
 			{
 				$row = $this->orders[$i];
 				$row->id = $row->order_id;
-				$link = JRoute::_('index.php?option=' . $option . '&view=order_detail&task=edit&cid[]=' . $row->order_id);
-				$dlink = JRoute::_('index.php?option=' . $option . '&view=order&layout=labellisting&download=1&oid=' . $row->order_id);
+				$link = JRoute::_('index.php?option=com_redshop&view=order_detail&task=edit&cid[]=' . $row->order_id);
+				$dlink = JRoute::_('index.php?option=com_redshop&view=order&layout=labellisting&download=1&oid=' . $row->order_id);
 				$plink = JURI::base() . 'components/com_redshop/assets/lables/label_' . $row->order_id . '.pdf';
 				?>
 				<tr class="<?php echo "row$k"; ?>">
@@ -100,6 +100,11 @@ if ($download)
 			}?>
 			<tfoot>
 			<td colspan="9">
+				<?php if (version_compare(JVERSION, '3.0', '>=')): ?>
+					<div class="redShopLimitBox">
+						<?php echo $this->pagination->getLimitBox(); ?>
+					</div>
+				<?php endif; ?>
 				<?php  echo $this->pagination->getListFooter(); ?>
 			</td>
 			</tfoot>

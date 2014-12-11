@@ -354,7 +354,7 @@ class adminproducthelper
 					{
 						$displayrate = ($rate[$i]->rate > 0) ? " (" . $producthelper->getProductFormattedPrice($rate[$i]->rate) . " )" : "";
 						$ratearr[$r] = new stdClass;
-						$ratearr[$r]->text = $rs->name . " - " . $rate[$i]->text . $displayrate;
+						$ratearr[$r]->text = JText::_($rs->name) . " - " . $rate[$i]->text . $displayrate;
 						$ratearr[$r]->value = $rate[$i]->value;
 						$r++;
 					}

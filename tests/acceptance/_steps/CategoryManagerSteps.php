@@ -30,15 +30,35 @@ class CategoryManagerSteps extends AdminManagerSteps
 	public function addCategory($categoryName)
 	{
 		$I = $this;
-		$I->amOnPage(\CategoryManagerPage::$URL);
-		$I->verifyNotices(false, $this->checkForNotices(), 'Category Manager Page');
-		$I->click("New");
-		$I->verifyNotices(false, $this->checkForNotices(), 'Category Manager Page New');
-		$I->fillField(\CategoryManagerPage::$categoryName, $categoryName);
-		$I->selectOption(\CategoryManagerPage::$categoryTemplateId, "compare_product");
-		$I->selectOption(\CategoryManagerPage::$categoryTemplate, "list");
-		$I->click("Save & Close");
-		$I->waitForElement(\CategoryManagerPage::$categoryFilter, 30);
+		$config = $I->getConfig();
+
+		if ($config['env'] == 'joomla2')
+		{
+			$I->amOnPage(\CategoryManagerPage::$URL);
+			$I->verifyNotices(false, $this->checkForNotices(), 'Category Manager Page');
+			$I->click("New");
+			$I->verifyNotices(false, $this->checkForNotices(), 'Category Manager Page New');
+			$I->fillField(\CategoryManagerPage::$categoryName, $categoryName);
+			$I->selectOption(\CategoryManagerPage::$categoryTemplateId, "compare_product");
+			$I->selectOption(\CategoryManagerPage::$categoryTemplate, "list");
+			$I->click("Save & Close");
+			$I->waitForElement(\CategoryManagerPage::$categoryFilter, 30);
+		}
+		else
+		{
+			$I->amOnPage(\CategoryManagerJ3Page::$URL);
+			$I->verifyNotices(false, $this->checkForNotices(), 'Category Manager Page');
+			$I->click("New");
+			$I->verifyNotices(false, $this->checkForNotices(), 'Category Manager Page New');
+			$I->fillField(\CategoryManagerJ3Page::$categoryName, $categoryName);
+			$I->click(\CategoryManagerJ3Page::$categoryTemplateIDDropDown);
+			$categoryManagerPage = new \CategoryManagerJ3Page;
+			$I->click($categoryManagerPage->categoryTemplateID("compare_product"));
+			$I->click(\CategoryManagerJ3Page::$categoryTemplateDropDown);
+			$I->click($categoryManagerPage->categoryTemplate("list"));
+			$I->click("Save & Close");
+			$I->waitForElement(\CategoryManagerJ3Page::$categoryFilter, 30);
+		}
 	}
 
 	/**

@@ -9,9 +9,8 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.controller');
 
-class RedshopControllerStockroom_detail extends JController
+class RedshopControllerStockroom_detail extends RedshopController
 {
 	public function __construct($default = array())
 	{
@@ -70,11 +69,11 @@ class RedshopControllerStockroom_detail extends JController
 
 		if ($apply == 1)
 		{
-			$this->setRedirect('index.php?option=' . $option . '&view=stockroom_detail&task=edit&cid[]=' . $row->stockroom_id, $msg);
+			$this->setRedirect('index.php?option=com_redshop&view=stockroom_detail&task=edit&cid[]=' . $row->stockroom_id, $msg);
 		}
 		else
 		{
-			$this->setRedirect('index.php?option=' . $option . '&view=stockroom', $msg);
+			$this->setRedirect('index.php?option=com_redshop&view=stockroom', $msg);
 		}
 	}
 
@@ -96,7 +95,7 @@ class RedshopControllerStockroom_detail extends JController
 		}
 
 		$msg = JText::_('COM_REDSHOP_STOCK_ROOM_DETAIL_DELETED_SUCCESSFULLY');
-		$this->setRedirect('index.php?option=' . $option . '&view=stockroom', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=stockroom', $msg);
 	}
 
 	public function publish()
@@ -117,7 +116,7 @@ class RedshopControllerStockroom_detail extends JController
 		}
 
 		$msg = JText::_('COM_REDSHOP_STOCK_ROOM_DETAIL_PUBLISHED_SUCCESSFULLY');
-		$this->setRedirect('index.php?option=' . $option . '&view=stockroom', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=stockroom', $msg);
 	}
 
 	public function unpublish()
@@ -138,7 +137,7 @@ class RedshopControllerStockroom_detail extends JController
 		}
 
 		$msg = JText::_('COM_REDSHOP_STOCK_ROOM_DETAIL_UNPUBLISHED_SUCCESSFULLY');
-		$this->setRedirect('index.php?option=' . $option . '&view=stockroom', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=stockroom', $msg);
 	}
 
 	public function frontpublish()
@@ -159,7 +158,7 @@ class RedshopControllerStockroom_detail extends JController
 		}
 
 		$msg = JText::_('COM_REDSHOP_STOCK_ROOM_DETAIL_PUBLISHED_SUCCESSFULLY');
-		$this->setRedirect('index.php?option=' . $option . '&view=stockroom', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=stockroom', $msg);
 	}
 
 	public function frontunpublish()
@@ -180,14 +179,14 @@ class RedshopControllerStockroom_detail extends JController
 		}
 
 		$msg = JText::_('COM_REDSHOP_STOCK_ROOM_DETAIL_UNPUBLISHED_SUCCESSFULLY');
-		$this->setRedirect('index.php?option=' . $option . '&view=stockroom', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=stockroom', $msg);
 	}
 
 	public function cancel()
 	{
 		$option = JRequest::getVar('option');
 		$msg = JText::_('COM_REDSHOP_STOCK_ROOM_DETAIL_EDITING_CANCELLED');
-		$this->setRedirect('index.php?option=' . $option . '&view=stockroom', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=stockroom', $msg);
 	}
 
 	public function copy()
@@ -205,7 +204,7 @@ class RedshopControllerStockroom_detail extends JController
 			$msg = JText::_('COM_REDSHOP_ERROR_COPING_STOCKROOM_DETAIL');
 		}
 
-		$this->setRedirect('index.php?option=' . $option . '&view=stockroom', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=stockroom', $msg);
 	}
 
 	public function importStockFromEconomic()

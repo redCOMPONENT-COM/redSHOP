@@ -9,9 +9,8 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
 
-class RedshopModelDiscount_detail extends JModel
+class RedshopModelDiscount_detail extends RedshopModel
 {
 	public $_id = null;
 

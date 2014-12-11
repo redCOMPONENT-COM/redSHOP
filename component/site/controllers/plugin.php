@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-JLoader::import('joomla.application.component.controller');
 
 /**
  * Plugin Controller.
@@ -18,6 +17,6 @@ JLoader::import('joomla.application.component.controller');
  * @subpackage  Controller
  * @since       1.0
  */
-class RedshopControllerPlugin extends JController
+class RedshopControllerPlugin extends RedshopController
 {
 }

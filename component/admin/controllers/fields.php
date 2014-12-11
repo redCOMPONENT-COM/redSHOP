@@ -9,9 +9,8 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.controller');
 
-class RedshopControllerFields extends JController
+class RedshopControllerFields extends RedshopController
 {
 	public function cancel()
 	{
@@ -33,6 +32,6 @@ class RedshopControllerFields extends JController
 			$msg = JText::_('COM_REDSHOP_NEW_ORDERING_ERROR');
 		}
 
-		$this->setRedirect('index.php?option=' . $option . '&view=fields', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=fields', $msg);
 	}
 }
