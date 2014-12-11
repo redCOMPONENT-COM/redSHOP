@@ -32,7 +32,7 @@ class InstallExtensionJ2Steps extends \AcceptanceTester
 		$config = $I->getConfig();
 		$I->fillField(\ExtensionManagerPage::$extensionDirectoryPath, $config['folder']);
 		$I->click(\ExtensionManagerPage::$installButton);
-		$I->waitForElement(\ExtensionManagerPage::$installSuccessMessage, 60);
+		$I->waitForText(\ExtensionManagerPage::$installSuccessMessage, 60);
 	}
 
 	/**
@@ -48,7 +48,7 @@ class InstallExtensionJ2Steps extends \AcceptanceTester
 		if ($config['install_extension_demo_data'] == 'yes')
 		{
 			$I->click(\ExtensionManagerPage::$installDemoContent);
-			$I->waitForElement(\ExtensionManagerPage::$demoDataInstallSuccessMessage, 30);
+			$I->waitForText(\ExtensionManagerPage::$demoDataInstallSuccessMessage, 30);
 		}
 	}
 }

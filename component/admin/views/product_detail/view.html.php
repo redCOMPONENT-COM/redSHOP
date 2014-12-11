@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
 
 JLoader::load('RedshopHelperAdminExtra_field');
 JLoader::load('RedshopHelperAdminCategory');
@@ -24,7 +23,7 @@ JLoader::load('RedshopHelperProduct');
  *
  * @since       1.0
  */
-class RedshopViewProduct_Detail extends JView
+class RedshopViewProduct_Detail extends RedshopView
 {
 	/**
 	 * The request url.
@@ -263,7 +262,7 @@ class RedshopViewProduct_Detail extends JView
 			$supplier = array_merge($supps, $supplier);
 		}
 
-		JToolBarHelper::title(JText::_('COM_REDSHOP_PRODUCT_MANAGEMENT_DETAIL'), 'redshop_products48');
+		JToolBarHelper::title(JText::_('COM_REDSHOP_PRODUCT_MANAGEMENT_DETAIL'), 'pencil-2 redshop_products48');
 
 		$document = JFactory::getDocument();
 
@@ -289,12 +288,12 @@ class RedshopViewProduct_Detail extends JView
 
 		if (!$loadedFromAPlugin)
 		{
-			$document->addScript('components/' . $this->option . '/assets/js/fields.js');
+			$document->addScript('components/com_redshop/assets/js/fields.js');
 		}
 
-		$document->addScript('components/' . $this->option . '/assets/js/select_sort.js');
-		$document->addScript('components/' . $this->option . '/assets/js/json.js');
-		$document->addScript('components/' . $this->option . '/assets/js/validation.js');
+		$document->addScript('components/com_redshop/assets/js/select_sort.js');
+		$document->addScript('components/com_redshop/assets/js/json.js');
+		$document->addScript('components/com_redshop/assets/js/validation.js');
 		$document->addStyleSheet('components/com_redshop/assets/css/search.css');
 
 		if (file_exists(JPATH_SITE . '/components/com_redproductfinder/helpers/redproductfinder.css'))
@@ -328,7 +327,7 @@ class RedshopViewProduct_Detail extends JView
 
 		$text = $isNew ? JText::_('COM_REDSHOP_NEW') : $detail->product_name . " - " . JText::_('COM_REDSHOP_EDIT');
 
-		JToolBarHelper::title(JText::_('COM_REDSHOP_PRODUCT') . ': <small><small>[ ' . $text . ' ]</small></small>', 'redshop_products48');
+		JToolBarHelper::title(JText::_('COM_REDSHOP_PRODUCT') . ': <small><small>[ ' . $text . ' ]</small></small>', 'pencil-2 redshop_products48');
 
 		if ($detail->product_id > 0)
 		{

@@ -28,7 +28,7 @@ $Redconfiguration = new Redconfiguration;
 $Redconfiguration->defineDynamicVars();
 
 JLoader::load('RedshopHelperCurrency');
-$session = JFactory::getSession('product_currency');
+$session = JFactory::getSession();
 
 $post   = JRequest::get('POST');
 $Itemid = JRequest::getVar('Itemid');

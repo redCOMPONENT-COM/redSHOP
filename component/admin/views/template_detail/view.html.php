@@ -8,10 +8,9 @@
  */
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
 JLoader::load('RedshopHelperAdminOrder');
 
-class RedshopViewTemplate_detail extends JView
+class RedshopViewTemplate_detail extends RedshopView
 {
 	public function display($tpl = null)
 	{
@@ -20,10 +19,6 @@ class RedshopViewTemplate_detail extends JView
 		JToolBarHelper::title(JText::_('COM_REDSHOP_TEMPLATES_MANAGEMET'), 'redshop_templates48');
 
 		$uri = JFactory::getURI();
-
-		jimport('joomla.html.pane');
-		$pane = JPane::getInstance('sliders');
-		$this->pane = $pane;
 
 		$model = $this->getModel('template_detail');
 		$user = JFactory::getUser();

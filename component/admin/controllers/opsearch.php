@@ -9,8 +9,7 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.controller');
 
-class RedshopControllerOpsearch extends JController
+class RedshopControllerOpsearch extends RedshopController
 {
 }

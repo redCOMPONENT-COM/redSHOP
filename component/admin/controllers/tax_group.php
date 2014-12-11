@@ -9,14 +9,13 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.controller');
 
-class RedshopControllerTax_group extends JController
+class RedshopControllerTax_group extends RedshopController
 {
 	public function cancel()
 	{
 		$option = JRequest::getVar('option');
 
-		$this->setRedirect('index.php?option=' . $option . '&view=tax_group');
+		$this->setRedirect('index.php?option=com_redshop&view=tax_group');
 	}
 }

@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
 JLoader::load('RedshopHelperAdminUpdate');
 JLoader::load('RedshopHelperHelper');
 
@@ -18,7 +17,7 @@ JLoader::load('RedshopHelperHelper');
  *
  * @since  1.4
  */
-class RedshopModelUpdate extends JModelLegacy
+class RedshopModelUpdate extends RedshopModel
 {
 	/**
 	 * Check update status

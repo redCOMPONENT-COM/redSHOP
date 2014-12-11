@@ -8,9 +8,8 @@
  */
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
 
-class RedshopViewUser extends JView
+class RedshopViewUser extends RedshopView
 {
 	public function display($tpl = null)
 	{
@@ -42,8 +41,8 @@ class RedshopViewUser extends JView
 		{
 			$this->setLayout('default');
 			JToolBarHelper::title(JText::_('COM_REDSHOP_USER_MANAGEMENT'), 'redshop_user48');
-			JToolBarHelper::addNewX();
-			JToolBarHelper::editListX();
+			JToolbarHelper::addNew();
+			JToolbarHelper::EditList();
 			JToolBarHelper::deleteList();
 		}
 

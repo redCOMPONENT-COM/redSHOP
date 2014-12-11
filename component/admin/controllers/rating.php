@@ -9,9 +9,8 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.controller');
 
-class RedshopControllerRating extends JController
+class RedshopControllerRating extends RedshopController
 {
 	/**
 	 * Method to cancel item edit

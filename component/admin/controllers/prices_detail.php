@@ -9,9 +9,8 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.controller');
 
-class RedshopControllerPrices_detail extends JController
+class RedshopControllerPrices_detail extends RedshopController
 {
 	public function __construct($default = array())
 	{
@@ -81,7 +80,7 @@ class RedshopControllerPrices_detail extends JController
 			}
 		}
 
-		$this->setRedirect('index.php?option=' . $option . '&view=prices&product_id=' . $product_id, $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=prices&product_id=' . $product_id, $msg);
 	}
 
 	public function remove()
@@ -103,7 +102,7 @@ class RedshopControllerPrices_detail extends JController
 		}
 
 		$msg = JText::_('COM_REDSHOP_PRICE_DETAIL_DELETED_SUCCESSFULLY');
-		$this->setRedirect('index.php?option=' . $option . '&view=prices&product_id=' . $product_id, $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=prices&product_id=' . $product_id, $msg);
 	}
 
 	public function cancel()
@@ -112,6 +111,6 @@ class RedshopControllerPrices_detail extends JController
 		$product_id = JRequest::getVar('product_id');
 
 		$msg = JText::_('COM_REDSHOP_PRICE_DETAIL_EDITING_CANCELLED');
-		$this->setRedirect('index.php?option=' . $option . '&view=prices&product_id=' . $product_id, $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=prices&product_id=' . $product_id, $msg);
 	}
 }

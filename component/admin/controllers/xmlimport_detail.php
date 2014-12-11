@@ -9,9 +9,8 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.controller');
 
-class RedshopControllerXmlimport_detail extends JController
+class RedshopControllerXmlimport_detail extends RedshopController
 {
 	public function __construct($default = array())
 	{
@@ -71,7 +70,7 @@ class RedshopControllerXmlimport_detail extends JController
 			}
 		}
 
-		$this->setRedirect('index.php?option=' . $option . '&view=xmlimport', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=xmlimport', $msg);
 	}
 
 	public function remove()
@@ -92,14 +91,14 @@ class RedshopControllerXmlimport_detail extends JController
 		}
 
 		$msg = JText::_('COM_REDSHOP_XMLIMPORT_DETAIL_DELETED_SUCCESSFULLY');
-		$this->setRedirect('index.php?option=' . $option . '&view=xmlimport', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=xmlimport', $msg);
 	}
 
 	public function cancel()
 	{
 		$option = JRequest::getVar('option', '', 'request', 'string');
 		$msg = JText::_('COM_REDSHOP_XMLIMPORT_DETAIL_EDITING_CANCELLED');
-		$this->setRedirect('index.php?option=' . $option . '&view=xmlimport', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=xmlimport', $msg);
 	}
 
 	public function auto_syncpublish()
@@ -120,7 +119,7 @@ class RedshopControllerXmlimport_detail extends JController
 		}
 
 		$msg = JText::_('COM_REDSHOP_AUTO_SYNCHRONIZE_ENABLE_SUCCESSFULLY');
-		$this->setRedirect('index.php?option=' . $option . '&view=xmlimport', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=xmlimport', $msg);
 	}
 
 	public function auto_syncunpublish()
@@ -141,7 +140,7 @@ class RedshopControllerXmlimport_detail extends JController
 		}
 
 		$msg = JText::_('COM_REDSHOP_AUTO_SYNCHRONIZE_DISABLE_SUCCESSFULLY');
-		$this->setRedirect('index.php?option=' . $option . '&view=xmlimport', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=xmlimport', $msg);
 	}
 
 	/**
@@ -168,7 +167,7 @@ class RedshopControllerXmlimport_detail extends JController
 		}
 
 		$msg = JText::_('COM_REDSHOP_XMLIMPORT_PUBLISHED_SUCCESSFULLY');
-		$this->setRedirect('index.php?option=' . $option . '&view=xmlimport', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=xmlimport', $msg);
 	}
 
 	/**
@@ -195,6 +194,6 @@ class RedshopControllerXmlimport_detail extends JController
 		}
 
 		$msg = JText::_('COM_REDSHOP_XMLIMPORT_UNPUBLISHED_SUCCESSFULLY');
-		$this->setRedirect('index.php?option=' . $option . '&view=xmlimport', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=xmlimport', $msg);
 	}
 }

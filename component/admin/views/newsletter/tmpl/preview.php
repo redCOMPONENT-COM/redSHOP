@@ -144,8 +144,7 @@ else
 			<table cellpadding="0" cellspacing="0" border="0" class="adminList">
 				<tr>
 					<td align="left">
-						<input type="checkbox" name="toggle" value=""
-						       onclick="checkAll(<?php echo count($this->subscribers); ?>);"/><strong
+						<?php echo JHtml::_('redshopgrid.checkall'); ?><strong
 							style="vertical-align: baseline;"><?php echo JText::_('COM_REDSHOP_SELECT_ALL'); ?></strong>
 					</td>
 				</tr>

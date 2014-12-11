@@ -9,9 +9,8 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.controller');
 
-class RedshopControllerSample_request extends JController
+class RedshopControllerSample_request extends RedshopController
 {
 	public function cancel()
 	{
@@ -37,7 +36,7 @@ class RedshopControllerSample_request extends JController
 		}
 
 		$msg = JText::_('COM_REDSHOP_SAMPLE_REQUEST_BLOCK_SUCCESFULLY');
-		$this->setRedirect('index.php?option=' . $option . '&view=sample_request', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=sample_request', $msg);
 	}
 
 	public function remove()
@@ -59,7 +58,7 @@ class RedshopControllerSample_request extends JController
 		}
 
 		$msg = JText::_('COM_REDSHOP_SAMPLE_REQUEST_DELETED_SUCCESSFULLY');
-		$this->setRedirect('index.php?option=' . $option . '&view=sample_request', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=sample_request', $msg);
 	}
 
 	public function unpublish()
@@ -81,6 +80,6 @@ class RedshopControllerSample_request extends JController
 		}
 
 		$msg = JText::_('COM_REDSHOP_SAMPLE_REQUEST_BLOCK_UNBLOCK_SUCCESFULLY');
-		$this->setRedirect('index.php?option=' . $option . '&view=sample_request', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=sample_request', $msg);
 	}
 }
