@@ -2053,7 +2053,7 @@ class producthelper
 
 		$this->_db->setQuery($sql);
 
-		if ($list = $this->_db->loadResultArray())
+		if ($list = $this->_db->loadColumn())
 		{
 			$list = array_merge(array(0 => '0'), $list);
 		}
@@ -8895,7 +8895,7 @@ class producthelper
 
 		$this->_db->setQuery($q);
 
-		$fields = $this->_db->loadResultArray();
+		$fields = $this->_db->loadColumn();
 
 		$tmp1 = explode("{", $template_data);
 
