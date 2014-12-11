@@ -9,13 +9,12 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
 
 JLoader::load('RedshopHelperAdminTemplate');
 JLoader::load('RedshopHelperAdminExtra_field');
 JLoader::load('RedshopHelperHelper');
 
-class RedshopViewConfiguration extends JView
+class RedshopViewConfiguration extends RedshopView
 {
 	/**
 	 * The request url.
@@ -38,10 +37,10 @@ class RedshopViewConfiguration extends JView
 		}
 
 		$document->setTitle(JText::_('COM_REDSHOP_CONFIG'));
-		$document->addScript('components/' . $option . '/assets/js/validation.js');
-		$document->addScript('components/' . $option . '/assets/js/select_sort.js');
-		$document->addStyleSheet('components/' . $option . '/assets/css/search.css');
-		$document->addScript('components/' . $option . '/assets/js/search.js');
+		$document->addScript('components/com_redshop/assets/js/validation.js');
+		$document->addScript('components/com_redshop/assets/js/select_sort.js');
+		$document->addStyleSheet('components/com_redshop/assets/css/search.css');
+		$document->addScript('components/com_redshop/assets/js/search.js');
 
 		$model = $this->getModel('configuration');
 		$currency_data = $model->getCurrency();
@@ -81,10 +80,6 @@ class RedshopViewConfiguration extends JView
 		}
 
 		JToolBarHelper::cancel();
-
-		jimport('joomla.html.pane');
-		$pane = JPane::getInstance('sliders');
-		$this->pane = $pane;
 
 		$uri = JFactory::getURI();
 		$this->setLayout('default');
@@ -394,7 +389,7 @@ class RedshopViewConfiguration extends JView
 		$q                  = "SELECT m.id,m.title AS name,mt.title FROM #__menu AS m "
 			. "LEFT JOIN #__menu_types AS mt ON mt.menutype=m.menutype "
 			. "WHERE m.published=1 "
-			. "ORDER BY m.menutype,m.ordering";
+			. "ORDER BY m.menutype";
 		$db->setQuery($q);
 		$menuitemlist = $db->loadObjectList();
 

@@ -125,12 +125,12 @@ if (!class_exists('LofSliderGroupBase'))
 					$image_quanlity = 100;
 				}
 				$path       = str_replace(JURI::base(), '', $path);
-				$imagSource = JPATH_SITE . '/' . str_replace('/', DS, $path);
+				$imagSource = JPATH_SITE . '/' . str_replace('/', DIRECTORY_SEPARATOR, $path);
 
 				if (file_exists($imagSource))
 				{
 					$path      = $width . "x" . $height . '/' . $image_quanlity . '/' . $path;
-					$thumbPath = JPATH_SITE . '/images/icethumbs/' . str_replace('/', DS, $path);
+					$thumbPath = JPATH_SITE . '/images/icethumbs/' . str_replace('/', DIRECTORY_SEPARATOR, $path);
 
 					if (!file_exists($thumbPath))
 					{

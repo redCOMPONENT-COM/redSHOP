@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-JLoader::import('joomla.application.component.model');
 
 /**
  * Class categoryModelcategory
@@ -18,7 +17,7 @@ JLoader::import('joomla.application.component.model');
  * @subpackage  Model
  * @since       1.0
  */
-class RedshopModelCategory extends JModel
+class RedshopModelCategory extends RedshopModel
 {
 	public $_id = null;
 
@@ -38,7 +37,7 @@ class RedshopModelCategory extends JModel
 
 	public $_context = null;
 
-	// @ToDo In feature, when class Category extends JModelList, replace filter_fields in constructor
+	// @ToDo In feature, when class Category extends RedshopModelList, replace filter_fields in constructor
 	public $filter_fields = array(
 		'p.product_name ASC', 'product_name ASC',
 		'p.product_price ASC', 'product_price ASC',

@@ -9,14 +9,13 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
 jimport('joomla.filesystem.file');
 
 JLoader::load('RedshopHelperProduct');
 JLoader::load('RedshopHelperAdminText_library');
 JLoader::load('RedshopHelperAdminImages');
 
-class RedshopModelConfiguration extends JModel
+class RedshopModelConfiguration extends RedshopModel
 {
 	public $_id = null;
 
@@ -776,7 +775,7 @@ class RedshopModelConfiguration extends JModel
 		$content .= str_replace("{username}", $name[0], $data1);
 		$content = str_replace("{email}", $to, $content);
 
-		if (JUtility::sendMail($mailfrom, $mailfromname, $to, $subject, $content, 1))
+		if (JMail::getInstance()->sendMail($mailfrom, $mailfromname, $to, $subject, $content, 1))
 		{
 			return true;
 		}

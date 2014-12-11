@@ -10,9 +10,8 @@
 defined('_JEXEC') or die;
 JLoader::load('RedshopHelperProduct');
 
-jimport('joomla.application.component.model');
 
-class RedshopModelMass_discount_detail extends JModel
+class RedshopModelMass_discount_detail extends RedshopModel
 {
 	public $_id = null;
 

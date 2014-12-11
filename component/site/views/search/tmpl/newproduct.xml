@@ -8,7 +8,7 @@
 
     <fields name="request" addfieldpath="/administrator/components/com_redshop/elements">
         <fieldset name="request">
-            <field name="categorytemplate" type="category" label="Select Category" required="true"
+            <field name="categorytemplate" type="redshopcategory" label="Select Category" required="true"
                        description="Displays the selected category product"/>
             <field name="newproduct" type="text" size="4" default=""
                        label="COM_REDSHOP_Enter_Number_of_Days_to_Find_Newest_Products"

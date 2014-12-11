@@ -9,11 +9,10 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.controller');
 jimport('joomla.filesystem.file');
 JLoader::load('RedshopHelperAdminImages');
 
-class RedshopControllerMedia extends JController
+class RedshopControllerMedia extends RedshopController
 {
 	public function cancel()
 	{
@@ -29,7 +28,7 @@ class RedshopControllerMedia extends JController
 
 		$product_download_root = PRODUCT_DOWNLOAD_ROOT;
 
-		if (substr(PRODUCT_DOWNLOAD_ROOT, -1) != DS)
+		if (substr(PRODUCT_DOWNLOAD_ROOT, -1) != DIRECTORY_SEPARATOR)
 		{
 			$product_download_root = PRODUCT_DOWNLOAD_ROOT . '/';
 		}
@@ -155,14 +154,14 @@ class RedshopControllerMedia extends JController
 		}
 		elseif (isset($post['set']) && $post['media_section'] == 'manufacturer')
 		{
-			$link = 'index.php?option=' . $option . '&view=manufacturer';    ?>
+			$link = 'index.php?option=com_redshop&view=manufacturer';    ?>
 			<script language="javascript" type="text/javascript">
 				window.parent.document.location = '<?php echo $link; ?>';
 			</script><?php
 		}
 		else
 		{
-			$this->setRedirect('index.php?option=' . $option . '&view=media', $msg);
+			$this->setRedirect('index.php?option=com_redshop&view=media', $msg);
 		}
 	}
 }

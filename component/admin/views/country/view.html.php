@@ -10,9 +10,8 @@
 defined('_JEXEC') or die;
 
 jimport('joomla.html.pagination');
-jimport('joomla.application.component.view');
 
-class RedshopViewCountry extends JView
+class RedshopViewCountry extends RedshopView
 {
 	public function display($tpl = null)
 	{
@@ -26,8 +25,8 @@ class RedshopViewCountry extends JView
 		$document->setTitle(JText::_('COM_REDSHOP_COUNTRY'));
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_COUNTRY_MANAGEMENT'), 'redshop_country_48');
-		JToolbarHelper::addNewX();
-		JToolbarHelper::EditListX();
+		JToolbarHelper::addNew();
+		JToolbarHelper::EditList();
 		JToolbarHelper::deleteList();
 
 		$filter_order     = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'country_id');
