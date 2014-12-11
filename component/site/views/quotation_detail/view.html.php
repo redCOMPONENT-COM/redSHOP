@@ -37,7 +37,7 @@ if ($print)
 
 	if (!$quoid)
 	{
-		$app->Redirect('index.php?option=com_redshop&view=account&Itemid=' . $Itemid);
+		$app->redirect('index.php?option=com_redshop&view=account&Itemid=' . $Itemid);
 	}
 
 	$quotationDetail = $quotationHelper->getQuotationDetail($quoid);
@@ -67,7 +67,7 @@ if ($print)
 		}
 		else
 		{
-			$app->Redirect('index.php?option=com_redshop&view=login&Itemid=' . JRequest::getInt('Itemid'));
+			$app->redirect('index.php?option=com_redshop&view=login&Itemid=' . JRequest::getInt('Itemid'));
 
 			return;
 		}

@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-
 JLoader::load('RedshopHelperProduct');
 JLoader::load('RedshopHelperAdminOrder');
 JLoader::load('RedshopHelperAdminShipping');
@@ -70,7 +69,7 @@ class RedshopViewCheckout extends RedshopView
 				$link = 'index.php?option=com_redshop&view=checkout&Itemid=' . $Itemid . '&users_info_id='
 					. $users_info_id . '&shipping_rate_id=' . $shipping_rate_id . '&payment_method_id='
 					. $payment_method_id;
-				$app->Redirect($link, $msg);
+				$app->redirect($link, $msg);
 			}
 
 			if ($shipping_rate_id == '' && $cart['free_shipping'] != 1)
@@ -79,7 +78,7 @@ class RedshopViewCheckout extends RedshopView
 				$link = 'index.php?option=com_redshop&view=checkout&Itemid=' . $Itemid . '&users_info_id='
 					. $users_info_id . '&shipping_rate_id=' . $shipping_rate_id . '&payment_method_id='
 					. $payment_method_id;
-				$app->Redirect($link, $msg);
+				$app->redirect($link, $msg);
 			}
 		}
 
@@ -89,7 +88,7 @@ class RedshopViewCheckout extends RedshopView
 			$link = 'index.php?option=com_redshop&view=checkout&Itemid=' . $Itemid . '&users_info_id='
 				. $users_info_id . '&shipping_rate_id=' . $shipping_rate_id . '&payment_method_id='
 				. $payment_method_id;
-			$app->Redirect($link, $msg);
+			$app->redirect($link, $msg);
 		}
 
 		$paymentinfo     = $order_functions->getPaymentMethodInfo($payment_method_id);
