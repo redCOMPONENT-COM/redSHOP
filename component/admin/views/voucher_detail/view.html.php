@@ -26,11 +26,11 @@ class RedshopViewVoucher_detail extends RedshopView
 		JToolBarHelper::title(JText::_('COM_REDSHOP_VOUCHER_MANAGEMENT_DETAIL'), 'redshop_voucher48');
 		$document = JFactory::getDocument();
 
-		$document->addScript('components/' . $option . '/assets/js/select_sort.js');
+		$document->addScript('components/com_redshop/assets/js/select_sort.js');
 
-		$document->addStyleSheet('components/' . $option . '/assets/css/search.css');
+		$document->addStyleSheet('components/com_redshop/assets/css/search.css');
 
-		$document->addScript('components/' . $option . '/assets/js/search.js');
+		$document->addScript('components/com_redshop/assets/js/search.js');
 
 		$uri = JFactory::getURI();
 

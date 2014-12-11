@@ -38,7 +38,7 @@ class RedshopViewNewsletter_detail extends RedshopView
 
 		$document = JFactory::getDocument();
 
-		$document->addScript('components/' . $option . '/assets/js/select_sort.js');
+		$document->addScript('components/com_redshop/assets/js/select_sort.js');
 
 		$uri = JFactory::getURI();
 		$lists = array();

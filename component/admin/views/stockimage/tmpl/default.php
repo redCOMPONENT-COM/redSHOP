@@ -54,7 +54,7 @@ $model = $this->getModel('stockimage');
 			{
 				$row = $this->data[$i];
 				$row->id = $row->stock_amount_id;
-				$link = JRoute::_('index.php?option=' . $option . '&view=stockimage_detail&task=edit&cid[]=' . $row->id);    ?>
+				$link = JRoute::_('index.php?option=com_redshop&view=stockimage_detail&task=edit&cid[]=' . $row->id);    ?>
 				<tr class="<?php echo "row$k"; ?>">
 					<td><?php echo $this->pagination->getRowOffset($i);?></td>
 					<td><?php echo JHTML::_('grid.id', $i, $row->id);?></td>

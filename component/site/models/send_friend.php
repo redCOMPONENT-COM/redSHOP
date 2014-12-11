@@ -84,7 +84,7 @@ class RedshopModelSend_friend extends RedshopModel
 		$data_add = str_replace("{product_name}", $product->product_name, $data_add);
 		$data_add = str_replace("{product_desc}", $product->product_desc, $data_add);
 
-		$rlink       = JRoute::_($url . "index.php?option=" . $option . "&view=product&pid=" . $product_id);
+		$rlink       = JRoute::_($url . "index.php?option=com_redshop&view=product&pid=" . $product_id);
 		$product_url = "<a href=" . $rlink . ">" . $rlink . "</a>";
 		$data_add    = str_replace("{product_url}", $product_url, $data_add);
 

@@ -55,7 +55,7 @@ $option = JRequest::getVar('option', '', 'request', 'string');?>
 			{
 				$row = $this->products[$i];
 				$row->id = $row->attribute_set_id;
-				$link = JRoute::_('index.php?option=' . $option . '&view=attribute_set_detail&task=edit&cid[]=' . $row->id);
+				$link = JRoute::_('index.php?option=com_redshop&view=attribute_set_detail&task=edit&cid[]=' . $row->id);
 
 				$published = JHtml::_('jgrid.published', $row->published, $i, '', 1);?>
 			<tr class="<?php echo "row$k"; ?>">

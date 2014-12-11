@@ -35,7 +35,7 @@ class RedshopControllerQuotation extends RedshopController
 		if (!$post['user_email'])
 		{
 			$msg = JText::_('COM_REDSHOP_PLEASE_ENTER_VALID_EMAIL_ADDRESS');
-			$this->setRedirect('index.php?tmpl=component&option=' . $option . '&view=quotation&return=1&Itemid=' . $Itemid, $msg);
+			$this->setRedirect('index.php?tmpl=component&option=com_redshop&view=quotation&return=1&Itemid=' . $Itemid, $msg);
 			die();
 		}
 
@@ -67,7 +67,7 @@ class RedshopControllerQuotation extends RedshopController
 
 			if ($return)
 			{
-				$link = 'index.php?option=' . $option . '&view=cart&Itemid=' . $Itemid . '&quotemsg=' . $msg;    ?>
+				$link = 'index.php?option=com_redshop&view=cart&Itemid=' . $Itemid . '&quotemsg=' . $msg;    ?>
 				<script>
 					window.parent.location.href = "<?php echo $link ?>";
 					window.parent.reload();
@@ -75,12 +75,12 @@ class RedshopControllerQuotation extends RedshopController
 				<?php exit;
 			}
 
-			$this->setRedirect('index.php?option=' . $option . '&view=cart&Itemid=' . $Itemid, $msg);
+			$this->setRedirect('index.php?option=com_redshop&view=cart&Itemid=' . $Itemid, $msg);
 		}
 		else
 		{
 			$msg = JText::_('COM_REDSHOP_ERROR_SAVING_QUOTATION_DETAIL');
-			$this->setRedirect('index.php?tmpl=component&option=' . $option . '&view=quotation&return=1&Itemid=' . $Itemid, $msg);
+			$this->setRedirect('index.php?tmpl=component&option=com_redshop&view=quotation&return=1&Itemid=' . $Itemid, $msg);
 		}
 	}
 
@@ -101,7 +101,7 @@ class RedshopControllerQuotation extends RedshopController
 		$model->usercreate($post);
 
 		$msg = JText::_('COM_REDSHOP_QUOTATION_SENT_AND_USERNAME_PASSWORD_HAS_BEEN_MAILED');
-		$this->setRedirect('index.php?tmpl=component&option=' . $option . '&view=quotation&return=1&Itemid=' . $Itemid, $msg);
+		$this->setRedirect('index.php?tmpl=component&option=com_redshop&view=quotation&return=1&Itemid=' . $Itemid, $msg);
 	}
 
 	/**
@@ -118,7 +118,7 @@ class RedshopControllerQuotation extends RedshopController
 
 		if ($return != "")
 		{
-			$link = 'index.php?option=' . $option . '&view=cart&Itemid=' . $Itemid;
+			$link = 'index.php?option=com_redshop&view=cart&Itemid=' . $Itemid;
 			?>
 			<script language="javascript">
 				window.parent.location.href = "<?php echo $link ?>";
@@ -128,7 +128,7 @@ class RedshopControllerQuotation extends RedshopController
 		}
 		else
 		{
-			$this->setRedirect('index.php?option=' . $option . '&view=cart&Itemid=' . $Itemid);
+			$this->setRedirect('index.php?option=com_redshop&view=cart&Itemid=' . $Itemid);
 		}
 	}
 }

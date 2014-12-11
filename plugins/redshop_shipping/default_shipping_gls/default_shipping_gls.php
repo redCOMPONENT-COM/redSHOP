@@ -20,11 +20,9 @@ jimport('joomla.plugin.plugin');
 JLoader::import('redshop.library');
 JLoader::load('RedshopHelperAdminShipping');
 
-class  plgredshop_shippingdefault_shipping_GLS extends JPlugin
+class  plgredshop_shippingdefault_shipping_gls extends JPlugin
 {
-	public $payment_code = "default_shipping_GLS";
-
-	public $classname    = "default_shipping_GLS";
+	const SHIPPING_NAME    = "default_shipping_gls";
 
 	public $client       = '';
 
@@ -42,16 +40,6 @@ class  plgredshop_shippingdefault_shipping_GLS extends JPlugin
 		parent::__construct($subject, $config);
 
 		$this->onlabels_GLSConnection();
-	}
-
-	public function onShowconfig()
-	{
-		return true;
-	}
-
-	function onWriteconfig($values)
-	{
-		return true;
 	}
 
 	function onlabels_GLSConnection()
@@ -124,6 +112,7 @@ class  plgredshop_shippingdefault_shipping_GLS extends JPlugin
 									. "|" . $Telephone . "|" . $stropeningTime
 									. "|" . $CityName;
 
+			$returnArr[$j]                       = new stdClass;
 			$returnArr[$j]->shop_id              = $shop_id;
 			$returnArr[$j]->Number               = $shopNUmber;
 			$returnArr[$j]->CompanyName          = $CompanyName;
@@ -193,7 +182,7 @@ class  plgredshop_shippingdefault_shipping_GLS extends JPlugin
 		$shippinghelper = new shipping;
 		$shippingrate   = array();
 		$rate           = 0;
-		$shipping       = $shippinghelper->getShippingMethodByClass($this->classname);
+		$shipping       = $shippinghelper->getShippingMethodByClass(self::SHIPPING_NAME);
 		$ratelist       = $shippinghelper->listshippingrates($shipping->element, $d['users_info_id'], $d);
 		$countRate      = count($ratelist) >= 1 ? 1 : 0;
 
@@ -205,10 +194,13 @@ class  plgredshop_shippingdefault_shipping_GLS extends JPlugin
 			$shippingVatRate            = $rs->shipping_rate_value - $shippingRate;
 			$economic_displaynumber     = $rs->economic_displaynumber;
 			$shipping_rate_id           = $shippinghelper->encryptShipping(__CLASS__ . "|" . $shipping->name . "|" . $rs->shipping_rate_name . "|" . number_format($rs->shipping_rate_value, 2, '.', '') . "|" . $rs->shipping_rate_id . "|single|" . $shippingVatRate . '|' . $economic_displaynumber);
+
+			$shippingrate[$rate]        = new stdClass;
 			$shippingrate[$rate]->text  = $rs->shipping_rate_name;
 			$shippingrate[$rate]->value = $shipping_rate_id;
 			$shippingrate[$rate]->rate  = $rs->shipping_rate_value;
 			$shippingrate[$rate]->vat   = $shippingVatRate;
+
 			$rate++;
 		}
 

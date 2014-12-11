@@ -24,8 +24,9 @@ class RedshopViewUpdate extends RedshopView
 	 */
 	public function display($tpl = null)
 	{
-		JToolBarHelper::title(JText::_('COM_REDSHOP_UPDATE_TITLE'), 'importexport48');
+		JToolBarHelper::title(JText::_('COM_REDSHOP_UPDATE_TITLE'), 'importexport48 icon-refresh');
 		JToolBarHelper::custom('update.update', 'refresh', '', JText::_('COM_REDSHOP_UPDATE_START'), false);
+		RedshopToolbarHelper::link('index.php?option=com_redshop', 'cancel', JText::_('COM_REDSHOP_UPDATE_BACK_TO_REDSHOP'));
 		parent::display($tpl);
 	}
 }
