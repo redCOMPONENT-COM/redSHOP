@@ -35,7 +35,7 @@ class RedshopControllerQuotation_detail extends RedshopController
 		$option = JRequest::getVar('option');
 		$Itemid = JRequest::getVar('Itemid');
 		$encr   = JRequest::getVar('encr');
-		$model = $this->getModel();
+		$model = $this->getModel('quotation_detail');
 
 		$quotationHelper = new quotationHelper;
 		$redshopMail     = new redshopMail;
@@ -67,7 +67,7 @@ class RedshopControllerQuotation_detail extends RedshopController
 		$encr   = JRequest::getVar('encr');
 
 		$quotationHelper = new quotationHelper;
-		$model           = $this->getmodel();
+		$model           = $this->getModel('quotation_detail');
 		$session         = JFactory::getSession();
 		$redhelper       = new redhelper;
 
@@ -93,6 +93,6 @@ class RedshopControllerQuotation_detail extends RedshopController
 
 		$model->modifyQuotation($quotationDetail->user_id);
 		$Itemid = $redhelper->getCheckoutItemid();
-		$this->setRedirect('index.php?option=' . $option . '&view=checkout&quotation=1&encr=' . $encr . '&Itemid=' . $Itemid);
+		$this->setRedirect('index.php?option=com_redshop&view=checkout&quotation=1&encr=' . $encr . '&Itemid=' . $Itemid);
 	}
 }

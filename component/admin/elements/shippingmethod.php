@@ -28,7 +28,6 @@ class JFormFieldshippingmethod extends JFormField
 
 	protected function getInput()
 	{
-
 		$db = JFactory::getDbo();
 
 		$query = 'SELECT s.* FROM #__extensions AS s '
@@ -38,14 +37,11 @@ class JFormFieldshippingmethod extends JFormField
 		$options = $db->loadObjectList();
 
 		$html = '';
-		$name = $this->name;
-		//$value	= $this->value;
+
 		for ($i = 0, $n = count($options); $i < $n; $i++)
 		{
 			$row = $options[$i];
-
-
-			$html .= "&nbsp;<input type='hidden' id='" . $row->id . "' name='" . $name . "'  value='" . $row->element . "'   /><br/>";
+			$html .= "&nbsp;<input type='hidden' id='" . $row->type . '-' . $row->name . "' name='" . $this->name . "'  value='" . $row->element . "'   /><br/>";
 		}
 
 

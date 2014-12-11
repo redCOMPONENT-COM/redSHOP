@@ -71,11 +71,11 @@ $option = JRequest::getVar('option', '', 'request', 'string');
 
 				$row->id = $row->shopper_group_id;
 
-				$link = JRoute::_('index.php?option=' . $option . '&view=shopper_group_detail&task=edit&cid[]=' . $row->shopper_group_id);
+				$link = JRoute::_('index.php?option=com_redshop&view=shopper_group_detail&task=edit&cid[]=' . $row->shopper_group_id);
 
 				$published = JHTML::_('grid.published', $row, $j);
 
-				$link_adddis = JRoute::_('index.php?option=' . $option . '&view=discount&spgrpdis_filter=' . $row->shopper_group_id);
+				$link_adddis = JRoute::_('index.php?option=com_redshop&view=discount&spgrpdis_filter=' . $row->shopper_group_id);
 
 				?>
 				<tr class="<?php echo "row$k"; ?>">

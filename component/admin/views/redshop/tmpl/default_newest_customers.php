@@ -8,14 +8,11 @@
  */
 defined('_JEXEC') or die;
 $producthelper = new producthelper;
-$option = JRequest::getVar('option');
 $model = $this->getModel('redshop');
 ?>
-<form action="<?php echo 'index.php?option=' . $option; ?>" method="post" name="adminForm" id="adminForm">
+<form action="index.php?option=com_redshop" method="post" name="adminForm" id="adminForm">
 	<div id="editcell">
-
 		<table class="adminlist" width="100%">
-			<thead>
 			<thead>
 			<tr>
 				<th align="center"><?php echo JText::_('COM_REDSHOP_FULLNAME'); ?></th>
@@ -37,7 +34,7 @@ $model = $this->getModel('redshop');
 				$order->order_total = ($order->order_total) ? $order->order_total : 0;
 				$avg_amount = ($order->tot_order > 0) ? $order->order_total / $order->tot_order : 0;
 
-				$link = "index.php?option=" . $option . "&view=user_detail&task=edit&cid[]=" . $row->id;
+				$link = "index.php?option=com_redshop&view=user_detail&task=edit&cid[]=" . $row->id;
 				?>
 				<tr class="<?php echo "row$k"; ?>" onclick="window.location.href='<?php echo $link; ?>'">
 					<td align="center"><a href="<?php echo $link; ?>"

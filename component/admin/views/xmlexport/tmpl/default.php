@@ -59,7 +59,7 @@ $lists = $this->lists;?>
 			{
 				$row = $this->data[$i];
 				$row->id = $row->xmlexport_id;
-				$link = JRoute::_('index.php?option=' . $option . '&view=xmlexport_detail&task=edit&cid[]=' . $row->id);
+				$link = JRoute::_('index.php?option=com_redshop&view=xmlexport_detail&task=edit&cid[]=' . $row->id);
 
 				$published = JHtml::_('jgrid.published', $row->published, $i, '', 1);    ?>
 				<tr class="<?php echo "row$k"; ?>">

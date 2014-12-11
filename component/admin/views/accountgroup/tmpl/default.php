@@ -54,7 +54,7 @@ $option = JRequest::getVar('option', '', 'request', 'string');
 		{
 			$row = $this->detail[$i];
 			$row->id = $row->accountgroup_id;
-			$link = JRoute::_('index.php?option=' . $option . '&view=accountgroup_detail&task=edit&cid[]=' . $row->id);
+			$link = JRoute::_('index.php?option=com_redshop&view=accountgroup_detail&task=edit&cid[]=' . $row->id);
 			$published = JHtml::_('jgrid.published', $row->published, $i, '', 1);    ?>
 			<tr class="<?php echo "row$k"; ?>">
 				<td align="center"><?php echo $this->pagination->getRowOffset($i); ?></td>

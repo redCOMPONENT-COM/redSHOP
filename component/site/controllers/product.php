@@ -112,7 +112,7 @@ class RedshopControllerProduct extends RedshopController
 			$msg = JText::_('COM_REDSHOP_IN_CORRECT_CAPTCHA');
 		}
 
-		$link = 'index.php?option=' . $option . '&view=product&pid=' . $product_id . '&cid=' . $category_id . '&Itemid=' . $Itemid;
+		$link = 'index.php?option=com_redshop&view=product&pid=' . $product_id . '&cid=' . $category_id . '&Itemid=' . $Itemid;
 		$this->setRedirect($link, $msg);
 	}
 
@@ -408,13 +408,13 @@ class RedshopControllerProduct extends RedshopController
 		}
 		elseif ($mywid == 1)
 		{
-			$this->setRedirect('index.php?option=' . $option . 'wishlist=1&view=login&Itemid=' . $Itemid);
+			$this->setRedirect('index.php?option=com_redshopwishlist=1&view=login&Itemid=' . $Itemid);
 		}
 
 		if ($rurl != "")
 			$this->setRedirect($rurl);
 		else
-			$this->setRedirect('index.php?option=' . $option . '&view=product&pid=' . $post['product_id'] . '&cid=' . $cid . '&Itemid=' . $Itemid);
+			$this->setRedirect('index.php?option=com_redshop&view=product&pid=' . $post['product_id'] . '&cid=' . $cid . '&Itemid=' . $Itemid);
 	}
 
 	/**
@@ -499,7 +499,7 @@ class RedshopControllerProduct extends RedshopController
 			}
 		}
 
-		$this->setRedirect('index.php?option=' . $option . '&view=product&pid=' . $post['product_id'] . '&cid=' . $cid . '&Itemid=' . $Itemid);
+		$this->setRedirect('index.php?option=com_redshop&view=product&pid=' . $post['product_id'] . '&cid=' . $cid . '&Itemid=' . $Itemid);
 	}
 
 	/**
