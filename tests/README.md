@@ -63,6 +63,12 @@ php codecept.phar run --html
 # Or php vendor/codeception/codeception/codecept run --html
 ```
 
+You can also run tests individually. In the following example we run only the States test: 
+```
+# note: you will not be able to run the following test if Joomla is not installed with redSHOP in it 
+run tests/acceptance/ManageStatesAdministratorCept.php -g Joomla2 --env joomla2 
+``
+
 ## Firefox Addons
 To generate tests really fast you can use these firefox addons:
 
