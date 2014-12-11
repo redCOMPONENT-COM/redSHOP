@@ -149,16 +149,7 @@ class RedshopViewOrder_detail extends RedshopView
 
 		$text = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
 		JToolBarHelper::title(JText::_('COM_REDSHOP_ORDER') . ': <small><small>[ ' . $text . ' ]</small></small>', 'redshop_order48');
-
-		$redhelper = new redhelper;
-		$backlink = 'index.php?option=com_redshop&view=order';
-		$backlink = $redhelper->sslLink($backlink, 0);
-		$new_link = 'index.php?option=com_redshop&view=order';
-		JToolBarHelper::back(JText::_('COM_REDSHOP_ORDERLIST'), 'javascript:location.href=\'' . $new_link . '\';');
-
-		// Section can be added from here
-		$option = array();
-		$option[] = JHTML::_('select.option', '0', JText::_('COM_REDSHOP_SELECT'));
+		JToolBarHelper::back(JText::_('COM_REDSHOP_ORDERLIST'));
 
 		$this->lists = $lists;
 		$this->detail = $detail;
