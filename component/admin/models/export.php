@@ -33,7 +33,7 @@ class RedshopModelExport extends RedshopModel
 
 		if (!$exportname)
 		{
-			$app->Redirect("index.php?option=com_redshop&view=export", JText::_("COM_REDSHOP_PLEASE_SELECT_SECTION"));
+			$app->redirect("index.php?option=com_redshop&view=export", JText::_("COM_REDSHOP_PLEASE_SELECT_SECTION"));
 		}
 
 		/* Set the export filename */

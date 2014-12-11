@@ -24,7 +24,7 @@ class RedshopViewRegistration extends RedshopView
 
 		if ($user->id || (isset($auth['users_info_id']) && $auth['users_info_id'] > 0))
 		{
-			$app->Redirect('index.php?option=com_redshop&view=account&Itemid=' . $Itemid);
+			$app->redirect('index.php?option=com_redshop&view=account&Itemid=' . $Itemid);
 		}
 
 		$params = $app->getParams('com_redshop');
