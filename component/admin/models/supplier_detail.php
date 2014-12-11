@@ -9,9 +9,8 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
 
-class RedshopModelSupplier_detail extends JModel
+class RedshopModelSupplier_detail extends RedshopModel
 {
 	public $_id = null;
 
@@ -115,7 +114,7 @@ class RedshopModelSupplier_detail extends JModel
 			$query = 'DELETE FROM ' . $this->_table_prefix . 'supplier WHERE supplier_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 
@@ -137,7 +136,7 @@ class RedshopModelSupplier_detail extends JModel
 				. ' WHERE supplier_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 

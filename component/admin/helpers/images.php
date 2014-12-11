@@ -86,13 +86,13 @@ class RedShopHelperImages extends JObject
 		// Set Default Width
 		if ((int) $width <= 0)
 		{
-			$width = 50;
+			$width = 0;
 		}
 
 		// Set Default Height
 		if ((int) $height <= 0)
 		{
-			$height = 50;
+			$height = 0;
 		}
 
 		$filePath     = JPATH_SITE . '/components/com_redshop/assets/images/' . $type . '/' . $imageName;

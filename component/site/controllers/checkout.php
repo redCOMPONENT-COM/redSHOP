@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-JLoader::import('joomla.application.component.controller');
 JLoader::load('RedshopHelperHelper');
 JLoader::load('RedshopHelperAdminExtra_field');
 
@@ -20,7 +19,7 @@ JLoader::load('RedshopHelperAdminExtra_field');
  * @subpackage  Controller
  * @since       1.0
  */
-class RedshopControllerCheckout extends JController
+class RedshopControllerCheckout extends RedshopController
 {
 	public $_order_functions = null;
 
@@ -135,7 +134,7 @@ class RedshopControllerCheckout extends JController
 					$total      = $cart['total'];
 
 					if ($max_credit <= ($unpaid + $total))
-					{
+					{						
 						$Itemid = JRequest::getVar('Itemid');
 						$msg    = JText::_('DEBITOR_CREDIT_LIMIT_EXCEED');
 						$link   = JRoute::_('index.php?option=com_redshop&view=checkout&Itemid=' . $Itemid, false);

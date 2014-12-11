@@ -9,9 +9,7 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.controller');
-
-class RedshopControllerVoucher_detail extends JController
+class RedshopControllerVoucher_detail extends RedshopController
 {
 	public function __construct($default = array())
 	{
@@ -57,7 +55,7 @@ class RedshopControllerVoucher_detail extends JController
 			if ($code)
 			{
 				$msg = JText::_('COM_REDSHOP_CODE_IS_ALREADY_IN_USE');
-				$app->redirect('index.php?option=' . $option . '&view=voucher_detail&task=edit&cid=' . $post ['voucher_id'], $msg);
+				$app->Redirect('index.php?option=com_redshop&view=voucher_detail&task=edit&cid=' . $post ['voucher_id'], $msg);
 			}
 		}
 
@@ -73,11 +71,11 @@ class RedshopControllerVoucher_detail extends JController
 
 		if ($apply == 1)
 		{
-			$this->setRedirect('index.php?option=' . $option . '&view=voucher_detail&task=edit&cid[]=' . $row->voucher_id, $msg);
+			$this->setRedirect('index.php?option=com_redshop&view=voucher_detail&task=edit&cid[]=' . $row->voucher_id, $msg);
 		}
 		else
 		{
-			$this->setRedirect('index.php?option=' . $option . '&view=voucher', $msg);
+			$this->setRedirect('index.php?option=com_redshop&view=voucher', $msg);
 		}
 	}
 
@@ -100,7 +98,7 @@ class RedshopControllerVoucher_detail extends JController
 		}
 
 		$msg = JText::_('COM_REDSHOP_VOUCHER_DETAIL_DELETED_SUCCESSFULLY');
-		$this->setRedirect('index.php?option=' . $option . '&view=voucher', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=voucher', $msg);
 	}
 
 	public function publish()
@@ -122,7 +120,7 @@ class RedshopControllerVoucher_detail extends JController
 		}
 
 		$msg = JText::_('COM_REDSHOP_VOUCHER_DETAIL_PUBLISHED_SUCCESSFULLY');
-		$this->setRedirect('index.php?option=' . $option . '&view=voucher', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=voucher', $msg);
 	}
 
 	public function unpublish()
@@ -144,13 +142,13 @@ class RedshopControllerVoucher_detail extends JController
 		}
 
 		$msg = JText::_('COM_REDSHOP_VOUCHER_DETAIL_UNPUBLISHED_SUCCESSFULLY');
-		$this->setRedirect('index.php?option=' . $option . '&view=voucher', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=voucher', $msg);
 	}
 
 	public function cancel()
 	{
 		$option = JRequest::getVar('option', '', 'request', 'string');
 		$msg = JText::_('COM_REDSHOP_VOUCHER_DETAIL_EDITING_CANCELLED');
-		$this->setRedirect('index.php?option=' . $option . '&view=voucher', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=voucher', $msg);
 	}
 }

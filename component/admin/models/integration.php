@@ -9,9 +9,8 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
 
-class RedshopModelIntegration extends JModel
+class RedshopModelIntegration extends RedshopModel
 {
 	/*
 	 *  download googlebase xml file

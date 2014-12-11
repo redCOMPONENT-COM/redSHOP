@@ -35,7 +35,7 @@ $Itemid = $redhelper->getCheckoutItemid();
 $model = $this->getModel('checkout');
 $cart = $session->get('cart');
 
-JHTML::Script('credit_card.js', 'components/com_redshop/assets/js/', false);
+JHtml::script('com_redshop/credit_card.js', false, true);
 
 $billingaddresses = $model->billingaddresses();
 

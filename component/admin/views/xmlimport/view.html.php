@@ -9,9 +9,8 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
 
-class RedshopViewXmlimport extends JView
+class RedshopViewXmlimport extends RedshopView
 {
 	public function display($tpl = null)
 	{
@@ -25,8 +24,8 @@ class RedshopViewXmlimport extends JView
 		$model = $this->getModel('xmlimport');
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_XML_IMPORT_MANAGEMENT'), 'redshop_import48');
-		JToolBarHelper::addNewX();
-		JToolBarHelper::editListX();
+		JToolbarHelper::addNew();
+		JToolbarHelper::EditList();
 		JToolBarHelper::deleteList();
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();

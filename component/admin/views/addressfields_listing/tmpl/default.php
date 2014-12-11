@@ -54,8 +54,7 @@ $field_section_drop = JRequest::getVar('field_section_drop');
 					<?php echo JText::_('COM_REDSHOP_NUM'); ?>
 				</th>
 				<th width="5%">
-					<input type="checkbox" name="toggle" value=""
-					       onclick="checkAll(<?php echo count($this->fields); ?>);"/>
+					<?php echo JHtml::_('redshopgrid.checkall'); ?>
 				</th>
 				<th class="title" width="20%">
 					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_FIELD_TITLE', 'field_title', $this->lists['order_Dir'], $this->lists['order']); ?>
@@ -76,9 +75,9 @@ $field_section_drop = JRequest::getVar('field_section_drop');
 			$k = 0;
 			for ($i = 0, $n = count($this->fields); $i < $n; $i++)
 			{
-				$row = & $this->fields[$i];
+				$row = $this->fields[$i];
 				$row->id = $row->field_id;
-				$link = JRoute::_('index.php?option=' . $option . '&view=fields_detail&task=edit&cid[]=' . $row->field_id);
+				$link = JRoute::_('index.php?option=com_redshop&view=fields_detail&task=edit&cid[]=' . $row->field_id);
 
 				$published = JHtml::_('jgrid.published', $row->published, $i, '', 1);
 
@@ -132,6 +131,11 @@ $field_section_drop = JRequest::getVar('field_section_drop');
 
 			<tfoot>
 			<td colspan="9">
+				<?php if (version_compare(JVERSION, '3.0', '>=')): ?>
+					<div class="redShopLimitBox">
+						<?php echo $this->pagination->getLimitBox(); ?>
+					</div>
+				<?php endif; ?>
 				<?php echo $this->pagination->getListFooter(); ?>
 			</td>
 			</tfoot>

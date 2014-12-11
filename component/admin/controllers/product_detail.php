@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.controller');
 jimport('joomla.filesystem.file');
 
 JLoader::load('RedshopHelperAdminThumbnail');
@@ -23,7 +22,7 @@ JLoader::load('RedshopHelperAdminProduct');
  *
  * @since       1.0
  */
-class RedshopControllerProduct_Detail extends JController
+class RedshopControllerProduct_Detail extends RedshopController
 {
 	public $app;
 
@@ -168,16 +167,16 @@ class RedshopControllerProduct_Detail extends JController
 
 			if ($apply == 2)
 			{
-				$this->setRedirect('index.php?option=' . $this->option . '&view=product_detail&task=add', $msg);
+				$this->setRedirect('index.php?option=com_redshop&view=product_detail&task=add', $msg);
 			}
 
 			elseif ($apply == 1)
 			{
-				$this->setRedirect('index.php?option=' . $this->option . '&view=product_detail&task=edit&cid[]=' . $row->product_id, $msg);
+				$this->setRedirect('index.php?option=com_redshop&view=product_detail&task=edit&cid[]=' . $row->product_id, $msg);
 			}
 			else
 			{
-				$this->setRedirect('index.php?option=' . $this->option . '&view=product', $msg);
+				$this->setRedirect('index.php?option=com_redshop&view=product', $msg);
 			}
 		}
 		else
@@ -223,7 +222,7 @@ class RedshopControllerProduct_Detail extends JController
 			}
 		}
 
-		$this->setRedirect('index.php?option=' . $this->option . '&view=product', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=product', $msg);
 	}
 
 	/**
@@ -248,7 +247,7 @@ class RedshopControllerProduct_Detail extends JController
 		}
 
 		$msg = JText::_('COM_REDSHOP_PRODUCT_DETAIL_PUBLISHED_SUCCESSFULLY');
-		$this->setRedirect('index.php?option=' . $this->option . '&view=product', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=product', $msg);
 	}
 
 	/**
@@ -273,7 +272,7 @@ class RedshopControllerProduct_Detail extends JController
 		}
 
 		$msg = JText::_('COM_REDSHOP_PRODUCT_DETAIL_UNPUBLISHED_SUCCESSFULLY');
-		$this->setRedirect('index.php?option=' . $this->option . '&view=product', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=product', $msg);
 	}
 
 	/**
@@ -286,7 +285,7 @@ class RedshopControllerProduct_Detail extends JController
 		$model = $this->getModel('product_detail');
 		$model->checkin();
 		$msg = JText::_('COM_REDSHOP_PRODUCT_DETAIL_EDITING_CANCELLED');
-		$this->setRedirect('index.php?option=' . $this->option . '&view=product', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=product', $msg);
 	}
 
 	/**
@@ -309,7 +308,7 @@ class RedshopControllerProduct_Detail extends JController
 			$msg = JText::_('COM_REDSHOP_ERROR_PRODUCT_COPIED');
 		}
 
-		$this->setRedirect('index.php?option=' . $this->option . '&view=product', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=product', $msg);
 	}
 
 	/**
@@ -723,7 +722,7 @@ class RedshopControllerProduct_Detail extends JController
 		$model->orderup();
 
 		$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
-		$this->setRedirect('index.php?option=' . $this->option . '&view=product', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=product', $msg);
 	}
 
 	/**
@@ -737,7 +736,7 @@ class RedshopControllerProduct_Detail extends JController
 
 		$model->orderdown();
 		$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
-		$this->setRedirect('index.php?option=' . $this->option . '&view=product', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=product', $msg);
 	}
 
 	/**
@@ -756,7 +755,7 @@ class RedshopControllerProduct_Detail extends JController
 		$model->saveorder($cid, $order);
 
 		$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
-		$this->setRedirect('index.php?option=' . $this->option . '&view=product', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=product', $msg);
 	}
 
 	/**
@@ -773,7 +772,7 @@ class RedshopControllerProduct_Detail extends JController
 		$model->deleteProdcutSerialNumbers($serial_id);
 
 		$msg = JText::_('COM_REDSHOP_PRODUCT_SERIALNUMBER_DELETED');
-		$this->setRedirect('index.php?option=' . $this->option . '&view=product_detail&cid=' . $product_id, $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=product_detail&cid=' . $product_id, $msg);
 	}
 
 	/**

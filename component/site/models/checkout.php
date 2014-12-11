@@ -9,8 +9,6 @@
 
 defined('_JEXEC') or die;
 
-JLoader::import('joomla.application.component.model');
-
 require_once JPATH_COMPONENT_SITE . '/helpers/tcpdf/config/lang/eng.php';
 require_once JPATH_COMPONENT_SITE . '/helpers/tcpdf/tcpdf.php';
 JLoader::load('RedshopHelperProduct');
@@ -32,7 +30,7 @@ JLoader::load('RedshopHelperAdminShipping');
  * @subpackage  Model
  * @since       1.0
  */
-class RedshopModelCheckout extends JModel
+class RedshopModelCheckout extends RedshopModel
 {
 
 	public $_id = null;
@@ -238,7 +236,7 @@ class RedshopModelCheckout extends JModel
 		if ($cart['idx'] < 1)
 		{
 			$msg = JText::_('COM_REDSHOP_EMPTY_CART');
-			$app->redirect('index.php?option=' . $option . '&Itemid=' . $Itemid, $msg);
+			$app->redirect('index.php?option=com_redshop&Itemid=' . $Itemid, $msg);
 		}
 
 		$ccdata           = $session->get('ccdata');
@@ -535,7 +533,7 @@ class RedshopModelCheckout extends JModel
 
 		$query = "UPDATE `#__redshop_orders` SET discount_type = " . $db->quote($this->discount_type) . " where order_id = " . (int) $order_id;
 		$db->setQuery($query);
-		$db->query();
+		$db->execute();
 
 		if (SHOW_TERMS_AND_CONDITIONS == 1 && isset($post['termscondition']) && $post['termscondition'] == 1)
 		{
@@ -1426,11 +1424,11 @@ class RedshopModelCheckout extends JModel
 			$g_pdfName = time();
 			$pdf->Output(JPATH_SITE . '/components/com_redshop/assets/orders/' . $g_pdfName . ".pdf", "F");
 			$config              = JFactory::getConfig();
-			$from                = $config->getValue('mailfrom');
-			$fromname            = $config->getValue('fromname');
+			$from                = $config->get('mailfrom');
+			$fromname            = $config->get('fromname');
 			$giftcard_attachment = JPATH_SITE . '/components/com_redshop/assets/orders/' . $g_pdfName . ".pdf";
 
-			JUtility::sendMail($from, $fromname, $eachorders->giftcard_user_email, $giftcardmailsub, $giftcardmail_body, 1, '', '', $giftcard_attachment);
+			JMail::getInstance()->sendMail($from, $fromname, $eachorders->giftcard_user_email, $giftcardmailsub, $giftcardmail_body, 1, '', '', $giftcard_attachment);
 		}
 
 	}
@@ -2005,7 +2003,7 @@ class RedshopModelCheckout extends JModel
 				$sql                    = "UPDATE " . $this->_table_prefix . "product_voucher SET voucher_left = voucher_left - " . (int) $voucher_volume . " "
 					. "WHERE voucher_id  = " . (int) $voucher_id;
 				$this->_db->setQuery($sql);
-				$this->_db->Query();
+				$this->_db->execute();
 
 				if ($cart['voucher'][$i]['remaining_voucher_discount'] > 0)
 				{
@@ -2072,7 +2070,7 @@ class RedshopModelCheckout extends JModel
 				$sql             = "UPDATE " . $this->_table_prefix . "coupons SET coupon_left = coupon_left - " . (int) $coupon_volume . " "
 					. "WHERE coupon_id  = " . (int) $coupon_id;
 				$this->_db->setQuery($sql);
-				$this->_db->Query();
+				$this->_db->execute();
 
 				if ($cart['coupon'][$i]['remaining_coupon_discount'] > 0)
 				{
@@ -2370,7 +2368,7 @@ class RedshopModelCheckout extends JModel
 
 		$this->_db->setQuery($query);
 
-		if (!$this->_db->query())
+		if (!$this->_db->execute())
 		{
 			$this->setError($this->_db->getErrorMsg());
 
@@ -2401,7 +2399,7 @@ class RedshopModelCheckout extends JModel
 		$query_in = "INSERT INTO " . $this->_table_prefix . "ordernumber_track SET trackdatetime=now()";
 		$this->_db->setQuery($query_in);
 
-		if (!$this->_db->query())
+		if (!$this->_db->execute())
 		{
 			$this->setError($this->_db->getErrorMsg());
 

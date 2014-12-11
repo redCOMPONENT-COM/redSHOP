@@ -10,9 +10,8 @@
 defined('_JEXEC') or die;
 JLoader::load('RedshopHelperProduct');
 
-jimport('joomla.application.component.model');
 
-class RedshopModelMass_discount_detail extends JModel
+class RedshopModelMass_discount_detail extends RedshopModel
 {
 	public $_id = null;
 
@@ -140,7 +139,7 @@ class RedshopModelMass_discount_detail extends JModel
 
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 
@@ -179,7 +178,7 @@ class RedshopModelMass_discount_detail extends JModel
 					. $data['discount_enddate'] . '" WHERE product_id="' . $arr_diff[$i] . '" ';
 				$this->_db->setQuery($query);
 
-				if (!$this->_db->query())
+				if (!$this->_db->execute())
 				{
 					$this->setError($this->_db->getErrorMsg());
 
@@ -218,7 +217,7 @@ class RedshopModelMass_discount_detail extends JModel
 
 				$this->_db->setQuery($query);
 
-				if (!$this->_db->query())
+				if (!$this->_db->execute())
 				{
 					$this->setError($this->_db->getErrorMsg());
 
@@ -263,7 +262,7 @@ class RedshopModelMass_discount_detail extends JModel
 
 					$this->_db->setQuery($query);
 
-					if (!$this->_db->query())
+					if (!$this->_db->execute())
 					{
 						$this->setError($this->_db->getErrorMsg());
 
@@ -305,7 +304,7 @@ class RedshopModelMass_discount_detail extends JModel
 					$query = 'UPDATE ' . $this->_table_prefix . 'product SET product_on_sale="0" WHERE product_id="' . $product_Ids[$p]->product_id . '" ';
 					$this->_db->setQuery($query);
 
-					if (!$this->_db->query())
+					if (!$this->_db->execute())
 					{
 						$this->setError($this->_db->getErrorMsg());
 
@@ -352,7 +351,7 @@ class RedshopModelMass_discount_detail extends JModel
 							. $data['discount_enddate'] . '" WHERE product_id="' . $product_Ids[$p]->product_id . '" ';
 						$this->_db->setQuery($query);
 
-						if (!$this->_db->query())
+						if (!$this->_db->execute())
 						{
 							$this->setError($this->_db->getErrorMsg());
 
@@ -420,7 +419,7 @@ class RedshopModelMass_discount_detail extends JModel
 			$query = 'DELETE FROM ' . $this->_table_prefix . 'mass_discount WHERE mass_discount_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 
@@ -448,7 +447,7 @@ class RedshopModelMass_discount_detail extends JModel
 		$query = 'UPDATE ' . $this->_table_prefix . 'product SET product_on_sale="0" where product_id in (' . $productId . ')';
 		$this->_db->setQuery($query);
 
-		if (!$this->_db->query())
+		if (!$this->_db->execute())
 		{
 			$this->setError($this->_db->getErrorMsg());
 

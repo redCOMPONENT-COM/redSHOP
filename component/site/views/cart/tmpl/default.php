@@ -245,7 +245,7 @@ else
 	$cart_data = str_replace("{discount_rule}", '', $cart_data);
 }
 
-$discount_form = '<div class="update_cart"><form name="discount_form" method="POST" >';
+$discount_form = '<div class="update_cart"><form action="index.php?option=com_redshop&view=cart&tmpl=component" name="discount_form" method="POST" >';
 $coupon_lableFLG = 0;
 $coupon_lable = '';
 $confirmMsg = '';

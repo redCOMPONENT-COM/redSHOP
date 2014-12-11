@@ -9,12 +9,11 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.controller');
 
 JLoader::load('RedshopHelperProduct');
 JLoader::load('RedshopHelperAdminProduct');
 
-class RedshopControllerAddquotation_detail extends JController
+class RedshopControllerAddquotation_detail extends RedshopController
 {
 	public function __construct($default = array())
 	{
@@ -50,7 +49,7 @@ class RedshopControllerAddquotation_detail extends JController
 			$post['block'] = 0;
 
 			// Get Admin order detail Model Object
-			$usermodel = JModel::getInstance('User_detail', 'RedshopModel');
+			$usermodel = RedshopModel::getInstance('User_detail', 'RedshopModel');
 
 			// Call Admin order detail Model store function for Billing
 			$user = $usermodel->storeUser($post);
@@ -72,7 +71,7 @@ class RedshopControllerAddquotation_detail extends JController
 
 			if (count($user) <= 0)
 			{
-				$this->setRedirect('index.php?option=' . $option . '&view=quotaion_detail&user_id=' . $user_id);
+				$this->setRedirect('index.php?option=com_redshop&view=quotaion_detail&user_id=' . $user_id);
 			}
 		}
 
@@ -100,7 +99,7 @@ class RedshopControllerAddquotation_detail extends JController
 			$msg = JText::_('COM_REDSHOP_ERROR_SAVING_QUOTATION_DETAIL');
 		}
 
-		$this->setRedirect('index.php?option=' . $option . '&view=quotation', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=quotation', $msg);
 	}
 
 	public function send()
@@ -112,7 +111,7 @@ class RedshopControllerAddquotation_detail extends JController
 	{
 		$option = JRequest::getVar('option', '', 'request', 'string');
 		$msg = JText::_('COM_REDSHOP_QUOTATION_DETAIL_EDITING_CANCELLED');
-		$this->setRedirect('index.php?option=' . $option . '&view=quotation', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=quotation', $msg);
 	}
 
 	public function displayOfflineSubProperty()

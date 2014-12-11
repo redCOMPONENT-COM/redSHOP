@@ -9,9 +9,8 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
 
-class RedshopModelVoucher_detail extends JModel
+class RedshopModelVoucher_detail extends RedshopModel
 {
 	public $_id = null;
 
@@ -107,7 +106,7 @@ class RedshopModelVoucher_detail extends JModel
 
 		$sql = "delete from " . $this->_table_prefix . "product_voucher_xref where voucher_id='" . $voucher_id . "' ";
 		$this->_db->setQuery($sql);
-		$this->_db->query();
+		$this->_db->execute();
 
 		$products_list = $data["container_product"];
 
@@ -117,7 +116,7 @@ class RedshopModelVoucher_detail extends JModel
 			{
 				$sql = "insert into " . $this->_table_prefix . "product_voucher_xref (voucher_id,product_id) value ('" . $voucher_id . "','" . $cp . "')";
 				$this->_db->setQuery($sql);
-				$this->_db->query();
+				$this->_db->execute();
 			}
 		}
 
@@ -133,7 +132,7 @@ class RedshopModelVoucher_detail extends JModel
 			$query = 'DELETE FROM ' . $this->_table_prefix . 'product_voucher WHERE voucher_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 
@@ -155,7 +154,7 @@ class RedshopModelVoucher_detail extends JModel
 				. ' WHERE voucher_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 

@@ -40,8 +40,7 @@ $producthelper = new producthelper;
 					<?php echo JText::_('COM_REDSHOP_NUM'); ?>
 				</th>
 				<th width="20">
-					<input type="checkbox" name="toggle" value=""
-					       onclick="checkAll(<?php echo count($this->shipping_box); ?>);"/>
+					<?php echo JHtml::_('redshopgrid.checkall'); ?>
 				</th>
 				<th class="title">
 					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_BOX_NAME', 'shipping_box_name', $this->lists['order_Dir'], $this->lists['order']); ?>
@@ -73,9 +72,9 @@ $producthelper = new producthelper;
 			$k = 0;
 			for ($i = 0, $n = count($this->shipping_box); $i < $n; $i++)
 			{
-				$row = & $this->shipping_box[$i];
+				$row = $this->shipping_box[$i];
 				$row->id = $row->shipping_box_id;
-				$link = JRoute::_('index.php?option=' . $option . '&view=shipping_box_detail&task=edit&cid[]=' . $row->shipping_box_id);
+				$link = JRoute::_('index.php?option=com_redshop&view=shipping_box_detail&task=edit&cid[]=' . $row->shipping_box_id);
 
 				$published = JHtml::_('jgrid.published', $row->published, $i, '', 1);
 
@@ -117,6 +116,11 @@ $producthelper = new producthelper;
 
 			<tfoot>
 			<td colspan="9">
+				<?php if (version_compare(JVERSION, '3.0', '>=')): ?>
+					<div class="redShopLimitBox">
+						<?php echo $this->pagination->getLimitBox(); ?>
+					</div>
+				<?php endif; ?>
 				<?php  echo $this->pagination->getListFooter(); ?>
 			</td>
 			</tfoot>

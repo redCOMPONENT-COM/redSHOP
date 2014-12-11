@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-JLoader::import('joomla.application.component.controller');
 
 JLoader::load('RedshopHelperHelper');
 JLoader::load('RedshopHelperCart');
@@ -21,7 +20,7 @@ JLoader::load('RedshopHelperCart');
  * @subpackage  Controller
  * @since       1.0
  */
-class RedshopControllerCart extends JController
+class RedshopControllerCart extends RedshopController
 {
 	/**
 	 * Constructor

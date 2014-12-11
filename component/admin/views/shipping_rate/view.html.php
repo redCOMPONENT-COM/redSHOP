@@ -9,9 +9,8 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
 
-class RedshopViewShipping_rate extends JView
+class RedshopViewShipping_rate extends RedshopView
 {
 	public function display($tpl = null)
 	{
@@ -47,12 +46,12 @@ class RedshopViewShipping_rate extends JView
 
 		$jtitle = ($shipper_location) ? JText::_('COM_REDSHOP_SHIPPING_LOCATION') : JText::_('COM_REDSHOP_SHIPPING_RATE');
 		JToolBarHelper::title($jtitle . ' <small><small>[ ' . $shipping->name . ' ]</small></small>', 'redshop_shipping_rates48');
-		JToolBarHelper::addNewX();
-		JToolBarHelper::editListX();
+		JToolbarHelper::addNew();
+		JToolbarHelper::EditList();
 
 		if ($is_shipper)
 		{
-			JToolBarHelper::customX('copy', 'copy.png', 'copy_f2.png', JText::_('COM_REDSHOP_TOOLBAR_COPY'), true);
+			JToolBarHelper::custom('copy', 'copy.png', 'copy_f2.png', JText::_('COM_REDSHOP_TOOLBAR_COPY'), true);
 		}
 
 		JToolBarHelper::deleteList();

@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-JLoader::import('joomla.application.component.model');
 
 /**
  * Class newsletterModelnewsletter
@@ -18,7 +17,7 @@ JLoader::import('joomla.application.component.model');
  * @subpackage  Model
  * @since       1.0
  */
-class RedshopModelNewsletter extends JModel
+class RedshopModelNewsletter extends RedshopModel
 {
 	public $_table_prefix = null;
 
@@ -88,7 +87,7 @@ class RedshopModelNewsletter extends JModel
 		$app = JFactory::getApplication();
 		$query = "UPDATE `" . $this->_table_prefix . "newsletter_subscription` SET `published` = '1' WHERE subscription_id = '" . (int) $sub_id . "' ";
 		$this->_db->setQuery($query);
-		$this->_db->query();
+		$this->_db->execute();
 		$url  = JURI::root();
 		$link = $url . 'index.php?option=com_redshop&view=newsletter';
 		$app->redirect($link, JText::_('COM_REDSHOP_MESSAGE_CONFIRMED_SUBSCRIBE'));

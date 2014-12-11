@@ -107,7 +107,7 @@ class rsUserhelper
 				. " SET accept_terms_conditions = " . (int) $isSet
 				. " WHERE users_info_id = " . (int) $users_info_id;
 			$this->_db->setQuery($query);
-			$this->_db->Query();
+			$this->_db->execute();
 		}
 	}
 
@@ -481,7 +481,16 @@ class rsUserhelper
 
 			if ($useractivation == '1')
 			{
-				$user->set('activation', JUtility::getHash(JUserHelper::genRandomPassword()));
+				if (version_compare(JVERSION, '3.0', '<'))
+				{
+					$hash = JApplication::getHash(JUserHelper::genRandomPassword());
+				}
+				else
+				{
+					$hash = JApplicationHelper::getHash(JUserHelper::genRandomPassword());
+				}
+
+				$user->set('activation', $hash);
 				$user->set('block', '0');
 			}
 
@@ -656,7 +665,7 @@ class rsUserhelper
 							. "SET users_info_id = " . (int) $nextId . " "
 							. "WHERE users_info_id = " . (int) $row->users_info_id;
 						$this->_db->setQuery($sql);
-						$this->_db->Query();
+						$this->_db->execute();
 						$row->users_info_id = $nextId;
 					}
 				}
@@ -936,7 +945,7 @@ class rsUserhelper
 				. "WHERE email = " . $db->quote($email) . " "
 				. $and;
 			$this->_db->setQuery($query);
-			$this->_db->query();
+			$this->_db->execute();
 			$redshopMail = new redshopMail;
 			$redshopMail->sendNewsletterCancellationMail($email);
 		}
@@ -1360,9 +1369,9 @@ class rsUserhelper
 
 		if (DEBITOR_NUMBER_AUTO_GENERATE == 1 && $row->users_info_id <= 0)
 		{
-			JModel::addIncludePath(REDCRM_ADMIN . '/models');
+			JModelLegacy::addIncludePath(REDCRM_ADMIN . '/models');
 
-			$crmmodel = JModel::getInstance('debitor', 'redCRMModel');
+			$crmmodel = JModelLegacy::getInstance('debitor', 'redCRMModel');
 
 			$maxdebtor_id = $crmmodel->getMaxdebtor();
 
