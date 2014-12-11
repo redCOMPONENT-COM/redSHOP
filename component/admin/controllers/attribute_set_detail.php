@@ -56,11 +56,11 @@ class RedshopControllerAttribute_set_detail extends RedshopController
 
 		if ($apply == 1)
 		{
-			$this->setRedirect('index.php?option=' . $option . '&view=attribute_set_detail&task=edit&cid[]=' . $row->attribute_set_id, $msg);
+			$this->setRedirect('index.php?option=com_redshop&view=attribute_set_detail&task=edit&cid[]=' . $row->attribute_set_id, $msg);
 		}
 		else
 		{
-			$this->setRedirect('index.php?option=' . $option . '&view=attribute_set', $msg);
+			$this->setRedirect('index.php?option=com_redshop&view=attribute_set', $msg);
 		}
 	}
 
@@ -83,7 +83,7 @@ class RedshopControllerAttribute_set_detail extends RedshopController
 		}
 
 		$msg = JText::_('COM_REDSHOP_ATTRIBUTE_SET_DELETED_SUCCESSFULLY');
-		$this->setRedirect('index.php?option=' . $option . '&view=attribute_set', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=attribute_set', $msg);
 	}
 
 	public function publish()
@@ -105,7 +105,7 @@ class RedshopControllerAttribute_set_detail extends RedshopController
 		}
 
 		$msg = JText::_('COM_REDSHOP_ATTRIBUTE_SET_PUBLISHED_SUCCESSFULLY');
-		$this->setRedirect('index.php?option=' . $option . '&view=attribute_set', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=attribute_set', $msg);
 	}
 
 	public function unpublish()
@@ -127,14 +127,14 @@ class RedshopControllerAttribute_set_detail extends RedshopController
 		}
 
 		$msg = JText::_('COM_REDSHOP_ATTRIBUTE_SET_UNPUBLISHED_SUCCESSFULLY');
-		$this->setRedirect('index.php?option=' . $option . '&view=attribute_set', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=attribute_set', $msg);
 	}
 
 	public function cancel()
 	{
 		$option = JRequest::getVar('option');
 		$msg = JText::_('COM_REDSHOP_ATTRIBUTE_SET_EDITING_CANCELLED');
-		$this->setRedirect('index.php?option=' . $option . '&view=attribute_set', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=attribute_set', $msg);
 	}
 
 	public function attribute_save($post, $row, $file)
@@ -438,7 +438,7 @@ class RedshopControllerAttribute_set_detail extends RedshopController
 			$msg = JText::_('COM_REDSHOP_ERROR_COPING_CATEGORY');
 		}
 
-		$this->setRedirect('index.php?option=' . $option . '&view=attribute_set', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=attribute_set', $msg);
 	}
 }
 

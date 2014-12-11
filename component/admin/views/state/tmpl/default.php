@@ -74,7 +74,7 @@ $filter = JRequest::getVar('filter');
 			$row = $this->fields[$i];
 			$row->id = $row->state_id;
 
-			$link = JRoute::_('index.php?option=' . $option . '&view=state_detail&task=edit&cid[]=' . $row->state_id);
+			$link = JRoute::_('index.php?option=com_redshop&view=state_detail&task=edit&cid[]=' . $row->state_id);
 
 			?>
 			<tr class="<?php echo "row$k"; ?>">

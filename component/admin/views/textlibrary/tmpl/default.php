@@ -86,7 +86,7 @@ $filter = JRequest::getVar('filter');
 			{
 				$row = $this->textlibrarys[$i];
 				$row->id = $row->textlibrary_id;
-				$link = JRoute::_('index.php?option=' . $option . '&view=textlibrary_detail&task=edit&cid[]=' . $row->textlibrary_id);
+				$link = JRoute::_('index.php?option=com_redshop&view=textlibrary_detail&task=edit&cid[]=' . $row->textlibrary_id);
 
 				$published = JHtml::_('jgrid.published', $row->published, $i, '', 1);
 

@@ -907,7 +907,7 @@ function onestepCheckoutProcess(objectname,classname)
 
 	if(objectname=="shipping_rate_id")
 	{
-		if(classname =="default_shipping_GLS")
+		if(classname =="default_shipping_gls")
 		{
 			if(document.getElementById('rs_glslocationId'))
 			{
@@ -1086,9 +1086,9 @@ function onestepCheckoutProcess(objectname,classname)
 					document.getElementById('divRedshopCart').innerHTML = document.getElementById('onestepdisplaycart').innerHTML;
 				}
 				document.getElementById('responceonestep').innerHTML = "";
-				
+
 				SqueezeBox.initialize({});
-				 
+
 				$$('a.modal').each(function(el) {
 					el.addEvent('click', function(e) {
 						new Event(e).stop();

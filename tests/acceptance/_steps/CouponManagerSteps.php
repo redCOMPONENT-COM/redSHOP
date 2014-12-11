@@ -32,21 +32,47 @@ class CouponManagerSteps extends AdminManagerSteps
 	{
 		$I = $this;
 		$I->amOnPage(\CouponManagerPage::$URL);
-		$I->verifyNotices(false, $this->checkForNotices(), 'Coupon Manager Page');
-		$I->click('New');
-		$I->verifyNotices(false, $this->checkForNotices(), 'Coupon Manager New');
-		$I->fillField(\CouponManagerPage::$couponCode, $couponCode);
-		$I->fillField(\CouponManagerPage::$couponValue, $couponValue);
-		$I->fillField(\CouponManagerPage::$couponLeft, $couponLeft);
-		$I->selectOption(\CouponManagerPage::$couponValueIn, $couponValueIn);
-		$I->selectOption(\CouponManagerPage::$couponType, $couponType);
-		$I->click('Save & Close');
-		$I->waitForText('Coupon Management');
-		$I->see('Coupon Management');
-		$I->see('Coupon detail saved');
-		$I->click('ID');
-		$I->see($couponCode, \CouponManagerPage::$firstResultRow);
-		$I->click('ID');
+		$config = $I->getConfig();
+
+		if ($config['env'] == 'joomla2')
+		{
+			$I->verifyNotices(false, $this->checkForNotices(), 'Coupon Manager Page');
+			$I->click('New');
+			$I->verifyNotices(false, $this->checkForNotices(), 'Coupon Manager New');
+			$I->fillField(\CouponManagerPage::$couponCode, $couponCode);
+			$I->fillField(\CouponManagerPage::$couponValue, $couponValue);
+			$I->fillField(\CouponManagerPage::$couponLeft, $couponLeft);
+			$I->selectOption(\CouponManagerPage::$couponValueIn, $couponValueIn);
+			$I->selectOption(\CouponManagerPage::$couponType, $couponType);
+			$I->click('Save & Close');
+			$I->waitForText('Coupon Management');
+			$I->see('Coupon Management');
+			$I->see('Coupon detail saved');
+			$I->click('ID');
+			$I->see($couponCode, \CouponManagerPage::$firstResultRow);
+			$I->click('ID');
+		}
+		else
+		{
+			$couponManagerPage = new \CouponManagerJ3Page;
+			$I->verifyNotices(false, $this->checkForNotices(), 'Coupon Manager Page');
+			$I->click('New');
+			$I->verifyNotices(false, $this->checkForNotices(), 'Coupon Manager New');
+			$I->fillField(\CouponManagerJ3Page::$couponCode, $couponCode);
+			$I->fillField(\CouponManagerJ3Page::$couponValue, $couponValue);
+			$I->fillField(\CouponManagerJ3Page::$couponLeft, $couponLeft);
+			$I->click(\CouponManagerJ3Page::$couponValueInDropDown);
+			$I->click($couponManagerPage->couponValueIn($couponValueIn));
+			$I->click(\CouponManagerJ3Page::$couponTypeDropDown);
+			$I->click($couponManagerPage->couponType($couponType));
+			$I->click('Save & Close');
+			$I->waitForText('Coupon Management');
+			$I->see('Coupon Management');
+			$I->see('Coupon detail saved');
+			$I->click('ID');
+			$I->see($couponCode, \CouponManagerJ3Page::$firstResultRow);
+			$I->click('ID');
+		}
 	}
 
 	/**

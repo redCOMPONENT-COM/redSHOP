@@ -106,7 +106,7 @@ class RedshopModelSplit_payment extends RedshopModel
 				. "', split_payment=0  where order_id = " . (int) $oid;
 			$this->_db->setQuery($query);
 			$this->_db->execute();
-			$return = JRoute::_('index.php?option=' . $option . '&view=order_detail&oid=' . $oid . '&Itemid=' . $Itemid);
+			$return = JRoute::_('index.php?option=com_redshop&view=order_detail&oid=' . $oid . '&Itemid=' . $Itemid);
 		}
 
 		$data['amount'] = 0;
@@ -139,7 +139,7 @@ class RedshopModelSplit_payment extends RedshopModel
 			if (!$payment)
 			{
 				$msg  = "Payment Failure" . $d ["order_payment_log"];
-				$link = 'index.php?option=' . $option . '&view=split_payment&Itemid=' . $Itemid . '&ccinfo=' . $ccinfo . '&payment_method_id=' . $payment_method_id . '&oid=' . $oid;
+				$link = 'index.php?option=com_redshop&view=split_payment&Itemid=' . $Itemid . '&ccinfo=' . $ccinfo . '&payment_method_id=' . $payment_method_id . '&oid=' . $oid;
 				$app->Redirect($link, $msg);
 				JRequest::setVar('payment_status_log', '-' . $d ["order_payment_log"]);
 			}
@@ -191,13 +191,13 @@ class RedshopModelSplit_payment extends RedshopModel
 					$userinfo = $this->getuseraccountinfo($user->id);
 
 					// Add Economic integration
-					$return = JRoute::_('index.php?option=' . $option . '&view=order_detail&oid=' . $oid . '&Itemid=' . $Itemid);
+					$return = JRoute::_('index.php?option=com_redshop&view=order_detail&oid=' . $oid . '&Itemid=' . $Itemid);
 				}
 				else
 				{
 					$order_paymentstatus = JText::_('COM_REDSHOP_PAYMENT_STA_PARTIAL_PAID');
 					$msg                 = JText::_('COM_REDSHOP_PARTIAL_PAYMENT_FAILURE');
-					$return              = JRoute::_('index.php?option=' . $option . '&view=order_detail&oid=' . $oid . '&Itemid=' . $Itemid);
+					$return              = JRoute::_('index.php?option=com_redshop&view=order_detail&oid=' . $oid . '&Itemid=' . $Itemid);
 				}
 			}
 		}

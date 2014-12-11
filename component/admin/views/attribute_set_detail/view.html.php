@@ -42,9 +42,9 @@ class RedshopViewAttribute_set_detail extends RedshopView
 
 		$document->addScript(JURI::root() . 'administrator/components/com_redshop/assets/js/attribute_manipulation.js');
 
-		$document->addScript('components/' . $option . '/assets/js/fields.js');
-		$document->addScript('components/' . $option . '/assets/js/select_sort.js');
-		$document->addScript('components/' . $option . '/assets/js/validation.js');
+		$document->addScript('components/com_redshop/assets/js/fields.js');
+		$document->addScript('components/com_redshop/assets/js/select_sort.js');
+		$document->addScript('components/com_redshop/assets/js/validation.js');
 
 		$uri = JFactory::getURI();
 

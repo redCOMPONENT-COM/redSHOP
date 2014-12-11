@@ -440,8 +440,8 @@ class order_functions
 
 			if ($data->order_payment_status_code == "Paid")
 			{
-				RedshopModel::addIncludePath(JPATH_SITE . '/components/com_redshop/models');
-				$checkoutModelcheckout = RedshopModel::getInstance('Checkout', 'RedshopModel');
+				JModelLegacy::addIncludePath(JPATH_SITE . '/components/com_redshop/models');
+				$checkoutModelcheckout = JModelLegacy::getInstance('Checkout', 'RedshopModel');
 				$checkoutModelcheckout->sendGiftCard($order_id);
 
 				// Send the Order mail
@@ -833,8 +833,8 @@ class order_functions
 					$dispatcher->trigger('exportOrder', array ($xml_order));
 				}
 
-				RedshopModel::addIncludePath(JPATH_SITE . '/components/com_redshop/models');
-				$checkoutModelcheckout = RedshopModel::getInstance('Checkout', 'RedshopModel');
+				JModelLegacy::addIncludePath(JPATH_SITE . '/components/com_redshop/models');
+				$checkoutModelcheckout = JModelLegacy::getInstance('Checkout', 'RedshopModel');
 				$checkoutModelcheckout->sendGiftCard($order_id);
 
 				// Send the Order mail
@@ -932,22 +932,22 @@ class order_functions
 		{
 			if ($option == 'com_redcrm')
 			{
-				$app->Redirect('index.php?option=' . $option . '&view=' . $return . '&cid[]=' . $order_id . '' . $isarchive . '', $msg);
+				$app->Redirect('index.php?option=com_redshop&view=' . $return . '&cid[]=' . $order_id . '' . $isarchive . '', $msg);
 			}
 			else
 			{
-				$app->Redirect('index.php?option=' . $option . '&view=' . $return . '' . $isarchive . '', $msg);
+				$app->Redirect('index.php?option=com_redshop&view=' . $return . '' . $isarchive . '', $msg);
 			}
 		}
 		else
 		{
 			if ($tmpl != "")
 			{
-				$app->Redirect('index.php?option=' . $option . '&view=' . $return . '&cid[]=' . $order_id . '&tmpl=' . $tmpl . '' . $isarchive . '', $msg);
+				$app->Redirect('index.php?option=com_redshop&view=' . $return . '&cid[]=' . $order_id . '&tmpl=' . $tmpl . '' . $isarchive . '', $msg);
 			}
 			else
 			{
-				$app->Redirect('index.php?option=' . $option . '&view=' . $return . '&cid[]=' . $order_id . '' . $isarchive . '', $msg);
+				$app->Redirect('index.php?option=com_redshop&view=' . $return . '&cid[]=' . $order_id . '' . $isarchive . '', $msg);
 			}
 		}
 	}
@@ -1002,8 +1002,8 @@ class order_functions
 
 			if ($paymentstatus == "Paid")
 			{
-				RedshopModel::addIncludePath(JPATH_SITE . '/components/com_redshop/models');
-				$checkoutModelcheckout = RedshopModel::getInstance('Checkout', 'RedhopModel');
+				JModelLegacy::addIncludePath(JPATH_SITE . '/components/com_redshop/models');
+				$checkoutModelcheckout = JModelLegacy::getInstance('Checkout', 'RedhopModel');
 				$checkoutModelcheckout->sendGiftCard($oid[0]);
 
 				// Send the Order mail
@@ -1118,11 +1118,11 @@ class order_functions
 
 		if ($return == 'order')
 		{
-			$link = 'index.php?option=' . $option . '&view=' . $return;
+			$link = 'index.php?option=com_redshop&view=' . $return;
 		}
 		else
 		{
-			$link = 'index.php?option=' . $option . '&view=' . $return . '&cid[]=' . $oid[0];
+			$link = 'index.php?option=com_redshop&view=' . $return . '&cid[]=' . $oid[0];
 		}
 		?>
     <script type="text/javascript">
@@ -2150,7 +2150,7 @@ class order_functions
 
 			$shopLocation = $orderdetail->shop_id;
 
-			if ($details[0] != 'plgredshop_shippingdefault_shipping_GLS')
+			if ($details[0] != 'plgredshop_shippingdefault_shipping_gls')
 			{
 				$shopLocation = '';
 			}

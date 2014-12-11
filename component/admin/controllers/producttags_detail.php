@@ -49,7 +49,7 @@ class RedshopControllerProducttags_detail extends RedshopController
 			$msg = JText::_('COM_REDSHOP_ERROR_SAVING_TAGS_DETAIL');
 		}
 
-		$this->setRedirect('index.php?option=' . $option . '&view=producttags', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=producttags', $msg);
 	}
 
 	public function remove()
@@ -71,7 +71,7 @@ class RedshopControllerProducttags_detail extends RedshopController
 		}
 
 		$msg = JText::_('COM_REDSHOP_TAGS_DETAIL_DELETED_SUCCESSFULLY');
-		$this->setRedirect('index.php?option=' . $option . '&view=producttags', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=producttags', $msg);
 	}
 
 	public function publish()
@@ -93,7 +93,7 @@ class RedshopControllerProducttags_detail extends RedshopController
 		}
 
 		$msg = JText::_('COM_REDSHOP_TAGS_DETAIL_PUBLISHED_SUCCESSFULLY');
-		$this->setRedirect('index.php?option=' . $option . '&view=producttags', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=producttags', $msg);
 	}
 
 	public function unpublish()
@@ -115,13 +115,13 @@ class RedshopControllerProducttags_detail extends RedshopController
 		}
 
 		$msg = JText::_('COM_REDSHOP_TAGS_DETAIL_UNPUBLISHED_SUCCESSFULLY');
-		$this->setRedirect('index.php?option=' . $option . '&view=producttags', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=producttags', $msg);
 	}
 
 	public function cancel()
 	{
 		$option = JRequest::getVar('option');
 		$msg = JText::_('COM_REDSHOP_TAGS_DETAIL_EDITING_CANCELLED');
-		$this->setRedirect('index.php?option=' . $option . '&view=producttags', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=producttags', $msg);
 	}
 }

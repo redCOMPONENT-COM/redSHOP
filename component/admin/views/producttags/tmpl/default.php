@@ -74,7 +74,7 @@ $option = JRequest::getVar('option', '', 'request', 'string');
 			{
 				$row = $this->tags[$i];
 				$row->id = $row->tags_id;
-				$link = JRoute::_('index.php?option=' . $option . '&view=producttags_detail&task=edit&cid[]=' . $row->tags_id);
+				$link = JRoute::_('index.php?option=com_redshop&view=producttags_detail&task=edit&cid[]=' . $row->tags_id);
 
 				$published = JHtml::_('jgrid.published', $row->published, $i, '', 1);
 				?>

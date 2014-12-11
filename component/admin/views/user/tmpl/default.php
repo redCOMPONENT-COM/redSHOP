@@ -21,7 +21,7 @@ $model = $this->getModel('user');    ?>
 			form.task.value = pressbutton;
 		}
 		if (pressbutton == 'add') {
-			<?php	$link = 'index.php?option=' . $option . '&view=user_detail';
+			<?php	$link = 'index.php?option=com_redshop&view=user_detail';
 					   $link = $redhelper->sslLink($link);?>
 
 			window.location = '<?php echo $link;?>';
@@ -95,7 +95,7 @@ $model = $this->getModel('user');    ?>
 //		}
 //		else
 //		{
-				$link = 'index.php?option=' . $option . '&view=user_detail&task=edit&user_id=' . $row->id . '&cid[]=' . $row->users_info_id;
+				$link = 'index.php?option=com_redshop&view=user_detail&task=edit&user_id=' . $row->id . '&cid[]=' . $row->users_info_id;
 //		}
 				$link = $redhelper->sslLink($link);
 				if ($row->is_company)

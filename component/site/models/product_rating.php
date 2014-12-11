@@ -105,7 +105,7 @@ class RedshopModelProduct_rating extends RedshopModel
 
 		$product = $producthelper->getProductById($product_id);
 
-		$link        = JRoute::_($url . "index.php?option=" . $option . "&view=product&pid=" . $product_id . '&Itemid=' . $Itemid);
+		$link        = JRoute::_($url . "index.php?option=com_redshop&view=product&pid=" . $product_id . '&Itemid=' . $Itemid);
 		$product_url = "<a href=" . $link . ">" . $product->product_name . "</a>";
 		$data_add    = str_replace("{product_link}", $product_url, $data_add);
 		$data_add    = str_replace("{product_name}", $product->product_name, $data_add);

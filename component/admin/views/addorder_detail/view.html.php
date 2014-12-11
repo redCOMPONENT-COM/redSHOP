@@ -25,36 +25,34 @@ class RedshopViewAddorder_detail extends RedshopView
 
 	public function display($tpl = null)
 	{
-		$option = JRequest::getVar('option');
-		$extra_field = new extra_field;
-		$order_functions = new order_functions;
+		$extra_field      = new extra_field;
+		$order_functions  = new order_functions;
 		$Redconfiguration = new Redconfiguration;
 
 		$document = JFactory::getDocument();
 		$document->setTitle(JText::_('COM_REDSHOP_ORDER'));
 
-		$document->addScript('components/' . $option . '/assets/js/select_sort.js');
-		$document->addStyleSheet('components/' . $option . '/assets/css/search.css');
-		$document->addScript('components/' . $option . '/assets/js/search.js');
+		$document->addScript('components/com_redshop/assets/js/select_sort.js');
+		$document->addStyleSheet('components/com_redshop/assets/css/search.css');
+		$document->addScript('components/com_redshop/assets/js/search.js');
+		$document->addScript('components/com_redshop/assets/js/json.js');
+		$document->addScript('components/com_redshop/assets/js/validation.js');
+		$document->addScript('components/com_redshop/assets/js/order.js');
+		$document->addScript('components/com_redshop/assets/js/common.js');
 
-		JHtml::script('com_redshop/json.js', false, true);
-		$document->addScript('components/' . $option . '/assets/js/validation.js');
-		$document->addScript('components/' . $option . '/assets/js/order.js');
-		JHtml::script('com_redshop/common.js', false, true);
-
-		$uri = JFactory::getURI();
-		$lists = array();
-		$billing = array();
+		$uri          = JFactory::getURI();
+		$lists        = array();
+		$billing      = array();
 		$shippinginfo = array();
-		$model = $this->getModel();
-		$detail = $this->get('data');
-		$redhelper = new redhelper;
+		$model        = $this->getModel();
+		$detail       = $this->get('data');
+		$redhelper    = new redhelper;
 
 		$payment_lang_list = $redhelper->getPlugins("redshop_payment");
 
-		$language = JFactory::getLanguage();
-		$base_dir = JPATH_ADMINISTRATOR;
-		$language_tag = $language->getTag();
+		$language          = JFactory::getLanguage();
+		$base_dir          = JPATH_ADMINISTRATOR;
+		$language_tag      = $language->getTag();
 
 		for ($l = 0; $l < count($payment_lang_list); $l++)
 		{
