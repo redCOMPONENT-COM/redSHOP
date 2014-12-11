@@ -8,7 +8,6 @@
  */
 
 defined('_JEXEC') or die;
-JLoader::import('joomla.application.component.model');
 
 JLoader::load('RedshopHelperHelper');
 JLoader::load('RedshopHelperCart');
@@ -21,7 +20,7 @@ JLoader::load('RedshopHelperUser');
  * @subpackage  Model
  * @since       1.0
  */
-class RedshopModelCart extends JModel
+class RedshopModelCart extends RedshopModel
 {
 	public $_id = null;
 
@@ -146,7 +145,7 @@ class RedshopModelCart extends JModel
 
 			if ($cart)
 			{
-				$idx = (int) ($cart['idx']);
+				$idx = (int) ( isset($cart['idx']) ? $cart['idx'] : 0);
 
 				for ($j = 0; $j < $idx; $j++)
 				{

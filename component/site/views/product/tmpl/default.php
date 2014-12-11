@@ -474,7 +474,7 @@ if (strstr($template_desc, "{facebook_like_button}"))
 	$template_desc = str_replace("{facebook_like_button}", $facebook_like, $template_desc);
 
 	$jconfig  = JFactory::getConfig();
-	$sitename = $jconfig->getValue('config.sitename');
+	$sitename = $jconfig->get('sitename');
 
 	$this->document->setMetaData("og:url", JFilterOutput::cleanText($uri->toString()));
 	$this->document->setMetaData("og:type", "product");
@@ -855,6 +855,8 @@ $template_desc = $producthelper->replaceAttributeData($this->data->product_id, 0
 $pr_number                   = $this->data->product_number;
 $preselectedresult           = array();
 $moreimage_response          = '';
+$property_data               = '';
+$subproperty_data            = '';
 $attributeproductStockStatus = null;
 $selectedpropertyId          = 0;
 $selectedsubpropertyId       = 0;
@@ -873,6 +875,12 @@ if (count($attributes) > 0 && count($attribute_template) > 0)
 				if ($property[$i]->setdefault_selected)
 				{
 					$selectedId[] = $property[$i]->property_id;
+					$property_data .= $property[$i]->property_id;
+
+					if ($i != (count($property)-1))
+					{
+						$property_data .= '##';
+					}
 				}
 			}
 
@@ -886,28 +894,47 @@ if (count($attributes) > 0 && count($attribute_template) > 0)
 				{
 					if ($subproperty[$sp]->setdefault_selected)
 					{
-						$selectedId[] = $subproperty[$sp]->subattribute_color_id;
+						$selectedId[]     = $subproperty[$sp]->subattribute_color_id;
+						$subproperty_data .= $subproperty[$sp]->subattribute_color_id;
+
+						if ($sp != (count($subproperty)-1))
+						{
+							$subproperty_data .= '##';
+						}
 					}
 				}
 
 				if (count($selectedId) > 0)
 				{
+					$subproperty_data      = implode('##',$selectedId);
 					$selectedsubpropertyId = $selectedId[count($selectedId) - 1];
 				}
 			}
 		}
 	}
 
+	$get['product_id']       = $this->data->product_id;
+	$get['main_imgwidth']    = $pw_thumb;
+	$get['main_imgheight']   = $ph_thumb;
+	$get['property_data']    = $property_data;
+	$get['subproperty_data'] = $subproperty_data;
+	$get['property_id']      = $selectedpropertyId;
+	$get['subproperty_id']   = $selectedsubpropertyId;
+	$pluginResults           = array();
+
+	// Trigger plugin to get merge images.
+	$this->dispatcher->trigger('onBeforeImageLoad', array ($get, &$pluginResults));
+
 	$preselectedresult = $producthelper->displayAdditionalImage(
-																	$this->data->product_id,
-																	0,
-																	0,
-																	$selectedpropertyId,
-																	$selectedsubpropertyId,
-																	$pw_thumb,
-																	$ph_thumb,
-																	$redview = 'product'
-						);
+		$this->data->product_id,
+		0,
+		0,
+		$selectedpropertyId,
+		$selectedsubpropertyId,
+		$pw_thumb,
+		$ph_thumb,
+		'product'
+	);
 
 	$productAvailabilityDate = strstr($template_desc, "{product_availability_date}");
 	$stockNotifyFlag         = strstr($template_desc, "{stock_notify_flag}");
@@ -916,11 +943,11 @@ if (count($attributes) > 0 && count($attribute_template) > 0)
 	if ($productAvailabilityDate || $stockNotifyFlag || $stockStatus)
 	{
 		$attributeproductStockStatus = $producthelper->getproductStockStatus(
-																				$this->data->product_id,
-																				$totalatt,
-																				$selectedpropertyId,
-																				$selectedsubpropertyId
-										);
+			$this->data->product_id,
+			$totalatt,
+			$selectedpropertyId,
+			$selectedsubpropertyId
+		);
 	}
 
 	$moreimage_response  = $preselectedresult['response'];

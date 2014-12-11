@@ -345,8 +345,7 @@ class plgredshop_shippingbring extends JPlugin
 			}
 			else
 			{
-				$xmlDoc = JFactory::getXMLParser('Simple');
-				$xmlDoc->loadString($xmlResult);
+				$xmlDoc = JFactory::getXML($xmlResult);
 			}
 			curl_close($CR);
 		}

@@ -9,9 +9,8 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
 
-class RedshopViewNewslettersubscr_detail extends JView
+class RedshopViewNewslettersubscr_detail extends RedshopView
 {
 	/**
 	 * The request url.
@@ -30,9 +29,9 @@ class RedshopViewNewslettersubscr_detail extends JView
 
 		$document = JFactory::getDocument();
 
-		$document->addScript('components/' . $option . '/assets/js/select_sort.js');
-		$document->addStyleSheet('components/' . $option . '/assets/css/search.css');
-		$document->addScript('components/' . $option . '/assets/js/search.js');
+		$document->addScript('components/com_redshop/assets/js/select_sort.js');
+		$document->addStyleSheet('components/com_redshop/assets/css/search.css');
+		$document->addScript('components/com_redshop/assets/js/search.js');
 
 		$uri = JFactory::getURI();
 

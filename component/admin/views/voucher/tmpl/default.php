@@ -44,8 +44,7 @@ $option = JRequest::getVar('option', '', 'request', 'string');
 					<?php echo JText::_('COM_REDSHOP_NUM'); ?>
 				</th>
 				<th width="5%">
-					<input type="checkbox" name="toggle" value=""
-					       onclick="checkAll(<?php echo count($this->vouchers); ?>);"/>
+					<?php echo JHtml::_('redshopgrid.checkall'); ?>
 				</th>
 				<th class="title">
 					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_VOUCHER_CODE', 'amount', $this->lists['order_Dir'], $this->lists['order']); ?>
@@ -82,9 +81,9 @@ $option = JRequest::getVar('option', '', 'request', 'string');
 
 			for ($i = 0, $n = count($this->vouchers); $i < $n; $i++)
 			{
-				$row = & $this->vouchers[$i];
+				$row = $this->vouchers[$i];
 				$row->id = $row->voucher_id;
-				$link = JRoute::_('index.php?option=' . $option . '&view=voucher_detail&task=edit&cid[]=' . $row->voucher_id);
+				$link = JRoute::_('index.php?option=com_redshop&view=voucher_detail&task=edit&cid[]=' . $row->voucher_id);
 
 				$published = JHtml::_('jgrid.published', $row->published, $i, '', 1);
 				?>
@@ -117,6 +116,11 @@ $option = JRequest::getVar('option', '', 'request', 'string');
 
 			<tfoot>
 			<td colspan="10">
+				<?php if (version_compare(JVERSION, '3.0', '>=')): ?>
+					<div class="redShopLimitBox">
+						<?php echo $this->pagination->getLimitBox(); ?>
+					</div>
+				<?php endif; ?>
 				<?php echo $this->pagination->getListFooter(); ?>
 			</td>
 			</tfoot>

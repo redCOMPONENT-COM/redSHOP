@@ -39,7 +39,7 @@ $end = $this->pagination->limit;
 			<?php    $disdate = "";
 			for ($i = $start, $j = 0; $i < ($start + $end); $i++, $j++)
 			{
-				$row = & $this->amountspentintotal[$i];
+				$row = $this->amountspentintotal[$i];
 				if (!is_object($row))
 				{
 					break;
@@ -58,7 +58,13 @@ $end = $this->pagination->limit;
 				</tr>
 			<?php }    ?>
 			<tfoot>
-			<td colspan="3"><?php echo $this->pagination->getListFooter(); ?></td>
+			<td colspan="3">
+				<?php if (version_compare(JVERSION, '3.0', '>=')): ?>
+					<div class="redShopLimitBox">
+						<?php echo $this->pagination->getLimitBox(); ?>
+					</div>
+				<?php endif; ?>
+				<?php echo $this->pagination->getListFooter(); ?></td>
 			</tfoot>
 		</table>
 	</div>

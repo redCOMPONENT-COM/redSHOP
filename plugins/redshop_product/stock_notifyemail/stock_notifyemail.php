@@ -76,7 +76,7 @@ class plgredshop_productstock_notifyemail extends JPlugin
 
 					if ($userData[$u]->user_email)
 					{
-						JUtility::sendMail(SHOP_NAME, SHOP_NAME, $userData[$u]->user_email, $mail_subject, $message, 1);
+						JMail::getInstance()->sendMail(SHOP_NAME, SHOP_NAME, $userData[$u]->user_email, $mail_subject, $message, 1);
 					}
 
 					$this->deleteNotifiedUsers($userData[$u]);
@@ -159,7 +159,7 @@ class plgredshop_productstock_notifyemail extends JPlugin
 		$db = JFactory::getDbo();
 		$query = "DELETE FROM " . $this->_table_prefix . "notifystock_users WHERE product_id=" . $userData->product_id . " and property_id=" . $userData->property_id . " and subproperty_id=" . $userData->subproperty_id . " and user_id =" . $userData->user_id . "";
 		$db->setQuery($query);
-		$db->Query();
+		$db->execute();
 	}
 }
 ?>

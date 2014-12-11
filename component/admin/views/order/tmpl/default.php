@@ -51,7 +51,7 @@ JPluginHelper::importPlugin('redshop_product');
 
 		if (pressbutton == 'add')
 		{
-			<?php      $link = 'index.php?option=' . $option . '&view=addorder_detail';
+			<?php      $link = 'index.php?option=com_redshop&view=addorder_detail';
 				$link = $redhelper->sslLink($link);
 		?>
 			window.location = '<?php echo $link;?>';
@@ -92,7 +92,7 @@ JPluginHelper::importPlugin('redshop_product');
 	}
 </script>
 
-<form action="<?php echo JRoute::_('index.php?option=' . $option . '&view=order'); ?>" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo JRoute::_('index.php?option=com_redshop&view=order'); ?>" method="post" name="adminForm" id="adminForm">
 <div id="editcell">
 <table class="adminlist" width="100%">
 	<tr>
@@ -122,7 +122,7 @@ JPluginHelper::importPlugin('redshop_product');
 		<?php echo JText::_('COM_REDSHOP_NUM'); ?>
 	</th>
 	<th width="5%" class="title">
-		<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count($this->orders); ?>);"/>
+		<?php echo JHtml::_('redshopgrid.checkall'); ?>
 	</th>
 	<th class="title" width="5%">
 		<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_ORDER_ID', 'order_id', $this->lists['order_Dir'], $this->lists['order']); ?>
@@ -179,7 +179,7 @@ $k = 0;
 
 for ($i = 0, $n = count($this->orders); $i < $n; $i++)
 {
-	$row = & $this->orders[$i];
+	$row = $this->orders[$i];
 	$row->id = $row->order_id;
 	$link = 'index.php?option=com_redshop&view=order_detail&task=edit&cid[]=' . $row->order_id;
 	$link = $redhelper->sslLink($link);
@@ -225,7 +225,7 @@ for ($i = 0, $n = count($this->orders); $i < $n; $i++)
 				<tr>
 					<td>
 						<?php
-						$linkupdate = JRoute::_('index.php?option=' . $option . '&view=order&task=update_status&return=order&order_id[]=' . $row->order_id);
+						$linkupdate = JRoute::_('index.php?option=com_redshop&view=order&task=update_status&return=order&order_id[]=' . $row->order_id);
 						echo $order_function->getstatuslist('order_status' . $row->order_id, $row->order_status, "class=\"inputbox\" size=\"1\" ");
 						echo "&nbsp";
 						echo $order_function->getpaymentstatuslist('order_paymentstatus' . $row->order_id, $row->order_payment_status, "class=\"inputbox\" size=\"1\" ");
@@ -387,6 +387,11 @@ for ($i = 0, $n = count($this->orders); $i < $n; $i++)
 ?>
 <tfoot>
 <td colspan="13">
+	<?php if (version_compare(JVERSION, '3.0', '>=')): ?>
+		<div class="redShopLimitBox">
+			<?php echo $this->pagination->getLimitBox(); ?>
+		</div>
+	<?php endif; ?>
 	<?php  echo $this->pagination->getListFooter(); ?>
 </td>
 </tfoot>

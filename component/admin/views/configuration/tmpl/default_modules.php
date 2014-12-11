@@ -12,7 +12,6 @@ defined('_JEXEC') or die;
 JHTMLBehavior::modal();
 
 $option = JRequest::getVar('option');
-jimport('joomla.html.pane');
 
 $uri = JURI::getInstance();
 $url = $uri->root();

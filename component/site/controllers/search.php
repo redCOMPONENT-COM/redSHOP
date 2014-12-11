@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-JLoader::import('joomla.application.component.controller');
 
 /**
  * search Controller.
@@ -18,7 +17,7 @@ JLoader::import('joomla.application.component.controller');
  * @subpackage  Controller
  * @since       1.0
  */
-class RedshopControllerSearch extends JController
+class RedshopControllerSearch extends RedshopController
 {
 	/**
 	 * cancel function

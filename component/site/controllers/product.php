@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-JLoader::import('joomla.application.component.controller');
 JLoader::load('RedshopHelperProduct');
 JLoader::load('RedshopHelperAdminTemplate');
 JLoader::load('RedshopHelperAdminImages');
@@ -21,7 +20,7 @@ JLoader::load('RedshopHelperAdminImages');
  * @subpackage  Controller
  * @since       1.0
  */
-class RedshopControllerProduct extends JController
+class RedshopControllerProduct extends RedshopController
 {
 	/**
 	 * Display Product add price
@@ -113,7 +112,7 @@ class RedshopControllerProduct extends JController
 			$msg = JText::_('COM_REDSHOP_IN_CORRECT_CAPTCHA');
 		}
 
-		$link = 'index.php?option=' . $option . '&view=product&pid=' . $product_id . '&cid=' . $category_id . '&Itemid=' . $Itemid;
+		$link = 'index.php?option=com_redshop&view=product&pid=' . $product_id . '&cid=' . $category_id . '&Itemid=' . $Itemid;
 		$this->setRedirect($link, $msg);
 	}
 
@@ -180,20 +179,41 @@ class RedshopControllerProduct extends JController
 		$main_imgheight = $get['main_imgheight'];
 		$redview        = $get['redview'];
 		$redlayout      = $get['redlayout'];
+		$pluginResults  = array();
 
 		$dispatcher = JDispatcher::getInstance();
 		JPluginHelper::importPlugin('redshop_product');
-		$pluginResults = $dispatcher->trigger('onBeforeImageLoad', array($get));
+		$dispatcher->trigger('onBeforeImageLoad', array($get, &$pluginResults));
 
 		if (!empty($pluginResults))
 		{
-			$mainImageResponse = $pluginResults[0]['mainImageResponse'];
-			$result            = $producthelper->displayAdditionalImage($product_id, $accessory_id, $relatedprd_id, $property_id, $subproperty_id);
-			$result['attrbimg'] = $pluginResults[0]['attrbimg'];
+			$mainImageResponse = $pluginResults['mainImageResponse'];
+			$result            = $producthelper->displayAdditionalImage(
+									$product_id,
+									$accessory_id,
+									$relatedprd_id,
+									$property_id,
+									$subproperty_id
+								);
+
+			if (isset($pluginResults['attrbimg']))
+			{
+				$result['attrbimg'] = $pluginResults['attrbimg'];
+			}
 		}
 		else
 		{
-			$result            = $producthelper->displayAdditionalImage($product_id, $accessory_id, $relatedprd_id, $property_id, $subproperty_id, $main_imgwidth, $main_imgheight, $redview, $redlayout);
+			$result            = $producthelper->displayAdditionalImage(
+									$product_id,
+									$accessory_id,
+									$relatedprd_id,
+									$property_id,
+									$subproperty_id,
+									$main_imgwidth,
+									$main_imgheight,
+									$redview,
+									$redlayout
+								);
 			$mainImageResponse = $result['mainImageResponse'];
 		}
 
@@ -219,7 +239,7 @@ class RedshopControllerProduct extends JController
 			. "`_`" . $stockamountSrc
 			. "`_`" . $stockamountTooltip
 			. "`_`" . $ProductAttributeDelivery
-			. "`_`" . $product_img
+			. "`_`" . ''
 			. "`_`" . $pr_number
 			. "`_`" . $productinstock
 			. "`_`" . $stock_status
@@ -388,13 +408,13 @@ class RedshopControllerProduct extends JController
 		}
 		elseif ($mywid == 1)
 		{
-			$this->setRedirect('index.php?option=' . $option . 'wishlist=1&view=login&Itemid=' . $Itemid);
+			$this->setRedirect('index.php?option=com_redshopwishlist=1&view=login&Itemid=' . $Itemid);
 		}
 
 		if ($rurl != "")
 			$this->setRedirect($rurl);
 		else
-			$this->setRedirect('index.php?option=' . $option . '&view=product&pid=' . $post['product_id'] . '&cid=' . $cid . '&Itemid=' . $Itemid);
+			$this->setRedirect('index.php?option=com_redshop&view=product&pid=' . $post['product_id'] . '&cid=' . $cid . '&Itemid=' . $Itemid);
 	}
 
 	/**
@@ -479,7 +499,7 @@ class RedshopControllerProduct extends JController
 			}
 		}
 
-		$this->setRedirect('index.php?option=' . $option . '&view=product&pid=' . $post['product_id'] . '&cid=' . $cid . '&Itemid=' . $Itemid);
+		$this->setRedirect('index.php?option=com_redshop&view=product&pid=' . $post['product_id'] . '&cid=' . $cid . '&Itemid=' . $Itemid);
 	}
 
 	/**

@@ -169,7 +169,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 					<td><?php echo JText::_($this->payment_detail->order_payment_name); ?>
 						<?php if (count($model->getccdetail($order_id)) > 0)
 						{ ?>
-							<a href="<?php echo JRoute::_('index.php?option=' . $option . '&view=order_detail&task=ccdetail&cid[]=' . $order_id); ?>"
+							<a href="<?php echo JRoute::_('index.php?option=com_redshop&view=order_detail&task=ccdetail&cid[]=' . $order_id); ?>"
 							   class="modal"
 							   rel="{handler: 'iframe', size: {x: 550, y: 200}}"><?php echo JText::_('COM_REDSHOP_CLICK_TO_VIEW_CREDIT_CARD_DETAIL');?></a>
 						<?php } ?>
@@ -213,7 +213,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 							$send_mail_to_customer = "checked";
 						}
 
-						$linkupdate = JRoute::_('index.php?option=' . $option . '&view=order&task=update_status&return=order_detail&order_id[]=' . $order_id);
+						$linkupdate = JRoute::_('index.php?option=com_redshop&view=order&task=update_status&return=order_detail&order_id[]=' . $order_id);
 
 						echo $order_functions->getstatuslist('status', $this->detail->order_status, "class=\"inputbox\" size=\"1\" ");
 						echo "&nbsp";
@@ -1064,7 +1064,7 @@ $session->set('cart', $cart); ?>
 						$details = explode("|", $row->ship_method_id);
 					}
 					$disp_style = '';
-					if ($details[0] != 'plgredshop_shippingdefault_shipping_GLS')
+					if ($details[0] != 'plgredshop_shippingdefault_shipping_gls')
 					{
 						$disp_style = "style=display:none";
 					} ?>
@@ -1073,7 +1073,7 @@ $session->set('cart', $cart); ?>
 							<div
 								id="rs_glslocationId" <?php echo $disp_style?>><?php //echo JText::_('COM_REDSHOP_SHIPPING_MODE') ?>
 								<?php
-								echo $carthelper->getGLSLocation($billing->users_info_id, 'default_shipping_GLS', $this->detail->shop_id); ?>
+								echo $carthelper->getGLSLocation($billing->users_info_id, 'default_shipping_gls', $this->detail->shop_id); ?>
 							</div>
 						</td>
 					</tr>
@@ -1123,7 +1123,7 @@ $session->set('cart', $cart); ?>
 						</tr>
 						<?php
 						for ($log = 0; $log < count($log_rec); $log++):
-							$log_row = & $log_rec[$log];
+							$log_row = $log_rec[$log];
 							?>
 							<tr>
 								<td width="5%" align="center"><?php echo ($log + 1); ?></td>

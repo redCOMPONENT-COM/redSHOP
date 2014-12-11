@@ -539,7 +539,7 @@ class plgredshop_shippingups_canada extends JPlugin
 		curl_setopt($CR, CURLOPT_SSL_VERIFYPEER, false);
 		$xmlResult = curl_exec($CR);
 
-		$xmlDoc = JFactory::getXMLParser('Simple');
+		$matchedchild = array();
 
 		if (!$xmlResult)
 		{
@@ -548,7 +548,8 @@ class plgredshop_shippingups_canada extends JPlugin
 		else
 		{
 			/* XML Parsing */
-			$xmlDoc->loadString($xmlResult, false, true);
+			$xmlDoc = JFactory::getXML($xmlResult);
+			$matchedchild = $xmlDoc->document->_children;
 			/* Let's check wether the response from UPS is Success or Failure ! */
 			if (strstr($xmlResult, "Failure"))
 			{
@@ -570,7 +571,6 @@ class plgredshop_shippingups_canada extends JPlugin
 		}
 		// retrieve the list of all "RatedShipment" Elements
 
-		$matchedchild = $xmlDoc->document->_children;
 		$allservicecodes = array(
 			"UPS_Canada_Express",
 			"UPS_Canada_Expedited",

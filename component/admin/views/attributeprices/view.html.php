@@ -9,10 +9,9 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
 jimport('joomla.html.pagination');
 
-class RedshopViewAttributeprices extends JView
+class RedshopViewAttributeprices extends RedshopView
 {
 	public function display($tpl = null)
 	{
@@ -28,8 +27,8 @@ class RedshopViewAttributeprices extends JView
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_ATTRIBUTE_PRICE'), 'redshop_vatrates48');
 
-		JToolBarHelper::addNewX();
-		JToolBarHelper::editListX();
+		JToolbarHelper::addNew();
+		JToolbarHelper::EditList();
 		JToolBarHelper::deleteList();
 		$uri = JFactory::getURI();
 

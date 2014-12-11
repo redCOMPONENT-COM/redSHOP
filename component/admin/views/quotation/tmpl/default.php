@@ -42,7 +42,7 @@ $model = $this->getModel('quotation');
 	}
 </script>
 
-<form action="<?php echo JRoute::_('index.php?option=' . $option . '&view=quotation'); ?>" method="post"
+<form action="<?php echo JRoute::_('index.php?option=com_redshop&view=quotation'); ?>" method="post"
       name="adminForm" id="adminForm">
 	<div id="editcell">
 		<table class="adminlist" width="100%">
@@ -63,8 +63,8 @@ $model = $this->getModel('quotation');
 			<tr>
 				<th width="5%"><?php echo JText::_('COM_REDSHOP_NUM'); ?></th>
 				<th width="5%" class="title">
-					<input type="checkbox" name="toggle" value=""
-					       onclick="checkAll(<?php echo count($this->quotation); ?>);"/></th>
+					<?php echo JHtml::_('redshopgrid.checkall'); ?>
+				</th>
 				<th class="title" width="5%">
 					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_QUOTATION_ID', 'quotation_id', $this->lists['order_Dir'], $this->lists['order']); ?></th>
 				<th class="title" width="5%">
@@ -83,7 +83,7 @@ $model = $this->getModel('quotation');
 			$k = 0;
 			for ($i = 0, $n = count($this->quotation); $i < $n; $i++)
 			{
-				$row = & $this->quotation[$i];
+				$row = $this->quotation[$i];
 				$row->id = $row->quotation_id;
 				$display = $row->user_email;
 				if ($row->user_id)
@@ -95,7 +95,7 @@ $model = $this->getModel('quotation');
 						$display .= ($userarr->is_company && $userarr->company_name != "") ? "<br>" . $userarr->company_name : "";
 					}
 				}
-				$link = JRoute::_('index.php?option=' . $option . '&view=quotation_detail&task=edit&cid[]=' . $row->quotation_id);
+				$link = JRoute::_('index.php?option=com_redshop&view=quotation_detail&task=edit&cid[]=' . $row->quotation_id);
 				$status = $quotationHelper->getQuotationStatusName($row->quotation_status);
 				if ($row->quotation_status == 5)
 				{
@@ -120,7 +120,13 @@ $model = $this->getModel('quotation');
 				<?php    $k = 1 - $k;
 			}    ?>
 			<tr>
-				<td colspan="8"><?php echo $this->pagination->getListFooter(); ?></td>
+				<td colspan="8">
+					<?php if (version_compare(JVERSION, '3.0', '>=')): ?>
+						<div class="redShopLimitBox">
+							<?php echo $this->pagination->getLimitBox(); ?>
+						</div>
+					<?php endif; ?>
+					<?php echo $this->pagination->getListFooter(); ?></td>
 		</table>
 	</div>
 

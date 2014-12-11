@@ -7,10 +7,9 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-JLoader::import('joomla.application.component.view');
 JLoader::load('RedshopHelperProduct');
 
-class RedshopViewCart extends JView
+class RedshopViewCart extends RedshopView
 {
 	public function display($tpl = null)
 	{
@@ -36,7 +35,7 @@ class RedshopViewCart extends JView
 			$app->redirect('index.php?option=com_redshop&view=cart&Itemid=' . $Itemid, JRequest::getString('quotemsg'));
 		}
 
-		JHTML::Script('common.js', 'components/com_redshop/assets/js/', false);
+		JHtml::script('com_redshop/common.js', false, true);
 
 		if (!array_key_exists("idx", $cart) || (array_key_exists("idx", $cart) && $cart['idx'] < 1))
 		{

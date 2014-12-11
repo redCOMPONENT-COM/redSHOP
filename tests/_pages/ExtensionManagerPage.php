@@ -22,13 +22,15 @@ class ExtensionManagerPage
 
 	public static $installButton = "//input[contains(@onclick,'Joomla.submitbutton3()')]";
 
-	public static $installSuccessMessage = "//li[contains(text(),'Installing component was successful')]";
+	public static $installSuccessMessage = "Installing component was successful.";
 
-	public static $installDemoContent = "//input[@onclick=\"submitWizard('content');\" and @value='install Demo Content']";
+	public static $installDemoContent = "//input[@value='Install Demo Content']";
 
-	public static $demoDataInstallSuccessMessage = "//li[contains(text(),'Sample Data Installed Successfully')]";
+	public static $demoDataInstallSuccessMessage = "Sample Data Installed Successfully";
 
-	public static $extensionSearch = "//input[@id='filters_search']";
+	public static $extensionSearchJ3 = "//input[@id='filter_search']";
+
+	public static $extensionSearchJ2 = "//input[@id='filters_search']";
 
 	public static $checkAll = "//input[@onclick='Joomla.checkAll(this)']";
 
@@ -36,15 +38,25 @@ class ExtensionManagerPage
 
 	public static $extensionNameLink = "//a[contains(text(),'Name')]";
 
-	public static $extensionTable = "//form[@id='adminForm']/table/tbody/tr[1]/td[2]//span";
+	public static $extensionTable = "//form[@id='adminForm']/div/table/tbody/tr[1]/td[2]/label/span";
 
-	public static $uninstallSuccessMessage = "//li[contains(text(),'successful')]";
+	public static $extensionTableJ2 = "//form[@id='adminForm']/table/tbody/tr[1]/td[2]/span";
 
-	public static $uninstallComponentSuccessMessage = "//li[contains(text(),'Uninstalling component was successful')]";
+	public static $uninstallSuccessMessageJ3 = "//p[contains(text(),'successful')]";
 
-	public static $noExtensionMessage = "//li[contains(text(),'There are no extensions installed matching your query')]";
+	public static $uninstallSuccessMessageJ2 = "//li[contains(text(),'successful')]";
 
-	public static $searchResultSpan = "//form[@id='adminForm']/table/tbody/tr[1]/td[2]/span";
+	public static $uninstallComponentSuccessMessageJ2 = "//li[contains(text(),'Uninstalling component was successful')]";
 
-	public static $searchButton = "//button[@class='btn' and @type='submit' and contains(text(),'Search')]";
+	public static $uninstallComponentSuccessMessageJ3 = "//p[contains(text(),'Uninstalling component was successful')]";
+
+	public static $noExtensionMessageJ3 = "//p[contains(text(),'There are no extensions installed matching your query')]";
+
+	public static $noExtensionMessageJ2 = "//li[contains(text(),'There are no extensions installed matching your query')]";
+
+	public static $searchResultSpan = "//form[@id='adminForm']/div/table/tbody/tr[1]/td[2]/span";
+
+	public static $searchButtonJ3 = "//button[@type='submit' and @data-original-title='Search']";
+
+	public static $searchButtonJ2 = "//button[@class='btn' and @type='submit' and contains(text(),'Search')]";
 }
