@@ -41,7 +41,7 @@ class RedshopControllerAccount extends RedshopController
 			$app->enqueueMessage(JText::_('COM_REDSHOP_ERROR_EDITING_TAG'));
 		}
 
-		$this->setRedirect('index.php?option=' . $option . '&view=account&layout=mytags&Itemid=' . $Itemid);
+		$this->setRedirect('index.php?option=com_redshop&view=account&layout=mytags&Itemid=' . $Itemid);
 	}
 
 	/**
@@ -103,7 +103,7 @@ class RedshopControllerAccount extends RedshopController
 		$userhelper->newsletterSubscribe(0, array(), 1);
 
 		$msg = JText::_('COM_REDSHOP_SUBSCRIBE_SUCCESS');
-		$this->setRedirect("index.php?option=" . $option . "&view=account&Itemid=" . $Itemid, $msg);
+		$this->setRedirect("index.php?option=com_redshop&view=account&Itemid=" . $Itemid, $msg);
 	}
 
 	/**
@@ -121,6 +121,6 @@ class RedshopControllerAccount extends RedshopController
 		$userhelper->newsletterUnsubscribe($user->email);
 		$msg = JText::_('COM_REDSHOP_CANCLE_SUBSCRIPTION');
 
-		$this->setRedirect("index.php?option=" . $option . "&view=account&Itemid=" . $Itemid, $msg);
+		$this->setRedirect("index.php?option=com_redshop&view=account&Itemid=" . $Itemid, $msg);
 	}
 }

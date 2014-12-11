@@ -76,11 +76,11 @@ class RedshopControllerNewslettersubscr_detail extends RedshopController
 
 		if ($apply == 1)
 		{
-			$this->setRedirect('index.php?option=' . $option . '&view=newslettersubscr_detail&task=edit&cid[]=' . $row->subscription_id, $msg);
+			$this->setRedirect('index.php?option=com_redshop&view=newslettersubscr_detail&task=edit&cid[]=' . $row->subscription_id, $msg);
 		}
 		else
 		{
-			$this->setRedirect('index.php?option=' . $option . '&view=newslettersubscr', $msg);
+			$this->setRedirect('index.php?option=com_redshop&view=newslettersubscr', $msg);
 		}
 	}
 
@@ -103,7 +103,7 @@ class RedshopControllerNewslettersubscr_detail extends RedshopController
 		}
 
 		$msg = JText::_('COM_REDSHOP_NEWSLETTER_SUBSCR_DETAIL_DELETED_SUCCESSFULLY');
-		$this->setRedirect('index.php?option=' . $option . '&view=newslettersubscr', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=newslettersubscr', $msg);
 	}
 
 	public function publish()
@@ -125,7 +125,7 @@ class RedshopControllerNewslettersubscr_detail extends RedshopController
 		}
 
 		$msg = JText::_('COM_REDSHOP_NEWSLETTER_SUBSCR_DETAIL_PUBLISHED_SUCCESFULLY');
-		$this->setRedirect('index.php?option=' . $option . '&view=newslettersubscr', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=newslettersubscr', $msg);
 	}
 
 	public function unpublish()
@@ -147,14 +147,14 @@ class RedshopControllerNewslettersubscr_detail extends RedshopController
 		}
 
 		$msg = JText::_('COM_REDSHOP_NEWSLETTER_SUBSCR_DETAIL_UNPUBLISHED_SUCCESFULLY');
-		$this->setRedirect('index.php?option=' . $option . '&view=newslettersubscr', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=newslettersubscr', $msg);
 	}
 
 	public function cancel()
 	{
 		$option = JRequest::getVar('option');
 		$msg = JText::_('COM_REDSHOP_NEWSLETTER_SUBSCR_DETAIL_EDITING_CANCELLED');
-		$this->setRedirect('index.php?option=' . $option . '&view=newslettersubscr', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=newslettersubscr', $msg);
 	}
 
 	public function export_data()

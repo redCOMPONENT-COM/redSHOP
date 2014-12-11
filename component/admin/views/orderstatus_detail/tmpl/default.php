@@ -17,7 +17,7 @@ $redhelper = new redhelper;
 	Joomla.submitbutton = function (pressbutton) {
 		var form = document.adminForm;
 		if (pressbutton == 'cancel') {
-			<?php      $link = 'index.php?option=' . $option . '&view=orderstatus';
+			<?php      $link = 'index.php?option=com_redshop&view=orderstatus';
 					   $link = $redhelper->sslLink($link,0);
 			?>
 			window.location = '<?php echo $link;?>';

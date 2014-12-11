@@ -96,7 +96,7 @@ $model = $this->getModel('newslettersubscr');
 				$row = $this->newslettersubscrs[$i];
 				$row->id = $row->subscription_id;
 
-				$link = JRoute::_('index.php?option=' . $option . '&view=newslettersubscr_detail&task=edit&cid[]=' . $row->subscription_id);
+				$link = JRoute::_('index.php?option=com_redshop&view=newslettersubscr_detail&task=edit&cid[]=' . $row->subscription_id);
 
 				$published = JHtml::_('jgrid.published', $row->published, $i, '', 1);
 				?>

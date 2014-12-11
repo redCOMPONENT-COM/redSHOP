@@ -102,7 +102,7 @@ echo 'index.php?option=' . $option;
 			{
 				$row = $this->manufacturer [$i];
 				$row->id = $row->manufacturer_id;
-				$link = JRoute::_('index.php?option=' . $option . '&view=manufacturer_detail&task=edit&cid[]=' . $row->manufacturer_id);
+				$link = JRoute::_('index.php?option=com_redshop&view=manufacturer_detail&task=edit&cid[]=' . $row->manufacturer_id);
 
 				$published = JHTML::_('grid.published', $row, $i);
 

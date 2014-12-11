@@ -267,7 +267,7 @@ class RedshopControllerConfiguration extends RedshopController
 
 		if ($apply)
 		{
-			$this->setRedirect('index.php?option=' . $option . '&view=configuration', $msg);
+			$this->setRedirect('index.php?option=com_redshop&view=configuration', $msg);
 		}
 
 		else
