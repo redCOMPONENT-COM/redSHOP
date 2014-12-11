@@ -53,7 +53,7 @@ $end = $this->pagination->limit;
 					</tr>
 				<?php
 				}
-				$link = JRoute::_('index.php?option=' . $option . '&view=product_detail&task=edit&cid[]=' . $row->product_id);
+				$link = JRoute::_('index.php?option=com_redshop&view=product_detail&task=edit&cid[]=' . $row->product_id);
 				if ($row->product_id != NULL)
 				{
 					?>

@@ -29,7 +29,7 @@ class RedshopViewFields_detail extends RedshopView
 		JToolBarHelper::title(JText::_('COM_REDSHOP_FIELDS_MANAGEMENT_DETAIL'), 'redshop_fields48');
 
 		$document = JFactory::getDocument();
-		$document->addScript('components/' . $option . '/assets/js/fields.js');
+		$document->addScript('components/com_redshop/assets/js/fields.js');
 
 		$uri = JFactory::getURI();
 		$this->setLayout('default');

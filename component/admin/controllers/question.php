@@ -35,6 +35,6 @@ class RedshopControllerQuestion extends RedshopController
 		$model->saveorder($cid, $order);
 
 		$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
-		$this->setRedirect('index.php?option=' . $option . '&view=question', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=question', $msg);
 	}
 }

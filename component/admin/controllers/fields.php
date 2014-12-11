@@ -32,6 +32,6 @@ class RedshopControllerFields extends RedshopController
 			$msg = JText::_('COM_REDSHOP_NEW_ORDERING_ERROR');
 		}
 
-		$this->setRedirect('index.php?option=' . $option . '&view=fields', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=fields', $msg);
 	}
 }
