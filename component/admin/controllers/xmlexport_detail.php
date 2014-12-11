@@ -9,11 +9,10 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.controller');
 
 JLoader::load('RedshopHelperAdminXmlHelper');
 
-class RedshopControllerXmlexport_detail extends JController
+class RedshopControllerXmlexport_detail extends RedshopController
 {
 	public function __construct($default = array())
 	{
@@ -119,7 +118,7 @@ class RedshopControllerXmlexport_detail extends JController
 
 		$session->set('childelement', null);
 
-		$this->setRedirect('index.php?option=' . $option . '&view=xmlexport', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=xmlexport', $msg);
 	}
 
 function setChildElement()
@@ -193,7 +192,7 @@ function setChildElement()
 		}
 
 		$msg = JText::_('COM_REDSHOP_XMLEXPORT_DETAIL_DELETED_SUCCESSFULLY');
-		$this->setRedirect('index.php?option=' . $option . '&view=xmlexport', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=xmlexport', $msg);
 	}
 
 	public function cancel()
@@ -202,7 +201,7 @@ function setChildElement()
 		$session = JFactory::getSession();
 		$session->set('childelement', null);
 		$msg = JText::_('COM_REDSHOP_XMLEXPORT_DETAIL_EDITING_CANCELLED');
-		$this->setRedirect('index.php?option=' . $option . '&view=xmlexport', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=xmlexport', $msg);
 	}
 
 	/**
@@ -229,7 +228,7 @@ function setChildElement()
 		}
 
 		$msg = JText::_('COM_REDSHOP_AUTO_SYNCHRONIZE_ENABLE_SUCCESSFULLY');
-		$this->setRedirect('index.php?option=' . $option . '&view=xmlexport', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=xmlexport', $msg);
 	}
 
 	/**
@@ -256,7 +255,7 @@ function setChildElement()
 		}
 
 		$msg = JText::_('COM_REDSHOP_AUTO_SYNCHRONIZE_DISABLE_SUCCESSFULLY');
-		$this->setRedirect('index.php?option=' . $option . '&view=xmlexport', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=xmlexport', $msg);
 	}
 
 	/**
@@ -283,7 +282,7 @@ function setChildElement()
 		}
 
 		$msg = JText::_('COM_REDSHOP_EXPORTFILE_USE_TO_ALL_ENABLE_SUCCESSFULLY');
-		$this->setRedirect('index.php?option=' . $option . '&view=xmlexport', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=xmlexport', $msg);
 	}
 
 	/**
@@ -310,7 +309,7 @@ function setChildElement()
 		}
 
 		$msg = JText::_('COM_REDSHOP_EXPORTFILE_USE_TO_ALL_DISABLE_SUCCESSFULLY');
-		$this->setRedirect('index.php?option=' . $option . '&view=xmlexport', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=xmlexport', $msg);
 	}
 
 	/**
@@ -337,7 +336,7 @@ function setChildElement()
 		}
 
 		$msg = JText::_('COM_REDSHOP_XMLEXPORT_PUBLISHED_SUCCESSFULLY');
-		$this->setRedirect('index.php?option=' . $option . '&view=xmlexport', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=xmlexport', $msg);
 	}
 
 	/**
@@ -364,6 +363,6 @@ function setChildElement()
 		}
 
 		$msg = JText::_('COM_REDSHOP_XMLEXPORT_UNPUBLISHED_SUCCESSFULLY');
-		$this->setRedirect('index.php?option=' . $option . '&view=xmlexport', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=xmlexport', $msg);
 	}
 }

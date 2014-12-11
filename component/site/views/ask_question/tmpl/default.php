@@ -29,7 +29,7 @@ $ask         = JRequest::getInt('ask');
 $category_id = JRequest::getInt('category_id');
 $document    = JFactory::getDocument();
 $userhelper  = new rsUserhelper;
-JHTML::Script('jquery.tools.min.js', 'components/com_redshop/assets/js/', false);
+JHtml::script('com_redshop/jquery.tools.min.js', false, true);
 
 $template = $redTemplate->getTemplate('ask_question_template');
 

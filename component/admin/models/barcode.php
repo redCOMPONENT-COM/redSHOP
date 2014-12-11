@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die();
 
-jimport('joomla.application.component.model');
 
 /**
  * Barcode reder/generator Model
@@ -18,7 +17,7 @@ jimport('joomla.application.component.model');
  * @subpackage  Barcode
  * @since       1.2
  */
-class RedshopModelBarcode extends JModel
+class RedshopModelBarcode extends RedshopModel
 {
 	public $_id = null;
 

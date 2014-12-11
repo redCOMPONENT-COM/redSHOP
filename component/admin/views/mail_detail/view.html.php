@@ -9,10 +9,7 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
-jimport('joomla.html.pane');
-
-class RedshopViewMail_detail extends JView
+class RedshopViewMail_detail extends RedshopView
 {
 	/**
 	 * The request url.
@@ -29,8 +26,8 @@ class RedshopViewMail_detail extends JView
 
 		$document = JFactory::getDocument();
 
-		$document->addScript('components/' . $option . '/assets/js/json.js');
-		$document->addScript('components/' . $option . '/assets/js/validation.js');
+		JHtml::script('com_redshop/json.js', false, true);
+		$document->addScript('components/com_redshop/assets/js/validation.js');
 
 		$uri = JFactory::getURI();
 
@@ -80,9 +77,6 @@ class RedshopViewMail_detail extends JView
 
 		$lists['published'] = JHTML::_('select.booleanlist', 'published', 'class="inputbox"', $detail->published);
 
-		$pane = JPane::getInstance('sliders');
-
-		$this->pane = $pane;
 		$this->lists = $lists;
 		$this->detail = $detail;
 		$this->request_url = $uri->toString();

@@ -169,7 +169,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 					<td><?php echo JText::_($this->payment_detail->order_payment_name); ?>
 						<?php if (count($model->getccdetail($order_id)) > 0)
 						{ ?>
-							<a href="<?php echo JRoute::_('index.php?option=' . $option . '&view=order_detail&task=ccdetail&cid[]=' . $order_id); ?>"
+							<a href="<?php echo JRoute::_('index.php?option=com_redshop&view=order_detail&task=ccdetail&cid[]=' . $order_id); ?>"
 							   class="modal"
 							   rel="{handler: 'iframe', size: {x: 550, y: 200}}"><?php echo JText::_('COM_REDSHOP_CLICK_TO_VIEW_CREDIT_CARD_DETAIL');?></a>
 						<?php } ?>
@@ -213,7 +213,7 @@ for ($t = 0; $t < $totalDownloadProduct; $t++)
 							$send_mail_to_customer = "checked";
 						}
 
-						$linkupdate = JRoute::_('index.php?option=' . $option . '&view=order&task=update_status&return=order_detail&order_id[]=' . $order_id);
+						$linkupdate = JRoute::_('index.php?option=com_redshop&view=order&task=update_status&return=order_detail&order_id[]=' . $order_id);
 
 						echo $order_functions->getstatuslist('status', $this->detail->order_status, "class=\"inputbox\" size=\"1\" ");
 						echo "&nbsp";

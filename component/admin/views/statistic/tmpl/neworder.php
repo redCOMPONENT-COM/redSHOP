@@ -52,7 +52,7 @@ $end = $this->pagination->limit;
 					</tr>
 				<?php
 				}
-				$link = JRoute::_('index.php?option=' . $option . '&view=order_detail&task=edit&cid[]=' . $row->order_id);?>
+				$link = JRoute::_('index.php?option=com_redshop&view=order_detail&task=edit&cid[]=' . $row->order_id);?>
 				<tr>
 					<td align="center"><?php echo $i + 1; ?></td>
 					<td align="center"><a href="<?php echo $link; ?>"
@@ -63,7 +63,13 @@ $end = $this->pagination->limit;
 				</tr>
 			<?php }    ?>
 			<tfoot>
-			<td colspan="4"><?php echo $this->pagination->getListFooter(); ?></td>
+			<td colspan="4">
+				<?php if (version_compare(JVERSION, '3.0', '>=')): ?>
+					<div class="redShopLimitBox">
+						<?php echo $this->pagination->getLimitBox(); ?>
+					</div>
+				<?php endif; ?>
+				<?php echo $this->pagination->getListFooter(); ?></td>
 			</tfoot>
 		</table>
 	</div>

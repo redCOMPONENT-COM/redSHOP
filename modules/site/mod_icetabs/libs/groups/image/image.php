@@ -32,7 +32,7 @@ if (!class_exists('LofSliderGroupImage'))
 			{
 				return array();
 			}
-			$tmpPath = str_replace(DS, '/', $subpath) . '/';
+			$tmpPath = str_replace(DIRECTORY_SEPARATOR, '/', $subpath) . '/';
 			$path    = JPATH_SITE . '/' . $subpath;
 
 			$files = JFolder::files($path, '.jpg|.png|.gif');

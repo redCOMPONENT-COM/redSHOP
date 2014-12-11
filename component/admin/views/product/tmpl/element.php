@@ -80,7 +80,7 @@ if ($this->pagination->limit > 0)
 	</tr>
 </table>
 <form
-	action="<?php echo 'index.php?option=' . $option . '&amp;view=product&amp;task=element&amp;tmpl=component&amp;object=' . JRequest::getVar('object'); ?>"
+	action="<?php echo 'index.php?option=com_redshop&amp;view=product&amp;task=element&amp;tmpl=component&amp;object=' . JRequest::getVar('object'); ?>"
 	method="post" name="adminForm" id="adminForm">
 	<div id="editcell">
 		<table class="adminlist">
@@ -90,8 +90,7 @@ if ($this->pagination->limit > 0)
 					<?php echo JText::_('COM_REDSHOP_NUM'); ?>
 				</th>
 				<th width="20">
-					<input type="checkbox" name="toggle" value=""
-					       onclick="checkAll(<?php echo count($this->products); ?>);"/>
+					<?php echo JHtml::_('redshopgrid.checkall'); ?>
 				</th>
 				<th class="title">
 					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_PRODUCT_NAME', 'product_name', $this->lists['order_Dir'], $this->lists['order']); ?>
@@ -121,7 +120,7 @@ if ($this->pagination->limit > 0)
 			{
 				$row = $this->products[$i];
 				$row->id = $row->product_id;
-				$link = JRoute::_('index.php?option=' . $option . '&view=product_detail&task=edit&cid[]=' . $row->product_id);
+				$link = JRoute::_('index.php?option=com_redshop&view=product_detail&task=edit&cid[]=' . $row->product_id);
 
 				$published = JHtml::_('jgrid.published', $row->published, $i, '', 1);
 
@@ -167,6 +166,11 @@ if ($this->pagination->limit > 0)
 
 			<tfoot>
 			<td colspan="13">
+				<?php if (version_compare(JVERSION, '3.0', '>=')): ?>
+					<div class="redShopLimitBox">
+						<?php echo $this->pagination->getLimitBox(); ?>
+					</div>
+				<?php endif; ?>
 				<?php echo $this->pagination->getListFooter(); ?>
 			</td>
 			</tfoot>

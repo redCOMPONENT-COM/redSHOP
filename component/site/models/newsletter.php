@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-JLoader::import('joomla.application.component.model');
 
 /**
  * Class newsletterModelnewsletter
@@ -18,7 +17,7 @@ JLoader::import('joomla.application.component.model');
  * @subpackage  Model
  * @since       1.0
  */
-class RedshopModelNewsletter extends JModel
+class RedshopModelNewsletter extends RedshopModel
 {
 	public $_table_prefix = null;
 
