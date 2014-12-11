@@ -1063,7 +1063,7 @@ class RedshopModelOrder_detail extends RedshopModel
 			$decry = $shippinghelper->decryptShipping(str_replace(" ", "+", $data['shipping_rate_id']));
 			$neworder_shipping = explode("|", $decry);
 
-			if ($data['shipping_rate_id'] != $orderdata->ship_method_id || $neworder_shipping[0] == 'plgredshop_shippingdefault_shipping_GLS')
+			if ($data['shipping_rate_id'] != $orderdata->ship_method_id || $neworder_shipping[0] == 'plgredshop_shippingdefault_shipping_gls')
 			{
 				if (count($neworder_shipping) > 4)
 				{

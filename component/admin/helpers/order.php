@@ -2150,7 +2150,7 @@ class order_functions
 
 			$shopLocation = $orderdetail->shop_id;
 
-			if ($details[0] != 'plgredshop_shippingdefault_shipping_GLS')
+			if ($details[0] != 'plgredshop_shippingdefault_shipping_gls')
 			{
 				$shopLocation = '';
 			}
