@@ -9,9 +9,8 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.controller');
 
-class RedshopControllerCategory_detail extends JController
+class RedshopControllerCategory_detail extends RedshopController
 {
 	public function __construct($default = array())
 	{
@@ -70,15 +69,15 @@ class RedshopControllerCategory_detail extends JController
 
 		if ($apply == 2)
 		{
-			$this->setRedirect('index.php?option=' . $option . '&view=category_detail&task=add', $msg);
+			$this->setRedirect('index.php?option=com_redshop&view=category_detail&task=add', $msg);
 		}
 		elseif ($apply == 1)
 		{
-			$this->setRedirect('index.php?option=' . $option . '&view=category_detail&task=edit&cid[]=' . $row->category_id, $msg);
+			$this->setRedirect('index.php?option=com_redshop&view=category_detail&task=edit&cid[]=' . $row->category_id, $msg);
 		}
 		else
 		{
-			$this->setRedirect('index.php?option=' . $option . '&view=category', $msg);
+			$this->setRedirect('index.php?option=com_redshop&view=category', $msg);
 		}
 	}
 
@@ -109,7 +108,7 @@ class RedshopControllerCategory_detail extends JController
 			$msg = JText::_('COM_REDSHOP_CATEGORY_DETAIL_DELETED_SUCCESSFULLY');
 		}
 
-		$this->setRedirect('index.php?option=' . $option . '&view=category', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=category', $msg);
 	}
 
 	public function publish()
@@ -131,7 +130,7 @@ class RedshopControllerCategory_detail extends JController
 		}
 
 		$msg = JText::_('COM_REDSHOP_CATEGORY_DETAIL_PUBLISHED_SUCCESSFULLY');
-		$this->setRedirect('index.php?option=' . $option . '&view=category', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=category', $msg);
 	}
 
 	public function unpublish()
@@ -153,14 +152,14 @@ class RedshopControllerCategory_detail extends JController
 		}
 
 		$msg = JText::_('COM_REDSHOP_CATEGORY_DETAIL_UNPUBLISHED_SUCCESSFULLY');
-		$this->setRedirect('index.php?option=' . $option . '&view=category', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=category', $msg);
 	}
 
 	public function cancel()
 	{
 		$option = JRequest::getVar('option');
 		$msg = JText::_('COM_REDSHOP_CATEGORY_DETAIL_EDITING_CANCELLED');
-		$this->setRedirect('index.php?option=' . $option . '&view=category', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=category', $msg);
 	}
 
 	public function orderup()
@@ -171,7 +170,7 @@ class RedshopControllerCategory_detail extends JController
 		$model->orderup();
 
 		$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
-		$this->setRedirect('index.php?option=' . $option . '&view=category', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=category', $msg);
 	}
 
 	public function orderdown()
@@ -182,7 +181,7 @@ class RedshopControllerCategory_detail extends JController
 		$model->orderdown();
 
 		$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
-		$this->setRedirect('index.php?option=' . $option . '&view=category', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=category', $msg);
 	}
 
 	public function saveorder()
@@ -198,7 +197,7 @@ class RedshopControllerCategory_detail extends JController
 		$model->saveorder($cid, $order);
 
 		$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
-		$this->setRedirect('index.php?option=' . $option . '&view=category', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=category', $msg);
 	}
 
 	public function copy()
@@ -216,6 +215,6 @@ class RedshopControllerCategory_detail extends JController
 			$msg = JText::_('COM_REDSHOP_ERROR_COPING_CATEGORY');
 		}
 
-		$this->setRedirect('index.php?option=' . $option . '&view=category', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=category', $msg);
 	}
 }

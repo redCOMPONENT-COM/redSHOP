@@ -1267,15 +1267,10 @@ class Redconfiguration
 	 */
 	public function convertDateFormat($date)
 	{
-		$JApp = JFactory::getApplication();
-
 		if ($date <= 0)
 		{
 			$date = time();
 		}
-
-		$dateobj = JFactory::getDate($date);
-		$dateobj->setOffset($JApp->getCfg('offset'));
 
 		if (DEFAULT_DATEFORMAT)
 		{

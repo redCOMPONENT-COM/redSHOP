@@ -9,9 +9,8 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
 
-class RedshopViewMedia extends JView
+class RedshopViewMedia extends RedshopView
 {
 	public $images;
 
@@ -43,12 +42,11 @@ class RedshopViewMedia extends JView
 		$app      = JFactory::getApplication();
 		$document = JFactory::getDocument();
 
-		$document->setTitle(JText::_('COM_REDSHOP_MEDIA'));
 		$document->addStyleSheet(JURI::root() . 'administrator/components/com_redshop/assets/css/medialist-thumbs.css');
 
-		JToolBarHelper::title(JText::_('COM_REDSHOP_MEDIA_MANAGEMENT'), 'redshop_media48');
-		JToolBarHelper::addNewX();
-		JToolBarHelper::editListX();
+		JToolBarHelper::title(JText::_('COM_REDSHOP_MEDIA_MANAGEMENT'), 'camera redshop_media48');
+		JToolbarHelper::addNew();
+		JToolbarHelper::EditList();
 		JToolBarHelper::deleteList();
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();

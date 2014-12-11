@@ -9,11 +9,10 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
 
 JLoader::load('RedshopHelperAdminExtra_field');
 
-class RedshopViewStockroom_detail extends JView
+class RedshopViewStockroom_detail extends RedshopView
 {
 	public function display($tpl = null)
 	{
@@ -40,7 +39,7 @@ class RedshopViewStockroom_detail extends JView
 		else
 		{
 			$document = JFactory::getDocument();
-			$document->addScript('components/' . $option . '/assets/js/select_sort.js');
+			$document->addScript('components/com_redshop/assets/js/select_sort.js');
 			$document->addStyleSheet('components/com_redshop/assets/css/search.css');
 			$document->addScript('components/com_redshop/assets/js/search.js');
 

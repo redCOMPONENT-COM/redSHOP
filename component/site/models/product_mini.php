@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-JLoader::import('joomla.application.component.model');
 
 /**
  * Class product_miniModelproduct_mini
@@ -18,7 +17,7 @@ JLoader::import('joomla.application.component.model');
  * @subpackage  Model
  * @since       1.0
  */
-class RedshopModelProduct_mini extends JModel
+class RedshopModelProduct_mini extends RedshopModel
 {
 	public $_data = null;
 

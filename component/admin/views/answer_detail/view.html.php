@@ -13,7 +13,7 @@ jimport( 'joomla.application.component.view' );
 
 JLoader::load('RedshopHelperProduct');
 
-class RedshopViewAnswer_detail extends JView
+class RedshopViewAnswer_detail extends RedshopView
 {
 	public function display($tpl = null)
 	{

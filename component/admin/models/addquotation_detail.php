@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
 
 JLoader::load('RedshopHelperProduct');
 JLoader::load('RedshopHelperHelper');
@@ -19,7 +18,7 @@ JLoader::load('RedshopHelperAdminOrder');
 JLoader::load('RedshopHelperAdminProduct');
 JLoader::load('RedshopHelperAdminQuotation');
 
-class RedshopModelAddquotation_detail extends JModel
+class RedshopModelAddquotation_detail extends RedshopModel
 {
 	public $_id = null;
 
@@ -121,7 +120,7 @@ class RedshopModelAddquotation_detail extends JModel
 
 		$row = $this->getTable('quotation_detail');
 
-		if ($data['quotation_discount'] > 0)
+		if (isset($data['quotation_discount']) && $data['quotation_discount'] > 0)
 		{
 			$data['order_total'] = $data['order_total'] - $data['quotation_discount'] - (($data['order_total'] * $data['quotation_special_discount']) / 100);
 		}
@@ -191,6 +190,7 @@ class RedshopModelAddquotation_detail extends JModel
 
 			$product = $producthelper->getProductById($product_id);
 
+			$quotation_item[$i] = new stdClass;
 			$quotation_item[$i]->quotation_id = $row->quotation_id;
 			$quotation_item[$i]->product_id = $product_id;
 			$quotation_item[$i]->is_giftcard = 0;

@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-JLoader::import('joomla.application.component.controller');
 
 /**
  * Order tracker Controller.
@@ -18,6 +17,6 @@ JLoader::import('joomla.application.component.controller');
  * @subpackage  Controller
  * @since       1.0
  */
-class RedshopControllerOrdertracker extends JController
+class RedshopControllerOrdertracker extends RedshopController
 {
 }

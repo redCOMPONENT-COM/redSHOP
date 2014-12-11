@@ -33,20 +33,44 @@ class StateManagerSteps extends AdminManagerSteps
 	public function addState($countryName = 'Test Country', $stateName = 'Test State', $twoCode = '12', $threeCode = '123')
 	{
 		$I = $this;
-		$I->amOnPage(\StateManagerPage::$URL);
-		$I->see('States');
-		$I->verifyNotices(false, $this->checkForNotices(), 'States Manager Page');
-		$I->click('New');
-		$I->verifyNotices(false, $this->checkForNotices(), 'States Manager New');
-		$I->selectOption(\StateManagerPage::$countryId, $countryName);
-		$I->fillField(\StateManagerPage::$stateName, $stateName);
-		$I->fillField(\StateManagerPage::$stateTwoCode, $twoCode);
-		$I->fillField(\StateManagerPage::$stateThreeCode, $threeCode);
-		$I->click("Save & Close");
-		$I->see('State detail saved');
-		$I->fillField(\StateManagerPage::$searchField, $stateName);
-		$I->click(\StateManagerPage::$searchButton);
-		$I->see($stateName, \StateManagerPage::$stateResultRow);
+		$config = $I->getConfig();
+
+		if ($config['env'] == 'joomla2')
+		{
+			$I->amOnPage(\StateManagerPage::$URL);
+			$I->see('States');
+			$I->verifyNotices(false, $this->checkForNotices(), 'States Manager Page');
+			$I->click('New');
+			$I->verifyNotices(false, $this->checkForNotices(), 'States Manager New');
+			$I->selectOption(\StateManagerPage::$countryId, $countryName);
+			$I->fillField(\StateManagerPage::$stateName, $stateName);
+			$I->fillField(\StateManagerPage::$stateTwoCode, $twoCode);
+			$I->fillField(\StateManagerPage::$stateThreeCode, $threeCode);
+			$I->click("Save & Close");
+			$I->see('State detail saved');
+			$I->fillField(\StateManagerPage::$searchField, $stateName);
+			$I->click(\StateManagerPage::$searchButton);
+			$I->see($stateName, \StateManagerPage::$stateResultRow);
+		}
+		else
+		{
+			$stateManagerPage = new \StateManagerJ3Page;
+			$I->amOnPage(\StateManagerJ3Page::$URL);
+			$I->see('States');
+			$I->verifyNotices(false, $this->checkForNotices(), 'States Manager Page');
+			$I->click('New');
+			$I->verifyNotices(false, $this->checkForNotices(), 'States Manager New');
+			$I->click(\StateManagerJ3Page::$countryIdDropDown);
+			$I->click($stateManagerPage->countryID($countryName));
+			$I->fillField(\StateManagerJ3Page::$stateName, $stateName);
+			$I->fillField(\StateManagerJ3Page::$stateTwoCode, $twoCode);
+			$I->fillField(\StateManagerJ3Page::$stateThreeCode, $threeCode);
+			$I->click("Save & Close");
+			$I->see('State detail saved');
+			$I->fillField(\StateManagerJ3Page::$searchField, $stateName);
+			$I->click(\StateManagerJ3Page::$searchButton);
+			$I->see($stateName, \StateManagerJ3Page::$stateResultRow);
+		}
 	}
 
 	/**
