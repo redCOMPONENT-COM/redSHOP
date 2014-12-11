@@ -70,7 +70,7 @@ $model = $this->getModel('catalog');
 			{
 				$row = $this->catalog[$i];
 				$row->id = $row->catalog_id;
-				$link = JRoute::_('index.php?option=' . $option . '&view=catalog_detail&task=edit&cid[]=' . $row->catalog_id);
+				$link = JRoute::_('index.php?option=com_redshop&view=catalog_detail&task=edit&cid[]=' . $row->catalog_id);
 
 				$published = JHtml::_('jgrid.published', $row->published, $i, '', 1);
 

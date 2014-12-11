@@ -53,7 +53,7 @@ $filter = JRequest::getVar('filter');
 		{
 			$row = $this->fields[$i];
 			$row->id = $row->country_id;
-			$link = JRoute::_('index.php?option=' . $option . '&view=country_detail&task=edit&cid[]=' . $row->country_id);
+			$link = JRoute::_('index.php?option=com_redshop&view=country_detail&task=edit&cid[]=' . $row->country_id);
 
 			?>
 			<tr class="<?php echo "row$k"; ?>">

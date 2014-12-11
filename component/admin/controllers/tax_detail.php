@@ -57,7 +57,7 @@ class RedshopControllerTax_detail extends RedshopController
 		}
 		else
 		{
-			$this->setRedirect('index.php?option=' . $option . '&view=tax&tax_group_id=' . $tax_group_id, $msg);
+			$this->setRedirect('index.php?option=com_redshop&view=tax&tax_group_id=' . $tax_group_id, $msg);
 		}
 	}
 
@@ -82,7 +82,7 @@ class RedshopControllerTax_detail extends RedshopController
 
 		$msg = JText::_('COM_REDSHOP_TAX_DETAIL_DELETED_SUCCESSFULLY');
 
-		$this->setRedirect('index.php?option=' . $option . '&view=tax&tax_group_id=' . $tax_group_id, $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=tax&tax_group_id=' . $tax_group_id, $msg);
 	}
 
 	public function removefromwizrd()
@@ -104,7 +104,7 @@ class RedshopControllerTax_detail extends RedshopController
 
 		$msg = JText::_('COM_REDSHOP_TAX_DETAIL_DELETED_SUCCESSFULLY');
 
-		$this->setRedirect('index.php?option=' . $option . '&step=4', $msg);
+		$this->setRedirect('index.php?option=com_redshop&step=4', $msg);
 	}
 
 	public function cancel()
@@ -112,6 +112,6 @@ class RedshopControllerTax_detail extends RedshopController
 		$option = JRequest::getVar('option');
 		$tax_group_id = JRequest::getVar('tax_group_id');
 		$msg = JText::_('COM_REDSHOP_TAX_DETAIL_EDITING_CANCELLED');
-		$this->setRedirect('index.php?option=' . $option . '&view=tax&tax_group_id=' . $tax_group_id, $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=tax&tax_group_id=' . $tax_group_id, $msg);
 	}
 }

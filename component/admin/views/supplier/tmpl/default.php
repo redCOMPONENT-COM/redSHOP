@@ -77,7 +77,7 @@ $option = JRequest::getVar('option', '', 'request', 'string');
 
 				$row->id = $row->supplier_id;
 
-				$link = JRoute::_('index.php?option=' . $option . '&view=supplier_detail&task=edit&cid[]=' . $row->supplier_id);
+				$link = JRoute::_('index.php?option=com_redshop&view=supplier_detail&task=edit&cid[]=' . $row->supplier_id);
 
 				$published = JHTML::_('grid.published', $row, $i);
 

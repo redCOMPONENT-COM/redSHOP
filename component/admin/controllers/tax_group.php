@@ -16,6 +16,6 @@ class RedshopControllerTax_group extends RedshopController
 	{
 		$option = JRequest::getVar('option');
 
-		$this->setRedirect('index.php?option=' . $option . '&view=tax_group');
+		$this->setRedirect('index.php?option=com_redshop&view=tax_group');
 	}
 }

@@ -80,7 +80,7 @@ class RedshopControllerPrices_detail extends RedshopController
 			}
 		}
 
-		$this->setRedirect('index.php?option=' . $option . '&view=prices&product_id=' . $product_id, $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=prices&product_id=' . $product_id, $msg);
 	}
 
 	public function remove()
@@ -102,7 +102,7 @@ class RedshopControllerPrices_detail extends RedshopController
 		}
 
 		$msg = JText::_('COM_REDSHOP_PRICE_DETAIL_DELETED_SUCCESSFULLY');
-		$this->setRedirect('index.php?option=' . $option . '&view=prices&product_id=' . $product_id, $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=prices&product_id=' . $product_id, $msg);
 	}
 
 	public function cancel()
@@ -111,6 +111,6 @@ class RedshopControllerPrices_detail extends RedshopController
 		$product_id = JRequest::getVar('product_id');
 
 		$msg = JText::_('COM_REDSHOP_PRICE_DETAIL_EDITING_CANCELLED');
-		$this->setRedirect('index.php?option=' . $option . '&view=prices&product_id=' . $product_id, $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=prices&product_id=' . $product_id, $msg);
 	}
 }

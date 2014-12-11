@@ -25,7 +25,7 @@ class RedshopViewXmlexport_detail extends RedshopView
 		$childelement = $session->get('childelement');
 		$document     = JFactory::getDocument();
 		$document->setTitle(JText::_('COM_REDSHOP_xmlexport'));
-		$document->addScript('components/' . $option . '/assets/js/xmlfunc.js');
+		$document->addScript('components/com_redshop/assets/js/xmlfunc.js');
 
 		$uri                  = JFactory::getURI();
 		$lists                = array();
