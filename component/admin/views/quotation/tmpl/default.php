@@ -42,7 +42,7 @@ $model = $this->getModel('quotation');
 	}
 </script>
 
-<form action="<?php echo JRoute::_('index.php?option=' . $option . '&view=quotation'); ?>" method="post"
+<form action="<?php echo JRoute::_('index.php?option=com_redshop&view=quotation'); ?>" method="post"
       name="adminForm" id="adminForm">
 	<div id="editcell">
 		<table class="adminlist" width="100%">
@@ -95,7 +95,7 @@ $model = $this->getModel('quotation');
 						$display .= ($userarr->is_company && $userarr->company_name != "") ? "<br>" . $userarr->company_name : "";
 					}
 				}
-				$link = JRoute::_('index.php?option=' . $option . '&view=quotation_detail&task=edit&cid[]=' . $row->quotation_id);
+				$link = JRoute::_('index.php?option=com_redshop&view=quotation_detail&task=edit&cid[]=' . $row->quotation_id);
 				$status = $quotationHelper->getQuotationStatusName($row->quotation_status);
 				if ($row->quotation_status == 5)
 				{

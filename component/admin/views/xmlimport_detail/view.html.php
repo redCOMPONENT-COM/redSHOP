@@ -19,7 +19,7 @@ class RedshopViewXmlimport_detail extends RedshopView
 		$xmlhelper = new xmlHelper;
 		$document  = JFactory::getDocument();
 		$document->setTitle(JText::_('COM_REDSHOP_xmlimport'));
-		$document->addScript('components/' . $option . '/assets/js/xmlfunc.js');
+		$document->addScript('components/com_redshop/assets/js/xmlfunc.js');
 
 		$uri                   = JFactory::getURI();
 		$columns               = array();

@@ -50,7 +50,7 @@ class RedshopControllerQuotation_detail extends RedshopController
 		if ($post['user_id'] == 0 && $post['quotation_email'] == "")
 		{
 			$msg = JText::_('COM_REDSHOP_CREATE_ACCOUNT_FOR_QUOTATION');
-			$this->setRedirect('index.php?option=' . $option . '&view=quotation_detail&task=edit&cid[]=' . $post['quotation_id'], $msg);
+			$this->setRedirect('index.php?option=com_redshop&view=quotation_detail&task=edit&cid[]=' . $post['quotation_id'], $msg);
 		}
 
 		$quotation_item = array();
@@ -110,7 +110,7 @@ class RedshopControllerQuotation_detail extends RedshopController
 			}
 		}
 
-		$this->setRedirect('index.php?option=' . $option . '&view=quotation', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=quotation', $msg);
 	}
 
 	public function send()
@@ -136,7 +136,7 @@ class RedshopControllerQuotation_detail extends RedshopController
 		}
 
 		$msg = JText::_('COM_REDSHOP_QUOTATION_DETAIL_DELETED_SUCCESSFULLY');
-		$this->setRedirect('index.php?option=' . $option . '&view=quotation', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=quotation', $msg);
 	}
 
 	public function deleteitem()
@@ -153,14 +153,14 @@ class RedshopControllerQuotation_detail extends RedshopController
 		}
 
 		$msg = JText::_('COM_REDSHOP_QUOTATION_ITEM_DETAIL_DELETED_SUCCESSFULLY');
-		$this->setRedirect('index.php?option=' . $option . '&view=quotation_detail&task=edit&cid[]=' . $cid[0], $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=quotation_detail&task=edit&cid[]=' . $cid[0], $msg);
 	}
 
 	public function cancel()
 	{
 		$option = JRequest::getVar('option', '', 'request', 'string');
 		$msg = JText::_('COM_REDSHOP_QUOTATION_DETAIL_EDITING_CANCELLED');
-		$this->setRedirect('index.php?option=' . $option . '&view=quotation', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=quotation', $msg);
 	}
 
 	public function newQuotationItem()
@@ -185,7 +185,7 @@ class RedshopControllerQuotation_detail extends RedshopController
 			$msg = JText::_('COM_REDSHOP_ERROR_ADDING_QUOTATION_ITEM');
 		}
 
-		$this->setRedirect('index.php?option=' . $option . '&view=quotation_detail&cid[]=' . $cid[0], $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=quotation_detail&cid[]=' . $cid[0], $msg);
 	}
 
 	public function getQuotationPriceTax()

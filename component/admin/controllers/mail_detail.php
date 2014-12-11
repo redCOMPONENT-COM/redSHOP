@@ -65,11 +65,11 @@ class RedshopControllerMail_detail extends RedshopController
 
 		if ($apply == 1)
 		{
-			$this->setRedirect('index.php?option=' . $option . '&view=mail_detail&task=edit&cid[]=' . $row->mail_id, $msg);
+			$this->setRedirect('index.php?option=com_redshop&view=mail_detail&task=edit&cid[]=' . $row->mail_id, $msg);
 		}
 		else
 		{
-			$this->setRedirect('index.php?option=' . $option . '&view=mail', $msg);
+			$this->setRedirect('index.php?option=com_redshop&view=mail', $msg);
 		}
 	}
 
@@ -92,7 +92,7 @@ class RedshopControllerMail_detail extends RedshopController
 		}
 
 		$msg = JText::_('COM_REDSHOP_MAIL_DETAIL_DELETED_SUCCESSFULLY');
-		$this->setRedirect('index.php?option=' . $option . '&view=mail', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=mail', $msg);
 	}
 
 	public function publish()
@@ -114,7 +114,7 @@ class RedshopControllerMail_detail extends RedshopController
 		}
 
 		$msg = JText::_('COM_REDSHOP_MAIL_DETAIL_PUBLISHED_SUCCESSFULLY');
-		$this->setRedirect('index.php?option=' . $option . '&view=mail', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=mail', $msg);
 	}
 
 	public function unpublish()
@@ -136,14 +136,14 @@ class RedshopControllerMail_detail extends RedshopController
 		}
 
 		$msg = JText::_('COM_REDSHOP_MAIL_DETAIL_UNPUBLISHED_SUCCESSFULLY');
-		$this->setRedirect('index.php?option=' . $option . '&view=mail', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=mail', $msg);
 	}
 
 	public function cancel()
 	{
 		$option = JRequest::getVar('option');
 		$msg = JText::_('COM_REDSHOP_MAIL_DETAIL_EDITING_CANCELLED');
-		$this->setRedirect('index.php?option=' . $option . '&view=mail', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=mail', $msg);
 	}
 
 	public function mail_section()

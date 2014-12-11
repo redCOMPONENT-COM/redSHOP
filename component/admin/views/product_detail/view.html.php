@@ -288,12 +288,12 @@ class RedshopViewProduct_Detail extends RedshopView
 
 		if (!$loadedFromAPlugin)
 		{
-			$document->addScript('components/' . $this->option . '/assets/js/fields.js');
+			$document->addScript('components/com_redshop/assets/js/fields.js');
 		}
 
-		$document->addScript('components/' . $this->option . '/assets/js/select_sort.js');
+		$document->addScript('components/com_redshop/assets/js/select_sort.js');
 		$document->addScript('components/com_redshop/assets/js/json.js');
-		$document->addScript('components/' . $this->option . '/assets/js/validation.js');
+		$document->addScript('components/com_redshop/assets/js/validation.js');
 		$document->addStyleSheet('components/com_redshop/assets/css/search.css');
 
 		if (file_exists(JPATH_SITE . '/components/com_redproductfinder/helpers/redproductfinder.css'))

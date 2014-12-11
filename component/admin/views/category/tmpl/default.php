@@ -127,7 +127,7 @@ $ordering = ($this->lists['order'] == 'c.ordering');
 					break;
 				}
 				$row->id = $row->category_id;
-				$link = JRoute::_('index.php?option=' . $option . '&view=category_detail&task=edit&cid[]=' . $row->category_id);
+				$link = JRoute::_('index.php?option=com_redshop&view=category_detail&task=edit&cid[]=' . $row->category_id);
 				$published = JHtml::_('jgrid.published', $row->published, $i, '', 1);
 				?>
 				<tr class="<?php echo "row$k"; ?>">

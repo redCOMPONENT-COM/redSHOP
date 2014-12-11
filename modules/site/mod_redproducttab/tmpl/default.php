@@ -111,7 +111,7 @@ if ($newprd)
 					$Itemid = $redhelper->getItemid($row->product_id);
 				}
 
-				$link = JRoute::_('index.php?option=' . $option . '&view=product&pid=' . $row->product_id . '&cid=' . $category_id . '&Itemid=' . $Itemid);
+				$link = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $row->product_id . '&cid=' . $category_id . '&Itemid=' . $Itemid);
 				if ($image)
 				{
 					$thum_image = $producthelper->getProductImage($row->product_id, $link, $thumbwidth, $thumbheight);
@@ -260,7 +260,7 @@ if ($ltsprd)
 					$Itemid = $redhelper->getItemid($row->product_id);
 				}
 
-				$link = JRoute::_('index.php?option=' . $option . '&view=product&pid=' . $row->product_id . '&cid=' . $category_id . '&Itemid=' . $Itemid);
+				$link = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $row->product_id . '&cid=' . $category_id . '&Itemid=' . $Itemid);
 				if ($image)
 				{
 					$thum_image = $producthelper->getProductImage($row->product_id, $link, $thumbwidth, $thumbheight);
@@ -408,7 +408,7 @@ if ($soldprd)
 					$Itemid = $redhelper->getItemid($row->product_id);
 				}
 
-				$link = JRoute::_('index.php?option=' . $option . '&view=product&pid=' . $row->product_id . '&cid=' . $category_id . '&Itemid=' . $Itemid);
+				$link = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $row->product_id . '&cid=' . $category_id . '&Itemid=' . $Itemid);
 				if ($image)
 				{
 					$thum_image = $producthelper->getProductImage($row->product_id, $link, $thumbwidth, $thumbheight);
@@ -555,7 +555,7 @@ if ($splprd)
 					$Itemid = $redhelper->getItemid($row->product_id);
 				}
 
-				$link = JRoute::_('index.php?option=' . $option . '&view=product&pid=' . $row->product_id . '&cid=' . $category_id . '&Itemid=' . $Itemid);
+				$link = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $row->product_id . '&cid=' . $category_id . '&Itemid=' . $Itemid);
 				if ($image)
 				{
 					$thum_image = $producthelper->getProductImage($row->product_id, $link, $thumbwidth, $thumbheight);

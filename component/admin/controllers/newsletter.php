@@ -43,7 +43,7 @@ class RedshopControllerNewsletter extends RedshopController
 		$session->set('subscribersuname', $tmpusername);
 		$session->set('incNo', 1);
 
-		$this->setRedirect('index.php?option=' . $option . '&view=newsletter&layout=previewlog&newsletter_id=' . $newsletter_id);
+		$this->setRedirect('index.php?option=com_redshop&view=newsletter&layout=previewlog&newsletter_id=' . $newsletter_id);
 		return;
 	}
 
