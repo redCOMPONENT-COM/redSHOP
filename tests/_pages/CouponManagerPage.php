@@ -29,5 +29,5 @@ class CouponManagerPage
 
 	public static $selectFirst = "//input[@id='cb0']";
 
-	public static $firstResultRow = "//div[@id='editcell']//table[@class='adminlist']//tbody/tr[1]";
+	public static $firstResultRow = "//div[@id='editcell']//table[2]//tbody/tr[1]";
 }
