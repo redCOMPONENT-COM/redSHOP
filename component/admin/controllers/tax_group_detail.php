@@ -43,7 +43,7 @@ class RedshopControllerTax_group_detail extends RedshopController
 			$msg = JText::_('COM_REDSHOP_ERROR_SAVING_TAX_GROUP_DETAIL');
 		}
 
-		$this->setRedirect('index.php?option=' . $option . '&view=tax_group', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=tax_group', $msg);
 	}
 
 	public function remove()
@@ -79,7 +79,7 @@ class RedshopControllerTax_group_detail extends RedshopController
 			$msg = JText::_('COM_REDSHOP_TAX_GROUP_DETAIL_DELETED_SUCCESSFULLY');
 		}
 
-		$this->setRedirect('index.php?option=' . $option . '&view=tax_group', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=tax_group', $msg);
 	}
 
 	public function publish()
@@ -102,7 +102,7 @@ class RedshopControllerTax_group_detail extends RedshopController
 
 		$msg = JText::_('COM_REDSHOP_TAX_GROUP_DETAIL_PUBLISHED_SUCCESFULLY');
 
-		$this->setRedirect('index.php?option=' . $option . '&view=tax_group', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=tax_group', $msg);
 	}
 
 	public function unpublish()
@@ -125,13 +125,13 @@ class RedshopControllerTax_group_detail extends RedshopController
 
 		$msg = JText::_('COM_REDSHOP_TAX_GROUP_DETAIL_UNPUBLISHED_SUCCESFULLY');
 
-		$this->setRedirect('index.php?option=' . $option . '&view=tax_group', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=tax_group', $msg);
 	}
 
 	public function cancel()
 	{
 		$option = JRequest::getVar('option');
 		$msg = JText::_('COM_REDSHOP_TAX_GROUP_DETAIL_EDITING_CANCELLED');
-		$this->setRedirect('index.php?option=' . $option . '&view=tax_group', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=tax_group', $msg);
 	}
 }

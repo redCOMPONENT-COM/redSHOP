@@ -50,11 +50,11 @@ class RedshopControllerShipping_detail extends RedshopController
 
 		if ($apply == 1)
 		{
-			$this->setRedirect('index.php?option=' . $option . '&view=shipping_detail&task=edit&cid[]=' . $post['extension_id'], $msg);
+			$this->setRedirect('index.php?option=com_redshop&view=shipping_detail&task=edit&cid[]=' . $post['extension_id'], $msg);
 		}
 		else
 		{
-			$this->setRedirect('index.php?option=' . $option . '&view=shipping', $msg);
+			$this->setRedirect('index.php?option=com_redshop&view=shipping', $msg);
 		}
 	}
 
@@ -75,7 +75,7 @@ class RedshopControllerShipping_detail extends RedshopController
 			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
 		}
 
-		$this->setRedirect('index.php?option=' . $option . '&view=shipping');
+		$this->setRedirect('index.php?option=com_redshop&view=shipping');
 	}
 
 	public function unpublish()
@@ -94,13 +94,13 @@ class RedshopControllerShipping_detail extends RedshopController
 			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
 		}
 
-		$this->setRedirect('index.php?option=' . $option . '&view=shipping');
+		$this->setRedirect('index.php?option=com_redshop&view=shipping');
 	}
 
 	public function cancel()
 	{
 		$option = JRequest::getVar('option');
-		$this->setRedirect('index.php?option=' . $option . '&view=shipping');
+		$this->setRedirect('index.php?option=com_redshop&view=shipping');
 	}
 
 	/**
@@ -116,7 +116,7 @@ class RedshopControllerShipping_detail extends RedshopController
 		$model->move(-1);
 
 		$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
-		$this->setRedirect('index.php?option=' . $option . '&view=shipping', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=shipping', $msg);
 	}
 
 	/**
@@ -132,7 +132,7 @@ class RedshopControllerShipping_detail extends RedshopController
 		$model->move(1);
 
 		$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
-		$this->setRedirect('index.php?option=' . $option . '&view=shipping', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=shipping', $msg);
 	}
 
 	/**
@@ -154,6 +154,6 @@ class RedshopControllerShipping_detail extends RedshopController
 		$model->saveorder($cid);
 
 		$msg = JText::_('COM_REDSHOP_SHIPPING_SAVED');
-		$this->setRedirect('index.php?option=' . $option . '&view=shipping', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=shipping', $msg);
 	}
 }
