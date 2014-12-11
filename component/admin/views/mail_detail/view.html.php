@@ -27,7 +27,7 @@ class RedshopViewMail_detail extends RedshopView
 		$document = JFactory::getDocument();
 
 		$document->addScript('components/com_redshop/assets/js/json.js');
-		$document->addScript('components/' . $option . '/assets/js/validation.js');
+		$document->addScript('components/com_redshop/assets/js/validation.js');
 
 		$uri = JFactory::getURI();
 

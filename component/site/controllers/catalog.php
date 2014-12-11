@@ -45,7 +45,7 @@ class RedshopControllerCatalog extends RedshopController
 			$msg = JText::_('COM_REDSHOP_ERROR_CATALOG_SEND_SUCCSEEFULLY');
 		}
 
-		$this->setRedirect('index.php?option=' . $option . '&view=catalog&Itemid=' . $Itemid, $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=catalog&Itemid=' . $Itemid, $msg);
 	}
 
 	/**
@@ -81,6 +81,6 @@ class RedshopControllerCatalog extends RedshopController
 			$msg = JText::_('COM_REDSHOP_ERROR_SAMPLE_SEND_SUCCSEEFULLY');
 		}
 
-		$this->setRedirect('index.php?option=' . $option . '&view=catalog&layout=sample&Itemid=' . $Itemid, $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=catalog&layout=sample&Itemid=' . $Itemid, $msg);
 	}
 }

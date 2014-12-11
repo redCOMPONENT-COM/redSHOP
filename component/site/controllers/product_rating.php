@@ -46,7 +46,7 @@ class RedshopControllerProduct_rating extends RedshopController
 
 		if ($rate == 1)
 		{
-			$link = 'index.php?option=' . $option . '&view=product&pid=' . $product_id . '&cid=' . $category_id . '&Itemid=' . $Itemid;
+			$link = 'index.php?option=com_redshop&view=product&pid=' . $product_id . '&cid=' . $category_id . '&Itemid=' . $Itemid;
 			$this->setRedirect($link, $msg);
 		}
 		else

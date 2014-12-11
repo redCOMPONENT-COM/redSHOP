@@ -37,9 +37,9 @@ class RedshopViewCategory_detail extends RedshopView
 		$categories = $model->getcategories();
 
 		$document = JFactory::getDocument();
-		$document->addScript('components/' . $option . '/assets/js/validation.js');
-		$document->addScript('components/' . $option . '/assets/js/fields.js');
-		$document->addScript('components/' . $option . '/assets/js/select_sort.js');
+		$document->addScript('components/com_redshop/assets/js/validation.js');
+		$document->addScript('components/com_redshop/assets/js/fields.js');
+		$document->addScript('components/com_redshop/assets/js/select_sort.js');
 		$document->addScript('components/com_redshop/assets/js/json.js');
 		$document->addStyleSheet('components/com_redshop/assets/css/search.css');
 		$document->addScript('components/com_redshop/assets/js/search.js');

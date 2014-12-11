@@ -98,7 +98,7 @@ class RedshopControllerAccount_billto extends RedshopController
 
 		if ($return != "")
 		{
-			$link = JRoute::_('index.php?option=' . $option . '&view=' . $return . '&Itemid=' . $Itemid, false);
+			$link = JRoute::_('index.php?option=com_redshop&view=' . $return . '&Itemid=' . $Itemid, false);
 
 			if (!isset($setexit) || $setexit != 0)
 			{
@@ -112,7 +112,7 @@ class RedshopControllerAccount_billto extends RedshopController
 		}
 		else
 		{
-			$link = JRoute::_('index.php?option=' . $option . '&view=account&Itemid=' . $Itemid, false);
+			$link = JRoute::_('index.php?option=com_redshop&view=account&Itemid=' . $Itemid, false);
 		}
 
 		$this->setRedirect($link, $msg);
@@ -134,7 +134,7 @@ class RedshopControllerAccount_billto extends RedshopController
 
 		if ($return != "")
 		{
-			$link = JRoute::_('index.php?option=' . $option . '&view=' . $return . '&Itemid=' . $Itemid, false);
+			$link = JRoute::_('index.php?option=com_redshop&view=' . $return . '&Itemid=' . $Itemid, false);
 
 			if (!isset($setexit) || $setexit != 0)
 			{
@@ -148,7 +148,7 @@ class RedshopControllerAccount_billto extends RedshopController
 		}
 		else
 		{
-			$link = 'index.php?option=' . $option . '&view=account&Itemid=' . $Itemid;
+			$link = 'index.php?option=com_redshop&view=account&Itemid=' . $Itemid;
 		}
 
 		$this->setRedirect($link, $msg);

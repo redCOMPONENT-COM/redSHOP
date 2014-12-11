@@ -69,7 +69,7 @@ $quotation_item = $quotationHelper->getQuotationProduct($quotation->quotation_id
 <tbody>
 <?php if (!$quotation->quotation_id)
 {
-	$edit_addlink = JRoute::_('index.php?tmpl=component&option=' . $option . '&view=quotation_detail&layout=account');
+	$edit_addlink = JRoute::_('index.php?tmpl=component&option=com_redshop&view=quotation_detail&layout=account');
 	?>
 	<tr>
 		<td align="right">
@@ -292,7 +292,7 @@ $quotation_item = $quotationHelper->getQuotationProduct($quotation->quotation_id
 				$product_total = $quo->product_price * $quo->product_quantity;
 				$product_tax = ($quo->product_price - $quo->product_excl_price) * $quo->product_quantity;
 
-				$delete_itemlink = JRoute::_('index.php?option=' . $option . '&view=quotation_detail&task=deleteitem&cid[]=' . $quotation->quotation_id . '&qitemid=' . $quo->quotation_item_id);
+				$delete_itemlink = JRoute::_('index.php?option=com_redshop&view=quotation_detail&task=deleteitem&cid[]=' . $quotation->quotation_id . '&qitemid=' . $quo->quotation_item_id);
 				?>
 				<tr id="trPrd<?php echo $unq; ?>">
 					<td align="center">

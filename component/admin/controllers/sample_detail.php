@@ -34,7 +34,7 @@ class RedshopControllerSample_detail extends RedshopController
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 
 		$post ['sample_id'] = $cid [0];
-		$link = 'index.php?option=' . $option . '&view=sample';
+		$link = 'index.php?option=com_redshop&view=sample';
 
 		$model = $this->getModel('sample_detail');
 
@@ -69,7 +69,7 @@ class RedshopControllerSample_detail extends RedshopController
 
 		$msg = JText::_('COM_REDSHOP_SAMPLE_DETAIL_DELETED_SUCCESSFULLY');
 
-		$this->setRedirect('index.php?option=' . $option . '&view=sample', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=sample', $msg);
 	}
 
 	public function publish()
@@ -91,7 +91,7 @@ class RedshopControllerSample_detail extends RedshopController
 
 		$msg = JText::_('COM_REDSHOP_SAMPLE_DETAIL_PUBLISHED_SUCCESFULLY');
 
-		$this->setRedirect('index.php?option=' . $option . '&view=sample', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=sample', $msg);
 	}
 
 	public function unpublish()
@@ -113,7 +113,7 @@ class RedshopControllerSample_detail extends RedshopController
 
 		$msg = JText::_('COM_REDSHOP_SAMPLE_DETAIL_UNPUBLISHED_SUCCESFULLY');
 
-		$this->setRedirect('index.php?option=' . $option . '&view=sample', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=sample', $msg);
 	}
 
 	public function cancel()
@@ -121,6 +121,6 @@ class RedshopControllerSample_detail extends RedshopController
 		$option = JRequest::getVar('option');
 		$msg = JText::_('COM_REDSHOP_SAMPLE_DETAIL_EDITING_CANCELLED');
 
-		$this->setRedirect('index.php?option=' . $option . '&view=sample', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=sample', $msg);
 	}
 }

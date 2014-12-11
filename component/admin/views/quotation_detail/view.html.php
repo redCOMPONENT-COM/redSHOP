@@ -23,10 +23,10 @@ class RedshopViewQuotation_detail extends RedshopView
 		$document = JFactory::getDocument();
 		$document->setTitle(JText::_('COM_REDSHOP_QUOTATION'));
 
-		$document->addScript(JURI::base() . 'components/' . $option . '/assets/js/order.js');
-		$document->addScript(JURI::base() . 'components/' . $option . '/assets/js/common.js');
-		$document->addStyleSheet(JURI::base() . 'components/' . $option . '/assets/css/search.css');
-		$document->addScript(JURI::base() . 'components/' . $option . '/assets/js/search.js');
+		$document->addScript(JURI::base() . 'components/com_redshop/assets/js/order.js');
+		$document->addScript(JURI::base() . 'components/com_redshop/assets/js/common.js');
+		$document->addStyleSheet(JURI::base() . 'components/com_redshop/assets/css/search.css');
+		$document->addScript(JURI::base() . 'components/com_redshop/assets/js/search.js');
 		$document->addScript('components/com_redshop/assets/js/json.js');
 
 		$uri = JFactory::getURI();

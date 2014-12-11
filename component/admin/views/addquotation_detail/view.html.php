@@ -31,12 +31,12 @@ class RedshopViewAddquotation_detail extends RedshopView
 		$document->setTitle(JText::_('COM_REDSHOP_QUOTATION_MANAGEMENT'));
 
 		$document->addScript('components/com_redshop/assets/js/json.js');
-		$document->addScript('components/' . $option . '/assets/js/validation.js');
-		$document->addScript('components/' . $option . '/assets/js/order.js');
-		$document->addScript(JURI::base() . 'components/' . $option . '/assets/js/common.js');
-		$document->addScript('components/' . $option . '/assets/js/select_sort.js');
-		$document->addStyleSheet('components/' . $option . '/assets/css/search.css');
-		$document->addScript('components/' . $option . '/assets/js/search.js');
+		$document->addScript('components/com_redshop/assets/js/validation.js');
+		$document->addScript('components/com_redshop/assets/js/order.js');
+		$document->addScript(JURI::base() . 'components/com_redshop/assets/js/common.js');
+		$document->addScript('components/com_redshop/assets/js/select_sort.js');
+		$document->addStyleSheet('components/com_redshop/assets/css/search.css');
+		$document->addScript('components/com_redshop/assets/js/search.js');
 		$session = JFactory::getSession();
 		$uri = JFactory::getURI();
 
