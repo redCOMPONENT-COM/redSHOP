@@ -9,14 +9,13 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.controller');
 JLoader::load('RedshopHelperAdminOrder');
 JLoader::load('RedshopHelperAdminMail');
 JLoader::load('RedshopHelperHelper');
 require_once JPATH_SITE . '/components/com_redshop/helpers/tcpdf/tcpdf.php';
 require_once JPATH_SITE . '/components/com_redshop/helpers/tcpdf/PDFMerger.php';
 
-class RedshopControllerOrder extends JController
+class RedshopControllerOrder extends RedshopController
 {
 	public function multiprint_order()
 	{
@@ -56,7 +55,7 @@ class RedshopControllerOrder extends JController
 	public function cancel()
 	{
 		$option = JRequest::getVar('option');
-		$this->setRedirect('index.php?option=' . $option . '&view=order');
+		$this->setRedirect('index.php?option=com_redshop&view=order');
 	}
 
 	public function update_status()
@@ -85,7 +84,7 @@ class RedshopControllerOrder extends JController
 		$session->set('updateOrderIdPost', $post);
 		$session->set('merge_invoice_arr', $merge_invoice_arr);
 
-		$this->setRedirect('index.php?option=' . $option . '&view=order&layout=previewlog');
+		$this->setRedirect('index.php?option=com_redshop&view=order&layout=previewlog');
 
 		return;
 	}

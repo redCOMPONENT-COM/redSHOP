@@ -22,7 +22,7 @@
     <fields name="request">
         <fieldset name="request"
                       addfieldpath="/administrator/components/com_redshop/elements">
-            <field name="cid" type="category" label="COM_REDSHOP_SELECT_CATEGORY" required="true"
+            <field name="cid" type="redshopcategory" label="COM_REDSHOP_SELECT_CATEGORY" required="true"
                        description="COM_REDSHOP_DISPLAYS_THE_SELECTED_CATEGORY_PRODUCT"/>
         </fieldset>
     </fields>

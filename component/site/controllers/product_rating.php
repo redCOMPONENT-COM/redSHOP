@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-JLoader::import('joomla.application.component.controller');
 
 /**
  * Product rating Controller.
@@ -18,7 +17,7 @@ JLoader::import('joomla.application.component.controller');
  * @subpackage  Controller
  * @since       1.0
  */
-class RedshopControllerProduct_rating extends JController
+class RedshopControllerProduct_rating extends RedshopController
 {
 	/**
 	 * save function
@@ -47,7 +46,7 @@ class RedshopControllerProduct_rating extends JController
 
 		if ($rate == 1)
 		{
-			$link = 'index.php?option=' . $option . '&view=product&pid=' . $product_id . '&cid=' . $category_id . '&Itemid=' . $Itemid;
+			$link = 'index.php?option=com_redshop&view=product&pid=' . $product_id . '&cid=' . $category_id . '&Itemid=' . $Itemid;
 			$this->setRedirect($link, $msg);
 		}
 		else

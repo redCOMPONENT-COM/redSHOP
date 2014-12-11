@@ -59,8 +59,8 @@ $ordering = ($this->lists['order'] == 'ordering');
 			<tr>
 				<th width="5%"><?php echo JText::_('COM_REDSHOP_NUM'); ?></th>
 				<th width="5%" class="title">
-					<input type="checkbox" name="toggle" value=""
-					       onclick="checkAll(<?php echo count($this->question); ?>);"/></th>
+					<?php echo JHtml::_('redshopgrid.checkall'); ?>
+				</th>
 				<th class="title" width="50%">
 					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_ANSWERS', 'question', $this->lists['order_Dir'], $this->lists['order']); ?></th>
 				<th class="title" width="10%">
@@ -85,7 +85,7 @@ $ordering = ($this->lists['order'] == 'ordering');
 			{
 				$row = $this->question[$i];
 				$row->id = $row->question_id;
-				$link = JRoute::_('index.php?option=' . $option . '&view=answer_detail&task=edit&cid[]=' . $row->id);
+				$link = JRoute::_('index.php?option=com_redshop&view=answer_detail&task=edit&cid[]=' . $row->id);
 
 				$product = $producthelper->getProductById($row->product_id);
 
@@ -117,7 +117,13 @@ $ordering = ($this->lists['order'] == 'ordering');
 				<?php    $k = 1 - $k;
 			}    ?>
 			<tr>
-				<td colspan="9"><?php echo $this->pagination->getListFooter(); ?></td>
+				<td colspan="9">
+					<?php if (version_compare(JVERSION, '3.0', '>=')): ?>
+						<div class="redShopLimitBox">
+							<?php echo $this->pagination->getLimitBox(); ?>
+						</div>
+					<?php endif; ?>
+					<?php echo $this->pagination->getListFooter(); ?></td>
 		</table>
 	</div>
 

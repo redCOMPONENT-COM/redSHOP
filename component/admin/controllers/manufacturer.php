@@ -9,9 +9,8 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.controller');
 
-class RedshopControllerManufacturer extends JController
+class RedshopControllerManufacturer extends RedshopController
 {
 	public function cancel()
 	{
@@ -38,7 +37,7 @@ class RedshopControllerManufacturer extends JController
 		$model->saveorder($cid);
 
 		$msg = JText::_('COM_REDSHOP_MANUFACTURER_DETAIL_SAVED');
-		$this->setRedirect('index.php?option=' . $option . '&view=manufacturer', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=manufacturer', $msg);
 	}
 }
 

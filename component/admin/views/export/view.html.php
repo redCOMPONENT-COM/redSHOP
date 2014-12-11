@@ -9,14 +9,13 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
 JLoader::load('RedshopHelperAdminCategory');
 /**
  * Export view class
  *
  * @since  2.5
  */
-class RedshopViewExport extends JView
+class RedshopViewExport extends RedshopView
 {
 	/**
 	 * Method to display export view

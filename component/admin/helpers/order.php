@@ -350,8 +350,7 @@ class order_functions
 		$error = curl_error($ch);
 		curl_close($ch);
 
-		$oXML = JFactory::getXMLParser('Simple');
-		$oXML->loadString($response, false, true);
+		$oXML = JFactory::getXML($response);
 
 		if ($oXML->document->_children[1]->_data == "201" && $oXML->document->_children[2]->_data == "Created")
 		{
@@ -441,8 +440,8 @@ class order_functions
 
 			if ($data->order_payment_status_code == "Paid")
 			{
-				JModel::addIncludePath(JPATH_SITE . '/components/com_redshop/models');
-				$checkoutModelcheckout = JModel::getInstance('Checkout', 'RedshopModel');
+				JModelLegacy::addIncludePath(JPATH_SITE . '/components/com_redshop/models');
+				$checkoutModelcheckout = JModelLegacy::getInstance('Checkout', 'RedshopModel');
 				$checkoutModelcheckout->sendGiftCard($order_id);
 
 				// Send the Order mail
@@ -834,8 +833,8 @@ class order_functions
 					$dispatcher->trigger('exportOrder', array ($xml_order));
 				}
 
-				JModel::addIncludePath(JPATH_SITE . '/components/com_redshop/models');
-				$checkoutModelcheckout = JModel::getInstance('Checkout', 'RedshopModel');
+				JModelLegacy::addIncludePath(JPATH_SITE . '/components/com_redshop/models');
+				$checkoutModelcheckout = JModelLegacy::getInstance('Checkout', 'RedshopModel');
 				$checkoutModelcheckout->sendGiftCard($order_id);
 
 				// Send the Order mail
@@ -933,22 +932,22 @@ class order_functions
 		{
 			if ($option == 'com_redcrm')
 			{
-				$app->Redirect('index.php?option=' . $option . '&view=' . $return . '&cid[]=' . $order_id . '' . $isarchive . '', $msg);
+				$app->Redirect('index.php?option=com_redshop&view=' . $return . '&cid[]=' . $order_id . '' . $isarchive . '', $msg);
 			}
 			else
 			{
-				$app->Redirect('index.php?option=' . $option . '&view=' . $return . '' . $isarchive . '', $msg);
+				$app->Redirect('index.php?option=com_redshop&view=' . $return . '' . $isarchive . '', $msg);
 			}
 		}
 		else
 		{
 			if ($tmpl != "")
 			{
-				$app->Redirect('index.php?option=' . $option . '&view=' . $return . '&cid[]=' . $order_id . '&tmpl=' . $tmpl . '' . $isarchive . '', $msg);
+				$app->Redirect('index.php?option=com_redshop&view=' . $return . '&cid[]=' . $order_id . '&tmpl=' . $tmpl . '' . $isarchive . '', $msg);
 			}
 			else
 			{
-				$app->Redirect('index.php?option=' . $option . '&view=' . $return . '&cid[]=' . $order_id . '' . $isarchive . '', $msg);
+				$app->Redirect('index.php?option=com_redshop&view=' . $return . '&cid[]=' . $order_id . '' . $isarchive . '', $msg);
 			}
 		}
 	}
@@ -1003,8 +1002,8 @@ class order_functions
 
 			if ($paymentstatus == "Paid")
 			{
-				JModel::addIncludePath(JPATH_SITE . '/components/com_redshop/models');
-				$checkoutModelcheckout = JModel::getInstance('Checkout', 'RedhopModel');
+				JModelLegacy::addIncludePath(JPATH_SITE . '/components/com_redshop/models');
+				$checkoutModelcheckout = JModelLegacy::getInstance('Checkout', 'RedhopModel');
 				$checkoutModelcheckout->sendGiftCard($oid[0]);
 
 				// Send the Order mail
@@ -1119,11 +1118,11 @@ class order_functions
 
 		if ($return == 'order')
 		{
-			$link = 'index.php?option=' . $option . '&view=' . $return;
+			$link = 'index.php?option=com_redshop&view=' . $return;
 		}
 		else
 		{
-			$link = 'index.php?option=' . $option . '&view=' . $return . '&cid[]=' . $oid[0];
+			$link = 'index.php?option=com_redshop&view=' . $return . '&cid[]=' . $oid[0];
 		}
 		?>
     <script type="text/javascript">
@@ -1822,7 +1821,7 @@ class order_functions
 
 			if ($mailbody && $useremail != "")
 			{
-				JUtility::sendMail($MailFrom, $FromName, $useremail, $mailsubject, $mailbody, 1, null, $mailbcc);
+				JMail::getInstance()->sendMail($MailFrom, $FromName, $useremail, $mailsubject, $mailbody, 1, null, $mailbcc);
 			}
 		}
 
@@ -2151,7 +2150,7 @@ class order_functions
 
 			$shopLocation = $orderdetail->shop_id;
 
-			if ($details[0] != 'plgredshop_shippingdefault_shipping_GLS')
+			if ($details[0] != 'plgredshop_shippingdefault_shipping_gls')
 			{
 				$shopLocation = '';
 			}
@@ -2171,7 +2170,7 @@ class order_functions
 
 			if ('' != $userdetail->thirdparty_email && $mailbody)
 			{
-				JUtility::sendMail(
+				JMail::getInstance()->sendMail(
 					$MailFrom,
 					$FromName,
 					$userdetail->thirdparty_email,
@@ -2184,7 +2183,7 @@ class order_functions
 
 			if ('' != $userdetail->user_email && $mailbody)
 			{
-				JUtility::sendMail(
+				JMail::getInstance()->sendMail(
 					$MailFrom,
 					$FromName,
 					$userdetail->user_email,

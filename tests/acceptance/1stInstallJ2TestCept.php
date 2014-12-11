@@ -7,7 +7,8 @@
  */
 
 // Before executing this tests configuration.php is removed at tests/_groups/InstallationGroup.php
-$scenario->group('installation');
+$scenario->group('installationJ2');
+$scenario->group('Joomla2');
 
 // Load the Step Object Page
 // Load the Step Object Page
@@ -23,10 +24,8 @@ $I = new AcceptanceTester\LoginSteps($scenario);
 
 $I->wantTo('Login in Joomla Administrator');
 $I->doAdminLogin();
-$I = new AcceptanceTester\InstallExtensionJ2Steps($scenario);
 
-$I->wantTo('Install RedShop 1 extension');
-$I->installExtension('redSHOP 1.x');
-$I->wantTo('Install redSHOP1 demo data');
-$I->installSampleData();
+$I = new AcceptanceTester\GlobalConfigurationJ2ManagerSteps($scenario);
+$I->wantTo('Set Error Reporting Level');
+$I->setErrorReportingLevel();
 

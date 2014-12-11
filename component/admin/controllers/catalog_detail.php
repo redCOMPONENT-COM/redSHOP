@@ -9,9 +9,8 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.controller');
 
-class RedshopControllerCatalog_detail extends JController
+class RedshopControllerCatalog_detail extends RedshopController
 {
 	public function __construct($default = array())
 	{
@@ -35,7 +34,7 @@ class RedshopControllerCatalog_detail extends JController
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 
 		$post ['catalog_id'] = $cid [0];
-		$link = 'index.php?option=' . $option . '&view=catalog';
+		$link = 'index.php?option=com_redshop&view=catalog';
 
 
 		$model = $this->getModel('catalog_detail');
@@ -71,7 +70,7 @@ class RedshopControllerCatalog_detail extends JController
 		}
 
 		$msg = JText::_('COM_REDSHOP_CATALOG_DETAIL_DELETED_SUCCESSFULLY');
-		$this->setRedirect('index.php?option=' . $option . '&view=catalog', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=catalog', $msg);
 
 	}
 
@@ -94,7 +93,7 @@ class RedshopControllerCatalog_detail extends JController
 		}
 
 		$msg = JText::_('COM_REDSHOP_CATALOG_DETAIL_PUBLISHED_SUCCESFULLY');
-		$this->setRedirect('index.php?option=' . $option . '&view=catalog', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=catalog', $msg);
 	}
 
 	public function unpublish()
@@ -117,7 +116,7 @@ class RedshopControllerCatalog_detail extends JController
 		}
 
 		$msg = JText::_('COM_REDSHOP_CATALOG_DETAIL_UNPUBLISHED_SUCCESFULLY');
-		$this->setRedirect('index.php?option=' . $option . '&view=catalog', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=catalog', $msg);
 	}
 
 	public function cancel()
@@ -125,6 +124,6 @@ class RedshopControllerCatalog_detail extends JController
 		$option = JRequest::getVar('option');
 		$msg = JText::_('COM_REDSHOP_CATALOG_DETAIL_EDITING_CANCELLED');
 
-		$this->setRedirect('index.php?option=' . $option . '&view=catalog', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=catalog', $msg);
 	}
 }

@@ -9,9 +9,8 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
 
-class RedshopViewFields extends JView
+class RedshopViewFields extends RedshopView
 {
 	public function display($tpl = null)
 	{
@@ -24,8 +23,8 @@ class RedshopViewFields extends JView
 		$document->setTitle(JText::_('COM_REDSHOP_FIELDS'));
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_FIELDS_MANAGEMENT'), 'redshop_fields48');
-		JToolBarHelper::addNewX();
-		JToolBarHelper::editListX();
+		JToolbarHelper::addNew();
+		JToolbarHelper::EditList();
 		JToolBarHelper::deleteList();
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();

@@ -30,8 +30,8 @@ $addlink = JRoute::_('index.php?option=com_redshop&view=user_detail&task=edit&sh
 		for ($j = 0, $n = count($shipping_data); $j < $n; $j++)
 		{
 			$row = $shipping_data[$j];
-			$link = JRoute::_('index.php?option=' . $option . '&view=user_detail&task=edit&shipping=1&info_id=' . $this->detail->users_info_id . '&cid[]=' . $row->users_info_id);
-			$link_delete = JRoute::_('index.php?option=' . $option . '&view=user_detail&task=remove&shipping=1&info_id=' . $this->detail->users_info_id . '&cid[]=' . $row->users_info_id);    ?>
+			$link = JRoute::_('index.php?option=com_redshop&view=user_detail&task=edit&shipping=1&info_id=' . $this->detail->users_info_id . '&cid[]=' . $row->users_info_id);
+			$link_delete = JRoute::_('index.php?option=com_redshop&view=user_detail&task=remove&shipping=1&info_id=' . $this->detail->users_info_id . '&cid[]=' . $row->users_info_id);    ?>
 			<tr class="<?php echo "row$x"; ?>">
 				<td align="center"><a href="<?php echo $link; ?>"
 				                      title="<?php echo JText::_('COM_REDSHOP_EDIT_USER'); ?>"><?php echo $row->firstname;?></a>

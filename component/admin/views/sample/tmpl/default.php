@@ -35,8 +35,7 @@ $option = JRequest::getVar('option');
 			<thead>
 			<tr>
 				<th width="5%"><?php echo JText::_('COM_REDSHOP_NUM'); ?></th>
-				<th width="5%"><input type="checkbox" name="toggle" value=""
-				                      onclick="checkAll(<?php echo count($this->catalog); ?>);"/></th>
+				<th width="5%"><?php echo JHtml::_('redshopgrid.checkall'); ?></th>
 				<th><?php echo JHTML::_('grid.sort', 'COM_REDSHOP_SAMPLE_NAME', 'sample_name', $this->lists['order_Dir'], $this->lists['order']); ?></th>
 				<th width="5%" nowrap="nowrap">
 					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_PUBLISHED', 'published', $this->lists['order_Dir'], $this->lists['order']); ?>
@@ -52,7 +51,7 @@ $option = JRequest::getVar('option');
 			{
 				$row = $this->catalog[$i];
 				$row->id = $row->sample_id;
-				$link = JRoute::_('index.php?option=' . $option . '&view=sample_detail&task=edit&cid[]=' . $row->sample_id);
+				$link = JRoute::_('index.php?option=com_redshop&view=sample_detail&task=edit&cid[]=' . $row->sample_id);
 
 				$published = JHtml::_('jgrid.published', $row->published, $i, '', 1);?>
 				<tr class="<?php echo "row$k"; ?>">
@@ -65,7 +64,13 @@ $option = JRequest::getVar('option');
 				<?php    $k = 1 - $k;
 			}?>
 			<tfoot>
-			<td colspan="9"><?php echo $this->pagination->getListFooter(); ?></td>
+			<td colspan="9">
+				<?php if (version_compare(JVERSION, '3.0', '>=')): ?>
+					<div class="redShopLimitBox">
+						<?php echo $this->pagination->getLimitBox(); ?>
+					</div>
+				<?php endif; ?>
+				<?php echo $this->pagination->getListFooter(); ?></td>
 			</tfoot>
 		</table>
 	</div>

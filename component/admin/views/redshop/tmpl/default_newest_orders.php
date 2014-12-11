@@ -8,9 +8,8 @@
  */
 defined('_JEXEC') or die;
 $producthelper = new producthelper;
-$option = JRequest::getVar('option');
 ?>
-<form action="<?php echo 'index.php?option=' . $option; ?>" method="post" name="adminForm" id="adminForm">
+<form action="index.php?option=com_redshop" method="post" name="adminForm" id="adminForm">
 	<div id="editcell">
 
 		<table class="adminlist" width="100%">

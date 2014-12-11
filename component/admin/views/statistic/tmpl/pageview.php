@@ -52,7 +52,7 @@ $end = $this->pagination->limit;
 				$secinfo = $model->getSectionDetail($row->section, $row->section_id);
 				if (count($secinfo) > 0)
 				{
-					$link = JRoute::_('index.php?option=' . $option . '&view=' . $row->section . '_detail&task=edit&cid[]=' . $secinfo->id);
+					$link = JRoute::_('index.php?option=com_redshop&view=' . $row->section . '_detail&task=edit&cid[]=' . $secinfo->id);
 					$sectionname = "<a href='" . $link . "'>" . $row->section . " :: " . $secinfo->sname . "</a>";
 				}
 				else
@@ -66,7 +66,13 @@ $end = $this->pagination->limit;
 				</tr>
 			<?php }    ?>
 			<tfoot>
-			<td colspan="3"><?php echo $this->pagination->getListFooter(); ?></td>
+			<td colspan="3">
+				<?php if (version_compare(JVERSION, '3.0', '>=')): ?>
+					<div class="redShopLimitBox">
+						<?php echo $this->pagination->getLimitBox(); ?>
+					</div>
+				<?php endif; ?>
+				<?php echo $this->pagination->getListFooter(); ?></td>
 			</tfoot>
 		</table>
 	</div>

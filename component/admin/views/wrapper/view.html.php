@@ -9,10 +9,9 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
 jimport('joomla.html.pagination');
 
-class RedshopViewWrapper extends JView
+class RedshopViewWrapper extends RedshopView
 {
 	/**
 	 * The current user.
@@ -43,7 +42,7 @@ class RedshopViewWrapper extends JView
 		$pagination = $this->get('Pagination');
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_WRAPPER'), 'redshop_wrapper48');
-		JToolBarHelper::addNewX();
+		JToolbarHelper::addNew();
 		JToolBarHelper::deleteList();
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();

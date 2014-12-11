@@ -9,9 +9,8 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
 
-class RedshopViewState extends JView
+class RedshopViewState extends RedshopView
 {
 	public function display($tpl = null)
 	{
@@ -29,8 +28,8 @@ class RedshopViewState extends JView
 		$document->setTitle(JText::_('COM_REDSHOP_STATE'));
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_STATE_MANAGEMENT'), 'redshop_region_48');
-		JToolbarHelper::addNewX();
-		JToolbarHelper::EditListX();
+		JToolbarHelper::addNew();
+		JToolbarHelper::EditList();
 		JToolbarHelper::deleteList();
 
 		$filter_order     = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'state_id');

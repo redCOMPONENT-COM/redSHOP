@@ -1,0 +1,459 @@
+/* -- PANE SLIDER STYLES ----------------------------- */
+.pane-sliders {
+	margin: 18px 0 0 0;
+	position: relative;
+}
+
+.pane-sliders .title {
+	margin: 0;
+	padding: 2px 2px 2px 5px;
+	color: #666;
+	cursor: pointer;
+}
+
+#content-pane {
+	margin: 8px 10px 15px 15px;
+}
+
+.pane-sliders .panel {
+	margin-bottom: 3px;
+	border: solid 1px #ccc;
+}
+
+.pane-sliders .panel h3 {
+	background: #fafafa;
+	color: #666;
+	font-size: 1.182em;
+}
+
+.pane-sliders .content {
+	background: #fff;
+}
+
+.pane-sliders .adminlist {
+	border: 0 none;
+	font-size: 1em;
+}
+
+.pane-sliders .adminlist td {
+	border: 0 none;
+}
+
+.pane-toggler span {
+	background: transparent url(../images/j3ready/j_arrow.png) 5px 50% no-repeat;
+	padding-left: 20px;
+}
+
+.pane-toggler-down span {
+	background: transparent url(../images/j3ready/j_arrow_down.png) 5px 50% no-repeat;
+	padding-left: 20px;
+}
+
+.pane-toggler-down {
+	border-bottom: 1px solid #ccc;
+}
+
+h3.pane-toggler-down a:hover,
+h3.pane-toggler a:hover {
+	text-decoration: none;
+}
+
+.pane-slider.pane-hide {
+	display: none;
+}
+
+.pane-slider ol li {
+	list-style: none;
+	margin-left: -25px;
+	margin-top: 10px;
+}
+
+input#jformparams_link_titles1,
+input#jformparams_show_title1,
+input#jformparams_link_category1 {
+	margin-left: 13px;
+}
+
+div#position-icon.pane-sliders div.pane-down div.icon-wrapper {
+	margin: 5px 0 5px 0;
+}
+
+div#position-icon.pane-sliders div.pane-down .icon-wrapper .icon {
+	padding: 5px 0 5px 10px;
+	margin: 0;
+}
+
+div#position-icon.pane-sliders .icon {
+	background: #fff;
+}
+
+.pane-sliders table.adminlist td {
+	padding-left: 8px;
+}
+
+/* -- TAB STYLES ----------------------------- */
+dl.tabs {
+	float: left;
+	margin: 10px 0 -1px 0;
+	z-index: 50;
+}
+
+dl.tabs dt {
+	float: left;
+	padding: 4px 10px;
+	border: 1px solid #ccc;
+	margin-left: 3px;
+	background: #e9e9e9;
+	color: #666;
+}
+
+dl.tabs dt.open {
+	background: #F9F9F9;
+	border-bottom: 1px solid #f9f9f9;
+	z-index: 100;
+	color: #000;
+}
+
+div.current {
+	clear: both;
+	border: 1px solid #ccc;
+	padding: 10px 10px;
+}
+
+div.current dd {
+	padding: 0;
+	margin: 0;
+}
+
+dl#content-pane.tabs {
+	margin: 1px 0 0 0;
+}
+
+div.current label,
+div.current span.faux-label {
+	display: block;
+	min-width: 150px;
+	float: left;
+	clear: left;
+	margin-top: 8px;
+}
+
+div.current fieldset {
+	border: none 0;
+}
+
+div.current fieldset.adminform {
+	border: 1px #ccc solid;
+}
+
+div.current fieldset.radio {
+	float: left;
+}
+
+div.current fieldset.radio input {
+	clear: none;
+	min-width: 15px;
+	float: left;
+	margin: 3px 0 0 2px;
+}
+
+div.current fieldset.radio label {
+	clear: none;
+	min-width: 45px;
+	float: left;
+	margin: 3px 0 0 5px;
+}
+
+div.current fieldset.checkboxes {
+	float: left;
+	clear: right;
+}
+
+div.current fieldset.checkboxes input {
+	clear: left;
+	min-width: 15px;
+	float: left;
+	margin: 3px 0 0 2px;
+}
+
+div.current fieldset.checkboxes label {
+	clear: right;
+	min-width: 45px;
+	margin: 3px 0 0 5px;
+}
+
+div.current input,
+div.current textarea,
+div.current select {
+	clear: none;
+	float: left;
+	margin: 3px 0 0 2px;
+}
+
+div.current select {
+	margin-bottom: 15px;
+}
+
+p.tab-description {
+	font-size: 1.091em;
+	margin-left: 0;
+	margin-top: 5px;
+}
+
+dl.tabs dt h3 {
+	font-size: 1em;
+	font-weight: normal;
+	margin: 0;
+	padding: 0;
+}
+
+/* -- CONTROL PANEL STYLES ----------------------------- */
+.cpanel div.icon, #cpanel div.icon {
+	text-align: center;
+	margin-right: 15px;
+	float: left;
+	margin-bottom: 15px;
+
+}
+
+.cpanel div.icon a, #cpanel div.icon a {
+	background-color: #fff;
+	background-position: -30px;
+	display: block;
+	float: left;
+	height: 97px;
+	width: 108px;
+	color: #565656;
+	vertical-align: middle;
+	text-decoration: none;
+	border: 1px solid #CCC;
+
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+	-webkit-transition-property: background-position,
+	-webkit-border-bottom-left-radius,
+	-webkit-box-shadow;
+	-moz-transition-property: background-position,
+	-moz-border-radius-bottomleft,
+	-moz-box-shadow;
+	-webkit-transition-duration: 0.8s;
+	-moz-transition-duration: 0.8s;
+}
+
+#cpanel div.icon a:hover,
+#cpanel div.icon a:focus,
+#cpanel div.icon a:active,
+.cpanel div.icon a:hover,
+.cpanel div.icon a:focus,
+.cpanel div.icon a:active {
+	background-position: 0;
+	-webkit-border-bottom-left-radius: 50% 20px;
+	-moz-border-radius-bottomleft: 50% 20px;
+	border-bottom-left-radius: 50% 20px;
+	-webkit-box-shadow: -5px 10px 15px rgba(0, 0, 0, 0.25);
+	-moz-box-shadow: -5px 10px 15px rgba(0, 0, 0, 0.25);
+	box-shadow: -5px 10px 15px rgba(0, 0, 0, 0.25);
+	position: relative;
+	z-index: 10;
+}
+
+#cpanel img,
+.cpanel img {
+	padding: 9px 0;
+	margin: 0 auto;
+}
+
+#cpanel span,
+.cpanel span {
+	display: block;
+	text-align: center;
+	line-height: 13px;
+}
+
+div.cpanel-left {
+	width: 54%;
+	float: left;
+}
+
+div.cpanel-right {
+	width: 45%;
+	float: right;
+}
+
+/* -- BUTTON STYLES ----------------------------- */
+
+/* Pagination on backend */
+.button1,
+.button1 div {
+	height: 1%;
+	float: right;
+}
+
+.button2-left,
+.button2-right,
+.button2-left div,
+.button2-right div {
+	float: left;
+}
+
+.button1 {
+	background: url(../images/j3ready/j_button1_left.png) no-repeat;
+	white-space: nowrap;
+	padding-left: 10px;
+	margin-left: 5px;
+}
+
+.button1 .next {
+	background: url(../images/j3ready/j_button1_next.png) 100% 0 no-repeat;
+}
+
+.button1 a {
+	display: block;
+	height: 26px;
+	float: left;
+	line-height: 26px;
+	font-size: 1.091em;
+	font-weight: bold;
+	color: #333;
+	cursor: pointer;
+	padding: 0 35px 0 6px;
+}
+
+.button1 a:hover {
+	text-decoration: none;
+	color: #0B55C4;
+}
+
+.button2-left a,
+.button2-right a,
+.button2-left button,
+.button2-right button,
+.button2-left span,
+.button2-right span {
+	display: block;
+	height: 22px;
+	float: left;
+	line-height: 22px;
+	font-size: 1em;
+	color: #333;
+	cursor: pointer;
+}
+
+.button2-left span, .button2-right span {
+	cursor: default;
+	color: #999;
+}
+
+.button2-left .page a,
+.button2-right .page a,
+.button2-left .page span,
+.button2-right .page span,
+.button2-left .blank a,
+.button2-right .blank a,
+.button2-left .blank span,
+.button2-right .blank span,
+.button2-left .blank button,
+.button2-right .blank button {
+	padding: 0 6px;
+}
+
+.page span, .blank span {
+	color: #000;
+	font-weight: bold;
+}
+
+.button2-left a:hover,
+.button2-right a:hover,
+.button2-left button:hover,
+.button2-left button:hover {
+	text-decoration: none;
+	color: #0B55C4;
+}
+
+.button2-left a,
+.button2-left span,
+.button2-left button {
+	padding: 0 24px 0 6px;
+}
+
+.button2-right a,
+.button2-right span,
+.button2-right button {
+	padding: 0 6px 0 24px;
+}
+
+.button2-left {
+	background: url(../images/j3ready/j_button2_left.png) no-repeat;
+	float: left;
+	margin-right: 10px;
+}
+
+.button2-right {
+	background: url(../images/j3ready/j_button2_right.png) 100% 0 no-repeat;
+	float: left;
+	margin-left: 5px;
+	margin-right: 10px;
+}
+
+.button2-right .prev {
+	background: url(../images/j3ready/j_button2_prev.png) no-repeat;
+}
+
+.button2-right.off .prev {
+	background: url(../images/j3ready/j_button2_prev_off.png) no-repeat;
+}
+
+.button2-right .start {
+	background: url(../images/j3ready/j_button2_first.png) no-repeat;
+}
+
+.button2-right.off .start {
+	background: url(../images/j3ready/j_button2_first_off.png) no-repeat;
+}
+
+.button2-left .page,
+.button2-left .blank {
+	background: url(../images/j3ready/j_button2_right_cap.png) 100% 0 no-repeat;
+}
+
+.button2-left .next {
+	background: url(../images/j3ready/j_button2_next.png) 100% 0 no-repeat;
+}
+
+.button2-left.off .next {
+	background: url(../images/j3ready/j_button2_next_off.png) 100% 0 no-repeat;
+}
+
+.button2-left .end {
+	background: url(../images/j3ready/j_button2_last.png) 100% 0 no-repeat;
+}
+
+.button2-left.off .end {
+	background: url(../images/j3ready/j_button2_last_off.png) 100% 0 no-repeat;
+}
+
+.button2-left .image {
+	background: url(../images/j3ready/j_button2_image.png) 100% 0 no-repeat;
+}
+
+.button2-left .readmore {
+	background: url(../images/j3ready/j_button2_readmore.png) 100% 0 no-repeat;
+}
+
+.button2-left .pagebreak {
+	background: url(../images/j3ready/j_button2_pagebreak.png) 100% 0 no-repeat;
+}
+
+.button2-left .blank {
+	background: url(../images/j3ready/j_button2_blank.png) 100% 0 no-repeat;
+}
+
+.button2-left .article {
+	background: url(../images/j3ready/j_button2_readmore.png) 100% 0 no-repeat;
+}
+
+.redShopLimitBox {
+	float: left;
+	margin: 0 10px 0 0;
+}

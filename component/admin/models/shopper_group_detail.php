@@ -8,7 +8,6 @@
  */
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
 
 JLoader::load('RedshopHelperAdminThumbnail');
 JLoader::load('RedshopHelperAdminImages');
@@ -16,7 +15,7 @@ jimport('joomla.client.helper');
 JClientHelper::setCredentialsFromRequest('ftp');
 jimport('joomla.filesystem.file');
 
-class RedshopModelShopper_group_detail extends JModel
+class RedshopModelShopper_group_detail extends RedshopModel
 {
 	public $_id = null;
 
