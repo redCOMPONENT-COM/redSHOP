@@ -11,7 +11,7 @@ defined('_JEXEC') or die;
 $model = $this->getmodel('stockroom_listing');
 $option = JRequest::getVar('option', '', 'request', 'string');
 $showbuttons = JRequest::getVar('showbuttons', '0');
-$print_link = JRoute::_('index.php?tmpl=component&option=' . $option . '&view=stockroom_listing&id=0&showbuttons=1');
+$print_link = JRoute::_('index.php?tmpl=component&option=com_redshop&view=stockroom_listing&id=0&showbuttons=1');
 $stockroom_type = $this->stockroom_type;
 
 if ($showbuttons == 1)
@@ -120,7 +120,7 @@ if ($showbuttons == 1)
 				$quntotal[$i] = array(0);
 				$preorder_stocktotal[$i] = array(0);
 				$row = $this->resultlisting [$i];
-				$link1 = JRoute::_('index.php?option=' . $option . '&view=product_detail&task=edit&cid[]=' . $row->product_id);    ?>
+				$link1 = JRoute::_('index.php?option=com_redshop&view=product_detail&task=edit&cid[]=' . $row->product_id);    ?>
 				<tr class="<?php echo "row$k"; ?>">
 					<td><?php echo $this->pagination->getRowOffset($i); ?></td>
 					<td><a href="<?php echo $link1; ?>"><?php echo $row->product_number; ?></a></td>

@@ -154,14 +154,14 @@ class RedshopControllerMedia extends RedshopController
 		}
 		elseif (isset($post['set']) && $post['media_section'] == 'manufacturer')
 		{
-			$link = 'index.php?option=' . $option . '&view=manufacturer';    ?>
+			$link = 'index.php?option=com_redshop&view=manufacturer';    ?>
 			<script language="javascript" type="text/javascript">
 				window.parent.document.location = '<?php echo $link; ?>';
 			</script><?php
 		}
 		else
 		{
-			$this->setRedirect('index.php?option=' . $option . '&view=media', $msg);
+			$this->setRedirect('index.php?option=com_redshop&view=media', $msg);
 		}
 	}
 }

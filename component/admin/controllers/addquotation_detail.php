@@ -71,7 +71,7 @@ class RedshopControllerAddquotation_detail extends RedshopController
 
 			if (count($user) <= 0)
 			{
-				$this->setRedirect('index.php?option=' . $option . '&view=quotaion_detail&user_id=' . $user_id);
+				$this->setRedirect('index.php?option=com_redshop&view=quotaion_detail&user_id=' . $user_id);
 			}
 		}
 
@@ -99,7 +99,7 @@ class RedshopControllerAddquotation_detail extends RedshopController
 			$msg = JText::_('COM_REDSHOP_ERROR_SAVING_QUOTATION_DETAIL');
 		}
 
-		$this->setRedirect('index.php?option=' . $option . '&view=quotation', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=quotation', $msg);
 	}
 
 	public function send()
@@ -111,7 +111,7 @@ class RedshopControllerAddquotation_detail extends RedshopController
 	{
 		$option = JRequest::getVar('option', '', 'request', 'string');
 		$msg = JText::_('COM_REDSHOP_QUOTATION_DETAIL_EDITING_CANCELLED');
-		$this->setRedirect('index.php?option=' . $option . '&view=quotation', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=quotation', $msg);
 	}
 
 	public function displayOfflineSubProperty()

@@ -60,7 +60,7 @@ class RedshopControllerCoupon_detail extends RedshopController
 			if ($model->checkduplicate($post['coupon_code']))
 			{
 				$msg = JText::_('COM_REDSHOP_CODE_IS_ALREADY_IN_USE');
-				$app->Redirect('index.php?option=' . $option . '&view=coupon_detail&task=edit&cid=' . $post ['coupon_id'], $msg);
+				$app->Redirect('index.php?option=com_redshop&view=coupon_detail&task=edit&cid=' . $post ['coupon_id'], $msg);
 			}
 		}
 
@@ -73,7 +73,7 @@ class RedshopControllerCoupon_detail extends RedshopController
 			$msg = JText::_('COM_REDSHOP_ERROR_SAVING_COUPON_DETAIL');
 		}
 
-		$this->setRedirect('index.php?option=' . $option . '&view=coupon', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=coupon', $msg);
 	}
 
 	public function remove()
@@ -95,7 +95,7 @@ class RedshopControllerCoupon_detail extends RedshopController
 		}
 
 		$msg = JText::_('COM_REDSHOP_COUPON_DETAIL_DELETED_SUCCESSFULLY');
-		$this->setRedirect('index.php?option=' . $option . '&view=coupon', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=coupon', $msg);
 	}
 
 	public function publish()
@@ -117,7 +117,7 @@ class RedshopControllerCoupon_detail extends RedshopController
 		}
 
 		$msg = JText::_('COM_REDSHOP_COUPON_DETAIL_PUBLISHED_SUCCESFULLY');
-		$this->setRedirect('index.php?option=' . $option . '&view=coupon', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=coupon', $msg);
 	}
 
 	public function unpublish()
@@ -139,13 +139,13 @@ class RedshopControllerCoupon_detail extends RedshopController
 		}
 
 		$msg = JText::_('COM_REDSHOP_COUPON_DETAIL_UNPUBLISHED_SUCCESFULLY');
-		$this->setRedirect('index.php?option=' . $option . '&view=coupon', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=coupon', $msg);
 	}
 
 	public function cancel()
 	{
 		$option = JRequest::getVar('option');
 		$msg = JText::_('COM_REDSHOP_COUPON_DETAIL_EDITING_CANCELLED');
-		$this->setRedirect('index.php?option=' . $option . '&view=coupon', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=coupon', $msg);
 	}
 }

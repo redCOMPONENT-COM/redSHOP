@@ -10502,7 +10502,7 @@ class producthelper
 
 						if (count($manufacturer) > 0)
 						{
-							$man_url               = JRoute::_('index.php?option=' . $option . '&view=manufacturers&layout=products&mid=' . $related_product[$r]->manufacturer_id . '&Itemid=' . $pItemid);
+							$man_url               = JRoute::_('index.php?option=com_redshop&view=manufacturers&layout=products&mid=' . $related_product[$r]->manufacturer_id . '&Itemid=' . $pItemid);
 							$manufacturerLink      = "<a href='" . $man_url . "'>" . JText::_("COM_REDSHOP_VIEW_ALL_MANUFACTURER_PRODUCTS") . "</a>";
 							$related_template_data = str_replace("{manufacturer_name}", $manufacturer->manufacturer_name, $related_template_data);
 							$related_template_data = str_replace("{manufacturer_link}", $manufacturerLink, $related_template_data);
@@ -10514,7 +10514,7 @@ class producthelper
 						}
 					}
 
-					$relmorelink           = JRoute::_('index.php?option=' . $option . '&view=product&pid='
+					$relmorelink           = JRoute::_('index.php?option=com_redshop&view=product&pid='
 						. $related_product [$r]->product_id . '&cid=' . $related_product[$r]->cat_in_sefurl . '&Itemid='
 						. $pItemid);
 					$rmore                 = "<a href='" . $relmorelink . "' title='" . $related_product [$r]->product_name

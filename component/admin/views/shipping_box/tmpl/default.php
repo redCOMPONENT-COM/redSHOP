@@ -74,7 +74,7 @@ $producthelper = new producthelper;
 			{
 				$row = $this->shipping_box[$i];
 				$row->id = $row->shipping_box_id;
-				$link = JRoute::_('index.php?option=' . $option . '&view=shipping_box_detail&task=edit&cid[]=' . $row->shipping_box_id);
+				$link = JRoute::_('index.php?option=com_redshop&view=shipping_box_detail&task=edit&cid[]=' . $row->shipping_box_id);
 
 				$published = JHtml::_('jgrid.published', $row->published, $i, '', 1);
 

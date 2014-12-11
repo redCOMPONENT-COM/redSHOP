@@ -71,7 +71,7 @@ $tax_group_id = JRequest::getVar('tax_group_id', '', 'request', 'string');
 
 				$row->id = $row->tax_rate_id;
 
-				$link = JRoute::_('index.php?option=' . $option . '&view=tax_detail&task=edit&cid[]=' . $row->tax_rate_id);
+				$link = JRoute::_('index.php?option=com_redshop&view=tax_detail&task=edit&cid[]=' . $row->tax_rate_id);
 
 
 				?>

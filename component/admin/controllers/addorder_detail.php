@@ -96,7 +96,7 @@ class RedshopControllerAddorder_detail extends RedshopController
 			if (count($orderItem) <= 0)
 			{
 				$msg = JText::_('PRODUCT_OUT_OF_STOCK');
-				$this->setRedirect('index.php?option=' . $option . '&view=addorder_detail&user_id=' . $post['user_id']
+				$this->setRedirect('index.php?option=com_redshop&view=addorder_detail&user_id=' . $post['user_id']
 						. '&shipping_users_info_id=' . $post['shipp_users_info_id'], $msg
 				);
 
@@ -220,7 +220,7 @@ class RedshopControllerAddorder_detail extends RedshopController
 		}
 		else
 		{
-			$this->setRedirect('index.php?option=' . $option . '&view=order', $msg . $stocknote);
+			$this->setRedirect('index.php?option=com_redshop&view=order', $msg . $stocknote);
 		}
 	}
 
@@ -228,7 +228,7 @@ class RedshopControllerAddorder_detail extends RedshopController
 	{
 		$option = JRequest::getVar('option', '', 'request', 'string');
 		$msg = JText::_('COM_REDSHOP_ORDER_DETAIL_EDITING_CANCELLED');
-		$this->setRedirect('index.php?option=' . $option . '&view=order', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=order', $msg);
 	}
 
 	public function guestuser()
@@ -248,7 +248,7 @@ class RedshopControllerAddorder_detail extends RedshopController
 			$ret = '';
 			$user_id = $row->user_id;
 			$shipping_users_info_id = $row->users_info_id;
-			$this->setRedirect('index.php?option=' . $option . '&view=addorder_detail&user_id=' . $user_id .
+			$this->setRedirect('index.php?option=com_redshop&view=addorder_detail&user_id=' . $user_id .
 					'&shipping_users_info_id=' .
 					$shipping_users_info_id . $ret
 			);

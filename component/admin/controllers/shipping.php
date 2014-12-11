@@ -75,6 +75,6 @@ class RedshopControllerShipping extends RedshopController
 		$model->saveorder($cid);
 
 		$msg = JText::_('COM_REDSHOP_SHIPPING_SAVED');
-		$this->setRedirect('index.php?option=' . $option . '&view=shipping', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=shipping', $msg);
 	}
 }

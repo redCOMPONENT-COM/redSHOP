@@ -1404,7 +1404,7 @@ class redshopMail
 
 		if ($email != "")
 		{
-			$bcc = null;
+			$bcc = array();
 
 			if (trim(ADMINISTRATOR_EMAIL) != '')
 			{
@@ -1460,7 +1460,7 @@ class redshopMail
 
 			$list      = $this->_db->loadObject();
 
-			$link      = '<a href="' . $url . 'index.php?option=' . $option . '&view=newsletter&sid=' . $subscription_id . '">' .
+			$link      = '<a href="' . $url . 'index.php?option=com_redshop&view=newsletter&sid=' . $subscription_id . '">' .
 				JText::_('COM_REDSHOP_CLICK_HERE') . '</a>';
 
 			$search[]  = "{shopname}";
@@ -1594,7 +1594,7 @@ class redshopMail
 
 			$product     = $producthelper->getProductById($product_id);
 
-			$link        = JRoute::_($url . "index.php?option=" . $option . "&view=product&pid=" . $product_id);
+			$link        = JRoute::_($url . "index.php?option=com_redshop&view=product&pid=" . $product_id);
 
 			$data_add    = str_replace("{product_name}", $product->product_name, $data_add);
 			$data_add    = str_replace("{product_desc}", $product->product_desc, $data_add);
