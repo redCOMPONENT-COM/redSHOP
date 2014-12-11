@@ -380,16 +380,11 @@ class Com_RedshopInstallerScript
 						     align="left">
 					</td>
 					<td valign="top">
-						<strong>redSHOP</strong><br/>
-						<font class="small">by <a href="http://www.redcomponent.com"
-						                          target="_blank">redcomponent.com </a><br/></font>
-						<font class="small">
-							Released under the terms and conditions of the <a
-								href="http://www.gnu.org/licenses/gpl-2.0.html" target="_blank">GNU General Public
-								License</a>.
-						</font>
+						<strong><?php echo JText::_('COM_REDSHOP_COMPONENT_NAME'); ?></strong><br/>
+						<font class="small"><?php echo JText::_('COM_REDSHOP_BY_LINK'); ?><br/></font>
+						<font class="small"><?php echo JText::_('COM_REDSHOP_TERMS_AND_CONDITION'); ?></font>
 
-						<p>Remember to check for updates on:
+						<p><?php echo JText::_('COM_REDSHOP_CHECK_UPDATES'); ?>:
 							<a href="http://redcomponent.com/" target="_new"><img
 									src="http://images.redcomponent.com/redcomponent.jpg" alt=""></a>
 						</p>
