@@ -81,7 +81,7 @@ $eName = preg_replace('#[^A-Z0-9\-\_\[\]]#i', '', $eName);
 			{
 				$row = $this->products[$i];
 				$row->id = $row->product_id;
-				$link = JRoute::_('index.php?option=' . $option . '&view=product_detail&task=edit&cid[]=' . $row->product_id);
+				$link = JRoute::_('index.php?option=com_redshop&view=product_detail&task=edit&cid[]=' . $row->product_id);
 
 				$published = JHtml::_('jgrid.published', $row->published, $i, '', 1);
 
@@ -108,6 +108,11 @@ $eName = preg_replace('#[^A-Z0-9\-\_\[\]]#i', '', $eName);
 
 			<tfoot>
 			<td colspan="6">
+				<?php if (version_compare(JVERSION, '3.0', '>=')): ?>
+					<div class="redShopLimitBox">
+						<?php echo $this->pagination->getLimitBox(); ?>
+					</div>
+				<?php endif; ?>
 				<?php echo $this->pagination->getListFooter(); ?>
 			</td>
 			</tfoot>

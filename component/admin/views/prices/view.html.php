@@ -9,9 +9,8 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
 
-class RedshopViewPrices extends JView
+class RedshopViewPrices extends RedshopView
 {
 	public function display($tpl = null)
 	{
@@ -25,8 +24,8 @@ class RedshopViewPrices extends JView
 		jimport('joomla.html.pagination');
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_PRODUCT_PRICE'), 'redshop_vatrates48');
-		JToolBarHelper::addNewX();
-		JToolBarHelper::editListX();
+		JToolbarHelper::addNew();
+		JToolbarHelper::EditList();
 		JToolBarHelper::deleteList();
 
 		$limitstart        = $app->getUserStateFromRequest($context . 'limitstart', 'limitstart', '0');

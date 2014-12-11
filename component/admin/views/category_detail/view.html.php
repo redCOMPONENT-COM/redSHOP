@@ -15,7 +15,7 @@ JLoader::load('RedshopHelperAdminExtra_field');
 JLoader::load('RedshopHelperAdminCategory');
 JLoader::load('RedshopHelperProduct');
 
-class RedshopViewCategory_detail extends JView
+class RedshopViewCategory_detail extends RedshopView
 {
 	/**
 	 * The request url.
@@ -36,12 +36,11 @@ class RedshopViewCategory_detail extends JView
 		$model      = $this->getModel('category_detail');
 		$categories = $model->getcategories();
 
-		JToolBarHelper::title(JText::_('COM_REDSHOP_CATEGORY_MANAGEMENT_DETAIL'), 'redshop_categories48');
 		$document = JFactory::getDocument();
-		$document->addScript('components/' . $option . '/assets/js/validation.js');
-		$document->addScript('components/' . $option . '/assets/js/fields.js');
-		$document->addScript('components/' . $option . '/assets/js/select_sort.js');
-		$document->addScript('components/' . $option . '/assets/js/json.js');
+		$document->addScript('components/com_redshop/assets/js/validation.js');
+		$document->addScript('components/com_redshop/assets/js/fields.js');
+		$document->addScript('components/com_redshop/assets/js/select_sort.js');
+		JHtml::script('com_redshop/json.js', false, true);
 		$document->addStyleSheet('components/com_redshop/assets/css/search.css');
 		$document->addScript('components/com_redshop/assets/js/search.js');
 		$document->addScript('components/com_redshop/assets/js/related.js');
@@ -56,7 +55,7 @@ class RedshopViewCategory_detail extends JView
 		}
 
 		$text = $isNew ? JText::_('COM_REDSHOP_NEW') : $detail->category_name . " - " . JText::_('COM_REDSHOP_EDIT');
-		JToolBarHelper::title(JText::_('COM_REDSHOP_CATEGORY') . ': <small><small>[ ' . $text . ' ]</small></small>', 'redshop_categories48');
+		JToolBarHelper::title(JText::_('COM_REDSHOP_CATEGORY') . ': <small><small>[ ' . $text . ' ]</small></small>', 'folder redshop_categories48');
 		JToolBarHelper::apply();
 		JToolBarHelper::save();
 		JToolBarHelper::save2new();

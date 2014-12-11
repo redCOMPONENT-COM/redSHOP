@@ -48,15 +48,20 @@ class plgContentredshop_product extends JPlugin
 				$currency_convert = $CurrencyHelper->convert(1);
 			}
 
-					$document = JFactory::getDocument();
-			JHTML::Script('jquery.js', 'components/com_redshop/assets/js/', false);
-			JHTML::Script('redbox.js', 'components/com_redshop/assets/js/', false);
-			JHTML::Script('attribute.js', 'components/com_redshop/assets/js/', false);
-			JHTML::Script('common.js', 'components/com_redshop/assets/js/', false);
-			JHTML::Stylesheet('redshop.css', 'components/com_redshop/assets/css/');
-			JHTML::Stylesheet('fetchscript.css', 'components/com_redshop/assets/css/');
-			JHTML::Stylesheet('style.css', 'components/com_redshop/assets/css/');
-			JHTML::Stylesheet('scrollable-navig.css', 'components/com_redshop/assets/css/');
+			$document = JFactory::getDocument();
+
+			if (version_compare(JVERSION, '3.0', '<'))
+			{
+				JHtml::script('com_redshop/jquery.js', false, true);
+			}
+
+			JHtml::script('com_redshop/redbox.js', false, true);
+			JHtml::script('com_redshop/attribute.js', false, true);
+			JHtml::script('com_redshop/common.js', false, true);
+			JHtml::stylesheet('com_redshop/redshop.css', array(), true);
+			JHtml::stylesheet('com_redshop/fetchscript.css', array(), true);
+			JHtml::stylesheet('com_redshop/style.css', array(), true);
+			JHtml::stylesheet('com_redshop/scrollable-navig.css', array(), true);
 			$document->addScriptDeclaration("
 		                var site_url = '" . JURI::root() . "';
 		                var AJAX_CART_BOX = " . AJAX_CART_BOX . ";

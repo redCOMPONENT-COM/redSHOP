@@ -49,8 +49,7 @@ if ($this->shipper_location)
 					<?php echo JText::_('COM_REDSHOP_NUM'); ?>
 				</th>
 				<th width="5%">
-					<input type="checkbox" name="toggle" value=""
-					       onclick="checkAll(<?php echo count($this->shipping_rates); ?>);"/>
+					<?php echo JHtml::_('redshopgrid.checkall'); ?>
 				</th>
 				<th class="title">
 					<?php echo JHTML::_('grid.sort', $shippname, 'shipping_rate_name ', $this->lists['order_Dir'], $this->lists['order']); ?>
@@ -72,7 +71,7 @@ if ($this->shipper_location)
 			{
 				$row = $this->shipping_rates[$i];
 //	$row->id = $row->shipping_rate_id;
-				$link = JRoute::_('index.php?option=' . $option . '&view=shipping_rate_detail&task=edit&cid[]=' . $row->shipping_rate_id . '&id=' . $this->shipping->id);    ?>
+				$link = JRoute::_('index.php?option=com_redshop&view=shipping_rate_detail&task=edit&cid[]=' . $row->shipping_rate_id . '&id=' . $this->shipping->id);    ?>
 				<tr class="<?php echo "row$k"; ?>">
 					<td align="center"><?php echo $this->pagination->getRowOffset($i); ?></td>
 					<td align="center"><?php echo JHTML::_('grid.id', $i, $row->shipping_rate_id); ?></td>
@@ -88,7 +87,13 @@ if ($this->shipper_location)
 				<?php    $k = 1 - $k;
 			}    ?>
 			<tfoot>
-			<td colspan="5"><?php  echo $this->pagination->getListFooter(); ?></td>
+			<td colspan="5">
+				<?php if (version_compare(JVERSION, '3.0', '>=')): ?>
+					<div class="redShopLimitBox">
+						<?php echo $this->pagination->getLimitBox(); ?>
+					</div>
+				<?php endif; ?>
+				<?php  echo $this->pagination->getListFooter(); ?></td>
 			</tfoot>
 		</table>
 	</div>

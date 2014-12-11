@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-JLoader::import('joomla.application.component.model');
 JLoader::import('joomla.html.pagination');
 
 /**
@@ -19,7 +18,7 @@ JLoader::import('joomla.html.pagination');
  * @subpackage  Model
  * @since       1.0
  */
-class RedshopModelManufacturers extends JModel
+class RedshopModelManufacturers extends RedshopModel
 {
 	public $_id = null;
 
@@ -41,7 +40,7 @@ class RedshopModelManufacturers extends JModel
 
 		$app = JFactory::getApplication();
 
-		// @ToDo In fearure, when class Manufacturers extends JModelList, replace filter_fields in constructor
+		// @ToDo In fearure, when class Manufacturers extends RedshopModelList, replace filter_fields in constructor
 		$this->filter_fields_products = array(
 			'p.product_name ASC', 'product_name ASC',
 			'p.product_price ASC', 'product_price ASC',

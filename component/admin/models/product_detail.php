@@ -8,7 +8,6 @@
  */
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
 JLoader::load('RedshopHelperAdminThumbnail');
 jimport('joomla.client.helper');
 JClientHelper::setCredentialsFromRequest('ftp');
@@ -27,7 +26,7 @@ JLoader::load('RedshopHelperAdminImages');
  *
  * @since       1.0
  */
-class RedshopModelProduct_Detail extends JModel
+class RedshopModelProduct_Detail extends RedshopModel
 {
 	public $id = null;
 
@@ -103,12 +102,7 @@ class RedshopModelProduct_Detail extends JModel
 	 */
 	public function _loadData()
 	{
-		// ToDo: This is potentially unsafe because $_POST elements are not sanitized.
-		$post = $this->input->getArray($_POST);
-
-		$viewFrom = JFactory::getApplication()->input->getCmd('viewFrom', false);
-
-		if (empty($this->data) && ($viewFrom === 'productList' || empty($post)))
+		if (empty($this->data))
 		{
 			// Initialiase variables.
 			$db    = JFactory::getDbo();

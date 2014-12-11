@@ -9,9 +9,8 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
 
-class RedshopViewOrderstatus extends JView
+class RedshopViewOrderstatus extends RedshopView
 {
 	/**
 	 * The current user.
@@ -38,8 +37,8 @@ class RedshopViewOrderstatus extends JView
 		$document->setTitle(JText::_('COM_REDSHOP_ORDERSTATUS'));
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_ORDERSTATUS_MANAGEMENT'), 'redshop_order48');
-		JToolBarHelper::addNewX();
-		JToolBarHelper::editListX();
+		JToolbarHelper::addNew();
+		JToolbarHelper::EditList();
 		JToolBarHelper::deleteList();
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();

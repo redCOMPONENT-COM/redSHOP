@@ -5,6 +5,7 @@
  * @copyright   Copyright (C) 2012 - 2014 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
+$scenario->group('Joomla2');
 /* Name of the File is Kept as ZZUninstallExtension instead of UninstallExtension
    So that this tests is loaded at the last during the test execution */
 

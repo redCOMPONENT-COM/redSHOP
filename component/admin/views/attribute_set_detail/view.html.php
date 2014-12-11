@@ -9,9 +9,8 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
 
-class RedshopViewAttribute_set_detail extends JView
+class RedshopViewAttribute_set_detail extends RedshopView
 {
 	public function display($tpl = null)
 	{
@@ -20,7 +19,7 @@ class RedshopViewAttribute_set_detail extends JView
 		$option = JRequest::getVar('option');
 		$db = JFactory::getDbo();
 		$cfg = JFactory::getConfig();
-		$dbPrefix = $cfg->getValue('config.dbprefix');
+		$dbPrefix = $cfg->get('dbprefix');
 		$lists = array();
 
 		$model = $this->getModel('attribute_set_detail');
@@ -35,9 +34,9 @@ class RedshopViewAttribute_set_detail extends JView
 			var WANT_TO_DELETE = '" . JText::_('COM_REDSHOP_DO_WANT_TO_DELETE') . "';
 		");
 
-		$document->addScript('components/' . $option . '/assets/js/fields.js');
-		$document->addScript('components/' . $option . '/assets/js/select_sort.js');
-		$document->addScript('components/' . $option . '/assets/js/validation.js');
+		$document->addScript('components/com_redshop/assets/js/fields.js');
+		$document->addScript('components/com_redshop/assets/js/select_sort.js');
+		$document->addScript('components/com_redshop/assets/js/validation.js');
 
 		$uri = JFactory::getURI();
 
