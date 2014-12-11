@@ -149,7 +149,7 @@ class RedshopViewOrder_detail extends RedshopView
 
 		$text = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
 		JToolBarHelper::title(JText::_('COM_REDSHOP_ORDER') . ': <small><small>[ ' . $text . ' ]</small></small>', 'redshop_order48');
-		JToolBarHelper::back(JText::_('COM_REDSHOP_ORDERLIST'));
+		JToolBarHelper::cancel('cancel', JText::_('COM_REDSHOP_ORDERLIST'));
 
 		$this->lists = $lists;
 		$this->detail = $detail;
