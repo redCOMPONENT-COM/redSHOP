@@ -54,7 +54,7 @@ $comment = JRequest::getVar('comment_filter');
 				</td>
 			</tr>
 		</table>
-		<table class="adminlist">
+		<table class="adminlist table table-striped">
 			<thead>
 			<tr>
 				<th>

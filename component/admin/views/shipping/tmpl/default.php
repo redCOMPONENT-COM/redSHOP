@@ -35,7 +35,7 @@ $ordering = ($this->lists['order'] == 'ordering');
 <form action="<?php echo 'index.php?option=' . $option; ?>" method="post" name="adminForm" id="adminForm">
 	<div id="editcell">
 
-		<table class="adminlist">
+		<table class="adminlist table table-striped">
 			<thead>
 			<tr>
 				<th width="5%">
@@ -117,7 +117,7 @@ $ordering = ($this->lists['order'] == 'ordering');
 						<span><?php echo $this->pagination->orderDownIcon($i, $n, true, 'orderdown', JText::_('JLIB_HTML_MOVE_DOWN'), $ordering); ?></span>
 						<?php $disabled = $ordering ? '' : 'disabled="disabled"'; ?>
 						<input type="text" name="order[]" size="5"
-						       value="<?php echo $row->ordering; ?>" <?php echo $disabled ?> class="text_area"
+						       value="<?php echo $row->ordering; ?>" <?php echo $disabled ?> class="text_area input-small"
 						       style="text-align: center"/>
 					</td>
 					<td align="center" width="5%">

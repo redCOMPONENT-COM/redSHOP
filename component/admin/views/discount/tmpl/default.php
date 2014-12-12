@@ -41,7 +41,7 @@ $option = JRequest::getVar('option', '', 'request', 'string');
 					:<?php echo $this->lists ['shopper_group']; ?></td>
 			</tr>
 		</table>
-		<table class="adminlist">
+		<table class="adminlist table table-striped">
 			<thead>
 			<tr>
 				<th width="5%">
