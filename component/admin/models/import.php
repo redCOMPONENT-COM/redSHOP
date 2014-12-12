@@ -74,7 +74,7 @@ class RedshopModelImport extends RedshopModel
 		$session->set('Importfile', $files);
 		$session->set('Importfilename', $files['name']);
 
-		$app->Redirect('index.php?option=com_redshop&view=import&layout=importlog');
+		$app->redirect('index.php?option=com_redshop&view=import&layout=importlog');
 
 		return;
 	}

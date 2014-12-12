@@ -20,14 +20,14 @@ $option = JRequest::getVar('option', '', 'request', 'string');?>
 </script>
 <form action="<?php echo 'index.php?option=' . $option; ?>" method="post" name="adminForm2" id="adminForm2">
 	<div id="editcell">
-		<table class="adminlist" width="100%">
+		<table class="adminlist table table-striped" width="100%">
 			<thead>
 			<tr>
 				<th width="30%"><?php echo JText::_('COM_REDSHOP_SHOPPER_GROUP_NAME'); ?></th>
 				<th width="30%"><?php echo JText::_('COM_REDSHOP_QUANTITY_START_LBL'); ?></th>
 				<th width="30%"><?php echo JText::_('COM_REDSHOP_QUANTITY_END_LBL'); ?></th>
-				<th width="15%"><?php echo JText::_('COM_REDSHOP_PRODUCT_PRICE'); ?>&nbsp;&nbsp;<img
-						style="cursor:pointer" src="images/filesave.png" onclick="Joomla.submitbutton('saveprice')">
+				<th width="15%"><?php echo JText::_('COM_REDSHOP_PRODUCT_PRICE'); ?>
+					<a class="saveorder" onclick="Joomla.submitbutton('saveprice')" href="#"></a>
 				</th>
 			</tr>
 			</thead>

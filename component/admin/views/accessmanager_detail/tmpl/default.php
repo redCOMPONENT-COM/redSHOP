@@ -31,7 +31,7 @@ $view = JRequest::getVar('view');
 	<input type="hidden" name="view" value="<?php echo $view ?>"/>
 	<input type="hidden" name="section" value="<?php echo $section ?>"/>
 	<input type="hidden" name="task" value=""/>
-	<table cellspacing="0" cellpadding="0" border="0" width="100%" class="adminlist">
+	<table cellspacing="0" cellpadding="0" border="0" width="100%" class="adminlist table table-striped table-hover">
 		<thead>
 		<tr>
 			<th><?php echo JText::_('COM_REDSHOP_SECTION_PERMISSION')?></th>

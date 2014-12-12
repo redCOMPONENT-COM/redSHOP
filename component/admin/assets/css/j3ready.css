@@ -457,3 +457,12 @@ div.cpanel-right {
 	float: left;
 	margin: 0 10px 0 0;
 }
+.saveorder{
+	width: 16px;
+	height: 16px;
+	display: block;
+	overflow: hidden;
+	background: url(../images/j3ready/filesave.png) no-repeat;
+	float: left;
+	margin-right: 8px;
+}
