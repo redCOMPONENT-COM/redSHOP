@@ -42,7 +42,7 @@ $billingaddresses = $model->billingaddresses();
 if (!count($billingaddresses))
 {
 	$msg = JText::_('COM_REDSHOP_LOGIN_USER_IS_NOT_REDSHOP_USER');
-	$app->Redirect("index.php?option=com_redshop&view=account_billto&return=checkout&Itemid=" . $Itemid, $msg);
+	$app->redirect("index.php?option=com_redshop&view=account_billto&return=checkout&Itemid=" . $Itemid, $msg);
 }
 
 $paymentmethod = $redhelper->getPlugins('redshop_payment');

@@ -750,7 +750,7 @@ class RedshopModelCategory extends RedshopModel
 		{
 			$query = "SELECT id FROM #__redproductfinder_filters WHERE published=1";
 			$this->_db->setQuery($query);
-			$rs_filters = $this->_db->loadResultArray();
+			$rs_filters = $this->_db->loadColumn();
 
 			if (count($rs_filters) > 0)
 			{
@@ -810,7 +810,7 @@ class RedshopModelCategory extends RedshopModel
 
 						$finder_query .= $finder_where;
 						$this->_db->setQuery($finder_query);
-						$rs              = $this->_db->loadResultArray();
+						$rs              = $this->_db->loadColumn();
 						$finder_products = "";
 
 						if (!empty($rs))

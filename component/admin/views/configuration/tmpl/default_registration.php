@@ -137,6 +137,15 @@ defined('_JEXEC') or die;
 		<td><?php echo $this->lists ['default_customer_register_type'];?></td>
 	</tr>
 	<tr>
+		<td width="100" align="right" class="key">
+		<span class="editlinktip hasTip"
+			  title="<?php echo JText::_('COM_REDSHOP_CONFIG_CHECKOUT_LOGIN_REGISTER_SWITCHER_LBL'); ?>::<?php echo JText::_('COM_REDSHOP_CONFIG_CHECKOUT_LOGIN_REGISTER_SWITCHER_DESC'); ?>">
+		<label
+			for="checkout_login_register_switcher"><?php echo JText::_('COM_REDSHOP_CONFIG_CHECKOUT_LOGIN_REGISTER_SWITCHER_LBL');?></label>
+		</td>
+		<td><?php echo $this->lists['checkout_login_register_switcher'];?></td>
+	</tr>
+	<tr>
 		<td colspan="2">
 			<hr/>
 		</td>
