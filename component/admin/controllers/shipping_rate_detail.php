@@ -9,9 +9,8 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.controller');
 
-class RedshopControllerShipping_rate_detail extends JController
+class RedshopControllerShipping_rate_detail extends RedshopController
 {
 	public function __construct($default = array())
 	{
@@ -59,13 +58,13 @@ class RedshopControllerShipping_rate_detail extends JController
 
 		if ($apply)
 		{
-			$this->setRedirect('index.php?option=' . $option . '&view=shipping_rate_detail&cid=' . $row->shipping_rate_id
+			$this->setRedirect('index.php?option=com_redshop&view=shipping_rate_detail&cid=' . $row->shipping_rate_id
 				. '&id=' . $post['id'], $msg
 			);
 		}
 		else
 		{
-			$this->setRedirect('index.php?option=' . $option . '&view=shipping_rate&id=' . $post['id'], $msg);
+			$this->setRedirect('index.php?option=com_redshop&view=shipping_rate&id=' . $post['id'], $msg);
 		}
 	}
 
@@ -86,7 +85,7 @@ class RedshopControllerShipping_rate_detail extends JController
 			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
 		}
 
-		$this->setRedirect('index.php?option=' . $option . '&view=shipping_rate&id=' . $post['id']);
+		$this->setRedirect('index.php?option=com_redshop&view=shipping_rate&id=' . $post['id']);
 	}
 
 	public function publish()
@@ -106,7 +105,7 @@ class RedshopControllerShipping_rate_detail extends JController
 			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
 		}
 
-		$this->setRedirect('index.php?option=' . $option . '&view=shipping_rate');
+		$this->setRedirect('index.php?option=com_redshop&view=shipping_rate');
 	}
 
 	public function unpublish()
@@ -126,14 +125,14 @@ class RedshopControllerShipping_rate_detail extends JController
 			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
 		}
 
-		$this->setRedirect('index.php?option=' . $option . '&view=shipping_rate');
+		$this->setRedirect('index.php?option=com_redshop&view=shipping_rate');
 	}
 
 	public function cancel()
 	{
 		$post = JRequest::get('post');
 		$option = JRequest::getVar('option');
-		$this->setRedirect('index.php?option=' . $option . '&view=shipping_rate&id=' . $post['id']);
+		$this->setRedirect('index.php?option=com_redshop&view=shipping_rate&id=' . $post['id']);
 	}
 
 	public function copy()
@@ -152,7 +151,7 @@ class RedshopControllerShipping_rate_detail extends JController
 			$msg = JText::_('COM_REDSHOP_ERROR_SAVING_SHIPPING');
 		}
 
-		$this->setRedirect('index.php?option=' . $option . '&view=shipping_rate&id=' . $post['id'], $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=shipping_rate&id=' . $post['id'], $msg);
 	}
 
 	public function GetStateDropdown()

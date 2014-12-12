@@ -8,9 +8,8 @@
  */
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
 
-class RedshopModelState_detail extends JModel
+class RedshopModelState_detail extends RedshopModel
 {
 	public $_id = null;
 
@@ -121,7 +120,7 @@ class RedshopModelState_detail extends JModel
 			$query = 'DELETE FROM ' . $this->_table_prefix . 'state WHERE state_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 

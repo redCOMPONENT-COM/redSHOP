@@ -9,11 +9,10 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
 
 JLoader::load('RedshopHelperAdminXmlHelper');
 
-class RedshopModelXmlimport_detail extends JModel
+class RedshopModelXmlimport_detail extends RedshopModel
 {
 	public $_id = null;
 
@@ -374,7 +373,7 @@ class RedshopModelXmlimport_detail extends JModel
 				. 'WHERE xmlimport_id IN (' . $cids . ')';
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 
@@ -385,7 +384,7 @@ class RedshopModelXmlimport_detail extends JModel
 				. 'WHERE xmlimport_id IN (' . $cids . ')';
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 
@@ -407,7 +406,7 @@ class RedshopModelXmlimport_detail extends JModel
 				. ' WHERE xmlimport_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 
@@ -435,7 +434,7 @@ class RedshopModelXmlimport_detail extends JModel
 				. ' WHERE xmlimport_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 

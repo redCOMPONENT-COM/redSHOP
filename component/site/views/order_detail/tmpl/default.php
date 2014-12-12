@@ -32,7 +32,7 @@ $print  = JRequest::getInt('print');
 
 $getshm    = $uri->getScheme();
 $config    = JFactory::getConfig();
-$force_ssl = $config->getValue('force_ssl');
+$force_ssl = $config->get('force_ssl');
 
 if ($getshm == 'https' && $force_ssl > 2)
 {

@@ -34,15 +34,14 @@ $option = JRequest::getVar('option', '', 'request', 'string');
 </script>
 <form action="<?php echo 'index.php?option=' . $option; ?>" method="post" name="adminForm" id="adminForm">
 	<div id="editcell">
-		<table class="adminlist">
+		<table class="adminlist table table-striped">
 			<thead>
 			<tr>
 				<th width="5%">
 					<?php echo JText::_('COM_REDSHOP_NUM'); ?>
 				</th>
 				<th width="5%">
-					<input type="checkbox" name="toggle" value=""
-					       onclick="checkAll(<?php echo count($this->media); ?>);"/>
+					<?php echo JHtml::_('redshopgrid.checkall'); ?>
 				</th>
 				<th class="title">
 					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_TAX_GROUP', 'tax_group_name', $this->lists['order_Dir'], $this->lists['order']); ?>
@@ -60,11 +59,11 @@ $option = JRequest::getVar('option', '', 'request', 'string');
 			$k = 0;
 			for ($i = 0; $i < count($this->media); $i++)
 			{
-				$row = & $this->media[$i];
+				$row = $this->media[$i];
 
 				$row->id = $row->tax_group_id;
 
-				$link = JRoute::_('index.php?option=' . $option . '&view=tax_group_detail&task=edit&cid[]=' . $row->tax_group_id);
+				$link = JRoute::_('index.php?option=com_redshop&view=tax_group_detail&task=edit&cid[]=' . $row->tax_group_id);
 
 
 				?>
@@ -93,6 +92,11 @@ $option = JRequest::getVar('option', '', 'request', 'string');
 
 			<tfoot>
 			<td colspan="9">
+				<?php if (version_compare(JVERSION, '3.0', '>=')): ?>
+					<div class="redShopLimitBox">
+						<?php echo $this->pagination->getLimitBox(); ?>
+					</div>
+				<?php endif; ?>
 				<?php echo $this->pagination->getListFooter(); ?>
 			</td>
 			</tfoot>

@@ -9,9 +9,8 @@
 
 defined('_JEXEC') or die;
 
-JLoader::import('joomla.application.component.view');
 
-class RedshopViewLogin extends JView
+class RedshopViewLogin extends RedshopView
 {
 	public function display($tpl = null)
 	{
@@ -48,7 +47,7 @@ class RedshopViewLogin extends JView
 			else
 			{
 				$app->enqueuemessage(JText::_('COM_REDSHOP_SHOPPER_GROUP_PORTAL_IS_DISABLE'));
-				$app->Redirect('index.php?option=com_redshop');
+				$app->redirect('index.php?option=com_redshop');
 			}
 		}
 		else

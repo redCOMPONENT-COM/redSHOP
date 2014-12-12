@@ -25,11 +25,11 @@ JHTML::Stylesheet('products.css', 'modules/mod_redshop_products/css/');
 // 	include redshop js file.
 require_once JPATH_SITE . '/components/com_redshop/helpers/redshop.js.php';
 
-JHTML::Script('attribute.js', 'components/com_redshop/assets/js/', false);
-JHTML::Script('common.js', 'components/com_redshop/assets/js/', false);
+JHtml::script('com_redshop/attribute.js', false, true);
+JHtml::script('com_redshop/common.js', false, true);
 // lightbox Javascript
 JHTML::Script('fetchscript.js', 'components/com_redshop/assets/js/', false);
-JHTML::Stylesheet('fetchscript.css', 'components/com_redshop/assets/css/');
+JHtml::stylesheet('com_redshop/fetchscript.css', array(), true);
 $module_id = "mod_" . $module->id;
 
 // get product helper
@@ -111,7 +111,7 @@ if ($newprd)
 					$Itemid = $redhelper->getItemid($row->product_id);
 				}
 
-				$link = JRoute::_('index.php?option=' . $option . '&view=product&pid=' . $row->product_id . '&cid=' . $category_id . '&Itemid=' . $Itemid);
+				$link = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $row->product_id . '&cid=' . $category_id . '&Itemid=' . $Itemid);
 				if ($image)
 				{
 					$thum_image = $producthelper->getProductImage($row->product_id, $link, $thumbwidth, $thumbheight);
@@ -260,7 +260,7 @@ if ($ltsprd)
 					$Itemid = $redhelper->getItemid($row->product_id);
 				}
 
-				$link = JRoute::_('index.php?option=' . $option . '&view=product&pid=' . $row->product_id . '&cid=' . $category_id . '&Itemid=' . $Itemid);
+				$link = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $row->product_id . '&cid=' . $category_id . '&Itemid=' . $Itemid);
 				if ($image)
 				{
 					$thum_image = $producthelper->getProductImage($row->product_id, $link, $thumbwidth, $thumbheight);
@@ -408,7 +408,7 @@ if ($soldprd)
 					$Itemid = $redhelper->getItemid($row->product_id);
 				}
 
-				$link = JRoute::_('index.php?option=' . $option . '&view=product&pid=' . $row->product_id . '&cid=' . $category_id . '&Itemid=' . $Itemid);
+				$link = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $row->product_id . '&cid=' . $category_id . '&Itemid=' . $Itemid);
 				if ($image)
 				{
 					$thum_image = $producthelper->getProductImage($row->product_id, $link, $thumbwidth, $thumbheight);
@@ -555,7 +555,7 @@ if ($splprd)
 					$Itemid = $redhelper->getItemid($row->product_id);
 				}
 
-				$link = JRoute::_('index.php?option=' . $option . '&view=product&pid=' . $row->product_id . '&cid=' . $category_id . '&Itemid=' . $Itemid);
+				$link = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $row->product_id . '&cid=' . $category_id . '&Itemid=' . $Itemid);
 				if ($image)
 				{
 					$thum_image = $producthelper->getProductImage($row->product_id, $link, $thumbwidth, $thumbheight);

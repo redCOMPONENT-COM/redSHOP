@@ -25,7 +25,7 @@ if ($user->id)
 
 $category_id = $this->input->getInt('category_id', null);
 
-JHtml::Script('jquery.tools.min.js', 'components/com_redshop/assets/js/', false);
+JHtml::script('com_redshop/jquery.tools.min.js', false, true);
 
 $template = $this->redTemplate->getTemplate('ask_question_template');
 

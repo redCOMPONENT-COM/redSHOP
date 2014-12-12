@@ -810,8 +810,7 @@ class plgredshop_shippingusps extends JPlugin
 						else
 						{
 							/* XML Parsing */
-							$xmlDoc = JFactory::getXMLParser('Simple');
-							$xmlDoc->loadString($xmlResult);
+							$xmlDoc = JFactory::getXML($xmlResult);
 							/* Let's check wether the response from USPS is Success or Failure ! */
 							if (strstr($xmlResult, "Error"))
 							{ //echo $xmlResult;exit;
@@ -850,8 +849,7 @@ class plgredshop_shippingusps extends JPlugin
 							if (stristr($xmlResult, "Success"))
 							{
 								/* XML Parsing */
-								$xmlDoc = JFactory::getXMLParser('Simple');
-								$xmlDoc->loadString($xmlResult);
+								$xmlDoc = JFactory::getXML($xmlResult);
 								$error = false;
 							}
 							else
@@ -994,8 +992,7 @@ class plgredshop_shippingusps extends JPlugin
 						else
 						{
 							/* XML Parsing */
-							$xmlDoc = JFactory::getXMLParser('Simple');
-							$xmlDoc->loadString($xmlResult);
+							$xmlDoc = JFactory::getXML($xmlResult);
 							/* Let's check wether the response from USPS is Success or Failure ! */
 							if (strstr($xmlResult, "Error"))
 							{
@@ -1034,8 +1031,7 @@ class plgredshop_shippingusps extends JPlugin
 							if (stristr($xmlResult, "Success"))
 							{
 								/* XML Parsing */
-								$xmlDoc = JFactory::getXMLParser('Simple');
-								$xmlDoc->loadString($xmlResult);
+								$xmlDoc = JFactory::getXML($xmlResult);
 								$error = false;
 							}
 							else

@@ -88,9 +88,10 @@ $userId = (int) $user->id;
 		<td>
 			<form action="<?php echo 'index.php?option=com_redshop&view=product'; ?>" method="post" name="adminForm2"
 			      id="adminForm2">
-
-				<input type="text" name="keyword" value="<?php echo $this->keyword; ?>"> <input type="submit"
-				                                                                                value="<?php echo JText::_("COM_REDSHOP_SEARCH") ?>">
+				<div class="btn-wrapper input-append">
+					<input type="text" name="keyword" value="<?php echo $this->keyword; ?>">
+					<input type="submit" class="btn" value="<?php echo JText::_("COM_REDSHOP_SEARCH") ?>">
+				</div>
 				<select name="search_field" onchange="javascript:document.adminForm2.submit();">
 					<option
 						value="p.product_name" <?php if ($this->search_field == 'p.product_name') echo "selected='selected'";?>>
@@ -121,14 +122,14 @@ $userId = (int) $user->id;
 <form action="<?php echo 'index.php?option=' . $option; ?>" method="post" name="adminForm" id="adminForm">
 <div id="editcell">
 <input type="hidden" name="unpublished_data" value="">
-<table class="adminlist">
+<table class="adminlist table table-striped">
 <thead>
 <tr>
 	<th width="5">
 		<?php echo JText::_('COM_REDSHOP_NUM'); ?>
 	</th>
 	<th width="20">
-		<input type="checkbox" name="toggle" value="" onclick="checkAll(<?php echo count($this->products); ?>);"/>
+		<?php echo JHtml::_('redshopgrid.checkall'); ?>
 	</th>
 	<th class="title">
 		<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_PRODUCT_NAME', 'p.product_name', $this->lists['order_Dir'], $this->lists['order']); ?>
@@ -193,10 +194,10 @@ $k = 0;
 
 for ($i = 0, $n = count($this->products); $i < $n; $i++)
 {
-	$row = & $this->products[$i];
+	$row = $this->products[$i];
 
 	$row->id = $row->product_id;
-	$link = JRoute::_('index.php?option=' . $option . '&view=product_detail&task=edit&cid[]=' . $row->product_id);
+	$link = JRoute::_('index.php?option=com_redshop&view=product_detail&task=edit&cid[]=' . $row->product_id);
 
 	//	$published 	= JHtml::_('jgrid.published', $row->published, $i,'',1);
 
@@ -279,7 +280,7 @@ for ($i = 0, $n = count($this->products); $i < $n; $i++)
 		<td>
 			<?php echo $row->product_number;?>
 		</td>
-		<td>
+		<td class="nowrap">
 			<?php echo $producthelper->getProductFormattedPrice($row->product_price);?>
 		</td>
 
@@ -346,7 +347,7 @@ for ($i = 0, $n = count($this->products); $i < $n; $i++)
 				<span><?php
 					echo $this->pagination->orderDownIcon($i, $n, ($row->category_id == @$this->products[$i + 1]->category_id), 'orderdown', JText::_('JLIB_HTML_MOVE_DOWN'), $ordering); ?></span>
 				<input type="text" name="order[]" size="5" <?php echo $disabled; ?>
-				       value="<?php echo $row->ordering; ?>" class="text_area" style="text-align: center"/>
+				       value="<?php echo $row->ordering; ?>" class="text_area input-small" style="text-align: center"/>
 				</td>
 		<?php } ?>
 	</tr>
@@ -357,6 +358,11 @@ for ($i = 0, $n = count($this->products); $i < $n; $i++)
 
 <tfoot>
 <td colspan="14">
+	<?php if (version_compare(JVERSION, '3.0', '>=')): ?>
+		<div class="redShopLimitBox">
+			<?php echo $this->pagination->getLimitBox(); ?>
+		</div>
+	<?php endif; ?>
 	<?php echo $this->pagination->getListFooter(); ?>
 </td>
 </tfoot>
@@ -365,7 +371,6 @@ for ($i = 0, $n = count($this->products); $i < $n; $i++)
 
 <input type="hidden" name="view" value="product"/>
 <input type="hidden" name="task" value=""/>
-<input type="hidden" name="viewFrom" value="productList"/>
 <input type="hidden" name="boxchecked" value="0"/>
 <input type="hidden" name="product_template" value=""/>
 <input type="hidden" name="filter_order" value="<?php echo $this->lists['order']; ?>"/>

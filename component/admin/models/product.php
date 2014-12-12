@@ -9,13 +9,12 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
 JLoader::load('RedshopHelperAdminExtra_field');
 JLoader::load('RedshopHelperAdminStockroom');
 JLoader::load('RedshopHelperAdminShipping');
 JLoader::load('RedshopHelperProduct');
 
-class RedshopModelProduct extends JModel
+class RedshopModelProduct extends RedshopModel
 {
 	public $_data = null;
 
@@ -286,7 +285,7 @@ class RedshopModelProduct extends JModel
 			$product_id = implode(',', $product);
 			$query_prd = "SELECT DISTINCT(p.product_id) FROM " . $this->_table_prefix . "product AS p WHERE p.product_id NOT IN(" . $product_id . ")";
 			$this->_db->setQuery($query_prd);
-			$final_products = $this->_db->loadResultArray();
+			$final_products = $this->_db->loadColumn();
 
 			return $final_products;
 		}
@@ -307,6 +306,11 @@ class RedshopModelProduct extends JModel
 		else
 		{
 			$filter_order = $app->getUserStateFromRequest($this->_context . 'filter_order', 'filter_order', 'p.product_id');
+
+			if ($filter_order == 'x.ordering')
+			{
+				$filter_order = 'p.product_id';
+			}
 		}
 
 		$orderby = " ORDER BY " . $db->escape($filter_order . ' ' . $filter_order_Dir);
@@ -427,7 +431,7 @@ class RedshopModelProduct extends JModel
 				. intval($product_template) . '" ' . ' WHERE product_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 
@@ -539,7 +543,7 @@ class RedshopModelProduct extends JModel
 					$query = 'UPDATE ' . $this->_table_prefix . 'product_category_xref' . ' SET ordering = ' . (int) $i
 						. ' WHERE product_id=' . $productid . ' AND category_id = ' . $category_id_my;
 					$this->_db->setQuery($query);
-					$this->_db->query();
+					$this->_db->execute();
 				}
 
 				$i++;

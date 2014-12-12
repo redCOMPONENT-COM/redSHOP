@@ -9,14 +9,13 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
 jimport('joomla.filesystem.file');
 
 JLoader::load('RedshopHelperProduct');
 JLoader::load('RedshopHelperAdminText_library');
 JLoader::load('RedshopHelperAdminImages');
 
-class RedshopModelConfiguration extends JModel
+class RedshopModelConfiguration extends RedshopModel
 {
 	public $_id = null;
 
@@ -583,7 +582,7 @@ class RedshopModelConfiguration extends JModel
 
 		$sql = "delete from #__redirection where id in ('" . $redirect . "') ";
 		$this->_db->setQuery($sql);
-		$this->_db->query();
+		$this->_db->execute();
 
 		return (count($result1));
 	}
@@ -770,13 +769,13 @@ class RedshopModelConfiguration extends JModel
 			. "(`tracker_id`, `newsletter_id`, `subscription_id`, `subscriber_name`, `user_id` , `read`, `date`)  "
 			. "VALUES ('', '" . $newsletter_id . "', '0', '" . $name . "', '0',0, '" . $today . "')";
 		$db->setQuery($query);
-		$db->query();
+		$db->execute();
 
 		$content = '<img  src="' . $url . 'components/com_redshop/helpers/newsletteropener.php?tracker_id=' . $db->insertid() . '" />';
 		$content .= str_replace("{username}", $name[0], $data1);
 		$content = str_replace("{email}", $to, $content);
 
-		if (JUtility::sendMail($mailfrom, $mailfromname, $to, $subject, $content, 1))
+		if (JMail::getInstance()->sendMail($mailfrom, $mailfromname, $to, $subject, $content, 1))
 		{
 			return true;
 		}
@@ -895,7 +894,7 @@ class RedshopModelConfiguration extends JModel
 
 		for ($i = 0; $i < count($list); $i++)
 		{
-			$data = & $list[$i];
+			$data = $list[$i];
 
 			$red_template = new Redtemplate;
 			$tname = $data->template_name;

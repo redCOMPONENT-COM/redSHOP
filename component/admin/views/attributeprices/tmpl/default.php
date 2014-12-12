@@ -28,16 +28,16 @@ $producthelper = new producthelper;
 </script>
 <fieldset>
 	<div style="float: right">
-		<button type="button" onclick="Joomla.submitbutton('add');">
+		<button type="button" class="btn btn-small" onclick="Joomla.submitbutton('add');">
 			<?php echo JText::_('COM_REDSHOP_ADD'); ?>
 		</button>
-		<button type="button" onclick="Joomla.submitbutton('edit');">
+		<button type="button" class="btn btn-small" onclick="Joomla.submitbutton('edit');">
 			<?php echo JText::_('COM_REDSHOP_EDIT'); ?>
 		</button>
-		<button type="button" onclick="Joomla.submitbutton('remove');">
+		<button type="button" class="btn btn-small" onclick="Joomla.submitbutton('remove');">
 			<?php echo JText::_('COM_REDSHOP_DELETE'); ?>
 		</button>
-		<button type="button" onclick="window.parent.location.reload();">
+		<button type="button" class="btn btn-small" onclick="window.parent.location.reload();">
 			<?php echo JText::_('COM_REDSHOP_CANCEL'); ?>
 		</button>
 	</div>
@@ -46,12 +46,11 @@ $producthelper = new producthelper;
 <form action="<?php echo 'index.php?tmpl=component&option=' . $option; ?>" method="post" name="adminForm"
       id="adminForm">
 	<div id="editcell">
-		<table class="adminlist" width="100%">
+		<table class="adminlist table table-striped" width="100%">
 			<thead>
 			<tr>
 				<th width="5%"><?php echo JText::_('COM_REDSHOP_NUM'); ?></th>
-				<th width="5%"><input type="checkbox" name="toggle"
-				                      onclick="checkAll(<?php echo count($this->data); ?>);"/></th>
+				<th width="5%"><?php echo JHtml::_('redshopgrid.checkall'); ?></th>
 				<th class="title" align="left" width="15%"><?php echo JText::_('COM_REDSHOP_PROPERTY'); ?></th>
 				<th width="10%"><?php echo JText::_('COM_REDSHOP_SHOPPER_GROUP'); ?></th>
 				<th width="10%"><?php echo JText::_('COM_REDSHOP_QUANTITY_START_LBL'); ?></th>
@@ -63,9 +62,9 @@ $producthelper = new producthelper;
 			<?php    $k = 0;
 			for ($i = 0; $i < count($this->data); $i++)
 			{
-				$row = & $this->data[$i];
+				$row = $this->data[$i];
 				$row->id = $row->price_id;
-				$link = JRoute::_('index.php?tmpl=component&option=' . $option . '&view=attributeprices_detail&task=edit&section=' . $this->section . '&section_id=' . $row->section_id . '&cid[]=' . $row->price_id);?>
+				$link = JRoute::_('index.php?tmpl=component&option=com_redshop&view=attributeprices_detail&task=edit&section=' . $this->section . '&section_id=' . $row->section_id . '&cid[]=' . $row->price_id);?>
 				<tr class="<?php echo "row$k"; ?>">
 					<td align="center"><?php echo $this->pagination->getRowOffset($i); ?></td>
 					<td align="center"><?php echo JHTML::_('grid.id', $i, $row->id); ?></td>
@@ -83,7 +82,13 @@ $producthelper = new producthelper;
 				<?php        $k = 1 - $k;
 			}    ?>
 			<tfoot>
-			<td colspan="8"><?php echo $this->pagination->getListFooter(); ?></td>
+			<td colspan="8">
+				<?php if (version_compare(JVERSION, '3.0', '>=')): ?>
+					<div class="redShopLimitBox">
+						<?php echo $this->pagination->getLimitBox(); ?>
+					</div>
+				<?php endif; ?>
+				<?php echo $this->pagination->getListFooter(); ?></td>
 			</tfoot>
 		</table>
 	</div>

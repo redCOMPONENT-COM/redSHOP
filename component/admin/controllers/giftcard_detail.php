@@ -9,9 +9,8 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.controller');
 
-class RedshopControllerGiftcard_detail extends JController
+class RedshopControllerGiftcard_detail extends RedshopController
 {
 	public function __construct($default = array())
 	{
@@ -59,11 +58,11 @@ class RedshopControllerGiftcard_detail extends JController
 		{
 			if ($apply == 1)
 			{
-				$this->setRedirect('index.php?option=' . $option . '&view=giftcard_detail&task=edit&cid[]=' . $row->giftcard_id, $msg);
+				$this->setRedirect('index.php?option=com_redshop&view=giftcard_detail&task=edit&cid[]=' . $row->giftcard_id, $msg);
 			}
 			else
 			{
-				$this->setRedirect('index.php?option=' . $option . '&view=giftcard', $msg);
+				$this->setRedirect('index.php?option=com_redshop&view=giftcard', $msg);
 			}
 		}
 		else
@@ -94,7 +93,7 @@ class RedshopControllerGiftcard_detail extends JController
 			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
 		}
 
-		$this->setRedirect('index.php?option=' . $option . '&view=giftcard');
+		$this->setRedirect('index.php?option=com_redshop&view=giftcard');
 	}
 
 	public function publish()
@@ -115,7 +114,7 @@ class RedshopControllerGiftcard_detail extends JController
 			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
 		}
 
-		$this->setRedirect('index.php?option=' . $option . '&view=giftcard');
+		$this->setRedirect('index.php?option=com_redshop&view=giftcard');
 	}
 
 	public function unpublish()
@@ -136,14 +135,14 @@ class RedshopControllerGiftcard_detail extends JController
 			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
 		}
 
-		$this->setRedirect('index.php?option=' . $option . '&view=giftcard');
+		$this->setRedirect('index.php?option=com_redshop&view=giftcard');
 	}
 
 	public function cancel()
 	{
 		$option = JRequest::getVar('option');
 
-		$this->setRedirect('index.php?option=' . $option . '&view=giftcard');
+		$this->setRedirect('index.php?option=com_redshop&view=giftcard');
 	}
 
 	public function copy()
@@ -163,6 +162,6 @@ class RedshopControllerGiftcard_detail extends JController
 			$msg = JText::_('COM_REDSHOP_ERROR_COPYING_GIFTCARD');
 		}
 
-		$this->setRedirect('index.php?option=' . $option . '&view=giftcard', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=giftcard', $msg);
 	}
 }

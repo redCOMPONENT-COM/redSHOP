@@ -841,7 +841,7 @@ class rsCarthelper
 			$replace[]    = $this->_producthelper->getProductFormattedPrice($row->order_shipping);
 			$replace[]    = $this->_producthelper->getProductFormattedPrice($row->order_shipping_tax);
 
-			if ($details[0] != 'plgredshop_shippingdefault_shipping_GLS')
+			if ($details[0] != 'plgredshop_shippingdefault_shipping_gls')
 			{
 				$shopLocation = '';
 			}
@@ -919,7 +919,7 @@ class rsCarthelper
 			{
 				$giftcard_id  = $cart[$i]['giftcard_id'];
 				$giftcardData = $this->_producthelper->getGiftcardData($giftcard_id);
-				$link         = JRoute::_('index.php?option=' . $option . '&view=giftcard&gid=' . $giftcard_id . '&Itemid=' . $Itemid);
+				$link         = JRoute::_('index.php?option=com_redshop&view=giftcard&gid=' . $giftcard_id . '&Itemid=' . $Itemid);
 
 				$product_name = "<div  class='product_name'><a href='" . $link . "'>" . $giftcardData->giftcard_name . "</a></div>";
 
@@ -1032,7 +1032,7 @@ class rsCarthelper
 					$Itemid = $this->_redhelper->getItemid($product_id);
 				}
 
-				$link = JRoute::_('index.php?option=' . $option . '&view=product&pid=' . $product_id . '&Itemid=' . $Itemid);
+				$link = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $product_id . '&Itemid=' . $Itemid);
 
 				$pname         = $product->product_name;
 				$product_name  = "<div  class='product_name'><a href='" . $link . "'>" . $pname . "</a></div>";
@@ -3350,13 +3350,13 @@ class rsCarthelper
 	public function getGLSLocation($users_info_id, $classname, $shop_id = 0)
 	{
 		$output = '';
-		$sql    = "SELECT  enabled FROM #__extensions WHERE element ='default_shipping_GLS'";
+		$sql    = "SELECT  enabled FROM #__extensions WHERE element ='default_shipping_gls'";
 		$this->_db->setQuery($sql);
 		$isEnabled = $this->_db->loadResult();
 		$selected_shop_id = null;
 		$ShopRespons = array();
 
-		if ($isEnabled && $classname == 'default_shipping_GLS')
+		if ($isEnabled && $classname == 'default_shipping_gls')
 		{
 			JPluginHelper::importPlugin('redshop_shipping');
 			$dispatcher = JDispatcher::getInstance();
@@ -3483,7 +3483,7 @@ class rsCarthelper
 									$shipping_rate_id = $rate[$i]->value;
 								}
 
-								if ($classname == 'default_shipping_GLS')
+								if ($classname == 'default_shipping_gls')
 								{
 									$glsLocation = $this->getGLSLocation($users_info_id, $classname);
 									$style       = ($checked != "checked") ? "style='display:none;'" : "style='display:block;'";
@@ -3587,7 +3587,7 @@ class rsCarthelper
 
 			$template_desc = "<div></div>";
 		}
-		elseif ($rateExist == 1 && $extrafield_total == "" && $classname != "default_shipping_GLS")
+		elseif ($rateExist == 1 && $extrafield_total == "" && $classname != "default_shipping_gls")
 		{
 			$template_desc = "<div style='display:none;'>" . $template_desc . "</div>";
 		}
@@ -4131,6 +4131,7 @@ class rsCarthelper
 		$coupon_code = JRequest::getVar('discount_code', '');
 		$view        = JRequest::getVar('view', '');
 		$user        = JFactory::getUser();
+		$db          = JFactory::getDbo();
 		$return      = false;
 
 		$cart = (count($c_data) <= 0) ? $this->_session->get('cart') : $c_data;
@@ -4166,11 +4167,15 @@ class rsCarthelper
 				{
 					if ($user->id)
 					{
-						$sel = "SELECT SUM(coupon_value) AS usertotal FROM " . $this->_table_prefix . "coupons_transaction "
-							. "WHERE userid=" . (int) $user->id
-							. "GROUP BY userid ";
-						$this->_db->setQuery($sel);
-						$userData = $this->_db->loadResult();
+						$query = $db->getQuery(true)
+									->select('SUM(' . $db->qn('coupon_value') . ') AS usertotal')
+									->from($db->qn('#__redshop_coupons_transaction'))
+									->where($db->qn('userid') . ' = ' . (int) $user->id)
+									->group($db->qn('userid'));
+
+						// Set the query and load the result.
+						$db->setQuery($query);
+						$userData = $db->loadResult();
 
 						if (!empty($userData))
 						{
@@ -4202,7 +4207,9 @@ class rsCarthelper
 				}
 
 				if (!$userType)
+				{
 					$return = true;
+				}
 
 				$pSubtotal   = $cart['product_subtotal'];
 				$tmpsubtotal = $pSubtotal;
@@ -5291,21 +5298,21 @@ class rsCarthelper
 
 		$query = "DELETE FROM " . $this->_table_prefix . "usercart_accessory_item WHERE cart_item_id=" . (int) $cart_item_id;
 		$this->_db->setQuery($query);
-		$this->_db->Query();
+		$this->_db->execute();
 
 		$query = "DELETE FROM " . $this->_table_prefix . "usercart_attribute_item WHERE cart_item_id=" . (int) $cart_item_id;
 		$this->_db->setQuery($query);
-		$this->_db->Query();
+		$this->_db->execute();
 
 		$query = "DELETE FROM " . $this->_table_prefix . "usercart_item WHERE cart_id=" . (int) $cart_id;
 		$this->_db->setQuery($query);
-		$this->_db->Query();
+		$this->_db->execute();
 
 		if ($delCart)
 		{
 			$query = "DELETE FROM " . $this->_table_prefix . "usercart WHERE cart_id=" . (int) $cart_id;
 			$this->_db->setQuery($query);
-			$this->_db->Query();
+			$this->_db->execute();
 		}
 
 		return true;
@@ -6123,7 +6130,7 @@ class rsCarthelper
 						$data['cart_index'] = $i;
 						$data['quantity']   = $newcartquantity;
 
-						$cartModel = JModel::getInstance('cart', 'RedshopModel');
+						$cartModel = RedshopModel::getInstance('cart', 'RedshopModel');
 						$cartModel->update($data);
 
 						return true;
