@@ -15,12 +15,6 @@
 	<!-- Do initialization stuff -->
 	<property file="build.properties" override="true"/>
 
-	<!-- Version of the redSHOP for witch the module is intended to  -->
-	<property
-			name="version"
-			value="${comp.version}"
-			override="true" />
-
 	<!-- Folder where the redSHOP repository PLUGINS are located  -->
 	<property
 			name="extpath"
@@ -30,7 +24,7 @@
 	<!-- Target dir where module packages will be created  -->
 	<property
 			name="targetdir"
-			value="${package.dir}/redSHOP-${version}-plugins"
+			value="${package.dir}/${comp.name}-${comp.version}-plugins"
 			override="true" />
 
 	<!-- Version of the Joomla for witch the module is intended to  -->
@@ -70,7 +64,7 @@
 		<mkdir dir="${targetdir}/${group_name}/${plugin_name}" />
 
 		<zip
-				destfile="${targetdir}/${group_name}/${plugin_name}_${version}_j${joomla_version}.zip"
+				destfile="${targetdir}/${group_name}/${plugin_name}_${comp.version}_j${joomla_version}.zip"
 				basedir="${extpath}/${group_name}/${plugin_name}">
 			<fileset dir="${extpath}/${group_name}/${plugin_name}">
 				<include name="**" />
