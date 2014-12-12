@@ -24,12 +24,12 @@ $stockrooms = $model->StockRoomList();
 ?>
 <form action="<?php echo JRoute::_($this->request_url) ?>" method="post" name="adminForm" id="adminForm" enctype="multipart/form-data">
 
-	<table class="admintable">
+	<table class="admintable" width="100%">
 
 		<tr>
 			<td colspan="2">
 
-				<table id="accessory_table" class="adminlist" border="0">
+				<table id="accessory_table" class="adminlist table table-striped" border="0">
 
 					<thead>
 						<tr>
@@ -113,12 +113,12 @@ $stockrooms = $model->StockRoomList();
 									<?php echo $s->stockroom_name; ?>
 								</td>
 								<td>
-									<input type="text" name="quantity[]" size="5" class="text_area" value="<?php echo $quantity; ?>"/>
+									<input type="text" name="quantity[]" size="5" class="text_area input-small" value="<?php echo $quantity; ?>"/>
 									<input type="hidden" name="stockroom_id[]" value="<?php echo $s->stockroom_id; ?>"/>
 								</td>
 								<td>
-									<input type="text" name="preorder_stock[]" size="5" class="text_area" value="<?php echo $preorder_stock; ?>"/>
-									<input type="button"
+									<input type="text" name="preorder_stock[]" size="5" class="text_area input-small" value="<?php echo $preorder_stock; ?>"/>
+									<input type="button" class="btn btn-small"
 										   name="preorder_reset"
 										   value="<?php echo JText::_('COM_REDSHOP_RESET'); ?>"
 										   onclick="location.href = 'index.php?option=com_redshop&view=product_detail&task=ResetPreorderStockBank&stockroom_type=<?php echo $section ?>&section_id=<?php echo $section_id ?>&cid=<?php echo $cid ?>&product_id=<?php echo $this->detail->product_id ?>&stockroom_id=<?php echo $s->stockroom_id ?>' ; "
@@ -144,7 +144,7 @@ $stockrooms = $model->StockRoomList();
 		<tr>
 			<td colspan="2">
 				<?php if (!$iscrm) : ?>
-					<input type="submit" name="submit" value="Save">
+					<input type="submit" name="submit" class="btn" value="Save">
 				<?php endif; ?>
 			</td>
 		</tr>

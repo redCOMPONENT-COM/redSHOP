@@ -13,10 +13,10 @@ $producthelper = new producthelper;
 ?>
 <fieldset>
 	<div style="float: right">
-		<button type="button" onclick="submitbutton('save');">
+		<button type="button" class="btn btn-small" onclick="submitbutton('save');">
 			<?php echo JText::_('COM_REDSHOP_SAVE'); ?>
 		</button>
-		<button type="button" onclick="window.parent.location.reload();">
+		<button type="button" class="btn btn-small" onclick="window.parent.location.reload();">
 			<?php echo JText::_('COM_REDSHOP_CANCEL'); ?>
 		</button>
 	</div>
