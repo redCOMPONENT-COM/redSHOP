@@ -169,7 +169,7 @@ $form->md5check = md5(implode("",(array)$form));
 
 if(in_array("paii",$oricart_type))
 {
-	$form->CUSTOM_reference_title = $config->getValue( 'config.sitename' );
+	$form->CUSTOM_reference_title = $config->get( 'sitename' );
 	$form->CUSTOM_category = "SC21";
 	$form->CUSTOM_product_id = "P03";
 	$form->CUSTOM_vat_amount = $order_details[0]->order_tax;

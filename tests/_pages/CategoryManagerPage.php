@@ -32,5 +32,5 @@ class CategoryManagerPage
 
 	public static $categoryStatePath = "//tbody/tr/td[7]/a";
 
-	public static $checkAll = "//input[@onclick='checkAll(1);']";
+	public static $checkAll = "//input[@onclick='Joomla.checkAll(this)']";
 }

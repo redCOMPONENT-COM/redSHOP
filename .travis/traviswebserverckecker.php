@@ -16,23 +16,23 @@
 define('REPO_BASE', dirname(__DIR__));
 
 // Welcome message
-fwrite(STDOUT, "\033[32;1mChecking Apache working and Joomla 2.5 ready to install in the Travis webserver.\033[0m\n");
+fwrite(STDOUT, "\033[33;1mChecking Apache working and if Joomla is ready to install in the Travis webserver.\033[0m\n");
 
 if (2 > count($argv))
 {
-    fwrite(STDOUT, "\033[32;1mPlease localhost URL to check for PHP Joomla Installer.\033[0m\n");
+    fwrite(STDOUT, "\033[31;1mPlease provide the URL to check for the Joomla Installer.\033[0m\n");
     exit(1);
 }
 
 $joomlaUrl = $argv[1];
 
-$foundJoomlaInstaller = shell_exec('curl ' . $joomlaUrl . ' | grep "Joomla! 2.5.[0-9]\{2\}-dev";');
+$foundJoomlaInstaller = shell_exec('curl ' . $joomlaUrl . ' | grep "Joomla";');
 
 if (!$foundJoomlaInstaller)
 {
-    fwrite(STDOUT, "\033[31;1mWeb server not working in Travis\033[0m\n");
+    fwrite(STDOUT, "\033[31;1mWeb server not working in Travis at $argv[1]\033[0m\n");
     exit(1);
 }
 
-fwrite(STDOUT, "\033[32;1mWeb server is working in Travis\033[0m\n");
+fwrite(STDOUT, "\033[32;1mWeb server is working in Travis at $argv[1]\033[0m\n");
 exit(0);

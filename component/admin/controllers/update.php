@@ -14,7 +14,7 @@ defined('_JEXEC') or die;
  *
  * @since  1.4
  */
-class RedshopControllerUpdate extends JControllerLegacy
+class RedshopControllerUpdate extends RedshopController
 {
 	/**
 	 * Refresh page

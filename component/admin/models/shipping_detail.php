@@ -9,13 +9,12 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
 
 jimport('joomla.installer.installer');
 jimport('joomla.installer.helper');
 jimport('joomla.filesystem.file');
 
-class RedshopModelShipping_detail extends JModel
+class RedshopModelShipping_detail extends RedshopModel
 {
 	public $_id = null;
 
@@ -65,9 +64,9 @@ class RedshopModelShipping_detail extends JModel
 			. ',enabled ="' . intval($data['published']) . '" '
 			. 'WHERE element="' . $data['element'] . '" ';
 		$this->_db->setQuery($query);
-		$this->_db->query();
+		$this->_db->execute();
 
-		if (!$this->_db->query())
+		if (!$this->_db->execute())
 		{
 			$this->setError($this->_db->getErrorMsg());
 
@@ -91,7 +90,7 @@ class RedshopModelShipping_detail extends JModel
 				. ' WHERE  extension_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 

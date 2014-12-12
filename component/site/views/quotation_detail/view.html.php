@@ -9,10 +9,9 @@
 
 defined('_JEXEC') or die;
 
-JLoader::import('joomla.application.component.view');
 JLoader::load('RedshopHelperAdminQuotation');
 
-class RedshopViewQuotation_detail extends JView
+class RedshopViewQuotation_detail extends RedshopView
 {
 function display ($tpl = null)
 {
@@ -38,7 +37,7 @@ if ($print)
 
 	if (!$quoid)
 	{
-		$app->Redirect('index.php?option=com_redshop&view=account&Itemid=' . $Itemid);
+		$app->redirect('index.php?option=com_redshop&view=account&Itemid=' . $Itemid);
 	}
 
 	$quotationDetail = $quotationHelper->getQuotationDetail($quoid);
@@ -68,7 +67,7 @@ if ($print)
 		}
 		else
 		{
-			$app->Redirect('index.php?option=com_redshop&view=login&Itemid=' . JRequest::getInt('Itemid'));
+			$app->redirect('index.php?option=com_redshop&view=login&Itemid=' . JRequest::getInt('Itemid'));
 
 			return;
 		}

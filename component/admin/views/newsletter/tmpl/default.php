@@ -52,12 +52,11 @@ echo 'index.php?option=' . $option;
 				</td>
 			</tr>
 		</table>
-		<table class="adminlist">
+		<table class="adminlist table table-striped">
 			<thead>
 			<tr>
 				<th width="5%"><?php echo JText::_('COM_REDSHOP_NUM');?></th>
-				<th width="5%"><input type="checkbox" name="toggle"
-				                      onclick="checkAll(<?php echo count($this->newsletters); ?>);"/></th>
+				<th width="5%"><?php echo JHtml::_('redshopgrid.checkall'); ?></th>
 				<th width="25%"><?php echo JHTML::_('grid.sort', 'COM_REDSHOP_NEWSLETTER_NAME', 'name', $this->lists ['order_Dir'], $this->lists ['order']);?></th>
 				<th><?php echo JText::_('COM_REDSHOP_NEWSLETTER_SUB');?></th>
 				<th width="10%"><?php echo JText::_('COM_REDSHOP_NO_SUBSCRIBERS');?></th>
@@ -71,9 +70,9 @@ echo 'index.php?option=' . $option;
 			$k = 0;
 			for ($i = 0, $n = count($this->newsletters); $i < $n; $i++)
 			{
-				$row = & $this->newsletters [$i];
+				$row = $this->newsletters [$i];
 				$row->id = $row->newsletter_id;
-				$link = JRoute::_('index.php?option=' . $option . '&view=newsletter_detail&task=edit&cid[]=' . $row->newsletter_id);
+				$link = JRoute::_('index.php?option=com_redshop&view=newsletter_detail&task=edit&cid[]=' . $row->newsletter_id);
 				$published = JHTML::_('grid.published', $row, $i);    ?>
 				<tr class="<?php echo "row$k"; ?>">
 					<td align="center"><?php echo $this->pagination->getRowOffset($i);?></td>
@@ -89,7 +88,13 @@ echo 'index.php?option=' . $option;
 				<?php    $k = 1 - $k;
 			}    ?>
 			<tfoot>
-			<td colspan="7"><?php echo $this->pagination->getListFooter();?></td>
+			<td colspan="7">
+				<?php if (version_compare(JVERSION, '3.0', '>=')): ?>
+					<div class="redShopLimitBox">
+						<?php echo $this->pagination->getLimitBox(); ?>
+					</div>
+				<?php endif; ?>
+				<?php echo $this->pagination->getListFooter();?></td>
 			</tfoot>
 		</table>
 	</div>

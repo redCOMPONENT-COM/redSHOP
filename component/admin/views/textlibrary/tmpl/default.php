@@ -52,15 +52,14 @@ $filter = JRequest::getVar('filter');
 				</td>
 			</tr>
 		</table>
-		<table class="adminlist">
+		<table class="adminlist table table-striped">
 			<thead>
 			<tr>
 				<th width="5%">
 					<?php echo JText::_('COM_REDSHOP_NUM'); ?>
 				</th>
 				<th width="5%" class="title">
-					<input type="checkbox" name="toggle" value=""
-					       onclick="checkAll(<?php echo count($this->textlibrarys); ?>);"/>
+					<?php echo JHtml::_('redshopgrid.checkall'); ?>
 				</th>
 				<th class="title" width="30%">
 					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_TAG_NAME', 'text_name', $this->lists['order_Dir'], $this->lists['order']); ?>
@@ -85,9 +84,9 @@ $filter = JRequest::getVar('filter');
 
 			for ($i = 0, $n = count($this->textlibrarys); $i < $n; $i++)
 			{
-				$row = & $this->textlibrarys[$i];
+				$row = $this->textlibrarys[$i];
 				$row->id = $row->textlibrary_id;
-				$link = JRoute::_('index.php?option=' . $option . '&view=textlibrary_detail&task=edit&cid[]=' . $row->textlibrary_id);
+				$link = JRoute::_('index.php?option=com_redshop&view=textlibrary_detail&task=edit&cid[]=' . $row->textlibrary_id);
 
 				$published = JHtml::_('jgrid.published', $row->published, $i, '', 1);
 
@@ -121,6 +120,11 @@ $filter = JRequest::getVar('filter');
 
 			<tfoot>
 			<td colspan="9">
+				<?php if (version_compare(JVERSION, '3.0', '>=')): ?>
+					<div class="redShopLimitBox">
+						<?php echo $this->pagination->getLimitBox(); ?>
+					</div>
+				<?php endif; ?>
 				<?php echo $this->pagination->getListFooter(); ?>
 			</td>
 			</tfoot>

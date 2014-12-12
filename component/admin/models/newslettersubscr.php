@@ -9,9 +9,8 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
 
-class RedshopModelNewslettersubscr extends JModel
+class RedshopModelNewslettersubscr extends RedshopModel
 {
 	public $_data = null;
 
@@ -130,7 +129,7 @@ class RedshopModelNewslettersubscr extends JModel
 
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 

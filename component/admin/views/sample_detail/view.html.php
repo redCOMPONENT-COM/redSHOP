@@ -9,9 +9,8 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
 
-class RedshopViewSample_detail extends JView
+class RedshopViewSample_detail extends RedshopView
 {
 	public function display($tpl = null)
 	{
@@ -21,14 +20,19 @@ class RedshopViewSample_detail extends JView
 
 		$document = JFactory::getDocument();
 
-		$document->addStyleSheet('components/' . $option . '/assets/css/colorpicker.css');
-		$document->addStyleSheet('components/' . $option . '/assets/css/layout.css');
-		$document->addScript('components/' . $option . '/assets/js/validation.js');
-		$document->addScript('components/' . $option . '/assets/js/jquery.js');
-		$document->addScript('components/' . $option . '/assets/js/colorpicker.js');
-		$document->addScript('components/' . $option . '/assets/js/eye.js');
-		$document->addScript('components/' . $option . '/assets/js/utils.js');
-		$document->addScript('components/' . $option . '/assets/js/layout.js?ver=1.0.2');
+		$document->addStyleSheet('components/com_redshop/assets/css/colorpicker.css');
+		$document->addStyleSheet('components/com_redshop/assets/css/layout.css');
+		$document->addScript('components/com_redshop/assets/js/validation.js');
+
+		if (version_compare(JVERSION, '3.0', '<'))
+		{
+			$document->addScript('components/com_redshop/assets/js/jquery.js');
+		}
+
+		$document->addScript('components/com_redshop/assets/js/colorpicker.js');
+		$document->addScript('components/com_redshop/assets/js/eye.js');
+		$document->addScript('components/com_redshop/assets/js/utils.js');
+		$document->addScript('components/com_redshop/assets/js/layout.js?ver=1.0.2');
 
 		$uri = JFactory::getURI();
 

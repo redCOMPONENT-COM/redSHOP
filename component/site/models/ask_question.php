@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-JLoader::import('joomla.application.component.model');
 
 JLoader::load('RedshopHelperAdminMail');
 JLoader::load('RedshopHelperProduct');
@@ -21,7 +20,7 @@ JLoader::load('RedshopHelperProduct');
  * @subpackage  Controller
  * @since       1.0
  */
-class RedshopModelAsk_question extends JModel
+class RedshopModelAsk_question extends RedshopModel
 {
 	public $_id = null;
 
@@ -133,7 +132,7 @@ class RedshopModelAsk_question extends JModel
 		$data['address']   = isset($data['address']) ? $data['address'] : null;
 		$data['telephone'] = isset($data['telephone']) ? $data['telephone'] : null;
 
-		$link        = JRoute::_($url . "index.php?option=" . $option . "&view=product&pid=" . $product_id . '&Itemid=' . $Itemid);
+		$link        = JRoute::_($url . "index.php?option=com_redshop&view=product&pid=" . $product_id . '&Itemid=' . $Itemid);
 		$product_url = "<a href=" . $link . ">" . $product->product_name . "</a>";
 		$data_add    = str_replace("{product_link}", $product_url, $data_add);
 		$data_add    = str_replace("{user_question}", $message, $data_add);

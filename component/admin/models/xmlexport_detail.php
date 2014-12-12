@@ -9,11 +9,10 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
 
 JLoader::load('RedshopHelperAdminXmlHelper');
 
-class RedshopModelXmlexport_detail extends JModel
+class RedshopModelXmlexport_detail extends RedshopModel
 {
 	public $_id = null;
 
@@ -153,7 +152,7 @@ class RedshopModelXmlexport_detail extends JModel
 				}
 
 				$this->_db->setQuery($query);
-				$this->_db->query();
+				$this->_db->execute();
 			}
 		}
 
@@ -194,7 +193,7 @@ class RedshopModelXmlexport_detail extends JModel
 				. 'WHERE xmlexport_id IN (' . $cids . ')';
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 
@@ -205,7 +204,7 @@ class RedshopModelXmlexport_detail extends JModel
 				. 'WHERE xmlexport_id IN (' . $cids . ')';
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 
@@ -216,7 +215,7 @@ class RedshopModelXmlexport_detail extends JModel
 				. 'WHERE xmlexport_id IN (' . $cids . ')';
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 
@@ -233,7 +232,7 @@ class RedshopModelXmlexport_detail extends JModel
 			. 'WHERE xmlexport_ip_id IN (' . $xmlexport_ip_id . ')';
 		$this->_db->setQuery($query);
 
-		if (!$this->_db->query())
+		if (!$this->_db->execute())
 		{
 			$this->setError($this->_db->getErrorMsg());
 
@@ -254,7 +253,7 @@ class RedshopModelXmlexport_detail extends JModel
 				. ' WHERE xmlexport_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 
@@ -276,7 +275,7 @@ class RedshopModelXmlexport_detail extends JModel
 				. ' WHERE xmlexport_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 
@@ -304,7 +303,7 @@ class RedshopModelXmlexport_detail extends JModel
 				. ' WHERE xmlexport_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 

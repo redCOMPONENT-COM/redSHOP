@@ -473,7 +473,6 @@ class plgredshop_shippinguspsv4 extends JPlugin
 		$shipping = $shippinghelper->getShippingMethodByClass($this->classname);
 		$db = JFactory::getDbo();
 		//require_once  JPATH_SITE. '/includes/domit/xml_domit_lite_include.php' ;
-		$xmlDoc = JFactory::getXMLParser('Simple');
 
 		$itemparams = new JRegistry($shipping->params);
 
@@ -705,7 +704,7 @@ class plgredshop_shippinguspsv4 extends JPlugin
 
 					$xmlResult = curl_exec($CR);
 					$error = curl_error($CR);
-					$xmlDoc->loadString($xmlResult);
+					$xmlDoc = JFactory::getXML($xmlResult);
 
 					if (!empty($error))
 					{
@@ -760,7 +759,7 @@ class plgredshop_shippinguspsv4 extends JPlugin
 
 						/* XML Parsing */
 
-						if ($xmlDoc->loadString($xmlResult))
+						if ($xmlDoc = JFactory::getXML($xmlResult))
 							$error = false;
 						else
 						{

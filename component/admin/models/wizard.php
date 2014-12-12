@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
 
 require_once 'components/com_redshop/models/configuration.php';
 

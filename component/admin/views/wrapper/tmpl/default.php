@@ -55,12 +55,11 @@ $url = $uri->root();?>
 <?php } ?>
 <form action="<?php echo 'index.php?option=com_redshop' . $tmpl; ?>" method="post" name="adminForm" id="adminForm">
 	<div id="editcell">
-		<table class="adminlist" width="100%">
+		<table class="adminlist table table-striped" width="100%">
 			<thead>
 			<tr>
 				<th width="5%"><?php echo JText::_('COM_REDSHOP_NUM'); ?></th>
-				<th width="5%"><input type="checkbox" name="toggle"
-				                      onclick="checkAll(<?php echo count($this->data); ?>);"/></th>
+				<th width="5%"><?php echo JHtml::_('redshopgrid.checkall'); ?></th>
 				<th width="20%"><?php echo JText::_('COM_REDSHOP_WRAPPER_NAME'); ?></th>
 				<th width="10%"><?php echo JText::_('COM_REDSHOP_WRAPPER_IMAGE'); ?></th>
 				<th width="10%"><?php echo JText::_('COM_REDSHOP_WRAPPER_PRICE'); ?></th>
@@ -72,7 +71,7 @@ $url = $uri->root();?>
 			<?php    $k = 0;
 			for ($i = 0; $i < count($this->data); $i++)
 			{
-				$row = & $this->data[$i];
+				$row = $this->data[$i];
 				$row->id = $row->wrapper_id;
 				$published = JHtml::_('jgrid.published', $row->published, $i, '', 1);
 				$row->published = $row->wrapper_use_to_all;
@@ -104,7 +103,13 @@ $url = $uri->root();?>
 				<?php        $k = 1 - $k;
 			}    ?>
 			<tfoot>
-			<td colspan="8"><?php echo $this->pagination->getListFooter(); ?></td>
+			<td colspan="8">
+				<?php if (version_compare(JVERSION, '3.0', '>=')): ?>
+					<div class="redShopLimitBox">
+						<?php echo $this->pagination->getLimitBox(); ?>
+					</div>
+				<?php endif; ?>
+				<?php echo $this->pagination->getListFooter(); ?></td>
 			</tfoot>
 		</table>
 	</div>

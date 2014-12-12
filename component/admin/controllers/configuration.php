@@ -9,12 +9,11 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.controller');
 
 JLoader::load('RedshopHelperCurrency');
 JLoader::load('RedshopHelperAdminExtra_field');
 
-class RedshopControllerConfiguration extends JController
+class RedshopControllerConfiguration extends RedshopController
 {
 	public function __construct($default = array())
 	{
@@ -268,7 +267,7 @@ class RedshopControllerConfiguration extends JController
 
 		if ($apply)
 		{
-			$this->setRedirect('index.php?option=' . $option . '&view=configuration', $msg);
+			$this->setRedirect('index.php?option=com_redshop&view=configuration', $msg);
 		}
 
 		else

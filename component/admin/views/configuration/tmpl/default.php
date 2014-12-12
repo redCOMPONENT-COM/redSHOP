@@ -12,7 +12,6 @@ defined('_JEXEC') or die;
 JHTMLBehavior::modal();
 
 $option = JRequest::getVar('option');
-jimport('joomla.html.pane');
 
 $uri = JURI::getInstance();
 $url = $uri->root();
@@ -86,138 +85,52 @@ $url = $uri->root();
 <form action="<?php echo 'index.php?option=' . $option; ?>" method="post" name="adminForm" id="adminForm"
       enctype="multipart/form-data">
 	<?php
-	//Get JPaneTabs instance
 	$dashboard = JRequest::getVar('dashboard');
+
 	if ($dashboard == 1)
 	{
-		$myTabs = JPane::getInstance('tabs', array('startOffset' => 9));
-
+		$offset = 9;
 	}
 	else
 	{
-		$myTabs = JPane::getInstance('tabs', array('startOffset' => 0));
+		$offset = 0;
 	}
-	$output = '';
 
-	//Create Pane
-	$output .= $myTabs->startPane('pane');
-	//Create 1st Tab
-	echo $output .= $myTabs->startPanel(JText::_('COM_REDSHOP_GENERAL_CONFIGURATION'), 'tab1');
+	echo JHtml::_('tabs.start', 'pane', array('startOffset' => $offset));
+	$output = '';
+	echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_GENERAL_CONFIGURATION'), 'tab1');
 	?>
 	<input type="hidden" name="view" value="configuration"/>
 	<input type="hidden" name="task" value=""/>
 	<?php
-
 	echo $this->loadTemplate('general');
-
-	echo $myTabs->endPanel();
-
-	# user tab
-	echo $myTabs->startPanel(JText::_('COM_REDSHOP_USER'), 'tab11');
-
+	echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_USER'), 'tab11');
 	echo $this->loadTemplate('user');
-
-	echo $myTabs->endPanel();
-	//End Pane
-	# category tab
-	echo $myTabs->startPanel(JText::_('COM_REDSHOP_CATEGORY_TAB'), 'tab5');
-
+	echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_CATEGORY_TAB'), 'tab5');
 	echo $this->loadTemplate('cattab');
-
-	echo $myTabs->endPanel();
-	# End tab
-	# category tab
-	echo $myTabs->startPanel(JText::_('COM_REDSHOP_REDMANUFACTURER_TAB'), 'tab5');
-
+	echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_REDMANUFACTURER_TAB'), 'tab5');
 	echo $this->loadTemplate('manufacturertab');
-
-	echo $myTabs->endPanel();
-	# End tab
-	# product tab
-	echo $myTabs->startPanel(JText::_('COM_REDSHOP_PRODUCT_TAB'), 'tab5');
-
+	echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_PRODUCT_TAB'), 'tab5');
 	echo $this->loadTemplate('producttab');
-
-	echo $myTabs->endPanel();
-	# End tab
-	# Feature tab
-	echo $myTabs->startPanel(JText::_('COM_REDSHOP_FEATURE_TAB'), 'tab5');
-
+	echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_FEATURE_TAB'), 'tab5');
 	echo $this->loadTemplate('featuretab');
-
-	echo $myTabs->endPanel();
-	# End tab
-
-	//Create *th Tab
-	echo $myTabs->startPanel(JText::_('COM_REDSHOP_PRICE_TAB'), 'tab5');
-
+	echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_PRICE_TAB'), 'tab5');
 	echo $this->loadTemplate('pricetab');
-
-	echo $myTabs->endPanel();
-
-
-
-	# product tab
-	echo $myTabs->startPanel(JText::_('COM_REDSHOP_CART_TAB'), 'tab5');
-
+	echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_CART_TAB'), 'tab5');
 	echo $this->loadTemplate('carttab');
-
-	echo $myTabs->endPanel();
-
-	# product tab
-	echo $myTabs->startPanel(JText::_('COM_REDSHOP_ORDER_TAB'), 'tab5');
-
+	echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_ORDER_TAB'), 'tab5');
 	echo $this->loadTemplate('ordertab');
-
-	echo $myTabs->endPanel();
-
-	# product tab
-	echo $myTabs->startPanel(JText::_('COM_REDSHOP_NEWSLETTER_TAB'), 'tab5');
-
+	echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_NEWSLETTER_TAB'), 'tab5');
 	echo $this->loadTemplate('newslettertab');
-
-	echo $myTabs->endPanel();
-	//Create 2nd Tab
-	//echo $myTabs->startPanel ( JText::_ ( 'LAYOUT_CONFIGURATION' ), 'tab2' );
-
-	//echo $this->loadTemplate('layout');
-
-	//echo $myTabs->startPanel ( JText::_ ( 'IMAGES' ), 'tab7' );
-
-	//echo $this->loadTemplate('images');
-
-	//echo $myTabs->endPanel ();
-
-	//Create 4th Tab
-	echo $myTabs->startPanel(JText::_('COM_REDSHOP_INTEGRATION'), 'tab4');
-
+	echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_INTEGRATION'), 'tab4');
 	echo $this->loadTemplate('integration');
-
-	echo $myTabs->endPanel();
-
-	//Create 8th Tab
-	echo $myTabs->startPanel(JText::_('COM_REDSHOP_SEO'), 'tab7');
-
+	echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_SEO'), 'tab7');
 	echo $this->loadTemplate('seo');
-
-	echo $myTabs->endPanel();
-
-	//Create 8th Tab
-	echo $myTabs->startPanel(JText::_('COM_REDSHOP_DASHBOARD'), 'tab8');
-
+	echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_DASHBOARD'), 'tab8');
 	echo $this->loadTemplate('dashboard');
-
-	echo $myTabs->endPanel();
-
-
-	//Create 9th Tab
-	echo $myTabs->startPanel(JText::_('COM_REDSHOP_ABOUT'), 'tab9');
-
+	echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_ABOUT'), 'tab9');
 	echo $this->loadTemplate('redshopabout');
-
-	echo $myTabs->endPanel();
-
-	echo $myTabs->endPane();
+	echo JHtml::_('tabs.end');
 	?>
 	<input type="hidden" name="cid" value="1"/>
 	<input type="hidden" name="option" value="<?php echo $option; ?>"/>

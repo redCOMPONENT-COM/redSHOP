@@ -8,7 +8,6 @@
  */
 
 defined('_JEXEC') or die;
-JLoader::import('joomla.application.component.model');
 
 JLoader::load('RedshopHelperHelper');
 JLoader::load('RedshopHelperCart');
@@ -21,7 +20,7 @@ JLoader::load('RedshopHelperUser');
  * @subpackage  Model
  * @since       1.0
  */
-class RedshopModelCart extends JModel
+class RedshopModelCart extends RedshopModel
 {
 	public $_id = null;
 
@@ -134,19 +133,19 @@ class RedshopModelCart extends JModel
 				. "AND section='product' "
 				. "AND time < $time ";
 			$db->setQuery($sql);
-			$deletedrs = $db->loadResultArray();
+			$deletedrs = $db->loadColumn();
 
 			$sql = "SELECT product_id FROM " . $this->_table_prefix . "cart "
 				. "WHERE session_id = " . $db->quote($session_id) . " "
 				. "AND section='product' ";
 			$db->setQuery($sql);
-			$includedrs = $db->loadResultArray();
+			$includedrs = $db->loadColumn();
 
 			$cart = $session->get('cart');
 
 			if ($cart)
 			{
-				$idx = (int) ($cart['idx']);
+				$idx = (int) ( isset($cart['idx']) ? $cart['idx'] : 0);
 
 				for ($j = 0; $j < $idx; $j++)
 				{

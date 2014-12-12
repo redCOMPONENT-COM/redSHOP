@@ -9,11 +9,10 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.controller');
 
 JLoader::load('RedshopHelperAdminTemplate');
 
-class RedshopControllerTemplate_detail extends JController
+class RedshopControllerTemplate_detail extends RedshopController
 {
 	public function __construct($default = array())
 	{
@@ -60,11 +59,11 @@ class RedshopControllerTemplate_detail extends JController
 		{
 			if ($apply == 1)
 			{
-				$this->setRedirect('index.php?option=' . $option . '&view=template_detail&task=edit&cid[]=' . $row->template_id, $msg);
+				$this->setRedirect('index.php?option=com_redshop&view=template_detail&task=edit&cid[]=' . $row->template_id, $msg);
 			}
 			else
 			{
-				$this->setRedirect('index.php?option=' . $option . '&view=template', $msg);
+				$this->setRedirect('index.php?option=com_redshop&view=template', $msg);
 			}
 		}
 		else
@@ -94,7 +93,7 @@ class RedshopControllerTemplate_detail extends JController
 			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
 		}
 
-		$this->setRedirect('index.php?option=' . $option . '&view=template');
+		$this->setRedirect('index.php?option=com_redshop&view=template');
 	}
 
 	public function publish()
@@ -115,7 +114,7 @@ class RedshopControllerTemplate_detail extends JController
 			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
 		}
 
-		$this->setRedirect('index.php?option=' . $option . '&view=template');
+		$this->setRedirect('index.php?option=com_redshop&view=template');
 	}
 
 	public function unpublish()
@@ -136,7 +135,7 @@ class RedshopControllerTemplate_detail extends JController
 			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
 		}
 
-		$this->setRedirect('index.php?option=' . $option . '&view=template');
+		$this->setRedirect('index.php?option=com_redshop&view=template');
 	}
 
 	public function cancel()
@@ -146,7 +145,7 @@ class RedshopControllerTemplate_detail extends JController
 		$model = $this->getModel('template_detail');
 		$model->checkin();
 
-		$this->setRedirect('index.php?option=' . $option . '&view=template');
+		$this->setRedirect('index.php?option=com_redshop&view=template');
 	}
 
 	public function copy()
@@ -174,6 +173,6 @@ class RedshopControllerTemplate_detail extends JController
 			$msg = JText::_('COM_REDSHOP_ERROR_COPYING_TEMPLATE');
 		}
 
-		$this->setRedirect('index.php?option=' . $option . '&view=template', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=template', $msg);
 	}
 }

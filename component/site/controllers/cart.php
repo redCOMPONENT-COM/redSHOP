@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-JLoader::import('joomla.application.component.controller');
 
 JLoader::load('RedshopHelperHelper');
 JLoader::load('RedshopHelperCart');
@@ -21,7 +20,7 @@ JLoader::load('RedshopHelperCart');
  * @subpackage  Controller
  * @since       1.0
  */
-class RedshopControllerCart extends JController
+class RedshopControllerCart extends RedshopController
 {
 	/**
 	 * Constructor
@@ -85,7 +84,7 @@ class RedshopControllerCart extends JController
 				}
 
 				$link = JRoute::_("index.php?option=com_redshop&view=product&pid=" . $post["product_id"] . "&Itemid=" . $prdItemid, false);
-				$app->Redirect($link, $errmsg);
+				$app->redirect($link, $errmsg);
 			}
 		}
 
@@ -161,7 +160,7 @@ class RedshopControllerCart extends JController
 								}
 
 								$link = JRoute::_("index.php?option=com_redshop&view=product&pid=" . $post["product_id"] . "&Itemid=" . $prdItemid, false);
-								$app->Redirect($link, $errmsg);
+								$app->redirect($link, $errmsg);
 							}
 						}
 					}
@@ -191,14 +190,14 @@ class RedshopControllerCart extends JController
 			if (AJAX_CART_BOX == 1 && isset($post['ajax_cart_box']))
 			{
 				$link = JRoute::_('index.php?option=com_redshop&view=cart&ajax_cart_box=' . $post['ajax_cart_box'] . '&tmpl=component&Itemid=' . $Itemid, false);
-				$app->Redirect($link);
+				$app->redirect($link);
 			}
 			else
 			{
 				if (ADDTOCART_BEHAVIOUR == 1)
 				{
 					$link = JRoute::_('index.php?option=com_redshop&view=cart&Itemid=' . $Itemid, false);
-					$app->Redirect($link);
+					$app->redirect($link);
 				}
 				else
 				{
@@ -211,14 +210,14 @@ class RedshopControllerCart extends JController
 					}
 
 					$msg .= JTEXT::_('COM_REDSHOP_PRODUCT_ADDED_TO_CART');
-					$app->Redirect($link, $msg);
+					$app->redirect($link, $msg);
 				}
 			}
 		}
 		else
 		{
 			$link = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $post['p_id'] . '&Itemid=' . $Itemid, false);
-			$app->Redirect($link);
+			$app->redirect($link);
 		}
 	}
 

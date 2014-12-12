@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-JLoader::import('joomla.application.component.model');
 
 JLoader::load('RedshopHelperProduct');
 JLoader::load('RedshopHelperExtra_field');
@@ -23,7 +22,7 @@ JLoader::load('RedshopHelperAdminExtra_field');
  * @subpackage  Model
  * @since       1.0
  */
-class RedshopModelProduct extends JModel
+class RedshopModelProduct extends RedshopModel
 {
 	public $_id = null;
 
@@ -249,7 +248,7 @@ class RedshopModelProduct extends JModel
 
 		$product = $producthelper->getProductById($product_id);
 
-		$link        = JRoute::_($url . "index.php?option=" . $option . "&view=product&pid=" . $product_id . '&Itemid=' . $Itemid);
+		$link        = JRoute::_($url . "index.php?option=com_redshop&view=product&pid=" . $product_id . '&Itemid=' . $Itemid);
 		$product_url = "<a href=" . $link . ">" . $product->product_name . "</a>";
 		$data_add    = str_replace("{product_link}", $product_url, $data_add);
 		$data_add    = str_replace("{product_name}", $product->product_name, $data_add);
@@ -293,7 +292,7 @@ class RedshopModelProduct extends JModel
 			. "SET visited=visited + 1 "
 			. "WHERE product_id = " . (int) $product_id;
 		$this->_db->setQuery($query);
-		$this->_db->Query();
+		$this->_db->execute();
 	}
 
 	public function addProductTags($data)
@@ -374,7 +373,7 @@ class RedshopModelProduct extends JModel
 		$query = "INSERT INTO " . $this->_table_prefix . "product_tags_xref "
 			. "VALUES('" . (int) $tags->tags_id . "','" . (int) $post['product_id'] . "','" . (int) $user->id . "')";
 		$this->_db->setQuery($query);
-		$this->_db->Query();
+		$this->_db->execute();
 
 		return true;
 	}
@@ -565,7 +564,7 @@ class RedshopModelProduct extends JModel
 			. "SET download_max=(download_max - 1) "
 			. "WHERE download_id = " . (int) $did;
 		$this->_db->setQuery($query);
-		$ret = $this->_db->Query();
+		$ret = $this->_db->execute();
 
 		if ($ret)
 		{

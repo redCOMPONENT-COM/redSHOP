@@ -9,12 +9,11 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
 
 JLoader::load('RedshopHelperAdminExtra_field');
 JLoader::load('RedshopHelperAdminImages');
 
-class RedshopModelFields_detail extends JModel
+class RedshopModelFields_detail extends RedshopModel
 {
 	public $_id = null;
 
@@ -208,7 +207,7 @@ class RedshopModelFields_detail extends JModel
 
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 
@@ -224,7 +223,7 @@ class RedshopModelFields_detail extends JModel
 
 		$this->_db->setQuery($query);
 
-		if (!$this->_db->query())
+		if (!$this->_db->execute())
 		{
 			$this->setError($this->_db->getErrorMsg());
 
@@ -241,7 +240,7 @@ class RedshopModelFields_detail extends JModel
 			$query = 'DELETE FROM ' . $this->_table_prefix . 'fields WHERE field_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 
@@ -252,7 +251,7 @@ class RedshopModelFields_detail extends JModel
 			$query_field_data = 'DELETE FROM ' . $this->_table_prefix . 'fields_data  WHERE fieldid IN ( ' . $cids . ' ) ';
 			$this->_db->setQuery($query_field_data);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 			}
@@ -272,7 +271,7 @@ class RedshopModelFields_detail extends JModel
 				. ' WHERE field_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 

@@ -51,14 +51,14 @@ $doc = JFactory::getDocument();
 // Use diffrent CSS for print layout
 if (!$print)
 {
-	JHTML::Stylesheet('redshop.css', 'components/com_redshop/assets/css/');
+	JHtml::stylesheet('com_redshop/redshop.css', array(), true);
 }
 else
 {
-	JHTML::Stylesheet('print.css', 'components/com_redshop/assets/css/');
+	JHtml::stylesheet('com_redshop/print.css', array(), true);
 }
 
-JHTML::Stylesheet('style.css', 'components/com_redshop/assets/css/');
+JHtml::stylesheet('com_redshop/style.css', array(), true);
 
 // Set the default view name and format from the Request.
 $vName      = $app->input->getCmd('view', 'category');
@@ -190,7 +190,17 @@ if (strpos($command, '.') === false)
 
 // Perform the Request task
 $controller = JControllerLegacy::getInstance('Redshop');
-$controller->execute($app->input->getCmd('task', ''));
+
+if (version_compare(JVERSION, '3.0', '<'))
+{
+	$task = JRequest::getCmd('task');
+}
+else
+{
+	$task = $app->input->get('task', '');
+}
+
+$controller->execute($task);
 
 // End component DIV here
 echo "</div>";

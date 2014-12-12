@@ -124,12 +124,11 @@ $editor        = JFactory::getEditor();
 	<div class="col50" id='answerlists'>
 		<fieldset class="adminform">
 			<legend><?php echo JText::_('COM_REDSHOP_PREVIOUS_ANSWERS'); ?></legend>
-			<table class="adminlist">
+			<table class="adminlist table table-striped">
 				<thead>
 				<tr class="row<?php echo $k; ?>">
 					<th class="title">#</th>
-					<th class="title"><input type="checkbox" name="toggle" value=""
-					                         onclick="checkAll(<?php echo count($this->answers); ?>);"/></th>
+					<th class="title"><?php echo JHtml::_('redshopgrid.checkall'); ?></th>
 					<th class="title"><?php echo JText::_('COM_REDSHOP_ANSWERS'); ?></th>
 					<th class="title"><?php echo JText::_('COM_REDSHOP_USER_NAME'); ?></th>
 					<th class="title"><?php echo JText::_('COM_REDSHOP_USER_EMAIL'); ?></th>
