@@ -13,16 +13,6 @@
     <!-- Do initialization stuff -->
     <property file="build.properties" override="true" />
 
-    <property
-            name="extension"
-            value="redSHOP"
-            override="true" />
-
-    <property
-            name="version"
-            value="${comp.version}"
-            override="true" />
-
     <!-- Folder where the redSHOP repository is located  -->
     <property
             name="extpath"
@@ -32,13 +22,7 @@
     <!-- Target dir where packages will be created  -->
     <property
             name="targetdir"
-            value="${package.dir}/package-${extension}-v${version}"
-            override="true" />
-
-    <!-- Version of the redSHOP for witch the module is intended to  -->
-    <property
-            name="joomla_version"
-            value="${joomla.version}"
+            value="${package.dir}/package-${comp.name}-v${comp.version}"
             override="true" />
 
     <!-- ============================================  -->
@@ -137,7 +121,7 @@
     <target name="dist" depends="build">
         <echo msg="Creating ZIP archive..." />
 
-        <zip destfile="${targetdir}/../${extension}-v${version}_${joomla_version}j.zip">
+        <zip destfile="${targetdir}/../${comp.name}-v${comp.version}_j${comp.version}.zip">
             <fileset dir="${targetdir}">
                 <include name="**" />
                 <exclude name=".*" />
