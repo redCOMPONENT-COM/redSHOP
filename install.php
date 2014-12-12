@@ -874,6 +874,11 @@ class Com_RedshopInstallerScript
 			$cfgarr["GENERATE_LABEL_ON_STATUS"] = "S";
 		}
 
+		if (!defined("CHECKOUT_LOGIN_REGISTER_SWITCHER"))
+		{
+			$cfgarr["CHECKOUT_LOGIN_REGISTER_SWITCHER"] = 'sliders';
+		}
+
 		$Redconfiguration->manageCFGFile($cfgarr);
 	}
 
