@@ -30,13 +30,7 @@
 	<!-- Target dir where module packages will be created  -->
 	<property
 			name="targetdir"
-			value="${package.dir}/redSHOP-${version}-modules/"
-			override="true" />
-
-	<!-- Version of the redSHOP for witch the module is intended to  -->
-	<property
-			name="joomla_version"
-			value="${joomla.version}"
+			value="${package.dir}/${comp.name}-${version}-modules/"
 			override="true" />
 
 	<!-- MAIN -->
