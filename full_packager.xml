@@ -33,7 +33,7 @@
         </zip>
         <delete dir="${package.dir}/${comp.name}-${comp.version}-plugins"  />
         <delete dir="${package.dir}/${comp.name}-${comp.version}-modules"  />
-        <delete file="${package.dir}/${comp.name}-v${comp.version}_j${comp.version}.zip"  />
+        <delete file="${package.dir}/${comp.name}-v${comp.version}_j${joomla.version}.zip"  />
 
     </target>
 </project>
