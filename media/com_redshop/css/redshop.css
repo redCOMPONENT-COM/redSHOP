@@ -116,10 +116,8 @@ margin:0;
 .category_box_wrapper, .kategori_kasse_ramme {
 	margin:0px;
 	padding:0px;
-	_height: auto !important;
 	height: auto !important;
 	min-height: 250px;
-	height: 250px;
 	width: 100%;
 	display: block;
 }
@@ -1011,4 +1009,10 @@ a.rightButton:hover{
   display: block;
   width: 19px;
   height: 20px;
+}
+
+.clr {
+	clear: both;
+	overflow: hidden;
+	height: 0;
 }

@@ -13,9 +13,24 @@ JLoader::import('joomla.html.pagination');
 
 if (version_compare(JVERSION, '3.0', '>='))
 {
-	// Extends for J3
-	class redPagination extends JPagination
+	/**
+	 * Pagination Class extends J3.
+	 *
+	 * @since  1.5
+	 */
+	class RedPagination extends JPagination
 	{
+		/**
+		 * Create and return the pagination page list string, ie. Previous, Next, 1 2 3 ... x.
+		 *
+		 * @return  string  Pagination page list string.
+		 *
+		 * @since  1.5
+		 */
+		public function getPagesLinks()
+		{
+			return '<div class="clr"></div><div class="pagination">' . parent::getPagesLinks() . '</div>';
+		}
 	}
 }
 
