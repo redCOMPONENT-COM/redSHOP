@@ -1010,7 +1010,9 @@ a.rightButton:hover{
   width: 19px;
   height: 20px;
 }
-
+.accessory_product{
+	width: 100%;
+}
 .clr {
 	clear: both;
 	overflow: hidden;
