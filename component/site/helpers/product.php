@@ -10191,7 +10191,7 @@ class producthelper
 
 			if (strstr($template_desc, "{stock_status"))
 			{
-				$stocktag    = strstr($template_desc, "{stock_status");
+				$stocktag    = strstr($template_desc, "{stock_status:");
 				$newstocktag = explode("}", $stocktag);
 
 				$realstocktag = $newstocktag[0] . "}";
