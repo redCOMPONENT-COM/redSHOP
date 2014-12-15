@@ -1157,7 +1157,7 @@ if (strstr($template_desc, $mpimg_tag))
 		}
 	}
 
-	$insertStr     = "<span class='redhoverImagebox' id='additional_images" . $this->data->product_id . "'>" . $more_images . "</span>";
+	$insertStr     = "<div class='redhoverImagebox' id='additional_images" . $this->data->product_id . "'>" . $more_images . "</div><div class=\"clr\"></div>";
 	$template_desc = str_replace($mpimg_tag, $insertStr, $template_desc);
 }
 
