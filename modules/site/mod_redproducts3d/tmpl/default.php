@@ -15,7 +15,7 @@ $Itemid = JRequest::getInt('Itemid');
 $option = 'com_redshop';
 
 $document = JFactory::getDocument();
-JHTML::Script('redproduct360.js', 'modules/mod_redproducts3d/js/', false);
+JHTML::script('modules/mod_redproducts3d/js/redproduct360.js');
 
 $enableImageReflection = 0;
 $enableimageStroke = 0;

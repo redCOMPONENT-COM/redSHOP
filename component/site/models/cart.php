@@ -557,8 +557,7 @@ class RedshopModelCart extends RedshopModel
 	 */
 	public function shippingrate_calc()
 	{
-		$document = JFactory::getDocument();
-		JHTML::Script('commmon.js', 'components/com_redshop/assets/js/', false);
+		JHTML::script('com_redshop/common.js', false, true);
 		$redConfig = new Redconfiguration;
 
 		$countryarray         = $redConfig->getCountryList();

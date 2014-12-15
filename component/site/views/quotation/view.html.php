@@ -32,7 +32,7 @@ class RedshopViewQuotation extends RedshopView
 			}
 		}
 
-		JHTML::Script('validation.js', 'administrator/components/com_redshop/assets/js/', false);
+		JHTML::script('administrator/components/com_redshop/assets/js/validation.js');
 
 		$model  = $this->getModel('quotation');
 
