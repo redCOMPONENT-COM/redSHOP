@@ -1511,12 +1511,14 @@ function displayAdditionalImage(product_id, accessory_id, relatedprd_id, selecte
 	}
 	var changehref = 0;
 	if (document.getElementById('a_main_image' + product_id) || document.getElementById('main_image' + product_id)) {
+
+		var newhref = '';
+
 		if (document.getElementById('a_main_image' + product_id)) {
 			var tmphref = document.getElementById('a_main_image' + product_id).href;
 			if ('undefined' !== typeof tmphref)
 			{
 				tmphref = tmphref.split("");
-				var newhref = '';
 				newhref = tmphref.reverse();
 				newhref = newhref.join("");
 				tmphref = newhref.split(".");
@@ -1530,7 +1532,6 @@ function displayAdditionalImage(product_id, accessory_id, relatedprd_id, selecte
 			if ('undefined' !== typeof tmphref)
 			{
 				tmphref = tmphref.split("");
-				var newhref = '';
 				newhref = tmphref.reverse();
 				newhref = newhref.join("");
 				tmphref = newhref.split(".");
