@@ -121,7 +121,7 @@
     <target name="dist" depends="build">
         <echo msg="Creating ZIP archive..." />
 
-        <zip destfile="${targetdir}/../${comp.name}-v${comp.version}_j${comp.version}.zip">
+        <zip destfile="${targetdir}/../${comp.name}-v${comp.version}_j${joomla.version}.zip">
             <fileset dir="${targetdir}">
                 <include name="**" />
                 <exclude name=".*" />
