@@ -86,12 +86,18 @@ class RedShopHelperImages extends JObject
 		// Set Default Width
 		if ((int) $width <= 0)
 		{
-			$width = 50;
+			$width = 0;
 		}
 
 		// Set Default Height
 		if ((int) $height <= 0)
 		{
+			$height = 0;
+		}
+
+		if (0 == $width && 0 == $height)
+		{
+			$width  = 50;
 			$height = 50;
 		}
 
