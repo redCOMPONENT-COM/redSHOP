@@ -12,7 +12,6 @@ JHTML::_('behavior.tooltip');
 $Itemid         = JRequest::getInt('Itemid');
 $loginlink      = 'index.php?option=com_redshop&view=login&Itemid=' . $Itemid;
 $newuser_link   = 'index.php?option=com_redshop&view=registration&Itemid=' . $Itemid;
-$forgotpwd_link = 'index.php?option=com_redshop&view=password&Itemid=' . $Itemid;
 $shoppergroupid = JRequest::getInt('protalid', 0);
 
 $returnitemid = $Itemid;
