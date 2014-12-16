@@ -106,7 +106,7 @@ $Itemid = JRequest::getInt('Itemid');
 					{ ?>
 
 						<div id="link-login-lostpassword" style="margin-bottom:5px;">
-							<a href="<?php echo JRoute::_('index.php?option=com_redshop&view=password'); ?>">
+							<a href="<?php echo JRoute::_('index.php?option=com_users&view=reset'); ?>">
 								<?php echo JText::_('COM_REDSHOP_FORGOT_YOUR_PASSWORD'); ?></a>
 						</div>
 

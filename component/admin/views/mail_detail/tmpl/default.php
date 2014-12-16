@@ -111,13 +111,7 @@ $extra_field = new extra_field;
 <legend><?php echo JText::_('COM_REDSHOP_MAIL_CENTER_HELPFUL_HINT'); ?></legend>
 <?php
 echo JHtml::_('sliders.start', 'mail-pane');
-echo JHtml::_('sliders.panel', JText::_('COM_REDSHOP_STSTUS_OF_PASSWORD_RESET'), 'pass-reset'); ?>
-<table class="adminlist">
-	<tr>
-		<td><?php echo Redtemplate::getTemplateValues('status_of_reset_password', 'mail'); ?></td>
-	</tr>
-</table>
-<?php echo JHtml::_('sliders.panel', JText::_('COM_REDSHOP_REGISTRATION_MAIL'), 'registrationmail'); ?>
+echo JHtml::_('sliders.panel', JText::_('COM_REDSHOP_REGISTRATION_MAIL'), 'registrationmail'); ?>
 <table class="adminlist">
 	<tr>
 		<td><?php echo Redtemplate::getTemplateValues('registration', 'mail'); ?></td>
