@@ -631,6 +631,7 @@ table.tdborder{
 	border-right:0px solid #ccc !important;
 }
 .tdborder th{
+	text-align: left;
 	padding-top:5px;
 	padding-bottom:5px;
 	padding-left:5px;
