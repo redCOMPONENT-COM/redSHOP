@@ -124,7 +124,7 @@ $editor        = JFactory::getEditor();
 	<div class="col50" id='answerlists'>
 		<fieldset class="adminform">
 			<legend><?php echo JText::_('COM_REDSHOP_PREVIOUS_ANSWERS'); ?></legend>
-			<table class="adminlist">
+			<table class="adminlist table table-striped">
 				<thead>
 				<tr class="row<?php echo $k; ?>">
 					<th class="title">#</th>

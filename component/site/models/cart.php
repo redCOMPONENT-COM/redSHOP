@@ -133,13 +133,13 @@ class RedshopModelCart extends RedshopModel
 				. "AND section='product' "
 				. "AND time < $time ";
 			$db->setQuery($sql);
-			$deletedrs = $db->loadResultArray();
+			$deletedrs = $db->loadColumn();
 
 			$sql = "SELECT product_id FROM " . $this->_table_prefix . "cart "
 				. "WHERE session_id = " . $db->quote($session_id) . " "
 				. "AND section='product' ";
 			$db->setQuery($sql);
-			$includedrs = $db->loadResultArray();
+			$includedrs = $db->loadColumn();
 
 			$cart = $session->get('cart');
 
@@ -557,8 +557,7 @@ class RedshopModelCart extends RedshopModel
 	 */
 	public function shippingrate_calc()
 	{
-		$document = JFactory::getDocument();
-		JHTML::Script('commmon.js', 'components/com_redshop/assets/js/', false);
+		JHTML::script('com_redshop/common.js', false, true);
 		$redConfig = new Redconfiguration;
 
 		$countryarray         = $redConfig->getCountryList();

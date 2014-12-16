@@ -35,7 +35,7 @@ class RedshopViewAccount extends RedshopView
 		if (!count($userdata) && $layout != 'mywishlist')
 		{
 			$msg = JText::_('COM_REDSHOP_LOGIN_USER_IS_NOT_REDSHOP_USER');
-			$app->Redirect("index.php?option=com_redshop&view=account_billto&Itemid=" . $Itemid, $msg);
+			$app->redirect("index.php?option=com_redshop&view=account_billto&Itemid=" . $Itemid, $msg);
 		}
 
 		$layout = JRequest::getCmd('layout', 'default');
@@ -44,7 +44,7 @@ class RedshopViewAccount extends RedshopView
 		// Preform security checks
 		if (($user->id == 0 && $layout != 'mywishlist') || ($user->id == 0 && $layout == 'mywishlist' && !isset($mail))) // Give permission to send wishlist while not logged in )
 		{
-			$app->Redirect('index.php?option=com_redshop&view=login&Itemid=' . JRequest::getInt('Itemid'));
+			$app->redirect('index.php?option=com_redshop&view=login&Itemid=' . JRequest::getInt('Itemid'));
 
 			return;
 		}
@@ -76,18 +76,16 @@ class RedshopViewAccount extends RedshopView
 			// If wishlist Id is not set then redirect to it's main page
 			if ($wishlist_id == 0)
 			{
-				$app->Redirect("index.php?option=com_redshop&view=wishlist&layout=viewwishlist&Itemid=" . $Itemid);
+				$app->redirect("index.php?option=com_redshop&view=wishlist&layout=viewwishlist&Itemid=" . $Itemid);
 			}
 
 			JLoader::import('joomla.html.pagination');
-			JHtml::script('com_redshop/colorbox.js', false, true);
 
 			if (version_compare(JVERSION, '3.0', '<'))
 			{
 				JHtml::script('com_redshop/jquery.js', false, true);
 			}
 
-			JHTML::Script('jquery.colorbox-min.js', 'components/com_redshop/assets/js/', false);
 			JHtml::script('com_redshop/redbox.js', false, true);
 			JHtml::script('com_redshop/attribute.js', false, true);
 			JHtml::script('com_redshop/common.js', false, true);

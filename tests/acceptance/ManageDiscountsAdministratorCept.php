@@ -7,10 +7,31 @@
  */
 $scenario->group('Joomla2');
 $scenario->group('Joomla3');
+
 // Load the Step Object Page
 $I = new AcceptanceTester\LoginSteps($scenario);
 
 $I->wantTo('Test Discount Manager in Administrator');
 $I->doAdminLogin();
+$config = $I->getConfig();
 $I = new AcceptanceTester\DiscountManagerSteps($scenario);
-$I->addDiscount();
+
+if ($config['env'] == 'joomla2')
+{
+	$I->addDiscount();
+}
+else
+{
+	$amount = rand(100, 1000);
+	$discountAmount = rand(10, 100);
+	$newAmount = rand(100, 1000);
+	$I->addDiscount($amount, $discountAmount);
+	$I->searchDiscount($amount);
+	$I->editDiscount($amount, $newAmount);
+	$I->searchDiscount($newAmount);
+	$I->changeState($newAmount);
+	$I->verifyState('unpublished', $I->getState($newAmount));
+	$I->deleteDiscount($newAmount);
+	$I->searchDiscount($newAmount, 'Delete');
+}
+

@@ -40,7 +40,7 @@ class RedshopViewCategory_detail extends RedshopView
 		$document->addScript('components/com_redshop/assets/js/validation.js');
 		$document->addScript('components/com_redshop/assets/js/fields.js');
 		$document->addScript('components/com_redshop/assets/js/select_sort.js');
-		JHtml::script('com_redshop/json.js', false, true);
+		$document->addScript('components/com_redshop/assets/js/json.js');
 		$document->addStyleSheet('components/com_redshop/assets/css/search.css');
 		$document->addScript('components/com_redshop/assets/js/search.js');
 		$document->addScript('components/com_redshop/assets/js/related.js');

@@ -915,7 +915,7 @@ class extraField
 			. "WHERE field_section = " . $db->quote($section) . " "
 			. $and;
 		$this->_db->setQuery($query);
-		$list = $this->_db->loadResultArray();
+		$list = $this->_db->loadColumn();
 
 		return $list;
 	}
