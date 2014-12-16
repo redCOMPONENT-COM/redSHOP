@@ -112,8 +112,7 @@ else
 			$login_template_desc = str_replace("{rs_login_button}", $loginbutton, $login_template_desc);
 		}
 
-		$forgotpwd_link      = JRoute::_('index.php?option=com_redshop&view=password&Itemid=' . $Itemid);
-		$forgotpwd           = '<a href="' . $forgotpwd_link . '">' . JText::_('COM_REDSHOP_FORGOT_PWD_LINK') . '</a>';
+		$forgotpwd           = '<a href="' . JRoute::_('index.php?option=com_users&view=reset') . '">' . JText::_('COM_REDSHOP_FORGOT_PWD_LINK') . '</a>';
 		$login_template_desc = str_replace("{forget_password_link}", $forgotpwd, $login_template_desc);
 
 		$login_template_desc = '<form action="' . JRoute::_('index.php') . '" method="post">' . $login_template_desc . '</form>';
