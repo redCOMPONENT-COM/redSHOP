@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-
 class RedshopControllerCoupon_detail extends RedshopController
 {
 	public function __construct($default = array())

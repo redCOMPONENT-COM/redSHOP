@@ -70,7 +70,7 @@ class RedshopModelStatistic extends RedshopModel
 			. ', p.product_id, p.product_name, p.product_price, count(*) AS visited '
 			. 'FROM ' . $this->_table_prefix . 'pageviewer AS pv '
 			. 'LEFT JOIN ' . $this->_table_prefix . 'product p ON p.product_id=pv.section_id '
-			. 'WHERE pv.section="product" AND pv.sectoon_id!=0 ';
+			. 'WHERE pv.section="product" AND pv.section_id!=0 ';
 		$query1 = ' GROUP BY pv.section_id '
 			. 'ORDER BY visited desc ';
 		$this->_mostpopular = $this->_getList($query . $query1);

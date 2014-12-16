@@ -28,11 +28,11 @@ class RedshopViewQuotation extends RedshopView
 		{
 			if ($cart['idx'] < 1)
 			{
-				$app->Redirect('index.php?option=com_redshop&view=cart&Itemid=' . $Itemid);
+				$app->redirect('index.php?option=com_redshop&view=cart&Itemid=' . $Itemid);
 			}
 		}
 
-		JHTML::Script('validation.js', 'administrator/components/com_redshop/assets/js/', false);
+		JHTML::script('administrator/components/com_redshop/assets/js/validation.js');
 
 		$model  = $this->getModel('quotation');
 

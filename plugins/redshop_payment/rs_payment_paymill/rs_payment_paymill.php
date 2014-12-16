@@ -179,7 +179,7 @@ class plgRedshop_paymentrs_payment_paymill extends JPlugin
 		}
 
 		$redirect_url = JRoute::_("index.php?option=com_redshop&view=order_detail&controller=order_detail&task=notify_payment&payment_plugin=rs_payment_paymill&Itemid=" . $Itemid . "&orderid=" . $data['order_id']);
-		$app->Redirect($redirect_url);
+		$app->redirect($redirect_url);
 	}
 
 	function onNotifyPaymentrs_payment_paymill($element, $request)
