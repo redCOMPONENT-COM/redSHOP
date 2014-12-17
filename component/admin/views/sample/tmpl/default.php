@@ -31,7 +31,7 @@ $option = JRequest::getVar('option');
 
 <form action="<?php echo 'index.php?option=' . $option; ?>" method="post" name="adminForm" id="adminForm">
 	<div id="editcell" style="background-color: ">
-		<table class="adminlist">
+		<table class="adminlist table table-striped">
 			<thead>
 			<tr>
 				<th width="5%"><?php echo JText::_('COM_REDSHOP_NUM'); ?></th>
@@ -51,7 +51,7 @@ $option = JRequest::getVar('option');
 			{
 				$row = $this->catalog[$i];
 				$row->id = $row->sample_id;
-				$link = JRoute::_('index.php?option=' . $option . '&view=sample_detail&task=edit&cid[]=' . $row->sample_id);
+				$link = JRoute::_('index.php?option=com_redshop&view=sample_detail&task=edit&cid[]=' . $row->sample_id);
 
 				$published = JHtml::_('jgrid.published', $row->published, $i, '', 1);?>
 				<tr class="<?php echo "row$k"; ?>">

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <extension version="2.5.0" client="site" type="plugin" group="economic" method="upgrade">
     <name>PLG_E-CONOMIC</name>
     <version>1.3.3</version>
@@ -19,34 +19,92 @@
     <config>
         <fields name="params">
             <fieldset name="basic">
-                <field name="economic_agreement_number" type="text" default=""
-                       label="COM_REDSHOP_ECONOMIC_AGREEMENT_NUMBER_LBL"
-                       description="COM_REDSHOP_DESC_ECONOMIC_AGREEMENT_NUMBER_LBL"/>
-                <field name="economic_username" type="text" default="" label="COM_REDSHOP_ECONOMIC_USERNAME_LBL"
-                       description="COM_REDSHOP_DESC_ECONOMIC_USERNAME_LBL"/>
-                <field name="economic_password" type="password" default="" label="COM_REDSHOP_ECONOMIC_PASSWORD_LBL"
-                       description="COM_REDSHOP_DESC_ECONOMIC_PASSWORD_LBL"/>
-                <field name="economic_debtor_group_id" type="text" default=""
-                       label="COM_REDSHOP_ECONOMIC_DEBTOR_GROUP_ID_LBL"
-                       description="COM_REDSHOP_DESC_ECONOMIC_DEBTOR_GROUP_ID_LBL"/>
-                <field name="economic_payment_terms" type="text" default=""
-                       label="COM_REDSHOP_ECONOMIC_PAYMENT_TERMS_LBL"
-                       description="COM_REDSHOP_DESC_ECONOMIC_PAYMENT_TERMS_LBL"/>
-                <field name="economic_layout_id" type="text" default="" label="COM_REDSHOP_ECONOMIC_LAYOUT_ID_LBL"
-                       description="COM_REDSHOP_DESC_ECONOMIC_LAYOUT_ID_LBL"/>
-                <field name="economic_units_id" type="text" default="" label="COM_REDSHOP_ECONOMIC_UNITS_ID_LBL"
-                       description="COM_REDSHOP_DESC_ECONOMIC_UNITS_ID_LBL"/>
-                <field name="economicUseCashbook" type="radio" default="1" label="COM_REDSHOP_ECONOMIC_USE_CASHBOOK_LBL"
-                       description="COM_REDSHOP_ECONOMIC_USE_CASHBOOK_DESC">
-                       <option value="1">JYES</option>
-                       <option value="0">JNO</option>
+                <field
+                	name="economic_agreement_number"
+                	type="text"
+                	default=""
+                	label="COM_REDSHOP_ECONOMIC_AGREEMENT_NUMBER_LBL"
+                	description="COM_REDSHOP_DESC_ECONOMIC_AGREEMENT_NUMBER_LBL"
+                />
+                <field
+                	name="economic_username"
+                	type="text"
+                	default=""
+                	label="COM_REDSHOP_ECONOMIC_USERNAME_LBL"
+                	description="COM_REDSHOP_DESC_ECONOMIC_USERNAME_LBL"
+                />
+                <field
+                	name="economic_password"
+                	type="password"
+                	default=""
+                	label="COM_REDSHOP_ECONOMIC_PASSWORD_LBL"
+                	description="COM_REDSHOP_DESC_ECONOMIC_PASSWORD_LBL"
+                />
+                <field
+                	name="economic_debtor_group_id"
+                	type="text"
+                	default=""
+                	label="COM_REDSHOP_ECONOMIC_DEBTOR_GROUP_ID_LBL"
+                	description="COM_REDSHOP_DESC_ECONOMIC_DEBTOR_GROUP_ID_LBL"
+                />
+                <field
+                	name="economic_payment_terms"
+                	type="text"
+                	default=""
+                	label="COM_REDSHOP_ECONOMIC_PAYMENT_TERMS_LBL"
+                	description="COM_REDSHOP_DESC_ECONOMIC_PAYMENT_TERMS_LBL"
+                />
+                <field
+                	name="economic_layout_id"
+                	type="text"
+                	default=""
+                	label="COM_REDSHOP_ECONOMIC_LAYOUT_ID_LBL"
+                	description="COM_REDSHOP_DESC_ECONOMIC_LAYOUT_ID_LBL"
+                />
+                <field
+                	name="economic_units_id"
+                	type="text"
+                	default=""
+                	label="COM_REDSHOP_ECONOMIC_UNITS_ID_LBL"
+                	description="COM_REDSHOP_DESC_ECONOMIC_UNITS_ID_LBL"
+                />
+                <field
+                	name="economicUseCashbook"
+                	type="radio"
+                	default="1"
+                	label="COM_REDSHOP_ECONOMIC_USE_CASHBOOK_LBL"
+                	description="COM_REDSHOP_ECONOMIC_USE_CASHBOOK_DESC">
+                    <option value="1">JYES</option>
+                    <option value="0">JNO</option>
                 </field>
-                <field name="economic_cashbook_number" type="hidden" default=""
-                       label="COM_REDSHOP_ECONOMIC_CASHBOOK_NUMBER_LBL"
-                       description="COM_REDSHOP_ECONOMIC_CASHBOOK_NUMBER_LBL"/>
-                <field name="economic_contra_account" type="hidden" default=""
-                       label="COM_REDSHOP_ECONOMIC_CONTRA_ACCOUNT_ID_LBL"
-                       description="COM_REDSHOP_ECONOMIC_CONTRA_ACCOUNT_ID_LBL"/>
+                <field
+                	name="economic_cashbook_number"
+                	type="hidden"
+                	default=""
+                	label="COM_REDSHOP_ECONOMIC_CASHBOOK_NUMBER_LBL"
+                	description="COM_REDSHOP_ECONOMIC_CASHBOOK_NUMBER_LBL"
+                />
+                <field
+                	name="extraFieldForDebtorRef"
+                	type="input"
+                	default=""
+                	label="COM_REDSHOP_ECONOMIC_EXTRA_FIELD_FOR_DEBTOR_REFERENCE"
+                	description="COM_REDSHOP_ECONOMIC_EXTRA_FIELD_FOR_DEBTOR_REFERENCE_DESC"
+                />
+                <field
+                	name="extraFieldForDebtorCompanyRef"
+                	type="input"
+                	default=""
+                	label="COM_REDSHOP_ECONOMIC_EXTRA_FIELD_FOR_DEBTOR_COMPANY_REFERENCE"
+                	description="COM_REDSHOP_ECONOMIC_EXTRA_FIELD_FOR_DEBTOR_COMPANY_REFERENCE_DESC"
+                />
+                <field
+                	name="economic_contra_account"
+                	type="hidden"
+                	default=""
+                	label="COM_REDSHOP_ECONOMIC_CONTRA_ACCOUNT_ID_LBL"
+                	description="COM_REDSHOP_ECONOMIC_CONTRA_ACCOUNT_ID_LBL"
+                />
             </fieldset>
         </fields>
     </config>

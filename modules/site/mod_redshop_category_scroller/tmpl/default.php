@@ -61,8 +61,8 @@ else
 	JHtml::script('com_redshop/jquery.tools.min.js', false, true);
 }
 
-JHTML::Script('jquery.js', 'modules/mod_redshop_category_scroller/js/', false);
-JHTML::Script('rscategoryscroller.js', 'modules/mod_redshop_category_scroller/js/', false);
+JHTML::script('modules/mod_redshop_category_scroller/js/jquery.js');
+JHTML::script('modules/mod_redshop_category_scroller/js/rscategoryscroller.js');
 
 echo $pretext;
 echo "<div style='height:" . $scrollerheight . "px;'>";

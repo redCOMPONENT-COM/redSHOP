@@ -34,7 +34,7 @@ $option = JRequest::getVar('option', '', 'request', 'string');
 </script>
 <form action="<?php echo 'index.php?option=' . $option; ?>" method="post" name="adminForm" id="adminForm">
 	<div id="editcell">
-		<table class="adminlist">
+		<table class="adminlist table table-striped">
 			<thead>
 			<tr>
 				<th width="5%">
@@ -63,7 +63,7 @@ $option = JRequest::getVar('option', '', 'request', 'string');
 
 				$row->id = $row->tax_group_id;
 
-				$link = JRoute::_('index.php?option=' . $option . '&view=tax_group_detail&task=edit&cid[]=' . $row->tax_group_id);
+				$link = JRoute::_('index.php?option=com_redshop&view=tax_group_detail&task=edit&cid[]=' . $row->tax_group_id);
 
 
 				?>

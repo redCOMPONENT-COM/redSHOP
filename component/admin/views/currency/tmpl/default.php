@@ -33,7 +33,7 @@ $filter = JRequest::getVar('filter');
 </script>
 
 <form action="<?php echo 'index.php?option=' . $option; ?>" class="admin" id="adminForm" method="post" name="adminForm">
-	<table class="adminlist">
+	<table class="adminlist table table-striped">
 		<thead>
 		<tr>
 			<th width="5"><?php echo JText::_('COM_REDSHOP_NUM'); ?></th>
@@ -52,7 +52,7 @@ $filter = JRequest::getVar('filter');
 		{
 			$row = $this->fields[$i];
 			$row->id = $row->currency_id;
-			$link = JRoute::_('index.php?option=' . $option . '&view=currency_detail&task=edit&cid[]=' . $row->currency_id);
+			$link = JRoute::_('index.php?option=com_redshop&view=currency_detail&task=edit&cid[]=' . $row->currency_id);
 
 			?>
 			<tr class="<?php echo "row$k"; ?>">

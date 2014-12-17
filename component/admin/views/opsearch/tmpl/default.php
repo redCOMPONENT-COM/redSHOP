@@ -41,7 +41,7 @@ $showbuttons = JRequest::getVar('showbuttons', '', 'request', 0);    ?>
 				</tr>
 			</table>
 		<?php } ?>
-		<table class="adminlist">
+		<table class="adminlist table table-striped">
 			<thead>
 			<tr>
 				<th width="5%"><?php echo JText::_('COM_REDSHOP_NUM'); ?></th>
@@ -61,8 +61,8 @@ $showbuttons = JRequest::getVar('showbuttons', '', 'request', 0);    ?>
 			{
 				$row = $this->products[$i];
 
-				$link = JRoute::_('index.php?option=' . $option . '&view=product_detail&task=edit&cid[]=' . $row->product_id);
-				$link_order = 'index.php?option=' . $option . '&view=order_detail&task=edit&cid[]=' . $row->order_id;
+				$link = JRoute::_('index.php?option=com_redshop&view=product_detail&task=edit&cid[]=' . $row->product_id);
+				$link_order = 'index.php?option=com_redshop&view=order_detail&task=edit&cid[]=' . $row->order_id;
 				$link_order = $redhelper->sslLink($link_order);    ?>
 				<tr class="<?php echo "row$k"; ?>">
 					<td align="center"><?php echo $this->pagination->getRowOffset($i); ?></td>

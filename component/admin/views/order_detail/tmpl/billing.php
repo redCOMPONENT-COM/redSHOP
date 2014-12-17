@@ -206,19 +206,17 @@ JLoader::load('RedshopHelperAdminExtra_field');
 					</tr>
 				<?php
 				}
-				?>
-				<?php
+
 				if ($is_company)
 				{
-					$fields = $extra_field->list_all_field_display(8, $billing->users_info_id);
+					echo $extra_field->list_all_field(8, $billing->users_info_id);
 				}
 				else
 				{
-					$fields = $extra_field->list_all_field_display(7, $billing->users_info_id);
+					echo $extra_field->list_all_field(7, $billing->users_info_id);
 				}
 
-				echo $fields; ?>
-
+				?>
 				<tr>
 					<td></td>
 					<td>

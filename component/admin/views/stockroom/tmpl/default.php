@@ -43,7 +43,7 @@ $filter = JRequest::getVar('filter');
 				</td>
 			</tr>
 		</table>
-		<table class="adminlist">
+		<table class="adminlist table table-striped">
 			<thead>
 			<tr>
 				<th width="5%"><?php echo JText::_('COM_REDSHOP_NUM');?></th>
@@ -65,7 +65,7 @@ $filter = JRequest::getVar('filter');
 			{
 				$row = $this->stockroom [$i];
 				$row->id = $row->stockroom_id;
-				$link = JRoute::_('index.php?option=' . $option . '&view=stockroom_detail&task=edit&cid[]=' . $row->stockroom_id);?>
+				$link = JRoute::_('index.php?option=com_redshop&view=stockroom_detail&task=edit&cid[]=' . $row->stockroom_id);?>
 				<tr class="<?php echo "row$k"; ?>">
 					<td align="center"><?php echo $this->pagination->getRowOffset($i);?></td>
 					<td align="center"><?php echo JHTML::_('grid.id', $i, $row->id);?></td>

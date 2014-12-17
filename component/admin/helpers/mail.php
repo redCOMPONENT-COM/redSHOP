@@ -1460,7 +1460,7 @@ class redshopMail
 
 			$list      = $this->_db->loadObject();
 
-			$link      = '<a href="' . $url . 'index.php?option=' . $option . '&view=newsletter&sid=' . $subscription_id . '">' .
+			$link      = '<a href="' . $url . 'index.php?option=com_redshop&view=newsletter&sid=' . $subscription_id . '">' .
 				JText::_('COM_REDSHOP_CLICK_HERE') . '</a>';
 
 			$search[]  = "{shopname}";
@@ -1594,7 +1594,7 @@ class redshopMail
 
 			$product     = $producthelper->getProductById($product_id);
 
-			$link        = JRoute::_($url . "index.php?option=" . $option . "&view=product&pid=" . $product_id);
+			$link        = JRoute::_($url . "index.php?option=com_redshop&view=product&pid=" . $product_id);
 
 			$data_add    = str_replace("{product_name}", $product->product_name, $data_add);
 			$data_add    = str_replace("{product_desc}", $product->product_desc, $data_add);
@@ -1780,63 +1780,5 @@ class redshopMail
 		{
 			return false;
 		}
-	}
-
-	public function sendResetPasswordMail($email)
-	{
-		$config = JFactory::getConfig();
-		$from = $config->get('mailfrom');
-		$fromname = $config->get('fromname');
-
-		$query = "SELECT u.* , ru.* FROM #__users AS u "
-			. "LEFT JOIN " . $this->_table_prefix . "users_info AS ru ON u.id = ru.user_id "
-			. "WHERE u.email = " . $this->_db->quote($email) . " "
-			. "AND ru.address_type='BT' ";
-		$this->_db->setQuery($query);
-		$userinfo = $this->_db->loadObjectList();
-
-		$message = "";
-		$subject = "";
-		$mailbcc = null;
-		$mailinfo = $this->getMailtemplate(0, "status_of_password_reset");
-
-		if (count($mailinfo) > 0)
-		{
-			$mailinfo = $mailinfo[0];
-			$message = $mailinfo->mail_body;
-			$subject = $mailinfo->mail_subject;
-
-			if (trim($mailinfo->mail_bcc) != "")
-			{
-				$mailbcc = explode(",", $mailinfo->mail_bcc);
-			}
-		}
-
-		$search[] = "{username}";
-		$search[] = "{reset_token}";
-		$search[] = "{password_complete_url}";
-		$search[] = "{firstname}";
-		$search[] = "{lastname}";
-		$search[] = "{fullname}";
-
-		$replace[] = $userinfo[0]->username;
-		$replace[] = $userinfo[0]->activation;
-		$replace[] = JURI::base() . 'index.php?option=com_redshop&view=password&layout=token&Itemid=1';
-		$replace[] = $userinfo[0]->firstname;
-		$replace[] = $userinfo[0]->lastname;
-		$replace[] = $userinfo[0]->firstname . " " . $userinfo[0]->lastname;
-
-		$message = str_replace($search, $replace, $message);
-
-		// Send the e-mail
-		if ($email != "")
-		{
-			if (JMail::getInstance()->sendMail($from, $fromname, $email, $subject, $message, 1, null, $mailbcc))
-			{
-				return true;
-			}
-		}
-
-		return false;
 	}
 }

@@ -21,14 +21,14 @@ $view      = JRequest::getCmd('view');
 $getoption = JRequest::getCmd('option');
 
 $document = JFactory::getDocument();
-JHTML::Stylesheet('products.css', 'modules/mod_redshop_shoppergroup_product/css/');
+JHTML::stylesheet('modules/mod_redshop_shoppergroup_product/css/products.css');
 // 	include redshop js file.
 JLoader::load('RedshopHelperRedshop.js');
 
 JHtml::script('com_redshop/attribute.js', false, true);
 JHtml::script('com_redshop/common.js', false, true);
 // lightbox Javascript
-JHTML::Script('fetchscript.js', 'components/com_redshop/assets/js/', false);
+JHTML::script('com_redshop/redbox.js', false, true);
 
 JHtml::stylesheet('com_redshop/fetchscript.css', array(), true);
 $producthelper = new producthelper;
@@ -115,7 +115,7 @@ for ($i = 0; $i < count($rows); $i++)
 		$Itemid = $redhelper->getItemid($row->product_id);
 	}
 
-	$link       = JRoute::_('index.php?option=' . $option . '&view=product&pid=' . $row->product_id . '&Itemid=' . $Itemid);
+	$link       = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $row->product_id . '&Itemid=' . $Itemid);
 	$thum_image = $producthelper->getProductImage($row->product_id, $link, $thumbwidth, $thumbheight);
 
 	echo "<div class='mod_redshop_shoppergroup_product'>";

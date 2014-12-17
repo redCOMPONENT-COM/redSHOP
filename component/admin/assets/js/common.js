@@ -800,7 +800,7 @@ function calculateOfflineShipping() {
                 if (document.getElementById("resultShippingClass")) {
                     resultShippingClass = document.getElementById("resultShippingClass").innerHTML;
 
-                    if (resultShippingClass == "plgredshop_shippingdefault_shipping_GLS") {
+                    if (resultShippingClass == "plgredshop_shippingdefault_shipping_gls") {
                         if (document.getElementById('rs_glslocationId')) {
                             document.getElementById('rs_glslocationId').style.display = 'block';
                         }

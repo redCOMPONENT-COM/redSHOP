@@ -46,11 +46,11 @@ class RedshopControllerAccessmanager_detail extends RedshopController
 
 		if ($apply)
 		{
-			$this->setRedirect('index.php?option=' . $option . '&view=accessmanager_detail&section=' . $section, $msg);
+			$this->setRedirect('index.php?option=com_redshop&view=accessmanager_detail&section=' . $section, $msg);
 		}
 		else
 		{
-			$this->setRedirect('index.php?option=' . $option . '&view=accessmanager', $msg);
+			$this->setRedirect('index.php?option=com_redshop&view=accessmanager', $msg);
 		}
 	}
 
@@ -63,6 +63,6 @@ class RedshopControllerAccessmanager_detail extends RedshopController
 	{
 		$option = JRequest::getVar('option');
 		$msg = JText::_('COM_REDSHOP_ACCESS_LEVEL_CANCEL');
-		$this->setRedirect('index.php?option=' . $option . '&view=accessmanager', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=accessmanager', $msg);
 	}
 }

@@ -29,7 +29,7 @@ $lists = $this->lists;?>
 </script>
 <form action="<?php echo JRoute::_($this->request_url); ?>" method="post" name="adminForm" id="adminForm">
 	<div id="editcell">
-		<table class="adminlist">
+		<table class="adminlist table table-striped">
 			<thead>
 			<tr>
 				<th width="5%"><?php echo JText::_('COM_REDSHOP_NUM'); ?></th>
@@ -59,7 +59,7 @@ $lists = $this->lists;?>
 			{
 				$row = $this->data[$i];
 				$row->id = $row->xmlexport_id;
-				$link = JRoute::_('index.php?option=' . $option . '&view=xmlexport_detail&task=edit&cid[]=' . $row->id);
+				$link = JRoute::_('index.php?option=com_redshop&view=xmlexport_detail&task=edit&cid[]=' . $row->id);
 
 				$published = JHtml::_('jgrid.published', $row->published, $i, '', 1);    ?>
 				<tr class="<?php echo "row$k"; ?>">

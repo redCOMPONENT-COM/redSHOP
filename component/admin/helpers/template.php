@@ -475,7 +475,6 @@ class Redtemplate
 			'order_status'                      => JText::_('COM_REDSHOP_ORDER_STATUS_CHANGE'),
 			'register'                          => JText::_('COM_REDSHOP_REGISTRATION_MAIL'),
 			'product'                           => JText::_('COM_REDSHOP_PRODUCT_INFORMATION'),
-			'status_of_password_reset'          => JText::_('COM_REDSHOP_STSTUS_OF_PASSWORD_RESET'),
 			'tax_exempt_approval_mail'          => JText::_('COM_REDSHOP_TAX_EXEMPT_APPROVAL_MAIL'),
 			'tax_exempt_disapproval_mail'       => JText::_('COM_REDSHOP_TAX_EXEMPT_DISAPPROVAL_MAIL'),
 			'tax_exempt_waiting_approval_mail'  => JText::_('COM_REDSHOP_TAX_EXEMPT_WAITING_APPROVAL_MAIL'),
