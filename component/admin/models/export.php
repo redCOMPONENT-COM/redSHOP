@@ -33,7 +33,7 @@ class RedshopModelExport extends RedshopModel
 
 		if (!$exportname)
 		{
-			$app->Redirect("index.php?option=com_redshop&view=export", JText::_("COM_REDSHOP_PLEASE_SELECT_SECTION"));
+			$app->redirect("index.php?option=com_redshop&view=export", JText::_("COM_REDSHOP_PLEASE_SELECT_SECTION"));
 		}
 
 		/* Set the export filename */
@@ -1052,7 +1052,7 @@ class RedshopModelExport extends RedshopModel
 					. "FROM `#__redshop_product` AS p "
 					. "WHERE p.manufacturer_id=" . $manufacturers[$e]->manufacturer_id;
 				$db->setQuery($query);
-				$pids = $db->LoadResultArray();
+				$pids = $db->loadColumn();
 				$pids = implode("|", $pids);
 
 				foreach ($row as $id => $value)

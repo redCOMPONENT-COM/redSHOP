@@ -85,7 +85,7 @@ $ordering = ($this->lists['order'] == 'ordering');
 			{
 				$row = $this->question[$i];
 				$row->id = $row->question_id;
-				$link = JRoute::_('index.php?option=' . $option . '&view=answer_detail&task=edit&cid[]=' . $row->id);
+				$link = JRoute::_('index.php?option=com_redshop&view=answer_detail&task=edit&cid[]=' . $row->id);
 
 				$product = $producthelper->getProductById($row->product_id);
 

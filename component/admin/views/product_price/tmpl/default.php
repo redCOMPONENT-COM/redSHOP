@@ -23,25 +23,14 @@ $producthelper = new producthelper;
 </script>
 <form action="<?php echo 'index.php?option=' . $option; ?>" method="post" name="adminForm" id="adminForm">
 	<div id="editcell">
-		<table class="adminlist" width="100%">
+		<table class="adminlist table table-striped" width="100%">
 			<thead>
 			<tr>
 				<th width="30%"><?php echo JText::_('COM_REDSHOP_SHOPPER_GROUP_NAME'); ?></th>
 				<th width="30%"><?php echo JText::_('COM_REDSHOP_QUANTITY_START_LBL'); ?></th>
 				<th width="30%"><?php echo JText::_('COM_REDSHOP_QUANTITY_END_LBL'); ?></th>
-				<th width="15%"><?php echo JText::_('COM_REDSHOP_PRODUCT_PRICE'); ?>&nbsp;&nbsp;
-					<div style="float:right;">
-						<a onclick="Joomla.submitbutton('saveprice')" href="#">
-							<div style="
-								width:17px;
-								height:17px;
-								background:url(templates/bluestork/images/admin/filesave.png) 0 0;
-								"
-								>
-
-							</div>
-						</a>
-					</div>
+				<th width="15%"><?php echo JText::_('COM_REDSHOP_PRODUCT_PRICE'); ?>
+					<a class="saveorder" onclick="Joomla.submitbutton('saveprice')" href="#"></a>
 				</th>
 			</tr>
 			</thead>
@@ -57,14 +46,14 @@ $producthelper = new producthelper;
 
 					<td align="center"><?php echo $row->shopper_group_name;?></td>
 					<td align="center"><input type="text" name="price_quantity_start[]" id="price_quantity_start"
-					                          value=" <?php echo $row->price_quantity_start; ?>"/></td>
+					                          value=" <?php echo $row->price_quantity_start; ?>" class="input-small"/></td>
 					<td align="center"><input type="text" name="price_quantity_end[]" id="price_quantity_end"
-					                          value="<?php echo $row->price_quantity_end; ?>"/></td>
+					                          value="<?php echo $row->price_quantity_end; ?>" class="input-small"/></td>
 					<td align="center" width="5%"><input type="hidden" name="price_id[]"
 					                                     value="<?php echo $row->id; ?>"><input type="hidden"
 					                                                                            name="shopper_group_id[]"
 					                                                                            value="<?php echo $row->shopper_group_id; ?>"><input
-							type="text" name="price[]"
+							type="text" name="price[]" class="input-small"
 							value="<?php echo $producthelper->redpriceDecimal($row->product_price); ?>"></td>
 				</tr>
 				<?php        $k = 1 - $k;

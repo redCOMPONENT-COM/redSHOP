@@ -100,7 +100,7 @@ $title = JText::_('COM_REDSHOP_POPULAR');
 			<td width="20%" align="center">
 				<div id="cpanel" align="center">
 					<?php
-					$link = 'index.php?option=' . $option . '&amp;wizard=1';
+					$link = 'index.php?option=com_redshop&amp;wizard=1';
 					redshopViewredshop::quickiconButton($link, 'wizard_48.png', JText::_('COM_REDSHOP_WIZARD'));
 
 
@@ -111,7 +111,7 @@ $title = JText::_('COM_REDSHOP_POPULAR');
 			<td width="25%" align="center">
 				<div id="cpanel" align="center">
 					<?php
-					$link = 'index.php?option=' . $option . '&view=configuration&dashboard=1';
+					$link = 'index.php?option=com_redshop&view=configuration&dashboard=1';
 					redshopViewredshop::quickiconButton($link, 'dashboard_48.png', JText::_('COM_REDSHOP_DASHBORAD_CONFIGURATION'));
 					?>
 				</div>
@@ -146,7 +146,7 @@ $title = JText::_('COM_REDSHOP_POPULAR');
 		{
 			if (in_array($new_arr['products'][$i], $this->access_rslt) && in_array($new_arr['products'][$i], $quicklink_icon))
 			{
-				$link = 'index.php?option=' . $option . '&amp;view=' . $new_arr['products'][$i];
+				$link = 'index.php?option=com_redshop&amp;view=' . $new_arr['products'][$i];
 				redshopViewredshop::quickiconButton($link, $new_arr['prodimages'][$i], JText::_("COM_REDSHOP_" . $new_arr['prodtxt'][$i]));
 				$cnt_prod = 1;
 			}
@@ -155,7 +155,7 @@ $title = JText::_('COM_REDSHOP_POPULAR');
 		{
 			if (in_array($new_arr['products'][$i], $quicklink_icon))
 			{
-				$link = 'index.php?option=' . $option . '&amp;view=' . $new_arr['products'][$i];
+				$link = 'index.php?option=com_redshop&amp;view=' . $new_arr['products'][$i];
 				redshopViewredshop::quickiconButton($link, $new_arr['prodimages'][$i], JText::_("COM_REDSHOP_" . $new_arr['prodtxt'][$i]));
 				$cnt_prod = 1;
 
@@ -185,7 +185,7 @@ $title = JText::_('COM_REDSHOP_POPULAR');
 					{
 						if (in_array($new_arr['orders'][$i], $this->access_rslt) && in_array($new_arr['orders'][$i], $quicklink_icon))
 						{
-							$link = 'index.php?option=' . $option . '&amp;view=' . $new_arr['orders'][$i];
+							$link = 'index.php?option=com_redshop&amp;view=' . $new_arr['orders'][$i];
 							redshopViewredshop::quickiconButton($link, $new_arr['orderimages'][$i], JText::_("COM_REDSHOP_" . $new_arr['ordertxt'][$i]));
 							$cnt_ord = 1;
 						}
@@ -194,7 +194,7 @@ $title = JText::_('COM_REDSHOP_POPULAR');
 					{
 						if (in_array($new_arr['orders'][$i], $quicklink_icon))
 						{
-							$link = 'index.php?option=' . $option . '&amp;view=' . $new_arr['orders'][$i];
+							$link = 'index.php?option=com_redshop&amp;view=' . $new_arr['orders'][$i];
 							redshopViewredshop::quickiconButton($link, $new_arr['orderimages'][$i], JText::_("COM_REDSHOP_" . $new_arr['ordertxt'][$i]));
 							$cnt_ord = 1;
 						}
@@ -206,7 +206,7 @@ $title = JText::_('COM_REDSHOP_POPULAR');
 				{
 					if (in_array($new_arr['orders'][$i], $this->access_rslt) && in_array($new_arr['orders'][$i], $quicklink_icon))
 					{
-						$link = 'index.php?option=' . $option . '&amp;view=' . $new_arr['orders'][$i];
+						$link = 'index.php?option=com_redshop&amp;view=' . $new_arr['orders'][$i];
 						redshopViewredshop::quickiconButton($link, $new_arr['orderimages'][$i], JText::_("COM_REDSHOP_" . $new_arr['ordertxt'][$i]));
 						$cnt_ord = 1;
 					}
@@ -215,7 +215,7 @@ $title = JText::_('COM_REDSHOP_POPULAR');
 				{
 					if (in_array($new_arr['orders'][$i], $quicklink_icon))
 					{
-						$link = 'index.php?option=' . $option . '&amp;view=' . $new_arr['orders'][$i];
+						$link = 'index.php?option=com_redshop&amp;view=' . $new_arr['orders'][$i];
 						redshopViewredshop::quickiconButton($link, $new_arr['orderimages'][$i], JText::_("COM_REDSHOP_" . $new_arr['ordertxt'][$i]));
 						$cnt_ord = 1;
 
@@ -237,7 +237,7 @@ $title = JText::_('COM_REDSHOP_POPULAR');
 		{
 			if (in_array($new_arr['discounts'][$i], $this->access_rslt) && in_array($new_arr['discounts'][$i], $quicklink_icon))
 			{
-				$link = 'index.php?option=' . $option . '&amp;view=' . $new_arr['discounts'][$i];
+				$link = 'index.php?option=com_redshop&amp;view=' . $new_arr['discounts'][$i];
 				redshopViewredshop::quickiconButton($link, $new_arr['discountimages'][$i], JText::_("COM_REDSHOP_" . $new_arr['discounttxt'][$i]));
 				$cnt_dis = 1;
 			}
@@ -246,7 +246,7 @@ $title = JText::_('COM_REDSHOP_POPULAR');
 		{
 			if (in_array($new_arr['discounts'][$i], $quicklink_icon))
 			{
-				$link = 'index.php?option=' . $option . '&amp;view=' . $new_arr['discounts'][$i];
+				$link = 'index.php?option=com_redshop&amp;view=' . $new_arr['discounts'][$i];
 				redshopViewredshop::quickiconButton($link, $new_arr['discountimages'][$i], JText::_("COM_REDSHOP_" . $new_arr['discounttxt'][$i]));
 				$cnt_dis = 1;
 			}
@@ -265,7 +265,7 @@ $title = JText::_('COM_REDSHOP_POPULAR');
 		{
 			if (in_array($new_arr['communications'][$i], $this->access_rslt) && in_array($new_arr['communications'][$i], $quicklink_icon))
 			{
-				$link = 'index.php?option=' . $option . '&amp;view=' . $new_arr['communications'][$i];
+				$link = 'index.php?option=com_redshop&amp;view=' . $new_arr['communications'][$i];
 				redshopViewredshop::quickiconButton($link, $new_arr['commimages'][$i], JText::_("COM_REDSHOP_" . $new_arr['commtxt'][$i]));
 				$cnt_com = 1;
 			}
@@ -274,7 +274,7 @@ $title = JText::_('COM_REDSHOP_POPULAR');
 		{
 			if (in_array($new_arr['communications'][$i], $quicklink_icon))
 			{
-				$link = 'index.php?option=' . $option . '&amp;view=' . $new_arr['communications'][$i];
+				$link = 'index.php?option=com_redshop&amp;view=' . $new_arr['communications'][$i];
 				redshopViewredshop::quickiconButton($link, $new_arr['commimages'][$i], JText::_("COM_REDSHOP_" . $new_arr['commtxt'][$i]));
 				$cnt_com = 1;
 
@@ -297,7 +297,7 @@ $title = JText::_('COM_REDSHOP_POPULAR');
 
 			if (in_array($new_arr['shippings'][$i], $this->access_rslt) && in_array($new_arr['shippings'][$i], $quicklink_icon))
 			{
-				$link = 'index.php?option=' . $option . '&amp;view=' . $new_arr['shippings'][$i];
+				$link = 'index.php?option=com_redshop&amp;view=' . $new_arr['shippings'][$i];
 				redshopViewredshop::quickiconButton($link, $new_arr['shippingimages'][$i], JText::_("COM_REDSHOP_" . $new_arr['shippingtxt'][$i]));
 				$cnt_ship = 1;
 			}
@@ -315,7 +315,7 @@ $title = JText::_('COM_REDSHOP_POPULAR');
 				}
 				else
 				{
-					$link = 'index.php?option=' . $option . '&amp;view=' . $new_arr['shippings'][$i];
+					$link = 'index.php?option=com_redshop&amp;view=' . $new_arr['shippings'][$i];
 					redshopViewredshop::quickiconButton($link, $new_arr['shippingimages'][$i], JText::_("COM_REDSHOP_" . $new_arr['shippingtxt'][$i]));
 					$cnt_ship = 1;
 				}
@@ -344,7 +344,7 @@ $title = JText::_('COM_REDSHOP_POPULAR');
 					{
 						if (in_array($new_arr['users'][$i], $this->access_rslt) && in_array($new_arr['users'][$i], $quicklink_icon))
 						{
-							$link = 'index.php?option=' . $option . '&amp;view=' . $new_arr['users'][$i];
+							$link = 'index.php?option=com_redshop&amp;view=' . $new_arr['users'][$i];
 							redshopViewredshop::quickiconButton($link, $new_arr['userimages'][$i], JText::_("COM_REDSHOP_" . $new_arr['usertxt'][$i]));
 							$cnt_user = 1;
 						}
@@ -353,7 +353,7 @@ $title = JText::_('COM_REDSHOP_POPULAR');
 					{
 						if (in_array($new_arr['users'][$i], $quicklink_icon))
 						{
-							$link = 'index.php?option=' . $option . '&amp;view=' . $new_arr['users'][$i];
+							$link = 'index.php?option=com_redshop&amp;view=' . $new_arr['users'][$i];
 							redshopViewredshop::quickiconButton($link, $new_arr['userimages'][$i], JText::_("COM_REDSHOP_" . $new_arr['usertxt'][$i]));
 							$cnt_user = 1;
 						}
@@ -365,7 +365,7 @@ $title = JText::_('COM_REDSHOP_POPULAR');
 				{
 					if (in_array($new_arr['users'][$i], $this->access_rslt) && in_array($new_arr['users'][$i], $quicklink_icon))
 					{
-						$link = 'index.php?option=' . $option . '&amp;view=' . $new_arr['users'][$i];
+						$link = 'index.php?option=com_redshop&amp;view=' . $new_arr['users'][$i];
 						redshopViewredshop::quickiconButton($link, $new_arr['userimages'][$i], JText::_("COM_REDSHOP_" . $new_arr['usertxt'][$i]));
 						$cnt_user = 1;
 					}
@@ -374,7 +374,7 @@ $title = JText::_('COM_REDSHOP_POPULAR');
 				{
 					if (in_array($new_arr['users'][$i], $quicklink_icon))
 					{
-						$link = 'index.php?option=' . $option . '&amp;view=' . $new_arr['users'][$i];
+						$link = 'index.php?option=com_redshop&amp;view=' . $new_arr['users'][$i];
 						redshopViewredshop::quickiconButton($link, $new_arr['userimages'][$i], JText::_("COM_REDSHOP_" . $new_arr['usertxt'][$i]));
 						$cnt_user = 1;
 					}
@@ -396,7 +396,7 @@ $title = JText::_('COM_REDSHOP_POPULAR');
 		{
 			if (in_array($new_arr['vats'][$i], $this->access_rslt) && in_array($new_arr['vats'][$i], $quicklink_icon))
 			{
-				$link = 'index.php?option=' . $option . '&amp;view=' . $new_arr['vats'][$i];
+				$link = 'index.php?option=com_redshop&amp;view=' . $new_arr['vats'][$i];
 				redshopViewredshop::quickiconButton($link, $new_arr['vatimages'][$i], JText::_("COM_REDSHOP_" . $new_arr['vattxt'][$i]));
 				$cnt_vat = 1;
 
@@ -406,7 +406,7 @@ $title = JText::_('COM_REDSHOP_POPULAR');
 		{
 			if (in_array($new_arr['vats'][$i], $quicklink_icon))
 			{
-				$link = 'index.php?option=' . $option . '&amp;view=' . $new_arr['vats'][$i];
+				$link = 'index.php?option=com_redshop&amp;view=' . $new_arr['vats'][$i];
 				redshopViewredshop::quickiconButton($link, $new_arr['vatimages'][$i], JText::_("COM_REDSHOP_" . $new_arr['vattxt'][$i]));
 				$cnt_vat = 1;
 			}
@@ -426,7 +426,7 @@ $title = JText::_('COM_REDSHOP_POPULAR');
 		{
 			if (in_array($new_arr['importexport'][$i], $this->access_rslt) && in_array($new_arr['importexport'][$i], $quicklink_icon))
 			{
-				$link = 'index.php?option=' . $option . '&amp;view=' . $new_arr['importexport'][$i];
+				$link = 'index.php?option=com_redshop&amp;view=' . $new_arr['importexport'][$i];
 				redshopViewredshop::quickiconButton($link, $new_arr['importimages'][$i], JText::_("COM_REDSHOP_" . $new_arr['importtxt'][$i]));
 				$cnt_imp = 1;
 			}
@@ -435,7 +435,7 @@ $title = JText::_('COM_REDSHOP_POPULAR');
 		{
 			if (in_array($new_arr['importexport'][$i], $quicklink_icon))
 			{
-				$link = 'index.php?option=' . $option . '&amp;view=' . $new_arr['importexport'][$i];
+				$link = 'index.php?option=com_redshop&amp;view=' . $new_arr['importexport'][$i];
 				redshopViewredshop::quickiconButton($link, $new_arr['importimages'][$i], JText::_("COM_REDSHOP_" . $new_arr['importtxt'][$i]));
 				$cnt_imp = 1;
 			}
@@ -457,7 +457,7 @@ $title = JText::_('COM_REDSHOP_POPULAR');
 		{
 			if (in_array($new_arr['altration'][$i], $this->access_rslt) && in_array($new_arr['altration'][$i], $quicklink_icon))
 			{
-				$link = 'index.php?option=' . $option . '&amp;view=' . $new_arr['altration'][$i];
+				$link = 'index.php?option=com_redshop&amp;view=' . $new_arr['altration'][$i];
 				redshopViewredshop::quickiconButton($link, $new_arr['altrationimages'][$i], JText::_("COM_REDSHOP_" . $new_arr['altrationtxt'][$i]));
 				$cnt_alt = 1;
 
@@ -468,7 +468,7 @@ $title = JText::_('COM_REDSHOP_POPULAR');
 
 			if (in_array($new_arr['altration'][$i], $quicklink_icon))
 			{
-				$link = 'index.php?option=' . $option . '&amp;view=' . $new_arr['altration'][$i];
+				$link = 'index.php?option=com_redshop&amp;view=' . $new_arr['altration'][$i];
 				redshopViewredshop::quickiconButton($link, $new_arr['altrationimages'][$i], JText::_("COM_REDSHOP_" . $new_arr['altrationtxt'][$i]));
 				$cnt_alt = 1;
 			}
@@ -488,7 +488,7 @@ $title = JText::_('COM_REDSHOP_POPULAR');
 		{
 			if (in_array($new_arr['customerinput'][$i], $this->access_rslt) && in_array($new_arr['customerinput'][$i], $quicklink_icon))
 			{
-				$link = 'index.php?option=' . $option . '&amp;view=' . $new_arr['customerinput'][$i];
+				$link = 'index.php?option=com_redshop&amp;view=' . $new_arr['customerinput'][$i];
 				redshopViewredshop::quickiconButton($link, $new_arr['customerinputimages'][$i], JText::_("COM_REDSHOP_" . $new_arr['customerinputtxt'][$i]));
 				$cnt_cust = 1;
 			}
@@ -497,7 +497,7 @@ $title = JText::_('COM_REDSHOP_POPULAR');
 		{
 			if (in_array($new_arr['customerinput'][$i], $quicklink_icon))
 			{
-				$link = 'index.php?option=' . $option . '&amp;view=' . $new_arr['customerinput'][$i];
+				$link = 'index.php?option=com_redshop&amp;view=' . $new_arr['customerinput'][$i];
 				redshopViewredshop::quickiconButton($link, $new_arr['customerinputimages'][$i], JText::_("COM_REDSHOP_" . $new_arr['customerinputtxt'][$i]));
 				$cnt_cust = 1;
 			}
@@ -517,7 +517,7 @@ $title = JText::_('COM_REDSHOP_POPULAR');
 			if (in_array($new_arr['accountings'][$i], $this->access_rslt) && in_array($new_arr['accountings'][$i], $quicklink_icon))
 			{
 
-				$link = 'index.php?option=' . $option . '&amp;view=' . $new_arr['accountings'][$i];
+				$link = 'index.php?option=com_redshop&amp;view=' . $new_arr['accountings'][$i];
 				redshopViewredshop::quickiconButton($link, $new_arr['accimages'][$i], JText::_("COM_REDSHOP_" . $new_arr['acctxt'][$i]));
 
 			}
@@ -526,7 +526,7 @@ $title = JText::_('COM_REDSHOP_POPULAR');
 		{
 			if (in_array($new_arr['accountings'][$i], $quicklink_icon))
 			{
-				$link = 'index.php?option=' . $option . '&amp;view=' . $new_arr['accountings'][$i];
+				$link = 'index.php?option=com_redshop&amp;view=' . $new_arr['accountings'][$i];
 				redshopViewredshop::quickiconButton($link, $new_arr['accimages'][$i], JText::_("COM_REDSHOP_" . $new_arr['acctxt'][$i]));
 			}
 

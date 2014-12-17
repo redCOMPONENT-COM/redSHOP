@@ -36,7 +36,7 @@ class RedshopControllerNewslettersubscr extends RedshopController
 		{
 			$src = $file['tmp_name'];
 
-			$dest = JPATH_ADMINISTRATOR . '/components/' . $option . '/assets/' . $file['name'];
+			$dest = JPATH_ADMINISTRATOR . '/components/com_redshop/assets/' . $file['name'];
 
 			JFile::upload($src, $dest);
 
@@ -65,18 +65,18 @@ class RedshopControllerNewslettersubscr extends RedshopController
 			{
 				unlink($dest);
 				$msg = JText::_('COM_REDSHOP_DATA_IMPORT_SUCCESS');
-				$this->setRedirect('index.php?option=' . $option . '&view=newslettersubscr', $msg);
+				$this->setRedirect('index.php?option=com_redshop&view=newslettersubscr', $msg);
 			}
 			else
 			{
 				$msg = JText::_('COM_REDSHOP_ERROR_DATA_IMPORT');
-				$this->setRedirect('index.php?option=' . $option . '&view=newslettersubscr&task=import_data', $msg);
+				$this->setRedirect('index.php?option=com_redshop&view=newslettersubscr&task=import_data', $msg);
 			}
 		}
 		else
 		{
 			$msg = JText::_('COM_REDSHOP_FILE_EXTENTION_WRONG');
-			$this->setRedirect('index.php?option=' . $option . '&view=newslettersubscr&task=import_data', $msg);
+			$this->setRedirect('index.php?option=com_redshop&view=newslettersubscr&task=import_data', $msg);
 		}
 	}
 }

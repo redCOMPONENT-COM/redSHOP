@@ -232,7 +232,7 @@ class RedshopModelDiscount_detail extends RedshopModel
 
 		try
 		{
-			$result = $db->loadResultArray();
+			$result = $db->loadColumn();
 		}
 		catch (RuntimeException $e)
 		{

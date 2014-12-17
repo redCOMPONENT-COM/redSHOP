@@ -36,7 +36,7 @@ $option = JRequest::getVar('option', '', 'request', 'string');
 </script>
 <form action="<?php echo 'index.php?option=' . $option; ?>" method="post" name="adminForm" id="adminForm">
 	<div id="editcell">
-		<table class="adminlist">
+		<table class="adminlist table table-striped">
 			<thead>
 			<tr>
 				<th width="5%">
@@ -74,7 +74,7 @@ $option = JRequest::getVar('option', '', 'request', 'string');
 			{
 				$row = $this->discounts[$i];
 				$row->id = $row->discount_product_id;
-				$link = JRoute::_('index.php?option=' . $option . '&view=discount_detail&layout=product&task=edit&cid[]=' . $row->discount_product_id);
+				$link = JRoute::_('index.php?option=com_redshop&view=discount_detail&layout=product&task=edit&cid[]=' . $row->discount_product_id);
 
 				$published = JHtml::_('jgrid.published', $row->published, $i, '', 1);
 				?>

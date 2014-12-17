@@ -37,7 +37,7 @@ class RedshopControllerManufacturer extends RedshopController
 		$model->saveorder($cid);
 
 		$msg = JText::_('COM_REDSHOP_MANUFACTURER_DETAIL_SAVED');
-		$this->setRedirect('index.php?option=' . $option . '&view=manufacturer', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=manufacturer', $msg);
 	}
 }
 

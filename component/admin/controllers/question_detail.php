@@ -61,7 +61,7 @@ class RedshopControllerQuestion_detail extends RedshopController
 			$model->sendMailForAskQuestion($row->question_id);
 		}
 
-		$this->setRedirect('index.php?option=' . $option . '&view=question', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=question', $msg);
 	}
 
 	public function send()
@@ -87,7 +87,7 @@ class RedshopControllerQuestion_detail extends RedshopController
 		}
 
 		$msg = JText::_('COM_REDSHOP_QUESTION_DETAIL_DELETED_SUCCESSFULLY');
-		$this->setRedirect('index.php?option=' . $option . '&view=question', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=question', $msg);
 	}
 
 	public function removeanswer()
@@ -109,7 +109,7 @@ class RedshopControllerQuestion_detail extends RedshopController
 		}
 
 		$msg = JText::_('COM_REDSHOP_QUESTION_DETAIL_DELETED_SUCCESSFULLY');
-		$this->setRedirect('index.php?option=' . $option . '&view=question_detail&task=edit&cid[]=' . $qid[0], $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=question_detail&task=edit&cid[]=' . $qid[0], $msg);
 	}
 
 	public function sendanswer()
@@ -125,14 +125,14 @@ class RedshopControllerQuestion_detail extends RedshopController
 		}
 
 		$msg = JText::_('COM_REDSHOP_ANSWER_MAIL_SENT');
-		$this->setRedirect('index.php?option=' . $option . '&view=question_detail&task=edit&cid[]=' . $qid[0], $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=question_detail&task=edit&cid[]=' . $qid[0], $msg);
 	}
 
 	public function cancel()
 	{
 		$option = JRequest::getVar('option', '', 'request', 'string');
 		$msg = JText::_('COM_REDSHOP_QUESTION_DETAIL_EDITING_CANCELLED');
-		$this->setRedirect('index.php?option=' . $option . '&view=question', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=question', $msg);
 	}
 
 	public function publish()
@@ -154,7 +154,7 @@ class RedshopControllerQuestion_detail extends RedshopController
 		}
 
 		$msg = JText::_('COM_REDSHOP_QUESTION_DETAIL_PUBLISHED_SUCCESSFULLY');
-		$this->setRedirect('index.php?option=' . $option . '&view=question', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=question', $msg);
 	}
 
 	public function unpublish()
@@ -176,7 +176,7 @@ class RedshopControllerQuestion_detail extends RedshopController
 		}
 
 		$msg = JText::_('COM_REDSHOP_QUESTION_DETAIL_UNPUBLISHED_SUCCESSFULLY');
-		$this->setRedirect('index.php?option=' . $option . '&view=question', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=question', $msg);
 	}
 
 	/**
@@ -191,7 +191,7 @@ class RedshopControllerQuestion_detail extends RedshopController
 		$model = $this->getModel('question_detail');
 		$model->orderup();
 		$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
-		$this->setRedirect('index.php?option=' . $option . '&view=question', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=question', $msg);
 	}
 
 	/**
@@ -206,7 +206,7 @@ class RedshopControllerQuestion_detail extends RedshopController
 		$model = $this->getModel('question_detail');
 		$model->orderdown();
 		$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
-		$this->setRedirect('index.php?option=' . $option . '&view=question', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=question', $msg);
 	}
 
 	/**
@@ -227,6 +227,6 @@ class RedshopControllerQuestion_detail extends RedshopController
 		$model->saveorder($cid, $order);
 
 		$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
-		$this->setRedirect('index.php?option=' . $option . '&view=question', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=question', $msg);
 	}
 }

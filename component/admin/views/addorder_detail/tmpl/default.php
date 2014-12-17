@@ -120,7 +120,7 @@ submitbutton = function (pressbutton) {
 	var form = document.adminForm;
 
 	if (pressbutton == 'cancel') {
-		<?php      $link = 'index.php?option=' . $option . '&view=order';
+		<?php      $link = 'index.php?option=com_redshop&view=order';
 					  $link = $redhelper->sslLink($link,0);
 		?>
 		window.location = '<?php echo $link;?>';
