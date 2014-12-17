@@ -15,9 +15,11 @@ $orderIds   = implode(',', $postdata['cid']);
 
 ?>
 <div id="editcell" class="well">
-	<h4><?php echo JText::_('COM_REDSHOP_ORDER_STATUS_UPDATE_LOG');?></h4>
-	<div id="loopStatus" class="alert">&nbsp;</div>
-	<ul id="loopLog" class="nav nav-list">&nbsp;</ul>
+	<fieldset>
+		<legend><?php echo JText::_('COM_REDSHOP_ORDER_STATUS_UPDATE_LOG');?></legend>
+		<div id="loopStatus" class="alert">&nbsp;</div>
+		<ul id="loopLog" class="nav nav-list">&nbsp;</ul>
+	</fieldset>
 </div>
 <script type="text/javascript">
 window.addEvent('domready', function() {
