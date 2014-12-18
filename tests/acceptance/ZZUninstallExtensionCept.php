@@ -16,16 +16,7 @@ $I = new AcceptanceTester\LoginSteps($scenario);
 $I->wantTo('Uninstall Extension');
 $I->doAdminLogin("Function to Login to Admin Panel");
 $config = $I->getConfig();
+$className = 'AcceptanceTester\Uninstall' . $config['env'] . 'ExtensionSteps';
+$I = new $className($scenario);
+$I->uninstallExtension($config['extension_name']);
 
-if ($config['env'] == 'joomla2')
-{
-	$I = new AcceptanceTester\UninstallExtensionSteps($scenario);
-	$config = $I->getConfig();
-	$I->uninstallExtension($config['extension_name']);
-}
-else
-{
-	$I = new AcceptanceTester\UninstallJ3ExtensionSteps($scenario);
-	$config = $I->getConfig();
-	$I->uninstallExtension($config['extension_name']);
-}
