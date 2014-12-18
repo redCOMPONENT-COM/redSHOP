@@ -19,7 +19,7 @@ class VoucherManagerPage
 
 	public static $voucherCode = "#voucher_code";
 
-	public static $voucherAmount = "#amount";
+	public static $voucherAmount = "#voucher_amount";
 
 	public static $voucherLeft = "#voucher_left";
 
