@@ -147,4 +147,5 @@ $now = JFactory::getDate();
 	<input type="hidden" name="layout" value="product"/>
 	<input type="hidden" name="task" value=""/>
 	<input type="hidden" name="view" value="discount_detail"/>
+	<?php echo JHtml::_('form.token'); ?>
 </form>

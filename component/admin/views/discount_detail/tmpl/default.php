@@ -139,4 +139,5 @@ $now = JFactory::getDate();
 	<input type="hidden" name="cid[]" value="<?php echo $this->detail->discount_id; ?>"/>
 	<input type="hidden" name="task" value=""/>
 	<input type="hidden" name="view" value="discount_detail"/>
+	<?php echo JHtml::_('form.token'); ?>
 </form>
