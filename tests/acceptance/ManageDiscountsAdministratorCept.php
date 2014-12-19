@@ -16,7 +16,7 @@ $I->doAdminLogin();
 $config = $I->getConfig();
 $I = new AcceptanceTester\DiscountManagerSteps($scenario);
 
-if ($config['env'] == 'joomla2')
+if ($config['env'] == 'Joomla2')
 {
 	$I->addDiscount();
 }
