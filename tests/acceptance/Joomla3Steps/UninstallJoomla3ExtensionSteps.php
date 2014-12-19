@@ -1,14 +1,14 @@
 <?php
 /**
- * @package     RedShop
+ * @package     redSHOP
  * @subpackage  Step Class
- * @copyright   Copyright (C) 2012 - 2014 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2012 - 2014. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 
 namespace AcceptanceTester;
 /**
- * Class UninstallExtensionSteps
+ * Class UninstallJoomla3ExtensionSteps
  *
  * @package  AcceptanceTester
  *
@@ -16,7 +16,7 @@ namespace AcceptanceTester;
  *
  * @since    1.4
  */
-class UninstallExtensionSteps extends \AcceptanceTester
+class UninstallJoomla3ExtensionSteps extends \AcceptanceTester
 {
 	/**
 	 * Function to Uninstall Extension
@@ -30,21 +30,21 @@ class UninstallExtensionSteps extends \AcceptanceTester
 		$I = $this;
 		$I->amOnPage(\ExtensionManagerPage::$URL);
 		$I->click("Manage");
-		$I->fillField(\ExtensionManagerPage::$extensionSearchJ2, $extensionName);
-		$I->click(\ExtensionManagerPage::$searchButtonJ2);
+		$I->fillField(\ExtensionManagerPage::$extensionSearchJ3, $extensionName);
+		$I->click(\ExtensionManagerPage::$searchButtonJ3);
 		$I->click(\ExtensionManagerPage::$extensionNameLink);
-		$name = $I->grabTextFrom(\ExtensionManagerPage::$extensionTableJ2);
+		$name = $I->grabTextFrom(\ExtensionManagerPage::$extensionTable);
 
 		while (strtolower($name) != strtolower($extensionName))
 		{
 			$I->click(\ExtensionManagerPage::$firstCheck);
 			$I->click("Uninstall");
-			$I->seeElement(\ExtensionManagerPage::$uninstallSuccessMessageJ2);
-			$name = $I->grabTextFrom(\ExtensionManagerPage::$extensionTableJ2);
+			$I->seeElement(\ExtensionManagerPage::$uninstallSuccessMessageJ3);
+			$name = $I->grabTextFrom(\ExtensionManagerPage::$extensionTable);
 		}
 
 		$I->click(\ExtensionManagerPage::$firstCheck);
 		$I->click("Uninstall");
-		$I->seeElement(\ExtensionManagerPage::$uninstallSuccessMessageJ2);
+		$I->seeElement(\ExtensionManagerPage::$uninstallSuccessMessageJ3);
 	}
 }

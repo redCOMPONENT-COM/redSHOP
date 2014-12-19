@@ -32,7 +32,7 @@ class DiscountManagerSteps extends AdminManagerSteps
 		$I = $this;
 		$config = $I->getConfig();
 
-		if ($config['env'] == 'joomla2')
+		if ($config['env'] == 'Joomla2')
 		{
 			$I->amOnPage(\DiscountManagerPage::$URL);
 			$I->verifyNotices(false, $this->checkForNotices(), 'Discount Manager Page');

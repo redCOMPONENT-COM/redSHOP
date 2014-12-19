@@ -32,7 +32,7 @@ class CategoryManagerSteps extends AdminManagerSteps
 		$I = $this;
 		$config = $I->getConfig();
 
-		if ($config['env'] == 'joomla2')
+		if ($config['env'] == 'Joomla2')
 		{
 			$I->amOnPage(\CategoryManagerPage::$URL);
 			$I->verifyNotices(false, $this->checkForNotices(), 'Category Manager Page');
