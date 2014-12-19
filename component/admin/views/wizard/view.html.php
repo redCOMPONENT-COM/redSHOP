@@ -8,11 +8,10 @@
  */
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
 
 require_once 'components/com_redshop/views/configuration/view.html.php';
 
-class RedshopViewWizard extends JView
+class RedshopViewWizard extends RedshopView
 {
 	public function display($tpl = null)
 	{
@@ -52,7 +51,7 @@ class RedshopViewWizard extends JView
 		$document->addScript('components/com_redshop/assets/js/validation.js');
 		$document->addScript('components/com_redshop/assets/js/select_sort.js');
 		$document->addStyleSheet('components/com_redshop/assets/css/search.css');
-		$document->addStyleSheet('components/com_redshop/assets/css/redshop.css');
+		JHtml::stylesheet('com_redshop/redshop.css', array(), true);
 		$document->addStyleSheet('components/com_redshop/assets/css/wizard.css');
 		$document->addScript('components/com_redshop/assets/js/search.js');
 

@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-JLoader::import('joomla.application.component.model');
 
 /**
  * Class LoginModelLogin
@@ -18,7 +17,7 @@ JLoader::import('joomla.application.component.model');
  * @subpackage  Model
  * @since       1.0
  */
-class RedshopModelLogin extends JModel
+class RedshopModelLogin extends RedshopModel
 {
 	public function __construct()
 	{
@@ -38,9 +37,7 @@ class RedshopModelLogin extends JModel
 
 		if (isset($error->message))
 		{
-			$Itemid         = JRequest::getVar('Itemid');
-			$forgotpwd_link = 'index.php?option=com_redshop&view=password&Itemid=' . $Itemid;
-			$msg            = "<a href='" . JRoute::_($forgotpwd_link) . "'>" . JText::_('COM_REDSHOP_FORGOT_PWD_LINK') . "</a>";
+			$msg = "<a href='" . JRoute::_('index.php?option=com_users&view=reset') . "'>" . JText::_('COM_REDSHOP_FORGOT_PWD_LINK') . "</a>";
 			$app->enqueuemessage($msg);
 		}
 	}

@@ -20,7 +20,7 @@ $redhelper = new redhelper;
 		}
 
 		if (pressbutton == 'add') {
-			<?php      $link = 'index.php?option=' . $option . '&view=orderstatus_detail';
+			<?php      $link = 'index.php?option=com_redshop&view=orderstatus_detail';
 							 $link = $redhelper->sslLink($link);
 			   ?>
 			window.location = '<?php echo $link;?>';
@@ -41,15 +41,14 @@ $redhelper = new redhelper;
 </script>
 <form action="<?php echo 'index.php?option=' . $option; ?>" method="post" name="adminForm" id="adminForm">
 	<div id="editcell">
-		<table class="adminlist">
+		<table class="adminlist table table-striped">
 			<thead>
 			<tr>
 				<th width="5%">
 					<?php echo JText::_('COM_REDSHOP_NUM'); ?>
 				</th>
 				<th width="5%">
-					<input type="checkbox" name="toggle" value=""
-					       onclick="checkAll(<?php echo count($this->orderstatus); ?>);"/>
+					<?php echo JHtml::_('redshopgrid.checkall'); ?>
 				</th>
 				<th width="35%">
 					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_ORDERSTATUS_CODE', 'order_status_code', $this->lists['order_Dir'], $this->lists['order']); ?>
@@ -71,9 +70,9 @@ $redhelper = new redhelper;
 			$k = 0;
 			for ($i = 0, $n = count($this->orderstatus); $i < $n; $i++)
 			{
-				$row = & $this->orderstatus[$i];
+				$row = $this->orderstatus[$i];
 				$row->id = $row->order_status_id;
-				$link = 'index.php?option=' . $option . '&view=orderstatus_detail&task=edit&cid[]=' . $row->order_status_id;
+				$link = 'index.php?option=com_redshop&view=orderstatus_detail&task=edit&cid[]=' . $row->order_status_id;
 				$link = $redhelper->sslLink($link);
 				$published = JHtml::_('jgrid.published', $row->published, $i, '', 1);
 
@@ -102,6 +101,11 @@ $redhelper = new redhelper;
 
 			<tfoot>
 			<td colspan="9">
+				<?php if (version_compare(JVERSION, '3.0', '>=')): ?>
+					<div class="redShopLimitBox">
+						<?php echo $this->pagination->getLimitBox(); ?>
+					</div>
+				<?php endif; ?>
 				<?php echo $this->pagination->getListFooter(); ?>
 			</td>
 			</tfoot>

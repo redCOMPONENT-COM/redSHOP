@@ -8,11 +8,10 @@
  */
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
 
 JLoader::load('RedshopHelperAdminXmlHelper');
 
-class RedshopViewXmlexport_detail extends JView
+class RedshopViewXmlexport_detail extends RedshopView
 {
 	public function display($tpl = null)
 	{
@@ -26,7 +25,7 @@ class RedshopViewXmlexport_detail extends JView
 		$childelement = $session->get('childelement');
 		$document     = JFactory::getDocument();
 		$document->setTitle(JText::_('COM_REDSHOP_xmlexport'));
-		$document->addScript('components/' . $option . '/assets/js/xmlfunc.js');
+		$document->addScript('components/com_redshop/assets/js/xmlfunc.js');
 
 		$uri                  = JFactory::getURI();
 		$lists                = array();

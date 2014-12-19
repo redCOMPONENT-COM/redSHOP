@@ -9,11 +9,10 @@
 
 defined('_JEXEC') or die;
 
-JLoader::import('joomla.application.component.view');
 
 JLoader::load('RedshopHelperAdminOrder');
 
-class RedshopViewOrder_detail extends JView
+class RedshopViewOrder_detail extends RedshopView
 {
 	public function display ($tpl = null)
 	{
@@ -54,7 +53,7 @@ class RedshopViewOrder_detail extends JView
 		{
 			if ($OrdersDetail->user_id != $user->id)
 			{
-				$app->Redirect('index.php?option=com_redshop&view=login&Itemid=' . JRequest::getInt('Itemid'));
+				$app->redirect('index.php?option=com_redshop&view=login&Itemid=' . JRequest::getInt('Itemid'));
 
 				return;
 			}
@@ -77,7 +76,7 @@ class RedshopViewOrder_detail extends JView
 			// Preform security checks
 			elseif (!$user->id && !isset($auth['users_info_id']))
 			{
-				$app->Redirect('index.php?option=com_redshop&view=login&Itemid=' . JRequest::getInt('Itemid'));
+				$app->redirect('index.php?option=com_redshop&view=login&Itemid=' . JRequest::getInt('Itemid'));
 
 				return;
 			}

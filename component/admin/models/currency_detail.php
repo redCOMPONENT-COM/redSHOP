@@ -9,9 +9,8 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
 
-class RedshopModelCurrency_detail extends JModel
+class RedshopModelCurrency_detail extends RedshopModel
 {
 	public $_id = null;
 
@@ -116,7 +115,7 @@ class RedshopModelCurrency_detail extends JModel
 			$query = 'DELETE FROM ' . $this->_table_prefix . 'currency WHERE currency_id IN ( ' . $cids . ' )';
 			$this->_db->setQuery($query);
 
-			if (!$this->_db->query())
+			if (!$this->_db->execute())
 			{
 				$this->setError($this->_db->getErrorMsg());
 

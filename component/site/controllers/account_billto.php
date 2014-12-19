@@ -11,7 +11,6 @@ defined('_JEXEC') or die;
 
 JLoader::load('RedshopHelperAdminOrder');
 
-JLoader::import('joomla.application.component.controller');
 
 /**
  * Account Billing Address Controller.
@@ -20,7 +19,7 @@ JLoader::import('joomla.application.component.controller');
  * @subpackage  Controller
  * @since       1.0
  */
-class RedshopControllerAccount_billto extends JController
+class RedshopControllerAccount_billto extends RedshopController
 {
 	/**
 	 * Constructor.
@@ -99,7 +98,7 @@ class RedshopControllerAccount_billto extends JController
 
 		if ($return != "")
 		{
-			$link = JRoute::_('index.php?option=' . $option . '&view=' . $return . '&Itemid=' . $Itemid, false);
+			$link = JRoute::_('index.php?option=com_redshop&view=' . $return . '&Itemid=' . $Itemid, false);
 
 			if (!isset($setexit) || $setexit != 0)
 			{
@@ -113,7 +112,7 @@ class RedshopControllerAccount_billto extends JController
 		}
 		else
 		{
-			$link = JRoute::_('index.php?option=' . $option . '&view=account&Itemid=' . $Itemid, false);
+			$link = JRoute::_('index.php?option=com_redshop&view=account&Itemid=' . $Itemid, false);
 		}
 
 		$this->setRedirect($link, $msg);
@@ -135,7 +134,7 @@ class RedshopControllerAccount_billto extends JController
 
 		if ($return != "")
 		{
-			$link = JRoute::_('index.php?option=' . $option . '&view=' . $return . '&Itemid=' . $Itemid, false);
+			$link = JRoute::_('index.php?option=com_redshop&view=' . $return . '&Itemid=' . $Itemid, false);
 
 			if (!isset($setexit) || $setexit != 0)
 			{
@@ -149,7 +148,7 @@ class RedshopControllerAccount_billto extends JController
 		}
 		else
 		{
-			$link = 'index.php?option=' . $option . '&view=account&Itemid=' . $Itemid;
+			$link = 'index.php?option=com_redshop&view=account&Itemid=' . $Itemid;
 		}
 
 		$this->setRedirect($link, $msg);

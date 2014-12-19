@@ -35,15 +35,14 @@ $ordering = ($this->lists['order'] == 'ordering');
 <form action="<?php echo 'index.php?option=' . $option; ?>" method="post" name="adminForm" id="adminForm">
 	<div id="editcell">
 
-		<table class="adminlist">
+		<table class="adminlist table table-striped">
 			<thead>
 			<tr>
 				<th width="5%">
 					<?php echo JText::_('COM_REDSHOP_NUM'); ?>
 				</th>
 				<th width="5%">
-					<input type="checkbox" name="toggle" value=""
-					       onclick="checkAll(<?php echo count($this->shippings); ?>);"/>
+					<?php echo JHtml::_('redshopgrid.checkall'); ?>
 				</th>
 				<th class="title">
 					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_SHIPPING_NAME', 'name ', $this->lists['order_Dir'], $this->lists['order']); ?>
@@ -77,19 +76,11 @@ $ordering = ($this->lists['order'] == 'ordering');
 			$k = 0;
 			for ($i = 0, $n = count($this->shippings); $i < $n; $i++)
 			{
-				$row = & $this->shippings[$i];
-				$link = JRoute::_('index.php?option=' . $option . '&view=shipping_detail&task=edit&cid[]=' . $row->extension_id);
+				$row = $this->shippings[$i];
+				$link = JRoute::_('index.php?option=com_redshop&view=shipping_detail&task=edit&cid[]=' . $row->extension_id);
 
 				$published = JHtml::_('jgrid.published', $row->enabled, $i, '', 1);
-
-
-				$adminpath = JPATH_ROOT . '/plugins';
-
-				$paymentxml = $adminpath . '/' . $row->folder . '/' . $row->element . '.xml';
-
-				$xml = JFactory::getXMLParser('Simple');
-				$xml->loadFile($paymentxml);
-
+				$cache = new JRegistry($row->manifest_cache);
 				?>
 				<tr class="<?php echo "row$k"; ?>">
 					<td align="center">
@@ -109,17 +100,14 @@ $ordering = ($this->lists['order'] == 'ordering');
 						<?php echo $row->element; ?>
 					</td>
 					<td align="center">
-						<?php
-						if (isset($xml->document->version))
-							echo $xml->document->version[0]->_data;
-						?>
+						<?php echo $cache->get('version'); ?>
 					</td>
 					<td class="order" width="30%">
 						<span><?php echo $this->pagination->orderUpIcon($i, true, 'orderup', JText::_('JLIB_HTML_MOVE_UP'), $ordering); ?></span>
 						<span><?php echo $this->pagination->orderDownIcon($i, $n, true, 'orderdown', JText::_('JLIB_HTML_MOVE_DOWN'), $ordering); ?></span>
 						<?php $disabled = $ordering ? '' : 'disabled="disabled"'; ?>
 						<input type="text" name="order[]" size="5"
-						       value="<?php echo $row->ordering; ?>" <?php echo $disabled ?> class="text_area"
+						       value="<?php echo $row->ordering; ?>" <?php echo $disabled ?> class="text_area input-small"
 						       style="text-align: center"/>
 					</td>
 					<td align="center" width="5%">
@@ -136,6 +124,11 @@ $ordering = ($this->lists['order'] == 'ordering');
 
 			<tfoot>
 			<td colspan="9">
+				<?php if (version_compare(JVERSION, '3.0', '>=')): ?>
+					<div class="redShopLimitBox">
+						<?php echo $this->pagination->getLimitBox(); ?>
+					</div>
+				<?php endif; ?>
 				<?php  echo $this->pagination->getListFooter(); ?>
 			</td>
 			</tfoot>

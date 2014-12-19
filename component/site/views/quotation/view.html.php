@@ -9,9 +9,8 @@
 
 defined('_JEXEC') or die;
 
-JLoader::import('joomla.application.component.view');
 
-class RedshopViewQuotation extends JView
+class RedshopViewQuotation extends RedshopView
 {
 	public function display($tpl = null)
 	{
@@ -29,11 +28,11 @@ class RedshopViewQuotation extends JView
 		{
 			if ($cart['idx'] < 1)
 			{
-				$app->Redirect('index.php?option=com_redshop&view=cart&Itemid=' . $Itemid);
+				$app->redirect('index.php?option=com_redshop&view=cart&Itemid=' . $Itemid);
 			}
 		}
 
-		JHTML::Script('validation.js', 'administrator/components/com_redshop/assets/js/', false);
+		JHTML::script('administrator/components/com_redshop/assets/js/validation.js');
 
 		$model  = $this->getModel('quotation');
 

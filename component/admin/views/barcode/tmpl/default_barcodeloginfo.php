@@ -29,7 +29,7 @@ $model = $this->getModel('barcode');
 		$k = 0;
 		for ($i = 0, $n = count($this->logDetail); $i < $n; $i++)
 		{
-			$row = & $this->logDetail[$i];
+			$row = $this->logDetail[$i];
 			$row->id = $row->log_id;
 			$user_id = $row->user_id;
 

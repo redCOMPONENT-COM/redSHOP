@@ -9,7 +9,7 @@
 defined('_JEXEC') or die;
 $option = JRequest::getVar('option', '', 'request', 'string');    ?>
 <div id="editcell">
-	<table class="adminlist">
+	<table class="adminlist table table-striped">
 		<thead>
 		<tr>
 			<th width="5%"><?php echo JText::_('COM_REDSHOP_NUM');; ?></th>
@@ -26,7 +26,7 @@ $option = JRequest::getVar('option', '', 'request', 'string');    ?>
 		{
 			$row = $this->userorders[$i];
 			$row->id = $row->order_id;
-			$link = JRoute::_('index.php?option=' . $option . '&view=order_detail&task=edit&cid[]=' . $row->order_id); ?>
+			$link = JRoute::_('index.php?option=com_redshop&view=order_detail&task=edit&cid[]=' . $row->order_id); ?>
 			<tr>
 				<td align="center"><?php echo $this->pagination->getRowOffset($i);?></td>
 				<td align="center">
@@ -40,7 +40,13 @@ $option = JRequest::getVar('option', '', 'request', 'string');    ?>
 		}    ?>
 		</tbody>
 		<tfoot>
-		<td colspan="5"><?php echo $this->pagination->getListFooter(); ?></td>
+		<td colspan="5">
+			<?php if (version_compare(JVERSION, '3.0', '>=')): ?>
+				<div class="redShopLimitBox">
+					<?php echo $this->pagination->getLimitBox(); ?>
+				</div>
+			<?php endif; ?>
+			<?php echo $this->pagination->getListFooter(); ?></td>
 		</tfoot>
 	</table>
 </div>

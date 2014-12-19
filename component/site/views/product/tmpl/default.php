@@ -474,7 +474,7 @@ if (strstr($template_desc, "{facebook_like_button}"))
 	$template_desc = str_replace("{facebook_like_button}", $facebook_like, $template_desc);
 
 	$jconfig  = JFactory::getConfig();
-	$sitename = $jconfig->getValue('config.sitename');
+	$sitename = $jconfig->get('sitename');
 
 	$this->document->setMetaData("og:url", JFilterOutput::cleanText($uri->toString()));
 	$this->document->setMetaData("og:type", "product");
@@ -484,7 +484,7 @@ if (strstr($template_desc, "{facebook_like_button}"))
 // Google I like Button
 if (strstr($template_desc, "{googleplus1}"))
 {
-	JHTML::Script('plusone.js', 'https://apis.google.com/js/', false);
+	JHTML::script('https://apis.google.com/js/plusone.js');
 	$uri           = JFactory::getURI();
 	$google_like   = '<g:plusone></g:plusone>';
 	$template_desc = str_replace("{googleplus1}", $google_like, $template_desc);
@@ -1157,7 +1157,7 @@ if (strstr($template_desc, $mpimg_tag))
 		}
 	}
 
-	$insertStr     = "<span class='redhoverImagebox' id='additional_images" . $this->data->product_id . "'>" . $more_images . "</span>";
+	$insertStr     = "<div class='redhoverImagebox' id='additional_images" . $this->data->product_id . "'>" . $more_images . "</div><div class=\"clr\"></div>";
 	$template_desc = str_replace($mpimg_tag, $insertStr, $template_desc);
 }
 

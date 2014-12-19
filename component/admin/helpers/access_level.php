@@ -29,7 +29,7 @@ class Redaccesslevel
 		$query = "SELECT  section_name FROM " . $this->_table_prefix . "accessmanager"
 			. " WHERE `view`=1 and `gid` = " . (int) $group_id;
 		$db->setQuery($query);
-		$access_section = $db->loadResultArray();
+		$access_section = $db->loadColumn();
 
 		return $access_section;
 	}

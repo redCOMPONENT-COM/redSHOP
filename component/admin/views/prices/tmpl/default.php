@@ -29,12 +29,11 @@ $option = JRequest::getVar('option', '', 'request', 'string');?>
 </script>
 <form action="<?php echo 'index.php?option=' . $option; ?>" method="post" name="adminForm" id="adminForm">
 	<div id="editcell">
-		<table class="adminlist" width="100%">
+		<table class="adminlist table table-striped" width="100%">
 			<thead>
 			<tr>
 				<th width="5%"><?php echo JText::_('COM_REDSHOP_NUM'); ?></th>
-				<th width="5%"><input type="checkbox" name="toggle"
-				                      onclick="checkAll(<?php echo count($this->media); ?>);"/></th>
+				<th width="5%"><?php echo JHtml::_('redshopgrid.checkall'); ?></th>
 				<th class="title" align="left" width="15%"><?php echo JText::_('COM_REDSHOP_PRODUCT_NAME'); ?></th>
 				<th width="10%"><?php echo JText::_('COM_REDSHOP_SHOPPER_GROUP'); ?></th>
 				<th width="10%"><?php echo JText::_('COM_REDSHOP_QUANTITY_START_LBL'); ?></th>
@@ -46,10 +45,10 @@ $option = JRequest::getVar('option', '', 'request', 'string');?>
 			<?php    $k = 0;
 			for ($i = 0; $i < count($this->media); $i++)
 			{
-				$row = & $this->media[$i];
+				$row = $this->media[$i];
 				$row->id = $row->price_id;
 				//$product_id = $row->product_id;
-				$link = JRoute::_('index.php?option=' . $option . '&view=prices_detail&task=edit&product_id=' . $row->product_id . '&cid[]=' . $row->price_id);?>
+				$link = JRoute::_('index.php?option=com_redshop&view=prices_detail&task=edit&product_id=' . $row->product_id . '&cid[]=' . $row->price_id);?>
 				<tr class="<?php echo "row$k"; ?>">
 					<td align="center"><?php echo $this->pagination->getRowOffset($i); ?></td>
 					<td align="center"><?php echo JHTML::_('grid.id', $i, $row->id); ?></td>
@@ -67,7 +66,13 @@ $option = JRequest::getVar('option', '', 'request', 'string');?>
 				<?php        $k = 1 - $k;
 			}    ?>
 			<tfoot>
-			<td colspan="8"><?php echo $this->pagination->getListFooter(); ?></td>
+			<td colspan="8">
+				<?php if (version_compare(JVERSION, '3.0', '>=')): ?>
+					<div class="redShopLimitBox">
+						<?php echo $this->pagination->getLimitBox(); ?>
+					</div>
+				<?php endif; ?>
+				<?php echo $this->pagination->getListFooter(); ?></td>
 			</tfoot>
 		</table>
 	</div>

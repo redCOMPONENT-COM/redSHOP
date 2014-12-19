@@ -9,9 +9,8 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.controller');
 
-class RedshopControllerNewsletter extends JController
+class RedshopControllerNewsletter extends RedshopController
 {
 	public function cancel()
 	{
@@ -44,7 +43,7 @@ class RedshopControllerNewsletter extends JController
 		$session->set('subscribersuname', $tmpusername);
 		$session->set('incNo', 1);
 
-		$this->setRedirect('index.php?option=' . $option . '&view=newsletter&layout=previewlog&newsletter_id=' . $newsletter_id);
+		$this->setRedirect('index.php?option=com_redshop&view=newsletter&layout=previewlog&newsletter_id=' . $newsletter_id);
 		return;
 	}
 

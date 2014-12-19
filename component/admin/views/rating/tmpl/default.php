@@ -23,8 +23,9 @@ $comment = JRequest::getVar('comment_filter');
 			form.task.value = pressbutton;
 		}
 
-		if ((pressbutton == 'add') || (pressbutton == 'edit') || (pressbutton == 'publish') || (pressbutton == 'unpublish')
-			|| (pressbutton == 'remove') || (pressbutton == 'fv_publish') || (pressbutton == 'fv_unpublish')) {
+		if ((pressbutton == 'add')
+			|| (pressbutton == 'edit')
+			|| (pressbutton == 'remove')) {
 			form.view.value = "rating_detail";
 		}
 		try {
@@ -53,15 +54,14 @@ $comment = JRequest::getVar('comment_filter');
 				</td>
 			</tr>
 		</table>
-		<table class="adminlist">
+		<table class="adminlist table table-striped">
 			<thead>
 			<tr>
 				<th>
 					<?php echo JText::_('COM_REDSHOP_NUM'); ?>
 				</th>
 				<th>
-					<input type="checkbox" name="toggle" value=""
-					       onclick="checkAll(<?php echo count($this->ratings); ?>);"/>
+					<?php echo JHtml::_('redshopgrid.checkall'); ?>
 				</th>
 				<th>
 					<?php echo JHTML::_('grid.sort', 'COM_REDSHOP_PRODUCT_NAME', 'product_name', $this->lists['order_Dir'], $this->lists['order']); ?>
@@ -93,10 +93,10 @@ $comment = JRequest::getVar('comment_filter');
 			$k = 0;
 			for ($i = 0, $n = count($this->ratings); $i < $n; $i++)
 			{
-				$row = & $this->ratings[$i];
+				$row = $this->ratings[$i];
 				$row->id = $row->rating_id;
-				$link = JRoute::_('index.php?option=' . $option . '&view=rating_detail&task=edit&cid[]=' . $row->rating_id);
-				$prodlink = JRoute::_('index.php?option=' . $option . '&view=product_detail&task=edit&cid[]=' . $row->product_id);
+				$link = JRoute::_('index.php?option=com_redshop&view=rating_detail&task=edit&cid[]=' . $row->rating_id);
+				$prodlink = JRoute::_('index.php?option=com_redshop&view=product_detail&task=edit&cid[]=' . $row->product_id);
 
 				$published = JHtml::_('jgrid.published', $row->published, $i, '', 1);
 
@@ -150,6 +150,11 @@ $comment = JRequest::getVar('comment_filter');
 			?>
 			<tfoot>
 			<td colspan="10">
+				<?php if (version_compare(JVERSION, '3.0', '>=')): ?>
+					<div class="redShopLimitBox">
+						<?php echo $this->pagination->getLimitBox(); ?>
+					</div>
+				<?php endif; ?>
 				<?php echo $this->pagination->getListFooter(); ?>
 			</td>
 			</tfoot>

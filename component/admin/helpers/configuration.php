@@ -651,6 +651,7 @@ class Redconfiguration
 						"ENABLE_SEF_NUMBER_NAME"                       => $d ["enable_sef_number_name"],
 
 						"DEFAULT_CUSTOMER_REGISTER_TYPE"               => $d ["default_customer_register_type"],
+						"CHECKOUT_LOGIN_REGISTER_SWITCHER"             => $d ["checkout_login_register_switcher"],
 						"ADDTOCART_BEHAVIOUR"                          => $d ["addtocart_behaviour"],
 						"WANT_TO_SHOW_ATTRIBUTE_IMAGE_INCART"          => $d ["wanttoshowattributeimage"],
 						"SHOW_PRODUCT_DETAIL"                          => $d ["show_product_detail"],
@@ -1267,15 +1268,10 @@ class Redconfiguration
 	 */
 	public function convertDateFormat($date)
 	{
-		$JApp = JFactory::getApplication();
-
 		if ($date <= 0)
 		{
 			$date = time();
 		}
-
-		$dateobj = JFactory::getDate($date);
-		$dateobj->setOffset($JApp->getCfg('offset'));
 
 		if (DEFAULT_DATEFORMAT)
 		{

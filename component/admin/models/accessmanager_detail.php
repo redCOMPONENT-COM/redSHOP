@@ -8,11 +8,10 @@
  */
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
 
 JLoader::load('RedshopHelperAdminMail');
 
-class RedshopModelAccessmanager_detail extends JModel
+class RedshopModelAccessmanager_detail extends RedshopModel
 {
 	public $_table_prefix = null;
 
@@ -272,7 +271,7 @@ class RedshopModelAccessmanager_detail extends JModel
 							. " AND `gid` = " . (int) $row->gid;
 
 						$this->_db->setQuery($query);
-						$this->_db->Query();
+						$this->_db->execute();
 					}
 					else
 					{
@@ -286,7 +285,7 @@ class RedshopModelAccessmanager_detail extends JModel
 							. " AND `gid` = " . (int) $row->gid;
 
 						$this->_db->setQuery($query);
-						$this->_db->Query();
+						$this->_db->execute();
 					}
 
 					$child_section1 = "stockroom_listing";
@@ -302,7 +301,7 @@ class RedshopModelAccessmanager_detail extends JModel
 							. " AND `gid` = " . (int) $row->gid;
 
 						$this->_db->setQuery($query);
-						$this->_db->Query();
+						$this->_db->execute();
 					}
 					else
 					{
@@ -316,7 +315,7 @@ class RedshopModelAccessmanager_detail extends JModel
 							. " AND `gid` = " . (int) $row->gid;
 
 						$this->_db->setQuery($query);
-						$this->_db->Query();
+						$this->_db->execute();
 					}
 
 					$child_section2 = "stockimage";
@@ -332,7 +331,7 @@ class RedshopModelAccessmanager_detail extends JModel
 							. " AND `gid` = " . (int) $row->gid;
 
 						$this->_db->setQuery($query);
-						$this->_db->Query();
+						$this->_db->execute();
 					}
 					else
 					{
@@ -347,7 +346,7 @@ class RedshopModelAccessmanager_detail extends JModel
 							. " AND `gid` = " . (int) $row->gid;
 
 						$this->_db->setQuery($query);
-						$this->_db->Query();
+						$this->_db->execute();
 					}
 
 					$child_section3 = "stockimage_detail";
@@ -363,7 +362,7 @@ class RedshopModelAccessmanager_detail extends JModel
 							. " AND `gid` = " . (int) $row->gid;
 
 						$this->_db->setQuery($query);
-						$this->_db->Query();
+						$this->_db->execute();
 					}
 					else
 					{
@@ -377,7 +376,7 @@ class RedshopModelAccessmanager_detail extends JModel
 							. " AND `gid` = " . (int) $row->gid;
 
 						$this->_db->setQuery($query);
-						$this->_db->Query();
+						$this->_db->execute();
 					}
 				}
 
@@ -390,7 +389,7 @@ class RedshopModelAccessmanager_detail extends JModel
 					. " AND `gid` = " . (int) $row->gid;
 
 				$this->_db->setQuery($query);
-				$this->_db->Query();
+				$this->_db->execute();
 			}
 		}
 

@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.controller');
 
 JLoader::load('RedshopHelperProduct');
 JLoader::load('RedshopHelperCart');
@@ -17,7 +16,7 @@ JLoader::load('RedshopHelperAdminProduct');
 JLoader::load('RedshopHelperAdminOrder');
 JLoader::load('RedshopHelperAdminShipping');
 
-class RedshopControllerAddorder_detail extends JController
+class RedshopControllerAddorder_detail extends RedshopController
 {
 	public function __construct($default = array())
 	{
@@ -97,7 +96,7 @@ class RedshopControllerAddorder_detail extends JController
 			if (count($orderItem) <= 0)
 			{
 				$msg = JText::_('PRODUCT_OUT_OF_STOCK');
-				$this->setRedirect('index.php?option=' . $option . '&view=addorder_detail&user_id=' . $post['user_id']
+				$this->setRedirect('index.php?option=com_redshop&view=addorder_detail&user_id=' . $post['user_id']
 						. '&shipping_users_info_id=' . $post['shipp_users_info_id'], $msg
 				);
 
@@ -221,7 +220,7 @@ class RedshopControllerAddorder_detail extends JController
 		}
 		else
 		{
-			$this->setRedirect('index.php?option=' . $option . '&view=order', $msg . $stocknote);
+			$this->setRedirect('index.php?option=com_redshop&view=order', $msg . $stocknote);
 		}
 	}
 
@@ -229,7 +228,7 @@ class RedshopControllerAddorder_detail extends JController
 	{
 		$option = JRequest::getVar('option', '', 'request', 'string');
 		$msg = JText::_('COM_REDSHOP_ORDER_DETAIL_EDITING_CANCELLED');
-		$this->setRedirect('index.php?option=' . $option . '&view=order', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=order', $msg);
 	}
 
 	public function guestuser()
@@ -249,7 +248,7 @@ class RedshopControllerAddorder_detail extends JController
 			$ret = '';
 			$user_id = $row->user_id;
 			$shipping_users_info_id = $row->users_info_id;
-			$this->setRedirect('index.php?option=' . $option . '&view=addorder_detail&user_id=' . $user_id .
+			$this->setRedirect('index.php?option=com_redshop&view=addorder_detail&user_id=' . $user_id .
 					'&shipping_users_info_id=' .
 					$shipping_users_info_id . $ret
 			);

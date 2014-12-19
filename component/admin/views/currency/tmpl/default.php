@@ -33,12 +33,12 @@ $filter = JRequest::getVar('filter');
 </script>
 
 <form action="<?php echo 'index.php?option=' . $option; ?>" class="admin" id="adminForm" method="post" name="adminForm">
-	<table class="adminlist">
+	<table class="adminlist table table-striped">
 		<thead>
 		<tr>
 			<th width="5"><?php echo JText::_('COM_REDSHOP_NUM'); ?></th>
-			<th width="10"><input type="checkbox" name="toggle" value=""
-			                      onclick="checkAll(<?php echo count($this->fields); ?>)"? />
+			<th width="10">
+				<?php echo JHtml::_('redshopgrid.checkall'); ?>
 			</th>
 			<th><?php echo JHTML::_('grid.sort', JText::_('COM_REDSHOP_CURRENCY_NAME'), 'currency_name', $this->lists['order_Dir'], $this->lists['order']);?></th>
 			<th><?php echo JHTML::_('grid.sort', JText::_('COM_REDSHOP_CURRENCY_CODE_LBL'), 'currency_code', $this->lists['order_Dir'], $this->lists['order']);?></th>
@@ -52,7 +52,7 @@ $filter = JRequest::getVar('filter');
 		{
 			$row = $this->fields[$i];
 			$row->id = $row->currency_id;
-			$link = JRoute::_('index.php?option=' . $option . '&view=currency_detail&task=edit&cid[]=' . $row->currency_id);
+			$link = JRoute::_('index.php?option=com_redshop&view=currency_detail&task=edit&cid[]=' . $row->currency_id);
 
 			?>
 			<tr class="<?php echo "row$k"; ?>">
@@ -74,6 +74,11 @@ $filter = JRequest::getVar('filter');
 
 		<tfoot>
 		<td colspan="9">
+			<?php if (version_compare(JVERSION, '3.0', '>=')): ?>
+				<div class="redShopLimitBox">
+					<?php echo $this->pagination->getLimitBox(); ?>
+				</div>
+			<?php endif; ?>
 			<?php echo $this->pagination->getListFooter(); ?>
 		</td>
 		</tfoot>

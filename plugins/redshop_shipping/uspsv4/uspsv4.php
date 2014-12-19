@@ -126,11 +126,11 @@ class plgredshop_shippinguspsv4 extends JPlugin
 					<label>
 						<input name="USPS_MACHINABLE"
 						       type="radio" <?php if (USPS_MACHINABLE == 1) echo "checked=\"checked\""; ?> value="1"/>
-						Yes</label>
+						<?php echo JText::_('JYES'); ?></label>
 					<label>
 						<input name="USPS_MACHINABLE"
 						       type="radio" <?php if (USPS_MACHINABLE == 0) echo "checked=\"checked\""; ?> value="0"/>
-						No</label>
+						<?php echo JText::_('JNO'); ?></label>
 				</td>
 				<td><?php echo JTEXT::_(_USPS_MACHINABLE_TOOLTIP) ?></td>
 			</tr>
@@ -141,12 +141,12 @@ class plgredshop_shippinguspsv4 extends JPlugin
 						<input name="USPS_SHOW_DELIVERY_QUOTE"
 						       type="radio" <?php if (USPS_SHOW_DELIVERY_QUOTE == 1) echo "checked=\"checked\""; ?>
 						       value="1"/>
-						Yes</label>
+						<?php echo JText::_('JYES'); ?></label>
 					<label>
 						<input name="USPS_SHOW_DELIVERY_QUOTE"
 						       type="radio" <?php if (USPS_SHOW_DELIVERY_QUOTE == 0) echo "checked=\"checked\""; ?>
 						       value="0"/>
-						No</label>
+						<?php echo JText::_('JNO'); ?></label>
 				</td>
 				<td><?php echo JTEXT::_(_USPS_QUOTE_TOOLTIP) ?></td>
 			</tr>
@@ -156,11 +156,11 @@ class plgredshop_shippinguspsv4 extends JPlugin
 					<label>
 						<input name="USPS_REPORTERRORS"
 						       type="radio" <?php if (USPS_REPORTERRORS == 1) echo "checked=\"checked\""; ?> value="1"/>
-						Yes</label>
+						<?php echo JText::_('JYES'); ?></label>
 					<label>
 						<input name="USPS_REPORTERRORS"
 						       type="radio" <?php if (USPS_REPORTERRORS == 0) echo "checked=\"checked\""; ?> value="0"/>
-						No</label>
+						<?php echo JText::_('JNO'); ?></label>
 				</td>
 				<td><?php echo JTEXT::_(_USPS_REPORTERRORS_TOOLTIP) ?></td>
 			</tr>
@@ -171,12 +171,12 @@ class plgredshop_shippinguspsv4 extends JPlugin
 						<input name="USPS_STANDARDSHIPPING"
 						       type="radio" <?php if (USPS_STANDARDSHIPPING == 1) echo "checked=\"checked\""; ?>
 						       value="1"/>
-						Yes</label>
+						<?php echo JText::_('JYES'); ?></label>
 					<label>
 						<input name="USPS_STANDARDSHIPPING"
 						       type="radio" <?php if (USPS_STANDARDSHIPPING == 0) echo "checked=\"checked\""; ?>
 						       value="0"/>
-						No</label>
+						<?php echo JText::_('JNO'); ?></label>
 				</td>
 				<td><?php echo JTEXT::_(_USPS_STANDARDSHIPPING_TOOLTIP) ?></td>
 			</tr>
@@ -218,12 +218,12 @@ class plgredshop_shippinguspsv4 extends JPlugin
 										<input name="USPS_SHIP<?php echo $i; ?>"
 										       type="radio" <?php if ($dom_ship_option_avail == 1) echo "checked=\"checked\""; ?>
 										       value="1"/>
-										Yes</label>
+										<?php echo JText::_('JYES'); ?></label>
 									<label>
 										<input name="USPS_SHIP<?php echo $i; ?>"
 										       type="radio" <?php if ($dom_ship_option_avail == 0) echo "checked=\"checked\""; ?>
 										       value="0"/>
-										No</label>
+										<?php echo JText::_('JNO'); ?></label>
 								</td>
 							</tr>
 							<?php
@@ -263,12 +263,12 @@ class plgredshop_shippinguspsv4 extends JPlugin
 										<input name="USPS_INTL<?php echo $i; ?>"
 										       type="radio" <?php if ($ship_option_avail == 1) echo "checked=\"checked\""; ?>
 										       value="1"/>
-										Yes</label>
+										<?php echo JText::_('JYES'); ?></label>
 									<label>
 										<input name="USPS_INTL<?php echo $i; ?>"
 										       type="radio" <?php if ($ship_option_avail == 0) echo "checked=\"checked\""; ?>
 										       value="0"/>
-										No</label>
+										<?php echo JText::_('JNO'); ?></label>
 								</td>
 							</tr>
 							<?php
@@ -442,14 +442,13 @@ class plgredshop_shippinguspsv4 extends JPlugin
 
 			);
 
-			$config = "<?php ";
+			$config = "<?php\n";
+			$config .= "defined('_JEXEC') or die;\n";
 
 			foreach ($my_config_array as $key => $value)
 			{
-				$config .= "define ('$key', '$value');\n";
+				$config .= "define('$key', '$value');\n";
 			}
-
-			$config .= "?>";
 
 			if ($fp = fopen($maincfgfile, "w"))
 			{
@@ -473,7 +472,6 @@ class plgredshop_shippinguspsv4 extends JPlugin
 		$shipping = $shippinghelper->getShippingMethodByClass($this->classname);
 		$db = JFactory::getDbo();
 		//require_once  JPATH_SITE. '/includes/domit/xml_domit_lite_include.php' ;
-		$xmlDoc = JFactory::getXMLParser('Simple');
 
 		$itemparams = new JRegistry($shipping->params);
 
@@ -705,7 +703,7 @@ class plgredshop_shippinguspsv4 extends JPlugin
 
 					$xmlResult = curl_exec($CR);
 					$error = curl_error($CR);
-					$xmlDoc->loadString($xmlResult);
+					$xmlDoc = JFactory::getXML($xmlResult, false);
 
 					if (!empty($error))
 					{
@@ -760,7 +758,7 @@ class plgredshop_shippinguspsv4 extends JPlugin
 
 						/* XML Parsing */
 
-						if ($xmlDoc->loadString($xmlResult))
+						if ($xmlDoc = JFactory::getXML($xmlResult, false))
 							$error = false;
 						else
 						{
@@ -788,103 +786,73 @@ class plgredshop_shippinguspsv4 extends JPlugin
 					return $shippingrate;
 				}
 				//Get shipping options that are selected as available in VM from XML response
-				$i = 0;
 				$count = 0;
 
 				if ($domestic)
 				{
-					$matchedchild = $xmlDoc->document->_children;
+					$matchedchild = $xmlDoc->Package;
 
-					for ($t = 0; $t < count($matchedchild); $t++)
+					foreach ($matchedchild->Postage as $postage)
 					{
-						$totalmatchedchild = $matchedchild[$t]->_children;
+						$serviceName = str_replace("&lt;sup&gt;&amp;reg;&lt;/sup&gt;", "", (string) $postage->MailService);
+						$serviceName = str_replace("&lt;sup&gt;&amp;trade;&lt;/sup&gt;", "", $serviceName);
+						$serviceName = str_replace("&lt;sup&gt;&#174;&lt;/sup&gt;", "", $serviceName);
+						$serviceName = str_replace("&lt;sup&gt;&#8482;&lt;/sup&gt;", "", $serviceName);
+						$serviceName = str_replace(" 1-Day", "", $serviceName);
+						$serviceName = str_replace(" 2-Day", "", $serviceName);
+						$serviceName = str_replace(" 3-Day", "", $serviceName);
+						$serviceName = str_replace(" Military", "", $serviceName);
+						$serviceName = str_replace(" DPO", "", $serviceName);
 
-						for ($i = 0; $i < count($totalmatchedchild); $i++)
+						if (in_array($serviceName, $usps_ship_active))
 						{
-							$currNode = $totalmatchedchild[$i];
-							$matched_childname = $currNode->name();
+							$ship_service[$count] = $serviceName;
+							$ship_postage[$count] = (string) $postage->Rate;
 
-							if ($matched_childname == "postage")
+							if (preg_match('/%$/', USPS_HANDLINGFEE))
 							{
-								$postage_child = $currNode->_children;
-								$mailservice = $currNode->getElementByPath("mailservice");
-
-								$serviceName = str_replace("&lt;sup&gt;&amp;reg;&lt;/sup&gt;", "", $mailservice->data());
-								$serviceName = str_replace("&lt;sup&gt;&amp;trade;&lt;/sup&gt;", "", $serviceName);
-								$serviceName = str_replace("&lt;sup&gt;&#174;&lt;/sup&gt;", "", $serviceName);
-								$serviceName = str_replace("&lt;sup&gt;&#8482;&lt;/sup&gt;", "", $serviceName);
-								$serviceName = str_replace(" 1-Day", "", $serviceName);
-								$serviceName = str_replace(" 2-Day", "", $serviceName);
-								$serviceName = str_replace(" 3-Day", "", $serviceName);
-								$serviceName = str_replace(" Military", "", $serviceName);
-								$serviceName = str_replace(" DPO", "", $serviceName);
-
-
-								if (in_array($serviceName, $usps_ship_active))
-								{
-									$ship_service[$count] = $serviceName;
-									$rateData = $currNode->getElementByPath("rate");
-									$ship_postage[$count] = $rateData->data();
-
-									if (preg_match('/%$/', USPS_HANDLINGFEE))
-									{
-										$ship_postage[$count] = $ship_postage[$count] * (1 + substr(USPS_HANDLINGFEE, 0, -1) / 100);
-									}
-									else
-									{
-										$ship_postage[$count] = $ship_postage[$count] + USPS_HANDLINGFEE;
-									}
-
-									$count++;
-								}
+								$ship_postage[$count] = $ship_postage[$count] * (1 + substr(USPS_HANDLINGFEE, 0, -1) / 100);
 							}
+							else
+							{
+								$ship_postage[$count] = $ship_postage[$count] + USPS_HANDLINGFEE;
+							}
+
+							$count++;
 						}
 					}
 				}
 				else
-				{ //international response
-					$ratev3response = $xmlDoc->document;
-					$package = $ratev3response->getElementByPath("package");
-					$totalmatchedchild = $package->_children;
+				{
+					// International response
+					$totalmatchedchild = $xmlDoc->Package;
 
-					if ($totalmatchedchild != null)
+					if ($totalmatchedchild)
 					{
-						for ($i = 0; $i < count($totalmatchedchild); $i++)
+						foreach ($totalmatchedchild->Service as $service)
 						{
-							$currNode = $totalmatchedchild[$i];
-							$matched_childname = $currNode->name();
+							$serviceName = str_replace("&lt;sup&gt;&amp;reg;&lt;/sup&gt;", "", (string) $service->SvcDescription);
+							$serviceName = str_replace("&lt;sup&gt;&amp;trade;&lt;/sup&gt;", "", $serviceName);
+							$serviceName = str_replace("&lt;sup&gt;&#174;&lt;/sup&gt;", "", $serviceName);
+							$serviceName = str_replace("&lt;sup&gt;&#8482;&lt;/sup&gt;", "", $serviceName);
 
-							if ($matched_childname == "service")
+							if (in_array($serviceName, $usps_intl_active))
 							{
-								$service_child = $currNode->_children;
-								$SvcDescription = $currNode->getElementByPath("svcdescription");
+								$ship_service[$count] = $serviceName;
+								$ship_postage[$count] = (string) $service->Postage;
+								$ship_commit[$count] = (string) $service->SvcCommitments;
+								$ship_weight[$count] = (string) $service->MaxWeight;
 
-								$serviceName = str_replace("&lt;sup&gt;&amp;reg;&lt;/sup&gt;", "", $SvcDescription->data());
-								$serviceName = str_replace("&lt;sup&gt;&amp;trade;&lt;/sup&gt;", "", $serviceName);
-								$serviceName = str_replace("&lt;sup&gt;&#174;&lt;/sup&gt;", "", $serviceName);
-								$serviceName = str_replace("&lt;sup&gt;&#8482;&lt;/sup&gt;", "", $serviceName);
-
-								if (in_array($serviceName, $usps_intl_active))
+								if (preg_match('/%$/', USPS_INTLHANDLINGFEE))
 								{
-									$ship_service[$count] = $serviceName;
-									$postage = $currNode->getElementByPath("postage");
-									$ship_postage[$count] = $postage->data();
-									$svccommitments = $currNode->getElementByPath("svccommitments");
-									$ship_commit[$count] = $svccommitments->data();
-									$maxweight = $currNode->getElementByPath("maxweight");
-									$ship_weight[$count] = $maxweight->data();
-
-									if (preg_match('/%$/', USPS_INTLHANDLINGFEE))
-									{
-										$ship_postage[$count] = $ship_postage[$count] * (1 + substr(USPS_INTLHANDLINGFEE, 0, -1) / 100);
-									}
-									else
-									{
-										$ship_postage[$count] = $ship_postage[$count] + USPS_INTLHANDLINGFEE;
-									}
-
-									$count++;
+									$ship_postage[$count] = $ship_postage[$count] * (1 + substr(USPS_INTLHANDLINGFEE, 0, -1) / 100);
 								}
+								else
+								{
+									$ship_postage[$count] = $ship_postage[$count] + USPS_INTLHANDLINGFEE;
+								}
+
+								$count++;
 							}
 						}
 					}
@@ -916,8 +884,8 @@ class plgredshop_shippinguspsv4 extends JPlugin
 					}
 
 					$shipping_rate_id = $shippinghelper->encryptShipping(__CLASS__ . "|" . $shipping->name . "|" . $ship_service[$i] . "|" . number_format($charge[$i], 2, '.', '') . "|" . $ship_service[$i] . "|single|0");
-
-					$shippingrate[$rate]->text = $ship_service[$i]; //$delivary
+					$shippingrate[$rate] = new stdClass;
+					$shippingrate[$rate]->text = $ship_service[$i];
 					$shippingrate[$rate]->value = $shipping_rate_id;
 					$shippingrate[$rate]->rate = $charge[$i];
 					$shippingrate[$rate]->vat = 0;

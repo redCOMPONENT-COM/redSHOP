@@ -25,7 +25,7 @@ class StateManagerPage
 
 	public static $stateThreeCode = "#state_3_code";
 
-	public static $checkAll = "//input[@onclick='checkAll(1)']";
+	public static $checkAll = "//input[@onclick='Joomla.checkAll(this)']";
 
 	public static $stateResultRow = "//form[@id='adminForm']/table[2]/tbody/tr[1]";
 

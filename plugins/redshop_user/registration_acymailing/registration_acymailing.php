@@ -37,9 +37,9 @@ class PlgRedshop_UserRegistration_Acymailing extends JPlugin
 	/**
 	 * autoAcymailingSubscription function
 	 *
-	 * @param   bool   $isNew  To know that user is new or not 
+	 * @param   bool   $isNew  To know that user is new or not
 	 * @param   array  $data   data for trigger
-	 * 
+	 *
 	 * @return boolean
 	 */
 	public function addNewsLetterSubscription($isNew, $data = array())
@@ -98,7 +98,7 @@ class PlgRedshop_UserRegistration_Acymailing extends JPlugin
 								->values($db->quote($item->listid) . ',' . $db->quote($sub->subid) . ',' . $date . ',' . $db->quote('1'));
 
 							$db->setQuery($query);
-							$db->query();
+							$db->execute();
 						}
 					}
 				}

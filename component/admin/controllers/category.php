@@ -9,9 +9,8 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.controller');
 
-class RedshopControllerCategory extends JController
+class RedshopControllerCategory extends RedshopController
 {
 	public function cancel()
 	{
@@ -53,7 +52,7 @@ class RedshopControllerCategory extends JController
 		$model->saveorder($cid, $order);
 
 		$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
-		$this->setRedirect('index.php?option=' . $option . '&view=category', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=category', $msg);
 	}
 
 	public function autofillcityname()
