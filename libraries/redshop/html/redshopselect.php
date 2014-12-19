@@ -19,6 +19,17 @@ defined('JPATH_PLATFORM') or die;
 abstract class JHtmlRedshopSelect extends JHtmlSelect
 {
 	/**
+	 * Default values for options. Organized by option group.
+	 *
+	 * @var     array
+	 * @since   1.5
+	 */
+	static protected $optionDefaults = array(
+		'option' => array('option.attr' => null, 'option.disable' => 'disable', 'option.id' => null, 'option.key' => 'value',
+			'option.key.toHtml' => true, 'option.label' => null, 'option.label.toHtml' => true, 'option.text' => 'text',
+			'option.text.toHtml' => true, 'option.class' => 'class', 'option.onclick' => 'onclick'));
+
+	/**
 	 * Generates an HTML selection list.
 	 *
 	 * @param   array   $data     An array of objects, arrays, or scalars.
