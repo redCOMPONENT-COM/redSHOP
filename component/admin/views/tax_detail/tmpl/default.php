@@ -14,7 +14,6 @@ $editor = JFactory::getEditor();
 JHTMLBehavior::modal();
 $uri = JURI::getInstance();
 $url = $uri->root();
-jimport('joomla.html.pane');
 
 $tmpl = JRequest::getVar('tmpl');
 

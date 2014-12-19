@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
 
 JLoader::load('RedshopHelperAdminExtra_field');
 JLoader::load('RedshopHelperProduct');
@@ -19,7 +18,7 @@ JLoader::load('RedshopHelperProduct');
  *
  * @since  2.5
  */
-class RedshopModelExport extends JModel
+class RedshopModelExport extends RedshopModel
 {
 	/**
 	 * Get export data
@@ -34,7 +33,7 @@ class RedshopModelExport extends JModel
 
 		if (!$exportname)
 		{
-			$app->Redirect("index.php?option=com_redshop&view=export", JText::_("COM_REDSHOP_PLEASE_SELECT_SECTION"));
+			$app->redirect("index.php?option=com_redshop&view=export", JText::_("COM_REDSHOP_PLEASE_SELECT_SECTION"));
 		}
 
 		/* Set the export filename */
@@ -1053,7 +1052,7 @@ class RedshopModelExport extends JModel
 					. "FROM `#__redshop_product` AS p "
 					. "WHERE p.manufacturer_id=" . $manufacturers[$e]->manufacturer_id;
 				$db->setQuery($query);
-				$pids = $db->LoadResultArray();
+				$pids = $db->loadColumn();
 				$pids = implode("|", $pids);
 
 				foreach ($row as $id => $value)

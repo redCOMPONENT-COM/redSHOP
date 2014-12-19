@@ -41,7 +41,10 @@ class AcceptanceHelper extends \Codeception\Module
 		"admin_email" => $this->config['admin_email'],
 		"language" => $this->config['language'],
 		"sample_data" => $this->config['sample_data'],
-		"host" => $this->config['host']
+		"host" => $this->config['host'],
+		"extension_name" => $this->config['extension_name'],
+		"install_extension_demo_data" => $this->config['install_extension_demo_data'],
+		"env" => $this->config['env']
 		];
 
 		return $configuration;

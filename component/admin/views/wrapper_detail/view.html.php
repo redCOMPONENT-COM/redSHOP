@@ -9,9 +9,8 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
 
-class RedshopViewWrapper_detail extends JView
+class RedshopViewWrapper_detail extends RedshopView
 {
 	/**
 	 * The request url.
@@ -32,9 +31,9 @@ class RedshopViewWrapper_detail extends JView
 		$option = JRequest::getVar('option');
 		JLoader::load('RedshopHelperAdminExtra_field');
 		$document = JFactory::getDocument();
-		$document->addScript('components/' . $option . '/assets/js/select_sort.js');
-		$document->addStyleSheet('components/' . $option . '/assets/css/search.css');
-		$document->addScript('components/' . $option . '/assets/js/search.js');
+		$document->addScript('components/com_redshop/assets/js/select_sort.js');
+		$document->addStyleSheet('components/com_redshop/assets/css/search.css');
+		$document->addScript('components/com_redshop/assets/js/search.js');
 
 		$isNew = ($detail->wrapper_id < 1);
 		$text = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');

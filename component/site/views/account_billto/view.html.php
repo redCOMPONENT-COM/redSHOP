@@ -9,11 +9,10 @@
 
 defined('_JEXEC') or die;
 
-JLoader::import('joomla.application.component.view');
 
 JLoader::load('RedshopHelperExtra_field');
 
-class RedshopViewAccount_billto extends JView
+class RedshopViewAccount_billto extends RedshopView
 {
 	/**
 	 * Execute and display a template script.
@@ -49,16 +48,16 @@ class RedshopViewAccount_billto extends JView
 			$auth = $session->get('auth');
 		}
 
-		JHTML::Script('jquery-1.4.2.min.js', 'components/com_redshop/assets/js/', false);
-		JHTML::Script('jquery.validate.js', 'components/com_redshop/assets/js/', false);
-		JHTML::Script('common.js', 'components/com_redshop/assets/js/', false);
-		JHTML::Script('registration.js', 'components/com_redshop/assets/js/', false);
-		JHTML::Stylesheet('validation.css', 'components/com_redshop/assets/css/');
+		JHtml::script('com_redshop/jquery-1.4.2.min.js', false, true);
+		JHtml::script('com_redshop/jquery.validate.js', false, true);
+		JHtml::script('com_redshop/common.js', false, true);
+		JHtml::script('com_redshop/registration.js', false, true);
+		JHtml::stylesheet('com_redshop/validation.css', array(), true);
 
 		// Preform security checks
 		if ($user->id == 0 && $auth['users_info_id'] == 0)
 		{
-			$app->Redirect('index.php?option=com_redshop&view=login&Itemid=' . JRequest::getInt('Itemid'));
+			$app->redirect('index.php?option=com_redshop&view=login&Itemid=' . JRequest::getInt('Itemid'));
 			exit;
 		}
 

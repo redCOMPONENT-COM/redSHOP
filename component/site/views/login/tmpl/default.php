@@ -23,8 +23,6 @@ else
 	$newuser_link = 'index.php?option=com_redshop&view=registration&Itemid=' . $Itemid;
 }
 
-$forgotpwd_link = 'index.php?option=com_redshop&view=password&Itemid=' . $Itemid;
-
 $params       = $app->getParams('com_redshop');
 $returnitemid = $params->get('login', $Itemid);
 
@@ -64,7 +62,7 @@ $returnitemid = $params->get('login', $Itemid);
 			<td colspan="5">
 				<a href="<?php echo JRoute::_($newuser_link); ?>">
 					<?php echo JText::_('COM_REDSHOP_CREATE_USER_LINK'); ?></a>&nbsp;/&nbsp;<a
-					href="<?php echo JRoute::_($forgotpwd_link); ?>">
+					href="<?php echo JRoute::_('index.php?option=com_users&view=reset'); ?>">
 					<?php echo JText::_('COM_REDSHOP_FORGOT_PWD_LINK'); ?></a>
 			</td>
 		</tr>

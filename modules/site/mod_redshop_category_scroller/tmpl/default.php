@@ -30,10 +30,10 @@ $document->addStyleSheet(JURI::base() . 'modules/mod_redshop_products/css/produc
 JLoader::load('RedshopHelperRedshop.js');
 
 // Light-box Java-script
-JHTML::Script('redbox.js', 'components/com_redshop/assets/js/', false);
-JHTML::Script('attribute.js', 'components/com_redshop/assets/js/', false);
-JHTML::Script('common.js', 'components/com_redshop/assets/js/', false);
-JHTML::Stylesheet('fetchscript.css', 'components/com_redshop/assets/css/');
+JHtml::script('com_redshop/redbox.js', false, true);
+JHtml::script('com_redshop/attribute.js', false, true);
+JHtml::script('com_redshop/common.js', false, true);
+JHtml::stylesheet('com_redshop/fetchscript.css', array(), true);
 
 $config = new Redconfiguration;
 $config->defineDynamicVars();
@@ -53,16 +53,16 @@ if ($view == 'category')
 {
 	if (!$GLOBALS['product_price_slider'])
 	{
-		JHTML::Script('jquery.tools.min.js', 'components/com_redshop/assets/js/', false);
+		JHtml::script('com_redshop/jquery.tools.min.js', false, true);
 	}
 }
 else
 {
-	JHTML::Script('jquery.tools.min.js', 'components/com_redshop/assets/js/', false);
+	JHtml::script('com_redshop/jquery.tools.min.js', false, true);
 }
 
-JHTML::Script('jquery.js', 'modules/mod_redshop_category_scroller/js/', false);
-JHTML::Script('rscategoryscroller.js', 'modules/mod_redshop_category_scroller/js/', false);
+JHTML::script('modules/mod_redshop_category_scroller/js/jquery.js');
+JHTML::script('modules/mod_redshop_category_scroller/js/rscategoryscroller.js');
 
 echo $pretext;
 echo "<div style='height:" . $scrollerheight . "px;'>";

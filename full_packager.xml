@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ==================================================================  -->
+<!-- redSHOP full packager                                                    -->
+<!-- This PHING build file generates the redSHOP extension package       -->
+<!-- including all extra extensions: modules and plugins                 -->
+<!--    Change the following variables in build.properties file          -->
+<!--            (copy variables from build.properties.dist )             -->
+<!--    - change the version in variable comp.version                    -->
+<!--    - change the package folder path in variable package.dir         -->
+<!--    - execute this PHING build file                                  -->
+<!-- ==================================================================  -->
+<project name="redshop_full_packager" default="dist">
+    <property file="build.properties" override="true" />
+    <!-- Target dir where packages will be created  -->
+
+    <target name="dist">
+        <phing phingfile="${project.basedir}/component_packager.xml"
+               haltonfailure="true">
+        </phing>
+        <phing phingfile="${project.basedir}/modules_packager.xml"
+               haltonfailure="true">
+        </phing>
+        <phing phingfile="${project.basedir}/plugins_packager.xml"
+               haltonfailure="true">
+        </phing>
+
+        <echo msg="Creating full ZIP package..." />
+        <zip destfile="${package.dir}/${comp.name}-v${comp.version}_fullpackage-unzipfirst.zip">
+            <fileset dir="${package.dir}">
+                <include name="**" />
+                <exclude name=".*" />
+            </fileset>
+        </zip>
+        <delete dir="${package.dir}/${comp.name}-${comp.version}-plugins"  />
+        <delete dir="${package.dir}/${comp.name}-${comp.version}-modules"  />
+        <delete file="${package.dir}/${comp.name}-v${comp.version}_j${joomla.version}.zip"  />
+
+    </target>
+</project>

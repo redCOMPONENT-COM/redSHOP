@@ -52,17 +52,10 @@ defined('_JEXEC') or die;
 					</a>
 				</div>
 			</div>
-			<?php else: ?>
-
-				<dl id="system-message">
-					<dd class="message message">
-						<ul>
-							<li><i><?php echo JText::_('COM_REDSHOP_ADDITIONAL_IMAGES_NOTICE'); ?></i></li>
-						</ul>
-					</dd>
-				</dl>
-
-			<?php endif; ?>
+			<?php else:
+				$msgList = array('msgList' => array('message' => array(JText::_('COM_REDSHOP_ADDITIONAL_IMAGES_NOTICE'))));
+				echo RedshopLayoutHelper::render('system.message', $msgList);
+			endif; ?>
 		</td>
 	</tr>
 	<tr>

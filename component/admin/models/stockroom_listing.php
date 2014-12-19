@@ -9,9 +9,8 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
 
-class RedshopModelStockroom_listing extends JModel
+class RedshopModelStockroom_listing extends RedshopModel
 {
 	public $_data = null;
 
@@ -280,7 +279,7 @@ class RedshopModelStockroom_listing extends JModel
 		if ($query != "")
 		{
 			$this->_db->setQuery($query);
-			$this->_db->Query();
+			$this->_db->execute();
 
 			// For stockroom Notify Email
 
@@ -300,7 +299,7 @@ class RedshopModelStockroom_listing extends JModel
 		$query = "SELECT product_id FROM " . $this->_table_prefix . "product_category_xref "
 			. "WHERE category_id= " . $cid;
 		$this->_db->setQuery($query);
-		$this->_data = $this->_db->loadResultArray();
+		$this->_data = $this->_db->loadColumn();
 
 		return $this->_data;
 	}
@@ -327,7 +326,7 @@ class RedshopModelStockroom_listing extends JModel
 		if ($query != "")
 		{
 			$this->_db->setQuery($query);
-			$this->_db->Query();
+			$this->_db->execute();
 		}
 	}
 }

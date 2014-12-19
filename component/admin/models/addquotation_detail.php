@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
 
 JLoader::load('RedshopHelperProduct');
 JLoader::load('RedshopHelperHelper');
@@ -19,7 +18,7 @@ JLoader::load('RedshopHelperAdminOrder');
 JLoader::load('RedshopHelperAdminProduct');
 JLoader::load('RedshopHelperAdminQuotation');
 
-class RedshopModelAddquotation_detail extends JModel
+class RedshopModelAddquotation_detail extends RedshopModel
 {
 	public $_id = null;
 
@@ -84,7 +83,7 @@ class RedshopModelAddquotation_detail extends JModel
 
 		$data['address_type'] = 'ST';
 
-		$rowsh = & $this->getTable('user_detail');
+		$rowsh = $this->getTable('user_detail');
 
 		if (!$rowsh->bind($data))
 		{
@@ -121,7 +120,7 @@ class RedshopModelAddquotation_detail extends JModel
 
 		$row = $this->getTable('quotation_detail');
 
-		if ($data['quotation_discount'] > 0)
+		if (isset($data['quotation_discount']) && $data['quotation_discount'] > 0)
 		{
 			$data['order_total'] = $data['order_total'] - $data['quotation_discount'] - (($data['order_total'] * $data['quotation_special_discount']) / 100);
 		}
@@ -187,10 +186,11 @@ class RedshopModelAddquotation_detail extends JModel
 				$wrapper_price = $wrapper[0]->wrapper_price + $wrapper_vat;
 			}
 
-			$rowitem = & $this->getTable('quotation_item_detail');
+			$rowitem = $this->getTable('quotation_item_detail');
 
 			$product = $producthelper->getProductById($product_id);
 
+			$quotation_item[$i] = new stdClass;
 			$quotation_item[$i]->quotation_id = $row->quotation_id;
 			$quotation_item[$i]->product_id = $product_id;
 			$quotation_item[$i]->is_giftcard = 0;
@@ -254,7 +254,7 @@ class RedshopModelAddquotation_detail extends JModel
 						$attribute_id = $attchildArr[$j]['attribute_id'];
 						$accessory_attribute .= urldecode($attchildArr[$j]['attribute_name']) . ":<br/>";
 
-						$rowattitem = & $this->getTable('quotation_attribute_item');
+						$rowattitem = $this->getTable('quotation_attribute_item');
 						$rowattitem->quotation_att_item_id = 0;
 						$rowattitem->quotation_item_id = $rowitem->quotation_item_id;
 						$rowattitem->section_id = $attribute_id;
@@ -290,7 +290,7 @@ class RedshopModelAddquotation_detail extends JModel
 								. $producthelper->getProductFormattedPrice($propArr[$k]['property_price'] + $section_vat) . ")<br/>";
 							$subpropArr = $propArr[$k]['property_childs'];
 
-							$rowattitem = & $this->getTable('quotation_attribute_item');
+							$rowattitem = $this->getTable('quotation_attribute_item');
 							$rowattitem->quotation_att_item_id = 0;
 							$rowattitem->quotation_item_id = $rowitem->quotation_item_id;
 							$rowattitem->section_id = $property_id;
@@ -326,7 +326,7 @@ class RedshopModelAddquotation_detail extends JModel
 									. " (" . $subpropArr[$l]['subproperty_oprand']
 									. $producthelper->getProductFormattedPrice($subpropArr[$l]['subproperty_price'] + $section_vat) . ")<br/>";
 
-								$rowattitem = & $this->getTable('quotation_attribute_item');
+								$rowattitem = $this->getTable('quotation_attribute_item');
 								$rowattitem->quotation_att_item_id = 0;
 								$rowattitem->quotation_item_id = $rowitem->quotation_item_id;
 								$rowattitem->section_id = $subproperty_id;
@@ -351,7 +351,7 @@ class RedshopModelAddquotation_detail extends JModel
 						}
 					}
 
-					$accdata = & $this->getTable('accessory_detail');
+					$accdata = $this->getTable('accessory_detail');
 
 					if ($accessory_id > 0)
 					{
@@ -359,7 +359,7 @@ class RedshopModelAddquotation_detail extends JModel
 					}
 
 					$accProductinfo = $producthelper->getProductById($accdata->child_product_id);
-					$rowaccitem = & $this->getTable('quotation_accessory_item');
+					$rowaccitem = $this->getTable('quotation_accessory_item');
 					$rowaccitem->quotation_item_acc_id = 0;
 					$rowaccitem->quotation_item_id = $rowitem->quotation_item_id;
 					$rowaccitem->accessory_id = $accessory_id;
@@ -393,7 +393,7 @@ class RedshopModelAddquotation_detail extends JModel
 				{
 					$attribute_id = $attArr[$j]['attribute_id'];
 
-					$rowattitem = & $this->getTable('quotation_attribute_item');
+					$rowattitem = $this->getTable('quotation_attribute_item');
 					$rowattitem->quotation_att_item_id = 0;
 					$rowattitem->quotation_item_id = $rowitem->quotation_item_id;
 					$rowattitem->section_id = $attribute_id;
@@ -428,7 +428,7 @@ class RedshopModelAddquotation_detail extends JModel
 						/** product property STOCKROOM update start */
 						$stockroomhelper->updateStockroomQuantity($property_id, $rowitem->product_quantity, "property");
 
-						$rowattitem = & $this->getTable('quotation_attribute_item');
+						$rowattitem = $this->getTable('quotation_attribute_item');
 						$rowattitem->quotation_att_item_id = 0;
 						$rowattitem->quotation_item_id = $rowitem->quotation_item_id;
 						$rowattitem->section_id = $property_id;

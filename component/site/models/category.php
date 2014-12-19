@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-JLoader::import('joomla.application.component.model');
 
 /**
  * Class categoryModelcategory
@@ -18,7 +17,7 @@ JLoader::import('joomla.application.component.model');
  * @subpackage  Model
  * @since       1.0
  */
-class RedshopModelCategory extends JModel
+class RedshopModelCategory extends RedshopModel
 {
 	public $_id = null;
 
@@ -38,7 +37,7 @@ class RedshopModelCategory extends JModel
 
 	public $_context = null;
 
-	// @ToDo In feature, when class Category extends JModelList, replace filter_fields in constructor
+	// @ToDo In feature, when class Category extends RedshopModelList, replace filter_fields in constructor
 	public $filter_fields = array(
 		'p.product_name ASC', 'product_name ASC',
 		'p.product_price ASC', 'product_price ASC',
@@ -751,7 +750,7 @@ class RedshopModelCategory extends JModel
 		{
 			$query = "SELECT id FROM #__redproductfinder_filters WHERE published=1";
 			$this->_db->setQuery($query);
-			$rs_filters = $this->_db->loadResultArray();
+			$rs_filters = $this->_db->loadColumn();
 
 			if (count($rs_filters) > 0)
 			{
@@ -811,7 +810,7 @@ class RedshopModelCategory extends JModel
 
 						$finder_query .= $finder_where;
 						$this->_db->setQuery($finder_query);
-						$rs              = $this->_db->loadResultArray();
+						$rs              = $this->_db->loadColumn();
 						$finder_products = "";
 
 						if (!empty($rs))

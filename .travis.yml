@@ -3,6 +3,10 @@ language: php
 php:
   - 5.4
 
+env:
+ - GROUP=Joomla2 ENV=joomla2
+ - GROUP=Joomla3 ENV=joomla3
+
 before_script:
   - phpenv config-add .travis.ini
   - phpenv rehash
@@ -11,7 +15,8 @@ before_script:
   - sudo apt-get update -qq
   - sudo apt-get install -y --force-yes apache2 libapache2-mod-php5 php5-curl php5-mysql php5-intl > /dev/null
   - sudo chmod 777 -R /home/travis/build/redCOMPONENT-COM/redSHOP/
-  - sudo ln -s /home/travis/build/redCOMPONENT-COM/redSHOP/tests/system/joomla-cms/ /var/www/joomla-cms #Add joomla to apache htdocs
+  - sudo ln -s /home/travis/build/redCOMPONENT-COM/redSHOP/tests/system/joomla-cms2/ /var/www/joomla-cms2 #Add joomla 2 to apache htdocs
+  - sudo ln -s /home/travis/build/redCOMPONENT-COM/redSHOP/tests/system/joomla-cms3/ /var/www/joomla-cms3 #Add joomla 3 to apache htdocs
   - sudo sed -i -e "s,AllowOverride[ ]None,AllowOverride All,g" /etc/apache2/sites-available/default
   - sudo /etc/init.d/apache2 restart
   - composer install --dev --prefer-dist
@@ -27,21 +32,23 @@ before_script:
   - "fluxbox &"
 
   # Selenium server
-  - "wget http://selenium-release.storage.googleapis.com/2.41/selenium-server-standalone-2.41.0.jar"
-  - "java -jar selenium-server-standalone-2.41.0.jar > /dev/null 2>/dev/null &"
+  - "wget http://selenium-release.storage.googleapis.com/2.43/selenium-server-standalone-2.43.1.jar"
+  - "java -jar selenium-server-standalone-2.43.1.jar > /dev/null 2>/dev/null &"
   - sleep 30
 
 
 script:
-  - php .travis/traviswebserverckecker.php http://localhost/joomla-cms/installation/index.php # Test apache
+  - php .travis/traviswebserverckecker.php http://localhost/joomla-cms2/installation/index.php # Test apache
+  - php .travis/traviswebserverckecker.php http://localhost/joomla-cms3/installation/index.php # Test apache
   #- php .travis/phpparseerrorchecker.php component/ modules/ plugins/
   - mv tests/acceptance.suite.dist.yml tests/acceptance.suite.yml # Create travis system tests config file
   - "wget http://codeception.com/codecept.phar"
-  - php ./codecept.phar build
-  - php ./codecept.phar run acceptance
+  - php vendor/bin/codecept build
+  - php codecept.phar run acceptance -g $GROUP --env $ENV
+  #- php codecept.phar run acceptance -g Joomla3 --env joomla3
   - php .travis/codeceptionerror2slack.php # Send found errors into redSHOP slackchat
 
-  
+
 notifications:
   slack:
     secure: XX4m+uA8suXodJS0SvLDqrWovNvx7bxiJwyebj3gA8JwSP2E3XsRJFxsAt5++GTOv1nmMCGIkXnovY44XoA8ErEVSseElCUtKOr3/sa6tCPDYl4Lz+Q4FxPxPJcz6glpwXyOc2tCMNaKWiFdWrDsHNucPjw9iN5N16+jIvYwrrQ=

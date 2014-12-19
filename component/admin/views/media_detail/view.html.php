@@ -9,9 +9,8 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.view');
 
-class RedshopViewMedia_detail extends JView
+class RedshopViewMedia_detail extends RedshopView
 {
 	/**
 	 * The request url.
@@ -24,13 +23,11 @@ class RedshopViewMedia_detail extends JView
 	{
 		$option = JRequest::getVar('option', '', 'request', 'string');
 
-		JToolBarHelper::title(JText::_('COM_REDSHOP_MEDIAS_MANAGEMENT_DETAIL'), 'redshop_media48');
-
 		$document = JFactory::getDocument();
 
-		$document->addScript('components/' . $option . '/assets/js/media.js');
-		$document->addStyleSheet('components/' . $option . '/assets/css/search.css');
-		$document->addScript('components/' . $option . '/assets/js/search.js');
+		$document->addScript('components/com_redshop/assets/js/media.js');
+		$document->addStyleSheet('components/com_redshop/assets/css/search.css');
+		$document->addScript('components/com_redshop/assets/js/search.js');
 
 		$uri = JFactory::getURI();
 
@@ -45,7 +42,7 @@ class RedshopViewMedia_detail extends JView
 
 		$text = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
 
-		JToolBarHelper::title(JText::_('COM_REDSHOP_MEDIAS') . ': <small><small>[ ' . $text . ' ]</small></small>', 'redshop_media48');
+		JToolBarHelper::title(JText::_('COM_REDSHOP_MEDIAS') . ': <small><small>[ ' . $text . ' ]</small></small>', 'camera redshop_media48');
 
 		JToolBarHelper::save();
 
@@ -103,20 +100,20 @@ class RedshopViewMedia_detail extends JView
 		if ($detail->media_id == 0)
 		{
 			$lists['section'] = JHTML::_('select.genericlist', $optionsection, 'media_section',
-				'class="inputbox" size="1" style="width:100px;" onchange="select_type(this)" title="' . $option . '"',
+				'class="inputbox" size="1" style="width:100px;" onchange="select_type(this)" title="com_redshop"',
 				'value', 'text', $detail->media_section, '0'
 			);
 		}
 		else
 		{
 			$lists['section'] = JHTML::_('select.genericlist', $optionsection, 'media_section',
-				'class="inputbox" size="1" style="width:100px;" disabled="disabled" onchange="select_type(this)" title="' . $option . '"',
+				'class="inputbox" size="1" style="width:100px;" disabled="disabled" onchange="select_type(this)" title="com_redshop"',
 				'value', 'text', $detail->media_section, '0'
 			);
 		}
 
 		$lists['bulk'] = JHTML::_('select.genericlist', $optionbulk, 'bulk',
-			'class="inputbox" size="1" onchange="media_bulk(this)" title="' . $option . '" ',
+			'class="inputbox" size="1" onchange="media_bulk(this)" title="com_redshop" ',
 			'value', 'text', 'no'
 		);
 

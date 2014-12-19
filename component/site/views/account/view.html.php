@@ -9,9 +9,8 @@
 
 defined('_JEXEC') or die;
 
-JLoader::import('joomla.application.component.view');
 
-class RedshopViewAccount extends JView
+class RedshopViewAccount extends RedshopView
 {
 	public function display($tpl = null)
 	{
@@ -36,7 +35,7 @@ class RedshopViewAccount extends JView
 		if (!count($userdata) && $layout != 'mywishlist')
 		{
 			$msg = JText::_('COM_REDSHOP_LOGIN_USER_IS_NOT_REDSHOP_USER');
-			$app->Redirect("index.php?option=com_redshop&view=account_billto&Itemid=" . $Itemid, $msg);
+			$app->redirect("index.php?option=com_redshop&view=account_billto&Itemid=" . $Itemid, $msg);
 		}
 
 		$layout = JRequest::getCmd('layout', 'default');
@@ -45,7 +44,7 @@ class RedshopViewAccount extends JView
 		// Preform security checks
 		if (($user->id == 0 && $layout != 'mywishlist') || ($user->id == 0 && $layout == 'mywishlist' && !isset($mail))) // Give permission to send wishlist while not logged in )
 		{
-			$app->Redirect('index.php?option=com_redshop&view=login&Itemid=' . JRequest::getInt('Itemid'));
+			$app->redirect('index.php?option=com_redshop&view=login&Itemid=' . JRequest::getInt('Itemid'));
 
 			return;
 		}
@@ -77,17 +76,19 @@ class RedshopViewAccount extends JView
 			// If wishlist Id is not set then redirect to it's main page
 			if ($wishlist_id == 0)
 			{
-				$app->Redirect("index.php?option=com_redshop&view=wishlist&layout=viewwishlist&Itemid=" . $Itemid);
+				$app->redirect("index.php?option=com_redshop&view=wishlist&layout=viewwishlist&Itemid=" . $Itemid);
 			}
 
 			JLoader::import('joomla.html.pagination');
-			JHTML::Stylesheet('colorbox.css', 'components/com_redshop/assets/css/');
 
-			JHTML::Script('jquery.js', 'components/com_redshop/assets/js/', false);
-			JHTML::Script('jquery.colorbox-min.js', 'components/com_redshop/assets/js/', false);
-			JHTML::Script('redbox.js', 'components/com_redshop/assets/js/', false);
-			JHTML::Script('attribute.js', 'components/com_redshop/assets/js/', false);
-			JHTML::Script('common.js', 'components/com_redshop/assets/js/', false);
+			if (version_compare(JVERSION, '3.0', '<'))
+			{
+				JHtml::script('com_redshop/jquery.js', false, true);
+			}
+
+			JHtml::script('com_redshop/redbox.js', false, true);
+			JHtml::script('com_redshop/attribute.js', false, true);
+			JHtml::script('com_redshop/common.js', false, true);
 			$this->setLayout('mywishlist');
 
 			$remove = JRequest::getInt('remove', 0);

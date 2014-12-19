@@ -22,7 +22,7 @@ if (count($template_desc) == 0)
 
 $template   = $template_desc[0]->template_desc;
 
-$fieldModel = JModel::getInstance('fields', 'RedshopModel');
+$fieldModel = RedshopModel::getInstance('fields', 'RedshopModel');
 
 $section = explode(',', '1,12,17');
 $fields  = $fieldModel->getFieldInfoBySection($section);

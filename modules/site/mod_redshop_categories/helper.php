@@ -486,7 +486,7 @@ class modProMenuHelper
 		$query = "SELECT shopper_group_categories  FROM #__redshop_shopper_group "
 			. "WHERE shopper_group_id=" . (int) $shopper_group_id;
 		$db->setQuery($query);
-		$cat_id_arr = $db->loadResultArray();
+		$cat_id_arr = $db->loadColumn();
 
 		return $cat_id_arr;
 	}

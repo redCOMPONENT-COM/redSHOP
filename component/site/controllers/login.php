@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-JLoader::import('joomla.application.component.controller');
 
 /**
  * login Controller.
@@ -18,7 +17,7 @@ JLoader::import('joomla.application.component.controller');
  * @subpackage  Controller
  * @since       1.0
  */
-class RedshopControllerLogin extends JController
+class RedshopControllerLogin extends RedshopController
 {
 	/**
 	 *  Setlogin function
@@ -49,7 +48,7 @@ class RedshopControllerLogin extends JController
 		if ($shoppergroupid != 0)
 		{
 			$check = $model->CheckShopperGroup($username, $shoppergroupid);
-			$link  = "index.php?option=" . $option . "&view=login&layout=portal&protalid=" . $shoppergroupid;
+			$link  = "index.php?option=com_redshop&view=login&layout=portal&protalid=" . $shoppergroupid;
 
 			if ($check > 0)
 			{
@@ -82,7 +81,7 @@ class RedshopControllerLogin extends JController
 			}
 			else
 			{
-				$link = 'index.php?option=' . $option . '&Itemid=' . $returnitemid;
+				$link = 'index.php?option=com_redshop&Itemid=' . $returnitemid;
 			}
 
 			if (!empty($return))

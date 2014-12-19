@@ -27,16 +27,17 @@ $showbuttons = JRequest::getVar('showbuttons');
 $section_id = JRequest::getVar('section_id');
 $section_name = JRequest::getVar('section_name');
 $media_section = JRequest::getVar('media_section');
+$k = 0;
 
 if ($showbuttons)
 {
 	?>
 	<fieldset>
 		<div style="float: right">
-			<button type="button" onclick="submitbutton('save');">
+			<button type="button" class="btn btn-small" onclick="submitbutton('save');">
 				<?php echo JText::_('COM_REDSHOP_SAVE'); ?>
 			</button>
-			<button type="button" onclick="goback();">
+			<button type="button" class="btn btn-small" onclick="goback();">
 				<?php echo JText::_('COM_REDSHOP_CANCEL'); ?>
 			</button>
 		</div>
@@ -153,7 +154,7 @@ if ($showbuttons)
 												);
 									?>
 									<a class="modal"
-									   href="<?php echo $url . 'components/' . $option . '/assets/' . $this->detail->media_type . '/' . $this->detail->media_section . '/' . $this->detail->media_name; ?>"
+									   href="<?php echo $url . 'components/com_redshop/assets/' . $this->detail->media_type . '/' . $this->detail->media_section . '/' . $this->detail->media_name; ?>"
 									   title="<?php echo JText::_('COM_REDSHOP_VIEW_IMAGE'); ?>"
 									   rel="{handler: 'image', size: {}}">
 										<img

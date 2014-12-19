@@ -9,9 +9,8 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.model');
 
-class RedshopModelSearch extends JModel
+class RedshopModelSearch extends RedshopModel
 {
 	public $_id = null;
 
@@ -269,7 +268,7 @@ class RedshopModelSearch extends JModel
 					. "FROM " . $this->_table_prefix . "product_related "
 					. "WHERE product_id='" . $this->_product_id . "' ";
 				$this->_db->setQuery($query);
-				$related = $this->_db->loadResultArray();
+				$related = $this->_db->loadColumn();
 				$related[count($related)] = $this->_product_id;
 				$relatedid = implode(", ", $related);
 

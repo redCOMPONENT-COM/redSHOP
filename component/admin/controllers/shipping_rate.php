@@ -9,13 +9,12 @@
 
 defined('_JEXEC') or die;
 
-jimport('joomla.application.component.controller');
 
-class RedshopControllerShipping_rate extends JController
+class RedshopControllerShipping_rate extends RedshopController
 {
 	public function cancel()
 	{
-		$post = JRequest::get('post');
-		$this->setRedirect('index.php?option=' . $post['option'] . '&view=shipping_detail&task=edit&cid[]=' . $post['id']);
+		$input = JFactory::getApplication()->input;
+		$this->setRedirect('index.php?option=com_redshop&view=shipping_detail&task=edit&cid[]=' . $input->getInt('id', 0));
 	}
 }
