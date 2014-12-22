@@ -291,10 +291,8 @@ class RedshopViewProduct_Detail extends RedshopView
 			$document->addScript('components/com_redshop/assets/js/fields.js');
 		}
 
-		$document->addScript('components/com_redshop/assets/js/select_sort.js');
 		$document->addScript('components/com_redshop/assets/js/json.js');
 		$document->addScript('components/com_redshop/assets/js/validation.js');
-		$document->addStyleSheet('components/com_redshop/assets/css/search.css');
 
 		if (version_compare(JVERSION, '3.0', '<'))
 		{
@@ -308,9 +306,6 @@ class RedshopViewProduct_Detail extends RedshopView
 		{
 			$document->addStyleSheet('components/com_redproductfinder/helpers/redproductfinder.css');
 		}
-
-		$document->addScript('components/com_redshop/assets/js/search.js');
-		$document->addScript('components/com_redshop/assets/js/related.js');
 
 		$uri = JFactory::getURI();
 
