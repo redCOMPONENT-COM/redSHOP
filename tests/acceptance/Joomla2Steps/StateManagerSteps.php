@@ -35,7 +35,7 @@ class StateManagerSteps extends AdminManagerSteps
 		$I = $this;
 		$config = $I->getConfig();
 
-		if ($config['env'] == 'joomla2')
+		if ($config['env'] == 'Joomla2')
 		{
 			$I->amOnPage(\StateManagerPage::$URL);
 			$I->see('States');
@@ -85,6 +85,7 @@ class StateManagerSteps extends AdminManagerSteps
 	{
 		$I = $this;
 		$I->amOnPage(\StateManagerPage::$URL);
+		$config = $I->getConfig();
 		$I->executeInSelenium(
 			function(\WebDriver $webdriver)
 			{

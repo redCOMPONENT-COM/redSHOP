@@ -34,7 +34,7 @@ class CouponManagerSteps extends AdminManagerSteps
 		$I->amOnPage(\CouponManagerPage::$URL);
 		$config = $I->getConfig();
 
-		if ($config['env'] == 'joomla2')
+		if ($config['env'] == 'Joomla2')
 		{
 			$I->verifyNotices(false, $this->checkForNotices(), 'Coupon Manager Page');
 			$I->click('New');
