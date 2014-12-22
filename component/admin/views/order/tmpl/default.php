@@ -115,7 +115,7 @@ JPluginHelper::importPlugin('redshop_product');
 		</td>
 	</tr>
 </table>
-<table class="adminlist">
+<table class="adminlist table table-striped">
 <thead>
 <tr>
 	<th width="5%">
@@ -239,15 +239,17 @@ for ($i = 0, $n = count($this->orders); $i < $n; $i++)
 				</tr>
 				<tr>
 					<td>
+						<label class="checkbox inline">
 						<input type="checkbox" <?php echo $send_mail_to_customer;?>  value=""
 						       name="sendordermail<?php echo $row->order_id; ?>"
 						       id="sendordermail<?php echo $row->order_id; ?>"/>
 						       <?php echo JText::_('COM_REDSHOP_SEND_ORDER_MAIL'); ?>
+						</label>
 					</td>
 				</tr>
 				<tr>
 					<td>
-						<input class="button"
+						<input class="button btn"
 						       onclick="location.href = '<?php echo $linkupdate; ?>&status='+document.adminForm.order_status<?php echo $row->order_id; ?>.value+'&customer_note='+encodeURIComponent(document.adminForm.customer_note<?php echo $row->order_id; ?>.value)+'&order_sendordermail='+document.adminForm.sendordermail<?php echo $row->order_id; ?>.checked+'&order_paymentstatus='+document.adminForm.order_paymentstatus<?php echo $row->order_id; ?>.value  ; "
 						       name="order_status" value="<?php echo JText::_('COM_REDSHOP_UPDATE_STATUS_BUTTON'); ?>"
 						       type="button">

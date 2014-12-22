@@ -95,6 +95,12 @@ class RedShopHelperImages extends JObject
 			$height = 0;
 		}
 
+		if (0 == $width && 0 == $height)
+		{
+			$width  = 50;
+			$height = 50;
+		}
+
 		$filePath     = JPATH_SITE . '/components/com_redshop/assets/images/' . $type . '/' . $imageName;
 		$physiclePath = self::generateImages($filePath, $dest, $command, $type, $width, $height, $proportional);
 		$thumbUrl     = REDSHOP_FRONT_IMAGES_ABSPATH . $type . '/thumb/' . basename($physiclePath);
