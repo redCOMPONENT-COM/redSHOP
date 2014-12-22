@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-
 class RedshopControllerFields extends RedshopController
 {
 	/**
@@ -28,6 +27,84 @@ class RedshopControllerFields extends RedshopController
 		$model->saveorder($cid, $order);
 
 		$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
+		$this->setRedirect('index.php?option=com_redshop&view=fields', $msg);
+	}
+
+	/**
+	 * Move Ordering up
+	 *
+	 * @return    void
+	 */
+	public function orderup()
+	{
+		$model = $this->getModel('fields');
+		$model->orderup();
+
+		$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
+		$this->setRedirect('index.php?option=com_redshop&view=fields', $msg);
+	}
+
+	/**
+	 * Move Ordering Down
+	 *
+	 * @return    void
+	 */
+	public function orderdown()
+	{
+		$model = $this->getModel('fields');
+		$model->orderdown();
+
+		$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
+		$this->setRedirect('index.php?option=com_redshop&view=fields', $msg);
+	}
+
+	/**
+	 * Publish the fields
+	 *
+	 * @return  void
+	 */
+	public function publish()
+	{
+		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+
+		if (!is_array($cid) || count($cid) < 1)
+		{
+			JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'));
+		}
+
+		$model = $this->getModel('fields');
+
+		if (!$model->publish($cid, 1))
+		{
+			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
+		}
+
+		$msg = JText::_('COM_REDSHOP_FIELD_PUBLISHED_SUCCESSFULLY');
+		$this->setRedirect('index.php?option=com_redshop&view=fields', $msg);
+	}
+
+	/**
+	 * Unpublish the fields
+	 *
+	 * @return  void
+	 */
+	public function unpublish()
+	{
+		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+
+		if (!is_array($cid) || count($cid) < 1)
+		{
+			JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));
+		}
+
+		$model = $this->getModel('fields');
+
+		if (!$model->publish($cid, 0))
+		{
+			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
+		}
+
+		$msg = JText::_('COM_REDSHOP_FIELD_UNPUBLISHED_SUCCESSFULLY');
 		$this->setRedirect('index.php?option=com_redshop&view=fields', $msg);
 	}
 }
