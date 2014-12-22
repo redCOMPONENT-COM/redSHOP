@@ -81,12 +81,13 @@ abstract class JHtmlRedshopjquery
 	 * Load the select2 library
 	 * https://github.com/ivaynberg/select2
 	 *
-	 * @param   string  $selector  CSS Selector to initalise selects
-	 * @param   array   $options   Optional array with options
+	 * @param   string  $selector         CSS Selector to initalise selects
+	 * @param   array   $options          Optional array with options
+	 * @param   bool    $getInitTemplate  Return init template or (false) set script in header
 	 *
 	 * @return  void
 	 */
-	public static function select2($selector = '.select2', $options = null)
+	public static function select2($selector = '.select2', $options = null, $getInitTemplate = false)
 	{
 		// Only load once
 		if (isset(static::$loaded[__METHOD__][$selector]))
@@ -116,7 +117,7 @@ abstract class JHtmlRedshopjquery
 					})";
 		}
 
-		JFactory::getDocument()->addScriptDeclaration("
+		$initTemplate = "
 			(function($){
 				$(document).ready(function () {
 					$('" . $selector . "').select2(
@@ -124,7 +125,16 @@ abstract class JHtmlRedshopjquery
 					)" . static::formatSelect2Events($options) . $prefix . ";
 				});
 			})(jQuery);
-		");
+		";
+
+		if ($getInitTemplate)
+		{
+			echo $initTemplate;
+		}
+		else
+		{
+			JFactory::getDocument()->addScriptDeclaration($initTemplate);
+		}
 
 		static::$loaded[__METHOD__][$selector] = true;
 

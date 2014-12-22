@@ -32,15 +32,16 @@ abstract class JHtmlRedshopSelect extends JHtmlSelect
 	/**
 	 * Generates an HTML selection list.
 	 *
-	 * @param   array   $data     An array of objects, arrays, or scalars.
-	 * @param   string  $name     The value of the HTML name attribute.
-	 * @param   mixed   $attribs  Additional HTML attributes for the <select> tag.
+	 * @param   array   $data             An array of objects, arrays, or scalars.
+	 * @param   string  $name             The value of the HTML name attribute.
+	 * @param   mixed   $attribs          Additional HTML attributes for the <select> tag.
+	 * @param   bool    $getInitTemplate  Return init template or (false) set script in header
 	 *
 	 * @return  string  HTML for the select list.
 	 *
 	 * @since   1.5
 	 */
-	public static function search($data, $name, $attribs = null)
+	public static function search($data, $name, $attribs = null, $getInitTemplate = false)
 	{
 		JHtml::$formatOptions['select2.ajaxOptions'] = array(
 			'limit' => 10,
@@ -120,7 +121,7 @@ abstract class JHtmlRedshopSelect extends JHtmlSelect
 
 		if (is_array($attribs))
 		{
-			if (is_array($attribs['select2.options']))
+			if (isset($attribs['select2.options']) && is_array($attribs['select2.options']))
 			{
 				$options['select2.options'] = array_merge($options['select2.options'], $attribs['select2.options']);
 			}
@@ -129,7 +130,14 @@ abstract class JHtmlRedshopSelect extends JHtmlSelect
 		$id = $options['id'] !== false ? $options['id'] : $name;
 		$id = str_replace(array('[', ']'), '', $id);
 
-		JHtml::_('redshopjquery.select2', '#' . $id, $options['select2.options']);
+		if ($getInitTemplate)
+		{
+			return JHtml::_('redshopjquery.select2', '#' . $id, $options['select2.options'], $getInitTemplate);
+		}
+		else
+		{
+			JHtml::_('redshopjquery.select2', '#' . $id, $options['select2.options']);
+		}
 
 		JArrayHelper::toInteger($value);
 		$value = implode(',', $value);
