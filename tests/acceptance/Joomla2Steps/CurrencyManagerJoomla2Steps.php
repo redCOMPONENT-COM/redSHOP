@@ -7,7 +7,7 @@
  */
 namespace AcceptanceTester;
 /**
- * Class CurrencyManagerSteps
+ * Class CurrencyManagerJoomla2Steps
  *
  * @package  AcceptanceTester
  *
@@ -15,7 +15,7 @@ namespace AcceptanceTester;
  *
  * @since    1.4
  */
-class CurrencyManagerSteps extends AdminManagerSteps
+class CurrencyManagerJoomla2Steps extends AdminManagerJoomla2Steps
 {
 	/**
 	 * Function to add a new Currency
