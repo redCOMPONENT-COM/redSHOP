@@ -44,7 +44,7 @@ env:
                     host: 'http://localhost/joomla-cms2'   # Host Address of the Application
                     extension_name: 'redSHOP'              # Name of the extension which is to be installed
                     install_extension_demo_data: 'yes'     # Demo Data to be installed for Extension
-                    env: 'joomla2'                         # Name of the Environment that has been loaded
+                    env: 'Joomla2'                         # Name of the Environment that has been loaded
     joomla3:
         modules:
             enabled:
@@ -75,5 +75,5 @@ env:
                     host: 'http://localhost/joomla-cms3'   # Host Address of the Application
                     extension_name: 'redSHOP'              # Name of the extension which is to be installed
                     install_extension_demo_data: 'yes'     # Demo Data to be installed for Extension
-                    env: 'joomla3'                         # Name of the Environment which has been loaded
+                    env: 'Joomla3'                         # Name of the Environment which has been loaded
 error_level: "E_ALL & ~E_STRICT & ~E_DEPRECATED"
