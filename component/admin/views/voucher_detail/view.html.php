@@ -73,7 +73,7 @@ class RedshopViewVoucher_detail extends RedshopView
 		$lists['voucher_product'] = JHTML::_('redshopselect.search', $result_container, 'container_product',
 			array(
 				'select2.ajaxOptions' => array('typeField' => ', alert:"voucher", voucher_id:' . $detail->voucher_id),
-				'select2.options' => array('multiple' => 'true')
+				'select2.options' => array('multiple' => true)
 			)
 		);
 

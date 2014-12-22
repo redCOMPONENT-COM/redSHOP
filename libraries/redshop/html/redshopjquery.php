@@ -104,8 +104,6 @@ abstract class JHtmlRedshopjquery
 			JHtml::stylesheet('com_redshop/select2/select2-bootstrap.css', array(), true);
 		}
 
-		// Generate options with default values
-		$optionsToString = static::formatSelect2Options($options);
 		$prefix = '';
 
 		if (isset($options['multiple']) && $options['multiple'] == 'true')
@@ -115,15 +113,15 @@ abstract class JHtmlRedshopjquery
 						containment: 'parent',
 						start: function() { $('" . $selector . "').select2('onSortStart'); },
 						update: function() { $('" . $selector . "').select2('onSortEnd'); }
-					});";
+					})";
 		}
 
 		JFactory::getDocument()->addScriptDeclaration("
 			(function($){
 				$(document).ready(function () {
 					$('" . $selector . "').select2(
-						" . $optionsToString . "
-					)" . $prefix . "
+						" . static::formatSelect2Options($options) . "
+					)" . static::formatSelect2Events($options) . $prefix . ";
 				});
 			})(jQuery);
 		");
@@ -131,6 +129,28 @@ abstract class JHtmlRedshopjquery
 		static::$loaded[__METHOD__][$selector] = true;
 
 		return;
+	}
+
+	/**
+	 * Function to receive & pre-process select2 events options
+	 *
+	 * @param   mixed  $options  Associative array/JRegistry object with options
+	 *
+	 * @return  string
+	 */
+	private static function formatSelect2Events($options)
+	{
+		$result = '';
+
+		if (isset($options['events']) && is_array($options['events']))
+		{
+			foreach ($options['events'] as $key => $event)
+			{
+				$result .= ".on('" . $key . "', " . $event . ")";
+			}
+		}
+
+		return $result;
 	}
 
 	/**
@@ -166,10 +186,16 @@ abstract class JHtmlRedshopjquery
 
 		$return = array();
 		$functions = array('ajax', 'initSelection', 'formatNoMatches', 'formatInputTooShort', 'formatInputTooLong',
-			'formatSelectionTooBig', 'formatLoadMore', 'formatSearching', 'escapeMarkup');
+			'formatSelectionTooBig', 'formatLoadMore', 'formatSearching', 'escapeMarkup', 'multiple', 'allowClear');
+		$exclude = array('events');
 
 		foreach ($options->toArray() as $key => $option)
 		{
+			if (in_array($key, $exclude))
+			{
+				continue;
+			}
+
 			if (!in_array($key, $functions))
 			{
 				$option = '"' . $option . '"';
