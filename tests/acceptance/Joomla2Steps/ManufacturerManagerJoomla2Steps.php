@@ -7,7 +7,7 @@
  */
 namespace AcceptanceTester;
 /**
- * Class MailCenterManagerSteps
+ * Class ManufacturerManagerJoomla2Steps
  *
  * @package  AcceptanceTester
  *
@@ -15,20 +15,20 @@ namespace AcceptanceTester;
  *
  * @since    1.4
  */
-class MailCenterManagerSteps extends AdminManagerSteps
+class ManufacturerManagerJoomla2Steps extends AdminManagerJoomla2Steps
 {
 	/**
-	 * Function to add a new Mail to the Mail Center
+	 * Function to Add a new Manufacturer
 	 *
 	 * @return void
 	 */
-	public function addMail()
+	public function addManufacturer()
 	{
 		$I = $this;
-		$I->amOnPage(\MailCenterManagerPage::$URL);
-		$I->verifyNotices(false, $this->checkForNotices(), 'Mail Center Manager Page');
+		$I->amOnPage(\ManufacturerManagerPage::$URL);
+		$I->verifyNotices(false, $this->checkForNotices(), 'Manufacturer Manager Page');
 		$I->click('New');
-		$I->verifyNotices(false, $this->checkForNotices(), 'Mail Center Manager New');
+		$I->verifyNotices(false, $this->checkForNotices(), 'Manufacturer Manager New');
 		$I->click('Cancel');
 	}
 }

@@ -10,7 +10,9 @@ $I = new AcceptanceTester\LoginSteps($scenario);
 
 $I->wantTo('Install Extension');
 $I->doAdminLogin();
-$I = new AcceptanceTester\InstallExtensionJ3Steps($scenario);
+$config = $I->getConfig();
+$className = 'AcceptanceTester\InstallExtension' . $config['env'] . 'Steps';
+$I = new $className($scenario);
 
 $I->installExtension('redSHOP 1.x');
 $I->wantTo('Install redSHOP1 demo data');
