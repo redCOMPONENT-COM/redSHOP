@@ -31,10 +31,6 @@ class RedshopViewAddorder_detail extends RedshopView
 
 		$document = JFactory::getDocument();
 		$document->setTitle(JText::_('COM_REDSHOP_ORDER'));
-
-		$document->addScript('components/com_redshop/assets/js/select_sort.js');
-		$document->addStyleSheet('components/com_redshop/assets/css/search.css');
-		$document->addScript('components/com_redshop/assets/js/search.js');
 		$document->addScript('components/com_redshop/assets/js/json.js');
 		$document->addScript('components/com_redshop/assets/js/validation.js');
 		$document->addScript('components/com_redshop/assets/js/order.js');
