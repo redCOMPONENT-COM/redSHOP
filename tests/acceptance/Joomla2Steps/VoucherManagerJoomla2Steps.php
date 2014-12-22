@@ -7,7 +7,7 @@
  */
 namespace AcceptanceTester;
 /**
- * Class VoucherManagerSteps
+ * Class VoucherManagerJoomla2Steps
  *
  * @package  AcceptanceTester
  *
@@ -15,7 +15,7 @@ namespace AcceptanceTester;
  *
  * @since    1.4
  */
-class VoucherManagerSteps extends AdminManagerSteps
+class VoucherManagerJoomla2Steps extends AdminManagerJoomla2Steps
 {
 	/**
 	 * Function to Create a new Voucher

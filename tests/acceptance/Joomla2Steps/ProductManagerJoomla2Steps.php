@@ -7,7 +7,7 @@
  */
 namespace AcceptanceTester;
 /**
- * Class ProductManagerSteps
+ * Class ProductManagerJoomla2Steps
  *
  * @package  AcceptanceTester
  *
@@ -15,7 +15,7 @@ namespace AcceptanceTester;
  *
  * @since    1.4
  */
-class ProductManagerSteps extends AdminManagerSteps
+class ProductManagerJoomla2Steps extends AdminManagerJoomla2Steps
 {
 	/**
 	 * Function to add a Product

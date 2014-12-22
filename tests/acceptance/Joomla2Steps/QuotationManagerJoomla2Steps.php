@@ -7,7 +7,7 @@
  */
 namespace AcceptanceTester;
 /**
- * Class QuotationManagerSteps
+ * Class QuotationManagerJoomla2Steps
  *
  * @package  AcceptanceTester
  *
@@ -15,7 +15,7 @@ namespace AcceptanceTester;
  *
  * @since    1.4
  */
-class QuotationManagerSteps extends AdminManagerSteps
+class QuotationManagerJoomla2Steps extends AdminManagerJoomla2Steps
 {
 	/**
 	 * Function to add a New Quotation
