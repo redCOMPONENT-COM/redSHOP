@@ -117,16 +117,6 @@ class RedshopModelSearch extends RedshopModel
 		{
 			switch ($jInput->getCmd('media_section', ''))
 			{
-				case 'product':
-					$query->select(
-						array(
-							$db->qn('product_id', 'id'),
-							$db->qn('product_name', 'text')
-						)
-					)
-						->from($db->qn('#__redshop_product'))
-						->where($db->qn('product_name') . $search);
-					break;
 				case 'category':
 					$query->select(
 						array(
@@ -166,6 +156,27 @@ class RedshopModelSearch extends RedshopModel
 					)
 						->from($db->qn('#__redshop_manufacturer'))
 						->where($db->qn('manufacturer_name') . $search);
+					break;
+				case 'catalog':
+					$query->select(
+						array(
+							$db->qn('catalog_id', 'id'),
+							$db->qn('catalog_name', 'text')
+						)
+					)
+						->from($db->qn('#__redshop_catalog'))
+						->where('catalog_name' . $search);
+					break;
+				case 'product':
+				default:
+					$query->select(
+						array(
+							$db->qn('product_id', 'id'),
+							$db->qn('product_name', 'text')
+						)
+					)
+						->from($db->qn('#__redshop_product'))
+						->where($db->qn('product_name') . $search);
 					break;
 			}
 		}
