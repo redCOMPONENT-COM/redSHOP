@@ -135,7 +135,8 @@ class RedshopModelFields extends RedshopModel
 	 */
 	public function saveorder($cid = array(), $order = array())
 	{
-		$row = $this->getTable('fields_detail');
+		$row        = $this->getTable('fields_detail');
+		$conditions = array();
 
 		// Update ordering values
 		for ($i = 0; $i < count($cid); $i++)
@@ -152,8 +153,71 @@ class RedshopModelFields extends RedshopModel
 
 					return false;
 				}
+
+				// Remember to updateOrder this group
+				$condition = 'field_section = ' . (int) $row->field_section;
+				$found = false;
+
+				foreach ($conditions as $cond)
+				{
+					if ($cond[1] == $condition)
+					{
+						$found = true;
+						break;
+					}
+				}
+
+				if (!$found)
+				{
+					$conditions[] = array($row->field_id, $condition);
+				}
 			}
 		}
+
+		// Execute updateOrder for each group
+		foreach ($conditions as $cond)
+		{
+			$row->load($cond[0]);
+			$row->reorder($cond[1]);
+		}
+
+		return true;
+	}
+
+	/**
+	 * Move ordering up
+	 *
+	 * @return  boolean
+	 */
+	public function orderup()
+	{
+		$app = JFactory::getApplication();
+
+		$cid = $app->input->get('cid', array(), 'post', 'array');
+		$cid = $cid[0];
+
+		$row = $this->getTable('fields_detail');
+		$row->load($cid[0]);
+		$row->move(-1, 'field_section = ' . $row->field_section);
+
+		return true;
+	}
+
+	/**
+	 * Move Ordering down
+	 *
+	 * @return  boolean
+	 */
+	public function orderdown()
+	{
+		$app = JFactory::getApplication();
+
+		$cid = $app->input->get('cid', array(), 'post', 'array');
+		$cid = $cid[0];
+
+		$row = $this->getTable('fields_detail');
+		$row->load($cid[0]);
+		$row->move(1, 'field_section = ' . $row->field_section);
 
 		return true;
 	}
@@ -198,6 +262,25 @@ class RedshopModelFields extends RedshopModel
 		}
 
 		return $fields;
+	}
+
+	/**
+	 * Published or unpublished
+	 *
+	 * @param   array    $cid      primary keys
+	 * @param   integer  $publish  State for publish is 1 and other is 0
+	 *
+	 * @return  boolean
+	 */
+	public function publish($cid = array(), $publish = 1)
+	{
+		if (count($cid))
+		{
+			$row = $this->getTable('fields_detail');
+			$row->publish($cid, $publish);
+		}
+
+		return true;
 	}
 }
 
