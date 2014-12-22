@@ -10,7 +10,7 @@ $I = new AcceptanceTester\LoginSteps($scenario);
 
 $I->wantTo('Install Extension');
 $I->doAdminLogin();
-$I = new AcceptanceTester\InstallExtensionJ2Steps($scenario);
+$I = new AcceptanceTester\InstallExtensionJoomla2Steps($scenario);
 
 $I->installExtension('redSHOP 1.x');
 $I->wantTo('Install redSHOP1 demo data');
