@@ -67,7 +67,7 @@ abstract class JHtmlRedshopSelect extends JHtmlSelect
 		$initSelection = '';
 		$value = array();
 
-		if (is_array($data))
+		if (is_array($data) && count($data) > 0)
 		{
 			foreach ($data as $key => $val)
 			{
@@ -78,7 +78,7 @@ abstract class JHtmlRedshopSelect extends JHtmlSelect
 				$value[] = $val->$options['option.key'];
 			}
 		}
-		elseif (is_object($data))
+		elseif (is_object($data) && isset($data->$options['option.key']) && isset($data->$options['option.text']))
 		{
 			$initSelection = new stdClass;
 			$initSelection->id = $data->$options['option.key'];
