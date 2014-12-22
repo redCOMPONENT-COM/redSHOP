@@ -40,8 +40,8 @@ $vmTigraTree = new redTigraTreeMenu;
 $varname = uniqid("TigraTree_");
 
 $document = JFactory::getDocument();
-JHTML::Script('tree_tpl.js.php', $js_src . '/tigratree/', false);
-JHTML::Script('tree.js', $js_src . '/tigratree/', false);
+JHTML::script($js_src . '/tigratree/tree_tpl.js.php');
+JHTML::script($js_src . '/tigratree/tree.js');
 
 // Create the menu output
 $menu_htmlcode = "<div class=\"$class_mainlevel\" style=\"text-align:left;\">

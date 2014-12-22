@@ -78,7 +78,7 @@ if ($showbuttons == 1)
 	</table>
 
 	<div id="editcell1">
-		<table class="adminlist">
+		<table class="adminlist table table-striped">
 			<thead>
 			<tr>
 				<th width="5%"><?php echo JText::_('COM_REDSHOP_NUM'); ?></th>
@@ -177,11 +177,11 @@ if ($showbuttons == 1)
 						<td align="center">
 							<input type="hidden" name="sid[]" value="<?php echo $this->stockroom[$j]->stockroom_id; ?>">
 							<input type="hidden" name="pid[]" value="<?php echo $section_id; ?>">
-							<input type="text" value="<?php echo $quantity; ?>" name="quantity[]" size="4"></td>
+							<input type="text" value="<?php echo $quantity; ?>" name="quantity[]" class="input-small" size="4"></td>
 						<td align="center">
 
 
-							<input type="text" value="<?php echo $preorder_stock; ?>" name="preorder_stock[]" size="4">
+							<input type="text" value="<?php echo $preorder_stock; ?>" name="preorder_stock[]" class="input-small" size="4">
 							<input type="hidden" value="<?php echo $ordered_preorder; ?>" name="ordered_preorder[]"
 							       size="4">
 							<?php if ($ordered_preorder > 0)

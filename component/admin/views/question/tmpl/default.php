@@ -53,7 +53,7 @@ $ordering      = ($this->lists['order'] == 'ordering');
 				</td>
 			</tr>
 		</table>
-		<table class="adminlist">
+		<table class="adminlist table table-striped">
 			<thead>
 			<tr>
 				<th width="5%"><?php echo JText::_('COM_REDSHOP_NUM'); ?></th>
@@ -122,7 +122,7 @@ $ordering      = ($this->lists['order'] == 'ordering');
 						<span><?php echo $this->pagination->orderUpIcon($i, true, 'orderup', JText::_('JLIB_HTML_MOVE_UP'), $ordering); ?></span>
 						<span><?php echo $this->pagination->orderDownIcon($i, $n, true, 'orderdown', JText::_('JLIB_HTML_MOVE_DOWN'), $ordering); ?></span>
 						<input type="text" name="order[]" size="5" value="<?php echo $row->ordering; ?>"
-						       class="text_area" style="text-align: center" <?php if (!$ordering)
+						       class="text_area input-small" style="text-align: center" <?php if (!$ordering)
 						{ ?> disabled="disabled"<?php }?> /></td>
 					<td align="center"><?php echo $published;?></td>
 					<td align="center"><?php echo $row->id; ?></td>
@@ -130,7 +130,7 @@ $ordering      = ($this->lists['order'] == 'ordering');
 				</tr>
 				<?php    $k = 1 - $k;
 			}    ?>
-			<tr>
+			<tfoot>
 				<td colspan="10">
 					<?php if (version_compare(JVERSION, '3.0', '>=')): ?>
 						<div class="redShopLimitBox">
@@ -138,6 +138,7 @@ $ordering      = ($this->lists['order'] == 'ordering');
 						</div>
 					<?php endif; ?>
 					<?php echo $this->pagination->getListFooter(); ?></td>
+			</tfoot>
 		</table>
 	</div>
 

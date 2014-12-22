@@ -28,16 +28,16 @@ $producthelper = new producthelper;
 </script>
 <fieldset>
 	<div style="float: right">
-		<button type="button" onclick="Joomla.submitbutton('add');">
+		<button type="button" class="btn btn-small" onclick="Joomla.submitbutton('add');">
 			<?php echo JText::_('COM_REDSHOP_ADD'); ?>
 		</button>
-		<button type="button" onclick="Joomla.submitbutton('edit');">
+		<button type="button" class="btn btn-small" onclick="Joomla.submitbutton('edit');">
 			<?php echo JText::_('COM_REDSHOP_EDIT'); ?>
 		</button>
-		<button type="button" onclick="Joomla.submitbutton('remove');">
+		<button type="button" class="btn btn-small" onclick="Joomla.submitbutton('remove');">
 			<?php echo JText::_('COM_REDSHOP_DELETE'); ?>
 		</button>
-		<button type="button" onclick="window.parent.location.reload();">
+		<button type="button" class="btn btn-small" onclick="window.parent.location.reload();">
 			<?php echo JText::_('COM_REDSHOP_CANCEL'); ?>
 		</button>
 	</div>
@@ -46,7 +46,7 @@ $producthelper = new producthelper;
 <form action="<?php echo 'index.php?tmpl=component&option=' . $option; ?>" method="post" name="adminForm"
       id="adminForm">
 	<div id="editcell">
-		<table class="adminlist" width="100%">
+		<table class="adminlist table table-striped" width="100%">
 			<thead>
 			<tr>
 				<th width="5%"><?php echo JText::_('COM_REDSHOP_NUM'); ?></th>

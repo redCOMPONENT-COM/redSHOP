@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-
 JLoader::load('RedshopHelperAdminOrder');
 
 /**
@@ -123,7 +122,7 @@ class RedshopModelSplit_payment extends RedshopModel
 					. '&ccinfo=' . $ccinfo
 					. '&payment_method_id=' . $payment_method_id
 					. '&oid=' . $oid;
-				$app->Redirect($link, $msg);
+				$app->redirect($link, $msg);
 			}
 
 
@@ -202,7 +201,7 @@ class RedshopModelSplit_payment extends RedshopModel
 			}
 		}
 
-		$app->Redirect($return, $msg);
+		$app->redirect($return, $msg);
 	}
 
 	public function validatepaymentccinfo()

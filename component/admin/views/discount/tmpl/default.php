@@ -19,8 +19,7 @@ $option = JRequest::getVar('option', '', 'request', 'string');
 			form.task.value = pressbutton;
 		}
 
-		if ((pressbutton == 'add') || (pressbutton == 'edit') || (pressbutton == 'publish') || (pressbutton == 'unpublish')
-			|| (pressbutton == 'remove')) {
+		if ((pressbutton == 'add') || (pressbutton == 'edit')) {
 			form.view.value = "discount_detail";
 		}
 		try {
@@ -41,7 +40,7 @@ $option = JRequest::getVar('option', '', 'request', 'string');
 					:<?php echo $this->lists ['shopper_group']; ?></td>
 			</tr>
 		</table>
-		<table class="adminlist">
+		<table class="adminlist table table-striped">
 			<thead>
 			<tr>
 				<th width="5%">
@@ -148,4 +147,5 @@ $option = JRequest::getVar('option', '', 'request', 'string');
 	<input type="hidden" name="boxchecked" value="0"/>
 	<input type="hidden" name="filter_order" value="<?php echo $this->lists['order']; ?>"/>
 	<input type="hidden" name="filter_order_Dir" value="<?php echo $this->lists['order_Dir']; ?>"/>
+	<?php echo JHtml::_('form.token'); ?>
 </form>

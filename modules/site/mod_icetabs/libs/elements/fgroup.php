@@ -48,7 +48,7 @@ class JFormFieldFgroup extends JFormField
 			$uri = str_replace("/administrator/", "", $uri);
 
 			JHTML::stylesheet($uri . "/media/form.css");
-			JHTML::script($uri . "/media/form.js");
+			JHTML::script($uri . "/media/form.js", true);
 		}
 
 		return $string;

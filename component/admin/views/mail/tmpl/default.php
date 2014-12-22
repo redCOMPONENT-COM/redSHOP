@@ -53,7 +53,7 @@ $redtemplate = new Redtemplate;
 				</td>
 			</tr>
 		</table>
-		<table class="adminlist table">
+		<table class="adminlist table table-striped">
 			<thead>
 			<tr>
 				<th width="5%">

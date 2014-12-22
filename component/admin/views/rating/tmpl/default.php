@@ -23,8 +23,9 @@ $comment = JRequest::getVar('comment_filter');
 			form.task.value = pressbutton;
 		}
 
-		if ((pressbutton == 'add') || (pressbutton == 'edit') || (pressbutton == 'publish') || (pressbutton == 'unpublish')
-			|| (pressbutton == 'remove') || (pressbutton == 'fv_publish') || (pressbutton == 'fv_unpublish')) {
+		if ((pressbutton == 'add')
+			|| (pressbutton == 'edit')
+			|| (pressbutton == 'remove')) {
 			form.view.value = "rating_detail";
 		}
 		try {
@@ -53,7 +54,7 @@ $comment = JRequest::getVar('comment_filter');
 				</td>
 			</tr>
 		</table>
-		<table class="adminlist">
+		<table class="adminlist table table-striped">
 			<thead>
 			<tr>
 				<th>
