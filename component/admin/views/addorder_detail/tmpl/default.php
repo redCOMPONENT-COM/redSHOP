@@ -82,7 +82,7 @@ function addNewproductRow(tblid) {
 
 	newTD.innerHTML = '<img onclick="deleteOfflineProductRow(' + rowCount + ');" src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH; ?>cross.jpg" title="<?php echo JText::_('COM_REDSHOP_DELETE'); ?>" alt="<?php echo JText::_('COM_REDSHOP_DELETE');?>">';
 
-	newTD1.innerHTML = '<input type="text" name="searchproduct' + rowCount + '" id="searchproduct' + rowCount + '" size="30" /><input type="hidden" name="product' + rowCount + '" id="product' + rowCount + '" value="0" /><div id="divAttproduct' + rowCount + '"></div><div id="divAccproduct' + rowCount + '"></div><div id="divUserFieldproduct' + rowCount + '"></div>';
+	newTD1.innerHTML = '<input type="text" name="product' + rowCount + '" id="product' + rowCount + '" value="0" /><div id="divAttproduct' + rowCount + '"></div><div id="divAccproduct' + rowCount + '"></div><div id="divUserFieldproduct' + rowCount + '"></div>';
 	newTD2.innerHTML = '';
 	newTD2.id = 'tdnoteproduct' + rowCount;
 	newTD3.innerHTML = '<input type="text" name="prdexclpriceproduct' + rowCount + '" id="prdexclpriceproduct' + rowCount + '" onchange="changeOfflinePriceBox(\'product' + rowCount + '\');" value="0" size="10" >';
@@ -290,7 +290,7 @@ function validateUserDetail() {
 <?php if (!JRequest::getvar('ajaxtask'))
 { ?>
 <form action="<?php echo JRoute::_($this->request_url) ?>" method="post" name="adminForm" id="adminForm">
-<table border="0" cellspacing="0" cellpadding="0" class="adminlist">
+<table border="0" cellspacing="0" cellpadding="0" class="adminlist table">
 <tbody>
 <tr>
 	<td>
@@ -298,13 +298,27 @@ function validateUserDetail() {
 			<tbody>
 			<tr>
 				<td width="100" align="right"><?php echo JText::_('COM_REDSHOP_SELECT_USER_OR_ADD_NEW_USER_IN_BOTTOM_FIELDS'); ?>:</td>
-				<td><input type="text" name="searchusername" id="searchusername"
-				           value="<?php $this->detail->user_id != 0 ? $uname = $order_functions->getUserFullname($this->detail->user_id) : $uname = $billing->firstname;echo $uname; ?>"
-				           size="30"/>
-					<input type="hidden" name="user_id" id="user_id" value="<?php echo $this->detail->user_id; ?>"/>
+				<td><?php
+					$userDetail = new stdClass;
+					$userDetail->value = $this->detail->user_id;
+					$userDetail->text = $billing->firstname . ' ' . $billing->lastname;
+					echo JHTML::_('redshopselect.search', $userDetail, 'user_id',
+						array(
+							'select2.ajaxOptions' => array('typeField' => ', addreduser:1'),
+							'select2.options' => array(
+								'events' => array('select2-selecting' => 'function(e) {
+								document.getElementById(\'user_id\').value = e.object.id;
+								showUserDetail();
+								if (e.object.id){
+									document.getElementById(\'trCreateAccount\').style.display = \'none\';
+								}}')
+							)
+						)
+					);
+					?>
 				</td>
 			</tr>
-			<tr>
+			<tr id="trCreateAccount">
 				<td width="100" align="right"><?php echo JText::_('COM_REDSHOP_CREATE_ACCOUNT'); ?>:</td>
 				<td><?php echo JHTML::_('select.booleanlist', 'guestuser', 'class="inputbox" onchange="createAccount(this.value);" ', $create_account);?></td>
 			</tr>
@@ -568,9 +582,19 @@ function validateUserDetail() {
 							</tr>
 							<tr id="trPrd1">
 								<td align="center"></td>
-								<td><input type="text" name="searchproduct1" id="searchproduct1" size="30"/>
-									<input type="hidden" name="product1" id="product1" value="0"/>
-
+								<td><?php
+									echo JHTML::_('redshopselect.search', '', 'product1',
+										array(
+											'select2.ajaxOptions' => array('typeField' => ', isproduct:1'),
+											'select2.options' => array(
+												'events' => array('select2-selecting' => 'function(e) {
+													document.getElementById(\'product1\').value = e.object.id;
+													displayProductDetailInfo(\'product1\', 0);}'
+												)
+											)
+										)
+									);
+									?>
 									<div id="divAttproduct1"></div>
 									<div id="divAccproduct1"></div>
 									<div id="divUserFieldproduct1"></div>
@@ -773,45 +797,20 @@ if(!JRequest::getvar('ajaxtask')) {    ?>
 	<div id="divCalc"></div>
 <?php } ?>
 <script type="text/javascript">
-	var options = {
-		script: "index.php?tmpl=component&&option=com_redshop&view=search&addreduser=1&json=true&",
-		varname: "input",
-		json: true,
-		shownoresults: true,
-		callback: function (obj) {
-			document.getElementById('user_id').value = obj.id;
-			showUserDetail();
-			if (obj.id){
-				document.getElementById('trCreateAccount').style.display = 'none';
-			}
-		}
-	};
-	var as_json = new bsn.AutoSuggest('searchusername', options);
-
-	var productoptions = {
-		script: "index.php?tmpl=component&option=com_redshop&view=search&isproduct=1&json=true&",
-		varname: "input",
-		json: true,
-		shownoresults: true,
-		callback: function (obj) {
-			document.getElementById('product1').value = obj.id;
-			displayProductDetailInfo('product1', 0);
-		}
-	};
-
-	var as_json = new bsn.AutoSuggest('searchproduct1', productoptions);
-
 	function createJsonObject(uniqueId) {
-		var productopt = {
-			script: "index.php?tmpl=component&option=com_redshop&view=search&isproduct=1&json=true&",
-			varname: "input",
-			json: true,
-			shownoresults: true,
-			callback: function (obj) {
-				document.getElementById('product' + uniqueId).value = obj.id;
-				displayProductDetailInfo('product' + uniqueId, 0);
-			}
-		};
-		var as_json1 = new bsn.AutoSuggest('searchproduct' + uniqueId, productopt);
+		<?php
+	echo JHTML::_('redshopselect.search', '', "product' + uniqueId + '",
+		array(
+			'select2.ajaxOptions' => array('typeField' => ', isproduct:1'),
+			'select2.options' => array(
+				'events' => array(
+					'select2-selecting' => 'function(e) {
+						document.getElementById(\'product\' + uniqueId).value = e.object.id;
+						displayProductDetailInfo(\'product\' + uniqueId, 0);}'
+				)
+			)
+		), true
+	);
+	?>
 	}
 </script>
