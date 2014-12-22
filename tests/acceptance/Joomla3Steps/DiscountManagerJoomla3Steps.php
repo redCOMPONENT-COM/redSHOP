@@ -7,7 +7,7 @@
  */
 namespace AcceptanceTester;
 /**
- * Class DiscountManagerSteps
+ * Class DiscountManagerJoomla3Steps
  *
  * @package  AcceptanceTester
  *
@@ -15,7 +15,7 @@ namespace AcceptanceTester;
  *
  * @since    1.4
  */
-class DiscountManagerSteps extends AdminManagerSteps
+class DiscountManagerJoomla3Steps extends AdminManagerJoomla3Steps
 {
 	/**
 	 * Function to Add a New Discount
@@ -31,37 +31,24 @@ class DiscountManagerSteps extends AdminManagerSteps
 	{
 		$I = $this;
 		$config = $I->getConfig();
-
-		if ($config['env'] == 'Joomla2')
-		{
-			$I->amOnPage(\DiscountManagerPage::$URL);
-			$I->verifyNotices(false, $this->checkForNotices(), 'Discount Manager Page');
-			$I->click('New');
-			$I->verifyNotices(false, $this->checkForNotices(), 'Discount Manager New');
-			$I->click('Cancel');
-
-		}
-		else
-		{
-			$I->amOnPage(\DiscountManagerJ3Page::$URL);
-			$discountManagerPage = new \DiscountManagerJ3Page;
-			$verifyAmount = '$ ' . $amount . ',00';
-			$I->verifyNotices(false, $this->checkForNotices(), 'Discount Manager Page');
-			$I->click('New');
-			$I->waitForElement(\DiscountManagerJ3Page::$amount, 30);
-			$I->fillField(\DiscountManagerJ3Page::$amount, $amount);
-			$I->fillField(\DiscountManagerJ3Page::$discountAmount, $discountAmount);
-			$I->click(\DiscountManagerJ3Page::$discountTypeDropDown);
-			$I->click($discountManagerPage->discountType($discountType));
-			$I->click(\DiscountManagerJ3Page::$shopperGroupDropDown);
-			$I->click($discountManagerPage->shopperGroup($shopperGroup));
-			$I->click('Save & Close');
-			$I->waitForText(\DiscountManagerJ3Page::$discountSuccessMessage, 60);
-			$I->see(\DiscountManagerJ3Page::$discountSuccessMessage);
-			$I->click('ID');
-			$I->see($verifyAmount, \DiscountManagerJ3Page::$firstResultRow);
-			$I->click('ID');
-		}
+		$I->amOnPage(\DiscountManagerJ3Page::$URL);
+		$discountManagerPage = new \DiscountManagerJ3Page;
+		$verifyAmount = '$ ' . $amount . ',00';
+		$I->verifyNotices(false, $this->checkForNotices(), 'Discount Manager Page');
+		$I->click('New');
+		$I->waitForElement(\DiscountManagerJ3Page::$amount, 30);
+		$I->fillField(\DiscountManagerJ3Page::$amount, $amount);
+		$I->fillField(\DiscountManagerJ3Page::$discountAmount, $discountAmount);
+		$I->click(\DiscountManagerJ3Page::$discountTypeDropDown);
+		$I->click($discountManagerPage->discountType($discountType));
+		$I->click(\DiscountManagerJ3Page::$shopperGroupDropDown);
+		$I->click($discountManagerPage->shopperGroup($shopperGroup));
+		$I->click('Save & Close');
+		$I->waitForText(\DiscountManagerJ3Page::$discountSuccessMessage, 60);
+		$I->see(\DiscountManagerJ3Page::$discountSuccessMessage);
+		$I->click('ID');
+		$I->see($verifyAmount, \DiscountManagerJ3Page::$firstResultRow);
+		$I->click('ID');
 	}
 
 	/**

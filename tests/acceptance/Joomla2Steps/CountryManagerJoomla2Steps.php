@@ -7,7 +7,7 @@
  */
 namespace AcceptanceTester;
 /**
- * Class CountryManagerSteps
+ * Class CountryManagerJoomla2Steps
  *
  * @package  AcceptanceTester
  *
@@ -15,7 +15,7 @@ namespace AcceptanceTester;
  *
  * @since    1.4
  */
-class CountryManagerSteps extends AdminManagerSteps
+class CountryManagerJoomla2Steps extends AdminManagerJoomla2Steps
 {
 	/**
 	 * Function to Add a New Country

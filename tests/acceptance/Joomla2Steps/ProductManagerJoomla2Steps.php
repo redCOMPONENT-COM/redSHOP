@@ -7,7 +7,7 @@
  */
 namespace AcceptanceTester;
 /**
- * Class QuotationManagerSteps
+ * Class ProductManagerJoomla2Steps
  *
  * @package  AcceptanceTester
  *
@@ -15,20 +15,20 @@ namespace AcceptanceTester;
  *
  * @since    1.4
  */
-class QuotationManagerSteps extends AdminManagerSteps
+class ProductManagerJoomla2Steps extends AdminManagerJoomla2Steps
 {
 	/**
-	 * Function to add a New Quotation
+	 * Function to add a Product
 	 *
 	 * @return void
 	 */
-	public function addQuotation()
+	public function addProduct()
 	{
 		$I = $this;
-		$I->amOnPage(\QuotationManagerPage::$URL);
-		$I->verifyNotices(false, $this->checkForNotices(), 'Quotation Manager Page');
+		$I->amOnPage(\ProductManagerPage::$URL);
+		$I->verifyNotices(false, $this->checkForNotices(), 'Product Manager Page');
 		$I->click('New');
-		$I->verifyNotices(false, $this->checkForNotices(), 'Quotation Manager New');
+		$I->verifyNotices(false, $this->checkForNotices(), 'Product Manager New');
 		$I->click('Cancel');
 	}
 }

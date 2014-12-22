@@ -7,13 +7,13 @@
  */
 namespace AcceptanceTester;
 /**
- * Class AdminManagerSteps
+ * Class AdminManagerJoomla3Steps
  *
  * @package  AcceptanceTester
  *
  * @since    1.4
  */
-class AdminManagerSteps extends \AcceptanceTester
+class AdminManagerJoomla3Steps extends \AcceptanceTester
 {
 	/**
 	 * Function to CheckForNotices and Warnings

@@ -25,7 +25,7 @@ $I = new AcceptanceTester\LoginSteps($scenario);
 $I->wantTo('Login in Joomla Administrator');
 $I->doAdminLogin();
 
-$I = new AcceptanceTester\GlobalConfigurationJ2ManagerSteps($scenario);
+$I = new AcceptanceTester\GlobalConfigurationManagerJoomla2Steps($scenario);
 $I->wantTo('Set Error Reporting Level');
 $I->setErrorReportingLevel();
 

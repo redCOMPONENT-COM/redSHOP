@@ -7,7 +7,7 @@
  */
 namespace AcceptanceTester;
 /**
- * Class GlobalConfigurationJ2ManagerSteps
+ * Class GlobalConfigurationManagerJoomla2Steps
  *
  * @package  AcceptanceTester
  *
@@ -15,7 +15,7 @@ namespace AcceptanceTester;
  *
  * @since    1.4
  */
-class GlobalConfigurationJ2ManagerSteps extends AdminManagerSteps
+class GlobalConfigurationManagerJoomla2Steps extends AdminManagerJoomla2Steps
 {
 	/**
 	 * Function to set error reporting level to Development
