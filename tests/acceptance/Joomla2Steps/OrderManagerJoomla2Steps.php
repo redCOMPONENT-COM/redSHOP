@@ -7,7 +7,7 @@
  */
 namespace AcceptanceTester;
 /**
- * Class ManufacturerManagerSteps
+ * Class OrderManagerJoomla2Steps
  *
  * @package  AcceptanceTester
  *
@@ -15,20 +15,20 @@ namespace AcceptanceTester;
  *
  * @since    1.4
  */
-class ManufacturerManagerSteps extends AdminManagerSteps
+class OrderManagerJoomla2Steps extends AdminManagerJoomla2Steps
 {
 	/**
-	 * Function to Add a new Manufacturer
+	 * Function to Add a new Order
 	 *
 	 * @return void
 	 */
-	public function addManufacturer()
+	public function addOrder()
 	{
 		$I = $this;
-		$I->amOnPage(\ManufacturerManagerPage::$URL);
-		$I->verifyNotices(false, $this->checkForNotices(), 'Manufacturer Manager Page');
+		$I->amOnPage(\OrderManagerPage::$URL);
+		$I->verifyNotices(false, $this->checkForNotices(), 'Order Manager Page');
 		$I->click('New');
-		$I->verifyNotices(false, $this->checkForNotices(), 'Manufacturer Manager New');
+		$I->verifyNotices(false, $this->checkForNotices(), 'Order Manager New');
 		$I->click('Cancel');
 	}
 }

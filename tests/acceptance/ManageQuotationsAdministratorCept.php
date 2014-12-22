@@ -12,5 +12,7 @@ $I = new AcceptanceTester\LoginSteps($scenario);
 
 $I->wantTo('Test Quotation Manager in Administrator');
 $I->doAdminLogin();
-$I = new AcceptanceTester\QuotationManagerSteps($scenario);
+$config = $I->getConfig();
+$className = 'AcceptanceTester\QuotationManager' . $config['env'] . 'Steps';
+$I = new $className($scenario);
 $I->addQuotation();

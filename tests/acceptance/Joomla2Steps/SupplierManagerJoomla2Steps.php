@@ -7,7 +7,7 @@
  */
 namespace AcceptanceTester;
 /**
- * Class MediaManagerSteps
+ * Class SupplierManagerJoomla2Steps
  *
  * @package  AcceptanceTester
  *
@@ -15,20 +15,20 @@ namespace AcceptanceTester;
  *
  * @since    1.4
  */
-class MediaManagerSteps extends AdminManagerSteps
+class SupplierManagerJoomla2Steps extends AdminManagerJoomla2Steps
 {
 	/**
-	 * Function to add a new Media File
+	 * Function to Add a New Supplier
 	 *
 	 * @return void
 	 */
-	public function addMedia()
+	public function addSupplier()
 	{
 		$I = $this;
-		$I->amOnPage(\MediaManagerPage::$URL);
-		$I->verifyNotices(false, $this->checkForNotices(), 'Media Manager Page');
+		$I->amOnPage(\SupplierManagerPage::$URL);
+		$I->verifyNotices(false, $this->checkForNotices(), 'Supplier Manager Page');
 		$I->click('New');
-		$I->verifyNotices(false, $this->checkForNotices(), 'Media Manager New');
+		$I->verifyNotices(false, $this->checkForNotices(), 'Supplier Manager New');
 		$I->click('Cancel');
 	}
 }

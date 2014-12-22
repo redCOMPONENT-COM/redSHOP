@@ -7,7 +7,7 @@
  */
 namespace AcceptanceTester;
 /**
- * Class MailCenterManagerSteps
+ * Class MailCenterManagerJoomla2Steps
  *
  * @package  AcceptanceTester
  *
@@ -15,7 +15,7 @@ namespace AcceptanceTester;
  *
  * @since    1.4
  */
-class MailCenterManagerSteps extends AdminManagerSteps
+class MailCenterManagerJoomla2Steps extends AdminManagerJoomla2Steps
 {
 	/**
 	 * Function to add a new Mail to the Mail Center

@@ -12,5 +12,7 @@ $I = new AcceptanceTester\LoginSteps($scenario);
 
 $I->wantTo('Test Order Manager in Administrator');
 $I->doAdminLogin();
-$I = new AcceptanceTester\OrderManagerSteps($scenario);
+$config = $I->getConfig();
+$className = 'AcceptanceTester\OrderManager' . $config['env'] . 'Steps';
+$I = new $className($scenario);
 $I->addOrder();

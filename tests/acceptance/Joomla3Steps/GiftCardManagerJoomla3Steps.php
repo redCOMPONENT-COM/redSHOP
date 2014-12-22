@@ -7,7 +7,7 @@
  */
 namespace AcceptanceTester;
 /**
- * Class GiftCardManagerSteps
+ * Class GiftCardManagerJoomla3Steps
  *
  * @package  AcceptanceTester
  *
@@ -15,7 +15,7 @@ namespace AcceptanceTester;
  *
  * @since    1.4
  */
-class GiftCardManagerSteps extends AdminManagerSteps
+class GiftCardManagerJoomla3Steps extends AdminManagerJoomla3Steps
 {
 
 	/**

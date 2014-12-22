@@ -7,12 +7,15 @@
  */
 $scenario->group('Joomla2');
 $scenario->group('Joomla3');
+
 // Load the Step Object Page
 $I = new AcceptanceTester\LoginSteps($scenario);
 
 $I->wantTo('Test Voucher Manager in Administrator');
 $I->doAdminLogin();
-$I = new AcceptanceTester\VoucherManagerSteps($scenario);
+$config = $I->getConfig();
+$className = 'AcceptanceTester\VoucherManager' . $config['env'] . 'Steps';
+$I = new $className($scenario);
 $randomVoucherCode = 'Testing Voucher ' . rand(99, 999);
 $UpdatedRandomVoucherCode = 'Updating Voucher Code' . rand(99, 999);
 $voucherAmount = rand(9, 99);

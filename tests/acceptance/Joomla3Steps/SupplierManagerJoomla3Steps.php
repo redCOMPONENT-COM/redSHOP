@@ -7,7 +7,7 @@
  */
 namespace AcceptanceTester;
 /**
- * Class ProductManagerSteps
+ * Class SupplierManagerJoomla3Steps
  *
  * @package  AcceptanceTester
  *
@@ -15,20 +15,20 @@ namespace AcceptanceTester;
  *
  * @since    1.4
  */
-class ProductManagerSteps extends AdminManagerSteps
+class SupplierManagerJoomla3Steps extends AdminManagerJoomla3Steps
 {
 	/**
-	 * Function to add a Product
+	 * Function to Add a New Supplier
 	 *
 	 * @return void
 	 */
-	public function addProduct()
+	public function addSupplier()
 	{
 		$I = $this;
-		$I->amOnPage(\ProductManagerPage::$URL);
-		$I->verifyNotices(false, $this->checkForNotices(), 'Product Manager Page');
+		$I->amOnPage(\SupplierManagerPage::$URL);
+		$I->verifyNotices(false, $this->checkForNotices(), 'Supplier Manager Page');
 		$I->click('New');
-		$I->verifyNotices(false, $this->checkForNotices(), 'Product Manager New');
+		$I->verifyNotices(false, $this->checkForNotices(), 'Supplier Manager New');
 		$I->click('Cancel');
 	}
 }
