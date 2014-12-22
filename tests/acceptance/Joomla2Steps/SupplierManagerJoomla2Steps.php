@@ -7,7 +7,7 @@
  */
 namespace AcceptanceTester;
 /**
- * Class SupplierManagerSteps
+ * Class SupplierManagerJoomla2Steps
  *
  * @package  AcceptanceTester
  *
@@ -15,7 +15,7 @@ namespace AcceptanceTester;
  *
  * @since    1.4
  */
-class SupplierManagerSteps extends AdminManagerSteps
+class SupplierManagerJoomla2Steps extends AdminManagerJoomla2Steps
 {
 	/**
 	 * Function to Add a New Supplier

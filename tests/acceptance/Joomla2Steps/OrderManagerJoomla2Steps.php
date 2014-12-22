@@ -7,7 +7,7 @@
  */
 namespace AcceptanceTester;
 /**
- * Class OrderManagerSteps
+ * Class OrderManagerJoomla2Steps
  *
  * @package  AcceptanceTester
  *
@@ -15,7 +15,7 @@ namespace AcceptanceTester;
  *
  * @since    1.4
  */
-class OrderManagerSteps extends AdminManagerSteps
+class OrderManagerJoomla2Steps extends AdminManagerJoomla2Steps
 {
 	/**
 	 * Function to Add a new Order

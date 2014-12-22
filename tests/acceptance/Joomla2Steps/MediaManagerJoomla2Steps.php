@@ -7,7 +7,7 @@
  */
 namespace AcceptanceTester;
 /**
- * Class MediaManagerSteps
+ * Class MediaManagerJoomla2Steps
  *
  * @package  AcceptanceTester
  *
@@ -15,7 +15,7 @@ namespace AcceptanceTester;
  *
  * @since    1.4
  */
-class MediaManagerSteps extends AdminManagerSteps
+class MediaManagerJoomla2Steps extends AdminManagerJoomla2Steps
 {
 	/**
 	 * Function to add a new Media File
