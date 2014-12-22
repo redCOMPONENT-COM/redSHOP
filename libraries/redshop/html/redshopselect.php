@@ -54,7 +54,7 @@ abstract class JHtmlRedshopSelect extends JHtmlSelect
 
 		if (is_array($attribs))
 		{
-			if (is_array($attribs['select2.ajaxOptions']))
+			if (isset($attribs['select2.ajaxOptions']) && is_array($attribs['select2.ajaxOptions']))
 			{
 				$options['select2.ajaxOptions'] = array_merge($options['select2.ajaxOptions'], $attribs['select2.ajaxOptions']);
 				unset($attribs['select2.ajaxOptions']);
@@ -63,7 +63,7 @@ abstract class JHtmlRedshopSelect extends JHtmlSelect
 			$options = array_merge($options, $attribs);
 		}
 
-		$initSelection = array();
+		$initSelection = '';
 		$value = array();
 
 		if (is_array($data))
@@ -79,10 +79,9 @@ abstract class JHtmlRedshopSelect extends JHtmlSelect
 		}
 		elseif (is_object($data))
 		{
-			$object = new stdClass;
-			$object->id = $data->$options['option.key'];
-			$object->text = $data->$options['option.text'];
-			$initSelection[] = $object;
+			$initSelection = new stdClass;
+			$initSelection->id = $data->$options['option.key'];
+			$initSelection->text = $data->$options['option.text'];
 			$value[] = $data->$options['option.key'];
 		}
 

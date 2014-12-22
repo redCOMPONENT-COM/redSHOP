@@ -406,11 +406,12 @@ class RedshopViewProduct_Detail extends RedshopView
 			'value', 'text', 0
 		);
 
-		$related_product_data = $model->related_product_data($detail->product_id);
-
-		$relatedProductCssClass   = 'class="inputbox" multiple="multiple"  size="15" style="width:200px;" ';
-		$relatedProductCssClass  .= ' onmousewheel="mousewheel_related(this);" ondblclick="selectnone_related(this);" ';
-		$lists['related_product'] = JHtml::_('select.genericlist', $related_product_data, 'related_product[]', $relatedProductCssClass, 'value', 'text', 0);
+		$lists['related_product'] = JHTML::_('redshopselect.search', $model->related_product_data($detail->product_id), 'related_product',
+			array(
+				'select2.ajaxOptions' => array('typeField' => ', related:1, product_id:' . $detail->product_id),
+				'select2.options' => array('multiple' => 'true')
+			)
+		);
 
 		$lists['product_all_related'] = JHtml::_('select.genericlist', $result, 'product_all_related[]',
 			'class="inputbox" ondblclick="selectnone_related(this);" multiple="multiple"  size="15" style="width:200px;" ',

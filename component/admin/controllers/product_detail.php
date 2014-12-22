@@ -127,11 +127,6 @@ class RedshopControllerProduct_Detail extends RedshopController
 			$post['product_availability_date'] = strtotime($post['product_availability_date']);
 		}
 
-		if (trim($post["parent"]) == "")
-		{
-			$post["product_parent_id"] = 0;
-		}
-
 		JLoader::load('RedshopHelperAdminExtra_field');
 
 		$model = $this->getModel('product_detail');
