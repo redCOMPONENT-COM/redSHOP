@@ -26,8 +26,6 @@ class RedshopViewMedia_detail extends RedshopView
 		$document = JFactory::getDocument();
 
 		$document->addScript('components/com_redshop/assets/js/media.js');
-		$document->addStyleSheet('components/com_redshop/assets/css/search.css');
-		$document->addScript('components/com_redshop/assets/js/search.js');
 
 		$uri = JFactory::getURI();
 
