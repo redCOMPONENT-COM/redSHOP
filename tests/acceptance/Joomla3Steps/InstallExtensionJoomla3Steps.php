@@ -9,7 +9,7 @@
 namespace AcceptanceTester;
 
 /**
- * Class InstallExtensionSteps
+ * Class InstallExtensionJoomla3Steps
  *
  * @package  AcceptanceTester
  *
@@ -17,7 +17,7 @@ namespace AcceptanceTester;
  *
  * @link     http://codeception.com/docs/07-AdvancedUsage#StepObjects
  */
-class InstallExtensionJ3Steps extends \AcceptanceTester
+class InstallExtensionJoomla3Steps extends \AcceptanceTester
 {
 	/**
 	 * Function to Install redCORE, inside Joomla 3
