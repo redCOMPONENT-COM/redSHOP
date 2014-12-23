@@ -151,28 +151,3 @@ $date = JFactory::getDate();
 	<input type="hidden" name="task" value=""/>
 	<input type="hidden" name="view" value="stockroom_detail"/>
 </form>
-
-<script type="text/javascript">
-	var options = {
-		script: "index.php?tmpl=component&option=com_redshop&view=search&json=true&stockroom_id=<?php echo $this->detail->stockroom_id;?>&alert=stoockroom&",
-		varname: "input",
-		json: true,
-		shownoresults: false,
-		callback: function (obj) {
-			var selTo = document.adminForm.container_product;
-			var chk_add = 1;
-			for (var i = 0; i < selTo.options.length; i++) {
-				if (selTo.options[i].value == obj.id) {
-					chk_add = 0;
-				}
-			}
-			if (chk_add == 1) {
-				var newOption = new Option(obj.value, obj.id);
-				selTo.options[selTo.options.length] = newOption;
-			}
-		}
-	};
-	var as_json = new bsn.AutoSuggest('input', options);
-
-
-</script>

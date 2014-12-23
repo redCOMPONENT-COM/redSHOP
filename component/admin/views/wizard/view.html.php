@@ -49,11 +49,8 @@ class RedshopViewWizard extends RedshopView
 
 		$document->setTitle(JText::_('COM_REDSHOP_CONFIG'));
 		$document->addScript('components/com_redshop/assets/js/validation.js');
-		$document->addScript('components/com_redshop/assets/js/select_sort.js');
-		$document->addStyleSheet('components/com_redshop/assets/css/search.css');
 		JHtml::stylesheet('com_redshop/redshop.css', array(), true);
 		$document->addStyleSheet('components/com_redshop/assets/css/wizard.css');
-		$document->addScript('components/com_redshop/assets/js/search.js');
 
 		// Shop country
 		$q = "SELECT  country_3_code as value,country_name as text,country_jtext from #__redshop_country ORDER BY country_name ASC";

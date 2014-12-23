@@ -30,10 +30,6 @@ class RedshopViewWrapper_detail extends RedshopView
 		$model = $this->getModel('wrapper_detail');
 		$option = JRequest::getVar('option');
 		JLoader::load('RedshopHelperAdminExtra_field');
-		$document = JFactory::getDocument();
-		$document->addScript('components/com_redshop/assets/js/select_sort.js');
-		$document->addStyleSheet('components/com_redshop/assets/css/search.css');
-		$document->addScript('components/com_redshop/assets/js/search.js');
 
 		$isNew = ($detail->wrapper_id < 1);
 		$text = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
@@ -89,12 +85,11 @@ class RedshopViewWrapper_detail extends RedshopView
 			$result_container = array();
 		}
 
-		$lists['product_all'] = JHTML::_('select.genericlist', $productData, 'product_all[]',
-			'class="inputbox" multiple="multiple" ', 'value', 'text', $detail->product_id
-		);
-		$lists['product_name'] = JHTML::_('select.genericlist', $result_container, 'container_product[]',
-			'class="inputbox" onmousewheel="mousewheel(this);" ondblclick="selectnone(this);" multiple="multiple"  size="15" style="width:200px;" ',
-			'value', 'text', 0
+		$lists['product_name'] = JHTML::_('redshopselect.search', $result_container, 'container_product',
+			array(
+				'select2.ajaxOptions' => array('typeField' => ', alert:"wrapper"'),
+				'select2.options' => array('multiple' => true)
+			)
 		);
 
 		$this->lists = $lists;
