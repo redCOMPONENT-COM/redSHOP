@@ -20,10 +20,11 @@ $redtemplate = new Redtemplate;
 			form.task.value = pressbutton;
 		}
 
-		if ((pressbutton == 'add') || (pressbutton == 'edit') || (pressbutton == 'publish') || (pressbutton == 'unpublish')
-			|| (pressbutton == 'remove') || (pressbutton == 'saveorder') || (pressbutton == 'orderup') || (pressbutton == 'orderdown')) {
+		if ((pressbutton == 'add') || (pressbutton == 'edit') || (pressbutton == 'remove'))
+		{
 			form.view.value = "fields_detail";
 		}
+
 		try {
 			form.onsubmit();
 		}

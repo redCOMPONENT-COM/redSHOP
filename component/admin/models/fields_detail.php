@@ -260,117 +260,12 @@ class RedshopModelFields_detail extends RedshopModel
 		return true;
 	}
 
-	public function publish($cid = array(), $publish = 1)
-	{
-		if (count($cid))
-		{
-			$cids = implode(',', $cid);
-
-			$query = 'UPDATE ' . $this->_table_prefix . 'fields'
-				. ' SET published = ' . intval($publish)
-				. ' WHERE field_id IN ( ' . $cids . ' )';
-			$this->_db->setQuery($query);
-
-			if (!$this->_db->execute())
-			{
-				$this->setError($this->_db->getErrorMsg());
-
-				return false;
-			}
-		}
-
-		return true;
-	}
-
-	public function saveorder($cid = array(), $order)
-	{
-		$row = $this->getTable();
-		$groupings = array();
-		$conditions = array();
-
-		// Update ordering values
-		for ($i = 0; $i < count($cid); $i++)
-		{
-			$row->load((int) $cid[$i]);
-
-			// Track categories
-			$groupings[] = $row->field_id;
-
-			if ($row->ordering != $order[$i])
-			{
-				$row->ordering = $order[$i];
-
-				if (!$row->store())
-				{
-					$this->setError($this->_db->getErrorMsg());
-
-					return false;
-				}
-
-				// Remember to updateOrder this group
-				$condition = 'field_section = ' . (int) $row->field_section;
-				$found = false;
-
-				foreach ($conditions as $cond)
-				{
-					if ($cond[1] == $condition)
-					{
-						$found = true;
-						break;
-					}
-				}
-
-				if (!$found)
-				{
-					$conditions[] = array($row->field_id, $condition);
-				}
-			}
-		}
-
-		// Execute updateOrder for each group
-		foreach ($conditions as $cond)
-		{
-			$row->load($cond[0]);
-			$row->reorder($cond[1]);
-		}
-
-		return true;
-	}
-
 	public function MaxOrdering()
 	{
 		$query = "SELECT (count(*)+1) FROM " . $this->_table_prefix . "fields";
 		$this->_db->setQuery($query);
 
 		return $this->_db->loadResult();
-	}
-
-	/**
-	 * Method to move
-	 *
-	 * @access  public
-	 * @return  boolean True on success
-	 * @since 0.9
-	 */
-	public function move($direction)
-	{
-		$row = JTable::getInstance('fields_detail', 'Table');
-
-		if (!$row->load($this->_id))
-		{
-			$this->setError($this->_db->getErrorMsg());
-
-			return false;
-		}
-
-		if (!$row->move($direction))
-		{
-			$this->setError($this->_db->getErrorMsg());
-
-			return false;
-		}
-
-		return true;
 	}
 
 	/**
