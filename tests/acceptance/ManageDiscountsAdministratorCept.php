@@ -14,9 +14,10 @@ $I = new AcceptanceTester\LoginSteps($scenario);
 $I->wantTo('Test Discount Manager in Administrator');
 $I->doAdminLogin();
 $config = $I->getConfig();
-$I = new AcceptanceTester\DiscountManagerSteps($scenario);
+$className = 'AcceptanceTester\DiscountManager' . $config['env'] . 'Steps';
+$I = new $className($scenario);
 
-if ($config['env'] == 'joomla2')
+if ($config['env'] == 'Joomla2')
 {
 	$I->addDiscount();
 }

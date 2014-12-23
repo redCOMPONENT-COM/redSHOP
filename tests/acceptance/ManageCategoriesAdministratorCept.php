@@ -13,7 +13,9 @@ $I = new AcceptanceTester\LoginSteps($scenario);
 
 $I->wantTo('Test Category Manager in Administrator');
 $I->doAdminLogin();
-$I = new AcceptanceTester\CategoryManagerSteps($scenario);
+$config = $I->getConfig();
+$className = 'AcceptanceTester\CategoryManager' . $config['env'] . 'Steps';
+$I = new $className($scenario);
 $randomCategoryName = 'Testing Category ' . rand(99, 999);
 
 $I->wantTo('Create a Category');

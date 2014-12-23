@@ -125,19 +125,23 @@ class RedshopModelFields extends RedshopModel
 		return $orderby;
 	}
 
-	public function saveorder($cid = array(), $order)
+	/**
+	 * Save Custom Field order
+	 *
+	 * @param   array  $cid    List Index Id
+	 * @param   array  $order  Order Number
+	 *
+	 * @return  boolean
+	 */
+	public function saveorder($cid = array(), $order = array())
 	{
-		$row = $this->getTable('fields_detail');
-		$groupings = array();
+		$row        = $this->getTable('fields_detail');
 		$conditions = array();
 
 		// Update ordering values
 		for ($i = 0; $i < count($cid); $i++)
 		{
 			$row->load((int) $cid[$i]);
-
-			// Track categories
-			$groupings[] = $row->field_id;
 
 			if ($row->ordering != $order[$i])
 			{
@@ -176,6 +180,44 @@ class RedshopModelFields extends RedshopModel
 			$row->load($cond[0]);
 			$row->reorder($cond[1]);
 		}
+
+		return true;
+	}
+
+	/**
+	 * Move ordering up
+	 *
+	 * @return  boolean
+	 */
+	public function orderup()
+	{
+		$app = JFactory::getApplication();
+
+		$cid = $app->input->get('cid', array(), 'post', 'array');
+		$cid = $cid[0];
+
+		$row = $this->getTable('fields_detail');
+		$row->load($cid[0]);
+		$row->move(-1, 'field_section = ' . $row->field_section);
+
+		return true;
+	}
+
+	/**
+	 * Move Ordering down
+	 *
+	 * @return  boolean
+	 */
+	public function orderdown()
+	{
+		$app = JFactory::getApplication();
+
+		$cid = $app->input->get('cid', array(), 'post', 'array');
+		$cid = $cid[0];
+
+		$row = $this->getTable('fields_detail');
+		$row->load($cid[0]);
+		$row->move(1, 'field_section = ' . $row->field_section);
 
 		return true;
 	}
@@ -220,6 +262,25 @@ class RedshopModelFields extends RedshopModel
 		}
 
 		return $fields;
+	}
+
+	/**
+	 * Published or unpublished
+	 *
+	 * @param   array    $cid      primary keys
+	 * @param   integer  $publish  State for publish is 1 and other is 0
+	 *
+	 * @return  boolean
+	 */
+	public function publish($cid = array(), $publish = 1)
+	{
+		if (count($cid))
+		{
+			$row = $this->getTable('fields_detail');
+			$row->publish($cid, $publish);
+		}
+
+		return true;
 	}
 }
 
