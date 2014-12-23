@@ -33,13 +33,11 @@ class RedshopControllerFields_detail extends RedshopController
 
 	public function save($apply = 0)
 	{
-		$post = JRequest::get('post');
-		$field_desc = JRequest::getVar('field_desc', '', 'post', 'string', JREQUEST_ALLOWRAW);
+		$post               = JRequest::get('post');
+		$field_desc         = JRequest::getVar('field_desc', '', 'post', 'string', JREQUEST_ALLOWRAW);
 		$post["field_desc"] = $field_desc;
 
-		$option = JRequest::getVar('option');
-
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+		$cid                = JRequest::getVar('cid', array(0), 'post', 'array');
 
 		$post['field_name'] = strtolower($post['field_name']);
 
@@ -97,8 +95,6 @@ class RedshopControllerFields_detail extends RedshopController
 
 	public function remove()
 	{
-		$option = JRequest::getVar('option');
-
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 
 		if (!is_array($cid) || count($cid) < 1)
@@ -117,106 +113,9 @@ class RedshopControllerFields_detail extends RedshopController
 		$this->setRedirect('index.php?option=com_redshop&view=fields', $msg);
 	}
 
-	public function publish()
-	{
-		$option = JRequest::getVar('option');
-
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
-
-		if (!is_array($cid) || count($cid) < 1)
-		{
-			JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'));
-		}
-
-		$model = $this->getModel('fields_detail');
-
-		if (!$model->publish($cid, 1))
-		{
-			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
-		}
-
-		$msg = JText::_('COM_REDSHOP_FIELD_PUBLISHED_SUCCESSFULLY');
-		$this->setRedirect('index.php?option=com_redshop&view=fields', $msg);
-	}
-
-	public function unpublish()
-	{
-		$option = JRequest::getVar('option');
-
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
-
-		if (!is_array($cid) || count($cid) < 1)
-		{
-			JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));
-		}
-
-		$model = $this->getModel('fields_detail');
-
-		if (!$model->publish($cid, 0))
-		{
-			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
-		}
-
-		$msg = JText::_('COM_REDSHOP_FIELD_UNPUBLISHED_SUCCESSFULLY');
-		$this->setRedirect('index.php?option=com_redshop&view=fields', $msg);
-	}
-
 	public function cancel()
 	{
-		$option = JRequest::getVar('option');
 		$msg = JText::_('COM_REDSHOP_FIELD_EDITING_CANCELLED');
-		$this->setRedirect('index.php?option=com_redshop&view=fields', $msg);
-	}
-
-	public function saveorder()
-	{
-		$option = JRequest::getVar('option');
-		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
-		$model = $this->getModel('fields_detail');
-
-		if ($model->saveorder($cid))
-		{
-			$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
-		}
-		else
-		{
-			$msg = JText::_('COM_REDSHOP_NEW_ORDERING_ERROR');
-		}
-
-		$this->setRedirect('index.php?option=com_redshop&view=fields', $msg);
-	}
-
-	/**
-	 * logic for orderup manufacturer
-	 *
-	 * @access public
-	 * @return void
-	 */
-	public function orderup()
-	{
-		$option = JRequest::getVar('option');
-
-		$model = $this->getModel('fields_detail');
-		$model->move(-1);
-
-		$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
-		$this->setRedirect('index.php?option=com_redshop&view=fields', $msg);
-	}
-
-	/**
-	 * logic for orderdown manufacturer
-	 *
-	 * @access public
-	 * @return void
-	 */
-	public function orderdown()
-	{
-		$option = JRequest::getVar('option');
-
-		$model = $this->getModel('fields_detail');
-		$model->move(1);
-
-		$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
 		$this->setRedirect('index.php?option=com_redshop&view=fields', $msg);
 	}
 }
