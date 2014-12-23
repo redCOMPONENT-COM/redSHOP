@@ -21,7 +21,7 @@ $app = JFactory::getApplication();
 $order_function = new order_functions;
 $config = new Redconfiguration;
 $option = JRequest::getVar('option');
-$filter = $app->getUserStateFromRequest($context . 'filter', 'filter', 0);
+$filter = $app->getUserStateFromRequest($context . 'filter', 'filter', '');
 $lists = $this->lists;
 $model = $this->getModel('order');
 $redhelper = new redhelper;
@@ -88,33 +88,34 @@ JPluginHelper::importPlugin('redshop_product');
 	{
 		document.getElementById('filter').value='';
 		document.getElementById('filter_by').value='';
+		document.getElementById('filter_payment_status').value='';
+		document.getElementById('filter_status').value='0';
 		document.adminForm.submit();
 	}
 </script>
 
 <form action="<?php echo JRoute::_('index.php?option=com_redshop&view=order'); ?>" method="post" name="adminForm" id="adminForm">
 <div id="editcell">
-<table class="adminlist" width="100%">
-	<tr>
-		<td><?php echo JText::_('COM_REDSHOP_NEW_STATUS'); ?>
-			: <?php echo $order_function->getstatuslist('order_status_all', '', "class=\"inputbox\" size=\"1\" "); ?>
-		</td>
-
-		<td>
-			<?php echo JText::_('COM_REDSHOP_FILTER'); ?>:
-			<input type="text" name="filter" id="filter" value="<?php echo $filter; ?>"/>
-			<?php echo $lists['filter_by'];?>
-			<button name="search" id="search" onclick="document.adminForm.submit();" style="font-size:0.909em">
-				<?php echo JText::_('COM_REDSHOP_GO');?>
-			</button>
-			<input type="button" onclick="resetfilter();" value="<?php echo JText::_('COM_REDSHOP_RESET');?>"/>
-		</td>
-
-		<td valign="bottom" align="right" class="key">
-			<?php echo $lists['filter_payment_status'] . " " . $lists['filter_status']; ?>
-		</td>
-	</tr>
-</table>
+<div class="filterItem">
+	<div class="btn-wrapper input-append">
+		<input type="text" name="filter" id="filter" value="<?php echo $filter; ?>"
+			   placeholder="<?php echo JText::_('JSEARCH_FILTER'); ?>"/>
+		<input name="search" class="btn" type="submit" id="search" value="<?php echo JText::_('COM_REDSHOP_GO');?>"/>
+		<input type="button" class="btn" onclick="resetfilter();" value="<?php echo JText::_('COM_REDSHOP_RESET');?>"/>
+	</div>
+</div>
+<div class="filterItem">
+	<?php echo $lists['filter_by'];?>
+</div>
+<div class="filterItem">
+	<?php echo $lists['filter_payment_status'];?>
+</div>
+<div class="filterItem">
+	<?php echo $lists['filter_status'];?>
+</div>
+<div class="filterItem"><?php echo JText::_('COM_REDSHOP_NEW_STATUS'); ?>
+	: <?php echo $order_function->getstatuslist('order_status_all', '', "class=\"inputbox\" size=\"1\" "); ?>
+</div>
 <table class="adminlist table table-striped">
 <thead>
 <tr>
