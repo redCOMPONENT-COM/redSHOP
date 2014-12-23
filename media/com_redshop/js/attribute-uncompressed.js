@@ -1816,12 +1816,12 @@ function discountCalculation(proid) {
 					document.getElementById('discount_cal_final_price').innerHTML = output;
 				}
 
-				if (document.getElementById('main_price' + proid)) {
+				if (document.getElementById('main_price' + proid))
+				{
 					var product_main_price = document.getElementById('main_price' + proid).value;
 
-					calculateTotalPrice(proid, 0);
-
-					if (SHOW_PRICE == '1' && ( DEFAULT_QUOTATION_MODE != '1' || (DEFAULT_QUOTATION_MODE && SHOW_QUOTATION_PRICE))) {
+					if (SHOW_PRICE == '1' && ( DEFAULT_QUOTATION_MODE != '1' || (DEFAULT_QUOTATION_MODE && SHOW_QUOTATION_PRICE)))
+					{
 
 
 						var product_total = final_price_f - parseFloat(product_main_price) + parseFloat(price_total);
@@ -1849,6 +1849,8 @@ function discountCalculation(proid) {
 						// set product main price as price total for dynamic price change
 						document.getElementById('main_price' + proid).value = product_price_excl_vat;
 					}
+
+					calculateTotalPrice(proid, 0);
 				}
 			}
 		}
