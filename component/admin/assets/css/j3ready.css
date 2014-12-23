@@ -144,6 +144,7 @@ div.current fieldset {
 
 div.current fieldset.adminform {
 	border: 1px #ccc solid;
+	padding: 5px;
 }
 
 div.current fieldset.radio {
@@ -452,7 +453,14 @@ div.cpanel-right {
 .button2-left .article {
 	background: url(../images/j3ready/j_button2_readmore.png) 100% 0 no-repeat;
 }
-
+.isJ30 legend {
+	color: #146295;
+	font-size: 1.182em;
+	font-weight: bold;
+	width: auto;
+	border: none;
+	margin-bottom: 0;
+}
 .redShopLimitBox {
 	float: left;
 	margin: 0 10px 0 0;
