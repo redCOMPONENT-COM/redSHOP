@@ -147,25 +147,25 @@ abstract class JHtmlRedshopSelect extends JHtmlSelect
 			$value = '';
 		}
 
-		$attribs = '';
-
-		if (isset($options['list.attr']))
+		if (isset($options['list.attr']) && is_array($options['list.attr']))
 		{
-			if (is_array($options['list.attr']))
+			if (!isset($options['list.attr']['class']) || $options['list.attr']['class'] == '')
 			{
-				$attribs = JArrayHelper::toString($options['list.attr']);
+				$options['list.attr']['class'] = 'searchSelect2';
 			}
-			else
-			{
-				$attribs = $options['list.attr'];
-			}
+
+			$attribs = JArrayHelper::toString($options['list.attr']);
 
 			if ($attribs != '')
 			{
 				$attribs = ' ' . $attribs;
 			}
 		}
+		else
+		{
+			$attribs = ' class="searchSelect2"';
+		}
 
-		return '<input type="text" name="' . $id . '" id="' . $id . '" value="' . $value . '"' . $attribs . ' />';
+		return '<input type="hidden" name="' . $id . '" id="' . $id . '" value="' . $value . '"' . $attribs . ' />';
 	}
 }
