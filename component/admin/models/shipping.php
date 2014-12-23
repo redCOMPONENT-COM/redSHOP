@@ -52,7 +52,7 @@ class RedshopModelShipping extends RedshopModel
 		if (empty($this->_total))
 		{
 			$query = $this->_buildQuery();
-			$this->_data = $this->_getListCount($query);
+			$this->_total = $this->_getListCount($query);
 		}
 
 		return $this->_total;

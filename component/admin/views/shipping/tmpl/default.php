@@ -10,28 +10,6 @@
 $option = JRequest::getVar('option', '', 'request', 'string');
 $ordering = ($this->lists['order'] == 'ordering');
 ?>
-<script language="javascript" type="text/javascript">
-
-	Joomla.submitbutton = function (pressbutton) {
-		var form = document.adminForm;
-		if (pressbutton) {
-			form.task.value = pressbutton;
-		}
-
-		if ((pressbutton == 'add') || (pressbutton == 'edit') || (pressbutton == 'publish') || (pressbutton == 'unpublish')
-			|| (pressbutton == 'saveorder') || (pressbutton == 'orderup') || (pressbutton == 'orderdown')) {
-			form.view.value = "shipping_detail";
-		}
-		try {
-			form.onsubmit();
-		}
-		catch (e) {
-		}
-
-		form.submit();
-	}
-
-</script>
 <form action="<?php echo 'index.php?option=' . $option; ?>" method="post" name="adminForm" id="adminForm">
 	<div id="editcell">
 
