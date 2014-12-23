@@ -186,7 +186,6 @@ class RedshopControllerOrder extends RedshopController
 			}
 		}
 
-		ob_end_clean();
 		echo JUri::root() . $pdfLocation . $mergedPdfFile;
 
 		$app->close();
