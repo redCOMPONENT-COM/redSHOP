@@ -29,11 +29,11 @@ class RedshopViewShipping extends RedshopView
 		$language = JFactory::getLanguage();
 
 		// Load language files
-		$shippingPlugins = JPluginHelper::getPlugin("redshop_shipping");
+		$shippings  = $this->get('Data');
 
-		for ($l = 0; $l < count($shippingPlugins); $l++)
+		for ($l = 0; $l < count($shippings); $l++)
 		{
-			$extension = 'plg_redshop_shipping_' . strtolower($shippingPlugins[$l]->name);
+			$extension = 'plg_redshop_shipping_' . strtolower($shippings[$l]->element);
 			$language->load($extension, JPATH_ADMINISTRATOR);
 		}
 
@@ -47,8 +47,6 @@ class RedshopViewShipping extends RedshopView
 		$lists['order']     = $filter_order;
 		$lists['order_Dir'] = $filter_order_Dir;
 
-		$shippings  = $this->get('Data');
-		$total      = $this->get('Total');
 		$pagination = $this->get('Pagination');
 
 		$this->lists       = $lists;
