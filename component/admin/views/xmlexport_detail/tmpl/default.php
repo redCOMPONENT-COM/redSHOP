@@ -205,7 +205,7 @@ switch ($this->detail->section_type)
 
 			<table class="admintable" id="tblProductType" style="display: <?php echo $productstyle; ?>;">
 				<tr>
-					<td><?php echo JText::_('CATEGORY_FILTER'); ?></td>
+					<td><?php echo JText::_('COM_REDSHOP_CATEGORY_FILTER'); ?></td>
 					<td><?php echo $this->lists['xmlexport_on_category'];?></td>
 				</tr>
 				<tr>
