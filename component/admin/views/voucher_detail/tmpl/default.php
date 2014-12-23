@@ -60,7 +60,7 @@ $now = JFactory::getDate();
 						</label>
 					</td>
 					<td>
-						<input class="text_area" type="text" name="amount" id="amount" size="32" maxlength="250"
+						<input class="text_area" type="text" name="amount" id="voucher_amount" size="32" maxlength="250"
 						       value="<?php echo $producthelper->redpriceDecimal($this->detail->amount); ?>"/>
 						<?php echo JHTML::tooltip(JText::_('COM_REDSHOP_TOOLTIP_VOUCHER_AMOUNT'), JText::_('COM_REDSHOP_VOUCHER_AMOUNT'), 'tooltip.png', '', '', false); ?>
 					</td>

@@ -13,7 +13,9 @@ $I = new AcceptanceTester\LoginSteps($scenario);
 
 $I->wantTo('Test Currency Manager in Administrator');
 $I->doAdminLogin();
-$I = new AcceptanceTester\CurrencyManagerSteps($scenario);
+$config = $I->getConfig();
+$className = 'AcceptanceTester\CurrencyManager' . $config['env'] . 'Steps';
+$I = new $className($scenario);
 $randomCurrencyName = 'Testing Currency ' . rand(99, 999);
 $updatedCurrencyName = 'New ' . $randomCurrencyName;
 $randomCurrencyCode = 'R' . rand(1, 99);

@@ -36,11 +36,13 @@ class RedshopModelImport extends RedshopModel
 		ob_clean();
 		$app = JFactory::getApplication();
 		$session = JFactory::getSession();
+		$import = $app->input->get('import', '');
+		$task = array_pop(explode('.', $app->input->get('task', '')));
 		$post = JRequest::get('post');
 		$files = JRequest::get('files');
-		$files = $files[$post['task'] . $post['import']];
+		$files = $files[$task . $import];
 
-		if (isset($post['task']) && isset($post['import']))
+		if ($task && $import)
 		{
 			if ($files['name'] == "")
 			{
@@ -56,7 +58,7 @@ class RedshopModelImport extends RedshopModel
 		}
 		else
 		{
-			if (!isset($post['import']))
+			if (!$import)
 			{
 				return JText::_('PLEASE_SELECT_SECTION');
 			}
@@ -155,6 +157,11 @@ class RedshopModelImport extends RedshopModel
 
 						foreach ($data as $key => $name)
 						{
+							if (!isset($headers[$key]))
+							{
+								continue;
+							}
+
 							// Bind the data
 							if ($headers[$key] == 'category_full_image' && $post['import'] == 'categories')
 							{
@@ -510,14 +517,85 @@ class RedshopModelImport extends RedshopModel
 									}
 								}
 
-								// Product Extra Field Import
-								$newkeys = $this->getExtraFieldNames($rawdata);
-
-								if (count($newkeys) > 0)
+								if (isset($rawdata['extra_fields']))
 								{
-									foreach ($newkeys as $fieldkey)
+									$extraFields = json_decode(str_replace('_EE_', '"', $rawdata['extra_fields']));
+
+									foreach ($extraFields as $extraField)
 									{
-										$this->importProductExtrafieldData($fieldkey, $rawdata, $product_id);
+										if (!$extraField->field_title)
+										{
+											continue;
+										}
+
+										$query = $db->getQuery(true)
+											->select('field_id')
+											->from($db->qn('#__redshop_fields'))
+											->where($db->qn('field_section') . ' = 1')
+											->where('field_name = ' . $db->q($extraField->field_name));
+										$db->setQuery($query);
+
+										if ($fieldId = $db->loadResult())
+										{
+											$extraField->field_id = $fieldId;
+											$db->updateObject('#__redshop_fields', $extraField, 'field_id');
+										}
+										else
+										{
+											unset($extraField->field_id);
+
+											if ($db->insertObject('#__redshop_fields', $extraField, 'field_id'))
+											{
+												$fieldId = $extraField->field_id;
+											}
+										}
+
+										if (isset($extraField->data))
+										{
+											$query = $db->getQuery(true)
+												->select('data_id')
+												->from($db->qn('#__redshop_fields_data'))
+												->where('section = 1')
+												->where($db->qn('fieldid') . ' = ' . $db->quote($fieldId))
+												->where($db->qn('itemid') . ' = ' . $db->quote($product_id));
+											$extraField->data->fieldid = $fieldId;
+											$extraField->data->itemid = $product_id;
+
+											if ($dataId = $db->setQuery($query)->loadResult())
+											{
+												$extraField->data->data_id = $dataId;
+												$db->updateObject('#__redshop_fields_data', $extraField->data, 'data_id');
+											}
+											else
+											{
+												unset($extraField->data->data_id);
+												$db->insertObject('#__redshop_fields_data', $extraField->data);
+											}
+										}
+
+										if (isset($extraField->values) && is_array($extraField->values))
+										{
+											foreach ($extraField->values as $oneValue)
+											{
+												$query = $db->getQuery(true)
+													->select('value_id')
+													->from($db->qn('#__redshop_fields_value'))
+													->where($db->qn('field_id') . ' = ' . $db->quote($fieldId))
+													->where('field_name = ' . $db->q($oneValue->field_name));
+												$oneValue->field_id = $fieldId;
+
+												if ($valueId = $db->setQuery($query)->loadResult())
+												{
+													$oneValue->value_id = $valueId;
+													$db->updateObject('#__redshop_fields_value', $oneValue, 'value_id');
+												}
+												else
+												{
+													unset($oneValue->value_id);
+													$db->insertObject('#__redshop_fields_value', $oneValue);
+												}
+											}
+										}
 									}
 								}
 
@@ -1415,12 +1493,6 @@ class RedshopModelImport extends RedshopModel
 						// Import fields
 						if ($post['import'] == 'fields')
 						{
-							$field_id            = $rawdata['field_id'];
-							$field_title         = $rawdata['field_title'];
-							$field_name_field    = $rawdata['field_name_field'];
-							$field_type          = $rawdata['field_type'];
-							$field_desc          = $rawdata['field_desc'];
-							$field_class         = $rawdata['field_class'];
 							$field_section       = $rawdata['field_section'];
 							$field_maxlength     = $rawdata['field_maxlength'];
 							$field_cols          = $rawdata['field_cols'];
@@ -1429,134 +1501,118 @@ class RedshopModelImport extends RedshopModel
 							$field_show_in_front = $rawdata['field_show_in_front'];
 							$required            = $rawdata['required'];
 							$published           = $rawdata['published'];
-							$data_id             = $rawdata['data_id'];
-							$data_txt            = $rawdata['data_txt'];
 							$itemid              = $rawdata['itemid'];
 							$section             = $rawdata['section'];
-							$data_insert_id      = 0;
+							$ch_data_id          = 0;
+							$ch_value_id         = 0;
+							$field_value         = $rawdata['field_value'];
+							$field_name_value    = $rawdata['field_name'];
 
 							if ($section == 1)
 							{
 								$itemid = $this->getProductIdByNumber($rawdata['data_number']);
 							}
 
-							$value_id         = $rawdata['value_id'];
-							$field_value      = $rawdata['field_value'];
-							$field_name_value = $rawdata['field_name'];
-
 							// Get field id
 							$query = $db->getQuery(true)
-										->select('field_id')
-										->from($db->qn('#__redshop_fields'))
-										->where($db->qn('field_id') . ' = ' . $db->quote($field_id));
+								->select('field_id')
+								->from($db->qn('#__redshop_fields'))
+								->where($db->qn('field_section') . ' = ' . $db->quote($field_section))
+								->where('field_name = ' . $db->q($rawdata['field_name_field']));
 							$db->setQuery($query);
-							$field_id_dv = $db->loadResult();
 
-							$field_title = $rawdata['field_title'];
-							$field_name = $rawdata['field_name_field'];
-
-							// Get Data Id
-							$query = $db->getQuery(true)
+							if ($field_id_dv = $db->loadResult())
+							{
+								// Get Data Id
+								if (isset($rawdata['data_txt']) && $rawdata['data_txt'] != '')
+								{
+									$query = $db->getQuery(true)
 										->select('data_id')
 										->from($db->qn('#__redshop_fields_data'))
-										->where($db->qn('fieldid') . ' = ' . $db->quote($field_id))
+										->where($db->qn('fieldid') . ' = ' . $db->quote($field_id_dv))
 										->where($db->qn('itemid') . ' = ' . $db->quote($itemid));
-							$db->setQuery($query);
-							$ch_data_id = $db->loadResult();
+									$db->setQuery($query);
+									$ch_data_id = $db->loadResult();
+								}
 
-							// Get Value Id
-							$query = $db->getQuery(true)
+								// Get Value Id
+								if (isset($rawdata['field_name']) && $rawdata['field_name'] != '')
+								{
+									$query = $db->getQuery(true)
 										->select('value_id')
 										->from($db->qn('#__redshop_fields_value'))
-										->where($db->qn('field_id') . ' = ' . $db->quote($field_id))
-										->where($db->qn('value_id') . ' = ' . $db->quote($value_id));
-							$db->setQuery($query);
-							$ch_value_id = $db->loadResult();
-
-							if ($field_title != "" && $field_id_dv == '')
-							{
-								$query = "INSERT IGNORE INTO `#__redshop_fields` (
-								`field_title` ,
-								`field_name` ,
-								`field_type`,
-								`field_desc`,
-								`field_class`,
-								`field_section`,
-								`field_maxlength`,
-								`field_cols`,
-								`field_rows`,
-								`field_size`,
-								`field_show_in_front`,
-								`required`,
-								`published`
-								)
-								VALUES (
-								'" . $field_title . "',
-								'" . $field_name . "',
-								'" . $field_type . "',
-								'" . $field_desc . "',
-								'" . $field_class . "',
-								'" . $field_section . "',
-								'" . $field_maxlength . "',
-								'" . $field_cols . "',
-								'" . $field_rows . "',
-								'" . $field_size . "',
-								'" . $field_show_in_front . "',
-								'" . $required . "',
-								'" . $published . "'
-								)";
-								$db->setQuery($query);
-								$db->execute();
-								$data_insert_id = $db->insertid();
-							}
-
-							if ($data_insert_id == 0)
-							{
-								$new_field_id = $field_id;
-							}
-							else
-							{
-								$new_field_id = $data_insert_id;
-							}
-
-							if (!$ch_data_id)
-							{
-								$query = "INSERT IGNORE INTO `#__redshop_fields_data` "
-									. "(`data_id`,`fieldid` ,`data_txt` ,`itemid`,`section`) "
-									. "VALUES ('','" . $new_field_id . "','" . $data_txt . "','" . $itemid . "','" . $section . "')";
-								$db->setQuery($query);
-								$db->execute();
-							}
-							else
-							{
-								$query = "UPDATE `#__redshop_fields_data` "
-									. "SET `fieldid` = '" . $field_id . "', "
-									. "`data_txt` = '" . $data_txt . "', "
-									. "`itemid` = '" . $itemid . "', "
-									. "`section` = '" . $section . "' "
-									. "WHERE `data_id` = '" . $ch_data_id . "' ";
-								$db->setQuery($query);
-								$db->execute();
-							}
-
-							if ($value_id != '')
-							{
-								if (!$ch_value_id)
-								{
-									$query = "INSERT IGNORE INTO `#__redshop_fields_value` "
-										. "(`value_id`, `field_id`, `field_value`, `field_name`) "
-										. "VALUES ('" . $value_id . "','" . $new_field_id . "','" . $field_value . "','" . $field_name_value . "')";
+										->where($db->qn('field_id') . ' = ' . $db->quote($field_id_dv))
+										->where('field_name = ' . $db->q($rawdata['field_name']));
 									$db->setQuery($query);
-									$db->execute();
+									$ch_value_id = $db->loadResult();
+								}
+							}
+
+							if (isset($rawdata['field_title']) && $rawdata['field_title'] != '')
+							{
+								$fieldObject = new stdClass;
+								$fieldObject->field_title = $rawdata['field_title'];
+								$fieldObject->field_name = $rawdata['field_name_field'];
+								$fieldObject->field_type = $rawdata['field_type'];
+								$fieldObject->field_desc = $rawdata['field_desc'];
+								$fieldObject->field_class = $rawdata['field_class'];
+								$fieldObject->field_section = $field_section;
+								$fieldObject->field_maxlength = $field_maxlength;
+								$fieldObject->field_cols = $field_cols;
+								$fieldObject->field_rows = $field_rows;
+								$fieldObject->field_size = $field_size;
+								$fieldObject->field_show_in_front = $field_show_in_front;
+								$fieldObject->required = $required;
+								$fieldObject->published = $published;
+
+								if ($field_id_dv)
+								{
+									$fieldObject->field_id = $field_id_dv;
+									$db->updateObject('#__redshop_fields', $fieldObject, 'field_id');
 								}
 								else
 								{
-									$query = "UPDATE `#__redshop_fields_value` "
-										. "SET `field_value` = '" . $field_value . "', "
-										. "`field_name` = '" . $field_name_value . "' "
-										. "WHERE `value_id` = '" . $value_id . "' ";
-									$db->setQuery($query);
-									$db->execute();
+									if ($db->insertObject('#__redshop_fields', $fieldObject, 'field_id'))
+									{
+										$field_id_dv = $fieldObject->field_id;
+									}
+								}
+							}
+
+							if (isset($rawdata['data_txt']) && $rawdata['data_txt'] != '')
+							{
+								$fieldObject = new stdClass;
+								$fieldObject->fieldid = $field_id_dv;
+								$fieldObject->data_txt = $rawdata['data_txt'];
+								$fieldObject->itemid = $itemid;
+								$fieldObject->section = $section;
+
+								if (!$ch_data_id)
+								{
+									$db->insertObject('#__redshop_fields_data', $fieldObject);
+								}
+								else
+								{
+									$fieldObject->data_id = $ch_data_id;
+									$db->updateObject('#__redshop_fields_data', $fieldObject, 'data_id');
+								}
+							}
+
+							if (isset($rawdata['field_name']) && $rawdata['field_name'] != '')
+							{
+								$fieldObject = new stdClass;
+								$fieldObject->field_id = $field_id_dv;
+								$fieldObject->field_value = $field_value;
+								$fieldObject->field_name = $field_name_value;
+
+								if (!$ch_value_id)
+								{
+									$db->insertObject('#__redshop_fields_value', $fieldObject);
+								}
+								else
+								{
+									$fieldObject->value_id = $ch_value_id;
+									$db->updateObject('#__redshop_fields_value', $fieldObject, 'value_id');
 								}
 							}
 
@@ -3190,64 +3246,51 @@ class RedshopModelImport extends RedshopModel
 	/**
 	 * Update/insert product extra field data
 	 *
-	 * @param   string   $fieldname   Extra Field Names
-	 * @param   array    $rawdata     CSV rawdata
-	 * @param   integer  $product_id  Product Id
+	 * @param   string   $fieldname  Extra Field Names
+	 * @param   array    $rawdata    CSV rawdata
+	 * @param   integer  $productId  Product Id
 	 *
 	 * @return  void
 	 */
-	public function importProductExtrafieldData($fieldname, $rawdata, $product_id)
+	public function importProductExtrafieldData($fieldname, $rawdata, $productId)
 	{
 		$db = JFactory::getDbo();
-
 		$value = $rawdata[$fieldname];
+		$query = $db->getQuery(true)
+			->select('field_id')
+			->from($db->qn('#__redshop_fields'))
+			->where('field_name = ' . $db->q($fieldname));
 
-		$db->setQuery("SELECT field_id FROM  `#__redshop_fields` WHERE `field_name` LIKE '" . $fieldname . "'");
-		$field_id = $db->loadResult();
-
-		if ($field_id)
+		if ($fieldId = $db->setQuery($query)->loadResult())
 		{
-			$query = "SELECT data_id FROM `#__redshop_fields_data` WHERE `fieldid` IN ($field_id) AND `itemid` = '" . $product_id . "' AND `section` = '1'";
-			$db->setQuery($query);
-			$data_id = $db->loadResult();
+			$query->clear()
+				->select('data_id')
+				->from($db->qn('#__redshop_fields_data'))
+				->where('fieldid = ' . $db->q($fieldId))
+				->where('itemid = ' . (int) $productId)
+				->where('section = 1');
 
-			if ($data_id)
+			if ($dataId = $db->setQuery($query)->loadResult())
 			{
-				$query = "UPDATE `#__redshop_fields_data`  SET `data_txt` = '" . $value . "' WHERE `fieldid` IN ($field_id) AND `itemid` = '" . $product_id . "' AND `section` = '1'";
-				$db->setQuery($query);
-				$db->execute();
+				$query->clear()
+					->update($db->qn('#__redshop_fields_data'))
+					->set('data_txt = ' . $db->q($value))
+					->where('data_id = ' . $db->q($dataId));
+				$db->setQuery($query)->execute();
 			}
 			else
 			{
-				if (trim($value) != "")
+				if (trim($value) != '')
 				{
-					$query = "INSERT INTO `#__redshop_fields_data` (
-									`data_id` ,
-									`fieldid` ,
-									`data_txt` ,
-									`itemid` ,
-									`section` ,
-									`alt_text` ,
-									`image_link` ,
-									`user_email`
-									)
-									VALUES (
-										NULL ,
-										'" . $field_id . "',
-										'" . $value . "',
-										'" . $product_id . "',
-										'1',
-										'',
-										'',
-										''
-									)";
-					$db->setQuery($query);
-					$db->execute();
+					$queryObject = new stdClass;
+					$queryObject->fieldid = $fieldId;
+					$queryObject->data_txt = $value;
+					$queryObject->itemid = $productId;
+					$queryObject->section = 1;
+					$db->insertObject('#__redshop_fields_data', $queryObject);
 				}
 			}
 		}
-
-		return;
 	}
 
 	public function getTimeLeft()
@@ -3285,32 +3328,5 @@ class RedshopModelImport extends RedshopModel
 		$retun = $php_max_exec - $running_time;
 
 		return $retun;
-	}
-
-	/**
-	 * Get Extra Field Names
-	 *
-	 * @param   array  $keyProducts  Array key products
-	 *
-	 * @return  array
-	 */
-	public function getExtraFieldNames($keyProducts)
-	{
-		$extraFieldNames = array();
-
-		if (is_array($keyProducts))
-		{
-			$pattern = '/rs_/';
-
-			foreach ($keyProducts as $key => $value)
-			{
-				if (preg_match($pattern, $key))
-				{
-					$extraFieldNames[] = $key;
-				}
-			}
-		}
-
-		return $extraFieldNames;
 	}
 }
