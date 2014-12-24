@@ -1025,7 +1025,11 @@ a.rightButton:hover{
 	width: 100%;
 }
 .improvedTable td, .improvedTable th{
-	padding: 0 5px 5px 0;
+	padding: 5px;
+	vertical-align: top;
+}
+.improvedTable th{
+	text-align: left;
 }
 .improvedTable img{
 	margin: 0 5px 5px 0;
