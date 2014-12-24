@@ -339,6 +339,7 @@ class RedshopModelStatistic extends RedshopModel
 			->select('(SUM(o.order_total)/COUNT(DISTINCT o.user_id)) AS avg_order')
 			->from($db->qn('#__redshop_orders', 'o'))
 			->where('o.order_status IN (' . $db->q('C') . ',' . $db->q('PR') . ',' . $db->q('S') . ')')
+			->order('viewdate DESC')
 			->group('1');
 
 		if ($this->_filteroption && $mindate != '' && $mindate != 0)
