@@ -113,7 +113,8 @@ class RedshopViewOrder extends RedshopView
 		$total      = $this->get('Total');
 		$pagination = $this->get('Pagination');
 
-		$lists['filter_by'] = $order_function->getFilterbyList('filter_by', $filter_by, 'class="inputbox" size="1"');
+		$lists['filter_by'] = $order_function->getFilterbyList('filter_by', $filter_by,
+			'class="inputbox" size="1" onchange="document.adminForm.submit();"');
 
 		$lists['filter_status'] = $order_function->getstatuslist('filter_status', $filter_status,
 			'class="inputbox" size="1" onchange="document.adminForm.submit();"'

@@ -7,10 +7,13 @@
  */
 $scenario->group('Joomla2');
 $scenario->group('Joomla3');
+
 // Load the Step Object Page
 $I = new AcceptanceTester\LoginSteps($scenario);
 
 $I->wantTo('Test Products Manager in Administrator');
 $I->doAdminLogin();
-$I = new AcceptanceTester\ProductManagerSteps($scenario);
+$config = $I->getConfig();
+$className = 'AcceptanceTester\ProductManager' . $config['env'] . 'Steps';
+$I = new $className($scenario);
 $I->addProduct();

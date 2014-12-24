@@ -13,5 +13,7 @@ $I = new AcceptanceTester\LoginSteps($scenario);
 
 $I->wantTo('Test Presence of Notices, Warnings on Administrator');
 $I->doAdminLogin();
-$I = new AcceptanceTester\AdminManagerSteps($scenario);
+$config = $I->getConfig();
+$className = 'AcceptanceTester\AdminManager' . $config['env'] . 'Steps';
+$I = new $className($scenario);
 $I->CheckAllLinks();

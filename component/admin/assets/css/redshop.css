@@ -646,3 +646,15 @@ div.current select, div.current input, div.current textarea, div.current select 
 .searchSelect2{
 	width: 220px;
 }
+.input-append, .input-prepend {
+	display: inline-block;
+	vertical-align: middle;
+	white-space: nowrap;
+}
+.filterItem {
+	display: inline-block;
+	margin: 0 5px 5px 0;
+}
+.filterItem .input-append, .filterItem .input-prepend{
+	margin-bottom: 0;
+}
