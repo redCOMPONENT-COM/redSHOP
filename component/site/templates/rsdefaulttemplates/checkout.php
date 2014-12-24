@@ -12,7 +12,6 @@
 	</thead>
 	<tbody>
 	<!-- {product_loop_start} -->
-	<div class="category_print">{attribute_price_without_vat}</div>
 	<tr class="tdborder">
 		<td>
 			<div class="cartproducttitle">{product_name}</div>
