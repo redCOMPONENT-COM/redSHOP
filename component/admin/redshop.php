@@ -145,6 +145,18 @@
 		&& $controller != "accountgroup_detail" && $layout != "labellisting" && $task != "checkVirtualNumber" && $controller != "update"
 		&& $format == 'html')
 	{
+		// Container CSS class definition
+		if (version_compare(JVERSION, '3.0', '<'))
+		{
+			$redSHOPCSSContainerClass = ' isJ25';
+		}
+		else
+		{
+			$redSHOPCSSContainerClass = ' isJ30';
+		}
+
+		echo '<div id="redSHOPAdminContainer" class="redSHOPAdminView' . ucfirst($controller) . $redSHOPCSSContainerClass . '">';
+
 		if ($controller != "redshop" && $controller != "configuration" && $controller != "product_detail"
 			&& $controller != "country_detail" && $controller != "state_detail" && $controller != "category_detail"
 			&& $controller != "fields_detail" && $controller != "stockroom_detail"
@@ -207,4 +219,4 @@
 	$controller->redirect();
 
 	// End div here
-	echo '</div>';
+	echo '</div></div>';
