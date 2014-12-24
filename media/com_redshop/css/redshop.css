@@ -1021,3 +1021,12 @@ a.rightButton:hover{
 .addtocart_formclass{
 	margin: 0;
 }
+.improvedTable, .improvedTable table{
+	width: 100%;
+}
+.improvedTable td, .improvedTable th{
+	padding: 0 5px 5px 0;
+}
+.improvedTable img{
+	margin: 0 5px 5px 0;
+}
