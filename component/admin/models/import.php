@@ -37,48 +37,54 @@ class RedshopModelImport extends RedshopModel
 		$app = JFactory::getApplication();
 		$session = JFactory::getSession();
 		$import = $app->input->get('import', '');
-		$task = array_pop(explode('.', $app->input->get('task', '')));
+		$task = explode('.', $app->input->get('task', ''));
+		$task = $task[count($task) - 1];
 		$post = JRequest::get('post');
 		$files = JRequest::get('files');
-		$files = $files[$task . $import];
+		$msg = '';
+
+		if (isset($files[$task . $import]))
+		{
+			$files = $files[$task . $import];
+		}
 
 		if ($task && $import)
 		{
 			if ($files['name'] == "")
 			{
-				return JText::_('PLEASE_SELECT_FILE');
+				$msg = JText::_('COM_REDSHOP_PLEASE_SELECT_FILE');
 			}
 
 			$ext = strtolower(JFile::getExt($files['name']));
 
 			if ($ext != 'csv')
 			{
-				return JText::_('FILE_EXTENSION_WRONG');
+				$msg = JText::_('COM_REDSHOP_FILE_EXTENSION_WRONG');
 			}
+
+			// Upload csv file
+			$src = $files['tmp_name'];
+			$dest = JPATH_ROOT . '/components/com_redshop/assets/importcsv/' . $post['import'] . '/' . $files['name'];
+			JFile::upload($src, $dest);
+
+			$session->clear('ImportPost');
+			$session->clear('Importfile');
+			$session->clear('Importfilename');
+			$session->set('ImportPost', $post);
+			$session->set('Importfile', $files);
+			$session->set('Importfilename', $files['name']);
+
+			$app->redirect('index.php?option=com_redshop&view=import&layout=importlog');
 		}
 		else
 		{
 			if (!$import)
 			{
-				return JText::_('PLEASE_SELECT_SECTION');
+				$msg = JText::_('COM_REDSHOP_PLEASE_SELECT_SECTION');
 			}
 		}
 
-		// Upload csv file
-		$src = $files['tmp_name'];
-		$dest = JPATH_ROOT . '/components/com_redshop/assets/importcsv/' . $post['import'] . '/' . $files['name'];
-		$file_upload = JFile::upload($src, $dest);
-
-		$session->clear('ImportPost');
-		$session->clear('Importfile');
-		$session->clear('Importfilename');
-		$session->set('ImportPost', $post);
-		$session->set('Importfile', $files);
-		$session->set('Importfilename', $files['name']);
-
-		$app->redirect('index.php?option=com_redshop&view=import&layout=importlog');
-
-		return;
+		$app->redirect('index.php?option=com_redshop&view=import', $msg, 'error');
 	}
 
 	public function importdata()
