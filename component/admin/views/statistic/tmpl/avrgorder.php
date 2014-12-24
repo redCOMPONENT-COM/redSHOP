@@ -38,13 +38,9 @@ $end = $this->pagination->limit;
 				<th width="40%" align="center"><?php echo JText::_('COM_REDSHOP_AVG_ORDER_AMOUNT_CUSTOMER'); ?></th>
 			</tr>
 			</thead>
-			<?php        for ($i = $start, $j = 0; $i < ($start + $end); $i++, $j++)
+			<?php for ($i = $start, $j = 0; $i < ($start + $end) && isset($this->avgorderamount[$i]) && is_object($this->avgorderamount[$i]); $i++, $j++)
 			{
-				$row = $this->avgorderamount[$i];
-				if (!is_object($row))
-				{
-					break;
-				}    ?>
+				$row = $this->avgorderamount[$i]; ?>
 				<tr>
 					<td align="center"><?php echo $i + 1;?></td>
 					<?php if ($this->filteroption)
