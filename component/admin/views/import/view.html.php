@@ -53,7 +53,15 @@ class RedshopViewImport extends RedshopView
 			$document->setTitle(JText::_('COM_REDSHOP_IMPORT'));
 
 			JToolBarHelper::title(JText::_('COM_REDSHOP_IMPORT_MANAGEMENT'), 'redshop_import48');
-			JToolBarHelper::custom('importfile', 'redshop_import_import32.png', JText::_('COM_REDSHOP_IMPORT'), JText::_('COM_REDSHOP_IMPORT'), false, false);
+
+			if ($layout == 'importlog')
+			{
+				JToolBarHelper::back();
+			}
+			else
+			{
+				JToolBarHelper::custom('importfile', 'redshop_import_import32.png', JText::_('COM_REDSHOP_IMPORT'), JText::_('COM_REDSHOP_IMPORT'), false, false);
+			}
 		}
 
 		parent::display($tpl);
