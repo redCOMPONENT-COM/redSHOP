@@ -7,10 +7,12 @@
  */
 $scenario->group('Joomla2');
 $scenario->group('Joomla3');
+
 // Load the Step Object Page
 $I = new AcceptanceTester\LoginSteps($scenario);
-
 $I->wantTo('Test Mail Center Manager in Administrator');
 $I->doAdminLogin();
-$I = new AcceptanceTester\MailCenterManagerSteps($scenario);
+$config = $I->getConfig();
+$className = 'AcceptanceTester\MailCenterManager' . $config['env'] . 'Steps';
+$I = new $className($scenario);
 $I->addMail();

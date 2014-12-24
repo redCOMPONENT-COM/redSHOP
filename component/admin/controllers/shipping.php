@@ -12,11 +12,6 @@ defined('_JEXEC') or die;
 
 class RedshopControllerShipping extends RedshopController
 {
-	public function cancel()
-	{
-		$this->setRedirect('index.php');
-	}
-
 	public function importeconomic()
 	{
 		$db = JFactory::getDbo();
@@ -64,7 +59,6 @@ class RedshopControllerShipping extends RedshopController
 	 */
 	public function saveorder()
 	{
-		$option = JRequest::getVar('option');
 		$cid = JRequest::getVar('cid', array(), 'post', 'array');
 		$order = JRequest::getVar('order', array(), 'post', 'array');
 
@@ -75,6 +69,74 @@ class RedshopControllerShipping extends RedshopController
 		$model->saveorder($cid);
 
 		$msg = JText::_('COM_REDSHOP_SHIPPING_SAVED');
+		$this->setRedirect('index.php?option=com_redshop&view=shipping', $msg);
+	}
+
+	public function publish()
+	{
+		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+
+		if (!is_array($cid) || count($cid) < 1)
+		{
+			JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_PUBLISH'));
+		}
+
+		$model = $this->getModel('shipping_detail');
+
+		if (!$model->publish($cid, 1))
+		{
+			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
+		}
+
+		$this->setRedirect('index.php?option=com_redshop&view=shipping');
+	}
+
+	public function unpublish()
+	{
+		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
+
+		if (!is_array($cid) || count($cid) < 1)
+		{
+			JError::raiseError(500, JText::_('COM_REDSHOP_SELECT_AN_ITEM_TO_UNPUBLISH'));
+		}
+
+		$model = $this->getModel('shipping_detail');
+
+		if (!$model->publish($cid, 0))
+		{
+			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
+		}
+
+		$this->setRedirect('index.php?option=com_redshop&view=shipping');
+	}
+
+	/**
+	 * logic for orderup
+	 *
+	 * @access public
+	 * @return void
+	 */
+	public function orderup()
+	{
+		$model = $this->getModel('shipping_detail');
+		$model->move(-1);
+
+		$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
+		$this->setRedirect('index.php?option=com_redshop&view=shipping', $msg);
+	}
+
+	/**
+	 * logic for orderdown
+	 *
+	 * @access public
+	 * @return void
+	 */
+	public function orderdown()
+	{
+		$model = $this->getModel('shipping_detail');
+		$model->move(1);
+
+		$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
 		$this->setRedirect('index.php?option=com_redshop&view=shipping', $msg);
 	}
 }
