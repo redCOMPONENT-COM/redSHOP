@@ -24,7 +24,7 @@ class TextLibraryManagerJoomla3Page
 
 	public static $sectionDropDown = "//div[@id='section_chzn']/a";
 
-	public static $textResultRow = "//div[@id='editcell']/table[2]/tbody/tr";
+	public static $textResultRow = "//div[@id='editcell']/table[2]/tbody/tr[1]";
 
 	public static $textLibraryStatePath = "//tbody/tr/td[6]/a";
 
