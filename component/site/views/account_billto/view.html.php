@@ -48,7 +48,7 @@ class RedshopViewAccount_billto extends RedshopView
 			$auth = $session->get('auth');
 		}
 
-		JHtml::script('com_redshop/jquery-1.4.2.min.js', false, true);
+		JHtml::_('redshopjquery.framework');
 		JHtml::script('com_redshop/jquery.validate.js', false, true);
 		JHtml::script('com_redshop/common.js', false, true);
 		JHtml::script('com_redshop/registration.js', false, true);

@@ -517,7 +517,7 @@ class extraField
 
 					case 10 :
 						// File Upload
-						JHtml::script('com_redshop/jquery-1.js', false, true);
+						JHtml::_('redshopjquery.framework');
 						JHtml::script('com_redshop/ajaxupload.js', false, true);
 
 						$ajax = '';
