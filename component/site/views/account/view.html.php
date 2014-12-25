@@ -80,12 +80,7 @@ class RedshopViewAccount extends RedshopView
 			}
 
 			JLoader::import('joomla.html.pagination');
-
-			if (version_compare(JVERSION, '3.0', '<'))
-			{
-				JHtml::script('com_redshop/jquery.js', false, true);
-			}
-
+			JHtml::_('redshopjquery.framework');
 			JHtml::script('com_redshop/redbox.js', false, true);
 			JHtml::script('com_redshop/attribute.js', false, true);
 			JHtml::script('com_redshop/common.js', false, true);

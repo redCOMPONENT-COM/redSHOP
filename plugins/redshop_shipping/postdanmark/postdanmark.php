@@ -70,8 +70,8 @@ class Plgredshop_ShippingPostdanmark extends JPlugin
 			$rate++;
 		}
 
+		JHtml::_('redshopjquery.framework');
 		$document = JFactory::getDocument();
-		$document->addScript('//code.jquery.com/jquery-1.8.0.min.js');
 		$document->addScript('//maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places');
 		$document->addScript('plugins/redshop_shipping/postdanmark/includes/js/functions.js');
 		$document->addScript('plugins/redshop_shipping/postdanmark/includes/js/map_functions.js');

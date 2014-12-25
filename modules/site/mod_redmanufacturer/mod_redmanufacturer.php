@@ -118,9 +118,9 @@ function displayredManufacturer($limit = 0)
 	$Itemid     = JRequest::getInt('Itemid', 0);
 	$extra_data = new producthelper;
 
-	JHTML::script('modules/mod_redmanufacturer/js/jquery-1.js');
-	JHTML::script('modules/mod_redmanufacturer/js/jquery.js');
-	JHTML::stylesheet('modules/mod_redmanufacturer/css/jquery.css');
+	JHtml::_('redshopjquery.framework');
+	JHtml::script('modules/mod_redmanufacturer/js/jquery.js');
+	JHtml::stylesheet('modules/mod_redmanufacturer/css/jquery.css');
 
 	echo $this->params->get('pretext', "");
 	$qlimit = "";
