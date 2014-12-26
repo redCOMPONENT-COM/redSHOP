@@ -1,5 +1,15 @@
+# Properties files are configuration files used by PHING scripts containing:
+# key=value
+# more info at: https://redweb.atlassian.net/wiki/display/RWEB/Using+PHING+for+packaging+and+testing+an+extension
+
+# Extension details:
 comp.name=redshop
-www.dir=
-comp.version=1.5
-joomla.version=3
+
+# Folder to create the extension .zip build package used by packager xml files
 package.dir=
+
+# Joomla version to include in the package name, when using packager xml files
+joomla.version=3
+
+# Testing Joomla site at a localhost folder. Only needed when using build.xml
+www.dir=
