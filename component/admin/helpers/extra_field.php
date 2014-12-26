@@ -255,7 +255,7 @@ class extra_field
 					$document = JFactory::getDocument();
 					JHtml::_('redshopjquery.ui');
 					$document->addScriptDeclaration('
-						$(function(){
+						jQuery(function($){
 							var remove_a = null;
 							$(\'a#add_' . $row_data[$i]->field_name . '\').on(\'click\', function(e){
 								e.preventDefault();
