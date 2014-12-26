@@ -1,14 +1,12 @@
 
 #pricefilter
 {
-	margin:40px auto;
+	margin:0 auto;
 	font-size: 12px;
-	font-family:"Arial","Helvetica","Verdana","sans-serif";
-
 }
 .left{float:left;}
 .clear{clear:both}
-#leftSlider{width: 300px;margin-right: 30px;}
+#leftSlider{width: 100%;}
 #blankfilter{
 	padding:30px;
 }

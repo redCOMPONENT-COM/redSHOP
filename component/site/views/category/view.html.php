@@ -449,7 +449,7 @@ class RedshopViewCategory extends RedshopView
 					JHtml::_('redshopjquery.ui');
 
 					// End Code for fixes IE9 issue
-					require_once JPATH_ROOT . 'media/com_redshop/js/catprice_filter.php';
+					require_once JPATH_ROOT . '/media/com_redshop/js/catprice_filter.php';
 				}
 				else
 				{
