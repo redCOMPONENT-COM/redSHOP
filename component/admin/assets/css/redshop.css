@@ -643,6 +643,9 @@ div.current select, div.current input, div.current textarea, div.current select 
 .attrSecondRow{
 	padding: 0 0 5px 0;
 }
+.searchSelect2{
+	width: 220px;
+}
 .input-append, .input-prepend {
 	display: inline-block;
 	vertical-align: middle;

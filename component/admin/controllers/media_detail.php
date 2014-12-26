@@ -117,6 +117,20 @@ class RedshopControllerMedia_Detail extends RedshopController
 							$this->setRedirect('index.php?option=com_redshop&view=media', $msg);
 						}
 					}
+					else
+					{
+						if (isset($post['set']) && $post['media_section'] != 'manufacturer')
+						{
+							$this->setRedirect('index.php?tmpl=component&option=com_redshop&view=media&section_id='
+								. $post['section_id'] . '&showbuttons=1&section_name='
+								. $post['section_name'] . '&media_section=' . $post['media_section'], $msg
+							);
+						}
+						else
+						{
+							$this->setRedirect('index.php?option=com_redshop&view=media', $msg);
+						}
+					}
 				}
 				else
 				{
@@ -790,7 +804,7 @@ class RedshopControllerMedia_Detail extends RedshopController
 
 		$msg = JText::_('COM_REDSHOP_MEDIA_DETAIL_DELETED_SUCCESSFULLY');
 
-		if (isset($section_id))
+		if ($section_id)
 		{
 			$this->setRedirect('index.php?tmpl=component&option=com_redshop&view=media&section_id='
 				. $section_id . '&showbuttons=1&media_section=' . $media_section, $msg
@@ -836,7 +850,7 @@ class RedshopControllerMedia_Detail extends RedshopController
 
 		$msg = JText::_('COM_REDSHOP_MEDIA_DETAIL_PUBLISHED_SUCCESSFULLY');
 
-		if (isset($section_id))
+		if ($section_id)
 		{
 			$this->setRedirect('index.php?tmpl=component&option=com_redshop&view=media&section_id=' . $section_id
 				. '&showbuttons=1&media_section=' . $media_section, $msg
@@ -887,7 +901,7 @@ class RedshopControllerMedia_Detail extends RedshopController
 			}
 		}
 
-		if (isset($section_id))
+		if ($section_id)
 		{
 			$this->setRedirect('index.php?tmpl=component&option=com_redshop&view=media&section_id=' . $section_id
 				. '&showbuttons=1&media_section=' . $media_section, $msg
@@ -934,7 +948,7 @@ class RedshopControllerMedia_Detail extends RedshopController
 
 		$msg = JText::_('COM_REDSHOP_MEDIA_DETAIL_UNPUBLISHED_SUCCESSFULLY');
 
-		if (isset($section_id))
+		if ($section_id)
 		{
 			$this->setRedirect('index.php?tmpl=component&option=com_redshop&view=media&section_id=' . $section_id
 				. '&showbuttons=1&media_section=' . $media_section, $msg
@@ -1015,7 +1029,7 @@ class RedshopControllerMedia_Detail extends RedshopController
 
 		$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
 
-		if (isset($section_id))
+		if ($section_id)
 		{
 			$this->setRedirect('index.php?tmpl=component&option=com_redshop&view=media&section_id=' . $section_id
 				. '&showbuttons=1&media_section=' . $media_section, $msg
@@ -1061,7 +1075,7 @@ class RedshopControllerMedia_Detail extends RedshopController
 
 		$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
 
-		if (isset($section_id))
+		if ($section_id)
 		{
 			$this->setRedirect('index.php?tmpl=component&option=com_redshop&view=media&section_id=' . $section_id
 				. '&showbuttons=1&media_section=' . $media_section, $msg
@@ -1107,7 +1121,7 @@ class RedshopControllerMedia_Detail extends RedshopController
 
 		$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
 
-		if (isset($section_id))
+		if ($section_id)
 		{
 			$this->setRedirect('index.php?tmpl=component&option=com_redshop&view=media&section_id=' . $section_id . '&showbuttons=1&media_section=' . $media_section, $msg);
 		}
