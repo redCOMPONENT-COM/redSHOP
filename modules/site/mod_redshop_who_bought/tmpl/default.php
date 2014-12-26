@@ -33,11 +33,10 @@ JLoader::load('RedshopHelperRedshop.js');
 
 
 JHtml::script('com_redshop/common.js', false, true);
-// lightbox Javascript
 JHtml::script('com_redshop/redbox.js', false, true);
-JHtml::stylesheet('com_redshop/fetchscript.css', array(), true);
 
 echo '<ul id="mycarousel" class="jcarousel-skin-tango">';
+
 if (count($productlists))
 {
 	foreach ($productlists as $product)

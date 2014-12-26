@@ -13,10 +13,6 @@ JHTML::_('behavior.modal');
 $uri = JURI::getInstance();
 $url = $uri->root();
 $Itemid = JRequest::getInt('Itemid');
-$option = JRequest::getCmd('option');
-// get product helper
-
-
 $document = JFactory::getDocument();
 
 // 	include redshop js file.
@@ -24,9 +20,10 @@ JLoader::load('RedshopHelperRedshop.js');
 
 JHtml::script('com_redshop/attribute.js', false, true);
 JHtml::script('com_redshop/jquery-1.js', false, true);
-JHtml::script('com_redshop/jquery-ui-1.js', false, true);
 JHtml::stylesheet('com_redshop/priceslider.css', array(), true);
-JHtml::stylesheet('com_redshop/jquery-ui-1.css', array(), true);
+
+$document->addScript('modules/mod_redshop_pricefilter/assets/js/jquery-ui-1.js', false, true);
+$document->addStyleSheet('modules/mod_redshop_pricefilter/assets/css/jquery-ui-1.css', false, true);
 ?>
 <script type="text/javascript">
 	var dom = {};
