@@ -47,8 +47,8 @@ class RedShopHelperImages extends JObject
 			$fileNameNoExt = $id;
 		}
 
+		$fileNameNoExt = substr($fileNameNoExt, 0, 40);
 		$fileName = time() . '_' . $fileNameNoExt . '.' . $fileExt;
-		$fileName = substr($fileName, 0, 50);
 
 		if (count($segments) > 1)
 		{

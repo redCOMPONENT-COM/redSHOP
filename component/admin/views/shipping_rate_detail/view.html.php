@@ -31,9 +31,6 @@ class RedshopViewShipping_rate_detail extends RedshopView
 		$option = JRequest::getVar('option');
 
 		$document = JFactory::getDocument();
-		$document->addScript('components/com_redshop/assets/js/select_sort.js');
-		$document->addStyleSheet('components/com_redshop/assets/css/search.css');
-		$document->addScript('components/com_redshop/assets/js/search.js');
 		$document->addScript('components/com_redshop/assets/js/common.js');
 
 		$shippingpath = JPATH_ROOT . '/plugins/' . $shipping->folder . '/' . $shipping->element . '.xml';
@@ -105,7 +102,6 @@ class RedshopViewShipping_rate_detail extends RedshopView
 			$detail->deliver_type, 'COM_REDSHOP_HOME', 'COM_REDSHOP_POSTOFFICE'
 		);
 
-		$productData = array();
 		$result_container = array();
 
 		if ($detail->shipping_rate_on_product)
@@ -113,12 +109,11 @@ class RedshopViewShipping_rate_detail extends RedshopView
 			$result_container = $model->GetProductListshippingrate($detail->shipping_rate_on_product);
 		}
 
-		$lists['product_all'] = JHTML::_('select.genericlist', $productData, 'product_all[]',
-			'class="inputbox" multiple="multiple" ', 'value', 'text', $detail->shipping_rate_on_product
-		);
-		$lists['shipping_product'] = JHTML::_('select.genericlist', $result_container, 'container_product[]',
-			'class="inputbox" onmousewheel="mousewheel(this);" ondblclick="selectnone(this);" multiple="multiple"  size="15" style="width:200px;" '
-			, 'value', 'text', 0
+		$lists['shipping_product'] = JHTML::_('redshopselect.search', $result_container, 'container_product',
+			array(
+				'select2.ajaxOptions' => array('typeField' => ', alert:"shipping"'),
+				'select2.options' => array('multiple' => true)
+			)
 		);
 
 		$field = new extra_field;

@@ -125,27 +125,16 @@ $calendarFormat = '%d-%m-%Y';
 					</td>
 					<td>
 						<?php
-						/*
-						 * @ToDo Fix this mess below. Does the code below get product data again?
-						 * @ToDo Even if product should be loaded by the model? Is that done only to get product_name?
-						 */
-						$list = $this->producthelper->getProductByID($this->detail->product_parent_id);
-						$productname = "";
-
-						if (count($list) > 0)
-						{
-							$productname = $list->product_name;
-						}
+						echo JHtml::_('redshopselect.search', $this->producthelper->getProductByID($this->detail->product_parent_id),
+							'product_parent_id',
+							array(
+								'select2.options' => array('multiple' => 'false', 'placeholder' => JText::_('COM_REDSHOP_PARENT_PRODUCT')),
+								'option.key' => 'product_id',
+								'option.text' => 'product_name',
+								'select2.ajaxOptions' => array('typeField' => ', parent:1, product_id:' . $this->detail->product_id)
+							)
+						);
 						?>
-						<input class="text_area" type="text" name="parent" id="parent" size="32" maxlength="250" value="<?php echo $productname; ?>"/>
-						<input class="text_area"
-							   type="hidden"
-							   name="product_parent_id"
-							   id="product_parent_id"
-							   size="32"
-							   maxlength="250"
-							   value="<?php echo $this->detail->product_parent_id; ?>"
-							/>
 					</td>
 					<td>
 						<?php
