@@ -28,7 +28,7 @@ class RedshopViewRegistration extends RedshopView
 		}
 
 		$params = $app->getParams('com_redshop');
-		JHtml::script('com_redshop/jquery-1.4.2.min.js', false, true);
+		JHtml::_('redshopjquery.framework');
 		JHtml::script('com_redshop/jquery.validate.js', false, true);
 		JHtml::script('com_redshop/common.js', false, true);
 		JHtml::script('com_redshop/jquery.metadata.js', false, true);

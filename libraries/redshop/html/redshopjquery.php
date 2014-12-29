@@ -28,9 +28,15 @@ abstract class JHtmlRedshopjquery
 	/**
 	 * Load the jQuery framework
 	 *
+	 * If debugging mode is on an uncompressed version of jQuery is included for easier debugging.
+	 *
+	 * @param   boolean  $noConflict  True to load jQuery in noConflict mode [optional]
+	 * @param   mixed    $debug       Is debugging mode on? [optional]
+	 * @param   boolean  $migrate     True to enable the jQuery Migrate plugin
+	 *
 	 * @return  void
 	 */
-	public static function framework()
+	public static function framework($noConflict = true, $debug = null, $migrate = true)
 	{
 		// Only load once
 		if (!empty(static::$loaded[__METHOD__]))
@@ -40,11 +46,30 @@ abstract class JHtmlRedshopjquery
 
 		if (version_compare(JVERSION, '3.0', '<'))
 		{
-			JHtml::script('com_redshop/jquery.js', false, true, false, false);
+			// If no debugging value is set, use the configuration setting
+			if ($debug === null)
+			{
+				$config = JFactory::getConfig();
+				$debug  = (boolean) $config->get('debug');
+			}
+
+			JHtml::script('com_redshop/jquery.js', false, true, false, false, $debug);
+
+			// Check if we are loading in noConflict
+			if ($noConflict)
+			{
+				JHtml::_('script', 'com_redshop/jquery-noconflict.js', false, true, false, false, false);
+			}
+
+			// Check if we are loading Migrate
+			if ($migrate)
+			{
+				JHtml::_('script', 'com_redshop/jquery-migrate.js', false, true, false, false, $debug);
+			}
 		}
 		else
 		{
-			JHtml::_('jquery.framework');
+			JHtml::_('jquery.framework', $noConflict, $debug, $migrate);
 		}
 
 		static::$loaded[__METHOD__] = true;
@@ -67,10 +92,32 @@ abstract class JHtmlRedshopjquery
 			return;
 		}
 
+		JHtml::stylesheet('com_redshop/jquery-ui/jquery-ui.css', array(), true);
 		self::framework();
+		JHtml::script('com_redshop/jquery-ui/jquery-ui.js', false, true, false, false);
 
-		JHtml::script('com_redshop/jquery-ui/jquery-ui.min.js', false, true, false, false);
-		JHtml::stylesheet('com_redshop/jquery-ui/jquery-ui.min.css', array(), true);
+		if (version_compare(JVERSION, '3.0', '>='))
+		{
+			// Check includes and remove core joomla jquery.ui script
+			JHtml::_('jquery.ui', array('core'));
+			$document = JFactory::getDocument();
+			$headData = $document->getHeadData();
+
+			if (isset($headData['scripts'][JUri::root(true) . '/media/jui/js/jquery.ui.core.min.js']))
+			{
+				unset($headData['scripts'][JUri::root(true) . '/media/jui/js/jquery.ui.core.min.js']);
+			}
+
+			if (JFactory::getConfig()->get('debug'))
+			{
+				if (isset($headData['scripts'][JUri::root(true) . '/media/jui/js/jquery.ui.core.js']))
+				{
+					unset($headData['scripts'][JUri::root(true) . '/media/jui/js/jquery.ui.core.js']);
+				}
+			}
+
+			$document->setHeadData($headData);
+		}
 
 		static::$loaded[__METHOD__] = true;
 
@@ -97,7 +144,7 @@ abstract class JHtmlRedshopjquery
 
 		self::framework();
 
-		JHtml::script('com_redshop/select2/select2.min.js', false, true);
+		JHtml::script('com_redshop/select2/select2.js', false, true);
 		JHtml::stylesheet('com_redshop/select2/select2.css', array(), true);
 
 		if (version_compare(JVERSION, '3.0', '>='))

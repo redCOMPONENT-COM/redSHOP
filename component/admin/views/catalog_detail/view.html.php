@@ -24,18 +24,11 @@ class RedshopViewCatalog_detail extends RedshopView
 		$option = JRequest::getVar('option');
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_CATALOG_MANAGEMENT_DETAIL'), 'redshop_catalogmanagement48');
-
 		$document = JFactory::getDocument();
 
 		$document->addStyleSheet('components/com_redshop/assets/css/colorpicker.css');
 		$document->addStyleSheet('components/com_redshop/assets/css/layout.css');
 		$document->addScript('components/com_redshop/assets/js/validation.js');
-
-		if (version_compare(JVERSION, '3.0', '<'))
-		{
-			$document->addScript('components/com_redshop/assets/js/jquery.js');
-		}
-
 		$document->addScript('components/com_redshop/assets/js/colorpicker.js');
 
 		$document->addScript('components/com_redshop/assets/js/eye.js');
