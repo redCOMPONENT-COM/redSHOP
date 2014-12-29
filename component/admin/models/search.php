@@ -366,7 +366,13 @@ class RedshopModelSearch extends RedshopModel
 		}
 		else
 		{
-			if ($product_id = $jInput->getInt('product_id', 0))
+			if ($accessoryList = $jInput->getString('accessoryList', ''))
+			{
+				$accessoryList = explode(',', $accessoryList);
+				JArrayHelper::toInteger($accessoryList);
+				$query->where('p.product_id NOT IN (' . implode(',', $accessoryList) . ')');
+			}
+			elseif ($product_id = $jInput->getInt('product_id', 0))
 			{
 				$query->leftJoin($db->qn('#__redshop_product_accessory', 'pa') . ' ON pa.child_product_id = p.product_id AND pa.product_id = ' . $product_id)
 					->where('pa.accessory_id IS NULL')

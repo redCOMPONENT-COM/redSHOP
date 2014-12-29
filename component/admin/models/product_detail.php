@@ -4442,33 +4442,25 @@ class RedshopModelProduct_Detail extends RedshopModel
 	 */
 	public function removeaccesory($accessory_id, $category_id = 0, $child_product_id = 0)
 	{
-		$and = '';
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true)
+			->delete($db->qn('#__redshop_product_accessory'));
 
 		if ($category_id != 0)
 		{
-			$and .= 'AND category_id="' . $category_id . '" ';
+			$query->where('category_id = ' . (int) $category_id);
+		}
+		else
+		{
+			$query->where('accessory_id = ' . (int) $accessory_id);
 		}
 
 		if ($child_product_id != 0)
 		{
-			$and .= 'AND child_product_id="' . $child_product_id . '" ';
+			$query->where('child_product_id = ' . (int) $child_product_id);
 		}
 
-		if ($and != "")
-		{
-			$query = 'DELETE FROM ' . $this->table_prefix . 'product_accessory '
-				. 'WHERE accessory_id="' . $accessory_id . '" '
-				. $and;
-		}
-		else
-		{
-			$query = 'DELETE FROM ' . $this->table_prefix . 'product_accessory '
-				. 'WHERE accessory_id="' . $accessory_id . '" ';
-		}
-
-		$this->_db->setQuery($query);
-
-		if (!$this->_db->execute())
+		if (!$db->setQuery($query)->execute())
 		{
 			$this->setError($this->_db->getErrorMsg());
 

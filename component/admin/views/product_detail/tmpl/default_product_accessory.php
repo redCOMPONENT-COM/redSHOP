@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
-
+JText::script('COM_REDSHOP_DELETE');
 ?>
 
 <table border="0">
@@ -40,7 +40,15 @@ defined('_JEXEC') or die;
 												'select2-close' => 'function(e) {$(this).select2("val", "")}'
 											)
 										),
-										'select2.ajaxOptions' => array('typeField' => ', product_id:' . $this->detail->product_id),
+										'select2.ajaxOptions' => array(
+											'typeField' => ', accessoryList: function(){
+												var listAcc = [];
+												jQuery(\'input.childProductAccessory\').each(function(){
+													listAcc[listAcc.length] = jQuery(this).val();
+												});
+												return listAcc.join(",");
+											}'
+										),
 									)
 								);
 								?>
@@ -56,7 +64,7 @@ defined('_JEXEC') or die;
 				<tr>
 					<td colspan="2">
 
-						<table id="accessory_table" class="adminlist" border="0">
+						<table id="accessory_table" class="adminlist table table-striped" border="0">
 
 								<thead>
 
@@ -106,11 +114,11 @@ defined('_JEXEC') or die;
 									<tr>
 										<td>
 											<?php echo $accessory_product[$f]->product_name;?>
-											<input type="hidden"
+											<input type="hidden" class="childProductAccessory"
 												   value="<?php echo $accessory_product[$f]->child_product_id; ?>"
 												   name="product_accessory[<?php echo $f; ?>][child_product_id]"
 												/>
-											<input type="hidden"
+											<input type="hidden" class="accessoryIdValue"
 												   value="<?php echo $accessory_product[$f]->accessory_id; ?>"
 												   name="product_accessory[<?php echo $f; ?>][accessory_id]"
 												/>
@@ -121,7 +129,7 @@ defined('_JEXEC') or die;
 										<td>
 											<input size="1"
 												   maxlength="1"
-												   class="text_area"
+												   class="text_area input-small text-center"
 												   type="text"
 												   value="<?php echo $accessory_product[$f]->oprand; ?>"
 												   onchange="javascript:oprand_check(this);"
@@ -130,7 +138,7 @@ defined('_JEXEC') or die;
 										</td>
 										<td>
 											<input size="5"
-												   class="text_area"
+												   class="text_area input-small text-center"
 												   type="text"
 												   value="<?php echo $accessory_product[$f]->accessory_price; ?>"
 												   name="product_accessory[<?php echo $f; ?>][accessory_price]"
@@ -141,13 +149,13 @@ defined('_JEXEC') or die;
 												   name="product_accessory[<?php echo $f; ?>][ordering]"
 												   size="5"
 												   value="<?php echo $accessory_product[$f]->ordering; ?>"
-												   class="text_area" style="text-align: center"
+												   class="text_area input-small text-center" style="text-align: center"
 												/>
 										</td>
 										<td>
 											<input value="<?php echo JText::_('COM_REDSHOP_DELETE'); ?>"
 												   onclick="deleteRow_accessory(this, <?php echo $accessory_product[$f]->accessory_id; ?>, 0, <?php echo $accessory_product[$f]->child_product_id; ?>);"
-												   class="button" type="button"
+												   class="button btn btn-danger" type="button"
 												/>
 										</td>
 									</tr>
