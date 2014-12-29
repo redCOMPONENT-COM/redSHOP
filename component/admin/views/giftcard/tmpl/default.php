@@ -52,7 +52,7 @@ echo 'index.php?option=' . $option;
 	</tr>
 </table>
 -->
-		<table class="adminlist">
+		<table class="adminlist table table-striped">
 			<thead>
 			<tr>
 				<th width="5%">
@@ -111,7 +111,7 @@ echo 'index.php?option=' . $option;
 			{
 				$row = $this->giftcard [$i];
 				$row->id = $row->giftcard_id;
-				$link = JRoute::_('index.php?option=' . $option . '&view=giftcard_detail&task=edit&cid[]=' . $row->giftcard_id);
+				$link = JRoute::_('index.php?option=com_redshop&view=giftcard_detail&task=edit&cid[]=' . $row->giftcard_id);
 
 				$published = JHTML::_('grid.published', $row, $i);
 

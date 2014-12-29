@@ -37,10 +37,7 @@ class RedshopViewConfiguration extends RedshopView
 		}
 
 		$document->setTitle(JText::_('COM_REDSHOP_CONFIG'));
-		$document->addScript('components/' . $option . '/assets/js/validation.js');
-		$document->addScript('components/' . $option . '/assets/js/select_sort.js');
-		$document->addStyleSheet('components/' . $option . '/assets/css/search.css');
-		$document->addScript('components/' . $option . '/assets/js/search.js');
+		$document->addScript('components/com_redshop/assets/js/validation.js');
 
 		$model = $this->getModel('configuration');
 		$currency_data = $model->getCurrency();
@@ -422,6 +419,13 @@ class RedshopViewConfiguration extends RedshopView
 		$default_customer_register_type[]        = JHTML::_('select.option', '2', JText::_('COM_REDSHOP_COMPANY'));
 		$lists['default_customer_register_type'] = JHTML::_('select.genericlist', $default_customer_register_type,
 			'default_customer_register_type', 'class="inputbox" ', 'value', 'text', DEFAULT_CUSTOMER_REGISTER_TYPE
+		);
+
+		$checkoutLoginRegisterSwitcher          = array();
+		$checkoutLoginRegisterSwitcher[]        = JHTML::_('select.option', 'tabs', JText::_('COM_REDSHOP_CONFIG_TABS'));
+		$checkoutLoginRegisterSwitcher[]        = JHTML::_('select.option', 'sliders', JText::_('COM_REDSHOP_CONFIG_SLIDERS'));
+		$lists['checkout_login_register_switcher'] = JHTML::_('select.genericlist', $checkoutLoginRegisterSwitcher,
+			'checkout_login_register_switcher', 'class="inputbox" ', 'value', 'text', CHECKOUT_LOGIN_REGISTER_SWITCHER
 		);
 
 		$addtocart_behaviour          = array();

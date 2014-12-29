@@ -235,7 +235,7 @@ class RedshopModelCheckout extends RedshopModel
 		if ($cart['idx'] < 1)
 		{
 			$msg = JText::_('COM_REDSHOP_EMPTY_CART');
-			$app->Redirect('index.php?option=' . $option . '&Itemid=' . $Itemid, $msg);
+			$app->redirect('index.php?option=com_redshop&Itemid=' . $Itemid, $msg);
 		}
 
 		$ccdata           = $session->get('ccdata');

@@ -6,10 +6,14 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 $scenario->group('Joomla2');
+$scenario->group('Joomla3');
+
 // Load the Step Object Page
 $I = new AcceptanceTester\LoginSteps($scenario);
 
 $I->wantTo('Test Media Manager in Administrator');
 $I->doAdminLogin();
-$I = new AcceptanceTester\MediaManagerSteps($scenario);
+$config = $I->getConfig();
+$className = 'AcceptanceTester\MediaManager' . $config['env'] . 'Steps';
+$I = new $className($scenario);
 $I->addMedia();

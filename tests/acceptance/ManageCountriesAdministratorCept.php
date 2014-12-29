@@ -6,13 +6,16 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 $scenario->group('Joomla2');
+$scenario->group('Joomla3');
 
 // Load the Step Object Page
 $I = new AcceptanceTester\LoginSteps($scenario);
 
 $I->wantTo('Test Country Manager in Administrator');
 $I->doAdminLogin();
-$I = new AcceptanceTester\CountryManagerSteps($scenario);
+$config = $I->getConfig();
+$className = 'AcceptanceTester\CountryManager' . $config['env'] . 'Steps';
+$I = new $className($scenario);
 $randomCountryName = 'Testing Country ' . rand(99, 999);
 $updatedRandomCountryName = 'New ' . $randomCountryName;
 $randomTwoCode = rand(10, 99);

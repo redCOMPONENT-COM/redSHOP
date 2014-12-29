@@ -44,13 +44,13 @@ class RedshopViewAccount_shipto extends RedshopView
 		}
 		else
 		{
-			$app->Redirect('index.php?option=com_redshop&view=login&Itemid=' . JRequest::getInt('Itemid'));
+			$app->redirect('index.php?option=com_redshop&view=login&Itemid=' . JRequest::getInt('Itemid'));
 			exit;
 		}
 
 		if ($task == 'addshipping')
 		{
-			JHtml::script('com_redshop/jquery-1.4.2.min.js', false, true);
+			JHtml::_('redshopjquery.framework');
 			JHtml::script('com_redshop/jquery.validate.js', false, true);
 			JHtml::script('com_redshop/common.js', false, true);
 			JHtml::script('com_redshop/registration.js', false, true);

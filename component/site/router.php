@@ -353,12 +353,16 @@ function redshopBuildRoute(&$query)
 			if (isset($gid))
 			{
 				$segments[] = $gid;
-				$sql        = "SELECT giftcard_name  FROM #__redshop_giftcard WHERE giftcard_id = '$gid'";
-				$db->setQuery($sql);
-				$giftcardname = $db->loadResult();
-			}
+				$sqlQuery = $db->getQuery(true)
+					->select('giftcard_name')
+					->from($db->qn('#__redshop_giftcard'))
+					->where('giftcard_id = ' . $db->q($gid));
 
-			$segments[] = $giftcardname;
+				if ($giftCardName = $db->setQuery($sqlQuery)->loadResult())
+				{
+					$segments[] = JFilterOutput::stringURLSafe($giftCardName);
+				}
+			}
 
 			break;
 

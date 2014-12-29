@@ -108,7 +108,7 @@ class RedshopModelVoucher_detail extends RedshopModel
 		$this->_db->setQuery($sql);
 		$this->_db->execute();
 
-		$products_list = $data["container_product"];
+		$products_list = explode(',', $data["container_product"]);
 
 		if (count($products_list) > 0)
 		{

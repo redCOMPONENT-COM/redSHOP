@@ -84,13 +84,17 @@ defined('_JEXEC') or die;
 			</label>
 		</td>
 		<td>
-			<input class="text_area"
-				   type="text"
-				   name="canonical_url"
-				   id="canonical_url"
-				   size="75"
-				   value="<?php echo isset($this->detail->canonical_url) ? $this->detail->canonical_url : ""; ?>"
-				/>
+			<input
+				class="text_area"
+				type="text"
+				name="canonical_url"
+				id="canonical_url"
+				size="75"
+				value="<?php echo isset($this->detail->canonical_url) ? $this->detail->canonical_url : ""; ?>"
+			/><br />
+			<span class="label label-important red">
+				<?php echo JText::_('COM_REDSHOP_TOOLTIP_CANONICAL_URL_PRODUCT_PLUGIN'); ?>
+			</span>
 		</td>
 		<td>
 			<?php

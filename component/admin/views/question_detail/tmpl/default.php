@@ -13,9 +13,6 @@ JHTML::_('behavior.modal');
 JLoader::load('RedshopHelperProduct');
 
 $document = JFactory::getDocument();
-$document->addStyleSheet('components/com_redshop/assets/css/search.css');
-$document->addScript('components/com_redshop/assets/js/search.js');
-
 $producthelper = new producthelper;
 $editor        = JFactory::getEditor();
 
@@ -65,15 +62,23 @@ $editor        = JFactory::getEditor();
 								$productname = $product->product_name;
 							}
 						?>
-						<input class="text_area" type="text" name="searchProduct" id="searchProduct" size="32" maxlength="250" value="<?php echo $productname; ?>"/>
-						<input class="text_area"
-							   type="hidden"
-							   name="product_id"
-							   id="product_id"
-							   size="32"
-							   maxlength="250"
-							   value="<?php echo $this->detail->product_id; ?>"
-							/>
+						<?php
+						$productObject = new stdClass;
+
+						if ($this->detail->product_id && ($productData = $producthelper->getProductById($this->detail->product_id)))
+						{
+							$productObject->value = $this->detail->product_id;
+							$productObject->text = $productData->product_name;
+						}
+
+						echo JHTML::_('redshopselect.search', $productObject, 'product_id',
+							array(
+								'select2.options' => array(
+									'placeholder' => JText::_('COM_REDSHOP_PRODUCT_NAME')
+								)
+							)
+						);
+						?>
 					</td>
 				</tr>
 				<tr>
@@ -124,7 +129,7 @@ $editor        = JFactory::getEditor();
 	<div class="col50" id='answerlists'>
 		<fieldset class="adminform">
 			<legend><?php echo JText::_('COM_REDSHOP_PREVIOUS_ANSWERS'); ?></legend>
-			<table class="adminlist">
+			<table class="adminlist table table-striped">
 				<thead>
 				<tr class="row<?php echo $k; ?>">
 					<th class="title">#</th>
@@ -182,16 +187,3 @@ $editor        = JFactory::getEditor();
 	<input type="hidden" name="task" value=""/>
 	<input type="hidden" name="view" value="question_detail"/>
 </form>
-<script>
-var options = {
-	script: "index.php?tmpl=component&option=com_redshop&view=search&json=true&",
-	varname: "input",
-	json: true,
-	shownoresults: true,
-	callback: function (obj) {
-		document.getElementById('product_id').value = obj.id;
-	}
-};
-
-new bsn.AutoSuggest('searchProduct', options);
-</script>

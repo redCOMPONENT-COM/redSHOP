@@ -80,7 +80,7 @@ if ($this->pagination->limit > 0)
 	</tr>
 </table>
 <form
-	action="<?php echo 'index.php?option=' . $option . '&amp;view=product&amp;task=element&amp;tmpl=component&amp;object=' . JRequest::getVar('object'); ?>"
+	action="<?php echo 'index.php?option=com_redshop&amp;view=product&amp;task=element&amp;tmpl=component&amp;object=' . JRequest::getVar('object'); ?>"
 	method="post" name="adminForm" id="adminForm">
 	<div id="editcell">
 		<table class="adminlist">
@@ -120,7 +120,7 @@ if ($this->pagination->limit > 0)
 			{
 				$row = $this->products[$i];
 				$row->id = $row->product_id;
-				$link = JRoute::_('index.php?option=' . $option . '&view=product_detail&task=edit&cid[]=' . $row->product_id);
+				$link = JRoute::_('index.php?option=com_redshop&view=product_detail&task=edit&cid[]=' . $row->product_id);
 
 				$published = JHtml::_('jgrid.published', $row->published, $i, '', 1);
 

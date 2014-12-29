@@ -42,7 +42,7 @@ if ($this->shipper_location)
 </script>
 <form action="<?php echo 'index.php?option=' . $option; ?>" method="post" name="adminForm" id="adminForm">
 	<div id="editcell">
-		<table class="adminlist">
+		<table class="adminlist table table-striped">
 			<thead>
 			<tr>
 				<th width="5%">
@@ -71,7 +71,7 @@ if ($this->shipper_location)
 			{
 				$row = $this->shipping_rates[$i];
 //	$row->id = $row->shipping_rate_id;
-				$link = JRoute::_('index.php?option=' . $option . '&view=shipping_rate_detail&task=edit&cid[]=' . $row->shipping_rate_id . '&id=' . $this->shipping->id);    ?>
+				$link = JRoute::_('index.php?option=com_redshop&view=shipping_rate_detail&task=edit&cid[]=' . $row->shipping_rate_id . '&id=' . $this->shipping->id);    ?>
 				<tr class="<?php echo "row$k"; ?>">
 					<td align="center"><?php echo $this->pagination->getRowOffset($i); ?></td>
 					<td align="center"><?php echo JHTML::_('grid.id', $i, $row->shipping_rate_id); ?></td>

@@ -288,21 +288,23 @@ class RedshopViewProduct_Detail extends RedshopView
 
 		if (!$loadedFromAPlugin)
 		{
-			$document->addScript('components/' . $this->option . '/assets/js/fields.js');
+			$document->addScript('components/com_redshop/assets/js/fields.js');
 		}
 
-		$document->addScript('components/' . $this->option . '/assets/js/select_sort.js');
-		JHtml::script('com_redshop/json.js', false, true);
-		$document->addScript('components/' . $this->option . '/assets/js/validation.js');
-		$document->addStyleSheet('components/com_redshop/assets/css/search.css');
+		$document->addScript('components/com_redshop/assets/js/json.js');
+		$document->addScript('components/com_redshop/assets/js/validation.js');
+
+		if (version_compare(JVERSION, '3.0', '<'))
+		{
+			$document->addStyleSheet(JURI::root() . 'administrator/components/com_redshop/assets/css/update.css');
+		}
+
+		$document->addScript(JURI::root() . 'administrator/components/com_redshop/assets/js/attribute_manipulation.js');
 
 		if (file_exists(JPATH_SITE . '/components/com_redproductfinder/helpers/redproductfinder.css'))
 		{
 			$document->addStyleSheet('components/com_redproductfinder/helpers/redproductfinder.css');
 		}
-
-		$document->addScript('components/com_redshop/assets/js/search.js');
-		$document->addScript('components/com_redshop/assets/js/related.js');
 
 		$uri = JFactory::getURI();
 
@@ -398,11 +400,12 @@ class RedshopViewProduct_Detail extends RedshopView
 			'value', 'text', 0
 		);
 
-		$related_product_data = $model->related_product_data($detail->product_id);
-
-		$relatedProductCssClass   = 'class="inputbox" multiple="multiple"  size="15" style="width:200px;" ';
-		$relatedProductCssClass  .= ' onmousewheel="mousewheel_related(this);" ondblclick="selectnone_related(this);" ';
-		$lists['related_product'] = JHtml::_('select.genericlist', $related_product_data, 'related_product[]', $relatedProductCssClass, 'value', 'text', 0);
+		$lists['related_product'] = JHTML::_('redshopselect.search', $model->related_product_data($detail->product_id), 'related_product',
+			array(
+				'select2.ajaxOptions' => array('typeField' => ', related:1, product_id:' . $detail->product_id),
+				'select2.options' => array('multiple' => 'true')
+			)
+		);
 
 		$lists['product_all_related'] = JHtml::_('select.genericlist', $result, 'product_all_related[]',
 			'class="inputbox" ondblclick="selectnone_related(this);" multiple="multiple"  size="15" style="width:200px;" ',

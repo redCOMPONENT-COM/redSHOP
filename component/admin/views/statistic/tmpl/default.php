@@ -19,7 +19,7 @@ $end    = $this->pagination->limit;
 				<td><?php echo JText::_('COM_REDSHOP_FILTER') . ": " . $this->lists['filteroption'];?></td>
 			</tr>
 		</table>
-		<table class="adminlist">
+		<table class="adminlist table table-striped">
 			<thead>
 			<tr>
 				<th width="60%" align="center"><?php

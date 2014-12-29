@@ -189,12 +189,6 @@ switch ($name)
 		{friend_name} {your_name} {product_name} {product_desc} {product_url}
 		<?php
 		break;
-	case 'status_of_reset_password':
-		?>
-		<b><?php echo JText::_('COM_REDSHOP_MAIL_TEMPLATE_TAG_STATUS_OF_RESET_PASSWORD_HINT'); ?></b><br /><br />
-		{username} {fullname} {firstname} {lastname} {reset_token} {password_complete_url}
-		<?php
-		break;
 	case 'tax_exempt_approval_disapproval':
 		?>
 		{username} {shopname} {name} {company_name} {address} {city} {zipcode} {country} {phone}

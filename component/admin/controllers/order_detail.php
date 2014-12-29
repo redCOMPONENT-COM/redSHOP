@@ -55,7 +55,7 @@ class RedshopControllerOrder_detail extends RedshopController
 			$msg = JText::_('COM_REDSHOP_ERROR_SAVING_ORDER_DETAIL');
 		}
 
-		$this->setRedirect('index.php?option=' . $option . '&view=order', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=order', $msg);
 	}
 
 	public function remove()
@@ -77,14 +77,14 @@ class RedshopControllerOrder_detail extends RedshopController
 		}
 
 		$msg = JText::_('COM_REDSHOP_ORDER_DETAIL_DELETED_SUCCESSFULLY');
-		$this->setRedirect('index.php?option=' . $option . '&view=order', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=order', $msg);
 	}
 
 	public function cancel()
 	{
 		$option = JRequest::getVar('option', '', 'request', 'string');
 		$msg = JText::_('COM_REDSHOP_ORDER_DETAIL_EDITING_CANCELLED');
-		$this->setRedirect('index.php?option=' . $option . '&view=order', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=order', $msg);
 	}
 
 	public function neworderitem()
@@ -160,12 +160,12 @@ class RedshopControllerOrder_detail extends RedshopController
 
 		if ($tmpl)
 		{
-			$this->setRedirect('index.php?option=' . $option . '&view=order_detail&cid[]=' . $cid[0] . '&tmpl=' . $tmpl, $msg);
+			$this->setRedirect('index.php?option=com_redshop&view=order_detail&cid[]=' . $cid[0] . '&tmpl=' . $tmpl, $msg);
 		}
 
 		else
 		{
-			$this->setRedirect('index.php?option=' . $option . '&view=order_detail&cid[]=' . $cid[0], $msg);
+			$this->setRedirect('index.php?option=com_redshop&view=order_detail&cid[]=' . $cid[0], $msg);
 		}
 	}
 
@@ -185,7 +185,7 @@ class RedshopControllerOrder_detail extends RedshopController
 			$model->delete($cid);
 			$msg = JText::_('COM_REDSHOP_ORDER_DELETED_SUCCESSFULLY');
 
-			$this->setRedirect('index.php?option=' . $option . '&view=order', $msg);
+			$this->setRedirect('index.php?option=com_redshop&view=order', $msg);
 
 			return;
 		}
@@ -199,7 +199,7 @@ class RedshopControllerOrder_detail extends RedshopController
 			$msg = JText::_('COM_REDSHOP_ERROR_DELETING_ORDER_ITEM');
 		}
 
-		$this->setRedirect('index.php?option=' . $option . '&view=order_detail&cid[]=' . $cid[0], $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=order_detail&cid[]=' . $cid[0], $msg);
 	}
 
 	public function updateItem()
@@ -219,7 +219,7 @@ class RedshopControllerOrder_detail extends RedshopController
 			$msg = JText::_('COM_REDSHOP_ERROR_UPDATING_PRICE');
 		}
 
-		$this->setRedirect('index.php?option=' . $option . '&view=order_detail&cid[]=' . $cid[0], $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=order_detail&cid[]=' . $cid[0], $msg);
 	}
 
 	public function update_discount()
@@ -239,7 +239,7 @@ class RedshopControllerOrder_detail extends RedshopController
 			$msg = JText::_('COM_REDSHOP_ERROR_UPDATING_DISCOUNT');
 		}
 
-		$this->setRedirect('index.php?option=' . $option . '&view=order_detail&cid[]=' . $cid[0], $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=order_detail&cid[]=' . $cid[0], $msg);
 	}
 
 	public function special_discount()
@@ -259,7 +259,7 @@ class RedshopControllerOrder_detail extends RedshopController
 			$msg = JText::_('COM_REDSHOP_ERROR_IN_SPECIAL_DISCOUNT');
 		}
 
-		$this->setRedirect('index.php?option=' . $option . '&view=order_detail&cid[]=' . $cid[0], $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=order_detail&cid[]=' . $cid[0], $msg);
 	}
 
 	public function update_shippingrates()
@@ -279,7 +279,7 @@ class RedshopControllerOrder_detail extends RedshopController
 			$msg = JText::_('COM_REDSHOP_ERROR_UPDATING_SHIPPING_RATE');
 		}
 
-		$this->setRedirect('index.php?option=' . $option . '&view=order_detail&cid[]=' . $cid[0], $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=order_detail&cid[]=' . $cid[0], $msg);
 	}
 
 	public function updateShippingAdd()
@@ -374,11 +374,11 @@ class RedshopControllerOrder_detail extends RedshopController
 
 		if ($tmpl)
 		{
-			$this->setRedirect('index.php?option=' . $option . '&view=order_detail&cid[]=' . $cid[0] . '&tmpl=' . $tmpl, $msg);
+			$this->setRedirect('index.php?option=com_redshop&view=order_detail&cid[]=' . $cid[0] . '&tmpl=' . $tmpl, $msg);
 		}
 		else
 		{
-			$this->setRedirect('index.php?option=' . $option . '&view=order_detail&cid[]=' . $cid[0], $msg);
+			$this->setRedirect('index.php?option=com_redshop&view=order_detail&cid[]=' . $cid[0], $msg);
 		}
 	}
 
@@ -545,11 +545,11 @@ class RedshopControllerOrder_detail extends RedshopController
 
 		if ($tmpl)
 		{
-			$this->setRedirect('index.php?option=' . $option . '&view=order_detail&cid[]=' . $cid[0] . '&tmpl=' . $tmpl, $msg);
+			$this->setRedirect('index.php?option=com_redshop&view=order_detail&cid[]=' . $cid[0] . '&tmpl=' . $tmpl, $msg);
 		}
 		else
 		{
-			$this->setRedirect('index.php?option=' . $option . '&view=order_detail&cid[]=' . $cid[0], $msg);
+			$this->setRedirect('index.php?option=com_redshop&view=order_detail&cid[]=' . $cid[0], $msg);
 		}
 	}
 

@@ -53,7 +53,7 @@ $redtemplate = new Redtemplate;
 				</td>
 			</tr>
 		</table>
-		<table class="adminlist table">
+		<table class="adminlist table table-striped">
 			<thead>
 			<tr>
 				<th width="5%">
@@ -88,7 +88,7 @@ $redtemplate = new Redtemplate;
 
 				$row->id = $row->mail_id;
 
-				$link = JRoute::_('index.php?option=' . $option . '&view=mail_detail&task=edit&cid[]=' . $row->mail_id);
+				$link = JRoute::_('index.php?option=com_redshop&view=mail_detail&task=edit&cid[]=' . $row->mail_id);
 
 				$published = JHtml::_('jgrid.published', $row->published, $i, '', 1);
 

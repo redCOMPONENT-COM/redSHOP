@@ -38,11 +38,6 @@ class RedshopViewStockroom_detail extends RedshopView
 		}
 		else
 		{
-			$document = JFactory::getDocument();
-			$document->addScript('components/' . $option . '/assets/js/select_sort.js');
-			$document->addStyleSheet('components/com_redshop/assets/css/search.css');
-			$document->addScript('components/com_redshop/assets/js/search.js');
-
 			$this->setLayout('default');
 			$detail = $this->get('data');
 

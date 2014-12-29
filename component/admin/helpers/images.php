@@ -47,8 +47,8 @@ class RedShopHelperImages extends JObject
 			$fileNameNoExt = $id;
 		}
 
+		$fileNameNoExt = substr($fileNameNoExt, 0, 40);
 		$fileName = time() . '_' . $fileNameNoExt . '.' . $fileExt;
-		$fileName = substr($fileName, 0, 50);
 
 		if (count($segments) > 1)
 		{
@@ -93,6 +93,12 @@ class RedShopHelperImages extends JObject
 		if ((int) $height <= 0)
 		{
 			$height = 0;
+		}
+
+		if (0 == $width && 0 == $height)
+		{
+			$width  = 50;
+			$height = 50;
 		}
 
 		$filePath     = JPATH_SITE . '/components/com_redshop/assets/images/' . $type . '/' . $imageName;

@@ -127,11 +127,6 @@ class RedshopControllerProduct_Detail extends RedshopController
 			$post['product_availability_date'] = strtotime($post['product_availability_date']);
 		}
 
-		if (trim($post["parent"]) == "")
-		{
-			$post["product_parent_id"] = 0;
-		}
-
 		JLoader::load('RedshopHelperAdminExtra_field');
 
 		$model = $this->getModel('product_detail');
@@ -167,16 +162,16 @@ class RedshopControllerProduct_Detail extends RedshopController
 
 			if ($apply == 2)
 			{
-				$this->setRedirect('index.php?option=' . $this->option . '&view=product_detail&task=add', $msg);
+				$this->setRedirect('index.php?option=com_redshop&view=product_detail&task=add', $msg);
 			}
 
 			elseif ($apply == 1)
 			{
-				$this->setRedirect('index.php?option=' . $this->option . '&view=product_detail&task=edit&cid[]=' . $row->product_id, $msg);
+				$this->setRedirect('index.php?option=com_redshop&view=product_detail&task=edit&cid[]=' . $row->product_id, $msg);
 			}
 			else
 			{
-				$this->setRedirect('index.php?option=' . $this->option . '&view=product', $msg);
+				$this->setRedirect('index.php?option=com_redshop&view=product', $msg);
 			}
 		}
 		else
@@ -222,7 +217,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 			}
 		}
 
-		$this->setRedirect('index.php?option=' . $this->option . '&view=product', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=product', $msg);
 	}
 
 	/**
@@ -247,7 +242,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 		}
 
 		$msg = JText::_('COM_REDSHOP_PRODUCT_DETAIL_PUBLISHED_SUCCESSFULLY');
-		$this->setRedirect('index.php?option=' . $this->option . '&view=product', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=product', $msg);
 	}
 
 	/**
@@ -272,7 +267,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 		}
 
 		$msg = JText::_('COM_REDSHOP_PRODUCT_DETAIL_UNPUBLISHED_SUCCESSFULLY');
-		$this->setRedirect('index.php?option=' . $this->option . '&view=product', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=product', $msg);
 	}
 
 	/**
@@ -285,7 +280,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 		$model = $this->getModel('product_detail');
 		$model->checkin();
 		$msg = JText::_('COM_REDSHOP_PRODUCT_DETAIL_EDITING_CANCELLED');
-		$this->setRedirect('index.php?option=' . $this->option . '&view=product', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=product', $msg);
 	}
 
 	/**
@@ -308,7 +303,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 			$msg = JText::_('COM_REDSHOP_ERROR_PRODUCT_COPIED');
 		}
 
-		$this->setRedirect('index.php?option=' . $this->option . '&view=product', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=product', $msg);
 	}
 
 	/**
@@ -350,12 +345,12 @@ class RedshopControllerProduct_Detail extends RedshopController
 			$attribute_save['ordering'] = $attribute[$a]['ordering'];
 			$attribute_save['attribute_published'] = ($attribute[$a]['published'] == 'on' || $attribute[$a]['published'] == '1') ? '1' : '0';
 
-			$attribute_save['attribute_required'] = isset($attribute_save['attribute_required'])
+			$attribute_save['attribute_required'] = isset($attribute[$a]['required'])
 				&& ($attribute[$a]['required'] == 'on' || $attribute[$a]['required'] == '1') ? '1' : '0';
 			$attribute_save['allow_multiple_selection'] = isset($attribute[$a]['allow_multiple_selection'])
 				&& ($attribute[$a]['allow_multiple_selection'] == 'on'
 				|| $attribute[$a]['allow_multiple_selection'] == '1') ? '1' : '0';
-			$attribute_save['hide_attribute_price'] = isset($attribute_save['hide_attribute_price'])
+			$attribute_save['hide_attribute_price'] = isset($attribute[$a]['hide_attribute_price'])
 				&& ($attribute[$a]['hide_attribute_price'] == 'on'
 				|| $attribute[$a]['hide_attribute_price'] == '1') ? '1' : '0';
 			$attribute_save['display_type'] = $attribute[$a]['display_type'];
@@ -374,7 +369,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 				$property_save['property_price'] = $property[$p]['price'];
 				$property_save['oprand'] = $property[$p]['oprand'];
 				$property_save['property_number'] = isset($property[$p]['number']) ? $property[$p]['number'] : '';
-				$property_save['property_image'] = isset($property[$p]['image']) ? $property[$p]['image'] : '';
+				$property_save['property_image'] = isset($property[$p]['property_image']) ? $property[$p]['property_image'] : '';
 				$property_save['ordering'] = $property[$p]['order'];
 				$property_save['setrequire_selected'] = isset($property[$p]['req_sub_att'])
 					&& ($property[$p]['req_sub_att'] == 'on' || $property[$p]['req_sub_att'] == '1') ? '1' : '0';
@@ -401,7 +396,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 
 				if (!empty($property[$p]['mainImage']))
 				{
-					$property_save['property_image'] = $model->copy_image_from_path($property[$p]['mainImage'], 'product_attributes');
+					$property_save['property_image'] = $model->copy_image_from_path($property[$p]['mainImage'], 'product_attributes', $property_id);
 					$property_save['property_id'] = $property_id;
 					$property_array = $model->store_pro($property_save);
 					$this->DeleteMergeImages();
@@ -482,7 +477,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 
 					if (!empty($subproperty[$sp]['mainImage']))
 					{
-						$subproperty_save['subattribute_color_image'] = $model->copy_image_from_path($subproperty[$sp]['mainImage'], 'subcolor');
+						$subproperty_save['subattribute_color_image'] = $model->copy_image_from_path($subproperty[$sp]['mainImage'], 'subcolor', $subproperty_id);
 						$subproperty_save['subattribute_color_id'] = $subproperty_id;
 						$subproperty_array = $model->store_sub($subproperty_save);
 						$this->DeleteMergeImages();
@@ -722,7 +717,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 		$model->orderup();
 
 		$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
-		$this->setRedirect('index.php?option=' . $this->option . '&view=product', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=product', $msg);
 	}
 
 	/**
@@ -736,7 +731,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 
 		$model->orderdown();
 		$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
-		$this->setRedirect('index.php?option=' . $this->option . '&view=product', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=product', $msg);
 	}
 
 	/**
@@ -755,7 +750,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 		$model->saveorder($cid, $order);
 
 		$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
-		$this->setRedirect('index.php?option=' . $this->option . '&view=product', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=product', $msg);
 	}
 
 	/**
@@ -772,7 +767,7 @@ class RedshopControllerProduct_Detail extends RedshopController
 		$model->deleteProdcutSerialNumbers($serial_id);
 
 		$msg = JText::_('COM_REDSHOP_PRODUCT_SERIALNUMBER_DELETED');
-		$this->setRedirect('index.php?option=' . $this->option . '&view=product_detail&cid=' . $product_id, $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=product_detail&cid=' . $product_id, $msg);
 	}
 
 	/**

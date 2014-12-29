@@ -733,9 +733,9 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 		$ordering_related = 0;
 
-		if (count($data['related_product']) > 0)
+		if (isset($data['related_product']) && ($relatedProducts = explode(',', $data['related_product'])))
 		{
-			foreach ($data['related_product'] as $related_data )
+			foreach ($relatedProducts as $related_data )
 			{
 				$ordering_related++;
 				$related_id = $related_data;
@@ -1308,11 +1308,11 @@ class RedshopModelProduct_Detail extends RedshopModel
 			$query = 'SELECT related_id FROM ' . $this->table_prefix . 'product_related WHERE product_id IN ( ' . $pdata->product_id . ' )';
 			$this->_db->setQuery($query);
 			$relatedproductdata = $this->_db->loadObjectList();
-			$copyrelatedproduct = array();
+			$copyrelatedproduct = '';
 
 			for ($i = 0; $i < count($relatedproductdata); $i++)
 			{
-				$copyrelatedproduct[$i] = $relatedproductdata[$i]->related_id;
+				$copyrelatedproduct .= $relatedproductdata[$i]->related_id;
 			}
 
 			$query = 'SELECT stockroom_id,quantity FROM ' . $this->table_prefix . 'product_stockroom_xref
@@ -1865,7 +1865,7 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 			$this->_db->setQuery($query);
 			$attr = $this->_db->loadObjectlist();
-			$attribute_data = '';
+			$attribute_data = array();
 
 			for ($i = 0; $i < count($attr); $i++)
 			{
@@ -1895,7 +1895,8 @@ class RedshopModelProduct_Detail extends RedshopModel
 				$attribute_data[] = array('attribute_id' => $attribute_id, 'attribute_name' => $attribute_name,
 					'attribute_required' => $attribute_required, 'ordering' => $ordering, 'property' => $prop,
 					'allow_multiple_selection' => $allow_multiple_selection, 'hide_attribute_price' => $hide_attribute_price,
-					'attribute_published' => $attribute_published, 'display_type' => $display_type);
+					'attribute_published' => $attribute_published, 'display_type' => $display_type,
+					'attribute_set_id' => $attr[$i]->attribute_set_id);
 			}
 
 			return $attribute_data;
@@ -4126,14 +4127,9 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 		$subPropertyList = $producthelper->getAttibuteSubProperty(0, $subattribute_id);
 
-		if (count($subPropertyList) == 0)
-		{
-			$subproperty = array('0' => new stdClass);
-		}
-
 		if ($sp)
 		{
-			$subproperty[0]->subattribute_color_id = $sp;
+			$subproperty = $producthelper->getAttibuteSubProperty($sp);
 		}
 		else
 		{
@@ -4178,12 +4174,10 @@ class RedshopModelProduct_Detail extends RedshopModel
 		$producthelper = new producthelper;
 
 		$propertyList  = $producthelper->getAttibuteProperty(0, $attribute_id);
-		$property = array();
 
 		if ($property_id)
 		{
-			$property[0] = new stdClass;
-			$property[0]->property_id = $property_id;
+			$property = $producthelper->getAttibuteProperty($property_id);
 		}
 		else
 		{
@@ -4200,7 +4194,11 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 			if ($this->_db->execute())
 			{
-				$this->delete_image($property[$j]->property_image, 'product_attributes');
+				if (isset($property[$j]->property_image) && $property[$j]->property_image)
+				{
+					$this->delete_image($property[$j]->property_image, 'product_attributes');
+				}
+
 				$this->delete_subprop(0, $property_id);
 			}
 		}
@@ -4318,19 +4316,17 @@ class RedshopModelProduct_Detail extends RedshopModel
 	/**
 	 * Function copy_image_from_path.
 	 *
-	 * @param   string  $imagePath  imagePath
-	 * @param   int     $section    section
+	 * @param   string  $imagePath   imagePath
+	 * @param   int     $section     section
+	 * @param   int     $section_id  section_id
 	 *
 	 * @return  string
 	 */
-	public function copy_image_from_path($imagePath, $section)
+	public function copy_image_from_path($imagePath, $section, $section_id = 0)
 	{
 		$src = JPATH_ROOT . '/' . $imagePath;
-
 		$imgname = RedShopHelperImages::cleanFileName($imagePath);
-
-		$property_image = end(explode("/", $imgname));
-
+		$property_image = $section_id . '_' . JFile::getName($imgname);
 		$dest = REDSHOP_FRONT_IMAGES_RELPATH . $section . '/' . $property_image;
 		copy($src, $dest);
 

@@ -46,8 +46,6 @@ class Com_RedshopInstallerScript
 		JLoader::load('RedshopHelperAdminTemplate');
 
 		$this->com_install('install');
-
-		$this->handleCSSFile();
 	}
 
 	/**
@@ -81,8 +79,6 @@ class Com_RedshopInstallerScript
 		JLoader::import('redshop.library');
 		JLoader::load('RedshopHelperAdminTemplate');
 		$this->com_install('update');
-
-		$this->handleCSSFile();
 	}
 
 	/**
@@ -148,24 +144,6 @@ class Com_RedshopInstallerScript
 			JModelLegacy::addIncludePath(JPATH_SITE . '/administrator/components/com_redshop/models');
 			$model = JModelLegacy::getInstance('Update', 'RedshopModel');
 			$model->checkUpdateStatus();
-		}
-	}
-
-	/**
-	 * Handle redSHOP Demo CSS file for Demo Content
-	 *
-	 * @return  void
-	 */
-	private function handleCSSFile()
-	{
-		$categoryTemplate = JPATH_SITE . '/components/com_redshop/views/category/tmpl/category/category_template_column.php';
-
-		if (file_exists($categoryTemplate))
-		{
-			$demoCSS    = JPATH_SITE . '/media/com_redshop/css/redshop-update.css';
-			$redSHOPCSS = JPATH_SITE . '/media/com_redshop/css/redshop.css';
-			unlink($redSHOPCSS);
-			rename($demoCSS, $redSHOPCSS);
 		}
 	}
 
@@ -375,21 +353,16 @@ class Com_RedshopInstallerScript
 		<center>
 			<table cellpadding="4" cellspacing="0" border="0" width="100%" class="adminlist">
 				<tr>
-					<td valign="top">
-						<img src="<?php echo 'components/com_redshop/assets/images/261-x-88.png'; ?>" alt="redSHOP Logo"
+					<td valign="top" width="270px">
+						<img src="<?php echo JURI::root(); ?>administrator/components/com_redshop/assets/images/261-x-88.png" width="261" height="88" alt="redSHOP Logo"
 						     align="left">
 					</td>
-					<td valign="top" width="100%">
-						<strong>redSHOP</strong><br/>
-						<font class="small">by <a href="http://www.redcomponent.com"
-						                          target="_blank">redcomponent.com </a><br/></font>
-						<font class="small">
-							Released under the terms and conditions of the <a
-								href="http://www.gnu.org/licenses/gpl-2.0.html" target="_blank">GNU General Public
-								License</a>.
-						</font>
+					<td valign="top">
+						<strong><?php echo JText::_('COM_REDSHOP_COMPONENT_NAME'); ?></strong><br/>
+						<font class="small"><?php echo JText::_('COM_REDSHOP_BY_LINK'); ?><br/></font>
+						<font class="small"><?php echo JText::_('COM_REDSHOP_TERMS_AND_CONDITION'); ?></font>
 
-						<p>Remember to check for updates on:
+						<p><?php echo JText::_('COM_REDSHOP_CHECK_UPDATES'); ?>:
 							<a href="http://redcomponent.com/" target="_new"><img
 									src="http://images.redcomponent.com/redcomponent.jpg" alt=""></a>
 						</p>
@@ -877,6 +850,11 @@ class Com_RedshopInstallerScript
 		if (!defined("GENERATE_LABEL_ON_STATUS"))
 		{
 			$cfgarr["GENERATE_LABEL_ON_STATUS"] = "S";
+		}
+
+		if (!defined("CHECKOUT_LOGIN_REGISTER_SWITCHER"))
+		{
+			$cfgarr["CHECKOUT_LOGIN_REGISTER_SWITCHER"] = 'sliders';
 		}
 
 		$Redconfiguration->manageCFGFile($cfgarr);

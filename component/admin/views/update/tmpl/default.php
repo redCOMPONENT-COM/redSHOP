@@ -12,7 +12,6 @@ if (version_compare(JVERSION, '3.0', '<'))
 {
 	$document = JFactory::getDocument();
 	$document->addStyleSheet(JURI::root() . 'administrator/components/com_redshop/assets/css/update.css');
-	$document->addScript(JURI::root() . 'administrator/components/com_redshop/assets/js/jquery.js');
 }
 
 ?>
@@ -29,54 +28,49 @@ if (version_compare(JVERSION, '3.0', '<'))
 					progressUpdate.find('div.bar').css('width', '0%');
 					progressUpdate.find('div.bar-success').css('width', persent+'%');
 					progressUpdate.addClass('active');
-				},
-				complete: function(response, textStatus){
-					var haveErrors = false;
-					var data = new Array();
-
-					if (response.response) {
-						data = eval('(' + response.response + ')');
-					}
-
-					if(textStatus == 'timeout' || textStatus == 'parsererror') {
-						progressLog.append('<span class="label label-important"><?php echo JText::_('COM_REDSHOP_UPDATE_ERROR_TIMEOUT', true); ?></span><br />');
-						haveErrors = true;
-					}
-					else if (typeof data === 'undefined' || textStatus == 'error') {
-						progressLog.append('<span class="label label-important"><?php echo JText::_('COM_REDSHOP_UPDATE_ERROR_APPLICATION_ERROR', true); ?></span><br />');
-						haveErrors = true;
-					}
-					else {
-						if (data.messages.length > 0)
-						{
-							$(data.messages).each(function (messageIdx, messageData) {
-								progressLog.append('<span class="label label-' + messageData.type_message + '">' + messageData.message + '</span><br />');
-								if (messageData.type_message == 'important')
-								{
-									haveErrors = true;
-								}
-							});
-						}
-					}
-
-					if(!haveErrors && data.success != false && typeof data.success[0] !== 'undefined' && typeof data.success[0]['parts'] !== 'undefined')
+					$('#toolbar-cancel').css({'display':'none'});
+				}
+			}).always(function(data, textStatus){
+				var haveErrors = false;
+				if(textStatus == 'timeout' || textStatus == 'parsererror') {
+					progressLog.append('<span class="label label-important"><?php echo JText::_('COM_REDSHOP_UPDATE_ERROR_TIMEOUT', true); ?></span><br />');
+					haveErrors = true;
+				}
+				else if (typeof data === 'undefined' || textStatus == 'error') {
+					progressLog.append('<span class="label label-important"><?php echo JText::_('COM_REDSHOP_UPDATE_ERROR_APPLICATION_ERROR', true); ?></span><br />');
+					haveErrors = true;
+				}
+				else {
+					if (data.messages.length > 0)
 					{
-						var persent = 100 - Math.ceil((100 * data.success[0]['parts'])/data.success[0]['total']);
-						syncItem(persent, progressLog);
+						$(data.messages).each(function (messageIdx, messageData) {
+							progressLog.append('<span class="label label-' + messageData.type_message + '">' + messageData.message + '</span><br />');
+							if (messageData.type_message == 'important')
+							{
+								haveErrors = true;
+							}
+						});
 					}
-					else
-					{
-						if(haveErrors || data.success == false){
-							var widthProgress = progressUpdate.width(),
-								widthSuccess = progressUpdate.find('.bar-success').width(),
-								persentError = Math.floor(100 * (widthProgress - widthSuccess)/widthProgress);
-							progressUpdate.append('<div class="bar bar-danger" style="width: ' + persentError +'%;"></div>');
-						}
-						else{
-							progressUpdate.find('div.bar-success').css('width', '100%');
-						}
-						progressUpdate.removeClass('active');
+				}
+
+				if(!haveErrors && data.success != false && typeof data.success[0] !== 'undefined' && typeof data.success[0]['parts'] !== 'undefined')
+				{
+					var persent = 100 - Math.ceil((100 * data.success[0]['parts'])/data.success[0]['total']);
+					syncItem(persent, progressLog);
+				}
+				else
+				{
+					if(haveErrors || data.success == false){
+						var widthProgress = progressUpdate.width(),
+							widthSuccess = progressUpdate.find('.bar-success').width(),
+							persentError = Math.floor(100 * (widthProgress - widthSuccess)/widthProgress);
+						progressUpdate.append('<div class="bar bar-danger" style="width: ' + persentError +'%;"></div>');
 					}
+					else{
+						progressUpdate.find('div.bar-success').css('width', '100%');
+					}
+					progressUpdate.removeClass('active');
+					$('#toolbar-cancel').css({'display':'inline-block'});
 				}
 			});
 		}
@@ -101,8 +95,4 @@ if (version_compare(JVERSION, '3.0', '<'))
 	</div>
 	<h4><?php echo JText::_('COM_REDSHOP_UPDATE_NOTICE') ?></h4>
 	<div class="progress-log" id="progress-log"></div>
-	<form action="index.php?option=com_redshop" method="post">
-		<input type="submit" name="submit" value="<?php echo JText::_('COM_REDSHOP_UPDATE_BACK_TO_REDSHOP'); ?>">
-		<input type="hidden" name="task" value="redshop.display" />
-	</form>
 </div>

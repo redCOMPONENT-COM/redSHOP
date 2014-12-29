@@ -53,7 +53,7 @@ class RedshopControllerOrder extends RedshopController
 	public function cancel()
 	{
 		$option = JRequest::getVar('option');
-		$this->setRedirect('index.php?option=' . $option . '&view=order');
+		$this->setRedirect('index.php?option=com_redshop&view=order');
 	}
 
 	public function update_status()
@@ -71,18 +71,17 @@ class RedshopControllerOrder extends RedshopController
 	 */
 	public function allstatus($isPacsoft = true)
 	{
-		$session = JFactory::getSession();
-		$post = JRequest::get('post');
-		$option = $post['option'];
-		$post['isPacsoft'] = $isPacsoft;
+		ob_end_clean();
 
-		$merge_invoice_arr = array();
+		$app = JFactory::getApplication();
 
-		$session->clear('updateOrderIdPost');
-		$session->set('updateOrderIdPost', $post);
-		$session->set('merge_invoice_arr', $merge_invoice_arr);
+		// @todo This needs to be fixed in better way
+		$postData              = $app->input->getArray($_POST);
+		$postData['isPacsoft'] = $isPacsoft;
 
-		$this->setRedirect('index.php?option=' . $option . '&view=order&layout=previewlog');
+		$app->setUserState("com_redshop.order.batch.postdata", serialize($postData));
+
+		$this->setRedirect('index.php?option=com_redshop&view=order&layout=batch');
 
 		return;
 	}
@@ -104,104 +103,90 @@ class RedshopControllerOrder extends RedshopController
 	 */
 	public function updateOrderStatus()
 	{
-		$session = JFactory::getSession();
-		$post = $session->get('updateOrderIdPost');
-		$merge_invoice_arr = $session->get('merge_invoice_arr');
-		$rand_invoice_name = JRequest::getVar('rand_invoice_name', '');
+		$app             = JFactory::getApplication();
+		$serialized      = $app->getUserState( "com_redshop.order.batch.postdata");
+		$post            = unserialize($serialized);
+		$orderId         = $app->input->getInt('oid', 0);
 		$order_functions = new order_functions;
-		$cnt = JRequest::getInt('cnt', 0);
-		$order_id = $post['cid'];
 
-		$responcemsg = "";
+		// Change Order Status
+		$order_functions->orderStatusUpdate($orderId, $post);
 
-		for ($i = $cnt, $j = 0; $j < 1; $j++)
+		// For shipped pdf generation
+		if ($post['order_status_all'] == "S" && $post['order_paymentstatus' . $orderId] == "Paid")
 		{
-			if (!isset($order_id[$i]))
-			{
-				$pdf = new PDFMerger;
-				$merge_invoice_arr = $session->get('merge_invoice_arr');
+			$pdfObj = new TCPDF('P', 'mm', 'A4', true, 'ISO-8859-15', false);
 
-				for ($m = 0; $m < count($merge_invoice_arr); $m++)
-				{
-					if (file_exists(
-						JPATH_SITE . '/components/com_redshop/assets/document' . '/invoice/shipped_' . $merge_invoice_arr[$m] . '.pdf'
-						))
-					{
-						$pdf->addPDF(
-							JPATH_SITE . '/components/com_redshop/assets/document' . '/invoice/shipped_' . $merge_invoice_arr[$m] . '.pdf', 'all'
-						);
-					}
-				}
+			$pdfObj->SetTitle('Shipped');
+			$pdfObj->SetAuthor('redSHOP');
+			$pdfObj->SetCreator('redSHOP');
+			$pdfObj->SetMargins(20, 85, 20);
 
-				$pdf->merge('file', JPATH_SITE . '/components/com_redshop/assets/document'
-					. '/invoice/shipped_' . $rand_invoice_name . '.pdf'
-				);
+			$font = 'times';
+			$pdfObj->setImageScale(PDF_IMAGE_SCALE_RATIO);
+			$pdfObj->setHeaderFont(array($font, '', 8));
+			$pdfObj->SetFont($font, "", 6);
 
-				for ($m = 0; $m < count($merge_invoice_arr); $m++)
-				{
-					if (file_exists(
-						JPATH_SITE . '/components/com_redshop/assets/document' . '/invoice/shipped_' . $merge_invoice_arr[$m] . '.pdf'
-						))
-					{
-						unlink(
-							JPATH_ROOT . '/components/com_redshop/assets/document/invoice/shipped_' . $merge_invoice_arr[$m] . '.pdf'
-						);
-					}
-				}
+			$invoice = $order_functions->createShippedInvoicePdf($orderId);
 
-				$session->set('merge_invoice_arr', null);
+			// Writing Body area
+			$pdfObj->AddPage();
+			$pdfObj->WriteHTML($invoice , true, false, true, false, '');
 
-				break;
-			}
+			$invoice_pdfName = 'shipped_' . $orderId;
 
-			$returnmsg = $order_functions->orderStatusUpdate($order_id[$i], $post);
+			ob_end_clean();
+			$pdfObj->Output(JPATH_SITE . '/components/com_redshop/assets/document/invoice/' . $invoice_pdfName . ".pdf", "F");
 
-			// For shipped pdf generation
-			if ($post['order_status_all'] == "S" && $post['order_paymentstatus' . $order_id[$i]] == "Paid")
-			{
-				$pdfObj = RedshopHelperPdf::getInstance();
-				$pdfObj->SetTitle('Shipped');
-				$font = 'times';
-				$pdfObj->setHeaderFont(array($font, '', 8));
-				$pdfObj->SetFont($font, "", 6);
-
-				$invoice = $order_functions->createShippedInvoicePdf($order_id[$i]);
-				$session->set('merge_invoice_arr', $order_id[$i]);
-				$pdfObj->AddPage();
-				$pdfObj->WriteHTML($invoice, true, false, true, false, '');
-
-				$invoice_pdfName = "shipped_" . $order_id[$i];
-				$merge_invoice_arr[] = $order_id[$i];
-				$session->set('merge_invoice_arr', $merge_invoice_arr);
-
-				$pdfObj->Output(
-					JPATH_SITE . '/components/com_redshop/assets/document'
-					. '/invoice/' . $invoice_pdfName . ".pdf", "F");
-			}
-
-			$responcemsg .= "<div>" . ($i + 1) . ": " . JText::_('COM_REDSHOP_ORDER_ID') . " " . $order_id[$i] . " -> ";
-			$errmsg = '';
-
-			if ($returnmsg)
-			{
-				$responcemsg .= "<span style='color: #00ff00'>" . JText::_('COM_REDSHOP_ORDER_STATUS_SUCCESSFULLY_UPDATED') . $errmsg . "</span>";
-			}
-			else
-			{
-				$responcemsg .= "<span style='color: #ff0000'>" . JText::_('COM_REDSHOP_ORDER_STATUS_UPDATE_FAIL') . $errmsg . "</span>";
-			}
-
-			$responcemsg .= "</div>";
+			echo $orderId;
 		}
 
-		// Trigger when order status changed.
-		$dispatcher = JDispatcher::getInstance();
-		JPluginHelper::importPlugin('redshop_product');
-		$results = $dispatcher->trigger('onAjaxOrderStatusUpdate', array($post));
+		$app->close();
+	}
 
-		$responcemsg = "<div id='sentresponse'>" . $responcemsg . "</div>";
-		echo $responcemsg;
-		exit;
+	/**
+	 * Merge Shipping Information PDF
+	 *
+	 * @return  void  Set PDF path on the viewport
+	 */
+	public function mergeShippingPdf()
+	{
+		$app           = JFactory::getApplication();
+		$pdfLocation   = 'components/com_redshop/assets/document/invoice/';
+		$pdfRootPath   = JPATH_SITE . '/' .$pdfLocation;
+		$mergeOrderIds = $app->input->get('mergeOrderIds', array(), 'array');
+		JArrayHelper::toInteger($mergeOrderIds);
+
+		$pdf = new PDFMerger;
+
+		for ($m = 0; $m < count($mergeOrderIds); $m++)
+		{
+			$pdfName = $pdfRootPath . 'shipped_' . $mergeOrderIds[$m] . '.pdf';
+
+			if (file_exists($pdfName))
+			{
+				$pdf->addPDF($pdfName, 'all');
+			}
+		}
+
+		$mergedPdfFile = 'shipped_' . rand() . '.pdf';
+
+		ob_end_clean();
+		$pdf->merge('file', $pdfRootPath . $mergedPdfFile);
+
+		for ($m = 0; $m < count($mergeOrderIds); $m++)
+		{
+			$pdfName = $pdfRootPath . 'shipped_' . $mergeOrderIds[$m] . '.pdf';
+
+			if (file_exists($pdfName))
+			{
+				unlink($pdfName);
+			}
+		}
+
+		echo JUri::root() . $pdfLocation . $mergedPdfFile;
+
+		$app->close();
 	}
 
 	public function bookInvoice()

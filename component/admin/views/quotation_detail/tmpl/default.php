@@ -69,7 +69,7 @@ $quotation_item = $quotationHelper->getQuotationProduct($quotation->quotation_id
 <tbody>
 <?php if (!$quotation->quotation_id)
 {
-	$edit_addlink = JRoute::_('index.php?tmpl=component&option=' . $option . '&view=quotation_detail&layout=account');
+	$edit_addlink = JRoute::_('index.php?tmpl=component&option=com_redshop&view=quotation_detail&layout=account');
 	?>
 	<tr>
 		<td align="right">
@@ -292,7 +292,7 @@ $quotation_item = $quotationHelper->getQuotationProduct($quotation->quotation_id
 				$product_total = $quo->product_price * $quo->product_quantity;
 				$product_tax = ($quo->product_price - $quo->product_excl_price) * $quo->product_quantity;
 
-				$delete_itemlink = JRoute::_('index.php?option=' . $option . '&view=quotation_detail&task=deleteitem&cid[]=' . $quotation->quotation_id . '&qitemid=' . $quo->quotation_item_id);
+				$delete_itemlink = JRoute::_('index.php?option=com_redshop&view=quotation_detail&task=deleteitem&cid[]=' . $quotation->quotation_id . '&qitemid=' . $quo->quotation_item_id);
 				?>
 				<tr id="trPrd<?php echo $unq; ?>">
 					<td align="center">
@@ -479,7 +479,7 @@ $quotation_item = $quotationHelper->getQuotationProduct($quotation->quotation_id
 </tr>
 <tr>
 	<td>
-		<table border="0" cellspacing="0" cellpadding="0" class="adminlist">
+		<table border="0" cellspacing="0" cellpadding="0" class="adminlist table">
 			<tr>
 				<th width="30%"><?php echo JText::_('COM_REDSHOP_PRODUCT_NAME'); ?></td>
 				<th width="20%"><?php echo JText::_('COM_REDSHOP_ORDER_PRODUCT_NOTE'); ?></td>
@@ -490,9 +490,19 @@ $quotation_item = $quotationHelper->getQuotationProduct($quotation->quotation_id
 				<th width="5%"><?php echo JText::_('COM_REDSHOP_ACTION'); ?></th>
 			</tr>
 			<tr>
-				<td><input type="text" name="searchproduct1" id="searchproduct1" size="30"/>
-					<input type="hidden" name="product1" id="product1" value="0"/>
-
+				<td><?php
+					echo JHTML::_('redshopselect.search', '', 'product1',
+						array(
+							'select2.ajaxOptions' => array('typeField' => ', isproduct:1'),
+							'select2.options' => array(
+								'events' => array('select2-selecting' => 'function(e) {
+									document.getElementById(\'product1\').value = e.object.id;
+									displayProductDetailInfo(\'product1\', 0);
+									addItembutton(\'product1\');}')
+							)
+						)
+					);
+					?>
 					<div id="divAttproduct1"></div>
 					<div id="divAccproduct1"></div>
 					<div id="divUserFieldproduct1"></div>
@@ -554,17 +564,3 @@ $quotation_item = $quotationHelper->getQuotationProduct($quotation->quotation_id
 </form>
 
 <div id="divCalc"></div>
-<script type="text/javascript">
-	var productoptions = {
-		script: "index.php?option=com_redshop&view=search&isproduct=1&tmpl=component&json=true&",
-		varname: "input",
-		json: true,
-		shownoresults: true,
-		callback: function (obj) {
-			document.getElementById('product1').value = obj.id;
-			displayProductDetailInfo('product1', 0);
-			addItembutton('product1');
-		}
-	};
-	var as_json = new bsn.AutoSuggest('searchproduct1', productoptions);
-</script>

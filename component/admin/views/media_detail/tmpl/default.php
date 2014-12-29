@@ -29,6 +29,28 @@ $section_name = JRequest::getVar('section_name');
 $media_section = JRequest::getVar('media_section');
 $k = 0;
 
+JFactory::getDocument()->addScriptDeclaration('
+(function ($) {
+	$(document).ready(function () {
+		$("#media_section").on("change", function(){
+			$("#section_id").select2("val","");
+		});
+	});
+})(jQuery);
+function jimage_insert(main_path) {
+	var path_url = "' . $url . '";
+	if (main_path) {
+		document.getElementById("image_display").style.display = "block";
+		document.getElementById("media_bank_image").value = main_path;
+		document.getElementById("image_display").src = path_url + main_path;
+	}
+	else {
+		document.getElementById("media_bank_image").value = "";
+		document.getElementById("image_display").src = "";
+	}
+}
+');
+
 if ($showbuttons)
 {
 	?>
@@ -75,7 +97,7 @@ if ($showbuttons)
 			{
 				alert("<?php echo JText::_('COM_REDSHOP_SELECT_MEDIA_SECTION_FIRST', true ); ?>");
 			}
-			else if (form.section_name.value == '' && form.media_section.value != 'media')
+			else if (form.section_id.value == '' && form.media_section.value != 'media')
 			{
 				alert("<?php echo JText::_('COM_REDSHOP_TYPE_SECTION_NAME', true ); ?>");
 			}
@@ -154,7 +176,7 @@ if ($showbuttons)
 												);
 									?>
 									<a class="modal"
-									   href="<?php echo $url . 'components/' . $option . '/assets/' . $this->detail->media_type . '/' . $this->detail->media_section . '/' . $this->detail->media_name; ?>"
+									   href="<?php echo $url . 'components/com_redshop/assets/' . $this->detail->media_type . '/' . $this->detail->media_section . '/' . $this->detail->media_name; ?>"
 									   title="<?php echo JText::_('COM_REDSHOP_VIEW_IMAGE'); ?>"
 									   rel="{handler: 'image', size: {}}">
 										<img
@@ -315,16 +337,16 @@ if ($showbuttons)
 						if ($showbuttons)
 						{
 							?>
-							<input type="text" value="<?php echo $media_section; ?>" disabled="disabled"><input
-							type="hidden" name="media_section" value="<?php echo $media_section; ?>">
 							<input type="hidden" name="set" value="">
+							<input type="hidden" name="media_section" value="<?php echo $media_section; ?>">
 						<?php
 						}
-						else
+						elseif ($this->detail->media_id != 0)
 						{
-							echo $this->lists['section'];
-							if ($this->detail->media_id != 0) echo '<input type="hidden" name="media_section" value="' . $this->detail->media_section . '">';
+							echo '<input type="hidden" name="media_section" id="media_section" value="' . $this->detail->media_section . '">';
 						}
+
+						echo $this->lists['section'];
 						?>
 						<?php echo JHTML::tooltip(JText::_('COM_REDSHOP_TOOLTIP_MEDIA_SECTION'), JText::_('COM_REDSHOP_MEDIA_SECTION'), 'tooltip.png', '', '', false); ?>
 					</td>
@@ -335,29 +357,37 @@ if ($showbuttons)
 					</td>
 					<td>
 						<?php
+						$sectionValue = new stdClass;
+						$sectionIdName = 'section_id';
+						$listAttributes = array();
+
 						if ($showbuttons)
 						{
-							?>
-							<input type="text" name="section_name_disabled" id="section_name_disabled"
-							       value="<?php echo $section_name; ?>" disabled="disabled" size="75"/><input
-							type="hidden" name="section_id" id="section_id" value="<?php echo $section_id; ?>"/><input
-							type="hidden" name="section_name" id="section_name" value="<?php echo $section_name; ?>"
-							size="75"/>
-						<?php
+							$sectionValue->text = $section_name;
+							$sectionValue->value = $section_id;
+							$sectionIdName = 'disabled_section_id';
+							$listAttributes = array('disabled' => 'disabled');
+							echo '<input type="hidden" name="section_id" id="section_id" value="' . $section_id . '" />';
 						}
 						else
 						{
 							$model = $this->getModel('media_detail');
-							$data = $model->getSection($this->detail->section_id, $this->detail->media_section);
-							?>
-							<input type="text" onclick="return false;" name="section_name" id="section_name"
-							       value="<?php if ($data) echo $data->name; ?>" size="75"/><input type="hidden"
-							                                                                       name="section_id"
-							                                                                       id="section_id"
-							                                                                       width="150"
-							                                                                       value="<?php if ($data) echo $data->id; ?>"/>
-						<?php
+
+							if ($data = $model->getSection($this->detail->section_id, $this->detail->media_section))
+							{
+								$sectionValue->text = $data->name;
+								$sectionValue->value = $data->id;
+							}
 						}
+
+						echo JHtml::_('redshopselect.search', $sectionValue,
+							$sectionIdName,
+							array(
+								'select2.ajaxOptions' => array('typeField' => ', media_section:$(\'#media_section\').val()'),
+								'select2.options' => array('placeholder' => JText::_('COM_REDSHOP_SECTION_NAME')),
+								'list.attr' => $listAttributes
+							)
+						);
 						echo JHTML::tooltip(JText::_('COM_REDSHOP_TOOLTIP_SECTION_NAME'), JText::_('COM_REDSHOP_SECTION_NAME'), 'tooltip.png', '', '', false); ?>
 					</td>
 				</tr>
@@ -373,96 +403,4 @@ if ($showbuttons)
 		</fieldset>
 
 	</div>
-
 	</form>
-
-	<script type="text/javascript">
-		function jimage_insert(main_path) {
-			var path_url = "<?php echo $url;?>";
-			if (main_path) {
-				document.getElementById("image_display").style.display = "block";
-				document.getElementById("media_bank_image").value = main_path;
-				document.getElementById("image_display").src = path_url + main_path;
-			}
-			else {
-				document.getElementById("media_bank_image").value = "";
-				document.getElementById("image_display").src = "";
-			}
-
-		}
-		function jdownload_file(path, filename) {
-			if (document.getElementById("selected_file")) {
-				document.getElementById("selected_file").innerHTML = filename;
-			}
-			if (document.getElementById("hdn_download_file_path")) {
-				document.getElementById("hdn_download_file_path").value = path;
-			}
-			if (document.getElementById("hdn_download_file")) {
-				document.getElementById("hdn_download_file").value = filename;
-			}
-			if (document.getElementById("media_type")) {
-				document.getElementById("media_type").value = 'download';
-			}
-		}
-	</script>
-
-<?php
-if ($this->detail->media_id == 0)
-{
-	?>
-	<script type="text/javascript">
-
-		function select_type(type) {
-			var value = type.value;
-
-			if (value != 'media') {
-				document.getElementById('product_tr').style.display = 'table-row';
-				var options = {
-					script: "index.php?tmpl=component&&option=com_redshop&view=search&media_section=" + value + "&json=true&",
-					varname: "input",
-					json: true,
-					shownoresults: false,
-					callback: function (obj) {
-						document.getElementById('section_id').value = obj.id;
-						return false;
-					}
-				};
-				var as_json = new bsn.AutoSuggest('section_name', options);
-			} else {
-				try {
-					document.getElementById('product_tr').style.display = 'none';
-
-				} catch (ex) {
-					document.getElementById('product_tr').style.display = 'table-row';
-				}
-				document.getElementById('section_name').value = '';
-			}
-
-		}
-	</script>
-<?php
-}else
-{
-	?>
-	<script type="text/javascript">
-
-		var options = {
-			script: "index.php?tmpl=component&&option=com_redshop&view=search&media_section=<?php echo $this->detail->media_section;?>&json=true&",
-			varname: "input",
-			json: true,
-			shownoresults: false,
-			callback: function (obj) {
-				document.getElementById("section_id").value = obj.id;
-				return false;
-			}
-
-		};
-
-
-		var as_json = new bsn.AutoSuggest('section_name', options);
-
-	</script>
-
-<?php
-}
-?>

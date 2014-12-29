@@ -30,15 +30,8 @@ class RedshopViewWishlist extends RedshopView
 		$pageheadingtag = '';
 
 		$params   = $app->getParams('com_redshop');
-		JHtml::script('com_redshop/colorbox.js', false, true);
 
-		if (version_compare(JVERSION, '3.0', '<'))
-		{
-			JHtml::script('com_redshop/jquery.js', false, true);
-		}
-
-		JHTML::Script('jquery.colorbox-min.js', 'components/com_redshop/assets/js/', false);
-
+		JHtml::_('redshopjquery.framework');
 		JHtml::script('com_redshop/attribute.js', false, true);
 		JHtml::script('com_redshop/common.js', false, true);
 		JHtml::script('com_redshop/redbox.js', false, true);

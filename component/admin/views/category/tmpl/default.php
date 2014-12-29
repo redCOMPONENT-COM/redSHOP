@@ -72,7 +72,7 @@ $ordering = ($this->lists['order'] == 'c.ordering');
 	<table width="100%" cellpadding="1" cellspacing="1" border="0">
 		<tr>
 			<td colspan="2" valign="top" align="left" class="key" width="30%">
-				<?php echo JText::_('COM_REDSHOP_CATEGORY_FILTER'); ?>:
+				<?php echo JText::_('COM_REDSHOP_FILTER'); ?>:
 				<div class="btn-wrapper input-append">
 					<input type="text" name="category_main_filter" id="category_main_filter"
 						   value="<?php echo $category_main_filter; ?>" onchange="document.adminForm.submit();">
@@ -127,7 +127,7 @@ $ordering = ($this->lists['order'] == 'c.ordering');
 					break;
 				}
 				$row->id = $row->category_id;
-				$link = JRoute::_('index.php?option=' . $option . '&view=category_detail&task=edit&cid[]=' . $row->category_id);
+				$link = JRoute::_('index.php?option=com_redshop&view=category_detail&task=edit&cid[]=' . $row->category_id);
 				$published = JHtml::_('jgrid.published', $row->published, $i, '', 1);
 				?>
 				<tr class="<?php echo "row$k"; ?>">

@@ -841,7 +841,7 @@ class rsCarthelper
 			$replace[]    = $this->_producthelper->getProductFormattedPrice($row->order_shipping);
 			$replace[]    = $this->_producthelper->getProductFormattedPrice($row->order_shipping_tax);
 
-			if ($details[0] != 'plgredshop_shippingdefault_shipping_GLS')
+			if ($details[0] != 'plgredshop_shippingdefault_shipping_gls')
 			{
 				$shopLocation = '';
 			}
@@ -919,7 +919,7 @@ class rsCarthelper
 			{
 				$giftcard_id  = $cart[$i]['giftcard_id'];
 				$giftcardData = $this->_producthelper->getGiftcardData($giftcard_id);
-				$link         = JRoute::_('index.php?option=' . $option . '&view=giftcard&gid=' . $giftcard_id . '&Itemid=' . $Itemid);
+				$link         = JRoute::_('index.php?option=com_redshop&view=giftcard&gid=' . $giftcard_id . '&Itemid=' . $Itemid);
 
 				$product_name = "<div  class='product_name'><a href='" . $link . "'>" . $giftcardData->giftcard_name . "</a></div>";
 
@@ -1032,7 +1032,7 @@ class rsCarthelper
 					$Itemid = $this->_redhelper->getItemid($product_id);
 				}
 
-				$link = JRoute::_('index.php?option=' . $option . '&view=product&pid=' . $product_id . '&Itemid=' . $Itemid);
+				$link = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $product_id . '&Itemid=' . $Itemid);
 
 				$pname         = $product->product_name;
 				$product_name  = "<div  class='product_name'><a href='" . $link . "'>" . $pname . "</a></div>";
@@ -1488,12 +1488,14 @@ class rsCarthelper
 				$giftcardData      = $this->_producthelper->getGiftcardData($product_id);
 				$product_name      = $giftcardData->giftcard_name;
 				$userfield_section = 13;
+				$product = new stdClass;
 			}
 			else
 			{
 				$product           = $this->_producthelper->getProductById($product_id);
 				$product_name      = $product->product_name;
 				$userfield_section = 12;
+				$giftcardData = new stdClass;
 			}
 
 			$dirname = JPATH_COMPONENT_SITE . "/assets/images/orderMergeImages/" . $rowitem [$i]->attribute_image;
@@ -1528,13 +1530,15 @@ class rsCarthelper
 				}
 				else
 				{
-					$product_full_image = $product->product_full_image;
-					$product_type = 'product';
-
 					if ($rowitem [$i]->is_giftcard)
 					{
 						$product_full_image = $giftcardData->giftcard_image;
 						$product_type = 'giftcard';
+					}
+					else
+					{
+						$product_full_image = $product->product_full_image;
+						$product_type = 'product';
 					}
 
 					if ($product_full_image)
@@ -1688,17 +1692,39 @@ class rsCarthelper
 			$cart_mdata         = str_replace("{product_customfields}", $user_custom_fields, $cart_mdata);
 			$cart_mdata         = str_replace("{product_customfields_lbl}", JText::_("COM_REDSHOP_PRODUCT_CUSTOM_FIELD"), $cart_mdata);
 
-			$cart_mdata = str_replace("{product_sku}", $product->product_number, $cart_mdata);
+			if ($rowitem [$i]->is_giftcard)
+			{
+				$cart_mdata = str_replace(
+					array('{product_sku}', '{product_number}', '{product_s_desc}', '{product_subscription}', '{product_subscription_lbl}'),
+					'', $cart_mdata);
+			}
+			else
+			{
+				$cart_mdata = str_replace("{product_sku}", $product->product_number, $cart_mdata);
+				$cart_mdata = str_replace("{product_number}", $product->product_number, $cart_mdata);
+				$cart_mdata = str_replace("{product_s_desc}", $product->product_s_desc, $cart_mdata);
+
+				if ($product->product_type == 'subscription')
+				{
+					$user_subscribe_detail = $this->_producthelper->getUserProductSubscriptionDetail($rowitem[$i]->order_item_id);
+					$subscription_detail   = $this->_producthelper->getProductSubscriptionDetail($product->product_id, $user_subscribe_detail->subscription_id);
+					$selected_subscription = $subscription_detail->subscription_period . " " . $subscription_detail->period_type;
+
+					$cart_mdata = str_replace("{product_subscription_lbl}", JText::_('COM_REDSHOP_SUBSCRIPTION'), $cart_mdata);
+					$cart_mdata = str_replace("{product_subscription}", $selected_subscription, $cart_mdata);
+				}
+				else
+				{
+					$cart_mdata = str_replace("{product_subscription_lbl}", "", $cart_mdata);
+					$cart_mdata = str_replace("{product_subscription}", "", $cart_mdata);
+				}
+			}
 
 			$cart_mdata = str_replace("{product_number_lbl}", JText::_('COM_REDSHOP_PRODUCT_NUMBER'), $cart_mdata);
-
-			$cart_mdata = str_replace("{product_number}", $product->product_number, $cart_mdata);
 
 			$product_vat = ($rowitem [$i]->product_item_price - $rowitem [$i]->product_item_price_excl_vat) * $rowitem [$i]->product_quantity;
 
 			$cart_mdata = str_replace("{product_vat}", $product_vat, $cart_mdata);
-
-			$cart_mdata = str_replace("{product_s_desc}", $product->product_s_desc, $cart_mdata);
 
 			$cart_mdata = $this->_producthelper->getProductOnSaleComment($product, $cart_mdata);
 
@@ -1723,22 +1749,6 @@ class rsCarthelper
 			$cart_mdata = str_replace("{product_total_price_excl_vat}", $this->_producthelper->getProductFormattedPrice($rowitem [$i]->product_item_price_excl_vat * $quantity), $cart_mdata);
 
 			$subtotal_excl_vat += $rowitem [$i]->product_item_price_excl_vat * $quantity;
-
-			if ($product->product_type == 'subscription')
-			{
-				$user_subscribe_detail = $this->_producthelper->getUserProductSubscriptionDetail($rowitem[$i]->order_item_id);
-
-				$subscription_detail   = $this->_producthelper->getProductSubscriptionDetail($product->product_id, $user_subscribe_detail->subscription_id);
-				$selected_subscription = $subscription_detail->subscription_period . " " . $subscription_detail->period_type;
-
-				$cart_mdata = str_replace("{product_subscription_lbl}", JText::_('COM_REDSHOP_SUBSCRIPTION'), $cart_mdata);
-				$cart_mdata = str_replace("{product_subscription}", $selected_subscription, $cart_mdata);
-			}
-			else
-			{
-				$cart_mdata = str_replace("{product_subscription_lbl}", "", $cart_mdata);
-				$cart_mdata = str_replace("{product_subscription}", "", $cart_mdata);
-			}
 
 			if ($mainview == "order_detail")
 			{
@@ -3350,13 +3360,13 @@ class rsCarthelper
 	public function getGLSLocation($users_info_id, $classname, $shop_id = 0)
 	{
 		$output = '';
-		$sql    = "SELECT  enabled FROM #__extensions WHERE element ='default_shipping_GLS'";
+		$sql    = "SELECT  enabled FROM #__extensions WHERE element ='default_shipping_gls'";
 		$this->_db->setQuery($sql);
 		$isEnabled = $this->_db->loadResult();
 		$selected_shop_id = null;
 		$ShopRespons = array();
 
-		if ($isEnabled && $classname == 'default_shipping_GLS')
+		if ($isEnabled && $classname == 'default_shipping_gls')
 		{
 			JPluginHelper::importPlugin('redshop_shipping');
 			$dispatcher = JDispatcher::getInstance();
@@ -3483,7 +3493,7 @@ class rsCarthelper
 									$shipping_rate_id = $rate[$i]->value;
 								}
 
-								if ($classname == 'default_shipping_GLS')
+								if ($classname == 'default_shipping_gls')
 								{
 									$glsLocation = $this->getGLSLocation($users_info_id, $classname);
 									$style       = ($checked != "checked") ? "style='display:none;'" : "style='display:block;'";
@@ -3587,7 +3597,7 @@ class rsCarthelper
 
 			$template_desc = "<div></div>";
 		}
-		elseif ($rateExist == 1 && $extrafield_total == "" && $classname != "default_shipping_GLS")
+		elseif ($rateExist == 1 && $extrafield_total == "" && $classname != "default_shipping_gls")
 		{
 			$template_desc = "<div style='display:none;'>" . $template_desc . "</div>";
 		}
@@ -5793,6 +5803,27 @@ class rsCarthelper
 		// Get product price
 		$data['product_price'] = 0;
 
+		// Discount calculator procedure start
+		$discountArr = array();
+		$discountArr = $this->discountCalculatorData($product_data, $data);
+
+		$calc_output       = "";
+		$calc_output_array = array();
+		$product_price_tax = 0;
+
+		if (!empty($discountArr))
+		{
+			$calc_output       = $discountArr[0];
+			$calc_output_array = $discountArr[1];
+
+			// Calculate price without VAT
+			$data['product_price'] = $discountArr[2] + $discountArr[3];
+
+			$cart[$idx]['product_price_excl_vat'] = $discountArr[2];
+			$product_vat_price += $discountArr[3];
+			$cart[$idx]['discount_calc_price'] = $discountArr[2];
+		}
+
 		// Attribute price added
 		$generateAttributeCart = isset($data['cart_attribute']) ? $data['cart_attribute'] : $this->generateAttributeArray($data);
 
@@ -5877,27 +5908,6 @@ class rsCarthelper
 
 				return $msg;
 			}
-		}
-
-		// Discount calculator procedure start
-		$discountArr = array();
-		$discountArr = $this->discountCalculatorData($product_data, $data);
-
-		$calc_output       = "";
-		$calc_output_array = array();
-		$product_price_tax = 0;
-
-		if (!empty($discountArr))
-		{
-			$calc_output       = $discountArr[0];
-			$calc_output_array = $discountArr[1];
-
-			// Calculate price without VAT
-			$data['product_price'] = $discountArr[2] + $discountArr[3];
-
-			$cart[$idx]['product_price_excl_vat'] = $discountArr[2];
-			$product_vat_price += $discountArr[3];
-			$cart[$idx]['discount_calc_price'] = $discountArr[2];
 		}
 
 		$cart[$idx]['subscription_id'] = 0;
