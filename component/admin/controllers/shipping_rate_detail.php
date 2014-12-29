@@ -39,7 +39,7 @@ class RedshopControllerShipping_rate_detail extends RedshopController
 		JLoader::load('RedshopHelperAdminExtra_field');
 
 		$option = JRequest::getVar('option');
-		$post['shipping_rate_on_product'] = $post['container_product'];
+		$post['shipping_rate_on_product'] = explode(',', $post['container_product']);
 		$post["shipping_location_info"] = JRequest::getVar('shipping_location_info', '', 'post', 'string', JREQUEST_ALLOWRAW);
 		$model = $this->getModel('shipping_rate_detail');
 

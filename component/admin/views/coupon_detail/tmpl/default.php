@@ -132,10 +132,21 @@ $date = JFactory::getDate();
 						<?php echo JText::_('COM_REDSHOP_USER'); ?>:
 					</td>
 					<td>
-						<input type="text" name="username" id="username"
-						       value="<?php if ($this->detail->coupon_type == 1) echo $uname = $model->getuserfullname2($this->detail->userid); ?>"
-						       size="75"/><input type="hidden" name="userid" id="userid"
-						                         value="<?php echo $this->detail->userid; ?>"/>
+						<?php
+						$value = new stdClass;
+
+						if ($this->detail->coupon_type == 1)
+						{
+							$value->value = $this->detail->userid;
+							$value->text = $model->getuserfullname2($this->detail->userid);
+						}
+
+						echo JHTML::_('redshopselect.search', $value, 'userid',
+							array(
+								'select2.ajaxOptions' => array('typeField' => ', user:1')
+							)
+						);
+						?>
 						<?php echo JHTML::tooltip(JText::_('COM_REDSHOP_TOOLTIP_COUPON_USER'), JText::_('COM_REDSHOP_USER'), 'tooltip.png', '', '', false); ?>
 					</td>
 				</tr>
@@ -187,16 +198,3 @@ $date = JFactory::getDate();
 	<input type="hidden" name="task" value=""/>
 	<input type="hidden" name="view" value="coupon_detail"/>
 </form>
-<script type="text/javascript">
-
-	var options = {
-		script: "index.php?tmpl=component&&option=com_redshop&view=search&user=1&json=true&",
-		varname: "input",
-		json: true,
-		shownoresults: false,
-		callback: function (obj) {
-			document.getElementById('userid').value = obj.id;
-		}
-	};
-	var as_json = new bsn.AutoSuggest('username', options);
-</script>

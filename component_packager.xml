@@ -9,38 +9,49 @@
 <!--    - change the package folder path in variable package.dir         -->
 <!--    - execute this PHING build file                                  -->
 <!-- ==================================================================  -->
-<project name="com_redshop" default="dist">
-    <!-- Do initialization stuff -->
-    <property file="build.properties" override="true" />
-
-    <!-- Folder where the redSHOP repository is located  -->
-    <property
-            name="extpath"
-            value="${project.basedir}"
-            override="true" />
-
-    <!-- Target dir where packages will be created  -->
-    <property
-            name="targetdir"
-            value="${package.dir}/package-${comp.name}-v${comp.version}"
-            override="true" />
-
+<project name="com_redshop" default="pack">
     <!-- ============================================  -->
     <!-- Create packages folder                        -->
     <!-- ============================================  -->
     <target name="prepare">
-        <!-- Check if the target folder exists. If not, create it -->
-        <available file="${targetdir}" type="dir" property="target_dir_exist" value="true" />
         <if>
-            <equals arg1="${target_dir_exist}" arg2="true" />
+            <not>
+                <isset property="package.dir" />
+            </not>
             <then>
-                <echo msg="Removing old ${targetdir}" />
-                <delete dir="${targetdir}" />
+                <fail msg="package.dir not specified, specify package.dir in build.properties file" />
             </then>
         </if>
-        <echo msg="Making directory to store the packages at ${targetdir}" />
-        <mkdir dir="${targetdir}" />
 
+        <!-- Folder where the redSHOP repository is located  -->
+        <property
+                name="extpath"
+                value="."
+                override="true"/>
+
+        <xmlproperty file="${extpath}/${extension}.xml" prefix="extensionDetails" keepRoot="false" />
+
+        <property
+                name="version"
+                value="${extensionDetails.version}"
+                override="true"/>
+
+        <!-- Temp dir to create packages -->
+        <property
+                name="tmpdir"
+                value=".tmp"
+                override="true"/>
+
+        <!-- Check if the temp folder exists. If not, create it -->
+        <if>
+            <available file="${tmpdir}" type="dir"/>
+            <then>
+                <echo msg="Removing old ${tmpdir}"/>
+                <delete dir="${tmpdir}"/>
+            </then>
+        </if>
+        <echo msg="Making directory to store the temporary packages at ${tmpdir}"/>
+        <mkdir dir="${tmpdir}"/>
     </target>
 
     <!-- ============================================  -->
@@ -51,7 +62,7 @@
     <target name="build" depends="prepare">
 
         <echo msg="Copying INSTALLER files to build directory..." />
-        <copy todir="${targetdir}">
+        <copy todir="${tmpdir}/${extension}">
             <fileset dir="${extpath}/">
                 <include name="LICENSE.txt" />
                 <include name="redshop.xml" />
@@ -60,7 +71,7 @@
         </copy>
 
         <echo msg="Copying COMPONENT folder to build directory..." />
-        <copy todir="${targetdir}/component">
+        <copy todir="${tmpdir}/${extension}/component">
             <fileset dir="${extpath}/component">
                 <include name="**" />
                 <exclude name=".*" />
@@ -68,7 +79,7 @@
         </copy>
 
         <echo msg="Copying MEDIA folder to build directory..." />
-        <copy todir="${targetdir}/media">
+        <copy todir="${tmpdir}/${extension}/media">
             <fileset dir="${extpath}/media">
                 <include name="**" />
                 <exclude name=".*" />
@@ -76,7 +87,7 @@
         </copy>
 
 		<echo message="Copying libraries..."/>
-		<copy todir="${targetdir}/libraries" overwrite="true">
+		<copy todir="${tmpdir}/${extension}/libraries" overwrite="true">
 			<fileset dir="${extpath}/libraries">
 				<include name="**"/>
 			</fileset>
@@ -84,7 +95,7 @@
 
         <echo msg="Copying main MODULES folder to build directory..." />
         <echo msg="Copying redSHOP Cart module" />
-        <copy todir="${targetdir}/modules/site/mod_redshop_cart">
+        <copy todir="${tmpdir}/${extension}/modules/site/mod_redshop_cart">
             <fileset dir="${extpath}/modules/site/mod_redshop_cart">
                 <include name="**" />
                 <exclude name=".*" />
@@ -93,21 +104,21 @@
 
         <echo msg="Copying main PLUGINS folder to build directory..." />
         <echo msg="Copying rs_payment_banktransfer plugin" />
-        <copy todir="${targetdir}/plugins/redshop_payment/rs_payment_banktransfer">
+        <copy todir="${tmpdir}/${extension}/plugins/redshop_payment/rs_payment_banktransfer">
             <fileset dir="${extpath}/plugins/redshop_payment/rs_payment_banktransfer">
                 <include name="**" />
                 <exclude name=".*" />
             </fileset>
         </copy>
         <echo msg="Copying rs_payment_paypal plugin" />
-        <copy todir="${targetdir}/plugins/redshop_payment/rs_payment_paypal">
+        <copy todir="${tmpdir}/${extension}/plugins/redshop_payment/rs_payment_paypal">
             <fileset dir="${extpath}/plugins/redshop_payment/rs_payment_paypal">
                 <include name="**" />
                 <exclude name=".*" />
             </fileset>
         </copy>
         <echo msg="Copying default_shipping plugin" />
-        <copy todir="${targetdir}/plugins/redshop_shipping/default_shipping">
+        <copy todir="${tmpdir}/${extension}/plugins/redshop_shipping/default_shipping">
             <fileset dir="${extpath}/plugins/redshop_shipping/default_shipping">
                 <include name="**" />
                 <exclude name=".*" />
@@ -115,21 +126,87 @@
         </copy>
     </target>
 
-    <!-- ============================================  -->
-    <!-- (DEFAULT)  Target: dist                       -->
-    <!-- ============================================  -->
-    <target name="dist" depends="build">
-        <echo msg="Creating ZIP archive..." />
+    <target name="compress">
+        <echo msg="Creating ZIP archive..."/>
 
-        <zip destfile="${targetdir}/../${comp.name}-v${comp.version}_j${joomla.version}.zip">
-            <fileset dir="${targetdir}">
-                <include name="**" />
-                <exclude name=".*" />
+        <!-- Extension ZIP packaging -->
+        <if>
+            <available file="${package.dir}/${extension}-v${version}_j${joomla.version}.zip" property="test_zip_exists" value="Yes"/>
+            <then>
+                <echo msg="Removing old ZIP"/>
+                <delete file="${package.dir}/${extension}-v${version}_j${joomla.version}.zip" />
+            </then>
+        </if>
+
+        <if>
+            <available file="${tmpdir}/${extension}-v${version}_j${joomla.version}.zip" property="test_zip_exists" value="Yes"/>
+            <then>
+                <delete file="${tmpdir}/${extension}-v${version}_j${joomla.version}.zip" />
+            </then>
+        </if>
+
+        <zip destfile="${tmpdir}/${extension}-v${version}_j${joomla.version}.zip">
+            <fileset dir="${tmpdir}/${extension}">
+                <include name="**"/>
+                <exclude name=".*"/>
             </fileset>
         </zip>
 
-        <echo msg="Files copied and compressed in build directory OK!" />
+        <copy file="${tmpdir}/${extension}-v${version}_j${joomla.version}.zip" tofile="${package.dir}/${extension}-v${version}_j${joomla.version}.zip" />
 
-        <delete dir="${targetdir}" />
+        <echo msg="Files copied and compressed in build directory OK!"/>
     </target>
+
+    <target name="clean-tmp">
+        <delete dir="${tmpdir}"/>
+    </target>
+
+    <target name="compress-clean" depends="compress, clean-tmp">
+        <!-- needed for external cleaning and compressing -->
+    </target>
+
+    <target name="dist" depends="build, compress-clean">
+        <echo msg="Build successful!"/>
+    </target>
+
+    <target name="pack">
+        <!-- Do initialization stuff -->
+        <if>
+            <not>
+                <available file="build.properties" type="file" />
+            </not>
+            <then>
+                <fail msg="File not found: build.properties" />
+            </then>
+        </if>
+
+        <property file="build.properties" override="true"/>
+
+        <property
+                name="extension"
+                value="${comp.name}"
+                override="true"/>
+
+        <phingcall target="dist" />
+    </target>
+
+    <target name="autopack">
+        <property
+                name="package.dir"
+                value=".dist"
+                override="true"/>
+
+        <property
+                name="extension"
+                value="redshop"
+                override="true"/>
+
+        <property
+                name="joomla.version"
+                value="3"
+                override="true"/>
+
+        <phingcall target="dist" />
+    </target>
+
 </project>

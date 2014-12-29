@@ -18,14 +18,4 @@ defined('_JEXEC') or die;
  */
 class RedshopControllerPrice_filter extends RedshopController
 {
-	/**
-	 * logic for display
-	 *
-	 * @access public
-	 * @return void
-	 */
-	public function display()
-	{
-		parent::display();
-	}
 }
