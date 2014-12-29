@@ -171,12 +171,14 @@ class producthelper
 
 		// Count child products
 		$subQuery = $db->getQuery(true)
-			->select('COUNT(child.product_id)')
+			->select('COUNT(child.product_id) AS count_child_products, child.product_parent_id')
 			->from($db->qn('#__redshop_product', 'child'))
-			->where('child.product_parent_id = p.product_id')
-			->where('child.published = 1');
+			->where('child.product_parent_id > 0')
+			->where('child.published = 1')
+			->group('child.product_parent_id');
 
-		$query->select('(' . $subQuery . ') AS count_child_products');
+		$query->select('child_product_table.count_child_products')
+			->leftJoin('(' . $subQuery . ') AS child_product_table ON child_product_table.product_parent_id = p.product_id');
 
 		// Sum quantity
 		if (USE_STOCKROOM == 1)

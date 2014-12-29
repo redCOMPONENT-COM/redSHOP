@@ -49,6 +49,8 @@ class extraField
 
 	protected static $userFields = array();
 
+	protected static $extraFieldDisplay = array();
+
 	public function __construct()
 	{
 		$this->_db = JFactory::getDbo();
@@ -658,17 +660,33 @@ class extraField
 	public function extra_field_display($field_section = "", $section_id = 0, $field_name = "", $template_data = "", $categorypage = 0)
 	{
 		$db = JFactory::getDbo();
+
 		$redTemplate = new Redtemplate;
 		$url         = JURI::base();
-		$q = "SELECT * from " . $this->_table_prefix . "fields where field_section=" . $db->quote($field_section) . " ";
 
-		if ($field_name != "")
+		if (!isset(self::$extraFieldDisplay[$field_section]) || !array_key_exists($field_name, self::$extraFieldDisplay[$field_section]))
 		{
-			$q .= "and field_name in ($field_name)";
+			$query = $db->getQuery(true)
+				->select('*')
+				->from($db->qn('#__redshop_fields'))
+				->where('field_section = ' . $db->quote($field_section));
+
+			if ($field_name != "")
+			{
+				$query->where('field_name IN (' . $field_name . ')');
+			}
+
+			$this->_db->setQuery($query);
+
+			if (!isset(self::$extraFieldDisplay[$field_section]))
+			{
+				self::$extraFieldDisplay[$field_section] = array();
+			}
+
+			self::$extraFieldDisplay[$field_section][$field_name] = $db->loadObjectlist();
 		}
 
-		$this->_db->setQuery($q);
-		$row_data = $this->_db->loadObjectlist();
+		$row_data = self::$extraFieldDisplay[$field_section][$field_name];
 
 		for ($i = 0; $i < count($row_data); $i++)
 		{
