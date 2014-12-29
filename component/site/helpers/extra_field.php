@@ -966,16 +966,33 @@ class extraField
 
 	public function getSectionFieldDataList($fieldid, $section = 0, $orderitemid = 0)
 	{
-		$db = JFactory::getDbo();
+		$return = null;
 
-		$query = "SELECT fd.*,f.field_title FROM " . $this->_table_prefix . "fields_data AS fd, " . $this->_table_prefix . "fields AS f "
-			. "WHERE fd.itemid = " . (int) $orderitemid . " "
-			. "AND fd.fieldid=f.field_id "
-			. "AND fd.fieldid=" . (int) $fieldid . " "
-			. "AND fd.section=" . $db->quote($section) . " ";
-		$this->_db->setQuery($query);
-		$list = $this->_db->loadObject();
+		if ($section == 1)
+		{
+			$productHelper = new producthelper;
 
-		return $list;
+			if ($product = $productHelper->getProductById($orderitemid))
+			{
+				if (isset($product->extraFields[$fieldid]))
+				{
+					$return = $product->extraFields[$fieldid];
+				}
+			}
+		}
+		else
+		{
+			$db = JFactory::getDbo();
+
+			$query = "SELECT fd.*,f.field_title FROM " . $this->_table_prefix . "fields_data AS fd, " . $this->_table_prefix . "fields AS f "
+				. "WHERE fd.itemid = " . (int) $orderitemid . " "
+				. "AND fd.fieldid=f.field_id "
+				. "AND fd.fieldid=" . (int) $fieldid . " "
+				. "AND fd.section=" . $db->quote($section) . " ";
+			$db->setQuery($query);
+			$return = $db->loadObject();
+		}
+
+		return $return;
 	}
 }
