@@ -48,7 +48,6 @@ class RedshopViewSearch extends RedshopView
 		{
 			JHtml::script('com_redshop/redbox.js', false, true);
 			JHtml::script('com_redshop/attribute.js', false, true);
-			JHtml::stylesheet('com_redshop/fetchscript.css', array(), true);
 		}
 
 		if ($layout == 'redfilter')
@@ -99,7 +98,7 @@ class RedshopViewSearch extends RedshopView
 			{
 				$mypid = JRequest::getInt('pid', 0);
 
-				$app->Redirect('index.php?option=com_redshop&view=product&pid=' . $mypid . '&Itemid=' . $Itemid);
+				$app->redirect('index.php?option=com_redshop&view=product&pid=' . $mypid . '&Itemid=' . $Itemid);
 			}
 		}
 

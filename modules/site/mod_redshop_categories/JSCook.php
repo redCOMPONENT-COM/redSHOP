@@ -98,8 +98,7 @@ $TreeId = JRequest::getInt('TreeId');
 $js_src = JURI::root() . 'modules/mod_redshop_categories';
 
 $document = JFactory::getDocument();
-//JHTML::Script('JSCookMenu.js', $urlpath.'includes/js/',false);
-JHTML::Script('JSCookMenu.js', $js_src . '/JSCook/', false);
+JHTML::script($js_src . '/JSCook/JSCookMenu.js');
 $document->addScriptDeclaration('var ctThemeXPBase = "' . $js_src . '/ThemeXP/"');
 $document->addScriptDeclaration('var cmThemeOfficeBase = "' . $js_src . '/ThemeOffice/"');
 
@@ -115,23 +114,16 @@ if ($jscook_type == "tree")
 		$jscook_tree = "ctThemeNavy";
 	}
 
-
-	JHTML::Script('JSCookTree.js', $js_src . '/', false);
-	JHTML::Script('theme.js', $js_src . '/' . $jscookTree_style . '/', false);
-	JHTML::Stylesheet('theme.css', $js_src . '/' . $jscookTree_style . '/');
-
-
+	JHTML::script($js_src . '/JSCookTree.js');
+	JHTML::script($js_src . '/' . $jscookTree_style . '/theme.js');
+	JHTML::stylesheet($js_src . '/' . $jscookTree_style . '/theme.css');
 	$_jscook = new redCategoryMenu;
 }
 else
 {
-
-	//JHTML::Script('JSCookMenu.js', $urlpath.'includes/js/',false);
-	//JHTML::Script('theme.js', $urlpath.'includes/js/'.$jscookMenu_style.'/',false);
-	//JHTML::Stylesheet('theme.css', $urlpath.'includes/js/'.$jscookMenu_style.'/');
-	JHTML::Script('JSCookMenu.js', $js_src . '/JSCook/', false);
-	JHTML::Script('theme.js', $js_src . '/JSCook/', false);
-	JHTML::Stylesheet('theme.css', $js_src . '/JSCook/');
+	JHTML::script($js_src . '/JSCook/JSCookMenu.js');
+	JHTML::script($js_src . '/JSCook/theme.js');
+	JHTML::stylesheet($js_src . '/JSCook/theme.css');
 	$_jscook = new redCategoryMenu;
 }
 

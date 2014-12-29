@@ -48,7 +48,7 @@ class RedshopViewAccount_billto extends RedshopView
 			$auth = $session->get('auth');
 		}
 
-		JHtml::script('com_redshop/jquery-1.4.2.min.js', false, true);
+		JHtml::_('redshopjquery.framework');
 		JHtml::script('com_redshop/jquery.validate.js', false, true);
 		JHtml::script('com_redshop/common.js', false, true);
 		JHtml::script('com_redshop/registration.js', false, true);
@@ -57,7 +57,7 @@ class RedshopViewAccount_billto extends RedshopView
 		// Preform security checks
 		if ($user->id == 0 && $auth['users_info_id'] == 0)
 		{
-			$app->Redirect('index.php?option=com_redshop&view=login&Itemid=' . JRequest::getInt('Itemid'));
+			$app->redirect('index.php?option=com_redshop&view=login&Itemid=' . JRequest::getInt('Itemid'));
 			exit;
 		}
 

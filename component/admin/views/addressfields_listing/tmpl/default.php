@@ -77,7 +77,7 @@ $field_section_drop = JRequest::getVar('field_section_drop');
 			{
 				$row = $this->fields[$i];
 				$row->id = $row->field_id;
-				$link = JRoute::_('index.php?option=' . $option . '&view=fields_detail&task=edit&cid[]=' . $row->field_id);
+				$link = JRoute::_('index.php?option=com_redshop&view=fields_detail&task=edit&cid[]=' . $row->field_id);
 
 				$published = JHtml::_('jgrid.published', $row->published, $i, '', 1);
 

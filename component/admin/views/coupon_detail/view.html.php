@@ -26,10 +26,6 @@ class RedshopViewCoupon_detail extends RedshopView
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_COUPON_MANAGEMENT_DETAIL'), 'redshop_coupon48');
 
-		$document = JFactory::getDocument();
-		$document->addStyleSheet('components/' . $option . '/assets/css/search.css');
-		$document->addScript('components/' . $option . '/assets/js/search.js');
-
 		$uri = JFactory::getURI();
 
 		$this->setLayout('default');

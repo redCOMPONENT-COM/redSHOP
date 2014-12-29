@@ -27,12 +27,6 @@ class RedshopViewNewslettersubscr_detail extends RedshopView
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_NEWSLETTER_SUBSCR__MANAGEMENT_DETAIL'), 'redshop_newsletter48');
 
-		$document = JFactory::getDocument();
-
-		$document->addScript('components/' . $option . '/assets/js/select_sort.js');
-		$document->addStyleSheet('components/' . $option . '/assets/css/search.css');
-		$document->addScript('components/' . $option . '/assets/js/search.js');
-
 		$uri = JFactory::getURI();
 
 		$this->setLayout('default');

@@ -97,8 +97,9 @@ if (!class_exists('redFeatureproduct'))
 			$view          = JRequest::getCmd('view', 'category');
 
 			$document = JFactory::getDocument();
-			JHTML::Stylesheet('jquery.css', 'modules/mod_redfeaturedproduct/css/');
-			JHTML::Stylesheet('skin_002.css', 'modules/mod_redfeaturedproduct/css/');
+			JHTML::stylesheet('modules/mod_redfeaturedproduct/css/jquery.css');
+			JHTML::stylesheet('modules/mod_redfeaturedproduct/css/skin_002.css');
+			JHtml::_('redshopjquery.framework');
 
 			if ($view == 'category')
 			{
@@ -109,18 +110,13 @@ if (!class_exists('redFeatureproduct'))
 			}
 			else
 			{
-				JHTML::Script('fetchscript.js', 'components/com_redshop/assets/js/', false);
+				JHTML::script('com_redshop/redbox.js', false, true);
 				JHtml::script('com_redshop/attribute.js', false, true);
 				JHtml::script('com_redshop/common.js', false, true);
 				JHtml::script('com_redshop/jquery.tools.min.js', false, true);
 			}
 
-			if (version_compare(JVERSION, '3.0', '<'))
-			{
-				JHtml::script('com_redshop/jquery.js', false, true);
-			}
-
-			JHTML::Script('recreativo.js', 'modules/mod_redfeaturedproduct/js/', false);
+			JHTML::script('modules/mod_redfeaturedproduct/js/recreativo.js');
 
 			echo $this->params->get('pretext', "");
 

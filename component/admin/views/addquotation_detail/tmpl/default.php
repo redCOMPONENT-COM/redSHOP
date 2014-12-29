@@ -45,7 +45,7 @@ function addNewproductRow(tblid)
 	var item   = new Array();
 
 	newTD.innerHTML  = '<img onclick="deleteOfflineProductRow(' + rowCount + ');" src="<?php echo REDSHOP_FRONT_IMAGES_ABSPATH; ?>cross.jpg" title="<?php echo JText::_('COM_REDSHOP_DELETE'); ?>" alt="<?php echo JText::_('COM_REDSHOP_DELETE');?>">';
-	newTD1.innerHTML = '<input type="text" name="searchproduct' + rowCount + '" id="searchproduct' + rowCount + '" size="30" /><input type="hidden" name="product' + rowCount + '" id="product' + rowCount + '" value="0" /><div id="divAttproduct' + rowCount + '"></div><div id="divAccproduct' + rowCount + '"></div><div id="divUserFieldproduct' + rowCount + '"></div>';
+	newTD1.innerHTML = '<input type="text" name="product' + rowCount + '" id="product' + rowCount + '" value="0" /><div id="divAttproduct' + rowCount + '"></div><div id="divAccproduct' + rowCount + '"></div><div id="divUserFieldproduct' + rowCount + '"></div>';
 	newTD2.innerHTML = '';
 	newTD2.id        = 'tdnoteproduct' + rowCount;
 	newTD3.innerHTML = '<input type="text" name="prdexclpriceproduct' + rowCount + '" id="prdexclpriceproduct' + rowCount + '" onchange="changeOfflinePriceBox(\'product' + rowCount + '\');" value="0" size="10" >';
@@ -195,7 +195,7 @@ if (!JRequest::getvar('ajaxtask'))
 {
 ?>
 <form action="<?php echo JRoute::_($this->request_url) ?>" method="post" name="adminForm" id="adminForm">
-	<table border="0" cellspacing="0" cellpadding="0" class="adminlist">
+	<table border="0" cellspacing="0" cellpadding="0" class="adminlist table">
 		<tbody>
 		<tr>
 			<td>
@@ -204,8 +204,16 @@ if (!JRequest::getvar('ajaxtask'))
 					<tr>
 						<td width="100" align="right"><?php echo JText::_('COM_REDSHOP_SELECT_USER'); ?>:</td>
 						<td>
-							<input type="text" name="searchUsername" id="searchUsername" value="" size="30"/>
-							<input type="hidden" name="user_id" id="user_id" value=""/>
+							<?php
+							echo JHTML::_('redshopselect.search', '', 'user_id',
+								array(
+									'select2.ajaxOptions' => array('typeField' => ', addreduser:1'),
+									'select2.options' => array(
+										'events' => array('select2-selecting' => 'function(e) {document.getElementById(\'user_id\').value = e.object.id;showquotationUserDetail()}')
+									)
+								)
+							);
+							?>
 						</td>
 					</tr>
 					</tbody>
@@ -337,9 +345,17 @@ if (!JRequest::getvar('ajaxtask'))
 								</tr>
 								<tr id="trPrd1">
 									<td align="center"></td>
-									<td><input type="text" name="searchproduct1" id="searchproduct1" size="30"/>
-										<input type="hidden" name="product1" id="product1" value="0"/>
-
+									<td>
+										<?php
+										echo JHTML::_('redshopselect.search', '', 'product1',
+											array(
+												'select2.ajaxOptions' => array('typeField' => ', isproduct:1'),
+												'select2.options' => array(
+													'events' => array('select2-selecting' => 'function(e) {document.getElementById(\'product1\').value = e.object.id;displayProductDetailInfo(\'product1\', 0);}')
+												)
+											)
+										);
+										?>
 										<div id="divAttproduct1"></div>
 										<div id="divAccproduct1"></div>
 										<div id="divUserFieldproduct1"></div>
@@ -459,49 +475,19 @@ if (!JRequest::getvar('ajaxtask'))
 			?>
 <script type="text/javascript">
 
-// Set User JSON Search
-new bsn.AutoSuggest(
-	'searchUsername',
-	{
-		script: "index.php?tmpl=component&&option=com_redshop&view=search&addreduser=1&json=true&",
-		varname: "input",
-		json: true,
-		shownoresults: true,
-		callback: function (obj) {
-			document.getElementById('user_id').value = obj.id;
-			showquotationUserDetail();
-		}
-	}
-);
-
-new bsn.AutoSuggest(
-	'searchproduct1',
-	{
-		script: "index.php?option=com_redshop&view=search&isproduct=1&tmpl=component&json=true&",
-		varname: "input",
-		json: true,
-		shownoresults: true,
-		callback: function (obj) {
-			document.getElementById('product1').value = obj.id;
-			displayProductDetailInfo('product1', 0);
-		}
-	}
-);
-
 function createJsonObject(uniqueId)
 {
-	new bsn.AutoSuggest(
-		'searchproduct' + uniqueId,
-		{
-			script: "index.php?option=com_redshop&view=search&isproduct=1&tmpl=component&json=true&",
-			varname: "input",
-			json: true,
-			shownoresults: true,
-			callback: function (obj) {
-				document.getElementById('product' + uniqueId).value = obj.id;
-				displayProductDetailInfo('product' + uniqueId, 0);
-			}
-		}
+	<?php
+	echo JHTML::_('redshopselect.search', '', "product' + uniqueId + '",
+		array(
+			'select2.ajaxOptions' => array('typeField' => ', isproduct:1'),
+			'select2.options' => array(
+				'events' => array(
+					'select2-selecting' => 'function(e) {document.getElementById(\'product\' + uniqueId).value = e.object.id;displayProductDetailInfo(\'product\' + uniqueId, 0);}'
+				)
+			)
+		), true
 	);
+	?>
 }
 </script>

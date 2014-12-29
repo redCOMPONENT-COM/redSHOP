@@ -57,7 +57,7 @@ class RedshopControllerAttributeprices_detail extends RedshopController
 			$msg = JText::_('COM_REDSHOP_ERROR_SAVING_PRICE_DETAIL');
 		}
 
-		$this->setRedirect('index.php?tmpl=component&option=' . $option . '&view=attributeprices&section=' . $section . '&section_id=' . $section_id, $msg);
+		$this->setRedirect('index.php?tmpl=component&option=com_redshop&view=attributeprices&section=' . $section . '&section_id=' . $section_id, $msg);
 	}
 
 	public function remove()
@@ -80,7 +80,7 @@ class RedshopControllerAttributeprices_detail extends RedshopController
 		}
 
 		$msg = JText::_('COM_REDSHOP_ATTRIBUTE_PRICE_DETAIL_DELETED_SUCCESSFULLY');
-		$this->setRedirect('index.php?tmpl=component&option=' . $option . '&view=attributeprices&section=' . $section . '&section_id=' . $section_id, $msg);
+		$this->setRedirect('index.php?tmpl=component&option=com_redshop&view=attributeprices&section=' . $section . '&section_id=' . $section_id, $msg);
 	}
 
 	public function cancel()
@@ -89,6 +89,6 @@ class RedshopControllerAttributeprices_detail extends RedshopController
 		$section_id = JRequest::getVar('section_id');
 
 		$msg = JText::_('COM_REDSHOP_PRICE_DETAIL_EDITING_CANCELLED');
-		$this->setRedirect('index.php?option=' . $option . '&view=attributeprices&section_id=' . $section_id, $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=attributeprices&section_id=' . $section_id, $msg);
 	}
 }

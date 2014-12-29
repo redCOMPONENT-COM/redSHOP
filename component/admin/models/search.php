@@ -99,6 +99,312 @@ class RedshopModelSearch extends RedshopModel
 		$this->_products = $products;
 	}
 
+	/**
+	 * Method select needed values from search input.
+	 *
+	 * @return string  A result select items and count items
+	 */
+	public function search()
+	{
+		JSession::checkToken() or jexit('Invalid Token');
+		$db = JFactory::getDbo();
+		$app = JFactory::getApplication();
+		$jInput = $app->input;
+		$search = ' LIKE ' . $db->quote('%' . $jInput->getString('input', '') . '%');
+		$query = $db->getQuery(true);
+
+		if ($jInput->getCmd('media_section', '') != '')
+		{
+			switch ($jInput->getCmd('media_section', ''))
+			{
+				case 'category':
+					$query->select(
+						array(
+							$db->qn('category_id', 'id'),
+							$db->qn('category_name', 'text')
+						)
+					)
+						->from($db->qn('#__redshop_category'))
+						->where($db->qn('category_name') . $search);
+					break;
+				case 'property':
+					$query->select(
+						array(
+							$db->qn('property_id', 'id'),
+							$db->qn('property_name', 'text')
+						)
+					)
+						->from($db->qn('#__redshop_product_attribute_property'))
+						->where($db->qn('property_name') . $search);
+					break;
+				case 'subproperty':
+					$query->select(
+						array(
+							$db->qn('subattribute_color_id', 'id'),
+							$db->qn('subattribute_color_name', 'text')
+						)
+					)
+						->from($db->qn('#__redshop_product_subattribute_color'))
+						->where($db->qn('subattribute_color_name') . $search);
+					break;
+				case 'manufacturer':
+					$query->select(
+						array(
+							$db->qn('manufacturer_id', 'id'),
+							$db->qn('manufacturer_name', 'text')
+						)
+					)
+						->from($db->qn('#__redshop_manufacturer'))
+						->where($db->qn('manufacturer_name') . $search);
+					break;
+				case 'catalog':
+					$query->select(
+						array(
+							$db->qn('catalog_id', 'id'),
+							$db->qn('catalog_name', 'text')
+						)
+					)
+						->from($db->qn('#__redshop_catalog'))
+						->where('catalog_name' . $search);
+					break;
+				case 'product':
+				default:
+					$query->select(
+						array(
+							$db->qn('product_id', 'id'),
+							$db->qn('product_name', 'text')
+						)
+					)
+						->from($db->qn('#__redshop_product'))
+						->where($db->qn('product_name') . $search);
+					break;
+			}
+		}
+		elseif ($jInput->getCmd('alert', '') == 'container')
+		{
+			$query->select(
+				array(
+					$db->qn('p.product_id', 'id'),
+					$db->qn('p.product_name', 'text'),
+					$db->qn('p.supplier_id'),
+					$db->qn('p.product_volume', 'volume')
+				)
+			)
+				->from($db->qn('#__redshop_product', 'p'))
+				->leftJoin($db->qn('#__redshop_container_product_xref', 'cp') . ' ON cp.product_id = p.product_id')
+				->where($db->qn('p.product_name') . $search)
+				->where($db->qn('cp.container_id') . ' != ' . $jInput->getInt('container_id', 0));
+		}
+		elseif ($jInput->getCmd('alert', '') == 'voucher')
+		{
+			$subQuery = $db->getQuery(true)
+				->select('COUNT(cp.product_id)')
+				->from($db->qn('#__redshop_product_voucher_xref', 'cp'))
+				->where('cp.product_id = p.product_id')
+				->where('cp.voucher_id = ' . $jInput->getInt('voucher_id', 0));
+			$query->select(
+				array(
+					$db->qn('p.product_id', 'id'),
+					$db->qn('p.product_name', 'text')
+				)
+			)
+				->from($db->qn('#__redshop_product', 'p'))
+				->where($db->qn('p.product_name') . $search)
+				->where('(' . $subQuery . ') = 0');
+		}
+		elseif ($jInput->getCmd('alert', '') == 'stoockroom')
+		{
+			$query->select(
+				array(
+					$db->qn('p.container_id', 'id'),
+					$db->qn('p.container_name', 'text')
+				)
+			)
+				->from($db->qn('#__redshop_container', 'p'))
+				->leftJoin($db->qn('#__redshop_stockroom_container_xref', 'cp') . ' ON cp.container_id = p.container_id')
+				->where($db->qn('p.container_name') . $search)
+				->where($db->qn('cp.stockroom_id') . ' != ' . $jInput->getInt('stockroom_id', 0));
+		}
+		elseif ($jInput->getCmd('alert', '') == 'termsarticle')
+		{
+			$query->select(
+				array(
+					$db->qn('a.id'),
+					$db->qn('a.title', 'text')
+				)
+			)
+				->from($db->qn('#__content', 'a'))
+				->leftJoin($db->qn('#__categories', 'cc') . ' ON cc.id = a.catid')
+				->where($db->qn('a.title') . $search)
+				->where($db->qn('a.state') . ' = 1')
+				->where($db->qn('cc.extension' . ' = ' . $db->quote('com_content')))
+				->where($db->qn('cc.published') . ' = 1');
+		}
+		elseif ($jInput->getInt('user', 0) == 1 || $jInput->getInt('addreduser', 0) == 1)
+		{
+			if ($jInput->getInt('addreduser', 0) == 1)
+			{
+				$emailLabel = 'value_number';
+			}
+			else
+			{
+				$emailLabel = 'volume';
+			}
+
+			$query->select(
+				array(
+					$db->qn('u.id'),
+					'CONCAT (' . $db->qn('uf.firstname') . ', ' . $db->quote(' ') . ', ' . $db->qn('uf.lastname') . ', ' . $db->quote(' (')
+					. ', ' . $db->qn('u.username') . ', ' . $db->quote(')') . ') AS text',
+					$db->qn('u.email', $emailLabel)
+				)
+			)
+				->from($db->qn('#__users', 'u'))
+				->leftJoin($db->qn('#__redshop_users_info', 'uf') . ' ON uf.user_id = u.id')
+				->where('(' . $db->qn('u.username') . $search
+					. ' OR ' . $db->qn('uf.firstname') . $search
+					. ' OR ' . $db->qn('uf.lastname') . $search . ')')
+				->where($db->qn('uf.address_type') . ' = ' . $db->quote('BT'));
+		}
+		elseif ($jInput->getInt('plgcustomview', 0) == 1)
+		{
+			$iscompany = $jInput->getInt('iscompany', -1);
+
+			if ($iscompany == 0)
+			{
+				$query->select(
+					array(
+						$db->qn('u.id'),
+						'CONCAT (' . $db->qn('uf.firstname') . ', ' . $db->quote(' ') . ', ' . $db->qn('uf.lastname') . ', ' . $db->quote(' (')
+						. ', ' . $db->qn('u.username') . ', ' . $db->quote(')') . ') AS text',
+						$db->qn('u.email', 'volume')
+					)
+				)
+					->from($db->qn('#__users', 'u'))
+					->leftJoin($db->qn('#__redshop_users_info', 'uf') . ' ON uf.user_id = u.id')
+					->where('(' . $db->qn('u.username') . $search
+						. ' OR ' . $db->qn('uf.firstname') . $search
+						. ' OR ' . $db->qn('uf.lastname') . $search . ')')
+					->where($db->qn('uf.address_type') . ' = ' . $db->quote('BT'))
+					->where($db->qn('uf.is_company') . ' = 0');
+			}
+			elseif ($iscompany == 1)
+			{
+				$query->select(
+					array(
+						$db->qn('u.id'),
+						'CONCAT (' . $db->qn('uf.company_name') . ', ' . $db->quote(' (') . ', '
+						. $db->qn('u.username') . ', ' . $db->quote(')') . ') AS text',
+						$db->qn('u.email', 'volume')
+					)
+				)
+					->from($db->qn('#__redshop_users_info', 'uf'))
+					->leftJoin($db->qn('#__users', 'u') . ' ON uf.user_id = u.id')
+					->where('(' . $db->qn('u.username') . $search
+						. ' OR ' . $db->qn('uf.company_name') . $search . ')')
+					->where($db->qn('uf.address_type') . ' = ' . $db->quote('BT'))
+					->where($db->qn('uf.is_company') . ' = 1');
+			}
+		}
+		elseif ($jInput->getInt('isproduct', 0) == 1)
+		{
+			$query->select(
+				array(
+					$db->qn('product_id', 'id'),
+					$db->qn('product_name', 'text'),
+					$db->qn('product_number', 'value_number')
+				)
+			)
+				->from($db->qn('#__redshop_product'))
+				->where($db->qn('product_name') . $search);
+		}
+		elseif ($jInput->getInt('related', 0) == 1)
+		{
+			$query->select(
+				array(
+					$db->qn('p.product_id', 'id'),
+					$db->qn('p.product_name', 'text'),
+					$db->qn('p.product_number', 'value_number')
+				)
+			)
+				->from($db->qn('#__redshop_product', 'p'))
+				->where($db->qn('p.product_id') . ' != ' . $jInput->getInt('product_id', 0))
+				->where('(' . $db->qn('p.product_name') . $search
+					. ' OR ' . $db->qn('p.product_number') . $search . ')');
+		}
+		elseif ($jInput->getInt('parent', 0) == 1)
+		{
+			if ($product_id = $jInput->getInt('product_id', 0))
+			{
+				$query->where($db->qn('p.product_id') . ' != ' . $product_id);
+			}
+
+			$query->select(
+				array(
+					$db->qn('p.product_id', 'id'),
+					$db->qn('p.product_name', 'text')
+				)
+			)
+				->from($db->qn('#__redshop_product', 'p'))
+				->where($db->qn('p.product_name') . $search)
+				->where($db->qn('p.product_parent_id') . ' = 0');
+		}
+		elseif ($jInput->getInt('navigator', 0) == 1)
+		{
+			$query->select(
+				array(
+					$db->qn('p.product_id', 'id'),
+					$db->qn('p.product_name', 'text'),
+					$db->qn('p.product_number', 'value_number'),
+					$db->qn('p.product_price', 'price')
+				)
+			)
+				->from($db->qn('#__redshop_product', 'p'))
+				->where($db->qn('p.published') . ' = 1')
+				->where('(' . $db->qn('p.product_name') . $search
+					. ' OR ' . $db->qn('p.product_number') . $search . ')');
+		}
+		else
+		{
+			if ($product_id = $jInput->getInt('product_id', 0))
+			{
+				$query->leftJoin($db->qn('#__redshop_product_accessory', 'pa') . ' ON pa.child_product_id = p.product_id AND pa.product_id = ' . $product_id)
+					->where('pa.accessory_id IS NULL')
+					->where($db->qn('p.product_id') . ' != ' . $product_id);
+			}
+
+			$query->select(
+				array(
+					$db->qn('p.product_id', 'id'),
+					$db->qn('p.product_name', 'text'),
+					$db->qn('p.product_number', 'value_number'),
+					$db->qn('p.product_price', 'price')
+				)
+			)
+				->from($db->qn('#__redshop_product', 'p'))
+				->where('(' . $db->qn('p.product_name') . $search
+					. ' OR ' . $db->qn('p.product_number') . $search . ')');
+		}
+
+		$json = new stdClass;
+		$db->setQuery($query)->execute();
+		$json->total = $db->getNumRows();
+
+		if ($json->total != 0)
+		{
+			$limit = $jInput->getInt('limit', 10);
+			$limitStart = ($jInput->getInt('page', 1) - 1) * $limit;
+			$db->setQuery($query, $limitStart, $limit);
+			$json->result = $db->loadObjectList();
+		}
+		else
+		{
+			$json->result = '';
+		}
+
+		return json_encode($json);
+	}
+
 	public function setId($id)
 	{
 		$this->_id = $id;
@@ -268,7 +574,7 @@ class RedshopModelSearch extends RedshopModel
 					. "FROM " . $this->_table_prefix . "product_related "
 					. "WHERE product_id='" . $this->_product_id . "' ";
 				$this->_db->setQuery($query);
-				$related = $this->_db->loadResultArray();
+				$related = $this->_db->loadColumn();
 				$related[count($related)] = $this->_product_id;
 				$relatedid = implode(", ", $related);
 

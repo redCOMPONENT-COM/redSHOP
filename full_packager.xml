@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- ==================================================================  -->
+<!-- redSHOP full packager                                                    -->
+<!-- This PHING build file generates the redSHOP extension package       -->
+<!-- including all extra extensions: modules and plugins                 -->
+<!--    Change the following variables in build.properties file          -->
+<!--            (copy variables from build.properties.dist )             -->
+<!--    - change the version in variable comp.version                    -->
+<!--    - change the package folder path in variable package.dir         -->
+<!--    - execute this PHING build file                                  -->
+<!-- ==================================================================  -->
+<project name="redshop_full_packager" default="pack">
+    <!-- ============================================  -->
+    <!-- Create packages folder                        -->
+    <!-- ============================================  -->
+    <target name="prepare">
+        <if>
+            <not>
+                <isset property="package.dir" />
+            </not>
+            <then>
+                <fail msg="package.dir not specified, specify package.dir in build.properties file" />
+            </then>
+        </if>
+
+        <!-- Folder where the redSHOP repository is located  -->
+        <property
+                name="extpath"
+                value="."
+                override="true"/>
+
+        <xmlproperty file="${extpath}/${extension}.xml" prefix="extensionDetails" keepRoot="false" />
+
+        <property
+                name="version"
+                value="${extensionDetails.version}"
+                override="true"/>
+
+        <!-- Temp dir to create packages -->
+        <property
+                name="tmpdir"
+                value=".dist"
+                override="true"/>
+
+        <!-- Check if the temp folder exists. If not, create it -->
+        <if>
+            <available file="${tmpdir}" type="dir"/>
+            <then>
+                <echo msg="Removing old ${tmpdir}"/>
+                <delete dir="${tmpdir}"/>
+            </then>
+        </if>
+        <echo msg="Making directory to store the temporary packages at ${tmpdir}"/>
+        <mkdir dir="${tmpdir}"/>
+    </target>
+
+    <target name="build" depends="prepare">
+        <phing phingfile="${project.basedir}/component_packager.xml" target="autopack"
+               haltonfailure="true">
+        </phing>
+        <phing phingfile="${project.basedir}/modules_packager.xml" target="autopack"
+               haltonfailure="true">
+        </phing>
+        <phing phingfile="${project.basedir}/plugins_packager.xml" target="autopack"
+               haltonfailure="true">
+        </phing>
+
+        <echo msg="Creating full ZIP package..." />
+        <zip destfile="${package.dir}/${extension}-v${version}_fullpackage-unzipfirst.zip">
+            <fileset dir="${tmpdir}">
+                <include name="**" />
+                <exclude name=".*" />
+            </fileset>
+        </zip>
+        <delete dir="${tmpdir}/${extension}-${version}-plugins"  />
+        <delete dir="${tmpdir}/${extension}-${version}-modules"  />
+        <delete file="${tmpdir}/${extension}-v${version}_j${joomla.version}.zip"  />
+    </target>
+
+    <target name="dist" depends="build">
+        <echo msg="Build successful!"/>
+    </target>
+
+    <target name="pack">
+        <!-- Do initialization stuff -->
+        <if>
+            <not>
+                <available file="build.properties" type="file" />
+            </not>
+            <then>
+                <fail msg="File not found: build.properties" />
+            </then>
+        </if>
+
+        <property file="build.properties" override="true"/>
+
+        <property
+                name="extension"
+                value="${comp.name}"
+                override="true"/>
+
+        <phingcall target="dist" />
+    </target>
+
+    <target name="autopack">
+        <property
+                name="package.dir"
+                value=".dist"
+                override="true"/>
+
+        <property
+                name="extension"
+                value="redshop"
+                override="true"/>
+
+        <property
+                name="joomla.version"
+                value="3"
+                override="true"/>
+
+        <phingcall target="dist" />
+    </target>
+</project>

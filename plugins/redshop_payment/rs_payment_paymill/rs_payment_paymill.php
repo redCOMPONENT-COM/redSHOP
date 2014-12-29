@@ -40,12 +40,23 @@ class plgRedshop_paymentrs_payment_paymill extends JPlugin
 		$Itemid = JRequest::getInt('Itemid');
 		$paymill_public_key = $this->params->get('paymill_public_key', '0');
 		$paymill_private_key = $this->params->get('paymill_private_key', '0');
-		$cart_data = '<script type="text/javascript">
+		$cart_data = '';
+
+		if (version_compare(JVERSION, '3.0', '<'))
+		{
+			JHtml::_('redshopjquery.framework');
+			$cart_data .= '<script src="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/js/bootstrap.min.js"></script>
+							<link rel="stylesheet" href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/css/bootstrap.no-responsive.no-icons.min.css">';
+		}
+		else
+		{
+			JHtml::_('bootstrap.framework');
+			JHtml::_('bootstrap.loadCss');
+		}
+
+		$cart_data .= '<script type="text/javascript">
 					var PAYMILL_PUBLIC_KEY = "<?php echo $paymill_public_key;?>";
 			     </script>
-			     <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/css/bootstrap.no-responsive.no-icons.min.css">
-			     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-			     <script src="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/js/bootstrap.min.js"></script>
 			     <script src="https://bridge.paymill.com/"></script>';
 
 		$cart_data .= '<div class="container span8"><div class="controls">
@@ -179,7 +190,7 @@ class plgRedshop_paymentrs_payment_paymill extends JPlugin
 		}
 
 		$redirect_url = JRoute::_("index.php?option=com_redshop&view=order_detail&controller=order_detail&task=notify_payment&payment_plugin=rs_payment_paymill&Itemid=" . $Itemid . "&orderid=" . $data['order_id']);
-		$app->Redirect($redirect_url);
+		$app->redirect($redirect_url);
 	}
 
 	function onNotifyPaymentrs_payment_paymill($element, $request)

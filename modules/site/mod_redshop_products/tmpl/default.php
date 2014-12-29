@@ -29,8 +29,6 @@ JLoader::load('RedshopHelperAdminImages');
 JHtml::script('com_redshop/attribute.js', false, true);
 JHtml::script('com_redshop/common.js', false, true);
 JHtml::script('com_redshop/redbox.js', false, true);
-JHtml::stylesheet('com_redshop/fetchscript.css', array(), true);
-
 
 $producthelper   = new producthelper;
 $redhelper       = new redhelper;
@@ -95,7 +93,7 @@ for ($i = 0; $i < count($rows); $i++)
 		$Itemid = $redhelper->getItemid($row->product_id, $categoryId);
 	}
 
-	$link = JRoute::_('index.php?option=' . $option . '&view=product&pid=' . $row->product_id . '&cid=' . $categoryId . '&Itemid=' . $Itemid);
+	$link = JRoute::_('index.php?option=com_redshop&view=product&pid=' . $row->product_id . '&cid=' . $categoryId . '&Itemid=' . $Itemid);
 
 	if (isset($verticalProduct) && $verticalProduct)
 		echo "<div class='mod_redshop_products'>";

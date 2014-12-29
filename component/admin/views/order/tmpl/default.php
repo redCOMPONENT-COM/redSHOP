@@ -21,7 +21,7 @@ $app = JFactory::getApplication();
 $order_function = new order_functions;
 $config = new Redconfiguration;
 $option = JRequest::getVar('option');
-$filter = $app->getUserStateFromRequest($context . 'filter', 'filter', 0);
+$filter = $app->getUserStateFromRequest($context . 'filter', 'filter', '');
 $lists = $this->lists;
 $model = $this->getModel('order');
 $redhelper = new redhelper;
@@ -51,7 +51,7 @@ JPluginHelper::importPlugin('redshop_product');
 
 		if (pressbutton == 'add')
 		{
-			<?php      $link = 'index.php?option=' . $option . '&view=addorder_detail';
+			<?php      $link = 'index.php?option=com_redshop&view=addorder_detail';
 				$link = $redhelper->sslLink($link);
 		?>
 			window.location = '<?php echo $link;?>';
@@ -88,34 +88,35 @@ JPluginHelper::importPlugin('redshop_product');
 	{
 		document.getElementById('filter').value='';
 		document.getElementById('filter_by').value='';
+		document.getElementById('filter_payment_status').value='';
+		document.getElementById('filter_status').value='0';
 		document.adminForm.submit();
 	}
 </script>
 
-<form action="<?php echo JRoute::_('index.php?option=' . $option . '&view=order'); ?>" method="post" name="adminForm" id="adminForm">
+<form action="<?php echo JRoute::_('index.php?option=com_redshop&view=order'); ?>" method="post" name="adminForm" id="adminForm">
 <div id="editcell">
-<table class="adminlist" width="100%">
-	<tr>
-		<td><?php echo JText::_('COM_REDSHOP_NEW_STATUS'); ?>
-			: <?php echo $order_function->getstatuslist('order_status_all', '', "class=\"inputbox\" size=\"1\" "); ?>
-		</td>
-
-		<td>
-			<?php echo JText::_('COM_REDSHOP_FILTER'); ?>:
-			<input type="text" name="filter" id="filter" value="<?php echo $filter; ?>"/>
-			<?php echo $lists['filter_by'];?>
-			<button name="search" id="search" onclick="document.adminForm.submit();" style="font-size:0.909em">
-				<?php echo JText::_('COM_REDSHOP_GO');?>
-			</button>
-			<input type="button" onclick="resetfilter();" value="<?php echo JText::_('COM_REDSHOP_RESET');?>"/>
-		</td>
-
-		<td valign="bottom" align="right" class="key">
-			<?php echo $lists['filter_payment_status'] . " " . $lists['filter_status']; ?>
-		</td>
-	</tr>
-</table>
-<table class="adminlist">
+<div class="filterItem">
+	<div class="btn-wrapper input-append">
+		<input type="text" name="filter" id="filter" value="<?php echo $filter; ?>"
+			   placeholder="<?php echo JText::_('JSEARCH_FILTER'); ?>"/>
+		<input name="search" class="btn" type="submit" id="search" value="<?php echo JText::_('COM_REDSHOP_GO');?>"/>
+		<input type="button" class="btn" onclick="resetfilter();" value="<?php echo JText::_('COM_REDSHOP_RESET');?>"/>
+	</div>
+</div>
+<div class="filterItem">
+	<?php echo $lists['filter_by'];?>
+</div>
+<div class="filterItem">
+	<?php echo $lists['filter_payment_status'];?>
+</div>
+<div class="filterItem">
+	<?php echo $lists['filter_status'];?>
+</div>
+<div class="filterItem"><?php echo JText::_('COM_REDSHOP_NEW_STATUS'); ?>
+	: <?php echo $order_function->getstatuslist('order_status_all', '', "class=\"inputbox\" size=\"1\" "); ?>
+</div>
+<table class="adminlist table table-striped">
 <thead>
 <tr>
 	<th width="5%">
@@ -225,7 +226,7 @@ for ($i = 0, $n = count($this->orders); $i < $n; $i++)
 				<tr>
 					<td>
 						<?php
-						$linkupdate = JRoute::_('index.php?option=' . $option . '&view=order&task=update_status&return=order&order_id[]=' . $row->order_id);
+						$linkupdate = JRoute::_('index.php?option=com_redshop&view=order&task=update_status&return=order&order_id[]=' . $row->order_id);
 						echo $order_function->getstatuslist('order_status' . $row->order_id, $row->order_status, "class=\"inputbox\" size=\"1\" ");
 						echo "&nbsp";
 						echo $order_function->getpaymentstatuslist('order_paymentstatus' . $row->order_id, $row->order_payment_status, "class=\"inputbox\" size=\"1\" ");
@@ -239,15 +240,17 @@ for ($i = 0, $n = count($this->orders); $i < $n; $i++)
 				</tr>
 				<tr>
 					<td>
+						<label class="checkbox inline">
 						<input type="checkbox" <?php echo $send_mail_to_customer;?>  value=""
 						       name="sendordermail<?php echo $row->order_id; ?>"
 						       id="sendordermail<?php echo $row->order_id; ?>"/>
 						       <?php echo JText::_('COM_REDSHOP_SEND_ORDER_MAIL'); ?>
+						</label>
 					</td>
 				</tr>
 				<tr>
 					<td>
-						<input class="button"
+						<input class="button btn"
 						       onclick="location.href = '<?php echo $linkupdate; ?>&status='+document.adminForm.order_status<?php echo $row->order_id; ?>.value+'&customer_note='+encodeURIComponent(document.adminForm.customer_note<?php echo $row->order_id; ?>.value)+'&order_sendordermail='+document.adminForm.sendordermail<?php echo $row->order_id; ?>.checked+'&order_paymentstatus='+document.adminForm.order_paymentstatus<?php echo $row->order_id; ?>.value  ; "
 						       name="order_status" value="<?php echo JText::_('COM_REDSHOP_UPDATE_STATUS_BUTTON'); ?>"
 						       type="button">

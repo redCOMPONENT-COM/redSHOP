@@ -20,6 +20,8 @@ class RedshopViewWrapper extends RedshopView
 	 */
 	public $user;
 
+	public $lists = array();
+
 	/**
 	 * The request url.
 	 *
@@ -37,7 +39,6 @@ class RedshopViewWrapper extends RedshopView
 
 		$document->setTitle(JText::_('COM_REDSHOP_WRAPPER'));
 
-		$total      = $this->get('Total');
 		$data       = $this->get('Data');
 		$pagination = $this->get('Pagination');
 
@@ -47,8 +48,11 @@ class RedshopViewWrapper extends RedshopView
 		JToolBarHelper::publishList();
 		JToolBarHelper::unpublishList();
 
+		$context = 'wrapper_id';
+		$this->lists['order'] = $app->getUserStateFromRequest($context . 'filter_order', 'filter_order', 'c.ordering');
+		$this->lists['order_Dir'] = $app->getUserStateFromRequest($context . 'filter_order_Dir', 'filter_order_Dir', '');
+
 		$this->user = JFactory::getUser();
-		$this->lists = null;
 		$this->data = $data;
 		$this->product_id = $product_id;
 		$this->pagination = $pagination;

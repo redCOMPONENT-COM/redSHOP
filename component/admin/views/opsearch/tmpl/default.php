@@ -13,10 +13,8 @@ $option = JRequest::getVar('option', '', 'request', 'string');
 
 $order_function = new order_functions;
 $config = new Redconfiguration;
+$productHelper = new producthelper;
 $redhelper = new redhelper;
-
-$filter_product = JRequest::getVar('filter_product', 0);
-$parent = JRequest::getVar('parent');
 $showbuttons = JRequest::getVar('showbuttons', '', 'request', 0);    ?>
 <form action="<?php echo 'index.php?option=' . $option; ?>" method="post"
       name="adminForm" id="adminForm">
@@ -28,20 +26,34 @@ $showbuttons = JRequest::getVar('showbuttons', '', 'request', 0);    ?>
 				<tr>
 					<td valign="top" align="left" class="key">
 						<?php    echo JText::_("COM_REDSHOP_PRODUCT_NAME") . ": ";?>
-						<input class="text_area" type="text" name="parent" id="parent"
-						       size="32" maxlength="250" value="<?php echo $parent; ?>"/> <input
-							class="text_area" type="hidden" name="filter_product_opsearch"
-							id="filter_product_opsearch" size="32" maxlength="250"
-							value="<?php echo $filter_product; ?>"/>
+						<?php
+						$filterObject = new stdClass;
+						$filterObject->text = '';
+
+						if ($this->state->get('filter_product') && ($productData = $productHelper->getProductById($this->state->get('filter_product'))))
+						{
+							$filterObject->text = $productData->product_name;
+						}
+
+						$filterObject->value = $this->state->get('filter_product');
+
+						echo JHTML::_('redshopselect.search', $filterObject, 'filter_product',
+							array(
+								'select2.options' => array(
+									'events' => array('select2-selecting' => 'function(e) {document.getElementById(\'filter_product\').value = e.object.id;document.adminForm.submit();}')
+								)
+							)
+						);
+						?>
 						<button
-							onclick="document.getElementById('filter_product').value='0';document.getElementById('filter_product_opsearch').value='0';document.getElementById('parent').value='';document.getElementById('filter_user').value='0';document.getElementById('filter_status').value='0';this.form.submit();"><?php echo JText::_('COM_REDSHOP_RESET'); ?></button>
+							onclick="document.getElementById('filter_product').value='0';document.getElementById('filter_product').value='0';document.getElementById('parent').value='';document.getElementById('filter_user').value='0';document.getElementById('filter_status').value='0';this.form.submit();"><?php echo JText::_('COM_REDSHOP_RESET'); ?></button>
 					</td>
 					<td valign="top" align="right" class="key">
 						<?php    echo $this->lists['filter_status'] . " " . $this->lists['filter_user'];  ?></td>
 				</tr>
 			</table>
 		<?php } ?>
-		<table class="adminlist">
+		<table class="adminlist table table-striped">
 			<thead>
 			<tr>
 				<th width="5%"><?php echo JText::_('COM_REDSHOP_NUM'); ?></th>
@@ -61,8 +73,8 @@ $showbuttons = JRequest::getVar('showbuttons', '', 'request', 0);    ?>
 			{
 				$row = $this->products[$i];
 
-				$link = JRoute::_('index.php?option=' . $option . '&view=product_detail&task=edit&cid[]=' . $row->product_id);
-				$link_order = 'index.php?option=' . $option . '&view=order_detail&task=edit&cid[]=' . $row->order_id;
+				$link = JRoute::_('index.php?option=com_redshop&view=product_detail&task=edit&cid[]=' . $row->product_id);
+				$link_order = 'index.php?option=com_redshop&view=order_detail&task=edit&cid[]=' . $row->order_id;
 				$link_order = $redhelper->sslLink($link_order);    ?>
 				<tr class="<?php echo "row$k"; ?>">
 					<td align="center"><?php echo $this->pagination->getRowOffset($i); ?></td>
@@ -102,20 +114,5 @@ $showbuttons = JRequest::getVar('showbuttons', '', 'request', 0);    ?>
 	                                                       name="filter_order"
 	                                                       value="<?php echo $this->lists['order']; ?>"/> <input
 		type="hidden" name="filter_order_Dir"
-		value="<?php echo $this->lists['order_Dir']; ?>"/> <input
-		type="hidden" name="filter_product" id="filter_product" value="<?php echo $filter_product; ?>"/></form>
-<script type="text/javascript">
-	var options = {
-		script: "index.php?tmpl=component&option=com_redshop&view=search&json=true&product_id=<?php echo $filter_product;?>&",
-		varname: "input",
-		json: true,
-		shownoresults: true,
-		callback: function (obj) {
-			if (document.getElementById('filter_product')) {
-				document.getElementById('filter_product').value = obj.id;
-			}
-			document.adminForm.submit();
-		}
-	};
-	var as_json = new bsn.AutoSuggest('parent', options);
-</script>
+		value="<?php echo $this->lists['order_Dir']; ?>"/>
+</form>

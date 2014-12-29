@@ -6,13 +6,16 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 $scenario->group('Joomla2');
+$scenario->group('Joomla3');
 
 // Load the Step Object Page
 $I = new AcceptanceTester\LoginSteps($scenario);
 
 $I->wantTo('Test Category Manager in Administrator');
 $I->doAdminLogin();
-$I = new AcceptanceTester\CategoryManagerSteps($scenario);
+$config = $I->getConfig();
+$className = 'AcceptanceTester\CategoryManager' . $config['env'] . 'Steps';
+$I = new $className($scenario);
 $randomCategoryName = 'Testing Category ' . rand(99, 999);
 
 $I->wantTo('Create a Category');

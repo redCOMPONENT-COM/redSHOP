@@ -10,32 +10,10 @@
 $option = JRequest::getVar('option', '', 'request', 'string');
 $ordering = ($this->lists['order'] == 'ordering');
 ?>
-<script language="javascript" type="text/javascript">
-
-	Joomla.submitbutton = function (pressbutton) {
-		var form = document.adminForm;
-		if (pressbutton) {
-			form.task.value = pressbutton;
-		}
-
-		if ((pressbutton == 'add') || (pressbutton == 'edit') || (pressbutton == 'publish') || (pressbutton == 'unpublish')
-			|| (pressbutton == 'saveorder') || (pressbutton == 'orderup') || (pressbutton == 'orderdown')) {
-			form.view.value = "shipping_detail";
-		}
-		try {
-			form.onsubmit();
-		}
-		catch (e) {
-		}
-
-		form.submit();
-	}
-
-</script>
 <form action="<?php echo 'index.php?option=' . $option; ?>" method="post" name="adminForm" id="adminForm">
 	<div id="editcell">
 
-		<table class="adminlist">
+		<table class="adminlist table table-striped">
 			<thead>
 			<tr>
 				<th width="5%">
@@ -77,17 +55,10 @@ $ordering = ($this->lists['order'] == 'ordering');
 			for ($i = 0, $n = count($this->shippings); $i < $n; $i++)
 			{
 				$row = $this->shippings[$i];
-				$link = JRoute::_('index.php?option=' . $option . '&view=shipping_detail&task=edit&cid[]=' . $row->extension_id);
+				$link = JRoute::_('index.php?option=com_redshop&view=shipping_detail&task=edit&cid[]=' . $row->extension_id);
 
 				$published = JHtml::_('jgrid.published', $row->enabled, $i, '', 1);
-
-
-				$adminpath = JPATH_ROOT . '/plugins';
-
-				$paymentxml = $adminpath . '/' . $row->folder . '/' . $row->element . '.xml';
-
-				$xml = JFactory::getXML($paymentxml);
-
+				$cache = new JRegistry($row->manifest_cache);
 				?>
 				<tr class="<?php echo "row$k"; ?>">
 					<td align="center">
@@ -107,17 +78,14 @@ $ordering = ($this->lists['order'] == 'ordering');
 						<?php echo $row->element; ?>
 					</td>
 					<td align="center">
-						<?php
-						if (isset($xml->document->version))
-							echo $xml->document->version[0]->_data;
-						?>
+						<?php echo $cache->get('version'); ?>
 					</td>
 					<td class="order" width="30%">
 						<span><?php echo $this->pagination->orderUpIcon($i, true, 'orderup', JText::_('JLIB_HTML_MOVE_UP'), $ordering); ?></span>
 						<span><?php echo $this->pagination->orderDownIcon($i, $n, true, 'orderdown', JText::_('JLIB_HTML_MOVE_DOWN'), $ordering); ?></span>
 						<?php $disabled = $ordering ? '' : 'disabled="disabled"'; ?>
 						<input type="text" name="order[]" size="5"
-						       value="<?php echo $row->ordering; ?>" <?php echo $disabled ?> class="text_area"
+						       value="<?php echo $row->ordering; ?>" <?php echo $disabled ?> class="text_area input-small"
 						       style="text-align: center"/>
 					</td>
 					<td align="center" width="5%">

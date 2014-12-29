@@ -53,11 +53,11 @@ class RedshopControllerShipping_box_detail extends RedshopController
 
 		if ($apply == 1)
 		{
-			$this->setRedirect('index.php?option=' . $option . '&view=shipping_box_detail&task=edit&cid[]=' . $row->shipping_box_id, $msg);
+			$this->setRedirect('index.php?option=com_redshop&view=shipping_box_detail&task=edit&cid[]=' . $row->shipping_box_id, $msg);
 		}
 		else
 		{
-			$this->setRedirect('index.php?option=' . $option . '&view=shipping_box', $msg);
+			$this->setRedirect('index.php?option=com_redshop&view=shipping_box', $msg);
 		}
 	}
 
@@ -79,7 +79,7 @@ class RedshopControllerShipping_box_detail extends RedshopController
 			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
 		}
 
-		$this->setRedirect('index.php?option=' . $option . '&view=shipping_box');
+		$this->setRedirect('index.php?option=com_redshop&view=shipping_box');
 	}
 
 	public function publish()
@@ -100,7 +100,7 @@ class RedshopControllerShipping_box_detail extends RedshopController
 			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
 		}
 
-		$this->setRedirect('index.php?option=' . $option . '&view=shipping_box');
+		$this->setRedirect('index.php?option=com_redshop&view=shipping_box');
 	}
 
 	public function unpublish()
@@ -121,13 +121,13 @@ class RedshopControllerShipping_box_detail extends RedshopController
 			echo "<script> alert('" . $model->getError(true) . "'); window.history.go(-1); </script>\n";
 		}
 
-		$this->setRedirect('index.php?option=' . $option . '&view=shipping_box');
+		$this->setRedirect('index.php?option=com_redshop&view=shipping_box');
 	}
 
 	public function cancel()
 	{
 		$option = JRequest::getVar('option');
 
-		$this->setRedirect('index.php?option=' . $option . '&view=shipping_box');
+		$this->setRedirect('index.php?option=com_redshop&view=shipping_box');
 	}
 }

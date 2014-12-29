@@ -75,35 +75,17 @@ else
 		$open_to_mystretchermy = 1;
 	}
 
-	if (NEW_CUSTOMER_SELECTION)
+	if (NEW_CUSTOMER_SELECTION || (isset($post['createaccount']) && $post['createaccount'] == 1))
 	{
 		$open_to_mystretchermy = 1;
 	}
 
-	$loginuserstyle = '';
-	$newuserstyle   = 'style="display:none;"';
-
-	if ($open_to_mystretchermy == 1 || (isset($post['createaccount']) && $post['createaccount'] == 1))
-	{
-		$loginuserstyle = 'style="display:none;"';
-		$newuserstyle   = '';
-	}
-
 	if ($show_login)
 	{
-		?>
-		<h4><input class="mytogglermy" type="radio" name="mytogglermychecker" id="mytogglermycheckerlogin"
-		           onclick="rss( '#login_div' ).slideDown();rss( '#register_div' ).slideUp()"
-				<?php
-				if ($open_to_mystretchermy == 0)
-				{
-				?> checked="checked"
-				<?php
-				}
-				?>
-				/>
-			<label for="mytogglermycheckerlogin"><?php echo JText::_('COM_REDSHOP_RETURNING_CUSTOMERS');?></label></h4>
-		<?php
+		echo '<div class="signInPaneDiv">';
+		echo JHtml::_(CHECKOUT_LOGIN_REGISTER_SWITCHER . '.start', 'signInPane', array('startOffset' => $open_to_mystretchermy));
+		echo JHtml::_(CHECKOUT_LOGIN_REGISTER_SWITCHER . '.panel', JText::_('COM_REDSHOP_RETURNING_CUSTOMERS'), 'login');
+
 		if (strstr($login_template_desc, "{rs_username}"))
 		{
 			$txtusername         = '<input class="inputbox" type="text" id="username" name="username" value="" />';
@@ -130,24 +112,13 @@ else
 			$login_template_desc = str_replace("{rs_login_button}", $loginbutton, $login_template_desc);
 		}
 
-		$forgotpwd_link      = JRoute::_('index.php?option=com_redshop&view=password&Itemid=' . $Itemid);
-		$forgotpwd           = '<a href="' . $forgotpwd_link . '">' . JText::_('COM_REDSHOP_FORGOT_PWD_LINK') . '</a>';
+		$forgotpwd           = '<a href="' . JRoute::_('index.php?option=com_users&view=reset') . '">' . JText::_('COM_REDSHOP_FORGOT_PWD_LINK') . '</a>';
 		$login_template_desc = str_replace("{forget_password_link}", $forgotpwd, $login_template_desc);
 
-		$login_template_desc = '<div id="login_div" ' . $loginuserstyle . '><form action="' . JRoute::_('index.php') . '" method="post">' . $login_template_desc . '</form></div>';
+		$login_template_desc = '<form action="' . JRoute::_('index.php') . '" method="post">' . $login_template_desc . '</form>';
 
-		echo eval("?>" . $login_template_desc . "<?php ");    ?>
-
-		<h4><input class="mytogglermy" type="radio" name="mytogglermychecker" id="mytogglermycheckerregister"
-		           onclick="rss( '#register_div' ).slideDown();rss( '#login_div' ).slideUp()" <?php
-			if ($open_to_mystretchermy == 1 || (isset($post['createaccount']) && $post['createaccount'] == 1))
-			{
-			?> checked="checked"
-			<?php
-			}
-			?>
-			/>
-		<label for="mytogglermycheckerregister"><?php echo JText::_('COM_REDSHOP_NEW_CUSTOMERS');?></label></h4><?php
+		echo eval("?>" . $login_template_desc . "<?php ");
+		echo JHtml::_(CHECKOUT_LOGIN_REGISTER_SWITCHER . '.panel', JText::_('COM_REDSHOP_NEW_CUSTOMERS'), 'registration');
 	}
 
 	// Toggler settings
@@ -174,17 +145,9 @@ else
 	}
 
 	$is_company = ($open_to_stretcher == 1 || (isset($post['is_company']) && $post['is_company'] == 1)) ? 1 : 0;            ?>
-
-	<div class="mystretchermy" id="register_div" <?php echo $newuserstyle;?>>
-		<div><span
-				id="customer_registrationintro" <?php echo ($is_company == 1) ? 'style="display:none;"' : '';?>>
-				<?php echo REGISTRATION_INTROTEXT; ?></span><span
-				id="company_registrationintro" <?php echo ($is_company == 1) ? '' : 'style="display:none;"';?>>
-				<?php echo REGISTRATION_COMPANY_INTROTEXT; ?></span>
-		</div>
 		<table cellpadding="5" cellspacing="0" border="0">
 			<tr>
-				<td><span <?php echo $allowCustomer;?>><h4><input type="radio" name="togglerchecker" id="toggler1"
+				<td><span <?php echo $allowCustomer;?>><h4><label><input type="radio" name="togglerchecker" id="toggler1"
 				                                                  class="toggler"
 								<?php
 								if ($is_company == 0)
@@ -193,9 +156,9 @@ else
 								<?php
 								}
 								?> onclick="showCompanyOrCustomer(this);" value="0"/>
-							<?php echo JText::_('COM_REDSHOP_USER_REGISTRATION');?></h4></span></td>
+							<?php echo JText::_('COM_REDSHOP_USER_REGISTRATION');?></label></h4></span></td>
 
-				<td><span <?php echo $allowCompany;?>><h4><input type="radio" name="togglerchecker" id="toggler2"
+				<td><span <?php echo $allowCompany;?>><h4><label><input type="radio" name="togglerchecker" id="toggler2"
 				                                                 class="toggler"
 								<?php
 								if ($is_company == 1)
@@ -205,7 +168,7 @@ else
 								<?php
 								}
 								?> onclick="showCompanyOrCustomer(this);" value="1"/>
-							<?php echo JText::_('COM_REDSHOP_COMPANY_REGISTRATION');?></h4></span></td>
+							<?php echo JText::_('COM_REDSHOP_COMPANY_REGISTRATION');?></label></h4></span></td>
 			</tr>
 			<?php
 			if (count($telesearch) > 0 && $telesearch[0]->enabled)
@@ -223,9 +186,6 @@ else
 			}
 			?>
 		</table>
-
-		<div class="stretcher" style="height:auto;min-height:600px;"/>
-
 		<form action="<?php echo JRoute::_('index.php'); ?>" method="post" name="adminForm" id="adminForm"
 		      enctype="multipart/form-data">
 			<?php
@@ -233,9 +193,9 @@ else
 			{
 				$checked_style = (CREATE_ACCOUNT_CHECKBOX == 1) ? 'checked="checked"' : "''";
 				?>
-				<h4><input type="checkbox" name="createaccount" <?php echo $checked_style;?> id="createaccount"
+				<h4><label><input type="checkbox" name="createaccount" <?php echo $checked_style;?> id="createaccount"
 				           value="1" onclick="createUserAccount(this);"/>
-					<?php echo JText::_('COM_REDSHOP_CREATE_ACCOUNT');?></h4>
+					<?php echo JText::_('COM_REDSHOP_CREATE_ACCOUNT');?></label></h4>
 			<?php
 			}    ?>
 			<div>
@@ -352,10 +312,12 @@ else
 			<input type="hidden" name="view" value="checkout"/>
 
 		</form>
-	</div>
-	</div>
-
 <?php
+	if ($show_login)
+	{
+		echo JHtml::_(CHECKOUT_LOGIN_REGISTER_SWITCHER . '.end');
+		echo '</div>';
+	}
 }    ?>
 <script type="text/javascript">
 

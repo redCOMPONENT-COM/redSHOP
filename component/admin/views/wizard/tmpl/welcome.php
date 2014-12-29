@@ -26,19 +26,18 @@
 <div>
 	<table cellpadding="4" cellspacing="0" border="0" width="100%" class="adminlist">
 		<tr>
-			<td valign="top">
-				<img src="<?php echo REDSHOP_ADMIN_IMAGES_ABSPATH; ?>261-x-88.png" alt="redSHOP Logo" align="left">
+			<td valign="top" width="270px">
+				<img src="<?php echo REDSHOP_ADMIN_IMAGES_ABSPATH; ?>261-x-88.png" width="261" height="88" alt="redSHOP Logo" align="left">
 			</td>
-			<td valign="top" width="100%">
-				<strong>redSHOP</strong><br/>
-				<font class="small">by <a href="http://www.redcomponent.com" target="_blank">redcomponent.com </a><br/></font>
-				<font class="small">
-					Released under the terms and conditions of the <a href="http://www.gnu.org/licenses/gpl-2.0.html"
-					                                                  target="_blank">GNU General Public License</a>.
-				</font>
+			<td valign="top">
+				<strong><?php echo JText::_('COM_REDSHOP_COMPONENT_NAME'); ?></strong><br/>
+				<font class="small"><?php echo JText::_('COM_REDSHOP_BY_LINK'); ?><br/></font>
+				<font class="small"><?php echo JText::_('COM_REDSHOP_TERMS_AND_CONDITION'); ?></font>
 
-				<p>Remember to check for updates on:
-					<img src="http://images.redcomponent.com/redcomponent.jpg" alt="">
+				<p><?php echo JText::_('COM_REDSHOP_CHECK_UPDATES'); ?>:
+					<a href="http://redcomponent.com/" target="_new">
+						<img src="http://images.redcomponent.com/redcomponent.jpg" alt="">
+					</a>
 				</p>
 			</td>
 		</tr>

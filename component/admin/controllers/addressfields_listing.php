@@ -32,7 +32,7 @@ class RedshopControllerAddressfields_listing extends RedshopController
 		{
 			$msg = JText::_('COM_REDSHOP_NEW_ORDERING_ERROR');
 		}
-		$this->setRedirect('index.php?option=' . $option . '&view=addressfields_listing', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=addressfields_listing', $msg);
 	}
 
 	/**
@@ -61,7 +61,7 @@ class RedshopControllerAddressfields_listing extends RedshopController
 		$model->move($up, $cid[0]);
 
 		$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
-		$this->setRedirect('index.php?option=' . $option . '&view=addressfields_listing', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=addressfields_listing', $msg);
 	}
 
 	/**
@@ -90,7 +90,7 @@ class RedshopControllerAddressfields_listing extends RedshopController
 		$model->move($down, $cid[0]);
 
 		$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
-		$this->setRedirect('index.php?option=' . $option . '&view=addressfields_listing', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=addressfields_listing', $msg);
 	}
 }
 

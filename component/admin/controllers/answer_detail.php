@@ -59,7 +59,7 @@ class RedshopControllerAnswer_detail extends RedshopController
 			$model->sendMailForAskQuestion($row->question_id);
 		}
 
-		$this->setRedirect('index.php?option=' . $option . '&view=answer&parent_id=' . $parent_id, $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=answer&parent_id=' . $parent_id, $msg);
 	}
 
 	public function send()
@@ -86,7 +86,7 @@ class RedshopControllerAnswer_detail extends RedshopController
 		}
 
 		$msg = JText::_('COM_REDSHOP_ANSWER_DETAIL_DELETED_SUCCESSFULLY');
-		$this->setRedirect('index.php?option=' . $option . '&view=answer&parent_id=' . $parent_id, $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=answer&parent_id=' . $parent_id, $msg);
 	}
 
 	public function cancel()
@@ -94,7 +94,7 @@ class RedshopControllerAnswer_detail extends RedshopController
 		$parent_id = JRequest::getVar('parent_id');
 		$option = JRequest::getVar('option', '', 'request', 'string');
 		$msg = JText::_('COM_REDSHOP_ANSWER_DETAIL_EDITING_CANCELLED');
-		$this->setRedirect('index.php?option=' . $option . '&view=answer&parent_id=' . $parent_id, $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=answer&parent_id=' . $parent_id, $msg);
 	}
 
 	public function publish()
@@ -116,7 +116,7 @@ class RedshopControllerAnswer_detail extends RedshopController
 		}
 
 		$msg = JText::_('COM_REDSHOP_ANSWER_DETAIL_PUBLISHED_SUCCESSFULLY');
-		$this->setRedirect('index.php?option=' . $option . '&view=answer&parent_id=' . $parent_id, $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=answer&parent_id=' . $parent_id, $msg);
 	}
 
 	public function unpublish()
@@ -138,7 +138,7 @@ class RedshopControllerAnswer_detail extends RedshopController
 		}
 
 		$msg = JText::_('COM_REDSHOP_ANSWER_DETAIL_UNPUBLISHED_SUCCESSFULLY');
-		$this->setRedirect('index.php?option=' . $option . '&view=answer&parent_id=' . $parent_id, $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=answer&parent_id=' . $parent_id, $msg);
 	}
 
 	/**
@@ -154,7 +154,7 @@ class RedshopControllerAnswer_detail extends RedshopController
 		$model = $this->getModel('answer_detail');
 		$model->orderup();
 		$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
-		$this->setRedirect('index.php?option=' . $option . '&view=answer&parent_id=' . $parent_id, $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=answer&parent_id=' . $parent_id, $msg);
 	}
 
 	/**
@@ -170,7 +170,7 @@ class RedshopControllerAnswer_detail extends RedshopController
 		$model = $this->getModel('answer_detail');
 		$model->orderdown();
 		$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
-		$this->setRedirect('index.php?option=' . $option . '&view=answer&parent_id=' . $parent_id, $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=answer&parent_id=' . $parent_id, $msg);
 	}
 
 	/**
@@ -192,6 +192,6 @@ class RedshopControllerAnswer_detail extends RedshopController
 		$model->saveorder($cid, $order);
 
 		$msg = JText::_('COM_REDSHOP_ORDERING_SAVED');
-		$this->setRedirect('index.php?option=' . $option . '&view=answer&parent_id=' . $parent_id, $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=answer&parent_id=' . $parent_id, $msg);
 	}
 }

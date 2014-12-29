@@ -20,19 +20,13 @@ class RedshopViewSample_detail extends RedshopView
 
 		$document = JFactory::getDocument();
 
-		$document->addStyleSheet('components/' . $option . '/assets/css/colorpicker.css');
-		$document->addStyleSheet('components/' . $option . '/assets/css/layout.css');
-		$document->addScript('components/' . $option . '/assets/js/validation.js');
-
-		if (version_compare(JVERSION, '3.0', '<'))
-		{
-			$document->addScript('components/' . $option . '/assets/js/jquery.js');
-		}
-
-		$document->addScript('components/' . $option . '/assets/js/colorpicker.js');
-		$document->addScript('components/' . $option . '/assets/js/eye.js');
-		$document->addScript('components/' . $option . '/assets/js/utils.js');
-		$document->addScript('components/' . $option . '/assets/js/layout.js?ver=1.0.2');
+		$document->addStyleSheet('components/com_redshop/assets/css/colorpicker.css');
+		$document->addStyleSheet('components/com_redshop/assets/css/layout.css');
+		$document->addScript('components/com_redshop/assets/js/validation.js');
+		$document->addScript('components/com_redshop/assets/js/colorpicker.js');
+		$document->addScript('components/com_redshop/assets/js/eye.js');
+		$document->addScript('components/com_redshop/assets/js/utils.js');
+		$document->addScript('components/com_redshop/assets/js/layout.js?ver=1.0.2');
 
 		$uri = JFactory::getURI();
 
@@ -53,11 +47,7 @@ class RedshopViewSample_detail extends RedshopView
 			$isNew = ($detail->sample_id < 1);
 			$color_data = $model->color_Data($detail->sample_id);
 
-			if (count($color_data) > 0)
-			{
-				$color_data = $color_data;
-			}
-			else
+			if (!is_array($color_data))
 			{
 				$color_data = array();
 			}

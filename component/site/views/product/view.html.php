@@ -119,11 +119,7 @@ class RedshopViewProduct extends RedshopView
 			$stopJQuery = false;
 		}
 
-		if (!$stopJQuery && version_compare(JVERSION, '3.0', '<'))
-		{
-			JHtml::script('com_redshop/jquery.js', false, true);
-		}
-
+		JHtml::_('redshopjquery.framework');
 		JHtml::script('com_redshop/redbox.js', false, true);
 		JHtml::script('com_redshop/json.js', false, true);
 		JHtml::script('com_redshop/attribute.js', false, true);
@@ -168,35 +164,6 @@ class RedshopViewProduct extends RedshopView
 			if ($this->data->published == 0)
 			{
 				JError::raiseError(404, sprintf(JText::_('COM_REDSHOP_PRODUCT_IS_NOT_PUBLISHED'), $this->data->product_name, $this->data->product_number));
-			}
-
-			if ($this->data->canonical_url != "")
-			{
-				$main_url  = JURI::root() . $this->data->canonical_url;
-				$canonical = '<link rel="canonical" href="' . $main_url . '" />';
-				$this->document->addCustomTag($canonical);
-			}
-			elseif ($this->data->product_parent_id != 0 && $this->data->product_parent_id != "")
-			{
-				$product_parent_data = $prodhelperobj->getProductById($this->data->product_parent_id);
-
-				if ($product_parent_data->canonical_url != "")
-				{
-					$main_url  = JURI::root() . $product_parent_data->canonical_url;
-					$canonical = '<link rel="canonical" href="' . $main_url . '" />';
-					$this->document->addCustomTag($canonical);
-				}
-				else
-				{
-					$main_url  = substr_replace(JURI::root(), "", -1);
-					$main_url .= JRoute::_(
-											'index.php?option=com_redshop&view=product&layout=detail&Itemid=' . $this->itemId .
-											'&pid=' . $this->data->product_parent_id,
-											false
-										);
-					$canonical = '<link rel="canonical" href="' . $main_url . '" />';
-					$this->document->addCustomTag($canonical);
-				}
 			}
 
 			$productTemplate = $this->model->getProductTemplate();

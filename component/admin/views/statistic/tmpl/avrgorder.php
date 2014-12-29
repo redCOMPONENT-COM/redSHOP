@@ -27,7 +27,7 @@ $end = $this->pagination->limit;
 		<td><?php echo JHTML::_('calendar', $this->enddate , 'enddate', 'enddate',$format = '%d-%m-%Y',array('class'=>'inputbox', 'size'=>'15',  'maxlength'=>'19'));?></td></tr>
 	<tr><td colspan="2"><input type="submit" name="filter" value=<?php echo JText::_('COM_REDSHOP_SUBMIT');?> /></td></tr><?php */?>
 		</table>
-		<table class="adminlist" width="100%">
+		<table class="adminlist table table-striped" width="100%">
 			<thead>
 			<tr>
 				<th align="center"><?php echo JText::_('COM_REDSHOP_HASH'); ?></th>
@@ -38,13 +38,9 @@ $end = $this->pagination->limit;
 				<th width="40%" align="center"><?php echo JText::_('COM_REDSHOP_AVG_ORDER_AMOUNT_CUSTOMER'); ?></th>
 			</tr>
 			</thead>
-			<?php        for ($i = $start, $j = 0; $i < ($start + $end); $i++, $j++)
+			<?php for ($i = $start, $j = 0; $i < ($start + $end) && isset($this->avgorderamount[$i]) && is_object($this->avgorderamount[$i]); $i++, $j++)
 			{
-				$row = $this->avgorderamount[$i];
-				if (!is_object($row))
-				{
-					break;
-				}    ?>
+				$row = $this->avgorderamount[$i]; ?>
 				<tr>
 					<td align="center"><?php echo $i + 1;?></td>
 					<?php if ($this->filteroption)

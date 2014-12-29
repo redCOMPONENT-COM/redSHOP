@@ -29,7 +29,7 @@ $option = JRequest::getVar('option', '', 'request', 'string');?>
 </script>
 <form action="<?php echo 'index.php?option=' . $option; ?>" method="post" name="adminForm" id="adminForm">
 	<div id="editcell">
-		<table class="adminlist" width="100%">
+		<table class="adminlist table table-striped" width="100%">
 			<thead>
 			<tr>
 				<th width="5%"><?php echo JText::_('COM_REDSHOP_NUM'); ?></th>
@@ -48,7 +48,7 @@ $option = JRequest::getVar('option', '', 'request', 'string');?>
 				$row = $this->media[$i];
 				$row->id = $row->price_id;
 				//$product_id = $row->product_id;
-				$link = JRoute::_('index.php?option=' . $option . '&view=prices_detail&task=edit&product_id=' . $row->product_id . '&cid[]=' . $row->price_id);?>
+				$link = JRoute::_('index.php?option=com_redshop&view=prices_detail&task=edit&product_id=' . $row->product_id . '&cid[]=' . $row->price_id);?>
 				<tr class="<?php echo "row$k"; ?>">
 					<td align="center"><?php echo $this->pagination->getRowOffset($i); ?></td>
 					<td align="center"><?php echo JHTML::_('grid.id', $i, $row->id); ?></td>

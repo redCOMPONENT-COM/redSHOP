@@ -55,11 +55,11 @@ class RedshopControllerState_detail extends RedshopController
 
 		if ($apply == 1)
 		{
-			$this->setRedirect('index.php?option=' . $option . '&view=state_detail&task=edit&cid[]=' . $row->state_id, $msg);
+			$this->setRedirect('index.php?option=com_redshop&view=state_detail&task=edit&cid[]=' . $row->state_id, $msg);
 		}
 		else
 		{
-			$this->setRedirect('index.php?option=' . $option . '&view=state', $msg);
+			$this->setRedirect('index.php?option=com_redshop&view=state', $msg);
 		}
 
 	}
@@ -71,7 +71,7 @@ class RedshopControllerState_detail extends RedshopController
 		$model = $this->getModel('state_detail');
 		$model->checkin();
 		$msg = JText::_('COM_REDSHOP_state_DETAIL_EDITING_CANCELLED');
-		$this->setRedirect('index.php?option=' . $option . '&view=state', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=state', $msg);
 	}
 
 	public function remove()
@@ -93,6 +93,6 @@ class RedshopControllerState_detail extends RedshopController
 		}
 
 		$msg = JText::_('COM_REDSHOP_state_DETAIL_DELETED_SUCCESSFULLY');
-		$this->setRedirect('index.php?option=' . $option . '&view=state', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=state', $msg);
 	}
 }

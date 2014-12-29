@@ -249,14 +249,7 @@ class RedshopModelWrapper_detail extends RedshopModel
 
 		$row->category_id = $categoryid;
 
-		$productid = $data['container_product'];
-
-		if (count($productid) > 0)
-		{
-			$productid = implode(",", $productid);
-		}
-
-		$row->product_id = $productid;
+		$row->product_id = $data['container_product'];
 
 		if (!$row->store())
 		{

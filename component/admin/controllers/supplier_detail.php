@@ -48,7 +48,7 @@ class RedshopControllerSupplier_detail extends RedshopController
 			$msg = JText::_('COM_REDSHOP_ERROR_SAVING_SUPPLIER_DETAIL');
 		}
 
-		$this->setRedirect('index.php?option=' . $option . '&view=supplier', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=supplier', $msg);
 	}
 
 	public function remove()
@@ -71,7 +71,7 @@ class RedshopControllerSupplier_detail extends RedshopController
 		}
 
 		$msg = JText::_('COM_REDSHOP_SUPPLIER_DETAIL_DELETED_SUCCESSFULLY');
-		$this->setRedirect('index.php?option=' . $option . '&view=supplier', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=supplier', $msg);
 	}
 
 	public function publish()
@@ -93,7 +93,7 @@ class RedshopControllerSupplier_detail extends RedshopController
 		}
 
 		$msg = JText::_('COM_REDSHOP_SUPPLIER_DETAIL_PUBLISHED_SUCCESSFULLY');
-		$this->setRedirect('index.php?option=' . $option . '&view=supplier', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=supplier', $msg);
 	}
 
 	public function unpublish()
@@ -115,14 +115,14 @@ class RedshopControllerSupplier_detail extends RedshopController
 		}
 
 		$msg = JText::_('COM_REDSHOP_SUPPLIER_DETAIL_UNPUBLISHED_SUCCESSFULLY');
-		$this->setRedirect('index.php?option=' . $option . '&view=supplier', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=supplier', $msg);
 	}
 
 	public function cancel()
 	{
 		$option = JRequest::getVar('option');
 		$msg = JText::_('COM_REDSHOP_SUPPLIER_DETAIL_EDITING_CANCELLED');
-		$this->setRedirect('index.php?option=' . $option . '&view=supplier', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=supplier', $msg);
 	}
 
 	public function copy()
@@ -142,6 +142,6 @@ class RedshopControllerSupplier_detail extends RedshopController
 			$msg = JText::_('COM_REDSHOP_ERROR_COPING_SUPPLIER_DETAIL');
 		}
 
-		$this->setRedirect('index.php?option=' . $option . '&view=supplier', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=supplier', $msg);
 	}
 }

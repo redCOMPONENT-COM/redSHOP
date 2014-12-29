@@ -24,12 +24,11 @@ class RedshopViewRegistration extends RedshopView
 
 		if ($user->id || (isset($auth['users_info_id']) && $auth['users_info_id'] > 0))
 		{
-			$app->Redirect('index.php?option=com_redshop&view=account&Itemid=' . $Itemid);
+			$app->redirect('index.php?option=com_redshop&view=account&Itemid=' . $Itemid);
 		}
 
 		$params = $app->getParams('com_redshop');
-		JHTML::Script('joomla.javascript.js', 'includes/js/', false);
-		JHtml::script('com_redshop/jquery-1.4.2.min.js', false, true);
+		JHtml::_('redshopjquery.framework');
 		JHtml::script('com_redshop/jquery.validate.js', false, true);
 		JHtml::script('com_redshop/common.js', false, true);
 		JHtml::script('com_redshop/jquery.metadata.js', false, true);

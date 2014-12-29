@@ -32,12 +32,6 @@ class RedshopViewMass_discount_detail extends RedshopView
 
 		$isNew = ($detail->mass_discount_id < 1);
 
-		$document = JFactory::getDocument();
-
-		$document->addScript('components/' . $option . '/assets/js/select_sort.js');
-		$document->addStyleSheet('components/' . $option . '/assets/css/search.css');
-		$document->addScript('components/' . $option . '/assets/js/search.js');
-
 		$text = $isNew ? JText::_('COM_REDSHOP_NEW') : JText::_('COM_REDSHOP_EDIT');
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_DISCOUNT') . ': <small><small>[ ' . $text . ' ]</small></small>', 'redshop_discountmanagmenet48');
@@ -95,16 +89,10 @@ class RedshopViewMass_discount_detail extends RedshopView
 			$result_container = array();
 		}
 
-		$detail->discount_product = explode(',', $detail->discount_product);
-		$tmp = new stdClass;
-		$tmp = @array_merge($tmp, $detail->discount_product);
-
-		$lists['discount_product'] = JHTML::_('select.genericlist', $result_container, 'container_product[]',
-			'class="inputbox" onmousewheel="mousewheel(this);" ondblclick="selectnone(this);" multiple="multiple"
-			size="15" style="width:200px;" ', 'value', 'text', 0
-		);
-		$lists['product_all'] = JHTML::_('select.genericlist', array(), 'product_all[]',
-			'class="inputbox" multiple="multiple" ', 'value', 'text', $detail->discount_product
+		$lists['discount_product'] = JHTML::_('redshopselect.search', $result_container, 'container_product',
+			array(
+				'select2.options' => array('multiple' => true)
+			)
 		);
 
 		$this->lists = $lists;

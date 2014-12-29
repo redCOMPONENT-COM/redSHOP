@@ -107,14 +107,28 @@ class RedshopControllerMedia_Detail extends RedshopController
 
 						elseif (isset($post['set']) && $post['media_section'] == 'manufacturer')
 						{
-							$link = 'index.php?option=' . $option . '&view=manufacturer';        ?>
+							$link = 'index.php?option=com_redshop&view=manufacturer';        ?>
 							<script language="javascript" type="text/javascript">
 								window.parent.document.location = '<?php echo $link; ?>';
 							</script><?php
 						}
 						else
 						{
-							$this->setRedirect('index.php?option=' . $option . '&view=media', $msg);
+							$this->setRedirect('index.php?option=com_redshop&view=media', $msg);
+						}
+					}
+					else
+					{
+						if (isset($post['set']) && $post['media_section'] != 'manufacturer')
+						{
+							$this->setRedirect('index.php?tmpl=component&option=com_redshop&view=media&section_id='
+								. $post['section_id'] . '&showbuttons=1&section_name='
+								. $post['section_name'] . '&media_section=' . $post['media_section'], $msg
+							);
+						}
+						else
+						{
+							$this->setRedirect('index.php?option=com_redshop&view=media', $msg);
 						}
 					}
 				}
@@ -124,14 +138,14 @@ class RedshopControllerMedia_Detail extends RedshopController
 
 					if (isset($post['set']))
 					{
-						$this->setRedirect('index.php?tmpl=component&option=' . $option . '&view=media_detail&section_id='
+						$this->setRedirect('index.php?tmpl=component&option=com_redshop&view=media_detail&section_id='
 							. $post['section_id'] . '&showbuttons=1&section_name='
 							. $post['section_name'] . '&media_section=' . $post['media_section'], $msg
 						);
 					}
 					else
 					{
-						$this->setRedirect('index.php?option=' . $option . '&view=media_detail', $msg);
+						$this->setRedirect('index.php?option=com_redshop&view=media_detail', $msg);
 					}
 				}
 			}
@@ -172,21 +186,21 @@ class RedshopControllerMedia_Detail extends RedshopController
 				// 	Media Bank End
 				if (isset($post['set']) && $post['media_section'] != 'manufacturer')
 				{
-					$this->setRedirect('index.php?tmpl=component&option=' . $option . '&view=media&section_id='
+					$this->setRedirect('index.php?tmpl=component&option=com_redshop&view=media&section_id='
 						. $post['section_id'] . '&showbuttons=1&section_name='
 						. $post['section_name'] . '&media_section=' . $post['media_section'], $msg
 					);
 				}
 				elseif (isset($post['set']) && $post['media_section'] == 'manufacturer')
 				{
-					$link = 'index.php?option=' . $option . '&view=manufacturer';        ?>
+					$link = 'index.php?option=com_redshop&view=manufacturer';        ?>
 					<script language="javascript" type="text/javascript">
 						window.parent.document.location = '<?php echo $link; ?>';
 					</script><?php
 				}
 				else
 				{
-					$this->setRedirect('index.php?option=' . $option . '&view=media', $msg);
+					$this->setRedirect('index.php?option=com_redshop&view=media', $msg);
 				}
 			}
 		}
@@ -247,7 +261,7 @@ class RedshopControllerMedia_Detail extends RedshopController
 					// Set First Image as product Main Imaged
 					if ($save->media_section == 'product')
 					{
-						$this->setRedirect('index.php?tmpl=component&option=' . $option . '&view=media_detail', $msg);
+						$this->setRedirect('index.php?tmpl=component&option=com_redshop&view=media_detail', $msg);
 					}
 				}
 				else
@@ -263,7 +277,7 @@ class RedshopControllerMedia_Detail extends RedshopController
 					}
 					else
 					{
-						$this->setRedirect('index.php?option=' . $option . '&view=media_detail', $msg);
+						$this->setRedirect('index.php?option=com_redshop&view=media_detail', $msg);
 					}
 				}
 			}
@@ -303,14 +317,14 @@ class RedshopControllerMedia_Detail extends RedshopController
 				}
 				elseif (isset($post['set']) && $post['media_section'] == 'manufacturer')
 				{
-					$link = 'index.php?option=' . $option . '&view=manufacturer';        ?>
+					$link = 'index.php?option=com_redshop&view=manufacturer';        ?>
 					<script language="javascript" type="text/javascript">
 						window.parent.document.location = '<?php echo $link; ?>';
 					</script><?php
 				}
 				else
 				{
-					$this->setRedirect('index.php?option=' . $option . '&view=media', $msg);
+					$this->setRedirect('index.php?option=com_redshop&view=media', $msg);
 				}
 			}
 
@@ -331,7 +345,7 @@ class RedshopControllerMedia_Detail extends RedshopController
 				{
 					// Fix the width of the thumb nail images
 					$src = $bulkfile['tmp_name'];
-					$dest = JPATH_ROOT . '/components/' . $option . '/assets/' . $post['media_type'] . '/' . $post['media_section'] . '/'
+					$dest = JPATH_ROOT . '/components/com_redshop/assets/' . $post['media_type'] . '/' . $post['media_section'] . '/'
 						. $bulkfile['name'];
 					$file_upload = JFile::upload($src, $dest);
 
@@ -341,7 +355,7 @@ class RedshopControllerMedia_Detail extends RedshopController
 						JError::raiseWarning(403, $msg);
 					}
 
-					$target = 'components/' . $option . '/assets/media/extracted/' . $bulkfile['name'];
+					$target = 'components/com_redshop/assets/media/extracted/' . $bulkfile['name'];
 					JArchive::extract($dest, $target);
 					$name = explode('.', $bulkfile['name']);
 					$scan = scandir($target);
@@ -373,21 +387,21 @@ class RedshopControllerMedia_Detail extends RedshopController
 
 										if (isset($post['set']) && $post['media_section'] != 'manufacturer')
 										{
-											$this->setRedirect('index.php?tmpl=component&option=' . $option . '&view=media&section_id='
+											$this->setRedirect('index.php?tmpl=component&option=com_redshop&view=media&section_id='
 												. $post['section_id'] . '&showbuttons=1&section_name=' . $post['section_name']
 												. '&media_section=' . $post['media_section'], $msg
 											);
 										}
 										elseif (isset($post['set']) && $post['media_section'] == 'manufacturer')
 										{
-											$link = 'index.php?option=' . $option . '&view=manufacturer';    ?>
+											$link = 'index.php?option=com_redshop&view=manufacturer';    ?>
 											<script language="javascript" type="text/javascript">
 												window.parent.document.location = '<?php echo $link; ?>';
 											</script><?php
 										}
 										else
 										{
-											$this->setRedirect('index.php?option=' . $option . '&view=media', $msg);
+											$this->setRedirect('index.php?option=com_redshop&view=media', $msg);
 										}
 									}
 									else
@@ -396,14 +410,14 @@ class RedshopControllerMedia_Detail extends RedshopController
 
 										if (isset($post['set']))
 										{
-											$this->setRedirect('index.php?tmpl=component&option=' . $option . '&view=media_detail&section_id='
+											$this->setRedirect('index.php?tmpl=component&option=com_redshop&view=media_detail&section_id='
 												. $post['section_id'] . '&showbuttons=1&section_name=' . $post['section_name']
 												. '&media_section=' . $post['media_section'], $msg
 											);
 										}
 										else
 										{
-											$this->setRedirect('index.php?option=' . $option . '&view=media_detail', $msg);
+											$this->setRedirect('index.php?option=com_redshop&view=media_detail', $msg);
 										}
 									}
 								}
@@ -413,7 +427,7 @@ class RedshopControllerMedia_Detail extends RedshopController
 									{
 										if ($row = $model->store($post))
 										{
-											$originaldir = JPATH_ROOT . '/components/' . $option . '/assets/' . $row->media_type . '/'
+											$originaldir = JPATH_ROOT . '/components/com_redshop/assets/' . $row->media_type . '/'
 												. $row->media_section . '/' . RedShopHelperImages::cleanFileName($newscan[$j]);
 
 											copy($btsrc, $originaldir);
@@ -422,7 +436,7 @@ class RedshopControllerMedia_Detail extends RedshopController
 
 											if (isset($post['set']) && $post['media_section'] != 'manufacturer')
 											{
-												$this->setRedirect('index.php?tmpl=component&option=' . $option . '&view=media&section_id='
+												$this->setRedirect('index.php?tmpl=component&option=com_redshop&view=media&section_id='
 													. $post['section_id'] . '&showbuttons=1&section_name='
 													. $post['section_name'] . '&media_section=' . $post['media_section'], $msg
 												);
@@ -430,14 +444,14 @@ class RedshopControllerMedia_Detail extends RedshopController
 
 											elseif (isset($post['set']) && $post['media_section'] == 'manufacturer')
 											{
-												$link = 'index.php?option=' . $option . '&view=manufacturer';    ?>
+												$link = 'index.php?option=com_redshop&view=manufacturer';    ?>
 												<script language="javascript" type="text/javascript">
 													window.parent.document.location = '<?php echo $link; ?>';
 												</script><?php
 											}
 											else
 											{
-												$this->setRedirect('index.php?option=' . $option . '&view=media', $msg);
+												$this->setRedirect('index.php?option=com_redshop&view=media', $msg);
 											}
 										}
 									}
@@ -447,14 +461,14 @@ class RedshopControllerMedia_Detail extends RedshopController
 
 										if (isset($post['set']))
 										{
-											$this->setRedirect('index.php?tmpl=component&option=' . $option . '&view=media_detail&section_id='
+											$this->setRedirect('index.php?tmpl=component&option=com_redshop&view=media_detail&section_id='
 												. $post['section_id'] . '&showbuttons=1&section_name=' . $post['section_name'] . '&media_section='
 												. $post['media_section'], $msg
 											);
 										}
 										else
 										{
-											$this->setRedirect('index.php?option=' . $option . '&view=media_detail', $msg);
+											$this->setRedirect('index.php?option=com_redshop&view=media_detail', $msg);
 										}
 									}
 								}
@@ -480,7 +494,7 @@ class RedshopControllerMedia_Detail extends RedshopController
 
 									if (isset($post['set']) && $post['media_section'] != 'manufacturer')
 									{
-										$this->setRedirect('index.php?tmpl=component&option=' . $option . '&view=media&section_id='
+										$this->setRedirect('index.php?tmpl=component&option=com_redshop&view=media&section_id='
 											. $post['section_id'] . '&showbuttons=1&section_name=' . $post['section_name'] . '&media_section='
 											. $post['media_section'], $msg
 										);
@@ -488,14 +502,14 @@ class RedshopControllerMedia_Detail extends RedshopController
 
 									elseif (isset($post['set']) && $post['media_section'] == 'manufacturer')
 									{
-										$link = 'index.php?option=' . $option . '&view=manufacturer';    ?>
+										$link = 'index.php?option=com_redshop&view=manufacturer';    ?>
 										<script language="javascript" type="text/javascript">
 											window.parent.document.location = '<?php echo $link; ?>';
 										</script><?php
 									}
 									else
 									{
-										$this->setRedirect('index.php?option=' . $option . '&view=media', $msg);
+										$this->setRedirect('index.php?option=com_redshop&view=media', $msg);
 									}
 								}
 								else
@@ -504,14 +518,14 @@ class RedshopControllerMedia_Detail extends RedshopController
 
 									if (isset($post['set']))
 									{
-										$this->setRedirect('index.php?tmpl=component&option=' . $option . '&view=media_detail&section_id='
+										$this->setRedirect('index.php?tmpl=component&option=com_redshop&view=media_detail&section_id='
 											. $post['section_id'] . '&showbuttons=1&section_name=' . $post['section_name'] . '&media_section='
 											. $post['media_section'], $msg
 										);
 									}
 									else
 									{
-										$this->setRedirect('index.php?option=' . $option . '&view=media_detail', $msg);
+										$this->setRedirect('index.php?option=com_redshop&view=media_detail', $msg);
 									}
 								}
 							}
@@ -522,7 +536,7 @@ class RedshopControllerMedia_Detail extends RedshopController
 									if ($row = $model->store($post))
 									{
 										// Set First Image as product Main Imaged
-										$originaldir = JPATH_ROOT . '/components/' . $option . '/assets/' . $row->media_type . '/'
+										$originaldir = JPATH_ROOT . '/components/com_redshop/assets/' . $row->media_type . '/'
 											. $row->media_section . '/' . RedShopHelperImages::cleanFileName($scan[$i]);
 
 										copy($btsrc, $originaldir);
@@ -545,21 +559,21 @@ class RedshopControllerMedia_Detail extends RedshopController
 
 										if (isset($post['set']) && $post['media_section'] != 'manufacturer')
 										{
-											$this->setRedirect('index.php?tmpl=component&option=' . $option . '&view=media&section_id='
+											$this->setRedirect('index.php?tmpl=component&option=com_redshop&view=media&section_id='
 												. $post['section_id'] . '&showbuttons=1&section_name=' . $post['section_name']
 												. '&media_section=' . $post['media_section'], $msg
 											);
 										}
 										elseif (isset($post['set']) && $post['media_section'] == 'manufacturer')
 										{
-											$link = 'index.php?option=' . $option . '&view=manufacturer';    ?>
+											$link = 'index.php?option=com_redshop&view=manufacturer';    ?>
 											<script language="javascript" type="text/javascript">
 												window.parent.document.location = '<?php echo $link; ?>';
 											</script><?php
 										}
 										else
 										{
-											$this->setRedirect('index.php?option=' . $option . '&view=media', $msg);
+											$this->setRedirect('index.php?option=com_redshop&view=media', $msg);
 										}
 									}
 								}
@@ -569,14 +583,14 @@ class RedshopControllerMedia_Detail extends RedshopController
 
 									if (isset($post['set']))
 									{
-										$this->setRedirect('index.php?tmpl=component&option=' . $option . '&view=media_detail&section_id='
+										$this->setRedirect('index.php?tmpl=component&option=com_redshop&view=media_detail&section_id='
 											. $post['section_id'] . '&showbuttons=1&section_name=' . $post['section_name'] . '&media_section='
 											. $post['media_section'], $msg
 										);
 									}
 									else
 									{
-										$this->setRedirect('index.php?option=' . $option . '&view=media_detail', $msg);
+										$this->setRedirect('index.php?option=com_redshop&view=media_detail', $msg);
 									}
 								}
 							}
@@ -591,14 +605,14 @@ class RedshopControllerMedia_Detail extends RedshopController
 
 					if (isset($post['set']))
 					{
-						$this->setRedirect('index.php?tmpl=component&option=' . $option . '&view=media_detail&section_id='
+						$this->setRedirect('index.php?tmpl=component&option=com_redshop&view=media_detail&section_id='
 							. $post['section_id'] . '&showbuttons=1&section_name=' . $post['section_name'] . '&media_section='
 							. $post['media_section'], $msg
 						);
 					}
 					else
 					{
-						$this->setRedirect('index.php?option=' . $option . '&view=media_detail', $msg);
+						$this->setRedirect('index.php?option=com_redshop&view=media_detail', $msg);
 					}
 				}
 				else
@@ -607,14 +621,14 @@ class RedshopControllerMedia_Detail extends RedshopController
 
 					if (isset($post['set']))
 					{
-						$this->setRedirect('index.php?tmpl=component&option=' . $option . '&view=media_detail&section_id='
+						$this->setRedirect('index.php?tmpl=component&option=com_redshop&view=media_detail&section_id='
 							. $post['section_id'] . '&showbuttons=1&section_name=' . $post['section_name'] . '&media_section='
 							. $post['media_section'], $msg
 						);
 					}
 					else
 					{
-						$this->setRedirect('index.php?option=' . $option . '&view=media_detail', $msg);
+						$this->setRedirect('index.php?option=com_redshop&view=media_detail', $msg);
 					}
 				}
 			}
@@ -636,14 +650,14 @@ class RedshopControllerMedia_Detail extends RedshopController
 
 						if (isset($post['set']))
 						{
-							$this->setRedirect('index.php?tmpl=component&option=' . $option . '&view=media_detail&section_id='
+							$this->setRedirect('index.php?tmpl=component&option=com_redshop&view=media_detail&section_id='
 								. $post['section_id'] . '&showbuttons=1&section_name=' . $post['section_name'] . '&media_section='
 								. $post['media_section'], $msg
 							);
 						}
 						else
 						{
-							$this->setRedirect('index.php?option=' . $option . '&view=media_detail', $msg);
+							$this->setRedirect('index.php?option=com_redshop&view=media_detail', $msg);
 						}
 					}
 					elseif ($post['media_section'] == '0')
@@ -652,14 +666,14 @@ class RedshopControllerMedia_Detail extends RedshopController
 
 						if (isset($post['set']))
 						{
-							$this->setRedirect('index.php?tmpl=component&option=' . $option . '&view=media_detail&section_id='
+							$this->setRedirect('index.php?tmpl=component&option=com_redshop&view=media_detail&section_id='
 								. $post['section_id'] . '&showbuttons=1&section_name=' . $post['section_name'] . '&media_section='
 								. $post['media_section'], $msg
 							);
 						}
 						else
 						{
-							$this->setRedirect('index.php?option=' . $option . '&view=media_detail', $msg);
+							$this->setRedirect('index.php?option=com_redshop&view=media_detail', $msg);
 						}
 					}
 					elseif ($post['bulk'] != 'yes' && $post['bulk'] != 'no')
@@ -668,14 +682,14 @@ class RedshopControllerMedia_Detail extends RedshopController
 
 						if (isset($post['set']))
 						{
-							$this->setRedirect('index.php?tmpl=component&option=' . $option . '&view=media_detail&section_id='
+							$this->setRedirect('index.php?tmpl=component&option=com_redshop&view=media_detail&section_id='
 								. $post['section_id'] . '&showbuttons=1&section_name=' . $post['section_name'] . '&media_section='
 								. $post['media_section'], $msg
 							);
 						}
 						else
 						{
-							$this->setRedirect('index.php?option=' . $option . '&view=media_detail', $msg);
+							$this->setRedirect('index.php?option=com_redshop&view=media_detail', $msg);
 						}
 					}
 
@@ -685,14 +699,14 @@ class RedshopControllerMedia_Detail extends RedshopController
 
 						if (isset($post['set']))
 						{
-							$this->setRedirect('index.php?tmpl=component&option=' . $option . '&view=media_detail&section_id='
+							$this->setRedirect('index.php?tmpl=component&option=com_redshop&view=media_detail&section_id='
 								. $post['section_id'] . '&showbuttons=1&section_name=' . $post['section_name'] . '&media_section='
 								. $post['media_section'], $msg
 							);
 						}
 						else
 						{
-							$this->setRedirect('index.php?option=' . $option . '&view=media_detail', $msg);
+							$this->setRedirect('index.php?option=com_redshop&view=media_detail', $msg);
 						}
 					}
 					else
@@ -710,7 +724,7 @@ class RedshopControllerMedia_Detail extends RedshopController
 						else
 						{
 							$post['media_name'] = RedShopHelperImages::cleanFileName($file['name'][$i]);
-							$dest = JPATH_ROOT . '/components/' . $option . '/assets/' . $post['media_type'] . '/'
+							$dest = JPATH_ROOT . '/components/com_redshop/assets/' . $post['media_type'] . '/'
 								. $post['media_section'] . '/' . RedShopHelperImages::cleanFileName($file['name'][$i]);
 						}
 
@@ -723,7 +737,7 @@ class RedshopControllerMedia_Detail extends RedshopController
 
 							if (isset($post['set']) && $post['media_section'] != 'manufacturer')
 							{
-								$this->setRedirect('index.php?tmpl=component&option=' . $option . '&view=media&section_id='
+								$this->setRedirect('index.php?tmpl=component&option=com_redshop&view=media&section_id='
 									. $post['section_id'] . '&showbuttons=1&section_name=' . $post['section_name'] . '&media_section='
 									. $post['media_section'], $msg
 								);
@@ -731,14 +745,14 @@ class RedshopControllerMedia_Detail extends RedshopController
 
 							elseif (isset($post['set']) && $post['media_section'] == 'manufacturer')
 							{
-								$link = 'index.php?option=' . $option . '&view=manufacturer';    ?>
+								$link = 'index.php?option=com_redshop&view=manufacturer';    ?>
 								<script language="javascript" type="text/javascript">
 									window.parent.document.location = '<?php echo $link; ?>';
 								</script><?php
 							}
 							else
 							{
-								$this->setRedirect('index.php?option=' . $option . '&view=media', $msg);
+								$this->setRedirect('index.php?option=com_redshop&view=media', $msg);
 							}
 						}
 						else
@@ -747,14 +761,14 @@ class RedshopControllerMedia_Detail extends RedshopController
 
 							if (isset($post['set']))
 							{
-								$this->setRedirect('index.php?tmpl=component&option=' . $option . '&view=media_detail&section_id='
+								$this->setRedirect('index.php?tmpl=component&option=com_redshop&view=media_detail&section_id='
 									. $post['section_id'] . '&showbuttons=1&section_name=' . $post['section_name'] . '&media_section='
 									. $post['media_section'], $msg
 								);
 							}
 							else
 							{
-								$this->setRedirect('index.php?option=' . $option . '&view=media_detail', $msg);
+								$this->setRedirect('index.php?option=com_redshop&view=media_detail', $msg);
 							}
 						}
 					}
@@ -790,22 +804,22 @@ class RedshopControllerMedia_Detail extends RedshopController
 
 		$msg = JText::_('COM_REDSHOP_MEDIA_DETAIL_DELETED_SUCCESSFULLY');
 
-		if (isset($section_id))
+		if ($section_id)
 		{
-			$this->setRedirect('index.php?tmpl=component&option=' . $option . '&view=media&section_id='
+			$this->setRedirect('index.php?tmpl=component&option=com_redshop&view=media&section_id='
 				. $section_id . '&showbuttons=1&media_section=' . $media_section, $msg
 			);
 		}
 		elseif (isset($post['set']) && $post['media_section'] == 'manufacturer')
 		{
-			$link = 'index.php?option=' . $option . '&view=manufacturer';    ?>
+			$link = 'index.php?option=com_redshop&view=manufacturer';    ?>
 			<script language="javascript" type="text/javascript">
 				window.parent.document.location = '<?php echo $link; ?>';
 			</script><?php
 		}
 		else
 		{
-			$this->setRedirect('index.php?option=' . $option . '&view=media', $msg);
+			$this->setRedirect('index.php?option=com_redshop&view=media', $msg);
 		}
 	}
 
@@ -836,23 +850,23 @@ class RedshopControllerMedia_Detail extends RedshopController
 
 		$msg = JText::_('COM_REDSHOP_MEDIA_DETAIL_PUBLISHED_SUCCESSFULLY');
 
-		if (isset($section_id))
+		if ($section_id)
 		{
-			$this->setRedirect('index.php?tmpl=component&option=' . $option . '&view=media&section_id=' . $section_id
+			$this->setRedirect('index.php?tmpl=component&option=com_redshop&view=media&section_id=' . $section_id
 				. '&showbuttons=1&media_section=' . $media_section, $msg
 			);
 		}
 
 		elseif (isset($post['set']) && $post['media_section'] == 'manufacturer')
 		{
-			$link = 'index.php?option=' . $option . '&view=manufacturer';    ?>
+			$link = 'index.php?option=com_redshop&view=manufacturer';    ?>
 			<script language="javascript" type="text/javascript">
 				window.parent.document.location = '<?php echo $link; ?>';
 			</script><?php
 		}
 		else
 		{
-			$this->setRedirect('index.php?option=' . $option . '&view=media', $msg);
+			$this->setRedirect('index.php?option=com_redshop&view=media', $msg);
 		}
 	}
 
@@ -887,23 +901,23 @@ class RedshopControllerMedia_Detail extends RedshopController
 			}
 		}
 
-		if (isset($section_id))
+		if ($section_id)
 		{
-			$this->setRedirect('index.php?tmpl=component&option=' . $option . '&view=media&section_id=' . $section_id
+			$this->setRedirect('index.php?tmpl=component&option=com_redshop&view=media&section_id=' . $section_id
 				. '&showbuttons=1&media_section=' . $media_section, $msg
 			);
 		}
 		elseif (isset($post['set']) && $post['media_section'] == 'manufacturer')
 		{
 			$app->enqueueMessage($msg);
-			$link = 'index.php?option=' . $option . '&view=manufacturer';    ?>
+			$link = 'index.php?option=com_redshop&view=manufacturer';    ?>
 			<script language="javascript" type="text/javascript">
 				window.parent.document.location = '<?php echo $link; ?>';
 			</script><?php
 		}
 		else
 		{
-			$this->setRedirect('index.php?option=' . $option . '&view=media', $msg);
+			$this->setRedirect('index.php?option=com_redshop&view=media', $msg);
 		}
 	}
 
@@ -934,22 +948,22 @@ class RedshopControllerMedia_Detail extends RedshopController
 
 		$msg = JText::_('COM_REDSHOP_MEDIA_DETAIL_UNPUBLISHED_SUCCESSFULLY');
 
-		if (isset($section_id))
+		if ($section_id)
 		{
-			$this->setRedirect('index.php?tmpl=component&option=' . $option . '&view=media&section_id=' . $section_id
+			$this->setRedirect('index.php?tmpl=component&option=com_redshop&view=media&section_id=' . $section_id
 				. '&showbuttons=1&media_section=' . $media_section, $msg
 			);
 		}
 		elseif (isset($post['set']) && $post['media_section'] == 'manufacturer')
 		{
-			$link = 'index.php?option=' . $option . '&view=manufacturer';    ?>
+			$link = 'index.php?option=com_redshop&view=manufacturer';    ?>
 			<script language="javascript" type="text/javascript">
 				window.parent.document.location = '<?php echo $link; ?>';
 			</script><?php
 		}
 		else
 		{
-			$this->setRedirect('index.php?option=' . $option . '&view=media', $msg);
+			$this->setRedirect('index.php?option=com_redshop&view=media', $msg);
 		}
 	}
 
@@ -962,7 +976,7 @@ class RedshopControllerMedia_Detail extends RedshopController
 	{
 		$option = JRequest::getVar('option');
 		$msg = JText::_('COM_REDSHOP_MEDIA_DETAIL_EDITING_CANCELLED');
-		$this->setRedirect('index.php?option=' . $option . '&view=media', $msg);
+		$this->setRedirect('index.php?option=com_redshop&view=media', $msg);
 	}
 
 	/**
@@ -1015,22 +1029,22 @@ class RedshopControllerMedia_Detail extends RedshopController
 
 		$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
 
-		if (isset($section_id))
+		if ($section_id)
 		{
-			$this->setRedirect('index.php?tmpl=component&option=' . $option . '&view=media&section_id=' . $section_id
+			$this->setRedirect('index.php?tmpl=component&option=com_redshop&view=media&section_id=' . $section_id
 				. '&showbuttons=1&media_section=' . $media_section, $msg
 			);
 		}
 		elseif (isset($post['set']) && $post['media_section'] == 'manufacturer')
 		{
-			$link = 'index.php?option=' . $option . '&view=manufacturer';    ?>
+			$link = 'index.php?option=com_redshop&view=manufacturer';    ?>
 			<script language="javascript" type="text/javascript">
 				window.parent.document.location = '<?php echo $link; ?>';
 			</script><?php
 		}
 		else
 		{
-			$this->setRedirect('index.php?option=' . $option . '&view=media', $msg);
+			$this->setRedirect('index.php?option=com_redshop&view=media', $msg);
 		}
 	}
 
@@ -1061,22 +1075,22 @@ class RedshopControllerMedia_Detail extends RedshopController
 
 		$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
 
-		if (isset($section_id))
+		if ($section_id)
 		{
-			$this->setRedirect('index.php?tmpl=component&option=' . $option . '&view=media&section_id=' . $section_id
+			$this->setRedirect('index.php?tmpl=component&option=com_redshop&view=media&section_id=' . $section_id
 				. '&showbuttons=1&media_section=' . $media_section, $msg
 			);
 		}
 		elseif (isset($post['set']) && $post['media_section'] == 'manufacturer')
 		{
-			$link = 'index.php?option=' . $option . '&view=manufacturer';    ?>
+			$link = 'index.php?option=com_redshop&view=manufacturer';    ?>
 			<script language="javascript" type="text/javascript">
 				window.parent.document.location = '<?php echo $link; ?>';
 			</script><?php
 		}
 		else
 		{
-			$this->setRedirect('index.php?option=' . $option . '&view=media', $msg);
+			$this->setRedirect('index.php?option=com_redshop&view=media', $msg);
 		}
 	}
 
@@ -1107,20 +1121,20 @@ class RedshopControllerMedia_Detail extends RedshopController
 
 		$msg = JText::_('COM_REDSHOP_NEW_ORDERING_SAVED');
 
-		if (isset($section_id))
+		if ($section_id)
 		{
-			$this->setRedirect('index.php?tmpl=component&option=' . $option . '&view=media&section_id=' . $section_id . '&showbuttons=1&media_section=' . $media_section, $msg);
+			$this->setRedirect('index.php?tmpl=component&option=com_redshop&view=media&section_id=' . $section_id . '&showbuttons=1&media_section=' . $media_section, $msg);
 		}
 		elseif (isset($post['set']) && $post['media_section'] == 'manufacturer')
 		{
-			$link = 'index.php?option=' . $option . '&view=manufacturer';    ?>
+			$link = 'index.php?option=com_redshop&view=manufacturer';    ?>
 	        <script language="javascript" type="text/javascript">
 	            window.parent.document.location = '<?php echo $link; ?>';
 	        </script><?php
 		}
 		else
 		{
-			$this->setRedirect('index.php?option=' . $option . '&view=media', $msg);
+			$this->setRedirect('index.php?option=com_redshop&view=media', $msg);
 		}
 	}
 }

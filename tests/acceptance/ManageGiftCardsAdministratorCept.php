@@ -6,12 +6,16 @@
  * @license     GNU General Public License version 2 or later; see LICENSE.txt
  */
 $scenario->group('Joomla2');
+$scenario->group('Joomla3');
+
 // Load the Step Object Page
 $I = new AcceptanceTester\LoginSteps($scenario);
 
 $I->wantTo('Test Gift Cards Manager in Administrator');
 $I->doAdminLogin();
-$I = new AcceptanceTester\GiftCardManagerSteps($scenario);
+$config = $I->getConfig();
+$className = 'AcceptanceTester\GiftCardManager' . $config['env'] . 'Steps';
+$I = new $className($scenario);
 $randomCardName = 'Test Card' . rand(99, 999);
 $newRandomCardName = 'New Test Card' . $randomCardName;
 $cardPrice = rand(99, 999);

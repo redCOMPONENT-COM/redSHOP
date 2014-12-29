@@ -14,8 +14,8 @@ $user = JFactory::getUser();
 
 $document = JFactory::getDocument();
 include_once "modules/mod_redshop_who_bought/assets/css/skin.css.php";
-JHtml::script('com_redshop/jquery-1.4.2.min.js', false, true);
-JHTML::Script('query.jcarousel.min.js', 'modules/mod_redshop_who_bought/assets/js/', false);
+JHtml::_('redshopjquery.framework');
+JHtml::script('modules/mod_redshop_who_bought/assets/js/query.jcarousel.min.js');
 
 require_once JPATH_ADMINISTRATOR . '/components/com_redshop/helpers/redshop.cfg.php';
 JLoader::load('RedshopHelperAdminConfiguration');
@@ -33,11 +33,10 @@ JLoader::load('RedshopHelperRedshop.js');
 
 
 JHtml::script('com_redshop/common.js', false, true);
-// lightbox Javascript
 JHtml::script('com_redshop/redbox.js', false, true);
-JHtml::stylesheet('com_redshop/fetchscript.css', array(), true);
 
 echo '<ul id="mycarousel" class="jcarousel-skin-tango">';
+
 if (count($productlists))
 {
 	foreach ($productlists as $product)

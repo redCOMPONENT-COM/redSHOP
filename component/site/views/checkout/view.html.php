@@ -47,9 +47,8 @@ class RedshopViewCheckout extends RedshopView
 			$language->load($extension, $base_dir);
 		}
 
-		JHTML::Script('joomla.javascript.js', 'includes/js/', false);
-		JHTML::Script('validate.js', 'media/system/js/', false);
-		JHtml::script('com_redshop/jquery-1.4.2.min.js', false, true);
+		JHtml::script('system/validate.js', true, false);
+		JHtml::_('redshopjquery.framework');
 		JHtml::script('com_redshop/jquery.validate.js', false, true);
 		JHtml::script('com_redshop/common.js', false, true);
 		JHtml::script('com_redshop/jquery.metadata.js', false, true);
@@ -59,7 +58,7 @@ class RedshopViewCheckout extends RedshopView
 
 		if (JPluginHelper::isEnabled('redshop_veis_registration', 'rs_veis_registration'))
 		{
-			JHTML::Script('veis.js', 'plugins/redshop_veis_registration/rs_veis_registration/js/', false);
+			JHtml::script('plugins/redshop_veis_registration/rs_veis_registration/js/veis.js');
 		}
 
 		$cart = $session->get('cart');
@@ -76,7 +75,7 @@ class RedshopViewCheckout extends RedshopView
 		{
 			$msg  = JText::_('COM_REDSHOP_EMPTY_CART');
 			$link = 'index.php?option=com_redshop&Itemid=' . $Itemid;
-			$app->Redirect($link, $msg);
+			$app->redirect($link, $msg);
 		}
 
 		$lists = array();
@@ -87,7 +86,7 @@ class RedshopViewCheckout extends RedshopView
 
 			if (DEFAULT_QUOTATION_MODE == 1 && !array_key_exists("quotation_id", $cart))
 			{
-				$app->Redirect('index.php?option=com_redshop&view=quotation&Itemid=' . $Itemid);
+				$app->redirect('index.php?option=com_redshop&view=quotation&Itemid=' . $Itemid);
 			}
 
 			$users_info_id     = JRequest::getInt('users_info_id');
@@ -106,7 +105,7 @@ class RedshopViewCheckout extends RedshopView
 				}
 				else
 				{
-					$app->Redirect("index.php?option=com_redshop&view=account_billto&Itemid=" . $Itemid);
+					$app->redirect("index.php?option=com_redshop&view=account_billto&Itemid=" . $Itemid);
 				}
 			}
 
