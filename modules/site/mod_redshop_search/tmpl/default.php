@@ -105,51 +105,53 @@ if ($modsearchitemid != "")
 		};
 	}
 </script>
-
 <?php
 $document = JFactory::getDocument();
 
 if ($enableAjaxsearch)
 {
 	$document->addScriptDeclaration("
-		window.onload = function(){
-			var urlArg = new Array();
-			var urlArgstring = '';
-			var i = 0;
-			var Itemid = 0;
-
-			if (document.getElementById('Itemid'))
+		window.addEvent('domready', function(){
+			function makeUrl()
 			{
-				Itemid = (document.getElementById('Itemid').value);
-			}
+				var urlArg = new Array();
+				var urlArgstring = '';
+				var i = 0;
+				var Itemid = 0;
 
-			if (document.getElementById('search_type'))
-			{
-				urlArg[i++] = 'search_type=' + document.getElementById('search_type').value;
-			}
-
-			if (document.getElementById('category_id'))
-			{
-				urlArg[i++] = 'category_id=' + document.getElementById('category_id').value;
-			}
-
-			if (document.getElementById('manufacture_id'))
-			{
-				urlArg[i++] = 'manufacture_id=' + document.getElementById('manufacture_id').value;
-			}
-
-			urlArgstring = urlArg.join('&');
-
-			new bsn.AutoSuggest('keyword', {
-				script: 'index.php?tmpl=component&option=com_redshop&view=search&json=1&task=ajaxsearch&' + urlArgstring + '&',
-				varname: 'input',
-				json: true,
-				cache: false,
-				shownoresults: true,
-				callback: function (obj) {
-					location.href = base_url + 'index.php?option=com_redshop&view=product&pid=' + obj.id + '&Itemid=' + Itemid;
+				if (document.getElementById('Itemid'))
+				{
+					Itemid = (document.getElementById('Itemid').value);
 				}
-			});
-		};
+
+				if (document.getElementById('search_type'))
+				{
+					urlArg[i++] = 'search_type=' + document.getElementById('search_type').value;
+				}
+
+				if (document.getElementById('category_id'))
+				{
+					urlArg[i++] = 'category_id=' + document.getElementById('category_id').value;
+				}
+
+				if (document.getElementById('manufacture_id'))
+				{
+					urlArg[i++] = 'manufacture_id=' + document.getElementById('manufacture_id').value;
+				}
+
+				urlArgstring = urlArg.join('&');
+				new bsn.AutoSuggest('keyword', {
+					script: 'index.php?tmpl=component&option=com_redshop&view=search&json=1&task=ajaxsearch&' + urlArgstring + '&',
+					varname: 'keyword',
+					json: true,
+					cache: false,
+					shownoresults: true,
+					callback: function (obj) {
+						location.href = base_url + 'index.php?option=com_redshop&view=product&pid=' + obj.id + '&Itemid=' + Itemid;
+					}
+				});
+			}
+			makeUrl();
+		});
 	");
 }

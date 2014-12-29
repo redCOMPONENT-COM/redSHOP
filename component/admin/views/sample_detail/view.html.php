@@ -23,12 +23,6 @@ class RedshopViewSample_detail extends RedshopView
 		$document->addStyleSheet('components/com_redshop/assets/css/colorpicker.css');
 		$document->addStyleSheet('components/com_redshop/assets/css/layout.css');
 		$document->addScript('components/com_redshop/assets/js/validation.js');
-
-		if (version_compare(JVERSION, '3.0', '<'))
-		{
-			$document->addScript('components/com_redshop/assets/js/jquery.js');
-		}
-
 		$document->addScript('components/com_redshop/assets/js/colorpicker.js');
 		$document->addScript('components/com_redshop/assets/js/eye.js');
 		$document->addScript('components/com_redshop/assets/js/utils.js');
@@ -53,11 +47,7 @@ class RedshopViewSample_detail extends RedshopView
 			$isNew = ($detail->sample_id < 1);
 			$color_data = $model->color_Data($detail->sample_id);
 
-			if (count($color_data) > 0)
-			{
-				$color_data = $color_data;
-			}
-			else
+			if (!is_array($color_data))
 			{
 				$color_data = array();
 			}

@@ -939,7 +939,7 @@ $session->set('cart', $cart); ?>
 <tr>
 	<td>
 		<form action="<?php echo 'index.php?option=' . $option; ?>" method="post" name="adminFormAdd" id="adminFormAdd">
-			<table border="0" cellspacing="0" cellpadding="0" class="adminlist">
+			<table border="0" cellspacing="0" cellpadding="0" class="adminlist table">
 				<tr>
 					<td width="30%"><?php echo JText::_('COM_REDSHOP_PRODUCT_NAME'); ?></td>
 					<td width="20%"><?php echo JText::_('COM_REDSHOP_ORDER_PRODUCT_NOTE'); ?></td>
@@ -951,9 +951,19 @@ $session->set('cart', $cart); ?>
 					<td width="5%"><?php echo JText::_('COM_REDSHOP_ACTION');?></td>
 				</tr>
 				<tr id="trPrd1">
-					<td><input type="text" name="searchproduct1" id="searchproduct1" size="30"/>
-						<input type="hidden" name="product1" id="product1" value="0"/>
-
+					<td><?php
+						echo JHTML::_('redshopselect.search', '', 'product1',
+							array(
+								'select2.ajaxOptions' => array('typeField' => ', isproduct:1'),
+								'select2.options' => array(
+									'events' => array('select2-selecting' => 'function(e) {
+										document.getElementById(\'product1\').value = e.object.id;
+										displayProductDetailInfo(\'product1\', 0);
+										displayAddbutton(e.object.id, \'product1\');}')
+								)
+							)
+						);
+						?>
 						<div id="divAttproduct1"></div>
 						<div id="divAccproduct1"></div>
 						<div id="divUserFieldproduct1"></div>
@@ -1152,19 +1162,6 @@ $session->set('cart', $cart); ?>
 </table>
 <div id="divCalc"></div>
 <script type="text/javascript">
-	var productoptions = {
-		script: "index.php?tmpl=component&option=com_redshop&view=search&isproduct=1&json=true&",
-		varname: "input",
-		json: true,
-		shownoresults: true,
-		callback: function (obj) {
-			document.getElementById('product1').value = obj.id;
-			displayProductDetailInfo('product1', 0);
-			displayAddbutton(obj.id, 'product1');
-		}
-	};
-	var as_json = new bsn.AutoSuggest('searchproduct1', productoptions);
-
 	function hideDownloadLimit(val, tid) {
 
 		var downloadlimit = document.getElementById('limit_' + tid);

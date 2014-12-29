@@ -19,27 +19,11 @@ defined('_JEXEC') or die;
 	<table class="admintable">
 
 		<tr>
-			<td class="key">
-				<label for="relat">
-					<?php echo JText::_('COM_REDSHOP_PRODUCT_SOURCE'); ?>
-				</label>
-				<input type="text" id="relat" value=""/>
-
-				<div style="display: none">
-					<?php echo $this->lists['product_all_related'];?>
-				</div>
+			<td>
+				<?php echo JText::_('COM_REDSHOP_RELATED_PRODUCT'); ?>
 			</td>
 			<td>
-				<input type="button" value="-&gt;" onClick="moveRight_related(10);" title="MoveRight">
-				<br/><br/>
-				<input type="button" value="&lt;-" onClick="moveLeft_related();" title="MoveLeft">
-				<br/><br/>
-				<input type="button" value="<?php echo JText::_('COM_REDSHOP_UP'); ?>" onClick="moveOptionUp(this.form['related_product']);" title="MoveRight">
-				<br/><br/>
-				<input type="button" value="<?php echo JText::_('COM_REDSHOP_DOWN'); ?>" onClick="moveOptionDown(this.form['related_product']);" title="MoveLeft">
-			</td>
-			<td class="key">
-				<?php echo JText::_('COM_REDSHOP_RELATED_PRODUCT'); ?>
+
 				<?php echo $this->lists['related_product']; ?>
 			</td>
 		</tr>

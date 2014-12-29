@@ -40,7 +40,7 @@ class RedshopControllerMass_discount_detail extends RedshopController
 
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');
 
-		$post ['discount_product'] = $post ['container_product'];
+		$post ['discount_product'] = explode(',', $post ['container_product']);
 
 		$post ['discount_startdate'] = strtotime($post ['discount_startdate']);
 		$post ['discount_enddate'] = strtotime($post ['discount_enddate']) + (23 * 59 * 59);

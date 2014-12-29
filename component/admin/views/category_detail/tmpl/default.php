@@ -365,7 +365,20 @@ echo  JHtml::_('tabs.panel', JText::_('COM_REDSHOP_ACCESSORY_PRODUCT'), 'tab5');
 		<tr>
 			<td VALIGN="TOP" class="key" align="center"><?php echo JText::_('COM_REDSHOP_PRODUCT_SOURCE'); ?> <br/>
 				<br/>
-				<input style="width: 200px" type="text" id="input" value=""/>
+				<?php
+				echo JHtml::_('redshopselect.search', '',
+					'category_accessory_search',
+					array(
+						'select2.options' => array(
+							'events' => array(
+								'select2-selecting' => 'function(e) {create_table_accessory(e.object.text, e.object.id, e.object.price)}',
+								'select2-close' => 'function(e) {$(this).select2("val", "")}'
+							)
+						),
+						'select2.ajaxOptions' => array('typeField' => ', product_id:0'),
+					)
+				);
+				?>
 			</td>
 			<td></td>
 		</tr>
@@ -461,23 +474,3 @@ if ($this->detail->category_template != '0')
 <?php
 }
 ?>
-
-
-<script language="javascript" type="text/javascript">
-	//------------------ Accessory Product ------------------------
-
-	var options = {
-		script: "index.php?tmpl=component&option=com_redshop&view=search&json=true&product_id=0&",
-		varname: "input",
-		json: true,
-		shownoresults: true,
-		callback: function (obj) {
-			document.getElementById('input').value = "";
-			create_table_accessory(obj.value, obj.id, obj.price);
-		}
-	};
-
-	var as_json = new bsn.AutoSuggest('input', options);
-
-	//------------- End Of Accessory Product --------------------------
-</script>

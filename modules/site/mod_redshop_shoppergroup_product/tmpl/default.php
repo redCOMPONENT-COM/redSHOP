@@ -30,7 +30,6 @@ JHtml::script('com_redshop/common.js', false, true);
 // lightbox Javascript
 JHTML::script('com_redshop/redbox.js', false, true);
 
-JHtml::stylesheet('com_redshop/fetchscript.css', array(), true);
 $producthelper = new producthelper;
 $redhelper     = new redhelper;
 $redTemplate   = new Redtemplate;

@@ -16,6 +16,7 @@ $url = JURI::base();
 
 $product_data = JRequest::getVar('product');
 $model = $this->getModel('rating_detail');
+$productHelper = new producthelper;
 ?>
 <script language="javascript" type="text/javascript">
 	Joomla.submitbutton = function (pressbutton) {
@@ -125,10 +126,21 @@ $model = $this->getModel('rating_detail');
 						<?php echo JText::_('COM_REDSHOP_USER'); ?>:
 					</td>
 					<td>
-						<input type="text" name="username" id="username"
-						       value="<?php if (isset($this->detail->username)) echo $uname = $model->getuserfullname2($this->detail->userid); ?>"
-						       size="75"/><input type="hidden" name="userid" id="userid"
-						                         value="<?php echo $this->detail->userid; ?>"/>
+						<?php
+						$uname = new stdClass;
+
+						if (isset($this->detail->username))
+						{
+							$uname->text = $model->getuserfullname2($this->detail->userid);
+							$uname->value = $this->detail->userid;
+						}
+
+						echo JHTML::_('redshopselect.search', $uname, 'userid',
+							array(
+								'select2.ajaxOptions' => array('typeField' => ', user:1'),
+							)
+						);
+						?>
 						<?php echo JHTML::tooltip(JText::_('COM_REDSHOP_TOOLTIP_RATING_USER'), JText::_('COM_REDSHOP_USER'), 'tooltip.png', '', '', false); ?>
 					</td>
 				</tr>
@@ -136,27 +148,29 @@ $model = $this->getModel('rating_detail');
 					<td valign="top" align="right" class="key">
 						<?php echo JText::_('COM_REDSHOP_PRODUCT'); ?>:
 					</td>
-					<td>
-						<input type="text" size="75" name="product" id="product" value="<?php if ($product_data)
+					<td><?php
+						$productObject = new stdClass;
+						$listAttributes = array();
+
+						if ($product_data)
 						{
-							echo $product_data->product_name;
+							$productObject->text = $product_data->product_name;
+							$productObject->value = $product_data->product_id;
+							$listAttributes = array('disabled' => 'disabled');
 						}
-						else
+						elseif (isset($this->detail->product_id) && ($productInfo = $productHelper->getProductById($this->detail->product_id)))
 						{
-							if ($this->detail->product_id) echo $this->detail->product_name;
-						} ?>"
-							<?php if ($product_data)
-						{ ?>
-							disabled="disabled"
-						<?php }?>
-							/><input type="hidden" name="product_id" id="product_id" value="<?php if ($product_data)
-						{
-							echo $product_data->product_id;
+							$productObject->text = $productInfo->product_name;
+							$productObject->value = $this->detail->product_id;
 						}
-						else
-						{
-							echo $this->detail->product_id;
-						} ?>"/>
+
+						echo JHTML::_('redshopselect.search', $productObject, 'product_id',
+							array(
+								'select2.ajaxOptions' => array('typeField' => ', isproduct:1'),
+								'list.attr' => $listAttributes
+							)
+						);
+						?>
 						<?php echo JHTML::tooltip(JText::_('COM_REDSHOP_TOOLTIP_RATING_PRODUCT'), JText::_('COM_REDSHOP_PRODUCT'), 'tooltip.png', '', '', false); ?>
 					</td>
 				</tr>
@@ -192,28 +206,3 @@ $model = $this->getModel('rating_detail');
 	<input type="hidden" name="time" value="<?php echo time(); ?>"/>
 	<input type="hidden" name="view" value="rating_detail"/>
 </form>
-<script type="text/javascript">
-
-	var options = {
-		script: "index.php?tmpl=component&&option=com_redshop&view=search&user=1&json=true&",
-		varname: "input",
-		json: true,
-		shownoresults: false,
-		callback: function (obj) {
-			document.getElementById('userid').value = obj.id;
-		}
-	};
-	var as_json = new bsn.AutoSuggest('username', options);
-
-	var products = {
-		script: "index.php?tmpl=component&&option=com_redshop&view=search&isproduct=1&json=true&",
-		varname: "input",
-		json: true,
-		shownoresults: false,
-		callback: function (obj) {
-			document.getElementById('product_id').value = obj.id;
-		}
-	};
-	var as_json = new bsn.AutoSuggest('product', products);
-
-</script>
