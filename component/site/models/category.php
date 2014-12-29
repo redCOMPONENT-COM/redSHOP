@@ -145,9 +145,12 @@ class RedshopModelCategory extends RedshopModel
 
 		if ($this->_id)
 		{
-			$maincat = $this->getTable('category_detail');
-			$maincat->load($this->_id);
-			$this->_maincat = $maincat;
+			$db = JFactory::getDbo();
+			$query = $db->getQuery(true)
+				->select('*')
+				->from($db->qn('#__redshop_category'))
+				->where('category_id = ' . (int) $this->_id);
+			$this->_maincat = $db->setQuery($query)->loadObject();
 		}
 
 		return $this->_maincat;
