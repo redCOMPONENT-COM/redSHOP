@@ -55,7 +55,6 @@ class plgContentredshop_product extends JPlugin
 			JHtml::script('com_redshop/attribute.js', false, true);
 			JHtml::script('com_redshop/common.js', false, true);
 			JHtml::stylesheet('com_redshop/redshop.css', array(), true);
-			JHtml::stylesheet('com_redshop/fetchscript.css', array(), true);
 			JHtml::stylesheet('com_redshop/style.css', array(), true);
 			JHtml::stylesheet('com_redshop/scrollable-navig.css', array(), true);
 			$document->addScriptDeclaration("
