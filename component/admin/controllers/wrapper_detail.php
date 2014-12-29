@@ -38,7 +38,7 @@ class RedshopControllerWrapper_detail extends RedshopController
 		}
 
 		$post = JRequest::get('post');
-		$post['product_id'] = (isset($post['container_product'])) ? $post['container_product'] : 0;
+		$post['product_id'] = (isset($post['container_product'])) ? explode(',', $post['container_product']) : 0;
 		$product_id = JRequest::getInt('product_id', 0);
 
 		$cid = JRequest::getVar('cid', array(0), 'post', 'array');

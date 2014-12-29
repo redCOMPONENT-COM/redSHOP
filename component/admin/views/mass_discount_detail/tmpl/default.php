@@ -27,7 +27,7 @@ $now = JFactory::getDate();
 </script>
 
 <form action="<?php echo JRoute::_($this->request_url) ?>" method="post" name="adminForm" id="adminForm"
-      enctype="multipart/form-data" onSubmit="return selectAll(this.elements['container_product[]']);">
+      enctype="multipart/form-data">
 	<div class="col50">
 		<fieldset class="adminform">
 			<legend><?php echo JText::_('COM_REDSHOP_DETAILS'); ?></legend>
@@ -96,32 +96,11 @@ $now = JFactory::getDate();
 				<tr>
 					<td valign="top" align="right" class="key">
 						<label for="product">
-							<?php echo JText::_('COM_REDSHOP_PRODUCT'); ?>:
+							<?php echo JText::_('COM_REDSHOP_DISCOUNT_PRODUCT'); ?>:
 						</label>
-
 					</td>
 					<td>
-						<table class="admintable">
-							<tr width="100px">
-								<td VALIGN="TOP" class="key" align="center">
-									<?php echo JText::_('COM_REDSHOP_PRODUCT'); ?> <br/><br/>
-									<input style="width: 250px" type="text" id="input" value=""/>
-
-									<div style="display:none"><?php
-										echo $this->lists['product_all'];
-										?></div>
-								</td>
-								<TD align="center">
-									<input type="button" value="-&gt;" onClick="moveRight(10);"
-									       title="MoveRight"><BR><BR>
-									<input type="button" value="&lt;-" onClick="moveLeft();" title="MoveLeft">
-								</TD>
-								<TD VALIGN="TOP" align="right" class="key">
-									<?php echo JText::_('COM_REDSHOP_DISCOUNT_PRODUCT'); ?><br/><br/>
-									<?php echo $this->lists['discount_product'];?>
-								</td>
-							</tr>
-						</table>
+						<?php echo $this->lists['discount_product'];?>
 					</td>
 				</tr>
 				<tr>
@@ -154,30 +133,3 @@ $now = JFactory::getDate();
 	<input type="hidden" name="task" value=""/>
 	<input type="hidden" name="view" value="mass_discount_detail"/>
 </form>
-<script type="text/javascript">
-
-	var options = {
-		script: "index.php?tmpl=component&option=com_redshop&view=search&json=true&",
-		varname: "input",
-		json: true,
-		shownoresults: true,
-
-		callback: function (obj) {
-			var selTo = document.adminForm.container_product;
-			var chk_add = 1;
-			for (var i = 0; i < selTo.options.length; i++) {
-				if (selTo.options[i].value == obj.id) {
-					chk_add = 0;
-				}
-			}
-			if (chk_add == 1) {
-				var newOption = new Option(obj.value, obj.id);
-				selTo.options[selTo.options.length] = newOption;
-			}
-			document.adminForm.input.value = "";
-		}
-	};
-
-	var as_json = new bsn.AutoSuggest('input', options);
-
-</script>

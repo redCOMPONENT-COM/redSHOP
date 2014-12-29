@@ -59,9 +59,6 @@ class RedshopViewOrder_detail extends RedshopView
 		$document->addScript('components/com_redshop/assets/js/order.js');
 		$document->addScript('components/com_redshop/assets/js/common.js');
 		$document->addScript('components/com_redshop/assets/js/validation.js');
-		$document->addScript(JURI::base() . 'components/com_redshop/assets/js/select_sort.js');
-		$document->addStyleSheet(JURI::base() . 'components/com_redshop/assets/css/search.css');
-		$document->addScript(JURI::base() . 'components/com_redshop/assets/js/search.js');
 		$document->addScript('components/com_redshop/assets/js/json.js');
 
 		$lists = array();

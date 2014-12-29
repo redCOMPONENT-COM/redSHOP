@@ -50,16 +50,11 @@ class plgContentredshop_product extends JPlugin
 
 			$document = JFactory::getDocument();
 
-			if (version_compare(JVERSION, '3.0', '<'))
-			{
-				JHtml::script('com_redshop/jquery.js', false, true);
-			}
-
+			JHtml::_('redshopjquery.framework');
 			JHtml::script('com_redshop/redbox.js', false, true);
 			JHtml::script('com_redshop/attribute.js', false, true);
 			JHtml::script('com_redshop/common.js', false, true);
 			JHtml::stylesheet('com_redshop/redshop.css', array(), true);
-			JHtml::stylesheet('com_redshop/fetchscript.css', array(), true);
 			JHtml::stylesheet('com_redshop/style.css', array(), true);
 			JHtml::stylesheet('com_redshop/scrollable-navig.css', array(), true);
 			$document->addScriptDeclaration("
