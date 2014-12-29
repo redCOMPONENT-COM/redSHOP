@@ -13,10 +13,6 @@ JHTML::_('behavior.modal');
 $uri = JURI::getInstance();
 $url = $uri->root();
 $Itemid = JRequest::getInt('Itemid');
-$option = JRequest::getCmd('option');
-// get product helper
-
-
 $document = JFactory::getDocument();
 
 // 	include redshop js file.

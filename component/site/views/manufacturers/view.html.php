@@ -46,7 +46,6 @@ class RedshopViewManufacturers extends RedshopView
 		JHtml::script('com_redshop/redbox.js', false, true);
 		JHtml::script('com_redshop/attribute.js', false, true);
 		JHtml::script('com_redshop/common.js', false, true);
-		JHtml::stylesheet('com_redshop/fetchscript.css', array(), true);
 
 		if ($layout != 'default')
 		{
