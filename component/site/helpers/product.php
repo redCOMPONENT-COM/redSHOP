@@ -2975,14 +2975,23 @@ class producthelper
 		// To avoid killing queries do not allow queries that get all the items
 		if ($id != 0)
 		{
-			$db = JFactory::getDbo();
+			switch ($section)
+			{
+				case 'product':
+					return $this->getProductById($id);
+				break;
+				case 'category':
+					return RedshopHelperCategory::getCategoryById($id);
+				break;
+				default:
+					$db = JFactory::getDbo();
+					$query = " SELECT * FROM " . $db->quoteName($this->_table_prefix . $section)
+						. " WHERE " . $db->quoteName($section . "_id") . " = " . (int) $id . " ";
+					$db->setQuery($query);
 
-			$query = " SELECT * FROM " . $db->quoteName($this->_table_prefix . $section)
-				. " WHERE " . $db->quoteName($section . "_id") . " = " . (int) $id . " ";
+					return  $db->loadObject();
+			}
 
-			$db->setQuery($query);
-
-			return  $db->loadObject();
 		}
 
 		return null;
@@ -3097,13 +3106,23 @@ class producthelper
 		return null;
 	}
 
+	/**
+	 * Get Parent Category
+	 *
+	 * @param int $id
+	 *
+	 * @return null
+	 *
+	 * @deprecated  Use please new function RedshopHelperCategory::getCategoryById
+	 */
 	public function getParentCategory($id = 0)
 	{
-		$query = "SELECT category_parent_id FROM " . $this->_table_prefix . "category_xref WHERE category_child_id = " . (int) $id . " ";
-		$this->_db->setQuery($query);
-		$res = $this->_db->loadResult();
+		if ($result = RedshopHelperCategory::getCategoryById($id))
+		{
+			return $result->category_parent_id;
+		}
 
-		return $res;
+		return null;
 	}
 
 	/**
