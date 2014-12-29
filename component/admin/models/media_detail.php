@@ -179,18 +179,76 @@ class RedshopModelMedia_detail extends RedshopModel
 
 	public function getSection($id, $type)
 	{
-		if ($type == 'product')
+		$db = JFactory::getDbo();
+		$query = $db->getQuery(true);
+		$search = ' = ' . (int) $id;
+
+		switch ($type)
 		{
-			$query = 'SELECT product_name as name, product_id as id FROM ' . $this->_table_prefix . 'product  WHERE product_id = "' . $id . '" ';
-		}
-		else
-		{
-			$query = 'SELECT category_name as name,category_id as id FROM ' . $this->_table_prefix . 'category  WHERE category_id = "' . $id . '" ';
+			case 'category':
+				$query->select(
+					array(
+						$db->qn('category_id', 'id'),
+						$db->qn('category_name', 'name')
+					)
+				)
+					->from($db->qn('#__redshop_category'))
+					->where($db->qn('category_id') . $search);
+				break;
+			case 'property':
+				$query->select(
+					array(
+						$db->qn('property_id', 'id'),
+						$db->qn('property_name', 'name')
+					)
+				)
+					->from($db->qn('#__redshop_product_attribute_property'))
+					->where($db->qn('property_id') . $search);
+				break;
+			case 'subproperty':
+				$query->select(
+					array(
+						$db->qn('subattribute_color_id', 'id'),
+						$db->qn('subattribute_color_name', 'name')
+					)
+				)
+					->from($db->qn('#__redshop_product_subattribute_color'))
+					->where($db->qn('subattribute_color_id') . $search);
+				break;
+			case 'manufacturer':
+				$query->select(
+					array(
+						$db->qn('manufacturer_id', 'id'),
+						$db->qn('manufacturer_name', 'name')
+					)
+				)
+					->from($db->qn('#__redshop_manufacturer'))
+					->where($db->qn('manufacturer_id') . $search);
+				break;
+			case 'catalog':
+				$query->select(
+					array(
+						$db->qn('catalog_id', 'id'),
+						$db->qn('catalog_name', 'name')
+					)
+				)
+					->from($db->qn('#__redshop_catalog'))
+					->where('catalog_id' . $search);
+				break;
+			case 'product':
+			default:
+				$query->select(
+					array(
+						$db->qn('product_id', 'id'),
+						$db->qn('product_name', 'name')
+					)
+				)
+					->from($db->qn('#__redshop_product'))
+					->where($db->qn('product_id') . $search);
+				break;
 		}
 
-		$this->_db->setQuery($query);
-
-		return $this->_db->loadObject();
+		return $db->setQuery($query)->loadObject();
 	}
 
 	public function defaultmedia($media_id = 0, $section_id = 0, $media_section = "")

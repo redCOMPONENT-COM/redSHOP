@@ -15,6 +15,10 @@ if (!defined('JPATH_REDSHOP_LIBRARY'))
 	// Define redSHOP Library Folder Path
 	define('JPATH_REDSHOP_LIBRARY', __DIR__);
 
+	// Load library language
+	$lang = JFactory::getLanguage();
+	$lang->load('lib_redshop', JPATH_SITE);
+
 	// Register library prefix
 	JLoader::registerPrefix('Redshop', JPATH_REDSHOP_LIBRARY);
 

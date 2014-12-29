@@ -30,7 +30,20 @@ defined('_JEXEC') or die;
 								</label>
 							</td>
 							<td>
-								<input style="width: 200px" type="text" id="input" value=""/>
+								<?php
+								echo JHtml::_('redshopselect.search', '',
+									'product_accessory_search',
+									array(
+										'select2.options' => array(
+											'events' => array(
+												'select2-selecting' => 'function(e) {create_table_accessory(e.object.text, e.object.id, e.object.price)}',
+												'select2-close' => 'function(e) {$(this).select2("val", "")}'
+											)
+										),
+										'select2.ajaxOptions' => array('typeField' => ', product_id:' . $this->detail->product_id),
+									)
+								);
+								?>
 							</td>
 						</tr>
 

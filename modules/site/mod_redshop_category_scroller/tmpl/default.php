@@ -23,6 +23,7 @@ $Itemid = JRequest::getInt('Itemid');
 $user   = JFactory::getUser();
 $option = 'com_redshop';
 
+JHtml::_('redshopjquery.framework');
 $document = JFactory::getDocument();
 $document->addStyleSheet(JURI::base() . 'modules/mod_redshop_products/css/products.css');
 

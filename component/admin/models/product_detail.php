@@ -733,9 +733,9 @@ class RedshopModelProduct_Detail extends RedshopModel
 
 		$ordering_related = 0;
 
-		if (count($data['related_product']) > 0)
+		if (isset($data['related_product']) && ($relatedProducts = explode(',', $data['related_product'])))
 		{
-			foreach ($data['related_product'] as $related_data )
+			foreach ($relatedProducts as $related_data )
 			{
 				$ordering_related++;
 				$related_id = $related_data;
@@ -1308,11 +1308,11 @@ class RedshopModelProduct_Detail extends RedshopModel
 			$query = 'SELECT related_id FROM ' . $this->table_prefix . 'product_related WHERE product_id IN ( ' . $pdata->product_id . ' )';
 			$this->_db->setQuery($query);
 			$relatedproductdata = $this->_db->loadObjectList();
-			$copyrelatedproduct = array();
+			$copyrelatedproduct = '';
 
 			for ($i = 0; $i < count($relatedproductdata); $i++)
 			{
-				$copyrelatedproduct[$i] = $relatedproductdata[$i]->related_id;
+				$copyrelatedproduct .= $relatedproductdata[$i]->related_id;
 			}
 
 			$query = 'SELECT stockroom_id,quantity FROM ' . $this->table_prefix . 'product_stockroom_xref

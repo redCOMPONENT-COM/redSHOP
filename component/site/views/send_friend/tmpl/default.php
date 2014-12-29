@@ -15,6 +15,7 @@ $url = JURI::base();
 $user = JFactory::getUser();
 $pid = JRequest::getInt('pid');
 $document = JFactory::getDocument();
+JHtml::_('redshopjquery.framework');
 JHtml::script('com_redshop/jquery.tools.min.js', false, true);
 ?>
 <script type="text/javascript" language="javascript">var J = jQuery.noConflict();</script>

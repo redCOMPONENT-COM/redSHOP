@@ -99,6 +99,7 @@ if (!class_exists('redFeatureproduct'))
 			$document = JFactory::getDocument();
 			JHTML::stylesheet('modules/mod_redfeaturedproduct/css/jquery.css');
 			JHTML::stylesheet('modules/mod_redfeaturedproduct/css/skin_002.css');
+			JHtml::_('redshopjquery.framework');
 
 			if ($view == 'category')
 			{
@@ -113,11 +114,6 @@ if (!class_exists('redFeatureproduct'))
 				JHtml::script('com_redshop/attribute.js', false, true);
 				JHtml::script('com_redshop/common.js', false, true);
 				JHtml::script('com_redshop/jquery.tools.min.js', false, true);
-			}
-
-			if (version_compare(JVERSION, '3.0', '<'))
-			{
-				JHtml::script('com_redshop/jquery.js', false, true);
 			}
 
 			JHTML::script('modules/mod_redfeaturedproduct/js/recreativo.js');

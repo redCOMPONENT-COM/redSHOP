@@ -59,7 +59,7 @@ class plgSystemRedlightbox_slideshow extends JPlugin
             $headerstuff['scripts'] = $scripts;
             $document->setHeadData($headerstuff);
 
-            $document->addScript('plugins/system/' . $this->plg_name . '/' . $this->plg_name . '/jquery/jquery.min.js');
+			JHtml::_('redshopjquery.framework');
             $document->addScript('plugins/system/' . $this->plg_name . '/' . $this->plg_name . '/phoswipe/klass.min.js');
             $document->addScript('plugins/system/' . $this->plg_name . '/' . $this->plg_name . '/phoswipe/photoswipe.js');
             $document->addScript('plugins/system/' . $this->plg_name . '/' . $this->plg_name . '/slimbox/slimbox2.js');

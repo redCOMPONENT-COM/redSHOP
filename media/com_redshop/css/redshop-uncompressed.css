@@ -489,24 +489,17 @@ div.product_writereview {
     margin-right: 5px;
     width: 260px;
     float: left;
+    min-height: 135px;
 }
 .related_product_left, .related_produkt_venstre {
     float: left;
     width: 120px;
 }
-.related_product_right, .related_produkt_hoejre {
-    float: left;
-    width: 135px;
-}
 .related_product_bottom {
-    clear: left;
-    padding-top: 5px;
-    width: 260px;
+    padding-top: 10px;
 }
 .related_product_image, .related_produkt_billed_ramme {
     width: 120px;
-    padding-top: 5px;
-    padding-bottom: 5px;
 }
 .related_product_image_inside {
     margin: 0;
@@ -530,6 +523,8 @@ div.product_writereview {
     font-size: 12px;
     line-height: 20px;
     color: #ca2128;
+    float: left;
+    width: 120px;
 }
 .related_product_attr {
     margin: 0;
@@ -540,17 +535,17 @@ div.product_writereview {
     margin: 0;
     padding: 0;
     height: 30px;
-    text-align: center;
+    text-align: left;
+    float: left;
+    width: 135px;
 }
-.related_product_addtocart div.cart-wrapper div.cart-quantity {
-    width: 260px;
+.related_product_addtocart div.cart-quantity {
     padding-left: 10px;
     clear: left;
 }
-.related_product_addtocart div.cart-wrapper div.cart-link {
-    width: 260px;
-    clear: left;
-    text-align: right;
+.related_product_addtocart div.cart-link {
+    float: none;
+    width: auto;
 }
 .related_product_readmore, .related_product_readmore a, .related_produkt_laes_mere, .related_produkt_laes_mere a {
     font-weight: normal;

@@ -32,12 +32,7 @@ $now = JFactory::getDate();
 </script>
 
 <form action="<?php echo JRoute::_($this->request_url) ?>" method="post" name="adminForm" id="adminForm"
-      enctype="multipart/form-data" onSubmit="return selectAll(this.elements['container_product[]']);">
-	<?php
-	echo JHtml::_('tabs.start', 'voucher-pane', array('startOffset' => 0));
-	echo JHtml::_('tabs.panel', JText::_('COM_REDSHOP_DETAILS'), 'tab1');
-	?>
-	<div class="col50">
+      enctype="multipart/form-data">
 		<fieldset class="adminform">
 			<legend><?php echo JText::_('COM_REDSHOP_DETAILS'); ?></legend>
 			<table class="admintable">
@@ -72,6 +67,14 @@ $now = JFactory::getDate();
 					<td>
 						<?php echo $this->lists['voucher_type']; ?>
 						<?php echo JHTML::tooltip(JText::_('COM_REDSHOP_TOOLTIP_VOUCHER_TYPE'), JText::_('COM_REDSHOP_VOUCHER_TYPE'), 'tooltip.png', '', '', false); ?>
+					</td>
+				</tr>
+				<tr>
+					<td valign="top" align="right" class="key">
+						<?php echo JText::_('COM_REDSHOP_VOUCHER_PRODUCT'); ?>:
+					</td>
+					<td>
+						<?php echo $this->lists['voucher_product']; ?>
 					</td>
 				</tr>
 				<tr>
@@ -135,36 +138,6 @@ $now = JFactory::getDate();
 				</tr>
 			</table>
 		</fieldset>
-	</div>
-	<?php echo  JHtml::_('tabs.panel', JText::_('COM_REDSHOP_VOUCHER_PRODUCT'), 'tab2'); ?>
-	<div class="col50">
-
-		<table class="admintable">
-			<tr>
-				<td VALIGN="TOP" class="key" align="center">
-					<?php echo JText::_('COM_REDSHOP_PRODUCT_SOURCE'); ?> <br/><br/>
-					<input style="width: 200px" type="text" id="input" value=""/>
-
-					<div style="display:none"><?php
-						echo $this->lists['product_all'];
-						?></div>
-				</td>
-				<TD align="center">
-					<input type="button" value="-&gt;" onClick="moveRight(10);" title="MoveRight">
-					<BR><BR>
-					<input type="button" value="&lt;-" onClick="moveLeft();" title="MoveLeft">
-				</TD>
-				<TD VALIGN="TOP" align="center" class="key">
-					<?php echo JText::_('COM_REDSHOP_VOUCHER_PRODUCT'); ?><br/><br/>
-					<?php
-					echo $this->lists['voucher_product'];?>
-
-				</td>
-			</tr>
-		</table>
-
-	</div>
-	<?php echo JHtml::_('tabs.end'); ?>
 	<div class="clr"></div>
 	<input type="hidden" name="cid[]" value="<?php echo $this->detail->voucher_id; ?>"/>
 	<input type="hidden" name="old_voucher_code" value="<?php echo $this->detail->voucher_code; ?>"/>
@@ -172,40 +145,3 @@ $now = JFactory::getDate();
 	<input type="hidden" name="task" value=""/>
 	<input type="hidden" name="view" value="voucher_detail"/>
 </form>
-<!--<script type="text/javascript">-->
-<!--	var products = {-->
-<!--			script:"index.php?tmpl=component&&option=com_redshop&view=search&isproduct=1&json=true&",-->
-<!--			varname:"input",-->
-<!--			json:true,-->
-<!--			shownoresults:false,-->
-<!--			callback: function (obj) { document.getElementById('product_id').value = obj.id; }				-->
-<!--		};-->
-<!--	var as_json = new bsn.AutoSuggest('product', products);-->
-<!--	-->
-<!--</script>-->
-<script type="text/javascript">
-
-	var options = {
-		script: "index.php?tmpl=component&option=com_redshop&view=search&json=true&voucher_id=<?php echo $this->detail->voucher_id;?>&alert=voucher&",
-		varname: "input",
-		json: true,
-		shownoresults: false,
-		callback: function (obj) {
-			var selTo = document.adminForm.container_product;
-			var chk_add = 1;
-			for (var i = 0; i < selTo.options.length; i++) {
-				if (selTo.options[i].value == obj.id) {
-					chk_add = 0;
-				}
-			}
-			if (chk_add == 1) {
-				var newOption = new Option(obj.value, obj.id);
-				selTo.options[selTo.options.length] = newOption;
-			}
-			document.adminForm.input.value = "";
-		}
-	};
-
-	var as_json = new bsn.AutoSuggest('input', options);
-
-</script>
