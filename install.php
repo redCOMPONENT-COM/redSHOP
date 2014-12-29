@@ -46,8 +46,6 @@ class Com_RedshopInstallerScript
 		JLoader::load('RedshopHelperAdminTemplate');
 
 		$this->com_install('install');
-
-		$this->handleCSSFile();
 	}
 
 	/**
@@ -81,8 +79,6 @@ class Com_RedshopInstallerScript
 		JLoader::import('redshop.library');
 		JLoader::load('RedshopHelperAdminTemplate');
 		$this->com_install('update');
-
-		$this->handleCSSFile();
 	}
 
 	/**
@@ -148,24 +144,6 @@ class Com_RedshopInstallerScript
 			JModelLegacy::addIncludePath(JPATH_SITE . '/administrator/components/com_redshop/models');
 			$model = JModelLegacy::getInstance('Update', 'RedshopModel');
 			$model->checkUpdateStatus();
-		}
-	}
-
-	/**
-	 * Handle redSHOP Demo CSS file for Demo Content
-	 *
-	 * @return  void
-	 */
-	private function handleCSSFile()
-	{
-		$categoryTemplate = JPATH_SITE . '/components/com_redshop/views/category/tmpl/category/category_template_column.php';
-
-		if (file_exists($categoryTemplate))
-		{
-			$demoCSS    = JPATH_SITE . '/media/com_redshop/css/redshop-update.css';
-			$redSHOPCSS = JPATH_SITE . '/media/com_redshop/css/redshop.css';
-			unlink($redSHOPCSS);
-			rename($demoCSS, $redSHOPCSS);
 		}
 	}
 
