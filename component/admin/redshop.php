@@ -107,6 +107,7 @@
 	}
 
 	JHtml::_('behavior.framework');
+	JHtml::_('redshopjquery.framework');
 	$document = JFactory::getDocument();
 
 	if (version_compare(JVERSION, '3.0', '>='))
