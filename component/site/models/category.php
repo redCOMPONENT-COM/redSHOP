@@ -141,17 +141,7 @@ class RedshopModelCategory extends RedshopModel
 
 	public function _loadCategory()
 	{
-		$this->_maincat = array();
-
-		if ($this->_id)
-		{
-			$db = JFactory::getDbo();
-			$query = $db->getQuery(true)
-				->select('*')
-				->from($db->qn('#__redshop_category'))
-				->where('category_id = ' . (int) $this->_id);
-			$this->_maincat = $db->setQuery($query)->loadObject();
-		}
+		$this->_maincat = RedshopHelperCategory::getCategoryById($this->_id);
 
 		return $this->_maincat;
 	}
