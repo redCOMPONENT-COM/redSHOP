@@ -27,7 +27,6 @@ class RedshopViewAttribute_set_detail extends RedshopView
 		$attributes = $model->getattributes();
 
 		JToolBarHelper::title(JText::_('COM_REDSHOP_ATTRIBUTE_SET_DETAIL'), 'redshop_attribute_bank48');
-
 		$document = JFactory::getDocument();
 
 		$document->addScriptDeclaration("
@@ -37,7 +36,6 @@ class RedshopViewAttribute_set_detail extends RedshopView
 		if (version_compare(JVERSION, '3.0', '<'))
 		{
 			$document->addStyleSheet(JURI::root() . 'administrator/components/com_redshop/assets/css/update.css');
-			$document->addScript(JURI::root() . 'media/com_redshop/js/jquery.js');
 		}
 
 		$document->addScript(JURI::root() . 'administrator/components/com_redshop/assets/js/attribute_manipulation.js');

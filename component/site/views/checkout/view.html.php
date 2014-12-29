@@ -47,8 +47,8 @@ class RedshopViewCheckout extends RedshopView
 			$language->load($extension, $base_dir);
 		}
 
-		JHTML::script('system/validate.js', true, false);
-		JHtml::script('com_redshop/jquery-1.4.2.min.js', false, true);
+		JHtml::script('system/validate.js', true, false);
+		JHtml::_('redshopjquery.framework');
 		JHtml::script('com_redshop/jquery.validate.js', false, true);
 		JHtml::script('com_redshop/common.js', false, true);
 		JHtml::script('com_redshop/jquery.metadata.js', false, true);
@@ -58,7 +58,7 @@ class RedshopViewCheckout extends RedshopView
 
 		if (JPluginHelper::isEnabled('redshop_veis_registration', 'rs_veis_registration'))
 		{
-			JHTML::script('plugins/redshop_veis_registration/rs_veis_registration/js/veis.js');
+			JHtml::script('plugins/redshop_veis_registration/rs_veis_registration/js/veis.js');
 		}
 
 		$cart = $session->get('cart');

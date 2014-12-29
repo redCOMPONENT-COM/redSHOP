@@ -75,21 +75,13 @@ class RedshopViewCategory extends RedshopView
 		}
 
 		$document = JFactory::getDocument();
-
-		if (version_compare(JVERSION, '3.0', '<'))
-		{
-			JHtml::script('com_redshop/jquery.js', false, true);
-		}
-
+		JHtml::_('redshopjquery.framework');
 		JHtml::script('com_redshop/redbox.js', false, true);
 
 		JHtml::script('com_redshop/attribute.js', false, true);
 		JHtml::script('com_redshop/common.js', false, true);
 
 		JHtml::stylesheet('com_redshop/priceslider.css', array(), true);
-
-		// Add jQueryUI because of IE9 issue
-		$document->addStyleSheet('http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/themes/base/jquery-ui.css');
 
 		$lists   = array();
 		$minmax  = array(0, 0);
@@ -454,12 +446,10 @@ class RedshopViewCategory extends RedshopView
 					$GLOBALS['product_price_slider'] = 1;
 
 					// Start Code for fixes IE9 issue
-
-					$document->addScript('//ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js');
-					$document->addScript('//ajax.googleapis.com/ajax/libs/jqueryui/1.8.15/jquery-ui.min.js');
+					JHtml::_('redshopjquery.ui');
 
 					// End Code for fixes IE9 issue
-					require_once JPATH_ROOT . 'media/com_redshop/js/catprice_filter.php';
+					require_once JPATH_ROOT . '/media/com_redshop/js/catprice_filter.php';
 				}
 				else
 				{

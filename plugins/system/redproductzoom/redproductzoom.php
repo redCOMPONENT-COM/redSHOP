@@ -58,7 +58,7 @@ class PlgSystemredproductzoom extends JPlugin
 			$document = JFactory::getDocument();
 			$url = JURI::base(true) . '/plugins/system/redproductzoom';
 
-			$document->addScript($url . '/js/jquery.js');
+			JHtml::_('redshopjquery.framework');
 			$document->addScript($url . '/js/jquery.elevateZoom.min.js');
 			$document->addScript($url . '/js/redproductzoom.js');
 		}
