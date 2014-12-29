@@ -278,25 +278,37 @@ class redhelper
 		return $input->getInt('Itemid', 0);
 	}
 
-	public function getCategoryItemid($category_id = 0)
+	/**
+	 * Get Category Itemid
+	 *
+	 * @param   int  $categoryId  Category id
+	 *
+	 * @return mixed
+	 */
+	public function getCategoryItemid($categoryId = 0)
 	{
-		if ($category_id)
+		if ($categoryId)
 		{
-			$and = ' AND (`link` LIKE "%option=com_redshop&view=category&layout=detail") AND (`params` LIKE \'%"cid":"' . (int) $category_id . '"%\') ';
+			foreach (self::getRedshopMenuItems() as $oneMenuItem)
+			{
+				if (self::checkMenuQuery($oneMenuItem, array('option' => 'com_redshop', 'view' => 'category', 'layout' => 'detail', 'cid' => (int) $categoryId)))
+				{
+					return $oneMenuItem->id;
+				}
+			}
 		}
 		else
 		{
-			$and = ' AND (`link` LIKE "%option=com_redshop&view=category") ';
+			foreach (self::getRedshopMenuItems() as $oneMenuItem)
+			{
+				if (self::checkMenuQuery($oneMenuItem, array('option' => 'com_redshop', 'view' => 'category')))
+				{
+					return $oneMenuItem->id;
+				}
+			}
 		}
 
-		$query = "SELECT id FROM #__menu "
-			. "WHERE 1=1  and published='1' "
-			. $and
-			. "ORDER BY 'ordering'";
-		$this->_db->setQuery($query);
-		$Itemid = $this->_db->loadResult();
-
-		return $Itemid;
+		return null;
 	}
 
 	public function convertLanguageString($arr)

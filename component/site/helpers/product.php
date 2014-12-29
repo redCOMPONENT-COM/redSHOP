@@ -224,6 +224,7 @@ class producthelper
 			if (self::$products[$productId . '.' . $userId] = $db->loadObject())
 			{
 				$this->setAttributes(array($productId . '.' . $userId => self::$products[$productId . '.' . $userId]), $userId);
+				$this->setExtraFields(array($productId . '.' . $userId => self::$products[$productId . '.' . $userId]), $userId);
 			}
 		}
 
@@ -241,6 +242,43 @@ class producthelper
 	{
 		self::$products = $products + self::$products;
 		$this->setAttributes($products);
+		$this->setExtraFields($products);
+	}
+
+	public function setExtraFields($products, $userId = 0)
+	{
+		if (!$userId)
+		{
+			$user = JFactory::getUser();
+			$userId = $user->id;
+		}
+
+		$keys = array();
+
+		foreach ((array) $products  as $product)
+		{
+			$keys[] = $product->product_id;
+			self::$products[$product->product_id . '.' . $userId]->extraFields = array();
+		}
+
+		if (count($keys) > 0)
+		{
+			$db = JFactory::getDbo();
+			$query = $db->getQuery(true)
+				->select('fd.*, f.field_title')
+				->from($db->qn('#__redshop_fields_data', 'fd'))
+				->leftJoin($db->qn('#__redshop_fields', 'f') . ' ON fd.fieldid = f.field_id')
+				->where('fd.itemid IN (' . implode(',', $keys) . ')')
+				->where('fd.section = 1');
+
+			if ($results = $db->setQuery($query)->loadObjectList())
+			{
+				foreach ($results as $result)
+				{
+					self::$products[$result->itemid . '.' . $userId]->extraFields[$result->fieldid] = $result;
+				}
+			}
+		}
 	}
 
 	/**
