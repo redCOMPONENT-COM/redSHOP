@@ -18,6 +18,7 @@
 		<folder>controller</folder>
 		<folder>html</folder>
 		<folder>form</folder>
+		<folder>helper</folder>
 		<folder>layout</folder>
 		<folder>model</folder>
 		<folder>toolbar</folder>

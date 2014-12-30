@@ -141,14 +141,7 @@ class RedshopModelCategory extends RedshopModel
 
 	public function _loadCategory()
 	{
-		$this->_maincat = array();
-
-		if ($this->_id)
-		{
-			$maincat = $this->getTable('category_detail');
-			$maincat->load($this->_id);
-			$this->_maincat = $maincat;
-		}
+		$this->_maincat = RedshopHelperCategory::getCategoryById($this->_id);
 
 		return $this->_maincat;
 	}
