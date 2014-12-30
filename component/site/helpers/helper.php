@@ -278,25 +278,37 @@ class redhelper
 		return $input->getInt('Itemid', 0);
 	}
 
-	public function getCategoryItemid($category_id = 0)
+	/**
+	 * Get Category Itemid
+	 *
+	 * @param   int  $categoryId  Category id
+	 *
+	 * @return mixed
+	 */
+	public function getCategoryItemid($categoryId = 0)
 	{
-		if ($category_id)
+		if ($categoryId)
 		{
-			$and = ' AND (`link` LIKE "%option=com_redshop&view=category&layout=detail") AND (`params` LIKE \'%"cid":"' . (int) $category_id . '"%\') ';
+			foreach (self::getRedshopMenuItems() as $oneMenuItem)
+			{
+				if (self::checkMenuQuery($oneMenuItem, array('option' => 'com_redshop', 'view' => 'category', 'layout' => 'detail', 'cid' => (int) $categoryId)))
+				{
+					return $oneMenuItem->id;
+				}
+			}
 		}
 		else
 		{
-			$and = ' AND (`link` LIKE "%option=com_redshop&view=category") ';
+			foreach (self::getRedshopMenuItems() as $oneMenuItem)
+			{
+				if (self::checkMenuQuery($oneMenuItem, array('option' => 'com_redshop', 'view' => 'category')))
+				{
+					return $oneMenuItem->id;
+				}
+			}
 		}
 
-		$query = "SELECT id FROM #__menu "
-			. "WHERE 1=1  and published='1' "
-			. $and
-			. "ORDER BY 'ordering'";
-		$this->_db->setQuery($query);
-		$Itemid = $this->_db->loadResult();
-
-		return $Itemid;
+		return null;
 	}
 
 	public function convertLanguageString($arr)
@@ -345,23 +357,16 @@ class redhelper
 	 */
 	public function getShopperGroupPortal()
 	{
+		$userHelper = new rsUserhelper;
 		$user = JFactory::getUser();
+		$shopperGroupId = $userHelper->getShopperGroup($user->id);
 
-		// If user is not logged in than take shoppergroup id from configuration
-		$where = "AND `shopper_group_id`='" . SHOPPER_GROUP_DEFAULT_UNREGISTERED . "' ";
-
-		if ($user->id)
+		if ($result = $userHelper->getShopperGroupList($shopperGroupId))
 		{
-			$userq = "SELECT shopper_group_id FROM " . $this->_table_prefix . "users_info WHERE user_id = " . (int) $user->id . " AND address_type = 'BT'";
-			$where = "AND `shopper_group_id`IN ($userq)";
+			return $result[0];
 		}
 
-		$query = "SELECT * FROM `" . $this->_table_prefix . "shopper_group` "
-			. "WHERE 1=1 "
-			. $where;
-		$this->_db->setQuery($query);
-
-		return $this->_db->loadObject();
+		return false;
 	}
 
 	/**

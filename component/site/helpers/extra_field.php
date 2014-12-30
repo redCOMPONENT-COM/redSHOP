@@ -49,6 +49,8 @@ class extraField
 
 	protected static $userFields = array();
 
+	protected static $extraFieldDisplay = array();
+
 	public function __construct()
 	{
 		$this->_db = JFactory::getDbo();
@@ -658,17 +660,33 @@ class extraField
 	public function extra_field_display($field_section = "", $section_id = 0, $field_name = "", $template_data = "", $categorypage = 0)
 	{
 		$db = JFactory::getDbo();
+
 		$redTemplate = new Redtemplate;
 		$url         = JURI::base();
-		$q = "SELECT * from " . $this->_table_prefix . "fields where field_section=" . $db->quote($field_section) . " ";
 
-		if ($field_name != "")
+		if (!isset(self::$extraFieldDisplay[$field_section]) || !array_key_exists($field_name, self::$extraFieldDisplay[$field_section]))
 		{
-			$q .= "and field_name in ($field_name)";
+			$query = $db->getQuery(true)
+				->select('*')
+				->from($db->qn('#__redshop_fields'))
+				->where('field_section = ' . $db->quote($field_section));
+
+			if ($field_name != "")
+			{
+				$query->where('field_name IN (' . $field_name . ')');
+			}
+
+			$this->_db->setQuery($query);
+
+			if (!isset(self::$extraFieldDisplay[$field_section]))
+			{
+				self::$extraFieldDisplay[$field_section] = array();
+			}
+
+			self::$extraFieldDisplay[$field_section][$field_name] = $db->loadObjectlist();
 		}
 
-		$this->_db->setQuery($q);
-		$row_data = $this->_db->loadObjectlist();
+		$row_data = self::$extraFieldDisplay[$field_section][$field_name];
 
 		for ($i = 0; $i < count($row_data); $i++)
 		{
@@ -946,18 +964,42 @@ class extraField
 		return $list;
 	}
 
-	public function getSectionFieldDataList($fieldid, $section = 0, $orderitemid = 0)
+	/**
+	 * Get Section Field Data List
+	 *
+	 * @param   int  $fieldId      Field id
+	 * @param   int  $section      Section
+	 * @param   int  $sectionItem  Section item
+	 *
+	 * @return mixed|null
+	 */
+	public function getSectionFieldDataList($fieldId, $section = 0, $sectionItem = 0)
 	{
-		$db = JFactory::getDbo();
+		$return = null;
 
-		$query = "SELECT fd.*,f.field_title FROM " . $this->_table_prefix . "fields_data AS fd, " . $this->_table_prefix . "fields AS f "
-			. "WHERE fd.itemid = " . (int) $orderitemid . " "
-			. "AND fd.fieldid=f.field_id "
-			. "AND fd.fieldid=" . (int) $fieldid . " "
-			. "AND fd.section=" . $db->quote($section) . " ";
-		$this->_db->setQuery($query);
-		$list = $this->_db->loadObject();
+		if ($section == 1)
+		{
+			$productHelper = new producthelper;
+			$product = $productHelper->getProductById($sectionItem);
 
-		return $list;
+			if ($product && isset($product->extraFields[$fieldId]))
+			{
+				$return = $product->extraFields[$fieldId];
+			}
+		}
+		else
+		{
+			$db = JFactory::getDbo();
+			$query = $db->getQuery(true)
+				->select(array('fd.*', 'f.field_title'))
+				->from($db->qn('#__redshop_fields_data', 'fd'))
+				->leftJoin($db->qn('#__redshop_fields', 'f') . ' ON fd.fieldid = f.field_id')
+				->where('fd.itemid = ' . (int) $sectionItem)
+				->where('fd.fieldid = ' . (int) $fieldId)
+				->where('fd.section = ' . $db->quote($section));
+			$return = $db->setQuery($query)->loadObject();
+		}
+
+		return $return;
 	}
 }
