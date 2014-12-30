@@ -950,8 +950,9 @@ class Redconfiguration
 		$user       = JFactory::getUser();
 		$userHelper = new rsUserhelper;
 		$shopperGroupId = $userHelper->getShopperGroup($user->id);
+		$list = $userHelper->getShopperGroupList($shopperGroupId);
 
-		if ($list = $userHelper->getShopperGroupList($shopperGroupId))
+		if ($list)
 		{
 			$list = $list[0];
 
@@ -976,8 +977,9 @@ class Redconfiguration
 		$user             = JFactory::getUser();
 		$userHelper       = new rsUserhelper;
 		$shopperGroupId = $userHelper->getShopperGroup($user->id);
+		$list = $userHelper->getShopperGroupList($shopperGroupId);
 
-		if ($list = $userHelper->getShopperGroupList($shopperGroupId))
+		if ($list)
 		{
 			$list = $list[0];
 
