@@ -507,8 +507,9 @@ function redshopBuildRoute(&$query)
 
 			$segments[] = $task;
 			$productHelper = new producthelper;
+			$product = $productHelper->getProductById($pid);
 
-			if ($pid && ($product = $productHelper->getProductById($pid)))
+			if ($pid && $product)
 			{
 				$url           = $product->sef_url;
 				$cat_in_sefurl = $product->cat_in_sefurl;
