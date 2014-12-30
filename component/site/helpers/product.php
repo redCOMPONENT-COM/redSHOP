@@ -171,12 +171,14 @@ class producthelper
 
 		// Count child products
 		$subQuery = $db->getQuery(true)
-			->select('COUNT(child.product_id)')
+			->select('COUNT(child.product_id) AS count_child_products, child.product_parent_id')
 			->from($db->qn('#__redshop_product', 'child'))
-			->where('child.product_parent_id = p.product_id')
-			->where('child.published = 1');
+			->where('child.product_parent_id > 0')
+			->where('child.published = 1')
+			->group('child.product_parent_id');
 
-		$query->select('(' . $subQuery . ') AS count_child_products');
+		$query->select('child_product_table.count_child_products')
+			->leftJoin('(' . $subQuery . ') AS child_product_table ON child_product_table.product_parent_id = p.product_id');
 
 		// Sum quantity
 		if (USE_STOCKROOM == 1)
@@ -221,7 +223,7 @@ class producthelper
 
 			if (self::$products[$productId . '.' . $userId] = $db->loadObject())
 			{
-				$this->setAttributes(array($productId . '.' . $userId => self::$products[$productId . '.' . $userId]), $userId);
+				$this->setProductRelates(array($productId . '.' . $userId => self::$products[$productId . '.' . $userId]), $userId);
 			}
 		}
 
@@ -238,18 +240,18 @@ class producthelper
 	public function setProduct($products)
 	{
 		self::$products = $products + self::$products;
-		$this->setAttributes($products);
+		$this->setProductRelates($products);
 	}
 
 	/**
-	 * Set Attributes and properties
+	 * Set product relates
 	 *
 	 * @param   array  $products  Products
 	 * @param   int    $userId    User id
 	 *
 	 * @return  void
 	 */
-	public function setAttributes($products, $userId = 0)
+	public function setProductRelates($products, $userId = 0)
 	{
 		if (!$userId)
 		{
@@ -263,6 +265,7 @@ class producthelper
 		{
 			$keys[] = $product->product_id;
 			self::$products[$product->product_id . '.' . $userId]->attributes = array();
+			self::$products[$product->product_id . '.' . $userId]->extraFields = array();
 		}
 
 		if (count($keys) > 0)
@@ -305,6 +308,21 @@ class producthelper
 					{
 						self::$products[$result->product_id . '.' . $userId]->attributes[$result->attribute_id]->properties[$result->property_id] = $result;
 					}
+				}
+			}
+
+			$query = $db->getQuery(true)
+				->select('fd.*, f.field_title')
+				->from($db->qn('#__redshop_fields_data', 'fd'))
+				->leftJoin($db->qn('#__redshop_fields', 'f') . ' ON fd.fieldid = f.field_id')
+				->where('fd.itemid IN (' . implode(',', $keys) . ')')
+				->where('fd.section = 1');
+
+			if ($results = $db->setQuery($query)->loadObjectList())
+			{
+				foreach ($results as $result)
+				{
+					self::$products[$result->itemid . '.' . $userId]->extraFields[$result->fieldid] = $result;
 				}
 			}
 		}
@@ -2930,19 +2948,36 @@ class producthelper
 		}
 	}
 
-	public function getSection($section = "", $id = 0)
+	/**
+	 * Get section
+	 *
+	 * @param   string  $section  Section name
+	 * @param   int     $id       Section id
+	 *
+	 * @return mixed|null
+	 */
+	public function getSection($section = '', $id = 0)
 	{
 		// To avoid killing queries do not allow queries that get all the items
-		if ($id != 0)
+		if ($id != 0 && $section != '')
 		{
-			$db = JFactory::getDbo();
+			switch ($section)
+			{
+				case 'product':
+					return $this->getProductById($id);
+				break;
+				case 'category':
+					return RedshopHelperCategory::getCategoryById($id);
+				break;
+				default:
+					$db = JFactory::getDbo();
+					$query = $db->getQuery(true)
+						->select('*')
+						->from($db->qn('#__redshop_' . $section))
+						->where($db->qn($section . '_id') . ' = ' . (int) $id);
 
-			$query = " SELECT * FROM " . $db->quoteName($this->_table_prefix . $section)
-				. " WHERE " . $db->quoteName($section . "_id") . " = " . (int) $id . " ";
-
-			$db->setQuery($query);
-
-			return  $db->loadObject();
+					return  $db->setQuery($query)->loadObject();
+			}
 		}
 
 		return null;
@@ -3057,13 +3092,23 @@ class producthelper
 		return null;
 	}
 
+	/**
+	 * Get Parent Category
+	 *
+	 * @param int $id
+	 *
+	 * @return null
+	 *
+	 * @deprecated  Use please new function RedshopHelperCategory::getCategoryById
+	 */
 	public function getParentCategory($id = 0)
 	{
-		$query = "SELECT category_parent_id FROM " . $this->_table_prefix . "category_xref WHERE category_child_id = " . (int) $id . " ";
-		$this->_db->setQuery($query);
-		$res = $this->_db->loadResult();
+		if ($result = RedshopHelperCategory::getCategoryById($id))
+		{
+			return $result->category_parent_id;
+		}
 
-		return $res;
+		return null;
 	}
 
 	/**

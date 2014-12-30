@@ -948,27 +948,14 @@ class Redconfiguration
 	public function showPrice()
 	{
 		$user       = JFactory::getUser();
-		$userhelper = new rsUserhelper;
-
-		$shopper_group_id = SHOPPER_GROUP_DEFAULT_UNREGISTERED;
-
-		if ($user->id)
-		{
-			$getShopperGroupID = $userhelper->getShopperGroup($user->id);
-
-			if ($getShopperGroupID)
-			{
-				$shopper_group_id = $getShopperGroupID;
-			}
-		}
-
-		$qurey = "SELECT show_price FROM " . $this->_table_prefix . "shopper_group "
-			. "WHERE shopper_group_id = " . (int) $shopper_group_id;
-		$this->_db->setQuery($qurey);
-		$list = $this->_db->loadObject();
+		$userHelper = new rsUserhelper;
+		$shopperGroupId = $userHelper->getShopperGroup($user->id);
+		$list = $userHelper->getShopperGroupList($shopperGroupId);
 
 		if ($list)
 		{
+			$list = $list[0];
+
 			if (($list->show_price == "yes") || ($list->show_price == "global" && SHOW_PRICE_PRE == 1)
 				|| ($list->show_price == "" && SHOW_PRICE_PRE == 1))
 			{
@@ -988,26 +975,14 @@ class Redconfiguration
 	public function getCatalog()
 	{
 		$user             = JFactory::getUser();
-		$userhelper       = new rsUserhelper;
-		$shopper_group_id = SHOPPER_GROUP_DEFAULT_UNREGISTERED;
-
-		if ($user->id)
-		{
-			$getShopperGroupID = $userhelper->getShopperGroup($user->id);
-
-			if ($getShopperGroupID)
-			{
-				$shopper_group_id = $getShopperGroupID;
-			}
-		}
-
-		$qurey = "SELECT use_as_catalog FROM " . $this->_table_prefix . "shopper_group "
-			. "WHERE shopper_group_id = " . (int) $shopper_group_id;
-		$this->_db->setQuery($qurey);
-		$list = $this->_db->loadObject();
+		$userHelper       = new rsUserhelper;
+		$shopperGroupId = $userHelper->getShopperGroup($user->id);
+		$list = $userHelper->getShopperGroupList($shopperGroupId);
 
 		if ($list)
 		{
+			$list = $list[0];
+
 			if (($list->use_as_catalog == "yes") || ($list->use_as_catalog == "global" && PRE_USE_AS_CATALOG == 1)
 				|| ($list->use_as_catalog == "" && PRE_USE_AS_CATALOG == 1))
 			{
