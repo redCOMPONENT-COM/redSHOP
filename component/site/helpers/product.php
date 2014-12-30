@@ -2948,10 +2948,18 @@ class producthelper
 		}
 	}
 
-	public function getSection($section = "", $id = 0)
+	/**
+	 * Get section
+	 *
+	 * @param   string  $section  Section name
+	 * @param   int     $id       Section id
+	 *
+	 * @return mixed|null
+	 */
+	public function getSection($section = '', $id = 0)
 	{
 		// To avoid killing queries do not allow queries that get all the items
-		if ($id != 0)
+		if ($id != 0 && $section != '')
 		{
 			switch ($section)
 			{
@@ -2963,13 +2971,13 @@ class producthelper
 				break;
 				default:
 					$db = JFactory::getDbo();
-					$query = " SELECT * FROM " . $db->quoteName($this->_table_prefix . $section)
-						. " WHERE " . $db->quoteName($section . "_id") . " = " . (int) $id . " ";
-					$db->setQuery($query);
+					$query = $db->getQuery(true)
+						->select('*')
+						->from($db->qn('#__redshop_' . $section))
+						->where($db->qn($section . '_id') . ' = ' . (int) $id);
 
-					return  $db->loadObject();
+					return  $db->setQuery($query)->loadObject();
 			}
-
 		}
 
 		return null;
