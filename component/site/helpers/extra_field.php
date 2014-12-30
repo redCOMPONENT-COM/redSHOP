@@ -964,33 +964,40 @@ class extraField
 		return $list;
 	}
 
-	public function getSectionFieldDataList($fieldid, $section = 0, $orderitemid = 0)
+	/**
+	 * Get Section Field Data List
+	 *
+	 * @param   int  $fieldId      Field id
+	 * @param   int  $section      Section
+	 * @param   int  $sectionItem  Section item
+	 *
+	 * @return mixed|null
+	 */
+	public function getSectionFieldDataList($fieldId, $section = 0, $sectionItem = 0)
 	{
 		$return = null;
 
 		if ($section == 1)
 		{
 			$productHelper = new producthelper;
+			$product = $productHelper->getProductById($sectionItem);
 
-			if ($product = $productHelper->getProductById($orderitemid))
+			if ($product && isset($product->extraFields[$fieldId]))
 			{
-				if (isset($product->extraFields[$fieldid]))
-				{
-					$return = $product->extraFields[$fieldid];
-				}
+				$return = $product->extraFields[$fieldId];
 			}
 		}
 		else
 		{
 			$db = JFactory::getDbo();
-
-			$query = "SELECT fd.*,f.field_title FROM " . $this->_table_prefix . "fields_data AS fd, " . $this->_table_prefix . "fields AS f "
-				. "WHERE fd.itemid = " . (int) $orderitemid . " "
-				. "AND fd.fieldid=f.field_id "
-				. "AND fd.fieldid=" . (int) $fieldid . " "
-				. "AND fd.section=" . $db->quote($section) . " ";
-			$db->setQuery($query);
-			$return = $db->loadObject();
+			$query = $db->getQuery(true)
+				->select(array('fd.*', 'f.field_title'))
+				->from($db->qn('#__redshop_fields_data', 'fd'))
+				->leftJoin($db->qn('#__redshop_fields', 'f') . ' ON fd.fieldid = f.field_id')
+				->where('fd.itemid = ' . (int) $sectionItem)
+				->where('fd.fieldid = ' . (int) $fieldId)
+				->where('fd.section = ' . $db->quote($section));
+			$return = $db->setQuery($query)->loadObject();
 		}
 
 		return $return;
