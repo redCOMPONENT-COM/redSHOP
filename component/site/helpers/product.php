@@ -2057,13 +2057,7 @@ class producthelper
 			$user_id = $user->id;
 		}
 
-		$userArr = $this->_session->get('rs_user');
-
-		if (empty($userArr))
-		{
-			$userArr = $this->_userhelper->createUserSession($user_id);
-		}
-
+		$userArr = $this->_userhelper->createUserSession($user_id);
 		$shopperGroupId = $userArr['rs_user_shopperGroup'];
 
 		$sql = "SELECT ds.discount_id FROM " . $this->_table_prefix . "discount_shoppers AS ds "
