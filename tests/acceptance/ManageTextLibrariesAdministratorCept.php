@@ -17,7 +17,7 @@ $className = 'AcceptanceTester\TextLibraryManager' . $config['env'] . 'Steps';
 $I = new $className($scenario);
 $name = 'Testing Text' . rand(9, 99);
 $newName = 'Updated' . $name;
-$description = 'Sample Descrption' . rand(9, 99);
+$description = 'Sample Description' . rand(9, 99);
 $section = 'Product';
 $I->createText($name, $description, $section);
 $I->searchText($name);
