@@ -265,6 +265,8 @@ function redshopBuildRoute(&$query)
 	}
 	else
 	{
+		$menuItem = new stdClass;
+		$menuItem->title = '';
 		$myparams = new JRegistry;
 	}
 
