@@ -36,10 +36,15 @@ $error = false;
 $errorSnapshot = '';
 
 // Loop throught Codeception snapshots
-if ($handler = opendir($codeceptionOutputFolder)) {
-    while (false !== ($errorSnapshot = readdir($handler))) {
-        if ('.' === $errorSnapshot) continue;
-        if ('..' === $errorSnapshot) continue;
+if ($handler = opendir($codeceptionOutputFolder))
+{
+    while (false !== ($errorSnapshot = readdir($handler)))
+    {
+	    // Avoid sending system files or html files
+	    if ('.' === substr($errorSnapshot, 0, 1) || 'html' == substr($errorSnapshot, -4))
+		{
+			continue;
+		}
 
         // Sends error snapshot to Slack channel
         $command = 'curl -F file=@' . $codeceptionOutputFolder . '/' . $errorSnapshot . ' -F '
@@ -53,7 +58,7 @@ if ($handler = opendir($codeceptionOutputFolder)) {
 
         if($response->ok)
         {
-            fwrite(STDOUT, "\033[31;1mAn error image was sent to slack\033[0m\n");
+            fwrite(STDOUT, "\033[31;1mAn error image $errorSnapshot was sent to slack\033[0m\n");
         }
         else
         {
