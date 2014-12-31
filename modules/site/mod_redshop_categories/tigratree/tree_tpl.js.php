@@ -10,7 +10,7 @@ elseif (file_exists(dirname(__FILE__) . '/../../../configuration.php'))
 }
 else
 {
-	die();
+	die;
 }
 
 if (isset($mosConfig_live_site))
@@ -41,7 +41,6 @@ else
 	$icon_path           = $mosConfig_live_site . '/icons';
 }
 
-?>
 /*
 Feel free to use your custom icons for the tree. Make sure they are all of the same size.
 User icons collections are welcome, we'll publish them giving all regards.
@@ -77,3 +76,4 @@ var TREE_TPL = {
 'icon_26' : '<?php echo $icon_path ?>/minusbottom.gif',// junction for opened node
 'icon_27' : '<?php echo $icon_path ?>/minus.gif'       // junctioin for last opended node
 };
+

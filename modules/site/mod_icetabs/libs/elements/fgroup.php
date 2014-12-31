@@ -8,7 +8,7 @@
  * @copyright      Copyright(C) JAN 2010 LandOfCoder.com <@emai:landofcoder@gmail.com>. All rights reserved.
  * @license        GNU General Public License version 2
  */
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 /**
  * Get a collection of categories
  */

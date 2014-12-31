@@ -7,8 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-if (!defined('_JEXEC')) die('Direct access to ' . basename(__FILE__) . ' is not allowed.');
-
+defined('_JEXEC') or die;
 
 global $root_label, $jscook_type, $jscookMenu_style, $jscookTree_style, $mm_action_url, $urlpath, $Itemid, $redproduct_menu, $categorysorttype;
 

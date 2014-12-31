@@ -7,10 +7,9 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-if (!defined('_JEXEC')) die('Direct Access to ' . basename(__FILE__) . ' is not allowed.');
+defined('_JEXEC') or die;
 
 global $jscook_type, $jscookMenu_style, $jscookTree_style;
-
 
 if (!class_exists('redCategoryMenu'))
 {
