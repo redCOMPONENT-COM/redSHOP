@@ -18,36 +18,23 @@ class RedshopControllerOrder extends RedshopController
 	public function multiprint_order()
 	{
 		$mypost = JRequest::getVar('cid');
-
 		$order_function = new order_functions;
-
+		ob_start();
 		$invoicePdf = $order_function->createMultiprintInvoicePdf($mypost);
-		?>
-    <script type="text/javascript">
-			<?php if ($invoicePdf != "")
-		{
-			if (file_exists(REDSHOP_FRONT_DOCUMENT_RELPATH . "invoice/" . $invoicePdf . ".pdf"))
-			{
-				?>
-            window.open("<?php echo REDSHOP_FRONT_DOCUMENT_ABSPATH?>invoice/<?php echo $invoicePdf?>.pdf");
-
-				<?php
-			}
-		}
+		ob_end_clean();
+		$invoiceLink = REDSHOP_FRONT_DOCUMENT_ABSPATH . 'invoice/' . $invoicePdf . '.pdf';
+		$this->setMessage(JText::sprintf('COM_REDSHOP_ORDER_DOWNLOAD_INVOICE_LINK', $invoiceLink, $invoicePdf . '.pdf'));
 
 		for ($i = 0; $i < count($mypost); $i++)
 		{
 			if (file_exists(JPATH_COMPONENT_SITE . "/assets/labels/label_" . $mypost[$i] . ".pdf"))
 			{
-				?>
-            window.open("<?php echo JURI::root()?>/components/com_redshop/assets/labels/label_<?php echo $mypost[$i]?>.pdf");
+				$labelLink = JURI::root() . '/components/com_redshop/assets/labels/label_' . $mypost[$i] . '.pdf';
+				$this->setMessage(JText::sprintf('COM_REDSHOP_ORDER_DOWNLOAD_LABEL', $labelLink, 'label_' . $mypost[$i] . '.pdf'));
+			}
+		}
 
-				<?php }
-		} ?>
-
-        window.parent.location = 'index.php?option=com_redshop&view=order';
-    </script>
-	<?php
+		$this->setRedirect('index.php?option=com_redshop&view=order');
 	}
 
 	public function cancel()
@@ -104,7 +91,7 @@ class RedshopControllerOrder extends RedshopController
 	public function updateOrderStatus()
 	{
 		$app             = JFactory::getApplication();
-		$serialized      = $app->getUserState( "com_redshop.order.batch.postdata");
+		$serialized      = $app->getUserState("com_redshop.order.batch.postdata");
 		$post            = unserialize($serialized);
 		$orderId         = $app->input->getInt('oid', 0);
 		$order_functions = new order_functions;
@@ -115,15 +102,12 @@ class RedshopControllerOrder extends RedshopController
 		// For shipped pdf generation
 		if ($post['order_status_all'] == "S" && $post['order_paymentstatus' . $orderId] == "Paid")
 		{
-			$pdfObj = new TCPDF('P', 'mm', 'A4', true, 'ISO-8859-15', false);
+			$pdfObj = RedshopHelperPdf::getInstance();
 
 			$pdfObj->SetTitle('Shipped');
-			$pdfObj->SetAuthor('redSHOP');
-			$pdfObj->SetCreator('redSHOP');
 			$pdfObj->SetMargins(20, 85, 20);
 
 			$font = 'times';
-			$pdfObj->setImageScale(PDF_IMAGE_SCALE_RATIO);
 			$pdfObj->setHeaderFont(array($font, '', 8));
 			$pdfObj->SetFont($font, "", 6);
 
@@ -131,13 +115,11 @@ class RedshopControllerOrder extends RedshopController
 
 			// Writing Body area
 			$pdfObj->AddPage();
-			$pdfObj->WriteHTML($invoice , true, false, true, false, '');
+			$pdfObj->WriteHTML($invoice, true, false, true, false, '');
 
 			$invoice_pdfName = 'shipped_' . $orderId;
-
-			ob_end_clean();
 			$pdfObj->Output(JPATH_SITE . '/components/com_redshop/assets/document/invoice/' . $invoice_pdfName . ".pdf", "F");
-
+			ob_end_clean();
 			echo $orderId;
 		}
 
@@ -153,11 +135,11 @@ class RedshopControllerOrder extends RedshopController
 	{
 		$app           = JFactory::getApplication();
 		$pdfLocation   = 'components/com_redshop/assets/document/invoice/';
-		$pdfRootPath   = JPATH_SITE . '/' .$pdfLocation;
+		$pdfRootPath   = JPATH_SITE . '/' . $pdfLocation;
 		$mergeOrderIds = $app->input->get('mergeOrderIds', array(), 'array');
 		JArrayHelper::toInteger($mergeOrderIds);
 
-		$pdf = new PDFMerger;
+		$pdf = RedshopHelperPdf::getPDFMerger();
 
 		for ($m = 0; $m < count($mergeOrderIds); $m++)
 		{
@@ -171,7 +153,6 @@ class RedshopControllerOrder extends RedshopController
 
 		$mergedPdfFile = 'shipped_' . rand() . '.pdf';
 
-		ob_end_clean();
 		$pdf->merge('file', $pdfRootPath . $mergedPdfFile);
 
 		for ($m = 0; $m < count($mergeOrderIds); $m++)
@@ -184,6 +165,7 @@ class RedshopControllerOrder extends RedshopController
 			}
 		}
 
+		ob_end_clean();
 		echo JUri::root() . $pdfLocation . $mergedPdfFile;
 
 		$app->close();

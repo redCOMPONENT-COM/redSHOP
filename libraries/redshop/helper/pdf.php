@@ -19,6 +19,18 @@ defined('_JEXEC') or die;
 class RedshopHelperPdf
 {
 	/**
+	 * Get PDF Merger
+	 *
+	 * @return PDFMerger
+	 */
+	public static function getPDFMerger()
+	{
+		JLoader::import('helper.PDFMerger', JPATH_REDSHOP_LIBRARY);
+
+		return new PDFMerger;
+	}
+
+	/**
 	 * @var    array  PDF instances container.
 	 */
 	protected static $instances = array();
@@ -57,20 +69,16 @@ class RedshopHelperPdf
 				$options['format'] = 'A5';
 			}
 
-			$pdfObj = new $className($options['orientation'], $options['unit'], $options['format']);
-			$pdfObj->setFontSubsetting(true);
-			$pdfObj->SetFont('times', '', 12);
-			$pdfObj->setHeaderFont(array('times', '', 10));
-			$pdfObj->SetAuthor(JText::_('LIB_REDSHOP_PDF_CREATOR'));
-			$pdfObj->SetCreator(JText::_('LIB_REDSHOP_PDF_CREATOR'));
-			$pdfObj->setImageScale(PDF_IMAGE_SCALE_RATIO);
-			$pdfObj->SetMargins(8, 8, 8);
+			if (JLoader::import('helper.' . strtolower($className), JPATH_REDSHOP_LIBRARY))
+			{
+				$className = 'RedshopHelper' . $className;
+			}
+
+			return new $className($options['orientation'], $options['unit'], $options['format']);
 		}
 		else
 		{
 			throw new RuntimeException(JText::sprintf('LIB_REDSHOP_APPLICATION_ERROR_PDF_LOAD', $client), 500);
 		}
-
-		return $pdfObj;
 	}
 }

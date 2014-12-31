@@ -27,4 +27,3 @@ $l = array(
 );
 
 JLoader::import('tcpdf', JPATH_TCPDF_LIBRARY);
-JLoader::import('PDFMerger', JPATH_TCPDF_LIBRARY);
