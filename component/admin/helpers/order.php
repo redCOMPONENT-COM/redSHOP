@@ -2087,7 +2087,6 @@ class order_functions
 
 			$search [] = "{discount_type}";
 			$replace [] = $discount_type;
-			$maildata = str_replace($search_sub, $replace_sub, $maildata);
 
 			// Changes to parse all tags same as order mail end
 			$userdetail = $this->getOrderBillingUserInfo($order_id);

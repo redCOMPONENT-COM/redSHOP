@@ -530,8 +530,12 @@ for ($i = 0; $i < count($products); $i++)
 	$cart[$i]['quantity'] = $products[$i]->product_quantity;
 	$quantity = $products[$i]->product_quantity;
 	$product_id = $products[$i]->product_id;
-	$productdetail = $producthelper->getProductById($product_id);
-	$ordervolume = $ordervolume + $productdetail->product_volume;
+
+	if ($productdetail = $producthelper->getProductById($product_id))
+	{
+		$ordervolume = $ordervolume + $productdetail->product_volume;
+	}
+
 	$order_item_id = $products[$i]->order_item_id;
 	$order_item_name = $products[$i]->order_item_name;
 	$order_item_sku = $products[$i]->order_item_sku;
@@ -541,13 +545,15 @@ for ($i = 0; $i < count($products); $i++)
 	$subscribe_detail = $model->getUserProductSubscriptionDetail($order_item_id);
 	$catId = $producthelper->getCategoryProduct($product_id);
 	$res = $producthelper->getSection("category", $catId);
+	$cname = '';
+
 	if (count($res) > 0)
 	{
 		$cname = $res->category_name;
 		$clink = JRoute::_($url . 'index.php?option=com_redshop&view=category&layout=detail&cid=' . $catId);
-
+		$cname = "<a href='" . $clink . "'>" . $cname . "</a>";
 	}
-	$cname = "<a href='" . $clink . "'>" . $cname . "</a>";
+
 	$Product_name = $order_item_name . '<br>' . $order_item_sku . '<br>' . $p_userfield . '<br>' . $cname;
 
 	$subtotal_excl_vat += $products[$i]->product_item_price_excl_vat * $quantity;
