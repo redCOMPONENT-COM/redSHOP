@@ -9987,9 +9987,9 @@ class TCPDF {
 			$out .= ' /'.$key.' '.$value;
 		}
 		$fontdir = false;
-		if (!$this->empty_string($font['file'])) {
+		if (!$this->empty_string($font['file']) && isset($this->FontFiles[$font['file']]['n'])) {
 			// A stream containing a TrueType font
-			$out .= ' /FontFile2 '.$this->FontFiles[$font['file']]['n'].' 0 R';
+			$out .= ' /FontFile2 ' . $this->FontFiles[$font['file']]['n'] . ' 0 R';
 			$fontdir = $this->FontFiles[$font['file']]['fontdir'];
 		}
 		$out .= ' >>';
@@ -20875,10 +20875,14 @@ Putting 1 is equivalent to putting 0 and calling Ln() just after. Default value:
 				}
 				// account for booklet mode
 				if ($this->page > @$parent['startpage']) {
-					if (($this->rtl) AND ($this->pagedim[$this->page]['orm'] != $this->pagedim[@$parent['startpage']]['orm'])) {
-						$this->x -= ($this->pagedim[$this->page]['orm'] - $this->pagedim[@$parent['startpage']]['orm']);
-					} elseif ((!$this->rtl) AND ($this->pagedim[$this->page]['olm'] != $this->pagedim[@$parent['startpage']]['olm'])) {
-						$this->x += ($this->pagedim[$this->page]['olm'] - $this->pagedim[@$parent['startpage']]['olm']);
+
+					$orm = isset($this->pagedim[@$parent['startpage']]['orm']) ? $this->pagedim[@$parent['startpage']]['orm'] : 0;
+					$olm = isset($this->pagedim[@$parent['startpage']]['olm']) ? $this->pagedim[@$parent['startpage']]['olm'] : 0;
+
+					if (($this->rtl) AND ($this->pagedim[$this->page]['orm'] != $orm)) {
+						$this->x -= ($this->pagedim[$this->page]['orm'] - $orm);
+					} elseif ((!$this->rtl) AND ($this->pagedim[$this->page]['olm'] != $olm)){
+						$this->x += ($this->pagedim[$this->page]['olm'] - $olm);
 					}
 				}
 				break;
