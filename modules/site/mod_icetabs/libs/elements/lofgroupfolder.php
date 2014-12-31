@@ -8,7 +8,7 @@
  * @copyright      Copyright(C) JAN 2010 LandOfCoder.com <@emai:landofcoder@gmail.com>. All rights reserved.
  * @license        GNU General Public License version 2
  */
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 jimport('joomla.html.parameter');
 /**
  * Get a collection of categories
@@ -88,7 +88,7 @@ class JFormFieldLofgroupfolder extends JFormField
 		}
 
 		//echo "<pre>";
-		//	print_r($form);die();
+		//	print_r($form);die;
 		return implode('', $form);
 		//return JHTML::_('select.genericlist',  $options, ''.$this->name.'[]', 'class="inputbox"', 'value', 'text', $value, $this->name).implode('',$form);
 	}
