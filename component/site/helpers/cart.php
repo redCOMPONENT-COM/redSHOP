@@ -1647,9 +1647,13 @@ class rsCarthelper
 			{
 				$cname = $res->category_name;
 				$clink = JRoute::_($url . 'index.php?option=com_redshop&view=category&layout=detail&cid=' . $catId);
+				$category_path = "<a href='" . $clink . "'>" . $cname . "</a>";
+			}
+			else
+			{
+				$category_path = '';
 			}
 
-			$category_path = "<a href='" . $clink . "'>" . $cname . "</a>";
 			$cart_mdata    = str_replace("{category_name}", $category_path, $cart_mdata);
 
 			$cart_mdata = $this->_producthelper->replaceVatinfo($cart_mdata);

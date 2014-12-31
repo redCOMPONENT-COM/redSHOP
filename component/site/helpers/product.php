@@ -8153,7 +8153,7 @@ class producthelper
 			$displayattribute = $product_attribute;
 		}
 
-		if ($products->use_discount_calc == 1)
+		if (isset($products->use_discount_calc) && $products->use_discount_calc == 1)
 		{
 			$displayattribute = $displayattribute . $orderItemdata[0]->discount_calc_data;
 		}

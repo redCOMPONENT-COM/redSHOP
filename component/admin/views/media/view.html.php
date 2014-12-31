@@ -94,9 +94,14 @@ class RedshopViewMedia extends RedshopView
 		$this->request_url = $uri->toString();
 
 		$this->assign('baseURL', JURI::root());
-		$this->images = $this->get('images');
-		$this->documents = $this->get('documents');
-		$this->folders = $this->get('folders');
+
+		if (JFactory::getApplication()->input->get('layout') == 'thumbs')
+		{
+			$this->images = $this->get('images');
+			$this->documents = $this->get('documents');
+			$this->folders = $this->get('folders');
+		}
+
 		$this->state = $this->get('state');
 
 		parent::display($tpl);
