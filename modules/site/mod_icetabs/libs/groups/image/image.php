@@ -1,6 +1,6 @@
 <?php
 // No direct access
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 /**
  * $ModDesc
  *
@@ -144,7 +144,7 @@ if (!class_exists('LofSliderGroupImage'))
 			$model->setState('list.ordering', "a.ordering");
 			$model->setState('list.direction', "ASC");
 			//echo "<pre>";
-			//print_r($model);die();
+			//print_r($model);die;
 			$items  = $model->getItems();
 			$output = array();
 			foreach ($items as $key => &$item)
