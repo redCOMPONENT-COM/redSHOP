@@ -7,7 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
+defined('_JEXEC') or die;
 
 $document = JFactory::getDocument();
 $document->addStyleSheet(JURI::root() . 'administrator/modules/mod_redshop_cpicon/styles.css');

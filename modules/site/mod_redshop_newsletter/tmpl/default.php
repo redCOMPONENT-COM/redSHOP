@@ -7,8 +7,8 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access');
-//$app = JFactory::getApplication();
+defined('_JEXEC') or die;
+
 $app = JFactory::getApplication();
 $user = JFactory::getUser();
 $email = JRequest::getString('email');

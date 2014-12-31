@@ -7,11 +7,10 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-if (!defined('_JEXEC')) die('Direct Access to ' . basename(__FILE__) . ' is not allowed.');
+defined('_JEXEC') or die;
 
 global $root_label, $urlpath;
 $urllive = $urlpath;
-
 
 $db              = JFactory::getDbo();
 $objhelper       = new redhelper ();

@@ -7,9 +7,10 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-if (!defined('_JEXEC')) die('Direct Access to ' . basename(__FILE__) . ' is not allowed.');
+defined('_JEXEC') or die;
+
 /**
-/* Loads main class file
+ * Loads main class file
  */
 global $urlpath, $js_src;
 $live_module_dir     = $urlpath . 'modules/mod_redshop_categories';

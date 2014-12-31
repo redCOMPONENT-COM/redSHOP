@@ -7,8 +7,7 @@
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
-defined('_JEXEC') or die('Restricted access'); ?>
-<?php
+defined('_JEXEC') or die;
 
 $forgot_password = $params->get('forgot_password', 0);
 $forgot_username = $params->get('forgot_username', 0);
