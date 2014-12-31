@@ -11,7 +11,7 @@ $scenario->group('Joomla3');
 // Load the Step Object Page
 $I = new AcceptanceTester\LoginSteps($scenario);
 
-$I->wantTo('Test Discount Manager in Administrator');
+$I->wantTo('Test Mail Centers Manager in Administrator');
 $I->doAdminLogin();
 $config = $I->getConfig();
 $className = 'AcceptanceTester\MailCenterManager' . $config['env'] . 'Steps';
