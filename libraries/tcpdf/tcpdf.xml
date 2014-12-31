@@ -2,13 +2,13 @@
 <extension type="library" method="upgrade" version="2.5">
 	<name>TCPDF - Library</name>
 	<libraryname>tcpdf</libraryname>
-	<creationDate>2010-11-02</creationDate>
+	<creationDate>2014-12-07</creationDate>
 	<author>Nicola Asuni</author>
 	<authoremail></authoremail>
 	<authorUrl>www.tcpdf.org</authorUrl>
-	<copyright>Copyright (C) 2002-2010  Nicola Asuni - Tecnick.com S.r.l.</copyright>
+	<copyright>Copyright (C) 2002-2014 Nicola Asuni - Tecnick.com LTD</copyright>
 	<license>GPL</license>
-	<version>5.9.011</version>
+	<version>6.1.0</version>
 	<description>LIB_TCPDF_LIBRARY_DESC</description>
 	<languages folder="language">
 		<language tag="en-GB">en-GB/en-GB.lib_tcpdf.ini</language>
@@ -17,13 +17,10 @@
 	<files>
 		<folder>config</folder>
 		<folder>fonts</folder>
-		<folder>fpdf</folder>
-		<folder>fpdi</folder>
 		<folder>include</folder>
 		<folder>tools</folder>
 		<filename>library.php</filename>
 		<filename>LICENSE.TXT</filename>
-		<filename>PDFMerger.php</filename>
 		<filename>README.TXT</filename>
 		<filename>tcpdf.php</filename>
 		<filename>tcpdf.xml</filename>
