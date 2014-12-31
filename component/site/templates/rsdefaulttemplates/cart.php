@@ -11,7 +11,6 @@
 	</thead>
 	<tbody>
 	<!-- {product_loop_start} -->
-	<div class="category_print">{attribute_price_with_vat}</div>
 	<tr class="tdborder">
 		<td>
 			<div class="cartproducttitle">{product_name}</div>
@@ -20,6 +19,7 @@
 			<div class="cartwrapper">{product_wrapper}</div>
 			<div class="cartuserfields">{product_userfields}</div>
 			<div>{attribute_change}</div>
+			{attribute_price_with_vat}
 		</td>
 		<td>{product_thumb_image}</td>
 		<td>{product_price_excl_vat}</td>
