@@ -1,4 +1,4 @@
-<h1>Indkøbskurv</h1>
+<h1>{cart_lbl}</h1>
 <table class="tdborder" style="width: 100%;" border="0" cellspacing="0" cellpadding="0">
 	<thead>
 	<tr>
