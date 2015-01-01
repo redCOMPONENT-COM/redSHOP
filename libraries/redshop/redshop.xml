@@ -2,11 +2,11 @@
 <extension type="library" method="upgrade" version="2.5">
 	<name>redSHOP - Library</name>
 	<libraryname>redshop</libraryname>
-	<creationDate>October 2014</creationDate>
+	<creationDate>October 2015</creationDate>
 	<author>redCOMPONENT</author>
 	<authorEmail>email@redcomponent.com</authorEmail>
 	<authorUrl>www.redcomponent.com</authorUrl>
-	<copyright>Copyright (C) 2012 - 2014 redCOMPONENT.com. All rights reserved.</copyright>
+	<copyright>Copyright (C) 2012 - 2015 redCOMPONENT.com. All rights reserved.</copyright>
 	<license>GNU General Public License version 2 or later, see LICENSE.</license>
 	<version>1.5</version>
 	<description>LIB_REDSHOP_LIBRARY_DESC</description>
