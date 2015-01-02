@@ -9,7 +9,6 @@
 
 defined('_JEXEC') or die;
 
-
 /**
  * Class account_shiptoModelaccount_shipto
  *
@@ -98,23 +97,25 @@ class RedshopModelAccount_shipto extends RedshopModel
 		return true;
 	}
 
-	public function delete($cid = array())
+	public function delete($infoid = array())
 	{
-		if (count($cid))
+		// Initialiase variables.
+		$db    = JFactory::getDbo();
+		$query = $db->getQuery(true)
+					->delete()
+					->from($db->qn('#__redshop_users_info'))
+					->where($db->qn('users_info_id') . ' = ' . (int) $infoid);
+
+		// Set the query and execute the delete.
+		$db->setQuery($query);
+
+		try
 		{
-			// Sanitise ids
-			JArrayHelper::toInteger($cid);
-
-			$cids  = implode(',', $cid);
-			$query = 'DELETE FROM ' . $this->_table_prefix . 'users_info WHERE users_info_id IN ( ' . $cids . ' )';
-			$this->_db->setQuery($query);
-
-			if (!$this->_db->execute())
-			{
-				$this->setError($this->_db->getErrorMsg());
-
-				return false;
-			}
+			$db->execute();
+		}
+		catch (RuntimeException $e)
+		{
+			throw new RuntimeException($e->getMessage(), $e->getCode());
 		}
 
 		return true;
