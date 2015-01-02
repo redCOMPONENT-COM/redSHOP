@@ -147,6 +147,7 @@
 				<field
 					name="show_discountpricelayout"
 					type="radio"
+					class="btn-group btn-group-yesno"
 					default="1"
 					label="COM_REDSHOP_SHOW_DISCOUNT_PRICE_LAYOUT"
 					description="COM_REDSHOP_SHOW_DISCOUNT_PRICE_LAYOUT">
