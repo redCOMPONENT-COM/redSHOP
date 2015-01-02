@@ -135,7 +135,7 @@
                        label="Enter E-conomic Payment Conditions ID"/>
                 <field name="economic_design_layout" type="text" default=""
                        label="Enter E-conomic Design and Layout ID"/>
-                <field name="shopper_group_id" type="plugins" default="0"
+                <field name="shopper_group_id" type="shoppergrouplist" default="0"
                        label="Select Shopper Group" description="Displays the shopper groups"/>
             </fieldset>
         </fields>
