@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -442,9 +442,6 @@ class redshopMail
 
 	public function createMultiprintInvoicePdf($oid)
 	{
-		require_once JPATH_SITE . '/components/com_redshop/helpers/tcpdf/config/lang/eng.php';
-		require_once JPATH_SITE . '/components/com_redshop/helpers/tcpdf/tcpdf.php';
-
 		$order_functions = new order_functions;
 		$shippinghelper  = new shipping;
 		$extra_field     = new extra_field;
@@ -453,14 +450,11 @@ class redshopMail
 		$producthelper   = new producthelper;
 		$message         = "";
 
-		$pdfObj = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, 'A5', true, 'UTF-8', false);
+		$pdfObj = RedshopHelperPdf::getInstance();
 		$pdfObj->SetTitle('Shipped');
-		$pdfObj->SetAuthor('redSHOP');
-		$pdfObj->SetCreator('redSHOP');
-		$pdfObj->SetMargins(8, 8, 8);
 
 		// Changed font to support Unicode Characters - Specially Polish Characters
-		$font = 'freeserif';
+		$font = 'times';
 		$pdfObj->setImageScale(PDF_IMAGE_SCALE_RATIO);
 		$pdfObj->setHeaderFont(array($font, '', 8));
 
@@ -533,11 +527,6 @@ class redshopMail
 
 	function createShippedInvoicePdf($oid)
 	{
-		require_once JPATH_SITE . '/components/com_redshop/helpers/tcpdf'
-			. '/config/lang/eng.php';
-		require_once JPATH_SITE . '/components/com_redshop/helpers/tcpdf'
-			. '/tcpdf.php';
-
 		$redconfig     = new Redconfiguration;
 		$producthelper = new producthelper;
 		$extra_field   = new extra_field;
@@ -547,10 +536,8 @@ class redshopMail
 		$subject       = "";
 		$cart          = '';
 
-		$pdfObj = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, 'A5', true, 'UTF-8', false);
+		$pdfObj = RedshopHelperPdf::getInstance();
 		$pdfObj->SetTitle('Shipped');
-		$pdfObj->SetAuthor('redSHOP');
-		$pdfObj->SetCreator('redSHOP');
 		$pdfObj->SetMargins(8, 8, 8);
 		$font = 'times';
 		$pdfObj->setImageScale(PDF_IMAGE_SCALE_RATIO);
@@ -641,10 +628,6 @@ class redshopMail
 
 	public function sendInvoiceMail($order_id)
 	{
-		require_once JPATH_SITE . '/components/com_redshop/helpers/tcpdf/config'
-			. '/lang/eng.php';
-		require_once JPATH_SITE . '/components/com_redshop/helpers/tcpdf/tcpdf.php';
-
 		$redconfig         = new Redconfiguration;
 		$producthelper     = new producthelper;
 		$extra_field       = new extra_field;
@@ -751,15 +734,10 @@ class redshopMail
 
 		echo "<div id='redshopcomponent' class='redshop'>";
 
-		$pdfObj = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, 'A5', true, 'UTF-8', false);
+		$pdfObj = RedshopHelperPdf::getInstance();
 		$pdfObj->SetTitle(JText::_('COM_REDSHOP_INVOICE') . $row->order_id);
-		$pdfObj->SetAuthor('redSHOP');
-		$pdfObj->SetCreator('redSHOP');
 		$pdfObj->SetMargins(15, 15, 15);
-		$font   = 'times';
-		$pdfObj->setImageScale(PDF_IMAGE_SCALE_RATIO);
-		$pdfObj->setHeaderFont(array($font, '', 10));
-		$pdfObj->SetFont($font, "", 12);
+		$pdfObj->setHeaderFont(array('times', '', 10));
 		$pdfObj->AddPage();
 		$pdfObj->WriteHTML($body, true, false, true, false, '');
 

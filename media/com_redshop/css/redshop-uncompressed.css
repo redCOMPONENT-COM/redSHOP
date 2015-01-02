@@ -982,3 +982,16 @@ a.rightButton, a.rightButton:hover {
 .addtocart_formclass {
     margin: 0;
 }
+.improvedTable, .improvedTable table {
+	width: 100%;
+}
+.improvedTable td, .improvedTable th {
+	padding: 5px;
+	vertical-align: top;
+}
+.improvedTable th {
+	text-align: left;
+}
+.improvedTable img {
+	margin: 0 5px 5px 0;
+}

@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Table
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -76,12 +76,12 @@ class Tableattributeprices_detail extends JTable
 		$this->_db->setQuery($query_end);
 		$xid_end = intval($this->_db->loadResult());
 
-		if (($xid || $xid_end) 
+		if (($xid || $xid_end)
 			&& (
-				($xid != intval($this->price_id) 
-				&& $xid != 0) 
+				($xid != intval($this->price_id)
+				&& $xid != 0)
 				|| (
-					$xid_end != intval($this->price_id) 
+					$xid_end != intval($this->price_id)
 					&& $xid_end != 0
 				)
 			)

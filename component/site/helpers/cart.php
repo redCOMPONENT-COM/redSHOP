@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -1357,7 +1357,7 @@ class rsCarthelper
 					else
 					{
 						$update_cart = '<form style="padding:0px;margin:0px;" name="update_cart' . $i . '" method="POST" >';
-						$update_cart .= '<input class="inputbox" type="text" value="' . $quantity . '" name="quantity" id="quantitybox' . $i . '" size="' . DEFAULT_QUANTITY . '" maxlength="' . DEFAULT_QUANTITY . '" onchange="validateInputNumber(this.id);">';
+						$update_cart .= '<input class="inputbox input-mini" type="text" value="' . $quantity . '" name="quantity" id="quantitybox' . $i . '" size="' . DEFAULT_QUANTITY . '" maxlength="' . DEFAULT_QUANTITY . '" onchange="validateInputNumber(this.id);">';
 						$update_cart .= '<input type="hidden" name="product_id" value="' . $product_id . '">
 								<input type="hidden" name="cart_index" value="' . $i . '">
 								<input type="hidden" name="Itemid" value="' . $Itemid . '">
@@ -1647,9 +1647,13 @@ class rsCarthelper
 			{
 				$cname = $res->category_name;
 				$clink = JRoute::_($url . 'index.php?option=com_redshop&view=category&layout=detail&cid=' . $catId);
+				$category_path = "<a href='" . $clink . "'>" . $cname . "</a>";
+			}
+			else
+			{
+				$category_path = '';
 			}
 
-			$category_path = "<a href='" . $clink . "'>" . $cname . "</a>";
 			$cart_mdata    = str_replace("{category_name}", $category_path, $cart_mdata);
 
 			$cart_mdata = $this->_producthelper->replaceVatinfo($cart_mdata);

@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -366,6 +366,13 @@ class RedshopModelSearch extends RedshopModel
 		}
 		else
 		{
+			if ($accessoryList = $jInput->getString('accessoryList', ''))
+			{
+				$accessoryList = explode(',', $accessoryList);
+				JArrayHelper::toInteger($accessoryList);
+				$query->where('p.product_id NOT IN (' . implode(',', $accessoryList) . ')');
+			}
+
 			if ($product_id = $jInput->getInt('product_id', 0))
 			{
 				$query->leftJoin($db->qn('#__redshop_product_accessory', 'pa') . ' ON pa.child_product_id = p.product_id AND pa.product_id = ' . $product_id)

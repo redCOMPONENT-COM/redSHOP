@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -2087,7 +2087,6 @@ class order_functions
 
 			$search [] = "{discount_type}";
 			$replace [] = $discount_type;
-			$maildata = str_replace($search_sub, $replace_sub, $maildata);
 
 			// Changes to parse all tags same as order mail end
 			$userdetail = $this->getOrderBillingUserInfo($order_id);

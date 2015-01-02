@@ -144,12 +144,12 @@ function create_table_accessory(data,id,price){
 	var newTD5 = document.createElement('td');
 	var newTD7 = document.createElement('td');
 
-	newTD1.innerHTML = name+'<input type="hidden" value="'+id+'" name="product_accessory['+g+'][child_product_id]"><input type="hidden" value="0" name="product_accessory['+g+'][accessory_id]">';
+	newTD1.innerHTML = name+'<input type="hidden" class="childProductAccessory" value="'+id+'" name="product_accessory['+g+'][child_product_id]"><input type="hidden" value="0" name="product_accessory['+g+'][accessory_id]">';
 	newTD2.innerHTML = price;
-	newTD3.innerHTML = '<input size="1" maxlength="1" onchange="javascript:oprand_check(this);" type="text" name="product_accessory['+g+'][oprand]" value="+" >';
-	newTD4.innerHTML = '<input size="5" type="text" name="product_accessory['+g+'][accessory_price]" value="0">';
-	newTD5.innerHTML = '<input type="text" name="product_accessory['+g+'][ordering]" size="5" value="" class="text_area" style="text-align: center" />';
-	newTD7.innerHTML = '<input value="Remove" onclick="javascript:deleteRow_accessory(this,0,0,0);" class="button" type="button" />';
+	newTD3.innerHTML = '<input size="1" maxlength="1" onchange="javascript:oprand_check(this);" class="text_area input-small text-center" type="text" name="product_accessory['+g+'][oprand]" value="+" >';
+	newTD4.innerHTML = '<input size="5" type="text" name="product_accessory['+g+'][accessory_price]" class="text_area input-small text-center" value="0">';
+	newTD5.innerHTML = '<input type="text" name="product_accessory['+g+'][ordering]" size="5" value="" class="text_area input-small text-center" style="text-align: center" />';
+	newTD7.innerHTML = '<input value="'+ Joomla.JText._('COM_REDSHOP_DELETE') + '" onclick="javascript:deleteRow_accessory(this,0,0,0);" class="button btn btn-danger" type="button" />';
 
 	newTR.appendChild (newTD1);
 	newTR.appendChild (newTD2);

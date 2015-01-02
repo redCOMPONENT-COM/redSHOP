@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -1276,7 +1276,7 @@ class RedshopModelOrder_detail extends RedshopModel
 
 		if (empty ($this->_template))
 		{
-			$this->_template = $redTemplate->getTemplate("stock_note", $this->_data->product_template);
+			$this->_template = $redTemplate->getTemplate("stock_note");
 			$this->_template = $this->_template[0];
 		}
 

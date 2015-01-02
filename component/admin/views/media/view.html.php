@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -94,9 +94,14 @@ class RedshopViewMedia extends RedshopView
 		$this->request_url = $uri->toString();
 
 		$this->assign('baseURL', JURI::root());
-		$this->images = $this->get('images');
-		$this->documents = $this->get('documents');
-		$this->folders = $this->get('folders');
+
+		if (JFactory::getApplication()->input->get('layout') == 'thumbs')
+		{
+			$this->images = $this->get('images');
+			$this->documents = $this->get('documents');
+			$this->folders = $this->get('folders');
+		}
+
 		$this->state = $this->get('state');
 
 		parent::display($tpl);
