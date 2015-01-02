@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Controller
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -134,7 +134,7 @@ class RedshopControllerCheckout extends RedshopController
 					$total      = $cart['total'];
 
 					if ($max_credit <= ($unpaid + $total))
-					{						
+					{
 						$Itemid = JRequest::getVar('Itemid');
 						$msg    = JText::_('DEBITOR_CREDIT_LIMIT_EXCEED');
 						$link   = JRoute::_('index.php?option=com_redshop&view=checkout&Itemid=' . $Itemid, false);
