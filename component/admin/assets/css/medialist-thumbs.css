@@ -26,7 +26,7 @@ div.imgBorder {
 	font-size:15px;
 	width: 100px;
 	overflow: hidden;
-	
+
 }
 
 div.imgBorder a {
@@ -34,7 +34,7 @@ div.imgBorder a {
 	font-size: 15px;
 	width: 100px;
 	display: block;
-	
+
 }
 
 div.imgBorder a:hover {
@@ -107,6 +107,6 @@ div.imgBorder a {
 
 div.image {
 	padding-top: 16px;
-	
-	
+
+
 }
