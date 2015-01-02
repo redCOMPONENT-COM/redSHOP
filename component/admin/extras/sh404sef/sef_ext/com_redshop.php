@@ -3,7 +3,7 @@
  * @package     RedSHOP.sh404sef
  * @subpackage  sef_ext sh404sef
  *
- * @copyright   Copyright (C) 2005 - 2015 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2008 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
