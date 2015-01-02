@@ -16,4 +16,21 @@ $I->doAdminLogin();
 $config = $I->getConfig();
 $className = 'AcceptanceTester\ManufacturerManager' . $config['env'] . 'Steps';
 $I = new $className($scenario);
-$I->addManufacturer();
+
+if ($config['env'] == 'Joomla2')
+{
+	$I->addManufacturer();
+}
+else
+{
+	$manufacturerName = 'Testing Manufacturer ' . rand(99, 999);
+	$updatedName = 'Updated ' . $manufacturerName;
+	$I->addManufacturer($manufacturerName);
+	$I->searchManufacturer($manufacturerName);
+	$I->editManufacturer($manufacturerName, $updatedName);
+	$I->searchManufacturer($updatedName);
+	$I->changeState($updatedName);
+	$I->verifyState('unpublished', $I->getState($updatedName));
+	$I->deleteManufacturer($updatedName);
+	$I->searchManufacturer($updatedName, 'Delete');
+}
