@@ -3,14 +3,13 @@
  * @package     RedSHOP.Backend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
 
 
 JLoader::load('RedshopHelperAdminExtra_field');
-require_once JPATH_COMPONENT_SITE . '/helpers/tcpdf/tcpdf.php';
 JLoader::load('RedshopHelperAdminOrder');
 
 class RedshopViewOrder_detail extends RedshopView
@@ -80,10 +79,8 @@ class RedshopViewOrder_detail extends RedshopView
 			$html_template = str_replace("{company_name_lbl}", "", $html_template);
 		}
 
-		$pdfObj = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, 'A5', true, 'UTF-8', false);
+		$pdfObj = RedshopHelperPdf::getInstance();
 		$pdfObj->SetTitle("Order :" . $detail->order_id);
-		$pdfObj->SetAuthor('redSHOP');
-		$pdfObj->SetCreator('redSHOP');
 		$pdfObj->SetMargins(15, 15, 15);
 
 		$font = 'times';
@@ -91,7 +88,7 @@ class RedshopViewOrder_detail extends RedshopView
 		$pdfObj->SetHeaderData('', '', '', "Order " . $detail->order_id);
 		$pdfObj->setHeaderFont(array($font, '', 10));
 		//$pdfObj->setFooterFont(array($font, '', 8));
-		$pdfObj->SetFont($font, "", 12);
+		$pdfObj->SetFont($font, '', 12);
 
 
 		//$pdfObj->AliasNbPages();

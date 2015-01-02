@@ -3,14 +3,12 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Model
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
 defined('_JEXEC') or die;
 
-require_once JPATH_COMPONENT_SITE . '/helpers/tcpdf/config/lang/eng.php';
-require_once JPATH_COMPONENT_SITE . '/helpers/tcpdf/tcpdf.php';
 JLoader::load('RedshopHelperProduct');
 JLoader::load('RedshopHelperExtra_field');
 JLoader::load('RedshopHelperHelper');
@@ -1394,7 +1392,7 @@ class RedshopModelCheckout extends RedshopModel
 			ob_clean();
 			echo "<div id='redshopcomponent' class='redshop'>";
 			$is_giftcard = 1;
-			$pdf         = new MYPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+			$pdf = RedshopHelperPdf::getInstance('tcpdf', array('format' => 'A4'));
 
 			if (file_exists(REDSHOP_FRONT_IMAGES_RELPATH . 'giftcard/' . $giftcardData->giftcard_bgimage) && $giftcardData->giftcard_bgimage)
 			{
@@ -1409,7 +1407,6 @@ class RedshopModelCheckout extends RedshopModel
 			$pdf->SetFooterMargin(0);
 			$pdf->setPrintFooter(false);
 			$pdf->SetAutoPageBreak(true, PDF_MARGIN_BOTTOM);
-			$pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
 			$pdf->SetFont('times', '', 18);
 			$pdf->AddPage();
 			$pdfImage = "";
@@ -2442,26 +2439,5 @@ class RedshopModelCheckout extends RedshopModel
 		{
 			return $this->getOrdernumber();
 		}
-	}
-}
-
-class MYPDF extends TCPDF
-{
-	// Page header
-	public $img_file;
-
-	public function Header()
-	{
-		// Full background image
-		$auto_page_break = $this->AutoPageBreak;
-		$this->SetAutoPageBreak(false, 0);
-		$img_file = $this->img_file;
-
-		if (file_exists($img_file))
-		{
-			$this->Image($img_file, $x = 0, $y = 0, $w = 210, $h = 297, $type = '', $link = '', $align = '', $resize = false, $dpi = 300, $palign = '', $ismask = false, $imgmask = false, $border = 0);
-		}
-
-		$this->SetAutoPageBreak($auto_page_break);
 	}
 }

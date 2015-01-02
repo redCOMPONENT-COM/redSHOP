@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  View
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -11,7 +11,6 @@ defined('_JEXEC') or die;
 
 
 JLoader::load('RedshopHelperAdminExtra_field');
-require_once JPATH_COMPONENT_SITE . '/helpers/tcpdf/tcpdf.php';
 JLoader::load('RedshopHelperAdminOrder');
 
 class RedshopViewOrder_detail extends RedshopView
@@ -93,11 +92,9 @@ class RedshopViewOrder_detail extends RedshopView
 		$html_template = str_replace("{requisition_number_lbl}", JText::_('COM_REDSHOP_REQUISITION_NUMBER'), $html_template);
 
 
-		// start pdf code
-		$pdfObj = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, 'A5', true, 'UTF-8', false);
+		// Start pdf code
+		$pdfObj = RedshopHelperPdf::getInstance();
 		$pdfObj->SetTitle("Order StockNote: " . $detail->order_id);
-		$pdfObj->SetAuthor('redSHOP');
-		$pdfObj->SetCreator('redSHOP');
 		$pdfObj->SetMargins(15, 15, 15);
 
 		$font = 'times';

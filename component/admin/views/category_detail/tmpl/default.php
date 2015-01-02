@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 defined('_JEXEC') or die;
@@ -18,7 +18,7 @@ $url = $uri->root();
 JHTML::_('behavior.calendar');
 $objhelper = new redhelper;
 $producthelper = new producthelper;
-
+JText::script('COM_REDSHOP_DELETE');
 ?>
 <script language="javascript" type="text/javascript">
 	Joomla.submitbutton = function (pressbutton) {
@@ -375,7 +375,13 @@ echo  JHtml::_('tabs.panel', JText::_('COM_REDSHOP_ACCESSORY_PRODUCT'), 'tab5');
 								'select2-close' => 'function(e) {$(this).select2("val", "")}'
 							)
 						),
-						'select2.ajaxOptions' => array('typeField' => ', product_id:0'),
+						'select2.ajaxOptions' => array('typeField' => ', accessoryList: function(){
+							var listAcc = [];
+							jQuery(\'input.childProductAccessory\').each(function(){
+								listAcc[listAcc.length] = jQuery(this).val();
+							});
+							return listAcc.join(",");
+						}'),
 					)
 				);
 				?>
@@ -384,7 +390,7 @@ echo  JHtml::_('tabs.panel', JText::_('COM_REDSHOP_ACCESSORY_PRODUCT'), 'tab5');
 		</tr>
 		<tr>
 			<td colspan="2">
-				<table id="accessory_table" class="adminlist" border="0">
+				<table id="accessory_table" class="adminlist table table-striped"" border="0">
 					<thead>
 					<tr>
 						<th width="400"><?php echo JText::_('COM_REDSHOP_PRODUCT_NAME'); ?></th>
@@ -408,25 +414,25 @@ echo  JHtml::_('tabs.panel', JText::_('COM_REDSHOP_ACCESSORY_PRODUCT'), 'tab5');
 						$checked = ($accessory_product[$f]->setdefault_selected) ? "checked" : "";    ?>
 						<tr>
 							<td><?php echo $accessory_product[$f]->product_name;?>
-								<input type="hidden" value="<?php echo $accessory_product[$f]->child_product_id; ?>"
+								<input type="hidden" value="<?php echo $accessory_product[$f]->child_product_id; ?>" class="childProductAccessory"
 								       name="product_accessory[<?php echo $f; ?>][child_product_id]">
 								<input type="hidden" value="<?php echo $accessory_product[$f]->accessory_id; ?>"
 								       name="product_accessory[<?php echo $f; ?>][accessory_id]"></td>
 							<td><?php echo $accessory_main_price[1];?></td>
-							<td><input size="1" maxlength="1" class="text_area" type="text"
+							<td><input size="1" maxlength="1" class="text_area input-small text-center" type="text"
 							           value="<?php echo $accessory_product[$f]->oprand; ?>"
 							           onchange="javascript:oprand_check(this);"
 							           name="product_accessory[<?php echo $f; ?>][oprand]"></td>
-							<td><input size="5" class="text_area" type="text"
+							<td><input size="5" class="text_area input-small text-center" type="text"
 							           value="<?php echo $accessory_product[$f]->accessory_price; ?>"
 							           name="product_accessory[<?php echo $f; ?>][accessory_price]"></td>
 							<td><input type="text" name="product_accessory[<?php echo $f; ?>][ordering]" size="5"
-							           value="<?php echo $accessory_product[$f]->ordering; ?>" class="text_area"
+							           value="<?php echo $accessory_product[$f]->ordering; ?>" class="text_area input-small text-center"
 							           style="text-align: center"/></td>
 							<!-- <td><input value="1" class="button" type="checkbox" name="product_accessory[<?php echo $f;?>][setdefault_selected]" <?php echo $checked;?>></td>-->
-							<td><input value="X"
+							<td><input value="<?php echo JText::_('COM_REDSHOP_DELETE'); ?>"
 							           onclick="deleteRow_accessory(this,<?php echo $accessory_product[$f]->accessory_id; ?>,<?php echo $accessory_product[$f]->category_id; ?>,<?php echo $accessory_product[$f]->child_product_id ?>);"
-							           class="button" type="button"></td>
+							           class="button btn btn-danger" type="button"></td>
 						</tr>
 					<?php }    ?>
 					</tbody>

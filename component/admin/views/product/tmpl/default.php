@@ -3,16 +3,15 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 JLoader::load('RedshopHelperProduct');
 JLoader::load('RedshopHelperAdminExtra_field');
-$app = JFactory::getApplication();
-$extra_field = new extra_field;
+$app           = JFactory::getApplication();
+$extra_field   = new extra_field;
 JHTMLBehavior::modal();
 $producthelper = new producthelper;
-$option = JRequest::getVar('option', '', 'request', 'string');
 
 $model = $this->getModel('product');
 $ordering = ($this->lists['order'] == 'x.ordering');
@@ -119,7 +118,7 @@ $userId = (int) $user->id;
 		</td>
 	</tr>
 </table>
-<form action="<?php echo 'index.php?option=' . $option; ?>" method="post" name="adminForm" id="adminForm">
+<form action="index.php?option=com_redshop" method="post" name="adminForm" id="adminForm">
 <div id="editcell">
 <input type="hidden" name="unpublished_data" value="">
 <table class="adminlist table table-striped">
@@ -299,7 +298,7 @@ for ($i = 0, $n = count($this->products); $i < $n; $i++)
 		<td align="center">
 			<?php $mediadetail = $model->MediaDetail($row->product_id); ?>
 			<a class="modal"
-			   href="index.php?option=<?php echo $option; ?>&amp;view=media&amp;section_id=<?php echo $row->product_id; ?>&amp;showbuttons=1&amp;media_section=product&amp;section_name=<?php echo $row->product_name; ?>&amp;tmpl=component"
+			   href="index.php?option=com_redshop&view=media&section_id=<?php echo $row->product_id; ?>&showbuttons=1&media_section=product&section_name=<?php echo $row->product_name; ?>&tmpl=component"
 			   rel="{handler: 'iframe', size: {x: 1050, y: 450}}" title=""><img
 					src="<?php echo REDSHOP_ADMIN_IMAGES_ABSPATH; ?>media16.png" align="absmiddle"
 					alt="media">(<?php  echo count($mediadetail);?>)</a>
@@ -307,7 +306,7 @@ for ($i = 0, $n = count($this->products); $i < $n; $i++)
 		<td align="center">
 			<?php $wrapper = $producthelper->getWrapper($row->product_id, 0, 1);?>
 			<a class="modal"
-			   href="index.php?option=<?php echo $option; ?>&showall=1&view=wrapper&product_id=<?php echo $row->product_id; ?>&amp;tmpl=component"
+			   href="index.php?option=com_redshop&showall=1&view=wrapper&product_id=<?php echo $row->product_id; ?>&tmpl=component"
 			   rel="{handler: 'iframe', size: {x: 700, y: 450}}">
 				<img src="<?php echo REDSHOP_ADMIN_IMAGES_ABSPATH; ?>wrapper16.png" align="absmiddle"
 				     alt="<?php echo JText::_('COM_REDSHOP_WRAPPER'); ?>"><?php echo "(" . count($wrapper) . ")";?></a>

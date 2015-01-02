@@ -3,7 +3,7 @@
  * @package     RedSHOP.Backend
  * @subpackage  Template
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -48,6 +48,9 @@ $url = $uri->root();
 			return false;
 		} else if ((form.field_section.value == 13) && (form.field_type.value == 8 || form.field_type.value == 9 || form.field_type.value == 10)) {
 			alert("<?php echo JText::_('COM_REDSHOP_ERROR_YOU_CAN_NOT_SELECT_THIS_SECTION_TYPE_UNDER_THIS_FIELD' , true);?>");
+			return false;
+		} else if (form.field_section.value == 0){
+			alert('<?php echo JText::_('COM_REDSHOP_FIELDS_ITEM_MUST_HAVE_A_SECTION'); ?>');
 			return false;
 		}
 		if (field_type == 3 || field_type == 4 || field_type == 5 || field_type == 6 || field_type == 11 || field_type == 13) {

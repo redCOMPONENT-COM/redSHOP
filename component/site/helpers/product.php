@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  Helper
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -8153,7 +8153,7 @@ class producthelper
 			$displayattribute = $product_attribute;
 		}
 
-		if ($products->use_discount_calc == 1)
+		if (isset($products->use_discount_calc) && $products->use_discount_calc == 1)
 		{
 			$displayattribute = $displayattribute . $orderItemdata[0]->discount_calc_data;
 		}

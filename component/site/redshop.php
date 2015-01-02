@@ -3,7 +3,7 @@
  * @package     RedSHOP.Frontend
  * @subpackage  redSHOP
  *
- * @copyright   Copyright (C) 2005 - 2013 redCOMPONENT.com. All rights reserved.
+ * @copyright   Copyright (C) 2005 - 2015 redCOMPONENT.com. All rights reserved.
  * @license     GNU General Public License version 2 or later; see LICENSE
  */
 
@@ -80,29 +80,6 @@ if (count($sgportal) > 0)
 	$portal = $sgportal->shopper_group_portal;
 }
 
-// Don't create div for AJAX call and GA code.
-if ('component' !== $app->input->getCmd('tmpl') && 'html' == $format)
-{
-	echo "<div id='redshopcomponent' class='redshop'>";
-
-	if ($format != 'final' && $layout != 'receipt')
-	{
-		/*
-		 * get redSHOP Google Analytics Plugin is Enable?
-		 * If it is Disable than load Google Analytics From redSHOP
-		 */
-		$isredGoogleAnalytics = JPluginHelper::isEnabled('system', 'redgoogleanalytics');
-
-		if (!$isredGoogleAnalytics && GOOGLE_ANA_TRACKER_KEY != "")
-		{
-			JLoader::load('RedshopHelperGoogle_analytics');
-
-			$ga = new GoogleAnalytics;
-			$ga->placeTrans();
-		}
-	}
-}
-
 if (PORTAL_SHOP == 1)
 {
 	if ($vName == 'product' && $productid > 0 && $user->id > 0)
@@ -166,6 +143,39 @@ else
 	else
 	{
 		JRequest::setVar('view', $vName);
+	}
+}
+
+// Don't create div for AJAX call and GA code.
+if ('component' !== $app->input->getCmd('tmpl') && 'html' == $format)
+{
+	// Container CSS class definition
+	if (version_compare(JVERSION, '3.0', '<'))
+	{
+		$redSHOPCSSContainerClass = ' isJ25';
+	}
+	else
+	{
+		$redSHOPCSSContainerClass = ' isJ30';
+	}
+
+	echo '<div id="redshopcomponent" class="redshop redSHOPSiteView' . ucfirst($vName) . $redSHOPCSSContainerClass . '">';
+
+	if ($layout != 'receipt')
+	{
+		/*
+		 * get redSHOP Google Analytics Plugin is Enable?
+		 * If it is Disable than load Google Analytics From redSHOP
+		 */
+		$isredGoogleAnalytics = JPluginHelper::isEnabled('system', 'redgoogleanalytics');
+
+		if (!$isredGoogleAnalytics && GOOGLE_ANA_TRACKER_KEY != "")
+		{
+			JLoader::load('RedshopHelperGoogle_analytics');
+
+			$ga = new GoogleAnalytics;
+			$ga->placeTrans();
+		}
 	}
 }
 
