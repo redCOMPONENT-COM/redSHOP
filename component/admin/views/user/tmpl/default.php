@@ -92,7 +92,7 @@ $model         = $this->getModel('user');
 				<th class="title"><?php echo JHTML::_('grid.sort', 'COM_REDSHOP_REGISTER_AS', 'is_company', $this->lists ['order_Dir'], $this->lists ['order']); ?></th>
 				<th class="title"><?php echo JHTML::_('grid.sort', 'COM_REDSHOP_USERNAME', 'username', $this->lists ['order_Dir'], $this->lists ['order']);?></th>
 				<th class="title"><?php echo JHTML::_('grid.sort', 'COM_REDSHOP_SHOPPER_GROUP_NAME', 'shopper_group_id', $this->lists ['order_Dir'], $this->lists ['order']);?></th>
-				<th width="10%"><?php echo JText::_('COM_REDSHOP_CUSTOMER_SALES'); ?></th>
+				<th width="5%"><?php echo JText::_('COM_REDSHOP_CUSTOMER_SALES'); ?></th>
 				<th width="5%"
 				    nowrap="nowrap"><?php echo JHTML::_('grid.sort', 'COM_REDSHOP_ID', 'users_info_id', $this->lists ['order_Dir'], $this->lists ['order']);?></th>
 			</tr>
@@ -135,7 +135,7 @@ $model         = $this->getModel('user');
 						}
 						?>
 					</td>
-					<td align="center">
+					<td align="center" class="nowrap">
 						<?php
 							$totalsales = $model->customertotalsales($row->user_id);
 							echo $producthelper->getProductFormattedPrice($totalsales);
