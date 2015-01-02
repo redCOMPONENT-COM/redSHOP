@@ -64,12 +64,12 @@ if (!class_exists('redFeatureproduct'))
 			$this->params = $params;
 
 			// Standard mammeters
-			$this->show_product_name        = $params->get('show_product_name', "yes");
+			$this->show_product_name        = $params->get('show_product_name', 1);
 			$this->product_title_max_chars  = $params->get('product_title_max_chars', "10");
 			$this->product_title_end_suffix = $params->get('product_title_end_suffix', "....");
-			$this->show_addtocart           = $params->get('show_addtocart', "yes");
+			$this->show_addtocart           = $params->get('show_addtocart', 1);
 			$this->show_vatprice 			= $params->get('show_vatprice', "0");
-			$this->show_price               = $params->get('show_price', "yes");
+			$this->show_price               = $params->get('show_price', 1);
 			$this->thumbwidth               = $params->get('thumbwidth', "100");
 			$this->thumbheight              = $params->get('thumbheight', "100");
 			$this->scrollerheight			= $params->get('scrollerheight', "200");
@@ -190,18 +190,18 @@ if (!class_exists('redFeatureproduct'))
    						<div class='listing-item'>
    						<div class='product-shop'>
 				<?php
-						if ($this->show_product_name == 'yes')
+						if ($this->show_product_name)
 						{
 							$pname = $Redconfiguration->maxchar($row->product_name, $this->product_title_max_chars, $this->product_title_end_suffix);
 
 							echo "<a href='" . $link . "' title='" . $row->product_name . "'>" . $pname . "</a>";
 						}
 
-						if (!$row->not_for_sale && $this->show_price == 'yes')
+						if (!$row->not_for_sale && $this->show_price)
 						{
 							$productArr = $producthelper->getProductNetPrice($row->product_id);
 
-							if ($this->show_vatprice == '0' || $this->show_vatprice == 0)
+							if ($this->show_vatprice)
 							{
 								$product_price 			 = $productArr['product_main_price'];
 								$product_price_discount  = $productArr['productPrice'] + $productArr['productVat'];
@@ -254,7 +254,7 @@ if (!class_exists('redFeatureproduct'))
             		?>
             			</div></div><div class='product-image' style='width:<?php echo $this->thumbwidth;?>px;height:<?php echo $this->thumbheight;?>px;'><?php echo $thum_image;?></div>
      			<?php
-					if ($this->show_addtocart == 'yes')
+					if ($this->show_addtocart)
 					{
 						$addtocart_data = $producthelper->replaceCartTemplate($row->product_id, 0, 0, 0, "", false, array(), 0, 0, 0, $this->module_id);
 						echo "<div class='form-button'>" . $addtocart_data . "</div>";
@@ -329,6 +329,7 @@ $featured = new redFeatureproduct($params, $module_id);
 * Load Products
 **/
 $rows = $featured->getredFeaturedProduct($featured->NumberOfProducts, $featured->ScrollSortMethod);
+
 /**
 * Display Product Scroller
 **/
